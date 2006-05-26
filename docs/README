@@ -1,0 +1,46 @@
+==================================================================
+PySol - a solitaire game collection
+==================================================================
+
+PySol is an exciting collection of more than 200 solitaire games.
+
+
+Introduction
+------------
+  Please see the HTML documentation `data/html/intro.html'
+  for an overview of the many features.
+
+  For other questions like "how do I install PySol ?" and "how to play ?"
+  also consult the HTML documentation in the `data/html' directory.
+
+
+Feedback
+--------
+  As I do not have the time to test all variants thoroughly this
+  release will have bugs and misfeatures. The only way to get
+  these fixed is to report them.
+
+  I also welcome your comments and suggestions (or just a mail
+  that you like PySol :-)
+
+
+Copyright
+---------
+  PySol is Copyright (C) 1998, 1999, 2000, 2001, 2002
+  Markus Franz Xaver Johannes Oberhumer
+  All Rights Reserved
+
+  PySol is distributed under the terms of the GNU General Public License (GPL).
+  See the file COPYING.
+
+
+Have fun,
+Markus
+
+<markus@oberhumer.com>
+http://www.oberhumer.com/pysol
+
+
+P.S. To simplify installation PySol is distributed in a "bundled" version.
+     The full developers source code is available from the PySol homepage.
+

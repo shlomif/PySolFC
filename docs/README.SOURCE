@@ -1,0 +1,233 @@
+==================================================================
+PySol - a Python Solitaire Game Collection
+==================================================================
+
+This is the developers source code.
+
+
+Background information
+----------------------
+In order to simplify installation the main PySol package is distributed
+in a "bundled" version, which is basically a concatenation of all
+source files.
+
+
+Note for package maintainers
+----------------------------
+You are strongly advised to package up the bundled byte-compiled
+version as it loads faster, uses less memory and guarantees
+compatibility with saved games of older PySol versions (<= 3.00).
+
+
+Prerequisites
+-------------
+First of all you will need the Python development environment, which
+is freely available from http://www.python.org
+
+
+Source code introduction
+------------------------
+The source basically consists of these three parts:
+
+  - The main layer
+      Main application code and game logic.
+
+  - The toolkit layer
+      Interface to the underlying GUI toolkit and windowing system.
+
+  - The games layer
+      The actual games and plugins, implemented as subclasses of the
+      abstract classes Game and Stack.
+
+
+The main layer
+--------------
+  pysol.py, main.py:
+    Main entry and initialization. Create an Application and start it.
+
+  app.py:
+    Main control loop. Contains the class Application which is the glue
+    between the toplevel window and a Game. Also responsible for global
+    resources like options, statistics and plugins.
+
+    Main objects making a full PySol application are:
+      - an Application                                        [app]
+      - a concrete subclass of a Game                         [app.game]
+      - a Toplevel window                                     [app.top]
+      - a Menubar which is connected to the game and toplevel [app.menubar]
+      - a Canvas for the playing table                        [app.canvas]
+      - a Toolbar which is connected to the game and menubar  [app.toolbar]
+
+  pysoltk.py:
+    Interface to the toolkit layer - see below.
+
+  game.py:
+    Abstract class Game: undo/redo, hint/demo, load/save.
+    Responsible for combining the stacks to form a complete game.
+
+  stack.py:
+    The stacks contain most of the intelligence. Very important methods
+    are acceptsCards(), canMoveCards(), canDropCards() and canFlipCard().
+    Also, the stacks are responsible for card movement (mouse events)
+    and the card layout (the getPositionFor() method).
+    *** stack.py is the central file of PySol ***
+
+  layout.py:
+    Utility class used by subclasses of Game to handle common layout
+    and graphics tasks.
+
+  move.py:
+    Implements the actual atomic move types. Any move (and any
+    visualization of a move) passes through this.
+
+  actions.py:
+    Implementation of default actions for the menubar and toolbar.
+    Subclassed by the toolkit layer.
+
+  acard.py:
+    Implementation of default methods for a card - a card does not
+    contain any intelligence and is merely a display object.
+    Subclassed by the toolkit layer.
+
+  hint.py:
+    Hint/demo logic. Rather generic, individual games may subclass.
+    Currently optimized for Klondike/Gypsy type games.
+
+  gamedb.py:
+    Game database and game/plugin loader.
+
+  resource.py:
+    Resource managers (cardsets, tiles, samples, music)
+
+  stats.py:
+    Abstract statistics handler. May get rewritten in the future.
+
+  mfxutil.py, util.py, random.py:
+    More or less standalone utility modules.
+
+  help.py:
+    Interface to the HTML viewer and some dialogs.
+
+  pysolaudio.py:
+    Interface to the sound server.
+
+
+The toolkit layer
+-----------------
+  PySol has been designed so that it can run under multiple UI toolkits -
+  due to the dynamic nature of Python this can even be under control
+  of a runtime option.
+
+  The preferred toolkit is Tcl/Tk using the Tkinter bindings which
+  ship with every Python installation, but a very experimental version
+  for Gnome (using the pygnome and pygtk bindings) exists as well.
+
+  A more exicting idea is to use JPython to make PySol run under a
+  Java VM using Swing as the toolkit.
+
+  Because Tkinter is the "main" interface other toolkit layers have
+  to emulate a limited subset of Tkinter's API. This should hopefully
+  not prove too difficult in practice.
+
+  Relevant modules:
+
+    pysoltk.py:
+      Any access to the toolkit layer goes via this module. This means
+      that the implementation of the toolkit layer is completely hidden
+      and can use any number of internal modules in its subdirectory.
+
+  Important modules of the Tkinter implementation:
+
+    tk/tkconst.py, tk/tkutil.py, tk/tkwidget.py, tk/edittextdialog:
+      Toolkit constants, utils and generic widgets.
+
+    tk/tkcanvas.py:
+      Wrapper for canvas widgets.
+
+    tk/tkwrap.py:
+      Wrapper for other widgets.
+
+    tk/card.py:
+      How to display a card on the screen. No intelligence here.
+      Subclasses the main layer.
+
+    tk/menubar.py:
+      Create menubar and handle menu actions. Delegates to class Game.
+      Subclasses the actions.py main layer.
+
+    tk/toolbar.py:
+      Toolbar. Subclasses the actions.py main layer.
+
+    tk/progressbar.py, tk/statusbar.py:
+      Progress- and statusbar widgets.
+
+    tk/tkstats.py:
+      Statistics dialogs. Uses stats.py from the main layer.
+
+    tk/tktree.py, tk/selecttree.py, tk/select*.py:
+      Tree and tree-selection widgets.
+
+    tk/tkhtml.py:
+      A very limited HTML widget. Could be useful for other projects, though.
+
+
+The games layer
+---------------
+  games/*.py:
+    These modules implement subclasses of Game/Stack for the actual game
+    layout. Start with eiffeltower.py and klondike.py to get an idea
+    how it works.
+
+  Implementing your own favourite solitaire game is straightforward:
+
+    Create a new source file in the games directory (copy a game that
+    is somewhat similar for use as a starting point). If your game requires
+    special intelligence derive subclasses of a stack - see braid.py or
+    picturegallery.py for really complex examples. You can also derive
+    from stacks of other games.
+
+    Layout of the stacks and texts is controlled by the game (createGame,
+    utility class Layout), while intelligence is mostly contained
+    in the stacks.
+
+    Implement your own hint class if necessary (see golf.py for a
+    simple example).
+
+    Do not change global files like stack.py, game.py or hint.py - derive
+    subclasses if necessary.
+
+    Do not pollute the global namespace.
+
+    Follow the PySol style coding style.
+
+    Adapt the parameters in the call of registerGame():
+      a unique game ID (should be in range 100000..999999 for user
+      written games), the game class, the game name, and various other
+      parameters - see the file gamedb.py for a full description.
+
+
+Converting your game to a plugin
+--------------------------------
+Plugins in the `data/plugins' directory will be loaded automatically at
+program startup, so you can distribute your plugins separately.
+
+Converting a game to a plugin is completely trivial - just
+move the Python source file to the `data/plugins' directory.
+
+If you want to contribute your game to the official PySol distribution
+you must write a useable HTML documentation. Also, your variant should
+have an interesting gameplay.
+
+
+Contributing
+------------
+Apart from contributing new games you can also help by improving the
+interface - e.g. some fancy statistics dialogs would be very nice.
+See the main README for more ideas.
+
+
+Have fun,
+Markus
+
+http://www.oberhumer.com/pysol
+

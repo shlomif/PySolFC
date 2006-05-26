@@ -1,0 +1,66 @@
+#! /usr/bin/env python
+## -*- coding: iso-8859-1 -*-
+##
+## vim:ts=4:et:nowrap
+##
+##---------------------------------------------------------------------------##
+##
+## PySol -- a Python Solitaire game
+##
+## Copyright (C) 2003 Markus Franz Xaver Johannes Oberhumer
+## Copyright (C) 2002 Markus Franz Xaver Johannes Oberhumer
+## Copyright (C) 2001 Markus Franz Xaver Johannes Oberhumer
+## Copyright (C) 2000 Markus Franz Xaver Johannes Oberhumer
+## Copyright (C) 1999 Markus Franz Xaver Johannes Oberhumer
+## Copyright (C) 1998 Markus Franz Xaver Johannes Oberhumer
+## All Rights Reserved.
+##
+## This program is free software; you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation; either version 2 of the License, or
+## (at your option) any later version.
+##
+## This program is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+##
+## You should have received a copy of the GNU General Public License
+## along with this program; see the file COPYING.
+## If not, write to the Free Software Foundation, Inc.,
+## 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+##
+## Markus F.X.J. Oberhumer
+## <markus@oberhumer.com>
+## http://www.oberhumer.com/pysol
+##
+##---------------------------------------------------------------------------##
+
+import sys, os
+
+if os.name == 'nt':
+    try:
+        import locale
+        l = locale.getdefaultlocale()
+        os.environ['LANG'] = l[0]
+    except:
+        pass
+##locale.setlocale(locale.LC_ALL, '')
+
+import gettext
+##locale_dir = 'locale'
+locale_dir = None
+d = os.path.join(sys.path[0], 'locale')
+if os.path.exists(d) and os.path.isdir(d):
+    locale_dir = d
+if os.name == 'nt':
+    if sys.path[0] and not os.path.isdir(sys.path[0]): # i.e. library.zip
+        locale_dir = os.path.join(os.path.split(sys.path[0])[0], 'locale')
+##if locale_dir: locale_dir = os.path.normpath(locale_dir)
+gettext.install('pysol', locale_dir, unicode=True)
+
+from pysollib.main import main
+#import pychecker.checker
+
+sys.exit(main(sys.argv))
+

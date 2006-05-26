@@ -1,0 +1,23 @@
+PySol Fan Club edition
+======================
+
+
+Requirements.
+-------------
+
+- Python (2.3 or later)
+- Tkinter
+- PySol-Sound-Server: http://www.pysol.org/ (not necessarily)
+- PIL (Python Image Library): http://www.pythonware.com/products/pil (not necessarily)
+- Freecell Solver: http://vipe.technion.ac.il/~shlomif/freecell-solver/ (not necessarily)
+
+
+Installation.
+-------------
+
+See: http://www.python.org/doc/current/inst/
+
+or just run from the source directory:
+
+$ python pysol
+

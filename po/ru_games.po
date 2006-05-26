@@ -1,0 +1,3188 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PySol 0.0.1\n"
+"POT-Creation-Date: Fri May 26 20:25:43 2006\n"
+"PO-Revision-Date: 2006-05-13 17:41+0400\n"
+"Last-Translator: Скоморох <skomoroh@gmail.com>\n"
+"Language-Team: Russian <ru@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: utf-8\n"
+"Generated-By: ./scripts/all_games.py 0.1\n"
+
+msgid " 3x3 Matrix"
+msgstr "Матрица 3x3"
+
+msgid " 4x4 Matrix"
+msgstr "Матрица 4x4"
+
+msgid " 5x5 Matrix"
+msgstr "Матрица 5x5"
+
+msgid " 6x6 Matrix"
+msgstr "Матрица 6x6"
+
+msgid " 7x7 Matrix"
+msgstr "Матрица 7x7"
+
+msgid " 8x8 Matrix"
+msgstr "Матрица 8x8"
+
+msgid " 9x9 Matrix"
+msgstr "Матрица 9x9"
+
+msgid "10 x 8"
+msgstr "10 x 8"
+
+msgid "10x10 Matrix"
+msgstr "Матрица 10x10"
+
+msgid "8 x 8"
+msgstr "8 x 8"
+
+msgid "Abacus"
+msgstr "Абак"
+
+#, fuzzy
+msgid "Aces High"
+msgstr "Тузы вверх"
+
+msgid "Aces Up"
+msgstr "Тузы вверх"
+
+msgid "Aces Up 5"
+msgstr "Тузы вверх 5"
+
+msgid "Achtmal Acht"
+msgstr ""
+
+msgid "Acme"
+msgstr ""
+
+#, fuzzy
+msgid "Adelaide"
+msgstr "Поляна"
+
+msgid "Agnes Bernauer"
+msgstr "Агнесса Берно"
+
+msgid "Agnes Sorel"
+msgstr "Агнесса Сорел"
+
+msgid "Akbar's Conquest"
+msgstr ""
+
+msgid "Akbar's Triumph"
+msgstr ""
+
+msgid "Alaska"
+msgstr "Аляска"
+
+msgid "Algerian Patience"
+msgstr "Алжирский пасьянс"
+
+#, fuzzy
+msgid "Algerian Patience (3 decks)"
+msgstr "Алжирский пасьянс"
+
+msgid "Alhambra"
+msgstr "Алхамбра"
+
+msgid "All in a Row"
+msgstr ""
+
+msgid "Altar"
+msgstr "Алтарь"
+
+msgid "Alternation"
+msgstr "Чередование"
+
+msgid "Amazons"
+msgstr "Амазонки"
+
+msgid "American Toad"
+msgstr "Американская жаба"
+
+msgid "Another Round"
+msgstr "Другой Раунд"
+
+msgid "Appachan's Waterfall"
+msgstr "Апачианский водопад"
+
+msgid "Applegate"
+msgstr ""
+
+msgid "Aqab's"
+msgstr ""
+
+msgid "Arachnida"
+msgstr ""
+
+msgid "Arena"
+msgstr "Арена"
+
+msgid "Arena 2"
+msgstr "Арена 2"
+
+msgid "Arizona"
+msgstr "Аризона"
+
+msgid "Arrow"
+msgstr "Стрела"
+
+msgid "Art Moderne"
+msgstr "Современное искусство"
+
+msgid "Ashrafi"
+msgstr ""
+
+msgid "Ashta Dikapala"
+msgstr ""
+
+msgid "Ashwapati"
+msgstr ""
+
+msgid "Auld Lang Syne"
+msgstr "Старые добрые времена"
+
+msgid "Aunt Mary"
+msgstr ""
+
+#, fuzzy
+msgid "Australian Patience"
+msgstr "Русский пасьянс"
+
+#, fuzzy
+msgid "Baby Spiderette"
+msgstr "Паучок"
+
+msgid "Backbone"
+msgstr "Основа"
+
+msgid "Backbone +"
+msgstr "Основа +"
+
+msgid "Bad Seven"
+msgstr "Плохая семёрка"
+
+msgid "Baker's Dozen"
+msgstr "Чёртова дюжина"
+
+#, fuzzy
+msgid "Baker's Game"
+msgstr "Чёртова дюжина"
+
+msgid "Balance"
+msgstr "Баланс"
+
+msgid "Balarama"
+msgstr ""
+
+msgid "Bastion"
+msgstr "Бастион"
+
+msgid "Bat"
+msgstr "Летучая мышь"
+
+#, fuzzy
+msgid "Bath"
+msgstr "Летучая мышь"
+
+msgid "Batsford"
+msgstr "Бетсфорд"
+
+#, fuzzy
+msgid "Bavarian Patience"
+msgstr "Алжирский пасьянс"
+
+msgid "Beak and Flipper"
+msgstr "Клюв и ласты"
+
+msgid "Beatle"
+msgstr "Жук"
+
+msgid "Beleaguered Castle"
+msgstr "Осаждённый замок"
+
+msgid "Belvedere"
+msgstr "Бельведер"
+
+msgid "Betsy Ross"
+msgstr "Бетси Росс"
+
+#, fuzzy
+msgid "Big Easy"
+msgstr "Большая арфа"
+
+msgid "Big Flying Dragon"
+msgstr "Большой Летящий Дракон"
+
+#, fuzzy
+msgid "Big Forty"
+msgstr "Форт"
+
+msgid "Big Harp"
+msgstr "Большая арфа"
+
+msgid "Big Hole"
+msgstr "Большая дыра"
+
+msgid "Big Mountain"
+msgstr "Большая гора"
+
+msgid "Big Spider"
+msgstr "Большой паук"
+
+#, fuzzy
+msgid "Big Spider (1 suit)"
+msgstr "Паук (1 масть)"
+
+#, fuzzy
+msgid "Big Spider (2 suits)"
+msgstr "Паук (2 масти)"
+
+#, fuzzy
+msgid "Big Sumo"
+msgstr "Большая дыра"
+
+msgid "Bim Bom"
+msgstr ""
+
+msgid "Bisley"
+msgstr "Бисли"
+
+msgid "Bits n Bytes"
+msgstr "Биты и Байты"
+
+msgid "Bizarre"
+msgstr "Причудливый"
+
+msgid "Black Hole"
+msgstr "Чёрная дыра"
+
+msgid "Black Widow"
+msgstr "Чёрная вдова"
+
+msgid "Blind Alleys"
+msgstr "Тёмные аллеи"
+
+msgid "Blockade"
+msgstr "Блокада"
+
+msgid "Blondes and Brunettes"
+msgstr "Блондинки и Брюнетки"
+
+msgid "Blue Moon"
+msgstr "Голубая луна"
+
+msgid "Boar"
+msgstr "Боров"
+
+msgid "Boat"
+msgstr "Лодка"
+
+msgid "Boudoir"
+msgstr "Будуар"
+
+msgid "Box Fan"
+msgstr "Коробка для веера"
+
+msgid "Box Kite"
+msgstr ""
+
+msgid "Braid"
+msgstr "Коса"
+
+#, fuzzy
+msgid "Bridesmaids"
+msgstr "Коса"
+
+msgid "Bridge"
+msgstr "Мост"
+
+msgid "Bridge 2"
+msgstr "Мост 2"
+
+#, fuzzy
+msgid "Bridget's Game"
+msgstr "Мост 2"
+
+msgid "Bridget's Game Doubled"
+msgstr ""
+
+msgid "Brigade"
+msgstr "Бригада"
+
+msgid "Bristol"
+msgstr "Бристоль"
+
+msgid "British Constitution"
+msgstr "Британская конституция"
+
+#, fuzzy
+msgid "British Square"
+msgstr "Восемь квадратов"
+
+msgid "Brunswick"
+msgstr "Брюнсвик"
+
+msgid "Buffalo Bill"
+msgstr "Буффало Билл"
+
+msgid "Bug"
+msgstr "Клоп"
+
+#, fuzzy
+msgid "Busy Aces"
+msgstr "Русские тузы"
+
+msgid "Butterfly"
+msgstr "Бабочка"
+
+msgid "Butterfly 2"
+msgstr "Бабочка 2"
+
+msgid "Calculation"
+msgstr "Вычисление"
+
+msgid "Camelot"
+msgstr "Камелот"
+
+msgid "Canfield"
+msgstr "Кенфилд"
+
+msgid "Canister"
+msgstr "Коробочка"
+
+msgid "Capricieuse"
+msgstr "Каприз"
+
+msgid "Captive Queens"
+msgstr "Пленённые королевы"
+
+msgid "Carlton"
+msgstr "Карлтон"
+
+msgid "Carpet"
+msgstr "Ковёр"
+
+msgid "Carre Napoleon"
+msgstr "Каре Наполеона"
+
+msgid "Carthage"
+msgstr "Карфаген"
+
+msgid "Casino Klondike"
+msgstr "Казино Клондайк"
+
+msgid "Castle"
+msgstr "Замок"
+
+msgid "Castle of Indolence"
+msgstr "Замок праздности"
+
+msgid "Castles in Spain"
+msgstr "Замок в Испании"
+
+msgid "Cat and Mouse"
+msgstr "Кот и Мышь"
+
+msgid "Cat's Tail"
+msgstr "Кошачий хвост"
+
+msgid "Cavalier"
+msgstr "Рыцарь"
+
+msgid "Cell 11"
+msgstr ""
+
+msgid "Ceremonial"
+msgstr "Церемониал"
+
+msgid "Challenge FreeCell"
+msgstr "Сложная Свободная ячейка"
+
+msgid "Chamberlain"
+msgstr "Камергер"
+
+msgid "Chameleon"
+msgstr "Хамелеон"
+
+msgid "Checkered"
+msgstr "Клетчатый"
+
+msgid "Chelicera"
+msgstr "Хелицера"
+
+msgid "Chequers"
+msgstr "Шахматный порядок"
+
+msgid "Cherry Bomb"
+msgstr "Хлопушка"
+
+#, fuzzy
+msgid "ChessMania"
+msgstr "Маджонг ChessMania"
+
+msgid "Chessboard"
+msgstr "Шахматная доска"
+
+msgid "Chinese Discipline"
+msgstr "Китайский порядок"
+
+msgid "Chinese Solitaire"
+msgstr "Китайский пасьянс"
+
+msgid "Chip"
+msgstr "Щепка"
+
+msgid "Cicely"
+msgstr "Кервель"
+
+msgid "Citadel"
+msgstr "Цитадель"
+
+msgid "Clink"
+msgstr "Застенок"
+
+msgid "Clover Leaf"
+msgstr "Лепесток клевера"
+
+msgid "Cluitjar's Lair"
+msgstr ""
+
+msgid "Cockroach"
+msgstr "Таракан"
+
+msgid "Colorado"
+msgstr "Колорадо"
+
+msgid "Columns"
+msgstr "Столбцы"
+
+msgid "Concentration"
+msgstr "Концентрация"
+
+msgid "Cone"
+msgstr "Конус"
+
+msgid "Congress"
+msgstr "Конгресс"
+
+msgid "Contradance"
+msgstr "Контрданс"
+
+msgid "Convolution"
+msgstr "Виток"
+
+msgid "Corkscrew"
+msgstr "Штопор"
+
+msgid "Corners"
+msgstr "Углы"
+
+msgid "Corona"
+msgstr "Корона"
+
+msgid "Courtyard"
+msgstr "Внутренний двор"
+
+msgid "Cross"
+msgstr "Крест"
+
+msgid "Crown"
+msgstr "Венец"
+
+msgid "Cruel"
+msgstr "Изнурительный"
+
+msgid "Cupido's Heart"
+msgstr "Сердце Купидона"
+
+msgid "Cupola"
+msgstr "Купол"
+
+msgid "Curds and Whey"
+msgstr "Творог и сыворотка"
+
+#, fuzzy
+msgid "Danda"
+msgstr "Алмаз"
+
+msgid "Dashavatara"
+msgstr "Дашаватара"
+
+#, fuzzy
+msgid "Dashavatara Circles"
+msgstr "Дашаватара"
+
+msgid "Dead King Golf"
+msgstr "Гольф Смертельный Король"
+
+#, fuzzy
+msgid "Deep"
+msgstr "Глубокий колодец"
+
+msgid "Deep Well"
+msgstr "Глубокий колодец"
+
+msgid "Der Katzenschwanz"
+msgstr ""
+
+msgid "Der Zopf"
+msgstr ""
+
+#, fuzzy
+msgid "Der freie Napoleon"
+msgstr "Свободный Наполеон"
+
+#, fuzzy
+msgid "Der kleine Napoleon"
+msgstr "Свободный Наполеон"
+
+msgid "Der lange Zopf"
+msgstr ""
+
+#, fuzzy
+msgid "Der letzte Monarch"
+msgstr "Последний ,Монарх"
+
+msgid "Deuces"
+msgstr "Двойки"
+
+msgid "Dhanpati"
+msgstr ""
+
+msgid "Diamond"
+msgstr "Алмаз"
+
+msgid "Die Bildgallerie"
+msgstr ""
+
+msgid "Die Königsbergerin"
+msgstr ""
+
+msgid "Die Russische"
+msgstr ""
+
+msgid "Die Schlange"
+msgstr ""
+
+msgid "Die böse Sieben"
+msgstr ""
+
+msgid "Die große Harfe"
+msgstr ""
+
+msgid "Die kleine Harfe"
+msgstr ""
+
+msgid "Diplomat"
+msgstr "Дипломат"
+
+msgid "Dog"
+msgstr "Пёс"
+
+msgid "Dojouji's Game"
+msgstr ""
+
+msgid "Dojouji's Game Doubled"
+msgstr ""
+
+msgid "Double Bisley"
+msgstr "Двойной Бисли"
+
+msgid "Double Canfield"
+msgstr "Двойной Кенфилд"
+
+msgid "Double Cockroach"
+msgstr "Двойной таракан"
+
+#, fuzzy
+msgid "Double Dot"
+msgstr "Дубликаты"
+
+msgid "Double Drawbridge"
+msgstr "Двойной разводной мост"
+
+#, fuzzy
+msgid "Double Easthaven"
+msgstr "Двойной кузнечик"
+
+msgid "Double FreeCell"
+msgstr "Двойная свободная ячейка"
+
+msgid "Double Grasshopper"
+msgstr "Двойной кузнечик"
+
+msgid "Double Klondike"
+msgstr "Двойной Клондайк"
+
+msgid "Double Klondike by Threes"
+msgstr "Двойной Клондайк по три"
+
+msgid "Double Mahjongg Big Castle"
+msgstr "Двойной Маджонг Большой замок"
+
+msgid "Double Mahjongg Big Flying Dragon"
+msgstr "Двойной Маджонг Большой Летящий Дракон"
+
+msgid "Double Mahjongg Eight Squares"
+msgstr "Двойной Маджонг Восемь квадратов"
+
+msgid "Double Mahjongg Faro"
+msgstr "Двойной Маджонг Фараон"
+
+msgid "Double Mahjongg Roost"
+msgstr "Двойной Маджонг Насест"
+
+msgid "Double Mahjongg Sphere"
+msgstr "Двойной Маджонг Сфера"
+
+msgid "Double Mahjongg Twin Picks"
+msgstr "Двойной Маджонг Двойная вершина"
+
+msgid "Double Mahjongg Two Squares"
+msgstr "Двойной Маджонг Два квадрата"
+
+msgid "Double Rail"
+msgstr "Двойные рельсы"
+
+#, fuzzy
+msgid "Double Samuri"
+msgstr "Двойные рельсы"
+
+#, fuzzy
+msgid "Double Your Fun"
+msgstr "Двойной Юкон"
+
+msgid "Double Yukon"
+msgstr "Двойной Юкон"
+
+msgid "Doublets"
+msgstr "Дубликаты"
+
+msgid "Dover"
+msgstr "Довер"
+
+msgid "Dragon"
+msgstr "Дракон"
+
+msgid "Dragon 2"
+msgstr "Дракон 2"
+
+msgid "Drawbridge"
+msgstr "Разводной мост"
+
+msgid "Dress Parade"
+msgstr "Показ мод"
+
+msgid "Drivel"
+msgstr "Бессмыслица"
+
+msgid "Dude"
+msgstr "Пижон"
+
+msgid "Duke"
+msgstr "Герцог"
+
+msgid "Dumfries"
+msgstr ""
+
+msgid "Eagle Wing"
+msgstr "Крыло орла"
+
+msgid "Eastcliff"
+msgstr ""
+
+msgid "Easthaven"
+msgstr ""
+
+msgid "Easy Supreme"
+msgstr ""
+
+msgid "Easy x One"
+msgstr ""
+
+msgid "Egyptian Solitaire"
+msgstr "Египетский пасьянс"
+
+msgid "Eiffel Tower"
+msgstr "Эйфелева башня"
+
+msgid "Eight Legions"
+msgstr "Восемь легионов"
+
+msgid "Eight Off"
+msgstr ""
+
+msgid "Eight Squares"
+msgstr "Восемь квадратов"
+
+msgid "Eight Times Eight"
+msgstr "Восемь раз по восемь"
+
+msgid "Elevator"
+msgstr "Лифт"
+
+msgid "Emperor"
+msgstr "Император"
+
+msgid "Empty Pyramids"
+msgstr "Пустые пирамиды"
+
+msgid "Enterprise"
+msgstr "Предприятие"
+
+msgid "Escalator"
+msgstr "Эскалатор"
+
+#, fuzzy
+msgid "Eularia"
+msgstr "Мария"
+
+msgid "Excuse"
+msgstr ""
+
+msgid "Eye"
+msgstr "Глаз"
+
+#, fuzzy
+msgid "F-15 Eagle"
+msgstr "Маджонг F-15 Eagle"
+
+msgid "Fair Lucy"
+msgstr ""
+
+#, fuzzy
+msgid "Fairest"
+msgstr "Ковёр"
+
+msgid "Falling Star"
+msgstr "Падающая звезда"
+
+msgid "Fan"
+msgstr "Веер"
+
+msgid "Farandole"
+msgstr "Фарандола"
+
+msgid "Faro"
+msgstr "Фараон"
+
+msgid "Fastness"
+msgstr "Цитадель"
+
+#, fuzzy
+msgid "Fatimeh's Game"
+msgstr "Бабушкина игра"
+
+msgid "Fatimeh's Game Relaxed"
+msgstr ""
+
+#, fuzzy
+msgid "Fifteen Puzzle"
+msgstr "Пятнашки"
+
+msgid "Fifteen plus"
+msgstr "Пятнадцать плюс"
+
+msgid "Firecracker"
+msgstr "Хлопушка"
+
+msgid "First Law"
+msgstr "Фундаментальный закон"
+
+msgid "Fish"
+msgstr "Рыба"
+
+#, fuzzy
+msgid "Fish face"
+msgstr "Маджонг Fish face"
+
+msgid "Five Aces"
+msgstr "Пять тузов"
+
+msgid "Five Pyramids"
+msgstr "Пять пирамид"
+
+msgid "Floating City"
+msgstr "Плавающий город"
+
+msgid "Flower Arrangement"
+msgstr "Аранжировка цветов"
+
+msgid "Flower Clock"
+msgstr "Цветочные часы"
+
+msgid "Flower Garden"
+msgstr "Цветочный сад"
+
+msgid "Flowers"
+msgstr "Цветы"
+
+msgid "Fly"
+msgstr "Полёт"
+
+msgid "Flying Dragon"
+msgstr "Летящий дракон"
+
+#, fuzzy
+msgid "ForeCell"
+msgstr "Свободная ячейка"
+
+msgid "Fort"
+msgstr "Форт"
+
+msgid "Fortress"
+msgstr "Крепость"
+
+msgid "Fortress Towers"
+msgstr "Крепостные башни"
+
+#, fuzzy
+msgid "Fortune's Favor"
+msgstr "Судьба"
+
+msgid "Fortunes"
+msgstr "Судьба"
+
+msgid "Forty Thieves"
+msgstr "Сорок разбойников"
+
+msgid "Forty and Eight"
+msgstr "Сорок и восемь"
+
+#, fuzzy
+msgid "Four Colours"
+msgstr "Четырёхлистный клевер"
+
+msgid "Four Kings"
+msgstr "Четыре короля"
+
+msgid "Four Leaf Clovers"
+msgstr "Четырёхлистный клевер"
+
+msgid "Four Seasons"
+msgstr "Четыре сезона"
+
+msgid "Four Stacks"
+msgstr "Четыре кучи"
+
+msgid "Four Winds"
+msgstr "Четыре ветра"
+
+msgid "Fourteen"
+msgstr "Четырнадцать"
+
+#, fuzzy
+msgid "Fred's Spider"
+msgstr "Смягчённый Паук"
+
+#, fuzzy
+msgid "Fred's Spider (3 decks)"
+msgstr "Церлин (3 колоды)"
+
+msgid "Free Fan"
+msgstr "Свободный веер"
+
+msgid "Free Napoleon"
+msgstr "Свободный Наполеон"
+
+msgid "FreeCell"
+msgstr "Свободная ячейка"
+
+msgid "Frog"
+msgstr "Лягушка"
+
+#, fuzzy
+msgid "Full Vision"
+msgstr "Маджонг Full Vision"
+
+#, fuzzy
+msgid "Full Vision 2"
+msgstr "Маджонг Full Vision 2"
+
+msgid "Future"
+msgstr "Будущее"
+
+msgid "Gajapati"
+msgstr ""
+
+msgid "Gaji"
+msgstr ""
+
+msgid "Galary"
+msgstr "Галерея"
+
+msgid "Galloway"
+msgstr "Шотландская лошадка"
+
+msgid "Gaps"
+msgstr "Пробелы"
+
+msgid "Garden"
+msgstr "Сад"
+
+msgid "Gargantua"
+msgstr "Гаргантюа"
+
+msgid "Garhpati"
+msgstr ""
+
+msgid "Gate"
+msgstr "Ворота"
+
+#, fuzzy
+msgid "Gayle's"
+msgstr "Маджонг Gayle's"
+
+msgid "General's Patience"
+msgstr "Генеральский пасьянс"
+
+msgid "Genesis"
+msgstr "Происхождение"
+
+msgid "Genesis +"
+msgstr "Происхождение +"
+
+#, fuzzy
+msgid "German Patience"
+msgstr "Алжирский пасьянс"
+
+msgid "Ghulam"
+msgstr ""
+
+msgid "Giant"
+msgstr "Великан"
+
+msgid "Glade"
+msgstr "Поляна"
+
+msgid "Glenwood"
+msgstr "Гленвуд"
+
+msgid "Gloaming"
+msgstr "Вечерние сумерки"
+
+msgid "Gloria"
+msgstr "Глория"
+
+msgid "Gnat"
+msgstr "Комар"
+
+msgid "Golf"
+msgstr "Гольф"
+
+msgid "Good Measure"
+msgstr "Полная мера"
+
+msgid "Grampus"
+msgstr "Касатка"
+
+msgid "Grandfather"
+msgstr "Дедушка"
+
+msgid "Grandfather's Clock"
+msgstr "Дедушкины часы"
+
+msgid "Grandmother's Game"
+msgstr "Бабушкина игра"
+
+msgid "Grasshopper"
+msgstr "Кузнечик"
+
+msgid "Great Wall"
+msgstr "Великая стена"
+
+msgid "Great Wheel"
+msgstr "Великое Колесо"
+
+msgid "Greater Queue"
+msgstr "Длинная коса"
+
+msgid "Griffon"
+msgstr "Грифон"
+
+msgid "Ground for a Divorce"
+msgstr "Повод для разрыва"
+
+msgid "Ground for a Divorce (3 decks)"
+msgstr "Повод для разрыва (3 колоды)"
+
+#, fuzzy
+msgid "Ground for a Divorce (4 decks)"
+msgstr "Повод для разрыва (3 колоды)"
+
+msgid "Gypsy"
+msgstr "Цыганский"
+
+#, fuzzy
+msgid "H for Haga"
+msgstr "Маджонг H for Haga"
+
+msgid "Half Mahjongg Happy New Year"
+msgstr "Половинный Маджонг С Новым Годом"
+
+msgid "Half Mahjongg Smile"
+msgstr "Половинный Маджонг Улыбка"
+
+msgid "Half Mahjongg Wall"
+msgstr "Половинный Маджонг Стена"
+
+msgid "Hanoi Puzzle 4"
+msgstr "Ханойская головоломка 4"
+
+msgid "Hanoi Puzzle 5"
+msgstr "Ханойская головоломка 5"
+
+msgid "Hanoi Puzzle 6"
+msgstr "Ханойская головоломка 6"
+
+msgid "Happy New Year"
+msgstr "С Новым Годом"
+
+msgid "Hare"
+msgstr "Заяц"
+
+msgid "Hayagriva"
+msgstr ""
+
+msgid "Haystack"
+msgstr "Стог сена"
+
+msgid "Heads and Tails"
+msgstr "Головы и хвосты"
+
+msgid "Helios"
+msgstr "Гелиос"
+
+msgid "Hex A Klon"
+msgstr ""
+
+#, fuzzy
+msgid "Hex A Klon by Threes"
+msgstr "Клондайк по три"
+
+msgid "Hex Labyrinth"
+msgstr "Шестнадцатеричный лабиринт"
+
+msgid "Hidden Passages"
+msgstr "Тайные ходы"
+
+msgid "Hidden Words"
+msgstr "Спрятанные слова"
+
+#, fuzzy
+msgid "High and Low"
+msgstr "Маджонг High and Low"
+
+msgid "Hiranyaksha"
+msgstr ""
+
+msgid "Hopscotch"
+msgstr "Классы"
+
+msgid "Horse"
+msgstr "Лошадь"
+
+msgid "House in the Wood"
+msgstr "Дом в лесу"
+
+msgid "House on the Hill"
+msgstr "Дом на холме"
+
+msgid "Hovercraft"
+msgstr "Ховеркрафт"
+
+msgid "Hurdles"
+msgstr "Барьеры"
+
+msgid "Hurricane"
+msgstr "Ураган"
+
+msgid "Idiot's Delight"
+msgstr "Дурацкое удовольствие"
+
+#, fuzzy
+msgid "Idle Aces"
+msgstr "Пять тузов"
+
+msgid "IloveU"
+msgstr ""
+
+msgid "Imperial Trumps"
+msgstr "Имперские козыри"
+
+#, fuzzy
+msgid "Inazuma"
+msgstr "Маджонг Inazuma"
+
+msgid "Inca"
+msgstr ""
+
+msgid "Indian"
+msgstr "Индийский"
+
+#, fuzzy
+msgid "Indian Patience"
+msgstr "Русский пасьянс"
+
+msgid "Inner Circle"
+msgstr "Внутренний круг"
+
+msgid "Intelligence"
+msgstr "Смекалка"
+
+msgid "Intelligence +"
+msgstr "Смекалка +"
+
+msgid "Interregnum"
+msgstr "Междуцарствие"
+
+msgid "Iris"
+msgstr "Ирис"
+
+msgid "Irmgard"
+msgstr ""
+
+msgid "JPs"
+msgstr ""
+
+msgid "Jamestown"
+msgstr "Джеймстаун"
+
+msgid "Jane"
+msgstr "Джейн"
+
+msgid "Japan"
+msgstr "Япония"
+
+msgid "Japanese Garden"
+msgstr "Японский сад"
+
+msgid "Japanese Garden II"
+msgstr "Японский сад II"
+
+msgid "Japanese Garden III"
+msgstr "Японский сад III"
+
+msgid "Joker"
+msgstr "Джокер"
+
+msgid "Josephine"
+msgstr "Жозефина"
+
+msgid "Journey to Cuddapah"
+msgstr "Путешествие в Куддапах"
+
+msgid "Jumbo"
+msgstr "Гигант"
+
+msgid "Jungle"
+msgstr "Джунгли"
+
+msgid "Just For Fun"
+msgstr "Просто для удовольствия"
+
+#, fuzzy
+msgid "K for Kyodai"
+msgstr "Маджонг K for Kyodai"
+
+msgid "Kali's Game"
+msgstr ""
+
+msgid "Kali's Game Doubled"
+msgstr ""
+
+msgid "Kali's Game Relaxed"
+msgstr ""
+
+msgid "Kansas"
+msgstr "Канзас"
+
+#, fuzzy
+msgid "Katrina's Game"
+msgstr "Бабушкина игра"
+
+msgid "Katrina's Game Doubled"
+msgstr ""
+
+msgid "Katrina's Game Relaxed"
+msgstr ""
+
+msgid "Khadga"
+msgstr ""
+
+msgid "King Albert"
+msgstr "Король Альберт"
+
+msgid "King Only Baker's Game"
+msgstr ""
+
+msgid "King Only Hex A Klon"
+msgstr ""
+
+msgid "Kingdom"
+msgstr "Королевство"
+
+msgid "Kings"
+msgstr "Короли"
+
+msgid "Kingsdown Eights"
+msgstr ""
+
+msgid "Klondike"
+msgstr "Клондайк"
+
+#, fuzzy
+msgid "Klondike Plus 16"
+msgstr "Клондайк"
+
+msgid "Klondike by Threes"
+msgstr "Клондайк по три"
+
+msgid "Km"
+msgstr ""
+
+msgid "Krebs"
+msgstr ""
+
+msgid "Kujaku"
+msgstr ""
+
+#, fuzzy
+msgid "Kumo"
+msgstr "Гигант"
+
+msgid "Kurma"
+msgstr ""
+
+#, fuzzy
+msgid "Kyodai 14"
+msgstr "Маджонг Kyodai 14"
+
+#, fuzzy
+msgid "Kyodai 17"
+msgstr "Маджонг Kyodai 17"
+
+#, fuzzy
+msgid "Kyodai 18"
+msgstr "Маджонг Kyodai 18"
+
+#, fuzzy
+msgid "Kyodai 20"
+msgstr "Маджонг Kyodai 20"
+
+#, fuzzy
+msgid "Kyodai 23"
+msgstr "Маджонг Kyodai 23"
+
+#, fuzzy
+msgid "Kyodai 24"
+msgstr "Маджонг Kyodai 24"
+
+#, fuzzy
+msgid "Kyodai 25"
+msgstr "Маджонг Kyodai 25"
+
+#, fuzzy
+msgid "Kyodai 26"
+msgstr "Маджонг Kyodai 26"
+
+#, fuzzy
+msgid "Kyodai 27"
+msgstr "Маджонг Kyodai 27"
+
+#, fuzzy
+msgid "Kyodai 28"
+msgstr "Маджонг Kyodai 28"
+
+#, fuzzy
+msgid "Kyodai 41"
+msgstr "Маджонг Kyodai 4"
+
+#, fuzzy
+msgid "Kyodai 42"
+msgstr "Маджонг Kyodai 42"
+
+msgid "La Belle Lucie"
+msgstr "Прекрасная Люси"
+
+msgid "La Nivernaise"
+msgstr ""
+
+msgid "Labyrinth"
+msgstr "Лабиринт"
+
+msgid "Lady Betty"
+msgstr "Леди Бетти"
+
+msgid "Lady Palk"
+msgstr "Леди Полк"
+
+msgid "Lady of the Manor"
+msgstr ""
+
+msgid "Lanes"
+msgstr "Тропинки"
+
+#, fuzzy
+msgid "Lara's Game"
+msgstr "Бабушкина игра"
+
+msgid "Lara's Game Doubled"
+msgstr ""
+
+msgid "Lara's Game Relaxed"
+msgstr ""
+
+msgid "Lattice"
+msgstr "Решётка"
+
+msgid "Le Cadran"
+msgstr ""
+
+msgid "Le Grande Teton"
+msgstr ""
+
+msgid "Leo"
+msgstr "Лев"
+
+msgid "Lesser Queue"
+msgstr "Короткая коса"
+
+msgid "Lexington Harp"
+msgstr "Лексингтонская арфа"
+
+msgid "Lily"
+msgstr "Лили"
+
+msgid "Limited"
+msgstr "Ограниченный"
+
+msgid "Lion"
+msgstr "Лион"
+
+#, fuzzy
+msgid "Little Billie"
+msgstr "Малые ворота"
+
+#, fuzzy
+msgid "Little Easy"
+msgstr "Малые ворота"
+
+#, fuzzy
+msgid "Little Forty"
+msgstr "Малые ворота"
+
+msgid "Little Gate"
+msgstr "Малые ворота"
+
+msgid "Long Braid"
+msgstr "Долгая коса"
+
+msgid "Long Journey to Cuddapah"
+msgstr "Долгое путешествие в Куддапах"
+
+msgid "Loose Ends"
+msgstr "Свободные концы"
+
+msgid "Lost "
+msgstr "Потеря"
+
+msgid "Lucas"
+msgstr "Лукас"
+
+#, fuzzy
+msgid "Mage's Game"
+msgstr "Бабушкина игра"
+
+msgid "Mahjongg Altar"
+msgstr "Маджонг Алтарь"
+
+msgid "Mahjongg Another Round"
+msgstr "Маджонг Другой раунд"
+
+msgid "Mahjongg Aqab's"
+msgstr "Маджонг Aqab's"
+
+msgid "Mahjongg Arena"
+msgstr "Маджонг Арена"
+
+msgid "Mahjongg Arena 2"
+msgstr "Маджонг Арена 2"
+
+msgid "Mahjongg Arrow"
+msgstr "Маджонг Стрела"
+
+msgid "Mahjongg Art Moderne"
+msgstr "Маджонг Современное искусство"
+
+msgid "Mahjongg Balance"
+msgstr "Маджонг Баланс"
+
+msgid "Mahjongg Bat"
+msgstr "Маджонг Летучая мышь"
+
+msgid "Mahjongg Beatle"
+msgstr "Маджонг Жук"
+
+msgid "Mahjongg Big Hole"
+msgstr "Маджонг Большая дыра"
+
+msgid "Mahjongg Big Mountain"
+msgstr "Маджонг Большая гора"
+
+msgid "Mahjongg Bizarre"
+msgstr "Маджонг Причудливый"
+
+msgid "Mahjongg Boar"
+msgstr "Маджонг Боров"
+
+msgid "Mahjongg Boat"
+msgstr "Маджонг Лодка"
+
+msgid "Mahjongg Bridge"
+msgstr "Маджонг Мост"
+
+msgid "Mahjongg Bridge 2"
+msgstr "Маджонг Мост 2"
+
+msgid "Mahjongg Bug"
+msgstr "Маджонг Клоп"
+
+msgid "Mahjongg Butterfly"
+msgstr "Маджонг Бабочка"
+
+msgid "Mahjongg Butterfly 2"
+msgstr "Маджонг Бабочка 2"
+
+msgid "Mahjongg Castle"
+msgstr "Маджонг Замок"
+
+msgid "Mahjongg Cat and Mouse"
+msgstr "Маджонг Кот и Мышь"
+
+msgid "Mahjongg Ceremonial"
+msgstr "Маджонг Церемониал"
+
+msgid "Mahjongg Checkered"
+msgstr "Маджонг Клетчатый"
+
+msgid "Mahjongg ChessMania"
+msgstr "Маджонг ChessMania"
+
+msgid "Mahjongg Chip"
+msgstr "Маджонг Щепка"
+
+msgid "Mahjongg Columns"
+msgstr "Маджонг Столбцы"
+
+msgid "Mahjongg Cross"
+msgstr "Маджонг Крест"
+
+msgid "Mahjongg Crown"
+msgstr "Маджонг Венец"
+
+msgid "Mahjongg Cupido's Heart"
+msgstr "Маджонг Сердце Купидона"
+
+msgid "Mahjongg Cupola"
+msgstr "Маджонг Купол"
+
+msgid "Mahjongg Deep Well"
+msgstr "Маджонг Глубокий колодец"
+
+msgid "Mahjongg Diamond"
+msgstr "Маджонг Алмаз"
+
+msgid "Mahjongg Dog"
+msgstr "Маджонг Пёс"
+
+msgid "Mahjongg Dragon"
+msgstr "Маджонг Дракон"
+
+msgid "Mahjongg Dragon 2"
+msgstr "Маджонг Дракон 2"
+
+msgid "Mahjongg Dude"
+msgstr "Маджонг Пижон"
+
+msgid "Mahjongg Empty Pyramids"
+msgstr "Маджонг Пустые пирамиды"
+
+msgid "Mahjongg Enterprise"
+msgstr "Маджонг Предприятие"
+
+msgid "Mahjongg Eye"
+msgstr "Маджонг Глаз"
+
+msgid "Mahjongg F-15 Eagle"
+msgstr "Маджонг F-15 Eagle"
+
+msgid "Mahjongg Farandole"
+msgstr "Маджонг Фарандола"
+
+msgid "Mahjongg Fish"
+msgstr "Маджонг Рыба"
+
+msgid "Mahjongg Fish face"
+msgstr "Маджонг Fish face"
+
+msgid "Mahjongg Five Pyramids"
+msgstr "Маджонг Пять пирамид"
+
+msgid "Mahjongg Floating City"
+msgstr "Маджонг Плавающий город"
+
+msgid "Mahjongg Flowers"
+msgstr "Маджонг Цветы"
+
+msgid "Mahjongg Flying Dragon"
+msgstr "Маджонг Летящий Дракон"
+
+msgid "Mahjongg Fortress Towers"
+msgstr "Маджонг Крепостные башни"
+
+msgid "Mahjongg Full Vision"
+msgstr "Маджонг Full Vision"
+
+msgid "Mahjongg Full Vision 2"
+msgstr "Маджонг Full Vision 2"
+
+msgid "Mahjongg Future"
+msgstr "Маджонг Будущее"
+
+msgid "Mahjongg Garden"
+msgstr "Маджонг Сад"
+
+msgid "Mahjongg Gayle's"
+msgstr "Маджонг Gayle's"
+
+msgid "Mahjongg Glade"
+msgstr "Маджонг Поляна"
+
+msgid "Mahjongg H for Haga"
+msgstr "Маджонг H for Haga"
+
+msgid "Mahjongg Hare"
+msgstr "Маджонг Заяц"
+
+msgid "Mahjongg Helios"
+msgstr "Маджонг Гелиос"
+
+msgid "Mahjongg Hidden Words"
+msgstr "Маджонг Спрятанные слова"
+
+msgid "Mahjongg High and Low"
+msgstr "Маджонг High and Low"
+
+msgid "Mahjongg Horse"
+msgstr "Маджонг Лошадь"
+
+msgid "Mahjongg Hovercraft"
+msgstr "Маджонг Ховеркрафт"
+
+msgid "Mahjongg Hurdles"
+msgstr "Маджонг Барьеры"
+
+msgid "Mahjongg Hurricane"
+msgstr "Маджонг Ураган"
+
+msgid "Mahjongg IloveU"
+msgstr "Маджонг IloveU"
+
+msgid "Mahjongg Inazuma"
+msgstr "Маджонг Inazuma"
+
+msgid "Mahjongg Inca"
+msgstr "Маджонг Inca"
+
+msgid "Mahjongg Inner Circle"
+msgstr "Маджонг Внутренний круг"
+
+msgid "Mahjongg JPs"
+msgstr "Маджонг JPs"
+
+msgid "Mahjongg Japan"
+msgstr "Маджонг Япония"
+
+msgid "Mahjongg Joker"
+msgstr "Маджонг Джокер"
+
+msgid "Mahjongg K for Kyodai"
+msgstr "Маджонг K for Kyodai"
+
+msgid "Mahjongg Km"
+msgstr "Маджонг Km"
+
+msgid "Mahjongg Krebs"
+msgstr "Маджонг Krebs"
+
+msgid "Mahjongg Kujaku"
+msgstr "Маджонг Kujaku"
+
+msgid "Mahjongg Kumo"
+msgstr "Маджонг Kumo"
+
+msgid "Mahjongg Kyodai 14"
+msgstr "Маджонг Kyodai 14"
+
+msgid "Mahjongg Kyodai 17"
+msgstr "Маджонг Kyodai 17"
+
+msgid "Mahjongg Kyodai 18"
+msgstr "Маджонг Kyodai 18"
+
+msgid "Mahjongg Kyodai 20"
+msgstr "Маджонг Kyodai 20"
+
+msgid "Mahjongg Kyodai 23"
+msgstr "Маджонг Kyodai 23"
+
+msgid "Mahjongg Kyodai 24"
+msgstr "Маджонг Kyodai 24"
+
+msgid "Mahjongg Kyodai 25"
+msgstr "Маджонг Kyodai 25"
+
+msgid "Mahjongg Kyodai 26"
+msgstr "Маджонг Kyodai 26"
+
+msgid "Mahjongg Kyodai 27"
+msgstr "Маджонг Kyodai 27"
+
+msgid "Mahjongg Kyodai 28"
+msgstr "Маджонг Kyodai 28"
+
+msgid "Mahjongg Kyodai 41"
+msgstr "Маджонг Kyodai 4"
+
+msgid "Mahjongg Kyodai 42"
+msgstr "Маджонг Kyodai 42"
+
+msgid "Mahjongg Labyrinth"
+msgstr "Маджонг Лабиринт"
+
+msgid "Mahjongg Lattice"
+msgstr "Маджонг Решётка"
+
+msgid "Mahjongg Leo"
+msgstr "Маджонг Лев"
+
+msgid "Mahjongg Lion"
+msgstr "Маджонг Лион"
+
+msgid "Mahjongg Loose Ends"
+msgstr "Маджонг Свободные концы"
+
+msgid "Mahjongg Lost "
+msgstr "Маджонг Потеря"
+
+msgid "Mahjongg Maya"
+msgstr "Маджонг Майя"
+
+msgid "Mahjongg Mesh"
+msgstr "Маджонг Западня"
+
+msgid "Mahjongg Mini Traditional"
+msgstr "Маджонг Mini Traditional"
+
+msgid "Mahjongg Mini-Layout"
+msgstr "Маджонг Mini-Layout"
+
+msgid "Mahjongg Mission Impossible"
+msgstr "Маджонг Миссия невыполнима"
+
+msgid "Mahjongg Monkey"
+msgstr "Маджонг Обезьяна"
+
+msgid "Mahjongg Moth"
+msgstr "Маджонг Мотылёк"
+
+msgid "Mahjongg Multi X"
+msgstr "Маджонг Multi X"
+
+msgid "Mahjongg N for Namida"
+msgstr "Маджонг N for Namida"
+
+msgid "Mahjongg New Layout"
+msgstr "Маджонг New Layout"
+
+msgid "Mahjongg Okie's Nitemare"
+msgstr "Маджонг Okie's Nitemare"
+
+msgid "Mahjongg Orbital"
+msgstr "Маджонг Орбитальный"
+
+msgid "Mahjongg Order"
+msgstr "Маджонг Порядок"
+
+msgid "Mahjongg Owl"
+msgstr "Маджонг Сова"
+
+msgid "Mahjongg Ox"
+msgstr "Маджонг Бык"
+
+msgid "Mahjongg Pantheon"
+msgstr "Маджонг Пантеон"
+
+msgid "Mahjongg Papillon"
+msgstr "Маджонг Папильотка"
+
+msgid "Mahjongg Pattern"
+msgstr "Маджонг Образец"
+
+msgid "Mahjongg Portal"
+msgstr "Маджонг Портал"
+
+msgid "Mahjongg Pyramid 1"
+msgstr "Маджонг Пирамида 1"
+
+msgid "Mahjongg Pyramid 2"
+msgstr "Маджонг Пирамида 2"
+
+msgid "Mahjongg Quad"
+msgstr "Маджонг Quad"
+
+msgid "Mahjongg Ram"
+msgstr "Маджонг Овен"
+
+msgid "Mahjongg Rat"
+msgstr "Маджонг Крыса"
+
+msgid "Mahjongg Rectangle"
+msgstr "Маджонг Прямоугольник"
+
+msgid "Mahjongg Reindeer"
+msgstr "Маджонг Северный олень"
+
+msgid "Mahjongg Rings"
+msgstr "Маджонг Круги"
+
+msgid "Mahjongg River Bridge"
+msgstr "Маджонг Мост через реку"
+
+msgid "Mahjongg Rocket"
+msgstr "Маджонг Ракета"
+
+msgid "Mahjongg Roman Arena"
+msgstr "Маджонг Римская арена"
+
+msgid "Mahjongg Rooster"
+msgstr "Маджонг Петух"
+
+msgid "Mahjongg Rugby"
+msgstr "Маджонг Регби"
+
+msgid "Mahjongg Scorpion"
+msgstr "Маджонг Скорпион"
+
+msgid "Mahjongg Screw Up"
+msgstr "Маджонг Screw Up"
+
+msgid "Mahjongg Seven"
+msgstr "Маджонг Семёрка"
+
+msgid "Mahjongg Seven Pyramids"
+msgstr "Маджонг Семь пирамид"
+
+msgid "Mahjongg Shapeshifter"
+msgstr "Маджонг Shapeshifter"
+
+msgid "Mahjongg Shield"
+msgstr "Маджонг Щит"
+
+msgid "Mahjongg Siam"
+msgstr "Маджонг Сиам"
+
+msgid "Mahjongg Snake"
+msgstr "Маджонг Хвост"
+
+msgid "Mahjongg Space Bridge"
+msgstr "Маджонг Космический мост"
+
+msgid "Mahjongg Space Shuttle"
+msgstr "Маджонг Космический челнок"
+
+msgid "Mahjongg Square"
+msgstr "Маджонг Квадрат"
+
+msgid "Mahjongg Squares"
+msgstr "Маджонг Квадраты"
+
+msgid "Mahjongg Squaring"
+msgstr "Маджонг Squaring"
+
+msgid "Mahjongg Stage 1"
+msgstr "Маджонг Stage 1"
+
+msgid "Mahjongg Stage 2"
+msgstr "Маджонг Stage 2"
+
+msgid "Mahjongg Stairs"
+msgstr "Маджонг Ступени"
+
+msgid "Mahjongg Stairs 2"
+msgstr "Маджонг Ступени 2"
+
+msgid "Mahjongg Stairs 3"
+msgstr "Маджонг Ступени 3"
+
+msgid "Mahjongg Star Ship"
+msgstr "Маджонг Космический корабль"
+
+msgid "Mahjongg Stargate"
+msgstr "Маджонг Звёздные врата"
+
+msgid "Mahjongg Step Pyramid"
+msgstr "Маджонг Семь пирамид"
+
+msgid "Mahjongg Stonehenge"
+msgstr "Маджонг Стоунхендж"
+
+msgid "Mahjongg Sukis"
+msgstr "Маджонг Sukis"
+
+msgid "Mahjongg SunMoon"
+msgstr "Маджонг SunMoon"
+
+msgid "Mahjongg Taipei"
+msgstr "Маджонг Тайпей"
+
+msgid "Mahjongg Temple"
+msgstr "Маджонг Храм"
+
+msgid "Mahjongg Temple 1"
+msgstr "Маджонг Храм 1"
+
+msgid "Mahjongg Temple 2"
+msgstr "Маджонг Храм 2"
+
+msgid "Mahjongg The Door"
+msgstr "Маджонг Дверь"
+
+msgid "Mahjongg The Great Wall"
+msgstr "Маджонг Великая стена"
+
+msgid "Mahjongg Theater"
+msgstr "Маджонг Театр"
+
+msgid "Mahjongg Tiger"
+msgstr "Маджонг Тигр"
+
+msgid "Mahjongg Tile Fighter"
+msgstr "Маджонг Tile Fighter"
+
+msgid "Mahjongg Tilepiles"
+msgstr "Маджонг Tilepiles"
+
+msgid "Mahjongg Time Tunnel"
+msgstr "Маджонг Time Tunnel"
+
+msgid "Mahjongg Tomb"
+msgstr "Маджонг Гробница"
+
+msgid "Mahjongg Totally Random-Made"
+msgstr "Маджонг Totally Random-Made"
+
+msgid "Mahjongg Traditional Reviewed"
+msgstr "Маджонг Traditional Reviewed"
+
+msgid "Mahjongg Tree of Life"
+msgstr "Маджонг Древо жизни"
+
+msgid "Mahjongg Trika"
+msgstr "Маджонг Trika"
+
+msgid "Mahjongg Twin"
+msgstr "Маджонг Twin"
+
+msgid "Mahjongg Twin Temples"
+msgstr "Маджонг Twin Temples"
+
+msgid "Mahjongg Two Domes"
+msgstr "Маджонг Two Domes"
+
+msgid "Mahjongg Vagues"
+msgstr "Маджонг Vagues"
+
+msgid "Mahjongg Vi"
+msgstr "Маджонг Vi"
+
+msgid "Mahjongg Victory Arrow"
+msgstr "Маджонг Victory Arrow"
+
+msgid "Mahjongg Wavelets"
+msgstr "Маджонг Волны"
+
+msgid "Mahjongg Wedges"
+msgstr "Маджонг Клинья"
+
+msgid "Mahjongg Well"
+msgstr "Маджонг Well"
+
+msgid "Mahjongg Well2"
+msgstr "Маджонг Well2"
+
+msgid "Mahjongg Whatever"
+msgstr "Маджонг Нечто"
+
+msgid "Mahjongg Win"
+msgstr "Маджонг Win"
+
+msgid "Mahjongg X-Files"
+msgstr "Маджонг X-Files"
+
+msgid "Mahjongg X-Shape"
+msgstr "Маджонг X-Shape"
+
+msgid "Mahjongg Yummy"
+msgstr "Маджонг Приятный"
+
+#, fuzzy
+msgid "Makara"
+msgstr "Мария"
+
+msgid "Mancunian"
+msgstr "Манчестерский"
+
+msgid "Maria"
+msgstr "Мария"
+
+msgid "Maria Luisa"
+msgstr "Мария Луиза"
+
+msgid "Martha"
+msgstr "Марта"
+
+msgid "Matriarchy"
+msgstr "Матриархат"
+
+#, fuzzy
+msgid "Matrimony"
+msgstr "Матриархат"
+
+msgid "MatsuKiri"
+msgstr ""
+
+msgid "MatsuKiri Strict"
+msgstr ""
+
+#, fuzzy
+msgid "Matsya"
+msgstr "Майя"
+
+msgid "Maya"
+msgstr "Майя"
+
+msgid "Maze"
+msgstr "Путаница"
+
+msgid "Memory 24"
+msgstr ""
+
+msgid "Memory 30"
+msgstr ""
+
+msgid "Memory 40"
+msgstr ""
+
+msgid "Merlin's Meander"
+msgstr "Орнамент Мерлина"
+
+msgid "Mesh"
+msgstr "Западня"
+
+msgid "Midnight Oil"
+msgstr ""
+
+msgid "Midshipman"
+msgstr "Гардемарин"
+
+#, fuzzy
+msgid "Milligan Cell"
+msgstr "Мисс Миллиган"
+
+#, fuzzy
+msgid "Milligan Harp"
+msgstr "Большая арфа"
+
+#, fuzzy
+msgid "Minerva"
+msgstr "Джунгли"
+
+#, fuzzy
+msgid "Mini Traditional"
+msgstr "Маджонг Mini Traditional"
+
+#, fuzzy
+msgid "Mini-Layout"
+msgstr "Маджонг Mini-Layout"
+
+msgid "Miss Milligan"
+msgstr "Мисс Миллиган"
+
+msgid "Miss Muffet"
+msgstr "Мисс Муффет"
+
+msgid "Mission Impossible"
+msgstr "Миссия невыполнима"
+
+msgid "Mississippi"
+msgstr "Миссисипи"
+
+msgid "Mod-3"
+msgstr ""
+
+msgid "Monaco"
+msgstr "Монако"
+
+msgid "Monkey"
+msgstr "Обезьяна"
+
+msgid "Montana"
+msgstr "Монтана"
+
+msgid "Monte Carlo"
+msgstr "Монте-Карло"
+
+msgid "Moonlight"
+msgstr "Лунный свет"
+
+#, fuzzy
+msgid "Moosehide"
+msgstr "Джозефина"
+
+msgid "Morehead"
+msgstr ""
+
+msgid "Moth"
+msgstr "Мотылёк"
+
+msgid "Mount Olympus"
+msgstr "Гора Олимп"
+
+msgid "Mrs. Mop"
+msgstr "Миссис Моп"
+
+msgid "Mughal Circles"
+msgstr ""
+
+#, fuzzy
+msgid "Multi X"
+msgstr "Маджонг Multi X"
+
+msgid "Mumbai"
+msgstr "Мумбаи"
+
+#, fuzzy
+msgid "Munger"
+msgstr "Джунгли"
+
+msgid "Musical Patience"
+msgstr "Музыкальный пасьянс"
+
+#, fuzzy
+msgid "N for Namida"
+msgstr "Маджонг N for Namida"
+
+msgid "Napoleon"
+msgstr "Наполеон"
+
+msgid "Napoleon at St.Helena"
+msgstr "Наполеон на острове св.Елена"
+
+msgid "Napoleon's Exile"
+msgstr "Изгнание Наполеона"
+
+msgid "Napoleon's Favorite"
+msgstr "Фаворит Наполеона"
+
+#, fuzzy
+msgid "Napoleon's Flank"
+msgstr "Фланг Наполеона"
+
+msgid "Napoleon's Square"
+msgstr "Квадрат Наполеона"
+
+msgid "Napoleon's Tomb"
+msgstr "Гробница Наполеона"
+
+msgid "Narasimha"
+msgstr ""
+
+#, fuzzy
+msgid "Narpati"
+msgstr "Ковёр"
+
+msgid "Nasty"
+msgstr "Противный"
+
+msgid "Nationale"
+msgstr "Национальность"
+
+msgid "Needle"
+msgstr "Иголка"
+
+msgid "Neighbour"
+msgstr "Соседи"
+
+msgid "Nestor"
+msgstr "Нестор"
+
+msgid "New British Constitution"
+msgstr "Новая Британская конституция"
+
+#, fuzzy
+msgid "New Layout"
+msgstr "Маджонг New Layout"
+
+msgid "New York"
+msgstr "Нью-Йорк"
+
+msgid "Nomad"
+msgstr "Бродяга"
+
+msgid "Nordic"
+msgstr "Скандинавский"
+
+msgid "Northwest Territory"
+msgstr "Северо-Западные Территории"
+
+msgid "Number Ten"
+msgstr "Номер десять"
+
+msgid "Numerica"
+msgstr "Числовой"
+
+#, fuzzy
+msgid "Octagon"
+msgstr "Дракон"
+
+msgid "Octave"
+msgstr "Восемь"
+
+msgid "Odd and Even"
+msgstr "Чёт и нечет"
+
+msgid "Odessa"
+msgstr "Одесса"
+
+#, fuzzy
+msgid "Okie's Nitemare"
+msgstr "Маджонг Okie's Nitemare"
+
+msgid "Old Mole"
+msgstr "Старая дамба"
+
+msgid "Oonsoo"
+msgstr ""
+
+msgid "Oonsoo Open"
+msgstr ""
+
+msgid "Oonsoo Strict"
+msgstr ""
+
+msgid "Oonsoo Times Two"
+msgstr ""
+
+msgid "Oonsoo Too"
+msgstr ""
+
+msgid "Open Jumbo"
+msgstr "Открытый гигант"
+
+msgid "Open Peek"
+msgstr ""
+
+#, fuzzy
+msgid "Open Spider"
+msgstr "Паук"
+
+msgid "Opus"
+msgstr ""
+
+msgid "Orbital"
+msgstr "Орбитальный"
+
+msgid "Order"
+msgstr "Порядок"
+
+msgid "Osmosis"
+msgstr "Осмос"
+
+msgid "Owl"
+msgstr "Сова"
+
+msgid "Ox"
+msgstr "Бык"
+
+#, fuzzy
+msgid "Pagat"
+msgstr "Пагода"
+
+msgid "Pagoda"
+msgstr "Пагода"
+
+msgid "Panopticon"
+msgstr "Паноптикум"
+
+msgid "Pantheon"
+msgstr "Пантеон"
+
+msgid "Papillon"
+msgstr "Папильотка"
+
+msgid "Parallels"
+msgstr "Параллели"
+
+msgid "Parashurama"
+msgstr ""
+
+msgid "Pas Seul"
+msgstr "Сольный танец"
+
+msgid "Pas de Deux"
+msgstr "Па-де-де"
+
+#, fuzzy
+msgid "Patriarchs"
+msgstr "Матриархат"
+
+msgid "Pattern"
+msgstr "Образец"
+
+msgid "Paulownia"
+msgstr ""
+
+msgid "Peek"
+msgstr ""
+
+msgid "Pegged"
+msgstr ""
+
+msgid "Pegged 6x6"
+msgstr ""
+
+msgid "Pegged 7x7"
+msgstr ""
+
+msgid "Pegged Cross 1"
+msgstr ""
+
+msgid "Pegged Cross 2"
+msgstr ""
+
+msgid "Pegged Triangle 1"
+msgstr ""
+
+msgid "Pegged Triangle 2"
+msgstr ""
+
+msgid "Penguin"
+msgstr "Пингвин"
+
+msgid "Peony"
+msgstr "Пион"
+
+msgid "Perpetual Motion"
+msgstr "Перпетуум-мобиле"
+
+msgid "Perseverance"
+msgstr "Настойчивость"
+
+msgid "Phoenix"
+msgstr "Феникс"
+
+msgid "Picture Gallery"
+msgstr "Картинная галерея"
+
+#, fuzzy
+msgid "Pigtail"
+msgstr "Портал"
+
+msgid "PileOn"
+msgstr ""
+
+msgid "Pine"
+msgstr "Сосна"
+
+msgid "Pitchfork"
+msgstr "Камертон"
+
+msgid "Plait"
+msgstr ""
+
+msgid "Plus Belle"
+msgstr ""
+
+msgid "Poker Shuffle"
+msgstr ""
+
+#, fuzzy
+msgid "Poker Square"
+msgstr "Два квадрата"
+
+msgid "Ponytail"
+msgstr "Конский хвост"
+
+msgid "Portal"
+msgstr "Портал"
+
+msgid "Portuguese Solitaire"
+msgstr "Португальский пасьянс"
+
+msgid "Progression"
+msgstr "Движение"
+
+msgid "Provisions"
+msgstr "Припасы"
+
+msgid "Push Pin"
+msgstr "Пуш-пин"
+
+#, fuzzy
+msgid "Puss in the Corner"
+msgstr "Дом в лесу"
+
+msgid "Pyramid"
+msgstr "Пирамида"
+
+msgid "Pyramid 1"
+msgstr "Пирамида 1"
+
+msgid "Pyramid 2"
+msgstr "Пирамида 2"
+
+#, fuzzy
+msgid "Pyramid Golf"
+msgstr "Пирамида 1"
+
+msgid "Q.C."
+msgstr ""
+
+msgid "Quad"
+msgstr ""
+
+msgid "Quadrangle"
+msgstr "Четырёхугольник"
+
+msgid "Quadruple Alliance"
+msgstr ""
+
+msgid "Queen of Italy"
+msgstr "Королева Италии"
+
+msgid "Queenie"
+msgstr ""
+
+msgid "Quilt"
+msgstr "Одеяло"
+
+msgid "Rachel"
+msgstr "Рашель"
+
+msgid "Raglan"
+msgstr "Реглан"
+
+msgid "Rainbow"
+msgstr "Радуга"
+
+msgid "Rainfall"
+msgstr "Ливень"
+
+msgid "Ram"
+msgstr "Овен"
+
+msgid "Rambling"
+msgstr "Бродячий"
+
+#, fuzzy
+msgid "Rangoon"
+msgstr "Дракон"
+
+msgid "Rank and File"
+msgstr "Ряд и шеренга"
+
+msgid "Rat"
+msgstr "Крыса"
+
+msgid "Raw Prawn"
+msgstr ""
+
+msgid "Rectangle"
+msgstr "Прямоугольник"
+
+msgid "Red Moon"
+msgstr "Красная Луна"
+
+msgid "Red and Black"
+msgstr "Красное и Чёрное"
+
+msgid "Reindeer"
+msgstr "Северный олень"
+
+msgid "Relax"
+msgstr ""
+
+msgid "Relaxed FreeCell"
+msgstr "Смягчённая Свободная ячейка"
+
+msgid "Relaxed Golf"
+msgstr "Смягчённый Гольф"
+
+msgid "Relaxed Pyramid"
+msgstr "Смягчённая Пирамида"
+
+msgid "Relaxed Seahaven Towers"
+msgstr ""
+
+msgid "Relaxed Spider"
+msgstr "Смягчённый Паук"
+
+msgid "Repair"
+msgstr ""
+
+msgid "Retinue"
+msgstr "Свита"
+
+msgid "Rings"
+msgstr "Круги"
+
+msgid "Ripple Fan"
+msgstr "Волнистый веер"
+
+msgid "Rittenhouse"
+msgstr "Риттенхаус"
+
+msgid "River Bridge"
+msgstr "Мост через реку"
+
+#, fuzzy
+msgid "Robert"
+msgstr "Ракета"
+
+msgid "Robin"
+msgstr "Робин"
+
+msgid "Rock Hopper"
+msgstr ""
+
+msgid "Rock Hopper 6x6"
+msgstr ""
+
+msgid "Rock Hopper 7x7"
+msgstr ""
+
+msgid "Rock Hopper Cross 1"
+msgstr ""
+
+msgid "Rock Hopper Cross 2"
+msgstr ""
+
+msgid "Rocket"
+msgstr "Ракета"
+
+msgid "Roman Arena"
+msgstr "Римская арена"
+
+msgid "Roost"
+msgstr "Насест"
+
+msgid "Rooster"
+msgstr "Петух"
+
+#, fuzzy
+msgid "Roslin"
+msgstr "Робин"
+
+msgid "Rouge et Noir"
+msgstr ""
+
+msgid "Rows of Four"
+msgstr ""
+
+msgid "Royal Cotillion"
+msgstr "Королевский котильон"
+
+#, fuzzy
+msgid "Royal East"
+msgstr "Королевская семья"
+
+msgid "Royal Family"
+msgstr "Королевская семья"
+
+msgid "Royal Marriage"
+msgstr "Королевская свадьба"
+
+msgid "Rugby"
+msgstr "Регби"
+
+msgid "Rushdike"
+msgstr ""
+
+msgid "Russian Aces"
+msgstr "Русские тузы"
+
+msgid "Russian Patience"
+msgstr "Русский пасьянс"
+
+msgid "Russian Point"
+msgstr "Русский пункт"
+
+msgid "Russian Solitaire"
+msgstr "Русский солитер"
+
+msgid "Salic Law"
+msgstr "Салический закон"
+
+msgid "Samuri"
+msgstr ""
+
+msgid "Sanibel"
+msgstr "Санибел"
+
+msgid "Scarab"
+msgstr "Скарабей"
+
+msgid "Scheidungsgrund"
+msgstr ""
+
+msgid "Scorpion"
+msgstr "Скорпион"
+
+msgid "Scorpion Head"
+msgstr "Голова скорпиона"
+
+msgid "Scorpion Tail"
+msgstr "Хвост скорпиона"
+
+msgid "Scotch Patience"
+msgstr "Шотландский пасьянс"
+
+#, fuzzy
+msgid "Screw Up"
+msgstr "Тузы вверх"
+
+msgid "Sea Towers"
+msgstr "Морские башни"
+
+msgid "Seahaven Towers"
+msgstr ""
+
+msgid "Senate"
+msgstr "Сенат"
+
+msgid "Senate +"
+msgstr "Сенат +"
+
+msgid "Serpent"
+msgstr "Змея"
+
+msgid "Seven"
+msgstr "Семёрка"
+
+msgid "Seven Devils"
+msgstr "Семь чертей"
+
+msgid "Seven Pyramids"
+msgstr "Семь пирамид"
+
+msgid "Seven by Five"
+msgstr "Семь по пять"
+
+msgid "Seven by Four"
+msgstr "Семь по четыре"
+
+msgid "Shamrocks"
+msgstr "Трилистник"
+
+msgid "Shamsher"
+msgstr ""
+
+msgid "Shanka"
+msgstr ""
+
+#, fuzzy
+msgid "Shapeshifter"
+msgstr "Маджонг Shapeshifter"
+
+msgid "Shield"
+msgstr "Щит"
+
+msgid "Shifting"
+msgstr ""
+
+msgid "Shisen-Sho (No Gra) 14x6"
+msgstr ""
+
+msgid "Shisen-Sho (No Gra) 18x8"
+msgstr ""
+
+msgid "Shisen-Sho (No Gra) 24x12"
+msgstr ""
+
+msgid "Shisen-Sho 14x6"
+msgstr ""
+
+msgid "Shisen-Sho 18x8"
+msgstr ""
+
+msgid "Shisen-Sho 24x12"
+msgstr ""
+
+msgid "Siam"
+msgstr "Сиам"
+
+msgid "Sieben bis As"
+msgstr ""
+
+msgid "Simon Jester"
+msgstr "Саймон Джестер"
+
+msgid "Simple Carlo"
+msgstr "Просто-Карло"
+
+msgid "Simple Pairs"
+msgstr "Простые пары"
+
+msgid "Simple Simon"
+msgstr "Симон-простофиля"
+
+#, fuzzy
+msgid "Simplex"
+msgstr "Улыбка"
+
+msgid "Simplicity"
+msgstr "Простота"
+
+msgid "Single Rail"
+msgstr "Одинарные рельсы"
+
+msgid "Sir Tommy"
+msgstr "Сэр Томми"
+
+msgid "Six Sages"
+msgstr "Шесть мудрецов"
+
+#, fuzzy
+msgid "Six Tengus"
+msgstr "Шесть мудрецов"
+
+msgid "Sixes and Sevens"
+msgstr "Шестёрки и семёрки"
+
+msgid "Skiz"
+msgstr ""
+
+msgid "Small Harp"
+msgstr "Малая арфа"
+
+msgid "Small PileOn"
+msgstr ""
+
+msgid "Smile"
+msgstr "Улыбка"
+
+msgid "Snake"
+msgstr "Хвост"
+
+#, fuzzy
+msgid "Snakestone"
+msgstr "Хвост"
+
+#, fuzzy
+msgid "Solid Square"
+msgstr "Два квадрата"
+
+msgid "Somerset"
+msgstr "Сомерсет"
+
+msgid "Space Bridge"
+msgstr "Космический мост"
+
+msgid "Space Shuttle"
+msgstr "Космический челнок"
+
+msgid "Spaces"
+msgstr "Промежутки"
+
+msgid "Spaces and Aces"
+msgstr "Промежутки и тузы"
+
+msgid "Spanish Patience"
+msgstr "Испанский пасьянс"
+
+msgid "Sphere"
+msgstr "Сфера"
+
+msgid "Spider"
+msgstr "Паук"
+
+msgid "Spider (1 suit)"
+msgstr "Паук (1 масть)"
+
+msgid "Spider (2 suits)"
+msgstr "Паук (2 масти)"
+
+#, fuzzy
+msgid "Spider (4 decks)"
+msgstr "Паук (1 масть)"
+
+#, fuzzy
+msgid "Spider 3x3"
+msgstr "Паук"
+
+msgid "Spider Web"
+msgstr "Паутина"
+
+#, fuzzy
+msgid "Spidercells"
+msgstr "Паук"
+
+msgid "Spiderette"
+msgstr "Паучок"
+
+#, fuzzy
+msgid "Spidike"
+msgstr "Паук"
+
+#, fuzzy
+msgid "Squadron"
+msgstr "Квадрат"
+
+msgid "Square"
+msgstr "Квадрат"
+
+msgid "Squares"
+msgstr "Квадраты"
+
+#, fuzzy
+msgid "Squaring"
+msgstr "Квадрат"
+
+msgid "St. Helena"
+msgstr "Св. Елена"
+
+#, fuzzy
+msgid "Stage 1"
+msgstr "Звёздные врата"
+
+#, fuzzy
+msgid "Stage 2"
+msgstr "Ступени 2"
+
+msgid "Stairs"
+msgstr "Ступени"
+
+msgid "Stairs 2"
+msgstr "Ступени 2"
+
+msgid "Stairs 3"
+msgstr "Ступени 3"
+
+msgid "Stalactites"
+msgstr "Сталактиты"
+
+msgid "Star Ship"
+msgstr "Космический корабль"
+
+msgid "Stargate"
+msgstr "Звёздные врата"
+
+#, fuzzy
+msgid "Step Pyramid"
+msgstr "Семь пирамид"
+
+#, fuzzy
+msgid "Steps"
+msgstr "Улицы"
+
+msgid "Stonehenge"
+msgstr "Стоунхендж"
+
+msgid "Stonewall"
+msgstr "Оппозиция"
+
+msgid "Storehouse"
+msgstr "Сокровищница"
+
+msgid "Straight Up"
+msgstr ""
+
+msgid "Strategy"
+msgstr "Стратегия"
+
+msgid "Streets"
+msgstr "Улицы"
+
+msgid "Streets and Alleys"
+msgstr "Улицы и аллеи"
+
+msgid "Stronghold"
+msgstr "Цитадель"
+
+msgid "Sukis"
+msgstr ""
+
+msgid "Sultan"
+msgstr "Султан"
+
+msgid "Sultan +"
+msgstr "Султан +"
+
+msgid "Sultan of Turkey"
+msgstr "Турецкий султан"
+
+#, fuzzy
+msgid "Sumo"
+msgstr "Гигант"
+
+#, fuzzy
+msgid "SunMoon"
+msgstr "Голубая луна"
+
+msgid "Super Challenge FreeCell"
+msgstr "Очень Сложная Свободная ячейка"
+
+#, fuzzy
+msgid "Super Flower Garden"
+msgstr "Цветочный сад"
+
+msgid "Super Samuri"
+msgstr ""
+
+#, fuzzy
+msgid "Superior Canfield"
+msgstr "Двойной Кенфилд"
+
+#, fuzzy
+msgid "Surprise"
+msgstr "Предприятие"
+
+msgid "Surukh"
+msgstr ""
+
+msgid "Taipei"
+msgstr "Тайпей"
+
+msgid "Take Away"
+msgstr "Удаление"
+
+msgid "Tam O'Shanter"
+msgstr ""
+
+msgid "Tarantula"
+msgstr "Тарантул"
+
+msgid "Temple"
+msgstr "Храм"
+
+msgid "Temple 1"
+msgstr "Храм 1"
+
+msgid "Temple 2"
+msgstr "Храм 2"
+
+msgid "Ten Across"
+msgstr "Десять в ширину"
+
+msgid "Ten Avatars"
+msgstr "Десять аватар"
+
+msgid "Ten by One"
+msgstr "Десять по одному"
+
+msgid "Terrace"
+msgstr "Терраса"
+
+msgid "The Bouquet"
+msgstr "Букет"
+
+msgid "The Door"
+msgstr "Дверь"
+
+msgid "The Familiar"
+msgstr "Близкий"
+
+msgid "The Garden"
+msgstr "Сад"
+
+msgid "The Great Wall"
+msgstr "Великая Стена"
+
+msgid "The Wish"
+msgstr "Желание"
+
+msgid "The Wish (open)"
+msgstr "Желание (открытое)"
+
+msgid "The last Monarch"
+msgstr "Последний Монарх"
+
+msgid "Theater"
+msgstr "Театр"
+
+msgid "Thirteen Up"
+msgstr "Тринадцать вверх"
+
+msgid "Thirty Six"
+msgstr "Тридцать шесть"
+
+msgid "Three Blind Mice"
+msgstr "Три слепые мышки"
+
+msgid "Three Peaks"
+msgstr "Три вершины"
+
+msgid "Three Peaks Non-scoring"
+msgstr "Три вершины без подсчёта очков"
+
+msgid "Three Shuffles and a Draw"
+msgstr ""
+
+msgid "Thumb and Pouch"
+msgstr ""
+
+msgid "Tiger"
+msgstr "Тигр"
+
+#, fuzzy
+msgid "Tile Fighter"
+msgstr "Маджонг Tile Fighter"
+
+#, fuzzy
+msgid "Tilepiles"
+msgstr "Маджонг Tilepiles"
+
+#, fuzzy
+msgid "Time Tunnel"
+msgstr "Маджонг Time Tunnel"
+
+#, fuzzy
+msgid "Tipati"
+msgstr "Тайпей"
+
+msgid "Toad"
+msgstr "Жаба"
+
+msgid "Tomb"
+msgstr "Гробница"
+
+#, fuzzy
+msgid "Totally Random-Made"
+msgstr "Маджонг Totally Random-Made"
+
+msgid "Tournament"
+msgstr "Турнир"
+
+msgid "Tower of Hanoy"
+msgstr "Ханойская башня"
+
+msgid "Towers"
+msgstr "Башни"
+
+#, fuzzy
+msgid "Traditional Reviewed"
+msgstr "Маджонг Traditional Reviewed"
+
+msgid "Treasure Trove"
+msgstr "Клад"
+
+msgid "Tree of Life"
+msgstr "Древо жизни"
+
+msgid "Trefoil"
+msgstr "Клевер"
+
+#, fuzzy
+msgid "Tri Peaks"
+msgstr "Три вершины"
+
+msgid "Trika"
+msgstr ""
+
+msgid "Trillium"
+msgstr ""
+
+msgid "Triple Canfield"
+msgstr "Тройной Кенфилд"
+
+msgid "Triple Easthaven"
+msgstr ""
+
+msgid "Triple FreeCell"
+msgstr "Тройная Свободная ячейка"
+
+msgid "Triple Klondike"
+msgstr "Тройной Клондайк"
+
+msgid "Triple Klondike by Threes"
+msgstr "Тройной Клондайк по три"
+
+#, fuzzy
+msgid "Triple Line"
+msgstr "Тройной Юкон"
+
+#, fuzzy
+msgid "Triple York"
+msgstr "Тройной Юкон"
+
+msgid "Triple Yukon"
+msgstr "Тройной Юкон"
+
+msgid "Twenty"
+msgstr ""
+
+msgid "Twin"
+msgstr ""
+
+msgid "Twin Picks"
+msgstr ""
+
+#, fuzzy
+msgid "Twin Temples"
+msgstr "Маджонг Twin Temples"
+
+#, fuzzy
+msgid "Two Domes"
+msgstr "Маджонг Two Domes"
+
+msgid "Two Familiars"
+msgstr ""
+
+msgid "Two Squares"
+msgstr "Два квадрата"
+
+#, fuzzy
+msgid "Union Square"
+msgstr "Два квадрата"
+
+msgid "Vagues"
+msgstr ""
+
+msgid "Vajra"
+msgstr ""
+
+msgid "Vamana"
+msgstr ""
+
+#, fuzzy
+msgid "Varaha"
+msgstr "Марта"
+
+msgid "Variegated Canfield"
+msgstr "Пёстрый Кенфилд"
+
+#, fuzzy
+msgid "Vegas Klondike"
+msgstr "Казино Клондайк"
+
+msgid "Vertical"
+msgstr "Вертикаль"
+
+msgid "Vi"
+msgstr ""
+
+#, fuzzy
+msgid "Victory Arrow"
+msgstr "Маджонг Victory Arrow"
+
+msgid "Wall"
+msgstr "Стена"
+
+msgid "Waning Moon"
+msgstr "Луна на ущербе"
+
+msgid "Washington's Favorite"
+msgstr "Фаворит Вашингтона"
+
+msgid "Wasp"
+msgstr "Оса"
+
+msgid "Wave Motion"
+msgstr "Волновое движение"
+
+msgid "Wavelets"
+msgstr "Волны"
+
+msgid "Weddings"
+msgstr "Свадьбы"
+
+msgid "Wedges"
+msgstr "Клинья"
+
+#, fuzzy
+msgid "Well"
+msgstr "Стена"
+
+#, fuzzy
+msgid "Well2"
+msgstr "Стена"
+
+msgid "Westcliff"
+msgstr ""
+
+msgid "Westhaven"
+msgstr ""
+
+msgid "Whatever"
+msgstr "Нечто"
+
+msgid "Wheel of Fortune"
+msgstr "Колесо фортуны"
+
+msgid "Whitehead"
+msgstr ""
+
+msgid "Wicked"
+msgstr "Злой"
+
+msgid "Will o' the Wisp"
+msgstr ""
+
+msgid "Win"
+msgstr ""
+
+msgid "Windmill"
+msgstr "Ветряная мельница"
+
+msgid "Wisteria"
+msgstr "Глициния"
+
+#, fuzzy
+msgid "X-Files"
+msgstr "Маджонг X-Files"
+
+#, fuzzy
+msgid "X-Shape"
+msgstr "Маджонг X-Shape"
+
+#, fuzzy
+msgid "York"
+msgstr "Нью-Йорк"
+
+msgid "Yukon"
+msgstr "Юкон"
+
+msgid "Yummy"
+msgstr "Приятный"
+
+msgid "Zebra"
+msgstr "Зебра"
+
+msgid "Zerline"
+msgstr "Церлин"
+
+msgid "Zerline (3 decks)"
+msgstr "Церлин (3 колоды)"
+
+msgid "Zeus"
+msgstr "Зевс"

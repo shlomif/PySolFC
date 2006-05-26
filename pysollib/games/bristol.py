@@ -1,0 +1,327 @@
+## vim:ts=4:et:nowrap
+##
+##---------------------------------------------------------------------------##
+##
+## PySol -- a Python Solitaire game
+##
+## Copyright (C) 2000 Markus Franz Xaver Johannes Oberhumer
+## Copyright (C) 1999 Markus Franz Xaver Johannes Oberhumer
+## Copyright (C) 1998 Markus Franz Xaver Johannes Oberhumer
+##
+## This program is free software; you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation; either version 2 of the License, or
+## (at your option) any later version.
+##
+## This program is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+##
+## You should have received a copy of the GNU General Public License
+## along with this program; see the file COPYING.
+## If not, write to the Free Software Foundation, Inc.,
+## 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+##
+## Markus F.X.J. Oberhumer
+## <markus@oberhumer.com>
+## http://www.oberhumer.com/pysol
+##
+##---------------------------------------------------------------------------##
+
+__all__ = []
+
+# imports
+import sys
+
+# PySol imports
+from pysollib.gamedb import registerGame, GameInfo, GI
+from pysollib.util import *
+from pysollib.stack import *
+from pysollib.game import Game
+from pysollib.layout import Layout
+from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.pysoltk import MfxCanvasText
+
+# /***********************************************************************
+# //
+# ************************************************************************/
+
+class Bristol_Hint(CautiousDefaultHint):
+    # FIXME: demo is not too clever in this game
+
+    BONUS_CREATE_EMPTY_ROW     = 0           # 0..9000
+    BONUS_CAN_DROP_ALL_CARDS   = 0           # 0..4000
+    BONUS_CAN_CREATE_EMPTY_ROW = 0           # 0..4000
+
+    # Score for moving a pile from stack r to stack t.
+    # Increased score must be in range 0..9999
+    def _getMovePileScore(self, score, color, r, t, pile, rpile):
+        # prefer reserves
+        if not r in self.game.s.reserves:
+            score = score - 10000
+            # an empty pile doesn't gain anything
+            if len(pile) == len(r.cards):
+                return -1, color
+        return CautiousDefaultHint._getMovePileScore(self, score, color, r, t, pile, rpile)
+
+
+# /***********************************************************************
+# // Bristol
+# ************************************************************************/
+
+class Bristol_Talon(TalonStack):
+    def dealCards(self, sound=0):
+        return self.dealRowAvail(rows=self.game.s.reserves, sound=sound)
+
+
+class Bristol(Game):
+    Layout_Method = Layout.klondikeLayout
+    Hint_Class = Bristol_Hint
+
+    #
+    # game layout
+    #
+
+    def createGame(self, **layout):
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        self.setSize(l.XM + 10*l.XS, l.YM + 5*l.YS)
+
+        # create stacks
+        x, y, = l.XM + 3*l.XS, l.YM
+        for i in range(4):
+            s.foundations.append(RK_FoundationStack(x, y, self, max_move=0))
+            x = x + l.XS
+        for i in range(2):
+            y = l.YM + (i*2+3)*l.YS/2
+            for j in range(4):
+                x = l.XM + (j*5)*l.XS/2
+                stack = RK_RowStack(x, y, self,  base_rank=NO_RANK, max_move=1)
+                stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
+                s.rows.append(stack)
+        x, y, = l.XM + 3*l.XS, l.YM + 4*l.YS
+        s.talon = Bristol_Talon(x, y, self)
+        l.createText(s.talon, "sw")
+        for i in range(3):
+            x = x + l.XS
+            s.reserves.append(ReserveStack(x, y, self, max_accept=0, max_cards=UNLIMITED_CARDS))
+
+        # define stack-groups
+        self.sg.openstacks = s.foundations + s.rows
+        self.sg.talonstacks = [s.talon]
+        self.sg.dropstacks = s.rows + s.reserves
+
+    #
+    # game overrides
+    #
+
+    def _shuffleHook(self, cards):
+        # move Kings to bottom of each stack
+        i, n = 0, len(self.s.rows)
+        kings = []
+        for c in cards[:24]:    # search the first 24 cards only
+            if c.rank == KING:
+                kings.append(i)
+            i = i + 1
+        for i in kings:
+            j = i % n           # j = card index of rowstack bottom
+            while j < i:
+                if cards[j].rank != KING:
+                    cards[j], cards[i] = cards[i], cards[j]
+                    break
+                j = j + n
+        cards.reverse()
+        return cards
+
+    def startGame(self):
+        r = self.s.rows
+        for i in range(2):
+            self.s.talon.dealRow(rows=r, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow(rows=r)
+        self.s.talon.dealCards()          # deal first cards to Reserves
+
+
+# /***********************************************************************
+# // Belvedere
+# ************************************************************************/
+
+class Belvedere(Bristol):
+    def _shuffleHook(self, cards):
+        # remove 1 Ace
+        for c in cards:
+            if c.rank == 0:
+                cards.remove(c)
+                break
+        # move Kings to bottom
+        cards = Bristol._shuffleHook(self, cards)
+        # re-insert Ace
+        return cards[:-24] + [c] + cards[-24:]
+
+    def startGame(self):
+        r = self.s.rows
+        for i in range(2):
+            self.s.talon.dealRow(rows=r, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow(rows=r)
+        assert self.s.talon.cards[-1].rank == ACE
+        self.s.talon.dealRow(rows=self.s.foundations[:1])
+        self.s.talon.dealCards()          # deal first cards to Reserves
+
+
+# /***********************************************************************
+# // Dover
+# ************************************************************************/
+
+class Dover_RowStack(RK_RowStack):
+
+    def acceptsCards(self, from_stack, cards):
+        if not self.cards and from_stack in self.game.s.reserves:
+            return True
+        return RK_RowStack.acceptsCards(self, from_stack, cards)
+
+
+class Dover(Bristol):
+
+    Talon_Class = Bristol_Talon
+    Foundation_Class = SS_FoundationStack
+    RowStack_Class = Dover_RowStack
+    ReserveStack_Class = StackWrapper(ReserveStack, max_accept=0, max_cards=UNLIMITED_CARDS)
+
+    def createGame(self, text=False):
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        self.setSize(2*l.XM+9*l.XS, l.YM+20+5*l.YS)
+
+        # create stacks
+        x, y, = l.XM+l.XM+l.XS, l.YM
+        for i in range(8):
+            s.foundations.append(self.Foundation_Class(x, y, self, suit=i/2, max_move=0))
+            x += l.XS
+        if text:
+            x, y = l.XM+8*l.XS, l.YM
+            tx, ty, ta, tf = l.getTextAttr(None, "s")
+            tx, ty = x+tx+l.XM, y+ty
+            font = self.app.getFont("canvas_default")
+            self.texts.info = MfxCanvasText(self.canvas, tx, ty, anchor=ta, font=font)
+
+        x, y = l.XM+l.XM, l.YM+l.YS
+        if text:
+            y += 20
+        for i in range(8):
+            x += l.XS
+            stack = self.RowStack_Class(x, y, self,  base_rank=NO_RANK, max_move=1)
+            stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, l.YOFFSET
+            s.rows.append(stack)
+        x, y, = l.XM, l.YM
+        s.talon = self.Talon_Class(x, y, self)
+        l.createText(s.talon, "s")
+        y += 20
+        for i in range(3):
+            y += l.YS
+            s.reserves.append(self.ReserveStack_Class(x, y, self))
+
+        # define stack-groups
+        l.defaultStackGroups()
+
+
+    def _shuffleHook(self, cards):
+        return cards
+
+
+# /***********************************************************************
+# // New York
+# ************************************************************************/
+
+class NewYork_Talon(OpenTalonStack):
+    rightclickHandler = OpenStack.rightclickHandler
+    doubleclickHandler = OpenStack.doubleclickHandler
+
+
+class NewYork_ReserveStack(ReserveStack):
+    def acceptsCards(self, from_stack, cards):
+        if not ReserveStack.acceptsCards(self, from_stack, cards):
+            return False
+        return from_stack is self.game.s.talon
+
+
+class NewYork_RowStack(AC_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not AC_RowStack.acceptsCards(self, from_stack, cards):
+            return False
+        if not self.cards:
+            return (from_stack is self.game.s.talon or
+                    from_stack in self.game.s.reserves)
+        return True
+
+
+class NewYork(Dover):
+
+    Foundation_Class = StackWrapper(SS_FoundationStack, mod=13)
+    Talon_Class = NewYork_Talon
+    RowStack_Class = StackWrapper(NewYork_RowStack, base_rank=ANY_RANK, mod=13)
+    ReserveStack_Class = StackWrapper(NewYork_ReserveStack, max_accept=1, max_cards=UNLIMITED_CARDS, mod=13)
+
+    def createGame(self):
+        # extra settings
+        self.base_card = None
+        Dover.createGame(self, text=True)
+        self.sg.dropstacks.append(self.s.talon)
+
+    def updateText(self):
+        if self.preview > 1:
+            return
+        if not self.base_card:
+            t = ""
+        else:
+            t = RANKS[self.base_card.rank]
+        self.texts.info.config(text=t)
+
+    def startGame(self):
+        self.startDealSample()
+        self.base_card = None
+        self.updateText()
+        # deal base_card to Foundations, update foundations cap.base_rank
+        self.base_card = self.s.talon.getCard()
+        for s in self.s.foundations:
+            s.cap.base_rank = self.base_card.rank
+        n = self.base_card.suit * self.gameinfo.decks
+        self.flipMove(self.s.talon)
+        self.moveMove(1, self.s.talon, self.s.foundations[n])
+        ##self.updateText()
+        self.s.talon.dealRow()
+        self.s.talon.fillStack()
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return (card1.color != card2.color and
+                ((card1.rank + 1) % 13 == card2.rank or
+                 (card2.rank + 1) % 13 == card1.rank))
+
+    def _restoreGameHook(self, game):
+        self.base_card = self.cards[game.loadinfo.base_card_id]
+        for s in self.s.foundations:
+            s.cap.base_rank = self.base_card.rank
+
+    def _loadGameHook(self, p):
+        self.loadinfo.addattr(base_card_id=None)    # register extra load var.
+        self.loadinfo.base_card_id = p.load()
+
+    def _saveGameHook(self, p):
+        p.dump(self.base_card.id)
+
+
+# register the game
+registerGame(GameInfo(42, Bristol, "Bristol",
+                      GI.GT_FAN_TYPE, 1, 0))
+registerGame(GameInfo(214, Belvedere, "Belvedere",
+                      GI.GT_FAN_TYPE, 1, 0))
+registerGame(GameInfo(266, Dover, "Dover",
+                      GI.GT_FAN_TYPE, 2, 0))
+registerGame(GameInfo(425, NewYork, "New York",
+                      GI.GT_FAN_TYPE, 2, 0))
+

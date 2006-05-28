@@ -163,8 +163,12 @@ class ThumbAndPouch(Klondike):
 # // Whitehead
 # ************************************************************************/
 
+class Whitehead_RowStack(SS_RowStack):
+    def _isAcceptableSequence(self, cards):
+        return isSameColorSequence(cards, self.cap.mod, self.cap.dir)
+
 class Whitehead(Klondike):
-    RowStack_Class = SC_RowStack
+    RowStack_Class = Whitehead_RowStack
     Hint_Class = CautiousDefaultHint
 
     def createGame(self):

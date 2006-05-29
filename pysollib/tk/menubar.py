@@ -235,8 +235,9 @@ class PysolMenubar(PysolMenubarActions):
         kw = { "name": "menubar" }
         if 1 and os.name == "posix":
             pass
-            kw["relief"] = "groove"
+            ##kw["relief"] = "groove"
             kw["activeborderwidth"] = 1
+            kw['bd'] = 1
         self.__menubar = apply(MfxMenubar, (self.top,), kw)
 
         # init keybindings

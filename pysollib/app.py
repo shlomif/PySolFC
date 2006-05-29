@@ -711,11 +711,8 @@ class Application:
         self.toolbar.connectGame(self.game, self.menubar)
         self.game.updateStatus(player=self.opt.player)
         # update "Recent games" menubar entry
-        while 1:
-            try:
-                self.opt.recent_gameid.remove(id)
-            except ValueError:
-                break
+        if id in self.opt.recent_gameid:
+            self.opt.recent_gameid.remove(id)
         self.opt.recent_gameid.insert(0, id)
         del self.opt.recent_gameid[15:]
         self.menubar.updateRecentGamesMenu(self.opt.recent_gameid)

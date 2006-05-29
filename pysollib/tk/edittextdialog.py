@@ -33,7 +33,7 @@
 ##
 ##---------------------------------------------------------------------------##
 
-__all__ = ['DisplayTextDialog', 'EditTextDialog']
+__all__ = ['EditTextDialog']
 
 # imports
 import os, sys, Tkinter
@@ -42,16 +42,13 @@ import os, sys, Tkinter
 from pysollib.mfxutil import destruct, kwdefault, KwStruct, Struct
 
 # Toolkit imports
-from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
 from tkwidget import _ToplevelDialog, MfxDialog
-from tkhtml import MfxScrolledText, MfxReadonlyScrolledText
 
 # /***********************************************************************
 # //
 # ************************************************************************/
 
-class DisplayTextDialog(MfxDialog):
-    Text_Class = MfxReadonlyScrolledText
+class EditTextDialog(MfxDialog):
 
     def __init__(self, parent, title, text, **kw):
         kw = self.initKw(kw)
@@ -59,10 +56,15 @@ class DisplayTextDialog(MfxDialog):
         top_frame, bottom_frame = self.createFrames(kw)
         self.createBitmaps(top_frame, kw)
         #
-        bg = top_frame["bg"]
-        self.text_w = self.Text_Class(top_frame, bd=1, relief="sunken",
-                                      wrap="word", width=64, height=16,
-                                      bg=bg)
+        self.text_w = Tkinter.Text(top_frame, bd=1, relief="sunken",
+                                   wrap="word", width=64, height=16)
+        self.text_w.pack(side='left', fill="both", expand=1)
+        ###self.text_w.pack(side=Tkinter.TOP, padx=kw.padx, pady=kw.pady)
+        vbar = Tkinter.Scrollbar(top_frame)
+        vbar.pack(side='right', fill='y')
+        self.text_w["yscrollcommand"] = vbar.set
+        vbar["command"] = self.text_w.yview
+        #
         self.text = ""
         if text:
             self.text = text
@@ -70,24 +72,10 @@ class DisplayTextDialog(MfxDialog):
             self.text_w.config(state="normal")
             self.text_w.insert("insert", self.text)
             self.text_w.config(state=old_state)
-        self.text_w.pack(side="top", fill="both", expand=1)
-        ###self.text_w.pack(side=Tkinter.TOP, padx=kw.padx, pady=kw.pady)
         #
         focus = self.createButtons(bottom_frame, kw)
-        #focus = self.text_w
+        focus = self.text_w
         self.mainloop(focus, kw.timeout)
-
-    def initKw(self, kw):
-        kw = KwStruct(kw,
-                      strings=(_("OK"),), default=0,
-                      resizable = 1,
-                      separatorwidth = 0,
-                      )
-        return MfxDialog.initKw(self, kw)
-
-
-class EditTextDialog(DisplayTextDialog):
-    Text_Class = MfxScrolledText
 
     def initKw(self, kw):
         kw = KwStruct(kw,
@@ -99,7 +87,7 @@ class EditTextDialog(DisplayTextDialog):
 
     def destroy(self):
         self.text = self.text_w.get("1.0", "end")
-        DisplayTextDialog.destroy(self)
+        MfxDialog.destroy(self)
 
     def wmDeleteWindow(self, *event):   # ignore
         pass
@@ -107,23 +95,4 @@ class EditTextDialog(DisplayTextDialog):
     def mCancel(self, *event):          # ignore <Escape>
         pass
 
-
-# /***********************************************************************
-# //
-# ************************************************************************/
-
-
-def edittextdialog_main(args):
-    from tkutil import wm_withdraw
-    tk = Tkinter.Tk()
-    wm_withdraw(tk)
-    tk.update()
-    d = DisplayTextDialog(tk, "Comment for game #12345", text="Test")
-    d = EditTextDialog(tk, "Comment for game #12345", text="Test")
-    print d.text
-    return 0
-
-if __name__ == "__main__":
-    import sys
-    sys.exit(edittextdialog_main(sys.argv))
 

@@ -9,12 +9,11 @@ PYSOLLIB_FILES=pysollib/tk/*.py pysollib/*.py \
 install:
 	python setup.py install
 
-dist:
-	./scripts/all_games.py > docs/all_games.html
+dist: all_games_html rules mo
 	python setup.py sdist
 
-rpm:
-	python setup.py bdist_rpm --use-bzip2
+rpm: all_games_html rules mo
+	python setup.py bdist_rpm
 
 all_games_html:
 	./scripts/all_games.py > docs/all_games.html

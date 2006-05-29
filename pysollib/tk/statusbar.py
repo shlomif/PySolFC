@@ -59,12 +59,13 @@ class MfxStatusbar:
         self._row = row
         self._column = column
         self._columnspan = columnspan
-        self.padx = 0
-        self.pady = 0
+        self.padx = 1
+        self.pady = 2
         #
-        self.frame = Tkinter.Frame(self.top, bd=1, relief='raised')
+        self.frame = Tkinter.Frame(self.top, bd=1) #, relief='raised')
         self.frame.grid(row=self._row, column=self._column,
-                        columnspan=self._columnspan, sticky='ew')
+                        columnspan=self._columnspan, sticky='ew',
+                        padx=self.padx, pady=self.pady)
 
     # util
     def _createLabel(self, name,
@@ -74,7 +75,7 @@ class MfxStatusbar:
                      tooltip=None):
         if padx < 0: padx = self.padx
         label = Tkinter.Label(self.frame, text=text,
-                              width=width, relief=relief)
+                              width=width, relief=relief, bd=1)
         label.pack(side=side, fill=fill, padx=padx, expand=expand)
         setattr(self, name + "_label", label)
         self._widgets.append(label)

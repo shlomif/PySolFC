@@ -36,7 +36,7 @@
 __all__ = ['tkHTMLViewer']
 
 # imports
-import os, sys, re, string, types
+import os, sys, re, types
 import htmllib, formatter
 import Tkinter
 
@@ -51,58 +51,6 @@ from statusbar import HtmlStatusbar
 
 
 REMOTE_PROTOCOLS = ("ftp:", "gopher:", "http:", "mailto:", "news:", "telnet:")
-
-
-# /***********************************************************************
-# //
-# ************************************************************************/
-
-class MfxScrolledText(Tkinter.Text):
-    def __init__(self, parent=None, **cnf):
-        fcnf = {}
-        for k in cnf.keys():
-            if type(k) is types.ClassType or k == "name":
-                fcnf[k] = cnf[k]
-                del cnf[k]
-        if cnf.has_key("bg"):
-            fcnf["bg"] = cnf["bg"]
-        self.frame = apply(Tkinter.Frame, (parent,), fcnf)
-        self.vbar = Tkinter.Scrollbar(self.frame, name="vbar")
-        self.vbar.pack(side=Tkinter.RIGHT, fill=Tkinter.Y)
-        cnf["name"] = "text"
-        apply(Tkinter.Text.__init__, (self, self.frame), cnf)
-        self.pack(side=Tkinter.LEFT, fill=Tkinter.BOTH, expand=1)
-        self["yscrollcommand"] = self.vbar.set
-        self.vbar["command"] = self.yview
-
-        # FIXME: copy Pack methods of self.frame -- this is a hack!
-        for m in Tkinter.Pack.__dict__.keys():
-            if m[0] != "_" and m != "config" and m != "configure":
-                ##print m, getattr(self.frame, m)
-                setattr(self, m, getattr(self.frame, m))
-
-        self.frame["highlightthickness"] = 0
-        self.vbar["highlightthickness"] = 0
-        ##print self.__dict__
-
-    # XXX these are missing in Tkinter.py
-    def xview_moveto(self, fraction):
-        return self.tk.call(self._w, "xview", "moveto", fraction)
-    def xview_scroll(self, number, what):
-        return self.tk.call(self._w, "xview", "scroll", number, what)
-    def yview_moveto(self, fraction):
-        return self.tk.call(self._w, "yview", "moveto", fraction)
-    def yview_scroll(self, number, what):
-        return self.tk.call(self._w, "yview", "scroll", number, what)
-
-
-class MfxReadonlyScrolledText(MfxScrolledText):
-    def __init__(self, parent=None, **cnf):
-        apply(MfxScrolledText.__init__, (self, parent), cnf)
-        self.config(state="disabled", insertofftime=0)
-        self.frame.config(takefocus=0)
-        self.config(takefocus=0)
-        self.vbar.config(takefocus=0)
 
 
 # /***********************************************************************
@@ -273,6 +221,7 @@ class tkHTMLViewer:
         )
         self.images = {}    # need to keep a reference because of garbage collection
         self.defcursor = parent["cursor"]
+        ##self.defcursor = 'xterm'
         self.handcursor = "hand2"
 
         # create buttons
@@ -297,11 +246,15 @@ class tkHTMLViewer:
         # create text widget
         text_frame = Tkinter.Frame(parent)
         text_frame.grid(row=1, column=0, columnspan=4, sticky='nsew')
-        self.text = MfxReadonlyScrolledText(text_frame,
-                                            fg="#000000", bg="#f7f3ff",
-                                            cursor=self.defcursor,
-                                            wrap="word", padx=20, pady=20)
-        self.text.pack(side="top", fill="both", expand=1)
+        self.text = Tkinter.Text(text_frame,
+                                 fg='black', bg='white', bd=0,
+                                 cursor=self.defcursor,
+                                 wrap='word', padx=20, pady=20)
+        self.text.pack(side=Tkinter.LEFT, fill=Tkinter.BOTH, expand=1)
+        vbar = Tkinter.Scrollbar(text_frame)
+        vbar.pack(side=Tkinter.RIGHT, fill=Tkinter.Y)
+        self.text["yscrollcommand"] = vbar.set
+        vbar["command"] = self.text.yview
 
         # statusbar
         self.statusbar = HtmlStatusbar(parent, row=2, column=0, columnspan=4)

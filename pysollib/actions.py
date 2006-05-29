@@ -1023,6 +1023,7 @@ class PysolMenubarActions:
                     print "playing music:", music.filename
 
     def mIconify(self, *args):
+        if self._cancelDrag(break_pause=False): return
         self.top.wm_iconify()
 
 

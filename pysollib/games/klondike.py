@@ -576,8 +576,9 @@ class Jane(Klondike):
         self.sg.dropstacks.append(s.talon)
         x, y = l.XM, self.height - l.YM
         # ???
-        self.texts.info = MfxCanvasText(self.canvas, x, y, anchor="sw",
-                                        font=self.app.getFont("canvas_default"))
+        #self.texts.info = MfxCanvasText(self.canvas, x, y, anchor="sw",
+        #                                font=self.app.getFont("canvas_default"))
+        l.createText(s.talon, 'ss')
 
     def startGame(self, flip=0, reverse=1):
         for i in range(1, len(self.s.rows)):

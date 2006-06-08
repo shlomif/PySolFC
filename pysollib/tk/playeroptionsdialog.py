@@ -43,7 +43,7 @@ from pysollib.mfxutil import destruct, kwdefault, KwStruct, Struct
 
 # Toolkit imports
 from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
-from tkwidget import _ToplevelDialog, MfxDialog
+from tkwidget import MfxDialog
 from tkutil import bind
 
 
@@ -54,8 +54,7 @@ from tkutil import bind
 class SelectUserNameDialog(MfxDialog):
     def __init__(self, parent, title, usernames=[], **kw):
         kw = self.initKw(kw)
-        _ToplevelDialog.__init__(self, parent, title,
-                                 kw.resizable, kw.default)
+        MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)
         self.createBitmaps(top_frame, kw)
         #
@@ -83,7 +82,7 @@ class SelectUserNameDialog(MfxDialog):
 
     def initKw(self, kw):
         kw = KwStruct(kw,
-                      strings=(_("OK"), _("Cancel")), default=0,
+                      strings=(_("&OK"), _("&Cancel")), default=0,
                       separatorwidth=0,
                       resizable=0,
                       padx=10, pady=10,
@@ -96,7 +95,7 @@ class SelectUserNameDialog(MfxDialog):
 class PlayerOptionsDialog(MfxDialog):
     def __init__(self, parent, title, app, **kw):
         kw = self.initKw(kw)
-        _ToplevelDialog.__init__(self, parent, title, kw.resizable, kw.default)
+        MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)
         self.createBitmaps(top_frame, kw)
         self.app = app
@@ -158,9 +157,7 @@ class PlayerOptionsDialog(MfxDialog):
 
     def initKw(self, kw):
         kw = KwStruct(kw,
-                      strings=(_("OK"), _("Cancel")), default=0,
-                      separatorwidth=2,
-                      resizable=0,
+                      strings=(_("&OK"), _("&Cancel")), default=0,
                       padx=10, pady=10,
                       )
         return MfxDialog.initKw(self, kw)

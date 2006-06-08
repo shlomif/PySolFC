@@ -33,7 +33,7 @@
 ##
 ##---------------------------------------------------------------------------##
 
-__all__ = ['MfxDialog',
+__all__ = ['MfxMessageDialog',
            'MfxExceptionDialog',
            'MfxSimpleEntry',
            'MfxTooltip',
@@ -56,25 +56,30 @@ from tkutil import bind, unbind_destroy, makeImage
 from tkutil import makeToplevel, setTransient
 from tkcanvas import MfxCanvas
 
+
 # /***********************************************************************
 # // abstract base class for the dialogs in this module
 # ************************************************************************/
 
-class _ToplevelDialog:
-    img = None
+class MfxDialog: # ex. _ToplevelDialog
+    img = {}
+    button_img = {}
     def __init__(self, parent, title="", resizable=0, default=-1):
         self.parent = parent
         self.status = 0
         self.button = default
         self.timer = None
+        self.accel_keys = {}
         self.top = makeToplevel(parent, title=title)
         self.top.wm_resizable(resizable, resizable)
         ##w, h = self.top.winfo_screenwidth(), self.top.winfo_screenheight()
         ##self.top.wm_maxsize(w-4, h-32)
         bind(self.top, "WM_DELETE_WINDOW", self.wmDeleteWindow)
+        #
 
     def mainloop(self, focus=None, timeout=0):
         bind(self.top, "<Escape>", self.mCancel)
+        bind(self.top, '<Alt-Key>', self.altKeyEvent) # for accelerators
         if focus is not None:
             focus.focus()
         setTransient(self.top, self.parent)
@@ -131,31 +136,24 @@ class _ToplevelDialog:
         self.status = 2
         raise SystemExit
 
+    def mDone(self, button):
+        self.button = button
+        raise SystemExit
 
-# /***********************************************************************
-# // replacement for the tk_dialog script
-# ************************************************************************/
+    def altKeyEvent(self, event):
+        key = event.char.lower()
+        key = unicode(key, 'utf-8')
+        button = self.accel_keys.get(key)
+        if not button is None:
+            self.mDone(button)
 
-class MfxDialog(_ToplevelDialog):
-    def __init__(self, parent, title, **kw):
-        kw = self.initKw(kw)
-        _ToplevelDialog.__init__(self, parent, title, kw.resizable, kw.default)
-        top_frame, bottom_frame = self.createFrames(kw)
-        self.createBitmaps(top_frame, kw)
-        #
-        self.button = kw.default
-        msg = Tkinter.Label(top_frame, text=kw.text, justify=kw.justify,
-                            width=kw.width)
-        msg.pack(fill=Tkinter.BOTH, expand=1, padx=kw.padx, pady=kw.pady)
-        #
-        focus = self.createButtons(bottom_frame, kw)
-        self.mainloop(focus, kw.timeout)
 
     def initKw(self, kw):
         kw = KwStruct(kw,
                       timeout=0, resizable=0,
                       text="", justify="center",
-                      strings=(_("OK"),), default=0,
+                      strings=(_("&OK"),),
+                      default=0,
                       width=0,
                       padx=20, pady=20,
                       bitmap=None, bitmap_side="left",
@@ -170,26 +168,20 @@ class MfxDialog(_ToplevelDialog):
 
     def createFrames(self, kw):
         bottom_frame = Tkinter.Frame(self.top)
-        bottom_frame.pack(side=Tkinter.BOTTOM, fill=Tkinter.BOTH, ipady=3)
+        bottom_frame.pack(side='bottom', fill='both', expand=1, ipady=3)
         if kw.separatorwidth > 0:
             separator = Tkinter.Frame(self.top, relief="sunken",
                     height=kw.separatorwidth, width=kw.separatorwidth,
                     borderwidth=kw.separatorwidth / 2)
-            separator.pack(side=Tkinter.BOTTOM, fill=Tkinter.X)
+            separator.pack(side='bottom', fill='x')
         top_frame = Tkinter.Frame(self.top)
-        top_frame.pack(side=Tkinter.TOP, fill=Tkinter.BOTH, expand=1)
+        top_frame.pack(side='top', fill='both', expand=1)
         return top_frame, bottom_frame
 
     def createBitmaps(self, frame, kw):
-        bm = ["error", "info", "question", "warning"]
-        if kw.bitmap in bm:
-            img = None
-            if self.img:
-                img = self.img[bm.index(kw.bitmap)]
+        if kw.bitmap: ## in ("error", "info", "question", "warning")
+            img = self.img.get(kw.bitmap)
             b = Tkinter.Label(frame, image=img)
-            b.pack(side=kw.bitmap_side, padx=kw.bitmap_padx, pady=kw.bitmap_pady)
-        elif kw.bitmap:
-            b = Tkinter.Label(frame, bitmap=kw.bitmap)
             b.pack(side=kw.bitmap_side, padx=kw.bitmap_padx, pady=kw.bitmap_pady)
         elif kw.image:
             b = Tkinter.Label(frame, image=kw.image)
@@ -206,6 +198,7 @@ class MfxDialog(_ToplevelDialog):
             if s:
                 ##s = re.sub(r"[\s\.\,]", "", s)
                 s = s.replace('...', '.')
+                s = s.replace('&', '')
                 max_len = max(max_len, len(s))
             ##print s, len(s)
         if   max_len > 12 and os.name == 'posix': button_width = max_len
@@ -213,6 +206,8 @@ class MfxDialog(_ToplevelDialog):
         elif max_len > 6 : button_width = max_len+2
         else             : button_width = 8
         #print 'button_width =', button_width
+        #
+        #
         for s in kw.strings:
             xbutton = button = button + 1
             if type(s) is types.TupleType:
@@ -221,6 +216,8 @@ class MfxDialog(_ToplevelDialog):
                 s = s[0]
             if s is None:
                 continue
+            accel_indx = s.find('&')
+            s = s.replace('&', '')
             if button < 0:
                 b = Tkinter.Button(frame, text=s, state="disabled")
                 button = xbutton
@@ -230,30 +227,54 @@ class MfxDialog(_ToplevelDialog):
                 if button == kw.default:
                     focus = b
                     focus.config(default="active")
-            l = len(s)
-##             if 1 and l < max_len:
-##                 l = l + (max_len - l) / 2
-##                 b.config(width=l)
+            #
             b.config(width=button_width)
-            column = column + 1
-            b.grid_configure(column=column, row=0, sticky="ew", padx=padx, pady=pady)
-            b.grid_columnconfigure(column)
+            if accel_indx >= 0:
+                # key accelerator
+                b.config(underline=accel_indx)
+                key = s[accel_indx]
+                self.accel_keys[key.lower()] = button
+            #
+##             img = None
+##             if self.button_img:
+##                 img = self.button_img.get(s)
+##             b.config(compound='left', image=img)
+            column += 1
+            b.grid(column=column, row=0, sticky="nse", padx=padx, pady=pady)
         if focus is not None:
             l = (lambda event=None, self=self, button=kw.default: self.mDone(button))
             bind(self.top, "<Return>", l)
             bind(self.top, "<KP_Enter>", l)
+        # left justify
+        ##frame.columnconfigure(0, weight=1)
         return focus
 
-    def mDone(self, button):
-        self.button = button
-        raise SystemExit
+
+# /***********************************************************************
+# // replacement for the tk_dialog script
+# ************************************************************************/
+
+class MfxMessageDialog(MfxDialog):
+    def __init__(self, parent, title, **kw):
+        kw = self.initKw(kw)
+        MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
+        top_frame, bottom_frame = self.createFrames(kw)
+        self.createBitmaps(top_frame, kw)
+        #
+        self.button = kw.default
+        msg = Tkinter.Label(top_frame, text=kw.text, justify=kw.justify,
+                            width=kw.width)
+        msg.pack(fill=Tkinter.BOTH, expand=1, padx=kw.padx, pady=kw.pady)
+        #
+        focus = self.createButtons(bottom_frame, kw)
+        self.mainloop(focus, kw.timeout)
 
 
 # /***********************************************************************
 # //
 # ************************************************************************/
 
-class MfxExceptionDialog(MfxDialog):
+class MfxExceptionDialog(MfxMessageDialog):
     def __init__(self, parent, ex, title="Error", **kw):
         kw = KwStruct(kw, bitmap="error")
         text = kw.get("text", "")
@@ -265,7 +286,7 @@ class MfxExceptionDialog(MfxDialog):
         else:
             t = str(ex)
         kw.text = text + unicode(t, errors='replace')
-        apply(MfxDialog.__init__, (self, parent, title), kw.getKw())
+        apply(MfxMessageDialog.__init__, (self, parent, title), kw.getKw())
 
 
 # /***********************************************************************
@@ -275,7 +296,7 @@ class MfxExceptionDialog(MfxDialog):
 class MfxSimpleEntry(MfxDialog):
     def __init__(self, parent, title, label, value, **kw):
         kw = self.initKw(kw)
-        _ToplevelDialog.__init__(self, parent, title, kw.resizable, kw.default)
+        MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)
         self.createBitmaps(top_frame, kw)
         #
@@ -294,7 +315,7 @@ class MfxSimpleEntry(MfxDialog):
 
     def initKw(self, kw):
         kw = KwStruct(kw,
-                      strings=(_("OK"), _("Cancel")), default=0,
+                      strings=(_("&OK"), _("&Cancel")), default=0,
                       separatorwidth = 0,
                       )
         return MfxDialog.initKw(self, kw)

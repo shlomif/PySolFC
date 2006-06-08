@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Fri May 26 20:25:43 2006\n"
+"POT-Creation-Date: Tue Jun  6 02:20:52 2006\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -61,9 +61,6 @@ msgid "Achtmal Acht"
 msgstr ""
 
 msgid "Acme"
-msgstr ""
-
-msgid "Adelaide"
 msgstr ""
 
 msgid "Agnes Bernauer"
@@ -2320,6 +2317,9 @@ msgid "Rat"
 msgstr ""
 
 msgid "Raw Prawn"
+msgstr ""
+
+msgid "Realm"
 msgstr ""
 
 msgid "Rectangle"

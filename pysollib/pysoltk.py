@@ -29,7 +29,6 @@ from tk.edittextdialog import *
 from tk.tkstats import *
 from tk.playeroptionsdialog import *
 from tk.soundoptionsdialog import *
-from tk.demooptionsdialog import *
 from tk.timeoutsdialog import *
 from tk.colorsdialog import *
 from tk.fontsdialog import *

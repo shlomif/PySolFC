@@ -62,10 +62,12 @@ class MfxStatusbar:
         self.padx = 1
         self.pady = 2
         #
-        self.frame = Tkinter.Frame(self.top, bd=1) #, relief='raised')
+        self.frame = Tkinter.Frame(self.top, bd=1)
         self.frame.grid(row=self._row, column=self._column,
                         columnspan=self._columnspan, sticky='ew',
                         padx=self.padx, pady=self.pady)
+        #if os.name == "mac":
+        #    Tkinter.Label(self.frame, width=2).pack(side='right')
 
     # util
     def _createLabel(self, name,

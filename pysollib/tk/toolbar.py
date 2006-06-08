@@ -220,7 +220,8 @@ class PysolToolbar(PysolToolbarActions):
         # (see also setRelief)
         if os.name == 'posix':
             #self.frame.config(bd=0, highlightthickness=1)
-            self.frame.config(bd=1, relief='raised', highlightthickness=0)
+            relief = self.button_relief == 'flat' and 'raised' or 'flat'
+            self.frame.config(bd=1, relief=relief, highlightthickness=0)
         elif os.name == "nt":
             self.frame.config(bd=2, relief="groove", padx=2, pady=2)
             #self._createSeparator(width=4, side=Tkinter.LEFT, relief=Tkinter.FLAT)

@@ -239,75 +239,87 @@ class CSI:
     TYPE_TRUMP_ONLY = 9
 
     TYPE = {
-        1:  "French type (52 cards)",
-        2:  "Hanafuda type (48 cards)",
-        3:  "Tarock type (78 cards)",
-        4:  "Mahjongg type (42 tiles)",
-        5:  "Hex A Deck type (68 cards)",
-        6:  "Mughal Ganjifa type (96 cards)",
-        7:  "Navagraha Ganjifa type (108 cards)",
-        8:  "Dashavatara Ganjifa type (120 cards)",
-        9:  "Trumps only type (variable cards)",
+        1:  _("French type (52 cards)"),
+        2:  _("Hanafuda type (48 cards)"),
+        3:  _("Tarock type (78 cards)"),
+        4:  _("Mahjongg type (42 tiles)"),
+        5:  _("Hex A Deck type (68 cards)"),
+        6:  _("Mughal Ganjifa type (96 cards)"),
+        7:  _("Navagraha Ganjifa type (108 cards)"),
+        8:  _("Dashavatara Ganjifa type (120 cards)"),
+        9:  _("Trumps only type (variable cards)"),
+    }
+
+    TYPE_NAME = {
+        1:  _("French"),
+        2:  _("Hanafuda"),
+        3:  _("Tarock"),
+        4:  _("Mahjongg"),
+        5:  _("Hex A Deck"),
+        6:  _("Mughal Ganjifa"),
+        7:  _("Navagraha Ganjifa"),
+        8:  _("Dashavatara Ganjifa"),
+        9:  _("Trumps only"),
     }
 
     # cardset styles
     STYLE = {
-        1:  "Adult",                #
-        2:  "Animals",              #
-        3:  "Anime",                #
-        4:  "Art",                  #
-        5:  "Cartoons",             #
-        6:  "Children",             #
-        7:  "Classic look",         #
-        8:  "Collectors",           # scanned collectors cardsets
-        9:  "Computers",            #
-       10:  "Engines",              #
-       11:  "Fantasy",              #
-       30:  "Ganjifa",              #
-       12:  "Hanafuda",             #
-       29:  "Hex A Deck",           #
-       13:  "Holiday",              #
-       28:  "Mahjongg",             #
-       14:  "Movies",               #
-       31:  "Matrix",               #
-       15:  "Music",                #
-       16:  "Nature",               #
-       17:  "Operating Systems",    # e.g. cards with Linux logos
-       19:  "People",               # famous people
-       20:  "Places",               #
-       21:  "Plain",                #
-       22:  "Products",             #
-       18:  "Round cardsets",       #
-       23:  "Science Fiction",      #
-       24:  "Sports",               #
-       27:  "Tarock",               #
-       25:  "Vehicels",             #
-       26:  "Video Games",          #
+        1:  _("Adult"),                #
+        2:  _("Animals"),              #
+        3:  _("Anime"),                #
+        4:  _("Art"),                  #
+        5:  _("Cartoons"),             #
+        6:  _("Children"),             #
+        7:  _("Classic look"),         #
+        8:  _("Collectors"),           # scanned collectors cardsets
+        9:  _("Computers"),            #
+       10:  _("Engines"),              #
+       11:  _("Fantasy"),              #
+       30:  _("Ganjifa"),              #
+       12:  _("Hanafuda"),             #
+       29:  _("Hex A Deck"),           #
+       13:  _("Holiday"),              #
+       28:  _("Mahjongg"),             #
+       14:  _("Movies"),               #
+       31:  _("Matrix"),               #
+       15:  _("Music"),                #
+       16:  _("Nature"),               #
+       17:  _("Operating Systems"),    # e.g. cards with Linux logos
+       19:  _("People"),               # famous people
+       20:  _("Places"),               #
+       21:  _("Plain"),                #
+       22:  _("Products"),             #
+       18:  _("Round cardsets"),       #
+       23:  _("Science Fiction"),      #
+       24:  _("Sports"),               #
+       27:  _("Tarock"),               #
+       25:  _("Vehicels"),             #
+       26:  _("Video Games"),          #
     }
 
     # cardset nationality (suit and rank symbols)
     NATIONALITY = {
-        1021:  "Australia",         #
-        1001:  "Austria",           #
-        1019:  "Belgium",           #
-        1010:  "Canada",            #
-        1011:  "China",             #
-        1012:  "Czech Republic",    #
-        1013:  "Denmark",           #
-        1003:  "England",           #
-        1004:  "France",            #
-        1006:  "Germany",           #
-        1014:  "Great Britain",     #
-        1015:  "Hungary",           #
-        1020:  "India",             #
-        1005:  "Italy",             #
-        1016:  "Japan",             #
-        1002:  "Netherlands",       #
-        1007:  "Russia",            #
-        1008:  "Spain",             #
-        1017:  "Sweden",            #
-        1009:  "Switzerland",       #
-        1018:  "USA",               #
+        1021:  _("Australia"),         #
+        1001:  _("Austria"),           #
+        1019:  _("Belgium"),           #
+        1010:  _("Canada"),            #
+        1011:  _("China"),             #
+        1012:  _("Czech Republic"),    #
+        1013:  _("Denmark"),           #
+        1003:  _("England"),           #
+        1004:  _("France"),            #
+        1006:  _("Germany"),           #
+        1014:  _("Great Britain"),     #
+        1015:  _("Hungary"),           #
+        1020:  _("India"),             #
+        1005:  _("Italy"),             #
+        1016:  _("Japan"),             #
+        1002:  _("Netherlands"),       #
+        1007:  _("Russia"),            #
+        1008:  _("Spain"),             #
+        1017:  _("Sweden"),            #
+        1009:  _("Switzerland"),       #
+        1018:  _("USA"),               #
     }
 
     # cardset creation date
@@ -327,19 +339,17 @@ class CSI:
         22:  "2200 - 2299",
     }
 
-    #
-    TYPE_NAME = {}
-
-def create_csi_type_name():
-    for id, type in CSI.TYPE.items():
-        i = type.find('type')
-        if i > 0:
-            CSI.TYPE_NAME[id] = type[:i-1]
-        else:
-            CSI.TYPE_NAME[id] = type
-
-if not CSI.TYPE_NAME:
-    create_csi_type_name()
+##     #
+##     TYPE_NAME = {}
+## def create_csi_type_name():
+##     for id, type in CSI.TYPE.items():
+##         i = type.find('type')
+##         if i > 0:
+##             CSI.TYPE_NAME[id] = type[:i-1]
+##         else:
+##             CSI.TYPE_NAME[id] = type
+## if not CSI.TYPE_NAME:
+##     create_csi_type_name()
 
 
 class CardsetConfig(Struct):

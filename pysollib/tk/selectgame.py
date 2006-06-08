@@ -47,7 +47,7 @@ from pysollib.resource import CSI
 
 # Toolkit imports
 from tkutil import unbind_destroy
-from tkwidget import _ToplevelDialog, MfxDialog, MfxScrolledCanvas
+from tkwidget import MfxDialog, MfxScrolledCanvas
 from tkcanvas  import MfxCanvasText
 from selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
 from selecttree import SelectDialogTreeData, SelectDialogTreeCanvas
@@ -156,7 +156,7 @@ class SelectGameData(SelectDialogTreeData):
             select_func = lambda gi, games=games: gi.id in games
             if name is None or not filter(select_func, self.all_games_gi):
                continue
-            name = _("New games in v") + name
+            name = _("New games in v.") + name
             gg.append(SelectGameNode(None, name, select_func))
         if 1 and gg:
             s_by_pysol_version = SelectGameNode(None, _("by PySol version"), tuple(gg))
@@ -241,7 +241,7 @@ class SelectGameDialog(MfxDialog):
 
     def __init__(self, parent, title, app, gameid, **kw):
         kw = self.initKw(kw)
-        _ToplevelDialog.__init__(self, parent, title, kw.resizable, kw.default)
+        MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)
         self.createBitmaps(top_frame, kw)
         #
@@ -265,9 +265,9 @@ class SelectGameDialog(MfxDialog):
 
     def initKw(self, kw):
         kw = KwStruct(kw,
-                      strings=(None, None, _("Cancel"),), default=0,
-                      separatorwidth=2, resizable=1,
-                      font=None,
+                      strings=(None, None, _("&Cancel"),), default=0,
+                      separatorwidth=2,
+                      resizable=1,
                       padx=10, pady=10,
                       buttonpadx=10, buttonpady=5,
                       )
@@ -302,7 +302,7 @@ class SelectGameDialogWithPreview(SelectGameDialog):
 
     def __init__(self, parent, title, app, gameid, bookmark=None, **kw):
         kw = self.initKw(kw)
-        _ToplevelDialog.__init__(self, parent, title, kw.resizable, kw.default)
+        MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)
         self.createBitmaps(top_frame, kw)
         #
@@ -406,7 +406,7 @@ class SelectGameDialogWithPreview(SelectGameDialog):
 
     def initKw(self, kw):
         kw = KwStruct(kw,
-                      strings=(_("Select"), _("Rules"), _("Cancel"),),
+                      strings=(_("&Select"), _("&Rules"), _("&Cancel"),),
                       default=0,
                       )
         return SelectGameDialog.initKw(self, kw)
@@ -485,8 +485,7 @@ class SelectGameDialogWithPreview(SelectGameDialog):
             self.preview_game.endGame()
             self.preview_game.destruct()
         ##self.top.wm_title("Select Game - " + self.app.getGameTitleName(gameid))
-        #title = gettext(unicode(self.app.getGameTitleName(gameid), 'utf-8'))
-        title = gettext(self.app.getGameTitleName(gameid))
+        title = self.app.getGameTitleName(gameid)
         self.top.wm_title(_("Playable Preview - ") + title)
 ##         if False:
 ##             cw, ch = canvas.winfo_width(), canvas.winfo_height()

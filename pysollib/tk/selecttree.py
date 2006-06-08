@@ -44,7 +44,6 @@ from pysollib.mfxutil import destruct, Struct, KwStruct, kwdefault
 
 # Toolkit imports
 from tkutil import makeImage
-from tkwidget import _ToplevelDialog, MfxDialog, MfxScrolledCanvas
 from tkcanvas import MfxCanvas
 from tktree import MfxTreeLeaf, MfxTreeNode, MfxTreeInCanvas
 
@@ -183,8 +182,3 @@ class SelectDialogTreeCanvas(MfxTreeInCanvas):
             self.redraw()
         return "break"
 
-# /***********************************************************************
-# // Canvas for a preview (right side)
-# ************************************************************************/
-
-##SelectDialogPreviewCanvas = MfxScrolledCanvas

@@ -43,8 +43,6 @@ from mfxutil import format_time
 from util import PACKAGE, VERSION
 from gamedb import GI
 
-# Toolkit imports
-from pysoltk import MfxDialog
 
 
 # // FIXME - this a quick hack and needs a rewrite
@@ -128,7 +126,7 @@ class PysolStatsFormatter:
         twon, tlost, tgames, ttime, tmoves = 0, 0, 0, 0, 0
         g = sort_func()
         for id in g:
-            name = app.getGameMenuitemName(id)
+            name = app.getGameTitleName(id)
             #won, lost = app.stats.getStats(player, id)
             won, lost, time, moves = app.stats.getFullStats(player, id)
             twon, tlost = twon + won, tlost + lost
@@ -161,7 +159,7 @@ class PysolStatsFormatter:
         if not player or not prev_games:
             return 0
         self.writeHeader(writer, header, 71)
-        writer.plog(_("Game"), _("Game number"), _("Started at   "), _("Status"))
+        writer.plog(_("Game"), _("Game number"), _("Started at"), _("Status"))
         writer.nl()
         twon, tlost = 0, 0
         for pg in prev_games:

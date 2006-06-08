@@ -131,7 +131,7 @@ registerGame(GameInfo(41, PileOn, "PileOn",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0,
                       altnames=("Fifteen Puzzle",) ))
 registerGame(GameInfo(289, SmallPileOn, "Small PileOn",
-                      GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0,
+                      GI.GT_1DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0,
                       ranks=(0, 5, 6, 7, 8, 9, 10, 11, 12),
                       rules_filename = "pileon.html"))
 ## registerGame(GameInfo(341, PileOn2Decks, "PileOn (2 decks)",

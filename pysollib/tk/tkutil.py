@@ -181,6 +181,10 @@ def makeHelpToplevel(app, title=None):
         window.option_add('*foreground', fg)
     window.option_add('*selectBackground', '#00008b', 50)
     window.option_add('*selectForeground', 'white', 50)
+    if os.name == "posix":
+        window.option_add('*Scrollbar.elementBorderWidth', '1', 60)
+        window.option_add('*Scrollbar.borderWidth', '1', 60)
+
     if title:
         window.wm_title(title)
         window.wm_iconname(title)

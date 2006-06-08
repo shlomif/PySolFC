@@ -1020,9 +1020,9 @@ registerGame(GameInfo(401, GroundForADivorce3Decks,
                       "Ground for a Divorce (3 decks)",
                       GI.GT_SPIDER, 3, 0))
 registerGame(GameInfo(441, York, "York",
-                      GI.GT_SPIDER | GI.GT_OPEN, 2, 0))
+                      GI.GT_SPIDER | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0))
 registerGame(GameInfo(444, TripleYork, "Triple York",
-                      GI.GT_SPIDER | GI.GT_OPEN, 3, 0))
+                      GI.GT_SPIDER | GI.GT_OPEN | GI.GT_ORIGINAL, 3, 0))
 registerGame(GameInfo(445, BigSpider1Suit, "Big Spider (1 suit)",
                       GI.GT_SPIDER, 3, 0,
                       suits=(0, 0, 0, 0),
@@ -1032,7 +1032,7 @@ registerGame(GameInfo(446, BigSpider2Suits, "Big Spider (2 suits)",
                       suits=(0, 0, 2, 2),
                       rules_filename = "bigspider.html"))
 registerGame(GameInfo(449, Spider3x3, "Spider 3x3",
-                      GI.GT_SPIDER, 3, 0,
+                      GI.GT_SPIDER | GI.GT_ORIGINAL, 3, 0,
                       suits=(0, 1, 2),
                       rules_filename = "bigspider.html"))
 registerGame(GameInfo(454, Spider4Decks, "Spider (4 decks)",

@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Fri May 26 20:25:43 2006\n"
-"PO-Revision-Date: 2006-05-13 17:41+0400\n"
+"POT-Creation-Date: Tue Jun  6 02:20:52 2006\n"
+"PO-Revision-Date: 2006-06-03 03:28+0400\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -62,10 +62,6 @@ msgstr ""
 
 msgid "Acme"
 msgstr ""
-
-#, fuzzy
-msgid "Adelaide"
-msgstr "Поляна"
 
 msgid "Agnes Bernauer"
 msgstr "Агнесса Берно"
@@ -2417,6 +2413,10 @@ msgstr "Крыса"
 msgid "Raw Prawn"
 msgstr ""
 
+#, fuzzy
+msgid "Realm"
+msgstr "Овен"
+
 msgid "Rectangle"
 msgstr "Прямоугольник"
 
@@ -3186,3 +3186,7 @@ msgstr "Церлин (3 колоды)"
 
 msgid "Zeus"
 msgstr "Зевс"
+
+#, fuzzy
+#~ msgid "Adelaide"
+#~ msgstr "Аделаида"

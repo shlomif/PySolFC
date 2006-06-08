@@ -292,11 +292,11 @@ registerGame(GameInfo(59, Osmosis, "Osmosis",
 registerGame(GameInfo(60, Peek, "Peek",
                       GI.GT_1DECK_TYPE, 1, -1))
 registerGame(GameInfo(298, OpenPeek, "Open Peek",
-                      GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0))
+                      GI.GT_1DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0))
 registerGame(GameInfo(370, Genesis, "Genesis",
-                      GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0))
+                      GI.GT_1DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0))
 registerGame(GameInfo(371, GenesisPlus, "Genesis +",
-                      GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0))
+                      GI.GT_1DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0))
 registerGame(GameInfo(409, Bridesmaids, "Bridesmaids",
                       GI.GT_1DECK_TYPE, 1, -1))
 

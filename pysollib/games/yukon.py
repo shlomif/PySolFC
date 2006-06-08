@@ -532,7 +532,7 @@ registerGame(GameInfo(272, TripleYukon, "Triple Yukon",
 registerGame(GameInfo(284, TenAcross, "Ten Across",
                       GI.GT_YUKON, 1, 0))
 registerGame(GameInfo(285, Panopticon, "Panopticon",
-                      GI.GT_YUKON, 1, 0))
+                      GI.GT_YUKON | GI.GT_ORIGINAL, 1, 0))
 registerGame(GameInfo(339, Moosehide, "Moosehide",
                       GI.GT_YUKON, 1, 0))
 registerGame(GameInfo(387, Roslin, "Roslin",
@@ -542,4 +542,4 @@ registerGame(GameInfo(447, AustralianPatience, "Australian Patience",
 registerGame(GameInfo(450, RawPrawn, "Raw Prawn",
                       GI.GT_YUKON, 1, 0))
 registerGame(GameInfo(456, BimBom, "Bim Bom",
-                      GI.GT_YUKON, 2, 0))
+                      GI.GT_YUKON | GI.GT_ORIGINAL, 2, 0))

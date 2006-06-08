@@ -44,7 +44,7 @@ from mfxutil import EnvError
 from settings import PACKAGE, PACKAGE_URL
 from version import VERSION, FC_VERSION
 from pysoltk import tkname, makeHelpToplevel, wm_map, wm_set_icon
-from pysoltk import MfxDialog
+from pysoltk import MfxMessageDialog
 from pysoltk import tkHTMLViewer
 from gamedb import GAME_DB
 
@@ -52,9 +52,9 @@ from gamedb import GAME_DB
 # //
 # ************************************************************************/
 
-class AboutDialog(MfxDialog):
+class AboutDialog(MfxMessageDialog):
     def createFrames(self, kw):
-        top_frame, bottom_frame = MfxDialog.createFrames(self, kw)
+        top_frame, bottom_frame = MfxMessageDialog.createFrames(self, kw)
         return top_frame, bottom_frame
 
 
@@ -64,9 +64,9 @@ def helpAbout(app, timeout=0, sound=1):
     t = _("A Python Solitaire Game Collection\n")
     if app.miscrandom.random() < 0.8:
         t = _("A World Domination Project\n")
-    strings=(_("Nice"), _("Credits..."))
+    strings=(_("&Nice"), _("&Credits..."))
     if timeout:
-        strings=(_("Enjoy"),)
+        strings=(_("&Enjoy"),)
     ##version = _("Version %s (%s)\n\n") % (FC_VERSION, VERSION)
     version = _("Version %s\n\n") % FC_VERSION
     d = AboutDialog(app.top, title=_("About ") + PACKAGE, timeout=timeout,
@@ -99,8 +99,8 @@ def helpCredits(app, timeout=0, sound=1):
     elif tkname == "gnome": t = "PyGTK, "
     elif tkname == "kde": t = "pyKDE, "
     elif tkname == "wx": t = "wxPython, "
-    d = MfxDialog(app.top, title=_("Credits"), timeout=timeout,
-                  text=PACKAGE+_(''' credits go to:
+    d = MfxMessageDialog(app.top, title=_("Credits"), timeout=timeout,
+                         text=PACKAGE+_(''' credits go to:
 
 Volker Weidner for getting me into Solitaire
 Guido van Rossum for the initial example program
@@ -135,9 +135,9 @@ def helpHTML(app, document, dir_, top=None):
             document, dir_ = "index.html", "html"
             help_html_index = app.dataloader.findFile(document, dir_)
     except EnvError:
-        d = MfxDialog(app.top, title=PACKAGE + _(" HTML Problem"),
-                      text=_("Cannot find help document\n") + document,
-                      bitmap="warning")
+        d = MfxMessageDialog(app.top, title=PACKAGE + _(" HTML Problem"),
+                             text=_("Cannot find help document\n") + document,
+                             bitmap="warning")
         return None
     ##print doc, help_html_index
     try:

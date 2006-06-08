@@ -456,7 +456,7 @@ to open the following URL:
     def errorDialog(self, msg):
         d = MfxDialog(self.parent, title=PACKAGE+" HTML Problem",
                       text=msg, bitmap="warning",
-                      strings=(_("OK"),), default=0)
+                      strings=(_("&OK"),), default=0)
 
     def showImage(self, src, alt, ismap, align, width, height):
         url = self.basejoin(src)

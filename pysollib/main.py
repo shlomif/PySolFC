@@ -53,7 +53,7 @@ from pysolaudio import AbstractAudioClient, PysolSoundServerModuleClient, Win32A
 
 # Toolkit imports
 from pysoltk import tkname, tkversion, wm_withdraw, wm_set_icon, loadImage
-from pysoltk import MfxDialog, MfxExceptionDialog
+from pysoltk import MfxMessageDialog, MfxExceptionDialog
 from pysoltk import TclError, MfxRoot
 from pysoltk import PysolProgressBar
 
@@ -65,15 +65,15 @@ from tkFont import Font
 
 def fatal_no_cardsets(app):
     app.wm_withdraw()
-    d = MfxDialog(app.top, title=PACKAGE + _(" installation error"),
-                  text=_('''No %ss were found !!!
+    d = MfxMessageDialog(app.top, title=PACKAGE + _(" installation error"),
+                         text=_('''No %ss were found !!!
 
 Main data directory is:
 %s
 
 Please check your %s installation.
 ''') % (CARDSET, app.dataloader.dir, PACKAGE),
-                  bitmap="error", strings=(_("Quit"),))
+                         bitmap="error", strings=(_("&Quit"),))
     ##raise Exception, "no "+CARDSET+"s found !"
 
 
@@ -256,10 +256,7 @@ def pysol_init(app, args):
     # set global color scheme
     if not opts["fg"] and not opts["bg"]:
         if os.name == "posix":              # Unix/X11
-            top.option_add('*selectBackground', '#00008b', 50)
-            top.option_add('*selectForeground', 'white', 50)
-            top.option_add('*Entry.background', 'white', 50)
-            top.option_add('*Listbox.background', 'white', 50)
+            pass
         if os.name == "mac":
             color, priority = "#d9d9d9", "60"
             classes = (
@@ -279,6 +276,20 @@ def pysol_init(app, args):
         if fg:
             top.option_add("*foreground", fg)
             app.top_palette[0] = fg
+
+    #
+    if os.name == "posix":              # Unix/X11
+        top.option_add('*Entry.background', 'white', 60)
+        top.option_add('*Entry.foreground', 'black', 60)
+        top.option_add('*Listbox.background', 'white', 60)
+        top.option_add('*Listbox.foreground', 'black', 60)
+        ##top.option_add('*borderWidth', '1', 50)
+        ##top.option_add('*Button.borderWidth', '1', 50)
+        top.option_add('*Scrollbar.elementBorderWidth', '1', 60)
+        top.option_add('*Scrollbar.borderWidth', '1', 60)
+        top.option_add('*Menu.borderWidth', '1', 60)
+        #top.option_add('*Button.HighlightBackground', '#595d59')
+        #top.option_add('*Button.HighlightThickness', '1')
 
     # font
     if opts["fn"]:
@@ -307,8 +318,8 @@ def pysol_init(app, args):
     # check games
     if len(app.gdb.getGamesIdSortedByName()) == 0:
         app.wm_withdraw()
-        d = MfxDialog(top, title=PACKAGE + _(" installation error"),
-                      text=_('''
+        d = MfxMessageDialog(top, title=PACKAGE + _(" installation error"),
+                             text=_('''
 No games were found !!!
 
 Main data directory is:
@@ -316,7 +327,7 @@ Main data directory is:
 
 Please check your %s installation.
 ''') % (app.dataloader.dir, PACKAGE),
-                      bitmap="error", strings=(_("Quit"),))
+                             bitmap="error", strings=(_("&Quit"),))
         return 1
 
     # init cardsets
@@ -394,14 +405,20 @@ Please check your %s installation.
     if not opts["nosound"]:
         if warn_thread:
             top.update()
-            d = MfxDialog(top, title=PACKAGE + _(" installation problem"),
-                          text=_("Your Python installation is compiled without thread support.\n\nSounds and background music will be disabled."),
-                          bitmap="warning", strings=(_("OK"),))
+            d = MfxMessageDialog(top, title=PACKAGE + _(" installation problem"),
+                                 text=_('''\
+Your Python installation is compiled without thread support.
+
+Sounds and background music will be disabled.'''),
+                                 bitmap="warning", strings=(_("&OK"),))
         elif warn_pysolsoundserver:
             top.update()
-            d = MfxDialog(top, title=PACKAGE + _(" installation problem"),
-                          text=_("The pysolsoundserver module was not found.\n\nSounds and background music will be disabled."),
-                          bitmap="warning", strings=(_("OK"),))
+            d = MfxMessageDialog(top, title=PACKAGE + _(" installation problem"),
+                                 text=_('''\
+The pysolsoundserver module was not found.
+
+Sounds and background music will be disabled.'''),
+                                 bitmap="warning", strings=(_("&OK"),))
 
     # create the progress bar
     title = _("Welcome to ") + PACKAGE
@@ -486,9 +503,9 @@ def pysol_main(args):
 ##             raise
 ##         t = str(ex.__class__)
 ##         if str(ex): t = t + ":\n" + str(ex)
-##         d = MfxDialog(app.top, title=PACKAGE + " internal error",
+##         d = MfxMessageDialog(app.top, title=PACKAGE + " internal error",
 ##                       text="Internal errror. Please report this bug:\n\n"+t,
-##                       strings=("Quit",), bitmap="error")
+##                       strings=("&Quit",), bitmap="error")
     try:
         pysol_exit(app)
     except:

@@ -327,6 +327,8 @@ class Stack:
 
     def prepareView(self):
         ##assertView(self)
+        if (self.CARD_XOFFSET == 0 and self.CARD_YOFFSET == 0):
+            assert self.cap.max_move <= 1
         # prepare some variables
         ox, oy = self.CARD_XOFFSET, self.CARD_YOFFSET
         if type(ox) is types.IntType:

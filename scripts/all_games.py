@@ -27,7 +27,7 @@ from pysollib.resource import CSI
 
 def getGameRulesFilename(n):
     if n.startswith('Mahjongg'): return 'mahjongg.html'
-    n = re.sub(r"[\[\(].*$", "", n)
+    ##n = re.sub(r"[\[\(].*$", "", n)
     n = latin1_to_ascii(n)
     n = re.sub(r"[^\w]", "", n)
     n = n.lower() + ".html"

@@ -54,7 +54,7 @@ from pysollib.settings import TOP_TITLE
 
 # Toolkit imports
 from tkutil import bind, unbind_destroy, loadImage
-from tkwidget import _ToplevelDialog, MfxDialog
+from tkwidget import MfxDialog, MfxMessageDialog
 from tkwidget import MfxScrolledCanvas
 
 gettext = _
@@ -70,7 +70,7 @@ class SingleGame_StatsDialog(MfxDialog):
     def __init__(self, parent, title, app, player, gameid, **kw):
         self.app = app
         kw = self.initKw(kw)
-        _ToplevelDialog.__init__(self, parent, title, kw.resizable, kw.default)
+        MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)
         self.top_frame = top_frame
         self.createBitmaps(top_frame, kw)
@@ -285,13 +285,11 @@ class SingleGame_StatsDialog(MfxDialog):
 
     def initKw(self, kw):
         kw = KwStruct(kw,
-                      strings=(_("OK"),
-                               (_("All games..."), 102),
+                      strings=(_("&OK"),
+                               (_("&All games..."), 102),
                                (TOP_TITLE+"...", 105),
-                               (_("Reset..."), 302)), default=0,
+                               (_("&Reset..."), 302)), default=0,
                       image=self.app.gimages.logos[5],
-                      separatorwidth=2,
-                      resizable=0,
                       padx=10, pady=10,
         )
         return MfxDialog.initKw(self, kw)
@@ -543,7 +541,7 @@ class AllGames_StatsDialog(MfxDialog):
         #
         kwdefault(kw, width=self.CHAR_W*64, height=lines*self.CHAR_H)
         kw = self.initKw(kw)
-        _ToplevelDialog.__init__(self, parent, title, kw.resizable, kw.default)
+        MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)
         self.createBitmaps(top_frame, kw)
         #
@@ -570,13 +568,13 @@ class AllGames_StatsDialog(MfxDialog):
 
     def initKw(self, kw):
         kw = KwStruct(kw,
-                      strings=(_("OK"),
-                               (_("Save to file"), 202),
-                               (_("Reset all..."), 301),),
+                      strings=(_("&OK"),
+                               (_("&Save to file"), 202),
+                               (_("&Reset all..."), 301),),
                       default=0,
-            separatorwidth=2, resizable=1,
-            padx=10, pady=10,
-            #width=900,
+                      resizable=1,
+                      padx=10, pady=10,
+                      #width=900,
         )
         return MfxDialog.initKw(self, kw)
 
@@ -644,7 +642,7 @@ class FullLog_StatsDialog(AllGames_StatsDialog):
 
     def initKw(self, kw):
         kw = KwStruct(kw,
-                      strings=(_("OK"), (_("Session log..."), 104), (_("Save to file"), 203)), default=0,
+                      strings=(_("&OK"), (_("Session &log..."), 104), (_("&Save to file"), 203)), default=0,
                       width=76*self.CHAR_W,
                       )
         return AllGames_StatsDialog.initKw(self, kw)
@@ -660,7 +658,7 @@ class SessionLog_StatsDialog(FullLog_StatsDialog):
 
     def initKw(self, kw):
         kw = KwStruct(kw,
-                      strings=(_("OK"), (_("Full log..."), 103), (_("Save to file"), 204)), default=0,
+                      strings=(_("&OK"), (_("&Full log..."), 103), (_("&Save to file"), 204)), default=0,
                       )
         return FullLog_StatsDialog.initKw(self, kw)
 
@@ -668,7 +666,7 @@ class SessionLog_StatsDialog(FullLog_StatsDialog):
 # //
 # ************************************************************************/
 
-class Status_StatsDialog(MfxDialog):
+class Status_StatsDialog(MfxMessageDialog):
     def __init__(self, parent, game):
         stats, gstats = game.stats, game.gstats
         w1 = w2 = ""
@@ -688,26 +686,27 @@ class Status_StatsDialog(MfxDialog):
             w2 = w2 + _("\nCards in Foundations: ") + str(n)
         #
         date = time.strftime("%Y-%m-%d %H:%M", time.localtime(game.gstats.start_time))
-        MfxDialog.__init__(self, parent, title=_("Game status"),
-                           text=game.getTitleName() + "\n" +
-                           game.getGameNumber(format=1) + "\n" +
-                           _("Playing time: ") + game.getTime() + "\n" +
-                           _("Started at: ") + date + "\n\n"+
-                           _("Moves: ") + str(game.moves.index) + "\n" +
-                           _("Undo moves: ") + str(stats.undo_moves) + "\n" +
-                           _("Bookmark moves: ") + str(gstats.goto_bookmark_moves) + "\n" +
-                           _("Demo moves: ") + str(stats.demo_moves) + "\n" +
-                           _("Total player moves: ") + str(stats.player_moves) + "\n" +
-                           _("Total moves in this game: ") + str(stats.total_moves) + "\n" +
-                           _("Hints: ") + str(stats.hints) + "\n" +
-                           "\n" +
-                           w1 + w2,
-                           strings=(_("OK"),
-                                    (_("Statistics..."), 101),
-                                    (TOP_TITLE+"...", 105), ),
-                           image=game.app.gimages.logos[3],
-                           image_side="left", image_padx=20,
-                           padx=20, separatorwidth=2)
+        MfxMessageDialog.__init__(self, parent, title=_("Game status"),
+                                  text=game.getTitleName() + "\n" +
+                                  game.getGameNumber(format=1) + "\n" +
+                                  _("Playing time: ") + game.getTime() + "\n" +
+                                  _("Started at: ") + date + "\n\n"+
+                                  _("Moves: ") + str(game.moves.index) + "\n" +
+                                  _("Undo moves: ") + str(stats.undo_moves) + "\n" +
+                                  _("Bookmark moves: ") + str(gstats.goto_bookmark_moves) + "\n" +
+                                  _("Demo moves: ") + str(stats.demo_moves) + "\n" +
+                                  _("Total player moves: ") + str(stats.player_moves) + "\n" +
+                                  _("Total moves in this game: ") + str(stats.total_moves) + "\n" +
+                                  _("Hints: ") + str(stats.hints) + "\n" +
+                                  "\n" +
+                                  w1 + w2,
+                                  strings=(_("&OK"),
+                                           (_("&Statistics..."), 101),
+                                           (TOP_TITLE+"...", 105), ),
+                                  image=game.app.gimages.logos[3],
+                                  image_side="left", image_padx=20,
+                                  padx=20,
+                                  )
 
 # /***********************************************************************
 # //
@@ -716,7 +715,7 @@ class Status_StatsDialog(MfxDialog):
 class _TopDialog(MfxDialog):
     def __init__(self, parent, title, top, **kw):
         kw = self.initKw(kw)
-        _ToplevelDialog.__init__(self, parent, title, kw.resizable, kw.default)
+        MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)
         self.createBitmaps(top_frame, kw)
 
@@ -773,7 +772,7 @@ class _TopDialog(MfxDialog):
 
 
     def initKw(self, kw):
-        kw = KwStruct(kw, strings=(_('OK'),), default=0, separatorwidth = 2)
+        kw = KwStruct(kw, strings=(_('&OK'),), default=0, separatorwidth=2)
         return MfxDialog.initKw(self, kw)
 
 
@@ -781,7 +780,7 @@ class Top_StatsDialog(MfxDialog):
     def __init__(self, parent, title, app, player, gameid, **kw):
         self.app = app
         kw = self.initKw(kw)
-        _ToplevelDialog.__init__(self, parent, title, kw.resizable, kw.default)
+        MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)
         self.createBitmaps(top_frame, kw)
 
@@ -857,8 +856,9 @@ class Top_StatsDialog(MfxDialog):
 
     def initKw(self, kw):
         kw = KwStruct(kw,
-                      strings=(_('OK'),),
+                      strings=(_('&OK'),),
                       default=0,
                       image=self.app.gimages.logos[4],
-                      separatorwidth = 2)
+                      separatorwidth=2,
+                      )
         return MfxDialog.initKw(self, kw)

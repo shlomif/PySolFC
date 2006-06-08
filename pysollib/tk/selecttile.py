@@ -44,7 +44,7 @@ from pysollib.resource import CSI
 
 # Toolkit imports
 from tkutil import loadImage
-from tkwidget import _ToplevelDialog, MfxDialog, MfxScrolledCanvas
+from tkwidget import MfxDialog, MfxScrolledCanvas
 from selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
 from selecttree import SelectDialogTreeData, SelectDialogTreeCanvas
 
@@ -112,7 +112,7 @@ class SelectTileDialogWithPreview(MfxDialog):
 
     def __init__(self, parent, title, app, manager, key=None, **kw):
         kw = self.initKw(kw)
-        _ToplevelDialog.__init__(self, parent, title, kw.resizable, kw.default)
+        MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)
         self.createBitmaps(top_frame, kw)
         #
@@ -155,8 +155,9 @@ class SelectTileDialogWithPreview(MfxDialog):
 
     def initKw(self, kw):
         kw = KwStruct(kw,
-                      strings=(_("OK"), _("Solid color..."), _("Cancel"),), default=0,
-                      separatorwidth=2, resizable=1,
+                      strings=(_("&OK"), _("&Solid color..."), _("&Cancel"),),
+                      default=0,
+                      resizable=1,
                       font=None,
                       padx=10, pady=10,
                       buttonpadx=10, buttonpady=5,

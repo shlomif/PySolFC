@@ -45,7 +45,7 @@ from pysollib.resource import CSI
 
 # Toolkit imports
 from tkutil import loadImage
-from tkwidget import _ToplevelDialog, MfxDialog, MfxScrolledCanvas
+from tkwidget import MfxDialog, MfxScrolledCanvas
 from tkcanvas import MfxCanvasImage
 from selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
 from selecttree import SelectDialogTreeData, SelectDialogTreeCanvas
@@ -181,7 +181,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
 
     def __init__(self, parent, title, app, manager, key=None, **kw):
         kw = self.initKw(kw)
-        _ToplevelDialog.__init__(self, parent, title, kw.resizable, kw.default)
+        MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)
         self.createBitmaps(top_frame, kw)
         #
@@ -237,9 +237,9 @@ class SelectCardsetDialogWithPreview(MfxDialog):
 
     def initKw(self, kw):
         kw = KwStruct(kw,
-                      strings=(_("OK"), _("Load"), _("Cancel"),), default=0,
-                      separatorwidth=2, resizable=1,
-                      font=None,
+                      strings=(_("&OK"), _("&Load"), _("&Cancel"),),
+                      default=0,
+                      resizable=1,
                       padx=10, pady=10,
                       buttonpadx=10, buttonpady=5,
                       )
@@ -308,7 +308,7 @@ class SelectCardsetByTypeDialogWithPreview(SelectCardsetDialogWithPreview):
 class CardsetInfoDialog(MfxDialog):
     def __init__(self, parent, title, cardset, images, **kw):
         kw = self.initKw(kw)
-        _ToplevelDialog.__init__(self, parent, title, kw.resizable, kw.default)
+        MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)
         self.createBitmaps(top_frame, kw)
         frame = Tkinter.Frame(top_frame)
@@ -393,9 +393,10 @@ class CardsetInfoDialog(MfxDialog):
 
     def initKw(self, kw):
         kw = KwStruct(kw,
-                      strings=(_("OK"),), default=0,
-                      resizable = 1,
-                      separatorwidth = 2,
+                      strings=(_("&OK"),),
+                      default=0,
+                      resizable=1,
+                      separatorwidth=2,
                       padx=10, pady=10,
                       buttonpadx=10, buttonpady=5,
                       )

@@ -641,7 +641,7 @@ registerGame(GameInfo(148, Chessboard, "Chessboard",
 registerGame(GameInfo(300, Stronghold, "Stronghold",
                       GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0))
 registerGame(GameInfo(301, Fastness, "Fastness",
-                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0))
+                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0))
 registerGame(GameInfo(306, Zerline, "Zerline",
                       GI.GT_BELEAGUERED_CASTLE, 2, 0))
 registerGame(GameInfo(324, Bastion, "Bastion",
@@ -653,7 +653,7 @@ registerGame(GameInfo(351, Chequers, "Chequers",
 registerGame(GameInfo(393, CastleOfIndolence, "Castle of Indolence",
                       GI.GT_BELEAGUERED_CASTLE, 2, 0))
 registerGame(GameInfo(395, Zerline3Decks, "Zerline (3 decks)",
-                      GI.GT_BELEAGUERED_CASTLE, 3, 0))
+                      GI.GT_BELEAGUERED_CASTLE | GI.GT_ORIGINAL, 3, 0))
 registerGame(GameInfo(400, Rittenhouse, "Rittenhouse",
                       GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 2, 0))
 

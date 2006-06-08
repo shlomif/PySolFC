@@ -165,5 +165,5 @@ registerGame(GameInfo(321, Carthage, "Carthage",
 registerGame(GameInfo(322, AlgerianPatience, "Algerian Patience",
                       GI.GT_2DECK_TYPE, 2, 0))
 registerGame(GameInfo(457, AlgerianPatience3, "Algerian Patience (3 decks)",
-                      GI.GT_3DECK_TYPE, 3, 0))
+                      GI.GT_3DECK_TYPE | GI.GT_ORIGINAL, 3, 0))
 

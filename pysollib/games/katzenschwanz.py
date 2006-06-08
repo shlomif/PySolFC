@@ -343,10 +343,10 @@ registerGame(GameInfo(142, DieSchlange, "Snake",
 registerGame(GameInfo(279, Kings, "Kings",
                       GI.GT_FREECELL | GI.GT_OPEN, 2, 0))
 registerGame(GameInfo(286, Retinue, "Retinue",
-                      GI.GT_FREECELL | GI.GT_OPEN, 2, 0))
+                      GI.GT_FREECELL | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0))
 registerGame(GameInfo(299, SalicLaw, "Salic Law",
                       GI.GT_2DECK_TYPE, 2, 0))
 registerGame(GameInfo(442, Deep, "Deep",
-                      GI.GT_FREECELL | GI.GT_OPEN, 2, 0))
+                      GI.GT_FREECELL | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0))
 
 

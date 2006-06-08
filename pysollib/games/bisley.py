@@ -190,11 +190,11 @@ class Gloria(Game):
 
 
 # /***********************************************************************
-# // Adelaide
+# // Realm
 # // Mancunian
 # ************************************************************************/
 
-class Adelaide(Game):
+class Realm(Game):
 
     Hint_Class = CautiousDefaultHint
     RowStack_Class = StackWrapper(UD_AC_RowStack, base_rank=NO_RANK)
@@ -236,7 +236,7 @@ class Adelaide(Game):
         return card1.color != card2.color and abs(card1.rank-card2.rank) == 1
 
 
-class Mancunian(Adelaide):
+class Mancunian(Realm):
     RowStack_Class = StackWrapper(UD_RK_RowStack, base_rank=NO_RANK)
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
@@ -247,11 +247,11 @@ class Mancunian(Adelaide):
 registerGame(GameInfo(290, Bisley, "Bisley",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0))
 registerGame(GameInfo(372, DoubleBisley, "Double Bisley",
-                      GI.GT_2DECK_TYPE | GI.GT_OPEN, 2, 0))
+                      GI.GT_2DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0))
 registerGame(GameInfo(373, Gloria, "Gloria",
-                      GI.GT_2DECK_TYPE | GI.GT_OPEN, 2, 0))
-registerGame(GameInfo(374, Adelaide, "Adelaide",
-                      GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0))
+                      GI.GT_2DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0))
+registerGame(GameInfo(374, Realm, "Realm",
+                      GI.GT_1DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0))
 registerGame(GameInfo(375, Mancunian, "Mancunian",
-                      GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0))
+                      GI.GT_1DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0))
 

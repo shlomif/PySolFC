@@ -520,7 +520,7 @@ registerGame(GameInfo(365, SevenByFive, "Seven by Five",
 registerGame(GameInfo(383, Bath, "Bath",
                       GI.GT_FREECELL | GI.GT_OPEN, 1, 0))
 registerGame(GameInfo(394, Clink, "Clink",
-                      GI.GT_FREECELL | GI.GT_OPEN, 1, 0))
+                      GI.GT_FREECELL | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0))
 registerGame(GameInfo(448, Repair, "Repair",
                       GI.GT_FREECELL | GI.GT_OPEN, 2, 0))
 registerGame(GameInfo(451, Cell11, "Cell 11",

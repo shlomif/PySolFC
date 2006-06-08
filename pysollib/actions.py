@@ -55,12 +55,11 @@ from pysoltk import GameInfoDialog
 
 # toolkit imports
 from pysoltk import EVENT_HANDLED, EVENT_PROPAGATE
-from pysoltk import MfxDialog, MfxSimpleEntry
+from pysoltk import MfxMessageDialog, MfxSimpleEntry
 from pysoltk import MfxExceptionDialog
 from pysoltk import BooleanVar, IntVar, StringVar
 from pysoltk import PlayerOptionsDialog
 from pysoltk import SoundOptionsDialog
-from pysoltk import DemoOptionsDialog
 #from pysoltk import HintOptionsDialog
 from pysoltk import TimeoutsDialog
 from pysoltk import ColorsDialog
@@ -378,9 +377,9 @@ class PysolMenubarActions:
             if not self.app.getGameInfo(id):
                 raise ValueError
         except (ValueError, TypeError), ex:
-            d = MfxDialog(self.top, title=_("Invalid game number"),
-                          text=_("Invalid game number\n") + str(seed),
-                          bitmap="error")
+            d = MfxMessageDialog(self.top, title=_("Invalid game number"),
+                                 text=_("Invalid game number\n") + str(seed),
+                                 bitmap="error")
             return
         f = self.game.nextGameFlags(id, random)
         if f & 17 == 0:
@@ -407,7 +406,7 @@ class PysolMenubarActions:
         id, f = None, self.game.getGameNumber(format=0)
         d = MfxSimpleEntry(self.top, _("Select new game number"),
                            _("\n\nEnter new game number"), f,
-                           strings=(_("OK"), _("Next number"), _("Cancel")),
+                           strings=(_("&OK"), _("&Next number"), _("&Cancel")),
                            default=0, e_width=25)
         if d.status != 0: return
         if d.button == 2: return
@@ -614,8 +613,8 @@ class PysolMenubarActions:
                                            text=_("Error while writing to file"))
                 else:
                     if fd: fd.close()
-                    d = MfxDialog(self.top, title=PACKAGE+_(" Info"), bitmap="info",
-                                  text=_("Comments were appended to\n\n") + fn)
+                    d = MfxMessageDialog(self.top, title=PACKAGE+_(" Info"), bitmap="info",
+                                         text=_("Comments were appended to\n\n") + fn)
         self.tkopt.comment.set(bool(game.gsaveinfo.comment))
 
 
@@ -650,8 +649,8 @@ class PysolMenubarActions:
                                    text=_("Error while writing to file"))
         else:
             if file: file.close()
-            d = MfxDialog(self.top, title=PACKAGE+_(" Info"), bitmap="info",
-                          text=text + _(" were appended to\n\n") + filename)
+            d = MfxMessageDialog(self.top, title=PACKAGE+_(" Info"), bitmap="info",
+                                 text=text + _(" were appended to\n\n") + filename)
 
 
     def mPlayerStats(self, *args, **kw):
@@ -891,20 +890,6 @@ class PysolMenubarActions:
         if self._cancelDrag(): return
         self.app.opt.irregular_piles = self.tkopt.irregular_piles.get()
 
-    def mOptDemoOptions(self, *args):
-        if self._cancelDrag(break_pause=False): return
-        d = DemoOptionsDialog(self.top, _("Set demo options"), self.app)
-        if d.status == 0 and d.button == 0:
-            self.app.opt.demo_logo = d.demo_logo
-            self.app.opt.demo_score = d.demo_score
-            self.app.opt.demo_sleep = d.demo_sleep
-
-##     def mOptHintOptions(self, *args):
-##         if self._cancelDrag(break_pause=False): return
-##         d = HintOptionsDialog(self.top, "Set hint options", self.app)
-##         if d.status == 0 and d.button == 0:
-##             self.app.opt.hint_sleep = d.hint_sleep
-
     def mOptColorsOptions(self, *args):
         if self._cancelDrag(break_pause=False): return
         d = ColorsDialog(self.top, _("Set colors"), self.app)
@@ -953,9 +938,9 @@ class PysolMenubarActions:
                                    text=_("Error while saving options"))
         else:
             # tell the player where their config files reside
-            d = MfxDialog(self.top, title=PACKAGE+_(" Info"),
-                          text=_("Options were saved to\n\n") + self.app.fn.opt,
-                          bitmap="info")
+            d = MfxMessageDialog(self.top, title=PACKAGE+_(" Info"), bitmap="info",
+                                 text=_("Options were saved to\n\n") + self.app.fn.opt)
+
 
     #
     # Help menu

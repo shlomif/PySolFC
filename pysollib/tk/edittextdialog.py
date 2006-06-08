@@ -42,7 +42,7 @@ import os, sys, Tkinter
 from pysollib.mfxutil import destruct, kwdefault, KwStruct, Struct
 
 # Toolkit imports
-from tkwidget import _ToplevelDialog, MfxDialog
+from tkwidget import MfxDialog
 
 # /***********************************************************************
 # //
@@ -52,7 +52,7 @@ class EditTextDialog(MfxDialog):
 
     def __init__(self, parent, title, text, **kw):
         kw = self.initKw(kw)
-        _ToplevelDialog.__init__(self, parent, title, kw.resizable, kw.default)
+        MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)
         self.createBitmaps(top_frame, kw)
         #
@@ -79,9 +79,10 @@ class EditTextDialog(MfxDialog):
 
     def initKw(self, kw):
         kw = KwStruct(kw,
-                      strings=(_("OK"), _("Cancel")), default=-1,
-                      resizable = 1,
-                      separatorwidth = 0,
+                      strings=(_("&OK"), _("&Cancel")),
+                      default=-1,
+                      resizable=1,
+                      separatorwidth=0,
                       )
         return MfxDialog.initKw(self, kw)
 

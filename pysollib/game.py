@@ -55,7 +55,7 @@ from pysoltk import EVENT_HANDLED, EVENT_PROPAGATE
 from pysoltk import CURSOR_WATCH, ANCHOR_SW, ANCHOR_SE
 from pysoltk import tkname, bind, wm_map
 from pysoltk import after, after_idle, after_cancel
-from pysoltk import MfxDialog, MfxExceptionDialog
+from pysoltk import MfxMessageDialog, MfxExceptionDialog
 from pysoltk import MfxCanvasText, MfxCanvasImage
 from pysoltk import MfxCanvasLine, MfxCanvasRectangle
 from pysoltk import Card
@@ -823,18 +823,18 @@ class Game:
             if not title: title = PACKAGE
             if not text: text = _("Discard current game ?")
             self.playSample("areyousure")
-            d = MfxDialog(self.top, title=title, text=text,
-                          bitmap="question",
-                          Default=default, strings=(_("OK"), _("Cancel")))
+            d = MfxMessageDialog(self.top, title=title, text=text,
+                                 bitmap="question",
+                                 strings=(_("&OK"), _("&Cancel")))
             if d.status != 0 or d.button != 0:
                 return 0
         return 1
 
     def notYetImplemented(self):
         # don't used
-        d = MfxDialog(self.top, title="Not yet implemented",
-                      text="This function is\nnot yet implemented.",
-                      bitmap="error")
+        d = MfxMessageDialog(self.top, title="Not yet implemented",
+                             text="This function is\nnot yet implemented.",
+                             bitmap="error")
 
     # main animation method
     def animatedMoveTo(self, from_stack, to_stack, cards, x, y, tkraise=1, frames=-1, shadow=-1):
@@ -1193,8 +1193,8 @@ class Game:
             time = self.getTime()
             self.finished = True
             self.playSample("winperfect", priority=1000)
-            d = MfxDialog(self.top, title=_("Game won"),
-                          text=_('''
+            d = MfxMessageDialog(self.top, title=_("Game won"),
+                                 text=_('''
 Congratulations, this
 was a truly perfect game !
 
@@ -1202,33 +1202,33 @@ Your playing time is %s
 for %d moves.
 %s
 ''') % (time, self.moves.index, top_msg),
-                          strings=(_("New game"), None, _("Cancel")),
-                          image=self.app.gimages.logos[5], separatorwidth=2)
+                                 strings=(_("&New game"), None, _("&Cancel")),
+                                 image=self.app.gimages.logos[5], separatorwidth=2)
         elif status == 1:
             top_msg = self.updateStats()
             time = self.getTime()
             self.finished = True
             self.playSample("winwon", priority=1000)
-            d = MfxDialog(self.top, title=_("Game won"),
-                          text=_('''
+            d = MfxMessageDialog(self.top, title=_("Game won"),
+                                 text=_('''
 Congratulations, you did it !
 
 Your playing time is %s
 for %d moves.
 %s
 ''') % (time, self.moves.index, top_msg),
-                          strings=(_("New game"), None, _("Cancel")),
-                          image=self.app.gimages.logos[4], separatorwidth=2)
+                                 strings=(_("&New game"), None, _("&Cancel")),
+                                 image=self.app.gimages.logos[4], separatorwidth=2)
         elif self.gstats.updated < 0:
             self.playSample("winfinished", priority=1000)
-            d = MfxDialog(self.top, title=_("Game finished"), bitmap="info",
-                          text=_("\nGame finished\n"),
-                          strings=(_("New game"), None, _("Cancel")))
+            d = MfxMessageDialog(self.top, title=_("Game finished"), bitmap="info",
+                                 text=_("\nGame finished\n"),
+                                 strings=(_("&New game"), None, _("&Cancel")))
         else:
             self.playSample("winlost", priority=1000)
-            d = MfxDialog(self.top, title=_("Game finished"), bitmap="info",
-                          text=_("\nGame finished, but not without my help...\n"),
-                          strings=(_("New game"), _("Restart"), _("Cancel")))
+            d = MfxMessageDialog(self.top, title=_("Game finished"), bitmap="info",
+                                 text=_("\nGame finished, but not without my help...\n"),
+                                 strings=(_("&New game"), _("&Restart"), _("&Cancel")))
         self.updateMenus()
         if d.status == 0 and d.button == 0:
             # new game
@@ -1631,20 +1631,21 @@ for %d moves.
                 status = 2
             elif player_moves == 0:
                 self.playSample("autopilotwon")
-                s = self.app.miscrandom.choice((_("Great"), _("Cool"), _("Yeah"), _("Wow")))
-                d = MfxDialog(self.top, title=PACKAGE+_(" Autopilot"),
-                              text=_("\nGame solved in %d moves.\n") % self.moves.index,
-                              image=self.app.gimages.logos[4], strings=(s,),
-                              separatorwidth=2, timeout=timeout)
+                s = self.app.miscrandom.choice((_("&Great"), _("&Cool"), _("&Yeah"), _("&Wow"))) # ??? accelerators
+                d = MfxMessageDialog(self.top, title=PACKAGE+_(" Autopilot"),
+                                     text=_("\nGame solved in %d moves.\n") % self.moves.index,
+                                     image=self.app.gimages.logos[4], strings=(s,),
+                                     separatorwidth=2, timeout=timeout)
                 status = d.status
             else:
-                s = self.app.miscrandom.choice((_("OK"), _("OK")))
+                ##s = self.app.miscrandom.choice((_("&OK"), _("&OK")))
+                s = _("&OK")
                 text = _("\nGame finished\n")
                 if self.app.debug:
                     text = text + "\n%d %d\n" % (self.stats.player_moves, self.stats.demo_moves)
-                d = MfxDialog(self.top, title=PACKAGE+_(" Autopilot"),
-                              text=text, bitmap=bitmap, strings=(s,),
-                              padx=30, timeout=timeout)
+                d = MfxMessageDialog(self.top, title=PACKAGE+_(" Autopilot"),
+                                     text=text, bitmap=bitmap, strings=(s,),
+                                     padx=30, timeout=timeout)
                 status = d.status
         elif finished:
             ##self.stopPlayTimer()
@@ -1653,11 +1654,11 @@ for %d moves.
             else:
                 if player_moves == 0:
                     self.playSample("autopilotlost")
-                s = self.app.miscrandom.choice((_("Oh well"), _("That's life"), _("Hmm")))
-                d = MfxDialog(self.top, title=PACKAGE+_(" Autopilot"),
-                              text=_("\nThis won't come out...\n"),
-                              bitmap=bitmap, strings=(s,),
-                              padx=30, timeout=timeout)
+                s = self.app.miscrandom.choice((_("&Oh well"), _("&That's life"), _("&Hmm"))) # ??? accelerators
+                d = MfxMessageDialog(self.top, title=PACKAGE+_(" Autopilot"),
+                                     text=_("\nThis won't come out...\n"),
+                                     bitmap=bitmap, strings=(s,),
+                                     padx=30, timeout=timeout)
                 status = d.status
         if finished:
             self.updateStats(demo=1)
@@ -2125,8 +2126,8 @@ for %d moves.
         except AssertionError, ex:
             self.updateMenus()
             self.setCursor(cursor=self.app.top_cursor)
-            d = MfxDialog(self.top, title=_("Load game error"), bitmap="error",
-                          text=_("""\
+            d = MfxMessageDialog(self.top, title=_("Load game error"), bitmap="error",
+                                 text=_("""\
 Error while loading game.
 
 Probably the game file is damaged,
@@ -2139,8 +2140,8 @@ but this could also be a bug you might want to report."""))
         except:
             self.updateMenus()
             self.setCursor(cursor=self.app.top_cursor)
-            d = MfxDialog(self.top, title=_("Load game error"), bitmap="error",
-                          text=_("""\
+            d = MfxMessageDialog(self.top, title=_("Load game error"), bitmap="error",
+                                 text=_("""\
 Internal error while loading game.
 
 Please report this bug."""))

@@ -700,14 +700,17 @@ if os.name == 'nt':
         fcs_command = os.path.join(os.path.split(sys.path[0])[0], 'fc-solve.exe')
         fcs_command = '"%s"' % fcs_command
 
-try:
-    pin, pout, perr = os.popen3(fcs_command+' --help')
-    if pout.readline().startswith('fc-solve'):
-        FreecellSolver = True
-    del pin, pout, perr
-except:
-    ##traceback.print_exc()
-    pass
+if os.name in ('posix', 'nt'):
+    try:
+        pin, pout, perr = os.popen3(fcs_command+' --help')
+        if pout.readline().startswith('fc-solve'):
+            FreecellSolver = True
+        del pin, pout, perr
+        if os.name == 'posix':
+            os.wait()
+    except:
+        ##traceback.print_exc()
+        pass
 
 
 class FreeCellSolverWrapper:
@@ -855,6 +858,8 @@ class FreeCellSolverWrapper:
             if hint:
                 self.hints.append(hint)
             ##print self.hints
+            if os.name == 'posix':
+                os.wait()
 
 
         def computeHints_mod(self):

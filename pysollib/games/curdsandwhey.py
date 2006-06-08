@@ -313,13 +313,13 @@ registerGame(GameInfo(311, Dumfries, "Dumfries",
 registerGame(GameInfo(312, Galloway, "Galloway",
                       GI.GT_1DECK_TYPE, 1, 0))
 registerGame(GameInfo(313, Robin, "Robin",
-                      GI.GT_2DECK_TYPE, 2, 0))
+                      GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 0))
 registerGame(GameInfo(348, Arachnida, "Arachnida",
                       GI.GT_SPIDER, 2, 0))
 registerGame(GameInfo(349, MissMuffet, "Miss Muffet",
                       GI.GT_SPIDER | GI.GT_OPEN, 1, 0))
 registerGame(GameInfo(352, Nordic, "Nordic",
-                      GI.GT_SPIDER | GI.GT_OPEN, 1, 0))
+                      GI.GT_SPIDER | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0))
 registerGame(GameInfo(414, GermanPatience, "German Patience",
                       GI.GT_2DECK_TYPE, 2, 0))
 registerGame(GameInfo(415, BavarianPatience, "Bavarian Patience",

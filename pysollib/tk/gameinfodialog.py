@@ -31,7 +31,7 @@ from pysollib.mfxutil import KwStruct
 from pysollib.gamedb import GI
 
 # Toolkit imports
-from tkwidget import _ToplevelDialog, MfxDialog
+from tkwidget import MfxDialog
 
 # /***********************************************************************
 # //
@@ -40,7 +40,7 @@ from tkwidget import _ToplevelDialog, MfxDialog
 class GameInfoDialog(MfxDialog):
     def __init__(self, parent, title, app, **kw):
         kw = self.initKw(kw)
-        _ToplevelDialog.__init__(self, parent, title, kw.resizable, kw.default)
+        MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)
         self.createBitmaps(top_frame, kw)
 
@@ -130,7 +130,8 @@ class GameInfoDialog(MfxDialog):
 
     def initKw(self, kw):
         kw = KwStruct(kw,
-                      strings=(_("OK"),), default=0,
-                      separatorwidth = 2,
+                      strings=(_("&OK"),),
+                      default=0,
+                      separatorwidth=2,
                       )
         return MfxDialog.initKw(self, kw)

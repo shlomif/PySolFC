@@ -47,7 +47,7 @@ from pysollib.settings import MIXERS
 
 # Toolkit imports
 from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
-from tkwidget import _ToplevelDialog, MfxDialog
+from tkwidget import MfxDialog
 
 # /***********************************************************************
 # //
@@ -59,7 +59,7 @@ class SoundOptionsDialog(MfxDialog):
     def __init__(self, parent, title, app, **kw):
         self.app = app
         kw = self.initKw(kw)
-        _ToplevelDialog.__init__(self, parent, title, kw.resizable, kw.default)
+        MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)
         self.createBitmaps(top_frame, kw)
         #
@@ -103,15 +103,15 @@ class SoundOptionsDialog(MfxDialog):
         self.mainloop(focus, kw.timeout)
 
     def initKw(self, kw):
-        strings=[_("OK"), _("Apply"), _("Mixer..."), _("Cancel"),]
+        strings=[_("&OK"), _("&Apply"), _("&Mixer..."), _("&Cancel"),]
         if self.MIXER is None:
-            strings[2] = (_("Mixer..."), -1)
+            strings[2] = (_("&Mixer..."), -1)
 ##        if os.name != "nt" and not self.app.debug:
 ##            strings[2] = None
         kw = KwStruct(kw,
-                      strings=strings, default=0,
-                      separatorwidth=2, resizable=1,
-                      font=None,
+                      strings=strings,
+                      default=0,
+                      resizable=1,
                       padx=10, pady=10,
                       buttonpadx=10, buttonpady=5,
                       )
@@ -155,7 +155,7 @@ class SoundOptionsDialog(MfxDialog):
         d = MfxDialog(self.top, title=_("Sound preferences info"),
                       text=_("Changing DirectX settings will take effect\nthe next time you restart ")+PACKAGE,
                       bitmap="warning",
-                      default=0, strings=(_("OK"),))
+                      default=0, strings=(_("&OK"),))
 
 
 # /***********************************************************************

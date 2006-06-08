@@ -364,8 +364,6 @@ class PysolMenubar(PysolMenubarActions):
         submenu.add_radiobutton(label=n_("&Very slow"), variable=self.tkopt.animations, value=4, command=self.mOptAnimations)
         menu.add_checkbutton(label=n_("Stick&y mouse"), variable=self.tkopt.sticky_mouse, command=self.mOptStickyMouse)
         menu.add_separator()
-        #menu.add_command(label="&Hint options...", command=self.mOptHintOptions)
-        #menu.add_command(label="&Demo options...", command=self.mOptDemoOptions)
         menu.add_command(label=n_("&Fonts..."), command=self.mOptFontsOptions)
         menu.add_command(label=n_("&Colors..."), command=self.mOptColorsOptions)
         menu.add_command(label=n_("Time&outs..."), command=self.mOptTimeoutsOptions)
@@ -852,10 +850,10 @@ class PysolMenubar(PysolMenubarActions):
 
     def mSelectCardsetDialog(self, *event):
         if self._cancelDrag(break_pause=False): return
-        ##strings, default = ("OK", "Load", "Cancel"), 0
-        strings, default = (None, _("Load"), _("Cancel"),), 1
+        ##strings, default = ("&OK", "&Load", "&Cancel"), 0
+        strings, default = (None, _("&Load"), _("&Cancel"),), 1
         ##if os.name == "posix":
-        strings, default = (None, _("Load"), _("Cancel"), _("Info..."),), 1
+        strings, default = (None, _("&Load"), _("&Cancel"), _("&Info..."),), 1
         t = CARDSET
         key = self.app.nextgame.cardset.index
         d = SelectCardsetDialogWithPreview(self.top, title=_("Select ")+t,

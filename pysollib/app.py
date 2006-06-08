@@ -60,7 +60,7 @@ from settings import TOP_SIZE, TOP_TITLE
 # Toolkit imports
 from pysoltk import tkname, tkversion, wm_withdraw, loadImage
 from pysoltk import bind, unbind_destroy
-from pysoltk import MfxDialog, MfxExceptionDialog
+from pysoltk import MfxMessageDialog, MfxExceptionDialog
 from pysoltk import TclError, MfxRoot, MfxCanvas, MfxScrolledCanvas
 from pysoltk import PysolMenubar
 from pysoltk import PysolProgressBar
@@ -76,6 +76,7 @@ gettext = _
 # /***********************************************************************
 # // Options
 # ************************************************************************/
+
 
 class Options:
     def __init__(self):
@@ -158,8 +159,8 @@ class Options:
         self.recent_gameid = []
         self.favorite_gameid = []
         self.last_gameid = 0        # last game played
-        self.last_player = None     # last player
-        self.last_save_dir = None   # last directory for load/save
+        #self.last_player = None     # last player
+        #self.last_save_dir = None   # last directory for load/save
         self.game_holded = 0
         self.wm_maximized = 0
         #
@@ -176,7 +177,6 @@ class Options:
         if top:
             sw, sh, sd = top.winfo_screenwidth(), top.winfo_screenheight(), top.winfo_screendepth()
         if sd > 8:
-            #self.tabletile_name = "Fade_Green.ppm"  # basename
             self.tabletile_name = "Nostalgy.gif"  # basename
         else:
             self.tabletile_name = None
@@ -185,8 +185,6 @@ class Options:
         c = "Standard"
         if sw < 800 or sh < 600:
             c = "2000"
-##        elif sw >= 1024 and sh >= 768 and sd > 8:
-##            c = "Dondorf Whist A"
         self.cardset = {
             0:                  (c, ""),
             CSI.TYPE_FRENCH:    (c, ""),
@@ -517,8 +515,9 @@ class Application:
             self.dn.__dict__[k] = v
         # file names
         self.fn = Struct(
-            opt   = os.path.join(self.dn.config, "options.dat"),
-            stats = os.path.join(self.dn.config, "statistics.dat"),
+            opt      = os.path.join(self.dn.config, "options.dat"),
+            opt_conf = os.path.join(self.dn.config, "options.conf"),
+            stats    = os.path.join(self.dn.config, "statistics.dat"),
             holdgame = os.path.join(self.dn.config, "holdgame.dat"),
             comments = os.path.join(self.dn.config, "comments.dat"),
         )
@@ -822,13 +821,22 @@ class Application:
         ##    self.gimages.stats.append(self.dataloader.findImage(f, dir))
 
     def loadImages3(self):
-        MfxDialog.img = []
+        MfxMessageDialog.img = {}
         #dir = os.path.join('images', 'dialog', 'default')
         dir = os.path.join('images', 'dialog', 'bluecurve')
         for f in ('error', 'info', 'question', 'warning'):
             fn = self.dataloader.findImage(f, dir)
             im = loadImage(fn)
-            MfxDialog.img.append(im)
+            MfxMessageDialog.img[f] = im
+##         MfxMessageDialog.button_img = {}
+##         dir = os.path.join('images', 'buttons', 'bluecurve')
+##         for n, f in (
+##             (_('OK'), 'ok'),
+##             (_('Cancel'), 'cancel'),
+##             ):
+##             fn = self.dataloader.findImage(f, dir)
+##             im = loadImage(fn)
+##             MfxMessageDialog.button_img[n] = im
         SelectDialogTreeData.img = []
         dir = os.path.join('images', 'tree')
         for f in ('folder', 'openfolder', 'node', 'emptynode'):
@@ -1071,7 +1079,7 @@ class Application:
             return 1
         #
         t = self.checkCompatibleCardsetType(gi, self.cardset)
-        d = MfxDialog(self.top, title=_("Incompatible ")+CARDSET,
+        d = MfxMessageDialog(self.top, title=_("Incompatible ")+CARDSET,
                       bitmap="warning",
                       text=_('''The currently selected %s %s
 is not compatible with the game
@@ -1079,7 +1087,7 @@ is not compatible with the game
 
 Please select a %s type %s.
 ''') % (CARDSET, self.cardset.name, gi.name, t[0], CARDSET),
-                      strings=(_("OK"),), default=0)
+                      strings=(_("&OK"),), default=0)
         cs = self.__selectCardsetDialog(t)
         if cs is None:
             return -1
@@ -1091,7 +1099,7 @@ Please select a %s type %s.
         d = SelectCardsetByTypeDialogWithPreview(
             self.top, title=_("Please select a %s type %s") % (t[0], CARDSET),
             app=self, manager=self.cardset_manager, key=key,
-            strings=(None, _("OK"), _("Cancel")), default=1)
+            strings=(None, _("&OK"), _("&Cancel")), default=1)
         if d.status != 0 or d.button != 1:
             return None
         cs = self.cardset_manager.get(d.key)
@@ -1240,7 +1248,7 @@ Please select a %s type %s.
     def getGameMenuitemName(self, id):
         gi = self.gdb.get(id)
         if gi is None: return None
-        return gi.short_name
+        return gettext(gi.short_name)
 
     def getGameRulesFilename(self, id):
         gi = self.gdb.get(id)
@@ -1248,7 +1256,7 @@ Please select a %s type %s.
         if gi.rules_filename is not None:
             return gi.rules_filename
         n = gi.name
-        n = re.sub(r"[\[\(].*$", "", n)
+        ##n = re.sub(r"[\[\(].*$", "", n)
         n = latin1_to_ascii(n)
         n = re.sub(r"[^\w]", "", n)
         n = n.lower() + ".html"

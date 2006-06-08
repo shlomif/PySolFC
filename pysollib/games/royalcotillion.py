@@ -219,21 +219,49 @@ class Kingdom(RoyalCotillion):
 
 # /***********************************************************************
 # // Alhambra
+# // Granada
 # ************************************************************************/
 
-class Alhambra_Waste(WasteStack):
-    def acceptsCards(self, from_stack, cards):
-        if not WasteStack.acceptsCards(self, from_stack, cards):
-            return 0
-        # check cards
-        if not self.cards:
-            return 0
-        c1, c2 = self.cards[-1], cards[0]
-        return c1.suit == c2.suit and ((c1.rank + 1) % self.cap.mod == c2.rank or (c2.rank + 1) % self.cap.mod == c1.rank)
+class Alhambra_RowStack(UD_SS_RowStack):
+    def getBottomImage(self):
+        return self.game.app.images.getReserveBottom()
+
+
+class Alhambra_Talon(DealRowTalonStack):
+    def canDealCards(self):
+        r_cards = sum([len(r.cards) for r in self.game.s.rows])
+        if self.cards:
+            return True
+        elif r_cards and self.round != self.max_rounds:
+            return True
+        return False
+
+    def dealCards(self, sound=0):
+        old_state = self.game.enterState(self.game.S_DEAL)
+        num_cards = 0
+        rows = self.game.s.rows
+        r_cards = sum([len(r.cards) for r in self.game.s.rows])
+        if self.cards:
+            if sound and not self.game.demo:
+                self.game.playSample("dealwaste")
+            num_cards = self.dealRowAvail(sound=0, frames=4)
+        elif r_cards and self.round != self.max_rounds:
+            if sound:
+                self.game.playSample("turnwaste", priority=20)
+            for r in rows:
+                for i in range(len(r.cards)):
+                    self.game.moveMove(1, r, self, frames=0)
+                    self.game.flipMove(self)
+            num_cards = self.dealRowAvail(sound=0, frames=4)
+            self.game.nextRoundMove(self)
+        self.game.leaveState(old_state)
+        return num_cards
 
 
 class Alhambra(Game):
-    def createGame(self):
+    Hint_Class = CautiousDefaultHint
+
+    def createGame(self, rows=1):
         # create layout
         l, s = Layout(self), self.s
 
@@ -243,27 +271,32 @@ class Alhambra(Game):
         # create stacks
         x, y, = l.XM, l.YM
         for i in range(4):
-            s.foundations.append(SS_FoundationStack(x, y, self, suit=i, max_move=0))
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i,
+                                                    max_move=0))
             x = x + l.XS
         for i in range(4):
-            s.foundations.append(SS_FoundationStack(x, y, self, suit=i, max_move=0,
-                                                    base_rank=KING, dir=-1))
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i,
+                                 max_move=0, base_rank=KING, dir=-1))
             x = x + l.XS
         x, y, = l.XM, y + l.YS
         for i in range(8):
-            s.reserves.append(BasicRowStack(x, y, self, max_accept=0))
+            stack = OpenStack(x, y, self, max_accept=0)
+            stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, l.YOFFSET
+            s.reserves.append(stack)
             x = x + l.XS
-        x, y = l.XM + 3*l.XS, y + 2*l.YS
-        s.talon = WasteTalonStack(x, y, self, max_rounds=3)
+        x, y = l.XM+(8-1-rows)*l.XS/2, y+l.YS+5*l.YOFFSET
+        s.talon = Alhambra_Talon(x, y, self, max_rounds=3)
         l.createText(s.talon, "sw")
-        x = x + l.XS
-        s.waste = Alhambra_Waste(x, y, self, mod=13, max_accept=1)
-        l.createText(s.waste, "se")
+        x += l.XS
+        for i in range(rows):
+            stack = Alhambra_RowStack(x, y, self, mod=13,
+                                      max_accept=1, base_rank=ANY_RANK)
+            stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, 0
+            s.rows.append(stack)
+            x += l.XS
 
         # define stack-groups (non default)
-        s.rows.append(s.waste)
         l.defaultStackGroups()
-
 
     #
     # game overrides
@@ -271,7 +304,7 @@ class Alhambra(Game):
 
     def _shuffleHook(self, cards):
         # move one Aces and Kings of first deck to top of the Talon (i.e. first card to be dealt)
-        return self._shuffleHookMoveToTop(cards, lambda c: (c.deck == 0 and c.rank in (0, 12), (c.rank, c.suit)), 8)
+        return self._shuffleHookMoveToTop(cards, lambda c: (c.deck == 0 and c.rank in (ACE, KING), (c.rank, c.suit)), 8)
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
@@ -280,6 +313,11 @@ class Alhambra(Game):
         self.startDealSample()
         self.s.talon.dealRow(rows=self.s.reserves)
         self.s.talon.dealCards()
+
+
+class Granada(Alhambra):
+    def createGame(self):
+        Alhambra.createGame(self, rows=4)
 
 
 # /***********************************************************************
@@ -502,9 +540,11 @@ registerGame(GameInfo(391, BritishConstitution, "British Constitution",
                       ranks=range(11) # without Queens and Kings
                       ))
 registerGame(GameInfo(392, NewBritishConstitution, "New British Constitution",
-                      GI.GT_2DECK_TYPE, 2, 0,
+                      GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 0,
                       ranks=range(11) # without Queens and Kings
                       ))
 registerGame(GameInfo(443, Twenty, "Twenty",
                       GI.GT_2DECK_TYPE, 2, 0))
+registerGame(GameInfo(465, Granada, "Granada",
+                      GI.GT_2DECK_TYPE, 2, 2))
 

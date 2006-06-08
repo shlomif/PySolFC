@@ -396,9 +396,9 @@ registerGame(GameInfo(63, BlueMoon, "Blue Moon",
 registerGame(GameInfo(117, RedMoon, "Red Moon",
                       GI.GT_MONTANA | GI.GT_OPEN, 1, 2))
 registerGame(GameInfo(275, Galary, "Galary",
-                      GI.GT_MONTANA | GI.GT_OPEN, 1, 2))
+                      GI.GT_MONTANA | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 2))
 registerGame(GameInfo(276, Moonlight, "Moonlight",
-                      GI.GT_MONTANA | GI.GT_OPEN, 1, 2,
+                      GI.GT_MONTANA | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 2,
                       si={"ncards": 48}))
 registerGame(GameInfo(380, Jungle, "Jungle",
                       GI.GT_MONTANA | GI.GT_OPEN, 1, 1))

@@ -38,7 +38,7 @@
 
 import sys, os
 
-if os.name == 'nt':
+if os.name == 'nt' and not os.environ.has_key('LANG'):
     try:
         import locale
         l = locale.getdefaultlocale()

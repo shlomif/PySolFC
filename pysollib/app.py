@@ -137,7 +137,7 @@ class Options:
         if os.name == 'posix':
             self.fonts["sans"] = ("helvetica", 12)
         if os.name == 'nt':
-            self.fonts["sans"] = ("times new roman", 14)
+            self.fonts["sans"] = ("times new roman", 12)
             self.fonts["fixed"] = ("courier new", 10)
         # colors
         self.table_color = "#008200"

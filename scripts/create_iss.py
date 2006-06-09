@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 prog_name = 'PySol Fan Club edition'
-prog_version = '0.9.0'
 
 import os
 
@@ -11,6 +10,9 @@ for root, dirs, files in os.walk('dist'):
     if files:
         files_list.append(root)
     dirs_list.append(root)
+
+execfile(os.path.join('pysollib', 'version.py'))
+prog_version = FC_VERSION
 
 out = open('setup.iss', 'w')
 

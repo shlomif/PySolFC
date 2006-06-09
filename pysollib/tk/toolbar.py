@@ -220,10 +220,9 @@ class PysolToolbar(PysolToolbarActions):
         # (see also setRelief)
         if os.name == 'posix':
             #self.frame.config(bd=0, highlightthickness=1)
-            relief = self.button_relief == 'flat' and 'raised' or 'flat'
-            self.frame.config(bd=1, relief=relief, highlightthickness=0)
+            self.frame.config(bd=1, relief=self.frame_relief, highlightthickness=0)
         elif os.name == "nt":
-            self.frame.config(bd=2, relief="groove", padx=2, pady=2)
+            self.frame.config(bd=2, relief=self.frame_relief, padx=2, pady=2)
             #self._createSeparator(width=4, side=Tkinter.LEFT, relief=Tkinter.FLAT)
             #self._createSeparator(width=4, side=Tkinter.RIGHT, relief=Tkinter.FLAT)
         else:
@@ -267,9 +266,16 @@ class PysolToolbar(PysolToolbarActions):
             relief = 'flat'
         self.button_relief = relief
         if relief == 'raised':
+            self.frame_relief = 'flat'
             self.separator_relief = 'flat'
+            if os.name == 'nt':
+                self.frame_relief = 'groove'
         else:
+            self.frame_relief = 'raised'
             self.separator_relief = 'sunken' #'raised'
+            if os.name == 'nt':
+                self.frame_relief = 'groove'
+                self.separator_relief = 'groove'
         return relief
 
     # util
@@ -465,10 +471,7 @@ class PysolToolbar(PysolToolbarActions):
         if self.button_relief == relief:
             return False
         self._setRelief(relief)
-        if os.name == 'posix':
-            relief = self.button_relief == 'flat' and 'raised' or 'flat'
-            self.frame.config(relief=relief)
-            #self.frame.config(relief=self.separator_relief)
+        self.frame.config(relief=self.frame_relief)
         for w in self._widgets:
             if isinstance(w, ToolbarButton):
                 w.config(relief=self.button_relief)

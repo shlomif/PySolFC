@@ -141,8 +141,9 @@ class MfxDialog: # ex. _ToplevelDialog
         raise SystemExit
 
     def altKeyEvent(self, event):
-        key = event.char.lower()
+        key = event.char
         key = unicode(key, 'utf-8')
+        key = key.lower()
         button = self.accel_keys.get(key)
         if not button is None:
             self.mDone(button)
@@ -197,7 +198,8 @@ class MfxDialog: # ex. _ToplevelDialog
                 s = s[0]
             if s:
                 ##s = re.sub(r"[\s\.\,]", "", s)
-                s = s.replace('...', '.')
+                #if os.name == 'posix':
+                #    s = s.replace('...', '.')
                 s = s.replace('&', '')
                 max_len = max(max_len, len(s))
             ##print s, len(s)

@@ -59,26 +59,24 @@ class MfxStatusbar:
         self._row = row
         self._column = column
         self._columnspan = columnspan
-        self.padx = 1
-        self.pady = 2
         #
+        self.padx = 1
         self.frame = Tkinter.Frame(self.top, bd=1)
         self.frame.grid(row=self._row, column=self._column,
                         columnspan=self._columnspan, sticky='ew',
-                        padx=self.padx, pady=self.pady)
+                        padx=1, pady=1)
         #if os.name == "mac":
         #    Tkinter.Label(self.frame, width=2).pack(side='right')
+        if os.name == 'nt':
+            self.frame.config(relief='raised')
+            self.padx = 0
 
     # util
-    def _createLabel(self, name,
-                     text="", relief='sunken',
-                     side='left', fill='none',
-                     padx=-1, expand=0, width=0,
+    def _createLabel(self, name, side='left',
+                     fill='none', expand=0, width=0,
                      tooltip=None):
-        if padx < 0: padx = self.padx
-        label = Tkinter.Label(self.frame, text=text,
-                              width=width, relief=relief, bd=1)
-        label.pack(side=side, fill=fill, padx=padx, expand=expand)
+        label = Tkinter.Label(self.frame, width=width, relief='sunken', bd=1)
+        label.pack(side=side, fill=fill, padx=self.padx, expand=expand)
         setattr(self, name + "_label", label)
         self._widgets.append(label)
         if tooltip:
@@ -150,15 +148,14 @@ class HelpStatusbar(MfxStatusbar):
     def __init__(self, top):
         MfxStatusbar.__init__(self, top, row=4, column=0, columnspan=3)
         l = self._createLabel("info", fill='both', expand=1)
-        l.config(text="", justify="left", anchor='w', padx=8)
+        l.config(justify="left", anchor='w', padx=8)
 
 
 class HtmlStatusbar(MfxStatusbar):
     def __init__(self, top, row, column, columnspan):
-        MfxStatusbar.__init__(self, top,
-                              row=row, column=column, columnspan=columnspan)
+        MfxStatusbar.__init__(self, top, row=row, column=column, columnspan=columnspan)
         l = self._createLabel("url", fill='both', expand=1)
-        l.config(text="", justify="left", anchor='w', padx=8)
+        l.config(justify="left", anchor='w', padx=8)
 
 
 # /***********************************************************************

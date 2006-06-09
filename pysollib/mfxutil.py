@@ -204,6 +204,9 @@ def win32_getprefdir(package):
 
 def win32_gethomedir():
     # %USERPROFILE%, %APPDATA%
+    hd = os.environ.get('APPDATA')
+    if hd:
+        return hd
     hd = os.path.expanduser('~')
     if hd == '~': # win9x
         return os.path.abspath('/')

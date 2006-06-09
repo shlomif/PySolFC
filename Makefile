@@ -1,5 +1,7 @@
 # Makefile for PySolFC
 
+override LANG=C
+
 PYSOLLIB_FILES=pysollib/tk/*.py pysollib/*.py \
 	pysollib/games/*.py pysollib/games/special/*.py \
 	pysollib/games/contrib/*.py pysollib/games/ultra/*.py \

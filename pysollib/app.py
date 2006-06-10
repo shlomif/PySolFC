@@ -117,10 +117,38 @@ class Options:
         self.statusbar = 1
         self.num_cards = 0
         self.helpbar = 0
+        # sound
         self.sound = 1
         self.sound_mode = 1
         self.sound_sample_volume = 128
         self.sound_music_volume = 128
+        self.sound_samples = {
+            'areyousure'    : True,
+            'autodrop'      : True,
+            'autoflip'      : True,
+            'autopilotlost' : True,
+            'autopilotwon'  : True,
+            'deal'          : True,
+            'deal01'        : True,
+            'deal02'        : True,
+            'deal04'        : True,
+            'deal08'        : True,
+            'dealwaste'     : True,
+            'droppair'      : True,
+            'drop'          : True,
+            'extra'         : True,
+            'flip'          : True,
+            'move'          : True,
+            'nomove'        : True,
+            'redo'          : True,
+            'startdrag'     : True,
+            'turnwaste'     : True,
+            'undo'          : True,
+            'gamefinished'  : True,
+            'gamelost'      : True,
+            'gameperfect'   : True,
+            'gamewon'       : True,
+            }
         # fonts
         self.fonts = {"default"        : None,
                       #"default"        : ("helvetica", 12),

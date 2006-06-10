@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Tue Jun  6 02:20:52 2006\n"
-"PO-Revision-Date: 2006-06-03 03:28+0400\n"
+"POT-Creation-Date: Sun Jun 11 00:30:03 2006\n"
+"PO-Revision-Date: 2006-06-10 11:07+0400\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -81,9 +81,8 @@ msgstr "Аляска"
 msgid "Algerian Patience"
 msgstr "Алжирский пасьянс"
 
-#, fuzzy
 msgid "Algerian Patience (3 decks)"
-msgstr "Алжирский пасьянс"
+msgstr "Алжирский пасьянс (3 колоды)"
 
 msgid "Alhambra"
 msgstr "Алхамбра"
@@ -148,13 +147,11 @@ msgstr "Старые добрые времена"
 msgid "Aunt Mary"
 msgstr ""
 
-#, fuzzy
 msgid "Australian Patience"
-msgstr "Русский пасьянс"
+msgstr "Австралийский пасьянс"
 
-#, fuzzy
 msgid "Baby Spiderette"
-msgstr "Паучок"
+msgstr "Крошка Паучок"
 
 msgid "Backbone"
 msgstr "Основа"
@@ -191,9 +188,8 @@ msgstr "Летучая мышь"
 msgid "Batsford"
 msgstr "Бетсфорд"
 
-#, fuzzy
 msgid "Bavarian Patience"
-msgstr "Алжирский пасьянс"
+msgstr "Баварский пасьянс"
 
 msgid "Beak and Flipper"
 msgstr "Клюв и ласты"
@@ -233,20 +229,18 @@ msgstr "Большая гора"
 msgid "Big Spider"
 msgstr "Большой паук"
 
-#, fuzzy
 msgid "Big Spider (1 suit)"
-msgstr "Паук (1 масть)"
+msgstr "Большой Паук (1 масть)"
 
-#, fuzzy
 msgid "Big Spider (2 suits)"
-msgstr "Паук (2 масти)"
+msgstr "Большой Паук (2 масти)"
 
 #, fuzzy
 msgid "Big Sumo"
 msgstr "Большая дыра"
 
 msgid "Bim Bom"
-msgstr ""
+msgstr "Бим-Бом"
 
 msgid "Bisley"
 msgstr "Бисли"
@@ -319,9 +313,8 @@ msgstr "Бристоль"
 msgid "British Constitution"
 msgstr "Британская конституция"
 
-#, fuzzy
 msgid "British Square"
-msgstr "Восемь квадратов"
+msgstr "Британский квадрат"
 
 msgid "Brunswick"
 msgstr "Брюнсвик"
@@ -519,9 +512,8 @@ msgstr "Дашаватара"
 msgid "Dead King Golf"
 msgstr "Гольф Смертельный Король"
 
-#, fuzzy
 msgid "Deep"
-msgstr "Глубокий колодец"
+msgstr "Глубокий"
 
 msgid "Deep Well"
 msgstr "Глубокий колодец"
@@ -598,9 +590,8 @@ msgstr "Двойной Кенфилд"
 msgid "Double Cockroach"
 msgstr "Двойной таракан"
 
-#, fuzzy
 msgid "Double Dot"
-msgstr "Дубликаты"
+msgstr "Двоеточие"
 
 msgid "Double Drawbridge"
 msgstr "Двойной разводной мост"
@@ -842,7 +833,7 @@ msgstr "Крепостные башни"
 
 #, fuzzy
 msgid "Fortune's Favor"
-msgstr "Судьба"
+msgstr "Благосклонность фортуны"
 
 msgid "Fortunes"
 msgstr "Судьба"
@@ -853,9 +844,8 @@ msgstr "Сорок разбойников"
 msgid "Forty and Eight"
 msgstr "Сорок и восемь"
 
-#, fuzzy
 msgid "Four Colours"
-msgstr "Четырёхлистный клевер"
+msgstr "Четыре цвета"
 
 msgid "Four Kings"
 msgstr "Четыре короля"
@@ -875,13 +865,11 @@ msgstr "Четыре ветра"
 msgid "Fourteen"
 msgstr "Четырнадцать"
 
-#, fuzzy
 msgid "Fred's Spider"
-msgstr "Смягчённый Паук"
+msgstr "Паук Фреда"
 
-#, fuzzy
 msgid "Fred's Spider (3 decks)"
-msgstr "Церлин (3 колоды)"
+msgstr "Паук Фреда (3 колоды)"
 
 msgid "Free Fan"
 msgstr "Свободный веер"
@@ -946,9 +934,8 @@ msgstr "Происхождение"
 msgid "Genesis +"
 msgstr "Происхождение +"
 
-#, fuzzy
 msgid "German Patience"
-msgstr "Алжирский пасьянс"
+msgstr "Германский пасьянс"
 
 msgid "Ghulam"
 msgstr ""
@@ -980,6 +967,10 @@ msgstr "Полная мера"
 msgid "Grampus"
 msgstr "Касатка"
 
+#, fuzzy
+msgid "Granada"
+msgstr "Алмаз"
+
 msgid "Grandfather"
 msgstr "Дедушка"
 
@@ -1010,9 +1001,8 @@ msgstr "Повод для разрыва"
 msgid "Ground for a Divorce (3 decks)"
 msgstr "Повод для разрыва (3 колоды)"
 
-#, fuzzy
 msgid "Ground for a Divorce (4 decks)"
-msgstr "Повод для разрыва (3 колоды)"
+msgstr "Повод для разрыва (4 колоды)"
 
 msgid "Gypsy"
 msgstr "Цыганский"
@@ -1124,9 +1114,8 @@ msgstr ""
 msgid "Indian"
 msgstr "Индийский"
 
-#, fuzzy
 msgid "Indian Patience"
-msgstr "Русский пасьянс"
+msgstr "Индийский пасьянс"
 
 msgid "Inner Circle"
 msgstr "Внутренний круг"
@@ -1364,9 +1353,8 @@ msgstr "Ограниченный"
 msgid "Lion"
 msgstr "Лион"
 
-#, fuzzy
 msgid "Little Billie"
-msgstr "Малые ворота"
+msgstr "Малыш Билли"
 
 #, fuzzy
 msgid "Little Easy"
@@ -1960,9 +1948,8 @@ msgstr "Марта"
 msgid "Matriarchy"
 msgstr "Матриархат"
 
-#, fuzzy
 msgid "Matrimony"
-msgstr "Матриархат"
+msgstr "Супружество"
 
 msgid "MatsuKiri"
 msgstr ""
@@ -2001,17 +1988,14 @@ msgstr ""
 msgid "Midshipman"
 msgstr "Гардемарин"
 
-#, fuzzy
 msgid "Milligan Cell"
-msgstr "Мисс Миллиган"
+msgstr "Ячейка Миллиган"
 
-#, fuzzy
 msgid "Milligan Harp"
-msgstr "Большая арфа"
+msgstr "Арфа Миллиган"
 
-#, fuzzy
 msgid "Minerva"
-msgstr "Джунгли"
+msgstr "Минерва"
 
 #, fuzzy
 msgid "Mini Traditional"
@@ -2100,7 +2084,6 @@ msgstr "Изгнание Наполеона"
 msgid "Napoleon's Favorite"
 msgstr "Фаворит Наполеона"
 
-#, fuzzy
 msgid "Napoleon's Flank"
 msgstr "Фланг Наполеона"
 
@@ -2157,9 +2140,8 @@ msgstr "Номер десять"
 msgid "Numerica"
 msgstr "Числовой"
 
-#, fuzzy
 msgid "Octagon"
-msgstr "Дракон"
+msgstr "Восьмиугольник"
 
 msgid "Octave"
 msgstr "Восемь"
@@ -2198,12 +2180,11 @@ msgstr "Открытый гигант"
 msgid "Open Peek"
 msgstr ""
 
-#, fuzzy
 msgid "Open Spider"
-msgstr "Паук"
+msgstr "Открытый паук"
 
 msgid "Opus"
-msgstr ""
+msgstr "Опус"
 
 msgid "Orbital"
 msgstr "Орбитальный"
@@ -2248,9 +2229,8 @@ msgstr "Сольный танец"
 msgid "Pas de Deux"
 msgstr "Па-де-де"
 
-#, fuzzy
 msgid "Patriarchs"
-msgstr "Матриархат"
+msgstr "Патриархи"
 
 msgid "Pattern"
 msgstr "Образец"
@@ -2302,7 +2282,7 @@ msgstr "Картинная галерея"
 
 #, fuzzy
 msgid "Pigtail"
-msgstr "Портал"
+msgstr "Косичка"
 
 msgid "PileOn"
 msgstr ""
@@ -2344,9 +2324,8 @@ msgstr "Припасы"
 msgid "Push Pin"
 msgstr "Пуш-пин"
 
-#, fuzzy
 msgid "Puss in the Corner"
-msgstr "Дом в лесу"
+msgstr "Кошка в углу"
 
 msgid "Pyramid"
 msgstr "Пирамида"
@@ -2400,9 +2379,8 @@ msgstr "Овен"
 msgid "Rambling"
 msgstr "Бродячий"
 
-#, fuzzy
 msgid "Rangoon"
-msgstr "Дракон"
+msgstr "Рангун"
 
 msgid "Rank and File"
 msgstr "Ряд и шеренга"
@@ -2413,9 +2391,8 @@ msgstr "Крыса"
 msgid "Raw Prawn"
 msgstr ""
 
-#, fuzzy
 msgid "Realm"
-msgstr "Овен"
+msgstr "Царство"
 
 msgid "Rectangle"
 msgstr "Прямоугольник"
@@ -2448,7 +2425,7 @@ msgid "Relaxed Spider"
 msgstr "Смягчённый Паук"
 
 msgid "Repair"
-msgstr ""
+msgstr "Ремонт"
 
 msgid "Retinue"
 msgstr "Свита"
@@ -2465,9 +2442,8 @@ msgstr "Риттенхаус"
 msgid "River Bridge"
 msgstr "Мост через реку"
 
-#, fuzzy
 msgid "Robert"
-msgstr "Ракета"
+msgstr "Роберт"
 
 msgid "Robin"
 msgstr "Робин"
@@ -2732,13 +2708,11 @@ msgstr "Паук (1 масть)"
 msgid "Spider (2 suits)"
 msgstr "Паук (2 масти)"
 
-#, fuzzy
 msgid "Spider (4 decks)"
-msgstr "Паук (1 масть)"
+msgstr "Паук (4 колоды)"
 
-#, fuzzy
 msgid "Spider 3x3"
-msgstr "Паук"
+msgstr "Паук 3x3"
 
 msgid "Spider Web"
 msgstr "Паутина"
@@ -2754,9 +2728,8 @@ msgstr "Паучок"
 msgid "Spidike"
 msgstr "Паук"
 
-#, fuzzy
 msgid "Squadron"
-msgstr "Квадрат"
+msgstr "Эскадрон"
 
 msgid "Square"
 msgstr "Квадрат"
@@ -2863,9 +2836,8 @@ msgstr ""
 msgid "Superior Canfield"
 msgstr "Двойной Кенфилд"
 
-#, fuzzy
 msgid "Surprise"
-msgstr "Предприятие"
+msgstr "Сюрприз"
 
 msgid "Surukh"
 msgstr ""
@@ -3027,19 +2999,17 @@ msgstr "Тройной Клондайк"
 msgid "Triple Klondike by Threes"
 msgstr "Тройной Клондайк по три"
 
-#, fuzzy
 msgid "Triple Line"
-msgstr "Тройной Юкон"
+msgstr "Тройная линия"
 
-#, fuzzy
 msgid "Triple York"
-msgstr "Тройной Юкон"
+msgstr "Тройной Йорк"
 
 msgid "Triple Yukon"
 msgstr "Тройной Юкон"
 
 msgid "Twenty"
-msgstr ""
+msgstr "Двенадцать"
 
 msgid "Twin"
 msgstr ""
@@ -3165,9 +3135,8 @@ msgstr "Маджонг X-Files"
 msgid "X-Shape"
 msgstr "Маджонг X-Shape"
 
-#, fuzzy
 msgid "York"
-msgstr "Нью-Йорк"
+msgstr "Йорк"
 
 msgid "Yukon"
 msgstr "Юкон"

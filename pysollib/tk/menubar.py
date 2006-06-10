@@ -340,11 +340,9 @@ class PysolMenubar(PysolMenubarActions):
         menu.add_separator()
         label = n_("&Sound")
         if self.app.audio.audiodev is None:
-            menu.add_checkbutton(label=label, variable=self.tkopt.sound, command=self.mOptSound, state=Tkinter.DISABLED)
-        elif pysolsoundserver:
-            menu.add_checkbutton(label=label, variable=self.tkopt.sound, command=self.mOptSoundDialog)
+            menu.add_checkbutton(label=label, variable=self.tkopt.sound, command=self.mOptSoundDialog, state=Tkinter.DISABLED)
         else:
-            menu.add_checkbutton(label=label, variable=self.tkopt.sound, command=self.mOptSound)
+            menu.add_checkbutton(label=label, variable=self.tkopt.sound, command=self.mOptSoundDialog)
         # cardsets
         #manager = self.app.cardset_manager
         #n = manager.len()

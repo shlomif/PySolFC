@@ -863,11 +863,11 @@ class PysolMenubarActions:
         self.app.opt.shisen_show_hint = self.tkopt.shisen_show_hint.get()
         ##self.game.updateMenus()
 
-    def mOptSound(self, *args):
-        if self._cancelDrag(break_pause=False): return
-        self.app.opt.sound = self.tkopt.sound.get()
-        if not self.app.opt.sound:
-            self.app.audio.stopAll()
+##     def mOptSound(self, *args):
+##         if self._cancelDrag(break_pause=False): return
+##         self.app.opt.sound = self.tkopt.sound.get()
+##         if not self.app.opt.sound:
+##             self.app.audio.stopAll()
 
     def mOptSoundDialog(self, *args):
         if self._cancelDrag(break_pause=False): return
@@ -886,9 +886,9 @@ class PysolMenubarActions:
         if self._cancelDrag(break_pause=False): return
         self.app.opt.shade = self.tkopt.shade.get()
 
-    def mOptIrregularPiles(self, *args):
-        if self._cancelDrag(): return
-        self.app.opt.irregular_piles = self.tkopt.irregular_piles.get()
+##     def mOptIrregularPiles(self, *args):
+##         if self._cancelDrag(): return
+##         self.app.opt.irregular_piles = self.tkopt.irregular_piles.get()
 
     def mOptColorsOptions(self, *args):
         if self._cancelDrag(break_pause=False): return
@@ -929,17 +929,17 @@ class PysolMenubarActions:
             self.app.opt.highlight_cards_sleep = d.highlight_cards_sleep
             self.app.opt.highlight_samerank_sleep = d.highlight_samerank_sleep
 
-    def mOptSave(self, *args):
-        if self._cancelDrag(break_pause=False): return
-        try:
-            self.app.saveOptions()
-        except Exception, ex:
-            d = MfxExceptionDialog(self.top, ex,
-                                   text=_("Error while saving options"))
-        else:
-            # tell the player where their config files reside
-            d = MfxMessageDialog(self.top, title=PACKAGE+_(" Info"), bitmap="info",
-                                 text=_("Options were saved to\n\n") + self.app.fn.opt)
+##     def mOptSave(self, *args):
+##         if self._cancelDrag(break_pause=False): return
+##         try:
+##             self.app.saveOptions()
+##         except Exception, ex:
+##             d = MfxExceptionDialog(self.top, ex,
+##                                    text=_("Error while saving options"))
+##         else:
+##             # tell the player where their config files reside
+##             d = MfxMessageDialog(self.top, title=PACKAGE+_(" Info"), bitmap="info",
+##                                  text=_("Options were saved to\n\n") + self.app.fn.opt)
 
 
     #

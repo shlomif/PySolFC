@@ -169,7 +169,7 @@ class MfxDialog: # ex. _ToplevelDialog
 
     def createFrames(self, kw):
         bottom_frame = Tkinter.Frame(self.top)
-        bottom_frame.pack(side='bottom', fill='both', expand=1, ipady=3)
+        bottom_frame.pack(side='bottom', fill='both', expand=1, ipadx=3, ipady=3)
         if kw.separatorwidth > 0:
             separator = Tkinter.Frame(self.top, relief="sunken",
                     height=kw.separatorwidth, width=kw.separatorwidth,

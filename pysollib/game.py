@@ -784,6 +784,8 @@ class Game:
     #
 
     def playSample(self, name, priority=0, loop=0):
+        if not self.app.opt.sound_samples[name]:
+            return 0
         ##print "playSample:", name, priority, loop
         if self.app.audio:
             return self.app.audio.playSample(name, priority=priority, loop=loop)
@@ -801,7 +803,7 @@ class Game:
         a = self.app.opt.animations
         if a and not self.preview:
             self.canvas.update_idletasks()
-        if self.app.audio and self.app.opt.sound:
+        if self.app.audio and self.app.opt.sound and self.app.opt.sound_samples['deal']:
             if a in (1, 2, 5):
                 self.playSample("deal01", priority=100, loop=loop)
             elif a == 3:
@@ -1192,7 +1194,7 @@ class Game:
             top_msg = self.updateStats()
             time = self.getTime()
             self.finished = True
-            self.playSample("winperfect", priority=1000)
+            self.playSample("gameperfect", priority=1000)
             d = MfxMessageDialog(self.top, title=_("Game won"),
                                  text=_('''
 Congratulations, this
@@ -1208,7 +1210,7 @@ for %d moves.
             top_msg = self.updateStats()
             time = self.getTime()
             self.finished = True
-            self.playSample("winwon", priority=1000)
+            self.playSample("gamewon", priority=1000)
             d = MfxMessageDialog(self.top, title=_("Game won"),
                                  text=_('''
 Congratulations, you did it !
@@ -1220,12 +1222,12 @@ for %d moves.
                                  strings=(_("&New game"), None, _("&Cancel")),
                                  image=self.app.gimages.logos[4], separatorwidth=2)
         elif self.gstats.updated < 0:
-            self.playSample("winfinished", priority=1000)
+            self.playSample("gamefinished", priority=1000)
             d = MfxMessageDialog(self.top, title=_("Game finished"), bitmap="info",
                                  text=_("\nGame finished\n"),
                                  strings=(_("&New game"), None, _("&Cancel")))
         else:
-            self.playSample("winlost", priority=1000)
+            self.playSample("gamelost", priority=1000)
             d = MfxMessageDialog(self.top, title=_("Game finished"), bitmap="info",
                                  text=_("\nGame finished, but not without my help...\n"),
                                  strings=(_("&New game"), _("&Restart"), _("&Cancel")))

@@ -338,7 +338,7 @@ class PysolMenubar(PysolMenubarActions):
         submenu.add_checkbutton(label=n_("Show removed tiles (in Mahjongg games)"), variable=self.tkopt.mahjongg_show_removed, command=self.mOptMahjonggShowRemoved)
         submenu.add_checkbutton(label=n_("Show hint arrow (in Shisen-Sho games)"), variable=self.tkopt.shisen_show_hint, command=self.mOptShisenShowHint)
         menu.add_separator()
-        label = n_("&Sound")
+        label = n_("&Sound...")
         if self.app.audio.audiodev is None:
             menu.add_checkbutton(label=label, variable=self.tkopt.sound, command=self.mOptSoundDialog, state=Tkinter.DISABLED)
         else:
@@ -372,6 +372,7 @@ class PysolMenubar(PysolMenubarActions):
         submenu.add_checkbutton(label=n_("Show &statusbar"), variable=self.tkopt.statusbar, command=self.mOptStatusbar)
         submenu.add_checkbutton(label=n_("Show &number of cards"), variable=self.tkopt.num_cards, command=self.mOptNumCards)
         submenu.add_checkbutton(label=n_("Show &help bar"), variable=self.tkopt.helpbar, command=self.mOptHelpbar)
+        menu.add_checkbutton(label=n_("Save games &geometry"), variable=self.tkopt.save_games_geometry, command=self.mOptSaveGamesGeometry)
         menu.add_checkbutton(label=n_("&Demo logo"), variable=self.tkopt.demo_logo, command=self.mOptDemoLogo)
         menu.add_checkbutton(label=n_("Startup splash sc&reen"), variable=self.tkopt.splashscreen, command=self.mOptSplashscreen)
 ###        menu.add_separator()
@@ -866,6 +867,7 @@ class PysolMenubar(PysolMenubarActions):
                 self._cancelDrag()
                 self.game.endGame(bookmark=1)
                 self.game.quitGame(bookmark=1)
+                self.app.opt.games_geometry = {} # clear saved games geometry
 
     def _mOptCardback(self, index):
         if self._cancelDrag(break_pause=False): return
@@ -958,7 +960,8 @@ class PysolMenubar(PysolMenubarActions):
         if not self.app.statusbar: return
         side = self.tkopt.statusbar.get()
         self.app.opt.statusbar = side
-        if self.app.statusbar.show(side):
+        resize = not self.app.opt.save_games_geometry
+        if self.app.statusbar.show(side, resize=resize):
             self.top.update_idletasks()
 
     def mOptNumCards(self, *event):
@@ -970,8 +973,13 @@ class PysolMenubar(PysolMenubarActions):
         if not self.app.helpbar: return
         show = self.tkopt.helpbar.get()
         self.app.opt.helpbar = show
-        if self.app.helpbar.show(show):
+        resize = not self.app.opt.save_games_geometry
+        if self.app.helpbar.show(show, resize=resize):
             self.top.update_idletasks()
+
+    def mOptSaveGamesGeometry(self, *event):
+        if self._cancelDrag(break_pause=False): return
+        self.app.opt.save_games_geometry = self.tkopt.save_games_geometry.get()
 
     def mOptDemoLogo(self, *event):
         if self._cancelDrag(break_pause=False): return
@@ -1002,7 +1010,8 @@ class PysolMenubar(PysolMenubarActions):
         if self._cancelDrag(break_pause=False): return
         self.app.opt.toolbar = side
         self.tkopt.toolbar.set(side)                    # update radiobutton
-        if self.app.toolbar.show(side):
+        resize = not self.app.opt.save_games_geometry
+        if self.app.toolbar.show(side, resize=resize):
             self.top.update_idletasks()
 
     def setToolbarSize(self, size):

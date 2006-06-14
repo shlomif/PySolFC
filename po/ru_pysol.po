@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Sun Jun 11 00:29:57 2006\n"
-"PO-Revision-Date: 2006-06-11 00:32+0400\n"
+"POT-Creation-Date: Sun Jun 11 10:16:01 2006\n"
+"PO-Revision-Date: 2006-06-12 15:31+0400\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2280,8 +2280,8 @@ msgid "Show hint arrow (in Shisen-Sho games)"
 msgstr "Показывать стрелку (в Шисен-Сё)"
 
 #: pysollib/tk/menubar.py:341
-msgid "&Sound"
-msgstr "&Звук"
+msgid "&Sound..."
+msgstr "&Звук..."
 
 #: pysollib/tk/menubar.py:349
 msgid "Cards&et..."
@@ -2289,7 +2289,7 @@ msgstr "Коло&да..."
 
 #: pysollib/tk/menubar.py:350
 msgid "Table t&ile..."
-msgstr "&Игровой стол..."
+msgstr "Игровой &стол..."
 
 #: pysollib/tk/menubar.py:352
 msgid "Card &background"
@@ -2313,7 +2313,7 @@ msgstr "&Негативные контуры карты"
 
 #: pysollib/tk/menubar.py:357
 msgid "A&nimations"
-msgstr "&Анимация"
+msgstr "Анимаци&я"
 
 #: pysollib/tk/menubar.py:358
 msgid "&None"
@@ -2353,11 +2353,11 @@ msgstr "Тайма&уты..."
 
 #: pysollib/tk/menubar.py:369
 msgid "&Toolbar"
-msgstr "Панель &инструментов"
+msgstr "Панель и&нструментов"
 
 #: pysollib/tk/menubar.py:371
 msgid "Stat&usbar"
-msgstr "Панель состояния"
+msgstr "Панель с&остояния"
 
 #: pysollib/tk/menubar.py:372
 msgid "Show &statusbar"
@@ -2373,11 +2373,11 @@ msgstr "Показывать панель помощи"
 
 #: pysollib/tk/menubar.py:375
 msgid "&Demo logo"
-msgstr "&Демо лого"
+msgstr "Д&емо лого"
 
 #: pysollib/tk/menubar.py:376
 msgid "Startup splash sc&reen"
-msgstr "Окно &запуска"
+msgstr "О&кно запуска"
 
 #: pysollib/tk/menubar.py:380
 msgid "&Help"
@@ -2809,7 +2809,7 @@ msgstr "Все фоновые изображения"
 
 #: pysollib/tk/selecttile.py:158
 msgid "&Solid color..."
-msgstr "&Монотонный цвет..."
+msgstr "М&онотонный цвет..."
 
 #: pysollib/tk/soundoptionsdialog.py:111
 msgid "Sound enabled"
@@ -2837,7 +2837,7 @@ msgstr "&Применить"
 
 #: pysollib/tk/soundoptionsdialog.py:169 pysollib/tk/soundoptionsdialog.py:171
 msgid "&Mixer..."
-msgstr "&Миксер..."
+msgstr "Ми&ксер..."
 
 #: pysollib/tk/soundoptionsdialog.py:220
 msgid "Sound preferences info"

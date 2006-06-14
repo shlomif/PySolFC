@@ -347,19 +347,29 @@ Diamond: 4 8 Q 3 7 J 2 6 T A 5 9 K'''))
 
 # /***********************************************************************
 # // Double Yukon
+# // Double Russian Solitaire
 # ************************************************************************/
 
 class DoubleYukon(Yukon):
     def createGame(self):
         Yukon.createGame(self, rows=10)
     def startGame(self):
-        for i in range(1, len(self.s.rows)):
+        for i in range(1, len(self.s.rows)-1):
             self.s.talon.dealRow(rows=self.s.rows[i:], flip=0, frames=0)
+        #self.s.talon.dealRow(rows=self.s.rows, flip=0, frames=0)
         for i in range(5):
-            self.s.talon.dealRow(rows=self.s.rows, flip=1, frames=0)
+            self.s.talon.dealRow(flip=1, frames=0)
         self.startDealSample()
-        self.s.talon.dealRow(rows=self.s.rows[:-1])
+        self.s.talon.dealRow()
         assert len(self.s.talon.cards) == 0
+
+
+class DoubleRussianSolitaire(DoubleYukon):
+    RowStack_Class = StackWrapper(Yukon_SS_RowStack, base_rank=KING)
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return (card1.suit == card2.suit and
+                (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank))
 
 
 # /***********************************************************************
@@ -542,4 +552,6 @@ registerGame(GameInfo(447, AustralianPatience, "Australian Patience",
 registerGame(GameInfo(450, RawPrawn, "Raw Prawn",
                       GI.GT_YUKON, 1, 0))
 registerGame(GameInfo(456, BimBom, "Bim Bom",
+                      GI.GT_YUKON | GI.GT_ORIGINAL, 2, 0))
+registerGame(GameInfo(466, DoubleRussianSolitaire, "Double Russian Solitaire",
                       GI.GT_YUKON | GI.GT_ORIGINAL, 2, 0))

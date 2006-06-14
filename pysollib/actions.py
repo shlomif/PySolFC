@@ -130,6 +130,7 @@ class PysolMenubarActions:
             statusbar = BooleanVar(),
             num_cards = BooleanVar(),
             helpbar = BooleanVar(),
+            save_games_geometry = BooleanVar(),
             splashscreen = BooleanVar(),
             demo_logo = BooleanVar(),
             sticky_mouse = BooleanVar(),
@@ -180,6 +181,7 @@ class PysolMenubarActions:
         tkopt.statusbar.set(opt.statusbar)
         tkopt.num_cards.set(opt.num_cards)
         tkopt.helpbar.set(opt.helpbar)
+        tkopt.save_games_geometry.set(opt.save_games_geometry)
         tkopt.demo_logo.set(opt.demo_logo)
         tkopt.splashscreen.set(opt.splashscreen)
         tkopt.sticky_mouse.set(opt.sticky_mouse)
@@ -743,19 +745,19 @@ class PysolMenubarActions:
         if self._cancelDrag(): return
         if self.app.opt.hint:
             if self.game.showHint(0, self.app.opt.hint_sleep):
-                self.game.stats.hints = self.game.stats.hints + 1
+                self.game.stats.hints += 1
 
     def mHint1(self, *args):
         if self._cancelDrag(): return
         if self.app.opt.hint:
             if self.game.showHint(1, self.app.opt.hint_sleep):
-                self.game.stats.hints = self.game.stats.hints + 1
+                self.game.stats.hints += 1
 
     def mHighlightPiles(self, *args):
         if self._cancelDrag(): return
         if self.app.opt.highlight_piles:
             if self.game.highlightPiles(self.app.opt.highlight_piles_sleep):
-                self.game.stats.highlight_piles = self.game.stats.highlight_piles + 1
+                self.game.stats.highlight_piles += 1
 
     def mDemo(self, *args):
         if self._cancelDrag(): return

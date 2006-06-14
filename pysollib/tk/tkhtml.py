@@ -125,15 +125,15 @@ class tkHTMLWriter(formatter.DumbWriter):
             self.text.tag_bind(tag, "<1>", self.createCallback(url))
             self.text.tag_bind(tag, "<Enter>", lambda e: self.anchor_enter(url))
             self.text.tag_bind(tag, "<Leave>", self.anchor_leave)
-            self.text.tag_config(tag, foreground="blue", underline=1)
+            fg = 'blue'
+            u = self.viewer.normurl(url, with_protocol=False)
+            if u in self.viewer.visited_urls:
+                fg = '#303080'
+            self.text.tag_config(tag, foreground=fg, underline=1)
             self.anchor = None
 
     def anchor_enter(self, url):
-        for p in REMOTE_PROTOCOLS:
-            if url.startswith(p):
-                break
-        else:
-            url = 'file://'+self.viewer.basejoin(url)
+        url = self.viewer.normurl(url)
         self.viewer.statusbar.updateText(url=url)
         self.text.config(cursor=self.viewer.handcursor)
 
@@ -219,6 +219,7 @@ class tkHTMLViewer:
             list = [],
             index = 0,
         )
+        self.visited_urls = []
         self.images = {}    # need to keep a reference because of garbage collection
         self.defcursor = parent["cursor"]
         ##self.defcursor = 'xterm'
@@ -247,7 +248,8 @@ class tkHTMLViewer:
         text_frame = Tkinter.Frame(parent)
         text_frame.grid(row=1, column=0, columnspan=4, sticky='nsew')
         self.text = Tkinter.Text(text_frame,
-                                 fg='black', bg='white', bd=0,
+                                 fg='black', bg='white',
+                                 bd=1, relief='sunken',
                                  cursor=self.defcursor,
                                  wrap='word', padx=20, pady=20)
         self.text.pack(side=Tkinter.LEFT, fill=Tkinter.BOTH, expand=1)
@@ -287,24 +289,22 @@ class tkHTMLViewer:
         except: pass
         self.parent = None
 
+    def _yview(self, *args):
+        apply(self.text.yview, args, {})
+        return 'break'
+
     def page_up(self, *event):
-        self.text.yview_scroll(-1, "page")
-        return "break"
+        return self._yview('scroll', -1, 'page')
     def page_down(self, *event):
-        self.text.yview_scroll(1, "page")
-        return "break"
+        return self._yview('scroll', 1, 'page')
     def unit_up(self, *event):
-        self.text.yview_scroll(-1, "unit")
-        return "break"
+        return self._yview('scroll', -1, 'unit')
     def unit_down(self, *event):
-        self.text.yview_scroll(1, "unit")
-        return "break"
+        return self._yview('scroll', 1, 'unit')
     def scroll_top(self, *event):
-        self.text.yview_moveto(0)
-        return "break"
+        return self._yview('moveto', 0)
     def scroll_bottom(self, *event):
-        self.text.yview_moveto(1)
-        return "break"
+        return self._yview('moveto', 1)
 
     # locate a file relative to the current self.url
     def basejoin(self, url, baseurl=None, relpath=1):
@@ -325,6 +325,18 @@ class tkHTMLViewer:
                 url = os.path.normpath(url)
         return url
 
+    def normurl(self, url, with_protocol=True):
+        for p in REMOTE_PROTOCOLS:
+            if url.startswith(p):
+                break
+        else:
+            url = self.basejoin(url)
+            if with_protocol:
+                if os.name == 'nt':
+                    url = url.replace('\\', '/')
+                url = 'file://'+url
+        return url
+
     def openfile(self, url):
         if url[-1:] == "/" or os.path.isdir(url):
             url = os.path.join(url, "index.html")
@@ -338,6 +350,7 @@ class tkHTMLViewer:
             if self.app and self.app.game:
                 self.app.game.stopDemo()
                 ##self.app.game._cancelDrag()
+                ##pass
 
         # ftp: and http: would work if we use urllib, but this widget is
         # far too limited to display anything but our documentation...
@@ -418,6 +431,8 @@ to open the following URL:
         ##self.frame.config(cursor=self.defcursor)
 
     def addHistory(self, url, xview=0, yview=0):
+        if not url in self.visited_urls:
+            self.visited_urls.append(url)
         if self.history.index > 0:
             u, xv, yv = self.history.list[self.history.index-1]
             if cmp(u, url) == 0:

@@ -950,6 +950,27 @@ class SevenDevils(Klondike):
         self.s.talon.dealRow(rows=self.s.reserves)
 
 
+# /***********************************************************************
+# // Moving Left
+# ************************************************************************/
+
+class MovingLeft(Klondike):
+
+    def createGame(self):
+        Klondike.createGame(self, max_rounds=1, rows=10, playcards=24)
+
+    def fillStack(self, stack):
+        if not stack.cards:
+            old_state = self.enterState(self.S_FILL)
+            if stack in self.s.rows:
+                i = list(self.s.rows).index(stack)
+                if i < 9:
+                    from_stack = self.s.rows[i+1]
+                    pile = from_stack.getPile()
+                    if pile:
+                        from_stack.moveMove(len(pile), stack)
+            self.leaveState(old_state)
+
 
 # register the game
 registerGame(GameInfo(2, Klondike, "Klondike",
@@ -1042,4 +1063,6 @@ registerGame(GameInfo(452, DoubleEasthaven, "Double Easthaven",
                       GI.GT_GYPSY, 2, 0))
 registerGame(GameInfo(453, TripleEasthaven, "Triple Easthaven",
                       GI.GT_GYPSY, 3, 0))
+registerGame(GameInfo(470, MovingLeft, "Moving Left",
+                      GI.GT_KLONDIKE, 2, 0))
 

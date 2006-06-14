@@ -187,22 +187,25 @@ class Dover_RowStack(RK_RowStack):
 class Dover(Bristol):
 
     Talon_Class = Bristol_Talon
-    Foundation_Class = SS_FoundationStack
-    RowStack_Class = Dover_RowStack
+    Foundation_Class = StackWrapper(SS_FoundationStack, max_move=0)
+    RowStack_Class = StackWrapper(Dover_RowStack, base_rank=NO_RANK, max_move=1)
     ReserveStack_Class = StackWrapper(ReserveStack, max_accept=0, max_cards=UNLIMITED_CARDS)
 
-    def createGame(self, text=False):
+    def createGame(self, rows=8, text=False):
         # create layout
         l, s = Layout(self), self.s
 
         # set window
-        self.setSize(2*l.XM+9*l.XS, l.YM+20+5*l.YS)
+        max_rows = max(rows, self.gameinfo.decks*4)
+        w, h = 2*l.XM+l.XS+max_rows*l.XS, l.YM+20+5*l.YS
+        self.setSize(w, h)
 
         # create stacks
-        x, y, = l.XM+l.XM+l.XS, l.YM
-        for i in range(8):
-            s.foundations.append(self.Foundation_Class(x, y, self, suit=i/2, max_move=0))
-            x += l.XS
+        x, y, = 2*l.XM+l.XS+l.XS*(max_rows-self.gameinfo.decks*4), l.YM
+        for j in range(self.gameinfo.decks):
+            for i in range(4):
+                s.foundations.append(self.Foundation_Class(x, y, self, suit=i))
+                x += l.XS
         if text:
             x, y = l.XM+8*l.XS, l.YM
             tx, ty, ta, tf = l.getTextAttr(None, "s")
@@ -210,12 +213,12 @@ class Dover(Bristol):
             font = self.app.getFont("canvas_default")
             self.texts.info = MfxCanvasText(self.canvas, tx, ty, anchor=ta, font=font)
 
-        x, y = l.XM+l.XM, l.YM+l.YS
+        x, y = 2*l.XM+(max_rows-rows)*l.XS, l.YM+l.YS
         if text:
             y += 20
-        for i in range(8):
+        for i in range(rows):
             x += l.XS
-            stack = self.RowStack_Class(x, y, self,  base_rank=NO_RANK, max_move=1)
+            stack = self.RowStack_Class(x, y, self)
             stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, l.YOFFSET
             s.rows.append(stack)
         x, y, = l.XM, l.YM
@@ -262,9 +265,9 @@ class NewYork_RowStack(AC_RowStack):
 
 class NewYork(Dover):
 
-    Foundation_Class = StackWrapper(SS_FoundationStack, mod=13)
+    Foundation_Class = StackWrapper(SS_FoundationStack, mod=13, max_move=0)
     Talon_Class = NewYork_Talon
-    RowStack_Class = StackWrapper(NewYork_RowStack, base_rank=ANY_RANK, mod=13)
+    RowStack_Class = StackWrapper(NewYork_RowStack, base_rank=ANY_RANK, mod=13, max_move=1)
     ReserveStack_Class = StackWrapper(NewYork_ReserveStack, max_accept=1, max_cards=UNLIMITED_CARDS, mod=13)
 
     def createGame(self):
@@ -315,6 +318,30 @@ class NewYork(Dover):
         p.dump(self.base_card.id)
 
 
+# /***********************************************************************
+# // Spike
+# ************************************************************************/
+
+class Spike(Dover):
+
+    Foundation_Class = SS_FoundationStack
+    RowStack_Class = KingAC_RowStack
+
+    def createGame(self):
+        Dover.createGame(self, rows=7)
+
+    def startGame(self):
+        for i in range(1, 7):
+            self.s.talon.dealRow(rows=self.s.rows[i:], flip=0, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return (card1.color != card2.color and
+                abs(card1.rank-card2.rank) == 1)
+
+
 # register the game
 registerGame(GameInfo(42, Bristol, "Bristol",
                       GI.GT_FAN_TYPE, 1, 0))
@@ -324,4 +351,6 @@ registerGame(GameInfo(266, Dover, "Dover",
                       GI.GT_FAN_TYPE, 2, 0))
 registerGame(GameInfo(425, NewYork, "New York",
                       GI.GT_FAN_TYPE, 2, 0))
+registerGame(GameInfo(468, Spike, "Spike",
+                      GI.GT_KLONDIKE, 1, 0))
 

@@ -420,7 +420,7 @@ class MfxTooltip:
 class MfxScrolledCanvas:
     def __init__(self, parent, hbar=2, vbar=2, **kw):
         bg = kw.get("bg", parent.cget("bg"))
-        kwdefault(kw, bg=bg, highlightthickness=0)
+        kwdefault(kw, bg=bg, highlightthickness=0, bd=1, relief='sunken')
         self.parent = parent
         self.createFrame(kw)
         self.canvas = None
@@ -629,41 +629,36 @@ class MfxScrolledCanvas:
         self.vbar_show = show
         return 1
 
+    def _xview(self, *args):
+        if self.hbar_show: apply(self.canvas.xview, args, {})
+        return 'break'
+    def _yview(self, *args):
+        if self.vbar_show: apply(self.canvas.yview, args, {})
+        return 'break'
+
     def page_up(self, *event):
-        self.canvas.yview_scroll(-1, "page")
-        return "break"
+        return self._yview('scroll', -1, 'page')
     def page_down(self, *event):
-        self.canvas.yview_scroll(1, "page")
-        return "break"
+        return self._yview('scroll', 1, 'page')
     def unit_up(self, *event):
-        self.canvas.yview_scroll(-1, "unit")
-        return "break"
+        return self._yview('scroll', -1, 'unit')
     def unit_down(self, *event):
-        self.canvas.yview_scroll(1, "unit")
-        return "break"
+        return self._yview('scroll', 1, 'unit')
     def mouse_wheel_up(self, *event):
-        self.canvas.yview_scroll(-5, "unit")
-        return "break"
+        return self._yview('scroll', -5, 'unit')
     def mouse_wheel_down(self, *event):
-        self.canvas.yview_scroll(5, "unit")
-        return "break"
+        return self._yview('scroll', 5, 'unit')
     def page_left(self, *event):
-        self.canvas.xview_scroll(-1, "page")
-        return "break"
+        return self._xview('scroll', -1, 'page')
     def page_right(self, *event):
-        self.canvas.xview_scroll(1, "page")
-        return "break"
+        return self._xview('scroll', 1, 'page')
     def unit_left(self, *event):
-        self.canvas.xview_scroll(-1, "unit")
-        return "break"
+        return self._xview('scroll', -1, 'unit')
     def unit_right(self, *event):
-        self.canvas.xview_scroll(1, "unit")
-        return "break"
+        return self._xview('scroll', 1, 'unit')
     def scroll_top(self, *event):
-        self.canvas.yview_moveto(0)
-        return "break"
+        return self._yview('moveto', 0)
     def scroll_bottom(self, *event):
-        self.canvas.yview_moveto(1)
-        return "break"
+        return self._yview('moveto', 1)
 
 

@@ -325,6 +325,8 @@ class LexingtonHarp(MilliganHarp):
     GAME_VERSION = 2
     RowStack_Class = Yukon_AC_RowStack
     Hint_Class = YukonType_Hint
+    def getHighlightPilesStacks(self):
+        return ()
 
 
 class Brunswick(LexingtonHarp):
@@ -344,6 +346,7 @@ class Griffon(Mississippi):
 
 # /***********************************************************************
 # // Blockade
+# // Phantom Blockade
 # ************************************************************************/
 
 class Blockade(Gypsy):
@@ -363,6 +366,24 @@ class Blockade(Gypsy):
             self.s.talon.flipMove()
             self.s.talon.moveMove(1, stack)
             self.leaveState(old_state)
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return (card1.suit == card2.suit and
+                abs(card1.rank-card2.rank) == 1)
+
+
+class PhantomBlockade(Gypsy):
+    Layout_Method = Layout.klondikeLayout
+    RowStack_Class = KingAC_RowStack
+
+    def createGame(self):
+        Gypsy.createGame(self, rows=13, playcards=24)
+
+    def startGame(self):
+        self.s.talon.dealRow(frames=0)
+        self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
 
 
 # /***********************************************************************
@@ -506,5 +527,7 @@ registerGame(GameInfo(226, Blockade, "Blockade",
 registerGame(GameInfo(412, Cone, "Cone",
                       GI.GT_GYPSY, 2, 0))
 registerGame(GameInfo(463, Surprise, "Surprise",
+                      GI.GT_GYPSY, 2, 0))
+registerGame(GameInfo(469, PhantomBlockade, "Phantom Blockade",
                       GI.GT_GYPSY, 2, 0))
 

@@ -640,6 +640,9 @@ class Chelicera(Game):
         for i in range(3):
             self.s.talon.dealRow(rows=self.s.rows[4:])
 
+    def getHighlightPilesStacks(self):
+        return ()
+
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return card1.suit == card2.suit and abs(card1.rank-card2.rank) == 1
 
@@ -792,6 +795,9 @@ class Applegate(Game):
             if len(s.cards) != 13 or not isSameSuitSequence(s.cards):
                 return False
         return True
+
+    def getHighlightPilesStacks(self):
+        return ()
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return (card1.suit == card2.suit and

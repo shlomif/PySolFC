@@ -74,31 +74,33 @@ class SoundOptionsDialog(MfxDialog):
         self.music_volume = IntVar()
         self.music_volume.set(app.opt.sound_music_volume)
         self.samples = [
-            ('areyousure',    'AreYouSure',    BooleanVar()),
-            ('autodrop',      'AutoDrop',      BooleanVar()),
-            ('autoflip',      'AutoFlip',      BooleanVar()),
-            ('autopilotlost', 'AutopilotLost', BooleanVar()),
-            ('autopilotwon',  'AutopilotWon',  BooleanVar()),
-            ('deal',          'Deal',          BooleanVar()),
-            #('deal01',        'Deal01',        BooleanVar()),
-            #('deal02',        'Deal02',        BooleanVar()),
-            #('deal04',        'Deal04',        BooleanVar()),
-            #('deal08',        'Deal08',        BooleanVar()),
-            ('dealwaste',     'DealWaste',     BooleanVar()),
-            ('droppair',      'DropPair',      BooleanVar()),
-            ('drop',          'Drop',          BooleanVar()),
-            #('extra',         'Extra',         BooleanVar()),
-            ('flip',          'Flip',          BooleanVar()),
-            ('move',          'Move',          BooleanVar()),
-            ('nomove',        'NoMove',        BooleanVar()),
-            ('redo',          'Redo',          BooleanVar()),
-            ('startdrag',     'StartDrag',     BooleanVar()),
-            ('turnwaste',     'TurnWaste',     BooleanVar()),
-            ('undo',          'Undo',          BooleanVar()),
-            ('gamefinished',  'GameFinished',  BooleanVar()),
-            ('gamelost',      'GameLost',      BooleanVar()),
-            ('gameperfect',   'GamePerfect',   BooleanVar()),
-            ('gamewon',       'GameWon',       BooleanVar()),
+            ('areyousure',    _('Are You Sure'),   BooleanVar()),
+
+            ('deal',          _('Deal'),           BooleanVar()),
+            ('dealwaste',     _('Deal waste'),     BooleanVar()),
+
+            ('turnwaste',     _('Turn waste'),     BooleanVar()),
+            ('startdrag',     _('Start drag'),     BooleanVar()),
+
+            ('drop',          _('Drop'),           BooleanVar()),
+            ('droppair',      _('Drop pair'),      BooleanVar()),
+            ('autodrop',      _('Auto drop'),      BooleanVar()),
+
+            ('flip',          _('Flip'),           BooleanVar()),
+            ('autoflip',      _('Auto flip'),      BooleanVar()),
+            ('move',          _('Move'),           BooleanVar()),
+            ('nomove',        _('No move'),        BooleanVar()),
+
+            ('undo',          _('Undo'),           BooleanVar()),
+            ('redo',          _('Redo'),           BooleanVar()),
+
+            ('autopilotlost', _('Autopilot lost'), BooleanVar()),
+            ('autopilotwon',  _('Autopilot won'),  BooleanVar()),
+
+            ('gamefinished',  _('Game finished'),  BooleanVar()),
+            ('gamelost',      _('Game lost'),      BooleanVar()),
+            ('gamewon',       _('Game won'),       BooleanVar()),
+            ('gameperfect',   _('Perfect game'),   BooleanVar()),
             ]
 
         #

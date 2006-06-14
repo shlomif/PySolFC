@@ -184,12 +184,18 @@ class Game:
         if not self.cards:
             self.cards = self.createCards(progress=self.app.intro.progress)
         self.initBindings()
-        self.top.bind('<ButtonPress>', self.top._sleepEvent)
-        self.top.bind('<3>', self.top._sleepEvent)
+        ##self.top.bind('<ButtonPress>', self.top._sleepEvent)
+        ##self.top.bind('<3>', self.top._sleepEvent)
         ##print timer
         # update display properties
         self.top.wm_geometry("")        # cancel user-specified geometry
         self.canvas.setInitialSize(self.width, self.height)
+        # restore game geometry
+        if self.app.opt.save_games_geometry:
+            w, h = self.app.opt.games_geometry.get(self.id, (0, 0))
+            w, h = max(w, self.width), max(h, self.height)
+            self.canvas.config(width=w, height=h)
+        #
         self.stats.update_time = time.time()
         self.busy = old_busy
         ##print timer
@@ -784,7 +790,8 @@ class Game:
     #
 
     def playSample(self, name, priority=0, loop=0):
-        if not self.app.opt.sound_samples[name]:
+        if self.app.opt.sound_samples.has_key(name) and \
+               not self.app.opt.sound_samples[name]:
             return 0
         ##print "playSample:", name, priority, loop
         if self.app.audio:

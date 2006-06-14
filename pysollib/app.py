@@ -129,14 +129,14 @@ class Options:
             'autopilotlost' : True,
             'autopilotwon'  : True,
             'deal'          : True,
-            'deal01'        : True,
-            'deal02'        : True,
-            'deal04'        : True,
-            'deal08'        : True,
+            #'deal01'        : True,
+            #'deal02'        : True,
+            #'deal04'        : True,
+            #'deal08'        : True,
             'dealwaste'     : True,
             'droppair'      : True,
             'drop'          : True,
-            'extra'         : True,
+            #'extra'         : True,
             'flip'          : True,
             'move'          : True,
             'nomove'        : True,
@@ -184,6 +184,7 @@ class Options:
         self.highlight_cards_sleep = 1.0
         self.highlight_samerank_sleep = 1.0
         # additional startup information
+        self.num_recent_games = 15
         self.recent_gameid = []
         self.favorite_gameid = []
         self.last_gameid = 0        # last game played
@@ -191,6 +192,8 @@ class Options:
         #self.last_save_dir = None   # last directory for load/save
         self.game_holded = 0
         self.wm_maximized = 0
+        self.save_games_geometry = False
+        self.games_geometry = {}   # saved games geometry (gameid: (width, height))
         #
         self.splashscreen = True
         self.sticky_mouse = False
@@ -668,7 +671,13 @@ class Application:
                         self.game._saveGame(self.fn.holdgame)
                         self.opt.game_holded = self.game.id
                     except:
+                        traceback.print_exc()
                         pass
+                # save game geometry
+                self.wm_save_state()
+                if self.opt.save_games_geometry and not self.opt.wm_maximized:
+                    geom = (self.canvas.winfo_width(), self.canvas.winfo_height())
+                    self.opt.games_geometry[self.game.id] = geom
                 self.freeGame()
                 #
                 if self.nextgame.id <= 0:
@@ -681,35 +690,25 @@ class Application:
         finally:
             # update options
             self.opt.last_gameid = id
-##             if self.debug:
-##                 self.wm_save_state()
-##                 # save options
-##                 self.saveOptions()
-##                 # save statistics
-##                 self.saveStatistics()
-##                 # save comments
-##                 self.saveComments()
-##                 # shut down audio
-##                 self.audio.destroy()
-##             else:
-            try: self.wm_save_state()
-            except:
-                pass
             # save options
             try: self.saveOptions()
             except:
+                traceback.print_exc()
                 pass
             # save statistics
             try: self.saveStatistics()
             except:
+                traceback.print_exc()
                 pass
             # save comments
             try: self.saveComments()
             except:
+                traceback.print_exc()
                 pass
             # shut down audio
             try: self.audio.destroy()
             except:
+                traceback.print_exc()
                 pass
 
 
@@ -741,7 +740,7 @@ class Application:
         if id in self.opt.recent_gameid:
             self.opt.recent_gameid.remove(id)
         self.opt.recent_gameid.insert(0, id)
-        del self.opt.recent_gameid[15:]
+        del self.opt.recent_gameid[self.opt.num_recent_games:]
         self.menubar.updateRecentGamesMenu(self.opt.recent_gameid)
         self.menubar.updateFavoriteGamesMenu()
         # delete intro progress bar
@@ -789,7 +788,6 @@ class Application:
         self.toolbar.connectGame(None, None)
         self.menubar.connectGame(None)
         # clean up the canvas
-        unbind_destroy(self.canvas)
         self.canvas.deleteAllItems()
         self.canvas.update_idletasks()
         # destruct the game
@@ -808,7 +806,7 @@ class Application:
         if self.top:
             s = self.top.wm_state()
             ##print "wm_save_state", s
-            if s == "zoomed":
+            if s == "zoomed": # Windows only
                 self.opt.wm_maximized = 1
             elif s == "normal":
                 self.opt.wm_maximized = 0
@@ -842,7 +840,7 @@ class Application:
         for f in ("demo01", "demo02", "demo03", "demo04", "demo05",):
             self.gimages.demo.append(self.dataloader.findImage(f, dir))
         dir = os.path.join("images", "pause")
-        for f in ("pause01", "pause02",):
+        for f in ("pause01", "pause02", "pause03",):
             self.gimages.pause.append(self.dataloader.findImage(f, dir))
         ##dir = os.path.join("images", "stats")
         ##for f in ("barchart",):
@@ -950,8 +948,7 @@ class Application:
                     self.opt.cardset[gi.category] = (cs.name, cs.backname)
                 if update & 8:
                     self.opt.cardset[(1, gi.id)] = (cs.name, cs.backname)
-        #from pprint import pprint
-        #pprint(self.opt.cardset)
+        #from pprint import pprint; pprint(self.opt.cardset)
 
     def loadCardset(self, cs, id=0, update=7, progress=None):
         #print 'loadCardset', cs.ident
@@ -1146,8 +1143,7 @@ Please select a %s type %s.
             return
         opt = unpickle(self.fn.opt)
         if opt:
-            ##import pprint
-            ##pprint.pprint(opt.__dict__)
+            ##import pprint; pprint.pprint(opt.__dict__)
             #cardset = self.opt.cardset
             #cardset.update(opt.cardset)
             self.opt.__dict__.update(opt.__dict__)

@@ -38,7 +38,7 @@ import os, string, types
 import Tkinter
 
 # Toolkit imports
-from tkutil import bind, unbind_destroy
+from tkutil import bind
 from tkwidget import MfxScrolledCanvas
 
 
@@ -244,6 +244,7 @@ class MfxTreeInCanvas(MfxScrolledCanvas):
 
     def __init__(self, parent, rootnodes, **kw):
         bg = kw["bg"] = kw.get("bg") or parent.cget("bg")
+        kw['bd'] = 0
         apply(MfxScrolledCanvas.__init__, (self, parent,), kw)
         #
         self.rootnodes = rootnodes

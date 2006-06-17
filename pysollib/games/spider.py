@@ -542,6 +542,7 @@ class Cicely(Game):
 # /***********************************************************************
 # // Trillium
 # // Lily
+# // Wake-Robin
 # ************************************************************************/
 
 class Trillium(Game):
@@ -549,21 +550,21 @@ class Trillium(Game):
     Hint_Class = Spider_Hint
     RowStack_Class = StackWrapper(AC_RowStack, base_rank=ANY_RANK)
 
-    def createGame(self, **layout):
+    def createGame(self, rows=13):
         # create layout
         l, s = Layout(self), self.s
 
         # set window
-        w, h = l.XM+13*l.XS, l.YM+l.YS+24*l.YOFFSET
+        w, h = l.XM+rows*l.XS, l.YM+l.YS+24*l.YOFFSET
         self.setSize(w, h)
 
         # create stacks
         x, y = l.XM, l.YM
-        for i in range(13):
+        for i in range(rows):
             s.rows.append(self.RowStack_Class(x, y, self))
             x += l.XS
 
-        s.talon = DealRowTalonStack(l.XM+6*l.XS, h-l.YS, self)
+        s.talon = DealRowTalonStack(l.XM+(rows-1)*l.XS/2, h-l.YS, self)
         l.createText(s.talon, "se")
 
         # define stack-groups
@@ -589,6 +590,29 @@ class Trillium(Game):
 
 class Lily(Trillium):
     RowStack_Class = StackWrapper(AC_RowStack, base_rank=KING)
+
+
+class WakeRobin(Trillium):
+    RowStack_Class = RK_RowStack
+
+    def createGame(self):
+        Trillium.createGame(self, rows=9)
+
+    def isGameWon(self):
+        for s in self.s.rows:
+            if s.cards:
+                if len(s.cards) != 13 or not isRankSequence(s.cards):
+                    return False
+        return True
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return abs(card1.rank-card2.rank) == 1
+
+
+
+class TripleWakeRobin(WakeRobin):
+    def createGame(self):
+        Trillium.createGame(self, rows=13)
 
 
 # /***********************************************************************
@@ -808,9 +832,9 @@ class Applegate(Game):
 # /***********************************************************************
 # // Big Spider
 # // Spider 3x3
-# // Ground for a Divorce (3 decks)
+# // Big Ground
 # // Spider (4 decks)
-# // Ground for a Divorce (4 decks)
+# // Very Big Ground
 # ************************************************************************/
 
 class BigSpider(Spider):
@@ -993,11 +1017,11 @@ registerGame(GameInfo(220, RougeEtNoir, "Rouge et Noir",
 registerGame(GameInfo(269, Spider1Suit, "Spider (1 suit)",
                       GI.GT_SPIDER, 2, 0,
                       suits=(0, 0, 0, 0),
-                      rules_filename = "spider.html"))
+                      rules_filename="spider.html"))
 registerGame(GameInfo(270, Spider2Suits, "Spider (2 suits)",
                       GI.GT_SPIDER, 2, 0,
                       suits=(0, 0, 2, 2),
-                      rules_filename = "spider.html"))
+                      rules_filename="spider.html"))
 registerGame(GameInfo(305, ThreeBlindMice, "Three Blind Mice",
                       GI.GT_SPIDER, 1, 0))
 registerGame(GameInfo(309, MrsMop, "Mrs. Mop",
@@ -1022,8 +1046,7 @@ registerGame(GameInfo(382, Applegate, "Applegate",
                       GI.GT_SPIDER, 1, 0))
 registerGame(GameInfo(384, BigSpider, "Big Spider",
                       GI.GT_SPIDER, 3, 0))
-registerGame(GameInfo(401, GroundForADivorce3Decks,
-                      "Ground for a Divorce (3 decks)",
+registerGame(GameInfo(401, GroundForADivorce3Decks, "Big Ground",
                       GI.GT_SPIDER, 3, 0))
 registerGame(GameInfo(441, York, "York",
                       GI.GT_SPIDER | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0))
@@ -1032,19 +1055,18 @@ registerGame(GameInfo(444, TripleYork, "Triple York",
 registerGame(GameInfo(445, BigSpider1Suit, "Big Spider (1 suit)",
                       GI.GT_SPIDER, 3, 0,
                       suits=(0, 0, 0, 0),
-                      rules_filename = "bigspider.html"))
+                      rules_filename="bigspider.html"))
 registerGame(GameInfo(446, BigSpider2Suits, "Big Spider (2 suits)",
                       GI.GT_SPIDER, 3, 0,
                       suits=(0, 0, 2, 2),
-                      rules_filename = "bigspider.html"))
+                      rules_filename="bigspider.html"))
 registerGame(GameInfo(449, Spider3x3, "Spider 3x3",
                       GI.GT_SPIDER | GI.GT_ORIGINAL, 3, 0,
                       suits=(0, 1, 2),
-                      rules_filename = "bigspider.html"))
+                      rules_filename="bigspider.html"))
 registerGame(GameInfo(454, Spider4Decks, "Spider (4 decks)",
                       GI.GT_SPIDER, 4, 0))
-registerGame(GameInfo(455, GroundForADivorce4Decks,
-                      "Ground for a Divorce (4 decks)",
+registerGame(GameInfo(455, GroundForADivorce4Decks, "Very Big Ground",
                       GI.GT_SPIDER, 4, 0))
 registerGame(GameInfo(458, Spidike, "Spidike",
                       GI.GT_SPIDER, 1, 0)) # GT_GYPSY ?
@@ -1054,4 +1076,8 @@ registerGame(GameInfo(460, FredsSpider3Decks, "Fred's Spider (3 decks)",
                       GI.GT_SPIDER, 3, 0))
 registerGame(GameInfo(461, OpenSpider, "Open Spider",
                       GI.GT_SPIDER, 2, 0))
+registerGame(GameInfo(501, WakeRobin, "Wake-Robin",
+                      GI.GT_SPIDER | GI.GT_ORIGINAL, 2, 0))
+registerGame(GameInfo(502, TripleWakeRobin, "Wake-Robin (3 decks)",
+                      GI.GT_SPIDER | GI.GT_ORIGINAL, 3, 0))
 

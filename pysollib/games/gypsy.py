@@ -45,6 +45,9 @@ from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 from pysollib.hint import KlondikeType_Hint, YukonType_Hint
 
+from spider import Spider_Hint
+
+
 # /***********************************************************************
 # // Gypsy
 # ************************************************************************/
@@ -207,6 +210,7 @@ class DieRussische(Gypsy):
 
 # /***********************************************************************
 # // Miss Milligan
+# // Imperial Guards
 # ************************************************************************/
 
 class MissMilligan_ReserveStack(AC_RowStack):
@@ -263,6 +267,10 @@ class MissMilligan(Gypsy):
         self.s.talon.dealRow()
 
 
+class ImperialGuards(MissMilligan):
+    RowStack_Class = AC_RowStack
+
+
 # /***********************************************************************
 # // Nomad
 # ************************************************************************/
@@ -297,6 +305,7 @@ class MilliganCell(MissMilligan):
 # /***********************************************************************
 # // Milligan Harp
 # // Carlton
+# // Steve
 # ************************************************************************/
 
 class MilliganHarp(Gypsy):
@@ -312,6 +321,14 @@ class MilliganHarp(Gypsy):
 class Carlton(MilliganHarp):
     def startGame(self):
         MilliganHarp.startGame(self, flip=1)
+
+
+class Steve(Carlton):
+    Hint_Class = Spider_Hint
+    RowStack_Class = Spider_SS_RowStack
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return abs(card1.rank-card2.rank) == 1
 
 
 # /***********************************************************************
@@ -491,6 +508,37 @@ class Surprise(Gypsy):
         self.s.talon.dealRow()
 
 
+# /***********************************************************************
+# // Elba
+# ************************************************************************/
+
+class Elba(Gypsy):
+    Layout_Method = Layout.klondikeLayout
+    RowStack_Class = KingAC_RowStack
+
+    def createGame(self):
+        Gypsy.createGame(self, rows=10)
+
+    def startGame(self):
+        for i in range(4):
+            self.s.talon.dealRow(flip=0, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+
+# /***********************************************************************
+# // Millie
+# ************************************************************************/
+
+class Millie(Gypsy):
+    Layout_Method = Layout.klondikeLayout
+    RowStack_Class = AC_RowStack
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+
 # register the game
 registerGame(GameInfo(1, Gypsy, "Gypsy",
                       GI.GT_GYPSY, 2, 0))
@@ -529,5 +577,13 @@ registerGame(GameInfo(412, Cone, "Cone",
 registerGame(GameInfo(463, Surprise, "Surprise",
                       GI.GT_GYPSY, 2, 0))
 registerGame(GameInfo(469, PhantomBlockade, "Phantom Blockade",
+                      GI.GT_GYPSY, 2, 0))
+registerGame(GameInfo(478, Elba, "Elba",
+                      GI.GT_GYPSY, 2, 0))
+registerGame(GameInfo(486, ImperialGuards, "Imperial Guards",
+                      GI.GT_GYPSY, 2, 0))
+registerGame(GameInfo(487, Millie, "Millie",
+                      GI.GT_GYPSY, 2, 0))
+registerGame(GameInfo(498, Steve, "Steve",
                       GI.GT_GYPSY, 2, 0))
 

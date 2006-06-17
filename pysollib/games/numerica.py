@@ -57,7 +57,7 @@ class Numerica_Hint(DefaultHint):
         #FIXME: implement this method
 
     def _getMoveWasteScore(self, score, color, r, t, pile, rpile):
-        assert r is self.game.s.waste and len(pile) == 1
+        assert r in (self.game.s.waste, self.game.s.talon) and len(pile) == 1
         score = 30000
         if len(t.cards) == 0:
             score = score - (KING - r.cards[0].rank) * 1000
@@ -496,6 +496,7 @@ class Toad(Game):
         self.startDealSample()
         self.s.talon.dealRow(rows=self.s.reserves)
 
+
 # /***********************************************************************
 # // Shifting
 # ************************************************************************/
@@ -516,6 +517,65 @@ class Shifting_RowStack(Numerica_RowStack):
 
 class Shifting(Numerica):
     RowStack_Class = StackWrapper(Shifting_RowStack, max_accept=1)
+
+
+# /***********************************************************************
+# // Strategerie
+# ************************************************************************/
+
+class Strategerie_Talon(OpenTalonStack):
+    rightclickHandler = OpenStack.rightclickHandler
+
+
+class Strategerie_RowStack(BasicRowStack):
+
+    def acceptsCards(self, from_stack, cards):
+        if not BasicRowStack.acceptsCards(self, from_stack, cards):
+            return False
+        if from_stack is self.game.s.talon or from_stack in self.game.s.reserves:
+            return True
+        return False
+
+    def getBottomImage(self):
+        return self.game.app.images.getReserveBottom()
+
+    def getHelp(self):
+        return _('Row. Build regardless of rank and suit.')
+
+
+class Strategerie_ReserveStack(ReserveStack):
+    def acceptsCards(self, from_stack, cards):
+        if not ReserveStack.acceptsCards(self, from_stack, cards):
+            return False
+        if from_stack is self.game.s.talon:
+            return True
+        return False
+
+
+class Strategerie(Game):
+    Hint_Class = Numerica_Hint
+
+    def createGame(self, **layout):
+        # create layout
+        l, s = Layout(self), self.s
+        l.freeCellLayout(rows=4, reserves=4, texts=1)
+        self.setSize(l.size[0], l.size[1])
+        # create stacks
+        s.talon = Strategerie_Talon(l.s.talon.x, l.s.talon.y, self)
+        for r in l.s.foundations:
+            s.foundations.append(RK_FoundationStack(r.x, r.y, self))
+        for r in l.s.rows:
+            s.rows.append(Strategerie_RowStack(r.x, r.y, self,
+                                               max_accept=UNLIMITED_ACCEPTS))
+        for r in l.s.reserves:
+            s.reserves.append(Strategerie_ReserveStack(r.x, r.y, self))
+        # default
+        l.defaultAll()
+        self.sg.dropstacks.append(s.talon)
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.fillStack()
 
 
 
@@ -541,4 +601,5 @@ registerGame(GameInfo(430, PussInTheCorner, "Puss in the Corner",
                       GI.GT_NUMERICA, 1, 0))
 registerGame(GameInfo(435, Shifting, "Shifting",
                       GI.GT_NUMERICA, 1, 0))
-
+registerGame(GameInfo(472, Strategerie, "Strategerie",
+                      GI.GT_NUMERICA, 1, 0))

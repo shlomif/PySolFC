@@ -581,6 +581,7 @@ class Simplicity(Game):
 # ************************************************************************/
 
 class SixesAndSevens(Game):
+
     def createGame(self, max_rounds=2):
 
         l, s = Layout(self), self.s
@@ -629,6 +630,61 @@ class SixesAndSevens(Game):
         self.s.talon.dealCards()
 
 
+# /***********************************************************************
+# // Corner Suite
+# ************************************************************************/
+
+class CornerSuite_RowStack(RK_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not RK_RowStack.acceptsCards(self, from_stack, cards):
+            return False
+        if not self.cards:
+            return from_stack is self.game.s.waste
+        return True
+    def getBottomImage(self):
+        return self.game.app.images.getReserveBottom()
+
+
+class CornerSuite(Game):
+    Hint_Class = CautiousDefaultHint
+
+    def createGame(self):
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+5*l.XS, l.YM+4*l.YS)
+
+        suit = 0
+        for x, y in ((0,0), (4,0), (0,4), (4,4)):
+            x, y = l.XM+x*l.XS, l.YM+y*l.YS
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=suit))
+            suit += 1
+
+        x, y = l.XM+3*l.XS/2, l.YM
+        s.talon = WasteTalonStack(x, y, self, max_rounds=1)
+        l.createText(s.talon, 'nw')
+        x += l.XS
+        s.waste = WasteStack(x, y, self)
+        l.createText(s.waste, 'ne')
+
+        y = l.YM+l.YS
+        for i in range(3):
+            x = l.XM+l.XS
+            for j in range(3):
+                stack = CornerSuite_RowStack(x, y, self, max_move=1)
+                s.rows.append(stack)
+                stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, 0
+                x += l.XS
+            y += l.YS
+
+        l.defaultStackGroups()
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealCards()
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return abs(card1.rank-card2.rank) == 1
+
+
 
 # register the game
 registerGame(GameInfo(330, Sultan, "Sultan",
@@ -654,3 +710,5 @@ registerGame(GameInfo(437, Simplicity, "Simplicity",
                       GI.GT_1DECK_TYPE, 1, 0))
 registerGame(GameInfo(438, SixesAndSevens, "Sixes and Sevens",
                       GI.GT_2DECK_TYPE, 2, 0))
+registerGame(GameInfo(477, CornerSuite, "Corner Suite",
+                      GI.GT_2DECK_TYPE, 1, 0))

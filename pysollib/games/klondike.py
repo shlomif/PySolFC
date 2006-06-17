@@ -952,6 +952,7 @@ class SevenDevils(Klondike):
 
 # /***********************************************************************
 # // Moving Left
+# // Souter
 # ************************************************************************/
 
 class MovingLeft(Klondike):
@@ -964,11 +965,91 @@ class MovingLeft(Klondike):
             old_state = self.enterState(self.S_FILL)
             if stack in self.s.rows:
                 i = list(self.s.rows).index(stack)
-                if i < 9:
+                if i < len(self.s.rows)-1:
                     from_stack = self.s.rows[i+1]
                     pile = from_stack.getPile()
                     if pile:
                         from_stack.moveMove(len(pile), stack)
+            self.leaveState(old_state)
+
+
+class Souter(MovingLeft):
+    def createGame(self):
+        Klondike.createGame(self, max_rounds=2, rows=10, playcards=24)
+
+
+# /***********************************************************************
+# // Big Forty
+# // Ali Baba
+# // Cassim
+# ************************************************************************/
+
+class BigForty(Klondike):
+    RowStack_Class = SS_RowStack
+
+    def createGame(self):
+        Klondike.createGame(self, rows=10)
+
+    def startGame(self):
+        self.s.talon.dealRow(frames=0)
+        self.s.talon.dealRow(frames=0)
+        self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return card1.suit == card2.suit and abs(card1.rank-card2.rank) == 1
+
+
+class AliBaba(BigForty):
+    def _shuffleHook(self, cards):
+        # move Aces to top of the Talon (i.e. first cards to be dealt)
+        return self._shuffleHookMoveToTop(cards,
+                                          lambda c: (c.rank == ACE, c.suit))
+    def startGame(self):
+        self.s.talon.dealRow(rows=self.s.foundations, frames=0)
+        BigForty.startGame(self)
+
+
+class Cassim(AliBaba):
+    def createGame(self):
+        Klondike.createGame(self, rows=7)
+
+
+# /***********************************************************************
+# // Saratoga
+# ************************************************************************/
+
+class Saratoga(Klondike):
+    def createGame(self):
+        Klondike.createGame(self, num_deal=3)
+    def startGame(self):
+        Klondike.startGame(self, flip=1)
+
+
+# /***********************************************************************
+# // Whitehorse
+# ************************************************************************/
+
+class Whitehorse(Klondike):
+
+    def createGame(self):
+        Klondike.createGame(self, num_deal=3)
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
+
+    def fillStack(self, stack):
+        if not stack.cards:
+            old_state = self.enterState(self.S_FILL)
+            if stack in self.s.rows:
+                if not self.s.waste.cards:
+                    self.s.talon.dealCards()
+                if self.s.waste.cards:
+                    self.s.waste.moveMove(1, stack)
             self.leaveState(old_state)
 
 
@@ -1065,4 +1146,16 @@ registerGame(GameInfo(453, TripleEasthaven, "Triple Easthaven",
                       GI.GT_GYPSY, 3, 0))
 registerGame(GameInfo(470, MovingLeft, "Moving Left",
                       GI.GT_KLONDIKE, 2, 0))
+registerGame(GameInfo(471, Souter, "Souter",
+                      GI.GT_KLONDIKE, 2, 1))
+registerGame(GameInfo(473, BigForty, "Big Forty",
+                      GI.GT_KLONDIKE, 1, -1))
+registerGame(GameInfo(474, AliBaba, "Ali Baba",
+                      GI.GT_KLONDIKE, 1, -1))
+registerGame(GameInfo(475, Cassim, "Cassim",
+                      GI.GT_KLONDIKE, 1, -1))
+registerGame(GameInfo(479, Saratoga, "Saratoga",
+                      GI.GT_KLONDIKE, 1, -1))
+registerGame(GameInfo(491, Whitehorse, "Whitehorse",
+                      GI.GT_KLONDIKE, 1, -1))
 

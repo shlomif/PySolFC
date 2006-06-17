@@ -442,6 +442,47 @@ class Amazons(Game):
         return ((), (), self.sg.dropstacks)
 
 
+# /***********************************************************************
+# // Acquaintance
+# ************************************************************************/
+
+class Acquaintance_Talon(TalonStack): # TalonStack
+
+    def canDealCards(self):
+        if self.round == self.max_rounds and not self.cards:
+            return False
+        return not self.game.isGameWon()
+
+    def _redeal(self):
+        # move all cards to the Talon
+        lr = len(self.game.s.rows)
+        num_cards = 0
+        assert len(self.cards) == 0
+        rows = self.game.s.rows
+        for r in rows:
+            for i in range(len(r.cards)):
+                num_cards = num_cards + 1
+                self.game.moveMove(1, r, self, frames=4)
+                self.game.flipMove(self)
+        assert len(self.cards) == num_cards
+        if num_cards == 0:          # game already finished
+            return
+        self.game.nextRoundMove(self)
+
+    def dealCards(self, sound=0):
+        if sound:
+            self.game.startDealSample()
+        if len(self.cards) == 0:
+            self._redeal()
+        n = self.dealRowAvail(sound=sound)
+        if sound:
+            self.game.stopSamples()
+        return n
+
+class Acquaintance(AuldLangSyne):
+    Talon_Class = StackWrapper(Acquaintance_Talon, max_rounds=3)
+
+
 # register the game
 registerGame(GameInfo(172, TamOShanter, "Tam O'Shanter",
                       GI.GT_NUMERICA, 1, 0))
@@ -457,4 +498,6 @@ registerGame(GameInfo(406, Amazons, "Amazons",
                       GI.GT_NUMERICA, 1, -1,
                       ranks=(0, 6, 7, 8, 9, 10, 11),
                       ))
+registerGame(GameInfo(490, Acquaintance, "Acquaintance",
+                      GI.GT_NUMERICA, 1, 2))
 

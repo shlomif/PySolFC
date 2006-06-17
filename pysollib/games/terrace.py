@@ -132,16 +132,17 @@ class Terrace(Game):
     # game layout
     #
 
-    def createGame(self, rows=9, max_rounds=1, num_deal=1):
+    def createGame(self, rows=9, max_rounds=1, num_deal=1, playcards=16):
         # create layout
         l, s = Layout(self), self.s
 
         # set window
-        # (piles up to 20 cards are playable in default window size)
-        maxrows = max(rows, 9)
-        w1, w2 = (maxrows - 8)*l.XS/2, (maxrows - rows)*l.XS/2
-        h = max(3*l.YS, 20*l.YOFFSET)
-        self.setSize(l.XM + maxrows*l.XS + l.XM, l.YM + 2*l.YS + h)
+        # (piles up to 16 cards are playable in default window size)
+        decks = self.gameinfo.decks
+        maxrows = max(rows, decks*4+1)
+        w1, w2 = (maxrows - decks*4)*l.XS/2, (maxrows - rows)*l.XS/2
+        h = max(3*l.YS, playcards*l.YOFFSET)
+        self.setSize(l.XM + maxrows*l.XS + l.XM, l.YM + 3*l.YS + h)
 
         # extra settings
         self.base_card = None
@@ -159,9 +160,10 @@ class Terrace(Game):
         l.createText(stack, "sw")
         s.reserves.append(stack)
         x, y = l.XM + w1, y + l.YS
-        for i in range(8):
-            s.foundations.append(self.Foundation_Class(x, y, self, suit=i/2))
-            x = x + l.XS
+        for i in range(4):
+            for j in range(decks):
+                s.foundations.append(self.Foundation_Class(x, y, self, suit=i))
+                x = x + l.XS
         x, y = l.XM + w2, y + l.YS
         for i in range(rows):
             s.rows.append(self.RowStack_Class(x, y, self))
@@ -184,11 +186,11 @@ class Terrace(Game):
     # game overrides
     #
 
-    def startGame(self):
+    def startGame(self, nrows=4):
         self.startDealSample()
         for i in range(self.INITIAL_RESERVE_CARDS):
             self.s.talon.dealRow(rows=self.s.reserves)
-        self.s.talon.dealRow(rows=self.s.rows[:4])
+        self.s.talon.dealRow(rows=self.s.rows[:nrows])
 
     def fillStack(self, stack):
         if not stack.cards:
@@ -235,7 +237,7 @@ class GeneralsPatience(Terrace):
 
 
 # /***********************************************************************
-# //
+# // Blondes and Brunettes
 # ************************************************************************/
 
 class BlondesAndBrunettes(Terrace):
@@ -258,11 +260,33 @@ class BlondesAndBrunettes(Terrace):
 
 
 # /***********************************************************************
-# //
+# // Falling Star
 # ************************************************************************/
 
 class FallingStar(BlondesAndBrunettes):
     INITIAL_RESERVE_CARDS = 11
+
+
+# /***********************************************************************
+# // Signora
+# ************************************************************************/
+
+class Signora(Terrace):
+    def startGame(self):
+        Terrace.startGame(self, nrows=9)
+
+
+# /***********************************************************************
+# // Madame
+# ************************************************************************/
+
+class Madame(Terrace):
+    INITIAL_RESERVE_CARDS = 15
+    def createGame(self):
+        Terrace.createGame(self, rows=10, playcards=20)
+    def startGame(self):
+        Terrace.startGame(self, nrows=10)
+
 
 
 # register the game
@@ -276,4 +300,8 @@ registerGame(GameInfo(138, FallingStar, "Falling Star",
                       GI.GT_TERRACE, 2, 0))
 registerGame(GameInfo(431, QueenOfItaly, "Queen of Italy",
                       GI.GT_TERRACE, 2, 0))
+registerGame(GameInfo(499, Signora, "Signora",
+                      GI.GT_TERRACE, 2, 0))
+registerGame(GameInfo(500, Madame, "Madame",
+                      GI.GT_TERRACE, 3, 0))
 

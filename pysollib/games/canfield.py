@@ -111,8 +111,14 @@ class Canfield(Game):
         decks = self.gameinfo.decks
 
         # set window
+        if self.INITIAL_RESERVE_FACEUP == 1:
+            yoffset = l.YOFFSET ##min(l.YOFFSET, 14)
+        else:
+            yoffset = 10
+            if self.INITIAL_RESERVE_CARDS > 30:
+                yoffset = 5
         # (piles up to 20 cards are playable in default window size)
-        h = max(3*l.YS, l.YS+self.INITIAL_RESERVE_CARDS*l.YOFFSET)
+        h = max(3*l.YS, l.YS+self.INITIAL_RESERVE_CARDS*yoffset)
         self.setSize(l.XM + (2+max(rows, 4*decks))*l.XS + l.XM, l.YM + l.YS + 20 + h)
 
         # extra settings
@@ -131,7 +137,7 @@ class Canfield(Game):
                 x = x + l.XS
                 s.foundations.append(self.Foundation_Class(x, y, self, i, mod=13, max_move=0))
         if text:
-            if rows >= 4 * decks:
+            if rows > 4 * decks:
                 tx, ty, ta, tf = l.getTextAttr(None, "se")
                 tx, ty = x + tx + l.XM, y + ty
             else:
@@ -141,10 +147,7 @@ class Canfield(Game):
             self.texts.info = MfxCanvasText(self.canvas, tx, ty, anchor=ta, font=font)
         x, y = l.XM, l.YM + l.YS + 20
         s.reserves.append(self.ReserveStack_Class(x, y, self))
-        if self.INITIAL_RESERVE_FACEUP == 1:
-            s.reserves[0].CARD_YOFFSET = l.YOFFSET ##min(l.YOFFSET, 14)
-        else:
-            s.reserves[0].CARD_YOFFSET = 10
+        s.reserves[0].CARD_YOFFSET = yoffset
         x = l.XM + 2 * l.XS + l.XM
         for i in range(rows):
             s.rows.append(self.RowStack_Class(x, y, self))
@@ -509,17 +512,19 @@ class LittleGate(Gate):
 
 
 # /***********************************************************************
+# // Minerva
 # // Munger
+# // Mystique
 # ************************************************************************/
 
-class Munger(Canfield):
-
-    RowStack_Class = StackWrapper(AC_RowStack, base_rank=KING)
+class Minerva(Canfield):
+    RowStack_Class = KingAC_RowStack
 
     FILL_EMPTY_ROWS = 0
+    INITIAL_RESERVE_CARDS = 11
 
     def createGame(self):
-        Canfield.createGame(self, rows=7, max_rounds=1, num_deal=1)
+        Canfield.createGame(self, rows=7, max_rounds=2, num_deal=1, text=False)
 
     def startGame(self):
         self.s.talon.dealRow(frames=0, flip=0)
@@ -527,14 +532,13 @@ class Munger(Canfield):
         self.s.talon.dealRow(frames=0, flip=0)
         self.startDealSample()
         self.s.talon.dealRow()
-        for i in range(7):
+        for i in range(self.INITIAL_RESERVE_CARDS):
             self.moveMove(1, self.s.talon, self.s.reserves[0], frames=4, shadow=0)
         self.flipMove(self.s.reserves[0])
         self.s.talon.dealCards()
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.color != card2.color and
-                abs(card1.rank-card2.rank) == 1)
+        return card1.color != card2.color and abs(card1.rank-card2.rank) == 1
 
     def _restoreGameHook(self, game):
         pass
@@ -542,6 +546,17 @@ class Munger(Canfield):
         pass
     def _saveGameHook(self, p):
         pass
+
+
+class Munger(Minerva):
+    INITIAL_RESERVE_CARDS = 7
+    def createGame(self):
+        Canfield.createGame(self, rows=7, max_rounds=1, num_deal=1, text=False)
+
+
+class Mystique(Munger):
+    RowStack_Class = AC_RowStack
+    INITIAL_RESERVE_CARDS = 9
 
 
 # /***********************************************************************
@@ -643,31 +658,14 @@ class Duke(Game):
 
 
 # /***********************************************************************
-# // Minerva
+# // Demon
 # ************************************************************************/
 
-class Minerva(Canfield):
-    RowStack_Class = StackWrapper(AC_RowStack, base_rank=KING)
-
-    INITIAL_RESERVE_CARDS = 11
-    INITIAL_RESERVE_FACEUP = 1
-    FILL_EMPTY_ROWS = 0
-
+class Demon(Canfield):
+    INITIAL_RESERVE_CARDS = 40
+    RowStack_Class = StackWrapper(AC_RowStack, mod=13)
     def createGame(self):
-        Canfield.createGame(self, rows=7, max_rounds=2, num_deal=1, text=False)
-
-    def startGame(self):
-        for i in range(self.INITIAL_RESERVE_CARDS):
-            self.flipMove(self.s.talon)
-            self.moveMove(1, self.s.talon, self.s.reserves[0], frames=0, shadow=0)
-        flip = False
-        for i in range(3):
-            self.s.talon.dealRow(flip=flip, frames=0)
-            flip = not flip
-        self.startDealSample()
-        self.s.talon.dealRow()
-        self.s.talon.dealCards()
-
+        Canfield.createGame(self, rows=8, max_rounds=UNLIMITED_REDEALS, num_deal=1)
 
 
 # register the game
@@ -707,4 +705,8 @@ registerGame(GameInfo(413, Duke, "Duke",
                       GI.GT_CANFIELD, 1, 2))
 registerGame(GameInfo(422, Minerva, "Minerva",
                       GI.GT_CANFIELD, 1, 1))
+registerGame(GameInfo(476, Demon, "Demon",
+                      GI.GT_CANFIELD, 2, -1))
+registerGame(GameInfo(494, Mystique, "Mystique",
+                      GI.GT_CANFIELD, 1, 0))
 

@@ -626,6 +626,57 @@ class Rittenhouse(Game):
         return abs(card1.rank - card2.rank) == 1
 
 
+# /***********************************************************************
+# // Castle Mount
+# ************************************************************************/
+
+class CastleMount(StreetsAndAlleys):
+    DEAL = (11, 1)
+    RowStack_Class = Spider_SS_RowStack
+
+    def createGame(self, rows=12):
+        l, s = Layout(self), self.s
+        max_rows = max(12, rows)
+        self.setSize(l.XM+max_rows*l.XS, l.YM+2*l.YS+20*l.YOFFSET)
+
+        x, y = l.XM+(max_rows-12)*l.XS/2, l.YM
+        for i in range(4):
+            for j in range(3):
+                s.foundations.append(SS_FoundationStack(x, y, self, suit=i,
+                                                        max_move=0))
+                x += l.XS
+        x, y = l.XM, l.YM+l.YS
+        for i in range(rows):
+            s.rows.append(self.RowStack_Class(x, y, self))
+            x += l.XS
+        s.talon = InitialDealTalonStack(self.width-l.XS, self.height-l.YS, self)
+
+        l.defaultAll()
+
+
+    def _shuffleHook(self, cards):
+        # move Aces to top of the Talon (i.e. first cards to be dealt)
+        return self._shuffleHookMoveToTop(cards,
+                                          lambda c: (c.rank == ACE, c.suit))
+
+    def startGame(self):
+        self.s.talon.dealRow(rows=self.s.foundations, frames=0)
+        for i in range(self.DEAL[0]):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        for i in range(self.DEAL[1]):
+            self.s.talon.dealRowAvail()
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return ((card1.rank + 1) % stack1.cap.mod == card2.rank or
+                (card2.rank + 1) % stack1.cap.mod == card1.rank)
+
+    def getQuickPlayScore(self, ncards, from_stack, to_stack):
+        if to_stack.cards:
+            return int(from_stack.cards[-1].suit == to_stack.cards[-1].suit)+1
+        return 0
+
+
 
 # register the game
 registerGame(GameInfo(146, StreetsAndAlleys, "Streets and Alleys",
@@ -656,4 +707,5 @@ registerGame(GameInfo(395, Zerline3Decks, "Zerline (3 decks)",
                       GI.GT_BELEAGUERED_CASTLE | GI.GT_ORIGINAL, 3, 0))
 registerGame(GameInfo(400, Rittenhouse, "Rittenhouse",
                       GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 2, 0))
-
+registerGame(GameInfo(507, CastleMount, "Castle Mount",
+                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 3, 0))

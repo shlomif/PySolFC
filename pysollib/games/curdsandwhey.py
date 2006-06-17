@@ -305,6 +305,88 @@ class BavarianPatience(GermanPatience):
         GermanPatience.createGame(self, rows=10)
 
 
+# /***********************************************************************
+# // Trusty Twelve
+# // Knotty Nines
+# // Sweet Sixteen
+# ************************************************************************/
+
+class TrustyTwelve_Hint(AbstractHint):
+    def computeHints(self):
+        game = self.game
+        for r in game.s.rows:
+            for t in game.s.rows:
+                if r is t:
+                    continue
+                card = r.cards[-1]
+                if len(r.cards) == 1 and t.acceptsCards(r, [card]):
+                    if len(t.cards) > 1:
+                        self.addHint(6000+card.rank, 1, r, t)
+                    else:
+                        self.addHint(5000+card.rank, 1, r, t)
+
+
+class TrustyTwelve(Game):
+    Hint_Class = TrustyTwelve_Hint
+
+    def createGame(self, rows=12):
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+(rows+1)*l.XS, l.YM+l.YS+12*l.YOFFSET)
+        x, y = l.XM, l.YM
+        s.talon = TalonStack(x, y, self)
+        l.createText(s.talon, "ss")
+        x += l.XS
+        for i in range(rows):
+            s.rows.append(RK_RowStack(x, y, self, max_move=1))
+            x += l.XS
+        l.defaultStackGroups()
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+    def fillStack(self, stack):
+        if not stack.cards and stack in self.s.rows:
+            if self.s.talon.cards:
+                old_state = self.enterState(self.S_FILL)
+                self.s.talon.flipMove()
+                self.s.talon.moveMove(1, stack)
+                self.leaveState(old_state)
+
+    def isGameWon(self):
+        return len(self.s.talon.cards) == 0
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return abs(card1.rank-card2.rank) == 1
+
+
+class KnottyNines(TrustyTwelve):
+    def createGame(self):
+        TrustyTwelve.createGame(self, rows=9)
+
+
+class SweetSixteen(TrustyTwelve):
+
+    def createGame(self):
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+9*l.XS, l.YM+2*l.YS+20*l.YOFFSET)
+        x, y = l.XM, l.YM
+        s.talon = TalonStack(x, y, self)
+        l.createText(s.talon, "ss")
+        y = l.YM
+        for i in range(2):
+            x = l.XM+l.XS
+            for j in range(8):
+                s.rows.append(AC_RowStack(x, y, self, max_move=1))
+                x += l.XS
+            y += l.YS+10*l.YOFFSET
+        l.defaultStackGroups()
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return card1.color != card2.color and abs(card1.rank-card2.rank) == 1
+
+
+
 # register the game
 registerGame(GameInfo(294, CurdsAndWhey, "Curds and Whey",
                       GI.GT_SPIDER | GI.GT_OPEN, 1, 0))
@@ -324,4 +406,10 @@ registerGame(GameInfo(414, GermanPatience, "German Patience",
                       GI.GT_2DECK_TYPE, 2, 0))
 registerGame(GameInfo(415, BavarianPatience, "Bavarian Patience",
                       GI.GT_2DECK_TYPE, 2, 0))
+registerGame(GameInfo(480, TrustyTwelve, "Trusty Twelve",
+                      GI.GT_1DECK_TYPE, 1, 0))
+registerGame(GameInfo(481, KnottyNines, "Knotty Nines",
+                      GI.GT_1DECK_TYPE, 1, 0))
+registerGame(GameInfo(482, SweetSixteen, "Sweet Sixteen",
+                      GI.GT_1DECK_TYPE, 1, 0))
 

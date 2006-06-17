@@ -396,10 +396,10 @@ class SixTengus(SixSages):
 
 
 # /***********************************************************************
-# * Four Seasons
+# * Hanafuda Four Seasons
 # ************************************************************************/
 
-class FourSeasons(AbstractFlowerGame):
+class HanafudaFourSeasons(AbstractFlowerGame):
 
     #
     # Game layout
@@ -706,7 +706,7 @@ r(12374, JapaneseGardenII, 'Japanese Garden II', GI.GT_HANAFUDA | GI.GT_OPEN, 1,
 r(12375, SixSages, 'Six Sages', GI.GT_HANAFUDA | GI.GT_OPEN, 1, 0)
 r(12376, SixTengus, 'Six Tengus', GI.GT_HANAFUDA | GI.GT_OPEN, 1, 0)
 r(12377, JapaneseGardenIII, 'Japanese Garden III', GI.GT_HANAFUDA | GI.GT_OPEN, 1, 0)
-r(12378, FourSeasons, 'Four Seasons', GI.GT_HANAFUDA | GI.GT_OPEN, 1, 0)
+r(12378, HanafudaFourSeasons, 'Hanafuda Four Seasons', GI.GT_HANAFUDA | GI.GT_OPEN, 1, 0)
 r(12380, Eularia, 'Eularia', GI.GT_HANAFUDA, 1, -1)
 r(12381, Peony, 'Peony', GI.GT_HANAFUDA, 1, -1)
 r(12382, Iris, 'Iris', GI.GT_HANAFUDA, 1, 0)

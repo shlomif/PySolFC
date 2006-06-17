@@ -46,6 +46,8 @@ from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 from pysollib.hint import KlondikeType_Hint
 from pysollib.pysoltk import MfxCanvasText
 
+from spider import Spider_Hint
+
 
 # /***********************************************************************
 # // Double Klondike (Klondike with 2 decks and 9 rows)
@@ -83,9 +85,9 @@ class DoubleKlondike(Game):
                                                  font=self.app.getFont("canvas_default"))
         return l
 
-    def startGame(self):
+    def startGame(self, flip=0):
         for i in range(len(self.s.rows)):
-            self.s.talon.dealRow(rows=self.s.rows[i+1:], flip=0, frames=0)
+            self.s.talon.dealRow(rows=self.s.rows[i+1:], flip=flip, frames=0)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealCards()          # deal first card to WasteStack
@@ -166,6 +168,49 @@ class TripleKlondikeByThrees(DoubleKlondike):
         DoubleKlondike.createGame(self, rows=13, num_deal=3)
 
 
+# /***********************************************************************
+# // Lady Jane
+# // Inquisitor
+# ************************************************************************/
+
+class LadyJane(DoubleKlondike):
+    Hint_Class = Spider_Hint
+    RowStack_Class = Spider_SS_RowStack
+
+    def createGame(self):
+        DoubleKlondike.createGame(self, rows=10, max_rounds=2, num_deal=3)
+    def startGame(self):
+        DoubleKlondike.startGame(self, flip=1)
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return abs(card1.rank-card2.rank) == 1
+
+
+class Inquisitor(DoubleKlondike):
+    RowStack_Class = SS_RowStack
+
+    def createGame(self):
+        DoubleKlondike.createGame(self, rows=10, max_rounds=3, num_deal=3)
+    def startGame(self):
+        DoubleKlondike.startGame(self, flip=1)
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return card1.suit == card2.suit and abs(card1.rank-card2.rank) == 1
+
+
+# /***********************************************************************
+# // Arabella
+# ************************************************************************/
+
+class Arabella(DoubleKlondike):
+    Hint_Class = Spider_Hint
+    RowStack_Class = StackWrapper(Spider_SS_RowStack, base_rank=KING)
+    def createGame(self):
+        DoubleKlondike.createGame(self, rows=13, max_rounds=1, playcards=24)
+    def startGame(self):
+        DoubleKlondike.startGame(self, flip=1)
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return abs(card1.rank-card2.rank) == 1
+
+
 # register the game
 registerGame(GameInfo(21, DoubleKlondike, "Double Klondike",
                       GI.GT_KLONDIKE, 2, -1))
@@ -182,4 +227,10 @@ registerGame(GameInfo(273, TripleKlondike, "Triple Klondike",
                       GI.GT_KLONDIKE, 3, -1))
 registerGame(GameInfo(274, TripleKlondikeByThrees, "Triple Klondike by Threes",
                       GI.GT_KLONDIKE, 3, -1))
+registerGame(GameInfo(495, LadyJane, "Lady Jane",
+                      GI.GT_KLONDIKE, 2, 1))
+registerGame(GameInfo(496, Inquisitor, "Inquisitor",
+                      GI.GT_KLONDIKE, 2, 2))
+registerGame(GameInfo(497, Arabella, "Arabella",
+                      GI.GT_KLONDIKE, 3, 0))
 

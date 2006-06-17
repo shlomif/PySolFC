@@ -42,7 +42,9 @@ from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 
-from pysollib.games.fortythieves import FortyThieves_Hint
+from fortythieves import FortyThieves_Hint
+from spider import Spider_Hint
+
 
 # /***********************************************************************
 # // Diplomat
@@ -65,7 +67,7 @@ class Diplomat(Game):
         l, s = Layout(self), self.s
 
         # set window
-        self.setSize(l.XM + 8*l.XS, l.YM + 5*l.YS)
+        self.setSize(l.XM+8*l.XS, l.YM+3*l.YS+12*l.YOFFSET+20)
 
         # create stacks
         x, y = l.XM, l.YM
@@ -171,6 +173,58 @@ class RowsOfFour(Diplomat):
         Diplomat.createGame(self, max_rounds=3)
 
 
+# /***********************************************************************
+# // Dieppe
+# ************************************************************************/
+
+class Dieppe(Diplomat):
+    RowStack_Class = RK_RowStack
+
+    def _dealToFound(self):
+        talon = self.s.talon
+        if not talon.cards:
+            return False
+        talon.flipMove()
+        for f in self.s.foundations:
+            if f.acceptsCards(talon, talon.cards[-1:]):
+                talon.moveMove(1, f)
+                return True
+        return False
+
+    def startGame(self):
+        self.startDealSample()
+        talon = self.s.talon
+        for i in range(3):
+            for r in self.s.rows:
+                while True:
+                    if not self._dealToFound():
+                        break
+                if talon.cards:
+                    talon.moveMove(1, r)
+        talon.dealCards()
+
+
+# /***********************************************************************
+# // Little Napoleon
+# ************************************************************************/
+
+class LittleNapoleon(Diplomat):
+    RowStack_Class = Spider_SS_RowStack
+    Hint_Class = Spider_Hint
+
+    def startGame(self):
+        for i in range(3):
+            self.s.talon.dealRow(frames=0, flip=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()          # deal first card to WasteStack
+
+    def getQuickPlayScore(self, ncards, from_stack, to_stack):
+        if to_stack.cards:
+            return int(from_stack.cards[-1].suit == to_stack.cards[-1].suit)+1
+        return 0
+
+
 # register the game
 registerGame(GameInfo(149, Diplomat, "Diplomat",
                       GI.GT_FORTY_THIEVES, 2, 0))
@@ -180,4 +234,8 @@ registerGame(GameInfo(150, Congress, "Congress",
                       GI.GT_FORTY_THIEVES, 2, 0))
 registerGame(GameInfo(433, RowsOfFour, "Rows of Four",
                       GI.GT_FORTY_THIEVES, 2, 2))
+registerGame(GameInfo(485, Dieppe, "Dieppe",
+                      GI.GT_FORTY_THIEVES, 2, 0))
+registerGame(GameInfo(489, LittleNapoleon, "Little Napoleon",
+                      GI.GT_FORTY_THIEVES, 2, 0))
 

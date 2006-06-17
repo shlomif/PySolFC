@@ -201,8 +201,9 @@ class NapoleonsTomb(Windmill):
 # ************************************************************************/
 
 class Corners(Game):
+    RowStack_Class = ReserveStack
 
-    def createGame(self):
+    def createGame(self, max_rounds=3):
         # create layout
         l, s = Layout(self, XM=20, YM=20), self.s
 
@@ -211,7 +212,7 @@ class Corners(Game):
 
         # create stacks
         x, y = l.XM+l.XS, l.YM
-        s.talon = WasteTalonStack(x, y, self, max_rounds=3)
+        s.talon = WasteTalonStack(x, y, self, max_rounds=max_rounds)
         l.createText(s.talon, "sw")
         x += l.XS
         s.waste = WasteStack(x, y, self)
@@ -225,7 +226,9 @@ class Corners(Game):
             i += 1
         for d in ((2,0), (1,1), (2,1), (3,1), (2,2)):
             x, y = x0+d[0]*l.XS, y0+d[1]*l.YS
-            s.rows.append(ReserveStack(x, y, self))
+            stack = self.RowStack_Class(x, y, self)
+            s.rows.append(stack)
+            stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, 0
 
         # define stack-groups
         l.defaultStackGroups()
@@ -260,6 +263,62 @@ class Corners(Game):
         self.s.talon.dealCards()          # deal first card to WasteStack
 
 
+# /***********************************************************************
+# // Czarina
+# // Four Seasons
+# ************************************************************************/
+
+class Czarina_RowStack(RK_RowStack):
+    def getBottomImage(self):
+        return self.game.app.images.getReserveBottom()
+
+
+class Czarina(Corners):
+    Hint_Class = CautiousDefaultHint
+    RowStack_Class = StackWrapper(Czarina_RowStack, mod=13, max_move=1)
+
+    def createGame(self):
+        # extra settings
+        self.base_card = None
+        Corners.createGame(self, max_rounds=1)
+
+    def startGame(self):
+        self.startDealSample()
+        self.base_card = None
+        # deal base_card to Foundations, update foundations cap.base_rank
+        self.base_card = self.s.talon.getCard()
+        for s in self.s.foundations:
+            s.cap.base_rank = self.base_card.rank
+        self.flipMove(self.s.talon)
+        self.moveMove(1, self.s.talon, self.s.foundations[self.base_card.suit])
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()          # deal first 3 cards to WasteStack
+
+    def _shuffleHook(self, cards):
+        return cards
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return ((card1.rank + 1) % 13 == card2.rank or
+                (card2.rank + 1) % 13 == card1.rank)
+
+    def _restoreGameHook(self, game):
+        self.base_card = self.cards[game.loadinfo.base_card_id]
+        for s in self.s.foundations:
+            s.cap.base_rank = self.base_card.rank
+
+    def _loadGameHook(self, p):
+        self.loadinfo.addattr(base_card_id=None)    # register extra load var.
+        self.loadinfo.base_card_id = p.load()
+
+    def _saveGameHook(self, p):
+        p.dump(self.base_card.id)
+
+
+class FourSeasons(Czarina):
+    def fillStack(self, stack):
+        pass
+
+
 # register the game
 registerGame(GameInfo(30, Windmill, "Windmill",
                       GI.GT_2DECK_TYPE, 2, 0))
@@ -267,4 +326,8 @@ registerGame(GameInfo(277, NapoleonsTomb, "Napoleon's Tomb",
                       GI.GT_1DECK_TYPE, 1, 0))
 registerGame(GameInfo(417, Corners, "Corners",
                       GI.GT_1DECK_TYPE, 1, 2))
+registerGame(GameInfo(483, Czarina, "Czarina",
+                      GI.GT_1DECK_TYPE, 1, 0))
+registerGame(GameInfo(484, FourSeasons, "Four Seasons",
+                      GI.GT_1DECK_TYPE, 1, 0))
 

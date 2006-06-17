@@ -206,7 +206,7 @@ class Alaska(RussianSolitaire):
 
 
 # /***********************************************************************
-# // Roslin (like Russian Solitaire, but build up or down by alternate color)
+# // Roslin (like Yukon, but build up or down by alternate color)
 # ************************************************************************/
 
 class Roslin_RowStack(Yukon_AC_RowStack):
@@ -374,11 +374,12 @@ class DoubleRussianSolitaire(DoubleYukon):
 
 # /***********************************************************************
 # // Triple Yukon
+# // Triple Russian Solitaire
 # ************************************************************************/
 
 class TripleYukon(Yukon):
     def createGame(self):
-        Yukon.createGame(self, rows=13)
+        Yukon.createGame(self, rows=13, playcards=34)
     def startGame(self):
         for i in range(1, len(self.s.rows)):
             self.s.talon.dealRow(rows=self.s.rows[i:], flip=0, frames=0)
@@ -387,6 +388,14 @@ class TripleYukon(Yukon):
         self.startDealSample()
         self.s.talon.dealRow()
         assert len(self.s.talon.cards) == 0
+
+
+class TripleRussianSolitaire(TripleYukon):
+    RowStack_Class = StackWrapper(Yukon_SS_RowStack, base_rank=KING)
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return (card1.suit == card2.suit and
+                (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank))
 
 
 # /***********************************************************************
@@ -469,6 +478,7 @@ class Panopticon(TenAcross):
 # /***********************************************************************
 # // Australian Patience
 # // Raw Prawn
+# // Bim Bom
 # ************************************************************************/
 
 class AustralianPatience(RussianSolitaire):
@@ -509,6 +519,29 @@ class BimBom(AustralianPatience):
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealCards()
+
+
+# /***********************************************************************
+# // Geoffrey
+# ************************************************************************/
+
+class Geoffrey(Yukon):
+    Layout_Method = Layout.klondikeLayout
+    RowStack_Class = StackWrapper(Yukon_SS_RowStack, base_rank=KING)
+
+    def createGame(self):
+        Yukon.createGame(self, rows=8, waste=0)
+
+    def startGame(self):
+        for i in (4, 4, 4, 4, 8):
+            self.s.talon.dealRow(rows=self.s.rows[:i], flip=1, frames=0)
+            self.s.talon.dealRow(rows=self.s.rows[i:], flip=0, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealRow(rows=self.s.rows[:4])
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return card1.suit == card2.suit and abs(card1.rank-card2.rank) == 1
 
 
 
@@ -554,4 +587,9 @@ registerGame(GameInfo(450, RawPrawn, "Raw Prawn",
 registerGame(GameInfo(456, BimBom, "Bim Bom",
                       GI.GT_YUKON | GI.GT_ORIGINAL, 2, 0))
 registerGame(GameInfo(466, DoubleRussianSolitaire, "Double Russian Solitaire",
-                      GI.GT_YUKON | GI.GT_ORIGINAL, 2, 0))
+                      GI.GT_YUKON, 2, 0))
+registerGame(GameInfo(488, TripleRussianSolitaire, "Triple Russian Solitaire",
+                      GI.GT_YUKON, 3, 0))
+registerGame(GameInfo(492, Geoffrey, "Geoffrey",
+                      GI.GT_YUKON, 1, 0))
+

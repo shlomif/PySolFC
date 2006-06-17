@@ -96,7 +96,7 @@ class Options:
         self.highlight_piles = 1
         self.highlight_cards = 1
         self.highlight_samerank = 1
-        self.highlight_not_matching = 0
+        self.highlight_not_matching = 1
         self.mahjongg_show_removed = False
         self.mahjongg_create_solvable = True
         self.shisen_show_hint = True
@@ -108,6 +108,8 @@ class Options:
         self.toolbar = 1
         ##self.toolbar_style = 'default'
         self.toolbar_style = 'crystal'
+        if os.name == 'posix':
+            self.toolbar_style = 'bluecurve'
         self.toolbar_relief = 'flat'
         self.toolbar_compound = 'none'          # icons only
         self.toolbar_size = 0
@@ -129,10 +131,6 @@ class Options:
             'autopilotlost' : True,
             'autopilotwon'  : True,
             'deal'          : True,
-            #'deal01'        : True,
-            #'deal02'        : True,
-            #'deal04'        : True,
-            #'deal08'        : True,
             'dealwaste'     : True,
             'droppair'      : True,
             'drop'          : True,

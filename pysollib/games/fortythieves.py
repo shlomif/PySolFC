@@ -73,16 +73,18 @@ class FortyThieves(Game):
 
     def createGame(self, max_rounds=1, num_deal=1, rows=10, playcards=12, XCARDS=64, XOFFSET=None):
         # create layout
-        XM = (10, 4)[rows > 10]
         if XOFFSET is None:
-            l, s = Layout(self, XM=XM, YBOTTOM=16), self.s
+            l, s = Layout(self, YBOTTOM=16), self.s
         else:
-            l, s = Layout(self, XM=XM, XOFFSET=XOFFSET, YBOTTOM=16), self.s
+            l, s = Layout(self, XOFFSET=XOFFSET, YBOTTOM=16), self.s
 
         # set window
         # (compute best XOFFSET - up to 64/72 cards can be in the Waste)
         decks = self.gameinfo.decks
-        maxrows = max(rows, 4*decks+2)
+        if rows < 12:
+            maxrows = max(rows, 4*decks+2)
+        else:
+            maxrows = max(rows, 4*decks)
         w1, w2 = maxrows*l.XS+l.XM, 2*l.XS
         if w2 + XCARDS * l.XOFFSET > w1:
             l.XOFFSET = int((w1 - w2) / XCARDS)
@@ -155,6 +157,8 @@ class FortyThieves(Game):
 # // Napoleon's Square
 # // Carre Napoleon
 # // Josephine
+# // Marie Rose
+# // Big Courtyard
 # //   rows build down by suit
 # ************************************************************************/
 
@@ -223,6 +227,22 @@ class CarreNapoleon(FortyThieves):
 
 class Josephine(FortyThieves):
     ROW_MAX_MOVE = UNLIMITED_MOVES
+
+
+class MarieRose(Josephine):
+    DEAL = (0, 5)
+    def createGame(self):
+        FortyThieves.createGame(self, rows=12, playcards=16, XCARDS=96)
+
+
+class BigCourtyard(Courtyard):
+    def createGame(self):
+        FortyThieves.createGame(self, rows=12, playcards=16, XCARDS=96)
+
+
+class Express(Limited):
+    def createGame(self):
+        FortyThieves.createGame(self, rows=14, playcards=16, XCARDS=96)
 
 
 # /***********************************************************************
@@ -303,6 +323,8 @@ class LittleForty(FortyThieves):
 # // Rank and File
 # // Emperor
 # // Triple Line
+# // Big Streets
+# // Number Twelve
 # //   rows build down by alternate color
 # ************************************************************************/
 
@@ -343,6 +365,16 @@ class TripleLine(Streets):
 
     def createGame(self):
         Streets.createGame(self, max_rounds=2, rows=12)
+
+
+class BigStreets(Streets):
+    def createGame(self):
+        FortyThieves.createGame(self, rows=12, XCARDS=96)
+
+
+class NumberTwelve(NumberTen):
+    def createGame(self):
+        FortyThieves.createGame(self, rows=12, XCARDS=96)
 
 
 # /***********************************************************************
@@ -718,7 +750,7 @@ class Squadron(FortyThieves):
 registerGame(GameInfo(13, FortyThieves, "Forty Thieves",
                       GI.GT_FORTY_THIEVES, 2, 0,
                       altnames=("Napoleon at St.Helena",
-                                "Big Forty", "Le Cadran")))
+                                "Le Cadran")))
 registerGame(GameInfo(80, BusyAces, "Busy Aces",
                       GI.GT_FORTY_THIEVES, 2, 0))
 registerGame(GameInfo(228, Limited, "Limited",
@@ -784,3 +816,13 @@ registerGame(GameInfo(440, Squadron, "Squadron",
                       GI.GT_FORTY_THIEVES, 2, 0))
 registerGame(GameInfo(462, Josephine, "Josephine",
                       GI.GT_FORTY_THIEVES, 2, 0))
+registerGame(GameInfo(493, MarieRose, "Marie Rose",
+                      GI.GT_FORTY_THIEVES, 3, 0))
+registerGame(GameInfo(503, BigStreets, "Big Streets",
+                      GI.GT_FORTY_THIEVES | GI.GT_ORIGINAL, 3, 0))
+registerGame(GameInfo(504, NumberTwelve, "Number Twelve",
+                      GI.GT_FORTY_THIEVES| GI.GT_ORIGINAL, 3, 0))
+registerGame(GameInfo(505, BigCourtyard, "Big Courtyard",
+                      GI.GT_FORTY_THIEVES| GI.GT_ORIGINAL, 3, 0))
+registerGame(GameInfo(506, Express, "Express",
+                      GI.GT_FORTY_THIEVES| GI.GT_ORIGINAL, 3, 0))

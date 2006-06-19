@@ -119,8 +119,7 @@ class Braid_ReserveStack(ReserveStack):
 
 class Braid(Game):
     Hint_Class = Braid_Hint
-    Foundation_Class_1 = Braid_Foundation
-    Foundation_Class_2 = Braid_Foundation
+    Foundation_Classes = [Braid_Foundation, Braid_Foundation]
 
     BRAID_CARDS = 20
     RANKS = RANKS           # pull into class Braid
@@ -135,8 +134,9 @@ class Braid(Game):
 
         # set window
         # (piles up to 20 cards are playable - needed for Braid_BraidStack)
+        decks = self.gameinfo.decks
         h = max(4*l.YS + 30, l.YS+(self.BRAID_CARDS-1)*l.YOFFSET)
-        self.setSize(10*l.XS+l.XM, l.YM + h)
+        self.setSize(l.XM+(8+decks)*l.XS, l.YM+h)
 
         # extra settings
         self.base_card = None
@@ -167,15 +167,16 @@ class Braid(Game):
         x = x - l.XS
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, "ss")
-        x = l.XM + 8 * l.XS
         y = l.YM
         for i in range(4):
-            s.foundations.append(self.Foundation_Class_1(x, y, self, suit=i))
-            s.foundations.append(self.Foundation_Class_2(x + l.XS, y, self, suit=i))
+            x = l.XM+8*l.XS
+            for cl in self.Foundation_Classes:
+                s.foundations.append(cl(x, y, self, suit=i))
+                x += l.XS
             y = y + l.YS
+        x = 8*l.XS+decks*l.XS/2
         self.texts.info = MfxCanvasText(self.canvas,
-                                        x + l.CW + l.XM / 2, y,
-                                        anchor="n",
+                                        x, y, anchor="n",
                                         font=self.app.getFont("canvas_default"))
 
         # define stack-groups
@@ -205,7 +206,7 @@ class Braid(Game):
         self.s.talon.dealRow(frames=4)
         # deal base_card to foundations
         self.base_card = self.s.talon.cards[-1]
-        to_stack = self.s.foundations[2 * self.base_card.suit]
+        to_stack = self.s.foundations[self.gameinfo.decks*self.base_card.suit]
         self.flipMove(self.s.talon)
         self.moveMove(1, self.s.talon, to_stack)
         self.updateText()
@@ -263,8 +264,8 @@ class LongBraid(Braid):
 
 class Fort(Braid):
 
-    Foundation_Class_1 = SS_FoundationStack
-    Foundation_Class_2 = StackWrapper(SS_FoundationStack, base_rank=KING, dir=-1)
+    Foundation_Classes = [SS_FoundationStack,
+               StackWrapper(SS_FoundationStack, base_rank=KING, dir=-1)]
 
     BRAID_CARDS = 21
 
@@ -367,6 +368,15 @@ class BackbonePlus(Backbone):
         Backbone.createGame(self, rows=10)
 
 
+# /***********************************************************************
+# // Big Braid
+# ************************************************************************/
+
+class BigBraid(Braid):
+    Foundation_Classes = [Braid_Foundation, Braid_Foundation, Braid_Foundation]
+
+
+
 # register the game
 registerGame(GameInfo(12, Braid, "Braid",
                       GI.GT_NAPOLEON, 2, 2,
@@ -380,3 +390,5 @@ registerGame(GameInfo(376, Backbone, "Backbone",
                       GI.GT_NAPOLEON, 2, 0))
 registerGame(GameInfo(377, BackbonePlus, "Backbone +",
                       GI.GT_NAPOLEON, 2, 0))
+registerGame(GameInfo(510, BigBraid, "Big Braid",
+                      GI.GT_NAPOLEON, 3, 2))

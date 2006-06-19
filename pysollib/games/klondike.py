@@ -284,6 +284,7 @@ class BlindAlleys(Eastcliff):
 # /***********************************************************************
 # // Somerset
 # // Morehead
+# // Canister
 # ************************************************************************/
 
 class Somerset(Klondike):
@@ -305,10 +306,6 @@ class Somerset(Klondike):
 class Morehead(Somerset):
     RowStack_Class = StackWrapper(ThumbAndPouch_RowStack, max_move=1)
 
-
-# /***********************************************************************
-# // Canister
-# ************************************************************************/
 
 class Canister(Klondike):
     Talon_Class = InitialDealTalonStack
@@ -1082,9 +1079,9 @@ registerGame(GameInfo(107, PasSeul, "Pas Seul",
 registerGame(GameInfo(81, BlindAlleys, "Blind Alleys",
                       GI.GT_KLONDIKE, 1, 1))
 registerGame(GameInfo(215, Somerset, "Somerset",
-                      GI.GT_KLONDIKE | GI.GT_OPEN, 1, 0))
+                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0))
 registerGame(GameInfo(231, Canister, "Canister",
-                      GI.GT_KLONDIKE | GI.GT_OPEN, 1, 0))
+                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0))
 registerGame(GameInfo(229, AgnesSorel, "Agnes Sorel",
                       GI.GT_GYPSY, 1, 0))
 registerGame(GameInfo(4, EightTimesEight, "8 x 8",
@@ -1127,7 +1124,7 @@ registerGame(GameInfo(350, Q_C_, "Q.C.",
 registerGame(GameInfo(361, NorthwestTerritory, "Northwest Territory",
                       GI.GT_RAGLAN, 1, 0))
 registerGame(GameInfo(362, Morehead, "Morehead",
-                      GI.GT_KLONDIKE | GI.GT_OPEN, 1, 0))
+                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0))
 registerGame(GameInfo(388, Senate, "Senate",
                       GI.GT_RAGLAN, 2, 0))
 registerGame(GameInfo(389, SenatePlus, "Senate +",

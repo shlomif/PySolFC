@@ -650,7 +650,7 @@ class CornerSuite(Game):
 
     def createGame(self):
         l, s = Layout(self), self.s
-        self.setSize(l.XM+5*l.XS, l.YM+4*l.YS)
+        self.setSize(l.XM+5*l.XS, l.YM+5*l.YS)
 
         suit = 0
         for x, y in ((0,0), (4,0), (0,4), (4,4)):

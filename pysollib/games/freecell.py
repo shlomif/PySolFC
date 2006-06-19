@@ -310,6 +310,19 @@ class Cell11(TripleFreecell):
         self.s.talon.dealRow(rows=[self.s.reserves[0],self.s.reserves[-1]])
 
 
+class BigCell(TripleFreecell):
+    RowStack_Class = AC_RowStack
+
+    def createGame(self):
+        TripleFreecell.createGame(self, rows=13, reserves=4)
+
+    def startGame(self):
+        for i in range(11):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+
 # /***********************************************************************
 # // Spidercells
 # ************************************************************************/
@@ -527,4 +540,6 @@ registerGame(GameInfo(451, Cell11, "Cell 11",
                       GI.GT_FREECELL | GI.GT_OPEN, 3, 0))
 registerGame(GameInfo(464, FourColours, "Four Colours",
                       GI.GT_FREECELL | GI.GT_OPEN, 1, 0))
+registerGame(GameInfo(509, BigCell, "Big Cell",
+                      GI.GT_FREECELL | GI.GT_OPEN | GI.GT_ORIGINAL, 3, 0))
 

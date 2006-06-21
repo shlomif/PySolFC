@@ -516,6 +516,7 @@ class Skiz(AbstractTarockGame):
 # ************************************************************************/
 
 class FifteenPlus(AbstractTarockGame):
+    Hint_Class = CautiousDefaultHint
 
     #
     # Game layout
@@ -918,26 +919,26 @@ class Nasty(Wicked):
 # // register the games
 # ************************************************************************/
 
-def r(id, gameclass, name, game_type, decks, redeals):
+def r(id, gameclass, name, game_type, decks, redeals, skill_level):
     game_type = game_type | GI.GT_TAROCK | GI.GT_CONTRIB | GI.GT_ORIGINAL
-    gi = GameInfo(id, gameclass, name, game_type, decks, redeals,
+    gi = GameInfo(id, gameclass, name, game_type, decks, redeals, skill_level,
                   ranks=range(14), trumps=range(22))
     registerGame(gi)
     return gi
 
-r(157, WheelOfFortune, "Wheel of Fortune", GI.GT_TAROCK, 1, 0)
-r(158, ImperialTrumps, "Imperial Trumps", GI.GT_TAROCK, 1, -1)
-r(159, Pagat, "Pagat", GI.GT_TAROCK | GI.GT_OPEN, 1, 0)
-r(160, Skiz, "Skiz", GI.GT_TAROCK | GI.GT_OPEN, 1, 0)
-r(161, FifteenPlus, "Fifteen plus", GI.GT_TAROCK, 1, 0)
-r(162, Excuse, "Excuse", GI.GT_TAROCK | GI.GT_OPEN, 1, 0)
-r(163, Grasshopper, "Grasshopper", GI.GT_TAROCK, 1, 1)
-r(164, DoubleGrasshopper, "Double Grasshopper", GI.GT_TAROCK, 2, 1)
-r(179, Ponytail, "Ponytail", GI.GT_TAROCK, 2, 2)
-r(202, Cavalier, "Cavalier", GI.GT_TAROCK, 1, 0)
-r(203, FiveAces, "Five Aces", GI.GT_TAROCK, 1, 0)
-r(204, Wicked, "Wicked", GI.GT_TAROCK | GI.GT_OPEN, 1, -1)
-r(205, Nasty, "Nasty", GI.GT_TAROCK | GI.GT_OPEN, 1, -1)
+r(157, WheelOfFortune, "Wheel of Fortune", GI.GT_TAROCK, 1, 0, GI.SL_BALANCED)
+r(158, ImperialTrumps, "Imperial Trumps", GI.GT_TAROCK, 1, -1, GI.SL_BALANCED)
+r(159, Pagat, "Pagat", GI.GT_TAROCK | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL)
+r(160, Skiz, "Skiz", GI.GT_TAROCK | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL)
+r(161, FifteenPlus, "Fifteen plus", GI.GT_TAROCK, 1, 0, GI.SL_BALANCED)
+r(162, Excuse, "Excuse", GI.GT_TAROCK | GI.GT_OPEN, 1, 0, GI.SL_BALANCED)
+r(163, Grasshopper, "Grasshopper", GI.GT_TAROCK, 1, 1, GI.SL_MOSTLY_SKILL)
+r(164, DoubleGrasshopper, "Double Grasshopper", GI.GT_TAROCK, 2, 1, GI.SL_MOSTLY_SKILL)
+r(179, Ponytail, "Ponytail", GI.GT_TAROCK, 2, 2, GI.SL_MOSTLY_SKILL)
+r(202, Cavalier, "Cavalier", GI.GT_TAROCK, 1, 0, GI.SL_MOSTLY_SKILL)
+r(203, FiveAces, "Five Aces", GI.GT_TAROCK, 1, 0, GI.SL_MOSTLY_SKILL)
+r(204, Wicked, "Wicked", GI.GT_TAROCK | GI.GT_OPEN, 1, -1, GI.SL_BALANCED)
+r(205, Nasty, "Nasty", GI.GT_TAROCK | GI.GT_OPEN, 1, -1, GI.SL_BALANCED)
 
 del r
 

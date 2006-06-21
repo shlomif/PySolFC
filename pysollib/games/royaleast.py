@@ -119,5 +119,5 @@ class RoyalEast(Game):
 
 # register the game
 registerGame(GameInfo(93, RoyalEast, "Royal East",
-                      GI.GT_1DECK_TYPE, 1, 0))
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))
 

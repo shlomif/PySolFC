@@ -267,12 +267,12 @@ class BetsyRoss(Calculation):
 
 # register the game
 registerGame(GameInfo(256, Calculation, "Calculation",
-                      GI.GT_1DECK_TYPE, 1, 0,
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_SKILL,
                       altnames=("Progression",) ))
 registerGame(GameInfo(94, Hopscotch, "Hopscotch",
-                      GI.GT_1DECK_TYPE, 1, 0))
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(134, BetsyRoss, "Betsy Ross",
-                      GI.GT_1DECK_TYPE, 1, 2,
+                      GI.GT_1DECK_TYPE, 1, 2, GI.SL_MOSTLY_LUCK,
                       altnames=("Fairest", "Four Kings", "Musical Patience",
                                 "Quadruple Alliance", "Plus Belle") ))
 

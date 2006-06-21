@@ -175,6 +175,13 @@ class SelectGameData(SelectDialogTreeData):
             s_oriental,
             s_special,
             s_by_type,
+            SelectGameNode(None, _('by Skill Level'), (
+                SelectGameNode(None, _('Luck only'), lambda gi: gi.skill_level == GI.SL_LUCK),
+                SelectGameNode(None, _('Mostly luck'), lambda gi: gi.skill_level == GI.SL_MOSTLY_LUCK),
+                SelectGameNode(None, _('Balanced'), lambda gi: gi.skill_level == GI.SL_BALANCED),
+                SelectGameNode(None, _('Mostly skill'), lambda gi: gi.skill_level == GI.SL_MOSTLY_SKILL),
+                SelectGameNode(None, _('Skill only'), lambda gi: gi.skill_level == GI.SL_SKILL),
+                )),
             SelectGameNode(None, _("by Game Feature"), (
                 SelectGameNode(None, _("by Number of Cards"), (
                     SelectGameNode(None, _("32 cards"), lambda gi: gi.si.ncards == 32),

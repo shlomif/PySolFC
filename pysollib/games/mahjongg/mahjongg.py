@@ -708,7 +708,7 @@ def r(id, short_name, name=None, ncards=144, layout=None):
     gameclass.NCARDS = ncards
     decks, ranks, trumps = comp_cardset(ncards)
     gi = GameInfo(id, gameclass, name,
-                  GI.GT_MAHJONGG, 4*decks, 0,
+                  GI.GT_MAHJONGG, 4*decks, 0, ##GI.SL_MOSTLY_SKILL,
                   category=GI.GC_MAHJONGG, short_name=short_name,
                   suits=range(3), ranks=range(ranks), trumps=range(trumps),
                   si={"decks": decks, "ncards": ncards})

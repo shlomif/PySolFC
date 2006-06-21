@@ -113,9 +113,9 @@ class Pitchfork(Needle):
 
 # register the game
 registerGame(GameInfo(318, Needle, "Needle",
-                      GI.GT_FREECELL | GI.GT_OPEN, 1, 0))
+                      GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(319, Haystack, "Haystack",
-                      GI.GT_FREECELL | GI.GT_OPEN, 1, 0))
+                      GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(367, Pitchfork, "Pitchfork",
-                      GI.GT_FREECELL | GI.GT_OPEN, 1, 0))
+                      GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 

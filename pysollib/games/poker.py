@@ -286,9 +286,9 @@ class PokerShuffle(PokerSquare):
 
 # register the game
 registerGame(GameInfo(139, PokerSquare, "Poker Square",
-                      GI.GT_POKER_TYPE | GI.GT_SCORE, 1, 0,
+                      GI.GT_POKER_TYPE | GI.GT_SCORE, 1, 0, GI.SL_MOSTLY_SKILL,
                       si={"ncards": 25}))
 registerGame(GameInfo(140, PokerShuffle, "Poker Shuffle",
-                      GI.GT_POKER_TYPE | GI.GT_SCORE | GI.GT_OPEN, 1, 0,
+                      GI.GT_POKER_TYPE | GI.GT_SCORE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL,
                       si={"ncards": 25}))
 

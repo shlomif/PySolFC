@@ -244,7 +244,7 @@ def r(id, gameclass, name):
     for n in gameclass.ROWS:
         si_ncards = si_ncards + n
     gi = GameInfo(id, gameclass, name,
-                  GI.GT_PUZZLE_TYPE, 1, 0,
+                  GI.GT_PUZZLE_TYPE, 1, 0, GI.SL_SKILL,
                   si={"ncards": si_ncards},
                   rules_filename = "pegged.html")
     registerGame(gi)

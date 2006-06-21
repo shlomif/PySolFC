@@ -1145,30 +1145,30 @@ class AshtaDikapala(Game):
 # //
 # ************************************************************************/
 
-def r(id, gameclass, name, game_type, decks, redeals):
+def r(id, gameclass, name, game_type, decks, redeals, skill_level):
     game_type = game_type | GI.GT_MUGHAL_GANJIFA
-    gi = GameInfo(id, gameclass, name, game_type, decks, redeals,
+    gi = GameInfo(id, gameclass, name, game_type, decks, redeals, skill_level,
                     suits=range(8), ranks=range(12))
     registerGame(gi)
     return gi
 
-r(14401, MughalCircles, 'Mughal Circles', GI.GT_MUGHAL_GANJIFA, 1, 0)
-r(14402, Ghulam, 'Ghulam', GI.GT_MUGHAL_GANJIFA, 1, 0)
-r(14403, Shamsher, 'Shamsher', GI.GT_MUGHAL_GANJIFA, 1, 0)
-r(14404, EightLegions, 'Eight Legions', GI.GT_MUGHAL_GANJIFA, 1, 0)
-r(14405, Ashrafi, 'Ashrafi', GI.GT_MUGHAL_GANJIFA, 1, 0)
-r(14406, Tipati, 'Tipati', GI.GT_MUGHAL_GANJIFA, 1, 0)
-r(14407, Ashwapati, 'Ashwapati', GI.GT_MUGHAL_GANJIFA, 1, -1)
-r(14408, Gajapati, 'Gajapati', GI.GT_MUGHAL_GANJIFA, 1, -1)
-r(14409, Narpati, 'Narpati', GI.GT_MUGHAL_GANJIFA, 1, 0)
-r(14410, Garhpati, 'Garhpati', GI.GT_MUGHAL_GANJIFA, 1, -1)
-r(14411, Dhanpati, 'Dhanpati', GI.GT_MUGHAL_GANJIFA, 1, 1)
-r(14412, AkbarsTriumph, 'Akbar\'s Triumph', GI.GT_MUGHAL_GANJIFA, 1, 2)
-r(14413, AkbarsConquest, 'Akbar\'s Conquest', GI.GT_MUGHAL_GANJIFA, 2, 2)
-r(16000, Vajra, 'Vajra', GI.GT_MUGHAL_GANJIFA, 1, 0)
-r(16001, Danda, 'Danda', GI.GT_MUGHAL_GANJIFA, 1, 0)
-r(16002, Khadga, 'Khadga', GI.GT_MUGHAL_GANJIFA, 1, 0)
-r(16003, Makara, 'Makara', GI.GT_MUGHAL_GANJIFA, 1, 0)
-r(16004, AshtaDikapala, 'Ashta Dikapala', GI.GT_MUGHAL_GANJIFA, 1, 0)
+r(14401, MughalCircles, 'Mughal Circles', GI.GT_MUGHAL_GANJIFA, 1, 0, GI.SL_MOSTLY_SKILL)
+r(14402, Ghulam, 'Ghulam', GI.GT_MUGHAL_GANJIFA, 1, 0, GI.SL_MOSTLY_SKILL)
+r(14403, Shamsher, 'Shamsher', GI.GT_MUGHAL_GANJIFA, 1, 0, GI.SL_MOSTLY_SKILL)
+r(14404, EightLegions, 'Eight Legions', GI.GT_MUGHAL_GANJIFA, 1, 0, GI.SL_MOSTLY_SKILL)
+r(14405, Ashrafi, 'Ashrafi', GI.GT_MUGHAL_GANJIFA, 1, 0, GI.SL_MOSTLY_SKILL)
+r(14406, Tipati, 'Tipati', GI.GT_MUGHAL_GANJIFA, 1, 0, GI.SL_BALANCED)
+r(14407, Ashwapati, 'Ashwapati', GI.GT_MUGHAL_GANJIFA, 1, -1, GI.SL_BALANCED)
+r(14408, Gajapati, 'Gajapati', GI.GT_MUGHAL_GANJIFA, 1, -1, GI.SL_BALANCED)
+r(14409, Narpati, 'Narpati', GI.GT_MUGHAL_GANJIFA, 1, 0, GI.SL_BALANCED)
+r(14410, Garhpati, 'Garhpati', GI.GT_MUGHAL_GANJIFA, 1, -1, GI.SL_BALANCED)
+r(14411, Dhanpati, 'Dhanpati', GI.GT_MUGHAL_GANJIFA, 1, 1, GI.SL_BALANCED)
+r(14412, AkbarsTriumph, 'Akbar\'s Triumph', GI.GT_MUGHAL_GANJIFA, 1, 2, GI.SL_BALANCED)
+r(14413, AkbarsConquest, 'Akbar\'s Conquest', GI.GT_MUGHAL_GANJIFA, 2, 2, GI.SL_BALANCED)
+r(16000, Vajra, 'Vajra', GI.GT_MUGHAL_GANJIFA, 1, 0, GI.SL_MOSTLY_SKILL)
+r(16001, Danda, 'Danda', GI.GT_MUGHAL_GANJIFA, 1, 0, GI.SL_MOSTLY_SKILL)
+r(16002, Khadga, 'Khadga', GI.GT_MUGHAL_GANJIFA, 1, 0, GI.SL_MOSTLY_SKILL)
+r(16003, Makara, 'Makara', GI.GT_MUGHAL_GANJIFA, 1, 0, GI.SL_MOSTLY_SKILL)
+r(16004, AshtaDikapala, 'Ashta Dikapala', GI.GT_MUGHAL_GANJIFA, 1, 0, GI.SL_BALANCED)
 
 del r

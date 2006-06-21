@@ -258,17 +258,17 @@ class Rambling(Corkscrew):
 # // register the games
 # ************************************************************************/
 
-def r(id, gameclass, name, game_type, decks, redeals):
+def r(id, gameclass, name, game_type, decks, redeals, skill_level):
     game_type = game_type | GI.GT_TAROCK | GI.GT_CONTRIB | GI.GT_ORIGINAL
-    gi = GameInfo(id, gameclass, name, game_type, decks, redeals,
+    gi = GameInfo(id, gameclass, name, game_type, decks, redeals, skill_level,
                   ranks=range(14), trumps=range(22))
     registerGame(gi)
     return gi
 
-r(13163, Cockroach, 'Cockroach', GI.GT_TAROCK, 1, 0)
-r(13164, DoubleCockroach, 'Double Cockroach', GI.GT_TAROCK, 2, 0)
-r(13165, Corkscrew, 'Corkscrew', GI.GT_TAROCK, 2, 0)
-r(13166, Serpent, 'Serpent', GI.GT_TAROCK, 2, 0)
-r(13167, Rambling, 'Rambling', GI.GT_TAROCK, 2, 0)
+r(13163, Cockroach, 'Cockroach', GI.GT_TAROCK, 1, 0, GI.SL_MOSTLY_SKILL)
+r(13164, DoubleCockroach, 'Double Cockroach', GI.GT_TAROCK, 2, 0, GI.SL_MOSTLY_SKILL)
+r(13165, Corkscrew, 'Corkscrew', GI.GT_TAROCK, 2, 0, GI.SL_MOSTLY_SKILL)
+r(13166, Serpent, 'Serpent', GI.GT_TAROCK, 2, 0, GI.SL_MOSTLY_SKILL)
+r(13167, Rambling, 'Rambling', GI.GT_TAROCK, 2, 0, GI.SL_MOSTLY_SKILL)
 
 del r

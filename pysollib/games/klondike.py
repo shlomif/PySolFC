@@ -608,7 +608,7 @@ class AgnesBernauer(Jane):
     Foundation_Class = StackWrapper(SS_FoundationStack, mod=13, base_rank=NO_RANK, max_move=0)
 
     def createGame(self):
-        Jane.createGame(self, max_rounds=1, waste=0, texts=1)
+        Jane.createGame(self, max_rounds=1, waste=0, texts=0)
 
     def startGame(self):
         Jane.startGame(self, flip=1)
@@ -1052,107 +1052,107 @@ class Whitehorse(Klondike):
 
 # register the game
 registerGame(GameInfo(2, Klondike, "Klondike",
-                      GI.GT_KLONDIKE, 1, -1))
+                      GI.GT_KLONDIKE, 1, -1, GI.SL_BALANCED))
 registerGame(GameInfo(61, CasinoKlondike, "Casino Klondike",
-                      GI.GT_KLONDIKE | GI.GT_SCORE, 1, 2))
+                      GI.GT_KLONDIKE | GI.GT_SCORE, 1, 2, GI.SL_BALANCED))
 registerGame(GameInfo(129, VegasKlondike, "Vegas Klondike",
-                      GI.GT_KLONDIKE | GI.GT_SCORE, 1, 0))
+                      GI.GT_KLONDIKE | GI.GT_SCORE, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(18, KlondikeByThrees, "Klondike by Threes",
-                      GI.GT_KLONDIKE, 1, -1))
+                      GI.GT_KLONDIKE, 1, -1, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(58, ThumbAndPouch, "Thumb and Pouch",
-                      GI.GT_KLONDIKE, 1, 0))
+                      GI.GT_KLONDIKE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(67, Whitehead, "Whitehead",
-                      GI.GT_KLONDIKE, 1, 0))
+                      GI.GT_KLONDIKE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(39, SmallHarp, "Small Harp",
-                      GI.GT_KLONDIKE, 1, -1,
+                      GI.GT_KLONDIKE, 1, -1, GI.SL_BALANCED,
                       altnames=("Die kleine Harfe",) ))
 registerGame(GameInfo(66, Eastcliff, "Eastcliff",
-                      GI.GT_KLONDIKE, 1, 0))
+                      GI.GT_KLONDIKE, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(224, Easthaven, "Easthaven",
-                      GI.GT_GYPSY, 1, 0))
+                      GI.GT_GYPSY, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(33, Westcliff, "Westcliff",
-                      GI.GT_KLONDIKE, 1, 0))
+                      GI.GT_KLONDIKE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(225, Westhaven, "Westhaven",
-                      GI.GT_GYPSY, 1, 0))
+                      GI.GT_GYPSY, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(107, PasSeul, "Pas Seul",
-                      GI.GT_KLONDIKE, 1, 0))
+                      GI.GT_KLONDIKE, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(81, BlindAlleys, "Blind Alleys",
-                      GI.GT_KLONDIKE, 1, 1))
+                      GI.GT_KLONDIKE, 1, 1, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(215, Somerset, "Somerset",
-                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0))
+                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(231, Canister, "Canister",
-                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0))
+                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(229, AgnesSorel, "Agnes Sorel",
-                      GI.GT_GYPSY, 1, 0))
+                      GI.GT_GYPSY, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(4, EightTimesEight, "8 x 8",
-                      GI.GT_KLONDIKE, 2, -1))
+                      GI.GT_KLONDIKE, 2, -1, GI.SL_BALANCED))
 registerGame(GameInfo(127, AchtmalAcht, "Eight Times Eight",
-                      GI.GT_KLONDIKE, 2, 2,
+                      GI.GT_KLONDIKE, 2, 2, GI.SL_BALANCED,
                       altnames=("Achtmal Acht",) ))
 registerGame(GameInfo(133, Batsford, "Batsford",
-                      GI.GT_KLONDIKE, 2, 0))
+                      GI.GT_KLONDIKE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(221, Stonewall, "Stonewall",
-                      GI.GT_RAGLAN, 1, 0))
+                      GI.GT_RAGLAN, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(222, FlowerGarden, "Flower Garden",
-                      GI.GT_RAGLAN | GI.GT_OPEN, 1, 0,
+                      GI.GT_RAGLAN | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL,
                       altnames=("The Bouquet", "The Garden",) ))
 registerGame(GameInfo(233, KingAlbert, "King Albert",
-                      GI.GT_RAGLAN | GI.GT_OPEN, 1, 0,
+                      GI.GT_RAGLAN | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL,
                       altnames=("Idiot's Delight",) ))
 registerGame(GameInfo(232, Raglan, "Raglan",
-                      GI.GT_RAGLAN | GI.GT_OPEN, 1, 0))
+                      GI.GT_RAGLAN | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(223, Brigade, "Brigade",
-                      GI.GT_RAGLAN | GI.GT_OPEN, 1, 0))
+                      GI.GT_RAGLAN | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(230, Jane, "Jane",
-                      GI.GT_RAGLAN, 1, 0))
+                      GI.GT_RAGLAN, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(236, AgnesBernauer, "Agnes Bernauer",
-                      GI.GT_RAGLAN, 1, 0))
+                      GI.GT_RAGLAN, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(263, Phoenix, "Phoenix",
-                      GI.GT_RAGLAN | GI.GT_OPEN, 1, 0))
+                      GI.GT_RAGLAN | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(283, Jumbo, "Jumbo",
-                      GI.GT_KLONDIKE, 2, 1))
+                      GI.GT_KLONDIKE, 2, 1, GI.SL_BALANCED))
 registerGame(GameInfo(333, OpenJumbo, "Open Jumbo",
-                      GI.GT_KLONDIKE, 2, 1))
+                      GI.GT_KLONDIKE, 2, 1, GI.SL_BALANCED))
 registerGame(GameInfo(297, Alternation, "Alternation",
-                      GI.GT_KLONDIKE, 2, 0))
+                      GI.GT_KLONDIKE, 2, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(326, Lanes, "Lanes",
-                      GI.GT_KLONDIKE, 1, 1))
+                      GI.GT_KLONDIKE, 1, 1, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(327, ThirtySix, "Thirty Six",
-                      GI.GT_KLONDIKE, 1, 0))
+                      GI.GT_KLONDIKE, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(350, Q_C_, "Q.C.",
-                      GI.GT_KLONDIKE, 2, 1))
+                      GI.GT_KLONDIKE, 2, 1, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(361, NorthwestTerritory, "Northwest Territory",
-                      GI.GT_RAGLAN, 1, 0))
+                      GI.GT_RAGLAN, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(362, Morehead, "Morehead",
-                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0))
+                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(388, Senate, "Senate",
-                      GI.GT_RAGLAN, 2, 0))
+                      GI.GT_RAGLAN, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(389, SenatePlus, "Senate +",
-                      GI.GT_RAGLAN, 2, 0))
+                      GI.GT_RAGLAN, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(390, Arizona, "Arizona",
-                      GI.GT_RAGLAN | GI.GT_OPEN, 1, 0))
+                      GI.GT_RAGLAN | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(407, AuntMary, "Aunt Mary",
-                      GI.GT_KLONDIKE, 1, 0))
+                      GI.GT_KLONDIKE, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(420, DoubleDot, "Double Dot",
-                      GI.GT_KLONDIKE, 1, 0))
+                      GI.GT_KLONDIKE, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(434, SevenDevils, "Seven Devils",
-                      GI.GT_RAGLAN, 2, 0))
+                      GI.GT_RAGLAN, 2, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(452, DoubleEasthaven, "Double Easthaven",
-                      GI.GT_GYPSY, 2, 0))
+                      GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(453, TripleEasthaven, "Triple Easthaven",
-                      GI.GT_GYPSY, 3, 0))
+                      GI.GT_GYPSY, 3, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(470, MovingLeft, "Moving Left",
-                      GI.GT_KLONDIKE, 2, 0))
+                      GI.GT_KLONDIKE, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(471, Souter, "Souter",
-                      GI.GT_KLONDIKE, 2, 1))
+                      GI.GT_KLONDIKE, 2, 1, GI.SL_BALANCED))
 registerGame(GameInfo(473, BigForty, "Big Forty",
-                      GI.GT_KLONDIKE, 1, -1))
+                      GI.GT_KLONDIKE, 1, -1, GI.SL_BALANCED))
 registerGame(GameInfo(474, AliBaba, "Ali Baba",
-                      GI.GT_KLONDIKE, 1, -1))
+                      GI.GT_KLONDIKE, 1, -1, GI.SL_BALANCED))
 registerGame(GameInfo(475, Cassim, "Cassim",
-                      GI.GT_KLONDIKE, 1, -1))
+                      GI.GT_KLONDIKE, 1, -1, GI.SL_BALANCED))
 registerGame(GameInfo(479, Saratoga, "Saratoga",
-                      GI.GT_KLONDIKE, 1, -1))
+                      GI.GT_KLONDIKE, 1, -1, GI.SL_BALANCED))
 registerGame(GameInfo(491, Whitehorse, "Whitehorse",
-                      GI.GT_KLONDIKE, 1, -1))
+                      GI.GT_KLONDIKE, 1, -1, GI.SL_BALANCED))
 

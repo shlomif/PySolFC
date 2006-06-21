@@ -167,10 +167,10 @@ class BoxKite(StHelena):
 
 # register the game
 registerGame(GameInfo(302, StHelena, "St. Helena",
-                      GI.GT_2DECK_TYPE, 2, 2,
+                      GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED,
                       altnames=("Napoleon's Favorite",
                                 "Washington's Favorite")
                       ))
 registerGame(GameInfo(408, BoxKite, "Box Kite",
-                      GI.GT_2DECK_TYPE, 2, 0))
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 

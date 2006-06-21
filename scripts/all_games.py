@@ -198,7 +198,7 @@ msgstr ""
     for g in games_list:
         print 'msgid "%s"\nmsgstr ""\n' % g.encode('utf-8')
 
-def plain_text():
+def old_plain_text():
     #get_games_func = GAME_DB.getGamesIdSortedById
     get_games_func = GAME_DB.getGamesIdSortedByName
     games_list = {} # for unique
@@ -214,6 +214,14 @@ def plain_text():
     for g in games_list:
         print g.encode('utf-8')
 
+def plain_text():
+    get_games_func = GAME_DB.getGamesIdSortedByName
+    for id in get_games_func():
+        gi = GAME_DB.get(id)
+        if gi.category == GI.GC_FRENCH:
+            name = gi.name.lower()
+            name = re.sub('\W', '', name)
+            print id, name #, gi.si.game_type, gi.si.game_type == GI.GC_FRENCH
 
 
 ##

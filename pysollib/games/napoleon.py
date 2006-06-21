@@ -263,11 +263,11 @@ class FreeNapoleon(DerFreieNapoleon):
 
 # register the game
 registerGame(GameInfo(167, DerKleineNapoleon, "Der kleine Napoleon",
-                      GI.GT_NAPOLEON | GI.GT_OPEN, 1, 0))
+                      GI.GT_NAPOLEON | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(168, DerFreieNapoleon, "Der freie Napoleon",
-                      GI.GT_NAPOLEON | GI.GT_OPEN, 1, 0))
+                      GI.GT_NAPOLEON | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(169, Napoleon, "Napoleon",
-                      GI.GT_NAPOLEON | GI.GT_OPEN, 1, 0))
+                      GI.GT_NAPOLEON | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(170, FreeNapoleon, "Free Napoleon",
-                      GI.GT_NAPOLEON | GI.GT_OPEN, 1, 0))
+                      GI.GT_NAPOLEON | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 

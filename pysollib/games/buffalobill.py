@@ -104,8 +104,8 @@ class LittleBillie(BuffaloBill):
 
 # register the game
 registerGame(GameInfo(338, BuffaloBill, "Buffalo Bill",
-                      GI.GT_2DECK_TYPE, 2, 0))
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(421, LittleBillie, "Little Billie",
-                      GI.GT_2DECK_TYPE, 2, 0))
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
 
 

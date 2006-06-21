@@ -311,14 +311,14 @@ class Concentration(Memory24):
 
 # register the game
 registerGame(GameInfo(176, Memory24, "Memory 24",
-                      GI.GT_MEMORY | GI.GT_SCORE, 2, 0,
+                      GI.GT_MEMORY | GI.GT_SCORE, 2, 0, GI.SL_SKILL,
                       suits=(0,2), ranks=(0,8,9,10,11,12)))
 registerGame(GameInfo(219, Memory30, "Memory 30",
-                      GI.GT_MEMORY | GI.GT_SCORE, 2, 0,
+                      GI.GT_MEMORY | GI.GT_SCORE, 2, 0, GI.SL_SKILL,
                       suits=(0,2,3), ranks=(0,9,10,11,12)))
 registerGame(GameInfo(177, Memory40, "Memory 40",
-                      GI.GT_MEMORY | GI.GT_SCORE, 2, 0,
+                      GI.GT_MEMORY | GI.GT_SCORE, 2, 0, GI.SL_SKILL,
                       suits=(0,2), ranks=(0,4,5,6,7,8,9,10,11,12)))
 registerGame(GameInfo(178, Concentration, "Concentration",
-                      GI.GT_MEMORY | GI.GT_SCORE, 1, 0))
+                      GI.GT_MEMORY | GI.GT_SCORE, 1, 0, GI.SL_SKILL))
 

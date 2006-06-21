@@ -139,7 +139,7 @@ class Nationale(Capricieuse):
 
 # register the game
 registerGame(GameInfo(292, Capricieuse, "Capricieuse",
-                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 2, 2))
+                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 2, 2, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(293, Nationale, "Nationale",
-                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 2, 0))
+                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL))
 

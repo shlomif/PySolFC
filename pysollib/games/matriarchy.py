@@ -225,5 +225,5 @@ class Matriarchy(Game):
 
 # register the game
 registerGame(GameInfo(17, Matriarchy, "Matriarchy",
-                      GI.GT_2DECK_TYPE, 2, VARIABLE_REDEALS))
+                      GI.GT_2DECK_TYPE, 2, VARIABLE_REDEALS, GI.SL_BALANCED))
 

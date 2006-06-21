@@ -691,27 +691,27 @@ class FlowerArrangement(Game):
 # * Register the games
 # ************************************************************************/
 
-def r(id, gameclass, name, game_type, decks, redeals):
+def r(id, gameclass, name, game_type, decks, redeals, skill_level):
     game_type = game_type | GI.GT_HANAFUDA
-    gi = GameInfo(id, gameclass, name, game_type, decks, redeals,
+    gi = GameInfo(id, gameclass, name, game_type, decks, redeals, skill_level,
                   suits=range(12), ranks=range(4))
     registerGame(gi)
     return gi
 
-r(12369, Paulownia, 'Paulownia', GI.GT_HANAFUDA, 1, -1)
-r(12370, LesserQueue, 'Lesser Queue', GI.GT_HANAFUDA, 2, 2)
-r(12371, GreaterQueue, 'Greater Queue', GI.GT_HANAFUDA, 4, 2)
-r(12373, JapaneseGarden, 'Japanese Garden', GI.GT_HANAFUDA | GI.GT_OPEN, 1, 0)
-r(12374, JapaneseGardenII, 'Japanese Garden II', GI.GT_HANAFUDA | GI.GT_OPEN, 1, 0)
-r(12375, SixSages, 'Six Sages', GI.GT_HANAFUDA | GI.GT_OPEN, 1, 0)
-r(12376, SixTengus, 'Six Tengus', GI.GT_HANAFUDA | GI.GT_OPEN, 1, 0)
-r(12377, JapaneseGardenIII, 'Japanese Garden III', GI.GT_HANAFUDA | GI.GT_OPEN, 1, 0)
-r(12378, HanafudaFourSeasons, 'Hanafuda Four Seasons', GI.GT_HANAFUDA | GI.GT_OPEN, 1, 0)
-r(12380, Eularia, 'Eularia', GI.GT_HANAFUDA, 1, -1)
-r(12381, Peony, 'Peony', GI.GT_HANAFUDA, 1, -1)
-r(12382, Iris, 'Iris', GI.GT_HANAFUDA, 1, 0)
-r(12383, Pine, 'Pine', GI.GT_HANAFUDA, 1, 0)
-r(12384, Wisteria, 'Wisteria', GI.GT_HANAFUDA, 1, 0)
-r(12385, FlowerArrangement, 'Flower Arrangement', GI.GT_HANAFUDA, 2, 0)
+r(12369, Paulownia, 'Paulownia', GI.GT_HANAFUDA, 1, -1, GI.SL_BALANCED)
+r(12370, LesserQueue, 'Lesser Queue', GI.GT_HANAFUDA, 2, 2, GI.SL_BALANCED)
+r(12371, GreaterQueue, 'Greater Queue', GI.GT_HANAFUDA, 4, 2, GI.SL_BALANCED)
+r(12373, JapaneseGarden, 'Japanese Garden', GI.GT_HANAFUDA | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL)
+r(12374, JapaneseGardenII, 'Japanese Garden II', GI.GT_HANAFUDA | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL)
+r(12375, SixSages, 'Six Sages', GI.GT_HANAFUDA | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL)
+r(12376, SixTengus, 'Six Tengus', GI.GT_HANAFUDA | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL)
+r(12377, JapaneseGardenIII, 'Japanese Garden III', GI.GT_HANAFUDA | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL)
+r(12378, HanafudaFourSeasons, 'Hanafuda Four Seasons', GI.GT_HANAFUDA | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL)
+r(12380, Eularia, 'Eularia', GI.GT_HANAFUDA, 1, -1, GI.SL_BALANCED)
+r(12381, Peony, 'Peony', GI.GT_HANAFUDA, 1, -1, GI.SL_BALANCED)
+r(12382, Iris, 'Iris', GI.GT_HANAFUDA, 1, 0, GI.SL_BALANCED)
+r(12383, Pine, 'Pine', GI.GT_HANAFUDA, 1, 0, GI.SL_BALANCED)
+r(12384, Wisteria, 'Wisteria', GI.GT_HANAFUDA, 1, 0, GI.SL_MOSTLY_SKILL)
+r(12385, FlowerArrangement, 'Flower Arrangement', GI.GT_HANAFUDA, 2, 0, GI.SL_BALANCED)
 
 del r

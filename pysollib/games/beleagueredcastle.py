@@ -686,34 +686,34 @@ class CastleMount(Lightweight):
 
 # register the game
 registerGame(GameInfo(146, StreetsAndAlleys, "Streets and Alleys",
-                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0))
+                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(34, BeleagueredCastle, "Beleaguered Castle",
-                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0))
+                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(145, Citadel, "Citadel",
-                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0))
+                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(147, Fortress, "Fortress",
-                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0))
+                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(148, Chessboard, "Chessboard",
-                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0))
+                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(300, Stronghold, "Stronghold",
-                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0))
+                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(301, Fastness, "Fastness",
-                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0))
+                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(306, Zerline, "Zerline",
-                      GI.GT_BELEAGUERED_CASTLE, 2, 0))
+                      GI.GT_BELEAGUERED_CASTLE, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(324, Bastion, "Bastion",
-                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0))
+                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(325, TenByOne, "Ten by One",
-                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0))
+                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(351, Chequers, "Chequers",
-                      GI.GT_BELEAGUERED_CASTLE, 2, 0))
+                      GI.GT_BELEAGUERED_CASTLE, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(393, CastleOfIndolence, "Castle of Indolence",
-                      GI.GT_BELEAGUERED_CASTLE, 2, 0))
+                      GI.GT_BELEAGUERED_CASTLE, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(395, Zerline3Decks, "Zerline (3 decks)",
-                      GI.GT_BELEAGUERED_CASTLE | GI.GT_ORIGINAL, 3, 0))
+                      GI.GT_BELEAGUERED_CASTLE | GI.GT_ORIGINAL, 3, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(400, Rittenhouse, "Rittenhouse",
-                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 2, 0))
+                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(507, Lightweight, "Lightweight",
-                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0))
+                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(508, CastleMount, "Castle Mount",
-                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 3, 0))
+                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 3, 0, GI.SL_MOSTLY_SKILL))

@@ -168,7 +168,7 @@ class Parallels(Game):
 
 # register the game
 registerGame(GameInfo(428, Parallels, "Parallels",
-                      GI.GT_2DECK_TYPE, 2, 0))
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 
 
 

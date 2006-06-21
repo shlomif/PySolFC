@@ -485,19 +485,19 @@ class Acquaintance(AuldLangSyne):
 
 # register the game
 registerGame(GameInfo(172, TamOShanter, "Tam O'Shanter",
-                      GI.GT_NUMERICA, 1, 0))
+                      GI.GT_NUMERICA, 1, 0, GI.SL_LUCK))
 registerGame(GameInfo(95, AuldLangSyne, "Auld Lang Syne",
-                      GI.GT_NUMERICA, 1, 0))
+                      GI.GT_NUMERICA, 1, 0, GI.SL_LUCK))
 registerGame(GameInfo(173, Strategy, "Strategy",
-                      GI.GT_NUMERICA, 1, 0))
+                      GI.GT_NUMERICA, 1, 0, GI.SL_SKILL))
 registerGame(GameInfo(123, Interregnum, "Interregnum",
-                      GI.GT_NUMERICA, 2, 0))
+                      GI.GT_NUMERICA, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(296, Colorado, "Colorado",
-                      GI.GT_NUMERICA, 2, 0))
+                      GI.GT_NUMERICA, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(406, Amazons, "Amazons",
-                      GI.GT_NUMERICA, 1, -1,
+                      GI.GT_NUMERICA, 1, -1, GI.SL_LUCK,
                       ranks=(0, 6, 7, 8, 9, 10, 11),
                       ))
 registerGame(GameInfo(490, Acquaintance, "Acquaintance",
-                      GI.GT_NUMERICA, 1, 2))
+                      GI.GT_NUMERICA, 1, 2, GI.SL_BALANCED))
 

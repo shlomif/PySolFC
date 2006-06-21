@@ -449,7 +449,7 @@ def r(id, gameclass, short_name, name=None, decks=1, ranks=10, trumps=12):
         name = short_name
     decks, ranks, trumps = comp_cardset(gameclass.NCARDS)
     gi = GameInfo(id, gameclass, name,
-                  GI.GT_SHISEN_SHO, 4*decks, 0,
+                  GI.GT_SHISEN_SHO, 4*decks, 0, GI.SL_MOSTLY_SKILL,
                   category=GI.GC_MAHJONGG, short_name=name,
                   suits=range(3), ranks=range(ranks), trumps=range(trumps),
                   si={"decks": decks, "ncards": gameclass.NCARDS})

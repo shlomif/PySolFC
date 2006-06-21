@@ -109,6 +109,13 @@ class GI:
     GT_SCORE         = 1 << 20      # game has some type of scoring
     GT_SEPARATE_DECKS = 1 << 21
     GT_XORIGINAL     = 1 << 22      # original games by other people, not playable
+    # skill level
+    SL_LUCK         = 1
+    SL_MOSTLY_LUCK  = 2
+    SL_BALANCED     = 3
+    SL_MOSTLY_SKILL = 4
+    SL_SKILL        = 5
+    #
     TYPE_NAMES = {
         GT_BAKERS_DOZEN:        n_("Baker's Dozen"),
         GT_BELEAGUERED_CASTLE:  n_("Beleaguered Castle"),
@@ -167,23 +174,6 @@ class GI:
         (n_("Four-Deck games"),lambda gi, gt=GT_4DECK_TYPE: gi.si.game_type == gt),
     )
 
-
-
-##     SELECT_SPECIAL_GAME_BY_TYPE = (
-##         ("Dashavatara Ganjifa type", lambda gi, gt=GT_DASHAVATARA_GANJIFA: gi.si.game_type == gt),
-##         ("Ganjifa type",        lambda gi, gt=(GT_MUGHAL_GANJIFA, GT_NAVAGRAHA_GANJIFA, GT_DASHAVATARA_GANJIFA,): gi.si.game_type in gt),
-##         ("Hanafuda type",       lambda gi, gt=GT_HANAFUDA: gi.si.game_type == gt),
-##         ("Hex A Deck type",     lambda gi, gt=GT_HEXADECK: gi.si.game_type == gt),
-##         ("Mahjongg type",       lambda gi, gt=GT_MAHJONGG: gi.si.game_type == gt),
-##         ("Matrix type",         lambda gi, gt=GT_MATRIX: gi.si.game_type == gt),
-##         ("Mughal Ganjifa type", lambda gi, gt=GT_MUGHAL_GANJIFA: gi.si.game_type == gt),
-##         ("Navagraha Ganjifa type", lambda gi, gt=GT_NAVAGRAHA_GANJIFA: gi.si.game_type == gt),
-##         ("Memory type",         lambda gi, gt=GT_MEMORY: gi.si.game_type == gt),
-##         ("Poker type",          lambda gi, gt=GT_POKER_TYPE: gi.si.game_type == gt),
-##         ("Puzzle type",         lambda gi, gt=GT_PUZZLE_TYPE: gi.si.game_type == gt),
-##         ("Tarock type",         lambda gi, gt=GT_TAROCK: gi.si.game_type == gt),
-##     )
-
     SELECT_ORIGINAL_GAME_BY_TYPE = (
         (n_("French type"),         lambda gi, gf=GT_ORIGINAL, gt=(GT_HANAFUDA, GT_HEXADECK, GT_MUGHAL_GANJIFA, GT_NAVAGRAHA_GANJIFA, GT_DASHAVATARA_GANJIFA, GT_TAROCK,): gi.si.game_flags & gf and gi.si.game_type not in gt),
         (n_("Ganjifa type"),        lambda gi, gf=GT_ORIGINAL, gt=(GT_MUGHAL_GANJIFA, GT_NAVAGRAHA_GANJIFA, GT_DASHAVATARA_GANJIFA,): gi.si.game_flags & gf and gi.si.game_type in gt),
@@ -200,7 +190,6 @@ class GI:
         (n_("Tarock type"),         lambda gi, gf=GT_CONTRIB, gt=GT_TAROCK: gi.si.game_flags & gf and gi.si.game_type == gt),
     )
 
-    # -----
     SELECT_ORIENTAL_GAME_BY_TYPE = (
         (n_("Dashavatara Ganjifa type"), lambda gi, gt=GT_DASHAVATARA_GANJIFA: gi.si.game_type == gt),
         (n_("Ganjifa type"),        lambda gi, gt=(GT_MUGHAL_GANJIFA, GT_NAVAGRAHA_GANJIFA, GT_DASHAVATARA_GANJIFA,): gi.si.game_type in gt),
@@ -391,10 +380,13 @@ class GameInfoException(Exception):
 class GameInfo(Struct):
     def __init__(self, id, gameclass, name,
                  game_type, decks, redeals,
+                 skill_level=None,
                  # keyword arguments:
-                 si={}, category=0, short_name=None, altnames=(),
+                 si={}, category=0,
+                 short_name=None, altnames=(),
                  suits=range(4), ranks=range(13), trumps=(),
-                 rules_filename=None):
+                 rules_filename=None,
+                 ):
         def to_unicode(s):
             if not type(s) is unicode:
                 return unicode(s, 'utf-8')
@@ -463,7 +455,7 @@ class GameInfo(Struct):
                         name=name, short_name=short_name,
                         altnames=tuple(altnames),
                         decks=decks, redeals=redeals, ncards=ncards,
-                        category=category,
+                        category=category, skill_level=skill_level,
                         suits=tuple(suits), ranks=tuple(ranks), trumps=tuple(trumps),
                         si=gi_si, rules_filename=rules_filename, plugin=0)
 

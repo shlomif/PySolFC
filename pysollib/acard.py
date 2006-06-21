@@ -35,10 +35,10 @@
 
 
 # imports
+from random import randint
 
 # PySol imports
 from mfxutil import SubclassResponsibility
-
 
 # /***********************************************************************
 # //
@@ -79,6 +79,7 @@ class AbstractCard:
         self.suit = suit
         self.color = suit / 2
         self.rank = rank
+        self.game = game
         self.x = x
         self.y = y
         self.item = None
@@ -99,7 +100,11 @@ class AbstractCard:
     def moveTo(self, x, y):
         # Move the card to absolute position (x, y).
         # The card remains hidden.
-        self.moveBy(x - self.x + self.hide_x, y - self.y + self.hide_y)
+        dx, dy = 0, 0
+        if self.game.app.opt.randomize_place:
+            d = 1
+            dx, dy = randint(-d, d), randint(-d, d)
+        self.moveBy(x - self.x + self.hide_x + dx, y - self.y + self.hide_y + dy)
 
     def moveBy(self, dx, dy):
         # Move the card by (dx, dy).

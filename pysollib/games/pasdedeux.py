@@ -226,5 +226,5 @@ class PasDeDeux(Game):
 
 # register the game
 registerGame(GameInfo(153, PasDeDeux, "Pas de Deux",
-                      GI.GT_MONTANA | GI.GT_SEPARATE_DECKS, 2, 1))
+                      GI.GT_MONTANA | GI.GT_SEPARATE_DECKS, 2, 1, GI.SL_MOSTLY_SKILL))
 

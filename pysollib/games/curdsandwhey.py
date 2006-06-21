@@ -389,27 +389,27 @@ class SweetSixteen(TrustyTwelve):
 
 # register the game
 registerGame(GameInfo(294, CurdsAndWhey, "Curds and Whey",
-                      GI.GT_SPIDER | GI.GT_OPEN, 1, 0))
+                      GI.GT_SPIDER | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(311, Dumfries, "Dumfries",
-                      GI.GT_1DECK_TYPE, 1, 0))
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(312, Galloway, "Galloway",
-                      GI.GT_1DECK_TYPE, 1, 0))
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(313, Robin, "Robin",
-                      GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 0))
+                      GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(348, Arachnida, "Arachnida",
-                      GI.GT_SPIDER, 2, 0))
+                      GI.GT_SPIDER, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(349, MissMuffet, "Miss Muffet",
-                      GI.GT_SPIDER | GI.GT_OPEN, 1, 0))
+                      GI.GT_SPIDER | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(352, Nordic, "Nordic",
-                      GI.GT_SPIDER | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0))
+                      GI.GT_SPIDER | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(414, GermanPatience, "German Patience",
-                      GI.GT_2DECK_TYPE, 2, 0))
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(415, BavarianPatience, "Bavarian Patience",
-                      GI.GT_2DECK_TYPE, 2, 0))
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(480, TrustyTwelve, "Trusty Twelve",
-                      GI.GT_1DECK_TYPE, 1, 0))
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(481, KnottyNines, "Knotty Nines",
-                      GI.GT_1DECK_TYPE, 1, 0))
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(482, SweetSixteen, "Sweet Sixteen",
-                      GI.GT_1DECK_TYPE, 1, 0))
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))
 

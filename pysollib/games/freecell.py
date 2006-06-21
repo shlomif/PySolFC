@@ -507,39 +507,39 @@ class FourColours(FreeCell):
 
 # register the game
 registerGame(GameInfo(5, RelaxedFreeCell, "Relaxed FreeCell",
-                      GI.GT_FREECELL | GI.GT_RELAXED | GI.GT_OPEN, 1, 0))
+                      GI.GT_FREECELL | GI.GT_RELAXED | GI.GT_OPEN, 1, 0, GI.SL_SKILL))
 registerGame(GameInfo(8, FreeCell, "FreeCell",
-                      GI.GT_FREECELL | GI.GT_OPEN, 1, 0))
+                      GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_SKILL))
 registerGame(GameInfo(46, ForeCell, "ForeCell",
-                      GI.GT_FREECELL | GI.GT_OPEN, 1, 0))
+                      GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(77, Stalactites, "Stalactites",
-                      GI.GT_FREECELL | GI.GT_OPEN, 1, 0,
+                      GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL,
                       altnames=("Grampus", "Old Mole") ))
 registerGame(GameInfo(264, DoubleFreecell, "Double FreeCell",
-                      GI.GT_FREECELL | GI.GT_OPEN, 2, 0))
+                      GI.GT_FREECELL | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(265, TripleFreecell, "Triple FreeCell",
-                      GI.GT_FREECELL | GI.GT_OPEN, 3, 0))
+                      GI.GT_FREECELL | GI.GT_OPEN, 3, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(336, ChallengeFreeCell, "Challenge FreeCell",
-                      GI.GT_FREECELL | GI.GT_OPEN, 1, 0,
+                      GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_SKILL,
                       rules_filename='freecell.html'))
 registerGame(GameInfo(337, SuperChallengeFreeCell, "Super Challenge FreeCell",
-                      GI.GT_FREECELL | GI.GT_OPEN, 1, 0))
+                      GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_SKILL))
 registerGame(GameInfo(363, Spidercells, "Spidercells",
-                      GI.GT_SPIDER | GI.GT_OPEN, 1, 0))
+                      GI.GT_SPIDER | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(364, SevenByFour, "Seven by Four",
-                      GI.GT_FREECELL | GI.GT_OPEN, 1, 0))
+                      GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_SKILL))
 registerGame(GameInfo(365, SevenByFive, "Seven by Five",
-                      GI.GT_FREECELL | GI.GT_OPEN, 1, 0))
+                      GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_SKILL))
 registerGame(GameInfo(383, Bath, "Bath",
-                      GI.GT_FREECELL | GI.GT_OPEN, 1, 0))
+                      GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_SKILL))
 registerGame(GameInfo(394, Clink, "Clink",
-                      GI.GT_FREECELL | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0))
+                      GI.GT_FREECELL | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(448, Repair, "Repair",
-                      GI.GT_FREECELL | GI.GT_OPEN, 2, 0))
+                      GI.GT_FREECELL | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(451, Cell11, "Cell 11",
-                      GI.GT_FREECELL | GI.GT_OPEN, 3, 0))
+                      GI.GT_FREECELL | GI.GT_OPEN, 3, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(464, FourColours, "Four Colours",
-                      GI.GT_FREECELL | GI.GT_OPEN, 1, 0))
+                      GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(509, BigCell, "Big Cell",
-                      GI.GT_FREECELL | GI.GT_OPEN | GI.GT_ORIGINAL, 3, 0))
+                      GI.GT_FREECELL | GI.GT_OPEN | GI.GT_ORIGINAL, 3, 0, GI.SL_MOSTLY_SKILL))
 

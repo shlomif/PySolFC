@@ -71,6 +71,14 @@ class GameInfoDialog(MfxDialog):
                     if gi.si.game_flags & t:
                         flags.append(attr)
         #
+        sl = {
+            1: 'SL_LUCK',
+            2: 'SL_MOSTLY_LUCK',
+            3: 'SL_BALANCED',
+            4: 'SL_MOSTLY_SKILL',
+            5: 'SL_SKILL',
+            }
+        skill_level = sl.get(gi.skill_level)
         row = 0
         for n, t in (('Name:', gi.name),
                      ('Short name:', gi.short_name),
@@ -82,6 +90,7 @@ class GameInfoDialog(MfxDialog):
                      ('Category:', cat),
                      ('Type:', type),
                      ('Flags:', '\n'.join(flags)),
+                     ('Skill level:', skill_level),
                      ('Rules filename:', gi.rules_filename),
                      ('Module:', game.__module__),
                      ('Class:', game.__class__.__name__),

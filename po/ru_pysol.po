@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "POT-Creation-Date: Sun Jun 11 10:16:01 2006\n"
-"PO-Revision-Date: 2006-06-12 15:31+0400\n"
+"PO-Revision-Date: 2006-06-20 01:10+0400\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1143,7 +1143,7 @@ msgstr "Клен"
 
 #: pysollib/games/ultra/hanafuda_common.py:69
 msgid "Paulownia"
-msgstr ""
+msgstr "Павловния"
 
 #: pysollib/games/ultra/hanafuda_common.py:69
 msgid "Willow"

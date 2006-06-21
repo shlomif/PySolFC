@@ -612,23 +612,23 @@ class Robert(Game):
 
 # register the game
 registerGame(GameInfo(36, Golf, "Golf",
-                      GI.GT_GOLF, 1, 0))
+                      GI.GT_GOLF, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(259, DeadKingGolf, "Dead King Golf",
-                      GI.GT_GOLF, 1, 0))
+                      GI.GT_GOLF, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(260, RelaxedGolf, "Relaxed Golf",
-                      GI.GT_GOLF | GI.GT_RELAXED, 1, 0))
+                      GI.GT_GOLF | GI.GT_RELAXED, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(40, Elevator, "Elevator",
-                      GI.GT_GOLF, 1, 0,
+                      GI.GT_GOLF, 1, 0, GI.SL_BALANCED,
                       altnames=("Egyptian Solitaire", "Pyramid Golf") ))
 registerGame(GameInfo(237, TriPeaks, "Tri Peaks",
-                      GI.GT_GOLF | GI.GT_SCORE, 1, 0))
+                      GI.GT_GOLF | GI.GT_SCORE, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(98, BlackHole, "Black Hole",
-                      GI.GT_GOLF | GI.GT_OPEN, 1, 0))
+                      GI.GT_GOLF | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(267, FourLeafClovers, "Four Leaf Clovers",
-                      GI.GT_GOLF | GI.GT_OPEN, 1, 0))
+                      GI.GT_GOLF | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(281, Escalator, "Escalator",
-                      GI.GT_GOLF, 1, 0))
+                      GI.GT_GOLF, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(405, AllInARow, "All in a Row",
-                      GI.GT_GOLF | GI.GT_OPEN, 1, 0))
+                      GI.GT_GOLF | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(432, Robert, "Robert",
-                      GI.GT_GOLF, 1, 2))
+                      GI.GT_GOLF, 1, 2, GI.SL_LUCK))

@@ -547,49 +547,49 @@ class Geoffrey(Yukon):
 
 # register the game
 registerGame(GameInfo(19, Yukon, "Yukon",
-                      GI.GT_YUKON, 1, 0))
+                      GI.GT_YUKON, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(20, RussianSolitaire, "Russian Solitaire",
-                      GI.GT_YUKON, 1, 0))
+                      GI.GT_YUKON, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(27, Odessa, "Odessa",
-                      GI.GT_YUKON, 1, 0))
+                      GI.GT_YUKON, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(278, Grandfather, "Grandfather",
-                      GI.GT_YUKON, 1, 0))
+                      GI.GT_YUKON, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(186, Alaska, "Alaska",
-                      GI.GT_YUKON, 1, 0))
+                      GI.GT_YUKON, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(187, ChineseDiscipline, "Chinese Discipline",
-                      GI.GT_YUKON | GI.GT_XORIGINAL, 1, 0))
+                      GI.GT_YUKON | GI.GT_XORIGINAL, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(188, ChineseSolitaire, "Chinese Solitaire",
-                      GI.GT_YUKON | GI.GT_XORIGINAL, 1, 0))
+                      GI.GT_YUKON | GI.GT_XORIGINAL, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(189, Queenie, "Queenie",
-                      GI.GT_YUKON | GI.GT_XORIGINAL, 1, 0))
+                      GI.GT_YUKON | GI.GT_XORIGINAL, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(190, Rushdike, "Rushdike",
-                      GI.GT_YUKON | GI.GT_XORIGINAL, 1, 0))
+                      GI.GT_YUKON | GI.GT_XORIGINAL, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(191, RussianPoint, "Russian Point",
-                      GI.GT_YUKON | GI.GT_XORIGINAL, 1, 0))
+                      GI.GT_YUKON | GI.GT_XORIGINAL, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(192, Abacus, "Abacus",
-                      GI.GT_YUKON | GI.GT_XORIGINAL, 1, 0))
+                      GI.GT_YUKON | GI.GT_XORIGINAL, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(271, DoubleYukon, "Double Yukon",
-                      GI.GT_YUKON, 2, 0))
+                      GI.GT_YUKON, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(272, TripleYukon, "Triple Yukon",
-                      GI.GT_YUKON, 3, 0))
+                      GI.GT_YUKON, 3, 0, GI.SL_BALANCED))
 registerGame(GameInfo(284, TenAcross, "Ten Across",
-                      GI.GT_YUKON, 1, 0))
+                      GI.GT_YUKON, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(285, Panopticon, "Panopticon",
-                      GI.GT_YUKON | GI.GT_ORIGINAL, 1, 0))
+                      GI.GT_YUKON | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(339, Moosehide, "Moosehide",
-                      GI.GT_YUKON, 1, 0))
+                      GI.GT_YUKON, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(387, Roslin, "Roslin",
-                      GI.GT_YUKON, 1, 0))
+                      GI.GT_YUKON, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(447, AustralianPatience, "Australian Patience",
-                      GI.GT_YUKON, 1, 0))
+                      GI.GT_YUKON, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(450, RawPrawn, "Raw Prawn",
-                      GI.GT_YUKON, 1, 0))
+                      GI.GT_YUKON, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(456, BimBom, "Bim Bom",
-                      GI.GT_YUKON | GI.GT_ORIGINAL, 2, 0))
+                      GI.GT_YUKON | GI.GT_ORIGINAL, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(466, DoubleRussianSolitaire, "Double Russian Solitaire",
-                      GI.GT_YUKON, 2, 0))
+                      GI.GT_YUKON, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(488, TripleRussianSolitaire, "Triple Russian Solitaire",
-                      GI.GT_YUKON, 3, 0))
+                      GI.GT_YUKON, 3, 0, GI.SL_BALANCED))
 registerGame(GameInfo(492, Geoffrey, "Geoffrey",
-                      GI.GT_YUKON, 1, 0))
+                      GI.GT_YUKON, 1, 0, GI.SL_MOSTLY_SKILL))
 

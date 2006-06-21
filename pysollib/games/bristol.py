@@ -344,13 +344,13 @@ class Spike(Dover):
 
 # register the game
 registerGame(GameInfo(42, Bristol, "Bristol",
-                      GI.GT_FAN_TYPE, 1, 0))
+                      GI.GT_FAN_TYPE, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(214, Belvedere, "Belvedere",
-                      GI.GT_FAN_TYPE, 1, 0))
+                      GI.GT_FAN_TYPE, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(266, Dover, "Dover",
-                      GI.GT_FAN_TYPE, 2, 0))
+                      GI.GT_FAN_TYPE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(425, NewYork, "New York",
-                      GI.GT_FAN_TYPE, 2, 0))
+                      GI.GT_FAN_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(468, Spike, "Spike",
-                      GI.GT_KLONDIKE, 1, 0))
+                      GI.GT_KLONDIKE, 1, 0, GI.SL_BALANCED))
 

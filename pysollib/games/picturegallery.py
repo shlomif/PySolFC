@@ -423,14 +423,14 @@ class Zeus(MountOlympus):
 
 # register the game
 registerGame(GameInfo(7, PictureGallery, "Picture Gallery",
-                      GI.GT_2DECK_TYPE, 2, 0,
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED,
                       altnames=("Die Bildgallerie", "Mod-3") ))
 registerGame(GameInfo(397, GreatWheel, "Great Wheel",
-                      GI.GT_2DECK_TYPE, 2, 0,
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED,
                       ranks=range(12) # without Kings
                       ))
 registerGame(GameInfo(398, MountOlympus, "Mount Olympus",
-                      GI.GT_2DECK_TYPE, 2, 0))
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(399, Zeus, "Zeus",
-                      GI.GT_2DECK_TYPE, 2, 0))
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 

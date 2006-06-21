@@ -182,5 +182,5 @@ class Glenwood(Game):
 
 # register the game
 registerGame(GameInfo(282, Glenwood, "Glenwood",
-                      GI.GT_CANFIELD, 1, 1))
+                      GI.GT_CANFIELD, 1, 1, GI.SL_BALANCED))
 

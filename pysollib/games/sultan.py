@@ -688,27 +688,27 @@ class CornerSuite(Game):
 
 # register the game
 registerGame(GameInfo(330, Sultan, "Sultan",
-                      GI.GT_2DECK_TYPE, 2, 2,
+                      GI.GT_2DECK_TYPE, 2, 2, GI.SL_MOSTLY_LUCK,
                       altnames=("Sultan of Turkey",) ))
 registerGame(GameInfo(331, SultanPlus, "Sultan +",
-                      GI.GT_2DECK_TYPE, 2, 2))
+                      GI.GT_2DECK_TYPE, 2, 2, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(354, Boudoir, "Boudoir",
-                      GI.GT_2DECK_TYPE, 2, 2))
+                      GI.GT_2DECK_TYPE, 2, 2, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(410, CaptiveQueens, "Captive Queens",
-                      GI.GT_1DECK_TYPE, 1, 2))
+                      GI.GT_1DECK_TYPE, 1, 2, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(418, Contradance, "Contradance",
-                      GI.GT_2DECK_TYPE, 2, 1))
+                      GI.GT_2DECK_TYPE, 2, 1, GI.SL_LUCK))
 registerGame(GameInfo(419, IdleAces, "Idle Aces",
-                      GI.GT_2DECK_TYPE, 2, 2))
+                      GI.GT_2DECK_TYPE, 2, 2, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(423, LadyOfTheManor, "Lady of the Manor",
-                      GI.GT_2DECK_TYPE, 2, 0))
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(424, Matrimony, "Matrimony",
-                      GI.GT_2DECK_TYPE, 2, 0))
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(429, Patriarchs, "Patriarchs",
-                      GI.GT_2DECK_TYPE, 2, 1))
+                      GI.GT_2DECK_TYPE, 2, 1, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(437, Simplicity, "Simplicity",
-                      GI.GT_1DECK_TYPE, 1, 0))
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(438, SixesAndSevens, "Sixes and Sevens",
-                      GI.GT_2DECK_TYPE, 2, 0))
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(477, CornerSuite, "Corner Suite",
-                      GI.GT_2DECK_TYPE, 1, 0))
+                      GI.GT_2DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))

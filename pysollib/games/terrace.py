@@ -291,17 +291,17 @@ class Madame(Terrace):
 
 # register the game
 registerGame(GameInfo(135, Terrace, "Terrace",
-                      GI.GT_TERRACE, 2, 0))
+                      GI.GT_TERRACE, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(136, GeneralsPatience, "General's Patience",
-                      GI.GT_TERRACE, 2, 0))
+                      GI.GT_TERRACE, 2, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(137, BlondesAndBrunettes, "Blondes and Brunettes",
-                      GI.GT_TERRACE, 2, 0))
+                      GI.GT_TERRACE, 2, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(138, FallingStar, "Falling Star",
-                      GI.GT_TERRACE, 2, 0))
+                      GI.GT_TERRACE, 2, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(431, QueenOfItaly, "Queen of Italy",
-                      GI.GT_TERRACE, 2, 0))
+                      GI.GT_TERRACE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(499, Signora, "Signora",
-                      GI.GT_TERRACE, 2, 0))
+                      GI.GT_TERRACE, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(500, Madame, "Madame",
-                      GI.GT_TERRACE, 3, 0))
+                      GI.GT_TERRACE, 3, 0, GI.SL_MOSTLY_SKILL))
 

@@ -379,16 +379,16 @@ class BigBraid(Braid):
 
 # register the game
 registerGame(GameInfo(12, Braid, "Braid",
-                      GI.GT_NAPOLEON, 2, 2,
+                      GI.GT_NAPOLEON, 2, 2, GI.SL_BALANCED,
                       altnames=("Der Zopf", "Plait", "Pigtail") ))
 registerGame(GameInfo(175, LongBraid, "Long Braid",
-                      GI.GT_NAPOLEON, 2, 2,
+                      GI.GT_NAPOLEON, 2, 2, GI.SL_BALANCED,
                       altnames=("Der lange Zopf",) ))
 registerGame(GameInfo(358, Fort, "Fort",
-                      GI.GT_NAPOLEON, 2, 2))
+                      GI.GT_NAPOLEON, 2, 2, GI.SL_BALANCED))
 registerGame(GameInfo(376, Backbone, "Backbone",
-                      GI.GT_NAPOLEON, 2, 0))
+                      GI.GT_NAPOLEON, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(377, BackbonePlus, "Backbone +",
-                      GI.GT_NAPOLEON, 2, 0))
+                      GI.GT_NAPOLEON, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(510, BigBraid, "Big Braid",
-                      GI.GT_NAPOLEON, 3, 2))
+                      GI.GT_NAPOLEON | GI.GT_ORIGINAL, 3, 2, GI.SL_BALANCED))

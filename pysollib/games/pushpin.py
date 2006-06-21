@@ -224,8 +224,8 @@ class Queens(PushPin):
 
 
 registerGame(GameInfo(287, PushPin, "Push Pin",
-                      GI.GT_1DECK_TYPE, 1, 0))
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(288, RoyalMarriage, "Royal Marriage",
-                      GI.GT_1DECK_TYPE, 1, 0))
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 ## registerGame(GameInfo(303, Queens, "Queens",
 ##                       GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0))

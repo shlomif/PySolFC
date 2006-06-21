@@ -986,98 +986,98 @@ class FredsSpider3Decks(FredsSpider):
 
 # register the game
 registerGame(GameInfo(10, RelaxedSpider, "Relaxed Spider",
-                      GI.GT_SPIDER | GI.GT_RELAXED, 2, 0))
+                      GI.GT_SPIDER | GI.GT_RELAXED, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(11, Spider, "Spider",
-                      GI.GT_SPIDER, 2, 0,
+                      GI.GT_SPIDER, 2, 0, GI.SL_MOSTLY_SKILL,
                       altnames=("Tarantula",) ))
 registerGame(GameInfo(49, BlackWidow, "Black Widow",
-                      GI.GT_SPIDER, 2, 0,
+                      GI.GT_SPIDER, 2, 0, GI.SL_MOSTLY_SKILL,
                       altnames=("Scarab",) ))
 registerGame(GameInfo(14, GroundForADivorce, "Ground for a Divorce",
-                      GI.GT_SPIDER, 2, 0,
+                      GI.GT_SPIDER, 2, 0, GI.SL_MOSTLY_SKILL,
                       altnames=('Scheidungsgrund',) ))
 registerGame(GameInfo(114, GrandmothersGame, "Grandmother's Game",
-                      GI.GT_SPIDER, 2, 0))
+                      GI.GT_SPIDER, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(24, Spiderette, "Spiderette",
-                      GI.GT_SPIDER, 1, 0))
+                      GI.GT_SPIDER, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(47, BabySpiderette, "Baby Spiderette",
-                      GI.GT_SPIDER, 1, 0))
+                      GI.GT_SPIDER, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(48, WillOTheWisp, "Will o' the Wisp",
-                      GI.GT_SPIDER, 1, 0))
+                      GI.GT_SPIDER, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(50, SimpleSimon, "Simple Simon",
-                      GI.GT_SPIDER | GI.GT_OPEN, 1, 0))
+                      GI.GT_SPIDER | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(194, Rachel, "Rachel",
-                      GI.GT_SPIDER | GI.GT_XORIGINAL, 1, 0))
+                      GI.GT_SPIDER | GI.GT_XORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(29, Scorpion, "Scorpion",
-                      GI.GT_SPIDER, 1, 0))
+                      GI.GT_SPIDER, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(185, Wasp, "Wasp",
-                      GI.GT_SPIDER, 1, 0))
+                      GI.GT_SPIDER, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(220, RougeEtNoir, "Rouge et Noir",
-                      GI.GT_GYPSY, 2, 0))
+                      GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(269, Spider1Suit, "Spider (1 suit)",
-                      GI.GT_SPIDER, 2, 0,
+                      GI.GT_SPIDER, 2, 0, GI.SL_MOSTLY_SKILL,
                       suits=(0, 0, 0, 0),
                       rules_filename="spider.html"))
 registerGame(GameInfo(270, Spider2Suits, "Spider (2 suits)",
-                      GI.GT_SPIDER, 2, 0,
+                      GI.GT_SPIDER, 2, 0, GI.SL_MOSTLY_SKILL,
                       suits=(0, 0, 2, 2),
                       rules_filename="spider.html"))
 registerGame(GameInfo(305, ThreeBlindMice, "Three Blind Mice",
-                      GI.GT_SPIDER, 1, 0))
+                      GI.GT_SPIDER, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(309, MrsMop, "Mrs. Mop",
-                      GI.GT_SPIDER | GI.GT_OPEN, 2, 0))
+                      GI.GT_SPIDER | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(341, Cicely, "Cicely",
-                      GI.GT_SPIDER, 2, 0))
+                      GI.GT_SPIDER, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(342, Trillium, "Trillium",
-                      GI.GT_SPIDER, 2, 0))
+                      GI.GT_SPIDER, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(343, Lily, "Lily",
-                      GI.GT_SPIDER, 2, 0))
+                      GI.GT_SPIDER, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(344, Chelicera, "Chelicera",
-                      GI.GT_SPIDER, 1, 0))
+                      GI.GT_SPIDER, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(345, ScorpionHead, "Scorpion Head",
-                      GI.GT_SPIDER, 1, 0))
+                      GI.GT_SPIDER, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(346, ScorpionTail, "Scorpion Tail",
-                      GI.GT_SPIDER, 1, 0))
+                      GI.GT_SPIDER, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(359, SpiderWeb, "Spider Web",
-                      GI.GT_SPIDER, 1, 0))
+                      GI.GT_SPIDER, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(366, SimonJester, "Simon Jester",
-                      GI.GT_SPIDER | GI.GT_OPEN, 2, 0))
+                      GI.GT_SPIDER | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(382, Applegate, "Applegate",
-                      GI.GT_SPIDER, 1, 0))
+                      GI.GT_SPIDER, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(384, BigSpider, "Big Spider",
-                      GI.GT_SPIDER, 3, 0))
+                      GI.GT_SPIDER, 3, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(401, GroundForADivorce3Decks, "Big Ground",
-                      GI.GT_SPIDER, 3, 0))
+                      GI.GT_SPIDER, 3, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(441, York, "York",
-                      GI.GT_SPIDER | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0))
+                      GI.GT_SPIDER | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(444, TripleYork, "Triple York",
-                      GI.GT_SPIDER | GI.GT_OPEN | GI.GT_ORIGINAL, 3, 0))
+                      GI.GT_SPIDER | GI.GT_OPEN | GI.GT_ORIGINAL, 3, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(445, BigSpider1Suit, "Big Spider (1 suit)",
-                      GI.GT_SPIDER, 3, 0,
+                      GI.GT_SPIDER, 3, 0, GI.SL_MOSTLY_SKILL,
                       suits=(0, 0, 0, 0),
                       rules_filename="bigspider.html"))
 registerGame(GameInfo(446, BigSpider2Suits, "Big Spider (2 suits)",
-                      GI.GT_SPIDER, 3, 0,
+                      GI.GT_SPIDER, 3, 0, GI.SL_MOSTLY_SKILL,
                       suits=(0, 0, 2, 2),
                       rules_filename="bigspider.html"))
 registerGame(GameInfo(449, Spider3x3, "Spider 3x3",
-                      GI.GT_SPIDER | GI.GT_ORIGINAL, 3, 0,
+                      GI.GT_SPIDER | GI.GT_ORIGINAL, 3, 0, GI.SL_MOSTLY_SKILL,
                       suits=(0, 1, 2),
                       rules_filename="bigspider.html"))
 registerGame(GameInfo(454, Spider4Decks, "Spider (4 decks)",
-                      GI.GT_SPIDER, 4, 0))
+                      GI.GT_SPIDER, 4, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(455, GroundForADivorce4Decks, "Very Big Ground",
-                      GI.GT_SPIDER, 4, 0))
+                      GI.GT_SPIDER, 4, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(458, Spidike, "Spidike",
-                      GI.GT_SPIDER, 1, 0)) # GT_GYPSY ?
+                      GI.GT_SPIDER, 1, 0, GI.SL_BALANCED)) # GT_GYPSY ?
 registerGame(GameInfo(459, FredsSpider, "Fred's Spider",
-                      GI.GT_SPIDER, 2, 0))
+                      GI.GT_SPIDER, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(460, FredsSpider3Decks, "Fred's Spider (3 decks)",
-                      GI.GT_SPIDER, 3, 0))
+                      GI.GT_SPIDER, 3, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(461, OpenSpider, "Open Spider",
-                      GI.GT_SPIDER, 2, 0))
+                      GI.GT_SPIDER, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(501, WakeRobin, "Wake-Robin",
-                      GI.GT_SPIDER | GI.GT_ORIGINAL, 2, 0))
+                      GI.GT_SPIDER | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(502, TripleWakeRobin, "Wake-Robin (3 decks)",
-                      GI.GT_SPIDER | GI.GT_ORIGINAL, 3, 0))
+                      GI.GT_SPIDER | GI.GT_ORIGINAL, 3, 0, GI.SL_MOSTLY_SKILL))
 

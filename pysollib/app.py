@@ -196,6 +196,7 @@ class Options:
         self.splashscreen = True
         self.sticky_mouse = False
         self.negative_bottom = False
+        self.randomize_place = True
         self.cache_carsets = True
         # defaults & constants
         self.setDefaults()
@@ -228,6 +229,7 @@ class Options:
             CSI.TYPE_DASHAVATARA_GANJIFA: ("Dashavatara Ganjifa", ""),
             CSI.TYPE_TRUMP_ONLY: ("Matrix", ""),
         }
+        self.randomize_place = True
 
     # not changeable options
     def setConstants(self):

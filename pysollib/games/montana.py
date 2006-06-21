@@ -385,23 +385,23 @@ class SpacesAndAces(BlueMoon):
 
 # register the game
 registerGame(GameInfo(53, Montana, "Montana",
-                      GI.GT_MONTANA | GI.GT_OPEN, 1, 2,
+                      GI.GT_MONTANA | GI.GT_OPEN, 1, 2, GI.SL_MOSTLY_SKILL,
                       si={"ncards": 48}, altnames="Gaps"))
 registerGame(GameInfo(116, Spaces, "Spaces",
-                      GI.GT_MONTANA | GI.GT_OPEN, 1, 2,
+                      GI.GT_MONTANA | GI.GT_OPEN, 1, 2, GI.SL_MOSTLY_SKILL,
                       si={"ncards": 48}))
 registerGame(GameInfo(63, BlueMoon, "Blue Moon",
-                      GI.GT_MONTANA | GI.GT_OPEN, 1, 2,
+                      GI.GT_MONTANA | GI.GT_OPEN, 1, 2, GI.SL_MOSTLY_SKILL,
                       altnames=("Rangoon",) ))
 registerGame(GameInfo(117, RedMoon, "Red Moon",
-                      GI.GT_MONTANA | GI.GT_OPEN, 1, 2))
+                      GI.GT_MONTANA | GI.GT_OPEN, 1, 2, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(275, Galary, "Galary",
-                      GI.GT_MONTANA | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 2))
+                      GI.GT_MONTANA | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 2, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(276, Moonlight, "Moonlight",
-                      GI.GT_MONTANA | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 2,
+                      GI.GT_MONTANA | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 2, GI.SL_MOSTLY_SKILL,
                       si={"ncards": 48}))
 registerGame(GameInfo(380, Jungle, "Jungle",
-                      GI.GT_MONTANA | GI.GT_OPEN, 1, 1))
+                      GI.GT_MONTANA | GI.GT_OPEN, 1, 1, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(381, SpacesAndAces, "Spaces and Aces",
-                      GI.GT_MONTANA | GI.GT_OPEN, 1, 0))
+                      GI.GT_MONTANA | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 

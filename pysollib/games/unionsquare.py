@@ -176,8 +176,8 @@ class SolidSquare(UnionSquare):
 
 # register the game
 registerGame(GameInfo(35, UnionSquare, "Union Square",
-                      GI.GT_2DECK_TYPE, 2, 0,
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL,
                       altnames=('British Square',),
                       ))
 registerGame(GameInfo(439, SolidSquare, "Solid Square",
-                      GI.GT_2DECK_TYPE, 2, 0))
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))

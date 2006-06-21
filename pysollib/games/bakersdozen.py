@@ -322,23 +322,23 @@ class RippleFan(CastlesInSpain):
 
 # register the game
 registerGame(GameInfo(83, CastlesInSpain, "Castles in Spain",
-                      GI.GT_BAKERS_DOZEN, 1, 0))
+                      GI.GT_BAKERS_DOZEN, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(84, Martha, "Martha",
-                      GI.GT_BAKERS_DOZEN, 1, 0))
+                      GI.GT_BAKERS_DOZEN, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(31, BakersDozen, "Baker's Dozen",
-                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 1, 0))
+                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(85, SpanishPatience, "Spanish Patience",
-                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 1, 0))
+                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(86, GoodMeasure, "Good Measure",
-                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 1, 0))
+                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(104, Cruel, "Cruel",
-                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 1, -1))
+                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 1, -1, GI.SL_BALANCED))
 registerGame(GameInfo(291, RoyalFamily, "Royal Family",
-                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 1, 1))
+                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 1, 1, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(308, PortugueseSolitaire, "Portuguese Solitaire",
-                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 1, 0))
+                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(404, Perseverance, "Perseverance",
-                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 1, 2))
+                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 1, 2, GI.SL_BALANCED))
 registerGame(GameInfo(369, RippleFan, "Ripple Fan",
-                      GI.GT_BAKERS_DOZEN, 1, -1))
+                      GI.GT_BAKERS_DOZEN, 1, -1, GI.SL_MOSTLY_SKILL))
 

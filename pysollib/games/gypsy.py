@@ -541,49 +541,49 @@ class Millie(Gypsy):
 
 # register the game
 registerGame(GameInfo(1, Gypsy, "Gypsy",
-                      GI.GT_GYPSY, 2, 0))
+                      GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(65, Giant, "Giant",
-                      GI.GT_GYPSY, 2, 0))
+                      GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(3, Irmgard, "Irmgard",
-                      GI.GT_GYPSY, 2, 0))
+                      GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(119, DieKoenigsbergerin, "Die Königsbergerin",
-                      GI.GT_GYPSY, 2, 0))
+                      GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(174, DieRussische, "Russian Patience",
-                      GI.GT_2DECK_TYPE | GI.GT_OPEN, 2, 0,
+                      GI.GT_2DECK_TYPE | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL,
                       ranks=(0, 6, 7, 8, 9, 10, 11, 12),
                       altnames=("Die Russische",) ))
 registerGame(GameInfo(62, MissMilligan, "Miss Milligan",
-                      GI.GT_GYPSY, 2, 0))
+                      GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(200, Nomad, "Nomad",
-                      GI.GT_GYPSY | GI.GT_CONTRIB | GI.GT_ORIGINAL, 2, 0))
+                      GI.GT_GYPSY | GI.GT_CONTRIB | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(78, MilliganCell, "Milligan Cell",
-                      GI.GT_GYPSY, 2, 0))
+                      GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(217, MilliganHarp, "Milligan Harp",
-                      GI.GT_GYPSY, 2, 0))
+                      GI.GT_GYPSY, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(218, Carlton, "Carlton",
-                      GI.GT_GYPSY, 2, 0))
+                      GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(68, LexingtonHarp, "Lexington Harp",
-                      GI.GT_YUKON, 2, 0))
+                      GI.GT_YUKON, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(154, Brunswick, "Brunswick",
-                      GI.GT_YUKON, 2, 0))
+                      GI.GT_YUKON, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(121, Mississippi, "Mississippi",
-                      GI.GT_YUKON | GI.GT_XORIGINAL, 2, 0))
+                      GI.GT_YUKON | GI.GT_XORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(122, Griffon, "Griffon",
-                      GI.GT_YUKON | GI.GT_XORIGINAL, 2, 0))
+                      GI.GT_YUKON | GI.GT_XORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(226, Blockade, "Blockade",
-                      GI.GT_GYPSY, 2, 0))
+                      GI.GT_GYPSY, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(412, Cone, "Cone",
-                      GI.GT_GYPSY, 2, 0))
+                      GI.GT_GYPSY, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(463, Surprise, "Surprise",
-                      GI.GT_GYPSY, 2, 0))
+                      GI.GT_GYPSY, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(469, PhantomBlockade, "Phantom Blockade",
-                      GI.GT_GYPSY, 2, 0))
+                      GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(478, Elba, "Elba",
-                      GI.GT_GYPSY, 2, 0))
+                      GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(486, ImperialGuards, "Imperial Guards",
-                      GI.GT_GYPSY, 2, 0))
+                      GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(487, Millie, "Millie",
-                      GI.GT_GYPSY, 2, 0))
+                      GI.GT_GYPSY, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(498, Steve, "Steve",
-                      GI.GT_GYPSY, 2, 0))
+                      GI.GT_GYPSY, 2, 0, GI.SL_BALANCED))
 

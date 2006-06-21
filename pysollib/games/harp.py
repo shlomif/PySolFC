@@ -213,24 +213,24 @@ class Arabella(DoubleKlondike):
 
 # register the game
 registerGame(GameInfo(21, DoubleKlondike, "Double Klondike",
-                      GI.GT_KLONDIKE, 2, -1))
+                      GI.GT_KLONDIKE, 2, -1, GI.SL_BALANCED))
 registerGame(GameInfo(28, DoubleKlondikeByThrees, "Double Klondike by Threes",
-                      GI.GT_KLONDIKE, 2, -1))
+                      GI.GT_KLONDIKE, 2, -1, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(25, Gargantua, "Gargantua",
-                      GI.GT_KLONDIKE, 2, 1))
+                      GI.GT_KLONDIKE, 2, 1, GI.SL_BALANCED))
 registerGame(GameInfo(15, BigHarp, "Big Harp",
-                      GI.GT_KLONDIKE, 2, 0,
+                      GI.GT_KLONDIKE, 2, 0, GI.SL_BALANCED,
                       altnames=("Die große Harfe",) ))
 registerGame(GameInfo(51, Steps, "Steps",
-                      GI.GT_KLONDIKE, 2, 1))
+                      GI.GT_KLONDIKE, 2, 1, GI.SL_BALANCED))
 registerGame(GameInfo(273, TripleKlondike, "Triple Klondike",
-                      GI.GT_KLONDIKE, 3, -1))
+                      GI.GT_KLONDIKE, 3, -1, GI.SL_BALANCED))
 registerGame(GameInfo(274, TripleKlondikeByThrees, "Triple Klondike by Threes",
-                      GI.GT_KLONDIKE, 3, -1))
+                      GI.GT_KLONDIKE, 3, -1, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(495, LadyJane, "Lady Jane",
-                      GI.GT_KLONDIKE, 2, 1))
+                      GI.GT_KLONDIKE, 2, 1, GI.SL_BALANCED))
 registerGame(GameInfo(496, Inquisitor, "Inquisitor",
-                      GI.GT_KLONDIKE, 2, 2))
+                      GI.GT_KLONDIKE, 2, 2, GI.SL_BALANCED))
 registerGame(GameInfo(497, Arabella, "Arabella",
-                      GI.GT_KLONDIKE, 3, 0))
+                      GI.GT_KLONDIKE, 3, 0, GI.SL_BALANCED))
 

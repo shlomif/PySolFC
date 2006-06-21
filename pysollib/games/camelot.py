@@ -215,5 +215,5 @@ class Camelot(Game):
 
 # register the game
 registerGame(GameInfo(280, Camelot, "Camelot",
-                      GI.GT_1DECK_TYPE, 1, 0))
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))
 

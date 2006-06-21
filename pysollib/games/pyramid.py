@@ -293,9 +293,9 @@ class Thirteen(Pyramid):
 
 # register the game
 registerGame(GameInfo(38, Pyramid, "Pyramid",
-                      GI.GT_PAIRING_TYPE, 1, 2))
+                      GI.GT_PAIRING_TYPE, 1, 2, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(193, RelaxedPyramid, "Relaxed Pyramid",
-                      GI.GT_PAIRING_TYPE | GI.GT_RELAXED, 1, 2))
+                      GI.GT_PAIRING_TYPE | GI.GT_RELAXED, 1, 2, GI.SL_MOSTLY_LUCK))
 ##registerGame(GameInfo(44, Thirteen, "Thirteen",
 ##                      GI.GT_PAIRING_TYPE, 1, 0))
 

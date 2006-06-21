@@ -581,25 +581,25 @@ class Strategerie(Game):
 
 # register the game
 registerGame(GameInfo(257, Numerica, "Numerica",
-                      GI.GT_NUMERICA | GI.GT_CONTRIB, 1, 0,
+                      GI.GT_NUMERICA | GI.GT_CONTRIB, 1, 0, GI.SL_BALANCED,
                       altnames="Sir Tommy"))
 registerGame(GameInfo(171, LadyBetty, "Lady Betty",
-                      GI.GT_NUMERICA, 1, 0))
+                      GI.GT_NUMERICA, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(355, Frog, "Frog",
-                      GI.GT_NUMERICA, 2, 0))
+                      GI.GT_NUMERICA, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(356, Fly, "Fly",
-                      GI.GT_NUMERICA, 2, 0))
+                      GI.GT_NUMERICA, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(357, Gnat, "Gnat",
-                      GI.GT_NUMERICA, 1, 0))
+                      GI.GT_NUMERICA, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(378, Gloaming, "Gloaming",
-                      GI.GT_NUMERICA | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0))
+                      GI.GT_NUMERICA | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(379, Chamberlain, "Chamberlain",
-                      GI.GT_NUMERICA | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0))
+                      GI.GT_NUMERICA | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(402, Toad, "Toad",
-                      GI.GT_NUMERICA | GI.GT_ORIGINAL, 2, 0))
+                      GI.GT_NUMERICA | GI.GT_ORIGINAL, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(430, PussInTheCorner, "Puss in the Corner",
-                      GI.GT_NUMERICA, 1, 0))
+                      GI.GT_NUMERICA, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(435, Shifting, "Shifting",
-                      GI.GT_NUMERICA, 1, 0))
+                      GI.GT_NUMERICA, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(472, Strategerie, "Strategerie",
-                      GI.GT_NUMERICA, 1, 0))
+                      GI.GT_NUMERICA, 1, 0, GI.SL_MOSTLY_SKILL))

@@ -560,7 +560,9 @@ class AllGames_StatsDialog(MfxDialog):
         bbox = self.canvas.bbox("all")
         ##print bbox
         ##self.canvas.config(scrollregion=bbox)
-        self.canvas.config(scrollregion=(0,0,bbox[2],bbox[3]))
+        dx, dy = 4, 0
+        self.canvas.config(scrollregion=(-dx,-dy,bbox[2]+dx,bbox[3]+dy))
+        self.canvas.xview_moveto(-dx)
         self.canvas.yview_moveto(self.YVIEW)
         #
         focus = self.createButtons(bottom_frame, kw)

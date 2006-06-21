@@ -199,7 +199,7 @@ class PysolMenubar(PysolMenubarActions):
     def __init__(self, app, top):
         PysolMenubarActions.__init__(self, app, top)
         # init columnbreak
-        self.__cb_max = int(self.top.winfo_screenheight()/22)
+        self.__cb_max = int(self.top.winfo_screenheight()/23)
 ##         sh = self.top.winfo_screenheight()
 ##         self.__cb_max = 22
 ##         if sh >= 600: self.__cb_max = 27
@@ -353,7 +353,7 @@ class PysolMenubar(PysolMenubarActions):
         submenu = MfxMenu(menu, label=n_("Card &view"))
         submenu.add_checkbutton(label=n_("Card shado&w"), variable=self.tkopt.shadow, command=self.mOptShadow)
         submenu.add_checkbutton(label=n_("Shade &legal moves"), variable=self.tkopt.shade, command=self.mOptShade)
-        submenu.add_checkbutton(label=n_("&Negative card bottom"), variable=self.tkopt.negative_bottom, command=self.mOptNegativeBottom)
+        submenu.add_checkbutton(label=n_("&Negative cards bottom"), variable=self.tkopt.negative_bottom, command=self.mOptNegativeBottom)
         submenu = MfxMenu(menu, label=n_("A&nimations"))
         submenu.add_radiobutton(label=n_("&None"), variable=self.tkopt.animations, value=0, command=self.mOptAnimations)
         submenu.add_radiobutton(label=n_("&Timer based"), variable=self.tkopt.animations, value=2, command=self.mOptAnimations)
@@ -693,14 +693,10 @@ class PysolMenubar(PysolMenubarActions):
         submenu = self.__menupath[".menubar.file.favoritegames"][2]
         submenu.delete(0, "last")
         # insert games
-        for id in gameids:
-            gi = self.app.getGameInfo(id)
-            if not gi:
-                continue
-            submenu.add_radiobutton(command=self.mSelectGame,
-                                    variable=self.tkopt.gameid,
-                                    value=gi.id, label=gi.name)
-
+        g = [self.app.getGameInfo(id) for id in gameids]
+        self._addSelectGameSubSubMenu(submenu, g,
+                                      command=self.mSelectGame,
+                                      variable=self.tkopt.gameid)
         state = self._getEnabledState
         in_favor = self.app.game.id in gameids
         menu, index, submenu = self.__menupath[".menubar.file.addtofavorites"]

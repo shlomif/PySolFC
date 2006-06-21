@@ -97,4 +97,4 @@ class WaveMotion(Game):
 
 # register the game
 registerGame(GameInfo(314, WaveMotion, "Wave Motion",
-                      GI.GT_1DECK_TYPE, 1, 0))
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_SKILL))

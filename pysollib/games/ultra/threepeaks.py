@@ -280,21 +280,20 @@ class ThreePeaksNoScore(ThreePeaks):
 
 
 # /***********************************************************************
-# // Three Peaks Game Non-scoring
+# // Le Grande Teton
 # ************************************************************************/
 
-class LeGrandeTeton(ThreePeaks):
-    SCORING = 0
+class LeGrandeTeton(ThreePeaksNoScore):
+    pass
 
-    def canUndo(self):
-        return 1
 
 
 registerGame(GameInfo(22216, ThreePeaks, "Three Peaks",
-                      GI.GT_PAIRING_TYPE, 1, 0))
+                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(22231, ThreePeaksNoScore, "Three Peaks Non-scoring",
-                      GI.GT_PAIRING_TYPE, 1, 0))
+                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(22232, LeGrandeTeton, "Le Grande Teton",
-                      GI.GT_TAROCK, 1, 0, ranks=range(14), trumps=range(22)))
+                      GI.GT_TAROCK, 1, 0, GI.SL_BALANCED,
+                      ranks=range(14), trumps=range(22)))
 
 

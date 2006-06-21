@@ -100,4 +100,4 @@ class Simplex(Game):
 
 # register the game
 registerGame(GameInfo(436, Simplex, "Simplex",
-                      GI.GT_1DECK_TYPE, 1, 0))
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))

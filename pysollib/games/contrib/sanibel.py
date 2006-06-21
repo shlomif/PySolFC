@@ -71,5 +71,5 @@ class Sanibel(Gypsy):
 
 
 registerGame(GameInfo(201, Sanibel, "Sanibel",
-                      GI.GT_YUKON | GI.GT_CONTRIB | GI.GT_ORIGINAL, 2, 0))
+                      GI.GT_YUKON | GI.GT_CONTRIB | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 

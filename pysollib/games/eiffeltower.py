@@ -120,7 +120,7 @@ class StrictEiffelTower(EiffelTower):
 
 # register the game
 registerGame(GameInfo(16, EiffelTower, "Eiffel Tower",
-                      GI.GT_PAIRING_TYPE, 2, 0))
+                      GI.GT_PAIRING_TYPE, 2, 0, GI.SL_MOSTLY_LUCK))
 ##registerGame(GameInfo(801, StrictEiffelTower, "Strict Eiffel Tower",
 ##                      GI.GT_PAIRING_TYPE, 2, 0))
 

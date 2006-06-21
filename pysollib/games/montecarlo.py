@@ -767,32 +767,32 @@ class DerLetzteMonarch(Game):
 
 # register the game
 registerGame(GameInfo(89, MonteCarlo, "Monte Carlo",
-                      GI.GT_PAIRING_TYPE, 1, 0,
+                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK,
                       altnames=("Quilt",) ))
 registerGame(GameInfo(216, Monaco, "Monaco",
-                      GI.GT_PAIRING_TYPE, 2, 0))
+                      GI.GT_PAIRING_TYPE, 2, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(212, Weddings, "Weddings",
-                      GI.GT_PAIRING_TYPE, 1, 0))
+                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(90, SimpleCarlo, "Simple Carlo",
-                      GI.GT_PAIRING_TYPE, 1, 0))
+                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(91, SimplePairs, "Simple Pairs",
-                      GI.GT_PAIRING_TYPE, 1, 0,
+                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_LUCK,
                       altnames=("Jamestown",)))
 registerGame(GameInfo(92, Neighbour, "Neighbour",
-                      GI.GT_PAIRING_TYPE, 1, 0))
+                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(96, Fourteen, "Fourteen",
-                      GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0))
+                      GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(235, Nestor, "Nestor",
-                      GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0))
+                      GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(152, DerLetzteMonarch, "The last Monarch",
-                      GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0,
+                      GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL,
                       altnames=("Der letzte Monarch",) ))
 registerGame(GameInfo(328, TheWish, "The Wish",
-                      GI.GT_PAIRING_TYPE, 1, 0,
+                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK,
                       ranks=(0, 6, 7, 8, 9, 10, 11, 12) ))
 registerGame(GameInfo(329, TheWishOpen, "The Wish (open)",
-                      GI.GT_PAIRING_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0,
+                      GI.GT_PAIRING_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL,
                       ranks=(0, 6, 7, 8, 9, 10, 11, 12) ))
 registerGame(GameInfo(368, Vertical, "Vertical",
-                      GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0))
+                      GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_LUCK))
 

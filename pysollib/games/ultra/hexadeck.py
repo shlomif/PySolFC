@@ -1376,30 +1376,30 @@ class Snakestone(Convolution):
 # //
 # ************************************************************************/
 
-def r(id, gameclass, name, game_type, decks, redeals):
+def r(id, gameclass, name, game_type, decks, redeals, skill_level):
     game_type = game_type | GI.GT_HEXADECK
-    gi = GameInfo(id, gameclass, name, game_type, decks, redeals,
-                    suits=range(4), ranks=range(16), trumps=range(4))
+    gi = GameInfo(id, gameclass, name, game_type, decks, redeals, skill_level,
+                  suits=range(4), ranks=range(16), trumps=range(4))
     registerGame(gi)
     return gi
 
 
-r(165, BitsNBytes, 'Bits n Bytes', GI.GT_HEXADECK, 1, 1)
-r(166, HexAKlon, 'Hex A Klon', GI.GT_HEXADECK, 1, -1)
-r(16666, KlondikePlus16, 'Klondike Plus 16', GI.GT_HEXADECK, 1, 1)
-r(16667, HexAKlonByThrees, 'Hex A Klon by Threes', GI.GT_HEXADECK, 1, -1)
-r(16668, KingOnlyHexAKlon, 'King Only Hex A Klon', GI.GT_HEXADECK, 1, -1)
-r(16669, TheFamiliar, 'The Familiar', GI.GT_HEXADECK, 1, 1)
-r(16670, TwoFamiliars, 'Two Familiars', GI.GT_HEXADECK, 2, 1)
-r(16671, TenByEight, '10 x 8', GI.GT_HEXADECK, 2, -1)
-r(16672, Drawbridge, 'Drawbridge', GI.GT_HEXADECK, 1, 1)
-r(16673, DoubleDrawbridge, 'Double Drawbridge', GI.GT_HEXADECK, 2, 1)
-r(16674, HiddenPassages, 'Hidden Passages', GI.GT_HEXADECK, 1, 1)
-r(16675, CluitjarsLair, 'Cluitjar\'s Lair', GI.GT_HEXADECK, 1, 0)
-r(16676, MerlinsMeander, 'Merlin\'s Meander', GI.GT_HEXADECK, 2, 2)
-r(16677, MagesGame, 'Mage\'s Game', GI.GT_HEXADECK, 1, 0)
-r(16678, Convolution, 'Convolution', GI.GT_HEXADECK, 2, 0)
-r(16679, Labyrinth, 'Hex Labyrinth', GI.GT_HEXADECK, 2, 0)
-r(16680, Snakestone, 'Snakestone', GI.GT_HEXADECK, 2, 0)
+r(165, BitsNBytes, 'Bits n Bytes', GI.GT_HEXADECK, 1, 1, GI.SL_BALANCED)
+r(166, HexAKlon, 'Hex A Klon', GI.GT_HEXADECK, 1, -1, GI.SL_BALANCED)
+r(16666, KlondikePlus16, 'Klondike Plus 16', GI.GT_HEXADECK, 1, 1, GI.SL_BALANCED)
+r(16667, HexAKlonByThrees, 'Hex A Klon by Threes', GI.GT_HEXADECK, 1, -1, GI.SL_BALANCED)
+r(16668, KingOnlyHexAKlon, 'King Only Hex A Klon', GI.GT_HEXADECK, 1, -1, GI.SL_BALANCED)
+r(16669, TheFamiliar, 'The Familiar', GI.GT_HEXADECK, 1, 1, GI.SL_BALANCED)
+r(16670, TwoFamiliars, 'Two Familiars', GI.GT_HEXADECK, 2, 1, GI.SL_BALANCED)
+r(16671, TenByEight, '10 x 8', GI.GT_HEXADECK, 2, -1, GI.SL_BALANCED)
+r(16672, Drawbridge, 'Drawbridge', GI.GT_HEXADECK, 1, 1, GI.SL_BALANCED)
+r(16673, DoubleDrawbridge, 'Double Drawbridge', GI.GT_HEXADECK, 2, 1, GI.SL_BALANCED)
+r(16674, HiddenPassages, 'Hidden Passages', GI.GT_HEXADECK, 1, 1, GI.SL_MOSTLY_LUCK)
+r(16675, CluitjarsLair, 'Cluitjar\'s Lair', GI.GT_HEXADECK, 1, 0, GI.SL_BALANCED)
+r(16676, MerlinsMeander, 'Merlin\'s Meander', GI.GT_HEXADECK, 2, 2, GI.SL_BALANCED)
+r(16677, MagesGame, 'Mage\'s Game', GI.GT_HEXADECK, 1, 0, GI.SL_BALANCED)
+r(16678, Convolution, 'Convolution', GI.GT_HEXADECK, 2, 0, GI.SL_MOSTLY_SKILL)
+r(16679, Labyrinth, 'Hex Labyrinth', GI.GT_HEXADECK, 2, 0, GI.SL_MOSTLY_SKILL)
+r(16680, Snakestone, 'Snakestone', GI.GT_HEXADECK, 2, 0, GI.SL_MOSTLY_SKILL)
 
 del r

@@ -748,81 +748,81 @@ class Squadron(FortyThieves):
 
 # register the game
 registerGame(GameInfo(13, FortyThieves, "Forty Thieves",
-                      GI.GT_FORTY_THIEVES, 2, 0,
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL,
                       altnames=("Napoleon at St.Helena",
                                 "Le Cadran")))
 registerGame(GameInfo(80, BusyAces, "Busy Aces",
-                      GI.GT_FORTY_THIEVES, 2, 0))
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(228, Limited, "Limited",
-                      GI.GT_FORTY_THIEVES, 2, 0))
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(79, WaningMoon, "Waning Moon",
-                      GI.GT_FORTY_THIEVES, 2, 0))
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(125, Lucas, "Lucas",
-                      GI.GT_FORTY_THIEVES, 2, 0))
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(109, Deuces, "Deuces",
-                      GI.GT_FORTY_THIEVES, 2, 0))
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(196, Corona, "Corona",
-                      GI.GT_FORTY_THIEVES, 2, 0))
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(195, Quadrangle, "Quadrangle",
-                      GI.GT_FORTY_THIEVES, 2, 0))
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(110, Courtyard, "Courtyard",
-                      GI.GT_FORTY_THIEVES, 2, 0))
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(23, FortyAndEight, "Forty and Eight",
-                      GI.GT_FORTY_THIEVES, 2, 1))
+                      GI.GT_FORTY_THIEVES, 2, 1, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(115, LittleForty, "Little Forty",         # was: 72
-                      GI.GT_FORTY_THIEVES, 2, 3))
+                      GI.GT_FORTY_THIEVES, 2, 3, GI.SL_BALANCED))
 registerGame(GameInfo(76, Streets, "Streets",
-                      GI.GT_FORTY_THIEVES, 2, 0))
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(73, Maria, "Maria",
-                      GI.GT_FORTY_THIEVES, 2, 0,
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED,
                       altnames=("Maria Luisa",) ))
 registerGame(GameInfo(70, NumberTen, "Number Ten",
-                      GI.GT_FORTY_THIEVES, 2, 0))
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(71, RankAndFile, "Rank and File",
-                      GI.GT_FORTY_THIEVES, 2, 0,
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED,
                       altnames=("Dress Parade") ))
 registerGame(GameInfo(197, TripleLine, "Triple Line",
-                      GI.GT_FORTY_THIEVES | GI.GT_XORIGINAL, 2, 1))
+                      GI.GT_FORTY_THIEVES | GI.GT_XORIGINAL, 2, 1, GI.SL_BALANCED))
 registerGame(GameInfo(126, RedAndBlack, "Red and Black",        # was: 75
-                      GI.GT_FORTY_THIEVES, 2, 0))
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(113, Zebra, "Zebra",
-                      GI.GT_FORTY_THIEVES, 2, 1))
+                      GI.GT_FORTY_THIEVES, 2, 1, GI.SL_BALANCED))
 registerGame(GameInfo(69, Indian, "Indian",
-                      GI.GT_FORTY_THIEVES, 2, 0,
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED,
                       altnames=("Indian Patience",) ))
 registerGame(GameInfo(74, Midshipman, "Midshipman",
-                      GI.GT_FORTY_THIEVES, 2, 0))
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(198, NapoleonsExile, "Napoleon's Exile",
-                      GI.GT_FORTY_THIEVES | GI.GT_XORIGINAL, 2, 0))
+                      GI.GT_FORTY_THIEVES | GI.GT_XORIGINAL, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(131, DoubleRail, "Double Rail",
-                      GI.GT_FORTY_THIEVES, 2, 0))
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(199, SingleRail, "Single Rail",
-                      GI.GT_FORTY_THIEVES, 1, 0))
+                      GI.GT_FORTY_THIEVES, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(295, NapoleonsSquare, "Napoleon's Square",
-                      GI.GT_FORTY_THIEVES, 2, 0))
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(310, Emperor, "Emperor",
-                      GI.GT_FORTY_THIEVES, 2, 0))
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(323, Octave, "Octave",
-                      GI.GT_FORTY_THIEVES, 2, 1))
+                      GI.GT_FORTY_THIEVES, 2, 1, GI.SL_BALANCED))
 registerGame(GameInfo(332, Mumbai, "Mumbai",
-                      GI.GT_FORTY_THIEVES, 3, 0))
+                      GI.GT_FORTY_THIEVES, 3, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(411, CarreNapoleon, "Carre Napoleon",
-                      GI.GT_FORTY_THIEVES, 2, 0))
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(416, FortunesFavor, "Fortune's Favor",
-                      GI.GT_FORTY_THIEVES, 1, 0))
+                      GI.GT_FORTY_THIEVES, 1, 0, GI.SL_LUCK))
 registerGame(GameInfo(426, Octagon, "Octagon",
-                      GI.GT_FORTY_THIEVES, 2, 3))
+                      GI.GT_FORTY_THIEVES, 2, 3, GI.SL_BALANCED))
 registerGame(GameInfo(440, Squadron, "Squadron",
-                      GI.GT_FORTY_THIEVES, 2, 0))
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(462, Josephine, "Josephine",
-                      GI.GT_FORTY_THIEVES, 2, 0))
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(493, MarieRose, "Marie Rose",
-                      GI.GT_FORTY_THIEVES, 3, 0))
+                      GI.GT_FORTY_THIEVES, 3, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(503, BigStreets, "Big Streets",
-                      GI.GT_FORTY_THIEVES | GI.GT_ORIGINAL, 3, 0))
+                      GI.GT_FORTY_THIEVES | GI.GT_ORIGINAL, 3, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(504, NumberTwelve, "Number Twelve",
-                      GI.GT_FORTY_THIEVES| GI.GT_ORIGINAL, 3, 0))
+                      GI.GT_FORTY_THIEVES | GI.GT_ORIGINAL, 3, 0, GI.SL_BALANCED))
 registerGame(GameInfo(505, BigCourtyard, "Big Courtyard",
-                      GI.GT_FORTY_THIEVES| GI.GT_ORIGINAL, 3, 0))
+                      GI.GT_FORTY_THIEVES | GI.GT_ORIGINAL, 3, 0, GI.SL_BALANCED))
 registerGame(GameInfo(506, Express, "Express",
-                      GI.GT_FORTY_THIEVES| GI.GT_ORIGINAL, 3, 0))
+                      GI.GT_FORTY_THIEVES | GI.GT_ORIGINAL, 3, 0, GI.SL_MOSTLY_SKILL))

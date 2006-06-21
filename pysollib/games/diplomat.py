@@ -227,15 +227,15 @@ class LittleNapoleon(Diplomat):
 
 # register the game
 registerGame(GameInfo(149, Diplomat, "Diplomat",
-                      GI.GT_FORTY_THIEVES, 2, 0))
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(151, LadyPalk, "Lady Palk",
-                      GI.GT_FORTY_THIEVES, 2, 0))
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(150, Congress, "Congress",
-                      GI.GT_FORTY_THIEVES, 2, 0))
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(433, RowsOfFour, "Rows of Four",
-                      GI.GT_FORTY_THIEVES, 2, 2))
+                      GI.GT_FORTY_THIEVES, 2, 2, GI.SL_BALANCED))
 registerGame(GameInfo(485, Dieppe, "Dieppe",
-                      GI.GT_FORTY_THIEVES, 2, 0))
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(489, LittleNapoleon, "Little Napoleon",
-                      GI.GT_FORTY_THIEVES, 2, 0))
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
 

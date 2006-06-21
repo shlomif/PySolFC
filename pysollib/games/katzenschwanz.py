@@ -335,18 +335,18 @@ class Deep(DerKatzenschwanz):
 
 # register the game
 registerGame(GameInfo(141, DerKatzenschwanz, "Cat's Tail",
-                      GI.GT_FREECELL | GI.GT_OPEN, 2, 0,
+                      GI.GT_FREECELL | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL,
                       altnames=("Der Katzenschwanz",) ))
 registerGame(GameInfo(142, DieSchlange, "Snake",
-                      GI.GT_FREECELL | GI.GT_OPEN, 2, 0,
+                      GI.GT_FREECELL | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL,
                       altnames=("Die Schlange",) ))
 registerGame(GameInfo(279, Kings, "Kings",
-                      GI.GT_FREECELL | GI.GT_OPEN, 2, 0))
+                      GI.GT_FREECELL | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(286, Retinue, "Retinue",
-                      GI.GT_FREECELL | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0))
+                      GI.GT_FREECELL | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(299, SalicLaw, "Salic Law",
-                      GI.GT_2DECK_TYPE, 2, 0))
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(442, Deep, "Deep",
-                      GI.GT_FREECELL | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0))
+                      GI.GT_FREECELL | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 
 

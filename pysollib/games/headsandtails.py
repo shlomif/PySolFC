@@ -136,7 +136,7 @@ class HeadsAndTails(Game):
 # register the game
 
 registerGame(GameInfo(307, HeadsAndTails, "Heads and Tails",
-                      GI.GT_2DECK_TYPE, 2, 0))
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 
 
 

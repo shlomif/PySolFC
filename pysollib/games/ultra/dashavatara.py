@@ -1266,29 +1266,29 @@ class Dashavatara(Game):
 #  *
 #  ***********************************************************************/
 
-def r(id, gameclass, name, game_type, decks, redeals):
+def r(id, gameclass, name, game_type, decks, redeals, skill_level):
     game_type = game_type | GI.GT_DASHAVATARA_GANJIFA
-    gi = GameInfo(id, gameclass, name, game_type, decks, redeals,
-                    suits=range(10), ranks=range(12))
+    gi = GameInfo(id, gameclass, name, game_type, decks, redeals, skill_level,
+                  suits=range(10), ranks=range(12))
     registerGame(gi)
     return gi
 
-r(15406, Matsya, "Matsya", GI.GT_DASHAVATARA_GANJIFA, 1, 0)
-r(15407, Kurma, "Kurma", GI.GT_DASHAVATARA_GANJIFA, 1, -1)
-r(15408, Varaha, "Varaha", GI.GT_DASHAVATARA_GANJIFA, 1, -1)
-r(15409, Narasimha, "Narasimha", GI.GT_DASHAVATARA_GANJIFA, 1, 0)
-r(15410, Vamana, "Vamana", GI.GT_DASHAVATARA_GANJIFA, 1, -1)
-r(15411, Parashurama, "Parashurama", GI.GT_DASHAVATARA_GANJIFA, 1, 1)
-r(15412, TenAvatars, "Ten Avatars", GI.GT_DASHAVATARA_GANJIFA, 1, 0)
-r(15413, DashavataraCircles, "Dashavatara Circles", GI.GT_DASHAVATARA_GANJIFA, 1, 0)
-r(15414, Balarama, "Balarama", GI.GT_DASHAVATARA_GANJIFA, 1, 0)
-r(15415, Hayagriva, "Hayagriva", GI.GT_DASHAVATARA_GANJIFA, 1, 0)
-r(15416, Shanka, "Shanka", GI.GT_DASHAVATARA_GANJIFA, 1, 0)
-r(15417, Journey, "Journey to Cuddapah", GI.GT_DASHAVATARA_GANJIFA, 1, 2)
-r(15418, LongJourney, "Long Journey to Cuddapah", GI.GT_DASHAVATARA_GANJIFA, 2, 2)
-r(15419, Surukh, "Surukh", GI.GT_DASHAVATARA_GANJIFA, 1, 0)
-r(15420, AppachansWaterfall, "Appachan's Waterfall", GI.GT_DASHAVATARA_GANJIFA, 1, 0)
-r(15421, Hiranyaksha, 'Hiranyaksha', GI.GT_DASHAVATARA_GANJIFA, 1, 0)
-r(15422, Dashavatara, 'Dashavatara', GI.GT_DASHAVATARA_GANJIFA, 1, 0)
+r(15406, Matsya, "Matsya", GI.GT_DASHAVATARA_GANJIFA, 1, 0, GI.SL_BALANCED)
+r(15407, Kurma, "Kurma", GI.GT_DASHAVATARA_GANJIFA, 1, -1, GI.SL_BALANCED)
+r(15408, Varaha, "Varaha", GI.GT_DASHAVATARA_GANJIFA, 1, -1, GI.SL_BALANCED)
+r(15409, Narasimha, "Narasimha", GI.GT_DASHAVATARA_GANJIFA, 1, 0, GI.SL_BALANCED)
+r(15410, Vamana, "Vamana", GI.GT_DASHAVATARA_GANJIFA, 1, -1, GI.SL_BALANCED)
+r(15411, Parashurama, "Parashurama", GI.GT_DASHAVATARA_GANJIFA, 1, 1, GI.SL_BALANCED)
+r(15412, TenAvatars, "Ten Avatars", GI.GT_DASHAVATARA_GANJIFA, 1, 0, GI.SL_MOSTLY_SKILL)
+r(15413, DashavataraCircles, "Dashavatara Circles", GI.GT_DASHAVATARA_GANJIFA, 1, 0, GI.SL_MOSTLY_SKILL)
+r(15414, Balarama, "Balarama", GI.GT_DASHAVATARA_GANJIFA, 1, 0, GI.SL_MOSTLY_SKILL)
+r(15415, Hayagriva, "Hayagriva", GI.GT_DASHAVATARA_GANJIFA, 1, 0, GI.SL_MOSTLY_SKILL)
+r(15416, Shanka, "Shanka", GI.GT_DASHAVATARA_GANJIFA, 1, 0, GI.SL_MOSTLY_SKILL)
+r(15417, Journey, "Journey to Cuddapah", GI.GT_DASHAVATARA_GANJIFA, 1, 2, GI.SL_BALANCED)
+r(15418, LongJourney, "Long Journey to Cuddapah", GI.GT_DASHAVATARA_GANJIFA, 2, 2, GI.SL_BALANCED)
+r(15419, Surukh, "Surukh", GI.GT_DASHAVATARA_GANJIFA, 1, 0, GI.SL_BALANCED)
+r(15420, AppachansWaterfall, "Appachan's Waterfall", GI.GT_DASHAVATARA_GANJIFA, 1, 0, GI.SL_MOSTLY_SKILL)
+r(15421, Hiranyaksha, 'Hiranyaksha', GI.GT_DASHAVATARA_GANJIFA, 1, 0, GI.SL_MOSTLY_SKILL)
+r(15422, Dashavatara, 'Dashavatara', GI.GT_DASHAVATARA_GANJIFA, 1, 0, GI.SL_BALANCED)
 
 del r

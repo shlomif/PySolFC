@@ -670,43 +670,43 @@ class Demon(Canfield):
 
 # register the game
 registerGame(GameInfo(105, Canfield, "Canfield",                # was: 262
-                      GI.GT_CANFIELD | GI.GT_CONTRIB, 1, -1))
+                      GI.GT_CANFIELD | GI.GT_CONTRIB, 1, -1, GI.SL_BALANCED))
 registerGame(GameInfo(101, SuperiorCanfield, "Superior Canfield",
-                      GI.GT_CANFIELD, 1, -1))
+                      GI.GT_CANFIELD, 1, -1, GI.SL_BALANCED))
 registerGame(GameInfo(99, Rainfall, "Rainfall",
-                      GI.GT_CANFIELD | GI.GT_ORIGINAL, 1, 2))
+                      GI.GT_CANFIELD | GI.GT_ORIGINAL, 1, 2, GI.SL_BALANCED))
 registerGame(GameInfo(108, Rainbow, "Rainbow",
-                      GI.GT_CANFIELD, 1, 0))
+                      GI.GT_CANFIELD, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(100, Storehouse, "Storehouse",
-                      GI.GT_CANFIELD, 1, 2,
+                      GI.GT_CANFIELD, 1, 2, GI.SL_BALANCED,
                       altnames=("Provisions", "Straight Up", "Thirteen Up") ))
 registerGame(GameInfo(43, Chameleon, "Chameleon",
-                      GI.GT_CANFIELD, 1, 0,
+                      GI.GT_CANFIELD, 1, 0, GI.SL_BALANCED,
                       altnames="Kansas"))
 registerGame(GameInfo(106, DoubleCanfield, "Double Canfield",   # was: 22
-                      GI.GT_CANFIELD, 2, -1))
+                      GI.GT_CANFIELD, 2, -1, GI.SL_BALANCED))
 registerGame(GameInfo(103, AmericanToad, "American Toad",
-                      GI.GT_CANFIELD, 2, 1))
+                      GI.GT_CANFIELD, 2, 1, GI.SL_BALANCED))
 registerGame(GameInfo(102, VariegatedCanfield, "Variegated Canfield",
-                      GI.GT_CANFIELD, 2, 2))
+                      GI.GT_CANFIELD, 2, 2, GI.SL_BALANCED))
 registerGame(GameInfo(112, EagleWing, "Eagle Wing",
-                      GI.GT_CANFIELD, 1, 2))
+                      GI.GT_CANFIELD, 1, 2, GI.SL_BALANCED))
 registerGame(GameInfo(315, Gate, "Gate",
-                      GI.GT_CANFIELD, 1, 0))
+                      GI.GT_CANFIELD, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(316, LittleGate, "Little Gate",
-                      GI.GT_CANFIELD, 1, 0))
+                      GI.GT_CANFIELD, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(360, Munger, "Munger",
-                      GI.GT_CANFIELD, 1, 0))
+                      GI.GT_CANFIELD, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(396, TripleCanfield, "Triple Canfield",
-                      GI.GT_CANFIELD, 3, -1))
+                      GI.GT_CANFIELD, 3, -1, GI.SL_BALANCED))
 registerGame(GameInfo(403, Acme, "Acme",
-                      GI.GT_CANFIELD, 1, 1))
+                      GI.GT_CANFIELD, 1, 1, GI.SL_BALANCED))
 registerGame(GameInfo(413, Duke, "Duke",
-                      GI.GT_CANFIELD, 1, 2))
+                      GI.GT_CANFIELD, 1, 2, GI.SL_BALANCED))
 registerGame(GameInfo(422, Minerva, "Minerva",
-                      GI.GT_CANFIELD, 1, 1))
+                      GI.GT_CANFIELD, 1, 1, GI.SL_BALANCED))
 registerGame(GameInfo(476, Demon, "Demon",
-                      GI.GT_CANFIELD, 2, -1))
+                      GI.GT_CANFIELD, 2, -1, GI.SL_BALANCED))
 registerGame(GameInfo(494, Mystique, "Mystique",
-                      GI.GT_CANFIELD, 1, 0))
+                      GI.GT_CANFIELD, 1, 0, GI.SL_BALANCED))
 

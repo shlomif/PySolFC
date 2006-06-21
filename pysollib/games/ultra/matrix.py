@@ -427,7 +427,7 @@ def r(id, gameclass, short_name):
     name = short_name
     ncards = int(name[:2]) * int(name[:2])
     gi = GameInfo(id, gameclass, name,
-                GI.GT_MATRIX, 1, 0,
+                GI.GT_MATRIX, 1, 0, GI.SL_SKILL,
                 category=GI.GC_TRUMP_ONLY, short_name=short_name,
                 suits=(), ranks=(), trumps=range(ncards),
                 si = {"decks": 1, "ncards": ncards})
@@ -453,7 +453,7 @@ def r(id, gameclass, short_name):
     ncards = 0
     for n in gameclass.ROWS:
         ncards = ncards + n
-    gi = GameInfo(id, gameclass, name, GI.GT_MATRIX, 1, 0,
+    gi = GameInfo(id, gameclass, name, GI.GT_MATRIX, 1, 0, GI.SL_SKILL,
                   category=GI.GC_TRUMP_ONLY, short_name=short_name,
                   suits=(), ranks=(), trumps=range(ncards),
                   si={"decks": 1, "ncards": ncards})

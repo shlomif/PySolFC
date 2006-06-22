@@ -50,6 +50,7 @@ class GameInfoDialog(MfxDialog):
 
         game = app.game
         gi = game.gameinfo
+
         #
         if    gi.redeals == -2: redeals = 'VARIABLE'
         elif  gi.redeals == -1: redeals = 'UNLIMITED'

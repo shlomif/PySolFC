@@ -354,6 +354,31 @@ class ScorpionTail(Scorpion):
         return card1.color != card2.color and abs(card1.rank-card2.rank) == 1
 
 
+class DoubleScorpion(Scorpion):
+    Talon_Class = InitialDealTalonStack
+    def createGame(self):
+        RelaxedSpider.createGame(self, rows=10, playcards=26, texts=0)
+    def startGame(self):
+        for i in (5, 5, 5, 5, 0, 0, 0, 0, 0):
+            self.s.talon.dealRow(rows=self.s.rows[:i], flip=0, frames=0)
+            self.s.talon.dealRow(rows=self.s.rows[i:], flip=1, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealRowAvail()
+
+
+class TripleScorpion(Scorpion):
+    Talon_Class = InitialDealTalonStack
+    def createGame(self):
+        RelaxedSpider.createGame(self, rows=13, playcards=30, texts=0)
+    def startGame(self):
+        for i in (5, 5, 5, 5, 5, 0, 0, 0, 0, 0, 0):
+            self.s.talon.dealRow(rows=self.s.rows[:i], flip=0, frames=0)
+            self.s.talon.dealRow(rows=self.s.rows[i:], flip=1, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+
 # /***********************************************************************
 # // Wasp
 # ************************************************************************/
@@ -927,7 +952,7 @@ class York(RelaxedSpider):
         self.startDealSample()
         self.s.talon.dealRow(rows=self.s.rows[2:-2])
 
-class TripleYork(York):
+class BigYork(York):
 
     def createGame(self):
         RelaxedSpider.createGame(self, rows=14, playcards=26, texts=0)
@@ -1025,7 +1050,7 @@ registerGame(GameInfo(270, Spider2Suits, "Spider (2 suits)",
 registerGame(GameInfo(305, ThreeBlindMice, "Three Blind Mice",
                       GI.GT_SPIDER, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(309, MrsMop, "Mrs. Mop",
-                      GI.GT_SPIDER | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_SPIDER | GI.GT_OPEN, 2, 0, GI.SL_SKILL))
 registerGame(GameInfo(341, Cicely, "Cicely",
                       GI.GT_SPIDER, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(342, Trillium, "Trillium",
@@ -1049,9 +1074,9 @@ registerGame(GameInfo(384, BigSpider, "Big Spider",
 registerGame(GameInfo(401, GroundForADivorce3Decks, "Big Ground",
                       GI.GT_SPIDER, 3, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(441, York, "York",
-                      GI.GT_SPIDER | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
-registerGame(GameInfo(444, TripleYork, "Triple York",
-                      GI.GT_SPIDER | GI.GT_OPEN | GI.GT_ORIGINAL, 3, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_SPIDER | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0, GI.SL_SKILL))
+registerGame(GameInfo(444, BigYork, "Big York",
+                      GI.GT_SPIDER | GI.GT_OPEN | GI.GT_ORIGINAL, 3, 0, GI.SL_SKILL))
 registerGame(GameInfo(445, BigSpider1Suit, "Big Spider (1 suit)",
                       GI.GT_SPIDER, 3, 0, GI.SL_MOSTLY_SKILL,
                       suits=(0, 0, 0, 0),
@@ -1080,4 +1105,8 @@ registerGame(GameInfo(501, WakeRobin, "Wake-Robin",
                       GI.GT_SPIDER | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(502, TripleWakeRobin, "Wake-Robin (3 decks)",
                       GI.GT_SPIDER | GI.GT_ORIGINAL, 3, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(511, DoubleScorpion, "Double Scorpion",
+                      GI.GT_SPIDER, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(512, TripleScorpion, "Triple Scorpion",
+                      GI.GT_SPIDER, 3, 0, GI.SL_MOSTLY_SKILL))
 

@@ -59,7 +59,6 @@ from settings import TOP_SIZE, TOP_TITLE
 
 # Toolkit imports
 from pysoltk import tkname, tkversion, wm_withdraw, loadImage
-from pysoltk import bind, unbind_destroy
 from pysoltk import MfxMessageDialog, MfxExceptionDialog
 from pysoltk import TclError, MfxRoot, MfxCanvas, MfxScrolledCanvas
 from pysoltk import PysolMenubar

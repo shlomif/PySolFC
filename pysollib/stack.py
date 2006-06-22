@@ -320,8 +320,8 @@ class Stack:
         bind(group, "<3>", self.__rightclickEventHandler)
         bind(group, "<2>", self.__middleclickEventHandler)
         bind(group, "<Control-3>", self.__middleclickEventHandler)
-        bind(self.group, "<Shift-3>", self.__shiftrightclickEventHandler)
-        ##bind(self.group, "<Double-2>", "")
+        ##bind(group, "<Shift-3>", self.__shiftrightclickEventHandler)
+        ##bind(group, "<Double-2>", "")
         bind(group, "<Enter>", self.__enterEventHandler)
         bind(group, "<Leave>", self.__leaveEventHandler)
 

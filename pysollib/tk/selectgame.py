@@ -368,19 +368,20 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         self.info_labels = {}
         i = 0
         for n, t, f, row in (
-            ('name',      _('Name:'),             info_frame,   0),
-            ('altnames',  _('Alternate names:'),  info_frame,   1),
-            ('category',  _('Category:'),         info_frame,   2),
-            ('type',      _('Type:'),             info_frame,   3),
-            ('decks',     _('Decks:'),            info_frame,   4),
-            ('redeals',   _('Redeals:'),          info_frame,   5),
+            ('name',        _('Name:'),             info_frame,   0),
+            ('altnames',    _('Alternate names:'),  info_frame,   1),
+            ('category',    _('Category:'),         info_frame,   2),
+            ('type',        _('Type:'),             info_frame,   3),
+            ('skill_level', _('Skill level:'),    info_frame,   4),
+            ('decks',       _('Decks:'),            info_frame,   5),
+            ('redeals',     _('Redeals:'),          info_frame,   6),
             #
-            ('played',    _('Played:'),           stats_frame,  0),
-            ('won',       _('Won:'),              stats_frame,  1),
-            ('lost',      _('Lost:'),             stats_frame,  2),
-            ('time',      _('Playing time:'),     stats_frame,  3),
-            ('moves',     _('Moves:'),            stats_frame,  4),
-            ('percent',   _('% won:'),            stats_frame,  5),
+            ('played',      _('Played:'),           stats_frame,  0),
+            ('won',         _('Won:'),              stats_frame,  1),
+            ('lost',        _('Lost:'),             stats_frame,  2),
+            ('time',        _('Playing time:'),     stats_frame,  3),
+            ('moves',       _('Moves:'),            stats_frame,  4),
+            ('percent',     _('% won:'),            stats_frame,  5),
             ):
             title_label = Tkinter.Label(f, text=t, justify='left', anchor='w')
             title_label.grid(row=row, column=0, sticky='nw')
@@ -541,6 +542,14 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         type = ''
         if GI.TYPE_NAMES.has_key(gi.si.game_type):
             type = gettext(GI.TYPE_NAMES[gi.si.game_type])
+        sl = {
+            GI.SL_LUCK:         _('Luck only'),
+            GI.SL_MOSTLY_LUCK:  _('Mostly luck'),
+            GI.SL_BALANCED:     _('Balanced'),
+            GI.SL_MOSTLY_SKILL: _('Mostly skill'),
+            GI.SL_SKILL:        _('Skill only'),
+            }
+        skill_level = sl.get(gi.skill_level)
         if    gi.redeals == -2: redeals = _('variable')
         elif  gi.redeals == -1: redeals = _('unlimited')
         else:                   redeals = str(gi.redeals)
@@ -551,18 +560,19 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         time = format_time(time)
         moves = str(round(moves, 1))
         for n, t in (
-            ('name',      name),
-            ('altnames',  altnames),
-            ('category',  category),
-            ('type',      type),
-            ('decks',     gi.decks),
-            ('redeals',   redeals),
-            ('played',    won+lost),
-            ('won',       won),
-            ('lost',      lost),
-            ('time',      time),
-            ('moves',     moves),
-            ('percent',   percent),
+            ('name',        name),
+            ('altnames',    altnames),
+            ('category',    category),
+            ('type',        type),
+            ('skill_level', skill_level),
+            ('decks',       gi.decks),
+            ('redeals',     redeals),
+            ('played',      won+lost),
+            ('won',         won),
+            ('lost',        lost),
+            ('time',        time),
+            ('moves',       moves),
+            ('percent',     percent),
             ):
             title_label, text_label = self.info_labels[n]
             if t == '':

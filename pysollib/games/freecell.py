@@ -263,15 +263,16 @@ class TripleFreecell(FreeCell):
         l, s = Layout(self), self.s
 
         # set window
-        max_rows = max(12, rows, reserves)
+        decks = self.gameinfo.decks
+        max_rows = max(decks*4, rows, reserves)
         w, h = l.XM+max_rows*l.XS, l.YM+3*l.YS+playcards*l.YOFFSET
         self.setSize(w, h)
 
         # create stacks
         s.talon = self.Talon_Class(l.XM, h-l.YS, self)
 
-        x, y = l.XM+(max_rows-12)*l.XS/2, l.YM
-        for i in range(3):
+        x, y = l.XM+(max_rows-decks*4)*l.XS/2, l.YM
+        for i in range(decks):
             for j in range(4):
                 s.foundations.append(self.Foundation_Class(x, y, self, suit=j))
                 x += l.XS
@@ -504,6 +505,28 @@ class FourColours(FreeCell):
             self.dealOne(frames=-1)
 
 
+# /***********************************************************************
+# // Ocean Towers
+# ************************************************************************/
+
+class OceanTowers(TripleFreecell):
+    Hint_Class = FreeCellType_Hint
+    RowStack_Class = StackWrapper(FreeCell_SS_RowStack, base_rank=KING)
+
+    def createGame(self):
+        TripleFreecell.createGame(self, rows=14, reserves=8, playcards=20)
+
+    def startGame(self):
+        for i in range(6):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealRow(rows=self.s.reserves[1:-1])
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return card1.suit == card2.suit and abs(card1.rank-card2.rank) == 1
+
+
 
 # register the game
 registerGame(GameInfo(5, RelaxedFreeCell, "Relaxed FreeCell",
@@ -542,4 +565,6 @@ registerGame(GameInfo(464, FourColours, "Four Colours",
                       GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(509, BigCell, "Big Cell",
                       GI.GT_FREECELL | GI.GT_OPEN | GI.GT_ORIGINAL, 3, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(513, OceanTowers, "Ocean Towers",
+                      GI.GT_FREECELL | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 

@@ -714,6 +714,8 @@ if os.name in ('posix', 'nt'):
 
 
 class FreeCellSolverWrapper:
+    __name__ = 'FreeCellSolverWrapper' # for gameinfodialog
+
     class FreeCellSolver_Hint(AbstractHint):
         def str1(self, card):
             return "A23456789TJQK"[card.rank] + "CSHD"[card.suit]

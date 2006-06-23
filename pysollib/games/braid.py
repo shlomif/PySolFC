@@ -313,7 +313,7 @@ class Backbone(Game):
         l, s = Layout(self), self.s
 
         # set window
-        w, h = l.XM+(rows+2)*l.XS, max(l.YM+3*l.XS+10*l.YOFFSET, l.YM+2*l.YS+11*l.YOFFSET+20)
+        w, h = l.XM+(rows+2)*l.XS, max(l.YM+3*l.XS+10*l.YOFFSET, l.YM+2*l.YS+11*l.YOFFSET+l.TEXT_HEIGHT)
         self.setSize(w, h)
 
         # create stacks

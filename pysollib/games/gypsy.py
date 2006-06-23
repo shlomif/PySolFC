@@ -493,7 +493,7 @@ class Surprise(Gypsy):
         for i in range(8):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i/2))
             x += l.XS
-        x, y = l.XM, l.YM+l.YS+20
+        x, y = l.XM, l.YM+l.YS+l.TEXT_HEIGHT
         for i in range(11):
             s.rows.append(KingAC_RowStack(x, y, self))
             x += l.XS

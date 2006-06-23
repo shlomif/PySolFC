@@ -74,23 +74,22 @@ class FortyThieves(Game):
     def createGame(self, max_rounds=1, num_deal=1, rows=10, playcards=12, XCARDS=64, XOFFSET=None):
         # create layout
         if XOFFSET is None:
-            l, s = Layout(self, YBOTTOM=16), self.s
+            l, s = Layout(self), self.s
         else:
-            l, s = Layout(self, XOFFSET=XOFFSET, YBOTTOM=16), self.s
+            l, s = Layout(self, XOFFSET=XOFFSET), self.s
 
         # set window
         # (compute best XOFFSET - up to 64/72 cards can be in the Waste)
         decks = self.gameinfo.decks
-        if rows < 12:
-            maxrows = max(rows, 4*decks+2)
-        else:
-            maxrows = max(rows, 4*decks)
+        maxrows = max(rows, 4*decks)
+        if maxrows <= 12:
+            maxrows += 1
         w1, w2 = maxrows*l.XS+l.XM, 2*l.XS
         if w2 + XCARDS * l.XOFFSET > w1:
             l.XOFFSET = int((w1 - w2) / XCARDS)
         # (piles up to 12 cards are playable without overlap in default window size)
         h = max(2*l.YS, l.YS+(playcards-1)*l.YOFFSET)
-        self.setSize(w1, l.YM + l.YS + h + l.YS + l.YBOTTOM)
+        self.setSize(w1, l.YM + l.YS + h + l.YS + l.TEXT_HEIGHT)
 
         # create stacks
         x = l.XM + (maxrows - 4*decks) * l.XS / 2
@@ -104,7 +103,7 @@ class FortyThieves(Game):
             s.rows.append(self.RowStack_Class(x, y, self, max_move=self.ROW_MAX_MOVE))
             x = x + l.XS
         x = self.width - l.XS
-        y = self.height - l.YS - l.YBOTTOM
+        y = self.height - l.YS - l.TEXT_HEIGHT
         s.talon = WasteTalonStack(x, y, self, max_rounds=max_rounds, num_deal=num_deal)
         l.createText(s.talon, "s")
         if max_rounds > 1:
@@ -243,6 +242,11 @@ class BigCourtyard(Courtyard):
 class Express(Limited):
     def createGame(self):
         FortyThieves.createGame(self, rows=14, playcards=16, XCARDS=96)
+
+
+class Carnation(Limited):
+    def createGame(self):
+        FortyThieves.createGame(self, rows=16, playcards=20, XCARDS=120)
 
 
 # /***********************************************************************
@@ -588,7 +592,7 @@ class FortunesFavor(Game):
 
         l, s = Layout(self), self.s
 
-        w, h = l.XM+7*l.XS, 2*l.YM+3*l.YS
+        w, h = l.XM+8*l.XS, 2*l.YM+3*l.YS
         self.setSize(w, h)
 
         x, y = l.XM+3*l.XS, l.YM
@@ -597,13 +601,13 @@ class FortunesFavor(Game):
             x += l.XS
         x, y = l.XM, l.YM
         s.talon = WasteTalonStack(x, y, self, max_rounds=1)
-        l.createText(s.talon, 's')
-        y += l.YS+2*l.YM
+        l.createText(s.talon, 'se')
+        y += l.YS
         s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, 's')
+        l.createText(s.waste, 'se')
         y = 2*l.YM+l.YS
         for i in range(2):
-            x = l.XM+l.XS
+            x = l.XM+2*l.XS
             for j in range(6):
                 stack = SS_RowStack(x, y, self, max_move=1)
                 stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, 0
@@ -826,3 +830,5 @@ registerGame(GameInfo(505, BigCourtyard, "Big Courtyard",
                       GI.GT_FORTY_THIEVES | GI.GT_ORIGINAL, 3, 0, GI.SL_BALANCED))
 registerGame(GameInfo(506, Express, "Express",
                       GI.GT_FORTY_THIEVES | GI.GT_ORIGINAL, 3, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(514, Carnation, "Carnation",
+                      GI.GT_FORTY_THIEVES | GI.GT_ORIGINAL, 4, 0, GI.SL_MOSTLY_SKILL))

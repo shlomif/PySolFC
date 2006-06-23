@@ -429,7 +429,7 @@ class BritishConstitution(Game):
         x, y = l.XM, l.YM
         s.talon = WasteTalonStack(x, y, self, max_rounds=1)
         l.createText(s.talon, "s")
-        y += l.YS+2*l.YM
+        y += l.YS+l.TEXT_HEIGHT
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, "s")
 

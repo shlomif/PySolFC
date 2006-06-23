@@ -553,12 +553,29 @@ class Jane(Klondike):
     Foundation_Class = StackWrapper(SS_FoundationStack, mod=13, base_rank=NO_RANK, min_cards=1)
     RowStack_Class = StackWrapper(AC_RowStack, mod=13, base_rank=NO_RANK)
 
-    def createGame(self, max_rounds=1, reserves=7, **layout):
-        kwdefault(layout, texts=0)
-        l = apply(Klondike.createGame, (self, max_rounds), layout)
-        s = self.s
-        h = max(self.height, l.YM+4*l.YS)
-        self.setSize(self.width + l.XM+2*l.XS, h)
+    def createGame(self, max_rounds=1, rows=7, reserves=7, playcards=16):
+        l, s = Layout(self), self.s
+        maxrows = max(rows, 7)
+        w = l.XM+maxrows*l.XS+l.XM+2*l.XS
+        h = max(l.YM+2*l.YS+playcards*l.YOFFSET+l.TEXT_HEIGHT, l.YM+4*l.YS)
+        self.setSize(w, h)
+
+        x, y = l.XM, l.YM
+        s.talon = self.Talon_Class(x, y, self, max_rounds=max_rounds)
+        l.createText(s.talon, 'ss')
+        x += l.XS
+        s.waste = WasteStack(l.XM+l.XS+40, l.YM, self)
+
+        x += 2*l.XS
+        for i in range(4):
+            s.foundations.append(self.Foundation_Class(x, y, self, suit=i))
+            x += l.XS
+
+        x, y = l.XM, l.YM+l.YS+l.TEXT_HEIGHT
+        for i in range(rows):
+            s.rows.append(self.RowStack_Class(x, y, self))
+            x += l.XS
+
         x0, y = self.width - 2*l.XS, l.YM
         for i in range(reserves):
             x = x0 + ((i+1) & 1) * l.XS
@@ -571,11 +588,6 @@ class Jane(Klondike):
         ##self.setRegion(s.reserves, (x0-l.XM/2, -999, 999999, 999999), priority=1)
         l.defaultStackGroups()
         self.sg.dropstacks.append(s.talon)
-        x, y = l.XM, self.height - l.YM
-        # ???
-        #self.texts.info = MfxCanvasText(self.canvas, x, y, anchor="sw",
-        #                                font=self.app.getFont("canvas_default"))
-        l.createText(s.talon, 'ss')
 
     def startGame(self, flip=0, reverse=1):
         for i in range(1, len(self.s.rows)):
@@ -606,9 +618,6 @@ class AgnesBernauer_Talon(DealRowTalonStack):
 class AgnesBernauer(Jane):
     Talon_Class = AgnesBernauer_Talon
     Foundation_Class = StackWrapper(SS_FoundationStack, mod=13, base_rank=NO_RANK, max_move=0)
-
-    def createGame(self):
-        Jane.createGame(self, max_rounds=1, waste=0, texts=0)
 
     def startGame(self):
         Jane.startGame(self, flip=1)

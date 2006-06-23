@@ -90,10 +90,10 @@ class Tournament(Game):
         l, s = Layout(self), self.s
 
         # set window
-        self.setSize(l.XM+10*l.XS, max(l.YM+l.YS+20*l.YOFFSET, 5*l.YM+5*l.YS))
+        self.setSize(l.XM+10*l.XS, max(l.YM+l.YS+20*l.YOFFSET, 2*l.YM+5*l.YS))
 
         # create stacks
-        x, y, = l.XM+l.XS, l.YM
+        x, y, = l.XM+2*l.XS, l.YM
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
             x = x + l.XS
@@ -101,7 +101,7 @@ class Tournament(Game):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i,
                                                     base_rank=KING, dir=-1))
             x = x + l.XS
-        x, y = l.XM+2*l.XS, l.YM+l.YS
+        x, y = l.XM+2*l.XS, 2*l.YM+l.YS
         for i in range(6):
             stack = BasicRowStack(x, y, self, max_move=1, max_accept=0)
             s.rows.append(stack)
@@ -109,23 +109,23 @@ class Tournament(Game):
                 stack.CARD_YOFFSET = 0
             x = x + l.XS
 
-        x, y = l.XM, 4*l.YM+l.YS
+        x, y = l.XM, 2*l.YM+l.YS
         for i in range(4):
             self.s.reserves.append(ReserveStack(x, y, self))
             y += l.YS
-        x, y = l.XM+9*l.XS, 4*l.YM+l.YS
+        x, y = l.XM+9*l.XS, 2*l.YM+l.YS
         for i in range(4):
             self.s.reserves.append(ReserveStack(x, y, self))
             y += l.YS
 
         s.talon = Tournament_Talon(l.XM, l.YM, self, max_rounds=3)
-        ##l.createText(s.talon, "ss")
-        tx, ty, ta, tf = l.getTextAttr(s.talon, "ss")
+        l.createText(s.talon, "se")
+        tx, ty, ta, tf = l.getTextAttr(s.talon, "ne")
         s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty, anchor=ta,
                                              font=self.app.getFont("canvas_default"))
 
-        # default
-        l.defaultAll()
+        # define stack-groups
+        l.defaultStackGroups()
 
     #
     # game overrides

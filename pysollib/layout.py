@@ -88,12 +88,13 @@ class Layout:
         self.YS = self.CH + YM          # YSPACE
         self.XOFFSET = images.CARD_XOFFSET
         self.YOFFSET = images.CARD_YOFFSET
+        self.TEXT_HEIGHT = 30
         self.__dict__.update(kw)
-##         if self.game.preview > 1:
-##             if kw.has_key("XOFFSET"):
-##                 self.XOFFSET =  self.XOFFSET / self.game.preview
-##             if kw.has_key("YOFFSET"):
-##                 self.YOFFSET =  self.YOFFSET / self.game.preview
+        if self.game.preview > 1:
+            if kw.has_key("XOFFSET"):
+                self.XOFFSET =  self.XOFFSET / self.game.preview
+            if kw.has_key("YOFFSET"):
+                self.YOFFSET =  self.YOFFSET / self.game.preview
 
     def __createStack(self, x, y, suit=None):
         stack = _LayoutStack(x, y, suit)
@@ -370,6 +371,7 @@ class Layout:
         # set size so that at least 19 cards are fully playable
         h = YS + (playcards-1)*self.YOFFSET
         h = max(h, 3*YS)
+        if texts: h += self.TEXT_HEIGHT
 
         # top
         x, y = (w - (rows*XS - XM))/2, YM
@@ -406,7 +408,7 @@ class Layout:
     #  - bottom: rows
     #
 
-    def klondikeLayout(self, rows, waste, texts=1, playcards=16, center=1):
+    def klondikeLayout(self, rows, waste, texts=1, playcards=16, center=1, text_height=0):
         S = self.__createStack
         CW, CH = self.CW, self.CH
         XM, YM = self.XM, self.YM
@@ -424,12 +426,14 @@ class Layout:
         h = max(h, 2 * YS)
 
         # top
+        ##text_height = 0
         x, y = XM, YM
         self.s.talon = s = S(x, y)
         if texts:
             if waste or not center or maxrows - frows <= 1:
                 # place text below stack
                 s.setText(x + CW / 2, y + YS, anchor="n")
+                text_height = self.TEXT_HEIGHT
             else:
                 # place text right of stack
                 s.setText(x + XS, y, anchor="nw", format="%3d")
@@ -439,6 +443,7 @@ class Layout:
             if texts:
                 # place text below stack
                 s.setText(x + CW / 2, y + YS, anchor="n")
+                text_height = self.TEXT_HEIGHT
 
         for row in range(foundrows):
             x = XM + (maxrows - frows) * XS
@@ -454,7 +459,8 @@ class Layout:
         # bottom
         x = XM
         if rows < maxrows: x += (maxrows-rows) * XS/2
-        y += YM * (3 - foundrows)
+        ##y += YM * (3 - foundrows)
+        y += text_height
         self.setRegion(self.s.rows, (-999, y - YM / 2, 999999, 999999))
         for i in range(rows):
             self.s.rows.append(S(x, y))

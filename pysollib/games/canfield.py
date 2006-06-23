@@ -119,7 +119,7 @@ class Canfield(Game):
                 yoffset = 5
         # (piles up to 20 cards are playable in default window size)
         h = max(3*l.YS, l.YS+self.INITIAL_RESERVE_CARDS*yoffset)
-        self.setSize(l.XM + (2+max(rows, 4*decks))*l.XS + l.XM, l.YM + l.YS + 20 + h)
+        self.setSize(l.XM + (2+max(rows, 4*decks))*l.XS + l.XM, l.YM + l.YS + l.TEXT_HEIGHT + h)
 
         # extra settings
         self.base_card = None
@@ -145,7 +145,7 @@ class Canfield(Game):
                 tx, ty = x + tx, y + ty + l.YM
             font = self.app.getFont("canvas_default")
             self.texts.info = MfxCanvasText(self.canvas, tx, ty, anchor=ta, font=font)
-        x, y = l.XM, l.YM + l.YS + 20
+        x, y = l.XM, l.YM + l.YS + l.TEXT_HEIGHT
         s.reserves.append(self.ReserveStack_Class(x, y, self))
         s.reserves[0].CARD_YOFFSET = yoffset
         x = l.XM + 2 * l.XS + l.XM
@@ -489,7 +489,7 @@ class LittleGate(Gate):
         self.setSize(w, h)
 
         # create stacks
-        y = 4*l.YM+l.YS
+        y = l.YM+l.YS+l.TEXT_HEIGHT
         for x in (l.XM, w-l.XS):
             stack = OpenStack(x, y, self, max_accept=0)
             stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, l.YOFFSET
@@ -498,14 +498,14 @@ class LittleGate(Gate):
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
             x += l.XS
-        x, y = int(l.XM+1.5*l.XS), 4*l.YM+l.YS
+        x, y = int(l.XM+1.5*l.XS), l.YM+l.YS+l.TEXT_HEIGHT
         for i in range(4):
             s.rows.append(AC_RowStack(x, y, self))
             x += l.XS
         s.talon = WasteTalonStack(l.XM, l.YM, self, max_rounds=1)
-        l.createText(s.talon, "s")
+        l.createText(s.talon, "ss")
         s.waste = WasteStack(l.XM+l.XS, l.YM, self)
-        l.createText(s.waste, "s")
+        l.createText(s.waste, "ss")
 
         # define stack-groups
         l.defaultStackGroups()
@@ -630,7 +630,7 @@ class Duke(Game):
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
             x += l.XS
-        x0, y0, w = l.XM, 3*l.YM+l.YS, l.XS+2*l.XOFFSET
+        x0, y0, w = l.XM, l.YM+l.YS+l.TEXT_HEIGHT, l.XS+2*l.XOFFSET
         for i, j in ((0,0), (0,1), (1,0), (1,1)):
             x, y = x0+i*w, y0+j*l.YS
             stack = OpenStack(x, y, self, max_accept=0)

@@ -332,7 +332,7 @@ class BitsNBytes(Game):
         y = l.YM
         s.talon = WasteTalonStack(x, y, self, num_deal=2, max_rounds=2)
         l.createText(s.talon, "ss")
-        y = y + l.YS + l.YM * 2
+        y += l.YS + l.TEXT_HEIGHT
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, "ss")
 

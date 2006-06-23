@@ -114,12 +114,12 @@ class Calculation(Game):
 
     def createGame(self):
         # create layout
-        l, s = Layout(self), self.s
+        l, s = Layout(self, TEXT_HEIGHT=40), self.s
 
         # set window
         # (piles up to 20 cards are playable in default window size)
         h = max(2*l.YS, 20*l.YOFFSET)
-        self.setSize(5.5*l.XS+l.XM+200, l.YM + l.YS + 30 + h)
+        self.setSize(5.5*l.XS+l.XM+200, l.YM + l.YS + l.TEXT_HEIGHT + h)
 
         # create stacks
         x0 = l.XM + l.XS * 3 / 2
@@ -140,7 +140,7 @@ class Calculation(Game):
         self.texts.help = MfxCanvasText(self.canvas, x + l.XM, y + l.CH / 2, text=help,
                                         anchor="w", font=self.app.getFont("canvas_fixed"))
         x = x0
-        y = l.YM + l.YS + 30
+        y = l.YM + l.YS + l.TEXT_HEIGHT
         for i in range(4):
             s.rows.append(Calculation_RowStack(x, y, self, max_move=1, max_accept=1))
             x = x + l.XS
@@ -205,10 +205,10 @@ class BetsyRoss(Calculation):
 
     def createGame(self):
         # create layout
-        l, s = Layout(self), self.s
+        l, s = Layout(self, TEXT_HEIGHT=40), self.s
 
         # set window
-        self.setSize(5.5*l.XS+l.XM+200, l.YM + l.YS + 30 + 3*l.YS)
+        self.setSize(5.5*l.XS+l.XM+200, l.YM + l.YS + l.TEXT_HEIGHT + 3*l.YS)
 
         # create stacks
         x0 = l.XM + l.XS * 3 / 2
@@ -219,7 +219,7 @@ class BetsyRoss(Calculation):
             s.foundations.append(stack)
             x = x + l.XS
         x = x0
-        y = l.YM + l.YS + 30
+        y = l.YM + l.YS + l.TEXT_HEIGHT
         for i in range(4):
             stack = BetsyRoss_Foundation(x, y, self, base_rank=2*i+1, mod=13, dir=i+1,
                                         max_cards=12, max_move=0)

@@ -372,7 +372,7 @@ class Zerline(Game):
         # set window
         # (set size so that at least 13 cards are fully playable)
         w = max(3*l.XS, l.XS+playcards*l.XOFFSET)
-        self.setSize(l.XM+2*w+decks*l.XS, 4*l.YM + (rows/2+1)*l.YS)
+        self.setSize(l.XM+2*w+decks*l.XS, l.YM+l.TEXT_HEIGHT+(rows/2+1)*l.YS)
 
         # create stacks
         y = l.YM
@@ -389,7 +389,7 @@ class Zerline(Game):
         l.createText(stack, "ss")
         x = l.XM + w
         for j in range(decks):
-            y = 4*l.YM+l.YS
+            y = l.YM+l.TEXT_HEIGHT+l.YS
             for i in range(4):
                 s.foundations.append(SS_FoundationStack(x, y, self, i,
                                      base_rank=KING, dir=1, max_move=0, mod=13))
@@ -397,15 +397,15 @@ class Zerline(Game):
             x += l.XS
         x = l.XM
         for j in range(2):
-            y = 4*l.YM+l.YS
+            y = l.YM+l.TEXT_HEIGHT+l.YS
             for i in range(rows/2):
                 stack = RK_RowStack(x, y, self, max_move=1, max_accept=1, base_rank=QUEEN)
                 stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
                 s.rows.append(stack)
                 y += l.YS
-            x += l.XM + w +decks*l.XS
+            x += l.XM+w+decks*l.XS
 
-        l.setRegion(s.rows[:4], (-999, 4*l.YM+l.YS-l.CH/2, w-l.CW/2, 999999))
+        l.setRegion(s.rows[:4], (-999, l.YM+l.YS+l.TEXT_HEIGHT-l.CH/2, w-l.CW/2, 999999))
 
         # define stack-groups
         l.defaultStackGroups()

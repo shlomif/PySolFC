@@ -195,7 +195,7 @@ class Options:
         self.splashscreen = True
         self.sticky_mouse = False
         self.negative_bottom = False
-        self.randomize_place = True
+        self.randomize_place = False
         self.cache_carsets = True
         # defaults & constants
         self.setDefaults()
@@ -228,12 +228,12 @@ class Options:
             CSI.TYPE_DASHAVATARA_GANJIFA: ("Dashavatara Ganjifa", ""),
             CSI.TYPE_TRUMP_ONLY: ("Matrix", ""),
         }
-        self.randomize_place = True
 
     # not changeable options
     def setConstants(self):
         self.win_animation = 1
         self.dragcursor = 1
+        self.randomize_place = False
 
     def copy(self):
         opt = Options()
@@ -826,8 +826,7 @@ class Application:
                   "joker07_50_774",
                   "joker08_50_774",
                   "joker11_100_774",
-                  "joker10_100",
-                  "pysol_40",):
+                  "joker10_100",):
             self.gimages.logos.append(self.dataloader.findImage(f, dir))
         dir = "images"
         ##for f in ("noredeal", "redeal",):
@@ -1143,10 +1142,7 @@ Please select a %s type %s.
         opt = unpickle(self.fn.opt)
         if opt:
             ##import pprint; pprint.pprint(opt.__dict__)
-            #cardset = self.opt.cardset
-            #cardset.update(opt.cardset)
             self.opt.__dict__.update(opt.__dict__)
-            #self.opt.cardset = cardset
         self.opt.setConstants()
 
     def loadStatistics(self):
@@ -1290,13 +1286,19 @@ Please select a %s type %s.
         return n
 
     def getGameSaveName(self, id):
-        n = self.getGameTitleName(id)
+        if os.path.supports_unicode_filenames: # new in python 2.3
+            return self.getGameTitleName(id)
+        gi = self.gdb.get(id)
+        n = gi.name
         if not n: return None
-        m = re.search(r"^(.*)([\[\(](\w+).*[\]\)])\s*$", n)
-        if m:
-            n = m.group(1) + "_" + m.group(2).lower()
+##         m = re.search(r"^(.*)([\[\(](\w+).*[\]\)])\s*$", n)
+##         if m:
+##             n = m.group(1) + "_" + m.group(2).lower()
         n = latin1_to_ascii(n)
-        return re.sub(r"[^\w\-]", "", n)
+        n = n.lower()
+        n = re.sub(r"[\s]", "_", n)
+        n = re.sub(r"[^\w]", "", n)
+        return n
 
     def getRandomGameId(self):
         return self.miscrandom.choice(self.gdb.getGamesIdSortedById())

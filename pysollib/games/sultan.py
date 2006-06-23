@@ -49,7 +49,7 @@ class Sultan(Game):
         l, s = Layout(self), self.s
 
         # set window
-        w, h = 3*l.XM+5*l.XS, 3*l.YM+4*l.YS
+        w, h = 3*l.XM+5*l.XS, l.YM+4*l.YS+l.TEXT_HEIGHT
         self.setSize(w, h)
 
         # create stacks
@@ -126,36 +126,38 @@ class Boudoir(Game):
         l, s = Layout(self), self.s
         self.setSize(l.XM+5*l.XS, l.YM+4*l.YS)
 
-        x, y = l.XM+l.XS, l.YM
-        for i in range(4):
-            s.foundations.append(SS_FoundationStack(x, y, self, suit=i, max_cards=13))
-            x += l.XS
-
-        x, y = l.XM, l.YS
+        x, y = l.XM, l.YM+l.YS-l.TEXT_HEIGHT/2
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
         s.talon.texts.rounds = MfxCanvasText(self.canvas,
                                              x + l.CW / 2, y - l.YM,
                                              anchor="s",
                                              font=self.app.getFont("canvas_default"))
         l.createText(s.talon, "s")
-        x += l.XS
-        y += l.YM
+        y += l.YS+l.TEXT_HEIGHT
+        s.waste = WasteStack(x, y, self)
+        l.createText(s.waste, "s")
+
+        x, y = l.XM+l.XS, l.YM
+        for i in range(4):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i, max_cards=13))
+            x += l.XS
+
+        x = l.XM+l.XS
+        y += l.YS
         for i in range(4):
             s.rows.append(AbstractFoundationStack(x, y, self, suit=i,
                           max_cards=1, max_move=0, base_rank=QUEEN))
             x += l.XS
 
-        x, y = l.XM, 2*l.YM+2*l.YS
-        s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, "s")
-        x += l.XS
-        y -= l.YM
+        x = l.XM+l.XS
+        y += l.YS
         for i in range(4):
             s.rows.append(AbstractFoundationStack(x, y, self, suit=i,
                           max_cards=1, max_move=0, base_rank=JACK))
             x += l.XS
 
-        x, y = l.XM+l.XS, l.YM+3*l.YS
+        x = l.XM+l.XS
+        y += l.YS
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i,
                                  mod=13, max_cards=11, base_rank=9, dir=-1))
@@ -186,16 +188,16 @@ class CaptiveQueens(Game):
     def createGame(self):
 
         l, s = Layout(self), self.s
-        self.setSize(l.XM+5*l.XS, l.YM+3*l.YS)
+        self.setSize(l.XM+5*l.XS, max(l.YM+3*l.YS, l.YM+2*l.YS+3*l.TEXT_HEIGHT))
 
-        x, y = l.XM, 4*l.YM
+        x, y = l.XM, l.YM+l.TEXT_HEIGHT
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
         s.talon.texts.rounds = MfxCanvasText(self.canvas,
                                              x + l.CW / 2, y - l.YM,
                                              anchor="s",
                                              font=self.app.getFont("canvas_default"))
         l.createText(s.talon, "s")
-        y += 2*l.YM+l.YS
+        y += l.YS+l.TEXT_HEIGHT
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, "s")
 

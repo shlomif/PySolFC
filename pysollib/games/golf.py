@@ -131,10 +131,11 @@ class Golf(Game):
         l, s = Layout(self), self.s
 
         # set window
+        playcards = 5
         w1, w2 = 8*l.XS+l.XM, 2*l.XS
         if w2 + 52*l.XOFFSET > w1:
             l.XOFFSET = int((w1 - w2) / 52)
-        self.setSize(w1, 4*l.YS+l.YM)
+        self.setSize(w1, l.YM+3*l.YS+(playcards-1)*l.YOFFSET+l.TEXT_HEIGHT)
 
         # create stacks
         x, y = l.XM + l.XS / 2, l.YM

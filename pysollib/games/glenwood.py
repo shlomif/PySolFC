@@ -104,32 +104,33 @@ class Glenwood(Game):
         l, s = Layout(self), self.s
 
         # set window
-        self.setSize(l.XM + 8*l.XS + l.XM, 3*l.YM + 5*l.YS)
+        self.setSize(2*l.XM + 6*l.XS, l.YM + l.TEXT_HEIGHT + 5*l.YS)
 
         # create stacks
         x, y = l.XM, l.YM
         s.talon = Glenwood_Talon(x, y, self, max_rounds=2, num_deal=1)
         l.createText(s.talon, "ss")
-        x = x + l.XS
+        x += l.XS
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, "ss")
+        x += l.XS+l.XM
         for i in range(4):
-            x = 2*l.XM + (i+2)*l.XS
             s.foundations.append(self.Foundation_Class(x, y, self, i, dir=1,
                                  mod=13, base_rank=ANY_RANK, max_move=0))
+            x += l.XS
 
-        tx, ty, ta, tf = l.getTextAttr(None, "se")
-        tx, ty = x + tx + l.XM, y + ty
+        tx, ty, ta, tf = l.getTextAttr(None, "ss")
+        tx, ty = x - l.XS + tx, y + ty
         font = self.app.getFont("canvas_default")
         self.texts.info = MfxCanvasText(self.canvas, tx, ty, anchor=ta, font=font)
 
         for i in range(4):
             x = 2*l.XM + (i+2)*l.XS
-            y = 3*l.YM + l.YS
+            y = l.YM+l.TEXT_HEIGHT+l.YS
             s.rows.append(self.RowStack_Class(x, y, self, mod=13))
         for i in range(4):
             x = l.XM
-            y = 3*l.YM + (i+1)*l.YS
+            y = l.YM+l.TEXT_HEIGHT+(i+1)*l.YS
             stack = self.ReserveStack_Class(x, y, self)
             s.reserves.append(stack)
             stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0

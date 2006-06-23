@@ -197,7 +197,7 @@ class Dover(Bristol):
 
         # set window
         max_rows = max(rows, self.gameinfo.decks*4)
-        w, h = 2*l.XM+l.XS+max_rows*l.XS, l.YM+20+5*l.YS
+        w, h = 2*l.XM+l.XS+max_rows*l.XS, l.YM+l.TEXT_HEIGHT+5*l.YS
         self.setSize(w, h)
 
         # create stacks
@@ -215,7 +215,7 @@ class Dover(Bristol):
 
         x, y = 2*l.XM+(max_rows-rows)*l.XS, l.YM+l.YS
         if text:
-            y += 20
+            y += l.TEXT_HEIGHT
         for i in range(rows):
             x += l.XS
             stack = self.RowStack_Class(x, y, self)
@@ -224,7 +224,7 @@ class Dover(Bristol):
         x, y, = l.XM, l.YM
         s.talon = self.Talon_Class(x, y, self)
         l.createText(s.talon, "s")
-        y += 20
+        y += l.TEXT_HEIGHT
         for i in range(3):
             y += l.YS
             s.reserves.append(self.ReserveStack_Class(x, y, self))

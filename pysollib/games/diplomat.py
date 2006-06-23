@@ -67,7 +67,7 @@ class Diplomat(Game):
         l, s = Layout(self), self.s
 
         # set window
-        self.setSize(l.XM+8*l.XS, l.YM+3*l.YS+12*l.YOFFSET+20)
+        self.setSize(l.XM+8*l.XS, l.YM+3*l.YS+12*l.YOFFSET+l.TEXT_HEIGHT)
 
         # create stacks
         x, y = l.XM, l.YM

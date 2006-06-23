@@ -293,7 +293,7 @@ class Colorado(Game):
         l, s = Layout(self), self.s
 
         # set window
-        self.setSize(l.XM+10*l.XS, 3*l.YM+4*l.YS)
+        self.setSize(l.XM+10*l.XS, l.YM+4*l.YS+l.TEXT_HEIGHT)
 
         # create stacks
         x, y, = l.XS, l.YM

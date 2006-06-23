@@ -342,7 +342,7 @@ class ImperialTrumps(AbstractTarockGame):
 
         # Create rows
         x = l.XM
-        y = l.YM + int(round(l.YS * 1.25))
+        y = l.YM + l.YS + l.TEXT_HEIGHT
         for i in range(8):
             s.rows.append(TrumpWild_RowStack(x, y, self))
             x = x + l.XS
@@ -674,7 +674,6 @@ class Grasshopper(AbstractTarockGame):
 
     def createGame(self):
         l, s = Layout(self), self.s
-        font = self.app.getFont("canvas_default")
 
         # Set window size
         decks = self.gameinfo.decks
@@ -702,7 +701,7 @@ class Grasshopper(AbstractTarockGame):
 
         # Create reserve
         x = l.XM
-        y = l.YM * 3 + l.YS
+        y = l.YM + l.YS + l.TEXT_HEIGHT
         s.reserves.append(OpenStack(x, y, self))
         s.reserves[0].CARD_YOFFSET = (l.YOFFSET, yoffset)[decks == 2]
 
@@ -767,7 +766,7 @@ class Ponytail(Tarock_GameMethods, Braid):
 
         # set window
         # (piles up to 20 cards are playable - needed for Ponytail_PonytailStack)
-        h = max(5*l.YS + 30, l.YS+(self.BRAID_CARDS-1)*l.YOFFSET)
+        h = max(5*l.YS + l.TEXT_HEIGHT, l.YS+(self.BRAID_CARDS-1)*l.YOFFSET)
         self.setSize(10*l.XS+l.XM, l.YM + h)
 
         # extra settings

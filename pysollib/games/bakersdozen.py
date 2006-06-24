@@ -258,20 +258,33 @@ class Cruel(CastlesInSpain):
 
 # /***********************************************************************
 # // Royal Family
+# // Indefatigable
 # ************************************************************************/
 
 class RoyalFamily(Cruel):
-
     Foundation_Class = StackWrapper(SS_FoundationStack, base_rank=KING, dir=-1)
     Talon_Class = StackWrapper(Cruel_Talon, max_rounds=2)
     RowStack_Class = UD_AC_RowStack
 
     def _shuffleHook(self, cards):
         # move Kings to bottom of the Talon (i.e. last cards to be dealt)
-        return self._shuffleHookMoveToBottom(cards, lambda c: (c.rank == 12, c.suit))
+        return self._shuffleHookMoveToBottom(cards, lambda c: (c.rank == KING, c.suit))
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return card1.color != card2.color and abs(card1.rank-card2.rank) == 1
+
+
+class Indefatigable(Cruel):
+    Foundation_Class = StackWrapper(SS_FoundationStack, max_move=0)
+    Talon_Class = StackWrapper(Cruel_Talon, max_rounds=3)
+    RowStack_Class = UD_SS_RowStack
+
+    def _shuffleHook(self, cards):
+        # move Kings to bottom of the Talon (i.e. last cards to be dealt)
+        return self._shuffleHookMoveToBottom(cards, lambda c: (c.rank == ACE, c.suit))
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return card1.suit == card2.suit and abs(card1.rank-card2.rank) == 1
 
 
 # /***********************************************************************
@@ -341,4 +354,5 @@ registerGame(GameInfo(404, Perseverance, "Perseverance",
                       GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 1, 2, GI.SL_BALANCED))
 registerGame(GameInfo(369, RippleFan, "Ripple Fan",
                       GI.GT_BAKERS_DOZEN, 1, -1, GI.SL_MOSTLY_SKILL))
-
+registerGame(GameInfo(515, Indefatigable, "Indefatigable",
+                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 1, 2, GI.SL_MOSTLY_SKILL))

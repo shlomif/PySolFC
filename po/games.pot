@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Sun Jun 11 10:16:06 2006\n"
+"POT-Creation-Date: Sat Jun 24 16:07:12 2006\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -63,6 +63,9 @@ msgstr ""
 msgid "Acme"
 msgstr ""
 
+msgid "Acquaintance"
+msgstr ""
+
 msgid "Agnes Bernauer"
 msgstr ""
 
@@ -85,6 +88,9 @@ msgid "Algerian Patience (3 decks)"
 msgstr ""
 
 msgid "Alhambra"
+msgstr ""
+
+msgid "Ali Baba"
 msgstr ""
 
 msgid "All in a Row"
@@ -112,6 +118,9 @@ msgid "Applegate"
 msgstr ""
 
 msgid "Aqab's"
+msgstr ""
+
+msgid "Arabella"
 msgstr ""
 
 msgid "Arachnida"
@@ -204,6 +213,15 @@ msgstr ""
 msgid "Betsy Ross"
 msgstr ""
 
+msgid "Big Braid"
+msgstr ""
+
+msgid "Big Cell"
+msgstr ""
+
+msgid "Big Courtyard"
+msgstr ""
+
 msgid "Big Easy"
 msgstr ""
 
@@ -211,6 +229,9 @@ msgid "Big Flying Dragon"
 msgstr ""
 
 msgid "Big Forty"
+msgstr ""
+
+msgid "Big Ground"
 msgstr ""
 
 msgid "Big Harp"
@@ -231,7 +252,13 @@ msgstr ""
 msgid "Big Spider (2 suits)"
 msgstr ""
 
+msgid "Big Streets"
+msgstr ""
+
 msgid "Big Sumo"
+msgstr ""
+
+msgid "Big York"
 msgstr ""
 
 msgid "Bim Bom"
@@ -348,6 +375,9 @@ msgstr ""
 msgid "Carlton"
 msgstr ""
 
+msgid "Carnation"
+msgstr ""
+
 msgid "Carpet"
 msgstr ""
 
@@ -360,7 +390,13 @@ msgstr ""
 msgid "Casino Klondike"
 msgstr ""
 
+msgid "Cassim"
+msgstr ""
+
 msgid "Castle"
+msgstr ""
+
+msgid "Castle Mount"
 msgstr ""
 
 msgid "Castle of Indolence"
@@ -462,6 +498,9 @@ msgstr ""
 msgid "Corkscrew"
 msgstr ""
 
+msgid "Corner Suite"
+msgstr ""
+
 msgid "Corners"
 msgstr ""
 
@@ -489,6 +528,9 @@ msgstr ""
 msgid "Curds and Whey"
 msgstr ""
 
+msgid "Czarina"
+msgstr ""
+
 msgid "Danda"
 msgstr ""
 
@@ -505,6 +547,9 @@ msgid "Deep"
 msgstr ""
 
 msgid "Deep Well"
+msgstr ""
+
+msgid "Demon"
 msgstr ""
 
 msgid "Der Katzenschwanz"
@@ -553,6 +598,9 @@ msgid "Die große Harfe"
 msgstr ""
 
 msgid "Die kleine Harfe"
+msgstr ""
+
+msgid "Dieppe"
 msgstr ""
 
 msgid "Diplomat"
@@ -624,7 +672,13 @@ msgstr ""
 msgid "Double Rail"
 msgstr ""
 
+msgid "Double Russian Solitaire"
+msgstr ""
+
 msgid "Double Samuri"
+msgstr ""
+
+msgid "Double Scorpion"
 msgstr ""
 
 msgid "Double Your Fun"
@@ -696,6 +750,9 @@ msgstr ""
 msgid "Eight Times Eight"
 msgstr ""
 
+msgid "Elba"
+msgstr ""
+
 msgid "Elevator"
 msgstr ""
 
@@ -715,6 +772,9 @@ msgid "Eularia"
 msgstr ""
 
 msgid "Excuse"
+msgstr ""
+
+msgid "Express"
 msgstr ""
 
 msgid "Eye"
@@ -906,6 +966,9 @@ msgstr ""
 msgid "Genesis +"
 msgstr ""
 
+msgid "Geoffrey"
+msgstr ""
+
 msgid "German Patience"
 msgstr ""
 
@@ -969,12 +1032,6 @@ msgstr ""
 msgid "Ground for a Divorce"
 msgstr ""
 
-msgid "Ground for a Divorce (3 decks)"
-msgstr ""
-
-msgid "Ground for a Divorce (4 decks)"
-msgstr ""
-
 msgid "Gypsy"
 msgstr ""
 
@@ -988,6 +1045,9 @@ msgid "Half Mahjongg Smile"
 msgstr ""
 
 msgid "Half Mahjongg Wall"
+msgstr ""
+
+msgid "Hanafuda Four Seasons"
 msgstr ""
 
 msgid "Hanoi Puzzle 4"
@@ -1068,6 +1128,9 @@ msgstr ""
 msgid "IloveU"
 msgstr ""
 
+msgid "Imperial Guards"
+msgstr ""
+
 msgid "Imperial Trumps"
 msgstr ""
 
@@ -1084,6 +1147,9 @@ msgid "Indian Patience"
 msgstr ""
 
 msgid "Inner Circle"
+msgstr ""
+
+msgid "Inquisitor"
 msgstr ""
 
 msgid "Intelligence"
@@ -1197,6 +1263,9 @@ msgstr ""
 msgid "Km"
 msgstr ""
 
+msgid "Knotty Nines"
+msgstr ""
+
 msgid "Krebs"
 msgstr ""
 
@@ -1257,6 +1326,9 @@ msgstr ""
 msgid "Lady Betty"
 msgstr ""
 
+msgid "Lady Jane"
+msgstr ""
+
 msgid "Lady Palk"
 msgstr ""
 
@@ -1293,6 +1365,9 @@ msgstr ""
 msgid "Lexington Harp"
 msgstr ""
 
+msgid "Lightweight"
+msgstr ""
+
 msgid "Lily"
 msgstr ""
 
@@ -1314,6 +1389,9 @@ msgstr ""
 msgid "Little Gate"
 msgstr ""
 
+msgid "Little Napoleon"
+msgstr ""
+
 msgid "Long Braid"
 msgstr ""
 
@@ -1327,6 +1405,9 @@ msgid "Lost "
 msgstr ""
 
 msgid "Lucas"
+msgstr ""
+
+msgid "Madame"
 msgstr ""
 
 msgid "Mage's Game"
@@ -1887,6 +1968,9 @@ msgstr ""
 msgid "Maria Luisa"
 msgstr ""
 
+msgid "Marie Rose"
+msgstr ""
+
 msgid "Martha"
 msgstr ""
 
@@ -1930,6 +2014,9 @@ msgid "Midnight Oil"
 msgstr ""
 
 msgid "Midshipman"
+msgstr ""
+
+msgid "Millie"
 msgstr ""
 
 msgid "Milligan Cell"
@@ -1989,6 +2076,9 @@ msgstr ""
 msgid "Mount Olympus"
 msgstr ""
 
+msgid "Moving Left"
+msgstr ""
+
 msgid "Mrs. Mop"
 msgstr ""
 
@@ -2005,6 +2095,9 @@ msgid "Munger"
 msgstr ""
 
 msgid "Musical Patience"
+msgstr ""
+
+msgid "Mystique"
 msgstr ""
 
 msgid "N for Namida"
@@ -2073,7 +2166,13 @@ msgstr ""
 msgid "Number Ten"
 msgstr ""
 
+msgid "Number Twelve"
+msgstr ""
+
 msgid "Numerica"
+msgstr ""
+
+msgid "Ocean Towers"
 msgstr ""
 
 msgid "Octagon"
@@ -2206,6 +2305,9 @@ msgid "Perpetual Motion"
 msgstr ""
 
 msgid "Perseverance"
+msgstr ""
+
+msgid "Phantom Blockade"
 msgstr ""
 
 msgid "Phoenix"
@@ -2454,6 +2556,9 @@ msgstr ""
 msgid "Sanibel"
 msgstr ""
 
+msgid "Saratoga"
+msgstr ""
+
 msgid "Scarab"
 msgstr ""
 
@@ -2547,6 +2652,9 @@ msgstr ""
 msgid "Sieben bis As"
 msgstr ""
 
+msgid "Signora"
+msgstr ""
+
 msgid "Simon Jester"
 msgstr ""
 
@@ -2604,6 +2712,9 @@ msgstr ""
 msgid "Somerset"
 msgstr ""
 
+msgid "Souter"
+msgstr ""
+
 msgid "Space Bridge"
 msgstr ""
 
@@ -2647,6 +2758,9 @@ msgid "Spiderette"
 msgstr ""
 
 msgid "Spidike"
+msgstr ""
+
+msgid "Spike"
 msgstr ""
 
 msgid "Squadron"
@@ -2694,6 +2808,9 @@ msgstr ""
 msgid "Steps"
 msgstr ""
 
+msgid "Steve"
+msgstr ""
+
 msgid "Stonehenge"
 msgstr ""
 
@@ -2704,6 +2821,9 @@ msgid "Storehouse"
 msgstr ""
 
 msgid "Straight Up"
+msgstr ""
+
+msgid "Strategerie"
 msgstr ""
 
 msgid "Strategy"
@@ -2752,6 +2872,9 @@ msgid "Surprise"
 msgstr ""
 
 msgid "Surukh"
+msgstr ""
+
+msgid "Sweet Sixteen"
 msgstr ""
 
 msgid "Taipei"
@@ -2907,10 +3030,16 @@ msgstr ""
 msgid "Triple Line"
 msgstr ""
 
-msgid "Triple York"
+msgid "Triple Russian Solitaire"
+msgstr ""
+
+msgid "Triple Scorpion"
 msgstr ""
 
 msgid "Triple Yukon"
+msgstr ""
+
+msgid "Trusty Twelve"
 msgstr ""
 
 msgid "Twenty"
@@ -2958,10 +3087,19 @@ msgstr ""
 msgid "Vertical"
 msgstr ""
 
+msgid "Very Big Ground"
+msgstr ""
+
 msgid "Vi"
 msgstr ""
 
 msgid "Victory Arrow"
+msgstr ""
+
+msgid "Wake-Robin"
+msgstr ""
+
+msgid "Wake-Robin (3 decks)"
 msgstr ""
 
 msgid "Wall"
@@ -3009,6 +3147,9 @@ msgstr ""
 msgid "Whitehead"
 msgstr ""
 
+msgid "Whitehorse"
+msgstr ""
+
 msgid "Wicked"
 msgstr ""
 
@@ -3049,5 +3190,8 @@ msgid "Zerline (3 decks)"
 msgstr ""
 
 msgid "Zeus"
+msgstr ""
+
+msgid "Zodiac"
 msgstr ""
 

@@ -1125,11 +1125,11 @@ registerGame(GameInfo(333, OpenJumbo, "Open Jumbo",
 registerGame(GameInfo(297, Alternation, "Alternation",
                       GI.GT_KLONDIKE, 2, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(326, Lanes, "Lanes",
-                      GI.GT_KLONDIKE, 1, 1, GI.SL_MOSTLY_SKILL))
+                      GI.GT_KLONDIKE, 1, 1, GI.SL_BALANCED))
 registerGame(GameInfo(327, ThirtySix, "Thirty Six",
-                      GI.GT_KLONDIKE, 1, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_KLONDIKE, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(350, Q_C_, "Q.C.",
-                      GI.GT_KLONDIKE, 2, 1, GI.SL_MOSTLY_SKILL))
+                      GI.GT_KLONDIKE, 2, 1, GI.SL_BALANCED))
 registerGame(GameInfo(361, NorthwestTerritory, "Northwest Territory",
                       GI.GT_RAGLAN, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(362, Morehead, "Morehead",

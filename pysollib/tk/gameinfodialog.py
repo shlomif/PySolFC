@@ -72,6 +72,11 @@ class GameInfoDialog(MfxDialog):
                     if gi.si.game_flags & t:
                         flags.append(attr)
         #
+        version = None
+        for t in GI.GAMES_BY_PYSOL_VERSION:
+            if gi.id in t[1]:
+                version = t[0]
+                break
         sl = {
             1: 'SL_LUCK',
             2: 'SL_MOSTLY_LUCK',
@@ -85,6 +90,7 @@ class GameInfoDialog(MfxDialog):
                      ('Short name:', gi.short_name),
                      ('ID:', gi.id),
                      ('Alt names:', '\n'.join(gi.altnames)),
+                     ('PySol version:', version),
                      ('Decks:', gi.decks),
                      ('Cards:', gi.ncards),
                      ('Redeals:', redeals),

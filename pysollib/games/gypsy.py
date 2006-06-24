@@ -330,6 +330,11 @@ class Steve(Carlton):
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return abs(card1.rank-card2.rank) == 1
 
+    def getQuickPlayScore(self, ncards, from_stack, to_stack):
+        if to_stack.cards:
+            return int(from_stack.cards[-1].suit == to_stack.cards[-1].suit)+1
+        return 0
+
 
 # /***********************************************************************
 # // Lexington Harp

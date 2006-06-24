@@ -692,9 +692,9 @@ registerGame(GameInfo(34, BeleagueredCastle, "Beleaguered Castle",
 registerGame(GameInfo(145, Citadel, "Citadel",
                       GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(147, Fortress, "Fortress",
-                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0, GI.SL_SKILL))
 registerGame(GameInfo(148, Chessboard, "Chessboard",
-                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0, GI.SL_SKILL))
 registerGame(GameInfo(300, Stronghold, "Stronghold",
                       GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(301, Fastness, "Fastness",

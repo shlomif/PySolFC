@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "POT-Creation-Date: Sat Jun 24 16:07:07 2006\n"
-"PO-Revision-Date: 2006-06-24 18:24+0400\n"
+"PO-Revision-Date: 2006-06-25 23:53+0400\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3262,7 +3262,7 @@ msgstr "Пауза"
 
 #: pysollib/tk/toolbar.py:192
 msgid "Pause game"
-msgstr "Пауза в игре"
+msgstr "Приостановить игру"
 
 #: pysollib/tk/toolbar.py:194
 msgid "View statistics"

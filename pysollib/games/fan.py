@@ -59,8 +59,7 @@ class Fan_Hint(CautiousDefaultHint):
 
 class Fan(Game):
     Talon_Class = InitialDealTalonStack
-    Foundation_Class = SS_FoundationStack
-    Foundation_Class_2 = None
+    Foundation_Classes = [SS_FoundationStack]
     ReserveStack_Class = ReserveStack
     RowStack_Class = KingSS_RowStack
     Hint_Class = Fan_Hint
@@ -93,12 +92,9 @@ class Fan(Game):
             dx = (self.width - self.gameinfo.decks*4*l.XS)/(self.gameinfo.decks*4+1)
             x, y = l.XM + dx, l.YM
             dx += l.XS
-        for i in range(4):
-            s.foundations.append(self.Foundation_Class(x, y, self, suit=i))
-            x += dx
-        if self.gameinfo.decks == 2:
+        for fnd_cls in self.Foundation_Classes:
             for i in range(4):
-                s.foundations.append(self.Foundation_Class_2(x, y, self, suit=i))
+                s.foundations.append(fnd_cls(x, y, self, suit=i))
                 x += dx
         for i in range(len(rows)):
             x, y = l.XM, y + l.YS
@@ -138,8 +134,12 @@ class Fan(Game):
 # ************************************************************************/
 
 class ScotchPatience(Fan):
-    Foundation_Class = AC_FoundationStack
+    Foundation_Classes = [AC_FoundationStack]
     RowStack_Class = StackWrapper(RK_RowStack, base_rank=NO_RANK)
+    def createGame(self):
+        Fan.createGame(self, playcards=8)
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return abs(card1.rank-card2.rank) == 1
 
 
 # /***********************************************************************
@@ -148,10 +148,8 @@ class ScotchPatience(Fan):
 
 class Shamrocks(Fan):
     RowStack_Class = StackWrapper(UD_RK_RowStack, base_rank=NO_RANK, max_cards=3)
-
     def createGame(self):
         Fan.createGame(self, playcards=4)
-
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return abs(card1.rank-card2.rank) == 1
 
@@ -325,7 +323,7 @@ class ThreeShufflesAndADraw(LaBelleLucie):
 
 class Trefoil(LaBelleLucie):
     GAME_VERSION = 2
-    Foundation_Class = StackWrapper(SS_FoundationStack, min_cards=1)
+    Foundation_Classes = [StackWrapper(SS_FoundationStack, min_cards=1)]
 
     def createGame(self):
         return Fan.createGame(self, rows=(5,5,5,1))
@@ -395,8 +393,7 @@ class Intelligence_ReserveStack(ReserveStack, DealRow_StackMethods):
 
 class Intelligence(Fan):
 
-    Foundation_Class = SS_FoundationStack
-    Foundation_Class_2 = SS_FoundationStack
+    Foundation_Classes = [SS_FoundationStack, SS_FoundationStack]
     Talon_Class = StackWrapper(Intelligence_Talon, max_rounds=3)
     RowStack_Class = StackWrapper(Intelligence_RowStack, base_rank=NO_RANK)
 
@@ -432,8 +429,8 @@ class IntelligencePlus(Intelligence):
 # ************************************************************************/
 
 class HouseInTheWood(Fan):
-    Foundation_Class =  Foundation_Class_2 = SS_FoundationStack
-    RowStack_Class = UD_SS_RowStack
+    Foundation_Classes = [SS_FoundationStack, SS_FoundationStack]
+    RowStack_Class = StackWrapper(UD_SS_RowStack, base_rank=NO_RANK)
 
     def createGame(self):
         Fan.createGame(self, rows=(6,6,6,6,6,5))
@@ -445,9 +442,10 @@ class HouseInTheWood(Fan):
         self.s.talon.dealRow(rows=self.s.rows[:35])
         assert len(self.s.talon.cards) == 0
 
+
 class HouseOnTheHill(HouseInTheWood):
-    Foundation_Class = SS_FoundationStack
-    Foundation_Class_2 = StackWrapper(SS_FoundationStack, base_rank=KING, dir=-1)
+    Foundation_Classes = [SS_FoundationStack,
+                          StackWrapper(SS_FoundationStack, base_rank=KING, dir=-1)]
 
 
 # /***********************************************************************
@@ -511,10 +509,10 @@ class CloverLeaf(Game):
     #
 
     def startGame(self):
-        for i in range(3):
+        for i in range(2):
             self.s.talon.dealRow(frames=0)
         self.startDealSample()
-        #self.s.talon.dealRow()
+        self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.foundations)
 
     def _shuffleHook(self, cards):
@@ -564,6 +562,53 @@ class BoxFan(Fan):
                 (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank))
 
 
+# /***********************************************************************
+# // Troika
+# ************************************************************************/
+
+class Troika(Fan):
+
+    RowStack_Class = StackWrapper(RK_RowStack, dir=0, base_rank=NO_RANK, max_cards=3)
+
+    def createGame(self):
+        Fan.createGame(self, rows=(6, 6, 6), playcards=4)
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return card1.rank == card2.rank
+
+    def startGame(self, ncards=3):
+        self.startDealSample()
+        for r in self.s.rows:
+            for i in range(ncards):
+                if not self.s.talon.cards:
+                    break
+                c = self.s.talon.cards[-1]
+                t = r
+                if c.rank == ACE:
+                    t = self.s.foundations[c.suit]
+                self.s.talon.dealRow(rows=[t], frames=4)
+
+
+
+class TroikaPlus_RowStack(RK_RowStack):
+    def getBottomImage(self):
+        return self.game.app.images.getReserveBottom()
+
+class TroikaPlus(Troika):
+    RowStack_Class = StackWrapper(TroikaPlus_RowStack, dir=0,
+                                  ##base_rank=NO_RANK,
+                                  max_cards=4)
+    def createGame(self):
+        Fan.createGame(self, rows=(5, 5, 3), playcards=5)
+
+    def startGame(self):
+        Troika.startGame(self, ncards=4)
+##         for i in range(3):
+##             self.s.talon.dealRow(rows=self.s.rows[:-1], frames=0)
+##         self.startDealSample()
+##         self.s.talon.dealRow(rows=self.s.rows[:-1])
+
+
 # register the game
 registerGame(GameInfo(56, Fan, "Fan",
                       GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
@@ -594,5 +639,9 @@ registerGame(GameInfo(320, CloverLeaf, "Clover Leaf",
 registerGame(GameInfo(347, FreeFan, "Free Fan",
                       GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(385, BoxFan, "Box Fan",
+                      GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(516, Troika, "Troika",
+                      GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(517, TroikaPlus, "Troika +",
                       GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 

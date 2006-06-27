@@ -699,11 +699,13 @@ registerGame(GameInfo(354, Boudoir, "Boudoir",
 registerGame(GameInfo(410, CaptiveQueens, "Captive Queens",
                       GI.GT_1DECK_TYPE, 1, 2, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(418, Contradance, "Contradance",
-                      GI.GT_2DECK_TYPE, 2, 1, GI.SL_LUCK))
+                      GI.GT_2DECK_TYPE, 2, 1, GI.SL_LUCK,
+                      altnames=("Cotillion",) ))
 registerGame(GameInfo(419, IdleAces, "Idle Aces",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(423, LadyOfTheManor, "Lady of the Manor",
-                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_LUCK))
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_LUCK,
+                      altnames=("Vassal", "La Chatelaine") ))
 registerGame(GameInfo(424, Matrimony, "Matrimony",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(429, Patriarchs, "Patriarchs",

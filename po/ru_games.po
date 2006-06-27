@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "POT-Creation-Date: Sat Jun 24 16:07:12 2006\n"
-"PO-Revision-Date: 2006-06-24 18:11+0400\n"
+"PO-Revision-Date: 2006-06-28 00:12+0400\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1159,16 +1159,14 @@ msgstr "Ураган"
 msgid "Idiot's Delight"
 msgstr "Дурацкое удовольствие"
 
-#, fuzzy
 msgid "Idle Aces"
-msgstr "Пять тузов"
+msgstr "Свободные тузы"
 
 msgid "IloveU"
 msgstr ""
 
-#, fuzzy
 msgid "Imperial Guards"
-msgstr "Имперские козыри"
+msgstr "Императорская гвардия"
 
 msgid "Imperial Trumps"
 msgstr "Имперские козыри"

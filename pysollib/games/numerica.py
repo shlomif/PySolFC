@@ -168,6 +168,37 @@ class LadyBetty(Numerica):
 # // Puss in the Corner
 # ************************************************************************/
 
+class PussInTheCorner_Talon(OpenTalonStack):
+    rightclickHandler = OpenStack.rightclickHandler
+
+    def canDealCards(self):
+        if self.round != self.max_rounds:
+            return True
+        return False
+
+    def clickHandler(self, event):
+        if self.cards:
+            return OpenStack.clickHandler(self, event)
+        else:
+            return TalonStack.clickHandler(self, event)
+
+    def dealCards(self, sound=0):
+        ncards = 0
+        old_state = self.game.enterState(self.game.S_DEAL)
+        if not self.cards and self.round != self.max_rounds:
+            self.game.nextRoundMove(self)
+            self.game.startDealSample()
+            for r in self.game.s.rows:
+                while r.cards:
+                    self.game.moveMove(1, r, self, frames=4)
+                    self.game.flipMove(self)
+                    ncards += 1
+            self.fillStack()
+            self.game.stopSamples()
+        self.game.leaveState(old_state)
+        return ncards
+
+
 class PussInTheCorner_Foundation(SS_FoundationStack):
     def __init__(self, x, y, game, **cap):
         kwdefault(cap, base_suit=ANY_SUIT)
@@ -219,7 +250,7 @@ class PussInTheCorner(Numerica):
             s.foundations.append(PussInTheCorner_Foundation(x, y, self,
                                                             max_move=0))
         x, y = l.XM+3*l.XS/2, l.YM
-        s.talon = OpenTalonStack(x, y, self)
+        s.waste = s.talon = PussInTheCorner_Talon(x, y, self, max_rounds=2)
         l.createText(s.talon, 'se')
 
         # define stack-groups
@@ -237,6 +268,10 @@ class PussInTheCorner(Numerica):
         self.s.talon.fillStack()
 
 
+    def _autoDeal(self, sound=1):
+        return 0
+
+
 # /***********************************************************************
 # // Frog
 # // Fly
@@ -245,7 +280,8 @@ class PussInTheCorner(Numerica):
 class Frog(Game):
 
     Hint_Class = Numerica_Hint
-    Foundation_Class = SS_FoundationStack
+    ##Foundation_Class = SS_FoundationStack
+    Foundation_Class = RK_FoundationStack
 
     def createGame(self):
         # create layout
@@ -283,20 +319,23 @@ class Frog(Game):
         # define stack-groups
         l.defaultStackGroups()
 
-    def _shuffleHook(self, cards):
-        for c in cards[:]:
-            if c.rank == ACE:
-                cards.remove(c)
-                cards.append(c)
-                return cards
 
     def startGame(self):
-        tc = self.s.talon.cards[-1]
         self.startDealSample()
-        self.s.talon.dealRow(rows=[self.s.foundations[tc.suit*2]])
-        for i in range(13):
-            self.s.talon.dealRow(self.s.reserves, flip=0)
-        self.flipMove(self.s.reserves[0])
+        n = 0
+        f = 0
+        while True:
+            c = self.s.talon.cards[-1]
+            if c.rank == ACE:
+                r = self.s.foundations[f]
+                f += 1
+                ##r = self.s.foundations[c.suit*2]
+            else:
+                r = self.s.reserves[0]
+                n += 1
+            self.s.talon.dealRow(rows=[r])
+            if n == 13:
+                break
         self.s.talon.dealCards()
 
 
@@ -312,8 +351,7 @@ class Fly(Frog):
         self.startDealSample()
         self.s.talon.dealRow(rows=self.s.foundations)
         for i in range(13):
-            self.s.talon.dealRow(self.s.reserves, flip=0)
-        self.flipMove(self.s.reserves[0])
+            self.s.talon.dealRow(self.s.reserves)
         self.s.talon.dealCards()
 
 
@@ -588,7 +626,8 @@ registerGame(GameInfo(171, LadyBetty, "Lady Betty",
 registerGame(GameInfo(355, Frog, "Frog",
                       GI.GT_NUMERICA, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(356, Fly, "Fly",
-                      GI.GT_NUMERICA, 2, 0, GI.SL_BALANCED))
+                      GI.GT_NUMERICA, 2, 0, GI.SL_BALANCED,
+                      rules_filename='frog.html'))
 registerGame(GameInfo(357, Gnat, "Gnat",
                       GI.GT_NUMERICA, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(378, Gloaming, "Gloaming",
@@ -598,7 +637,7 @@ registerGame(GameInfo(379, Chamberlain, "Chamberlain",
 registerGame(GameInfo(402, Toad, "Toad",
                       GI.GT_NUMERICA | GI.GT_ORIGINAL, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(430, PussInTheCorner, "Puss in the Corner",
-                      GI.GT_NUMERICA, 1, 0, GI.SL_BALANCED))
+                      GI.GT_NUMERICA, 1, 1, GI.SL_BALANCED))
 registerGame(GameInfo(435, Shifting, "Shifting",
                       GI.GT_NUMERICA, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(472, Strategerie, "Strategerie",

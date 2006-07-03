@@ -82,6 +82,7 @@ class Parallels_TalonStack(DealRowTalonStack):
             column = [r for r in rows[i::10] if r.cards]
             column_ncards.append(len(column))
         max_col = max(column_ncards)
+        max_col = max(max_col, 1)
         n = 0
         rr = self.game.s.rows[:max_col*10]
         while True:

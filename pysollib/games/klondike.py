@@ -1059,6 +1059,15 @@ class Whitehorse(Klondike):
             self.leaveState(old_state)
 
 
+# /***********************************************************************
+# // Boost
+# ************************************************************************/
+
+class Boost(Klondike):
+    def createGame(self):
+        Klondike.createGame(self, rows=4, max_rounds=3)
+
+
 # register the game
 registerGame(GameInfo(2, Klondike, "Klondike",
                       GI.GT_KLONDIKE, 1, -1, GI.SL_BALANCED))
@@ -1164,4 +1173,6 @@ registerGame(GameInfo(479, Saratoga, "Saratoga",
                       GI.GT_KLONDIKE, 1, -1, GI.SL_BALANCED))
 registerGame(GameInfo(491, Whitehorse, "Whitehorse",
                       GI.GT_KLONDIKE, 1, -1, GI.SL_BALANCED))
+registerGame(GameInfo(518, Boost, "Boost",
+                      GI.GT_KLONDIKE, 1, 2, GI.SL_BALANCED))
 

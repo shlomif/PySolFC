@@ -183,6 +183,10 @@ class LadyJane(DoubleKlondike):
         DoubleKlondike.startGame(self, flip=1)
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return abs(card1.rank-card2.rank) == 1
+    def getQuickPlayScore(self, ncards, from_stack, to_stack):
+        if to_stack.cards:
+            return int(from_stack.cards[-1].suit == to_stack.cards[-1].suit)+1
+        return 0
 
 
 class Inquisitor(DoubleKlondike):

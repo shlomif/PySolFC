@@ -241,6 +241,24 @@ class Dover(Bristol):
 # // New York
 # ************************************************************************/
 
+class NewYork_Hint(CautiousDefaultHint):
+    def computeHints(self):
+        CautiousDefaultHint.computeHints(self)
+        if self.hints:
+            return
+        if not self.game.s.talon.cards:
+            return
+        c = self.game.s.talon.cards[-1].rank - self.game.base_card.rank
+        if c < 0: c += 13
+        if 0 <= c <= 3:
+            r = self.game.s.reserves[0]
+        elif 4 <= c <= 7:
+            r = self.game.s.reserves[1]
+        else:
+            r = self.game.s.reserves[2]
+        self.addHint(5000, 1, self.game.s.talon, r)
+
+
 class NewYork_Talon(OpenTalonStack):
     rightclickHandler = OpenStack.rightclickHandler
     doubleclickHandler = OpenStack.doubleclickHandler
@@ -265,6 +283,7 @@ class NewYork_RowStack(AC_RowStack):
 
 class NewYork(Dover):
 
+    Hint_Class = NewYork_Hint
     Foundation_Class = StackWrapper(SS_FoundationStack, mod=13, max_move=0)
     Talon_Class = NewYork_Talon
     RowStack_Class = StackWrapper(NewYork_RowStack, base_rank=ANY_RANK, mod=13, max_move=1)
@@ -293,7 +312,7 @@ class NewYork(Dover):
         self.base_card = self.s.talon.getCard()
         for s in self.s.foundations:
             s.cap.base_rank = self.base_card.rank
-        n = self.base_card.suit * self.gameinfo.decks
+        n = self.base_card.suit
         self.flipMove(self.s.talon)
         self.moveMove(1, self.s.talon, self.s.foundations[n])
         ##self.updateText()
@@ -342,6 +361,27 @@ class Spike(Dover):
                 abs(card1.rank-card2.rank) == 1)
 
 
+# /***********************************************************************
+# // Gotham
+# ************************************************************************/
+
+class Gotham_RowStack(RK_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not RK_RowStack.acceptsCards(self, from_stack, cards):
+            return False
+        if not self.cards:
+            return (from_stack is self.game.s.talon or
+                    from_stack in self.game.s.reserves)
+        return True
+
+class Gotham(NewYork):
+    RowStack_Class = StackWrapper(Gotham_RowStack, base_rank=ANY_RANK, mod=13)
+    def startGame(self):
+        self.s.talon.dealRow(frames=0)
+        self.s.talon.dealRow(frames=0)
+        NewYork.startGame(self)
+
+
 # register the game
 registerGame(GameInfo(42, Bristol, "Bristol",
                       GI.GT_FAN_TYPE, 1, 0, GI.SL_MOSTLY_SKILL))
@@ -353,4 +393,6 @@ registerGame(GameInfo(425, NewYork, "New York",
                       GI.GT_FAN_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(468, Spike, "Spike",
                       GI.GT_KLONDIKE, 1, 0, GI.SL_BALANCED))
+registerGame(GameInfo(519, Gotham, "Gotham",
+                      GI.GT_FAN_TYPE, 2, 0, GI.SL_BALANCED))
 

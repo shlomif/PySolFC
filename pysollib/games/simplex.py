@@ -54,6 +54,13 @@ class Simplex_Foundation(AbstractFoundationStack):
 
 
 class Simplex_RowStack(SequenceRowStack):
+    def canDropCards(self, stacks):
+        if len(self.cards) != 4:
+            return (None, 0)
+        for s in stacks:
+            if s is not self and s.acceptsCards(self, self.cards):
+                return (s, 4)
+        return (None, 0)
     def _isSequence(self, cards):
         return isSameRankSequence(cards)
 

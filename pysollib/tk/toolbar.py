@@ -333,6 +333,7 @@ class PysolToolbar(PysolToolbarActions):
                                command=command, takefocus=0,
                                text=gettext(label),
                                relief=self.button_relief,
+                               overrelief='raised',
                                padx=self.button_pad,
                                pady=self.button_pad)
         if image:

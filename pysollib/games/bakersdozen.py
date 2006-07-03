@@ -280,7 +280,7 @@ class Indefatigable(Cruel):
     RowStack_Class = UD_SS_RowStack
 
     def _shuffleHook(self, cards):
-        # move Kings to bottom of the Talon (i.e. last cards to be dealt)
+        # move Aces to bottom of the Talon (i.e. last cards to be dealt)
         return self._shuffleHookMoveToBottom(cards, lambda c: (c.rank == ACE, c.suit))
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):

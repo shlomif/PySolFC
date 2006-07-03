@@ -857,9 +857,9 @@ class Applegate(Game):
 # /***********************************************************************
 # // Big Spider
 # // Spider 3x3
-# // Big Ground
+# // Big Divorce
 # // Spider (4 decks)
-# // Very Big Ground
+# // Very Big Divorce
 # ************************************************************************/
 
 class BigSpider(Spider):
@@ -1071,7 +1071,7 @@ registerGame(GameInfo(382, Applegate, "Applegate",
                       GI.GT_SPIDER, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(384, BigSpider, "Big Spider",
                       GI.GT_SPIDER, 3, 0, GI.SL_MOSTLY_SKILL))
-registerGame(GameInfo(401, GroundForADivorce3Decks, "Big Ground",
+registerGame(GameInfo(401, GroundForADivorce3Decks, "Big Divorce",
                       GI.GT_SPIDER, 3, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(441, York, "York",
                       GI.GT_SPIDER | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0, GI.SL_SKILL))
@@ -1091,7 +1091,7 @@ registerGame(GameInfo(449, Spider3x3, "Spider 3x3",
                       rules_filename="bigspider.html"))
 registerGame(GameInfo(454, Spider4Decks, "Spider (4 decks)",
                       GI.GT_SPIDER, 4, 0, GI.SL_MOSTLY_SKILL))
-registerGame(GameInfo(455, GroundForADivorce4Decks, "Very Big Ground",
+registerGame(GameInfo(455, GroundForADivorce4Decks, "Very Big Divorce",
                       GI.GT_SPIDER, 4, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(458, Spidike, "Spidike",
                       GI.GT_SPIDER, 1, 0, GI.SL_BALANCED)) # GT_GYPSY ?

@@ -449,7 +449,6 @@ class Stonewall(Klondike):
             else:
                 self.s.talon.dealRow(flip=flip, frames=frames)
         self.s.talon.dealRow(rows=self.s.reserves)
-        assert len(self.s.talon.cards) == 0
 
 
 class FlowerGarden(Stonewall):

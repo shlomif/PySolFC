@@ -80,6 +80,7 @@ class FreeCell(Game):
     Talon_Class = InitialDealTalonStack
     Foundation_Class = SS_FoundationStack
     RowStack_Class = FreeCell_RowStack
+    ReserveStack_Class = ReserveStack
     Hint_Class = FreeCellSolverWrapper(FreeCellType_Hint, {})
 
 
@@ -100,7 +101,7 @@ class FreeCell(Game):
         for r in l.s.rows:
             s.rows.append(self.RowStack_Class(r.x, r.y, self))
         for r in l.s.reserves:
-            s.reserves.append(ReserveStack(r.x, r.y, self))
+            s.reserves.append(self.ReserveStack_Class(r.x, r.y, self))
         # default
         l.defaultAll()
 
@@ -116,7 +117,6 @@ class FreeCell(Game):
         r = self.s.rows
         ##self.s.talon.dealRow(rows=(r[0], r[2], r[4], r[6]))
         self.s.talon.dealRow(rows=r[:4])
-        assert len(self.s.talon.cards) == 0
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return (card1.color != card2.color and
@@ -146,7 +146,6 @@ class ForeCell(FreeCell):
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.reserves)
-        assert len(self.s.talon.cards) == 0
 
 
 # /***********************************************************************
@@ -183,7 +182,6 @@ class Stalactites(FreeCell):
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.foundations)
-        assert len(self.s.talon.cards) == 0
         self._restoreGameHook(None)
 
     def _restoreGameHook(self, game):
@@ -243,7 +241,6 @@ class DoubleFreecell(FreeCell):
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.foundations)
-        assert len(self.s.talon.cards) == 0
 
 
 # /***********************************************************************
@@ -461,6 +458,7 @@ class Repair(FreeCell):
 
 # /***********************************************************************
 # // Four Colours
+# // German FreeCell
 # ************************************************************************/
 
 class FourColours_RowStack(AC_RowStack):
@@ -503,6 +501,24 @@ class FourColours(FreeCell):
         self.startDealSample()
         while self.s.talon.cards:
             self.dealOne(frames=-1)
+
+
+class GermanFreeCell_Reserve(ReserveStack):
+    def getBottomImage(self):
+        return self.game.app.images.getSuitBottom(self.cap.base_suit)
+
+
+class GermanFreeCell(SevenByFour):
+    Hint_Class = FreeCellType_Hint
+    RowStack_Class = AC_RowStack
+    ReserveStack_Class = GermanFreeCell_Reserve
+
+    def createGame(self):
+        FreeCell.createGame(self, rows=7)
+        suit = 0
+        for r in self.s.reserves:
+            r.cap.base_suit = suit
+            suit += 1
 
 
 # /***********************************************************************
@@ -567,4 +583,6 @@ registerGame(GameInfo(509, BigCell, "Big Cell",
                       GI.GT_FREECELL | GI.GT_OPEN | GI.GT_ORIGINAL, 3, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(513, OceanTowers, "Ocean Towers",
                       GI.GT_FREECELL | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(520, GermanFreeCell, "German FreeCell",
+                      GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_SKILL))
 

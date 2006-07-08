@@ -182,7 +182,6 @@ class GoodMeasure(BakersDozen):
             assert c.rank == ACE
             self.flipMove(self.s.talon)
             self.moveMove(1, self.s.talon, self.s.foundations[c.suit])
-        assert len(self.s.talon.cards) == 0
 
 
 # /***********************************************************************

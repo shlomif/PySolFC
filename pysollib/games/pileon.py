@@ -103,7 +103,6 @@ class PileOn(Game):
             self.s.talon.dealRow(rows=r, frames=0)
         self.startDealSample()
         self.s.talon.dealRow(rows=r)
-        assert len(self.s.talon.cards) == 0
 
     def isGameWon(self):
         for r in self.s.rows:

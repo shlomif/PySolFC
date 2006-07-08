@@ -112,7 +112,6 @@ class Yukon(Game):
             self.s.talon.dealRow(rows=self.s.rows[1:], flip=1, frames=0)
         self.startDealSample()
         self.s.talon.dealRow()
-        assert len(self.s.talon.cards) == 0
 
     def getHighlightPilesStacks(self):
         return ()
@@ -167,7 +166,6 @@ class Odessa(RussianSolitaire):
             self.s.talon.dealRow(rows=self.s.rows[1:6], frames=0)
         self.startDealSample()
         self.s.talon.dealRow()
-        assert len(self.s.talon.cards) == 0
 
 
 # /***********************************************************************
@@ -185,7 +183,6 @@ class Grandfather(RussianSolitaire):
         for i in (1,5,5,5,5,5,5):
             self.s.talon.dealRow(rows=[self.s.rows[n]]*i)
             n += 1
-        assert len(self.s.talon.cards) == 0
 
 
 # /***********************************************************************
@@ -361,7 +358,6 @@ class DoubleYukon(Yukon):
             self.s.talon.dealRow(flip=1, frames=0)
         self.startDealSample()
         self.s.talon.dealRow()
-        assert len(self.s.talon.cards) == 0
 
 
 class DoubleRussianSolitaire(DoubleYukon):
@@ -387,7 +383,6 @@ class TripleYukon(Yukon):
             self.s.talon.dealRow(rows=self.s.rows, flip=1, frames=0)
         self.startDealSample()
         self.s.talon.dealRow()
-        assert len(self.s.talon.cards) == 0
 
 
 class TripleRussianSolitaire(TripleYukon):
@@ -443,7 +438,6 @@ class TenAcross(Yukon):
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.reserves)
-        assert len(self.s.talon.cards) == 0
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return (card1.suit == card2.suit and

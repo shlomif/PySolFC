@@ -238,8 +238,7 @@ registerGame(GameInfo(303, Tournament, "Tournament",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(304, LaNivernaise, "La Nivernaise",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_MOSTLY_LUCK,
-                      altnames = ("Napoleon's Flank", ),
-                      rules_filename = "tournament.html"))
+                      altnames = ("Napoleon's Flank", ),))
 registerGame(GameInfo(386, KingsdownEights, "Kingsdown Eights",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 

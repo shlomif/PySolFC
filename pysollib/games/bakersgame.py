@@ -113,7 +113,6 @@ class BakersGame(Game):
         r = self.s.rows
         ##self.s.talon.dealRow(rows=(r[0], r[1], r[6], r[7]))
         self.s.talon.dealRow(rows=r[:4])
-        assert len(self.s.talon.cards) == 0
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return (card1.suit == card2.suit and
@@ -179,7 +178,6 @@ class EightOff(KingOnlyBakersGame):
         self.s.talon.dealRow()
         r = self.s.reserves
         self.s.talon.dealRow(rows=[r[0],r[2],r[4],r[6]])
-        assert len(self.s.talon.cards) == 0
 
 
 # /***********************************************************************
@@ -231,7 +229,6 @@ class SeahavenTowers(KingOnlyBakersGame):
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=(self.s.reserves[1:3]))
-        assert len(self.s.talon.cards) == 0
 
 
 # /***********************************************************************
@@ -314,7 +311,6 @@ class Penguin(Game):
             self.s.talon.dealRow(frames=0)
         self.startDealSample()
         self.s.talon.dealRow()
-        assert len(self.s.talon.cards) == 0
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return (card1.suit == card2.suit and

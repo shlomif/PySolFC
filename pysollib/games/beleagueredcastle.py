@@ -114,7 +114,6 @@ class StreetsAndAlleys(Game):
         self.startDealSample()
         for i in range(3):
             self.s.talon.dealRowAvail()
-        assert len(self.s.talon.cards) == 0
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return abs(card1.rank - card2.rank) == 1
@@ -136,7 +135,6 @@ class BeleagueredCastle(StreetsAndAlleys):
         for i in range(2):
             self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.foundations)
-        assert len(self.s.talon.cards) == 0
 
 
 # /***********************************************************************
@@ -211,7 +209,6 @@ class Fortress(Game):
         self.startDealSample()
         for i in range(3):
             self.s.talon.dealRowAvail()
-        assert len(self.s.talon.cards) == 0
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return (card1.suit == card2.suit and
@@ -502,14 +499,16 @@ class CastleOfIndolence(Game):
         # set window
         # (set size so that at least 13 cards are fully playable)
         w = max(3*l.XS, l.XS+13*l.XOFFSET)
-        self.setSize(l.XM+2*w+2*l.XS, l.YM + 5*l.YS)
+        self.setSize(l.XM+2*w+2*l.XS, l.YM + 5*l.YS + l.TEXT_HEIGHT)
 
         # create stacks
         x, y = l.XM, l.YM+4*l.YS
         s.talon = InitialDealTalonStack(x, y, self)
         x, y = l.XM+w-l.XS, l.YM+4*l.YS
         for i in range(4):
-            s.reserves.append(OpenStack(x, y, self, max_accept=0))
+            stack = OpenStack(x, y, self, max_accept=0)
+            s.reserves.append(stack)
+            l.createText(stack, 's')
             x += l.XS
 
         x = l.XM + w

@@ -203,7 +203,6 @@ class Montana(Game):
                     self.startDealSample()
                     frames = 4
                 self.s.talon.dealRow(rows=(self.s.rows[i],), frames=frames)
-        assert len(self.s.talon.cards) == 0
 
     def isGameWon(self):
         rows = self.s.rows
@@ -272,7 +271,6 @@ class BlueMoon(Montana):
                 frames = 4
             self.s.talon.dealRow(rows=(self.s.rows[j],), frames=frames)
             j = j + 1
-        assert len(self.s.talon.cards) == 0
         ace_rows = filter(lambda r: r.cards and r.cards[-1].rank == ACE, self.s.rows)
         j = 0
         for r in ace_rows:

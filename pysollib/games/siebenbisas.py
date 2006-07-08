@@ -231,7 +231,6 @@ class Maze(Game):
                     self.startDealSample()
                     frames = -1
                 self.s.talon.dealRow(rows=(self.s.rows[i],), frames=frames)
-        assert len(self.s.talon.cards) == 0
 
     def isGameWon(self):
         rows = filter(lambda s: s.cards, self.s.rows)

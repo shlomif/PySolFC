@@ -1561,6 +1561,7 @@ Please select a %s type %s.
                         tile.text_color = "#" + m.group(2).lower()
                     #n = re.sub("[-_]", " ", n)
                     n = n.replace('_', ' ')
+                    ##n = unicode(n)
                     tile.name = n
                     key = n.lower()
                     if not t.has_key(key):

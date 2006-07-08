@@ -402,6 +402,44 @@ class LadyOfTheManor(Game):
 # // Matrimony
 # ************************************************************************/
 
+class Matrimony_Talon(DealRowTalonStack):
+
+    def canDealCards(self):
+        if self.round == self.max_rounds and not self.cards:
+            return False
+        return not self.game.isGameWon()
+
+    def _redeal(self):
+        lr = len(self.game.s.rows)
+        num_cards = 0
+        assert len(self.cards) == 0
+        rows = self.game.s.rows
+        r = self.game.s.rows[-self.round]
+        for i in range(len(r.cards)):
+            num_cards = num_cards + 1
+            self.game.moveMove(1, r, self, frames=4)
+            self.game.flipMove(self)
+        assert len(self.cards) == num_cards
+        self.game.nextRoundMove(self)
+
+    def dealCards(self, sound=0):
+        if sound:
+            self.game.startDealSample()
+        if len(self.cards) == 0:
+            self._redeal()
+        if self.round == 1:
+            n = self.dealRowAvail(sound=sound)
+        else:
+            rows = []
+            for r in self.game.s.rows:
+                if r.cards:
+                    rows.append(r)
+            n = self.dealRowAvail(rows=rows, sound=sound)
+        if sound:
+            self.game.stopSamples()
+        return n
+
+
 class Matrimony(Game):
 
     def createGame(self):
@@ -409,8 +447,13 @@ class Matrimony(Game):
         l, s = Layout(self), self.s
         self.setSize(l.XM+8*l.XS, l.YM+4*l.YS)
 
-        s.talon = DealRowTalonStack(l.XM, l.YM, self)
-        l.createText(s.talon, 'ss')
+        s.talon = Matrimony_Talon(l.XM, l.YM, self, max_rounds=17)
+        l.createText(s.talon, 'se')
+        tx, ty, ta, tf = l.getTextAttr(s.talon, "ne")
+        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
+                                             anchor=ta,
+                                             font=self.app.getFont("canvas_default"))
+
         x, y = l.XM+2*l.XS, l.YM
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i,
@@ -707,7 +750,7 @@ registerGame(GameInfo(423, LadyOfTheManor, "Lady of the Manor",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_LUCK,
                       altnames=("Vassal", "La Chatelaine") ))
 registerGame(GameInfo(424, Matrimony, "Matrimony",
-                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_LUCK))
+                      GI.GT_2DECK_TYPE, 2, 16, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(429, Patriarchs, "Patriarchs",
                       GI.GT_2DECK_TYPE, 2, 1, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(437, Simplicity, "Simplicity",

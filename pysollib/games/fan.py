@@ -119,7 +119,6 @@ class Fan(Game):
             self.s.talon.dealRow(rows=self.s.rows[:17], frames=0)
         self.startDealSample()
         self.s.talon.dealRow()
-        assert len(self.s.talon.cards) == 0
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return (card1.suit == card2.suit and
@@ -440,7 +439,6 @@ class HouseInTheWood(Fan):
         self.s.talon.dealRow(rows=self.s.rows[:35], frames=0)
         self.startDealSample()
         self.s.talon.dealRow(rows=self.s.rows[:35])
-        assert len(self.s.talon.cards) == 0
 
 
 class HouseOnTheHill(HouseInTheWood):

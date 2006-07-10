@@ -326,12 +326,14 @@ class PysolToolbar(PysolToolbarActions):
         name = label.lower()
         image = self._loadImage(name)
         position = len(self._widgets)
+        bd = self.button_relief == 'flat' and 1 or 2
         button = ToolbarButton(self.frame,
                                position=position,
                                toolbar=self,
                                toolbar_name=name,
                                command=command, takefocus=0,
                                text=gettext(label),
+                               bd=bd,
                                relief=self.button_relief,
                                overrelief='raised',
                                padx=self.button_pad,
@@ -475,7 +477,8 @@ class PysolToolbar(PysolToolbarActions):
         self.frame.config(relief=self.frame_relief)
         for w in self._widgets:
             if isinstance(w, ToolbarButton):
-                w.config(relief=self.button_relief)
+                bd = relief == 'flat' and 1 or 2
+                w.config(relief=self.button_relief, bd=bd)
             elif w.__class__ is ToolbarSeparator: # not ToolbarFlatSeparator
                 w.config(relief=self.separator_relief)
         return True

@@ -92,6 +92,7 @@ class Canfield_RK_RowStack(RK_RowStack):
 # ************************************************************************/
 
 class Canfield(Game):
+    Talon_Class = WasteTalonStack
     Foundation_Class = SS_FoundationStack
     RowStack_Class = StackWrapper(Canfield_AC_RowStack, mod=13)
     ReserveStack_Class = OpenStack
@@ -126,7 +127,7 @@ class Canfield(Game):
 
         # create stacks
         x, y = l.XM, l.YM
-        s.talon = WasteTalonStack(x, y, self, max_rounds=max_rounds, num_deal=num_deal)
+        s.talon = self.Talon_Class(x, y, self, max_rounds=max_rounds, num_deal=num_deal)
         l.createText(s.talon, "s")
         x = x + l.XS
         s.waste = WasteStack(x, y, self)
@@ -668,6 +669,22 @@ class Demon(Canfield):
         Canfield.createGame(self, rows=8, max_rounds=UNLIMITED_REDEALS, num_deal=1)
 
 
+# /***********************************************************************
+# // Canfield Rush
+# ************************************************************************/
+
+class CanfieldRush_Talon(WasteTalonStack):
+    def dealCards(self, sound=0):
+        self.num_deal = 4-self.round
+        WasteTalonStack.dealCards(self, sound=sound)
+
+class CanfieldRush(Canfield):
+    Talon_Class = CanfieldRush_Talon
+    #RowStack_Class = StackWrapper(AC_RowStack, mod=13)
+    def createGame(self):
+        Canfield.createGame(self, max_rounds=3)
+
+
 # register the game
 registerGame(GameInfo(105, Canfield, "Canfield",                # was: 262
                       GI.GT_CANFIELD | GI.GT_CONTRIB, 1, -1, GI.SL_BALANCED))
@@ -709,4 +726,6 @@ registerGame(GameInfo(476, Demon, "Demon",
                       GI.GT_CANFIELD, 2, -1, GI.SL_BALANCED))
 registerGame(GameInfo(494, Mystique, "Mystique",
                       GI.GT_CANFIELD, 1, 0, GI.SL_BALANCED))
+registerGame(GameInfo(521, CanfieldRush, "Canfield Rush",
+                      GI.GT_CANFIELD, 1, 2, GI.SL_BALANCED))
 

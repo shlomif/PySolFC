@@ -40,7 +40,7 @@ from pysollib.util import *
 from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import DefaultHint, FreeCellType_Hint
+from pysollib.hint import DefaultHint, FreeCellType_Hint, CautiousDefaultHint
 
 # /***********************************************************************
 # //
@@ -195,7 +195,7 @@ class Retinue(DieSchlange, Kings):
 # // Salic Law
 # ************************************************************************/
 
-class SalicLaw_Hint(DefaultHint):
+class SalicLaw_Hint(CautiousDefaultHint):
 
     # Score for dropping ncards from stack r to stack t.
     def _getDropCardScore(self, score, color, r, t, ncards):
@@ -213,11 +213,12 @@ class SalicLaw_Talon(OpenTalonStack):
     def dealCards(self, sound=0):
         if len(self.cards) == 0:
             return 0
+        base_rank=self.game.ROW_BASE_RANK
         old_state = self.game.enterState(self.game.S_DEAL)
         rows = self.game.s.rows
         c = self.cards[-1]
         ri = len([r for r in rows if r.cards])
-        if c.rank == KING:
+        if c.rank == base_rank:
             to_stack = rows[ri]
         else:
             to_stack = rows[ri-1]
@@ -225,8 +226,8 @@ class SalicLaw_Talon(OpenTalonStack):
         frames = 3
         if not self.game.demo:
             self.game.startDealSample()
+        self.game.flipMove(self)
         self.game.moveMove(1, self, to_stack, frames=frames)
-        self.game.flipMove(to_stack)
         if not self.game.demo:
             self.game.stopSamples()
         self.game.leaveState(old_state)
@@ -236,6 +237,14 @@ class SalicLaw_Talon(OpenTalonStack):
 class SalicLaw(DerKatzenschwanz):
 
     Hint_Class = SalicLaw_Hint
+
+    Foundation_Classes = [
+        StackWrapper(AbstractFoundationStack, max_cards=1, base_rank=QUEEN),
+        StackWrapper(RK_FoundationStack, base_rank=ACE, max_cards=11),
+        ]
+    RowStack_Class = OpenStack
+
+    ROW_BASE_RANK = KING
 
     #
     # game layout
@@ -259,21 +268,19 @@ class SalicLaw(DerKatzenschwanz):
             yoffset.append(0)
 
         # create stacks
-        x, y = l.XM, l.YM
-        for i in range(8):
-            s.foundations.append(AbstractFoundationStack(x, y, self,
-                                 suit=ANY_SUIT, max_cards=1, max_move=0,  base_rank=QUEEN))
-            x += l.XS
-        x, y = l.XM, l.YM+l.YS
-        for i in range(8):
-            s.foundations.append(RK_FoundationStack(x, y, self,
-                                 suit=ANY_SUIT, base_rank=ACE, max_cards=11))
-            x += l.XS
+        y = l.YM
+        for found_class in self.Foundation_Classes:
+            x = l.XM
+            for i in range(8):
+                s.foundations.append(found_class(x, y, self,
+                                                 suit=ANY_SUIT, max_move=0))
+                x += l.XS
+            y += l.YS
 
         x, y = l.XM, l.YM+2*l.YS
         self.setRegion(s.foundations[8:], (-999, -999, 999999, y - l.XM / 2))
         for i in range(8):
-            stack = OpenStack(x, y, self, max_move=1)
+            stack = self.RowStack_Class(x, y, self, max_move=1)
             stack.CARD_XOFFSET = xoffset
             stack.CARD_YOFFSET = yoffset
             s.rows.append(stack)
@@ -332,6 +339,49 @@ class Deep(DerKatzenschwanz):
         self.s.talon.dealRow()
 
 
+# /***********************************************************************
+# // Laggard Lady
+# ************************************************************************/
+
+class LaggardLady_RowStack(OpenStack):
+    def acceptsCards(self, from_stack, cards):
+        if not OpenStack.acceptsCards(self, from_stack, cards):
+            return False
+        return len(self.game.s.talon.cards) == 0 and len(self.cards) == 1
+
+    def canMoveCards(self, cards):
+        if not OpenStack.canMoveCards(self, cards):
+            return False
+        return len(self.cards) > 1
+
+
+class LaggardLady(SalicLaw):
+
+    Foundation_Classes = [
+        StackWrapper(RK_FoundationStack, base_rank=5, max_cards=6),
+        StackWrapper(RK_FoundationStack, base_rank=4, max_cards=6, dir=-1, mod=13),
+        ]
+    RowStack_Class = StackWrapper(LaggardLady_RowStack, max_accept=1)
+
+    ROW_BASE_RANK = QUEEN
+
+    def _shuffleHook(self, cards):
+        for c in cards[:]:
+            if c.rank == QUEEN:
+                cards.remove(c)
+                break
+        cards.append(c)
+        return cards
+
+    def isGameWon(self):
+        if self.s.talon.cards:
+            return False
+        for s in self.s.foundations:
+            if len(s.cards) != 6:
+                return False
+        return True
+
+
 
 # register the game
 registerGame(GameInfo(141, DerKatzenschwanz, "Cat's Tail",
@@ -348,5 +398,7 @@ registerGame(GameInfo(299, SalicLaw, "Salic Law",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(442, Deep, "Deep",
                       GI.GT_FREECELL | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(523, LaggardLady, "Laggard Lady",
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 
 

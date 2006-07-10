@@ -430,11 +430,10 @@ class Matrimony_Talon(DealRowTalonStack):
         if self.round == 1:
             n = self.dealRowAvail(sound=sound)
         else:
-            rows = []
-            for r in self.game.s.rows:
-                if r.cards:
-                    rows.append(r)
+            rows = self.game.s.rows[-self.round+1:]
             n = self.dealRowAvail(rows=rows, sound=sound)
+            while self.cards:
+                n += self.dealRowAvail(rows=self.game.s.rows, sound=sound)
         if sound:
             self.game.stopSamples()
         return n

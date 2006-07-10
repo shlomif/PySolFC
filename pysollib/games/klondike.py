@@ -854,15 +854,21 @@ class Q_C_(Klondike):
 
 # /***********************************************************************
 # // Northwest Territory
+# // Artic Garden
 # ************************************************************************/
 
 class NorthwestTerritory(KingAlbert):
     RowStack_Class = StackWrapper(AC_RowStack, base_rank=KING)
     RESERVES = (4, 4, 4, 4)
     ROWS = 8
-
     def startGame(self):
         Klondike.startGame(self, flip=0, reverse=0)
+        self.s.talon.dealRow(rows=self.s.reserves)
+
+
+class ArticGarden(NorthwestTerritory):
+    def startGame(self):
+        Klondike.startGame(self, flip=1, reverse=0)
         self.s.talon.dealRow(rows=self.s.reserves)
 
 
@@ -1174,4 +1180,6 @@ registerGame(GameInfo(491, Whitehorse, "Whitehorse",
                       GI.GT_KLONDIKE, 1, -1, GI.SL_BALANCED))
 registerGame(GameInfo(518, Boost, "Boost",
                       GI.GT_KLONDIKE, 1, 2, GI.SL_BALANCED))
+registerGame(GameInfo(522, ArticGarden, "Artic Garden",
+                      GI.GT_RAGLAN, 1, 0, GI.SL_MOSTLY_SKILL))
 

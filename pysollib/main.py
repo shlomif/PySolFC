@@ -84,27 +84,29 @@ Please check your %s installation.
 def parse_option(argv):
     prog_name = argv[0]
     try:
-        optlist, args = getopt.getopt(argv[1:], "h",
+        optlist, args = getopt.getopt(argv[1:], "hD:",
                                       ["fg=", "foreground=",
                                        "bg=", "background=",
                                        "fn=", "font=",
                                        "noplugins",
                                        "nosound",
+                                       "debug=",
                                        "help"])
     except getopt.GetoptError, err:
         print _("%s: %s\ntry %s --help for more information") \
               % (prog_name, err, prog_name)
         return None
-    opts = {"help": 0,
+    opts = {"help": False,
             "fg": None,
             "bg": None,
             "fn": None,
-            "noplugins": 0,
-            "nosound": 0,
+            "noplugins": False,
+            "nosound": False,
+            "debug": 0,
             }
     for i in optlist:
         if i[0] in ("-h", "--help"):
-            opts["help"] = 1
+            opts["help"] = True
         elif i[0] in ("--fg", "--foreground"):
             opts["fg"] = i[1]
         elif i[0] in ("--bg", "--background"):
@@ -112,9 +114,11 @@ def parse_option(argv):
         elif i[0] in ("--fn", "--font"):
             opts["fn"] = i[1]
         elif i[0] == "--noplugins":
-            opts["noplugins"] = 1
+            opts["noplugins"] = True
         elif i[0] == "--nosound":
-            opts["nosound"] = 1
+            opts["nosound"] = True
+        elif i[0] in ("-D", "--debug"):
+            opts["debug"] = i[1]
 
     if opts["help"]:
         print _("""Usage: %s [OPTIONS] [FILE]
@@ -173,6 +177,7 @@ def pysol_init(app, args):
             wm_command = prog + " " + os.path.abspath(argv0)
     if filename:
         app.commandline.loadgame = filename
+    app.debug = int(opts['debug'])
 
     # init games database
     import games

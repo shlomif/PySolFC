@@ -54,17 +54,21 @@ class LarasGame_Hint(CautiousDefaultHint):
 class LarasGame_Talon(WasteTalonStack):
     # Deal a card to each of the RowStacks.  Then deal
     # cards to the talon.  Return number of cards dealt.
-    def dealRow(self, rows=None, flip=1, reverse=0, frames=-1):
+    def dealRow(self, rows=None, flip=1, reverse=0, frames=-1, sound=0):
         game = self.game
         if rows is None:
             rows = game.s.rows
         old_state = game.enterState(game.S_DEAL)
         cards = self.dealToStacks(rows[:game.MAX_ROW], flip, reverse, frames)
+        if sound and frames and self.game.app.opt.animations:
+            self.game.startDealSample()
         for i in range(game.DEAL_TO_TALON):
             if self.cards:
                 game.moveMove(1, self, game.s.rows[-1], frames=frames)
                 cards = cards + 1
         game.leaveState(old_state)
+        if sound:
+            self.game.stopSamples()
         return cards
 
     def dealToStacks(self, stacks, flip=1, reverse=0, frames=-1):
@@ -102,6 +106,8 @@ class LarasGame_Talon(WasteTalonStack):
 
     def dealCards(self, sound=0):
         game = self.game
+        if sound and self.game.app.opt.animations:
+            self.game.startDealSample()
         for r in game.s.reserves[:20]:
             while r.cards:
                 game.moveMove(1, r, game.s.rows[game.active_row], frames=3, shadow=0)
@@ -123,25 +129,26 @@ class LarasGame_Talon(WasteTalonStack):
             for i in range(ncards):
                 game.moveMove(1, game.s.rows[game.active_row],
                                 game.s.reserves[ncards - i], frames=4, shadow=0)
-            return len(self.cards) or self.canDealCards()
-        if self.round < self.max_rounds:
-            num_cards = 0
-            rows = list(game.s.rows)[:game.MAX_ROW]
-            rows.reverse()
-            for r in rows:
-                while r.cards:
-                    num_cards = num_cards + 1
-                    if r.cards[-1].face_up:
-                        game.flipMove(r)
-                    game.moveMove(1, r, self, frames=0)
-            assert len(self.cards) == num_cards
-            if num_cards == 0:
-                return 0
-            game.nextRoundMove(self)
-            game.dealToRows()
+            num_cards = len(self.cards) or self.canDealCards()
+        else: # not self.cards
+            if self.round < self.max_rounds:
+                ncards = 0
+                rows = list(game.s.rows)[:game.MAX_ROW]
+                rows.reverse()
+                for r in rows:
+                    while r.cards:
+                        ncards += 1
+                        if r.cards[-1].face_up:
+                            game.flipMove(r)
+                        game.moveMove(1, r, self, frames=0)
+                assert len(self.cards) == ncards
+                if ncards != 0:
+                    game.nextRoundMove(self)
+                    game.dealToRows()
+            num_cards = len(self.cards)
         if sound:
             game.stopSamples()
-        return len(self.cards)
+        return num_cards
 
     def canDealCards(self):
         if self.game.demo and self.game.moves.index >= 400:
@@ -380,7 +387,7 @@ class LarasGame(Game):
         assert moves.index == len(moves.history)
         moves.current = []
         self.updateText()
-        self.updateStatus(moves=moves.index)
+        self.updateStatus(moves=(moves.index, self.stats.total_moves))
         self.updateMenus()
         return 1
 
@@ -404,7 +411,7 @@ class LarasGame(Game):
         self.stats.total_moves = self.stats.total_moves + 1
         self.hints.list = None
         self.updateText()
-        self.updateStatus(moves = self.moves.index)
+        self.updateStatus(moves=(self.moves.index, self.stats.total_moves))
         self.updateMenus()
 
     def redo(self):
@@ -425,7 +432,7 @@ class LarasGame(Game):
         self.stats.total_moves = self.stats.total_moves + 1
         self.hints.list = None
         self.updateText()
-        self.updateStatus(moves = self.moves.index)
+        self.updateStatus(moves=(self.moves.index, self.stats.total_moves))
         self.updateMenus()
 
     def _restoreGameHook(self, game):

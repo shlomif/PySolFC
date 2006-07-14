@@ -60,11 +60,14 @@ class BeleagueredCastleType_Hint(CautiousDefaultHint):
 class StreetsAndAlleys(Game):
     Hint_Class = BeleagueredCastleType_Hint
 
+    Foundation_Class = SS_FoundationStack
+    RowStack_Class = RK_RowStack
+
     #
     # game layout
     #
 
-    def createGame(self, playcards=13, reserves=0):
+    def createGame(self, playcards=13, reserves=0, texts=False):
         # create layout
         l, s = Layout(self), self.s
 
@@ -75,7 +78,8 @@ class StreetsAndAlleys(Game):
         x1 = x0 + w + 2*l.XM
         x2 = x1 + l.XS + 2*l.XM
         x3 = x2 + w + l.XM
-        self.setSize(x3, l.YM + (4+int(reserves!=0))*l.YS)
+        h = l.YM + (4+int(reserves!=0))*l.YS + int(texts)*l.TEXT_HEIGHT
+        self.setSize(x3, h)
 
         # create stacks
         y = l.YM
@@ -87,12 +91,17 @@ class StreetsAndAlleys(Game):
             y += l.YS
         x = x1
         for i in range(4):
-            s.foundations.append(SS_FoundationStack(x, y, self, i, max_move=0))
+            s.foundations.append(self.Foundation_Class(x, y, self, i, max_move=0))
             y = y + l.YS
+        if texts:
+            tx, ty, ta, tf = l.getTextAttr(None, "ss")
+            tx, ty = x+tx, y-l.YS+ty
+            font = self.app.getFont("canvas_default")
+            self.texts.info = MfxCanvasText(self.canvas, tx, ty, anchor=ta, font=font)
         for x in (x0, x2):
             y = l.YM+l.YS*int(reserves!=0)
             for i in range(4):
-                stack = RK_RowStack(x, y, self, max_move=1, max_accept=1)
+                stack = self.RowStack_Class(x, y, self, max_move=1, max_accept=1)
                 stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
                 s.rows.append(stack)
                 y = y + l.YS
@@ -682,6 +691,29 @@ class CastleMount(Lightweight):
         return 0
 
 
+# /***********************************************************************
+# // Selective Castle
+# ************************************************************************/
+
+class SelectiveCastle_RowStack(RK_RowStack):
+    def canDropCards(self, stacks):
+        if self.game.demo:
+            return RK_RowStack.canDropCards(self, stacks)
+        for s in self.game.s.foundations:
+            if s.cards:
+                return RK_RowStack.canDropCards(self, stacks)
+        return (None, 0)
+
+class SelectiveCastle(StreetsAndAlleys, Chessboard):
+    Foundation_Class = Chessboard_Foundation
+    RowStack_Class = StackWrapper(SelectiveCastle_RowStack, mod=13)
+
+    def createGame(self):
+        StreetsAndAlleys.createGame(self, texts=True)
+
+    def updateText(self):
+        Chessboard.updateText(self)
+
 
 # register the game
 registerGame(GameInfo(146, StreetsAndAlleys, "Streets and Alleys",
@@ -716,3 +748,5 @@ registerGame(GameInfo(507, Lightweight, "Lightweight",
                       GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(508, CastleMount, "Castle Mount",
                       GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 3, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(524, SelectiveCastle, "Selective Castle",
+                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))

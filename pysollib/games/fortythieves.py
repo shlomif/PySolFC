@@ -158,6 +158,7 @@ class FortyThieves(Game):
 # // Josephine
 # // Marie Rose
 # // Big Courtyard
+# // San Juan Hill
 # //   rows build down by suit
 # ************************************************************************/
 
@@ -247,6 +248,12 @@ class Express(Limited):
 class Carnation(Limited):
     def createGame(self):
         FortyThieves.createGame(self, rows=16, playcards=20, XCARDS=120)
+
+
+class SanJuanHill(FortyThieves):
+    def createGame(self):
+        FortyThieves.createGame(self, XOFFSET=0)
+
 
 
 # /***********************************************************************
@@ -457,6 +464,7 @@ class Mumbai(Indian):
 # // Napoleon's Exile
 # // Double Rail
 # // Single Rail (1 deck)
+# // Final Battle
 # //   rows build down by rank
 # ************************************************************************/
 
@@ -480,6 +488,12 @@ class DoubleRail(NapoleonsExile):
 class SingleRail(DoubleRail):
     def createGame(self):
         FortyThieves.createGame(self, rows=4, XCARDS=48)
+
+
+class FinalBattle(DoubleRail):
+    def createGame(self):
+        FortyThieves.createGame(self, rows=6)
+
 
 
 # /***********************************************************************
@@ -832,3 +846,9 @@ registerGame(GameInfo(506, Express, "Express",
                       GI.GT_FORTY_THIEVES | GI.GT_ORIGINAL, 3, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(514, Carnation, "Carnation",
                       GI.GT_FORTY_THIEVES | GI.GT_ORIGINAL, 4, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(528, FinalBattle, "Final Battle",
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(529, SanJuanHill, "San Juan Hill",
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
+
+

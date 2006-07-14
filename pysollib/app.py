@@ -846,8 +846,10 @@ class Application:
 
     def loadImages3(self):
         MfxMessageDialog.img = {}
-        #dir = os.path.join('images', 'dialog', 'default')
-        dir = os.path.join('images', 'dialog', 'bluecurve')
+        if os.name == 'posix':
+            dir = os.path.join('images', 'dialog', 'bluecurve')
+        else:
+            dir = os.path.join('images', 'dialog', 'default')
         for f in ('error', 'info', 'question', 'warning'):
             fn = self.dataloader.findImage(f, dir)
             im = loadImage(fn)

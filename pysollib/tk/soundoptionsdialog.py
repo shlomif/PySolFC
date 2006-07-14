@@ -44,7 +44,6 @@ import traceback
 from pysollib.mfxutil import destruct, kwdefault, KwStruct, Struct, spawnvp
 from pysollib.settings import PACKAGE
 from pysollib.pysolaudio import pysolsoundserver
-from pysollib.settings import MIXERS
 
 # Toolkit imports
 from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
@@ -55,7 +54,6 @@ from tkwidget import MfxDialog, MfxMessageDialog
 # ************************************************************************/
 
 class SoundOptionsDialog(MfxDialog):
-    MIXER = ()
 
     def __init__(self, parent, title, app, **kw):
         self.app = app
@@ -168,17 +166,13 @@ class SoundOptionsDialog(MfxDialog):
         self.mainloop(focus, kw.timeout)
 
     def initKw(self, kw):
-        strings=[_("&OK"), _("&Apply"), _("&Mixer..."), _("&Cancel"),]
-        if self.MIXER is None:
-            strings[2] = (_("&Mixer..."), -1)
-##        if os.name != "nt" and not self.app.debug:
-##            strings[2] = None
+        strings=[_("&OK"), _("&Apply"), _("&Cancel"),]
         kw = KwStruct(kw,
                       strings=strings,
                       default=0,
                       resizable=1,
                       padx=10, pady=10,
-                      buttonpadx=1, buttonpady=5,
+                      buttonpadx=10, buttonpady=5,
                       )
         return MfxDialog.initKw(self, kw)
 
@@ -191,17 +185,6 @@ class SoundOptionsDialog(MfxDialog):
             for n, t, v in self.samples:
                 self.app.opt.sound_samples[n] = v.get()
         elif button == 2:
-            for name, args in MIXERS:
-                try:
-                    f = spawnvp(name, args)
-                    if f:
-                        self.MIXER = (f, args)
-                        return
-                except:
-                    if traceback: traceback.print_exc()
-                    pass
-            self.MIXER = None
-        elif button == 3:
             self.app.opt = self.saved_opt
         if self.app.audio:
             self.app.audio.updateSettings()

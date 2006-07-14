@@ -87,7 +87,6 @@ class Yukon(Game):
     RowStack_Class = StackWrapper(Yukon_AC_RowStack, base_rank=KING)
     Hint_Class = Yukon_Hint
 
-
     def createGame(self, **layout):
         # create layout
         l, s = Layout(self), self.s
@@ -95,7 +94,7 @@ class Yukon(Game):
         apply(self.Layout_Method, (l,), layout)
         self.setSize(l.size[0], l.size[1])
         # create stacks
-        s.talon =self.Talon_Class(l.s.talon.x, l.s.talon.y, self)
+        s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self)
         for r in l.s.foundations:
             s.foundations.append(self.Foundation_Class(r.x, r.y, self, suit=r.suit,
                                                        max_move=0))
@@ -538,6 +537,104 @@ class Geoffrey(Yukon):
         return card1.suit == card2.suit and abs(card1.rank-card2.rank) == 1
 
 
+# /***********************************************************************
+# // Queensland
+# ************************************************************************/
+
+class Queensland(Yukon):
+    Layout_Method = Layout.klondikeLayout
+    RowStack_Class = Yukon_SS_RowStack
+
+    def createGame(self):
+        Yukon.createGame(self, waste=0)
+
+    def startGame(self):
+        for i in range(1, len(self.s.rows)):
+            self.s.talon.dealRow(rows=self.s.rows[i:], flip=0, frames=0)
+        for i in range(3):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealRowAvail()
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return card1.suit == card2.suit and abs(card1.rank-card2.rank) == 1
+
+
+# /***********************************************************************
+# // Outback Patience
+# ************************************************************************/
+
+class OutbackPatience(Yukon):
+
+    def createGame(self, max_rounds=-1, num_deal=1, **layout):
+        l, s = Layout(self), self.s
+        l.klondikeLayout(rows=7, waste=1, texts=1, playcards=20)
+        self.setSize(l.size[0], l.size[1])
+
+        s.talon = WasteTalonStack(l.s.talon.x, l.s.talon.y, self, max_rounds=1)
+        s.waste = WasteStack(l.s.waste.x, l.s.waste.y, self)
+        for r in l.s.foundations:
+            s.foundations.append(SS_FoundationStack(r.x, r.y, self, suit=r.suit))
+        for r in l.s.rows:
+            s.rows.append(Yukon_SS_RowStack(r.x, r.y, self, base_rank=KING))
+
+        l.defaultAll()
+
+    def startGame(self):
+        for i in range(3):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return card1.suit == card2.suit and abs(card1.rank-card2.rank) == 1
+
+
+# /***********************************************************************
+# // Russian Spider
+# // Double Russian Spider
+# ************************************************************************/
+
+class RussianSpider_RowStack(Yukon_SS_RowStack): #Spider_SS_RowStack
+    def canDropCards(self, stacks):
+        if len(self.cards) < 13:
+            return (None, 0)
+        cards = self.cards[-13:]
+        for s in stacks:
+            if s is not self and s.acceptsCards(self, cards):
+                return (s, 13)
+        return (None, 0)
+
+
+class RussianSpider(RussianSolitaire):
+    RowStack_Class = StackWrapper(RussianSpider_RowStack, base_rank=KING)
+    Foundation_Class = Spider_SS_Foundation
+
+    def createGame(self, rows=7):
+        # create layout
+        l, s = Layout(self), self.s
+        l.yukonLayout(rows=rows, texts=0, playcards=25)
+        self.setSize(l.size[0], l.size[1])
+        # create stacks
+        s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self)
+        for r in l.s.foundations:
+            s.foundations.append(self.Foundation_Class(r.x, r.y, self, suit=ANY_SUIT,
+                                                       max_move=0))
+        for r in l.s.rows:
+            s.rows.append(self.RowStack_Class(r.x, r.y, self))
+        # default
+        l.defaultAll()
+
+
+class DoubleRussianSpider(RussianSpider, DoubleRussianSolitaire):
+    def createGame(self):
+        RussianSpider.createGame(self, rows=10)
+
+    def startGame(self):
+        DoubleRussianSolitaire.startGame(self)
+
 
 # register the game
 registerGame(GameInfo(19, Yukon, "Yukon",
@@ -586,4 +683,11 @@ registerGame(GameInfo(488, TripleRussianSolitaire, "Triple Russian Solitaire",
                       GI.GT_YUKON, 3, 0, GI.SL_BALANCED))
 registerGame(GameInfo(492, Geoffrey, "Geoffrey",
                       GI.GT_YUKON, 1, 0, GI.SL_MOSTLY_SKILL))
-
+registerGame(GameInfo(525, Queensland, "Queensland",
+                      GI.GT_YUKON, 1, 0, GI.SL_BALANCED))
+registerGame(GameInfo(526, OutbackPatience, "Outback Patience",
+                      GI.GT_YUKON, 1, 0, GI.SL_BALANCED))
+registerGame(GameInfo(530, RussianSpider, "Russian Spider",
+                      GI.GT_SPIDER, 1, 0, GI.SL_BALANCED))
+registerGame(GameInfo(531, DoubleRussianSpider, "Double Russian Spider",
+                      GI.GT_SPIDER | GI.GT_ORIGINAL, 2, 0, GI.SL_BALANCED))

@@ -408,6 +408,7 @@ class EagleWing(Canfield):
 # /***********************************************************************
 # // Gate
 # // Little Gate
+# // Doorway
 # ************************************************************************/
 
 class Gate(Game):
@@ -477,31 +478,35 @@ class Gate(Game):
 
 class LittleGate(Gate):
 
+    RowStack_Class = AC_RowStack
+    ReserveStack_Class = StackWrapper(OpenStack, max_accept=0)
+
     #
     # game layout
     #
 
-    def createGame(self):
+    def createGame(self, rows=4):
         # create layout
         l, s = Layout(self), self.s
 
         # set window
-        w, h = l.XM+7*l.XS, l.YM+2*l.YS+12*l.YOFFSET
+        max_rows = max(7, rows+3)
+        w, h = l.XM+max_rows*l.XS, l.YM+2*l.YS+12*l.YOFFSET
         self.setSize(w, h)
 
         # create stacks
         y = l.YM+l.YS+l.TEXT_HEIGHT
         for x in (l.XM, w-l.XS):
-            stack = OpenStack(x, y, self, max_accept=0)
+            stack = self.ReserveStack_Class(x, y, self)
             stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, l.YOFFSET
             s.reserves.append(stack)
-        x, y = l.XM+3*l.XS, l.YM
+        x, y = l.XM+(max_rows-4)*l.XS, l.YM
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
             x += l.XS
-        x, y = int(l.XM+1.5*l.XS), l.YM+l.YS+l.TEXT_HEIGHT
-        for i in range(4):
-            s.rows.append(AC_RowStack(x, y, self))
+        x, y = l.XM+(max_rows-rows)*l.XS/2, l.YM+l.YS+l.TEXT_HEIGHT
+        for i in range(rows):
+            s.rows.append(self.RowStack_Class(x, y, self))
             x += l.XS
         s.talon = WasteTalonStack(l.XM, l.YM, self, max_rounds=1)
         l.createText(s.talon, "ss")
@@ -510,6 +515,37 @@ class LittleGate(Gate):
 
         # define stack-groups
         l.defaultStackGroups()
+
+        return l
+
+
+class Doorway(LittleGate):
+
+    Hint_Class = CautiousDefaultHint
+    RowStack_Class = StackWrapper(RK_RowStack, max_move=1)
+    ReserveStack_Class = ReserveStack
+
+    def createGame(self):
+        l = LittleGate.createGame(self, rows=5)
+        tx, ty, ta, tf = l.getTextAttr(self.s.reserves[0], "s")
+        font = self.app.getFont("canvas_default")
+        MfxCanvasText(self.canvas, tx, ty, anchor=ta, font=font, text=_('King'))
+        tx, ty, ta, tf = l.getTextAttr(self.s.reserves[1], "s")
+        font = self.app.getFont("canvas_default")
+        MfxCanvasText(self.canvas, tx, ty, anchor=ta, font=font, text=_('Queen'))
+        self.s.reserves[0].cap.base_rank = KING
+        self.s.reserves[1].cap.base_rank = QUEEN
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
+
+    def fillStack(self, stack):
+        pass
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return abs(card1.rank-card2.rank) == 1
 
 
 # /***********************************************************************
@@ -728,4 +764,6 @@ registerGame(GameInfo(494, Mystique, "Mystique",
                       GI.GT_CANFIELD, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(521, CanfieldRush, "Canfield Rush",
                       GI.GT_CANFIELD, 1, 2, GI.SL_BALANCED))
+registerGame(GameInfo(527, Doorway, "Doorway",
+                      GI.GT_KLONDIKE, 1, 0, GI.SL_BALANCED))
 

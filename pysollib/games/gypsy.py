@@ -416,6 +416,8 @@ class Cone_Talon(DealRowTalonStack):
     def canDealCards(self):
         if not DealRowTalonStack.canDealCards(self):
             return False
+        if len(self.cards) == 4:
+            return True
         for r in self.game.s.rows:
             if not r.cards:
                 return False
@@ -425,7 +427,7 @@ class Cone_Talon(DealRowTalonStack):
         rows = self.game.s.rows
         if len(self.cards) == 4:
             rows = self.game.s.reserves
-        self.dealRowAvail(rows=rows, sound=sound)
+        return self.dealRowAvail(rows=rows, sound=sound)
 
 
 class Cone(Gypsy):

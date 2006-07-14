@@ -43,17 +43,6 @@ if os.name == "nt":
 if os.name == "mac":
     pass
 
-# sound mixers
-MIXERS = ()
-if os.name == "nt":
-    MIXERS = (("sndvol32.exe", None),)
-elif os.name == "posix":
-    MIXERS = (
-        #("alsamixer", None),
-        ("kmix", None),
-        ("gmix", None),
-        )
-
 TOP_SIZE = 10
 TOP_TITLE = n_("Top 10")
 

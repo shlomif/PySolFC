@@ -839,6 +839,8 @@ class Q_C_(Klondike):
                 self.fillAll()
                 return
         # waste
+        if not self.s.waste.cards and self.s.talon.cards:
+            self.s.talon.dealCards()
         if self.fillOne(self.s.waste):
             self.fillAll()
 
@@ -1073,6 +1075,19 @@ class Boost(Klondike):
         Klondike.createGame(self, rows=4, max_rounds=3)
 
 
+# /***********************************************************************
+# // Gold Rush
+# ************************************************************************/
+
+from canfield import CanfieldRush_Talon
+
+class GoldRush(Klondike):
+    Talon_Class = CanfieldRush_Talon
+    def createGame(self):
+        Klondike.createGame(self, max_rounds=3)
+
+
+
 # register the game
 registerGame(GameInfo(2, Klondike, "Klondike",
                       GI.GT_KLONDIKE, 1, -1, GI.SL_BALANCED))
@@ -1182,4 +1197,6 @@ registerGame(GameInfo(518, Boost, "Boost",
                       GI.GT_KLONDIKE, 1, 2, GI.SL_BALANCED))
 registerGame(GameInfo(522, ArticGarden, "Artic Garden",
                       GI.GT_RAGLAN, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(532, GoldRush, "Gold Rush",
+                      GI.GT_KLONDIKE, 1, 2, GI.SL_BALANCED))
 

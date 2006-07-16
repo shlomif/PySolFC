@@ -1194,10 +1194,14 @@ class Stack:
         return s
 
     def getNumCards(self):
+        if self.game.app.debug >= 3:
+            t = repr(self)+' '
+        else:
+            t = ''
         n = len(self.cards)
-        if   n == 0 : return _('No cards')
-        elif n == 1 : return _('1 card')
-        else        : return str(n)+_(' cards')
+        if   n == 0 : return t+_('No cards')
+        elif n == 1 : return t+_('1 card')
+        else        : return t+str(n)+_(' cards')
 
 
 # /***********************************************************************

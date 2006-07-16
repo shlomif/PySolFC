@@ -44,19 +44,12 @@ from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 from pysollib.pysoltk import MfxCanvasText
 
-from pysollib.games.braid import Braid_Foundation
+from braid import Braid_Foundation
 
 
 # /***********************************************************************
 # // stacks
 # ************************************************************************/
-
-class Napoleon_Talon(InitialDealTalonStack):
-    pass
-
-
-class Napoleon_Foundation(Braid_Foundation):
-    pass
 
 
 class Napoleon_RowStack(UD_SS_RowStack):
@@ -96,13 +89,14 @@ class Napoleon_FreeCell(ReserveStack):
 
 class DerKleineNapoleon(Game):
 
+    Foundation_Class = Braid_Foundation
     RowStack_Class = StackWrapper(Napoleon_RowStack, mod=13)
 
     #
     # game layout
     #
 
-    def createGame(self, reserves=1):
+    def createGame(self, cells=1):
         # create layout
         l, s = Layout(self), self.s
 
@@ -119,7 +113,7 @@ class DerKleineNapoleon(Game):
             s.rows.append(self.RowStack_Class(x2, y, self))
             y = y + l.YS
         y = self.height - l.YS
-        if reserves == 1:
+        if cells == 1:
             s.rows.append(Napoleon_ReserveStack(x0, y, self))
             s.rows.append(Napoleon_ReserveStack(x2, y, self))
             s.reserves.append(Napoleon_SingleFreeCell(x1, y, self))
@@ -131,15 +125,15 @@ class DerKleineNapoleon(Game):
         # foundations
         x, y = x1, l.YM
         for i in range(4):
-            s.foundations.append(Napoleon_Foundation(x, y, self, i))
+            s.foundations.append(self.Foundation_Class(x, y, self, i))
             y = y + l.YS
         # talon
-        if reserves == 1:
+        if cells == 1:
             ##x, y = l.XM, self.height - l.YS
             y = self.height + l.YS
         else:
             y = self.height - l.YS
-        s.talon = Napoleon_Talon(x, y, self)
+        s.talon = InitialDealTalonStack(x, y, self)
 
         # update stack building direction
         for r in s.rows:
@@ -200,12 +194,16 @@ class DerKleineNapoleon(Game):
 
 class DerFreieNapoleon(DerKleineNapoleon):
 
+    Foundation_Class = Braid_Foundation
     RowStack_Class = StackWrapper(Napoleon_RowStack, mod=13)
+    ReserveStack_Class = Napoleon_ReserveStack
+    FreeCell_Class = Napoleon_SingleFreeCell
+
     #
     # game layout
     #
 
-    def createGame(self, reserves=1):
+    def createGame(self, cells=1, reserves=2, texts=True):
         # create layout
         l, s = Layout(self), self.s
 
@@ -213,7 +211,8 @@ class DerFreieNapoleon(DerKleineNapoleon):
         # set size so that at least 2/3 of a card is visible with 15 cards
         h = l.CH*2/3 + (15-1)*l.YOFFSET
         h = l.YS + max(h, 3*l.YS)
-        self.setSize(l.XM + 2*l.XM + 10*l.XS, l.YM + h)
+        max_rows = 8+max(cells, reserves)
+        self.setSize(l.XM + 2*l.XM + max_rows*l.XS, l.YM + h)
         x1 = l.XM + 8*l.XS + 2*l.XM
 
         # create stacks
@@ -221,27 +220,32 @@ class DerFreieNapoleon(DerKleineNapoleon):
         for j in range(8):
             x = l.XM + j*l.XS
             s.rows.append(self.RowStack_Class(x, y, self))
-        for j in range(2):
+        for j in range(reserves):
             x = x1 + j*l.XS
-            s.rows.append(Napoleon_ReserveStack(x, y, self))
+            s.rows.append(self.ReserveStack_Class(x, y, self))
         self.setRegion(s.rows, (-999, y - l.YM/2, 999999, 999999))
         y = l.YM
-        if reserves == 1:
-            s.reserves.append(Napoleon_SingleFreeCell(x1 + l.XS/2, y, self))
-        else:
-            s.reserves.append(Napoleon_FreeCell(x1, y, self))
-            s.reserves.append(Napoleon_FreeCell(x1 + l.XS, y, self))
+        x = x1+(max(cells, reserves)-cells)*l.XS/2
+        for i in range(cells):
+            s.reserves.append(self.FreeCell_Class(x, y, self))
+            x += l.XS
+##         if cells == 1:
+##             s.reserves.append(Napoleon_SingleFreeCell(x1 + l.XS/2, y, self))
+##         else:
+##             s.reserves.append(Napoleon_FreeCell(x1, y, self))
+##             s.reserves.append(Napoleon_FreeCell(x1 + l.XS, y, self))
         # foundations
         x = l.XM + 2*l.XS
         for i in range(4):
-            s.foundations.append(Napoleon_Foundation(x, y, self, i))
+            s.foundations.append(self.Foundation_Class(x, y, self, i))
             x = x + l.XS
-        tx, ty, ta, tf = l.getTextAttr(s.foundations[-1], "se")
-        font = self.app.getFont("canvas_default")
-        self.texts.info = MfxCanvasText(self.canvas, tx, ty, anchor=ta, font=font)
+        if texts:
+            tx, ty, ta, tf = l.getTextAttr(s.foundations[-1], "se")
+            font = self.app.getFont("canvas_default")
+            self.texts.info = MfxCanvasText(self.canvas, tx, ty, anchor=ta, font=font)
         # talon
         x, y = l.XM, self.height - l.YS
-        s.talon = Napoleon_Talon(x, y, self)
+        s.talon = InitialDealTalonStack(x, y, self)
 
         # define stack-groups
         l.defaultStackGroups()
@@ -253,12 +257,101 @@ class DerFreieNapoleon(DerKleineNapoleon):
 
 class Napoleon(DerKleineNapoleon):
     def createGame(self):
-        DerKleineNapoleon.createGame(self, reserves=2)
+        DerKleineNapoleon.createGame(self, cells=2)
 
 
 class FreeNapoleon(DerFreieNapoleon):
+    FreeCell_Class = Napoleon_FreeCell
     def createGame(self):
-        DerFreieNapoleon.createGame(self, reserves=2)
+        DerFreieNapoleon.createGame(self, cells=2)
+
+
+# /***********************************************************************
+# // Master
+# ************************************************************************/
+
+class Master(DerFreieNapoleon):
+
+    Foundation_Class = SS_FoundationStack
+
+    def createGame(self):
+        DerFreieNapoleon.createGame(self, cells=2, texts=False)
+
+    def _shuffleHook(self, cards):
+        return self._shuffleHookMoveToBottom(cards,
+                                             lambda c: (c.rank == ACE, c.suit))
+
+
+# /***********************************************************************
+# // The Little Corporal
+# // Bonaparte
+# ************************************************************************/
+
+class TheLittleCorporal_RowStack(UD_SS_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not UD_SS_RowStack.acceptsCards(self, from_stack, cards):
+            return False
+        if from_stack in self.game.s.reserves:
+            return not self.cards
+        return True
+
+
+class TheLittleCorporal(DerFreieNapoleon):
+
+    def createGame(self, rows=10):
+        l, s = Layout(self), self.s
+        # set size so that at least 2/3 of a card is visible with 15 cards
+        h = l.CH*2/3 + (15-1)*l.YOFFSET
+        h = l.YS + max(h, 3*l.YS)
+        self.setSize(l.XM+rows*l.XS, l.YM + h)
+
+        x, y = l.XM+(rows-8)*l.XS, l.YM
+        for i in range(4):
+            s.foundations.append(Braid_Foundation(x, y, self, suit=i))
+            x += l.XS
+        tx, ty, ta, tf = l.getTextAttr(s.foundations[-1], "se")
+        font = self.app.getFont("canvas_default")
+        self.texts.info = MfxCanvasText(self.canvas, tx, ty, anchor=ta, font=font)
+        x += 2*l.XS
+        stack = ReserveStack(x, y, self, max_cards=UNLIMITED_CARDS)
+        s.reserves.append(stack)
+        l.createText(stack, 'se')
+        x, y = l.XM, l.YM+l.YS
+        for i in range(rows):
+            s.rows.append(TheLittleCorporal_RowStack(x, y, self, mod=13))
+            x += l.XS
+
+        # talon
+        x, y = l.XM, self.height - l.YS
+        s.talon = InitialDealTalonStack(x, y, self)
+
+        # define stack-groups
+        l.defaultStackGroups()
+
+    def startGame(self):
+        for i in range(4):
+            self.s.talon.dealRow(rows=self.s.rows, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow(rows=self.s.rows[1:-1])
+        self.s.talon.dealBaseCards(ncards=4)
+
+    def getQuickPlayScore(self, ncards, from_stack, to_stack):
+        if to_stack in self.s.reserves:
+            return 0
+        return int(len(to_stack.cards) != 0)+1
+
+
+class Bonaparte(TheLittleCorporal):
+
+    def createGame(self):
+        TheLittleCorporal.createGame(self, rows=8)
+
+    def startGame(self):
+        for i in range(5):
+            self.s.talon.dealRow(rows=self.s.rows, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealBaseCards(ncards=4)
 
 
 # register the game
@@ -270,4 +363,10 @@ registerGame(GameInfo(169, Napoleon, "Napoleon",
                       GI.GT_NAPOLEON | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(170, FreeNapoleon, "Free Napoleon",
                       GI.GT_NAPOLEON | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(536, Master, "Master",
+                      GI.GT_NAPOLEON | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(537, TheLittleCorporal, "The Little Corporal",
+                      GI.GT_NAPOLEON | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(538, Bonaparte, "Bonaparte",
+                      GI.GT_NAPOLEON | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))
 

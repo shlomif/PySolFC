@@ -121,6 +121,7 @@ class Terrace_RowStack(AC_RowStack):
 # ************************************************************************/
 
 class Terrace(Game):
+    Talon_Class = Terrace_Talon
     Foundation_Class = Terrace_AC_Foundation
     RowStack_Class = Terrace_RowStack
     ReserveStack_Class = OpenStack
@@ -149,7 +150,7 @@ class Terrace(Game):
 
         # create stacks
         x, y = l.XM + w1, l.YM
-        s.talon = Terrace_Talon(x, y, self, max_rounds=max_rounds, num_deal=num_deal)
+        s.talon = self.Talon_Class(x, y, self, max_rounds=max_rounds, num_deal=num_deal)
         l.createText(s.talon, "sw")
         x = x + l.XS
         s.waste = WasteStack(x, y, self)
@@ -288,6 +289,46 @@ class Madame(Terrace):
         Terrace.startGame(self, nrows=10)
 
 
+# /***********************************************************************
+# // Mamy Susan
+# ************************************************************************/
+
+class MamySusan_RowStack(AC_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if from_stack in self.game.s.reserves:
+            return False
+        return AC_RowStack.acceptsCards(self, from_stack, cards)
+
+
+class MamySusan(Terrace):
+
+    Talon_Class = WasteTalonStack
+    Foundation_Class = StackWrapper(SS_FoundationStack, max_move=0)
+    RowStack_Class = StackWrapper(MamySusan_RowStack, max_move=1)
+
+    def createGame(self):
+        Terrace.createGame(self, rows=10)
+
+    def startGame(self, nrows=4):
+        for i in range(6):
+            self.s.talon.dealRow(rows=self.s.reserves, flip=0, frames=0)
+        self.flipMove(self.s.reserves[0])
+        for i in range(3):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
+
+    def fillStack(self, stack):
+        pass
+    def _restoreGameHook(self, game):
+        pass
+    def _loadGameHook(self, p):
+        pass
+    def _saveGameHook(self, p):
+        pass
+
+
 
 # register the game
 registerGame(GameInfo(135, Terrace, "Terrace",
@@ -304,4 +345,6 @@ registerGame(GameInfo(499, Signora, "Signora",
                       GI.GT_TERRACE, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(500, Madame, "Madame",
                       GI.GT_TERRACE, 3, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(533, MamySusan, "Mamy Susan",
+                      GI.GT_TERRACE, 2, 0, GI.SL_BALANCED))
 

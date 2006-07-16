@@ -251,9 +251,14 @@ class Carnation(Limited):
 
 
 class SanJuanHill(FortyThieves):
-    def createGame(self):
-        FortyThieves.createGame(self, XOFFSET=0)
 
+    def _shuffleHook(self, cards):
+        return self._shuffleHookMoveToTop(cards,
+                                          lambda c: (c.rank == ACE, c.suit))
+
+    def startGame(self):
+        self.s.talon.dealRow(rows=self.s.foundations, frames=0)
+        FortyThieves.startGame(self)
 
 
 # /***********************************************************************

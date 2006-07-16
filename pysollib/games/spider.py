@@ -178,7 +178,7 @@ class Spider2Suits(Spider):
     pass
 
 class OpenSpider(Spider):
-    def startGame(self, flip=0):
+    def startGame(self):
         Spider.startGame(self, flip=1)
 
 

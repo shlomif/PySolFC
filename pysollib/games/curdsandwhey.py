@@ -47,9 +47,11 @@ class CurdsAndWhey_RowStack(BasicRowStack):
         if not self.cards:
             return True
         c1, c2 = self.cards[-1], cards[0]
+        if c1.rank == c2.rank:
+            return True
         if c1.suit == c2.suit:
             return c1.rank == c2.rank+1
-        return c1.rank == c2.rank
+        return False
 
     def canMoveCards(self, cards):
         return isSameSuitSequence(cards) or isRankSequence(cards, dir=0)
@@ -197,6 +199,7 @@ class Robin(Dumfries):
 
 # /***********************************************************************
 # // Arachnida
+# // Harvestman
 # ************************************************************************/
 
 class Arachnida_RowStack(BasicRowStack):
@@ -216,13 +219,14 @@ class Arachnida_RowStack(BasicRowStack):
 
 
 class Arachnida(CurdsAndWhey):
+    RowStack_Class = Arachnida_RowStack
 
     def createGame(self):
         # create layout
         l, s = Layout(self), self.s
 
         # set window
-        w, h = l.XM+11*l.XS, l.YM+l.YS+16*l.YOFFSET
+        w, h = l.XM+12*l.XS, l.YM+l.YS+16*l.YOFFSET
         self.setSize(w, h)
 
         # create stacks
@@ -231,11 +235,14 @@ class Arachnida(CurdsAndWhey):
         l.createText(s.talon, "ss")
         x += l.XS
         for i in range(10):
-            stack = Arachnida_RowStack(x, y, self, base_rank=ANY_RANK,
-                                      max_move=UNLIMITED_MOVES,
-                                      max_accept=UNLIMITED_ACCEPTS)
+            stack = self.RowStack_Class(x, y, self, base_rank=ANY_RANK,
+                                        max_move=UNLIMITED_MOVES,
+                                        max_accept=UNLIMITED_ACCEPTS)
             s.rows.append(stack)
             x += l.XS
+        s.foundations.append(AbstractFoundationStack(x, y, self, suit=ANY_SUIT,
+                                                     max_accept=0))
+        l.createText(s.foundations[0], "ss")
 
         # define stack-groups
         l.defaultStackGroups()
@@ -247,8 +254,29 @@ class Arachnida(CurdsAndWhey):
         self.startDealSample()
         self.s.talon.dealRow()
 
+    def canDealCards(self):
+        if not CurdsAndWhey.canDealCards(self):
+            return False
+        # no row may be empty
+        for r in self.s.rows:
+            if not r.cards:
+                return False
+        return True
+
+    def fillStack(self, stack):
+        for r in self.s.rows:
+            if len(r.cards) >= 13 and isSameSuitSequence(r.cards[-13:]):
+                old_state = self.enterState(self.S_FILL)
+                self.playSample("drop", priority=200)
+                self.moveMove(13, r, self.s.foundations[0])
+                self.leaveState(old_state)
+
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return card1.rank == card2.rank or abs(card1.rank-card2.rank) == 1
+
+
+class Harvestman(Arachnida):
+    RowStack_Class = CurdsAndWhey_RowStack
 
 
 # /***********************************************************************
@@ -412,4 +440,7 @@ registerGame(GameInfo(481, KnottyNines, "Knotty Nines",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(482, SweetSixteen, "Sweet Sixteen",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))
+registerGame(GameInfo(534, Harvestman, "Harvestman",
+                      GI.GT_SPIDER | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
+
 

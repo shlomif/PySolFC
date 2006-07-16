@@ -91,7 +91,7 @@ class StreetsAndAlleys(Game):
             y += l.YS
         x = x1
         for i in range(4):
-            s.foundations.append(self.Foundation_Class(x, y, self, i, max_move=0))
+            s.foundations.append(self.Foundation_Class(x, y, self, suit=i, max_move=0))
             y = y + l.YS
         if texts:
             tx, ty, ta, tf = l.getTextAttr(None, "ss")
@@ -148,6 +148,7 @@ class BeleagueredCastle(StreetsAndAlleys):
 
 # /***********************************************************************
 # // Citadel
+# // Exiled Kings
 # ************************************************************************/
 
 class Citadel(StreetsAndAlleys):
@@ -172,6 +173,10 @@ class Citadel(StreetsAndAlleys):
                     self.moveMove(1, talon, r, frames=frames)
                 if not talon.cards:
                     break
+
+
+class ExiledKings(Citadel):
+    RowStack_Class = StackWrapper(RK_RowStack, base_rank=KING)
 
 
 # /***********************************************************************
@@ -749,4 +754,6 @@ registerGame(GameInfo(507, Lightweight, "Lightweight",
 registerGame(GameInfo(508, CastleMount, "Castle Mount",
                       GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 3, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(524, SelectiveCastle, "Selective Castle",
+                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(535, ExiledKings, "Exiled Kings",
                       GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))

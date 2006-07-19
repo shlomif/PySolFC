@@ -137,10 +137,18 @@ class PictureGallery_Foundation(RK_FoundationStack):
     def getBottomImage(self):
         return self.game.app.images.getLetter(ACE)
 
+    def closeStackMove(self):
+        if len(self.cards) == 8:
+            self.game.flipAllMove(self)
+
+    def canFlipCard(self):
+        return False
+
 
 class PictureGallery_TableauStack(SS_RowStack):
-    def __init__(self, x, y, game, base_rank, yoffset, dir=3):
-        SS_RowStack.__init__(self, x, y, game, base_rank=base_rank, dir=dir, max_accept=1)
+    def __init__(self, x, y, game, base_rank, yoffset, dir=3, max_cards=4):
+        SS_RowStack.__init__(self, x, y, game,
+            base_rank=base_rank, dir=dir, max_cards=max_cards, max_accept=1)
         self.CARD_YOFFSET = yoffset
 
     def acceptsCards(self, from_stack, cards):
@@ -153,6 +161,13 @@ class PictureGallery_TableauStack(SS_RowStack):
 
     def getBottomImage(self):
         return self.game.app.images.getLetter(self.cap.base_rank)
+
+    def closeStackMove(self):
+        if len(self.cards) == self.cap.max_cards:
+            self.game.flipAllMove(self)
+
+    def canFlipCard(self):
+        return False
 
 
 class PictureGallery_RowStack(BasicRowStack):
@@ -176,7 +191,11 @@ class PictureGallery(Game):
     Hint_Class = PictureGallery_Hint
 
     Foundation_Class = PictureGallery_Foundation
-    TableauStack_Class = PictureGallery_TableauStack
+    TableauStack_Classes = [
+        StackWrapper(PictureGallery_TableauStack, base_rank=3, max_cards=4, dir=3),
+        StackWrapper(PictureGallery_TableauStack, base_rank=2, max_cards=4, dir=3),
+        StackWrapper(PictureGallery_TableauStack, base_rank=1, max_cards=4, dir=3),
+        ]
     RowStack_Class = StackWrapper(PictureGallery_RowStack, max_accept=1)
     Talon_Class = DealRowTalonStack
 
@@ -184,7 +203,8 @@ class PictureGallery(Game):
     # game layout
     #
 
-    def createGame(self, rows=3, waste=False, dir=3):
+    def createGame(self, waste=False):
+        rows = len(self.TableauStack_Classes)
         # create layout
         l, s = Layout(self), self.s
         TABLEAU_YOFFSET = min(9, max(3, l.YOFFSET / 3))
@@ -201,10 +221,10 @@ class PictureGallery(Game):
         y = l.YM + l.CH / 2
         s.foundations.append(self.Foundation_Class(x, y, self))
         y = l.YM
-        for i in range(rows,0,-1): #(3, 2, 1):
+        for cl in self.TableauStack_Classes:
             x = l.XM
             for j in range(8):
-                s.tableaux.append(self.TableauStack_Class(x, y, self, i, yoffset=TABLEAU_YOFFSET, dir=dir))
+                s.tableaux.append(cl(x, y, self, yoffset=TABLEAU_YOFFSET))
                 x = x + l.XS
             y = y + th
         x, y = l.XM, y + l.YM
@@ -297,7 +317,10 @@ class GreatWheel_RowStack(BasicRowStack):
 class GreatWheel(PictureGallery):
 
     Foundation_Class = GreatWheel_Foundation
-    TableauStack_Class = PictureGallery_TableauStack
+    TableauStack_Classes = [
+        StackWrapper(PictureGallery_TableauStack, base_rank=2, max_cards=5, dir=2),
+        StackWrapper(PictureGallery_TableauStack, base_rank=1, max_cards=6, dir=2),
+        ]
     RowStack_Class = StackWrapper(GreatWheel_RowStack, max_accept=1)
     Talon_Class = StackWrapper(WasteTalonStack, max_rounds=1)
 
@@ -373,12 +396,12 @@ class MountOlympus(Game):
         x, y = l.XM+l.XS, l.YM
         for i in range(8):
             s.foundations.append(MountOlympus_Foundation(x, y, self,
-                                 suit=i/2, base_rank=ACE, dir=2, max_move=0))
+                                 suit=i/2, base_rank=ACE, dir=2, max_move=0, max_cards=7))
             x += l.XS
         x, y = l.XM+l.XS, l.YM+l.YS
         for i in range(8):
             s.foundations.append(MountOlympus_Foundation(x, y, self,
-                                 suit=i/2, base_rank=1, dir=2, max_move=0))
+                                 suit=i/2, base_rank=1, dir=2, max_move=0, max_cards=6))
             x += l.XS
         x, y = l.XM, l.YM+2*l.YS
         for i in range(9):

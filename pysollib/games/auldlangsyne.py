@@ -422,7 +422,7 @@ class Amazons(Game):
         l.createText(s.talon, "ss")
         x, y = l.XM+2*l.XS, l.YM
         for i in range(4):
-            s.foundations.append(Amazons_Foundation(x, y, self, suit=i))
+            s.foundations.append(Amazons_Foundation(x, y, self, suit=i, max_cards=7))
             x += l.XS
         x, y = l.XM+2*l.XS, l.YM+l.YS
         for i in range(4):

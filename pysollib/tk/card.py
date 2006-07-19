@@ -115,8 +115,10 @@ class _OneImageCard(_HideableCard):
         _HideableCard.__init__(self, id, deck, suit, rank, game, x=x, y=y)
         self._face_image = game.getCardFaceImage(deck, suit, rank)
         self._back_image = game.getCardBackImage(deck, suit, rank)
+        self._shade_image = game.getCardShadeImage()
         self._active_image = self._back_image
         self.item = MfxCanvasImage(game.canvas, self.x, self.y, image=self._active_image, anchor="nw")
+        self.shade_item = None
         ##self._setImage = self.item.config
 
     def _setImage(self, image):
@@ -151,6 +153,7 @@ class _OneImageCard(_HideableCard):
         self.y = self.y + dy
         item = self.item
         item.canvas.tk.call(item.canvas._w, "move", item.id, dx, dy)
+
 
 
 # /***********************************************************************

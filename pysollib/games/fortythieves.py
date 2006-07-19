@@ -768,6 +768,36 @@ class Squadron(FortyThieves):
         self.s.talon.dealCards()          # deal first card to WasteStack
 
 
+# /***********************************************************************
+# // Waterloo
+# ************************************************************************/
+
+class Waterloo(FortyThieves):
+
+    RowStack_Class = Spider_SS_RowStack
+
+    ROW_MAX_MOVE = UNLIMITED_MOVES
+    DEAL = (0, 1)
+
+    def createGame(self):
+        FortyThieves.createGame(self, rows=6)
+
+    def _shuffleHook(self, cards):
+        # move Aces to top of the Talon (i.e. first cards to be dealt)
+        return self._shuffleHookMoveToTop(cards,
+                   lambda c: (c.rank == ACE, (c.deck, c.suit)))
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow(rows=self.s.foundations)
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()          # deal first card to WasteStack
+
+    def getQuickPlayScore(self, ncards, from_stack, to_stack):
+        if to_stack.cards:
+            return int(from_stack.cards[-1].suit == to_stack.cards[-1].suit)+1
+        return 0
+
 
 # register the game
 registerGame(GameInfo(13, FortyThieves, "Forty Thieves",
@@ -854,6 +884,8 @@ registerGame(GameInfo(514, Carnation, "Carnation",
 registerGame(GameInfo(528, FinalBattle, "Final Battle",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(529, SanJuanHill, "San Juan Hill",
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(540, Waterloo, "Waterloo",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
 
 

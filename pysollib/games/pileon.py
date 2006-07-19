@@ -50,6 +50,13 @@ class PileOn_RowStack(RK_RowStack):
     def getBottomImage(self):
         return self.game.app.images.getReserveBottom()
 
+    def closeStackMove(self):
+        if len(self.cards) == 4 and isRankSequence(self.cards, dir=0):
+            self.game.flipAllMove(self)
+
+    def canFlipCard(self):
+        return False
+
 
 class PileOn(Game):
     Hint_Class = DefaultHint
@@ -106,18 +113,19 @@ class PileOn(Game):
 
     def isGameWon(self):
         for r in self.s.rows:
-            if r.cards:
-                if len(r.cards) != 4 or not r._isSequence(r.cards):
-                    return 0
-        return 1
+            if r.cards and not cardsFaceDown(r.cards):
+                return False
+        return True
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return card1.rank == card2.rank
+
 
 class SmallPileOn(PileOn):
     TWIDTH = 3
     NSTACKS = 11
     PLAYCARDS = 4
+
 
 class PileOn2Decks(PileOn):
     TWIDTH = 4

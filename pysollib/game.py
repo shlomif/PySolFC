@@ -62,6 +62,7 @@ from pysoltk import Card
 from move import AMoveMove, AFlipMove, ATurnStackMove
 from move import ANextRoundMove, ASaveSeedMove, AShuffleStackMove
 from move import AUpdateStackMove, AFlipAllMove, ASaveStateMove
+from move import ACloseStackMove
 from hint import DefaultHint
 from help import helpAbout
 
@@ -177,6 +178,12 @@ class Game:
         if self.s.talon:
             assert hasattr(self.s.talon, "round")
             assert hasattr(self.s.talon, "max_rounds")
+        if self.app.debug and self.s.foundations:
+            ncards = 0
+            for stack in self.s.foundations:
+                ncards += stack.cap.max_cards
+            if ncards != self.gameinfo.ncards:
+                print 'WARNING: invalid sum of foundations.max_cards:', self.__class__.__name__, ncards, self.gameinfo.ncards
         # optimize regions
         self.optimizeRegions()
         # create cards
@@ -987,6 +994,8 @@ class Game:
     def getCardBackImage(self, deck, suit, rank):
         return self.app.images.getBack(deck, suit, rank)
 
+    def getCardShadeImage(self):
+        return self.app.images.getShade()
 
     #
     # layout support
@@ -1083,6 +1092,10 @@ class Game:
 
     # fill a stack if rules require it (e.g. Picture Gallery)
     def fillStack(self, stack):
+        pass
+
+    # redeal cards (used in RedealTalonStack; all cards already in talon)
+    def redealCards(self):
         pass
 
     # the actual hint class (or None)
@@ -1931,7 +1944,7 @@ for %d moves.
     # move type 8
     def flipAllMove(self, stack):
         assert stack
-        am = AFlipAllMove(self, stack)
+        am = AFlipAllMove(stack)
         self.__storeMove(am)
         am.do(self)
         self.hints.list = None
@@ -1942,6 +1955,13 @@ for %d moves.
         self.__storeMove(am)
         am.do(self)
         ##self.hints.list = None
+
+    # move type 10
+    def closeStackMove(self, stack):
+        assert stack
+        am = ACloseStackMove(stack)
+        self.__storeMove(am)
+        am.do(self)
 
 
     # Finish the current move.
@@ -2244,7 +2264,10 @@ Please report this bug."""))
                 if not game.canLoadGame(version_tuple, game_version):
                     destruct(game)
                     game = None
-        assert game is not None, "Cannot load this game from version " + version + "\nas the game rules have changed\nin the current implementation."
+        assert game is not None, '''\
+Cannot load this game from version %s
+as the game rules have changed
+in the current implementation.''' % version
         game.version = version
         game.version_tuple = version_tuple
         #

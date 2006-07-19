@@ -543,6 +543,19 @@ class OceanTowers(TripleFreecell):
         return card1.suit == card2.suit and abs(card1.rank-card2.rank) == 1
 
 
+# /***********************************************************************
+# // KingCell
+# ************************************************************************/
+
+class KingCell_RowStack(RK_RowStack):
+    def canMoveCards(self, cards):
+        max_move = getNumberOfFreeStacks(self.game.s.reserves) + 1
+        return len(cards) <= max_move and RK_RowStack.canMoveCards(self, cards)
+
+class KingCell(FreeCell):
+    Hint_Class = FreeCellType_Hint
+    RowStack_Class = StackWrapper(KingCell_RowStack, base_rank=KING)
+
 
 # register the game
 registerGame(GameInfo(5, RelaxedFreeCell, "Relaxed FreeCell",
@@ -585,4 +598,6 @@ registerGame(GameInfo(513, OceanTowers, "Ocean Towers",
                       GI.GT_FREECELL | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(520, GermanFreeCell, "German FreeCell",
                       GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_SKILL))
+registerGame(GameInfo(542, KingCell, "KingCell",
+                      GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 

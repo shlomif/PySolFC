@@ -146,3 +146,10 @@ class AbstractCard:
     def updateCardBackground(self, image):
         raise SubclassResponsibility
 
+
+    def close(self):
+        pass
+
+    def unclose(self):
+        pass
+

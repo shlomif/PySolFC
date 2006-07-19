@@ -46,6 +46,10 @@ class TakeAway_Foundation(AbstractFoundationStack):
         return (c1.rank == (c2.rank + 1) % mod or
                 c2.rank == (c1.rank + 1) % mod)
 
+    def closeStackMove(self):
+        pass
+
+
 class TakeAway(Game):
 
     RowStack_Class = BasicRowStack

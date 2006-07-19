@@ -98,7 +98,7 @@ class DieBoeseSieben(Game):
         # create stacks
         for i in range(8):
             x, y, = l.XM + i*l.XS, l.YM
-            s.foundations.append(DieRussische_Foundation(x, y, self, i/2, max_move=0))
+            s.foundations.append(DieRussische_Foundation(x, y, self, i/2, max_move=0, max_cards=8))
         for i in range(rows):
             x, y, = l.XM + (2*i+8-rows)*l.XS/2, l.YM + l.YS
             s.rows.append(AC_RowStack(x, y, self))

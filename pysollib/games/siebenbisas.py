@@ -136,7 +136,7 @@ class SiebenBisAs(Game):
             s.reserves.append(ReserveStack(x, y, self, max_accept=0))
         for i in range(4):
             x, y, = l.XM + (i+3)*l.XS, l.YM + 4*l.YS
-            s.foundations.append(SiebenBisAs_Foundation(x, y, self, i, base_rank=6, mod=13, max_move=0))
+            s.foundations.append(SiebenBisAs_Foundation(x, y, self, i, base_rank=6, mod=13, max_move=0, max_cards=8))
         s.talon = InitialDealTalonStack(l.XM, self.height-l.YS, self)
 
         # define stack-groups

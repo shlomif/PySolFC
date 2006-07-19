@@ -323,6 +323,21 @@ class Canister(Klondike):
         self.s.talon.dealRow(rows=self.s.rows[2:6])
 
 
+class Usk(Somerset):
+
+    Talon_Class = RedealTalonStack
+    RowStack_Class = StackWrapper(AC_RowStack, base_rank=KING)
+
+    def createGame(self):
+        Klondike.createGame(self, max_rounds=2, rows=10, waste=0, texts=0)
+
+    def redealCards(self):
+        n = 0
+        while self.s.talon.cards:
+            self.s.talon.dealRowAvail(rows=self.s.rows[n:], frames=4)
+            n += 1
+
+
 # /***********************************************************************
 # // Agnes Sorel
 # ************************************************************************/
@@ -376,6 +391,7 @@ class AchtmalAcht(EightTimesEight):
 
 # /***********************************************************************
 # // Batsford
+# // Batsford Again
 # ************************************************************************/
 
 class Batsford_ReserveStack(ReserveStack):
@@ -389,13 +405,19 @@ class Batsford_ReserveStack(ReserveStack):
 
 class Batsford(Klondike):
     def createGame(self, **layout):
-        l = Klondike.createGame(self, rows=10, max_rounds=1, playcards=22)
+        kwdefault(layout, rows=10, max_rounds=1, playcards=22)
+        l = apply(Klondike.createGame, (self,), layout)
         s = self.s
         x, y = l.XM, self.height - l.YS
         s.reserves.append(Batsford_ReserveStack(x, y, self, max_cards=3))
         self.setRegion(s.reserves, (-999, y - l.YM, x + l.XS, 999999), priority=1)
         l.createText(s.reserves[0], "se")
         l.defaultStackGroups()
+
+
+class BatsfordAgain(Batsford):
+    def createGame(self):
+        Batsford.createGame(self, max_rounds=2)
 
 
 # /***********************************************************************
@@ -1199,4 +1221,8 @@ registerGame(GameInfo(522, ArticGarden, "Artic Garden",
                       GI.GT_RAGLAN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(532, GoldRush, "Gold Rush",
                       GI.GT_KLONDIKE, 1, 2, GI.SL_BALANCED))
+registerGame(GameInfo(539, Usk, "Usk",
+                      GI.GT_KLONDIKE, 1, 1, GI.SL_BALANCED))
+registerGame(GameInfo(541, BatsfordAgain, "Batsford Again",
+                      GI.GT_KLONDIKE, 2, 1, GI.SL_BALANCED))
 

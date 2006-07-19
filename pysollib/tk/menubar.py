@@ -335,8 +335,8 @@ class PysolMenubar(PysolMenubarActions):
         submenu.add_checkbutton(label=n_("Enable highlight same &rank"), variable=self.tkopt.highlight_samerank, command=self.mOptEnableHighlightSameRank)
         submenu.add_checkbutton(label=n_("Highlight &no matching"), variable=self.tkopt.highlight_not_matching, command=self.mOptEnableHighlightNotMatching)
         submenu.add_separator()
-        submenu.add_checkbutton(label=n_("Show removed tiles (in Mahjongg games)"), variable=self.tkopt.mahjongg_show_removed, command=self.mOptMahjonggShowRemoved)
-        submenu.add_checkbutton(label=n_("Show hint arrow (in Shisen-Sho games)"), variable=self.tkopt.shisen_show_hint, command=self.mOptShisenShowHint)
+        submenu.add_checkbutton(label=n_("&Show removed tiles (in Mahjongg games)"), variable=self.tkopt.mahjongg_show_removed, command=self.mOptMahjonggShowRemoved)
+        submenu.add_checkbutton(label=n_("Show hint &arrow (in Shisen-Sho games)"), variable=self.tkopt.shisen_show_hint, command=self.mOptShisenShowHint)
         menu.add_separator()
         label = n_("&Sound...")
         if self.app.audio.audiodev is None:
@@ -354,6 +354,7 @@ class PysolMenubar(PysolMenubarActions):
         submenu.add_checkbutton(label=n_("Card shado&w"), variable=self.tkopt.shadow, command=self.mOptShadow)
         submenu.add_checkbutton(label=n_("Shade &legal moves"), variable=self.tkopt.shade, command=self.mOptShade)
         submenu.add_checkbutton(label=n_("&Negative cards bottom"), variable=self.tkopt.negative_bottom, command=self.mOptNegativeBottom)
+        submenu.add_checkbutton(label=n_("Shade &filled stacks"), variable=self.tkopt.shade_filled_stacks, command=self.mOptShadeFilledStacks)
         submenu = MfxMenu(menu, label=n_("A&nimations"))
         submenu.add_radiobutton(label=n_("&None"), variable=self.tkopt.animations, value=0, command=self.mOptAnimations)
         submenu.add_radiobutton(label=n_("&Timer based"), variable=self.tkopt.animations, value=2, command=self.mOptAnimations)

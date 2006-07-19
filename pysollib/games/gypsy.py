@@ -188,7 +188,7 @@ class DieRussische_RowStack(AC_RowStack):
 
 class DieRussische(Gypsy):
     Talon_Class = InitialDealTalonStack
-    Foundation_Class = StackWrapper(DieRussische_Foundation, min_cards=1)
+    Foundation_Class = StackWrapper(DieRussische_Foundation, min_cards=1, max_cards=8)
     RowStack_Class = DieRussische_RowStack
 
     def createGame(self):

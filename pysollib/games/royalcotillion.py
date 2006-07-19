@@ -413,7 +413,7 @@ class BritishConstitution(Game):
         # create stacks
         x, y = l.XM+l.XS, l.YM
         for i in range(8):
-            s.foundations.append(BritishConstitution_Foundation(x, y, self, suit=int(i/2)))
+            s.foundations.append(BritishConstitution_Foundation(x, y, self, suit=int(i/2), max_cards=11))
             x += l.XS
 
         y = l.YM+l.YS

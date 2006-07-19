@@ -53,20 +53,20 @@ class Sultan(Game):
         self.setSize(w, h)
 
         # create stacks
-        lay = ((0,0,0,1),
-               (2,0,0,1),
-               (0,1,1,1),
-               (2,1,1,1),
-               (1,1,2,0),
-               (1,2,2,1),
-               (0,2,3,1),
-               (2,2,3,1),
-               (1,0,2,1),
+        lay = ((0,0,0,1,13),
+               (2,0,0,1,13),
+               (0,1,1,1,13),
+               (2,1,1,1,13),
+               (1,1,2,0,1),
+               (1,2,2,1,13),
+               (0,2,3,1,13),
+               (2,2,3,1,13),
+               (1,0,2,1,12),
                )
-        for i, j, suit, max_accept in lay:
+        for i, j, suit, max_accept, max_cards in lay:
             x, y = 2*l.XM+l.XS+i*l.XS, l.YM+j*l.YS
             stack = SS_FoundationStack(x, y, self, suit=suit,
-                    max_move=0, max_accept=max_accept, mod=13)
+                    max_move=0, max_accept=max_accept, max_cards=max_cards, mod=13)
             s.foundations.append(stack)
 
         x, y = l.XM, l.YM
@@ -309,7 +309,7 @@ class IdleAces(Game):
             x, y = x0+i*l.XS, y0+j*l.YS
             s.foundations.append(RK_FoundationStack(x, y, self,
                                  ##suit=ANY_SUIT,
-                                 base_rank=1, max_move=0))
+                                 base_rank=1, max_move=0, max_cards=12))
             k += 1
         k = 0
         for i, j in((1, 0.2), (3, 0.2), (1, 2.8), (3, 2.8)):
@@ -635,14 +635,15 @@ class SixesAndSevens(Game):
         for i in range(2):
             x = l.XM
             for j in range(4):
-                s.foundations.append(SS_FoundationStack(x, y, self, suit=j, base_rank=6))
+                s.foundations.append(SS_FoundationStack(x, y, self,
+                                     suit=j, base_rank=6, max_cards=7))
                 x += l.XS
             y += l.YS
         for i in range(2):
             x = l.XM
             for j in range(4):
                 s.foundations.append(SS_FoundationStack(x, y, self, suit=j,
-                                     base_rank=5, dir=-1))
+                                     base_rank=5, dir=-1, max_cards=6))
                 x += l.XS
             y += l.YS
         y = l.YM

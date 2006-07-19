@@ -222,10 +222,17 @@ class MfxCanvas(Tkinter.Canvas):
                 if stack.cards[i].item.tag in current:
                     return i
         else:
-            current = self.find("withtag", "current")   # get item ids
-            for i in range(len(stack.cards)):
-                if stack.cards[i].item.id in current:
-                    return i
+##             current = self.find("withtag", "current")   # get item ids
+##             for i in range(len(stack.cards)):
+##                 if stack.cards[i].item.id in current:
+##                     return i
+            x, y = event.x, event.y
+            items = list(self.find_overlapping(x,y,x,y))
+            items.reverse()
+            for item in items:
+                for i in range(len(stack.cards)):
+                    if stack.cards[i].item.id == item:
+                        return i
         return -1
 
     def setTextColor(self, color):

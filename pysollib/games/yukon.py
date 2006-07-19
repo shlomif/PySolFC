@@ -171,17 +171,22 @@ class Odessa(RussianSolitaire):
 # // Grandfather
 # ************************************************************************/
 
+class Grandfather_Talon(RedealTalonStack):
+    def redealCards(self, sound=0):
+        RedealTalonStack.redealCards(self, sound=sound, shuffle=True)
+
 class Grandfather(RussianSolitaire):
+    Talon_Class = StackWrapper(Grandfather_Talon, max_rounds=3)
+
     def startGame(self):
-        n = 1
-        for i in (2,4,6,5,3,1):
-            self.s.talon.dealRow(rows=[self.s.rows[n]]*i, flip=0, frames=0)
-            n += 1
-        n = 0
+        for i, j in ((1,7),(1,6),(2,6),(2,5),(3,5),(3,4)):
+            self.s.talon.dealRowAvail(rows=self.s.rows[i:j], flip=0, frames=0)
         self.startDealSample()
-        for i in (1,5,5,5,5,5,5):
-            self.s.talon.dealRow(rows=[self.s.rows[n]]*i)
-            n += 1
+        self.s.talon.dealRowAvail()
+        for i in range(4):
+            self.s.talon.dealRowAvail(rows=self.s.rows[1:])
+
+    redealCards = startGame
 
 
 # /***********************************************************************
@@ -644,7 +649,7 @@ registerGame(GameInfo(20, RussianSolitaire, "Russian Solitaire",
 registerGame(GameInfo(27, Odessa, "Odessa",
                       GI.GT_YUKON, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(278, Grandfather, "Grandfather",
-                      GI.GT_YUKON, 1, 0, GI.SL_MOSTLY_LUCK))
+                      GI.GT_YUKON, 1, 2, GI.SL_BALANCED))
 registerGame(GameInfo(186, Alaska, "Alaska",
                       GI.GT_YUKON, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(187, ChineseDiscipline, "Chinese Discipline",

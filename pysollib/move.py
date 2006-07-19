@@ -144,7 +144,6 @@ class AFlipAllMove(AtomicMove):
 
     # do the actual move
     def __doMove(self, game, stack):
-        #card = stack.cards[-1]
         for card in stack.cards:
             if card.face_up:
                 card.showBack()
@@ -433,4 +432,29 @@ class AShuffleStackMove(AtomicMove):
         return (cmp(self.stack_id, other.stack_id) or
                 cmp(self.card_ids, other.card_ids) or
                 cmp(self.state, other.state))
+
+
+# /***********************************************************************
+# // ACloseStackMove
+# ************************************************************************/
+
+class ACloseStackMove(AtomicMove):
+
+    def __init__(self, stack):
+        self.stack_id = stack.id
+
+    def redo(self, game):
+        stack = game.allstacks[self.stack_id]
+        assert stack.cards
+        stack.is_closed = True
+        stack._shadeStack()
+
+    def undo(self, game):
+        stack = game.allstacks[self.stack_id]
+        assert stack.cards
+        stack.is_closed = False
+        stack._unshadeStack()
+
+    def cmpForRedo(self, other):
+        return cmp(self.stack_id, other.stack_id)
 

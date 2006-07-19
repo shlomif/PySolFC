@@ -174,7 +174,7 @@ class Braid(Game):
                 s.foundations.append(cl(x, y, self, suit=i))
                 x += l.XS
             y = y + l.YS
-        x = 8*l.XS+decks*l.XS/2
+        x = 8*l.XS+decks*l.XS/2+l.XM/2
         self.texts.info = MfxCanvasText(self.canvas,
                                         x, y, anchor="n",
                                         font=self.app.getFont("canvas_default"))

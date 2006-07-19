@@ -135,7 +135,7 @@ class MonteCarlo(Game):
                                                   dir=0, base_rank=NO_RANK))
         x, y = l.XM + 11*l.XS/2, l.YM
         s.foundations.append(self.Foundation_Class(x, y, self, suit=ANY_SUIT,
-                             max_move=0, max_cards=52, base_rank=ANY_RANK))
+                             max_move=0, max_cards=self.gameinfo.ncards, base_rank=ANY_RANK))
         l.createText(s.foundations[0], "ss")
         y = y + 2*l.YS
         s.talon = self.Talon_Class(x, y, self, max_rounds=1)
@@ -598,7 +598,7 @@ class TheWish(Game):
 
         x, y = self.width - l.XS, self.height - l.YS
         s.foundations.append(AbstractFoundationStack(x, y, self, suit=ANY_SUIT,
-                             max_move=0, max_cards=52, max_accept=0, base_rank=ANY_RANK))
+                             max_move=0, max_cards=32, max_accept=0, base_rank=ANY_RANK))
         l.createText(s.foundations[0], "nn")
 
         # define stack-groups

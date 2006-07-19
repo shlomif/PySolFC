@@ -45,9 +45,11 @@ __all__ = ['cardsFaceUp',
            'Stack',
            'DealRow_StackMethods',
            'DealBaseCard_StackMethods',
+           'RedealCards_StackMethods',
            'TalonStack',
            'DealRowTalonStack',
            'InitialDealTalonStack',
+           'RedealTalonStack',
            'OpenStack',
            'AbstractFoundationStack',
            'SS_FoundationStack',
@@ -276,10 +278,12 @@ class Stack:
             bottom = None,              # canvas item
             redeal = None,              # canvas item
             redeal_img = None,          #   the corresponding PhotoImage
+            shade_img = None,
         )
         # other canvas items
         view.items = Struct(
             bottom = None,              # dummy canvas item
+            shade_item = None,
         )
         # text items
         view.texts = Struct(
@@ -296,6 +300,8 @@ class Stack:
         view.is_open = -1
         view.can_hide_cards = -1
         view.max_shadow_cards = -1
+        #
+        view.is_closed = False
 
     def destruct(self):
         # help breaking circular references
@@ -422,6 +428,7 @@ class Stack:
         view._position(card)
         if update:
             view.updateText()
+        self.closeStackMove()
         return card
 
     # Remove a card from the stack. Also update display. {model -> view}
@@ -449,6 +456,9 @@ class Stack:
             model.cards.remove(card)
         if update:
             view.updateText()
+        if self.is_closed:
+            self._unshadeStack()
+            self.is_closed = False
         return card
 
     # Get the top card {model}
@@ -621,6 +631,8 @@ class Stack:
     def fillStack(self):
         self.game.fillStack(self)
 
+    def closeStackMove(self):
+        pass
 
     #
     # Playing move actions. Better not override.
@@ -974,6 +986,8 @@ class Stack:
         i = self._findCard(event)
         if i < 0 or not self.canMoveCards(self.cards[i:]):
             return
+        if self.is_closed:
+            self.items.shade_item.config(state='hidden')
         x_offset, y_offset = self.cards[i].x, self.cards[i].y
         if sound:
             self.game.playSample("startdrag")
@@ -1048,24 +1062,29 @@ class Stack:
                 return ()
             cy = c.y
         img0, img1 = images.getShadow(0), images.getShadow(l)
-        if 0:
-            # Dynamically compute the shadow. Doesn't work because
-            # PhotoImage.copy() doesn't preserve transparency.
-            img1 = images.getShadow(13)
-            if img1:
-                h = images.CARDH - img0.height()
-                h = h + (l - 1) * self.CARD_YOFFSET[0]
-                if h < img1.height():
-                    import Tkinter
-                    dest = Tkinter.PhotoImage(width=img1.width(), height=h)
-                    dest.blank()
-                    img1.tk.call(dest, "copy", img1.name, "-from", 0, 0, img1.width(), h)
-                    assert dest.height() == h and dest.width() == img1.width()
-                    #print h, img1.height(), dest.height()
-                    img1 = dest
-                    self._foo = img1 # keep a reference
-                elif h > img1.height():
-                    img1 = None
+##         if 0:
+##             # Dynamically compute the shadow. Doesn't work because
+##             # PhotoImage.copy() doesn't preserve transparency.
+##             img1 = images.getShadow(13)
+##             if img1:
+##                 h = images.CARDH - img0.height()
+##                 h = h + (l - 1) * self.CARD_YOFFSET[0]
+##                 if h < img1.height():
+##                     if hasattr(img1, '_pil_image'): # use PIL
+##                         import ImageTk
+##                         im = img1._pil_image.crop((0,0,img1.width(),h))
+##                         img1 = ImageTk.PhotoImage(im)
+##                     else:
+##                         import Tkinter
+##                         dest = Tkinter.PhotoImage(width=img1.width(), height=h)
+##                         dest.blank()
+##                         img1.tk.call(dest, "copy", img1.name, "-from", 0, 0, img1.width(), h)
+##                         assert dest.height() == h and dest.width() == img1.width()
+##                         #print h, img1.height(), dest.height()
+##                         img1 = dest
+##                     self._foo = img1 # keep a reference
+##                 elif h > img1.height():
+##                     img1 = None
         if img0 and img1:
             c = cards[-1]
             if self.CARD_YOFFSET[0] < 0: c = cards[0]
@@ -1090,7 +1109,11 @@ class Stack:
         # optimized for speed - we use lots of local variables
         game = self.game
         images = game.app.images
-        img = images.getShade()
+        if not self.images.shade_img:
+            img = images.getShade()
+            self.images.shade_img = img
+        else:
+            img = self.images.shade_img
         if img is None:
             return
         CW, CH = images.CARDW, images.CARDH
@@ -1139,6 +1162,31 @@ class Stack:
             else:
                 img.lower(drag.cards[0].item)
 
+    # for closeStackMove
+    def _shadeStack(self):
+        if not self.game.app.opt.shade_filled_stacks:
+            return
+        if not self.images.shade_img:
+            img = self.game.app.images.getShade()
+            self.images.shade_img = img
+        else:
+            img = self.images.shade_img
+        if img is None:
+            return
+        if not self.items.shade_item:
+            self.game.canvas.update_idletasks()
+            card = self.cards[-1]
+            item = MfxCanvasImage(self.game.canvas, card.x, card.y,
+                                  image=img, anchor=ANCHOR_NW)
+            ##item.tkraise()
+            item.addtag(self.group)
+            self.items.shade_item = item
+
+    def _unshadeStack(self):
+        if self.items.shade_item:
+            self.items.shade_item.delete()
+            self.items.shade_item = None
+
     def _stopDrag(self):
         drag = self.game.drag
         after_cancel(drag.timer)
@@ -1151,6 +1199,9 @@ class Stack:
         drag.shadows = []
         drag.stack = None
         drag.cards = []
+        if self.is_closed:
+            self.items.shade_item.config(state='normal')
+            self.items.shade_item.tkraise()
 
     # finish a drag operation
     def finishDrag(self, event=None):
@@ -1173,8 +1224,7 @@ class Stack:
             self.moveCardsBackHandler(event, drag)
 
     def getHelp(self):
-        # devel
-        return str(self)
+        return str(self) # debug
 
     def getBaseCard(self):
         return ''
@@ -1319,11 +1369,46 @@ class DealBaseCard_StackMethods:
             ncards = ncards - 1
 
 
+class RedealCards_StackMethods:
+
+    def redealCards(self, sound=0, shuffle=False, reverse=False, frames=4):
+        if sound and self.game.app.opt.animations:
+            self.game.startDealSample()
+        lr = len(self.game.s.rows)
+        # move all cards to the Talon
+        num_cards = 0
+        assert len(self.cards) == 0
+        rows = list(self.game.s.rows)[:]
+        if reverse:
+            rows.reverse()
+        for r in rows:
+            for i in range(len(r.cards)):
+                num_cards += 1
+                self.game.moveMove(1, r, self, frames=0)
+                if self.cards[-1].face_up:
+                    self.game.flipMove(self)
+        assert len(self.cards) == num_cards
+        if num_cards == 0:          # game already finished
+            return 0
+        if shuffle:
+            # shuffle
+            self.game.shuffleStackMove(self)
+        # redeal
+        self.game.nextRoundMove(self)
+        self.game.redealCards()
+        if sound:
+            self.game.stopSamples()
+        return num_cards
+
+
 # /***********************************************************************
 # // The Talon is a stack with support for dealing.
 # ************************************************************************/
 
-class TalonStack(Stack, DealRow_StackMethods, DealBaseCard_StackMethods):
+class TalonStack(Stack,
+                 DealRow_StackMethods,
+                 DealBaseCard_StackMethods,
+                 ):
     def __init__(self, x, y, game, max_rounds=1, num_deal=1, **cap):
         Stack.__init__(self, x, y, game, cap=cap)
         self.max_rounds = max_rounds
@@ -1361,8 +1446,8 @@ class TalonStack(Stack, DealRow_StackMethods, DealBaseCard_StackMethods):
     def removeAllCards(self):
         for stack in self.game.allstacks:
             while stack.cards:
-                ##stack.removeCard(update=0)
-                stack.removeCard(unhide=0, update=0)
+                stack.removeCard(update=0)
+                ##stack.removeCard(unhide=0, update=0)
         for stack in self.game.allstacks:
             stack.updateText()
 
@@ -1459,6 +1544,15 @@ class InitialDealTalonStack(TalonStack):
     # no bottom
     def getBottomImage(self):
         return None
+
+
+class RedealTalonStack(TalonStack, RedealCards_StackMethods):
+    def canDealCards(self):
+        if self.round == self.max_rounds:
+            return False
+        return not self.game.isGameWon()
+    def dealCards(self, sound=0):
+        RedealCards_StackMethods.redealCards(self, sound=sound)
 
 
 # /***********************************************************************
@@ -1645,6 +1739,10 @@ class AbstractFoundationStack(OpenStack):
 
     def getBaseCard(self):
         return self._getBaseCard()
+
+    def closeStackMove(self):
+        if len(self.cards) == self.cap.max_cards:
+            self.game.closeStackMove(self)
 
 
 # A SameSuit_FoundationStack is the typical Foundation stack.

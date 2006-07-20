@@ -84,6 +84,7 @@ __all__ = ['cardsFaceUp',
            'StackWrapper',
            'WeakStackWrapper',
            'FullStackWrapper',
+           'ArbitraryStack',
            ]
 
 # imports
@@ -301,7 +302,7 @@ class Stack:
         view.can_hide_cards = -1
         view.max_shadow_cards = -1
         #
-        view.is_closed = False
+        view.is_filled = False
 
     def destruct(self):
         # help breaking circular references
@@ -431,8 +432,24 @@ class Stack:
         self.closeStackMove()
         return card
 
+    def insertCard(self, card, positon, unhide=1, update=1):
+        model, view = self, self
+        model.cards.insert(positon, card)
+        for c in model.cards[positon:]:
+            c.tkraise(unhide=unhide)
+        if view.can_hide_cards and len(model.cards) >= 3 and len(model.cards)-positon <= 2:
+            # we only need to display the 2 top cards
+            model.cards[-3].hide(self)
+        card.item.addtag(view.group)
+        for c in model.cards[positon:]:
+            view._position(c)
+        if update:
+            view.updateText()
+        self.closeStackMove()
+        return card
+
     # Remove a card from the stack. Also update display. {model -> view}
-    def removeCard(self, card=None, unhide=1, update=1):
+    def removeCard(self, card=None, unhide=1, update=1, update_positions=0):
         model, view = self, self
         assert len(model.cards) > 0
         if card is None:
@@ -453,12 +470,16 @@ class Stack:
                     if card is model.cards[-1] or model is self.cards[-2]:
                         # Make sure that 2 top cards will be un-hidden.
                         model.cards[-3].unhide()
+            card_index = model.cards.index(card)
             model.cards.remove(card)
+            if update_positions:
+                for c in model.cards[card_index:]:
+                    view._position(c)
         if update:
             view.updateText()
-        if self.is_closed:
+        if self.is_filled:
             self._unshadeStack()
-            self.is_closed = False
+            self.is_filled = False
         return card
 
     # Get the top card {model}
@@ -979,6 +1000,9 @@ class Stack:
     # Drag internals {controller -> model -> view}
     #
 
+    def getDragCards(self, index):
+        return self.cards[index:]
+
     # begin a drag operation
     def startDrag(self, event, sound=1):
         #print event.x, event.y
@@ -986,7 +1010,7 @@ class Stack:
         i = self._findCard(event)
         if i < 0 or not self.canMoveCards(self.cards[i:]):
             return
-        if self.is_closed:
+        if self.is_filled:
             self.items.shade_item.config(state='hidden')
         x_offset, y_offset = self.cards[i].x, self.cards[i].y
         if sound:
@@ -999,7 +1023,8 @@ class Stack:
         drag.start_y = event.y
         drag.stack = self
         drag.noshade_stacks = [ self ]
-        drag.cards = self.cards[i:]
+        drag.cards = self.getDragCards(i)
+        drag.index = i
         images = game.app.images
         drag.shadows = self.createShadows(drag.cards)
         ##sx, sy = 0, 0
@@ -1199,7 +1224,7 @@ class Stack:
         drag.shadows = []
         drag.stack = None
         drag.cards = []
-        if self.is_closed:
+        if self.is_filled:
             self.items.shade_item.config(state='normal')
             self.items.shade_item.tkraise()
 
@@ -1639,6 +1664,9 @@ class OpenStack(Stack):
             return self.highlightMatchingCards(event)
         return 0
 
+    def dragMove(self, drag, stack, sound=1):
+        self.playMoveMove(len(drag.cards), stack, frames=0, sound=sound)
+
     def releaseHandler(self, event, drag, sound=1):
         cards = drag.cards
         # check if we moved the card by at least 10 pixels
@@ -1657,7 +1685,8 @@ class OpenStack(Stack):
             Stack.releaseHandler(self, event, drag, sound=sound)
         else:
             # this code actually moves the cards to the new stack
-            self.playMoveMove(len(cards), stack, frames=0, sound=sound)
+            ##self.playMoveMove(len(cards), stack, frames=0, sound=sound)
+            self.dragMove(drag, stack, sound=sound)
 
     def quickPlayHandler(self, event, from_stacks=None, to_stacks=None):
         ##print 'quickPlayHandler', from_stacks, to_stacks
@@ -1697,12 +1726,11 @@ class OpenStack(Stack):
         #
         if moves:
             moves.sort()
-            moves.reverse()
-            ##from pprint import pprint
-            ##pprint(moves)
-            if moves[0][0] >= 0:
+            ##from pprint import pprint; pprint(moves)
+            score, len_moves, ncards, from_stack, to_stack = moves[-1]
+            if score >= 0:
                 ##self.game.playSample("startdrag")
-                moves[0][3].playMoveMove(moves[0][2], moves[0][4])
+                from_stack.playMoveMove(ncards, to_stack)
                 return 1
         return 0
 
@@ -2164,6 +2192,101 @@ class InvisibleStack(Stack):
 
 
 # /***********************************************************************
+# // ArbitraryStack (stack with arbitrary access)
+# ************************************************************************/
+
+class ArbitraryStack(OpenStack):
+
+    def __init__(self, x, y, game, **cap):
+        kwdefault(cap, max_accept=0)
+        apply(OpenStack.__init__, (self, x, y, game), cap)
+        self.CARD_YOFFSET = game.app.images.CARD_YOFFSET
+
+    def canMoveCards(self, cards):
+        return True
+
+    def getDragCards(self, index):
+        return [ self.cards[index] ]
+
+    def startDrag(self, event, sound=1):
+        OpenStack.startDrag(self, event, sound=sound)
+
+    def doubleclickHandler(self, event):
+        # flip or drop a card
+        flipstacks, dropstacks, quickstacks = self.game.getAutoStacks(event)
+        if self in flipstacks and self.canFlipCard():
+            self.playFlipMove()
+            return -1               # continue this event (start a drag)
+        if self in dropstacks:
+            i = self._findCard(event)
+            if i < 0:
+                return 0
+            cards = [ self.cards[i] ]
+            for s in self.game.s.foundations:
+                if s is not self and s.acceptsCards(self, cards):
+                    self.game.playSample("autodrop", priority=30)
+                    self.playSingleCardMove(i, s, sound=0)
+                    return 1
+        return 0
+
+##     def moveMove(self, ncards, to_stack, frames=-1, shadow=-1):
+##         i = len(self.cards)-1
+##         self.singleCardMove(i, to_stack, frames=frames, shadow=shadow)
+
+    def moveCardsBackHandler(self, event, drag):
+        i = self.cards.index(drag.cards[0])
+        for card in self.cards[i:]:
+            self._position(card)
+            card.tkraise()
+
+    def singleCardMove(self, index, to_stack, frames=-1, shadow=-1):
+        self.game.singleCardMove(self, to_stack, index, frames=frames, shadow=shadow)
+        self.fillStack()
+
+    def dragMove(self, drag, to_stack, sound=1):
+        self.playSingleCardMove(drag.index, to_stack, frames=0, sound=sound)
+
+    def playSingleCardMove(self, index, to_stack, frames=-1, shadow=-1, sound=1):
+        if sound:
+            if to_stack in self.game.s.foundations:
+                self.game.playSample("drop", priority=30)
+            else:
+                self.game.playSample("move", priority=10)
+        self.singleCardMove(index, to_stack, frames=frames, shadow=shadow)
+        if not self.game.checkForWin():
+            # let the player put cards back from the foundations
+            if not self in self.game.s.foundations:
+                self.game.autoPlay()
+        self.game.finishMove()
+
+    def quickPlayHandler(self, event, from_stacks=None, to_stacks=None):
+        if to_stacks is None:
+            to_stacks = self.game.s.foundations + self.game.sg.dropstacks
+        if not self.cards:
+            return 0
+        #
+        moves = []
+        i = self._findCard(event)
+        if i < 0:
+            return 0
+        pile = [ self.cards[i] ]
+        for s in to_stacks:
+            if s is not self and s.acceptsCards(self, pile):
+                score = self.game.getQuickPlayScore(1, self, s)
+                moves.append((score, -len(moves), i, s))
+        #
+        if moves:
+            moves.sort()
+            ##from pprint import pprint; pprint(moves)
+            score, len_moves, index, to_stack = moves[-1]
+            if score >= 0:
+                ##self.game.playSample("startdrag")
+                self.playSingleCardMove(index, to_stack)
+                return 1
+        return 0
+
+
+# /***********************************************************************
 # // A StackWrapper is a functor (function object) that creates a
 # // new stack when called, i.e. it wraps the constructor.
 # //
@@ -2199,7 +2322,4 @@ class FullStackWrapper(StackWrapper):
         return apply(self.stack_class, (x, y, game), self.cap)
 
 
-# /***********************************************************************
-# //
-# ************************************************************************/
 

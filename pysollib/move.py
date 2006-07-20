@@ -446,15 +446,79 @@ class ACloseStackMove(AtomicMove):
     def redo(self, game):
         stack = game.allstacks[self.stack_id]
         assert stack.cards
-        stack.is_closed = True
+        stack.is_filled = True
         stack._shadeStack()
 
     def undo(self, game):
         stack = game.allstacks[self.stack_id]
         assert stack.cards
-        stack.is_closed = False
+        stack.is_filled = False
         stack._unshadeStack()
 
     def cmpForRedo(self, other):
         return cmp(self.stack_id, other.stack_id)
+
+
+# /***********************************************************************
+# // ASingleCardMove - move single card from *anyone* position
+# ************************************************************************/
+
+class ASingleCardMove(AtomicMove):
+
+    def __init__(self, from_stack, to_stack, from_pos, frames, shadow=-1):
+        self.from_stack_id = from_stack.id
+        self.to_stack_id = to_stack.id
+        self.from_pos = from_pos
+        self.frames = frames
+        self.shadow = shadow
+
+    def redo(self, game):
+        from_stack = game.allstacks[self.from_stack_id]
+        to_stack = game.allstacks[self.to_stack_id]
+        from_pos = self.from_pos
+        if game.moves.state == game.S_PLAY:
+            assert to_stack.acceptsCards(from_stack, [from_stack.cards[from_pos]])
+        card = from_stack.cards[from_pos]
+        card = from_stack.removeCard(card, update_positions=1)
+        if self.frames != 0:
+            x, y = to_stack.getPositionFor(card)
+            game.animatedMoveTo(from_stack, to_stack, [card], x, y,
+                                frames=self.frames, shadow=self.shadow)
+        to_stack.addCard(card)
+
+    def undo(self, game):
+        from_stack = game.allstacks[self.from_stack_id]
+        to_stack = game.allstacks[self.to_stack_id]
+        from_pos = self.from_pos
+        card = to_stack.removeCard()
+##         if self.frames != 0:
+##             x, y = to_stack.getPositionFor(card)
+##             game.animatedMoveTo(from_stack, to_stack, [card], x, y,
+##                                 frames=self.frames, shadow=self.shadow)
+        from_stack.insertCard(card, from_pos)
+
+    def cmpForRedo(self, other):
+        return cmp((self.from_stack_id, self.to_stack_id, self.from_pos),
+                   (other.from_stack_id, other.to_stack_id, other.from_pos))
+
+
+# /***********************************************************************
+# // AInnerMove - change position of single card in stack
+# ************************************************************************/
+
+class AInnerMove(AtomicMove):
+
+    def __init__(self, stack, from_pos, to_pos):
+        self.stack_id = stack.id
+        self.from_pos, self.to_pos = from_pos, to_pos
+
+    def redo(self, game):
+        pass
+
+    def undo(self, game):
+        pass
+
+    def cmpForRedo(self, other):
+        return cmp((self.stack_id, self.from_pos, self.to_pos),
+                   (other.stack_id, other.from_pos, other.to_pos))
 

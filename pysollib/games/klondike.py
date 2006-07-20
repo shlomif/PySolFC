@@ -486,7 +486,7 @@ class FlowerGarden(Stonewall):
 # // Brigade
 # ************************************************************************/
 
-class KingAlbert(Klondike):
+class KingAlbertOld(Klondike):
     Talon_Class = InitialDealTalonStack
     RowStack_Class = StackWrapper(AC_RowStack, max_move=1)
     Hint_Class = CautiousDefaultHint
@@ -509,6 +509,19 @@ class KingAlbert(Klondike):
     def startGame(self):
         Klondike.startGame(self, flip=1, reverse=0)
         self.s.talon.dealRow(rows=self.s.reserves)
+
+
+class KingAlbert(KingAlbertOld):
+
+    def createGame(self):
+        l = Klondike.createGame(self, max_rounds=1, rows=self.ROWS, waste=0, texts=0)
+        self.setSize(self.width+l.XM+l.XS, self.height)
+        self.s.reserves.append(ArbitraryStack(self.width-l.XS, l.YM, self))
+        l.defaultStackGroups()
+
+    def startGame(self):
+        Klondike.startGame(self, flip=1, reverse=0)
+        self.s.talon.dealRow(rows=self.s.reserves*7)
 
 
 class Raglan(KingAlbert):

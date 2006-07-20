@@ -219,6 +219,35 @@ class Arabella(DoubleKlondike):
         return 0
 
 
+# /***********************************************************************
+# // Big Deal
+# ************************************************************************/
+
+class BigDeal(DoubleKlondike):
+    def createGame(self, rows=12, max_rounds=2):
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+(rows+2)*l.XS, l.YM+8*l.YS)
+        x, y = l.XM, l.YM
+        for i in range(rows):
+            s.rows.append(AC_RowStack(x, y, self, base_rank=KING))
+            x += l.XS
+        for i in range(2):
+            y = l.YM
+            for j in range(8):
+                s.foundations.append(SS_FoundationStack(x, y, self, suit=j%4))
+                y += l.YS
+            x += l.XS
+        x, y = l.XM, self.height-l.YS
+        s.talon = WasteTalonStack(x, y, self, max_rounds=max_rounds)
+        l.createText(s.talon, 'n')
+        x += l.XS
+        s.waste = WasteStack(x, y, self)
+        l.createText(s.waste, 'n')
+        self.setRegion(s.rows, (-999, -999, l.XM+rows*l.XS-l.CW/2, 999999), priority=1)
+        l.defaultStackGroups()
+
+
+
 # register the game
 registerGame(GameInfo(21, DoubleKlondike, "Double Klondike",
                       GI.GT_KLONDIKE, 2, -1, GI.SL_BALANCED))
@@ -241,4 +270,6 @@ registerGame(GameInfo(496, Inquisitor, "Inquisitor",
                       GI.GT_KLONDIKE, 2, 2, GI.SL_BALANCED))
 registerGame(GameInfo(497, Arabella, "Arabella",
                       GI.GT_KLONDIKE, 3, 0, GI.SL_BALANCED))
+registerGame(GameInfo(545, BigDeal, "Big Deal",
+                      GI.GT_KLONDIKE | GI.GT_ORIGINAL, 4, 1, GI.SL_BALANCED))
 

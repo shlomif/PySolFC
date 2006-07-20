@@ -396,11 +396,13 @@ class Wasp(Scorpion):
 
 # /***********************************************************************
 # // Three Blind Mice
+# // Farmer's Wife
 # ************************************************************************/
 
 class ThreeBlindMice(Scorpion):
 
     Talon_Class = InitialDealTalonStack
+    ReserveStack_Class = OpenStack
 
     def createGame(self):
         # create layout
@@ -420,7 +422,7 @@ class ThreeBlindMice(Scorpion):
             x += l.XS
         x, y = l.XM, l.YM
         for i in range(2):
-            s.reserves.append(OpenStack(x, y, self, max_move=1, max_accept=0))
+            s.reserves.append(self.ReserveStack_Class(x, y, self))
             x += l.XS
         # default
         l.defaultAll()
@@ -433,6 +435,15 @@ class ThreeBlindMice(Scorpion):
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.reserves)
+
+
+class FarmersWife(ThreeBlindMice):
+    Foundation_Class = Spider_AC_Foundation
+    RowStack_Class = StackWrapper(ScorpionTail_RowStack, base_rank=KING)
+
+
+class HowTheyRun(ThreeBlindMice):
+    ReserveStack_Class = ReserveStack
 
 
 # /***********************************************************************
@@ -1109,4 +1120,8 @@ registerGame(GameInfo(511, DoubleScorpion, "Double Scorpion",
                       GI.GT_SPIDER, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(512, TripleScorpion, "Triple Scorpion",
                       GI.GT_SPIDER, 3, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(543, FarmersWife, "Farmer's Wife",
+                      GI.GT_SPIDER, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(544, HowTheyRun, "How They Run",
+                      GI.GT_SPIDER, 1, 0, GI.SL_MOSTLY_SKILL))
 

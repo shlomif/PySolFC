@@ -62,7 +62,7 @@ from pysoltk import Card
 from move import AMoveMove, AFlipMove, ATurnStackMove
 from move import ANextRoundMove, ASaveSeedMove, AShuffleStackMove
 from move import AUpdateStackMove, AFlipAllMove, ASaveStateMove
-from move import ACloseStackMove
+from move import ACloseStackMove, ASingleCardMove
 from hint import DefaultHint
 from help import helpAbout
 
@@ -228,6 +228,7 @@ class Game:
             start_y = 0,                # Y coord of initial drag event
             stack = None,               #
             cards = [],                 #
+            index = -1,                 #
             shadows = [],               # list of canvas images
             shade_stack = None,         # stack currently shaded
             shade_img = None,           # canvas image
@@ -1962,6 +1963,13 @@ for %d moves.
         am = ACloseStackMove(stack)
         self.__storeMove(am)
         am.do(self)
+
+    def singleCardMove(self, from_stack, to_stack, position, frames=-1, shadow=-1):
+        am = ASingleCardMove(from_stack, to_stack, position, frames, shadow)
+        self.__storeMove(am)
+        am.do(self)
+        self.hints.list = None
+
 
 
     # Finish the current move.

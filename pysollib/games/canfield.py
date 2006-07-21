@@ -142,8 +142,8 @@ class Canfield(Game):
                 tx, ty, ta, tf = l.getTextAttr(None, "se")
                 tx, ty = x + tx + l.XM, y + ty
             else:
-                tx, ty, ta, tf = l.getTextAttr(None, "s")
-                tx, ty = x + tx, y + ty + l.YM
+                tx, ty, ta, tf = l.getTextAttr(None, "ss")
+                tx, ty = x + tx, y + ty
             font = self.app.getFont("canvas_default")
             self.texts.info = MfxCanvasText(self.canvas, tx, ty, anchor=ta, font=font)
         x, y = l.XM, l.YM + l.YS + l.TEXT_HEIGHT

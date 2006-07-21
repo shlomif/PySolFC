@@ -162,7 +162,7 @@ class Dumfries(Game):
         # create layout
         l, s = Layout(self), self.s
         kwdefault(layout, rows=8, waste=0, texts=1, playcards=20)
-        apply(Layout.klondikeLayout, (l,), layout)
+        l.klondikeLayout(**layout)
         self.setSize(l.size[0], l.size[1])
         # create stacks
         s.talon = Dumfries_TalonStack(l.s.talon.x, l.s.talon.y, self)

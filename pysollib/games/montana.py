@@ -167,7 +167,7 @@ class Montana(Game):
 
     def createGame(self):
         # create layout
-        l, s = Layout(self, XM=4), self.s
+        l, s = Layout(self, card_x_space=4), self.s
 
         # set window
         self.setSize(l.XM + self.RSTEP*l.XS, l.YM + 5*l.YS)

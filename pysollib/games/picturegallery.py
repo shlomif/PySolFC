@@ -108,12 +108,16 @@ class PictureGallery_Hint(AbstractHint):
         if not self.hints:
             for r in game.s.rows:
                 pile = r.getPile()
+                lp = len(pile)
+                lr = len(r.cards)
+                assert 1 <= lp <= lr
+                rpile = r.cards[ : (lr-lp) ]   # remaining pile
                 if not pile or len(pile) != 1 or len(pile) == len(r.cards):
                     continue
                 base_score = 60000
                 # find a stack that would accept this card
                 for t in game.s.rows:
-                    if t is not r and t.acceptsCards(r, pile):
+                    if self.shallMovePile(r, t, pile, rpile):
                         score = base_score + 100 * (self.K - pile[0].rank)
                         self.addHint(score, 1, r, t)
                         break
@@ -289,6 +293,10 @@ class PictureGallery(Game):
 # // Great Wheel
 # ************************************************************************/
 
+class GreatWheel_Hint(PictureGallery_Hint):
+    shallMovePile = PictureGallery_Hint._cautiousShallMovePile
+
+
 class GreatWheel_Foundation(PictureGallery_Foundation):
     def acceptsCards(self, from_stack, cards):
         if not PictureGallery_Foundation.acceptsCards(self, from_stack, cards):
@@ -313,9 +321,9 @@ class GreatWheel_RowStack(BasicRowStack):
         return self.game.app.images.getTalonBottom()
 
 
-
 class GreatWheel(PictureGallery):
 
+    Hint_Class = GreatWheel_Hint
     Foundation_Class = GreatWheel_Foundation
     TableauStack_Classes = [
         StackWrapper(PictureGallery_TableauStack, base_rank=2, max_cards=5, dir=2),
@@ -325,7 +333,7 @@ class GreatWheel(PictureGallery):
     Talon_Class = StackWrapper(WasteTalonStack, max_rounds=1)
 
     def createGame(self):
-        PictureGallery.createGame(self, rows=2, waste=True, dir=2)
+        PictureGallery.createGame(self, waste=True)
 
     def fillStack(self, stack):
         if stack is self.s.waste and not stack.cards :

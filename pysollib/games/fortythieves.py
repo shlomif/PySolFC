@@ -103,18 +103,18 @@ class FortyThieves(Game):
             s.rows.append(self.RowStack_Class(x, y, self, max_move=self.ROW_MAX_MOVE))
             x = x + l.XS
         x = self.width - l.XS
-        y = self.height - l.YS - l.TEXT_HEIGHT
+        y = self.height - l.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=max_rounds, num_deal=num_deal)
-        l.createText(s.talon, "s")
+        l.createText(s.talon, "n")
         if max_rounds > 1:
             s.talon.texts.rounds = MfxCanvasText(self.canvas,
-                                                 x + l.CW / 2, y - l.YM,
+                                                 x + l.CW / 2, y - l.TEXT_HEIGHT,
                                                  anchor="s",
                                                  font=self.app.getFont("canvas_default"))
         x = x - l.XS
         s.waste = WasteStack(x, y, self)
         s.waste.CARD_XOFFSET = -l.XOFFSET
-        l.createText(s.waste, "s")
+        l.createText(s.waste, "n")
 
         # define stack-groups
         l.defaultStackGroups()

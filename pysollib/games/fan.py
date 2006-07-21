@@ -81,15 +81,16 @@ class Fan(Game):
         self.setSize(l.XM + max(rows)*w, l.YM + (1+len(rows))*l.YS)
 
         # create stacks
+        decks = self.gameinfo.decks
         if reserves:
             x, y = l.XM, l.YM
             for r in range(reserves):
                 s.reserves.append(self.ReserveStack_Class(x, y, self))
                 x += l.XS
-            x = (self.width - self.gameinfo.decks*4*l.XS - 2*l.XS) / 2
+            x = (self.width - decks*4*l.XS - 2*l.XS) / 2
             dx = l.XS
         else:
-            dx = (self.width - self.gameinfo.decks*4*l.XS)/(self.gameinfo.decks*4+1)
+            dx = (self.width - decks*4*l.XS)/(decks*4+1)
             x, y = l.XM + dx, l.YM
             dx += l.XS
         for fnd_cls in self.Foundation_Classes:

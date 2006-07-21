@@ -40,6 +40,7 @@ import sys
 # PySol imports
 from mfxutil import destruct, Struct, SubclassResponsibility
 from pysoltk import MfxCanvasText
+from resource import CSI
 
 
 # /***********************************************************************
@@ -65,7 +66,7 @@ class _LayoutStack:
 
 
 class Layout:
-    def __init__(self, game, XM=10, YM=10, **kw):
+    def __init__(self, game, card_x_space=None, card_y_space=None, **kw):
         self.game = game
         self.canvas = self.game.canvas
         self.size = None
@@ -80,15 +81,51 @@ class Layout:
         self.regions = []
         # set visual constants
         images = self.game.app.images
+        cardset_size = images.cs.si.size
+        if cardset_size in (CSI.SIZE_TINY, CSI.SIZE_SMALL):
+            layout_x_margin = 6
+            layout_y_margin = 6
+            layout_card_x_space = 6
+            layout_card_y_space = 10
+        elif cardset_size in (CSI.SIZE_MEDIUM,):
+            layout_x_margin = 8
+            layout_y_margin = 8
+            layout_card_x_space = 8
+            layout_card_y_space = 12
+        else:  # CSI.SIZE_LARGE, CSI.SIZE_XLARGE
+            layout_x_margin = 10
+            layout_y_margin = 10
+            layout_card_x_space = 10
+            layout_card_y_space = 14
+
         self.CW = images.CARDW
         self.CH = images.CARDH
-        self.XM = XM                    # XMARGIN
-        self.YM = YM                    # YMARGIN
-        self.XS = self.CW + XM          # XSPACE
-        self.YS = self.CH + YM          # YSPACE
         self.XOFFSET = images.CARD_XOFFSET
         self.YOFFSET = images.CARD_YOFFSET
-        self.TEXT_HEIGHT = 30
+
+        self.XM = layout_x_margin                   # XMARGIN
+        self.YM = layout_y_margin                   # YMARGIN
+
+
+        if card_x_space is None:
+            self.XS = self.CW + layout_card_x_space          # XSPACE
+        else:
+            self.XS = self.CW + card_x_space
+        if card_y_space is None:
+            self.YS = self.CH + layout_card_y_space          # YSPACE
+        else:
+            self.YS = self.CH + card_y_space
+
+        ##self.CARD_X_SPACE = layout_card_x_space
+        ##self.CARD_Y_SPACE = layout_card_y_space
+        ##self.RIGHT_MARGIN = layout_x_margin-layout_card_x_space
+        ##self.BOTTOM_MARGIN = layout_y_margin-layout_card_y_space
+
+        self.TEXT_MARGIN = 10
+        ##self.TEXT_HEIGHT = 30
+        font = game.app.getFont("canvas_default")
+        self.TEXT_HEIGHT = 18+font[1]
+
         self.__dict__.update(kw)
         if self.game.preview > 1:
             if kw.has_key("XOFFSET"):
@@ -116,26 +153,26 @@ class Layout:
         if stack is not None:
             x, y = stack.x, stack.y
         if anchor == "n":
-            return (x + self.CW / 2, y - self.YM, "center", "%d")
+            return (x+self.CW/2, y-4, "s", "%d")
         if anchor == "nn":
-            return (x + self.CW / 2, y - self.YM, "s", "%d")
+            return (x+self.CW/2, y-self.TEXT_MARGIN, "s", "%d")
         if anchor == "s":
-            return (x + self.CW / 2, y + self.YS, "center", "%d")
+            return (x+self.CW/2, y+self.CH+4, "n", "%d")
         if anchor == "ss":
-            return (x + self.CW / 2, y + self.YS, "n", "%d")
+            return (x+self.CW/2, y+self.CH+self.TEXT_MARGIN, "n", "%d")
         if anchor == "nw":
-            return (x - self.XM, y, "ne", "%d")
+            return (x-self.TEXT_MARGIN, y, "ne", "%d")
         if anchor == "sw":
-            return (x - self.XM, y + self.CH, "se", "%d")
+            return (x-self.TEXT_MARGIN, y+self.CH, "se", "%d")
         f = "%2d"
         if self.game.gameinfo.decks > 1:
             f = "%3d"
         if anchor == "ne":
-            return (x + self.XS, y, "nw", f)
+            return (x+self.CW+self.TEXT_MARGIN, y, "nw", f)
         if anchor == "se":
-            return (x + self.XS, y + self.CH, "sw", f)
+            return (x+self.CW+self.TEXT_MARGIN, y+self.CH, "sw", f)
         if anchor == "e":
-            return (x + self.XS, y + self.CH / 2, "w", f)
+            return (x+self.CW+self.TEXT_MARGIN, y+self.CH/2, "w", f)
         raise Exception, anchor
 
     def createText(self, stack, anchor, dx=0, dy=0, text_format=""):
@@ -344,7 +381,7 @@ class Layout:
             self.s.waste = s = S(x, y)
             if texts:
                 # place text left of stack
-                s.setText(x - XM, y + CH, anchor="se", format="%3d")
+                s.setText(x - self.TEXT_MARGIN, y + CH, anchor="se", format="%3d")
 
         # set window
         self.size = (XM + (rows+decks)*XS, h)
@@ -391,12 +428,12 @@ class Layout:
             self.s.waste = s = S(x, y)
             if texts:
                 # place text above stack
-                s.setText(x + CW / 2, y - YM, anchor="s")
+                s.setText(x + CW / 2, y - self.TEXT_MARGIN, anchor="s")
         x = w - XS
         self.s.talon = s = S(x, y)
         if texts:
             # place text above stack
-            s.setText(x + CW / 2, y - YM, anchor="s")
+            s.setText(x + CW / 2, y - self.TEXT_MARGIN, anchor="s")
 
         # set window
         self.size = (w, YM + h + YS)

@@ -174,7 +174,9 @@ class Matriarchy(Game):
         self.setSize(10*l.XS+l.XM, h + l.YM + h)
 
         # create stacks
-        center, c1, c2 = self.height / 2, h, self.height - h
+        ##center, c1, c2 = self.height / 2, h, self.height - h
+        center = self.height / 2
+        c1, c2 = center-l.TEXT_HEIGHT/2, center+l.TEXT_HEIGHT/2
         x, y = l.XM, c1 - l.CH
         for i in range(8):
             s.rows.append(Matriarchy_UpRowStack(x, y, self, i/2))
@@ -186,10 +188,10 @@ class Matriarchy(Game):
         x, y = x + l.XS / 2, c1 - l.CH / 2 - l.CH
         tx = x + l.CW / 2
         s.waste = Matriarchy_Waste(x, y, self)
-        l.createText(s.waste, "ss")
+        l.createText(s.waste, "s")
         y = c2 + l.CH / 2
         s.talon = Matriarchy_Talon(x, y, self, max_rounds=VARIABLE_REDEALS)
-        l.createText(s.talon, "nn")
+        l.createText(s.talon, "n")
         s.talon.texts.rounds = MfxCanvasText(self.canvas,
                                              tx, y + l.YS, anchor="n",
                                              font=self.app.getFont("canvas_default"))

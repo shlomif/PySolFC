@@ -46,4 +46,3 @@ if os.name == "mac":
 TOP_SIZE = 10
 TOP_TITLE = n_("Top 10")
 
-

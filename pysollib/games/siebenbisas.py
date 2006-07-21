@@ -195,7 +195,7 @@ class Maze(Game):
 
     def createGame(self):
         # create layout
-        l, s = Layout(self, XM=4, YM=4), self.s
+        l, s = Layout(self, card_x_space=4, card_y_space=4), self.s
 
         # set window
         self.setSize(l.XM + 9*l.XS, l.YM + 6*l.YS)

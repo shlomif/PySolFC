@@ -1964,12 +1964,12 @@ for %d moves.
         self.__storeMove(am)
         am.do(self)
 
+    # for ArbitraryStack
     def singleCardMove(self, from_stack, to_stack, position, frames=-1, shadow=-1):
         am = ASingleCardMove(from_stack, to_stack, position, frames, shadow)
         self.__storeMove(am)
         am.do(self)
         self.hints.list = None
-
 
 
     # Finish the current move.

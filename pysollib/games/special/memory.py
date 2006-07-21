@@ -271,7 +271,7 @@ class Concentration(Memory24):
 
     def createGame(self):
         # create layout
-        l, s = Layout(self, XM=4), self.s
+        l, s = Layout(self, card_x_space=4), self.s
 
         # game extras
         self.other_stack = None

@@ -76,7 +76,7 @@ class PileOn(Game):
         # set window
         # (set size so that at least 4 cards are fully playable)
         #w = max(2*l.XS, l.XS+(self.PLAYCARDS-1)*l.XOFFSET+2*l.XM)
-        w = l.XS+(self.PLAYCARDS-1)*l.XOFFSET+3*l.XM
+        w = l.XS+(self.PLAYCARDS-1)*l.XOFFSET+3*l.XOFFSET
         twidth, theight = self.TWIDTH, int((self.NSTACKS-1)/self.TWIDTH+1)
         self.setSize(l.XM+twidth*w, l.YM+theight*l.YS)
 

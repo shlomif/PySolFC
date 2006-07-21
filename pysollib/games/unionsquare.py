@@ -97,7 +97,7 @@ class UnionSquare(Game):
 
     def createGame(self, rows=16):
         # create layout
-        l, s = Layout(self, YM=18), self.s
+        l, s = Layout(self, card_y_space=20), self.s
 
         # set window
         self.setSize(l.XM + (5+rows/4)*l.XS, l.YM + 4*l.YS)

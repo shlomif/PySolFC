@@ -131,6 +131,7 @@ class Braid(Game):
     def createGame(self):
         # create layout
         l, s = Layout(self), self.s
+        font=self.app.getFont("canvas_default")
 
         # set window
         # (piles up to 20 cards are playable - needed for Braid_BraidStack)
@@ -161,9 +162,8 @@ class Braid(Game):
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
         l.createText(s.talon, "ss")
         s.talon.texts.rounds = MfxCanvasText(self.canvas,
-                                             x + l.CW / 2, y - l.YM,
-                                             anchor="s",
-                                             font=self.app.getFont("canvas_default"))
+                                             x + l.CW / 2, y - l.TEXT_MARGIN,
+                                             anchor="s", font=font)
         x = x - l.XS
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, "ss")
@@ -174,10 +174,9 @@ class Braid(Game):
                 s.foundations.append(cl(x, y, self, suit=i))
                 x += l.XS
             y = y + l.YS
-        x = 8*l.XS+decks*l.XS/2+l.XM/2
+        x = l.XM+8*l.XS+decks*l.XS/2
         self.texts.info = MfxCanvasText(self.canvas,
-                                        x, y, anchor="n",
-                                        font=self.app.getFont("canvas_default"))
+                                        x, y, anchor="n", font=font)
 
         # define stack-groups
         self.sg.talonstacks = [s.talon] + [s.waste]

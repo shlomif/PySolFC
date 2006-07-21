@@ -117,6 +117,8 @@ class MfxCanvas(Tkinter.Canvas):
         self._text_color = "#000000"
         self._stretch_bg_image = 0
         self._text_items = []
+        #
+        self.xmargin, self.ymargin = 10, 10
         # resize bg image
         self.bind('<Configure>', lambda e: self.set_bg_image())
 
@@ -155,8 +157,8 @@ class MfxCanvas(Tkinter.Canvas):
             #sh = max(self.winfo_screenheight(), 768)
             sw = max(self.winfo_width(), int(self.cget('width')))
             sh = max(self.winfo_height(), int(self.cget('height')))
-            for x in range(0, sw - 1, iw):
-                for y in range(0, sh - 1, ih):
+            for x in range(-self.xmargin, sw, iw):
+                for y in range(-self.ymargin, sh, ih):
                     id = self._x_create("image", x, y, image=image, anchor="nw")
                     self.tag_lower(id)          # also see tag_lower above
                     self.__tiles.append(id)
@@ -198,8 +200,15 @@ class MfxCanvas(Tkinter.Canvas):
 
     def setInitialSize(self, width, height):
         ##print 'setInitialSize:', width, height
-        self.config(width=width, height=height)
-        self.config(scrollregion=(0, 0, width, height))
+        if self.preview:
+            self.config(width=width, height=height)
+            self.config(scrollregion=(0, 0, width, height))
+        else:
+            # add margins
+            ##dx, dy = 40, 40
+            dx, dy = self.xmargin, self.ymargin
+            self.config(width=dx+width+dx, height=dy+height+dy)
+            self.config(scrollregion=(-dx, -dy, width+dx, height+dy))
 
 
     #
@@ -226,7 +235,8 @@ class MfxCanvas(Tkinter.Canvas):
 ##             for i in range(len(stack.cards)):
 ##                 if stack.cards[i].item.id in current:
 ##                     return i
-            x, y = event.x, event.y
+            x, y = event.x-self.xmargin, event.y-self.ymargin
+            ##x, y = event.x, event.y
             items = list(self.find_overlapping(x,y,x,y))
             items.reverse()
             for item in items:

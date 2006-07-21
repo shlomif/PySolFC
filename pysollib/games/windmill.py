@@ -75,7 +75,7 @@ class Windmill(Game):
 
     def createGame(self):
         # create layout
-        l, s = Layout(self, XM=20), self.s
+        l, s = Layout(self, card_x_space=20), self.s
 
         # set window
         self.setSize(7*l.XS+l.XM, 5*l.YS+l.YM+l.YM)
@@ -153,7 +153,7 @@ class NapoleonsTomb(Windmill):
 
     def createGame(self):
         # create layout
-        l, s = Layout(self, XM=20, YM=20), self.s
+        l, s = Layout(self, card_x_space=20, card_y_space=20), self.s
 
         # set window
         self.setSize(5*l.XS+l.XM, 3*l.YS+l.YM+l.YM)
@@ -205,7 +205,7 @@ class Corners(Game):
 
     def createGame(self, max_rounds=3):
         # create layout
-        l, s = Layout(self, XM=20, YM=20), self.s
+        l, s = Layout(self, card_x_space=20, card_y_space=20), self.s
 
         # set window
         self.setSize(5*l.XS+l.XM, 4*l.YS+3*l.YM)

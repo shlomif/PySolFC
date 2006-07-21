@@ -1030,10 +1030,10 @@ class Stack:
         ##sx, sy = 0, 0
         sx, sy = -images.SHADOW_XOFFSET, -images.SHADOW_YOFFSET
         dx, dy = 0, 0
-        if self.game.app.opt.sticky_mouse:
+        if game.app.opt.sticky_mouse:
             # return cards under mouse
-            dx = event.x - (x_offset+images.CARDW+sx)
-            dy = event.y - (y_offset+images.CARDH+sy)
+            dx = event.x - (x_offset+images.CARDW+sx) - game.canvas.xmargin
+            dy = event.y - (y_offset+images.CARDH+sy) - game.canvas.ymargin
             if dx < 0: dx = 0
             if dy < 0: dy = 0
         for s in drag.shadows:
@@ -1043,8 +1043,8 @@ class Stack:
         for card in drag.cards:
             card.tkraise()
             card.moveBy(sx+dx, sy+dy)
-        if self.game.app.opt.dragcursor:
-            self.game.canvas.config(cursor=CURSOR_DRAG)
+        if game.app.opt.dragcursor:
+            game.canvas.config(cursor=CURSOR_DRAG)
 
     # continue a drag operation
     def keepDrag(self, event):

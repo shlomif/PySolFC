@@ -288,7 +288,7 @@ class IdleAces(Game):
     def createGame(self):
 
         l, s = Layout(self), self.s
-        self.setSize(l.XM+8*l.XS, l.YM+4*l.YS)
+        self.setSize(l.XM+7*l.XS, l.YM+4*l.YS)
 
         x, y = l.XM, l.YM
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
@@ -296,7 +296,7 @@ class IdleAces(Game):
         x += l.XS
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, 'ss')
-        x0, y0 = l.XM+l.XS, l.YM
+        x0, y0 = l.XM+2*l.XS, l.YM
         k = 0
         for i, j in((2, 0), (0, 1.5), (4, 1.5), (2, 3)):
             x, y = x0+i*l.XS, y0+j*l.YS

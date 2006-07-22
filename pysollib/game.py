@@ -1436,8 +1436,9 @@ for %d moves.
         #
         color = self.app.opt.highlight_not_matching_color
         width = 6
-        r = MfxCanvasRectangle(self.canvas, x+width/2, y+width/2,
-                               x+w-width/2, y+h-width/2,
+        x0, y0 = x+width/2-self.canvas.xmargin, y+width/2-self.canvas.ymargin
+        x1, y1 = x+w-width/2-self.canvas.xmargin, y+h-width/2-self.canvas.ymargin
+        r = MfxCanvasRectangle(self.canvas, x0, y0, x1, y1,
                                width=width, fill=None, outline=color)
         self.canvas.update_idletasks()
         self.sleep(self.app.opt.highlight_cards_sleep)
@@ -1660,16 +1661,18 @@ for %d moves.
                                      image=self.app.gimages.logos[4], strings=(s,),
                                      separatorwidth=2, timeout=timeout)
                 status = d.status
+                self.finished = True
             else:
                 ##s = self.app.miscrandom.choice((_("&OK"), _("&OK")))
                 s = _("&OK")
                 text = _("\nGame finished\n")
                 if self.app.debug:
-                    text = text + "\n%d %d\n" % (self.stats.player_moves, self.stats.demo_moves)
+                    text += "\nplayer_moves: %d\ndemo_moves: %d\n" % (self.stats.player_moves, self.stats.demo_moves)
                 d = MfxMessageDialog(self.top, title=PACKAGE+_(" Autopilot"),
                                      text=text, bitmap=bitmap, strings=(s,),
                                      padx=30, timeout=timeout)
                 status = d.status
+                self.finished = True
         elif finished:
             ##self.stopPlayTimer()
             if not self.top.winfo_ismapped():

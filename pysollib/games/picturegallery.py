@@ -108,6 +108,8 @@ class PictureGallery_Hint(AbstractHint):
         if not self.hints:
             for r in game.s.rows:
                 pile = r.getPile()
+                if not pile:
+                    continue
                 lp = len(pile)
                 lr = len(r.cards)
                 assert 1 <= lp <= lr
@@ -452,6 +454,110 @@ class Zeus(MountOlympus):
             self.s.talon.dealRow()
 
 
+# /***********************************************************************
+# // Royal Parade
+# ************************************************************************/
+
+
+class RoyalParade_TableauStack(PictureGallery_TableauStack):
+
+    def _canSwapPair(self, from_stack):
+        if from_stack not in self.game.s.tableaux:
+            return False
+        if len(self.cards) != 1 or len(from_stack.cards) != 1:
+            return False
+        c0, c1 = from_stack.cards[0], self.cards[0]
+        return (c0.rank == self.cap.base_rank and
+                c1.rank == from_stack.cap.base_rank)
+
+    def acceptsCards(self, from_stack, cards):
+        if self._canSwapPair(from_stack):
+            return True
+        return PictureGallery_TableauStack.acceptsCards(self, from_stack, cards)
+
+    def moveMove(self, ncards, to_stack, frames=-1, shadow=-1):
+        if self._canSwapPair(to_stack):
+            self._swapPairMove(ncards, to_stack, frames=-1, shadow=0)
+        else:
+            PictureGallery_TableauStack.moveMove(self, ncards, to_stack,
+                                                 frames=frames, shadow=shadow)
+
+    def _swapPairMove(self, n, other_stack, frames=-1, shadow=-1):
+        game = self.game
+        old_state = game.enterState(game.S_FILL)
+        swap = game.s.internals[0]
+        game.moveMove(n, self, swap, frames=0)
+        game.moveMove(n, other_stack, self, frames=frames, shadow=shadow)
+        game.moveMove(n, swap, other_stack, frames=0)
+        game.leaveState(old_state)
+
+
+class RoyalParade(PictureGallery):
+    Talon_Class = DealRowTalonStack
+    TableauStack_Classes = [
+        StackWrapper(RoyalParade_TableauStack,
+                     base_rank=1, max_cards=4, dir=3),
+        StackWrapper(RoyalParade_TableauStack,
+                     base_rank=2, max_cards=4, dir=3),
+        StackWrapper(RoyalParade_TableauStack,
+                     base_rank=3, max_cards=4, dir=3),
+        ]
+    RowStack_Class = StackWrapper(BasicRowStack, max_accept=0)
+
+    def createGame(self):
+        PictureGallery.createGame(self)
+        self.s.internals.append(InvisibleStack(self))
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow(rows=self.s.tableaux)
+        self.s.talon.dealRow()
+
+
+# /***********************************************************************
+# // Virginia Reel
+# ************************************************************************/
+
+class VirginiaReel_Talon(DealRowTalonStack):
+
+    def canDealCards(self):
+        if not DealRowTalonStack.canDealCards(self):
+            return False
+        for s in self.game.s.tableaux:
+            if not s.cards:
+                return False
+        return True
+
+
+class VirginiaReel(RoyalParade):
+    Talon_Class = VirginiaReel_Talon
+
+    def _shuffleHook(self, cards):
+        bottom_cards = []
+        ranks = []
+        for c in cards[:]:
+            if c.rank in (1,2,3) and c.rank not in ranks:
+                ranks.append(c.rank)
+                cards.remove(c)
+                bottom_cards.append(c)
+            if len(ranks) == 3:
+                break
+        bottom_cards.sort(lambda a, b: cmp(b.rank, a.rank))
+        return cards+bottom_cards
+
+    def startGame(self):
+        self.s.talon.dealRow(rows=self.s.tableaux[0::8], frames=0)
+        self.startDealSample()
+        for i in range(3):
+            rows = self.s.tableaux[i*8+1:i*8+8]
+            self.s.talon.dealRow(rows=rows)
+        self.s.talon.dealRow()
+
+    def fillStack(self, stack):
+        pass
+
+
+
 # register the game
 registerGame(GameInfo(7, PictureGallery, "Picture Gallery",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED,
@@ -464,4 +570,9 @@ registerGame(GameInfo(398, MountOlympus, "Mount Olympus",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(399, Zeus, "Zeus",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(546, RoyalParade, "Royal Parade",
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(547, VirginiaReel, "Virginia Reel",
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
+
 

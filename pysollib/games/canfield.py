@@ -650,33 +650,47 @@ class Acme(Canfield):
 # ************************************************************************/
 
 class Duke(Game):
+    Foundation_Class = SS_FoundationStack
+    ReserveStack_Class = OpenStack
+    RowStack_Class = AC_RowStack
 
-    def createGame(self):
+    def createGame(self, max_rounds=3, texts=False):
         l, s = Layout(self), self.s
 
         w, h = l.XM+6*l.XS+4*l.XOFFSET, l.YM+2*l.YS+12*l.YOFFSET
+        if texts:
+            h += l.TEXT_HEIGHT
         self.setSize(w, h)
 
+        self.base_card = None
+
         x, y = l.XM, l.YM
-        s.talon = WasteTalonStack(x, y, self, max_rounds=3)
+        s.talon = WasteTalonStack(x, y, self, max_rounds=max_rounds)
         l.createText(s.talon, 's')
         x += l.XS
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, 's')
         x += l.XS+4*l.XOFFSET
         for i in range(4):
-            s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
+            s.foundations.append(self.Foundation_Class(x, y, self, suit=i))
             x += l.XS
         x0, y0, w = l.XM, l.YM+l.YS+l.TEXT_HEIGHT, l.XS+2*l.XOFFSET
         for i, j in ((0,0), (0,1), (1,0), (1,1)):
             x, y = x0+i*w, y0+j*l.YS
-            stack = OpenStack(x, y, self, max_accept=0)
+            stack = self.ReserveStack_Class(x, y, self, max_accept=0)
             stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
             s.reserves.append(stack)
         x, y = l.XM+2*l.XS+4*l.XOFFSET, l.YM+l.YS
+        if texts:
+            y += l.TEXT_HEIGHT
         for i in range(4):
-            s.rows.append(AC_RowStack(x, y, self))
+            s.rows.append(self.RowStack_Class(x, y, self))
             x += l.XS
+        if texts:
+            tx, ty, ta, tf = l.getTextAttr(s.foundations[-1], "ss")
+            font = self.app.getFont("canvas_default")
+            self.texts.info = MfxCanvasText(self.canvas, tx, ty,
+                                            anchor=ta, font=font)
 
         l.defaultStackGroups()
 

@@ -107,7 +107,7 @@ class DoubleBisley(Bisley):
         l, s = Layout(self), self.s
 
         # set window
-        w, h = l.XM+(8+4)*l.XS, l.YM+max(3*(l.YS+8*l.YOFFSET), 8*l.YS)
+        w, h = l.XM+(8+2)*l.XS, l.YM+max(3*(l.YS+8*l.YOFFSET), 8*l.YS)
         self.setSize(w, h)
 
         # create stacks

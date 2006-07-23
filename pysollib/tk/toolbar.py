@@ -63,18 +63,18 @@ n_ = lambda x: x
 # //
 # ************************************************************************/
 
-class ToolbarButton(Tkinter.Button):
-    def __init__(self, parent, toolbar, toolbar_name, position, **kwargs):
-        Tkinter.Button.__init__(self, parent, kwargs)
+class AbstractToolbarButton:
+    def __init__(self, parent, toolbar, toolbar_name, position):
         self.toolbar = toolbar
         self.toolbar_name = toolbar_name
         self.position = position
         self.visible = False
+
     def show(self, orient, force=False):
         if self.visible and not force:
             return
         self.visible = True
-        padx, pady= 2, 2
+        padx, pady = 2, 2
         if orient == Tkinter.HORIZONTAL:
             self.grid(row=0,
                       column=self.position,
@@ -85,10 +85,24 @@ class ToolbarButton(Tkinter.Button):
                       column=0,
                       ipadx=padx, ipady=pady,
                       sticky='nsew')
+
     def hide(self):
         if not self.visible: return
         self.visible = False
         self.grid_forget()
+
+
+class ToolbarCheckbutton(AbstractToolbarButton, Tkinter.Checkbutton):
+    def __init__(self, parent, toolbar, toolbar_name, position, **kwargs):
+        Tkinter.Checkbutton.__init__(self, parent, kwargs)
+        AbstractToolbarButton.__init__(self, parent, toolbar, toolbar_name, position)
+
+
+class ToolbarButton(AbstractToolbarButton, Tkinter.Button):
+    def __init__(self, parent, toolbar, toolbar_name, position, **kwargs):
+        Tkinter.Button.__init__(self, parent, kwargs)
+        AbstractToolbarButton.__init__(self, parent, toolbar, toolbar_name, position)
+
 
 class ToolbarSeparator(Tkinter.Frame):
     def __init__(self, parent, toolbar, position, **kwargs):
@@ -200,6 +214,8 @@ class PysolToolbar(PysolToolbarActions):
                 sep = self._createSeparator()
                 sep.bind("<1>", self.clickHandler)
                 sep.bind("<3>", self.rightclickHandler)
+            elif l == 'Pause':
+                self._createButton(l, f, check=True, tooltip=t)
             else:
                 self._createButton(l, f, tooltip=t)
 
@@ -322,24 +338,33 @@ class PysolToolbar(PysolToolbarActions):
         self._widgets.append(sep)
         return sep
 
-    def _createButton(self, label, command, tooltip=None):
+    def _createButton(self, label, command, check=False, tooltip=None):
         name = label.lower()
         image = self._loadImage(name)
         position = len(self._widgets)
         bd = self.button_relief == 'flat' and 1 or 2
-        button = ToolbarButton(self.frame,
-                               position=position,
-                               toolbar=self,
-                               toolbar_name=name,
-                               command=command, takefocus=0,
-                               text=gettext(label),
-                               bd=bd,
-                               relief=self.button_relief,
-                               overrelief='raised',
-                               padx=self.button_pad,
-                               pady=self.button_pad)
+        kw = {
+            'position': position,
+            'toolbar': self,
+            'toolbar_name': name,
+            'command': command,
+            'takefocus': 0,
+            'text': gettext(label),
+            'bd': bd,
+            'relief': self.button_relief,
+            'overrelief': 'raised',
+            'padx': self.button_pad,
+            'pady': self.button_pad
+            }
         if image:
-            button.config(image=image)
+            kw['image'] = image
+        if check:
+            kw['offrelief'] = self.button_relief
+            kw['indicatoron'] = False
+            kw['selectcolor'] = ''
+            button = ToolbarCheckbutton(self.frame, **kw)
+        else:
+            button = ToolbarButton(self.frame, **kw)
         button.show(orient=self.orient)
         setattr(self, name + "_image", image)
         setattr(self, name + "_button", button)
@@ -435,6 +460,7 @@ class PysolToolbar(PysolToolbarActions):
             self.popup = None
         if menubar:
             tkopt = menubar.tkopt
+            self.pause_button.config(variable=tkopt.pause)
             self.popup = MfxMenu(master=None, label=n_('Toolbar'), tearoff=0)
             createToolbarMenu(menubar, self.popup)
 
@@ -453,7 +479,7 @@ class PysolToolbar(PysolToolbarActions):
         data = []
         try:
             for w in self._widgets:
-                if not isinstance(w, ToolbarButton):
+                if not isinstance(w, (ToolbarButton, ToolbarCheckbutton)):
                     continue
                 name = w.toolbar_name
                 image = self._loadImage(name)
@@ -476,9 +502,12 @@ class PysolToolbar(PysolToolbarActions):
         self._setRelief(relief)
         self.frame.config(relief=self.frame_relief)
         for w in self._widgets:
+            bd = relief == 'flat' and 1 or 2
             if isinstance(w, ToolbarButton):
-                bd = relief == 'flat' and 1 or 2
                 w.config(relief=self.button_relief, bd=bd)
+            elif isinstance(w, ToolbarCheckbutton):
+                w.config(relief=self.button_relief,
+                         offrelief=self.button_relief, bd=bd)
             elif w.__class__ is ToolbarSeparator: # not ToolbarFlatSeparator
                 w.config(relief=self.separator_relief)
         return True
@@ -487,7 +516,7 @@ class PysolToolbar(PysolToolbarActions):
         if not force and self.compound == compound:
             return False
         for w in self._widgets:
-            if not isinstance(w, ToolbarButton):
+            if not isinstance(w, (ToolbarButton, ToolbarCheckbutton)):
                 continue
             if compound == 'text':
                 w.config(compound=Tkinter.NONE, image='')

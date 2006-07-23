@@ -828,6 +828,8 @@ class PysolMenubar(PysolMenubarActions):
             filename = self.app.getGameSaveName(self.game.id)
             if os.name == "posix":
                 filename = filename + "-" + self.game.getGameNumber(format=0)
+            elif os.path.supports_unicode_filenames: # new in python 2.3
+                filename = filename + "-" + self.game.getGameNumber(format=0)
             else:
                 filename = filename + "-01"
             filename = filename + self.DEFAULTEXTENSION

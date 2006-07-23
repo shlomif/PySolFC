@@ -168,12 +168,12 @@ class PictureGallery_TableauStack(SS_RowStack):
     def getBottomImage(self):
         return self.game.app.images.getLetter(self.cap.base_rank)
 
-    def closeStackMove(self):
-        if len(self.cards) == self.cap.max_cards:
-            self.game.flipAllMove(self)
-
-    def canFlipCard(self):
-        return False
+##     def closeStackMove(self):
+##         if len(self.cards) == self.cap.max_cards:
+##             self.game.closeStackMove(self)
+##             ##self.game.flipAllMove(self)
+##     def canFlipCard(self):
+##         return False
 
 
 class PictureGallery_RowStack(BasicRowStack):

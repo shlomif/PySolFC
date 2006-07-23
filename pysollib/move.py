@@ -142,19 +142,17 @@ class AFlipAllMove(AtomicMove):
     def __init__(self, stack):
         self.stack_id = stack.id
 
-    # do the actual move
-    def __doMove(self, game, stack):
+    def redo(self, game):
+        stack = game.allstacks[self.stack_id]
         for card in stack.cards:
             if card.face_up:
                 card.showBack()
-            else:
-                card.showFace()
-
-    def redo(self, game):
-        self.__doMove(game, game.allstacks[self.stack_id])
 
     def undo(self, game):
-        self.__doMove(game, game.allstacks[self.stack_id])
+        stack = game.allstacks[self.stack_id]
+        for card in stack.cards:
+            if not card.face_up:
+                card.showFace()
 
     def cmpForRedo(self, other):
         return cmp(self.stack_id, other.stack_id)

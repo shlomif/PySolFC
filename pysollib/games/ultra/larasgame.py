@@ -281,9 +281,9 @@ class LarasGame(Game):
         s.talon = self.Talon_Class(x, y, self, max_rounds=self.MAX_ROUNDS)
         l.createText(s.talon, "s")
         if self.MAX_ROUNDS - 1:
+            tx, ty, ta, tf = l.getTextAttr(s.talon, "nn")
             s.talon.texts.rounds = MfxCanvasText(self.canvas,
-                                                 x + l.XS / 2, y - l.YM,
-                                                 anchor="center",
+                                                 tx, ty, anchor=ta,
                                                  font=self.app.getFont("canvas_default"))
         y = h - l.YS * 2
         s.rows.append(LarasGame_RowStack(x, y, self, yoffset=0))

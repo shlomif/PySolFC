@@ -41,7 +41,7 @@ __all__ = ['MfxMessageDialog',
            ]
 
 # imports
-import os, sys, types, Tkinter
+import os, sys, time, types, Tkinter
 import traceback
 
 # PySol imports
@@ -333,6 +333,8 @@ class MfxSimpleEntry(MfxDialog):
 # ************************************************************************/
 
 class MfxTooltip:
+    last_leave_time = 0
+
     def __init__(self, widget):
         # private vars
         self.widget = widget
@@ -346,8 +348,9 @@ class MfxTooltip:
         self.bindings.append(self.widget.bind("<Leave>", self._leave))
         self.bindings.append(self.widget.bind("<ButtonPress>", self._leave))
         # user overrideable settings
-        self.time = 600                    # milliseconds
-        self.cancel_time = 5000
+        self.timeout = 800                    # milliseconds
+        self.cancel_timeout = 5000
+        self.leave_timeout = 400
         self.relief = Tkinter.SOLID
         self.justify = Tkinter.LEFT
         self.fg = "#000000"
@@ -373,7 +376,10 @@ class MfxTooltip:
         after_cancel(self.timer)
         after_cancel(self.cancel_timer)
         self.cancel_timer = None
-        self.timer = after(self.widget, self.time, self._showTip)
+        if time.time() - MfxTooltip.last_leave_time < self.leave_timeout/1000.:
+            self._showTip()
+        else:
+            self.timer = after(self.widget, self.timeout, self._showTip)
 
     def _leave(self, *event):
         after_cancel(self.timer)
@@ -386,14 +392,15 @@ class MfxTooltip:
             self.tooltip.destroy()
             destruct(self.tooltip)
             self.tooltip = None
+            MfxTooltip.last_leave_time = time.time()
 
     def _showTip(self):
         self.timer = None
         if self.tooltip or not self.text:
             return
-        if isinstance(self.widget, Tkinter.Button):
-            if self.widget["state"] == Tkinter.DISABLED:
-                return
+##         if isinstance(self.widget, (Tkinter.Button, Tkinter.Checkbutton)):
+##             if self.widget["state"] == Tkinter.DISABLED:
+##                 return
         ##x = self.widget.winfo_rootx()
         x = self.widget.winfo_pointerx()
         y = self.widget.winfo_rooty() + self.widget.winfo_height()
@@ -409,7 +416,7 @@ class MfxTooltip:
         self.label.pack(ipadx=1, ipady=1)
         self.tooltip.wm_geometry("%+d%+d" % (x, y))
         self.tooltip.wm_deiconify()
-        self.cancel_timer = after(self.widget, self.cancel_time, self._leave)
+        self.cancel_timer = after(self.widget, self.cancel_timeout, self._leave)
         ##self.tooltip.tkraise()
 
 

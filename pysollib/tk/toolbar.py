@@ -214,7 +214,7 @@ class PysolToolbar(PysolToolbarActions):
                 sep = self._createSeparator()
                 sep.bind("<1>", self.clickHandler)
                 sep.bind("<3>", self.rightclickHandler)
-            elif l == 'Pause':
+            elif l == 'Pause' and Tkinter.TkVersion >= 8.4:
                 self._createButton(l, f, check=True, tooltip=t)
             else:
                 self._createButton(l, f, tooltip=t)

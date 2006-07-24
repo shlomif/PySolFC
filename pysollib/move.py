@@ -147,11 +147,15 @@ class AFlipAllMove(AtomicMove):
         for card in stack.cards:
             if card.face_up:
                 card.showBack()
+            else:
+                card.showFace()
 
     def undo(self, game):
         stack = game.allstacks[self.stack_id]
         for card in stack.cards:
-            if not card.face_up:
+            if card.face_up:
+                card.showBack()
+            else:
                 card.showFace()
 
     def cmpForRedo(self, other):

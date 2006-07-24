@@ -272,7 +272,6 @@ class PysolMenubarActions:
             ms.autodeal = 1
         if autostacks[2]:
             ms.quickplay = 1
-        ms.highlight_piles = 0
         if opt.highlight_piles and game.getHighlightPilesStacks():
             ms.highlight_piles = 1
         if game.app.getGameRulesFilename(game.id):  # note: this may return ""
@@ -321,7 +320,7 @@ class PysolMenubarActions:
         self.setToolbarState(ms.rules, "rules")
         #
         self.tkopt.comment.set(bool(self.game.gsaveinfo.comment))
-        #self.setToolbarState(ms.pause, "pause")
+        self.tkopt.pause.set(self.game.pause)
 
     # update menu items and toolbar
     def updateMenus(self):

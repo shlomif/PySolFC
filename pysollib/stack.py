@@ -429,7 +429,8 @@ class Stack:
         view._position(card)
         if update:
             view.updateText()
-        self.closeStackMove()
+        if not self.game.moves.state == self.game.S_REDO:
+            self.closeStackMove()
         return card
 
     def insertCard(self, card, positon, unhide=1, update=1):
@@ -445,7 +446,8 @@ class Stack:
             view._position(c)
         if update:
             view.updateText()
-        self.closeStackMove()
+        if not self.game.moves.state == self.game.S_REDO:
+            self.closeStackMove()
         return card
 
     # Remove a card from the stack. Also update display. {model -> view}

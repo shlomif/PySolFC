@@ -85,6 +85,10 @@ class GameInfoDialog(MfxDialog):
             5: 'SL_SKILL',
             }
         skill_level = sl.get(gi.skill_level)
+        if game.Hint_Class is None:
+            hint = None
+        else:
+            hint = game.Hint_Class.__name__
         row = 0
         for n, t in (('Name:', gi.name),
                      ('Short name:', gi.short_name),
@@ -101,7 +105,7 @@ class GameInfoDialog(MfxDialog):
                      ('Rules filename:', gi.rules_filename),
                      ('Module:', game.__module__),
                      ('Class:', game.__class__.__name__),
-                     ('Hint:', game.Hint_Class.__name__),
+                     ('Hint:', hint),
                      ):
             if t:
                 Label(frame, text=n, anchor=W).grid(row=row, column=0, sticky=N+W)

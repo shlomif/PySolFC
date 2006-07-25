@@ -125,11 +125,14 @@ class LadyPalk(Diplomat):
 
 # /***********************************************************************
 # // Congress
+# // Parliament
 # ************************************************************************/
 
 class Congress(Diplomat):
     DEAL = (0, 1)
     FILL_EMPTY_ROWS = 1
+
+    Foundation_Classes = [SS_FoundationStack, SS_FoundationStack]
 
     #
     # game layout (just rearrange the stacks a little bit)
@@ -143,10 +146,13 @@ class Congress(Diplomat):
         self.setSize(l.XM + 7*l.XS, l.YM + 4*l.YS)
 
         # create stacks
-        for i in range(4):
-            for j in range(2):
-                x, y = l.XM + (4+j)*l.XS, l.YM + i*l.YS
-                s.foundations.append(self.Foundation_Class(x, y, self, suit=i))
+        x = l.XM+4*l.XS
+        for fnd_cls in self.Foundation_Classes:
+            y = l.YM
+            for i in range(4):
+                s.foundations.append(fnd_cls(x, y, self, suit=i))
+                y += l.YS
+            x += l.XS
         for i in range(4):
             for j in range(2):
                 x, y = l.XM + (3+3*j)*l.XS, l.YM + i*l.YS
@@ -162,6 +168,26 @@ class Congress(Diplomat):
 
         # define stack-groups
         l.defaultStackGroups()
+
+
+class Parliament(Congress):
+
+    def _shuffleHook(self, cards):
+        # move Aces to top of the Talon (i.e. first cards to be dealt)
+        return self._shuffleHookMoveToTop(cards,
+                   lambda c: (c.rank == ACE, (c.deck, c.suit)))
+
+    def startGame(self):
+        self.s.talon.dealRow(rows=self.s.foundations, frames=0)
+        Congress.startGame(self)
+
+
+class Wheatsheaf(Congress):
+    Foundation_Classes = [
+        SS_FoundationStack,
+        StackWrapper(SS_FoundationStack, base_rank=KING, dir=-1),
+        ]
+    RowStack_Class = UD_SS_RowStack
 
 
 # /***********************************************************************
@@ -237,5 +263,9 @@ registerGame(GameInfo(433, RowsOfFour, "Rows of Four",
 registerGame(GameInfo(485, Dieppe, "Dieppe",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(489, LittleNapoleon, "Little Napoleon",
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(548, Parliament, "Parliament",
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(549, Wheatsheaf, "Wheatsheaf",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
 

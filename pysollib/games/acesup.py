@@ -42,6 +42,9 @@ from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 
+from montecarlo import MonteCarlo_RowStack
+
+
 # /***********************************************************************
 # // Aces Up
 # ************************************************************************/
@@ -69,6 +72,7 @@ class AcesUp_RowStack(BasicRowStack):
 
 
 class AcesUp(Game):
+    Foundation_Class = AcesUp_Foundation
     Talon_Class = DealRowTalonStack
     RowStack_Class = StackWrapper(AcesUp_RowStack, max_accept=1)
 
@@ -92,8 +96,8 @@ class AcesUp(Game):
             s.rows.append(self.RowStack_Class(x, y, self))
             x = x + l.XS
         x = x + l.XS/2
-        stack = AcesUp_Foundation(x, y, self, ANY_SUIT, max_move=0,
-                                  dir=0, base_rank=ANY_RANK, max_cards=48)
+        stack = self.Foundation_Class(x, y, self, suit=ANY_SUIT, max_move=0,
+                                      dir=0, base_rank=ANY_RANK, max_cards=48)
         l.createText(stack, "ss")
         s.foundations.append(stack)
 
@@ -250,6 +254,39 @@ class AcesUp5(AcesUp):
         return len(self.s.foundations[0].cards) == 48
 
 
+# /***********************************************************************
+# // Cover
+# ************************************************************************/
+
+class Cover_RowStack(MonteCarlo_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not OpenStack.acceptsCards(self, from_stack, cards):
+            return False
+        return self.cards[-1].suit == cards[0].suit
+
+
+class Cover(AcesUp):
+    Foundation_Class = StackWrapper(AbstractFoundationStack, max_accept=0)
+    Talon_Class = TalonStack
+    RowStack_Class = StackWrapper(Cover_RowStack, max_accept=1)
+
+    FILL_STACKS_AFTER_DROP = 0 # for MonteCarlo_RowStack
+
+    def fillStack(self, stack):
+        if not self.s.talon.cards:
+            return
+        self.startDealSample()
+        for r in self.s.rows:
+            if not r.cards:
+                self.flipMove(self.s.talon)
+                self.moveMove(1, self.s.talon, r)
+        self.stopSamples()
+
+
+    def isGameWon(self):
+        return len(self.s.foundations[0].cards) == 48
+
+
 # register the game
 registerGame(GameInfo(903, AcesUp, "Aces Up",                   # was: 52
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_LUCK,
@@ -262,4 +299,6 @@ registerGame(GameInfo(130, PerpetualMotion, "Perpetual Motion",
                       GI.GT_1DECK_TYPE, 1, -1, GI.SL_MOSTLY_LUCK,
                       altnames="First Law"))
 registerGame(GameInfo(353, AcesUp5, "Aces Up 5",
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_LUCK))
+registerGame(GameInfo(552, Cover, "Cover",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_LUCK))

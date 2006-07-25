@@ -41,7 +41,7 @@ from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
-from pysollib.pysoltk import MfxCanvasText
+from pysollib.pysoltk import MfxCanvasText, getTextWidth
 
 # /***********************************************************************
 # //
@@ -68,13 +68,16 @@ class Calculation_Hint(DefaultHint):
 # ************************************************************************/
 
 class BetsyRoss_Foundation(RK_FoundationStack):
-    def updateText(self):
+    def updateText(self, update_empty=True):
         if self.game.preview > 1:
             return
         if self.texts.misc:
             if len(self.cards) == 0:
-                rank = self.cap.base_rank
-                self.texts.misc.config(text=RANKS[rank])
+                if update_empty:
+                    rank = self.cap.base_rank
+                    self.texts.misc.config(text=RANKS[rank])
+                else:
+                    self.texts.misc.config(text="")
             elif len(self.cards) == self.cap.max_cards:
                 self.texts.misc.config(text="")
             else:
@@ -107,42 +110,57 @@ class Calculation_RowStack(BasicRowStack):
 
 class Calculation(Game):
     Hint_Class = Calculation_Hint
+    Foundation_Class = Calculation_Foundation
+    RowStack_Class = StackWrapper(Calculation_RowStack, max_move=1, max_accept=1)
 
     #
     # game layout
     #
 
-    def createGame(self):
-        # create layout
-        l, s = Layout(self, TEXT_HEIGHT=40), self.s
-
-        # set window
-        # (piles up to 20 cards are playable in default window size)
-        h = max(2*l.YS, 20*l.YOFFSET)
-        self.setSize(5.5*l.XS+l.XM+200, l.YM + l.YS + l.TEXT_HEIGHT + h)
-
-        # create stacks
-        x0 = l.XM + l.XS * 3 / 2
-        x, y = x0, l.YM
-        for i in range(4):
-            stack = Calculation_Foundation(x, y, self, base_rank=i, mod=13, dir=i+1)
-            s.foundations.append(stack)
-            stack.texts.misc = MfxCanvasText(self.canvas,
-                                             x + l.CW / 2, y + l.YS,
-                                             anchor="n",
-                                             font=self.app.getFont("canvas_default"))
-            x = x + l.XS
+    def _getHelpText(self):
         help = (_('''\
 1: 2 3 4 5 6 7 8 9 T J Q K
 2: 4 6 8 T Q A 3 5 7 9 J K
 3: 6 9 Q 2 5 8 J A 4 7 T K
 4: 8 Q 3 7 J 2 6 T A 5 9 K'''))
+        # calculate text_width
+        lines = help.split('\n')
+        lines.sort(lambda a, b: cmp(len(a), len(b)))
+        max_line = lines[-1]
+        text_width = getTextWidth(max_line,
+                                  font=self.app.getFont("canvas_fixed"))
+        return help, text_width
+
+    def createGame(self):
+
+        # create layout
+        l, s = Layout(self, TEXT_HEIGHT=40), self.s
+        help, text_width = self._getHelpText()
+        text_width += 2*l.XM
+
+        # set window
+        w = l.XM+5.5*l.XS+text_width
+        h = max(2*l.YS, 20*l.YOFFSET)
+        self.setSize(w, l.YM + l.YS + l.TEXT_HEIGHT + h)
+
+        # create stacks
+        x0 = l.XM + l.XS * 3 / 2
+        x, y = x0, l.YM
+        for i in range(4):
+            stack = self.Foundation_Class(x, y, self,
+                                          mod=13, dir=i+1, base_rank=i)
+            s.foundations.append(stack)
+            tx, ty, ta, tf = l.getTextAttr(stack, "s")
+            font = self.app.getFont("canvas_default")
+            stack.texts.misc = MfxCanvasText(self.canvas, tx, ty,
+                                             anchor=ta, font=font)
+            x = x + l.XS
         self.texts.help = MfxCanvasText(self.canvas, x + l.XM, y + l.CH / 2, text=help,
                                         anchor="w", font=self.app.getFont("canvas_fixed"))
         x = x0
         y = l.YM + l.YS + l.TEXT_HEIGHT
         for i in range(4):
-            s.rows.append(Calculation_RowStack(x, y, self, max_move=1, max_accept=1))
+            s.rows.append(self.RowStack_Class(x, y, self))
             x = x + l.XS
         self.setRegion(s.rows, (-999, y, 999999, 999999))
         x = l.XM
@@ -205,10 +223,12 @@ class BetsyRoss(Calculation):
 
     def createGame(self):
         # create layout
-        l, s = Layout(self, TEXT_HEIGHT=40), self.s
+        l, s = Layout(self), self.s
+        help, text_width = self._getHelpText()
+        text_width += 2*l.XM
 
         # set window
-        self.setSize(5.5*l.XS+l.XM+200, l.YM + l.YS + l.TEXT_HEIGHT + 3*l.YS)
+        self.setSize(5.5*l.XS+l.XM+text_width, l.YM+3*l.YS+l.TEXT_HEIGHT)
 
         # create stacks
         x0 = l.XM + l.XS * 3 / 2
@@ -219,19 +239,17 @@ class BetsyRoss(Calculation):
             s.foundations.append(stack)
             x = x + l.XS
         x = x0
-        y = l.YM + l.YS + l.TEXT_HEIGHT
+        y = l.YM + l.YS
         for i in range(4):
-            stack = BetsyRoss_Foundation(x, y, self, base_rank=2*i+1, mod=13, dir=i+1,
-                                        max_cards=12, max_move=0)
-            stack.texts.misc = MfxCanvasText(self.canvas, x + l.CW / 2, y - l.YM,
-                                             anchor="s", font=self.app.getFont("canvas_default"))
+            stack = BetsyRoss_Foundation(x, y, self, base_rank=2*i+1,
+                                         mod=13, dir=i+1,
+                                         max_cards=12, max_move=0)
+            tx, ty, ta, tf = l.getTextAttr(stack, "s")
+            font = self.app.getFont("canvas_default")
+            stack.texts.misc = MfxCanvasText(self.canvas, tx, ty,
+                                             anchor=ta, font=font)
             s.foundations.append(stack)
             x = x + l.XS
-        help = (_('''\
-1: 2 3 4 5 6 7 8 9 T J Q K
-2: 4 6 8 T Q A 3 5 7 9 J K
-3: 6 9 Q 2 5 8 J A 4 7 T K
-4: 8 Q 3 7 J 2 6 T A 5 9 K'''))
         self.texts.help = MfxCanvasText(self.canvas, x + l.XM, y + l.CH / 2, text=help,
                                         anchor="w", font=self.app.getFont("canvas_fixed"))
         x = l.XM
@@ -265,6 +283,76 @@ class BetsyRoss(Calculation):
         return cards + topcards
 
 
+# /***********************************************************************
+# // One234
+# ************************************************************************/
+
+class One234_Foundation(BetsyRoss_Foundation):
+    def canMoveCards(self, cards):
+        if not BetsyRoss_Foundation.canMoveCards(self, cards):
+            return False
+        return len(self.cards) > 1
+    def updateText(self):
+        BetsyRoss_Foundation.updateText(self, update_empty=False)
+
+
+class One234_RowStack(BasicRowStack):
+    ##clickHandler = BasicRowStack.doubleclickHandler
+    pass
+
+
+class One234(Calculation):
+    Foundation_Class = One234_Foundation
+    RowStack_Class = StackWrapper(One234_RowStack, max_move=1, max_accept=0)
+
+    def createGame(self):
+        # create layout
+        l, s = Layout(self, TEXT_HEIGHT=40), self.s
+        help, text_width = self._getHelpText()
+        text_width += 2*l.XM
+
+        # set window
+        # (piles up to 20 cards are playable in default window size)
+        w = l.XM+max(4*l.XS+text_width, 8*l.XS)
+        h = l.YM+2*l.YS+5*l.YOFFSET+l.TEXT_HEIGHT+l.YS
+        self.setSize(w, h)
+
+        # create stacks
+        x, y = l.XM, l.YM
+        for i in range(4):
+            stack = self.Foundation_Class(x, y, self,
+                                          mod=13, dir=i+1, base_rank=i)
+            s.foundations.append(stack)
+            tx, ty, ta, tf = l.getTextAttr(stack, "s")
+            font = self.app.getFont("canvas_default")
+            stack.texts.misc = MfxCanvasText(self.canvas, tx, ty,
+                                             anchor=ta, font=font)
+            x = x + l.XS
+        self.texts.help = MfxCanvasText(self.canvas, x + l.XM, y + l.CH / 2, text=help,
+                                        anchor="w", font=self.app.getFont("canvas_fixed"))
+        x, y = l.XM, l.YM+l.YS+l.TEXT_HEIGHT
+        for i in range(8):
+            s.rows.append(self.RowStack_Class(x, y, self))
+            x = x + l.XS
+
+        s.talon = InitialDealTalonStack(l.XM, self.height-l.YS, self)
+
+        # define stack-groups
+        l.defaultStackGroups()
+
+    def _shuffleHook(self, cards):
+        return cards
+
+    def startGame(self):
+        for i in range(4):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealRow()
+        self.s.talon.dealRow(rows=self.s.foundations)
+
+
+
 # register the game
 registerGame(GameInfo(256, Calculation, "Calculation",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_SKILL,
@@ -275,4 +363,6 @@ registerGame(GameInfo(134, BetsyRoss, "Betsy Ross",
                       GI.GT_1DECK_TYPE, 1, 2, GI.SL_MOSTLY_LUCK,
                       altnames=("Fairest", "Four Kings", "Musical Patience",
                                 "Quadruple Alliance", "Plus Belle") ))
+registerGame(GameInfo(550, One234, "One234",
+                      GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 

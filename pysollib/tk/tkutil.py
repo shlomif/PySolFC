@@ -51,11 +51,13 @@ __all__ = ['wm_withdraw',
            'loadImage',
            #'fillImage',
            'createImage',
+           'getTextWidth',
            ]
 
 # imports
 import sys, os, re
 import Tkinter
+from tkFont import Font
 try:
     # PIL
     import Image
@@ -397,4 +399,12 @@ def createImage(width, height, fill, outline=None):
     image.blank()
     fillImage(image, fill, outline)
     return image
+
+
+# /***********************************************************************
+# // font utils
+# ************************************************************************/
+
+def getTextWidth(text, font, root=None):
+    return Font(root=root, font=font).measure(text)
 

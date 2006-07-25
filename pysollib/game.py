@@ -197,6 +197,9 @@ class Game:
         # update display properties
         self.top.wm_geometry("")        # cancel user-specified geometry
         self.canvas.setInitialSize(self.width, self.height)
+        if self.app.debug >= 2:
+            MfxCanvasRectangle(self.canvas, 0, 0, self.width, self.height,
+                               width=2, fill=None, outline='green')
         # restore game geometry
         if self.app.opt.save_games_geometry:
             w, h = self.app.opt.games_geometry.get(self.id, (0, 0))
@@ -1025,8 +1028,9 @@ class Game:
     def setRegion(self, stacks, rect, priority=0):
         assert len(stacks) > 0
         assert len(rect) == 4 and rect[0] < rect[2] and rect[1] < rect[3]
-        ##MfxCanvasRectangle(self.canvas, rect[0], rect[1], rect[2], rect[3],
-        ##                   width=2, fill=None, outline='red')
+        if self.app.debug >= 2:
+            MfxCanvasRectangle(self.canvas, rect[0], rect[1], rect[2], rect[3],
+                               width=2, fill=None, outline='red')
         for s in stacks:
             assert s and s in self.allstacks
             # verify that the stack lies within the rectangle

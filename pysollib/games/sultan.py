@@ -128,10 +128,10 @@ class Boudoir(Game):
 
         x, y = l.XM, l.YM+l.YS-l.TEXT_HEIGHT/2
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
-        s.talon.texts.rounds = MfxCanvasText(self.canvas,
-                                             x + l.CW / 2, y - l.YM,
-                                             anchor="s",
-                                             font=self.app.getFont("canvas_default"))
+        tx, ty, ta, tf = l.getTextAttr(s.talon, "nn")
+        font=self.app.getFont("canvas_default")
+        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
+                                             anchor=ta, font=font)
         l.createText(s.talon, "s")
         y += l.YS+l.TEXT_HEIGHT
         s.waste = WasteStack(x, y, self)
@@ -192,11 +192,11 @@ class CaptiveQueens(Game):
 
         x, y = l.XM, l.YM+l.TEXT_HEIGHT
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
-        s.talon.texts.rounds = MfxCanvasText(self.canvas,
-                                             x + l.CW / 2, y - l.YM,
-                                             anchor="s",
-                                             font=self.app.getFont("canvas_default"))
         l.createText(s.talon, "s")
+        tx, ty, ta, tf = l.getTextAttr(s.talon, "nn")
+        font = self.app.getFont("canvas_default")
+        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
+                                             anchor=ta, font=font)
         y += l.YS+l.TEXT_HEIGHT
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, "s")
@@ -449,9 +449,9 @@ class Matrimony(Game):
         s.talon = Matrimony_Talon(l.XM, l.YM, self, max_rounds=17)
         l.createText(s.talon, 'se')
         tx, ty, ta, tf = l.getTextAttr(s.talon, "ne")
+        font = self.app.getFont("canvas_default")
         s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
-                                             anchor=ta,
-                                             font=self.app.getFont("canvas_default"))
+                                             anchor=ta, font=font)
 
         x, y = l.XM+2*l.XS, l.YM
         for i in range(4):
@@ -730,6 +730,65 @@ class CornerSuite(Game):
         return abs(card1.rank-card2.rank) == 1
 
 
+# /***********************************************************************
+# // Scuffle
+# ************************************************************************/
+
+class Scuffle_Talon(RedealTalonStack):
+
+    def canDealCards(self):
+        if self.round == self.max_rounds:
+            return len(self.cards) != 0
+        return not self.game.isGameWon()
+
+    def dealCards(self, sound=0):
+        if self.cards:
+            return self.dealRowAvail(sound=sound)
+        RedealTalonStack.redealCards(self, shuffle=True, sound=sound)
+        return self.dealRowAvail(sound=sound)
+
+
+class Scuffle_RowStack(BasicRowStack):
+    ##clickHandler = BasicRowStack.doubleclickHandler
+    pass
+
+
+class Scuffle(Game):
+
+    def createGame(self):
+
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+6*l.XS, l.YM+2*l.YS)
+
+        s.talon = Scuffle_Talon(l.XM, l.YM+l.YS/2, self, max_rounds=3)
+        l.createText(s.talon, 's')
+        tx, ty, ta, tf = l.getTextAttr(s.talon, 'nn')
+        font = self.app.getFont('canvas_default')
+        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
+                                             anchor=ta, font=font)
+
+        x, y = l.XM+2*l.XS, l.YM
+        for i in range(4):
+            s.foundations.append(RK_FoundationStack(x, y, self))
+            x += l.XS
+        x, y = l.XM+2*l.XS, l.YM+l.YS
+        for i in range(4):
+            stack = Scuffle_RowStack(x, y, self, max_move=1)
+            s.rows.append(stack)
+            stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, 0
+            x += l.XS
+
+        l.defaultStackGroups()
+
+    def _shuffleHook(self, cards):
+        return self._shuffleHookMoveToTop(cards,
+                                          lambda c: (c.rank == ACE, c.suit))
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow(rows=self.s.foundations)
+        self.s.talon.dealRow()
+
 
 # register the game
 registerGame(GameInfo(330, Sultan, "Sultan",
@@ -759,3 +818,5 @@ registerGame(GameInfo(438, SixesAndSevens, "Sixes and Sevens",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(477, CornerSuite, "Corner Suite",
                       GI.GT_2DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
+registerGame(GameInfo(553, Scuffle, "Scuffle",
+                      GI.GT_1DECK_TYPE, 1, 2, GI.SL_MOSTLY_LUCK))

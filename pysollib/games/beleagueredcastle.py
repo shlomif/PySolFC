@@ -109,6 +109,8 @@ class StreetsAndAlleys(Game):
         s.talon = InitialDealTalonStack(x, y, self)
         if reserves:
             l.setRegion(s.rows[:4], (-999, l.YM+l.YS-l.CH/2, x1-l.CW/2, 999999))
+        else:
+            l.setRegion(s.rows[:4], (-999, -999, x1-l.CW/2, 999999))
 
         # default
         l.defaultAll()

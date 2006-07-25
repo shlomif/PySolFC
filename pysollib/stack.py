@@ -102,8 +102,8 @@ from pysoltk import bind, unbind_destroy
 from pysoltk import after, after_idle, after_cancel
 from pysoltk import MfxCanvasGroup, MfxCanvasImage, MfxCanvasRectangle, MfxCanvasText
 from pysoltk import Card
+from pysoltk import getTextWidth
 
-from tkFont import Font
 
 # /***********************************************************************
 # // Let's start with some test methods for cards.
@@ -1398,14 +1398,16 @@ class DealBaseCard_StackMethods:
 
 class RedealCards_StackMethods:
 
-    def redealCards(self, sound=0, shuffle=False, reverse=False, frames=4):
+    def redealCards(self, rows=None, sound=0, shuffle=False, reverse=False, frames=4):
         if sound and self.game.app.opt.animations:
             self.game.startDealSample()
         lr = len(self.game.s.rows)
         # move all cards to the Talon
         num_cards = 0
         assert len(self.cards) == 0
-        rows = list(self.game.s.rows)[:]
+        if rows is None:
+            rows = self.game.s.rows
+        rows = list(rows)
         if reverse:
             rows.reverse()
         for r in rows:
@@ -1525,7 +1527,7 @@ class TalonStack(Stack,
                 else:
                     ca = None
         font = self.game.app.getFont("canvas_default")
-        text_width = Font(self.game.canvas, font).measure(_('Redeal'))
+        text_width = getTextWidth(_('Redeal'), font=font, root=self.game.canvas)
         if images.CARDW >= text_width+4 and ca:
             # add a redeal text above the bottom image
             if self.max_rounds != 1:
@@ -2212,6 +2214,8 @@ class ArbitraryStack(OpenStack):
 
     def startDrag(self, event, sound=1):
         OpenStack.startDrag(self, event, sound=sound)
+        for c in self.cards[self.game.drag.index+1:]:
+            c.moveBy(0, -self.CARD_YOFFSET[0])
 
     def doubleclickHandler(self, event):
         # flip or drop a card
@@ -2230,10 +2234,6 @@ class ArbitraryStack(OpenStack):
                     self.playSingleCardMove(i, s, sound=0)
                     return 1
         return 0
-
-##     def moveMove(self, ncards, to_stack, frames=-1, shadow=-1):
-##         i = len(self.cards)-1
-##         self.singleCardMove(i, to_stack, frames=frames, shadow=shadow)
 
     def moveCardsBackHandler(self, event, drag):
         i = self.cards.index(drag.cards[0])

@@ -611,6 +611,65 @@ class Robert(Game):
         self.s.talon.dealCards()
 
 
+# /***********************************************************************
+# // Diamond Mine
+# ************************************************************************/
+
+DIAMOND = 3
+
+class DiamondMine_Foundation(AbstractFoundationStack):
+    pass
+
+class DiamondMine_RowStack(RK_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not RK_RowStack.acceptsCards(self, from_stack, cards):
+            return False
+        if cards[0].suit == DIAMOND:
+            return False
+        if self.cards:
+            return self.cards[-1].suit != DIAMOND
+        return True
+
+
+class DiamondMine(Game):
+
+    def createGame(self):
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+13*l.XS, l.YM+2*l.YS+15*l.YOFFSET)
+
+        x, y = l.XM+6*l.XS, l.YM
+        s.foundations.append(SS_FoundationStack(x, y, self,
+                             base_rank=ANY_RANK, suit=DIAMOND, mod=13))
+        x, y = l.XM, l.YM+l.YS
+        for i in range(13):
+            s.rows.append(DiamondMine_RowStack(x, y, self))
+            x += l.XS
+        s.talon = InitialDealTalonStack(l.XM, self.height-l.YS, self)
+
+        l.defaultAll()
+
+    def startGame(self):
+        for i in range(3):
+            self.s.talon.dealRow(flip=0, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+    def isGameWon(self):
+        if len(self.s.foundations[0].cards) != 13:
+            return False
+        for s in self.s.rows:
+            if len(s.cards) == 0:
+                continue
+            if len(s.cards) != 13:
+                return False
+            if not isSameSuitSequence(s.cards):
+                return False
+        return True
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return abs(card1.rank-card2.rank) == 1
+
+
 # register the game
 registerGame(GameInfo(36, Golf, "Golf",
                       GI.GT_GOLF, 1, 0, GI.SL_BALANCED))
@@ -633,3 +692,6 @@ registerGame(GameInfo(405, AllInARow, "All in a Row",
                       GI.GT_GOLF | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(432, Robert, "Robert",
                       GI.GT_GOLF, 1, 2, GI.SL_LUCK))
+registerGame(GameInfo(551, DiamondMine, "Diamond Mine",
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))
+

@@ -43,7 +43,7 @@ from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 
 # /***********************************************************************
-# //
+# // PileOn
 # ************************************************************************/
 
 class PileOn_RowStack(RK_RowStack):
@@ -127,10 +127,81 @@ class SmallPileOn(PileOn):
     PLAYCARDS = 4
 
 
-class PileOn2Decks(PileOn):
-    TWIDTH = 4
-    NSTACKS = 15
-    PLAYCARDS = 8
+## class PileOn2Decks(PileOn):
+##     TWIDTH = 4
+##     NSTACKS = 15
+##     PLAYCARDS = 8
+## registerGame(GameInfo(341, PileOn2Decks, "PileOn (2 decks)",
+##                       GI.GT_2DECK_TYPE | GI.GT_OPEN,, 2, 0))
+
+
+# /***********************************************************************
+# // Foursome
+# // Quartets
+# ************************************************************************/
+
+class Foursome(Game):
+    Hint_Class = CautiousDefaultHint
+    Talon_Class = DealRowTalonStack
+
+    def createGame(self, rows=6, texts=True):
+        l, s = Layout(self), self.s
+        max_rows = max(6, rows)
+        self.setSize(l.XM+max_rows*l.XS, l.YM+3*l.YS+13*l.YOFFSET)
+        x, y = l.XM+(max_rows-6)*l.XS/2, l.YM
+        for i in range(4):
+            s.reserves.append(ReserveStack(x, y, self))
+            x += l.XS
+        x = l.XM+(max_rows-1)*l.XS
+        s.foundations.append(AbstractFoundationStack(x, y, self,
+                             suit=ANY_SUIT, max_cards=52, max_accept=0))
+        x, y = l.XM, l.YM+l.YS
+        for i in range(rows):
+            s.rows.append(UD_AC_RowStack(x, y, self, mod=13))
+            x += l.XS
+        s.talon = self.Talon_Class(self.width-l.XS, self.height-l.YS, self)
+        if texts:
+            l.createText(s.talon, 'n')
+        l.defaultStackGroups()
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow(rows=self.s.reserves)
+        self.s.talon.dealRow()
+
+    def fillStack(self, stack):
+        if not self.s.reserves[0].cards:
+            return
+        rank = self.s.reserves[0].cards[0].rank
+        for r in self.s.reserves[1:]:
+            if not r.cards or r.cards[0].rank != rank:
+                return
+        old_state = self.enterState(self.S_FILL)
+        self.playSample("droppair", priority=200)
+        for r in self.s.reserves:
+            self.moveMove(1, r, self.s.foundations[0], frames=4)
+            self.flipMove(self.s.foundations[0])
+        self.leaveState(old_state)
+
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return (card1.color != card2.color and
+                ((card1.rank + 1) % 13 == card2.rank or
+                 (card2.rank + 1) % 13 == card1.rank))
+
+
+class Quartets(Foursome):
+    Talon_Class = InitialDealTalonStack
+
+    def createGame(self):
+        Foursome.createGame(self, rows=8, texts=False)
+
+    def startGame(self):
+        for i in range(5):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealRowAvail()
 
 
 # register the game
@@ -141,7 +212,9 @@ registerGame(GameInfo(289, SmallPileOn, "Small PileOn",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL,
                       ranks=(0, 5, 6, 7, 8, 9, 10, 11, 12),
                       rules_filename = "pileon.html"))
-## registerGame(GameInfo(341, PileOn2Decks, "PileOn (2 decks)",
-##                       GI.GT_2DECK_TYPE | GI.GT_OPEN,, 2, 0))
+registerGame(GameInfo(554, Foursome, "Foursome",
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(555, Quartets, "Quartets",
+                      GI.GT_1DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))
 
 

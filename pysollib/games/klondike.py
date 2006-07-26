@@ -356,7 +356,8 @@ class AgnesSorel(Klondike):
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return (card1.color == card2.color and
-                ((card1.rank + 1) % 13 == card2.rank or (card2.rank + 1) % 13 == card1.rank))
+                ((card1.rank + 1) % 13 == card2.rank or
+                 (card2.rank + 1) % 13 == card1.rank))
 
 
 # /***********************************************************************
@@ -638,7 +639,8 @@ class Jane(Klondike):
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return (card1.suit == card2.suit and
-                ((card1.rank + 1) % 13 == card2.rank or (card2.rank + 1) % 13 == card1.rank))
+                ((card1.rank + 1) % 13 == card2.rank or
+                 (card2.rank + 1) % 13 == card1.rank))
 
     def _autoDeal(self, sound=1):
         return 0

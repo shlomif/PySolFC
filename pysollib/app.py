@@ -688,6 +688,8 @@ class Application:
                 else:
                     self.requestCompatibleCardsetType(self.nextgame.id)
         finally:
+            # hide main window
+            self.wm_withdraw()
             # update options
             self.opt.last_gameid = id
             # save options

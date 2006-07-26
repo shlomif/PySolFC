@@ -222,9 +222,30 @@ class Kingdom(RoyalCotillion):
 # // Granada
 # ************************************************************************/
 
+
+class Alhambra_Hint(CautiousDefaultHint):
+    def _getDropCardScore(self, score, color, r, t, ncards):
+        return 93000, color
+
+
 class Alhambra_RowStack(UD_SS_RowStack):
     def getBottomImage(self):
         return self.game.app.images.getReserveBottom()
+
+
+class Alhambra_Talon__(RedealTalonStack):
+
+    def canDealCards(self):
+        if self.round == self.max_rounds:
+            return len(self.cards) != 0
+        return not self.game.isGameWon()
+
+    def dealCards(self, sound=0):
+        if self.cards:
+            return self.dealRowAvail(sound=sound)
+        RedealTalonStack.redealCards(self, frames=0,
+                                     shuffle=False, sound=sound)
+        return self.dealRowAvail(sound=sound)
 
 
 class Alhambra_Talon(DealRowTalonStack):
@@ -259,7 +280,7 @@ class Alhambra_Talon(DealRowTalonStack):
 
 
 class Alhambra(Game):
-    Hint_Class = CautiousDefaultHint
+    Hint_Class = Alhambra_Hint
 
     def createGame(self, rows=1):
         # create layout

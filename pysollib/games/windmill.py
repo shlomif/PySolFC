@@ -42,6 +42,9 @@ from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 
+from golf import BlackHole_Foundation
+
+
 # /***********************************************************************
 # //
 # ************************************************************************/
@@ -63,10 +66,18 @@ class Windmill_RowStack(ReserveStack):
 
 # /***********************************************************************
 # // Windmill
+# // Dutch Solitaire
 # ************************************************************************/
 
 class Windmill(Game):
 
+    Foundation_Classes = [
+        StackWrapper(Windmill_Foundation, mod=13, min_cards=1, max_cards=52),
+        StackWrapper(Windmill_Foundation, base_rank=KING, dir=-1),
+        ]
+    RowStack_Class = Windmill_RowStack
+
+    ROWS_LAYOUT = ((2,0), (2,1), (0,2), (1,2), (3,2), (4,2), (2,3), (2,4))
     FILL_STACK = True
 
     #
@@ -89,16 +100,18 @@ class Windmill(Game):
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, "ss")
         x0, y0 = x + l.XS, y
-        for d in ((2,0), (2,1), (0,2), (1,2), (3,2), (4,2), (2,3), (2,4)):
+        for d in self.ROWS_LAYOUT:
             x, y = x0 + d[0] * l.XS, y0 + d[1] * l.YS
-            s.rows.append(Windmill_RowStack(x, y, self))
+            stack = self.RowStack_Class(x, y, self)
+            s.rows.append(stack)
+            stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, 0
         x, y = x0 + 2 * l.XS, y0 + 2 * l.YS
-        s.foundations.append(Windmill_Foundation(x, y, self,
-                             mod=13, min_cards=1, max_cards=52))
+        fnd_cls = self.Foundation_Classes[0]
+        s.foundations.append(fnd_cls(x, y, self))
+        fnd_cls = self.Foundation_Classes[1]
         for d in ((1,0.6), (3,0.6), (1,3.4), (3,3.4)):
             x, y = x0 + d[0] * l.XS, y0 + d[1] * l.YS
-            s.foundations.append(Windmill_Foundation(x, y, self,
-                                 base_rank=KING, dir=-1))
+            s.foundations.append(fnd_cls(x, y, self))
 
         # define stack-groups
         l.defaultStackGroups()
@@ -137,6 +150,34 @@ class Windmill(Game):
         # disable auto drop - this would ruin the whole gameplay
         return ((), (), ())
 
+
+class DutchSolitaire_RowStack(UD_RK_RowStack):
+    def getBottomImage(self):
+        return self.game.app.images.getReserveBottom()
+
+
+class DutchSolitaire(Windmill):
+    Foundation_Classes = [
+        StackWrapper(BlackHole_Foundation, suit=ANY_SUIT, mod=13, max_cards=UNLIMITED_CARDS),
+        StackWrapper(BlackHole_Foundation, suit=ANY_SUIT, mod=13, max_cards=UNLIMITED_CARDS),
+        ]
+    RowStack_Class = DutchSolitaire_RowStack
+
+    ##ROWS_LAYOUT = ((2,0), (2,1), (0,2), (1,2), (3,2), (4,2), (2,3), (2,4))
+    ROWS_LAYOUT = ((2,0), (2,1), (1,2), (3,2), (2,3), (2,4))
+    FILL_STACK = False
+
+    def _shuffleHook(self, cards):
+        return cards
+
+    def startGame(self):
+        self.startDealSample()
+        #self.s.talon.dealRow(rows=(self.s.foundations[0],))
+        #self.s.talon.dealRow()
+        self.s.talon.dealCards()          # deal first card to WasteStack
+
+    def getAutoStacks(self, event=None):
+        return (self.sg.dropstacks, self.sg.dropstacks, self.sg.dropstacks)
 
 
 # /***********************************************************************
@@ -330,4 +371,6 @@ registerGame(GameInfo(483, Czarina, "Czarina",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(484, FourSeasons, "Four Seasons",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
+registerGame(GameInfo(561, DutchSolitaire, "Dutch Solitaire",
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
 

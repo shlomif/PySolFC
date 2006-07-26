@@ -22,6 +22,7 @@ import fortythieves
 import freecell
 import glenwood
 import golf
+import grandduchess
 import grandfathersclock
 import gypsy
 import harp

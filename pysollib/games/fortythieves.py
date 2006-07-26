@@ -107,10 +107,12 @@ class FortyThieves(Game):
         s.talon = WasteTalonStack(x, y, self, max_rounds=max_rounds, num_deal=num_deal)
         l.createText(s.talon, "n")
         if max_rounds > 1:
+            tx, ty, ta, tf = l.getTextAttr(s.talon, "nn")
+            font = self.app.getFont("canvas_default")
             s.talon.texts.rounds = MfxCanvasText(self.canvas,
-                                                 x + l.CW / 2, y - l.TEXT_HEIGHT,
-                                                 anchor="s",
-                                                 font=self.app.getFont("canvas_default"))
+                                                 tx, ty-l.TEXT_MARGIN,
+                                                 anchor=ta,
+                                                 font=font)
         x = x - l.XS
         s.waste = WasteStack(x, y, self)
         s.waste.CARD_XOFFSET = -l.XOFFSET
@@ -799,6 +801,55 @@ class Waterloo(FortyThieves):
         return 0
 
 
+# /***********************************************************************
+# // Junction
+# ************************************************************************/
+
+from gypsy import DieRussische_Foundation
+
+class Junction(Game):
+
+    def createGame(self, rows=7):
+        
+        l, s = Layout(self), self.s
+
+        self.setSize(l.XM+10*l.XS, l.YM+3*l.YS+12*l.YOFFSET)
+
+        y = l.YM
+        for i in range(2):
+            x = l.XM+2*l.XS
+            for j in range(8):
+                s.foundations.append(DieRussische_Foundation(x, y, self,
+                                     suit=j%4, max_cards=8))
+                x += l.XS
+            y += l.YS
+
+        x, y = l.XM+(10-rows)*l.XS/2, l.YM+2*l.YS
+        for i in range(rows):
+            s.rows.append(AC_RowStack(x, y, self))
+            x += l.XS
+
+        x, y = l.XM, l.YM
+        s.talon = WasteTalonStack(x, y, self, max_rounds=1)
+        l.createText(s.talon, 'ne')
+        y += l.YS
+        s.waste = WasteStack(x, y, self)
+        l.createText(s.waste, 'ne')
+
+        l.defaultStackGroups()
+
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
+
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return card1.color != card2.color and abs(card1.rank-card2.rank) == 1
+
+
+
 # register the game
 registerGame(GameInfo(13, FortyThieves, "Forty Thieves",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL,
@@ -887,5 +938,8 @@ registerGame(GameInfo(529, SanJuanHill, "San Juan Hill",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(540, Waterloo, "Waterloo",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(556, Junction, "Junction",
+                      GI.GT_FORTY_THIEVES, 4, 0, GI.SL_MOSTLY_SKILL,
+                      ranks=(0, 6, 7, 8, 9, 10, 11, 12) ))
 
 

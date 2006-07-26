@@ -1398,7 +1398,8 @@ class DealBaseCard_StackMethods:
 
 class RedealCards_StackMethods:
 
-    def redealCards(self, rows=None, sound=0, shuffle=False, reverse=False, frames=4):
+    def redealCards(self, rows=None, sound=0,
+                    shuffle=False, reverse=False, frames=0):
         if sound and self.game.app.opt.animations:
             self.game.startDealSample()
         lr = len(self.game.s.rows)
@@ -1413,7 +1414,7 @@ class RedealCards_StackMethods:
         for r in rows:
             for i in range(len(r.cards)):
                 num_cards += 1
-                self.game.moveMove(1, r, self, frames=0)
+                self.game.moveMove(1, r, self, frames=frames)
                 if self.cards[-1].face_up:
                     self.game.flipMove(self)
         assert len(self.cards) == num_cards
@@ -1798,11 +1799,11 @@ class SS_FoundationStack(AbstractFoundationStack):
 # A Rank_FoundationStack builds up in rank and ignores color and suit.
 class RK_FoundationStack(SS_FoundationStack):
     def __init__(self, x, y, game, suit=ANY_SUIT, **cap):
-        apply(SS_FoundationStack.__init__, (self, x, y, game, suit), cap)
+        apply(SS_FoundationStack.__init__, (self, x, y, game, ANY_SUIT), cap)
 
     def assertStack(self):
         SS_FoundationStack.assertStack(self)
-        assert self.cap.suit == ANY_SUIT
+        ##assert self.cap.suit == ANY_SUIT
         assert self.cap.color == ANY_COLOR
 
     def getHelp(self):

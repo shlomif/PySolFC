@@ -731,63 +731,62 @@ class CornerSuite(Game):
 
 
 # /***********************************************************************
-# // Scuffle
+# // Marshal
 # ************************************************************************/
 
-class Scuffle_Talon(RedealTalonStack):
-
-    def canDealCards(self):
-        if self.round == self.max_rounds:
-            return len(self.cards) != 0
-        return not self.game.isGameWon()
-
-    def dealCards(self, sound=0):
-        if self.cards:
-            return self.dealRowAvail(sound=sound)
-        RedealTalonStack.redealCards(self, shuffle=True, sound=sound)
-        return self.dealRowAvail(sound=sound)
+class Marshal_Hint(CautiousDefaultHint):
+    def _getDropCardScore(self, score, color, r, t, ncards):
+        return 93000, color
 
 
-class Scuffle_RowStack(BasicRowStack):
-    ##clickHandler = BasicRowStack.doubleclickHandler
-    pass
+class Marshal(Game):
 
-
-class Scuffle(Game):
+    Hint_Class = Marshal_Hint
 
     def createGame(self):
 
         l, s = Layout(self), self.s
-        self.setSize(l.XM+6*l.XS, l.YM+2*l.YS)
+        self.setSize(l.XM+8*l.XS, l.YM+5*l.YS)
 
-        s.talon = Scuffle_Talon(l.XM, l.YM+l.YS/2, self, max_rounds=3)
-        l.createText(s.talon, 's')
-        tx, ty, ta, tf = l.getTextAttr(s.talon, 'nn')
-        font = self.app.getFont('canvas_default')
-        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
-                                             anchor=ta, font=font)
-
-        x, y = l.XM+2*l.XS, l.YM
+        x, y = l.XM, l.YM
         for i in range(4):
-            s.foundations.append(RK_FoundationStack(x, y, self))
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
             x += l.XS
-        x, y = l.XM+2*l.XS, l.YM+l.YS
         for i in range(4):
-            stack = Scuffle_RowStack(x, y, self, max_move=1)
-            s.rows.append(stack)
-            stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, 0
+            s.foundations.append(SS_FoundationStack(x, y, self,
+                                 suit=i, base_rank=KING, dir=-1))
             x += l.XS
+        x, y = l.XM, l.YM+l.YS
+        s.talon = TalonStack(x, y, self)
+        l.createText(s.talon, 'se')
+        y = l.YM+l.YS
+        for i in range(4):
+            x = l.XM+2*l.XS
+            for j in range(6):
+                stack = UD_SS_RowStack(x, y, self, base_rank=NO_RANK)
+                s.rows.append(stack)
+                stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, 0
+                x += l.XS
+            y += l.YS
 
         l.defaultStackGroups()
 
-    def _shuffleHook(self, cards):
-        return self._shuffleHookMoveToTop(cards,
-                                          lambda c: (c.rank == ACE, c.suit))
-
     def startGame(self):
         self.startDealSample()
-        self.s.talon.dealRow(rows=self.s.foundations)
         self.s.talon.dealRow()
+
+    def fillStack(self, stack):
+        if stack in self.s.rows and not stack.cards:
+            if self.s.talon.cards:
+                old_state = self.enterState(self.S_FILL)
+                self.flipMove(self.s.talon)
+                self.moveMove(1, self.s.talon, stack)
+                self.leaveState(old_state)
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return (card1.suit == card2.suit and
+                (abs(card1.rank-card2.rank) == 1))
+
 
 
 # register the game
@@ -818,5 +817,5 @@ registerGame(GameInfo(438, SixesAndSevens, "Sixes and Sevens",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(477, CornerSuite, "Corner Suite",
                       GI.GT_2DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
-registerGame(GameInfo(553, Scuffle, "Scuffle",
-                      GI.GT_1DECK_TYPE, 1, 2, GI.SL_MOSTLY_LUCK))
+registerGame(GameInfo(559, Marshal, "Marshal",
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))

@@ -121,9 +121,10 @@ class Layout:
         ##self.RIGHT_MARGIN = layout_x_margin-layout_card_x_space
         ##self.BOTTOM_MARGIN = layout_y_margin-layout_card_y_space
 
-        self.TEXT_MARGIN = 10
-        ##self.TEXT_HEIGHT = 30
         font = game.app.getFont("canvas_default")
+        ##self.TEXT_MARGIN = 10
+        self.TEXT_MARGIN = font[1]
+        ##self.TEXT_HEIGHT = 30
         self.TEXT_HEIGHT = 18+font[1]
 
         self.__dict__.update(kw)
@@ -150,29 +151,30 @@ class Layout:
 
     def getTextAttr(self, stack, anchor):
         x, y = 0, 0
+        delta_x, delta_y = 4, 4
         if stack is not None:
             x, y = stack.x, stack.y
         if anchor == "n":
-            return (x+self.CW/2, y-4, "s", "%d")
+            return (x+self.CW/2, y-delta_y, "s", "%d")
         if anchor == "nn":
             return (x+self.CW/2, y-self.TEXT_MARGIN, "s", "%d")
         if anchor == "s":
-            return (x+self.CW/2, y+self.CH+4, "n", "%d")
+            return (x+self.CW/2, y+self.CH+delta_y, "n", "%d")
         if anchor == "ss":
             return (x+self.CW/2, y+self.CH+self.TEXT_MARGIN, "n", "%d")
         if anchor == "nw":
-            return (x-self.TEXT_MARGIN, y, "ne", "%d")
+            return (x-delta_x, y, "ne", "%d")
         if anchor == "sw":
-            return (x-self.TEXT_MARGIN, y+self.CH, "se", "%d")
+            return (x-delta_x, y+self.CH, "se", "%d")
         f = "%2d"
         if self.game.gameinfo.decks > 1:
             f = "%3d"
         if anchor == "ne":
-            return (x+self.CW+self.TEXT_MARGIN, y, "nw", f)
+            return (x+self.CW+delta_x, y, "nw", f)
         if anchor == "se":
-            return (x+self.CW+self.TEXT_MARGIN, y+self.CH, "sw", f)
+            return (x+self.CW+delta_x, y+self.CH, "sw", f)
         if anchor == "e":
-            return (x+self.CW+self.TEXT_MARGIN, y+self.CH/2, "w", f)
+            return (x+self.CW+delta_x, y+self.CH/2, "w", f)
         raise Exception, anchor
 
     def createText(self, stack, anchor, dx=0, dy=0, text_format=""):

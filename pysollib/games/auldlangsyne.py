@@ -32,7 +32,6 @@
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
@@ -41,6 +40,8 @@ from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.pysoltk import MfxCanvasText
+
 
 # /***********************************************************************
 # // Tam O'Shanter
@@ -48,26 +49,40 @@ from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 
 class TamOShanter(Game):
     Talon_Class = DealRowTalonStack
+    Foundation_Class = RK_FoundationStack
     RowStack_Class = StackWrapper(BasicRowStack, max_move=1, max_accept=0)
 
-    def createGame(self):
+    def createGame(self, rows=4, texts=False, yoffset=None):
         # create layout
         l, s = Layout(self), self.s
 
         # set window
-        self.setSize(l.XM + 6*l.XS, l.YM + 4*l.YS)
+        if yoffset is None:
+            yoffset = l.YOFFSET
+        max_rows = max(rows, 4*self.gameinfo.decks)
+        self.setSize(l.XM+(2+max_rows)*l.XS, l.YM+2*l.YS+12*yoffset)
 
         # create stacks
-        x, y, = l.XM, l.YM
+        if texts:
+            x, y, = l.XM, l.YM+l.YS/2
+        else:
+            x, y, = l.XM, l.YM
         s.talon = self.Talon_Class(x, y, self)
         l.createText(s.talon, "ss")
+        if texts:
+            tx, ty, ta, tf = l.getTextAttr(s.talon, 'nn')
+            font = self.app.getFont('canvas_default')
+            s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
+                                                 anchor=ta, font=font)
         x, y = l.XM+2*l.XS, l.YM
-        for i in range(4):
-            s.foundations.append(RK_FoundationStack(x, y, self))
+        for i in range(4*self.gameinfo.decks):
+            s.foundations.append(self.Foundation_Class(x, y, self, suit=i%4))
             x += l.XS
         x, y = l.XM+2*l.XS, l.YM+l.YS
-        for i in range(4):
-            s.rows.append(self.RowStack_Class(x, y, self))
+        for i in range(rows):
+            stack = self.RowStack_Class(x, y, self)
+            s.rows.append(stack)
+            stack.CARD_YOFFSET = yoffset
             x += l.XS
 
         # define stack-groups
@@ -345,25 +360,15 @@ class Colorado(Game):
 # // Amazons
 # ************************************************************************/
 
-class Amazons_Talon(DealRowTalonStack):
+class Amazons_Talon(RedealTalonStack):
+
     def canDealCards(self):
-        ## FIXME: this is to avoid loops in the demo
-        if self.game.demo and self.game.moves.index >= 100:
-            return False
-        if self.round == self.max_rounds:
-            return False
         return not self.game.isGameWon()
 
     def dealCards(self, sound=0):
-        self.game.startDealSample()
         if not self.cards:
-            self.game.nextRoundMove(self)
-            n = self._moveAllToTalon()
-            self.game.stopSamples()
-            return n
-        n = self.dealRowAvail()
-        self.game.stopSamples()
-        return n
+            RedealTalonStack.redealCards(self, frames=4, sound=sound)
+        return self.dealRowAvail(sound=sound)
 
     def dealRowAvail(self, rows=None, flip=1, reverse=0, frames=-1, sound=0):
         if rows is None:
@@ -373,18 +378,8 @@ class Amazons_Talon(DealRowTalonStack):
                 if len(f.cards) < 7:
                     rows.append(self.game.s.rows[i])
                 i += 1
-        return DealRowTalonStack.dealRowAvail(self, rows=rows, flip=flip,
+        return RedealTalonStack.dealRowAvail(self, rows=rows, flip=flip,
                    reverse=reverse, frames=frames, sound=sound)
-
-    def _moveAllToTalon(self):
-        # move all cards to the Talon
-        num_cards = 0
-        for r in self.game.s.rows:
-            for i in range(len(r.cards)):
-                num_cards += 1
-                self.game.moveMove(1, r, self, frames=4)
-                self.game.flipMove(self)
-        return num_cards
 
 
 class Amazons_Foundation(AbstractFoundationStack):
@@ -407,80 +402,60 @@ class Amazons_Foundation(AbstractFoundationStack):
         return i == j
 
 
-class Amazons(Game):
+class Amazons(AuldLangSyne):
+    Talon_Class = StackWrapper(Amazons_Talon, max_rounds=-1)
+    Foundation_Class = StackWrapper(Amazons_Foundation, max_cards=7)
 
-    def createGame(self):
-        # create layout
-        l, s = Layout(self), self.s
-
-        # set window
-        self.setSize(l.XM + 6*l.XS, l.YM + 4*l.YS)
-
-        # create stacks
-        x, y, = l.XM, l.YM
-        s.talon = Amazons_Talon(x, y, self, max_rounds=-1)
-        l.createText(s.talon, "ss")
-        x, y = l.XM+2*l.XS, l.YM
-        for i in range(4):
-            s.foundations.append(Amazons_Foundation(x, y, self, suit=i, max_cards=7))
-            x += l.XS
-        x, y = l.XM+2*l.XS, l.YM+l.YS
-        for i in range(4):
-            s.rows.append(BasicRowStack(x, y, self, max_move=1, max_accept=0))
-            x += l.XS
-
-        # define stack-groups
-        l.defaultStackGroups()
-
+    def _shuffleHook(self, cards):
+        return cards
 
     def startGame(self):
         self.startDealSample()
         self.s.talon.dealRow()
 
 
-    def getAutoStacks(self, event=None):
-        return ((), (), self.sg.dropstacks)
-
-
 # /***********************************************************************
+# // Scuffle
 # // Acquaintance
 # ************************************************************************/
 
-class Acquaintance_Talon(TalonStack): # TalonStack
+class Scuffle_Talon(RedealTalonStack):
 
     def canDealCards(self):
-        if self.round == self.max_rounds and not self.cards:
-            return False
+        if self.round == self.max_rounds:
+            return len(self.cards) != 0
         return not self.game.isGameWon()
 
-    def _redeal(self):
-        # move all cards to the Talon
-        lr = len(self.game.s.rows)
-        num_cards = 0
-        assert len(self.cards) == 0
-        rows = self.game.s.rows
-        for r in rows:
-            for i in range(len(r.cards)):
-                num_cards = num_cards + 1
-                self.game.moveMove(1, r, self, frames=4)
-                self.game.flipMove(self)
-        assert len(self.cards) == num_cards
-        if num_cards == 0:          # game already finished
-            return
-        self.game.nextRoundMove(self)
+    def dealCards(self, sound=0, shuffle=True):
+        if self.cards:
+            return self.dealRowAvail(sound=sound)
+        RedealTalonStack.redealCards(self, frames=4,
+                                     shuffle=shuffle, sound=sound)
+        return self.dealRowAvail(sound=sound)
 
+
+class Scuffle(AuldLangSyne):
+    Talon_Class = StackWrapper(Scuffle_Talon, max_rounds=3)
+    def createGame(self):
+        AuldLangSyne.createGame(self, texts=True, yoffset=0)
+
+
+class Acquaintance_Talon(Scuffle_Talon):
     def dealCards(self, sound=0):
-        if sound:
-            self.game.startDealSample()
-        if len(self.cards) == 0:
-            self._redeal()
-        n = self.dealRowAvail(sound=sound)
-        if sound:
-            self.game.stopSamples()
-        return n
+        Scuffle_Talon.dealCards(self, sound=sound, shuffle=False)
+
 
 class Acquaintance(AuldLangSyne):
     Talon_Class = StackWrapper(Acquaintance_Talon, max_rounds=3)
+    def createGame(self, texts=False, yoffset=None):
+        AuldLangSyne.createGame(self, texts=True)
+
+
+class DoubleAcquaintance(AuldLangSyne):
+    Talon_Class = StackWrapper(Acquaintance_Talon, max_rounds=3)
+    def createGame(self):
+        AuldLangSyne.createGame(self, rows=8, texts=True)
+
 
 
 # register the game
@@ -500,4 +475,8 @@ registerGame(GameInfo(406, Amazons, "Amazons",
                       ))
 registerGame(GameInfo(490, Acquaintance, "Acquaintance",
                       GI.GT_NUMERICA, 1, 2, GI.SL_BALANCED))
+registerGame(GameInfo(553, Scuffle, "Scuffle",
+                      GI.GT_NUMERICA, 1, 2, GI.SL_MOSTLY_LUCK))
+registerGame(GameInfo(560, DoubleAcquaintance, "Double Acquaintance",
+                      GI.GT_NUMERICA, 2, 2, GI.SL_BALANCED))
 

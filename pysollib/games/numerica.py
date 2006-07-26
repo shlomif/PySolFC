@@ -106,29 +106,33 @@ class Numerica(Game):
     def createGame(self, rows=4):
         # create layout
         l, s = Layout(self), self.s
+        decks = self.gameinfo.decks
+        foundations = 4*decks
 
         # set window
         # (piles up to 20 cards are playable in default window size)
         h = max(2*l.YS, 20*l.YOFFSET)
-        self.setSize(l.XM+(1.5+rows)*l.XS+l.XM, l.YM + l.YS + h)
+        max_rows = max(rows, foundations)
+        self.setSize(l.XM+(1.5+max_rows)*l.XS+l.XM, l.YM + l.YS + h)
 
         # create stacks
         x0 = l.XM + l.XS * 3 / 2
-        x, y = x0 + (rows-4)*l.XS/2, l.YM
-        for i in range(4):
+        if decks == 1:
+            x = x0 + (rows-4)*l.XS/2
+        else:
+            x = x0
+        y = l.YM
+        for i in range(foundations):
             s.foundations.append(self.Foundation_Class(x, y, self, suit=i))
             x = x + l.XS
         x, y = x0, l.YM + l.YS
         for i in range(rows):
             s.rows.append(self.RowStack_Class(x, y, self))
             x = x + l.XS
-        self.setRegion(s.rows, (x0 - l.XS / 2, y, 999999, 999999))
+        self.setRegion(s.rows, (x0-l.XS/2, y-l.CH/2, 999999, 999999))
         x = l.XM
         s.talon = WasteTalonStack(x, y, self, max_rounds=1)
-        s.talon.texts.ncards = MfxCanvasText(self.canvas,
-                                             x + l.CW / 2, y - l.YM,
-                                             anchor="s",
-                                             font=self.app.getFont("canvas_default"))
+        l.createText(s.talon, 'n')
         y = y + l.YS
         s.waste = WasteStack(x, y, self, max_cards=1)
 
@@ -151,6 +155,11 @@ class Numerica(Game):
 
     def getHighlightPilesStacks(self):
         return ()
+
+
+class Numerica2Decks(Numerica):
+    def createGame(self):
+        Numerica.createGame(self, rows=6)
 
 
 # /***********************************************************************
@@ -642,3 +651,7 @@ registerGame(GameInfo(435, Shifting, "Shifting",
                       GI.GT_NUMERICA, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(472, Strategerie, "Strategerie",
                       GI.GT_NUMERICA, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(558, Numerica2Decks, "Numerica (2 decks)",
+                      GI.GT_NUMERICA, 2, 0, GI.SL_BALANCED))
+
+

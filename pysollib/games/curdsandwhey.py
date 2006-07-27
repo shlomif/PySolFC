@@ -57,7 +57,7 @@ class CurdsAndWhey_RowStack(BasicRowStack):
         return isSameSuitSequence(cards) or isRankSequence(cards, dir=0)
 
     def getHelp(self):
-        return _('Row. Build down by suit or of the same rank.')
+        return _('Tableau. Build down by suit or of the same rank.')
 
 
 class CurdsAndWhey(Game):

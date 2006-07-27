@@ -140,7 +140,7 @@ class Moosehide_RowStack(Yukon_AC_RowStack):
     def _isSequence(self, c1, c2):
         return (c1.suit != c2.suit and c1.rank == c2.rank+1)
     def getHelp(self):
-        return _('Row. Build down in any suit but the same, can move any face-up cards regardless of sequence.')
+        return _('Tableau. Build down in any suit but the same, can move any face-up cards regardless of sequence.')
 
 class Moosehide(Yukon):
     RowStack_Class = StackWrapper(Moosehide_RowStack, base_rank=KING)
@@ -199,7 +199,7 @@ class Alaska_RowStack(Yukon_SS_RowStack):
                 ((c1.rank + self.cap.dir) % self.cap.mod == c2.rank or
                  (c2.rank + self.cap.dir) % self.cap.mod == c1.rank))
     def getHelp(self):
-        return _('Row. Build up or down by suit, can move any face-up cards regardless of sequence.')
+        return _('Tableau. Build up or down by suit, can move any face-up cards regardless of sequence.')
 
 
 class Alaska(RussianSolitaire):
@@ -216,7 +216,7 @@ class Roslin_RowStack(Yukon_AC_RowStack):
                 ((c1.rank + self.cap.dir) % self.cap.mod == c2.rank or
                  (c2.rank + self.cap.dir) % self.cap.mod == c1.rank))
     def getHelp(self):
-        return _('Row. Build up or down by alternate color, can move any face-up cards regardless of sequence.')
+        return _('Tableau. Build up or down by alternate color, can move any face-up cards regardless of sequence.')
 
 
 class Roslin(Yukon):

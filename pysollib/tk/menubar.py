@@ -37,7 +37,7 @@
 __all__ = ['PysolMenubar']
 
 # imports
-import math, os, re, sys, types
+import math, os, re, types
 import Tkinter, tkColorChooser, tkFileDialog
 
 # PySol imports
@@ -318,6 +318,8 @@ class PysolMenubar(PysolMenubarActions):
         menu.add_separator()
         menu.add_command(label=n_("&Demo"), command=self.mDemo, accelerator=m+"D")
         menu.add_command(label=n_("Demo (&all games)"), command=self.mMixedDemo)
+        menu.add_separator()
+        menu.add_command(label=n_("Show descriptions od piles"), command=self.mStackDesk, accelerator="F2")
         menu = MfxMenu(self.__menubar, label=n_("&Options"))
         menu.add_command(label=n_("&Player options..."), command=self.mOptPlayerOptions)
         submenu = MfxMenu(menu, label=n_("&Automatic play"))
@@ -425,8 +427,8 @@ class PysolMenubar(PysolMenubarActions):
         self._bindKey("",   "Print", self.mScreenshot)
         self._bindKey(ctrl, "u", self.mPlayNextMusic)   # undocumented
         self._bindKey("",   "p", self.mPause)
-        self._bindKey("",   "Pause", self.mPause)
-        self._bindKey("",   "Escape", self.mIconify)
+        self._bindKey("",   "Pause", self.mPause)       # undocumented
+        self._bindKey("",   "Escape", self.mIconify)    # undocumented
         # ASD and LKJ
         self._bindKey("",   "a", self.mDrop)
         self._bindKey(ctrl, "a", self.mDrop1)
@@ -436,6 +438,8 @@ class PysolMenubar(PysolMenubarActions):
         self._bindKey(ctrl, "l", self.mDrop1)
         self._bindKey("",   "k", self.mUndo)
         self._bindKey("",   "j", self.mDeal)
+
+        self._bindKey("",   "F2", self.mStackDesk)
         #
         self._bindKey("",   "slash", self.mGameInfo) # undocumented, devel
 
@@ -1053,5 +1057,14 @@ class PysolMenubar(PysolMenubarActions):
         self.app.toolbar.config(w, v)
         self.top.update_idletasks()
 
+    #
+    # stacks descriptions
+    #
 
+    def mStackDesk(self, *event):
+        if self.game.stackdesc_list:
+            self.game.deleteStackDesc()
+        else:
+            if self._cancelDrag(break_pause=True): return
+            self.game.showStackDesc()
 

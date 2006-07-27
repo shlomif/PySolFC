@@ -233,21 +233,6 @@ class Alhambra_RowStack(UD_SS_RowStack):
         return self.game.app.images.getReserveBottom()
 
 
-class Alhambra_Talon__(RedealTalonStack):
-
-    def canDealCards(self):
-        if self.round == self.max_rounds:
-            return len(self.cards) != 0
-        return not self.game.isGameWon()
-
-    def dealCards(self, sound=0):
-        if self.cards:
-            return self.dealRowAvail(sound=sound)
-        RedealTalonStack.redealCards(self, frames=0,
-                                     shuffle=False, sound=sound)
-        return self.dealRowAvail(sound=sound)
-
-
 class Alhambra_Talon(DealRowTalonStack):
     def canDealCards(self):
         r_cards = sum([len(r.cards) for r in self.game.s.rows])

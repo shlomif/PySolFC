@@ -154,7 +154,7 @@ class Strategy_RowStack(BasicRowStack):
         return self.game.app.images.getReserveBottom()
 
     def getHelp(self):
-        return _('Row. Build regardless of rank and suit.')
+        return _('Tableau. Build regardless of rank and suit.')
 
 
 class Strategy(Game):

@@ -116,6 +116,7 @@ class Game:
         self.cards = []
         self.stackmap = {}              # dict with (x,y) tuples as key
         self.allstacks = []
+        self.stackdesc_list = []
         self.demo_logo = None
         self.pause_logo = None
         self.s = Struct(                # stacks
@@ -701,6 +702,7 @@ class Game:
         if break_pause and self.pause:
             self.doPause()
         self.interruptSleep()
+        self.deleteStackDesc()
         if self.busy: return 1
         if self.drag.stack:
             self.drag.stack.cancelDrag()
@@ -715,12 +717,14 @@ class Game:
             self.app.menubar.disableMenus()
 
 
+
     #
     # UI & graphics support
     #
 
     def clickHandler(self, *args):
         self.interruptSleep()
+        self.deleteStackDesc()
         if self.demo:
             self.stopDemo()
         return EVENT_PROPAGATE
@@ -793,7 +797,7 @@ class Game:
     def _unmapHandler(self, event):
         # pause game if root window has been iconified
         if event.widget is self.top and not self.pause:
-            self.doPause()
+            self.app.menubar.mPause()
 
 
     #
@@ -2461,6 +2465,29 @@ in the current implementation.''' % version
         if kw.has_key('help') and self.app.opt.helpbar:
             self.app.helpbar.updateText(info=kw['help'])
 
+    #
+    # Piles descriptions
+    #
+
+    def showStackDesc(self):
+        from pysoltk import StackDesc
+        from stack import InitialDealTalonStack
+        sd_list = []
+        for s in self.allstacks:
+            sd = (s.__class__.__name__, s.cap.base_rank, s.cap.dir)
+            if sd in sd_list:
+                # one of each uniq pile
+                continue
+            if isinstance(s, InitialDealTalonStack):
+                continue
+            self.stackdesc_list.append(StackDesc(self, s))
+            sd_list.append(sd)
+
+    def deleteStackDesc(self):
+        if self.stackdesc_list:
+            for sd in self.stackdesc_list:
+                sd.delete()
+            self.stackdesc_list = []
 
     #
     # subclass hooks

@@ -500,7 +500,7 @@ class Layout:
         if rows < maxrows: x += (maxrows-rows) * XS/2
         ##y += YM * (3 - foundrows)
         y += text_height
-        self.setRegion(self.s.rows, (-999, y - YM / 2, 999999, 999999))
+        self.setRegion(self.s.rows, (-999, y-CH/2, 999999, 999999))
         for i in range(rows):
             self.s.rows.append(S(x, y))
             x = x + XS

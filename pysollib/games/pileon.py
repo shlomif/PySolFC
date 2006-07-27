@@ -146,22 +146,22 @@ class Foursome(Game):
 
     def createGame(self, rows=6, texts=True):
         l, s = Layout(self), self.s
-        max_rows = max(6, rows)
-        self.setSize(l.XM+max_rows*l.XS, l.YM+3*l.YS+13*l.YOFFSET)
-        x, y = l.XM+(max_rows-6)*l.XS/2, l.YM
+        max_rows = max(8, rows)
+        self.setSize(l.XM+max_rows*l.XS, l.YM+2*l.YS+13*l.YOFFSET)
+        x, y = l.XM+l.XS*(max_rows-4)/2, l.YM
         for i in range(4):
             s.reserves.append(ReserveStack(x, y, self))
             x += l.XS
         x = l.XM+(max_rows-1)*l.XS
         s.foundations.append(AbstractFoundationStack(x, y, self,
                              suit=ANY_SUIT, max_cards=52, max_accept=0))
-        x, y = l.XM, l.YM+l.YS
+        x, y = l.XM+l.XS*(max_rows-rows)/2, l.YM+l.YS
         for i in range(rows):
             s.rows.append(UD_AC_RowStack(x, y, self, mod=13))
             x += l.XS
-        s.talon = self.Talon_Class(self.width-l.XS, self.height-l.YS, self)
+        s.talon = self.Talon_Class(l.XM, l.YM, self)
         if texts:
-            l.createText(s.talon, 'n')
+            l.createText(s.talon, 'ne')
         l.defaultStackGroups()
 
     def startGame(self):

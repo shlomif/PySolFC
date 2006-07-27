@@ -77,6 +77,7 @@ class Windmill(Game):
         ]
     RowStack_Class = Windmill_RowStack
 
+    FOUNDATIONS_LAYOUT = ((1,0.6), (3,0.6), (1,3.4), (3,3.4))
     ROWS_LAYOUT = ((2,0), (2,1), (0,2), (1,2), (3,2), (4,2), (2,3), (2,4))
     FILL_STACK = True
 
@@ -84,12 +85,14 @@ class Windmill(Game):
     # game layout
     #
 
-    def createGame(self):
+    def createGame(self, card_x_space=20):
         # create layout
-        l, s = Layout(self, card_x_space=20), self.s
+        l, s = Layout(self, card_x_space=card_x_space), self.s
 
         # set window
-        self.setSize(7*l.XS+l.XM, 5*l.YS+l.YM+l.YM)
+        max_x = max([i[0] for i in self.FOUNDATIONS_LAYOUT+self.ROWS_LAYOUT])
+        max_y = max([i[1] for i in self.FOUNDATIONS_LAYOUT+self.ROWS_LAYOUT])
+        self.setSize((3+max_x)*l.XS+l.XM, (1+max_y)*l.YS+l.YM+l.YM)
 
         # create stacks
         x = l.XM
@@ -109,7 +112,7 @@ class Windmill(Game):
         fnd_cls = self.Foundation_Classes[0]
         s.foundations.append(fnd_cls(x, y, self))
         fnd_cls = self.Foundation_Classes[1]
-        for d in ((1,0.6), (3,0.6), (1,3.4), (3,3.4)):
+        for d in self.FOUNDATIONS_LAYOUT:
             x, y = x0 + d[0] * l.XS, y0 + d[1] * l.YS
             s.foundations.append(fnd_cls(x, y, self))
 
@@ -158,22 +161,38 @@ class DutchSolitaire_RowStack(UD_RK_RowStack):
 
 class DutchSolitaire(Windmill):
     Foundation_Classes = [
-        StackWrapper(BlackHole_Foundation, suit=ANY_SUIT, mod=13, max_cards=UNLIMITED_CARDS),
-        StackWrapper(BlackHole_Foundation, suit=ANY_SUIT, mod=13, max_cards=UNLIMITED_CARDS),
+        StackWrapper(BlackHole_Foundation, suit=ANY_SUIT, mod=13,
+                     max_cards=UNLIMITED_CARDS, min_cards=1),
+        StackWrapper(BlackHole_Foundation, suit=ANY_SUIT, mod=13,
+                     max_cards=UNLIMITED_CARDS, min_cards=1),
         ]
     RowStack_Class = DutchSolitaire_RowStack
 
-    ##ROWS_LAYOUT = ((2,0), (2,1), (0,2), (1,2), (3,2), (4,2), (2,3), (2,4))
-    ROWS_LAYOUT = ((2,0), (2,1), (1,2), (3,2), (2,3), (2,4))
+    FOUNDATIONS_LAYOUT = ((1,1), (3,1), (1,3), (3,3))
+    ROWS_LAYOUT = ((2,0.5), (-0.5,2), (0.5,2), (3.5,2), (4.5,2), (2,3.5))
     FILL_STACK = False
 
+    def createGame(self):
+        Windmill.createGame(self, card_x_space=10)
+
     def _shuffleHook(self, cards):
-        return cards
+        # move 5 Aces to top of the Talon (i.e. first cards to be dealt)
+        def select_cards(c):
+            if c.rank == ACE:
+                if c.suit in (0, 1):
+                    return True, c.suit
+                if c.suit == 3 and c.deck == 0:
+                    return True, c.suit
+            return False, None
+        return self._shuffleHookMoveToTop(cards, select_cards)
 
     def startGame(self):
+        self.s.talon.dealRow(rows=self.s.foundations, frames=0)
+        for i in range(8):
+            self.s.talon.dealRow(frames=0)
         self.startDealSample()
-        #self.s.talon.dealRow(rows=(self.s.foundations[0],))
-        #self.s.talon.dealRow()
+        self.s.talon.dealRow()
+        self.s.talon.dealRow()
         self.s.talon.dealCards()          # deal first card to WasteStack
 
     def getAutoStacks(self, event=None):

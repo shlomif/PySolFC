@@ -1556,8 +1556,8 @@ class TalonStack(Stack,
         ##round = _('Round #%d.') % self.round
         return _('Talon.')+' '+nredeals ##+' '+round
 
-    def getBaseCard(self):
-        return self._getBaseCard()
+    #def getBaseCard(self):
+    #    return self._getBaseCard()
 
 
 # A single click deals one card to each of the RowStacks.
@@ -1777,6 +1777,9 @@ class AbstractFoundationStack(OpenStack):
         if len(self.cards) == self.cap.max_cards:
             self.game.closeStackMove(self)
 
+    def getHelp(self):
+        return _('Foundation.')
+
 
 # A SameSuit_FoundationStack is the typical Foundation stack.
 # It builds up in rank and suit.
@@ -1874,7 +1877,7 @@ class BasicRowStack(OpenStack):
 
     def getHelp(self):
         if self.cap.max_accept == 0:
-            return _('Row. No building.')
+            return _('Tableau. No building.')
         return ''
 
     #def getBaseCard(self):
@@ -1904,9 +1907,9 @@ class AC_RowStack(SequenceRowStack):
     def _isSequence(self, cards):
         return isAlternateColorSequence(cards, self.cap.mod, self.cap.dir)
     def getHelp(self):
-        if self.cap.dir > 0:   return _('Row. Build up by alternate color.')
-        elif self.cap.dir < 0: return _('Row. Build down by alternate color.')
-        else:                  return _('Row. Build by same rank.')
+        if self.cap.dir > 0:   return _('Tableau. Build up by alternate color.')
+        elif self.cap.dir < 0: return _('Tableau. Build down by alternate color.')
+        else:                  return _('Tableau. Build by same rank.')
 
 # A SameColor_RowStack builds down by rank and same color.
 # e.g. Klondike
@@ -1914,27 +1917,27 @@ class SC_RowStack(SequenceRowStack):
     def _isSequence(self, cards):
         return isSameColorSequence(cards, self.cap.mod, self.cap.dir)
     def getHelp(self):
-        if self.cap.dir > 0:   return _('Row. Build up by color.')
-        elif self.cap.dir < 0: return _('Row. Build down by color.')
-        else:                  return _('Row. Build by same rank.')
+        if self.cap.dir > 0:   return _('Tableau. Build up by color.')
+        elif self.cap.dir < 0: return _('Tableau. Build down by color.')
+        else:                  return _('Tableau. Build by same rank.')
 
 # A SameSuit_RowStack builds down by rank and suit.
 class SS_RowStack(SequenceRowStack):
     def _isSequence(self, cards):
         return isSameSuitSequence(cards, self.cap.mod, self.cap.dir)
     def getHelp(self):
-        if self.cap.dir > 0:   return _('Row. Build up by suit.')
-        elif self.cap.dir < 0: return _('Row. Build down by suit.')
-        else:                  return _('Row. Build by same rank.')
+        if self.cap.dir > 0:   return _('Tableau. Build up by suit.')
+        elif self.cap.dir < 0: return _('Tableau. Build down by suit.')
+        else:                  return _('Tableau. Build by same rank.')
 
 # A Rank_RowStack builds down by rank ignoring suit.
 class RK_RowStack(SequenceRowStack):
     def _isSequence(self, cards):
         return isRankSequence(cards, self.cap.mod, self.cap.dir)
     def getHelp(self):
-        if self.cap.dir > 0:   return _('Row. Build up regardless of suit.')
-        elif self.cap.dir < 0: return _('Row. Build down regardless of suit.')
-        else:                  return _('Row. Build by same rank.')
+        if self.cap.dir > 0:   return _('Tableau. Build up regardless of suit.')
+        elif self.cap.dir < 0: return _('Tableau. Build down regardless of suit.')
+        else:                  return _('Tableau. Build by same rank.')
 
 # A Freecell_AlternateColor_RowStack
 class FreeCell_AC_RowStack(AC_RowStack):
@@ -1960,9 +1963,9 @@ class Spider_SS_RowStack(SS_RowStack):
     def _isAcceptableSequence(self, cards):
         return isRankSequence(cards, self.cap.mod, self.cap.dir)
     def getHelp(self):
-        if self.cap.dir > 0:   return _('Row. Build up regardless of suit.')
-        elif self.cap.dir < 0: return _('Row. Build down regardless of suit.')
-        else:                  return _('Row. Build by same rank.')
+        if self.cap.dir > 0:   return _('Tableau. Build up regardless of suit.')
+        elif self.cap.dir < 0: return _('Tableau. Build down regardless of suit.')
+        else:                  return _('Tableau. Build by same rank.')
 
 # A Yukon_AlternateColor_RowStack builds down by rank and alternate color,
 # but can move any face-up cards regardless of sequence.
@@ -1983,10 +1986,12 @@ class Yukon_AC_RowStack(BasicRowStack):
         return 1
 
     def getHelp(self):
-        if self.cap.dir > 0:   return _('Row. Build up by alternate color, can move any face-up cards regardless of sequence.')
-        elif self.cap.dir < 0: return _('Row. Build down by alternate color, can move any face-up cards regardless of sequence.')
-        else:                  return _('Row. Build by same rank, can move any face-up cards regardless of sequence.')
+        if self.cap.dir > 0:   return _('Tableau. Build up by alternate color, can move any face-up cards regardless of sequence.')
+        elif self.cap.dir < 0: return _('Tableau. Build down by alternate color, can move any face-up cards regardless of sequence.')
+        else:                  return _('Tableau. Build by same rank, can move any face-up cards regardless of sequence.')
 
+    def getBaseCard(self):
+        return self._getBaseCard()
 
 # A Yukon_SameSuit_RowStack builds down by rank and suit,
 # but can move any face-up cards regardless of sequence.
@@ -1994,9 +1999,9 @@ class Yukon_SS_RowStack(Yukon_AC_RowStack):
     def _isSequence(self, c1, c2):
         return (c1.rank + self.cap.dir) % self.cap.mod == c2.rank and c1.suit == c2.suit
     def getHelp(self):
-        if self.cap.dir > 0:   return _('Row. Build up by suit, can move any face-up cards regardless of sequence.')
-        elif self.cap.dir < 0: return _('Row. Build down by suit, can move any face-up cards regardless of sequence.')
-        else:                  return _('Row. Build by same rank, can move any face-up cards regardless of sequence.')
+        if self.cap.dir > 0:   return _('Tableau. Build up by suit, can move any face-up cards regardless of sequence.')
+        elif self.cap.dir < 0: return _('Tableau. Build down by suit, can move any face-up cards regardless of sequence.')
+        else:                  return _('Tableau. Build by same rank, can move any face-up cards regardless of sequence.')
 
 #
 # King-versions of some of the above stacks: they accepts only Kings or
@@ -2028,7 +2033,7 @@ class UD_SC_RowStack(SequenceRowStack):
         return (isSameColorSequence(cards, self.cap.mod, 1) or
                 isSameColorSequence(cards, self.cap.mod, -1))
     def getHelp(self):
-        return _('Row. Build up or down by color.')
+        return _('Tableau. Build up or down by color.')
 
 # up or down by alternate color
 class UD_AC_RowStack(SequenceRowStack):
@@ -2039,7 +2044,7 @@ class UD_AC_RowStack(SequenceRowStack):
         return (isAlternateColorSequence(cards, self.cap.mod, 1) or
                 isAlternateColorSequence(cards, self.cap.mod, -1))
     def getHelp(self):
-        return _('Row. Build up or down by alternate color.')
+        return _('Tableau. Build up or down by alternate color.')
 
 # up or down by suit
 class UD_SS_RowStack(SequenceRowStack):
@@ -2050,7 +2055,7 @@ class UD_SS_RowStack(SequenceRowStack):
         return (isSameSuitSequence(cards, self.cap.mod, 1) or
                 isSameSuitSequence(cards, self.cap.mod, -1))
     def getHelp(self):
-        return _('Row. Build up or down by suit.')
+        return _('Tableau. Build up or down by suit.')
 
 # up or down by rank ignoring suit
 class UD_RK_RowStack(SequenceRowStack):
@@ -2061,7 +2066,7 @@ class UD_RK_RowStack(SequenceRowStack):
         return (isRankSequence(cards, self.cap.mod, 1) or
                 isRankSequence(cards, self.cap.mod, -1))
     def getHelp(self):
-        return _('Row. Build up or down regardless of suit.')
+        return _('Tableau. Build up or down regardless of suit.')
 
 
 

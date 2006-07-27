@@ -32,7 +32,6 @@
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
@@ -42,6 +41,9 @@ from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 from pysollib.pysoltk import MfxCanvasText
+
+from gypsy import DieRussische_Foundation
+
 
 # /***********************************************************************
 # //
@@ -440,7 +442,7 @@ class Indian_RowStack(SequenceRowStack):
     def _isSequence(self, cards):
         return isAnySuitButOwnSequence(cards, self.cap.mod, self.cap.dir)
     def getHelp(self):
-        return _('Row. Build down in any suit but the same.')
+        return _('Tableau. Build down in any suit but the same.')
 
 
 class Indian(FortyThieves):
@@ -805,8 +807,6 @@ class Waterloo(FortyThieves):
 # // Junction
 # ************************************************************************/
 
-from gypsy import DieRussische_Foundation
-
 class Junction(Game):
 
     def createGame(self, rows=7):
@@ -847,6 +847,89 @@ class Junction(Game):
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return card1.color != card2.color and abs(card1.rank-card2.rank) == 1
+
+
+# /***********************************************************************
+# // The Spark
+# ************************************************************************/
+
+class TheSpark_Talon(TalonStack):
+
+    def canDealCards(self):
+        return len(self.cards) > 0
+
+    def dealCards(self, sound=0):
+        old_state = self.game.enterState(self.game.S_DEAL)
+        num_cards = 0
+        if self.cards:
+            if sound and not self.game.demo:
+                self.game.playSample("dealwaste")
+            for i in range(self.num_deal):
+                for r in self.game.s.reserves:
+                    if not self.cards:
+                        break
+                    self.game.flipMove(self)
+                    self.game.moveMove(1, self, r, frames=4, shadow=0)
+                    num_cards += 1
+        self.game.leaveState(old_state)
+        return num_cards
+
+
+class TheSpark(Game):
+    Hint_Class = CautiousDefaultHint
+
+    def createGame(self):
+
+        l, s = Layout(self), self.s
+
+        w, h = l.XM+8*l.XS, l.YM+4*l.YS
+        self.setSize(w, h)
+
+        x, y = l.XM, l.YM
+        for i in range(8):
+            s.foundations.append(SS_FoundationStack(x, y, self,
+                                 suit=i/2, base_rank=KING, mod=13))
+            x += l.XS
+        x, y = l.XM, l.YM+l.YS
+        s.talon = TheSpark_Talon(x, y, self, max_rounds=1, num_deal=3)
+        l.createText(s.talon, 'se')
+        y += l.YS
+        for i in (0,1):
+            stack = WasteStack(x, y, self)
+            s.reserves.append(stack)
+            l.createText(stack, 'se')
+            y += l.YS
+        y = l.YM+l.YS*3/2
+        for i in range(2):
+            x = l.XM+2*l.XS
+            for j in range(6):
+                stack = SS_RowStack(x, y, self, max_move=1)
+                stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, 0
+                s.rows.append(stack)
+                x += l.XS
+            y += l.YS
+
+        l.defaultStackGroups()
+
+
+    def _shuffleHook(self, cards):
+        # move Aces to top of the Talon (i.e. first cards to be dealt)
+        return self._shuffleHookMoveToTop(cards,
+                                          lambda c: (c.rank == KING, c.suit))
+
+
+    def startGame(self):
+        self.s.talon.dealRow(rows=self.s.foundations, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()          # deal first card to WasteStack
+
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return card1.suit == card2.suit and abs(card1.rank-card2.rank) == 1
+
+
+
 
 
 
@@ -941,5 +1024,7 @@ registerGame(GameInfo(540, Waterloo, "Waterloo",
 registerGame(GameInfo(556, Junction, "Junction",
                       GI.GT_FORTY_THIEVES, 4, 0, GI.SL_MOSTLY_SKILL,
                       ranks=(0, 6, 7, 8, 9, 10, 11, 12) ))
+registerGame(GameInfo(564, TheSpark, "The Spark",
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_LUCK))
 
 

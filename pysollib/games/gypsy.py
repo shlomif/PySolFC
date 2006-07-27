@@ -539,11 +539,66 @@ class Elba(Gypsy):
 
 class Millie(Gypsy):
     Layout_Method = Layout.klondikeLayout
-    RowStack_Class = AC_RowStack
 
     def startGame(self):
         self.startDealSample()
         self.s.talon.dealRow()
+
+
+# /***********************************************************************
+# // Hypotenuse
+# // Eternal Triangle
+# // Right Triangle
+# ************************************************************************/
+
+class Hypotenuse(Gypsy):
+    Layout_Method = Layout.klondikeLayout
+    RowStack_Class = KingAC_RowStack
+
+    def createGame(self):
+        Gypsy.createGame(self, rows=10, playcards=24)
+
+    def startGame(self, flip=0, reverse=1):
+        for i in range(1, 10):
+            self.s.talon.dealRow(rows=self.s.rows[:i], flip=0, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+
+class EternalTriangle(Hypotenuse):
+
+    def startGame(self, flip=0, reverse=1):
+        for i in range(1, 10):
+            self.s.talon.dealRow(rows=self.s.rows[i:], frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+
+class RightTriangle_Talon(OpenStack, DealRowTalonStack):
+    def __init__(self, x, y, game, max_rounds=1, num_deal=1, **cap):
+        Stack.__init__(self, x, y, game, cap=cap)
+        self.max_rounds = max_rounds
+        self.num_deal = num_deal
+        self.round = 1
+        self.base_cards = []        # for DealBaseCard_StackMethods
+
+    def canFlipCard(self):
+        return False
+
+    def getBottomImage(self):
+        return self.game.app.images.getReserveBottom()
+
+    def getHelp(self):
+        return ''
+
+class RightTriangle(Hypotenuse):
+    Talon_Class = StackWrapper(RightTriangle_Talon, max_accept=1, max_move=1)
+
+    def createGame(self):
+        Gypsy.createGame(self, rows=10, playcards=24)
+        self.sg.dropstacks.append(self.s.talon)
+        self.sg.openstacks.append(self.s.talon)
+        self.sg.reservestacks.append(self.s.talon)
 
 
 # register the game
@@ -593,4 +648,11 @@ registerGame(GameInfo(487, Millie, "Millie",
                       GI.GT_GYPSY, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(498, Steve, "Steve",
                       GI.GT_GYPSY, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(566, Hypotenuse, "Hypotenuse",
+                      GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(567, EternalTriangle, "Eternal Triangle",
+                      GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL,
+                      altnames=('Lobachevsky',) ))
+registerGame(GameInfo(568, RightTriangle, "Right Triangle",
+                      GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
 

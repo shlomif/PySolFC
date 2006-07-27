@@ -86,8 +86,8 @@ class Numerica_RowStack(BasicRowStack):
         return self.game.app.images.getReserveBottom()
 
     def getHelp(self):
-        ##return _('Row. Accepts any one card from the Waste.')
-        return _('Row. Build regardless of rank and suit.')
+        ##return _('Tableau. Accepts any one card from the Waste.')
+        return _('Tableau. Build regardless of rank and suit.')
 
 
 # /***********************************************************************
@@ -233,8 +233,8 @@ class PussInTheCorner_RowStack(BasicRowStack):
     def getBottomImage(self):
         return self.game.app.images.getReserveBottom()
     def getHelp(self):
-        ##return _('Row. Accepts any one card from the Waste.')
-        return _('Row. Build regardless of rank and suit.')
+        ##return _('Tableau. Accepts any one card from the Waste.')
+        return _('Tableau. Build regardless of rank and suit.')
 
 
 class PussInTheCorner(Numerica):
@@ -587,7 +587,7 @@ class Strategerie_RowStack(BasicRowStack):
         return self.game.app.images.getReserveBottom()
 
     def getHelp(self):
-        return _('Row. Build regardless of rank and suit.')
+        return _('Tableau. Build regardless of rank and suit.')
 
 
 class Strategerie_ReserveStack(ReserveStack):

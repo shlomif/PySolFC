@@ -224,12 +224,14 @@ class Arabella(DoubleKlondike):
 # ************************************************************************/
 
 class BigDeal(DoubleKlondike):
-    def createGame(self, rows=12, max_rounds=2):
+    RowStack_Class = KingAC_RowStack
+
+    def createGame(self, rows=12, max_rounds=2, XOFFSET=0):
         l, s = Layout(self), self.s
         self.setSize(l.XM+(rows+2)*l.XS, l.YM+8*l.YS)
         x, y = l.XM, l.YM
         for i in range(rows):
-            s.rows.append(AC_RowStack(x, y, self, base_rank=KING))
+            s.rows.append(self.RowStack_Class(x, y, self))
             x += l.XS
         for i in range(2):
             y = l.YM
@@ -242,15 +244,38 @@ class BigDeal(DoubleKlondike):
         l.createText(s.talon, 'n')
         x += l.XS
         s.waste = WasteStack(x, y, self)
+        s.waste.CARD_XOFFSET = XOFFSET
         l.createText(s.waste, 'n')
         if max_rounds > 1:
             tx, ty, ta, tf = l.getTextAttr(s.talon, 'nn')
-            ty -= 2*l.TEXT_MARGIN
+            ty -= l.TEXT_MARGIN
             font = self.app.getFont('canvas_default')
-            s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty, anchor=ta, font=font)
+            s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
+                                                 anchor=ta, font=font)
         self.setRegion(s.rows, (-999, -999, l.XM+rows*l.XS-l.CW/2, 999999), priority=1)
         l.defaultStackGroups()
 
+
+# /***********************************************************************
+# // Delivery
+# ************************************************************************/
+
+class Delivery(BigDeal):
+    RowStack_Class = StackWrapper(SS_RowStack, max_move=1)
+
+    def createGame(self):
+        dx = self.app.images.CARDW/10
+        BigDeal.createGame(self, rows=12, max_rounds=1, XOFFSET=dx)
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return card1.suit == card2.suit and abs(card1.rank-card2.rank) == 1
+
+    def startGame(self):
+        for i in range(2):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()          # deal first card to WasteStack
 
 
 # register the game
@@ -277,4 +302,6 @@ registerGame(GameInfo(497, Arabella, "Arabella",
                       GI.GT_KLONDIKE, 3, 0, GI.SL_BALANCED))
 registerGame(GameInfo(545, BigDeal, "Big Deal",
                       GI.GT_KLONDIKE | GI.GT_ORIGINAL, 4, 1, GI.SL_BALANCED))
+registerGame(GameInfo(562, Delivery, "Delivery",
+                      GI.GT_FORTY_THIEVES | GI.GT_ORIGINAL, 4, 0, GI.SL_BALANCED))
 

@@ -111,7 +111,7 @@ class Golf_RowStack(BasicRowStack):
     def clickHandler(self, event):
         return self.doubleclickHandler(event)
     def getHelp(self):
-        return _('Row. No building.')
+        return _('Tableau. No building.')
 
 
 # /***********************************************************************
@@ -411,7 +411,7 @@ class BlackHole_RowStack(ReserveStack):
     def clickHandler(self, event):
         return self.doubleclickHandler(event)
     def getHelp(self):
-        return _('Row. No building.')
+        return _('Tableau. No building.')
 
 
 class BlackHole(Game):

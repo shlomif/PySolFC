@@ -145,7 +145,7 @@ class ThumbAndPouch_RowStack(SequenceRowStack):
     def _isSequence(self, cards):
         return isAnySuitButOwnSequence(cards, self.cap.mod, self.cap.dir)
     def getHelp(self):
-        return _('Row. Build down in any suit but the same.')
+        return _('Tableau. Build down in any suit but the same.')
 
 
 class ThumbAndPouch(Klondike):

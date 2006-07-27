@@ -38,6 +38,7 @@ __all__ = ['MfxMessageDialog',
            'MfxSimpleEntry',
            'MfxTooltip',
            'MfxScrolledCanvas',
+           'StackDesc',
            ]
 
 # imports
@@ -667,5 +668,45 @@ class MfxScrolledCanvas:
         return self._yview('moveto', 0)
     def scroll_bottom(self, *event):
         return self._yview('moveto', 1)
+
+
+# /***********************************************************************
+# //
+# ************************************************************************/
+
+class StackDesc:
+
+    def __init__(self, game, stack):
+        self.game = game
+        self.stack = stack
+        self.canvas = game.canvas
+
+        font = game.app.getFont('canvas_small')
+        ##print self.app.cardset.CARDW, self.app.images.CARDW
+        cardw = game.app.images.CARDW
+        x, y = stack.x+cardw/2, stack.y
+        text = stack.getHelp()+'\n'+stack.getBaseCard()
+        text = text.strip()
+        if text:
+            frame = Tkinter.Frame(self.canvas, highlightthickness=1,
+                                  highlightbackground='black')
+            label = Tkinter.Message(frame, font=font, text=text, width=cardw-8,
+                                    fg='#000000', bg='#ffffe0')
+            label.pack()
+            self.label = label
+            self.id = self.canvas.create_window(x, y, window=frame, anchor='n')
+            self.binding = label.bind('<ButtonPress>', self.buttonPressEvent)
+        else:
+            self.id = None
+
+    def buttonPressEvent(self, *event):
+        self.game.deleteStackDesc()
+
+    def delete(self):
+        if self.id:
+            self.canvas.delete(self.id)
+            self.label.unbind('<ButtonPress>', self.binding)
+
+
 
 

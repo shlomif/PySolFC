@@ -746,22 +746,23 @@ class Marshal(Game):
     def createGame(self):
 
         l, s = Layout(self), self.s
-        self.setSize(l.XM+8*l.XS, l.YM+5*l.YS)
+        self.setSize(l.XM+9*l.XS, l.YM+5*l.YS)
 
         x, y = l.XM, l.YM
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
-            x += l.XS
+            y += l.YS
+        x, y = self.width-l.XS, l.YM
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self,
                                  suit=i, base_rank=KING, dir=-1))
-            x += l.XS
-        x, y = l.XM, l.YM+l.YS
-        s.talon = TalonStack(x, y, self)
+            y += l.YS
+        x, y = (self.width-l.XS)/2, self.height-l.YS
+        s.talon = DealRowTalonStack(x, y, self)
         l.createText(s.talon, 'se')
-        y = l.YM+l.YS
+        y = l.YM
         for i in range(4):
-            x = l.XM+2*l.XS
+            x = l.XM+l.XS*3/2
             for j in range(6):
                 stack = UD_SS_RowStack(x, y, self, base_rank=NO_RANK)
                 s.rows.append(stack)
@@ -787,6 +788,75 @@ class Marshal(Game):
         return (card1.suit == card2.suit and
                 (abs(card1.rank-card2.rank) == 1))
 
+
+# /***********************************************************************
+# // Royal Aids
+# ************************************************************************/
+
+class RoyalAids_RowStack(KingAC_RowStack):
+    def getBottomImage(self):
+        return self.game.app.images.getReserveBottom()
+
+
+class RoyalAids(Game):
+
+    Hint_Class = CautiousDefaultHint
+
+    def createGame(self):
+
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+8*l.XS, l.YM+4*l.YS)
+
+        x0 = l.XM+1.5*l.XS
+        for k in (0,1):
+            suit = 0
+            for i, j in ((1,0), (0,0.5), (2,0.5), (1,1)):
+                x, y = x0+i*l.XS, l.YM+j*l.YS
+                s.foundations.append(AC_FoundationStack(x, y, self, suit=suit))
+                suit += 1
+            x0 += 3.5*l.XS
+
+        x, y = l.XM, l.YM+l.YS
+        s.talon = WasteTalonStack(x, y, self, max_rounds=UNLIMITED_REDEALS)
+        l.createText(s.talon, 'se')
+        y += l.YS
+        s.waste = WasteStack(x, y, self)
+        l.createText(s.waste, 'se')
+
+        x, y = l.XM+4*l.XS, l.YM+2*l.YS
+        for i in (0,1):
+            stack = RoyalAids_RowStack(x, y, self, max_move=1)
+            s.rows.append(stack)
+            stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, 0
+            x += l.XS
+        x, y = l.XM+3*l.XS, l.YM+3*l.YS
+        for i in range(4):
+            stack = BasicRowStack(x, y, self)
+            s.reserves.append(stack)
+            stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, 0
+            x += l.XS
+
+        l.defaultStackGroups()
+
+
+    def _shuffleHook(self, cards):
+        return self._shuffleHookMoveToTop(cards,
+                   lambda c: (c.rank == ACE, (c.deck, c.suit)))
+
+
+    def startGame(self):
+        self.s.talon.dealRow(rows=self.s.foundations, frames=0)
+        for i in range(6):
+            self.s.talon.dealRow(rows=self.s.reserves, frames=0)
+        self.startDealSample()
+        for i in range(4):
+            self.s.talon.dealRow(rows=self.s.reserves)
+        self.s.talon.dealCards()
+
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return (card1.color != card2.color and
+                (abs(card1.rank-card2.rank) == 1))
 
 
 # register the game
@@ -819,3 +889,5 @@ registerGame(GameInfo(477, CornerSuite, "Corner Suite",
                       GI.GT_2DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(559, Marshal, "Marshal",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(565, RoyalAids, "Royal Aids",
+                      GI.GT_2DECK_TYPE, 2, UNLIMITED_REDEALS, GI.SL_BALANCED))

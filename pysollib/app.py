@@ -501,7 +501,6 @@ class Application:
         self.toolbar = None
         self.canvas = None
         self.statusbar = None
-        self.cardsets_cache = {}
         #
         self.game = None
         self.dataloader = None
@@ -521,6 +520,7 @@ class Application:
         self.progress_images = []
         self.cardset_manager = CardsetManager()
         self.cardset = None             # current cardset
+        self.cardsets_cache = {}
         self.tabletile_manager = TileManager()
         self.tabletile_index = 0        # current table tile
         self.sample_manager = SampleManager()

@@ -41,6 +41,7 @@ from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.pysoltk import MfxCanvasText
 
 from fortythieves import FortyThieves_Hint
 from spider import Spider_Hint
@@ -138,7 +139,7 @@ class Congress(Diplomat):
     # game layout (just rearrange the stacks a little bit)
     #
 
-    def createGame(self):
+    def createGame(self, max_rounds=1):
         # create layout
         l, s = Layout(self), self.s
 
@@ -160,11 +161,18 @@ class Congress(Diplomat):
                 stack.CARD_YOFFSET = 0
                 s.rows.append(stack)
         x, y, = l.XM, l.YM
-        s.talon = WasteTalonStack(x, y, self, max_rounds=1)
+        s.talon = WasteTalonStack(x, y, self, max_rounds=max_rounds)
         l.createText(s.talon, "ss")
         x = x + l.XS
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, "ss")
+        if max_rounds > 1:
+            tx, ty, ta, tf = l.getTextAttr(s.waste, "ne")
+            font = self.app.getFont("canvas_default")
+            s.talon.texts.rounds = MfxCanvasText(self.canvas,
+                                                 tx, ty,
+                                                 anchor=ta,
+                                                 font=font)
 
         # define stack-groups
         l.defaultStackGroups()
@@ -251,6 +259,22 @@ class LittleNapoleon(Diplomat):
         return 0
 
 
+# /***********************************************************************
+# // Twin Queens
+# ************************************************************************/
+
+class TwinQueens(Congress):
+    Foundation_Classes = [
+        StackWrapper(SS_FoundationStack, base_rank=KING, mod=13),
+        StackWrapper(SS_FoundationStack, base_rank=KING, mod=13),
+        ]
+    RowStack_Class = StackWrapper(SS_RowStack, max_move=1)
+
+    def createGame(self):
+        Congress.createGame(self, max_rounds=2)
+
+
+
 # register the game
 registerGame(GameInfo(149, Diplomat, "Diplomat",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
@@ -268,4 +292,6 @@ registerGame(GameInfo(548, Parliament, "Parliament",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(549, Wheatsheaf, "Wheatsheaf",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(563, TwinQueens, "Twin Queens",
+                      GI.GT_FORTY_THIEVES, 2, 1, GI.SL_MOSTLY_SKILL))
 

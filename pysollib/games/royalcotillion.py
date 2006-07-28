@@ -529,6 +529,63 @@ class Twenty(Game):
             self.leaveState(old_state)
 
 
+# /***********************************************************************
+# // Three Pirates
+# ************************************************************************/
+
+class ThreePirates_Talon(DealRowTalonStack):
+    def dealCards(self, sound=0):
+        num_cards = 0
+        old_state = self.game.enterState(self.game.S_DEAL)
+        if self.cards:
+            if sound and not self.game.demo:
+                self.game.playSample("dealwaste")
+            num_cards = self.dealRowAvail(rows=self.game.s.reserves,
+                                          sound=0, frames=4)
+        self.game.leaveState(old_state)
+        return num_cards
+
+
+class ThreePirates(Game):
+
+    def createGame(self):
+        l, s = Layout(self), self.s
+
+        self.setSize(l.XM+10*l.XS, l.YM+3*l.YS+16*l.YOFFSET)
+
+        x, y, = l.XM+l.XS, l.YM
+        for i in range(8):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i/2))
+            x = x + l.XS
+
+        x, y, = l.XM, l.YM+l.YS
+        for i in range(10):
+            s.rows.append(SS_RowStack(x, y, self, max_move=1))
+            x += l.XS
+
+        x, y = l.XM, self.height-l.YS
+        s.talon = ThreePirates_Talon(x, y, self)
+        l.createText(s.talon, 'n')
+        x += l.XS
+        for i in (0,1,2):
+            stack = WasteStack(x, y, self)
+            s.reserves.append(stack)
+            l.createText(stack, 'n')
+            x += l.XS
+
+        l.defaultStackGroups()
+
+    def startGame(self):
+        for i in (0,1,2):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return card1.suit == card2.suit and abs(card1.rank-card2.rank) == 1
+
+
 
 # register the game
 registerGame(GameInfo(54, RoyalCotillion, "Royal Cotillion",
@@ -553,4 +610,6 @@ registerGame(GameInfo(443, Twenty, "Twenty",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(465, Granada, "Granada",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED))
+registerGame(GameInfo(579, ThreePirates, "Three Pirates",
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
 

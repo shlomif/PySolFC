@@ -213,16 +213,19 @@ class Interregnum_Foundation(RK_FoundationStack):
 class Interregnum(Game):
     GAME_VERSION = 2
 
+    Talon_Class = DealRowTalonStack
+    RowStack_Class = StackWrapper(BasicRowStack, max_accept=0, max_move=1)
+
     #
     # game layout
     #
 
-    def createGame(self, rows=8):
+    def createGame(self, rows=8, playcards=12, texts=False):
         # create layout
         l, s = Layout(self), self.s
 
         # set window
-        self.setSize(l.XM + max(9,rows)*l.XS, l.YM + 5*l.YS)
+        self.setSize(l.XM+max(9,rows)*l.XS, l.YM+3*l.YS+playcards*l.YOFFSET)
 
         # extra settings
         self.base_cards = None
@@ -236,9 +239,15 @@ class Interregnum(Game):
             s.foundations.append(Interregnum_Foundation(x, y, self, mod=13, max_move=0))
         for i in range(rows):
             x, y, = l.XM + (2*i+8-rows)*l.XS/2, l.YM + 2*l.YS
-            s.rows.append(BasicRowStack(x, y, self, max_accept=0, max_move=1))
-        s.talon = DealRowTalonStack(self.width-l.XS, self.height-l.YS, self)
-        l.createText(s.talon, "nn")
+            s.rows.append(self.RowStack_Class(x, y, self))
+        s.talon = self.Talon_Class(self.width-l.XS, self.height-l.YS, self)
+        if texts:
+            tx, ty, ta, tf = l.getTextAttr(s.talon, "nn")
+            font = self.app.getFont("canvas_default")
+            s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
+                                                 anchor=ta, font=font)
+        else:
+            l.createText(s.talon, "nn")
 
         # define stack-groups
         l.defaultStackGroups()
@@ -249,6 +258,7 @@ class Interregnum(Game):
 
     def startGame(self):
         self.startDealSample()
+        self.s.talon.dealRow()
         # deal base_cards to reserves, update foundations cap.base_rank
         self.base_cards = []
         for i in range(8):
@@ -256,8 +266,6 @@ class Interregnum(Game):
             self.s.foundations[i].cap.base_rank = (self.base_cards[i].rank + 1) % 13
             self.flipMove(self.s.talon)
             self.moveMove(1, self.s.talon, self.s.reserves[i])
-        # deal other cards
-        self.s.talon.dealRow()
 
     def getAutoStacks(self, event=None):
         return ((), (), self.sg.dropstacks)
@@ -281,6 +289,57 @@ class Interregnum(Game):
     def _saveGameHook(self, p):
         for c in self.base_cards:
             p.dump(c.id)
+
+
+# /***********************************************************************
+# // Primrose
+# ************************************************************************/
+
+class Primrose_Talon(DealRowTalonStack):
+
+    def canDealCards(self):
+        if self.round == self.max_rounds and not self.cards:
+            return False
+        return not self.game.isGameWon()
+
+    def _redeal(self):
+        lr = len(self.game.s.rows)
+        rows = self.game.s.rows
+        r = self.game.s.rows[self.round-1]
+        for i in range(len(r.cards)):
+            self.game.moveMove(1, r, self, frames=4)
+            self.game.flipMove(self)
+        self.game.nextRoundMove(self)
+
+    def dealCards(self, sound=0):
+        if sound:
+            self.game.startDealSample()
+        if len(self.cards) == 0:
+            self._redeal()
+        if self.round == 1:
+            n = self.dealRowAvail(sound=0)
+        else:
+            rows = self.game.s.rows
+            n = self.dealRowAvail(rows=rows[self.round-2:], sound=0)
+            #n = 0
+            while self.cards:
+                n += self.dealRowAvail(rows=rows, sound=0)
+        if sound:
+            self.game.stopSamples()
+        return n
+
+
+class Primrose(Interregnum):
+    Talon_Class = StackWrapper(Primrose_Talon, max_rounds=9)
+
+    def createGame(self):
+        Interregnum.createGame(self, playcards=16, texts=True)
+
+    def startGame(self):
+        for i in range(11):
+            self.s.talon.dealRow(frames=0)
+        Interregnum.startGame(self)
+
 
 # /***********************************************************************
 # // Colorado
@@ -479,4 +538,6 @@ registerGame(GameInfo(553, Scuffle, "Scuffle",
                       GI.GT_NUMERICA, 1, 2, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(560, DoubleAcquaintance, "Double Acquaintance",
                       GI.GT_NUMERICA, 2, 2, GI.SL_BALANCED))
+registerGame(GameInfo(569, Primrose, "Primrose",
+                      GI.GT_NUMERICA, 2, 8, GI.SL_BALANCED))
 

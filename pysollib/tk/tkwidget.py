@@ -680,6 +680,7 @@ class StackDesc:
         self.game = game
         self.stack = stack
         self.canvas = game.canvas
+        self.bindings = []
 
         font = game.app.getFont('canvas_small')
         ##print self.app.cardset.CARDW, self.app.images.CARDW
@@ -690,22 +691,29 @@ class StackDesc:
         if text:
             frame = Tkinter.Frame(self.canvas, highlightthickness=1,
                                   highlightbackground='black')
+            self.frame = frame
             label = Tkinter.Message(frame, font=font, text=text, width=cardw-8,
-                                    fg='#000000', bg='#ffffe0')
+                                    fg='#000000', bg='#ffffe0', bd=1)
             label.pack()
             self.label = label
             self.id = self.canvas.create_window(x, y, window=frame, anchor='n')
-            self.binding = label.bind('<ButtonPress>', self.buttonPressEvent)
+            self.bindings.append(label.bind('<ButtonPress>', self._buttonPressEvent))
+            ##self.bindings.append(label.bind('<Enter>', self._enterEvent))
         else:
             self.id = None
 
-    def buttonPressEvent(self, *event):
-        self.game.deleteStackDesc()
+    def _buttonPressEvent(self, *event):
+        ##self.game.deleteStackDesc()
+        self.frame.tkraise()
+
+    def _enterEvent(self, *event):
+        self.frame.tkraise()
 
     def delete(self):
         if self.id:
             self.canvas.delete(self.id)
-            self.label.unbind('<ButtonPress>', self.binding)
+            for b in self.bindings:
+                self.label.unbind('<ButtonPress>', b)
 
 
 

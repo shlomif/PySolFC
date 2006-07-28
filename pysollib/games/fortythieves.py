@@ -353,7 +353,8 @@ class Streets(FortyThieves):
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return (card1.color != card2.color and
-                (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank))
+                (card1.rank + 1 == card2.rank or
+                 card2.rank + 1 == card1.rank))
 
 
 class Maria(Streets):
@@ -929,8 +930,120 @@ class TheSpark(Game):
         return card1.suit == card2.suit and abs(card1.rank-card2.rank) == 1
 
 
+# /***********************************************************************
+# // Double Gold Mine
+# ************************************************************************/
+
+class DoubleGoldMine_RowStack(AC_RowStack):
+    def getBottomImage(self):
+        return self.game.app.images.getReserveBottom()
+
+class DoubleGoldMine(Streets):
+
+    RowStack_Class = DoubleGoldMine_RowStack
+
+    ROW_MAX_MOVE = UNLIMITED_MOVES
+
+    def createGame(self):
+        Streets.createGame(self, rows=9, num_deal=3)
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealCards()
 
 
+# /***********************************************************************
+# // Interchange
+# // Unlimited
+# // Breakwater
+# // Forty Nine
+# ************************************************************************/
+
+class Interchange(FortyThieves):
+
+    RowStack_Class = StackWrapper(SS_RowStack, base_rank=KING)
+
+    ROW_MAX_MOVE = UNLIMITED_MOVES
+
+    def createGame(self):
+        FortyThieves.createGame(self, rows=7)
+
+    def startGame(self):
+        for i in (0,1,2):
+            self.s.talon.dealRow(frames=0)
+            self.s.talon.dealRow(flip=0, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
+
+
+class Unlimited(Interchange):
+    def createGame(self):
+        FortyThieves.createGame(self, rows=7, max_rounds=UNLIMITED_REDEALS)
+
+
+class Breakwater(Interchange):
+    RowStack_Class = RK_RowStack
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return abs(card1.rank-card2.rank) == 1
+
+
+class FortyNine_RowStack(AC_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not AC_RowStack.acceptsCards(self, from_stack, cards):
+            return False
+        if self.cards:
+            return len(cards) == 1
+        return True
+
+
+class FortyNine(Interchange):
+    RowStack_Class = FortyNine_RowStack
+
+    def startGame(self):
+        for i in range(6):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return card1.color != card2.color and abs(card1.rank-card2.rank) == 1
+
+
+# /***********************************************************************
+# // Indian Patience
+# ************************************************************************/
+
+class IndianPatience_RowStack(Indian_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not Indian_RowStack.acceptsCards(self, from_stack, cards):
+            return False
+        if not self.game.s.talon.cards:
+            return True
+        if self.cards:
+            if from_stack in self.game.s.rows and len(from_stack.cards) == 1:
+                return False
+            return len(self.cards) != 1
+        return True
+
+class IndianPatience(Indian):
+    RowStack_Class = IndianPatience_RowStack
+
+    def fillStack(self, stack):
+        if stack in self.s.rows and not stack.cards:
+            old_state = self.enterState(self.S_FILL)
+            if self.s.talon.cards:
+                if len(self.s.talon.cards) == 1:
+                    self.s.talon.flipMove()
+                self.s.talon.moveMove(1, stack)
+            if self.s.talon.cards:
+                self.s.talon.flipMove()
+                self.s.talon.moveMove(1, stack)
+            if self.s.talon.cards:
+                self.s.talon.flipMove()
+                self.s.talon.moveMove(1, stack)
+            self.leaveState(old_state)
 
 
 # register the game
@@ -975,8 +1088,7 @@ registerGame(GameInfo(126, RedAndBlack, "Red and Black",        # was: 75
 registerGame(GameInfo(113, Zebra, "Zebra",
                       GI.GT_FORTY_THIEVES, 2, 1, GI.SL_BALANCED))
 registerGame(GameInfo(69, Indian, "Indian",
-                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED,
-                      altnames=("Indian Patience",) ))
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(74, Midshipman, "Midshipman",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(198, NapoleonsExile, "Napoleon's Exile",
@@ -1026,5 +1138,16 @@ registerGame(GameInfo(556, Junction, "Junction",
                       ranks=(0, 6, 7, 8, 9, 10, 11, 12) ))
 registerGame(GameInfo(564, TheSpark, "The Spark",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_LUCK))
-
+registerGame(GameInfo(573, DoubleGoldMine, "Double Gold Mine",
+                      GI.GT_NUMERICA | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(574, Interchange, "Interchange",
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(575, Unlimited, "Unlimited",
+                      GI.GT_FORTY_THIEVES, 2, -1, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(576, Breakwater, "Breakwater",
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(577, FortyNine, "Forty Nine",
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(578, IndianPatience, "Indian Patience",
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL))
 

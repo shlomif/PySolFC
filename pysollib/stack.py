@@ -1956,6 +1956,10 @@ class FreeCell_SS_RowStack(SS_RowStack):
 class Spider_AC_RowStack(AC_RowStack):
     def _isAcceptableSequence(self, cards):
         return isRankSequence(cards, self.cap.mod, self.cap.dir)
+    def getHelp(self):
+        if self.cap.dir > 0:   return _('Tableau. Build up regardless of suit. Sequences of cards in alternate color can be moved as a unit.')
+        elif self.cap.dir < 0: return _('Tableau. Build down regardless of suit. Sequences of cards in alternate color can be moved as a unit.')
+        else:                  return _('Tableau. Build by same rank.')
 
 # A Spider_SameSuit_RowStack builds down by rank and suit,
 # but accepts sequences that match by rank only.
@@ -1963,8 +1967,8 @@ class Spider_SS_RowStack(SS_RowStack):
     def _isAcceptableSequence(self, cards):
         return isRankSequence(cards, self.cap.mod, self.cap.dir)
     def getHelp(self):
-        if self.cap.dir > 0:   return _('Tableau. Build up regardless of suit.')
-        elif self.cap.dir < 0: return _('Tableau. Build down regardless of suit.')
+        if self.cap.dir > 0:   return _('Tableau. Build up regardless of suit. Sequences of cards in the same suit can be moved as a unit.')
+        elif self.cap.dir < 0: return _('Tableau. Build down regardless of suit. Sequences of cards in the same suit can be moved as a unit.')
         else:                  return _('Tableau. Build by same rank.')
 
 # A Yukon_AlternateColor_RowStack builds down by rank and alternate color,

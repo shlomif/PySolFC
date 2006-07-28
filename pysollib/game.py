@@ -1253,11 +1253,13 @@ for %d moves.
                                  strings=(_("&New game"), None, _("&Cancel")),
                                  image=self.app.gimages.logos[4], separatorwidth=2)
         elif self.gstats.updated < 0:
+            self.finished = True
             self.playSample("gamefinished", priority=1000)
             d = MfxMessageDialog(self.top, title=_("Game finished"), bitmap="info",
                                  text=_("\nGame finished\n"),
                                  strings=(_("&New game"), None, _("&Cancel")))
         else:
+            self.finished = True
             self.playSample("gamelost", priority=1000)
             d = MfxMessageDialog(self.top, title=_("Game finished"), bitmap="info",
                                  text=_("\nGame finished, but not without my help...\n"),

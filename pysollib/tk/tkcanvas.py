@@ -148,7 +148,8 @@ class MfxCanvas(Tkinter.Canvas):
         self.__tileimage = image
         if stretch:
             #
-            id = self._x_create("image", 0, 0, image=image, anchor="nw")
+            id = self._x_create("image", -self.xmargin, -self.ymargin,
+                                image=image, anchor="nw")
             self.tag_lower(id)          # also see tag_lower above
             self.__tiles.append(id)
         else:

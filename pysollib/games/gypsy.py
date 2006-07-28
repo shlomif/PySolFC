@@ -576,11 +576,24 @@ class EternalTriangle(Hypotenuse):
 
 class RightTriangle_Talon(OpenStack, DealRowTalonStack):
     def __init__(self, x, y, game, max_rounds=1, num_deal=1, **cap):
+        kwdefault(cap, max_move=1, max_accept=1, max_cards=999999)
         Stack.__init__(self, x, y, game, cap=cap)
         self.max_rounds = max_rounds
         self.num_deal = num_deal
         self.round = 1
         self.base_cards = []        # for DealBaseCard_StackMethods
+
+    def clickHandler(self, event):
+        if self.cards and not self.cards[-1].face_up:
+            return self.game.dealCards(sound=1)
+        return OpenStack.clickHandler(self, event)
+
+    def canDealCards(self):
+        if not DealRowTalonStack.canDealCards(self):
+            return False
+        if self.cards and self.cards[-1].face_up:
+            return False
+        return True
 
     def canFlipCard(self):
         return False
@@ -589,10 +602,11 @@ class RightTriangle_Talon(OpenStack, DealRowTalonStack):
         return self.game.app.images.getReserveBottom()
 
     def getHelp(self):
-        return ''
+        return DealRowTalonStack.getHelp(self)
+
 
 class RightTriangle(Hypotenuse):
-    Talon_Class = StackWrapper(RightTriangle_Talon, max_accept=1, max_move=1)
+    Talon_Class = RightTriangle_Talon
 
     def createGame(self):
         Gypsy.createGame(self, rows=10, playcards=24)

@@ -693,6 +693,7 @@ registerGame(GameInfo(525, Queensland, "Queensland",
 registerGame(GameInfo(526, OutbackPatience, "Outback Patience",
                       GI.GT_YUKON, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(530, RussianSpider, "Russian Spider",
-                      GI.GT_SPIDER, 1, 0, GI.SL_BALANCED))
+                      GI.GT_SPIDER, 1, 0, GI.SL_BALANCED,
+                      altnames=('Ukrainian Solitaire',) ))
 registerGame(GameInfo(531, DoubleRussianSpider, "Double Russian Spider",
                       GI.GT_SPIDER | GI.GT_ORIGINAL, 2, 0, GI.SL_BALANCED))

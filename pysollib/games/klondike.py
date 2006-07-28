@@ -45,6 +45,8 @@ from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 from pysollib.hint import KlondikeType_Hint
 from pysollib.pysoltk import MfxCanvasText
 
+from canfield import CanfieldRush_Talon
+
 
 # /***********************************************************************
 # // Klondike
@@ -1116,13 +1118,30 @@ class Boost(Klondike):
 # // Gold Rush
 # ************************************************************************/
 
-from canfield import CanfieldRush_Talon
-
 class GoldRush(Klondike):
     Talon_Class = CanfieldRush_Talon
     def createGame(self):
         Klondike.createGame(self, max_rounds=3)
 
+
+# /***********************************************************************
+# // Gold Mine
+# ************************************************************************/
+
+class GoldMine_RowStack(AC_RowStack):
+    def getBottomImage(self):
+        return self.game.app.images.getReserveBottom()
+
+
+class GoldMine(Klondike):
+    RowStack_Class = GoldMine_RowStack
+
+    def createGame(self):
+        Klondike.createGame(self, max_rounds=1, num_deal=3)
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealCards()
 
 
 # register the game
@@ -1231,7 +1250,7 @@ registerGame(GameInfo(479, Saratoga, "Saratoga",
 registerGame(GameInfo(491, Whitehorse, "Whitehorse",
                       GI.GT_KLONDIKE, 1, -1, GI.SL_BALANCED))
 registerGame(GameInfo(518, Boost, "Boost",
-                      GI.GT_KLONDIKE, 1, 2, GI.SL_BALANCED))
+                      GI.GT_KLONDIKE | GI.GT_ORIGINAL, 1, 2, GI.SL_BALANCED))
 registerGame(GameInfo(522, ArticGarden, "Artic Garden",
                       GI.GT_RAGLAN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(532, GoldRush, "Gold Rush",
@@ -1240,4 +1259,6 @@ registerGame(GameInfo(539, Usk, "Usk",
                       GI.GT_KLONDIKE, 1, 1, GI.SL_BALANCED))
 registerGame(GameInfo(541, BatsfordAgain, "Batsford Again",
                       GI.GT_KLONDIKE, 2, 1, GI.SL_BALANCED))
+registerGame(GameInfo(572, GoldMine, "Gold Mine",
+                      GI.GT_NUMERICA, 1, 0, GI.SL_MOSTLY_SKILL))
 

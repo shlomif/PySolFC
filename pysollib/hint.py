@@ -215,6 +215,9 @@ class AbstractHint(HintInterface):
     def _cautiousShallMovePile(self, from_stack, to_stack, pile, rpile):
         if from_stack is to_stack or not to_stack.acceptsCards(from_stack, pile):
             return 0
+        #
+        if len(rpile) == 0:
+            return 1
         # now check for loops
         rr = self.ClonedStack(from_stack, stackcards=rpile)
         if rr.acceptsCards(to_stack, pile):
@@ -228,6 +231,9 @@ class AbstractHint(HintInterface):
         if from_stack is to_stack or not to_stack.acceptsCards(from_stack, pile):
             return 0
         if self.level >= 2:
+            #
+            if len(rpile) == 0:
+                return 1
             # now check for loops
             rr = self.ClonedStack(from_stack, stackcards=rpile)
             if rr.acceptsCards(to_stack, pile):

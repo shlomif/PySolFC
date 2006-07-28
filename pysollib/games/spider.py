@@ -1020,6 +1020,61 @@ class FredsSpider3Decks(FredsSpider):
         Spidike.createGame(self, rows=13, playcards=26)
 
 
+# /***********************************************************************
+# // Long Tail
+# // Short Tail
+# ************************************************************************/
+
+class LongTail(RelaxedSpider):
+
+    def createGame(self, rows=5, playcards=16):
+        l, s = Layout(self), self.s
+
+        decks = self.gameinfo.decks
+        max_rows = max(2+decks*4, 2+rows)
+        w, h = l.XM+max_rows*l.XS, l.YM+l.YS+playcards*l.YOFFSET
+        self.setSize(w, h)
+
+        x, y = l.XM, l.YM
+        s.talon = DealRowTalonStack(x, y, self)
+        l.createText(s.talon, 'ne')
+
+        x += (max_rows-decks*4)*l.XS
+        for i in range(decks*4):
+            s.foundations.append(Spider_SS_Foundation(x, y, self))
+            x += l.XS
+
+        x, y = l.XM, l.YM+l.YS
+        stack = ReserveStack(x, y, self, max_cards=UNLIMITED_CARDS)
+        stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, l.YOFFSET
+        s.reserves.append(stack)
+        l.createText(stack, 'ne')
+
+        x += 2*l.XS
+        for i in range(rows):
+            s.rows.append(Spider_RowStack(x, y, self))
+            x += l.XS
+
+        l.defaultStackGroups()
+
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealRow(rows=self.s.reserves*2)
+
+
+    def getQuickPlayScore(self, ncards, from_stack, to_stack):
+        if to_stack in self.s.reserves:
+            return 0
+        return 1+RelaxedSpider.getQuickPlayScore(self, ncards, from_stack, to_stack)
+
+
+class ShortTail(LongTail):
+    def createGame(self):
+        LongTail.createGame(self, rows=8, playcards=24)
+
+
 # register the game
 registerGame(GameInfo(10, RelaxedSpider, "Relaxed Spider",
                       GI.GT_SPIDER | GI.GT_RELAXED, 2, 0, GI.SL_MOSTLY_SKILL))
@@ -1124,4 +1179,8 @@ registerGame(GameInfo(543, FarmersWife, "Farmer's Wife",
                       GI.GT_SPIDER, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(544, HowTheyRun, "How They Run",
                       GI.GT_SPIDER, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(570, LongTail, "Long Tail",
+                      GI.GT_SPIDER, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(571, ShortTail, "Short Tail",
+                      GI.GT_SPIDER | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 

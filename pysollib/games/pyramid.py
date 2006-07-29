@@ -168,17 +168,23 @@ class Pyramid_RowStack(Pyramid_StackMethods, OpenStack):
 
 class Pyramid(Game):
     Hint_Class = Pyramid_Hint
+    Talon_Class = StackWrapper(Pyramid_Talon, max_rounds=3, max_accept=1)
 
     #
     # game layout
     #
 
-    def createGame(self, rows=4):
+    def createGame(self, rows=4, reserves=0, waste=True, texts=True):
         # create layout
         l, s = Layout(self), self.s
 
         # set window
-        self.setSize(l.XM + 9*l.XS, l.YM + 4*l.YS)
+        max_rows = max(9, reserves)
+        w = l.XM + max_rows*l.XS
+        h = l.YM + 4*l.YS
+        if reserves:
+            h += l.YS+4*l.YOFFSET
+        self.setSize(w, h)
 
         # create stacks
         for i in range(7):
@@ -189,24 +195,33 @@ class Pyramid(Game):
                 x = x + l.XS
 
         x, y = l.XM, l.YM
-        s.talon = Pyramid_Talon(x, y, self, max_rounds=3, max_accept=1)
-        l.createText(s.talon, "se")
-        tx, ty, ta, tf = l.getTextAttr(s.talon, "ne")
-        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
-                                             anchor=ta,
-                                             font=self.app.getFont("canvas_default"))
-        y = y + l.YS
-        s.waste = Pyramid_Waste(x, y, self, max_accept=1)
-        l.createText(s.waste, "se")
+        s.talon = self.Talon_Class(x, y, self)
+        if texts:
+            l.createText(s.talon, "se")
+            tx, ty, ta, tf = l.getTextAttr(s.talon, "ne")
+            font=self.app.getFont("canvas_default")
+            s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
+                                                 anchor=ta, font=font)
+        if waste:
+            y = y + l.YS
+            s.waste = Pyramid_Waste(x, y, self, max_accept=1)
+            l.createText(s.waste, "se")
         x, y = self.width - l.XS, l.YM
         s.foundations.append(Pyramid_Foundation(x, y, self,
                                 suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
                                 max_move=0, max_cards=52))
+        if reserves:
+            x, y = l.XM+(max_rows-reserves)*l.XS/2, l.YM+4*l.YS
+            for i in range(reserves):
+                stack = self.Reserve_Class(x, y, self)
+                s.reserves.append(stack)
+                stack.CARD_YOFFSET = l.YOFFSET
+                x += l.XS
 
         # define stack-groups
-        self.sg.talonstacks = [s.talon] + [s.waste]
-        self.sg.openstacks = s.rows + self.sg.talonstacks
-        self.sg.dropstacks = s.rows + self.sg.talonstacks
+        l.defaultStackGroups()
+        self.sg.openstacks.append(s.talon)
+        self.sg.dropstacks.append(s.talon)
 
 
     #
@@ -233,6 +248,31 @@ class RelaxedPyramid(Pyramid):
     # the pyramid must be empty
     def isGameWon(self):
         return getNumberOfFreeStacks(self.s.rows) == len(self.s.rows)
+
+
+# /***********************************************************************
+# // Giza
+# ************************************************************************/
+
+class Giza_Reserve(Pyramid_StackMethods, OpenStack):
+    def clickHandler(self, event):
+        if self._dropKingClickHandler(event):
+            return 1
+        return OpenStack.clickHandler(self, event)
+
+
+class Giza(Pyramid):
+    Talon_Class = InitialDealTalonStack
+    Reserve_Class = StackWrapper(Giza_Reserve, max_accept=1)
+
+    def createGame(self):
+        Pyramid.createGame(self, reserves=8, waste=False, texts=False)
+
+    def startGame(self):
+        for i in range(3):
+            self.s.talon.dealRow(rows=self.s.reserves, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
 
 
 # /***********************************************************************
@@ -298,4 +338,8 @@ registerGame(GameInfo(193, RelaxedPyramid, "Relaxed Pyramid",
                       GI.GT_PAIRING_TYPE | GI.GT_RELAXED, 1, 2, GI.SL_MOSTLY_LUCK))
 ##registerGame(GameInfo(44, Thirteen, "Thirteen",
 ##                      GI.GT_PAIRING_TYPE, 1, 0))
+registerGame(GameInfo(591, Giza, "Giza",
+                      GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0, GI.SL_BALANCED))
+
+
 

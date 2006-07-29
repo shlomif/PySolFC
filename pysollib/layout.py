@@ -144,6 +144,50 @@ class Layout:
         self.stackmap[mapkey] = stack
         return stack
 
+    #
+    #
+    #
+
+    def createGame(self, layout_method,
+                   talon_class=None,
+                   waste_class=None,
+                   foundation_class=None,
+                   row_class=None,
+                   reserve_class=None,
+                   **kw
+                   ):
+        # create layout
+        game = self.game
+        s = game.s
+        layout_method(self, **kw)
+        game.setSize(self.size[0], self.size[1])
+        # create stacks
+        if talon_class:
+            s.talon = talon_class(self.s.talon.x, self.s.talon.y, game)
+        if waste_class:
+            s.waste = waste_class(self.s.waste.x, self.s.waste.y, game)
+        if foundation_class:
+            if type(foundation_class) in (list, tuple):
+                n = len(self.s.foundations)/len(foundation_class)
+                i = 0
+                for j in range(n):
+                    for cls in foundation_class:
+                        r = self.s.foundations[i]
+                        s.foundations.append(cls(r.x, r.y, game, suit=r.suit))
+                        i += 1
+
+            else:
+                for r in self.s.foundations:
+                    s.foundations.append(foundation_class(r.x, r.y, game,
+                                                          suit=r.suit))
+        if row_class:
+            for r in self.s.rows:
+                s.rows.append(row_class(r.x, r.y, game))
+        if reserve_class:
+            for r in self.s.reserves:
+                s.reserves.append(reserve_class(r.x, r.y, game))
+        # default
+        self.defaultAll()
 
     #
     # public util for use by class Game
@@ -342,9 +386,10 @@ class Layout:
     # Gypsy layout
     #  - left: rows
     #  - right: foundations, talon
+    #  - bottom: reserves
     #
 
-    def gypsyLayout(self, rows, waste=0, texts=1, playcards=25):
+    def gypsyLayout(self, rows, waste=0, reserves=0, texts=1, playcards=25):
         S = self.__createStack
         CW, CH = self.CW, self.CH
         XM, YM = self.XM, self.YM
@@ -353,8 +398,11 @@ class Layout:
         decks = self.game.gameinfo.decks
         suits = len(self.game.gameinfo.suits) + bool(self.game.gameinfo.trumps)
 
-        # set size so that at least 2/3 of a card is visible with 25 cards
-        h = CH*2/3 + (playcards-1)*self.YOFFSET
+        if reserves:
+            h = YS+(playcards-1)*self.YOFFSET+YS
+        else:
+            # set size so that at least 2/3 of a card is visible with 25 cards
+            h = CH*2/3 + (playcards-1)*self.YOFFSET
         h = YM + max(h, (suits+1)*YS)
 
         # create rows
@@ -384,9 +432,14 @@ class Layout:
             if texts:
                 # place text left of stack
                 s.setText(x - self.TEXT_MARGIN, y + CH, anchor="se", format="%3d")
+        # create reserves
+        x, y = XM, h-YS
+        for i in range(reserves):
+            self.s.reserves.append(S(x, y))
+            x += XS
 
         # set window
-        self.size = (XM + (rows+decks)*XS, h)
+        self.size = (XM + (max(rows, reserves)+decks)*XS, h)
 
 
     #

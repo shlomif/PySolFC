@@ -103,7 +103,7 @@ class Numerica(Game):
     # game layout
     #
 
-    def createGame(self, rows=4):
+    def createGame(self, rows=4, reserve=False):
         # create layout
         l, s = Layout(self), self.s
         decks = self.gameinfo.decks
@@ -130,16 +130,20 @@ class Numerica(Game):
             s.rows.append(self.RowStack_Class(x, y, self))
             x = x + l.XS
         self.setRegion(s.rows, (x0-l.XS/2, y-l.CH/2, 999999, 999999))
-        x = l.XM
+        x, y = l.XM, l.YM+l.YS+l.YS/2*int(reserve)
         s.talon = WasteTalonStack(x, y, self, max_rounds=1)
-        l.createText(s.talon, 'n')
+        if reserve:
+            l.createText(s.talon, 'ne')
+        else:
+            l.createText(s.talon, 'n')
         y = y + l.YS
         s.waste = WasteStack(x, y, self, max_cards=1)
+        if reserve:
+            s.reserves.append(self.ReserveStack_Class(l.XM, l.YM, self))
 
         # define stack-groups
-        self.sg.openstacks = s.foundations + s.rows
-        self.sg.talonstacks = [s.talon] + [s.waste]
-        self.sg.dropstacks = s.rows + [s.waste]
+        l.defaultStackGroups()
+
 
     #
     # game overrides
@@ -164,13 +168,43 @@ class Numerica2Decks(Numerica):
 
 # /***********************************************************************
 # // Lady Betty
+# // Last Chance
 # ************************************************************************/
 
 class LadyBetty(Numerica):
     Foundation_Class = SS_FoundationStack
-
     def createGame(self):
         Numerica.createGame(self, rows=6)
+
+
+class LastChance_RowStack(Numerica_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not BasicRowStack.acceptsCards(self, from_stack, cards):
+            return False
+        if not self.cards:
+            return True
+        return from_stack is self.game.s.waste and len(cards) == 1
+
+
+class LastChance_Reserve(OpenStack):
+    def canFlipCard(self):
+        return (len(self.game.s.talon.cards) == 0 and
+                len(self.game.s.waste.cards) == 0 and
+                self.cards and not self.cards[0].face_up)
+
+
+class LastChance(LadyBetty):
+    RowStack_Class = StackWrapper(LastChance_RowStack, max_accept=1)
+    ReserveStack_Class = LastChance_Reserve
+
+    def createGame(self):
+        Numerica.createGame(self, rows=7, reserve=True)
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealRow(rows=self.s.reserves, flip=False)
+        self.s.talon.dealCards()
 
 
 # /***********************************************************************
@@ -653,5 +687,6 @@ registerGame(GameInfo(472, Strategerie, "Strategerie",
                       GI.GT_NUMERICA, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(558, Numerica2Decks, "Numerica (2 decks)",
                       GI.GT_NUMERICA, 2, 0, GI.SL_BALANCED))
-
+registerGame(GameInfo(589, LastChance, "Last Chance",
+                      GI.GT_NUMERICA, 1, 0, GI.SL_BALANCED))
 

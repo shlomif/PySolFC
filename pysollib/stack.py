@@ -62,6 +62,7 @@ __all__ = ['cardsFaceUp',
            'SC_RowStack',
            'SS_RowStack',
            'RK_RowStack',
+           'BO_RowStack',
            'UD_AC_RowStack',
            'UD_SC_RowStack',
            'UD_SS_RowStack',
@@ -1267,11 +1268,11 @@ class Stack:
         elif br == 11: s = s % _('Queen')
         elif br == 12: s = s % _('King')
         elif br == 0 : s = s % _('Ace')
-        else         : s = s % str(br)
+        else         : s = s % str(br+1)
         return s
 
     def getNumCards(self):
-        if self.game.app.debug >= 3:
+        if self.game.app.debug >= 5:
             t = repr(self)+' '
         else:
             t = ''
@@ -1938,6 +1939,17 @@ class RK_RowStack(SequenceRowStack):
         if self.cap.dir > 0:   return _('Tableau. Build up regardless of suit.')
         elif self.cap.dir < 0: return _('Tableau. Build down regardless of suit.')
         else:                  return _('Tableau. Build by same rank.')
+
+
+# ButOwn_RowStack
+class BO_RowStack(SequenceRowStack):
+    def _isSequence(self, cards):
+        return isAnySuitButOwnSequence(cards, self.cap.mod, self.cap.dir)
+    def getHelp(self):
+        if self.cap.dir > 0:   return _('Tableau. Build up in any suit but the same.')
+        elif self.cap.dir < 0: return _('Tableau. Build down in any suit but the same.')
+        else:                  return _('Tableau. Build by same rank.')
+
 
 # A Freecell_AlternateColor_RowStack
 class FreeCell_AC_RowStack(AC_RowStack):

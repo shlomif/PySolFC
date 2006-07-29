@@ -80,7 +80,7 @@ class AcesUp(Game):
     # game layout
     #
 
-    def createGame(self, rows=4, **layout):
+    def createGame(self, rows=4, reserve=False, **layout):
         # create layout
         l, s = Layout(self), self.s
 
@@ -90,7 +90,10 @@ class AcesUp(Game):
         # create stacks
         x, y, = l.XM, l.YM
         s.talon = self.Talon_Class(x, y, self)
-        l.createText(s.talon, "ss")
+        if reserve:
+            l.createText(s.talon, "ne")
+        else:
+            l.createText(s.talon, "ss")
         x = x + 3*l.XS/2
         for i in range(rows):
             s.rows.append(self.RowStack_Class(x, y, self))
@@ -100,6 +103,10 @@ class AcesUp(Game):
                                       dir=0, base_rank=ANY_RANK, max_cards=48)
         l.createText(stack, "ss")
         s.foundations.append(stack)
+
+        if reserve:
+            x, y = l.XM, l.YM+l.YS
+            s.reserves.append(self.ReserveStack_Class(x, y, self))
 
         # define stack-groups
         l.defaultStackGroups()
@@ -287,6 +294,24 @@ class Cover(AcesUp):
         return len(self.s.foundations[0].cards) == 48
 
 
+# /***********************************************************************
+# // Firing Squad
+# ************************************************************************/
+
+class FiringSquad_Foundation(AcesUp_Foundation):
+    def acceptsCards(self, from_stack, cards):
+        if not AcesUp_Foundation.acceptsCards(self, from_stack, cards):
+            return False
+        return from_stack in self.game.s.rows
+
+class FiringSquad(AcesUp):
+    Foundation_Class = FiringSquad_Foundation
+    ReserveStack_Class = ReserveStack
+    def createGame(self):
+        AcesUp.createGame(self, reserve=True)
+
+
+
 # register the game
 registerGame(GameInfo(903, AcesUp, "Aces Up",                   # was: 52
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_LUCK,
@@ -302,3 +327,5 @@ registerGame(GameInfo(353, AcesUp5, "Aces Up 5",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_LUCK))
 registerGame(GameInfo(552, Cover, "Cover",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_LUCK))
+registerGame(GameInfo(583, FiringSquad, "Firing Squad",
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))

@@ -94,19 +94,25 @@ class FortyThieves(Game):
         self.setSize(w1, l.YM + l.YS + h + l.YS + l.TEXT_HEIGHT)
 
         # create stacks
+        # foundations
         x = l.XM + (maxrows - 4*decks) * l.XS / 2
         y = l.YM
         for i in range(4*decks):
-            s.foundations.append(self.Foundation_Class(x, y, self, suit=i/decks, max_move=self.FOUNDATION_MAX_MOVE))
+            s.foundations.append(self.Foundation_Class(x, y, self,
+                          suit=i/decks, max_move=self.FOUNDATION_MAX_MOVE))
             x = x + l.XS
+        # rows
         x = l.XM + (maxrows - rows) * l.XS / 2
         y = l.YM + l.YS
         for i in range(rows):
-            s.rows.append(self.RowStack_Class(x, y, self, max_move=self.ROW_MAX_MOVE))
+            s.rows.append(self.RowStack_Class(x, y, self,
+                                              max_move=self.ROW_MAX_MOVE))
             x = x + l.XS
+        # talon, waste
         x = self.width - l.XS
         y = self.height - l.YS
-        s.talon = WasteTalonStack(x, y, self, max_rounds=max_rounds, num_deal=num_deal)
+        s.talon = WasteTalonStack(x, y, self,
+                                  max_rounds=max_rounds, num_deal=num_deal)
         l.createText(s.talon, "n")
         if max_rounds > 1:
             tx, ty, ta, tf = l.getTextAttr(s.talon, "nn")
@@ -345,6 +351,7 @@ class LittleForty(FortyThieves):
 # // Triple Line
 # // Big Streets
 # // Number Twelve
+# // Roosevelt
 # //   rows build down by alternate color
 # ************************************************************************/
 
@@ -352,9 +359,7 @@ class Streets(FortyThieves):
     RowStack_Class = AC_RowStack
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.color != card2.color and
-                (card1.rank + 1 == card2.rank or
-                 card2.rank + 1 == card1.rank))
+        return card1.color != card2.color and abs(card1.rank-card2.rank) == 1
 
 
 class Maria(Streets):
@@ -398,6 +403,12 @@ class NumberTwelve(NumberTen):
         FortyThieves.createGame(self, rows=12, XCARDS=96)
 
 
+class Roosevelt(Streets):
+    DEAL = (0, 4)
+    def createGame(self):
+        Streets.createGame(self, rows=7)
+
+
 # /***********************************************************************
 # // Red and Black
 # // Zebra
@@ -439,15 +450,8 @@ class Zebra(RedAndBlack):
 # //   rows build down by any suit but own
 # ************************************************************************/
 
-class Indian_RowStack(SequenceRowStack):
-    def _isSequence(self, cards):
-        return isAnySuitButOwnSequence(cards, self.cap.mod, self.cap.dir)
-    def getHelp(self):
-        return _('Tableau. Build down in any suit but the same.')
-
-
 class Indian(FortyThieves):
-    RowStack_Class = Indian_RowStack
+    RowStack_Class = BO_RowStack
     DEAL = (1, 2)
 
     def createGame(self):
@@ -1015,9 +1019,9 @@ class FortyNine(Interchange):
 # // Indian Patience
 # ************************************************************************/
 
-class IndianPatience_RowStack(Indian_RowStack):
+class IndianPatience_RowStack(BO_RowStack):
     def acceptsCards(self, from_stack, cards):
-        if not Indian_RowStack.acceptsCards(self, from_stack, cards):
+        if not BO_RowStack.acceptsCards(self, from_stack, cards):
             return False
         if not self.game.s.talon.cards:
             return True
@@ -1149,5 +1153,7 @@ registerGame(GameInfo(576, Breakwater, "Breakwater",
 registerGame(GameInfo(577, FortyNine, "Forty Nine",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(578, IndianPatience, "Indian Patience",
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(588, Roosevelt, "Roosevelt",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL))
 

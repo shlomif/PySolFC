@@ -239,6 +239,8 @@ class GeneralsPatience(Terrace):
 
 # /***********************************************************************
 # // Blondes and Brunettes
+# // Falling Star
+# // Wood
 # ************************************************************************/
 
 class BlondesAndBrunettes(Terrace):
@@ -260,12 +262,22 @@ class BlondesAndBrunettes(Terrace):
         return 1
 
 
-# /***********************************************************************
-# // Falling Star
-# ************************************************************************/
-
 class FallingStar(BlondesAndBrunettes):
     INITIAL_RESERVE_CARDS = 11
+
+
+class Wood_RowStack(AC_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not AC_RowStack.acceptsCards(self, from_stack, cards):
+            return False
+        if not self.cards:
+            return from_stack is self.game.s.waste
+        return from_stack not in self.game.s.reserves
+
+class Wood(BlondesAndBrunettes):
+    RowStack_Class = StackWrapper(Wood_RowStack, mod=13, max_move=1)
+    def fillStack(self, stack):
+        pass
 
 
 # /***********************************************************************
@@ -346,5 +358,7 @@ registerGame(GameInfo(499, Signora, "Signora",
 registerGame(GameInfo(500, Madame, "Madame",
                       GI.GT_TERRACE, 3, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(533, MamySusan, "Mamy Susan",
+                      GI.GT_TERRACE, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(582, Wood, "Wood",
                       GI.GT_TERRACE, 2, 0, GI.SL_BALANCED))
 

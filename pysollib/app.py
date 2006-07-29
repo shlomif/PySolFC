@@ -104,7 +104,6 @@ class Options:
         self.shade = 1
         self.shade_filled_stacks = True
         self.demo_logo = 1
-        self.demo_score = 0
         self.toolbar = 1
         ##self.toolbar_style = 'default'
         self.toolbar_style = 'crystal'

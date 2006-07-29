@@ -42,13 +42,26 @@ from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import DefaultHint, FreeCellType_Hint, CautiousDefaultHint
 
+
+# /***********************************************************************
+# //
+# ************************************************************************/
+
+class DerKatzenschwanz_Hint(FreeCellType_Hint):
+    def _getMovePileScore(self, score, color, r, t, pile, rpile):
+        if len(rpile) == 0:
+            # don't create empty row
+            return -1, color
+        return FreeCellType_Hint._getMovePileScore(self, score, color, r, t, pile, rpile)
+
+
 # /***********************************************************************
 # //
 # ************************************************************************/
 
 class DerKatzenschwanz(Game):
     RowStack_Class = StackWrapper(AC_RowStack, base_rank=NO_RANK)
-    Hint_Class = FreeCellType_Hint
+    Hint_Class = DerKatzenschwanz_Hint
 
     #
     # game layout
@@ -349,11 +362,6 @@ class LaggardLady_RowStack(OpenStack):
             return False
         return len(self.game.s.talon.cards) == 0 and len(self.cards) == 1
 
-    def canMoveCards(self, cards):
-        if not OpenStack.canMoveCards(self, cards):
-            return False
-        return len(self.cards) > 1
-
 
 class LaggardLady(SalicLaw):
 
@@ -361,7 +369,7 @@ class LaggardLady(SalicLaw):
         StackWrapper(RK_FoundationStack, base_rank=5, max_cards=6),
         StackWrapper(RK_FoundationStack, base_rank=4, max_cards=6, dir=-1, mod=13),
         ]
-    RowStack_Class = StackWrapper(LaggardLady_RowStack, max_accept=1)
+    RowStack_Class = StackWrapper(LaggardLady_RowStack, max_accept=1, min_cards=1)
 
     ROW_BASE_RANK = QUEEN
 

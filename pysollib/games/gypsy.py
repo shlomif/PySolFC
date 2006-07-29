@@ -615,6 +615,104 @@ class RightTriangle(Hypotenuse):
         self.sg.reservestacks.append(self.s.talon)
 
 
+# /***********************************************************************
+# // Trapdoor
+# ************************************************************************/
+
+class Trapdoor_Talon(DealRowTalonStack):
+    def dealCards(self, sound=0):
+        if not self.cards:
+            return 0
+        if sound:
+            self.game.startDealSample()
+        n = 0
+        rows = self.game.s.rows
+        reserves = self.game.s.reserves
+        for i in range(8):
+            r1 = reserves[i]
+            r2 = rows[i]
+            if r1.cards:
+                r1.moveMove(1, r2)
+                n += 1
+        n += self.dealRowAvail(rows=self.game.s.reserves, sound=0)
+        if sound:
+            self.game.stopSamples()
+        return n
+
+
+class Trapdoor(Gypsy):
+
+    def createGame(self):
+        kw = {'rows'     : 8,
+              'waste'    : 0,
+              'texts'    : 1,
+              'reserves' : 8,}
+        Layout(self).createGame(layout_method    = Layout.gypsyLayout,
+                                talon_class      = Trapdoor_Talon,
+                                foundation_class = SS_FoundationStack,
+                                row_class        = AC_RowStack,
+                                reserve_class    = OpenStack,
+                                **kw
+                                )
+
+    def startGame(self):
+        Gypsy.startGame(self)
+        self.s.talon.dealCards()
+
+# /***********************************************************************
+# // Flamenco
+# ************************************************************************/
+
+class Flamenco(Gypsy):
+
+    def createGame(self):
+        kw = {'rows'     : 8,
+              'waste'    : 0,
+              'texts'    : 1,}
+        foundation_class = (
+            SS_FoundationStack,
+            StackWrapper(SS_FoundationStack, base_rank=KING, dir=-1))
+        Layout(self).createGame(layout_method    = Layout.gypsyLayout,
+                                talon_class      = DealRowTalonStack,
+                                foundation_class = foundation_class,
+                                row_class        = AC_RowStack,
+                                **kw
+                                )
+
+    def _shuffleHook(self, cards):
+        return self._shuffleHookMoveToTop(cards,
+            lambda c: (c.rank in (ACE, KING) and c.deck == 0, (c.suit,c.rank)))
+
+    def startGame(self):
+        self.s.talon.dealRow(rows=self.s.foundations, frames=0)
+        for i in range(2):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+
+# /***********************************************************************
+# // Eclipse
+# ************************************************************************/
+
+class Eclipse(Gypsy):
+    Layout_Method = Layout.klondikeLayout
+    RowStack_Class = SS_RowStack
+
+    def createGame(self):
+        Gypsy.createGame(self, rows=13)
+
+    def startGame(self):
+        self.s.talon.dealRow(frames=0)
+        self.s.talon.dealRow(frames=0)
+        self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return (card1.suit == card2.suit and abs(card1.rank-card2.rank) == 1)
+
+
 # register the game
 registerGame(GameInfo(1, Gypsy, "Gypsy",
                       GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
@@ -668,5 +766,11 @@ registerGame(GameInfo(567, EternalTriangle, "Eternal Triangle",
                       GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL,
                       altnames=('Lobachevsky',) ))
 registerGame(GameInfo(568, RightTriangle, "Right Triangle",
+                      GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(580, Trapdoor, "Trapdoor",
+                      GI.GT_GYPSY | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(581, Flamenco, "Flamenco",
+                      GI.GT_GYPSY | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(584, Eclipse, "Eclipse",
                       GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
 

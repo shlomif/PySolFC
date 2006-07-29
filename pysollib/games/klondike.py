@@ -143,15 +143,8 @@ class KlondikeByThrees(Klondike):
 # // Thumb and Pouch
 # ************************************************************************/
 
-class ThumbAndPouch_RowStack(SequenceRowStack):
-    def _isSequence(self, cards):
-        return isAnySuitButOwnSequence(cards, self.cap.mod, self.cap.dir)
-    def getHelp(self):
-        return _('Tableau. Build down in any suit but the same.')
-
-
 class ThumbAndPouch(Klondike):
-    RowStack_Class = ThumbAndPouch_RowStack
+    RowStack_Class = BO_RowStack
 
     def createGame(self):
         Klondike.createGame(self, max_rounds=1)
@@ -306,7 +299,7 @@ class Somerset(Klondike):
 
 
 class Morehead(Somerset):
-    RowStack_Class = StackWrapper(ThumbAndPouch_RowStack, max_move=1)
+    RowStack_Class = StackWrapper(BO_RowStack, max_move=1)
 
 
 class Canister(Klondike):
@@ -512,19 +505,6 @@ class KingAlbert(Klondike):
     def startGame(self):
         Klondike.startGame(self, flip=1, reverse=0)
         self.s.talon.dealRow(rows=self.s.reserves)
-
-
-## class KingAlbertNew(KingAlbert):
-
-##     def createGame(self):
-##         l = Klondike.createGame(self, max_rounds=1, rows=self.ROWS, waste=0, texts=0)
-##         self.setSize(self.width+l.XM+l.XS, self.height)
-##         self.s.reserves.append(ArbitraryStack(self.width-l.XS, l.YM, self))
-##         l.defaultStackGroups()
-
-##     def startGame(self):
-##         Klondike.startGame(self, flip=1, reverse=0)
-##         self.s.talon.dealRow(rows=self.s.reserves*7)
 
 
 class Raglan(KingAlbert):
@@ -1144,6 +1124,34 @@ class GoldMine(Klondike):
         self.s.talon.dealCards()
 
 
+# /***********************************************************************
+# // Lucky Thirteen
+# // Lucky Piles
+# ************************************************************************/
+
+class LuckyThirteen(Klondike):
+    Talon_Class = InitialDealTalonStack
+    RowStack_Class = StackWrapper(SS_RowStack, base_rank=NO_RANK, max_move=1)
+
+    def createGame(self):
+        Klondike.createGame(self, waste=False, rows=13, max_rounds=1, texts=False)
+
+    def startGame(self):
+        self.s.talon.dealRow(frames=0)
+        self.s.talon.dealRow(frames=0)
+        self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return card1.suit == card2.suit and abs(card1.rank-card2.rank) == 1
+
+
+class LuckyPiles(LuckyThirteen):
+    RowStack_Class = StackWrapper(UD_SS_RowStack, base_rank=KING)
+
+
+
 # register the game
 registerGame(GameInfo(2, Klondike, "Klondike",
                       GI.GT_KLONDIKE, 1, -1, GI.SL_BALANCED))
@@ -1260,5 +1268,9 @@ registerGame(GameInfo(539, Usk, "Usk",
 registerGame(GameInfo(541, BatsfordAgain, "Batsford Again",
                       GI.GT_KLONDIKE, 2, 1, GI.SL_BALANCED))
 registerGame(GameInfo(572, GoldMine, "Gold Mine",
+                      GI.GT_NUMERICA, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(585, LuckyThirteen, "Lucky Thirteen",
+                      GI.GT_NUMERICA, 1, 0, GI.SL_MOSTLY_LUCK))
+registerGame(GameInfo(586, LuckyPiles, "Lucky Piles",
                       GI.GT_NUMERICA, 1, 0, GI.SL_MOSTLY_SKILL))
 

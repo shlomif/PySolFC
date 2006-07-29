@@ -198,7 +198,7 @@ class Game:
         # update display properties
         self.top.wm_geometry("")        # cancel user-specified geometry
         self.canvas.setInitialSize(self.width, self.height)
-        if self.app.debug >= 2:
+        if self.app.debug >= 4:
             MfxCanvasRectangle(self.canvas, 0, 0, self.width, self.height,
                                width=2, fill=None, outline='green')
         # restore game geometry
@@ -1566,7 +1566,7 @@ for %d moves.
             assert to_stack.acceptsCards(from_stack, from_stack.cards[-ncards:])
         if sleep <= 0.0:
             return h
-        info = (level == 1) or (level > 1 and self.app.opt.demo_score)
+        info = (level == 1) or (level > 1 and self.app.debug >= 3)
         if info and self.app.statusbar and self.app.opt.statusbar:
             self.app.statusbar.configLabel("info", text=_("Score %6d") % (score), fg=text_color)
         else:

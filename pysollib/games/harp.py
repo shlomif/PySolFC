@@ -152,6 +152,8 @@ class Steps(DoubleKlondike):
 
 # /***********************************************************************
 # // Triple Klondike
+# // Triple Klondike by Threes
+# // Chinese Klondike
 # ************************************************************************/
 
 class TripleKlondike(DoubleKlondike):
@@ -159,13 +161,15 @@ class TripleKlondike(DoubleKlondike):
         DoubleKlondike.createGame(self, rows=13)
 
 
-# /***********************************************************************
-# // Triple Klondike by Threes
-# ************************************************************************/
-
 class TripleKlondikeByThrees(DoubleKlondike):
     def createGame(self):
         DoubleKlondike.createGame(self, rows=13, num_deal=3)
+
+
+class ChineseKlondike(DoubleKlondike):
+    RowStack_Class = StackWrapper(BO_RowStack, base_rank=KING)
+    def createGame(self):
+        DoubleKlondike.createGame(self, rows=12)
 
 
 # /***********************************************************************
@@ -304,4 +308,8 @@ registerGame(GameInfo(545, BigDeal, "Big Deal",
                       GI.GT_KLONDIKE | GI.GT_ORIGINAL, 4, 1, GI.SL_BALANCED))
 registerGame(GameInfo(562, Delivery, "Delivery",
                       GI.GT_FORTY_THIEVES | GI.GT_ORIGINAL, 4, 0, GI.SL_BALANCED))
+registerGame(GameInfo(590, ChineseKlondike, "Chinese Klondike",
+                      GI.GT_KLONDIKE, 3, -1, GI.SL_BALANCED,
+                      suits=(0, 1, 2) ))
+
 

@@ -699,9 +699,15 @@ class PysolMenubar(PysolMenubarActions):
         submenu.delete(0, "last")
         # insert games
         g = [self.app.getGameInfo(id) for id in gameids]
-        self._addSelectGameSubSubMenu(submenu, g,
-                                      command=self.mSelectGame,
-                                      variable=self.tkopt.gameid)
+        if len(g) > self.__cb_max*4:
+            g.sort(lambda a, b: cmp(gettext(a.name), gettext(b.name)))
+            self._addSelectAllGameSubMenu(submenu, g,
+                                          command=self.mSelectGame,
+                                          variable=self.tkopt.gameid)
+        else:
+            self._addSelectGameSubSubMenu(submenu, g,
+                                          command=self.mSelectGame,
+                                          variable=self.tkopt.gameid)
         state = self._getEnabledState
         in_favor = self.app.game.id in gameids
         menu, index, submenu = self.__menupath[".menubar.file.addtofavorites"]

@@ -1166,7 +1166,8 @@ registerGame(GameInfo(459, FredsSpider, "Fred's Spider",
 registerGame(GameInfo(460, FredsSpider3Decks, "Fred's Spider (3 decks)",
                       GI.GT_SPIDER, 3, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(461, OpenSpider, "Open Spider",
-                      GI.GT_SPIDER, 2, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_SPIDER, 2, 0, GI.SL_MOSTLY_SKILL,
+                      altnames=('Beetle',) ))
 registerGame(GameInfo(501, WakeRobin, "Wake-Robin",
                       GI.GT_SPIDER | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(502, TripleWakeRobin, "Wake-Robin (3 decks)",

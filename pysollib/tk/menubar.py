@@ -315,6 +315,7 @@ class PysolMenubar(PysolMenubarActions):
         menu = MfxMenu(self.__menubar, label=n_("&Assist"))
         menu.add_command(label=n_("&Hint"), command=self.mHint, accelerator="H")
         menu.add_command(label=n_("Highlight p&iles"), command=self.mHighlightPiles, accelerator="I")
+        menu.add_command(label=n_("Find card"), command=self.mFindCard, accelerator="F")
         menu.add_separator()
         menu.add_command(label=n_("&Demo"), command=self.mDemo, accelerator=m+"D")
         menu.add_command(label=n_("Demo (&all games)"), command=self.mMixedDemo)
@@ -417,6 +418,7 @@ class PysolMenubar(PysolMenubarActions):
         ##self._bindKey("",   "Shift_L", self.mHighlightPiles)
         ##self._bindKey("",   "Shift_R", self.mHighlightPiles)
         self._bindKey("",   "i", self.mHighlightPiles)
+        self._bindKey("",   "f", self.mFindCard)
         self._bindKey(ctrl, "d", self.mDemo)
         self._bindKey(ctrl, "e", self.mSelectCardsetDialog)
         self._bindKey(ctrl, "b", self.mOptChangeCardback) # undocumented

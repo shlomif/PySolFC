@@ -45,6 +45,7 @@ from pysolrandom import constructRandom
 from version import VERSION
 from settings import PACKAGE, PACKAGE_URL
 from settings import TOP_TITLE
+from gamedb import GI
 
 # stats imports
 from stats import PysolStatsFormatter
@@ -66,6 +67,7 @@ from pysoltk import ColorsDialog
 from pysoltk import FontsDialog
 from pysoltk import EditTextDialog
 from pysoltk import TOOLBAR_BUTTONS
+from pysoltk import create_find_card_dialog, connect_game_find_card_dialog, destroy_find_card_dialog
 from help import helpAbout, helpHTML
 
 gettext = _
@@ -95,6 +97,7 @@ class PysolMenubarActions:
             quickplay = 0,
             demo = 0,
             highlight_piles = 0,
+            find_card = 0,
             rules = 0,
             pause = 0,
         )
@@ -188,9 +191,12 @@ class PysolMenubarActions:
         tkopt.splashscreen.set(opt.splashscreen)
         tkopt.sticky_mouse.set(opt.sticky_mouse)
         tkopt.negative_bottom.set(opt.negative_bottom)
-
         for w in TOOLBAR_BUTTONS:
             tkopt.toolbar_vars[w].set(opt.toolbar_vars[w])
+        if game.gameinfo.category == GI.GC_FRENCH:
+            connect_game_find_card_dialog(game)
+        else:
+            destroy_find_card_dialog()
 
     # will get called after connectGame()
     def updateRecentGamesMenu(self, gameids):
@@ -274,6 +280,8 @@ class PysolMenubarActions:
             ms.quickplay = 1
         if opt.highlight_piles and game.getHighlightPilesStacks():
             ms.highlight_piles = 1
+        if game.gameinfo.category == GI.GC_FRENCH:
+            ms.find_card = 1
         if game.app.getGameRulesFilename(game.id):  # note: this may return ""
             ms.rules = 1
         if not game.finished:
@@ -301,6 +309,7 @@ class PysolMenubarActions:
         # Assist menu
         self.setMenuState(ms.hint, "assist.hint")
         self.setMenuState(ms.highlight_piles, "assist.highlightpiles")
+        self.setMenuState(ms.find_card, "assist.findcard")
         self.setMenuState(ms.demo, "assist.demo")
         self.setMenuState(ms.demo, "assist.demoallgames")
         # Options menu
@@ -588,6 +597,10 @@ class PysolMenubarActions:
     def mGameInfo(self, *args):
         if self._cancelDrag(break_pause=False): return
         self.mPlayerStats(mode=106)
+
+    def mFindCard(self, *args):
+        create_find_card_dialog(self.game.top, self.game,
+                                self.app.getFindCardImagesDir())
 
     def mEditGameComment(self, *args):
         if self._cancelDrag(break_pause=False): return

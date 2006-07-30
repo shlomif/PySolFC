@@ -39,6 +39,9 @@ __all__ = ['MfxMessageDialog',
            'MfxTooltip',
            'MfxScrolledCanvas',
            'StackDesc',
+           'create_find_card_dialog',
+           'connect_game_find_card_dialog',
+           'destroy_find_card_dialog',
            ]
 
 # imports
@@ -55,7 +58,7 @@ from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
 from tkutil import after, after_idle, after_cancel
 from tkutil import bind, unbind_destroy, makeImage
 from tkutil import makeToplevel, setTransient
-from tkcanvas import MfxCanvas
+from tkcanvas import MfxCanvas, MfxCanvasGroup, MfxCanvasImage, MfxCanvasRectangle
 
 
 # /***********************************************************************
@@ -78,23 +81,24 @@ class MfxDialog: # ex. _ToplevelDialog
         bind(self.top, "WM_DELETE_WINDOW", self.wmDeleteWindow)
         #
 
-    def mainloop(self, focus=None, timeout=0):
+    def mainloop(self, focus=None, timeout=0, transient=True):
         bind(self.top, "<Escape>", self.mCancel)
         bind(self.top, '<Alt-Key>', self.altKeyEvent) # for accelerators
         if focus is not None:
             focus.focus()
-        setTransient(self.top, self.parent)
-        try:
-            self.top.grab_set()
-        except Tkinter.TclError:
-            if traceback: traceback.print_exc()
-            pass
-        if timeout > 0:
-            self.timer = after(self.top, timeout, self.mTimeout)
-        try: self.top.mainloop()
-        except SystemExit:
-            pass
-        self.destroy()
+        if transient:
+            setTransient(self.top, self.parent)
+            try:
+                self.top.grab_set()
+            except Tkinter.TclError:
+                if traceback: traceback.print_exc()
+                pass
+            if timeout > 0:
+                self.timer = after(self.top, timeout, self.mTimeout)
+            try: self.top.mainloop()
+            except SystemExit:
+                pass
+            self.destroy()
 
     def destroy(self):
         after_cancel(self.timer)
@@ -716,5 +720,203 @@ class StackDesc:
                 self.label.unbind('<ButtonPress>', b)
 
 
+# /***********************************************************************
+# //
+# ************************************************************************/
 
+class FindCardDialog(MfxDialog):
+    SUIT_IMAGES = {} # key: (suit, color)
+    RANK_IMAGES = {} # key: (rank, color)
+
+    def __init__(self, parent, game, dir, title='Find card', **kw):
+        kw = self.initKw(kw)
+        MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
+        top_frame, bottom_frame = self.createFrames(kw)
+        self.createBitmaps(top_frame, kw)
+        self.images_dir = dir
+        #self.default_color = top_frame['bg']
+        #self.bg_colors = ('#f9e3d2', '#c9e3d2')
+        #self.highlight_color = 'white'
+        self.label_width, self.label_height = 36, 30
+        self.top_frame = top_frame
+        self.canvas = MfxCanvas(top_frame, bg='white')
+        self.canvas.pack(expand=True, fill='both')
+        #
+        self.button = kw.default
+        self.labels = []
+        self.tk_images = []
+        self.highlight_items = None
+        self.last_card = None
+        self.connectGame(game)
+        #
+        focus = self.createButtons(bottom_frame, kw)
+        ##self.mainloop(focus, kw.timeout, transient=False)
+
+    def initKw(self, kw):
+        kw = KwStruct(kw,
+                      strings=(_("&Close"),), default=0,
+                      resizable=0,
+                      padx=4, pady=4,
+                      separatorwidth=0,
+                      )
+        return MfxDialog.initKw(self, kw)
+
+    def createCardLabel(self, suit, rank, x0, y0):
+        dx, dy = self.label_width, self.label_height
+        dir = self.images_dir
+        images = self.tk_images
+        canvas = self.canvas
+        group = MfxCanvasGroup(canvas)
+        s = 'cshd'[suit]
+        if suit >= 2: c = 'red'
+        else:         c = 'black'
+        x1, y1 = x0+dx-2, y0+dy-2
+        rect = MfxCanvasRectangle(self.canvas, x0, y0, x1, y1,
+                                  width=2, fill='white', outline='white')
+        rect.addtag(group)
+        #
+        fn = os.path.join(dir, c+'-'+str(rank)+'.gif')
+        rim = FindCardDialog.RANK_IMAGES.get((rank, c))
+        if not rim:
+            rim = Tkinter.PhotoImage(file=fn)
+            FindCardDialog.RANK_IMAGES[(rank, c)] = rim
+        fn = os.path.join(dir, 'large-'+s+'.gif')
+        sim = FindCardDialog.SUIT_IMAGES.get((suit, c))
+        if not sim:
+            sim = Tkinter.PhotoImage(file=fn)
+            FindCardDialog.SUIT_IMAGES[(suit, c)] = sim
+        #
+        x0 = x0+(dx-rim.width()-sim.width())/2
+        x, y = x0, y0+(dy-rim.height())/2
+        im = MfxCanvasImage(canvas, x, y, image=rim, anchor='nw')
+        im.addtag(group)
+        x, y = x0+rim.width(), y0+(dy-sim.height())/2
+        im = MfxCanvasImage(canvas, x, y, image=sim, anchor='nw')
+        im.addtag(group)
+        bind(group, '<Enter>',
+             lambda e, suit=suit, rank=rank, rect=rect:
+                 self.enterEvent(suit, rank, rect))
+        bind(group, '<Leave>',
+             lambda e, suit=suit, rank=rank, rect=rect:
+                 self.leaveEvent(suit, rank, rect))
+        self.labels.append(group)
+
+
+    def connectGame(self, game):
+        self.game = game
+        suits = game.gameinfo.suits
+        ranks = game.gameinfo.ranks
+        dx, dy = self.label_width, self.label_height
+        i = 0
+        for suit in suits:
+            j = 0
+            for rank in ranks:
+                x, y = dx*j+2, dy*i+2
+                self.createCardLabel(suit=suit, rank=rank, x0=x, y0=y)
+                j += 1
+            i += 1
+        w, h = dx*j, dy*i
+        self.canvas.config(width=w, height=h)
+
+
+##         if self.labels:
+##             for l in self.labels:
+##                 unbind_destroy(l)
+##                 l.grid_forget()
+##         frame = self.top_frame
+##         from pysollib.util import SUITS, RANKS
+##         suits = game.gameinfo.suits
+##         ranks = game.gameinfo.ranks
+##         ns = 0
+##         for i in suits:
+##             color = self.bg_colors[ns%2]
+##             suit = SUITS[i]
+##             suit_label = Tkinter.Label(frame, text=suit, bg=color)
+##             suit_label.grid(row=i, column=0, sticky='ew')
+##             self.labels.append(suit_label)
+##             ns += 1
+##             nk = 0
+##             for j in ranks:
+##                 color = self.bg_colors[(ns+nk)%2]
+##                 rank = RANKS[j]
+##                 rank_label = Tkinter.Label(frame, text=rank, bg=color)
+##                 bind(rank_label, '<Enter>', lambda e, label=rank_label, suit=i, rank=j: self.enterEvent(label, suit, rank))
+##                 bind(rank_label, '<Leave>', lambda e, label=rank_label, suit=i, rank=j: self.leaveEvent(label, suit, rank))
+##                 self.labels.append(rank_label)
+##                 #rank_label.config(highlightthickness=1,
+##                 #                  highlightbackground='black')
+##                 rank_label.grid(row=i, column=j+1, sticky='ew')
+##                 nk += 1
+
+##     def showCard(self, suit, rank, rect):
+##         print suit, rank
+
+    def enterEvent(self, suit, rank, rect):
+        #print 'enterEvent', suit, rank
+        #if (suit, rank) == self.last_card: return
+        self.last_card = (suit, rank)
+        self.highlight_items = self.game.highlightCard(suit, rank)
+        if not self.highlight_items:
+            self.highlight_items = []
+##         dx, dy = self.label_width, self.label_height
+##         x0, y0 = dx*rank, dy*suit
+##         x1, y1 = dx*(rank+1), dy*(suit+1)
+        rect.config(outline='red')
+        #item = MfxCanvasRectangle(self.canvas, x0, y0, x1, y1,
+        #                          width=2, fill=None, outline='red')
+        #self.highlight_items.append(item)
+
+    def leaveEvent(self, suit, rank, rect):
+        #print 'leaveEvent', suit, rank
+        #if (suit, rank) == self.last_card: return
+        for i in self.highlight_items:
+            i.delete()
+        #self.game.canvas.update_idletasks()
+        #self.canvas.update_idletasks()
+        rect.config(outline='white')
+        self.last_card = None
+
+    def destroy(self):
+        for l in self.labels:
+            unbind_destroy(l)
+        unbind_destroy(self.top)
+        self.top.wm_withdraw()
+        self.top.destroy()
+
+    def tkraise(self):
+        self.top.tkraise()
+
+    def mDone(self, button):
+        self.destroy()
+        pass
+
+    def wmDeleteWindow(self, *event):
+        self.destroy()
+        pass
+
+
+find_card_dialog = None
+
+def create_find_card_dialog(parent, game, dir):
+    global find_card_dialog
+    try:
+        find_card_dialog.tkraise()
+    except:
+        ##traceback.print_exc()
+        find_card_dialog = FindCardDialog(parent, game, dir)
+
+def connect_game_find_card_dialog(game):
+    try:
+        find_card_dialog.connectGame(game)
+    except:
+        pass
+
+def destroy_find_card_dialog():
+    global find_card_dialog
+    try:
+        find_card_dialog.destroy()
+    except:
+        ##traceback.print_exc()
+        pass
+    find_card_dialog = None
 

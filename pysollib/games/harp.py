@@ -108,12 +108,17 @@ class DoubleKlondikeByThrees(DoubleKlondike):
 
 # /***********************************************************************
 # // Gargantua (Double Klondike with one redeal)
+# // Pantagruel
 # ************************************************************************/
 
 class Gargantua(DoubleKlondike):
     def createGame(self):
         DoubleKlondike.createGame(self, max_rounds=2)
 
+class Pantagruel(DoubleKlondike):
+    RowStack_Class = AC_RowStack
+    def createGame(self):
+        DoubleKlondike.createGame(self, max_rounds=1)
 
 # /***********************************************************************
 # // Harp (Double Klondike with 10 non-king rows and no redeal)
@@ -311,5 +316,7 @@ registerGame(GameInfo(562, Delivery, "Delivery",
 registerGame(GameInfo(590, ChineseKlondike, "Chinese Klondike",
                       GI.GT_KLONDIKE, 3, -1, GI.SL_BALANCED,
                       suits=(0, 1, 2) ))
+registerGame(GameInfo(591, Pantagruel, "Pantagruel",
+                      GI.GT_KLONDIKE, 2, 0, GI.SL_BALANCED))
 
 

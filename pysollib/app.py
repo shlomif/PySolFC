@@ -892,6 +892,9 @@ class Application:
             return None
         return d
 
+    def getFindCardImagesDir(self):
+        return self._getImagesDir('cards')
+
     def getToolbarImagesDir(self):
         if self.opt.toolbar_size:
             size = 'large'

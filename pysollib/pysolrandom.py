@@ -38,9 +38,12 @@
 import sys, os, re, time, types
 import random
 
-##----------------------------------------------------------------------
 
-class PysolRandom(random.Random):
+# /***********************************************************************
+# // system based random (need python >= 2.3)
+# ************************************************************************/
+
+class SysRandom(random.Random):
     #MAX_SEED = 0L
     #MAX_SEED = 0xffffffffffffffffL  # 64 bits
     MAX_SEED = 100000000000000000000L # 20 digits
@@ -91,7 +94,7 @@ class PysolRandom(random.Random):
 # // We use a seed of type long in the range [0, MAX_SEED].
 # ************************************************************************/
 
-class PysolRandomMFX:
+class MFXRandom:
     MAX_SEED = 0L
 
     ORIGIN_UNKNOWN  = 0
@@ -188,12 +191,36 @@ class PysolRandomMFX:
             seq[n], seq[j] = seq[j], seq[n]
             n = n - 1
 
+
+# /***********************************************************************
+# // Linear Congruential random generator
+# //
+# // Knuth, Donald.E., "The Art of Computer Programming,", Vol 2,
+# // Seminumerical Algorithms, Third Edition, Addison-Wesley, 1998,
+# // p. 106 (line 26) & p. 108
+# ************************************************************************/
+
+class LCRandom64(MFXRandom):
+    MAX_SEED = 0xffffffffffffffffL  # 64 bits
+
+    def str(self, seed):
+        s = repr(long(seed))
+        if s[-1:] == "L":
+            s = s[:-1]
+        s = "0"*(20-len(s)) + s
+        return s
+
+    def random(self):
+        self.seed = (self.seed*6364136223846793005L + 1L) & self.MAX_SEED
+        return ((self.seed >> 21) & 0x7fffffffL) / 2147483648.0
+
+
 # /***********************************************************************
 # // Linear Congruential random generator
 # // In PySol this is only used for 0 <= seed <= 32000.
 # ************************************************************************/
 
-class LCRandom31(PysolRandomMFX):
+class LCRandom31(MFXRandom):
     MAX_SEED = 0x7fffffffL          # 31 bits
 
     def str(self, seed):
@@ -207,6 +234,9 @@ class LCRandom31(PysolRandomMFX):
         self.seed = (self.seed*214013L + 2531011L) & self.MAX_SEED
         return a + (int(self.seed >> 16) % (b+1-a))
 
+# select
+##PysolRandom = LCRandom64
+PysolRandom = SysRandom
 
 # /***********************************************************************
 # // PySol support code

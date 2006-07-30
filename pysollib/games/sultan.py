@@ -334,6 +334,7 @@ class IdleAces(Game):
 
 # /***********************************************************************
 # // Lady of the Manor
+# // Archway
 # ************************************************************************/
 
 class LadyOfTheManor_RowStack(BasicRowStack):

@@ -112,6 +112,9 @@ class Mahjongg_Foundation(OpenStack):
                     fnds[n].group.tkraise()
         return
 
+    def getHelp(self):
+        return ''
+
 
 # /***********************************************************************
 # //
@@ -211,6 +214,7 @@ class Mahjongg_RowStack(OpenStack):
         bind(group, "<Control-1>", self.__controlclickEventHandler)
 
     def __defaultClickEventHandler(self, event, handler):
+        self.game.event_handled = True # for Game.undoHandler
         if self.game.demo:
             self.game.stopDemo(event)
         if self.game.busy:
@@ -527,7 +531,7 @@ class AbstractMahjonggGame(Game):
             #
             i = factorial(len(free_stacks))/2/factorial(len(free_stacks)-2)
             old_pairs = []
-            for _ in xrange(i):
+            for j in xrange(i):
                 nc = new_cards[:]
                 while True:
                     # create uniq pair

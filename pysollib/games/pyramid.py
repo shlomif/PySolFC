@@ -183,7 +183,7 @@ class Pyramid(Game):
         w = l.XM + max_rows*l.XS
         h = l.YM + 4*l.YS
         if reserves:
-            h += l.YS+4*l.YOFFSET
+            h += l.YS+2*l.YOFFSET
         self.setSize(w, h)
 
         # create stacks
@@ -331,6 +331,53 @@ class Thirteen(Pyramid):
         self.s.talon.dealCards()          # deal first card to WasteStack
 
 
+# /***********************************************************************
+# // Thirteens
+# ************************************************************************/
+
+class Thirteens(Pyramid):
+
+
+    def createGame(self):
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        self.setSize(l.XM+5*l.XS, l.YM+4*l.YS)
+
+        # create stacks
+        x, y = l.XM, l.YM
+        for i in range(2):
+            x = l.XM
+            for j in range(5):
+                s.rows.append(Giza_Reserve(x, y, self, max_accept=1))
+                x += l.XS
+            y += l.YS
+        x, y = l.XM, self.height-l.YS
+        s.talon = TalonStack(x, y, self)
+        l.createText(s.talon, 'n')
+        x, y = self.width-l.XS, self.height-l.YS
+        s.foundations.append(Pyramid_Foundation(x, y, self,
+                             suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
+                             max_move=0, max_cards=52))
+
+        # define stack-groups
+        l.defaultStackGroups()
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+    def fillStack(self, stack):
+        if stack in self.s.rows:
+            if not stack.cards and self.s.talon.cards:
+                old_state = self.enterState(self.S_FILL)
+                self.s.talon.flipMove()
+                self.s.talon.moveMove(1, stack)
+                self.leaveState(old_state)
+
+
+
 # register the game
 registerGame(GameInfo(38, Pyramid, "Pyramid",
                       GI.GT_PAIRING_TYPE, 1, 2, GI.SL_MOSTLY_LUCK))
@@ -338,8 +385,10 @@ registerGame(GameInfo(193, RelaxedPyramid, "Relaxed Pyramid",
                       GI.GT_PAIRING_TYPE | GI.GT_RELAXED, 1, 2, GI.SL_MOSTLY_LUCK))
 ##registerGame(GameInfo(44, Thirteen, "Thirteen",
 ##                      GI.GT_PAIRING_TYPE, 1, 0))
-registerGame(GameInfo(591, Giza, "Giza",
+registerGame(GameInfo(592, Giza, "Giza",
                       GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0, GI.SL_BALANCED))
+registerGame(GameInfo(593, Thirteens, "Thirteens",
+                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_LUCK))
 
 
 

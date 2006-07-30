@@ -142,6 +142,7 @@ class Game:
             #
             data = [],                  #   raw data
         )
+        self.event_handled = False      # if click event handled by Stack (???)
         self.reset()
 
     # main constructor
@@ -214,9 +215,13 @@ class Game:
 
     def initBindings(self):
         # note: a Game is only allowed to bind self.canvas and not to self.top
-        bind(self.canvas, "<1>", self.clickHandler)
+        ##bind(self.canvas, "<1>", self.clickHandler)
         bind(self.canvas, "<2>", self.clickHandler)
-        bind(self.canvas, "<3>", self.clickHandler)
+        ##bind(self.canvas, "<3>", self.clickHandler)
+        ##bind(self.canvas, "<Double-1>", self.undoHandler)
+        ##bind(self.canvas, "<Double-1>", self.undoHandler)
+        bind(self.canvas, "<1>", self.undoHandler)
+        bind(self.canvas, "<3>", self.redoHandler)
         bind(self.top, '<Unmap>', self._unmapHandler)
 
     def __createCommon(self, app):
@@ -721,12 +726,29 @@ class Game:
     #
     # UI & graphics support
     #
-
-    def clickHandler(self, *args):
+    def _defaultHandler(self):
         self.interruptSleep()
         self.deleteStackDesc()
         if self.demo:
             self.stopDemo()
+
+    def clickHandler(self, event):
+        self._defaultHandler()
+        self.event_handled = False
+        return EVENT_PROPAGATE
+
+    def undoHandler(self, event):
+        self._defaultHandler()
+        if not self.event_handled:
+            self.app.menubar.mUndo()
+        self.event_handled = False
+        return EVENT_PROPAGATE
+
+    def redoHandler(self, event):
+        self._defaultHandler()
+        if not self.event_handled:
+            self.app.menubar.mRedo()
+        self.event_handled = False
         return EVENT_PROPAGATE
 
     def updateStatus(self, **kw):
@@ -1392,6 +1414,16 @@ for %d moves.
             return self.dealCards(sound=sound)
         return 0
 
+    ## for find_card_dialog
+    def highlightCard(self, suit, rank):
+        col = self.app.opt.highlight_samerank_colors[3]
+        info = []
+        for s in self.allstacks:
+            for c in s.cards:
+                if c.suit == suit and c.rank == rank:
+                    if s.basicShallHighlightSameRank(c):
+                        info.append((s, c, c, col))
+        return self._highlightCards(info, 0)
 
     ### highlight all moveable piles
     def getHighlightPilesStacks(self):
@@ -1429,12 +1461,15 @@ for %d moves.
         if not items:
             return 0
         self.canvas.update_idletasks()
-        self.sleep(sleep)
-        items.reverse()
-        for r in items:
-            r.delete()
-        self.canvas.update_idletasks()
-        return EVENT_HANDLED
+        if sleep:
+            self.sleep(sleep)
+            items.reverse()
+            for r in items:
+                r.delete()
+            self.canvas.update_idletasks()
+            return EVENT_HANDLED
+        else:
+            return items
 
     def highlightNotMatching(self):
         if self.demo:

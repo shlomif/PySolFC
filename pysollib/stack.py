@@ -895,6 +895,7 @@ class Stack:
     #
 
     def __defaultClickEventHandler(self, event, handler, start_drag=0, cancel_drag=1):
+        self.game.event_handled = True # for Game.clickHandler
         if self.game.demo:
             self.game.stopDemo(event)
         self.game.interruptSleep()

@@ -394,6 +394,7 @@ class MountOlympus_RowStack(SS_RowStack):
 
 
 class MountOlympus(Game):
+    RowStack_Class = MountOlympus_RowStack
 
     def createGame(self):
         # create layout
@@ -415,7 +416,7 @@ class MountOlympus(Game):
             x += l.XS
         x, y = l.XM, l.YM+2*l.YS
         for i in range(9):
-            s.rows.append(MountOlympus_RowStack(x, y, self, dir=-2))
+            s.rows.append(self.RowStack_Class(x, y, self, dir=-2))
             x += l.XS
         s.talon=DealRowTalonStack(l.XM, l.YM, self)
         l.createText(s.talon, 's')
@@ -446,7 +447,16 @@ class MountOlympus(Game):
                 (card1.rank + 2 == card2.rank or card2.rank + 2 == card1.rank))
 
 
+class Zeus_RowStack(MountOlympus_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not MountOlympus_RowStack.acceptsCards(self, from_stack, cards):
+            return False
+        if not self.cards:
+            return cards[0].rank in (QUEEN, KING)
+        return True
+
 class Zeus(MountOlympus):
+    RowStack_Class = Zeus_RowStack
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
         self.startDealSample()

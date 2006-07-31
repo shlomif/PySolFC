@@ -115,9 +115,7 @@ class Yukon(Game):
     def getHighlightPilesStacks(self):
         return ()
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.color != card2.color and
-                (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank))
+    shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
 # /***********************************************************************
@@ -127,9 +125,7 @@ class Yukon(Game):
 class RussianSolitaire(Yukon):
     RowStack_Class = StackWrapper(Yukon_SS_RowStack, base_rank=KING)
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.suit == card2.suit and
-                (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank))
+    shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
 # /***********************************************************************
@@ -367,9 +363,7 @@ class DoubleYukon(Yukon):
 class DoubleRussianSolitaire(DoubleYukon):
     RowStack_Class = StackWrapper(Yukon_SS_RowStack, base_rank=KING)
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.suit == card2.suit and
-                (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank))
+    shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
 # /***********************************************************************
@@ -392,9 +386,7 @@ class TripleYukon(Yukon):
 class TripleRussianSolitaire(TripleYukon):
     RowStack_Class = StackWrapper(Yukon_SS_RowStack, base_rank=KING)
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.suit == card2.suit and
-                (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank))
+    shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
 # /***********************************************************************
@@ -443,9 +435,7 @@ class TenAcross(Yukon):
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.reserves)
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.suit == card2.suit and
-                (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank))
+    shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
 # /***********************************************************************
@@ -538,8 +528,7 @@ class Geoffrey(Yukon):
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.rows[:4])
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return card1.suit == card2.suit and abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
 # /***********************************************************************
@@ -562,8 +551,7 @@ class Queensland(Yukon):
         self.s.talon.dealRow()
         self.s.talon.dealRowAvail()
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return card1.suit == card2.suit and abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
 # /***********************************************************************
@@ -593,8 +581,7 @@ class OutbackPatience(Yukon):
         self.s.talon.dealRow()
         self.s.talon.dealCards()
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return card1.suit == card2.suit and abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
 # /***********************************************************************

@@ -33,7 +33,7 @@
 __all__ = []
 
 # imports
-import sys
+import sys, time
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
@@ -103,7 +103,7 @@ class Numerica(Game):
     # game layout
     #
 
-    def createGame(self, rows=4, reserve=False):
+    def createGame(self, rows=4, reserve=False, max_rounds=1, waste_max_cards=1):
         # create layout
         l, s = Layout(self), self.s
         decks = self.gameinfo.decks
@@ -131,13 +131,15 @@ class Numerica(Game):
             x = x + l.XS
         self.setRegion(s.rows, (x0-l.XS/2, y-l.CH/2, 999999, 999999))
         x, y = l.XM, l.YM+l.YS+l.YS/2*int(reserve)
-        s.talon = WasteTalonStack(x, y, self, max_rounds=1)
-        if reserve:
+        s.talon = WasteTalonStack(x, y, self, max_rounds=max_rounds)
+        if reserve or waste_max_cards > 1:
             l.createText(s.talon, 'ne')
         else:
             l.createText(s.talon, 'n')
         y = y + l.YS
-        s.waste = WasteStack(x, y, self, max_cards=1)
+        s.waste = WasteStack(x, y, self, max_cards=waste_max_cards)
+        if waste_max_cards > 1:
+            l.createText(s.waste, 'ne')
         if reserve:
             s.reserves.append(self.ReserveStack_Class(l.XM, l.YM, self))
 
@@ -153,9 +155,7 @@ class Numerica(Game):
         self.startDealSample()
         self.s.talon.dealCards()          # deal first card to WasteStack
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.suit == card2.suit and
-                (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank))
+    shallHighlightMatch = Game._shallHighlightMatch_SS
 
     def getHighlightPilesStacks(self):
         return ()
@@ -659,6 +659,62 @@ class Strategerie(Game):
         self.s.talon.fillStack()
 
 
+# /***********************************************************************
+# // Assembly
+# // Anno Domini
+# ************************************************************************/
+
+class Assembly(Numerica):
+    Hint_Class = DefaultHint
+
+    Foundation_Class = StackWrapper(RK_FoundationStack, suit=ANY_SUIT)
+    RowStack_Class = StackWrapper(RK_RowStack, max_move=1)
+
+    def createGame(self):
+        Numerica.createGame(self, waste_max_cards=UNLIMITED_CARDS)
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
+
+    shallHighlightMatch = Game._shallHighlightMatch_RK
+
+
+class AnnoDomini_Hint(DefaultHint):
+    def step030(self, foundations, rows, dropstacks):
+        pass
+
+
+class AnnoDomini(Numerica):
+    Hint_Class = AnnoDomini_Hint
+
+    Foundation_Class = StackWrapper(SS_FoundationStack, suit=ANY_SUIT, mod=13)
+    RowStack_Class = AC_RowStack
+
+    def createGame(self):
+        Numerica.createGame(self, max_rounds=3, waste_max_cards=UNLIMITED_CARDS)
+        year = str(time.localtime()[0])
+        i = 0
+        for s in self.s.foundations:
+            # setup base_rank & base_suit
+            s.cap.suit = i
+            s.cap.base_suit = i
+            d = int(year[i])
+            if d == 0:
+                d = JACK
+            s.cap.base_rank = d
+            i += 1
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
+
+    shallHighlightMatch = Game._shallHighlightMatch_AC
+
+
+
 
 # register the game
 registerGame(GameInfo(257, Numerica, "Numerica",
@@ -689,4 +745,8 @@ registerGame(GameInfo(558, Numerica2Decks, "Numerica (2 decks)",
                       GI.GT_NUMERICA, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(589, LastChance, "Last Chance",
                       GI.GT_NUMERICA, 1, 0, GI.SL_BALANCED))
+registerGame(GameInfo(599, Assembly, "Assembly",
+                      GI.GT_NUMERICA, 1, 0, GI.SL_BALANCED))
+registerGame(GameInfo(600, AnnoDomini, "Anno Domini",
+                      GI.GT_NUMERICA, 1, 2, GI.SL_BALANCED))
 

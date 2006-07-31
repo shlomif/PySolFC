@@ -180,12 +180,28 @@ class Game:
         if self.s.talon:
             assert hasattr(self.s.talon, "round")
             assert hasattr(self.s.talon, "max_rounds")
-        if self.app.debug and self.s.foundations:
-            ncards = 0
-            for stack in self.s.foundations:
-                ncards += stack.cap.max_cards
-            if ncards != self.gameinfo.ncards:
-                print 'WARNING: invalid sum of foundations.max_cards:', self.__class__.__name__, ncards, self.gameinfo.ncards
+        if self.app.debug:
+            class_name = self.__class__.__name__
+            if self.s.foundations:
+                ncards = 0
+                for stack in self.s.foundations:
+                    ncards += stack.cap.max_cards
+                if ncards != self.gameinfo.ncards:
+                    print 'WARNING: invalid sum of foundations.max_cards:', \
+                          class_name, ncards, self.gameinfo.ncards
+            if self.s.rows:
+                from stack import AC_RowStack, SS_RowStack, RK_RowStack
+                r = self.s.rows[0]
+                for c, f in (
+                    (AC_RowStack, (self._shallHighlightMatch_AC,
+                                   self._shallHighlightMatch_ACW)),
+                    (SS_RowStack, (self._shallHighlightMatch_SS,
+                                   self._shallHighlightMatch_SSW)),
+                    (RK_RowStack, (self._shallHighlightMatch_RK,
+                                   self._shallHighlightMatch_RKW)),):
+                    if isinstance(r, c) and not self.shallHighlightMatch in f:
+                        print 'WARNING: shallHighlightMatch is not valid:', \
+                              class_name, r.__class__
         # optimize regions
         self.optimizeRegions()
         # create cards
@@ -739,14 +755,14 @@ class Game:
 
     def undoHandler(self, event):
         self._defaultHandler()
-        if not self.event_handled:
+        if self.app.opt.mouse_undo and not self.event_handled:
             self.app.menubar.mUndo()
         self.event_handled = False
         return EVENT_PROPAGATE
 
     def redoHandler(self, event):
         self._defaultHandler()
-        if not self.event_handled:
+        if self.app.opt.mouse_undo and not self.event_handled:
             self.app.menubar.mRedo()
         self.event_handled = False
         return EVENT_PROPAGATE
@@ -1416,7 +1432,9 @@ for %d moves.
 
     ## for find_card_dialog
     def highlightCard(self, suit, rank):
-        col = self.app.opt.highlight_samerank_colors[3]
+        if not self.app:
+            return None
+        col = self.app.opt.highlight_samerank_colors[1]
         info = []
         for s in self.allstacks:
             for c in s.cards:
@@ -1438,25 +1456,59 @@ for %d moves.
         items = []
         for s, c1, c2, color in info:
             assert c1 in s.cards and c2 in s.cards
-            sy0 = s.CARD_YOFFSET[0]
-            if sy0 >= 0:
+            tkraise = False
+            if c1 is c2:
+                # highlight single card
+                sx0, sy0 = s.getOffsetFor(c1)
+                x1, y1 = s.getPositionFor(c1)
+                x2, y2 = x1, y1
+            else:
+                # highlight pile
+                if len(s.CARD_XOFFSET) > 1:
+                    sx0 = 0
+                else:
+                    sx0 = s.CARD_XOFFSET[0]
+                if len(s.CARD_YOFFSET) > 1:
+                    sy0 = 0
+                else:
+                    sy0 = s.CARD_YOFFSET[0]
                 x1, y1 = s.getPositionFor(c1)
                 x2, y2 = s.getPositionFor(c2)
-                if c2 is not s.cards[-1] and sy0 > 0:
-                    y2 = y2 + sy0
-                else:
-                    y2 = y2 + self.app.images.CARDH
-            else:
-                x1, y1 = s.getPositionFor(c2)
-                x2, y2 = s.getPositionFor(c1)
+            if sx0 != 0 and sy0 == 0:
+                # horizontal stack
                 y2 = y2 + self.app.images.CARDH
-                if c2 is not s.cards[-1]:
-                    y1 = y1 + (self.app.images.CARDH + sy0)
-            x2 = x2 + self.app.images.CARDW
+                if c2 is s.cards[-1]: # top card
+                    x2 = x2 + self.app.images.CARDW
+                else:
+                    if sx0 > 0:
+                        # left to right
+                        x2 = x2 + sx0
+                    else:
+                        # right to left
+                        x1 = x1 + self.app.images.CARDW
+                        x2 = x2 + self.app.images.CARDW + sx0
+            elif sx0 == 0 and sy0 != 0:
+                # vertical stack
+                x2 = x2 + self.app.images.CARDW
+                if c2 is s.cards[-1]: # top card
+                    y2 = y2 + self.app.images.CARDH
+                else:
+                    if sy0 > 0:
+                        # up to down
+                        y2 = y2 + sy0
+                    else:
+                        # down to up
+                        y1 = y1 + self.app.images.CARDH
+                        y2 = y2 + self.app.images.CARDH + sy0
+            else:
+                x2 = x2 + self.app.images.CARDW
+                y2 = y2 + self.app.images.CARDH
+                tkraise = True
             ##print c1, c2, x1, y1, x2, y2
             r = MfxCanvasRectangle(self.canvas, x1-1, y1-1, x2+1, y2+1,
                                    width=4, fill=None, outline=color)
-            r.tkraise(c2.item)
+            if tkraise:
+                r.tkraise(c2.item)
             items.append(r)
         if not items:
             return 0
@@ -1469,6 +1521,7 @@ for %d moves.
             self.canvas.update_idletasks()
             return EVENT_HANDLED
         else:
+            # remove items later
             return items
 
     def highlightNotMatching(self):
@@ -1492,9 +1545,10 @@ for %d moves.
         r.delete()
         self.canvas.update_idletasks()
 
-    def highlightPiles(self, stackinfo, sleep=1.5):
+    def highlightPiles(self, sleep=1.5):
         stackinfo = self.getHighlightPilesStacks()
         if not stackinfo:
+            self.highlightNotMatching()
             return 0
         col = self.app.opt.highlight_piles_colors
         hi = []
@@ -1503,17 +1557,61 @@ for %d moves.
                 pile = s.getPile()
                 if pile and len(pile) >= si[1]:
                     hi.append((s, pile[0], pile[-1], col[1]))
+        if not hi:
+            self.highlightNotMatching()
+            return 0
         return self._highlightCards(hi, sleep)
 
+    #
+    # highlight matching cards
+    #
 
-    ### highlight matching cards
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return 0
+
+    def _shallHighlightMatch_AC(self, stack1, card1, stack2, card2):
+        # by alternate color
+        return card1.color != card2.color and abs(card1.rank-card2.rank) == 1
+
+    def _shallHighlightMatch_ACW(self, stack1, card1, stack2, card2):
+        # by alternate color with wrapping (only for france games)
+        return (card1.color != card2.color
+                and ((card1.rank + 1) % 13 == card2.rank
+                     or (card2.rank + 1) % 13 == card1.rank))
+
+    def _shallHighlightMatch_SS(self, stack1, card1, stack2, card2):
+        # by same suit
+        return card1.suit == card2.suit and abs(card1.rank-card2.rank) == 1
+
+    def _shallHighlightMatch_SSW(self, stack1, card1, stack2, card2):
+        # by same suit with wrapping (only for france games)
+        return (card1.suit == card2.suit
+                and ((card1.rank + 1) % 13 == card2.rank
+                     or (card2.rank + 1) % 13 == card1.rank))
+
+    def _shallHighlightMatch_RK(self, stack1, card1, stack2, card2):
+        # by rank
+        return abs(card1.rank-card2.rank) == 1
+
+    def _shallHighlightMatch_RKW(self, stack1, card1, stack2, card2):
+        # by rank with wrapping (only for france games)
+        return ((card1.rank + 1) % 13 == card2.rank
+                or (card2.rank + 1) % 13 == card1.rank)
+
+    #
+    # quick-play
+    #
 
     def getQuickPlayScore(self, ncards, from_stack, to_stack):
         # prefer non-empty piles in to_stack
         return (len(to_stack.cards) != 0)
 
+    def _getSpiderQuickPlayScore(self, ncards, from_stack, to_stack):
+        # for spider-type stacks
+        if to_stack.cards:
+            # check suit
+            return int(from_stack.cards[-1].suit == to_stack.cards[-1].suit)+1
+        return 0
 
     #
     # Score (I really don't like scores in Patience games...)

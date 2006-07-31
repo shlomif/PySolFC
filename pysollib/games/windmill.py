@@ -143,8 +143,7 @@ class Windmill(Game):
             elif stack in self.s.rows and self.s.waste.cards:
                 self.s.waste.moveMove(1, stack)
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank)
+    shallHighlightMatch = Game._shallHighlightMatch_RK
 
     def getHighlightPilesStacks(self):
         return ()
@@ -357,9 +356,7 @@ class Czarina(Corners):
     def _shuffleHook(self, cards):
         return cards
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return ((card1.rank + 1) % 13 == card2.rank or
-                (card2.rank + 1) % 13 == card1.rank)
+    shallHighlightMatch = Game._shallHighlightMatch_RKW
 
     def _restoreGameHook(self, game):
         self.base_card = self.cards[game.loadinfo.base_card_id]

@@ -122,9 +122,7 @@ class DerKatzenschwanz(Game):
                     i = i + 1
             self.s.talon.dealRow(rows=[self.s.rows[i]], frames=4)
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.color != card2.color and
-                (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank))
+    shallHighlightMatch = Game._shallHighlightMatch_AC
 
     # must look at cards
     def _getClosestStack(self, cx, cy, stacks, dragstack):

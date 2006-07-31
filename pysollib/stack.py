@@ -706,6 +706,14 @@ class Stack:
             iy = (iy + 1) % ly
         return (x, y)
 
+    def getOffsetFor(self, card):
+        model, view = self, self
+        if view.can_hide_cards:
+            return 0, 0
+        lx, ly = len(view.CARD_XOFFSET), len(view.CARD_YOFFSET)
+        i = list(model.cards).index(card)
+        return view.CARD_XOFFSET[i%lx], view.CARD_YOFFSET[i%ly]
+
     # Fully update the view of a stack - updates
     # hiding, card positions and stacking order.
     # Avoid calling this as it is rather slow.
@@ -895,7 +903,7 @@ class Stack:
     #
 
     def __defaultClickEventHandler(self, event, handler, start_drag=0, cancel_drag=1):
-        self.game.event_handled = True # for Game.clickHandler
+        self.game.event_handled = True # for Game.undoHandler
         if self.game.demo:
             self.game.stopDemo(event)
         self.game.interruptSleep()

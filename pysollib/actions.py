@@ -138,6 +138,7 @@ class PysolMenubarActions:
             splashscreen = BooleanVar(),
             demo_logo = BooleanVar(),
             sticky_mouse = BooleanVar(),
+            mouse_undo = BooleanVar(),
             negative_bottom = BooleanVar(),
             pause = BooleanVar(),
             toolbar_vars = {},
@@ -190,6 +191,7 @@ class PysolMenubarActions:
         tkopt.demo_logo.set(opt.demo_logo)
         tkopt.splashscreen.set(opt.splashscreen)
         tkopt.sticky_mouse.set(opt.sticky_mouse)
+        tkopt.mouse_undo.set(opt.mouse_undo)
         tkopt.negative_bottom.set(opt.negative_bottom)
         for w in TOOLBAR_BUTTONS:
             tkopt.toolbar_vars[w].set(opt.toolbar_vars[w])

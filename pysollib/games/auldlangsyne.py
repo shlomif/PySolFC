@@ -270,8 +270,7 @@ class Interregnum(Game):
     def getAutoStacks(self, event=None):
         return ((), (), self.sg.dropstacks)
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return ((card1.rank + 1) % 13 == card2.rank or (card2.rank + 1) % 13 == card1.rank)
+    shallHighlightMatch = Game._shallHighlightMatch_RKW
 
     def _restoreGameHook(self, game):
         self.base_cards = [None] * 8
@@ -488,8 +487,7 @@ class Scuffle_Talon(RedealTalonStack):
     def dealCards(self, sound=0, shuffle=True):
         if self.cards:
             return self.dealRowAvail(sound=sound)
-        RedealTalonStack.redealCards(self, frames=4,
-                                     shuffle=shuffle, sound=sound)
+        self.redealCards(frames=4, shuffle=shuffle, sound=sound)
         return self.dealRowAvail(sound=sound)
 
 

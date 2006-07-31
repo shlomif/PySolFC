@@ -92,9 +92,7 @@ class DoubleKlondike(Game):
         self.s.talon.dealRow()
         self.s.talon.dealCards()          # deal first card to WasteStack
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.color != card2.color and
-                (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank))
+    shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
 # /***********************************************************************
@@ -190,8 +188,7 @@ class LadyJane(DoubleKlondike):
         DoubleKlondike.createGame(self, rows=10, max_rounds=2, num_deal=3)
     def startGame(self):
         DoubleKlondike.startGame(self, flip=1)
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_RK
     def getQuickPlayScore(self, ncards, from_stack, to_stack):
         if to_stack.cards:
             return int(from_stack.cards[-1].suit == to_stack.cards[-1].suit)+1
@@ -205,8 +202,7 @@ class Inquisitor(DoubleKlondike):
         DoubleKlondike.createGame(self, rows=10, max_rounds=3, num_deal=3)
     def startGame(self):
         DoubleKlondike.startGame(self, flip=1)
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return card1.suit == card2.suit and abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
 # /***********************************************************************
@@ -220,8 +216,7 @@ class Arabella(DoubleKlondike):
         DoubleKlondike.createGame(self, rows=13, max_rounds=1, playcards=24)
     def startGame(self):
         DoubleKlondike.startGame(self, flip=1)
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_RK
     def getQuickPlayScore(self, ncards, from_stack, to_stack):
         if to_stack.cards:
             return int(from_stack.cards[-1].suit == to_stack.cards[-1].suit)+1
@@ -276,8 +271,7 @@ class Delivery(BigDeal):
         dx = self.app.images.CARDW/10
         BigDeal.createGame(self, rows=12, max_rounds=1, XOFFSET=dx)
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return card1.suit == card2.suit and abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_SS
 
     def startGame(self):
         for i in range(2):

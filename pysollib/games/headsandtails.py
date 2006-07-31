@@ -129,8 +129,7 @@ class HeadsAndTails(Game):
             #stack.flipMove()
             self.leaveState(old_state)
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return card1.suit == card2.suit and abs(card1.rank - card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
 # register the game

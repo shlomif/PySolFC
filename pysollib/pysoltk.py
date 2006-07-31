@@ -32,6 +32,7 @@ from tk.soundoptionsdialog import *
 from tk.timeoutsdialog import *
 from tk.colorsdialog import *
 from tk.fontsdialog import *
+from tk.findcarddialog import *
 from tk.gameinfodialog import *
 from tk.toolbar import *
 from tk.statusbar import *

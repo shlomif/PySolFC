@@ -118,9 +118,7 @@ class FreeCell(Game):
         ##self.s.talon.dealRow(rows=(r[0], r[2], r[4], r[6]))
         self.s.talon.dealRow(rows=r[:4])
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.color != card2.color and
-                (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank))
+    shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
 # /***********************************************************************
@@ -539,8 +537,7 @@ class OceanTowers(TripleFreecell):
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.reserves[1:-1])
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return card1.suit == card2.suit and abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
 # /***********************************************************************

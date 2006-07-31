@@ -169,3 +169,9 @@ def helpHTML(app, document, dir_, top=None):
     help_html_viewer = viewer
     return viewer
 
+def destroy_help():
+    try:
+        help_html_viewer.destroy()
+    except:
+        pass
+

@@ -80,8 +80,7 @@ class CastlesInSpain(Game):
         self.startDealSample()
         self.s.talon.dealRow()
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return card1.color != card2.color and abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
 # /***********************************************************************
@@ -139,8 +138,7 @@ class BakersDozen(CastlesInSpain):
     def startGame(self):
         CastlesInSpain.startGame(self, flip=(1, 1, 1))
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank)
+    shallHighlightMatch = Game._shallHighlightMatch_RK
 
 
 # /***********************************************************************
@@ -150,8 +148,7 @@ class BakersDozen(CastlesInSpain):
 class SpanishPatience(BakersDozen):
     Foundation_Class = AC_FoundationStack
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return card1.color != card2.color and abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
 # /***********************************************************************
@@ -252,8 +249,8 @@ class Cruel(CastlesInSpain):
         CastlesInSpain.startGame(self, flip=(1, 1, 1))
         self.s.talon.dealRow(rows=self.s.foundations)
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return card1.suit == card2.suit and abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_SS
+
 
 # /***********************************************************************
 # // Royal Family
@@ -269,8 +266,7 @@ class RoyalFamily(Cruel):
         # move Kings to bottom of the Talon (i.e. last cards to be dealt)
         return self._shuffleHookMoveToBottom(cards, lambda c: (c.rank == KING, c.suit))
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return card1.color != card2.color and abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
 class Indefatigable(Cruel):
@@ -282,8 +278,7 @@ class Indefatigable(Cruel):
         # move Aces to bottom of the Talon (i.e. last cards to be dealt)
         return self._shuffleHookMoveToBottom(cards, lambda c: (c.rank == ACE, c.suit))
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return card1.suit == card2.suit and abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
 # /***********************************************************************
@@ -328,8 +323,7 @@ class RippleFan(CastlesInSpain):
     def startGame(self):
         CastlesInSpain.startGame(self, flip=(1, 1, 1))
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return card1.suit == card2.suit and abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
 # register the game

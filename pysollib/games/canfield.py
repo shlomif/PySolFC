@@ -212,9 +212,7 @@ class Canfield(Game):
             if stack.canFlipCard():
                 stack.flipMove()
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.color != card2.color and
-                ((card1.rank + 1) % 13 == card2.rank or (card2.rank + 1) % 13 == card1.rank))
+    shallHighlightMatch = Game._shallHighlightMatch_ACW
 
     def _restoreGameHook(self, game):
         self.base_card = self.cards[game.loadinfo.base_card_id]
@@ -277,9 +275,7 @@ class Storehouse(Canfield):
         self.s.talon.dealRow(rows=self.s.foundations[:3])
         Canfield.startGame(self)
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.suit == card2.suit and
-                ((card1.rank + 1) % 13 == card2.rank or (card2.rank + 1) % 13 == card1.rank))
+    shallHighlightMatch = Game._shallHighlightMatch_SSW
 
     def updateText(self):
         pass
@@ -297,8 +293,7 @@ class Chameleon(Canfield):
     def createGame(self):
         Canfield.createGame(self, rows=3, max_rounds=1, num_deal=1)
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return ((card1.rank + 1) % 13 == card2.rank or (card2.rank + 1) % 13 == card1.rank)
+    shallHighlightMatch = Game._shallHighlightMatch_RKW
 
 
 # /***********************************************************************
@@ -345,9 +340,7 @@ class VariegatedCanfield(Canfield):
         self.s.talon.dealRow(rows=self.s.foundations[:7])
         Canfield.startGame(self)
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.color != card2.color and
-                ((card1.rank + 1) == card2.rank or (card2.rank + 1) == card1.rank))
+    shallHighlightMatch = Game._shallHighlightMatch_AC
 
     def updateText(self):
         pass
@@ -471,9 +464,7 @@ class Gate(Game):
             if from_stack:
                 from_stack.moveMove(1, stack)
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.color != card2.color and
-                abs(card1.rank-card2.rank) == 1)
+    shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
 class LittleGate(Gate):
@@ -544,8 +535,7 @@ class Doorway(LittleGate):
     def fillStack(self, stack):
         pass
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_RK
 
 
 # /***********************************************************************
@@ -574,8 +564,7 @@ class Minerva(Canfield):
         self.flipMove(self.s.reserves[0])
         self.s.talon.dealCards()
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return card1.color != card2.color and abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_AC
 
     def _restoreGameHook(self, game):
         pass
@@ -631,9 +620,7 @@ class Acme(Canfield):
         self.s.talon.dealRow(reverse=1)
         self.s.talon.dealCards()
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.suit == card2.suit and
-                abs(card1.rank-card2.rank) == 1)
+    shallHighlightMatch = Game._shallHighlightMatch_SS
 
     def updateText(self):
         pass
@@ -703,9 +690,7 @@ class Duke(Game):
         self.s.talon.dealCards()
 
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.color != card2.color and
-                abs(card1.rank-card2.rank) == 1)
+    shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
 # /***********************************************************************

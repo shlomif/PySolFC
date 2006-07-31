@@ -68,7 +68,8 @@ from pysoltk import PysolStatusbar, HelpStatusbar
 from pysoltk import SelectCardsetByTypeDialogWithPreview
 from pysoltk import SelectDialogTreeData
 from pysoltk import TOOLBAR_BUTTONS
-from help import helpAbout
+from pysoltk import destroy_find_card_dialog
+from help import helpAbout, destroy_help
 
 gettext = _
 
@@ -171,7 +172,7 @@ class Options:
         self.highlight_samerank_colors = (None, "#ffc000", None, "#0000ff")
         self.hintarrow_color = "#303030"
         self.highlight_not_matching_color = '#ff0000'
-        self.table_text_color = 0
+        self.table_text_color = False  # `False' is mean use default
         self.table_text_color_value = '#ffffff'
         # delays
         self.hint_sleep = 1.0
@@ -194,6 +195,7 @@ class Options:
         #
         self.splashscreen = True
         self.sticky_mouse = False
+        self.mouse_undo = False    # use mouse for undo/redo
         self.negative_bottom = False
         self.randomize_place = False
         self.cache_carsets = True
@@ -689,6 +691,9 @@ class Application:
         finally:
             # hide main window
             self.wm_withdraw()
+            #
+            destroy_find_card_dialog()
+            destroy_help()
             # update options
             self.opt.last_gameid = id
             # save options

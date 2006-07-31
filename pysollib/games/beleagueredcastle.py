@@ -126,8 +126,7 @@ class StreetsAndAlleys(Game):
         for i in range(3):
             self.s.talon.dealRowAvail()
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return abs(card1.rank - card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_RK
 
 
 # /***********************************************************************
@@ -226,10 +225,8 @@ class Fortress(Game):
         for i in range(3):
             self.s.talon.dealRowAvail()
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.suit == card2.suit and
-                ((card1.rank + 1) % 13 == card2.rank or
-                 (card2.rank + 1) % 13 == card1.rank))
+    shallHighlightMatch = Game._shallHighlightMatch_SSW
+
 
 # /***********************************************************************
 # // Bastion
@@ -436,8 +433,7 @@ class Zerline(Game):
         self.s.talon.dealRow()
         self.s.talon.dealCards()
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return abs(card1.rank - card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_RK
 
     def getQuickPlayScore(self, ncards, from_stack, to_stack):
         return int(to_stack in self.s.rows)
@@ -559,8 +555,7 @@ class CastleOfIndolence(Game):
         self.s.talon.dealRow()
         self.s.talon.dealRowAvail()
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return abs(card1.rank - card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_RK
 
 
 # /***********************************************************************
@@ -637,8 +632,7 @@ class Rittenhouse(Game):
     def fillStack(self, stack):
         self.fillAll()
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return abs(card1.rank - card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_RK
 
 
 # /***********************************************************************
@@ -688,9 +682,7 @@ class CastleMount(Lightweight):
     DEAL = (11, 1)
     RowStack_Class = Spider_SS_RowStack
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return ((card1.rank + 1) % stack1.cap.mod == card2.rank or
-                (card2.rank + 1) % stack1.cap.mod == card1.rank)
+    shallHighlightMatch = Game._shallHighlightMatch_RK
 
     def getQuickPlayScore(self, ncards, from_stack, to_stack):
         if to_stack.cards:

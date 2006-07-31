@@ -491,12 +491,13 @@ class Matrimony(Game):
 
 
 # /***********************************************************************
+# // Picture Patience
 # // Patriarchs
 # ************************************************************************/
 
-class Patriarchs(Game):
+class PicturePatience(Game):
 
-    def createGame(self, max_rounds=2):
+    def createGame(self, max_rounds=1):
 
         l, s = Layout(self), self.s
         self.setSize(3*l.XM+5*l.XS, l.YM+4*l.YS)
@@ -528,14 +529,7 @@ class Patriarchs(Game):
         l.defaultStackGroups()
 
 
-    def _shuffleHook(self, cards):
-        return self._shuffleHookMoveToTop(cards,
-                   lambda c: (c.rank in (ACE, KING) and c.deck == 0,
-                              (c.rank, c.suit)))
-
-
     def startGame(self):
-        self.s.talon.dealRow(rows=self.s.foundations, frames=0)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealCards()
@@ -547,6 +541,22 @@ class Patriarchs(Game):
                 self.s.talon.dealCards()
             if self.s.waste.cards:
                 self.s.waste.moveMove(1, stack)
+
+
+class Patriarchs(PicturePatience):
+    def createGame(self):
+        PicturePatience.createGame(self, max_rounds=2)
+
+    def _shuffleHook(self, cards):
+        return self._shuffleHookMoveToTop(cards,
+                   lambda c: (c.rank in (ACE, KING) and c.deck == 0,
+                              (c.rank, c.suit)))
+
+    def startGame(self):
+        self.s.talon.dealRow(rows=self.s.foundations, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
 
 
 # /***********************************************************************
@@ -602,10 +612,7 @@ class Simplicity(Game):
         self.s.talon.dealCards()
 
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.color != card2.color and
-                ((card1.rank + 1) % 13 == card2.rank or
-                 (card2.rank + 1) % 13 == card1.rank))
+    shallHighlightMatch = Game._shallHighlightMatch_ACW
 
 
     def _restoreGameHook(self, game):
@@ -727,8 +734,7 @@ class CornerSuite(Game):
         self.startDealSample()
         self.s.talon.dealCards()
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_RK
 
 
 # /***********************************************************************
@@ -785,9 +791,7 @@ class Marshal(Game):
                 self.moveMove(1, self.s.talon, stack)
                 self.leaveState(old_state)
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.suit == card2.suit and
-                (abs(card1.rank-card2.rank) == 1))
+    shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
 # /***********************************************************************
@@ -855,9 +859,7 @@ class RoyalAids(Game):
         self.s.talon.dealCards()
 
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.color != card2.color and
-                (abs(card1.rank-card2.rank) == 1))
+    shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
 # register the game
@@ -892,3 +894,5 @@ registerGame(GameInfo(559, Marshal, "Marshal",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(565, RoyalAids, "Royal Aids",
                       GI.GT_2DECK_TYPE, 2, UNLIMITED_REDEALS, GI.SL_BALANCED))
+registerGame(GameInfo(598, PicturePatience, "Picture Patience",
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_LUCK))

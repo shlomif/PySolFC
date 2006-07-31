@@ -82,9 +82,7 @@ class Gypsy(Game):
         self.startDealSample()
         self.s.talon.dealRow()
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.color != card2.color and
-                (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank))
+    shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
 # /***********************************************************************
@@ -327,8 +325,7 @@ class Steve(Carlton):
     Hint_Class = Spider_Hint
     RowStack_Class = Spider_SS_RowStack
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_RK
 
     def getQuickPlayScore(self, ncards, from_stack, to_stack):
         if to_stack.cards:
@@ -389,9 +386,7 @@ class Blockade(Gypsy):
             self.s.talon.moveMove(1, stack)
             self.leaveState(old_state)
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.suit == card2.suit and
-                abs(card1.rank-card2.rank) == 1)
+    shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
 class PhantomBlockade(Gypsy):
@@ -709,8 +704,7 @@ class Eclipse(Gypsy):
         self.startDealSample()
         self.s.talon.dealRow()
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.suit == card2.suit and abs(card1.rank-card2.rank) == 1)
+    shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
 # register the game

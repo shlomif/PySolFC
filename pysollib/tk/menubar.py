@@ -320,7 +320,7 @@ class PysolMenubar(PysolMenubarActions):
         menu.add_command(label=n_("&Demo"), command=self.mDemo, accelerator=m+"D")
         menu.add_command(label=n_("Demo (&all games)"), command=self.mMixedDemo)
         menu.add_separator()
-        menu.add_command(label=n_("Show descriptions od piles"), command=self.mStackDesk, accelerator="F2")
+        menu.add_command(label=n_("Piles description"), command=self.mStackDesk, accelerator="F2")
         menu = MfxMenu(self.__menubar, label=n_("&Options"))
         menu.add_command(label=n_("&Player options..."), command=self.mOptPlayerOptions)
         submenu = MfxMenu(menu, label=n_("&Automatic play"))
@@ -365,6 +365,7 @@ class PysolMenubar(PysolMenubarActions):
         submenu.add_radiobutton(label=n_("&Slow"), variable=self.tkopt.animations, value=3, command=self.mOptAnimations)
         submenu.add_radiobutton(label=n_("&Very slow"), variable=self.tkopt.animations, value=4, command=self.mOptAnimations)
         menu.add_checkbutton(label=n_("Stick&y mouse"), variable=self.tkopt.sticky_mouse, command=self.mOptStickyMouse)
+        menu.add_checkbutton(label=n_("Use mouse for undo/redo"), variable=self.tkopt.mouse_undo, command=self.mOptMouseUndo)
         menu.add_separator()
         menu.add_command(label=n_("&Fonts..."), command=self.mOptFontsOptions)
         menu.add_command(label=n_("&Colors..."), command=self.mOptColorsOptions)
@@ -408,6 +409,7 @@ class PysolMenubar(PysolMenubarActions):
         self._bindKey(ctrl, "q", self.mQuit)
         self._bindKey("",   "z", self.mUndo)
         self._bindKey("",   "BackSpace", self.mUndo)    # undocumented
+        self._bindKey("",   "KP_Enter", self.mUndo)     # undocumented
         self._bindKey("",   "r", self.mRedo)
         self._bindKey(ctrl, "g", self.mRestart)
         self._bindKey("",   "space", self.mDeal)        # undocumented
@@ -1003,6 +1005,10 @@ class PysolMenubar(PysolMenubarActions):
     def mOptStickyMouse(self, *event):
         if self._cancelDrag(break_pause=False): return
         self.app.opt.sticky_mouse = self.tkopt.sticky_mouse.get()
+
+    def mOptMouseUndo(self, *event):
+        if self._cancelDrag(break_pause=False): return
+        self.app.opt.mouse_undo = self.tkopt.mouse_undo.get()
 
     def mOptNegativeBottom(self, *event):
         if self._cancelDrag(): return

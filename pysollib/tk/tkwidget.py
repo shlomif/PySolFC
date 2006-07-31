@@ -39,13 +39,11 @@ __all__ = ['MfxMessageDialog',
            'MfxTooltip',
            'MfxScrolledCanvas',
            'StackDesc',
-           'create_find_card_dialog',
-           'connect_game_find_card_dialog',
-           'destroy_find_card_dialog',
            ]
 
 # imports
-import os, sys, time, types, Tkinter
+import os, sys, time, types
+import Tkinter
 import traceback
 
 # PySol imports
@@ -53,12 +51,11 @@ from pysollib.mfxutil import destruct, kwdefault, KwStruct
 from pysollib.mfxutil import win32api
 
 # Toolkit imports
-from tkconst import tkversion
 from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
 from tkutil import after, after_idle, after_cancel
-from tkutil import bind, unbind_destroy, makeImage
+from tkutil import bind, unbind_destroy
 from tkutil import makeToplevel, setTransient
-from tkcanvas import MfxCanvas, MfxCanvasGroup, MfxCanvasImage, MfxCanvasRectangle
+from tkcanvas import MfxCanvas
 
 
 # /***********************************************************************
@@ -718,140 +715,4 @@ class StackDesc:
             self.canvas.delete(self.id)
             for b in self.bindings:
                 self.label.unbind('<ButtonPress>', b)
-
-
-# /***********************************************************************
-# //
-# ************************************************************************/
-
-class FindCardDialog(Tkinter.Toplevel):
-    SUIT_IMAGES = {} # key: (suit, color)
-    RANK_IMAGES = {} # key: (rank, color)
-
-    def __init__(self, parent, game, dir, title='Find card'):
-        Tkinter.Toplevel.__init__(self)
-        self.title(title)
-        self.wm_resizable(0, 0)
-        #
-        self.images_dir = dir
-        self.label_width, self.label_height = 38, 34
-        self.canvas = MfxCanvas(self, bg='white')
-        self.canvas.pack(expand=True, fill='both')
-        #
-        self.groups = []
-        self.highlight_items = None
-        self.connectGame(game)
-        #
-        bind(self, "WM_DELETE_WINDOW", self.destroy)
-        bind(self, "<Escape>", self.destroy)
-
-    def createCardLabel(self, suit, rank, x0, y0):
-        dx, dy = self.label_width, self.label_height
-        dir = self.images_dir
-        canvas = self.canvas
-        group = MfxCanvasGroup(canvas)
-        s = 'cshd'[suit]
-        if suit >= 2: c = 'red'
-        else:         c = 'black'
-        rect_width = 4
-        x1, y1 = x0+dx-rect_width, y0+dy-rect_width
-        rect = MfxCanvasRectangle(self.canvas, x0, y0, x1, y1,
-                                  width=rect_width,
-                                  fill='white', outline='white')
-        rect.addtag(group)
-        #
-        fn = os.path.join(dir, c+'-'+str(rank)+'.gif')
-        rim = FindCardDialog.RANK_IMAGES.get((rank, c))
-        if not rim:
-            rim = makeImage(file=fn)
-            FindCardDialog.RANK_IMAGES[(rank, c)] = rim
-        fn = os.path.join(dir, s+'.gif')
-        sim = FindCardDialog.SUIT_IMAGES.get((suit, c))
-        if not sim:
-            sim = makeImage(file=fn)
-            FindCardDialog.SUIT_IMAGES[(suit, c)] = sim
-        #
-        x0 = x0+(dx-rim.width()-sim.width())/2
-        x0, y0 = x0-1, y0-2
-        x, y = x0, y0+(dy-rim.height())/2
-        im = MfxCanvasImage(canvas, x, y, image=rim, anchor='nw')
-        im.addtag(group)
-        x, y = x0+rim.width(), y0+(dy-sim.height())/2
-        im = MfxCanvasImage(canvas, x, y, image=sim, anchor='nw')
-        im.addtag(group)
-        bind(group, '<Enter>',
-             lambda e, suit=suit, rank=rank, rect=rect:
-                 self.enterEvent(suit, rank, rect))
-        bind(group, '<Leave>',
-             lambda e, suit=suit, rank=rank, rect=rect:
-                 self.leaveEvent(suit, rank, rect))
-        self.groups.append(group)
-
-    def connectGame(self, game):
-        self.game = game
-        suits = game.gameinfo.suits
-        ranks = game.gameinfo.ranks
-        dx, dy = self.label_width, self.label_height
-        i = 0
-        for suit in suits:
-            j = 0
-            for rank in ranks:
-                x, y = dx*j+2, dy*i+2
-                self.createCardLabel(suit=suit, rank=rank, x0=x, y0=y)
-                j += 1
-            i += 1
-        w, h = dx*j, dy*i
-        self.canvas.config(width=w, height=h)
-
-    def enterEvent(self, suit, rank, rect):
-        #print 'enterEvent', suit, rank
-        self.last_card = (suit, rank)
-        self.highlight_items = self.game.highlightCard(suit, rank)
-        if not self.highlight_items:
-            self.highlight_items = []
-        rect.config(outline='red')
-
-    def leaveEvent(self, suit, rank, rect):
-        #print 'leaveEvent', suit, rank
-        if self.highlight_items:
-            for i in self.highlight_items:
-                i.delete()
-        rect.config(outline='white')
-        #self.game.canvas.update_idletasks()
-        #self.canvas.update_idletasks()
-        self.last_card = None
-
-    def destroy(self, *args):
-        for l in self.groups:
-            unbind_destroy(l)
-        unbind_destroy(self)
-        self.wm_withdraw()
-        Tkinter.Toplevel.destroy(self)
-
-
-
-find_card_dialog = None
-
-def create_find_card_dialog(parent, game, dir):
-    global find_card_dialog
-    try:
-        find_card_dialog.tkraise()
-    except:
-        ##traceback.print_exc()
-        find_card_dialog = FindCardDialog(parent, game, dir)
-
-def connect_game_find_card_dialog(game):
-    try:
-        find_card_dialog.connectGame(game)
-    except:
-        pass
-
-def destroy_find_card_dialog():
-    global find_card_dialog
-    try:
-        find_card_dialog.destroy()
-    except:
-        ##traceback.print_exc()
-        pass
-    find_card_dialog = None
 

@@ -337,7 +337,6 @@ class Thirteen(Pyramid):
 
 class Thirteens(Pyramid):
 
-
     def createGame(self):
         # create layout
         l, s = Layout(self), self.s
@@ -376,6 +375,225 @@ class Thirteens(Pyramid):
                 self.s.talon.moveMove(1, stack)
                 self.leaveState(old_state)
 
+# /***********************************************************************
+# // Elevens
+# // Suit Elevens
+# ************************************************************************/
+
+class Elevens_RowStack(Giza_Reserve):
+    ACCEPTED_SUM = 9
+
+    def acceptsCards(self, from_stack, cards):
+        #if self.basicIsBlocked():
+        #    return 0
+        if from_stack is self or not self.cards or len(cards) != 1:
+            return False
+        c = self.cards[-1]
+        return (c.face_up and cards[0].face_up
+                and cards[0].rank + c.rank == self.ACCEPTED_SUM)
+
+    def clickHandler(self, event):
+        return OpenStack.clickHandler(self, event)
+
+    def moveMove(self, ncards, to_stack, frames=-1, shadow=-1):
+        if to_stack in self.game.s.rows:
+            self._dropPairMove(ncards, to_stack, frames=-1, shadow=shadow)
+        else:
+            self.game.moveMove(ncards, self, to_stack,
+                               frames=frames, shadow=shadow)
+            self.fillStack()
+
+
+class Elevens_Reserve(ReserveStack):
+    ACCEPTED_CARDS = (JACK, QUEEN, KING)
+
+    def acceptsCards(self, from_stack, cards):
+        if not ReserveStack.acceptsCards(self, from_stack, cards):
+            return False
+        c = cards[0]
+        if not c.rank in self.ACCEPTED_CARDS:
+            return False
+        for s in self.game.s.reserves:
+            if s.cards and s.cards[0].rank == c.rank:
+                return False
+        return True
+
+
+class Elevens(Pyramid):
+
+    RowStack_Class = Elevens_RowStack
+    Reserve_Class = Elevens_Reserve
+
+    def createGame(self, rows=3, cols=3, reserves=3, texts=False):
+
+        l, s = Layout(self), self.s
+
+        self.setSize(l.XM+(cols+2)*l.XS, l.YM+(rows+1.5)*l.YS)
+
+        x, y = self.width-l.XS, l.YM
+        s.talon = TalonStack(x, y, self)
+        l.createText(s.talon, 's')
+        x, y = self.width-l.XS, self.height-l.YS
+        s.foundations.append(AbstractFoundationStack(x, y, self,
+                             suit=ANY_SUIT, max_accept=0,
+                             max_move=0, max_cards=52))
+        y = l.YM
+        for i in range(rows):
+            x = l.XM
+            for j in range(cols):
+                s.rows.append(self.RowStack_Class(x, y, self, max_accept=1))
+                x += l.XS
+            y += l.YS
+        x, y = l.XM, self.height-l.YS
+        for i in range(reserves):
+            stack = self.Reserve_Class(x, y, self)
+            s.reserves.append(stack)
+            stack.CARD_XOFFSET = l.XOFFSET # for fifteens
+            x += l.XS
+
+        if texts:
+            stack = s.reserves[0]
+            tx, ty, ta, tf = l.getTextAttr(stack, "n")
+            font = self.app.getFont("canvas_default")
+            stack.texts.misc = MfxCanvasText(self.canvas, tx, ty,
+                                             anchor=ta, font=font)
+
+        l.defaultStackGroups()
+
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+
+    def fillStack(self, stack):
+        old_state = self.enterState(self.S_FILL)
+        if stack in self.s.rows:
+            if not stack.cards and self.s.talon.cards:
+                self.s.talon.flipMove()
+                self.s.talon.moveMove(1, stack)
+        reserves_ncards = 0
+        for s in self.s.reserves:
+            if s.cards:
+                reserves_ncards += 1
+        if reserves_ncards == len(self.s.reserves):
+            if not self.demo:
+                self.playSample("droppair", priority=200)
+            for s in self.s.reserves:
+                s.moveMove(1, self.s.foundations[0], frames=4)
+        self.leaveState(old_state)
+
+
+class ElevensToo(Elevens):
+
+    def fillStack(self, stack):
+        old_state = self.enterState(self.S_FILL)
+        reserves_ncards = 0
+        for s in self.s.reserves:
+            if s.cards:
+                reserves_ncards += 1
+        if reserves_ncards == 0:
+            for r in self.s.rows:
+                if not r.cards and self.s.talon.cards:
+                    self.s.talon.flipMove()
+                    self.s.talon.moveMove(1, r)
+        elif reserves_ncards == len(self.s.reserves):
+            if not self.demo:
+                self.playSample("droppair", priority=200)
+            for s in self.s.reserves:
+                s.moveMove(1, self.s.foundations[0], frames=4)
+            self.fillStack(stack)
+        self.leaveState(old_state)
+
+
+class SuitElevens_RowStack(Elevens_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not Elevens_RowStack.acceptsCards(self, from_stack, cards):
+            return False
+        return cards[0].suit == self.cards[0].suit
+
+class SuitElevens_Reserve(Elevens_Reserve):
+    def acceptsCards(self, from_stack, cards):
+        if not Elevens_Reserve.acceptsCards(self, from_stack, cards):
+            return False
+        for r in self.game.s.reserves:
+            if r.cards and r.cards[0].suit != cards[0].suit:
+                return False
+        return True
+
+class SuitElevens(Elevens):
+    RowStack_Class = SuitElevens_RowStack
+    Reserve_Class = SuitElevens_Reserve
+    def createGame(self):
+        Elevens.createGame(self, rows=3, cols=5)
+
+
+# /***********************************************************************
+# // Fifteens
+# ************************************************************************/
+
+class Fifteens_RowStack(Elevens_RowStack):
+    ACCEPTED_SUM = 13
+    def acceptsCards(self, from_stack, cards):
+        if not Elevens_RowStack.acceptsCards(self, from_stack, cards):
+            return False
+        return cards[0].rank < 9 and self.cards[0] < 9
+
+
+class Fifteens_Reserve(ReserveStack):
+    def updateText(self):
+        if self.game.preview > 1 or self.texts.misc is None:
+            return
+        t = ''
+        if self.cards:
+            ranks = [c.rank for c in self.cards]
+            for r in (9, JACK, QUEEN, KING):
+                if r in ranks:
+                    break
+            else:
+                n = sum([i+1 for i in ranks])
+                t = str(n)
+        self.texts.misc.config(text=t)
+
+
+class Fifteens(Elevens):
+    Hint_Class = None
+
+    RowStack_Class = Fifteens_RowStack
+    Reserve_Class = StackWrapper(Fifteens_Reserve, max_cards=UNLIMITED_CARDS)
+
+    def createGame(self):
+        Elevens.createGame(self, rows=4, cols=4, reserves=1, texts=True)
+
+    def _dropReserve(self):
+        reserve = self.s.reserves[0]
+        if not self.demo:
+            self.playSample("droppair", priority=200)
+        while reserve.cards:
+            reserve.moveMove(1, self.s.foundations[0], frames=4)
+        self.fillStack()
+
+    def fillStack(self, stack=None):
+        old_state = self.enterState(self.S_FILL)
+        reserve = self.s.reserves[0]
+        if len(reserve.cards) == 0:
+            for r in self.s.rows:
+                if not r.cards and self.s.talon.cards:
+                    self.s.talon.flipMove()
+                    self.s.talon.moveMove(1, r)
+        else:
+            reserve_ranks = [c.rank for c in reserve.cards]
+            reserve_ranks.sort()
+            if (9 in reserve_ranks or JACK in reserve_ranks
+                or QUEEN in reserve_ranks or KING in reserve_ranks):
+                if reserve_ranks == [9, JACK, QUEEN, KING]:
+                    self._dropReserve()
+            else:
+                reserve_sum = sum([c.rank+1 for c in reserve.cards])
+                if reserve_sum == 15:
+                    self._dropReserve()
+        self.leaveState(old_state)
+
 
 
 # register the game
@@ -389,6 +607,14 @@ registerGame(GameInfo(592, Giza, "Giza",
                       GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(593, Thirteens, "Thirteens",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_LUCK))
+registerGame(GameInfo(594, Elevens, "Elevens",
+                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_LUCK))
+registerGame(GameInfo(595, ElevensToo, "Elevens Too",
+                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_LUCK))
+registerGame(GameInfo(596, SuitElevens, "Suit Elevens",
+                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_LUCK))
+registerGame(GameInfo(597, Fifteens, "Fifteens",
+                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 
 
 

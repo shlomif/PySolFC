@@ -94,8 +94,7 @@ class Needle(Game):
             self.s.talon.dealRow(rows=self.s.rows[:i])
             self.s.talon.dealRow(rows=self.s.rows[-i:])
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return card1.color != card2.color and abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_AC
 
     def getQuickPlayScore(self, ncards, from_stack, to_stack):
         if to_stack in self.s.reserves:

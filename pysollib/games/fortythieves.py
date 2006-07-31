@@ -152,9 +152,7 @@ class FortyThieves(Game):
                 self.s.waste.moveMove(1, stack)
             self.leaveState(old_state)
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.suit == card2.suit and
-                (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank))
+    shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
 # /***********************************************************************
@@ -358,8 +356,7 @@ class LittleForty(FortyThieves):
 class Streets(FortyThieves):
     RowStack_Class = AC_RowStack
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return card1.color != card2.color and abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
 class Maria(Streets):
@@ -458,8 +455,9 @@ class Indian(FortyThieves):
         FortyThieves.createGame(self, XCARDS=74)
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.suit != card2.suit and
-                (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank))
+        return (card1.suit != card2.suit
+                and (card1.rank + 1 == card2.rank
+                     or card2.rank + 1 == card1.rank))
 
 
 class Midshipman(Indian):
@@ -487,8 +485,7 @@ class NapoleonsExile(FortyThieves):
 
     DEAL = (0, 4)
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank
+    shallHighlightMatch = Game._shallHighlightMatch_RK
 
 
 class DoubleRail(NapoleonsExile):
@@ -600,8 +597,7 @@ class Octave(Game):
                 return False
         return not self.s.waste.cards
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return card1.color != card2.color and abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_AC
 
     def _autoDeal(self, sound=1):
         ncards = len(self.s.waste.cards) + sum([len(i.cards) for i in self.s.reserves])
@@ -667,8 +663,7 @@ class FortunesFavor(Game):
                 self.s.waste.moveMove(1, stack)
 
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return card1.suit == card2.suit and abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
 # /***********************************************************************
@@ -731,8 +726,7 @@ class Octagon(Game):
             if self.s.waste.cards:
                 self.s.waste.moveMove(1, stack)
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return card1.suit == card2.suit and abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
 # /***********************************************************************
@@ -850,8 +844,7 @@ class Junction(Game):
         self.s.talon.dealCards()
 
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return card1.color != card2.color and abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
 # /***********************************************************************
@@ -930,8 +923,7 @@ class TheSpark(Game):
         self.s.talon.dealCards()          # deal first card to WasteStack
 
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return card1.suit == card2.suit and abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
 # /***********************************************************************
@@ -988,8 +980,7 @@ class Unlimited(Interchange):
 
 class Breakwater(Interchange):
     RowStack_Class = RK_RowStack
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_RK
 
 
 class FortyNine_RowStack(AC_RowStack):
@@ -1011,8 +1002,7 @@ class FortyNine(Interchange):
         self.s.talon.dealRow()
         self.s.talon.dealCards()
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return card1.color != card2.color and abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
 # /***********************************************************************

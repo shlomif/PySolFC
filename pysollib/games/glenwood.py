@@ -158,10 +158,7 @@ class Glenwood(Game):
             t = RANKS[self.base_rank]
         self.texts.info.config(text=t)
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.color != card2.color
-                and ((card1.rank + 1) % 13 == card2.rank
-                     or (card2.rank + 1) % 13 == card1.rank))
+    shallHighlightMatch = Game._shallHighlightMatch_ACW
 
     def _restoreGameHook(self, game):
         self.base_rank = game.loadinfo.base_rank
@@ -323,10 +320,7 @@ class DoubleFives(Glenwood):
             return self.dealCards(sound=sound)
         return 0
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.suit == card2.suit
-                and ((card1.rank + 1) % 13 == card2.rank
-                     or (card2.rank + 1) % 13 == card1.rank))
+    shallHighlightMatch = Game._shallHighlightMatch_SSW
 
 
 

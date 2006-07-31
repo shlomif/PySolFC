@@ -86,9 +86,7 @@ class Klondike(Game):
         if self.s.waste:
             self.s.talon.dealCards()      # deal first card to WasteStack
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.color != card2.color and
-                (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank))
+    shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
 # /***********************************************************************
@@ -150,8 +148,9 @@ class ThumbAndPouch(Klondike):
         Klondike.createGame(self, max_rounds=1)
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.suit != card2.suit and
-                (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank))
+        return (card1.suit != card2.suit
+                and (card1.rank + 1 == card2.rank
+                     or card2.rank + 1 == card1.rank))
 
 
 # /***********************************************************************
@@ -172,9 +171,7 @@ class Whitehead(Klondike):
     def startGame(self):
         Klondike.startGame(self, flip=1)
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.suit == card2.suit and
-                (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank))
+    shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
 # /***********************************************************************
@@ -537,8 +534,7 @@ class Brigade(Raglan):
         self.s.talon.dealRow(rows=self.s.reserves)
         self.s.talon.dealRow(rows=self.s.foundations)
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank)
+    shallHighlightMatch = Game._shallHighlightMatch_RK
 
 
 # /***********************************************************************
@@ -619,10 +615,7 @@ class Jane(Klondike):
             s.cap.update(cap.__dict__)
             self.saveinfo.stack_caps.append((s.id, cap))
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.suit == card2.suit and
-                ((card1.rank + 1) % 13 == card2.rank or
-                 (card2.rank + 1) % 13 == card1.rank))
+    shallHighlightMatch = Game._shallHighlightMatch_SSW
 
     def _autoDeal(self, sound=1):
         return 0
@@ -817,8 +810,7 @@ class ThirtySix(Klondike):
                     break
         self.s.talon.dealCards()          # deal first card to WasteStack
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_RK
 
 
 # /***********************************************************************
@@ -869,8 +861,7 @@ class Q_C_(Klondike):
                 self.s.waste.moveMove(1, stack)
         self.fillAll()
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return card1.suit == card2.suit and abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
 # /***********************************************************************
@@ -1030,8 +1021,7 @@ class BigForty(Klondike):
         self.s.talon.dealRow()
         self.s.talon.dealCards()
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return card1.suit == card2.suit and abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
 class AliBaba(BigForty):
@@ -1143,8 +1133,7 @@ class LuckyThirteen(Klondike):
         self.startDealSample()
         self.s.talon.dealRow()
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return card1.suit == card2.suit and abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
 class LuckyPiles(LuckyThirteen):

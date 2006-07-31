@@ -323,9 +323,7 @@ class GermanPatience(Game):
         return True
 
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return ((card1.rank + 1) % 13 == card2.rank or
-                (card2.rank + 1) % 13 == card1.rank)
+    shallHighlightMatch = Game._shallHighlightMatch_RKW
 
 
 class BavarianPatience(GermanPatience):
@@ -384,8 +382,7 @@ class TrustyTwelve(Game):
     def isGameWon(self):
         return len(self.s.talon.cards) == 0
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_RK
 
 
 class KnottyNines(TrustyTwelve):
@@ -410,8 +407,7 @@ class SweetSixteen(TrustyTwelve):
             y += l.YS+10*l.YOFFSET
         l.defaultStackGroups()
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return card1.color != card2.color and abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
 

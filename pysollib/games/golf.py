@@ -174,8 +174,7 @@ class Golf(Game):
                 return 0
         return 1
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank)
+    shallHighlightMatch = Game._shallHighlightMatch_RK
 
     def getHighlightPilesStacks(self):
         return ()
@@ -206,8 +205,7 @@ class DeadKingGolf(Golf):
 class RelaxedGolf(Golf):
     Waste_Class = StackWrapper(Golf_Waste, mod=13)
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return ((card1.rank + 1) % 13 == card2.rank or (card2.rank + 1) % 13 == card1.rank)
+    shallHighlightMatch = Game._shallHighlightMatch_RKW
 
 
 # /***********************************************************************
@@ -666,8 +664,7 @@ class DiamondMine(Game):
                 return False
         return True
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_RK
 
 
 # register the game

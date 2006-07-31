@@ -121,9 +121,7 @@ class Fan(Game):
         self.startDealSample()
         self.s.talon.dealRow()
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.suit == card2.suit and
-                (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank))
+    shallHighlightMatch = Game._shallHighlightMatch_SS
 
     def getHighlightPilesStacks(self):
         return ()
@@ -138,8 +136,7 @@ class ScotchPatience(Fan):
     RowStack_Class = StackWrapper(RK_RowStack, base_rank=NO_RANK)
     def createGame(self):
         Fan.createGame(self, playcards=8)
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_RK
 
 
 # /***********************************************************************
@@ -150,8 +147,7 @@ class Shamrocks(Fan):
     RowStack_Class = StackWrapper(UD_RK_RowStack, base_rank=NO_RANK, max_cards=3)
     def createGame(self):
         Fan.createGame(self, playcards=4)
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_RK
 
 
 # /***********************************************************************
@@ -520,9 +516,7 @@ class CloverLeaf(Game):
                               (c.rank == KING and c.suit in (2,3)),
                               c.suit))
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.suit == card2.suit and
-                abs(card1.rank-card2.rank) == 1)
+    shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
 # /***********************************************************************
@@ -556,9 +550,7 @@ class BoxFan(Fan):
         # move Aces to bottom of the Talon (i.e. last cards to be dealt)
         return self._shuffleHookMoveToBottom(cards, lambda c: (c.rank == 0, c.suit))
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.color != card2.color and
-                (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank))
+    shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
 # /***********************************************************************

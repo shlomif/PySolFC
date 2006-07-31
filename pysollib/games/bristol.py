@@ -319,10 +319,7 @@ class NewYork(Dover):
         self.s.talon.dealRow()
         self.s.talon.fillStack()
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.color != card2.color and
-                ((card1.rank + 1) % 13 == card2.rank or
-                 (card2.rank + 1) % 13 == card1.rank))
+    shallHighlightMatch = Game._shallHighlightMatch_ACW
 
     def _restoreGameHook(self, game):
         self.base_card = self.cards[game.loadinfo.base_card_id]
@@ -356,9 +353,7 @@ class Spike(Dover):
         self.s.talon.dealRow()
         self.s.talon.dealCards()
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.color != card2.color and
-                abs(card1.rank-card2.rank) == 1)
+    shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
 # /***********************************************************************

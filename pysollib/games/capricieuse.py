@@ -122,10 +122,7 @@ class Capricieuse(Game):
     def _shuffleHook(self, cards):
         return self._shuffleHookMoveToBottom(cards, lambda c: (c.deck == 0 and c.rank in (0, 12), (c.rank, c.suit)), 8)
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.suit == card2.suit and
-                ((card1.rank + 1) % stack1.cap.mod == card2.rank or
-                 (card2.rank + 1) % stack1.cap.mod == card1.rank))
+    shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
 # /***********************************************************************
@@ -135,6 +132,8 @@ class Capricieuse(Game):
 class Nationale(Capricieuse):
     Talon_Class = InitialDealTalonStack
     RowStack_Class = StackWrapper(UD_SS_RowStack, mod=13)
+
+    shallHighlightMatch = Game._shallHighlightMatch_SSW
 
 
 # register the game

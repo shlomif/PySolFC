@@ -149,9 +149,7 @@ class RelaxedSpider(Game):
         self.startDealSample()
         self.s.talon.dealRow()
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return ((card1.rank + 1) % stack1.cap.mod == card2.rank or
-                (card2.rank + 1) % stack1.cap.mod == card1.rank)
+    shallHighlightMatch = Game._shallHighlightMatch_RK
 
     def getQuickPlayScore(self, ncards, from_stack, to_stack):
         if to_stack.cards:
@@ -225,6 +223,8 @@ class GroundForADivorce(RelaxedSpider):
             self.s.talon.dealRow(frames=0)
         self.startDealSample()
         self.s.talon.dealRow()
+
+    shallHighlightMatch = Game._shallHighlightMatch_RKW
 
 
 # /***********************************************************************
@@ -336,8 +336,7 @@ class Scorpion(RelaxedSpider):
         self.startDealSample()
         self.s.talon.dealRow()
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return card1.suit == card2.suit and abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_SS
 
     def getHighlightPilesStacks(self):
         return ()
@@ -350,8 +349,7 @@ class ScorpionTail(Scorpion):
     Foundation_Class = Spider_AC_Foundation
     RowStack_Class = StackWrapper(ScorpionTail_RowStack, base_rank=KING)
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return card1.color != card2.color and abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
 class DoubleScorpion(Scorpion):
@@ -613,8 +611,7 @@ class Trillium(Game):
         self.startDealSample()
         self.s.talon.dealRow()
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return card1.color != card2.color and abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_AC
 
     def isGameWon(self):
         for s in self.s.rows:
@@ -641,9 +638,7 @@ class WakeRobin(Trillium):
                     return False
         return True
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return abs(card1.rank-card2.rank) == 1
-
+    shallHighlightMatch = Game._shallHighlightMatch_RK
 
 
 class TripleWakeRobin(WakeRobin):
@@ -703,8 +698,7 @@ class Chelicera(Game):
     def getHighlightPilesStacks(self):
         return ()
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return card1.suit == card2.suit and abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_SS
 
     def isGameWon(self):
         for s in self.s.rows:
@@ -859,10 +853,7 @@ class Applegate(Game):
     def getHighlightPilesStacks(self):
         return ()
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.suit == card2.suit and
-                ((card1.rank + 1) % stack1.cap.mod == card2.rank or
-                 (card2.rank + 1) % stack1.cap.mod == card1.rank))
+    shallHighlightMatch = Game._shallHighlightMatch_RKW
 
 
 # /***********************************************************************
@@ -903,6 +894,7 @@ class GroundForADivorce3Decks(BigSpider):
     RowStack_Class = StackWrapper(Spider_RowStack, mod=13)
     def canDealCards(self):
         return Game.canDealCards(self)
+    shallHighlightMatch = Game._shallHighlightMatch_RKW
 
 
 class Spider4Decks(BigSpider):
@@ -942,6 +934,7 @@ class GroundForADivorce4Decks(Spider4Decks):
         Spider4Decks.createGame(self, rows=12)
     def canDealCards(self):
         return Game.canDealCards(self)
+    shallHighlightMatch = Game._shallHighlightMatch_RKW
 
 
 # /***********************************************************************

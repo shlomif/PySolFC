@@ -90,8 +90,7 @@ class Bisley(Game):
         # move Aces to bottom of the Talon (i.e. last cards to be dealt)
         return self._shuffleHookMoveToBottom(cards, lambda c: (c.rank == ACE, c.suit))
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return card1.suit == card2.suit and abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
 # /***********************************************************************
@@ -232,15 +231,13 @@ class Realm(Game):
         self.s.talon.dealRow()
         self.s.talon.dealRowAvail()
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return card1.color != card2.color and abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
 class Mancunian(Realm):
     RowStack_Class = StackWrapper(UD_RK_RowStack, base_rank=NO_RANK)
 
-    def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return abs(card1.rank-card2.rank) == 1
+    shallHighlightMatch = Game._shallHighlightMatch_RK
 
 
 # register the game

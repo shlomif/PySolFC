@@ -628,6 +628,36 @@ class DoubleRussianSpider(RussianSpider, DoubleRussianSolitaire):
         DoubleRussianSolitaire.startGame(self)
 
 
+# /***********************************************************************
+# // Brisbane
+# ************************************************************************/
+
+class Brisbane_RowStack(Yukon_AC_RowStack):
+    def _isSequence(self, c1, c2):
+        return (c1.rank + self.cap.dir) % self.cap.mod == c2.rank
+    def getHelp(self):
+        return _('Tableau. Build down regardless of suit, can move any face-up cards regardless of sequence.')
+
+
+class Brisbane(Yukon):
+    RowStack_Class = Brisbane_RowStack
+
+    def startGame(self):
+        for i in range(1, len(self.s.rows)):
+            self.s.talon.dealRow(rows=self.s.rows[i:], flip=0, frames=0)
+        for i in range(3):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealRowAvail()
+
+    def getHighlightPilesStacks(self):
+        return ()
+
+    shallHighlightMatch = Game._shallHighlightMatch_RK
+
+
+
 # register the game
 registerGame(GameInfo(19, Yukon, "Yukon",
                       GI.GT_YUKON, 1, 0, GI.SL_BALANCED))
@@ -684,3 +714,5 @@ registerGame(GameInfo(530, RussianSpider, "Russian Spider",
                       altnames=('Ukrainian Solitaire',) ))
 registerGame(GameInfo(531, DoubleRussianSpider, "Double Russian Spider",
                       GI.GT_SPIDER | GI.GT_ORIGINAL, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(603, Brisbane, "Brisbane",
+                      GI.GT_SPIDER, 1, 0, GI.SL_BALANCED))

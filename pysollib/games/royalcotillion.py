@@ -320,6 +320,8 @@ class Alhambra(Game):
         self.s.talon.dealRow(rows=self.s.reserves)
         self.s.talon.dealCards()
 
+    shallHighlightMatch = Game._shallHighlightMatch_SSW
+
 
 class Granada(Alhambra):
     def createGame(self):
@@ -462,6 +464,8 @@ class BritishConstitution(Game):
             elif stack in self.s.rows[24:] and self.s.waste.cards:
                 self.s.waste.moveMove(1, stack)
             self.leaveState(old_state)
+
+    shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
 class NewBritishConstitution(BritishConstitution):

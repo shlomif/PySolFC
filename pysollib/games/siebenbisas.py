@@ -154,6 +154,8 @@ class SiebenBisAs(Game):
         for r in stacks:
             self.moveMove(1, r, self.s.foundations[r.cards[-1].suit])
 
+    shallHighlightMatch = Game._shallHighlightMatch_SSW
+
 
 # /***********************************************************************
 # // Maze

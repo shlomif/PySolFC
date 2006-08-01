@@ -148,8 +148,6 @@ class BakersDozen(CastlesInSpain):
 class SpanishPatience(BakersDozen):
     Foundation_Class = AC_FoundationStack
 
-    shallHighlightMatch = Game._shallHighlightMatch_AC
-
 
 # /***********************************************************************
 # // Portuguese Solitaire

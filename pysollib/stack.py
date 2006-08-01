@@ -776,10 +776,17 @@ class Stack:
         # by default all open stacks are available for highlighting
         assert card in self.cards
         if not self.is_visible or not card.face_up:
-            return 0
+            return False
         if card is self.cards[-1]:
-            return 1
-        return self.is_open
+            return True
+        if not self.is_open:
+            return False
+        dx, dy = self.getOffsetFor(card)
+        if dx == 0 and dy <= 4:
+            return False
+        if dx <= 4 and dy == 0:
+            return False
+        return True
 
     def basicShallHighlightMatch(self, card):
         # by default all open stacks are available for highlighting
@@ -1704,7 +1711,6 @@ class OpenStack(Stack):
             self.dragMove(drag, stack, sound=sound)
 
     def quickPlayHandler(self, event, from_stacks=None, to_stacks=None):
-        ##print 'quickPlayHandler', from_stacks, to_stacks
         # from_stacks and to_stacks are meant for possible
         # use in a subclasses
         if from_stacks is None:

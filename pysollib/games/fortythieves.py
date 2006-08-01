@@ -288,6 +288,8 @@ class Deuces(FortyThieves):
         self.s.talon.dealRow(rows=self.s.foundations)
         FortyThieves.startGame(self)
 
+    shallHighlightMatch = Game._shallHighlightMatch_SSW
+
 
 # /***********************************************************************
 # // Corona
@@ -310,6 +312,8 @@ class Quadrangle(Corona):
     def startGame(self):
         FortyThieves.startGame(self)
         self.s.talon.dealSingleBaseCard()
+
+    shallHighlightMatch = Game._shallHighlightMatch_SSW
 
 
 # /***********************************************************************
@@ -334,10 +338,8 @@ class LittleForty(FortyThieves):
     def createGame(self):
         FortyThieves.createGame(self, max_rounds=4, num_deal=3, XOFFSET=0)
 
-    def getQuickPlayScore(self, ncards, from_stack, to_stack):
-        if to_stack.cards:
-            return int(from_stack.cards[-1].suit == to_stack.cards[-1].suit)+1
-        return 0
+    shallHighlightMatch = Game._shallHighlightMatch_RK
+    getQuickPlayScore = Game._getSpiderQuickPlayScore
 
 
 # /***********************************************************************
@@ -796,10 +798,8 @@ class Waterloo(FortyThieves):
         self.s.talon.dealRow()
         self.s.talon.dealCards()          # deal first card to WasteStack
 
-    def getQuickPlayScore(self, ncards, from_stack, to_stack):
-        if to_stack.cards:
-            return int(from_stack.cards[-1].suit == to_stack.cards[-1].suit)+1
-        return 0
+    getQuickPlayScore = Game._getSpiderQuickPlayScore
+    shallHighlightMatch = Game._shallHighlightMatch_RK
 
 
 # /***********************************************************************

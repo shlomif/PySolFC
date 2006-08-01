@@ -171,6 +171,9 @@ class SolidSquare(UnionSquare):
                 self.s.waste.moveMove(1, stack)
             self.leaveState(old_state)
 
+    shallHighlightMatch = Game._shallHighlightMatch_SSW
+
+
 
 # register the game
 registerGame(GameInfo(35, UnionSquare, "Union Square",

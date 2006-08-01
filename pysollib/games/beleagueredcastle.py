@@ -277,6 +277,9 @@ class Bastion(Game):
         self.s.talon.dealRow(rows=self.s.reserves)
 
 
+    shallHighlightMatch = Game._shallHighlightMatch_SS
+
+
 class TenByOne(Bastion):
     def createGame(self):
         Bastion.createGame(self, reserves=1)
@@ -683,11 +686,7 @@ class CastleMount(Lightweight):
     RowStack_Class = Spider_SS_RowStack
 
     shallHighlightMatch = Game._shallHighlightMatch_RK
-
-    def getQuickPlayScore(self, ncards, from_stack, to_stack):
-        if to_stack.cards:
-            return int(from_stack.cards[-1].suit == to_stack.cards[-1].suit)+1
-        return 0
+    getQuickPlayScore = Game._getSpiderQuickPlayScore
 
 
 # /***********************************************************************
@@ -712,6 +711,8 @@ class SelectiveCastle(StreetsAndAlleys, Chessboard):
 
     def updateText(self):
         Chessboard.updateText(self)
+
+    shallHighlightMatch = Game._shallHighlightMatch_RKW
 
 
 # register the game

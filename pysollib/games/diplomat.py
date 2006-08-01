@@ -196,6 +196,8 @@ class Wheatsheaf(Congress):
         ]
     RowStack_Class = UD_SS_RowStack
 
+    shallHighlightMatch = Game._shallHighlightMatch_SS
+
 
 # /***********************************************************************
 # // Rows of Four
@@ -252,10 +254,7 @@ class LittleNapoleon(Diplomat):
         self.s.talon.dealRow()
         self.s.talon.dealCards()          # deal first card to WasteStack
 
-    def getQuickPlayScore(self, ncards, from_stack, to_stack):
-        if to_stack.cards:
-            return int(from_stack.cards[-1].suit == to_stack.cards[-1].suit)+1
-        return 0
+    getQuickPlayScore = Game._getSpiderQuickPlayScore
 
 
 # /***********************************************************************
@@ -271,6 +270,8 @@ class TwinQueens(Congress):
 
     def createGame(self):
         Congress.createGame(self, max_rounds=2)
+
+    shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
 

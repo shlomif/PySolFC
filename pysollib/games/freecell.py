@@ -553,6 +553,9 @@ class KingCell(FreeCell):
     Hint_Class = FreeCellType_Hint
     RowStack_Class = StackWrapper(KingCell_RowStack, base_rank=KING)
 
+    shallHighlightMatch = Game._shallHighlightMatch_RK
+
+
 
 # register the game
 registerGame(GameInfo(5, RelaxedFreeCell, "Relaxed FreeCell",

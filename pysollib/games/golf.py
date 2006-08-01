@@ -534,6 +534,8 @@ class FourLeafClovers(Game):
         self.startDealSample()
         self.s.talon.dealRow()
 
+    shallHighlightMatch = Game._shallHighlightMatch_RKW
+
 
 # /***********************************************************************
 # // All in a Row

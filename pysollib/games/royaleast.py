@@ -116,6 +116,8 @@ class RoyalEast(Game):
     def _saveGameHook(self, p):
         p.dump(self.base_card.id)
 
+    shallHighlightMatch = Game._shallHighlightMatch_RKW
+
 
 # register the game
 registerGame(GameInfo(93, RoyalEast, "Royal East",

@@ -138,6 +138,7 @@ class Nordic(MissMuffet):
 
 class Dumfries_TalonStack(OpenTalonStack):
     rightclickHandler = OpenStack.rightclickHandler
+    doubleclickHandler = OpenStack.doubleclickHandler
 
 class Dumfries_RowStack(BasicRowStack):
 

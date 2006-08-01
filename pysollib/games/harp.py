@@ -188,11 +188,9 @@ class LadyJane(DoubleKlondike):
         DoubleKlondike.createGame(self, rows=10, max_rounds=2, num_deal=3)
     def startGame(self):
         DoubleKlondike.startGame(self, flip=1)
+
     shallHighlightMatch = Game._shallHighlightMatch_RK
-    def getQuickPlayScore(self, ncards, from_stack, to_stack):
-        if to_stack.cards:
-            return int(from_stack.cards[-1].suit == to_stack.cards[-1].suit)+1
-        return 0
+    getQuickPlayScore = Game._getSpiderQuickPlayScore
 
 
 class Inquisitor(DoubleKlondike):
@@ -212,15 +210,14 @@ class Inquisitor(DoubleKlondike):
 class Arabella(DoubleKlondike):
     Hint_Class = Spider_Hint
     RowStack_Class = StackWrapper(Spider_SS_RowStack, base_rank=KING)
+
     def createGame(self):
         DoubleKlondike.createGame(self, rows=13, max_rounds=1, playcards=24)
     def startGame(self):
         DoubleKlondike.startGame(self, flip=1)
+
     shallHighlightMatch = Game._shallHighlightMatch_RK
-    def getQuickPlayScore(self, ncards, from_stack, to_stack):
-        if to_stack.cards:
-            return int(from_stack.cards[-1].suit == to_stack.cards[-1].suit)+1
-        return 0
+    getQuickPlayScore = Game._getSpiderQuickPlayScore
 
 
 # /***********************************************************************

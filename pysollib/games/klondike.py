@@ -277,6 +277,8 @@ class BlindAlleys(Eastcliff):
 # // Somerset
 # // Morehead
 # // Canister
+# // American Canister
+# // British Canister
 # ************************************************************************/
 
 class Somerset(Klondike):
@@ -299,22 +301,6 @@ class Morehead(Somerset):
     RowStack_Class = StackWrapper(BO_RowStack, max_move=1)
 
 
-class Canister(Klondike):
-    Talon_Class = InitialDealTalonStack
-    RowStack_Class = RK_RowStack
-    ###Hint_Class = CautiousDefaultHint
-
-    def createGame(self):
-        Klondike.createGame(self, max_rounds=1, rows=8, waste=0, texts=0)
-
-    def startGame(self):
-        for i in range(5):
-            self.s.talon.dealRow(frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
-        self.s.talon.dealRow(rows=self.s.rows[2:6])
-
-
 class Usk(Somerset):
 
     Talon_Class = RedealTalonStack
@@ -328,6 +314,34 @@ class Usk(Somerset):
         while self.s.talon.cards:
             self.s.talon.dealRowAvail(rows=self.s.rows[n:], frames=4)
             n += 1
+
+# /***********************************************************************
+# // Canister
+# // American Canister
+# // British Canister
+# ************************************************************************/
+
+class AmericanCanister(Klondike):
+    Talon_Class = InitialDealTalonStack
+
+    def createGame(self):
+        Klondike.createGame(self, max_rounds=1, rows=8, waste=0, texts=0)
+
+    def startGame(self):
+        for i in range(5):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealRow(rows=self.s.rows[2:6])
+
+
+class Canister(AmericanCanister):
+    RowStack_Class = RK_RowStack
+    shallHighlightMatch = Game._shallHighlightMatch_RK
+
+
+class BritishCanister(AmericanCanister):
+    RowStack_Class = StackWrapper(KingAC_RowStack, max_move=1)
 
 
 # /***********************************************************************
@@ -472,6 +486,8 @@ class FlowerGarden(Stonewall):
 
     DEAL = (1, 1, 1, 1, -1, 1, 1)
 
+    shallHighlightMatch = Game._shallHighlightMatch_RK
+
 
 # /***********************************************************************
 # // King Albert
@@ -543,6 +559,9 @@ class Brigade(Raglan):
 # ************************************************************************/
 
 class Jane_Talon(OpenTalonStack):
+    rightclickHandler = OpenStack.rightclickHandler
+    doubleclickHandler = OpenStack.doubleclickHandler
+
     def canFlipCard(self):
         return 0
 
@@ -561,6 +580,7 @@ class Jane_Talon(OpenTalonStack):
         return c
 
 
+
 class Jane(Klondike):
     Talon_Class = Jane_Talon
     Foundation_Class = StackWrapper(SS_FoundationStack, mod=13, base_rank=NO_RANK, min_cards=1)
@@ -577,7 +597,7 @@ class Jane(Klondike):
         s.talon = self.Talon_Class(x, y, self, max_rounds=max_rounds)
         l.createText(s.talon, 'ss')
         x += l.XS
-        s.waste = WasteStack(l.XM+l.XS+40, l.YM, self)
+        s.waste = WasteStack(l.XM+l.XS, l.YM, self)
 
         x += 2*l.XS
         for i in range(4):
@@ -615,7 +635,7 @@ class Jane(Klondike):
             s.cap.update(cap.__dict__)
             self.saveinfo.stack_caps.append((s.id, cap))
 
-    shallHighlightMatch = Game._shallHighlightMatch_SSW
+    shallHighlightMatch = Game._shallHighlightMatch_ACW
 
     def _autoDeal(self, sound=1):
         return 0
@@ -672,18 +692,19 @@ class Senate(Jane):
 
         l.defaultStackGroups()
 
-
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
         self.startDealSample()
         self.s.talon.dealRow(rows=self.s.reserves)
         self.s.talon.dealRow()
 
-
     def _shuffleHook(self, cards):
         # move Aces to top of the Talon (i.e. first cards to be dealt)
         return self._shuffleHookMoveToTop(cards,
                    lambda c: (c.rank == ACE, (c.deck, c.suit)))
+
+    shallHighlightMatch = Game._shallHighlightMatch_SS
+
 
 class SenatePlus(Senate):
     def createGame(self):
@@ -731,6 +752,8 @@ class Phoenix(Klondike):
 
 class Arizona(Phoenix):
     RowStack_Class = RK_RowStack
+
+    shallHighlightMatch = Game._shallHighlightMatch_RK
 
 
 # /***********************************************************************
@@ -922,6 +945,9 @@ class DoubleDot(Klondike):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
         self.startDealSample()
         self.s.talon.dealRow()
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return abs(card1.rank-card2.rank) == 2
 
 
 # /***********************************************************************
@@ -1119,12 +1145,45 @@ class GoldMine(Klondike):
 # // Lucky Piles
 # ************************************************************************/
 
-class LuckyThirteen(Klondike):
-    Talon_Class = InitialDealTalonStack
-    RowStack_Class = StackWrapper(SS_RowStack, base_rank=NO_RANK, max_move=1)
+class LuckyThirteen(Game):
+    RowStack_Class = StackWrapper(RK_RowStack, base_rank=NO_RANK)
 
-    def createGame(self):
-        Klondike.createGame(self, waste=False, rows=13, max_rounds=1, texts=False)
+    def createGame(self, xoffset=0, playcards=0):
+        l, s = Layout(self), self.s
+        if xoffset:
+            xoffset = l.XOFFSET
+        w0 = l.XS+playcards*l.XOFFSET
+        self.setSize(l.XM + 5*w0+2*l.XS, l.YM+4*l.YS)
+
+        x, y = l.XM, l.YM
+        for i in range(5):
+            stack = self.RowStack_Class(x, y, self, max_move=1)
+            s.rows.append(stack)
+            stack.CARD_XOFFSET = xoffset
+            stack.CARD_YOFFSET = 0
+            x += w0
+        x, y = l.XM+w0, l.YM+l.YS
+        for i in range(3):
+            stack = self.RowStack_Class(x, y, self, max_move=1)
+            s.rows.append(stack)
+            stack.CARD_XOFFSET = xoffset
+            stack.CARD_YOFFSET = 0
+            x += w0
+        x, y = l.XM, l.YM+2*l.YS
+        for i in range(5):
+            stack = self.RowStack_Class(x, y, self, max_move=1)
+            s.rows.append(stack)
+            stack.CARD_XOFFSET = xoffset
+            stack.CARD_YOFFSET = 0
+            x += w0
+        x, y = self.width-l.XS, l.YM
+        for i in range(4):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
+            y += l.YS
+        x, y = l.XM, self.height-l.YS
+        s.talon = InitialDealTalonStack(x, y, self, max_rounds=1)
+
+        l.defaultStackGroups()
 
     def startGame(self):
         self.s.talon.dealRow(frames=0)
@@ -1133,11 +1192,16 @@ class LuckyThirteen(Klondike):
         self.startDealSample()
         self.s.talon.dealRow()
 
-    shallHighlightMatch = Game._shallHighlightMatch_SS
+    shallHighlightMatch = Game._shallHighlightMatch_RK
 
 
 class LuckyPiles(LuckyThirteen):
     RowStack_Class = StackWrapper(UD_SS_RowStack, base_rank=KING)
+
+    def createGame(self):
+        LuckyThirteen.createGame(self, xoffset=1, playcards=5)
+
+    shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
 
@@ -1262,4 +1326,8 @@ registerGame(GameInfo(585, LuckyThirteen, "Lucky Thirteen",
                       GI.GT_NUMERICA, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(586, LuckyPiles, "Lucky Piles",
                       GI.GT_NUMERICA, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(601, AmericanCanister, "American Canister",
+                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(602, BritishCanister, "British Canister",
+                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 

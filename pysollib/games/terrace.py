@@ -217,6 +217,8 @@ class Terrace(Game):
                 break
         p.dump(base_rank)
 
+    shallHighlightMatch = Game._shallHighlightMatch_ACW
+
 
 # /***********************************************************************
 # // Queen of Italy

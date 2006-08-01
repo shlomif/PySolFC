@@ -255,6 +255,7 @@ class Rainbow(Canfield):
     def createGame(self):
         Canfield.createGame(self, max_rounds=1, num_deal=1)
 
+    shallHighlightMatch = Game._shallHighlightMatch_RKW
 
 # /***********************************************************************
 # // Storehouse (aka Straight Up)
@@ -317,6 +318,8 @@ class AmericanToad(Canfield):
 
     def createGame(self):
         Canfield.createGame(self, rows=8, max_rounds=2, num_deal=1)
+
+    shallHighlightMatch = Game._shallHighlightMatch_SSW
 
 
 # /***********************************************************************
@@ -396,6 +399,8 @@ class EagleWing(Canfield):
 
         # define stack-groups
         l.defaultStackGroups()
+
+    shallHighlightMatch = Game._shallHighlightMatch_SSW
 
 
 # /***********************************************************************
@@ -720,6 +725,89 @@ class CanfieldRush(Canfield):
         Canfield.createGame(self, max_rounds=3)
 
 
+# /***********************************************************************
+# // Skippy
+# ************************************************************************/
+
+class Skippy(Canfield):
+    FILL_EMPTY_ROWS = 0
+
+    def createGame(self):
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        playcards = 8
+        w0 = l.XS+playcards*l.XOFFSET
+        w = l.XM+l.XS/2+max(10*l.XS, l.XS+4*w0)
+        h = l.YM+5*l.YS+l.TEXT_HEIGHT
+        self.setSize(w, h)
+
+        # extra settings
+        self.base_card = None
+
+        # create stacks
+        x, y = l.XM, l.YM
+        s.talon = WasteTalonStack(x, y, self, max_rounds=1)
+        l.createText(s.talon, 's')
+        x += l.XS
+        s.waste = WasteStack(x, y, self)
+        l.createText(s.waste, 's')
+        x = self.width - 8*l.XS
+        for i in range(8):
+            s.foundations.append(SS_FoundationStack(x, y, self,
+                                                    suit=i%4, mod=13))
+            x += l.XS
+        tx, ty, ta, tf = l.getTextAttr(None, "ss")
+        tx, ty = x-l.XS+tx, y+ty
+        font = self.app.getFont("canvas_default")
+        self.texts.info = MfxCanvasText(self.canvas, tx, ty,
+                                        anchor=ta, font=font)
+        x, y = l.XM, l.YM+l.YS+l.TEXT_HEIGHT
+        for i in range(4):
+            s.reserves.append(ReserveStack(x, y, self))
+            y += l.YS
+        y = l.YM+l.YS+l.TEXT_HEIGHT
+        for i in range(4):
+            x = l.XM+l.XS+l.XS/2
+            for j in range(4):
+                stack = RK_RowStack(x, y, self, max_move=1, mod=13)
+                s.rows.append(stack)
+                stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
+                x += w0
+            y += l.YS
+
+        # define stack-groups
+        l.defaultStackGroups()
+
+
+    def startGame(self):
+        self.base_card = None
+        self.updateText()
+        # deal base_card to Foundations, update foundations cap.base_rank
+        self.base_card = self.s.talon.getCard()
+        for s in self.s.foundations:
+            s.cap.base_rank = self.base_card.rank
+        n = self.base_card.suit
+        self.flipMove(self.s.talon)
+        self.moveMove(1, self.s.talon, self.s.foundations[n], frames=0)
+        self.updateText()
+        # update rows cap.base_rank
+        row_base_rank = (self.base_card.rank-1)%13
+        for s in self.s.rows:
+            s.cap.base_rank = row_base_rank
+        #
+        for i in range(3):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
+
+
+    shallHighlightMatch = Game._shallHighlightMatch_RKW
+
+
+
 # register the game
 registerGame(GameInfo(105, Canfield, "Canfield",                # was: 262
                       GI.GT_CANFIELD | GI.GT_CONTRIB, 1, -1, GI.SL_BALANCED))
@@ -764,5 +852,8 @@ registerGame(GameInfo(494, Mystique, "Mystique",
 registerGame(GameInfo(521, CanfieldRush, "Canfield Rush",
                       GI.GT_CANFIELD, 1, 2, GI.SL_BALANCED))
 registerGame(GameInfo(527, Doorway, "Doorway",
-                      GI.GT_KLONDIKE, 1, 0, GI.SL_BALANCED))
+                      GI.GT_KLONDIKE, 1, 0, GI.SL_BALANCED,
+                      altnames=('Solstice',) ))
+registerGame(GameInfo(605, Skippy, "Skippy",
+                      GI.GT_FAN_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
 

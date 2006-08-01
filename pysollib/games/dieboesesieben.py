@@ -117,6 +117,8 @@ class DieBoeseSieben(Game):
         for flip in (1, 0, 1, 0, 1, 0, 1):
             self.s.talon.dealRow(flip=flip)
 
+    shallHighlightMatch = Game._shallHighlightMatch_AC
+
 
 # register the game
 registerGame(GameInfo(120, DieBoeseSieben, "Bad Seven",

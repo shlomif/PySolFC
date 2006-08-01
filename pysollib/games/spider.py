@@ -150,11 +150,8 @@ class RelaxedSpider(Game):
         self.s.talon.dealRow()
 
     shallHighlightMatch = Game._shallHighlightMatch_RK
+    getQuickPlayScore = Game._getSpiderQuickPlayScore
 
-    def getQuickPlayScore(self, ncards, from_stack, to_stack):
-        if to_stack.cards:
-            return int(from_stack.cards[-1].suit == to_stack.cards[-1].suit)+1
-        return 0
 
 # /***********************************************************************
 # // Spider
@@ -492,6 +489,8 @@ class RougeEtNoir(Game):
         self.startDealSample()
         self.s.talon.dealRow(rows=self.s.rows[:-1], reverse=reverse)
 
+    shallHighlightMatch = Game._shallHighlightMatch_AC
+
 
 # /***********************************************************************
 # // Mrs. Mop
@@ -571,6 +570,9 @@ class Cicely(Game):
             self.s.talon.dealRow(frames=0)
         self.startDealSample()
         self.s.talon.dealRow()
+
+
+    shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
 # /***********************************************************************

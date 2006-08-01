@@ -105,6 +105,9 @@ class FourStacks(TakeAway):
     RowStack_Class = StackWrapper(AC_RowStack, max_move=UNLIMITED_MOVES, max_accept=UNLIMITED_ACCEPTS)
     Foundation_Class = StackWrapper(AC_FoundationStack, max_move=UNLIMITED_MOVES, max_accept=UNLIMITED_ACCEPTS, dir=-1)
 
+    shallHighlightMatch = Game._shallHighlightMatch_AC
+
+
 
 # register the game
 registerGame(GameInfo(334, TakeAway, "Take Away",

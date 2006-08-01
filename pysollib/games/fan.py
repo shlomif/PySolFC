@@ -213,6 +213,7 @@ class LaBelleLucie(Fan):
 
 class SuperFlowerGarden(LaBelleLucie):
     RowStack_Class = StackWrapper(RK_RowStack, base_rank=NO_RANK)
+    shallHighlightMatch = Game._shallHighlightMatch_RK
 
 
 # /***********************************************************************
@@ -559,7 +560,8 @@ class BoxFan(Fan):
 
 class Troika(Fan):
 
-    RowStack_Class = StackWrapper(RK_RowStack, dir=0, base_rank=NO_RANK, max_cards=3)
+    RowStack_Class = StackWrapper(RK_RowStack, dir=0,
+                                  base_rank=NO_RANK, max_cards=3)
 
     def createGame(self):
         Fan.createGame(self, rows=(6, 6, 6), playcards=4)
@@ -580,7 +582,6 @@ class Troika(Fan):
                 self.s.talon.dealRow(rows=[t], frames=4)
 
 
-
 class TroikaPlus_RowStack(RK_RowStack):
     def getBottomImage(self):
         return self.game.app.images.getReserveBottom()
@@ -598,6 +599,7 @@ class TroikaPlus(Troika):
 ##             self.s.talon.dealRow(rows=self.s.rows[:-1], frames=0)
 ##         self.startDealSample()
 ##         self.s.talon.dealRow(rows=self.s.rows[:-1])
+
 
 
 # register the game

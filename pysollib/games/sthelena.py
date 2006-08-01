@@ -154,6 +154,7 @@ class StHelena(Game):
         self.s.talon.dealRow()
         self.s.talon.dealRow(self.s.foundations)
 
+    shallHighlightMatch = Game._shallHighlightMatch_RK
 
 # /***********************************************************************
 # // Box Kite
@@ -163,6 +164,9 @@ class BoxKite(StHelena):
     Talon_Class = InitialDealTalonStack
     Foundation_Class = SS_FoundationStack
     RowStack_Class = StackWrapper(UD_RK_RowStack, base_rank=NO_RANK, mod=13)
+
+    shallHighlightMatch = Game._shallHighlightMatch_RKW
+
 
 
 # register the game

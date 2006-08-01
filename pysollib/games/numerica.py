@@ -213,6 +213,7 @@ class LastChance(LadyBetty):
 
 class PussInTheCorner_Talon(OpenTalonStack):
     rightclickHandler = OpenStack.rightclickHandler
+    doubleclickHandler = OpenStack.doubleclickHandler
 
     def canDealCards(self):
         if self.round != self.max_rounds:
@@ -606,6 +607,7 @@ class Shifting(Numerica):
 
 class Strategerie_Talon(OpenTalonStack):
     rightclickHandler = OpenStack.rightclickHandler
+    doubleclickHandler = OpenStack.doubleclickHandler
 
 
 class Strategerie_RowStack(BasicRowStack):
@@ -690,7 +692,7 @@ class AnnoDomini(Numerica):
     Hint_Class = AnnoDomini_Hint
 
     Foundation_Class = StackWrapper(SS_FoundationStack, suit=ANY_SUIT, mod=13)
-    RowStack_Class = AC_RowStack
+    RowStack_Class = StackWrapper(AC_RowStack, mod=13)
 
     def createGame(self):
         Numerica.createGame(self, max_rounds=3, waste_max_cards=UNLIMITED_CARDS)
@@ -711,7 +713,7 @@ class AnnoDomini(Numerica):
         self.s.talon.dealRow()
         self.s.talon.dealCards()
 
-    shallHighlightMatch = Game._shallHighlightMatch_AC
+    shallHighlightMatch = Game._shallHighlightMatch_ACW
 
 
 

@@ -225,12 +225,14 @@ class DoubleFives_Talon(RedealTalonStack):
 
 
 class DoubleFives_RowStack(SS_RowStack):
-    def canMoveCards(self, cards):
-        if self.game.base_rank is None:
-            return False
-        if not SS_RowStack.canMoveCards(self, cards):
-            return False
-        return True
+    def moveMove(self, ncards, to_stack, frames=-1, shadow=-1):
+        SS_RowStack.moveMove(self, ncards, to_stack, frames, shadow)
+        if self.game.base_rank is None and to_stack in self.game.s.foundations:
+            old_state = self.game.enterState(self.game.S_FILL)
+            self.game.saveStateMove(2|16)            # for undo
+            self.game.base_rank = to_stack.cards[-1].rank
+            self.game.saveStateMove(1|16)            # for redo
+            self.game.leaveState(old_state)
 
 
 class DoubleFives_WasteStack(WasteStack):

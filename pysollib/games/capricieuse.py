@@ -22,7 +22,6 @@
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
@@ -33,48 +32,16 @@ from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 
+from gypsy import DieRussische_Foundation
+
 
 # /***********************************************************************
 # // Capricieuse
 # ************************************************************************/
 
-class Capricieuse_Talon(TalonStack):
-
-    def canDealCards(self):
-        if self.round == self.max_rounds:
-            return False
-        return not self.game.isGameWon()
-
-    def dealCards(self, sound=0):
-        # move all cards to the Talon, shuffle and redeal
-        lr = len(self.game.s.rows)
-        num_cards = 0
-        assert len(self.cards) == 0
-        for r in self.game.s.rows[::-1]:
-            for i in range(len(r.cards)):
-                num_cards = num_cards + 1
-                self.game.moveMove(1, r, self, frames=0)
-        assert len(self.cards) == num_cards
-        if num_cards == 0:          # game already finished
-            return 0
-        # shuffle
-        self.game.shuffleStackMove(self)
-        # redeal
-        self.game.nextRoundMove(self)
-        self.game.startDealSample()
-        for i in range(lr):
-            k = min(lr, len(self.cards))
-            for j in range(k):
-                self.game.moveMove(1, self, self.game.s.rows[j], frames=4)
-        # done
-        self.game.stopSamples()
-        assert len(self.cards) == 0
-        return num_cards
-
-
 class Capricieuse(Game):
 
-    Talon_Class = StackWrapper(Capricieuse_Talon, max_rounds=3)
+    Talon_Class = StackWrapper(RedealTalonStack, max_rounds=3)
     RowStack_Class = UD_SS_RowStack
 
     #
@@ -87,7 +54,7 @@ class Capricieuse(Game):
         l, s = Layout(self), self.s
 
         # set window
-        self.setSize(l.XM+12*l.XS, l.YM+l.YS+20*l.YOFFSET)
+        self.setSize(l.XM+12*l.XS, l.YM+2*l.YS+15*l.YOFFSET)
 
         # create stacks
         x, y, = l.XM+2*l.XS, l.YM
@@ -120,7 +87,12 @@ class Capricieuse(Game):
         self.s.talon.dealRow(self.s.foundations)
 
     def _shuffleHook(self, cards):
-        return self._shuffleHookMoveToBottom(cards, lambda c: (c.deck == 0 and c.rank in (0, 12), (c.rank, c.suit)), 8)
+        return self._shuffleHookMoveToBottom(cards,
+            lambda c: (c.deck == 0 and c.rank in (0, 12), (c.rank, c.suit)), 8)
+
+    def redealCards(self):
+        while self.s.talon.cards:
+            self.s.talon.dealRowAvail(frames=4)
 
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
@@ -136,9 +108,54 @@ class Nationale(Capricieuse):
     shallHighlightMatch = Game._shallHighlightMatch_SSW
 
 
+# /***********************************************************************
+# // Strata
+# ************************************************************************/
+
+class Strata(Game):
+
+    def createGame(self, **layout):
+
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        self.setSize(l.XM+9*l.XS, l.YM+2*l.YS+12*l.YOFFSET)
+
+        # create stacks
+        x, y, = l.XM+l.XS, l.YM
+        for i in range(8):
+            s.foundations.append(DieRussische_Foundation(x, y, self,
+                                 suit=i%4, max_cards=8))
+            x = x + l.XS
+        x, y, = l.XM+l.XS, l.YM+l.YS
+        for i in range(8):
+            s.rows.append(AC_RowStack(x, y, self, max_move=1, max_accept=1))
+            x = x + l.XS
+        s.talon = RedealTalonStack(l.XM, l.YM, self, max_rounds=2)
+
+        # define stack-groups
+        l.defaultStackGroups()
+
+    def startGame(self):
+        for i in range(7):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+    def redealCards(self):
+        while self.s.talon.cards:
+            self.s.talon.dealRowAvail(frames=4)
+
+    shallHighlightMatch = Game._shallHighlightMatch_AC
+
+
 # register the game
 registerGame(GameInfo(292, Capricieuse, "Capricieuse",
                       GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 2, 2, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(293, Nationale, "Nationale",
                       GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(606, Strata, "Strata",
+                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 2, 1, GI.SL_MOSTLY_SKILL,
+                      ranks=(0, 6, 7, 8, 9, 10, 11, 12) ))
 

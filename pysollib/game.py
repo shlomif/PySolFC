@@ -190,18 +190,32 @@ class Game:
                     print 'WARNING: invalid sum of foundations.max_cards:', \
                           class_name, ncards, self.gameinfo.ncards
             if self.s.rows:
-                from stack import AC_RowStack, SS_RowStack, RK_RowStack
+                from stack import AC_RowStack, UD_AC_RowStack, \
+                     SS_RowStack, UD_SS_RowStack, \
+                     RK_RowStack, UD_RK_RowStack, \
+                     Spider_AC_RowStack, Spider_SS_RowStack
                 r = self.s.rows[0]
                 for c, f in (
-                    (AC_RowStack, (self._shallHighlightMatch_AC,
-                                   self._shallHighlightMatch_ACW)),
-                    (SS_RowStack, (self._shallHighlightMatch_SS,
-                                   self._shallHighlightMatch_SSW)),
-                    (RK_RowStack, (self._shallHighlightMatch_RK,
-                                   self._shallHighlightMatch_RKW)),):
-                    if isinstance(r, c) and not self.shallHighlightMatch in f:
-                        print 'WARNING: shallHighlightMatch is not valid:', \
-                              class_name, r.__class__
+                    ((Spider_AC_RowStack, Spider_SS_RowStack),
+                     (self._shallHighlightMatch_RK,
+                      self._shallHighlightMatch_RKW)),
+                    ((AC_RowStack, UD_AC_RowStack),
+                     (self._shallHighlightMatch_AC,
+                      self._shallHighlightMatch_ACW)),
+                    ((SS_RowStack, UD_SS_RowStack),
+                     (self._shallHighlightMatch_SS,
+                      self._shallHighlightMatch_SSW)),
+                    ((RK_RowStack, UD_RK_RowStack),
+                     (self._shallHighlightMatch_RK,
+                      self._shallHighlightMatch_RKW)),):
+                    if isinstance(r, c):
+                        if not self.shallHighlightMatch in f:
+                            print 'WARNING: shallHighlightMatch is not valid:', \
+                                  class_name, r.__class__
+                        if r.cap.mod == 13 and self.shallHighlightMatch != f[1]:
+                            print 'WARNING: shallHighlightMatch is not valid (wrap):', \
+                                  class_name, r.__class__
+                        break
         # optimize regions
         self.optimizeRegions()
         # create cards

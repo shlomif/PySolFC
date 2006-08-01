@@ -144,6 +144,8 @@ class Bristol(Game):
         self.s.talon.dealRow(rows=r)
         self.s.talon.dealCards()          # deal first cards to Reserves
 
+    shallHighlightMatch = Game._shallHighlightMatch_RK
+
 
 # /***********************************************************************
 # // Belvedere
@@ -376,6 +378,124 @@ class Gotham(NewYork):
         self.s.talon.dealRow(frames=0)
         NewYork.startGame(self)
 
+    shallHighlightMatch = Game._shallHighlightMatch_RKW
+
+
+# /***********************************************************************
+# // Interment
+# ************************************************************************/
+
+class Interment_Hint(CautiousDefaultHint):
+    def computeHints(self):
+        CautiousDefaultHint.computeHints(self)
+        if self.hints:
+            return
+        if not self.game.s.talon.cards:
+            return
+        c = self.game.s.talon.cards[-1].rank
+        if 0 <= c <= 3:
+            r = self.game.s.xwastes[0]
+        elif 4 <= c <= 7:
+            r = self.game.s.xwastes[1]
+        else:
+            r = self.game.s.xwastes[2]
+        self.addHint(5000, 1, self.game.s.talon, r)
+
+
+class Interment_Talon(OpenTalonStack):
+    rightclickHandler = OpenStack.rightclickHandler
+    doubleclickHandler = OpenStack.doubleclickHandler
+
+
+class Interment_Reserve(OpenStack):
+    def canFlipCard(self):
+        return False
+
+
+class Interment_Waste(ReserveStack):
+    def acceptsCards(self, from_stack, cards):
+        if not ReserveStack.acceptsCards(self, from_stack, cards):
+            return False
+        return from_stack is self.game.s.talon
+
+
+class Interment(Game):
+    Hint_Class = Interment_Hint
+
+    def createGame(self):
+        # create layout
+        l, s = Layout(self), self.s
+        s.addattr(xwastes=[])      # register extra stack variable
+
+        # set window
+        w, h = l.XM+11*l.XS, l.YM+6*l.YS
+        self.setSize(w, h)
+
+        # create stacks
+        x, y, = l.XM, l.YM
+        s.talon = Interment_Talon(x, y, self)
+        l.createText(s.talon, 'ne')
+        x += 1.5*l.XS
+        for i in range(8):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i/2))
+            x += l.XS
+        x, y = l.XM, l.YM+l.YS
+        for i in range(3):
+            s.xwastes.append(Interment_Waste(x, y, self,
+                                             max_cards=UNLIMITED_CARDS))
+            y += l.YS
+        x, y = l.XM+1.5*l.XS, l.YM+l.YS
+        for i in range(8):
+            s.rows.append(SS_RowStack(x, y, self, max_move=1))
+            x += l.XS
+        x, y = self.width-l.XS, l.YM
+        stack = Interment_Reserve(x, y, self)
+        s.reserves.append(stack)
+        l.createText(stack, 'nw')
+        y += l.YS
+        for i in range(5):
+            s.reserves.append(OpenStack(x, y, self))
+            y += l.YS
+
+        # define stack-groups
+        l.defaultStackGroups()
+        self.sg.dropstacks += s.xwastes
+        self.sg.openstacks += s.xwastes
+        self.sg.dropstacks.append(s.talon)
+
+
+    def startGame(self):
+        for i in range(13):
+            self.s.talon.dealRow(rows=[self.s.reserves[0]], flip=0, frames=0)
+        self.s.talon.dealRow(rows=self.s.reserves[1:], frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.fillStack()
+
+
+    def fillStack(self, stack):
+        if not stack.cards:
+            old_state = self.enterState(self.S_FILL)
+            if stack in self.s.rows:
+                if self.s.talon.cards:
+                    self.s.talon.moveMove(1, stack)
+            if stack in self.s.reserves[1:]:
+                from_stack = self.s.reserves[0]
+                if from_stack.cards:
+                    from_stack.flipMove()
+                    from_stack.moveMove(1, stack)
+            self.leaveState(old_state)
+
+
+    shallHighlightMatch = Game._shallHighlightMatch_SS
+
+
+    def getQuickPlayScore(self, ncards, from_stack, to_stack):
+        if to_stack in self.s.xwastes:
+            return 0
+        return 1+Game.getQuickPlayScore(self, ncards, from_stack, to_stack)
+
+
 
 # register the game
 registerGame(GameInfo(42, Bristol, "Bristol",
@@ -389,5 +509,7 @@ registerGame(GameInfo(425, NewYork, "New York",
 registerGame(GameInfo(468, Spike, "Spike",
                       GI.GT_KLONDIKE, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(519, Gotham, "Gotham",
+                      GI.GT_FAN_TYPE, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(604, Interment, "Interment",
                       GI.GT_FAN_TYPE, 2, 0, GI.SL_BALANCED))
 

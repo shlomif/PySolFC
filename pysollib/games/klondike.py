@@ -1204,6 +1204,24 @@ class LuckyPiles(LuckyThirteen):
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
+# /***********************************************************************
+# // Legion
+# ************************************************************************/
+
+class Legion(Klondike):
+
+    def createGame(self):
+        Klondike.createGame(self, max_rounds=1, rows=8)
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow()
+        for i in (1,2,3):
+            self.s.talon.dealRow(rows=self.s.rows[i:-i], flip=0)
+            self.s.talon.dealRow(rows=self.s.rows[i:-i])
+        self.s.talon.dealCards()
+
+
 
 # register the game
 registerGame(GameInfo(2, Klondike, "Klondike",
@@ -1330,4 +1348,6 @@ registerGame(GameInfo(601, AmericanCanister, "American Canister",
                       GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(602, BritishCanister, "British Canister",
                       GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(607, Legion, "Legion",
+                      GI.GT_KLONDIKE, 1, 0, GI.SL_BALANCED))
 

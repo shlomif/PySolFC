@@ -633,7 +633,9 @@ class Application:
         # widgets
         #
         # create the menubar
-        self.menubar = PysolMenubar(self, self.top)
+        if self.intro.progress: self.intro.progress.update(step=1)
+        self.menubar = PysolMenubar(self, self.top,
+                                    progress=self.intro.progress)
         # create the statusbar(s)
         self.statusbar = PysolStatusbar(self.top)
         self.statusbar.show(self.opt.statusbar)

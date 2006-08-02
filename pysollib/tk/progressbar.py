@@ -48,8 +48,8 @@ from tkutil import makeToplevel, setTransient, wm_set_icon
 # ************************************************************************/
 
 class PysolProgressBar:
-    def __init__(self, app, parent, title=None, images=None,
-                 color="blue", width=300, height=25, show_text=1):
+    def __init__(self, app, parent, title=None, images=None, color="blue",
+                 width=300, height=25, show_text=1, norm=1):
         self.parent = parent
         self.percent = 0
         self.top = makeToplevel(parent, title=title)
@@ -84,6 +84,8 @@ class PysolProgressBar:
             setTransient(self.top, None, relx=0.5, rely=0.5)
         else:
             self.update(percent=0)
+        self.norm = norm
+        self.steps_sum = 0
 
     def wmDeleteWindow(self):
         return EVENT_HANDLED
@@ -104,6 +106,9 @@ class PysolProgressBar:
         self.percent = percent
 
     def update(self, percent=None, step=1):
+        self.steps_sum += step
+        ##print self.steps_sum
+        step = step/self.norm
         if self.top is None:        # already destroyed
             return
         if percent is None:

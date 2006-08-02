@@ -319,6 +319,7 @@ class PussInTheCorner(Numerica):
 # /***********************************************************************
 # // Frog
 # // Fly
+# // Fanny
 # ************************************************************************/
 
 class Frog(Game):
@@ -396,6 +397,18 @@ class Fly(Frog):
         self.s.talon.dealRow(rows=self.s.foundations)
         for i in range(13):
             self.s.talon.dealRow(self.s.reserves)
+        self.s.talon.dealCards()
+
+
+class Fanny(Frog):
+
+    Foundation_Class = RK_FoundationStack
+
+    def startGame(self):
+        self.startDealSample()
+        for i in range(11):
+            self.s.talon.dealRow(self.s.reserves, flip=0)
+        self.s.talon.dealRow(self.s.reserves)
         self.s.talon.dealCards()
 
 
@@ -751,4 +764,6 @@ registerGame(GameInfo(599, Assembly, "Assembly",
                       GI.GT_NUMERICA, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(600, AnnoDomini, "Anno Domini",
                       GI.GT_NUMERICA, 1, 2, GI.SL_BALANCED))
+registerGame(GameInfo(613, Fanny, "Fanny",
+                      GI.GT_NUMERICA, 2, 0, GI.SL_BALANCED))
 

@@ -196,7 +196,7 @@ class MfxMenu(MfxMenubar):
 # ************************************************************************/
 
 class PysolMenubar(PysolMenubarActions):
-    def __init__(self, app, top):
+    def __init__(self, app, top, progress=None):
         PysolMenubarActions.__init__(self, app, top)
         # init columnbreak
         self.__cb_max = int(self.top.winfo_screenheight()/23)
@@ -205,11 +205,15 @@ class PysolMenubar(PysolMenubarActions):
 ##         if sh >= 600: self.__cb_max = 27
 ##         if sh >= 768: self.__cb_max = 32
 ##         if sh >= 1024: self.__cb_max = 40
+        self.progress = progress
         # create menus
         self.__menubar = None
         self.__menupath = {}
         self.__keybindings = {}
         self._createMenubar()
+
+        if self.progress: self.progress.update(step=1)
+
         # set the menubar
         self.updateBackgroundImagesMenu()
         self.top.config(menu=self.__menubar)
@@ -224,6 +228,9 @@ class PysolMenubar(PysolMenubarActions):
         if enabled:
             return "normal"
         return "disabled"
+
+    def updateProgress(self):
+        if self.progress: self.progress.update(step=1)
 
 
     #
@@ -268,8 +275,12 @@ class PysolMenubar(PysolMenubarActions):
         menu.add_command(label=n_("&Hold and quit"), command=self.mHoldAndQuit)
         menu.add_command(label=n_("&Quit"), command=self.mQuit, accelerator=m+"Q")
 
+        if self.progress: self.progress.update(step=1)
+
         menu = MfxMenu(self.__menubar, label=n_("&Select"))
         self._addSelectGameMenu(menu)
+
+        if self.progress: self.progress.update(step=1)
 
         menu = MfxMenu(self.__menubar, label=n_("&Edit"))
         menu.add_command(label=n_("&Undo"), command=self.mUndo, accelerator="Z")
@@ -321,6 +332,9 @@ class PysolMenubar(PysolMenubarActions):
         menu.add_command(label=n_("Demo (&all games)"), command=self.mMixedDemo)
         menu.add_separator()
         menu.add_command(label=n_("Piles description"), command=self.mStackDesk, accelerator="F2")
+
+        if self.progress: self.progress.update(step=1)
+
         menu = MfxMenu(self.__menubar, label=n_("&Options"))
         menu.add_command(label=n_("&Player options..."), command=self.mOptPlayerOptions)
         submenu = MfxMenu(menu, label=n_("&Automatic play"))
@@ -382,6 +396,8 @@ class PysolMenubar(PysolMenubarActions):
         menu.add_checkbutton(label=n_("Startup splash sc&reen"), variable=self.tkopt.splashscreen, command=self.mOptSplashscreen)
 ###        menu.add_separator()
 ###        menu.add_command(label="Save options", command=self.mOptSave)
+
+        if self.progress: self.progress.update(step=1)
 
         menu = MfxMenu(self.__menubar, label=n_("&Help"))
         menu.add_command(label=n_("&Contents"), command=self.mHelp, accelerator=m+"F1")
@@ -511,6 +527,7 @@ class PysolMenubar(PysolMenubarActions):
         submenu = MfxMenu(menu, label=n_("&French games"))
         self._addSelectGameSubMenu(submenu, games, GI.SELECT_GAME_BY_TYPE,
                                    self.mSelectGame, self.tkopt.gameid)
+        if self.progress: self.progress.update(step=1)
         submenu = MfxMenu(menu, label=n_("&Mahjongg games"))
         self._addSelectMahjonggGameSubMenu(submenu,
                                            self.mSelectGame, self.tkopt.gameid)
@@ -522,6 +539,7 @@ class PysolMenubar(PysolMenubarActions):
         self._addSelectGameSubMenu(submenu, games, GI.SELECT_SPECIAL_GAME_BY_TYPE,
                                    self.mSelectGame, self.tkopt.gameid)
         menu.add_separator()
+        if self.progress: self.progress.update(step=1)
         submenu = MfxMenu(menu, label=n_("All games by name"))
         self._addSelectAllGameSubMenu(submenu, games,
                                       self.mSelectGame, self.tkopt.gameid)
@@ -620,6 +638,7 @@ class PysolMenubar(PysolMenubarActions):
         n, d = 0, self.__cb_max
         i = 0
         while True:
+            if self.progress: self.progress.update(step=1)
             columnbreak = i > 0 and (i % d) == 0
             i += 1
             if not g[n:n+d]:

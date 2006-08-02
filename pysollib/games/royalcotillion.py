@@ -42,6 +42,9 @@ from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 
+from unionsquare import UnionSquare_Foundation
+
+
 # /***********************************************************************
 # // Royal Cotillion
 # ************************************************************************/
@@ -220,6 +223,7 @@ class Kingdom(RoyalCotillion):
 # /***********************************************************************
 # // Alhambra
 # // Granada
+# // Grant's Reinforcement
 # ************************************************************************/
 
 
@@ -267,12 +271,14 @@ class Alhambra_Talon(DealRowTalonStack):
 class Alhambra(Game):
     Hint_Class = Alhambra_Hint
 
-    def createGame(self, rows=1):
+    RowStack_Class = StackWrapper(Alhambra_RowStack, base_rank=ANY_RANK)
+
+    def createGame(self, rows=1, reserves=8, playcards=3):
         # create layout
         l, s = Layout(self), self.s
 
         # set window
-        self.setSize(l.XM + 8*l.XS, l.YM + 4*l.YS)
+        self.setSize(l.XM+8*l.XS, l.YM+3.5*l.YS+playcards*l.YOFFSET)
 
         # create stacks
         x, y, = l.XM, l.YM
@@ -284,22 +290,23 @@ class Alhambra(Game):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i,
                                  max_move=0, base_rank=KING, dir=-1))
             x = x + l.XS
-        x, y, = l.XM, y + l.YS
-        for i in range(8):
+        x, y, = l.XM+(8-reserves)*l.XS/2, y+l.YS
+        for i in range(reserves):
             stack = OpenStack(x, y, self, max_accept=0)
             stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, l.YOFFSET
             s.reserves.append(stack)
             x = x + l.XS
-        x, y = l.XM+(8-1-rows)*l.XS/2, y+l.YS+5*l.YOFFSET
+        x, y = l.XM+(8-1-rows)*l.XS/2, self.height-l.YS
         s.talon = Alhambra_Talon(x, y, self, max_rounds=3)
         l.createText(s.talon, "sw")
         x += l.XS
         for i in range(rows):
-            stack = Alhambra_RowStack(x, y, self, mod=13,
-                                      max_accept=1, base_rank=ANY_RANK)
+            stack = self.RowStack_Class(x, y, self, mod=13, max_accept=1)
             stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, 0
             s.rows.append(stack)
             x += l.XS
+        if rows == 1:
+            l.createText(stack, 'se')
 
         # define stack-groups (non default)
         l.defaultStackGroups()
@@ -326,6 +333,31 @@ class Alhambra(Game):
 class Granada(Alhambra):
     def createGame(self):
         Alhambra.createGame(self, rows=4)
+
+
+class GrantsReinforcement(Alhambra):
+    RowStack_Class = StackWrapper(Alhambra_RowStack, base_rank=NO_RANK)
+
+    def createGame(self):
+        Alhambra.createGame(self, reserves=4, playcards=11)
+
+    def startGame(self):
+        self.s.talon.dealRow(rows=self.s.foundations, frames=0)
+        for i in range(11):
+            self.s.talon.dealRow(rows=self.s.reserves, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow(rows=self.s.reserves)
+        self.s.talon.dealCards()
+
+    def fillStack(self, stack):
+        for r in self.s.reserves:
+            if r.cards:
+                continue
+            if self.s.talon.cards:
+                old_state = self.enterState(self.S_FILL)
+                self.s.talon.flipMove()
+                self.s.talon.moveMove(1, r)
+                self.leaveState(old_state)
 
 
 # /***********************************************************************
@@ -589,6 +621,105 @@ class ThreePirates(Game):
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
+# /***********************************************************************
+# // Frames
+# ************************************************************************/
+
+class Frames_Foundation(UnionSquare_Foundation):
+    def acceptsCards(self, from_stack, cards):
+        if not UnionSquare_Foundation.acceptsCards(self, from_stack, cards):
+            return False
+        return from_stack in self.game.s.rows
+
+
+class Frames_RowStack(UD_SS_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not UD_SS_RowStack.acceptsCards(self, from_stack, cards):
+            return False
+        if not (from_stack in self.game.s.reserves or
+                from_stack in self.game.s.rows):
+            return False
+        if len(self.cards) > 1:
+            cs = self.cards+cards
+            if not (isSameSuitSequence(cs, dir=1) or
+                    isSameSuitSequence(cs, dir=-1)):
+                return False
+        if from_stack in self.game.s.reserves:
+            if (hasattr(self.cap, 'column') and
+                self.cap.column != from_stack.cap.column):
+                return False
+            if (hasattr(self.cap, 'row') and
+                self.cap.row != from_stack.cap.row):
+                return False
+        return True
+
+
+class Frames(Game):
+    Hint_Class = CautiousDefaultHint
+
+    def createGame(self):
+        l, s = Layout(self), self.s
+
+        self.setSize(l.XM+8*l.XS, l.YM+5*l.YS)
+
+        x0, y0 = l.XM+2*l.XS, l.YM
+        # foundations (corners)
+        suit = 0
+        for i, j in ((0,0),(5,0),(0,4),(5,4)):
+            x, y = x0+i*l.XS, y0+j*l.YS
+            s.foundations.append(Frames_Foundation(x, y, self,
+                                 suit=suit, dir=0, max_cards=26))
+            suit += 1
+        # rows (frame)
+        for i in (1,2,3,4):
+            for j in (0,4):
+                x, y = x0+i*l.XS, y0+j*l.YS
+                stack = Frames_RowStack(x, y, self)
+                s.rows.append(stack)
+                stack.cap.addattr(column=i)
+                stack.CARD_YOFFSET = 0
+        for i in (0,5):
+            for j in (1,2,3):
+                x, y = x0+i*l.XS, y0+j*l.YS
+                stack = Frames_RowStack(x, y, self)
+                s.rows.append(stack)
+                stack.cap.addattr(row=j)
+                stack.CARD_YOFFSET = 0
+        # reserves (picture)
+        for j in (1,2,3):
+            for i in (1,2,3,4):
+                x, y = x0+i*l.XS, y0+j*l.YS
+                stack = OpenStack(x, y, self)
+                s.reserves.append(stack)
+                stack.cap.addattr(column=i)
+                stack.cap.addattr(row=j)
+        # talon & waste
+        x, y, = l.XM, l.YM
+        s.talon = WasteTalonStack(x, y, self, max_rounds=1)
+        l.createText(s.talon, 'ne')
+        y += l.YS
+        s.waste = WasteStack(x, y, self)
+        l.createText(s.waste, 'ne')
+
+        l.defaultStackGroups()
+
+    def startGame(self):
+        self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow(rows=self.s.reserves)
+        self.s.talon.dealCards()
+
+    def fillStack(self, stack):
+        if not stack.cards and stack in self.s.reserves:
+            if not self.s.waste.cards:
+                self.s.talon.dealCards()
+            if self.s.waste.cards:
+                old_state = self.enterState(self.S_FILL)
+                self.s.waste.moveMove(1, stack)
+                self.leaveState(old_state)
+
+    shallHighlightMatch = Game._shallHighlightMatch_SS
+
 
 # register the game
 registerGame(GameInfo(54, RoyalCotillion, "Royal Cotillion",
@@ -615,4 +746,8 @@ registerGame(GameInfo(465, Granada, "Granada",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED))
 registerGame(GameInfo(579, ThreePirates, "Three Pirates",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(608, Frames, "Frames",
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(609, GrantsReinforcement, "Grant's Reinforcement",
+                      GI.GT_2DECK_TYPE, 2, 2, GI.SL_MOSTLY_SKILL))
 

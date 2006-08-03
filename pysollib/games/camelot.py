@@ -222,6 +222,8 @@ class SlyFox_Foundation(SS_FoundationStack):
         if not SS_FoundationStack.acceptsCards(self, from_stack, cards):
             return False
         if from_stack in self.game.s.rows:
+            if len(self.game.s.talon.cards) == 0:
+                return True
             return self.game.num_dealled <= 0
         return True
 
@@ -332,10 +334,47 @@ class SlyFox(Game):
         self.texts.misc.config(text=text)
 
 
+class OpenSlyFox(SlyFox):
+
+    def createGame(self):
+        playcards = 6
+
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+10*l.XS, l.YM+3*l.YS+2*playcards*l.YOFFSET+l.TEXT_HEIGHT)
+
+        x, y = l.XM, l.YM
+        s.talon = SlyFox_Talon(x, y, self)
+        s.waste = s.talon
+        l.createText(s.talon, 'ne')
+        tx, ty, ta, tf = l.getTextAttr(s.talon, "ss")
+        font = self.app.getFont("canvas_default")
+        self.texts.misc = MfxCanvasText(self.canvas, tx, ty,
+                                        anchor=ta, font=font)
+
+        x += 2*l.XS
+        for i in range(4):
+            s.foundations.append(SlyFox_Foundation(x, y, self, suit=i))
+            s.foundations.append(SlyFox_Foundation(x+4*l.XS, y, self, suit=i,
+                                                   base_rank=KING, dir=-1))
+            x += l.XS
+        y = l.YM+l.YS+l.TEXT_HEIGHT
+        for i in range(2):
+            x = l.XM
+            for j in range(10):
+                stack = SlyFox_RowStack(x, y, self, max_cards=UNLIMITED_CARDS)
+                s.rows.append(stack)
+                stack.CARD_YOFFSET = l.YOFFSET
+                x += l.XS
+            y += l.YS+playcards*l.YOFFSET
+
+        l.defaultStackGroups()
+
 
 # register the game
 registerGame(GameInfo(280, Camelot, "Camelot",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(610, SlyFox, "Sly Fox",
-                      GI.GT_NUMERICA, 2, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_NUMERICA, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(614, OpenSlyFox, "Open Sly Fox",
+                      GI.GT_NUMERICA | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 

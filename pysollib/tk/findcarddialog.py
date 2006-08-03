@@ -41,17 +41,24 @@ from tkcanvas import MfxCanvas, MfxCanvasGroup, MfxCanvasImage, MfxCanvasRectang
 # //
 # ************************************************************************/
 
-class FindCardDialog(Tkinter.Toplevel):
-    SUIT_IMAGES = {} # key: (suit, color)
-    RANK_IMAGES = {} # key: (rank, color)
+LARGE_EMBLEMS_SIZE = (38, 34)
+SMALL_EMBLEMS_SIZE = (31, 21)
 
-    def __init__(self, parent, game, dir):
+class FindCardDialog(Tkinter.Toplevel):
+    CARD_IMAGES = {} # key: (rank, suit)
+
+    def __init__(self, parent, game, dir, size='large'):
         Tkinter.Toplevel.__init__(self)
         self.title(_('Find card'))
         self.wm_resizable(0, 0)
         #
-        self.images_dir = dir
-        self.label_width, self.label_height = 38, 34
+        ##self.images_dir = dir
+        if size == 'large':
+            self.images_dir = os.path.join(dir, 'large-emblems')
+            self.label_width, self.label_height = LARGE_EMBLEMS_SIZE
+        else:
+            self.images_dir = os.path.join(dir, 'small-emblems')
+            self.label_width, self.label_height = SMALL_EMBLEMS_SIZE
         self.canvas = MfxCanvas(self, bg='white')
         self.canvas.pack(expand=True, fill='both')
         #
@@ -72,35 +79,28 @@ class FindCardDialog(Tkinter.Toplevel):
         dir = self.images_dir
         canvas = self.canvas
         group = MfxCanvasGroup(canvas)
-        s = 'cshd'[suit]
-        if suit >= 2: c = 'red'
-        else:         c = 'black'
-        rect_width = 4
-        x1, y1 = x0+dx-rect_width, y0+dy-rect_width
-        rect = MfxCanvasRectangle(self.canvas, x0, y0, x1, y1,
-                                  width=rect_width,
-                                  fill='white', outline='white')
-        rect.addtag(group)
         #
-        fn = os.path.join(dir, c+'-'+str(rank)+'.gif')
-        rim = FindCardDialog.RANK_IMAGES.get((rank, c))
-        if not rim:
-            rim = makeImage(file=fn)
-            FindCardDialog.RANK_IMAGES[(rank, c)] = rim
-        fn = os.path.join(dir, s+'.gif')
-        sim = FindCardDialog.SUIT_IMAGES.get((suit, c))
-        if not sim:
-            sim = makeImage(file=fn)
-            FindCardDialog.SUIT_IMAGES[(suit, c)] = sim
+        im = FindCardDialog.CARD_IMAGES.get((rank, suit))
+        if im is None:
+            r = '%02d' % (rank+1)
+            s = 'csdh'[suit]
+            fn = os.path.join(dir, r+s+'.gif')
+            im = makeImage(file=fn)
+            FindCardDialog.CARD_IMAGES[(rank, suit)] = im
+        cim = MfxCanvasImage(canvas, x0, y0, image=im, anchor='nw')
+        cim.addtag(group)
+        cim.lower()
         #
-        x0 = x0+(dx-rim.width()-sim.width())/2
-        x0, y0 = x0-1, y0-2
-        x, y = x0, y0+(dy-rim.height())/2
-        im = MfxCanvasImage(canvas, x, y, image=rim, anchor='nw')
-        im.addtag(group)
-        x, y = x0+rim.width(), y0+(dy-sim.height())/2
-        im = MfxCanvasImage(canvas, x, y, image=sim, anchor='nw')
-        im.addtag(group)
+##         rect_width = 4
+##         x1, y1 = x0+dx, y0+dy
+##         rect = MfxCanvasRectangle(self.canvas, x0, y0, x1, y1,
+##                                   width=rect_width,
+##                                   fill=None,
+##                                   outline='red',
+##                                   state='hidden')
+##         rect.addtag(group)
+        rect = None
+        #
         bind(group, '<Enter>',
              lambda e, suit=suit, rank=rank, rect=rect:
                  self.enterEvent(suit, rank, rect))
@@ -126,29 +126,31 @@ class FindCardDialog(Tkinter.Toplevel):
                 self.createCardLabel(suit=suit, rank=rank, x0=x, y0=y)
                 j += 1
             i += 1
-        w, h = dx*j, dy*i
+        w, h = dx*j+2, dy*i+2
         self.canvas.config(width=w, height=h)
 
     def enterEvent(self, suit, rank, rect):
-        #print 'enterEvent', suit, rank
+        ##print 'enterEvent', suit, rank
         self.highlight_items = self.game.highlightCard(suit, rank)
         if not self.highlight_items:
             self.highlight_items = []
-        rect.config(outline='red')
         if self.highlight_items:
             self.timer = after(self, self.normal_timeout, self.timeoutEvent)
+        return
+        rect.config(state='normal')
 
     def leaveEvent(self, suit, rank, rect):
-        #print 'leaveEvent', suit, rank
+        ##print 'leaveEvent', suit, rank
         if self.highlight_items:
             for i in self.highlight_items:
                 i.delete()
-        rect.config(outline='white')
         #self.game.canvas.update_idletasks()
         #self.canvas.update_idletasks()
         if self.timer:
             after_cancel(self.timer)
             self.timer = None
+        return
+        rect.config(state='hidden')
 
     def timeoutEvent(self, *event):
         if self.highlight_items:

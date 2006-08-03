@@ -78,16 +78,25 @@ class GrandDuchess(Game):
     # game layout
     #
 
-    def createGame(self):
+    def createGame(self, rows=4):
         # create layout
+        max_rows = max(10, 4+rows)
         l, s = Layout(self), self.s
 
         # set window
-        w, h = l.XM+9*l.XS, l.YM+2*l.YS+18*l.YOFFSET
+        w, h = l.XM+max_rows*l.XS, l.YM+2*l.YS+18*l.YOFFSET
         self.setSize(w, h)
 
         # create stacks
         x, y = l.XM, l.YM
+        s.talon = GrandDuchess_Talon(x, y, self, max_rounds=4)
+        l.createText(s.talon, 'se')
+        tx, ty, ta, tf = l.getTextAttr(s.talon, 'ne')
+        font = self.app.getFont('canvas_default')
+        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
+                                             anchor=ta, font=font)
+
+        x += 2*l.XS
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
             x += l.XS
@@ -95,25 +104,18 @@ class GrandDuchess(Game):
             s.foundations.append(SS_FoundationStack(x, y, self,
                                  suit=i, base_rank=KING, dir=-1))
             x += l.XS
-        x, y = l.XM+2*l.XS, l.YM+l.YS
-        for i in range(4):
+        x, y = l.XM+(max_rows-rows)*l.XS/2, l.YM+l.YS
+        for i in range(rows):
             stack = BasicRowStack(x, y, self, max_move=1, max_accept=0)
             stack.CARD_YOFFSET = l.YOFFSET
             s.rows.append(stack)
             x += l.XS
-        x, y = l.XM, l.YM+l.YS
+        dx = (max_rows-rows)*l.XS/4-l.XS/2
+        x, y = l.XM+dx, l.YM+l.YS
         s.reserves.append(GrandDuchess_Reserve(x, y, self))
-        x, y = l.XM+7*l.XS, l.YM+l.YS
+        x, y = self.width-dx-l.XS, l.YM+l.YS
         s.reserves.append(GrandDuchess_Reserve(x, y, self))
 
-        x, y = self.width-l.XS, self.height-l.YS
-        s.talon = GrandDuchess_Talon(x, y, self, max_rounds=4)
-        l.createText(s.talon, 'n')
-        tx, ty, ta, tf = l.getTextAttr(s.talon, "nn")
-        font = self.app.getFont("canvas_default")
-        s.talon.texts.rounds = MfxCanvasText(self.canvas,
-                                             tx, ty-l.TEXT_MARGIN,
-                                             anchor=ta, font=font)
         # define stack-groups
         l.defaultStackGroups()
 
@@ -133,7 +135,34 @@ class GrandDuchess(Game):
         return ((), (), self.sg.dropstacks)
 
 
+# /***********************************************************************
+# // Parisienne
+# ************************************************************************/
+
+class Parisienne(GrandDuchess):
+    def _shuffleHook(self, cards):
+        # move one Ace and one King of each suit to top of the Talon
+        # (i.e. first cards to be dealt)
+        return self._shuffleHookMoveToTop(cards,
+            lambda c: (c.rank in (ACE, KING) and c.deck == 0, (c.rank, c.suit)))
+
+    def startGame(self):
+        self.s.talon.dealRow(rows=self.s.foundations, frames=0)
+        GrandDuchess.startGame(self)
+
+
+class GrandDuchessPlus(GrandDuchess):
+    def createGame(self):
+        GrandDuchess.createGame(self, rows=6)
+
+
+
 registerGame(GameInfo(557, GrandDuchess, "Grand Duchess",
                       GI.GT_2DECK_TYPE, 2, 3))
-
+registerGame(GameInfo(617, Parisienne, "Parisienne",
+                      GI.GT_2DECK_TYPE, 2, 3,
+                      rules_filename='grandduchess.html',
+                      altnames=('La Parisienne', 'Parisian') ))
+registerGame(GameInfo(618, GrandDuchessPlus, "Grand Duchess +",
+                      GI.GT_2DECK_TYPE, 2, 3))
 

@@ -35,6 +35,7 @@ from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 
 # /***********************************************************************
 # // Parallels
+# // British Blockade
 # ************************************************************************/
 
 class Parallels_RowStack(BasicRowStack):
@@ -167,8 +168,21 @@ class Parallels(Game):
         self.s.talon.dealRow(rows=self.s.rows[:10])
 
 
+class BritishBlockade(Parallels):
+
+    def fillStack(self, stack):
+        if not stack.cards and stack in self.s.rows:
+            if self.s.talon.cards:
+                old_state = self.enterState(self.S_FILL)
+                self.s.talon.flipMove()
+                self.s.talon.moveMove(1, stack)
+                self.leaveState(old_state)
+
+
 # register the game
 registerGame(GameInfo(428, Parallels, "Parallels",
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(615, BritishBlockade, "British Blockade",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 
 

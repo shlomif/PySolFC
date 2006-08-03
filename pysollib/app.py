@@ -150,15 +150,14 @@ class Options:
         # fonts
         self.fonts = {"default"        : None,
                       #"default"        : ("helvetica", 12),
-                      "sans"           : ("times",     14), # for html
-                      "fixed"          : ("courier",   14), # for html & log
+                      "sans"           : ("times",     12), # for html
+                      "fixed"          : ("courier",   12), # for html & log
                       "small"          : ("helvetica", 12),
                       "canvas_default" : ("helvetica", 12),
                       #"canvas_card"    : ("helvetica", 12),
                       "canvas_fixed"   : ("courier",   12),
-                      "canvas_large"   : ("helvetica", 18),
-                      "canvas_small"   : ("helvetica", 12),  # not used?
-                      #"tree_small"     : ("helvetica", 12),
+                      "canvas_large"   : ("helvetica", 16),
+                      "canvas_small"   : ("helvetica", 10),
                       }
         if os.name == 'posix':
             self.fonts["sans"] = ("helvetica", 12)
@@ -579,6 +578,8 @@ class Application:
         )
         self.commandline = Struct(
             loadgame = None,            # load a game ?
+            game = None,
+            gameid = None,
         )
         self.demo_counter = 0
 
@@ -619,12 +620,21 @@ class Application:
                     game.destruct()
                     destruct(game)
             game = None
-        if self.commandline.loadgame and not self.nextgame.loadedgame:
-            try:
-                self.nextgame.loadedgame = tmpgame._loadGame(self.commandline.loadgame, self)
-                self.nextgame.loadedgame.gstats.holded = 0
-            except:
-                self.nextgame.loadedgame = None
+        if not self.nextgame.loadedgame:
+            if self.commandline.loadgame:
+                try:
+                    self.nextgame.loadedgame = tmpgame._loadGame(self.commandline.loadgame, self)
+                    self.nextgame.loadedgame.gstats.holded = 0
+                except:
+                    self.nextgame.loadedgame = None
+            elif not self.commandline.game is None:
+                gameid = self.gdb.getGameByName(self.commandline.game)
+                if gameid is None:
+                    print >> sys.stderr, "WARNING: can't find game:", self.commandline.game
+                else:
+                    self.nextgame.id, self.nextgame.random = gameid, None
+            elif not self.commandline.gameid is None:
+                self.nextgame.id, self.nextgame.random = self.commandline.gameid, None
         self.opt.game_holded = 0
         tmpgame.destruct()
         destruct(tmpgame)

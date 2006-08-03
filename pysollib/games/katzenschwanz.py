@@ -178,7 +178,7 @@ class Kings(DerKatzenschwanz):
 
     def _shuffleHook(self, cards):
         for c in cards[:]:
-            if c.rank == 12:
+            if c.rank == KING:
                 cards.remove(c)
                 break
         cards.append(c)
@@ -289,7 +289,7 @@ class SalicLaw(DerKatzenschwanz):
             y += l.YS
 
         x, y = l.XM, l.YM+l.YS*len(self.Foundation_Classes)
-        self.setRegion(s.foundations[-8:], (-999, -999, 999999, y - l.XM / 2))
+        self.setRegion(s.foundations, (-999, -999, 999999, y - l.XM / 2))
         for i in range(8):
             stack = self.RowStack_Class(x, y, self, max_move=1)
             stack.CARD_XOFFSET = xoffset
@@ -351,44 +351,6 @@ class Deep(DerKatzenschwanz):
 
 
 # /***********************************************************************
-# // Laggard Lady
-# ************************************************************************/
-
-class LaggardLady_RowStack(OpenStack):
-    def acceptsCards(self, from_stack, cards):
-        if not OpenStack.acceptsCards(self, from_stack, cards):
-            return False
-        return len(self.game.s.talon.cards) == 0 and len(self.cards) == 1
-
-
-class LaggardLady(SalicLaw):
-
-    Foundation_Classes = [
-        StackWrapper(RK_FoundationStack, base_rank=5, max_cards=6),
-        StackWrapper(RK_FoundationStack, base_rank=4, max_cards=6, dir=-1, mod=13),
-        ]
-    RowStack_Class = StackWrapper(LaggardLady_RowStack, max_accept=1, min_cards=1)
-
-    ROW_BASE_RANK = QUEEN
-
-    def _shuffleHook(self, cards):
-        for c in cards[:]:
-            if c.rank == QUEEN:
-                cards.remove(c)
-                break
-        cards.append(c)
-        return cards
-
-    def isGameWon(self):
-        if self.s.talon.cards:
-            return False
-        for s in self.s.foundations:
-            if len(s.cards) != 6:
-                return False
-        return True
-
-
-# /***********************************************************************
 # // Faerie Queen
 # ************************************************************************/
 
@@ -423,8 +385,63 @@ class FaerieQueen(SalicLaw):
 
 
 # /***********************************************************************
+# // Intrigue
+# // Laggard Lady
 # // Glencoe
 # ************************************************************************/
+
+class Intrigue_RowStack(OpenStack):
+    def acceptsCards(self, from_stack, cards):
+        if not OpenStack.acceptsCards(self, from_stack, cards):
+            return False
+        return len(self.game.s.talon.cards) == 0 and len(self.cards) == 1
+
+
+class Intrigue(SalicLaw):
+
+    Foundation_Classes = [
+        StackWrapper(RK_FoundationStack, base_rank=5, max_cards=6),
+        StackWrapper(RK_FoundationStack, base_rank=4, max_cards=6, dir=-1, mod=13),
+        ]
+    RowStack_Class = StackWrapper(Intrigue_RowStack, max_accept=1, min_cards=1)
+
+    ROW_BASE_RANK = QUEEN
+
+    def _shuffleHook(self, cards):
+        for c in cards[:]:
+            if c.rank == QUEEN:
+                cards.remove(c)
+                break
+        cards.append(c)
+        return cards
+
+    def isGameWon(self):
+        if self.s.talon.cards:
+            return False
+        for s in self.s.foundations:
+            if len(s.cards) != 6:
+                return False
+        return True
+
+
+class LaggardLady_Foundation(RK_FoundationStack):
+    def acceptsCards(self, from_stack, cards):
+        if not RK_FoundationStack.acceptsCards(self, from_stack, cards):
+            return False
+        c = cards[0]
+        if c.rank in (4, 5):
+            i = list(self.game.s.foundations).index(self) % 8
+            r = self.game.s.rows[i]
+            if not r.cards:
+                return False
+        return True
+
+class LaggardLady(Intrigue):
+    Foundation_Classes = [
+        StackWrapper(LaggardLady_Foundation, base_rank=5, max_cards=6),
+        StackWrapper(LaggardLady_Foundation, base_rank=4, max_cards=6, dir=-1, mod=13),
+        ]
+
 
 class Glencoe_Foundation(RK_FoundationStack):
     def acceptsCards(self, from_stack, cards):
@@ -439,14 +456,11 @@ class Glencoe_Foundation(RK_FoundationStack):
             return c.suit == r.cards[0].suit
         return True
 
-
-class Glencoe(LaggardLady):
-
+class Glencoe(Intrigue):
     Foundation_Classes = [
         StackWrapper(Glencoe_Foundation, base_rank=5, max_cards=6),
         StackWrapper(Glencoe_Foundation, base_rank=4, max_cards=6, dir=-1, mod=13),
         ]
-
 
 
 # register the game
@@ -464,11 +478,16 @@ registerGame(GameInfo(299, SalicLaw, "Salic Law",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(442, Deep, "Deep",
                       GI.GT_FREECELL | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
-registerGame(GameInfo(523, LaggardLady, "Laggard Lady",
+registerGame(GameInfo(523, Intrigue, "Intrigue",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(611, FaerieQueen, "Faerie Queen",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(612, Glencoe, "Glencoe",
-                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED,
+                      rules_filename="intrigue.html"))
+registerGame(GameInfo(616, LaggardLady, "Laggard Lady",
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED,
+                      rules_filename="intrigue.html"))
+
 
 

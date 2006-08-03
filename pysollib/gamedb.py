@@ -572,6 +572,13 @@ class GameManager:
             self.getGamesIdSortedByName()
         return self.__games_by_altname
 
+    # find game by name
+    def getGameByName(self, name):
+        gi = self.__all_gamenames.get(name)
+        if gi:
+            return gi.id
+        return None
+
 
 # /***********************************************************************
 # //

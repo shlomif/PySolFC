@@ -84,8 +84,9 @@ Please check your %s installation.
 def parse_option(argv):
     prog_name = argv[0]
     try:
-        optlist, args = getopt.getopt(argv[1:], "hD:",
-                                      ["fg=", "foreground=",
+        optlist, args = getopt.getopt(argv[1:], "g:i:hD:",
+                                      ["game=", "gameid=",
+                                       "fg=", "foreground=",
                                        "bg=", "background=",
                                        "fn=", "font=",
                                        "noplugins",
@@ -97,6 +98,8 @@ def parse_option(argv):
               % (prog_name, err, prog_name)
         return None
     opts = {"help": False,
+            "game": None,
+            "gameid": None,
             "fg": None,
             "bg": None,
             "fn": None,
@@ -107,6 +110,10 @@ def parse_option(argv):
     for i in optlist:
         if i[0] in ("-h", "--help"):
             opts["help"] = True
+        elif i[0] in ("-g", "--game"):
+            opts["game"] = i[1]
+        elif i[0] in ("-i", "--gameid"):
+            opts["gameid"] = i[1]
         elif i[0] in ("--fg", "--foreground"):
             opts["fg"] = i[1]
         elif i[0] in ("--bg", "--background"):
@@ -122,6 +129,7 @@ def parse_option(argv):
 
     if opts["help"]:
         print _("""Usage: %s [OPTIONS] [FILE]
+  -g    --game=GAMENAME        start game GAMENAME
   --fg  --foreground=COLOR     foreground color
   --bg  --background=COLOR     background color
   --fn  --font=FONT            default font
@@ -177,6 +185,12 @@ def pysol_init(app, args):
             wm_command = prog + " " + os.path.abspath(argv0)
     if filename:
         app.commandline.loadgame = filename
+    app.commandline.game = opts['game']
+    if not opts['gameid'] is None:
+        try:
+            app.commandline.gameid = int(opts['gameid'])
+        except:
+            print >> sys.stderr, 'WARNING: invalide game id:', opts['gameid']
     app.debug = int(opts['debug'])
 
     # init games database

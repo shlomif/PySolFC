@@ -595,6 +595,86 @@ class Fifteens(Elevens):
         self.leaveState(old_state)
 
 
+# /***********************************************************************
+# // Triple Alliance
+# ************************************************************************/
+
+class TripleAlliance_Reserve(ReserveStack):
+    def acceptsCards(self, from_stack, cards):
+        if not ReserveStack.acceptsCards(self, from_stack, cards):
+            return False
+        r_ranks = []
+        for r in self.game.s.reserves:
+            if r.cards:
+                r_ranks.append(r.cards[0].rank)
+        if not r_ranks:
+            return True
+        r_ranks.append(cards[0].rank)
+        r_ranks.sort()
+        if len(r_ranks) == 2:
+            return r_ranks[1]-r_ranks[0] in (1, 12)
+        for i in range(3):
+            j, k = (i+1)%3, (i+2)%3
+            if ((r_ranks[i]+1) % 13 == r_ranks[j] and
+                (r_ranks[j]+1) % 13 == r_ranks[k]):
+                return True
+        return False
+
+
+class TripleAlliance(Game):
+
+    def createGame(self):
+
+        l, s = Layout(self), self.s
+        w0 = l.XS+5*l.XOFFSET
+        self.setSize(l.XM+5*w0, l.YM+5*l.YS)
+
+        x, y = l.XM, l.YM
+        for i in range(3):
+            s.reserves.append(TripleAlliance_Reserve(x, y, self))
+            x += l.XS
+        x, y = self.width-l.XS, l.YM
+        s.foundations.append(AbstractFoundationStack(x, y, self, suit=ANY_SUIT,
+                             max_move=0, max_accept=0, max_cards=52))
+        y = l.YM+l.YS
+        nstacks = 0
+        for i in range(4):
+            x = l.XM
+            for j in range(5):
+                stack = BasicRowStack(x, y, self, max_accept=0)
+                s.rows.append(stack)
+                stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
+                x += w0
+                nstacks += 1
+                if nstacks >= 18:
+                    break
+            y += l.YS
+
+        x, y = self.width-l.XS, self.height-l.YS
+        s.talon = InitialDealTalonStack(x, y, self)
+
+        l.defaultStackGroups()
+
+    def startGame(self):
+        self.s.talon.dealRow(frames=0)
+        self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRowAvail()
+
+    def fillStack(self, stack):
+        for r in self.s.reserves:
+            if not r.cards:
+                return
+        if not self.demo:
+            self.playSample("droppair", priority=200)
+        old_state = self.enterState(self.S_FILL)
+        for r in self.s.reserves:
+            r.moveMove(1, self.s.foundations[0])
+        self.leaveState(old_state)
+
+    def isGameWon(self):
+        return len(self.s.foundations[0].cards) == 51
+
 
 # register the game
 registerGame(GameInfo(38, Pyramid, "Pyramid",
@@ -615,6 +695,7 @@ registerGame(GameInfo(596, SuitElevens, "Suit Elevens",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_LUCK))
 registerGame(GameInfo(597, Fifteens, "Fifteens",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
-
+registerGame(GameInfo(619, TripleAlliance, "Triple Alliance",
+                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_SKILL))
 
 

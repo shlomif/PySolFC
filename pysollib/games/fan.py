@@ -68,7 +68,7 @@ class Fan(Game):
     # game layout
     #
 
-    def createGame(self, rows=(5,5,5,3), playcards=9, reserves=0):
+    def createGame(self, rows=(5,5,5,3), playcards=9, reserves=0, texts=False):
         # create layout
         l, s = Layout(self), self.s
 
@@ -106,6 +106,12 @@ class Fan(Game):
                 x += w
         x, y = self.width - l.XS, self.height - l.YS
         s.talon = self.Talon_Class(x, y, self)
+        if texts:
+            tx, ty, ta, tf = l.getTextAttr(s.talon, "nn")
+            font = self.app.getFont("canvas_default")
+            s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
+                                                 anchor=ta, font=font)
+
 
         # define stack-groups
         l.defaultStackGroups()
@@ -601,6 +607,40 @@ class TroikaPlus(Troika):
 ##         self.s.talon.dealRow(rows=self.s.rows[:-1])
 
 
+# /***********************************************************************
+# // Fascination Fan
+# ************************************************************************/
+
+class FascinationFan_Talon(RedealTalonStack):
+    def dealCards(self, sound=0):
+        RedealTalonStack.redealCards(self, shuffle=True, sound=sound)
+
+class FascinationFan(Fan):
+    Talon_Class = StackWrapper(FascinationFan_Talon, max_rounds=7)
+    #Talon_Class = StackWrapper(LaBelleLucie_Talon, max_rounds=7)
+    RowStack_Class = StackWrapper(AC_RowStack, base_rank=NO_RANK)
+
+    def createGame(self):
+        Fan.createGame(self, texts=True)
+
+    def startGame(self):
+        for i in range(2):
+            self.s.talon.dealRow(rows=self.s.rows[:17], flip=0, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+    def redealCards(self):
+        nrows = len(self.s.talon.cards)/3
+        if len(self.s.talon.cards)%3: nrows += 1
+        self.s.talon.dealRowAvail(rows=self.s.rows[:nrows], flip=0, frames=4)
+        self.s.talon.dealRowAvail(rows=self.s.rows[:nrows], flip=0, frames=4)
+        self.s.talon.dealRowAvail(frames=4)
+        for r in self.s.rows[nrows-2:nrows]:
+            if r.canFlipCard(): r.flipMove()
+
+    shallHighlightMatch = Game._shallHighlightMatch_AC
+
+
 
 # register the game
 registerGame(GameInfo(56, Fan, "Fan",
@@ -637,4 +677,6 @@ registerGame(GameInfo(516, Troika, "Troika",
                       GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(517, TroikaPlus, "Troika +",
                       GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(625, FascinationFan, "Fascination Fan",
+                      GI.GT_FAN_TYPE, 1, 6, GI.SL_BALANCED))
 

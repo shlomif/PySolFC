@@ -1159,7 +1159,7 @@ class Game:
 
     # redeal cards (used in RedealTalonStack; all cards already in talon)
     def redealCards(self):
-        pass
+        raise SubclassResponsibility
 
     # the actual hint class (or None)
     Hint_Class = DefaultHint
@@ -1466,6 +1466,8 @@ for %d moves.
 
     def _highlightCards(self, info, sleep=1.5):
         if not info:
+            return 0
+        if self.pause:
             return 0
         items = []
         for s, c1, c2, color in info:

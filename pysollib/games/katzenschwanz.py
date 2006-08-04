@@ -41,6 +41,7 @@ from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import DefaultHint, FreeCellType_Hint, CautiousDefaultHint
+from pysollib.pysoltk import MfxCanvasText
 
 
 # /***********************************************************************
@@ -463,6 +464,113 @@ class Glencoe(Intrigue):
         ]
 
 
+# /***********************************************************************
+# // Step-Up
+# ************************************************************************/
+
+class StepUp_Foundation(SS_FoundationStack):
+    def acceptsCards(self, from_stack, cards):
+        if not SS_FoundationStack.acceptsCards(self, from_stack, cards):
+            return False
+        if from_stack in self.game.s.reserves:
+            return True
+        for r in self.game.s.reserves:
+            if not r.cards:
+                return True
+        return False
+
+class StepUp_Talon(WasteTalonStack):
+    def canDealCards(self):
+        if not WasteTalonStack.canDealCards(self):
+            return False
+        for r in self.game.s.reserves:
+            if not r.cards:
+                return False
+        return True
+
+class StepUp_RowStack(AC_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not AC_RowStack.acceptsCards(self, from_stack, cards):
+            return False
+        if (from_stack in self.game.s.reserves or
+            from_stack in self.game.s.foundations):
+            return False
+        return True
+
+
+class StepUp(Game):
+
+    def createGame(self):
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+13*l.XS, l.YM+7*l.YS)
+        self.base_rank = ANY_RANK
+
+        x, y = l.XM+2.5*l.XS, l.YM
+        for i in range(8):
+            s.foundations.append(StepUp_Foundation(x, y, self,
+                                 suit=i%4, mod=13, base_rank=ANY_RANK))
+            x += l.XS
+        tx, ty, ta, tf = l.getTextAttr(s.foundations[0], "sw")
+        font = self.app.getFont("canvas_default")
+        self.texts.info = MfxCanvasText(self.canvas, tx, ty,
+                                        anchor=ta, font=font)
+
+        x, y = l.XM, l.YM+l.YS
+        for i in range(13):
+            s.reserves.append(ReserveStack(x, y, self))
+            x += l.XS
+        x, y = l.XM+2*l.XS, l.YM+2*l.YS
+        for i in range(9):
+            s.rows.append(StepUp_RowStack(x, y, self, max_move=1, mod=13))
+            x += l.XS
+
+        x, y = l.XM, l.YM+2.5*l.YS
+        s.talon = StepUp_Talon(x, y, self, max_rounds=1)
+        l.createText(s.talon, 'se')
+        y += l.YS
+        s.waste = WasteStack(x, y, self)
+        l.createText(s.waste, 'se')
+
+        l.defaultStackGroups()
+
+
+    def startGame(self):
+        c = self.s.talon.cards[-1]
+        self.base_rank = c.rank
+        self.s.talon.flipMove()
+        self.s.talon.moveMove(1, self.s.foundations[c.suit], frames=0)
+        for s in self.s.foundations:
+            s.cap.base_rank = c.rank
+        self.s.talon.dealRow(rows=self.s.reserves, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
+
+    def updateText(self):
+        if self.preview > 1:
+            return
+        base_rank = self.base_rank
+        if base_rank == ANY_RANK:
+            t = ''
+        else:
+            t = RANKS[base_rank]
+        self.texts.info.config(text=t)
+
+    def _restoreGameHook(self, game):
+        self.base_rank = game.loadinfo.base_rank
+        for s in self.s.foundations:
+            s.cap.base_rank = self.base_rank
+
+    def _loadGameHook(self, p):
+        self.loadinfo.addattr(base_rank=None)    # register extra load var.
+        self.loadinfo.base_rank = p.load()
+
+    def _saveGameHook(self, p):
+        p.dump(self.base_rank)
+
+    shallHighlightMatch = Game._shallHighlightMatch_ACW
+
+
 # register the game
 registerGame(GameInfo(141, DerKatzenschwanz, "Cat's Tail",
                       GI.GT_FREECELL | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL,
@@ -488,6 +596,8 @@ registerGame(GameInfo(612, Glencoe, "Glencoe",
 registerGame(GameInfo(616, LaggardLady, "Laggard Lady",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED,
                       rules_filename="intrigue.html"))
+registerGame(GameInfo(624, StepUp, "Step-Up",
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 
 
 

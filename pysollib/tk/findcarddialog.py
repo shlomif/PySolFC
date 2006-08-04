@@ -60,10 +60,12 @@ class FindCardDialog(Tkinter.Toplevel):
             self.images_dir = os.path.join(dir, 'small-emblems')
             self.label_width, self.label_height = SMALL_EMBLEMS_SIZE
         self.canvas = MfxCanvas(self, bg='white')
+        ##self.canvas = MfxCanvas(self, bg='black')
         self.canvas.pack(expand=True, fill='both')
         #
         self.groups = []
         self.highlight_items = None
+        self.busy = False
         self.connectGame(game)
         #
         bind(self, "WM_DELETE_WINDOW", self.destroy)
@@ -83,7 +85,7 @@ class FindCardDialog(Tkinter.Toplevel):
         im = FindCardDialog.CARD_IMAGES.get((rank, suit))
         if im is None:
             r = '%02d' % (rank+1)
-            s = 'csdh'[suit]
+            s = 'cshd'[suit]
             fn = os.path.join(dir, r+s+'.gif')
             im = makeImage(file=fn)
             FindCardDialog.CARD_IMAGES[(rank, suit)] = im
@@ -91,22 +93,22 @@ class FindCardDialog(Tkinter.Toplevel):
         cim.addtag(group)
         cim.lower()
         #
-##         rect_width = 4
-##         x1, y1 = x0+dx, y0+dy
-##         rect = MfxCanvasRectangle(self.canvas, x0, y0, x1, y1,
-##                                   width=rect_width,
-##                                   fill=None,
-##                                   outline='red',
-##                                   state='hidden')
-##         rect.addtag(group)
-        rect = None
+        rect_width = 4
+        x1, y1 = x0+dx, y0+dy
+        rect = MfxCanvasRectangle(self.canvas, x0+1, y0+1, x1-1, y1-1,
+                                  width=rect_width,
+                                  fill=None,
+                                  outline='red',
+                                  state='hidden'
+                                  )
+        rect.addtag(group)
         #
         bind(group, '<Enter>',
              lambda e, suit=suit, rank=rank, rect=rect:
-                 self.enterEvent(suit, rank, rect))
+                 self.enterEvent(suit, rank, rect, group))
         bind(group, '<Leave>',
              lambda e, suit=suit, rank=rank, rect=rect:
-                 self.leaveEvent(suit, rank, rect))
+                 self.leaveEvent(suit, rank, rect, group))
         self.groups.append(group)
 
     def connectGame(self, game):
@@ -129,28 +131,36 @@ class FindCardDialog(Tkinter.Toplevel):
         w, h = dx*j+2, dy*i+2
         self.canvas.config(width=w, height=h)
 
-    def enterEvent(self, suit, rank, rect):
-        ##print 'enterEvent', suit, rank
+    def enterEvent(self, suit, rank, rect, group):
+        ##print 'enterEvent', suit, rank, self.busy
+        if self.busy: return
+        self.busy = True
         self.highlight_items = self.game.highlightCard(suit, rank)
         if not self.highlight_items:
             self.highlight_items = []
         if self.highlight_items:
             self.timer = after(self, self.normal_timeout, self.timeoutEvent)
-        return
         rect.config(state='normal')
+        self.canvas.update_idletasks()
+        self.busy = False
 
-    def leaveEvent(self, suit, rank, rect):
-        ##print 'leaveEvent', suit, rank
+    def leaveEvent(self, suit, rank, rect, group):
+        ##print 'leaveEvent', suit, rank, self.busy
+        if self.busy: return
+        self.busy = True
         if self.highlight_items:
             for i in self.highlight_items:
                 i.delete()
-        #self.game.canvas.update_idletasks()
-        #self.canvas.update_idletasks()
+            self.highlight_items = []
         if self.timer:
             after_cancel(self.timer)
             self.timer = None
-        return
         rect.config(state='hidden')
+        if self.game.canvas:
+            self.game.canvas.update_idletasks()
+        self.canvas.update_idletasks()
+        self.busy = False
+
 
     def timeoutEvent(self, *event):
         if self.highlight_items:
@@ -174,6 +184,9 @@ class FindCardDialog(Tkinter.Toplevel):
             after_cancel(self.timer)
             self.timer = None
         self.wm_withdraw()
+        if self.highlight_items:
+            for i in self.highlight_items:
+                i.delete()
         Tkinter.Toplevel.destroy(self)
 
 
@@ -202,4 +215,5 @@ def destroy_find_card_dialog():
         ##traceback.print_exc()
         pass
     find_card_dialog = None
+
 

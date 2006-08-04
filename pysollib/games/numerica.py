@@ -730,7 +730,6 @@ class AnnoDomini(Numerica):
 
 
 
-
 # register the game
 registerGame(GameInfo(257, Numerica, "Numerica",
                       GI.GT_NUMERICA | GI.GT_CONTRIB, 1, 0, GI.SL_BALANCED,

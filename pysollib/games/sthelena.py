@@ -169,6 +169,161 @@ class BoxKite(StHelena):
 
 
 
+# /***********************************************************************
+# // Les Quatre Coins
+# ************************************************************************/
+
+class LesQuatreCoins_RowStack(UD_RK_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not UD_RK_RowStack.acceptsCards(self, from_stack, cards):
+            return False
+        return len(self.game.s.talon.cards) == 0
+
+
+class LesQuatreCoins_Talon(RedealTalonStack):
+
+    def canDealCards(self):
+        if self.round == self.max_rounds:
+            return len(self.cards) != 0
+        return not self.game.isGameWon()
+
+    def dealCards(self, sound=0):
+        if not self.cards:
+            RedealTalonStack.redealCards(self, sound=0)
+        if sound and not self.game.demo:
+            self.game.startDealSample()
+        rows = self.game.s.rows
+        rows = rows[:1]+rows[4:8]+(rows[2],rows[1])+rows[8:]+rows[3:4]
+        num_cards = self.dealRowAvail(rows=rows)
+        if sound and not self.game.demo:
+            self.game.stopSamples()
+        return num_cards
+
+
+class LesQuatreCoins_Foundation(SS_FoundationStack):
+    def acceptsCards(self, from_stack, cards):
+        if not SS_FoundationStack.acceptsCards(self, from_stack, cards):
+            return False
+        if not self.cards:
+            return True
+        if self.game.s.talon.cards:
+            if from_stack in self.game.s.rows[4:]:
+                i = list(self.game.s.foundations).index(self)
+                j = list(self.game.s.rows).index(from_stack)
+                return i == j-4
+        return True
+
+
+class LesQuatreCoins(Game):
+    Hint_Class = CautiousDefaultHint
+
+    def createGame(self):
+
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+7*l.XS, l.YM+5*l.YS)
+
+        for i, j in ((0,0),(5,0),(0,4),(5,4)):
+            x, y = l.XM+l.XS+i*l.XS, l.YM+j*l.YS
+            stack = LesQuatreCoins_RowStack(x, y, self,
+                                            max_move=1, base_rank=NO_RANK)
+            s.rows.append(stack)
+            stack.CARD_YOFFSET = 0
+        for x in (l.XM+2*l.XS, l.XM+5*l.XS):
+            y = l.YM+l.YS/2
+            for j in range(4):
+                stack = LesQuatreCoins_RowStack(x, y, self,
+                                                max_move=1, base_rank=NO_RANK)
+                s.rows.append(stack)
+                stack.CARD_YOFFSET = 0
+                y += l.YS
+        x, y = l.XM+3*l.XS, l.YM+l.YS/2
+        for i in range(4):
+            s.foundations.append(LesQuatreCoins_Foundation(x, y, self, suit=i))
+            y += l.YS
+        x, y = l.XM+4*l.XS, l.YM+l.YS/2
+        for i in range(4):
+            s.foundations.append(LesQuatreCoins_Foundation(x, y, self, suit=i,
+                                 base_rank=KING, dir=-1))
+            y += l.YS
+
+        x, y = l.XM, l.YM+2*l.YS
+        s.talon = LesQuatreCoins_Talon(x, y, self, max_rounds=3)
+        l.createText(s.talon, 's')
+        tx, ty, ta, tf = l.getTextAttr(s.talon, "nn")
+        font = self.app.getFont("canvas_default")
+        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
+                                             anchor=ta, font=font)
+
+        l.defaultStackGroups()
+
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealCards()
+
+    shallHighlightMatch = Game._shallHighlightMatch_RK
+
+
+# /***********************************************************************
+# // Regal Family
+# ************************************************************************/
+
+class RegalFamily_RowStack(UD_SS_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not UD_SS_RowStack.acceptsCards(self, from_stack, cards):
+            return False
+        return len(self.game.s.talon.cards) == 0
+
+
+class RegalFamily(Game):
+    Hint_Class = CautiousDefaultHint
+
+    def createGame(self):
+
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+8*l.XS, l.YM+5*l.YS)
+
+        for i, j in ((0,0),(1,0),(2,0),(3,0),(4,0),(5,0),(6,0),
+                     (6,1),(6,2),(6,3),
+                     (6,4),(5,4),(4,4),(3,4),(2,4),(1,4),(0,4),
+                     (0,3),(0,2),(0,1)
+                     ):
+            x, y = l.XM+l.XS+i*l.XS, l.YM+j*l.YS
+            stack = RegalFamily_RowStack(x, y, self,
+                                         max_move=1, base_rank=NO_RANK)
+            s.rows.append(stack)
+            stack.CARD_YOFFSET = 0
+
+        x, y = l.XM+3*l.XS, l.YM+l.YS
+        for i in range(3):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i,
+                                 base_rank=9, mod=13, dir=-1))
+            s.foundations.append(SS_FoundationStack(x, y+2*l.YS, self, suit=i,
+                                 base_rank=9, mod=13, dir=-1))
+            x += l.XS
+        x, y = l.XM+3*l.XS, l.YM+2*l.YS
+        s.foundations.append(SS_FoundationStack(x, y, self, suit=3,
+                             base_rank=ACE, mod=13))
+        x += 2*l.XS
+        s.foundations.append(SS_FoundationStack(x, y, self, suit=3,
+                             base_rank=JACK, mod=13, dir=-1))
+
+        x, y = l.XM, l.YM+2*l.YS
+        s.talon = DealRowTalonStack(x, y, self)
+        l.createText(s.talon, 's')
+
+        l.defaultStackGroups()
+
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+
+    shallHighlightMatch = Game._shallHighlightMatch_SS
+
+
+
 # register the game
 registerGame(GameInfo(302, StHelena, "St. Helena",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED,
@@ -176,5 +331,9 @@ registerGame(GameInfo(302, StHelena, "St. Helena",
                                 "Washington's Favorite")
                       ))
 registerGame(GameInfo(408, BoxKite, "Box Kite",
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(620, LesQuatreCoins, "Les Quatre Coins",
+                      GI.GT_2DECK_TYPE, 2, 2, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(621, RegalFamily, "Regal Family",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 

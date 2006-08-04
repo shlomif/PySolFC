@@ -370,6 +370,209 @@ class OpenSlyFox(SlyFox):
         l.defaultStackGroups()
 
 
+# /***********************************************************************
+# // Princess Patience
+# ************************************************************************/
+
+class PrincessPatience_RowStack(SS_RowStack):
+
+    def canMoveCards(self, cards):
+        if not SS_RowStack.canMoveCards(self, cards):
+            return False
+        index = list(self.game.s.rows).index(self)
+        col = index % 4
+        row = index / 4
+        if index < 16: # left
+            for i in range(col+1, 4):
+                r = self.game.s.rows[row*4+i]
+                if r.cards:
+                    return False
+        else: # right
+            for i in range(0, col):
+                r = self.game.s.rows[row*4+i]
+                if r.cards:
+                    return False
+        return True
+
+    def acceptsCards(self, from_stack, cards):
+        if not SS_RowStack.acceptsCards(self, from_stack, cards):
+            return False
+        if not self.cards:
+            return from_stack is self.game.s.waste
+        return True
+
+
+class PrincessPatience(Game):
+    RowStack_Class = PrincessPatience_RowStack
+
+    def createGame(self, max_rounds=1):
+
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+11*l.XS, l.YM+5*l.YS)
+
+        y = l.YM
+        for i in range(4):
+            x = l.XM
+            for j in range(4):
+                stack = self.RowStack_Class(x, y, self, max_move=1)
+                s.rows.append(stack)
+                stack.CARD_YOFFSET = 0
+                x += l.XS
+            y += l.YS
+        y = l.YM
+        for i in range(4):
+            x = l.XM+7*l.XS
+            for j in range(4):
+                stack = self.RowStack_Class(x, y, self, max_move=1)
+                s.rows.append(stack)
+                stack.CARD_YOFFSET = 0
+                x += l.XS
+            y += l.YS
+
+        x, y = l.XM+4.5*l.XS, l.YM
+        for i in range(4):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
+            s.foundations.append(SS_FoundationStack(x+l.XS, y, self, suit=i))
+            y += l.YS
+
+        x, y = l.XM+4.5*l.XS, self.height-l.YS
+        s.talon = WasteTalonStack(x, y, self, max_rounds=max_rounds)
+        l.createText(s.talon, 'sw')
+        x += l.XS
+        s.waste = WasteStack(x, y, self)
+        l.createText(s.waste, 'se')
+
+        l.defaultStackGroups()
+
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
+
+
+    shallHighlightMatch = Game._shallHighlightMatch_SS
+
+
+# /***********************************************************************
+# // Grandmamma's Patience
+# ************************************************************************/
+
+class GrandmammasPatience_Talon(OpenTalonStack):
+    rightclickHandler = OpenStack.rightclickHandler
+    doubleclickHandler = OpenStack.doubleclickHandler
+
+
+class GrandmammasPatience_RowStack(BasicRowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not BasicRowStack.acceptsCards(self, from_stack, cards):
+            return False
+        return from_stack not in self.game.s.rows
+
+
+class GrandmammasPatience(Game):
+
+    def createGame(self):
+
+        l, s = Layout(self), self.s
+        h0 = l.YS+4*l.YOFFSET
+        self.setSize(l.XM+11*l.XS, l.YM+2*l.YS+2*h0)
+        self.base_rank = ANY_RANK
+
+        x, y = l.XM, l.YM
+        s.talon = GrandmammasPatience_Talon(x, y, self)
+        l.createText(s.talon, 'ne')
+
+        x, y = self.width-4*l.XS, l.YM
+        for i in range(4):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i,
+                                 dir=-1, mod=13, max_move=0, base_rank=ANY_RANK))
+            x += l.XS
+        stack = s.foundations[0]
+        tx, ty, ta, tf = l.getTextAttr(stack, "sw")
+        font = self.app.getFont("canvas_default")
+        stack.texts.misc = MfxCanvasText(self.canvas, tx, ty,
+                                        anchor=ta, font=font)
+        x, y = self.width-4*l.XS, self.height-l.YS
+        for i in range(4):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i,
+                                 mod=13, max_move=0, base_rank=ANY_RANK))
+            x += l.XS
+        stack = s.foundations[4]
+        tx, ty, ta, tf = l.getTextAttr(stack, "sw")
+        font = self.app.getFont("canvas_default")
+        stack.texts.misc = MfxCanvasText(self.canvas,
+                                        tx, ty, anchor=ta, font=font)
+
+        y = l.YM+l.YS
+        for i in range(2):
+            x = l.XM
+            for j in range(11):
+                s.rows.append(GrandmammasPatience_RowStack(x, y, self,
+                              max_accept=1, max_cards=2))
+                x += l.XS
+            y += h0
+
+        x, y = l.XM, self.height-l.YS
+        for i in range(4):
+            s.reserves.append(ReserveStack(x, y, self))
+            x += l.XS
+
+        l.defaultStackGroups()
+        self.sg.dropstacks.append(s.talon)
+
+
+    def startGame(self):
+        c = self.s.talon.cards[-1]
+        self.base_rank = c.rank
+        to_stack = self.s.foundations[c.suit]
+        self.flipMove(self.s.talon)
+        self.moveMove(1, self.s.talon, to_stack, frames=0)
+        for s in self.s.foundations[:4]:
+            s.cap.base_rank = c.rank
+        for s in self.s.foundations[4:]:
+            s.cap.base_rank = (c.rank+1)%13
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.fillStack()
+
+
+    def fillStack(self, stack):
+        if stack in self.s.rows and not stack.cards:
+            if self.s.talon.cards:
+                old_state = self.enterState(self.S_FILL)
+                self.s.talon.moveMove(1, stack)
+                self.leaveState(old_state)
+
+    def updateText(self):
+        if self.preview > 1:
+            return
+        base_rank = self.base_rank
+        if base_rank == ANY_RANK:
+            t1 = t2 = ''
+        else:
+            t1 = RANKS[base_rank]+_(" Descending")
+            t2 = RANKS[(base_rank+1)%13]+_(" Ascending")
+        self.s.foundations[0].texts.misc.config(text=t1)
+        self.s.foundations[4].texts.misc.config(text=t2)
+
+
+    def _restoreGameHook(self, game):
+        self.base_rank = game.loadinfo.base_rank
+        for s in self.s.foundations[:4]:
+            s.cap.base_rank = self.base_rank
+        for s in self.s.foundations[4:]:
+            s.cap.base_rank = (self.base_rank+1)%13
+
+    def _loadGameHook(self, p):
+        self.loadinfo.addattr(base_rank=None)    # register extra load var.
+        self.loadinfo.base_rank = p.load()
+
+    def _saveGameHook(self, p):
+        p.dump(self.base_rank)
+
+
+
 # register the game
 registerGame(GameInfo(280, Camelot, "Camelot",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))
@@ -377,4 +580,9 @@ registerGame(GameInfo(610, SlyFox, "Sly Fox",
                       GI.GT_NUMERICA, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(614, OpenSlyFox, "Open Sly Fox",
                       GI.GT_NUMERICA | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(623, PrincessPatience, "Princess Patience",
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(622, GrandmammasPatience, "Grandmamma's Patience",
+                      GI.GT_NUMERICA, 2, 0, GI.SL_MOSTLY_SKILL))
+
 

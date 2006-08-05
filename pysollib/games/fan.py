@@ -630,13 +630,12 @@ class FascinationFan(Fan):
         self.s.talon.dealRow()
 
     def redealCards(self):
-        nrows = len(self.s.talon.cards)/3
-        if len(self.s.talon.cards)%3: nrows += 1
-        self.s.talon.dealRowAvail(rows=self.s.rows[:nrows], flip=0, frames=4)
-        self.s.talon.dealRowAvail(rows=self.s.rows[:nrows], flip=0, frames=4)
+        r0 = r1 = len(self.s.talon.cards)/3
+        m = len(self.s.talon.cards)%3
+        if m >= 1: r2 += 1
+        self.s.talon.dealRow(rows=self.s.rows[:r0], flip=0, frames=4)
+        self.s.talon.dealRow(rows=self.s.rows[:r1], flip=0, frames=4)
         self.s.talon.dealRowAvail(frames=4)
-        for r in self.s.rows[nrows-2:nrows]:
-            if r.canFlipCard(): r.flipMove()
 
     shallHighlightMatch = Game._shallHighlightMatch_AC
 

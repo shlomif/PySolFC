@@ -715,6 +715,57 @@ class SelectiveCastle(StreetsAndAlleys, Chessboard):
     shallHighlightMatch = Game._shallHighlightMatch_RKW
 
 
+# /***********************************************************************
+# // Soother
+# ************************************************************************/
+
+class Soother(Game):
+
+    def createGame(self, rows=9):
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+11*l.XS, l.YM+4*l.YS+12*l.YOFFSET)
+
+        x, y = l.XM, l.YM
+        s.talon = WasteTalonStack(x, y, self, max_rounds=1)
+        l.createText(s.talon, 's')
+        x += l.XS
+        s.waste = WasteStack(x, y, self)
+        l.createText(s.waste, 's')
+
+        y = l.YM
+        for i in range(2):
+            x = l.XM+2.5*l.XS
+            for j in range(8):
+                s.foundations.append(SS_FoundationStack(x, y, self, suit=j%4, max_move=1))
+                x += l.XS
+            y += l.YS
+        x, y = l.XM, l.YM+2*l.YS
+        stack = ReserveStack(x, y, self, max_cards=8)
+        s.reserves.append(stack)
+        stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, l.YOFFSET
+        l.createText(stack, 'n')
+
+        x, y = l.XM+2*l.XS, l.YM+2*l.YS
+        for i in range(rows):
+            s.rows.append(RK_RowStack(x, y, self, max_move=1, base_rank=KING))
+            x += l.XS
+
+        l.defaultStackGroups()
+
+
+    def startGame(self):
+        for i in range(4):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
+
+    shallHighlightMatch = Game._shallHighlightMatch_RK
+
+    def getQuickPlayScore(self, ncards, from_stack, to_stack):
+        return int(to_stack in self.s.rows)
+
+
 # register the game
 registerGame(GameInfo(146, StreetsAndAlleys, "Streets and Alleys",
                       GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
@@ -752,3 +803,5 @@ registerGame(GameInfo(524, SelectiveCastle, "Selective Castle",
                       GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(535, ExiledKings, "Exiled Kings",
                       GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(626, Soother, "Soother",
+                      GI.GT_4DECK_TYPE | GI.GT_ORIGINAL, 4, 0, GI.SL_MOSTLY_SKILL))

@@ -804,9 +804,11 @@ class Waterloo(FortyThieves):
 
 # /***********************************************************************
 # // Junction
+# // Crossroads
 # ************************************************************************/
 
 class Junction(Game):
+    Foundation_Class = StackWrapper(DieRussische_Foundation, max_cards=8)
 
     def createGame(self, rows=7):
         
@@ -818,8 +820,8 @@ class Junction(Game):
         for i in range(2):
             x = l.XM+2*l.XS
             for j in range(8):
-                s.foundations.append(DieRussische_Foundation(x, y, self,
-                                     suit=j%4, max_cards=8))
+                s.foundations.append(self.Foundation_Class(x, y, self,
+                                                           suit=j%4))
                 x += l.XS
             y += l.YS
 
@@ -845,6 +847,18 @@ class Junction(Game):
 
 
     shallHighlightMatch = Game._shallHighlightMatch_AC
+
+
+class Crossroads(Junction):
+    Foundation_Class = StackWrapper(SS_FoundationStack, max_cards=13)
+
+    def startGame(self):
+        for i in range(3):
+            self.s.talon.dealRow(frames=0)
+            self.s.talon.dealRow(flip=0, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
 
 
 # /***********************************************************************
@@ -1146,4 +1160,6 @@ registerGame(GameInfo(578, IndianPatience, "Indian Patience",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(588, Roosevelt, "Roosevelt",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(628, Crossroads, "Crossroads",
+                      GI.GT_FORTY_THIEVES, 4, 0, GI.SL_BALANCED))
 

@@ -219,9 +219,10 @@ def plain_text():
     for id in get_games_func():
         gi = GAME_DB.get(id)
         if gi.category == GI.GC_FRENCH:
-            name = gi.name.lower()
-            name = re.sub('\W', '', name)
-            print id, name #, gi.si.game_type, gi.si.game_type == GI.GC_FRENCH
+            print gi.name.encode('utf-8')
+            ##name = gi.name.lower()
+            ##name = re.sub('\W', '', name)
+            ##print id, name #, gi.si.game_type, gi.si.game_type == GI.GC_FRENCH
 
 
 ##

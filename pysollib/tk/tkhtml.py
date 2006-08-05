@@ -205,6 +205,10 @@ class tkHTMLParser(htmllib.HTMLParser):
     def handle_image(self, src, alt, ismap, align, width, height):
         self.formatter.writer.viewer.showImage(src, alt, ismap, align, width, height)
 
+    def do_br(self, attrs):
+        #self.formatter.add_line_break()
+        self.formatter.add_literal_data('\n')
+
 
 # /***********************************************************************
 # //
@@ -486,10 +490,11 @@ to open the following URL:
             self.images[url] = img
         ##print url, img
         if img:
-            padx, pady = 10, 10
-            padx, pady = 0, 20
-            if align.lower() == "left":
-                padx = 0
+            ##padx, pady = 10, 10
+            ##padx, pady = 0, 20
+            ##if align.lower() == "left":
+            ##    padx = 0
+            padx, pady = 0, 0
             self.text.image_create(index="insert", image=img, padx=padx, pady=pady)
 
 

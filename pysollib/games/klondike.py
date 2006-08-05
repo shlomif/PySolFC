@@ -493,6 +493,7 @@ class FlowerGarden(Stonewall):
 # // King Albert
 # // Raglan
 # // Brigade
+# // Queen Victoria
 # ************************************************************************/
 
 class KingAlbert(Klondike):
@@ -551,6 +552,10 @@ class Brigade(Raglan):
         self.s.talon.dealRow(rows=self.s.foundations)
 
     shallHighlightMatch = Game._shallHighlightMatch_RK
+
+
+class QueenVictoria(KingAlbert):
+    RowStack_Class = AC_RowStack
 
 
 # /***********************************************************************
@@ -1222,6 +1227,51 @@ class Legion(Klondike):
         self.s.talon.dealCards()
 
 
+# /***********************************************************************
+# // Big Bertha
+# ************************************************************************/
+
+class BigBertha(Game):
+
+    def createGame(self):
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+15*l.XS, l.YM+3*l.YS+15*l.YOFFSET)
+
+        x, y = l.XM, l.YM
+        s.talon = InitialDealTalonStack(x, y, self)
+
+        x, y = l.XM+3.5*l.XS, l.YM
+        for i in range(8):
+            s.foundations.append(SS_FoundationStack(x, y, self,
+                                 suit=i%4, max_cards=12))
+            x += l.XS
+
+        x, y = l.XM, l.YM+l.YS
+        for i in range(15):
+            s.rows.append(AC_RowStack(x, y, self))
+            x += l.XS
+
+        x, y = l.XM, self.height-l.YS
+        for i in range(14):
+            s.reserves.append(OpenStack(x, y, self, max_accept=0))
+            x += l.XS
+
+        s.foundations.append(RK_FoundationStack(x, y, self, suit=ANY_SUIT,
+                             base_rank=KING, dir=0, max_cards=8))
+
+        l.defaultStackGroups()
+
+
+    def startGame(self):
+        for i in range(5):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealRow(rows=self.s.reserves)
+
+    shallHighlightMatch = Game._shallHighlightMatch_AC
+
+
 
 # register the game
 registerGame(GameInfo(2, Klondike, "Klondike",
@@ -1350,4 +1400,9 @@ registerGame(GameInfo(602, BritishCanister, "British Canister",
                       GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(607, Legion, "Legion",
                       GI.GT_KLONDIKE, 1, 0, GI.SL_BALANCED))
+registerGame(GameInfo(627, QueenVictoria, "Queen Victoria",
+                      GI.GT_RAGLAN | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(630, BigBertha, "Big Bertha",
+                      GI.GT_RAGLAN | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL))
+
 

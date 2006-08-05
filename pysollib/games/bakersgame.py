@@ -241,17 +241,13 @@ class RelaxedSeahavenTowers(SeahavenTowers):
 # /***********************************************************************
 # // Penguin
 # // Opus
+# // Tuxedo
 # ************************************************************************/
 
-class Penguin(Game):
-    GAME_VERSION = 2
+class Tuxedo(Game):
 
     RowStack_Class = SS_RowStack
     Hint_Class = FreeCellType_Hint
-
-    #
-    # game layout
-    #
 
     def createGame(self, rows=7, reserves=7):
         # create layout
@@ -286,13 +282,29 @@ class Penguin(Game):
         # define stack-groups
         l.defaultStackGroups()
 
-    #
-    # game overrides
-    #
+    def startGame(self):
+        for i in range(6):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealRow(rows=self.s.rows[::3])
+
+    shallHighlightMatch = Game._shallHighlightMatch_SSW
+
+
+class Penguin(Tuxedo):
+    GAME_VERSION = 2
 
     def _shuffleHook(self, cards):
         # move base cards to top of the Talon (i.e. first cards to be dealt)
-        return self._shuffleHookMoveToTop(cards, lambda c, rank=cards[-1].rank: (c.rank == rank, 0))
+        return self._shuffleHookMoveToTop(cards,
+                   lambda c, rank=cards[-1].rank: (c.rank == rank, 0))
+
+    def _updateStacks(self):
+        for s in self.s.foundations:
+            s.cap.base_rank = self.base_card.rank
+        for s in self.s.rows:
+            s.cap.base_rank = (self.base_card.rank - 1) % 13
 
     def startGame(self):
         self.base_card = self.s.talon.cards[-4]
@@ -310,8 +322,6 @@ class Penguin(Game):
         self.startDealSample()
         self.s.talon.dealRow()
 
-    shallHighlightMatch = Game._shallHighlightMatch_SSW
-
     def _restoreGameHook(self, game):
         self.base_card = self.cards[game.loadinfo.base_card_id]
         self._updateStacks()
@@ -323,20 +333,11 @@ class Penguin(Game):
     def _saveGameHook(self, p):
         p.dump(self.base_card.id)
 
-    #
-    # game extras
-    #
-
-    def _updateStacks(self):
-        for s in self.s.foundations:
-            s.cap.base_rank = self.base_card.rank
-        for s in self.s.rows:
-            s.cap.base_rank = (self.base_card.rank - 1) % 13
-
 
 class Opus(Penguin):
     def createGame(self):
-        Penguin.createGame(self, reserves=5)
+        Tuxedo.createGame(self, reserves=5)
+
 
 
 # register the game
@@ -355,4 +356,6 @@ registerGame(GameInfo(64, Penguin, "Penguin",
                       GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL,
                       altnames=("Beak and Flipper",) ))
 registerGame(GameInfo(427, Opus, "Opus",
+                      GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(629, Tuxedo, "Tuxedo",
                       GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))

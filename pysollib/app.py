@@ -67,6 +67,7 @@ from pysoltk import PysolToolbar
 from pysoltk import PysolStatusbar, HelpStatusbar
 from pysoltk import SelectCardsetByTypeDialogWithPreview
 from pysoltk import SelectDialogTreeData
+from pysoltk import tkHTMLViewer
 from pysoltk import TOOLBAR_BUTTONS
 from pysoltk import destroy_find_card_dialog
 from help import helpAbout, destroy_help
@@ -888,6 +889,10 @@ class Application:
             fn = self.dataloader.findImage(f, dir)
             im = loadImage(fn)
             SelectDialogTreeData.img.append(im)
+        dir = os.path.join('images', 'htmlviewer')
+        #
+        fn = self.dataloader.findImage('disk', dir)
+        tkHTMLViewer.symbols_fn['disk'] = fn
 
     def loadImages4(self):
         # load all remaining images

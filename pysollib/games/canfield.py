@@ -807,6 +807,59 @@ class Skippy(Canfield):
     shallHighlightMatch = Game._shallHighlightMatch_RKW
 
 
+# /***********************************************************************
+# // Lafayette
+# ************************************************************************/
+
+class Lafayette(Game):
+    def createGame(self):
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+8*l.XS, l.YM+2*l.YS+12*l.YOFFSET)
+
+        x, y = l.XM, l.YM
+        for i in range(4):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
+            s.foundations.append(SS_FoundationStack(x+4*l.XS, y, self, suit=i,
+                                 base_rank=KING, dir=-1))
+            x += l.XS
+        x, y = l.XM, l.YM+l.YS
+        s.talon = WasteTalonStack(x, y, self, max_rounds=UNLIMITED_REDEALS,
+                                  num_deal=3)
+        l.createText(s.talon, 'ne')
+        y += l.YS
+        s.waste = WasteStack(x, y, self)
+        l.createText(s.waste, 'ne')
+        x, y = l.XM+2*l.XS, l.YM+l.YS
+        for i in range(4):
+            s.rows.append(AC_RowStack(x, y, self, base_rank=6))
+            x += l.XS
+        x += l.XS
+        stack = OpenStack(x, y, self)
+        s.reserves.append(stack)
+        stack.CARD_YOFFSET = l.YOFFSET
+
+        l.defaultStackGroups()
+
+
+    def startGame(self):
+        for i in range(13):
+            self.s.talon.dealRow(rows=self.s.reserves, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
+
+
+    def fillStack(self, stack):
+        if stack in self.s.rows and not stack.cards:
+            if self.s.reserves[0].cards:
+                old_state = self.enterState(self.S_FILL)
+                self.s.reserves[0].moveMove(1, stack)
+                self.leaveState(old_state)
+
+
+    shallHighlightMatch = Game._shallHighlightMatch_AC
+
+
 
 # register the game
 registerGame(GameInfo(105, Canfield, "Canfield",                # was: 262
@@ -856,4 +909,6 @@ registerGame(GameInfo(527, Doorway, "Doorway",
                       altnames=('Solstice',) ))
 registerGame(GameInfo(605, Skippy, "Skippy",
                       GI.GT_FAN_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(642, Lafayette, "Lafayette",
+                      GI.GT_CANFIELD, 1, -1, GI.SL_BALANCED))
 

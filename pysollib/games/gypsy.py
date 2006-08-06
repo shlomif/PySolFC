@@ -703,6 +703,25 @@ class Eclipse(Gypsy):
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
+# /***********************************************************************
+# // Brazilian Patience
+# ************************************************************************/
+
+class BrazilianPatience(Gypsy):
+    Layout_Method = Layout.klondikeLayout
+    RowStack_Class = KingAC_RowStack
+
+    def createGame(self):
+        Gypsy.createGame(self, rows=10, playcards=22)
+
+    def startGame(self, flip=0, reverse=1):
+        for i in range(1, 10):
+            self.s.talon.dealRow(rows=self.s.rows[i:], flip=0, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+
+
 # register the game
 registerGame(GameInfo(1, Gypsy, "Gypsy",
                       GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
@@ -762,5 +781,7 @@ registerGame(GameInfo(580, Trapdoor, "Trapdoor",
 registerGame(GameInfo(581, Flamenco, "Flamenco",
                       GI.GT_GYPSY | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(584, Eclipse, "Eclipse",
+                      GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(640, BrazilianPatience, "Brazilian Patience",
                       GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
 

@@ -721,6 +721,187 @@ class Frames(Game):
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
+# /***********************************************************************
+# // Royal Rendezvous
+# ************************************************************************/
+
+class RoyalRendezvous(Game):
+
+    def createGame(self):
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+9.5*l.XS, l.YM+4.5*l.YS)
+
+        y = l.YM
+        # kings
+        suit = 0
+        for i in (0,1,6,7):
+            x = l.XM+(1.5+i)*l.XS
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=suit,
+                                 base_rank=KING, max_cards=1))
+            suit += 1
+        # aces
+        suit = 0
+        for i in (2,3,4,5):
+            x = l.XM+(1.5+i)*l.XS
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=suit))
+            suit += 1
+        y += l.YS
+        # twos
+        suit = 0
+        for i in (0,1,6,7):
+            x = l.XM+(1.5+i)*l.XS
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=suit,
+                                 base_rank=1, dir=2, max_cards=6))
+            suit += 1
+        # aces
+        suit = 0
+        for i in (2,3,4,5):
+            x = l.XM+(1.5+i)*l.XS
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=suit,
+                                 dir=2, max_cards=6))
+            suit += 1
+
+        y += 1.5*l.YS
+        for i in (0,1):
+            x = l.XM+1.5*l.XS
+            for j in range(8):
+                s.rows.append(OpenStack(x, y, self, max_accept=0))
+                x += l.XS
+            y += l.YS
+
+        x, y = l.XM, l.YM
+        s.talon = WasteTalonStack(x, y, self, max_rounds=1)
+        l.createText(s.talon, 'ne')
+        y += l.YS
+        s.waste = WasteStack(x, y, self)
+        l.createText(s.waste, 'ne')
+
+        l.defaultStackGroups()
+
+
+    def _shuffleHook(self, cards):
+        # move twos to top
+        cards = self._shuffleHookMoveToTop(cards,
+                   lambda c: (c.rank == 1 and c.deck == 0, c.suit))
+        # move aces to top
+        cards = self._shuffleHookMoveToTop(cards,
+                   lambda c: (c.rank == ACE, (c.deck, c.suit)))
+        return cards
+
+
+    def startGame(self):
+        # deal aces
+        self.s.talon.dealRow(rows=self.s.foundations[4:8], frames=0)
+        self.s.talon.dealRow(rows=self.s.foundations[12:16], frames=0)
+        # deal twos
+        self.s.talon.dealRow(rows=self.s.foundations[8:12], frames=0)
+        #
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
+
+
+    def fillStack(self, stack):
+        if not stack.cards and stack in self.s.rows:
+            if not self.s.waste.cards:
+                self.s.talon.dealCards()
+            if self.s.waste.cards:
+                old_state = self.enterState(self.S_FILL)
+                self.s.waste.moveMove(1, stack)
+                self.leaveState(old_state)
+
+
+# /***********************************************************************
+# // Shady Lanes
+# ************************************************************************/
+
+class ShadyLanes_Hint(CautiousDefaultHint):
+    def computeHints(self):
+        CautiousDefaultHint.computeHints(self)
+        if self.hints:
+            return
+        for r in self.game.s.rows:
+            if not r.cards:
+                for s in self.game.s.reserves:
+                    if s.cards:
+                        self.addHint(5000-s.cards[0].rank, 1, s, r)
+
+
+class ShadyLanes_Foundation(AbstractFoundationStack):
+    def acceptsCards(self, from_stack, cards):
+        if not AbstractFoundationStack.acceptsCards(self, from_stack, cards):
+            return False
+        if self.cards:
+            # check the rank
+            if self.cards[-1].rank+1 != cards[0].rank:
+                return False
+        return True
+
+    def getHelp(self):
+        return _('Foundation. Build up by color.')
+
+
+class ShadyLanes_RowStack(AC_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not AC_RowStack.acceptsCards(self, from_stack, cards):
+            return False
+        if not self.cards:
+            return from_stack in self.game.s.reserves
+        return True
+
+
+class ShadyLanes(Game):
+    Hint_Class = ShadyLanes_Hint
+
+    def createGame(self):
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+8*l.XS, l.YM+5*l.YS)
+
+        x, y = l.XM, l.YM
+        for i in range(8):
+            suit = i/2
+            color = suit/2
+            s.foundations.append(ShadyLanes_Foundation(x, y, self,
+                          base_suit=suit, suit=ANY_SUIT, color=color))
+            x += l.XS
+        x, y = l.XM, l.YM+l.YS
+        s.talon = WasteTalonStack(x, y, self, max_rounds=1)
+        l.createText(s.talon, 'ne')
+        y += l.YS
+        s.waste = WasteStack(x, y, self)
+        l.createText(s.waste, 'ne')
+        x, y = l.XM+2*l.XS, l.YM+l.YS
+        for i in range(4):
+            s.rows.append(ShadyLanes_RowStack(x, y, self, max_move=1))
+            x += l.XS
+
+        x, y = self.width-l.XS, l.YM+l.YS
+        for i in range(4):
+            s.reserves.append(OpenStack(x, y, self, max_accept=0))
+            y += l.YS
+
+        l.defaultStackGroups()
+
+
+    def fillStack(self, stack):
+        if not stack.cards and stack in self.s.reserves:
+            if not self.s.waste.cards:
+                self.s.talon.dealCards()
+            if self.s.waste.cards:
+                old_state = self.enterState(self.S_FILL)
+                self.s.waste.moveMove(1, stack)
+                self.leaveState(old_state)
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow(rows=self.s.reserves)
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
+
+    shallHighlightMatch = Game._shallHighlightMatch_AC
+
+
+
 # register the game
 registerGame(GameInfo(54, RoyalCotillion, "Royal Cotillion",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_LUCK))
@@ -750,4 +931,8 @@ registerGame(GameInfo(608, Frames, "Frames",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(609, GrantsReinforcement, "Grant's Reinforcement",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(638, RoyalRendezvous, "Royal Rendezvous",
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(639, ShadyLanes, "Shady Lanes",
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 

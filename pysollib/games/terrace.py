@@ -343,6 +343,102 @@ class MamySusan(Terrace):
         pass
 
 
+# /***********************************************************************
+# // Bastille Day
+# ************************************************************************/
+
+class BastilleDay_BastilleStack(Stack):
+    def clickHandler(self, event):
+        return self.dealCards(sound=1)
+
+    def rightclickHandler(self, event):
+        return self.clickHandler(event)
+
+    def canDealCards(self):
+        if self.game.s.reserves[-1].cards:
+            return 0 < len(self.cards) < 12
+        return len(self.cards) > 0
+
+    def dealCards(self, sound=0):
+        if not self.canDealCards():
+            return 0
+        old_state = self.game.enterState(self.game.S_DEAL)
+        if sound and not self.game.demo:
+            self.game.playSample("dealwaste")
+        self.flipMove()
+        self.moveMove(1, self.game.s.reserves[-1], frames=4, shadow=0)
+        self.game.leaveState(old_state)
+        return 1
+
+    def getHelp(self):
+        return '' # FIXME
+
+
+class BastilleDay(Game):
+
+    def createGame(self, rows=9, max_rounds=1, num_deal=1, playcards=16):
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+8*l.XS, l.YM+3*l.YS+12*l.YOFFSET+l.TEXT_HEIGHT)
+
+        x, y = l.XM, l.YM
+        s.talon = WasteTalonStack(x, y, self, max_rounds=1)
+        l.createText(s.talon, 's')
+        x += l.XS
+        s.waste = WasteStack(x, y, self)
+        l.createText(s.waste, 's')
+        x += 2*l.XS
+        stack = BastilleDay_BastilleStack(x, y, self)
+        s.reserves.append(stack)
+        l.createText(stack, 's')
+        x += l.XS
+        stack = OpenStack(x, y, self)
+        stack.CARD_XOFFSET = l.XOFFSET
+        l.createText(stack, 's')
+        s.reserves.append(stack)
+
+        x, y = l.XM, l.YM+l.YS+l.TEXT_HEIGHT
+        for i in range(8):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i%4))
+            x = x + l.XS
+        x, y = l.XM, l.YM+2*l.YS+l.TEXT_HEIGHT
+        for i in range(8):
+            s.rows.append(AC_RowStack(x, y, self))
+            x = x + l.XS
+
+        l.defaultStackGroups()
+
+
+    def _shuffleHook(self, cards):
+        # move Kings to top
+        cards = self._shuffleHookMoveToTop(cards,
+                    lambda c: (c.rank == KING, None))
+        # move any 4 cards to top
+        cards = cards[4:]+cards[:4]
+        return cards
+
+    def startGame(self, nrows=4):
+        for i in range(12): # deal to Bastille
+            self.s.talon.dealRow(flip=0, rows=[self.s.reserves[0]], frames=0)
+        for i in range(9):
+            self.s.talon.dealRow(rows=[self.s.reserves[-1]], frames=0)
+        for i in range(3):
+            self.s.talon.dealRow(flip=0, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
+
+    def dealCards(self, sound=1):
+        # for demo-mode
+        if self.demo:
+            r = self.s.reserves[0]
+            if r.canDealCards():
+                self.demo.last_deal = [] # don't check last deal
+                return r.dealCards(sound=sound)
+        return Game.dealCards(self, sound=sound)
+
+    shallHighlightMatch = Game._shallHighlightMatch_AC
+
+
 
 # register the game
 registerGame(GameInfo(135, Terrace, "Terrace",
@@ -362,5 +458,7 @@ registerGame(GameInfo(500, Madame, "Madame",
 registerGame(GameInfo(533, MamySusan, "Mamy Susan",
                       GI.GT_TERRACE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(582, Wood, "Wood",
+                      GI.GT_TERRACE, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(637, BastilleDay, "Bastille Day",
                       GI.GT_TERRACE, 2, 0, GI.SL_BALANCED))
 

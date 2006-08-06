@@ -166,7 +166,18 @@ class tkHTMLWriter(formatter.DumbWriter):
         self.indent = "    " * level
 
     def send_label_data(self, data):
-        self.__write(self.indent + data + " ")
+        ##self.__write(self.indent + data + " ")
+        self.__write(self.indent)
+        if data == '*': # <li>
+            img = self.viewer.symbols_img.get('disk')
+            if img:
+                self.text.image_create(index='insert', image=img,
+                                       padx=0, pady=0)
+            else:
+                self.__write('*')
+        else:
+            self.__write(data)
+        self.__write(' ')
 
     def send_paragraph(self, blankline):
         if self.col > 0:
@@ -215,6 +226,9 @@ class tkHTMLParser(htmllib.HTMLParser):
 # ************************************************************************/
 
 class tkHTMLViewer:
+    symbols_fn = {}  # filenames, loaded in Application.loadImages3
+    symbols_img = {}
+
     def __init__(self, parent):
         self.parent = parent
         self.home = None
@@ -267,6 +281,10 @@ class tkHTMLViewer:
 
         parent.columnconfigure(2, weight=1)
         parent.rowconfigure(1, weight=1)
+
+        # load images
+        for name, fn in self.symbols_fn.items():
+            self.symbols_img[name] = self.getImage(fn)
 
         self.initBindings()
 
@@ -477,25 +495,21 @@ to open the following URL:
                       text=msg, bitmap="warning",
                       strings=(_("&OK"),), default=0)
 
+    def getImage(self, fn):
+        if self.images.has_key(fn):
+            return self.images[fn]
+        try:
+            img = Tkinter.PhotoImage(master=self.parent, file=fn)
+        except:
+            img = None
+        self.images[fn] = img
+        return img
+
     def showImage(self, src, alt, ismap, align, width, height):
         url = self.basejoin(src)
-        ##print url, ":", src, alt, ismap, align, width, height
-        if self.images.has_key(url):
-            img = self.images[url]
-        else:
-            try:
-                img = Tkinter.PhotoImage(master=self.parent, file=url)
-            except:
-                img = None
-            self.images[url] = img
-        ##print url, img
+        img = self.getImage(url)
         if img:
-            ##padx, pady = 10, 10
-            ##padx, pady = 0, 20
-            ##if align.lower() == "left":
-            ##    padx = 0
-            padx, pady = 0, 0
-            self.text.image_create(index="insert", image=img, padx=padx, pady=pady)
+            self.text.image_create(index="insert", image=img, padx=0, pady=0)
 
 
 

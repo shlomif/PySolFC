@@ -91,7 +91,7 @@ class SelectDialogTreeNode(MfxTreeNode):
 # ************************************************************************/
 
 class SelectDialogTreeData:
-    img = None
+    img = []  # loaded in Application.loadImages3
     def __init__(self):
         self.tree_xview = (0.0, 1.0)
         self.tree_yview = (0.0, 1.0)

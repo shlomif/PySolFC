@@ -729,6 +729,72 @@ class AnnoDomini(Numerica):
     shallHighlightMatch = Game._shallHighlightMatch_ACW
 
 
+# /***********************************************************************
+# // Circle Nine
+# ************************************************************************/
+
+class CircleNine_RowStack(BasicRowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not BasicRowStack.acceptsCards(self, from_stack, cards):
+            return False
+        return from_stack is self.game.s.talon
+
+    def getHelp(self):
+        return _('Tableau. Build regardless of rank and suit.')
+
+
+class CircleNine(Game):
+    Hint_Class = Numerica_Hint
+
+    def createGame(self):
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+7*l.XS, l.YM+3*l.YS)
+
+        for i, j in ((1,0),
+                     (2,0),
+                     (3,0),
+                     (4,0),
+                     (5,1),
+                     (3.5,2),
+                     (2.5,2),
+                     (1.5,2),
+                     (0,1),
+                     ):
+            x, y = l.XM+(1+i)*l.XS, l.YM+j*l.YS
+            stack = CircleNine_RowStack(x, y, self, max_accept=1,
+                                        max_move=1, base_rank=NO_RANK)
+            s.rows.append(stack)
+            stack.CARD_YOFFSET = 0
+
+        x, y = l.XM+3.5*l.XS, l.YM+l.YS
+        stack = RK_FoundationStack(x, y, self, suit=ANY_SUIT,
+                                   max_cards=52, max_move=0, mod=13)
+        s.foundations.append(stack)
+        l.createText(stack, 'ne')
+        x, y = l.XM, l.YM
+        s.talon = Strategerie_Talon(x, y, self)
+        l.createText(s.talon, 'ne')
+
+        l.defaultStackGroups()
+        self.sg.dropstacks.append(s.talon)
+
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow(rows=self.s.foundations)
+        self.s.talon.dealRow()
+        self.s.talon.fillStack()
+
+
+    def fillStack(self, stack):
+        if stack in self.s.rows and not stack.cards:
+            if self.s.talon.cards:
+                old_state = self.enterState(self.S_FILL)
+                self.s.talon.moveMove(1, stack)
+                self.leaveState(old_state)
+
+
+
 
 # register the game
 registerGame(GameInfo(257, Numerica, "Numerica",
@@ -765,4 +831,6 @@ registerGame(GameInfo(600, AnnoDomini, "Anno Domini",
                       GI.GT_NUMERICA, 1, 2, GI.SL_BALANCED))
 registerGame(GameInfo(613, Fanny, "Fanny",
                       GI.GT_NUMERICA, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(641, CircleNine, "Circle Nine",
+                      GI.GT_NUMERICA, 1, 0, GI.SL_BALANCED))
 

@@ -116,6 +116,7 @@ class AuldLangSyne(TamOShanter):
 
 # /***********************************************************************
 # // Strategy
+# // Strategy +
 # ************************************************************************/
 
 class Strategy_Foundation(SS_FoundationStack):
@@ -158,12 +159,12 @@ class Strategy_RowStack(BasicRowStack):
 
 
 class Strategy(Game):
-    def createGame(self):
+    def createGame(self, rows=8):
         # create layout
         l, s = Layout(self), self.s
 
         # set window
-        self.setSize(l.XM + 8*l.XS, l.YM + 4*l.YS)
+        self.setSize(l.XM + rows*l.XS, l.YM + 4*l.YS)
 
         # create stacks
         x, y, = l.XM, l.YM
@@ -172,10 +173,11 @@ class Strategy(Game):
         for i in range(4):
             x, y = l.XM + (i+2)*l.XS, l.YM
             s.foundations.append(Strategy_Foundation(x, y, self, suit=i, max_move=0))
-        for i in range(8):
-            x, y = l.XM + i*l.XS, l.YM + l.YS
-            s.rows.append(Strategy_RowStack(x, y, self, max_move=1, max_accept=1))
-            x = x + l.XS
+        x, y = l.XM, l.YM+l.YS
+        for i in range(rows):
+            s.rows.append(Strategy_RowStack(x, y,
+                                            self, max_move=1, max_accept=1))
+            x += l.XS
 
         # define stack-groups
         l.defaultStackGroups()
@@ -192,6 +194,28 @@ class Strategy(Game):
         self.startDealSample()
         self.s.talon.dealRow(rows=self.s.foundations)
         self.s.talon.fillStack()
+
+
+class StrategyPlus(Strategy):
+
+    def createGame(self):
+        Strategy.createGame(self, rows=6)
+
+    def _shuffleHook(self, cards):
+        return cards
+
+    def startGame(self):
+        self.s.talon.fillStack()
+
+    def fillStack(self, stack):
+        if stack is self.s.talon and stack.cards:
+            c = stack.cards[-1]
+            if c.rank == ACE:
+                old_state = self.enterState(self.S_FILL)
+                self.moveMove(1, stack, self.s.foundations[c.suit])
+                if stack.canFlipCard():
+                    stack.flipMove()
+                self.leaveState(old_state)
 
 
 # /***********************************************************************
@@ -538,4 +562,6 @@ registerGame(GameInfo(560, DoubleAcquaintance, "Double Acquaintance",
                       GI.GT_NUMERICA, 2, 2, GI.SL_BALANCED))
 registerGame(GameInfo(569, Primrose, "Primrose",
                       GI.GT_NUMERICA, 2, 8, GI.SL_BALANCED))
+registerGame(GameInfo(636, StrategyPlus, "Strategy +",
+                      GI.GT_NUMERICA, 1, 0, GI.SL_SKILL))
 

@@ -2163,6 +2163,7 @@ class FaceUpWasteTalonStack(WasteTalonStack):
     def fillStack(self):
         if self.canFlipCard():
             self.game.flipMove(self)
+        self.game.fillStack(self)
 
 
 class OpenTalonStack(TalonStack, OpenStack):
@@ -2183,6 +2184,7 @@ class OpenTalonStack(TalonStack, OpenStack):
     def fillStack(self):
         if self.canFlipCard():
             self.game.flipMove(self)
+        self.game.fillStack(self)
 
     def clickHandler(self, event):
         if self.canDealCards():

@@ -139,6 +139,7 @@ class KlondikeByThrees(Klondike):
 
 # /***********************************************************************
 # // Thumb and Pouch
+# // Chinaman
 # ************************************************************************/
 
 class ThumbAndPouch(Klondike):
@@ -151,6 +152,13 @@ class ThumbAndPouch(Klondike):
         return (card1.suit != card2.suit
                 and (card1.rank + 1 == card2.rank
                      or card2.rank + 1 == card1.rank))
+
+
+class Chinaman(ThumbAndPouch):
+    RowStack_Class = StackWrapper(BO_RowStack, base_rank=KING)
+
+    def createGame(self):
+        Klondike.createGame(self, num_deal=3, max_rounds=2)
 
 
 # /***********************************************************************
@@ -1272,6 +1280,20 @@ class BigBertha(Game):
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
+# /***********************************************************************
+# // Athena
+# ************************************************************************/
+
+class Athena(Klondike):
+
+    def startGame(self):
+        self.s.talon.dealRow(frames=0, flip=0)
+        self.s.talon.dealRow(frames=0)
+        self.s.talon.dealRow(frames=0, flip=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
+
 
 # register the game
 registerGame(GameInfo(2, Klondike, "Klondike",
@@ -1404,5 +1426,9 @@ registerGame(GameInfo(627, QueenVictoria, "Queen Victoria",
                       GI.GT_RAGLAN | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(630, BigBertha, "Big Bertha",
                       GI.GT_RAGLAN | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(633, Athena, "Athena",
+                      GI.GT_KLONDIKE, 1, -1, GI.SL_BALANCED))
+registerGame(GameInfo(634, Chinaman, "Chinaman",
+                      GI.GT_KLONDIKE, 1, 1, GI.SL_BALANCED))
 
 

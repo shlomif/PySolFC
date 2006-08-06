@@ -864,6 +864,51 @@ class RoyalAids(Game):
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
+# /***********************************************************************
+# // Circle Eight
+# ************************************************************************/
+
+class CircleEight(Game):
+
+    def createGame(self):
+
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+5*l.XS, l.YM+3*l.YS)
+
+        for i, j in ((1,0),
+                     (2,0),
+                     (3,0),
+                     (4,1),
+                     (3,2),
+                     (2,2),
+                     (1,2),
+                     (0,1),
+                     ):
+            x, y = l.XM+i*l.XS, l.YM+j*l.YS
+            stack = RK_RowStack(x, y, self, dir=1, mod=13, max_move=0)
+            s.rows.append(stack)
+            stack.CARD_YOFFSET = 0
+
+        x, y = l.XM+1.5*l.XS, l.YM+l.YS
+        s.talon = WasteTalonStack(x, y, self, max_rounds=2)
+        l.createText(s.talon, 'nw')
+        x += l.XS
+        s.waste = WasteStack(x, y, self)
+        l.createText(s.waste, 'ne')
+
+        l.defaultStackGroups()
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
+
+    def isGameWon(self):
+        return len(self.s.talon.cards) == 0 and len(self.s.waste.cards) == 0
+
+    shallHighlightMatch = Game._shallHighlightMatch_RKW
+
+
 # register the game
 registerGame(GameInfo(330, Sultan, "Sultan",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_MOSTLY_LUCK,
@@ -898,3 +943,5 @@ registerGame(GameInfo(565, RoyalAids, "Royal Aids",
                       GI.GT_2DECK_TYPE, 2, UNLIMITED_REDEALS, GI.SL_BALANCED))
 registerGame(GameInfo(598, PicturePatience, "Picture Patience",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_LUCK))
+registerGame(GameInfo(635, CircleEight, "Circle Eight",
+                      GI.GT_1DECK_TYPE, 1, 1, GI.SL_MOSTLY_LUCK))

@@ -445,7 +445,7 @@ Sounds and background music will be disabled.'''),
     if app.tabletile_index > 0:
         color = "#008200"
     app.intro.progress = PysolProgressBar(app, top, title=title, color=color,
-                                          images=app.progress_images, norm=1.32)
+                                          images=app.progress_images, norm=1.4)
 
     # prepare other images
     app.loadImages2()

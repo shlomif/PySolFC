@@ -967,6 +967,7 @@ class DoubleGoldMine(Streets):
 # // Unlimited
 # // Breakwater
 # // Forty Nine
+# // Alternations
 # ************************************************************************/
 
 class Interchange(FortyThieves):
@@ -1019,6 +1020,11 @@ class FortyNine(Interchange):
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
+class Alternations(Interchange):
+    RowStack_Class = AC_RowStack
+    shallHighlightMatch = Game._shallHighlightMatch_AC
+
+
 # /***********************************************************************
 # // Indian Patience
 # ************************************************************************/
@@ -1052,6 +1058,51 @@ class IndianPatience(Indian):
                 self.s.talon.flipMove()
                 self.s.talon.moveMove(1, stack)
             self.leaveState(old_state)
+
+
+# /***********************************************************************
+# // Floradora
+# ************************************************************************/
+
+class Floradora(Game):
+    Hint_Class = CautiousDefaultHint
+
+    def createGame(self):
+
+        l, s = Layout(self), self.s
+
+        self.setSize(l.XM+10*l.XS, l.YM+2*l.YS+12*l.YOFFSET+l.TEXT_HEIGHT)
+
+        x, y = l.XM, l.YM
+        s.talon = WasteTalonStack(x, y, self, max_rounds=1)
+        l.createText(s.talon, 's')
+        x += l.XS
+        s.waste = WasteStack(x, y, self)
+        l.createText(s.waste, 's')
+        x += l.XS
+        for i in range(8):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i%4,
+                                                    max_cards=12))
+            x += l.XS
+        x, y = l.XM, l.YM+l.YS+l.TEXT_HEIGHT
+        s.foundations.append(RK_FoundationStack(x, y, self, suit=ANY_SUIT,
+                             base_rank=KING, dir=0, max_cards=8))
+        x += 3*l.XS
+        for i in range(6):
+            s.rows.append(RK_RowStack(x, y, self, max_move=1))
+            x += l.XS
+
+        l.defaultStackGroups()
+
+    def startGame(self):
+        for i in range(5):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
+
+    shallHighlightMatch = Game._shallHighlightMatch_RK
+
 
 
 # register the game
@@ -1162,4 +1213,8 @@ registerGame(GameInfo(588, Roosevelt, "Roosevelt",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(628, Crossroads, "Crossroads",
                       GI.GT_FORTY_THIEVES, 4, 0, GI.SL_BALANCED))
+registerGame(GameInfo(631, Alternations, "Alternations",
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(632, Floradora, "Floradora",
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_LUCK))
 

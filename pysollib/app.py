@@ -1380,7 +1380,7 @@ Please select a %s type %s.
             return None
         config = CardsetConfig()
         if not self._parseCardsetConfig(config, lines):
-            ##print filename, 'invalide config'
+            ##print filename, 'invalid config'
             return None
         if config.CARDD > self.top.winfo_screendepth():
             return None
@@ -1444,7 +1444,7 @@ Please select a %s type %s.
                 return 0
             cs.year = int(m.group(1))
         if len(cs.ext) < 2 or cs.ext[0] != ".":
-            if _debug: print_err(1, msg='invalide extention')
+            if _debug: print_err(1, msg='invalid extention')
             return 0
         # line[1]: identifier/name
         if not line[1]:
@@ -1453,19 +1453,19 @@ Please select a %s type %s.
         cs.ident = line[1]
         m = re.search(r"^(.*;)?([^;]+)$", cs.ident)
         if not m:
-            if _debug: print_err(2, msg='invalide format')
+            if _debug: print_err(2, msg='invalid format')
             return 0
         cs.name = m.group(2).strip()
         # line[2]: CARDW, CARDH, CARDD
         m = re.search(r"^(\d+)\s+(\d+)\s+(\d+)", line[2])
         if not m:
-            if _debug: print_err(3, msg='invalide format')
+            if _debug: print_err(3, msg='invalid format')
             return 0
         cs.CARDW, cs.CARDH, cs.CARDD = int(m.group(1)), int(m.group(2)), int(m.group(3))
         # line[3]: CARD_UP_YOFFSET, CARD_DOWN_YOFFSET, SHADOW_XOFFSET, SHADOW_YOFFSET
         m = re.search(r"^(\d+)\s+(\d+)\s+(\d+)\s+(\d+)", line[3])
         if not m:
-            if _debug: print_err(4, msg='invalide format')
+            if _debug: print_err(4, msg='invalid format')
             return 0
         cs.CARD_XOFFSET = int(m.group(1))
         cs.CARD_YOFFSET = int(m.group(2))

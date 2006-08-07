@@ -6,4 +6,3 @@ import larasgame
 import matrix
 import mughal
 import tarock
-import threepeaks

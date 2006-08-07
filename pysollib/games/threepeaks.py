@@ -28,7 +28,6 @@
 __all__ = []
 
 # Imports
-import sys, math
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
@@ -40,7 +39,7 @@ from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 from pysollib.pysoltk import MfxCanvasText, MfxCanvasImage, bind, ANCHOR_NW
 
-from pysollib.games.golf import Golf_Waste, Golf_Hint
+from golf import Golf_Waste, Golf_Hint
 
 
 # /***********************************************************************
@@ -77,7 +76,7 @@ class ThreePeaks_TalonStack(WasteTalonStack):
 class ThreePeaks_RowStack(OpenStack):
 
     def __init__(self, x, y, game, **cap):
-        kwdefault(cap, max_move=0, max_accept=0, max_cards=1,
+        kwdefault(cap, max_move=1, max_accept=0, max_cards=1,
                   base_rank=ANY_RANK)
         apply(OpenStack.__init__, (self, x, y, game), cap)
 
@@ -134,9 +133,11 @@ class ThreePeaks(Game):
         l, s = Layout(self), self.s
 
         # set window
-        # (compute best XOFFSET - up to 64/72 cards can be in the Waste)
         decks = self.gameinfo.decks
-        l.XOFFSET = int(l.XS * 9 / self.gameinfo.ncards)
+        # compute best XOFFSET
+        xoffset = int(l.XS * 8 / self.gameinfo.ncards)
+        if xoffset < l.XOFFSET:
+            l.XOFFSET = xoffset
 
         # Set window size
         w, h = l.XM + l.XS * 10, l.YM + l.YS * 4
@@ -170,12 +171,12 @@ class ThreePeaks(Game):
         # Create talon
         x, y = l.XM, y + l.YM + l.YS
         s.talon = ThreePeaks_TalonStack(x, y, self, num_deal=1, max_rounds=1)
-        l.createText(s.talon, "ss")
+        l.createText(s.talon, "s")
         x = x + l.XS
         s.waste = self.Waste_Class(x, y, self)
         s.waste.CARD_XOFFSET = l.XOFFSET
         s.foundations.append(s.waste)
-        l.createText(s.waste, "ss")
+        l.createText(s.waste, "s")
 
         # Create text for scores
         if self.preview <= 1:
@@ -279,21 +280,10 @@ class ThreePeaksNoScore(ThreePeaks):
         return 1
 
 
-# /***********************************************************************
-# // Le Grande Teton
-# ************************************************************************/
-
-class LeGrandeTeton(ThreePeaksNoScore):
-    pass
-
-
 
 registerGame(GameInfo(22216, ThreePeaks, "Three Peaks",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(22231, ThreePeaksNoScore, "Three Peaks Non-scoring",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_BALANCED))
-registerGame(GameInfo(22232, LeGrandeTeton, "Le Grande Teton",
-                      GI.GT_TAROCK, 1, 0, GI.SL_BALANCED,
-                      ranks=range(14), trumps=range(22)))
 
 

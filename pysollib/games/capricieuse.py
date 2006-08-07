@@ -128,7 +128,7 @@ class Strata(Game):
             s.foundations.append(DieRussische_Foundation(x, y, self,
                                  suit=i%4, max_cards=8))
             x = x + l.XS
-        x, y, = l.XM+l.XS, l.YM+l.YS
+        x, y, = l.XM+l.XS/2, l.YM+l.YS
         for i in range(8):
             s.rows.append(AC_RowStack(x, y, self, max_move=1, max_accept=1))
             x = x + l.XS

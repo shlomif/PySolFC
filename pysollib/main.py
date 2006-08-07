@@ -89,6 +89,7 @@ def parse_option(argv):
                                        "fg=", "foreground=",
                                        "bg=", "background=",
                                        "fn=", "font=",
+                                       "french-only",
                                        "noplugins",
                                        "nosound",
                                        "debug=",
@@ -103,6 +104,7 @@ def parse_option(argv):
             "fg": None,
             "bg": None,
             "fn": None,
+            "french-only": False,
             "noplugins": False,
             "nosound": False,
             "debug": 0,
@@ -120,6 +122,8 @@ def parse_option(argv):
             opts["bg"] = i[1]
         elif i[0] in ("--fn", "--font"):
             opts["fn"] = i[1]
+        elif i[0] == "--french-only":
+            opts["french-only"] = True
         elif i[0] == "--noplugins":
             opts["noplugins"] = True
         elif i[0] == "--nosound":
@@ -146,7 +150,7 @@ def parse_option(argv):
         return None
     filename = args and args[0] or None
     if filename and not os.path.isfile(filename):
-        print _("%s: invalide file name\ntry %s --help for more information") % (prog_name, prog_name)
+        print _("%s: invalid file name\ntry %s --help for more information") % (prog_name, prog_name)
         return None
     return opts, filename
 
@@ -190,15 +194,19 @@ def pysol_init(app, args):
         try:
             app.commandline.gameid = int(opts['gameid'])
         except:
-            print >> sys.stderr, 'WARNING: invalide game id:', opts['gameid']
-    app.debug = int(opts['debug'])
+            print >> sys.stderr, 'WARNING: invalid game id:', opts['gameid']
+    try:
+        app.debug = int(opts['debug'])
+    except:
+        print >> sys.stderr, 'invalid argument for debug'
 
     # init games database
     import games
-    import games.contrib
-    import games.special
-    import games.ultra
-    import games.mahjongg
+    if not opts['french-only']:
+        #import games.contrib
+        import games.ultra
+        import games.mahjongg
+        import games.special
 
     # init DataLoader
     f = os.path.join("html", "license.html")
@@ -322,7 +330,7 @@ def pysol_init(app, args):
     try:
         f = Font(top, font)
     except:
-        print >> sys.stderr, "invalide font name:", font
+        print >> sys.stderr, "invalid font name:", font
         pass
     else:
         if font:
@@ -345,8 +353,7 @@ Main data directory is:
 %s
 
 Please check your %s installation.
-''') % (app.dataloader.dir, PACKAGE),
-                             bitmap="error", strings=(_("&Quit"),))
+''') % (app.dataloader.dir, PACKAGE), bitmap="error", strings=(_("&Quit"),))
         return 1
 
     # init cardsets

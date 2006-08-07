@@ -767,8 +767,8 @@ class CircleNine(Game):
             stack.CARD_YOFFSET = 0
 
         x, y = l.XM+3.5*l.XS, l.YM+l.YS
-        stack = RK_FoundationStack(x, y, self, suit=ANY_SUIT,
-                                   max_cards=52, max_move=0, mod=13)
+        stack = RK_FoundationStack(x, y, self, suit=ANY_SUIT, max_cards=52,
+                                   max_move=0, mod=13, base_rank=ANY_RANK)
         s.foundations.append(stack)
         l.createText(stack, 'ne')
         x, y = l.XM, l.YM
@@ -793,6 +793,44 @@ class CircleNine(Game):
                 self.s.talon.moveMove(1, stack)
                 self.leaveState(old_state)
 
+
+class Measure(CircleNine):
+
+    Foundation_Class = StackWrapper(RK_FoundationStack, max_cards=52)
+
+    def createGame(self, rows=8):
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+rows*l.XS, l.YM+2*l.YS+10*l.YOFFSET)
+
+        x, y = l.XM, l.YM
+        s.talon = Strategerie_Talon(x, y, self)
+        l.createText(s.talon, 'ne')
+        x = self.width-l.XS
+        stack = self.Foundation_Class(x, y, self, suit=ANY_SUIT, max_cards=52,
+                                      max_move=0, mod=13, base_rank=ANY_RANK)
+        s.foundations.append(stack)
+        l.createText(stack, 'nw')
+
+        x, y = l.XM, l.YM+l.YS
+        for i in range(rows):
+            s.rows.append(CircleNine_RowStack(x, y, self, max_accept=1,
+                          max_move=1, base_rank=NO_RANK))
+            x += l.XS
+
+        l.defaultStackGroups()
+        self.sg.dropstacks.append(s.talon)
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.fillStack()
+
+
+class DoubleMeasure(Measure):
+    Foundation_Class = StackWrapper(RK_FoundationStack, max_cards=104)
+
+    def createGame(self, rows=8):
+        Measure.createGame(self, rows=10)
 
 
 
@@ -833,4 +871,8 @@ registerGame(GameInfo(613, Fanny, "Fanny",
                       GI.GT_NUMERICA, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(641, CircleNine, "Circle Nine",
                       GI.GT_NUMERICA, 1, 0, GI.SL_BALANCED))
+registerGame(GameInfo(643, Measure, "Measure",
+                      GI.GT_NUMERICA | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(644, DoubleMeasure, "Double Measure",
+                      GI.GT_NUMERICA | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 

@@ -39,6 +39,12 @@ __all__ = ['PysolStatusbar',
 # imports
 import os, sys, Tkinter
 
+if __name__ == '__main__':
+    d = os.path.abspath(os.path.join(sys.path[0], '..', '..'))
+    sys.path.append(d)
+    import gettext
+    gettext.install('pysol', d, unicode=True)
+
 # PySol imports
 from pysollib.mfxutil import destruct
 
@@ -61,6 +67,7 @@ class MfxStatusbar:
         self._columnspan = columnspan
         #
         self.padx = 1
+        self.label_relief = 'sunken'
         self.frame = Tkinter.Frame(self.top, bd=1)
         self.frame.grid(row=self._row, column=self._column,
                         columnspan=self._columnspan, sticky='ew',
@@ -70,13 +77,28 @@ class MfxStatusbar:
         if os.name == 'nt':
             self.frame.config(relief='raised')
             self.padx = 0
+        if 0:
+            self.frame.config(bd=0)
+            self.label_relief = 'flat'
+            self.padx = 0
 
     # util
     def _createLabel(self, name, side='left',
                      fill='none', expand=0, width=0,
                      tooltip=None):
-        label = Tkinter.Label(self.frame, width=width, relief='sunken', bd=1)
-        label.pack(side=side, fill=fill, padx=self.padx, expand=expand)
+        if 0:
+            frame = Tkinter.Frame(self.frame, bd=1, relief=self.label_relief,
+                                  highlightbackground='#9e9a9e',
+                                  highlightthickness=1)
+            frame.pack(side=side, fill=fill, padx=self.padx, expand=expand)
+            label = Tkinter.Label(frame, width=width, bd=0)
+            label.pack(expand=True, fill='both')
+        else:
+            label = Tkinter.Label(self.frame, width=width,
+                                  relief=self.label_relief, bd=1,
+                                  highlightbackground='black'
+                                  )
+            label.pack(side=side, fill=fill, padx=self.padx, expand=expand)
         setattr(self, name + "_label", label)
         self._widgets.append(label)
         if tooltip:

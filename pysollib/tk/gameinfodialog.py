@@ -24,7 +24,7 @@ __all__ = ['GameInfoDialog']
 
 # imports
 import os, sys
-from Tkinter import *
+import Tkinter
 
 # PySol imports
 from pysollib.mfxutil import KwStruct
@@ -44,8 +44,8 @@ class GameInfoDialog(MfxDialog):
         top_frame, bottom_frame = self.createFrames(kw)
         self.createBitmaps(top_frame, kw)
 
-        frame = Frame(top_frame)
-        frame.pack(expand=YES, fill=BOTH, padx=5, pady=10)
+        frame = Tkinter.Frame(top_frame)
+        frame.pack(expand=True, fill='both', padx=5, pady=10)
         frame.columnconfigure(0, weight=1)
 
         game = app.game
@@ -108,8 +108,10 @@ class GameInfoDialog(MfxDialog):
                      ('Hint:', hint),
                      ):
             if t:
-                Label(frame, text=n, anchor=W).grid(row=row, column=0, sticky=N+W)
-                Label(frame, text=t, anchor=W, justify=LEFT).grid(row=row, column=1, sticky=N+W)
+                Tkinter.Label(frame, text=n, anchor='w'
+                              ).grid(row=row, column=0, sticky='nw')
+                Tkinter.Label(frame, text=t, anchor='w', justify='left'
+                              ).grid(row=row, column=1, sticky='nw')
                 row += 1
 
         if game.s.talon:
@@ -131,9 +133,9 @@ class GameInfoDialog(MfxDialog):
         focus = self.createButtons(bottom_frame, kw)
         self.mainloop(focus, kw.timeout)
 
-
     def showStacks(self, frame, row, title, stacks):
-        Label(frame, text=title, anchor=W).grid(row=row, column=0, sticky=N+W)
+        Tkinter.Label(frame, text=title, anchor='w'
+                      ).grid(row=row, column=0, sticky='nw')
         if isinstance(stacks, (list, tuple)):
             fs = {}
             for f in stacks:
@@ -145,8 +147,8 @@ class GameInfoDialog(MfxDialog):
             t = '\n'.join(['%s (%d)' % (i[0], i[1]) for i in fs.items()])
         else:
             t = stacks.__class__.__name__
-        Label(frame, text=t, anchor=W, justify=LEFT).grid(row=row, column=1, sticky=N+W)
-
+        Tkinter.Label(frame, text=t, anchor='w', justify='left'
+                      ).grid(row=row, column=1, sticky='nw')
 
     def initKw(self, kw):
         kw = KwStruct(kw,

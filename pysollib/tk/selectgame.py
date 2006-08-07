@@ -99,13 +99,14 @@ class SelectGameData(SelectDialogTreeData):
         self.all_games_gi = map(app.gdb.get, app.gdb.getGamesIdSortedByName())
         self.no_games = [ SelectGameLeaf(None, None, _("(no games)"), None), ]
         #
-        s_by_type = s_oriental = s_special = s_original = s_contrib = None
+        s_by_type = s_oriental = s_special = s_original = s_contrib = s_mahjongg = None
         g = []
         for data in (GI.SELECT_GAME_BY_TYPE,
                      GI.SELECT_ORIENTAL_GAME_BY_TYPE,
                      GI.SELECT_SPECIAL_GAME_BY_TYPE,
                      GI.SELECT_ORIGINAL_GAME_BY_TYPE,
-                     GI.SELECT_CONTRIB_GAME_BY_TYPE):
+                     GI.SELECT_CONTRIB_GAME_BY_TYPE,
+                     ):
             gg = []
             for name, select_func in data:
                 if name is None or not filter(select_func, self.all_games_gi):
@@ -114,21 +115,23 @@ class SelectGameData(SelectDialogTreeData):
                 name = name.replace("&", "")
                 gg.append(SelectGameNode(None, name, select_func))
             g.append(gg)
-        if 1 and g[0]:
+        select_mahjongg_game = lambda gi: gi.si.game_type == GI.GT_MAHJONGG
+        gg = None
+        if filter(select_mahjongg_game, self.all_games_gi):
+            gg = SelectGameNode(None, _("Mahjongg Games"), select_mahjongg_game)
+        g.append(gg)
+        if g[0]:
             s_by_type = SelectGameNode(None, _("French games"), tuple(g[0]), expanded=1)
-            pass
-        if 1 and g[1]:
+        if g[1]:
             s_oriental = SelectGameNode(None, _("Oriental Games"), tuple(g[1]))
-            pass
-        if 1 and g[2]:
+        if g[2]:
             s_special = SelectGameNode(None, _("Special Games"), tuple(g[2]))
-            pass
-        if 1 and g[3]:
+        if g[3]:
             s_original = SelectGameNode(None, _("Original Games"), tuple(g[3]))
-            pass
-        if 1 and g[4]:
-            ##s_contrib = SelectGameNode(None, "Contributed Games", tuple(g[4]))
-            pass
+##         if g[4]:
+##             s_contrib = SelectGameNode(None, "Contributed Games", tuple(g[4]))
+        if g[5]:
+            s_mahjongg = g[5]
         #
         s_by_compatibility, gg = None, []
         for name, games in GI.GAMES_BY_COMPATIBILITY:
@@ -140,16 +143,6 @@ class SelectGameData(SelectDialogTreeData):
         if 1 and gg:
             s_by_compatibility = SelectGameNode(None, _("by Compatibility"), tuple(gg))
             pass
-##         #
-##         s_mahjongg, gg = None, []
-##         for name, games in GI.GAMES_BY_COMPATIBILITY:
-##             select_func = lambda gi, games=games: gi.id in games
-##             if name is None or not filter(select_func, self.all_games_gi):
-##                continue
-##             gg.append(SelectGameNode(None, name, select_func))
-##         if 1 and gg:
-##             s_by_compatibility = SelectGameNode(None, "by Compatibility", tuple(gg))
-##             pass
         #
         s_by_pysol_version, gg = None, []
         for name, games in GI.GAMES_BY_PYSOL_VERSION:
@@ -169,9 +162,7 @@ class SelectGameData(SelectDialogTreeData):
             SelectGameNode(None, _("All Games"), None, expanded=0),
             SelectGameNode(None, _("Alternate Names"), ul_alternate_names),
             SelectGameNode(None, _("Popular Games"), lambda gi: gi.si.game_flags & GI.GT_POPULAR, expanded=0),
-            SelectGameNode(None, _("Mahjongg Games"),
-                           lambda gi: gi.si.game_type == GI.GT_MAHJONGG,
-                           expanded=0),
+            s_mahjongg,
             s_oriental,
             s_special,
             s_by_type,
@@ -398,7 +389,8 @@ class SelectGameDialogWithPreview(SelectGameDialog):
                           padx=padx, pady=pady, sticky='nsew')
         right_frame.columnconfigure(1, weight=1)
         right_frame.rowconfigure(1, weight=1)
-
+        #
+        focus = self.createButtons(bottom_frame, kw)
         # set the scale factor
         self.preview.canvas.preview = 2
         # create a preview of the current game
@@ -406,8 +398,6 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         self.preview_game = None
         self.preview_app = None
         self.updatePreview(gameid, animations=0)
-        #
-        focus = self.createButtons(bottom_frame, kw)
         ##focus = self.tree.frame
         SelectGameTreeWithPreview.html_viewer = None
         self.mainloop(focus, kw.timeout)
@@ -532,6 +522,12 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         self.preview_key = gameid
         #
         self.updateInfo(gameid)
+        #
+        rules_button = self.buttons[1]
+        if self.app.getGameRulesFilename(gameid):
+            rules_button.config(state="normal")
+        else:
+            rules_button.config(state="disabled")
 
     def updateInfo(self, gameid):
         gi = self.app.gdb.get(gameid)

@@ -37,7 +37,7 @@ __all__ = ['SoundOptionsDialog']
 
 # imports
 import os, sys, string
-from Tkinter import *
+import Tkinter
 import traceback
 
 # PySol imports
@@ -63,87 +63,88 @@ class SoundOptionsDialog(MfxDialog):
         self.createBitmaps(top_frame, kw)
         #
         self.saved_opt = app.opt.copy()
-        self.sound = BooleanVar()
+        self.sound = Tkinter.BooleanVar()
         self.sound.set(app.opt.sound != 0)
-        self.sound_mode = BooleanVar()
+        self.sound_mode = Tkinter.BooleanVar()
         self.sound_mode.set(app.opt.sound_mode != 0)
-        self.sample_volume = IntVar()
+        self.sample_volume = Tkinter.IntVar()
         self.sample_volume.set(app.opt.sound_sample_volume)
-        self.music_volume = IntVar()
+        self.music_volume = Tkinter.IntVar()
         self.music_volume.set(app.opt.sound_music_volume)
         self.samples = [
-            ('areyousure',    _('Are You Sure'),   BooleanVar()),
+            ('areyousure',    _('Are You Sure'),   Tkinter.BooleanVar()),
 
-            ('deal',          _('Deal'),           BooleanVar()),
-            ('dealwaste',     _('Deal waste'),     BooleanVar()),
+            ('deal',          _('Deal'),           Tkinter.BooleanVar()),
+            ('dealwaste',     _('Deal waste'),     Tkinter.BooleanVar()),
 
-            ('turnwaste',     _('Turn waste'),     BooleanVar()),
-            ('startdrag',     _('Start drag'),     BooleanVar()),
+            ('turnwaste',     _('Turn waste'),     Tkinter.BooleanVar()),
+            ('startdrag',     _('Start drag'),     Tkinter.BooleanVar()),
 
-            ('drop',          _('Drop'),           BooleanVar()),
-            ('droppair',      _('Drop pair'),      BooleanVar()),
-            ('autodrop',      _('Auto drop'),      BooleanVar()),
+            ('drop',          _('Drop'),           Tkinter.BooleanVar()),
+            ('droppair',      _('Drop pair'),      Tkinter.BooleanVar()),
+            ('autodrop',      _('Auto drop'),      Tkinter.BooleanVar()),
 
-            ('flip',          _('Flip'),           BooleanVar()),
-            ('autoflip',      _('Auto flip'),      BooleanVar()),
-            ('move',          _('Move'),           BooleanVar()),
-            ('nomove',        _('No move'),        BooleanVar()),
+            ('flip',          _('Flip'),           Tkinter.BooleanVar()),
+            ('autoflip',      _('Auto flip'),      Tkinter.BooleanVar()),
+            ('move',          _('Move'),           Tkinter.BooleanVar()),
+            ('nomove',        _('No move'),        Tkinter.BooleanVar()),
 
-            ('undo',          _('Undo'),           BooleanVar()),
-            ('redo',          _('Redo'),           BooleanVar()),
+            ('undo',          _('Undo'),           Tkinter.BooleanVar()),
+            ('redo',          _('Redo'),           Tkinter.BooleanVar()),
 
-            ('autopilotlost', _('Autopilot lost'), BooleanVar()),
-            ('autopilotwon',  _('Autopilot won'),  BooleanVar()),
+            ('autopilotlost', _('Autopilot lost'), Tkinter.BooleanVar()),
+            ('autopilotwon',  _('Autopilot won'),  Tkinter.BooleanVar()),
 
-            ('gamefinished',  _('Game finished'),  BooleanVar()),
-            ('gamelost',      _('Game lost'),      BooleanVar()),
-            ('gamewon',       _('Game won'),       BooleanVar()),
-            ('gameperfect',   _('Perfect game'),   BooleanVar()),
+            ('gamefinished',  _('Game finished'),  Tkinter.BooleanVar()),
+            ('gamelost',      _('Game lost'),      Tkinter.BooleanVar()),
+            ('gamewon',       _('Game won'),       Tkinter.BooleanVar()),
+            ('gameperfect',   _('Perfect game'),   Tkinter.BooleanVar()),
             ]
 
         #
-        frame = Frame(top_frame)
-        frame.pack(expand=1, fill='both', padx=5, pady=5)
+        frame = Tkinter.Frame(top_frame)
+        frame.pack(expand=True, fill='both', padx=5, pady=5)
         frame.columnconfigure(1, weight=1)
         #
         row = 0
-        w = Checkbutton(frame, variable=self.sound,
+        w = Tkinter.Checkbutton(frame, variable=self.sound,
                                 text=_("Sound enabled"), anchor='w')
         w.grid(row=row, column=0, columnspan=2, sticky='ew')
         #
         if os.name == "nt" and pysolsoundserver:
             row += 1
-            w = Checkbutton(frame, variable=self.sound_mode,
+            w = Tkinter.Checkbutton(frame, variable=self.sound_mode,
                                     text=_("Use DirectX for sound playing"),
                                     command=self.mOptSoundDirectX, anchor='w')
             w.grid(row=row, column=0, columnspan=2, sticky='ew')
         #
         if pysolsoundserver and app.startup_opt.sound_mode > 0:
             row += 1
-            w = Label(frame, text=_('Sample volume:'))
+            w = Tkinter.Label(frame, text=_('Sample volume:'))
             w.grid(row=row, column=0, sticky='w')
-            w = Scale(frame, from_=0, to=128, resolution=1,
-                      orient='horizontal', takefocus=0,
-                      length="3i", #label=_('Sample volume'),
-                      variable=self.sample_volume)
+            w = Tkinter.Scale(frame, from_=0, to=128, resolution=1,
+                              orient='horizontal', takefocus=0,
+                              length="3i", #label=_('Sample volume'),
+                              variable=self.sample_volume)
             w.grid(row=row, column=1, sticky='w', padx=5)
             row += 1
-            w = Label(frame, text=_('Music volume:'))
+            w = Tkinter.Label(frame, text=_('Music volume:'))
             w.grid(row=row, column=0, sticky='w', padx=5)
-            w = Scale(frame, from_=0, to=128, resolution=1,
-                      orient='horizontal', takefocus=0,
-                      length="3i", #label=_('Music volume'),
-                      variable=self.music_volume)
+            w = Tkinter.Scale(frame, from_=0, to=128, resolution=1,
+                              orient='horizontal', takefocus=0,
+                              length="3i", #label=_('Music volume'),
+                              variable=self.music_volume)
             w.grid(row=row, column=1, sticky='w', padx=5)
 
         else:
             # remove "Apply" button
             kw.strings[1] = None
         #
-        if TkVersion >= 8.4:
-            frame = LabelFrame(top_frame, text=_('Enable samles'), padx=5, pady=5)
+        if Tkinter.TkVersion >= 8.4:
+            frame = Tkinter.LabelFrame(top_frame, text=_('Enable samles'),
+                                       padx=5, pady=5)
         else:
-            frame = Frame(top_frame)
+            frame = Tkinter.Frame(top_frame)
         frame.pack(expand=1, fill='both', padx=5, pady=5)
         frame.columnconfigure(0, weight=1)
         frame.columnconfigure(1, weight=1)
@@ -152,7 +153,7 @@ class SoundOptionsDialog(MfxDialog):
         col = 0
         for n, t, v in self.samples:
             v.set(app.opt.sound_samples[n])
-            w = Checkbutton(frame, text=t, anchor='w', variable=v)
+            w = Tkinter.Checkbutton(frame, text=t, anchor='w', variable=v)
             w.grid(row=row, column=col, sticky='ew')
             if col == 1:
                 col = 0
@@ -203,7 +204,9 @@ class SoundOptionsDialog(MfxDialog):
     def mOptSoundDirectX(self, *event):
         ##print self.sound_mode.get()
         d = MfxMessageDialog(self.top, title=_("Sound preferences info"),
-                      text=_("Changing DirectX settings will take effect\nthe next time you restart ")+PACKAGE,
+                      text=_("""\
+Changing DirectX settings will take effect
+the next time you restart """)+PACKAGE,
                       bitmap="warning",
                       default=0, strings=(_("&OK"),))
 

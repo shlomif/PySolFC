@@ -195,7 +195,7 @@ class PysolMenubarActions:
         tkopt.negative_bottom.set(opt.negative_bottom)
         for w in TOOLBAR_BUTTONS:
             tkopt.toolbar_vars[w].set(opt.toolbar_vars[w])
-        if game.gameinfo.category == GI.GC_FRENCH:
+        if game.canFindCard():
             connect_game_find_card_dialog(game)
         else:
             destroy_find_card_dialog()
@@ -282,7 +282,7 @@ class PysolMenubarActions:
             ms.quickplay = 1
         if opt.highlight_piles and game.getHighlightPilesStacks():
             ms.highlight_piles = 1
-        if game.gameinfo.category == GI.GC_FRENCH:
+        if game.canFindCard():
             ms.find_card = 1
         if game.app.getGameRulesFilename(game.id):  # note: this may return ""
             ms.rules = 1

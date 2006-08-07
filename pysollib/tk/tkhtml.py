@@ -40,13 +40,19 @@ import os, sys, re, types
 import htmllib, formatter
 import Tkinter
 
+if __name__ == '__main__':
+    d = os.path.abspath(os.path.join(sys.path[0], '..', '..'))
+    sys.path.append(d)
+    import gettext
+    gettext.install('pysol', d, unicode=True)
+
 # PySol imports
 from pysollib.mfxutil import Struct, openURL
 from pysollib.settings import PACKAGE
 
 # Toolkit imports
 from tkutil import bind, unbind_destroy, loadImage
-from tkwidget import MfxDialog
+from tkwidget import MfxMessageDialog
 from statusbar import HtmlStatusbar
 
 
@@ -65,9 +71,13 @@ class tkHTMLWriter(formatter.DumbWriter):
         self.viewer = viewer
 
         ##
-        font = app.getFont("sans")
+        if app:
+            font = app.getFont("sans")
+            fixed = app.getFont("fixed")
+        else:
+            font = ('helvetica', 12)
+            fixed = ('courier', 12)
         size = font[1]
-        fixed = app.getFont("fixed")
         sign = 1
         if size < 0: sign = -1
         self.fontmap = {
@@ -121,14 +131,21 @@ class tkHTMLWriter(formatter.DumbWriter):
         if self.anchor:
             url = self.anchor[0]
             tag = "href_" + url
-            self.text.tag_add(tag, self.anchor_mark, "insert")
+            anchor_mark = self.anchor_mark
+            if self.text.get(anchor_mark) == ' ': # FIXME
+                try:
+                    y, x = anchor_mark.split('.')
+                    anchor_mark = y+'.'+str(int(x)+1)
+                except:
+                    pass
+            self.text.tag_add(tag, anchor_mark, "insert")
             self.text.tag_bind(tag, "<1>", self.createCallback(url))
             self.text.tag_bind(tag, "<Enter>", lambda e: self.anchor_enter(url))
             self.text.tag_bind(tag, "<Leave>", self.anchor_leave)
             fg = 'blue'
             u = self.viewer.normurl(url, with_protocol=False)
             if u in self.viewer.visited_urls:
-                fg = '#303080'
+                fg = '#660099'
             self.text.tag_config(tag, foreground=fg, underline=1)
             self.anchor = None
 
@@ -379,7 +396,7 @@ class tkHTMLViewer:
         for p in REMOTE_PROTOCOLS:
             if url.startswith(p):
                 if not openURL(url):
-                    self.errorDialog(PACKAGE + _(''' HTML limitation:
+                    self.errorDialog(PACKAGE + _('''HTML limitation:
 The %s protocol is not supported yet.
 
 Please use your standard web browser
@@ -491,9 +508,9 @@ to open the following URL:
             self.display(self.home, relpath=0)
 
     def errorDialog(self, msg):
-        d = MfxDialog(self.parent, title=PACKAGE+" HTML Problem",
-                      text=msg, bitmap="warning",
-                      strings=(_("&OK"),), default=0)
+        d = MfxMessageDialog(self.parent, title=PACKAGE+" HTML Problem",
+                             text=msg, bitmap="warning",
+                             strings=(_("&OK"),), default=0)
 
     def getImage(self, fn):
         if self.images.has_key(fn):
@@ -526,6 +543,7 @@ def tkhtml_main(args):
     top = Tkinter.Tk()
     top.wm_minsize(400, 200)
     viewer = tkHTMLViewer(top)
+    viewer.app = None
     viewer.display(url)
     top.mainloop()
     return 0

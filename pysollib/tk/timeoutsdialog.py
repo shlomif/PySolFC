@@ -23,7 +23,7 @@ __all__ = ['TimeoutsDialog']
 
 # imports
 import os, sys
-from Tkinter import *
+import Tkinter
 
 # PySol imports
 from pysollib.mfxutil import destruct, kwdefault, KwStruct, Struct
@@ -43,24 +43,24 @@ class TimeoutsDialog(MfxDialog):
         top_frame, bottom_frame = self.createFrames(kw)
         #self.createBitmaps(top_frame, kw)
 
-        frame = Frame(top_frame)
-        frame.pack(expand=YES, fill=BOTH, padx=5, pady=10)
+        frame = Tkinter.Frame(top_frame)
+        frame.pack(expand=True, fill='both', padx=5, pady=10)
         frame.columnconfigure(0, weight=1)
 
-        self.demo_sleep_var = DoubleVar()
+        self.demo_sleep_var = Tkinter.DoubleVar()
         self.demo_sleep_var.set(app.opt.demo_sleep)
-        self.hint_sleep_var = DoubleVar()
+        self.hint_sleep_var = Tkinter.DoubleVar()
         self.hint_sleep_var.set(app.opt.hint_sleep)
-        self.raise_card_sleep_var = DoubleVar()
+        self.raise_card_sleep_var = Tkinter.DoubleVar()
         self.raise_card_sleep_var.set(app.opt.raise_card_sleep)
-        self.highlight_piles_sleep_var = DoubleVar()
+        self.highlight_piles_sleep_var = Tkinter.DoubleVar()
         self.highlight_piles_sleep_var.set(app.opt.highlight_piles_sleep)
-        self.highlight_cards_sleep_var = DoubleVar()
+        self.highlight_cards_sleep_var = Tkinter.DoubleVar()
         self.highlight_cards_sleep_var.set(app.opt.highlight_cards_sleep)
-        self.highlight_samerank_sleep_var = DoubleVar()
+        self.highlight_samerank_sleep_var = Tkinter.DoubleVar()
         self.highlight_samerank_sleep_var.set(app.opt.highlight_samerank_sleep)
         #
-        #Label(frame, text='Set delays in seconds').grid(row=0, column=0, columnspan=2)
+        #Tkinter.Label(frame, text='Set delays in seconds').grid(row=0, column=0, columnspan=2)
         row = 0
         for title, var in ((_('Demo:'), self.demo_sleep_var),
                            (_('Hint:'), self.hint_sleep_var),
@@ -69,11 +69,11 @@ class TimeoutsDialog(MfxDialog):
                            (_('Highlight cards:'), self.highlight_cards_sleep_var),
                            (_('Highlight same rank:'), self.highlight_samerank_sleep_var),
                            ):
-            Label(frame, text=title, anchor=W).grid(row=row, column=0, sticky=W+E)
-            widget = Scale(frame, from_=0.2, to=9.9,
-                           resolution=0.1, orient=HORIZONTAL,
-                           length="3i",
-                           variable=var, takefocus=0)
+            Tkinter.Label(frame, text=title, anchor='w'
+                          ).grid(row=row, column=0, sticky='we')
+            widget = Tkinter.Scale(frame, from_=0.2, to=9.9,
+                                   resolution=0.1, orient='horizontal',
+                                   length="3i", variable=var, takefocus=0)
             widget.grid(row=row, column=1)
             row += 1
         #

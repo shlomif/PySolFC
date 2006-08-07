@@ -1590,7 +1590,7 @@ for %d moves.
         return card1.color != card2.color and abs(card1.rank-card2.rank) == 1
 
     def _shallHighlightMatch_ACW(self, stack1, card1, stack2, card2):
-        # by alternate color with wrapping (only for france games)
+        # by alternate color with wrapping (only for french games)
         return (card1.color != card2.color
                 and ((card1.rank + 1) % 13 == card2.rank
                      or (card2.rank + 1) % 13 == card1.rank))
@@ -1600,7 +1600,7 @@ for %d moves.
         return card1.suit == card2.suit and abs(card1.rank-card2.rank) == 1
 
     def _shallHighlightMatch_SSW(self, stack1, card1, stack2, card2):
-        # by same suit with wrapping (only for france games)
+        # by same suit with wrapping (only for french games)
         return (card1.suit == card2.suit
                 and ((card1.rank + 1) % 13 == card2.rank
                      or (card2.rank + 1) % 13 == card1.rank))
@@ -1610,7 +1610,7 @@ for %d moves.
         return abs(card1.rank-card2.rank) == 1
 
     def _shallHighlightMatch_RKW(self, stack1, card1, stack2, card2):
-        # by rank with wrapping (only for france games)
+        # by rank with wrapping (only for french games)
         return ((card1.rank + 1) % 13 == card2.rank
                 or (card2.rank + 1) % 13 == card1.rank)
 
@@ -2639,6 +2639,10 @@ in the current implementation.''' % version
             for sd in self.stackdesc_list:
                 sd.delete()
             self.stackdesc_list = []
+
+    ## for find_card_dialog
+    def canFindCard(self):
+        return self.gameinfo.category == GI.GC_FRENCH
 
     #
     # subclass hooks

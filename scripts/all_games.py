@@ -5,6 +5,7 @@
 import sys, os, re, time
 from pprint import pprint
 
+os.environ['LANG'] = 'C'
 import gettext
 gettext.install('pysol', 'locale', unicode=True)
 
@@ -15,7 +16,6 @@ rules_dir = os.path.normpath(os.path.join(pysollib_path, 'data/html/rules'))
 #print rules_dir
 
 import pysollib.games
-import pysollib.games.contrib
 import pysollib.games.special
 import pysollib.games.ultra
 import pysollib.games.mahjongg
@@ -138,17 +138,17 @@ def all_games(sort_by='id'):
         gt = CSI.TYPE_NAME[gi.category]
         if gt == 'French':
             gt = 'French (%s)' % GAME_BY_TYPE[gi.si.game_type]
+        name = gi.name.encode('utf-8')
+        altnames = '<br>'.join(gi.altnames).encode('utf-8')
         if 1 and os.path.exists(os.path.join(rules_dir, rules_fn)):
             fn = '../data/html/rules/'+rules_fn
             print '''<tr><td>%s</td><td>
 <a href="%s" title="Rules for this game">%s</a>
 </td><td>%s</td><td>%s</td></tr>
-''' % (id, fn,
-       gi.name.encode('utf-8'), '<br>'.join(gi.altnames).encode('utf-8'), gt)
+''' % (id, fn, name, altnames, gt)
         else:
             print '''<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>
-''' % (id, gi.name.encode('utf-8'),
-       '<br>'.join(gi.altnames).encode('utf-8'), gt)
+''' % (id, name, altnames, gt)
     print '</table>'
 
 def create_html(sort_by):
@@ -219,6 +219,7 @@ def plain_text():
     for id in get_games_func():
         gi = GAME_DB.get(id)
         if gi.category == GI.GC_FRENCH:
+            ##print str(gi.gameclass)
             print gi.name.encode('utf-8')
             ##name = gi.name.lower()
             ##name = re.sub('\W', '', name)
@@ -235,6 +236,8 @@ elif sys.argv[1] == 'gettext':
     get_text()
 elif sys.argv[1] == 'text':
     plain_text()
+else:
+    sys.exit('invalid argument')
 
 
 

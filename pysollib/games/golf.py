@@ -277,118 +277,6 @@ class Escalator(Elevator):
         self.s.talon.dealRow()
         self.s.talon.dealCards()          # deal first card to WasteStack
 
-# /***********************************************************************
-# // Tri Peaks - Relaxed Golf in a Pyramid layout
-# ************************************************************************/
-
-class TriPeaks_RowStack(Elevator_RowStack):
-    STEP = (1, 2, 2, 3+12, 3+12, 3+12,
-            1, 2, 2, 3+ 9, 3+ 9, 3+ 9,
-            1, 2, 2, 3+ 6, 3+ 6, 3+ 6)
-
-
-class TriPeaks(RelaxedGolf):
-
-    #
-    # game layout
-    #
-
-    def createGame(self):
-        # create layout
-        l, s = Layout(self), self.s
-
-        # set window
-        l.XOFFSET = int(l.XS * 9 / self.gameinfo.ncards)
-        self.setSize(10*l.XS+l.XM, 4*l.YS+l.YM)
-
-        # extra settings
-        self.talon_card_ids = {}
-
-        # create stacks
-        for i in range(3):
-            for d in ((2, 0), (1, 1), (3, 1), (0, 2), (2, 2), (4, 2)):
-                x = l.XM + (6*i+1+d[0]) * l.XS / 2
-                y = l.YM + d[1] * l.YS / 2
-                s.rows.append(TriPeaks_RowStack(x, y, self))
-        x, y = l.XM, 3*l.YS/2
-        for i in range(10):
-            s.rows.append(Golf_RowStack(x, y, self))
-            x = x + l.XS
-        x, y = l.XM, self.height - l.YS
-        s.talon = Golf_Talon(x, y, self, max_rounds=1)
-        l.createText(s.talon, "nn")
-        x = x + l.XS
-        s.waste = self.Waste_Class(x, y, self)
-        s.waste.CARD_XOFFSET = l.XOFFSET
-        l.createText(s.waste, "nn")
-        # the Waste is also our only Foundation in this game
-        s.foundations.append(s.waste)
-
-        self.texts.score = MfxCanvasText(self.canvas,
-                                         self.width - 8, self.height - 8,
-                                         anchor="se",
-                                         font=self.app.getFont("canvas_large"))
-
-        # define stack-groups (non default)
-        self.sg.openstacks = [s.waste]
-        self.sg.talonstacks = [s.talon]
-        self.sg.dropstacks = s.rows
-
-    #
-    # game overrides
-    #
-
-    def startGame(self):
-        self.startDealSample()
-        self.s.talon.dealRow(rows=self.s.rows[:18], flip=0)
-        self.s.talon.dealRow(rows=self.s.rows[18:])
-        # extra settings: remember cards from the talon
-        self.talon_card_ids = {}
-        for c in self.s.talon.cards:
-            self.talon_card_ids[c.id] = 1
-        self.s.talon.dealCards()          # deal first card to WasteStack
-
-    def getGameScore(self):
-        v = -24 * 5
-        if not self.s.waste.cards:
-            return v
-        # compute streaks for cards on the waste
-        streak = 0
-        for c in self.s.waste.cards:
-            if self.talon_card_ids.get(c.id):
-                streak = 0
-            else:
-                streak = streak + 1
-                v = v + streak
-        # each cleared peak gains $15 bonus, and all 3 gain extra $30
-        extra = 30
-        for i in (0, 6, 12):
-            if not self.s.rows[i].cards:
-                v = v + 15
-            else:
-                extra = 0
-        return v + extra
-
-    getGameBalance = getGameScore
-
-    def updateText(self):
-        if self.preview > 1:
-            return
-        b1, b2 = self.app.stats.gameid_balance, 0
-        if self.shallUpdateBalance():
-            b2 = self.getGameBalance()
-        t = _("Balance $%4d") % (b1 + b2)
-        self.texts.score.config(text=t)
-
-    def _restoreGameHook(self, game):
-        self.talon_card_ids = game.loadinfo.talon_card_ids
-
-    def _loadGameHook(self, p):
-        self.loadinfo.addattr(talon_card_ids=p.load(types.DictType))
-
-    def _saveGameHook(self, p):
-        p.dump(self.talon_card_ids)
-
 
 # /***********************************************************************
 # // Black Hole
@@ -679,8 +567,6 @@ registerGame(GameInfo(260, RelaxedGolf, "Relaxed Golf",
 registerGame(GameInfo(40, Elevator, "Elevator",
                       GI.GT_GOLF, 1, 0, GI.SL_BALANCED,
                       altnames=("Egyptian Solitaire", "Pyramid Golf") ))
-registerGame(GameInfo(237, TriPeaks, "Tri Peaks",
-                      GI.GT_GOLF | GI.GT_SCORE, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(98, BlackHole, "Black Hole",
                       GI.GT_GOLF | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(267, FourLeafClovers, "Four Leaf Clovers",

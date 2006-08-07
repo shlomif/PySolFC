@@ -70,6 +70,7 @@ class MfxDialog: # ex. _ToplevelDialog
         self.status = 0
         self.button = default
         self.timer = None
+        self.buttons = []
         self.accel_keys = {}
         self.top = makeToplevel(parent, title=title)
         self.top.wm_resizable(resizable, resizable)
@@ -231,6 +232,7 @@ class MfxDialog: # ex. _ToplevelDialog
                 if button == kw.default:
                     focus = b
                     focus.config(default="active")
+            self.buttons.append(b)
             #
             b.config(width=button_width)
             if accel_indx >= 0:

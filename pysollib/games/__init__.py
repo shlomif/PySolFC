@@ -30,6 +30,7 @@ import headsandtails
 import katzenschwanz
 import klondike
 import labyrinth
+import larasgame
 import matriarchy
 import montana
 import montecarlo
@@ -46,6 +47,7 @@ import pushpin
 import pyramid
 import royalcotillion
 import royaleast
+import sanibel
 import siebenbisas
 import simplex
 import spider
@@ -53,6 +55,7 @@ import sthelena
 import sultan
 import takeaway
 import terrace
+import threepeaks
 import tournament
 import unionsquare
 import wavemotion

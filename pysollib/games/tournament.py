@@ -84,7 +84,7 @@ class Tournament(Game):
     # game layout
     #
 
-    def createGame(self, **layout):
+    def createGame(self):
 
         # create layout
         l, s = Layout(self), self.s
@@ -121,8 +121,9 @@ class Tournament(Game):
         s.talon = Tournament_Talon(l.XM, l.YM, self, max_rounds=3)
         l.createText(s.talon, "se")
         tx, ty, ta, tf = l.getTextAttr(s.talon, "ne")
-        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty, anchor=ta,
-                                             font=self.app.getFont("canvas_default"))
+        font = self.app.getFont("canvas_default")
+        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
+                                             anchor=ta, font=font)
 
         # define stack-groups
         l.defaultStackGroups()
@@ -130,6 +131,7 @@ class Tournament(Game):
     #
     # game overrides
     #
+
     def _shuffleHook(self, cards):
         for c in cards[-8:]:
             if c.rank in (ACE, KING):
@@ -189,7 +191,7 @@ class KingsdownEights(Game):
 
     Hint_Class = CautiousDefaultHint
 
-    def createGame(self, **layout):
+    def createGame(self):
 
         # create layout
         l, s = Layout(self), self.s
@@ -232,6 +234,54 @@ class KingsdownEights(Game):
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
+# /***********************************************************************
+# // Saxony
+# ************************************************************************/
+
+class Saxony_Reserve(SS_RowStack):
+    def getBottomImage(self):
+        return self.game.app.images.getReserveBottom()
+    def getHelp(self):
+        return _('Reserve. Build down by suit.')
+
+
+class Saxony(Game):
+
+    def createGame(self):
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+11*l.XS, 2*l.YM+max(2*l.YS+12*l.YOFFSET, 5*l.YS))
+
+        x, y, = l.XM+1.5*l.XS, l.YM
+        for i in range(8):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i%4))
+            x = x + l.XS
+        x, y = l.XM+1.5*l.XS, 2*l.YM+l.YS
+        for i in range(8):
+            s.rows.append(BasicRowStack(x, y, self, max_move=1, max_accept=0))
+            x = x + l.XS
+        x, y = l.XM, 2*l.YM+l.YS
+        for i in range(4):
+            stack = Saxony_Reserve(x, y, self, max_move=1)
+            self.s.reserves.append(stack)
+            stack.CARD_YOFFSET = 0
+            y += l.YS
+        x, y = self.width-l.XS, 2*l.YM+l.YS
+        for i in range(4):
+            self.s.reserves.append(ReserveStack(x, y, self))
+            y += l.YS
+        s.talon = DealRowTalonStack(l.XM, l.YM, self)
+        l.createText(s.talon, "ne")
+
+        l.defaultStackGroups()
+
+
+    def startGame(self):
+        self.s.talon.dealRow(rows=self.s.reserves, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+
+
 # register the game
 registerGame(GameInfo(303, Tournament, "Tournament",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_MOSTLY_LUCK))
@@ -240,6 +290,8 @@ registerGame(GameInfo(304, LaNivernaise, "La Nivernaise",
                       altnames = ("Napoleon's Flank", ),))
 registerGame(GameInfo(386, KingsdownEights, "Kingsdown Eights",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(645, Saxony, "Saxony",
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
 
 
 

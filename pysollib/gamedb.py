@@ -490,16 +490,22 @@ class GameManager:
             raise GameInfoException, "wrong GameInfo class"
         gi.plugin = self.loading_plugin
         if self.__all_games.has_key(gi.id):
-            raise GameInfoException, "duplicate game ID " + str(gi.id)
+            raise GameInfoException, "duplicate game ID %s: %s and %s" % \
+                  (gi.id, str(gi.gameclass),
+                   str(self.__all_games[gi.id].gameclass))
         if self.__all_gamenames.has_key(gi.name):
-            raise GameInfoException, "duplicate game name " + str(gi.id) + ": " + gi.name
+            raise GameInfoException, "duplicate game name %s: %s and %s" % \
+                  (gi.id, gi.name, str(self.__all_games[gi.id].gameclass))
         if 1:
             for id, game in self.__all_games.items():
                 if gi.gameclass is game.gameclass:
-                    raise GameInfoException, "duplicate game class " + str(gi.id)
+                    raise GameInfoException, \
+                          "duplicate game class %s: %s and %s" % \
+                          (gi.id, str(gi.gameclass), str(game.gameclass))
         for n in gi.altnames:
             if self.__all_gamenames.has_key(n):
-                raise GameInfoException, "duplicate altgame name " + str(gi.id) + ": " + n
+                raise GameInfoException, "duplicate game altname %s: %s" % \
+                      (gi.id, n)
         ##if 0 and gi.si.game_flags & GI.GT_XORIGINAL:
         ##    return
         ##print gi.id, gi.name

@@ -298,7 +298,9 @@ class Stack:
             misc = None,                # canvas item
         )
         view.top_bottom = None          # the highest of all bottom items
-        view.is_visible = view.x >= -100 and view.y >= -100
+        cardw, cardh = game.app.images.CARDW, game.app.images.CARDH
+        dx, dy = cardw+view.canvas.xmargin, cardh+view.canvas.ymargin
+        view.is_visible = view.x >= -dx and view.y >= -dy
         view.is_open = -1
         view.can_hide_cards = -1
         view.max_shadow_cards = -1
@@ -2217,9 +2219,11 @@ class ReserveStack(OpenStack):
 
 class InvisibleStack(Stack):
     def __init__(self, game, **cap):
-        x, y = -500, -500 - len(game.allstacks)
+        ##x, y = -500, -500 - len(game.allstacks)
+        cardw, cardh = game.app.images.CARDW, game.app.images.CARDH
+        x, y = cardw+game.canvas.xmargin, cardh+game.canvas.ymargin
         kwdefault(cap, max_move=0, max_accept=0)
-        Stack.__init__(self, x, y, game, cap=cap)
+        Stack.__init__(self, -x-10, -y-10, game, cap=cap)
 
     def assertStack(self):
         Stack.assertStack(self)

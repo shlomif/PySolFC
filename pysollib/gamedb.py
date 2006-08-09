@@ -535,7 +535,9 @@ class GameManager:
     # access games database - we do not expose hidden games
     #
 
-    def getAllGames(self): return self.__all_games
+    def getAllGames(self):
+        ##return self.__all_games
+        return self.__games.values()
 
     def getGamesIdSortedById(self):
         if self.__games_by_id is None:

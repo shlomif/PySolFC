@@ -505,7 +505,7 @@ class ASingleCardMove(AtomicMove):
 
 
 # /***********************************************************************
-# // AInnerMove - change position of single card in stack
+# // AInnerMove - change position of single card in stack (TODO)
 # ************************************************************************/
 
 class AInnerMove(AtomicMove):
@@ -515,10 +515,10 @@ class AInnerMove(AtomicMove):
         self.from_pos, self.to_pos = from_pos, to_pos
 
     def redo(self, game):
-        pass
+        stack = game.allstacks[self.stack_id]
 
     def undo(self, game):
-        pass
+        stack = game.allstacks[self.stack_id]
 
     def cmpForRedo(self, other):
         return cmp((self.stack_id, self.from_pos, self.to_pos),

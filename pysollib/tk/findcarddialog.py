@@ -54,10 +54,10 @@ class FindCardDialog(Tkinter.Toplevel):
         #
         ##self.images_dir = dir
         if size == 'large':
-            self.images_dir = os.path.join(dir, 'large-emblems')
+            self.images_dir = os.path.join(dir, 'large')
             self.label_width, self.label_height = LARGE_EMBLEMS_SIZE
         else:
-            self.images_dir = os.path.join(dir, 'small-emblems')
+            self.images_dir = os.path.join(dir, 'small')
             self.label_width, self.label_height = SMALL_EMBLEMS_SIZE
         self.canvas = MfxCanvas(self, bg='white')
         ##self.canvas = MfxCanvas(self, bg='black')

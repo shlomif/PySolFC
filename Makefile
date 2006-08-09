@@ -4,8 +4,7 @@ override LANG=C
 
 PYSOLLIB_FILES=pysollib/tk/*.py pysollib/*.py \
 	pysollib/games/*.py pysollib/games/special/*.py \
-	pysollib/games/contrib/*.py pysollib/games/ultra/*.py \
-	pysollib/games/mahjongg/*.py
+	pysollib/games/ultra/*.py pysollib/games/mahjongg/*.py
 
 .PHONY : install dist all_games_html rules pot mo
 

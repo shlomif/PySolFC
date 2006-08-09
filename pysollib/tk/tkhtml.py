@@ -63,9 +63,9 @@ REMOTE_PROTOCOLS = ("ftp:", "gopher:", "http:", "mailto:", "news:", "telnet:")
 # //
 # ************************************************************************/
 
-class tkHTMLWriter(formatter.DumbWriter):
+class tkHTMLWriter(formatter.NullWriter):
     def __init__(self, text, viewer, app):
-        formatter.DumbWriter.__init__(self, self, maxcol=9999)
+        formatter.NullWriter.__init__(self)
 
         self.text = text
         self.viewer = viewer
@@ -113,12 +113,6 @@ class tkHTMLWriter(formatter.DumbWriter):
         return Functor(self.viewer, href)
 
     def write(self, data):
-        ## FIXME
-        ##if self.col == 0 and self.atbreak == 0:
-        ##    self.text.insert("insert", self.indent)
-        self.text.insert("insert", data)
-
-    def __write(self, data):
         self.text.insert("insert", data)
 
     def anchor_bgn(self, href, name, type):
@@ -131,14 +125,7 @@ class tkHTMLWriter(formatter.DumbWriter):
         if self.anchor:
             url = self.anchor[0]
             tag = "href_" + url
-            anchor_mark = self.anchor_mark
-            if self.text.get(anchor_mark) == ' ': # FIXME
-                try:
-                    y, x = anchor_mark.split('.')
-                    anchor_mark = y+'.'+str(int(x)+1)
-                except:
-                    pass
-            self.text.tag_add(tag, anchor_mark, "insert")
+            self.text.tag_add(tag, self.anchor_mark, "insert")
             self.text.tag_bind(tag, "<1>", self.createCallback(url))
             self.text.tag_bind(tag, "<Enter>", lambda e: self.anchor_enter(url))
             self.text.tag_bind(tag, "<Leave>", self.anchor_leave)
@@ -183,33 +170,35 @@ class tkHTMLWriter(formatter.DumbWriter):
         self.indent = "    " * level
 
     def send_label_data(self, data):
-        ##self.__write(self.indent + data + " ")
-        self.__write(self.indent)
+        ##self.write(self.indent + data + " ")
+        self.write(self.indent)
         if data == '*': # <li>
             img = self.viewer.symbols_img.get('disk')
             if img:
                 self.text.image_create(index='insert', image=img,
                                        padx=0, pady=0)
             else:
-                self.__write('*')
+                self.write('*')
         else:
-            self.__write(data)
-        self.__write(' ')
+            self.write(data)
+        self.write(' ')
 
     def send_paragraph(self, blankline):
-        if self.col > 0:
-            self.__write("\n")
-        if blankline > 0:
-            self.__write("\n" * blankline)
-        self.col = 0
-        self.atbreak = 0
+        self.write('\n' * blankline)
+
+    def send_line_break(self):
+        self.write('\n')
 
     def send_hor_rule(self, *args):
         width = int(int(self.text["width"]) * 0.9)
-        self.__write("_" * width)
-        self.__write("\n")
-        self.col = 0
-        self.atbreak = 0
+        self.write("_" * width)
+        self.write("\n")
+
+    def send_literal_data(self, data):
+        self.write(data)
+
+    def send_flowing_data(self, data):
+        self.write(data)
 
 
 # /***********************************************************************
@@ -218,6 +207,7 @@ class tkHTMLWriter(formatter.DumbWriter):
 
 class tkHTMLParser(htmllib.HTMLParser):
     def anchor_bgn(self, href, name, type):
+        self.formatter.flush_softspace()
         htmllib.HTMLParser.anchor_bgn(self, href, name, type)
         self.formatter.writer.anchor_bgn(href, name, type)
 

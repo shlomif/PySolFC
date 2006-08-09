@@ -909,6 +909,71 @@ class CircleEight(Game):
     shallHighlightMatch = Game._shallHighlightMatch_RKW
 
 
+# /***********************************************************************
+# // Adela
+# ************************************************************************/
+
+class Adela_Foundation(SS_FoundationStack):
+    def acceptsCards(self, from_stack, cards):
+        if not SS_FoundationStack.acceptsCards(self, from_stack, cards):
+            return False
+        index = list(self.game.s.foundations).index(self)
+        index = index%8
+        return len(self.game.s.foundations[index].cards) > 0
+
+
+class Adela(Game):
+    Hint_Class = CautiousDefaultHint
+
+    def createGame(self):
+
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+9.5*l.XS, l.YM+4*l.YS)
+
+        x, y = l.XM+l.XS, l.YM
+        for i in range(8):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i%4,
+                                 base_rank=JACK, dir=-1, max_cards=11))
+            x += l.XS
+        x, y = l.XM+l.XS, l.YM+l.YS
+        for i in range(8):
+            s.foundations.append(Adela_Foundation(x, y, self, suit=i%4,
+                                 base_rank=QUEEN, max_cards=1))
+            x += l.XS
+        x, y = l.XM+l.XS, l.YM+2*l.YS
+        for i in range(8):
+            s.foundations.append(Adela_Foundation(x, y, self, suit=i%4,
+                                 base_rank=KING, max_cards=1))
+            x += l.XS
+        x, y = l.XM, l.YM+l.YS
+        s.talon = DealRowTalonStack(x, y, self)
+        l.createText(s.talon, 'n')
+        x, y = l.XM+l.XS/2, l.YM+3*l.YS
+        for i in range(9):
+            stack = SS_RowStack(x, y, self, max_move=1, dir=1)
+            s.rows.append(stack)
+            stack.CARD_YOFFSET = 0
+            x += l.XS
+            
+        l.defaultStackGroups()
+
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+    def fillStack(self, stack):
+        if stack in self.s.rows and not stack.cards:
+            if self.s.talon.cards:
+                old_state = self.enterState(self.S_FILL)
+                self.flipMove(self.s.talon)
+                self.moveMove(1, self.s.talon, stack)
+                self.leaveState(old_state)
+
+    shallHighlightMatch = Game._shallHighlightMatch_SS
+
+
+
 # register the game
 registerGame(GameInfo(330, Sultan, "Sultan",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_MOSTLY_LUCK,
@@ -945,3 +1010,5 @@ registerGame(GameInfo(598, PicturePatience, "Picture Patience",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(635, CircleEight, "Circle Eight",
                       GI.GT_1DECK_TYPE, 1, 1, GI.SL_MOSTLY_LUCK))
+registerGame(GameInfo(646, Adela, "Adela",
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_LUCK))

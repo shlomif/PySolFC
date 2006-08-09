@@ -518,34 +518,30 @@ class PysolMenubar(PysolMenubarActions):
         games = map(self.app.gdb.get, self.app.gdb.getGamesIdSortedByName())
         ##games = tuple(games)
         ###menu = MfxMenu(menu, label="Select &game")
-        menu.add_command(label=n_("All &games..."), command=self.mSelectGameDialog, accelerator="G")
-        menu.add_command(label=n_("Playable pre&view..."), command=self.mSelectGameDialogWithPreview, accelerator="V")
+        menu.add_command(label=n_("All &games..."), accelerator="G",
+                         command=self.mSelectGameDialog)
+        menu.add_command(label=n_("Playable pre&view..."), accelerator="V",
+                         command=self.mSelectGameDialogWithPreview)
         menu.add_separator()
-        data = (n_("&Popular games"), lambda gi: gi.si.game_flags & GI.GT_POPULAR)
-        self._addSelectGameSubMenu(menu, games, (data, ),
-                                   self.mSelectGamePopular, self.tkopt.gameid_popular)
-        submenu = MfxMenu(menu, label=n_("&French games"))
-        self._addSelectGameSubMenu(submenu, games, GI.SELECT_GAME_BY_TYPE,
-                                   self.mSelectGame, self.tkopt.gameid)
+        self._addSelectPopularGameSubMenu(games, menu, self.mSelectGame,
+                                          self.tkopt.gameid)
+        self._addSelectFrenchGameSubMenu(games, menu, self.mSelectGame,
+                                         self.tkopt.gameid)
         if self.progress: self.progress.update(step=1)
-        submenu = MfxMenu(menu, label=n_("&Mahjongg games"))
-        self._addSelectMahjonggGameSubMenu(submenu,
-                                           self.mSelectGame, self.tkopt.gameid)
-        submenu = MfxMenu(menu, label=n_("&Oriental games"))
-        self._addSelectGameSubMenu(submenu, games,
-                                   GI.SELECT_ORIENTAL_GAME_BY_TYPE,
-                                   self.mSelectGame, self.tkopt.gameid)
-        submenu = MfxMenu(menu, label=n_("&Special games"))
-        self._addSelectGameSubMenu(submenu, games, GI.SELECT_SPECIAL_GAME_BY_TYPE,
-                                   self.mSelectGame, self.tkopt.gameid)
+        self._addSelectMahjonggGameSubMenu(games, menu, self.mSelectGame,
+                                           self.tkopt.gameid)
+        self._addSelectOrientalGameSubMenu(games, menu, self.mSelectGame,
+                                           self.tkopt.gameid)
+        self._addSelectSpecialGameSubMenu(games, menu, self.mSelectGame,
+                                           self.tkopt.gameid)
         menu.add_separator()
         if self.progress: self.progress.update(step=1)
-        submenu = MfxMenu(menu, label=n_("All games by name"))
-        self._addSelectAllGameSubMenu(submenu, games,
-                                      self.mSelectGame, self.tkopt.gameid)
+        self._addSelectAllGameSubMenu(games, menu, self.mSelectGame,
+                                      self.tkopt.gameid)
 
 
-    def _addSelectGameSubMenu(self, menu, games, select_data, command, variable):
+    def _addSelectGameSubMenu(self, games, menu, select_data,
+                              command, variable):
         ##print select_data
         need_sep = 0
         for label, select_func in select_data:
@@ -559,104 +555,112 @@ class PysolMenubar(PysolMenubarActions):
                 menu.add_separator()
                 need_sep = 0
             submenu = MfxMenu(menu, label=label)
-            self._addSelectGameSubSubMenu(submenu, g, command, variable)
+            self._addSelectGameSubSubMenu(g, submenu, command, variable)
 
-    def _addSelectMahjonggGameSubMenu(self, menu, command, variable):
-##         games = []
-##         g = []
-##         c0 = c1 = None
-##         for i in self.app.gdb.getGamesIdSortedByShortName():
-##             gi = self.app.gdb.get(i)
-##             if gi.si.game_type == GI.GT_MAHJONGG:
-##                 c = gettext(gi.short_name).strip()[0]
-##                 if c0 is None:
-##                     c0 = c
-##                 elif c != c0:
-##                     if g:
-##                         games.append((c0, g))
-##                     g = []
-##                     c0 = c
-##                 #else:
-##                 #if g:
-##                 g.append(gi)
-##         if g:
-##             games.append((c0, g))
-##         n = 0
-##         gg = []
-##         c0 = c1 = None
-##         for c, g in games:
-##             if c0 is None:
-##                 c0 = c
-##             if len(gg) + len(g) > self.__cb_max:
-##                 if gg:
-##                     if c0 != c1:
-##                         label = c0+' - '+c1
-##                     else:
-##                         label = c1
-##                     c0 = c
-##                     submenu = MfxMenu(menu, label=label, name=None)
-##                     self._addSelectGameSubSubMenu(submenu, gg, command,
-##                                                   variable, short_name=True)
-##                 gg = []
-##             c1 = c
-##             gg += g
-##         if gg:
-##             label = c0+' - '+c
-##             submenu = MfxMenu(menu, label=label, name=None)
-##             self._addSelectGameSubSubMenu(submenu, gg, command,
-##                                           variable, short_name=True)
-##         return
+    def _getNumGames(self, games, select_data):
+        ngames = 0
+        for label, select_func in select_data:
+            ngames += len(filter(select_func, games))
+        return ngames
 
+    def _addSelectMahjonggGameSubMenu(self, games, menu, command, variable):
+        select_func = lambda gi: gi.si.game_type == GI.GT_MAHJONGG
+        mahjongg_games = filter(select_func, games)
+        if len(mahjongg_games) == 0:
+            return
+        #
+        menu = MfxMenu(menu, label=n_("&Mahjongg games"))
 
-        g = []
-        c0 = c1 = None
-        for i in self.app.gdb.getGamesIdSortedByShortName():
-            gi = self.app.gdb.get(i)
-            if gi.si.game_type == GI.GT_MAHJONGG:
-                c = gettext(gi.short_name).strip()[0]
-                if c0 is None:
-                    c0 = c
-                if len(g) >= self.__cb_max and c != c1:
-                    label = c0 + ' - ' + c1
-                    if c0 == c1:
-                        label = c0
-                    submenu = MfxMenu(menu, label=label, name=None)
-                    self._addSelectGameSubSubMenu(submenu, g, command,
-                                                  variable, short_name=True)
-                    g = [gi]
-                    c0 = c
-                else:
-                    g.append(gi)
-                    c1 = c
-        if g:
+        def add_menu(games, c0, c1, menu=menu,
+                     variable=variable, command=command):
+            if not games:
+                return
             label = c0 + ' - ' + c1
+            if c0 == c1:
+                label = c0
             submenu = MfxMenu(menu, label=label, name=None)
-            self._addSelectGameSubSubMenu(submenu, g, command,
+            self._addSelectGameSubSubMenu(games, submenu, command,
                                           variable, short_name=True)
 
-    def _addSelectAllGameSubMenu(self, menu, g, command, variable):
+        games = {}
+        for gi in mahjongg_games:
+            c = gettext(gi.short_name).strip()[0]
+            if games.has_key(c):
+                games[c].append(gi)
+            else:
+                games[c] = [gi]
+        games = games.items()
+        games.sort()
+        g0 = []
+        c0 = c1 = games[0][0]
+        for c, g1 in games:
+            if len(g0)+len(g1) >= self.__cb_max:
+                add_menu(g0, c0, c1)
+                g0 = g1
+                c0 = c1 = c
+            else:
+                g0 += g1
+                c1 = c
+        add_menu(g0, c0, c1)
+
+    def _addSelectPopularGameSubMenu(self, games, menu, command, variable):
+        select_func = lambda gi: gi.si.game_flags & GI.GT_POPULAR
+        if len(filter(select_func, games)) == 0:
+            return
+        data = (n_("&Popular games"), select_func)
+        self._addSelectGameSubMenu(games, menu, (data, ),
+                                   self.mSelectGamePopular,
+                                   self.tkopt.gameid_popular)
+
+    def _addSelectFrenchGameSubMenu(self, games, menu, command, variable):
+        if self._getNumGames(games, GI.SELECT_GAME_BY_TYPE) == 0:
+            return
+        submenu = MfxMenu(menu, label=n_("&French games"))
+        self._addSelectGameSubMenu(games, submenu, GI.SELECT_GAME_BY_TYPE,
+                                   self.mSelectGame, self.tkopt.gameid)
+
+    def _addSelectOrientalGameSubMenu(self, games, menu, command, variable):
+        if self._getNumGames(games, GI.SELECT_ORIENTAL_GAME_BY_TYPE) == 0:
+            return
+        submenu = MfxMenu(menu, label=n_("&Oriental games"))
+        self._addSelectGameSubMenu(games, submenu,
+                                   GI.SELECT_ORIENTAL_GAME_BY_TYPE,
+                                   self.mSelectGame, self.tkopt.gameid)
+
+    def _addSelectSpecialGameSubMenu(self, games, menu, command, variable):
+        if self._getNumGames(games, GI.SELECT_ORIENTAL_GAME_BY_TYPE) == 0:
+            return
+        submenu = MfxMenu(menu, label=n_("&Special games"))
+        self._addSelectGameSubMenu(games, submenu,
+                                   GI.SELECT_SPECIAL_GAME_BY_TYPE,
+                                   self.mSelectGame, self.tkopt.gameid)
+
+    def _addSelectAllGameSubMenu(self, games, menu, command, variable):
+        menu = MfxMenu(menu, label=n_("All games by name"))
         n, d = 0, self.__cb_max
         i = 0
         while True:
             if self.progress: self.progress.update(step=1)
             columnbreak = i > 0 and (i % d) == 0
             i += 1
-            if not g[n:n+d]:
+            if not games[n:n+d]:
                 break
-            m = min(n+d-1, len(g)-1)
-            label = gettext(g[n].name)[:3]+' - '+gettext(g[m].name)[:3]
+            m = min(n+d-1, len(games)-1)
+            label = gettext(games[n].name)[:3]+' - '+gettext(games[m].name)[:3]
             submenu = MfxMenu(menu, label=label, name=None)
-            self._addSelectGameSubSubMenu(submenu, g[n:n+d], command, variable)
+            self._addSelectGameSubSubMenu(games[n:n+d], submenu,
+                                          command, variable)
             n += d
             if columnbreak:
                 menu.entryconfigure(i, columnbreak=columnbreak)
 
-    def _addSelectGameSubSubMenu(self, menu, g, command, variable, short_name=False):
+    def _addSelectGameSubSubMenu(self, games, menu, command, variable,
+                                 short_name=False):
         ##cb = (25, self.__cb_max) [ len(g) > 4 * 25 ]
         ##cb = min(cb, self.__cb_max)
         cb = self.__cb_max
-        for i in range(len(g)):
-            gi = g[i]
+        for i in range(len(games)):
+            gi = games[i]
             columnbreak = i > 0 and (i % cb) == 0
             if short_name:
                 label = gi.short_name
@@ -728,11 +732,11 @@ class PysolMenubar(PysolMenubarActions):
                 games.append(gi)
         if len(games) > self.__cb_max*4:
             games.sort(lambda a, b: cmp(gettext(a.name), gettext(b.name)))
-            self._addSelectAllGameSubMenu(submenu, games,
+            self._addSelectAllGameSubMenu(games, submenu,
                                           command=self.mSelectGame,
                                           variable=self.tkopt.gameid)
         else:
-            self._addSelectGameSubSubMenu(submenu, games,
+            self._addSelectGameSubSubMenu(games, submenu,
                                           command=self.mSelectGame,
                                           variable=self.tkopt.gameid)
         state = self._getEnabledState

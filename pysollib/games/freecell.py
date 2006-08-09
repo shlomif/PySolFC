@@ -556,6 +556,56 @@ class KingCell(FreeCell):
     shallHighlightMatch = Game._shallHighlightMatch_RK
 
 
+# /***********************************************************************
+# // Headquarters
+# ************************************************************************/
+
+class Headquarters_Reserve(ReserveStack):
+
+    def acceptsCards(self, from_stack, cards):
+        if not ReserveStack.acceptsCards(self, from_stack, cards):
+            return False
+        return len(self.cards) == 0
+
+
+class Headquarters(Game):
+
+    def createGame(self, rows=8, reserves=6):
+        l, s = Layout(self), self.s
+        w, h = l.XM+(rows+reserves+1)*l.XS, l.YM+3*l.YS+16*l.YOFFSET
+        self.setSize(w, h)
+        x, y = l.XM+(rows+reserves+1-8)*l.XS/2, l.YM
+        for i in range(8):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i%4))
+            x += l.XS
+        x, y = l.XM, l.YM+l.YS
+        for i in range(reserves):
+            stack = Headquarters_Reserve(x, y, self,
+                                         max_cards=UNLIMITED_CARDS,
+                                         max_accept=UNLIMITED_CARDS,
+                                         max_move=UNLIMITED_CARDS)
+            s.reserves.append(stack)
+            stack.CARD_YOFFSET = l.YOFFSET
+            x += l.XS
+        x, y = l.XM+(reserves+1)*l.XS, l.YM+l.YS
+        for j in range(rows):
+            s.rows.append(AC_RowStack(x, y, self, base_rank=NO_RANK))
+            x += l.XS
+        x, y = w-l.XS, h-l.YS
+        s.talon = InitialDealTalonStack(x, y, self)
+
+        l.defaultStackGroups()
+
+
+    def startGame(self):
+        for i in range(12):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+    shallHighlightMatch = Game._shallHighlightMatch_AC
+
+
 
 # register the game
 registerGame(GameInfo(5, RelaxedFreeCell, "Relaxed FreeCell",
@@ -600,4 +650,6 @@ registerGame(GameInfo(520, GermanFreeCell, "German FreeCell",
                       GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_SKILL))
 registerGame(GameInfo(542, KingCell, "KingCell",
                       GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(648, Headquarters, "Headquarters",
+                      GI.GT_FREECELL | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 

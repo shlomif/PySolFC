@@ -42,7 +42,6 @@ import parallels
 import pasdedeux
 import picturegallery
 import pileon
-import poker
 import pushpin
 import pyramid
 import royalcotillion

@@ -87,7 +87,7 @@ class Fan(Game):
             for r in range(reserves):
                 s.reserves.append(self.ReserveStack_Class(x, y, self))
                 x += l.XS
-            x = (self.width - decks*4*l.XS - 2*l.XS) / 2
+            x = (self.width - decks*4*l.XS) # - 2*l.XS) / 2
             dx = l.XS
         else:
             dx = (self.width - decks*4*l.XS)/(decks*4+1)
@@ -532,7 +532,7 @@ class CloverLeaf(Game):
 
 class FreeFan(Fan):
     def createGame(self):
-        Fan.createGame(self, reserves=2)
+        Fan.createGame(self, reserves=2, playcards=8)
 
 
 # /***********************************************************************
@@ -640,6 +640,90 @@ class FascinationFan(Fan):
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
+# /***********************************************************************
+# // Crescent
+# ************************************************************************/
+
+class Crescent_Talon(RedealTalonStack):
+
+    def dealCards(self, sound=0):
+        old_state = self.game.enterState(self.game.S_DEAL)
+        ncards = 0
+        intern1, intern2 = self.game.s.internals
+        if sound and self.game.app.opt.animations:
+            self.game.startDealSample()
+        for r in self.game.s.rows:
+            if len(r.cards) <= 1:
+                continue
+            ncards += len(r.cards)
+            # move cards to internal stacks
+            while len(r.cards) != 1:
+                self.game.moveMove(1, r, intern1, frames=4)
+            self.game.moveMove(1, r, intern2, frames=4)
+            # move back
+            while intern1.cards:
+                self.game.moveMove(1, intern1, r, frames=4)
+            self.game.moveMove(1, intern2, r, frames=4)
+        self.game.nextRoundMove(self)
+        if sound:
+            self.game.stopSamples()
+        self.game.leaveState(old_state)
+        return ncards
+
+
+class Crescent(Game):
+    Hint_Class = CautiousDefaultHint
+
+    def createGame(self):
+        l, s = Layout(self), self.s
+        playcards = 10
+        w0 = l.XS+(playcards-1)*l.XOFFSET
+        w, h = l.XM+max(4*w0, 9*l.XS), l.YM+5*l.YS
+        self.setSize(w, h)
+        x, y = l.XM, l.YM
+        s.talon = Crescent_Talon(x, y, self, max_rounds=4)
+        tx, ty, ta, tf = l.getTextAttr(s.talon, 'ne')
+        font=self.app.getFont("canvas_default")
+        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
+                                             anchor=ta, font=font)
+        x, y = w-8*l.XS, l.YM
+        for i in range(4):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
+            x += l.XS
+        for i in range(4):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i,
+                                                    base_rank=KING, dir=-1))
+            x += l.XS
+        y = l.YM+l.YS
+        for i in range(4):
+            x = l.XM
+            for j in range(4):
+                stack = UD_SS_RowStack(x, y, self, base_rank=NO_RANK, mod=13)
+                s.rows.append(stack)
+                stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
+                x += w0
+            y += l.YS
+        self.s.internals.append(InvisibleStack(self))
+        self.s.internals.append(InvisibleStack(self))
+
+        l.defaultStackGroups()
+
+
+    def _shuffleHook(self, cards):
+        return self._shuffleHookMoveToTop(cards,
+                   lambda c: (c.rank in (ACE, KING) and c.deck == 0,
+                              (c.rank, c.suit)))
+
+    def startGame(self):
+        self.s.talon.dealRow(rows=self.s.foundations, frames=0)
+        for i in range(5):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+    shallHighlightMatch = Game._shallHighlightMatch_SSW
+
+
 
 # register the game
 registerGame(GameInfo(56, Fan, "Fan",
@@ -678,4 +762,6 @@ registerGame(GameInfo(517, TroikaPlus, "Troika +",
                       GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(625, FascinationFan, "Fascination Fan",
                       GI.GT_FAN_TYPE, 1, 6, GI.SL_BALANCED))
+registerGame(GameInfo(647, Crescent, "Crescent",
+                      GI.GT_FAN_TYPE, 2, 3, GI.SL_MOSTLY_SKILL))
 

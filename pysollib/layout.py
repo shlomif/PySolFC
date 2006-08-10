@@ -133,6 +133,7 @@ class Layout:
                 self.XOFFSET =  self.XOFFSET / self.game.preview
             if kw.has_key("YOFFSET"):
                 self.YOFFSET =  self.YOFFSET / self.game.preview
+            self.TEXT_HEIGHT = 10
 
     def __createStack(self, x, y, suit=None):
         stack = _LayoutStack(x, y, suit)
@@ -143,6 +144,10 @@ class Layout:
         assert not self.stackmap.has_key(mapkey)
         self.stackmap[mapkey] = stack
         return stack
+
+    def _setText(self, stack, anchor="center"):
+        tx, ty, ta, tf = self.getTextAttr(stack, anchor)
+        stack.setText(tx, ty, ta, tf)
 
     #
     #
@@ -196,16 +201,17 @@ class Layout:
     def getTextAttr(self, stack, anchor):
         x, y = 0, 0
         delta_x, delta_y = 4, 4
+        delta_yy = 10
         if stack is not None:
             x, y = stack.x, stack.y
         if anchor == "n":
             return (x+self.CW/2, y-delta_y, "s", "%d")
         if anchor == "nn":
-            return (x+self.CW/2, y-self.TEXT_MARGIN, "s", "%d")
+            return (x+self.CW/2, y-delta_yy, "s", "%d")
         if anchor == "s":
             return (x+self.CW/2, y+self.CH+delta_y, "n", "%d")
         if anchor == "ss":
-            return (x+self.CW/2, y+self.CH+self.TEXT_MARGIN, "n", "%d")
+            return (x+self.CW/2, y+self.CH+delta_yy, "n", "%d")
         if anchor == "nw":
             return (x-delta_x, y, "ne", "%d")
         if anchor == "sw":
@@ -226,9 +232,9 @@ class Layout:
             return
         assert stack.texts.ncards is None
         tx, ty, ta, tf = self.getTextAttr(stack, anchor)
+        font = self.game.app.getFont("canvas_default")
         stack.texts.ncards = MfxCanvasText(self.canvas, tx+dx, ty+dy,
-                                           anchor=ta,
-                                           font=self.game.app.getFont("canvas_default"))
+                                           anchor=ta, font=font)
         stack.texts.ncards.text_format = text_format or tf
 
     def setRegion(self, stacks, rects):
@@ -376,7 +382,7 @@ class Layout:
         self.s.talon = s = S(x, y)
         if texts:
             # place text right of stack
-            s.setText(x + XS, y + CH, anchor="sw", format="%3d")
+            self._setText(s, anchor="se")
 
         # set window
         self.size = (w, h)
@@ -425,13 +431,13 @@ class Layout:
         self.s.talon = s = S(x, y)
         if texts:
             # place text right of stack
-            s.setText(x + XS, y + CH, anchor="sw", format="%3d")
+            self._setText(s, anchor="se")
         if waste:
             x = x - XS
             self.s.waste = s = S(x, y)
             if texts:
                 # place text left of stack
-                s.setText(x - self.TEXT_MARGIN, y + CH, anchor="se", format="%3d")
+                self._setText(s, anchor="sw")
         # create reserves
         x, y = XM, h-YS
         for i in range(reserves):
@@ -483,12 +489,12 @@ class Layout:
             self.s.waste = s = S(x, y)
             if texts:
                 # place text above stack
-                s.setText(x + CW / 2, y - self.TEXT_MARGIN, anchor="s")
+                self._setText(s, 'n')
         x = w - XS
         self.s.talon = s = S(x, y)
         if texts:
             # place text above stack
-            s.setText(x + CW / 2, y - self.TEXT_MARGIN, anchor="s")
+            self._setText(s, 'n')
 
         # set window
         self.size = (w, YM + h + YS)
@@ -524,17 +530,17 @@ class Layout:
         if texts:
             if waste or not center or maxrows - frows <= 1:
                 # place text below stack
-                s.setText(x + CW / 2, y + YS, anchor="n")
+                self._setText(s, 's')
                 text_height = self.TEXT_HEIGHT
             else:
                 # place text right of stack
-                s.setText(x + XS, y, anchor="nw", format="%3d")
+                self._setText(s, 'ne')
         if waste:
             x = x + XS
             self.s.waste = s = S(x, y)
             if texts:
                 # place text below stack
-                s.setText(x + CW / 2, y + YS, anchor="n")
+                self._setText(s, 's')
                 text_height = self.TEXT_HEIGHT
 
         for row in range(foundrows):
@@ -600,7 +606,7 @@ class Layout:
         self.s.talon = s = S(x, y)
         if texts:
             # place text right of stack
-            s.setText(x + XS, y + CH, anchor="sw", format="%3d")
+            self._setText(s, 'se')
 
         # set window
         self.size = (XM + (rows+decks)*XS,  h)
@@ -635,17 +641,17 @@ class Layout:
         if texts:
             if waste or not center or maxrows - frows <= 1:
                 # place text below stack
-                s.setText(x + CW / 2, y + YS, anchor="n")
+                self._setText(s, 's')
                 yextra = 20
             else:
                 # place text right of stack
-                s.setText(x + XS, y, anchor="nw", format="%3d")
+                self._setText(s, 'ne')
         if waste:
             x = x + XS
             self.s.waste = s = S(x, y)
             if texts:
                 # place text below stack
-                s.setText(x + CW / 2, y + YS, anchor="n")
+                self._setText(s, 's')
         x = XM + (maxrows - frows) * XS
         if center and frows + 2 * (1 + waste + 1) <= maxrows:
             # center the foundations
@@ -700,17 +706,17 @@ class Layout:
         if texts:
             if waste or not center or toprows - rows <= 1:
                 # place text below stack
-                s.setText(x + CW / 2, y + YS, anchor="n")
+                self._setText(s, 's')
                 yextra = 20
             else:
                 # place text right of stack
-                s.setText(x + XS, y, anchor="nw", format="%3d")
+                self._setText(s, 'ne')
         if waste:
             x = x + XS
             self.s.waste = s = S(x, y)
             if texts:
                 # place text below stack
-                s.setText(x + CW / 2, y + YS, anchor="n")
+                self._setText(s, 's')
 
         # left & right
         x, y = XM, YM
@@ -789,7 +795,7 @@ class Layout:
         self.s.talon = s = S(x, y)
         if texts:
             # place text right of stack
-            s.setText(x + XS, y + CH, anchor="sw", format="%3d")
+            self._setText(s, 'se')
 
         # set window
         self.size = (XM + toprows * XS, YM + YS + h)
@@ -851,7 +857,7 @@ class Layout:
         self.s.talon = s = S(x, y)
         if texts:
             # place text right of stack
-            s.setText(x + XS, y + CH, anchor="sw", format="%3d")
+            self._setText(s, 'se')
 
         # set window
         self.size = (w, YM + YS + h)
@@ -884,7 +890,7 @@ class Layout:
         self.s.talon = s = S(x, y)
         if texts:
             # place text below stack
-            s.setText(x + CW / 2, y + YS, anchor="center", format="%d")
+            self._setText(s, 's')
 
         # create rows
         x, y = XS + XM * 3, YM
@@ -898,7 +904,7 @@ class Layout:
         self.setRegion(self.s.rows, (XS + XM, -999, 999999, 999999))
 
         # create reserves
-        x, y = XM, YM * 3 + YS
+        x, y = XM, YM + YS + self.TEXT_HEIGHT
         for i in range(decks):
             for i in range(reserves / decks):
                 self.s.reserves.append(S(x, y))
@@ -985,9 +991,9 @@ class Layout:
         # Talon
         x, y = XM, YM
         self.s.talon = s = S(x, y)
-        s.setText(x + XS, y + CH, anchor = "sw", format = "%3d")
+        self._setText(s, 'se')
         self.s.waste = s = S(x, y + YS)
-        s.setText(x + XS, y + YS + CH, anchor = "sw", format = "%3d")
+        self._setText(s, 'se')
 
         # Create foundations
         x = w - fspace - XS * frows / 2

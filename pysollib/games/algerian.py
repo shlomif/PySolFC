@@ -98,7 +98,7 @@ class Carthage(Game):
             x += l.XS+d
 
         s.talon = self.Talon_Class(l.XM, l.YM, self)
-        l.createText(s.talon, "ss")
+        l.createText(s.talon, "s")
 
         # define stack-groups
         l.defaultStackGroups()

@@ -104,6 +104,7 @@ class Options:
         self.animations = 2                     # default to Timer based
         self.shadow = 1
         self.shade = 1
+        self.shrink_face_down = True
         self.shade_filled_stacks = True
         self.demo_logo = 1
         self.toolbar = 1

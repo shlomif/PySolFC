@@ -142,7 +142,7 @@ class Pegged(Game):
                 self.map[stack.pos] = stack
         x, y = self.width - l.XS, l.YM
         s.foundations.append(AbstractFoundationStack(x, y, self, ANY_SUIT, max_move=0, max_accept=0, max_cards=self.gameinfo.ncards))
-        l.createText(s.foundations[0], "ss")
+        l.createText(s.foundations[0], "s")
         y = self.height - l.YS
         s.talon = InitialDealTalonStack(x, y, self)
         s.internals.append(InvisibleStack(self))

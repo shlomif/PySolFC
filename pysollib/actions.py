@@ -126,6 +126,7 @@ class PysolMenubarActions:
             shadow = BooleanVar(),
             shade = BooleanVar(),
             shade_filled_stacks = BooleanVar(),
+            shrink_face_down = BooleanVar(),
             toolbar = IntVar(),
             toolbar_style = StringVar(),
             toolbar_relief = StringVar(),
@@ -169,6 +170,7 @@ class PysolMenubarActions:
         tkopt.highlight_cards.set(opt.highlight_cards)
         tkopt.highlight_samerank.set(opt.highlight_samerank)
         tkopt.highlight_not_matching.set(opt.highlight_not_matching)
+        tkopt.shrink_face_down.set(opt.shrink_face_down)
         tkopt.shade_filled_stacks.set(opt.shade_filled_stacks)
         tkopt.mahjongg_show_removed.set(opt.mahjongg_show_removed)
         tkopt.shisen_show_hint.set(opt.shisen_show_hint)
@@ -868,6 +870,12 @@ class PysolMenubarActions:
         if self._cancelDrag(break_pause=False): return
         self.app.opt.highlight_not_matching = self.tkopt.highlight_not_matching.get()
         ##self.game.updateMenus()
+
+    def mOptShrinkFaceDown(self, *args):
+        if self._cancelDrag(break_pause=False): return
+        self.app.opt.shrink_face_down = self.tkopt.shrink_face_down.get()
+        self.game.endGame(bookmark=1)
+        self.game.quitGame(bookmark=1)
 
     def mOptShadeFilledStacks(self, *args):
         if self._cancelDrag(break_pause=False): return

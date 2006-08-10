@@ -165,7 +165,7 @@ class Calculation(Game):
         self.setRegion(s.rows, (-999, y, 999999, 999999))
         x = l.XM
         s.talon = WasteTalonStack(x, y, self, max_rounds=1)
-        l.createText(s.talon, "nn")
+        l.createText(s.talon, "n")
         y = y + l.YS
         s.waste = WasteStack(x, y, self, max_cards=1)
 
@@ -254,10 +254,10 @@ class BetsyRoss(Calculation):
                                         anchor="w", font=self.app.getFont("canvas_fixed"))
         x = l.XM
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
-        l.createText(s.talon, "nn")
+        l.createText(s.talon, "n")
         y = y + l.YS
         s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, "ss")
+        l.createText(s.waste, "s")
 
         # define stack-groups
         l.defaultStackGroups()

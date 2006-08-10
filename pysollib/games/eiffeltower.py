@@ -83,10 +83,10 @@ class EiffelTower(Game):
         x = l.XM + 6 * l.XS
         y = l.YM + 5 * l.YS / 2
         s.waste = self.Waste_Class(x, y, self)
-        l.createText(s.waste, "ss")
+        l.createText(s.waste, "s")
         x = x + l.XS
         s.talon = self.Talon_Class(x, y, self, max_rounds=1)
-        l.createText(s.talon, "ss")
+        l.createText(s.talon, "s")
 
         # define stack-groups
         l.defaultStackGroups()

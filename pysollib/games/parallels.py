@@ -132,7 +132,7 @@ class Parallels(Game):
         self.setSize(l.XM+12*l.XS, l.YM+7*l.YS)
         # create stacks
         s.talon = Parallels_TalonStack(l.XM, l.YM, self)
-        l.createText(s.talon, 'ss')
+        l.createText(s.talon, 's')
         n = 0
         y = l.YM
         for i in range(7):

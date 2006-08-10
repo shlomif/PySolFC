@@ -57,7 +57,6 @@ kw = {
     'packages'     : ['pysollib',
                       'pysollib.tk',
                       'pysollib.games',
-                      'pysollib.games.contrib',
                       'pysollib.games.special',
                       'pysollib.games.ultra',
                       'pysollib.games.mahjongg'],

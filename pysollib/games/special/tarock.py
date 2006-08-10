@@ -282,10 +282,10 @@ class WheelOfFortune(AbstractTarockGame):
         x = self.width - l.XS
         y = self.height - l.YS * 1.5
         s.talon = WasteTalonStack(x, y, self, num_deal=2, max_rounds=1)
-        l.createText(s.talon, "nn")
+        l.createText(s.talon, "n")
         x = x - l.XS
         s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, "nn")
+        l.createText(s.waste, "n")
 
         # Define stack groups
         l.defaultStackGroups()
@@ -335,10 +335,10 @@ class ImperialTrumps(AbstractTarockGame):
         # Create talon
         x = l.XM
         s.talon = WasteTalonStack(x, y, self, num_deal=1, max_rounds=-1)
-        l.createText(s.talon, "ss")
+        l.createText(s.talon, "s")
         x = x + l.XS
         s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, "ss")
+        l.createText(s.waste, "s")
 
         # Create rows
         x = l.XM
@@ -684,10 +684,10 @@ class Grasshopper(AbstractTarockGame):
         x = l.XM
         y = l.YM
         s.talon = WasteTalonStack(x, y, self, num_deal=1, max_rounds=self.MAX_ROUNDS)
-        l.createText(s.talon, "ss")
+        l.createText(s.talon, "s")
         x = x + l.XS
         s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, "ss")
+        l.createText(s.waste, "s")
 
         # Create foundations
         x = x + l.XM + l.XS
@@ -796,14 +796,14 @@ class Ponytail(Tarock_GameMethods, Braid):
         x = l.XM + 7 * l.XS
         y = l.YM + 2*l.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
-        l.createText(s.talon, "ss")
+        l.createText(s.talon, "s")
         s.talon.texts.rounds = MfxCanvasText(self.canvas,
                                              x + l.CW / 2, y - l.YM,
                                              anchor="s",
                                              font=self.app.getFont("canvas_default"))
         x = x - l.XS
         s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, "ss")
+        l.createText(s.waste, "s")
         x = l.XM + 8 * l.XS
         y = l.YM
         for i in range(4):

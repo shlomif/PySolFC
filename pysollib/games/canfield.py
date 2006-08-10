@@ -376,10 +376,10 @@ class EagleWing(Canfield):
         # create stacks
         x, y = l.XM, l.YM
         s.talon = WasteTalonStack(x, y, self, max_rounds=3, num_deal=1)
-        l.createText(s.talon, "ss")
+        l.createText(s.talon, "s")
         x = x + l.XS
         s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, "ss")
+        l.createText(s.waste, "s")
         for i in range(4):
             x = l.XM + (i+3)*l.XS
             s.foundations.append(self.Foundation_Class(x, y, self, i, mod=13, max_move=0))
@@ -395,7 +395,7 @@ class EagleWing(Canfield):
         x, y = l.XM + 4*l.XS, ry
         s.reserves.append(self.ReserveStack_Class(x, y, self))
         ##s.reserves[0].CARD_YOFFSET = 0
-        l.createText(s.reserves[0], "ss")
+        l.createText(s.reserves[0], "s")
 
         # define stack-groups
         l.defaultStackGroups()
@@ -505,9 +505,9 @@ class LittleGate(Gate):
             s.rows.append(self.RowStack_Class(x, y, self))
             x += l.XS
         s.talon = WasteTalonStack(l.XM, l.YM, self, max_rounds=1)
-        l.createText(s.talon, "ss")
+        l.createText(s.talon, "s")
         s.waste = WasteStack(l.XM+l.XS, l.YM, self)
-        l.createText(s.waste, "ss")
+        l.createText(s.waste, "s")
 
         # define stack-groups
         l.defaultStackGroups()

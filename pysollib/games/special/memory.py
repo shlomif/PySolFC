@@ -137,7 +137,7 @@ class Memory24(Game):
                                max_move=0, max_accept=0, max_cards=1))
         x, y = l.XM, l.YM
         s.talon = InitialDealTalonStack(x, y, self)
-        l.createText(s.talon, anchor="nn", text_format="%D")
+        l.createText(s.talon, anchor="n", text_format="%D")
         s.internals.append(InvisibleStack(self))
 
         # define stack-groups

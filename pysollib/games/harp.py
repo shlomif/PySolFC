@@ -79,10 +79,10 @@ class DoubleKlondike(Game):
             assert s.talon.texts.rounds is None
             tx, ty, ta, tf = l.getTextAttr(s.talon, "nn")
             if layout.get("texts"):
-                ty = ty - 2*l.TEXT_MARGIN
+                ty = ty - l.TEXT_MARGIN
+            font = self.app.getFont("canvas_default")
             s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
-                                                 anchor=ta,
-                                                 font=self.app.getFont("canvas_default"))
+                                                 anchor=ta, font=font)
         return l
 
     def startGame(self, flip=0):

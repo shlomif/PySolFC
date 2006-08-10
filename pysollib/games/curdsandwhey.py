@@ -233,7 +233,7 @@ class Arachnida(CurdsAndWhey):
         # create stacks
         x, y = l.XM, l.YM
         s.talon = DealRowTalonStack(x, y, self)
-        l.createText(s.talon, "ss")
+        l.createText(s.talon, "s")
         x += l.XS
         for i in range(10):
             stack = self.RowStack_Class(x, y, self, base_rank=ANY_RANK,
@@ -243,7 +243,7 @@ class Arachnida(CurdsAndWhey):
             x += l.XS
         s.foundations.append(AbstractFoundationStack(x, y, self, suit=ANY_SUIT,
                                                      max_accept=0, max_cards=104))
-        l.createText(s.foundations[0], "ss")
+        l.createText(s.foundations[0], "s")
 
         # define stack-groups
         l.defaultStackGroups()
@@ -300,10 +300,10 @@ class GermanPatience(Game):
             x += l.XS
         x, y = l.XM, h-l.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=1)
-        l.createText(s.talon, 'nn')
+        l.createText(s.talon, 'n')
         x += l.XS
         s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, 'nn')
+        l.createText(s.waste, 'n')
 
         l.defaultStackGroups()
 
@@ -361,7 +361,7 @@ class TrustyTwelve(Game):
         self.setSize(l.XM+(rows+1)*l.XS, l.YM+l.YS+12*l.YOFFSET)
         x, y = l.XM, l.YM
         s.talon = TalonStack(x, y, self)
-        l.createText(s.talon, "ss")
+        l.createText(s.talon, "s")
         x += l.XS
         for i in range(rows):
             s.rows.append(RK_RowStack(x, y, self, max_move=1))
@@ -398,7 +398,7 @@ class SweetSixteen(TrustyTwelve):
         self.setSize(l.XM+9*l.XS, l.YM+2*l.YS+20*l.YOFFSET)
         x, y = l.XM, l.YM
         s.talon = TalonStack(x, y, self)
-        l.createText(s.talon, "ss")
+        l.createText(s.talon, "s")
         y = l.YM
         for i in range(2):
             x = l.XM+l.XS

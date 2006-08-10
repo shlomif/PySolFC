@@ -149,6 +149,7 @@ class AFlipAllMove(AtomicMove):
                 card.showBack()
             else:
                 card.showFace()
+        stack.refreshView()
 
     def undo(self, game):
         stack = game.allstacks[self.stack_id]
@@ -157,6 +158,7 @@ class AFlipAllMove(AtomicMove):
                 card.showBack()
             else:
                 card.showFace()
+        stack.refreshView()
 
     def cmpForRedo(self, other):
         return cmp(self.stack_id, other.stack_id)
@@ -463,6 +465,7 @@ class ACloseStackMove(AtomicMove):
 
 # /***********************************************************************
 # // ASingleCardMove - move single card from *anyone* position
+# // (for ArbitraryStack)
 # ************************************************************************/
 
 class ASingleCardMove(AtomicMove):
@@ -487,6 +490,7 @@ class ASingleCardMove(AtomicMove):
             game.animatedMoveTo(from_stack, to_stack, [card], x, y,
                                 frames=self.frames, shadow=self.shadow)
         to_stack.addCard(card)
+        stack.refreshView()
 
     def undo(self, game):
         from_stack = game.allstacks[self.from_stack_id]
@@ -498,6 +502,7 @@ class ASingleCardMove(AtomicMove):
 ##             game.animatedMoveTo(from_stack, to_stack, [card], x, y,
 ##                                 frames=self.frames, shadow=self.shadow)
         from_stack.insertCard(card, from_pos)
+        stack.refreshView()
 
     def cmpForRedo(self, other):
         return cmp((self.from_stack_id, self.to_stack_id, self.from_pos),

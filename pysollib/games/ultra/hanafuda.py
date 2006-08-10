@@ -594,10 +594,10 @@ class FourWinds(AbstractFlowerGame):
         x = x + 2 * l.XS
         y = y + 2 * l.YS
         s.talon = WasteTalonStack(x, y, self, num_deal=1, max_rounds=2)
-        l.createText(s.talon, "ss")
+        l.createText(s.talon, "s")
         x = x + l.XS
         s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, "ss")
+        l.createText(s.waste, "s")
 
         # Define stack-groups
         l.defaultStackGroups()

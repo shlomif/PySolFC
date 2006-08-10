@@ -148,7 +148,7 @@ class MFXRandom:
 
     # Get a random integer in the range [a, b] including both end points.
     def randint(self, a, b):
-        return a + int(self.random() * (b+1-a))
+        return a + long(self.random() * (b+1-a))
 
     def randrange(self, a, b):
         return self.randint(a, b-1)
@@ -234,9 +234,13 @@ class LCRandom31(MFXRandom):
         self.seed = (self.seed*214013L + 2531011L) & self.MAX_SEED
         return a + (int(self.seed >> 16) % (b+1-a))
 
+
 # select
-##PysolRandom = LCRandom64
-PysolRandom = SysRandom
+if sys.version_info >= (2,3):
+    PysolRandom = SysRandom
+else:
+    PysolRandom = LCRandom64
+
 
 # /***********************************************************************
 # // PySol support code

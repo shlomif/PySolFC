@@ -93,7 +93,7 @@ class AcesUp(Game):
         if reserve:
             l.createText(s.talon, "ne")
         else:
-            l.createText(s.talon, "ss")
+            l.createText(s.talon, "s")
         x = x + 3*l.XS/2
         for i in range(rows):
             s.rows.append(self.RowStack_Class(x, y, self))
@@ -101,7 +101,7 @@ class AcesUp(Game):
         x = x + l.XS/2
         stack = self.Foundation_Class(x, y, self, suit=ANY_SUIT, max_move=0,
                                       dir=0, base_rank=ANY_RANK, max_cards=48)
-        l.createText(stack, "ss")
+        l.createText(stack, "s")
         s.foundations.append(stack)
 
         if reserve:
@@ -221,16 +221,17 @@ class PerpetualMotion(Game):
         # create stacks
         x, y, = l.XM, l.YM
         s.talon = PerpetualMotion_Talon(x, y, self, max_rounds=-1)
-        l.createText(s.talon, "ss")
+        l.createText(s.talon, "s")
         x = x + 3*l.XS/2
         for i in range(4):
             s.rows.append(PerpetualMotion_RowStack(x, y, self, dir=0, base_rank=NO_RANK))
             x = x + l.XS
         x = l.XM + 6*l.XS
-        stack = PerpetualMotion_Foundation(x, y, self, ANY_SUIT, base_rank=ANY_RANK,
+        stack = PerpetualMotion_Foundation(x, y, self, ANY_SUIT,
+                                           base_rank=ANY_RANK,
                                            max_cards=52, max_move=0,
                                            min_accept=4, max_accept=4)
-        l.createText(stack, "ss")
+        l.createText(stack, "s")
         s.foundations.append(stack)
 
         # define stack-groups

@@ -223,10 +223,6 @@ class tkHTMLParser(htmllib.HTMLParser):
     def handle_image(self, src, alt, ismap, align, width, height):
         self.formatter.writer.viewer.showImage(src, alt, ismap, align, width, height)
 
-    def do_br(self, attrs):
-        #self.formatter.add_line_break()
-        self.formatter.add_literal_data('\n')
-
 
 # /***********************************************************************
 # //

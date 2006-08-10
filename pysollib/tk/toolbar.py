@@ -214,7 +214,7 @@ class PysolToolbar(PysolToolbarActions):
                 sep = self._createSeparator()
                 sep.bind("<1>", self.clickHandler)
                 sep.bind("<3>", self.rightclickHandler)
-            elif l == 'Pause' and Tkinter.TkVersion >= 8.4:
+            elif l == 'Pause':
                 self._createButton(l, f, check=True, tooltip=t)
             else:
                 self._createButton(l, f, tooltip=t)
@@ -344,22 +344,24 @@ class PysolToolbar(PysolToolbarActions):
         position = len(self._widgets)
         bd = self.button_relief == 'flat' and 1 or 2
         kw = {
-            'position': position,
-            'toolbar': self,
-            'toolbar_name': name,
-            'command': command,
-            'takefocus': 0,
-            'text': gettext(label),
-            'bd': bd,
-            'relief': self.button_relief,
-            'overrelief': 'raised',
-            'padx': self.button_pad,
-            'pady': self.button_pad
+            'position'     : position,
+            'toolbar'      : self,
+            'toolbar_name' : name,
+            'command'      : command,
+            'takefocus'    : 0,
+            'text'         : gettext(label),
+            'bd'           : bd,
+            'relief'       : self.button_relief,
+            'padx'         : self.button_pad,
+            'pady'         : self.button_pad
             }
+        if Tkinter.TkVersion >= 8.4:
+            kw['overrelief'] = 'raised'
         if image:
             kw['image'] = image
         if check:
-            kw['offrelief'] = self.button_relief
+            if Tkinter.TkVersion >= 8.4:
+                kw['offrelief'] = self.button_relief
             kw['indicatoron'] = False
             kw['selectcolor'] = ''
             button = ToolbarCheckbutton(self.frame, **kw)
@@ -506,27 +508,30 @@ class PysolToolbar(PysolToolbarActions):
             if isinstance(w, ToolbarButton):
                 w.config(relief=self.button_relief, bd=bd)
             elif isinstance(w, ToolbarCheckbutton):
-                w.config(relief=self.button_relief,
-                         offrelief=self.button_relief, bd=bd)
+                w.config(relief=self.button_relief, bd=bd)
+                if Tkinter.TkVersion >= 8.4:
+                    w.config(offrelief=self.button_relief)
             elif w.__class__ is ToolbarSeparator: # not ToolbarFlatSeparator
                 w.config(relief=self.separator_relief)
         return True
 
     def setCompound(self, compound, force=False):
+        if Tkinter.TkVersion < 8.4:
+            return False
         if not force and self.compound == compound:
             return False
         for w in self._widgets:
             if not isinstance(w, (ToolbarButton, ToolbarCheckbutton)):
                 continue
             if compound == 'text':
-                w.config(compound=Tkinter.NONE, image='')
+                w.config(compound='none', image='')
             else:
                 image = getattr(self, w.toolbar_name+'_image')
                 w.config(compound=compound, image=image)
         self.compound = compound
         return True
 
-    def _setOrient(self, orient=Tkinter.HORIZONTAL, force=False):
+    def _setOrient(self, orient='horizontal', force=False):
         if not force and self.orient == orient:
             return False
         for w in self._widgets:

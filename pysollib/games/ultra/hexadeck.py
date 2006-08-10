@@ -331,10 +331,10 @@ class BitsNBytes(Game):
         x = l.XM
         y = l.YM
         s.talon = WasteTalonStack(x, y, self, num_deal=2, max_rounds=2)
-        l.createText(s.talon, "ss")
+        l.createText(s.talon, "s")
         y += l.YS + l.TEXT_HEIGHT
         s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, "ss")
+        l.createText(s.waste, "s")
 
         # Define stack groups
         l.defaultStackGroups()
@@ -1099,14 +1099,14 @@ class MerlinsMeander(AbstractHexADeckGame):
         # Create talon, waste
         x, y = l.XM + l.XS * 7, l.YM + l.YS * 1.5
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
-        l.createText(s.talon, "ss")
+        l.createText(s.talon, "s")
         s.talon.texts.rounds = MfxCanvasText(self.canvas,
                                              x + l.CW / 2, y - l.YM,
                                              anchor="s",
                                              font=self.app.getFont("canvas_default"))
         x = x - l.XS
         s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, "ss")
+        l.createText(s.waste, "s")
 
         # Create foundations
         x, y = l.XM + l.XS * 8, l.YM

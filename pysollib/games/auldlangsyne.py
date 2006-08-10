@@ -68,7 +68,7 @@ class TamOShanter(Game):
         else:
             x, y, = l.XM, l.YM
         s.talon = self.Talon_Class(x, y, self)
-        l.createText(s.talon, "ss")
+        l.createText(s.talon, "s")
         if texts:
             tx, ty, ta, tf = l.getTextAttr(s.talon, 'nn')
             font = self.app.getFont('canvas_default')
@@ -271,7 +271,7 @@ class Interregnum(Game):
             s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
                                                  anchor=ta, font=font)
         else:
-            l.createText(s.talon, "nn")
+            l.createText(s.talon, "n")
 
         # define stack-groups
         l.defaultStackGroups()
@@ -417,7 +417,7 @@ class Colorado(Game):
 
         x, y = l.XM+9*l.XS, l.YM+3*l.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=1)
-        l.createText(s.talon, "ss")
+        l.createText(s.talon, "s")
         x -= l.XS
         s.waste = WasteStack(x, y, self, max_cards=1)
 

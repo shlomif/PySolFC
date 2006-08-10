@@ -133,8 +133,9 @@ class LesserQueue(AbstractFlowerGame):
 
         # set window
         decks = self.gameinfo.decks
-        h = l.YM + l.YS * 5.5
-        self.setSize(l.XM + l.XS * 10.5, l.YM + h)
+        yoffset = l.YOFFSET*self.BRAID_OFFSET
+        h = l.YM+max(l.YS*5.5, l.YS+self.BRAID_CARDS*yoffset+2*l.TEXT_MARGIN)
+        self.setSize(l.XM + l.XS * 10.5, h)
 
         # extra settings
         self.base_card = None
@@ -164,16 +165,16 @@ class LesserQueue(AbstractFlowerGame):
         s.braid = Queue_BraidStack(x, y, self, yoffset=self.BRAID_OFFSET)
 
         # Create talon, waste
-        x, y = l.XM, l.YM + l.YS * 4.3
+        x, y = l.XM, h-l.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
-        l.createText(s.talon, "ss")
+        l.createText(s.talon, "n")
         s.talon.texts.rounds = MfxCanvasText(self.canvas,
-                                             self.width / 2, h - l.YM * 2.5,
+                                             self.width/2, h-2*l.TEXT_MARGIN,
                                              anchor="center",
                                              font=self.app.getFont("canvas_default"))
         x = x + l.XS
         s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, "ss")
+        l.createText(s.waste, "n")
 
         # Create foundations
         x = l.XM
@@ -187,7 +188,7 @@ class LesserQueue(AbstractFlowerGame):
                 y = y + l.YS
             x = x + l.XS
         self.texts.info = MfxCanvasText(self.canvas,
-                                        self.width / 2, h - l.YM / 2,
+                                        self.width/2, h-l.TEXT_MARGIN,
                                         anchor="center",
                                         font=self.app.getFont("canvas_default"))
 

@@ -90,12 +90,12 @@ def createToolbarMenu(menubar, menu):
                             variable=menubar.tkopt.toolbar_relief,
                             value=Tkinter.RAISED,
                             command=menubar.mOptToolbarRelief)
-
-    submenu = MfxMenu(menu, label=n_('Compound'), tearoff=tearoff)
-    for comp, label in COMPOUNDS:
-        submenu.add_radiobutton(label=label,
-                                variable=menubar.tkopt.toolbar_compound,
-                                value=comp, command=menubar.mOptToolbarCompound)
+    if Tkinter.TkVersion >= 8.4:
+        submenu = MfxMenu(menu, label=n_('Compound'), tearoff=tearoff)
+        for comp, label in COMPOUNDS:
+            submenu.add_radiobutton(
+                label=label, variable=menubar.tkopt.toolbar_compound,
+                value=comp, command=menubar.mOptToolbarCompound)
     menu.add_separator()
     menu.add_radiobutton(label=n_("Hide"),
                          variable=menubar.tkopt.toolbar, value=0,
@@ -371,6 +371,7 @@ class PysolMenubar(PysolMenubarActions):
         submenu.add_checkbutton(label=n_("Card shado&w"), variable=self.tkopt.shadow, command=self.mOptShadow)
         submenu.add_checkbutton(label=n_("Shade &legal moves"), variable=self.tkopt.shade, command=self.mOptShade)
         submenu.add_checkbutton(label=n_("&Negative cards bottom"), variable=self.tkopt.negative_bottom, command=self.mOptNegativeBottom)
+        submenu.add_checkbutton(label=n_("Shrink face-down cards"), variable=self.tkopt.shrink_face_down, command=self.mOptShrinkFaceDown)
         submenu.add_checkbutton(label=n_("Shade &filled stacks"), variable=self.tkopt.shade_filled_stacks, command=self.mOptShadeFilledStacks)
         submenu = MfxMenu(menu, label=n_("A&nimations"))
         submenu.add_radiobutton(label=n_("&None"), variable=self.tkopt.animations, value=0, command=self.mOptAnimations)

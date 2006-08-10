@@ -152,10 +152,10 @@ class OddAndEven(RoyalCotillion):
                 x = x + l.XS
         x, y = l.XM, self.height - l.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=2)
-        l.createText(s.talon, "nn")
+        l.createText(s.talon, "n")
         x = x + l.XS
         s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, "nn")
+        l.createText(s.waste, "n")
 
         # define stack-groups
         l.defaultStackGroups()
@@ -225,7 +225,6 @@ class Kingdom(RoyalCotillion):
 # // Granada
 # // Grant's Reinforcement
 # ************************************************************************/
-
 
 class Alhambra_Hint(CautiousDefaultHint):
     def _getDropCardScore(self, score, color, r, t, ncards):

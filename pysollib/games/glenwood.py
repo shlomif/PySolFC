@@ -109,10 +109,10 @@ class Glenwood(Game):
         # create stacks
         x, y = l.XM, l.YM
         s.talon = Glenwood_Talon(x, y, self, max_rounds=2, num_deal=1)
-        l.createText(s.talon, "ss")
+        l.createText(s.talon, "s")
         x += l.XS
         s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, "ss")
+        l.createText(s.waste, "s")
         x += l.XS+l.XM
         for i in range(4):
             s.foundations.append(self.Foundation_Class(x, y, self, i, dir=1,

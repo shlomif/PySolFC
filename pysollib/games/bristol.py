@@ -210,7 +210,7 @@ class Dover(Bristol):
                 x += l.XS
         if text:
             x, y = l.XM+8*l.XS, l.YM
-            tx, ty, ta, tf = l.getTextAttr(None, "s")
+            tx, ty, ta, tf = l.getTextAttr(None, "ss")
             tx, ty = x+tx+l.XM, y+ty
             font = self.app.getFont("canvas_default")
             self.texts.info = MfxCanvasText(self.canvas, tx, ty, anchor=ta, font=font)

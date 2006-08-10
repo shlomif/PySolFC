@@ -81,15 +81,15 @@ class Doublets(Game):
         s.foundations.append(Doublets_Foundation(x, y, self, ANY_SUIT,
                                                  dir=0, mod=13,
                                                  max_move=0, max_cards=48))
-        l.createText(s.foundations[0], "ss")
+        l.createText(s.foundations[0], "s")
 ##        help = "A, 2, 4, 8, 3, 6, Q, J, 9, 5, 10, 7, A, ..."
 ##        self.texts.help = MfxCanvasText(self.canvas, x + l.CW/2, y + l.YS + l.YM, anchor="n", text=help)
         x, y = l.XM, l.YM + 3*l.YS/2
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
-        l.createText(s.talon, "ss")
+        l.createText(s.talon, "s")
         x = x + l.XS
         s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, "ss")
+        l.createText(s.waste, "s")
 
         # define stack-groups
         l.defaultStackGroups()

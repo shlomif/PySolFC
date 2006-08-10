@@ -144,7 +144,7 @@ class SoundOptionsDialog(MfxDialog):
             frame = Tkinter.LabelFrame(top_frame, text=_('Enable samles'),
                                        padx=5, pady=5)
         else:
-            frame = Tkinter.Frame(top_frame)
+            frame = Tkinter.Frame(top_frame, bd=2, relief='groove')
         frame.pack(expand=1, fill='both', padx=5, pady=5)
         frame.columnconfigure(0, weight=1)
         frame.columnconfigure(1, weight=1)

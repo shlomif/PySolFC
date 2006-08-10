@@ -274,6 +274,7 @@ class Stack:
         view.CARD_XOFFSET = 0
         view.CARD_YOFFSET = 0
         view.group = MfxCanvasGroup(view.canvas)
+        view.shrink_face_down = 1
         ##view.group.move(view.x, view.y)
         # image items
         view.images = Struct(
@@ -382,6 +383,11 @@ class Stack:
                 # don't display a shadow if the YOFFSET of the stack
                 # and the images don't match
                 self.max_shadow_cards = 1
+        if (self.game.app.opt.shrink_face_down and
+            type(ox) is int and type(oy) is int):
+            if ((ox == 0 and oy >= self.game.app.images.CARD_YOFFSET/2) or
+                (oy == 0 and ox >= self.game.app.images.CARD_XOFFSET/2)):
+                self.shrink_face_down = 2
         # bottom image
         if self.is_visible:
             self.prepareBottom()
@@ -702,10 +708,16 @@ class Stack:
         for c in model.cards:
             if c is card:
                 break
-            x = x + view.CARD_XOFFSET[ix]
-            y = y + view.CARD_YOFFSET[iy]
+            d = self.shrink_face_down
+            if c.face_up:
+                x += self.CARD_XOFFSET[ix]
+                y += self.CARD_YOFFSET[iy]
+            else:
+                x += int(self.CARD_XOFFSET[ix]/d)
+                y += int(self.CARD_YOFFSET[iy]/d)
             ix = (ix + 1) % lx
             iy = (iy + 1) % ly
+
         return (x, y)
 
     def getOffsetFor(self, card):
@@ -742,8 +754,13 @@ class Stack:
             c.item.tkraise(item)
             item = c.item
             if not view.can_hide_cards:
-                x = x + view.CARD_XOFFSET[ix]
-                y = y + view.CARD_YOFFSET[iy]
+                d = self.shrink_face_down
+                if c.face_up:
+                    x += self.CARD_XOFFSET[ix]
+                    y += self.CARD_YOFFSET[iy]
+                else:
+                    x += int(self.CARD_XOFFSET[ix]/d)
+                    y += int(self.CARD_YOFFSET[iy]/d)
                 ix = (ix + 1) % lx
                 iy = (iy + 1) % ly
                 c.moveTo(x, y)
@@ -2240,6 +2257,9 @@ class InvisibleStack(Stack):
 
 # /***********************************************************************
 # // ArbitraryStack (stack with arbitrary access)
+# //
+# // NB: don't support hint and demo for non-top cards
+# // NB: this stack only for CARD_XOFFSET == 0
 # ************************************************************************/
 
 class ArbitraryStack(OpenStack):

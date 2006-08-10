@@ -349,8 +349,8 @@ class SelectGameDialogWithPreview(SelectGameDialog):
             info_frame = Tkinter.LabelFrame(right_frame, text=_('About game'))
             stats_frame = Tkinter.LabelFrame(right_frame, text=_('Statistics'))
         else:
-            info_frame = Tkinter.Frame(right_frame)
-            stats_frame = Tkinter.Frame(right_frame)
+            info_frame = Tkinter.Frame(right_frame, bd=2, relief='groove')
+            stats_frame = Tkinter.Frame(right_frame, bd=2, relief='groove')
         info_frame.grid(row=0, column=0, padx=padx, pady=pady,
                         ipadx=padx, ipady=pady, sticky='nws')
         stats_frame.grid(row=0, column=1, padx=padx, pady=pady,
@@ -485,14 +485,6 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         ##self.top.wm_title("Select Game - " + self.app.getGameTitleName(gameid))
         title = self.app.getGameTitleName(gameid)
         self.top.wm_title(_("Playable Preview - ") + title)
-##         if False:
-##             cw, ch = canvas.winfo_width(), canvas.winfo_height()
-##             if cw >= 100 and ch >= 100:
-##                 MfxCanvasText(canvas, cw / 2, ch - 4,
-##                               preview=0, anchor="s", text=_("Playable Area"),
-##                               font=self.app.getFont("canvas_large"))
-##                 if self.app.opt.table_text_color:
-##                     canvas.setTextColor(self.app.opt.table_text_color_value)
         #
         self.preview_game = gi.gameclass(gi)
         self.preview_game.createPreview(self.preview_app)

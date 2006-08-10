@@ -480,7 +480,7 @@ class TenAvatars(AbstractDashavataraGame):
 
         # Create talon
         s.talon = DealRowTalonStack(l.XM, self.height - l.YS, self)
-        l.createText(s.talon, "nn")
+        l.createText(s.talon, "n")
 
         # Define stack groups
         l.defaultStackGroups()
@@ -883,14 +883,14 @@ class Journey(AbstractDashavataraGame):
         # Create talon
         x, y = l.XM + l.XS * 2 + l.XS * decks, h - l.YS - l.YM
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
-        l.createText(s.talon, "ss")
+        l.createText(s.talon, "s")
         s.talon.texts.rounds = MfxCanvasText(self.canvas,
                                              self.width / 2, h - l.YM * 2.5,
                                              anchor="center",
                                              font=self.app.getFont("canvas_default"))
         x = x + l.XS * 2
         s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, "ss")
+        l.createText(s.waste, "s")
 
         # define stack-groups
         self.sg.talonstacks = [s.talon] + [s.waste]
@@ -1010,7 +1010,7 @@ class AppachansWaterfall(AbstractDashavataraGame):
 
         # Create talon
         s.talon = DealRowTalonStack(l.XM, y, self)
-        l.createText(s.talon, "nn")
+        l.createText(s.talon, "n")
 
         # Define stack groups
         l.defaultStackGroups()

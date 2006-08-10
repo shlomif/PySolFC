@@ -144,11 +144,11 @@ class Golf(Game):
             x = x + l.XS
         x, y = l.XM, self.height - l.YS
         s.talon = Golf_Talon(x, y, self, max_rounds=1)
-        l.createText(s.talon, "nn")
+        l.createText(s.talon, "n")
         x = x + l.XS
         s.waste = self.Waste_Class(x, y, self)
         s.waste.CARD_XOFFSET = l.XOFFSET
-        l.createText(s.waste, "nn")
+        l.createText(s.waste, "n")
         # the Waste is also our only Foundation in this game
         s.foundations.append(s.waste)
 
@@ -249,10 +249,10 @@ class Elevator(RelaxedGolf):
                 x = x + l.XS
         x, y = l.XM, l.YM
         s.talon = Golf_Talon(x, y, self, max_rounds=1)
-        l.createText(s.talon, "ss")
+        l.createText(s.talon, "s")
         x = x + l.XS
         s.waste = self.Waste_Class(x, y, self)
-        l.createText(s.waste, "ss")
+        l.createText(s.waste, "s")
         # the Waste is also our only Foundation in this game
         s.foundations.append(s.waste)
 
@@ -334,8 +334,9 @@ class BlackHole(Game):
             r.CARD_XOFFSET = l.XOFFSET
             r.CARD_YOFFSET = 0
         x, y = l.XM + 2*w, l.YM + 3*l.YS/2
-        s.foundations.append(BlackHole_Foundation(x, y, self, ANY_SUIT, dir=0, mod=13, max_move=0, max_cards=52))
-        l.createText(s.foundations[0], "ss")
+        s.foundations.append(BlackHole_Foundation(x, y, self, suit=ANY_SUIT,
+                             dir=0, mod=13, max_move=0, max_cards=52))
+        l.createText(s.foundations[0], "s")
         x, y = l.XM + 4*w, self.height - l.YS
         s.talon = InitialDealTalonStack(x, y, self)
 

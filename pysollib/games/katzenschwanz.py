@@ -298,7 +298,7 @@ class SalicLaw(DerKatzenschwanz):
             s.rows.append(stack)
             x += l.XS
         s.talon = SalicLaw_Talon(l.XM+9*l.XS, l.YM, self)
-        l.createText(s.talon, "ss")
+        l.createText(s.talon, "s")
 
         # define stack-groups
         l.defaultStackGroups()

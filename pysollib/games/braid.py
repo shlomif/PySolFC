@@ -160,13 +160,13 @@ class Braid(Game):
         s.braid = Braid_BraidStack(x, y, self)
         x, y = l.XM + 7 * l.XS, l.YM + l.YS * 3/2
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
-        l.createText(s.talon, "ss")
+        l.createText(s.talon, "s")
         s.talon.texts.rounds = MfxCanvasText(self.canvas,
                                              x + l.CW / 2, y - l.TEXT_MARGIN,
                                              anchor="s", font=font)
         x = x - l.XS
         s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, "ss")
+        l.createText(s.waste, "s")
         y = l.YM
         for i in range(4):
             x = l.XM+8*l.XS
@@ -339,10 +339,10 @@ class Backbone(Game):
 
         x, y = l.XM+rows*l.XS/2, h-l.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=1)
-        l.createText(s.talon, "nn")
+        l.createText(s.talon, "n")
         x += l.XS
         s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, "nn")
+        l.createText(s.waste, "n")
 
         # define stack-groups
         l.defaultStackGroups()

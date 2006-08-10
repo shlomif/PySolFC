@@ -351,7 +351,7 @@ class Frog(Game):
         s.reserves.append(stack)
         x += l.XS
         s.talon = WasteTalonStack(x, y, self, max_rounds=1)
-        l.createText(s.talon, "ss")
+        l.createText(s.talon, "s")
         x += l.XS
         s.waste = WasteStack(x, y, self, max_cards=1)
         x += l.XS
@@ -430,7 +430,7 @@ class Gnat(Game):
         # create stacks
         x, y = l.XM, l.YM
         s.talon = WasteTalonStack(x, y, self, max_rounds=1)
-        l.createText(s.talon, "ss")
+        l.createText(s.talon, "s")
         x += l.XS
         s.waste = WasteStack(x, y, self, max_cards=1)
         x += l.XS
@@ -448,7 +448,7 @@ class Gnat(Game):
             for j in range(3):
                 s.reserves.append(OpenStack(x, y, self, max_accept=0))
                 y += l.YS
-            x += l.YS
+            x += l.XS
 
         # define stack-groups
         l.defaultStackGroups()

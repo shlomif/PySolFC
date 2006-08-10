@@ -253,10 +253,10 @@ class Contradance(Game):
 
         x, y = l.XM+3*l.XS, l.YM+3*l.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=2)
-        l.createText(s.talon, 'nn')
+        l.createText(s.talon, 'n')
         x += l.XS
         s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, 'nn')
+        l.createText(s.waste, 'n')
 
         l.defaultStackGroups()
 
@@ -292,10 +292,10 @@ class IdleAces(Game):
 
         x, y = l.XM, l.YM
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
-        l.createText(s.talon, 'ss')
+        l.createText(s.talon, 's')
         x += l.XS
         s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, 'ss')
+        l.createText(s.waste, 's')
         x0, y0 = l.XM+2*l.XS, l.YM
         k = 0
         for i, j in((2, 0), (0, 1.5), (4, 1.5), (2, 3)):

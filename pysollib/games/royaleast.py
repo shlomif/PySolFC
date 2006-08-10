@@ -78,10 +78,10 @@ class RoyalEast(Game):
             s.rows.append(stack)
         x, y = l.XM, l.YM + 3*l.YS/2
         s.talon = WasteTalonStack(x, y, self, max_rounds=1)
-        l.createText(s.talon, "ss")
+        l.createText(s.talon, "s")
         x = x + l.XS
         s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, "ss")
+        l.createText(s.waste, "s")
 
         # define stack-groups
         l.defaultStackGroups()

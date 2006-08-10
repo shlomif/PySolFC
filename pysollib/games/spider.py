@@ -681,7 +681,7 @@ class Chelicera(Game):
         # create stacks
         x, y = l.XM, l.YM
         s.talon = TalonStack(x, y, self)
-        l.createText(s.talon, "ss")
+        l.createText(s.talon, "s")
         x += l.XS
         for i in range(7):
             s.rows.append(Chelicera_RowStack(x, y, self, base_rank=KING))
@@ -765,7 +765,7 @@ class SpiderWeb(RelaxedSpider):
         # create stacks
         x, y = l.XM, l.YM
         s.talon = DealRowTalonStack(x, y, self)
-        l.createText(s.talon, "ss")
+        l.createText(s.talon, "s")
         x += 2*l.XS
         s.reserves.append(ReserveStack(x, y, self))
         x += 2*l.XS

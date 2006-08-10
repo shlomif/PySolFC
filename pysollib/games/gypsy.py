@@ -249,7 +249,7 @@ class MissMilligan(Gypsy):
         if s.reserves:
             self.setRegion(s.reserves, (-999, ry, rx - 1, 999999))
         else:
-            l.createText(s.talon, "ss")
+            l.createText(s.talon, "s")
             rx = -999
         x, y = l.XM + (8-rows)*l.XS/2, l.YM + l.YS
         for i in range(rows):

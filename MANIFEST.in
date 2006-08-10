@@ -6,8 +6,7 @@ include pysol setup.py setup.cfg MANIFEST.in Makefile COPYING README
 #recursive-include pysollib *.py
 include pysollib/*.py pysollib/tk/*.py
 include pysollib/games/*.py pysollib/games/special/*.py
-include pysollib/games/ultra/*.py pysollib/games/contrib/*.py
-include pysollib/games/mahjongg/*.py
+include pysollib/games/ultra/*.py pysollib/games/mahjongg/*.py
 include docs/*
 include po/*
 include scripts/build.bat scripts/create_iss.py scripts/mahjongg_utils.py

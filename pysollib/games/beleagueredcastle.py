@@ -391,15 +391,15 @@ class Zerline(Game):
         y = l.YM
         x = l.XM + w
         s.talon = WasteTalonStack(x, y, self, max_rounds=1)
-        l.createText(s.talon, "ss")
+        l.createText(s.talon, "s")
         x += l.XS
         s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, "ss")
+        l.createText(s.waste, "s")
         x += l.XS
         stack = Zerline_ReserveStack(x, y, self, max_cards=reserve_max_cards)
         s.reserves.append(stack)
         stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
-        l.createText(stack, "ss")
+        l.createText(stack, "s")
         x = l.XM + w
         for j in range(decks):
             y = l.YM+l.TEXT_HEIGHT+l.YS

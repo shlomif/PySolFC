@@ -136,10 +136,10 @@ class MonteCarlo(Game):
         x, y = l.XM + 11*l.XS/2, l.YM
         s.foundations.append(self.Foundation_Class(x, y, self, suit=ANY_SUIT,
                              max_move=0, max_cards=self.gameinfo.ncards, base_rank=ANY_RANK))
-        l.createText(s.foundations[0], "ss")
+        l.createText(s.foundations[0], "s")
         y = y + 2*l.YS
         s.talon = self.Talon_Class(x, y, self, max_rounds=1)
-        l.createText(s.talon, "ss", text_format="%D")
+        l.createText(s.talon, "s", text_format="%D")
 
         # define stack-groups
         l.defaultStackGroups()
@@ -285,11 +285,11 @@ class SimplePairs(MonteCarlo):
                                                   dir=0, base_rank=NO_RANK))
         x, y = l.XM, l.YM + 3*l.YS/2
         s.talon = TalonStack(x, y, self, max_rounds=1)
-        l.createText(s.talon, "ss")
+        l.createText(s.talon, "s")
         x = x + 5*l.XS
         s.foundations.append(self.Foundation_Class(x, y, self, suit=ANY_SUIT,
-                                max_move=0, max_cards=52, base_rank=ANY_RANK))
-        l.createText(s.foundations[0], "ss")
+                             max_move=0, max_cards=52, base_rank=ANY_RANK))
+        l.createText(s.foundations[0], "s")
 
         # define stack-groups
         l.defaultStackGroups()
@@ -408,7 +408,7 @@ class Fourteen(Game):
         x, y = l.XM + 6*l.XS, l.YM
         s.foundations.append(self.Foundation_Class(x, y, self, suit=ANY_SUIT,
                                 max_move=0, max_cards=52, base_rank=ANY_RANK))
-        l.createText(s.foundations[0], "ss")
+        l.createText(s.foundations[0], "s")
         x, y = self.width - l.XS, self.height - l.YS
         s.talon = InitialDealTalonStack(x, y, self)
 
@@ -478,7 +478,7 @@ class Nestor(Game):
         x, y = self.width-l.XS, self.height-l.YS
         s.foundations.append(self.Foundation_Class(x, y, self, suit=ANY_SUIT,
                                 max_move=0, max_cards=52, base_rank=ANY_RANK))
-        l.createText(s.foundations[0], "nn")
+        l.createText(s.foundations[0], "n")
         x, y = l.XM, self.height - l.YS
         s.talon = InitialDealTalonStack(x, y, self)
 
@@ -552,7 +552,7 @@ class Vertical(Nestor):
         x, y = self.width-l.XS, l.YM
         s.foundations.append(self.Foundation_Class(x, y, self, suit=ANY_SUIT,
                              max_move=0, max_cards=52, base_rank=ANY_RANK))
-        l.createText(s.foundations[0], "ss")
+        l.createText(s.foundations[0], "s")
         x -= l.XS
         s.talon = InitialDealTalonStack(x, y, self)
 
@@ -599,7 +599,7 @@ class TheWish(Game):
         x, y = self.width - l.XS, self.height - l.YS
         s.foundations.append(AbstractFoundationStack(x, y, self, suit=ANY_SUIT,
                              max_move=0, max_cards=32, max_accept=0, base_rank=ANY_RANK))
-        l.createText(s.foundations[0], "nn")
+        l.createText(s.foundations[0], "n")
 
         # define stack-groups
         l.defaultStackGroups()

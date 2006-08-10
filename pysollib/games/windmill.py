@@ -98,10 +98,10 @@ class Windmill(Game):
         x = l.XM
         y = l.YM
         s.talon = WasteTalonStack(x, y, self, max_rounds=1)
-        l.createText(s.talon, "ss")
+        l.createText(s.talon, "s")
         x = x + l.XS
         s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, "ss")
+        l.createText(s.waste, "s")
         x0, y0 = x + l.XS, y
         for d in self.ROWS_LAYOUT:
             x, y = x0 + d[0] * l.XS, y0 + d[1] * l.YS
@@ -221,10 +221,10 @@ class NapoleonsTomb(Windmill):
         x = l.XM
         y = l.YM
         s.talon = WasteTalonStack(x, y, self, max_rounds=1)
-        l.createText(s.talon, "ss")
+        l.createText(s.talon, "s")
         x = x + l.XS
         s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, "ss")
+        l.createText(s.waste, "s")
         x0, y0 = x + l.XS, y
         for d in ((0,1), (1,0), (1,2), (2,1)):
             x, y = x0 + d[0] * l.XS, y0 + d[1] * l.YS

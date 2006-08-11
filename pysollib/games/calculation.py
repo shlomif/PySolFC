@@ -352,6 +352,106 @@ class One234(Calculation):
         self.s.talon.dealRow(rows=self.s.foundations)
 
 
+# /***********************************************************************
+# // Senior Wrangler
+# ************************************************************************/
+
+class SeniorWrangler_Talon(DealRowTalonStack):
+
+    def canDealCards(self):
+        if self.round == self.max_rounds:
+            return False
+        return not self.game.isGameWon()
+
+    def dealCards(self, sound=0):
+        num_cards = 0
+        r = self.game.s.rows[self.round-1]
+        if not r.cards:
+            self.game.nextRoundMove(self)
+            return
+        if sound:
+            self.game.startDealSample()
+        old_state = self.game.enterState(self.game.S_DEAL)
+        while r.cards:
+            self.game.flipMove(r)
+            self.game.moveMove(1, r, self, frames=4, shadow=0)
+        self.dealRowAvail(rows=self.game.s.rows[self.round-1:], sound=0)
+        while self.cards:
+            num_cards += self.dealRowAvail(sound=0)
+        self.game.nextRoundMove(self)
+        self.game.leaveState(old_state)
+        if sound:
+            self.game.stopSamples()
+        return num_cards
+
+class SeniorWrangler_RowStack(BasicRowStack):
+    #clickHandler = BasicRowStack.doubleclickHandler
+    pass
+
+
+class SeniorWrangler(Game):
+
+    def createGame(self):
+        # create layout
+        l, s = Layout(self), self.s
+        # set window
+        self.setSize(l.XM+9.5*l.XS, l.YM+3*l.YS+l.TEXT_HEIGHT)
+
+        # create stacks
+        x, y = l.XM+1.5*l.XS, l.YM
+        for i in range(8):
+            stack = BetsyRoss_Foundation(x, y, self, base_rank=i,
+                                         max_cards=1, max_move=0, max_accept=0)
+            s.foundations.append(stack)
+            x = x + l.XS
+        x, y = l.XM+1.5*l.XS, l.YM+l.YS
+        for i in range(8):
+            stack = BetsyRoss_Foundation(x, y, self, base_rank=(2*i+3)%13,
+                                         mod=13, dir=i+1,
+                                         max_cards=12, max_move=0)
+            tx, ty, ta, tf = l.getTextAttr(stack, "s")
+            font = self.app.getFont("canvas_default")
+            stack.texts.misc = MfxCanvasText(self.canvas, tx, ty,
+                                             anchor=ta, font=font)
+            s.foundations.append(stack)
+            x = x + l.XS
+        x, y = l.XM+1.5*l.XS, l.YM+2*l.YS+l.TEXT_HEIGHT
+        for i in range(8):
+            stack = SeniorWrangler_RowStack(x, y, self, max_accept=0)
+            s.rows.append(stack)
+            stack.CARD_YOFFSET = 0
+            x += l.XS
+        x, y = l.XM, l.YM+l.YS
+        s.talon = SeniorWrangler_Talon(x, y, self, max_rounds=9)
+        tx, ty, ta, tf = l.getTextAttr(s.talon, "nn")
+        font = self.app.getFont("canvas_default")
+        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
+                                             anchor=ta, font=font)
+
+        # define stack-groups
+        l.defaultStackGroups()
+
+
+    def _shuffleHook(self, cards):
+        top = []
+        ranks = []
+        for c in cards[:]:
+            if c.rank in range(1,9) and c.rank not in ranks:
+                ranks.append(c.rank)
+                cards.remove(c)
+                top.append(c)
+        top.sort(lambda a, b: cmp(b.rank, a.rank))
+        return cards+top
+
+
+    def startGame(self):
+        self.s.talon.dealRow(rows=self.s.foundations[:8], frames=0)
+        for i in range(11):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+
 
 # register the game
 registerGame(GameInfo(256, Calculation, "Calculation",
@@ -365,4 +465,6 @@ registerGame(GameInfo(134, BetsyRoss, "Betsy Ross",
                                 "Quadruple Alliance", "Plus Belle") ))
 registerGame(GameInfo(550, One234, "One234",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(653, SeniorWrangler, "Senior Wrangler",
+                      GI.GT_2DECK_TYPE, 2, 8, GI.SL_BALANCED))
 

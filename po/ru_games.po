@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Wed Aug  9 19:09:14 2006\n"
+"POT-Creation-Date: Fri Aug 11 02:15:03 2006\n"
 "PO-Revision-Date: 2006-08-09 23:52+0400\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -1644,9 +1644,6 @@ msgstr "Le Grande Teton"
 msgid "Legion"
 msgstr "Легион"
 
-msgid "Leo"
-msgstr "Лев"
-
 msgid "Les Quatre Coins"
 msgstr "Les Quatre Coins"
 
@@ -1989,9 +1986,6 @@ msgstr "Маджонг Лабиринт"
 
 msgid "Mahjongg Lattice"
 msgstr "Маджонг Решётка"
-
-msgid "Mahjongg Leo"
-msgstr "Маджонг Лев"
 
 msgid "Mahjongg Lion"
 msgstr "Маджонг Лион"
@@ -3710,6 +3704,12 @@ msgstr "Зевс"
 
 msgid "Zodiac"
 msgstr "Зодиак"
+
+#~ msgid "Leo"
+#~ msgstr "Лев"
+
+#~ msgid "Mahjongg Leo"
+#~ msgstr "Маджонг Лев"
 
 #, fuzzy
 #~ msgid "Big Ground"

@@ -146,7 +146,7 @@ class Terrace(Game):
         self.setSize(l.XM + maxrows*l.XS + l.XM, l.YM + 3*l.YS + h)
 
         # extra settings
-        self.base_card = None
+        self.base_rank = None
 
         # create stacks
         x, y = l.XM + w1, l.YM

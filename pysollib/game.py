@@ -1537,7 +1537,7 @@ for %d moves.
             self.canvas.update_idletasks()
             return EVENT_HANDLED
         else:
-            # remove items later
+            # remove items later (find_card_dialog)
             return items
 
     def highlightNotMatching(self):

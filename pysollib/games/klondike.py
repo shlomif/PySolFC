@@ -377,6 +377,7 @@ class AgnesSorel(Klondike):
 # /***********************************************************************
 # // 8 x 8
 # // Achtmal Acht
+# // Eight by Eight
 # ************************************************************************/
 
 class EightTimesEight(Klondike):
@@ -402,6 +403,25 @@ class AchtmalAcht(EightTimesEight):
         s.talon.texts.rounds = MfxCanvasText(self.canvas, x, y,
                                              anchor="ne",
                                              font=self.app.getFont("canvas_default"))
+
+
+class EightByEight_RowStack(RK_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not RK_RowStack.acceptsCards(self, from_stack, cards):
+            return False
+        if not self.cards:
+            return len(cards) == 1
+        return True
+
+class EightByEight(EightTimesEight):
+    Layout_Method = Layout.klondikeLayout ##gypsyLayout
+    Talon_Class = CanfieldRush_Talon
+    RowStack_Class = EightByEight_RowStack
+
+    def createGame(self):
+        Klondike.createGame(self, rows=8, max_rounds=3)
+
+    shallHighlightMatch = Game._shallHighlightMatch_RK
 
 
 # /***********************************************************************
@@ -627,7 +647,6 @@ class Jane(Klondike):
             x = x0 + ((i+1) & 1) * l.XS
             stack = OpenStack(x, y, self, max_accept=0)
             stack.CARD_YOFFSET = l.YM / 3
-            stack.is_open = 1
             s.reserves.append(stack)
             y = y + l.YS / 2
         # not needed, as no cards may be placed on the reserves
@@ -678,7 +697,7 @@ class Senate(Jane):
         playcards = 10
 
         l, s = Layout(self), self.s
-        self.setSize(3*l.XM+(rows+6)*l.XS, l.YM+2*(l.YS+playcards*l.YOFFSET))
+        self.setSize(l.XM+(rows+7)*l.XS, l.YM+2*(l.YS+playcards*l.YOFFSET))
 
         x, y = l.XM, l.YM
         for i in range(rows):
@@ -686,22 +705,22 @@ class Senate(Jane):
             x += l.XS
 
         for y in l.YM, l.YM+l.YS+playcards*l.YOFFSET:
-            x = 2*l.XM+rows*l.XS
+            x = l.XM+rows*l.XS+l.XS/2
             for i in range(4):
                 stack = OpenStack(x, y, self, max_accept=0)
                 stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, l.YOFFSET
                 s.reserves.append(stack)
                 x += l.XS
-        x = 3*l.XM+(rows+4)*l.XS
+        x = l.XM+(rows+5)*l.XS
         for i in range(2):
             y = l.YM+l.YS
             for j in range(4):
                 s.foundations.append(SS_FoundationStack(x, y, self, suit=j))
                 y += l.YS
             x += l.XS
-        x, y = 3*l.XM+(rows+5)*l.XS, l.YM
+        x, y = self.width-l.XS, l.YM
         s.talon = AgnesBernauer_Talon(x, y, self)
-        l.createText(s.talon, 'sw')
+        l.createText(s.talon, 'nw')
 
         l.defaultStackGroups()
 
@@ -1430,5 +1449,7 @@ registerGame(GameInfo(633, Athena, "Athena",
                       GI.GT_KLONDIKE, 1, -1, GI.SL_BALANCED))
 registerGame(GameInfo(634, Chinaman, "Chinaman",
                       GI.GT_KLONDIKE, 1, 1, GI.SL_BALANCED))
+registerGame(GameInfo(651, EightByEight, "Eight by Eight",
+                      GI.GT_KLONDIKE, 2, 2, GI.SL_BALANCED))
 
 

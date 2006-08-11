@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Wed Aug  9 19:09:14 2006\n"
+"POT-Creation-Date: Fri Aug 11 02:15:03 2006\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1602,9 +1602,6 @@ msgstr ""
 msgid "Legion"
 msgstr ""
 
-msgid "Leo"
-msgstr ""
-
 msgid "Les Quatre Coins"
 msgstr ""
 
@@ -1942,9 +1939,6 @@ msgid "Mahjongg Labyrinth"
 msgstr ""
 
 msgid "Mahjongg Lattice"
-msgstr ""
-
-msgid "Mahjongg Leo"
 msgstr ""
 
 msgid "Mahjongg Lion"

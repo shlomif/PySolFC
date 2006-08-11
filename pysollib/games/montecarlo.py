@@ -765,6 +765,53 @@ class DerLetzteMonarch(Game):
             return diff in (-13, -1, 1, 13)
 
 
+# /***********************************************************************
+# // Doublets
+# ************************************************************************/
+
+class DoubletsII(Game):
+    FILL_STACKS_AFTER_DROP = False # for Nestor_RowStack
+
+    def createGame(self):
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+12*l.XS, l.YM+3*l.YS+3*l.YOFFSET)
+
+        x, y = l.XM, l.YM
+        for i in range(12):
+            s.rows.append(Nestor_RowStack(x, y, self,
+                                          max_move=1, max_accept=1,
+                                          dir=0, base_rank=NO_RANK))
+            x += l.XS
+        x, y = l.XM, self.height-l.YS
+        s.talon = TalonStack(x, y, self)
+        l.createText(s.talon, 'n')
+
+        x, y = self.width-l.XS, self.height-l.YS
+        s.foundations.append(AbstractFoundationStack(x, y, self, suit=ANY_SUIT,
+                             max_move=0, max_cards=52,
+                             base_rank=ANY_RANK, max_accept=0))
+        l.createText(s.foundations[0], "n")
+
+        l.defaultStackGroups()
+
+    def startGame(self):
+        for i in range(3):
+            self.s.talon.dealRow(frames=0, flip=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+    def fillStack(self, stack):
+        if stack in self.s.rows:
+            if stack.cards:
+                stack.flipMove()
+            else:
+                if self.s.talon.cards:
+                    old_state = self.enterState(self.S_FILL)
+                    self.s.talon.flipMove()
+                    self.s.talon.moveMove(1, stack)
+                    self.leaveState(old_state)
+
+
 # register the game
 registerGame(GameInfo(89, MonteCarlo, "Monte Carlo",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK,
@@ -795,4 +842,6 @@ registerGame(GameInfo(329, TheWishOpen, "The Wish (open)",
                       ranks=(0, 6, 7, 8, 9, 10, 11, 12) ))
 registerGame(GameInfo(368, Vertical, "Vertical",
                       GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_LUCK))
+registerGame(GameInfo(649, DoubletsII, "Doublets II",
+                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 

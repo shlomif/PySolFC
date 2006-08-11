@@ -221,6 +221,8 @@ def plain_text():
         if gi.category == GI.GC_FRENCH:
             ##print str(gi.gameclass)
             print gi.name.encode('utf-8')
+            for n in gi.altnames:
+                print n.encode('utf-8')
             ##name = gi.name.lower()
             ##name = re.sub('\W', '', name)
             ##print id, name #, gi.si.game_type, gi.si.game_type == GI.GC_FRENCH

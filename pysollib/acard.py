@@ -84,11 +84,8 @@ class AbstractCard:
         self.y = y
         self.item = None
         self.face_up = 0
-        # To improve display speed, we move cards out of the visible canvas.
-        # Because the whole area that will be passed by a move will get
-        # updated by Tk, we must choose an optimal way off the screen.
+        # To improve display speed, we hide cards (except 2 top cards).
         self.hide_stack = None
-        self.hide_x = self.hide_y = 0
 
     def __str__(self):
         # Return a string for debug print statements.
@@ -99,12 +96,11 @@ class AbstractCard:
 
     def moveTo(self, x, y):
         # Move the card to absolute position (x, y).
-        # The card remains hidden.
         dx, dy = 0, 0
         if self.game.app.opt.randomize_place:
             d = 1
             dx, dy = randint(-d, d), randint(-d, d)
-        self.moveBy(x - self.x + self.hide_x + dx, y - self.y + self.hide_y + dy)
+        self.moveBy(x - self.x + dx, y - self.y + dy)
 
     def moveBy(self, dx, dy):
         # Move the card by (dx, dy).

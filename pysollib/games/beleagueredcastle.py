@@ -44,6 +44,7 @@ from pysollib.layout import Layout
 from pysollib.hint import CautiousDefaultHint, FreeCellType_Hint
 from pysollib.pysoltk import MfxCanvasText
 
+
 # /***********************************************************************
 # //
 # ************************************************************************/
@@ -231,6 +232,7 @@ class Fortress(Game):
 # /***********************************************************************
 # // Bastion
 # // Ten by One
+# // Castles End
 # ************************************************************************/
 
 class Bastion(Game):
@@ -289,6 +291,84 @@ class TenByOne(Bastion):
         self.startDealSample()
         for i in range(3):
             self.s.talon.dealRowAvail()
+
+
+class CastlesEnd_Foundation(SS_FoundationStack):
+    def acceptsCards(self, from_stack, cards):
+        if self.game.getState() == 0:
+            if cards[0].suit != self.cap.base_suit:
+                return False
+            return True
+        return SS_FoundationStack.acceptsCards(self, from_stack, cards)
+
+class CastlesEnd_StackMethods:
+    def moveMove(self, ncards, to_stack, frames=-1, shadow=-1):
+        state = self.game.getState()
+        self.game.moveMove(ncards, self, to_stack,
+                           frames=frames, shadow=shadow)
+        if state == 0:
+            base_rank = to_stack.cards[0].rank
+            self.game.base_rank = base_rank
+            for s in self.game.s.foundations:
+                s.cap.base_rank = base_rank
+        self.fillStack()
+
+class CastlesEnd_RowStack(CastlesEnd_StackMethods, UD_AC_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if self.game.getState() == 0:
+            return False
+        return UD_AC_RowStack.acceptsCards(self, from_stack, cards)
+
+class CastlesEnd_Reserve(CastlesEnd_StackMethods, OpenStack):
+    pass
+
+
+class CastlesEnd(Bastion):
+    Foundation_Class = StackWrapper(CastlesEnd_Foundation, min_cards=1, mod=13)
+    RowStack_Class = StackWrapper(CastlesEnd_RowStack, mod=13)
+    ReserveStack_Class = CastlesEnd_Reserve
+
+    def createGame(self):
+        l = Bastion.createGame(self)
+        self.base_rank = None
+        tx, ty, ta, tf = l.getTextAttr(self.s.foundations[-1], 'se')
+        font = self.app.getFont('canvas_default')
+        self.texts.info = MfxCanvasText(self.canvas, tx, ty,
+                                        anchor=ta, font=font)
+
+    def updateText(self):
+        if self.preview > 1:
+            return
+        if not self.texts.info:
+            return
+        if self.base_rank is None:
+            t = ""
+        else:
+            t = RANKS[self.base_rank]
+        self.texts.info.config(text=t)
+
+    def getState(self):
+        for s in self.s.foundations:
+            if s.cards:
+                return 1
+        return 0
+
+    def _restoreGameHook(self, game):
+        for s in self.s.foundations:
+            s.cap.base_rank = game.loadinfo.base_rank
+
+    def _loadGameHook(self, p):
+        self.loadinfo.addattr(base_rank=p.load())
+
+    def _saveGameHook(self, p):
+        base_rank = NO_RANK
+        for s in self.s.foundations:
+            if s.cards:
+                base_rank = s.cards[0].rank
+                break
+        p.dump(base_rank)
+
+    shallHighlightMatch = Game._shallHighlightMatch_ACW
 
 
 # /***********************************************************************
@@ -805,3 +885,5 @@ registerGame(GameInfo(535, ExiledKings, "Exiled Kings",
                       GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(626, Soother, "Soother",
                       GI.GT_4DECK_TYPE | GI.GT_ORIGINAL, 4, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(650, CastlesEnd, "Castles End",
+                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))

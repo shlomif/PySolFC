@@ -211,6 +211,11 @@ class Stack:
     # its face up on a (single or double) click, and also support
     # moving a subpile around.
 
+    # constants
+    MIN_VISIBLE_XOFFSET = 5
+    MIN_VISIBLE_YOFFSET = 5
+    SHRINK_FACTOR = 2.
+
     def __init__(self, x, y, game, cap={}):
         # Arguments are the stack's nominal x and y position (the top
         # left corner of the first card placed in the stack), and the
@@ -239,6 +244,8 @@ class Stack:
         model.id = id
         model.game = game
         model.cards = []
+        #
+        model.is_filled = False
 
         # capabilites - the game logic
         model.cap = Struct(
@@ -305,8 +312,6 @@ class Stack:
         view.is_open = -1
         view.can_hide_cards = -1
         view.max_shadow_cards = -1
-        #
-        view.is_filled = False
 
     def destruct(self):
         # help breaking circular references
@@ -360,23 +365,12 @@ class Stack:
                 self.can_hide_cards = 0
             elif self.canvas.preview:
                 self.can_hide_cards = 0
-        if self.can_hide_cards:
-            # compute hide-off direction (see class Card)
-            CW, CH = self.game.app.images.CARDW, self.game.app.images.CARDH
-            cx = self.x + CW / 2
-            cy = self.y + CH / 2
-            if cy < 3 * CH / 2:
-                self.hide_x, self.hide_y = 0, -10000    # hide at top
-            elif cx < 3 * CW / 2:
-                self.hide_x, self.hide_y = -10000, 0    # hide at left
-            elif cy > self.game.height - 3 * CH / 2:
-                self.hide_x, self.hide_y = 0, 10000     # hide at bottom
-            else:
-                self.hide_x, self.hide_y = 10000, 0     # hide at right
         if self.is_open < 0:
-            self.is_open = (self.is_visible and
-                            (abs(self.CARD_XOFFSET[0]) >= 5 or
-                             abs(self.CARD_YOFFSET[0]) >= 5))
+            self.is_open = False
+            if (self.is_visible and
+                (abs(self.CARD_XOFFSET[0]) >= self.MIN_VISIBLE_XOFFSET or
+                 abs(self.CARD_YOFFSET[0]) >= self.MIN_VISIBLE_YOFFSET)):
+                self.is_open = True
         if self.max_shadow_cards < 0:
             self.max_shadow_cards = 999999
             if abs(self.CARD_YOFFSET[0]) != self.game.app.images.CARD_YOFFSET:
@@ -385,9 +379,11 @@ class Stack:
                 self.max_shadow_cards = 1
         if (self.game.app.opt.shrink_face_down and
             type(ox) is int and type(oy) is int):
-            if ((ox == 0 and oy >= self.game.app.images.CARD_YOFFSET/2) or
-                (oy == 0 and ox >= self.game.app.images.CARD_XOFFSET/2)):
-                self.shrink_face_down = 2
+            # no shrink if xoffset/yoffset too small
+            f = self.SHRINK_FACTOR
+            if ((ox == 0 and oy >= self.game.app.images.CARD_YOFFSET/f) or
+                (oy == 0 and ox >= self.game.app.images.CARD_XOFFSET/f)):
+                self.shrink_face_down = f
         # bottom image
         if self.is_visible:
             self.prepareBottom()
@@ -745,7 +741,7 @@ class Stack:
             for c in cards[-2:]:
                 ##print "refresh unhide 1", c, c.hide_stack
                 c.unhide()
-                ##print "refresh unhide 1", c, c.hide_stack, c.hide_x, c.hide_y
+                ##print "refresh unhide 1", c, c.hide_stack
         # update the card postions and stacking order
         item = cards[0].item
         x, y = view.x, view.y
@@ -778,17 +774,15 @@ class Stack:
                     format = "%d"
         if format:
             t = format % len(self.cards)
-        if 0 and self.game.app.debug:
+        if 0 and self.game.app.debug >= 4:
             visible = 0
             for c in self.cards:
                 if c.isHidden():
                     assert c.hide_stack is not None
-                    assert c.hide_x != 0 or c.hide_y != 0
                 else:
                     visible = visible + 1
                     assert c.hide_stack is None
-                    assert c.hide_x == 0 and c.hide_y == 0
-            t  = t + " %2d" % visible
+            t  = t + " (%d)" % visible
         self.texts.ncards.config(text=t)
 
     def basicShallHighlightSameRank(self, card):
@@ -800,11 +794,10 @@ class Stack:
             return True
         if not self.is_open:
             return False
-        dx, dy = self.getOffsetFor(card)
-        if dx == 0 and dy <= 4:
-            return False
-        if dx <= 4 and dy == 0:
-            return False
+##         dx, dy = self.getOffsetFor(card)
+##         if ((dx == 0 and dy <= self.MIN_VISIBLE_XOFFSET) or
+##             (dx <= self.MIN_VISIBLE_YOFFSET and dy == 0)):
+##             return False
         return True
 
     def basicShallHighlightMatch(self, card):
@@ -984,7 +977,7 @@ class Stack:
         if self.game.demo:
             self.game.stopDemo(event)
         if self.game.busy: return EVENT_HANDLED
-        if not self.game.app.opt.sticky_mouse: # 1:
+        if not self.game.app.opt.sticky_mouse:
             # use a timer to update the drag
             # this allows us to skip redraws on slow machines
             drag = self.game.drag
@@ -1229,6 +1222,9 @@ class Stack:
     def _shadeStack(self):
         if not self.game.app.opt.shade_filled_stacks:
             return
+##         if (self.CARD_XOFFSET != (0,) or
+##             self.CARD_YOFFSET != (0,)):
+##             return
         if not self.images.shade_img:
             img = self.game.app.images.getShade()
             self.images.shade_img = img
@@ -1237,11 +1233,11 @@ class Stack:
         if img is None:
             return
         if not self.items.shade_item:
-            self.game.canvas.update_idletasks()
+            #self.game.canvas.update_idletasks()
             card = self.cards[-1]
             item = MfxCanvasImage(self.game.canvas, card.x, card.y,
                                   image=img, anchor=ANCHOR_NW)
-            ##item.tkraise()
+            #item.tkraise()
             item.addtag(self.group)
             self.items.shade_item = item
 
@@ -1355,17 +1351,9 @@ class DealRow_StackMethods:
         for r in stacks:
             assert not self.getCard().face_up
             assert r is not self
-            if frames == 0 and self.game.moves.state == self.game.S_INIT:
-                # optimized a little bit for initial dealing
-                c = self.removeCard(update=0)
-                r.addCard(c, update=0)
-                # doing the flip after the move seems to be a little faster
-                if flip:
-                    c.showFace()
-            else:
-                if flip:
-                    self.game.flipMove(self)
-                self.game.moveMove(1, self, r, frames=frames)
+            if flip:
+                self.game.flipMove(self)
+            self.game.moveMove(1, self, r, frames=frames)
         self.game.leaveState(old_state)
         return len(stacks)
 

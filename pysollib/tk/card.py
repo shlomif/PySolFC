@@ -49,36 +49,7 @@ from tkcanvas import MfxCanvasGroup, MfxCanvasImage
 # //
 # ************************************************************************/
 
-# any Tk version
-class _HideableCard_1(AbstractCard):
-    def hide(self, stack):
-        if stack is self.hide_stack:
-            return
-        if self.hide_stack:
-            hx, hy = stack.hide_x - self.hide_x, stack.hide_y - self.hide_y
-        else:
-            hx, hy = stack.hide_x, stack.hide_y
-        ####self.item.move(hx, hy)
-        item = self.item
-        item.canvas.tk.call(item.canvas._w, "move", item.id, hx, hy)
-        self.hide_x, self.hide_y = stack.hide_x, stack.hide_y
-        self.hide_stack = stack
-        ##print "hide:", self.id, hx, hy, self.item.coords()
-
-    def unhide(self):
-        if self.hide_stack is None:
-            return 0
-        ####self.item.move(-self.hide_x, -self.hide_y)
-        item = self.item
-        item.canvas.tk.call(item.canvas._w, "move", item.id, -self.hide_x, -self.hide_y)
-        ##print "unhide:", self.id, -self.hide_x, -self.hide_y, self.item.coords()
-        self.hide_x, self.hide_y = 0, 0
-        self.hide_stack = None
-        return 1
-
-
-# needs Tk 8.3.0 or better
-class _HideableCard_2(AbstractCard):
+class _HideableCard(AbstractCard):
     def hide(self, stack):
         if stack is self.hide_stack:
             return
@@ -93,11 +64,6 @@ class _HideableCard_2(AbstractCard):
         self.item.config(state="normal")
         self.hide_stack = None
         return 1
-
-
-_HideableCard =_HideableCard_1
-if 1 and tkversion >= (8, 3, 0, 0):
-    _HideableCard =_HideableCard_2
 
 
 # /***********************************************************************

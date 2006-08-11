@@ -124,39 +124,40 @@ class Boudoir(Game):
     def createGame(self):
 
         l, s = Layout(self), self.s
-        self.setSize(l.XM+5*l.XS, l.YM+4*l.YS)
+        self.setSize(l.XM+5.5*l.XS, l.YM+4*l.YS)
 
-        x, y = l.XM, l.YM+l.YS-l.TEXT_HEIGHT/2
+        x, y = l.XM, l.YM+l.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
         tx, ty, ta, tf = l.getTextAttr(s.talon, "nn")
         font=self.app.getFont("canvas_default")
         s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
                                              anchor=ta, font=font)
-        l.createText(s.talon, "s")
-        y += l.YS+l.TEXT_HEIGHT
+        l.createText(s.talon, 'ne')
+        y += l.YS
         s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, "s")
+        l.createText(s.waste, 'ne')
 
-        x, y = l.XM+l.XS, l.YM
+        x, y = l.XM+1.5*l.XS, l.YM
         for i in range(4):
-            s.foundations.append(SS_FoundationStack(x, y, self, suit=i, max_cards=13))
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i,
+                                                    max_cards=13))
             x += l.XS
 
-        x = l.XM+l.XS
+        x = l.XM+1.5*l.XS
         y += l.YS
         for i in range(4):
             s.rows.append(AbstractFoundationStack(x, y, self, suit=i,
                           max_cards=1, max_move=0, base_rank=QUEEN))
             x += l.XS
 
-        x = l.XM+l.XS
+        x = l.XM+1.5*l.XS
         y += l.YS
         for i in range(4):
             s.rows.append(AbstractFoundationStack(x, y, self, suit=i,
                           max_cards=1, max_move=0, base_rank=JACK))
             x += l.XS
 
-        x = l.XM+l.XS
+        x = l.XM+1.5*l.XS
         y += l.YS
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i,

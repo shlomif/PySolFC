@@ -392,30 +392,20 @@ class SeniorWrangler_RowStack(BasicRowStack):
 class SeniorWrangler(Game):
 
     def createGame(self):
-        # create layout
         l, s = Layout(self), self.s
-        # set window
-        self.setSize(l.XM+9.5*l.XS, l.YM+3*l.YS+l.TEXT_HEIGHT)
+        self.setSize(l.XM+9.5*l.XS, l.YM+3*l.YS)
 
-        # create stacks
         x, y = l.XM+1.5*l.XS, l.YM
         for i in range(8):
             stack = BetsyRoss_Foundation(x, y, self, base_rank=i,
-                                         max_cards=1, max_move=0, max_accept=0)
-            s.foundations.append(stack)
-            x = x + l.XS
-        x, y = l.XM+1.5*l.XS, l.YM+l.YS
-        for i in range(8):
-            stack = BetsyRoss_Foundation(x, y, self, base_rank=(2*i+3)%13,
-                                         mod=13, dir=i+1,
-                                         max_cards=12, max_move=0)
+                                         mod=13, dir=i+1, max_move=0)
             tx, ty, ta, tf = l.getTextAttr(stack, "s")
             font = self.app.getFont("canvas_default")
             stack.texts.misc = MfxCanvasText(self.canvas, tx, ty,
                                              anchor=ta, font=font)
             s.foundations.append(stack)
             x = x + l.XS
-        x, y = l.XM+1.5*l.XS, l.YM+2*l.YS+l.TEXT_HEIGHT
+        x, y = l.XM+1.5*l.XS, l.YM+2*l.YS
         for i in range(8):
             stack = SeniorWrangler_RowStack(x, y, self, max_accept=0)
             s.rows.append(stack)
@@ -436,7 +426,7 @@ class SeniorWrangler(Game):
         top = []
         ranks = []
         for c in cards[:]:
-            if c.rank in range(1,9) and c.rank not in ranks:
+            if c.rank in range(8) and c.rank not in ranks:
                 ranks.append(c.rank)
                 cards.remove(c)
                 top.append(c)

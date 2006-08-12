@@ -22,12 +22,10 @@
 __all__ = []
 
 # imports
-import sys, types
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.util import *
-from pysollib.mfxutil import kwdefault
 from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
@@ -91,8 +89,7 @@ class PushPin_RowStack(ReserveStack):
 
     def acceptsCards(self, from_stack, cards):
         if not self.cards:
-            return from_stack.id > self.id
-            return True
+            return False
         if abs(self.id - from_stack.id) != 1:
             return False
         ps = min(self.id, from_stack.id)-1
@@ -128,6 +125,7 @@ class PushPin_RowStack(ReserveStack):
 class PushPin(Game):
 
     Hint_Class = PushPin_Hint
+    RowStack_Class = PushPin_RowStack
 
     #
     # game layout
@@ -154,7 +152,7 @@ class PushPin(Game):
                 if i%2:
                     k = xx-j-1
                 x, y = l.XM + k*l.XS, l.YM + i*l.YS
-                s.rows.append(PushPin_RowStack(x, y, self))
+                s.rows.append(self.RowStack_Class(x, y, self))
         s.talon = PushPin_Talon(l.XM, l.YM, self)
         s.foundations.append(PushPin_Foundation(l.XM, h-l.YS, self,
                              suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
@@ -171,9 +169,7 @@ class PushPin(Game):
     def isGameWon(self):
         return len(self.s.foundations[0].cards) == 50
 
-    def fillEmptyStacks(self):
-        if not self.demo:
-            self.startDealSample()
+    def _fillOne(self):
         rows = self.s.rows
         i = 0
         for r in rows:
@@ -185,14 +181,21 @@ class PushPin(Game):
             if r.cards:
                 break
             j += 1
-        for r in rows[j:]:
-            if not r.cards:
+        else:
+            return 0
+        self.moveMove(1, rows[j], rows[i], frames=2, shadow=0)
+        return 1
+
+    def fillEmptyStacks(self):
+        if not self.demo:
+            self.startDealSample()
+        old_state = self.enterState(self.S_FILL)
+        while True:
+            if not self._fillOne():
                 break
-            self.moveMove(1, r, rows[i], frames=2, shadow=0)
-            i += 1
+        self.leaveState(old_state)
         if not self.demo:
             self.stopSamples()
-        return 0
 
     def getAutoStacks(self, event=None):
         return ((), (), ())
@@ -223,9 +226,61 @@ class Queens(PushPin):
         self.s.talon.dealRow()
 
 
+# /***********************************************************************
+# // Accordion
+# ************************************************************************/
+
+class Accordion_Hint(AbstractHint):
+
+    def computeHints(self):
+        game = self.game
+        rows = game.s.rows
+        for i in range(len(rows)-3):
+            r1, r2 = rows[i], rows[i+1]
+            if r1.cards and r2.cards:
+                c1, c2 = r1.cards[0], r2.cards[0]
+                if c1.rank == c2.rank or c1.suit == c2.suit:
+                    self.addHint(5000, 1, r1, r2)
+            r1, r2 = rows[i], rows[i+3]
+            if r1.cards and r2.cards:
+                c1, c2 = r1.cards[0], r2.cards[0]
+                if c1.rank == c2.rank or c1.suit == c2.suit:
+                    self.addHint(6000, 1, r1, r2)
+
+
+class Accordion_RowStack(PushPin_RowStack):
+
+    def acceptsCards(self, from_stack, cards):
+        if not self.cards:
+            return False
+        if abs(self.id - from_stack.id) not in (1,3):
+            return False
+        c1, c2 = self.cards[-1], cards[0]
+        if c1.rank == c2.rank:
+            return True
+        return c1.suit == c2.suit
+
+    clickHandler = ReserveStack.clickHandler
+
+
+class Accordion(PushPin):
+    Hint_Class = Accordion_Hint
+    RowStack_Class = Accordion_RowStack
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow(rows=self.s.rows[:2])
+
+    def isGameWon(self):
+        return len(self.s.foundations[0].cards) == 52
+
+
 registerGame(GameInfo(287, PushPin, "Push Pin",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(288, RoyalMarriage, "Royal Marriage",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 ## registerGame(GameInfo(303, Queens, "Queens",
 ##                       GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0))
+registerGame(GameInfo(656, Accordion, "Accordion",
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED,
+                      altnames=('Idle Year', 'Methuselah', 'Tower of Babel') ))

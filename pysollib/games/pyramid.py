@@ -168,7 +168,10 @@ class Pyramid_RowStack(Pyramid_StackMethods, OpenStack):
 
 class Pyramid(Game):
     Hint_Class = Pyramid_Hint
+    Foundation_Class = Pyramid_Foundation
     Talon_Class = StackWrapper(Pyramid_Talon, max_rounds=3, max_accept=1)
+    RowStack_Class = Pyramid_RowStack
+    WasteStack_Class = Pyramid_Waste
 
     #
     # game layout
@@ -191,25 +194,26 @@ class Pyramid(Game):
             x = l.XM + (8-i) * l.XS / 2
             y = l.YM + i * l.YS / 2
             for j in range(i+1):
-                s.rows.append(Pyramid_RowStack(x, y, self))
+                s.rows.append(self.RowStack_Class(x, y, self))
                 x = x + l.XS
 
         x, y = l.XM, l.YM
         s.talon = self.Talon_Class(x, y, self)
         if texts:
             l.createText(s.talon, "se")
-            tx, ty, ta, tf = l.getTextAttr(s.talon, "ne")
-            font=self.app.getFont("canvas_default")
-            s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
-                                                 anchor=ta, font=font)
+            if s.talon.max_rounds > 1:
+                tx, ty, ta, tf = l.getTextAttr(s.talon, "ne")
+                font=self.app.getFont("canvas_default")
+                s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
+                                                     anchor=ta, font=font)
         if waste:
             y = y + l.YS
-            s.waste = Pyramid_Waste(x, y, self, max_accept=1)
+            s.waste = self.WasteStack_Class(x, y, self, max_accept=1)
             l.createText(s.waste, "se")
         x, y = self.width - l.XS, l.YM
-        s.foundations.append(Pyramid_Foundation(x, y, self,
-                                suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
-                                max_move=0, max_cards=52))
+        s.foundations.append(self.Foundation_Class(x, y, self,
+                             suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
+                             max_move=0, max_cards=52))
         if reserves:
             x, y = l.XM+(max_rows-reserves)*l.XS/2, l.YM+4*l.YS
             for i in range(reserves):
@@ -222,6 +226,7 @@ class Pyramid(Game):
         l.defaultStackGroups()
         self.sg.openstacks.append(s.talon)
         self.sg.dropstacks.append(s.talon)
+        self.sg.openstacks.append(s.waste)
 
 
     #
@@ -280,7 +285,6 @@ class Giza(Pyramid):
 # // FIXME: UNFINISHED
 # // (this doesn't work yet as 2 cards of the Waste should be playable)
 # ************************************************************************/
-# Thirteen #89404422185320919548
 
 class Thirteen(Pyramid):
 
@@ -306,7 +310,7 @@ class Thirteen(Pyramid):
         s.talon = WasteTalonStack(x, y, self, max_rounds=1)
         l.createText(s.talon, "s")
         x = x + l.XS
-        s.waste = Pyramid_Waste(x, y, self)
+        s.waste = Pyramid_Waste(x, y, self, max_accept=1)
         l.createText(s.waste, "s")
         s.waste.CARD_XOFFSET = 14
         x, y = self.width - l.XS, l.YM
@@ -482,6 +486,11 @@ class Elevens(Pyramid):
             for s in self.s.reserves:
                 s.moveMove(1, self.s.foundations[0], frames=4)
         self.leaveState(old_state)
+
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        # FIXME
+        return False
 
 
 class ElevensToo(Elevens):
@@ -676,6 +685,297 @@ class TripleAlliance(Game):
         return len(self.s.foundations[0].cards) == 51
 
 
+# /***********************************************************************
+# // Pharaohs
+# ************************************************************************/
+
+class Pharaohs_RowStack(Pyramid_RowStack):
+
+    def acceptsCards(self, from_stack, cards):
+        if not self.basicAcceptsCards(from_stack, cards):
+            return False
+        if not self.cards:
+            return False
+        r0, r1 = cards[0].rank, self.cards[-1].rank
+        if r0+r1 == 11:
+            return True
+        return r0 == r1
+
+    def basicIsBlocked(self):
+        for r in self.blockmap:
+            if r.cards:
+                return True
+        return False
+
+
+class Pharaohs(Pyramid):
+
+    Talon_Class = InitialDealTalonStack
+    RowStack_Class = Pharaohs_RowStack
+
+    PYRAMID_Y_FACTOR = 3
+
+    def _createPyramid(self, l, x0, y0, size):
+        rows = []
+        # create stacks
+        for i in range(size):
+            x = x0 + (size-1-i) * l.XS / 2
+            y = y0 + i * l.YS / self.PYRAMID_Y_FACTOR
+            for j in range(i+1):
+                stack = self.RowStack_Class(x, y, self)
+                rows.append(stack)
+                stack.blockmap = []
+                x = x + l.XS
+        # compute blocking
+        n = 0
+        lr = len(rows)
+        for i in range(size-1):
+            for j in range(i+1):
+                k = n+i+1
+                rows[n].blockmap = [rows[k],rows[k+1]]
+                n += 1
+        return rows
+
+
+    def createGame(self):
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        w = l.XM + 9*l.XS
+        h = l.YM + 5.67*l.YS
+        self.setSize(w, h)
+
+        # create stacks
+        x, y = l.XM, l.YM
+        s.rows += self._createPyramid(l, x, y, 2)
+        x, y = l.XM+2*l.XS, l.YM
+        s.rows += self._createPyramid(l, x, y, 7)
+        x, y = l.XM+2.5*l.XS, l.YM+3*l.YS
+        s.rows += self._createPyramid(l, x, y, 6)
+
+        x, y = l.XM, self.height-l.YS
+        s.talon = self.Talon_Class(x, y, self)
+        x, y = self.width - l.XS, l.YM
+        s.foundations.append(Pyramid_Foundation(x, y, self,
+                             suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
+                             max_move=0, max_cards=52))
+
+        # define stack-groups
+        l.defaultStackGroups()
+
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow(frames=4)
+
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return (card1.rank + card2.rank == 11 or
+                card1.rank == card2.rank)
+
+
+# /***********************************************************************
+# // Baroness
+# ************************************************************************/
+
+class Baroness_Talon(DealRowTalonStack):
+    def dealCards(self, sound=0):
+        rows = self.game.s.rows
+        if len(self.cards) == 7:
+            rows += self.game.s.reserves
+        return self.dealRowAvail(rows=rows, sound=sound)
+
+
+class Baroness_RowStack(Giza_Reserve):
+
+    def acceptsCards(self, from_stack, cards):
+        if not self.basicAcceptsCards(from_stack, cards):
+            return False
+        if not self.cards:
+            return True
+        return cards[0].rank + self.cards[-1].rank == 11
+
+    def moveMove(self, ncards, to_stack, frames=-1, shadow=-1):
+        if to_stack in self.game.s.rows and not to_stack.cards:
+            return OpenStack.moveMove(self, ncards, to_stack, frames, shadow)
+        return Giza_Reserve.moveMove(self, ncards, to_stack, frames, shadow)
+
+
+class Baroness(Pyramid):
+
+    def createGame(self):
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        self.setSize(l.XM+9*l.XS, l.YM+max(3.5*l.YS, l.YS+12*l.YOFFSET))
+
+        # create stacks
+        x, y = l.XM, l.YM
+        s.talon = Baroness_Talon(x, y, self)
+        l.createText(s.talon, 's')
+
+        x += 2*l.XS
+        for i in range(5):
+            stack = Baroness_RowStack(x, y, self, max_accept=1)
+            s.rows.append(stack)
+            stack.CARD_YOFFSET = l.YOFFSET
+            x += l.XS
+        x += l.XS
+        s.foundations.append(Pyramid_Foundation(x, y, self,
+                             suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
+                             max_move=0, max_cards=52))
+        x, y = l.XM, self.height-l.YS
+        s.reserves.append(Giza_Reserve(x, y, self, max_accept=1))
+        y -= l.YS
+        s.reserves.append(Giza_Reserve(x, y, self, max_accept=1))
+
+        # define stack-groups
+        l.defaultStackGroups()
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+
+# /***********************************************************************
+# // Apophis
+# ************************************************************************/
+
+class Apophis_Hint(Pyramid_Hint):
+    def computeHints(self):
+        DefaultHint.computeHints(self)
+        if self.hints:
+            return
+        reserves = self.game.s.reserves
+        for i in range(3):
+            for j in range(i+1,3):
+                r1 = reserves[i]
+                r2 = reserves[j]
+                if r1.cards and r2.acceptsCards(r1, r1.cards[-1:]):
+                    self.addHint(50000+len(r1.cards)+len(r2.cards), 1, r1, r2)
+
+
+class Apophis_RowStack(Pharaohs_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not self.basicAcceptsCards(from_stack, cards):
+            return False
+        if not self.cards:
+            return False
+        r0, r1 = cards[0].rank, self.cards[-1].rank
+        return r0+r1 == 11
+
+
+class Apophis_Talon(RedealTalonStack):
+    def canDealCards(self):
+        r_cards = sum([len(r.cards) for r in self.game.s.reserves])
+        if self.cards:
+            return True
+        elif r_cards and self.round != self.max_rounds:
+            return True
+        return False
+
+    def dealCards(self, sound=0):
+        num_cards = 0
+        if sound and self.game.app.opt.animations:
+            self.game.startDealSample()
+        if not self.cards:
+            num_cards = self._redeal(rows=self.game.s.reserves, frames=4)
+            self.game.nextRoundMove(self)
+        num_cards += self.dealRowAvail(rows=self.game.s.reserves, sound=0)
+        if sound:
+            self.game.stopSamples()
+        return num_cards
+
+
+class Apophis(Pharaohs):
+    Hint_Class = Apophis_Hint
+    RowStack_Class = Apophis_RowStack
+
+    PYRAMID_Y_FACTOR = 2
+
+    def createGame(self):
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        w = l.XM + 9*l.XS
+        h = l.YM + 4*l.YS
+        self.setSize(w, h)
+
+        # create stacks
+        x, y = l.XM+1.5*l.XS, l.YM
+        s.rows = self._createPyramid(l, x, y, 7)
+
+        x, y = l.XM, l.YM
+        s.talon = Apophis_Talon(x, y, self, max_rounds=3)
+        l.createText(s.talon, 'se')
+        tx, ty, ta, tf = l.getTextAttr(s.talon, "ne")
+        font = self.app.getFont("canvas_default")
+        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
+                                             anchor=ta, font=font)
+        y += l.YS
+        for i in range(3):
+            stack = Pyramid_Waste(x, y, self, max_accept=1)
+            s.reserves.append(stack)
+            l.createText(stack, 'se')
+            y += l.YS
+        x, y = self.width - l.XS, l.YM
+        s.foundations.append(Pyramid_Foundation(x, y, self,
+                             suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
+                             max_move=0, max_cards=52))
+
+        # define stack-groups
+        l.defaultStackGroups()
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow(frames=3)
+        self.s.talon.dealCards()
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return card1.rank + card2.rank == 11
+
+# /***********************************************************************
+# // Cheops
+# ************************************************************************/
+
+class Cheops_StackMethods(Pyramid_StackMethods):
+    def acceptsCards(self, from_stack, cards):
+        if self.basicIsBlocked():
+            return 0
+        if from_stack is self or not self.cards or len(cards) != 1:
+            return 0
+        c = self.cards[-1]
+        return (c.face_up and cards[0].face_up and
+                abs(cards[0].rank-c.rank) in (0,1))
+
+class Cheops_Talon(Cheops_StackMethods, Pyramid_Talon):
+    def clickHandler(self, event):
+        return FaceUpWasteTalonStack.clickHandler(self, event)
+
+class Cheops_Waste(Cheops_StackMethods, Pyramid_Waste):
+    def clickHandler(self, event):
+        return WasteStack.clickHandler(self, event)
+
+class Cheops_RowStack(Cheops_StackMethods, Pyramid_RowStack):
+    def clickHandler(self, event):
+        return OpenStack.clickHandler(self, event)
+
+
+class Cheops(Pyramid):
+
+    Foundation_Class = AbstractFoundationStack
+    Talon_Class = StackWrapper(Cheops_Talon, max_rounds=1, max_accept=1)
+    RowStack_Class = Cheops_RowStack
+    WasteStack_Class = Cheops_Waste
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return abs(card1.rank-card2.rank) in (0,1)
+
+
+
 # register the game
 registerGame(GameInfo(38, Pyramid, "Pyramid",
                       GI.GT_PAIRING_TYPE, 1, 2, GI.SL_MOSTLY_LUCK))
@@ -697,5 +997,13 @@ registerGame(GameInfo(597, Fifteens, "Fifteens",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(619, TripleAlliance, "Triple Alliance",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_SKILL))
-
+registerGame(GameInfo(655, Pharaohs, "Pharaohs",
+                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_BALANCED))
+registerGame(GameInfo(657, Baroness, "Baroness",
+                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_BALANCED,
+                      altnames=('Five Piles',) ))
+registerGame(GameInfo(658, Apophis, "Apophis",
+                      GI.GT_PAIRING_TYPE, 1, 2, GI.SL_MOSTLY_LUCK))
+registerGame(GameInfo(659, Cheops, "Cheops",
+                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_SKILL))
 

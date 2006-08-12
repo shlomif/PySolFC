@@ -189,32 +189,32 @@ class CaptiveQueens(Game):
     def createGame(self):
 
         l, s = Layout(self), self.s
-        self.setSize(l.XM+5*l.XS, max(l.YM+3*l.YS, l.YM+2*l.YS+3*l.TEXT_HEIGHT))
+        self.setSize(l.XM+5.5*l.XS, l.YM+3*l.YS)
 
-        x, y = l.XM, l.YM+l.TEXT_HEIGHT
+        x, y = l.XM, l.YM+l.YS/2
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
-        l.createText(s.talon, "s")
+        l.createText(s.talon, "se")
         tx, ty, ta, tf = l.getTextAttr(s.talon, "nn")
         font = self.app.getFont("canvas_default")
         s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
                                              anchor=ta, font=font)
-        y += l.YS+l.TEXT_HEIGHT
+        y += l.YS
         s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, "s")
+        l.createText(s.waste, "se")
 
-        x, y = l.XM+l.XS, l.YM
+        x, y = l.XM+1.5*l.XS, l.YM
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i,
                                  mod=13, max_cards=6, base_rank=4, dir=-1))
             x += l.XS
 
-        x, y = l.XM+l.XS, l.YM+l.YS
+        x, y = l.XM+1.5*l.XS, l.YM+l.YS
         for i in range(4):
             s.rows.append(AbstractFoundationStack(x, y, self, suit=i,
                           max_cards=1, max_move=0, base_rank=QUEEN))
             x += l.XS
 
-        x, y = l.XM+l.XS, l.YM+2*l.YS
+        x, y = l.XM+1.5*l.XS, l.YM+2*l.YS
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i,
                                  mod=13, max_cards=6, base_rank=5))
@@ -224,7 +224,7 @@ class CaptiveQueens(Game):
 
     def startGame(self):
         self.startDealSample()
-        self.s.talon.dealCards()          # deal first card to WasteStack
+        self.s.talon.dealCards()
 
     def isGameWon(self):
         return (len(self.s.talon.cards) + len(self.s.waste.cards)) == 0
@@ -560,75 +560,6 @@ class Patriarchs(PicturePatience):
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealCards()
-
-
-# /***********************************************************************
-# // Simplicity
-# ************************************************************************/
-
-class Simplicity(Game):
-    Hint_Class = CautiousDefaultHint
-
-    def createGame(self, max_rounds=2):
-
-        l, s = Layout(self), self.s
-        self.setSize(l.XM+8*l.XS, l.YM+4*l.YS)
-
-        self.base_card = None
-
-        i = 0
-        for x, y in ((l.XM,        l.YM),
-                     (l.XM+7*l.XS, l.YM),
-                     (l.XM,        l.YM+3*l.YS),
-                     (l.XM+7*l.XS, l.YM+3*l.YS),
-                     ):
-            s.foundations.append(SS_FoundationStack(x, y, self, suit=i, mod=13))
-            i += 1
-        y = l.YM+l.YS
-        for i in range(2):
-            x = l.XM+l.XS
-            for j in range(6):
-                stack = AC_RowStack(x, y, self, max_move=1, mod=13)
-                stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, 0
-                s.rows.append(stack)
-                x += l.XS
-            y += l.YS
-        x, y = l.XM+3*l.XS, l.YM
-        s.talon = WasteTalonStack(x, y, self, max_rounds=1)
-        l.createText(s.talon, 'sw')
-        x += l.XS
-        s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, 'se')
-
-        l.defaultStackGroups()
-
-
-    def startGame(self):
-        self.startDealSample()
-        # deal base_card to Foundations, update foundations cap.base_rank
-        self.base_card = self.s.talon.getCard()
-        for s in self.s.foundations:
-            s.cap.base_rank = self.base_card.rank
-        self.flipMove(self.s.talon)
-        self.moveMove(1, self.s.talon, self.s.foundations[self.base_card.suit])
-        self.s.talon.dealRow()
-        self.s.talon.dealCards()
-
-
-    shallHighlightMatch = Game._shallHighlightMatch_ACW
-
-
-    def _restoreGameHook(self, game):
-        self.base_card = self.cards[game.loadinfo.base_card_id]
-        for s in self.s.foundations:
-            s.cap.base_rank = self.base_card.rank
-
-    def _loadGameHook(self, p):
-        self.loadinfo.addattr(base_card_id=None)    # register extra load var.
-        self.loadinfo.base_card_id = p.load()
-
-    def _saveGameHook(self, p):
-        p.dump(self.base_card.id)
 
 
 # /***********************************************************************
@@ -997,8 +928,6 @@ registerGame(GameInfo(424, Matrimony, "Matrimony",
                       GI.GT_2DECK_TYPE, 2, 16, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(429, Patriarchs, "Patriarchs",
                       GI.GT_2DECK_TYPE, 2, 1, GI.SL_MOSTLY_LUCK))
-registerGame(GameInfo(437, Simplicity, "Simplicity",
-                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(438, SixesAndSevens, "Sixes and Sevens",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(477, CornerSuite, "Corner Suite",

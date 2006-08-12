@@ -108,12 +108,95 @@ class FourStacks(TakeAway):
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
+# /***********************************************************************
+# // Striptease
+# ************************************************************************/
+
+class Striptease_RowStack(UD_RK_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not self.basicAcceptsCards(from_stack, cards):
+            return False
+        if not self.cards:
+            return True
+        r1, r2 = self.cards[-1].rank, cards[0].rank
+        if ((r1 == JACK and r2 == KING) or
+            (r2 == JACK and r1 == KING)):
+            return True
+        return ((r1+1) % 13 == r2 or (r2+1) % 13 == r1)
+    def getBottomImage(self):
+        return self.game.app.images.getReserveBottom()
+
+
+class Striptease_Reserve(OpenStack):
+    def canFlipCard(self):
+        if not OpenStack.canFlipCard(self):
+            return False
+        for r in self.game.s.reserves:
+            if len(r.cards) > 2:
+                return False
+        return True
+
+
+class Striptease(TakeAway):
+
+    def createGame(self):
+        l, s = Layout(self), self.s
+        w, h = l.XM+9*l.XS, l.YM+l.YS+16*l.YOFFSET
+        self.setSize(w, h)
+
+        x, y = l.XM, l.YM
+        for i in range(4):
+            stack = Striptease_Reserve(x, y, self, max_move=1,
+                                       min_cards=1, max_accept=0)
+            stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, l.YOFFSET
+            s.reserves.append(stack)
+            x += l.XS
+        x += l.XS
+        for i in range(4):
+            stack = Striptease_RowStack(x, y, self, max_move=0)
+            stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, l.YOFFSET
+            s.rows.append(stack)
+            x += l.XS
+        s.talon = InitialDealTalonStack(w-l.XS, h-l.YS, self)
+
+        l.defaultAll()
+
+    def _shuffleHook(self, cards):
+        return self._shuffleHookMoveToTop(cards,
+                                          lambda c: (c.rank == QUEEN, None))
+
+    def startGame(self):
+        self.s.talon.dealRow(rows=self.s.reserves, frames=0)
+        self.s.talon.dealRow(rows=self.s.reserves, flip=0, frames=0)
+        for i in range(8):
+            self.s.talon.dealRow(rows=self.s.reserves, frames=0)
+        self.startDealSample()
+        for i in range(3):
+            self.s.talon.dealRow(rows=self.s.reserves)
+
+    def isGameWon(self):
+        for r in self.s.reserves:
+            if len(r.cards) != 1:
+                return False
+        return True
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        r1, r2 = card1.rank, card2.rank
+        if r1 == QUEEN or r2 == QUEEN:
+            return False
+        if ((r1 == JACK and r2 == KING) or
+            (r2 == JACK and r1 == KING)):
+            return True
+        return ((r1+1) % 13 == r2 or (r2+1) % 13 == r1)
+
 
 # register the game
 registerGame(GameInfo(334, TakeAway, "Take Away",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(335, FourStacks, "Four Stacks",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(654, Striptease, "Striptease",
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_SKILL))
 
 
 

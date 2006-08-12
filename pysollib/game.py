@@ -1478,6 +1478,9 @@ for %d moves.
                 sx0, sy0 = s.getOffsetFor(c1)
                 x1, y1 = s.getPositionFor(c1)
                 x2, y2 = x1, y1
+                if c1 is s.cards[-1]:
+                    # last card in the stack (for Pyramid-like games)
+                    tkraise = True
             else:
                 # highlight pile
                 if len(s.CARD_XOFFSET) > 1:

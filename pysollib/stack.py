@@ -1422,11 +1422,7 @@ class DealBaseCard_StackMethods:
 
 class RedealCards_StackMethods:
 
-    def redealCards(self, rows=None, sound=0,
-                    shuffle=False, reverse=False, frames=0):
-        if sound and self.game.app.opt.animations:
-            self.game.startDealSample()
-        lr = len(self.game.s.rows)
+    def _redeal(self, rows=None, reverse=False, frames=0):
         # move all cards to the Talon
         num_cards = 0
         assert len(self.cards) == 0
@@ -1438,10 +1434,17 @@ class RedealCards_StackMethods:
         for r in rows:
             for i in range(len(r.cards)):
                 num_cards += 1
-                self.game.moveMove(1, r, self, frames=frames)
+                self.game.moveMove(1, r, self, frames=frames, shadow=0)
                 if self.cards[-1].face_up:
                     self.game.flipMove(self)
         assert len(self.cards) == num_cards
+        return num_cards
+
+    def redealCards(self, rows=None, sound=0,
+                    shuffle=False, reverse=False, frames=0):
+        if sound and self.game.app.opt.animations:
+            self.game.startDealSample()
+        num_cards = self._redeal(rows=rows, reverse=reverse, frames=frames)
         if num_cards == 0:          # game already finished
             return 0
         if shuffle:

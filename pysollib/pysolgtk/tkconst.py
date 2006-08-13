@@ -1,6 +1,12 @@
+## vim:ts=4:et:nowrap
+##
 ##---------------------------------------------------------------------------##
 ##
 ## PySol -- a Python Solitaire game
+##
+## Copyright (C) 2000 Markus Franz Xaver Johannes Oberhumer
+## Copyright (C) 1999 Markus Franz Xaver Johannes Oberhumer
+## Copyright (C) 1998 Markus Franz Xaver Johannes Oberhumer
 ##
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -17,35 +23,44 @@
 ## If not, write to the Free Software Foundation, Inc.,
 ## 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 ##
+## Markus F.X.J. Oberhumer
+## <markus.oberhumer@jk.uni-linz.ac.at>
+## http://wildsau.idv.uni-linz.ac.at/mfx/pysol.html
+##
 ##---------------------------------------------------------------------------##
 
-import sys, os
 
-n_ = lambda x: x
+# imports
+import sys
+from gtk import gdk
 
-#
-#PACKAGE = "PySolFC"
-PACKAGE = "PySol"
-PACKAGE_URL = "http://sourceforge.net/projects/pysolfc/"
 
-TOOLKIT = 'gtk'
-TOOLKIT = 'tk'
+# /***********************************************************************
+# // constants
+# ************************************************************************/
 
-# data dirs
-DATA_DIRS = []
-# you can add your extra directories here
-if os.name == "posix":
-    DATA_DIRS = [
-        '/usr/share/PySolFC',
-        '/usr/local/share/PySolFC',
-        '/usr/games/PySolFC',
-        '/usr/local/games/PySolFC',
-        ]
-if os.name == "nt":
-    pass
-if os.name == "mac":
-    pass
+tkname = "gnome"
+# (major version, minor version, micro version, patchlevel)
+tkversion = (0, 0, 0, 0)
 
-TOP_SIZE = 10
-TOP_TITLE = n_("Top 10")
+EVENT_HANDLED   = 1
+EVENT_PROPAGATE = 0
+
+CURSOR_DRAG   = gdk.HAND1
+CURSOR_WATCH  = gdk.WATCH
+
+TOOLBAR_BUTTONS = (
+    "new",
+    "restart",
+    "open",
+    "save",
+    "undo",
+    "redo",
+    "autodrop",
+    "pause",
+    "statistics",
+    "rules",
+    "quit",
+    "player",
+    )
 

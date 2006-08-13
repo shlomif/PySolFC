@@ -142,19 +142,13 @@ class Pyramid_RowStack(Pyramid_StackMethods, OpenStack):
     def __init__(self, x, y, game):
         OpenStack.__init__(self, x, y, game, max_accept=1, max_cards=2)
         self.CARD_YOFFSET = 1
-
-    STEP = (1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6)
+        self.blockmap = []
 
     def basicIsBlocked(self):
-        r, step = self.game.s.rows, self.STEP
-        i, n = self.id, 1
-        while i < 21:
-            i = i + step[i]
-            n = n + 1
-            for j in range(i, i+n):
-                if r[j].cards:
-                    return 1
-        return 0
+        for r in self.blockmap:
+            if r.cards:
+                return True
+        return False
 
     def clickHandler(self, event):
         if self._dropKingClickHandler(event):
@@ -173,9 +167,32 @@ class Pyramid(Game):
     RowStack_Class = Pyramid_RowStack
     WasteStack_Class = Pyramid_Waste
 
+    PYRAMID_Y_FACTOR = 2
+
     #
     # game layout
     #
+
+    def _createPyramid(self, l, x0, y0, size):
+        rows = []
+        # create stacks
+        for i in range(size):
+            x = x0 + (size-1-i) * l.XS / 2
+            y = y0 + i * l.YS / self.PYRAMID_Y_FACTOR
+            for j in range(i+1):
+                stack = self.RowStack_Class(x, y, self)
+                rows.append(stack)
+                x = x + l.XS
+        # compute blocking
+        n = 0
+        lr = len(rows)
+        for i in range(size-1):
+            for j in range(i+1):
+                k = n+i+1
+                rows[n].blockmap = [rows[k],rows[k+1]]
+                n += 1
+        return rows
+
 
     def createGame(self, rows=4, reserves=0, waste=True, texts=True):
         # create layout
@@ -190,12 +207,8 @@ class Pyramid(Game):
         self.setSize(w, h)
 
         # create stacks
-        for i in range(7):
-            x = l.XM + (8-i) * l.XS / 2
-            y = l.YM + i * l.YS / 2
-            for j in range(i+1):
-                s.rows.append(self.RowStack_Class(x, y, self))
-                x = x + l.XS
+        x, y = l.XM+l.XS, l.YM
+        s.rows = self._createPyramid(l, x, y, 7)
 
         x, y = l.XM, l.YM
         s.talon = self.Talon_Class(x, y, self)
@@ -315,8 +328,8 @@ class Thirteen(Pyramid):
         s.waste.CARD_XOFFSET = 14
         x, y = self.width - l.XS, l.YM
         s.foundations.append(Pyramid_Foundation(x, y, self,
-                                suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
-                                max_move=0, max_cards=UNLIMITED_CARDS))
+                             suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
+                             max_move=0, max_cards=52))
 
         # define stack-groups
         self.sg.talonstacks = [s.talon] + [s.waste]
@@ -690,7 +703,6 @@ class TripleAlliance(Game):
 # ************************************************************************/
 
 class Pharaohs_RowStack(Pyramid_RowStack):
-
     def acceptsCards(self, from_stack, cards):
         if not self.basicAcceptsCards(from_stack, cards):
             return False
@@ -701,12 +713,6 @@ class Pharaohs_RowStack(Pyramid_RowStack):
             return True
         return r0 == r1
 
-    def basicIsBlocked(self):
-        for r in self.blockmap:
-            if r.cards:
-                return True
-        return False
-
 
 class Pharaohs(Pyramid):
 
@@ -714,28 +720,6 @@ class Pharaohs(Pyramid):
     RowStack_Class = Pharaohs_RowStack
 
     PYRAMID_Y_FACTOR = 3
-
-    def _createPyramid(self, l, x0, y0, size):
-        rows = []
-        # create stacks
-        for i in range(size):
-            x = x0 + (size-1-i) * l.XS / 2
-            y = y0 + i * l.YS / self.PYRAMID_Y_FACTOR
-            for j in range(i+1):
-                stack = self.RowStack_Class(x, y, self)
-                rows.append(stack)
-                stack.blockmap = []
-                x = x + l.XS
-        # compute blocking
-        n = 0
-        lr = len(rows)
-        for i in range(size-1):
-            for j in range(i+1):
-                k = n+i+1
-                rows[n].blockmap = [rows[k],rows[k+1]]
-                n += 1
-        return rows
-
 
     def createGame(self):
         # create layout
@@ -867,28 +851,6 @@ class Apophis_RowStack(Pharaohs_RowStack):
         return r0+r1 == 11
 
 
-class Apophis_Talon(RedealTalonStack):
-    def canDealCards(self):
-        r_cards = sum([len(r.cards) for r in self.game.s.reserves])
-        if self.cards:
-            return True
-        elif r_cards and self.round != self.max_rounds:
-            return True
-        return False
-
-    def dealCards(self, sound=0):
-        num_cards = 0
-        if sound and self.game.app.opt.animations:
-            self.game.startDealSample()
-        if not self.cards:
-            num_cards = self._redeal(rows=self.game.s.reserves, frames=4)
-            self.game.nextRoundMove(self)
-        num_cards += self.dealRowAvail(rows=self.game.s.reserves, sound=0)
-        if sound:
-            self.game.stopSamples()
-        return num_cards
-
-
 class Apophis(Pharaohs):
     Hint_Class = Apophis_Hint
     RowStack_Class = Apophis_RowStack
@@ -909,7 +871,7 @@ class Apophis(Pharaohs):
         s.rows = self._createPyramid(l, x, y, 7)
 
         x, y = l.XM, l.YM
-        s.talon = Apophis_Talon(x, y, self, max_rounds=3)
+        s.talon = DealReserveRedealTalonStack(x, y, self, max_rounds=3)
         l.createText(s.talon, 'se')
         tx, ty, ta, tf = l.getTextAttr(s.talon, "ne")
         font = self.app.getFont("canvas_default")

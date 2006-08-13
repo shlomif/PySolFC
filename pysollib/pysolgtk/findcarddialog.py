@@ -19,33 +19,37 @@
 ##
 ##---------------------------------------------------------------------------##
 
-import sys, os
+__all__ = ['create_find_card_dialog',
+           'connect_game_find_card_dialog',
+           'destroy_find_card_dialog',
+           ]
 
-n_ = lambda x: x
+# imports
+## import os
+## import Tkinter
+## import traceback
 
-#
-#PACKAGE = "PySolFC"
-PACKAGE = "PySol"
-PACKAGE_URL = "http://sourceforge.net/projects/pysolfc/"
+## # PySol imports
 
-TOOLKIT = 'gtk'
-TOOLKIT = 'tk'
+## # Toolkit imports
+## from tkutil import after, after_cancel
+## from tkutil import bind, unbind_destroy, makeImage
+## from tkcanvas import MfxCanvas, MfxCanvasGroup, MfxCanvasImage, MfxCanvasRectangle
 
-# data dirs
-DATA_DIRS = []
-# you can add your extra directories here
-if os.name == "posix":
-    DATA_DIRS = [
-        '/usr/share/PySolFC',
-        '/usr/local/share/PySolFC',
-        '/usr/games/PySolFC',
-        '/usr/local/games/PySolFC',
-        ]
-if os.name == "nt":
+
+# /***********************************************************************
+# //
+# ************************************************************************/
+
+find_card_dialog = None
+
+def create_find_card_dialog(parent, game, dir):
     pass
-if os.name == "mac":
+
+def connect_game_find_card_dialog(game):
     pass
 
-TOP_SIZE = 10
-TOP_TITLE = n_("Top 10")
+def destroy_find_card_dialog():
+    pass
+
 

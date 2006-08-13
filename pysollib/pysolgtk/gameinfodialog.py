@@ -19,33 +19,24 @@
 ##
 ##---------------------------------------------------------------------------##
 
-import sys, os
 
-n_ = lambda x: x
+__all__ = ['GameInfoDialog']
 
-#
-#PACKAGE = "PySolFC"
-PACKAGE = "PySol"
-PACKAGE_URL = "http://sourceforge.net/projects/pysolfc/"
+## # imports
+## import os, sys
+## import Tkinter
 
-TOOLKIT = 'gtk'
-TOOLKIT = 'tk'
+## # PySol imports
+## from pysollib.mfxutil import KwStruct
+## from pysollib.gamedb import GI
 
-# data dirs
-DATA_DIRS = []
-# you can add your extra directories here
-if os.name == "posix":
-    DATA_DIRS = [
-        '/usr/share/PySolFC',
-        '/usr/local/share/PySolFC',
-        '/usr/games/PySolFC',
-        '/usr/local/games/PySolFC',
-        ]
-if os.name == "nt":
+# Toolkit imports
+from tkwidget import MfxDialog
+
+# /***********************************************************************
+# //
+# ************************************************************************/
+
+class GameInfoDialog(MfxDialog):
     pass
-if os.name == "mac":
-    pass
-
-TOP_SIZE = 10
-TOP_TITLE = n_("Top 10")
 

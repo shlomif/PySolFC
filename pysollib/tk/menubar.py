@@ -966,12 +966,12 @@ class PysolMenubar(PysolMenubarActions):
             elif d.key > 0 and d.key != self.app.tabletile_index:
                 self._mOptTableTile(d.key)
 
-    def mOptTableColor(self, *event):
-        if self._cancelDrag(break_pause=False): return
-        c = tkColorChooser.askcolor(initialcolor=self.app.opt.table_color,
-                                    title=_("Select table color"))
-        if c and c[1]:
-            self._mOptTableColor(c[1])
+##     def mOptTableColor(self, *event):
+##         if self._cancelDrag(break_pause=False): return
+##         c = tkColorChooser.askcolor(initialcolor=self.app.opt.table_color,
+##                                     title=_("Select table color"))
+##         if c and c[1]:
+##             self._mOptTableColor(c[1])
 
     def mOptToolbar(self, *event):
         ##if self._cancelDrag(break_pause=False): return

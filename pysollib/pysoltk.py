@@ -19,25 +19,52 @@
 ##
 ##---------------------------------------------------------------------------##
 
-from tk.tkconst import *
-from tk.tkutil import *
-from tk.tkcanvas import *
-from tk.tkwrap import *
-from tk.tkwidget import *
-from tk.tkhtml import *
-from tk.edittextdialog import *
-from tk.tkstats import *
-from tk.playeroptionsdialog import *
-from tk.soundoptionsdialog import *
-from tk.timeoutsdialog import *
-from tk.colorsdialog import *
-from tk.fontsdialog import *
-from tk.findcarddialog import *
-from tk.gameinfodialog import *
-from tk.toolbar import *
-from tk.statusbar import *
-from tk.progressbar import *
-from tk.menubar import *
-from tk.card import *
-from tk.selectcardset import *
-from tk.selecttree import *
+from settings import TOOLKIT
+
+if TOOLKIT == 'tk':
+    from tk.tkconst import *
+    from tk.tkutil import *
+    from tk.tkcanvas import *
+    from tk.tkwrap import *
+    from tk.tkwidget import *
+    from tk.tkhtml import *
+    from tk.edittextdialog import *
+    from tk.tkstats import *
+    from tk.playeroptionsdialog import *
+    from tk.soundoptionsdialog import *
+    from tk.timeoutsdialog import *
+    from tk.colorsdialog import *
+    from tk.fontsdialog import *
+    from tk.findcarddialog import *
+    from tk.gameinfodialog import *
+    from tk.toolbar import *
+    from tk.statusbar import *
+    from tk.progressbar import *
+    from tk.menubar import *
+    from tk.card import *
+    from tk.selectcardset import *
+    from tk.selecttree import *
+
+else:
+    from pysolgtk.tkconst import *
+    from pysolgtk.tkutil import *
+    from pysolgtk.tkcanvas import *
+    from pysolgtk.tkwrap import *
+    from pysolgtk.tkwidget import *
+    from pysolgtk.tkhtml import *
+    from pysolgtk.edittextdialog import *
+    from pysolgtk.tkstats import *
+    from pysolgtk.playeroptionsdialog import *
+    from pysolgtk.soundoptionsdialog import *
+    from pysolgtk.timeoutsdialog import *
+    from pysolgtk.colorsdialog import *
+    from pysolgtk.fontsdialog import *
+    from pysolgtk.findcarddialog import *
+    from pysolgtk.gameinfodialog import *
+    from pysolgtk.toolbar import *
+    from pysolgtk.statusbar import *
+    from pysolgtk.progressbar import *
+    from pysolgtk.menubar import *
+    from pysolgtk.card import *
+    from pysolgtk.selectcardset import *
+

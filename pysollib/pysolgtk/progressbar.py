@@ -1,0 +1,173 @@
+## vim:ts=4:et:nowrap
+##
+##---------------------------------------------------------------------------##
+##
+## PySol -- a Python Solitaire game
+##
+## Copyright (C) 2000 Markus Franz Xaver Johannes Oberhumer
+## Copyright (C) 1999 Markus Franz Xaver Johannes Oberhumer
+## Copyright (C) 1998 Markus Franz Xaver Johannes Oberhumer
+##
+## This program is free software; you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation; either version 2 of the License, or
+## (at your option) any later version.
+##
+## This program is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+##
+## You should have received a copy of the GNU General Public License
+## along with this program; see the file COPYING.
+## If not, write to the Free Software Foundation, Inc.,
+## 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+##
+## Markus F.X.J. Oberhumer
+## <markus.oberhumer@jk.uni-linz.ac.at>
+## http://wildsau.idv.uni-linz.ac.at/mfx/pysol.html
+##
+##---------------------------------------------------------------------------##
+
+
+# imports
+import os, sys
+
+import gtk
+from gtk import gdk
+TRUE, FALSE = True, False
+
+# Toolkit imports
+from tkutil import makeToplevel, setTransient
+
+
+# /***********************************************************************
+# // a simple progress bar
+# ************************************************************************/
+
+class PysolProgressBar:
+    def __init__(self, app, parent, title=None, images=None,
+                 color='blue', bg='#c0c0c0',
+                 height=25, show_text=1, norm=1):
+        self.parent = parent
+        self.percent = 0
+        self.norm = norm
+        self.top = makeToplevel(parent, title=title)
+        self.top.set_position(gtk.WIN_POS_CENTER)
+        ##self.top.set_policy(FALSE, FALSE, FALSE)
+        self.top.set_resizable(FALSE)
+        self.top.connect("delete_event", self.wmDeleteWindow)
+
+        # hbox
+        hbox = gtk.HBox(spacing=5)
+        hbox.set_border_width(10)
+        hbox.show()
+        self.top.vbox.pack_start(hbox, FALSE, FALSE)
+        # hbox-1: image
+##         if images and images[0]:
+##             im = images[0].clone()
+##             im.show()
+##             hbox.pack_start(im, FALSE, FALSE)
+        # hbox-2:vbox
+        vbox = gtk.VBox()
+        vbox.show()
+        hbox.pack_start(vbox, FALSE, FALSE)
+        # hbox-2:vbox:pbar
+        self.pbar = gtk.ProgressBar()
+        self.pbar.show()
+        vbox.pack_start(self.pbar, TRUE, FALSE)
+        self.pbar.realize()
+        ##~ self.pbar.set_show_text(show_text)
+        self.pbar.set_text(str(show_text)+'%')
+        w, h = self.pbar.size_request()
+        self.pbar.set_size_request(max(w, 300), max(h, height))
+        #   set color
+        c = self.pbar.get_colormap().alloc_color(color)
+        self.pbar.style.bg[gtk.STATE_PRELIGHT] = c
+        ##~ style = self.pbar.get_style().copy()
+        ##~ style.bg[gtk.STATE_PRELIGHT] = c
+        ##~ self.pbar.set_style(style)
+        # hbox-3:image
+##         if images and images[1]:
+##             im = images[1].clone()
+##             im.show()
+##             hbox.pack_start(im, FALSE, FALSE)
+        # set icon
+        if app:
+            try:
+                name = app.dataloader.findFile('pysol.xpm')
+                bg = self.top.get_style().bg[gtk.STATE_NORMAL]
+                pixmap, mask = create_pixmap_from_xpm(self.top, bg, name)
+                self.top.set_icon(pixmap, mask)
+            except: pass
+        ##~ self.top.get_window().set_cursor(cursor_new(gdk.WATCH))
+        setTransient(self.top, parent)
+        self.top.show()
+        self.update(percent=0)
+
+    def destroy(self):
+        self.top.destroy()
+
+    def pack(self):
+        pass
+
+    def update(self, percent=None, step=1):
+        if percent is None:
+            self.percent = self.percent + step
+        elif percent > self.percent:
+            self.percent = percent
+        self.percent = min(100, max(0, self.percent))
+        self.pbar.set_fraction(self.percent / 100.0)
+        self.pbar.set_text(str(int(self.percent))+'%')
+        ##~ self.pbar.update(self.percent / 100.0)
+        self.update_idletasks()
+
+    def update_idletasks(self):
+        while gtk.events_pending():
+            gtk.mainiteration()
+
+    def wmDeleteWindow(self, *args):
+        return TRUE
+
+
+# /***********************************************************************
+# //
+# ************************************************************************/
+
+#%ifndef BUNDLE
+
+class TestProgressBar:
+    def __init__(self, parent, images=None):
+        self.parent = parent
+        self.progress = PysolProgressBar(None, parent, title="Progress",
+                                         images=images, color='#008200')
+        self.progress.pack()
+        self.func = [ self.update, 0 ]
+        self.func[1] = timeout_add(30, self.func[0])
+
+    def update(self, *args):
+        if self.progress.percent >= 100:
+            self.progress.destroy()
+            mainquit()
+            return FALSE
+        self.progress.update(step=1)
+        return TRUE
+
+def progressbar_main(args):
+    root = gtk.Window()
+    root.connect("destroy", mainquit)
+    root.connect("delete_event", mainquit)
+    images = None
+    if 1:
+        from tkwrap import loadImage
+        im = loadImage(os.path.join(os.pardir, os.pardir, 'data', 'images', 'jokers', 'joker07_40_774.gif'))
+        images = (im, im)
+    pb = TestProgressBar(root, images=images)
+    mainloop()
+    return 0
+
+if __name__ == '__main__':
+    sys.exit(progressbar_main(sys.argv))
+
+#%endif
+

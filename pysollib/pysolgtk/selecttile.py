@@ -1,6 +1,16 @@
+## vim:ts=4:et:nowrap
+##
 ##---------------------------------------------------------------------------##
 ##
 ## PySol -- a Python Solitaire game
+##
+## Copyright (C) 2003 Markus Franz Xaver Johannes Oberhumer
+## Copyright (C) 2002 Markus Franz Xaver Johannes Oberhumer
+## Copyright (C) 2001 Markus Franz Xaver Johannes Oberhumer
+## Copyright (C) 2000 Markus Franz Xaver Johannes Oberhumer
+## Copyright (C) 1999 Markus Franz Xaver Johannes Oberhumer
+## Copyright (C) 1998 Markus Franz Xaver Johannes Oberhumer
+## All Rights Reserved.
 ##
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -17,35 +27,24 @@
 ## If not, write to the Free Software Foundation, Inc.,
 ## 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 ##
+## Markus F.X.J. Oberhumer
+## <markus@oberhumer.com>
+## http://www.oberhumer.com/pysol
+##
 ##---------------------------------------------------------------------------##
 
-import sys, os
 
-n_ = lambda x: x
+## # imports
+## import os, string, sys, types
+## import Tkinter, tkColorChooser
 
-#
-#PACKAGE = "PySolFC"
-PACKAGE = "PySol"
-PACKAGE_URL = "http://sourceforge.net/projects/pysolfc/"
+## # PySol imports
+## from pysollib.mfxutil import destruct, Struct, KwStruct
+## from pysollib.resource import CSI
 
-TOOLKIT = 'gtk'
-TOOLKIT = 'tk'
-
-# data dirs
-DATA_DIRS = []
-# you can add your extra directories here
-if os.name == "posix":
-    DATA_DIRS = [
-        '/usr/share/PySolFC',
-        '/usr/local/share/PySolFC',
-        '/usr/games/PySolFC',
-        '/usr/local/games/PySolFC',
-        ]
-if os.name == "nt":
-    pass
-if os.name == "mac":
-    pass
-
-TOP_SIZE = 10
-TOP_TITLE = n_("Top 10")
+## # Toolkit imports
+## from tkutil import loadImage
+## from tkwidget import MfxDialog, MfxScrolledCanvas
+## from selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
+## from selecttree import SelectDialogTreeData, SelectDialogTreeCanvas
 

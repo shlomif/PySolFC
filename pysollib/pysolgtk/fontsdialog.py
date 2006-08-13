@@ -19,33 +19,30 @@
 ##
 ##---------------------------------------------------------------------------##
 
-import sys, os
+__all__ = ['FontsDialog']
 
-n_ = lambda x: x
+## # imports
+## import os, sys
+## import types
+## import Tkinter
+## import tkFont
 
-#
-#PACKAGE = "PySolFC"
-PACKAGE = "PySol"
-PACKAGE_URL = "http://sourceforge.net/projects/pysolfc/"
+## # PySol imports
+## from pysollib.mfxutil import destruct, kwdefault, KwStruct, Struct
 
-TOOLKIT = 'gtk'
-TOOLKIT = 'tk'
+## # Toolkit imports
+## from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
+## from tkutil import bind
 
-# data dirs
-DATA_DIRS = []
-# you can add your extra directories here
-if os.name == "posix":
-    DATA_DIRS = [
-        '/usr/share/PySolFC',
-        '/usr/local/share/PySolFC',
-        '/usr/games/PySolFC',
-        '/usr/local/games/PySolFC',
-        ]
-if os.name == "nt":
-    pass
-if os.name == "mac":
+from tkwidget import MfxDialog
+
+# /***********************************************************************
+# //
+# ************************************************************************/
+
+class FontsDialog(MfxDialog):
     pass
 
-TOP_SIZE = 10
-TOP_TITLE = n_("Top 10")
+
+
 

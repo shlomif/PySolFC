@@ -58,7 +58,7 @@ from pysoltk import GameInfoDialog
 from pysoltk import EVENT_HANDLED, EVENT_PROPAGATE
 from pysoltk import MfxMessageDialog, MfxSimpleEntry
 from pysoltk import MfxExceptionDialog
-from pysoltk import BooleanVar, IntVar, StringVar
+from pysoltk import MfxRadioMenuItem, MfxCheckMenuItem, StringVar
 from pysoltk import PlayerOptionsDialog
 from pysoltk import SoundOptionsDialog
 #from pysoltk import HintOptionsDialog
@@ -103,50 +103,50 @@ class PysolMenubarActions:
         )
         # structure to convert menu-options to Toolkit variables
         self.tkopt = Struct(
-            gameid = IntVar(),
-            gameid_popular = IntVar(),
-            comment = BooleanVar(),
-            autofaceup = BooleanVar(),
-            autodrop = BooleanVar(),
-            autodeal = BooleanVar(),
-            quickplay = BooleanVar(),
-            undo = BooleanVar(),
-            bookmarks = BooleanVar(),
-            hint = BooleanVar(),
-            highlight_piles = BooleanVar(),
-            highlight_cards = BooleanVar(),
-            highlight_samerank = BooleanVar(),
-            highlight_not_matching = BooleanVar(),
-            mahjongg_show_removed = BooleanVar(),
-            shisen_show_hint = BooleanVar(),
-            sound = BooleanVar(),
-            cardback = IntVar(),
-            tabletile = IntVar(),
-            animations = IntVar(),
-            shadow = BooleanVar(),
-            shade = BooleanVar(),
-            shade_filled_stacks = BooleanVar(),
-            shrink_face_down = BooleanVar(),
-            toolbar = IntVar(),
+            gameid = MfxRadioMenuItem(self),
+            gameid_popular = MfxRadioMenuItem(self),
+            comment = MfxCheckMenuItem(self),
+            autofaceup = MfxCheckMenuItem(self),
+            autodrop = MfxCheckMenuItem(self),
+            autodeal = MfxCheckMenuItem(self),
+            quickplay = MfxCheckMenuItem(self),
+            undo = MfxCheckMenuItem(self),
+            bookmarks = MfxCheckMenuItem(self),
+            hint = MfxCheckMenuItem(self),
+            highlight_piles = MfxCheckMenuItem(self),
+            highlight_cards = MfxCheckMenuItem(self),
+            highlight_samerank = MfxCheckMenuItem(self),
+            highlight_not_matching = MfxCheckMenuItem(self),
+            mahjongg_show_removed = MfxCheckMenuItem(self),
+            shisen_show_hint = MfxCheckMenuItem(self),
+            sound = MfxCheckMenuItem(self),
+            cardback = MfxRadioMenuItem(self),
+            tabletile = MfxRadioMenuItem(self),
+            animations = MfxRadioMenuItem(self),
+            shadow = MfxCheckMenuItem(self),
+            shade = MfxCheckMenuItem(self),
+            shade_filled_stacks = MfxCheckMenuItem(self),
+            shrink_face_down = MfxCheckMenuItem(self),
+            toolbar = MfxRadioMenuItem(self),
             toolbar_style = StringVar(),
             toolbar_relief = StringVar(),
             toolbar_compound = StringVar(),
-            toolbar_size = IntVar(),
-            statusbar = BooleanVar(),
-            num_cards = BooleanVar(),
-            helpbar = BooleanVar(),
-            save_games_geometry = BooleanVar(),
-            splashscreen = BooleanVar(),
-            demo_logo = BooleanVar(),
-            sticky_mouse = BooleanVar(),
-            mouse_undo = BooleanVar(),
-            negative_bottom = BooleanVar(),
-            pause = BooleanVar(),
+            toolbar_size = MfxRadioMenuItem(self),
+            statusbar = MfxCheckMenuItem(self),
+            num_cards = MfxCheckMenuItem(self),
+            helpbar = MfxCheckMenuItem(self),
+            save_games_geometry = MfxCheckMenuItem(self),
+            splashscreen = MfxCheckMenuItem(self),
+            demo_logo = MfxCheckMenuItem(self),
+            sticky_mouse = MfxCheckMenuItem(self),
+            mouse_undo = MfxCheckMenuItem(self),
+            negative_bottom = MfxCheckMenuItem(self),
+            pause = MfxCheckMenuItem(self),
             toolbar_vars = {},
         )
 
         for w in TOOLBAR_BUTTONS:
-            self.tkopt.toolbar_vars[w] = BooleanVar()
+            self.tkopt.toolbar_vars[w] = MfxCheckMenuItem(self)
 
 
     def connectGame(self, game):

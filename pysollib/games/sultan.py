@@ -905,6 +905,60 @@ class Adela(Game):
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
+# /***********************************************************************
+# // Toni
+# ************************************************************************/
+
+class Toni(Game):
+
+    def createGame(self):
+
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+8.5*l.XS, l.YM+4*l.YS)
+
+        y = l.YM
+        suit = 0
+        for i in (0,1,3,4):
+            x = l.XM+(2+i)*l.XS
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=suit))
+            suit += 1
+
+        x, y = l.XM+4*l.XS, l.YM
+        for i in range(4):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i,
+                                                    base_rank=KING, dir=-1))
+            y += l.YS
+
+        for i, j in ((0,0),(1,0),(2,0),(5,0),(6,0),(7,0),
+                     (0,1),(1,1),(2,1),(5,1),(6,1),(7,1),
+                     ):
+            x, y = l.XM+(0.5+i)*l.XS, l.YM+(1.5+j)*l.YS
+            stack = BasicRowStack(x, y, self, max_accept=0)
+            s.rows.append(stack)
+            stack.CARD_YOFFSET = 0
+
+        x, y = l.XM, l.YM
+        s.talon = DealRowRedealTalonStack(x, y, self, max_rounds=3)
+        l.createText(s.talon, 'se')
+        tx, ty, ta, tf = l.getTextAttr(s.talon, 'ne')
+        font = self.app.getFont('canvas_default')
+        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
+                                             anchor=ta, font=font)
+
+        l.defaultStackGroups()
+
+
+    def _shuffleHook(self, cards):
+        return self._shuffleHookMoveToTop(cards,
+           lambda c: (c.rank in (ACE, KING) and c.deck == 0, (c.rank, c.suit)))
+
+
+    def startGame(self):
+        self.s.talon.dealRow(rows=self.s.foundations, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+
 
 # register the game
 registerGame(GameInfo(330, Sultan, "Sultan",
@@ -942,3 +996,5 @@ registerGame(GameInfo(635, CircleEight, "Circle Eight",
                       GI.GT_1DECK_TYPE, 1, 1, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(646, Adela, "Adela",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_LUCK))
+registerGame(GameInfo(660, Toni, "Toni",
+                      GI.GT_2DECK_TYPE, 2, 2, GI.SL_MOSTLY_LUCK))

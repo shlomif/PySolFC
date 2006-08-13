@@ -50,6 +50,8 @@ __all__ = ['cardsFaceUp',
            'DealRowTalonStack',
            'InitialDealTalonStack',
            'RedealTalonStack',
+           'DealRowRedealTalonStack',
+           'DealReserveRedealTalonStack',
            'OpenStack',
            'AbstractFoundationStack',
            'SS_FoundationStack',
@@ -104,6 +106,7 @@ from pysoltk import after, after_idle, after_cancel
 from pysoltk import MfxCanvasGroup, MfxCanvasImage, MfxCanvasRectangle, MfxCanvasText
 from pysoltk import Card
 from pysoltk import getTextWidth
+from settings import TOOLKIT
 
 
 # /***********************************************************************
@@ -977,7 +980,7 @@ class Stack:
         if self.game.demo:
             self.game.stopDemo(event)
         if self.game.busy: return EVENT_HANDLED
-        if not self.game.app.opt.sticky_mouse:
+        if not self.game.app.opt.sticky_mouse and TOOLKIT == 'tk':
             # use a timer to update the drag
             # this allows us to skip redraws on slow machines
             drag = self.game.drag
@@ -1056,6 +1059,8 @@ class Stack:
         drag.noshade_stacks = [ self ]
         drag.cards = self.getDragCards(i)
         drag.index = i
+        if TOOLKIT == 'gtk':
+            drag.stack.group.tkraise()
         images = game.app.images
         drag.shadows = self.createShadows(drag.cards)
         ##sx, sy = 0, 0
@@ -1070,6 +1075,8 @@ class Stack:
         for s in drag.shadows:
             if dx > 0 or dy > 0:
                 s.move(dx, dy)
+            if TOOLKIT == 'gtk':
+                s.addtag(drag.stack.group)
             s.tkraise()
         for card in drag.cards:
             card.tkraise()
@@ -1149,8 +1156,13 @@ class Stack:
                                 image=img1, anchor=ANCHOR_SE)
             s2 = MfxCanvasImage(self.game.canvas, cx, cy,
                                 image=img0, anchor=ANCHOR_SE)
-            s1.lower(c.item)
-            s2.lower(c.item)
+            if TOOLKIT == 'tk':
+                s1.lower(c.item)
+                s2.lower(c.item)
+            elif TOOLKIT == 'gtk':
+                positions = 2           ## FIXME
+                s1.lower(positions)
+                s2.lower(positions)
             return (s1, s2)
         return ()
 
@@ -1213,10 +1225,15 @@ class Stack:
             img = MfxCanvasImage(game.canvas, sx, sy, image=img, anchor=ANCHOR_NW)
             drag.shade_img = img
             # raise/lower the shade image to the correct stacking order
-            if drag.shadows:
-                img.lower(drag.shadows[0])
-            else:
-                img.lower(drag.cards[0].item)
+            if TOOLKIT == 'tk':
+                if drag.shadows:
+                    img.lower(drag.shadows[0])
+                else:
+                    img.lower(drag.cards[0].item)
+            elif TOOLKIT == 'gtk':
+                img.tkraise()
+                drag.stack.group.tkraise()
+
 
     # for closeStackMove
     def _shadeStack(self):
@@ -1547,7 +1564,11 @@ class TalonStack(Stack,
                 self.images.redeal = MfxCanvasImage(self.game.canvas, cx, cy,
                                          image=img, anchor="center")
                 self.images.redeal_img = img
-                self.images.redeal.tkraise(self.top_bottom)
+                if TOOLKIT == 'tk':
+                    self.images.redeal.tkraise(self.top_bottom)
+                elif TOOLKIT == 'gtk':
+                    ### FIXME
+                    pass
                 self.images.redeal.addtag(self.group)
                 self.top_bottom = self.images.redeal
                 if images.CARDH >= 90:
@@ -1563,7 +1584,11 @@ class TalonStack(Stack,
                 self.texts.redeal = MfxCanvasText(self.game.canvas, cx, cy,
                                                   anchor=ca, font=font)
                 self.texts.redeal_str = ""
-                self.texts.redeal.tkraise(self.top_bottom)
+                if TOOLKIT == 'tk':
+                    self.texts.redeal.tkraise(self.top_bottom)
+                elif TOOLKIT == 'gtk':
+                    ### FIXME
+                    pass
                 self.texts.redeal.addtag(self.group)
                 self.top_bottom = self.texts.redeal
 
@@ -1610,6 +1635,45 @@ class RedealTalonStack(TalonStack, RedealCards_StackMethods):
         return not self.game.isGameWon()
     def dealCards(self, sound=0):
         RedealCards_StackMethods.redealCards(self, sound=sound)
+
+
+class DealRowRedealTalonStack(TalonStack, RedealCards_StackMethods):
+
+    def canDealCards(self, rows=None):
+        if rows is None:
+            rows = self.game.s.rows
+        r_cards = sum([len(r.cards) for r in rows])
+        if self.cards:
+            return True
+        elif r_cards and self.round != self.max_rounds:
+            return True
+        return False
+
+    def dealCards(self, sound=0, rows=None):
+        num_cards = 0
+        if rows is None:
+            rows = self.game.s.rows
+        if sound and self.game.app.opt.animations:
+            self.game.startDealSample()
+        if not self.cards:
+            # move all cards to talon
+            num_cards = self._redeal(rows=rows, frames=4)
+            self.game.nextRoundMove(self)
+        num_cards += self.dealRowAvail(rows=rows, sound=0)
+        if sound:
+            self.game.stopSamples()
+        return num_cards
+
+
+class DealReserveRedealTalonStack(DealRowRedealTalonStack):
+
+    def canDealCards(self, rows=None):
+        return DealRowRedealTalonStack.canDealCards(self,
+                                       rows=self.game.s.reserves)
+
+    def dealCards(self, sound=0, rows=None):
+        return DealRowRedealTalonStack.dealCards(self, sound=sound,
+                                       rows=self.game.s.reserves)
 
 
 # /***********************************************************************

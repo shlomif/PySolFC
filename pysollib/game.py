@@ -1556,7 +1556,7 @@ for %d moves.
         color = self.app.opt.highlight_not_matching_color
         width = 6
         x0, y0 = x+width/2-self.canvas.xmargin, y+width/2-self.canvas.ymargin
-        x1, y1 = x+w-width/2-self.canvas.xmargin, y+h-width/2-self.canvas.ymargin
+        x1, y1 = x+w-width-self.canvas.xmargin, y+h-width-self.canvas.ymargin
         r = MfxCanvasRectangle(self.canvas, x0, y0, x1, y1,
                                width=width, fill=None, outline=color)
         self.canvas.update_idletasks()

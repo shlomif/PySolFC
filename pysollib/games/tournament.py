@@ -34,46 +34,27 @@ from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 from pysollib.pysoltk import MfxCanvasText
 
+
 # /***********************************************************************
-# //
+# // Tournament
 # ************************************************************************/
 
-
-class Tournament_Talon(TalonStack):
-
-    def canDealCards(self):
-        if self.round == self.max_rounds and not self.cards:
-            return False
-        return not self.game.isGameWon()
-
+class Tournament_Talon(DealRowRedealTalonStack):
     def dealCards(self, sound=0):
+        num_cards = 0
+        if sound and self.game.app.opt.animations:
+            self.game.startDealSample()
         if len(self.cards) == 0:
-            self._redeal()
-        self.game.startDealSample()
-        n = 0
+            num_cards = self._redeal(reverse=True, frames=0)
+            self.game.nextRoundMove(self)
         for r in self.game.s.rows:
             for i in range(4):
                 if not self.cards:
                     break
-                n += self.dealRow([r])
-        self.game.stopSamples()
-        return n
-
-    def _redeal(self):
-        # move all cards to the Talon
-        lr = len(self.game.s.rows)
-        num_cards = 0
-        assert len(self.cards) == 0
-        for r in self.game.s.rows[::-1]:
-            for i in range(len(r.cards)):
-                num_cards = num_cards + 1
-                self.game.moveMove(1, r, self, frames=0)
-                self.game.flipMove(self)
-        assert len(self.cards) == num_cards
-        if num_cards == 0:          # game already finished
-            return
-        self.game.nextRoundMove(self)
-        return
+                num_cards += self.dealRow([r], sound=0)
+        if sound:
+            self.game.stopSamples()
+        return num_cards
 
 
 class Tournament(Game):

@@ -55,7 +55,7 @@ from images import Images, SubsampledImages
 from pysolrandom import PysolRandom
 from game import Game
 from gamedb import GI, GAME_DB, loadGame
-from settings import TOP_SIZE, TOP_TITLE
+from settings import TOP_SIZE, TOP_TITLE, TOOLKIT
 
 # Toolkit imports
 from pysoltk import tkname, tkversion, wm_withdraw, loadImage
@@ -85,29 +85,29 @@ class Options:
         self.saved = 0
         # options menu:
         self.player = _("Unknown")
-        self.confirm = 1
-        self.update_player_stats = 1
-        self.autofaceup = 1
-        self.autodrop = 0
-        self.autodeal = 1
-        self.quickplay = 1
-        self.undo = 1
-        self.bookmarks = 1
-        self.hint = 1
-        self.highlight_piles = 1
-        self.highlight_cards = 1
-        self.highlight_samerank = 1
-        self.highlight_not_matching = 1
+        self.confirm = True
+        self.update_player_stats = True
+        self.autofaceup = True
+        self.autodrop = False
+        self.autodeal = True
+        self.quickplay = True
+        self.undo = True
+        self.bookmarks = True
+        self.hint = True
+        self.highlight_piles = True
+        self.highlight_cards = True
+        self.highlight_samerank = True
+        self.highlight_not_matching = True
         self.mahjongg_show_removed = False
         self.mahjongg_create_solvable = True
         self.shisen_show_hint = True
         self.animations = 2                     # default to Timer based
-        self.shadow = 1
-        self.shade = 1
+        self.shadow = True
+        self.shade = True
         self.shrink_face_down = True
         self.shade_filled_stacks = True
-        self.demo_logo = 1
-        self.toolbar = 1
+        self.demo_logo = True
+        self.toolbar = True
         ##self.toolbar_style = 'default'
         self.toolbar_style = 'crystal'
         if os.name == 'posix':
@@ -118,11 +118,11 @@ class Options:
         self.toolbar_vars = {}
         for w in TOOLBAR_BUTTONS:
             self.toolbar_vars[w] = True
-        self.statusbar = 1
-        self.num_cards = 0
-        self.helpbar = 0
+        self.statusbar = True
+        self.num_cards = False
+        self.helpbar = False
         # sound
-        self.sound = 1
+        self.sound = True
         self.sound_mode = 1
         self.sound_sample_volume = 128
         self.sound_music_volume = 128
@@ -234,8 +234,8 @@ class Options:
 
     # not changeable options
     def setConstants(self):
-        self.win_animation = 1
-        self.dragcursor = 1
+        self.win_animation = True
+        self.dragcursor = True
         self.randomize_place = False
 
     def copy(self):
@@ -661,14 +661,15 @@ class Application:
         self.top.grid_rowconfigure(1, weight=1)
         self.setTile(self.tabletile_index, force=True)
         # create the toolbar
-        dir = self.getToolbarImagesDir()
-        self.toolbar = PysolToolbar(self.top, dir=dir,
-                                    size=self.opt.toolbar_size,
-                                    relief=self.opt.toolbar_relief,
-                                    compound=self.opt.toolbar_compound)
-        self.toolbar.show(self.opt.toolbar)
-        for w, v in self.opt.toolbar_vars.items():
-            self.toolbar.config(w, v)
+        if TOOLKIT == 'tk':
+            dir = self.getToolbarImagesDir()
+            self.toolbar = PysolToolbar(self.top, dir=dir,
+                                        size=self.opt.toolbar_size,
+                                        relief=self.opt.toolbar_relief,
+                                        compound=self.opt.toolbar_compound)
+            self.toolbar.show(self.opt.toolbar)
+            for w, v in self.opt.toolbar_vars.items():
+                self.toolbar.config(w, v)
         #
         if self.intro.progress: self.intro.progress.update(step=1)
         #
@@ -754,7 +755,8 @@ class Application:
         self.game.create(self)
         # connect with game
         self.menubar.connectGame(self.game)
-        self.toolbar.connectGame(self.game, self.menubar)
+        if self.toolbar: ##~
+            self.toolbar.connectGame(self.game, self.menubar)
         self.game.updateStatus(player=self.opt.player)
         # update "Recent games" menubar entry
         if id in self.opt.recent_gameid:
@@ -805,7 +807,8 @@ class Application:
     # free game
     def freeGame(self):
         # disconnect from game
-        self.toolbar.connectGame(None, None)
+        if self.toolbar: ##~
+            self.toolbar.connectGame(None, None)
         self.menubar.connectGame(None)
         # clean up the canvas
         self.canvas.deleteAllItems()

@@ -80,6 +80,10 @@ class MfxCanvasImage(Canvas.ImageItem):
     def moveTo(self, x, y):
         c = self.coords()
         self.move(x - int(c[0]), y - int(c[1]))
+    def show(self):
+        self.config(state='normal')
+    def hide(self):
+        self.config(state='hidden')
 
 MfxCanvasLine = Canvas.Line
 

@@ -181,41 +181,7 @@ class Game:
             assert hasattr(self.s.talon, "round")
             assert hasattr(self.s.talon, "max_rounds")
         if self.app.debug:
-            class_name = self.__class__.__name__
-            if self.s.foundations:
-                ncards = 0
-                for stack in self.s.foundations:
-                    ncards += stack.cap.max_cards
-                if ncards != self.gameinfo.ncards:
-                    print 'WARNING: invalid sum of foundations.max_cards:', \
-                          class_name, ncards, self.gameinfo.ncards
-            if self.s.rows:
-                from stack import AC_RowStack, UD_AC_RowStack, \
-                     SS_RowStack, UD_SS_RowStack, \
-                     RK_RowStack, UD_RK_RowStack, \
-                     Spider_AC_RowStack, Spider_SS_RowStack
-                r = self.s.rows[0]
-                for c, f in (
-                    ((Spider_AC_RowStack, Spider_SS_RowStack),
-                     (self._shallHighlightMatch_RK,
-                      self._shallHighlightMatch_RKW)),
-                    ((AC_RowStack, UD_AC_RowStack),
-                     (self._shallHighlightMatch_AC,
-                      self._shallHighlightMatch_ACW)),
-                    ((SS_RowStack, UD_SS_RowStack),
-                     (self._shallHighlightMatch_SS,
-                      self._shallHighlightMatch_SSW)),
-                    ((RK_RowStack, UD_RK_RowStack),
-                     (self._shallHighlightMatch_RK,
-                      self._shallHighlightMatch_RKW)),):
-                    if isinstance(r, c):
-                        if not self.shallHighlightMatch in f:
-                            print 'WARNING: shallHighlightMatch is not valid:', \
-                                  class_name, r.__class__
-                        if r.cap.mod == 13 and self.shallHighlightMatch != f[1]:
-                            print 'WARNING: shallHighlightMatch is not valid (wrap):', \
-                                  class_name, r.__class__
-                        break
+            self._checkGame()
         # optimize regions
         self.optimizeRegions()
         # create cards
@@ -242,6 +208,45 @@ class Game:
         self.busy = old_busy
         ##print timer
         self.showHelp()                 # just in case
+
+
+    def _checkGame(self):
+        class_name = self.__class__.__name__
+        if self.s.foundations:
+            ncards = 0
+            for stack in self.s.foundations:
+                ncards += stack.cap.max_cards
+            if ncards != self.gameinfo.ncards:
+                print 'WARNING: invalid sum of foundations.max_cards:', \
+                      class_name, ncards, self.gameinfo.ncards
+        if self.s.rows:
+            from stack import AC_RowStack, UD_AC_RowStack, \
+                 SS_RowStack, UD_SS_RowStack, \
+                 RK_RowStack, UD_RK_RowStack, \
+                 Spider_AC_RowStack, Spider_SS_RowStack
+            r = self.s.rows[0]
+            for c, f in (
+                ((Spider_AC_RowStack, Spider_SS_RowStack),
+                 (self._shallHighlightMatch_RK,
+                  self._shallHighlightMatch_RKW)),
+                ((AC_RowStack, UD_AC_RowStack),
+                 (self._shallHighlightMatch_AC,
+                  self._shallHighlightMatch_ACW)),
+                ((SS_RowStack, UD_SS_RowStack),
+                 (self._shallHighlightMatch_SS,
+                  self._shallHighlightMatch_SSW)),
+                ((RK_RowStack, UD_RK_RowStack),
+                 (self._shallHighlightMatch_RK,
+                  self._shallHighlightMatch_RKW)),):
+                if isinstance(r, c):
+                    if not self.shallHighlightMatch in f:
+                        print 'WARNING: shallHighlightMatch is not valid:', \
+                              class_name, r.__class__
+                    if r.cap.mod == 13 and self.shallHighlightMatch != f[1]:
+                        print 'WARNING: shallHighlightMatch is not valid (wrap):', \
+                              class_name, r.__class__
+                    break
+
 
     def initBindings(self):
         # note: a Game is only allowed to bind self.canvas and not to self.top
@@ -768,6 +773,7 @@ class Game:
         return EVENT_PROPAGATE
 
     def undoHandler(self, event):
+        if not self.app: return EVENT_PROPAGATE # FIXME (GTK)
         self._defaultHandler()
         if self.app.opt.mouse_undo and not self.event_handled:
             self.app.menubar.mUndo()
@@ -775,6 +781,7 @@ class Game:
         return EVENT_PROPAGATE
 
     def redoHandler(self, event):
+        if not self.app: return EVENT_PROPAGATE # FIXME (GTK)
         self._defaultHandler()
         if self.app.opt.mouse_undo and not self.event_handled:
             self.app.menubar.mRedo()

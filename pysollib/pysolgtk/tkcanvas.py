@@ -70,25 +70,31 @@ from tkutil import anchor_tk2gtk, loadImage, bind
 # ************************************************************************/
 
 class _CanvasItem:
+
     def __init__(self, canvas):
         self.canvas = canvas
+        canvas._all_items.append(self)
+
     def addtag(self, group):
+        ##print self, 'addtag'
         ##~ assert isinstance(group._item, CanvasGroup)
         self._item.reparent(group._item)
+    def dtag(self, group):
+        pass
+        ##print self, 'dtag'
+        ##~ assert isinstance(group._item, CanvasGroup)
+        ##self._item.reparent(self.canvas.root())
+
     def bind(self, sequence, func, add=None):
         bind(self._item, sequence, func, add)
     def bbox(self):
         ## FIXME
         return (0, 0, 0, 0)
-    def dtag(self, group):
-        ##~ assert isinstance(group._item, CanvasGroup)
-        self._item.reparent(self.canvas.root())
     def delete(self):
         if self._item is not None:
             self._item.destroy()
             self._item = None
-    def hide(self):
-        self._item.hide()
+
     def lower(self, positions=None):
         ##print "lower", self._item, positions
         if positions is None:
@@ -97,18 +103,25 @@ class _CanvasItem:
             ##~ assert type(positions) is types.IntType and positions > 0
             ##~ self._item.lower(positions)
             pass
-    def move(self, x, y):
-        self._item.move(x, y)
-    def show(self):
-        self._item.show()
     def tkraise(self, positions=None):
         ##print "tkraise", self._item, positions
         if positions is None:
             self._item.raise_to_top()
         else:
+            print 'tkraise', positions
             ##~ assert type(positions) is types.IntType and positions > 0
             ##~ self._item.raise_(positions)
+            self._item.raise_to_top()
             pass
+
+    def move(self, x, y):
+        self._item.move(x, y)
+    moveTo = move
+
+    def show(self):
+        self._item.show()
+    def hide(self):
+        self._item.hide()
 
 
 class MfxCanvasGroup(_CanvasItem):
@@ -121,7 +134,8 @@ class MfxCanvasGroup(_CanvasItem):
 class MfxCanvasImage(_CanvasItem):
     def __init__(self, canvas, x, y, image, anchor=gtk.ANCHOR_NW):
         _CanvasItem.__init__(self, canvas)
-        anchor = anchor_tk2gtk(anchor)
+        if type(anchor) is str:
+            anchor = anchor_tk2gtk(anchor)
         self._item = canvas.root().add(gnome.canvas.CanvasPixbuf,
                                        x=x, y=y,
                                        pixbuf=image.pixbuf,
@@ -151,6 +165,7 @@ class MfxCanvasRectangle(_CanvasItem):
 
 class MfxCanvasText(_CanvasItem):
     def __init__(self, canvas, x, y, anchor=gtk.ANCHOR_NW, preview=-1, **kw):
+        _CanvasItem.__init__(self, canvas)
         if preview < 0:
             preview = canvas.preview
         if preview > 1:
@@ -197,21 +212,27 @@ class MfxCanvas(gnome.canvas.Canvas):
         self.preview = 0
         # Tkinter compat
         self.items = {}
+        self._all_items = []
+        self._text_items = []
         # private
         self.__tileimage = None
         self.__tiles = []
         # friend MfxCanvasText
         self._text_color = '#000000'
-        self._text_items = []
         #
         gnome.canvas.Canvas.__init__(self)
-        self.style = self.get_style().copy()
+        style = self.get_style().copy()
         if bg is not None:
             c = self.get_colormap().alloc(bg)
-            self.style.bg[gtk.STATE_NORMAL] = c
-        self.set_style(self.style)
-        self.set_scroll_region(0, 0, gdk.screen_width(), gdk.screen_height())
-        top.vbox.pack_start(self)
+            style.bg[gtk.STATE_NORMAL] = c
+        self.set_style(style)
+        ##self.set_scroll_region(0, 0, gdk.screen_width(), gdk.screen_height())
+        top.table.attach(self,
+                         0, 1,                   2, 3,
+                         gtk.EXPAND | gtk.FILL,  gtk.EXPAND | gtk.FILL,
+                         0,                      0)
+
+
         ##
         self.top = top
         self.xmargin, self.ymargin = 0, 0
@@ -237,7 +258,7 @@ class MfxCanvas(gnome.canvas.Canvas):
         height, width = -1, -1
         for k, v in kw.items():
             if k == "background" or k == "bg":
-                print 'configure: bg:', v
+                ##print 'configure: bg:', v
                 c = self.get_colormap().alloc_color(v)
                 self.style.bg[gtk.STATE_NORMAL] = c
                 ##~ self.set_style(self.style)
@@ -266,8 +287,11 @@ class MfxCanvas(gnome.canvas.Canvas):
     # PySol extension
     # delete all CanvasItems, but keep the background and top tiles
     def deleteAllItems(self):
-        ## FIXME
-        pass
+        for i in self._all_items:
+            if i._item:
+                i._item.destroy()
+            ##i._item = None
+        self._all_items = []
 
     # PySol extension
     def findCard(self, stack, event):
@@ -326,6 +350,11 @@ class MfxCanvas(gnome.canvas.Canvas):
 
     ### FIXME: should use style.bg_pixmap ????
     def _setTile(self, image, stretch=False):
+        self.realize()
+        self.show_now()
+        sw, sh = self.get_size()
+        print self.get_size()
+        return
         try:
             if image and type(image) is types.StringType:
                 image = loadImage(image)
@@ -356,15 +385,31 @@ class MfxCanvas(gnome.canvas.Canvas):
         pass
 
     def update_idletasks(self):
+        ##print 'MfxCanvas.update_idletasks'
         self.update_now()
+        ##gdk.window_process_all_updates()
+        self.show_now()
 
     def grid(self, *args, **kw):
-        pass
+        #print '1 >->', self.window
+        if self.window:
+            #print '2 >->', self.window
+            self.window.resize(self._width, self._height)
 
     def setInitialSize(self, width, height):
+        print 'setInitialSize:', width, height
+        self._width, self._height = width, height
         self.set_size_request(width, height)
-        if self.window:
-            self.window.resize(width, height)
+        #self.set_size(width, height)
+        #self.queue_resize()
+        self.set_scroll_region(0,0,width,height)
+        #if self.window:
+        #    self.window.resize(width, height)
 
+
+class MfxScrolledCanvas(MfxCanvas):
+    def __init__(self, parent, hbar=2, vbar=2, **kw):
+        MfxCanvas.__init__(self, parent)
+        self.canvas = self
 
 

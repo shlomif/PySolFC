@@ -40,7 +40,6 @@ TRUE, FALSE = True, False
 
 # Toolkit imports
 from tkutil import makeToplevel, setTransient, wm_withdraw
-from tkcanvas import MfxCanvas
 
 
 # /***********************************************************************
@@ -61,7 +60,7 @@ class _MyDialog(gtk.Dialog):
     def quit(self, *args):
         self.hide()
         self.destroy()
-        gtk.mainquit()
+        gtk.main_quit()
 
 
 class MfxDialog(_MyDialog):
@@ -74,20 +73,22 @@ class MfxDialog(_MyDialog):
                  font=None,
                  buttonfont=None,
                  padx='20', pady='20',
-                 bitmap=None, bitmap_side='left', bitmap_padx=20, bitmap_pady=20,
-                 image=None, image_side='left', image_padx=10, image_pady=20):
+                 bitmap=None, bitmap_side='left',
+                 bitmap_padx=20, bitmap_pady=20,
+                 image=None, image_side='left',
+                 image_padx=10, image_pady=20):
         _MyDialog.__init__(self)
         self.status = 1
         self.button = -1
         bitmap = None
         self.init(parent, text, strings, default, bitmap, TRUE)
         #font = "Times-14"
-        if font:
-            self.style.font = load_font(font)
-            self.set_style(self.style)
+##         if font:
+##             self.style.font = load_font(font)
+##             self.set_style(self.style)
         self.set_title(title)
         self.show()
-        gtk.mainloop()
+        gtk.main()
 
     def init(self, parent, message="", buttons=(), default=-1,
              pixmap=None, modal=TRUE):
@@ -173,7 +174,7 @@ class MfxSimpleEntry(_MyDialog):
         self.entry.set_text(str(value))
         self.set_title(title)
         self.show()
-        gtk.mainloop()
+        gtk.main()
 
     def init(self, parent,  message="", modal=TRUE):
         if modal:
@@ -207,11 +208,6 @@ class MfxSimpleEntry(_MyDialog):
         self.value = self.entry.get_text()
         self.quit()
 
-
-class MfxScrolledCanvas(MfxCanvas):
-    def __init__(self, parent, hbar=2, vbar=2, **kw):
-        MfxCanvas.__init__(self, parent)
-        self.canvas = self
 
         
 

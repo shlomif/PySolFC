@@ -35,7 +35,6 @@ import os, sys, time, types
 
 import gtk
 from gtk import gdk
-TRUE, FALSE = True, False
 
 # PySol imports
 ## from pysollib.images import Images
@@ -61,12 +60,12 @@ class MfxCheckMenuItem:
         self.path = path
         self.value = None
     def get(self):
-        print 'MfxCheckMenuItem.get:', self.path
+        ##print 'MfxCheckMenuItem.get:', self.path
         if self.path is None: return 0
         w = self.menubar.menus.get_widget(self.path)
         return w.active
     def set(self, value):
-        print 'MfxCheckMenuItem.set:', value, self.path
+        ##print 'MfxCheckMenuItem.set:', value, self.path
         if self.path is None: return
         if not value or value == 'false': value = 0
         assert type(value) is types.IntType and 0 <= value <= 1
@@ -78,7 +77,7 @@ class MfxCheckMenuItem:
 
 class MfxRadioMenuItem(MfxCheckMenuItem):
     def get(self):
-        print 'MfxRadioMenuItem.get:', self.path, self.value
+        ##print 'MfxRadioMenuItem.get:', self.path, self.value
         if self.path is None: return 0
         w = self.menubar.menus.get_widget(self.path)
         #from pprint import pprint
@@ -88,7 +87,7 @@ class MfxRadioMenuItem(MfxCheckMenuItem):
         #print w.__dict__
         return self.value
     def set(self, value):
-        print 'MfxRadioMenuItem.set:', value, self.path
+        ##print 'MfxRadioMenuItem.set:', value, self.path
         if self.path is None: return
         if not value or value == 'false': value = 0
         assert type(value) is types.IntType and 0 <= value
@@ -112,9 +111,12 @@ class _MfxToplevel(gtk.Window):
         gtk.Window.__init__(self, type=gtk.WINDOW_TOPLEVEL)
         ##~ self.style = self.get_style().copy()
         self.set_style(self.style)
-        self.vbox = gtk.VBox()
-        self.vbox.show()
-        self.add(self.vbox)
+        #self.vbox = gtk.VBox()
+        #self.vbox.show()
+        #self.add(self.vbox)
+        self.table = gtk.Table(3, 5, False)
+        self.add(self.table)
+        self.table.show()
         self.realize()
 
     def cget(self, attr):
@@ -143,18 +145,21 @@ class _MfxToplevel(gtk.Window):
                 print "Toplevel configure:", k, v
                 raise AttributeError, k
         if height > 0 and width > 0:
+            print 'configure: size:', width, height
             ## FIXME
             #self.set_default_size(width, height)
-            self.set_size_request(width, height)
+            #self.set_size_request(width, height)
             #self.set_geometry_hints(base_width=width, base_height=height)
+            pass
+
 
     config = configure
 
     def mainloop(self):
-        gtk.mainloop()      # the global function
+        gtk.main()      # the global function
 
     def mainquit(self):
-        gtk.mainquit()      # the global function
+        gtk.main_quit()      # the global function
 
     def screenshot(self, filename):
         pass
@@ -170,8 +175,9 @@ class _MfxToplevel(gtk.Window):
         self.update_idletasks()
 
     def update_idletasks(self):
+        ##print '_MfxToplevel.update_idletasks'
         while gtk.events_pending():
-            gtk.mainiteration(TRUE)
+            gtk.main_iteration(True)
 
     def winfo_ismapped(self):
         # FIXME
@@ -197,7 +203,8 @@ class _MfxToplevel(gtk.Window):
     def wm_geometry(self, newGeometry=None):
         ##print 'wm_geometry', newGeometry
         if newGeometry == '':
-            self.resize(1, 1)
+            self.reshow_with_initial_size()
+            ##self.resize(1, 1)
         else:
             w, h = newGeometry
             self.resize(w, h)
@@ -231,20 +238,23 @@ class _MfxToplevel(gtk.Window):
     def wm_title(self, title):
         self.set_title(title)
 
+    def tkraise(self):
+        self.present()
+
     def option_add(self, *args):
-        print self, 'option_add'
+        ##print self, 'option_add'
         pass
 
     def option_get(self, *args):
-        print self, 'option_get'
+        ##print self, 'option_get'
         return None
 
     def grid_columnconfigure(self, *args, **kw):
-        print self, 'grid_columnconfigure'
+        ##print self, 'grid_columnconfigure'
         pass
 
     def grid_rowconfigure(self, *args, **kw):
-        print self, 'grid_rowconfigure'
+        ##print self, 'grid_rowconfigure'
         pass
 
     def interruptSleep(self, *args, **kw):
@@ -252,7 +262,7 @@ class _MfxToplevel(gtk.Window):
         pass
 
     def wm_state(self):
-        print self, 'wm_state'
+        ##print self, 'wm_state'
         pass
 
 
@@ -291,4 +301,4 @@ class MfxRoot(_MfxToplevel):
         else:
             ##self.after_idle(self.quit)
             pass
-        return TRUE
+        return True

@@ -60,10 +60,10 @@ def makeToplevel(parent, title=None, class_=None, gtkclass=gtk.Window):
     window = gtkclass()
     ##~ window.style = window.get_style().copy()
     ##~ window.set_style(window.style)
-    if not hasattr(window, 'vbox'):
-        window.vbox = gtk.VBox()
-        window.vbox.show()
-        window.add(window.vbox)
+    if not hasattr(window, 'table'):
+        window.table = gtk.Table(1, 4, False)
+        window.table.show()
+        window.add(window.table)
     window.realize()        # needed for set_icon_name()
     if title:
         window.set_title(title)

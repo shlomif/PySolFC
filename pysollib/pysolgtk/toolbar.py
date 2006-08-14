@@ -41,53 +41,79 @@ TRUE, FALSE = True, False
 from pysollib.actions import PysolToolbarActions
 
 
+
 # /***********************************************************************
 # //
 # ************************************************************************/
 
 class PysolToolbar(PysolToolbarActions):
-    def __init__(self, top, dir, relief=0):
+    def __init__(self, top, dir, size=0, relief=0, compound=None):
+
         PysolToolbarActions.__init__(self)
         self.top = top
         self.dir = dir
         self.side = -1
 
-        self.toolbar = gtk.Toolbar(ORIENTATION_HORIZONTAL, TOOLBAR_ICONS)
-        self.bg = top.get_style().bg[STATE_NORMAL]
+        self.toolbar = gtk.Toolbar(gtk.ORIENTATION_HORIZONTAL,
+                                   gtk.TOOLBAR_ICONS)
 
-        self._createButton('new',     self.mNewGame, tooltip='New game')
-        self._createButton('open',    self.mOpen   , tooltip='Open a \nsaved game')
-        self._createSeparator()
-        self._createButton('restart', self.mRestart, tooltip='Restart the \ncurrent game')
-        self._createButton('save',    self.mSave,    tooltip='Save game')
-        self._createSeparator()
-        self._createButton('undo',    self.mUndo,    tooltip='Undo')
-        self._createButton('redo',    self.mRedo,    tooltip='Redo')
-        self._createButton('autodrop',self.mDrop,    tooltip='Auto drop')
-        self._createSeparator()
-        self._createButton('stats',   self.mStatus,  tooltip='Statistics')
-        self._createButton('rules',   self.mHelpRules, tooltip='Rules')
-        self._createSeparator()
-        self._createButton('quit',    self.mQuit,     tooltip='Quit PySol')
-        self._createSeparator()
+        #self.bg = top.get_style().bg[gtk.STATE_NORMAL]
+        ui_info = '''
+<ui>
+  <toolbar  name='ToolBar'>
+    <toolitem action='New'/>
+    <toolitem action='Restart'/>
+    <separator/>
+    <toolitem action='Open'/>
+    <toolitem action='Save'/>
+    <separator/>
+    <toolitem action='Undo'/>
+    <toolitem action='Redo'/>
+    <toolitem action='Autodrop'/>
+    <separator/>
+    <toolitem action='Stats'/>
+    <toolitem action='Rules'/>
+    <separator/>
+    <toolitem action='Quit'/>
+  </toolbar>
+</ui>
+'''
+        ui_manager = self.top.ui_manager # created in menubar.py
+        ui_manager_id = ui_manager.add_ui_from_string(ui_info)
+
+        toolbar = ui_manager.get_widget("/ToolBar")
+        toolbar.set_tooltips(True)
+        toolbar.set_style(gtk.TOOLBAR_ICONS)
+        toolbar.show()
+
+        top.table.attach(toolbar,
+                         0, 1,                   1, 2,
+                         gtk.EXPAND | gtk.FILL,  0,
+                         0,                      0)
+        toolbar.show()
+
+
+
         # no longer needed
         self.bg = None
         #
-        top.vbox.pack_start(self.toolbar, FALSE, FALSE)
+
 
 
     # util
-    def _createButton(self, name, command, padx=0, tooltip=None):
-##         file = os.path.join(self.dir, name+".gif")
-##         im = GdkImlib.Image(file)
-##         im.render()
-##         pixmap = im.make_pixmap()
-##         if tooltip: tooltip = re.sub(r'\n', '', tooltip)
+    def _createButton(self, name, command, padx=0, stock=None, tooltip=None):
+        ##button = self.toolbar.append_item(name, tooltip, "", stock, command)
+        ##button = self.toolbar.insert_stock(stock, tooltip, '', command, None, -1)
+        image = gtk.Image()
+        image.set_from_stock(stock, gtk.ICON_SIZE_SMALL_TOOLBAR)
 
-##append_item(text, tooltip_text, tooltip_private_text, icon, callback, user_data=None)
-
-        button = self.toolbar.append_item(name, tooltip, "", None, command)
+        button = gtk.ToolButton(None, name)
+        button.set_tooltip(tooltip)
+        #button.set_relief(gtk.RELIEF_NONE)
+        #button.connect('activate', command)
+        self.toolbar.insert(button, -1)
         setattr(self, name + "_button", button)
+
 
     def _createLabel(self, name, padx=0, side='IGNORE', tooltip=None):
         ## FIXME: append_widget
@@ -109,6 +135,9 @@ class PysolToolbar(PysolToolbarActions):
 
     def getSide(self):
         return self.side
+
+    def getSize(self):
+        return 0
 
     def hide(self, resize=1):
         self.show(None, resize)
@@ -158,7 +187,7 @@ class TestToolbar(PysolToolbar):
         self.updateText(player="Player\nPySol")
         self.undo_button.set_state(STATE_INSENSITIVE)
     def mQuit(self, *args):
-        mainquit()
+        gtk.main_quit()
 
 def toolbar_main(args):
     from tkwrap import MfxRoot

@@ -485,6 +485,7 @@ class Stack:
             if update_positions:
                 for c in model.cards[card_index:]:
                     view._position(c)
+
         if update:
             view.updateText()
         if self.is_filled:
@@ -1044,8 +1045,8 @@ class Stack:
         i = self._findCard(event)
         if i < 0 or not self.canMoveCards(self.cards[i:]):
             return
-        if self.is_filled:
-            self.items.shade_item.config(state='hidden')
+        if self.is_filled and self.items.shade_item:
+            self.items.shade_item.hide()
         x_offset, y_offset = self.cards[i].x, self.cards[i].y
         if sound:
             self.game.playSample("startdrag")
@@ -1275,8 +1276,8 @@ class Stack:
         drag.shadows = []
         drag.stack = None
         drag.cards = []
-        if self.is_filled:
-            self.items.shade_item.config(state='normal')
+        if self.is_filled and self.items.shade_item:
+            self.items.shade_item.show()
             self.items.shade_item.tkraise()
 
     # finish a drag operation

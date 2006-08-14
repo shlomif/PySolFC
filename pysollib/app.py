@@ -661,13 +661,13 @@ class Application:
         self.top.grid_rowconfigure(1, weight=1)
         self.setTile(self.tabletile_index, force=True)
         # create the toolbar
+        dir = self.getToolbarImagesDir()
+        self.toolbar = PysolToolbar(self.top, dir=dir,
+                                    size=self.opt.toolbar_size,
+                                    relief=self.opt.toolbar_relief,
+                                    compound=self.opt.toolbar_compound)
+        self.toolbar.show(self.opt.toolbar)
         if TOOLKIT == 'tk':
-            dir = self.getToolbarImagesDir()
-            self.toolbar = PysolToolbar(self.top, dir=dir,
-                                        size=self.opt.toolbar_size,
-                                        relief=self.opt.toolbar_relief,
-                                        compound=self.opt.toolbar_compound)
-            self.toolbar.show(self.opt.toolbar)
             for w, v in self.opt.toolbar_vars.items():
                 self.toolbar.config(w, v)
         #
@@ -807,8 +807,7 @@ class Application:
     # free game
     def freeGame(self):
         # disconnect from game
-        if self.toolbar: ##~
-            self.toolbar.connectGame(None, None)
+        self.toolbar.connectGame(None, None)
         self.menubar.connectGame(None)
         # clean up the canvas
         self.canvas.deleteAllItems()

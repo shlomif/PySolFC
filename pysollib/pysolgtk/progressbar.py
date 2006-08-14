@@ -51,6 +51,7 @@ class PysolProgressBar:
                  height=25, show_text=1, norm=1):
         self.parent = parent
         self.percent = 0
+        self.steps_sum = 0
         self.norm = norm
         self.top = makeToplevel(parent, title=title)
         self.top.set_position(gtk.WIN_POS_CENTER)
@@ -62,7 +63,11 @@ class PysolProgressBar:
         hbox = gtk.HBox(spacing=5)
         hbox.set_border_width(10)
         hbox.show()
-        self.top.vbox.pack_start(hbox, FALSE, FALSE)
+        self.top.table.attach(hbox,
+                              0, 1, 0, 1,
+                              0,    0,
+                              0,    0)
+
         # hbox-1: image
 ##         if images and images[0]:
 ##             im = images[0].clone()
@@ -112,19 +117,23 @@ class PysolProgressBar:
         pass
 
     def update(self, percent=None, step=1):
+        ##self.steps_sum += step
+        ##print self.steps_sum, self.norm
+        step = step/self.norm
         if percent is None:
-            self.percent = self.percent + step
+            self.percent += step
         elif percent > self.percent:
             self.percent = percent
-        self.percent = min(100, max(0, self.percent))
-        self.pbar.set_fraction(self.percent / 100.0)
-        self.pbar.set_text(str(int(self.percent))+'%')
+        percent = int(self.percent)
+        percent = min(100, max(0, percent))
+        self.pbar.set_fraction(percent / 100.0)
+        self.pbar.set_text(str(percent)+'%')
         ##~ self.pbar.update(self.percent / 100.0)
         self.update_idletasks()
 
     def update_idletasks(self):
         while gtk.events_pending():
-            gtk.mainiteration()
+            gtk.main_iteration()
 
     def wmDeleteWindow(self, *args):
         return TRUE
@@ -163,7 +172,7 @@ def progressbar_main(args):
         im = loadImage(os.path.join(os.pardir, os.pardir, 'data', 'images', 'jokers', 'joker07_40_774.gif'))
         images = (im, im)
     pb = TestProgressBar(root, images=images)
-    mainloop()
+    main()
     return 0
 
 if __name__ == '__main__':

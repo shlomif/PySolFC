@@ -95,6 +95,7 @@ class AbstractCard:
         return self.hide_stack is not None
 
     def moveTo(self, x, y):
+        ##print 'moveTo', x, y
         # Move the card to absolute position (x, y).
         dx, dy = 0, 0
         if self.game.app.opt.randomize_place:

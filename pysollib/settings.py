@@ -29,7 +29,7 @@ PACKAGE = "PySol"
 PACKAGE_URL = "http://sourceforge.net/projects/pysolfc/"
 
 TOOLKIT = 'gtk'
-TOOLKIT = 'tk'
+#TOOLKIT = 'tk'
 
 # data dirs
 DATA_DIRS = []

@@ -33,7 +33,8 @@
 # imports
 import sys, os, string, time, types
 
-import gtk
+import gobject
+import pango, gtk
 from gtk import gdk
 TRUE, FALSE = True, False
 
@@ -44,14 +45,13 @@ TRUE, FALSE = True, False
 # ************************************************************************/
 
 def wm_withdraw(window):
-    ##window.unmap()
-    pass
+    window.hide()
 
 def wm_deiconify(window):
-    window.show_all()
+    window.present()
 
 def wm_map(window, maximized=None):
-    window.show_all()
+    window.show()
 
 def wm_set_icon(window, icon):
     pass
@@ -157,11 +157,23 @@ def createImage(width, height, fill, outline=None):
 def _wrap_b1_press(e):
     return e.type == gdk.BUTTON_PRESS and e.button == 1
 
+def _wrap_b1_double(e):
+    return e.type == gdk._2BUTTON_PRESS and e.button == 1
+
+def _wrap_b1_control(e):
+    return e.type == gdk.BUTTON_PRESS and e.button == 1 and (e.state & gdk.CONTROL_MASK)
+
+def _wrap_b1_shift(e):
+    return e.type == gdk.BUTTON_PRESS and e.button == 1 and (e.state & gdk.SHIFT_MASK)
+
 def _wrap_b2_press(e):
     return e.type == gdk.BUTTON_PRESS and e.button == 2
 
 def _wrap_b3_press(e):
     return e.type == gdk.BUTTON_PRESS and e.button == 3
+
+def _wrap_b3_control(e):
+    return e.type == gdk.BUTTON_PRESS and e.button == 3 and (e.state & gdk.CONTROL_MASK)
 
 def _wrap_b1_motion(e):
     return e.type == gdk.MOTION_NOTIFY and (e.state & gdk.BUTTON_PRESS_MASK)
@@ -172,23 +184,35 @@ def _wrap_b1_release(e):
 def _wrap_key_press(e, key):
     return e.type == gdk.KEY_PRESS and e.key == key
 
+def _wrap_enter(e):
+    return e.type == gdk.ENTER_NOTIFY
+
+def _wrap_leave(e):
+    return e.type == gdk.LEAVE_NOTIFY
 
 _wrap_handlers = {
-    '<1>':                      _wrap_b1_press,
-    '<ButtonPress-1>':          _wrap_b1_press,
-    '<2>':                      _wrap_b2_press,
-    '<ButtonPress-2>':          _wrap_b2_press,
-    '<3>':                      _wrap_b3_press,
-    '<ButtonPress-3>':          _wrap_b3_press,
-    '<Motion>':                 _wrap_b1_motion,
-    '<ButtonRelease-1>':        _wrap_b1_release,
+    '<1>':                  (_wrap_b1_press,   'button-press-event'),
+    '<ButtonPress-1>':      (_wrap_b1_press,   'button-press-event'),
+    '<Double-1>':           (_wrap_b1_double,  'button-press-event'),
+    '<Control-1>':          (_wrap_b1_control, 'button-press-event'),
+    '<Shift-1>':            (_wrap_b1_shift,   'button-press-event'),
+    '<2>':                  (_wrap_b2_press,   'button-press-event'),
+    '<ButtonPress-2>':      (_wrap_b2_press,   'button-press-event'),
+    '<3>':                  (_wrap_b3_press,   'button-press-event'),
+    '<ButtonPress-3>':      (_wrap_b3_press,   'button-press-event'),
+    '<Control-3>':          (_wrap_b3_control, 'button-press-event'),
+    '<Motion>':             (_wrap_b1_motion,  'motion-notify-event'),
+    '<ButtonRelease-1>':    (_wrap_b1_release, 'button-release-event'),
+    '<Enter>':              (_wrap_enter,      'enter-notify-event'),
+    '<Leave>':              (_wrap_leave,      'leave-notify-event'),
 }
-for c in " " + string.letters:
-    seq = "<" + c + ">"
-    if not _wrap_handlers.has_key(seq):
-        _wrap_handlers[seq] = lambda e, key=c: _wrap_key_press(e, key)
-#print _wrap_handlers
+## for c in " " + string.letters:
+##     seq = "<" + c + ">"
+##     if not _wrap_handlers.has_key(seq):
+##         _wrap_handlers[seq] = lambda e, key=c: _wrap_key_press(e, key)
+## import pprint; pprint.pprint(_wrap_handlers)
 
+## NOT BOUND: <Unmap>
 
 
 __bindings = {}
@@ -204,22 +228,20 @@ def _wrap_event(widget, event, l):
 def bind(widget, sequence, func, add=None):
     wrap = _wrap_handlers.get(sequence)
     if not wrap:
-        ##print "NOT BOUND:", sequence
+        print "NOT BOUND:", sequence
         return
-    # HACK for MfxCanvasItem
-    if hasattr(widget, '_item'):
-        widget = widget._item
+    wrap, signal = wrap
     #
     k = id(widget)
     if __bindings.has_key(k):
         __bindings[k].append((wrap, func))
     else:
         l = [(wrap, func)]
-        widget.connect('event', _wrap_event, l)
+        widget.connect(signal, _wrap_event, l)
         __bindings[k] = l
 
-
 def unbind_destroy(widget):
+    return
     k = id(widget)
     if __bindings.has_key(k):
         ## FIXME
@@ -231,37 +253,28 @@ def unbind_destroy(widget):
 # ************************************************************************/
 
 def after(widget, ms, func, *args):
-    ## FIXME
-    return None
+    timer = gtk.timeout_add(ms, func, *args)
+    return timer
 
 def after_idle(widget, func, *args):
-    ## FIXME
+    gobject.idle_add(func, *args)
     return None
 
 def after_cancel(t):
     if t is not None:
-        ## FIXME
-        pass
+        gtk.timeout_remove(t)
 
 
 # /***********************************************************************
 # // font
 # ************************************************************************/
 
-getFont_cache = {}
-
-def getFont(name, cardw=0):
-    key = (name, cardw)
-    font = getFont_cache.get(key)
-    if font:
-        return font
-    # default
-    ### FIXME
-    font = "Helvetica-14"
-    font = "-adobe-helvetica-medium-r-normal--*-100-*-*-*-*-*-*"
-    getFont_cache[key] = font
-    return font
-
-
 def getTextWidth(text, font=None, root=None):
-    return 10
+    if root:
+        pango_font_desc = pango.FontDescription(font[0]+' '+str(font[1]))
+        pangolayout = root.create_pango_layout(text)
+        width = pangolayout.get_pixel_extents()[1][2]
+        return width
+    return 0
+
+

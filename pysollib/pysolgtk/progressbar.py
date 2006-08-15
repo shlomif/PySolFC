@@ -69,10 +69,11 @@ class PysolProgressBar:
                               0,    0)
 
         # hbox-1: image
-##         if images and images[0]:
-##             im = images[0].clone()
-##             im.show()
-##             hbox.pack_start(im, FALSE, FALSE)
+        if images and images[0]:
+            im = gtk.Image()
+            im.set_from_pixbuf(images[0].pixbuf)
+            hbox.pack_start(im, expand=False, fill=False)
+            im.show()
         # hbox-2:vbox
         vbox = gtk.VBox()
         vbox.show()
@@ -87,16 +88,17 @@ class PysolProgressBar:
         w, h = self.pbar.size_request()
         self.pbar.set_size_request(max(w, 300), max(h, height))
         #   set color
-        c = self.pbar.get_colormap().alloc_color(color)
-        self.pbar.style.bg[gtk.STATE_PRELIGHT] = c
+        ##~ c = self.pbar.get_colormap().alloc_color(color)
+        ##~ self.pbar.style.bg[gtk.STATE_PRELIGHT] = c
         ##~ style = self.pbar.get_style().copy()
         ##~ style.bg[gtk.STATE_PRELIGHT] = c
         ##~ self.pbar.set_style(style)
         # hbox-3:image
-##         if images and images[1]:
-##             im = images[1].clone()
-##             im.show()
-##             hbox.pack_start(im, FALSE, FALSE)
+        if images and images[1]:
+            im = gtk.Image()
+            im.set_from_pixbuf(images[1].pixbuf)
+            hbox.pack_end(im, expand=False)
+            im.show()
         # set icon
         if app:
             try:
@@ -105,9 +107,9 @@ class PysolProgressBar:
                 pixmap, mask = create_pixmap_from_xpm(self.top, bg, name)
                 self.top.set_icon(pixmap, mask)
             except: pass
-        ##~ self.top.get_window().set_cursor(cursor_new(gdk.WATCH))
         setTransient(self.top, parent)
         self.top.show()
+        self.top.window.set_cursor(gdk.Cursor(gdk.WATCH))
         self.update(percent=0)
 
     def destroy(self):

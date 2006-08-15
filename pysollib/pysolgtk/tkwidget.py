@@ -34,12 +34,14 @@
 import os, sys
 
 import gtk
-TRUE, FALSE = True, False
+from gtk import gdk
 
 # PySol imports
 
 # Toolkit imports
 from tkutil import makeToplevel, setTransient, wm_withdraw
+
+from pysollib.mfxutil import kwdefault, KwStruct
 
 
 # /***********************************************************************
@@ -49,8 +51,8 @@ from tkutil import makeToplevel, setTransient, wm_withdraw
 class _MyDialog(gtk.Dialog):
     def __init__(self):
         gtk.Dialog.__init__(self)
-        self.style = self.get_style().copy()
-        self.set_style(self.style)
+        style = self.get_style().copy()
+        self.set_style(style)
         self.connect("destroy", self.quit)
         self.connect("delete_event", self.quit)
 
@@ -67,12 +69,13 @@ class MfxDialog(_MyDialog):
     def __init__(self, parent, title='',
                  timeout=0,
                  resizable=0,
+                 width=-1, height=-1,
                  text='', justify='center',
                  strings=("OK",), default=0,
-                 width=0, separatorwidth=0,
+                 separatorwidth=0,
                  font=None,
                  buttonfont=None,
-                 padx='20', pady='20',
+                 padx=20, pady=20,
                  bitmap=None, bitmap_side='left',
                  bitmap_padx=20, bitmap_pady=20,
                  image=None, image_side='left',
@@ -80,52 +83,116 @@ class MfxDialog(_MyDialog):
         _MyDialog.__init__(self)
         self.status = 1
         self.button = -1
-        bitmap = None
-        self.init(parent, text, strings, default, bitmap, TRUE)
-        #font = "Times-14"
-##         if font:
-##             self.style.font = load_font(font)
-##             self.set_style(self.style)
-        self.set_title(title)
-        self.show()
-        gtk.main()
 
-    def init(self, parent, message="", buttons=(), default=-1,
-             pixmap=None, modal=TRUE):
+        modal=True
         if modal:
             setTransient(self, parent)
+
+
+        # settings
+        if width > 0 or height > 0:
+            self.set_size_request(width, height)
+            #self.window.resize(width, height)
+        self.set_title(title)
+        #
+        self.connect('key-press-event', self._keyPressEvent)
+        self.show()
+
+    def createBox(self):
         hbox = gtk.HBox(spacing=5)
         hbox.set_border_width(5)
         self.vbox.pack_start(hbox)
         hbox.show()
-##         if pixmap:
-##             self.realize()
-##             pixmap = gtk.Pixmap(self, pixmap)
-##             hbox.pack_start(pixmap, expand=FALSE)
-##             pixmap.show()
-        label = gtk.Label(message)
-        hbox.pack_start(label)
-        label.show()
-        for i in range(len(buttons)):
-            text = buttons[i]
+        return hbox, self.action_area
+
+    def createBitmaps(self, box, kw):
+        if kw['bitmap']:
+            stock = {"info":     gtk.STOCK_DIALOG_INFO,
+                     "error":    gtk.STOCK_DIALOG_ERROR,
+                     "warning":  gtk.STOCK_DIALOG_WARNING,
+                     "question": gtk.STOCK_DIALOG_QUESTION} [kw['bitmap']]
+            im = gtk.image_new_from_stock(stock, gtk.ICON_SIZE_DIALOG)
+            box.pack_start(im)
+            im.xpad, im.ypad = kw['bitmap_padx'], kw['bitmap_pady']
+            im.show()
+        elif kw['image']:
+            im = gtk.Image()
+            im.set_from_pixbuf(kw['image'].pixbuf)
+            if kw['image_side'] == 'left':
+                box.pack_start(im)
+            else:
+                box.pack_end(im)
+            im.xpad, im.ypad = kw['image_padx'], kw['image_pady']
+            im.show()
+
+    def createButtons(self, box, kw):
+        strings, default = kw['strings'], kw['default']
+        for i in range(len(strings)):
+            text = strings[i]
+            if not text:
+                continue
+            text = text.replace('&', '_')
             b = gtk.Button(text)
             b.set_flags(gtk.CAN_DEFAULT)
             if i == default:
                 b.grab_focus()
-                b.grab_default()
+                ##~ b.grab_default()
             b.set_data("user_data", i)
-            b.connect("clicked", self.click)
-            self.action_area.pack_start(b)
+            b.connect("clicked", self.done)
+            box.pack_start(b)
             b.show()
-        self.ret = None
 
-    def click(self, button):
+    def initKw(self, kw):
+        kwdefault(kw,
+                  timeout=0, resizable=0,
+                  text="", justify="center",
+                  strings=(_("&OK"),),
+                  default=0,
+                  width=0,
+                  padx=20, pady=20,
+                  bitmap=None, bitmap_side="left",
+                  bitmap_padx=10, bitmap_pady=20,
+                  image=None, image_side="left",
+                  image_padx=10, image_pady=20,
+                  )
+##         # default to separator if more than one button
+##         sw = 2 * (len(kw.strings) > 1)
+##         kwdefault(kw.__dict__, separatorwidth=sw)
+        return kw
+
+    def done(self, button):
         self.status = 0
         self.button = button.get_data("user_data")
         self.quit()
 
+    def _keyPressEvent(self, w, e):
+        if gdk.keyval_name(e.keyval) == 'Escape':
+            self.quit()
 
-MfxMessageDialog = MfxDialog
+
+class MfxMessageDialog(MfxDialog):
+    def __init__(self, parent, title, **kw):
+        ##print 'MfxMessageDialog', kw
+        kw = self.initKw(kw)
+        MfxDialog.__init__(self, parent, title, **kw)
+
+        top_box, bottom_box = self.createBox()
+        self.createBitmaps(top_box, kw)
+
+        label = gtk.Label(kw['text'])
+        label.set_justify(gtk.JUSTIFY_CENTER)
+        label.xpad, label.ypad = kw['padx'], kw['pady']
+        top_box.pack_start(label)
+
+        self.createButtons(bottom_box, kw)
+
+        label.show()
+        gtk.main()
+
+    def initKw(self, kw):
+        if kw.has_key('bitmap'):
+            kwdefault(kw, width=250, height=150)
+        return MfxDialog.initKw(self, kw)
 
 
 # /***********************************************************************
@@ -170,13 +237,13 @@ class MfxSimpleEntry(_MyDialog):
         self.button = 0
         self.status = 1
         self.value = value
-        self.init(parent, label, TRUE)
+        self.init(parent, label, True)
         self.entry.set_text(str(value))
         self.set_title(title)
         self.show()
         gtk.main()
 
-    def init(self, parent,  message="", modal=TRUE):
+    def init(self, parent,  message="", modal=True):
         if modal:
             setTransient(self, parent)
         box = gtk.VBox(spacing=10)
@@ -192,7 +259,7 @@ class MfxSimpleEntry(_MyDialog):
         self.entry.show()
         self.entry.grab_focus()
         button = gtk.Button("OK")
-        button.connect("clicked", self.click)
+        button.connect("clicked", self.done)
         button.set_flags(CAN_DEFAULT)
         self.action_area.pack_start(button)
         button.show()
@@ -203,7 +270,7 @@ class MfxSimpleEntry(_MyDialog):
         self.action_area.pack_start(button)
         button.show()
 
-    def click(self, button):
+    def done(self, button):
         self.status = 0
         self.value = self.entry.get_text()
         self.quit()

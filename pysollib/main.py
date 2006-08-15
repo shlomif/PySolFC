@@ -483,7 +483,7 @@ def pysol_exit(app):
     if app.audio is not None:
         app.audio.destroy()         # shut down audio
         destruct(app.audio)
-    app.wm_withdraw()
+    ##app.wm_withdraw()
     if app.canvas is not None:
         app.canvas.destroy()
         destruct(app.canvas)

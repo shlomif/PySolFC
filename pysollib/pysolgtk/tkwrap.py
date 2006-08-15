@@ -198,7 +198,7 @@ class _MfxToplevel(gtk.Window):
         pass
 
     def wm_deiconify(self):
-        self.show_all()
+        self.present()
 
     def wm_geometry(self, newGeometry=None):
         ##print 'wm_geometry', newGeometry
@@ -293,6 +293,7 @@ class MfxRoot(_MfxToplevel):
 
     # FIXME - make sleep interruptible
     def sleep(self, seconds):
+        gdk.window_process_all_updates()
         time.sleep(seconds)
 
     def wmDeleteWindow(self, *args):

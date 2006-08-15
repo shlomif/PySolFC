@@ -40,13 +40,12 @@ __all__ = ['PysolStatusbar',
 import os, sys, Tkinter
 
 if __name__ == '__main__':
-    d = os.path.abspath(os.path.join(sys.path[0], '..', '..'))
+    d = os.path.abspath(os.path.join(sys.path[0], os.pardir, os.pardir))
     sys.path.append(d)
     import gettext
     gettext.install('pysol', d, unicode=True)
 
 # PySol imports
-from pysollib.mfxutil import destruct
 
 # Toolkit imports
 from tkwidget import MfxTooltip
@@ -137,8 +136,8 @@ class MfxStatusbar:
         self._show = show
         return True
 
-    def hide(self, resize=0):
-        self.show(None, resize)
+    def hide(self, resize=False):
+        self.show(False, resize)
 
     def destroy(self):
         for w in self._tooltips:

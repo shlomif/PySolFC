@@ -51,6 +51,7 @@
 # imports
 import os, sys, types
 
+import gobject
 import gtk
 from gtk import gdk
 import gnome.canvas
@@ -123,6 +124,10 @@ class _CanvasItem:
     def hide(self):
         self._item.hide()
 
+    def connect(self, signal, func, args):
+        ##print signal
+        self._item.connect('event', func, args)
+
 
 class MfxCanvasGroup(_CanvasItem):
     def __init__(self, canvas):
@@ -148,15 +153,49 @@ class MfxCanvasImage(_CanvasItem):
         self._item.set(pixbuf=image.pixbuf)
 
 
+
+## arrow = MfxCanvasLine(self.canvas, x1, y1, x2, y2, width=7,
+##                       fill=self.app.opt.hintarrow_color,
+##                       arrow="last", arrowshape=(30,30,10))
+##         arrow = MfxCanvasLine(game.canvas,
+##                               coords,
+##                               {'width': w,
+##                                'fill': game.app.opt.hintarrow_color,
+##                                ##'arrow': 'last',
+##                                ##'arrowshape': (s1, s1, s2)
+##                                }
+##                               )
+
 class MfxCanvasLine(_CanvasItem):
-    def __init__(self, canvas, x1, y1, x2, y2, width, fill, arrow, arrowshape):
+    def __init__(self, canvas, *points, **kw):
         _CanvasItem.__init__(self, canvas)
-        # FIXME
-        self._item = None
+        kwargs = {}
+        if kw.has_key('arrow'):
+            if kw['arrow'] == 'first':
+                kwargs['first_arrowhead'] = True
+            elif kw['arrow'] == 'last':
+                kwargs['last_arrowhead'] = True
+            elif kw['arrow'] == 'both':
+                kwargs['first_arrowhead'] = True
+                kwargs['last_arrowhead'] = True
+        if kw.has_key('fill'):
+            kwargs['fill_color'] = kw['fill']
+        if kw.has_key('width'):
+            kwargs['width_units'] = float(kw['width'])
+        if kw.has_key('arrowshape'):
+            kwargs['arrow_shape_a'] = kw['arrowshape'][0]
+            kwargs['arrow_shape_b'] = kw['arrowshape'][1]
+            kwargs['arrow_shape_c'] = kw['arrowshape'][2]
+        self._item = canvas.root().add(gnome.canvas.CanvasLine,
+                                       points=points, **kwargs)
+        self._item.show()
+        canvas.show_all()
+
 
 
 class MfxCanvasRectangle(_CanvasItem):
     def __init__(self, canvas, x1, y1, x2, y2, width, fill, outline):
+        _CanvasItem.__init__(self, canvas)
         self._item = canvas.root().add('rect', x1=x1, y1=y1, x2=x2, y2=y2,
                                        width_pixels=width, outline_color=outline)
         if fill is not None:
@@ -209,11 +248,14 @@ class MfxCanvasText(_CanvasItem):
 
 class MfxCanvas(gnome.canvas.Canvas):
     def __init__(self, top, bg=None, highlightthickness=0):
+        print 'MfxCanvas', bg
         self.preview = 0
         # Tkinter compat
         self.items = {}
         self._all_items = []
         self._text_items = []
+        self._width, self._height = -1, -1
+        self._tile = None
         # private
         self.__tileimage = None
         self.__tiles = []
@@ -226,19 +268,27 @@ class MfxCanvas(gnome.canvas.Canvas):
             c = self.get_colormap().alloc(bg)
             style.bg[gtk.STATE_NORMAL] = c
         self.set_style(style)
-        ##self.set_scroll_region(0, 0, gdk.screen_width(), gdk.screen_height())
-        top.table.attach(self,
-                         0, 1,                   2, 3,
-                         gtk.EXPAND | gtk.FILL,  gtk.EXPAND | gtk.FILL,
-                         0,                      0)
+        self.top_bg = top.style.bg[gtk.STATE_NORMAL]
 
 
         ##
         self.top = top
         self.xmargin, self.ymargin = 0, 0
 
+        self.connect('size-allocate', self._sizeAllocate)
+
+
     def __setattr__(self, name, value):
         self.__dict__[name] = value
+
+    def _sizeAllocate(self, w, rect):
+        ##print '_sizeAllocate', rect.x, rect.y, rect.width, rect.height
+        if self._width > 0:
+            w = self._width
+            h = min(self._height, rect.height)
+            self.set_scroll_region(0,0,w,h)
+        if self._tile and self._tile.filename:
+            self._setTile()
 
     def bind(self, sequence=None, func=None, add=None):
         assert add is None
@@ -292,6 +342,9 @@ class MfxCanvas(gnome.canvas.Canvas):
                 i._item.destroy()
             ##i._item = None
         self._all_items = []
+        if self.__tileimage:
+            self.__tileimage.destroy()
+            self.__tileimage = None
 
     # PySol extension
     def findCard(self, stack, event):
@@ -312,8 +365,8 @@ class MfxCanvas(gnome.canvas.Canvas):
 
     # PySol extension - set a tiled background image
     def setTile(self, app, i, force=False):
-        ##print 'setTile'
         tile = app.tabletile_manager.get(i)
+        ##print 'setTile', i, tile
         if tile is None or tile.error:
             return False
         if i == 0:
@@ -326,18 +379,20 @@ class MfxCanvas(gnome.canvas.Canvas):
         if not force:
             if i == app.tabletile_index and tile.color == app.opt.table_color:
                 return False
+            if self._tile is tile:
+                return False
         #
-        if not self._setTile(tile.filename, tile.stretch):
-            tile.error = True
-            return False
-
+        self._tile = tile
         if i == 0:
+            if self.__tileimage:
+                self.__tileimage.destroy()
+                self.__tileimage = None
             self.configure(bg=tile.color)
             ##app.top.config(bg=tile.color)
             color = None
         else:
-            self.configure(bg=app.top_bg)
-            ##app.top.config(bg=app.top_bg)
+            self._setTile()
+            self.configure(bg=self.top_bg)
             color = tile.text_color
 
         if app.opt.table_text_color:
@@ -349,36 +404,56 @@ class MfxCanvas(gnome.canvas.Canvas):
 
 
     ### FIXME: should use style.bg_pixmap ????
-    def _setTile(self, image, stretch=False):
-        self.realize()
-        self.show_now()
-        sw, sh = self.get_size()
-        print self.get_size()
-        return
-        try:
-            if image and type(image) is types.StringType:
-                image = loadImage(image)
-        except:
-             return 0
-        for item in self.__tiles:
-            item.destroy()
-        self.__tiles = []
-        # must keep a reference to the image, otherwise Python will
-        # garbage collect it...
-        self.__tileimage = image
-        if image is None:
-            return 1
-        iw, ih = image.width(), image.height()
-        sw = max(self.winfo_screenwidth(), 1024)
-        sh = max(self.winfo_screenheight(), 768)
-        for x in range(0, sw - 1, iw):
-            for y in range(0, sh - 1, ih):
-                item = self.root().add('image', x=x, y=y, width=iw, height=ih,
-                                       image=image.im._im,
-                                       anchor=gtk.ANCHOR_NW)
-                item.lower_to_bottom()
-                self.__tiles.append(item)
-        return 1
+    def _setTile(self):
+        if not self._tile:
+            return
+        ##print '_setTile:', self.get_size(), self._tile.filename
+        #
+        filename = self._tile.filename
+        stretch = self._tile.stretch
+
+        if not filename:
+            return False
+        if not self.window: # not realized yet
+            return False
+
+        self.setBackgroundImage(filename, stretch)
+
+    def setBackgroundImage(self, filename, stretch):
+
+        width, height = self.get_size()
+        pixbuf = gtk.gdk.pixbuf_new_from_file(filename)
+        w, h = pixbuf.get_width(), pixbuf.get_height()
+        dx, dy = self.world_to_window(0, 0)
+        dx, dy = int(dx), int(dy)
+
+        if self.__tileimage:
+            self.__tileimage.destroy()
+            self.__tileimage = None
+
+        if stretch:
+            bg_pixbuf = pixbuf.scale_simple(width, height, gdk.INTERP_BILINEAR)
+        else:
+            bg_pixbuf = gdk.Pixbuf(pixbuf.get_colorspace(),
+                                   pixbuf.get_has_alpha(),
+                                   pixbuf.get_bits_per_sample(),
+                                   width, height)
+            y = 0
+            while y < height:
+                x = 0
+                while x < width:
+                    ww = min(w, width-x)
+                    hh = min(h, height-y)
+                    pixbuf.copy_area(0, 0, ww, hh, bg_pixbuf, x, y)
+                    x += w
+                y += h
+
+        w = self.root().add(gnome.canvas.CanvasPixbuf,
+                            pixbuf=bg_pixbuf, x=0-dx, y=0-dy)
+        w.lower_to_bottom()
+        self.__tileimage = w
+
+
 
     def setTopImage(self, image, cw=0, ch=0):
         ## FIXME
@@ -386,25 +461,31 @@ class MfxCanvas(gnome.canvas.Canvas):
 
     def update_idletasks(self):
         ##print 'MfxCanvas.update_idletasks'
+        #gdk.window_process_all_updates()
+        #self.show_now()
         self.update_now()
-        ##gdk.window_process_all_updates()
-        self.show_now()
 
     def grid(self, *args, **kw):
-        #print '1 >->', self.window
-        if self.window:
-            #print '2 >->', self.window
-            self.window.resize(self._width, self._height)
+        self.top.table.attach(self,
+            0, 1,                   2, 3,
+            gtk.EXPAND | gtk.FILL,  gtk.EXPAND | gtk.FILL | gtk.SHRINK,
+            0,                      0)
+        self.show()
+
+
+    def _resize(self):
+        ##print '_resize:', self._width, self._height
+        #if self.window:
+        self.set_size(self._width, self._height)
+        self.window.resize(self._width, self._height)
 
     def setInitialSize(self, width, height):
-        print 'setInitialSize:', width, height
+        ##print 'setInitialSize:', width, height
         self._width, self._height = width, height
         self.set_size_request(width, height)
         #self.set_size(width, height)
         #self.queue_resize()
-        self.set_scroll_region(0,0,width,height)
-        #if self.window:
-        #    self.window.resize(width, height)
+        gobject.idle_add(self._resize, priority=gobject.PRIORITY_HIGH_IDLE)
 
 
 class MfxScrolledCanvas(MfxCanvas):

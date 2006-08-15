@@ -197,10 +197,11 @@ class SelectTileDialogWithPreview(MfxDialog):
             canvas.setTextColor(None)
             self.preview_key = key
             self.table_color = key
-            return
-        tile = self.manager.get(key)
-        if tile:
-            if self.preview.setTile(self.app, key):
-                return
-        self.preview_key = -1
+        else:
+            # image
+            tile = self.manager.get(key)
+            if tile:
+                if self.preview.setTile(self.app, key):
+                    return
+            self.preview_key = -1
 

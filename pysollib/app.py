@@ -770,6 +770,10 @@ class Application:
             self.intro.progress.destroy()
             destruct(self.intro.progress)
             self.intro.progress = None
+        if TOOLKIT == 'gtk':
+            ## FIXME
+            self.top.update_idletasks()
+            self.top.show_now()
         # prepare game
         autoplay = 0
         if self.nextgame.loadedgame is not None:

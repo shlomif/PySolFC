@@ -33,7 +33,6 @@
 # imports
 import os, sys
 import gtk
-TRUE, FALSE = True, False
 
 # PySol imports
 
@@ -42,25 +41,54 @@ TRUE, FALSE = True, False
 # //
 # ************************************************************************/
 
-class PysolStatusbar:
-    def __init__(self, top):
+class BasicStatusbar:
+    def __init__(self, top, row, column, columnspan):
         self.top = top
-        self.side = '#init#'
+        self._widgets = []
+        self.hbox = gtk.HBox()
+        top.table.attach(self.hbox,
+                         column, column+columnspan,   row, row+1,
+                         gtk.EXPAND | gtk.FILL,       0,
+                         0,                           0)
+        self.createLabel('space', width=2)
+
+
+    def createLabel(self, name, fill=False, expand=False, grip=False, width=0):
+        label = gtk.Statusbar()
+        self.hbox.pack_start(label, fill=fill, expand=expand)
+        label.show()
+        if not grip:
+            label.set_has_resize_grip(False)
+        setattr(self, name + "_label", label)
+        label.set_size_request(width*8, -1)
+        ##lb = label.get_children()[0].get_children()[0]
+        ##lb.set_justify(gtk.JUSTIFY_CENTER)
+        self._widgets.append(label)
+        ##label.push(0, '')
+
 
     def updateText(self, **kw):
-        pass
+        for k, v in kw.items():
+            label = getattr(self, k + "_label")
+            label.pop(0)
+            label.push(0, unicode(v))
+
 
     def configLabel(self, name, **kw):
+        print 'statusbar.configLabel', kw
         pass
 
-    def show(self, side='bottom', resize=0):
-        return 0
+    def show(self, show=True, resize=False):
+        if show:
+            self.hbox.show()
+        else:
+            self.hbox.hide()
+        return True
 
-    def hide(self, resize=0):
-        self.show(None, resize)
+    def hide(self, resize=False):
+        self.show(False, resize)
+        return True
 
-    def getSide(self):
-        return self.side
 
     def destroy(self):
         pass
@@ -69,7 +97,25 @@ class PysolStatusbar:
 # /***********************************************************************
 # //
 # ************************************************************************/
+class PysolStatusbar(BasicStatusbar):
+    def __init__(self, top):
+        BasicStatusbar.__init__(self, top, row=4, column=0, columnspan=3)
+        #
+        for n, t, w in (
+            ("time",        _("Playing time"),            10),
+            ("moves",       _('Moves/Total moves'),       10),
+            ("gamenumber",  _("Game number"),             26),
+            ("stats",       _("Games played: won/lost"),  12),
+            ):
+            self.createLabel(n, width=w)
+        #
+        l = self.createLabel("info", fill=True, expand=True, grip=True)
 
-class HelpStatusbar(PysolStatusbar):
-    pass
+
+
+class HelpStatusbar(BasicStatusbar):
+    def __init__(self, top):
+        BasicStatusbar.__init__(self, top, row=5, column=0, columnspan=3)
+        self.createLabel("info", fill=True, expand=True)
+
 

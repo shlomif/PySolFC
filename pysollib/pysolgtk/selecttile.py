@@ -44,7 +44,7 @@ class SelectTileDialogWithPreview(MfxDialog):
         kw = self.initKw(kw)
         MfxDialog.__init__(self, parent, title, **kw)
         #
-        top_box, bottom_box = self.createBox()
+        top_box, bottom_box = self.createHBox()
         #
         if key is None:
             key = manager.getSelected()

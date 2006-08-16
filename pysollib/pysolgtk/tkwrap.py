@@ -110,7 +110,7 @@ class _MfxToplevel(gtk.Window):
     def __init__(self, *args, **kw):
         gtk.Window.__init__(self, type=gtk.WINDOW_TOPLEVEL)
         ##~ self.style = self.get_style().copy()
-        self.set_style(self.style)
+        ##~ self.set_style(self.style)
         #self.vbox = gtk.VBox()
         #self.vbox.show()
         #self.add(self.vbox)
@@ -145,7 +145,7 @@ class _MfxToplevel(gtk.Window):
                 print "Toplevel configure:", k, v
                 raise AttributeError, k
         if height > 0 and width > 0:
-            print 'configure: size:', width, height
+            ##print 'configure: size:', width, height
             ## FIXME
             #self.set_default_size(width, height)
             #self.set_size_request(width, height)
@@ -202,12 +202,15 @@ class _MfxToplevel(gtk.Window):
 
     def wm_geometry(self, newGeometry=None):
         ##print 'wm_geometry', newGeometry
-        if newGeometry == '':
-            self.reshow_with_initial_size()
+        print 'allow_shrink:', self.allow_shrink
+        if not newGeometry:
+            pass
+            ##self.reshow_with_initial_size()
             ##self.resize(1, 1)
         else:
-            w, h = newGeometry
-            self.resize(w, h)
+            pass
+            ##w, h = newGeometry
+            ##self.resize(w, h)
 
 
 
@@ -227,7 +230,8 @@ class _MfxToplevel(gtk.Window):
         ##~ self.set_icon_name(name)
 
     def wm_minsize(self, width, height):
-        self.set_geometry_hints(min_width=width, min_height=height)
+        pass
+        ##~ self.set_geometry_hints(min_width=width, min_height=height)
 
     def wm_protocol(self, name=None, func=None):
         if name == 'WM_DELETE_WINDOW':

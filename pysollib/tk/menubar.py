@@ -300,7 +300,7 @@ class PysolMenubar(PysolMenubarActions):
         menu.add_command(label=n_("&Clear bookmarks"), command=self.mClearBookmarks)
         menu.add_separator()
 
-        menu.add_command(label=n_("Restart &game"), command=self.mRestart, accelerator=m+"G")
+        menu.add_command(label=n_("Restart"), command=self.mRestart, accelerator=m+"G")
 
         menu = MfxMenu(self.__menubar, label=n_("&Game"))
         menu.add_command(label=n_("&Deal cards"), command=self.mDeal, accelerator="D")

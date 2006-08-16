@@ -36,17 +36,78 @@
 __all__ = ['PlayerOptionsDialog']
 
 # imports
-import gtk
+import gobject, gtk
 
 # PySol imports
 
 # Toolkit imports
 from tkwidget import MfxDialog
+from pysollib.mfxutil import kwdefault
+
 
 # /***********************************************************************
 # //
 # ************************************************************************/
 
 class PlayerOptionsDialog(MfxDialog):
-    pass
+    def __init__(self, parent, title, app, **kw):
+        kw = self.initKw(kw)
+        MfxDialog.__init__(self, parent, title, **kw)
+        #
+        top_box, bottom_box = self.createVBox()
+        #
+        label = gtk.Label('Please enter your name')
+        label.show()
+        top_box.pack_start(label)
+        self.player_entry = gtk.Entry()
+        self.player_entry.show()
+        top_box.pack_start(self.player_entry, expand=False)
+        completion = gtk.EntryCompletion()
+        self.player_entry.set_completion(completion)
+        model = gtk.ListStore(gobject.TYPE_STRING)
+        print '>>', app.getAllUserNames()
+        for name in app.getAllUserNames():
+            iter = model.append()
+            model.set(iter, 0, name)
+        completion.set_model(model)
+        completion.set_text_column(0)
+        self.player_entry.set_text(app.opt.player)
+        #
+        self.confirm_quit_check = gtk.CheckButton(_('Confirm quit'))
+        self.confirm_quit_check.show()
+        top_box.pack_start(self.confirm_quit_check)
+        self.confirm_quit_check.set_active(app.opt.confirm != 0)
+        #
+        self.update_stats_check = gtk.CheckButton(_('Update statistics and logs'))
+        self.update_stats_check.show()
+        top_box.pack_start(self.update_stats_check)
+        self.update_stats_check.set_active(app.opt.update_player_stats != 0)
+        #
+        self.createButtons(bottom_box, kw)
+        self.show_all()
+        gtk.main()
+
+
+    def initKw(self, kw):
+        kwdefault(kw,
+                  strings=(_('&OK'), _('&Cancel'),),
+                  default=0,
+                  #resizable=1,
+                  #font=None,
+                  padx=10, pady=10,
+                  #width=600, height=400,
+                  ##~ buttonpadx=10, buttonpady=5,
+                  )
+        return MfxDialog.initKw(self, kw)
+
+
+    def done(self, button):
+        self.button = button.get_data('user_data')
+        self.player = self.player_entry.get_text()
+        self.confirm = self.confirm_quit_check.get_active()
+        self.update_stats = self.update_stats_check.get_active()
+        self.win_animation = False
+        self.quit()
+
+
 

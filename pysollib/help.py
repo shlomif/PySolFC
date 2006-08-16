@@ -160,9 +160,7 @@ def helpHTML(app, document, dir_, top=None):
             wm_set_icon(top, app.dataloader.findIcon())
         except:
             pass
-        viewer = tkHTMLViewer(top)
-        viewer.app = app
-        viewer.home = help_html_index
+        viewer = tkHTMLViewer(top, app, help_html_index)
         viewer.display(doc)
     #wm_map(top, maximized=maximized)
     viewer.parent.tkraise()

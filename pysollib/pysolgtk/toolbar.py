@@ -57,31 +57,31 @@ class PysolToolbar(PysolToolbarActions):
         self.toolbar = gtk.Toolbar(gtk.ORIENTATION_HORIZONTAL,
                                    gtk.TOOLBAR_ICONS)
 
-        #self.bg = top.get_style().bg[gtk.STATE_NORMAL]
         ui_info = '''
 <ui>
-  <toolbar  name='ToolBar'>
-    <toolitem action='New'/>
-    <toolitem action='Restart'/>
+  <toolbar  name='toolbar'>
+    <toolitem action='new'/>
+    <toolitem action='restart'/>
     <separator/>
-    <toolitem action='Open'/>
-    <toolitem action='Save'/>
+    <toolitem action='open'/>
+    <toolitem action='save'/>
     <separator/>
-    <toolitem action='Undo'/>
-    <toolitem action='Redo'/>
-    <toolitem action='Autodrop'/>
+    <toolitem action='undo'/>
+    <toolitem action='redo'/>
+    <toolitem action='autodrop'/>
+    <toolitem action='pause'/>
     <separator/>
-    <toolitem action='Stats'/>
-    <toolitem action='Rules'/>
+    <toolitem action='stats'/>
+    <toolitem action='rules'/>
     <separator/>
-    <toolitem action='Quit'/>
+    <toolitem action='quit'/>
   </toolbar>
 </ui>
 '''
         ui_manager = self.top.ui_manager # created in menubar.py
         ui_manager_id = ui_manager.add_ui_from_string(ui_info)
 
-        toolbar = ui_manager.get_widget("/ToolBar")
+        toolbar = ui_manager.get_widget("/toolbar")
         toolbar.set_tooltips(True)
         toolbar.set_style(gtk.TOOLBAR_ICONS)
         toolbar.show()
@@ -91,36 +91,6 @@ class PysolToolbar(PysolToolbarActions):
                          gtk.EXPAND | gtk.FILL,  0,
                          0,                      0)
         toolbar.show()
-
-
-
-        # no longer needed
-        self.bg = None
-        #
-
-
-
-    # util
-    def _createButton(self, name, command, padx=0, stock=None, tooltip=None):
-        ##button = self.toolbar.append_item(name, tooltip, "", stock, command)
-        ##button = self.toolbar.insert_stock(stock, tooltip, '', command, None, -1)
-        image = gtk.Image()
-        image.set_from_stock(stock, gtk.ICON_SIZE_SMALL_TOOLBAR)
-
-        button = gtk.ToolButton(None, name)
-        button.set_tooltip(tooltip)
-        #button.set_relief(gtk.RELIEF_NONE)
-        #button.connect('activate', command)
-        self.toolbar.insert(button, -1)
-        setattr(self, name + "_button", button)
-
-
-    def _createLabel(self, name, padx=0, side='IGNORE', tooltip=None):
-        ## FIXME: append_widget
-        pass
-
-    def _createSeparator(self):
-        self.toolbar.append_space()
 
 
     #

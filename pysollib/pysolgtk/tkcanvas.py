@@ -80,6 +80,7 @@ class _CanvasItem:
         ##print self, 'addtag'
         ##~ assert isinstance(group._item, CanvasGroup)
         self._item.reparent(group._item)
+
     def dtag(self, group):
         pass
         ##print self, 'dtag'
@@ -88,9 +89,11 @@ class _CanvasItem:
 
     def bind(self, sequence, func, add=None):
         bind(self._item, sequence, func, add)
+
     def bbox(self):
         ## FIXME
         return (0, 0, 0, 0)
+
     def delete(self):
         if self._item is not None:
             self._item.destroy()
@@ -120,13 +123,16 @@ class _CanvasItem:
     moveTo = move
 
     def show(self):
-        self._item.show()
+        if self._item:
+            self._item.show()
     def hide(self):
-        self._item.hide()
+        if self._item:
+            self._item.hide()
 
     def connect(self, signal, func, args):
         ##print signal
         self._item.connect('event', func, args)
+
 
 
 class MfxCanvasGroup(_CanvasItem):
@@ -153,19 +159,6 @@ class MfxCanvasImage(_CanvasItem):
         self._item.set(pixbuf=image.pixbuf)
 
 
-
-## arrow = MfxCanvasLine(self.canvas, x1, y1, x2, y2, width=7,
-##                       fill=self.app.opt.hintarrow_color,
-##                       arrow="last", arrowshape=(30,30,10))
-##         arrow = MfxCanvasLine(game.canvas,
-##                               coords,
-##                               {'width': w,
-##                                'fill': game.app.opt.hintarrow_color,
-##                                ##'arrow': 'last',
-##                                ##'arrowshape': (s1, s1, s2)
-##                                }
-##                               )
-
 class MfxCanvasLine(_CanvasItem):
     def __init__(self, canvas, *points, **kw):
         _CanvasItem.__init__(self, canvas)
@@ -190,7 +183,6 @@ class MfxCanvasLine(_CanvasItem):
                                        points=points, **kwargs)
         self._item.show()
         canvas.show_all()
-
 
 
 class MfxCanvasRectangle(_CanvasItem):
@@ -259,6 +251,7 @@ class MfxCanvas(gnome.canvas.Canvas):
         # private
         self.__tileimage = None
         self.__tiles = []
+        self.__topimage = None
         # friend MfxCanvasText
         self._text_color = '#000000'
         #
@@ -346,6 +339,14 @@ class MfxCanvas(gnome.canvas.Canvas):
             self.__tileimage.destroy()
             self.__tileimage = None
 
+    def hideAllItems(self):
+        for i in self._all_items:
+            i.hide()
+
+    def showAllItems(self):
+        for i in self._all_items:
+            i.show()
+
     # PySol extension
     def findCard(self, stack, event):
         # FIXME
@@ -415,11 +416,13 @@ class MfxCanvas(gnome.canvas.Canvas):
         if not filename:
             return False
         if not self.window: # not realized yet
-            return False
+            self.realize()
+            ##return False
 
         self.setBackgroundImage(filename, stretch)
 
     def setBackgroundImage(self, filename, stretch):
+        print 'setBackgroundImage', filename
 
         width, height = self.get_size()
         pixbuf = gtk.gdk.pixbuf_new_from_file(filename)
@@ -456,14 +459,30 @@ class MfxCanvas(gnome.canvas.Canvas):
 
 
     def setTopImage(self, image, cw=0, ch=0):
-        ## FIXME
-        pass
+        if self.__topimage:
+            self.__topimage.destroy()
+            self.__topimage = None
+        if not image:
+            return
+        if type(image) is str:
+            pixbuf = gtk.gdk.pixbuf_new_from_file(image)
+        else:
+            pixbuf = image.pixbuf
+        w, h = self.get_size()
+        iw, ih = pixbuf.get_width(), pixbuf.get_height()
+        x, y = (w-iw)/2, (h-ih)/2
+        dx, dy = self.world_to_window(0, 0)
+        dx, dy = int(dx), int(dy)
+        self.__topimage = self.root().add(gnome.canvas.CanvasPixbuf,
+                                          pixbuf=pixbuf, x=x-dx, y=y-dy)
+
 
     def update_idletasks(self):
         ##print 'MfxCanvas.update_idletasks'
         #gdk.window_process_all_updates()
         #self.show_now()
         self.update_now()
+
 
     def grid(self, *args, **kw):
         self.top.table.attach(self,
@@ -485,7 +504,7 @@ class MfxCanvas(gnome.canvas.Canvas):
         self.set_size_request(width, height)
         #self.set_size(width, height)
         #self.queue_resize()
-        gobject.idle_add(self._resize, priority=gobject.PRIORITY_HIGH_IDLE)
+        #gobject.idle_add(self._resize, priority=gobject.PRIORITY_HIGH_IDLE)
 
 
 class MfxScrolledCanvas(MfxCanvas):

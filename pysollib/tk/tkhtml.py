@@ -232,9 +232,10 @@ class tkHTMLViewer:
     symbols_fn = {}  # filenames, loaded in Application.loadImages3
     symbols_img = {}
 
-    def __init__(self, parent):
+    def __init__(self, parent, app=None, home=None):
         self.parent = parent
-        self.home = None
+        self.app = app
+        self.home = home
         self.url = None
         self.history = Struct(
             list = [],
@@ -371,11 +372,10 @@ class tkHTMLViewer:
     def display(self, url, add=1, relpath=1, xview=0, yview=0):
         # for some reason we have to stop the PySol demo
         # (is this a multithread problem with Tkinter ?)
-        if self.__dict__.get("app"):
-            if self.app and self.app.game:
-                self.app.game.stopDemo()
-                ##self.app.game._cancelDrag()
-                ##pass
+        if self.app and self.app.game:
+            self.app.game.stopDemo()
+            ##self.app.game._cancelDrag()
+            ##pass
 
         # ftp: and http: would work if we use urllib, but this widget is
         # far too limited to display anything but our documentation...

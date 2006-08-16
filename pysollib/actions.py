@@ -305,7 +305,7 @@ class PysolMenubarActions:
         self.setMenuState(ms.redo, "edit.redo")
         self.setMenuState(ms.redo, "edit.redoall")
         self.updateBookmarkMenuState()
-        self.setMenuState(ms.restart, "edit.restartgame")
+        self.setMenuState(ms.restart, "edit.restart")
         # Game menu
         self.setMenuState(ms.deal, "game.dealcards")
         self.setMenuState(ms.autodrop, "game.autodrop")

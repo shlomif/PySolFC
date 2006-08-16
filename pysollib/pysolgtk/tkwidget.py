@@ -60,6 +60,7 @@ class _MyDialog(gtk.Dialog):
         self.__dict__[name] = value
 
     def quit(self, *args):
+        self.status = 0
         self.hide()
         self.destroy()
         gtk.main_quit()
@@ -88,7 +89,6 @@ class MfxDialog(_MyDialog):
         if modal:
             setTransient(self, parent)
 
-
         # settings
         if width > 0 or height > 0:
             self.set_size_request(width, height)
@@ -96,14 +96,22 @@ class MfxDialog(_MyDialog):
         self.set_title(title)
         #
         self.connect('key-press-event', self._keyPressEvent)
-        self.show()
 
-    def createBox(self):
-        hbox = gtk.HBox(spacing=5)
-        hbox.set_border_width(5)
-        self.vbox.pack_start(hbox)
-        hbox.show()
-        return hbox, self.action_area
+
+    def createBox(self, widget_class=gtk.HBox):
+        box = widget_class(spacing=5)
+        box.set_border_width(5)
+        self.vbox.pack_start(box)
+        box.show()
+        return box, self.action_area
+
+    createHBox = createBox
+
+    def createVBox(self):
+        return self.createBox(widget_class=gtk.VBox)
+
+    def createTable(self):
+        return self.createBox(widget_class=gtk.Table)
 
     def createBitmaps(self, box, kw):
         if kw['bitmap']:
@@ -133,10 +141,10 @@ class MfxDialog(_MyDialog):
                 continue
             text = text.replace('&', '_')
             b = gtk.Button(text)
-            b.set_flags(gtk.CAN_DEFAULT)
+            b.set_property('can-default', True)
             if i == default:
                 b.grab_focus()
-                ##~ b.grab_default()
+                #b.grab_default()
             b.set_data("user_data", i)
             b.connect("clicked", self.done)
             box.pack_start(b)
@@ -181,17 +189,22 @@ class MfxMessageDialog(MfxDialog):
 
         label = gtk.Label(kw['text'])
         label.set_justify(gtk.JUSTIFY_CENTER)
-        label.xpad, label.ypad = kw['padx'], kw['pady']
+        label.set_property('xpad', kw['padx'])
+        label.set_property('ypad', kw['pady'])
         top_box.pack_start(label)
 
         self.createButtons(bottom_box, kw)
 
         label.show()
+        self.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
+        ##self.set_position(gtk.WIN_POS_CENTER)
+
+        self.show_all()
         gtk.main()
 
     def initKw(self, kw):
-        if kw.has_key('bitmap'):
-            kwdefault(kw, width=250, height=150)
+        #if kw.has_key('bitmap'):
+        #    kwdefault(kw, width=250, height=150)
         return MfxDialog.initKw(self, kw)
 
 
@@ -260,13 +273,13 @@ class MfxSimpleEntry(_MyDialog):
         self.entry.grab_focus()
         button = gtk.Button("OK")
         button.connect("clicked", self.done)
-        button.set_flags(CAN_DEFAULT)
+        button.set_flags(gtk.CAN_DEFAULT)
         self.action_area.pack_start(button)
         button.show()
         button.grab_default()
         button = gtk.Button("Cancel")
         button.connect("clicked", self.quit)
-        button.set_flags(CAN_DEFAULT)
+        button.set_flags(gtk.CAN_DEFAULT)
         self.action_area.pack_start(button)
         button.show()
 

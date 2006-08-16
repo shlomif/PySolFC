@@ -78,116 +78,130 @@ class PysolMenubar(PysolMenubarActions):
     def createMenubar(self):
 
         entries = (
-  ('New',     gtk.STOCK_NEW,     '_New', 'N', 'New game', self.mNewGame),
-  ('Open',    gtk.STOCK_OPEN,    '_Open', '<control>O', 'Open a\nsaved game', self.mOpen),
-  ('Restart', gtk.STOCK_REFRESH, '_Restart', '<control>G', 'Restart the\ncurrent game', self.mRestart),
-  ('Save',    gtk.STOCK_SAVE,    '_Save', '<control>S', 'Save game', self.mSave),
-  ('Undo',    gtk.STOCK_UNDO,    'Undo', 'Z', 'Undo', self.mUndo),
-  ('Redo',    gtk.STOCK_REDO,    'Redo', 'R', 'Redo', self.mRedo),
-  ('Autodrop',gtk.STOCK_JUMP_TO, '_Auto drop', 'A', 'Auto drop', self.mDrop),
-  ('Stats',   gtk.STOCK_EXECUTE, 'Stats', None, 'Statistics', self.mStatus),
-  ('Rules',   gtk.STOCK_HELP,    'Rules', None, 'Rules', self.mHelpRules),
-  ('Quit',    gtk.STOCK_QUIT,    'Quit', '<control>Q', 'Quit PySol', self.mQuit),
+  ('new',     gtk.STOCK_NEW,     '_New', 'N', 'New game', self.mNewGame),
+  ('open',    gtk.STOCK_OPEN,    '_Open', '<control>O', 'Open a\nsaved game', self.mOpen),
+  ('restart', gtk.STOCK_REFRESH, '_Restart', '<control>G', 'Restart the\ncurrent game', self.mRestart),
+  ('save',    gtk.STOCK_SAVE,    '_Save', '<control>S', 'Save game', self.mSave),
+  ('undo',    gtk.STOCK_UNDO,    'Undo', 'Z', 'Undo', self.mUndo),
+  ('redo',    gtk.STOCK_REDO,    'Redo', 'R', 'Redo', self.mRedo),
+  ('autodrop',gtk.STOCK_JUMP_TO, '_Auto drop', 'A', 'Auto drop', self.mDrop),
+  ('stats',   gtk.STOCK_HOME,    'Stats', None, 'Statistics', self.mStatus),
+  ('rules',   gtk.STOCK_HELP,    'Rules', 'F1', 'Rules', self.mHelpRules),
+  ('quit',    gtk.STOCK_QUIT,    'Quit', '<control>Q', 'Quit PySol', self.mQuit),
 
-  ("FileMenu",       None, "_File" ),
-  ("SelectGame",     None, "Select _game"),
-  ("EditMenu",       None, '_Edit'),
-  ("GameMenu",       None, "_Game"),
-  ("AssistMenu",     None, "_Assist"),
-  ("OptionsMenu",    None, "_Options"),
-  ('AnimationsMenu', None, '_Animations'),
-  ("HelpMenu",       None, "_Help"),
+  ('file',          None, '_File' ),
+  ('selectgame',    None, 'Select _game'),
+  ('edit',          None, '_Edit'),
+  ('game',          None, '_Game'),
+  ('assist',        None, '_Assist'),
+  ('options',       None, '_Options'),
+  ("automaticplay", None, "_Automatic play"),
 
-  ('SelectGameByNumber', None, "Select game by number...", None, None, self.mSelectGameById),
-  ("SaveAs",    None, 'Save _as...', None, None, self.m),
-  ("RedoAll",   None, 'Redo _all',   None, None, self.mRedoAll),
-  ("DealCards", None, '_Deal cards', "D",  None, self.mDeal),
-  ("Status",    None, 'S_tatus...',  "T",  None, self.mStatus),
-  ("Hint",      None, '_Hint',       "H",  None, self.mHint),
-  ("HighlightPiles", None, 'Highlight _piles', None, None, self.mHighlightPiles),
-  ("Demo",         None, '_Demo',     "<control>D", None, self.mDemo),
-  ("DemoAllGames", None, 'Demo (all games)', None,  None, self.mMixedDemo),
-  ("TableTile",   None, "Table t_ile...",   None,  None, self.mOptTableTile),
-  ("Contents",     None, '_Contents',        'F1',  None, self.mHelp),
-  ("About",        None, '_About PySol...',  None,  None, self.mHelpAbout),
+  ('animations', None, '_Animations'),
+  ('help',       None, '_Help'),
+
+  ('selectgamebynumber', None, 'Select game by number...', None, None, self.mSelectGameById),
+  ('saveas',    None, 'Save _as...', None, None, self.m),
+  ('redoall',   None, 'Redo _all',   None, None, self.mRedoAll),
+  ('dealcards', None, '_Deal cards', 'D',  None, self.mDeal),
+  ('status',    None, 'S_tatus...',  'T',  None, self.mStatus),
+  ('hint',      None, '_Hint',       'H',  None, self.mHint),
+  ('highlightpiles', None, 'Highlight _piles', None, None, self.mHighlightPiles),
+  ('demo',         None,'_Demo',     '<control>D',None,self.mDemo),
+  ('demoallgames', None,'Demo (all games)',  None,None,self.mMixedDemo),
+  ('playeroptions',None,'_Player options...',None,None,self.mOptPlayerOptions),
+  ('tabletile',    None,'Table t_ile...',    None,None,self.mOptTableTile),
+  ('contents',     None,'_Contents','<control>F1',None,self.mHelp),
+  ('aboutpysol',   None,'_About PySol...',   None,None,self.mHelpAbout),
 )
+
         #
         toggle_entries = (
-  ("Confirm",  None, '_Confirm', None, None, self.mOptConfirm),
-  ("Autoplay", None, 'Auto_play', "P", None, self.mOptAutoDrop),
-  ("AutomaticFaceUp", None,'_Automatic _face up', "F", None, self.mOptAutoFaceUp),
-  ("HighlightMatchingCards", None, 'Highlight _matching cards', None, None, self.mOptEnableHighlightCards),
-  ("CardShadow",      None, 'Card shadow',       None, None, self.mOptShadow),
-  ("ShadeLegalMoves", None, 'Shade legal moves', None, None, self.mOptShade),
+  ('pause', gtk.STOCK_STOP, '_Pause', 'P', 'Pause game', self.mPause),
+  ('optautodrop', None, 'A_uto drop',    None, None, self.mOptAutoDrop),
+  ('autofaceup',  None, 'Auto _face up', None, None, self.mOptAutoFaceUp),
+  ("autodeal",    None, "Auto _deal",    None, None, self.mOptAutoDeal),
+  ("quickplay",   None, '_Quick play',   None, None, self.mOptQuickPlay),
+
+  ('highlightmatchingcards', None, 'Highlight _matching cards', None, None, self.mOptEnableHighlightCards),
+  ('cardshadow',      None, 'Card shadow',       None, None, self.mOptShadow),
+  ('shadelegalmoves', None, 'Shade legal moves', None, None, self.mOptShade),
 
 )
+
         #
         animations_entries = (
-            ("AnimationNone",     None, "_None",        None, None, 0),
-            ("AnimationFast",     None, "_Fast",        None, None, 1),
-            ("AnimationTimer",    None, "_Timer based", None, None, 2),
-            ("AnimationSlow",     None, "_Slow",        None, None, 3),
-            ("AnimationVerySlow", None, "_Very slow",   None, None, 4),
+            ('animationnone',     None, '_None',        None, None, 0),
+            ('animationfast',     None, '_Fast',        None, None, 1),
+            ('animationtimer',    None, '_Timer based', None, None, 2),
+            ('animationslow',     None, '_Slow',        None, None, 3),
+            ('animationveryslow', None, '_Very slow',   None, None, 4),
         )
         #
         ui_info = '''<ui>
-  <menubar name='MenuBar'>
+  <menubar name='menubar'>
 
-    <menu action='FileMenu'>
-      <menuitem action='SelectGameByNumber'/>
-      <menu action='SelectGame'/>
+    <menu action='file'>
+      <menuitem action='selectgamebynumber'/>
+      <menu action='selectgame'/>
       <separator/>
-      <menuitem action='Open'/>
-      <menuitem action='Save'/>
-      <menuitem action='SaveAs'/>
+      <menuitem action='open'/>
+      <menuitem action='save'/>
+      <menuitem action='saveas'/>
       <separator/>
-      <menuitem action='Quit'/>
+      <menuitem action='quit'/>
     </menu>
 
-    <menu action='EditMenu'>
-      <menuitem action='Undo'/>
-      <menuitem action='Redo'/>
-      <menuitem action='RedoAll'/>
+    <menu action='edit'>
+      <menuitem action='undo'/>
+      <menuitem action='redo'/>
+      <menuitem action='redoall'/>
       <separator/>
-      <menuitem action='Restart'/>
+      <menuitem action='restart'/>
     </menu>
 
-    <menu action='GameMenu'>
-      <menuitem action='DealCards'/>
-      <menuitem action='Autodrop'/>
+    <menu action='game'>
+      <menuitem action='dealcards'/>
+      <menuitem action='autodrop'/>
+      <menuitem action='pause'/>
       <separator/>
-      <menuitem action='Status'/>
+      <menuitem action='status'/>
     </menu>
 
-    <menu action='AssistMenu'>
-      <menuitem action='Hint'/>
-      <menuitem action='HighlightPiles'/>
-      <menuitem action='Demo'/>
-      <menuitem action='DemoAllGames'/>
+    <menu action='assist'>
+      <menuitem action='hint'/>
+      <menuitem action='highlightpiles'/>
+      <menuitem action='demo'/>
+      <menuitem action='demoallgames'/>
     </menu>
 
-    <menu action='OptionsMenu'>
-      <menuitem action='Confirm'/>
-      <menuitem action='Autoplay'/>
-      <menuitem action='AutomaticFaceUp'/>
-      <menuitem action='HighlightMatchingCards'/>
-      <separator/>
-      <menuitem action='TableTile'/>
-      <menu action='AnimationsMenu'>
-        <menuitem action='AnimationNone'/>
-        <menuitem action='AnimationFast'/>
-        <menuitem action='AnimationTimer'/>
-        <menuitem action='AnimationSlow'/>
-        <menuitem action='AnimationVerySlow'/>
+    <menu action='options'>
+      <menuitem action='playeroptions'/>
+      <menu action='automaticplay'>
+        <menuitem action='autofaceup'/>
+        <menuitem action='autodrop'/>
+        <menuitem action='autodeal'/>
+        <separator/>
+        <menuitem action='quickplay'/>
       </menu>
-      <menuitem action='CardShadow'/>
-      <menuitem action='ShadeLegalMoves'/>
+      <menuitem action='highlightmatchingcards'/>
+      <separator/>
+      <menuitem action='tabletile'/>
+      <menu action='animations'>
+        <menuitem action='animationnone'/>
+        <menuitem action='animationtimer'/>
+        <menuitem action='animationfast'/>
+        <menuitem action='animationslow'/>
+        <menuitem action='animationveryslow'/>
+      </menu>
+      <menuitem action='cardshadow'/>
+      <menuitem action='shadelegalmoves'/>
     </menu>
 
-    <menu action='HelpMenu'>
-      <menuitem action='Contents'/>
-      <menuitem action='Rules'/>
-      <menuitem action='About'/>
+    <menu action='help'>
+      <menuitem action='contents'/>
+      <menuitem action='rules'/>
+      <menuitem action='aboutpysol'/>
     </menu>
 
   </menubar>
@@ -197,7 +211,7 @@ class PysolMenubar(PysolMenubarActions):
         ui_manager = gtk.UIManager()
         ui_manager_id = ui_manager.add_ui_from_string(ui_info)
 
-        action_group = gtk.ActionGroup("PySolActions")
+        action_group = gtk.ActionGroup('PySolActions')
         action_group.add_actions(entries)
         action_group.add_toggle_actions(toggle_entries)
         action_group.add_radio_actions(animations_entries,
@@ -207,11 +221,11 @@ class PysolMenubar(PysolMenubarActions):
         ui_manager.insert_action_group(action_group, 0)
         self.top.add_accel_group(ui_manager.get_accel_group())
         self.top.ui_manager = ui_manager
-        menubar = ui_manager.get_widget("/MenuBar")
+        menubar = ui_manager.get_widget('/menubar')
 
         games = map(self.app.gdb.get, self.app.gdb.getGamesIdSortedByName())
 
-        menu_item = ui_manager.get_widget("/MenuBar/FileMenu/SelectGame")
+        menu_item = ui_manager.get_widget('/menubar/file/selectgame')
         menu_item.show()
         menu = gtk.Menu()
         menu_item.set_submenu(menu)
@@ -238,7 +252,7 @@ class PysolMenubar(PysolMenubarActions):
             menu_item.connect('toggled', command, g.id)
 
     def _addSelectAllGameSubMenu(self, games, menu, command):
-        cb_max = gdk.screen_height()/20
+        cb_max = gdk.screen_height()/24
         n, d = 0, cb_max
         i = 0
         group = None
@@ -259,15 +273,29 @@ class PysolMenubar(PysolMenubarActions):
     # menu updates
     #
 
+## WARNING: setMenuState: not found: /menubar/file/holdandquit
+## WARNING: setMenuState: not found: /menubar/assist/findcard
     def setMenuState(self, state, path):
-        return
-        w = self.__menubar.get_widget(path)
-        w.set_sensitive(state)
+        path_map = {'help.rulesforthisgame': '/menubar/help/rules',}
+        if path_map.has_key(path):
+            path = path_map[path]
+        else:
+            path = '/menubar/'+path.replace('.', '/')
+        menuitem = self.top.ui_manager.get_widget(path)
+        if not menuitem:
+            ##print 'WARNING: setMenuState: not found:', path
+            return
+        menuitem.set_sensitive(state)
+
+
 
     def setToolbarState(self, state, path):
-        ##~ w = getattr(self.app.toolbar, path + "_button")
-        ##~ w.set_sensitive(state)
-        pass
+        path = '/toolbar/'+path
+        button = self.top.ui_manager.get_widget(path)
+        if not button:
+            print 'WARNING: setToolbarState: not found:', path
+        else:
+            button.set_sensitive(state)
 
 
     #
@@ -289,7 +317,7 @@ class PysolMenubar(PysolMenubarActions):
         if key <= 0:
             key = self.app.opt.table_color.lower()
         d = SelectTileDialogWithPreview(self.top, app=self.app,
-                                        title=_("Select table background"),
+                                        title=_('Select table background'),
                                         manager=self.app.tabletile_manager,
                                         key=key)
         if d.status == 0 and d.button in (0, 1):
@@ -298,9 +326,6 @@ class PysolMenubar(PysolMenubarActions):
             elif d.key > 0 and d.key != self.app.tabletile_index:
                 self._mOptTableTile(d.key)
 
-
-    def mOptConfirm(self, *args):
-        pass
 
     def mOptHintOptions(self, *args):
         pass

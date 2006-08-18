@@ -26,16 +26,17 @@
 import gobject, gtk
 from gtk import gdk
 
-## # PySol imports
+# PySol imports
 ## from pysollib.mfxutil import destruct, Struct, KwStruct
 from pysollib.resource import CSI
-from pysollib.mfxutil import kwdefault, KwStruct
+from pysollib.mfxutil import kwdefault
 
 # Toolkit imports
 ## from tkutil import loadImage
 from tkwidget import MfxDialog
 from tkcanvas import MfxCanvas
 from tkutil import setTransient
+from pysoltree import PysolTreeView
 
 
 class SelectTileDialogWithPreview(MfxDialog):
@@ -54,38 +55,22 @@ class SelectTileDialogWithPreview(MfxDialog):
         self.preview_key = -1
         self.all_keys = []
         self.table_color = app.opt.table_color
-
-        sw = gtk.ScrolledWindow()
-        sw.set_shadow_type(gtk.SHADOW_ETCHED_IN)
-        sw.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
-        top_box.pack_start(sw)
-
+        # paned
+        hpaned = gtk.HPaned()
+        self.hpaned = hpaned
+        hpaned.show()
+        top_box.pack_start(hpaned, expand=True, fill=True)
         #
-        model = self._create_tree_model(manager, key)
-        treeview = gtk.TreeView(model)
-        treeview.set_rules_hint(True)
-        treeview.set_headers_visible(False)
-
-        renderer = gtk.CellRendererText()
-        renderer.set_property('xalign', 0.0)
-
-        column = gtk.TreeViewColumn('Tiles', renderer, text=0)
-        column.set_clickable(True)
-        treeview.append_column(column)
-
-        sw.add(treeview)
-        treeview.expand_all()
-
-        selection = treeview.get_selection()
-        selection.connect('changed', self.treeview_show_selected)
-
-        treeview.connect('row-activated', self.row_activated)
+        model = self._createStore(manager, key)
+        treeview = PysolTreeView(self, model)
         self.treeview = treeview
-
+        hpaned.pack1(treeview.scrolledwindow, True, True)
+        treeview.treeview.expand_all()
         #
         self.preview = MfxCanvas(top_box) # width=w2
-        top_box.pack_end(self.preview)
+        hpaned.pack2(self.preview, True, True)
         self.preview.show()
+        hpaned.set_position(240)
 
         self.createButtons(bottom_box, kw)
 
@@ -95,28 +80,24 @@ class SelectTileDialogWithPreview(MfxDialog):
         gtk.main()
 
 
-    def _getSelected(self):
-        selection = self.treeview.get_selection()
-        model, path = selection.get_selected_rows()
-        if not path:
-            return None
-        iter = model.get_iter(path[0])
-        index = model.get_value(iter, 1)
+    def rowActivated(self, w, row, col):
+        # FIXME
+        print 'row-activated-event', row, col
+
+
+    def getSelected(self):
+        index = self.treeview.getSelected()
         if index < 0:
             return None
         return self.all_keys[index]
 
 
-    def row_activated(self, w, row, col):
-        print 'row_activated_event', row, col
-
-
-    def treeview_show_selected(self, w):
-        key = self._getSelected()
+    def showSelected(self, w):
+        key = self.getSelected()
         self.updatePreview(key)
 
 
-    def _create_tree_model(self, manager, key):
+    def _createStore(self, manager, key):
         self.all_keys = []
         index = 0
         #
@@ -156,18 +137,18 @@ class SelectTileDialogWithPreview(MfxDialog):
 
 
     def updatePreview(self, key):
-        ##print 'updatePreview:', key
+        ##print 'updatePreview:', key, type(key)
         if key is None:
             return
         if key == self.preview_key:
             return
         canvas = self.preview
-        canvas.deleteAllItems()
+        ##canvas.deleteAllItems()
         if type(key) is str:
             # solid color
             canvas.config(bg=key)
-            ##canvas.setTile(None)
-            ##canvas.setTextColor(None)
+            canvas.setBackgroundImage(None)
+            canvas.setTextColor(None)
             self.preview_key = key
             self.table_color = key
         else:
@@ -186,7 +167,6 @@ class SelectTileDialogWithPreview(MfxDialog):
                   resizable=1,
                   padx=10, pady=10,
                   width=600, height=400,
-                  ##~ buttonpadx=10, buttonpady=5,
                   )
         return MfxDialog.initKw(self, kw)
 
@@ -196,12 +176,11 @@ class SelectTileDialogWithPreview(MfxDialog):
         c = '#%02x%02x%02x' % (c.red/256, c.green/256, c.blue/256)
         d.destroy()
         self.updatePreview(c)
-        selection = self.treeview.get_selection()
-        selection.unselect_all()
+        self.treeview.unselectAll()
 
 
     def createColorsel(self):
-        win = gtk.ColorSelectionDialog('Select table color')
+        win = gtk.ColorSelectionDialog(_('Select table color'))
         win.help_button.destroy()
         win.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
         if type(self.preview_key) is str:
@@ -222,7 +201,7 @@ class SelectTileDialogWithPreview(MfxDialog):
             self.createColorsel()
             return
         if b == 0:
-            self.key = self._getSelected()
+            self.key = self.getSelected()
             if not self.key:
                 self.key = self.preview_key
         self.status = 0

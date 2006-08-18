@@ -65,7 +65,7 @@ from pysoltk import PysolMenubar
 from pysoltk import PysolProgressBar
 from pysoltk import PysolToolbar
 from pysoltk import PysolStatusbar, HelpStatusbar
-from pysoltk import SelectCardsetByTypeDialogWithPreview
+from pysoltk import SelectCardsetDialogWithPreview
 from pysoltk import SelectDialogTreeData
 from pysoltk import tkHTMLViewer
 from pysoltk import TOOLBAR_BUTTONS
@@ -770,10 +770,6 @@ class Application:
             self.intro.progress.destroy()
             destruct(self.intro.progress)
             self.intro.progress = None
-        if TOOLKIT == 'gtk':
-            ## FIXME
-            self.top.update_idletasks()
-            self.top.show_now()
         # prepare game
         autoplay = 0
         if self.nextgame.loadedgame is not None:
@@ -1155,7 +1151,7 @@ Please select a %s type %s.
 
     def __selectCardsetDialog(self, t):
         key = self.cardset.index
-        d = SelectCardsetByTypeDialogWithPreview(
+        d = SelectCardsetDialogWithPreview(
             self.top, title=_("Please select a %s type %s") % (t[0], CARDSET),
             app=self, manager=self.cardset_manager, key=key,
             strings=(None, _("&OK"), _("&Cancel")), default=1)

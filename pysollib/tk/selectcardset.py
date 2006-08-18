@@ -33,7 +33,7 @@
 ##
 ##---------------------------------------------------------------------------##
 
-__all__ = ['SelectCardsetByTypeDialogWithPreview']
+__all__ = ['SelectCardsetDialogWithPreview']
 
 # imports
 import os, re, sys, types, Tkinter

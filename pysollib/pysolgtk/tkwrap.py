@@ -124,17 +124,24 @@ class _MfxToplevel(gtk.Window):
             # FIXME
             return gdk.LEFT_PTR
             return self.get_window().get_cursor(v)
+        elif attr in ("background", "bg"):
+            c = self.style.bg[gtk.STATE_NORMAL]
+            c = '#%02x%02x%02x' % (c.red/256, c.green/256, c.blue/256)
+            return c
         print "Toplevel cget:", attr
         ##~ raise AttributeError, attr
+        return None
 
     def configure(self, **kw):
         height, width = -1, -1
         for k, v in kw.items():
-            if k == "background" or k == "bg":
-                c = self.get_colormap().alloc_color(v)
-                self.style.bg[gtk.STATE_NORMAL] = c
+            if k in ("background", "bg"):
+                ##print "Toplevel configure: bg"
+                ##~ c = self.get_colormap().alloc_color(v)
+                ##~ self.style.bg[gtk.STATE_NORMAL] = c
                 ##~ self.set_style(self.style)
-                self.queue_draw()
+                ##~ self.queue_draw()
+                pass
             elif k == "cursor":
                 self.setCursor(v)
             elif k == "height":

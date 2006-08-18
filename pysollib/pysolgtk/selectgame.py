@@ -52,6 +52,7 @@ from pysollib.resource import CSI
 from tkutil import unbind_destroy
 from tkwidget import MfxDialog
 from tkcanvas  import MfxCanvas, MfxCanvasText
+from pysoltree import PysolTreeView
 
 gettext = _
 
@@ -89,25 +90,8 @@ class SelectGameDialogWithPreview(MfxDialog):
         hpaned.show()
         top_box.pack_start(hpaned, expand=True, fill=True)
         # left
-        sw = gtk.ScrolledWindow()
-        sw.show()
-        self.sw_vadjustment = sw.get_vadjustment()
-        hpaned.pack1(sw, True, True)
-        sw.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
-        # tree
-        treeview = gtk.TreeView(self.game_store)
-        self.treeview = treeview
-        treeview.show()
-        sw.add(treeview)
-        treeview.set_rules_hint(True)
-        treeview.set_headers_visible(False)
-        renderer = gtk.CellRendererText()
-        renderer.set_property('xalign', 0.0)
-        column = gtk.TreeViewColumn('Games', renderer, text=0)
-        column.set_clickable(True)
-        treeview.append_column(column)
-        selection = treeview.get_selection()
-        selection.connect('changed', self.showSelected)
+        self.treeview = PysolTreeView(self, self.game_store)
+        hpaned.pack1(self.treeview.scrolledwindow, True, True)
         # right
         table = gtk.Table(2, 2, False)
         table.show()
@@ -227,8 +211,6 @@ class SelectGameDialogWithPreview(MfxDialog):
             child_iter = store.append(iter)
             name = gettext(name)
             store.set(child_iter, 0, name, 1, id)
-
-    #def _addNode(self, store, root_iter, root_label, games):
 
 
     def _selectGames(self, all_games, selecter):
@@ -350,9 +332,7 @@ class SelectGameDialogWithPreview(MfxDialog):
         kwdefault(kw,
                   strings=(_("&Select"), _("&Rules"), _("&Cancel"),),
                   default=0,
-                  ##padx=10, pady=10,
                   width=600, height=400,
-                  ##~ buttonpadx=10, buttonpady=5,
                   )
         return MfxDialog.initKw(self, kw)
 
@@ -365,49 +345,25 @@ class SelectGameDialogWithPreview(MfxDialog):
 
     def _saveSettings(self):
         SelectGameDialogWithPreview._geometry = self.get_size()
-        self._saveExpandedRows()
         SelectGameDialogWithPreview._paned_position = self.hpaned.get_position()
-        selection = self.treeview.get_selection()
-        model, path = selection.get_selected_rows()
-        if path:
-            print 'save selected:', path
-            SelectGameDialogWithPreview._selected_row = path[0]
-        SelectGameDialogWithPreview._vadjustment_position = self.sw_vadjustment.get_value()
 
 
     def _restoreSettings(self):
         if self._geometry:
             self.resize(self._geometry[0], self._geometry[1])
-        self._loadExpandedRows()
         self.hpaned.set_position(self._paned_position)
-        if self._selected_row:
-            selection = self.treeview.get_selection()
-            ##selection.select_path(self._selected_row)
-            ##selection.unselect_all()
-            gtk.idle_add(selection.select_path, self._selected_row)
-        if self._vadjustment_position is not None:
-            ##self.sw_vadjustment.set_value(self._vadjustment_position)
-            gtk.idle_add(self.sw_vadjustment.set_value,
-                         self._vadjustment_position)
 
 
-    def _getSelected(self):
-        selection = self.treeview.get_selection()
-        model, path = selection.get_selected_rows()
-        if not path:
-            return None
-        iter = model.get_iter(path[0])
-        index = model.get_value(iter, 1)
+    def getSelected(self):
+        index = self.treeview.getSelected()
         if index < 0:
             return None
         return index
 
-
     def showSelected(self, w):
-        id = self._getSelected()
+        id = self.getSelected()
         if id:
             self.updatePreview(id)
-            ##self.updateInfo(id)
 
 
     def deletePreview(self, destroy=0):
@@ -568,28 +524,16 @@ class SelectGameDialogWithPreview(MfxDialog):
             text_label.set_text(str(t))
             #self.info_labels[n].config(text=t)
 
-    def _saveExpandedRows(self):
-        treeview = self.treeview
-        SelectGameDialogWithPreview._expanded_rows = []
-        treeview.map_expanded_rows(
-            lambda tv, path, self=self:
-                SelectGameDialogWithPreview._expanded_rows.append(path))
-        print self._expanded_rows
-
-    def _loadExpandedRows(self):
-        for path in self._expanded_rows:
-            self.treeview.expand_to_path(path)
-
     def done(self, button):
         button = button.get_data("user_data")
         print 'done', button
         if button == 0:                    # Ok or double click
-            id = self._getSelected()
+            id = self.getSelected()
             if id:
                 self.gameid = id
             ##~ self.tree.n_expansions = 1  # save xyview in any case
         if button == 1:                    # Rules
-            id = self._getSelected()
+            id = self.getSelected()
             if id:
                 doc = self.app.getGameRulesFilename(id)
                 if not doc:

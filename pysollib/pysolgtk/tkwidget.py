@@ -51,8 +51,8 @@ from pysollib.mfxutil import kwdefault, KwStruct
 class _MyDialog(gtk.Dialog):
     def __init__(self):
         gtk.Dialog.__init__(self)
-        style = self.get_style().copy()
-        self.set_style(style)
+        ##~ style = self.get_style().copy()
+        ##~ self.set_style(style)
         self.connect("destroy", self.quit)
         self.connect("delete_event", self.quit)
 

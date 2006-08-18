@@ -65,7 +65,6 @@ class PlayerOptionsDialog(MfxDialog):
         completion = gtk.EntryCompletion()
         self.player_entry.set_completion(completion)
         model = gtk.ListStore(gobject.TYPE_STRING)
-        print '>>', app.getAllUserNames()
         for name in app.getAllUserNames():
             iter = model.append()
             model.set(iter, 0, name)

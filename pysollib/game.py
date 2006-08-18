@@ -426,6 +426,12 @@ class Game:
             wm_map(self.top, maximized=self.app.opt.wm_maximized)
             self.top.busyUpdate()
         self.stopSamples()
+        #
+        if TOOLKIT == 'gtk':
+            ## FIXME
+            if self.top:
+                self.top.update_idletasks()
+                self.top.show_now()
         # let's go
         self.moves.state = self.S_INIT
         self.startGame()
@@ -503,6 +509,12 @@ class Game:
         self.stats.update_time = time.time()
         self.busy = old_busy
         #
+        if TOOLKIT == 'gtk':
+            ## FIXME
+            if self.top:
+                self.top.update_idletasks()
+                self.top.show_now()
+        #
         self.startPlayTimer()
 
     # restore a bookmarked game (e.g. after changing the cardset)
@@ -548,6 +560,7 @@ class Game:
     # with another game from there
     def quitGame(self, id=0, random=None, loadedgame=None,
                  startdemo=0, bookmark=0, holdgame=0):
+        print 'quitGame'
         self.updateTime()
         if bookmark:
             id, random = self.id, self.random

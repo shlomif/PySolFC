@@ -116,14 +116,14 @@ class _TwoImageCard(_HideableCard):
         if not self.face_up:
             self.__back.hide()
             self.__face.show()
-            self.tkraise(unhide)
+            ##self.tkraise(unhide)
             self.face_up = 1
 
     def showBack(self, unhide=1):
         if self.face_up:
             self.__face.hide()
             self.__back.show()
-            self.tkraise(unhide)
+            ##self.tkraise(unhide)
             self.face_up = 0
 
     def updateCardBackground(self, image):
@@ -133,5 +133,5 @@ class _TwoImageCard(_HideableCard):
 
 # choose the implementation
 Card = _TwoImageCard
-Card = _OneImageCard
+#Card = _OneImageCard # FIXME: this implementation lost any cards (bug?)
 

@@ -76,19 +76,17 @@ class _CanvasItem:
     def __init__(self, canvas):
         self.canvas = canvas
         canvas._all_items.append(self)
-        self._group = None
 
     def addtag(self, group):
         ##print self, 'addtag'
         ##~ assert isinstance(group._item, CanvasGroup)
         self._item.reparent(group._item)
-        self._group = group
 
     def dtag(self, group):
         ##print self, 'dtag'
         ##~ assert isinstance(group._item, CanvasGroup)
         ##self._item.reparent(self.canvas.root())
-        self._group = None
+        pass
 
     def bind(self, sequence, func, add=None):
         bind(self._item, sequence, func, add)
@@ -103,33 +101,23 @@ class _CanvasItem:
             self._item = None
 
     def lower(self, positions=None):
-        print "lower", self._item, positions
-        if positions is None:
-            if self._group:
-                self._group._item.lower_to_bottom()
-                ##self._item.lower_to_bottom()
-            else:
-                self._item.lower_to_bottom()
-        else:
-            print self, 'lower', positions
-            ##~ assert type(positions) is types.IntType and positions > 0
-            self._item.lower(positions)
+        return # used for reordered shadow; don't need?
+##         if positions is None:
+##             self._item.lower_to_bottom()
+##             self._item.get_property('parent').raise_to_top()
+##         else:
+##             ##~ assert type(positions) is types.IntType and positions > 0
+##             self._item.lower(positions)
 
     def tkraise(self, positions=None):
-        ##print "tkraise", self._group, self._item.get_property('parent') #self._item, positions
+        ##print 'tkraise', positions
         if positions is None:
             self._item.raise_to_top()
             self._item.get_property('parent').raise_to_top()
-##             if self._group:
-##                 self._group._item.raise_to_top()
-##                 ##self._item.raise_to_top()
-##             else:
-##                 self._item.raise_to_top()
         else:
-            print self, 'tkraise', positions
+            print self, 'tkraise', positions # don't used?
             ##~ assert type(positions) is types.IntType and positions > 0
-            ##~ self._item.raise_(positions)
-            self._item.raise_to_top()
+            self._item.raise_(positions)
 
     def move(self, x, y):
         self._item.move(x, y)
@@ -165,6 +153,7 @@ class MfxCanvasImage(_CanvasItem):
                                        width=image.width(),
                                        height=image.height(),
                                        anchor=anchor)
+        self._item.show()
 
     def config(self, image):
         ##~ assert isinstance(image.im, GdkImlib.Image)
@@ -194,16 +183,19 @@ class MfxCanvasLine(_CanvasItem):
         self._item = canvas.root().add(gnome.canvas.CanvasLine,
                                        points=points, **kwargs)
         self._item.show()
-        canvas.show_all()
+        #canvas.show_all()
 
 
 class MfxCanvasRectangle(_CanvasItem):
-    def __init__(self, canvas, x1, y1, x2, y2, width, fill, outline):
+    def __init__(self, canvas, x1, y1, x2, y2,
+                 width=0, fill=None, outline=None):
         _CanvasItem.__init__(self, canvas)
-        kw = {'x1': x1, 'x2': x2, 'y1': y1, 'y2': y2, 'width_pixels': width}
-        if fill: kw['fill_color'] = fill
+        kw = {'x1': x1, 'x2': x2, 'y1': y1, 'y2': y2}
+        if width:   kw['width_pixels']  = width
+        if fill:    kw['fill_color']    = fill
         if outline: kw['outline_color'] = outline
         self._item = canvas.root().add(gnome.canvas.CanvasRect, **kw)
+        self._item.show()
 
 
 class MfxCanvasText(_CanvasItem):
@@ -223,6 +215,7 @@ class MfxCanvasText(_CanvasItem):
             self[k] = v
         self.text_format = None
         canvas._text_items.append(self)
+        self._item.show()
 
     def __setitem__(self, key, value):
         if key == 'fill':
@@ -241,7 +234,7 @@ class MfxCanvasText(_CanvasItem):
     def __getitem__(self, key):
         if key == 'text':
             # FIXME
-            return ""
+            return self._item.get_property('text')
         else:
             raise AttributeError, key
     cget = __getitem__
@@ -330,12 +323,12 @@ class MfxCanvas(gnome.canvas.Canvas):
     def configure(self, **kw):
         height, width = -1, -1
         for k, v in kw.items():
-            if k == "background" or k == "bg":
+            if k in ("background", "bg"):
                 ##print 'configure: bg:', v
                 c = self.get_colormap().alloc_color(v)
                 self.style.bg[gtk.STATE_NORMAL] = c
                 ##~ self.set_style(self.style)
-                self.queue_draw()
+                ##~ self.queue_draw()
             elif k == "cursor":
                 ##~ w = self.window
                 ##~ if w:
@@ -445,10 +438,15 @@ class MfxCanvas(gnome.canvas.Canvas):
             self.realize()
             ##return False
 
-        self.setBackgroundImage(filename, stretch)
+        gtk.idle_add(self.setBackgroundImage, filename, stretch)
 
-    def setBackgroundImage(self, filename, stretch):
+    def setBackgroundImage(self, filename, stretch=False):
         print 'setBackgroundImage', filename
+        if filename is None:
+            if self.__tileimage:
+                self.__tileimage.destroy()
+                self.__tileimage = None
+            return
 
         width, height = self.get_size()
         pixbuf = gtk.gdk.pixbuf_new_from_file(filename)
@@ -508,6 +506,19 @@ class MfxCanvas(gnome.canvas.Canvas):
         #self.show_now()
         self.update_now()
         pass
+
+    def updateAll(self):
+        print 'Canvas - updateAll', 
+        for i in self._all_items:
+            i._item.hide()
+        self.update_now()
+        n = 0
+        for i in self._all_items:
+            i._item.show()
+            print n, i
+            n += 1
+        self.update_now()
+        #self.window.invalidate_rect((0, 0, 400, 400), True)
 
 
     def grid(self, *args, **kw):

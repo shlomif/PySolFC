@@ -31,8 +31,11 @@
 
 
 # imports
-import sys
+##import sys
+
 from gtk import gdk
+
+from gtk import ANCHOR_NW, ANCHOR_SW, ANCHOR_NE, ANCHOR_SE
 
 
 # /***********************************************************************

@@ -853,7 +853,8 @@ class PysolMenubar(PysolMenubarActions):
         if not idir:
             idir = self.app.dn.savegames
         d = tkFileDialog.Open()
-        filename = d.show(filetypes=self.FILETYPES, defaultextension=self.DEFAULTEXTENSION,
+        filename = d.show(filetypes=self.FILETYPES,
+                          defaultextension=self.DEFAULTEXTENSION,
                           initialdir=idir, initialfile=ifile)
         if filename:
             filename = os.path.normpath(filename)
@@ -880,7 +881,8 @@ class PysolMenubar(PysolMenubarActions):
             idir = self.app.dn.savegames
         ##print self.game.filename, ifile
         d = tkFileDialog.SaveAs()
-        filename = d.show(filetypes=self.FILETYPES, defaultextension=self.DEFAULTEXTENSION,
+        filename = d.show(filetypes=self.FILETYPES,
+                          defaultextension=self.DEFAULTEXTENSION,
                           initialdir=idir, initialfile=ifile)
         if filename:
             filename = os.path.normpath(filename)

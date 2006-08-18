@@ -39,6 +39,7 @@ from gtk import gdk
 # PySol imports
 from pysollib.gamedb import GI
 from pysollib.actions import PysolMenubarActions
+from pysollib.settings import PACKAGE
 
 # toolkit imports
 from tkutil import setTransient
@@ -46,6 +47,14 @@ from tkutil import color_tk2gtk, color_gtk2tk
 from selectcardset import SelectCardsetDialogWithPreview
 from selectcardset import SelectCardsetByTypeDialogWithPreview
 from selecttile import SelectTileDialogWithPreview
+
+from selectgame import SelectGameDialogWithPreview
+
+gettext = _
+
+
+def ltk2gtk(s):
+    return gettext(s).replace('&', '_')
 
 
 # /***********************************************************************
@@ -78,71 +87,74 @@ class PysolMenubar(PysolMenubarActions):
     def createMenubar(self):
 
         entries = (
-  ('new',     gtk.STOCK_NEW,     '_New', 'N', 'New game', self.mNewGame),
-  ('open',    gtk.STOCK_OPEN,    '_Open', '<control>O', 'Open a\nsaved game', self.mOpen),
-  ('restart', gtk.STOCK_REFRESH, '_Restart', '<control>G', 'Restart the\ncurrent game', self.mRestart),
-  ('save',    gtk.STOCK_SAVE,    '_Save', '<control>S', 'Save game', self.mSave),
-  ('undo',    gtk.STOCK_UNDO,    'Undo', 'Z', 'Undo', self.mUndo),
-  ('redo',    gtk.STOCK_REDO,    'Redo', 'R', 'Redo', self.mRedo),
-  ('autodrop',gtk.STOCK_JUMP_TO, '_Auto drop', 'A', 'Auto drop', self.mDrop),
-  ('stats',   gtk.STOCK_HOME,    'Stats', None, 'Statistics', self.mStatus),
-  ('rules',   gtk.STOCK_HELP,    'Rules', 'F1', 'Rules', self.mHelpRules),
-  ('quit',    gtk.STOCK_QUIT,    'Quit', '<control>Q', 'Quit PySol', self.mQuit),
+  ('newgame', gtk.STOCK_NEW,     ltk2gtk('&New game'), 'N', ltk2gtk('New game'), self.mNewGame),
+  ('open',    gtk.STOCK_OPEN,    ltk2gtk('&Open...'), '<control>O', ltk2gtk('Open a\nsaved game'), self.mOpen),
+  ('restart', gtk.STOCK_REFRESH, ltk2gtk('&Restart'), '<control>G', ltk2gtk('Restart the\ncurrent game'), self.mRestart),
+  ('save',    gtk.STOCK_SAVE,    ltk2gtk('&Save'), '<control>S', ltk2gtk('Save game'), self.mSave),
+  ('undo',    gtk.STOCK_UNDO,    ltk2gtk('&Undo'), 'Z', ltk2gtk('Undo'), self.mUndo),
+  ('redo',    gtk.STOCK_REDO,    ltk2gtk('&Redo'), 'R', ltk2gtk('Redo'), self.mRedo),
+  ('autodrop',gtk.STOCK_JUMP_TO, ltk2gtk('&Auto drop'), 'A', ltk2gtk('Auto drop'), self.mDrop),
+  ('stats',   gtk.STOCK_HOME,    ltk2gtk('Stats'), None, ltk2gtk('Statistics'), self.mStatus),
+  ('rules',   gtk.STOCK_HELP,    ltk2gtk('Rules'), 'F1', ltk2gtk('Rules'), self.mHelpRules),
+  ('quit',    gtk.STOCK_QUIT,    ltk2gtk('&Quit'), '<control>Q', ltk2gtk('Quit PySol'), self.mQuit),
 
-  ('file',          None, '_File' ),
-  ('selectgame',    None, 'Select _game'),
-  ('edit',          None, '_Edit'),
-  ('game',          None, '_Game'),
-  ('assist',        None, '_Assist'),
-  ('options',       None, '_Options'),
-  ("automaticplay", None, "_Automatic play"),
+  ('file',          None, ltk2gtk('&File')),
+  ('selectgame',    None, ltk2gtk('Select &game')),
+  ('edit',          None, ltk2gtk('&Edit')),
+  ('game',          None, ltk2gtk('&Game')),
+  ('assist',        None, ltk2gtk('&Assist')),
+  ('options',       None, ltk2gtk('&Options')),
+  ("automaticplay", None, ltk2gtk("&Automatic play")),
 
-  ('animations', None, '_Animations'),
-  ('help',       None, '_Help'),
+  ('animations', None, ltk2gtk('A&nimations')),
+  ('help',       None, ltk2gtk('&Help')),
 
-  ('selectgamebynumber', None, 'Select game by number...', None, None, self.mSelectGameById),
-  ('saveas',    None, 'Save _as...', None, None, self.m),
-  ('redoall',   None, 'Redo _all',   None, None, self.mRedoAll),
-  ('dealcards', None, '_Deal cards', 'D',  None, self.mDeal),
-  ('status',    None, 'S_tatus...',  'T',  None, self.mStatus),
-  ('hint',      None, '_Hint',       'H',  None, self.mHint),
-  ('highlightpiles', None, 'Highlight _piles', None, None, self.mHighlightPiles),
-  ('demo',         None,'_Demo',     '<control>D',None,self.mDemo),
-  ('demoallgames', None,'Demo (all games)',  None,None,self.mMixedDemo),
-  ('playeroptions',None,'_Player options...',None,None,self.mOptPlayerOptions),
-  ('tabletile',    None,'Table t_ile...',    None,None,self.mOptTableTile),
-  ('contents',     None,'_Contents','<control>F1',None,self.mHelp),
-  ('aboutpysol',   None,'_About PySol...',   None,None,self.mHelpAbout),
+  ('playablepreview', None, ltk2gtk('Playable pre&view...'), 'V', None, self.mSelectGameDialogWithPreview),
+  ('selectgamebynumber', None, ltk2gtk('Select game by nu&mber...'), None, None, self.mSelectGameById),
+  ('saveas',    None, ltk2gtk('Save &as...'), None, None, self.m),
+  ('redoall',   None, ltk2gtk('Redo &all'),   None, None, self.mRedoAll),
+  ('dealcards', None, ltk2gtk('&Deal cards'), 'D',  None, self.mDeal),
+  ('status',    None, ltk2gtk('S&tatus...'),  'T',  None, self.mStatus),
+  ('hint',      None, ltk2gtk('&Hint'),       'H',  None, self.mHint),
+  ('highlightpiles', None, ltk2gtk('Highlight p&iles'), None, None, self.mHighlightPiles),
+  ('demo',         None,ltk2gtk('&Demo'),     '<control>D',None,self.mDemo),
+  ('demoallgames', None,ltk2gtk('Demo (&all games)'),  None,None,self.mMixedDemo),
+  ('playeroptions',None,ltk2gtk('&Player options...'),None,None,self.mOptPlayerOptions),
+  ('tabletile',    None,ltk2gtk('Table t&ile...'),    None,None,self.mOptTableTile),
+  ('contents',     None,ltk2gtk('&Contents'),'<control>F1',None,self.mHelp),
+  ('aboutpysol',   None,ltk2gtk('&About ')+PACKAGE+'...',   None,None,self.mHelpAbout),
 )
 
         #
         toggle_entries = (
-  ('pause', gtk.STOCK_STOP, '_Pause', 'P', 'Pause game', self.mPause),
-  ('optautodrop', None, 'A_uto drop',    None, None, self.mOptAutoDrop),
-  ('autofaceup',  None, 'Auto _face up', None, None, self.mOptAutoFaceUp),
-  ("autodeal",    None, "Auto _deal",    None, None, self.mOptAutoDeal),
-  ("quickplay",   None, '_Quick play',   None, None, self.mOptQuickPlay),
+  ('pause', gtk.STOCK_STOP, ltk2gtk('&Pause'), 'P', ltk2gtk('Pause game'), self.mPause),
+  ('optautodrop', None, ltk2gtk('A&uto drop'),    None, None, self.mOptAutoDrop),
+  ('autofaceup',  None, ltk2gtk('Auto &face up'), None, None, self.mOptAutoFaceUp),
+  ("autodeal",    None, ltk2gtk("Auto &deal"),    None, None, self.mOptAutoDeal),
+  ("quickplay",   None, ltk2gtk('&Quick play'),   None, None, self.mOptQuickPlay),
 
-  ('highlightmatchingcards', None, 'Highlight _matching cards', None, None, self.mOptEnableHighlightCards),
-  ('cardshadow',      None, 'Card shadow',       None, None, self.mOptShadow),
-  ('shadelegalmoves', None, 'Shade legal moves', None, None, self.mOptShade),
+  ('highlightmatchingcards', None, ltk2gtk('Highlight &matching cards'), None, None, self.mOptEnableHighlightCards),
+  ('cardshadow',      None, ltk2gtk('Card shado&w'),       None, None, self.mOptShadow),
+  ('shadelegalmoves', None, ltk2gtk('Shade &legal moves'), None, None, self.mOptShade),
 
 )
 
         #
         animations_entries = (
-            ('animationnone',     None, '_None',        None, None, 0),
-            ('animationfast',     None, '_Fast',        None, None, 1),
-            ('animationtimer',    None, '_Timer based', None, None, 2),
-            ('animationslow',     None, '_Slow',        None, None, 3),
-            ('animationveryslow', None, '_Very slow',   None, None, 4),
+ ('animationnone',     None, ltk2gtk('&None'),        None, None, 0),
+ ('animationfast',     None, ltk2gtk('&Fast'),        None, None, 1),
+ ('animationtimer',    None, ltk2gtk('&Timer based'), None, None, 2),
+ ('animationslow',     None, ltk2gtk('&Slow'),        None, None, 3),
+ ('animationveryslow', None, ltk2gtk('&Very slow'),   None, None, 4),
         )
         #
         ui_info = '''<ui>
   <menubar name='menubar'>
 
     <menu action='file'>
+      <menuitem action='newgame'/>
       <menuitem action='selectgamebynumber'/>
+      <menuitem action='playablepreview'/>
       <menu action='selectgame'/>
       <separator/>
       <menuitem action='open'/>
@@ -179,7 +191,7 @@ class PysolMenubar(PysolMenubarActions):
       <menuitem action='playeroptions'/>
       <menu action='automaticplay'>
         <menuitem action='autofaceup'/>
-        <menuitem action='autodrop'/>
+        <menuitem action='optautodrop'/>
         <menuitem action='autodeal'/>
         <separator/>
         <menuitem action='quickplay'/>
@@ -245,6 +257,7 @@ class PysolMenubar(PysolMenubarActions):
     def _addSelectGameSubMenu(self, games, menu, command, group):
         for g in games:
             label = g.name
+            label = gettext(label)
             menu_item = gtk.RadioMenuItem(group, label)
             group = menu_item
             menu.add(menu_item)
@@ -262,7 +275,9 @@ class PysolMenubar(PysolMenubarActions):
             if not games[n:n+d]:
                 break
             m = min(n+d-1, len(games)-1)
-            label = games[n].name[:3]+' - '+games[m].name[:3]
+            n1, n2 = games[n].name, games[m].name
+            n1, n2 = gettext(n1), gettext(n2)
+            label = n1[:3]+' - '+n2[:3]
             submenu = self._createSubMenu(menu, label=label)
             group = self._addSelectGameSubMenu(games[n:n+d], submenu,
                                                command, group)
@@ -276,7 +291,10 @@ class PysolMenubar(PysolMenubarActions):
 ## WARNING: setMenuState: not found: /menubar/file/holdandquit
 ## WARNING: setMenuState: not found: /menubar/assist/findcard
     def setMenuState(self, state, path):
-        path_map = {'help.rulesforthisgame': '/menubar/help/rules',}
+        path_map = {
+            'help.rulesforthisgame': '/menubar/help/rules',
+            'options.automaticplay.autodrop': '/menubar/options/automaticplay/optautodrop'
+            }
         if path_map.has_key(path):
             path = path_map[path]
         else:
@@ -302,11 +320,80 @@ class PysolMenubar(PysolMenubarActions):
     # menu actions
     #
 
+    def _createFileChooser(self, title, action, idir, ifile):
+        d = gtk.FileChooserDialog(title, self.top, action,
+                                  (gtk.STOCK_OPEN, gtk.RESPONSE_ACCEPT,
+                                   gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL))
+
+        d.set_current_folder(idir)
+        if ifile:
+            d.set_current_name(ifile)
+
+        filter = gtk.FileFilter()
+        filter.set_name('PySol files')
+        filter.add_pattern('*.pso')
+        d.add_filter(filter)
+
+        filter = gtk.FileFilter()
+        filter.set_name('All files')
+        filter.add_pattern('*')
+        d.add_filter(filter)
+
+        resp = d.run()
+        if resp == gtk.RESPONSE_ACCEPT:
+            filename = d.get_filename()
+        else:
+            filename = None
+        d.destroy()
+        return filename
+
+
     def mOpen(self, *args):
-        pass
+        if self._cancelDrag(break_pause=False): return
+        filename = self.game.filename
+        if filename:
+            idir, ifile = os.path.split(os.path.normpath(filename))
+        else:
+            idir, ifile = "", ""
+        if not idir:
+            idir = self.app.dn.savegames
+        filename = self._createFileChooser(_('Open Game'),
+                                           gtk.FILE_CHOOSER_ACTION_OPEN,
+                                           idir, '')
+        if filename:
+            ##filename = os.path.normpath(filename)
+            ##filename = os.path.normcase(filename)
+            if os.path.isfile(filename):
+                self.game.loadGame(filename)
+
 
     def mSaveAs(self, *event):
-        pass
+        if self._cancelDrag(break_pause=False): return
+        if not self.menustate.save_as:
+            return
+        filename = self.game.filename
+        if not filename:
+            filename = self.app.getGameSaveName(self.game.id)
+            if os.name == "posix":
+                filename = filename + "-" + self.game.getGameNumber(format=0)
+            elif os.path.supports_unicode_filenames: # new in python 2.3
+                filename = filename + "-" + self.game.getGameNumber(format=0)
+            else:
+                filename = filename + "-01"
+            filename = filename + '.pso'
+        idir, ifile = os.path.split(os.path.normpath(filename))
+        if not idir:
+            idir = self.app.dn.savegames
+        ##print self.game.filename, ifile
+        filename = self._createFileChooser(_('Save Game'),
+                                           gtk.FILE_CHOOSER_ACTION_SAVE,
+                                           idir, ifile)
+        if filename:
+            ##filename = os.path.normpath(filename)
+            ##filename = os.path.normcase(filename)
+            self.game.saveGame(filename)
+            self.updateMenus()
+
 
     def mOptCardset(self, *args):
         pass
@@ -352,4 +439,33 @@ class PysolMenubar(PysolMenubarActions):
         tile = self.app.tabletile_manager.get(0)
         tile.color = color
         self.app.setTile(0)
+
+
+    def mSelectGameDialogWithPreview(self, *event):
+        if self._cancelDrag(break_pause=False): return
+##         self.game.setCursor(cursor=CURSOR_WATCH)
+        bookmark = None
+##         if 0:
+##             # use a bookmark for our preview game
+##             if self.game.setBookmark(-2, confirm=0):
+##                 bookmark = self.game.gsaveinfo.bookmarks[-2][0]
+##                 del self.game.gsaveinfo.bookmarks[-2]
+        ##~ after_idle(self.top, self.__restoreCursor)
+        d = SelectGameDialogWithPreview(self.top, title=_("Select game"),
+                                        app=self.app, gameid=self.game.id,
+                                        bookmark=bookmark)
+        return self._mSelectGameDialog(d)
+
+    def _mSelectGameDialog(self, d):
+        if d.status == 0 and d.button == 0 and d.gameid != self.game.id:
+            ##~ self.tkopt.gameid.set(d.gameid)
+            ##~ self.tkopt.gameid_popular.set(d.gameid)
+            if 0:
+                self._mSelectGame(d.gameid, random=d.random)
+            else:
+                # don't ask areYouSure()
+                self._cancelDrag()
+                self.game.endGame()
+                self.game.quitGame(d.gameid, random=d.random)
+
 

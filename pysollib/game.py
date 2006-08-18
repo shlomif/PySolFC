@@ -46,8 +46,7 @@ from mfxutil import format_time
 from util import get_version_tuple, Timer
 from util import ACE, QUEEN, KING
 from version import VERSION, VERSION_TUPLE
-from settings import PACKAGE
-from settings import TOP_TITLE
+from settings import PACKAGE, TOOLKIT, TOP_TITLE
 from gamedb import GI
 from resource import CSI
 from pysolrandom import PysolRandom, LCRandom31
@@ -518,10 +517,15 @@ class Game:
         self.busy = old_busy
 
     def resetGame(self):
+        ##print '--- resetGame ---'
         self.hints.list = None
         self.s.talon.removeAllCards()
         for stack in self.allstacks:
+            ##print stack
             stack.resetGame()
+            if TOOLKIT == 'gtk':
+                # FIXME (pyramid like games)
+                stack.group.tkraise()
         if self.preview <= 1:
             for t in (self.texts.score, self.texts.base_rank,):
                 if t:

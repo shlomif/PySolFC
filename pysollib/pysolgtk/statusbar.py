@@ -50,21 +50,25 @@ class BasicStatusbar:
                          column, column+columnspan,   row, row+1,
                          gtk.EXPAND | gtk.FILL,       0,
                          0,                           0)
-        self.createLabel('space', width=2)
 
 
-    def createLabel(self, name, fill=False, expand=False, grip=False, width=0):
+    def createLabel(self, name, fill=False, expand=False,
+                    tooltip=None, grip=False, width=0):
         label = gtk.Statusbar()
         self.hbox.pack_start(label, fill=fill, expand=expand)
         label.show()
         if not grip:
             label.set_has_resize_grip(False)
         setattr(self, name + "_label", label)
-        label.set_size_request(width*8, -1)
-        ##lb = label.get_children()[0].get_children()[0]
-        ##lb.set_justify(gtk.JUSTIFY_CENTER)
+        label.set_size_request(width*7, -1)
+        lb = label.get_children()[0].get_children()[0]
+        lb.set_alignment(0.5, 0.0)
         self._widgets.append(label)
         ##label.push(0, '')
+##         if tooltip:
+##             tt = gtk.Tooltips()
+##             tt.set_tip(label, tooltip, '')
+##             tt.enable()
 
 
     def updateText(self, **kw):
@@ -75,8 +79,11 @@ class BasicStatusbar:
 
 
     def configLabel(self, name, **kw):
-        print 'statusbar.configLabel', kw
-        pass
+        label = getattr(self, name + "_label")
+        # FIXME kw['fg']
+        label.pop(0)
+        label.push(0, unicode(kw['text']))
+
 
     def show(self, show=True, resize=False):
         if show:
@@ -107,7 +114,7 @@ class PysolStatusbar(BasicStatusbar):
             ("gamenumber",  _("Game number"),             26),
             ("stats",       _("Games played: won/lost"),  12),
             ):
-            self.createLabel(n, width=w)
+            self.createLabel(n, width=w, tooltip=t)
         #
         l = self.createLabel("info", fill=True, expand=True, grip=True)
 

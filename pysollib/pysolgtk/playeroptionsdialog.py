@@ -93,7 +93,6 @@ class PlayerOptionsDialog(MfxDialog):
                   strings=(_('&OK'), _('&Cancel'),),
                   default=0,
                   #resizable=1,
-                  #font=None,
                   padx=10, pady=10,
                   #width=600, height=400,
                   ##~ buttonpadx=10, buttonpady=5,

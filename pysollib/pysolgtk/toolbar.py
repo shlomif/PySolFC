@@ -60,7 +60,7 @@ class PysolToolbar(PysolToolbarActions):
         ui_info = '''
 <ui>
   <toolbar  name='toolbar'>
-    <toolitem action='new'/>
+    <toolitem action='newgame'/>
     <toolitem action='restart'/>
     <separator/>
     <toolitem action='open'/>

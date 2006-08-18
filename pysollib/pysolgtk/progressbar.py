@@ -35,7 +35,6 @@ import os, sys
 
 import gtk
 from gtk import gdk
-TRUE, FALSE = True, False
 
 # Toolkit imports
 from tkutil import makeToplevel, setTransient
@@ -55,8 +54,7 @@ class PysolProgressBar:
         self.norm = norm
         self.top = makeToplevel(parent, title=title)
         self.top.set_position(gtk.WIN_POS_CENTER)
-        ##self.top.set_policy(FALSE, FALSE, FALSE)
-        self.top.set_resizable(FALSE)
+        self.top.set_resizable(False)
         self.top.connect("delete_event", self.wmDeleteWindow)
 
         # hbox
@@ -67,21 +65,22 @@ class PysolProgressBar:
                               0, 1, 0, 1,
                               0,    0,
                               0,    0)
-
         # hbox-1: image
         if images and images[0]:
             im = gtk.Image()
             im.set_from_pixbuf(images[0].pixbuf)
             hbox.pack_start(im, expand=False, fill=False)
             im.show()
+            im.set_property('xpad', 10)
+            im.set_property('ypad', 5)
         # hbox-2:vbox
         vbox = gtk.VBox()
         vbox.show()
-        hbox.pack_start(vbox, FALSE, FALSE)
+        hbox.pack_start(vbox, False, False)
         # hbox-2:vbox:pbar
         self.pbar = gtk.ProgressBar()
         self.pbar.show()
-        vbox.pack_start(self.pbar, TRUE, FALSE)
+        vbox.pack_start(self.pbar, True, False)
         self.pbar.realize()
         ##~ self.pbar.set_show_text(show_text)
         self.pbar.set_text(str(show_text)+'%')
@@ -99,6 +98,8 @@ class PysolProgressBar:
             im.set_from_pixbuf(images[1].pixbuf)
             hbox.pack_end(im, expand=False)
             im.show()
+            im.set_property('xpad', 10)
+            im.set_property('ypad', 5)
         # set icon
         if app:
             try:
@@ -130,15 +131,17 @@ class PysolProgressBar:
         percent = min(100, max(0, percent))
         self.pbar.set_fraction(percent / 100.0)
         self.pbar.set_text(str(percent)+'%')
-        ##~ self.pbar.update(self.percent / 100.0)
         self.update_idletasks()
+
+    def reset(self, percent=0):
+        self.percent = percent
 
     def update_idletasks(self):
         while gtk.events_pending():
             gtk.main_iteration()
 
     def wmDeleteWindow(self, *args):
-        return TRUE
+        return True
 
 
 # /***********************************************************************
@@ -160,9 +163,9 @@ class TestProgressBar:
         if self.progress.percent >= 100:
             self.progress.destroy()
             mainquit()
-            return FALSE
+            return False
         self.progress.update(step=1)
-        return TRUE
+        return True
 
 def progressbar_main(args):
     root = gtk.Window()

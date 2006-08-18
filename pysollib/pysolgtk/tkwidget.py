@@ -74,8 +74,6 @@ class MfxDialog(_MyDialog):
                  text='', justify='center',
                  strings=("OK",), default=0,
                  separatorwidth=0,
-                 font=None,
-                 buttonfont=None,
                  padx=20, pady=20,
                  bitmap=None, bitmap_side='left',
                  bitmap_padx=20, bitmap_pady=20,
@@ -84,6 +82,7 @@ class MfxDialog(_MyDialog):
         _MyDialog.__init__(self)
         self.status = 1
         self.button = -1
+        self.buttons = []
 
         modal=True
         if modal:
@@ -121,7 +120,8 @@ class MfxDialog(_MyDialog):
                      "question": gtk.STOCK_DIALOG_QUESTION} [kw['bitmap']]
             im = gtk.image_new_from_stock(stock, gtk.ICON_SIZE_DIALOG)
             box.pack_start(im)
-            im.xpad, im.ypad = kw['bitmap_padx'], kw['bitmap_pady']
+            im.set_property('xpad', kw['bitmap_padx'])
+            im.set_property('ypad', kw['bitmap_pady'])
             im.show()
         elif kw['image']:
             im = gtk.Image()
@@ -130,7 +130,8 @@ class MfxDialog(_MyDialog):
                 box.pack_start(im)
             else:
                 box.pack_end(im)
-            im.xpad, im.ypad = kw['image_padx'], kw['image_pady']
+            im.set_property('xpad', kw['image_padx'])
+            im.set_property('ypad', kw['image_pady'])
             im.show()
 
     def createButtons(self, box, kw):
@@ -149,6 +150,7 @@ class MfxDialog(_MyDialog):
             b.connect("clicked", self.done)
             box.pack_start(b)
             b.show()
+            self.buttons.append(b)
 
     def initKw(self, kw):
         kwdefault(kw,

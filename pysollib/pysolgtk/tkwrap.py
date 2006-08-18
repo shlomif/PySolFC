@@ -202,7 +202,6 @@ class _MfxToplevel(gtk.Window):
 
     def wm_geometry(self, newGeometry=None):
         ##print 'wm_geometry', newGeometry
-        print 'allow_shrink:', self.allow_shrink
         if not newGeometry:
             pass
             ##self.reshow_with_initial_size()

@@ -119,14 +119,20 @@ def color_gtk2tk(col):
 
 
 class _PysolPixmap:
-    def __init__(self, file=None):
+    def __init__(self, file=None, pixbuf=None, width=0, height=0,
+                 fill=None, outline=None):
         if file:
             self.pixbuf = gdk.pixbuf_new_from_file(file)
+        elif pixbuf:
+            self.pixbuf = pixbuf
         else:
-            self.pixbuf = gdk.Pixbuf()
+            self.pixbuf = gdk.Pixbuf(gdk.COLORSPACE_RGB,
+                                     True, 8, width, height)
 
     def clone(self):
-        return self.pixbuf.copy()
+        pixbuf = self.pixbuf.copy()
+        im = _PysolPixmap(pixbuf=pixbuf)
+        return im
 
     def width(self):
         return self.pixbuf.get_width()
@@ -134,19 +140,24 @@ class _PysolPixmap:
     def height(self):
         return self.pixbuf.get_height()
 
-    def subsample(self, x, y=None):
-        ## FIXME
-        return None
+    def subsample(self, r):
+        w, h = self.pixbuf.get_width(), self.pixbuf.get_height()
+        w, h = int(float(w)/r), int(float(h)/r)
+        pixbuf = self.pixbuf.scale_simple(w, h, gdk.INTERP_BILINEAR)
+        im = _PysolPixmap(pixbuf=pixbuf)
+        return im
 
 
 def loadImage(file):
     return _PysolPixmap(file=file)
 
 def copyImage(image, x, y, width, height):
-    return image
+    # FIXME
+    return image.clone()
 
 def createImage(width, height, fill, outline=None):
-    return _PysolPixmap()
+    # FIXME
+    return _PysolPixmap(width=width, height=height, fill=fill, outline=outline)
 
 
 # /***********************************************************************

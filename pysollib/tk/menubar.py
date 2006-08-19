@@ -1042,8 +1042,7 @@ class PysolMenubar(PysolMenubarActions):
 
     def mOptNegativeBottom(self, *event):
         if self._cancelDrag(): return
-        n = self.tkopt.negative_bottom.get()
-        self.app.opt.negative_bottom =  n
+        self.app.opt.negative_bottom = self.tkopt.negative_bottom.get()
         self.app.updateCardset()
         self.game.endGame(bookmark=1)
         self.game.quitGame(bookmark=1)

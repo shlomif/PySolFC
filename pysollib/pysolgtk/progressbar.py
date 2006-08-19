@@ -86,12 +86,6 @@ class PysolProgressBar:
         self.pbar.set_text(str(show_text)+'%')
         w, h = self.pbar.size_request()
         self.pbar.set_size_request(max(w, 300), max(h, height))
-        #   set color
-        ##~ c = self.pbar.get_colormap().alloc_color(color)
-        ##~ self.pbar.style.bg[gtk.STATE_PRELIGHT] = c
-        ##~ style = self.pbar.get_style().copy()
-        ##~ style.bg[gtk.STATE_PRELIGHT] = c
-        ##~ self.pbar.set_style(style)
         # hbox-3:image
         if images and images[1]:
             im = gtk.Image()

@@ -58,7 +58,7 @@ from gamedb import GI, GAME_DB, loadGame
 from settings import TOP_SIZE, TOP_TITLE, TOOLKIT
 
 # Toolkit imports
-from pysoltk import tkname, tkversion, wm_withdraw, loadImage
+from pysoltk import wm_withdraw, loadImage
 from pysoltk import MfxMessageDialog, MfxExceptionDialog
 from pysoltk import TclError, MfxRoot, MfxCanvas, MfxScrolledCanvas
 from pysoltk import PysolMenubar
@@ -107,7 +107,7 @@ class Options:
         self.shrink_face_down = True
         self.shade_filled_stacks = True
         self.demo_logo = True
-        self.toolbar = True
+        self.toolbar = 1       # 0 == hide, 1,2,3,4 == top, bottom, lef, right
         ##self.toolbar_style = 'default'
         self.toolbar_style = 'crystal'
         if os.name == 'posix':

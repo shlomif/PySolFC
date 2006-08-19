@@ -59,6 +59,12 @@ if os.name == 'nt':
 ##if locale_dir: locale_dir = os.path.normpath(locale_dir)
 gettext.install('pysol', locale_dir, unicode=True)
 
+## init toolkit
+if '--gtk' in sys.argv:
+    import pysollib.settings
+    pysollib.settings.TOOLKIT = 'gtk'
+    sys.argv.remove('--gtk')
+
 from pysollib.main import main
 #import pychecker.checker
 

@@ -52,7 +52,7 @@ from resource import CSI
 from pysolrandom import PysolRandom, LCRandom31
 from pysoltk import EVENT_HANDLED, EVENT_PROPAGATE
 from pysoltk import CURSOR_WATCH, ANCHOR_SW, ANCHOR_SE
-from pysoltk import tkname, bind, wm_map
+from pysoltk import bind, wm_map
 from pysoltk import after, after_idle, after_cancel
 from pysoltk import MfxMessageDialog, MfxExceptionDialog
 from pysoltk import MfxCanvasText, MfxCanvasImage
@@ -393,8 +393,8 @@ class Game:
         if self.canvas:
             self.canvas.config(cursor=cursor)
             ##self.canvas.update_idletasks()
-        if self.app and self.app.toolbar:
-            self.app.toolbar.setCursor(cursor=cursor)
+        #if self.app and self.app.toolbar:
+        #    self.app.toolbar.setCursor(cursor=cursor)
 
 
     #
@@ -529,7 +529,6 @@ class Game:
         self.busy = old_busy
 
     def resetGame(self):
-        ##print '--- resetGame ---'
         self.hints.list = None
         self.s.talon.removeAllCards()
         for stack in self.allstacks:
@@ -560,7 +559,6 @@ class Game:
     # with another game from there
     def quitGame(self, id=0, random=None, loadedgame=None,
                  startdemo=0, bookmark=0, holdgame=0):
-        print 'quitGame'
         self.updateTime()
         if bookmark:
             id, random = self.id, self.random

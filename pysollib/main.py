@@ -44,7 +44,7 @@ import gettext
 from mfxutil import destruct, EnvError
 from util import CARDSET, DataLoader
 from version import VERSION
-from settings import PACKAGE
+from settings import PACKAGE, TOOLKIT
 from resource import Tile
 from gamedb import GI
 from app import Application
@@ -52,12 +52,11 @@ from pysolaudio import thread, pysolsoundserver
 from pysolaudio import AbstractAudioClient, PysolSoundServerModuleClient, Win32AudioClient
 
 # Toolkit imports
-from pysoltk import tkname, tkversion, wm_withdraw, wm_set_icon, loadImage
+from pysoltk import tkversion, wm_withdraw, wm_set_icon, loadImage
 from pysoltk import MfxMessageDialog, MfxExceptionDialog
 from pysoltk import TclError, MfxRoot
 from pysoltk import PysolProgressBar
 
-from tkFont import Font
 
 # /***********************************************************************
 # //
@@ -327,20 +326,22 @@ def pysol_init(app, args):
         font = top.option_get('font', '')
     else:
         font = None
-    try:
-        f = Font(top, font)
-    except:
-        print >> sys.stderr, "invalid font name:", font
-        pass
-    else:
-        if font:
-            fa = f.actual()
-            app.opt.fonts["default"] = (fa["family"],
-                                        fa["size"],
-                                        fa["slant"],
-                                        fa["weight"])
+    if TOOLKIT == 'tk':
+        from tkFont import Font
+        try:
+            f = Font(top, font)
+        except:
+            print >> sys.stderr, "invalid font name:", font
+            pass
         else:
-            app.opt.fonts["default"] = None
+            if font:
+                fa = f.actual()
+                app.opt.fonts["default"] = (fa["family"],
+                                            fa["size"],
+                                            fa["slant"],
+                                            fa["weight"])
+            else:
+                app.opt.fonts["default"] = None
 
     # check games
     if len(app.gdb.getGamesIdSortedByName()) == 0:
@@ -559,7 +560,7 @@ def main(args=None):
             print "%s needs Python 1.5.2 or better (you have %s)" % (PACKAGE, sys.version)
             return 1
     assert len(tkversion) == 4
-    if tkname == "tk":
+    if TOOLKIT == "tk":
         import Tkinter
         if tkversion < (8, 0, 0, 0):
             print "%s needs Tcl/Tk 8.0 or better (you have %s)" % (PACKAGE, str(tkversion))

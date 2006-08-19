@@ -33,8 +33,7 @@
 ##
 ##---------------------------------------------------------------------------##
 
-__all__ = ['tkname',
-           'tkversion',
+__all__ = ['tkversion',
            'TK_DASH_PATCH',
            'EVENT_HANDLED',
            'EVENT_PROPAGATE',
@@ -63,8 +62,6 @@ n_ = lambda x: x
 # /***********************************************************************
 # // constants
 # ************************************************************************/
-
-tkname = "tk"
 
 # (major version, minor version, micro version, patchlevel)
 tkversion = (8, 0, 0, 0)

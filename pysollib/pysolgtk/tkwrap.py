@@ -109,12 +109,10 @@ class StringVar:
 class _MfxToplevel(gtk.Window):
     def __init__(self, *args, **kw):
         gtk.Window.__init__(self, type=gtk.WINDOW_TOPLEVEL)
-        ##~ self.style = self.get_style().copy()
-        ##~ self.set_style(self.style)
         #self.vbox = gtk.VBox()
         #self.vbox.show()
         #self.add(self.vbox)
-        self.table = gtk.Table(3, 5, False)
+        self.table = gtk.Table(3, 6, False)
         self.add(self.table)
         self.table.show()
         self.realize()
@@ -137,10 +135,6 @@ class _MfxToplevel(gtk.Window):
         for k, v in kw.items():
             if k in ("background", "bg"):
                 ##print "Toplevel configure: bg"
-                ##~ c = self.get_colormap().alloc_color(v)
-                ##~ self.style.bg[gtk.STATE_NORMAL] = c
-                ##~ self.set_style(self.style)
-                ##~ self.queue_draw()
                 pass
             elif k == "cursor":
                 self.setCursor(v)
@@ -256,7 +250,9 @@ class _MfxToplevel(gtk.Window):
         pass
 
     def option_get(self, *args):
-        ##print self, 'option_get'
+        if args and args[0] == 'font':
+            return self.get_style().font_desc.to_string()
+        print '_MfxToplevel: option_get', args
         return None
 
     def grid_columnconfigure(self, *args, **kw):

@@ -32,12 +32,10 @@
 
 # imports
 import os, re, sys
-
 import gtk
-TRUE, FALSE = True, False
+from gtk import gdk
 
 # PySol imports
-
 from pysollib.actions import PysolToolbarActions
 
 
@@ -53,9 +51,6 @@ class PysolToolbar(PysolToolbarActions):
         self.top = top
         self.dir = dir
         self.side = -1
-
-        self.toolbar = gtk.Toolbar(gtk.ORIENTATION_HORIZONTAL,
-                                   gtk.TOOLBAR_ICONS)
 
         ui_info = '''
 <ui>
@@ -82,15 +77,11 @@ class PysolToolbar(PysolToolbarActions):
         ui_manager_id = ui_manager.add_ui_from_string(ui_info)
 
         toolbar = ui_manager.get_widget("/toolbar")
+        self.toolbar = toolbar
         toolbar.set_tooltips(True)
         toolbar.set_style(gtk.TOOLBAR_ICONS)
-        toolbar.show()
 
-        top.table.attach(toolbar,
-                         0, 1,                   1, 2,
-                         gtk.EXPAND | gtk.FILL,  0,
-                         0,                      0)
-        toolbar.show()
+        self._attached = False
 
 
     #
@@ -103,6 +94,11 @@ class PysolToolbar(PysolToolbarActions):
     def destroy(self):
         self.toolbar.destroy()
 
+
+    #
+    # public methods
+    #
+
     def getSide(self):
         return self.side
 
@@ -110,24 +106,51 @@ class PysolToolbar(PysolToolbarActions):
         return 0
 
     def hide(self, resize=1):
-        self.show(None, resize)
+        self.show(0, resize)
 
     def show(self, side=1, resize=1):
+        if self.side == side:
+            return 0
         self.side = side
-        if side:
-            self.toolbar.show()
-        else:
+        if not side:
+            # hide
             self.toolbar.hide()
+            return 1
+        # show
+        if side == 1:
+            # top
+            x, y = 1, 1
+        elif side == 2:
+            # bottom
+            x, y = 1, 3
+        elif side == 3:
+            # left
+            x, y = 0, 2
+        else:
+            # right
+            x, y = 2, 2
+        # set orient
+        if side in (1, 2):
+            orient =  gtk.ORIENTATION_HORIZONTAL
+        else:
+            orient =  gtk.ORIENTATION_VERTICAL
+        self.toolbar.set_orientation(orient)
+        if self._attached:
+            self.top.table.remove(self.toolbar)
+        row_span, column_span = 1, 1
+        self.top.table.attach(self.toolbar,
+                              x, x+1,     y, y+1,
+                              gtk.FILL,   gtk.FILL,
+                              0,          0)
+        self.toolbar.show()
+        self._attached = True
+        return 1
 
-
-    #
-    # public methods
-    #
 
     def setCursor(self, cursor):
         if self.side:
-            # FIXME
-            pass
+            if self.toolbar.window:
+                self.toolbar.window.set_cursor(gdk.Cursor(v))
 
     def setRelief(self, relief):
         # FIXME

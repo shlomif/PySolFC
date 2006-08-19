@@ -41,9 +41,9 @@ import Tkinter
 
 # PySol imports
 from mfxutil import EnvError
-from settings import PACKAGE, PACKAGE_URL
+from settings import PACKAGE, PACKAGE_URL, TOOLKIT
 from version import VERSION, FC_VERSION
-from pysoltk import tkname, makeHelpToplevel, wm_map, wm_set_icon
+from pysoltk import makeHelpToplevel, wm_map, wm_set_icon
 from pysoltk import MfxMessageDialog
 from pysoltk import tkHTMLViewer
 from gamedb import GAME_DB
@@ -95,10 +95,10 @@ def helpCredits(app, timeout=0, sound=1):
     if sound:
         app.audio.playSample("credits")
     t = ""
-    if tkname == "tk": t = "Tcl/Tk, "
-    elif tkname == "gnome": t = "PyGTK, "
-    elif tkname == "kde": t = "pyKDE, "
-    elif tkname == "wx": t = "wxPython, "
+    if   TOOLKIT == "tk": t = "Tcl/Tk, "
+    elif TOOLKIT == "gtk": t = "PyGTK, "
+    elif TOOLKIT == "kde": t = "pyKDE, "
+    elif TOOLKIT == "wx": t = "wxPython, "
     d = MfxMessageDialog(app.top, title=_("Credits"), timeout=timeout,
                          text=PACKAGE+_(''' credits go to:
 

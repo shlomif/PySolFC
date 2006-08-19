@@ -42,7 +42,6 @@ from gtk import ANCHOR_NW, ANCHOR_SW, ANCHOR_NE, ANCHOR_SE
 # // constants
 # ************************************************************************/
 
-tkname = "gnome"
 # (major version, minor version, micro version, patchlevel)
 tkversion = (0, 0, 0, 0)
 

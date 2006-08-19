@@ -51,8 +51,6 @@ from pysollib.mfxutil import kwdefault, KwStruct
 class _MyDialog(gtk.Dialog):
     def __init__(self):
         gtk.Dialog.__init__(self)
-        ##~ style = self.get_style().copy()
-        ##~ self.set_style(style)
         self.connect("destroy", self.quit)
         self.connect("delete_event", self.quit)
 
@@ -110,6 +108,7 @@ class MfxDialog(_MyDialog):
         return self.createBox(widget_class=gtk.VBox)
 
     def createTable(self):
+        # FIXME
         return self.createBox(widget_class=gtk.Table)
 
     def createBitmaps(self, box, kw):
@@ -140,13 +139,17 @@ class MfxDialog(_MyDialog):
             text = strings[i]
             if not text:
                 continue
+            if isinstance(text, (list, tuple)):
+                text, index = text
+            else: # str
+                index = i
             text = text.replace('&', '_')
             b = gtk.Button(text)
             b.set_property('can-default', True)
-            if i == default:
+            if index == default:
                 b.grab_focus()
                 #b.grab_default()
-            b.set_data("user_data", i)
+            b.set_data("user_data", index)
             b.connect("clicked", self.done)
             box.pack_start(b)
             b.show()

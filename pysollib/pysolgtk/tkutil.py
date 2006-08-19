@@ -58,8 +58,6 @@ def wm_set_icon(window, icon):
 
 def makeToplevel(parent, title=None, class_=None, gtkclass=gtk.Window):
     window = gtkclass()
-    ##~ window.style = window.get_style().copy()
-    ##~ window.set_style(window.style)
     if not hasattr(window, 'table'):
         window.table = gtk.Table(1, 4, False)
         window.table.show()

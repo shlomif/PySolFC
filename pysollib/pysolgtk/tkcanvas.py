@@ -76,6 +76,7 @@ class _CanvasItem:
     def __init__(self, canvas):
         self.canvas = canvas
         canvas._all_items.append(self)
+        self._is_hidden = False
 
     def addtag(self, group):
         ##print self, 'addtag'
@@ -126,9 +127,11 @@ class _CanvasItem:
     def show(self):
         if self._item:
             self._item.show()
+        self._is_hidden = False
     def hide(self):
         if self._item:
             self._item.hide()
+        self._is_hidden = True
 
     def connect(self, signal, func, args):
         ##print signal
@@ -251,6 +254,7 @@ class MfxCanvas(gnome.canvas.Canvas):
         self.items = {}
         self._all_items = []
         self._text_items = []
+        self._hidden_items = []
         self._width, self._height = -1, -1
         self._tile = None
         # private
@@ -327,13 +331,10 @@ class MfxCanvas(gnome.canvas.Canvas):
                 ##print 'configure: bg:', v
                 c = self.get_colormap().alloc_color(v)
                 self.style.bg[gtk.STATE_NORMAL] = c
-                ##~ self.set_style(self.style)
-                ##~ self.queue_draw()
             elif k == "cursor":
-                ##~ w = self.window
-                ##~ if w:
-                ##~     w.set_cursor(cursor_new(v))
-                pass
+                if not self.window:
+                    self.realize()
+                self.window.set_cursor(gdk.Cursor(v))
             elif k == "height":
                 height = v
             elif k == "width":
@@ -359,12 +360,16 @@ class MfxCanvas(gnome.canvas.Canvas):
             self.__tileimage = None
 
     def hideAllItems(self):
+        self._hidden_items = []
         for i in self._all_items:
-            i.hide()
+            if not i._is_hidden:
+                i.hide()
+                self._hidden_items.append(i)
 
     def showAllItems(self):
-        for i in self._all_items:
+        for i in self._hidden_items:
             i.show()
+        self._hidden_items = []
 
     # PySol extension
     def findCard(self, stack, event):
@@ -440,8 +445,9 @@ class MfxCanvas(gnome.canvas.Canvas):
 
         gtk.idle_add(self.setBackgroundImage, filename, stretch)
 
+
     def setBackgroundImage(self, filename, stretch=False):
-        print 'setBackgroundImage', filename
+        ##print 'setBackgroundImage', filename
         if filename is None:
             if self.__tileimage:
                 self.__tileimage.destroy()
@@ -504,6 +510,9 @@ class MfxCanvas(gnome.canvas.Canvas):
         ##print 'MfxCanvas.update_idletasks'
         #gdk.window_process_all_updates()
         #self.show_now()
+        # FIXME
+        ##if self.__topimage:
+        ##    self.__topimage.raise_to_top()
         self.update_now()
         pass
 
@@ -523,7 +532,7 @@ class MfxCanvas(gnome.canvas.Canvas):
 
     def grid(self, *args, **kw):
         self.top.table.attach(self,
-            0, 1,                   2, 3,
+            1, 2,                   2, 3,
             gtk.EXPAND | gtk.FILL,  gtk.EXPAND | gtk.FILL | gtk.SHRINK,
             0,                      0)
         self.show()

@@ -99,7 +99,7 @@ from util import Timer
 from util import ACE, KING, SUITS
 from util import ANY_SUIT, ANY_COLOR, ANY_RANK, NO_RANK
 from util import NO_REDEAL, UNLIMITED_REDEALS, VARIABLE_REDEALS
-from pysoltk import tkname, EVENT_HANDLED, EVENT_PROPAGATE
+from pysoltk import EVENT_HANDLED, EVENT_PROPAGATE
 from pysoltk import CURSOR_DRAG, ANCHOR_NW, ANCHOR_SE
 from pysoltk import bind, unbind_destroy
 from pysoltk import after, after_idle, after_cancel
@@ -887,7 +887,11 @@ class Stack:
         self.cards[i].item.tkraise()
         self.game.canvas.update_idletasks()
         self.game.sleep(self.game.app.opt.raise_card_sleep)
-        self.cards[i].item.lower(self.cards[i+1].item)
+        if TOOLKIT == 'tk':
+            self.cards[i].item.lower(self.cards[i+1].item)
+        elif TOOLKIT == 'gtk':
+            for c in self.cards[i+1:]:
+                c.tkraise()
         self.game.canvas.update_idletasks()
         return 1
 
@@ -1160,10 +1164,10 @@ class Stack:
             if TOOLKIT == 'tk':
                 s1.lower(c.item)
                 s2.lower(c.item)
-            elif TOOLKIT == 'gtk':
-                positions = 2           ## FIXME
-                s1.lower(positions)
-                s2.lower(positions)
+##             elif TOOLKIT == 'gtk':
+##                 positions = 2           ## FIXME
+##                 s1.lower(positions)
+##                 s2.lower(positions)
             return (s1, s2)
         return ()
 

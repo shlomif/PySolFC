@@ -228,7 +228,7 @@ class Shisen_RowStack(Mahjongg_RowStack):
         game.updateStackMove(game.s.talon, 2|16)            # for undo
         if not game.demo:
             if game.app.opt.shisen_show_hint:
-                self.drawArrow(other_stack, game.app.opt.hint_sleep)
+                self.drawArrow(other_stack, game.app.opt.timeouts['hint'])
             game.playSample("droppair", priority=200)
         #
         game.moveMove(n, self, f, frames=frames, shadow=shadow)
@@ -275,7 +275,7 @@ class Shisen_RowStack(Mahjongg_RowStack):
         arrow = MfxCanvasLine(game.canvas,
                               coords,
                               {'width': w,
-                               'fill': game.app.opt.hintarrow_color,
+                               'fill': game.app.opt.colors['hintarrow'],
                                ##'arrow': 'last',
                                ##'arrowshape': (s1, s1, s2)
                                }

@@ -48,17 +48,17 @@ class TimeoutsDialog(MfxDialog):
         frame.columnconfigure(0, weight=1)
 
         self.demo_sleep_var = Tkinter.DoubleVar()
-        self.demo_sleep_var.set(app.opt.demo_sleep)
+        self.demo_sleep_var.set(app.opt.timeouts['demo'])
         self.hint_sleep_var = Tkinter.DoubleVar()
-        self.hint_sleep_var.set(app.opt.hint_sleep)
+        self.hint_sleep_var.set(app.opt.timeouts['hint'])
         self.raise_card_sleep_var = Tkinter.DoubleVar()
-        self.raise_card_sleep_var.set(app.opt.raise_card_sleep)
+        self.raise_card_sleep_var.set(app.opt.timeouts['raise_card'])
         self.highlight_piles_sleep_var = Tkinter.DoubleVar()
-        self.highlight_piles_sleep_var.set(app.opt.highlight_piles_sleep)
+        self.highlight_piles_sleep_var.set(app.opt.timeouts['highlight_piles'])
         self.highlight_cards_sleep_var = Tkinter.DoubleVar()
-        self.highlight_cards_sleep_var.set(app.opt.highlight_cards_sleep)
+        self.highlight_cards_sleep_var.set(app.opt.timeouts['highlight_cards'])
         self.highlight_samerank_sleep_var = Tkinter.DoubleVar()
-        self.highlight_samerank_sleep_var.set(app.opt.highlight_samerank_sleep)
+        self.highlight_samerank_sleep_var.set(app.opt.timeouts['highlight_samerank'])
         #
         #Tkinter.Label(frame, text='Set delays in seconds').grid(row=0, column=0, columnspan=2)
         row = 0
@@ -80,12 +80,12 @@ class TimeoutsDialog(MfxDialog):
         focus = self.createButtons(bottom_frame, kw)
         self.mainloop(focus, kw.timeout)
         #
-        self.demo_sleep = self.demo_sleep_var.get()
-        self.hint_sleep = self.hint_sleep_var.get()
-        self.raise_card_sleep = self.raise_card_sleep_var.get()
-        self.highlight_piles_sleep = self.highlight_piles_sleep_var.get()
-        self.highlight_cards_sleep = self.highlight_cards_sleep_var.get()
-        self.highlight_samerank_sleep = self.highlight_samerank_sleep_var.get()
+        self.demo_timeout = self.demo_sleep_var.get()
+        self.hint_timeout = self.hint_sleep_var.get()
+        self.raise_card_timeout = self.raise_card_sleep_var.get()
+        self.highlight_piles_timeout = self.highlight_piles_sleep_var.get()
+        self.highlight_cards_timeout = self.highlight_cards_sleep_var.get()
+        self.highlight_samerank_timeout = self.highlight_samerank_sleep_var.get()
 
     def initKw(self, kw):
         kw = KwStruct(kw,

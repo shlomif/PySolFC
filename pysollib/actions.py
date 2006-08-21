@@ -378,12 +378,6 @@ class PysolMenubarActions:
         self.game.endGame()
         self.game.quitGame(id, random=random)
 
-    def mSelectGame(self, *args):
-        self._mSelectGame(self.tkopt.gameid.get())
-
-    def mSelectGamePopular(self, *args):
-        self._mSelectGame(self.tkopt.gameid_popular.get())
-
     def _mNewGameBySeed(self, seed, origin):
         try:
             random = constructRandom(seed)
@@ -762,19 +756,19 @@ class PysolMenubarActions:
     def mHint(self, *args):
         if self._cancelDrag(): return
         if self.app.opt.hint:
-            if self.game.showHint(0, self.app.opt.hint_sleep):
+            if self.game.showHint(0, self.app.opt.timeouts['hint']):
                 self.game.stats.hints += 1
 
     def mHint1(self, *args):
         if self._cancelDrag(): return
         if self.app.opt.hint:
-            if self.game.showHint(1, self.app.opt.hint_sleep):
+            if self.game.showHint(1, self.app.opt.timeouts['hint']):
                 self.game.stats.hints += 1
 
     def mHighlightPiles(self, *args):
         if self._cancelDrag(): return
         if self.app.opt.highlight_piles:
-            if self.game.highlightPiles(self.app.opt.highlight_piles_sleep):
+            if self.game.highlightPiles(self.app.opt.timeouts['highlight_piles']):
                 self.game.stats.highlight_piles += 1
 
     def mDemo(self, *args):
@@ -787,7 +781,6 @@ class PysolMenubarActions:
         self._mDemo(mixed=1)
 
     def _mDemo(self, mixed):
-        if self._cancelDrag(): return
         if self.changed():
             # only ask if there have been no demo moves or hints yet
             if self.game.stats.demo_moves == 0 and self.game.stats.hints == 0:
@@ -814,134 +807,36 @@ class PysolMenubarActions:
                 self.game.updateStatus(player=self.app.opt.player)
                 self.game.updateStatus(stats=self.app.stats.getStats(self.app.opt.player, self.game.id))
 
-    def mOptAutoFaceUp(self, *args):
-        if self._cancelDrag(): return
-        self.app.opt.autofaceup = self.tkopt.autofaceup.get()
-        if self.app.opt.autofaceup:
-            self.game.autoPlay()
-
-    def mOptAutoDrop(self, *args):
-        if self._cancelDrag(): return
-        self.app.opt.autodrop = self.tkopt.autodrop.get()
-        if self.app.opt.autodrop:
-            self.game.autoPlay()
-
-    def mOptAutoDeal(self, *args):
-        if self._cancelDrag(): return
-        self.app.opt.autodeal = self.tkopt.autodeal.get()
-        if self.app.opt.autodeal:
-            self.game.autoPlay()
-
-    def mOptQuickPlay(self, *args):
-        if self._cancelDrag(break_pause=False): return
-        self.app.opt.quickplay = self.tkopt.quickplay.get()
-
-    def mOptEnableUndo(self, *args):
-        if self._cancelDrag(break_pause=False): return
-        self.app.opt.undo = self.tkopt.undo.get()
-        self.game.updateMenus()
-
-    def mOptEnableBookmarks(self, *args):
-        if self._cancelDrag(break_pause=False): return
-        self.app.opt.bookmarks = self.tkopt.bookmarks.get()
-        self.game.updateMenus()
-
-    def mOptEnableHint(self, *args):
-        if self._cancelDrag(break_pause=False): return
-        self.app.opt.hint = self.tkopt.hint.get()
-        self.game.updateMenus()
-
-    def mOptEnableHighlightPiles(self, *args):
-        if self._cancelDrag(break_pause=False): return
-        self.app.opt.highlight_piles = self.tkopt.highlight_piles.get()
-        self.game.updateMenus()
-
-    def mOptEnableHighlightCards(self, *args):
-        if self._cancelDrag(break_pause=False): return
-        self.app.opt.highlight_cards = self.tkopt.highlight_cards.get()
-        self.game.updateMenus()
-
-    def mOptEnableHighlightSameRank(self, *args):
-        if self._cancelDrag(break_pause=False): return
-        self.app.opt.highlight_samerank = self.tkopt.highlight_samerank.get()
-        ##self.game.updateMenus()
-
-    def mOptEnableHighlightNotMatching(self, *args):
-        if self._cancelDrag(break_pause=False): return
-        self.app.opt.highlight_not_matching = self.tkopt.highlight_not_matching.get()
-        ##self.game.updateMenus()
-
-    def mOptShrinkFaceDown(self, *args):
-        if self._cancelDrag(break_pause=False): return
-        self.app.opt.shrink_face_down = self.tkopt.shrink_face_down.get()
-        self.game.endGame(bookmark=1)
-        self.game.quitGame(bookmark=1)
-
-    def mOptShadeFilledStacks(self, *args):
-        if self._cancelDrag(break_pause=False): return
-        self.app.opt.shade_filled_stacks = self.tkopt.shade_filled_stacks.get()
-        self.game.endGame(bookmark=1)
-        self.game.quitGame(bookmark=1)
-
-    def mOptMahjonggShowRemoved(self, *args):
-        if self._cancelDrag(): return
-        self.app.opt.mahjongg_show_removed = self.tkopt.mahjongg_show_removed.get()
-        ##self.game.updateMenus()
-        self.game.endGame(bookmark=1)
-        self.game.quitGame(bookmark=1)
-
-    def mOptShisenShowHint(self, *args):
-        if self._cancelDrag(break_pause=False): return
-        self.app.opt.shisen_show_hint = self.tkopt.shisen_show_hint.get()
-        ##self.game.updateMenus()
-
-##     def mOptSound(self, *args):
-##         if self._cancelDrag(break_pause=False): return
-##         self.app.opt.sound = self.tkopt.sound.get()
-##         if not self.app.opt.sound:
-##             self.app.audio.stopAll()
-
     def mOptSoundDialog(self, *args):
         if self._cancelDrag(break_pause=False): return
         d = SoundOptionsDialog(self.top, _("Sound settings"), self.app)
         self.tkopt.sound.set(self.app.opt.sound)
 
-    def mOptAnimations(self, *args):
-        if self._cancelDrag(break_pause=False): return
-        self.app.opt.animations = self.tkopt.animations.get()
-
-    def mOptShadow(self, *args):
-        if self._cancelDrag(break_pause=False): return
-        self.app.opt.shadow = self.tkopt.shadow.get()
-
-    def mOptShade(self, *args):
-        if self._cancelDrag(break_pause=False): return
-        self.app.opt.shade = self.tkopt.shade.get()
-
 ##     def mOptIrregularPiles(self, *args):
 ##         if self._cancelDrag(): return
 ##         self.app.opt.irregular_piles = self.tkopt.irregular_piles.get()
 
-    def mOptColorsOptions(self, *args):
+    def mOptColors(self, *args):
         if self._cancelDrag(break_pause=False): return
         d = ColorsDialog(self.top, _("Set colors"), self.app)
-        table_text_color = self.app.opt.table_text_color
-        table_text_color_value = self.app.opt.table_text_color_value
+        text_color = self.app.opt.colors['text']
+        use_default_text_color = self.app.opt.use_default_text_color
         if d.status == 0 and d.button == 0:
-            self.app.opt.table_text_color = d.table_text_color
-            self.app.opt.table_text_color_value = d.table_text_color_value
-            ##self.app.opt.table_color = d.table_color
-            self.app.opt.highlight_piles_colors = d.highlight_piles_colors
-            self.app.opt.highlight_cards_colors = d.highlight_cards_colors
-            self.app.opt.highlight_samerank_colors = d.highlight_samerank_colors
-            self.app.opt.hintarrow_color = d.hintarrow_color
-            self.app.opt.highlight_not_matching_color = d.highlight_not_matching_color
+            self.app.opt.use_default_text_color = d.use_default_color
+            self.app.opt.colors['text'] = d.text_color
+            self.app.opt.colors['piles'] = d.piles_color
+            self.app.opt.colors['cards_1'] = d.cards_1_color
+            self.app.opt.colors['cards_2'] = d.cards_2_color
+            self.app.opt.colors['samerank_1'] = d.samerank_1_color
+            self.app.opt.colors['samerank_2'] = d.samerank_2_color
+            self.app.opt.colors['hintarrow'] = d.hintarrow_color
+            self.app.opt.colors['not_matching'] = d.not_matching_color
             #
-            if table_text_color != self.app.opt.table_text_color \
-                   or table_text_color_value != self.app.opt.table_text_color_value:
+            if (text_color != self.app.opt.colors['text'] or
+                use_default_text_color != self.app.opt.use_default_text_color):
                 self.app.setTile(self.tkopt.tabletile.get(), 1)
 
-    def mOptFontsOptions(self, *args):
+    def mOptFonts(self, *args):
         if self._cancelDrag(break_pause=False): return
         d = FontsDialog(self.top, _("Set fonts"), self.app)
         if d.status == 0 and d.button == 0:
@@ -950,16 +845,16 @@ class PysolMenubarActions:
             self.game.endGame(bookmark=1)
             self.game.quitGame(bookmark=1)
 
-    def mOptTimeoutsOptions(self, *args):
+    def mOptTimeouts(self, *args):
         if self._cancelDrag(break_pause=False): return
         d = TimeoutsDialog(self.top, _("Set timeouts"), self.app)
         if d.status == 0 and d.button == 0:
-            self.app.opt.demo_sleep = d.demo_sleep
-            self.app.opt.hint_sleep = d.hint_sleep
-            self.app.opt.raise_card_sleep = d.raise_card_sleep
-            self.app.opt.highlight_piles_sleep = d.highlight_piles_sleep
-            self.app.opt.highlight_cards_sleep = d.highlight_cards_sleep
-            self.app.opt.highlight_samerank_sleep = d.highlight_samerank_sleep
+            self.app.opt.timeouts['demo'] = d.demo_timeout
+            self.app.opt.timeouts['hint'] = d.hint_timeout
+            self.app.opt.timeouts['raise_card'] = d.raise_card_timeout
+            self.app.opt.timeouts['highlight_piles'] = d.highlight_piles_timeout
+            self.app.opt.timeouts['highlight_cards'] = d.highlight_cards_timeout
+            self.app.opt.timeouts['highlight_samerank'] = d.highlight_samerank_timeout
 
 ##     def mOptSave(self, *args):
 ##         if self._cancelDrag(break_pause=False): return

@@ -21,28 +21,29 @@
 
 __all__ = ['FontsDialog']
 
-## # imports
+# imports
 ## import os, sys
 ## import types
 ## import Tkinter
 ## import tkFont
+import gtk, gobject, pango
+import gtk.glade
 
-## # PySol imports
+# PySol imports
 ## from pysollib.mfxutil import destruct, kwdefault, KwStruct, Struct
 
-## # Toolkit imports
+# Toolkit imports
 ## from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
 ## from tkutil import bind
 
-from tkwidget import MfxDialog
 
 # /***********************************************************************
 # //
 # ************************************************************************/
 
-class FontsDialog(MfxDialog):
-    pass
-
+class FontsDialog:
+    def __init__(self, parent, title, app, **kw):
+        pass
 
 
 

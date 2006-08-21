@@ -1,12 +1,6 @@
-## vim:ts=4:et:nowrap
-##
 ##---------------------------------------------------------------------------##
 ##
 ## PySol -- a Python Solitaire game
-##
-## Copyright (C) 2000 Markus Franz Xaver Johannes Oberhumer
-## Copyright (C) 1999 Markus Franz Xaver Johannes Oberhumer
-## Copyright (C) 1998 Markus Franz Xaver Johannes Oberhumer
 ##
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -23,10 +17,6 @@
 ## If not, write to the Free Software Foundation, Inc.,
 ## 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 ##
-## Markus F.X.J. Oberhumer
-## <markus.oberhumer@jk.uni-linz.ac.at>
-## http://wildsau.idv.uni-linz.ac.at/mfx/pysol.html
-##
 ##---------------------------------------------------------------------------##
 
 
@@ -37,16 +27,13 @@ import gtk.glade
 
 # PySol imports
 from pysollib.mfxutil import format_time
-from pysollib.settings import TOP_TITLE
+from pysollib.settings import TOP_TITLE, PACKAGE
 from pysollib.stats import PysolStatsFormatter
 
 # Toolkit imports
 from tkwidget import MfxDialog, MfxMessageDialog
 
-
-glade_file = os.path.join(sys.path[0], 'data', 'pysolfc.glade')
-
-open(glade_file)
+gettext = _
 
 
 # /***********************************************************************
@@ -54,6 +41,7 @@ open(glade_file)
 # ************************************************************************/
 
 class StatsWriter(PysolStatsFormatter.StringWriter):
+
     def __init__(self, store):
         self.store = store
 
@@ -70,7 +58,7 @@ class StatsWriter(PysolStatsFormatter.StringWriter):
             return
         iter = self.store.append(None)
         self.store.set(iter,
-                       0, args[0],
+                       0, gettext(args[0]),
                        1, args[1],
                        2, args[2],
                        3, args[3],
@@ -80,9 +68,12 @@ class StatsWriter(PysolStatsFormatter.StringWriter):
                        7, gameid)
 
 
-class FullLogWriter(PysolStatsFormatter.StringWriter):
+class LogWriter(PysolStatsFormatter.StringWriter):
+    MAX_ROWS = 10000
+
     def __init__(self, store):
         self.store = store
+        self._num_rows = 0
 
     def p(self, s):
         pass
@@ -94,13 +85,16 @@ class FullLogWriter(PysolStatsFormatter.StringWriter):
         if gameid < 0:
             # header
             return
+        if self._num_rows > self.MAX_ROWS:
+            return
         iter = self.store.append(None)
         self.store.set(iter,
-                       0, gamename,
+                       0, gettext(gamename),
                        1, gamenumber,
                        2, date,
                        3, status,
                        4, gameid)
+        self._num_rows += 1
 
 
 class Game_StatsDialog:
@@ -108,49 +102,153 @@ class Game_StatsDialog:
     def __init__(self, parent, header, app, player, gameid):
         #
         self.app = app
-        
+        self.player = player
+        self.gameid = gameid
+        self.games = {}
+        self.games_id = [] # sorted by name
+        #
         formatter = PysolStatsFormatter(self.app)
+        glade_file = app.dataloader.findFile('pysolfc.glade')
+        #
+        games = app.gdb.getGamesIdSortedByName()
+        n = 0
+        current = 0
+        for id in games:
+            won, lost = self.app.stats.getStats(self.player, id)
+            if won+lost > 0 or id == gameid:
+                gi = app.gdb.get(id)
+                if id == gameid:
+                    current = n
+                self.games[n] = gi
+                self.games_id.append(id)
+                n += 1
         #
         self.widgets_tree = gtk.glade.XML(glade_file)
-        #game_name_combo = self.widgets_tree.get_widget('game_name_combo')
-        #model = gtk.ListStore(gobject.TYPE_STRING, gobject.TYPE_INT)
-        #game_name_combo.set_model(model)
-        #game_name_combo.set_text_column(0)
-        stats_dialog = self.widgets_tree.get_widget('stats_dialog')
-        stats_dialog.set_title('Game Statistics')
-        stats_dialog.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
-        # total
-        won, lost = app.stats.getStats(player, gameid)
-        self._createText('total', won, lost)
-        drawing = self.widgets_tree.get_widget('total_drawingarea')
-        drawing.connect('expose_event', self._createChart, won, lost)
-        # current session
-        won, lost = app.stats.getSessionStats(player, gameid)
-        self._createText('current', won, lost)
-        drawing = self.widgets_tree.get_widget('session_drawingarea')
-        drawing.connect('expose_event', self._createChart, won, lost)
         #
+        table = self.widgets_tree.get_widget('current_game_table')
+        combo = self._createGameCombo(table, 1, 0, self._currentComboChanged)
+        # total
+        self._createText('total')
+        drawing = self.widgets_tree.get_widget('total_drawingarea')
+        drawing.connect('expose_event', self._drawingExposeEvent, 'total')
+        # current session
+        self._createText('session')
+        drawing = self.widgets_tree.get_widget('session_drawingarea')
+        drawing.connect('expose_event', self._drawingExposeEvent, 'session')
+        # top 10
+        table = self.widgets_tree.get_widget('top_10_table')
+        combo = self._createGameCombo(table, 1, 0, self._top10ComboChanged)
+        self._createTop()
+        self._updateTop(gameid)
+        # all games stat
         store = self._createStatsList()
         writer = StatsWriter(store)
         formatter.writeStats(writer, player, header, sort_by='name')
-        #
+        # full log
         store = self._createLogList('full_log_treeview')
-        writer = FullLogWriter(store)
+        writer = LogWriter(store)
         formatter.writeFullLog(writer, player, header)
-        #
+        # session log
         store = self._createLogList('session_log_treeview')
-        writer = FullLogWriter(store)
+        writer = LogWriter(store)
         formatter.writeSessionLog(writer, player, header)
         #
-        stats_dialog.set_transient_for(parent)
-        stats_dialog.resize(400, 300)
-
-        stats_dialog.run()
+        self._translateLabels()
+        dialog = self.widgets_tree.get_widget('stats_dialog')
+        dialog.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
+        dialog.set_transient_for(parent)
+        dialog.resize(500, 340)
+        dialog.set_title(PACKAGE+' - '+_("Statistics"))
+        #
+        dialog.run()
         self.status = -1
-        stats_dialog.destroy()
+        dialog.destroy()
 
 
-    def _createText(self, name, won, lost):
+    def _translateLabels(self):
+        # mnemonic
+        for n in (
+            'label1',
+            'label2',
+            'label3',
+            'label4',
+            'label15',
+            'label16',
+            'label17',
+            'label18',
+            ):
+            w = self.widgets_tree.get_widget(n)
+            w.set_text_with_mnemonic(gettext(w.get_label()))
+        # simple
+        for n in (
+            'label5',
+            'label6',
+            'label7',
+            'label14'
+            ):
+            w = self.widgets_tree.get_widget(n)
+            w.set_text(gettext(w.get_text()))
+        # markup
+        for n in (
+            'label8',
+            'label9',
+            'label10',
+            'label11',
+            'label12',
+            'label13',
+            'label19',
+            'label20',
+            'label21',
+            'label22',
+            'label23',
+            'label24',
+            ):
+            w = self.widgets_tree.get_widget(n)
+            s = gettext(w.get_label())
+            w.set_markup('<b>%s</b>' % s)
+
+
+    def _createGameCombo(self, table, x, y, callback):
+        combo = gtk.combo_box_new_text()
+        combo.show()
+        table.attach(combo,
+                     x, x+1,                y, y+1,
+                     gtk.FILL|gtk.EXPAND,   0,
+                     4,                     4)
+        #
+        n = 0
+        current = 0
+        for id in self.games_id:
+            gi = self.app.gdb.get(id)
+            combo.append_text(gettext(gi.name))
+            if id == self.gameid:
+                current = n
+            n += 1
+        combo.set_active(current)
+        combo.connect('changed', callback) #self._comboChanged)
+
+
+    def _currentComboChanged(self, w):
+        gi = self.games[w.get_active()]
+        self.gameid = gi.id
+        self._createText('total')
+        drawing = self.widgets_tree.get_widget('total_drawingarea')
+        self._createChart(drawing, 'total')
+        self._createText('session')
+        drawing = self.widgets_tree.get_widget('session_drawingarea')
+        self._createChart(drawing, 'session')
+
+
+    def _top10ComboChanged(self, w):
+        gi = self.games[w.get_active()]
+        self._updateTop(gi.id)
+
+
+    def _createText(self, name):
+        if name == 'total':
+            won, lost = self.app.stats.getStats(self.player, self.gameid)
+        else:
+            won, lost = self.app.stats.getSessionStats(self.player, self.gameid)
         pwon, plost = self._getPwon(won, lost)
         label = self.widgets_tree.get_widget(name+'_num_won_label')
         label.set_text(str(won))
@@ -164,7 +262,15 @@ class Game_StatsDialog:
         label.set_text(str(won+lost))
 
 
-    def _createChart(self, drawing, e, won, lost):
+    def _drawingExposeEvent(self, drawing, e, frame):
+        self._createChart(drawing, frame)
+
+
+    def _createChart(self, drawing, frame):
+        if frame == 'total':
+            won, lost = self.app.stats.getStats(self.player, self.gameid)
+        else:
+            won, lost = self.app.stats.getSessionStats(self.player, self.gameid)
         pwon, plost = self._getPwon(won, lost)
         s, ewon, elost = 0, int(360.0*pwon), int(360.0*plost)
 
@@ -182,34 +288,128 @@ class Game_StatsDialog:
         y = y-dy/2
 
         if won+lost > 0:
-            gc.set_rgb_fg_color(colormap.alloc_color('#007f00'))
+            gc.set_foreground(colormap.alloc_color('#008000'))
             win.draw_arc(gc, True, x, y+dy, w, h, s*64, ewon*64)
-            gc.set_rgb_fg_color(colormap.alloc_color('#7f0000'))
+            gc.set_foreground(colormap.alloc_color('black'))
+            win.draw_arc(gc, False, x, y+dy, w, h, s*64, ewon*64)
+            gc.set_foreground(colormap.alloc_color('#800000'))
             win.draw_arc(gc, True, x, y+dy, w, h, (s+ewon)*64, elost*64)
-            gc.set_rgb_fg_color(colormap.alloc_color('#00ff00'))
+            gc.set_foreground(colormap.alloc_color('black'))
+            win.draw_arc(gc, False, x, y+dy, w, h, (s+ewon)*64, elost*64)
+            gc.set_foreground(colormap.alloc_color('#00ff00'))
             win.draw_arc(gc, True, x, y, w, h, s*64, ewon*64)
-            gc.set_rgb_fg_color(colormap.alloc_color('#ff0000'))
+            gc.set_foreground(colormap.alloc_color('black'))
+            win.draw_arc(gc, False, x, y, w, h, s*64, ewon*64)
+            gc.set_foreground(colormap.alloc_color('#ff0000'))
             win.draw_arc(gc, True, x, y, w, h, (s+ewon)*64, elost*64)
+            gc.set_foreground(colormap.alloc_color('black'))
+            win.draw_arc(gc, False, x, y, w, h, (s+ewon)*64, elost*64)
         else:
-            gc.set_rgb_fg_color(colormap.alloc_color('#7f7f7f'))
+            gc.set_foreground(colormap.alloc_color('#808080'))
             win.draw_arc(gc, True, x, y+dy, w, h, 0, 360*64)
-            gc.set_rgb_fg_color(colormap.alloc_color('#f0f0f0'))
+            gc.set_foreground(colormap.alloc_color('black'))
+            win.draw_arc(gc, False, x, y+dy, w, h, 0, 360*64)
+            gc.set_foreground(colormap.alloc_color('#f0f0f0'))
             win.draw_arc(gc, True, x, y, w, h, 0, 360*64)
-            gc.set_rgb_fg_color(colormap.alloc_color('#bfbfbf'))
-            pangolayout = drawing.create_pango_layout('No games')
+            gc.set_foreground(colormap.alloc_color('black'))
+            win.draw_arc(gc, False, x, y, w, h, 0, 360*64)
+            gc.set_foreground(colormap.alloc_color('#a0a0a0'))
+            pangolayout = drawing.create_pango_layout(_('No games'))
             ext = pangolayout.get_extents()
             tw, th = ext[1][2]/pango.SCALE, ext[1][3]/pango.SCALE
-            win.draw_layout(
-                gc,
-                x+w/2-tw/2, y+h/2-th/2,
-                pangolayout)
+            win.draw_layout(gc, x+w/2-tw/2, y+h/2-th/2, pangolayout)
+
+
+    def _createTop(self):
+        for n in ('top_10_time_treeview',
+                  'top_10_moves_treeview',
+                  'top_10_total_moves_treeview'):
+            self._createTopList(n)
+
+
+    def _updateTop(self, gameid):
+        if (not self.app.stats.games_stats.has_key(self.player) or
+            not self.app.stats.games_stats[self.player].has_key(gameid) or
+            not self.app.stats.games_stats[self.player][gameid].time_result.top):
+            return
+
+        s = self.app.stats.games_stats[self.player][gameid]
+
+        label = self.widgets_tree.get_widget('playing_time_minimum_label')
+        label.set_text(format_time(s.time_result.min))
+        label = self.widgets_tree.get_widget('playing_time_maximum_label')
+        label.set_text(format_time(s.time_result.max))
+        label = self.widgets_tree.get_widget('playing_time_average_label')
+        label.set_text(format_time(s.time_result.average))
+
+        label = self.widgets_tree.get_widget('moves_minimum_label')
+        label.set_text(str(s.moves_result.min))
+        label = self.widgets_tree.get_widget('moves_maximum_label')
+        label.set_text(str(s.moves_result.max))
+        label = self.widgets_tree.get_widget('moves_average_label')
+        label.set_text(str(round(s.moves_result.average, 2)))
+
+        label = self.widgets_tree.get_widget('total_moves_minimum_label')
+        label.set_text(str(s.total_moves_result.min))
+        label = self.widgets_tree.get_widget('total_moves_maximum_label')
+        label.set_text(str(s.total_moves_result.max))
+        label = self.widgets_tree.get_widget('total_moves_average_label')
+        label.set_text(str(round(s.total_moves_result.average, 2)))
+
+        for n, ss in (
+            ('top_10_time_treeview',        s.time_result.top),
+            ('top_10_moves_treeview',       s.moves_result.top),
+            ('top_10_total_moves_treeview', s.total_moves_result.top)):
+            self._updateTopList(n, ss)
+
+
+    def _createTopList(self, tv_name):
+        treeview = self.widgets_tree.get_widget(tv_name)
+        store = gtk.ListStore(gobject.TYPE_INT,    # N
+                              gobject.TYPE_STRING, # number
+                              gobject.TYPE_STRING, # started at
+                              gobject.TYPE_STRING, # result
+                              gobject.TYPE_STRING, # result
+                              )
+        treeview.set_model(store)
+        n = 0
+        for label in (
+            _('N'),
+            _('Game number'),
+            _('Started at'),
+            _('Result'),
+            ):
+            column = gtk.TreeViewColumn(label, gtk.CellRendererText(), text=n)
+            column.set_resizable(True)
+            ##column.set_sort_column_id(n)
+            treeview.append_column(column)
+            n += 1
+
+
+    def _updateTopList(self, tv_name, top):
+        treeview = self.widgets_tree.get_widget(tv_name)
+        store = treeview.get_model()
+        store.clear()
+        row = 1
+        for i in top:
+            t = time.strftime('%Y-%m-%d %H:%M',
+                              time.localtime(i.game_start_time))
+            if isinstance(i.value, float):
+                # time
+                r = format_time(i.value)
+            else:
+                # moves
+                r = str(i.value)
+            iter = store.append(None)
+            store.set(iter, 0, row, 1, i.game_number, 2, t, 3, r)
+            row += 1
 
 
     def _createStatsList(self):
         treeview = self.widgets_tree.get_widget('all_games_treeview')
         n = 0
         for label in (
-            '',
+            _('Game'),
             _('Played'),
             _('Won'),
             _('Lost'),
@@ -234,10 +434,11 @@ class Game_StatsDialog:
                               gobject.TYPE_INT,    # gameid
                               )
         sortable = gtk.TreeModelSort(store)
-        treeview.set_model(sortable)
         sortable.set_sort_func(4, self._cmpPlayingTime)
         sortable.set_sort_func(5, self._cmpMoves)
         sortable.set_sort_func(6, self._cmpPercent)
+        treeview.set_model(sortable)
+        treeview.set_rules_hint(True)
         return store
 
 
@@ -265,6 +466,7 @@ class Game_StatsDialog:
                               gobject.TYPE_INT,    # gameid
                               )
         treeview.set_model(store)
+        treeview.set_rules_hint(True)
         return store
 
 
@@ -300,15 +502,10 @@ class Game_StatsDialog:
 # ************************************************************************/
 
 SingleGame_StatsDialog = Game_StatsDialog
-
-class AllGames_StatsDialog(MfxDialog):
-    pass
-
-class FullLog_StatsDialog(AllGames_StatsDialog):
-    pass
-
-class SessionLog_StatsDialog(FullLog_StatsDialog):
-    pass
+AllGames_StatsDialog = Game_StatsDialog
+FullLog_StatsDialog = Game_StatsDialog
+SessionLog_StatsDialog = Game_StatsDialog
+Top_StatsDialog = Game_StatsDialog
 
 
 # /***********************************************************************
@@ -334,32 +531,32 @@ class Status_StatsDialog(MfxMessageDialog): #MfxDialog
         if game.s.foundations:
             w2 = w2 + _('\nCards in Foundations: ') + str(n)
         #
-        date = time.strftime('%Y-%m-%d %H:%M', time.localtime(game.gstats.start_time))
-        MfxMessageDialog.__init__(self, parent, title=_('Game status'),
-                                  text=game.getTitleName() + '\n' +
-                                  game.getGameNumber(format=1) + '\n' +
-                                  _('Playing time: ') + game.getTime() + '\n' +
-                                  _('Started at: ') + date + '\n\n'+
-                                  _('Moves: ') + str(game.moves.index) + '\n' +
-                                  _('Undo moves: ') + str(stats.undo_moves) + '\n' +
-                                  _('Bookmark moves: ') + str(gstats.goto_bookmark_moves) + '\n' +
-                                  _('Demo moves: ') + str(stats.demo_moves) + '\n' +
-                                  _('Total player moves: ') + str(stats.player_moves) + '\n' +
-                                  _('Total moves in this game: ') + str(stats.total_moves) + '\n' +
-                                  _('Hints: ') + str(stats.hints) + '\n' +
-                                  '\n' +
-                                  w1 + w2,
-                                  strings=(_('&OK'),
-                                           (_('&Statistics...'), 101),
-                                           (TOP_TITLE+'...', 105), ),
-                                  image=game.app.gimages.logos[3],
-                                  image_side='left', image_padx=20,
-                                  padx=20,
-                                  )
+        date = time.strftime('%Y-%m-%d %H:%M',
+                             time.localtime(game.gstats.start_time))
+        MfxMessageDialog.__init__(
+            self, parent, title=_('Game status'),
+            text=game.getTitleName() + '\n' +
+            game.getGameNumber(format=1) + '\n' +
+            _('Playing time: ') + game.getTime() + '\n' +
+            _('Started at: ') + date + '\n\n'+
+            _('Moves: ') + str(game.moves.index) + '\n' +
+            _('Undo moves: ') + str(stats.undo_moves) + '\n' +
+            _('Bookmark moves: ') + str(gstats.goto_bookmark_moves) + '\n' +
+            _('Demo moves: ') + str(stats.demo_moves) + '\n' +
+            _('Total player moves: ') + str(stats.player_moves) + '\n' +
+            _('Total moves in this game: ') + str(stats.total_moves) + '\n' +
+            _('Hints: ') + str(stats.hints) + '\n' +
+            '\n' +
+            w1 + w2,
+            strings=(_('&OK'),
+                     (_('&Statistics...'), 101), ),
+            image=game.app.gimages.logos[3],
+            image_side='left', image_padx=20,
+            padx=20,
+            )
 
 
 
-class Top_StatsDialog(MfxDialog):
-    pass
+
 
 

@@ -167,21 +167,27 @@ class Options:
             self.fonts["sans"] = ("times new roman", 12)
             self.fonts["fixed"] = ("courier new", 10)
         # colors
-        self.table_color = "#008200"
-        self.highlight_piles_colors = (None, "#ffc000")
-        self.highlight_cards_colors = (None, "#ffc000", None, "#0000ff")
-        self.highlight_samerank_colors = (None, "#ffc000", None, "#0000ff")
-        self.hintarrow_color = "#303030"
-        self.highlight_not_matching_color = '#ff0000'
-        self.table_text_color = False  # `False' is mean use default
-        self.table_text_color_value = '#ffffff'
+        self.colors = {
+            'table':        '#008200',
+            'text':         '#ffffff',
+            'piles':        '#ffc000',
+            'cards_1':      '#ffc000',
+            'cards_2':      '#0000ff',
+            'samerank_1':   '#ffc000',
+            'samerank_2':   '#0000ff',
+            'hintarrow':    '#303030',
+            'not_matching': '#ff0000',
+            }
+        self.use_default_text_color = True
         # delays
-        self.hint_sleep = 1.0
-        self.demo_sleep = 1.0
-        self.raise_card_sleep = 1.0
-        self.highlight_piles_sleep = 1.0
-        self.highlight_cards_sleep = 1.0
-        self.highlight_samerank_sleep = 1.0
+        self.timeouts = {
+            'hint':               1.0,
+            'demo':               1.0,
+            'raise_card':         1.0,
+            'highlight_piles':    1.0,
+            'highlight_cards':    1.0,
+            'highlight_samerank': 1.0,
+            }
         # additional startup information
         self.num_recent_games = 15
         self.recent_gameid = []
@@ -935,7 +941,7 @@ class Application:
         if self.scrolled_canvas.setTile(self, i, force):
             tile = self.tabletile_manager.get(i)
             if i == 0:
-                self.opt.table_color = tile.color
+                self.opt.colors['table'] = tile.color
                 self.opt.tabletile_name = None
             else:
                 self.opt.tabletile_name = tile.basename
@@ -1005,7 +1011,7 @@ class Application:
             self.wm_save_state()
             self.wm_withdraw()
             title = _("Loading %s %s...") % (CARDSET, cs.name)
-            color = self.opt.table_color
+            color = self.opt.colors['table']
             if self.tabletile_index > 0:
                 color = "#008200"
             progress = PysolProgressBar(self, self.top, title=title,

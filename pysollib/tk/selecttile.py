@@ -121,7 +121,7 @@ class SelectTileDialogWithPreview(MfxDialog):
         self.app = app
         self.manager = manager
         self.key = key
-        self.table_color = app.opt.table_color
+        self.table_color = app.opt.colors['table']
         if self.TreeDataHolder_Class.data is None:
             self.TreeDataHolder_Class.data = self.TreeData_Class(manager, key)
         #

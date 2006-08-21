@@ -374,7 +374,7 @@ Please check your %s installation.
     # init tiles
     manager = app.tabletile_manager
     tile = Tile()
-    tile.color = app.opt.table_color
+    tile.color = app.opt.colors['table']
     tile.name = "None"
     tile.filename = None
     manager.register(tile)
@@ -449,7 +449,7 @@ Sounds and background music will be disabled.'''),
 
     # create the progress bar
     title = _("Welcome to ") + PACKAGE
-    color = app.opt.table_color
+    color = app.opt.colors['table']
     if app.tabletile_index > 0:
         color = "#008200"
     app.intro.progress = PysolProgressBar(app, top, title=title, color=color,

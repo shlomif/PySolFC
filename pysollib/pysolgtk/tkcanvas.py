@@ -77,11 +77,16 @@ class _CanvasItem:
         self.canvas = canvas
         canvas._all_items.append(self)
         self._is_hidden = False
+        self._x, self._y = 0, 0
+        self._group = None
 
     def addtag(self, group):
         ##print self, 'addtag'
         ##~ assert isinstance(group._item, CanvasGroup)
         self._item.reparent(group._item)
+        if self._group == group:
+            print 'addtag: new_group == old_group'
+        self._group = group
 
     def dtag(self, group):
         ##print self, 'dtag'
@@ -102,11 +107,14 @@ class _CanvasItem:
             self._item = None
 
     def lower(self, positions=None):
-        return # used for reordered shadow; don't need?
+        print 'lower', self, positions
+        return # don't need?
 ##         if positions is None:
-##             self._item.lower_to_bottom()
-##             self._item.get_property('parent').raise_to_top()
+##             pass
+##             ##self._item.lower_to_bottom()
+##             ##self._item.get_property('parent').lower_to_bottom()
 ##         else:
+##             print self, positions
 ##             ##~ assert type(positions) is types.IntType and positions > 0
 ##             self._item.lower(positions)
 
@@ -116,13 +124,18 @@ class _CanvasItem:
             self._item.raise_to_top()
             self._item.get_property('parent').raise_to_top()
         else:
-            print self, 'tkraise', positions # don't used?
+            #print self, 'tkraise', positions
+            #self._item.raise_to_top()
             ##~ assert type(positions) is types.IntType and positions > 0
-            self._item.raise_(positions)
+            self._item.raise_to_top() #positions)
 
     def move(self, x, y):
         self._item.move(x, y)
-    moveTo = move
+        self._x, self._y = self._x+x, self._y+y
+
+    def moveTo(self, x, y):
+        self._item.move(x-self._x, y-self._y)
+        self._x, self._y = x, y
 
     def show(self):
         if self._item:
@@ -146,16 +159,22 @@ class MfxCanvasGroup(_CanvasItem):
 
 
 class MfxCanvasImage(_CanvasItem):
-    def __init__(self, canvas, x, y, image, anchor=gtk.ANCHOR_NW):
+    def __init__(self, canvas, x, y, image, anchor=gtk.ANCHOR_NW, group=None):
         _CanvasItem.__init__(self, canvas)
+        self._x, self._y = x, y
         if type(anchor) is str:
             anchor = anchor_tk2gtk(anchor)
-        self._item = canvas.root().add(gnome.canvas.CanvasPixbuf,
-                                       x=x, y=y,
-                                       pixbuf=image.pixbuf,
-                                       width=image.width(),
-                                       height=image.height(),
-                                       anchor=anchor)
+        if group:
+            self._group = group
+            group = group._item
+        else:
+            group = canvas.root()
+        self._item = group.add(gnome.canvas.CanvasPixbuf,
+                               x=x, y=y,
+                               pixbuf=image.pixbuf,
+                               width=image.width(),
+                               height=image.height(),
+                               anchor=anchor)
         self._item.show()
 
     def config(self, image):
@@ -183,35 +202,52 @@ class MfxCanvasLine(_CanvasItem):
             kwargs['arrow_shape_a'] = kw['arrowshape'][0]
             kwargs['arrow_shape_b'] = kw['arrowshape'][1]
             kwargs['arrow_shape_c'] = kw['arrowshape'][2]
-        self._item = canvas.root().add(gnome.canvas.CanvasLine,
-                                       points=points, **kwargs)
+        if kw.has_key('group'):
+            self._group = kw['group']
+            group = kw['group']._item
+        else:
+            group = canvas.root()
+        self._item = group.add(gnome.canvas.CanvasLine,
+                               points=points, **kwargs)
         self._item.show()
-        #canvas.show_all()
 
 
 class MfxCanvasRectangle(_CanvasItem):
     def __init__(self, canvas, x1, y1, x2, y2,
-                 width=0, fill=None, outline=None):
+                 width=0, fill=None, outline=None, group=None):
         _CanvasItem.__init__(self, canvas)
+        self._x, self._y = x1, y1
         kw = {'x1': x1, 'x2': x2, 'y1': y1, 'y2': y2}
         if width:   kw['width_pixels']  = width
         if fill:    kw['fill_color']    = fill
         if outline: kw['outline_color'] = outline
-        self._item = canvas.root().add(gnome.canvas.CanvasRect, **kw)
+        if group:
+            self._group = group
+            group = group._item
+        else:
+            group = canvas.root()
+        self._item = group.add(gnome.canvas.CanvasRect, **kw)
         self._item.show()
 
 
 class MfxCanvasText(_CanvasItem):
     def __init__(self, canvas, x, y, anchor=gtk.ANCHOR_NW, preview=-1, **kw):
         _CanvasItem.__init__(self, canvas)
+        self._x, self._y = x, y
         if preview < 0:
             preview = canvas.preview
         if preview > 1:
             self._item = None
             return
         anchor = anchor_tk2gtk(anchor)
-        self._item = canvas.root().add(gnome.canvas.CanvasText,
-                                       x=x, y=y, anchor=anchor)
+        if kw.has_key('group'):
+            self._group = kw['group']
+            group = kw['group']._item
+            del kw['group']
+        else:
+            group = canvas.root()
+        self._item = group.add(gnome.canvas.CanvasText,
+                               x=x, y=y, anchor=anchor)
         if not kw.has_key('fill'):
             kw['fill'] = canvas._text_color
         for k, v in kw.items():
@@ -236,7 +272,6 @@ class MfxCanvasText(_CanvasItem):
 
     def __getitem__(self, key):
         if key == 'text':
-            # FIXME
             return self._item.get_property('text')
         else:
             raise AttributeError, key
@@ -295,7 +330,7 @@ class MfxCanvas(gnome.canvas.Canvas):
     def bind(self, sequence=None, func=None, add=None):
         assert add is None
         # FIXME
-        print "TkCanvas bind:", sequence
+        print 'TkCanvas bind:', sequence
         return
 
     def cget(self, attr):
@@ -307,7 +342,7 @@ class MfxCanvas(gnome.canvas.Canvas):
             return self.get_size()[0]
         elif attr == 'height':
             return self.get_size()[1]
-        print "TkCanvas cget:", attr
+        print 'TkCanvas cget:', attr
         raise AttributeError, attr
 
     def xview(self):
@@ -327,20 +362,20 @@ class MfxCanvas(gnome.canvas.Canvas):
     def configure(self, **kw):
         height, width = -1, -1
         for k, v in kw.items():
-            if k in ("background", "bg"):
+            if k in ('background', 'bg'):
                 ##print 'configure: bg:', v
                 c = self.get_colormap().alloc_color(v)
                 self.style.bg[gtk.STATE_NORMAL] = c
-            elif k == "cursor":
+            elif k == 'cursor':
                 if not self.window:
                     self.realize()
                 self.window.set_cursor(gdk.Cursor(v))
-            elif k == "height":
+            elif k == 'height':
                 height = v
-            elif k == "width":
+            elif k == 'width':
                 width = v
             else:
-                print "TkCanvas", k, v
+                print 'TkCanvas', k, v
                 raise AttributeError, k
         if height > 0 and width > 0:
             self.set_size_request(width, height)
@@ -386,7 +421,7 @@ class MfxCanvas(gnome.canvas.Canvas):
         if self._text_color != color:
             self._text_color = color
             for item in self._text_items:
-                item.set(fill_color=_self.text_color)
+                item._item.set(fill_color=self._text_color)
 
     # PySol extension - set a tiled background image
     def setTile(self, app, i, force=False):
@@ -402,7 +437,8 @@ class MfxCanvas(gnome.canvas.Canvas):
             assert tile.filename
             assert tile.basename
         if not force:
-            if i == app.tabletile_index and tile.color == app.opt.table_color:
+            if (i == app.tabletile_index and
+                tile.color == app.opt.colors['table']):
                 return False
             if self._tile is tile:
                 return False
@@ -420,10 +456,10 @@ class MfxCanvas(gnome.canvas.Canvas):
             self.configure(bg=self.top_bg)
             color = tile.text_color
 
-        if app.opt.table_text_color:
-            self.setTextColor(app.opt.table_text_color_value)
-        else:
+        if app.opt.use_default_text_color:
             self.setTextColor(color)
+        else:
+            self.setTextColor(app.opt.colors['text'])
 
         return True
 

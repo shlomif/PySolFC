@@ -54,7 +54,7 @@ class SelectTileDialogWithPreview(MfxDialog):
         self.key = key
         self.preview_key = -1
         self.all_keys = []
-        self.table_color = app.opt.table_color
+        self.table_color = app.opt.colors['table']
         # paned
         hpaned = gtk.HPaned()
         self.hpaned = hpaned
@@ -150,7 +150,7 @@ class SelectTileDialogWithPreview(MfxDialog):
             canvas.setBackgroundImage(None)
             canvas.setTextColor(None)
             self.preview_key = key
-            self.table_color = key
+            self.colors['table'] = key
         else:
             # image
             tile = self.manager.get(key)
@@ -186,7 +186,7 @@ class SelectTileDialogWithPreview(MfxDialog):
         if type(self.preview_key) is str:
             color =  self.preview_key
         else:
-            color = self.app.opt.table_color
+            color = self.app.opt.colors['table']
         win.colorsel.set_current_color(gdk.color_parse(color))
         win.connect('delete_event', lambda w, e: win.destroy())
         win.ok_button.connect('clicked', self._colorselOkClicked, win)

@@ -1470,7 +1470,7 @@ for %d moves.
     def highlightCard(self, suit, rank):
         if not self.app:
             return None
-        col = self.app.opt.highlight_samerank_colors[1]
+        col = self.app.opt.colors['samerank_1']
         info = []
         for s in self.allstacks:
             for c in s.cards:
@@ -1546,10 +1546,19 @@ for %d moves.
                 y2 = y2 + self.app.images.CARDH
                 tkraise = True
             ##print c1, c2, x1, y1, x2, y2
-            r = MfxCanvasRectangle(self.canvas, x1-1, y1-1, x2+1, y2+1,
-                                   width=4, fill=None, outline=color)
-            if tkraise:
-                r.tkraise(c2.item)
+            if TOOLKIT == 'tk':
+                r = MfxCanvasRectangle(self.canvas, x1-1, y1-1, x2+1, y2+1,
+                                       width=4, fill=None, outline=color)
+                if tkraise:
+                    r.tkraise(c2.item)
+            elif TOOLKIT == 'gtk':
+                r = MfxCanvasRectangle(self.canvas, x1-1, y1-1, x2+1, y2+1,
+                                       width=4, fill=None, outline=color,
+                                       group=s.group)
+                if tkraise:
+                    i = s.cards.index(c2)
+                    for c in s.cards[i+1:]:
+                        c.tkraise(1)
             items.append(r)
         if not items:
             return 0
@@ -1575,14 +1584,14 @@ for %d moves.
         y = int(int(self.canvas.cget('height'))*(self.canvas.yview()[0]))
         w, h = self.canvas.winfo_width(), self.canvas.winfo_height()
         #
-        color = self.app.opt.highlight_not_matching_color
+        color = self.app.opt.colors['not_matching']
         width = 6
         x0, y0 = x+width/2-self.canvas.xmargin, y+width/2-self.canvas.ymargin
         x1, y1 = x+w-width-self.canvas.xmargin, y+h-width-self.canvas.ymargin
         r = MfxCanvasRectangle(self.canvas, x0, y0, x1, y1,
                                width=width, fill=None, outline=color)
         self.canvas.update_idletasks()
-        self.sleep(self.app.opt.highlight_cards_sleep)
+        self.sleep(self.app.opt.timeouts['highlight_cards'])
         r.delete()
         self.canvas.update_idletasks()
 
@@ -1591,7 +1600,7 @@ for %d moves.
         if not stackinfo:
             self.highlightNotMatching()
             return 0
-        col = self.app.opt.highlight_piles_colors
+        col = self.app.opt.colors['piles']
         hi = []
         for si in stackinfo:
             for s in si[0]:
@@ -1771,7 +1780,7 @@ for %d moves.
         y2 = y2 + images.CARDH / 2
         # draw the hint
         arrow = MfxCanvasLine(self.canvas, x1, y1, x2, y2, width=7,
-                              fill=self.app.opt.hintarrow_color,
+                              fill=self.app.opt.colors['hintarrow'],
                               arrow="last", arrowshape=(30,30,10))
         self.canvas.update_idletasks()
         # wait
@@ -1794,7 +1803,7 @@ for %d moves.
         self.demo = Struct(
             level = level,
             mixed = mixed,
-            sleep = self.app.opt.demo_sleep,
+            sleep = self.app.opt.timeouts['demo'],
             last_deal = [],
             hint = None,
             keypress = None,
@@ -1979,8 +1988,9 @@ for %d moves.
         ta = self.getDemoInfoTextAttr(tinfo)
         if ta:
             font = self.app.getFont("canvas_large")
-            self.demo.info_text = MfxCanvasText(self.canvas, ta[1], ta[2], anchor=ta[0],
-                                                font=font, text=self.getDemoInfoText())
+            self.demo.info_text = MfxCanvasText(self.canvas, ta[1], ta[2],
+                                                anchor=ta[0], font=font,
+                                                text=self.getDemoInfoText())
 
     def getDemoInfoText(self):
         return self.gameinfo.short_name

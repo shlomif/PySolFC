@@ -21,22 +21,87 @@
 
 __all__ = ['TimeoutsDialog']
 
-## # imports
+# imports
 ## import os, sys
-## import Tkinter
+import gtk, gobject, pango
+import gtk.glade
 
-## # PySol imports
-## from pysollib.mfxutil import destruct, kwdefault, KwStruct, Struct
+# PySol imports
 
-## # Toolkit imports
-## from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
+# Toolkit imports
 
-from tkwidget import MfxDialog
+
+gettext = _
 
 # /***********************************************************************
 # //
 # ************************************************************************/
 
-class TimeoutsDialog(MfxDialog):
-    pass
+class TimeoutsDialog:
+
+    def __init__(self, parent, title, app, **kw):
+
+        glade_file = app.dataloader.findFile('pysolfc.glade')
+        self.widgets_tree = gtk.glade.XML(glade_file)
+
+        keys = (
+            'demo',
+            'hint',
+            'raise_card',
+            'highlight_piles',
+            'highlight_cards',
+            'highlight_samerank',
+            )
+
+        dic = {}
+        for n in keys:
+            def callback(w, n=n):
+                sp = self.widgets_tree.get_widget(n+'_spinbutton')
+                sc = self.widgets_tree.get_widget(n+'_scale')
+                sp.set_value(sc.get_value())
+            dic[n+'_scale_value_changed'] = callback
+            def callback(w, n=n):
+                sp = self.widgets_tree.get_widget(n+'_spinbutton')
+                sc = self.widgets_tree.get_widget(n+'_scale')
+                sc.set_value(sp.get_value())
+            dic[n+'_spinbutton_value_changed'] = callback
+        self.widgets_tree.signal_autoconnect(dic)
+
+        for n in keys:
+            v = app.opt.timeouts[n]
+            w = self.widgets_tree.get_widget(n+'_spinbutton')
+            w.set_value(v)
+            w = self.widgets_tree.get_widget(n+'_scale')
+            w.set_value(v)
+
+        self._translateLabels()
+
+        dialog = self.widgets_tree.get_widget('timeouts_dialog')
+        dialog.set_title(title)
+        dialog.set_transient_for(parent)
+        dialog.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
+
+        self.status = -1
+        self.button = -1
+        response = dialog.run()
+        if response == gtk.RESPONSE_OK:
+            self.status = 0
+            self.button = 0
+        for n in keys:
+            w = self.widgets_tree.get_widget(n+'_spinbutton')
+            setattr(self, n+'_timeout', w.get_value())
+
+        dialog.destroy()
+
+    def _translateLabels(self):
+        for n in (
+            'label25',
+            'label26',
+            'label27',
+            'label28',
+            'label29',
+            'label30',
+            ):
+            w = self.widgets_tree.get_widget(n)
+            w.set_text(gettext(w.get_text()))
 

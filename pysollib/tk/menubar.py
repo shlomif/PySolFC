@@ -382,9 +382,9 @@ class PysolMenubar(PysolMenubarActions):
         menu.add_checkbutton(label=n_("Stick&y mouse"), variable=self.tkopt.sticky_mouse, command=self.mOptStickyMouse)
         menu.add_checkbutton(label=n_("Use mouse for undo/redo"), variable=self.tkopt.mouse_undo, command=self.mOptMouseUndo)
         menu.add_separator()
-        menu.add_command(label=n_("&Fonts..."), command=self.mOptFontsOptions)
-        menu.add_command(label=n_("&Colors..."), command=self.mOptColorsOptions)
-        menu.add_command(label=n_("Time&outs..."), command=self.mOptTimeoutsOptions)
+        menu.add_command(label=n_("&Fonts..."), command=self.mOptFonts)
+        menu.add_command(label=n_("&Colors..."), command=self.mOptColors)
+        menu.add_command(label=n_("Time&outs..."), command=self.mOptTimeouts)
         menu.add_separator()
         submenu = MfxMenu(menu, label=n_("&Toolbar"))
         createToolbarMenu(self, submenu)
@@ -637,7 +637,7 @@ class PysolMenubar(PysolMenubarActions):
                                    self.mSelectGame, self.tkopt.gameid)
 
     def _addSelectAllGameSubMenu(self, games, menu, command, variable):
-        menu = MfxMenu(menu, label=n_("All games by name"))
+        menu = MfxMenu(menu, label=n_("&All games by name"))
         n, d = 0, self.__cb_max
         i = 0
         while True:
@@ -675,6 +675,12 @@ class PysolMenubar(PysolMenubarActions):
     #
     # Select Game menu actions
     #
+
+    def mSelectGame(self, *args):
+        self._mSelectGame(self.tkopt.gameid.get())
+
+    def mSelectGamePopular(self, *args):
+        self._mSelectGame(self.tkopt.gameid_popular.get())
 
     def _mSelectGameDialog(self, d):
         if d.status == 0 and d.button == 0 and d.gameid != self.game.id:
@@ -890,6 +896,105 @@ class PysolMenubar(PysolMenubarActions):
             self.game.saveGame(filename)
             self.updateMenus()
 
+    def mOptAutoFaceUp(self, *args):
+        if self._cancelDrag(): return
+        self.app.opt.autofaceup = self.tkopt.autofaceup.get()
+        if self.app.opt.autofaceup:
+            self.game.autoPlay()
+
+    def mOptAutoDrop(self, *args):
+        if self._cancelDrag(): return
+        self.app.opt.autodrop = self.tkopt.autodrop.get()
+        if self.app.opt.autodrop:
+            self.game.autoPlay()
+
+    def mOptAutoDeal(self, *args):
+        if self._cancelDrag(): return
+        self.app.opt.autodeal = self.tkopt.autodeal.get()
+        if self.app.opt.autodeal:
+            self.game.autoPlay()
+
+    def mOptQuickPlay(self, *args):
+        if self._cancelDrag(break_pause=False): return
+        self.app.opt.quickplay = self.tkopt.quickplay.get()
+
+    def mOptEnableUndo(self, *args):
+        if self._cancelDrag(break_pause=False): return
+        self.app.opt.undo = self.tkopt.undo.get()
+        self.game.updateMenus()
+
+    def mOptEnableBookmarks(self, *args):
+        if self._cancelDrag(break_pause=False): return
+        self.app.opt.bookmarks = self.tkopt.bookmarks.get()
+        self.game.updateMenus()
+
+    def mOptEnableHint(self, *args):
+        if self._cancelDrag(break_pause=False): return
+        self.app.opt.hint = self.tkopt.hint.get()
+        self.game.updateMenus()
+
+    def mOptEnableHighlightPiles(self, *args):
+        if self._cancelDrag(break_pause=False): return
+        self.app.opt.highlight_piles = self.tkopt.highlight_piles.get()
+        self.game.updateMenus()
+
+    def mOptEnableHighlightCards(self, *args):
+        if self._cancelDrag(break_pause=False): return
+        self.app.opt.highlight_cards = self.tkopt.highlight_cards.get()
+        self.game.updateMenus()
+
+    def mOptEnableHighlightSameRank(self, *args):
+        if self._cancelDrag(break_pause=False): return
+        self.app.opt.highlight_samerank = self.tkopt.highlight_samerank.get()
+        ##self.game.updateMenus()
+
+    def mOptEnableHighlightNotMatching(self, *args):
+        if self._cancelDrag(break_pause=False): return
+        self.app.opt.highlight_not_matching = self.tkopt.highlight_not_matching.get()
+        ##self.game.updateMenus()
+
+    def mOptAnimations(self, *args):
+        if self._cancelDrag(break_pause=False): return
+        self.app.opt.animations = self.tkopt.animations.get()
+
+    def mOptShadow(self, *args):
+        if self._cancelDrag(break_pause=False): return
+        self.app.opt.shadow = self.tkopt.shadow.get()
+
+    def mOptShade(self, *args):
+        if self._cancelDrag(break_pause=False): return
+        self.app.opt.shade = self.tkopt.shade.get()
+
+    def mOptShrinkFaceDown(self, *args):
+        if self._cancelDrag(break_pause=False): return
+        self.app.opt.shrink_face_down = self.tkopt.shrink_face_down.get()
+        self.game.endGame(bookmark=1)
+        self.game.quitGame(bookmark=1)
+
+    def mOptShadeFilledStacks(self, *args):
+        if self._cancelDrag(break_pause=False): return
+        self.app.opt.shade_filled_stacks = self.tkopt.shade_filled_stacks.get()
+        self.game.endGame(bookmark=1)
+        self.game.quitGame(bookmark=1)
+
+    def mOptMahjonggShowRemoved(self, *args):
+        if self._cancelDrag(): return
+        self.app.opt.mahjongg_show_removed = self.tkopt.mahjongg_show_removed.get()
+        ##self.game.updateMenus()
+        self.game.endGame(bookmark=1)
+        self.game.quitGame(bookmark=1)
+
+    def mOptShisenShowHint(self, *args):
+        if self._cancelDrag(break_pause=False): return
+        self.app.opt.shisen_show_hint = self.tkopt.shisen_show_hint.get()
+        ##self.game.updateMenus()
+
+##     def mOptSound(self, *args):
+##         if self._cancelDrag(break_pause=False): return
+##         self.app.opt.sound = self.tkopt.sound.get()
+##         if not self.app.opt.sound:
+##             self.app.audio.stopAll()
+
     def mSelectCardsetDialog(self, *event):
         if self._cancelDrag(break_pause=False): return
         ##strings, default = ("&OK", "&Load", "&Cancel"), 0
@@ -957,7 +1062,7 @@ class PysolMenubar(PysolMenubarActions):
         if self._cancelDrag(break_pause=False): return
         key = self.app.tabletile_index
         if key <= 0:
-            key = self.app.opt.table_color.lower()
+            key = self.app.opt.colors['table'] ##.lower()
         d = SelectTileDialogWithPreview(self.top, app=self.app,
                                         title=_("Select table background"),
                                         manager=self.app.tabletile_manager,
@@ -967,13 +1072,6 @@ class PysolMenubar(PysolMenubarActions):
                 self._mOptTableColor(d.key)
             elif d.key > 0 and d.key != self.app.tabletile_index:
                 self._mOptTableTile(d.key)
-
-##     def mOptTableColor(self, *event):
-##         if self._cancelDrag(break_pause=False): return
-##         c = tkColorChooser.askcolor(initialcolor=self.app.opt.table_color,
-##                                     title=_("Select table color"))
-##         if c and c[1]:
-##             self._mOptTableColor(c[1])
 
     def mOptToolbar(self, *event):
         ##if self._cancelDrag(break_pause=False): return

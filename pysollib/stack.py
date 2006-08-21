@@ -396,9 +396,9 @@ class Stack:
         assert self.is_visible and self.images.bottom is None
         img = self.getBottomImage()
         if img is not None:
-            self.images.bottom = MfxCanvasImage(self.canvas, self.x, self.y,
-                                                image=img, anchor=ANCHOR_NW)
-            self.images.bottom.addtag(self.group)
+            self.images.bottom = MfxCanvasImage(self.canvas,self.x, self.y,
+                                                image=img,anchor=ANCHOR_NW,
+                                                group=self.group)
             self.top_bottom = self.images.bottom
 
     # invisible stack bottom
@@ -410,8 +410,8 @@ class Stack:
         self.items.bottom = MfxCanvasRectangle(self.canvas, self.x, self.y,
                                                self.x + images.CARDW,
                                                self.y + images.CARDH,
-                                               fill="", outline="", width=0)
-        self.items.bottom.addtag(self.group)
+                                               fill="", outline="", width=0,
+                                               group=self.group)
         self.top_bottom = self.items.bottom
 
     # sanity checks
@@ -815,8 +815,9 @@ class Stack:
         card = self.cards[i]
         if not self.basicShallHighlightSameRank(card):
             return 0
-        col = self.game.app.opt.highlight_samerank_colors
-        info = [ (self, card, card, col[1]) ]
+        col_1 = self.game.app.opt.colors['samerank_1']
+        col_2 = self.game.app.opt.colors['samerank_2']
+        info = [ (self, card, card, col_1) ]
         for s in self.game.allstacks:
             for c in s.cards:
                 if c is card: continue
@@ -824,9 +825,9 @@ class Stack:
                 if c.rank != card.rank: continue
                 # ask the target stack
                 if s.basicShallHighlightSameRank(c):
-                    info.append((s, c, c, col[3]))
+                    info.append((s, c, c, col_2))
         self.game.stats.highlight_samerank = self.game.stats.highlight_samerank + 1
-        return self.game._highlightCards(info, self.game.app.opt.highlight_samerank_sleep)
+        return self.game._highlightCards(info, self.game.app.opt.timeouts['highlight_samerank'])
 
     def highlightMatchingCards(self, event):
         i = self._findCard(event)
@@ -835,7 +836,8 @@ class Stack:
         card = self.cards[i]
         if not self.basicShallHighlightMatch(card):
             return 0
-        col = self.game.app.opt.highlight_cards_colors
+        col_1 = self.game.app.opt.colors['cards_1']
+        col_2 = self.game.app.opt.colors['cards_2']
         c1 = c2 = card
         info = []
         found = 0
@@ -857,12 +859,12 @@ class Stack:
                         j = self.cards.index(c)
                         if i - 1 == j: c1 = c; continue
                         if i + 1 == j: c2 = c; continue
-                    info.append((s, c, c, col[3]))
+                    info.append((s, c, c, col_1))
         if found:
             if info:
                 self.game.stats.highlight_cards = self.game.stats.highlight_cards + 1
-            info.append((self, c1, c2, col[1]))
-            return self.game._highlightCards(info, self.game.app.opt.highlight_cards_sleep)
+            info.append((self, c1, c2, col_2))
+            return self.game._highlightCards(info, self.game.app.opt.timeouts['highlight_cards'])
         if not self.basicIsBlocked():
             self.game.highlightNotMatching()
         return 0
@@ -886,7 +888,7 @@ class Stack:
         ##print self.cards[i]
         self.cards[i].item.tkraise()
         self.game.canvas.update_idletasks()
-        self.game.sleep(self.game.app.opt.raise_card_sleep)
+        self.game.sleep(self.game.app.opt.timeouts['raise_card'])
         if TOOLKIT == 'tk':
             self.cards[i].item.lower(self.cards[i+1].item)
         elif TOOLKIT == 'gtk':
@@ -1064,8 +1066,8 @@ class Stack:
         drag.noshade_stacks = [ self ]
         drag.cards = self.getDragCards(i)
         drag.index = i
-        if TOOLKIT == 'gtk':
-            drag.stack.group.tkraise()
+        ##if TOOLKIT == 'gtk':
+        ##    drag.stack.group.tkraise()
         images = game.app.images
         drag.shadows = self.createShadows(drag.cards)
         ##sx, sy = 0, 0
@@ -1227,7 +1229,8 @@ class Stack:
         if drag.shade_img:
             drag.shade_img.moveTo(sx, sy)
         else:
-            img = MfxCanvasImage(game.canvas, sx, sy, image=img, anchor=ANCHOR_NW)
+            img = MfxCanvasImage(game.canvas, sx, sy,
+                                 image=img, anchor=ANCHOR_NW)
             drag.shade_img = img
             # raise/lower the shade image to the correct stacking order
             if TOOLKIT == 'tk':
@@ -1258,9 +1261,9 @@ class Stack:
             #self.game.canvas.update_idletasks()
             card = self.cards[-1]
             item = MfxCanvasImage(self.game.canvas, card.x, card.y,
-                                  image=img, anchor=ANCHOR_NW)
+                                  image=img, anchor=ANCHOR_NW,
+                                  group=self.group)
             #item.tkraise()
-            item.addtag(self.group)
             self.items.shade_item = item
 
     def _unshadeStack(self):
@@ -1566,15 +1569,16 @@ class TalonStack(Stack,
             # add a redeal image above the bottom image
             img = (self.getRedealImages())[self.max_rounds != 1]
             if img is not None:
-                self.images.redeal = MfxCanvasImage(self.game.canvas, cx, cy,
-                                         image=img, anchor="center")
                 self.images.redeal_img = img
+                self.images.redeal = MfxCanvasImage(self.game.canvas,
+                                                    cx, cy, image=img,
+                                                    anchor="center",
+                                                    group=self.group)
                 if TOOLKIT == 'tk':
                     self.images.redeal.tkraise(self.top_bottom)
                 elif TOOLKIT == 'gtk':
                     ### FIXME
                     pass
-                self.images.redeal.addtag(self.group)
                 self.top_bottom = self.images.redeal
                 if images.CARDH >= 90:
                     cy, ca = self.y + images.CARDH - 4, "s"
@@ -1585,16 +1589,16 @@ class TalonStack(Stack,
         if images.CARDW >= text_width+4 and ca:
             # add a redeal text above the bottom image
             if self.max_rounds != 1:
+                self.texts.redeal_str = ""
                 images = self.game.app.images
                 self.texts.redeal = MfxCanvasText(self.game.canvas, cx, cy,
-                                                  anchor=ca, font=font)
-                self.texts.redeal_str = ""
+                                                  anchor=ca, font=font,
+                                                  group=self.group)
                 if TOOLKIT == 'tk':
                     self.texts.redeal.tkraise(self.top_bottom)
                 elif TOOLKIT == 'gtk':
                     ### FIXME
                     pass
-                self.texts.redeal.addtag(self.group)
                 self.top_bottom = self.texts.redeal
 
     def getBottomImage(self):

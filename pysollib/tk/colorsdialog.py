@@ -48,47 +48,43 @@ class ColorsDialog(MfxDialog):
         frame.pack(expand=True, fill='both', padx=5, pady=10)
         frame.columnconfigure(0, weight=1)
 
-        self.table_text_color_var = Tkinter.BooleanVar()
-        self.table_text_color_var.set(app.opt.table_text_color)
-        self.table_text_color_value_var = Tkinter.StringVar()
-        self.table_text_color_value_var.set(app.opt.table_text_color_value)
-        ##self.table_color_var = StringVar()
-        ##self.table_color_var.set(app.opt.table_color)
-        self.highlight_piles_colors_var = Tkinter.StringVar()
-        self.highlight_piles_colors_var.set(app.opt.highlight_piles_colors[1])
-        self.highlight_cards_colors_1_var = Tkinter.StringVar()
-        self.highlight_cards_colors_1_var.set(app.opt.highlight_cards_colors[1])
-        self.highlight_cards_colors_2_var = Tkinter.StringVar()
-        self.highlight_cards_colors_2_var.set(app.opt.highlight_cards_colors[3])
-        self.highlight_samerank_colors_1_var = Tkinter.StringVar()
-        self.highlight_samerank_colors_1_var.set(app.opt.highlight_samerank_colors[1])
-        self.highlight_samerank_colors_2_var = Tkinter.StringVar()
-        self.highlight_samerank_colors_2_var.set(app.opt.highlight_samerank_colors[3])
-        self.hintarrow_color_var = Tkinter.StringVar()
-        self.hintarrow_color_var.set(app.opt.hintarrow_color)
-        self.highlight_not_matching_color_var = Tkinter.StringVar()
-        self.highlight_not_matching_color_var.set(app.opt.highlight_not_matching_color)
+        self.use_default_var = Tkinter.BooleanVar()
+        self.use_default_var.set(not app.opt.use_default_text_color)
+        self.text_var = Tkinter.StringVar()
+        self.text_var.set(app.opt.colors['text'])
+        self.piles_var = Tkinter.StringVar()
+        self.piles_var.set(app.opt.colors['piles'])
+        self.cards_1_var = Tkinter.StringVar()
+        self.cards_1_var.set(app.opt.colors['cards_1'])
+        self.cards_2_var = Tkinter.StringVar()
+        self.cards_2_var.set(app.opt.colors['cards_2'])
+        self.samerank_1_var = Tkinter.StringVar()
+        self.samerank_1_var.set(app.opt.colors['samerank_1'])
+        self.samerank_2_var = Tkinter.StringVar()
+        self.samerank_2_var.set(app.opt.colors['samerank_2'])
+        self.hintarrow_var = Tkinter.StringVar()
+        self.hintarrow_var.set(app.opt.colors['hintarrow'])
+        self.not_matching_var = Tkinter.StringVar()
+        self.not_matching_var.set(app.opt.colors['not_matching'])
         #
-        c = Tkinter.Checkbutton(frame, variable=self.table_text_color_var,
+        c = Tkinter.Checkbutton(frame, variable=self.use_default_var,
                                 text=_("Text foreground:"), anchor='w')
         c.grid(row=0, column=0, sticky='we')
         l = Tkinter.Label(frame, width=10, height=2,
-                          bg=self.table_text_color_value_var.get(),
-                          textvariable=self.table_text_color_value_var)
+                          bg=self.text_var.get(), textvariable=self.text_var)
         l.grid(row=0, column=1, padx=5)
         b = Tkinter.Button(frame, text=_('Change...'), width=10,
                            command=lambda l=l: self.selectColor(l))
         b.grid(row=0, column=2)
         row = 1
         for title, var in (
-            ##('Table:', self.table_color_var),
-            (_('Highlight piles:'), self.highlight_piles_colors_var),
-            (_('Highlight cards 1:'), self.highlight_cards_colors_1_var),
-            (_('Highlight cards 2:'), self.highlight_cards_colors_2_var),
-            (_('Highlight same rank 1:'), self.highlight_samerank_colors_1_var),
-            (_('Highlight same rank 2:'), self.highlight_samerank_colors_2_var),
-            (_('Hint arrow:'), self.hintarrow_color_var),
-            (_('Highlight not matching:'), self.highlight_not_matching_color_var),
+            (_('Highlight piles:'),        self.piles_var),
+            (_('Highlight cards 1:'),      self.cards_1_var),
+            (_('Highlight cards 2:'),      self.cards_2_var),
+            (_('Highlight same rank 1:'),  self.samerank_1_var),
+            (_('Highlight same rank 2:'),  self.samerank_2_var),
+            (_('Hint arrow:'),             self.hintarrow_var),
+            (_('Highlight not matching:'), self.not_matching_var),
             ):
             Tkinter.Label(frame, text=title, anchor='w'
                           ).grid(row=row, column=0, sticky='we')
@@ -103,21 +99,15 @@ class ColorsDialog(MfxDialog):
         focus = self.createButtons(bottom_frame, kw)
         self.mainloop(focus, kw.timeout)
         #
-        self.table_text_color = self.table_text_color_var.get()
-        self.table_text_color_value = self.table_text_color_value_var.get()
-        ##self.table_color = self.table_color_var.get()
-        self.highlight_piles_colors = (None,
-                                       self.highlight_piles_colors_var.get())
-        self.highlight_cards_colors = (None,
-                                       self.highlight_cards_colors_1_var.get(),
-                                       None,
-                                       self.highlight_cards_colors_2_var.get())
-        self.highlight_samerank_colors = (None,
-                                          self.highlight_samerank_colors_1_var.get(),
-                                          None,
-                                          self.highlight_samerank_colors_2_var.get())
-        self.hintarrow_color = self.hintarrow_color_var.get()
-        self.highlight_not_matching_color = self.highlight_not_matching_color_var.get()
+        self.use_default_color = not self.use_default_var.get()
+        self.text_color = self.text_var.get()
+        self.piles_color = self.piles_var.get()
+        self.cards_1_color = self.cards_1_var.get()
+        self.cards_2_color = self.cards_2_var.get()
+        self.samerank_1_color = self.samerank_1_var.get()
+        self.samerank_2_color = self.samerank_2_var.get()
+        self.hintarrow_color = self.hintarrow_var.get()
+        self.not_matching_color = self.not_matching_var.get()
 
     def selectColor(self, label):
         c = askcolor(master=self.top, initialcolor=label.cget('bg'),

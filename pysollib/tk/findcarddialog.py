@@ -72,7 +72,7 @@ class FindCardDialog(Tkinter.Toplevel):
         bind(self, "<Escape>", self.destroy)
         #
         ##self.normal_timeout = 400    # in milliseconds
-        self.normal_timeout = int(1000*game.app.opt.highlight_samerank_sleep)
+        self.normal_timeout = int(1000*game.app.opt.timeouts['highlight_samerank'])
         self.hidden_timeout = 200
         self.timer = None
 

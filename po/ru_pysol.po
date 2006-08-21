@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "POT-Creation-Date: Fri Aug 11 02:14:56 2006\n"
-"PO-Revision-Date: 2006-08-11 02:13+0400\n"
+"PO-Revision-Date: 2006-08-20 17:42+0400\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2386,7 +2386,7 @@ msgstr "Разрешить показывать карты &одного дос�
 
 #: pysollib/tk/menubar.py:353
 msgid "Highlight &no matching"
-msgstr "Подсветка отсутствия &совпадения:"
+msgstr "Подсветка отсутствия &совпадения"
 
 #: pysollib/tk/menubar.py:355
 msgid "&Show removed tiles (in Mahjongg games)"

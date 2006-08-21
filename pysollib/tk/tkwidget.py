@@ -501,7 +501,8 @@ class MfxScrolledCanvas:
             assert tile.filename
             assert tile.basename
         if not force:
-            if i == app.tabletile_index and tile.color == app.opt.table_color:
+            if (i == app.tabletile_index and
+                tile.color == app.opt.colors['table']):
                 return False
         #
         if not self.canvas.setTile(tile.filename, tile.stretch):
@@ -517,10 +518,10 @@ class MfxScrolledCanvas:
             ##app.top.config(bg=app.top_bg)
             color = tile.text_color
 
-        if app.opt.table_text_color:
-            self.canvas.setTextColor(app.opt.table_text_color_value)
-        else:
+        if app.opt.use_default_text_color:
             self.canvas.setTextColor(color)
+        else:
+            self.canvas.setTextColor(app.opt.colors['text'])
 
         return True
 

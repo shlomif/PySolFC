@@ -77,6 +77,14 @@ class MfxCanvasGroup(Canvas.Group):
         return self.canvas.tk.splitlist(self._do("gettags"))
 
 class MfxCanvasImage(Canvas.ImageItem):
+    def __init__(self, canvas, *args, **kwargs):
+        group = None
+        if kwargs.has_key('group'):
+            group = kwargs['group']
+            del kwargs['group']
+        Canvas.ImageItem.__init__(self, canvas, *args, **kwargs)
+        if group:
+            self.addtag(group)
     def moveTo(self, x, y):
         c = self.coords()
         self.move(x - int(c[0]), y - int(c[1]))
@@ -87,19 +95,33 @@ class MfxCanvasImage(Canvas.ImageItem):
 
 MfxCanvasLine = Canvas.Line
 
-MfxCanvasRectangle = Canvas.Rectangle
+class MfxCanvasRectangle(Canvas.Rectangle):
+    def __init__(self, canvas, *args, **kwargs):
+        group = None
+        if kwargs.has_key('group'):
+            group = kwargs['group']
+            del kwargs['group']
+        Canvas.Rectangle.__init__(self, canvas, *args, **kwargs)
+        if group:
+            self.addtag(group)
 
 class MfxCanvasText(Canvas.CanvasText):
-    def __init__(self, canvas, x, y, preview=-1, **kw):
+    def __init__(self, canvas, x, y, preview=-1, **kwargs):
         if preview < 0:
             preview = canvas.preview
         if preview > 1:
             return
-        if not kw.has_key("fill"):
-            kw["fill"] = canvas._text_color
-        apply(Canvas.CanvasText.__init__, (self, canvas, x, y), kw)
+        if not kwargs.has_key("fill"):
+            kwargs["fill"] = canvas._text_color
+        group = None
+        if kwargs.has_key('group'):
+            group = kwargs['group']
+            del kwargs['group']
+        Canvas.CanvasText.__init__(self, canvas, x, y, **kwargs)
         self.text_format = None
         canvas._text_items.append(self)
+        if group:
+            self.addtag(group)
 
 
 # /***********************************************************************

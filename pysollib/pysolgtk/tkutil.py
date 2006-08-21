@@ -164,7 +164,9 @@ def createImage(width, height, fill, outline=None):
 # ************************************************************************/
 
 def _wrap_b1_press(e):
-    return e.type == gdk.BUTTON_PRESS and e.button == 1
+    return (e.type == gdk.BUTTON_PRESS and e.button == 1 and
+            not (e.state & gdk.CONTROL_MASK) and
+            not (e.state & gdk.SHIFT_MASK))
 
 def _wrap_b1_double(e):
     return e.type == gdk._2BUTTON_PRESS and e.button == 1
@@ -179,7 +181,9 @@ def _wrap_b2_press(e):
     return e.type == gdk.BUTTON_PRESS and e.button == 2
 
 def _wrap_b3_press(e):
-    return e.type == gdk.BUTTON_PRESS and e.button == 3
+    return (e.type == gdk.BUTTON_PRESS and e.button == 3 and
+            not (e.state & gdk.CONTROL_MASK) and
+            not (e.state & gdk.SHIFT_MASK))
 
 def _wrap_b3_control(e):
     return e.type == gdk.BUTTON_PRESS and e.button == 3 and (e.state & gdk.CONTROL_MASK)

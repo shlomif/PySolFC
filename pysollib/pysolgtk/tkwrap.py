@@ -50,7 +50,7 @@ from tkutil import makeToplevel, loadImage
 class TclError:
     pass
 
-def makeHelpToplevel(parent, title=None, class_=None):
+def make_help_toplevel(parent, title=None, class_=None):
     return makeToplevel(parent, title=title, class_=class_, gtkclass=_MfxToplevel)
 
 
@@ -219,6 +219,7 @@ class _MfxToplevel(gtk.Window):
         pass
 
     def wm_iconbitmap(self, name):
+        print 'wm_iconbitmap:', name
         if name and name[0] == '@' and name[-4:] == '.xbm':
             name = name[1:-4] + '.xpm'
             bg = self.get_style().bg[gtk.STATE_NORMAL]

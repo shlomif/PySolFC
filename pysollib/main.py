@@ -43,8 +43,7 @@ import gettext
 # PySol imports
 from mfxutil import destruct, EnvError
 from util import CARDSET, DataLoader
-from version import VERSION
-from settings import PACKAGE, TOOLKIT
+from settings import PACKAGE, TOOLKIT, VERSION
 from resource import Tile
 from gamedb import GI
 from app import Application

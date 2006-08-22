@@ -168,6 +168,7 @@ class Game_StatsDialog:
     def _translateLabels(self):
         # mnemonic
         for n in (
+            'label0',
             'label1',
             'label2',
             'label3',

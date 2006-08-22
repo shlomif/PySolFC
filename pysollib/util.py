@@ -63,10 +63,9 @@ __all__ = ['SUITS',
 import sys, os, re, time, types
 
 # PySol imports
-from version import VERSION, VERSION_TUPLE
 from mfxutil import Pickler, Unpickler, UnpicklingError
 from mfxutil import Struct, EnvError
-from settings import DATA_DIRS, PACKAGE
+from settings import DATA_DIRS, PACKAGE, VERSION, VERSION_TUPLE
 
 # /***********************************************************************
 # // constants

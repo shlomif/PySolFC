@@ -41,8 +41,7 @@ import sys, os, glob, operator, types
 # PySol imports
 from mfxutil import win32api
 from mfxutil import Struct, KwStruct, EnvError, latin1_to_ascii
-from version import VERSION
-from settings import PACKAGE
+from settings import PACKAGE, VERSION
 
 
 # /***********************************************************************

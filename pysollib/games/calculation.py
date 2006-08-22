@@ -41,7 +41,7 @@ from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
-from pysollib.pysoltk import MfxCanvasText, getTextWidth
+from pysollib.pysoltk import MfxCanvasText, get_text_width
 
 # /***********************************************************************
 # //
@@ -127,8 +127,8 @@ class Calculation(Game):
         lines = help.split('\n')
         lines.sort(lambda a, b: cmp(len(a), len(b)))
         max_line = lines[-1]
-        text_width = getTextWidth(max_line,
-                                  font=self.app.getFont("canvas_fixed"))
+        text_width = get_text_width(max_line,
+                                    font=self.app.getFont("canvas_fixed"))
         return help, text_width
 
     def createGame(self):

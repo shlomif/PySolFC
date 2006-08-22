@@ -40,7 +40,7 @@ __all__ = ['wm_withdraw',
            'wm_get_geometry',
            #'setTransient',
            #'makeToplevel',
-           'makeHelpToplevel',
+           'make_help_toplevel',
            'bind',
            'unbind_destroy',
            'after',
@@ -51,7 +51,7 @@ __all__ = ['wm_withdraw',
            'loadImage',
            #'fillImage',
            'createImage',
-           'getTextWidth',
+           'get_text_width',
            ]
 
 # imports
@@ -169,7 +169,7 @@ def makeToplevel(parent, title=None):
         window.wm_iconname(title)
     return window
 
-def makeHelpToplevel(app, title=None):
+def make_help_toplevel(app, title=None):
     # Create an independent Toplevel window.
     parent = app.top
     window = Tkinter.Tk(className=PACKAGE)
@@ -191,8 +191,6 @@ def makeHelpToplevel(app, title=None):
         window.wm_title(title)
         window.wm_iconname(title)
     return window
-
-#makeHelpToplevel = makeToplevel
 
 
 def __getWidgetXY(widget, parent, relx=None, rely=None,
@@ -405,6 +403,6 @@ def createImage(width, height, fill, outline=None):
 # // font utils
 # ************************************************************************/
 
-def getTextWidth(text, font, root=None):
+def get_text_width(text, font, root=None):
     return Font(root=root, font=font).measure(text)
 

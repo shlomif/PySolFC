@@ -40,7 +40,7 @@ import os, sys, time, types
 # PySol imports
 from mfxutil import SubclassResponsibility, Struct, destruct
 from mfxutil import format_time
-from util import PACKAGE, VERSION
+from settings import PACKAGE, VERSION
 from gamedb import GI
 
 

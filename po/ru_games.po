@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Fri Aug 11 02:15:03 2006\n"
+"POT-Creation-Date: Tue Aug 22 21:32:47 2006\n"
 "PO-Revision-Date: 2006-08-17 20:14+0400\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -46,6 +46,10 @@ msgstr "8 x 8"
 
 msgid "Abacus"
 msgstr "Абак"
+
+#, fuzzy
+msgid "Accordion"
+msgstr "Скорпион"
 
 #, fuzzy
 msgid "Aces High"
@@ -122,6 +126,9 @@ msgstr "Anno Domini"
 
 msgid "Another Round"
 msgstr "Другой Раунд"
+
+msgid "Apophis"
+msgstr ""
 
 msgid "Appachan's Waterfall"
 msgstr "Апачианский водопад"
@@ -205,6 +212,10 @@ msgstr "Баланс"
 
 msgid "Balarama"
 msgstr ""
+
+#, fuzzy
+msgid "Baroness"
+msgstr "Основа"
 
 msgid "Bastille Day"
 msgstr "День Бастилии"
@@ -469,6 +480,10 @@ msgstr "Горный Замок"
 msgid "Castle of Indolence"
 msgstr "Замок праздности"
 
+#, fuzzy
+msgid "Castles End"
+msgstr "Замок"
+
 msgid "Castles in Spain"
 msgstr "Воздушные замки"
 
@@ -501,6 +516,9 @@ msgstr "Клетчатый"
 
 msgid "Chelicera"
 msgstr "Хелицера"
+
+msgid "Cheops"
+msgstr ""
 
 msgid "Chequers"
 msgstr "Шахматный порядок"
@@ -577,6 +595,10 @@ msgstr "Виток"
 
 msgid "Corkscrew"
 msgstr "Штопор"
+
+#, fuzzy
+msgid "Corner Card"
+msgstr "Углы"
 
 msgid "Corner Suite"
 msgstr "Угловые масти"
@@ -813,6 +835,10 @@ msgstr "Двойная и расчёт"
 msgid "Doublets"
 msgstr "Дубликаты"
 
+#, fuzzy
+msgid "Doublets II"
+msgstr "Дубликаты"
+
 msgid "Dover"
 msgstr "Довер"
 
@@ -880,6 +906,10 @@ msgid "Eight Squares"
 msgstr "Восемь квадратов"
 
 msgid "Eight Times Eight"
+msgstr "Восемь раз по восемь"
+
+#, fuzzy
+msgid "Eight by Eight"
 msgstr "Восемь раз по восемь"
 
 msgid "Elba"
@@ -999,6 +1029,10 @@ msgid "Fish face"
 msgstr "Маджонг Fish face"
 
 msgid "Five Aces"
+msgstr "Пять тузов"
+
+#, fuzzy
+msgid "Five Piles"
 msgstr "Пять тузов"
 
 msgid "Five Pyramids"
@@ -1359,6 +1393,10 @@ msgstr "Дурацкое удовольствие"
 msgid "Idle Aces"
 msgstr "Свободные тузы"
 
+#, fuzzy
+msgid "Idle Year"
+msgstr "Свободные тузы"
+
 msgid "IloveU"
 msgstr "IloveU"
 
@@ -1597,6 +1635,10 @@ msgstr "La Parisienne"
 
 msgid "Labyrinth"
 msgstr "Лабиринт"
+
+#, fuzzy
+msgid "Ladies Battle"
+msgstr "Последняя битва"
 
 msgid "Lady Betty"
 msgstr "Леди Бетти"
@@ -2324,6 +2366,9 @@ msgstr "Орнамент Мерлина"
 msgid "Mesh"
 msgstr "Западня"
 
+msgid "Methuselah"
+msgstr ""
+
 msgid "Midnight Oil"
 msgstr ""
 
@@ -2657,6 +2702,10 @@ msgstr "Настойчивость"
 
 msgid "Phantom Blockade"
 msgstr "Призрачная блокада"
+
+#, fuzzy
+msgid "Pharaohs"
+msgstr "Патриархи"
 
 msgid "Phoenix"
 msgstr "Феникс"
@@ -2994,6 +3043,9 @@ msgstr "Сенат"
 msgid "Senate +"
 msgstr "Сенат +"
 
+msgid "Senior Wrangler"
+msgstr ""
+
 msgid "Serpent"
 msgstr "Змея"
 
@@ -3274,6 +3326,10 @@ msgstr "Улицы"
 msgid "Streets and Alleys"
 msgstr "Улицы и аллеи"
 
+#, fuzzy
+msgid "Striptease"
+msgstr "Пласт"
+
 msgid "Stronghold"
 msgstr "Твердыня"
 
@@ -3438,12 +3494,19 @@ msgstr "Жаба"
 msgid "Tomb"
 msgstr "Гробница"
 
+msgid "Toni"
+msgstr ""
+
 #, fuzzy
 msgid "Totally Random-Made"
 msgstr "Маджонг Totally Random-Made"
 
 msgid "Tournament"
 msgstr "Турнир"
+
+#, fuzzy
+msgid "Tower of Babel"
+msgstr "Ханойская башня"
 
 msgid "Tower of Hanoy"
 msgstr "Ханойская башня"
@@ -3560,6 +3623,10 @@ msgstr ""
 
 msgid "Vamana"
 msgstr ""
+
+#, fuzzy
+msgid "Vanishing Cross"
+msgstr "Маджонг Крест"
 
 #, fuzzy
 msgid "Varaha"

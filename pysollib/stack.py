@@ -105,7 +105,7 @@ from pysoltk import bind, unbind_destroy
 from pysoltk import after, after_idle, after_cancel
 from pysoltk import MfxCanvasGroup, MfxCanvasImage, MfxCanvasRectangle, MfxCanvasText
 from pysoltk import Card
-from pysoltk import getTextWidth
+from pysoltk import get_text_width
 from settings import TOOLKIT
 
 
@@ -1585,7 +1585,8 @@ class TalonStack(Stack,
                 else:
                     ca = None
         font = self.game.app.getFont("canvas_default")
-        text_width = getTextWidth(_('Redeal'), font=font, root=self.game.canvas)
+        text_width = get_text_width(_('Redeal'), font=font,
+                                    root=self.game.canvas)
         if images.CARDW >= text_width+4 and ca:
             # add a redeal text above the bottom image
             if self.max_rounds != 1:

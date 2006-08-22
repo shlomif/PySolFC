@@ -24,26 +24,128 @@ __all__ = ['FontsDialog']
 # imports
 ## import os, sys
 ## import types
-## import Tkinter
-## import tkFont
 import gtk, gobject, pango
 import gtk.glade
 
 # PySol imports
-## from pysollib.mfxutil import destruct, kwdefault, KwStruct, Struct
+
+from tkutil import create_pango_font_desc
 
 # Toolkit imports
-## from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
-## from tkutil import bind
 
+
+gettext = _
 
 # /***********************************************************************
 # //
 # ************************************************************************/
 
 class FontsDialog:
+
     def __init__(self, parent, title, app, **kw):
-        pass
+        glade_file = app.dataloader.findFile('pysolfc.glade')
+        self.widgets_tree = gtk.glade.XML(glade_file)
+
+        keys = (
+            'sans',
+            'small',
+            'fixed',
+            'canvas_default',
+            'canvas_fixed',
+            'canvas_large',
+            'canvas_small',
+            )
+
+        for n in keys:
+            font = app.opt.fonts[n]
+            self._setFont(n, font)
+            button = self.widgets_tree.get_widget(n+'_button')
+            button.connect('clicked', self._changeFont, n)
+
+        self._translateLabels()
+
+        dialog = self.widgets_tree.get_widget('fonts_dialog')
+        self.dialog = dialog
+        dialog.set_title(title)
+        dialog.set_transient_for(parent)
+
+        self.status = -1
+        self.button = -1
+        self.fonts = {}
+        response = dialog.run()
+        if response == gtk.RESPONSE_OK:
+            self.status = 0
+            self.button = 0
+            for n in keys:
+                label = self.widgets_tree.get_widget(n+'_label')
+                font = label.get_data('user_data')
+                self.fonts[n] = font
+
+        dialog.destroy()
+
+
+    def _setFont(self, name, font):
+        label = self.widgets_tree.get_widget(name+'_label')
+        font_desc = create_pango_font_desc(font)
+        label.modify_font(font_desc)
+        text = ' '.join([str(i) for i in font if not i in ('roman', 'normal')])
+        label.set_text(text)
+        label.set_data('user_data', font)
+
+
+    def _changeFont(self, w, name):
+        label = self.widgets_tree.get_widget(name+'_label')
+        font = label.get_data('user_data')
+        dialog = gtk.FontSelectionDialog(_('Select color'))
+        dialog.set_transient_for(self.dialog)
+        dialog.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
+        font_name = font[0]
+        bi = []
+        if 'bold' in font:
+            bi.append('bold')
+        if 'italic' in font:
+            bi.append('italic')
+        if bi:
+            bi = ' '.join(bi)
+            font_name += ', '+bi
+        font_name += ' '+str(font[1])
+        dialog.fontsel.set_font_name(font_name)
+        response = dialog.run()
+        if response == gtk.RESPONSE_OK:
+            font = dialog.fontsel.get_font_name()
+            fd = pango.FontDescription(font)
+            family = fd.get_family()
+            size = fd.get_size()/pango.SCALE
+            style = (fd.get_style() == pango.STYLE_NORMAL
+                     and 'roman' or 'italic')
+            weight = (fd.get_weight() == pango.WEIGHT_NORMAL
+                      and 'normal' or 'bold')
+            font = (family, size, style, weight)
+            self._setFont(name, font)
+
+        dialog.destroy()
+
+
+    def _translateLabels(self):
+        for n in (
+            'label54',
+            'label55',
+            'label56',
+            'label57',
+            'label58',
+            'label59',
+            'label60',
+            'label69',
+            'label70',
+            'label71',
+            'label72',
+            'label73',
+            'label74',
+            'label75',
+            ):
+            w = self.widgets_tree.get_widget(n)
+            w.set_text(gettext(w.get_text()))
+
 
 
 

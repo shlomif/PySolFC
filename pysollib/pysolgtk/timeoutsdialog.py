@@ -79,7 +79,6 @@ class TimeoutsDialog:
         dialog = self.widgets_tree.get_widget('timeouts_dialog')
         dialog.set_title(title)
         dialog.set_transient_for(parent)
-        dialog.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
 
         self.status = -1
         self.button = -1

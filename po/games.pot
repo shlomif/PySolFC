@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Fri Aug 11 02:15:03 2006\n"
+"POT-Creation-Date: Tue Aug 22 21:32:47 2006\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,6 +46,9 @@ msgid "8 x 8"
 msgstr ""
 
 msgid "Abacus"
+msgstr ""
+
+msgid "Accordion"
 msgstr ""
 
 msgid "Aces High"
@@ -121,6 +124,9 @@ msgid "Anno Domini"
 msgstr ""
 
 msgid "Another Round"
+msgstr ""
+
+msgid "Apophis"
 msgstr ""
 
 msgid "Appachan's Waterfall"
@@ -202,6 +208,9 @@ msgid "Balance"
 msgstr ""
 
 msgid "Balarama"
+msgstr ""
+
+msgid "Baroness"
 msgstr ""
 
 msgid "Bastille Day"
@@ -462,6 +471,9 @@ msgstr ""
 msgid "Castle of Indolence"
 msgstr ""
 
+msgid "Castles End"
+msgstr ""
+
 msgid "Castles in Spain"
 msgstr ""
 
@@ -493,6 +505,9 @@ msgid "Checkered"
 msgstr ""
 
 msgid "Chelicera"
+msgstr ""
+
+msgid "Cheops"
 msgstr ""
 
 msgid "Chequers"
@@ -568,6 +583,9 @@ msgid "Convolution"
 msgstr ""
 
 msgid "Corkscrew"
+msgstr ""
+
+msgid "Corner Card"
 msgstr ""
 
 msgid "Corner Suite"
@@ -801,6 +819,9 @@ msgstr ""
 msgid "Doublets"
 msgstr ""
 
+msgid "Doublets II"
+msgstr ""
+
 msgid "Dover"
 msgstr ""
 
@@ -868,6 +889,9 @@ msgid "Eight Squares"
 msgstr ""
 
 msgid "Eight Times Eight"
+msgstr ""
+
+msgid "Eight by Eight"
 msgstr ""
 
 msgid "Elba"
@@ -982,6 +1006,9 @@ msgid "Fish face"
 msgstr ""
 
 msgid "Five Aces"
+msgstr ""
+
+msgid "Five Piles"
 msgstr ""
 
 msgid "Five Pyramids"
@@ -1335,6 +1362,9 @@ msgstr ""
 msgid "Idle Aces"
 msgstr ""
 
+msgid "Idle Year"
+msgstr ""
+
 msgid "IloveU"
 msgstr ""
 
@@ -1555,6 +1585,9 @@ msgid "La Parisienne"
 msgstr ""
 
 msgid "Labyrinth"
+msgstr ""
+
+msgid "Ladies Battle"
 msgstr ""
 
 msgid "Lady Betty"
@@ -2277,6 +2310,9 @@ msgstr ""
 msgid "Mesh"
 msgstr ""
 
+msgid "Methuselah"
+msgstr ""
+
 msgid "Midnight Oil"
 msgstr ""
 
@@ -2599,6 +2635,9 @@ msgid "Perseverance"
 msgstr ""
 
 msgid "Phantom Blockade"
+msgstr ""
+
+msgid "Pharaohs"
 msgstr ""
 
 msgid "Phoenix"
@@ -2934,6 +2973,9 @@ msgstr ""
 msgid "Senate +"
 msgstr ""
 
+msgid "Senior Wrangler"
+msgstr ""
+
 msgid "Serpent"
 msgstr ""
 
@@ -3204,6 +3246,9 @@ msgstr ""
 msgid "Streets and Alleys"
 msgstr ""
 
+msgid "Striptease"
+msgstr ""
+
 msgid "Stronghold"
 msgstr ""
 
@@ -3363,10 +3408,16 @@ msgstr ""
 msgid "Tomb"
 msgstr ""
 
+msgid "Toni"
+msgstr ""
+
 msgid "Totally Random-Made"
 msgstr ""
 
 msgid "Tournament"
+msgstr ""
+
+msgid "Tower of Babel"
 msgstr ""
 
 msgid "Tower of Hanoy"
@@ -3481,6 +3532,9 @@ msgid "Vajra"
 msgstr ""
 
 msgid "Vamana"
+msgstr ""
+
+msgid "Vanishing Cross"
 msgstr ""
 
 msgid "Varaha"

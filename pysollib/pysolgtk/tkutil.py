@@ -253,8 +253,8 @@ def bind(widget, sequence, func, add=None):
         widget.connect(signal, _wrap_event, l)
         __bindings[k] = l
 
+
 def unbind_destroy(widget):
-    return
     k = id(widget)
     if __bindings.has_key(k):
         ## FIXME
@@ -282,12 +282,20 @@ def after_cancel(t):
 # // font
 # ************************************************************************/
 
-def getTextWidth(text, font=None, root=None):
+def create_pango_font_desc(font):
+    font_desc = pango.FontDescription(font[0]+' '+str(font[1]))
+    if 'italic' in font:
+        font_desc.set_style(pango.STYLE_ITALIC)
+    if 'bold' in font:
+        font_desc.set_weight(pango.WEIGHT_BOLD)
+    return font_desc
+
+
+def get_text_width(text, font=None, root=None):
     if root:
-        pango_font_desc = pango.FontDescription(font[0]+' '+str(font[1]))
+        pango_font_desc = create_pango_font_desc(font)
         pangolayout = root.create_pango_layout(text)
         width = pangolayout.get_pixel_extents()[1][2]
         return width
     return 0
-
 

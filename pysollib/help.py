@@ -41,11 +41,10 @@ import Tkinter
 
 # PySol imports
 from mfxutil import EnvError
-from settings import PACKAGE, PACKAGE_URL, TOOLKIT
-from version import VERSION, FC_VERSION
-from pysoltk import makeHelpToplevel, wm_map, wm_set_icon
+from settings import PACKAGE, PACKAGE_URL, TOOLKIT, VERSION, FC_VERSION
+from pysoltk import make_help_toplevel, wm_map, wm_set_icon
 from pysoltk import MfxMessageDialog
-from pysoltk import tkHTMLViewer
+from pysoltk import HTMLViewer
 from gamedb import GAME_DB
 
 # /***********************************************************************
@@ -58,7 +57,7 @@ class AboutDialog(MfxMessageDialog):
         return top_frame, bottom_frame
 
 
-def helpAbout(app, timeout=0, sound=1):
+def help_about(app, timeout=0, sound=1):
     if sound:
         app.audio.playSample("about")
     t = _("A Python Solitaire Game Collection\n")
@@ -87,18 +86,18 @@ For more information about this application visit
                     strings=strings, default=0,
                     separatorwidth=2)
     if d.status == 0 and d.button == 1:
-        helpCredits(app, sound=sound)
+        help_credits(app, sound=sound)
     return d.status
 
 
-def helpCredits(app, timeout=0, sound=1):
+def help_credits(app, timeout=0, sound=1):
     if sound:
         app.audio.playSample("credits")
     t = ""
-    if   TOOLKIT == "tk": t = "Tcl/Tk, "
-    elif TOOLKIT == "gtk": t = "PyGTK, "
-    elif TOOLKIT == "kde": t = "pyKDE, "
-    elif TOOLKIT == "wx": t = "wxPython, "
+    if   TOOLKIT == "tk" : t = "Tcl/Tk"
+    elif TOOLKIT == "gtk": t = "PyGTK"
+    elif TOOLKIT == "kde": t = "pyKDE"
+    elif TOOLKIT == "wx" : t = "wxPython"
     d = MfxMessageDialog(app.top, title=_("Credits"), timeout=timeout,
                          text=PACKAGE+_(''' credits go to:
 
@@ -123,7 +122,7 @@ for making this program possible''') % t,
 help_html_viewer = None
 help_html_index = None
 
-def helpHTML(app, document, dir_, top=None):
+def help_html(app, document, dir_, top=None):
     global help_html_viewer, help_html_index
     if not document:
         return None
@@ -149,7 +148,7 @@ def helpHTML(app, document, dir_, top=None):
         viewer.display(doc, relpath=0)
     except:
         ##traceback.print_exc()
-        top = makeHelpToplevel(app, title=PACKAGE+_(" Help"))
+        top = make_help_toplevel(app, title=PACKAGE+_(" Help"))
         if top.winfo_screenwidth() < 800 or top.winfo_screenheight() < 600:
             #maximized = 1
             top.wm_minsize(300, 150)
@@ -160,14 +159,14 @@ def helpHTML(app, document, dir_, top=None):
             wm_set_icon(top, app.dataloader.findIcon())
         except:
             pass
-        viewer = tkHTMLViewer(top, app, help_html_index)
+        viewer = HTMLViewer(top, app, help_html_index)
         viewer.display(doc)
     #wm_map(top, maximized=maximized)
     viewer.parent.tkraise()
     help_html_viewer = viewer
     return viewer
 
-def destroy_help():
+def destroy_help_html():
     try:
         help_html_viewer.destroy()
     except:

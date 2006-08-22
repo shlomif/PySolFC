@@ -33,7 +33,7 @@
 ##
 ##---------------------------------------------------------------------------##
 
-__all__ = ['tkHTMLViewer']
+__all__ = ['HTMLViewer']
 
 # imports
 import os, sys, re, types
@@ -70,7 +70,7 @@ class tkHTMLWriter(formatter.NullWriter):
         formatter.NullWriter.__init__(self)
 
         self.text = text      # gtk.TextBuffer
-        self.viewer = viewer  # tkHTMLViewer
+        self.viewer = viewer  # HTMLViewer
 
         self.anchor = None
         self.anchor_mark = None
@@ -197,7 +197,7 @@ class tkHTMLParser(htmllib.HTMLParser):
 # //
 # ************************************************************************/
 
-class tkHTMLViewer:
+class HTMLViewer:
     symbols_fn = {}  # filenames, loaded in Application.loadImages3
     symbols_img = {}
 
@@ -581,7 +581,7 @@ def tkhtml_main(args):
     table.show()
     top.add(table)
     top.table = table
-    viewer = tkHTMLViewer(top)
+    viewer = HTMLViewer(top)
     viewer.app = None
     viewer.display(url)
     top.connect('destroy', lambda w: gtk.main_quit())

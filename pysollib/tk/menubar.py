@@ -43,7 +43,6 @@ import Tkinter, tkColorChooser, tkFileDialog
 # PySol imports
 from pysollib.mfxutil import destruct, Struct, kwdefault
 from pysollib.util import CARDSET
-from pysollib.version import VERSION
 from pysollib.settings import PACKAGE
 from pysollib.settings import TOP_TITLE
 from pysollib.gamedb import GI

@@ -27,8 +27,11 @@ rules:
 	mv data/html-src/html data
 
 pot:
-	pygettext.py -k n_ -o po/pysol.pot $(PYSOLLIB_FILES)
 	./scripts/all_games.py gettext > po/games.pot
+	pygettext.py -k n_ -o po/pysol-1.pot $(PYSOLLIB_FILES)
+	xgettext -L C --keyword=N_ -o po/pysol-2.pot data/glade-translations
+	msgcat po/pysol-1.pot po/pysol-2.pot > po/pysol.pot
+	rm -f po/pysol-1.pot po/pysol-2.pot
 	for lng in ru; do \
 		mv -f po/$${lng}_pysol.po po/$${lng}_pysol.old.po; \
 		msgmerge po/$${lng}_pysol.old.po po/pysol.pot > po/$${lng}_pysol.po; \

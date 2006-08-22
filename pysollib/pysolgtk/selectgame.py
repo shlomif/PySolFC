@@ -45,7 +45,7 @@ from pysollib.mfxutil import destruct, Struct, KwStruct
 from pysollib.mfxutil import kwdefault
 from pysollib.mfxutil import format_time
 from pysollib.gamedb import GI
-from pysollib.help import helpHTML
+from pysollib.help import help_html
 from pysollib.resource import CSI
 
 # Toolkit imports
@@ -539,7 +539,7 @@ class SelectGameDialogWithPreview(MfxDialog):
                 if not doc:
                     return
             dir = os.path.join("html", "rules")
-            helpHTML(self.app, doc, dir, self)
+            help_html(self.app, doc, dir, self)
             return
 
         self.status = 0

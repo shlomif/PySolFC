@@ -45,8 +45,7 @@ from mfxutil import getusername, gethomedir, getprefdir, EnvError
 from mfxutil import latin1_to_ascii
 from util import Timer
 from util import CARDSET, IMAGE_EXTENSIONS
-from version import VERSION, VERSION_TUPLE
-from settings import PACKAGE, PACKAGE_URL
+from settings import PACKAGE, PACKAGE_URL, VERSION, VERSION_TUPLE
 from resource import CSI, CardsetConfig, Cardset, CardsetManager
 from resource import Tile, TileManager
 from resource import Sample, SampleManager
@@ -67,10 +66,10 @@ from pysoltk import PysolToolbar
 from pysoltk import PysolStatusbar, HelpStatusbar
 from pysoltk import SelectCardsetDialogWithPreview
 from pysoltk import SelectDialogTreeData
-from pysoltk import tkHTMLViewer
+from pysoltk import HTMLViewer
 from pysoltk import TOOLBAR_BUTTONS
 from pysoltk import destroy_find_card_dialog
-from help import helpAbout, destroy_help
+from help import help_about, destroy_help_html
 
 gettext = _
 
@@ -714,7 +713,7 @@ class Application:
             self.wm_withdraw()
             #
             destroy_find_card_dialog()
-            destroy_help()
+            destroy_help_html()
             # update options
             self.opt.last_gameid = id
             # save options
@@ -792,7 +791,7 @@ class Application:
         self.nextgame.bookmark = None
         # splash screen
         if self.opt.splashscreen and self.splashscreen > 0:
-            status = helpAbout(self, timeout=20000, sound=0)
+            status = help_about(self, timeout=20000, sound=0)
             if status == 2:                 # timeout - start a demo
                 if autoplay:
                     self.nextgame.startdemo = 1
@@ -901,7 +900,7 @@ class Application:
         dir = os.path.join('images', 'htmlviewer')
         #
         fn = self.dataloader.findImage('disk', dir)
-        tkHTMLViewer.symbols_fn['disk'] = fn
+        HTMLViewer.symbols_fn['disk'] = fn
 
     def loadImages4(self):
         # load all remaining images

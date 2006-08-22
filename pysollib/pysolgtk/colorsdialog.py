@@ -40,15 +40,6 @@ gettext = _
 
 class ColorsDialog:
 
-## self.app.opt.table_text_color = d.table_text_color
-## self.app.opt.table_text_color_value = d.table_text_color_value
-## ##self.app.opt.table_color = d.table_color
-## self.app.opt.highlight_piles_colors = d.highlight_piles_colors
-## self.app.opt.highlight_cards_colors = d.highlight_cards_colors
-## self.app.opt.highlight_samerank_colors = d.highlight_samerank_colors
-## self.app.opt.hintarrow_color = d.hintarrow_color
-## self.app.opt.highlight_not_matching_color = d.highlight_not_matching_color
-
     def __init__(self, parent, title, app, **kw):
 
         glade_file = app.dataloader.findFile('pysolfc.glade')
@@ -65,10 +56,9 @@ class ColorsDialog:
             'not_matching',
             )
         for n in keys:
-            label = self.widgets_tree.get_widget(n+'_label')
-            self._setColor(label, app.opt.colors[n])
+            self._setColor(n, app.opt.colors[n])
             button = self.widgets_tree.get_widget(n+'_button')
-            button.connect('clicked', self._changeColor, n, label)
+            button.connect('clicked', self._changeColor, n)
         checkbutton = self.widgets_tree.get_widget('use_default_checkbutton')
         checkbutton.set_active(not app.opt.use_default_text_color)
 
@@ -78,7 +68,6 @@ class ColorsDialog:
         self.dialog = dialog
         dialog.set_title(title)
         dialog.set_transient_for(parent)
-        dialog.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
 
         self.status = -1
         self.button = -1
@@ -95,16 +84,16 @@ class ColorsDialog:
         dialog.destroy()
 
 
-    def _setColor(self, label, color):
-        c = gdk.color_parse(color)
-        al = pango.AttrList()
-        al.insert(pango.AttrBackground(c.red, c.green, c.blue, 0, 10))
-        label.set_attributes(al)
+    def _setColor(self, name, color):
+        label = self.widgets_tree.get_widget(name+'_label')
+        eventbox = self.widgets_tree.get_widget(name+'_eventbox')
+        eventbox.modify_bg(gtk.STATE_NORMAL, gdk.color_parse(color))
         label.set_data('user_data', color)
+        label.set_text(color)
 
 
-    def _changeColor(self, w, name, label):
-        print '_changeColor', name
+    def _changeColor(self, w, name):
+        label = self.widgets_tree.get_widget(name+'_label')
         color = label.get_data('user_data')
         dialog = gtk.ColorSelectionDialog(_('Select color'))
         dialog.help_button.destroy()
@@ -115,7 +104,7 @@ class ColorsDialog:
         if response == gtk.RESPONSE_OK:
             c = dialog.colorsel.get_current_color()
             c = '#%02x%02x%02x' % (c.red/256, c.green/256, c.blue/256)
-            self._setColor(label, c)
+            self._setColor(name, c)
         dialog.destroy()
 
 
@@ -128,8 +117,17 @@ class ColorsDialog:
             'label35',
             'label36',
             'label37',
+            'label46',
+            'label47',
+            'label48',
+            'label49',
+            'label50',
+            'label51',
+            'label52',
+            'label53',
             ):
             w = self.widgets_tree.get_widget(n)
             w.set_text(gettext(w.get_text()))
-
+        w = self.widgets_tree.get_widget('use_default_checkbutton')
+        w.set_label(gettext(w.get_label()))
 

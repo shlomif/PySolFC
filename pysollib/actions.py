@@ -1,4 +1,3 @@
-## -*- coding: utf-8 -*-
 ## vim:ts=4:et:nowrap
 ##
 ##---------------------------------------------------------------------------##
@@ -42,7 +41,6 @@ import os, re, sys, string, time, types, locale
 from mfxutil import EnvError, SubclassResponsibility
 from mfxutil import Struct, destruct, openURL
 from pysolrandom import constructRandom
-from version import VERSION
 from settings import PACKAGE, PACKAGE_URL
 from settings import TOP_TITLE
 from gamedb import GI
@@ -68,7 +66,7 @@ from pysoltk import FontsDialog
 from pysoltk import EditTextDialog
 from pysoltk import TOOLBAR_BUTTONS
 from pysoltk import create_find_card_dialog, connect_game_find_card_dialog, destroy_find_card_dialog
-from help import helpAbout, helpHTML
+from help import help_about, help_html
 
 gettext = _
 
@@ -875,11 +873,11 @@ class PysolMenubarActions:
 
     def mHelp(self, *args):
         if self._cancelDrag(break_pause=False): return
-        helpHTML(self.app, "index.html", "html")
+        help_html(self.app, "index.html", "html")
 
     def mHelpHowToPlay(self, *args):
         if self._cancelDrag(break_pause=False): return
-        helpHTML(self.app, "howtoplay.html", "html")
+        help_html(self.app, "howtoplay.html", "html")
 
     def mHelpRules(self, *args):
         if self._cancelDrag(break_pause=False): return
@@ -887,22 +885,22 @@ class PysolMenubarActions:
             return
         dir = os.path.join("html", "rules")
         ## FIXME: plugins
-        helpHTML(self.app, self.app.getGameRulesFilename(self.game.id), dir)
+        help_html(self.app, self.app.getGameRulesFilename(self.game.id), dir)
 
     def mHelpLicense(self, *args):
         if self._cancelDrag(break_pause=False): return
-        helpHTML(self.app, "license.html", "html")
+        help_html(self.app, "license.html", "html")
 
     def mHelpNews(self, *args):
         if self._cancelDrag(break_pause=False): return
-        helpHTML(self.app, "news.html", "html")
+        help_html(self.app, "news.html", "html")
 
     def mHelpWebSite(self, *args):
         openURL(PACKAGE_URL)
 
     def mHelpAbout(self, *args):
         if self._cancelDrag(break_pause=False): return
-        helpAbout(self.app)
+        help_about(self.app)
 
     #
     # misc

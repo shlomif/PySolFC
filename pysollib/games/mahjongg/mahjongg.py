@@ -40,6 +40,7 @@ from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 from pysollib.pysoltk import MfxCanvasText, MfxCanvasImage, bind, \
      EVENT_HANDLED, ANCHOR_NW
+from pysollib.settings import TOOLKIT
 
 
 def factorial(x):
@@ -191,14 +192,20 @@ class Mahjongg_RowStack(OpenStack):
     def _position(self, card):
         OpenStack._position(self, card)
         #
-        rows = filter(lambda s: s.cards, self.game.s.rows[:self.id])
-        if rows:
-            self.group.tkraise(rows[-1].group)
-            return
-        rows = filter(lambda s: s.cards, self.game.s.rows[self.id+1:])
-        if rows:
-            self.group.lower(rows[0].group)
-            return
+        if TOOLKIT == 'tk':
+            rows = filter(lambda s: s.cards, self.game.s.rows[:self.id])
+            if rows:
+                self.group.tkraise(rows[-1].group)
+                return
+            rows = filter(lambda s: s.cards, self.game.s.rows[self.id+1:])
+            if rows:
+                self.group.lower(rows[0].group)
+                return
+        elif TOOLKIT == 'gtk':
+            # FIXME (this is very slow)
+            for s in self.game.s.rows[self.id+1:]:
+                s.group.tkraise()
+
 
     # In Mahjongg games type there are a lot of stacks, so we optimize
     # and don't create bindings that are not used anyway.
@@ -259,16 +266,16 @@ class Mahjongg_RowStack(OpenStack):
             img = drag.shade_img
             img.dtag(drag.shade_stack.group)
             img.moveTo(self.x, self.y)
+            img.addtag(self.group)
         else:
             img = game.app.images.getShade()
             if img is None:
                 return 1
-            img = MfxCanvasImage(game.canvas, self.x, self.y,
-                                 image=img, anchor=ANCHOR_NW)
+            img = MfxCanvasImage(game.canvas, self.x, self.y, image=img,
+                                 anchor=ANCHOR_NW, group=self.group)
             drag.shade_img = img
         # raise/lower the shade image to the correct stacking order
         img.tkraise(self.cards[-1].item)
-        img.addtag(self.group)
         drag.shade_stack = self
         return 1
 
@@ -462,8 +469,13 @@ class AbstractMahjonggGame(Game):
                     x = l.XM+i*cardw
                     y = l.YM+fdyy+j*cardh
                 else:
-                    x = -l.XS
-                    y = l.YM+dyy
+                    if TOOLKIT == 'tk':
+                        x = -l.XS
+                        y = l.YM+dyy
+                    elif TOOLKIT == 'gtk':
+                        # FIXME
+                        x = self.width -l.XS
+                        y = self.height - l.YS
                 stack = Mahjongg_Foundation(x, y, self)
                 if show_removed:
                     stack.CARD_XOFFSET = dx

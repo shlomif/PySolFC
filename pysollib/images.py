@@ -38,7 +38,6 @@
 import os, types
 
 # PySol imports
-from version import VERSION, VERSION_TUPLE
 from mfxutil import Pickler, Unpickler, UnpicklingError
 from mfxutil import Struct, EnvError
 

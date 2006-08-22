@@ -24,9 +24,13 @@ import sys, os
 n_ = lambda x: x
 
 #
-#PACKAGE = "PySolFC"
-PACKAGE = "PySol"
-PACKAGE_URL = "http://sourceforge.net/projects/pysolfc/"
+#PACKAGE = 'PySolFC'
+PACKAGE = 'PySol'
+PACKAGE_URL = 'http://sourceforge.net/projects/pysolfc/'
+
+VERSION = '4.82'
+FC_VERSION = '0.9.3'
+VERSION_TUPLE = (4, 82)
 
 TOOLKIT = 'gtk'
 TOOLKIT = 'tk'
@@ -34,18 +38,18 @@ TOOLKIT = 'tk'
 # data dirs
 DATA_DIRS = []
 # you can add your extra directories here
-if os.name == "posix":
+if os.name == 'posix':
     DATA_DIRS = [
         '/usr/share/PySolFC',
         '/usr/local/share/PySolFC',
         '/usr/games/PySolFC',
         '/usr/local/games/PySolFC',
         ]
-if os.name == "nt":
+if os.name == 'nt':
     pass
-if os.name == "mac":
+if os.name == 'mac':
     pass
 
 TOP_SIZE = 10
-TOP_TITLE = n_("Top 10")
+TOP_TITLE = n_('Top 10')
 

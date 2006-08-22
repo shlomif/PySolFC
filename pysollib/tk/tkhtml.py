@@ -33,7 +33,7 @@
 ##
 ##---------------------------------------------------------------------------##
 
-__all__ = ['tkHTMLViewer']
+__all__ = ['HTMLViewer']
 
 # imports
 import os, sys, re, types
@@ -228,7 +228,7 @@ class tkHTMLParser(htmllib.HTMLParser):
 # //
 # ************************************************************************/
 
-class tkHTMLViewer:
+class HTMLViewer:
     symbols_fn = {}  # filenames, loaded in Application.loadImages3
     symbols_img = {}
 
@@ -528,7 +528,7 @@ def tkhtml_main(args):
         url = os.path.join(os.pardir, os.pardir, "data", "html", "index.html")
     top = Tkinter.Tk()
     top.wm_minsize(400, 200)
-    viewer = tkHTMLViewer(top)
+    viewer = HTMLViewer(top)
     viewer.app = None
     viewer.display(url)
     top.mainloop()

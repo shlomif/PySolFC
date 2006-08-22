@@ -52,13 +52,13 @@
 import os, sys, types
 
 import gobject
-import gtk
+import gtk, pango
 from gtk import gdk
 import gnome.canvas
 TRUE, FALSE = True, False
 
 # toolkit imports
-from tkutil import anchor_tk2gtk, loadImage, bind
+from tkutil import anchor_tk2gtk, loadImage, bind, create_pango_font_desc
 
 
 # /***********************************************************************
@@ -147,7 +147,7 @@ class _CanvasItem:
         self._is_hidden = True
 
     def connect(self, signal, func, args):
-        ##print signal
+        #print '_CanvasItem.connect:', self, signal
         self._item.connect('event', func, args)
 
 
@@ -252,7 +252,7 @@ class MfxCanvasText(_CanvasItem):
             kw['fill'] = canvas._text_color
         for k, v in kw.items():
             self[k] = v
-        self.text_format = None
+        ##~ self.text_format = None
         canvas._text_items.append(self)
         self._item.show()
 
@@ -260,7 +260,9 @@ class MfxCanvasText(_CanvasItem):
         if key == 'fill':
             self._item.set(fill_color=value)
         elif key == 'font':
-            self._item.set(font=value)
+            ##print 'set font:', value
+            font_desc = create_pango_font_desc(value)
+            self._item.set(font_desc=font_desc)
         elif key == 'text':
             self._item.set(text=value)
         else:
@@ -300,19 +302,16 @@ class MfxCanvas(gnome.canvas.Canvas):
         self._text_color = '#000000'
         #
         gnome.canvas.Canvas.__init__(self)
-        style = self.get_style().copy()
-        if bg is not None:
-            c = self.get_colormap().alloc(bg)
-            style.bg[gtk.STATE_NORMAL] = c
-        self.set_style(style)
         self.top_bg = top.style.bg[gtk.STATE_NORMAL]
+        if bg is not None:
+            self.modify_bg(gtk.STATE_NORMAL, gdk.color_parse(bg))
 
-        ##
+        #
         self.top = top
         self.xmargin, self.ymargin = 0, 0
 
         self.connect('size-allocate', self._sizeAllocate)
-        self.connect('destroy', self.destroyEvent)
+        ##self.connect('destroy', self.destroyEvent)
 
 
     def __setattr__(self, name, value):
@@ -363,9 +362,7 @@ class MfxCanvas(gnome.canvas.Canvas):
         height, width = -1, -1
         for k, v in kw.items():
             if k in ('background', 'bg'):
-                ##print 'configure: bg:', v
-                c = self.get_colormap().alloc_color(v)
-                self.style.bg[gtk.STATE_NORMAL] = c
+                self.modify_bg(gtk.STATE_NORMAL, gdk.color_parse(v))
             elif k == 'cursor':
                 if not self.window:
                     self.realize()
@@ -390,9 +387,6 @@ class MfxCanvas(gnome.canvas.Canvas):
                 i._item.destroy()
             ##i._item = None
         self._all_items = []
-        if 0: #self.__tileimage:
-            self.__tileimage.destroy()
-            self.__tileimage = None
 
     def hideAllItems(self):
         self._hidden_items = []

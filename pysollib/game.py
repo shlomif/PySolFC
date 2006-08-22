@@ -45,8 +45,7 @@ from mfxutil import UnpicklingError, uclock, usleep
 from mfxutil import format_time
 from util import get_version_tuple, Timer
 from util import ACE, QUEEN, KING
-from version import VERSION, VERSION_TUPLE
-from settings import PACKAGE, TOOLKIT, TOP_TITLE
+from settings import PACKAGE, TOOLKIT, TOP_TITLE, VERSION, VERSION_TUPLE
 from gamedb import GI
 from resource import CSI
 from pysolrandom import PysolRandom, LCRandom31
@@ -63,7 +62,7 @@ from move import ANextRoundMove, ASaveSeedMove, AShuffleStackMove
 from move import AUpdateStackMove, AFlipAllMove, ASaveStateMove
 from move import ACloseStackMove, ASingleCardMove
 from hint import DefaultHint
-from help import helpAbout
+from help import help_about
 
 PLAY_TIME_TIMEOUT = 200
 
@@ -1891,7 +1890,7 @@ for %d moves.
                     self.app.demo_counter =  self.app.demo_counter + 1
                     if self.app.demo_counter % 3 == 0:
                         if self.top.winfo_ismapped():
-                            status = helpAbout(self.app, timeout=10000)
+                            status = help_about(self.app, timeout=10000)
             if self.demo and status == 2:
                 # timeout in dialog - start another demo
                 demo = self.demo

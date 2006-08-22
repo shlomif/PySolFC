@@ -196,12 +196,15 @@ class PysolMenubar(PysolMenubarActions):
             ('cardset', None,
              ltk2gtk('Cards&et...'), '<control>E',
              None, self.mSelectCardsetDialog),
-            ('timeouts', None,
-             ltk2gtk('Time&outs...'), None,
-             None, self.mOptTimeouts),
+            ('fonts', None,
+             ltk2gtk('&Fonts...'), None,
+             None, self.mOptFonts),
             ('colors', None,
              ltk2gtk('&Colors...'), None,
              None, self.mOptColors),
+            ('timeouts', None,
+             ltk2gtk('Time&outs...'), None,
+             None, self.mOptTimeouts),
             ('contents', None,
              ltk2gtk('&Contents'), '<control>F1',
              None, self.mHelp),
@@ -375,6 +378,7 @@ class PysolMenubar(PysolMenubarActions):
       </menu>
       <menuitem action='stickymouse'/>
       <separator/>
+      <menuitem action='fonts'/>
       <menuitem action='colors'/>
       <menuitem action='timeouts'/>
       <separator/>

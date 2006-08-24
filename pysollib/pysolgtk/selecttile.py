@@ -146,18 +146,17 @@ class SelectTileDialogWithPreview(MfxDialog):
         ##canvas.deleteAllItems()
         if type(key) is str:
             # solid color
+            canvas.setTile(self.app, 0, force=True)
             canvas.config(bg=key)
-            canvas.setBackgroundImage(None)
-            canvas.setTextColor(None)
+            ##canvas.setTextColor(None)
             self.preview_key = key
-            self.colors['table'] = key
+            self.table_color = key
         else:
             # image
-            tile = self.manager.get(key)
-            if tile:
-                if self.preview.setTile(self.app, key):
-                    return
-            self.preview_key = -1
+            if self.preview.setTile(self.app, key):
+                self.preview_key = key
+            else:
+                self.preview_key = -1
 
 
     def initKw(self, kw):
@@ -206,7 +205,7 @@ class SelectTileDialogWithPreview(MfxDialog):
                 self.key = self.preview_key
         self.status = 0
         self.button = b
-        self.hide()
+        ##self.hide()
         self.quit()
 
 

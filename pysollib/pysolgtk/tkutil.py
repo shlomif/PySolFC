@@ -266,7 +266,7 @@ def unbind_destroy(widget):
 # ************************************************************************/
 
 def after(widget, ms, func, *args):
-    timer = gtk.timeout_add(ms, func, *args)
+    timer = gobject.timeout_add(ms, func, *args)
     return timer
 
 def after_idle(widget, func, *args):
@@ -275,7 +275,7 @@ def after_idle(widget, func, *args):
 
 def after_cancel(t):
     if t is not None:
-        gtk.timeout_remove(t)
+        gobject.source_remove(t)
 
 
 # /***********************************************************************

@@ -58,7 +58,6 @@ from pysoltk import MfxMessageDialog, MfxSimpleEntry
 from pysoltk import MfxExceptionDialog
 from pysoltk import MfxRadioMenuItem, MfxCheckMenuItem, StringVar
 from pysoltk import PlayerOptionsDialog
-from pysoltk import SoundOptionsDialog
 #from pysoltk import HintOptionsDialog
 from pysoltk import TimeoutsDialog
 from pysoltk import ColorsDialog
@@ -805,14 +804,19 @@ class PysolMenubarActions:
                 self.game.updateStatus(player=self.app.opt.player)
                 self.game.updateStatus(stats=self.app.stats.getStats(self.app.opt.player, self.game.id))
 
-    def mOptSoundDialog(self, *args):
-        if self._cancelDrag(break_pause=False): return
-        d = SoundOptionsDialog(self.top, _("Sound settings"), self.app)
-        self.tkopt.sound.set(self.app.opt.sound)
-
 ##     def mOptIrregularPiles(self, *args):
 ##         if self._cancelDrag(): return
 ##         self.app.opt.irregular_piles = self.tkopt.irregular_piles.get()
+
+    def _mOptTableTile(self, i):
+        if self.app.setTile(i):
+            self.tkopt.tabletile.set(i)
+
+    def _mOptTableColor(self, color):
+        tile = self.app.tabletile_manager.get(0)
+        tile.color = color
+        if self.app.setTile(0):
+            self.tkopt.tabletile.set(0)
 
     def mOptColors(self, *args):
         if self._cancelDrag(break_pause=False): return

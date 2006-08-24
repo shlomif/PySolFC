@@ -302,7 +302,9 @@ class MfxCanvas(gnome.canvas.Canvas):
         self._text_color = '#000000'
         #
         gnome.canvas.Canvas.__init__(self)
-        self.top_bg = top.style.bg[gtk.STATE_NORMAL]
+        c = top.style.bg[gtk.STATE_NORMAL]
+        c = '#%02x%02x%02x' % (c.red/256, c.green/256, c.blue/256)
+        self.top_bg = c
         if bg is not None:
             self.modify_bg(gtk.STATE_NORMAL, gdk.color_parse(bg))
 
@@ -419,8 +421,8 @@ class MfxCanvas(gnome.canvas.Canvas):
 
     # PySol extension - set a tiled background image
     def setTile(self, app, i, force=False):
+        ##print 'setTile:', i
         tile = app.tabletile_manager.get(i)
-        ##print 'setTile', i, tile
         if tile is None or tile.error:
             return False
         if i == 0:
@@ -439,9 +441,7 @@ class MfxCanvas(gnome.canvas.Canvas):
         #
         self._tile = tile
         if i == 0:
-            if self.__tileimage:
-                self.__tileimage.destroy()
-                self.__tileimage = None
+            self.setBackgroundImage(None)
             self.configure(bg=tile.color)
             ##app.top.config(bg=tile.color)
             color = None
@@ -473,7 +473,7 @@ class MfxCanvas(gnome.canvas.Canvas):
             self.realize()
             ##return False
 
-        gtk.idle_add(self.setBackgroundImage, filename, stretch)
+        gobject.idle_add(self.setBackgroundImage, filename, stretch)
 
 
     def setBackgroundImage(self, filename, stretch=False):

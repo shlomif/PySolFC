@@ -37,7 +37,7 @@
 __all__ = ['PysolMenubar']
 
 # imports
-import math, os, re, types
+import math, os, re
 import Tkinter, tkColorChooser, tkFileDialog
 
 # PySol imports
@@ -53,8 +53,8 @@ from pysollib.pysolaudio import pysolsoundserver
 from tkconst import EVENT_HANDLED, EVENT_PROPAGATE, CURSOR_WATCH, COMPOUNDS
 from tkutil import bind, after_idle
 from selectgame import SelectGameDialog, SelectGameDialogWithPreview
+from soundoptionsdialog import SoundOptionsDialog
 from selectcardset import SelectCardsetDialogWithPreview
-from selectcardset import SelectCardsetByTypeDialogWithPreview
 from selecttile import SelectTileDialogWithPreview
 
 #from toolbar import TOOLBAR_BUTTONS
@@ -895,6 +895,11 @@ class PysolMenubar(PysolMenubarActions):
             self.game.saveGame(filename)
             self.updateMenus()
 
+    def mOptSoundDialog(self, *args):
+        if self._cancelDrag(break_pause=False): return
+        d = SoundOptionsDialog(self.top, _("Sound settings"), self.app)
+        self.tkopt.sound.set(self.app.opt.sound)
+
     def mOptAutoFaceUp(self, *args):
         if self._cancelDrag(): return
         self.app.opt.autofaceup = self.tkopt.autofaceup.get()
@@ -1036,19 +1041,9 @@ class PysolMenubar(PysolMenubarActions):
     def mOptChangeCardback(self, *event):
         self._mOptCardback(self.app.cardset.backindex + 1)
 
-    def _mOptTableTile(self, i):
-        if self.app.setTile(i):
-            self.tkopt.tabletile.set(i)
-
-    def _mOptTableColor(self, color):
-        tile = self.app.tabletile_manager.get(0)
-        tile.color = color
-        if self.app.setTile(0):
-            self.tkopt.tabletile.set(0)
-
-    def mOptTableTile(self, *event):
-        if self._cancelDrag(break_pause=False): return
-        self._mOptTableTile(self.tkopt.tabletile.get())
+##     def mOptTableTile(self, *event):
+##         if self._cancelDrag(break_pause=False): return
+##         self._mOptTableTile(self.tkopt.tabletile.get())
 
     def mOptChangeTableTile(self, *event):
         if self._cancelDrag(break_pause=False): return
@@ -1067,7 +1062,7 @@ class PysolMenubar(PysolMenubarActions):
                                         manager=self.app.tabletile_manager,
                                         key=key)
         if d.status == 0 and d.button in (0, 1):
-            if type(d.key) is types.StringType:
+            if type(d.key) is str:
                 self._mOptTableColor(d.key)
             elif d.key > 0 and d.key != self.app.tabletile_index:
                 self._mOptTableTile(d.key)

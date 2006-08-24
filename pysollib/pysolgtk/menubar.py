@@ -44,6 +44,7 @@ from pysollib.settings import PACKAGE
 # toolkit imports
 from tkutil import setTransient
 from tkutil import color_tk2gtk, color_gtk2tk
+from soundoptionsdialog import SoundOptionsDialog
 from selectcardset import SelectCardsetDialogWithPreview
 from selecttile import SelectTileDialogWithPreview
 
@@ -190,12 +191,15 @@ class PysolMenubar(PysolMenubarActions):
             ('playeroptions', None,
              ltk2gtk('&Player options...'), None,
              None,self.mOptPlayerOptions),
-            ('tabletile', None,
-             ltk2gtk('Table t&ile...'), None,
-             None,self.mOptTableTile),
+            ('sound', None,
+             ltk2gtk('&Sound...'), None,
+             None, self.mOptSoundDialog),
             ('cardset', None,
              ltk2gtk('Cards&et...'), '<control>E',
              None, self.mSelectCardsetDialog),
+            ('tabletile', None,
+             ltk2gtk('Table t&ile...'), None,
+             None, self.mOptTableTile),
             ('fonts', None,
              ltk2gtk('&Fonts...'), None,
              None, self.mOptFonts),
@@ -360,8 +364,9 @@ class PysolMenubar(PysolMenubarActions):
         <menuitem action='showhintarrowinshisenshogames'/>
       </menu>
       <separator/>
-      <menuitem action='tabletile'/>
+      <menuitem action='sound'/>
       <menuitem action='cardset'/>
+      <menuitem action='tabletile'/>
       <menu action='animations'>
         <menuitem action='animationnone'/>
         <menuitem action='animationtimer'/>
@@ -430,6 +435,10 @@ class PysolMenubar(PysolMenubarActions):
         games = map(self.app.gdb.get, self.app.gdb.getGamesIdSortedByName())
         menu = ui_manager.get_widget('/menubar/select').get_submenu()
         self._createSelectMenu(games, menu)
+
+        if self.app.audio.audiodev is None:
+            item = ui_manager.get_widget('/menubar/options/sound')
+            item.set_sensitive(False)
 
         menubar = ui_manager.get_widget('/menubar')
         return menubar
@@ -751,6 +760,11 @@ class PysolMenubar(PysolMenubarActions):
                 self.game.quitGame(d.gameid, random=d.random)
 
 
+    def mOptSoundDialog(self, *args):
+        if self._cancelDrag(break_pause=False): return
+        d = SoundOptionsDialog(self.top, _('Sound settings'), self.app)
+
+
     def mOptTableTile(self, *args):
         if self._cancelDrag(break_pause=False): return
         key = self.app.tabletile_index
@@ -762,11 +776,15 @@ class PysolMenubar(PysolMenubarActions):
                                         key=key)
         if d.status == 0 and d.button in (0, 1):
             if type(d.key) is str:
-                tile = self.app.tabletile_manager.get(0)
-                tile.color = color
-                self.app.setTile(0)
+                self._mOptTableColor(d.key)
             elif d.key > 0 and d.key != self.app.tabletile_index:
-                self.app.setTile(i)
+                self._mOptTableTile(d.key)
+##             if type(d.key) is str:
+##                 tile = self.app.tabletile_manager.get(0)
+##                 tile.color = d.color
+##                 self.app.setTile(0)
+##             elif d.key > 0 and d.key != self.app.tabletile_index:
+##                 self.app.setTile(i)
 
 
     def mSelectCardsetDialog(self, *event):

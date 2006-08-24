@@ -83,11 +83,11 @@ class PysolTreeView:
             selection = self.treeview.get_selection()
             ##selection.select_path(self._selected_row)
             ##selection.unselect_all()
-            gtk.idle_add(selection.select_path, self._selected_row)
+            gobject.idle_add(selection.select_path, self._selected_row)
         if self._vadjustment_position is not None:
             ##self.sw_vadjustment.set_value(self._vadjustment_position)
-            gtk.idle_add(self.sw_vadjustment.set_value,
-                         self._vadjustment_position)
+            gobject.idle_add(self.sw_vadjustment.set_value,
+                             self._vadjustment_position)
 
 
     def _saveExpandedRows(self):

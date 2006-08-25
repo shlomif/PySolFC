@@ -56,6 +56,7 @@ kw = {
     'scripts'      : ['pysol'],
     'packages'     : ['pysollib',
                       'pysollib.tk',
+                      'pysollib.pysolgtk',
                       'pysollib.games',
                       'pysollib.games.special',
                       'pysollib.games.ultra',
@@ -66,5 +67,6 @@ kw = {
 if os.name == 'nt':
     kw['windows'] = [{'script': 'pysol',
                       'icon_resources': [(1, "data/pysol.ico")], }]
+    kw['packages'].remove('pysollib.pysolgtk')
 
 setup(**kw)

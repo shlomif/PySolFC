@@ -54,54 +54,6 @@ def make_help_toplevel(parent, title=None, class_=None):
     return makeToplevel(parent, title=title, class_=class_, gtkclass=_MfxToplevel)
 
 
-class MfxCheckMenuItem:
-    def __init__(self, menubar, path=None):
-        self.menubar = menubar
-        self.path = path
-        self.value = None
-    def get(self):
-        ##print 'MfxCheckMenuItem.get:', self.path
-        if self.path is None: return 0
-        w = self.menubar.menus.get_widget(self.path)
-        return w.active
-    def set(self, value):
-        ##print 'MfxCheckMenuItem.set:', value, self.path
-        if self.path is None: return
-        if not value or value == 'false': value = 0
-        assert type(value) is types.IntType and 0 <= value <= 1
-        self.value = value
-        w = self.menubar.menus.get_widget(self.path)
-        w.set_active(value)
-        #print self.path, value, w, w.active
-
-
-class MfxRadioMenuItem(MfxCheckMenuItem):
-    def get(self):
-        ##print 'MfxRadioMenuItem.get:', self.path, self.value
-        if self.path is None: return 0
-        w = self.menubar.menus.get_widget(self.path)
-        #from pprint import pprint
-        #pprint(dir(w))
-        #print 'widget:', w
-        #print w.active
-        #print w.__dict__
-        return self.value
-    def set(self, value):
-        ##print 'MfxRadioMenuItem.set:', value, self.path
-        if self.path is None: return
-        if not value or value == 'false': value = 0
-        assert type(value) is types.IntType and 0 <= value
-        self.value = value
-        #w = self.menubar.menus.get_widget(self.path)
-        #w.set_active(value)
-        #print self.path, value #, w, w.active
-
-
-class StringVar:
-    def set(self, v):
-        pass
-
-
 # /***********************************************************************
 # // A toplevel window.
 # ************************************************************************/

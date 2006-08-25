@@ -4,7 +4,7 @@
 ##
 include pysol setup.py setup.cfg MANIFEST.in Makefile COPYING README
 #recursive-include pysollib *.py
-include pysollib/*.py pysollib/tk/*.py
+include pysollib/*.py pysollib/tk/*.py pysollib/pysolgtk/*.py
 include pysollib/games/*.py pysollib/games/special/*.py
 include pysollib/games/ultra/*.py pysollib/games/mahjongg/*.py
 include docs/*
@@ -28,7 +28,8 @@ graft data/cardset-tuxedo
 graft data/cardset-vienna-2k
 graft data/html
 graft data/html-src
-graft data/images
+#graft data/images
+recursive-include data/images *.gif *.png
 #graft data/music
 #graft data/plugins
 graft data/sound

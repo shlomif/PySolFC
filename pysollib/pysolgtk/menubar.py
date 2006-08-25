@@ -47,8 +47,8 @@ from tkutil import color_tk2gtk, color_gtk2tk
 from soundoptionsdialog import SoundOptionsDialog
 from selectcardset import SelectCardsetDialogWithPreview
 from selecttile import SelectTileDialogWithPreview
-
 from selectgame import SelectGameDialogWithPreview
+from findcarddialog import connect_game_find_card_dialog, destroy_find_card_dialog
 
 gettext = _
 
@@ -76,6 +76,19 @@ class PysolMenubar(PysolMenubarActions):
                               0,                       0);
         menubar.show()
 
+    def connectGame(self, game):
+        self.game = game
+        if game is None:
+            return
+        assert self.app is game.app
+##         tkopt, opt = self.tkopt, self.app.opt
+##         tkopt.gameid.set(game.id)
+##         tkopt.gameid_popular.set(game.id)
+##         tkopt.comment.set(bool(game.gsaveinfo.comment))
+        if game.canFindCard():
+            connect_game_find_card_dialog(game)
+        else:
+            destroy_find_card_dialog()
 
     #
     # create menubar
@@ -759,6 +772,10 @@ class PysolMenubar(PysolMenubarActions):
                 self.game.endGame()
                 self.game.quitGame(d.gameid, random=d.random)
 
+    def mPause(self, *args):
+        if not self.game.pause:
+            if self._cancelDrag(): return
+        self.game.doPause()
 
     def mOptSoundDialog(self, *args):
         if self._cancelDrag(break_pause=False): return
@@ -776,15 +793,11 @@ class PysolMenubar(PysolMenubarActions):
                                         key=key)
         if d.status == 0 and d.button in (0, 1):
             if type(d.key) is str:
-                self._mOptTableColor(d.key)
+                tile = self.app.tabletile_manager.get(0)
+                tile.color = d.key
+                self.app.setTile(0)
             elif d.key > 0 and d.key != self.app.tabletile_index:
-                self._mOptTableTile(d.key)
-##             if type(d.key) is str:
-##                 tile = self.app.tabletile_manager.get(0)
-##                 tile.color = d.color
-##                 self.app.setTile(0)
-##             elif d.key > 0 and d.key != self.app.tabletile_index:
-##                 self.app.setTile(i)
+                self.app.setTile(d.key)
 
 
     def mSelectCardsetDialog(self, *event):
@@ -844,4 +857,9 @@ class PysolMenubar(PysolMenubarActions):
 
     def updateAll(self, *event):
         self.app.canvas.updateAll()
+
+
+    def _setCommentMenu(self, v):
+        # FIXME
+        pass
 

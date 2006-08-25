@@ -56,6 +56,8 @@ from selectgame import SelectGameDialog, SelectGameDialogWithPreview
 from soundoptionsdialog import SoundOptionsDialog
 from selectcardset import SelectCardsetDialogWithPreview
 from selecttile import SelectTileDialogWithPreview
+from findcarddialog import connect_game_find_card_dialog, destroy_find_card_dialog
+from tkwrap import MfxRadioMenuItem, MfxCheckMenuItem, StringVar
 
 #from toolbar import TOOLBAR_BUTTONS
 from tkconst import TOOLBAR_BUTTONS
@@ -197,6 +199,8 @@ class MfxMenu(MfxMenubar):
 class PysolMenubar(PysolMenubarActions):
     def __init__(self, app, top, progress=None):
         PysolMenubarActions.__init__(self, app, top)
+        self._createTkOpt()
+        self._setOptions()
         # init columnbreak
         self.__cb_max = int(self.top.winfo_screenheight()/23)
 ##         sh = self.top.winfo_screenheight()
@@ -216,6 +220,110 @@ class PysolMenubar(PysolMenubarActions):
         # set the menubar
         self.updateBackgroundImagesMenu()
         self.top.config(menu=self.__menubar)
+
+    def _createTkOpt(self):
+        # structure to convert menu-options to Toolkit variables
+        self.tkopt = Struct(
+            gameid = MfxRadioMenuItem(self),
+            gameid_popular = MfxRadioMenuItem(self),
+            comment = MfxCheckMenuItem(self),
+            autofaceup = MfxCheckMenuItem(self),
+            autodrop = MfxCheckMenuItem(self),
+            autodeal = MfxCheckMenuItem(self),
+            quickplay = MfxCheckMenuItem(self),
+            undo = MfxCheckMenuItem(self),
+            bookmarks = MfxCheckMenuItem(self),
+            hint = MfxCheckMenuItem(self),
+            highlight_piles = MfxCheckMenuItem(self),
+            highlight_cards = MfxCheckMenuItem(self),
+            highlight_samerank = MfxCheckMenuItem(self),
+            highlight_not_matching = MfxCheckMenuItem(self),
+            mahjongg_show_removed = MfxCheckMenuItem(self),
+            shisen_show_hint = MfxCheckMenuItem(self),
+            sound = MfxCheckMenuItem(self),
+            cardback = MfxRadioMenuItem(self),
+            tabletile = MfxRadioMenuItem(self),
+            animations = MfxRadioMenuItem(self),
+            shadow = MfxCheckMenuItem(self),
+            shade = MfxCheckMenuItem(self),
+            shade_filled_stacks = MfxCheckMenuItem(self),
+            shrink_face_down = MfxCheckMenuItem(self),
+            toolbar = MfxRadioMenuItem(self),
+            toolbar_style = StringVar(),
+            toolbar_relief = StringVar(),
+            toolbar_compound = StringVar(),
+            toolbar_size = MfxRadioMenuItem(self),
+            statusbar = MfxCheckMenuItem(self),
+            num_cards = MfxCheckMenuItem(self),
+            helpbar = MfxCheckMenuItem(self),
+            save_games_geometry = MfxCheckMenuItem(self),
+            splashscreen = MfxCheckMenuItem(self),
+            demo_logo = MfxCheckMenuItem(self),
+            sticky_mouse = MfxCheckMenuItem(self),
+            mouse_undo = MfxCheckMenuItem(self),
+            negative_bottom = MfxCheckMenuItem(self),
+            pause = MfxCheckMenuItem(self),
+            toolbar_vars = {},
+        )
+        for w in TOOLBAR_BUTTONS:
+            self.tkopt.toolbar_vars[w] = MfxCheckMenuItem(self)
+
+    def _setOptions(self):
+        tkopt, opt = self.tkopt, self.app.opt
+        # set state of the menu items
+        tkopt.autofaceup.set(opt.autofaceup)
+        tkopt.autodrop.set(opt.autodrop)
+        tkopt.autodeal.set(opt.autodeal)
+        tkopt.quickplay.set(opt.quickplay)
+        tkopt.undo.set(opt.undo)
+        tkopt.hint.set(opt.hint)
+        tkopt.bookmarks.set(opt.bookmarks)
+        tkopt.highlight_piles.set(opt.highlight_piles)
+        tkopt.highlight_cards.set(opt.highlight_cards)
+        tkopt.highlight_samerank.set(opt.highlight_samerank)
+        tkopt.highlight_not_matching.set(opt.highlight_not_matching)
+        tkopt.shrink_face_down.set(opt.shrink_face_down)
+        tkopt.shade_filled_stacks.set(opt.shade_filled_stacks)
+        tkopt.mahjongg_show_removed.set(opt.mahjongg_show_removed)
+        tkopt.shisen_show_hint.set(opt.shisen_show_hint)
+        tkopt.sound.set(opt.sound)
+        tkopt.cardback.set(self.app.cardset.backindex)
+        tkopt.tabletile.set(self.app.tabletile_index)
+        tkopt.animations.set(opt.animations)
+        tkopt.shadow.set(opt.shadow)
+        tkopt.shade.set(opt.shade)
+        tkopt.toolbar.set(opt.toolbar)
+        tkopt.toolbar_style.set(opt.toolbar_style)
+        tkopt.toolbar_relief.set(opt.toolbar_relief)
+        tkopt.toolbar_compound.set(opt.toolbar_compound)
+        tkopt.toolbar_size.set(opt.toolbar_size)
+        tkopt.toolbar_relief.set(opt.toolbar_relief)
+        tkopt.statusbar.set(opt.statusbar)
+        tkopt.num_cards.set(opt.num_cards)
+        tkopt.helpbar.set(opt.helpbar)
+        tkopt.save_games_geometry.set(opt.save_games_geometry)
+        tkopt.demo_logo.set(opt.demo_logo)
+        tkopt.splashscreen.set(opt.splashscreen)
+        tkopt.sticky_mouse.set(opt.sticky_mouse)
+        tkopt.mouse_undo.set(opt.mouse_undo)
+        tkopt.negative_bottom.set(opt.negative_bottom)
+        for w in TOOLBAR_BUTTONS:
+            tkopt.toolbar_vars[w].set(opt.toolbar_vars[w])
+
+    def connectGame(self, game):
+        self.game = game
+        if game is None:
+            return
+        assert self.app is game.app
+        tkopt, opt = self.tkopt, self.app.opt
+        tkopt.gameid.set(game.id)
+        tkopt.gameid_popular.set(game.id)
+        tkopt.comment.set(bool(game.gsaveinfo.comment))
+        tkopt.pause.set(self.game.pause)
+        if game.canFindCard():
+            connect_game_find_card_dialog(game)
+        else:
+            destroy_find_card_dialog()
 
     # create a GTK-like path
     def _addPath(self, path, menu, index, submenu):
@@ -828,6 +936,9 @@ class PysolMenubar(PysolMenubarActions):
         w = getattr(self.app.toolbar, path + "_button")
         w["state"] = s
 
+    def _setCommentMenu(self, v):
+        self.tkopt.comment.set(v)
+
 
     #
     # menu actions
@@ -894,6 +1005,12 @@ class PysolMenubar(PysolMenubarActions):
             ##filename = os.path.normcase(filename)
             self.game.saveGame(filename)
             self.updateMenus()
+
+    def mPause(self, *args):
+        if not self.game.pause:
+            if self._cancelDrag(): return
+        self.game.doPause()
+        self.tkopt.pause.set(self.game.pause)
 
     def mOptSoundDialog(self, *args):
         if self._cancelDrag(break_pause=False): return
@@ -1050,7 +1167,8 @@ class PysolMenubar(PysolMenubarActions):
         n = self.app.tabletile_manager.len()
         if n >= 2:
             i = (self.tkopt.tabletile.get() + 1) % n
-            self._mOptTableTile(i)
+            if self.app.setTile(i):
+                self.tkopt.tabletile.set(i)
 
     def mSelectTileDialog(self, *event):
         if self._cancelDrag(break_pause=False): return
@@ -1063,9 +1181,13 @@ class PysolMenubar(PysolMenubarActions):
                                         key=key)
         if d.status == 0 and d.button in (0, 1):
             if type(d.key) is str:
-                self._mOptTableColor(d.key)
+                tile = self.app.tabletile_manager.get(0)
+                tile.color = d.key
+                if self.app.setTile(0):
+                    self.tkopt.tabletile.set(0)
             elif d.key > 0 and d.key != self.app.tabletile_index:
-                self._mOptTableTile(d.key)
+                if self.app.setTile(d.key):
+                    self.tkopt.tabletile.set(d.key)
 
     def mOptToolbar(self, *event):
         ##if self._cancelDrag(break_pause=False): return

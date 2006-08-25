@@ -56,7 +56,6 @@ from pysoltk import GameInfoDialog
 from pysoltk import EVENT_HANDLED, EVENT_PROPAGATE
 from pysoltk import MfxMessageDialog, MfxSimpleEntry
 from pysoltk import MfxExceptionDialog
-from pysoltk import MfxRadioMenuItem, MfxCheckMenuItem, StringVar
 from pysoltk import PlayerOptionsDialog
 #from pysoltk import HintOptionsDialog
 from pysoltk import TimeoutsDialog
@@ -64,7 +63,7 @@ from pysoltk import ColorsDialog
 from pysoltk import FontsDialog
 from pysoltk import EditTextDialog
 from pysoltk import TOOLBAR_BUTTONS
-from pysoltk import create_find_card_dialog, connect_game_find_card_dialog, destroy_find_card_dialog
+from pysoltk import create_find_card_dialog
 from help import help_about, help_html
 
 gettext = _
@@ -98,106 +97,9 @@ class PysolMenubarActions:
             rules = 0,
             pause = 0,
         )
-        # structure to convert menu-options to Toolkit variables
-        self.tkopt = Struct(
-            gameid = MfxRadioMenuItem(self),
-            gameid_popular = MfxRadioMenuItem(self),
-            comment = MfxCheckMenuItem(self),
-            autofaceup = MfxCheckMenuItem(self),
-            autodrop = MfxCheckMenuItem(self),
-            autodeal = MfxCheckMenuItem(self),
-            quickplay = MfxCheckMenuItem(self),
-            undo = MfxCheckMenuItem(self),
-            bookmarks = MfxCheckMenuItem(self),
-            hint = MfxCheckMenuItem(self),
-            highlight_piles = MfxCheckMenuItem(self),
-            highlight_cards = MfxCheckMenuItem(self),
-            highlight_samerank = MfxCheckMenuItem(self),
-            highlight_not_matching = MfxCheckMenuItem(self),
-            mahjongg_show_removed = MfxCheckMenuItem(self),
-            shisen_show_hint = MfxCheckMenuItem(self),
-            sound = MfxCheckMenuItem(self),
-            cardback = MfxRadioMenuItem(self),
-            tabletile = MfxRadioMenuItem(self),
-            animations = MfxRadioMenuItem(self),
-            shadow = MfxCheckMenuItem(self),
-            shade = MfxCheckMenuItem(self),
-            shade_filled_stacks = MfxCheckMenuItem(self),
-            shrink_face_down = MfxCheckMenuItem(self),
-            toolbar = MfxRadioMenuItem(self),
-            toolbar_style = StringVar(),
-            toolbar_relief = StringVar(),
-            toolbar_compound = StringVar(),
-            toolbar_size = MfxRadioMenuItem(self),
-            statusbar = MfxCheckMenuItem(self),
-            num_cards = MfxCheckMenuItem(self),
-            helpbar = MfxCheckMenuItem(self),
-            save_games_geometry = MfxCheckMenuItem(self),
-            splashscreen = MfxCheckMenuItem(self),
-            demo_logo = MfxCheckMenuItem(self),
-            sticky_mouse = MfxCheckMenuItem(self),
-            mouse_undo = MfxCheckMenuItem(self),
-            negative_bottom = MfxCheckMenuItem(self),
-            pause = MfxCheckMenuItem(self),
-            toolbar_vars = {},
-        )
-
-        for w in TOOLBAR_BUTTONS:
-            self.tkopt.toolbar_vars[w] = MfxCheckMenuItem(self)
-
 
     def connectGame(self, game):
         self.game = game
-        if game is None:
-            return
-        assert self.app is game.app
-        tkopt, opt = self.tkopt, self.app.opt
-        # set state of the menu items
-        tkopt.gameid.set(game.id)
-        tkopt.gameid_popular.set(game.id)
-        tkopt.comment.set(bool(game.gsaveinfo.comment))
-        tkopt.autofaceup.set(opt.autofaceup)
-        tkopt.autodrop.set(opt.autodrop)
-        tkopt.autodeal.set(opt.autodeal)
-        tkopt.quickplay.set(opt.quickplay)
-        tkopt.undo.set(opt.undo)
-        tkopt.hint.set(opt.hint)
-        tkopt.bookmarks.set(opt.bookmarks)
-        tkopt.highlight_piles.set(opt.highlight_piles)
-        tkopt.highlight_cards.set(opt.highlight_cards)
-        tkopt.highlight_samerank.set(opt.highlight_samerank)
-        tkopt.highlight_not_matching.set(opt.highlight_not_matching)
-        tkopt.shrink_face_down.set(opt.shrink_face_down)
-        tkopt.shade_filled_stacks.set(opt.shade_filled_stacks)
-        tkopt.mahjongg_show_removed.set(opt.mahjongg_show_removed)
-        tkopt.shisen_show_hint.set(opt.shisen_show_hint)
-        tkopt.sound.set(opt.sound)
-        tkopt.cardback.set(self.app.cardset.backindex)
-        tkopt.tabletile.set(self.app.tabletile_index)
-        tkopt.animations.set(opt.animations)
-        tkopt.shadow.set(opt.shadow)
-        tkopt.shade.set(opt.shade)
-        tkopt.toolbar.set(opt.toolbar)
-        tkopt.toolbar_style.set(opt.toolbar_style)
-        tkopt.toolbar_relief.set(opt.toolbar_relief)
-        tkopt.toolbar_compound.set(opt.toolbar_compound)
-        tkopt.toolbar_size.set(opt.toolbar_size)
-        tkopt.toolbar_relief.set(opt.toolbar_relief)
-        tkopt.statusbar.set(opt.statusbar)
-        tkopt.num_cards.set(opt.num_cards)
-        tkopt.helpbar.set(opt.helpbar)
-        tkopt.save_games_geometry.set(opt.save_games_geometry)
-        tkopt.demo_logo.set(opt.demo_logo)
-        tkopt.splashscreen.set(opt.splashscreen)
-        tkopt.sticky_mouse.set(opt.sticky_mouse)
-        tkopt.mouse_undo.set(opt.mouse_undo)
-        tkopt.negative_bottom.set(opt.negative_bottom)
-        for w in TOOLBAR_BUTTONS:
-            tkopt.toolbar_vars[w].set(opt.toolbar_vars[w])
-        if game.canFindCard():
-            connect_game_find_card_dialog(game)
-        else:
-            destroy_find_card_dialog()
 
     # will get called after connectGame()
     def updateRecentGamesMenu(self, gameids):
@@ -328,9 +230,6 @@ class PysolMenubarActions:
         self.setToolbarState(ms.autodrop, "autodrop")
         self.setToolbarState(ms.pause, "pause")
         self.setToolbarState(ms.rules, "rules")
-        #
-        self.tkopt.comment.set(bool(self.game.gsaveinfo.comment))
-        self.tkopt.pause.set(self.game.pause)
 
     # update menu items and toolbar
     def updateMenus(self):
@@ -368,9 +267,6 @@ class PysolMenubarActions:
             return
         if self.changed():
             if not self.game.areYouSure(_("Select game")):
-                # restore radiobutton settings
-                self.tkopt.gameid.set(self.game.id)
-                self.tkopt.gameid_popular.set(self.game.id)
                 return
         self.game.endGame()
         self.game.quitGame(id, random=random)
@@ -626,14 +522,8 @@ class PysolMenubarActions:
                     if fd: fd.close()
                     d = MfxMessageDialog(self.top, title=PACKAGE+_(" Info"), bitmap="info",
                                          text=_("Comments were appended to\n\n") + fn)
-        self.tkopt.comment.set(bool(game.gsaveinfo.comment))
+        self._setCommentMenu(bool(game.gsaveinfo.comment))
 
-
-    def mPause(self, *args):
-        if not self.game.pause:
-            if self._cancelDrag(): return
-        self.game.doPause()
-        self.tkopt.pause.set(self.game.pause)
 
     #
     # Game menu - statistics
@@ -804,20 +694,6 @@ class PysolMenubarActions:
                 self.game.updateStatus(player=self.app.opt.player)
                 self.game.updateStatus(stats=self.app.stats.getStats(self.app.opt.player, self.game.id))
 
-##     def mOptIrregularPiles(self, *args):
-##         if self._cancelDrag(): return
-##         self.app.opt.irregular_piles = self.tkopt.irregular_piles.get()
-
-    def _mOptTableTile(self, i):
-        if self.app.setTile(i):
-            self.tkopt.tabletile.set(i)
-
-    def _mOptTableColor(self, color):
-        tile = self.app.tabletile_manager.get(0)
-        tile.color = color
-        if self.app.setTile(0):
-            self.tkopt.tabletile.set(0)
-
     def mOptColors(self, *args):
         if self._cancelDrag(break_pause=False): return
         d = ColorsDialog(self.top, _("Set colors"), self.app)
@@ -836,7 +712,7 @@ class PysolMenubarActions:
             #
             if (text_color != self.app.opt.colors['text'] or
                 use_default_text_color != self.app.opt.use_default_text_color):
-                self.app.setTile(self.tkopt.tabletile.get(), 1)
+                self.app.setTile(self.app.opt.tabletile_index)
 
     def mOptFonts(self, *args):
         if self._cancelDrag(break_pause=False): return

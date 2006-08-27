@@ -336,6 +336,7 @@ class GI:
         ('fc-0.9.0', tuple(range(323, 421))),
         ('fc-0.9.1', tuple(range(421, 441))),
         ('fc-0.9.2', tuple(range(441, 466))),
+        ('fc-0.9.3', tuple(range(466, 661))),
     )
 
     # deprecated - the correct way is to or a GI.GT_XXX flag

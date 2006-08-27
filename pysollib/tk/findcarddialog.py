@@ -196,6 +196,7 @@ find_card_dialog = None
 def create_find_card_dialog(parent, game, dir):
     global find_card_dialog
     try:
+        find_card_dialog.wm_deiconify()
         find_card_dialog.tkraise()
     except:
         ##traceback.print_exc()

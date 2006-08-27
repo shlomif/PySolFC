@@ -939,6 +939,9 @@ class PysolMenubar(PysolMenubarActions):
     def _setCommentMenu(self, v):
         self.tkopt.comment.set(v)
 
+    def _setPauseMenu(self, v):
+        self.tkopt.pause.set(v)
+
 
     #
     # menu actions

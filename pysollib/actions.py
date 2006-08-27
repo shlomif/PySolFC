@@ -121,7 +121,11 @@ class PysolMenubarActions:
         return self.game is None or self.game._finishDrag()
 
     def _cancelDrag(self, break_pause=True):
-        return self.game is None or self.game._cancelDrag(break_pause=break_pause)
+        if self.game is None:
+            return True
+        ret = self.game._cancelDrag(break_pause=break_pause)
+        self._setPauseMenu(self.game.pause)
+        return ret
 
     def changed(self, *args, **kw):
         assert self.game is not None
@@ -712,7 +716,7 @@ class PysolMenubarActions:
             #
             if (text_color != self.app.opt.colors['text'] or
                 use_default_text_color != self.app.opt.use_default_text_color):
-                self.app.setTile(self.app.opt.tabletile_index)
+                self.app.setTile(self.app.tabletile_index)
 
     def mOptFonts(self, *args):
         if self._cancelDrag(break_pause=False): return

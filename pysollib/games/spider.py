@@ -855,7 +855,7 @@ class Applegate(Game):
     def getHighlightPilesStacks(self):
         return ()
 
-    shallHighlightMatch = Game._shallHighlightMatch_RKW
+    shallHighlightMatch = Game._shallHighlightMatch_SSW
 
 
 # /***********************************************************************

@@ -162,6 +162,7 @@ def help_html(app, document, dir_, top=None):
         viewer = HTMLViewer(top, app, help_html_index)
         viewer.display(doc)
     #wm_map(top, maximized=maximized)
+    viewer.parent.wm_deiconify()
     viewer.parent.tkraise()
     help_html_viewer = viewer
     return viewer

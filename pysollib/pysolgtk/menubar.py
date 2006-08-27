@@ -863,3 +863,6 @@ class PysolMenubar(PysolMenubarActions):
         # FIXME
         pass
 
+    def _setPauseMenu(self, v):
+        # FIXME
+        pass

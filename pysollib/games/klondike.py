@@ -899,21 +899,20 @@ class Q_C_(Klondike):
         return 0
 
     def fillAll(self):
-        # rows
-        for r in self.s.rows:
-            if self.fillOne(r):
-                self.fillAll()
-                return
-        # waste
+        # fill
         if not self.s.waste.cards and self.s.talon.cards:
             self.s.talon.dealCards()
-        if self.fillOne(self.s.waste):
-            self.fillAll()
-
-    def fillStack(self, stack):
-        if stack in self.s.rows:
+        for stack in self.s.rows:
             if not stack.cards and self.s.waste.cards:
                 self.s.waste.moveMove(1, stack)
+        # move to foundations
+        if self.fillOne(self.s.waste):
+            self.fillAll()
+        for stack in self.s.rows:
+            if self.fillOne(stack):
+                self.fillAll()
+
+    def fillStack(self, stack):
         self.fillAll()
 
     shallHighlightMatch = Game._shallHighlightMatch_SS

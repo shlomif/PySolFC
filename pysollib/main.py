@@ -48,7 +48,7 @@ from resource import Tile
 from gamedb import GI
 from app import Application
 from pysolaudio import thread, pysolsoundserver
-from pysolaudio import AbstractAudioClient, PysolSoundServerModuleClient, Win32AudioClient
+from pysolaudio import AbstractAudioClient, PysolSoundServerModuleClient, Win32AudioClient, OSSAudioClient
 
 # Toolkit imports
 from pysoltk import tkversion, wm_withdraw, wm_set_icon, loadImage
@@ -243,6 +243,8 @@ def pysol_init(app, args):
             app.audio = PysolSoundServerModuleClient()
         elif os.name == "nt":
             app.audio = Win32AudioClient()
+        elif os.name == 'posix':
+            app.audio = OSSAudioClient()
     if app.audio:
         app.audio.startServer()
         if app.audio.server is None:
@@ -418,7 +420,8 @@ Please check your %s installation.
     app.wm_withdraw()
 
     # warn about audio problems
-    if not opts["nosound"] and os.name == "posix" and pysolsoundserver is None:
+    if (not opts["nosound"] and os.name == "posix" and
+        not app.audio and pysolsoundserver is None):
         if 1 and app.opt.sound and re.search(r"linux", sys.platform, re.I):
             warn_pysolsoundserver = 1
             if thread is None:

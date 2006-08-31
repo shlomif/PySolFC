@@ -878,10 +878,10 @@ class Game:
     #
 
     def playSample(self, name, priority=0, loop=0):
+        ##print "Game.playSample:", name, priority, loop
         if self.app.opt.sound_samples.has_key(name) and \
                not self.app.opt.sound_samples[name]:
             return 0
-        ##print "playSample:", name, priority, loop
         if self.app.audio:
             return self.app.audio.playSample(name, priority=priority, loop=loop)
         return 0

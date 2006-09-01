@@ -35,11 +35,14 @@
 
 
 # imports
-import os, re, string, sys, time, types
+import os, sys
 import traceback
 
-import thread
-from threading import Thread
+try:
+    import thread
+    from threading import Thread
+except ImportError:
+    thread = None
 
 try:
     import pysolsoundserver
@@ -57,7 +60,6 @@ class AbstractAudioClient:
         self.audiodev = None
         self.connected = 0
         self.app = None
-        self.file_cache = {}
         self.sample_priority = -1
         self.sample_loop = 0
         self.music_priority = -1
@@ -336,13 +338,94 @@ class Win32AudioClient(AbstractAudioClient):
 # // OSS audio
 # ************************************************************************/
 
+#import wave, ossaudiodev
+
+class OSSAudioServer:
+
+    def __init__(self, pipe):
+        import ossaudiodev
+        self.pipe = pipe
+        #self.audiodev = ossaudiodev.open('w')
+
+    def mainLoop(self):
+        while True:
+            s = os.read(self.pipe, 256)
+            ss = s.split('\0', 2)
+            if not ss[0]:
+                os._exit(0)
+            if ss[0] == 'break':
+                self._play_loop = False
+                continue
+            filename, loop = ss[0], int(ss[1])
+            if loop:
+                self._play_loop = True
+                th = Thread(target=self.playLoop, args=(filename,))
+                th.start()
+            else:
+                self.play(filename)
+
+    def _getParameters(self, filename):
+        import ossaudiodev, wave
+        w = wave.open(filename)
+        fmt = ossaudiodev.AFMT_U8
+        nch = w.getnchannels()
+        rate = w.getframerate()
+        frames = w.readframes(w.getnframes())
+        return (frames, fmt, nch, rate)
+
+    def playLoop(self, filename, priority=None):
+        ##print '_playLoop:', filename
+        import ossaudiodev, wave
+        try:
+            #audiodev = self.audiodev
+            audiodev = ossaudiodev.open('w')
+            #audiodev.nonblock()
+            frames, fmt, nch, rate = self._getParameters(filename)
+            audiodev.setparameters(fmt, nch, rate)
+            while self._play_loop:
+                audiodev.write(frames)
+            audiodev.reset()
+            #audiodev.close()
+            #self.audiodev = ossaudiodev.open('w')
+            return 1
+        except:
+            if traceback: traceback.print_exc()
+            return 0
+
+    def play(self, filename, priority=None):
+        ##print '_play:', filename
+        import ossaudiodev, wave
+        try:
+            #audiodev = self.audiodev
+            audiodev = ossaudiodev.open('w')
+            #audiodev.nonblock()
+            frames, fmt, nch, rate = self._getParameters(filename)
+            audiodev.setparameters(fmt, nch, rate)
+            audiodev.write(frames)
+            #audiodev.close()
+            #self.audiodev = ossaudiodev.open('w')
+            return 1
+        except:
+            if traceback: traceback.print_exc()
+            return 0
+
+
 class OSSAudioClient(AbstractAudioClient):
+
+    def __init__(self):
+        AbstractAudioClient.__init__(self)
 
     def startServer(self):
         try:
             import ossaudiodev, wave
             self.server = 0         # success - see also tk/menubar.py
-            self.audiodev = ossaudiodev #.open('w')
+            self.audiodev = ossaudiodev
+            pin, pout = os.pipe()
+            self.pout = pout
+            server = OSSAudioServer(pin)
+            pid = os.fork()
+            if pid == 0:
+                server.mainLoop()
         except:
             if traceback: traceback.print_exc()
             self.server = None
@@ -351,59 +434,12 @@ class OSSAudioClient(AbstractAudioClient):
 
     def _playSample(self, filename, priority, loop, volume):
         ##print '_playSample:', filename, loop
-        if loop:
-            self._play_loop = True
-            th = Thread(target=self._playLoop, args=(filename, priority))
-            th.start()
-            return 1
-        th = Thread(target=self._play, args=(filename, priority))
-        th.start()
+        os.write(self.pout, '%s\0%s\0' % (filename, loop))
         return 1
 
-    def _playLoop(self, filename, priority):
-        ##print '_playLoop:', filename
-        try:
-            import ossaudiodev, wave
-            #audiodev = self.audiodev
-            audiodev = ossaudiodev.open('w')
-            w = wave.open(filename)
-            fmt = ossaudiodev.AFMT_U8
-            #fmt = ossaudiodev.AFMT_S8
-            nch = w.getnchannels()
-            rate = w.getframerate()
-            frames = w.readframes(w.getnframes())
-            #audiodev.nonblock()
-            audiodev.setparameters(fmt, nch, rate)
-            while self._play_loop:
-                audiodev.write(frames)
-            audiodev.reset()
-            audiodev.close()
-            #self.audiodev = ossaudiodev.open('w')
-            return 1
-        except:
-            if traceback: traceback.print_exc()
-            return 0
-
-    def _play(self, filename, priority):
-        ##print '_play:', filename
-        try:
-            import ossaudiodev, wave
-            #audiodev = self.audiodev
-            audiodev = ossaudiodev.open('w')
-            audiodev.nonblock()
-            w = wave.open(filename)
-            fmt = ossaudiodev.AFMT_U8
-            #fmt = ossaudiodev.AFMT_S8
-            nch = w.getnchannels()
-            rate = w.getframerate()
-            frames = w.readframes(w.getnframes())
-            audiodev.setparameters(fmt, nch, rate)
-            audiodev.write(frames)
-            return 1
-        except:
-            if traceback: traceback.print_exc()
-            return 0
-
     def _stopSamples(self):
-        self._play_loop = False
+        os.write(self.pout, 'break\0\0')
+
+    def _destroy(self):
+        os.write(self.pout, '\0\0')
 

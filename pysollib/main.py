@@ -48,7 +48,8 @@ from resource import Tile
 from gamedb import GI
 from app import Application
 from pysolaudio import thread, pysolsoundserver
-from pysolaudio import AbstractAudioClient, PysolSoundServerModuleClient, Win32AudioClient, OSSAudioClient
+from pysolaudio import AbstractAudioClient, PysolSoundServerModuleClient
+from pysolaudio import Win32AudioClient, OSSAudioClient, PyGameAudioClient
 
 # Toolkit imports
 from pysoltk import tkversion, wm_withdraw, wm_set_icon, loadImage
@@ -91,6 +92,7 @@ def parse_option(argv):
                                        "noplugins",
                                        "nosound",
                                        "debug=",
+                                       "sound-mod=",
                                        "help"])
     except getopt.GetoptError, err:
         print _("%s: %s\ntry %s --help for more information") \
@@ -105,6 +107,7 @@ def parse_option(argv):
             "french-only": False,
             "noplugins": False,
             "nosound": False,
+            "sound-mod": None,
             "debug": 0,
             }
     for i in optlist:
@@ -126,6 +129,9 @@ def parse_option(argv):
             opts["noplugins"] = True
         elif i[0] == "--nosound":
             opts["nosound"] = True
+        elif i[0] == "--sound-mod":
+            assert i[1] in ('pss', 'pygame', 'oss', 'win')
+            opts["sound-mod"] = i[1]
         elif i[0] in ("-D", "--debug"):
             opts["debug"] = i[1]
 
@@ -237,23 +243,27 @@ def pysol_init(app, args):
     warn_pysolsoundserver = 0
     app.audio = None
     if not opts["nosound"]:
-        if os.name == "nt" and app.opt.sound_mode == 0:
-            app.audio = Win32AudioClient()
-        elif pysolsoundserver:
-            app.audio = PysolSoundServerModuleClient()
-        elif os.name == "nt":
-            app.audio = Win32AudioClient()
-        elif os.name == 'posix':
-            app.audio = OSSAudioClient()
-    if app.audio:
-        app.audio.startServer()
-        if app.audio.server is None:
-            if os.name == "nt" and not isinstance(app.audio, Win32AudioClient):
-                app.audio.destroy()
-                app.audio = Win32AudioClient()
-                app.audio.startServer()
-    else:
-        app.audio = AbstractAudioClient()
+        if opts['sound-mod']:
+            d = {'pss':     PysolSoundServerModuleClient,
+                 'pygame':  PyGameAudioClient,
+                 'oss':     OSSAudioClient,
+                 'win':     Win32AudioClient}
+            c = d[opts['sound-mod']]
+            app.audio = c()
+        else:
+            for c in (PysolSoundServerModuleClient,
+                      PyGameAudioClient,
+                      OSSAudioClient,
+                      Win32AudioClient,
+                      AbstractAudioClient):
+                try:
+                    app.audio = c()
+                except:
+                    pass
+                else:
+                    # success
+                    break
+    app.audio.startServer()
     # update sound_mode
     if isinstance(app.audio, PysolSoundServerModuleClient):
         app.opt.sound_mode = 1
@@ -394,7 +404,7 @@ Please check your %s installation.
     app.audio.connectServer(app)
     if app.audio.audiodev is None:
         app.opt.sound = 0
-    if not opts["nosound"] and pysolsoundserver and not app.audio.connected:
+    if not opts["nosound"] and not opts['sound-mod'] and pysolsoundserver and not app.audio.connected:
         print PACKAGE + ": could not connect to pysolsoundserver, sound disabled."
         warn_pysolsoundserver = 1
     app.audio.updateSettings()

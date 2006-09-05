@@ -29,7 +29,7 @@ PACKAGE = 'PySol'
 PACKAGE_URL = 'http://sourceforge.net/projects/pysolfc/'
 
 VERSION = '4.82'
-FC_VERSION = '0.9.3'
+FC_VERSION = '0.9.4'
 VERSION_TUPLE = (4, 82)
 
 TOOLKIT = 'gtk'

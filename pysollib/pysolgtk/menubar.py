@@ -449,7 +449,7 @@ class PysolMenubar(PysolMenubarActions):
         menu = ui_manager.get_widget('/menubar/select').get_submenu()
         self._createSelectMenu(games, menu)
 
-        if self.app.audio.audiodev is None:
+        if not self.app.audio.CAN_PLAY_SOUND:
             item = ui_manager.get_widget('/menubar/options/sound')
             item.set_sensitive(False)
 

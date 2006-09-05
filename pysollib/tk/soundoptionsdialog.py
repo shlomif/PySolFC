@@ -118,7 +118,7 @@ class SoundOptionsDialog(MfxDialog):
                                     command=self.mOptSoundDirectX, anchor='w')
             w.grid(row=row, column=0, columnspan=2, sticky='ew')
         #
-        if pysolsoundserver and app.startup_opt.sound_mode > 0:
+        if app.audio.CAN_PLAY_MUSIC: # and app.startup_opt.sound_mode > 0:
             row += 1
             w = Tkinter.Label(frame, text=_('Sample volume:'))
             w.grid(row=row, column=0, sticky='w')

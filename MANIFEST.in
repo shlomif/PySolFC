@@ -7,12 +7,25 @@ include pysol setup.py setup.cfg MANIFEST.in Makefile COPYING README
 include pysollib/*.py pysollib/tk/*.py pysollib/pysolgtk/*.py
 include pysollib/games/*.py pysollib/games/special/*.py
 include pysollib/games/ultra/*.py pysollib/games/mahjongg/*.py
-include docs/*
-include po/*
 include scripts/build.bat scripts/create_iss.py scripts/mahjongg_utils.py
 include scripts/all_games.py scripts/cardset_viewer.py
 ##
 ## data
+##
+include docs/*
+graft data/html
+graft data/html-src
+#graft data/images
+recursive-include data/images *.gif *.png
+#graft data/music
+#graft data/plugins
+graft data/sound
+graft data/tiles
+include data/pysol.xbm data/pysol.xpm data/pysol.ico
+include po/*
+graft locale
+##
+## cardsets
 ##
 graft data/cardset-2000
 graft data/cardset-crystal-mahjongg
@@ -26,13 +39,3 @@ graft data/cardset-oxymoron
 graft data/cardset-standard
 graft data/cardset-tuxedo
 graft data/cardset-vienna-2k
-graft data/html
-graft data/html-src
-#graft data/images
-recursive-include data/images *.gif *.png
-#graft data/music
-#graft data/plugins
-graft data/sound
-graft data/tiles
-include data/pysol.xbm data/pysol.xpm data/pysol.ico
-graft locale

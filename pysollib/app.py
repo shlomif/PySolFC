@@ -1675,7 +1675,7 @@ Please select a %s type %s.
         except:
             pass
         ##print dirs
-        ext_re = re.compile(r"\.((it)|(mod)|(mp3)|(pym)|(s3m)|(xm))$", re.I)
+        ext_re = re.compile(self.audio.EXTENTIONS)
         self.initResource(manager, dirs, ext_re, Music)
 
 

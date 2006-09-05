@@ -47,7 +47,6 @@ from pysollib.settings import PACKAGE
 from pysollib.settings import TOP_TITLE
 from pysollib.gamedb import GI
 from pysollib.actions import PysolMenubarActions
-from pysollib.pysolaudio import pysolsoundserver
 
 # toolkit imports
 from tkconst import EVENT_HANDLED, EVENT_PROPAGATE, CURSOR_WATCH, COMPOUNDS
@@ -463,7 +462,7 @@ class PysolMenubar(PysolMenubarActions):
         submenu.add_checkbutton(label=n_("Show hint &arrow (in Shisen-Sho games)"), variable=self.tkopt.shisen_show_hint, command=self.mOptShisenShowHint)
         menu.add_separator()
         label = n_("&Sound...")
-        if self.app.audio.audiodev is None:
+        if not self.app.audio.CAN_PLAY_SOUND:
             menu.add_checkbutton(label=label, variable=self.tkopt.sound, command=self.mOptSoundDialog, state=Tkinter.DISABLED)
         else:
             menu.add_checkbutton(label=label, variable=self.tkopt.sound, command=self.mOptSoundDialog)
@@ -1112,12 +1111,6 @@ class PysolMenubar(PysolMenubarActions):
         if self._cancelDrag(break_pause=False): return
         self.app.opt.shisen_show_hint = self.tkopt.shisen_show_hint.get()
         ##self.game.updateMenus()
-
-##     def mOptSound(self, *args):
-##         if self._cancelDrag(break_pause=False): return
-##         self.app.opt.sound = self.tkopt.sound.get()
-##         if not self.app.opt.sound:
-##             self.app.audio.stopAll()
 
     def mSelectCardsetDialog(self, *event):
         if self._cancelDrag(break_pause=False): return

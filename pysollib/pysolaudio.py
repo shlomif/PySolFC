@@ -72,7 +72,10 @@ class AbstractAudioClient:
         self.music_loop = 0
 
     def __del__(self):
-        self.destroy()
+        try:
+            self.destroy()
+        except:
+            pass
 
     # start server - set self.server on success (may also set self.audiodev)
     def startServer(self):
@@ -92,11 +95,7 @@ class AbstractAudioClient:
 
     # disconnect and stop server
     def destroy(self):
-        if self.audiodev is not None:
-            try:
-                self._destroy()
-            except:
-                pass
+        self._destroy()
         self.server = None
         self.audiodev = None
         self.connected = 0
@@ -431,88 +430,6 @@ class OSSAudioClient(AbstractAudioClient):
 
 
 # /***********************************************************************
-# // PyMedia (http://pymedia.org/)
-# ************************************************************************/
-
-class PyMediaAudioClient(AbstractAudioClient):
-
-    CAN_PLAY_SOUND = True
-    CAN_PLAY_MUSIC = True
-
-    def __init__(self):
-        import pymedia, wave
-        AbstractAudioClient.__init__(self)
-
-    def startServer(self):
-        try:
-            import pymedia, wave
-            self.server = 1         # success - see also tk/menubar.py
-            self.audiodev = pymedia
-            self.splayer = pymedia.Player()
-            self.splayer.start()
-            self.mplayer = pymedia.Player()
-            self.mplayer.start()
-        except:
-            if traceback: traceback.print_exc()
-            self.server = None
-            self.audiodev = None
-
-
-    def _playSample(self, filename, priority, loop, volume):
-        print '_playSample:', filename, loop
-        self.splayer.setLoops(loop)
-        self.splayer.startPlayback(filename)
-        return 1
-
-    def _stopSamples(self):
-        self.splayer.stopPlayback()
-
-
-    def _playMusicLoop(self, music_list):
-        while True:
-            if not self.play_music:
-                break
-            for m in music_list:
-                if not self.play_music:
-                    break
-                if m.absname.endswith('.mp3'):
-                    print m.absname, m.volume
-                    self.mplayer.startPlayback(m.absname)
-                    while self.mplayer and self.mplayer.isPlaying() and self.play_music:
-                        time.sleep(0.1)
-                    if self.mplayer:
-                        self.mplayer.stopPlayback()
-
-
-    def playContinuousMusic(self, music_list):
-        print 'playContinuousMusic'
-        if self.audiodev is None or not self.app:
-            return
-        self.play_music = True
-        th = Thread(target=self._playMusicLoop, args=(music_list,))
-        th.start()
-
-    def updateSettings(self):
-        if self.audiodev is None or not self.app:
-            return
-        s, m = 0, 0
-        if self.app.opt.sound:
-            s = self.app.opt.sound_sample_volume*512
-            s = min(65535, s)
-            s = max(0, s)
-            m = self.app.opt.sound_music_volume*512
-            m = min(65535, m)
-            m = max(0, m)
-        print 'updateSettings:', s, m
-        try:
-            pass
-            self.splayer.setVolume(s)
-            self.mplayer.setVolume(m)
-        except:
-            if traceback: traceback.print_exc()
-
-
-# /***********************************************************************
 # // PyGame
 # ************************************************************************/
 
@@ -630,3 +547,4 @@ class PyGameAudioClient(AbstractAudioClient):
     def playNextMusic(self):
         if self.music:
             self.music.stop()
+

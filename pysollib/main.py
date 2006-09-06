@@ -138,14 +138,18 @@ def parse_option(argv):
     if opts["help"]:
         print _("""Usage: %s [OPTIONS] [FILE]
   -g    --game=GAMENAME        start game GAMENAME
+  -i    --gameid=GAMEID
+        --french-only
   --fg  --foreground=COLOR     foreground color
   --bg  --background=COLOR     background color
   --fn  --font=FONT            default font
+        --sound-mod=MOD
         --nosound              disable sound support
         --noplugins            disable load plugins
   -h    --help                 display this help and exit
 
   FILE - file name of a saved game
+  MOD - one of following: pss(default), pygame, oss, win
 """) % prog_name
         return None
 
@@ -242,7 +246,9 @@ def pysol_init(app, args):
     warn_thread = 0
     warn_pysolsoundserver = 0
     app.audio = None
-    if not opts["nosound"]:
+    if opts["nosound"]:
+        app.audio = AbstractAudioClient()
+    else:
         if opts['sound-mod']:
             d = {'pss':     PysolSoundServerModuleClient,
                  'pygame':  PyGameAudioClient,

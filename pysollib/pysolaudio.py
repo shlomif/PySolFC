@@ -56,7 +56,7 @@ except ImportError:
 
 class AbstractAudioClient:
 
-    EXTENTIONS = r"\.((it)|(mod)|(mp3)|(pym)|(s3m)|(xm))$"
+    EXTENTIONS = r"\.((wav)|(it)|(mod)|(mp3)|(pym)|(s3m)|(xm))$"
 
     CAN_PLAY_SOUND = False
     CAN_PLAY_MUSIC = False
@@ -72,10 +72,7 @@ class AbstractAudioClient:
         self.music_loop = 0
 
     def __del__(self):
-        try:
-            self.destroy()
-        except:
-            pass
+        self.destroy()
 
     # start server - set self.server on success (may also set self.audiodev)
     def startServer(self):
@@ -95,7 +92,8 @@ class AbstractAudioClient:
 
     # disconnect and stop server
     def destroy(self):
-        self._destroy()
+        if self.audiodev:
+            self._destroy()
         self.server = None
         self.audiodev = None
         self.connected = 0
@@ -189,15 +187,15 @@ class PysolSoundServerModuleClient(AbstractAudioClient):
     CAN_PLAY_MUSIC = True
 
     def __init__(self):
-        import pysolsoundserver
         AbstractAudioClient.__init__(self)
+        import pysolsoundserver
 
     def startServer(self):
         # use the module
         try:
             self.audiodev = pysolsoundserver
             self.audiodev.init()
-            self.server = 1         # success - see also tk/menubar.py
+            self.server = 1
         except:
             if traceback: traceback.print_exc()
             self.server = None
@@ -277,18 +275,12 @@ class Win32AudioClient(AbstractAudioClient):
     CAN_PLAY_MUSIC = False
 
     def __init__(self):
-        import winsound
         AbstractAudioClient.__init__(self)
+        import winsound
+        self.audiodev = winsound
 
     def startServer(self):
-        # use the built-in winsound module
-        try:
-            import winsound
-            self.audiodev = winsound
-            self.server = 0         # success - see also tk/menubar.py
-        except:
-            self.server = None
-            self.audiodev = None
+        pass
 
     def _playSample(self, filename, priority, loop, volume):
         a = self.audiodev
@@ -397,25 +389,21 @@ class OSSAudioClient(AbstractAudioClient):
     CAN_PLAY_MUSIC = False
 
     def __init__(self):
-        import ossaudiodev, wave
         AbstractAudioClient.__init__(self)
-
-    def startServer(self):
         try:
             import ossaudiodev, wave
-            self.server = 0         # success - see also tk/menubar.py
-            self.audiodev = ossaudiodev
-            pin, pout = os.pipe()
-            self.pout = pout
-            server = OSSAudioServer(pin)
-            pid = os.fork()
-            if pid == 0:
-                server.mainLoop()
         except:
             if traceback: traceback.print_exc()
-            self.server = None
-            self.audiodev = None
+            raise
+        self.audiodev = ossaudiodev
 
+    def startServer(self):
+        pin, pout = os.pipe()
+        self.pout = pout
+        server = OSSAudioServer(pin)
+        pid = os.fork()
+        if pid == 0:
+            server.mainLoop()
 
     def _playSample(self, filename, priority, loop, volume):
         ##print '_playSample:', filename, loop
@@ -435,33 +423,32 @@ class OSSAudioClient(AbstractAudioClient):
 
 class PyGameAudioClient(AbstractAudioClient):
 
-    EXTENTIONS = r'\.((ogg)|(mp3)|(it)|(mod)|(s3m)|(xm)|(mid))$'
-    if os.name == 'nt':                 # without mp3
-        EXTENTIONS = r'\.((ogg)|(it)|(mod)|(s3m)|(xm)|(mid))$'
+    EXTENTIONS = r'\.((ogg)|(mp3)|(wav)|(it)|(mod)|(s3m)|(xm)|(mid))$'
 
     CAN_PLAY_SOUND = True
     CAN_PLAY_MUSIC = True
 
     def __init__(self):
-        import pygame.mixer, pygame.time
         AbstractAudioClient.__init__(self)
-
-    def startServer(self):
         try:
             import pygame.mixer, pygame.time
-            self.server = 0             # success - see also tk/menubar.py
-            self.audiodev = pygame.mixer
+            if os.name == 'nt':
+                # for py2exe
+                import pygame.base, pygame.rwobject, pygame.mixer_music
             self.mixer = pygame.mixer
             self.mixer.init()
             self.music = self.mixer.music
             self.time = pygame.time
-            self.sound = None
-            self.sound_channel = None
-            self.sound_priority = -1
         except:
-            if traceback: traceback.print_exc()
-            self.server = None
-            self.audiodev = None
+            ##if traceback: traceback.print_exc()
+            raise
+        self.audiodev = self.mixer
+        self.sound = None
+        self.sound_channel = None
+        self.sound_priority = -1
+
+    def startServer(self):
+        pass
 
     def _playSample(self, filename, priority, loop, volume):
         ##print '_playSample:', filename, priority, loop, volume
@@ -475,10 +462,10 @@ class PyGameAudioClient(AbstractAudioClient):
             self.sound = self.mixer.Sound(filename)
             self.sound.set_volume(vol)
             self.sound_channel = self.sound.play(loop)
-            self.sound_priority = priority
         except:
             if traceback: traceback.print_exc()
             pass
+        self.sound_priority = priority
         return 1
 
     def _stopSamples(self):
@@ -511,6 +498,11 @@ class PyGameAudioClient(AbstractAudioClient):
                     if traceback: traceback.print_exc()
                     self.time.wait(1000)
 
+    def _destroy(self):
+        self.mixer.stop()
+        self.mixer.quit()
+        self.music = None
+
     def playContinuousMusic(self, music_list):
         ##print 'playContinuousMusic'
         self.music_list = music_list
@@ -520,15 +512,6 @@ class PyGameAudioClient(AbstractAudioClient):
             return
         th = Thread(target=self._playMusicLoop)
         th.start()
-
-    def _destroy(self):
-        try:
-            self.mixer.stop()
-            self.mixer.quit()
-            self.music = None
-        except:
-            if traceback: traceback.print_exc()
-            pass
 
     def updateSettings(self):
         if not self.app.opt.sound or self.app.opt.sound_music_volume == 0:

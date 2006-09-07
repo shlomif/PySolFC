@@ -1,3 +1,4 @@
+# -*- mode: sh -*-
 ## MANIFEST.in for PySolFC
 ##
 ## code
@@ -9,23 +10,42 @@ include pysollib/games/*.py pysollib/games/special/*.py
 include pysollib/games/ultra/*.py pysollib/games/mahjongg/*.py
 include scripts/build.bat scripts/create_iss.py scripts/mahjongg_utils.py
 include scripts/all_games.py scripts/cardset_viewer.py
+#graft data/plugins
 ##
-## data
+## data - docs
 ##
 include docs/*
 graft data/html
 graft data/html-src
+##
+## data - images
+##
 #graft data/images
 recursive-include data/images *.gif *.png
-#graft data/music
-#graft data/plugins
-graft data/sound
 graft data/tiles
 include data/pysol.xbm data/pysol.xpm data/pysol.ico
+##
+## data - sound
+##
+#graft data/music
+#include data/music/Astral_Dreams.COPYRIGHT
+#include data/music/Astral_Dreams.it
+include data/music/Bye_For_Now.COPYRIGHT
+include data/music/Bye_For_Now.s3m
+#include data/music/Past_and_Future.COPYRIGHT
+#include data/music/Past_and_Future.it
+include data/music/Ranger_Song.COPYRIGHT
+include data/music/Ranger_Song.s3m
+include data/music/Subsequential.COPYRIGHT
+include data/music/Subsequential.mod
+graft data/sound
+##
+## data - i18n
+##
 include po/*
 graft locale
 ##
-## cardsets
+## data - cardsets
 ##
 graft data/cardset-2000
 graft data/cardset-crystal-mahjongg

@@ -21,9 +21,11 @@ datas = [
     'tiles',
     'toolbar',
     ]
-for s in open('MANIFEST.in'):
+for s in file('MANIFEST.in'):
     if s.startswith('graft data/cardset-'):
         datas.append(s[11:].strip())
+    elif s.startswith('include data/music/'):
+        datas.append(s[19:].strip())
 data_files = []
 for d in datas:
     for root, dirs, files in os.walk(os.path.join('data', d)):

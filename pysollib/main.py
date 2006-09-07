@@ -408,14 +408,14 @@ Please check your %s installation.
 
     # init audio 2)
     app.audio.connectServer(app)
-    if app.audio.audiodev is None:
+    if not app.audio.CAN_PLAY_SOUND:
         app.opt.sound = 0
     if not opts["nosound"] and not opts['sound-mod'] and pysolsoundserver and not app.audio.connected:
         print PACKAGE + ": could not connect to pysolsoundserver, sound disabled."
         warn_pysolsoundserver = 1
     app.audio.updateSettings()
     # start up the background music
-    if app.audio.audiodev:
+    if app.audio.CAN_PLAY_MUSIC:
         music = app.music_manager.getAll()
         if music:
             app.music_playlist = list(music)[:]

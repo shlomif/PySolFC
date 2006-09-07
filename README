@@ -7,9 +7,15 @@ Requirements.
 
 - Python (2.3 or later)
 - Tkinter
-- PySol-Sound-Server: http://www.pysol.org/ (not necessarily)
-- PIL (Python Image Library): http://www.pythonware.com/products/pil (not necessarily)
-- Freecell Solver: http://vipe.technion.ac.il/~shlomif/freecell-solver/ (not necessarily)
+
+** for sound support (not necessarily) **
+- PySol-Sound-Server: http://www.pysol.org/
+or
+- PyGame: http://www.pygame.org/
+
+** other modules (not necessarily) **
+- PIL (Python Image Library): http://www.pythonware.com/products/pil
+- Freecell Solver: http://vipe.technion.ac.il/~shlomif/freecell-solver/
 
 
 Installation.

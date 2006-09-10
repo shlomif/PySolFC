@@ -156,6 +156,7 @@ class PysolMenubar(PysolMenubarActions):
             ('assistlevel',    None, ltk2gtk('Assist &level')),
             ('automaticplay',  None, ltk2gtk('&Automatic play')),
             ('animations',     None, ltk2gtk('A&nimations')),
+            ('mouse',          None, ltk2gtk('&Mouse')),
             ('cardview',       None, ltk2gtk('Card &view')),
             ('toolbar',        None, ltk2gtk('&Toolbar')),
             ('statusbar',      None, ltk2gtk('Stat&usbar')),
@@ -269,7 +270,6 @@ class PysolMenubar(PysolMenubarActions):
             ('Shade &legal moves',      '', 'shade',                  False),
             ('Shrink face-down cards',  '', 'shrink_face_down',       True),
             ('Shade &filled stacks',    '', 'shade_filled_stacks',    True),
-            ('Stick&y mouse',           '', 'sticky_mouse',           False),
             ('Show &number of cards',   '', 'num_cards',              False),
             ('&Demo logo',              '', 'demo_logo',              False),
             ('Startup splash sc&reen',  '', 'splashscreen',           False),
@@ -292,6 +292,11 @@ class PysolMenubar(PysolMenubarActions):
           ('animationtimer',    None, ltk2gtk('&Timer based'), None, None, 2),
           ('animationslow',     None, ltk2gtk('&Slow'),        None, None, 3),
           ('animationveryslow', None, ltk2gtk('&Very slow'),   None, None, 4),
+          )
+        mouse_entries = (
+          ('draganddrop',   None, ltk2gtk('&Drag-and-Drop'),   None, None, 0),
+          ('pointandclick', None, ltk2gtk('&Point-and-Click'), None, None, 1),
+          ('stickymouse',   None, ltk2gtk('&Sticky mouse'),    None, None, 2),
           )
         toolbar_side_entries = (
             ('toolbarhide',     None, ltk2gtk('Hide'),         None, None, 0),
@@ -394,7 +399,11 @@ class PysolMenubar(PysolMenubarActions):
         <menuitem action='shrinkfacedowncards'/>
         <menuitem action='shadefilledstacks'/>
       </menu>
-      <menuitem action='stickymouse'/>
+      <menu action='mouse'>
+        <menuitem action='draganddrop'/>
+        <menuitem action='pointandclick'/>
+        <menuitem action='stickymouse'/>
+      </menu>
       <separator/>
       <menuitem action='fonts'/>
       <menuitem action='colors'/>
@@ -434,6 +443,10 @@ class PysolMenubar(PysolMenubarActions):
         action_group.add_radio_actions(animations_entries,
                                        self.app.opt.animations,
                                        self.mOptAnimations)
+        t = ['drag-n-drop', 'point-n-click', 'sticky-mouse'].index(self.app.opt.mouse_type)
+        action_group.add_radio_actions(mouse_entries,
+                                       t,
+                                       self.mOptMouseType)
         action_group.add_radio_actions(toolbar_side_entries,
                                        self.app.opt.toolbar,
                                        self.mOptToolbar)
@@ -835,6 +848,12 @@ class PysolMenubar(PysolMenubarActions):
 
     def mOptAnimations(self, w1, w2):
         self.app.opt.animations = w1.get_current_value()
+
+
+    def mOptMouseType(self, w1, w2):
+        v = w1.get_current_value()
+        t = ('drag-n-drop', 'point-n-click', 'sticky-mouse')[v]
+        self.app.opt.mouse_type = t
 
 
     def mOptToolbar(self, w1, w2):

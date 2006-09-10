@@ -495,7 +495,7 @@ class PyGameAudioClient(AbstractAudioClient):
                     if self.time:
                         self.time.wait(300)
                 except:
-                    if traceback: traceback.print_exc()
+                    ##if traceback: traceback.print_exc()
                     self.time.wait(1000)
 
     def _destroy(self):

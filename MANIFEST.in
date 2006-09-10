@@ -30,14 +30,14 @@ include data/pysol.xbm data/pysol.xpm data/pysol.ico
 #graft data/music
 #include data/music/Astral_Dreams.COPYRIGHT
 #include data/music/Astral_Dreams.it
-include data/music/Bye_For_Now.COPYRIGHT
-include data/music/Bye_For_Now.s3m
+#include data/music/Bye_For_Now.COPYRIGHT
+#include data/music/Bye_For_Now.s3m
 #include data/music/Past_and_Future.COPYRIGHT
 #include data/music/Past_and_Future.it
-include data/music/Ranger_Song.COPYRIGHT
-include data/music/Ranger_Song.s3m
-include data/music/Subsequential.COPYRIGHT
-include data/music/Subsequential.mod
+#include data/music/Ranger_Song.COPYRIGHT
+#include data/music/Ranger_Song.s3m
+#include data/music/Subsequential.COPYRIGHT
+#include data/music/Subsequential.mod
 graft data/sound
 ##
 ## data - i18n

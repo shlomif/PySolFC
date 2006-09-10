@@ -200,7 +200,7 @@ class Options:
         self.games_geometry = {}   # saved games geometry (gameid: (width, height))
         #
         self.splashscreen = True
-        self.sticky_mouse = False
+        self.mouse_type = 'drag-n-drop' # or 'sticky-mouse' or 'point-n-click'
         self.mouse_undo = False    # use mouse for undo/redo
         self.negative_bottom = False
         self.randomize_place = False

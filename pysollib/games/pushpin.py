@@ -64,7 +64,7 @@ class PushPin_Talon(DealRowTalonStack):
                 return self.dealRowAvail(rows=[r], sound=sound)
         return self.dealRowAvail(rows=[self.game.s.rows[0]], sound=sound)
     def getBottomImage(self):
-        return None
+        return self.game.app.images.getBlankBottom()
 
 class PushPin_RowStack(ReserveStack):
 
@@ -119,7 +119,7 @@ class PushPin_RowStack(ReserveStack):
         game.leaveState(old_state)
 
     def getBottomImage(self):
-        return None
+        return self.game.app.images.getBlankBottom()
 
 
 class PushPin(Game):

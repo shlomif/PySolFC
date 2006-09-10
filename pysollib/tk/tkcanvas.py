@@ -82,6 +82,8 @@ class MfxCanvasImage(Canvas.ImageItem):
         if kwargs.has_key('group'):
             group = kwargs['group']
             del kwargs['group']
+        if kwargs.has_key('image'):
+            self._image = kwargs['image']
         Canvas.ImageItem.__init__(self, canvas, *args, **kwargs)
         if group:
             self.addtag(group)
@@ -262,7 +264,8 @@ class MfxCanvas(Tkinter.Canvas):
 ##             for i in range(len(stack.cards)):
 ##                 if stack.cards[i].item.id in current:
 ##                     return i
-            x, y = event.x-self.xmargin, event.y-self.ymargin
+            x = event.x-self.xmargin+self.xview()[0]*int(self.cget('width'))
+            y = event.y-self.ymargin+self.yview()[0]*int(self.cget('height'))
             ##x, y = event.x, event.y
             items = list(self.find_overlapping(x,y,x,y))
             items.reverse()
@@ -334,8 +337,8 @@ class MfxCanvas(Tkinter.Canvas):
             ##ch = max(int(self.cget("height")),  self.winfo_height())
             ch = self.winfo_height()
         ###print iw, ih, cw, ch
-        x = (cw - iw) / 2
-        y = (ch - ih) / 2
+        x = (cw-iw)/2-self.xmargin+self.xview()[0]*int(self.cget('width'))
+        y = (ch-ih)/2-self.ymargin+self.yview()[0]*int(self.cget('height'))
         id = self._x_create("image", x, y, image=image, anchor="nw")
         self.tk.call(self._w, "raise", id)
         self.__tops.append(id)

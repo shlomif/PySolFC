@@ -258,7 +258,7 @@ class PysolMenubar(PysolMenubarActions):
             save_games_geometry = MfxCheckMenuItem(self),
             splashscreen = MfxCheckMenuItem(self),
             demo_logo = MfxCheckMenuItem(self),
-            sticky_mouse = MfxCheckMenuItem(self),
+            mouse_type = StringVar(),
             mouse_undo = MfxCheckMenuItem(self),
             negative_bottom = MfxCheckMenuItem(self),
             pause = MfxCheckMenuItem(self),
@@ -303,7 +303,7 @@ class PysolMenubar(PysolMenubarActions):
         tkopt.save_games_geometry.set(opt.save_games_geometry)
         tkopt.demo_logo.set(opt.demo_logo)
         tkopt.splashscreen.set(opt.splashscreen)
-        tkopt.sticky_mouse.set(opt.sticky_mouse)
+        tkopt.mouse_type.set(opt.mouse_type)
         tkopt.mouse_undo.set(opt.mouse_undo)
         tkopt.negative_bottom.set(opt.negative_bottom)
         for w in TOOLBAR_BUTTONS:
@@ -485,8 +485,12 @@ class PysolMenubar(PysolMenubarActions):
         submenu.add_radiobutton(label=n_("&Fast"), variable=self.tkopt.animations, value=1, command=self.mOptAnimations)
         submenu.add_radiobutton(label=n_("&Slow"), variable=self.tkopt.animations, value=3, command=self.mOptAnimations)
         submenu.add_radiobutton(label=n_("&Very slow"), variable=self.tkopt.animations, value=4, command=self.mOptAnimations)
-        menu.add_checkbutton(label=n_("Stick&y mouse"), variable=self.tkopt.sticky_mouse, command=self.mOptStickyMouse)
-        menu.add_checkbutton(label=n_("Use mouse for undo/redo"), variable=self.tkopt.mouse_undo, command=self.mOptMouseUndo)
+        submenu = MfxMenu(menu, label=n_("&Mouse"))
+        submenu.add_radiobutton(label=n_("&Drag-and-Drop"), variable=self.tkopt.mouse_type, value='drag-n-drop', command=self.mOptMouseType)
+        submenu.add_radiobutton(label=n_("&Point-and-Click"), variable=self.tkopt.mouse_type, value='point-n-click', command=self.mOptMouseType)
+        submenu.add_radiobutton(label=n_("&Sticky mouse"), variable=self.tkopt.mouse_type, value='sticky-mouse', command=self.mOptMouseType)
+        submenu.add_separator()
+        submenu.add_checkbutton(label=n_("Use mouse for undo/redo"), variable=self.tkopt.mouse_undo, command=self.mOptMouseUndo)
         menu.add_separator()
         menu.add_command(label=n_("&Fonts..."), command=self.mOptFonts)
         menu.add_command(label=n_("&Colors..."), command=self.mOptColors)
@@ -1242,9 +1246,9 @@ class PysolMenubar(PysolMenubarActions):
         if self._cancelDrag(break_pause=False): return
         self.app.opt.splashscreen = self.tkopt.splashscreen.get()
 
-    def mOptStickyMouse(self, *event):
+    def mOptMouseType(self, *event):
         if self._cancelDrag(break_pause=False): return
-        self.app.opt.sticky_mouse = self.tkopt.sticky_mouse.get()
+        self.app.opt.mouse_type = self.tkopt.mouse_type.get()
 
     def mOptMouseUndo(self, *event):
         if self._cancelDrag(break_pause=False): return

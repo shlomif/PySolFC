@@ -100,10 +100,10 @@ from util import ACE, KING, SUITS
 from util import ANY_SUIT, ANY_COLOR, ANY_RANK, NO_RANK
 from util import NO_REDEAL, UNLIMITED_REDEALS, VARIABLE_REDEALS
 from pysoltk import EVENT_HANDLED, EVENT_PROPAGATE
-from pysoltk import CURSOR_DRAG, ANCHOR_NW, ANCHOR_SE
+from pysoltk import CURSOR_DRAG, CURSOR_UP_ARROW, ANCHOR_NW, ANCHOR_SE
 from pysoltk import bind, unbind_destroy
 from pysoltk import after, after_idle, after_cancel
-from pysoltk import MfxCanvasGroup, MfxCanvasImage, MfxCanvasRectangle, MfxCanvasText
+from pysoltk import MfxCanvasGroup, MfxCanvasImage, MfxCanvasRectangle, MfxCanvasText, MfxCanvasLine
 from pysoltk import Card
 from pysoltk import get_text_width
 from settings import TOOLKIT
@@ -315,6 +315,7 @@ class Stack:
         view.is_open = -1
         view.can_hide_cards = -1
         view.max_shadow_cards = -1
+        view.cursor_changed = False
 
     def destruct(self):
         # help breaking circular references
@@ -396,8 +397,8 @@ class Stack:
         assert self.is_visible and self.images.bottom is None
         img = self.getBottomImage()
         if img is not None:
-            self.images.bottom = MfxCanvasImage(self.canvas,self.x, self.y,
-                                                image=img,anchor=ANCHOR_NW,
+            self.images.bottom = MfxCanvasImage(self.canvas, self.x, self.y,
+                                                image=img, anchor=ANCHOR_NW,
                                                 group=self.group)
             self.top_bottom = self.images.bottom
 
@@ -697,7 +698,7 @@ class Stack:
     #
 
     def getBottomImage(self):
-        return None
+        return self.game.app.images.getBlankBottom()
 
     def getPositionFor(self, card):
         model, view = self, self
@@ -920,7 +921,8 @@ class Stack:
         if drag.cards:
             if sound:
                 self.game.playSample("nomove")
-            self.moveCardsBackHandler(event, drag)
+            if not self.game.app.opt.mouse_type == 'point-n-click':
+                self.moveCardsBackHandler(event, drag)
 
     def moveCardsBackHandler(self, event, drag):
         for card in drag.cards:
@@ -950,17 +952,17 @@ class Stack:
         return EVENT_HANDLED
 
     def __clickEventHandler(self, event):
-        if self.game.app.opt.sticky_mouse:
+        if self.game.app.opt.mouse_type == 'drag-n-drop':
+            cancel_drag = 1
+            start_drag = 1
+            handler = self.clickHandler
+        else: # sticky-mouse or point-n-click
             cancel_drag = 0
             start_drag = not self.game.drag.stack
             if start_drag:
                 handler = self.clickHandler
             else:
                 handler = self.finishDrag
-        else:
-            cancel_drag = 1
-            start_drag = 1
-            handler = self.clickHandler
         return self.__defaultClickEventHandler(event, handler, start_drag, cancel_drag)
 
     def __doubleclickEventHandler(self, event):
@@ -986,8 +988,11 @@ class Stack:
             return EVENT_PROPAGATE
         if self.game.demo:
             self.game.stopDemo(event)
-        if self.game.busy: return EVENT_HANDLED
-        if not self.game.app.opt.sticky_mouse and TOOLKIT == 'tk':
+        if self.game.busy:
+            return EVENT_HANDLED
+        if self.game.app.opt.mouse_type == 'point-n-click':
+            return EVENT_HANDLED
+        if self.game.app.opt.mouse_type == 'drag-n-drop' and TOOLKIT == 'tk':
             # use a timer to update the drag
             # this allows us to skip redraws on slow machines
             drag = self.game.drag
@@ -1003,14 +1008,21 @@ class Stack:
         if self.game.demo:
             self.game.stopDemo(event)
         self.game.interruptSleep()
-        if self.game.busy: return EVENT_HANDLED
-        if not self.game.app.opt.sticky_mouse:
+        if self.game.busy:
+            return EVENT_HANDLED
+        if self.game.app.opt.mouse_type == 'drag-n-drop':
             self.keepDrag(event)
             self.finishDrag(event)
         return EVENT_HANDLED
 
     def __enterEventHandler(self, event):
-        if not self.game.drag.stack:
+        if self.game.drag.stack:
+            if self.game.app.opt.mouse_type == 'point-n-click':
+                if self.acceptsCards(self.game.drag.stack,
+                                     self.game.drag.cards):
+                    self.game.canvas.config(cursor=CURSOR_UP_ARROW)
+                    self.cursor_changed = True
+        else:
             after_idle(self.canvas, self.game.showHelp,
                        'help', self.getHelp(), ##+' '+self.getBaseCard(),
                        'info', self.getNumCards())
@@ -1019,8 +1031,11 @@ class Stack:
     def __leaveEventHandler(self, event):
         if not self.game.drag.stack:
             after_idle(self.canvas, self.game.showHelp)
-        if not self.game.app.opt.sticky_mouse:
+        if self.game.app.opt.mouse_type == 'drag-n-drop':
             return EVENT_HANDLED
+        if self.cursor_changed:
+            self.game.canvas.config(cursor='')
+            self.cursor_changed = False
         drag_stack = self.game.drag.stack
         if self is drag_stack:
             x, y = event.x, event.y
@@ -1066,6 +1081,9 @@ class Stack:
         drag.noshade_stacks = [ self ]
         drag.cards = self.getDragCards(i)
         drag.index = i
+        if self.game.app.opt.mouse_type == 'point-n-click':
+            self._markCards(drag)
+            return
         ##if TOOLKIT == 'gtk':
         ##    drag.stack.group.tkraise()
         images = game.app.images
@@ -1073,7 +1091,7 @@ class Stack:
         ##sx, sy = 0, 0
         sx, sy = -images.SHADOW_XOFFSET, -images.SHADOW_YOFFSET
         dx, dy = 0, 0
-        if game.app.opt.sticky_mouse:
+        if game.app.opt.mouse_type == 'sticky-mouse':
             # return cards under mouse
             dx = event.x - (x_offset+images.CARDW+sx) - game.canvas.xmargin
             dy = event.y - (y_offset+images.CARDH+sy) - game.canvas.ymargin
@@ -1271,6 +1289,79 @@ class Stack:
             self.items.shade_item.delete()
             self.items.shade_item = None
 
+
+    def _markCards(self, drag):
+        cards = drag.cards
+        drag.stack.group.tkraise()
+        #
+        x0, y0 = self.getPositionFor(cards[0])
+        x1, y1 = self.getPositionFor(cards[-1])
+        x1 = x1 + self.game.app.images.CARDW
+        y1 = y1 + self.game.app.images.CARDH
+        xx0, yy0 = x0, y0
+        w, h = x1-x0, y1-y0
+        m = max(w, h)
+        #
+        Image = None
+        if TOOLKIT == 'tk':
+            try:
+                import Image, ImageTk
+                from ImageDraw import ImageDraw
+            except ImportError:
+                pass
+        ##Image = None
+        if TOOLKIT == 'gtk' or not Image:
+            color = self.game.app.opt.colors['cards_1']
+            r = MfxCanvasRectangle(self.canvas, xx0, yy0, xx0+w, yy0+h,
+                                   fill="", outline=color, width=4,
+                                   group=self.group)
+            drag.shadows.append(r)
+##             l = MfxCanvasLine(self.canvas, xx0, yy0, xx0+w, yy0+h,
+##                               fill=color, width=4)
+##             drag.shadows.append(l)
+##             l = MfxCanvasLine(self.canvas, xx0, yy0+h, xx0+w, yy0,
+##                               fill=color, width=4)
+##             drag.shadows.append(l)
+            return
+        #
+        mask = Image.new('RGBA', (w, h))
+        for c in cards:
+            x, y = self.getPositionFor(c)
+            x, y = x-xx0, y-yy0
+            im = c.item._image._pil_image
+            mask.paste(im, (x, y), im)
+        #
+        shade = Image.new('RGBA', (w, h))
+        draw = ImageDraw(shade, 'RGBA')
+        color = 'black'
+        d = 8
+##         y0, y1 = 0, h
+##         for x0 in range(-m, m, d):
+##             x1 = x0+h
+##             draw.line((x0, y0, x1, y1), fill=color, width=1)
+##             draw.line((x1, y0, x0, y1), fill=color, width=1)
+        for i in xrange(0, m, d):
+            x0, x1 = i, m
+            y0, y1 = 0, m-i
+            draw.line((x0, y0, x1, y1), fill=color, width=1)
+            x0, x1 = 0, m-i
+            y0, y1 = i, m
+            draw.line((x0, y0, x1, y1), fill=color, width=1)
+            x0, x1 = m-i, 0
+            y0, y1 = 0, m-i
+            draw.line((x0, y0, x1, y1), fill=color, width=1)
+            x0, x1 = m, i
+            y0, y1 = i, m
+            draw.line((x0, y0, x1, y1), fill=color, width=1)
+
+        sh2 = Image.composite(shade, mask, mask)
+        tkshade = ImageTk.PhotoImage(sh2)
+        im = MfxCanvasImage(self.game.canvas, xx0, yy0,
+                            image=tkshade, anchor=ANCHOR_NW,
+                            group=self.group)
+        drag.shadows.append(im)
+
+
     def _stopDrag(self):
         drag = self.game.drag
         after_cancel(drag.timer)
@@ -1294,8 +1385,11 @@ class Stack:
         drag = self.game.drag.copy()
         self._stopDrag()
         if drag.cards:
-            assert drag.stack is self
-            self.releaseHandler(event, drag)
+            if self.game.app.opt.mouse_type == 'point-n-click':
+                self.releaseHandler(event, drag)
+            else:
+                assert drag.stack is self
+                self.releaseHandler(event, drag)
 
     # cancel a drag operation
     def cancelDrag(self, event=None):
@@ -1771,7 +1865,10 @@ class OpenStack(Stack):
         return 0
 
     def dragMove(self, drag, stack, sound=1):
-        self.playMoveMove(len(drag.cards), stack, frames=0, sound=sound)
+        if self.game.app.opt.mouse_type == 'point-n-click':
+            self.playMoveMove(len(drag.cards), stack, sound=sound)
+        else:
+            self.playMoveMove(len(drag.cards), stack, frames=0, sound=sound)
 
     def releaseHandler(self, event, drag, sound=1):
         cards = drag.cards
@@ -1784,15 +1881,21 @@ class OpenStack(Stack):
                 return
             ##print dx, dy
         # get destination stack
-        stack = self.game.getClosestStack(cards[0], self)
+        if self.game.app.opt.mouse_type == 'point-n-click':
+            from_stack = drag.stack
+            to_stack = self
+        else:
+            from_stack = self
+            to_stack = self.game.getClosestStack(cards[0], self)
         # move cards
-        if not stack or stack is self or not stack.acceptsCards(self, cards):
+        if (not to_stack or from_stack is to_stack or
+            not to_stack.acceptsCards(from_stack, cards)):
             # move cards back to their origin stack
             Stack.releaseHandler(self, event, drag, sound=sound)
         else:
             # this code actually moves the cards to the new stack
             ##self.playMoveMove(len(cards), stack, frames=0, sound=sound)
-            self.dragMove(drag, stack, sound=sound)
+            from_stack.dragMove(drag, to_stack, sound=sound)
 
     def quickPlayHandler(self, event, from_stacks=None, to_stacks=None):
         # from_stacks and to_stacks are meant for possible

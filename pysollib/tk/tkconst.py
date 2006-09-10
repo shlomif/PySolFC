@@ -39,6 +39,7 @@ __all__ = ['tkversion',
            'EVENT_PROPAGATE',
            'CURSOR_DRAG',
            'CURSOR_WATCH',
+           'CURSOR_UP_ARROW',
            'ANCHOR_CENTER',
            'ANCHOR_N',
            'ANCHOR_NW',
@@ -81,8 +82,9 @@ TK_DASH_PATCH = 0
 EVENT_HANDLED   = "break"
 EVENT_PROPAGATE = None
 
-CURSOR_DRAG   = "hand1"
-CURSOR_WATCH  = "watch"
+CURSOR_DRAG     = "hand1"
+CURSOR_WATCH    = "watch"
+CURSOR_UP_ARROW = 'sb_up_arrow'
 
 ANCHOR_CENTER = Tkinter.CENTER
 ANCHOR_N      = Tkinter.N

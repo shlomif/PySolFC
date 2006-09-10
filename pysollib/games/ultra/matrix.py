@@ -103,7 +103,7 @@ class Matrix_RowStack(OpenStack):
         bind(self.group, "<Control-1>", self._Stack__controlclickEventHandler)
 
     def getBottomImage(self):
-        return None
+        return self.game.app.images.getBlankBottom()
 
     def blockMap(self):
         ncards = self.game.gameinfo.ncards

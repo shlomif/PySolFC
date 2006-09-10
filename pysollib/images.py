@@ -86,6 +86,7 @@ class Images:
         self._bottom = []
         self._bottom_negative = []
         self._bottom_positive = []
+        self._blank_bottom = None
         self._letter = []
         self._letter_negative = []
         self._letter_positive = []
@@ -139,6 +140,7 @@ class Images:
             if bottom is None:
                 bottom = createImage(self.CARDW, self.CARDH, fill=None, outline="#ffffff")
             self._letter_negative.append(bottom)
+        self._blank_bottom = createImage(self.CARDW, self.CARDH, fill=None, outline=None)
 
     def load(self, app, progress=None, fast=0):
         ##fast = 1
@@ -239,6 +241,9 @@ class Images:
 
     def getReserveBottom(self):
         return self._bottom[0]
+
+    def getBlankBottom(self):
+        return self._blank_bottom
 
     def getSuitBottom(self, suit=-1):
         assert type(suit) is types.IntType

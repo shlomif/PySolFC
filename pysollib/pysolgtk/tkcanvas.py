@@ -368,6 +368,8 @@ class MfxCanvas(gnome.canvas.Canvas):
             elif k == 'cursor':
                 if not self.window:
                     self.realize()
+                if v == '':
+                    v = gdk.LEFT_PTR
                 self.window.set_cursor(gdk.Cursor(v))
             elif k == 'height':
                 height = v

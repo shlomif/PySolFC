@@ -51,11 +51,12 @@
 # imports
 import os, sys, types
 
-import gobject
-import gtk, pango
-from gtk import gdk
-import gnome.canvas
-TRUE, FALSE = True, False
+import gobject, gtk
+gdk = gtk.gdk
+try:
+    import gnomecanvas
+except ImportError:
+    import gnome.canvas as gnomecanvas
 
 # toolkit imports
 from tkutil import anchor_tk2gtk, loadImage, bind, create_pango_font_desc
@@ -155,7 +156,7 @@ class _CanvasItem:
 class MfxCanvasGroup(_CanvasItem):
     def __init__(self, canvas):
         _CanvasItem.__init__(self, canvas)
-        self._item = canvas.root().add(gnome.canvas.CanvasGroup, x=0, y=0)
+        self._item = canvas.root().add(gnomecanvas.CanvasGroup, x=0, y=0)
 
 
 class MfxCanvasImage(_CanvasItem):
@@ -169,7 +170,7 @@ class MfxCanvasImage(_CanvasItem):
             group = group._item
         else:
             group = canvas.root()
-        self._item = group.add(gnome.canvas.CanvasPixbuf,
+        self._item = group.add(gnomecanvas.CanvasPixbuf,
                                x=x, y=y,
                                pixbuf=image.pixbuf,
                                width=image.width(),
@@ -207,7 +208,7 @@ class MfxCanvasLine(_CanvasItem):
             group = kw['group']._item
         else:
             group = canvas.root()
-        self._item = group.add(gnome.canvas.CanvasLine,
+        self._item = group.add(gnomecanvas.CanvasLine,
                                points=points, **kwargs)
         self._item.show()
 
@@ -226,7 +227,7 @@ class MfxCanvasRectangle(_CanvasItem):
             group = group._item
         else:
             group = canvas.root()
-        self._item = group.add(gnome.canvas.CanvasRect, **kw)
+        self._item = group.add(gnomecanvas.CanvasRect, **kw)
         self._item.show()
 
 
@@ -246,7 +247,7 @@ class MfxCanvasText(_CanvasItem):
             del kw['group']
         else:
             group = canvas.root()
-        self._item = group.add(gnome.canvas.CanvasText,
+        self._item = group.add(gnomecanvas.CanvasText,
                                x=x, y=y, anchor=anchor)
         if not kw.has_key('fill'):
             kw['fill'] = canvas._text_color
@@ -284,7 +285,7 @@ class MfxCanvasText(_CanvasItem):
 # // canvas
 # ************************************************************************/
 
-class MfxCanvas(gnome.canvas.Canvas):
+class MfxCanvas(gnomecanvas.Canvas):
     def __init__(self, top, bg=None, highlightthickness=0):
         self.preview = 0
         # Tkinter compat
@@ -301,7 +302,7 @@ class MfxCanvas(gnome.canvas.Canvas):
         # friend MfxCanvasText
         self._text_color = '#000000'
         #
-        gnome.canvas.Canvas.__init__(self)
+        gnomecanvas.Canvas.__init__(self)
         c = top.style.bg[gtk.STATE_NORMAL]
         c = '#%02x%02x%02x' % (c.red/256, c.green/256, c.blue/256)
         self.top_bg = c
@@ -513,7 +514,7 @@ class MfxCanvas(gnome.canvas.Canvas):
                     x += w
                 y += h
 
-        w = self.root().add(gnome.canvas.CanvasPixbuf,
+        w = self.root().add(gnomecanvas.CanvasPixbuf,
                             pixbuf=bg_pixbuf, x=0-dx, y=0-dy)
         w.lower_to_bottom()
         self.__tileimage = w
@@ -534,7 +535,7 @@ class MfxCanvas(gnome.canvas.Canvas):
         x, y = (w-iw)/2, (h-ih)/2
         dx, dy = self.world_to_window(0, 0)
         dx, dy = int(dx), int(dy)
-        self.__topimage = self.root().add(gnome.canvas.CanvasPixbuf,
+        self.__topimage = self.root().add(gnomecanvas.CanvasPixbuf,
                                           pixbuf=pixbuf, x=x-dx, y=y-dy)
 
 

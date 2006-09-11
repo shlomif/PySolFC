@@ -115,7 +115,6 @@ def color_gtk2tk(col):
 # ************************************************************************/
 
 
-
 class _PysolPixmap:
     def __init__(self, file=None, pixbuf=None, width=0, height=0,
                  fill=None, outline=None):
@@ -126,6 +125,16 @@ class _PysolPixmap:
         else:
             self.pixbuf = gdk.Pixbuf(gdk.COLORSPACE_RGB,
                                      True, 8, width, height)
+            if fill:
+                c = gdk.color_parse(fill)
+                c = '%02x%02x%02xffL' % (c.red, c.green, c.blue)
+                self.pixbuf.fill(int(c, 16))
+            else:
+                self.pixbuf.fill(0)
+            if outline:
+                # FIXME
+                pass
+            
 
     def clone(self):
         pixbuf = self.pixbuf.copy()
@@ -241,7 +250,7 @@ def _wrap_event(widget, event, l):
 def bind(widget, sequence, func, add=None):
     wrap = _wrap_handlers.get(sequence)
     if not wrap:
-        print "NOT BOUND:", sequence
+        ##print "NOT BOUND:", sequence
         return
     wrap, signal = wrap
     #

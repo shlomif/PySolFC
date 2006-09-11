@@ -271,6 +271,7 @@ class PysolMenubar(PysolMenubarActions):
             ('Shrink face-down cards',  '', 'shrink_face_down',       True),
             ('Shade &filled stacks',    '', 'shade_filled_stacks',    True),
             ('Show &number of cards',   '', 'num_cards',              False),
+            ('Use mouse for undo/redo', '', 'mouse_undo',             False),
             ('&Demo logo',              '', 'demo_logo',              False),
             ('Startup splash sc&reen',  '', 'splashscreen',           False),
             ('&Show removed tiles (in Mahjongg games)', '', 'mahjongg_show_removed', True),
@@ -403,6 +404,8 @@ class PysolMenubar(PysolMenubarActions):
         <menuitem action='draganddrop'/>
         <menuitem action='pointandclick'/>
         <menuitem action='stickymouse'/>
+        <separator/>
+        <menuitem action='usemouseforundoredo'/>
       </menu>
       <separator/>
       <menuitem action='fonts'/>
@@ -489,6 +492,7 @@ class PysolMenubar(PysolMenubarActions):
         return submenu
 
     def _addGamesMenuItem(self, menu, gi, short_name=False):
+        if not gi: return
         if short_name:
             label = gi.short_name
         else:

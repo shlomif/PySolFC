@@ -219,6 +219,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         self.preview = MfxScrolledCanvas(right_frame, width=w2)
         self.preview.setTile(app, app.tabletile_index, force=True)
         self.preview.pack(fill='both', expand=1, padx=padx, pady=pady)
+        self.preview.canvas.preview = 1
         # create a preview of the current state
         self.preview_key = -1
         self.preview_images = []

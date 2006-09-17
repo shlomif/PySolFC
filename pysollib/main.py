@@ -179,8 +179,10 @@ def pysol_init(app, args):
         os.path.join(app.dn.config, "plugins"),
         ):
         if not os.path.exists(d):
-            try: os.mkdir(d)
-            except: pass
+            try: os.makedirs(d)
+            except:
+                traceback.print_exc()
+                pass
 
     # init commandline options (undocumented)
     opts = parse_option(args)

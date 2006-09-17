@@ -377,10 +377,10 @@ class Stack:
                 self.is_open = True
         if self.max_shadow_cards < 0:
             self.max_shadow_cards = 999999
-            if abs(self.CARD_YOFFSET[0]) != self.game.app.images.CARD_YOFFSET:
-                # don't display a shadow if the YOFFSET of the stack
-                # and the images don't match
-                self.max_shadow_cards = 1
+##             if abs(self.CARD_YOFFSET[0]) != self.game.app.images.CARD_YOFFSET:
+##                 # don't display a shadow if the YOFFSET of the stack
+##                 # and the images don't match
+##                 self.max_shadow_cards = 1
         if (self.game.app.opt.shrink_face_down and
             type(ox) is int and type(oy) is int):
             # no shrink if xoffset/yoffset too small
@@ -1145,45 +1145,34 @@ class Stack:
             return ()
         images = self.game.app.images
         cx, cy = cards[0].x, cards[0].y
-        for c in cards[1:]:
-            if c.x != cx or abs(c.y - cy) != images.CARD_YOFFSET:
-                return ()
-            cy = c.y
-        img0, img1 = images.getShadow(0), images.getShadow(l)
-##         if 0:
-##             # Dynamically compute the shadow. Doesn't work because
-##             # PhotoImage.copy() doesn't preserve transparency.
-##             img1 = images.getShadow(13)
-##             if img1:
-##                 h = images.CARDH - img0.height()
-##                 h = h + (l - 1) * self.CARD_YOFFSET[0]
-##                 if h < img1.height():
-##                     if hasattr(img1, '_pil_image'): # use PIL
-##                         import ImageTk
-##                         im = img1._pil_image.crop((0,0,img1.width(),h))
-##                         img1 = ImageTk.PhotoImage(im)
-##                     else:
-##                         import Tkinter
-##                         dest = Tkinter.PhotoImage(width=img1.width(), height=h)
-##                         dest.blank()
-##                         img1.tk.call(dest, "copy", img1.name, "-from", 0, 0, img1.width(), h)
-##                         assert dest.height() == h and dest.width() == img1.width()
-##                         #print h, img1.height(), dest.height()
-##                         img1 = dest
-##                     self._foo = img1 # keep a reference
-##                 elif h > img1.height():
-##                     img1 = None
+        ddx, ddy = cx-cards[-1].x, cy-cards[-1].y
+        if ddx == 0: # vertical
+            for c in cards[1:]:
+                if c.x != cx or abs(c.y - cy) != images.CARD_YOFFSET:
+                    return ()
+                cy = c.y
+            img0, img1 = images.getShadow(0), images.getShadow(l)
+            c0 = cards[-1]
+            if self.CARD_YOFFSET[0] < 0: c0 = cards[0]
+        elif ddy == 0: # horizontal
+            for c in cards[1:]:
+                if c.y != cy or abs(c.x - cx) != images.CARD_XOFFSET:
+                    return ()
+                cx = c.x
+            img0, img1 = images.getShadow(-l), images.getShadow(1)
+            c0 = cards[-1]
+            if self.CARD_XOFFSET[0] < 0: c0 = cards[0]
+        else:
+            return ()
         if img0 and img1:
-            c = cards[-1]
-            if self.CARD_YOFFSET[0] < 0: c = cards[0]
-            cx, cy = c.x + images.CARDW + dx, c.y + images.CARDH + dy
+            cx, cy = c0.x + images.CARDW + dx, c0.y + images.CARDH + dy
             s1 = MfxCanvasImage(self.game.canvas, cx, cy - img0.height(),
                                 image=img1, anchor=ANCHOR_SE)
             s2 = MfxCanvasImage(self.game.canvas, cx, cy,
                                 image=img0, anchor=ANCHOR_SE)
             if TOOLKIT == 'tk':
-                s1.lower(c.item)
-                s2.lower(c.item)
+                s1.lower(c0.item)
+                s2.lower(c0.item)
 ##             elif TOOLKIT == 'gtk':
 ##                 positions = 2           ## FIXME
 ##                 s1.lower(positions)

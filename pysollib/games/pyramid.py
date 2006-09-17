@@ -239,7 +239,8 @@ class Pyramid(Game):
         l.defaultStackGroups()
         self.sg.openstacks.append(s.talon)
         self.sg.dropstacks.append(s.talon)
-        self.sg.openstacks.append(s.waste)
+        if s.waste:
+            self.sg.openstacks.append(s.waste)
 
 
     #

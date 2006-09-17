@@ -139,6 +139,7 @@ class SelectTileDialogWithPreview(MfxDialog):
         self.preview = MfxScrolledCanvas(top_frame, width=w2, hbar=0, vbar=0)
         self.preview.pack(side="right", fill=Tkinter.BOTH, expand=1,
                           padx=kw.padx, pady=kw.pady)
+        self.preview.canvas.preview = 1
         # create a preview of the current state
         self.preview_key = -1
         self.updatePreview(key)

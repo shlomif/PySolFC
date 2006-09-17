@@ -91,6 +91,7 @@ class Images:
         self._letter_negative = []
         self._letter_positive = []
         self._shadow = []
+        self._xshadow = []
         self._shade = []
 
     def destruct(self):
@@ -99,6 +100,8 @@ class Images:
     def __loadCard(self, filename, check_w=1, check_h=1):
         ##print '__loadCard:', filename
         f = os.path.join(self.cs.dir, filename)
+        if not os.path.exists(f):
+            return None
         img = loadImage(file=f)
         w, h = img.width(), img.height()
         if self.CARDW < 0:
@@ -213,6 +216,17 @@ class Images:
                 except:
                     im = None
                 self._shadow.append(im)
+
+            if fast:
+                self._xshadow.append(None)
+            elif i > 0: # skip 0
+                name = "xshadow%02d.%s" % (i, ext)
+                try:
+                    im = self.__loadCard(name, check_w=0, check_h=0)
+                except:
+                    im = None
+                self._xshadow.append(im)
+
             if progress: progress.update(step=pstep)
         # shade
         if fast:
@@ -264,11 +278,16 @@ class Images:
         return self._letter[rank]
 
     def getShadow(self, ncards):
-        assert ncards >= 0
-        if ncards >= len(self._shadow):
-            ##ncards = len(self._shadow) - 1
-            return None
-        return self._shadow[ncards]
+        if ncards >= 0:
+            if ncards >= len(self._shadow):
+                ##ncards = len(self._shadow) - 1
+                return None
+            return self._shadow[ncards]
+        else:
+            ncards = abs(ncards)-2
+            if ncards >= len(self._xshadow):
+                return None
+            return self._xshadow[ncards]
 
     def getShade(self):
         return self._shade[self._shade_index]

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "POT-Creation-Date: Tue Aug 22 21:32:47 2006\n"
-"PO-Revision-Date: 2006-08-17 20:14+0400\n"
+"PO-Revision-Date: 2006-09-17 17:05+0400\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -835,9 +835,8 @@ msgstr "Двойная и расчёт"
 msgid "Doublets"
 msgstr "Дубликаты"
 
-#, fuzzy
 msgid "Doublets II"
-msgstr "Дубликаты"
+msgstr "Дубликаты II"
 
 msgid "Dover"
 msgstr "Довер"
@@ -1113,7 +1112,7 @@ msgid "Four Winds"
 msgstr "Четыре ветра"
 
 msgid "Foursome"
-msgstr "Квартеты"
+msgstr "Четвёрки"
 
 msgid "Fourteen"
 msgstr "Четырнадцать"
@@ -1197,7 +1196,7 @@ msgid "German FreeCell"
 msgstr "Немецкая Свободная ячейка"
 
 msgid "German Patience"
-msgstr "Немецкая пасьянс"
+msgstr "Немецкий пасьянс"
 
 msgid "Ghulam"
 msgstr "Ghulam"
@@ -1733,9 +1732,8 @@ msgstr "Долгая коса"
 msgid "Long Journey to Cuddapah"
 msgstr "Долгое путешествие в Куддапах"
 
-#, fuzzy
 msgid "Long Tail"
-msgstr "Долгая коса"
+msgstr "Длинный хвост"
 
 msgid "Loose Ends"
 msgstr "Свободные концы"
@@ -2883,7 +2881,7 @@ msgid "Retinue"
 msgstr "Свита"
 
 msgid "Right Triangle"
-msgstr "Правый Треугольник"
+msgstr "Правый треугольник"
 
 msgid "Rings"
 msgstr "Круги"

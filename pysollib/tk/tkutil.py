@@ -56,6 +56,7 @@ __all__ = ['wm_withdraw',
 
 # imports
 import sys, os, re
+import traceback
 import Tkinter
 from tkFont import Font
 try:
@@ -336,12 +337,6 @@ def makeImage(file=None, data=None, dither=None, alpha=None):
         # fromstring(mode, size, data, decoder_name='raw', *args)
         else:
             return Tkinter.PhotoImage(data=data)
-    if os.name == "nt":
-        # not available in Tk after about 8.0
-        #if dither is not None:
-        #    kw["dither"] = dither
-        if alpha is not None:
-            kw["alpha"] = alpha
     return apply(Tkinter.PhotoImage, (), kw)
 
 loadImage = makeImage

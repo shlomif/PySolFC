@@ -9,13 +9,13 @@ Requirements.
 - Tkinter
 
 ** for sound support (not necessarily) **
-- PySol-Sound-Server: http://www.pysol.org/
-or
-- PyGame: http://www.pygame.org/
+  - PySol-Sound-Server: http://www.pysol.org/ (mp3, wav, tracker music)
+  or
+  - PyGame: http://www.pygame.org/ (mp3, ogg, wav, midi, tracker music)
 
 ** other modules (not necessarily) **
-- PIL (Python Image Library): http://www.pythonware.com/products/pil
-- Freecell Solver: http://vipe.technion.ac.il/~shlomif/freecell-solver/
+  - PIL (Python Image Library): http://www.pythonware.com/products/pil
+  - Freecell Solver: http://vipe.technion.ac.il/~shlomif/freecell-solver/
 
 
 Installation.

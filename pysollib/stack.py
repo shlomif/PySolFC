@@ -921,7 +921,9 @@ class Stack:
         if drag.cards:
             if sound:
                 self.game.playSample("nomove")
-            if not self.game.app.opt.mouse_type == 'point-n-click':
+            if self.game.app.opt.mouse_type == 'point-n-click':
+                drag.stack.moveCardsBackHandler(event, drag)
+            else:
                 self.moveCardsBackHandler(event, drag)
 
     def moveCardsBackHandler(self, event, drag):
@@ -2434,8 +2436,13 @@ class ArbitraryStack(OpenStack):
 
     def startDrag(self, event, sound=1):
         OpenStack.startDrag(self, event, sound=sound)
-        for c in self.cards[self.game.drag.index+1:]:
-            c.moveBy(0, -self.CARD_YOFFSET[0])
+        if self.game.app.opt.mouse_type == 'point-n-click':
+            self.cards[self.game.drag.index].tkraise()
+            self.game.drag.shadows[0].tkraise()
+        else:
+            for c in self.cards[self.game.drag.index+1:]:
+                c.moveBy(0, -self.CARD_YOFFSET[0])
+
 
     def doubleclickHandler(self, event):
         # flip or drop a card
@@ -2454,6 +2461,7 @@ class ArbitraryStack(OpenStack):
                     self.playSingleCardMove(i, s, sound=0)
                     return 1
         return 0
+
 
     def moveCardsBackHandler(self, event, drag):
         i = self.cards.index(drag.cards[0])

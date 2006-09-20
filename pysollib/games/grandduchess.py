@@ -130,6 +130,9 @@ class GrandDuchess(Game):
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=[self.s.reserves[1]], flip=0)
 
+    def redealCards(self):
+        pass
+
 
     def getAutoStacks(self, event=None):
         return ((), (), self.sg.dropstacks)

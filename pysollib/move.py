@@ -490,7 +490,7 @@ class ASingleCardMove(AtomicMove):
             game.animatedMoveTo(from_stack, to_stack, [card], x, y,
                                 frames=self.frames, shadow=self.shadow)
         to_stack.addCard(card)
-        stack.refreshView()
+        ##to_stack.refreshView()
 
     def undo(self, game):
         from_stack = game.allstacks[self.from_stack_id]
@@ -502,7 +502,7 @@ class ASingleCardMove(AtomicMove):
 ##             game.animatedMoveTo(from_stack, to_stack, [card], x, y,
 ##                                 frames=self.frames, shadow=self.shadow)
         from_stack.insertCard(card, from_pos)
-        stack.refreshView()
+        ##to_stack.refreshView()
 
     def cmpForRedo(self, other):
         return cmp((self.from_stack_id, self.to_stack_id, self.from_pos),

@@ -177,7 +177,7 @@ def create_widgets():
     #
     root = Tk()
     #
-    list_box = Listbox(root)
+    list_box = Listbox(root, exportselection=False)
     list_box.grid(row=0, column=0, rowspan=2, sticky=NS)
     cardsets_list = list(cardsets_dict)
     cardsets_list.sort()

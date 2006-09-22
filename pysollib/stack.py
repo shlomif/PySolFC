@@ -100,7 +100,7 @@ from util import ACE, KING, SUITS
 from util import ANY_SUIT, ANY_COLOR, ANY_RANK, NO_RANK
 from util import NO_REDEAL, UNLIMITED_REDEALS, VARIABLE_REDEALS
 from pysoltk import EVENT_HANDLED, EVENT_PROPAGATE
-from pysoltk import CURSOR_DRAG, CURSOR_UP_ARROW, ANCHOR_NW, ANCHOR_SE
+from pysoltk import CURSOR_DRAG, CURSOR_DOWN_ARROW, ANCHOR_NW, ANCHOR_SE
 from pysoltk import bind, unbind_destroy
 from pysoltk import after, after_idle, after_cancel
 from pysoltk import MfxCanvasGroup, MfxCanvasImage, MfxCanvasRectangle, MfxCanvasText, MfxCanvasLine
@@ -1022,7 +1022,7 @@ class Stack:
             if self.game.app.opt.mouse_type == 'point-n-click':
                 if self.acceptsCards(self.game.drag.stack,
                                      self.game.drag.cards):
-                    self.game.canvas.config(cursor=CURSOR_UP_ARROW)
+                    self.game.canvas.config(cursor=CURSOR_DOWN_ARROW)
                     self.cursor_changed = True
         else:
             after_idle(self.canvas, self.game.showHelp,

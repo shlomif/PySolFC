@@ -341,7 +341,7 @@ class CastlesEnd(Bastion):
             return
         if not self.texts.info:
             return
-        if self.base_rank is None:
+        if not self.getState():
             t = ""
         else:
             t = RANKS[self.base_rank]
@@ -354,6 +354,7 @@ class CastlesEnd(Bastion):
         return 0
 
     def _restoreGameHook(self, game):
+        self.base_rank = game.loadinfo.base_rank
         for s in self.s.foundations:
             s.cap.base_rank = game.loadinfo.base_rank
 

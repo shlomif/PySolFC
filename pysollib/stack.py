@@ -438,8 +438,7 @@ class Stack:
         view._position(card)
         if update:
             view.updateText()
-        if not self.game.moves.state == self.game.S_REDO:
-            self.closeStackMove()
+        self.closeStackMove()
         return card
 
     def insertCard(self, card, positon, unhide=1, update=1):

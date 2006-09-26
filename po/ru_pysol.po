@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "POT-Creation-Date: Thu Sep 21 15:57:22 2006\n"
-"PO-Revision-Date: 2006-09-21 15:58+0400\n"
+"PO-Revision-Date: 2006-09-26 15:53+0400\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -410,7 +410,7 @@ msgstr "&Начало"
 
 #: pysollib/game.py:1753
 msgid "Score %6d"
-msgstr "Счет %6d"
+msgstr "Счёт %6d"
 
 #: pysollib/game.py:1852
 msgid "&Cool"
@@ -418,7 +418,7 @@ msgstr "&Отлично"
 
 #: pysollib/game.py:1852
 msgid "&Great"
-msgstr "&Эдорово"
+msgstr "&Здорово"
 
 #: pysollib/game.py:1852
 msgid "&Wow"
@@ -1001,7 +1001,7 @@ msgstr "Раджа"
 
 #: pysollib/games/ultra/dashavatara.py:353 pysollib/games/ultra/mughal.py:256
 msgid "Black"
-msgstr "Черный"
+msgstr "Чёрный"
 
 #: pysollib/games/ultra/dashavatara.py:353 pysollib/games/ultra/mughal.py:256
 msgid "Brown"
@@ -1013,12 +1013,12 @@ msgstr "Красный"
 
 #: pysollib/games/ultra/dashavatara.py:353 pysollib/games/ultra/mughal.py:256
 msgid "Yellow"
-msgstr "Желтый"
+msgstr "Жёлтый"
 
 #: pysollib/games/ultra/dashavatara.py:353 pysollib/games/ultra/mughal.py:257
 #: pysollib/tk/selecttile.py:86
 msgid "Green"
-msgstr "Зеленый"
+msgstr "Зелёный"
 
 #: pysollib/games/ultra/dashavatara.py:354
 msgid "Crimson"
@@ -1151,7 +1151,7 @@ msgstr "Хризантема"
 
 #: pysollib/games/ultra/hanafuda_common.py:69
 msgid "Maple"
-msgstr "Клен"
+msgstr "Клён"
 
 #: pysollib/games/ultra/hanafuda_common.py:69
 msgid "Paulownia"
@@ -1243,11 +1243,11 @@ msgstr ""
 
 #: pysollib/help.py:63
 msgid "A Python Solitaire Game Collection\n"
-msgstr "Коллекция питоновских пасьянсев\n"
+msgstr "Коллекция питоновских пасьянсов\n"
 
 #: pysollib/help.py:65
 msgid "A World Domination Project\n"
-msgstr "Всемирный непревзойденный проект\n"
+msgstr "Всемирный непревзойдённый проект\n"
 
 #: pysollib/help.py:66
 msgid "&Credits..."
@@ -1359,7 +1359,7 @@ msgid ""
 "try %s --help for more information"
 msgstr ""
 "%s: %s\n"
-"попробуйте %s --help для получения более подробной информаци"
+"попробуйте %s --help для получения более подробной информации"
 
 #: pysollib/main.py:139
 #, fuzzy
@@ -1379,7 +1379,7 @@ msgid ""
 "  FILE - file name of a saved game\n"
 "  MOD - one of following: pss(default), pygame, oss, win\n"
 msgstr ""
-"Испльзование: %s [OPTIONS] [FILE]\n"
+"Использование: %s [OPTIONS] [FILE]\n"
 "  -g    --game=GAMENAME        начинать с игры GAMENAME\n"
 "  --fg  --foreground=COLOR     цвет текста\n"
 "  --bg  --background=COLOR     цвет фона\n"
@@ -1388,7 +1388,7 @@ msgstr ""
 "        --noplugins            отключить загрузку плагинов\n"
 "  -h    --help                 показать это сообщение и выйти\n"
 "\n"
-"  FILE - имя файла сохраненной игры\n"
+"  FILE - имя файла сохранённой игры\n"
 
 #: pysollib/main.py:157
 msgid ""
@@ -1396,7 +1396,7 @@ msgid ""
 "try %s --help for more information"
 msgstr ""
 "\"%s: слишком много файлов\n"
-"попробуйте %s --help для получения более подробной информаци"
+"попробуйте %s --help для получения более подробной информации"
 
 #: pysollib/main.py:161
 msgid ""
@@ -1404,7 +1404,7 @@ msgid ""
 "try %s --help for more information"
 msgstr ""
 "%s: неправильное имя файла\n"
-"попробуйте %s --help для получения более подробной информаци"
+"попробуйте %s --help для получения более подробной информации"
 
 #: pysollib/main.py:369
 msgid ""
@@ -2400,7 +2400,7 @@ msgstr "Подсветка отсутствия &совпадения"
 
 #: pysollib/tk/menubar.py:461
 msgid "&Show removed tiles (in Mahjongg games)"
-msgstr "Показывать удаленные (в Маджонг)"
+msgstr "Показывать удалённые (в Маджонг)"
 
 #: pysollib/tk/menubar.py:462
 msgid "Show hint &arrow (in Shisen-Sho games)"
@@ -2432,7 +2432,7 @@ msgstr "Тень карты"
 
 #: pysollib/tk/menubar.py:478
 msgid "Shade &legal moves"
-msgstr "Подсвечивать &разрешенные ходы"
+msgstr "Подсвечивать &разрешённые ходы"
 
 #: pysollib/tk/menubar.py:479
 msgid "&Negative cards bottom"
@@ -2488,7 +2488,7 @@ msgstr "&Липкая мышь"
 
 #: pysollib/tk/menubar.py:493
 msgid "Use mouse for undo/redo"
-msgstr "Использовать мышь для вперед/назад"
+msgstr "Использовать мышь для вперёд/назад"
 
 #: pysollib/tk/menubar.py:495
 msgid "&Fonts..."
@@ -2629,7 +2629,7 @@ msgstr "Подтверждение выхода"
 
 #: pysollib/tk/playeroptionsdialog.py:128
 msgid "Update statistics and logs"
-msgstr "Обнавлять статистику и лог"
+msgstr "Обновлять статистику и лог"
 
 #: pysollib/tk/playeroptionsdialog.py:145
 msgid "Select name"
@@ -2646,7 +2646,7 @@ msgstr "По типу"
 #: pysollib/tk/selectcardset.py:101 pysollib/tk/selectcardset.py:112
 #: pysollib/tk/selectcardset.py:123
 msgid "Uncategorized"
-msgstr "Неопределенный"
+msgstr "Неопределённый"
 
 #: pysollib/tk/selectcardset.py:102
 msgid "by Style"
@@ -2878,7 +2878,7 @@ msgstr "Другие категории"
 
 #: pysollib/tk/selectgame.py:206
 msgid "Games for Children (very easy)"
-msgstr "Игры для детей (очень легкие)"
+msgstr "Игры для детей (очень лёгкие)"
 
 #: pysollib/tk/selectgame.py:207
 msgid "Games with Scoring"
@@ -2894,7 +2894,7 @@ msgstr "Открытые игры (все карты видны)"
 
 #: pysollib/tk/selectgame.py:210
 msgid "Relaxed Variants"
-msgstr "Облегченные варианты"
+msgstr "Облегчённые варианты"
 
 #: pysollib/tk/selectgame.py:349
 msgid "About game"
@@ -3004,7 +3004,7 @@ msgstr "Выбрать цвет"
 
 #: pysollib/tk/soundoptionsdialog.py:75
 msgid "Are You Sure"
-msgstr "Вы уверены"
+msgstr "Вы уверены?"
 
 #: pysollib/tk/soundoptionsdialog.py:77
 msgid "Deal"
@@ -3012,7 +3012,7 @@ msgstr "Сдача"
 
 #: pysollib/tk/soundoptionsdialog.py:78
 msgid "Deal waste"
-msgstr "Сдача на сброс"
+msgstr "Выкладывание на сброс"
 
 #: pysollib/tk/soundoptionsdialog.py:80
 msgid "Turn waste"
@@ -3024,15 +3024,15 @@ msgstr "Начало перемещения"
 
 #: pysollib/tk/soundoptionsdialog.py:83
 msgid "Drop"
-msgstr "Сброс карты"
+msgstr "Сбрасывание карты"
 
 #: pysollib/tk/soundoptionsdialog.py:84
 msgid "Drop pair"
-msgstr "Сброс двух карт"
+msgstr "Сбрасывание двух карт"
 
 #: pysollib/tk/soundoptionsdialog.py:85
 msgid "Auto drop"
-msgstr "Автосброс карты"
+msgstr "Автоматический сброс карты"
 
 #: pysollib/tk/soundoptionsdialog.py:87
 msgid "Flip"
@@ -3048,7 +3048,7 @@ msgstr "Перемещение"
 
 #: pysollib/tk/soundoptionsdialog.py:90
 msgid "No move"
-msgstr "Без пермещения"
+msgstr "Отмена перемещения"
 
 #: pysollib/tk/soundoptionsdialog.py:92 pysollib/tk/toolbar.py:203
 msgid "Undo"
@@ -3128,7 +3128,7 @@ msgstr "Подсказка:"
 
 #: pysollib/tk/timeoutsdialog.py:67 data/glade-translations:36
 msgid "Raise card:"
-msgstr "Подъем карты:"
+msgstr "Подъём карты:"
 
 #: pysollib/tk/timeoutsdialog.py:69 data/glade-translations:38
 msgid "Highlight cards:"
@@ -3164,7 +3164,7 @@ msgstr "Назад"
 
 #: pysollib/tk/tkhtml.py:260
 msgid "Forward"
-msgstr "Вперед"
+msgstr "Вперёд"
 
 #: pysollib/tk/tkhtml.py:264
 msgid "Close"
@@ -3382,7 +3382,7 @@ msgid ""
 "saved game"
 msgstr ""
 "Открыть\n"
-"сохраненную игру"
+"сохранённую игру"
 
 #: pysollib/tk/toolbar.py:201
 msgid "Save"
@@ -3462,7 +3462,7 @@ msgstr "Пики"
 
 #: pysollib/util.py:76
 msgid "black"
-msgstr "черный"
+msgstr "чёрный"
 
 #: pysollib/util.py:76
 msgid "red"
@@ -3526,10 +3526,10 @@ msgstr "Настроить шрифт"
 #~ msgstr "Показывать демо лого"
 
 #~ msgid "Show score in statusbar"
-#~ msgstr "Показывать счет в строке состояния"
+#~ msgstr "Показывать счёт в строке состояния"
 
 #~ msgid "Set demo delay in seconds"
-#~ msgstr "Установить задуржку демо в секундах"
+#~ msgstr "Установить задержку демо в секундах"
 
 #~ msgid "Select"
 #~ msgstr "Выбрать"
@@ -3553,7 +3553,7 @@ msgstr "Настроить шрифт"
 #~ msgstr "Разрешить показывать &отсутствие совпадение карт"
 
 #~ msgid "Invalid or damaged "
-#~ msgstr "Поврежденный "
+#~ msgstr "Повреждённый "
 
 #~ msgid "Balance %d/%d"
 #~ msgstr "Баланс %d/%d"

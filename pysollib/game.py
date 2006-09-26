@@ -1180,7 +1180,7 @@ class Game:
 
     # redeal cards (used in RedealTalonStack; all cards already in talon)
     def redealCards(self):
-        raise SubclassResponsibility
+        pass
 
     # the actual hint class (or None)
     Hint_Class = DefaultHint
@@ -2159,7 +2159,8 @@ for %d moves.
     def closeStackMove(self, stack):
         assert stack
         am = ACloseStackMove(stack)
-        self.__storeMove(am)
+        # don't store this move (???)
+        ##self.__storeMove(am)
         am.do(self)
 
     # for ArbitraryStack

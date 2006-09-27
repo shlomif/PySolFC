@@ -143,9 +143,10 @@ class PictureGallery_Foundation(RK_FoundationStack):
     def getBottomImage(self):
         return self.game.app.images.getLetter(ACE)
 
-    def closeStackMove(self):
+    def closeStack(self):
         if len(self.cards) == 8:
-            self.game.flipAllMove(self)
+            if not self.game.moves.state == self.game.S_REDO:
+                self.game.flipAllMove(self)
 
     def canFlipCard(self):
         return False
@@ -167,13 +168,6 @@ class PictureGallery_TableauStack(SS_RowStack):
 
     def getBottomImage(self):
         return self.game.app.images.getLetter(self.cap.base_rank)
-
-##     def closeStackMove(self):
-##         if len(self.cards) == self.cap.max_cards:
-##             self.game.closeStackMove(self)
-##             ##self.game.flipAllMove(self)
-##     def canFlipCard(self):
-##         return False
 
 
 class PictureGallery_RowStack(BasicRowStack):

@@ -50,9 +50,10 @@ class PileOn_RowStack(RK_RowStack):
     def getBottomImage(self):
         return self.game.app.images.getReserveBottom()
 
-    def closeStackMove(self):
+    def closeStack(self):
         if len(self.cards) == 4 and isRankSequence(self.cards, dir=0):
-            self.game.flipAllMove(self)
+            if not self.game.moves.state == self.game.S_REDO:
+                self.game.flipAllMove(self)
 
     def canFlipCard(self):
         return False

@@ -438,7 +438,7 @@ class Stack:
         view._position(card)
         if update:
             view.updateText()
-        self.closeStackMove()
+        self.closeStack()
         return card
 
     def insertCard(self, card, positon, unhide=1, update=1):
@@ -454,8 +454,7 @@ class Stack:
             view._position(c)
         if update:
             view.updateText()
-        if not self.game.moves.state == self.game.S_REDO:
-            self.closeStackMove()
+        self.closeStack()
         return card
 
     # Remove a card from the stack. Also update display. {model -> view}
@@ -663,7 +662,7 @@ class Stack:
     def fillStack(self):
         self.game.fillStack(self)
 
-    def closeStackMove(self):
+    def closeStack(self):
         pass
 
     #
@@ -1251,7 +1250,7 @@ class Stack:
                 drag.stack.group.tkraise()
 
 
-    # for closeStackMove
+    # for closeStack
     def _shadeStack(self):
         if not self.game.app.opt.shade_filled_stacks:
             return
@@ -1966,9 +1965,10 @@ class AbstractFoundationStack(OpenStack):
     def getBaseCard(self):
         return self._getBaseCard()
 
-    def closeStackMove(self):
+    def closeStack(self):
         if len(self.cards) == self.cap.max_cards:
-            self.game.closeStackMove(self)
+            self.is_filled = True
+            self._shadeStack()
 
     def getHelp(self):
         return _('Foundation.')

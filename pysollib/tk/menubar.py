@@ -75,7 +75,7 @@ def createToolbarMenu(menubar, menu):
     submenu = MfxMenu(menu, label=n_('Style'), tearoff=tearoff)
     for f in os.listdir(data_dir):
         d = os.path.join(data_dir, f)
-        if os.path.isdir(d):
+        if os.path.isdir(d) and os.path.exists(os.path.join(d, 'small')):
             name = f.replace('_', ' ').capitalize()
             submenu.add_radiobutton(label=name,
                                     variable=menubar.tkopt.toolbar_style,

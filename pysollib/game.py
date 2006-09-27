@@ -60,7 +60,7 @@ from pysoltk import Card
 from move import AMoveMove, AFlipMove, ATurnStackMove
 from move import ANextRoundMove, ASaveSeedMove, AShuffleStackMove
 from move import AUpdateStackMove, AFlipAllMove, ASaveStateMove
-from move import ACloseStackMove, ASingleCardMove
+from move import ASingleCardMove
 from hint import DefaultHint
 from help import help_about
 
@@ -2154,14 +2154,6 @@ for %d moves.
         self.__storeMove(am)
         am.do(self)
         ##self.hints.list = None
-
-    # move type 10
-    def closeStackMove(self, stack):
-        assert stack
-        am = ACloseStackMove(stack)
-        # don't store this move (???)
-        ##self.__storeMove(am)
-        am.do(self)
 
     # for ArbitraryStack
     def singleCardMove(self, from_stack, to_stack, position, frames=-1, shadow=-1):

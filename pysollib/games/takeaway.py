@@ -46,7 +46,7 @@ class TakeAway_Foundation(AbstractFoundationStack):
         return (c1.rank == (c2.rank + 1) % mod or
                 c2.rank == (c1.rank + 1) % mod)
 
-    def closeStackMove(self):
+    def closeStack(self):
         pass
 
 
@@ -101,9 +101,13 @@ class TakeAway(Game):
 # // Four Stacks
 # ************************************************************************/
 
+class FourStacks_Foundation(AC_FoundationStack):
+    def closeStack(self):
+        pass
+
 class FourStacks(TakeAway):
     RowStack_Class = StackWrapper(AC_RowStack, max_move=UNLIMITED_MOVES, max_accept=UNLIMITED_ACCEPTS)
-    Foundation_Class = StackWrapper(AC_FoundationStack, max_move=UNLIMITED_MOVES, max_accept=UNLIMITED_ACCEPTS, dir=-1)
+    Foundation_Class = StackWrapper(FourStacks_Foundation, max_move=UNLIMITED_MOVES, max_accept=UNLIMITED_ACCEPTS, dir=-1)
 
     shallHighlightMatch = Game._shallHighlightMatch_AC
 

@@ -439,31 +439,6 @@ class AShuffleStackMove(AtomicMove):
 
 
 # /***********************************************************************
-# // ACloseStackMove
-# ************************************************************************/
-
-class ACloseStackMove(AtomicMove):
-
-    def __init__(self, stack):
-        self.stack_id = stack.id
-
-    def redo(self, game):
-        stack = game.allstacks[self.stack_id]
-        assert stack.cards
-        stack.is_filled = True
-        stack._shadeStack()
-
-    def undo(self, game):
-        stack = game.allstacks[self.stack_id]
-        assert stack.cards
-        stack.is_filled = False
-        stack._unshadeStack()
-
-    def cmpForRedo(self, other):
-        return cmp(self.stack_id, other.stack_id)
-
-
-# /***********************************************************************
 # // ASingleCardMove - move single card from *anyone* position
 # // (for ArbitraryStack)
 # ************************************************************************/

@@ -420,20 +420,20 @@ class Gate(Game):
         l, s = Layout(self), self.s
 
         # set window
-        w, h = l.XM+max(8*l.XS, 6*l.XS+8*l.XOFFSET), l.YM+3*l.YS+12*l.YOFFSET
-        self.setSize(w, h)
+        w, h = max(8*l.XS, 6*l.XS+8*l.XOFFSET), l.YM+3*l.YS+12*l.YOFFSET
+        self.setSize(w+l.XM, h)
 
         # create stacks
         y = l.YM
-        for x in (l.XM+(w-(l.XM+8*l.XS))/2, w-l.XS-4*l.XOFFSET):
+        for x in (l.XM, l.XM+w-l.XS-4*l.XOFFSET):
             stack = OpenStack(x, y, self, max_accept=0)
             stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
             s.reserves.append(stack)
-        x, y = l.XM+2*l.XS, l.YM
+        x, y = l.XM+(w-4*l.XS)/2, l.YM
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
             x += l.XS
-        x, y = l.XM, l.YM+l.YS
+        x, y = l.XM+(w-8*l.XS)/2, l.YM+l.YS
         for i in range(8):
             s.rows.append(AC_RowStack(x, y, self))
             x += l.XS

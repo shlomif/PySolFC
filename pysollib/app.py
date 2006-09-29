@@ -177,7 +177,7 @@ class Options:
             'hintarrow':    '#303030',
             'not_matching': '#ff0000',
             }
-        self.use_default_text_color = True
+        self.use_default_text_color = False
         # delays
         self.timeouts = {
             'hint':               1.0,
@@ -202,7 +202,7 @@ class Options:
         self.splashscreen = True
         self.mouse_type = 'drag-n-drop' # or 'sticky-mouse' or 'point-n-click'
         self.mouse_undo = False    # use mouse for undo/redo
-        self.negative_bottom = False
+        self.negative_bottom = True
         self.randomize_place = False
         self.cache_carsets = True
         # defaults & constants

@@ -679,11 +679,20 @@ class Strategerie(Game):
 # // Anno Domini
 # ************************************************************************/
 
+class Assembly_RowStack(RK_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not RK_RowStack.acceptsCards(self, from_stack, cards):
+            return False
+        if not self.cards:
+            return from_stack is self.game.s.waste
+        return True
+
+
 class Assembly(Numerica):
     Hint_Class = DefaultHint
 
     Foundation_Class = StackWrapper(RK_FoundationStack, suit=ANY_SUIT)
-    RowStack_Class = StackWrapper(RK_RowStack, max_move=1)
+    RowStack_Class = StackWrapper(Assembly_RowStack, max_move=1)
 
     def createGame(self):
         Numerica.createGame(self, waste_max_cards=UNLIMITED_CARDS)
@@ -837,7 +846,7 @@ class DoubleMeasure(Measure):
 # register the game
 registerGame(GameInfo(257, Numerica, "Numerica",
                       GI.GT_NUMERICA | GI.GT_CONTRIB, 1, 0, GI.SL_BALANCED,
-                      altnames="Sir Tommy"))
+                      altnames=("Sir Tommy",) ))
 registerGame(GameInfo(171, LadyBetty, "Lady Betty",
                       GI.GT_NUMERICA, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(355, Frog, "Frog",

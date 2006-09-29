@@ -914,8 +914,8 @@ registerGame(GameInfo(97, Carpet, "Carpet",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(391, BritishConstitution, "British Constitution",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED,
-                      ranks=range(11) # without Queens and Kings
-                      ))
+                      ranks=range(11), # without Queens and Kings
+                      altnames=("Constitution",) ))
 registerGame(GameInfo(392, NewBritishConstitution, "New British Constitution",
                       GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 0, GI.SL_BALANCED,
                       ranks=range(11) # without Queens and Kings

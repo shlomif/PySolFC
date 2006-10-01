@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "POT-Creation-Date: Thu Sep 21 15:56:22 2006\n"
-"PO-Revision-Date: 2006-09-17 17:05+0400\n"
+"PO-Revision-Date: 2006-09-30 18:19+0400\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -47,13 +47,11 @@ msgstr "8 x 8"
 msgid "Abacus"
 msgstr "Абак"
 
-#, fuzzy
 msgid "Accordion"
-msgstr "Скорпион"
+msgstr "Аккордеон"
 
-#, fuzzy
 msgid "Aces High"
-msgstr "Тузы вверх"
+msgstr "Тузы сверху"
 
 msgid "Aces Up"
 msgstr "Тузы вверх"
@@ -211,11 +209,10 @@ msgid "Balance"
 msgstr "Баланс"
 
 msgid "Balarama"
-msgstr ""
+msgstr "Баларама"
 
-#, fuzzy
 msgid "Baroness"
-msgstr "Основа"
+msgstr "Баронесса"
 
 msgid "Bastille Day"
 msgstr "День Бастилии"
@@ -244,7 +241,6 @@ msgstr "Клюв и ласты"
 msgid "Beatle"
 msgstr "Жук"
 
-#, fuzzy
 msgid "Beetle"
 msgstr "Жук"
 
@@ -272,9 +268,8 @@ msgstr "Большой Внутренний двор"
 msgid "Big Deal"
 msgstr "Большая Расдача"
 
-#, fuzzy
 msgid "Big Divorce"
-msgstr "Большая дыра"
+msgstr "Большой разрыв"
 
 #, fuzzy
 msgid "Big Easy"
@@ -283,9 +278,8 @@ msgstr "Большая арфа"
 msgid "Big Flying Dragon"
 msgstr "Большой Летящий Дракон"
 
-#, fuzzy
 msgid "Big Forty"
-msgstr "Форт"
+msgstr "Большие сорок"
 
 msgid "Big Harp"
 msgstr "Большая арфа"
@@ -383,12 +377,11 @@ msgstr "Мост"
 msgid "Bridge 2"
 msgstr "Мост 2"
 
-#, fuzzy
 msgid "Bridget's Game"
-msgstr "Мост 2"
+msgstr "Пасьянс Бриджит"
 
 msgid "Bridget's Game Doubled"
-msgstr ""
+msgstr "Двойной Пасьянс Бриджит"
 
 msgid "Brigade"
 msgstr "Бригада"
@@ -518,7 +511,7 @@ msgid "Chelicera"
 msgstr "Хелицера"
 
 msgid "Cheops"
-msgstr ""
+msgstr "Хеопс"
 
 msgid "Chequers"
 msgstr "Шахматный порядок"
@@ -596,9 +589,8 @@ msgstr "Виток"
 msgid "Corkscrew"
 msgstr "Штопор"
 
-#, fuzzy
 msgid "Corner Card"
-msgstr "Углы"
+msgstr "Угловая карта"
 
 msgid "Corner Suite"
 msgstr "Угловые масти"
@@ -907,9 +899,8 @@ msgstr "Восемь квадратов"
 msgid "Eight Times Eight"
 msgstr "Восемь раз по восемь"
 
-#, fuzzy
 msgid "Eight by Eight"
-msgstr "Восемь раз по восемь"
+msgstr "Восемь на восемь"
 
 msgid "Elba"
 msgstr "Ельба"
@@ -991,12 +982,11 @@ msgstr "Очаровательный веер"
 msgid "Fastness"
 msgstr "Крепость"
 
-#, fuzzy
 msgid "Fatimeh's Game"
-msgstr "Бабушкина игра"
+msgstr "Пасьянс Фатимы"
 
 msgid "Fatimeh's Game Relaxed"
-msgstr ""
+msgstr "Облегчённый Пасьянс Фатимы"
 
 #, fuzzy
 msgid "Fifteen Puzzle"
@@ -1030,9 +1020,8 @@ msgstr "Маджонг Fish face"
 msgid "Five Aces"
 msgstr "Пять тузов"
 
-#, fuzzy
 msgid "Five Piles"
-msgstr "Пять тузов"
+msgstr "Пять кучек"
 
 msgid "Five Pyramids"
 msgstr "Пять пирамид"
@@ -1043,9 +1032,8 @@ msgstr "Фламенко"
 msgid "Floating City"
 msgstr "Плавающий город"
 
-#, fuzzy
 msgid "Floradora"
-msgstr "Колорадо"
+msgstr "Флорадора"
 
 msgid "Flower Arrangement"
 msgstr "Аранжировка цветов"
@@ -1392,9 +1380,8 @@ msgstr "Дурацкое удовольствие"
 msgid "Idle Aces"
 msgstr "Свободные тузы"
 
-#, fuzzy
 msgid "Idle Year"
-msgstr "Свободные тузы"
+msgstr "Свободный год"
 
 msgid "IloveU"
 msgstr "IloveU"
@@ -1498,26 +1485,25 @@ msgid "K for Kyodai"
 msgstr "Маджонг K for Kyodai"
 
 msgid "Kali's Game"
-msgstr ""
+msgstr "Пасьянс Кали"
 
 msgid "Kali's Game Doubled"
-msgstr ""
+msgstr "Двойной Пасьянс Кали"
 
 msgid "Kali's Game Relaxed"
-msgstr ""
+msgstr "Облегчённый Пасьянс Кали"
 
 msgid "Kansas"
 msgstr "Канзас"
 
-#, fuzzy
 msgid "Katrina's Game"
-msgstr "Бабушкина игра"
+msgstr "Пасьянс Катрины"
 
 msgid "Katrina's Game Doubled"
-msgstr ""
+msgstr "Двойной Пасьянс Катрины"
 
 msgid "Katrina's Game Relaxed"
-msgstr ""
+msgstr "Облегчённый Пасьянс Катрины"
 
 msgid "Khadga"
 msgstr "Khadga"
@@ -1546,9 +1532,8 @@ msgstr ""
 msgid "Klondike"
 msgstr "Клондайк"
 
-#, fuzzy
 msgid "Klondike Plus 16"
-msgstr "Клондайк"
+msgstr "Клондайк Плюс 16"
 
 msgid "Klondike by Threes"
 msgstr "Клондайк по три"
@@ -1660,15 +1645,14 @@ msgstr "Ленивая леди"
 msgid "Lanes"
 msgstr "Тропинки"
 
-#, fuzzy
 msgid "Lara's Game"
-msgstr "Бабушкина игра"
+msgstr "Пасьянс Лары"
 
 msgid "Lara's Game Doubled"
-msgstr ""
+msgstr "Двойной Пасьянс Лары"
 
 msgid "Lara's Game Relaxed"
-msgstr ""
+msgstr "Облегчённый Пасьянс Лары"
 
 msgid "Last Chance"
 msgstr "Последний шанс"
@@ -1713,9 +1697,8 @@ msgstr "Малыш Билли"
 msgid "Little Easy"
 msgstr "Малые ворота"
 
-#, fuzzy
 msgid "Little Forty"
-msgstr "Малые ворота"
+msgstr "Малые сорок"
 
 msgid "Little Gate"
 msgstr "Малые ворота"
@@ -1753,9 +1736,8 @@ msgstr "Счастливые Тринадцать"
 msgid "Madame"
 msgstr "Мадам"
 
-#, fuzzy
 msgid "Mage's Game"
-msgstr "Бабушкина игра"
+msgstr "Пасьянс Меги"
 
 msgid "Mahjongg Altar"
 msgstr "Маджонг Алтарь"
@@ -2701,9 +2683,8 @@ msgstr "Настойчивость"
 msgid "Phantom Blockade"
 msgstr "Призрачная блокада"
 
-#, fuzzy
 msgid "Pharaohs"
-msgstr "Патриархи"
+msgstr "Фараоны"
 
 msgid "Phoenix"
 msgstr "Феникс"
@@ -3042,7 +3023,7 @@ msgid "Senate +"
 msgstr "Сенат +"
 
 msgid "Senior Wrangler"
-msgstr ""
+msgstr "Сеньор Врангель"
 
 msgid "Serpent"
 msgstr "Змея"
@@ -3149,7 +3130,7 @@ msgid "Sixes and Sevens"
 msgstr "Шестёрки и семёрки"
 
 msgid "Skippy"
-msgstr ""
+msgstr "Попрыгунчик"
 
 msgid "Skiz"
 msgstr ""
@@ -3303,7 +3284,7 @@ msgid "Storehouse"
 msgstr "Сокровищница"
 
 msgid "Straight Up"
-msgstr ""
+msgstr "Прямолинейный"
 
 msgid "Strata"
 msgstr "Пласт"
@@ -3326,7 +3307,7 @@ msgstr "Улицы и аллеи"
 
 #, fuzzy
 msgid "Striptease"
-msgstr "Пласт"
+msgstr "Стриптиз"
 
 msgid "Stronghold"
 msgstr "Твердыня"
@@ -3349,9 +3330,8 @@ msgstr "Турецкий султан"
 msgid "Sumo"
 msgstr "Сумо"
 
-#, fuzzy
 msgid "SunMoon"
-msgstr "Голубая луна"
+msgstr "СолнцеЛуна"
 
 msgid "Super Challenge FreeCell"
 msgstr "Очень Сложная Свободная ячейка"
@@ -3502,9 +3482,8 @@ msgstr "Маджонг Totally Random-Made"
 msgid "Tournament"
 msgstr "Турнир"
 
-#, fuzzy
 msgid "Tower of Babel"
-msgstr "Ханойская башня"
+msgstr "Вавилонская башня"
 
 msgid "Tower of Hanoy"
 msgstr "Ханойская башня"
@@ -3622,9 +3601,8 @@ msgstr ""
 msgid "Vamana"
 msgstr ""
 
-#, fuzzy
 msgid "Vanishing Cross"
-msgstr "Маджонг Крест"
+msgstr "Исчезающий Крест"
 
 #, fuzzy
 msgid "Varaha"
@@ -3643,7 +3621,7 @@ msgid "Vertical"
 msgstr "Вертикаль"
 
 msgid "Very Big Divorce"
-msgstr ""
+msgstr "Очень большой разрыв"
 
 msgid "Vi"
 msgstr ""

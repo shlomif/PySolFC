@@ -506,9 +506,6 @@ class Robert(Game):
 
 DIAMOND = 3
 
-class DiamondMine_Foundation(AbstractFoundationStack):
-    pass
-
 class DiamondMine_RowStack(RK_RowStack):
     def acceptsCards(self, from_stack, cards):
         if not RK_RowStack.acceptsCards(self, from_stack, cards):
@@ -558,6 +555,55 @@ class DiamondMine(Game):
     shallHighlightMatch = Game._shallHighlightMatch_RK
 
 
+# /***********************************************************************
+# // Dolphin
+# ************************************************************************/
+
+class Dolphin(Game):
+
+    def createGame(self, rows=8, reserves=4, playcards=6):
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+rows*l.XS, l.YM+3*l.YS+playcards*l.YOFFSET)
+
+        dx = (self.width-l.XM-(reserves+1)*l.XS)/3
+        x, y = l.XM+dx, l.YM
+        for i in range(reserves):
+            s.reserves.append(ReserveStack(x, y, self))
+            x += l.XS
+        x += dx
+        max_cards = 52*self.gameinfo.decks
+        s.foundations.append(RK_FoundationStack(x, y, self,
+                             base_rank=ANY_RANK, mod=13, max_cards=max_cards))
+        x, y = l.XM, l.YM+l.YS
+        for i in range(rows):
+            s.rows.append(BasicRowStack(x, y, self))
+            x += l.XS
+        s.talon = InitialDealTalonStack(l.XM, self.height-l.YS, self)
+
+        l.defaultAll()
+
+    def startGame(self):
+        for i in range(5):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealRowAvail()
+
+
+class DoubleDolphin(Dolphin):
+
+    def createGame(self):
+        Dolphin.createGame(self, rows=10, reserves=5, playcards=10)
+
+    def startGame(self):
+        for i in range(9):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealRowAvail()
+
+
+
 # register the game
 registerGame(GameInfo(36, Golf, "Golf",
                       GI.GT_GOLF, 1, 0, GI.SL_BALANCED))
@@ -580,4 +626,8 @@ registerGame(GameInfo(432, Robert, "Robert",
                       GI.GT_GOLF, 1, 2, GI.SL_LUCK))
 registerGame(GameInfo(551, DiamondMine, "Diamond Mine",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))
+registerGame(GameInfo(661, Dolphin, "Dolphin",
+                      GI.GT_GOLF, 1, 0, GI.SL_MOSTLY_SKILL | GI.GT_ORIGINAL))
+registerGame(GameInfo(662, DoubleDolphin, "Double Dolphin",
+                      GI.GT_GOLF, 2, 0, GI.SL_MOSTLY_SKILL | GI.GT_ORIGINAL))
 

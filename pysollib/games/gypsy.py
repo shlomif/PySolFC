@@ -233,7 +233,7 @@ class MissMilligan(Gypsy):
         l, s = Layout(self), self.s
 
         # set window
-        self.setSize(l.XM + (1+max(8,rows))*l.XS, l.YM + (1+max(4, reserves))*l.YS)
+        self.setSize(l.XM + (1+max(8,rows))*l.XS, l.YM + (1+max(4, reserves))*l.YS+l.TEXT_HEIGHT)
 
         # create stacks
         x, y = l.XM, l.YM
@@ -242,14 +242,14 @@ class MissMilligan(Gypsy):
             x = x + l.XS
             s.foundations.append(self.Foundation_Class(x, y, self, suit=i/2))
         x, y = l.XM, y + l.YS
-        rx, ry = x + l.XS - l.XM/2, y - l.YM/2
+        rx, ry = x + l.XS - l.CW/2, y - l.CH/2
         for i in range(reserves):
-            s.reserves.append(self.ReserveStack_Class(x, y, self))
+            s.reserves.append(self.ReserveStack_Class(x, y+l.TEXT_HEIGHT, self))
             y = y + l.YS
+        l.createText(s.talon, "s")
         if s.reserves:
-            self.setRegion(s.reserves, (-999, ry, rx - 1, 999999))
+            self.setRegion(s.reserves, (-999, ry+l.TEXT_HEIGHT, rx-1, 999999))
         else:
-            l.createText(s.talon, "s")
             rx = -999
         x, y = l.XM + (8-rows)*l.XS/2, l.YM + l.YS
         for i in range(rows):

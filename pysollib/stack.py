@@ -937,6 +937,7 @@ class Stack:
         self.game.event_handled = True # for Game.undoHandler
         if self.game.demo:
             self.game.stopDemo(event)
+            return  EVENT_HANDLED
         self.game.interruptSleep()
         if self.game.busy: return EVENT_HANDLED
         if self.game.drag.stack and cancel_drag:

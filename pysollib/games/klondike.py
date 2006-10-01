@@ -168,6 +168,8 @@ class Chinaman(ThumbAndPouch):
 class Whitehead_RowStack(SS_RowStack):
     def _isAcceptableSequence(self, cards):
         return isSameColorSequence(cards, self.cap.mod, self.cap.dir)
+    def getHelp(self):
+        return _('Tableau. Build down by color.')
 
 class Whitehead(Klondike):
     RowStack_Class = Whitehead_RowStack

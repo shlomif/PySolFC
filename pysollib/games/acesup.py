@@ -174,6 +174,8 @@ class PerpetualMotion_Talon(DealRowTalonStack):
     def dealCards(self, sound=0):
         if self.cards:
             return DealRowTalonStack.dealCards(self, sound=sound)
+        if sound:
+            self.game.startDealSample()
         game, num_cards = self.game, len(self.cards)
         rows = list(game.s.rows)[:]
         rows.reverse()
@@ -184,7 +186,10 @@ class PerpetualMotion_Talon(DealRowTalonStack):
                 if self.cards[-1].face_up:
                     game.flipMove(self)
         assert len(self.cards) == num_cards
-        return DealRowTalonStack.dealCards(self, sound=sound)
+        n = DealRowTalonStack.dealCards(self, sound=0)
+        if sound:
+            self.game.stopSamples()
+        return n
 
 
 class PerpetualMotion_Foundation(AbstractFoundationStack):

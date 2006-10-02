@@ -92,7 +92,7 @@ class DerKatzenschwanz(Game):
             s.reserves.append(ReserveStack(x, y, self))
             x = x + l.XS
         x, y = l.XM + (maxrows-rows)*l.XS/2, l.YM + l.YS
-        self.setRegion(s.reserves, (-999, -999, 999999, y - l.XM / 2))
+        self.setRegion(s.reserves, (-999, -999, 999999, y - l.CH / 2))
         for i in range(rows):
             stack = self.RowStack_Class(x, y, self)
             stack.CARD_XOFFSET = xoffset

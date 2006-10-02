@@ -208,7 +208,7 @@ class SeahavenTowers(KingOnlyBakersGame):
         for i in range(10):
             s.rows.append(self.RowStack_Class(x, y, self))
             x = x + l.XS
-        self.setRegion(s.rows, (-999, y - l.YM / 2, 999999, 999999))
+        self.setRegion(s.rows, (-999, y - l.CH / 2, 999999, 999999))
         s.talon = InitialDealTalonStack(l.XM, self.height-l.YS, self)
 
         # define stack-groups

@@ -678,6 +678,7 @@ class DerLetzteMonarch_RowStack(ReserveStack):
         assert ncards == 1 and to_stack in self.game.s.rows
         assert len(to_stack.cards) == 1
         self._handlePairMove(ncards, to_stack, frames=-1, shadow=0)
+        self.fillStack()
 
     def _handlePairMove(self, n, other_stack, frames=-1, shadow=-1):
         game = self.game
@@ -695,30 +696,42 @@ class DerLetzteMonarch_ReserveStack(ReserveStack):
 
 
 class DerLetzteMonarch(Game):
+    Talon_Class = InitialDealTalonStack
 
     #
     # game layout
     #
 
-    def createGame(self):
+    def createGame(self, texts=False):
         # create layout
         l, s = Layout(self, card_x_space=4), self.s
 
         # set window
-        self.setSize(l.XM + 13*l.XS, l.YM + 5*l.YS)
+        decks = self.gameinfo.decks
+        if decks == 1:
+            w = l.XM + 13*l.XS
+            dx = 0
+        else:
+            w = l.XM + 15*l.XS
+            dx = l.XS
+        h = l.YM + 5*l.YS
+        self.setSize(w, h)
 
         # create stacks
         for i in range(4):
             for j in range(13):
-                x, y, = l.XM + j*l.XS, l.YM + (i+1)*l.YS
+                x, y, = dx + l.XM + j*l.XS, l.YM + (i+1)*l.YS
                 s.rows.append(DerLetzteMonarch_RowStack(x, y, self, max_accept=1, max_cards=2))
         for i in range(4):
             x, y, = l.XM + (i+2)*l.XS, l.YM
             s.reserves.append(DerLetzteMonarch_ReserveStack(x, y, self, max_accept=0))
-        for i in range(4):
+        for i in range(4*decks):
             x, y, = l.XM + (i+7)*l.XS, l.YM
-            s.foundations.append(DerLetzteMonarch_Foundation(x, y, self, i, max_move=0))
-        s.talon = InitialDealTalonStack(l.XM, l.YM, self)
+            s.foundations.append(DerLetzteMonarch_Foundation(x, y, self,
+                                 suit=i%4, max_move=0))
+        s.talon = self.Talon_Class(l.XM, l.YM, self)
+        if texts:
+            l.createText(s.talon, 'ne')
 
         # define stack-groups (non default)
         self.sg.talonstacks = [s.talon]
@@ -739,7 +752,7 @@ class DerLetzteMonarch(Game):
         c = 0
         for s in self.s.foundations:
             c = c + len(s.cards)
-        return c == 51
+        return c == self.gameinfo.ncards-1
 
     def getAutoStacks(self, event=None):
         return ((), self.s.reserves, ())
@@ -763,6 +776,21 @@ class DerLetzteMonarch(Game):
             return diff in (-13, -1, 13)
         else:
             return diff in (-13, -1, 1, 13)
+
+
+class TheLastMonarchII(DerLetzteMonarch):
+    Talon_Class = TalonStack
+
+    def createGame(self):
+        DerLetzteMonarch.createGame(self, texts=True)
+
+    def fillStack(self, stack):
+        if stack in self.s.rows and not stack.cards:
+            if self.s.talon.cards:
+                old_state = self.enterState(self.S_FILL)
+                self.s.talon.flipMove()
+                self.s.talon.moveMove(1, stack)
+                self.leaveState(old_state)
 
 
 # /***********************************************************************
@@ -844,4 +872,6 @@ registerGame(GameInfo(368, Vertical, "Vertical",
                       GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(649, DoubletsII, "Doublets II",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
+registerGame(GameInfo(663, TheLastMonarchII, "The last Monarch II",
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
 

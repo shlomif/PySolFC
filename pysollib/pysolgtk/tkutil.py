@@ -36,8 +36,6 @@ import sys, os, string, time, types
 import gobject
 import pango, gtk
 from gtk import gdk
-TRUE, FALSE = True, False
-
 
 
 # /***********************************************************************

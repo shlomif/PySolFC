@@ -43,7 +43,7 @@ import gettext
 # PySol imports
 from mfxutil import destruct, EnvError
 from util import CARDSET, DataLoader
-from settings import PACKAGE, TOOLKIT, VERSION
+from settings import PACKAGE, TOOLKIT, VERSION, USE_TILE
 from resource import Tile
 from gamedb import GI
 from app import Application
@@ -323,6 +323,14 @@ def pysol_init(app, args):
             app.top_palette[0] = fg
 
     #
+    if USE_TILE: # for tile
+        top.option_add('*Toolbar.relief', 'groove')
+        top.option_add('*Toolbar.borderWidth', 2)
+        top.option_add('*Toolbar.Button.Pad', 2)
+        top.option_add('*Toolbar.Button.default', 'disabled')
+        top.option_add('*Toolbar*takeFocus', 1)
+        top.option_add('*Tree.background', 'red')
+
     if os.name == "posix":              # Unix/X11
         top.option_add('*Entry.background', 'white', 60)
         top.option_add('*Entry.foreground', 'black', 60)

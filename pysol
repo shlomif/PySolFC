@@ -50,18 +50,23 @@ if os.name == 'nt' and not os.environ.has_key('LANG'):
 import gettext
 ##locale_dir = 'locale'
 locale_dir = None
-d = os.path.join(sys.path[0], 'locale')
+if os.path.isdir(sys.path[0]):
+    d = os.path.join(sys.path[0], 'locale')
+else:
+    # i.e. library.zip
+    d = os.path.join(os.path.dirname(sys.path[0]), 'locale')
 if os.path.exists(d) and os.path.isdir(d):
     locale_dir = d
-if os.name == 'nt':
-    if sys.path[0] and not os.path.isdir(sys.path[0]): # i.e. library.zip
-        locale_dir = os.path.join(os.path.split(sys.path[0])[0], 'locale')
 ##if locale_dir: locale_dir = os.path.normpath(locale_dir)
 gettext.install('pysol', locale_dir, unicode=True)
 
 ## init toolkit
-if '--gtk' in sys.argv:
-    import pysollib.settings
+import pysollib.settings
+if '--tile' in sys.argv:
+    #pysollib.settings.TOOLKIT = 'gtk'
+    pysollib.settings.USE_TILE = True
+    sys.argv.remove('--tile')
+elif '--gtk' in sys.argv:
     pysollib.settings.TOOLKIT = 'gtk'
     sys.argv.remove('--gtk')
 

@@ -859,7 +859,7 @@ registerGame(GameInfo(96, Fourteen, "Fourteen",
                       GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(235, Nestor, "Nestor",
                       GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_LUCK))
-registerGame(GameInfo(152, DerLetzteMonarch, "The last Monarch",
+registerGame(GameInfo(152, DerLetzteMonarch, "The Last Monarch",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL,
                       altnames=("Der letzte Monarch",) ))
 registerGame(GameInfo(328, TheWish, "The Wish",
@@ -872,6 +872,6 @@ registerGame(GameInfo(368, Vertical, "Vertical",
                       GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(649, DoubletsII, "Doublets II",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
-registerGame(GameInfo(663, TheLastMonarchII, "The last Monarch II",
-                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(663, TheLastMonarchII, "The Last Monarch II",
+                      GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 

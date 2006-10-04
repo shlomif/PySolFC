@@ -32,8 +32,9 @@ VERSION = '4.82'
 FC_VERSION = '0.9.4'
 VERSION_TUPLE = (4, 82)
 
-TOOLKIT = 'gtk'
-TOOLKIT = 'tk'
+TOOLKIT = 'tk' # or 'gtk'
+USE_TILE = False
+TILE_THEME = 'clam' #'default' # name of tile's theme
 
 # data dirs
 DATA_DIRS = []

@@ -64,6 +64,7 @@ kw = {
     'scripts'      : ['pysol'],
     'packages'     : ['pysollib',
                       'pysollib.tk',
+                      'pysollib.tile',
                       'pysollib.pysolgtk',
                       'pysollib.games',
                       'pysollib.games.special',

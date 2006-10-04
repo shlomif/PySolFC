@@ -19,33 +19,57 @@
 ##
 ##---------------------------------------------------------------------------##
 
-from settings import TOOLKIT
+from settings import TOOLKIT, USE_TILE
 
 if TOOLKIT == 'tk':
-    from tk.tkconst import *
-    from tk.tkutil import *
-    from tk.tkcanvas import *
-    from tk.tkwrap import *
-    from tk.tkwidget import *
-    from tk.tkhtml import *
-    from tk.edittextdialog import *
-    from tk.tkstats import *
-    from tk.playeroptionsdialog import *
-    from tk.soundoptionsdialog import *
-    from tk.timeoutsdialog import *
-    from tk.colorsdialog import *
-    from tk.fontsdialog import *
-    from tk.findcarddialog import *
-    from tk.gameinfodialog import *
-    from tk.toolbar import *
-    from tk.statusbar import *
-    from tk.progressbar import *
-    from tk.menubar import *
-    from tk.card import *
-    from tk.selectcardset import *
-    from tk.selecttree import *
+    if USE_TILE:
+        from tile.tkconst import *
+        from tile.tkutil import *
+        from tile.tkcanvas import *
+        from tile.tkwrap import *
+        from tile.tkwidget import *
+        from tile.tkhtml import *
+        from tile.edittextdialog import *
+        from tile.tkstats import *
+        from tile.playeroptionsdialog import *
+        from tile.soundoptionsdialog import *
+        from tile.timeoutsdialog import *
+        from tile.colorsdialog import *
+        from tile.fontsdialog import *
+        from tile.findcarddialog import *
+        from tile.gameinfodialog import *
+        from tile.toolbar import *
+        from tile.statusbar import *
+        from tile.progressbar import *
+        from tile.menubar import *
+        from tile.card import *
+        from tile.selectcardset import *
+        from tile.selecttree import *
+    else:
+        from tk.tkconst import *
+        from tk.tkutil import *
+        from tk.tkcanvas import *
+        from tk.tkwrap import *
+        from tk.tkwidget import *
+        from tk.tkhtml import *
+        from tk.edittextdialog import *
+        from tk.tkstats import *
+        from tk.playeroptionsdialog import *
+        from tk.soundoptionsdialog import *
+        from tk.timeoutsdialog import *
+        from tk.colorsdialog import *
+        from tk.fontsdialog import *
+        from tk.findcarddialog import *
+        from tk.gameinfodialog import *
+        from tk.toolbar import *
+        from tk.statusbar import *
+        from tk.progressbar import *
+        from tk.menubar import *
+        from tk.card import *
+        from tk.selectcardset import *
+        from tk.selecttree import *
 
-else:
+else: # gtk
     from pysolgtk.tkconst import *
     from pysolgtk.tkutil import *
     from pysolgtk.tkcanvas import *

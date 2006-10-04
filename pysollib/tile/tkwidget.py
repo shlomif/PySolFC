@@ -43,7 +43,7 @@ __all__ = ['MfxMessageDialog',
 
 # imports
 import os, sys, time, types
-import Tkinter
+import Tile as Tkinter
 import traceback
 
 # PySol imports
@@ -174,10 +174,8 @@ class MfxDialog: # ex. _ToplevelDialog
         bottom_frame = Tkinter.Frame(self.top)
         bottom_frame.pack(side='bottom', fill='both', expand=0, ipadx=3, ipady=3)
         if kw.separatorwidth > 0:
-            separator = Tkinter.Frame(self.top, relief="sunken",
-                    height=kw.separatorwidth, width=kw.separatorwidth,
-                    borderwidth=kw.separatorwidth / 2)
-            separator.pack(side='bottom', fill='x')
+            separator = Tkinter.Separator(self.top)
+            separator.pack(side='bottom', fill='x', pady=kw.separatorwidth/2)
         top_frame = Tkinter.Frame(self.top)
         top_frame.pack(side='top', fill='both', expand=1)
         return top_frame, bottom_frame
@@ -355,8 +353,8 @@ class MfxTooltip:
         self.timeout = 800                    # milliseconds
         self.cancel_timeout = 5000
         self.leave_timeout = 400
-        self.relief = Tkinter.SOLID
-        self.justify = Tkinter.LEFT
+        self.relief = 'solid'
+        self.justify = 'left'
         self.fg = "#000000"
         self.bg = "#ffffe0"
         self.xoffset = 0
@@ -405,6 +403,7 @@ class MfxTooltip:
 ##         if isinstance(self.widget, (Tkinter.Button, Tkinter.Checkbutton)):
 ##             if self.widget["state"] == Tkinter.DISABLED:
 ##                 return
+        import Tkinter # not Tile
         ##x = self.widget.winfo_rootx()
         x = self.widget.winfo_pointerx()
         y = self.widget.winfo_rooty() + self.widget.winfo_height()
@@ -685,6 +684,8 @@ class StackDesc:
         self.stack = stack
         self.canvas = game.canvas
         self.bindings = []
+
+        import Tkinter # not Tile
 
         font = game.app.getFont('canvas_small')
         ##print self.app.cardset.CARDW, self.app.images.CARDW

@@ -31,6 +31,8 @@ from pysollib.mfxutil import destruct, kwdefault, KwStruct, Struct
 # Toolkit imports
 from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
 from tkwidget import MfxDialog
+from tkwidget import PysolScale
+
 
 # /***********************************************************************
 # //
@@ -71,7 +73,7 @@ class TimeoutsDialog(MfxDialog):
                            ):
             Tkinter.Label(frame, text=title, anchor='w'
                           ).grid(row=row, column=0, sticky='we')
-            widget = Tkinter.Scale(frame, from_=0.2, to=9.9,
+            widget = PysolScale(frame, from_=0.2, to=9.9, value=var.get(),
                                    resolution=0.1, orient='horizontal',
                                    length="3i", variable=var, takefocus=0)
             widget.grid(row=row, column=1)

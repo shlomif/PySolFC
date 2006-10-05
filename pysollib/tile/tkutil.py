@@ -69,7 +69,6 @@ except ImportError:
 # Toolkit imports
 from tkconst import tkversion
 from pysollib.settings import PACKAGE
-from pysollib.settings import TILE_THEME
 
 
 # /***********************************************************************
@@ -176,10 +175,13 @@ def make_help_toplevel(app, title=None):
     parent = app.top
     window = Tkinter.Tk(className=PACKAGE)
     window.tk.call('package', 'require', 'tile')
+    from pysollib.settings import TILE_THEME
     if TILE_THEME:
         ##window.tk.call('style', 'theme', 'use', TILE_THEME)
         style = Tkinter.Style(window)
         style.theme_use(TILE_THEME)
+        bg = window.tk.call('style', 'lookup', TILE_THEME, '-background')
+        window.tk_setPalette(bg)
     font = parent.option_get('font', '')
     if font:
         window.option_add('*font', font)
@@ -202,11 +204,10 @@ def make_help_toplevel(app, title=None):
 
 def __getWidgetXY(widget, parent, relx=None, rely=None,
                   w_width=None, w_height=None):
-    min_width, min_height = widget.wm_minsize()
     if w_width is None:
-        w_width = max(min_width, widget.winfo_reqwidth())
+        w_width = widget.winfo_reqwidth()
     if w_height is None:
-        w_height = max(min_height, widget.winfo_reqheight())
+        w_height = widget.winfo_reqheight()
     s_width = widget.winfo_screenwidth()
     s_height = widget.winfo_screenheight()
     m_x = m_y = 0

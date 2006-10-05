@@ -46,7 +46,6 @@ import Tile as Tkinter
 
 # PySol imports
 from pysollib.mfxutil import destruct, Struct
-from pysollib.settings import TILE_THEME
 from tkutil import after_idle
 from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
 
@@ -87,6 +86,7 @@ class MfxRoot(Tkinter.Tk):
     def __init__(self, **kw):
         apply(Tkinter.Tk.__init__, (self,), kw)
         self.tk.call("package", "require", "tile")
+        from pysollib.settings import TILE_THEME
         if TILE_THEME:
             ##self.tk.call('style', 'theme', 'use', TILE_THEME)
             style = Tkinter.Style(self)

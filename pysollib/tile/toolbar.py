@@ -223,7 +223,7 @@ class PysolToolbar(PysolToolbarActions):
         self.label_pady = 4
         self.button_pad = 2
         #
-        self.frame = Tkinter.Frame(top) #, class_='Toolbar')
+        self.frame = Tkinter.Frame(top, class_='Toolbar')
         #
         for l, f, t in (
             (n_("New"),      self.mNewGame,   _("New game")),

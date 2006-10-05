@@ -177,7 +177,7 @@ class Label(Widget, Tkinter.Label):
 
 class Frame(Widget, Tkinter.Frame):
     def __init__(self, master=None, cnf={}, **kw):
-        for opt in ('bd', 'highlightthickness',):
+        for opt in ('bd', 'highlightbackground', 'highlightthickness',):
             if kw.has_key(opt):
                 del kw[opt]
         Widget.__init__(self, master, "ttk::frame", cnf, kw)
@@ -185,6 +185,9 @@ class Frame(Widget, Tkinter.Frame):
 
 class LabelFrame(Widget, Tkinter.Frame):
     def __init__(self, master=None, cnf={}, **kw):
+        for opt in ('padx', 'pady',):
+            if kw.has_key(opt):
+                del kw[opt]
         Widget.__init__(self, master, "ttk::labelframe", cnf, kw)
 
 

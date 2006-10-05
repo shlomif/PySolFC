@@ -255,8 +255,8 @@ class MfxTreeInCanvas(MfxScrolledCanvas):
         #
         self.style = self.Style()
         ##self.style.text_normal_fg = self.canvas.cget("insertbackground")
-        self.style.text_normal_fg = self.canvas.option_get('foreground', '') or self.canvas.cget("insertbackground")
-        self.style.text_normal_bg = self.canvas.option_get('background', self.canvas.cget("background"))
+        #self.style.text_normal_fg = self.canvas.option_get('foreground', '') or self.canvas.cget("insertbackground")
+        #self.style.text_normal_bg = self.canvas.option_get('background', self.canvas.cget("background"))
         #
         bind(self.canvas, "<ButtonPress-1>", self.singleClick)
         bind(self.canvas, "<Double-Button-1>", self.doubleClick)

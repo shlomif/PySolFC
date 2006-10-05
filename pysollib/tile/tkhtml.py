@@ -275,7 +275,7 @@ class HTMLViewer:
                                  fg='black', bg='white',
                                  bd=1, relief='sunken',
                                  cursor=self.defcursor,
-                                 wrap='word', padx=20, pady=20)
+                                 wrap='word', padx=10)
         self.text.pack(side=Tkinter.LEFT, fill=Tkinter.BOTH, expand=1)
         self.text["yscrollcommand"] = vbar.set
         vbar["command"] = self.text.yview

@@ -48,6 +48,8 @@ from pysollib.pysolaudio import pysolsoundserver
 # Toolkit imports
 from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
 from tkwidget import MfxDialog, MfxMessageDialog
+from tkwidget import PysolScale
+
 
 # /***********************************************************************
 # //
@@ -121,16 +123,16 @@ class SoundOptionsDialog(MfxDialog):
         if app.audio.CAN_PLAY_MUSIC: # and app.startup_opt.sound_mode > 0:
             row += 1
             w = Tkinter.Label(frame, text=_('Sample volume:'))
-            w.grid(row=row, column=0, sticky='w')
-            w = Tkinter.Scale(frame, from_=0, to=128, resolution=1,
+            w.grid(row=row, column=0, sticky='ew')
+            w = PysolScale(frame, from_=0, to=128, resolution=1,
                               orient='horizontal', takefocus=0,
                               length="3i", #label=_('Sample volume'),
                               variable=self.sample_volume)
             w.grid(row=row, column=1, sticky='w', padx=5)
             row += 1
             w = Tkinter.Label(frame, text=_('Music volume:'))
-            w.grid(row=row, column=0, sticky='w', padx=5)
-            w = Tkinter.Scale(frame, from_=0, to=128, resolution=1,
+            w.grid(row=row, column=0, sticky='ew', padx=5)
+            w = PysolScale(frame, from_=0, to=128, resolution=1,
                               orient='horizontal', takefocus=0,
                               length="3i", #label=_('Music volume'),
                               variable=self.music_volume)

@@ -88,6 +88,7 @@ def parse_option(argv):
                                        "fg=", "foreground=",
                                        "bg=", "background=",
                                        "fn=", "font=",
+                                       "tile-theme=",
                                        "french-only",
                                        "noplugins",
                                        "nosound",
@@ -104,6 +105,7 @@ def parse_option(argv):
             "fg": None,
             "bg": None,
             "fn": None,
+            "tile-theme": None,
             "french-only": False,
             "noplugins": False,
             "nosound": False,
@@ -123,6 +125,8 @@ def parse_option(argv):
             opts["bg"] = i[1]
         elif i[0] in ("--fn", "--font"):
             opts["fn"] = i[1]
+        elif i[0] == "--tile-theme":
+            opts["tile-theme"] = i[1]
         elif i[0] == "--french-only":
             opts["french-only"] = True
         elif i[0] == "--noplugins":
@@ -209,6 +213,9 @@ def pysol_init(app, args):
         app.debug = int(opts['debug'])
     except:
         print >> sys.stderr, 'invalid argument for debug'
+    if opts['tile-theme']:
+        import settings
+        settings.TILE_THEME = opts['tile-theme']
 
     # init games database
     import games
@@ -323,14 +330,6 @@ def pysol_init(app, args):
             app.top_palette[0] = fg
 
     #
-    if USE_TILE: # for tile
-        top.option_add('*Toolbar.relief', 'groove')
-        top.option_add('*Toolbar.borderWidth', 2)
-        top.option_add('*Toolbar.Button.Pad', 2)
-        top.option_add('*Toolbar.Button.default', 'disabled')
-        top.option_add('*Toolbar*takeFocus', 1)
-        top.option_add('*Tree.background', 'red')
-
     if os.name == "posix":              # Unix/X11
         top.option_add('*Entry.background', 'white', 60)
         top.option_add('*Entry.foreground', 'black', 60)
@@ -369,6 +368,24 @@ def pysol_init(app, args):
                                             fa["weight"])
             else:
                 app.opt.fonts["default"] = None
+
+    if USE_TILE: # for tile
+        ##top.option_add('*Toolbar.relief', 'groove')
+        ##top.option_add('*Toolbar.relief', 'raised')
+        top.option_add('*Toolbar.borderWidth', 1)
+        top.option_add('*Toolbar.Button.Pad', 2)
+        top.option_add('*Toolbar.Button.default', 'disabled')
+        top.option_add('*Toolbar*takeFocus', 0)
+        #
+        from settings import TILE_THEME
+        if TILE_THEME:
+            if font:
+                top.tk.call('style', 'configure', '.', '-font', font)
+            else:
+                font = top.tk.call('style', 'lookup', TILE_THEME, '-font')
+                top.option_add('*font', font)
+            bg = top.tk.call('style', 'lookup', TILE_THEME, '-background')
+            top.tk_setPalette(bg)
 
     # check games
     if len(app.gdb.getGamesIdSortedByName()) == 0:

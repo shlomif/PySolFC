@@ -34,6 +34,8 @@ from pysollib.mfxutil import destruct, kwdefault, KwStruct, Struct
 from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
 from tkwidget import MfxDialog
 from tkutil import bind
+from tkwidget import PysolScale
+
 
 # /***********************************************************************
 # //
@@ -73,9 +75,12 @@ class FontChooserDialog(MfxDialog):
 
         #self.family_var = Tkinter.StringVar()
         self.weight_var = Tkinter.BooleanVar()
+        self.weight_var.set(self.font_weight == 'bold')
         self.slant_var = Tkinter.BooleanVar()
+        self.slant_var.set(self.font_slant == 'italic')
         self.size_var = Tkinter.IntVar()
-
+        self.size_var.set(self.font_size)
+        #
         frame = Tkinter.Frame(top_frame)
         frame.pack(expand=True, fill='both', padx=5, pady=10)
         frame.columnconfigure(0, weight=1)
@@ -100,15 +105,12 @@ class FontChooserDialog(MfxDialog):
                                   variable=self.slant_var)
         cb2.grid(row=3, column=0, columnspan=2, sticky='we')
 
-        sc = Tkinter.Scale(frame, from_=6, to=40, resolution=1,
+        sc = PysolScale(frame, from_=6, to=40, resolution=1,
                            #label='Size',
                            orient='horizontal',
                            command=self.fontupdate, variable=self.size_var)
         sc.grid(row=4, column=0, columnspan=2, sticky='news')
         #
-        self.size_var.set(self.font_size)
-        self.weight_var.set(self.font_weight == 'bold')
-        self.slant_var.set(self.font_slant == 'italic')
         font_families = list(tkFont.families())
         font_families.sort()
         selected = -1

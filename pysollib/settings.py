@@ -34,7 +34,7 @@ VERSION_TUPLE = (4, 82)
 
 TOOLKIT = 'tk' # or 'gtk'
 USE_TILE = False
-TILE_THEME = 'clam' #'default' # name of tile's theme
+TILE_THEME = 'default' # name of tile's theme
 
 # data dirs
 DATA_DIRS = []

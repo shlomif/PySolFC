@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "POT-Creation-Date: Thu Sep 21 15:57:22 2006\n"
-"PO-Revision-Date: 2006-09-26 15:53+0400\n"
+"PO-Revision-Date: 2006-10-05 16:31+0400\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3016,7 +3016,7 @@ msgstr "Выкладывание на сброс"
 
 #: pysollib/tk/soundoptionsdialog.py:80
 msgid "Turn waste"
-msgstr "Переворачивание сброса"
+msgstr "Перелистывание сброса"
 
 #: pysollib/tk/soundoptionsdialog.py:81
 msgid "Start drag"
@@ -3024,11 +3024,11 @@ msgstr "Начало перемещения"
 
 #: pysollib/tk/soundoptionsdialog.py:83
 msgid "Drop"
-msgstr "Сбрасывание карты"
+msgstr "Сброс карты"
 
 #: pysollib/tk/soundoptionsdialog.py:84
 msgid "Drop pair"
-msgstr "Сбрасывание двух карт"
+msgstr "Сброс двух карт"
 
 #: pysollib/tk/soundoptionsdialog.py:85
 msgid "Auto drop"

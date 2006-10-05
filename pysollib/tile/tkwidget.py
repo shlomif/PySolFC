@@ -720,3 +720,49 @@ class StackDesc:
             for b in self.bindings:
                 self.label.unbind('<ButtonPress>', b)
 
+
+# /***********************************************************************
+# //
+# ************************************************************************/
+
+class PysolScale:
+    def __init__(self, parent, **kw):
+        if kw.has_key('resolution'):
+            self.resolution = kw['resolution']
+        else:
+            self.resolution = 1
+        if kw.has_key('command'):
+            self.command = kw['command']
+        else:
+            self.command = None
+        self.frame = Tkinter.Frame(parent)
+
+        self.label = Tkinter.Label(self.frame)
+        self.label.pack()
+
+        kw['command'] = self._scale_command
+        self.scale = Tkinter.Scale(self.frame, **kw)
+        self.scale.pack(expand=True, fill='both')
+
+        if kw.has_key('value'):
+            self.label.configure(text=self._round(kw['value']))
+        elif kw.has_key('variable'):
+            self.label.configure(text=self._round(kw['variable'].get()))
+
+    def _round(self, value):
+        return int(float(value)/self.resolution)*self.resolution
+
+    def _scale_command(self, value):
+        self.label.configure(text=self._round(value))
+        if self.command:
+            self.command(value)
+
+    def pack(self, **kw):
+        self.frame.pack(**kw)
+    def grid(self, **kw):
+        self.frame.grid(**kw)
+
+    def configure(self, **kw):
+        self.scale.configure(**kw)
+    config = configure
+

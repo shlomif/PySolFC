@@ -56,14 +56,12 @@ class PysolProgressBar:
         self.top = makeToplevel(parent, title=title)
         self.top.wm_protocol("WM_DELETE_WINDOW", self.wmDeleteWindow)
         self.top.wm_group(parent)
-        self.top.wm_geometry('400x120')
-        self.top.wm_minsize(400, 120)
         self.top.wm_resizable(0, 0)
         self.top.config(cursor="watch")
         #
         self.frame = Tkinter.Frame(self.top, relief=Tkinter.FLAT, bd=0,
                                    takefocus=0)
-        self.progress = Tkinter.Progressbar(self.frame, maximum=100)
+        self.progress = Tkinter.Progressbar(self.frame, maximum=100, length=250)
         ##style = Tkinter.Style(self.progress)
         ##style.configure('TProgressbar', background=color)
         if images:
@@ -73,7 +71,7 @@ class PysolProgressBar:
             self.f2 = Tkinter.Label(self.frame, image=images[1])
             self.f2.pack(side='left', ipadx=8, ipady=4)
         else:
-            self.progress.grid(expand='yes', fill='x')
+            self.progress.pack(expand='yes', fill='x')
         self.frame.pack(expand='yes', fill='both')
         if app:
             try:

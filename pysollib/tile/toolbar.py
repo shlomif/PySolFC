@@ -38,6 +38,7 @@ __all__ = ['PysolToolbar'] #, 'TOOLBAR_BUTTONS']
 # imports
 import os, sys, types
 import traceback
+import Tkinter as Tk
 import Tile as Tkinter
 try:
     # PIL
@@ -223,7 +224,8 @@ class PysolToolbar(PysolToolbarActions):
         self.label_pady = 4
         self.button_pad = 2
         #
-        self.frame = Tkinter.Frame(top, class_='Toolbar')
+        #self.frame = Tkinter.Frame(top, class_='Toolbar')
+        self.frame = Tk.Frame(top)
         #
         for l, f, t in (
             (n_("New"),      self.mNewGame,   _("New game")),
@@ -273,6 +275,7 @@ class PysolToolbar(PysolToolbarActions):
         if os.name == 'posix':
             #self.frame.config(bd=0, highlightthickness=1)
             #~self.frame.config(bd=1, relief=self.frame_relief, highlightthickness=0)
+            self.frame.config(bd=1, relief='raised', highlightthickness=0)
             pass
         elif os.name == "nt":
             self.frame.config(bd=2, relief=self.frame_relief, padx=2, pady=2)
@@ -536,6 +539,7 @@ class PysolToolbar(PysolToolbarActions):
         return 1
 
     def setRelief(self, relief):
+        return True
         if self.button_relief == relief:
             return False
         self._setRelief(relief)

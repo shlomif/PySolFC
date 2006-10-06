@@ -17,6 +17,7 @@ include scripts/all_games.py scripts/cardset_viewer.py
 include docs/*
 graft data/html
 graft data/html-src
+graft data/themes
 ##
 ## data - images
 ##

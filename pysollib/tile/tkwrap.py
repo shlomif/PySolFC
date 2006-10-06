@@ -85,12 +85,12 @@ StringVar = Tkinter.StringVar
 class MfxRoot(Tkinter.Tk):
     def __init__(self, **kw):
         apply(Tkinter.Tk.__init__, (self,), kw)
-        self.tk.call("package", "require", "tile")
-        from pysollib.settings import TILE_THEME
-        if TILE_THEME:
-            ##self.tk.call('style', 'theme', 'use', TILE_THEME)
-            style = Tkinter.Style(self)
-            style.theme_use(TILE_THEME)
+##         self.tk.call("package", "require", "tile")
+##         from pysollib.settings import TILE_THEME
+##         if TILE_THEME:
+##             ##self.tk.call('style', 'theme', 'use', TILE_THEME)
+##             style = Tkinter.Style(self)
+##             style.theme_use(TILE_THEME)
         self.app = None
         # for interruptible sleep
         #self.sleep_var = Tkinter.IntVar(self)

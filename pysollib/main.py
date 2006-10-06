@@ -213,9 +213,6 @@ def pysol_init(app, args):
         app.debug = int(opts['debug'])
     except:
         print >> sys.stderr, 'invalid argument for debug'
-    if opts['tile-theme']:
-        import settings
-        settings.TILE_THEME = opts['tile-theme']
 
     # init games database
     import games
@@ -245,8 +242,15 @@ def pysol_init(app, args):
     app.top_bg = top.cget("bg")
     app.top_palette = [None, None]       # [fg, bg]
     app.top_cursor = top.cget("cursor")
-
-    # print some debug info
+    if USE_TILE:
+        import settings
+        if opts['tile-theme']:
+            settings.TILE_THEME = opts['tile-theme']
+        from pysoltk import load_theme
+        try:
+            load_theme(app, top, settings.TILE_THEME)
+        except Exception, err:
+            print >> sys.stderr, 'ERROR: set theme:', err
 
     # load options
     app.loadOptions()

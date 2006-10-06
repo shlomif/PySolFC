@@ -52,6 +52,7 @@ __all__ = ['wm_withdraw',
            #'fillImage',
            'createImage',
            'get_text_width',
+           'load_theme',
            ]
 
 # imports
@@ -174,14 +175,9 @@ def make_help_toplevel(app, title=None):
     # Create an independent Toplevel window.
     parent = app.top
     window = Tkinter.Tk(className=PACKAGE)
-    window.tk.call('package', 'require', 'tile')
     from pysollib.settings import TILE_THEME
     if TILE_THEME:
-        ##window.tk.call('style', 'theme', 'use', TILE_THEME)
-        style = Tkinter.Style(window)
-        style.theme_use(TILE_THEME)
-        bg = window.tk.call('style', 'lookup', TILE_THEME, '-background')
-        window.tk_setPalette(bg)
+        load_theme(app, window, TILE_THEME)
     font = parent.option_get('font', '')
     if font:
         window.option_add('*font', font)
@@ -195,7 +191,6 @@ def make_help_toplevel(app, title=None):
     if os.name == "posix":
         window.option_add('*Scrollbar.elementBorderWidth', '1', 60)
         window.option_add('*Scrollbar.borderWidth', '1', 60)
-
     if title:
         window.wm_title(title)
         window.wm_iconname(title)
@@ -408,4 +403,32 @@ def createImage(width, height, fill, outline=None):
 
 def get_text_width(text, font, root=None):
     return Font(root=root, font=font).measure(text)
+
+
+# /***********************************************************************
+# //
+# ************************************************************************/
+
+def load_theme(app, top, theme):
+    top.tk.call("package", "require", "tile")
+    # load available themes
+    d = os.path.join(app.dataloader.dir, 'themes')
+    if os.path.isdir(d):
+        top.tk.call('lappend', 'auto_path', d)
+        for t in os.listdir(d):
+            #top.tk.call('tile::setTheme', t)
+            try:
+                top.tk.call('package', 'require', 'tile::theme::'+t)
+                ##print 'load theme:', t
+            except:
+                traceback.print_exc()
+                pass
+    # set theme
+    if theme:
+        top.tk.call('style', 'theme', 'use', theme)
+    bg = top.tk.call('style', 'lookup', '.', '-background')
+    top.tk_setPalette(bg)
+    bg = top.tk.call('style', 'lookup', '.', '-background', 'active')
+    top.option_add('*Menu.activeBackground', bg)
+
 

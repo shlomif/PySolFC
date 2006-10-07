@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Thu Sep 21 15:56:22 2006\n"
-"PO-Revision-Date: 2006-09-30 18:19+0400\n"
+"POT-Creation-Date: Sat Oct  7 20:02:33 2006\n"
+"PO-Revision-Date: 2006-10-07 20:10+0400\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -580,6 +580,9 @@ msgstr "Конус"
 msgid "Congress"
 msgstr "Конгресс"
 
+msgid "Constitution"
+msgstr "Конституция"
+
 msgid "Contradance"
 msgstr "Контрданс"
 
@@ -728,6 +731,9 @@ msgstr ""
 msgid "Dojouji's Game Doubled"
 msgstr ""
 
+msgid "Dolphin"
+msgstr "Дельфин"
+
 msgid "Doorway"
 msgstr "Вход"
 
@@ -742,6 +748,9 @@ msgstr "Двойной Кенфилд"
 
 msgid "Double Cockroach"
 msgstr "Двойной таракан"
+
+msgid "Double Dolphin"
+msgstr "Двойной Дельфин"
 
 msgid "Double Dot"
 msgstr "Двоеточие"
@@ -3185,6 +3194,9 @@ msgstr "Промежутки и тузы"
 msgid "Spanish Patience"
 msgstr "Испанский пасьянс"
 
+msgid "Spanish Patience II"
+msgstr "Испанский пасьянс II"
+
 msgid "Sphere"
 msgstr "Сфера"
 
@@ -3402,6 +3414,14 @@ msgstr "Сад"
 msgid "The Great Wall"
 msgstr "Великая Стена"
 
+#, fuzzy
+msgid "The Last Monarch"
+msgstr "Последний Монарх"
+
+#, fuzzy
+msgid "The Last Monarch II"
+msgstr "Последний Монарх"
+
 msgid "The Little Corporal"
 msgstr "Маленький Капрал"
 
@@ -3413,9 +3433,6 @@ msgstr "Желание"
 
 msgid "The Wish (open)"
 msgstr "Желание (открытое)"
-
-msgid "The last Monarch"
-msgstr "Последний Монарх"
 
 msgid "Theater"
 msgstr "Театр"
@@ -3744,6 +3761,9 @@ msgstr "Церлин (3 колоды)"
 
 msgid "Zeus"
 msgstr "Зевс"
+
+msgid "Zigzag Course"
+msgstr ""
 
 msgid "Zodiac"
 msgstr "Зодиак"

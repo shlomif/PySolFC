@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "#-#-#-#-#  pysol-1.pot (PACKAGE VERSION)  #-#-#-#-#\n"
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: Thu Sep 21 15:57:22 2006\n"
+"POT-Creation-Date: Sat Oct  7 20:03:30 2006\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 "#-#-#-#-#  pysol-2.pot (PACKAGE VERSION)  #-#-#-#-#\n"
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2006-09-21 15:57+0400\n"
+"POT-Creation-Date: 2006-10-07 20:03+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -69,8 +69,8 @@ msgid "&Next number"
 msgstr ""
 
 #: pysollib/actions.py:316 pysollib/app.py:1150 pysollib/app.py:1162
-#: pysollib/game.py:925 pysollib/game.py:1861 pysollib/main.py:460
-#: pysollib/main.py:468 pysollib/tk/colorsdialog.py:122
+#: pysollib/game.py:925 pysollib/game.py:1861 pysollib/main.py:478
+#: pysollib/main.py:486 pysollib/tk/colorsdialog.py:122
 #: pysollib/tk/edittextdialog.py:82 pysollib/tk/fontsdialog.py:143
 #: pysollib/tk/fontsdialog.py:205 pysollib/tk/gameinfodialog.py:155
 #: pysollib/tk/playeroptionsdialog.py:85
@@ -422,31 +422,31 @@ msgid ""
 "This won't come out...\n"
 msgstr ""
 
-#: pysollib/game.py:2298
+#: pysollib/game.py:2291
 msgid "Set bookmark"
 msgstr ""
 
-#: pysollib/game.py:2299
+#: pysollib/game.py:2292
 msgid "Replace existing bookmark %d ?"
 msgstr ""
 
-#: pysollib/game.py:2321
+#: pysollib/game.py:2314
 msgid "Goto bookmark"
 msgstr ""
 
-#: pysollib/game.py:2322
+#: pysollib/game.py:2315
 msgid "Goto bookmark %d ?"
 msgstr ""
 
-#: pysollib/game.py:2353
+#: pysollib/game.py:2346
 msgid "Open game"
 msgstr ""
 
-#: pysollib/game.py:2364 pysollib/game.py:2373 pysollib/game.py:2378
+#: pysollib/game.py:2357 pysollib/game.py:2366 pysollib/game.py:2371
 msgid "Load game error"
 msgstr ""
 
-#: pysollib/game.py:2365
+#: pysollib/game.py:2358
 msgid ""
 "Error while loading game.\n"
 "\n"
@@ -454,22 +454,22 @@ msgid ""
 "but this could also be a bug you might want to report."
 msgstr ""
 
-#: pysollib/game.py:2374
+#: pysollib/game.py:2367
 msgid "Error while loading game"
 msgstr ""
 
-#: pysollib/game.py:2379
+#: pysollib/game.py:2372
 msgid ""
 "Internal error while loading game.\n"
 "\n"
 "Please report this bug."
 msgstr ""
 
-#: pysollib/game.py:2404
+#: pysollib/game.py:2397
 msgid "Save game error"
 msgstr ""
 
-#: pysollib/game.py:2405
+#: pysollib/game.py:2398
 msgid "Error while saving game"
 msgstr ""
 
@@ -683,7 +683,7 @@ msgstr ""
 
 #: pysollib/games/auldlangsyne.py:158 pysollib/games/calculation.py:104
 #: pysollib/games/numerica.py:90 pysollib/games/numerica.py:272
-#: pysollib/games/numerica.py:639 pysollib/games/numerica.py:743
+#: pysollib/games/numerica.py:639 pysollib/games/numerica.py:752
 msgid "Tableau. Build regardless of rank and suit."
 msgstr ""
 
@@ -710,12 +710,12 @@ msgid ""
 msgstr ""
 
 #: pysollib/games/canfield.py:528 pysollib/games/special/tarock.py:224
-#: pysollib/stack.py:1410 pysollib/util.py:80
+#: pysollib/stack.py:1409 pysollib/util.py:80
 msgid "King"
 msgstr ""
 
 #: pysollib/games/canfield.py:531 pysollib/games/special/tarock.py:224
-#: pysollib/stack.py:1409 pysollib/util.py:80
+#: pysollib/stack.py:1408 pysollib/util.py:80
 msgid "Queen"
 msgstr ""
 
@@ -744,11 +744,15 @@ msgstr ""
 msgid "Balance $%d"
 msgstr ""
 
-#: pysollib/games/klondike.py:439
+#: pysollib/games/klondike.py:172 pysollib/stack.py:2115
+msgid "Tableau. Build down by color."
+msgstr ""
+
+#: pysollib/games/klondike.py:441
 msgid "Reserve. Only Kings are acceptable."
 msgstr ""
 
-#: pysollib/games/larasgame.py:163 pysollib/stack.py:1626
+#: pysollib/games/larasgame.py:163 pysollib/stack.py:1625
 msgid "Round %d"
 msgstr ""
 
@@ -851,7 +855,7 @@ msgstr ""
 #: pysollib/games/special/tarock.py:223
 #: pysollib/games/ultra/dashavatara.py:351
 #: pysollib/games/ultra/hexadeck.py:273 pysollib/games/ultra/mughal.py:254
-#: pysollib/stack.py:1411 pysollib/util.py:79
+#: pysollib/stack.py:1410 pysollib/util.py:79
 msgid "Ace"
 msgstr ""
 
@@ -1231,7 +1235,7 @@ msgstr ""
 msgid " Help"
 msgstr ""
 
-#: pysollib/main.py:67 pysollib/main.py:368
+#: pysollib/main.py:67 pysollib/main.py:386
 msgid " installation error"
 msgstr ""
 
@@ -1245,17 +1249,17 @@ msgid ""
 "Please check your %s installation.\n"
 msgstr ""
 
-#: pysollib/main.py:75 pysollib/main.py:376 pysollib/tk/menubar.py:382
+#: pysollib/main.py:75 pysollib/main.py:394 pysollib/tk/menubar.py:382
 msgid "&Quit"
 msgstr ""
 
-#: pysollib/main.py:98
+#: pysollib/main.py:99
 msgid ""
 "%s: %s\n"
 "try %s --help for more information"
 msgstr ""
 
-#: pysollib/main.py:139
+#: pysollib/main.py:143
 msgid ""
 "Usage: %s [OPTIONS] [FILE]\n"
 "  -g    --game=GAMENAME        start game GAMENAME\n"
@@ -1273,19 +1277,19 @@ msgid ""
 "  MOD - one of following: pss(default), pygame, oss, win\n"
 msgstr ""
 
-#: pysollib/main.py:157
+#: pysollib/main.py:161
 msgid ""
 "%s: too many files\n"
 "try %s --help for more information"
 msgstr ""
 
-#: pysollib/main.py:161
+#: pysollib/main.py:165
 msgid ""
 "%s: invalid file name\n"
 "try %s --help for more information"
 msgstr ""
 
-#: pysollib/main.py:369
+#: pysollib/main.py:387
 msgid ""
 "\n"
 "No games were found !!!\n"
@@ -1296,25 +1300,25 @@ msgid ""
 "Please check your %s installation.\n"
 msgstr ""
 
-#: pysollib/main.py:455 pysollib/main.py:463
+#: pysollib/main.py:473 pysollib/main.py:481
 msgid " installation problem"
 msgstr ""
 
-#: pysollib/main.py:456
+#: pysollib/main.py:474
 msgid ""
 "Your Python installation is compiled without thread support.\n"
 "\n"
 "Sounds and background music will be disabled."
 msgstr ""
 
-#: pysollib/main.py:464
+#: pysollib/main.py:482
 msgid ""
 "The pysolsoundserver module was not found.\n"
 "\n"
 "Sounds and background music will be disabled."
 msgstr ""
 
-#: pysollib/main.py:471
+#: pysollib/main.py:489
 msgid "Welcome to "
 msgstr ""
 
@@ -1582,71 +1586,71 @@ msgstr ""
 msgid "USA"
 msgstr ""
 
-#: pysollib/settings.py:54 data/glade-translations:29
+#: pysollib/settings.py:55 data/glade-translations:29
 msgid "Top 10"
 msgstr ""
 
-#: pysollib/stack.py:1405
+#: pysollib/stack.py:1404
 msgid "Base card - %s."
 msgstr ""
 
-#: pysollib/stack.py:1406
+#: pysollib/stack.py:1405
 msgid "Empty row cannot be filled."
 msgstr ""
 
-#: pysollib/stack.py:1407
+#: pysollib/stack.py:1406
 msgid "any card"
 msgstr ""
 
-#: pysollib/stack.py:1408 pysollib/util.py:80
+#: pysollib/stack.py:1407 pysollib/util.py:80
 msgid "Jack"
 msgstr ""
 
-#: pysollib/stack.py:1421
+#: pysollib/stack.py:1420
 msgid "No cards"
 msgstr ""
 
-#: pysollib/stack.py:1422
+#: pysollib/stack.py:1421
 msgid "1 card"
 msgstr ""
 
-#: pysollib/stack.py:1423
+#: pysollib/stack.py:1422
 msgid " cards"
 msgstr ""
 
-#: pysollib/stack.py:1635 pysollib/stack.py:1637 pysollib/stack.py:1673
+#: pysollib/stack.py:1634 pysollib/stack.py:1636 pysollib/stack.py:1672
 msgid "Redeal"
 msgstr ""
 
-#: pysollib/stack.py:1637
+#: pysollib/stack.py:1636
 msgid "Stop"
 msgstr ""
 
-#: pysollib/stack.py:1698
+#: pysollib/stack.py:1697
 msgid "Variable redeals."
 msgstr ""
 
-#: pysollib/stack.py:1699
+#: pysollib/stack.py:1698
 msgid "Unlimited redeals."
 msgstr ""
 
-#: pysollib/stack.py:1700
+#: pysollib/stack.py:1699
 msgid "No redeals."
 msgstr ""
 
-#: pysollib/stack.py:1701
+#: pysollib/stack.py:1700
 msgid "One redeal."
 msgstr ""
 
-#: pysollib/stack.py:1702
+#: pysollib/stack.py:1701
 msgid " redeals."
 msgstr ""
 
-#: pysollib/stack.py:1704
+#: pysollib/stack.py:1703
 msgid "Talon."
 msgstr ""
 
-#: pysollib/stack.py:1938 pysollib/stack.py:2388
+#: pysollib/stack.py:1937 pysollib/stack.py:2388
 msgid "Reserve. No building."
 msgstr ""
 
@@ -1694,10 +1698,6 @@ msgstr ""
 
 #: pysollib/stack.py:2114
 msgid "Tableau. Build up by color."
-msgstr ""
-
-#: pysollib/stack.py:2115
-msgid "Tableau. Build down by color."
 msgstr ""
 
 #: pysollib/stack.py:2123

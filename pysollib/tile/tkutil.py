@@ -430,5 +430,12 @@ def load_theme(app, top, theme):
     top.tk_setPalette(bg)
     bg = top.tk.call('style', 'lookup', '.', '-background', 'active')
     top.option_add('*Menu.activeBackground', bg)
+    font = app.opt.fonts['default']
+    if font:
+        top.tk.call('style', 'configure', '.', '-font', font)
+    else:
+        font = top.tk.call('style', 'lookup', '.', '-font')
+        top.option_add('*font', font)
+
 
 

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Thu Sep 21 15:56:22 2006\n"
+"POT-Creation-Date: Sat Oct  7 20:02:33 2006\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -576,6 +576,9 @@ msgstr ""
 msgid "Congress"
 msgstr ""
 
+msgid "Constitution"
+msgstr ""
+
 msgid "Contradance"
 msgstr ""
 
@@ -723,6 +726,9 @@ msgstr ""
 msgid "Dojouji's Game Doubled"
 msgstr ""
 
+msgid "Dolphin"
+msgstr ""
+
 msgid "Doorway"
 msgstr ""
 
@@ -736,6 +742,9 @@ msgid "Double Canfield"
 msgstr ""
 
 msgid "Double Cockroach"
+msgstr ""
+
+msgid "Double Dolphin"
 msgstr ""
 
 msgid "Double Dot"
@@ -3132,6 +3141,9 @@ msgstr ""
 msgid "Spanish Patience"
 msgstr ""
 
+msgid "Spanish Patience II"
+msgstr ""
+
 msgid "Sphere"
 msgstr ""
 
@@ -3342,6 +3354,12 @@ msgstr ""
 msgid "The Great Wall"
 msgstr ""
 
+msgid "The Last Monarch"
+msgstr ""
+
+msgid "The Last Monarch II"
+msgstr ""
+
 msgid "The Little Corporal"
 msgstr ""
 
@@ -3352,9 +3370,6 @@ msgid "The Wish"
 msgstr ""
 
 msgid "The Wish (open)"
-msgstr ""
-
-msgid "The last Monarch"
 msgstr ""
 
 msgid "Theater"
@@ -3667,6 +3682,9 @@ msgid "Zerline (3 decks)"
 msgstr ""
 
 msgid "Zeus"
+msgstr ""
+
+msgid "Zigzag Course"
 msgstr ""
 
 msgid "Zodiac"

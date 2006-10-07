@@ -143,18 +143,21 @@ class BakersDozen(CastlesInSpain):
 
 # /***********************************************************************
 # // Spanish Patience
+# // Portuguese Solitaire
 # ************************************************************************/
 
 class SpanishPatience(BakersDozen):
     Foundation_Class = AC_FoundationStack
 
 
-# /***********************************************************************
-# // Portuguese Solitaire
-# ************************************************************************/
-
 class PortugueseSolitaire(BakersDozen):
     RowStack_Class = StackWrapper(RK_RowStack, base_rank=KING)
+    def _shuffleHook(self, cards):
+        return cards
+
+
+class SpanishPatienceII(PortugueseSolitaire):
+    RowStack_Class = RK_RowStack
 
 
 # /***********************************************************************
@@ -347,3 +350,5 @@ registerGame(GameInfo(369, RippleFan, "Ripple Fan",
                       GI.GT_BAKERS_DOZEN, 1, -1, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(515, Indefatigable, "Indefatigable",
                       GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 1, 2, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(664, SpanishPatienceII, "Spanish Patience II",
+                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))

@@ -527,6 +527,7 @@ def tkhtml_main(args):
     except:
         url = os.path.join(os.pardir, os.pardir, "data", "html", "index.html")
     top = Tkinter.Tk()
+    top.tk.call("package", "require", "tile")
     top.wm_minsize(400, 200)
     viewer = HTMLViewer(top)
     viewer.app = None

@@ -242,15 +242,6 @@ def pysol_init(app, args):
     app.top_bg = top.cget("bg")
     app.top_palette = [None, None]       # [fg, bg]
     app.top_cursor = top.cget("cursor")
-    if USE_TILE:
-        import settings
-        if opts['tile-theme']:
-            settings.TILE_THEME = opts['tile-theme']
-        from pysoltk import load_theme
-        try:
-            load_theme(app, top, settings.TILE_THEME)
-        except Exception, err:
-            print >> sys.stderr, 'ERROR: set theme:', err
 
     # load options
     app.loadOptions()
@@ -374,22 +365,20 @@ def pysol_init(app, args):
                 app.opt.fonts["default"] = None
 
     if USE_TILE: # for tile
+        from pysoltk import load_theme
+        import settings
+        if opts['tile-theme']:
+            settings.TILE_THEME = opts['tile-theme']
+        try:
+            load_theme(app, top, settings.TILE_THEME)
+        except Exception, err:
+            print >> sys.stderr, 'ERROR: set theme:', err
         ##top.option_add('*Toolbar.relief', 'groove')
         ##top.option_add('*Toolbar.relief', 'raised')
-        top.option_add('*Toolbar.borderWidth', 1)
-        top.option_add('*Toolbar.Button.Pad', 2)
-        top.option_add('*Toolbar.Button.default', 'disabled')
-        top.option_add('*Toolbar*takeFocus', 0)
-        #
-        from settings import TILE_THEME
-        if TILE_THEME:
-            if font:
-                top.tk.call('style', 'configure', '.', '-font', font)
-            else:
-                font = top.tk.call('style', 'lookup', TILE_THEME, '-font')
-                top.option_add('*font', font)
-            bg = top.tk.call('style', 'lookup', TILE_THEME, '-background')
-            top.tk_setPalette(bg)
+        ##top.option_add('*Toolbar.borderWidth', 1)
+        ##top.option_add('*Toolbar.Button.Pad', 2)
+        ##top.option_add('*Toolbar.Button.default', 'disabled')
+        ##top.option_add('*Toolbar*takeFocus', 0)
 
     # check games
     if len(app.gdb.getGamesIdSortedByName()) == 0:

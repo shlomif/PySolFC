@@ -120,6 +120,7 @@ class MfxStatusbar:
 
     def configLabel(self, name, **kw):
         if kw.has_key('fg'):
+            kw['foreground'] = kw['fg']
             del kw['fg']
         label = getattr(self, name + "_label")
         apply(label.config, (), kw)
@@ -165,21 +166,21 @@ class PysolStatusbar(MfxStatusbar):
         #
         l = self._createLabel("info", fill='both', expand=1)
         ##l.config(text="", justify="left", anchor='w')
-        #~l.config(padx=8)
+        l.config(padding=(8, 0))
 
 
 class HelpStatusbar(MfxStatusbar):
     def __init__(self, top):
         MfxStatusbar.__init__(self, top, row=4, column=0, columnspan=3)
         l = self._createLabel("info", fill='both', expand=1)
-        l.config(justify="left", anchor='w') #~, padx=8)
+        l.config(justify="left", anchor='w', padding=(8, 0))
 
 
 class HtmlStatusbar(MfxStatusbar):
     def __init__(self, top, row, column, columnspan):
         MfxStatusbar.__init__(self, top, row=row, column=column, columnspan=columnspan)
         l = self._createLabel("url", fill='both', expand=1)
-        l.config(justify="left", anchor='w') #~, padx=8)
+        l.config(justify="left", anchor='w', padding=(8, 0))
 
 
 # /***********************************************************************

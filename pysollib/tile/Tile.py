@@ -23,6 +23,10 @@ TkVersion = Tkinter.TkVersion
 TclError = Tkinter.TclError
 
 
+# internal
+_flatten = Tkinter._flatten
+
+
 class Style:
     def __init__(self, master):
         self.tk = master.tk
@@ -84,7 +88,7 @@ class Style:
         for k, v in cnf.items():
             if v is not None:
                 if k[-1] == '_': k = k[:-1]
-                res = res + ('-'+k, v)
+                res = res + ('-'+k, str(v))
         return res
 
     def configure(self, style, **kw):
@@ -372,7 +376,7 @@ class Treeview(Widget, Tkinter.Listbox):
             The width of the column in pixels. Default is something 
             reasonable, probably 200 or so. 
         """
-        pass
+        return self.tk.call((self._w, 'column', column) + self._options(kw))
 
     def delete(self, items):
         """Deletes each of the items and all of their descendants. 
@@ -413,7 +417,7 @@ class Treeview(Widget, Tkinter.Listbox):
         -command script
             A script to evaluate when the heading label is pressed. 
         """
-        pass
+        return self.tk.call((self._w, 'heading', column) + self._options(kw))
 
     def identify(self, x, y):
         """Returns a description of the widget component under the point given 
@@ -458,7 +462,10 @@ class Treeview(Widget, Tkinter.Listbox):
         returns the item identifier of the newly created item. See ITEM 
         OPTIONS for the list of available options.
         """
-        pass
+        if not parent: parent = ''
+        args = (self._w, 'insert', parent, index)
+        if id: args = args + ('-id', id)
+        return self.tk.call(args + self._options(kw))
 
     def item(item, **kw):
         """Query or modify the options for the specified item. If no -option 

@@ -54,7 +54,8 @@ __all__ = ['tkversion',
 
 # imports
 import sys, os
-import Tile as Tkinter
+import traceback
+import Tkinter
 
 # Toolkit imports
 
@@ -73,6 +74,7 @@ try:
         tkversion = tuple(m[:4])
     del m
 except:
+    traceback.print_exc()
     pass
 
 # experimental

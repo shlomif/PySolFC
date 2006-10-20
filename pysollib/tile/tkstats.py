@@ -80,12 +80,7 @@ class SingleGame_StatsDialog(MfxDialog):
         self.top.wm_minsize(200, 200)
         self.button = kw.default
         #
-        ##createChart = self.create3DBarChart
         createChart = self.createPieChart
-        ##createChart = self.createSimpleChart
-##         if parent.winfo_screenwidth() < 800 or parent.winfo_screenheight() < 600:
-##             createChart = self.createPieChart
-##             createChart = self.createSimpleChart
         #
         self.font = self.app.getFont("default")
         self.tk_font = tkFont.Font(self.top, self.font)
@@ -177,79 +172,6 @@ class SingleGame_StatsDialog(MfxDialog):
             c.create_text(x, ty[1]-dy, text="%d%%" % (100-pw), anchor="ne", font=tfont, fill=fg)
 
 
-##     def _createChart3DBar(self, canvas, perc, x, y, p, col):
-##         if perc < 0.005:
-##             return
-##         # translate and scale
-##         p = list(p[:])
-##         for i in (0, 1, 2, 3):
-##             p[i] = (x + p[i][0], y + p[i][1])
-##             j = i + 4
-##             dx = int(round(p[j][0] * perc))
-##             dy = int(round(p[j][1] * perc))
-##             p[j] = (p[i][0] + dx, p[i][1] + dy)
-##         # draw rects
-##         def draw_rect(a, b, c, d, col, canvas=canvas, p=p):
-##             points = (p[a][0], p[a][1], p[b][0], p[b][1],
-##                       p[c][0], p[c][1], p[d][0], p[d][1])
-##             canvas.create_polygon(points, fill=col)
-##         draw_rect(0, 1, 5, 4, col[0])
-##         draw_rect(1, 2, 6, 5, col[1])
-##         draw_rect(4, 5, 6, 7, col[2])
-##         # draw lines
-##         def draw_line(a, b, canvas=canvas, p=p):
-##             ##print a, b, p[a], p[b]
-##             canvas.create_line(p[a][0], p[a][1], p[b][0], p[b][1])
-##         draw_line(0, 1)
-##         draw_line(1, 2)
-##         draw_line(0, 4)
-##         draw_line(1, 5)
-##         draw_line(2, 6)
-##         ###draw_line(3, 7)     ## test
-##         draw_line(4, 5)
-##         draw_line(5, 6)
-##         draw_line(6, 7)
-##         draw_line(7, 4)
-
-
-    #
-    # charts
-    #
-
-##     def createSimpleChart(self, app, won, lost, text):
-##         #c, tfont, fg = self._createChartInit(frame, 300, 100, text)
-##         self._createChartInit(300, 100, text)
-##         c, tfont, fg = self.canvas, self.font, self.fg
-##         #
-##         tx = (90, 180, 210)
-##         ty = (21, 41, 75)
-##         self._createChartTexts(tx, ty, won, lost)
-
-##     def create3DBarChart(self, app, won, lost, text):
-##         image = app.gimages.stats[0]
-##         iw, ih = image.width(), image.height()
-##         #c, tfont, fg = self._createChartInit(frame, iw+160, ih, text)
-##         self._createChartInit(iw+160, ih, text)
-##         c, tfont, fg = self.canvas, self.font, self.fg
-##         pwon, plost = self._getPwon(won, lost)
-##         #
-##         tx = (iw+20, iw+110, iw+140)
-##         yy = ih/2 ## + 7
-##         ty = (yy+21-46, yy+41-46, yy+75-46)
-##         #
-##         c.create_image(0, 7, image=image, anchor="nw")
-##         #
-##         p = ((0, 0), (44, 6), (62, -9), (20, -14),
-##              (-3, -118), (-1, -120), (-1, -114), (-4, -112))
-##         col = ("#00ff00", "#008200", "#00c300")
-##         self._createChart3DBar(c, pwon,  102, 145+7, p, col)
-##         p = ((0, 0), (49, 6), (61, -10), (15, -15),
-##              (1, -123), (3, -126), (4, -120), (1, -118))
-##         col = ("#ff0000", "#860400", "#c70400")
-##         self._createChart3DBar(c, plost, 216, 159+7, p, col)
-##         #
-##         self._createChartTexts(tx, ty, won, lost)
-##         c.create_text(tx[0], ty[0]-48, text=self.player, anchor="nw", font=tfont, fill=fg)
 
     def createPieChart(self, app, won, lost, text):
         #c, tfont, fg = self._createChartInit(frame, 300, 100, text)
@@ -300,8 +222,11 @@ class SingleGame_StatsDialog(MfxDialog):
 # //
 # ************************************************************************/
 
-class TreeWriter(PysolStatsFormatter.StringWriter):
-    def __init__(self, tree, parent_window, font, w, h):
+class TreeFormatter(PysolStatsFormatter):
+    MAX_ROWS = 10000
+
+    def __init__(self, app, tree, parent_window, font, w, h):
+        self.app = app
         self.tree = tree
         self.parent_window = parent_window
         self.font = font
@@ -310,12 +235,6 @@ class TreeWriter(PysolStatsFormatter.StringWriter):
         self._tabs = None
         self.w = w
         self.h = h
-
-    def p(self, s):
-        pass
-
-    def pheader(self, s):
-        pass
 
     def _calc_tabs(self, arg):
         if self.parent_window.tree_tabs:
@@ -331,57 +250,73 @@ class TreeWriter(PysolStatsFormatter.StringWriter):
         self._tabs.append(10)
         self.parent_window.tree_tabs = self._tabs
 
-    def pstats(self, *args, **kwargs):
-        header = False
+    def writeStats(self, player, sort_by='name'):
+        header = self.getStatHeader()
         if self._tabs is None:
-            # header
-            self._calc_tabs(args)
-            header = True
+            self._calc_tabs(header)
+        t1, t2, t3, t4, t5, t6, t7 = header
+        for column, text, anchor, tab in (
+            ('#0',      t1, 'nw', self._tabs[0]),
+            ('played',  t2, 'ne', self._tabs[1]),
+            ('won',     t3, 'ne', self._tabs[2]),
+            ('lost',    t4, 'ne', self._tabs[3]),
+            ('time',    t5, 'ne', self._tabs[4]),
+            ('moves',   t6, 'ne', self._tabs[5]),
+            ('percent', t7, 'ne', self._tabs[6]), ):
+            self.tree.heading(column, text=text,
+                command=lambda par=self.parent_window, col=column: par.headerClick(col))
+            self.tree.column(column, width=tab)
 
-        t1, t2, t3, t4, t5, t6, t7 = args
-        if not header: t1=gettext(t1)                        # game name
-
-        if header:
-            for column, text, anchor, tab in (
-                ('#0',      t1, 'nw', self._tabs[0]),
-                ('played',  t2, 'ne', self._tabs[1]),
-                ('won',     t3, 'ne', self._tabs[2]),
-                ('lost',    t4, 'ne', self._tabs[3]),
-                ('time',    t5, 'ne', self._tabs[4]),
-                ('moves',   t6, 'ne', self._tabs[5]),
-                ('percent', t7, 'ne', self._tabs[6]), ):
-                self.tree.heading(column, text=text,
-                    command=lambda par=self.parent_window, col=column: par.headerClick(col))
-                self.tree.column(column, width=tab)
-        else:
+        for result in self.getStatResults(player, sort_by):
+            t1, t2, t3, t4, t5, t6, t7, t8 = result
+            t1=gettext(t1)              # game name
             id = self.tree.insert(None, "end", text=t1,
                                   values=(t2, t3, t4, t5, t6, t7))
             self.parent_window.tree_items.append(id)
 
-    def plog(self, *args, **kwargs):
-        header = False
+        total, played, won, lost, time, moves, perc = self.getStatSummary()
+        text = _("Total (%d out of %d games)") % (played, total)
+        id = self.tree.insert(None, "end", text=text,
+                              values=(won+lost, won, lost, time, moves, perc))
+        self.parent_window.tree_items.append(id)
+
+        return 1
+
+    def writeLog(self, player, prev_games):
         if self._tabs is None:
-            # header
             self._calc_tabs(('', '99999999999999999999', '9999-99-99  99:99', 'XXXXXXXXXXXX'))
-            header = True
-
-        t1, t2, t3, t4 = args[:4]
-        if not header: t1=gettext(t1)                        # game name
-
-        if header:
-            for column, text, anchor, tab in (
-                ('#0',         t1, 'nw', self._tabs[0]),
-                ('gamenumber', t2, 'ne', self._tabs[1]),
-                ('date',       t3, 'ne', self._tabs[2]),
-                ('status',     t4, 'ne', self._tabs[3]), ):
-                self.tree.heading(column, text=text,
-                    command=lambda par=self.parent_window, col=column: par.headerClick(col))
-                self.tree.column(column, width=tab)
-                ##if column in ('gamenumber', 'date', 'status'):
-                ##    self.tree.column(column, anchor='center')
-        else:
+        header = self.getLogHeader()
+        t1, t2, t3, t4 = header
+        for column, text, anchor, tab in (
+            ('#0',         t1, 'nw', self._tabs[0]),
+            ('gamenumber', t2, 'ne', self._tabs[1]),
+            ('date',       t3, 'ne', self._tabs[2]),
+            ('status',     t4, 'ne', self._tabs[3]), ):
+            self.tree.heading(column, text=text,
+                command=lambda par=self.parent_window, col=column: par.headerClick(col))
+            self.tree.column(column, width=tab)
+            ##if column in ('gamenumber', 'date', 'status'):
+            ##    self.tree.column(column, anchor='center')
+        if not player or not prev_games:
+            return 0
+        num_rows = 0
+        for result in self.getLogResults(player, prev_games):
+            t1, t2, t3, t4, t5, t6 = result
+            t1=gettext(t1)              # game name
             id = self.tree.insert(None, "end", text=t1, values=(t2, t3, t4))
             self.parent_window.tree_items.append(id)
+            num_rows += 1
+            if num_rows > self.MAX_ROWS:
+                break
+        return 1
+
+    def writeFullLog(self, player):
+        prev_games = self.app.stats.prev_games.get(player)
+        return self.writeLog(player, prev_games)
+
+    def writeSessionLog(self, player):
+        prev_games = self.app.stats.session_games.get(player)
+        return self.writeLog(player, prev_games)
 
 
 # /***********************************************************************
@@ -467,14 +402,9 @@ class AllGames_StatsDialog(MfxDialog):
         if self.tree_items:
             self.tree.delete(tuple(self.tree_items))
             self.tree_items = []
-        a = PysolStatsFormatter(self.app)
-        writer = TreeWriter(self.tree, self,
+        formatter = TreeFormatter(self.app, self.tree, self,
                             self.font, self.CHAR_W, self.CHAR_H)
-        if not a.writeStats(writer, player, header, sort_by=self.sort_by):
-            # FIXME
-            pass
-        destruct(writer)
-        destruct(a)
+        formatter.writeStats(player, sort_by=self.sort_by)
 
 
 # /***********************************************************************
@@ -487,13 +417,9 @@ class FullLog_StatsDialog(AllGames_StatsDialog):
     COLUMNS = ('gamenumber', 'date', 'status')
 
     def fillCanvas(self, player, header):
-        a = PysolStatsFormatter(self.app)
-        writer = TreeWriter(self.tree, self, self.font,
-                            self.CHAR_W, self.CHAR_H)
-        if not a.writeFullLog(writer, player, header):
-            # FIXME
-            pass
-        destruct(a)
+        formatter = TreeFormatter(self.app, self.tree, self, self.font,
+                                  self.CHAR_W, self.CHAR_H)
+        formatter.writeFullLog(player)
 
     def initKw(self, kw):
         kw = KwStruct(kw,
@@ -509,13 +435,9 @@ class FullLog_StatsDialog(AllGames_StatsDialog):
 
 class SessionLog_StatsDialog(FullLog_StatsDialog):
     def fillCanvas(self, player, header):
-        a = PysolStatsFormatter(self.app)
-        writer = TreeWriter(self.tree, self, self.font,
-                            self.CHAR_W, self.CHAR_H)
-        if not a.writeSessionLog(writer, player, header):
-            # FIXME
-            pass
-        destruct(a)
+        formatter = TreeFormatter(self.app, self.tree, self, self.font,
+                                  self.CHAR_W, self.CHAR_H)
+        formatter.writeSessionLog(player)
 
     def initKw(self, kw):
         kw = KwStruct(kw,
@@ -582,8 +504,7 @@ class _TopDialog(MfxDialog):
         self.createBitmaps(top_frame, kw)
 
         cnf = {'master': top_frame,
-               'highlightthickness': 1,
-               'highlightbackground': 'black',
+               'padding': (4, 1),
                }
         frame = apply(Tkinter.Frame, (), cnf)
         frame.pack(expand=Tkinter.YES, fill=Tkinter.BOTH, padx=10, pady=10)
@@ -654,9 +575,9 @@ class Top_StatsDialog(MfxDialog):
             app.stats.games_stats[player].has_key(gameid) and
             app.stats.games_stats[player][gameid].time_result.top):
 
-            Tkinter.Label(frame, text=_('Minimum')).grid(row=0, column=1)
-            Tkinter.Label(frame, text=_('Maximum')).grid(row=0, column=2)
-            Tkinter.Label(frame, text=_('Average')).grid(row=0, column=3)
+            Tkinter.Label(frame, text=_('Minimum')).grid(row=0, column=1, padx=4)
+            Tkinter.Label(frame, text=_('Maximum')).grid(row=0, column=2, padx=4)
+            Tkinter.Label(frame, text=_('Average')).grid(row=0, column=3, padx=4)
             ##Tkinter.Label(frame, text=_('Total')).grid(row=0, column=4)
 
             s = app.stats.games_stats[player][gameid]

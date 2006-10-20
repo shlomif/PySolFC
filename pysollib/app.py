@@ -143,10 +143,10 @@ class Options:
             'startdrag'     : True,
             'turnwaste'     : True,
             'undo'          : True,
-            'gamefinished'  : True,
-            'gamelost'      : True,
-            'gameperfect'   : True,
-            'gamewon'       : True,
+            'gamefinished'  : False,
+            'gamelost'      : False,
+            'gameperfect'   : False,
+            'gamewon'       : False,
             }
         # fonts
         self.fonts = {"default"        : None,

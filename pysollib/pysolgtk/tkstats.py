@@ -40,61 +40,71 @@ gettext = _
 # //
 # ************************************************************************/
 
-class StatsWriter(PysolStatsFormatter.StringWriter):
+class StatsFormatter(PysolStatsFormatter):
 
-    def __init__(self, store):
+    def __init__(self, app, store):
+        self.app = app
         self.store = store
 
-    def p(self, s):
-        pass
-
-    def pheader(self, s):
-        pass
-
-    def pstats(self, *args, **kwargs):
-        gameid=kwargs.get('gameid', None)
-        if gameid is None:
-            # header
-            return
+    def writeStats(self, player, sort_by='name'):
+        for result in self.getStatResults(player, sort_by):
+            iter = self.store.append(None)
+            self.store.set(iter,
+                           0, gettext(result[0]),
+                           1, result[1],
+                           2, result[2],
+                           3, result[3],
+                           4, result[4],
+                           5, result[5],
+                           6, result[6],
+                           7, result[7])
+        total, played, won, lost, time, moves, perc = self.getStatSummary()
+        text = _("Total (%d out of %d games)") % (played, total)
         iter = self.store.append(None)
         self.store.set(iter,
-                       0, gettext(args[0]),
-                       1, args[1],
-                       2, args[2],
-                       3, args[3],
-                       4, args[4],
-                       5, args[5],
-                       6, args[6],
-                       7, gameid)
+                       0, text,
+                       1, won+lost,
+                       2, won,
+                       3, lost,
+                       4, time,
+                       5, moves,
+                       6, perc,
+                       7, -1)
+        return 1
 
 
-class LogWriter(PysolStatsFormatter.StringWriter):
+class LogFormatter(PysolStatsFormatter):
     MAX_ROWS = 10000
 
-    def __init__(self, store):
+    def __init__(self, app, store):
+        self.app = app
         self.store = store
         self._num_rows = 0
 
-    def p(self, s):
-        pass
+    def writeLog(self, player, prev_games):
+        if not player or not prev_games:
+            return 0
+        num_rows = 0
+        for result in self.getLogResults(player, prev_games):
+            iter = self.store.append(None)
+            self.store.set(iter,
+                           0, gettext(result[0]),
+                           1, result[1],
+                           2, result[2],
+                           3, result[3],
+                           4, result[4])
+            num_rows += 1
+            if num_rows > self.MAX_ROWS:
+                break
+        return 1
 
-    def pheader(self, s):
-        pass
+    def writeFullLog(self, player):
+        prev_games = self.app.stats.prev_games.get(player)
+        return self.writeLog(player, prev_games)
 
-    def plog(self, gamename, gamenumber, date, status, gameid=-1, won=-1):
-        if gameid < 0:
-            # header
-            return
-        if self._num_rows > self.MAX_ROWS:
-            return
-        iter = self.store.append(None)
-        self.store.set(iter,
-                       0, gettext(gamename),
-                       1, gamenumber,
-                       2, date,
-                       3, status,
-                       4, gameid)
-        self._num_rows += 1
+    def writeSessionLog(self, player):
+        prev_games = self.app.stats.session_games.get(player)
+        return self.writeLog(player, prev_games)
 
 
 class Game_StatsDialog:
@@ -107,7 +117,6 @@ class Game_StatsDialog:
         self.games = {}
         self.games_id = [] # sorted by name
         #
-        formatter = PysolStatsFormatter(self.app)
         glade_file = app.dataloader.findFile('pysolfc.glade')
         #
         games = app.gdb.getGamesIdSortedByName()
@@ -142,16 +151,16 @@ class Game_StatsDialog:
         self._updateTop(gameid)
         # all games stat
         store = self._createStatsList()
-        writer = StatsWriter(store)
-        formatter.writeStats(writer, player, header, sort_by='name')
+        formatter = StatsFormatter(app, store)
+        formatter.writeStats(player)
         # full log
         store = self._createLogList('full_log_treeview')
-        writer = LogWriter(store)
-        formatter.writeFullLog(writer, player, header)
+        formatter = LogFormatter(app, store)
+        formatter.writeFullLog(player)
         # session log
         store = self._createLogList('session_log_treeview')
-        writer = LogWriter(store)
-        formatter.writeSessionLog(writer, player, header)
+        formatter = LogFormatter(app, store)
+        formatter.writeSessionLog(player)
         #
         self._translateLabels()
         dialog = self.widgets_tree.get_widget('stats_dialog')

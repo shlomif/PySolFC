@@ -46,18 +46,16 @@ from settings import TOP_TITLE
 from gamedb import GI
 
 # stats imports
-from stats import PysolStatsFormatter
+from stats import FileStatsFormatter
 from pysoltk import SingleGame_StatsDialog, AllGames_StatsDialog
 from pysoltk import FullLog_StatsDialog, SessionLog_StatsDialog
 from pysoltk import Status_StatsDialog, Top_StatsDialog
 from pysoltk import GameInfoDialog
 
 # toolkit imports
-from pysoltk import EVENT_HANDLED, EVENT_PROPAGATE
 from pysoltk import MfxMessageDialog, MfxSimpleEntry
 from pysoltk import MfxExceptionDialog
 from pysoltk import PlayerOptionsDialog
-#from pysoltk import HintOptionsDialog
 from pysoltk import TimeoutsDialog
 from pysoltk import ColorsDialog
 from pysoltk import FontsDialog
@@ -533,7 +531,7 @@ class PysolMenubarActions:
     # Game menu - statistics
     #
 
-    def _mStatsSave(self, player, header, filename, write_method):
+    def _mStatsSave(self, player, filename, write_method):
         file = None
         if player is None:
             text = _("Demo statistics")
@@ -544,10 +542,8 @@ class PysolMenubarActions:
         filename = os.path.normpath(filename)
         try:
             file = open(filename, "a")
-            a = PysolStatsFormatter(self.app)
-            writer = a.FileWriter(file)
-            apply(write_method, (a, writer, player, header))
-            destruct(a)
+            a = FileStatsFormatter(self.app, file)
+            write_method(a, player)
         except EnvError, ex:
             if file: file.close()
             d = MfxExceptionDialog(self.top, ex,
@@ -597,19 +593,16 @@ class PysolMenubarActions:
                 d = GameInfoDialog(self.top, header, self.app)
             elif mode == 202:
                 # print stats to file
-                header = _("Statistics for ") + p0
-                write_method = PysolStatsFormatter.writeStats
-                self._mStatsSave(player, header, "stats", write_method)
+                write_method = FileStatsFormatter.writeStats
+                self._mStatsSave(player, "stats", write_method)
             elif mode == 203:
                 # print full log to file
-                header = _("Full log for ") + p0
-                write_method = PysolStatsFormatter.writeFullLog
-                self._mStatsSave(player, header, "log", write_method)
+                write_method = FileStatsFormatter.writeFullLog
+                self._mStatsSave(player, "log", write_method)
             elif mode == 204:
                 # print session log to file
-                header = _("Session log for ") + p0
-                write_method = PysolStatsFormatter.writeSessionLog
-                self._mStatsSave(player, header, "log", write_method)
+                write_method = FileStatsFormatter.writeSessionLog
+                self._mStatsSave(player, "log", write_method)
             elif mode == 301:
                 # reset all player stats
                 if self.game.areYouSure(_("Reset all statistics"),

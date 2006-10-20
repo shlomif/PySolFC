@@ -132,7 +132,7 @@ class Strata(Game):
         for i in range(8):
             s.rows.append(AC_RowStack(x, y, self, max_move=1, max_accept=1))
             x = x + l.XS
-        s.talon = RedealTalonStack(l.XM, l.YM, self, max_rounds=2)
+        s.talon = RedealTalonStack(l.XM, l.YM, self, max_rounds=3)
 
         # define stack-groups
         l.defaultStackGroups()
@@ -157,6 +157,6 @@ registerGame(GameInfo(293, Nationale, "Nationale",
                       GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL,
                       altnames=('Zigzag Course',) ))
 registerGame(GameInfo(606, Strata, "Strata",
-                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 2, 1, GI.SL_MOSTLY_SKILL,
+                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 2, 2, GI.SL_MOSTLY_SKILL,
                       ranks=(0, 6, 7, 8, 9, 10, 11, 12) ))
 

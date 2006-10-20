@@ -415,10 +415,8 @@ class Carpet(Game):
 # // British Constitution
 # ************************************************************************/
 
-class BritishConstitution_RowStack(AC_RowStack):
+class BritishConstitution_RowStackMethods:
     def acceptsCards(self, from_stack, cards):
-        if not AC_RowStack.acceptsCards(self, from_stack, cards):
-            return False
         if self in self.game.s.rows[:8] and from_stack in self.game.s.rows[8:16]:
             return True
         if self in self.game.s.rows[8:16] and from_stack in self.game.s.rows[16:24]:
@@ -428,6 +426,18 @@ class BritishConstitution_RowStack(AC_RowStack):
         if self in self.game.s.rows[24:] and from_stack is self.game.s.waste:
             return True
         return False
+
+class BritishConstitution_RowStack(BritishConstitution_RowStackMethods, AC_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not AC_RowStack.acceptsCards(self, from_stack, cards):
+            return False
+        return BritishConstitution_RowStackMethods.acceptsCards(self, from_stack, cards)
+
+class NewBritishConstitution_RowStack(BritishConstitution_RowStackMethods, RK_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not RK_RowStack.acceptsCards(self, from_stack, cards):
+            return False
+        return BritishConstitution_RowStackMethods.acceptsCards(self, from_stack, cards)
 
 
 class BritishConstitution_Foundation(SS_FoundationStack):
@@ -500,8 +510,7 @@ class BritishConstitution(Game):
 
 
 class NewBritishConstitution(BritishConstitution):
-    RowStack_Class = StackWrapper(BritishConstitution_RowStack, base_rank=JACK)
-
+    RowStack_Class = StackWrapper(NewBritishConstitution_RowStack, base_rank=JACK)
 
 
 # /***********************************************************************

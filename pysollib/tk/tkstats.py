@@ -299,8 +299,9 @@ class SingleGame_StatsDialog(MfxDialog):
 # //
 # ************************************************************************/
 
-class CanvasWriter(PysolStatsFormatter.StringWriter):
-    def __init__(self, canvas, parent_window, font, w, h):
+class CanvasFormatter(PysolStatsFormatter):
+    def __init__(self, app, canvas, parent_window, font, w, h):
+        self.app = app
         self.canvas = canvas
         self.parent_window = parent_window
         ##self.fg = canvas.cget("insertbackground")
@@ -308,7 +309,7 @@ class CanvasWriter(PysolStatsFormatter.StringWriter):
         self.font = font
         self.w = w
         self.h = h
-        self.x = self.y = 0
+        #self.x = self.y = 0
         self.gameid = None
         self.gamenumber = None
         self.canvas.config(yscrollincrement=h)
@@ -316,26 +317,6 @@ class CanvasWriter(PysolStatsFormatter.StringWriter):
 
     def _addItem(self, id):
         self.canvas.dialog.nodes[id] = (self.gameid, self.gamenumber)
-
-    def p(self, s):
-        if self.y > 16000:
-            return
-        h1, h2 = 0, 0
-        while s and s[0] == "\n":
-            s = s[1:]
-            h1 = h1 + self.h
-        while s and s[-1] == "\n":
-            s = s[:-1]
-            h2 = h2 + self.h
-        self.y = self.y + h1
-        if s:
-            id = self.canvas.create_text(self.x, self.y, text=s, anchor="nw",
-                                         font=self.font, fill=self.fg)
-            self._addItem(id)
-        self.y = self.y + h2
-
-    def pheader(self, s):
-        pass
 
     def _calc_tabs(self, arg):
         tw = 15*self.w
@@ -347,59 +328,12 @@ class CanvasWriter(PysolStatsFormatter.StringWriter):
             self._tabs.append(tw)
         self._tabs.append(10)
 
-    def pstats(self, *args, **kwargs):
-        gameid=kwargs.get('gameid', None)
-        header = False
-        if self._tabs is None:
-            # header
-            header = True
-            self._calc_tabs(args)
-            self.gameid = 'header'
-            self.gamenumber = None
-##             if False:
-##                 sort_by = ( 'name', 'played', 'won', 'lost',
-##                             'time', 'moves', 'percent', )
-##                 frame = Tkinter.Frame(self.canvas)
-##                 i = 0
-##                 for t in args:
-##                     w = self._tabs[i]
-##                     if i == 0:
-##                         w += 10
-##                     b = Tkinter.Button(frame, text=t)
-##                     b.grid(row=0, column=i, sticky='ew')
-##                     b.bind('<1>', lambda e, f=self.parent_window.rearrange, s=sort_by[i]: f(s))
-##                     frame.columnconfigure(i, minsize=w)
-##                     i += 1
-##                 self.canvas.create_window(0, 0, window=frame, anchor='nw')
-##                 self.y += 20
-##                 return
-##             if False:
-##                 i = 0
-##                 x = 0
-##                 for t in args:
-##                     w = self._tabs[i]
-##                     h = 18
-##                     anchor = 'ne'
-##                     y = 0
-##                     self.canvas.create_rectangle(x+2, y, x+w, y+h, width=1,
-##                                      fill="#00ff00", outline="#000000")
-##                     x += w
-##                     self.canvas.create_text(x-3, y+3, text=t, anchor=anchor)
-##                     i += 1
-##                 self.y += 20
-##                 return
-
-        else:
-            self.gameid = gameid
-            self.gamenumber = None
-        if self.y > 16000:
-            return
-        x, y = 1, self.y
-        p = self._pstats_text
+    def pstats(self, y, args, gameid=None):
+        x = 1
         t1, t2, t3, t4, t5, t6, t7 = args
-        h = 0
-        if not header: t1=gettext(t1)                        # game name
-
+        self.gamenumber = None
+        if gameid is None:              # header
+            self.gameid = 'header'
         for var, text, anchor, tab in (
             ('name',    t1, 'nw', self._tabs[0]+self._tabs[1]),
             ('played',  t2, 'ne', self._tabs[2]),
@@ -408,46 +342,13 @@ class CanvasWriter(PysolStatsFormatter.StringWriter):
             ('time',    t5, 'ne', self._tabs[5]),
             ('moves',   t6, 'ne', self._tabs[6]),
             ('percent', t7, 'ne', self._tabs[7]), ):
-            if header: self.gamenumber=var
-            h = max(h, p(x, y, anchor=anchor, text=text))
+            if gameid is None:          # header
+                self.gamenumber=var
+            id = self.canvas.create_text(x, y, text=text, anchor=anchor,
+                                         font=self.font, fill=self.fg)
+            self._addItem(id)
             x += tab
-
         self.pstats_perc(x, y, t7)
-        self.y += h
-        self.gameid = None
-        return
-
-##         h = max(h, p(x, y, anchor="nw", text=t1))
-##         if header: self.gamenumber='played'
-##         x += self._tabs[0]+self._tabs[1]
-##         h = max(h, p(x, y, anchor="ne", text=t2))
-##         if header: self.gamenumber='won'
-##         x += self._tabs[2]
-##         h = max(h, p(x, y, anchor="ne", text=t3))
-##         if header: self.gamenumber='lost'
-##         x += self._tabs[3]
-##         h = max(h, p(x, y, anchor="ne", text=t4))
-##         if header: self.gamenumber='time'
-##         x += self._tabs[4]
-##         h = max(h, p(x, y, anchor="ne", text=t5))
-##         if header: self.gamenumber='moves'
-##         x += self._tabs[5]
-##         h = max(h, p(x, y, anchor="ne", text=t6))
-##         if header: self.gamenumber='percent'
-##         x += self._tabs[6]
-##         h = max(h, p(x, y, anchor="ne", text=t7))
-##         x += self._tabs[7]
-##         self.pstats_perc(x, y, t7)
-##         self.y += h
-##         self.gameid = None
-
-    def _pstats_text(self, x, y, **kw):
-        kwdefault(kw, font=self.font, fill=self.fg)
-        id = apply(self.canvas.create_text, (x, y), kw)
-        self._addItem(id)
-        return self.h
-        ##bbox = self.canvas.bbox(id)
-        ##return bbox[3] - bbox[1]
 
     def pstats_perc(self, x, y, t):
         if not (t and "0" <= t[0] <= "9"):
@@ -498,13 +399,51 @@ class CanvasWriter(PysolStatsFormatter.StringWriter):
             ix = ix + 8
             p = max(0.0, p - 0.1)
 
-    def plog(self, gamename, gamenumber, date, status, gameid=-1, won=-1):
-        if gameid > 0 and "0" <= gamenumber[0:1] <= "9":
-            self.gameid = gameid
-            self.gamenumber = gamenumber
-        self.p("%-25s %-20s  %17s  %s\n" % (gamename, gamenumber, date, status))
-        self.gameid = None
-        self.gamenumber = None
+    def writeStats(self, player, sort_by='name'):
+        header = self.getStatHeader()
+        y = 0
+        if self._tabs is None:
+            self._calc_tabs(header)
+        self.pstats(y, header)
+        #
+        y += 2*self.h
+        for result in self.getStatResults(player, sort_by):
+            gameid = result.pop()
+            result[0]=gettext(result[0]) # game name
+            self.pstats(y, result, gameid)
+            y += self.h
+        #
+        y += self.h
+        total, played, won, lost, time, moves, perc = self.getStatSummary()
+        s = _("Total (%d out of %d games)") % (played, total)
+        self.pstats(y, (s, won+lost, won, lost, time, moves, perc))
+
+    def writeLog(self, player, prev_games):
+        y = 0
+        header = self.getLogHeader()
+        t1, t2, t3, t4 = header
+        s = "%-25s %-20s  %-17s  %s" % header
+        id = self.canvas.create_text(1, y, text=s, anchor="nw",
+                                     font=self.font, fill=self.fg)
+        self._addItem(id)
+        y += 2*self.h
+        if not player or not prev_games:
+            return 0
+        for result in self.getLogResults(player, prev_games):
+            result[0]=gettext(result[0]) # game name
+            s = "%-25s %-20s  %-17s  %s" % tuple(result[:4])
+            id = self.canvas.create_text(1, y, text=s, anchor="nw",
+                                         font=self.font, fill=self.fg)
+            y += self.h
+        return 1
+
+    def writeFullLog(self, player):
+        prev_games = self.app.stats.prev_games.get(player)
+        return self.writeLog(player, prev_games)
+
+    def writeSessionLog(self, player):
+        prev_games = self.app.stats.session_games.get(player)
+        return self.writeLog(player, prev_games)
 
 
 # /***********************************************************************
@@ -617,14 +556,9 @@ class AllGames_StatsDialog(MfxDialog):
     def fillCanvas(self, player, header):
         self.canvas.delete('all')
         self.nodes = {}
-        a = PysolStatsFormatter(self.app)
-        #print 'CHAR_W:', self.CHAR_W
-        writer = CanvasWriter(self.canvas, self,
+        writer = CanvasFormatter(self.app, self.canvas, self,
                               self.font, self.CHAR_W, self.CHAR_H)
-        if not a.writeStats(writer, player, header, sort_by=self.sort_by):
-            writer.p(_("No entries for player ") + player + "\n")
-        destruct(writer)
-        destruct(a)
+        writer.writeStats(player, self.sort_by)
 
 
 # /***********************************************************************
@@ -636,11 +570,9 @@ class FullLog_StatsDialog(AllGames_StatsDialog):
     FONT_TYPE = "fixed"
 
     def fillCanvas(self, player, header):
-        a = PysolStatsFormatter(self.app)
-        writer = CanvasWriter(self.canvas, self, self.font, self.CHAR_W, self.CHAR_H)
-        if not a.writeFullLog(writer, player, header):
-            writer.p(_("No log entries for %s\n") % player)
-        destruct(a)
+        writer = CanvasFormatter(self.app, self.canvas, self,
+                                 self.font, self.CHAR_W, self.CHAR_H)
+        writer.writeFullLog(player)
 
     def initKw(self, kw):
         kw = KwStruct(kw,
@@ -652,11 +584,10 @@ class FullLog_StatsDialog(AllGames_StatsDialog):
 
 class SessionLog_StatsDialog(FullLog_StatsDialog):
     def fillCanvas(self, player, header):
-        a = PysolStatsFormatter(self.app)
-        writer = CanvasWriter(self.canvas, self, self.font, self.CHAR_W, self.CHAR_H)
-        if not a.writeSessionLog(writer, player, header):
-            writer.p(_("No current session log entries for %s\n") % player)
-        destruct(a)
+        a = PysolStatsFormatter()
+        writer = CanvasFormatter(self.app, self.canvas, self,
+                                 self.font, self.CHAR_W, self.CHAR_H)
+        writer.writeSessionLog(player)
 
     def initKw(self, kw):
         kw = KwStruct(kw,

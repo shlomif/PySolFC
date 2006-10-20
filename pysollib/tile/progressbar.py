@@ -112,7 +112,8 @@ class PysolProgressBar:
             return
         self.percent = min(100, max(0, self.percent))
         self.progress.config(value=self.percent)
-        self.top.update_idletasks()
+        ##self.top.update_idletasks()
+        self.top.update()
 
 
 # /***********************************************************************

@@ -297,7 +297,9 @@ class MfxTreeInCanvas(MfxScrolledCanvas):
         # set scroll region
         bbox = self.canvas.bbox("all")
         ##self.canvas.config(scrollregion=bbox)
-        self.canvas.config(scrollregion=(0,0,bbox[2],bbox[3]))
+        ##self.canvas.config(scrollregion=(0,0,bbox[2],bbox[3]))
+        dx, dy = 8, 0 # margins
+        self.canvas.config(scrollregion=(-dx,-dy,bbox[2]+dx,bbox[3]+dy))
         self.canvas.config(yscrollincrement=self.style.disty)
 
     def clear(self):

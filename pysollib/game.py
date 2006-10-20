@@ -778,8 +778,6 @@ class Game:
     def _defaultHandler(self):
         self.interruptSleep()
         self.deleteStackDesc()
-        if self.demo:
-            self.stopDemo()
 
     def clickHandler(self, event):
         self._defaultHandler()
@@ -789,6 +787,9 @@ class Game:
     def undoHandler(self, event):
         if not self.app: return EVENT_PROPAGATE # FIXME (GTK)
         self._defaultHandler()
+        if self.demo:
+            self.stopDemo()
+            return
         if self.app.opt.mouse_undo and not self.event_handled:
             self.app.menubar.mUndo()
         self.event_handled = False
@@ -797,6 +798,9 @@ class Game:
     def redoHandler(self, event):
         if not self.app: return EVENT_PROPAGATE # FIXME (GTK)
         self._defaultHandler()
+        if self.demo:
+            self.stopDemo()
+            return
         if self.app.opt.mouse_undo and not self.event_handled:
             self.app.menubar.mRedo()
         self.event_handled = False

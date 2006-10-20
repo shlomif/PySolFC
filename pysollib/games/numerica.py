@@ -596,6 +596,10 @@ class Toad(Game):
 # // Shifting
 # ************************************************************************/
 
+class Shifting_Hint(Numerica_Hint):
+    shallMovePile = DefaultHint._cautiousShallMovePile
+
+
 class Shifting_RowStack(Numerica_RowStack):
     def acceptsCards(self, from_stack, cards):
         if not BasicRowStack.acceptsCards(self, from_stack, cards):
@@ -611,6 +615,7 @@ class Shifting_RowStack(Numerica_RowStack):
 
 
 class Shifting(Numerica):
+    Hint_Class = Shifting_Hint
     RowStack_Class = StackWrapper(Shifting_RowStack, max_accept=1)
 
 

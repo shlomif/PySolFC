@@ -38,14 +38,9 @@
 import os, sys, time, types
 
 # PySol imports
-from mfxutil import SubclassResponsibility, Struct, destruct
 from mfxutil import format_time
 from settings import PACKAGE, VERSION
 from gamedb import GI
-
-
-
-# // FIXME - this a quick hack and needs a rewrite
 
 
 # /***********************************************************************
@@ -53,54 +48,18 @@ from gamedb import GI
 # ************************************************************************/
 
 class PysolStatsFormatter:
-    def __init__(self, app):
-        self.app = app
-
-    #
-    #
-    #
-
-    class StringWriter:
-        def __init__(self):
-            self.text = ""
-
-        def p(self, s):
-            self.text = self.text + s
-
-        def nl(self, count=1):
-            self.p("\n" * count)
-
-        def pheader(self, s):
-            self.p(s)
-
-        def pstats(self, *args, **kwargs):
-            s = "%-30s %7s %7s %7s %7s %7s %7s\n" % args
-            self.p(s)
-
-        def plog(self, gamename, gamenumber, date, status, gameid=-1, won=-1):
-            self.p("%-25s %-20s  %17s  %s\n" % (gamename, gamenumber, date, status))
 
 
-    class FileWriter(StringWriter):
-        def __init__(self, file):
-            self.file = file
+    def getStatHeader(self):
+        return (_("Game"),
+                _("Played"),
+                _("Won"),
+                _("Lost"),
+                _('Playing time'),
+                _('Moves'),
+                _("% won"))
 
-        def p(self, s):
-            self.file.write(s.encode('utf-8'))
-
-    #
-    #
-    #
-
-    def writeHeader(self, writer, header, pagewidth=72):
-        date = time.ctime(time.time())
-        date = time.strftime("%Y-%m-%d  %H:%M", time.localtime(time.time()))
-        blanks = max(pagewidth - len(header) - len(date), 1)
-        writer.pheader(header + " "*blanks + date + "\n")
-        writer.pheader("-" * pagewidth + "\n")
-        writer.pheader("\n")
-
-    def writeStats(self, writer, player, header, sort_by='name'):
+    def getStatResults(self, player, sort_by='name'):
         app = self.app
         #
         sort_functions = {
@@ -113,18 +72,8 @@ class PysolStatsFormatter:
             'percent': app.getGamesIdSortedByPercent,
             }
         sort_func = sort_functions[sort_by]
-
-        self.writeHeader(writer, header, 62)
-        writer.pstats(player or _("Demo games"),
-                      _("Played"),
-                      _("Won"),
-                      _("Lost"),
-                      _('Playing time'),
-                      _('Moves'),
-                      _("% won"))
-        writer.nl()
-        twon, tlost, tgames, ttime, tmoves = 0, 0, 0, 0, 0
         g = sort_func()
+        twon, tlost, tgames, ttime, tmoves = 0, 0, 0, 0, 0
         for id in g:
             name = app.getGameTitleName(id)
             #won, lost = app.stats.getStats(player, id)
@@ -134,33 +83,43 @@ class PysolStatsFormatter:
             if won + lost > 0: perc = "%.1f" % (100.0 * won / (won + lost))
             else: perc = "0.0"
             if won > 0 or lost > 0 or id == app.game.id:
-                #writer.pstats(name, won+lost, won, lost, perc, gameid=id)
                 t = format_time(time)
                 m = str(round(moves, 1))
-                writer.pstats(name, won+lost, won, lost, t, m, perc, gameid=id)
+                yield [name, won+lost, won, lost, t, m, perc, id]
                 tgames = tgames + 1
-        writer.nl()
         won, lost = twon, tlost
         if won + lost > 0:
             if won > 0:
-                time = format_time(ttime/won)
-                moves = round(tmoves/won, 1)
+                time = format_time(ttime/tgames)
+                moves = round(tmoves/tgames, 1)
             else:
                 time = format_time(0)
                 moves = 0
             perc = "%.1f" % (100.0*won/(won+lost))
         else: perc = "0.0"
-        writer.pstats(_("Total (%d out of %d games)") % (tgames, len(g)),
-                      won+lost, won, lost, time, moves, perc)
-        writer.nl(2)
-        return tgames
+        self.total_games = len(g)
+        self.played_games = tgames
+        self.won_games = won
+        self.lost_games = lost
+        self.avrg_time = time
+        self.avrg_moves = moves
+        self.percent = perc
+        #yield (_("Total (%d out of %d games)") % (tgames, len(g)),
+        #       won+lost, won, lost, time, moves, perc, '')
 
-    def _writeLog(self, writer, player, header, prev_games):
-        if not player or not prev_games:
-            return 0
-        self.writeHeader(writer, header, 71)
-        writer.plog(_("Game"), _("Game number"), _("Started at"), _("Status"))
-        writer.nl()
+    def getStatSummary(self):
+        return self.total_games, \
+               self.played_games, \
+               self.won_games, \
+               self.lost_games, \
+               self.avrg_time, \
+               self.avrg_moves, \
+               self.percent
+
+    def getLogHeader(self):
+        return _("Game"), _("Game number"), _("Started at"), _("Status")
+
+    def getLogResults(self, player, prev_games):
         twon, tlost = 0, 0
         for pg in prev_games:
             if type(pg) is not types.TupleType:
@@ -198,14 +157,88 @@ class PysolStatsFormatter:
             status = "*error*"
             if -2 <= pg[2] <= 2:
                 status = (_("Loaded"), _("Not won"), _("Lost"), _("Won"), _("Perfect")) [pg[2]+2]
-            writer.plog(name, gamenumber, date, status, gameid=gameid, won=pg[2])
-        writer.nl(2)
+            #writer.plog(name, gamenumber, date, status, gameid=gameid, won=pg[2])
+            yield [name, gamenumber, date, status, pg[2], gameid]
+
+    #
+    #
+    #
+
+    def writeStats(self, player, sort_by='name'):
+        pass
+    def writeFullLog(self, player):
+        pass
+    def writeSessionLog(self, player):
+        pass
+
+
+class FileStatsFormatter(PysolStatsFormatter):
+
+    def __init__(self, app, file):
+        self.app = app
+        self.file = file
+
+    def p(self, s):
+        self.file.write(s.encode('utf-8'))
+
+    def nl(self, count=1):
+        self.p("\n" * count)
+
+    def pheader(self, s):
+        self.p(s)
+
+    def pstats(self, *args, **kwargs):
+        s = "%-30s %7s %7s %7s %7s %7s %7s\n" % args
+        self.p(s)
+
+    def plog(self, gamename, gamenumber, date, status, gameid=-1, won=-1):
+        self.p("%-25s %-20s  %17s  %s\n" % (gamename, gamenumber, date, status))
+
+    def writeHeader(self, header, pagewidth=72):
+        date = time.ctime(time.time())
+        date = time.strftime("%Y-%m-%d  %H:%M", time.localtime(time.time()))
+        blanks = max(pagewidth - len(header) - len(date), 1)
+        self.pheader(header + " "*blanks + date + "\n")
+        self.pheader("-" * pagewidth + "\n")
+        self.pheader("\n")
+
+    def writeStats(self, player, sort_by='name'):
+        header = _("Statistics for ") + player
+        self.writeHeader(header, 62)
+        header = self.getStatHeader()
+        self.pstats(*header)
+        self.nl()
+        for result in self.getStatResults(player, sort_by):
+            gameid = result.pop()
+            self.pstats(gameid=gameid, *result)
+        self.nl()
+        total, played, won, lost, time, moves, perc = self.getStatSummary()
+        self.pstats(_("Total (%d out of %d games)") % (played, total),
+                      won+lost, won, lost, time, moves, perc)
+        self.nl(2)
+        return played
+
+    def writeLog(self, player, header, prev_games):
+        if not player or not prev_games:
+            return 0
+        self.writeHeader(header, 71)
+        header = self.getLogHeader()
+        self.plog(*header)
+        self.nl()
+        for result in self.getLogResults(player, prev_games):
+            gameid = result.pop()
+            won = result.pop()
+            self.plog(gameid=gameid, won=won, *result)
+        self.nl(2)
         return 1
 
-    def writeFullLog(self, writer, player, header):
+    def writeFullLog(self, player):
+        header = _("Full log for ") + player
         prev_games = self.app.stats.prev_games.get(player)
-        return self._writeLog(writer, player, header, prev_games)
+        return self.writeLog(player, header, prev_games)
 
-    def writeSessionLog(self, writer, player, header):
+    def writeSessionLog(self, player):
+        header = _("Session log for ") + player
         prev_games = self.app.stats.session_games.get(player)
-        return self._writeLog(writer, player, header, prev_games)
+        return self.writeLog(player, header, prev_games)
+

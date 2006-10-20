@@ -693,18 +693,20 @@ class Octagon(Game):
         i = 0
         for x, y in ((l.XM+w1,        l.YM),
                      (l.XM+w1+l.XS,   l.YM),
-                     (l.XM+w1-2*l.XS-l.XM, l.YM+l.YS),
-                     (l.XM+w1-l.XS-l.XM,   l.YM+l.YS),
-                     (l.XM+w1+2*l.XS+l.XM, l.YM+l.YS),
-                     (l.XM+w1+3*l.XS+l.XM, l.YM+l.YS),
+                     (l.XM+w1-2*l.XS-l.XS/2-l.XM, l.YM+l.YS),
+                     (l.XM+w1-l.XS-l.XS/2-l.XM,   l.YM+l.YS),
+                     (l.XM+w1+2*l.XS+l.XS/2+l.XM, l.YM+l.YS),
+                     (l.XM+w1+3*l.XS+l.XS/2+l.XM, l.YM+l.YS),
                      (l.XM+w1,        l.YM+2*l.YS),
                      (l.XM+w1+l.XS,   l.YM+2*l.YS),):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i%4))
             i += 1
         x, y = l.XM+w1, l.YM+l.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=4)
+        l.createText(s.talon, 'nw')
         x += l.XS
         s.waste = WasteStack(x, y, self)
+        l.createText(s.waste, 'ne')
 
         l.defaultStackGroups()
 

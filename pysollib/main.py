@@ -88,7 +88,7 @@ def parse_option(argv):
                                        "fg=", "foreground=",
                                        "bg=", "background=",
                                        "fn=", "font=",
-                                       "tile-theme=",
+                                       "theme=",
                                        "french-only",
                                        "noplugins",
                                        "nosound",
@@ -105,7 +105,7 @@ def parse_option(argv):
             "fg": None,
             "bg": None,
             "fn": None,
-            "tile-theme": None,
+            "theme": None,
             "french-only": False,
             "noplugins": False,
             "nosound": False,
@@ -125,8 +125,8 @@ def parse_option(argv):
             opts["bg"] = i[1]
         elif i[0] in ("--fn", "--font"):
             opts["fn"] = i[1]
-        elif i[0] == "--tile-theme":
-            opts["tile-theme"] = i[1]
+        elif i[0] == "--theme":
+            opts["theme"] = i[1]
         elif i[0] == "--french-only":
             opts["french-only"] = True
         elif i[0] == "--noplugins":
@@ -194,13 +194,6 @@ def pysol_init(app, args):
         return 1
         sys.exit(1)
     opts, filename = opts
-    wm_command = ""
-    prog = sys.executable
-    if prog and os.path.isfile(prog):
-        argv0 = os.path.normpath(args[0])
-        prog = os.path.abspath(prog)
-        if os.path.isfile(argv0):
-            wm_command = prog + " " + os.path.abspath(argv0)
     if filename:
         app.commandline.loadgame = filename
     app.commandline.game = opts['game']
@@ -281,104 +274,7 @@ def pysol_init(app, args):
         app.opt.sound_mode = 0
 
     # init toolkit 2)
-    sw, sh, sd = top.winfo_screenwidth(), top.winfo_screenheight(), top.winfo_screendepth()
-    top.wm_group(top)
-    top.wm_title(PACKAGE + " " + VERSION)
-    top.wm_iconname(PACKAGE + " " + VERSION)
-    if sw < 640 or sh < 480:
-        top.wm_minsize(400, 300)
-    else:
-        top.wm_minsize(520, 360)
-    ##self.top.wm_maxsize(9999, 9999) # unlimited
-    top.wm_protocol("WM_DELETE_WINDOW", top.wmDeleteWindow)
-    if wm_command:
-        top.wm_command(wm_command)
-    if 1:
-        # set expected window size to assist the layout of the window manager
-        top.config(width=min(800,sw-64), height=min(600,sh-64))
-    try:
-        wm_set_icon(top, app.dataloader.findIcon())
-    except: pass
-
-    # set global color scheme
-    if not opts["fg"] and not opts["bg"]:
-        if os.name == "posix":              # Unix/X11
-            pass
-        if os.name == "mac":
-            color, priority = "#d9d9d9", "60"
-            classes = (
-                "Button", "Canvas", "Checkbutton", "Entry",
-                "Frame", "Label", "Listbox", "Menubutton", ### "Menu",
-                "Message", "Radiobutton", "Scale", "Scrollbar", "Text",
-            )
-            for c in classes:
-                top.option_add("*" + c + "*background", color, priority)
-                top.option_add("*" + c + "*activeBackground", color, priority)
-    else:
-        bg, fg = opts["bg"], opts["fg"]
-        if bg:
-            top.tk_setPalette(bg)
-            app.top_palette[1] = bg
-            app.top_bg = bg
-        if fg:
-            top.option_add("*foreground", fg)
-            app.top_palette[0] = fg
-
-    #
-    if os.name == "posix":              # Unix/X11
-        top.option_add('*Entry.background', 'white', 60)
-        top.option_add('*Entry.foreground', 'black', 60)
-        top.option_add('*Listbox.background', 'white', 60)
-        top.option_add('*Listbox.foreground', 'black', 60)
-        ##top.option_add('*borderWidth', '1', 50)
-        ##top.option_add('*Button.borderWidth', '1', 50)
-        top.option_add('*Scrollbar.elementBorderWidth', '1', 60)
-        top.option_add('*Scrollbar.borderWidth', '1', 60)
-        top.option_add('*Menu.borderWidth', '1', 60)
-        #top.option_add('*Button.HighlightBackground', '#595d59')
-        #top.option_add('*Button.HighlightThickness', '1')
-
-    # font
-    if opts["fn"]:
-        font = opts["fn"]
-        top.option_add("*font", font)
-    elif os.name == 'posix':
-        top.option_add("*font", "Helvetica 12", 50)
-        font = top.option_get('font', '')
-    else:
-        font = None
-    if TOOLKIT == 'tk':
-        from tkFont import Font
-        try:
-            f = Font(top, font)
-        except:
-            print >> sys.stderr, "invalid font name:", font
-            pass
-        else:
-            if font:
-                fa = f.actual()
-                app.opt.fonts["default"] = (fa["family"],
-                                            fa["size"],
-                                            fa["slant"],
-                                            fa["weight"])
-            else:
-                app.opt.fonts["default"] = None
-
-    if USE_TILE: # for tile
-        from pysoltk import load_theme
-        import settings
-        if opts['tile-theme']:
-            settings.TILE_THEME = opts['tile-theme']
-        try:
-            load_theme(app, top, settings.TILE_THEME)
-        except Exception, err:
-            print >> sys.stderr, 'ERROR: set theme:', err
-        ##top.option_add('*Toolbar.relief', 'groove')
-        ##top.option_add('*Toolbar.relief', 'raised')
-        ##top.option_add('*Toolbar.borderWidth', 1)
-        ##top.option_add('*Toolbar.Button.Pad', 2)
-        ##top.option_add('*Toolbar.Button.default', 'disabled')
-        ##top.option_add('*Toolbar*takeFocus', 0)
+    top.initToolkit(app, opts['fg'], opts['bg'], opts['fn'], opts['theme'])
 
     # check games
     if len(app.gdb.getGamesIdSortedByName()) == 0:

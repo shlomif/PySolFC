@@ -43,10 +43,12 @@ __all__ = ['TclError',
 import os, sys, time, types
 from Tkinter import TclError
 import Tile as Tkinter
+from tkFont import Font
 
 # PySol imports
 from pysollib.mfxutil import destruct, Struct
-from tkutil import after_idle
+from pysollib.settings import PACKAGE, VERSION
+from tkutil import after_idle, load_theme, wm_set_icon
 from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
 
 # /***********************************************************************
@@ -85,12 +87,6 @@ StringVar = Tkinter.StringVar
 class MfxRoot(Tkinter.Tk):
     def __init__(self, **kw):
         apply(Tkinter.Tk.__init__, (self,), kw)
-##         self.tk.call("package", "require", "tile")
-##         from pysollib.settings import TILE_THEME
-##         if TILE_THEME:
-##             ##self.tk.call('style', 'theme', 'use', TILE_THEME)
-##             style = Tkinter.Style(self)
-##             style.theme_use(TILE_THEME)
         self.app = None
         # for interruptible sleep
         #self.sleep_var = Tkinter.IntVar(self)
@@ -101,6 +97,70 @@ class MfxRoot(Tkinter.Tk):
 
     def connectApp(self, app):
         self.app = app
+
+    def initToolkit(self, app, fg=None, bg=None, font=None, theme=None):
+        sw, sh, sd = self.winfo_screenwidth(), self.winfo_screenheight(), self.winfo_screendepth()
+        self.wm_group(self)
+        self.wm_title(PACKAGE + ' ' + VERSION)
+        self.wm_iconname(PACKAGE + ' ' + VERSION)
+        if sw < 640 or sh < 480:
+            self.wm_minsize(400, 300)
+        else:
+            self.wm_minsize(520, 360)
+        ##self.self.wm_maxsize(9999, 9999) # unlimited
+        self.wm_protocol('WM_DELETE_WINDOW', self.wmDeleteWindow)
+        prog = sys.executable
+        if prog and os.path.isfile(prog):
+            argv0 = os.path.normpath(sys.argv[0])
+            prog = os.path.abspath(prog)
+            if os.path.isfile(argv0):
+                wm_command = prog + " " + os.path.abspath(argv0)
+                self.wm_command(wm_command)
+        if 1:
+            # set expected window size to assist the layout of the window manager
+            self.config(width=min(800,sw-64), height=min(600,sh-64))
+        try:
+            wm_set_icon(self, app.dataloader.findIcon())
+        except: pass
+
+        # font
+        if font:
+            self.option_add('*font', font)
+        elif os.name == 'posix':
+            self.option_add('*font', 'Helvetica 12', 50)
+            font = self.option_get('font', '')
+        try:
+            f = Font(self, font)
+        except:
+            print >> sys.stderr, 'invalid font name:', font
+            pass
+        else:
+            if font:
+                fa = f.actual()
+                app.opt.fonts['default'] = (fa['family'],
+                                            fa['size'],
+                                            fa['slant'],
+                                            fa['weight'])
+            else:
+                app.opt.fonts['default'] = None
+
+        # theme
+        import pysollib.settings
+        if theme:
+            pysollib.settings.TILE_THEME = theme
+        try:
+            load_theme(app, self, pysollib.settings.TILE_THEME)
+        except Exception, err:
+            print >> sys.stderr, 'ERROR: set theme:', err
+        ##self.option_add('*Toolbar.relief', 'groove')
+        ##self.option_add('*Toolbar.relief', 'raised')
+        ##self.option_add('*Toolbar.borderWidth', 1)
+        ##self.option_add('*Toolbar.Button.Pad', 2)
+        ##self.option_add('*Toolbar.Button.default', 'disabled')
+        ##self.option_add('*Toolbar*takeFocus', 0)
+
+
+
 
     # sometimes an update() is needed under Windows, whereas
     # under Unix an update_idletasks() would be enough...

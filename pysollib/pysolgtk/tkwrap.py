@@ -38,6 +38,7 @@ from gtk import gdk
 
 # PySol imports
 ## from pysollib.images import Images
+from pysollib.settings import PACKAGE, VERSION
 
 # Toolkit imports
 from tkutil import makeToplevel, loadImage
@@ -164,8 +165,6 @@ class _MfxToplevel(gtk.Window):
             ##w, h = newGeometry
             ##self.resize(w, h)
 
-
-
     def wm_group(self, pathName=None):
         # FIXME
         pass
@@ -237,6 +236,17 @@ class MfxRoot(_MfxToplevel):
 
     def connectApp(self, app):
         self.app = app
+
+    def initToolkit(self, app, fg=None, bg=None, font=None, theme=None):
+        sw, sh, sd = self.winfo_screenwidth(), self.winfo_screenheight(), self.winfo_screendepth()
+        ##self.wm_group(self)
+        self.wm_title(PACKAGE + ' ' + VERSION)
+        ##self.wm_iconname(PACKAGE + ' ' + VERSION)
+        if sw < 640 or sh < 480:
+            self.wm_minsize(400, 300)
+        else:
+            self.wm_minsize(520, 360)
+        ##self.self.wm_maxsize(9999, 9999) # unlimited
 
     # sometimes an update() is needed under Windows, whereas
     # under Unix an update_idletask() would be enough...

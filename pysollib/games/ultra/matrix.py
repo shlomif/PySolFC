@@ -80,9 +80,6 @@ class Matrix_RowStack(OpenStack):
                     base_rank=ANY_RANK)
         apply(OpenStack.__init__, (self, x, y, game), cap)
 
-    def acceptsCards(self, from_stack, cards):
-        return OpenStack.acceptsCards(self, from_stack, cards)
-
     def canFlipCard(self):
         return 0
 
@@ -315,23 +312,22 @@ class Matrix3(Game):
     # Game extras
     #
 
-    def shuffle(self):
-        cards = list(self.cards)[:]
+    def _shuffleHook(self, cards):
+        # create solved game
+        ncards = len(cards)-1
+        for c in cards:
+            if c.rank == ncards:
+                cards.remove(c)
+                break
+        n = 0
+        for i in range(ncards-1):
+            for j in range(i+1, ncards):
+                if cards[i].rank > cards[j].rank:
+                    n += 1
         cards.reverse()
-        for card in cards:
-            self.s.talon.addCard(card, update=0)
-            card.showBack(unhide=0)
-
-    def scramble(self):
-        if self.gstats.restarted:
-            self.random.reset()
-        ncards, randint = self.gameinfo.ncards, self.random.randint
-        r = self.s.rows[ncards - int(math.sqrt(ncards))]
-        rc, stackmap = 1, r.blockMap()
-        for i in range(randint(max(200, ncards * 4), max(300, ncards * 5))):
-            r.clickHandler(r)
-            r = self.s.rows[stackmap[rc][randint(0, len(stackmap[0]) - 1)]]
-            rc, stackmap = (rc + 1) % 2, r.blockMap()
+        if n%2:
+            cards[0], cards[1] = cards[1], cards[0]
+        return [c]+cards
 
     #
     # Game over rides
@@ -339,10 +335,9 @@ class Matrix3(Game):
 
     def startGame(self):
         assert len(self.s.talon.cards) == self.gameinfo.ncards
-        self.s.talon.dealRow(rows=self.s.rows[:self.gameinfo.ncards - 1],
-                             flip=1, frames=3)
-        self.scramble()
         self.startDealSample()
+        self.s.talon.dealRow(rows=self.s.rows[:self.gameinfo.ncards - 1],
+                             frames=3)
 
     def isGameWon(self):
         if self.busy:
@@ -352,7 +347,7 @@ class Matrix3(Game):
         for r in s[:l]:
             if not r.cards or not r.cards[0].rank == r.id:
                 return 0
-        self.s.talon.dealRow(rows=s[l:], flip=1, frames=3)
+        self.s.talon.dealRow(rows=s[l:], frames=3)
         return 1
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):

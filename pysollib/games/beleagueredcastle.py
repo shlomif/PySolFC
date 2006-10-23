@@ -847,6 +847,15 @@ class Soother(Game):
         return int(to_stack in self.s.rows)
 
 
+# /***********************************************************************
+# // Penelope's Web
+# ************************************************************************/
+
+class PenelopesWeb(StreetsAndAlleys):
+    RowStack_Class = StackWrapper(RK_RowStack, base_rank=KING)
+
+
+
 # register the game
 registerGame(GameInfo(146, StreetsAndAlleys, "Streets and Alleys",
                       GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
@@ -887,4 +896,6 @@ registerGame(GameInfo(535, ExiledKings, "Exiled Kings",
 registerGame(GameInfo(626, Soother, "Soother",
                       GI.GT_4DECK_TYPE | GI.GT_ORIGINAL, 4, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(650, CastlesEnd, "Castles End",
+                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(665, PenelopesWeb, "Penelope's Web",
                       GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))

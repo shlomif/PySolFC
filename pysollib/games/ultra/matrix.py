@@ -128,6 +128,7 @@ class Matrix_RowStack(OpenStack):
         row = game.s.rows
         if not self.cards or game.drag.stack is self or self.basicIsBlocked():
             return 1
+        game.playSample("move", priority=10)
         stack_map = self.blockMap()
         for j in range(2):
             dir = 1
@@ -140,11 +141,11 @@ class Matrix_RowStack(OpenStack):
                     step = 1
                     from_stack = row[stack_map[j][i + dir]]
                     while not from_stack is self:
-                        from_stack.playMoveMove(1, to_stack, frames = 0, sound = 1)
+                        from_stack.playMoveMove(1, to_stack, frames=0, sound=0)
                         to_stack = from_stack
                         step = step + 1
                         from_stack = row[stack_map[j][i + dir * step]]
-                    self.playMoveMove(1, to_stack, frames = 0, sound = 1)
+                    self.playMoveMove(1, to_stack, frames=0, sound=0)
                     return 1
         return 1
 
@@ -302,7 +303,7 @@ class Matrix3(Game):
                 x = x + l.CW
 
         # Create talon
-        x, y = l.XM - l.XS, l.YM
+        x, y = -2*l.XS, 0               # invisible
         s.talon = InitialDealTalonStack(x, y, self)
 
         # Define stack groups
@@ -347,7 +348,7 @@ class Matrix3(Game):
         for r in s[:l]:
             if not r.cards or not r.cards[0].rank == r.id:
                 return 0
-        self.s.talon.dealRow(rows=s[l:], frames=3)
+        self.s.talon.dealRow(rows=s[l:], frames=0)
         return 1
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):

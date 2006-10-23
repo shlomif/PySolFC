@@ -43,7 +43,7 @@ import gettext
 # PySol imports
 from mfxutil import destruct, EnvError
 from util import CARDSET, DataLoader
-from settings import PACKAGE, TOOLKIT, VERSION, USE_TILE
+from settings import PACKAGE, TOOLKIT, VERSION
 from resource import Tile
 from gamedb import GI
 from app import Application
@@ -52,7 +52,7 @@ from pysolaudio import AbstractAudioClient, PysolSoundServerModuleClient
 from pysolaudio import Win32AudioClient, OSSAudioClient, PyGameAudioClient
 
 # Toolkit imports
-from pysoltk import tkversion, wm_withdraw, wm_set_icon, loadImage
+from pysoltk import tkversion, wm_withdraw, loadImage
 from pysoltk import MfxMessageDialog, MfxExceptionDialog
 from pysoltk import TclError, MfxRoot
 from pysoltk import PysolProgressBar
@@ -508,7 +508,5 @@ def main(args=None):
         raise Exception, "-1 % 13 != 12"
 
     # run it
-    r = pysol_main(args)
-    ##print "FINAL\n"; dumpmem()
-    return r
+    return pysol_main(args)
 

@@ -21,7 +21,7 @@
 
 import sys, os
 
-n_ = lambda x: x
+n_ = lambda x: x                        # for gettext
 
 #
 #PACKAGE = 'PySolFC'
@@ -32,9 +32,11 @@ VERSION = '4.82'
 FC_VERSION = '0.9.4'
 VERSION_TUPLE = (4, 82)
 
-TOOLKIT = 'tk' # or 'gtk'
-USE_TILE = False
-TILE_THEME = 'default' # name of tile's theme
+TOOLKIT = 'tk'                          # or 'gtk'
+USE_TILE = 'auto'                       # or True or False
+TILE_THEME = 'default'                  # name of tile's theme
+if os.name == 'nt':
+    TILE_THEME = 'winnative'
 
 # data dirs
 DATA_DIRS = []

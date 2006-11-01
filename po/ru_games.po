@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Sat Oct  7 20:02:33 2006\n"
-"PO-Revision-Date: 2006-10-08 18:43+0400\n"
+"POT-Creation-Date: Tue Oct 31 19:32:40 2006\n"
+"PO-Revision-Date: 2006-10-31 19:57+0300\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -774,6 +774,10 @@ msgstr "Двойной Золотой рудник"
 msgid "Double Grasshopper"
 msgstr "Двойной кузнечик"
 
+#, fuzzy
+msgid "Double Kingsley"
+msgstr "Двойной Бисли"
+
 msgid "Double Klondike"
 msgstr "Двойной Клондайк"
 
@@ -953,9 +957,8 @@ msgstr "Экспресс"
 msgid "Eye"
 msgstr "Глаз"
 
-#, fuzzy
 msgid "F-15 Eagle"
-msgstr "Маджонг F-15 Eagle"
+msgstr "F-15 Eagle"
 
 msgid "Faerie Queen"
 msgstr "Королева фей"
@@ -1537,6 +1540,10 @@ msgstr "Короли"
 
 msgid "Kingsdown Eights"
 msgstr ""
+
+#, fuzzy
+msgid "Kingsley"
+msgstr "Короли"
 
 msgid "Klondike"
 msgstr "Клондайк"
@@ -2677,6 +2684,9 @@ msgstr ""
 msgid "Pegged Triangle 2"
 msgstr ""
 
+msgid "Penelope's Web"
+msgstr ""
+
 msgid "Penguin"
 msgstr "Пингвин"
 
@@ -2994,6 +3004,9 @@ msgstr "Саксония"
 
 msgid "Scarab"
 msgstr "Скарабей"
+
+msgid "Scarp"
+msgstr "Откос"
 
 msgid "Scheidungsgrund"
 msgstr "Scheidungsgrund"
@@ -3317,7 +3330,6 @@ msgstr "Улицы"
 msgid "Streets and Alleys"
 msgstr "Улицы и аллеи"
 
-#, fuzzy
 msgid "Striptease"
 msgstr "Стриптиз"
 
@@ -3414,13 +3426,11 @@ msgstr "Сад"
 msgid "The Great Wall"
 msgstr "Великая Стена"
 
-#, fuzzy
 msgid "The Last Monarch"
 msgstr "Последний Монарх"
 
-#, fuzzy
 msgid "The Last Monarch II"
-msgstr "Последний Монарх"
+msgstr "Последний Монарх II"
 
 msgid "The Little Corporal"
 msgstr "Маленький Капрал"
@@ -3513,6 +3523,10 @@ msgid "Traditional Reviewed"
 msgstr "Маджонг Traditional Reviewed"
 
 msgid "Trapdoor"
+msgstr "Люк"
+
+#, fuzzy
+msgid "Trapdoor Spider"
 msgstr "Люк"
 
 msgid "Treasure Trove"
@@ -3648,7 +3662,7 @@ msgid "Victory Arrow"
 msgstr "Маджонг Victory Arrow"
 
 msgid "Virginia Reel"
-msgstr ""
+msgstr "Виргинский Рил"
 
 #, fuzzy
 msgid "Wake-Robin"
@@ -3767,26 +3781,3 @@ msgstr ""
 
 msgid "Zodiac"
 msgstr "Зодиак"
-
-#~ msgid "Leo"
-#~ msgstr "Лев"
-
-#~ msgid "Mahjongg Leo"
-#~ msgstr "Маджонг Лев"
-
-#, fuzzy
-#~ msgid "Big Ground"
-#~ msgstr "Большая гора"
-
-#, fuzzy
-#~ msgid "Tri Peaks"
-#~ msgstr "Три вершины"
-
-#~ msgid "Ground for a Divorce (3 decks)"
-#~ msgstr "Повод для разрыва (3 колоды)"
-
-#~ msgid "Ground for a Divorce (4 decks)"
-#~ msgstr "Повод для разрыва (4 колоды)"
-
-#~ msgid "Triple York"
-#~ msgstr "Тройной Йорк"

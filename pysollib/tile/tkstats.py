@@ -144,7 +144,7 @@ class SingleGame_StatsDialog(MfxDialog):
         self.fg = c.option_get('foreground', '') or c.cget("insertbackground")
         #
         c.create_rectangle(2, 7, w, h, fill="", outline="#7f7f7f")
-        l = Tkinter.Label(c, text=text, font=self.font, bd=0, padx=3, pady=1)
+        l = Tkinter.Label(c, text=text)
         dy = int(self.font_metrics['ascent']) - 10
         dy = dy/2
         c.create_window(20, -dy, window=l, anchor="nw")

@@ -33,7 +33,8 @@
 ##
 ##---------------------------------------------------------------------------##
 
-__all__ = ['MfxMessageDialog',
+__all__ = ['MfxDialog',
+           'MfxMessageDialog',
            'MfxExceptionDialog',
            'MfxSimpleEntry',
            'MfxTooltip',

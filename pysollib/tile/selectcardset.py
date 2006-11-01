@@ -239,19 +239,17 @@ class SelectCardsetDialogWithPreview(MfxDialog):
 
     def initKw(self, kw):
         kw = KwStruct(kw,
-                      strings=(_("&OK"), _("&Load"), _("&Cancel"),),
+                      strings = (_("&Load"), _("&Info..."), _("&Cancel"),),
                       default=0,
                       resizable=1,
-                      padx=10, pady=10,
-                      buttonpadx=10, buttonpady=5,
                       )
         return MfxDialog.initKw(self, kw)
 
     def mDone(self, button):
-        if button in (0, 1):               # Ok/Load
+        if button in (0, 2):            # Load/Cancel
             self.key = self.tree.selection_key
             self.tree.n_expansions = 1  # save xyview in any case
-        if button in (3, 4):
+        if button == 1:                 # Info
             cs = self.manager.get(self.tree.selection_key)
             if not cs:
                 return
@@ -399,8 +397,6 @@ class CardsetInfoDialog(MfxDialog):
                       default=0,
                       resizable=1,
                       separatorwidth=2,
-                      padx=10, pady=10,
-                      buttonpadx=10, buttonpady=5,
                       )
         return MfxDialog.initKw(self, kw)
 

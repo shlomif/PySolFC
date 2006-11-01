@@ -267,8 +267,6 @@ class SelectGameDialog(MfxDialog):
                       strings=(None, None, _("&Cancel"),), default=0,
                       separatorwidth=2,
                       resizable=1,
-                      padx=10, pady=10,
-                      buttonpadx=10, buttonpady=5,
                       )
         return MfxDialog.initKw(self, kw)
 

@@ -273,16 +273,11 @@ class PysolToolbar(PysolToolbarActions):
         # Change the look of the frame to match the platform look
         # (see also setRelief)
         if os.name == 'posix':
-            #self.frame.config(bd=0, highlightthickness=1)
-            #~self.frame.config(bd=1, relief=self.frame_relief, highlightthickness=0)
-            self.frame.config(bd=1, relief='raised', highlightthickness=0)
             pass
         elif os.name == "nt":
-            self.frame.config(bd=2, relief=self.frame_relief, padx=2, pady=2)
-            #self._createSeparator(width=4, side=Tkinter.LEFT, relief=Tkinter.FLAT)
-            #self._createSeparator(width=4, side=Tkinter.RIGHT, relief=Tkinter.FLAT)
+            self.frame.config(relief=self.frame_relief)
         else:
-            self.frame.config(bd=0, highlightthickness=1)
+            pass
 
     def config(self, w, v):
         if w == 'player':
@@ -353,8 +348,6 @@ class PysolToolbar(PysolToolbarActions):
         sep = ToolbarSeparator(self.frame,
                                position=position,
                                toolbar=self,
-                               bd=1,
-                               highlightthickness=1,
                                width=4,
                                takefocus=0,
                                relief=self.separator_relief)
@@ -367,8 +360,6 @@ class PysolToolbar(PysolToolbarActions):
         sep = ToolbarFlatSeparator(self.frame,
                                    position=position,
                                    toolbar=self,
-                                   bd=1,
-                                   highlightthickness=1,
                                    width=5,
                                    takefocus=0,
                                    relief='flat')
@@ -462,16 +453,16 @@ class PysolToolbar(PysolToolbarActions):
 
             if side == 1:
                 # top
-                pack_func(row=0, column=1, sticky='ew')
+                pack_func(row=0, column=1, sticky='ew', padx=0, pady=0)
             elif side == 2:
                 # bottom
-                pack_func(row=2, column=1, sticky='ew')
+                pack_func(row=2, column=1, sticky='ew', padx=0, pady=0)
             elif side == 3:
                 # left
-                pack_func(row=1, column=0, sticky='ns')
+                pack_func(row=1, column=0, sticky='ns', padx=0, pady=1)
             else:
                 # right
-                pack_func(row=1, column=2, sticky='ns')
+                pack_func(row=1, column=2, sticky='ns', padx=0, pady=1)
             # set orient
             orient = side in (1, 2) and Tkinter.HORIZONTAL or Tkinter.VERTICAL
             self._setOrient(orient)

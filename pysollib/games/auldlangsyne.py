@@ -210,12 +210,13 @@ class StrategyPlus(Strategy):
     def fillStack(self, stack):
         if stack is self.s.talon and stack.cards:
             c = stack.cards[-1]
-            if c.rank == ACE:
+            while c.rank == ACE:
                 old_state = self.enterState(self.S_FILL)
                 self.moveMove(1, stack, self.s.foundations[c.suit])
                 if stack.canFlipCard():
                     stack.flipMove()
                 self.leaveState(old_state)
+                c = stack.cards[-1]
 
 
 # /***********************************************************************

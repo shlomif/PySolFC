@@ -58,7 +58,7 @@ from settings import TOP_SIZE, TOP_TITLE, TOOLKIT
 
 # Toolkit imports
 from pysoltk import wm_withdraw, loadImage
-from pysoltk import MfxMessageDialog, MfxExceptionDialog
+from pysoltk import MfxDialog, MfxMessageDialog, MfxExceptionDialog
 from pysoltk import TclError, MfxRoot, MfxCanvas, MfxScrolledCanvas
 from pysoltk import PysolMenubar
 from pysoltk import PysolProgressBar
@@ -123,8 +123,8 @@ class Options:
         # sound
         self.sound = True
         self.sound_mode = 1
-        self.sound_sample_volume = 128
-        self.sound_music_volume = 128
+        self.sound_sample_volume = 80
+        self.sound_music_volume = 100
         self.sound_samples = {
             'areyousure'    : True,
             'autodrop'      : True,
@@ -230,7 +230,6 @@ class Options:
             CSI.TYPE_TAROCK:    ("Vienna 2K", ""),
             CSI.TYPE_HEXADECK:  ("Hex A Deck", ""),
             CSI.TYPE_MUGHAL_GANJIFA: ("Mughal Ganjifa", ""),
-            ##CSI.TYPE_MUGHAL_GANJIFA: ("Dashavatara Ganjifa", ""),
             ##CSI.TYPE_NAVAGRAHA_GANJIFA: ("Navagraha Ganjifa", ""),
             CSI.TYPE_NAVAGRAHA_GANJIFA: ("Dashavatara Ganjifa", ""),
             CSI.TYPE_DASHAVATARA_GANJIFA: ("Dashavatara Ganjifa", ""),
@@ -423,23 +422,25 @@ class Statistics:
         return won, lost
 
     def updateStats(self, player, game, status):
-        return self.updateLog(player, game, status)
-
-    def updateLog(self, player, game, status):
         ret = None
         log = (game.id, game.getGameNumber(format=0), status,
                game.gstats.start_time, game.gstats.total_elapsed_time,
                VERSION_TUPLE, game.getGameScore(), game.getGameScoreCasino(),
                game.GAME_VERSION)
         # full log
-        if player is not None and status >= 0:
-            if not self.prev_games.has_key(player):
-                self.prev_games[player] = []
-            self.prev_games[player].append(log)
-            if not self.all_prev_games.has_key(player):
-                self.all_prev_games[player] = []
-            self.all_prev_games[player].append(log)
-            ret = self.updateGameStat(player, game, status)
+        if status >= 0:
+            if player is None:
+                # demo
+                ret = self.updateGameStat(player, game, status)
+            else:
+                # player
+                if not self.prev_games.has_key(player):
+                    self.prev_games[player] = []
+                self.prev_games[player].append(log)
+                if not self.all_prev_games.has_key(player):
+                    self.all_prev_games[player] = []
+                self.all_prev_games[player].append(log)
+                ret = self.updateGameStat(player, game, status)
         # session log
         if not self.session_games.has_key(player):
             self.session_games[player] = []
@@ -661,7 +662,11 @@ class Application:
         # create the canvas
         self.scrolled_canvas = MfxScrolledCanvas(self.top)
         self.canvas = self.scrolled_canvas.canvas
-        self.scrolled_canvas.grid(row=1, column=1, sticky='nsew')
+        if os.name == 'nt':
+            self.scrolled_canvas.grid(row=1, column=1, sticky='nsew',
+                                      padx=1, pady=1)
+        else:
+            self.scrolled_canvas.grid(row=1, column=1, sticky='nsew')
         self.top.grid_columnconfigure(1, weight=1)
         self.top.grid_rowconfigure(1, weight=1)
         self.setTile(self.tabletile_index, force=True)
@@ -873,7 +878,6 @@ class Application:
         ##    self.gimages.stats.append(self.dataloader.findImage(f, dir))
 
     def loadImages3(self):
-        MfxMessageDialog.img = {}
         if os.name == 'posix':
             dir = os.path.join('images', 'dialog', 'bluecurve')
         else:
@@ -882,15 +886,16 @@ class Application:
             fn = self.dataloader.findImage(f, dir)
             im = loadImage(fn)
             MfxMessageDialog.img[f] = im
-##         MfxMessageDialog.button_img = {}
-##         dir = os.path.join('images', 'buttons', 'bluecurve')
-##         for n, f in (
-##             (_('OK'), 'ok'),
-##             (_('Cancel'), 'cancel'),
-##             ):
-##             fn = self.dataloader.findImage(f, dir)
-##             im = loadImage(fn)
-##             MfxMessageDialog.button_img[n] = im
+        if 0 and TOOLKIT == 'tk':
+            dir = os.path.join('images', 'buttons', 'bluecurve')
+            for n, f in (
+                (_('&OK'), 'ok'),
+                (_('&Cancel'), 'cancel'),
+                (_('&New game'), 'new'),
+                ):
+                fn = self.dataloader.findImage(f, dir)
+                im = loadImage(fn)
+                MfxDialog.button_img[n] = im
         SelectDialogTreeData.img = []
         dir = os.path.join('images', 'tree')
         for f in ('folder', 'openfolder', 'node', 'emptynode'):

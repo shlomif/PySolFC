@@ -161,8 +161,6 @@ class SelectTileDialogWithPreview(MfxDialog):
                       default=0,
                       resizable=1,
                       font=None,
-                      padx=10, pady=10,
-                      buttonpadx=10, buttonpady=5,
                       )
         return MfxDialog.initKw(self, kw)
 

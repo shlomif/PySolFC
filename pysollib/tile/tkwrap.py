@@ -106,7 +106,7 @@ class MfxRoot(Tkinter.Tk):
         if sw < 640 or sh < 480:
             self.wm_minsize(400, 300)
         else:
-            self.wm_minsize(520, 360)
+            self.wm_minsize(540, 380)
         ##self.self.wm_maxsize(9999, 9999) # unlimited
         self.wm_protocol('WM_DELETE_WINDOW', self.wmDeleteWindow)
         prog = sys.executable

@@ -267,8 +267,12 @@ class MfxCanvas(Tkinter.Canvas):
 ##             for i in range(len(stack.cards)):
 ##                 if stack.cards[i].item.id in current:
 ##                     return i
-            x = event.x-self.xmargin+self.xview()[0]*int(self.cget('width'))
-            y = event.y-self.ymargin+self.yview()[0]*int(self.cget('height'))
+            if self.preview:
+                dx, dy = 0, 0
+            else:
+                dx, dy = -self.xmargin, -self.ymargin
+            x = event.x+dx+self.xview()[0]*int(self.cget('width'))
+            y = event.y+dy+self.yview()[0]*int(self.cget('height'))
             ##x, y = event.x, event.y
             items = list(self.find_overlapping(x,y,x,y))
             items.reverse()

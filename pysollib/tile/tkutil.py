@@ -101,9 +101,13 @@ def wm_map(window, maximized=0):
 def wm_set_icon(window, filename):
     if not filename:
         return
-    if os.name == "posix":
-        window.wm_iconbitmap("@" + filename)
-        window.wm_iconmask("@" + filename)
+    if os.name == 'nt':
+        ##window.tk.call('wm', 'iconbitmap', root._w, '-default', '@'+filename)
+        pass
+    elif os.name == "posix":
+        ##window.wm_iconbitmap("@"+filename)
+        ##window.wm_iconmask("@"+filename)
+        pass
 
 __wm_get_geometry_re = re.compile(r"^(\d+)x(\d+)\+([\-]?\d+)\+([\-]?\d+)$")
 
@@ -424,18 +428,28 @@ def load_theme(app, top, theme):
                 traceback.print_exc()
                 pass
     # set theme
+    all_themes = top.tk.call('style', 'theme', 'names')
+    if theme not in all_themes:
+        print >> sys.stderr, 'WARNING: invalid theme name:', theme
+        theme = 'default'
     if theme:
         top.tk.call('style', 'theme', 'use', theme)
-    bg = top.tk.call('style', 'lookup', '.', '-background')
-    top.tk_setPalette(bg)
-    bg = top.tk.call('style', 'lookup', '.', '-background', 'active')
-    top.option_add('*Menu.activeBackground', bg)
+    if theme not in ('winnative',):
+        bg = top.tk.call('style', 'lookup', '.', '-background')
+        top.tk_setPalette(bg)
+        bg = top.tk.call('style', 'lookup', '.', '-background', 'active')
+        top.option_add('*Menu.activeBackground', bg)
+    if theme == 'winnative':
+        top.tk.call('style', 'configure',  'Toolbutton', '-padding', '1 1')
+        #if 'xpnative' in all_themes:
+        #    theme = 'xpnative'
     font = app.opt.fonts['default']
     if font:
         top.tk.call('style', 'configure', '.', '-font', font)
     else:
         font = top.tk.call('style', 'lookup', '.', '-font')
-        top.option_add('*font', font)
+        if font:
+            top.option_add('*font', font)
 
 
 

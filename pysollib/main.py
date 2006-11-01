@@ -35,7 +35,7 @@
 
 
 # imports
-import sys, os, re, string, time, types
+import sys, os, locale
 import traceback
 import getopt
 import gettext

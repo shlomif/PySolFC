@@ -100,9 +100,12 @@ def wm_map(window, maximized=0):
 def wm_set_icon(window, filename):
     if not filename:
         return
-    if os.name == "posix":
-        window.wm_iconbitmap("@" + filename)
-        window.wm_iconmask("@" + filename)
+    if os.name == 'nt':
+        window.wm_iconbitmap(default="@"+filename)
+    elif os.name == "posix":
+        ##window.wm_iconbitmap("@" + filename)
+        ##window.wm_iconmask("@" + filename)
+        pass
 
 __wm_get_geometry_re = re.compile(r"^(\d+)x(\d+)\+([\-]?\d+)\+([\-]?\d+)$")
 

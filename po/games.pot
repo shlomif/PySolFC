@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Sat Oct  7 20:02:33 2006\n"
+"POT-Creation-Date: Tue Oct 31 19:32:40 2006\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -768,6 +768,9 @@ msgstr ""
 msgid "Double Grasshopper"
 msgstr ""
 
+msgid "Double Kingsley"
+msgstr ""
+
 msgid "Double Klondike"
 msgstr ""
 
@@ -1516,6 +1519,9 @@ msgid "Kings"
 msgstr ""
 
 msgid "Kingsdown Eights"
+msgstr ""
+
+msgid "Kingsley"
 msgstr ""
 
 msgid "Klondike"
@@ -2631,6 +2637,9 @@ msgstr ""
 msgid "Pegged Triangle 2"
 msgstr ""
 
+msgid "Penelope's Web"
+msgstr ""
+
 msgid "Penguin"
 msgstr ""
 
@@ -2944,6 +2953,9 @@ msgid "Saxony"
 msgstr ""
 
 msgid "Scarab"
+msgstr ""
+
+msgid "Scarp"
 msgstr ""
 
 msgid "Scheidungsgrund"
@@ -3445,6 +3457,9 @@ msgid "Traditional Reviewed"
 msgstr ""
 
 msgid "Trapdoor"
+msgstr ""
+
+msgid "Trapdoor Spider"
 msgstr ""
 
 msgid "Treasure Trove"

@@ -1315,6 +1315,35 @@ class Athena(Klondike):
         self.s.talon.dealCards()
 
 
+# /***********************************************************************
+# // Kingsley
+# ************************************************************************/
+
+class Kingsley(Klondike):
+
+    Foundation_Class = StackWrapper(SS_FoundationStack, base_rank=KING, dir=-1)
+    RowStack_Class = StackWrapper(KingAC_RowStack, base_rank=ACE, dir=1)
+
+    def createGame(self):
+        Klondike.createGame(self, max_rounds=1)
+
+
+# /***********************************************************************
+# // Scarp
+# ************************************************************************/
+
+class Scarp(Klondike):
+    Talon_Class = DealRowTalonStack
+    RowStack_Class = AC_RowStack
+
+    def createGame(self):
+        Klondike.createGame(self, max_rounds=1, rows=13, waste=0, playcards=28)
+
+    def startGame(self):
+        Klondike.startGame(self, flip=1)
+
+
+
 # register the game
 registerGame(GameInfo(2, Klondike, "Klondike",
                       GI.GT_KLONDIKE, 1, -1, GI.SL_BALANCED))
@@ -1452,5 +1481,9 @@ registerGame(GameInfo(634, Chinaman, "Chinaman",
                       GI.GT_KLONDIKE, 1, 1, GI.SL_BALANCED))
 registerGame(GameInfo(651, EightByEight, "Eight by Eight",
                       GI.GT_KLONDIKE, 2, 2, GI.SL_BALANCED))
+registerGame(GameInfo(667, Kingsley, "Kingsley",
+                      GI.GT_KLONDIKE, 1, 0, GI.SL_MOSTLY_LUCK))
+registerGame(GameInfo(669, Scarp, "Scarp",
+                      GI.GT_GYPSY | GI.GT_ORIGINAL, 3, 0, GI.SL_MOSTLY_SKILL))
 
 

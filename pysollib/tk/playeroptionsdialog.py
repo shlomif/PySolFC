@@ -117,7 +117,7 @@ class PlayerOptionsDialog(MfxDialog):
         self.player_var = Tkinter.Entry(frame, exportselection=1, width=w)
         self.player_var.insert(0, app.opt.player)
         self.player_var.grid(row=1, column=0, sticky='ew', padx=0, pady=5)
-        widget = Tkinter.Button(frame, text=_('Select...'),
+        widget = Tkinter.Button(frame, text=_('Choose...'),
                                 command=self.selectUserName)
         widget.grid(row=1, column=1, padx=5, pady=5)
         widget = Tkinter.Checkbutton(frame, variable=self.confirm_var,

@@ -1119,21 +1119,16 @@ class PysolMenubar(PysolMenubarActions):
 
     def mSelectCardsetDialog(self, *event):
         if self._cancelDrag(break_pause=False): return
-        ##strings, default = ("&OK", "&Load", "&Cancel"), 0
-        strings, default = (None, _("&Load"), _("&Cancel"),), 1
-        ##if os.name == "posix":
-        strings, default = (None, _("&Load"), _("&Cancel"), _("&Info..."),), 1
         t = CARDSET
         key = self.app.nextgame.cardset.index
         d = SelectCardsetDialogWithPreview(self.top, title=_("Select ")+t,
-                app=self.app, manager=self.app.cardset_manager, key=key,
-                strings=strings, default=default)
+                app=self.app, manager=self.app.cardset_manager, key=key)
         cs = self.app.cardset_manager.get(d.key)
         if cs is None or d.key == self.app.cardset.index:
             return
-        if d.status == 0 and d.button in (0, 1) and d.key >= 0:
+        if d.status == 0 and d.button == 0 and d.key >= 0:
             self.app.nextgame.cardset = cs
-            if d.button == 1:
+            if d.button == 0:
                 self._cancelDrag()
                 self.game.endGame(bookmark=1)
                 self.game.quitGame(bookmark=1)
@@ -1158,10 +1153,6 @@ class PysolMenubar(PysolMenubarActions):
 
     def mOptChangeCardback(self, *event):
         self._mOptCardback(self.app.cardset.backindex + 1)
-
-##     def mOptTableTile(self, *event):
-##         if self._cancelDrag(break_pause=False): return
-##         self._mOptTableTile(self.tkopt.tabletile.get())
 
     def mOptChangeTableTile(self, *event):
         if self._cancelDrag(break_pause=False): return

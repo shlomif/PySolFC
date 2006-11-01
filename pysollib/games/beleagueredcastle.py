@@ -697,7 +697,7 @@ class Rittenhouse(Game):
         talon = self.s.talon
         self.startDealSample()
         while talon.cards:
-            talon.dealRowAvail()
+            talon.dealRowAvail(frames=3)
             self.fillAll()
 
     def fillAll(self):
@@ -801,6 +801,7 @@ class SelectiveCastle(StreetsAndAlleys, Chessboard):
 # ************************************************************************/
 
 class Soother(Game):
+    Hint_Class = CautiousDefaultHint
 
     def createGame(self, rows=9):
         l, s = Layout(self), self.s

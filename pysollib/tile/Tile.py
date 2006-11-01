@@ -158,8 +158,6 @@ class Combobox(Widget, Tkinter.Entry):
 
 class Entry(Widget, Tkinter.Entry):
     def __init__(self, master=None, cnf={}, **kw):
-        if kw.has_key('bg'):
-            del kw['bg']
         Widget.__init__(self, master, "ttk::entry", cnf, kw)
 
     def validate(self):
@@ -172,26 +170,21 @@ class Entry(Widget, Tkinter.Entry):
 
 class Label(Widget, Tkinter.Label):
     def __init__(self, master=None, cnf={}, **kw):
-        for opt in ('bd', 'bg', 'fg', 'padx', 'pady', 'height',
-                    'highlightbackground', 'highlightthickness'):
-            if kw.has_key(opt):
-                del kw[opt]
         Widget.__init__(self, master, "ttk::label", cnf, kw)
 
 
 class Frame(Widget, Tkinter.Frame):
     def __init__(self, master=None, cnf={}, **kw):
-        for opt in ('bd', 'highlightbackground', 'highlightthickness',):
-            if kw.has_key(opt):
-                del kw[opt]
         Widget.__init__(self, master, "ttk::frame", cnf, kw)
 
 
-class LabelFrame(Widget, Tkinter.Frame):
+class SizeGrip(Widget):
     def __init__(self, master=None, cnf={}, **kw):
-        for opt in ('padx', 'pady',):
-            if kw.has_key(opt):
-                del kw[opt]
+        Widget.__init__(self, master, "ttk::sizegrip", cnf, kw)
+
+
+class LabelFrame(Widget, Tkinter.LabelFrame):
+    def __init__(self, master=None, cnf={}, **kw):
         Widget.__init__(self, master, "ttk::labelframe", cnf, kw)
 
 
@@ -202,8 +195,6 @@ class Menubutton(Widget, Tkinter.Menubutton):
 
 class Scale(Widget, Tkinter.Scale):
     def __init__(self, master=None, cnf={}, **kw):
-        if kw.has_key('resolution'):
-            del kw['resolution']
         Widget.__init__(self, master, "ttk::scale", cnf, kw)
 
 
@@ -272,7 +263,8 @@ class Paned(Widget):
     def __init__(self, master=None, cnf={}, **kw):
         if not kw.has_key('orient'):
             kw['orient'] = 'horizontal'
-        Widget.__init__(self, master, "ttk::paned", cnf, kw)
+        ##Widget.__init__(self, master, "ttk::paned", cnf, kw)
+        Widget.__init__(self, master, "ttk::panedwindow", cnf, kw)
 
     def add(self, subwindow, **kw):
         """Adds a new pane to the window. subwindow must be a direct child of

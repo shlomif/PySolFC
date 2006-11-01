@@ -33,7 +33,8 @@
 ##
 ##---------------------------------------------------------------------------##
 
-__all__ = ['MfxMessageDialog',
+__all__ = ['MfxDialog',
+           'MfxMessageDialog',
            'MfxExceptionDialog',
            'MfxSimpleEntry',
            'MfxTooltip',
@@ -43,6 +44,7 @@ __all__ = ['MfxMessageDialog',
 
 # imports
 import os, sys, time, types
+import Tkinter as Tk
 import Tile as Tkinter
 import traceback
 
@@ -147,10 +149,9 @@ class MfxDialog: # ex. _ToplevelDialog
         key = event.char
         key = unicode(key, 'utf-8')
         key = key.lower()
-        button = self.accel_keys.get(key)
-        if not button is None:
-            self.mDone(button)
-
+        widget = self.accel_keys.get(key)
+        if not widget is None:
+            widget.event_generate('<<Invoke>>')
 
     def initKw(self, kw):
         kw = KwStruct(kw,
@@ -172,7 +173,7 @@ class MfxDialog: # ex. _ToplevelDialog
 
     def createFrames(self, kw):
         bottom_frame = Tkinter.Frame(self.top)
-        bottom_frame.pack(side='bottom', fill='both', expand=0, ipadx=3, ipady=3)
+        bottom_frame.pack(side='bottom', fill='both', expand=0, ipadx=3, ipady=3, padx=5)
         if kw.separatorwidth > 0:
             separator = Tkinter.Separator(self.top)
             separator.pack(side='bottom', fill='x', pady=kw.separatorwidth/2)
@@ -191,7 +192,7 @@ class MfxDialog: # ex. _ToplevelDialog
 
     def createButtons(self, frame, kw):
         button = column = -1
-        padx, pady = kw.get("buttonpadx", 10), kw.get("buttonpady", 10)
+        padx, pady = kw.get("buttonpadx", 5), kw.get("buttonpady", 5)
         focus = None
         max_len = 0
         for s in kw.strings:
@@ -208,8 +209,6 @@ class MfxDialog: # ex. _ToplevelDialog
         elif max_len > 9 : button_width = max_len+1
         elif max_len > 6 : button_width = max_len+2
         else             : button_width = 8
-        #print 'button_width =', button_width
-        #
         #
         for s in kw.strings:
             xbutton = button = button + 1
@@ -220,37 +219,38 @@ class MfxDialog: # ex. _ToplevelDialog
             if s is None:
                 continue
             accel_indx = s.find('&')
+            button_img = None
+            if MfxDialog.button_img:
+                button_img = MfxDialog.button_img.get(s)
             s = s.replace('&', '')
             if button < 0:
-                b = Tkinter.Button(frame, text=s, state="disabled")
+                widget = Tkinter.Button(frame, text=s, state="disabled")
                 button = xbutton
             else:
-                b = Tkinter.Button(frame, text=s, default="normal",
+                widget = Tkinter.Button(frame, text=s, default="normal",
                                    command=(lambda self=self, button=button: self.mDone(button)))
                 if button == kw.default:
-                    focus = b
+                    focus = widget
                     focus.config(default="active")
-            self.buttons.append(b)
+            self.buttons.append(widget)
             #
-            b.config(width=button_width)
+            widget.config(width=button_width)
             if accel_indx >= 0:
                 # key accelerator
-                b.config(underline=accel_indx)
+                widget.config(underline=accel_indx)
                 key = s[accel_indx]
-                self.accel_keys[key.lower()] = button
+                self.accel_keys[key.lower()] = widget
             #
-##             img = None
-##             if self.button_img:
-##                 img = self.button_img.get(s)
-##             b.config(compound='left', image=img)
+            if button_img:
+                widget.config(compound='left', image=button_img)
             column += 1
-            b.grid(column=column, row=0, sticky="nse", padx=padx, pady=pady)
+            widget.grid(column=column, row=0, sticky="nse", padx=padx, pady=pady)
         if focus is not None:
             l = (lambda event=None, self=self, button=kw.default: self.mDone(button))
             bind(self.top, "<Return>", l)
             bind(self.top, "<KP_Enter>", l)
-        # left justify
-        ##frame.columnconfigure(0, weight=1)
+        # right justify
+        frame.columnconfigure(0, weight=1)
         return focus
 
 
@@ -429,7 +429,7 @@ class MfxTooltip:
 
 class MfxScrolledCanvas:
     def __init__(self, parent, hbar=2, vbar=2, **kw):
-        kwdefault(kw, highlightthickness=0, bd=1, relief='sunken')
+        kwdefault(kw, borderwidth=1, relief='sunken')
         self.parent = parent
         self.createFrame(kw)
         self.canvas = None
@@ -694,8 +694,7 @@ class StackDesc:
         text = stack.getHelp()+'\n'+stack.getBaseCard()
         text = text.strip()
         if text:
-            frame = Tkinter.Frame(self.canvas, highlightthickness=1,
-                                  highlightbackground='black')
+            frame = Tkinter.Frame(self.canvas)
             self.frame = frame
             label = Tkinter.Message(frame, font=font, text=text, width=cardw-8,
                                     fg='#000000', bg='#ffffe0', bd=1)
@@ -725,7 +724,7 @@ class StackDesc:
 # //
 # ************************************************************************/
 
-class PysolScale:
+class MyPysolScale:
     def __init__(self, parent, **kw):
         if kw.has_key('resolution'):
             self.resolution = kw['resolution']
@@ -766,3 +765,13 @@ class PysolScale:
         self.scale.configure(**kw)
     config = configure
 
+
+class TkinterScale(Tk.Scale):
+    def __init__(self, parent, **kw):
+        if kw.has_key('value'):
+            del kw['value']
+        Tk.Scale.__init__(self, parent, **kw)
+
+
+#PysolScale = MyPysolScale
+PysolScale = TkinterScale

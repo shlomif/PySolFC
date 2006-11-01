@@ -216,10 +216,14 @@ class DataLoader:
 
     def findIcon(self, filename=None, subdirs=None):
         if not filename:
-            filename = PACKAGE.lower()
+            ##filename = PACKAGE.lower()
+            filename = 'pysol'
         root, ext = os.path.splitext(filename)
         if not ext:
-            filename = filename + ".xbm"
+            if os.name == 'nt':
+                filename = filename + ".ico"
+            else:
+                filename = filename + ".xbm"
         return self.findFile(filename, subdirs)
 
     def findDir(self, filename, subdirs=None):

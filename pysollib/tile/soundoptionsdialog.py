@@ -143,8 +143,7 @@ class SoundOptionsDialog(MfxDialog):
             kw.strings[1] = None
         #
         if Tkinter.TkVersion >= 8.4:
-            frame = Tkinter.LabelFrame(top_frame, text=_('Enable samles'),
-                                       padx=5, pady=5)
+            frame = Tkinter.LabelFrame(top_frame, text=_('Enable samles'))
         else:
             frame = Tkinter.Frame(top_frame, bd=2, relief='groove')
         frame.pack(expand=1, fill='both', padx=5, pady=5)
@@ -173,9 +172,6 @@ class SoundOptionsDialog(MfxDialog):
         kw = KwStruct(kw,
                       strings=strings,
                       default=0,
-                      resizable=1,
-                      padx=10, pady=10,
-                      buttonpadx=10, buttonpady=5,
                       )
         return MfxDialog.initKw(self, kw)
 

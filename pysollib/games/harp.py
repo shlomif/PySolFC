@@ -55,6 +55,7 @@ from spider import Spider_Hint
 
 class DoubleKlondike(Game):
     Layout_Method = Layout.harpLayout
+    Foundation_Class = SS_FoundationStack
     RowStack_Class = KingAC_RowStack
     Hint_Class = KlondikeType_Hint
 
@@ -69,7 +70,7 @@ class DoubleKlondike(Game):
                                   max_rounds=max_rounds, num_deal=num_deal)
         s.waste = WasteStack(l.s.waste.x, l.s.waste.y, self)
         for r in l.s.foundations:
-            s.foundations.append(SS_FoundationStack(r.x, r.y, self, suit=r.suit))
+            s.foundations.append(self.Foundation_Class(r.x, r.y, self, suit=r.suit))
         for r in l.s.rows:
             s.rows.append(self.RowStack_Class(r.x, r.y, self))
         # default
@@ -278,6 +279,19 @@ class Delivery(BigDeal):
         self.s.talon.dealCards()          # deal first card to WasteStack
 
 
+# /***********************************************************************
+# // Double Kingsley
+# ************************************************************************/
+
+class DoubleKingsley(DoubleKlondike):
+    Foundation_Class = StackWrapper(SS_FoundationStack, base_rank=KING, dir=-1)
+    RowStack_Class = StackWrapper(KingAC_RowStack, base_rank=ACE, dir=1)
+
+    def createGame(self):
+        DoubleKlondike.createGame(self, max_rounds=1)
+
+
+
 # register the game
 registerGame(GameInfo(21, DoubleKlondike, "Double Klondike",
                       GI.GT_KLONDIKE, 2, -1, GI.SL_BALANCED))
@@ -309,5 +323,8 @@ registerGame(GameInfo(590, ChineseKlondike, "Chinese Klondike",
                       suits=(0, 1, 2) ))
 registerGame(GameInfo(591, Pantagruel, "Pantagruel",
                       GI.GT_KLONDIKE, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(668, DoubleKingsley, "Double Kingsley",
+                      GI.GT_KLONDIKE, 2, 0, GI.SL_BALANCED))
+
 
 

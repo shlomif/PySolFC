@@ -59,8 +59,7 @@ class PysolProgressBar:
         self.top.wm_resizable(0, 0)
         self.top.config(cursor="watch")
         #
-        self.frame = Tkinter.Frame(self.top, relief=Tkinter.FLAT, bd=0,
-                                   takefocus=0)
+        self.frame = Tkinter.Frame(self.top, relief='flat', borderwidth=0)
         self.progress = Tkinter.Progressbar(self.frame, maximum=100, length=250)
         ##style = Tkinter.Style(self.progress)
         ##style.configure('TProgressbar', background=color)

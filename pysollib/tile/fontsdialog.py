@@ -85,7 +85,7 @@ class FontChooserDialog(MfxDialog):
         frame.pack(expand=True, fill='both', padx=5, pady=10)
         frame.columnconfigure(0, weight=1)
         #frame.rowconfigure(1, weight=1)
-        self.entry = Tkinter.Entry(frame, bg='white')
+        self.entry = Tkinter.Entry(frame)
         self.entry.grid(row=0, column=0, columnspan=2, sticky='news')
         self.entry.insert('end', _('abcdefghABCDEFGH'))
         self.list_box = Tkinter.Listbox(frame, width=36, exportselection=False)
@@ -144,8 +144,6 @@ class FontChooserDialog(MfxDialog):
         kw = KwStruct(kw,
                       strings=(_("&OK"), _("&Cancel")),
                       default=0,
-                      padx=10, pady=10,
-                      buttonpadx=10, buttonpady=5,
                       )
         return MfxDialog.initKw(self, kw)
 

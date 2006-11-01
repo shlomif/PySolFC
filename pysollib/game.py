@@ -1282,9 +1282,9 @@ class Game:
             # only update the session log
             if self.app.opt.update_player_stats:
                 if self.gstats.loaded:
-                    self.app.stats.updateLog(self.app.opt.player, self, -2)
+                    self.app.stats.updateStats(self.app.opt.player, self, -2)
                 elif self.gstats.updated == 0 and self.stats.demo_updated == 0:
-                    self.app.stats.updateLog(self.app.opt.player, self, -1)
+                    self.app.stats.updateStats(self.app.opt.player, self, -1)
         return ''
 
     def checkForWin(self):

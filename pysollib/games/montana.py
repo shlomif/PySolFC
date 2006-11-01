@@ -363,6 +363,7 @@ class Jungle_RowStack(Montana_RowStack):
 class Jungle(BlueMoon):
     Talon_Class = StackWrapper(Montana_Talon, max_rounds=2)
     RowStack_Class = Jungle_RowStack
+    Hint_Class = Galary_Hint
 
 
 # /***********************************************************************

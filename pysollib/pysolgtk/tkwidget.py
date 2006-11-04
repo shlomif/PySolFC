@@ -65,6 +65,8 @@ class _MyDialog(gtk.Dialog):
 
 
 class MfxDialog(_MyDialog):
+    img = {}
+    button_img = {}
     def __init__(self, parent, title='',
                  timeout=0,
                  resizable=0,

@@ -390,11 +390,7 @@ class OSSAudioClient(AbstractAudioClient):
 
     def __init__(self):
         AbstractAudioClient.__init__(self)
-        try:
-            import ossaudiodev, wave
-        except:
-            if traceback: traceback.print_exc()
-            raise
+        import ossaudiodev, wave
         self.audiodev = ossaudiodev
 
     def startServer(self):
@@ -430,18 +426,14 @@ class PyGameAudioClient(AbstractAudioClient):
 
     def __init__(self):
         AbstractAudioClient.__init__(self)
-        try:
-            import pygame.mixer, pygame.time
-            if os.name == 'nt':
-                # for py2exe
-                import pygame.base, pygame.rwobject, pygame.mixer_music
-            self.mixer = pygame.mixer
-            self.mixer.init()
-            self.music = self.mixer.music
-            self.time = pygame.time
-        except:
-            ##if traceback: traceback.print_exc()
-            raise
+        import pygame.mixer, pygame.time
+        if os.name == 'nt':
+            # for py2exe
+            import pygame.base, pygame.rwobject, pygame.mixer_music
+        self.mixer = pygame.mixer
+        self.mixer.init()
+        self.music = self.mixer.music
+        self.time = pygame.time
         self.audiodev = self.mixer
         self.sound = None
         self.sound_channel = None

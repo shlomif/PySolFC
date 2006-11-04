@@ -76,16 +76,17 @@ class AbstractToolbarButton:
         if self.visible and not force:
             return
         self.visible = True
-        padx, pady = 2, 2
         if orient == Tkinter.HORIZONTAL:
+            padx, pady = 0, 2
             self.grid(row=0,
                       column=self.position,
-                      ipadx=padx, ipady=pady,
+                      padx=padx, pady=pady,
                       sticky='nsew')
         else:
+            padx, pady = 2, 0
             self.grid(row=self.position,
                       column=0,
-                      ipadx=padx, ipady=pady,
+                      padx=padx, pady=pady,
                       sticky='nsew')
 
     def hide(self):
@@ -273,9 +274,10 @@ class PysolToolbar(PysolToolbarActions):
         # Change the look of the frame to match the platform look
         # (see also setRelief)
         if os.name == 'posix':
+            ##self.frame.config(bd=1, relief=self.frame_relief)
             pass
         elif os.name == "nt":
-            self.frame.config(relief=self.frame_relief)
+            self.frame.config(bd=2, relief=self.frame_relief, padx=2, pady=2)
         else:
             pass
 
@@ -323,7 +325,7 @@ class PysolToolbar(PysolToolbarActions):
                 self.frame_relief = 'groove'
         else:
             self.frame_relief = 'raised'
-            self.separator_relief = 'sunken' #'raised'
+            self.separator_relief = 'sunken'
             if os.name == 'nt':
                 self.frame_relief = 'groove'
                 self.separator_relief = 'groove'
@@ -373,7 +375,6 @@ class PysolToolbar(PysolToolbarActions):
         name = label.lower()
         image = self._loadImage(name)
         position = len(self._widgets)
-        bd = self.button_relief == 'flat' and 1 or 2
         kw = {
             'position'     : position,
             'toolbar'      : self,
@@ -381,20 +382,10 @@ class PysolToolbar(PysolToolbarActions):
             'command'      : command,
             'takefocus'    : 0,
             'text'         : gettext(label),
-            'bd'           : bd,
-            'relief'       : self.button_relief,
-            'padx'         : self.button_pad,
-            'pady'         : self.button_pad
             }
-        if Tkinter.TkVersion >= 8.4:
-            kw['overrelief'] = 'raised'
         if image:
             kw['image'] = image
         if check:
-            if Tkinter.TkVersion >= 8.4:
-                kw['offrelief'] = self.button_relief
-            kw['indicatoron'] = False
-            kw['selectcolor'] = ''
             button = ToolbarCheckbutton(self.frame, **kw)
         else:
             button = ToolbarButton(self.frame, **kw)

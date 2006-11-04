@@ -43,7 +43,7 @@ import gettext
 # PySol imports
 from mfxutil import destruct, EnvError
 from util import CARDSET, DataLoader
-from settings import PACKAGE, TOOLKIT, VERSION
+from settings import PACKAGE, TOOLKIT, VERSION, SOUND_MOD
 from resource import Tile
 from gamedb import GI
 from app import Application
@@ -243,29 +243,31 @@ def pysol_init(app, args):
     warn_thread = 0
     warn_pysolsoundserver = 0
     app.audio = None
-    if opts["nosound"]:
+    sounds = {'pss':     PysolSoundServerModuleClient,
+              'pygame':  PyGameAudioClient,
+              'oss':     OSSAudioClient,
+              'win':     Win32AudioClient}
+    if opts["nosound"] or SOUND_MOD == 'none':
         app.audio = AbstractAudioClient()
+    elif opts['sound-mod']:
+        c = sounds[opts['sound-mod']]
+        app.audio = c()
+    elif SOUND_MOD == 'auto':
+        for c in (PysolSoundServerModuleClient,
+                  PyGameAudioClient,
+                  OSSAudioClient,
+                  Win32AudioClient,
+                  AbstractAudioClient):
+            try:
+                app.audio = c()
+            except:
+                pass
+            else:
+                # success
+                break
     else:
-        if opts['sound-mod']:
-            d = {'pss':     PysolSoundServerModuleClient,
-                 'pygame':  PyGameAudioClient,
-                 'oss':     OSSAudioClient,
-                 'win':     Win32AudioClient}
-            c = d[opts['sound-mod']]
-            app.audio = c()
-        else:
-            for c in (PysolSoundServerModuleClient,
-                      PyGameAudioClient,
-                      OSSAudioClient,
-                      Win32AudioClient,
-                      AbstractAudioClient):
-                try:
-                    app.audio = c()
-                except:
-                    pass
-                else:
-                    # success
-                    break
+        c = sounds[SOUND_MOD]
+        app.audio = c()
     app.audio.startServer()
     # update sound_mode
     if isinstance(app.audio, PysolSoundServerModuleClient):

@@ -23,7 +23,7 @@ import sys, os
 
 n_ = lambda x: x                        # for gettext
 
-#
+
 #PACKAGE = 'PySolFC'
 PACKAGE = 'PySol'
 PACKAGE_URL = 'http://sourceforge.net/projects/pysolfc/'
@@ -37,6 +37,7 @@ USE_TILE = 'auto'                       # or True or False
 TILE_THEME = 'default'                  # name of tile's theme
 if os.name == 'nt':
     TILE_THEME = 'winnative'
+SOUND_MOD = 'auto'                  # or 'pss', 'pygame', 'oss', 'win', 'none'
 
 # data dirs
 DATA_DIRS = []

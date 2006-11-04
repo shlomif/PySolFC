@@ -43,7 +43,7 @@ __all__ = ['MfxDialog',
            ]
 
 # imports
-import os, sys, time, types
+import os, sys, time, locale
 import Tkinter as Tk
 import Tile as Tkinter
 import traceback
@@ -103,28 +103,7 @@ class MfxDialog: # ex. _ToplevelDialog
     def destroy(self):
         after_cancel(self.timer)
         unbind_destroy(self.top)
-        try:
-            self.top.wm_withdraw()
-        except:
-            if traceback: traceback.print_exc()
-            pass
-        try:
-            self.top.destroy()
-        except:
-            if traceback: traceback.print_exc()
-            pass
-        #destruct(self.top)
-        if 1 and self.parent: # ???
-            try:
-                ##self.parent.update_idletasks()
-                # FIXME: why do we need this under Windows ?
-                if hasattr(self.parent, "busyUpdate"):
-                    self.parent.busyUpdate()
-                else:
-                    self.parent.update()
-            except:
-                if traceback: traceback.print_exc()
-                pass
+        self.top.destroy()
         self.top = None
         self.parent = None
 
@@ -147,11 +126,18 @@ class MfxDialog: # ex. _ToplevelDialog
 
     def altKeyEvent(self, event):
         key = event.char
-        key = unicode(key, 'utf-8')
-        key = key.lower()
-        widget = self.accel_keys.get(key)
-        if not widget is None:
-            widget.event_generate('<<Invoke>>')
+        try:
+            if os.name == 'nt':
+                key = unicode(key, locale.getpreferredencoding())
+            else:
+                key = unicode(key, 'utf-8')
+        except:
+            pass
+        else:
+            key = key.lower()
+            widget = self.accel_keys.get(key)
+            if not widget is None:
+                widget.event_generate('<<Invoke>>')
 
     def initKw(self, kw):
         kw = KwStruct(kw,
@@ -196,12 +182,9 @@ class MfxDialog: # ex. _ToplevelDialog
         focus = None
         max_len = 0
         for s in kw.strings:
-            if type(s) is types.TupleType:
+            if type(s) is tuple:
                 s = s[0]
             if s:
-                ##s = re.sub(r"[\s\.\,]", "", s)
-                #if os.name == 'posix':
-                #    s = s.replace('...', '.')
                 s = s.replace('&', '')
                 max_len = max(max_len, len(s))
             ##print s, len(s)
@@ -212,7 +195,7 @@ class MfxDialog: # ex. _ToplevelDialog
         #
         for s in kw.strings:
             xbutton = button = button + 1
-            if type(s) is types.TupleType:
+            if type(s) is tuple:
                 assert len(s) == 2
                 button = int(s[1])
                 s = s[0]
@@ -228,7 +211,7 @@ class MfxDialog: # ex. _ToplevelDialog
                 button = xbutton
             else:
                 widget = Tkinter.Button(frame, text=s, default="normal",
-                                   command=(lambda self=self, button=button: self.mDone(button)))
+                    command=(lambda self=self, button=button: self.mDone(button)))
                 if button == kw.default:
                     focus = widget
                     focus.config(default="active")
@@ -429,7 +412,7 @@ class MfxTooltip:
 
 class MfxScrolledCanvas:
     def __init__(self, parent, hbar=2, vbar=2, **kw):
-        kwdefault(kw, borderwidth=1, relief='sunken')
+        kwdefault(kw, highlightthickness=0, bd=1, relief='sunken')
         self.parent = parent
         self.createFrame(kw)
         self.canvas = None

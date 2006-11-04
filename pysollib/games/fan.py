@@ -588,12 +588,12 @@ class Troika(Fan):
                 self.s.talon.dealRow(rows=[t], frames=4)
 
 
-class TroikaPlus_RowStack(RK_RowStack):
+class Quads_RowStack(RK_RowStack):
     def getBottomImage(self):
         return self.game.app.images.getReserveBottom()
 
-class TroikaPlus(Troika):
-    RowStack_Class = StackWrapper(TroikaPlus_RowStack, dir=0,
+class Quads(Troika):
+    RowStack_Class = StackWrapper(Quads_RowStack, dir=0,
                                   ##base_rank=NO_RANK,
                                   max_cards=4)
     def createGame(self):
@@ -758,8 +758,8 @@ registerGame(GameInfo(385, BoxFan, "Box Fan",
                       GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(516, Troika, "Troika",
                       GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
-registerGame(GameInfo(517, TroikaPlus, "Troika +",
-                      GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(517, Quads, "Quads",
+                      GI.GT_FAN_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(625, FascinationFan, "Fascination Fan",
                       GI.GT_FAN_TYPE, 1, 6, GI.SL_BALANCED))
 registerGame(GameInfo(647, Crescent, "Crescent",

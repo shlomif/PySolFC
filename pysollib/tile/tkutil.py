@@ -414,6 +414,12 @@ def get_text_width(text, font, root=None):
 # ************************************************************************/
 
 def load_theme(app, top, theme):
+    #
+    if os.name == 'posix':
+        f = os.path.join(app.dataloader.dir, 'tcl', 'menu8.4.tcl')
+        if os.path.exists(f):
+            top.tk.call('source', f)
+    #
     top.tk.call("package", "require", "tile")
     # load available themes
     d = os.path.join(app.dataloader.dir, 'themes')

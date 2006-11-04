@@ -23,6 +23,8 @@ import sys, os, locale
 import traceback
 import gettext
 
+import settings
+
 # /***********************************************************************
 # // init
 # ************************************************************************/
@@ -50,27 +52,29 @@ def init():
     gettext.install('pysol', locale_dir, unicode=True)
 
     ## init toolkit
-    import settings
     if '--gtk' in sys.argv:
         settings.TOOLKIT = 'gtk'
         sys.argv.remove('--gtk')
-    else:
-        if '--tile' in sys.argv:
+    elif '--tk' in sys.argv:
+        settings.TOOLKIT = 'tk'
+        settings.USE_TILE = False
+        sys.argv.remove('--tk')
+    elif '--tile' in sys.argv:
+        settings.TOOLKIT = 'tk'
+        settings.USE_TILE = True
+        sys.argv.remove('--tile')
+    elif settings.TOOLKIT == 'tk' and settings.USE_TILE == 'auto':
+        # check tile
+        import Tkinter
+        root = Tkinter.Tk()
+        root.withdraw()
+        settings.USE_TILE = False
+        try:
+            root.tk.call('package', 'require', 'tile', '0.7.8')
+        except:
+            pass
+        else:
             settings.USE_TILE = True
-            sys.argv.remove('--tile')
-        elif settings.USE_TILE == 'auto':
-            # check tile
-            import Tkinter
-            root = Tkinter.Tk()
-            root.withdraw()
-            settings.USE_TILE = False
-            try:
-                tile_version = root.tk.call('package', 'require', 'tile')
-            except:
-                pass
-            else:
-                if tile_version >= '0.7.8':
-                    settings.USE_TILE = True
-            #root.destroy()
-            Tkinter._default_root = None
+        #root.destroy()
+        Tkinter._default_root = None
 

@@ -20,6 +20,8 @@ datas = [
     'sound',
     'tiles',
     'toolbar',
+    'themes',
+    'tcl',
     ]
 for s in file('MANIFEST.in'):
     if s.startswith('graft data/cardset-'):

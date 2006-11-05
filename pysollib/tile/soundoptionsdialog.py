@@ -155,7 +155,7 @@ class SoundOptionsDialog(MfxDialog):
         for n, t, v in self.samples:
             v.set(app.opt.sound_samples[n])
             w = Tkinter.Checkbutton(frame, text=t, anchor='w', variable=v)
-            w.grid(row=row, column=col, sticky='ew')
+            w.grid(row=row, column=col, sticky='ew', padx=3, pady=1)
             if col == 1:
                 col = 0
                 row += 1

@@ -1,4 +1,5 @@
 # this file from tkabber project
+# http://www.jabberstudio.org/projects/tkabber/
 
 namespace eval :: {
 
@@ -44,13 +45,13 @@ set myMenuMotion 0
 proc ::tk::MenuNextEntry {menu count} {
     global ::tk::Priv
 
-    if {[string equal [$menu index last] "none"]} {
+    if {[$menu index last] eq "none"} {
         return
     }
     set length [expr {[$menu index last]+1}]
     set quitAfter $length
     set active [$menu index active]
-    if {[string equal $active "none"]} {
+    if {$active eq "none"} {
         set i 0
     } else {
         set i [expr {$active + $count}]
@@ -69,7 +70,7 @@ proc ::tk::MenuNextEntry {menu count} {
             incr i -$length
         }
         if {[catch {$menu entrycget $i -state} state] == 0} {
-            if {[string compare $state "disabled"]} {
+            if {$state ne "disabled"} {
                 break
             }
         }
@@ -81,9 +82,9 @@ proc ::tk::MenuNextEntry {menu count} {
     }
     $menu activate $i
     ::tk::GenerateMenuSelect $menu
-    if {[string equal [$menu type $i] "cascade"]} {
+    if {[$menu type $i] eq "cascade"} {
         set cascade [$menu entrycget $i -menu]
-        if {[string equal [$menu cget -type] "menubar"] && [string compare $cascade ""]} {
+        if {[$menu cget -type] eq "menubar" && $cascade ne ""} {
             # Here we auto-post a cascade.  This is necessary when
             # we traverse left/right in the menubar, but undesirable when
             # we traverse up/down in a menu.
@@ -108,22 +109,22 @@ proc ::tk::MenuNextMenu {menu direction} {
 
     # First handle traversals into and out of cascaded menus.
 
-    if {[string equal $direction "right"]} {
+    if {$direction eq "right"} {
         set count 1
         set parent [winfo parent $menu]
         set class [winfo class $parent]
-        if {[string equal [$menu type active] "cascade"]} {
+        if {[$menu type active] eq "cascade"} {
             $menu postcascade active
             set m2 [$menu entrycget active -menu]
-            if {[string compare $m2 ""]} {
+            if {$m2 ne ""} {
                 ::tk::MenuFirstEntry $m2
             }
             return
         } else {
             set parent [winfo parent $menu]
-            while {[string compare $parent "."]} {
-                if {[string equal [winfo class $parent] "Menu"] \
-                        && [string equal [$parent cget -type] "menubar"]} {
+            while {$parent ne "."} {
+                if {[winfo class $parent] eq "Menu" && \
+                        [$parent cget -type] eq "menubar"} {
                     tk_menuSetFocus $parent
                     ::tk::MenuNextEntry $parent 1
                     return
@@ -134,8 +135,8 @@ proc ::tk::MenuNextMenu {menu direction} {
     } else {
         set count -1
         set m2 [winfo parent $menu]
-        if {[string equal [winfo class $m2] "Menu"]} {
-            if {[string compare [$m2 cget -type] "menubar"]} {
+        if {[winfo class $m2] eq "Menu"} {
+            if {[$m2 cget -type] ne "menubar"} {
                 $menu activate none
                 ::tk::GenerateMenuSelect $menu
                 tk_menuSetFocus $m2
@@ -155,8 +156,8 @@ proc ::tk::MenuNextMenu {menu direction} {
     # or previous menubutton, if that makes sense.
 
     set m2 [winfo parent $menu]
-    if {[string equal [winfo class $m2] "Menu"]} {
-        if {[string equal [$m2 cget -type] "menubar"]} {
+    if {[winfo class $m2] eq "Menu"} {
+        if {[$m2 cget -type] eq "menubar"} {
             tk_menuSetFocus $m2
             ::tk::MenuNextEntry $m2 -1
             return
@@ -164,7 +165,7 @@ proc ::tk::MenuNextMenu {menu direction} {
     }
 
     set w $::tk::Priv(postedMb)
-    if {[string equal $w ""]} {
+    if {$w eq ""} {
         return
     }
     set buttons [winfo children [winfo parent $w]]
@@ -178,13 +179,13 @@ proc ::tk::MenuNextMenu {menu direction} {
             incr i -$length
         }
         set mb [lindex $buttons $i]
-        if {[string equal [winfo class $mb] "Menubutton"] \
-                && [string compare [$mb cget -state] "disabled"] \
-                && [string compare [$mb cget -menu] ""] \
-                && [string compare [[$mb cget -menu] index last] "none"]} {
+        if {[winfo class $mb] eq "Menubutton" \
+                && [$mb cget -state] ne "disabled" \
+                && [$mb cget -menu] ne "" \
+                && [[$mb cget -menu] index last] ne "none"} {
             break
         }
-        if {[string equal $mb $w]} {
+        if {$mb eq $w} {
             return
         }
         incr i $count
@@ -205,30 +206,30 @@ proc ::tk::MenuNextMenu {menu direction} {
 # menu -                Name of the menu window (possibly empty).
 
 proc ::tk::MenuFirstEntry menu {
-    if {[string equal $menu ""]} {
+    if {$menu eq ""} {
         return
     }
     tk_menuSetFocus $menu
-    if {[string compare [$menu index active] "none"]} {
+    if {[$menu index active] ne "none"} {
         return
     }
     set last [$menu index last]
-    if {[string equal $last "none"]} {
+    if {$last eq "none"} {
         return
     }
     for {set i 0} {$i <= $last} {incr i} {
         if {([catch {set state [$menu entrycget $i -state]}] == 0) \
-                && [string compare $state "disabled"]} {
+                && $state ne "disabled"} {
             #~$menu activate $i
             #~::tk::GenerateMenuSelect $menu
             # Only post the cascade if the current menu is a menubar;
             # otherwise, if the first entry of the cascade is a cascade,
             # we can get an annoying cascading effect resulting in a bunch of
             # menus getting posted (bug 676)
-            if {[string equal [$menu type $i] "cascade"] && \
-                [string equal [$menu cget -type] "menubar"]} {
+            if {[$menu type $i] eq "cascade" && \
+                [$menu cget -type] eq "menubar"} {
                 set cascade [$menu entrycget $i -menu]
-                if {[string compare $cascade ""]} {
+                if {$cascade ne ""} {
                     $menu postcascade $i
                     ::tk::MenuFirstEntry $cascade
                 }
@@ -345,7 +346,7 @@ proc myMenuPostCascade {menu} {
 	    after cancel $myPriv(id)
 	}
     }
-    if {[string equal [$menu cget -type] "menubar"]} {
+    if {[$menu cget -type] eq "menubar"} {
 	$menu postcascade active
     } else {
 	set myPriv(activeMenu) $menu

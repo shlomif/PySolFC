@@ -1505,10 +1505,6 @@ Please select a %s type %s.
         dirs = manager.getSearchDirs(self, ("cardsets", ""), "PYSOL_CARDSETS")
         if self.debug:
             dirs = dirs + manager.getSearchDirs(self, "cardsets-*")
-        try:
-            dirs = dirs + manager.getRegistryDirs(self, ("PySol_Cardsets", "Cardsets"))
-        except:
-            pass
         ##print dirs
         found, t = [], {}
         for dir in dirs:
@@ -1564,10 +1560,6 @@ Please select a %s type %s.
         dirs = manager.getSearchDirs(self,
                            ("tiles-*", os.path.join("tiles", 'stretch')),
                            "PYSOL_TILES")
-        try:
-            dirs = dirs + manager.getRegistryDirs(self, "Tiles")
-        except:
-            pass
         ##print dirs
         s = "((\\" + ")|(\\".join(IMAGE_EXTENSIONS) + "))$"
         ext_re = re.compile(s, re.I)
@@ -1675,10 +1667,6 @@ Please select a %s type %s.
         manager = self.music_manager
         # find all available music songs
         dirs = manager.getSearchDirs(self, "music-*", "PYSOL_MUSIC")
-        try:
-            dirs = dirs + manager.getRegistryDirs(self, "Music")
-        except:
-            pass
         ##print dirs
         ext_re = re.compile(self.audio.EXTENTIONS)
         self.initResource(manager, dirs, ext_re, Music)

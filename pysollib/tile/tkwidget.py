@@ -50,7 +50,6 @@ import traceback
 
 # PySol imports
 from pysollib.mfxutil import destruct, kwdefault, KwStruct
-from pysollib.mfxutil import win32api
 
 # Toolkit imports
 from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
@@ -104,6 +103,7 @@ class MfxDialog: # ex. _ToplevelDialog
         after_cancel(self.timer)
         unbind_destroy(self.top)
         self.top.destroy()
+        self.top.update_idletasks()
         self.top = None
         self.parent = None
 
@@ -430,8 +430,6 @@ class MfxScrolledCanvas:
         if hbar:
             if hbar == 3:
                 w = 21
-                if win32api:
-                    w = win32api.GetSystemMetrics(3)        # SM_CYHSCROLL
                 self.frame.grid_rowconfigure(1, minsize=w)
             self.createHbar()
             if not vbar:
@@ -440,8 +438,6 @@ class MfxScrolledCanvas:
         if vbar:
             if vbar == 3:
                 w = 21
-                if win32api:
-                    w = win32api.GetSystemMetrics(2)        # SM_CXVSCROLL
                 self.frame.grid_columnconfigure(1, minsize=w)
             self.createVbar()
             bind(self.vbar, "<Map>", self._mapBar)

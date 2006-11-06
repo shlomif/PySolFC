@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Tue Oct 31 19:32:40 2006\n"
+"POT-Creation-Date: Mon Nov  6 09:46:50 2006\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2742,6 +2742,9 @@ msgstr ""
 msgid "Quadruple Alliance"
 msgstr ""
 
+msgid "Quads"
+msgstr ""
+
 msgid "Quartets"
 msgstr ""
 
@@ -3508,9 +3511,6 @@ msgid "Triple Yukon"
 msgstr ""
 
 msgid "Troika"
-msgstr ""
-
-msgid "Troika +"
 msgstr ""
 
 msgid "Trusty Twelve"

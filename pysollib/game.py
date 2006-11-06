@@ -1018,8 +1018,7 @@ class Game:
             return
         if self.app.debug and not self.top.winfo_ismapped():
             return
-        ##self.top.busyUpdate()
-        ##self.canvas.after(200)
+        self.top.busyUpdate()
         self.canvas.update_idletasks()
         old_a = self.app.opt.animations
         if old_a == 0:

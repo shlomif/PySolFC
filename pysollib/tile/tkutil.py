@@ -426,13 +426,13 @@ def load_theme(app, top, theme):
     if os.path.isdir(d):
         top.tk.call('lappend', 'auto_path', d)
         for t in os.listdir(d):
-            #top.tk.call('tile::setTheme', t)
-            try:
-                top.tk.call('package', 'require', 'tile::theme::'+t)
-                ##print 'load theme:', t
-            except:
-                traceback.print_exc()
-                pass
+            if os.path.exists(os.path.join(d, t, 'pkgIndex.tcl')):
+                try:
+                    top.tk.call('package', 'require', 'tile::theme::'+t)
+                    #print 'load theme:', t
+                except:
+                    traceback.print_exc()
+                    pass
     # set theme
     all_themes = top.tk.call('style', 'theme', 'names')
     if theme not in all_themes:

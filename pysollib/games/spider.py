@@ -864,6 +864,7 @@ class Applegate(Game):
 # // Big Divorce
 # // Spider (4 decks)
 # // Very Big Divorce
+# // Chinese Spider
 # ************************************************************************/
 
 class BigSpider(Spider):
@@ -937,6 +938,16 @@ class GroundForADivorce4Decks(Spider4Decks):
     def canDealCards(self):
         return Game.canDealCards(self)
     shallHighlightMatch = Game._shallHighlightMatch_RKW
+
+
+class ChineseSpider(Spider):
+    def createGame(self):
+        Spider.createGame(self, rows=12, playcards=28)
+    def startGame(self):
+        for l in range(5):
+            self.s.talon.dealRow(frames=0, flip=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
 
 
 # /***********************************************************************
@@ -1179,4 +1190,7 @@ registerGame(GameInfo(570, LongTail, "Long Tail",
                       GI.GT_SPIDER, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(571, ShortTail, "Short Tail",
                       GI.GT_SPIDER | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(670, ChineseSpider, "Chinese Spider",
+                      GI.GT_SPIDER, 4, 0, GI.SL_MOSTLY_SKILL,
+                      suits=(0, 1, 2),))
 

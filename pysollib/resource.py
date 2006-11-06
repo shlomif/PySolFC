@@ -39,7 +39,6 @@ import sys, os, glob, operator, types
 #import traceback
 
 # PySol imports
-from mfxutil import win32api
 from mfxutil import Struct, KwStruct, EnvError, latin1_to_ascii
 from settings import PACKAGE, VERSION
 
@@ -134,28 +133,6 @@ class ResourceManager:
         except EnvError, ex:
             pass
 
-    def _addRegistryKey(self, result, hkey, subkey):
-        k = None
-        try:
-            k = win32api.RegOpenKeyEx(hkey, subkey, 0, KEY_READ)
-            nsubkeys, nvalues, t = win32api.RegQueryInfoKey(k)
-            for i in range(nvalues):
-                try:
-                    key, value, vtype = win32api.RegEnumValue(k, i)
-                except:
-                    break
-                if not key or not value:
-                    continue
-                if vtype == 1 and type(value) is types.StringType:
-                    for d in value.split(os.pathsep):
-                        self._addDir(result, d.strip())
-        finally:
-            if k is not None:
-                try:
-                    win32api.RegCloseKey(k)
-                except:
-                    pass
-
     def getSearchDirs(self, app, search, env=None):
         if type(search) is types.StringType:
             search = (search,)
@@ -184,33 +161,6 @@ class ResourceManager:
                     pass
         if app.debug >= 5:
             print "getSearchDirs", env, search, "->", result
-        return result
-
-    def getRegistryDirs(self, app, categories):
-        if not win32api:
-            return []
-        #
-        vendors = ("Markus Oberhumer", "",)
-        versions = (VERSION, "",)
-        if type(categories) is types.StringType:
-            categories = (categories,)
-        #
-        result = []
-        for version in versions:
-            for vendor in vendors:
-                for category in categories:
-                    t = ("Software", vendor, PACKAGE, version, category)
-                    t = filter(None, t)
-                    subkey = '\\'.join(t)
-                    ##print "getRegistryDirs subkey", subkey
-                    for hkey in (HKEY_CURRENT_USER, HKEY_LOCAL_MACHINE):
-                        try:
-                            self._addRegistryKey(result, hkey, subkey)
-                        except:
-                            pass
-        #
-        if app.debug >= 5:
-            print "getRegistryDirs", category, "->", result
         return result
 
 

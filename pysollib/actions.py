@@ -421,6 +421,7 @@ class PysolMenubarActions:
     def mRedoAll(self, *args):
         if self._cancelDrag(): return
         if self.menustate.redo:
+            self.app.top.busyUpdate()
             self.game.playSample("redo", loop=1)
             while self.game.moves.index < len(self.game.moves.history):
                 self.game.redo()

@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Tue Oct 31 19:33:33 2006\n"
-"PO-Revision-Date: 2006-10-31 19:57+0300\n"
+"POT-Creation-Date: Mon Nov  6 09:47:42 2006\n"
+"PO-Revision-Date: 2006-11-06 09:53+0300\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -55,7 +55,7 @@ msgstr "&Следующий номер"
 
 #: pysollib/actions.py:314 pysollib/app.py:892 pysollib/app.py:1155
 #: pysollib/app.py:1167 pysollib/game.py:929 pysollib/game.py:1865
-#: pysollib/main.py:374 pysollib/main.py:382 pysollib/tk/colorsdialog.py:122
+#: pysollib/main.py:376 pysollib/main.py:384 pysollib/tk/colorsdialog.py:122
 #: pysollib/tk/edittextdialog.py:82 pysollib/tk/fontsdialog.py:143
 #: pysollib/tk/fontsdialog.py:205 pysollib/tk/gameinfodialog.py:155
 #: pysollib/tk/playeroptionsdialog.py:85
@@ -66,8 +66,8 @@ msgstr "&Следующий номер"
 #: pysollib/tk/tkstats.py:288 pysollib/tk/tkstats.py:512
 #: pysollib/tk/tkstats.py:579 pysollib/tk/tkstats.py:594
 #: pysollib/tk/tkstats.py:636 pysollib/tk/tkstats.py:708
-#: pysollib/tk/tkstats.py:792 pysollib/tk/tkwidget.py:160
-#: pysollib/tk/tkwidget.py:325
+#: pysollib/tk/tkstats.py:792 pysollib/tk/tkwidget.py:159
+#: pysollib/tk/tkwidget.py:324
 msgid "&OK"
 msgstr "&ОК"
 
@@ -80,7 +80,7 @@ msgstr "&ОК"
 #: pysollib/tk/playeroptionsdialog.py:160 pysollib/tk/selectcardset.py:241
 #: pysollib/tk/selectgame.py:266 pysollib/tk/selectgame.py:407
 #: pysollib/tk/selecttile.py:159 pysollib/tk/soundoptionsdialog.py:170
-#: pysollib/tk/timeoutsdialog.py:92 pysollib/tk/tkwidget.py:325
+#: pysollib/tk/timeoutsdialog.py:92 pysollib/tk/tkwidget.py:324
 msgid "&Cancel"
 msgstr "От&мена"
 
@@ -1331,7 +1331,7 @@ msgstr "Не найден файл помощи\n"
 msgid " Help"
 msgstr " Помощь"
 
-#: pysollib/main.py:67 pysollib/main.py:282
+#: pysollib/main.py:67 pysollib/main.py:284
 msgid " installation error"
 msgstr " проблема с установкой"
 
@@ -1345,7 +1345,7 @@ msgid ""
 "Please check your %s installation.\n"
 msgstr ""
 
-#: pysollib/main.py:75 pysollib/main.py:290 pysollib/tk/menubar.py:382
+#: pysollib/main.py:75 pysollib/main.py:292 pysollib/tk/menubar.py:382
 msgid "&Quit"
 msgstr "В&ыход"
 
@@ -1405,7 +1405,7 @@ msgstr ""
 "%s: неправильное имя файла\n"
 "попробуйте %s --help для получения более подробной информации"
 
-#: pysollib/main.py:283
+#: pysollib/main.py:285
 msgid ""
 "\n"
 "No games were found !!!\n"
@@ -1416,18 +1416,18 @@ msgid ""
 "Please check your %s installation.\n"
 msgstr ""
 
-#: pysollib/main.py:369 pysollib/main.py:377
+#: pysollib/main.py:371 pysollib/main.py:379
 msgid " installation problem"
 msgstr ""
 
-#: pysollib/main.py:370
+#: pysollib/main.py:372
 msgid ""
 "Your Python installation is compiled without thread support.\n"
 "\n"
 "Sounds and background music will be disabled."
 msgstr ""
 
-#: pysollib/main.py:378
+#: pysollib/main.py:380
 msgid ""
 "The pysolsoundserver module was not found.\n"
 "\n"
@@ -1437,275 +1437,275 @@ msgstr ""
 "\n"
 "Звук и фоновая музыка будут недоступны"
 
-#: pysollib/main.py:385
+#: pysollib/main.py:387
 msgid "Welcome to "
 msgstr "Добро пожаловать в "
 
-#: pysollib/resource.py:242
+#: pysollib/resource.py:192
 msgid "French type (52 cards)"
 msgstr "Классические (52 карты)"
 
-#: pysollib/resource.py:243
+#: pysollib/resource.py:193
 msgid "Hanafuda type (48 cards)"
 msgstr "Ханафуда (48 карт)"
 
-#: pysollib/resource.py:244
+#: pysollib/resource.py:194
 msgid "Tarock type (78 cards)"
 msgstr "Таро (78 карт)"
 
-#: pysollib/resource.py:245
+#: pysollib/resource.py:195
 msgid "Mahjongg type (42 tiles)"
 msgstr "Маджонг (42 фишки)"
 
-#: pysollib/resource.py:246
+#: pysollib/resource.py:196
 msgid "Hex A Deck type (68 cards)"
 msgstr "Hex A Deck (68 карт)"
 
-#: pysollib/resource.py:247
+#: pysollib/resource.py:197
 msgid "Mughal Ganjifa type (96 cards)"
 msgstr "Мугал Ганджифа (96 карт)"
 
-#: pysollib/resource.py:248
+#: pysollib/resource.py:198
 msgid "Navagraha Ganjifa type (108 cards)"
 msgstr "Наваграха Ганджифа (108 карт)"
 
-#: pysollib/resource.py:249
+#: pysollib/resource.py:199
 msgid "Dashavatara Ganjifa type (120 cards)"
 msgstr "Дашаватара Ганджифа (120 карт)"
 
-#: pysollib/resource.py:250
+#: pysollib/resource.py:200
 msgid "Trumps only type (variable cards)"
 msgstr "Без мастей (переменное количество карт)"
 
-#: pysollib/resource.py:254
+#: pysollib/resource.py:204
 msgid "French"
 msgstr "Классические"
 
-#: pysollib/resource.py:255 pysollib/resource.py:279
+#: pysollib/resource.py:205 pysollib/resource.py:229
 msgid "Hanafuda"
 msgstr "Ханафуда"
 
-#: pysollib/resource.py:256 pysollib/resource.py:295
+#: pysollib/resource.py:206 pysollib/resource.py:245
 msgid "Tarock"
 msgstr "Таро"
 
-#: pysollib/resource.py:257 pysollib/resource.py:282
+#: pysollib/resource.py:207 pysollib/resource.py:232
 msgid "Mahjongg"
 msgstr "Маджонг"
 
-#: pysollib/resource.py:258 pysollib/resource.py:280
+#: pysollib/resource.py:208 pysollib/resource.py:230
 msgid "Hex A Deck"
 msgstr "Hex A Deck"
 
-#: pysollib/resource.py:259
+#: pysollib/resource.py:209
 msgid "Mughal Ganjifa"
 msgstr "Мугал Ганджифа"
 
-#: pysollib/resource.py:260
+#: pysollib/resource.py:210
 msgid "Navagraha Ganjifa"
 msgstr "Наваграха Ганджифа"
 
-#: pysollib/resource.py:261
+#: pysollib/resource.py:211
 msgid "Dashavatara Ganjifa"
 msgstr "Дашаватара Ганджифа"
 
-#: pysollib/resource.py:262
+#: pysollib/resource.py:212
 msgid "Trumps only"
 msgstr "Без мастей"
 
-#: pysollib/resource.py:267
+#: pysollib/resource.py:217
 msgid "Adult"
 msgstr "Для взрослых"
 
-#: pysollib/resource.py:268
+#: pysollib/resource.py:218
 msgid "Animals"
 msgstr "Животные"
 
-#: pysollib/resource.py:269
+#: pysollib/resource.py:219
 msgid "Anime"
 msgstr "Мультфильмы"
 
-#: pysollib/resource.py:270
+#: pysollib/resource.py:220
 msgid "Art"
 msgstr "Искусство"
 
-#: pysollib/resource.py:271
+#: pysollib/resource.py:221
 msgid "Cartoons"
 msgstr "Комиксы"
 
-#: pysollib/resource.py:272
+#: pysollib/resource.py:222
 msgid "Children"
 msgstr "Дети"
 
-#: pysollib/resource.py:273
+#: pysollib/resource.py:223
 msgid "Classic look"
 msgstr "Классический вид"
 
-#: pysollib/resource.py:274
+#: pysollib/resource.py:224
 msgid "Collectors"
 msgstr "Коллекционные"
 
-#: pysollib/resource.py:275
+#: pysollib/resource.py:225
 msgid "Computers"
 msgstr "Компьютеры"
 
-#: pysollib/resource.py:276
+#: pysollib/resource.py:226
 msgid "Engines"
 msgstr "Машины"
 
-#: pysollib/resource.py:277
+#: pysollib/resource.py:227
 msgid "Fantasy"
 msgstr "Фентези"
 
-#: pysollib/resource.py:278
+#: pysollib/resource.py:228
 msgid "Ganjifa"
 msgstr "Ганджифа"
 
-#: pysollib/resource.py:281
+#: pysollib/resource.py:231
 msgid "Holiday"
 msgstr "Праздники"
 
-#: pysollib/resource.py:283
+#: pysollib/resource.py:233
 msgid "Movies"
 msgstr "Фильмы"
 
-#: pysollib/resource.py:284
+#: pysollib/resource.py:234
 msgid "Matrix"
 msgstr "Мозаика"
 
-#: pysollib/resource.py:285
+#: pysollib/resource.py:235
 msgid "Music"
 msgstr "Музыка"
 
-#: pysollib/resource.py:286
+#: pysollib/resource.py:236
 msgid "Nature"
 msgstr "Природа"
 
-#: pysollib/resource.py:287
+#: pysollib/resource.py:237
 msgid "Operating Systems"
 msgstr "Операционные системы"
 
-#: pysollib/resource.py:288
+#: pysollib/resource.py:238
 msgid "People"
 msgstr "Люди"
 
-#: pysollib/resource.py:289
+#: pysollib/resource.py:239
 msgid "Places"
 msgstr "Дома"
 
-#: pysollib/resource.py:290
+#: pysollib/resource.py:240
 msgid "Plain"
 msgstr "Простые"
 
-#: pysollib/resource.py:291
+#: pysollib/resource.py:241
 msgid "Products"
 msgstr "Продукты"
 
-#: pysollib/resource.py:292
+#: pysollib/resource.py:242
 msgid "Round cardsets"
 msgstr "Закруглённые"
 
-#: pysollib/resource.py:293
+#: pysollib/resource.py:243
 msgid "Science Fiction"
 msgstr "Научная фантастика"
 
-#: pysollib/resource.py:294
+#: pysollib/resource.py:244
 msgid "Sports"
 msgstr "Спорт"
 
-#: pysollib/resource.py:296
+#: pysollib/resource.py:246
 msgid "Vehicels"
 msgstr "Транспортные средства"
 
-#: pysollib/resource.py:297
+#: pysollib/resource.py:247
 msgid "Video Games"
 msgstr "Видеоигры"
 
-#: pysollib/resource.py:302
+#: pysollib/resource.py:252
 msgid "Australia"
 msgstr "Австралия"
 
-#: pysollib/resource.py:303
+#: pysollib/resource.py:253
 msgid "Austria"
 msgstr "Австрия"
 
-#: pysollib/resource.py:304
+#: pysollib/resource.py:254
 msgid "Belgium"
 msgstr "Бельгия"
 
-#: pysollib/resource.py:305
+#: pysollib/resource.py:255
 msgid "Canada"
 msgstr "Канада"
 
-#: pysollib/resource.py:306
+#: pysollib/resource.py:256
 msgid "China"
 msgstr "Китай"
 
-#: pysollib/resource.py:307
+#: pysollib/resource.py:257
 msgid "Czech Republic"
 msgstr "Чехия"
 
-#: pysollib/resource.py:308
+#: pysollib/resource.py:258
 msgid "Denmark"
 msgstr "Дания"
 
-#: pysollib/resource.py:309
+#: pysollib/resource.py:259
 msgid "England"
 msgstr "Англия"
 
-#: pysollib/resource.py:310
+#: pysollib/resource.py:260
 msgid "France"
 msgstr "Франция"
 
-#: pysollib/resource.py:311
+#: pysollib/resource.py:261
 msgid "Germany"
 msgstr "Германия"
 
-#: pysollib/resource.py:312
+#: pysollib/resource.py:262
 msgid "Great Britain"
 msgstr "Великобритания"
 
-#: pysollib/resource.py:313
+#: pysollib/resource.py:263
 msgid "Hungary"
 msgstr "Венгрия"
 
-#: pysollib/resource.py:314
+#: pysollib/resource.py:264
 msgid "India"
 msgstr "Индия"
 
-#: pysollib/resource.py:315
+#: pysollib/resource.py:265
 msgid "Italy"
 msgstr "Италия"
 
-#: pysollib/resource.py:316
+#: pysollib/resource.py:266
 msgid "Japan"
 msgstr "Япония"
 
-#: pysollib/resource.py:317
+#: pysollib/resource.py:267
 msgid "Netherlands"
 msgstr "Голландия"
 
-#: pysollib/resource.py:318
+#: pysollib/resource.py:268
 msgid "Russia"
 msgstr "Россия"
 
-#: pysollib/resource.py:319
+#: pysollib/resource.py:269
 msgid "Spain"
 msgstr "Испания"
 
-#: pysollib/resource.py:320
+#: pysollib/resource.py:270
 msgid "Sweden"
 msgstr "Швеция"
 
-#: pysollib/resource.py:321
+#: pysollib/resource.py:271
 msgid "Switzerland"
 msgstr "Швейцария"
 
-#: pysollib/resource.py:322
+#: pysollib/resource.py:272
 msgid "USA"
 msgstr "США"
 
-#: pysollib/settings.py:55 data/glade-translations:29
+#: pysollib/settings.py:58 data/glade-translations:29
 msgid "Top 10"
 msgstr "Top 10"
 
@@ -2622,7 +2622,7 @@ msgstr ""
 "Пожалуйста введите Ваше имя"
 
 #: pysollib/tk/playeroptionsdialog.py:120
-msgid "Select..."
+msgid "Choose..."
 msgstr "Выбрать..."
 
 #: pysollib/tk/playeroptionsdialog.py:124

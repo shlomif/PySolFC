@@ -52,14 +52,6 @@ if os.name == "mac":
     # macfs module is deprecated, consider using Carbon.File or Carbon.Folder
     import macfs, MACFS
 
-win32api = shell = shellcon = None
-if sys.platform.startswith('win'):
-    try:
-        import win32api
-        #from win32com.shell import shell, shellcon
-    except ImportError:
-        pass
-
 # /***********************************************************************
 # // exceptions
 # ************************************************************************/
@@ -183,24 +175,11 @@ if os.name == "posix":
 
 def win32_getusername():
     user = os.environ.get('USERNAME','').strip()
-    try:
-        user = win32api.GetUserName().strip()
-    except AttributeError:
-        pass
     return user
 
 def win32_getprefdir(package):
     hd = win32_gethomedir()
     return os.path.join(hd, 'PySolFC')
-##     dname = os.path.expanduser("~\\.pysol")
-##     if not os.path.isdir(dname):
-##         try:
-##             dname = os.path.join(
-##                 shell.SHGetFolderPath(0, shellcon.CSIDL_APPDATA, 0, 0),
-##                 package, package)
-##         except AttributeError:
-##             pass
-##     return os.path.abspath(dname)
 
 def win32_gethomedir():
     # %USERPROFILE%, %APPDATA%

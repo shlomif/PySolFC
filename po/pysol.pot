@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "#-#-#-#-#  pysol-1.pot (PACKAGE VERSION)  #-#-#-#-#\n"
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: Mon Nov  6 09:47:42 2006\n"
+"POT-Creation-Date: Tue Nov  7 05:43:10 2006\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 "#-#-#-#-#  pysol-2.pot (PACKAGE VERSION)  #-#-#-#-#\n"
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2006-11-06 09:47+0300\n"
+"POT-Creation-Date: 2006-11-07 05:43+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -69,7 +69,7 @@ msgid "&Next number"
 msgstr ""
 
 #: pysollib/actions.py:314 pysollib/app.py:892 pysollib/app.py:1155
-#: pysollib/app.py:1167 pysollib/game.py:929 pysollib/game.py:1865
+#: pysollib/app.py:1167 pysollib/game.py:929 pysollib/game.py:1864
 #: pysollib/main.py:376 pysollib/main.py:384 pysollib/tk/colorsdialog.py:122
 #: pysollib/tk/edittextdialog.py:82 pysollib/tk/fontsdialog.py:143
 #: pysollib/tk/fontsdialog.py:205 pysollib/tk/gameinfodialog.py:155
@@ -87,8 +87,8 @@ msgid "&OK"
 msgstr ""
 
 #: pysollib/actions.py:314 pysollib/app.py:893 pysollib/app.py:1167
-#: pysollib/game.py:929 pysollib/game.py:1315 pysollib/game.py:1330
-#: pysollib/game.py:1337 pysollib/game.py:1343 pysollib/tk/colorsdialog.py:122
+#: pysollib/game.py:929 pysollib/game.py:1314 pysollib/game.py:1329
+#: pysollib/game.py:1336 pysollib/game.py:1342 pysollib/tk/colorsdialog.py:122
 #: pysollib/tk/edittextdialog.py:82 pysollib/tk/fontsdialog.py:143
 #: pysollib/tk/fontsdialog.py:205 pysollib/tk/menubar.py:1122
 #: pysollib/tk/menubar.py:1124 pysollib/tk/playeroptionsdialog.py:85
@@ -111,108 +111,108 @@ msgstr ""
 msgid "Quit "
 msgstr ""
 
-#: pysollib/actions.py:449
+#: pysollib/actions.py:450
 msgid "Clear bookmarks"
 msgstr ""
 
-#: pysollib/actions.py:450
+#: pysollib/actions.py:451
 msgid "Clear all bookmarks ?"
 msgstr ""
 
-#: pysollib/actions.py:460
+#: pysollib/actions.py:461
 msgid "Restart game"
 msgstr ""
 
-#: pysollib/actions.py:461
+#: pysollib/actions.py:462
 msgid "Restart this game ?"
 msgstr ""
 
-#: pysollib/actions.py:502
+#: pysollib/actions.py:503
 msgid ""
 "Comments for %s:\n"
 "\n"
 msgstr ""
 
-#: pysollib/actions.py:504
+#: pysollib/actions.py:505
 msgid "Comments for "
 msgstr ""
 
-#: pysollib/actions.py:522 pysollib/actions.py:550
+#: pysollib/actions.py:523 pysollib/actions.py:551
 msgid "Error while writing to file"
 msgstr ""
 
-#: pysollib/actions.py:525 pysollib/actions.py:553
+#: pysollib/actions.py:526 pysollib/actions.py:554
 msgid " Info"
 msgstr ""
 
-#: pysollib/actions.py:526
+#: pysollib/actions.py:527
 msgid ""
 "Comments were appended to\n"
 "\n"
 msgstr ""
 
-#: pysollib/actions.py:537
+#: pysollib/actions.py:538
 msgid "Demo statistics"
 msgstr ""
 
-#: pysollib/actions.py:540
+#: pysollib/actions.py:541
 msgid "Your statistics"
 msgstr ""
 
-#: pysollib/actions.py:554
+#: pysollib/actions.py:555
 msgid ""
 " were appended to\n"
 "\n"
 msgstr ""
 
-#: pysollib/actions.py:568
+#: pysollib/actions.py:569
 msgid " Demo"
 msgstr ""
 
-#: pysollib/actions.py:568
+#: pysollib/actions.py:569
 msgid " Demo "
 msgstr ""
 
-#: pysollib/actions.py:571 pysollib/actions.py:589
+#: pysollib/actions.py:572 pysollib/actions.py:590
 msgid " for "
 msgstr ""
 
-#: pysollib/actions.py:577 pysollib/stats.py:206
+#: pysollib/actions.py:578 pysollib/stats.py:206
 msgid "Statistics for "
 msgstr ""
 
-#: pysollib/actions.py:580 pysollib/tk/selectgame.py:350
+#: pysollib/actions.py:581 pysollib/tk/selectgame.py:350
 #: pysollib/tk/toolbar.py:208
 msgid "Statistics"
 msgstr ""
 
-#: pysollib/actions.py:583 data/glade-translations:31
+#: pysollib/actions.py:584 data/glade-translations:31
 msgid "Full log"
 msgstr ""
 
-#: pysollib/actions.py:586 data/glade-translations:32
+#: pysollib/actions.py:587 data/glade-translations:32
 msgid "Session log"
 msgstr ""
 
-#: pysollib/actions.py:592
+#: pysollib/actions.py:593
 msgid "Game Info"
 msgstr ""
 
-#: pysollib/actions.py:608
+#: pysollib/actions.py:609
 msgid "Reset all statistics"
 msgstr ""
 
-#: pysollib/actions.py:609
+#: pysollib/actions.py:610
 msgid ""
 "Reset ALL statistics and logs for player\n"
 "%s ?"
 msgstr ""
 
-#: pysollib/actions.py:615
+#: pysollib/actions.py:616
 msgid "Reset game statistics"
 msgstr ""
 
-#: pysollib/actions.py:616
+#: pysollib/actions.py:617
 msgid ""
 "Reset statistics and logs for player\n"
 "%s\n"
@@ -220,23 +220,23 @@ msgid ""
 "%s ?"
 msgstr ""
 
-#: pysollib/actions.py:671
+#: pysollib/actions.py:672
 msgid "Play demo"
 msgstr ""
 
-#: pysollib/actions.py:682
+#: pysollib/actions.py:683
 msgid "Set player options"
 msgstr ""
 
-#: pysollib/actions.py:696 data/glade-translations:40
+#: pysollib/actions.py:697 data/glade-translations:40
 msgid "Set colors"
 msgstr ""
 
-#: pysollib/actions.py:716
+#: pysollib/actions.py:717
 msgid "Set fonts"
 msgstr ""
 
-#: pysollib/actions.py:725 data/glade-translations:33
+#: pysollib/actions.py:726 data/glade-translations:33
 msgid "Set timeouts"
 msgstr ""
 
@@ -244,8 +244,8 @@ msgstr ""
 msgid "Unknown"
 msgstr ""
 
-#: pysollib/app.py:894 pysollib/game.py:1315 pysollib/game.py:1330
-#: pysollib/game.py:1337 pysollib/game.py:1343 pysollib/tk/menubar.py:363
+#: pysollib/app.py:894 pysollib/game.py:1314 pysollib/game.py:1329
+#: pysollib/game.py:1336 pysollib/game.py:1342 pysollib/tk/menubar.py:363
 msgid "&New game"
 msgstr ""
 
@@ -286,45 +286,45 @@ msgstr ""
 msgid "Discard current game ?"
 msgstr ""
 
-#: pysollib/game.py:1269
+#: pysollib/game.py:1268
 msgid ""
 "\n"
 "You have reached\n"
 "#%d in the %s of playing time"
 msgstr ""
 
-#: pysollib/game.py:1272
+#: pysollib/game.py:1271
 msgid ""
 "\n"
 "and #%d in the %s of moves"
 msgstr ""
 
-#: pysollib/game.py:1274
+#: pysollib/game.py:1273
 msgid ""
 "\n"
 "You have reached\n"
 "#%d in the %s of moves"
 msgstr ""
 
-#: pysollib/game.py:1277
+#: pysollib/game.py:1276
 msgid ""
 "\n"
 "and #%d in the %s of total moves"
 msgstr ""
 
-#: pysollib/game.py:1279
+#: pysollib/game.py:1278
 msgid ""
 "\n"
 "You have reached\n"
 "#%d in the %s of total moves"
 msgstr ""
 
-#: pysollib/game.py:1306 pysollib/game.py:1322
+#: pysollib/game.py:1305 pysollib/game.py:1321
 #: pysollib/tk/soundoptionsdialog.py:100
 msgid "Game won"
 msgstr ""
 
-#: pysollib/game.py:1307
+#: pysollib/game.py:1306
 msgid ""
 "\n"
 "Congratulations, this\n"
@@ -335,7 +335,7 @@ msgid ""
 "%s\n"
 msgstr ""
 
-#: pysollib/game.py:1323
+#: pysollib/game.py:1322
 msgid ""
 "\n"
 "Congratulations, you did it !\n"
@@ -345,100 +345,100 @@ msgid ""
 "%s\n"
 msgstr ""
 
-#: pysollib/game.py:1335 pysollib/game.py:1341
+#: pysollib/game.py:1334 pysollib/game.py:1340
 #: pysollib/tk/soundoptionsdialog.py:98
 msgid "Game finished"
 msgstr ""
 
-#: pysollib/game.py:1336 pysollib/game.py:1866
+#: pysollib/game.py:1335 pysollib/game.py:1865
 msgid ""
 "\n"
 "Game finished\n"
 msgstr ""
 
-#: pysollib/game.py:1342
+#: pysollib/game.py:1341
 msgid ""
 "\n"
 "Game finished, but not without my help...\n"
 msgstr ""
 
-#: pysollib/game.py:1343
+#: pysollib/game.py:1342
 msgid "&Restart"
 msgstr ""
 
-#: pysollib/game.py:1757
+#: pysollib/game.py:1756
 msgid "Score %6d"
 msgstr ""
 
-#: pysollib/game.py:1856
+#: pysollib/game.py:1855
 msgid "&Cool"
 msgstr ""
 
-#: pysollib/game.py:1856
+#: pysollib/game.py:1855
 msgid "&Great"
 msgstr ""
 
-#: pysollib/game.py:1856
+#: pysollib/game.py:1855
 msgid "&Wow"
 msgstr ""
 
-#: pysollib/game.py:1856
+#: pysollib/game.py:1855
 msgid "&Yeah"
 msgstr ""
 
-#: pysollib/game.py:1857 pysollib/game.py:1869 pysollib/game.py:1882
+#: pysollib/game.py:1856 pysollib/game.py:1868 pysollib/game.py:1881
 msgid " Autopilot"
 msgstr ""
 
-#: pysollib/game.py:1858
+#: pysollib/game.py:1857
 msgid ""
 "\n"
 "Game solved in %d moves.\n"
 msgstr ""
 
-#: pysollib/game.py:1881
+#: pysollib/game.py:1880
 msgid "&Hmm"
 msgstr ""
 
-#: pysollib/game.py:1881
+#: pysollib/game.py:1880
 msgid "&Oh well"
 msgstr ""
 
-#: pysollib/game.py:1881
+#: pysollib/game.py:1880
 msgid "&That's life"
 msgstr ""
 
-#: pysollib/game.py:1883
+#: pysollib/game.py:1882
 msgid ""
 "\n"
 "This won't come out...\n"
 msgstr ""
 
-#: pysollib/game.py:2295
+#: pysollib/game.py:2294
 msgid "Set bookmark"
 msgstr ""
 
-#: pysollib/game.py:2296
+#: pysollib/game.py:2295
 msgid "Replace existing bookmark %d ?"
 msgstr ""
 
-#: pysollib/game.py:2318
+#: pysollib/game.py:2317
 msgid "Goto bookmark"
 msgstr ""
 
-#: pysollib/game.py:2319
+#: pysollib/game.py:2318
 msgid "Goto bookmark %d ?"
 msgstr ""
 
-#: pysollib/game.py:2350
+#: pysollib/game.py:2349
 msgid "Open game"
 msgstr ""
 
-#: pysollib/game.py:2361 pysollib/game.py:2370 pysollib/game.py:2375
+#: pysollib/game.py:2360 pysollib/game.py:2369 pysollib/game.py:2374
 msgid "Load game error"
 msgstr ""
 
-#: pysollib/game.py:2362
+#: pysollib/game.py:2361
 msgid ""
 "Error while loading game.\n"
 "\n"
@@ -446,22 +446,22 @@ msgid ""
 "but this could also be a bug you might want to report."
 msgstr ""
 
-#: pysollib/game.py:2371
+#: pysollib/game.py:2370
 msgid "Error while loading game"
 msgstr ""
 
-#: pysollib/game.py:2376
+#: pysollib/game.py:2375
 msgid ""
 "Internal error while loading game.\n"
 "\n"
 "Please report this bug."
 msgstr ""
 
-#: pysollib/game.py:2401
+#: pysollib/game.py:2400
 msgid "Save game error"
 msgstr ""
 
-#: pysollib/game.py:2402
+#: pysollib/game.py:2401
 msgid "Error while saving game"
 msgstr ""
 

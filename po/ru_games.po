@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Mon Nov  6 09:46:50 2006\n"
-"PO-Revision-Date: 2006-10-31 19:57+0300\n"
+"POT-Creation-Date: Tue Nov  7 05:42:15 2006\n"
+"PO-Revision-Date: 2006-11-07 05:51+0300\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -537,6 +537,9 @@ msgstr "Китайский Клондайк"
 
 msgid "Chinese Solitaire"
 msgstr "Китайский пасьянс"
+
+msgid "Chinese Spider"
+msgstr "Китайский Паук"
 
 msgid "Chip"
 msgstr "Щепка"
@@ -2790,9 +2793,8 @@ msgstr "Четырёхугольник"
 msgid "Quadruple Alliance"
 msgstr "Четырёхсторонний альянс"
 
-#, fuzzy
 msgid "Quads"
-msgstr "Четвёрка"
+msgstr "Четвёрки"
 
 msgid "Quartets"
 msgstr "Квартеты"
@@ -3778,7 +3780,7 @@ msgid "Zeus"
 msgstr "Зевс"
 
 msgid "Zigzag Course"
-msgstr ""
+msgstr "Зигзагообразный курс"
 
 msgid "Zodiac"
 msgstr "Зодиак"

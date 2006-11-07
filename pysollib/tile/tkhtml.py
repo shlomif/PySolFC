@@ -268,7 +268,8 @@ class HTMLViewer:
 
         # create text widget
         text_frame = Tkinter.Frame(parent)
-        text_frame.grid(row=1, column=0, columnspan=4, sticky='nsew')
+        text_frame.grid(row=1, column=0, columnspan=4,
+                        sticky='nsew', padx=1, pady=1)
         vbar = Tkinter.Scrollbar(text_frame)
         vbar.pack(side=Tkinter.RIGHT, fill=Tkinter.Y)
         self.text = Tkinter.Text(text_frame,

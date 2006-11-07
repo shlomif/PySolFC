@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Mon Nov  6 09:46:50 2006\n"
+"POT-Creation-Date: Tue Nov  7 05:42:15 2006\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -532,6 +532,9 @@ msgid "Chinese Klondike"
 msgstr ""
 
 msgid "Chinese Solitaire"
+msgstr ""
+
+msgid "Chinese Spider"
 msgstr ""
 
 msgid "Chip"

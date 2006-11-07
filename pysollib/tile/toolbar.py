@@ -78,12 +78,16 @@ class AbstractToolbarButton:
         self.visible = True
         if orient == Tkinter.HORIZONTAL:
             padx, pady = 0, 2
+            if os.name == 'nt':
+                padx, pady = 0, 0
             self.grid(row=0,
                       column=self.position,
                       padx=padx, pady=pady,
                       sticky='nsew')
         else:
             padx, pady = 2, 0
+            if os.name == 'nt':
+                padx, pady = 0, 0
             self.grid(row=self.position,
                       column=0,
                       padx=padx, pady=pady,

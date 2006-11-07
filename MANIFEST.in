@@ -61,3 +61,8 @@ graft data/cardset-oxymoron
 graft data/cardset-standard
 graft data/cardset-tuxedo
 graft data/cardset-vienna-2k
+##
+## exclude dirs
+##
+global-exclude .xvpics/* .thumbnails/*
+global-exclude .svn/* .svn/*/*

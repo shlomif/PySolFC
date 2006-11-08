@@ -51,6 +51,15 @@ def init():
     ##if locale_dir: locale_dir = os.path.normpath(locale_dir)
     gettext.install('pysol', locale_dir, unicode=True)
 
+    if os.environ.has_key('PYSOL_CHECK_GAMES') or \
+           os.environ.has_key('PYSOL_DEBUG'):
+        settings.CHECK_GAMES = True
+    if os.environ.has_key('PYSOL_DEBUG'):
+        try:
+            settings.DEBUG = int(os.environ['PYSOL_DEBUG'])
+        except:
+            settings.DEBUG = 1
+
     ## init toolkit
     if '--gtk' in sys.argv:
         settings.TOOLKIT = 'gtk'

@@ -57,3 +57,5 @@ if os.name == 'mac':
 TOP_SIZE = 10
 TOP_TITLE = n_('Top 10')
 
+DEBUG = 0                               # must be integer
+CHECK_GAMES = False

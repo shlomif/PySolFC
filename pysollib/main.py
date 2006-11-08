@@ -43,6 +43,7 @@ import gettext
 # PySol imports
 from mfxutil import destruct, EnvError
 from util import CARDSET, DataLoader
+import settings
 from settings import PACKAGE, TOOLKIT, VERSION, SOUND_MOD
 from resource import Tile
 from gamedb import GI
@@ -110,7 +111,7 @@ def parse_option(argv):
             "noplugins": False,
             "nosound": False,
             "sound-mod": None,
-            "debug": 0,
+            "debug": None,
             }
     for i in optlist:
         if i[0] in ("-h", "--help"):
@@ -137,7 +138,10 @@ def parse_option(argv):
             assert i[1] in ('pss', 'pygame', 'oss', 'win')
             opts["sound-mod"] = i[1]
         elif i[0] in ("-D", "--debug"):
-            opts["debug"] = i[1]
+            try:
+                opts["debug"] = int(i[1])
+            except:
+                print >> sys.stderr, 'WARNING: invalid argument for debug'
 
     if opts["help"]:
         print _("""Usage: %s [OPTIONS] [FILE]
@@ -202,10 +206,9 @@ def pysol_init(app, args):
             app.commandline.gameid = int(opts['gameid'])
         except:
             print >> sys.stderr, 'WARNING: invalid game id:', opts['gameid']
-    try:
-        app.debug = int(opts['debug'])
-    except:
-        print >> sys.stderr, 'invalid argument for debug'
+    if not opts['debug'] is None:
+        settings.DEBUG = opts['debug']
+    app.debug = settings.DEBUG
 
     # init games database
     import games

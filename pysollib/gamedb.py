@@ -40,6 +40,7 @@ import sys, imp, os, types
 # PySol imports
 from mfxutil import Struct, latin1_to_ascii
 from resource import CSI
+from settings import CHECK_GAMES
 
 gettext = _
 n_ = lambda x: x
@@ -486,11 +487,8 @@ class GameManager:
     def get(self, key):
         return self.__all_games.get(key)
 
-    def register(self, gi):
-        ##print gi.id, gi.short_name
-        if not isinstance(gi, GameInfo):
-            raise GameInfoException, "wrong GameInfo class"
-        gi.plugin = self.loading_plugin
+    def _check_game(self, gi):
+        ##print 'check game:', gi.id, gi.short_name.encode('utf-8')
         if self.__all_games.has_key(gi.id):
             raise GameInfoException, "duplicate game ID %s: %s and %s" % \
                   (gi.id, str(gi.gameclass),
@@ -508,6 +506,14 @@ class GameManager:
             if self.__all_gamenames.has_key(n):
                 raise GameInfoException, "duplicate game altname %s: %s" % \
                       (gi.id, n)
+
+    def register(self, gi):
+        ##print gi.id, gi.short_name.encode('utf-8')
+        if not isinstance(gi, GameInfo):
+            raise GameInfoException, "wrong GameInfo class"
+        gi.plugin = self.loading_plugin
+        if self.loading_plugin or CHECK_GAMES:
+            self._check_game(gi)
         ##if 0 and gi.si.game_flags & GI.GT_XORIGINAL:
         ##    return
         ##print gi.id, gi.name

@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Tue Nov  7 05:42:15 2006\n"
-"PO-Revision-Date: 2006-11-07 05:51+0300\n"
+"POT-Creation-Date: Thu Nov  9 17:36:05 2006\n"
+"PO-Revision-Date: 2006-11-09 17:59+0300\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -925,10 +925,10 @@ msgid "Elevator"
 msgstr "Лифт"
 
 msgid "Elevens"
-msgstr "Одиннадцать"
+msgstr "По одиннадцать"
 
 msgid "Elevens Too"
-msgstr "Тоже Одиннадцать"
+msgstr "Тоже по одиннадцать"
 
 msgid "Emperor"
 msgstr "Император"
@@ -1003,6 +1003,9 @@ msgstr "Пасьянс Фатимы"
 msgid "Fatimeh's Game Relaxed"
 msgstr "Облегчённый Пасьянс Фатимы"
 
+msgid "Fifteen"
+msgstr "Пятнадцать"
+
 #, fuzzy
 msgid "Fifteen Puzzle"
 msgstr "Пятнашки"
@@ -1011,7 +1014,7 @@ msgid "Fifteen plus"
 msgstr "Пятнадцать плюс"
 
 msgid "Fifteens"
-msgstr "Пятнадцать"
+msgstr "По пятнадцать"
 
 msgid "Final Battle"
 msgstr "Последняя битва"
@@ -1414,6 +1417,9 @@ msgstr "Маджонг Inazuma"
 msgid "Inca"
 msgstr "Инка"
 
+msgid "Incompatibility"
+msgstr "Несовместимость"
+
 msgid "Indefatigable"
 msgstr "Неутомимый"
 
@@ -1576,53 +1582,41 @@ msgstr "Гигант"
 msgid "Kurma"
 msgstr ""
 
-#, fuzzy
 msgid "Kyodai 14"
-msgstr "Маджонг Kyodai 14"
+msgstr "Kyodai 14"
 
-#, fuzzy
 msgid "Kyodai 17"
-msgstr "Маджонг Kyodai 17"
+msgstr "Kyodai 17"
 
-#, fuzzy
 msgid "Kyodai 18"
-msgstr "Маджонг Kyodai 18"
+msgstr "Kyodai 18"
 
-#, fuzzy
 msgid "Kyodai 20"
-msgstr "Маджонг Kyodai 20"
+msgstr "Kyodai 20"
 
-#, fuzzy
 msgid "Kyodai 23"
-msgstr "Маджонг Kyodai 23"
+msgstr "Kyodai 23"
 
-#, fuzzy
 msgid "Kyodai 24"
-msgstr "Маджонг Kyodai 24"
+msgstr "Kyodai 24"
 
-#, fuzzy
 msgid "Kyodai 25"
-msgstr "Маджонг Kyodai 25"
+msgstr "Kyodai 25"
 
-#, fuzzy
 msgid "Kyodai 26"
-msgstr "Маджонг Kyodai 26"
+msgstr "Kyodai 26"
 
-#, fuzzy
 msgid "Kyodai 27"
-msgstr "Маджонг Kyodai 27"
+msgstr "Kyodai 27"
 
-#, fuzzy
 msgid "Kyodai 28"
-msgstr "Маджонг Kyodai 28"
+msgstr "Kyodai 28"
 
-#, fuzzy
 msgid "Kyodai 41"
-msgstr "Маджонг Kyodai 4"
+msgstr "Kyodai 41"
 
-#, fuzzy
 msgid "Kyodai 42"
-msgstr "Маджонг Kyodai 42"
+msgstr "Kyodai 42"
 
 msgid "La Belle Lucie"
 msgstr "Прекрасная Люси"
@@ -1747,7 +1741,7 @@ msgid "Lucas"
 msgstr "Лукас"
 
 msgid "Lucky Piles"
-msgstr "Счастливая ячейка"
+msgstr "Счастливые кучки"
 
 msgid "Lucky Thirteen"
 msgstr "Счастливые Тринадцать"
@@ -3023,6 +3017,9 @@ msgstr "Скорпион"
 msgid "Scorpion Head"
 msgstr "Голова скорпиона"
 
+msgid "Scorpion II"
+msgstr "Скорпион II"
+
 msgid "Scorpion Tail"
 msgstr "Хвост скорпиона"
 
@@ -3039,7 +3036,7 @@ msgid "Sea Towers"
 msgstr "Морские башни"
 
 msgid "Seahaven Towers"
-msgstr ""
+msgstr "Приморские башни"
 
 msgid "Selective Castle"
 msgstr "Избирательный Замок"
@@ -3075,7 +3072,7 @@ msgid "Shady Lanes"
 msgstr "Тенистые аллеи"
 
 msgid "Shamrocks"
-msgstr "Трилистник"
+msgstr "Трилистники"
 
 msgid "Shamsher"
 msgstr ""
@@ -3457,7 +3454,7 @@ msgid "Thirteen Up"
 msgstr "Тринадцать вверх"
 
 msgid "Thirteens"
-msgstr "Тринадцать"
+msgstr "По тринадцать"
 
 msgid "Thirty Six"
 msgstr "Тридцать шесть"

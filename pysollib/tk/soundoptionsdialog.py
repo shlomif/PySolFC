@@ -41,7 +41,7 @@ import Tkinter
 import traceback
 
 # PySol imports
-from pysollib.mfxutil import destruct, kwdefault, KwStruct, Struct, spawnvp
+from pysollib.mfxutil import destruct, kwdefault, KwStruct, Struct
 from pysollib.settings import PACKAGE
 from pysollib.pysolaudio import pysolsoundserver
 

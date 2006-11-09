@@ -1081,6 +1081,39 @@ class ShortTail(LongTail):
         LongTail.createGame(self, rows=8, playcards=24)
 
 
+# /***********************************************************************
+# // Incompatibility
+# ************************************************************************/
+
+class Incompatibility(Spidike):
+    Talon_Class = GroundForADivorce_Talon
+    RowStack_Class = Spider_SS_RowStack
+
+    def createGame(self):
+        Spidike.createGame(self, rows=10)
+
+    def startGame(self):
+        for i in range(4):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+
+# /***********************************************************************
+# // Scorpion II
+# ************************************************************************/
+
+class ScorpionII(Scorpion):
+
+    def startGame(self):
+        for i in (3, 3, 3, 0, 0, 0):
+            self.s.talon.dealRow(rows=self.s.rows[:i], flip=0, frames=0)
+            self.s.talon.dealRow(rows=self.s.rows[i:], flip=1, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+
+
 # register the game
 registerGame(GameInfo(10, RelaxedSpider, "Relaxed Spider",
                       GI.GT_SPIDER | GI.GT_RELAXED, 2, 0, GI.SL_MOSTLY_SKILL))
@@ -1193,4 +1226,8 @@ registerGame(GameInfo(571, ShortTail, "Short Tail",
 registerGame(GameInfo(670, ChineseSpider, "Chinese Spider",
                       GI.GT_SPIDER, 4, 0, GI.SL_MOSTLY_SKILL,
                       suits=(0, 1, 2),))
+registerGame(GameInfo(671, Incompatibility, "Incompatibility",
+                      GI.GT_SPIDER, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(672, ScorpionII, "Scorpion II",
+                      GI.GT_SPIDER, 1, 0, GI.SL_MOSTLY_SKILL))
 

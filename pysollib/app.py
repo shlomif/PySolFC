@@ -853,6 +853,7 @@ class Application:
             self.top.busyUpdate()
 
     def loadImages1(self):
+        # load dialog images
         dir = os.path.join("images", "logos")
         for f in ("joker07_40_774",
                   "joker08_40_774",
@@ -861,12 +862,33 @@ class Application:
                   "joker11_100_774",
                   "joker10_100",):
             self.gimages.logos.append(self.dataloader.findImage(f, dir))
+        if os.name == 'posix':
+            dir = os.path.join('images', 'dialog', 'bluecurve')
+        else:
+            dir = os.path.join('images', 'dialog', 'default')
+        for f in ('error', 'info', 'question', 'warning'):
+            fn = self.dataloader.findImage(f, dir)
+            im = loadImage(fn)
+            MfxMessageDialog.img[f] = im
+
+        # load button images
+        if 0 and TOOLKIT == 'tk':
+            dir = os.path.join('images', 'buttons', 'bluecurve')
+            for n, f in (
+                (_('&OK'), 'ok'),
+                (_('&Cancel'), 'cancel'),
+                (_('&New game'), 'new'),
+                ):
+                fn = self.dataloader.findImage(f, dir)
+                im = loadImage(fn)
+                MfxDialog.button_img[n] = im
+
+    def loadImages2(self):
+        # load canvas images
         dir = "images"
         ##for f in ("noredeal", "redeal",):
         for f in ("stopsign", "redeal",):
             self.gimages.redeal.append(self.dataloader.findImage(f, dir))
-
-    def loadImages2(self):
         dir = os.path.join("images", "demo")
         for f in ("demo01", "demo02", "demo03", "demo04", "demo05",):
             self.gimages.demo.append(self.dataloader.findImage(f, dir))
@@ -878,32 +900,16 @@ class Application:
         ##    self.gimages.stats.append(self.dataloader.findImage(f, dir))
 
     def loadImages3(self):
-        if os.name == 'posix':
-            dir = os.path.join('images', 'dialog', 'bluecurve')
-        else:
-            dir = os.path.join('images', 'dialog', 'default')
-        for f in ('error', 'info', 'question', 'warning'):
-            fn = self.dataloader.findImage(f, dir)
-            im = loadImage(fn)
-            MfxMessageDialog.img[f] = im
-        if 0 and TOOLKIT == 'tk':
-            dir = os.path.join('images', 'buttons', 'bluecurve')
-            for n, f in (
-                (_('&OK'), 'ok'),
-                (_('&Cancel'), 'cancel'),
-                (_('&New game'), 'new'),
-                ):
-                fn = self.dataloader.findImage(f, dir)
-                im = loadImage(fn)
-                MfxDialog.button_img[n] = im
+        # load treeview images
         SelectDialogTreeData.img = []
         dir = os.path.join('images', 'tree')
         for f in ('folder', 'openfolder', 'node', 'emptynode'):
             fn = self.dataloader.findImage(f, dir)
             im = loadImage(fn)
             SelectDialogTreeData.img.append(im)
+
+        # load htmlviewer images
         dir = os.path.join('images', 'htmlviewer')
-        #
         fn = self.dataloader.findImage('disk', dir)
         HTMLViewer.symbols_fn['disk'] = fn
 

@@ -35,27 +35,26 @@
 
 
 # imports
-import sys, os, locale
+import sys, os
 import traceback
 import getopt
-import gettext
 
 # PySol imports
 from mfxutil import destruct, EnvError
 from util import CARDSET, DataLoader
-import settings
-from settings import PACKAGE, TOOLKIT, VERSION, SOUND_MOD
 from resource import Tile
 from gamedb import GI
 from app import Application
 from pysolaudio import thread, pysolsoundserver
 from pysolaudio import AbstractAudioClient, PysolSoundServerModuleClient
 from pysolaudio import Win32AudioClient, OSSAudioClient, PyGameAudioClient
+import settings
+PACKAGE, SOUND_MOD = settings.PACKAGE, settings.SOUND_MOD
 
 # Toolkit imports
-from pysoltk import tkversion, wm_withdraw, loadImage
+from pysoltk import wm_withdraw, loadImage
 from pysoltk import MfxMessageDialog, MfxExceptionDialog
-from pysoltk import TclError, MfxRoot
+from pysoltk import MfxRoot
 from pysoltk import PysolProgressBar
 
 
@@ -97,21 +96,21 @@ def parse_option(argv):
                                        "sound-mod=",
                                        "help"])
     except getopt.GetoptError, err:
-        print _("%s: %s\ntry %s --help for more information") \
+        print >> sys.stderr, _("%s: %s\ntry %s --help for more information") \
               % (prog_name, err, prog_name)
         return None
-    opts = {"help": False,
-            "game": None,
-            "gameid": None,
-            "fg": None,
-            "bg": None,
-            "fn": None,
-            "theme": None,
-            "french-only": False,
-            "noplugins": False,
-            "nosound": False,
-            "sound-mod": None,
-            "debug": None,
+    opts = {"help"        : False,
+            "game"        : None,
+            "gameid"      : None,
+            "fg"          : None,
+            "bg"          : None,
+            "fn"          : None,
+            "theme"       : None,
+            "french-only" : False,
+            "noplugins"   : False,
+            "nosound"     : False,
+            "sound-mod"   : None,
+            "debug"       : None,
             }
     for i in optlist:
         if i[0] in ("-h", "--help"):
@@ -162,11 +161,11 @@ def parse_option(argv):
         return None
 
     if len(args) > 1:
-        print _("%s: too many files\ntry %s --help for more information") % (prog_name, prog_name)
+        print >> sys.stderr, _("%s: too many files\ntry %s --help for more information") % (prog_name, prog_name)
         return None
     filename = args and args[0] or None
     if filename and not os.path.isfile(filename):
-        print _("%s: invalid file name\ntry %s --help for more information") % (prog_name, prog_name)
+        print >> sys.stderr, _("%s: invalid file name\ntry %s --help for more information") % (prog_name, prog_name)
         return None
     return opts, filename
 
@@ -332,7 +331,7 @@ Please check your %s installation.
     if not app.audio.CAN_PLAY_SOUND:
         app.opt.sound = 0
     if not opts["nosound"] and not opts['sound-mod'] and pysolsoundserver and not app.audio.connected:
-        print PACKAGE + ": could not connect to pysolsoundserver, sound disabled."
+        print >> sys.stderr,  PACKAGE + ": could not connect to pysolsoundserver, sound disabled."
         warn_pysolsoundserver = 1
     app.audio.updateSettings()
     # start up the background music
@@ -364,9 +363,9 @@ Please check your %s installation.
             if thread is None:
                 warn_thread = 1
         if thread is None:
-            print PACKAGE + ": Python thread module not found, sound disabled."
+            print >> sys.stderr, PACKAGE+": Python thread module not found, sound disabled."
         else:
-            print PACKAGE + ": pysolsoundserver module not found, sound disabled."
+            print >> sys.stderr, PACKAGE+": pysolsoundserver module not found, sound disabled."
         sys.stdout.flush()
     if not opts["nosound"]:
         if warn_thread:
@@ -415,39 +414,10 @@ Sounds and background music will be disabled.'''),
 
 
 # /***********************************************************************
-# //
+# // main
 # ************************************************************************/
 
-def pysol_exit(app):
-    # clean up
-    if app.audio is not None:
-        app.audio.destroy()         # shut down audio
-        destruct(app.audio)
-    ##app.wm_withdraw()
-    if app.canvas is not None:
-        app.canvas.destroy()
-        destruct(app.canvas)
-    if app.toolbar is not None:
-        app.toolbar.destroy()
-        destruct(app.toolbar)
-    if app.menubar is not None:
-        destruct(app.menubar)
-    top = app.top
-    destruct(app)
-    app = None
-    if top is not None:
-        try:
-            top.destroy()
-        except:
-            pass
-        destruct(top)
-
-
-# /***********************************************************************
-# // PySol main entry
-# ************************************************************************/
-
-def pysol_main(args):
+def main(args=None):
     # create the application
     app = Application()
     r = pysol_init(app, args)
@@ -455,63 +425,4 @@ def pysol_main(args):
         return r
     # let's go - enter the mainloop
     app.mainloop()
-##     try:
-##         r = pysol_init(app, args)
-##         if r != 0:
-##             return r
-##         # let's go - enter the mainloop
-##         app.mainloop()
-##     except KeyboardInterrupt, ex:
-##         print "Exiting on SIGINT."
-##         pass
-##     except StandardError, ex:
-##         if not app.top:
-##             raise
-##         t = str(ex.__class__)
-##         if str(ex): t = t + ":\n" + str(ex)
-##         d = MfxMessageDialog(app.top, title=PACKAGE + " internal error",
-##                       text="Internal errror. Please report this bug:\n\n"+t,
-##                       strings=("&Quit",), bitmap="error")
-    try:
-        pysol_exit(app)
-    except:
-        pass
     return 0
-
-
-# /***********************************************************************
-# // main
-# ************************************************************************/
-
-def main(args=None):
-
-    # setup (mainly for JPython)
-    if not hasattr(sys, "platform"):
-        sys.platform = "unknown"
-    if not hasattr(sys, "executable"):
-        sys.executable = None
-    if not hasattr(os, "defpath"):
-        os.defpath = ""
-
-    # check versions
-    if sys.platform[:4] != "java":
-        if sys.version[:5] < "1.5.2":
-            print "%s needs Python 1.5.2 or better (you have %s)" % (PACKAGE, sys.version)
-            return 1
-    assert len(tkversion) == 4
-    if TOOLKIT == "tk":
-        import Tkinter
-        if tkversion < (8, 0, 0, 0):
-            print "%s needs Tcl/Tk 8.0 or better (you have %s)" % (PACKAGE, str(tkversion))
-            return 1
-        # check that Tkinter bindings are also at version 1.5.2
-        if not hasattr(Tkinter.Wm, "wm_aspect") or not hasattr(Tkinter.Canvas, "tag_lower"):
-            print "%s: please update the Python-Tk bindings (aka Tkinter) to version 1.5.2 or better" % (PACKAGE,)
-            return 1
-    # check Python
-    if -1 % 13 != 12:
-        raise Exception, "-1 % 13 != 12"
-
-    # run it
-    return pysol_main(args)
-

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Tue Nov  7 05:43:10 2006\n"
+"POT-Creation-Date: Thu Nov  9 17:36:57 2006\n"
 "PO-Revision-Date: 2006-11-06 09:53+0300\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -55,7 +55,7 @@ msgstr "&Следующий номер"
 
 #: pysollib/actions.py:314 pysollib/app.py:892 pysollib/app.py:1155
 #: pysollib/app.py:1167 pysollib/game.py:929 pysollib/game.py:1864
-#: pysollib/main.py:376 pysollib/main.py:384 pysollib/tk/colorsdialog.py:122
+#: pysollib/main.py:379 pysollib/main.py:387 pysollib/tk/colorsdialog.py:122
 #: pysollib/tk/edittextdialog.py:82 pysollib/tk/fontsdialog.py:143
 #: pysollib/tk/fontsdialog.py:205 pysollib/tk/gameinfodialog.py:155
 #: pysollib/tk/playeroptionsdialog.py:85
@@ -510,211 +510,211 @@ msgstr "Ошибка при сохранении игры"
 msgid "Error while saving game"
 msgstr "Ошибка при сохранении игры"
 
-#: pysollib/gamedb.py:120
+#: pysollib/gamedb.py:121
 msgid "Baker's Dozen"
 msgstr ""
 
-#: pysollib/gamedb.py:121
+#: pysollib/gamedb.py:122
 msgid "Beleaguered Castle"
 msgstr ""
 
-#: pysollib/gamedb.py:122
+#: pysollib/gamedb.py:123
 msgid "Canfield"
 msgstr ""
 
-#: pysollib/gamedb.py:123
+#: pysollib/gamedb.py:124
 msgid "Fan"
 msgstr ""
 
-#: pysollib/gamedb.py:124
+#: pysollib/gamedb.py:125
 msgid "Forty Thieves"
 msgstr ""
 
-#: pysollib/gamedb.py:125
+#: pysollib/gamedb.py:126
 msgid "FreeCell"
 msgstr ""
 
-#: pysollib/gamedb.py:126
+#: pysollib/gamedb.py:127
 msgid "Golf"
 msgstr ""
 
-#: pysollib/gamedb.py:127
+#: pysollib/gamedb.py:128
 msgid "Gypsy"
 msgstr ""
 
-#: pysollib/gamedb.py:128
+#: pysollib/gamedb.py:129
 msgid "Klondike"
 msgstr ""
 
-#: pysollib/gamedb.py:129
+#: pysollib/gamedb.py:130
 msgid "Montana"
 msgstr ""
 
-#: pysollib/gamedb.py:130
+#: pysollib/gamedb.py:131
 msgid "Napoleon"
 msgstr ""
 
-#: pysollib/gamedb.py:131
+#: pysollib/gamedb.py:132
 msgid "Numerica"
 msgstr ""
 
-#: pysollib/gamedb.py:132
+#: pysollib/gamedb.py:133
 msgid "Pairing"
 msgstr ""
 
-#: pysollib/gamedb.py:133
+#: pysollib/gamedb.py:134
 msgid "Raglan"
 msgstr ""
 
-#: pysollib/gamedb.py:134 pysollib/gamedb.py:167
+#: pysollib/gamedb.py:135 pysollib/gamedb.py:168
 msgid "Simple games"
 msgstr "Простые игры"
 
-#: pysollib/gamedb.py:135
+#: pysollib/gamedb.py:136
 msgid "Spider"
 msgstr ""
 
-#: pysollib/gamedb.py:136
+#: pysollib/gamedb.py:137
 msgid "Terrace"
 msgstr ""
 
-#: pysollib/gamedb.py:137
+#: pysollib/gamedb.py:138
 msgid "Yukon"
 msgstr ""
 
-#: pysollib/gamedb.py:138 pysollib/gamedb.py:171
+#: pysollib/gamedb.py:139 pysollib/gamedb.py:172
 msgid "One-Deck games"
 msgstr "Игры с одной колодой"
 
-#: pysollib/gamedb.py:139 pysollib/gamedb.py:172
+#: pysollib/gamedb.py:140 pysollib/gamedb.py:173
 msgid "Two-Deck games"
 msgstr "Игры с двумя колодами"
 
-#: pysollib/gamedb.py:140 pysollib/gamedb.py:173
+#: pysollib/gamedb.py:141 pysollib/gamedb.py:174
 msgid "Three-Deck games"
 msgstr "Игры с тремя колодами"
 
-#: pysollib/gamedb.py:141 pysollib/gamedb.py:174
+#: pysollib/gamedb.py:142 pysollib/gamedb.py:175
 msgid "Four-Deck games"
 msgstr "Игры с четырьмя колодами"
 
-#: pysollib/gamedb.py:153
+#: pysollib/gamedb.py:154
 msgid "Baker's Dozen type"
 msgstr "Игры типа Чёртова Дюжина (Baker's Dozen)"
 
-#: pysollib/gamedb.py:154
+#: pysollib/gamedb.py:155
 msgid "Beleaguered Castle type"
 msgstr "Игры типа Осаждённый Замок (Beleaguered Castle)"
 
-#: pysollib/gamedb.py:155
+#: pysollib/gamedb.py:156
 msgid "Canfield type"
 msgstr "Игры типа Кенфилд (Canfield)"
 
-#: pysollib/gamedb.py:156
+#: pysollib/gamedb.py:157
 msgid "Fan type"
 msgstr "Игры типа Веер (Fan)"
 
-#: pysollib/gamedb.py:157
+#: pysollib/gamedb.py:158
 msgid "Forty Thieves type"
 msgstr "Игры типа Сорок Воров (Forty Thieves)"
 
-#: pysollib/gamedb.py:158
+#: pysollib/gamedb.py:159
 msgid "FreeCell type"
 msgstr "Игры типа Свободная Ячейка (FreeCell)"
 
-#: pysollib/gamedb.py:159
+#: pysollib/gamedb.py:160
 msgid "Golf type"
 msgstr "Игры типа Гольф (Golf)"
 
-#: pysollib/gamedb.py:160
+#: pysollib/gamedb.py:161
 msgid "Gypsy type"
 msgstr "Игры типа Цыганский Пасьянс (Gypsy)"
 
-#: pysollib/gamedb.py:161
+#: pysollib/gamedb.py:162
 msgid "Klondike type"
 msgstr "Игры типа Клондайк (Klondike)"
 
-#: pysollib/gamedb.py:162
+#: pysollib/gamedb.py:163
 msgid "Montana type"
 msgstr "Игры типа Монтана (Montana)"
 
-#: pysollib/gamedb.py:163
+#: pysollib/gamedb.py:164
 msgid "Napoleon type"
 msgstr "Игры типа Наполеон (Napoleon)"
 
-#: pysollib/gamedb.py:164
+#: pysollib/gamedb.py:165
 msgid "Numerica type"
 msgstr "Игры числового типа (Numerica)"
 
-#: pysollib/gamedb.py:165
+#: pysollib/gamedb.py:166
 msgid "Pairing type"
 msgstr "Парные игры"
 
-#: pysollib/gamedb.py:166
+#: pysollib/gamedb.py:167
 msgid "Raglan type"
 msgstr "Игры типа Реглан (Raglan)"
 
-#: pysollib/gamedb.py:168
+#: pysollib/gamedb.py:169
 msgid "Spider type"
 msgstr "Игры типа Паук (Spider)"
 
-#: pysollib/gamedb.py:169
+#: pysollib/gamedb.py:170
 msgid "Terrace type"
 msgstr "Игры типа Терраса (Terrace)"
 
-#: pysollib/gamedb.py:170
+#: pysollib/gamedb.py:171
 msgid "Yukon type"
 msgstr "Игры типа Юкон (Yukon)"
 
-#: pysollib/gamedb.py:178 pysollib/gamedb.py:186
+#: pysollib/gamedb.py:179 pysollib/gamedb.py:187
 msgid "French type"
 msgstr "Классические"
 
-#: pysollib/gamedb.py:179 pysollib/gamedb.py:187 pysollib/gamedb.py:195
+#: pysollib/gamedb.py:180 pysollib/gamedb.py:188 pysollib/gamedb.py:196
 msgid "Ganjifa type"
 msgstr "Игры типа Ганджифа"
 
-#: pysollib/gamedb.py:180 pysollib/gamedb.py:188 pysollib/gamedb.py:196
+#: pysollib/gamedb.py:181 pysollib/gamedb.py:189 pysollib/gamedb.py:197
 msgid "Hanafuda type"
 msgstr "Игры типа Ханафуда"
 
-#: pysollib/gamedb.py:181 pysollib/gamedb.py:189 pysollib/gamedb.py:203
+#: pysollib/gamedb.py:182 pysollib/gamedb.py:190 pysollib/gamedb.py:204
 msgid "Hex A Deck type"
 msgstr "Игры типа Hex A Deck"
 
-#: pysollib/gamedb.py:182 pysollib/gamedb.py:190 pysollib/gamedb.py:208
+#: pysollib/gamedb.py:183 pysollib/gamedb.py:191 pysollib/gamedb.py:209
 msgid "Tarock type"
 msgstr "Таро"
 
-#: pysollib/gamedb.py:194
+#: pysollib/gamedb.py:195
 msgid "Dashavatara Ganjifa type"
 msgstr "Игры типа Дашаватара Ганджифа"
 
-#: pysollib/gamedb.py:197
+#: pysollib/gamedb.py:198
 msgid "Mughal Ganjifa type"
 msgstr "Игры типа Мугал Ганджифа"
 
-#: pysollib/gamedb.py:198
+#: pysollib/gamedb.py:199
 msgid "Navagraha Ganjifa type"
 msgstr "Игры типа Наваграха Ганджифа"
 
-#: pysollib/gamedb.py:202
+#: pysollib/gamedb.py:203
 msgid "Shisen-Sho"
 msgstr "Шисен-Сё"
 
-#: pysollib/gamedb.py:204
+#: pysollib/gamedb.py:205
 msgid "Matrix type"
 msgstr "Мозаика"
 
-#: pysollib/gamedb.py:205
+#: pysollib/gamedb.py:206
 msgid "Memory type"
 msgstr "Игры на запоминание"
 
-#: pysollib/gamedb.py:206
+#: pysollib/gamedb.py:207
 msgid "Poker type"
 msgstr "Покер"
 
-#: pysollib/gamedb.py:207
+#: pysollib/gamedb.py:208
 msgid "Puzzle type"
 msgstr "Пазлы"
 
@@ -1331,11 +1331,11 @@ msgstr "Не найден файл помощи\n"
 msgid " Help"
 msgstr " Помощь"
 
-#: pysollib/main.py:67 pysollib/main.py:284
+#: pysollib/main.py:68 pysollib/main.py:287
 msgid " installation error"
 msgstr " проблема с установкой"
 
-#: pysollib/main.py:68
+#: pysollib/main.py:69
 msgid ""
 "No %ss were found !!!\n"
 "\n"
@@ -1345,11 +1345,11 @@ msgid ""
 "Please check your %s installation.\n"
 msgstr ""
 
-#: pysollib/main.py:75 pysollib/main.py:292 pysollib/tk/menubar.py:382
+#: pysollib/main.py:76 pysollib/main.py:295 pysollib/tk/menubar.py:382
 msgid "&Quit"
 msgstr "В&ыход"
 
-#: pysollib/main.py:99
+#: pysollib/main.py:100
 msgid ""
 "%s: %s\n"
 "try %s --help for more information"
@@ -1357,7 +1357,7 @@ msgstr ""
 "%s: %s\n"
 "попробуйте %s --help для получения более подробной информации"
 
-#: pysollib/main.py:143
+#: pysollib/main.py:147
 msgid ""
 "Usage: %s [OPTIONS] [FILE]\n"
 "  -g    --game=GAMENAME        start game GAMENAME\n"
@@ -1389,7 +1389,7 @@ msgstr ""
 "  FILE - имя файла сохранённой игры\n"
 "  MOD - one of following: pss(default), pygame, oss, win\n"
 
-#: pysollib/main.py:161
+#: pysollib/main.py:165
 msgid ""
 "%s: too many files\n"
 "try %s --help for more information"
@@ -1397,7 +1397,7 @@ msgstr ""
 "\"%s: слишком много файлов\n"
 "попробуйте %s --help для получения более подробной информации"
 
-#: pysollib/main.py:165
+#: pysollib/main.py:169
 msgid ""
 "%s: invalid file name\n"
 "try %s --help for more information"
@@ -1405,7 +1405,7 @@ msgstr ""
 "%s: неправильное имя файла\n"
 "попробуйте %s --help для получения более подробной информации"
 
-#: pysollib/main.py:285
+#: pysollib/main.py:288
 msgid ""
 "\n"
 "No games were found !!!\n"
@@ -1416,18 +1416,18 @@ msgid ""
 "Please check your %s installation.\n"
 msgstr ""
 
-#: pysollib/main.py:371 pysollib/main.py:379
+#: pysollib/main.py:374 pysollib/main.py:382
 msgid " installation problem"
 msgstr ""
 
-#: pysollib/main.py:372
+#: pysollib/main.py:375
 msgid ""
 "Your Python installation is compiled without thread support.\n"
 "\n"
 "Sounds and background music will be disabled."
 msgstr ""
 
-#: pysollib/main.py:380
+#: pysollib/main.py:383
 msgid ""
 "The pysolsoundserver module was not found.\n"
 "\n"
@@ -1437,7 +1437,7 @@ msgstr ""
 "\n"
 "Звук и фоновая музыка будут недоступны"
 
-#: pysollib/main.py:387
+#: pysollib/main.py:390
 msgid "Welcome to "
 msgstr "Добро пожаловать в "
 

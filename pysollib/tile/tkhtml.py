@@ -496,7 +496,8 @@ to open the following URL:
 
     def errorDialog(self, msg):
         d = MfxMessageDialog(self.parent, title=PACKAGE+" HTML Problem",
-                             text=msg, bitmap="warning",
+                             text=msg,
+                             ##bitmap="warning", # FIXME: this interp don't have images
                              strings=(_("&OK"),), default=0)
 
     def getImage(self, fn):

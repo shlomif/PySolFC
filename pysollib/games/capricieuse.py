@@ -48,16 +48,16 @@ class Capricieuse(Game):
     # game layout
     #
 
-    def createGame(self, **layout):
+    def createGame(self, rows=12):
 
         # create layout
         l, s = Layout(self), self.s
 
         # set window
-        self.setSize(l.XM+12*l.XS, l.YM+2*l.YS+15*l.YOFFSET)
+        self.setSize(l.XM+rows*l.XS, l.YM+2*l.YS+15*l.YOFFSET)
 
         # create stacks
-        x, y, = l.XM+2*l.XS, l.YM
+        x, y, = l.XM+(rows-8)*l.XS/2, l.YM
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
             x = x + l.XS
@@ -66,7 +66,7 @@ class Capricieuse(Game):
                                                     base_rank=KING, dir=-1))
             x = x + l.XS
         x, y, = l.XM, y + l.YS
-        for i in range(12):
+        for i in range(rows):
             s.rows.append(self.RowStack_Class(x, y, self,
                                               max_move=1, max_accept=1))
             x = x + l.XS
@@ -114,7 +114,7 @@ class Nationale(Capricieuse):
 
 class Strata(Game):
 
-    def createGame(self, **layout):
+    def createGame(self):
 
         # create layout
         l, s = Layout(self), self.s
@@ -150,6 +150,27 @@ class Strata(Game):
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
+# /***********************************************************************
+# // Fifteen
+# ************************************************************************/
+
+class Fifteen(Capricieuse):
+    Talon_Class = InitialDealTalonStack
+
+    def createGame(self):
+        Capricieuse.createGame(self, rows=15)
+
+    def startGame(self):
+        for i in range(6):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRowAvail()
+
+    def _shuffleHook(self, cards):
+        return cards
+
+
+
 # register the game
 registerGame(GameInfo(292, Capricieuse, "Capricieuse",
                       GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 2, 2, GI.SL_MOSTLY_SKILL))
@@ -159,4 +180,6 @@ registerGame(GameInfo(293, Nationale, "Nationale",
 registerGame(GameInfo(606, Strata, "Strata",
                       GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 2, 2, GI.SL_MOSTLY_SKILL,
                       ranks=(0, 6, 7, 8, 9, 10, 11, 12) ))
+registerGame(GameInfo(673, Fifteen, "Fifteen",
+                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL))
 

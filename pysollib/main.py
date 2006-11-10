@@ -41,7 +41,7 @@ import getopt
 
 # PySol imports
 from mfxutil import destruct, EnvError
-from util import CARDSET, DataLoader
+from util import DataLoader
 from resource import Tile
 from gamedb import GI
 from app import Application
@@ -64,16 +64,16 @@ from pysoltk import PysolProgressBar
 
 def fatal_no_cardsets(app):
     app.wm_withdraw()
-    d = MfxMessageDialog(app.top, title=PACKAGE + _(" installation error"),
-                         text=_('''No %ss were found !!!
+    d = MfxMessageDialog(app.top, title=_("%s installation error") % PACKAGE,
+                         text=_('''No cardsets were found !!!
 
 Main data directory is:
 %s
 
 Please check your %s installation.
-''') % (CARDSET, app.dataloader.dir, PACKAGE),
+''') % (app.dataloader.dir, PACKAGE),
                          bitmap="error", strings=(_("&Quit"),))
-    ##raise Exception, "no "+CARDSET+"s found !"
+    ##raise Exception, "no cardsets found !"
 
 
 # /***********************************************************************
@@ -150,6 +150,7 @@ def parse_option(argv):
   --fg  --foreground=COLOR     foreground color
   --bg  --background=COLOR     background color
   --fn  --font=FONT            default font
+        --theme=THEME          specify theme (for Tile binding)
         --sound-mod=MOD
         --nosound              disable sound support
         --noplugins            disable load plugins
@@ -283,7 +284,7 @@ def pysol_init(app, args):
     # check games
     if len(app.gdb.getGamesIdSortedByName()) == 0:
         app.wm_withdraw()
-        d = MfxMessageDialog(top, title=PACKAGE + _(" installation error"),
+        d = MfxMessageDialog(top, title=_("%s installation error") % PACKAGE,
                              text=_('''
 No games were found !!!
 
@@ -331,7 +332,7 @@ Please check your %s installation.
     if not app.audio.CAN_PLAY_SOUND:
         app.opt.sound = 0
     if not opts["nosound"] and not opts['sound-mod'] and pysolsoundserver and not app.audio.connected:
-        print >> sys.stderr,  PACKAGE + ": could not connect to pysolsoundserver, sound disabled."
+        print >> sys.stderr, "%s: could not connect to pysolsoundserver, sound disabled." % PACKAGE
         warn_pysolsoundserver = 1
     app.audio.updateSettings()
     # start up the background music
@@ -363,14 +364,14 @@ Please check your %s installation.
             if thread is None:
                 warn_thread = 1
         if thread is None:
-            print >> sys.stderr, PACKAGE+": Python thread module not found, sound disabled."
+            print >> sys.stderr, "%s: Python thread module not found, sound disabled." % PACKAGE
         else:
-            print >> sys.stderr, PACKAGE+": pysolsoundserver module not found, sound disabled."
+            print >> sys.stderr, "%s: pysolsoundserver module not found, sound disabled." % PACKAGE
         sys.stdout.flush()
     if not opts["nosound"]:
         if warn_thread:
             top.update()
-            d = MfxMessageDialog(top, title=PACKAGE + _(" installation problem"),
+            d = MfxMessageDialog(top, title=_("%s installation problem") % PACKAGE,
                                  text=_('''\
 Your Python installation is compiled without thread support.
 
@@ -378,7 +379,7 @@ Sounds and background music will be disabled.'''),
                                  bitmap="warning", strings=(_("&OK"),))
         elif warn_pysolsoundserver:
             top.update()
-            d = MfxMessageDialog(top, title=PACKAGE + _(" installation problem"),
+            d = MfxMessageDialog(top, title=_("%s installation problem") % PACKAGE,
                                  text=_('''\
 The pysolsoundserver module was not found.
 
@@ -386,7 +387,7 @@ Sounds and background music will be disabled.'''),
                                  bitmap="warning", strings=(_("&OK"),))
 
     # create the progress bar
-    title = _("Welcome to ") + PACKAGE
+    title = _("Welcome to %s") % PACKAGE
     color = app.opt.colors['table']
     if app.tabletile_index > 0:
         color = "#008200"
@@ -425,4 +426,3 @@ def main(args=None):
         return r
     # let's go - enter the mainloop
     app.mainloop()
-    return 0

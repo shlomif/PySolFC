@@ -938,6 +938,106 @@ class Cheops(Pyramid):
         return abs(card1.rank-card2.rank) in (0,1)
 
 
+# /***********************************************************************
+# // Exit
+# ************************************************************************/
+
+class Exit_RowStack(Elevens_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        #if self.basicIsBlocked():
+        #    return 0
+        if from_stack is self or not self.cards or len(cards) != 1:
+            return False
+        c1 = self.cards[-1]
+        c2 = cards[0]
+        #if not c1.face_up or not c2.face_up:
+        #    return False
+        return self.game._checkPair(c1, c2)
+
+    def moveMove(self, ncards, to_stack, frames=-1, shadow=-1):
+        self._dropPairMove(ncards, to_stack, frames=-1, shadow=shadow)
+
+
+class Exit(Game):
+    def createGame(self):
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        h1 = l.YS+5*l.YOFFSET
+        self.setSize(l.XM+7*l.XS, l.YM+2*h1+l.YS)
+
+        # create stacks
+        y = l.YM
+        for i in (0, 1):
+            x = l.XM
+            for j in range(5):
+                stack = Exit_RowStack(x, y, self, base_rank=NO_RANK,
+                                      max_move=1, max_accept=1, dir=0)
+                s.rows.append(stack)
+                stack.CARD_YOFFSET = l.YOFFSET
+                x += l.XS
+            y += h1
+        x, y = self.width-l.XS, l.YM
+        stack = Exit_RowStack(x, y, self, base_rank=NO_RANK,
+                              max_move=1, max_accept=1, dir=0)
+        s.reserves.append(stack)
+        stack.CARD_YOFFSET = l.YOFFSET
+        x, y = self.width-l.XS, self.height-l.YS
+        s.foundations.append(AbstractFoundationStack(x, y, self, suit=ANY_SUIT,
+                             max_accept=0, max_move=0, max_cards=52))
+        l.createText(s.foundations[0], "n")
+        x, y = l.XM, self.height-l.YS
+        s.talon = InitialDealTalonStack(x, y, self)
+
+        # define stack-groups
+        l.defaultStackGroups()
+
+    def _checkPair(self, c1, c2):
+        if c1.rank + c2.rank == 9:      # A-10, 2-9, 3-8, 4-7, 5-6
+            return True
+        if c1.rank == JACK and c2.rank == JACK:
+            return True
+        if c1.rank + c2.rank == 23:     # Q-K
+            return True
+        return False
+
+    def _shuffleHook(self, cards):
+        swap_index = None
+        for i in range(10):
+            jack_indexes = []
+            for j in range(5):
+                k = i*5+j
+                c = cards[k]
+                if c.rank == JACK:
+                    jack_indexes.append(k)
+            if len(jack_indexes) == 3:
+                swap_index = jack_indexes[1]
+            if len(jack_indexes) >= 2:
+                break
+        if not swap_index is None:
+            i = -1
+            if cards[-1].rank == JACK:  # paranoia
+                i = -2
+            cards[swap_index], cards[i] = cards[i], cards[swap_index]
+        cards.reverse()
+        return cards
+
+    def startGame(self):
+        self.startDealSample()
+        for i in range(10):
+            for j in range(5):
+                self.s.talon.dealRow(rows=[self.s.rows[i]], frames=4)
+        self.s.talon.dealRow(rows=self.s.reserves, frames=4)
+        self.s.talon.dealRow(rows=self.s.reserves, frames=4)
+
+##     def getAutoStacks(self, event=None):
+##         return ((), (), self.sg.dropstacks)
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return self._checkPair(card1, card2)
+
+
 
 # register the game
 registerGame(GameInfo(38, Pyramid, "Pyramid",
@@ -968,5 +1068,7 @@ registerGame(GameInfo(657, Baroness, "Baroness",
 registerGame(GameInfo(658, Apophis, "Apophis",
                       GI.GT_PAIRING_TYPE, 1, 2, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(659, Cheops, "Cheops",
+                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(674, Exit, "Exit",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_SKILL))
 

@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "#-#-#-#-#  pysol-1.pot (PACKAGE VERSION)  #-#-#-#-#\n"
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: Thu Nov  9 17:36:57 2006\n"
+"POT-Creation-Date: Fri Nov 10 23:01:45 2006\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 "#-#-#-#-#  pysol-2.pot (PACKAGE VERSION)  #-#-#-#-#\n"
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2006-11-09 17:36+0300\n"
+"POT-Creation-Date: 2006-11-10 23:01+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -68,8 +68,8 @@ msgstr ""
 msgid "&Next number"
 msgstr ""
 
-#: pysollib/actions.py:314 pysollib/app.py:892 pysollib/app.py:1155
-#: pysollib/app.py:1167 pysollib/game.py:929 pysollib/game.py:1864
+#: pysollib/actions.py:314 pysollib/app.py:878 pysollib/app.py:1161
+#: pysollib/app.py:1173 pysollib/game.py:929 pysollib/game.py:1864
 #: pysollib/main.py:379 pysollib/main.py:387 pysollib/tk/colorsdialog.py:122
 #: pysollib/tk/edittextdialog.py:82 pysollib/tk/fontsdialog.py:143
 #: pysollib/tk/fontsdialog.py:205 pysollib/tk/gameinfodialog.py:155
@@ -77,7 +77,7 @@ msgstr ""
 #: pysollib/tk/playeroptionsdialog.py:160 pysollib/tk/selectcardset.py:241
 #: pysollib/tk/selectcardset.py:397 pysollib/tk/selecttile.py:159
 #: pysollib/tk/soundoptionsdialog.py:170 pysollib/tk/soundoptionsdialog.py:211
-#: pysollib/tk/timeoutsdialog.py:92 pysollib/tk/tkhtml.py:499
+#: pysollib/tk/timeoutsdialog.py:92 pysollib/tk/tkhtml.py:500
 #: pysollib/tk/tkstats.py:288 pysollib/tk/tkstats.py:512
 #: pysollib/tk/tkstats.py:579 pysollib/tk/tkstats.py:594
 #: pysollib/tk/tkstats.py:636 pysollib/tk/tkstats.py:708
@@ -86,7 +86,7 @@ msgstr ""
 msgid "&OK"
 msgstr ""
 
-#: pysollib/actions.py:314 pysollib/app.py:893 pysollib/app.py:1167
+#: pysollib/actions.py:314 pysollib/app.py:879 pysollib/app.py:1173
 #: pysollib/game.py:929 pysollib/game.py:1314 pysollib/game.py:1329
 #: pysollib/game.py:1336 pysollib/game.py:1342 pysollib/tk/colorsdialog.py:122
 #: pysollib/tk/edittextdialog.py:82 pysollib/tk/fontsdialog.py:143
@@ -244,28 +244,28 @@ msgstr ""
 msgid "Unknown"
 msgstr ""
 
-#: pysollib/app.py:894 pysollib/game.py:1314 pysollib/game.py:1329
+#: pysollib/app.py:880 pysollib/game.py:1314 pysollib/game.py:1329
 #: pysollib/game.py:1336 pysollib/game.py:1342 pysollib/tk/menubar.py:363
 msgid "&New game"
 msgstr ""
 
-#: pysollib/app.py:1017
+#: pysollib/app.py:1023
 msgid "Loading %s %s..."
 msgstr ""
 
-#: pysollib/app.py:1052
+#: pysollib/app.py:1058
 msgid " load error"
 msgstr ""
 
-#: pysollib/app.py:1053
+#: pysollib/app.py:1059
 msgid "Error while loading "
 msgstr ""
 
-#: pysollib/app.py:1147
+#: pysollib/app.py:1153
 msgid "Incompatible "
 msgstr ""
 
-#: pysollib/app.py:1149
+#: pysollib/app.py:1155
 msgid ""
 "The currently selected %s %s\n"
 "is not compatible with the game\n"
@@ -274,7 +274,7 @@ msgid ""
 "Please select a %s type %s.\n"
 msgstr ""
 
-#: pysollib/app.py:1165
+#: pysollib/app.py:1171
 msgid "Please select a %s type %s"
 msgstr ""
 
@@ -1227,13 +1227,13 @@ msgstr ""
 msgid " Help"
 msgstr ""
 
-#: pysollib/main.py:68 pysollib/main.py:287
-msgid " installation error"
+#: pysollib/main.py:67 pysollib/main.py:287
+msgid "%s installation error"
 msgstr ""
 
-#: pysollib/main.py:69
+#: pysollib/main.py:68
 msgid ""
-"No %ss were found !!!\n"
+"No cardsets were found !!!\n"
 "\n"
 "Main data directory is:\n"
 "%s\n"
@@ -1241,17 +1241,17 @@ msgid ""
 "Please check your %s installation.\n"
 msgstr ""
 
-#: pysollib/main.py:76 pysollib/main.py:295 pysollib/tk/menubar.py:382
+#: pysollib/main.py:75 pysollib/main.py:295 pysollib/tk/menubar.py:382
 msgid "&Quit"
 msgstr ""
 
-#: pysollib/main.py:100
+#: pysollib/main.py:99
 msgid ""
 "%s: %s\n"
 "try %s --help for more information"
 msgstr ""
 
-#: pysollib/main.py:147
+#: pysollib/main.py:146
 msgid ""
 "Usage: %s [OPTIONS] [FILE]\n"
 "  -g    --game=GAMENAME        start game GAMENAME\n"
@@ -1260,6 +1260,7 @@ msgid ""
 "  --fg  --foreground=COLOR     foreground color\n"
 "  --bg  --background=COLOR     background color\n"
 "  --fn  --font=FONT            default font\n"
+"        --theme=THEME          specify theme (for Tile binding)\n"
 "        --sound-mod=MOD\n"
 "        --nosound              disable sound support\n"
 "        --noplugins            disable load plugins\n"
@@ -1293,7 +1294,7 @@ msgid ""
 msgstr ""
 
 #: pysollib/main.py:374 pysollib/main.py:382
-msgid " installation problem"
+msgid "%s installation problem"
 msgstr ""
 
 #: pysollib/main.py:375
@@ -1311,7 +1312,7 @@ msgid ""
 msgstr ""
 
 #: pysollib/main.py:390
-msgid "Welcome to "
+msgid "Welcome to %s"
 msgstr ""
 
 #: pysollib/resource.py:192

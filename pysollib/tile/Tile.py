@@ -27,8 +27,10 @@ TclError = Tkinter.TclError
 _flatten = Tkinter._flatten
 
 
-class Style:
-    def __init__(self, master):
+class Style(Tkinter.Misc):
+    def __init__(self, master=None):
+        if master is None:
+            master = Tkinter._default_root
         self.tk = master.tk
 
     def default(self, style, **kw):
@@ -82,21 +84,28 @@ class Style:
         """Sets the current theme to themeName, and refreshes all widgets."""
         return self.tk.call("style", "theme", "use", theme)
 
-    def _options(self, cnf):
-        """Internal function."""
-        res = ()
-        for k, v in cnf.items():
-            if v is not None:
-                if k[-1] == '_': k = k[:-1]
-                res = res + ('-'+k, str(v))
-        return res
-
     def configure(self, style, **kw):
         """Sets  the  default value of the specified option(s)
         in style."""
         opts = self._options(kw)
         return self.tk.call("style", "configure", style, *opts)
     config = configure
+
+    def lookup(self, style, option, state=None, default=None):
+        """Returns  the  value  specified for -option in style
+        style in state state,  using  the  standard  lookup
+        rules  for  element  options.   state  is a list of
+        state names; if omitted, it defaults  to  all  bits
+        off  (the  ``normal'' state).  If the default argu-
+        ment is present, it is used as a fallback value  in
+        case no specification for -option is found."""
+        opts = []
+        if state:
+            opts = [state]
+        if default:
+            opts.append(default)
+        return self.tk.call("style", "lookup", style, "-"+option, *opts)
+
 
 
 class Widget(Tkinter.Widget, Style):

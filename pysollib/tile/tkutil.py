@@ -421,6 +421,7 @@ def load_theme(app, top, theme):
             top.tk.call('source', f)
     #
     top.tk.call("package", "require", "tile")
+    style = Tkinter.Style(top)
     # load available themes
     d = os.path.join(app.dataloader.dir, 'themes')
     if os.path.isdir(d):
@@ -434,26 +435,28 @@ def load_theme(app, top, theme):
                     traceback.print_exc()
                     pass
     # set theme
-    all_themes = top.tk.call('style', 'theme', 'names')
+    all_themes = style.theme_names()
     if theme not in all_themes:
         print >> sys.stderr, 'WARNING: invalid theme name:', theme
         theme = 'default'
     if theme:
-        top.tk.call('style', 'theme', 'use', theme)
-    if theme not in ('winnative',):
-        bg = top.tk.call('style', 'lookup', '.', '-background')
-        top.tk_setPalette(bg)
-        bg = top.tk.call('style', 'lookup', '.', '-background', 'active')
-        top.option_add('*Menu.activeBackground', bg)
+        style.theme_use(theme)
+    if theme not in ('winnative', 'xpnative'):
+        color = style.lookup('.', 'background')
+        if color:
+            top.tk_setPalette(color)
+        color = style.lookup('.', 'background', 'active')
+        if color:
+            top.option_add('*Menu.activeBackground', color)
     if theme == 'winnative':
-        top.tk.call('style', 'configure',  'Toolbutton', '-padding', '1 1')
+        style.configure('Toolbutton', padding=1)
         #if 'xpnative' in all_themes:
         #    theme = 'xpnative'
     font = app.opt.fonts['default']
     if font:
-        top.tk.call('style', 'configure', '.', '-font', font)
+        style.configure('.', font=font)
     else:
-        font = top.tk.call('style', 'lookup', '.', '-font')
+        font = style.lookup('.', 'font')
         if font:
             top.option_add('*font', font)
 

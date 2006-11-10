@@ -67,6 +67,7 @@ class _MfxToplevel(gtk.Window):
         #self.add(self.vbox)
         self.table = gtk.Table(3, 6, False)
         self.add(self.table)
+        self.connect('destroy', self.mainquit)
         self.table.show()
         self.realize()
 
@@ -112,7 +113,7 @@ class _MfxToplevel(gtk.Window):
     def mainloop(self):
         gtk.main()      # the global function
 
-    def mainquit(self):
+    def mainquit(self, *args):
         gtk.main_quit()      # the global function
 
     def screenshot(self, filename):

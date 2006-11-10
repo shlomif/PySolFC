@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Thu Nov  9 17:36:57 2006\n"
-"PO-Revision-Date: 2006-11-06 09:53+0300\n"
+"POT-Creation-Date: Fri Nov 10 23:01:45 2006\n"
+"PO-Revision-Date: 2006-11-10 23:18+0300\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -53,8 +53,8 @@ msgstr ""
 msgid "&Next number"
 msgstr "&Следующий номер"
 
-#: pysollib/actions.py:314 pysollib/app.py:892 pysollib/app.py:1155
-#: pysollib/app.py:1167 pysollib/game.py:929 pysollib/game.py:1864
+#: pysollib/actions.py:314 pysollib/app.py:878 pysollib/app.py:1161
+#: pysollib/app.py:1173 pysollib/game.py:929 pysollib/game.py:1864
 #: pysollib/main.py:379 pysollib/main.py:387 pysollib/tk/colorsdialog.py:122
 #: pysollib/tk/edittextdialog.py:82 pysollib/tk/fontsdialog.py:143
 #: pysollib/tk/fontsdialog.py:205 pysollib/tk/gameinfodialog.py:155
@@ -62,7 +62,7 @@ msgstr "&Следующий номер"
 #: pysollib/tk/playeroptionsdialog.py:160 pysollib/tk/selectcardset.py:241
 #: pysollib/tk/selectcardset.py:397 pysollib/tk/selecttile.py:159
 #: pysollib/tk/soundoptionsdialog.py:170 pysollib/tk/soundoptionsdialog.py:211
-#: pysollib/tk/timeoutsdialog.py:92 pysollib/tk/tkhtml.py:499
+#: pysollib/tk/timeoutsdialog.py:92 pysollib/tk/tkhtml.py:500
 #: pysollib/tk/tkstats.py:288 pysollib/tk/tkstats.py:512
 #: pysollib/tk/tkstats.py:579 pysollib/tk/tkstats.py:594
 #: pysollib/tk/tkstats.py:636 pysollib/tk/tkstats.py:708
@@ -71,7 +71,7 @@ msgstr "&Следующий номер"
 msgid "&OK"
 msgstr "&ОК"
 
-#: pysollib/actions.py:314 pysollib/app.py:893 pysollib/app.py:1167
+#: pysollib/actions.py:314 pysollib/app.py:879 pysollib/app.py:1173
 #: pysollib/game.py:929 pysollib/game.py:1314 pysollib/game.py:1329
 #: pysollib/game.py:1336 pysollib/game.py:1342 pysollib/tk/colorsdialog.py:122
 #: pysollib/tk/edittextdialog.py:82 pysollib/tk/fontsdialog.py:143
@@ -241,28 +241,28 @@ msgstr "Настроить таймауты"
 msgid "Unknown"
 msgstr "Неизвестный"
 
-#: pysollib/app.py:894 pysollib/game.py:1314 pysollib/game.py:1329
+#: pysollib/app.py:880 pysollib/game.py:1314 pysollib/game.py:1329
 #: pysollib/game.py:1336 pysollib/game.py:1342 pysollib/tk/menubar.py:363
 msgid "&New game"
 msgstr "&Новая игра"
 
-#: pysollib/app.py:1017
+#: pysollib/app.py:1023
 msgid "Loading %s %s..."
 msgstr "Загружается %s %s..."
 
-#: pysollib/app.py:1052
+#: pysollib/app.py:1058
 msgid " load error"
 msgstr " ошибка при загрузке"
 
-#: pysollib/app.py:1053
+#: pysollib/app.py:1059
 msgid "Error while loading "
 msgstr "Ошибка при загрузке"
 
-#: pysollib/app.py:1147
+#: pysollib/app.py:1153
 msgid "Incompatible "
 msgstr "Несовместимый "
 
-#: pysollib/app.py:1149
+#: pysollib/app.py:1155
 msgid ""
 "The currently selected %s %s\n"
 "is not compatible with the game\n"
@@ -276,7 +276,7 @@ msgstr ""
 "\n"
 "Необходимо выбрать %s типа %s.\n"
 
-#: pysollib/app.py:1165
+#: pysollib/app.py:1171
 msgid "Please select a %s type %s"
 msgstr "Выберите %s типа %s"
 
@@ -1331,25 +1331,31 @@ msgstr "Не найден файл помощи\n"
 msgid " Help"
 msgstr " Помощь"
 
-#: pysollib/main.py:68 pysollib/main.py:287
-msgid " installation error"
-msgstr " проблема с установкой"
+#: pysollib/main.py:67 pysollib/main.py:287
+msgid "%s installation error"
+msgstr "%s проблема с установкой"
 
-#: pysollib/main.py:69
+#: pysollib/main.py:68
 msgid ""
-"No %ss were found !!!\n"
+"No cardsets were found !!!\n"
 "\n"
 "Main data directory is:\n"
 "%s\n"
 "\n"
 "Please check your %s installation.\n"
 msgstr ""
+"Не найдены наборы карт!!!\n"
+"\n"
+"Основной каталог:\n"
+"%s\n"
+"\n"
+"Пожалуйста проверьте установку %s.\n"
 
-#: pysollib/main.py:76 pysollib/main.py:295 pysollib/tk/menubar.py:382
+#: pysollib/main.py:75 pysollib/main.py:295 pysollib/tk/menubar.py:382
 msgid "&Quit"
 msgstr "В&ыход"
 
-#: pysollib/main.py:100
+#: pysollib/main.py:99
 msgid ""
 "%s: %s\n"
 "try %s --help for more information"
@@ -1357,7 +1363,7 @@ msgstr ""
 "%s: %s\n"
 "попробуйте %s --help для получения более подробной информации"
 
-#: pysollib/main.py:147
+#: pysollib/main.py:146
 msgid ""
 "Usage: %s [OPTIONS] [FILE]\n"
 "  -g    --game=GAMENAME        start game GAMENAME\n"
@@ -1366,6 +1372,7 @@ msgid ""
 "  --fg  --foreground=COLOR     foreground color\n"
 "  --bg  --background=COLOR     background color\n"
 "  --fn  --font=FONT            default font\n"
+"        --theme=THEME          specify theme (for Tile binding)\n"
 "        --sound-mod=MOD\n"
 "        --nosound              disable sound support\n"
 "        --noplugins            disable load plugins\n"
@@ -1381,13 +1388,14 @@ msgstr ""
 "  --fg  --foreground=COLOR     цвет текста\n"
 "  --bg  --background=COLOR     цвет фона\n"
 "  --fn  --font=FONT            шрифт по умолчанию\n"
+"        --theme=THEME          установить тему (for Tile binding)\n"
 "        --sound-mod=MOD\n"
 "        --nosound              отключить звук\n"
 "        --noplugins            отключить загрузку плагинов\n"
 "  -h    --help                 показать это сообщение и выйти\n"
 "\n"
 "  FILE - имя файла сохранённой игры\n"
-"  MOD - one of following: pss(default), pygame, oss, win\n"
+"  MOD - одно из следующих значений: pss(default), pygame, oss, win\n"
 
 #: pysollib/main.py:165
 msgid ""
@@ -1415,10 +1423,17 @@ msgid ""
 "\n"
 "Please check your %s installation.\n"
 msgstr ""
+"\n"
+"Не найдены игры!!!\n"
+"\n"
+"Основной каталог с данными:\n"
+"%s\n"
+"\n"
+"Пожалуйста проверьте установку %s.\n"
 
 #: pysollib/main.py:374 pysollib/main.py:382
-msgid " installation problem"
-msgstr ""
+msgid "%s installation problem"
+msgstr "%s проблема с установкой"
 
 #: pysollib/main.py:375
 msgid ""
@@ -1426,6 +1441,9 @@ msgid ""
 "\n"
 "Sounds and background music will be disabled."
 msgstr ""
+"Ваш дистрибутив Python собран без поддержки нитей.\n"
+"\n"
+"Звук и фоновая музыка будут недоступны."
 
 #: pysollib/main.py:383
 msgid ""
@@ -1433,13 +1451,13 @@ msgid ""
 "\n"
 "Sounds and background music will be disabled."
 msgstr ""
-"Модуль pysolsoundserver не найден\n"
+"Модуль pysolsoundserver не найден.\n"
 "\n"
-"Звук и фоновая музыка будут недоступны"
+"Звук и фоновая музыка будут недоступны."
 
 #: pysollib/main.py:390
-msgid "Welcome to "
-msgstr "Добро пожаловать в "
+msgid "Welcome to %s"
+msgstr "Добро пожаловать в %s"
 
 #: pysollib/resource.py:192
 msgid "French type (52 cards)"

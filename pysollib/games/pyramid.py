@@ -1038,6 +1038,48 @@ class Exit(Game):
         return self._checkPair(card1, card2)
 
 
+# /***********************************************************************
+# // Two Pyramids
+# ************************************************************************/
+
+class TwoPyramids(Pyramid):
+
+    def createGame(self):
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        w = l.XM + 14*l.XS
+        h = l.YM + 5*l.YS
+        self.setSize(w, h)
+
+        # create stacks
+        x, y = l.XM, l.YM+l.YS
+        s.rows = self._createPyramid(l, x, y, 7)
+        x += 7*l.XS
+        s.rows += self._createPyramid(l, x, y, 7)
+
+        x, y = l.XM, l.YM
+        s.talon = self.Talon_Class(x, y, self)
+        l.createText(s.talon, "se")
+        tx, ty, ta, tf = l.getTextAttr(s.talon, "ne")
+        font = self.app.getFont("canvas_default")
+        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
+                                             anchor=ta, font=font)
+        y += l.YS
+        s.waste = self.WasteStack_Class(x, y, self, max_accept=1)
+        l.createText(s.waste, "se")
+        x, y = self.width-l.XS, l.YM
+        s.foundations.append(self.Foundation_Class(x, y, self,
+                             suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
+                             max_move=0, max_cards=104))
+        # define stack-groups
+        l.defaultStackGroups()
+        self.sg.openstacks.append(s.talon)
+        self.sg.dropstacks.append(s.talon)
+        self.sg.openstacks.append(s.waste)
+
+
 
 # register the game
 registerGame(GameInfo(38, Pyramid, "Pyramid",
@@ -1071,4 +1113,6 @@ registerGame(GameInfo(659, Cheops, "Cheops",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(674, Exit, "Exit",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(677, TwoPyramids, "Two Pyramids",
+                      GI.GT_PAIRING_TYPE | GI.GT_ORIGINAL, 2, 2, GI.SL_MOSTLY_LUCK))
 

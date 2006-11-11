@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Fri Nov 10 23:00:51 2006\n"
-"PO-Revision-Date: 2006-11-10 13:20+0300\n"
+"POT-Creation-Date: Sat Nov 11 14:41:04 2006\n"
+"PO-Revision-Date: 2006-11-11 14:43+0300\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -358,6 +358,9 @@ msgstr "Коробка для веера"
 
 msgid "Box Kite"
 msgstr "Воздушный змей"
+
+msgid "Boxing the Compass"
+msgstr "Футляр для компаса"
 
 msgid "Braid"
 msgstr "Коса"
@@ -1313,6 +1316,9 @@ msgstr "Половинный Маджонг Стена"
 
 msgid "Hanafuda Four Seasons"
 msgstr "Ханафуда Четыре сезона"
+
+msgid "Hanafuda Four Winds"
+msgstr "Ханафуда Четыре ветра"
 
 msgid "Hanoi Puzzle 4"
 msgstr "Ханойская головоломка 4"
@@ -3610,6 +3616,10 @@ msgstr "Маджонг Two Domes"
 
 msgid "Two Familiars"
 msgstr "Два знакомца"
+
+#, fuzzy
+msgid "Two Pyramids"
+msgstr "Пирамида"
 
 msgid "Two Squares"
 msgstr "Два квадрата"

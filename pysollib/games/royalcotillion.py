@@ -909,6 +909,76 @@ class ShadyLanes(Game):
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
+# /***********************************************************************
+# // Four Winds
+# // Boxing the Compass
+# ************************************************************************/
+
+class FourWinds_RowStack(ReserveStack):
+    def getBottomImage(self):
+        return self.game.app.images.getSuitBottom(self.cap.base_suit)
+
+
+class FourWinds(Game):
+
+    def createGame(self):
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+9*l.XS, l.YM+6*l.YS)
+
+        # vertical rows
+        x = l.XM+l.XS
+        for i in (0, 1):
+            y = l.YM+l.YS
+            for j in range(4):
+                s.rows.append(FourWinds_RowStack(x, y, self, base_suit=i))
+                y += l.YS
+            x += 6*l.XS
+        # horizontal rows
+        y = l.YM+l.YS
+        for i in (2, 3):
+            x = l.XM+2.5*l.XS
+            for j in range(4):
+                s.rows.append(FourWinds_RowStack(x, y, self, base_suit=i))
+                x += l.XS
+            y += 3*l.YS
+        # foundations
+        decks = self.gameinfo.decks
+        for k in range(decks):
+            suit = 0
+            for i, j in ((0, 3-decks*0.5+k),
+                         (8, 3-decks*0.5+k),
+                         (4.5-decks*0.5+k, 0),
+                         (4.5-decks*0.5+k, 5)):
+                x, y = l.XM+i*l.XS, l.YM+j*l.YS
+                s.foundations.append(SS_FoundationStack(x, y, self,
+                                     suit=suit, max_move=0))
+                suit += 1
+        # talon & waste
+        x, y = l.XM+3.5*l.XS, l.YM+2.5*l.YS
+        s.talon = WasteTalonStack(x, y, self, max_rounds=2)
+        l.createText(s.talon, 'n')
+        x += l.XS
+        s.waste = WasteStack(x, y, self)
+        l.createText(s.waste, 'n')
+
+        l.defaultStackGroups()
+
+    def startGame(self):
+        self.s.talon.dealRow(rows=self.s.foundations, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
+
+    def _shuffleHook(self, cards):
+        # move Aces to top of the Talon (i.e. first cards to be dealt)
+        return self._shuffleHookMoveToTop(cards,
+                   lambda c: (c.rank == ACE, (c.deck, c.suit)))
+
+
+class BoxingTheCompass(FourWinds):
+    pass
+
+
 
 # register the game
 registerGame(GameInfo(54, RoyalCotillion, "Royal Cotillion",
@@ -943,4 +1013,8 @@ registerGame(GameInfo(638, RoyalRendezvous, "Royal Rendezvous",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(639, ShadyLanes, "Shady Lanes",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(675, FourWinds, "Four Winds",
+                      GI.GT_1DECK_TYPE, 1, 1, GI.SL_BALANCED))
+registerGame(GameInfo(676, BoxingTheCompass, "Boxing the Compass",
+                      GI.GT_2DECK_TYPE, 2, 1, GI.SL_BALANCED))
 

@@ -1030,7 +1030,7 @@ r(12348, FlowerClock, "Flower Clock", GI.GT_HANAFUDA | GI.GT_OPEN, 1, 0, GI.SL_M
 r(12349, Pagoda, "Pagoda", GI.GT_HANAFUDA, 2, 0, GI.SL_BALANCED)
 r(12350, Samuri, "Samuri", GI.GT_HANAFUDA, 1, 0, GI.SL_BALANCED)
 r(12351, GreatWall, "Great Wall", GI.GT_HANAFUDA, 4, 0, GI.SL_MOSTLY_SKILL)
-r(12352, FourWinds, "Four Winds", GI.GT_HANAFUDA, 1, 1, GI.SL_MOSTLY_SKILL)
+r(12352, FourWinds, "Hanafuda Four Winds", GI.GT_HANAFUDA, 1, 1, GI.SL_MOSTLY_SKILL)
 r(12353, Sumo, "Sumo", GI.GT_HANAFUDA, 1, 0, GI.SL_MOSTLY_SKILL)
 r(12354, BigSumo, "Big Sumo", GI.GT_HANAFUDA, 2, 0, GI.SL_MOSTLY_SKILL)
 r(12355, LittleEasy, "Little Easy", GI.GT_HANAFUDA, 1, -1, GI.SL_BALANCED)

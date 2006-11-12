@@ -1,0 +1,131 @@
+<h1>How to play PySol</h1>
+
+<h2>Mouse Usage</h2>
+<p>
+Left mouse button:
+<ul type="disc">
+<li> Drag cards around
+<li> Click on the Talon to deal new cards
+</ul>
+<p>
+Right mouse button (or double-click the left button):
+<ul type="disc">
+<li> Drop cards to the Foundations
+<li> Quick play (if enabled)
+</ul>
+<p>
+Middle mouse button (or Ctrl-click the right button):
+<ul type="disc">
+<li> View partially overlapped cards
+</ul>
+<p>
+Ctrl-click the left mouse button:
+<ul type="disc">
+<li> Highlight all matching cards on the table
+</ul>
+<p>
+Shift-click the left mouse button:
+<ul type="disc">
+<li> Highlight all cards with the same rank.
+</ul>
+
+
+<h2>Two-handed play</h2>
+<p>
+Put three fingers of one hand on '<i>A</i>' (auto drop),
+'<i>S</i>' (undo) and '<i>D</i>' (deal).
+You can also reach '<i>R</i>' (redo) from there.
+<p>
+Left-handed people may prefer using '<i>L</i>' (auto drop),
+'<i>K</i>' (undo) and '<i>J</i>' (deal).
+
+<!--
+<h2>Point-and-Click play</h2>
+<p>
+If you prefer Point-and-Click over Drag-and-Drop you can enable
+<i>Quick play</i> and use the right mouse button. See below.
+-->
+
+<h2>Automatic play</h2>
+<p>
+Note that automatic play can spoil the gameplay, so purists should
+not enable any option but maybe <i>Auto face up</i>. Also, some games
+disable certain features as they would be trivial otherwise.
+<p>
+Auto face up
+<ul type="disc">
+<li> Automatically face up all cards.
+</ul>
+Auto drop
+<ul type="disc">
+<li> Automatically drop cards to the Foundations.
+</ul>
+Auto deal
+<ul type="disc">
+<li> Automatically deal cards to the Waste stack if it is empty.
+</ul>
+Quick play
+<ul type="disc">
+<li> Use the right mouse button to move piles around quickly.
+     The logic involved is not too clever on purpose
+     (i.e. it does not consult the hint system).
+</ul>
+
+
+<h2>The animation is too slow...</h2>
+<p>
+Unfortunately the Tcl/Tk toolkit lacks a sprite concept, so
+there is a lot of (invisible double-buffered) redraw going on
+when dragging cards around.
+<p>
+Disabling <i>Card shadow</i>, <i>Shade legal moves</i>,
+background table tiles and sound will somewhat improve the display speed.
+
+
+<h2>The table tiles look strange</h2>
+<p>
+Background table tiles should only be enabled when using
+a true-color video mode - otherwise they may look bad
+because of dithering.
+<p>
+BTW, you can add your own background tiles by copying the images
+to the main <i>data/tiles</i> or your home <i>~/.PySolFC/tiles</i> directory.
+<!-- They must be in GIF or PPM format. -->
+
+
+<h2>Some notes about scoring</h2>
+<p>
+<ul type="disc">
+<li> Scoring only begins after you make your first move.
+     Also, if you undo all your moves back to the start
+     the game won't score either.
+<li> You will lose a game if you consume a hint or start demo mode.
+<li> You can restart any time to get another chance to win this game.
+<li> If you don't want to score a lost game you can temporarily change
+     the player options.
+<li> Loaded games don't count.
+<li> If you win a game without using <i>Undo</i>, <i>Quick play</i> and
+     any other of the assist functions you will be given special awards.
+<!--
+<li> There are no score values in PySol - you win a game, or you lose it.
+     And don't even think about asking me to implement this nonsense - get
+     a nice pinball game if you're a highscore freak...
+-->
+<li> And finally always remember that this is a <b>Patience</b> game.
+     Relax and enjoy.
+</ul>
+
+
+<h2>Undocumented key bindings</h2>
+<ul type="disc">
+<li> <i>Space</i> - Deal
+<li> <i>S</i> - Undo
+<li> <i>Backspace</i> - Undo
+<li> <i>Ctrl-A</i> - Auto drop and face up cards in one step
+<li> <i>Ctrl-B</i> - Change card background
+<li> <i>Ctrl-H</i> - Show internal rating when giving a hint
+<li> <i>Ctrl-I</i> - Change table tile
+<li> <i>Ctrl-N</i> - Start a new game with the next game number
+<li> <i>Ctrl-P</i> - Change player name
+<li> <i>Ctrl-U</i> - Play the next music song
+</ul>

@@ -107,6 +107,7 @@ from pysoltk import MfxCanvasGroup, MfxCanvasImage, MfxCanvasRectangle, MfxCanva
 from pysoltk import Card
 from pysoltk import get_text_width
 from settings import TOOLKIT
+from settings import DEBUG
 
 
 # /***********************************************************************
@@ -777,15 +778,15 @@ class Stack:
                     format = "%d"
         if format:
             t = format % len(self.cards)
-        if 0 and self.game.app.debug >= 4:
-            visible = 0
-            for c in self.cards:
-                if c.isHidden():
-                    assert c.hide_stack is not None
-                else:
-                    visible = visible + 1
-                    assert c.hide_stack is None
-            t  = t + " (%d)" % visible
+##         if 0:
+##             visible = 0
+##             for c in self.cards:
+##                 if c.isHidden():
+##                     assert c.hide_stack is not None
+##                 else:
+##                     visible = visible + 1
+##                     assert c.hide_stack is None
+##             t  = t + " (%d)" % visible
         self.texts.ncards.config(text=t)
 
     def basicShallHighlightSameRank(self, card):
@@ -1412,7 +1413,7 @@ class Stack:
         return s
 
     def getNumCards(self):
-        if self.game.app.debug >= 5:
+        if DEBUG >= 5:
             t = repr(self)+' '
         else:
             t = ''

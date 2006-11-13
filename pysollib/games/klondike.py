@@ -109,10 +109,7 @@ class VegasKlondike(Klondike):
         b1, b2 = self.app.stats.gameid_balance, 0
         if self.shallUpdateBalance():
             b2 = self.getGameBalance()
-        if 0 and self.app.debug:
-            t = "Balance %d/%d" % (b1, b2)
-        else:
-            t = _("Balance $%d") % (b1 + b2)
+        t = _("Balance $%d") % (b1 + b2)
         self.texts.score.config(text=t)
 
     def getDemoInfoTextAttr(self, tinfo):

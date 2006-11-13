@@ -48,8 +48,7 @@ from app import Application
 from pysolaudio import thread, pysolsoundserver
 from pysolaudio import AbstractAudioClient, PysolSoundServerModuleClient
 from pysolaudio import Win32AudioClient, OSSAudioClient, PyGameAudioClient
-import settings
-PACKAGE, SOUND_MOD = settings.PACKAGE, settings.SOUND_MOD
+from settings import PACKAGE, SOUND_MOD
 
 # Toolkit imports
 from pysoltk import wm_withdraw, loadImage
@@ -92,7 +91,6 @@ def parse_option(argv):
                                        "french-only",
                                        "noplugins",
                                        "nosound",
-                                       "debug=",
                                        "sound-mod=",
                                        "help"])
     except getopt.GetoptError, err:
@@ -110,7 +108,6 @@ def parse_option(argv):
             "noplugins"   : False,
             "nosound"     : False,
             "sound-mod"   : None,
-            "debug"       : None,
             }
     for i in optlist:
         if i[0] in ("-h", "--help"):
@@ -136,11 +133,6 @@ def parse_option(argv):
         elif i[0] == "--sound-mod":
             assert i[1] in ('pss', 'pygame', 'oss', 'win')
             opts["sound-mod"] = i[1]
-        elif i[0] in ("-D", "--debug"):
-            try:
-                opts["debug"] = int(i[1])
-            except:
-                print >> sys.stderr, 'WARNING: invalid argument for debug'
 
     if opts["help"]:
         print _("""Usage: %s [OPTIONS] [FILE]
@@ -206,9 +198,6 @@ def pysol_init(app, args):
             app.commandline.gameid = int(opts['gameid'])
         except:
             print >> sys.stderr, 'WARNING: invalid game id:', opts['gameid']
-    if not opts['debug'] is None:
-        settings.DEBUG = opts['debug']
-    app.debug = settings.DEBUG
 
     # init games database
     import games
@@ -341,7 +330,7 @@ Please check your %s installation.
         if music:
             app.music_playlist = list(music)[:]
             app.miscrandom.shuffle(app.music_playlist)
-            if 1: ## and not app.debug:
+            if 1:
                 for m in app.music_playlist:
                     if m.name.lower() == "bye_for_now":
                         app.music_playlist.remove(m)

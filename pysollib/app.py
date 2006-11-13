@@ -55,6 +55,7 @@ from pysolrandom import PysolRandom
 from game import Game
 from gamedb import GI, GAME_DB, loadGame
 from settings import TOP_SIZE, TOP_TITLE, TOOLKIT
+from settings import DEBUG
 
 # Toolkit imports
 from pysoltk import wm_withdraw, loadImage
@@ -499,7 +500,6 @@ class Application:
         self.stats = Statistics()
         self.comments = Comments()
         self.splashscreen = 1
-        self.debug = 0
         # visual components
         self.top = None                 # the root toplevel window
         self.top_bg = None              # default background
@@ -1509,7 +1509,7 @@ Please select a %s type %s.
         manager = self.cardset_manager
         # find all available cardsets
         dirs = manager.getSearchDirs(self, ("cardsets", ""), "PYSOL_CARDSETS")
-        if self.debug:
+        if DEBUG:
             dirs = dirs + manager.getSearchDirs(self, "cardsets-*")
         ##print dirs
         found, t = [], {}

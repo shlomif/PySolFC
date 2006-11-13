@@ -43,6 +43,7 @@ from mfxutil import Struct, destruct, openURL
 from pysolrandom import constructRandom
 from settings import PACKAGE, PACKAGE_URL
 from settings import TOP_TITLE
+from settings import DEBUG
 from gamedb import GI
 
 # stats imports
@@ -804,7 +805,7 @@ class PysolMenubarActions:
         if self._cancelDrag(break_pause=False): return
         if self.app.audio and self.app.opt.sound_music_volume > 0:
             self.app.audio.playNextMusic()
-            if 1 and self.app.debug:
+            if 1 and DEBUG:
                 index = self.app.audio.getMusicInfo()
                 music = self.app.music_manager.get(index)
                 if music:

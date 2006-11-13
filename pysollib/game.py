@@ -46,6 +46,7 @@ from mfxutil import format_time
 from util import get_version_tuple, Timer
 from util import ACE, QUEEN, KING
 from settings import PACKAGE, TOOLKIT, TOP_TITLE, VERSION, VERSION_TUPLE
+from settings import DEBUG
 from gamedb import GI
 from resource import CSI
 from pysolrandom import PysolRandom, LCRandom31
@@ -178,7 +179,7 @@ class Game:
         if self.s.talon:
             assert hasattr(self.s.talon, "round")
             assert hasattr(self.s.talon, "max_rounds")
-        if self.app.debug:
+        if DEBUG:
             self._checkGame()
         # optimize regions
         self.optimizeRegions()
@@ -193,7 +194,7 @@ class Game:
         # update display properties
         self.top.wm_geometry("")        # cancel user-specified geometry
         self.canvas.setInitialSize(self.width, self.height)
-        if self.app.debug >= 4:
+        if DEBUG >= 4:
             MfxCanvasRectangle(self.canvas, 0, 0, self.width, self.height,
                                width=2, fill=None, outline='green')
         # restore game geometry
@@ -941,8 +942,6 @@ class Game:
     def animatedMoveTo(self, from_stack, to_stack, cards, x, y, tkraise=1, frames=-1, shadow=-1):
         if self.app.opt.animations == 0 or frames == 0:
             return
-        if self.app.debug and not self.top.winfo_ismapped():
-            return
         # init timer - need a high resolution for this to work
         clock, delay, skip = None, 1, 1
         if self.app.opt.animations >= 2:
@@ -1015,8 +1014,6 @@ class Game:
 ###        if not self.app.opt.win_animation:
 ###            return
         if not self.app.opt.animations:
-            return
-        if self.app.debug and not self.top.winfo_ismapped():
             return
         self.top.busyUpdate()
         self.canvas.update_idletasks()
@@ -1108,7 +1105,7 @@ class Game:
     def setRegion(self, stacks, rect, priority=0):
         assert len(stacks) > 0
         assert len(rect) == 4 and rect[0] < rect[2] and rect[1] < rect[3]
-        if self.app.debug >= 2:
+        if DEBUG >= 2:
             MfxCanvasRectangle(self.canvas, rect[0], rect[1], rect[2], rect[3],
                                width=2, fill=None, outline='red')
         for s in stacks:
@@ -1751,7 +1748,7 @@ for %d moves.
             assert to_stack.acceptsCards(from_stack, from_stack.cards[-ncards:])
         if sleep <= 0.0:
             return h
-        info = (level == 1) or (level > 1 and self.app.debug >= 3)
+        info = (level == 1) or (level > 1 and DEBUG >= 3)
         if info and self.app.statusbar and self.app.opt.statusbar:
             self.app.statusbar.configLabel("info", text=_("Score %6d") % (score), fg=text_color)
         else:
@@ -1843,8 +1840,8 @@ for %d moves.
         timeout = 10000
         if player_moves == 0:
             timeout = 5000
-        if 0 and self.app.debug and self.demo.mixed:
-            timeout = 1000
+##         if 0 and DEBUG and self.demo.mixed:
+##             timeout = 1000
         if self.isGameWon():
             finished = 1
             self.stopPlayTimer()
@@ -1863,7 +1860,7 @@ for %d moves.
                 ##s = self.app.miscrandom.choice((_("&OK"), _("&OK")))
                 s = _("&OK")
                 text = _("\nGame finished\n")
-                if self.app.debug:
+                if DEBUG:
                     text += "\nplayer_moves: %d\ndemo_moves: %d\n" % (self.stats.player_moves, self.stats.demo_moves)
                 d = MfxMessageDialog(self.top, title=PACKAGE+_(" Autopilot"),
                                      text=text, bitmap=bitmap, strings=(s,),
@@ -1885,7 +1882,7 @@ for %d moves.
                 status = d.status
         if finished:
             self.updateStats(demo=1)
-            if self.demo and status == 2 and not self.app.debug:
+            if self.demo and status == 2:
                 # timeout in dialog
                 if self.stats.demo_moves > self.demo.start_demo_moves:
                     # we only increase the splash-screen counter if the last
@@ -1898,7 +1895,7 @@ for %d moves.
                 # timeout in dialog - start another demo
                 demo = self.demo
                 id = self.id
-                if 1 and demo.mixed and self.app.debug:
+                if 1 and demo.mixed and DEBUG:
                     # debug - advance game id to make sure we hit all games
                     gl = self.app.gdb.getGamesIdSortedById()
                     ##gl = self.app.gdb.getGamesIdSortedByName()
@@ -1922,7 +1919,7 @@ for %d moves.
                     self.quitGame(id, startdemo=1)
             else:
                 self.stopDemo()
-                if 0 and self.app.debug:
+                if DEBUG >= 10:
                     # debug - only for testing winAnimation()
                     self.endGame()
                     self.winAnimation()
@@ -1939,9 +1936,6 @@ for %d moves.
             # we're probably looping because of some bug in the hint code
             return 1
         sleep = demo.sleep
-        if self.app.debug:
-            if not self.top.winfo_ismapped():
-                sleep = -1.0
         # first try to deal cards to the Waste (unless there was a forced move)
         if not demo.hint or not demo.hint[6]:
             if self._autoDeal(sound=0):

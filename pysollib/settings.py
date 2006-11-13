@@ -29,15 +29,29 @@ PACKAGE = 'PySol'
 PACKAGE_URL = 'http://sourceforge.net/projects/pysolfc/'
 
 VERSION = '4.82'
-FC_VERSION = '0.9.4'
+FC_VERSION = '0.9.5'
 VERSION_TUPLE = (4, 82)
 
+# toolkit
 TOOLKIT = 'tk'                          # or 'gtk'
 USE_TILE = 'auto'                       # or True or False
-TILE_THEME = 'default'                  # name of tile's theme
+# name of tile's theme
+# available values:
+#   'default', 'alt', 'classic', 'clam', 'step', 'blue' (all)
+#   'winnative', 'xpnative' (windows)
+#   'aqua' (macosx)
+TILE_THEME = 'default'
 if os.name == 'nt':
     TILE_THEME = 'winnative'
-SOUND_MOD = 'auto'                  # or 'pss', 'pygame', 'oss', 'win', 'none'
+
+# sound
+# available values:
+#   'pss' - PySol-Sound-Server (all)
+#   'pygame' - PyGame (all)
+#   'oss' (*nix)
+#   'win' (windows)
+#   'none' - disable
+SOUND_MOD = 'auto'
 
 # data dirs
 DATA_DIRS = []
@@ -57,5 +71,6 @@ if os.name == 'mac':
 TOP_SIZE = 10
 TOP_TITLE = n_('Top 10')
 
+# debug
 DEBUG = 0                               # must be integer
-CHECK_GAMES = False
+CHECK_GAMES = False                     # check duplicated names and classes

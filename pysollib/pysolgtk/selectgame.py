@@ -407,7 +407,6 @@ class SelectGameDialogWithPreview(MfxDialog):
                 canvas = canvas,
                 cardset = self.app.cardset.copy(),
                 comments = self.app.comments.new(),
-                debug = 0,
                 gamerandom = self.app.gamerandom,
                 gdb = self.app.gdb,
                 gimages = self.app.gimages,

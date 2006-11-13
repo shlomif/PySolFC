@@ -41,6 +41,7 @@ import sys, os, glob, operator, types
 # PySol imports
 from mfxutil import Struct, KwStruct, EnvError, latin1_to_ascii
 from settings import PACKAGE, VERSION
+from settings import DEBUG
 
 
 # /***********************************************************************
@@ -159,7 +160,7 @@ class ResourceManager:
                         self._addDir(result, os.path.join(dir, s))
                 except EnvError, ex:
                     pass
-        if app.debug >= 5:
+        if DEBUG >= 5:
             print "getSearchDirs", env, search, "->", result
         return result
 
@@ -288,18 +289,6 @@ class CSI:
         21:  "2100 - 2199",
         22:  "2200 - 2299",
     }
-
-##     #
-##     TYPE_NAME = {}
-## def create_csi_type_name():
-##     for id, type in CSI.TYPE.items():
-##         i = type.find('type')
-##         if i > 0:
-##             CSI.TYPE_NAME[id] = type[:i-1]
-##         else:
-##             CSI.TYPE_NAME[id] = type
-## if not CSI.TYPE_NAME:
-##     create_csi_type_name()
 
 
 class CardsetConfig(Struct):

@@ -209,8 +209,7 @@ class PysolSoundServerModuleClient(AbstractAudioClient):
         r = self.cmd("protocol 6")
         if r != 0:
             return 0
-        if 0 and self.app.debug:
-            self.cmd("debug 1")
+        ##self.cmd("debug 1")
         return 1
 
     # disconnect and stop server

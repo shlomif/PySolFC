@@ -54,11 +54,13 @@ def init():
     if os.environ.has_key('PYSOL_CHECK_GAMES') or \
            os.environ.has_key('PYSOL_DEBUG'):
         settings.CHECK_GAMES = True
+        print 'PySol debugging: set CHECK_GAMES to True'
     if os.environ.has_key('PYSOL_DEBUG'):
         try:
             settings.DEBUG = int(os.environ['PYSOL_DEBUG'])
         except:
             settings.DEBUG = 1
+        print 'PySol debugging: set DEBUG to', settings.DEBUG
 
     ## init toolkit
     if '--gtk' in sys.argv:

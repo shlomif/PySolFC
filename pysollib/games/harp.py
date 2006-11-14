@@ -291,6 +291,27 @@ class DoubleKingsley(DoubleKlondike):
         DoubleKlondike.createGame(self, max_rounds=1)
 
 
+# /***********************************************************************
+# // Thieves of Egypt
+# ************************************************************************/
+
+class ThievesOfEgypt(DoubleKlondike):
+    Layout_Method = Layout.klondikeLayout
+
+    def createGame(self):
+        DoubleKlondike.createGame(self, rows=10, max_rounds=2)
+
+    def startGame(self):
+        # rows: 1 3 5 7 9 10 8 6 4 2
+        row = 0
+        for i in (0,2,4,6,8,9,7,5,3,1):
+            for j in range(i):
+                self.s.talon.dealRow(rows=[self.s.rows[row]], frames=0)
+            row += 1
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()          # deal first card to WasteStack
+
 
 # register the game
 registerGame(GameInfo(21, DoubleKlondike, "Double Klondike",
@@ -325,6 +346,6 @@ registerGame(GameInfo(591, Pantagruel, "Pantagruel",
                       GI.GT_KLONDIKE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(668, DoubleKingsley, "Double Kingsley",
                       GI.GT_KLONDIKE, 2, 0, GI.SL_BALANCED))
-
-
+registerGame(GameInfo(678, ThievesOfEgypt, "Thieves of Egypt",
+                      GI.GT_KLONDIKE, 2, 1, GI.SL_BALANCED))
 

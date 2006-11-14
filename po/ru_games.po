@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Sat Nov 11 14:41:04 2006\n"
-"PO-Revision-Date: 2006-11-11 14:43+0300\n"
+"POT-Creation-Date: Tue Nov 14 16:43:27 2006\n"
+"PO-Revision-Date: 2006-11-14 17:04+0300\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2691,7 +2691,7 @@ msgid "Pegged Triangle 2"
 msgstr ""
 
 msgid "Penelope's Web"
-msgstr ""
+msgstr "Ткань Пенелопы"
 
 msgid "Penguin"
 msgstr "Пингвин"
@@ -2734,7 +2734,7 @@ msgid "Pitchfork"
 msgstr "Камертон"
 
 msgid "Plait"
-msgstr ""
+msgstr "Плетёнка"
 
 msgid "Plus Belle"
 msgstr ""
@@ -2785,7 +2785,7 @@ msgid "Pyramid Golf"
 msgstr "Пирамидальный Гольф"
 
 msgid "Q.C."
-msgstr ""
+msgstr "Q.C."
 
 msgid "Quad"
 msgstr "Четвёрка"
@@ -2878,7 +2878,7 @@ msgid "Relaxed Pyramid"
 msgstr "Смягчённая Пирамида"
 
 msgid "Relaxed Seahaven Towers"
-msgstr ""
+msgstr "Смягчённые Приморские башни"
 
 msgid "Relaxed Spider"
 msgstr "Смягчённый Паук"
@@ -3264,9 +3264,8 @@ msgstr "Квадрат"
 msgid "Squares"
 msgstr "Квадраты"
 
-#, fuzzy
 msgid "Squaring"
-msgstr "Квадрат"
+msgstr "Квадратура"
 
 msgid "St. Helena"
 msgstr "Св. Елена"
@@ -3459,6 +3458,9 @@ msgstr "Желание (открытое)"
 msgid "Theater"
 msgstr "Театр"
 
+msgid "Thieves of Egypt"
+msgstr "Египетский вор"
+
 msgid "Thirteen Up"
 msgstr "Тринадцать вверх"
 
@@ -3568,6 +3570,9 @@ msgstr ""
 msgid "Triple FreeCell"
 msgstr "Тройная Свободная ячейка"
 
+msgid "Triple Interchange"
+msgstr "Тройная Перестановка"
+
 msgid "Triple Klondike"
 msgstr "Тройной Клондайк"
 
@@ -3617,9 +3622,8 @@ msgstr "Маджонг Two Domes"
 msgid "Two Familiars"
 msgstr "Два знакомца"
 
-#, fuzzy
 msgid "Two Pyramids"
-msgstr "Пирамида"
+msgstr "Две пирамиды"
 
 msgid "Two Squares"
 msgstr "Два квадрата"
@@ -3794,6 +3798,3 @@ msgstr "Зигзагообразный курс"
 
 msgid "Zodiac"
 msgstr "Зодиак"
-
-#~ msgid "Troika +"
-#~ msgstr "Тройка +"

@@ -970,6 +970,7 @@ class DoubleGoldMine(Streets):
 # // Breakwater
 # // Forty Nine
 # // Alternations
+# // Triple Interchange
 # ************************************************************************/
 
 class Interchange(FortyThieves):
@@ -992,7 +993,8 @@ class Interchange(FortyThieves):
 
 class Unlimited(Interchange):
     def createGame(self):
-        FortyThieves.createGame(self, rows=7, max_rounds=UNLIMITED_REDEALS)
+        FortyThieves.createGame(self, rows=7, XOFFSET=0,
+                                max_rounds=UNLIMITED_REDEALS)
 
 
 class Breakwater(Interchange):
@@ -1025,6 +1027,22 @@ class FortyNine(Interchange):
 class Alternations(Interchange):
     RowStack_Class = AC_RowStack
     shallHighlightMatch = Game._shallHighlightMatch_AC
+
+
+class TripleInterchange(Interchange):
+    RowStack_Class = SS_RowStack
+
+    def createGame(self):
+        FortyThieves.createGame(self, rows=9, XOFFSET=0,
+                                max_rounds=UNLIMITED_REDEALS)
+
+    def startGame(self):
+        for i in (0,1,2,3):
+            self.s.talon.dealRow(frames=0)
+            self.s.talon.dealRow(flip=0, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
 
 
 # /***********************************************************************
@@ -1219,4 +1237,6 @@ registerGame(GameInfo(631, Alternations, "Alternations",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(632, Floradora, "Floradora",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_LUCK))
+registerGame(GameInfo(679, TripleInterchange, "Triple Interchange",
+                      GI.GT_FORTY_THIEVES, 3, -1, GI.SL_MOSTLY_SKILL))
 

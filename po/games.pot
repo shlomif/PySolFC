@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Sat Nov 11 14:41:04 2006\n"
+"POT-Creation-Date: Tue Nov 14 16:43:27 2006\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3411,6 +3411,9 @@ msgstr ""
 msgid "Theater"
 msgstr ""
 
+msgid "Thieves of Egypt"
+msgstr ""
+
 msgid "Thirteen Up"
 msgstr ""
 
@@ -3511,6 +3514,9 @@ msgid "Triple Easthaven"
 msgstr ""
 
 msgid "Triple FreeCell"
+msgstr ""
+
+msgid "Triple Interchange"
 msgstr ""
 
 msgid "Triple Klondike"

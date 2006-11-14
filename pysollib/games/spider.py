@@ -44,6 +44,7 @@ from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 from pysollib.hint import SpiderType_Hint, YukonType_Hint
 
+
 # /***********************************************************************
 # //
 # ************************************************************************/
@@ -807,6 +808,7 @@ class SimonJester(Spider):
         self.startDealSample()
         self.s.talon.dealRow(rows=self.s.rows[1:])
 
+
 # /***********************************************************************
 # // Applegate
 # ************************************************************************/
@@ -1113,13 +1115,39 @@ class ScorpionII(Scorpion):
         self.s.talon.dealRow()
 
 
+# /***********************************************************************
+# // Tarantula
+# ************************************************************************/
+
+class Tarantula_RowStack(Spider_RowStack):
+    def _isSequence(self, cards):
+        return isSameColorSequence(cards, self.cap.mod, self.cap.dir)
+    def _isAcceptableSequence(self, cards):
+        return isRankSequence(cards, self.cap.mod, self.cap.dir)
+    def getHelp(self):
+        return _('Tableau. Build down regardless of suit. Sequences of cards in the same color can be moved as a unit.')
+
+
+class Tarantula(Spider):
+    RowStack_Class = Tarantula_RowStack
+
+    def getQuickPlayScore(self, ncards, from_stack, to_stack):
+        if to_stack.cards:
+            if from_stack.cards[-1].suit == to_stack.cards[-1].suit:
+                # same suit
+                return 3
+            elif from_stack.cards[-1].color == to_stack.cards[-1].color:
+                # same color
+                return 2
+            return 1
+        return 0
+
 
 # register the game
 registerGame(GameInfo(10, RelaxedSpider, "Relaxed Spider",
                       GI.GT_SPIDER | GI.GT_RELAXED, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(11, Spider, "Spider",
-                      GI.GT_SPIDER, 2, 0, GI.SL_MOSTLY_SKILL,
-                      altnames=("Tarantula",) ))
+                      GI.GT_SPIDER, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(49, BlackWidow, "Black Widow",
                       GI.GT_SPIDER, 2, 0, GI.SL_MOSTLY_SKILL,
                       altnames=("Scarab",) ))
@@ -1230,4 +1258,6 @@ registerGame(GameInfo(671, Incompatibility, "Incompatibility",
                       GI.GT_SPIDER, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(672, ScorpionII, "Scorpion II",
                       GI.GT_SPIDER, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(680, Tarantula, "Tarantula",
+                      GI.GT_SPIDER, 2, 0, GI.SL_MOSTLY_SKILL))
 

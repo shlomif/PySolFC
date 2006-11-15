@@ -107,6 +107,9 @@ class Options:
         self.shrink_face_down = True
         self.shade_filled_stacks = True
         self.demo_logo = True
+        self.tile_theme = 'default'
+        if os.name == 'nt':
+            self.tile_theme = 'winnative'
         self.toolbar = 1       # 0 == hide, 1,2,3,4 == top, bottom, lef, right
         ##self.toolbar_style = 'default'
         self.toolbar_style = 'crystal'
@@ -1354,8 +1357,12 @@ Please select a %s type %s.
     def getAllUserNames(self):
         names = []
         for n in self.stats.games_stats.keys():
+            if n is None:               # demo
+                continue
             if self.stats.games_stats[n]:
                 names.append(n)
+        if self.opt.player not in names:
+            names.append(self.opt.player)
         names.sort()
         return names
 
@@ -1377,8 +1384,8 @@ Please select a %s type %s.
                 try:
                     loadGame(m.group(1), n)
                 except Exception, ex:
-                    print "Error loading plugin " + n + ": " + str(ex)
-                    sys.stdout.flush()
+                    print >> sys.stderr, "Error loading plugin " + n + ": " + str(ex)
+                    sys.stderr.flush()
                 sys.path = p
 
 

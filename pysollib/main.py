@@ -87,7 +87,6 @@ def parse_option(argv):
                                        "fg=", "foreground=",
                                        "bg=", "background=",
                                        "fn=", "font=",
-                                       "theme=",
                                        "french-only",
                                        "noplugins",
                                        "nosound",
@@ -103,7 +102,6 @@ def parse_option(argv):
             "fg"          : None,
             "bg"          : None,
             "fn"          : None,
-            "theme"       : None,
             "french-only" : False,
             "noplugins"   : False,
             "nosound"     : False,
@@ -122,8 +120,6 @@ def parse_option(argv):
             opts["bg"] = i[1]
         elif i[0] in ("--fn", "--font"):
             opts["fn"] = i[1]
-        elif i[0] == "--theme":
-            opts["theme"] = i[1]
         elif i[0] == "--french-only":
             opts["french-only"] = True
         elif i[0] == "--noplugins":
@@ -142,7 +138,6 @@ def parse_option(argv):
   --fg  --foreground=COLOR     foreground color
   --bg  --background=COLOR     background color
   --fn  --font=FONT            default font
-        --theme=THEME          specify theme (for Tile binding)
         --sound-mod=MOD
         --nosound              disable sound support
         --noplugins            disable load plugins
@@ -268,7 +263,7 @@ def pysol_init(app, args):
         app.opt.sound_mode = 0
 
     # init toolkit 2)
-    top.initToolkit(app, opts['fg'], opts['bg'], opts['fn'], opts['theme'])
+    top.initToolkit(app, opts['fg'], opts['bg'], opts['fn'])
 
     # check games
     if len(app.gdb.getGamesIdSortedByName()) == 0:

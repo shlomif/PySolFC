@@ -35,14 +35,6 @@ VERSION_TUPLE = (4, 82)
 # toolkit
 TOOLKIT = 'tk'                          # or 'gtk'
 USE_TILE = 'auto'                       # or True or False
-# name of tile's theme
-# available values:
-#   'default', 'alt', 'classic', 'clam', 'step', 'blue' (all)
-#   'winnative', 'xpnative' (windows)
-#   'aqua' (macosx)
-TILE_THEME = 'default'
-if os.name == 'nt':
-    TILE_THEME = 'winnative'
 
 # sound
 # available values:

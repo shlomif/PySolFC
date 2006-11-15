@@ -3,7 +3,7 @@
 override LANG=C
 override PYSOL_DEBUG=1
 
-PYSOLLIB_FILES=pysollib/tk/*.py pysollib/*.py \
+PYSOLLIB_FILES=pysollib/tk/*.py pysollib/tile/*.py pysollib/*.py \
 	pysollib/games/*.py pysollib/games/special/*.py \
 	pysollib/games/ultra/*.py pysollib/games/mahjongg/*.py
 

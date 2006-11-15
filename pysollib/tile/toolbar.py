@@ -224,7 +224,7 @@ class PysolToolbar(PysolToolbarActions):
         self.dir = dir
         self.size = size
         self.compound = compound
-        self.orient=Tkinter.HORIZONTAL
+        self.orient='horizontal'
         self.label_padx = 4
         self.label_pady = 4
         self.button_pad = 2

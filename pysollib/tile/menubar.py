@@ -51,13 +51,14 @@ from pysollib.actions import PysolMenubarActions
 
 # toolkit imports
 from tkconst import EVENT_HANDLED, EVENT_PROPAGATE, CURSOR_WATCH, COMPOUNDS
-from tkutil import bind, after_idle
+from tkutil import bind, after_idle, load_theme
 from selectgame import SelectGameDialog, SelectGameDialogWithPreview
 from soundoptionsdialog import SoundOptionsDialog
 from selectcardset import SelectCardsetDialogWithPreview
 from selecttile import SelectTileDialogWithPreview
 from findcarddialog import connect_game_find_card_dialog, destroy_find_card_dialog
 from tkwrap import MfxRadioMenuItem, MfxCheckMenuItem, StringVar
+from tkwidget import MfxMessageDialog
 
 #from toolbar import TOOLBAR_BUTTONS
 from tkconst import TOOLBAR_BUTTONS
@@ -263,6 +264,7 @@ class PysolMenubar(PysolMenubarActions):
             mouse_undo = MfxCheckMenuItem(self),
             negative_bottom = MfxCheckMenuItem(self),
             pause = MfxCheckMenuItem(self),
+            theme = StringVar(),
             toolbar_vars = {},
         )
         for w in TOOLBAR_BUTTONS:
@@ -307,6 +309,7 @@ class PysolMenubar(PysolMenubarActions):
         tkopt.mouse_type.set(opt.mouse_type)
         tkopt.mouse_undo.set(opt.mouse_undo)
         tkopt.negative_bottom.set(opt.negative_bottom)
+        tkopt.theme.set(opt.tile_theme)
         for w in TOOLBAR_BUTTONS:
             tkopt.toolbar_vars[w].set(opt.toolbar_vars[w])
 
@@ -497,6 +500,8 @@ class PysolMenubar(PysolMenubarActions):
         menu.add_command(label=n_("&Colors..."), command=self.mOptColors)
         menu.add_command(label=n_("Time&outs..."), command=self.mOptTimeouts)
         menu.add_separator()
+        submenu = MfxMenu(menu, label=n_("T&heme"))
+        self.createThemesMenu(submenu)
         submenu = MfxMenu(menu, label=n_("&Toolbar"))
         createToolbarMenu(self, submenu)
         submenu = MfxMenu(menu, label=n_("Stat&usbar"))
@@ -1316,4 +1321,39 @@ class PysolMenubar(PysolMenubarActions):
         else:
             if self._cancelDrag(break_pause=True): return
             self.game.showStackDesc()
+
+    #
+    # Tlie
+    #
+
+    def mOptTheme(self, *event):
+        theme = self.tkopt.theme.get()
+        d = MfxMessageDialog(self.top, title=_("Change theme"),
+                      text=_("""\
+This settings will take effect
+the next time you restart """)+PACKAGE,
+                      bitmap="warning",
+                      default=0, strings=(_("&OK"),))
+        self.app.opt.tile_theme = theme
+
+    def createThemesMenu(self, menu):
+        style = Tkinter.Style(self.top)
+        all_themes = style.theme_names()
+        #
+        tn = {
+            'default':     'Default',
+            'classic':     'Classic',
+            'alt':         'Revitalized',
+            'winnative':   'Windows native',
+            'xpnative':    'XP Native',
+            'aqua':        'Aqua',
+            }
+
+        for t in all_themes:
+            try:
+                n = tn[t]
+            except KeyError:
+                n = t.capitalize()
+            menu.add_radiobutton(label=n, variable=self.tkopt.theme,
+                                 value=t, command=self.mOptTheme)
 

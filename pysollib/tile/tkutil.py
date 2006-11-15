@@ -52,7 +52,8 @@ __all__ = ['wm_withdraw',
            #'fillImage',
            'createImage',
            'get_text_width',
-           'load_theme',
+           #'init_tile',
+           #'load_theme',
            ]
 
 # imports
@@ -179,9 +180,8 @@ def make_help_toplevel(app, title=None):
     # Create an independent Toplevel window.
     parent = app.top
     window = Tkinter.Tk(className=PACKAGE)
-    from pysollib.settings import TILE_THEME
-    if TILE_THEME:
-        load_theme(app, window, TILE_THEME)
+    theme = app.opt.tile_theme
+    init_tile(app, window, theme)
     font = parent.option_get('font', '')
     if font:
         window.option_add('*font', font)
@@ -413,15 +413,12 @@ def get_text_width(text, font, root=None):
 # //
 # ************************************************************************/
 
-def load_theme(app, top, theme):
-    #
+def init_tile(app, top, theme):
     if os.name == 'posix':
         f = os.path.join(app.dataloader.dir, 'tcl', 'menu8.4.tcl')
         if os.path.exists(f):
             top.tk.call('source', f)
-    #
     top.tk.call("package", "require", "tile")
-    style = Tkinter.Style(top)
     # load available themes
     d = os.path.join(app.dataloader.dir, 'themes')
     if os.path.isdir(d):
@@ -434,7 +431,12 @@ def load_theme(app, top, theme):
                 except:
                     traceback.print_exc()
                     pass
+    #
+    load_theme(app, top, theme)
+
+def load_theme(app, top, theme):
     # set theme
+    style = Tkinter.Style(top)
     all_themes = style.theme_names()
     if theme not in all_themes:
         print >> sys.stderr, 'WARNING: invalid theme name:', theme
@@ -444,7 +446,13 @@ def load_theme(app, top, theme):
     if theme not in ('winnative', 'xpnative'):
         color = style.lookup('.', 'background')
         if color:
-            top.tk_setPalette(color)
+            try:
+                ##top.tk.call("tk_setPalette", color)
+                top.tk_setPalette(color)
+                ##top.option_add('*background', color)
+            except:
+                traceback.print_exc()
+                pass
         color = style.lookup('.', 'background', 'active')
         if color:
             top.option_add('*Menu.activeBackground', color)

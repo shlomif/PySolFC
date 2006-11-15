@@ -48,7 +48,7 @@ from tkFont import Font
 # PySol imports
 from pysollib.mfxutil import destruct, Struct
 from pysollib.settings import PACKAGE, VERSION
-from tkutil import after_idle, load_theme, wm_set_icon
+from tkutil import after_idle, init_tile, wm_set_icon
 from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
 
 # /***********************************************************************
@@ -98,7 +98,8 @@ class MfxRoot(Tkinter.Tk):
     def connectApp(self, app):
         self.app = app
 
-    def initToolkit(self, app, fg=None, bg=None, font=None, theme=None):
+    def initToolkit(self, app, fg=None, bg=None, font=None):
+        theme = app.opt.tile_theme
         sw, sh, sd = self.winfo_screenwidth(), self.winfo_screenheight(), self.winfo_screendepth()
         self.wm_group(self)
         self.wm_title(PACKAGE + ' ' + VERSION)
@@ -145,11 +146,8 @@ class MfxRoot(Tkinter.Tk):
                 app.opt.fonts['default'] = None
 
         # theme
-        import pysollib.settings
-        if theme:
-            pysollib.settings.TILE_THEME = theme
         try:
-            load_theme(app, self, pysollib.settings.TILE_THEME)
+            init_tile(app, self, theme)
         except Exception, err:
             print >> sys.stderr, 'ERROR: set theme:', err
         ##self.option_add('*Toolbar.relief', 'groove')
@@ -158,8 +156,6 @@ class MfxRoot(Tkinter.Tk):
         ##self.option_add('*Toolbar.Button.Pad', 2)
         ##self.option_add('*Toolbar.Button.default', 'disabled')
         ##self.option_add('*Toolbar*takeFocus', 0)
-
-
 
 
     # sometimes an update() is needed under Windows, whereas

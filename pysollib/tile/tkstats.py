@@ -325,7 +325,6 @@ class TreeFormatter(PysolStatsFormatter):
 
 class AllGames_StatsDialog(MfxDialog):
 
-    FONT_TYPE = "default"
     COLUMNS = ('played', 'won', 'lost', 'time', 'moves', 'percent')
 
     def __init__(self, parent, title, app, player, **kw):
@@ -333,7 +332,7 @@ class AllGames_StatsDialog(MfxDialog):
         #if parent and parent.winfo_screenheight() < 600:
         #    lines = 20
         #
-        self.font = app.getFont(self.FONT_TYPE)
+        self.font = app.getFont('default')
         font = tkFont.Font(parent, self.font)
         self.font_metrics = font.metrics()
         self.CHAR_H = self.font_metrics['linespace']
@@ -403,7 +402,7 @@ class AllGames_StatsDialog(MfxDialog):
             self.tree.delete(tuple(self.tree_items))
             self.tree_items = []
         formatter = TreeFormatter(self.app, self.tree, self,
-                            self.font, self.CHAR_W, self.CHAR_H)
+                                  self.font, self.CHAR_W, self.CHAR_H)
         formatter.writeStats(player, sort_by=self.sort_by)
 
 
@@ -413,7 +412,6 @@ class AllGames_StatsDialog(MfxDialog):
 
 class FullLog_StatsDialog(AllGames_StatsDialog):
 
-    FONT_TYPE = "fixed"
     COLUMNS = ('gamenumber', 'date', 'status')
 
     def fillCanvas(self, player, header):

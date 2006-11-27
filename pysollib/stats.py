@@ -71,7 +71,7 @@ class PysolStatsFormatter:
             'percent': app.getGamesIdSortedByPercent,
             }
         sort_func = sort_functions[sort_by]
-        g = sort_func()
+        g = sort_func(player=player)
         twon, tlost, tgames, ttime, tmoves = 0, 0, 0, 0, 0
         for id in g:
             name = app.getGameTitleName(id)

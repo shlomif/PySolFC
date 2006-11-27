@@ -277,10 +277,10 @@ class SelectGameDialog(MfxDialog):
         MfxDialog.destroy(self)
 
     def mDone(self, button):
-        if button == 0:                    # Ok or double click
+        if button == 0:                 # Ok or double click
             self.gameid = self.tree.selection_key
             self.tree.n_expansions = 1  # save xyview in any case
-        if button == 1:                    # Rules
+        if button == 10:                # Rules
             doc = self.app.getGameRulesFilename(self.tree.selection_key)
             if not doc:
                 return
@@ -403,7 +403,8 @@ class SelectGameDialogWithPreview(SelectGameDialog):
 
     def initKw(self, kw):
         kw = KwStruct(kw,
-                      strings=(_("&Select"), _("&Rules"), _("&Cancel"),),
+                      strings=((_("&Rules"), 10), 'sep',
+                               _("&Select"), _("&Cancel"),),
                       default=0,
                       )
         return SelectGameDialog.initKw(self, kw)
@@ -513,7 +514,7 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         #
         self.updateInfo(gameid)
         #
-        rules_button = self.buttons[1]
+        rules_button = self.buttons[0]
         if self.app.getGameRulesFilename(gameid):
             rules_button.config(state="normal")
         else:

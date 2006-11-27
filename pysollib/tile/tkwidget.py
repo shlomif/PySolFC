@@ -177,11 +177,17 @@ class MfxDialog: # ex. _ToplevelDialog
             b.pack(side=kw.image_side, padx=kw.image_padx, pady=kw.image_pady)
 
     def createButtons(self, frame, kw):
-        button = column = -1
+        xbutton = column = -1
         padx, pady = kw.get("buttonpadx", 5), kw.get("buttonpady", 5)
         focus = None
         max_len = 0
-        for s in kw.strings:
+        if 'sep' in kw.strings:
+            sep_column = list(kw.strings).index('sep')
+            strings = kw.strings[sep_column+1:]
+        else:
+            sep_column = 0
+            strings = kw.strings
+        for s in strings:
             if type(s) is tuple:
                 s = s[0]
             if s:
@@ -194,13 +200,19 @@ class MfxDialog: # ex. _ToplevelDialog
         else             : button_width = 8
         #
         for s in kw.strings:
-            xbutton = button = button + 1
+            if s is None:
+                xbutton += 1
+                continue
+            if s == 'sep':
+                column += 1
+                continue
             if type(s) is tuple:
                 assert len(s) == 2
                 button = int(s[1])
                 s = s[0]
-            if s is None:
-                continue
+            else:
+                xbutton += 1
+                button = xbutton
             accel_indx = s.find('&')
             button_img = None
             if MfxDialog.button_img:
@@ -208,7 +220,6 @@ class MfxDialog: # ex. _ToplevelDialog
             s = s.replace('&', '')
             if button < 0:
                 widget = Tkinter.Button(frame, text=s, state="disabled")
-                button = xbutton
             else:
                 widget = Tkinter.Button(frame, text=s, default="normal",
                     command=(lambda self=self, button=button: self.mDone(button)))
@@ -217,7 +228,9 @@ class MfxDialog: # ex. _ToplevelDialog
                     focus.config(default="active")
             self.buttons.append(widget)
             #
-            widget.config(width=button_width)
+            column += 1
+            if column >= sep_column:
+                widget.config(width=button_width)
             if accel_indx >= 0:
                 # key accelerator
                 widget.config(underline=accel_indx)
@@ -226,14 +239,13 @@ class MfxDialog: # ex. _ToplevelDialog
             #
             if button_img:
                 widget.config(compound='left', image=button_img)
-            column += 1
             widget.grid(column=column, row=0, sticky="nse", padx=padx, pady=pady)
         if focus is not None:
             l = (lambda event=None, self=self, button=kw.default: self.mDone(button))
             bind(self.top, "<Return>", l)
             bind(self.top, "<KP_Enter>", l)
         # right justify
-        frame.columnconfigure(0, weight=1)
+        frame.columnconfigure(sep_column, weight=1)
         return focus
 
 

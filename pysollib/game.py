@@ -194,6 +194,7 @@ class Game:
         # update display properties
         self.top.wm_geometry("")        # cancel user-specified geometry
         self.canvas.setInitialSize(self.width, self.height)
+        self.top.update_idletasks()     # apply geometry now
         if DEBUG >= 4:
             MfxCanvasRectangle(self.canvas, 0, 0, self.width, self.height,
                                width=2, fill=None, outline='green')
@@ -425,13 +426,13 @@ class Game:
         if not self.preview:
             wm_map(self.top, maximized=self.app.opt.wm_maximized)
             self.top.busyUpdate()
-        self.stopSamples()
-        #
         if TOOLKIT == 'gtk':
             ## FIXME
             if self.top:
                 self.top.update_idletasks()
                 self.top.show_now()
+        #
+        self.stopSamples()
         # let's go
         self.moves.state = self.S_INIT
         self.startGame()
@@ -1015,6 +1016,7 @@ class Game:
 ###            return
         if not self.app.opt.animations:
             return
+        self.setCursor(cursor=CURSOR_WATCH)
         self.top.busyUpdate()
         self.canvas.update_idletasks()
         old_a = self.app.opt.animations
@@ -1252,6 +1254,8 @@ class Game:
             # a pure demo game - update demo stats
             self.stats.demo_updated = updated
             self.app.stats.updateStats(None, self, won)
+            if won:
+                self.finished = True
             return ''
         elif self.changed():
             # must update player stats
@@ -1855,7 +1859,6 @@ for %d moves.
                                      image=self.app.gimages.logos[4], strings=(s,),
                                      separatorwidth=2, timeout=timeout)
                 status = d.status
-                self.finished = True
             else:
                 ##s = self.app.miscrandom.choice((_("&OK"), _("&OK")))
                 s = _("&OK")
@@ -1866,7 +1869,6 @@ for %d moves.
                                      text=text, bitmap=bitmap, strings=(s,),
                                      padx=30, timeout=timeout)
                 status = d.status
-                self.finished = True
         elif finished:
             ##self.stopPlayTimer()
             if not self.top.winfo_ismapped():

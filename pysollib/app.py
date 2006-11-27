@@ -1240,41 +1240,45 @@ Please select a %s type %s.
     def getGamesIdSortedById(self):
         return self.gdb.getGamesIdSortedById()
 
-    def getGamesIdSortedByName(self):
+    def getGamesIdSortedByName(self, player=''):
         return self.gdb.getGamesIdSortedByName()
 
     ##
-    def getGamesIdSortedByPlayed(self):
+    def getGamesIdSortedByPlayed(self, player=''):
+        if player == '': player = self.opt.player
         def _cmp(a, b):
-            wa, la, ta, ma = self.stats.getFullStats(self.opt.player, a)
-            wb, lb, tb, mb = self.stats.getFullStats(self.opt.player, b)
+            wa, la, ta, ma = self.stats.getFullStats(player, a)
+            wb, lb, tb, mb = self.stats.getFullStats(player, b)
             return cmp(wb+lb, wa+la)  # reverse
         games = list(self.gdb.getGamesIdSortedByName())
         games.sort(_cmp)
         return games
 
-    def getGamesIdSortedByWon(self):
+    def getGamesIdSortedByWon(self, player=''):
+        if player == '': player = self.opt.player
         def _cmp(a, b):
-            wa, la, ta, ma = self.stats.getFullStats(self.opt.player, a)
-            wb, lb, tb, mb = self.stats.getFullStats(self.opt.player, b)
+            wa, la, ta, ma = self.stats.getFullStats(player, a)
+            wb, lb, tb, mb = self.stats.getFullStats(player, b)
             return cmp(wb, wa)  # reverse
         games = list(self.gdb.getGamesIdSortedByName())
         games.sort(_cmp)
         return games
 
-    def getGamesIdSortedByLost(self):
+    def getGamesIdSortedByLost(self, player=''):
+        if player == '': player = self.opt.player
         def _cmp(a, b):
-            wa, la, ta, ma = self.stats.getFullStats(self.opt.player, a)
-            wb, lb, tb, mb = self.stats.getFullStats(self.opt.player, b)
+            wa, la, ta, ma = self.stats.getFullStats(player, a)
+            wb, lb, tb, mb = self.stats.getFullStats(player, b)
             return cmp(lb, la)  # reverse
         games = list(self.gdb.getGamesIdSortedByName())
         games.sort(_cmp)
         return games
 
-    def getGamesIdSortedByPercent(self):
+    def getGamesIdSortedByPercent(self, player=''):
+        if player == '': player = self.opt.player
         def _cmp(a, b):
-            wa, la, ta, ma = self.stats.getFullStats(self.opt.player, a)
-            wb, lb, tb, mb = self.stats.getFullStats(self.opt.player, b)
+            wa, la, ta, ma = self.stats.getFullStats(player, a)
+            wb, lb, tb, mb = self.stats.getFullStats(player, b)
             if wa+la == 0 or wb+lb == 0:
                 return cmp(wb+lb, wa+la)  # reverse
             return cmp(float(wb)/(wb+lb),
@@ -1283,19 +1287,21 @@ Please select a %s type %s.
         games.sort(_cmp)
         return games
 
-    def getGamesIdSortedByPlayingTime(self):
+    def getGamesIdSortedByPlayingTime(self, player=''):
+        if player == '': player = self.opt.player
         def _cmp(a, b):
-            wa, la, ta, ma = self.stats.getFullStats(self.opt.player, a)
-            wb, lb, tb, mb = self.stats.getFullStats(self.opt.player, b)
+            wa, la, ta, ma = self.stats.getFullStats(player, a)
+            wb, lb, tb, mb = self.stats.getFullStats(player, b)
             return cmp(tb, ta)  # reverse
         games = list(self.gdb.getGamesIdSortedByName())
         games.sort(_cmp)
         return games
 
-    def getGamesIdSortedByMoves(self):
+    def getGamesIdSortedByMoves(self, player=''):
+        if player == '': player = self.opt.player
         def _cmp(a, b):
-            wa, la, ta, ma = self.stats.getFullStats(self.opt.player, a)
-            wb, lb, tb, mb = self.stats.getFullStats(self.opt.player, b)
+            wa, la, ta, ma = self.stats.getFullStats(player, a)
+            wb, lb, tb, mb = self.stats.getFullStats(player, b)
             return cmp(mb, ma)  # reverse
         games = list(self.gdb.getGamesIdSortedByName())
         games.sort(_cmp)

@@ -227,8 +227,6 @@ def pysol_init(app, args):
     app.loadOptions()
 
     # init audio 1)
-    warn_thread = 0
-    warn_pysolsoundserver = 0
     app.audio = None
     sounds = {'pss':     PysolSoundServerModuleClient,
               'pygame':  PyGameAudioClient,
@@ -240,8 +238,8 @@ def pysol_init(app, args):
         c = sounds[opts['sound-mod']]
         app.audio = c()
     elif SOUND_MOD == 'auto':
-        for c in (PysolSoundServerModuleClient,
-                  PyGameAudioClient,
+        for c in (PyGameAudioClient,
+                  PysolSoundServerModuleClient,
                   OSSAudioClient,
                   Win32AudioClient,
                   AbstractAudioClient):
@@ -315,9 +313,6 @@ Please check your %s installation.
     app.audio.connectServer(app)
     if not app.audio.CAN_PLAY_SOUND:
         app.opt.sound = 0
-    if not opts["nosound"] and not opts['sound-mod'] and pysolsoundserver and not app.audio.connected:
-        print >> sys.stderr, "%s: could not connect to pysolsoundserver, sound disabled." % PACKAGE
-        warn_pysolsoundserver = 1
     app.audio.updateSettings()
     # start up the background music
     if app.audio.CAN_PLAY_MUSIC:
@@ -339,36 +334,6 @@ Please check your %s installation.
         app.progress_images = (loadImage(app.gimages.logos[0]),
                                loadImage(app.gimages.logos[1]))
     app.wm_withdraw()
-
-    # warn about audio problems
-    if (not opts["nosound"] and os.name == "posix" and
-        not app.audio and pysolsoundserver is None):
-        if 1 and app.opt.sound and re.search(r"linux", sys.platform, re.I):
-            warn_pysolsoundserver = 1
-            if thread is None:
-                warn_thread = 1
-        if thread is None:
-            print >> sys.stderr, "%s: Python thread module not found, sound disabled." % PACKAGE
-        else:
-            print >> sys.stderr, "%s: pysolsoundserver module not found, sound disabled." % PACKAGE
-        sys.stdout.flush()
-    if not opts["nosound"]:
-        if warn_thread:
-            top.update()
-            d = MfxMessageDialog(top, title=_("%s installation problem") % PACKAGE,
-                                 text=_('''\
-Your Python installation is compiled without thread support.
-
-Sounds and background music will be disabled.'''),
-                                 bitmap="warning", strings=(_("&OK"),))
-        elif warn_pysolsoundserver:
-            top.update()
-            d = MfxMessageDialog(top, title=_("%s installation problem") % PACKAGE,
-                                 text=_('''\
-The pysolsoundserver module was not found.
-
-Sounds and background music will be disabled.'''),
-                                 bitmap="warning", strings=(_("&OK"),))
 
     # create the progress bar
     title = _("Welcome to %s") % PACKAGE

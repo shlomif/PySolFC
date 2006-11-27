@@ -100,8 +100,8 @@ class MfxStatusbar:
             b.setText(tooltip)
         return label
 
-    def _createSizeGrip(self):
-        sg = Tkinter.SizeGrip(self.top_frame)
+    def _createSizegrip(self):
+        sg = Tkinter.Sizegrip(self.top_frame)
         sg.pack(side='right', anchor='se')
 
 
@@ -164,7 +164,7 @@ class PysolStatusbar(MfxStatusbar):
         l = self._createLabel("info", fill='both', expand=1)
         ##l.config(text="", justify="left", anchor='w')
         l.config(padding=(8, 0))
-        self._createSizeGrip()
+        self._createSizegrip()
 
 
 class HelpStatusbar(MfxStatusbar):
@@ -179,7 +179,7 @@ class HtmlStatusbar(MfxStatusbar):
         MfxStatusbar.__init__(self, top, row=row, column=column, columnspan=columnspan)
         l = self._createLabel("url", fill='both', expand=1)
         l.config(justify="left", anchor='w', padding=(8, 0))
-        self._createSizeGrip()
+        self._createSizegrip()
 
 
 # /***********************************************************************

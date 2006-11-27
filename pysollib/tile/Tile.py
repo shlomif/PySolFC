@@ -23,10 +23,6 @@ TkVersion = Tkinter.TkVersion
 TclError = Tkinter.TclError
 
 
-# internal
-_flatten = Tkinter._flatten
-
-
 class Style(Tkinter.Misc):
     def __init__(self, master=None):
         if master is None:
@@ -84,10 +80,10 @@ class Style(Tkinter.Misc):
         """Sets the current theme to themeName, and refreshes all widgets."""
         return self.tk.call("style", "theme", "use", theme)
 
-    def configure(self, style, **kw):
+    def configure(self, style, cnf={}, **kw):
         """Sets  the  default value of the specified option(s)
         in style."""
-        opts = self._options(kw)
+        opts = self._options(cnf, kw)
         return self.tk.call("style", "configure", style, *opts)
     config = configure
 
@@ -137,18 +133,11 @@ class Widget(Tkinter.Widget, Style):
 
 class Button(Widget, Tkinter.Button):
     def __init__(self, master=None, cnf={}, **kw):
-        for opt in ('bd', 'relief', 'padx', 'pady', 'overrelief',):
-            if kw.has_key(opt):
-                del kw[opt]
         Widget.__init__(self, master, "ttk::button", cnf, kw)
 
 
 class Checkbutton(Widget, Tkinter.Checkbutton):
     def __init__(self, master=None, cnf={}, **kw):
-        for opt in ('bd', 'anchor', 'selectcolor', 'indicatoron',
-                    'relief', 'overrelief', 'offrelief', 'padx', 'pady',):
-            if kw.has_key(opt):
-                del kw[opt]
         Widget.__init__(self, master, "ttk::checkbutton", cnf, kw)
 
 
@@ -187,7 +176,7 @@ class Frame(Widget, Tkinter.Frame):
         Widget.__init__(self, master, "ttk::frame", cnf, kw)
 
 
-class SizeGrip(Widget):
+class Sizegrip(Widget):
     def __init__(self, master=None, cnf={}, **kw):
         Widget.__init__(self, master, "ttk::sizegrip", cnf, kw)
 
@@ -318,10 +307,10 @@ class Progressbar(Widget):
         return self.tk.call(self._w, "step", amount)
 
     def start(self):
-        self.tk.call("tile::progressbar::start", self._w)
+        self.tk.call("ttk::progressbar::start", self._w)
 
     def stop(self):
-        self.tk.call("tile::progressbar::stop", self._w)
+        self.tk.call("ttk::progressbar::stop", self._w)
 
 
 class Radiobutton(Widget, Tkinter.Radiobutton):
@@ -336,9 +325,6 @@ class Scrollbar(Widget, Tkinter.Scrollbar):
 
 class Separator(Widget):
     def __init__(self, master=None, cnf={}, **kw):
-        for opt in ('bd', 'width', 'highlightthickness', 'relief',):
-            if kw.has_key(opt):
-                del kw[opt]
         Widget.__init__(self, master, "ttk::separator", cnf, kw)
 
 

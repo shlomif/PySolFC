@@ -1338,7 +1338,8 @@ the next time you restart """)+PACKAGE,
 
     def createThemesMenu(self, menu):
         style = Tkinter.Style(self.top)
-        all_themes = style.theme_names()
+        all_themes = list(style.theme_names())
+        all_themes.sort()
         #
         tn = {
             'default':     'Default',

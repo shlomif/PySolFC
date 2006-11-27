@@ -70,7 +70,6 @@ class PlayerOptionsDialog(MfxDialog):
         frame = Tkinter.Frame(top_frame)
         frame.pack(expand=1, fill='both', padx=5, pady=10)
         widget = Tkinter.Label(frame, text=_("\nPlease enter your name"),
-                               #justify='left', anchor='w',
                                takefocus=0)
         widget.grid(row=0, column=0, columnspan=2, sticky='ew', padx=0, pady=5)
         #
@@ -81,10 +80,9 @@ class PlayerOptionsDialog(MfxDialog):
         self.player_var.grid(row=1, column=0, sticky='ew', padx=0, pady=5)
         #
         widget = Tkinter.Checkbutton(frame, variable=self.confirm_var,
-                                     anchor='w', text=_("Confirm quit"))
+                                     text=_("Confirm quit"))
         widget.grid(row=2, column=0, columnspan=2, sticky='ew', padx=0, pady=5)
         widget = Tkinter.Checkbutton(frame, variable=self.update_stats_var,
-                                     anchor='w',
                                      text=_("Update statistics and logs"))
         widget.grid(row=3, column=0, columnspan=2, sticky='ew', padx=0, pady=5)
 ###        widget = Tkinter.Checkbutton(frame, variable=self.win_animation_var,

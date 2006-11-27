@@ -157,7 +157,8 @@ class SelectTileDialogWithPreview(MfxDialog):
 
     def initKw(self, kw):
         kw = KwStruct(kw,
-                      strings=(_("&OK"), _("&Solid color..."), _("&Cancel"),),
+                      strings=((_("&Solid color..."), 10),
+                               'sep', _("&OK"), _("&Cancel"),),
                       default=0,
                       resizable=1,
                       font=None,
@@ -171,7 +172,7 @@ class SelectTileDialogWithPreview(MfxDialog):
             else:
                 self.key = self.tree.selection_key
             self.tree.n_expansions = 1  # save xyview in any case
-        if button == 1:        # "Solid color..."
+        if button == 10:        # "Solid color..."
             c = tkColorChooser.askcolor(master=self.top,
                                         initialcolor=self.table_color,
                                         title=_("Select table color"))

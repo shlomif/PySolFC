@@ -69,7 +69,7 @@ class ColorsDialog(MfxDialog):
         self.not_matching_var.set(app.opt.colors['not_matching'])
         #
         c = Tkinter.Checkbutton(frame, variable=self.use_default_var,
-                                text=_("Text foreground:"), anchor='w')
+                                text=_("Text foreground:"))
         c.grid(row=0, column=0, sticky='we')
         l = Tk.Label(frame, width=10, height=2,
                           bg=self.text_var.get(), textvariable=self.text_var)
@@ -87,7 +87,7 @@ class ColorsDialog(MfxDialog):
             (_('Hint arrow:'),             self.hintarrow_var),
             (_('Highlight not matching:'), self.not_matching_var),
             ):
-            Tkinter.Label(frame, text=title, anchor='w'
+            Tkinter.Label(frame, text=title, anchor='w',
                           ).grid(row=row, column=0, sticky='we')
             l = Tk.Label(frame, width=10, height=2,
                               bg=var.get(), textvariable=var)

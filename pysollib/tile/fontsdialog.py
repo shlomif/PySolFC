@@ -96,11 +96,11 @@ class FontChooserDialog(MfxDialog):
         sb.grid(row=1, column=1, sticky='ns')
         bind(self.list_box, '<<ListboxSelect>>', self.fontupdate)
         ##self.list_box.focus()
-        cb1 = Tkinter.Checkbutton(frame, anchor='w', text=_('Bold'),
+        cb1 = Tkinter.Checkbutton(frame, text=_('Bold'),
                                   command=self.fontupdate,
                                   variable=self.weight_var)
         cb1.grid(row=2, column=0, columnspan=2, sticky='we')
-        cb2 = Tkinter.Checkbutton(frame, anchor='w', text=_('Italic'),
+        cb2 = Tkinter.Checkbutton(frame, text=_('Italic'),
                                   command=self.fontupdate,
                                   variable=self.slant_var)
         cb2.grid(row=3, column=0, columnspan=2, sticky='we')
@@ -182,7 +182,7 @@ class FontsDialog(MfxDialog):
             elif font is None:
                 title = 'Default'
             l = Tkinter.Label(frame, font=font, text=title)
-            l.grid(row=row, column=1)
+            l.grid(row=row, column=1, padx=8)
             b = Tkinter.Button(frame, text=_('Change...'), width=10,
                                command=lambda l=l, fn=fn: self.selectFont(l, fn))
             b.grid(row=row, column=2)

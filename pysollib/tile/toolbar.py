@@ -354,9 +354,7 @@ class PysolToolbar(PysolToolbarActions):
         sep = ToolbarSeparator(self.frame,
                                position=position,
                                toolbar=self,
-                               width=4,
-                               takefocus=0,
-                               relief=self.separator_relief)
+                               takefocus=0)
         sep.show(orient=self.orient)
         self._widgets.append(sep)
         return sep

@@ -231,6 +231,8 @@ class MfxDialog: # ex. _ToplevelDialog
             column += 1
             if column >= sep_column:
                 widget.config(width=button_width)
+            else:
+                widget.config(width=len(s))
             if accel_indx >= 0:
                 # key accelerator
                 widget.config(underline=accel_indx)

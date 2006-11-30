@@ -354,6 +354,7 @@ class GI:
         2,     # Klondike
         7,     # Picture Galary
         8,     # FreeCell
+        9,     # Seahaven Towers
         11,    # Spider
         12,    # Braid
         13,    # Forty Thieves

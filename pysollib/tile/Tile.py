@@ -493,7 +493,7 @@ class Treeview(Widget, Tkinter.Listbox):
 
     def selection(self):
         """Returns the list of selected items"""
-        pass
+        return self.tk.call(self._w, "selection")
 
     def selection_set(self, items):
         """items becomes the new selection. """

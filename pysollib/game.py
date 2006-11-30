@@ -583,6 +583,8 @@ class Game:
         if self.preview:
             return
         self.app.wm_save_state()
+        if self.pause:
+            self.doPause()
         if holdgame:
             return
         if bookmark:
@@ -1251,11 +1253,10 @@ class Game:
             self.stopPlayTimer()
         won, status, updated = self.getWinStatus()
         if demo and self.getPlayerMoves() == 0:
-            # a pure demo game - update demo stats
-            self.stats.demo_updated = updated
-            self.app.stats.updateStats(None, self, won)
-            if won:
-                self.finished = True
+            if not self.stats.demo_updated:
+                # a pure demo game - update demo stats
+                self.stats.demo_updated = updated
+                self.app.stats.updateStats(None, self, won)
             return ''
         elif self.changed():
             # must update player stats
@@ -1265,18 +1266,18 @@ class Game:
                 self.updateStatus(stats=self.app.stats.getStats(self.app.opt.player, self.id))
                 top_msg = ''
                 if ret:
-                    if ret[0]: # playing time
-                        top_msg = _('\nYou have reached\n#%d in the %s of playing time') % (ret[0], TOP_TITLE)
-                    if 1 and ret[1]: # moves
+                    if ret[0]:          # playing time
+                        top_msg = _('''
+You have reached
+#%d in the %s of playing time''') % (ret[0], TOP_TITLE)
+                    if ret[1]:          # moves
                         if top_msg:
-                            top_msg += _('\nand #%d in the %s of moves') % (ret[1], TOP_TITLE)
+                            top_msg += _('''
+and #%d in the %s of moves''') % (ret[1], TOP_TITLE)
                         else:
-                            top_msg = _('\nYou have reached\n#%d in the %s of moves') % (ret[1], TOP_TITLE)
-                    if 0 and ret[2]: # total moves
-                        if top_msg:
-                            top_msg += _('\nand #%d in the %s of total moves') % (ret[1], TOP_TITLE)
-                        else:
-                            top_msg = _('\nYou have reached\n#%d in the %s of total moves') % (ret[1], TOP_TITLE)
+                            top_msg = _('''
+You have reached
+#%d in the %s of moves''') % (ret[1], TOP_TITLE)
                 return top_msg
         elif not demo:
             # only update the session log
@@ -1842,12 +1843,12 @@ for %d moves.
         d, status = None, 0
         bitmap = "info"
         timeout = 10000
-        if player_moves == 0:
+        if 1 and player_moves == 0:
             timeout = 5000
-##         if 0 and DEBUG and self.demo.mixed:
-##             timeout = 1000
         if self.isGameWon():
+            self.updateTime()
             finished = 1
+            self.finished = True
             self.stopPlayTimer()
             if not self.top.winfo_ismapped():
                 status = 2

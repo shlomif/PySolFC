@@ -559,6 +559,7 @@ class PysolMenubarActions:
     def mPlayerStats(self, *args, **kw):
         mode = kw.get("mode", 101)
         demo = 0
+        gameid = None
         while mode > 0:
             if mode > 1000:
                 demo = not demo
@@ -581,6 +582,7 @@ class PysolMenubarActions:
             elif mode == 102:
                 header = p1 + _("Statistics") + p2
                 d = AllGames_StatsDialog(self.top, header, self.app, player)
+                gameid = d.selected_game
             elif mode == 103:
                 header = p1 + _("Full log") + p2
                 d = FullLog_StatsDialog(self.top, header, self.app, player)
@@ -621,8 +623,9 @@ class PysolMenubarActions:
                     self.game.updateStatus(stats=self.app.stats.getStats(self.app.opt.player, self.game.id))
             elif mode == 401:
                 # start a new game with a gameid
-                ## TODO
-                pass
+                if gameid:
+                    self.game.endGame()
+                    self.game.quitGame(gameid)
             elif mode == 402:
                 # start a new game with a gameid / gamenumber
                 ## TODO

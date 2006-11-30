@@ -268,11 +268,13 @@ class TreeFormatter(PysolStatsFormatter):
             self.tree.column(column, width=tab)
 
         for result in self.getStatResults(player, sort_by):
+            # result == [name, won+lost, won, lost, time, moves, perc, id]
             t1, t2, t3, t4, t5, t6, t7, t8 = result
             t1=gettext(t1)              # game name
             id = self.tree.insert(None, "end", text=t1,
                                   values=(t2, t3, t4, t5, t6, t7))
             self.parent_window.tree_items.append(id)
+            self.parent_window.games[id] = t8
 
         total, played, won, lost, time, moves, perc = self.getStatSummary()
         text = _("Total (%d out of %d games)") % (played, total)
@@ -344,6 +346,8 @@ class AllGames_StatsDialog(MfxDialog):
         self.sort_by = 'name'
         self.tree_items = []
         self.tree_tabs = None
+        self.games = {}                 # tree_itemid: gameid
+        self.selected_game = None
         #
         kwdefault(kw, width=self.CHAR_W*64, height=lines*self.CHAR_H)
         kw = self.initKw(kw)
@@ -358,18 +362,23 @@ class AllGames_StatsDialog(MfxDialog):
         frame.pack(fill='both', expand=True, padx=kw.padx, pady=kw.pady)
         sb = Tkinter.Scrollbar(frame)
         sb.pack(side='right', fill='y')
-        self.tree = Tkinter.Treeview(frame, columns=self.COLUMNS)
+        self.tree = Tkinter.Treeview(frame, columns=self.COLUMNS,
+                                     selectmode='browse')
         self.tree.pack(side='left', fill='both', expand=True)
         self.tree.config(yscrollcommand=sb.set)
         sb.config(command=self.tree.yview)
-        self.fillCanvas(player, title)
+        bind(self.tree, '<<TreeviewSelect>>', self.treeviewSelected)
         #
         focus = self.createButtons(bottom_frame, kw)
+        self.fillCanvas(player, title)
+        #run_button = self.buttons[0]
+        #run_button.config(state='disabled')
         self.mainloop(focus, kw.timeout)
 
     def initKw(self, kw):
         kw = KwStruct(kw,
-                      strings=(_("&OK"),
+                      strings=((_("&Play this game"), 401),
+                                "sep", _("&OK"),
                                (_("&Save to file"), 202),
                                (_("&Reset all..."), 301),),
                       default=0,
@@ -379,10 +388,24 @@ class AllGames_StatsDialog(MfxDialog):
         )
         return MfxDialog.initKw(self, kw)
 
+    def mDone(self, button):
+        sel = self.tree.selection()
+        if sel and len(sel) == 1:
+            self.selected_game = self.games[sel[0]]
+        MfxDialog.mDone(self, button)
+
     def destroy(self):
         self.app = None
         self.tree.destroy()
         MfxDialog.destroy(self)
+
+    def treeviewSelected(self, *args):
+        sel = self.tree.selection()
+        run_button = self.buttons[0]
+        if sel and len(sel) == 1:
+            run_button.config(state='normal')
+        else:
+            run_button.config(state='disabled')
 
     def headerClick(self, column):
         if column == '#0':
@@ -404,6 +427,9 @@ class AllGames_StatsDialog(MfxDialog):
         formatter = TreeFormatter(self.app, self.tree, self,
                                   self.font, self.CHAR_W, self.CHAR_H)
         formatter.writeStats(player, sort_by=self.sort_by)
+        if self.buttons:
+            run_button = self.buttons[0]
+            run_button.config(state='disabled')
 
 
 # /***********************************************************************
@@ -427,6 +453,11 @@ class FullLog_StatsDialog(AllGames_StatsDialog):
                       )
         return AllGames_StatsDialog.initKw(self, kw)
 
+    def mDone(self, button):
+        MfxDialog.mDone(self, button)
+
+    def treeviewSelected(self, *args):
+        pass
     def headerClick(self, column):
         pass
 

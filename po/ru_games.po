@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Wed Nov 15 13:22:51 2006\n"
-"PO-Revision-Date: 2006-11-14 17:04+0300\n"
+"POT-Creation-Date: Thu Nov 30 16:31:56 2006\n"
+"PO-Revision-Date: 2006-11-30 16:06+0300\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -476,9 +476,8 @@ msgstr "Горный Замок"
 msgid "Castle of Indolence"
 msgstr "Замок праздности"
 
-#, fuzzy
 msgid "Castles End"
-msgstr "Замок"
+msgstr "Развалины замков"
 
 msgid "Castles in Spain"
 msgstr "Воздушные замки"
@@ -910,7 +909,7 @@ msgid "Eight Legions"
 msgstr "Восемь легионов"
 
 msgid "Eight Off"
-msgstr ""
+msgstr "Восемь удалённых"
 
 msgid "Eight Squares"
 msgstr "Восемь квадратов"
@@ -2050,7 +2049,7 @@ msgid "Mahjongg Mini Traditional"
 msgstr "Маджонг Mini Traditional"
 
 msgid "Mahjongg Mini-Layout"
-msgstr "Маджонг Mini-Layout"
+msgstr "Маджонг Малый расклад"
 
 msgid "Mahjongg Mission Impossible"
 msgstr "Маджонг Миссия невыполнима"
@@ -2068,7 +2067,7 @@ msgid "Mahjongg N for Namida"
 msgstr "Маджонг N for Namida"
 
 msgid "Mahjongg New Layout"
-msgstr "Маджонг New Layout"
+msgstr "Маджонг Новый расклад"
 
 msgid "Mahjongg Okie's Nitemare"
 msgstr "Маджонг Okie's Nitemare"
@@ -2393,9 +2392,8 @@ msgstr "Минерва"
 msgid "Mini Traditional"
 msgstr "Маджонг Mini Traditional"
 
-#, fuzzy
 msgid "Mini-Layout"
-msgstr "Маджонг Mini-Layout"
+msgstr "Маджонг Малый расклад"
 
 msgid "Miss Milligan"
 msgstr "Мисс Миллиган"
@@ -2516,9 +2514,8 @@ msgstr "Нестор"
 msgid "New British Constitution"
 msgstr "Новая Британская конституция"
 
-#, fuzzy
 msgid "New Layout"
-msgstr "Маджонг New Layout"
+msgstr "Новый расклад"
 
 msgid "New York"
 msgstr "Нью-Йорк"
@@ -2588,7 +2585,7 @@ msgid "Open Jumbo"
 msgstr "Открытый гигант"
 
 msgid "Open Peek"
-msgstr ""
+msgstr "Открытый взгляд"
 
 msgid "Open Sly Fox"
 msgstr "Открытая Хитрая лиса"
@@ -2667,7 +2664,7 @@ msgid "Paulownia"
 msgstr ""
 
 msgid "Peek"
-msgstr ""
+msgstr "Взгляд"
 
 msgid "Pegged"
 msgstr ""
@@ -2720,7 +2717,6 @@ msgstr "Картинная галерея"
 msgid "Picture Patience"
 msgstr "Картинный пасьянс"
 
-#, fuzzy
 msgid "Pigtail"
 msgstr "Косичка"
 
@@ -2956,9 +2952,8 @@ msgstr "Королевская помощь"
 msgid "Royal Cotillion"
 msgstr "Королевский котильон"
 
-#, fuzzy
 msgid "Royal East"
-msgstr "Королевская семья"
+msgstr "Великолепный Восток"
 
 msgid "Royal Family"
 msgstr "Королевская семья"
@@ -3006,7 +3001,7 @@ msgid "Sanibel"
 msgstr "Санибел"
 
 msgid "Saratoga"
-msgstr "Дорожный сундук"
+msgstr "Саратога"
 
 msgid "Saxony"
 msgstr "Саксония"

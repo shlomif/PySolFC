@@ -208,7 +208,7 @@ class Options:
         self.mouse_undo = False    # use mouse for undo/redo
         self.negative_bottom = True
         self.randomize_place = False
-        self.cache_carsets = True
+        self.cache_cardsets = True
         # defaults & constants
         self.setDefaults()
         self.setConstants()
@@ -1035,7 +1035,7 @@ class Application:
             if not images.load(app=self, progress=progress):
                 raise Exception, "Invalid or damaged "+CARDSET
             simages = SubsampledImages(images)
-            if self.opt.cache_carsets:
+            if self.opt.cache_cardsets:
                 c = self.cardsets_cache.get(cs.type)
                 if c:
                     ##c[1].destruct()

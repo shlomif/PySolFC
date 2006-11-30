@@ -500,7 +500,7 @@ class PysolMenubar(PysolMenubarActions):
         menu.add_command(label=n_("&Colors..."), command=self.mOptColors)
         menu.add_command(label=n_("Time&outs..."), command=self.mOptTimeouts)
         menu.add_separator()
-        submenu = MfxMenu(menu, label=n_("T&heme"))
+        submenu = MfxMenu(menu, label=n_("Set t&heme"))
         self.createThemesMenu(submenu)
         submenu = MfxMenu(menu, label=n_("&Toolbar"))
         createToolbarMenu(self, submenu)

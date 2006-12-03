@@ -251,7 +251,6 @@ class PysolToolbar(PysolToolbarActions):
             ):
             if l is None:
                 sep = self._createSeparator()
-                sep.bind("<1>", self.clickHandler)
                 sep.bind("<3>", self.rightclickHandler)
             elif l == 'Pause':
                 self._createButton(l, f, check=True, tooltip=t)
@@ -259,8 +258,6 @@ class PysolToolbar(PysolToolbarActions):
                 self._createButton(l, f, tooltip=t)
 
         #~sep = self._createFlatSeparator()
-        #~sep.bind("<1>", self.clickHandler)
-        #~sep.bind("<3>", self.rightclickHandler)
         position=len(self._widgets)
         self.frame.rowconfigure(position, weight=1)
         self.frame.columnconfigure(position, weight=1)
@@ -269,9 +266,7 @@ class PysolToolbar(PysolToolbarActions):
                           tooltip=_("Player options"))
         #
         self.player_label.bind("<1>",self.mOptPlayerOptions)
-        ##self.player_label.bind("<3>",self.mOptPlayerOptions)
         self.popup = None
-        self.frame.bind("<1>", self.clickHandler)
         self.frame.bind("<3>", self.rightclickHandler)
         #
         self.setCompound(compound, force=True)
@@ -534,15 +529,12 @@ class PysolToolbar(PysolToolbarActions):
                 w.config(relief=self.button_relief, bd=bd)
             elif isinstance(w, ToolbarCheckbutton):
                 w.config(relief=self.button_relief, bd=bd)
-                if Tkinter.TkVersion >= 8.4:
-                    w.config(offrelief=self.button_relief)
+                w.config(offrelief=self.button_relief)
             elif w.__class__ is ToolbarSeparator: # not ToolbarFlatSeparator
                 w.config(relief=self.separator_relief)
         return True
 
     def setCompound(self, compound, force=False):
-        if Tkinter.TkVersion < 8.4:
-            return False
         if not force and self.compound == compound:
             return False
         for w in self._widgets:
@@ -569,21 +561,11 @@ class PysolToolbar(PysolToolbarActions):
     # Mouse event handlers
     #
 
-    def clickHandler(self, event):
-        if self._busy(): return EVENT_HANDLED
-        return EVENT_HANDLED
-
     def rightclickHandler(self, event):
         if self._busy(): return EVENT_HANDLED
         if self.popup:
             ##print event.x, event.y, event.x_root, event.y_root, event.__dict__
             self.popup.tk_popup(event.x_root, event.y_root)
-        return EVENT_HANDLED
-
-    def middleclickHandler(self, event):
-        if self._busy(): return EVENT_HANDLED
-        if 1 <= self.side <= 2:
-            self.menubar.setToolbarSide(3 - self.side)
         return EVENT_HANDLED
 
     def getSize(self):

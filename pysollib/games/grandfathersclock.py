@@ -135,7 +135,56 @@ class GrandfathersClock(Game):
         return ((), (), ())
 
 
+# /***********************************************************************
+# // Dial
+# ************************************************************************/
+
+class Dial(Game):
+
+    def createGame(self):
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+8*l.XS, l.YM+4*l.YS)
+
+        x0, y0 = l.XM+2*l.XS, l.YM
+        rank = 0
+        for xx, yy in ((3.5, 0.15),
+                       (4.5, 0.5),
+                       (5,   1.5),
+                       (4.5, 2.5),
+                       (3.5, 2.85),
+                       (2.5, 3),
+                       (1.5, 2.85),
+                       (0.5, 2.5),
+                       (0,   1.5),
+                       (0.5, 0.5),
+                       (1.5, 0.15),
+                       (2.5, 0),
+                       (2.5, 1.5),
+                       ):
+            x = int(x0 + xx*l.XS)
+            y = int(y0 + yy*l.YS)
+            s.foundations.append(AC_FoundationStack(x, y, self, suit=ANY_SUIT,
+                                 dir=0, max_cards=4, base_rank=rank, max_move=0))
+            rank += 1
+
+        x, y = l.XM, l.YM
+        s.talon = WasteTalonStack(x, y, self, max_rounds=2)
+        l.createText(s.talon, 's')
+        x += l.XS
+        s.waste = WasteStack(x, y, self)
+        l.createText(s.waste, 's')
+
+        l.defaultStackGroups()
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealCards()          # deal first card to WasteStack
+
+
+
 # register the game
 registerGame(GameInfo(261, GrandfathersClock, "Grandfather's Clock",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_BALANCED))
+registerGame(GameInfo(682, Dial, "Dial",
+                      GI.GT_1DECK_TYPE, 1, 1, GI.SL_LUCK))
 

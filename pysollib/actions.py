@@ -623,7 +623,7 @@ class PysolMenubarActions:
                     self.game.updateStatus(stats=self.app.stats.getStats(self.app.opt.player, self.game.id))
             elif mode == 401:
                 # start a new game with a gameid
-                if gameid:
+                if gameid and gameid != self.game.id:
                     self.game.endGame()
                     self.game.quitGame(gameid)
             elif mode == 402:

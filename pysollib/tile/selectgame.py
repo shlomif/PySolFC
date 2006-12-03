@@ -326,34 +326,24 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         ##padx, pady = kw.padx, kw.pady
         padx, pady = kw.padx/2, kw.pady/2
         # PanedWindow
-        if Tkinter.TkVersion >= 8.4:
-            paned_window = Tkinter.PanedWindow(top_frame)
-            paned_window.pack(expand=1, fill='both')
-            left_frame = Tkinter.Frame(paned_window)
-            right_frame = Tkinter.Frame(paned_window)
-            paned_window.add(left_frame)
-            paned_window.add(right_frame)
-        else:
-            left_frame = Tkinter.Frame(top_frame)
-            right_frame = Tkinter.Frame(top_frame)
-            left_frame.pack(side='left', expand=1, fill='both')
-            right_frame.pack(side='right', expand=1, fill='both')
+        paned_window = Tkinter.PanedWindow(top_frame)
+        paned_window.pack(expand=1, fill='both')
+        left_frame = Tkinter.Frame(paned_window)
+        right_frame = Tkinter.Frame(paned_window)
+        paned_window.add(left_frame)
+        paned_window.add(right_frame)
         # Tree
         font = app.getFont("default")
         self.tree = self.Tree_Class(self, left_frame, key=gameid,
                                     default=kw.default, font=font, width=w1)
         self.tree.frame.pack(padx=padx, pady=pady, expand=1, fill='both')
         # LabelFrame
-        if Tkinter.TkVersion >= 8.4:
-            info_frame = Tkinter.LabelFrame(right_frame, text=_('About game'))
-            stats_frame = Tkinter.LabelFrame(right_frame, text=_('Statistics'))
-        else:
-            info_frame = Tkinter.Frame(right_frame, bd=2, relief='groove')
-            stats_frame = Tkinter.Frame(right_frame, bd=2, relief='groove')
+        info_frame = Tkinter.LabelFrame(right_frame, text=_('About game'))
         info_frame.grid(row=0, column=0, padx=padx, pady=pady,
-                        ipadx=padx, ipady=pady, sticky='nws')
+                        ipadx=4, ipady=4, sticky='nws')
+        stats_frame = Tkinter.LabelFrame(right_frame, text=_('Statistics'))
         stats_frame.grid(row=0, column=1, padx=padx, pady=pady,
-                         ipadx=padx, ipady=pady, sticky='nws')
+                         ipadx=4, ipady=4, sticky='nws')
         # Info
         self.info_labels = {}
         i = 0
@@ -362,7 +352,7 @@ class SelectGameDialogWithPreview(SelectGameDialog):
             ('altnames',    _('Alternate names:'),  info_frame,   1),
             ('category',    _('Category:'),         info_frame,   2),
             ('type',        _('Type:'),             info_frame,   3),
-            ('skill_level', _('Skill level:'),    info_frame,   4),
+            ('skill_level', _('Skill level:'),      info_frame,   4),
             ('decks',       _('Decks:'),            info_frame,   5),
             ('redeals',     _('Redeals:'),          info_frame,   6),
             #
@@ -374,9 +364,9 @@ class SelectGameDialogWithPreview(SelectGameDialog):
             ('percent',     _('% won:'),            stats_frame,  5),
             ):
             title_label = Tkinter.Label(f, text=t, justify='left', anchor='w')
-            title_label.grid(row=row, column=0, sticky='nw')
+            title_label.grid(row=row, column=0, sticky='nw', padx=4)
             text_label = Tkinter.Label(f, justify='left', anchor='w')
-            text_label.grid(row=row, column=1, sticky='nw')
+            text_label.grid(row=row, column=1, sticky='nw', padx=4)
             self.info_labels[n] = (title_label, text_label)
         ##info_frame.columnconfigure(1, weight=1)
         info_frame.rowconfigure(6, weight=1)

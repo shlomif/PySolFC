@@ -200,18 +200,12 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             w1, w2 = 216, 400
         else:
             w1, w2 = 200, 300
-        if Tkinter.TkVersion >= 8.4:
-            paned_window = Tkinter.PanedWindow(top_frame)
-            paned_window.pack(expand=1, fill='both')
-            left_frame = Tkinter.Frame(paned_window)
-            right_frame = Tkinter.Frame(paned_window)
-            paned_window.add(left_frame)
-            paned_window.add(right_frame)
-        else:
-            left_frame = Tkinter.Frame(top_frame)
-            right_frame = Tkinter.Frame(top_frame)
-            left_frame.pack(side='left', expand=0, fill='both')
-            right_frame.pack(side='right', expand=1, fill='both')
+        paned_window = Tkinter.PanedWindow(top_frame)
+        paned_window.pack(expand=1, fill='both')
+        left_frame = Tkinter.Frame(paned_window)
+        right_frame = Tkinter.Frame(paned_window)
+        paned_window.add(left_frame)
+        paned_window.add(right_frame)
         font = app.getFont("default")
         self.tree = self.Tree_Class(self, left_frame, key=key,
                                     default=kw.default,
@@ -316,10 +310,7 @@ class CardsetInfoDialog(MfxDialog):
         frame.pack(fill="both", expand=True, padx=5, pady=10)
         #
         #
-        if Tkinter.TkVersion >= 8.4:
-            info_frame = Tkinter.LabelFrame(frame, text=_('About cardset'))
-        else:
-            info_frame = Tkinter.Frame(frame)
+        info_frame = Tkinter.LabelFrame(frame, text=_('About cardset'))
         info_frame.grid(row=0, column=0, columnspan=2, sticky='ew',
                         padx=0, pady=5, ipadx=5, ipady=5)
         styles = nationalities = year = None
@@ -343,10 +334,10 @@ class CardsetInfoDialog(MfxDialog):
             if not t is None:
                 l = Tkinter.Label(info_frame, text=n,
                                   anchor='w', justify='left')
-                l.grid(row=row, column=0, sticky='nw')
+                l.grid(row=row, column=0, sticky='nw', padx=4)
                 l = Tkinter.Label(info_frame, text=t,
                                   anchor='w', justify='left')
-                l.grid(row=row, column=1, sticky='nw')
+                l.grid(row=row, column=1, sticky='nw', padx=4)
                 row += 1
         if images:
             try:

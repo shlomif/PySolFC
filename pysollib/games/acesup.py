@@ -269,11 +269,14 @@ class AcesUp5(AcesUp):
 
 # /***********************************************************************
 # // Cover
+# // Deck
 # ************************************************************************/
 
 class Cover_RowStack(MonteCarlo_RowStack):
     def acceptsCards(self, from_stack, cards):
         if not OpenStack.acceptsCards(self, from_stack, cards):
+            return False
+        if not self.cards:
             return False
         return self.cards[-1].suit == cards[0].suit
 
@@ -283,7 +286,7 @@ class Cover(AcesUp):
     Talon_Class = TalonStack
     RowStack_Class = StackWrapper(Cover_RowStack, max_accept=1)
 
-    FILL_STACKS_AFTER_DROP = 0 # for MonteCarlo_RowStack
+    FILL_STACKS_AFTER_DROP = 0          # for MonteCarlo_RowStack
 
     def fillStack(self, stack):
         if not self.s.talon.cards:
@@ -297,7 +300,15 @@ class Cover(AcesUp):
 
 
     def isGameWon(self):
+        if self.s.talon.cards:
+            return False
         return len(self.s.foundations[0].cards) == 48
+
+
+class Deck(Cover):
+    Talon_Class = DealRowTalonStack
+    def fillStack(self, stack):
+        pass
 
 
 # /***********************************************************************
@@ -335,3 +346,5 @@ registerGame(GameInfo(552, Cover, "Cover",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_LUCK))
 registerGame(GameInfo(583, FiringSquad, "Firing Squad",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))
+registerGame(GameInfo(684, Deck, "Deck",
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_LUCK))

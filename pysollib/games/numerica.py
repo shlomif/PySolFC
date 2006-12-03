@@ -58,6 +58,10 @@ class Numerica_Hint(DefaultHint):
 
     def _getMoveWasteScore(self, score, color, r, t, pile, rpile):
         assert r in (self.game.s.waste, self.game.s.talon) and len(pile) == 1
+        score = self._computeScore(r, t)
+        return score, color
+
+    def _computeScore(self, r, t):
         score = 30000
         if len(t.cards) == 0:
             score = score - (KING - r.cards[0].rank) * 1000
@@ -68,7 +72,7 @@ class Numerica_Hint(DefaultHint):
             score = 20000
         else:
             score = score - (t.cards[-1].rank - r.cards[0].rank) * 1000
-        return score, color
+        return score
 
 
 # /***********************************************************************
@@ -541,6 +545,24 @@ class Chamberlain(Gloaming):
 # // Toad
 # ************************************************************************/
 
+class Toad_Hint(Numerica_Hint):
+    def computeHints(self):
+        self.step010(self.game.s.rows, self.game.s.rows)
+        self.step060(self.game.sg.reservestacks, self.game.s.rows)
+
+    # try if we should move a card from a ReserveStack to a RowStack
+    def step060(self, reservestacks, rows):
+        for r in reservestacks:
+            if not r.cards:
+                continue
+            for t in rows:
+                if t.cards:
+                    score = self._computeScore(r, t)
+                    self.addHint(score, 1, r, t)
+                else:
+                    self.addHint(90000+r.cards[-1].rank, 1, r, t)
+
+
 class Toad_TalonStack(DealRowTalonStack):
     def canDealCards(self):
         if not DealRowTalonStack.canDealCards(self):
@@ -554,7 +576,7 @@ class Toad_TalonStack(DealRowTalonStack):
 
 
 class Toad(Game):
-    #Hint_Class = Numerica_Hint
+    Hint_Class = Toad_Hint
 
     def createGame(self, reserves=3, rows=5):
         # create layout
@@ -866,7 +888,7 @@ registerGame(GameInfo(378, Gloaming, "Gloaming",
 registerGame(GameInfo(379, Chamberlain, "Chamberlain",
                       GI.GT_NUMERICA | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(402, Toad, "Toad",
-                      GI.GT_NUMERICA | GI.GT_ORIGINAL, 2, 0, GI.SL_BALANCED))
+                      GI.GT_NUMERICA, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(430, PussInTheCorner, "Puss in the Corner",
                       GI.GT_NUMERICA, 1, 1, GI.SL_BALANCED))
 registerGame(GameInfo(435, Shifting, "Shifting",

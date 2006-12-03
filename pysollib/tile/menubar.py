@@ -39,7 +39,7 @@ __all__ = ['PysolMenubar']
 # imports
 import math, os, re
 import Tile as Tkinter
-import tkColorChooser, tkFileDialog
+import tkFileDialog
 
 # PySol imports
 from pysollib.mfxutil import destruct, Struct, kwdefault
@@ -92,12 +92,11 @@ def createToolbarMenu(menubar, menu):
 ##                             variable=menubar.tkopt.toolbar_relief,
 ##                             value=Tkinter.RAISED,
 ##                             command=menubar.mOptToolbarRelief)
-    if Tkinter.TkVersion >= 8.4:
-        submenu = MfxMenu(menu, label=n_('Compound'), tearoff=tearoff)
-        for comp, label in COMPOUNDS:
-            submenu.add_radiobutton(
-                label=label, variable=menubar.tkopt.toolbar_compound,
-                value=comp, command=menubar.mOptToolbarCompound)
+    submenu = MfxMenu(menu, label=n_('Compound'), tearoff=tearoff)
+    for comp, label in COMPOUNDS:
+        submenu.add_radiobutton(
+            label=label, variable=menubar.tkopt.toolbar_compound,
+            value=comp, command=menubar.mOptToolbarCompound)
     menu.add_separator()
     menu.add_radiobutton(label=n_("Hide"),
                          variable=menubar.tkopt.toolbar, value=0,
@@ -1176,7 +1175,7 @@ class PysolMenubar(PysolMenubarActions):
                                         title=_("Select table background"),
                                         manager=self.app.tabletile_manager,
                                         key=key)
-        if d.status == 0 and d.button in (0, 1):
+        if d.status == 0 and d.button == 0:
             if type(d.key) is str:
                 tile = self.app.tabletile_manager.get(0)
                 tile.color = d.key

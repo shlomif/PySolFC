@@ -142,10 +142,7 @@ class SoundOptionsDialog(MfxDialog):
             # remove "Apply" button
             kw.strings[1] = None
         #
-        if Tkinter.TkVersion >= 8.4:
-            frame = Tkinter.LabelFrame(top_frame, text=_('Enable samles'))
-        else:
-            frame = Tkinter.Frame(top_frame, bd=2, relief='groove')
+        frame = Tkinter.LabelFrame(top_frame, text=_('Enable samles'))
         frame.pack(expand=1, fill='both', padx=5, pady=5)
         frame.columnconfigure(0, weight=1)
         frame.columnconfigure(1, weight=1)

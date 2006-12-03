@@ -167,6 +167,7 @@ class FortyThieves(Game):
 # // Marie Rose
 # // Big Courtyard
 # // San Juan Hill
+# // Famous Fifty
 # //   rows build down by suit
 # ************************************************************************/
 
@@ -267,6 +268,10 @@ class SanJuanHill(FortyThieves):
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
         FortyThieves.startGame(self)
+
+
+class FamousFifty(FortyThieves):
+    DEAL = (0, 5)
 
 
 # /***********************************************************************
@@ -1239,4 +1244,6 @@ registerGame(GameInfo(632, Floradora, "Floradora",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(679, TripleInterchange, "Triple Interchange",
                       GI.GT_FORTY_THIEVES, 3, -1, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(683, FamousFifty, "Famous Fifty",
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL))
 

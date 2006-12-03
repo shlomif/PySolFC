@@ -1179,7 +1179,7 @@ class PysolMenubar(PysolMenubarActions):
                                         title=_("Select table background"),
                                         manager=self.app.tabletile_manager,
                                         key=key)
-        if d.status == 0 and d.button in (0, 1):
+        if d.status == 0 and d.button == 0:
             if type(d.key) is str:
                 tile = self.app.tabletile_manager.get(0)
                 tile.color = d.key

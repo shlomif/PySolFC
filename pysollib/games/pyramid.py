@@ -1080,6 +1080,39 @@ class TwoPyramids(Pyramid):
         self.sg.openstacks.append(s.waste)
 
 
+# /***********************************************************************
+# // King Tut
+# ************************************************************************/
+
+class KingTut(RelaxedPyramid):
+
+    def createGame(self):
+        l, s = Layout(self), self.s
+
+        w = l.XM + max(7*l.XS, 2*l.XS+23*l.XOFFSET)
+        h = l.YM + 5.5*l.YS
+        self.setSize(w, h)
+
+        x, y = l.XM+(w-7*l.XS)/2, l.YM
+        s.rows = self._createPyramid(l, x, y, 7)
+
+        x, y = l.XM, self.height-l.YS
+        s.talon = WasteTalonStack(x, y, self, max_rounds=UNLIMITED_REDEALS, num_deal=3)
+        l.createText(s.talon, "n")
+        x += l.XS
+        s.waste = Pyramid_Waste(x, y, self, max_accept=1)
+        s.waste.CARD_XOFFSET = l.XOFFSET
+        l.createText(s.waste, "n")
+
+        x, y = self.width - l.XS, l.YM
+        s.foundations.append(self.Foundation_Class(x, y, self,
+                             suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
+                             max_move=0, max_cards=52))
+
+        l.defaultStackGroups()
+        self.sg.openstacks.append(s.waste)
+
+
 
 # register the game
 registerGame(GameInfo(38, Pyramid, "Pyramid",
@@ -1115,4 +1148,6 @@ registerGame(GameInfo(674, Exit, "Exit",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(677, TwoPyramids, "Two Pyramids",
                       GI.GT_PAIRING_TYPE | GI.GT_ORIGINAL, 2, 2, GI.SL_MOSTLY_LUCK))
+registerGame(GameInfo(681, KingTut, "King Tut",
+                      GI.GT_PAIRING_TYPE, 1, -1, GI.SL_MOSTLY_LUCK))
 

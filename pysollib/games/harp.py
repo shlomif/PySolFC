@@ -46,7 +46,7 @@ from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 from pysollib.hint import KlondikeType_Hint
 from pysollib.pysoltk import MfxCanvasText
 
-from spider import Spider_Hint
+from spider import Spider_RowStack, Spider_SS_Foundation, Spider_Hint
 
 
 # /***********************************************************************
@@ -313,6 +313,31 @@ class ThievesOfEgypt(DoubleKlondike):
         self.s.talon.dealCards()          # deal first card to WasteStack
 
 
+# /***********************************************************************
+# // Brush
+# ************************************************************************/
+
+class Brush(DoubleKlondike):
+    Layout_Method = Layout.klondikeLayout
+    Foundation_Class = Spider_SS_Foundation
+    RowStack_Class = Spider_SS_RowStack
+    Hint_Class = Spider_Hint
+
+    def createGame(self):
+        DoubleKlondike.createGame(self, rows=10, max_rounds=1)
+
+    def startGame(self):
+        for i in range(3):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()        # deal first card to WasteStack
+
+    shallHighlightMatch = Game._shallHighlightMatch_RK
+    getQuickPlayScore = Game._getSpiderQuickPlayScore
+
+
+
 # register the game
 registerGame(GameInfo(21, DoubleKlondike, "Double Klondike",
                       GI.GT_KLONDIKE, 2, -1, GI.SL_BALANCED))
@@ -348,4 +373,6 @@ registerGame(GameInfo(668, DoubleKingsley, "Double Kingsley",
                       GI.GT_KLONDIKE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(678, ThievesOfEgypt, "Thieves of Egypt",
                       GI.GT_KLONDIKE, 2, 1, GI.SL_BALANCED))
+registerGame(GameInfo(689, Brush, "Brush",
+                      GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 

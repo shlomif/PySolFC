@@ -539,6 +539,63 @@ class DoubleAcquaintance(AuldLangSyne):
         AuldLangSyne.createGame(self, rows=8, texts=True)
 
 
+# /***********************************************************************
+# // Formic
+# ************************************************************************/
+
+class Formic_Foundation(AbstractFoundationStack):
+    def acceptsCards(self, from_stack, cards):
+        if not AbstractFoundationStack.acceptsCards(self, from_stack, cards):
+            return 0
+        # check the rank
+        return ((self.cards[-1].rank+1) % 13 == cards[0].rank or
+                (self.cards[-1].rank-1) % 13 == cards[0].rank)
+
+    def getHelp(self):
+        return _('Foundation. Build up or down regardless of suit.')
+
+
+class Formic(TamOShanter):
+
+    def createGame(self):
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+6*l.XS, l.YM+2*l.YS+12*l.YOFFSET)
+
+        x, y, = l.XM, l.YM
+        s.talon = self.Talon_Class(x, y, self)
+        l.createText(s.talon, "s")
+        x, y = l.XM+2*l.XS, l.YM
+        for i in range(4):
+            s.foundations.append(Formic_Foundation(x, y, self,
+                                 suit=ANY_SUIT, base_rank=ANY_RANK,
+                                 max_cards=52, max_move=0))
+            x += l.XS
+        x, y = l.XM+2*l.XS, l.YM+l.YS
+        for i in range(4):
+            s.rows.append(BasicRowStack(x, y, self, max_move=1, max_accept=0))
+            x += l.XS
+
+        l.defaultStackGroups()
+
+    def _shuffleHook(self, cards):
+        suits = []
+        top_cards = []
+        for c in cards[:]:
+            if c.suit not in suits:
+                suits.append(c.suit)
+                top_cards.append(c)
+                cards.remove(c)
+            if len(suits) == 4:
+                break
+        top_cards.sort(lambda a, b: cmp(b.suit, a.suit)) # sort by suit
+        return cards+top_cards
+
+    def startGame(self):
+        self.s.talon.dealRow(rows=self.s.foundations, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+
 
 # register the game
 registerGame(GameInfo(172, TamOShanter, "Tam O'Shanter",
@@ -565,4 +622,6 @@ registerGame(GameInfo(569, Primrose, "Primrose",
                       GI.GT_NUMERICA, 2, 8, GI.SL_BALANCED))
 registerGame(GameInfo(636, StrategyPlus, "Strategy +",
                       GI.GT_NUMERICA, 1, 0, GI.SL_SKILL))
+registerGame(GameInfo(688, Formic, "Formic",
+                      GI.GT_NUMERICA, 1, 0, GI.SL_MOSTLY_SKILL))
 

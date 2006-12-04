@@ -495,8 +495,9 @@ class GameManager:
                   (gi.id, str(gi.gameclass),
                    str(self.__all_games[gi.id].gameclass))
         if self.__all_gamenames.has_key(gi.name):
+            gameclass = self.__all_gamenames[gi.name].gameclass
             raise GameInfoException, "duplicate game name %s: %s and %s" % \
-                  (gi.id, gi.name, str(self.__all_games[gi.id].gameclass))
+                  (gi.name, str(gi.gameclass), str(gameclass))
         if 1:
             for id, game in self.__all_games.items():
                 if gi.gameclass is game.gameclass:

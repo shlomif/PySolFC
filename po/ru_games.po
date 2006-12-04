@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "POT-Creation-Date: Thu Nov 30 16:31:56 2006\n"
-"PO-Revision-Date: 2006-11-30 16:06+0300\n"
+"PO-Revision-Date: 2006-12-04 16:26+0300\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3735,7 +3735,7 @@ msgid "Wheel of Fortune"
 msgstr "Колесо фортуны"
 
 msgid "Whitehead"
-msgstr ""
+msgstr "Уайтхэд"
 
 #, fuzzy
 msgid "Whitehorse"

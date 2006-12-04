@@ -629,7 +629,7 @@ class Jane(Klondike):
         s.talon = self.Talon_Class(x, y, self, max_rounds=max_rounds)
         l.createText(s.talon, 's')
         x += l.XS
-        s.waste = WasteStack(l.XM+l.XS, l.YM, self)
+        s.waste = WasteStack(x, y, self)
 
         x += 2*l.XS
         for i in range(4):

@@ -1143,6 +1143,58 @@ class Tarantula(Spider):
         return 0
 
 
+# /***********************************************************************
+# // Fechter's Game
+# ************************************************************************/
+
+class FechtersGame_Talon(TalonStack):
+    def dealCards(self, sound=1):
+        if self.cards:
+            rows = []
+            for r in self.game.s.rows:
+                king_seq = False
+                for i in range(len(r.cards)):
+                    if isAlternateColorSequence(r.cards[-i-1:]):
+                        if r.cards[-i-1].rank == KING:
+                            king_seq = True
+                            break
+                    else:
+                        break
+                if not king_seq:
+                    rows.append(r)
+            return self.dealRowAvail(rows=rows, sound=sound)
+        return 0
+
+
+class FechtersGame_RowStack(AC_RowStack):
+    def canDropCards(self, stacks):
+        if len(self.cards) < 13:
+            return (None, 0)
+        cards = self.cards[-13:]
+        for s in stacks:
+            if s is not self and s.acceptsCards(self, cards):
+                return (s, 13)
+        return (None, 0)
+
+class FechtersGame(RelaxedSpider):
+    Talon_Class = FechtersGame_Talon
+    Foundation_Class = StackWrapper(Spider_AC_Foundation, base_rank=KING, mod=13)
+    RowStack_Class = StackWrapper(FechtersGame_RowStack, base_rank=KING)
+
+    def createGame(self):
+        RelaxedSpider.createGame(self, rows=12)
+
+    def startGame(self):
+        self.s.talon.dealRow(flip=0, frames=0)
+        self.s.talon.dealRow(flip=1, frames=0)
+        self.s.talon.dealRow(flip=0, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+    shallHighlightMatch = Game._shallHighlightMatch_AC
+
+
+
 # register the game
 registerGame(GameInfo(10, RelaxedSpider, "Relaxed Spider",
                       GI.GT_SPIDER | GI.GT_RELAXED, 2, 0, GI.SL_MOSTLY_SKILL))
@@ -1259,5 +1311,7 @@ registerGame(GameInfo(671, Incompatibility, "Incompatibility",
 registerGame(GameInfo(672, ScorpionII, "Scorpion II",
                       GI.GT_SPIDER, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(680, Tarantula, "Tarantula",
+                      GI.GT_SPIDER, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(685, FechtersGame, "Fechter's Game",
                       GI.GT_SPIDER, 2, 0, GI.SL_MOSTLY_SKILL))
 

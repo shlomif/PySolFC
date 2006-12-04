@@ -411,6 +411,42 @@ class SweetSixteen(TrustyTwelve):
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
+# /***********************************************************************
+# // Glacier
+# ************************************************************************/
+
+class Glacier(Game):
+
+    def createGame(self, rows=12):
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+rows*l.XS, l.YM+2*l.YS+l.TEXT_HEIGHT+20*l.YOFFSET)
+
+        x, y = l.XM+(rows-4)/2*l.XS, l.YM
+        for i in range(4):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i,
+                                 mod=13, max_cards=26))
+            x += l.XS
+        x, y = l.XM, l.YM+l.YS+l.TEXT_HEIGHT
+        for i in range(rows):
+            s.rows.append(RK_RowStack(x, y, self, mod=13))
+            x += l.XS
+        x, y = l.XM, l.YM
+        s.talon = WasteTalonStack(x, y, self, num_deal=2, max_rounds=1)
+        l.createText(s.talon, 's')
+        x = x + l.XS
+        s.waste = WasteStack(x, y, self, max_cards=2)
+        s.waste.CARD_XOFFSET = l.XOFFSET
+
+        l.defaultStackGroups()
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()          # deal first card to WasteStack
+
+    shallHighlightMatch = Game._shallHighlightMatch_RKW
+
+
 
 # register the game
 registerGame(GameInfo(294, CurdsAndWhey, "Curds and Whey",
@@ -439,5 +475,7 @@ registerGame(GameInfo(482, SweetSixteen, "Sweet Sixteen",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(534, Harvestman, "Harvestman",
                       GI.GT_SPIDER | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(687, Glacier, "Glacier",
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 
 

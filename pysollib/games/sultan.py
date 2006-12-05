@@ -959,6 +959,55 @@ class Toni(Game):
         self.s.talon.dealRow()
 
 
+# /***********************************************************************
+# // Khedive
+# ************************************************************************/
+
+class Khedive(Game):
+
+    def createGame(self):
+
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+10*l.XS, l.YM+5*l.YS)
+
+        x, y = l.XM, l.YM
+        for i in range(4):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
+            s.foundations.append(SS_FoundationStack(x+6*l.XS, y, self, suit=i))
+            x += l.XS
+
+        x, y = l.XM+4*l.XS, l.YM
+        r = range(11)
+        for i in range(5,0,-1):
+            for j in r[i:-i]:
+                x, y = l.XM+(j-0.5)*l.XS, l.YM+(5-i)*l.YS
+                s.rows.append(BasicRowStack(x, y, self, max_accept=0))
+
+
+        x, y = l.XM, l.YM+1.5*l.YS
+        s.talon = WasteTalonStack(x, y, self, max_rounds=1)
+        l.createText(s.talon, 'ne')
+        y += l.YS
+        s.waste = WasteStack(x, y, self)
+        l.createText(s.waste, 'ne')
+
+        l.defaultStackGroups()
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
+
+    def fillStack(self, stack):
+        if stack in self.s.rows and not stack.cards:
+            old_state = self.enterState(self.S_FILL)
+            if not self.s.waste.cards:
+                self.s.talon.dealCards()
+            if self.s.waste.cards:
+                self.s.waste.moveMove(1, stack)
+            self.leaveState(old_state)
+
+
 
 # register the game
 registerGame(GameInfo(330, Sultan, "Sultan",
@@ -999,3 +1048,5 @@ registerGame(GameInfo(646, Adela, "Adela",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(660, Toni, "Toni",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_MOSTLY_LUCK))
+registerGame(GameInfo(691, Khedive, "Khedive",
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_LUCK))

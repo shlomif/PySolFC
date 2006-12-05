@@ -320,7 +320,7 @@ class ThievesOfEgypt(DoubleKlondike):
 class Brush(DoubleKlondike):
     Layout_Method = Layout.klondikeLayout
     Foundation_Class = Spider_SS_Foundation
-    RowStack_Class = Spider_SS_RowStack
+    RowStack_Class = Spider_RowStack
     Hint_Class = Spider_Hint
 
     def createGame(self):

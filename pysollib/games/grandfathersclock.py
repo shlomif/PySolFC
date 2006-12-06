@@ -187,6 +187,17 @@ class Dial(Game):
 
 BLACK, RED = 0, 1
 
+
+class Hemispheres_Hint(DefaultHint):
+    def shallMovePile(self, from_stack, to_stack, pile, rpile):
+        if not self._defaultShallMovePile(from_stack, to_stack, pile, rpile):
+            return False
+        if from_stack in self.game.s.rows and to_stack in self.game.s.rows:
+            # check for loops
+            return len(from_stack.cards) == 1
+        return True
+
+
 class Hemispheres_RowStack(SC_RowStack):
 
     def _canSwapPair(self, from_stack):
@@ -240,7 +251,7 @@ class Hemispheres_RowStack(SC_RowStack):
 
 
 class Hemispheres(Game):
-    Hint_Class = CautiousDefaultHint
+    Hint_Class = Hemispheres_Hint
 
     def createGame(self):
 

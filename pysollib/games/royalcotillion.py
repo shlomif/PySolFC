@@ -979,6 +979,111 @@ class BoxingTheCompass(FourWinds):
     pass
 
 
+# /***********************************************************************
+# // Colonel
+# ************************************************************************/
+
+class Colonel_Hint(DefaultHint):
+    def _getMoveCardBonus(self, r, t, pile, rpile):
+        if r in self.game.s.rows and t in self.game.s.rows:
+            if rpile:
+                return 0
+        return DefaultHint._getMoveCardBonus(self, r, t, pile, rpile)
+
+
+class Colonel_RowStack(SS_RowStack):
+
+    def _getStackIndex(self, stack):
+        index = list(self.game.s.rows).index(stack)
+        if index < 12:
+            row = 0
+        elif 12 <= index < 24:
+            row = 1
+        else:
+            row = 2
+        return index, row
+
+    def acceptsCards(self, from_stack, cards):
+        if not SS_RowStack.acceptsCards(self, from_stack, cards):
+            return False
+
+        self_index, self_row = self._getStackIndex(self)
+
+        if self_row in (1,2):
+            above_stack = self.game.s.rows[self_index-12]
+            if not above_stack.cards:
+                return False
+
+        below_stack = None
+        if self_row in (0,1):
+            below_stack = self.game.s.rows[self_index+12]
+
+        # from_stack is waste
+        if from_stack is self.game.s.waste:
+            if below_stack is None or not below_stack.cards:
+                return True
+            else:
+                return False
+
+        #  from_stack in rows
+        from_index, from_row = self._getStackIndex(from_stack)
+        if below_stack and below_stack.cards:
+            return from_stack is below_stack
+        return from_row > self_row
+
+    def canMoveCards(self, cards):
+        self_index, self_row = self._getStackIndex(self)
+        if self_row in (0,1):
+            below_stack = self.game.s.rows[self_index+12]
+            if below_stack.cards:
+                return False
+        return SS_RowStack.canMoveCards(self, cards)
+
+    def getBottomImage(self):
+        return self.game.app.images.getReserveBottom()
+
+
+class Colonel(Game):
+    Hint_Class = Colonel_Hint
+
+    def createGame(self):
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+12*l.XS, l.YM+5*l.YS)
+
+        x, y = l.XM+2*l.XS, l.YM
+        for i in range(8):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i%4,
+                                                    max_move=0))
+            x += l.XS
+
+        y = l.YM+l.YS
+        for i in range(3):
+            x = l.XM
+            for j in range(12):
+                stack = Colonel_RowStack(x, y, self, max_move=1)
+                stack.CARD_YOFFSET = 0
+                s.rows.append(stack)
+                x += l.XS
+            y += l.YS
+
+        x, y = l.XM+5*l.XS, l.YM+4*l.YS
+        s.talon = WasteTalonStack(x, y, self, max_rounds=1)
+        l.createText(s.talon, 'sw')
+        x += l.XS
+        s.waste = WasteStack(x, y, self)
+        l.createText(s.waste, 'se')
+
+        l.defaultStackGroups()
+
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
+
+    shallHighlightMatch = Game._shallHighlightMatch_SS
+
+
 
 # register the game
 registerGame(GameInfo(54, RoyalCotillion, "Royal Cotillion",
@@ -1017,4 +1122,6 @@ registerGame(GameInfo(675, FourWinds, "Four Winds",
                       GI.GT_1DECK_TYPE, 1, 1, GI.SL_BALANCED))
 registerGame(GameInfo(676, BoxingTheCompass, "Boxing the Compass",
                       GI.GT_2DECK_TYPE, 2, 1, GI.SL_BALANCED))
+registerGame(GameInfo(693, Colonel, "Colonel",
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
 

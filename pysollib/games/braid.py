@@ -372,6 +372,143 @@ class BigBraid(Braid):
     Foundation_Classes = [Braid_Foundation, Braid_Foundation, Braid_Foundation]
 
 
+# /***********************************************************************
+# // Casket
+# ************************************************************************/
+
+class Casket_Hint(CautiousDefaultHint):
+    def computeHints(self):
+        CautiousDefaultHint.computeHints(self)
+        if self.hints:
+            return
+        if not self.game.s.waste.cards:
+            return
+        r = self.game.s.waste.cards[-1].rank
+        if 0 <= r <= 3:
+            to_stack = self.game.s.reserves[0]
+        elif 4 <= r <= 7:
+            to_stack = self.game.s.reserves[1]
+        else:
+            to_stack = self.game.s.reserves[2]
+        self.addHint(5000, 1, self.game.s.waste, to_stack)
+
+
+class JewelsStack(OpenStack):
+    def canFlipCard(self):
+        return False
+
+
+class Casket_RowStack(SS_RowStack):
+    def getBottomImage(self):
+        return self.game.app.images.getReserveBottom()
+    def acceptsCards(self, from_stack, cards):
+        if not SS_RowStack.acceptsCards(self, from_stack, cards):
+            return False
+        if not self.cards:
+            # don't accepts from lid
+            return from_stack not in self.game.s.lid
+        return True
+
+
+class Casket_Reserve(ReserveStack):
+    def acceptsCards(self, from_stack, cards):
+        if not ReserveStack.acceptsCards(self, from_stack, cards):
+            return False
+        return from_stack is self.game.s.waste
+
+
+class Casket(Game):
+    Hint_Class = Casket_Hint
+
+    def createGame(self):
+        # create layout
+        l, s = Layout(self), self.s
+        font=self.app.getFont("canvas_default")
+
+        # set window
+        self.setSize(l.XM+10*l.XS, l.YM+4.5*l.YS)
+
+
+        # register extra stack variables
+        s.addattr(jewels=None)
+        s.addattr(lid=[])
+
+        # create stacks
+        # Lid
+        x0, y0 = l.XM+2.5*l.XS, l.YM
+        for xx, yy in ((0, 0.5),
+                       (1, 0.25),
+                       (2, 0),
+                       (3, 0.25),
+                       (4, 0.5),
+                       ):
+            x, y = x0+xx*l.XS, y0+yy*l.YS
+            s.lid.append(BasicRowStack(x, y, self, max_accept=0))
+
+        # Casket
+        x0, y0 = l.XM+3*l.XS, l.YM+1.5*l.YS
+        for xx, yy in ((0,0),            (3,0),
+                       (0,1),            (3,1),
+                       (0,2),(1,2),(2,2),(3,2),
+                       ):
+            x, y = x0+xx*l.XS, y0+yy*l.YS
+            stack = Casket_RowStack(x, y, self, max_move=1)
+            stack.CARD_YOFFSET = 0
+            s.rows.append(stack)
+
+        # Reserves
+        x, y = l.XM, l.YM+1.5*l.YS
+        for i in range(3):
+            stack = Casket_Reserve(x, y, self, max_cards=UNLIMITED_CARDS)
+            l.createText(stack, "ne")
+            s.reserves.append(stack)
+            y += l.YS
+
+        # Foundations
+        x = l.XM+8*l.XS
+        for i in range(2):
+            y = l.YM
+            for j in range(4):
+                s.foundations.append(SS_FoundationStack(x, y, self, suit=j))
+                y += l.YS
+            x += l.XS
+
+        # Jewels
+        x, y = l.XM+4.5*l.XS, l.YM+2*l.YS
+        s.jewels = JewelsStack(x, y, self)
+        l.createText(s.jewels, "s")
+
+        # waste & talon
+        x, y = l.XM, l.YM
+        s.talon = WasteTalonStack(x, y, self, max_rounds=1)
+        l.createText(s.talon, "s")
+        x += l.XS
+        s.waste = WasteStack(x, y, self, max_cards=1)
+
+        # define stack-groups
+        self.sg.talonstacks = [s.talon] + [s.waste]
+        self.sg.openstacks = s.foundations + s.rows + s.reserves
+        self.sg.dropstacks = s.lid + s.rows + [s.waste] + s.reserves
+
+
+    def startGame(self):
+        for i in range(13):
+            self.s.talon.dealRow(rows=[self.s.jewels], frames=0, flip=0)
+        self.startDealSample()
+        self.s.talon.dealToStacksOrFoundations(stacks=self.s.lid)
+        self.s.talon.dealToStacksOrFoundations(stacks=self.s.rows)
+        self.s.talon.dealCards()
+
+    def fillStack(self, stack):
+        if not stack.cards and stack in self.s.lid:
+            if self.s.jewels.cards:
+                old_state = self.enterState(self.S_FILL)
+                self.s.jewels.flipMove()
+                self.s.jewels.moveMove(1, stack)
+                self.leaveState(old_state)
+
+    shallHighlightMatch = Game._shallHighlightMatch_SS
+
 
 # register the game
 registerGame(GameInfo(12, Braid, "Braid",
@@ -388,3 +525,5 @@ registerGame(GameInfo(377, BackbonePlus, "Backbone +",
                       GI.GT_NAPOLEON, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(510, BigBraid, "Big Braid",
                       GI.GT_NAPOLEON | GI.GT_ORIGINAL, 3, 2, GI.SL_BALANCED))
+registerGame(GameInfo(694, Casket, "Casket",
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))

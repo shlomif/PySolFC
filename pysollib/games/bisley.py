@@ -32,6 +32,7 @@ from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.pysoltk import MfxCanvasText
 
 
 # /***********************************************************************
@@ -275,6 +276,83 @@ class HospitalPatience(Game):
 
 
 
+# /***********************************************************************
+# // Board Patience
+# ************************************************************************/
+
+class BoardPatience(Game):
+    Hint_Class = CautiousDefaultHint
+
+    def createGame(self):
+
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+10*l.XS, l.YM+2*l.YS+12*l.YOFFSET)
+
+        # extra settings
+        self.base_card = None
+
+        # create stacks
+        x, y = l.XM+3*l.XS, l.YM
+        for i in range(4):
+            s.foundations.append(SS_FoundationStack(x, y, self,
+                                 suit=i, mod=13))
+            x = x + l.XS
+        tx, ty, ta, tf = l.getTextAttr(s.foundations[-1], "ne")
+        font = self.app.getFont("canvas_default")
+        self.texts.info = MfxCanvasText(self.canvas, tx, ty,
+                                        anchor=ta, font=font)
+        x, y = l.XM, l.YM+l.YS
+        for i in range(10):
+            s.rows.append(UD_AC_RowStack(x, y, self, mod=13))
+            x += l.XS
+
+        x, y = l.XM, l.YM
+        s.talon = InitialDealTalonStack(x, y, self)
+
+        # default
+        l.defaultAll()
+
+    def updateText(self):
+        if self.preview > 1:
+            return
+        if not self.texts.info:
+            return
+        if not self.base_card:
+            t = ""
+        else:
+            t = RANKS[self.base_card.rank]
+        self.texts.info.config(text=t)
+
+    def startGame(self):
+        # deal base_card to Foundations, update foundations cap.base_rank
+        self.base_card = self.s.talon.getCard()
+        for s in self.s.foundations:
+            s.cap.base_rank = self.base_card.rank
+        n = self.base_card.suit
+        self.flipMove(self.s.talon)
+        self.moveMove(1, self.s.talon, self.s.foundations[n], frames=0)
+        # deal to rows
+        for i in range(4):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealRowAvail()
+
+    shallHighlightMatch = Game._shallHighlightMatch_ACW
+
+    def _restoreGameHook(self, game):
+        self.base_card = self.cards[game.loadinfo.base_card_id]
+        for s in self.s.foundations:
+            s.cap.base_rank = self.base_card.rank
+
+    def _loadGameHook(self, p):
+        self.loadinfo.addattr(base_card_id=None)    # register extra load var.
+        self.loadinfo.base_card_id = p.load()
+
+    def _saveGameHook(self, p):
+        p.dump(self.base_card.id)
+
+
 # register the game
 registerGame(GameInfo(290, Bisley, "Bisley",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
@@ -288,4 +366,6 @@ registerGame(GameInfo(375, Mancunian, "Mancunian",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(686, HospitalPatience, "Hospital Patience",
                       GI.GT_1DECK_TYPE, 1, -1, GI.SL_MOSTLY_LUCK))
+registerGame(GameInfo(692, BoardPatience, "Board Patience",
+                      GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 

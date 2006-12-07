@@ -325,6 +325,7 @@ class Corners(Game):
 # /***********************************************************************
 # // Czarina
 # // Four Seasons
+# // Florentine Patience
 # ************************************************************************/
 
 class Czarina_RowStack(RK_RowStack):
@@ -336,10 +337,10 @@ class Czarina(Corners):
     Hint_Class = CautiousDefaultHint
     RowStack_Class = StackWrapper(Czarina_RowStack, mod=13, max_move=1)
 
-    def createGame(self):
+    def createGame(self, max_rounds=1):
         # extra settings
         self.base_card = None
-        Corners.createGame(self, max_rounds=1)
+        Corners.createGame(self, max_rounds=max_rounds)
 
     def startGame(self):
         self.startDealSample()
@@ -374,6 +375,10 @@ class Czarina(Corners):
 class FourSeasons(Czarina):
     def fillStack(self, stack):
         pass
+
+class FlorentinePatience(FourSeasons):
+    def createGame(self):
+        Czarina.createGame(self, max_rounds=2)
 
 
 # /***********************************************************************
@@ -464,4 +469,6 @@ registerGame(GameInfo(484, FourSeasons, "Four Seasons",
                       altnames=('Corner Card', 'Vanishing Cross') ))
 registerGame(GameInfo(561, DutchSolitaire, "Dutch Solitaire",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(696, FlorentinePatience, "Florentine Patience",
+                      GI.GT_1DECK_TYPE, 1, 1, GI.SL_MOSTLY_LUCK))
 

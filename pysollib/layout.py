@@ -375,7 +375,7 @@ class Layout:
         for i in range(rows):
             self.s.rows.append(S(x, y))
             x = x + XS
-        self.setRegion(self.s.rows, (-999, y - YM / 2, 999999, 999999))
+        self.setRegion(self.s.rows, (-999, y - CH / 2, 999999, 999999))
 
         # create talon
         x, y = XM, h - YS

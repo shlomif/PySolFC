@@ -361,6 +361,118 @@ class Hemispheres(Game):
         return card1.color == card2.color and abs(card1.rank-card2.rank) == 1
 
 
+# /***********************************************************************
+# // Big Ben
+# ************************************************************************/
+
+class BigBen_Talon(DealRowTalonStack):
+
+    def dealCards(self, sound=0):
+        rows = [s for s in self.game.s.rows if len(s.cards) < 3]
+        if not rows:
+            if sound and not self.game.demo:
+                self.game.playSample("dealwaste")
+            return self.dealRow(rows=[self.game.s.waste], sound=0)
+        if sound and self.game.app.opt.animations:
+            self.game.startDealSample()
+        ncards = 0
+        while rows:
+            n = self.dealRowAvail(rows=rows, sound=0)
+            if not n:
+                break
+            ncards += n
+            rows = [s for s in self.game.s.rows if len(s.cards) < 3]
+        if sound:
+            self.game.stopSamples()
+        return ncards
+
+class BigBen_RowStack(SS_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not SS_RowStack.acceptsCards(self, from_stack, cards):
+            return False
+        if len(self.cards) < 3:
+            return False
+        return True
+
+class BigBen(Game):
+    Hint_Class = CautiousDefaultHint
+
+    def createGame(self):
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+12*l.XS, l.YM+5.5*l.YS)
+
+        y = l.YM
+        for i in range(2):
+            x = l.XM
+            for j in range(6):
+                s.rows.append(BigBen_RowStack(x, y, self, max_move=1, mod=13))
+                x += l.XS
+            y += 2.75*l.YS
+
+        x0, y0 = l.XM+6*l.XS, l.YM
+        rank = 1
+        for xx, yy in (
+            (0,   1.5),
+            (0.5, 0.5),
+            (1.5, 0.15),
+            (2.5, 0),
+            (3.5, 0.15),
+            (4.5, 0.5),
+            (5,   1.5),
+            (4.5, 2.5),
+            (3.5, 2.85),
+            (2.5, 3),
+            (1.5, 2.85),
+            (0.5, 2.5),
+            ):
+            x = int(x0 + xx*l.XS)
+            y = int(y0 + yy*l.YS)
+            suit=(3,0,2,1)[rank%4]
+            max_cards = rank <= 4 and 8 or 9
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=suit,
+                                 max_cards=max_cards, base_rank=rank,
+                                 mod=13, max_move=0))
+            rank += 1
+
+        x, y = self.width-l.XS, self.height-l.YS
+        s.talon = BigBen_Talon(x, y, self, max_rounds=1)
+        l.createText(s.talon, 'n')
+        x -= l.XS
+        s.waste = WasteStack(x, y, self)
+        l.createText(s.waste, 'n')
+
+        l.defaultStackGroups()
+
+    def _shuffleHook(self, cards):
+        # move clock cards to top of the Talon (i.e. first cards to be dealt)
+        C, S, H, D = range(4)           # suits
+        t = [(1,C), (2,H), (3,S), (4,D), (5,C), (6,H),
+             (7,S), (8,D), (9,C), (JACK,H), (QUEEN,S), (KING,D)]
+        clocks = []
+        for c in cards[:]:
+            if (c.rank, c.suit) in t:
+                t.remove((c.rank, c.suit))
+                cards.remove(c)
+                clocks.append(c)
+            if not t:
+                break
+        # sort clocks reverse by rank
+        clocks.sort(lambda a, b: cmp(b.rank, a.rank))
+        return cards+clocks
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow(rows=self.s.foundations)
+        for i in range(3):
+            self.s.talon.dealRow()
+
+    def _autoDeal(self, sound=1):
+        # don't deal a card to the waste if the waste is empty
+        return 0
+
+    shallHighlightMatch = Game._shallHighlightMatch_SSW
+
+
 
 # register the game
 registerGame(GameInfo(261, GrandfathersClock, "Grandfather's Clock",
@@ -370,4 +482,7 @@ registerGame(GameInfo(682, Dial, "Dial",
 registerGame(GameInfo(690, Hemispheres, "Hemispheres",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED,
                       altnames=("The Four Continents",) ))
+registerGame(GameInfo(697, BigBen, "Big Ben",
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED,
+                      altnames=("Clock",) ))
 

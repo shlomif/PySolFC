@@ -462,7 +462,8 @@ class BritishConstitution(Game):
         # create stacks
         x, y = l.XM+l.XS, l.YM
         for i in range(8):
-            s.foundations.append(BritishConstitution_Foundation(x, y, self, suit=int(i/2), max_cards=11))
+            s.foundations.append(BritishConstitution_Foundation(x, y, self,
+                                 suit=int(i/2), max_cards=11))
             x += l.XS
 
         y = l.YM+l.YS
@@ -1084,6 +1085,80 @@ class Colonel(Game):
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
+# /***********************************************************************
+# // The Red and the Black
+# ************************************************************************/
+
+
+
+class TheRedAndTheBlack_Foundation(AC_FoundationStack):
+    def acceptsCards(self, from_stack, cards):
+        if not AC_FoundationStack.acceptsCards(self, from_stack, cards):
+            return False
+        if from_stack is self.game.s.waste or from_stack in self.game.s.rows:
+            return True
+        return False
+
+class TheRedAndTheBlack_Reserve(ReserveStack):
+    def acceptsCards(self, from_stack, cards):
+        if not ReserveStack.acceptsCards(self, from_stack, cards):
+            return False
+        if from_stack is self.game.s.waste:
+            return True
+        return False
+
+class TheRedAndTheBlack_RowStack(AC_RowStack):
+    def getBottomImage(self):
+        return self.game.app.images.getReserveBottom()
+
+
+class TheRedAndTheBlack(Game):
+    Hint_Class = CautiousDefaultHint
+
+    def createGame(self):
+
+        l, s = Layout(self), self.s
+        self.setSize(l.XM + 8*l.XS, l.YM + 4.5*l.YS)
+
+        x, y = l.XM, l.YM
+        for i in range(8):
+            s.foundations.append(TheRedAndTheBlack_Foundation(x, y, self,
+                                                              suit=i/2))
+            x += l.XS
+        x, y = l.XM+2*l.XS, l.YM+l.YS
+        for i in range(4):
+            stack = TheRedAndTheBlack_RowStack(x, y, self, max_move=1)
+            stack.CARD_YOFFSET = 0
+            s.rows.append(stack)
+            x += l.XS
+        x, y = l.XM+2*l.XS, l.YM+2*l.YS
+        for i in range(4):
+            s.reserves.append(TheRedAndTheBlack_Reserve(x, y, self))
+            x += l.XS
+        x, y = l.XM+3*l.XS, l.YM+3.5*l.YS
+        s.talon = WasteTalonStack(x, y, self, max_rounds=1)
+        l.createText(s.talon, "sw")
+        x += l.XS
+        s.waste = WasteStack(x, y, self)
+        l.createText(s.waste, "se")
+
+        # define stack-groups
+        l.defaultStackGroups()
+
+    def startGame(self):
+        self.s.talon.dealRow(rows=self.s.foundations, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealRow(rows=self.s.reserves)
+        self.s.talon.dealCards()       # deal first card to WasteStack
+
+    def _shuffleHook(self, cards):
+        # move Aces to top of the Talon (i.e. first cards to be dealt)
+        return self._shuffleHookMoveToTop(cards, lambda c: (c.rank == ACE, c.suit))
+
+    shallHighlightMatch = Game._shallHighlightMatch_AC
+
+
 
 # register the game
 registerGame(GameInfo(54, RoyalCotillion, "Royal Cotillion",
@@ -1124,4 +1199,6 @@ registerGame(GameInfo(676, BoxingTheCompass, "Boxing the Compass",
                       GI.GT_2DECK_TYPE, 2, 1, GI.SL_BALANCED))
 registerGame(GameInfo(693, Colonel, "Colonel",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(695, TheRedAndTheBlack, "The Red and the Black",
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 

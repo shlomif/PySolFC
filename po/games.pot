@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Thu Nov 30 16:31:56 2006\n"
+"POT-Creation-Date: Thu Dec  7 15:25:59 2006\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,6 +34,9 @@ msgid " 8x8 Matrix"
 msgstr ""
 
 msgid " 9x9 Matrix"
+msgstr ""
+
+msgid " Pyramid's Stones"
 msgstr ""
 
 msgid "10 x 8"
@@ -339,6 +342,9 @@ msgstr ""
 msgid "Boar"
 msgstr ""
 
+msgid "Board Patience"
+msgstr ""
+
 msgid "Boat"
 msgstr ""
 
@@ -408,6 +414,9 @@ msgstr ""
 msgid "Brunswick"
 msgstr ""
 
+msgid "Brush"
+msgstr ""
+
 msgid "Buffalo Bill"
 msgstr ""
 
@@ -460,6 +469,9 @@ msgid "Carthage"
 msgstr ""
 
 msgid "Casino Klondike"
+msgstr ""
+
+msgid "Casket"
 msgstr ""
 
 msgid "Cassim"
@@ -567,6 +579,9 @@ msgstr ""
 msgid "Cockroach"
 msgstr ""
 
+msgid "Colonel"
+msgstr ""
+
 msgid "Colorado"
 msgstr ""
 
@@ -654,6 +669,9 @@ msgstr ""
 msgid "Dead King Golf"
 msgstr ""
 
+msgid "Deck"
+msgstr ""
+
 msgid "Deep"
 msgstr ""
 
@@ -688,6 +706,9 @@ msgid "Deuces"
 msgstr ""
 
 msgid "Dhanpati"
+msgstr ""
+
+msgid "Dial"
 msgstr ""
 
 msgid "Diamond"
@@ -972,6 +993,9 @@ msgstr ""
 msgid "Falling Star"
 msgstr ""
 
+msgid "Famous Fifty"
+msgstr ""
+
 msgid "Fan"
 msgstr ""
 
@@ -997,6 +1021,9 @@ msgid "Fatimeh's Game"
 msgstr ""
 
 msgid "Fatimeh's Game Relaxed"
+msgstr ""
+
+msgid "Fechter's Game"
 msgstr ""
 
 msgid "Fifteen"
@@ -1047,6 +1074,9 @@ msgstr ""
 msgid "Floradora"
 msgstr ""
 
+msgid "Florentine Patience"
+msgstr ""
+
 msgid "Flower Arrangement"
 msgstr ""
 
@@ -1066,6 +1096,9 @@ msgid "Flying Dragon"
 msgstr ""
 
 msgid "ForeCell"
+msgstr ""
+
+msgid "Formic"
 msgstr ""
 
 msgid "Fort"
@@ -1203,6 +1236,9 @@ msgstr ""
 msgid "Giza"
 msgstr ""
 
+msgid "Glacier"
+msgstr ""
+
 msgid "Glade"
 msgstr ""
 
@@ -1335,6 +1371,9 @@ msgstr ""
 msgid "Helios"
 msgstr ""
 
+msgid "Hemispheres"
+msgstr ""
+
 msgid "Hex A Klon"
 msgstr ""
 
@@ -1360,6 +1399,9 @@ msgid "Hopscotch"
 msgstr ""
 
 msgid "Horse"
+msgstr ""
+
+msgid "Hospital Patience"
 msgstr ""
 
 msgid "House in the Wood"
@@ -1518,6 +1560,9 @@ msgstr ""
 msgid "Khadga"
 msgstr ""
 
+msgid "Khedive"
+msgstr ""
+
 msgid "King Albert"
 msgstr ""
 
@@ -1525,6 +1570,9 @@ msgid "King Only Baker's Game"
 msgstr ""
 
 msgid "King Only Hex A Klon"
+msgstr ""
+
+msgid "King Tut"
 msgstr ""
 
 msgid "KingCell"
@@ -3384,6 +3432,9 @@ msgstr ""
 msgid "The Familiar"
 msgstr ""
 
+msgid "The Four Continents"
+msgstr ""
+
 msgid "The Garden"
 msgstr ""
 
@@ -3397,6 +3448,9 @@ msgid "The Last Monarch II"
 msgstr ""
 
 msgid "The Little Corporal"
+msgstr ""
+
+msgid "The Red and the Black"
 msgstr ""
 
 msgid "The Spark"

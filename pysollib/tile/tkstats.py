@@ -391,7 +391,8 @@ class AllGames_StatsDialog(MfxDialog):
     def mDone(self, button):
         sel = self.tree.selection()
         if sel and len(sel) == 1:
-            self.selected_game = self.games[sel[0]]
+            if self.games.has_key(sel[0]):
+                self.selected_game = self.games[sel[0]]
         MfxDialog.mDone(self, button)
 
     def destroy(self):
@@ -403,7 +404,10 @@ class AllGames_StatsDialog(MfxDialog):
         sel = self.tree.selection()
         run_button = self.buttons[0]
         if sel and len(sel) == 1:
-            run_button.config(state='normal')
+            if not self.games.has_key(sel[0]): # "Total"
+                run_button.config(state='disabled')
+            else:
+                run_button.config(state='normal')
         else:
             run_button.config(state='disabled')
 

@@ -185,7 +185,6 @@ class Pyramid(Game):
                 x = x + l.XS
         # compute blocking
         n = 0
-        lr = len(rows)
         for i in range(size-1):
             for j in range(i+1):
                 k = n+i+1
@@ -193,22 +192,48 @@ class Pyramid(Game):
                 n += 1
         return rows
 
+    def _createInvertedPyramid(self, l, x0, y0, size):
+        rows = []
+        # create stacks
+        for i in range(size):
+            x = x0 + i * l.XS / 2
+            y = y0 + i * l.YS / self.PYRAMID_Y_FACTOR
+            for j in range(size-i):
+                stack = self.RowStack_Class(x, y, self)
+                rows.append(stack)
+                x = x + l.XS
+        # compute blocking
+        n = 0
+        for i in range(size-1):
+            for j in range(size-i):
+                k = n+(size-i)
+                if j == 0:              # left
+                    rows[n].blockmap = [rows[k]]
+                elif j == size-i-1:     # right
+                    rows[n].blockmap = [rows[k-1]]
+                else:
+                    rows[n].blockmap = [rows[k-1],rows[k]]
+                n += 1
+        return rows
 
-    def createGame(self, rows=4, reserves=0, waste=True, texts=True):
+
+    def createGame(self, pyramid_len=7, reserves=0, waste=True, texts=True):
         # create layout
         l, s = Layout(self), self.s
 
         # set window
-        max_rows = max(9, reserves)
+        max_rows = max(pyramid_len+2, reserves)
         w = l.XM + max_rows*l.XS
-        h = l.YM + 4*l.YS
+        h = l.YM + l.YS + (pyramid_len-1)*l.YS/self.PYRAMID_Y_FACTOR
         if reserves:
             h += l.YS+2*l.YOFFSET
         self.setSize(w, h)
 
         # create stacks
+        decks = self.gameinfo.decks
+
         x, y = l.XM+l.XS, l.YM
-        s.rows = self._createPyramid(l, x, y, 7)
+        s.rows = self._createPyramid(l, x, y, pyramid_len)
 
         x, y = l.XM, l.YM
         s.talon = self.Talon_Class(x, y, self)
@@ -226,7 +251,7 @@ class Pyramid(Game):
         x, y = self.width - l.XS, l.YM
         s.foundations.append(self.Foundation_Class(x, y, self,
                              suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
-                             max_move=0, max_cards=52))
+                             max_move=0, max_cards=52*decks))
         if reserves:
             x, y = l.XM+(max_rows-reserves)*l.XS/2, l.YM+4*l.YS
             for i in range(reserves):
@@ -1113,6 +1138,105 @@ class KingTut(RelaxedPyramid):
         self.sg.openstacks.append(s.waste)
 
 
+# /***********************************************************************
+# // Double Pyramid
+# ************************************************************************/
+
+class DoublePyramid(Pyramid):
+    def createGame(self):
+        Pyramid.createGame(self, pyramid_len=9)
+
+
+# /***********************************************************************
+# // Triangle
+# ************************************************************************/
+
+class Triangle(Pyramid):
+
+    def createGame(self):
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        w = l.XM + 10.5*l.XS
+        h = l.YM + 4*l.YS
+        self.setSize(w, h)
+
+        # create stacks
+        x, y = l.XM+2*l.XS, l.YM
+        s.rows = self._createInvertedPyramid(l, x, y, 7)
+
+        x, y = l.XM, l.YM
+        s.talon = self.Talon_Class(x, y, self)
+        l.createText(s.talon, "se")
+        tx, ty, ta, tf = l.getTextAttr(s.talon, "ne")
+        font=self.app.getFont("canvas_default")
+        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
+                                             anchor=ta, font=font)
+        y += l.YS
+        s.waste = self.WasteStack_Class(x, y, self, max_accept=1)
+        l.createText(s.waste, "se")
+        x, y = self.width - l.XS, l.YM
+        s.foundations.append(self.Foundation_Class(x, y, self,
+                             suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
+                             max_move=0, max_cards=52))
+
+        # define stack-groups
+        l.defaultStackGroups()
+        self.sg.openstacks.append(s.talon)
+        self.sg.dropstacks.append(s.talon)
+        self.sg.openstacks.append(s.waste)
+
+
+# /***********************************************************************
+# // Up and Down
+# ************************************************************************/
+
+class UpAndDown(Pyramid):
+
+    def createGame(self, pyramid_len=7, reserves=0, waste=True, texts=True):
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        w = l.XM + 13*l.XS
+        h = l.YM + 4*l.YS
+        self.setSize(w, h)
+
+        # create stacks
+        x, y = l.XM+l.XS/2, l.YM
+        s.rows = self._createPyramid(l, x, y, 7)
+        x += 5.5*l.XS
+        s.rows += self._createInvertedPyramid(l, x, y, 7)
+
+        x, y = l.XM, l.YM
+        s.talon = self.Talon_Class(x, y, self)
+        l.createText(s.talon, "se")
+        tx, ty, ta, tf = l.getTextAttr(s.talon, "ne")
+        font=self.app.getFont("canvas_default")
+        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
+                                             anchor=ta, font=font)
+        y += l.YS
+        s.waste = self.WasteStack_Class(x, y, self, max_accept=1)
+        l.createText(s.waste, "se")
+        x, y = self.width - l.XS, self.height-l.YS
+        s.foundations.append(self.Foundation_Class(x, y, self,
+                             suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
+                             max_move=0, max_cards=104))
+
+        # define stack-groups
+        l.defaultStackGroups()
+        self.sg.openstacks.append(s.talon)
+        self.sg.dropstacks.append(s.talon)
+        self.sg.openstacks.append(s.waste)
+
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow(frames=4)
+        self.s.talon.dealCards()          # deal first card to WasteStack
+
+
 
 # register the game
 registerGame(GameInfo(38, Pyramid, "Pyramid",
@@ -1151,4 +1275,10 @@ registerGame(GameInfo(677, TwoPyramids, "Two Pyramids",
                       GI.GT_PAIRING_TYPE | GI.GT_ORIGINAL, 2, 2, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(681, KingTut, "King Tut",
                       GI.GT_PAIRING_TYPE, 1, -1, GI.SL_MOSTLY_LUCK))
+registerGame(GameInfo(699, DoublePyramid, "Double Pyramid",
+                      GI.GT_PAIRING_TYPE, 2, 2, GI.SL_MOSTLY_LUCK))
+registerGame(GameInfo(700, Triangle, "Triangle",
+                      GI.GT_PAIRING_TYPE, 1, 2, GI.SL_MOSTLY_LUCK))
+registerGame(GameInfo(701, UpAndDown, "Up and Down",
+                      GI.GT_PAIRING_TYPE | GI.GT_ORIGINAL, 2, 2, GI.SL_MOSTLY_LUCK))
 

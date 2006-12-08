@@ -486,7 +486,7 @@ class Stonewall(Klondike):
     DEAL = (0, 1, 0, 1, -1, 0, 1)
 
     def createGame(self):
-        l = Klondike.createGame(self, rows=6, max_rounds=1, texts=0)
+        l = Klondike.createGame(self, rows=6, waste=0, max_rounds=1, texts=0)
         s = self.s
         h = max(self.height, l.YM+4*l.YS)
         self.setSize(self.width + l.XM+4*l.XS, h)

@@ -149,7 +149,7 @@ class SelectGameData(SelectDialogTreeData):
             select_func = lambda gi, games=games: gi.id in games
             if name is None or not filter(select_func, self.all_games_gi):
                continue
-            name = _("New games in v.") + name
+            name = _("New games in v. ") + name
             gg.append(SelectGameNode(None, name, select_func))
         if 1 and gg:
             s_by_pysol_version = SelectGameNode(None, _("by PySol version"), tuple(gg))

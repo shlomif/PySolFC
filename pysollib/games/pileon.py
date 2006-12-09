@@ -41,6 +41,8 @@ from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.pysoltk import MfxCanvasText
+
 
 # /***********************************************************************
 # // PileOn
@@ -202,6 +204,125 @@ class Quartets(Foursome):
         self.s.talon.dealRowAvail()
 
 
+# /***********************************************************************
+# // Four by Four
+# ************************************************************************/
+
+class FourByFour_Hint(DefaultHint):
+
+    def _getMovePileScore(self, score, color, r, t, pile, rpile):
+        self.bonus_color = color
+        if len(t.cards) == 0:
+            return 0, color
+        return score + 1000 - len(r.cards), color
+
+    def _getDropCardScore(self, score, color, r, t, ncards):
+        # drop immediately
+        return 93000, color
+
+
+class FourByFour_Foundation(AbstractFoundationStack):
+
+    def _getNumSameCards(self):
+        rank = self.cards[-1].rank
+        n = 1
+        for i in range(2,5):
+            if len(self.cards) < i:
+                break
+            if self.cards[-i].rank != rank:
+                break
+            n += 1
+        return n
+
+    def _getDir(self):
+        if len(self.cards) < 4:
+            return 0
+        if isRankSequence(self.cards[-4:], dir=0):
+            return 1
+        return 0
+
+    def acceptsCards(self, from_stack, cards):
+        if not AbstractFoundationStack.acceptsCards(self, from_stack, cards):
+            return False
+        dir = self._getDir()
+        return (self.cards[-1].rank+dir) % 13 == cards[0].rank
+
+        if len(self.cards) < 4:
+            return cards[0].rank == self.cards[-1].rank
+        if isRankSequence(self.cards[-4:], dir=0):
+            return (cards[0].rank+1) % 13 == self.cards[-1].rank
+        return cards[0].rank == self.cards[-1].rank
+
+    def getHelp(self):
+        return _('Foundation. Build up regardless of suit.')
+
+
+class FourByFour_RowStack(UD_RK_RowStack):
+    def getBottomImage(self):
+        return self.game.app.images.getReserveBottom()
+
+
+class FourByFour(Game):
+    Hint_Class = FourByFour_Hint
+
+    def createGame(self):
+
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+7*l.XS, l.YM+2*l.YS+20*l.YOFFSET)
+
+        x, y = l.XM, l.YM
+        s.talon = WasteTalonStack(y, x, self, max_rounds=1)
+        l.createText(s.talon, 's')
+        x += l.XS
+        s.waste = WasteStack(x, y, self)
+        l.createText(s.waste, 's')
+
+        x += 3.5*l.XS
+        s.foundations.append(FourByFour_Foundation(x, y, self,
+                             suit=ANY_SUIT, base_rank=ANY_RANK, max_cards=52,
+                             max_accept=1, max_move=0))
+        stack = s.foundations[0]
+        tx, ty, ta, tf = l.getTextAttr(stack, 'ne')
+        font = self.app.getFont('canvas_default')
+        stack.texts.misc = MfxCanvasText(self.canvas, tx, ty,
+                                         anchor=ta, font=font)
+
+        x, y = l.XM+3*l.XS, l.YM+l.YS
+        for i in range(4):
+            s.rows.append(FourByFour_RowStack(x, y, self, mod=13))
+            x += l.XS
+
+        l.defaultStackGroups()
+
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow(rows=self.s.foundations)
+        self.s.talon.dealCards()
+
+    def updateText(self):
+        if self.preview > 1:
+            return
+        f = self.s.foundations[0]
+        if not f.cards:
+            return
+        if len(f.cards) == 52:
+            t = ''
+        else:
+            n = f._getNumSameCards()
+            n = 4-n
+            r = f.cards[-1].rank
+            if n == 0:
+                n = 4
+                r = (r+1)%13
+            r = RANKS[r]
+            t = '%s (%d)' % (r, n)
+        f.texts.misc.config(text=t)
+
+    shallHighlightMatch = Game._shallHighlightMatch_RKW
+
+
+
 # register the game
 registerGame(GameInfo(41, PileOn, "PileOn",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL,
@@ -214,5 +335,7 @@ registerGame(GameInfo(554, Foursome, "Foursome",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(555, Quartets, "Quartets",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(703, FourByFour, "Four by Four",
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))
 
 

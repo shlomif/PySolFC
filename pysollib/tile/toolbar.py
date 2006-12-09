@@ -76,10 +76,10 @@ class AbstractToolbarButton:
         if self.visible and not force:
             return
         self.visible = True
-        if orient == Tkinter.HORIZONTAL:
+        if orient == 'horizontal':
             padx, pady = 0, 2
             if os.name == 'nt':
-                padx, pady = 0, 0
+                padx, pady = 2, 2
             self.grid(row=0,
                       column=self.position,
                       padx=padx, pady=pady,
@@ -87,7 +87,7 @@ class AbstractToolbarButton:
         else:
             padx, pady = 2, 0
             if os.name == 'nt':
-                padx, pady = 0, 0
+                padx, pady = 2, 2
             self.grid(row=self.position,
                       column=0,
                       padx=padx, pady=pady,
@@ -123,15 +123,15 @@ class ToolbarSeparator(Tkinter.Separator):
         if self.visible and not force:
             return
         self.visible = True
-        padx = 4
-        pady = 4
-        if orient == Tkinter.HORIZONTAL:
+        if orient == 'horizontal':
+            padx, pady = 4, 6
             self.config(orient='vertical')
             self.grid(row=0,
                       column=self.position,
                       padx=padx, pady=pady,
                       sticky='nsew')
         else:
+            padx, pady = 4, 6
             self.config(orient='horizontal')
             self.grid(row=self.position,
                       column=0,
@@ -141,40 +141,6 @@ class ToolbarSeparator(Tkinter.Separator):
         if not self.visible: return
         self.visible = False
         self.grid_forget()
-
-class ToolbarSeparator__(Tkinter.Frame):
-    def __init__(self, parent, toolbar, position, **kwargs):
-        Tkinter.Frame.__init__(self, parent, **kwargs)
-        self.toolbar = toolbar
-        self.position = position
-        self.visible = False
-    def show(self, orient, force=False):
-        if self.visible and not force:
-            return
-        self.visible = True
-        width = 4
-        height = 4
-        padx = 6
-        pady = 6
-        if orient == Tkinter.HORIZONTAL:
-            self.config(width=width, height=height)
-            self.grid(row=0,
-                      column=self.position,
-                      padx=padx, pady=pady,
-                      sticky='ns')
-        else:
-            self.config(width=height, height=width)
-            self.grid(row=self.position,
-                      column=0,
-                      padx=pady, pady=padx,
-                      sticky='ew')
-    def hide(self):
-        if not self.visible: return
-        self.visible = False
-        self.grid_forget()
-
-class ToolbarFlatSeparator(ToolbarSeparator):
-    pass
 
 class ToolbarLabel(Tkinter.Message):
     def __init__(self, parent, toolbar, toolbar_name, position, **kwargs):
@@ -187,9 +153,10 @@ class ToolbarLabel(Tkinter.Message):
         if self.visible and not force:
             return
         self.visible = True
-        padx = 4
-        pady = 4
-        if orient == Tkinter.HORIZONTAL:
+        padx, pady = 4, 4
+        if os.name == 'nt':
+            padx, pady = 6, 6
+        if orient == 'horizontal':
             self.grid(row=0,
                       column=self.position,
                       padx=padx, pady=pady,
@@ -217,7 +184,6 @@ class PysolToolbar(PysolToolbarActions):
         PysolToolbarActions.__init__(self)
 
         self.top = top
-        self._setRelief(relief)
         self.side = -1
         self._tooltips = []
         self._widgets = []
@@ -225,12 +191,8 @@ class PysolToolbar(PysolToolbarActions):
         self.size = size
         self.compound = compound
         self.orient='horizontal'
-        self.label_padx = 4
-        self.label_pady = 4
-        self.button_pad = 2
         #
-        #self.frame = Tkinter.Frame(top, class_='Toolbar')
-        self.frame = Tk.Frame(top)
+        self.frame = Tkinter.Frame(top, class_='Toolbar')
         #
         for l, f, t in (
             (n_("New"),      self.mNewGame,   _("New game")),
@@ -257,7 +219,6 @@ class PysolToolbar(PysolToolbarActions):
             else:
                 self._createButton(l, f, tooltip=t)
 
-        #~sep = self._createFlatSeparator()
         position=len(self._widgets)
         self.frame.rowconfigure(position, weight=1)
         self.frame.columnconfigure(position, weight=1)
@@ -271,12 +232,10 @@ class PysolToolbar(PysolToolbarActions):
         #
         self.setCompound(compound, force=True)
         # Change the look of the frame to match the platform look
-        # (see also setRelief)
         if os.name == 'posix':
-            ##self.frame.config(bd=1, relief=self.frame_relief)
             pass
         elif os.name == "nt":
-            self.frame.config(bd=2, relief=self.frame_relief, padx=2, pady=2)
+            self.frame.config(relief='groove')
         else:
             pass
 
@@ -298,37 +257,13 @@ class PysolToolbar(PysolToolbarActions):
         #
         prev_visible = None
         for w in self._widgets:
-            if w.__class__ is ToolbarSeparator:
-                if prev_visible is None or prev_visible.__class__ is ToolbarSeparator:
+            if isinstance(w, ToolbarSeparator):
+                if prev_visible is None or isinstance(prev_visible, ToolbarSeparator):
                     w.hide()
                 else:
                     w.show(orient=self.orient)
-            elif w.__class__ is ToolbarFlatSeparator:
-                if prev_visible.__class__ is ToolbarSeparator:
-                    prev_visible.hide()
             if w.visible:
                 prev_visible = w
-
-    def _setRelief(self, relief):
-        if type(relief) is types.IntType:
-            relief = ('raised', 'flat')[relief]
-        elif relief in ('raised', 'flat'):
-            pass
-        else:
-            relief = 'flat'
-        self.button_relief = relief
-        if relief == 'raised':
-            self.frame_relief = 'flat'
-            self.separator_relief = 'flat'
-            if os.name == 'nt':
-                self.frame_relief = 'groove'
-        else:
-            self.frame_relief = 'raised'
-            self.separator_relief = 'sunken'
-            if os.name == 'nt':
-                self.frame_relief = 'groove'
-                self.separator_relief = 'groove'
-        return relief
 
     # util
     def _loadImage(self, name):
@@ -351,20 +286,6 @@ class PysolToolbar(PysolToolbarActions):
                                toolbar=self,
                                takefocus=0)
         sep.show(orient=self.orient)
-        self._widgets.append(sep)
-        return sep
-
-    def _createFlatSeparator(self):
-        position=len(self._widgets)
-        sep = ToolbarFlatSeparator(self.frame,
-                                   position=position,
-                                   toolbar=self,
-                                   width=5,
-                                   takefocus=0,
-                                   relief='flat')
-        sep.show(orient=self.orient)
-        self.frame.rowconfigure(position, weight=1)
-        self.frame.columnconfigure(position, weight=1)
         self._widgets.append(sep)
         return sep
 
@@ -516,23 +437,6 @@ class PysolToolbar(PysolToolbarActions):
             setattr(self, name + "_image", image)
         self.setCompound(self.compound, force=True)
         return 1
-
-    def setRelief(self, relief):
-        return True
-        if self.button_relief == relief:
-            return False
-        self._setRelief(relief)
-        self.frame.config(relief=self.frame_relief)
-        for w in self._widgets:
-            bd = relief == 'flat' and 1 or 2
-            if isinstance(w, ToolbarButton):
-                w.config(relief=self.button_relief, bd=bd)
-            elif isinstance(w, ToolbarCheckbutton):
-                w.config(relief=self.button_relief, bd=bd)
-                w.config(offrelief=self.button_relief)
-            elif w.__class__ is ToolbarSeparator: # not ToolbarFlatSeparator
-                w.config(relief=self.separator_relief)
-        return True
 
     def setCompound(self, compound, force=False):
         if not force and self.compound == compound:

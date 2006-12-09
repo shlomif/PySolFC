@@ -82,16 +82,6 @@ def createToolbarMenu(menubar, menu):
             submenu.add_radiobutton(label=name,
                                     variable=menubar.tkopt.toolbar_style,
                                     value=f, command=menubar.mOptToolbarStyle)
-
-##     submenu = MfxMenu(menu, label=n_('Relief'), tearoff=tearoff)
-##     submenu.add_radiobutton(label=n_('Flat'),
-##                             variable=menubar.tkopt.toolbar_relief,
-##                             value=Tkinter.FLAT,
-##                             command=menubar.mOptToolbarRelief)
-##     submenu.add_radiobutton(label=n_('Raised'),
-##                             variable=menubar.tkopt.toolbar_relief,
-##                             value=Tkinter.RAISED,
-##                             command=menubar.mOptToolbarRelief)
     submenu = MfxMenu(menu, label=n_('Compound'), tearoff=tearoff)
     for comp, label in COMPOUNDS:
         submenu.add_radiobutton(
@@ -1201,10 +1191,6 @@ class PysolMenubar(PysolMenubarActions):
         ##if self._cancelDrag(break_pause=False): return
         self.setToolbarSize(self.tkopt.toolbar_size.get())
 
-    def mOptToolbarRelief(self, *event):
-        ##if self._cancelDrag(break_pause=False): return
-        self.setToolbarRelief(self.tkopt.toolbar_relief.get())
-
     def mOptToolbarConfig(self, w):
         self.toolbarConfig(w, self.tkopt.toolbar_vars[w].get())
 
@@ -1296,13 +1282,6 @@ class PysolMenubar(PysolMenubarActions):
         if self.app.toolbar.setCompound(compound):
             self.game.updateStatus(player=self.app.opt.player)
             self.top.update_idletasks()
-
-    def setToolbarRelief(self, relief):
-        if self._cancelDrag(break_pause=False): return
-        self.app.opt.toolbar_relief = relief
-        self.tkopt.toolbar_relief.set(relief)           # update radiobutton
-        self.app.toolbar.setRelief(relief)
-        self.top.update_idletasks()
 
     def toolbarConfig(self, w, v):
         if self._cancelDrag(break_pause=False): return

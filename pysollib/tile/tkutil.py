@@ -447,17 +447,22 @@ def load_theme(app, top, theme):
         color = style.lookup('.', 'background')
         if color:
             try:
-                ##top.tk.call("tk_setPalette", color)
                 top.tk_setPalette(color)
                 ##top.option_add('*background', color)
+                pass
             except:
                 traceback.print_exc()
                 pass
-        color = style.lookup('.', 'background', 'active')
-        if color:
-            top.option_add('*Menu.activeBackground', color)
+        if os.name == 'posix':
+            color = style.lookup('.', 'background', 'active')
+            if color:
+                top.option_add('*Menu.activeBackground', color)
+        elif os.name == 'nt':
+            ##top.option_add('*Menu.foreground', 'black')
+            top.option_add('*Menu.activeBackground', '#08246b')
+            top.option_add('*Menu.activeForeground', 'white')
     if theme == 'winnative':
-        style.configure('Toolbutton', padding=1)
+        style.configure('Toolbutton', padding=2)
         #if 'xpnative' in all_themes:
         #    theme = 'xpnative'
     font = app.opt.fonts['default']

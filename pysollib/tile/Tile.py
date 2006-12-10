@@ -1,4 +1,5 @@
 
+import os
 
 import Tkinter
 from Tkconstants import *
@@ -321,6 +322,11 @@ class Radiobutton(Widget, Tkinter.Radiobutton):
 class Scrollbar(Widget, Tkinter.Scrollbar):
     def __init__(self, master=None, cnf={}, **kw):
         Widget.__init__(self, master, "ttk::scrollbar", cnf, kw)
+
+# from http://tkinter.unpythonic.net/wiki/PyLocateTile :
+# standard Tk scrollbars work on OS X, but Tile ones look weird
+if os.name == "mac":
+    Scrollbar = Tkinter.Scrollbar
 
 
 class Separator(Widget):

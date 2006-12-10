@@ -1259,16 +1259,12 @@ class Stack:
 ##         if (self.CARD_XOFFSET != (0,) or
 ##             self.CARD_YOFFSET != (0,)):
 ##             return
-        if not self.images.shade_img:
-            img = self.game.app.images.getShade()
-            self.images.shade_img = img
-        else:
-            img = self.images.shade_img
+        card = self.cards[-1]
+        img = self.game.app.images.getShadowCard(card.suit, card.rank)
         if img is None:
             return
-        if not self.items.shade_item:
+        if 1: ##not self.items.shade_item:
             #self.game.canvas.update_idletasks()
-            card = self.cards[-1]
             item = MfxCanvasImage(self.game.canvas, card.x, card.y,
                                   image=img, anchor=ANCHOR_NW,
                                   group=self.group)

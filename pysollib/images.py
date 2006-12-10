@@ -42,7 +42,7 @@ from mfxutil import Pickler, Unpickler, UnpicklingError
 from mfxutil import Struct, EnvError
 
 # Toolkit imports
-from pysoltk import tkversion, loadImage, copyImage, createImage
+from pysoltk import tkversion, loadImage, copyImage, createImage, shadowImage
 
 try:
     import Image
@@ -93,6 +93,7 @@ class Images:
         self._shadow = []
         self._xshadow = []
         self._shade = []
+        self._shadow_cards = {}          # key: (suit, rank)
 
     def destruct(self):
         pass
@@ -127,22 +128,23 @@ class Images:
             self.cs.backnames = tuple(self.cs.backnames) + (name,)
         # bottoms / letters
         bottom = None
+        neg_bottom = None
         while len(self._bottom_positive) < 7:
             if bottom is None:
                 bottom = createImage(self.CARDW, self.CARDH, fill=None, outline="#000000")
             self._bottom_positive.append(bottom)
         while len(self._bottom_negative) < 7:
-            if bottom is None:
-                bottom = createImage(self.CARDW, self.CARDH, fill=None, outline="#ffffff")
-            self._bottom_negative.append(bottom)
+            if neg_bottom is None:
+                neg_bottom = createImage(self.CARDW, self.CARDH, fill=None, outline="#ffffff")
+            self._bottom_negative.append(neg_bottom)
         while len(self._letter_positive) < 4:
             if bottom is None:
                 bottom = createImage(self.CARDW, self.CARDH, fill=None, outline="#000000")
             self._letter_positive.append(bottom)
         while len(self._letter_negative) < 4:
-            if bottom is None:
-                bottom = createImage(self.CARDW, self.CARDH, fill=None, outline="#ffffff")
-            self._letter_negative.append(bottom)
+            if neg_bottom is None:
+                neg_bottom = createImage(self.CARDW, self.CARDH, fill=None, outline="#ffffff")
+            self._letter_negative.append(neg_bottom)
         self._blank_bottom = createImage(self.CARDW, self.CARDH, fill=None, outline=None)
 
     def load(self, app, progress=None, fast=0):
@@ -291,6 +293,17 @@ class Images:
 
     def getShade(self):
         return self._shade[self._shade_index]
+
+    def getShadowCard(self, suit, rank):
+        if self._shadow_cards.has_key((suit, rank)):
+            shade = self._shadow_cards[(suit, rank)]
+        else:
+            image = self.getFace(0, suit, rank)
+            shade = shadowImage(image)
+            self._shadow_cards[(suit, rank)] = shade
+        if not shade:
+            return self.getShade()
+        return shade
 
     def getCardbacks(self):
         return self._back

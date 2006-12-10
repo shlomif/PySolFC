@@ -162,6 +162,13 @@ class Pegged(Game):
     # game overrides
     #
 
+    def shuffle(self):
+        cards = list(self.cards)
+        cards.reverse()
+        for card in cards:
+            self.s.talon.addCard(card, update=0)
+            card.showBack(unhide=0)
+
     def startGame(self):
         n = len(self.cards) - len(self.s.rows) + 1
         if n > 0:
@@ -176,7 +183,7 @@ class Pegged(Game):
         c = 0
         for s in self.s.foundations:
             c = c + len(s.cards)
-        return c + 2 == self.gameinfo.si.ncards
+        return c + 1 == self.gameinfo.si.ncards
 
     def getAutoStacks(self, event=None):
         return ((), (), ())
@@ -235,17 +242,21 @@ class PeggedTriangle2(PeggedTriangle1):
     ROWS = (1, 2, 3, 4, 5, 6)
 
 
+
 # /***********************************************************************
 # // register the games
 # ************************************************************************/
 
 def r(id, gameclass, name):
-    si_ncards = 0
+    ncards = 0
     for n in gameclass.ROWS:
-        si_ncards = si_ncards + n
+        ncards += n
+    ncards -= 1
     gi = GameInfo(id, gameclass, name,
                   GI.GT_PUZZLE_TYPE, 1, 0, GI.SL_SKILL,
-                  si={"ncards": si_ncards},
+                  category=GI.GC_TRUMP_ONLY,
+                  suits=(), ranks=(), trumps=range(ncards),
+                  si = {"decks": 1, "ncards": ncards},
                   rules_filename = "pegged.html")
     registerGame(gi)
     return gi

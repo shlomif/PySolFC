@@ -40,34 +40,6 @@ from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 from pysollib.pysoltk import MfxCanvasText, MfxCanvasImage, bind, ANCHOR_NW
 
-from pysollib.games.special.pegged import Pegged_RowStack, WasteTalonStack, \
-     Pegged, PeggedCross1, PeggedCross2, Pegged6x6, Pegged7x7
-
-
-## Matrix_RowStack
-## NewTower_RowStack
-## RockHopper_RowStack
-## ThreePeaks_TalonStack
-## ThreePeaks_RowStack
-## Matrix3
-## Matrix4
-## Matrix5
-## Matrix6
-## Matrix7
-## Matrix8
-## Matrix9
-## Matrix10
-## Matrix20
-## NewTowerofHanoi
-## RockHopper
-## RockHopperCross1
-## RockHopperCross2
-## RockHopper6x6
-## RockHopper7x7
-## ThreePeaks
-## ThreePeaksNoScore
-## LeGrandeTeton
-
 
 # /***********************************************************************
 # // Matrix Row Stack
@@ -148,131 +120,6 @@ class Matrix_RowStack(OpenStack):
                     self.playMoveMove(1, to_stack, frames=0, sound=0)
                     return 1
         return 1
-
-
-
-# /***********************************************************************
-# // New Tower Row Stack
-# ************************************************************************/
-
-class NewTower_RowStack(Matrix_RowStack):
-
-    def __init__(self, x, y, game, **cap):
-        kwdefault(cap, max_move=1, max_accept=1, max_cards=99,
-                  base_rank=ANY_RANK)
-        apply(OpenStack.__init__, (self, x, y, game), cap)
-        self.CARD_YOFFSET = -max(self.game.app.images.CARD_YOFFSET, 20)
-
-    def acceptsCards(self, from_stack, cards):
-        if not OpenStack.acceptsCards(self, from_stack, cards):
-            return 0
-        if self.cards:
-            return self.cards[-1].rank > cards[0].rank
-        return 1
-
-    def getBottomImage(self):
-        # None doesn't recognize clicks.
-        return self.game.app.images.getLetter(0)
-
-    def basicIsBlocked(self):
-        return 0
-
-    def clickHandler(self, event):
-        game = self.game
-        drag = game.drag
-        from_stack = drag.stack
-        if from_stack is self:
-            # remove selection
-            self._stopDrag()
-            return 1
-        # possible move
-        if from_stack:
-            if self.acceptsCards(from_stack, from_stack.cards[-1:]):
-                self._stopDrag()
-                # this code actually moves the tiles
-                from_stack.playMoveMove(1, self, frames=3, sound=0)
-                return 1
-        drag.stack = self
-        # move or create the shade image (see stack.py, _updateShade)
-        if drag.shade_img:
-            img = drag.shade_img
-            img.dtag(drag.shade_stack.group)
-            img.moveTo(self.x, self.y)
-        elif self.cards:
-            img = game.app.images.getShade()
-            if img is None:
-                return 1
-            img = MfxCanvasImage(game.canvas, self.x,
-                                 self.y + self.CARD_YOFFSET[0] * (len(self.cards) - 1),
-                                 image=img, anchor=ANCHOR_NW)
-            drag.shade_img = img
-        if self.cards:
-            img.tkraise(self.cards[-1].item)
-            img.addtag(self.group)
-        drag.shade_stack = self
-        return 1
-
-
-
-# /***********************************************************************
-# // Rock Hopper Row Stack
-# ************************************************************************/
-
-class RockHopper_RowStack(Pegged_RowStack):
-
-    def canFlipCard(self):
-        return 0
-
-    def cancelDrag(self, event=None):
-        if event is None:
-            self._stopDrag()
-
-    def _findCard(self, event):
-        # we need to override this because the shade may be hiding
-        # the tile (from Tk's stacking view)
-        return len(self.cards) - 1
-
-    def initBindings(self):
-        bind(self.group, "<1>", self._Stack__clickEventHandler)
-        bind(self.group, "<Control-1>", self._Stack__controlclickEventHandler)
-
-    def getBottomImage(self):
-        # None doesn't recognize clicks.
-        return self.game.app.images.getReserveBottom()
-
-    def clickHandler(self, event):
-        game = self.game
-        drag = game.drag
-        from_stack = drag.stack
-        if from_stack is self:
-            # remove selection
-            self._stopDrag()
-            return 1
-        # possible move
-        if from_stack and not self.cards and self._getMiddleStack(from_stack) is not None:
-            self._stopDrag()
-            # this code actually moves the tiles
-            from_stack.moveMove(1, self, frames=3)
-            return 1
-        drag.stack = self
-        # move or create the shade image (see stack.py, _updateShade)
-        if drag.shade_img and self.cards:
-            img = drag.shade_img
-            img.dtag(drag.shade_stack.group)
-            img.moveTo(self.x, self.y)
-        elif self.cards:
-            img = game.app.images.getShade()
-            if img is None:
-                return 1
-            img = MfxCanvasImage(game.canvas, self.x, self.y,
-                                 image=img, anchor=ANCHOR_NW)
-            drag.shade_img = img
-        if self.cards:
-            img.tkraise(self.cards[-1].item)
-            img.addtag(self.group)
-        drag.shade_stack = self
-        return 1
-
 
 
 # /***********************************************************************
@@ -362,57 +209,28 @@ class Matrix3(Game):
 # ************************************************************************/
 
 class Matrix4(Matrix3):
-
     pass
 
 class Matrix5(Matrix3):
-
     pass
 
 class Matrix6(Matrix3):
-
     pass
 
 class Matrix7(Matrix3):
-
     pass
 
 class Matrix8(Matrix3):
-
     pass
 
 class Matrix9(Matrix3):
-
     pass
 
 class Matrix10(Matrix3):
-
     pass
 
 class Matrix20(Matrix3):
-
     pass
-
-
-# /***********************************************************************
-# // Rock Hopper
-# ************************************************************************/
-
-class RockHopper(Pegged):
-    STACK = RockHopper_RowStack
-
-class RockHopperCross1(PeggedCross1):
-    STACK = RockHopper_RowStack
-
-class RockHopperCross2(PeggedCross2):
-    STACK = RockHopper_RowStack
-
-class RockHopper6x6(Pegged6x6):
-    STACK = RockHopper_RowStack
-
-class RockHopper7x7(Pegged7x7):
-    STACK = RockHopper_RowStack
-
 
 
 # /***********************************************************************
@@ -444,24 +262,3 @@ r(22230, Matrix10, "10x10 Matrix")
 
 del r
 
-def r(id, gameclass, short_name):
-    name = short_name
-    ncards = 0
-    for n in gameclass.ROWS:
-        ncards = ncards + n
-    gi = GameInfo(id, gameclass, name, GI.GT_MATRIX, 1, 0, GI.SL_SKILL,
-                  category=GI.GC_TRUMP_ONLY, short_name=short_name,
-                  suits=(), ranks=(), trumps=range(ncards),
-                  si={"decks": 1, "ncards": ncards})
-    gi.ncards = ncards
-    gi.rules_filename = "pegged.html"
-    registerGame(gi)
-    return gi
-
-r(22221, RockHopper, "Rock Hopper")
-r(22220, RockHopperCross1, "Rock Hopper Cross 1")
-r(22219, RockHopperCross2, "Rock Hopper Cross 2")
-r(22218, RockHopper6x6, "Rock Hopper 6x6")
-r(22217, RockHopper7x7, "Rock Hopper 7x7")
-
-del r

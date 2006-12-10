@@ -242,6 +242,7 @@ class Mahjongg_RowStack(OpenStack):
         # checks
         if not self.cards:
             return 1
+        card = self.cards[-1]
         from_stack = drag.stack
         if from_stack is self:
             # remove selection
@@ -261,21 +262,20 @@ class Mahjongg_RowStack(OpenStack):
                 return 1
         drag.stack = self
         self.game.playSample("startdrag")
-        # move or create the shade image (see stack.py, _updateShade)
+        # create the shade image (see stack.py, _updateShade)
         if drag.shade_img:
-            img = drag.shade_img
-            img.dtag(drag.shade_stack.group)
-            img.moveTo(self.x, self.y)
-            img.addtag(self.group)
-        else:
-            img = game.app.images.getShade()
-            if img is None:
-                return 1
-            img = MfxCanvasImage(game.canvas, self.x, self.y, image=img,
-                                 anchor=ANCHOR_NW, group=self.group)
-            drag.shade_img = img
+            #drag.shade_img.dtag(drag.shade_stack.group)
+            drag.shade_img.delete()
+            #game.canvas.delete(drag.shade_img)
+            drag.shade_img = None
+        img = game.app.images.getShadowCard(card.suit, card.rank)
+        if img is None:
+            return 1
+        img = MfxCanvasImage(game.canvas, self.x, self.y, image=img,
+                             anchor=ANCHOR_NW, group=self.group)
+        drag.shade_img = img
         # raise/lower the shade image to the correct stacking order
-        img.tkraise(self.cards[-1].item)
+        img.tkraise(card.item)
         drag.shade_stack = self
         return 1
 
@@ -287,6 +287,9 @@ class Mahjongg_RowStack(OpenStack):
         # we need to override this because the shade may be hiding
         # the tile (from Tk's stacking view)
         return len(self.cards) - 1
+
+    def getBottomImage(self):
+        return None
 
 
 # /***********************************************************************

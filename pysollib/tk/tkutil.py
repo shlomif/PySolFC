@@ -51,6 +51,7 @@ __all__ = ['wm_withdraw',
            'loadImage',
            #'fillImage',
            'createImage',
+           'shadowImage',
            'get_text_width',
            ]
 
@@ -312,15 +313,17 @@ def after_cancel(t):
 
 if Image:
     class PIL_Image(ImageTk.PhotoImage):
-        def __init__(self, file):
-            im = Image.open(file).convert('RGBA')
-            ImageTk.PhotoImage.__init__(self, im)
-            self._pil_image = im
+        def __init__(self, file=None, image=None):
+            if file:
+                image = Image.open(file).convert('RGBA')
+            ImageTk.PhotoImage.__init__(self, image)
+            self._pil_image = image
         def subsample(self, r):
             im = self._pil_image
             w, h = im.size
             w, h = int(float(w)/r), int(float(h)/r)
-            im = ImageTk.PhotoImage(im.resize((w, h)))
+            im = im.resize((w, h))
+            im = PIL_Image(image=im)
             return im
 
 
@@ -395,6 +398,15 @@ def createImage(width, height, fill, outline=None):
     image.blank()
     fillImage(image, fill, outline)
     return image
+
+def shadowImage(image):
+    if not hasattr(image, '_pil_image'):
+        return None
+    im = image._pil_image
+    sh = Image.new('RGBA', im.size, 'black')
+    tmp = Image.blend(im, sh, 0.2)
+    out = Image.composite(tmp, im, im)
+    return PIL_Image(image=out)
 
 
 # /***********************************************************************

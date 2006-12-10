@@ -164,6 +164,10 @@ def createImage(width, height, fill, outline=None):
     # FIXME
     return _PysolPixmap(width=width, height=height, fill=fill, outline=outline)
 
+def shadowImage(image):
+    # FIXME
+    return None
+
 
 # /***********************************************************************
 # // event wrapper

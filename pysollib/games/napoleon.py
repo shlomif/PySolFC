@@ -89,6 +89,7 @@ class Napoleon_FreeCell(ReserveStack):
 
 class DerKleineNapoleon(Game):
 
+    Hint_Class = CautiousDefaultHint
     Foundation_Class = Braid_Foundation
     RowStack_Class = StackWrapper(Napoleon_RowStack, mod=13)
 
@@ -221,17 +222,12 @@ class DerFreieNapoleon(DerKleineNapoleon):
         for j in range(reserves):
             x = x1 + j*l.XS
             s.rows.append(self.ReserveStack_Class(x, y, self))
-        self.setRegion(s.rows, (-999, y - l.YM/2, 999999, 999999))
+        self.setRegion(s.rows, (-999, y - l.CH/2, 999999, 999999))
         y = l.YM
         x = x1+(max(cells, reserves)-cells)*l.XS/2
         for i in range(cells):
             s.reserves.append(self.FreeCell_Class(x, y, self))
             x += l.XS
-##         if cells == 1:
-##             s.reserves.append(Napoleon_SingleFreeCell(x1 + l.XS/2, y, self))
-##         else:
-##             s.reserves.append(Napoleon_FreeCell(x1, y, self))
-##             s.reserves.append(Napoleon_FreeCell(x1 + l.XS, y, self))
         # foundations
         x = l.XM + 2*l.XS
         for i in range(4):
@@ -346,10 +342,73 @@ class Bonaparte(TheLittleCorporal):
 
     def startGame(self):
         for i in range(5):
-            self.s.talon.dealRow(rows=self.s.rows, frames=0)
+            self.s.talon.dealRow(frames=0)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealBaseCards(ncards=4)
+
+
+# /***********************************************************************
+# // Busy Cards
+# ************************************************************************/
+
+class BusyCards_FreeCell(ReserveStack):
+    def canMoveCards(self, cards):
+        if not ReserveStack.canMoveCards(self, cards):
+            return False
+        rows = self.game.s.rows
+        index = list(self.game.s.reserves).index(self)
+        if rows[2*index].cards or rows[2*index+1].cards:
+            return False
+        return True
+
+
+class BusyCards(Game):
+    Hint_Class = CautiousDefaultHint
+
+    def createGame(self):
+        rows=12
+
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+rows*l.XS, l.YM + 3*l.YS+16*l.YOFFSET)
+
+        x, y = l.XM+(rows-8)*l.XS/2, l.YM
+        for i in range(4):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
+            x += l.XS
+        for i in range(4):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i,
+                                 base_rank=KING, dir=-1))
+            x += l.XS
+
+        x, y = l.XM+l.XS/2, l.YM+l.YS
+        for i in range(rows/2):
+            s.reserves.append(BusyCards_FreeCell(x, y, self))
+            x += 2*l.XS
+
+        x, y = l.XM, l.YM+2*l.YS
+        for i in range(rows):
+            s.rows.append(UD_SS_RowStack(x, y, self))
+            x += l.XS
+
+        x, y = l.XM, self.height - l.YS
+        s.talon = InitialDealTalonStack(x, y, self)
+
+        l.defaultStackGroups()
+
+    def _shuffleHook(self, cards):
+        return self._shuffleHookMoveToTop(cards,
+            lambda c: ((c.rank in (ACE,KING) and c.deck == 0), (c.rank, c.suit)))
+
+    def startGame(self):
+        self.s.talon.dealRow(rows=self.s.foundations, frames=0)
+        for i in range(7):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+    shallHighlightMatch = Game._shallHighlightMatch_SS
+
 
 
 # register the game
@@ -367,4 +426,6 @@ registerGame(GameInfo(537, TheLittleCorporal, "The Little Corporal",
                       GI.GT_NAPOLEON | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(538, Bonaparte, "Bonaparte",
                       GI.GT_NAPOLEON | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(705, BusyCards, "Busy Cards",
+                      GI.GT_NAPOLEON | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 

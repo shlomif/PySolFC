@@ -268,7 +268,7 @@ class Mahjongg_RowStack(OpenStack):
             drag.shade_img.delete()
             #game.canvas.delete(drag.shade_img)
             drag.shade_img = None
-        img = game.app.images.getShadowCard(card.suit, card.rank)
+        img = game.app.images.getShadowCard(card.deck, card.suit, card.rank)
         if img is None:
             return 1
         img = MfxCanvasImage(game.canvas, self.x, self.y, image=img,
@@ -490,7 +490,8 @@ class AbstractMahjonggGame(Game):
                                         l.YM + dyy,
                                         anchor="nw", font=font)
         # the Talon is invisble
-        s.talon = InitialDealTalonStack(-l.XS, self.height - dyy, self)
+        s.talon = InitialDealTalonStack(-l.XS-self.canvas.xmargin,
+                                        self.height-dyy, self)
 
         # Define stack groups
         l.defaultStackGroups()

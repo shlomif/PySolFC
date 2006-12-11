@@ -294,11 +294,11 @@ class Images:
     def getShade(self):
         return self._shade[self._shade_index]
 
-    def getShadowCard(self, suit, rank):
+    def getShadowCard(self, deck, suit, rank):
         if self._shadow_cards.has_key((suit, rank)):
             shade = self._shadow_cards[(suit, rank)]
         else:
-            image = self.getFace(0, suit, rank)
+            image = self.getFace(deck, suit, rank)
             shade = shadowImage(image)
             self._shadow_cards[(suit, rank)] = shade
         if not shade:

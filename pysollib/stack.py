@@ -1193,13 +1193,6 @@ class Stack:
         # optimized for speed - we use lots of local variables
         game = self.game
         images = game.app.images
-        if not self.images.shade_img:
-            img = images.getShade()
-            self.images.shade_img = img
-        else:
-            img = self.images.shade_img
-        if img is None:
-            return
         CW, CH = images.CARDW, images.CARDH
         drag = game.drag
         ##stacks = game.allstacks
@@ -1233,23 +1226,28 @@ class Stack:
         if sstack is None:
             self._deleteShade()
             return
-        # move or create the shade image
-        drag.shade_stack = sstack
         if drag.shade_img:
-            drag.shade_img.moveTo(sx, sy)
+            self._deleteShade()
+        # create the shade image
+        drag.shade_stack = sstack
+        if sstack.cards:
+            card = sstack.cards[-1]
+            img = images.getShadowCard(card.deck, card.suit, card.rank)
         else:
-            img = MfxCanvasImage(game.canvas, sx, sy,
-                                 image=img, anchor=ANCHOR_NW)
-            drag.shade_img = img
-            # raise/lower the shade image to the correct stacking order
-            if TOOLKIT == 'tk':
-                if drag.shadows:
-                    img.lower(drag.shadows[0])
-                else:
-                    img.lower(drag.cards[0].item)
-            elif TOOLKIT == 'gtk':
-                img.tkraise()
-                drag.stack.group.tkraise()
+            img = images.getShade()
+        if not img:
+            return
+        img = MfxCanvasImage(game.canvas, sx, sy, image=img, anchor=ANCHOR_NW)
+        drag.shade_img = img
+        # raise/lower the shade image to the correct stacking order
+        if TOOLKIT == 'tk':
+            if drag.shadows:
+                img.lower(drag.shadows[0])
+            else:
+                img.lower(drag.cards[0].item)
+        elif TOOLKIT == 'gtk':
+            img.tkraise()
+            drag.stack.group.tkraise()
 
 
     # for closeStack
@@ -1260,16 +1258,14 @@ class Stack:
 ##             self.CARD_YOFFSET != (0,)):
 ##             return
         card = self.cards[-1]
-        img = self.game.app.images.getShadowCard(card.suit, card.rank)
+        img = self.game.app.images.getShadowCard(card.deck, card.suit, card.rank)
         if img is None:
             return
-        if 1: ##not self.items.shade_item:
-            #self.game.canvas.update_idletasks()
-            item = MfxCanvasImage(self.game.canvas, card.x, card.y,
-                                  image=img, anchor=ANCHOR_NW,
-                                  group=self.group)
-            #item.tkraise()
-            self.items.shade_item = item
+        #self.game.canvas.update_idletasks()
+        item = MfxCanvasImage(self.game.canvas, card.x, card.y,
+                              image=img, anchor=ANCHOR_NW, group=self.group)
+        #item.tkraise()
+        self.items.shade_item = item
 
     def _unshadeStack(self):
         if self.items.shade_item:

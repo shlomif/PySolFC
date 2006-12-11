@@ -442,6 +442,68 @@ class SeniorWrangler(Game):
         self.s.talon.dealRow()
 
 
+# /***********************************************************************
+# // S Patience
+# ************************************************************************/
+
+class SPatience(Game):
+    Hint_Class = Calculation_Hint
+
+    def createGame(self):
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+7.5*l.XS, l.YM+3.8*l.YS)
+
+        x0, y0 = l.XM, l.YM
+        for xx, yy in ((4, 0.4),
+                       (3, 0.2),
+                       (2, 0.0),
+                       (1, 0.2),
+                       (0, 0.7),
+                       (1, 1.2),
+                       (2, 1.4),
+                       (3, 1.6),
+                       (4, 2.0),
+                       (3, 2.6),
+                       (2, 2.8),
+                       (1, 2.6),
+                       (0, 2.4),
+                       ):
+            x, y = x0+xx*l.XS, y0+yy*l.YS
+            s.foundations.append(RK_FoundationStack(x, y, self, suit=ANY_SUIT,
+                                 max_cards=8, mod=13, max_move=0))
+
+        x, y = l.XM+5.5*l.XS, l.YM+2*l.YS
+        for i in (0,1):
+            stack = Calculation_RowStack(x, y, self, max_move=1, max_accept=1)
+            stack.CARD_YOFFSET = 0
+            s.rows.append(stack)
+            l.createText(stack, 's')
+            x += l.XS
+        x, y = l.XM+5.5*l.XS, l.YM+l.YS
+        s.talon = WasteTalonStack(x, y, self, max_rounds=1)
+        l.createText(s.talon, 'nw')
+        x += l.XS
+        s.waste = WasteStack(x, y, self, max_cards=1)
+
+        l.defaultStackGroups()
+
+    def _shuffleHook(self, cards):
+        top = []
+        ranks = []
+        for c in cards[:]:
+            if c.rank not in ranks:
+                ranks.append(c.rank)
+                cards.remove(c)
+                top.append(c)
+        top.sort(lambda a, b: cmp(b.rank, a.rank))
+        return cards+top[7:]+top[:7]
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow(rows=self.s.foundations)
+        self.s.talon.dealCards()
+
+
 
 # register the game
 registerGame(GameInfo(256, Calculation, "Calculation",
@@ -457,4 +519,6 @@ registerGame(GameInfo(550, One234, "One234",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(653, SeniorWrangler, "Senior Wrangler",
                       GI.GT_2DECK_TYPE, 2, 8, GI.SL_BALANCED))
+registerGame(GameInfo(704, SPatience, "S Patience",
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 

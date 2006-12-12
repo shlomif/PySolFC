@@ -48,6 +48,7 @@ from tkFont import Font
 # PySol imports
 from pysollib.mfxutil import destruct, Struct
 from pysollib.settings import PACKAGE, VERSION
+from pysollib.macosx.appSupport import setupApp
 from tkutil import after_idle, wm_set_icon
 from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
 
@@ -99,6 +100,7 @@ class MfxRoot(Tkinter.Tk):
         self.app = app
 
     def initToolkit(self, app, fg=None, bg=None, font=None, theme=None):
+        setupApp(app)
         sw, sh, sd = self.winfo_screenwidth(), self.winfo_screenheight(), self.winfo_screendepth()
         self.wm_group(self)
         self.wm_title(PACKAGE + ' ' + VERSION)

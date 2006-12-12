@@ -43,6 +43,7 @@ from mfxutil import Struct, KwStruct, EnvError, latin1_to_ascii
 from settings import PACKAGE, VERSION
 from settings import DEBUG
 
+gettext = _
 
 # /***********************************************************************
 # // Abstract

@@ -142,7 +142,7 @@ class SoundOptionsDialog(MfxDialog):
             # remove "Apply" button
             kw.strings[1] = None
         #
-        frame = Tkinter.LabelFrame(top_frame, text=_('Enable samles'))
+        frame = Tkinter.LabelFrame(top_frame, text=_('Enable samples'))
         frame.pack(expand=1, fill='both', padx=5, pady=5)
         frame.columnconfigure(0, weight=1)
         frame.columnconfigure(1, weight=1)

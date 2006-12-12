@@ -77,12 +77,19 @@ def init():
     elif settings.TOOLKIT == 'tk' and settings.USE_TILE == 'auto':
         # check tile
         import Tkinter
+        from Tkinter import TclError
         root = Tkinter.Tk()
+        #
+        # TkAqua displays the console automatically in application
+        # bundles, so we hide it here.
+        from macosx.appSupport import hideTkConsole
+        #
+        hideTkConsole(root)
         root.withdraw()
         settings.USE_TILE = False
         try:
             root.tk.call('package', 'require', 'tile', '0.7.8')
-        except:
+        except TclError:
             pass
         else:
             settings.USE_TILE = True

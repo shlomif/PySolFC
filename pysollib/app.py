@@ -1687,7 +1687,7 @@ Please select a %s type %s.
         # find all available music songs
         dirs = manager.getSearchDirs(self, "music-*", "PYSOL_MUSIC")
         ##print dirs
-        ext_re = re.compile(self.audio.EXTENTIONS)
+        ext_re = re.compile(self.audio.EXTENSIONS)
         self.initResource(manager, dirs, ext_re, Music)
 
 

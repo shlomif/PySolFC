@@ -48,6 +48,7 @@ from tkFont import Font
 # PySol imports
 from pysollib.mfxutil import destruct, Struct
 from pysollib.settings import PACKAGE, VERSION
+from pysollib.macosx.appSupport import setupApp
 from tkutil import after_idle, init_tile, wm_set_icon
 from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
 
@@ -99,7 +100,7 @@ class MfxRoot(Tkinter.Tk):
         self.app = app
 
     def initToolkit(self, app, fg=None, bg=None, font=None):
-        theme = app.opt.tile_theme
+        setupApp(app)
         sw, sh, sd = self.winfo_screenwidth(), self.winfo_screenheight(), self.winfo_screendepth()
         self.wm_group(self)
         self.wm_title(PACKAGE + ' ' + VERSION)
@@ -147,7 +148,16 @@ class MfxRoot(Tkinter.Tk):
 
         # theme
         try:
-            init_tile(app, self, theme)
+            windowingsystem = app.top.tk.call("tk", "windowingsystem")
+            if windowingsystem == "x11":
+                app.opt.tile_theme = "clam"
+            elif windowingsystem == "aqua":
+                app.opt.tile_theme = "aqua"
+            elif windowingsystem == "win32":
+                app.opt.tile_theme = "xpnative"
+            init_tile(app, self, app.opt.tile_theme)
+        except TclError:
+            raise
         except Exception, err:
             print >> sys.stderr, 'ERROR: set theme:', err
         ##self.option_add('*Toolbar.relief', 'groove')

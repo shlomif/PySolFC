@@ -56,7 +56,7 @@ except ImportError:
 
 class AbstractAudioClient:
 
-    EXTENTIONS = r"\.((wav)|(it)|(mod)|(mp3)|(pym)|(s3m)|(xm))$"
+    EXTENSIONS = r"\.((wav)|(it)|(mod)|(mp3)|(pym)|(s3m)|(xm))$"
 
     CAN_PLAY_SOUND = False
     CAN_PLAY_MUSIC = False
@@ -418,7 +418,7 @@ class OSSAudioClient(AbstractAudioClient):
 
 class PyGameAudioClient(AbstractAudioClient):
 
-    EXTENTIONS = r'\.((ogg)|(mp3)|(wav)|(it)|(mod)|(s3m)|(xm)|(mid))$'
+    EXTENSIONS = r'\.((ogg)|(mp3)|(wav)|(it)|(mod)|(s3m)|(xm)|(mid))$'
 
     CAN_PLAY_SOUND = True
     CAN_PLAY_MUSIC = True

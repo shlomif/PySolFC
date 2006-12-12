@@ -1,5 +1,5 @@
 
-import os
+import sys
 
 import Tkinter
 from Tkconstants import *
@@ -325,7 +325,7 @@ class Scrollbar(Widget, Tkinter.Scrollbar):
 
 # from http://tkinter.unpythonic.net/wiki/PyLocateTile :
 # standard Tk scrollbars work on OS X, but Tile ones look weird
-if os.name == "mac":
+if sys.platform == "darwin":
     Scrollbar = Tkinter.Scrollbar
 
 

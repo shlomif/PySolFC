@@ -37,7 +37,7 @@
 __all__ = ['PysolMenubar']
 
 # imports
-import math, os, re
+import math, os, sys, re
 import Tile as Tkinter
 import tkFileDialog
 
@@ -204,6 +204,7 @@ class PysolMenubar(PysolMenubarActions):
         self.__menupath = {}
         self.__keybindings = {}
         self._createMenubar()
+        self.top = top
 
         if self.progress: self.progress.update(step=1)
 
@@ -350,7 +351,11 @@ class PysolMenubar(PysolMenubarActions):
         bind(self.top, "<KeyPress>", self._keyPressHandler)
 
         m = "Ctrl-"
-        if os.name == "mac": m = "Cmd-"
+        if sys.platform == "darwin": m = "Cmd-"
+
+        if self.top.tk.call("tk", "windowingsystem") == "aqua":
+            applemenu=MfxMenu(self.__menubar, n_("apple"))
+            applemenu.add_command(label=_("&About ")+PACKAGE, command=self.mHelpAbout)
 
         menu = MfxMenu(self.__menubar, n_("&File"))
         menu.add_command(label=n_("&New game"), command=self.mNewGame, accelerator="N")
@@ -372,7 +377,8 @@ class PysolMenubar(PysolMenubarActions):
         menu.add_command(label=n_("Save &as..."), command=self.mSaveAs)
         menu.add_separator()
         menu.add_command(label=n_("&Hold and quit"), command=self.mHoldAndQuit)
-        menu.add_command(label=n_("&Quit"), command=self.mQuit, accelerator=m+"Q")
+        if not self.top.tk.call("tk", "windowingsystem") == "aqua":
+            menu.add_command(label=n_("&Quit"), command=self.mQuit, accelerator=m+"Q")
 
         if self.progress: self.progress.update(step=1)
 
@@ -511,13 +517,15 @@ class PysolMenubar(PysolMenubarActions):
         menu.add_command(label=n_("&Rules for this game"), command=self.mHelpRules, accelerator="F1")
         menu.add_command(label=n_("&License terms"), command=self.mHelpLicense)
         ##menu.add_command(label=n_("What's &new ?"), command=self.mHelpNews)
-        menu.add_separator()
-        menu.add_command(label=n_("&About ")+PACKAGE+"...", command=self.mHelpAbout)
+        if not self.top.tk.call("tk", "windowingsystem") == "aqua":
+            menu.add_separator()
+            menu.add_command(label=n_("&About ")+PACKAGE+"...", command=self.mHelpAbout)
 
         MfxMenubar.addPath = None
 
         ### FIXME: all key bindings should be *added* to keyPressHandler
         ctrl = "Control-"
+        if sys.platform == "darwin": ctrl = "Command-"
         self._bindKey("",   "n", self.mNewGame)
         self._bindKey("",   "g", self.mSelectGameDialog)
         self._bindKey("",   "v", self.mSelectGameDialogWithPreview)

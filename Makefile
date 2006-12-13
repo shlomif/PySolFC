@@ -22,10 +22,10 @@ all_games_html:
 	./scripts/all_games.py > docs/all_games.html
 
 rules:
-	(cd data/html-src && ./gen-html.py)
-	cp -r data/html-src/images data/html-src/html
+	(cd html-src && ./gen-html.py)
+	cp -r html-src/images html-src/html
 	rm -rf data/html
-	mv data/html-src/html data
+	mv html-src/html data
 
 pot:
 	./scripts/all_games.py gettext > po/games.pot

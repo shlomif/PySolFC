@@ -49,7 +49,7 @@ except ImportError:
 # PySol imports
 from pysollib.mfxutil import destruct
 from pysollib.util import IMAGE_EXTENSIONS
-from pysollib.settings import PACKAGE
+from pysollib.settings import PACKAGE, WIN_SYSTEM
 from pysollib.actions import PysolToolbarActions
 
 # Toolkit imports
@@ -78,7 +78,7 @@ class AbstractToolbarButton:
         self.visible = True
         if orient == 'horizontal':
             padx, pady = 0, 2
-            if os.name == 'nt':
+            if WIN_SYSTEM == 'win32':
                 padx, pady = 2, 2
             self.grid(row=0,
                       column=self.position,
@@ -86,7 +86,7 @@ class AbstractToolbarButton:
                       sticky='nsew')
         else:
             padx, pady = 2, 0
-            if os.name == 'nt':
+            if WIN_SYSTEM == 'win32':
                 padx, pady = 2, 2
             self.grid(row=self.position,
                       column=0,
@@ -154,7 +154,7 @@ class ToolbarLabel(Tkinter.Message):
             return
         self.visible = True
         padx, pady = 4, 4
-        if os.name == 'nt':
+        if WIN_SYSTEM == 'win32':
             padx, pady = 6, 6
         if orient == 'horizontal':
             self.grid(row=0,
@@ -232,9 +232,9 @@ class PysolToolbar(PysolToolbarActions):
         #
         self.setCompound(compound, force=True)
         # Change the look of the frame to match the platform look
-        if os.name == 'posix':
+        if WIN_SYSTEM == 'x11':
             pass
-        elif os.name == "nt":
+        elif WIN_SYSTEM == "win32":
             self.frame.config(relief='groove')
         else:
             pass

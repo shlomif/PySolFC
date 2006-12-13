@@ -50,6 +50,7 @@ import traceback
 
 # PySol imports
 from pysollib.mfxutil import destruct, kwdefault, KwStruct
+from pysollib.settings import WIN_SYSTEM
 
 # Toolkit imports
 from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
@@ -194,7 +195,7 @@ class MfxDialog: # ex. _ToplevelDialog
                 s = s.replace('&', '')
                 max_len = max(max_len, len(s))
             ##print s, len(s)
-        if   max_len > 12 and os.name == 'posix': button_width = max_len
+        if   max_len > 12 and WIN_SYSTEM == 'x11': button_width = max_len
         elif max_len > 9 : button_width = max_len+1
         elif max_len > 6 : button_width = max_len+2
         else             : button_width = 8
@@ -560,7 +561,7 @@ class MfxScrolledCanvas:
         bind(w, "<KeyPress-Home>", self.scroll_top)
         bind(w, "<KeyPress-End>", self.scroll_bottom)
         # mousewheel support
-        if os.name == 'posix':
+        if WIN_SYSTEM == 'x11':
             bind(w, '<4>', self.mouse_wheel_up)
             bind(w, '<5>', self.mouse_wheel_down)
         # don't work on Linux

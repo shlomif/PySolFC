@@ -47,7 +47,7 @@ from tkFont import Font
 
 # PySol imports
 from pysollib.mfxutil import destruct, Struct
-from pysollib.settings import PACKAGE, VERSION
+from pysollib.settings import PACKAGE, VERSION, WIN_SYSTEM
 from pysollib.macosx.appSupport import setupApp
 from tkutil import after_idle, init_tile, wm_set_icon
 from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
@@ -128,7 +128,7 @@ class MfxRoot(Tkinter.Tk):
         # font
         if font:
             self.option_add('*font', font)
-        elif os.name == 'posix':
+        elif WIN_SYSTEM == 'x11':
             self.option_add('*font', 'Helvetica 12', 50)
             font = self.option_get('font', '')
         try:
@@ -148,13 +148,6 @@ class MfxRoot(Tkinter.Tk):
 
         # theme
         try:
-            windowingsystem = app.top.tk.call("tk", "windowingsystem")
-            if windowingsystem == "x11":
-                app.opt.tile_theme = "clam"
-            elif windowingsystem == "aqua":
-                app.opt.tile_theme = "aqua"
-            elif windowingsystem == "win32":
-                app.opt.tile_theme = "xpnative"
             init_tile(app, self, app.opt.tile_theme)
         except TclError:
             raise

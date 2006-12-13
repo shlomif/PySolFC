@@ -45,7 +45,7 @@ from mfxutil import getusername, gethomedir, getprefdir, EnvError
 from mfxutil import latin1_to_ascii
 from util import Timer
 from util import CARDSET, IMAGE_EXTENSIONS
-from settings import PACKAGE, PACKAGE_URL, VERSION, VERSION_TUPLE
+from settings import PACKAGE, PACKAGE_URL, VERSION, VERSION_TUPLE, WIN_SYSTEM
 from resource import CSI, CardsetConfig, Cardset, CardsetManager
 from resource import Tile, TileManager
 from resource import Sample, SampleManager
@@ -108,13 +108,17 @@ class Options:
         self.shade_filled_stacks = True
         self.demo_logo = True
         self.tile_theme = 'default'
-        if os.name == 'nt':
+        if WIN_SYSTEM == 'win32':
             self.tile_theme = 'winnative'
+        elif WIN_SYSTEM == 'x11':
+            self.tile_theme = 'step'
+        else:                           # aqua
+            self.tile_theme = 'aqua'
         self.toolbar = 1       # 0 == hide, 1,2,3,4 == top, bottom, lef, right
         ##self.toolbar_style = 'default'
-        self.toolbar_style = 'crystal'
-        if os.name == 'posix':
-            self.toolbar_style = 'bluecurve'
+        self.toolbar_style = 'bluecurve'
+        if WIN_SYSTEM == 'win32':
+            self.toolbar_style = 'crystal'
         self.toolbar_relief = 'flat'
         self.toolbar_compound = 'none'          # icons only
         self.toolbar_size = 0
@@ -164,11 +168,11 @@ class Options:
                       "canvas_large"   : ("helvetica", 16),
                       "canvas_small"   : ("helvetica", 10),
                       }
-        if os.name == 'posix':
-            self.fonts["sans"] = ("helvetica", 12)
-        if os.name == 'nt':
+        if WIN_SYSTEM == 'win32':
             self.fonts["sans"] = ("times new roman", 12)
             self.fonts["fixed"] = ("courier new", 10)
+        elif WIN_SYSTEM == 'x11':
+            self.fonts["sans"] = ("helvetica", 12)
         # colors
         self.colors = {
             'table':        '#008200',
@@ -665,7 +669,7 @@ class Application:
         # create the canvas
         self.scrolled_canvas = MfxScrolledCanvas(self.top)
         self.canvas = self.scrolled_canvas.canvas
-        if os.name == 'nt':
+        if WIN_SYSTEM == 'win32':
             self.scrolled_canvas.grid(row=1, column=1, sticky='nsew',
                                       padx=1, pady=1)
         else:
@@ -865,10 +869,10 @@ class Application:
                   "joker11_100_774",
                   "joker10_100",):
             self.gimages.logos.append(self.dataloader.findImage(f, dir))
-        if os.name == 'posix':
-            dir = os.path.join('images', 'dialog', 'bluecurve')
-        else:
+        if WIN_SYSTEM == 'win32':
             dir = os.path.join('images', 'dialog', 'default')
+        else:
+            dir = os.path.join('images', 'dialog', 'bluecurve')
         for f in ('error', 'info', 'question', 'warning'):
             fn = self.dataloader.findImage(f, dir)
             im = loadImage(fn)

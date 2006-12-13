@@ -71,7 +71,7 @@ except ImportError:
 
 # Toolkit imports
 from tkconst import tkversion
-from pysollib.settings import PACKAGE
+from pysollib.settings import PACKAGE, WIN_SYSTEM
 
 
 # /***********************************************************************
@@ -82,20 +82,11 @@ def wm_withdraw(window):
     window.wm_withdraw()
 
 def wm_deiconify(window):
-    need_fix = os.name == "nt" and tkversion < (8, 3, 0, 0)
-    if need_fix:
-        # FIXME: This is needed so the window pops up on top on Windows.
-        try:
-            window.wm_iconify()
-            window.update_idletasks()
-        except Tkinter.TclError:
-            # wm_iconify() may fail if the window is transient
-            pass
     window.wm_deiconify()
 
 def wm_map(window, maximized=0):
     if window.wm_state() != "iconic":
-        if maximized and os.name == "nt":
+        if maximized and WIN_SYSTEM == "win32":
             window.wm_state("zoomed")
         else:
             wm_deiconify(window)
@@ -103,10 +94,10 @@ def wm_map(window, maximized=0):
 def wm_set_icon(window, filename):
     if not filename:
         return
-    if os.name == 'nt':
+    if WIN_SYSTEM == 'win32':
         ##window.tk.call('wm', 'iconbitmap', root._w, '-default', '@'+filename)
         pass
-    elif os.name == "posix":
+    elif WIN_SYSTEM == 'x11':
         ##window.wm_iconbitmap("@"+filename)
         ##window.wm_iconmask("@"+filename)
         pass
@@ -139,27 +130,15 @@ def setTransient(window, parent, relx=None, rely=None, expose=1):
     # remain invisible while we figure out the geometry
     window.wm_withdraw()
     window.wm_group(parent)
-    need_fix = os.name == "nt" and tkversion < (8, 3, 0, 0)
-    if need_fix:
-        # FIXME: This is needed to avoid ugly frames on Windows.
-        window.wm_geometry("+%d+%d" % (-10000, -10000))
-        if expose and parent is not None:
-            # FIXME: This is needed so the window pops up on top on Windows.
-            window.wm_iconify()
     if parent and parent.wm_state() != "withdrawn":
         window.wm_transient(parent)
     # actualize geometry information
     window.update_idletasks()
     # show
     x, y = __getWidgetXY(window, parent, relx=relx, rely=rely)
-    if need_fix:
-        if expose:
-            wm_deiconify(window)
-        window.wm_geometry("+%d+%d" % (x, y))
-    else:
-        window.wm_geometry("+%d+%d" % (x, y))
-        if expose:
-            window.wm_deiconify()
+    window.wm_geometry("+%d+%d" % (x, y))
+    if expose:
+        window.wm_deiconify()
 
 def makeToplevel(parent, title=None):
     # Create a Toplevel window.
@@ -193,7 +172,7 @@ def make_help_toplevel(app, title=None):
         window.option_add('*foreground', fg)
     window.option_add('*selectBackground', '#00008b', 50)
     window.option_add('*selectForeground', 'white', 50)
-    if os.name == "posix":
+    if WIN_SYSTEM == "x11":
         window.option_add('*Scrollbar.elementBorderWidth', '1', 60)
         window.option_add('*Scrollbar.borderWidth', '1', 60)
     if title:
@@ -216,7 +195,7 @@ def __getWidgetXY(widget, parent, relx=None, rely=None,
         ##print parent.wm_geometry()
         ##print parent.winfo_geometry(), parent.winfo_x(), parent.winfo_y(), parent.winfo_rootx(), parent.winfo_rooty(), parent.winfo_vrootx(), parent.winfo_vrooty()
         m_x = m_y = None
-        if os.name == "nt":
+        if WIN_SYSTEM == "win32":
             try:
                 m_width, m_height, m_x, m_y = wm_get_geometry(parent)
             except:
@@ -426,7 +405,7 @@ def get_text_width(text, font, root=None):
 # ************************************************************************/
 
 def init_tile(app, top, theme):
-    if os.name == 'posix':
+    if WIN_SYSTEM == 'x11':
         f = os.path.join(app.dataloader.dir, 'tcl', 'menu8.4.tcl')
         if os.path.exists(f):
             top.tk.call('source', f)
@@ -455,28 +434,23 @@ def load_theme(app, top, theme):
         theme = 'default'
     if theme:
         style.theme_use(theme)
-    if theme not in ('winnative', 'xpnative'):
+    if WIN_SYSTEM == 'x11':
         color = style.lookup('.', 'background')
         if color:
-            try:
-                top.tk_setPalette(color)
-                ##top.option_add('*background', color)
-                pass
-            except:
-                traceback.print_exc()
-                pass
-        if os.name == 'posix':
-            color = style.lookup('.', 'background', 'active')
+            top.tk_setPalette(color)
+        color = style.lookup('.', 'background', 'active')
+        if color:
+            top.option_add('*Menu.activeBackground', color)
+    elif WIN_SYSTEM == 'win32':
+        if theme not in ('winnative', 'xpnative'):
+            color = style.lookup('.', 'background')
             if color:
-                top.option_add('*Menu.activeBackground', color)
-        elif os.name == 'nt':
+                top.tk_setPalette(color)
             ##top.option_add('*Menu.foreground', 'black')
             top.option_add('*Menu.activeBackground', '#08246b')
             top.option_add('*Menu.activeForeground', 'white')
-    if theme == 'winnative':
-        style.configure('Toolbutton', padding=2)
-        #if 'xpnative' in all_themes:
-        #    theme = 'xpnative'
+        if theme == 'winnative':
+            style.configure('Toolbutton', padding=2)
     font = app.opt.fonts['default']
     if font:
         style.configure('.', font=font)

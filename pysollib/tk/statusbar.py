@@ -49,6 +49,8 @@ if __name__ == '__main__':
 
 # Toolkit imports
 from tkwidget import MfxTooltip
+from pysollib.settings import WIN_SYSTEM
+
 
 # /***********************************************************************
 # //
@@ -73,7 +75,7 @@ class MfxStatusbar:
                         padx=1, pady=1)
         #if os.name == "mac":
         #    Tkinter.Label(self.frame, width=2).pack(side='right')
-        if os.name == 'nt':
+        if WIN_SYSTEM == 'win32':
             self.frame.config(relief='raised')
             self.padx = 0
         if 0:

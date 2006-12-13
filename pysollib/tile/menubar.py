@@ -44,7 +44,7 @@ import tkFileDialog
 # PySol imports
 from pysollib.mfxutil import destruct, Struct, kwdefault
 from pysollib.util import CARDSET
-from pysollib.settings import PACKAGE
+from pysollib.settings import PACKAGE, WIN_SYSTEM
 from pysollib.settings import TOP_TITLE
 from pysollib.gamedb import GI
 from pysollib.actions import PysolMenubarActions
@@ -340,7 +340,7 @@ class PysolMenubar(PysolMenubarActions):
     def _createMenubar(self):
         MfxMenubar.addPath = self._addPath
         kw = { "name": "menubar" }
-        if 1 and os.name == "posix":
+        if WIN_SYSTEM == "x11":
             pass
             ##kw["relief"] = "groove"
             kw["activeborderwidth"] = 1
@@ -353,7 +353,7 @@ class PysolMenubar(PysolMenubarActions):
         m = "Ctrl-"
         if sys.platform == "darwin": m = "Cmd-"
 
-        if self.top.tk.call("tk", "windowingsystem") == "aqua":
+        if WIN_SYSTEM == "aqua":
             applemenu=MfxMenu(self.__menubar, n_("apple"))
             applemenu.add_command(label=_("&About ")+PACKAGE, command=self.mHelpAbout)
 
@@ -377,7 +377,7 @@ class PysolMenubar(PysolMenubarActions):
         menu.add_command(label=n_("Save &as..."), command=self.mSaveAs)
         menu.add_separator()
         menu.add_command(label=n_("&Hold and quit"), command=self.mHoldAndQuit)
-        if not self.top.tk.call("tk", "windowingsystem") == "aqua":
+        if WIN_SYSTEM != "aqua":
             menu.add_command(label=n_("&Quit"), command=self.mQuit, accelerator=m+"Q")
 
         if self.progress: self.progress.update(step=1)
@@ -517,7 +517,7 @@ class PysolMenubar(PysolMenubarActions):
         menu.add_command(label=n_("&Rules for this game"), command=self.mHelpRules, accelerator="F1")
         menu.add_command(label=n_("&License terms"), command=self.mHelpLicense)
         ##menu.add_command(label=n_("What's &new ?"), command=self.mHelpNews)
-        if not self.top.tk.call("tk", "windowingsystem") == "aqua":
+        if WIN_SYSTEM != "aqua":
             menu.add_separator()
             menu.add_command(label=n_("&About ")+PACKAGE+"...", command=self.mHelpAbout)
 
@@ -1335,7 +1335,6 @@ the next time you restart """)+PACKAGE,
             'xpnative':    'XP Native',
             'aqua':        'Aqua',
             }
-
         for t in all_themes:
             try:
                 n = tn[t]

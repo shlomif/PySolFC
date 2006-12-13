@@ -4,9 +4,22 @@ Usage:
 """
 
 import os, sys
+import shutil
 from subprocess import call
 from setuptools import setup
 from pysollib.settings import PACKAGE, VERSION, FC_VERSION
+
+# build the ls py   rule pages
+if not os.path.exists('data/html'):
+    os.chdir('html-src')
+    call('./gen-html.py', shell=True)
+    os.chdir(os.pardir)
+    shutil.copytree('html-src/images', 'html-src/html/images')
+    try:
+        shutil.rmtree('data/html')
+    except OSError:
+        pass
+    shutil.move('html-src/html', 'data/html')
 
 # Use Tile widgets, if they are installed.
 # http://tktable.sourceforge.net/tile/
@@ -45,7 +58,7 @@ PLIST = dict(
     CFBundleShortVersionString = '%s' % VERSION, 
     NSHumanReadableCopyright = "Copyright (C) 1998-2003 Markus F.X.J. Oberhumer",
     )
-APP = ['pysol.py']
+APP = ['pysollib/pysol.py']
 ICON_FILE = 'data/PySol.icns'
 DATA_FILES = ['docs', 'data', 'scripts','COPYING', 'README', SOLVER]
 RESOURCES = [os.path.join(TCL_EXTENSION_PATH, TILE)] if TILE else []

@@ -3154,7 +3154,7 @@ msgstr "Уровень музыки:"
 
 #: pysollib/tile/soundoptionsdialog.py:145
 #: pysollib/tk/soundoptionsdialog.py:144 data/glade-translations:76
-msgid "Enable samles"
+msgid "Enable samples"
 msgstr "Включить звуки"
 
 #: pysollib/tile/soundoptionsdialog.py:168

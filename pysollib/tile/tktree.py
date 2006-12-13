@@ -40,6 +40,7 @@ import Tile as Tkinter
 # Toolkit imports
 from tkutil import bind
 from tkwidget import MfxScrolledCanvas
+from pysollib.settings import WIN_SYSTEM
 
 
 # /***********************************************************************
@@ -238,7 +239,7 @@ class MfxTreeInCanvas(MfxScrolledCanvas):
             self.font = None
             self.linestyle = "gray50"
             self.linecolor = "black"
-            if os.name == "nt":
+            if WIN_SYSTEM == "win32":
                 self.linestyle = ""                 # Tk bug ?
                 self.linecolor = "gray50"
 

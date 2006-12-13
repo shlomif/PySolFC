@@ -399,8 +399,8 @@ class GameInfo(Struct):
         ncards = decks * (len(suits) * len(ranks) + len(trumps))
         game_flags = game_type & ~1023
         game_type = game_type & 1023
-        if os.name == "mac":
-            name = latin1_to_ascii(name)
+        #if os.name == "mac":
+        #    name = latin1_to_ascii(name)
         name = to_unicode(name)
         if not short_name:
             short_name = name

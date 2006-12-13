@@ -47,7 +47,7 @@ except ImportError:
 # PySol imports
 from pysollib.mfxutil import destruct
 from pysollib.util import IMAGE_EXTENSIONS
-from pysollib.settings import PACKAGE
+from pysollib.settings import PACKAGE, WIN_SYSTEM
 from pysollib.actions import PysolToolbarActions
 
 # Toolkit imports
@@ -234,10 +234,10 @@ class PysolToolbar(PysolToolbarActions):
         self.setCompound(compound, force=True)
         # Change the look of the frame to match the platform look
         # (see also setRelief)
-        if os.name == 'posix':
+        if WIN_SYSTEM == 'x11':
             #self.frame.config(bd=0, highlightthickness=1)
             self.frame.config(bd=1, relief=self.frame_relief, highlightthickness=0)
-        elif os.name == "nt":
+        elif WIN_SYSTEM == "win32":
             self.frame.config(bd=2, relief=self.frame_relief, padx=2, pady=2)
             #self._createSeparator(width=4, side=Tkinter.LEFT, relief=Tkinter.FLAT)
             #self._createSeparator(width=4, side=Tkinter.RIGHT, relief=Tkinter.FLAT)
@@ -284,12 +284,12 @@ class PysolToolbar(PysolToolbarActions):
         if relief == 'raised':
             self.frame_relief = 'flat'
             self.separator_relief = 'flat'
-            if os.name == 'nt':
+            if WIN_SYSTEM == 'win32':
                 self.frame_relief = 'groove'
         else:
             self.frame_relief = 'raised'
             self.separator_relief = 'sunken' #'raised'
-            if os.name == 'nt':
+            if WIN_SYSTEM == 'win32':
                 self.frame_relief = 'groove'
                 self.separator_relief = 'groove'
         return relief

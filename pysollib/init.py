@@ -61,7 +61,6 @@ def init():
         except:
             settings.DEBUG = 1
         print 'PySol debugging: set DEBUG to', settings.DEBUG
-
     ## init toolkit
     if '--gtk' in sys.argv:
         settings.TOOLKIT = 'gtk'
@@ -93,6 +92,7 @@ def init():
             pass
         else:
             settings.USE_TILE = True
+        settings.WIN_SYSTEM = root.tk.call('tk', 'windowingsystem')
         #root.destroy()
         Tkinter._default_root = None
 

@@ -1,5 +1,5 @@
 
-import sys
+from pysollib.settings import WIN_SYSTEM
 
 import Tkinter
 from Tkconstants import *
@@ -325,7 +325,7 @@ class Scrollbar(Widget, Tkinter.Scrollbar):
 
 # from http://tkinter.unpythonic.net/wiki/PyLocateTile :
 # standard Tk scrollbars work on OS X, but Tile ones look weird
-if sys.platform == "darwin":
+if WIN_SYSTEM == "aqua":
     Scrollbar = Tkinter.Scrollbar
 
 

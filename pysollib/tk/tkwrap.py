@@ -127,18 +127,8 @@ class MfxRoot(Tkinter.Tk):
 
         # set global color scheme
         if not fg and not bg:
-            if os.name == 'posix':              # Unix/X11
+            if WIN_SYSTEM == 'x11':      # Unix/X11
                 pass
-            if os.name == 'mac':
-                color, priority = '#d9d9d9', '60'
-                classes = (
-                    'Button', 'Canvas', 'Checkbutton', 'Entry',
-                    'Frame', 'Label', 'Listbox', 'Menubutton', ### 'Menu',
-                    'Message', 'Radiobutton', 'Scale', 'Scrollbar', 'Text',
-                )
-                for c in classes:
-                    self.option_add('*' + c + '*background', color, priority)
-                    self.option_add('*' + c + '*activeBackground', color, priority)
         else:
             if bg:
                 self.tk_setPalette(bg)
@@ -149,7 +139,7 @@ class MfxRoot(Tkinter.Tk):
                 app.top_palette[0] = fg
 
         #
-        if os.name == 'posix':              # Unix/X11
+        if WIN_SYSTEM == 'x11':         # Unix/X11
             self.option_add('*Entry.background', 'white', 60)
             self.option_add('*Entry.foreground', 'black', 60)
             self.option_add('*Listbox.background', 'white', 60)
@@ -165,7 +155,7 @@ class MfxRoot(Tkinter.Tk):
         # font
         if font:
             self.option_add('*font', font)
-        elif os.name == 'posix':
+        elif WIN_SYSTEM == 'x11':
             self.option_add('*font', 'Helvetica 12', 50)
             font = self.option_get('font', '')
         try:

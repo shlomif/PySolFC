@@ -83,4 +83,5 @@ if SOLVER and "py2app" in sys.argv:
     call("install_name_tool -change \
          /usr/local/lib/libfreecell-solver.0.dylib \
          @executable_path/../Frameworks/libfreecell-solver.0.dylib fc-solve",
-         shell=True)
+         shell=True
+         )

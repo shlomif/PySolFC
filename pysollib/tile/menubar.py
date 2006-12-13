@@ -1328,12 +1328,12 @@ the next time you restart """)+PACKAGE,
         all_themes.sort()
         #
         tn = {
-            'default':     'Default',
-            'classic':     'Classic',
-            'alt':         'Revitalized',
-            'winnative':   'Windows native',
-            'xpnative':    'XP Native',
-            'aqua':        'Aqua',
+            'default':     _('Default'),
+            'classic':     _('Classic'),
+            'alt':         _('Revitalized'),
+            'winnative':   _('Windows native'),
+            'xpnative':    _('XP Native'),
+            'aqua':        _('Aqua'),
             }
         for t in all_themes:
             try:

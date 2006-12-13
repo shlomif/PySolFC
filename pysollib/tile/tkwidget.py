@@ -443,17 +443,11 @@ class MfxScrolledCanvas:
         self.frame.grid_rowconfigure(0, weight=1)
         self.frame.grid_columnconfigure(0, weight=1)
         if hbar:
-            if hbar == 3:
-                w = 21
-                self.frame.grid_rowconfigure(1, minsize=w)
             self.createHbar()
             if not vbar:
                 bind(self.hbar, "<Map>", self._mapBar)
             self.bindHbar()
         if vbar:
-            if vbar == 3:
-                w = 21
-                self.frame.grid_columnconfigure(1, minsize=w)
             self.createVbar()
             bind(self.vbar, "<Map>", self._mapBar)
             self.bindVbar()
@@ -566,7 +560,6 @@ class MfxScrolledCanvas:
             bind(w, '<5>', self.mouse_wheel_down)
         # don't work on Linux
         #bind(w, '<MouseWheel>', self.mouse_wheel)
-
 
     def mouse_wheel(self, *args):
         print 'MfxScrolledCanvas.mouse_wheel', args

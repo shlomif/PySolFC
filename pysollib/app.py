@@ -110,9 +110,11 @@ class Options:
         self.tile_theme = 'default'
         if WIN_SYSTEM == 'win32':
             self.tile_theme = 'winnative'
+            if sys.getwindowsversion() >= (5, 1): # xp
+                self.tile_theme = 'xpnative'
         elif WIN_SYSTEM == 'x11':
             self.tile_theme = 'step'
-        else:                           # aqua
+        elif WIN_SYSTEM == 'aqua':
             self.tile_theme = 'aqua'
         self.toolbar = 1       # 0 == hide, 1,2,3,4 == top, bottom, lef, right
         ##self.toolbar_style = 'default'

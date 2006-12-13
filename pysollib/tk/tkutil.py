@@ -146,7 +146,7 @@ def makeToplevel(parent, title=None):
     window = Tkinter.Toplevel(parent) #, class_=PACKAGE)
     ##window.wm_group(parent)
     ##window.wm_command("")
-    if os.name == "posix":
+    if WIN_SYSTEM == "x11":
         window.wm_command("/bin/true")
     ##window.wm_protocol("WM_SAVE_YOURSELF", None)
     if title:

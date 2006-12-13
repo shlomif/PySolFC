@@ -47,7 +47,7 @@ from tkFont import Font
 
 # PySol imports
 from pysollib.mfxutil import destruct, Struct
-from pysollib.settings import PACKAGE, VERSION
+from pysollib.settings import PACKAGE, VERSION, WIN_SYSTEM
 from pysollib.macosx.appSupport import setupApp
 from tkutil import after_idle, wm_set_icon
 from tkconst import EVENT_HANDLED, EVENT_PROPAGATE

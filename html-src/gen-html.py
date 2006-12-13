@@ -5,7 +5,7 @@
 #
 
 #outdir = '../html'
-pysollib_dir = '../..'
+pysollib_dir = '../'
 
 import sys, os, re
 from glob import glob

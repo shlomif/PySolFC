@@ -80,16 +80,6 @@ def createToolbarMenu(menubar, menu):
             submenu.add_radiobutton(label=name,
                                     variable=menubar.tkopt.toolbar_style,
                                     value=f, command=menubar.mOptToolbarStyle)
-
-    submenu = MfxMenu(menu, label=n_('Relief'), tearoff=tearoff)
-    submenu.add_radiobutton(label=n_('Flat'),
-                            variable=menubar.tkopt.toolbar_relief,
-                            value=Tkinter.FLAT,
-                            command=menubar.mOptToolbarRelief)
-    submenu.add_radiobutton(label=n_('Raised'),
-                            variable=menubar.tkopt.toolbar_relief,
-                            value=Tkinter.RAISED,
-                            command=menubar.mOptToolbarRelief)
     if Tkinter.TkVersion >= 8.4:
         submenu = MfxMenu(menu, label=n_('Compound'), tearoff=tearoff)
         for comp, label in COMPOUNDS:
@@ -347,11 +337,6 @@ class PysolMenubar(PysolMenubarActions):
     def _createMenubar(self):
         MfxMenubar.addPath = self._addPath
         kw = { "name": "menubar" }
-        if WIN_SYSTEM == "x11":
-            pass
-            ##kw["relief"] = "groove"
-            kw["activeborderwidth"] = 1
-            kw['bd'] = 1
         self.__menubar = apply(MfxMenubar, (self.top,), kw)
 
         # init keybindings

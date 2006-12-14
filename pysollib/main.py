@@ -49,6 +49,7 @@ from pysolaudio import thread, pysolsoundserver
 from pysolaudio import AbstractAudioClient, PysolSoundServerModuleClient
 from pysolaudio import Win32AudioClient, OSSAudioClient, PyGameAudioClient
 from settings import PACKAGE, SOUND_MOD
+from tksettings import initRootWindow
 
 # Toolkit imports
 from pysoltk import wm_withdraw, loadImage
@@ -84,9 +85,6 @@ def parse_option(argv):
     try:
         optlist, args = getopt.getopt(argv[1:], "g:i:hD:",
                                       ["game=", "gameid=",
-                                       "fg=", "foreground=",
-                                       "bg=", "background=",
-                                       "fn=", "font=",
                                        "french-only",
                                        "noplugins",
                                        "nosound",
@@ -99,9 +97,6 @@ def parse_option(argv):
     opts = {"help"        : False,
             "game"        : None,
             "gameid"      : None,
-            "fg"          : None,
-            "bg"          : None,
-            "fn"          : None,
             "french-only" : False,
             "noplugins"   : False,
             "nosound"     : False,
@@ -114,12 +109,6 @@ def parse_option(argv):
             opts["game"] = i[1]
         elif i[0] in ("-i", "--gameid"):
             opts["gameid"] = i[1]
-        elif i[0] in ("--fg", "--foreground"):
-            opts["fg"] = i[1]
-        elif i[0] in ("--bg", "--background"):
-            opts["bg"] = i[1]
-        elif i[0] in ("--fn", "--font"):
-            opts["fn"] = i[1]
         elif i[0] == "--french-only":
             opts["french-only"] = True
         elif i[0] == "--noplugins":
@@ -261,7 +250,7 @@ def pysol_init(app, args):
         app.opt.sound_mode = 0
 
     # init toolkit 2)
-    top.initToolkit(app, opts['fg'], opts['bg'], opts['fn'])
+    initRootWindow(top, app)
 
     # check games
     if len(app.gdb.getGamesIdSortedByName()) == 0:

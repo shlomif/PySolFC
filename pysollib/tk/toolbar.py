@@ -49,6 +49,7 @@ from pysollib.mfxutil import destruct
 from pysollib.util import IMAGE_EXTENSIONS
 from pysollib.settings import PACKAGE, WIN_SYSTEM
 from pysollib.actions import PysolToolbarActions
+from pysollib.tksettings import TkSettings
 
 # Toolkit imports
 from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
@@ -149,8 +150,7 @@ class ToolbarLabel(Tkinter.Message):
         if self.visible and not force:
             return
         self.visible = True
-        padx = 4
-        pady = 4
+        padx, pady = TkSettings.toolbar_label_padding
         if orient == Tkinter.HORIZONTAL:
             self.grid(row=0,
                       column=self.position,
@@ -179,7 +179,7 @@ class PysolToolbar(PysolToolbarActions):
         PysolToolbarActions.__init__(self)
 
         self.top = top
-        self._setRelief(relief)
+        #self._setRelief(relief)
         self.side = -1
         self._tooltips = []
         self._widgets = []
@@ -187,11 +187,10 @@ class PysolToolbar(PysolToolbarActions):
         self.size = size
         self.compound = compound
         self.orient=Tkinter.HORIZONTAL
-        self.label_padx = 4
-        self.label_pady = 4
         self.button_pad = 2
         #
-        self.frame = Tkinter.Frame(top)
+        self.frame = Tkinter.Frame(top, relief=TkSettings.toolbar_relief,
+                                   bd=TkSettings.toolbar_borderwidth)
         #
         for l, f, t in (
             (n_("New"),      self.mNewGame,   _("New game")),
@@ -232,17 +231,6 @@ class PysolToolbar(PysolToolbarActions):
         self.frame.bind("<3>", self.rightclickHandler)
         #
         self.setCompound(compound, force=True)
-        # Change the look of the frame to match the platform look
-        # (see also setRelief)
-        if WIN_SYSTEM == 'x11':
-            #self.frame.config(bd=0, highlightthickness=1)
-            self.frame.config(bd=1, relief=self.frame_relief, highlightthickness=0)
-        elif WIN_SYSTEM == "win32":
-            self.frame.config(bd=2, relief=self.frame_relief, padx=2, pady=2)
-            #self._createSeparator(width=4, side=Tkinter.LEFT, relief=Tkinter.FLAT)
-            #self._createSeparator(width=4, side=Tkinter.RIGHT, relief=Tkinter.FLAT)
-        else:
-            self.frame.config(bd=0, highlightthickness=1)
 
     def config(self, w, v):
         if w == 'player':
@@ -273,27 +261,6 @@ class PysolToolbar(PysolToolbarActions):
             if w.visible:
                 prev_visible = w
 
-    def _setRelief(self, relief):
-        if type(relief) is types.IntType:
-            relief = ('raised', 'flat')[relief]
-        elif relief in ('raised', 'flat'):
-            pass
-        else:
-            relief = 'flat'
-        self.button_relief = relief
-        if relief == 'raised':
-            self.frame_relief = 'flat'
-            self.separator_relief = 'flat'
-            if WIN_SYSTEM == 'win32':
-                self.frame_relief = 'groove'
-        else:
-            self.frame_relief = 'raised'
-            self.separator_relief = 'sunken' #'raised'
-            if WIN_SYSTEM == 'win32':
-                self.frame_relief = 'groove'
-                self.separator_relief = 'groove'
-        return relief
-
     # util
     def _loadImage(self, name):
         file = os.path.join(self.dir, name)
@@ -317,7 +284,7 @@ class PysolToolbar(PysolToolbarActions):
                                highlightthickness=1,
                                width=4,
                                takefocus=0,
-                               relief=self.separator_relief)
+                               relief=TkSettings.toolbar_separator_relief)
         sep.show(orient=self.orient)
         self._widgets.append(sep)
         return sep
@@ -342,7 +309,9 @@ class PysolToolbar(PysolToolbarActions):
         name = label.lower()
         image = self._loadImage(name)
         position = len(self._widgets)
-        bd = self.button_relief == 'flat' and 1 or 2
+        button_relief = TkSettings.toolbar_button_relief
+        bd = TkSettings.toolbar_button_borderwidth
+        padx, pady = TkSettings.toolbar_button_padding
         kw = {
             'position'     : position,
             'toolbar'      : self,
@@ -351,9 +320,9 @@ class PysolToolbar(PysolToolbarActions):
             'takefocus'    : 0,
             'text'         : gettext(label),
             'bd'           : bd,
-            'relief'       : self.button_relief,
-            'padx'         : self.button_pad,
-            'pady'         : self.button_pad
+            'relief'       : button_relief,
+            'padx'         : padx,
+            'pady'         : pady,
             }
         if Tkinter.TkVersion >= 8.4:
             kw['overrelief'] = 'raised'
@@ -361,7 +330,7 @@ class PysolToolbar(PysolToolbarActions):
             kw['image'] = image
         if check:
             if Tkinter.TkVersion >= 8.4:
-                kw['offrelief'] = self.button_relief
+                kw['offrelief'] = button_relief
             kw['indicatoron'] = False
             kw['selectcolor'] = ''
             button = ToolbarCheckbutton(self.frame, **kw)
@@ -497,23 +466,6 @@ class PysolToolbar(PysolToolbarActions):
             setattr(self, name + "_image", image)
         self.setCompound(self.compound, force=True)
         return 1
-
-    def setRelief(self, relief):
-        if self.button_relief == relief:
-            return False
-        self._setRelief(relief)
-        self.frame.config(relief=self.frame_relief)
-        for w in self._widgets:
-            bd = relief == 'flat' and 1 or 2
-            if isinstance(w, ToolbarButton):
-                w.config(relief=self.button_relief, bd=bd)
-            elif isinstance(w, ToolbarCheckbutton):
-                w.config(relief=self.button_relief, bd=bd)
-                if Tkinter.TkVersion >= 8.4:
-                    w.config(offrelief=self.button_relief)
-            elif w.__class__ is ToolbarSeparator: # not ToolbarFlatSeparator
-                w.config(relief=self.separator_relief)
-        return True
 
     def setCompound(self, compound, force=False):
         if Tkinter.TkVersion < 8.4:

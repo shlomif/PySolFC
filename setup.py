@@ -77,7 +77,7 @@ kw = {
     }
     
 if os.name == 'nt':
-    kw['windows'] = [{'script': 'pysol',
+    kw['windows'] = [{'script': 'pysol.py',
                       'icon_resources': [(1, 'data/pysol.ico')], }]
     kw['packages'].remove('pysollib.pysolgtk')
 

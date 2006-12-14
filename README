@@ -8,12 +8,12 @@ Requirements.
 - Python (2.3 or later)
 - Tkinter
 
-** for sound support (not necessarily) **
+** for sound support (optional) **
   - PySol-Sound-Server: http://www.pysol.org/ (mp3, wav, tracker music)
   or
   - PyGame: http://www.pygame.org/ (mp3, ogg, wav, midi, tracker music)
 
-** other packages (not necessarily) **
+** other packages (optional) **
   - Tile: http://tktable.sourceforge.net/tile/ (0.7.8 or later)
   - PIL (Python Image Library): http://www.pythonware.com/products/pil
   - Freecell Solver: http://vipe.technion.ac.il/~shlomif/freecell-solver/
@@ -26,5 +26,22 @@ See: http://www.python.org/doc/current/inst/
 
 or just run from the source directory:
 
-$ python pysol
+$ python pysol.py
+
+
+Install Extras.
+---------------
+
+** Music **
+ - Copy some music files (mp3 for example) to ~/.PySolFC/music/ 
+ 
+ - Original PySol music can be download from: 
+   ftp://ibiblio.org/pub/linux/games/solitaires/pysol-music-4.40.tar.gz
+
+** Cardsets **
+ - Copy cardsets to ~/.PySolFC/cardsets
+
+ - Additional cardsets can be downloaded from the PySolFC project page:
+   http://sourceforge.net/project/showfiles.php?group_id=150718
+
 

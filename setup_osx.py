@@ -9,7 +9,7 @@ from subprocess import call
 from setuptools import setup
 from pysollib.settings import PACKAGE, VERSION, FC_VERSION
 
-# build the ls py   rule pages
+# build the rule pages
 if not os.path.exists('data/html'):
     os.chdir('html-src')
     call('./gen-html.py', shell=True)
@@ -58,7 +58,7 @@ PLIST = dict(
     CFBundleShortVersionString = '%s' % VERSION, 
     NSHumanReadableCopyright = "Copyright (C) 1998-2003 Markus F.X.J. Oberhumer",
     )
-APP = ['pysollib/pysol.py']
+APP = ['pysol.py']
 ICON_FILE = 'data/PySol.icns'
 DATA_FILES = ['docs', 'data', 'scripts','COPYING', 'README', SOLVER]
 RESOURCES = [os.path.join(TCL_EXTENSION_PATH, TILE)] if TILE else []

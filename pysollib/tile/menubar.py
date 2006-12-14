@@ -340,11 +340,6 @@ class PysolMenubar(PysolMenubarActions):
     def _createMenubar(self):
         MfxMenubar.addPath = self._addPath
         kw = { "name": "menubar" }
-        if WIN_SYSTEM == "x11":
-            pass
-            ##kw["relief"] = "groove"
-            kw["activeborderwidth"] = 1
-            kw['bd'] = 1
         self.__menubar = apply(MfxMenubar, (self.top,), kw)
 
         # init keybindings

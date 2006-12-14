@@ -3,7 +3,7 @@
 ##
 ## code
 ##
-include pysol setup.py setup.cfg MANIFEST.in Makefile COPYING README
+include pysol.py setup.py setup.cfg MANIFEST.in Makefile COPYING README
 #recursive-include pysollib *.py
 include pysollib/*.py pysollib/macosx/*.py
 include pysollib/tk/*.py pysollib/tile/*.py pysollib/pysolgtk/*.py
@@ -19,7 +19,7 @@ include scripts/all_games.py scripts/cardset_viewer.py
 ##
 include docs/*
 graft data/html
-graft data/html-src
+graft html-src
 ##
 ## data - images
 ##

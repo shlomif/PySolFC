@@ -52,6 +52,7 @@ from pysollib.macosx.appSupport import setupApp
 from tkutil import after_idle, wm_set_icon
 from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
 
+
 # /***********************************************************************
 # // menubar
 # ************************************************************************/

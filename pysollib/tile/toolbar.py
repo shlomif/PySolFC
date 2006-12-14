@@ -49,8 +49,9 @@ except ImportError:
 # PySol imports
 from pysollib.mfxutil import destruct
 from pysollib.util import IMAGE_EXTENSIONS
-from pysollib.settings import PACKAGE, WIN_SYSTEM
+from pysollib.settings import PACKAGE
 from pysollib.actions import PysolToolbarActions
+from pysollib.tksettings import TkSettings
 
 # Toolkit imports
 from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
@@ -77,17 +78,13 @@ class AbstractToolbarButton:
             return
         self.visible = True
         if orient == 'horizontal':
-            padx, pady = 0, 2
-            if WIN_SYSTEM == 'win32':
-                padx, pady = 2, 2
+            padx, pady = TkSettings.toolbar_button_padding
             self.grid(row=0,
                       column=self.position,
                       padx=padx, pady=pady,
                       sticky='nsew')
         else:
-            padx, pady = 2, 0
-            if WIN_SYSTEM == 'win32':
-                padx, pady = 2, 2
+            pady, padx = TkSettings.toolbar_button_padding
             self.grid(row=self.position,
                       column=0,
                       padx=padx, pady=pady,
@@ -153,9 +150,7 @@ class ToolbarLabel(Tkinter.Message):
         if self.visible and not force:
             return
         self.visible = True
-        padx, pady = 4, 4
-        if WIN_SYSTEM == 'win32':
-            padx, pady = 6, 6
+        padx, pady = TkSettings.toolbar_label_padding
         if orient == 'horizontal':
             self.grid(row=0,
                       column=self.position,
@@ -192,7 +187,9 @@ class PysolToolbar(PysolToolbarActions):
         self.compound = compound
         self.orient='horizontal'
         #
-        self.frame = Tkinter.Frame(top, class_='Toolbar')
+        self.frame = Tkinter.Frame(top, class_='Toolbar',
+                                   relief=TkSettings.toolbar_relief,
+                                   borderwidth=TkSettings.toolbar_borderwidth)
         #
         for l, f, t in (
             (n_("New"),      self.mNewGame,   _("New game")),
@@ -231,13 +228,6 @@ class PysolToolbar(PysolToolbarActions):
         self.frame.bind("<3>", self.rightclickHandler)
         #
         self.setCompound(compound, force=True)
-        # Change the look of the frame to match the platform look
-        if WIN_SYSTEM == 'x11':
-            pass
-        elif WIN_SYSTEM == "win32":
-            self.frame.config(relief='groove')
-        else:
-            pass
 
     def config(self, w, v):
         if w == 'player':

@@ -158,26 +158,9 @@ def makeToplevel(parent, title=None):
 
 def make_help_toplevel(app, title=None):
     # Create an independent Toplevel window.
-    parent = app.top
+    from pysollib.tksettings import initRootWindow
     window = Tkinter.Tk(className=PACKAGE)
-    theme = app.opt.tile_theme
-    init_tile(app, window, theme)
-    font = parent.option_get('font', '')
-    if font:
-        window.option_add('*font', font)
-    fg, bg = app.top_palette
-    if bg:
-        window.tk_setPalette(bg)
-    if fg:
-        window.option_add('*foreground', fg)
-    window.option_add('*selectBackground', '#00008b', 50)
-    window.option_add('*selectForeground', 'white', 50)
-    if WIN_SYSTEM == "x11":
-        window.option_add('*Scrollbar.elementBorderWidth', '1', 60)
-        window.option_add('*Scrollbar.borderWidth', '1', 60)
-    if title:
-        window.wm_title(title)
-        window.wm_iconname(title)
+    initRootWindow(window, app)
     return window
 
 

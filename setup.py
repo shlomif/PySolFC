@@ -63,7 +63,7 @@ kw = {
     'description'  : 'PySol - a solitaire game collection',
     'long_description' : long_description,
     'license'      : 'GPL',
-    'scripts'      : ['pysol'],
+    'scripts'      : ['pysol.py'],
     'packages'     : ['pysollib',
                       'pysollib.macosx',
                       'pysollib.tk',

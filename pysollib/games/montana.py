@@ -83,6 +83,9 @@ class Montana_Talon(TalonStack):
     def canDealCards(self):
         return self.round != self.max_rounds and not self.game.isGameWon()
 
+    def _inSequence(self, card, suit, rank):
+        return card.suit == suit and card.rank == rank
+
     def dealCards(self, sound=0):
         # move cards to the Talon, shuffle and redeal
         game = self.game
@@ -103,7 +106,8 @@ class Montana_Talon(TalonStack):
             for j in range(RSTEP):
                 r = rows[i + j]
                 if in_sequence:
-                    if not r.cards or r.cards[-1].suit != suit or r.cards[-1].rank != RBASE + j:
+                    if (not r.cards or
+                        not self._inSequence(r.cards[-1], suit, RBASE+j)):
                         in_sequence = 0
                 if not in_sequence:
                     stacks.append(r)
@@ -260,20 +264,18 @@ class BlueMoon(Montana):
 
     def startGame(self):
         frames = 0
-        j = 0
-        for i in range(52):
-            if j % 14 == 0:
-                j = j + 1
-            if i == 39:
+        for i in range(self.RLEN):
+            if i == self.RLEN-self.RSTEP: # last row
                 self.startDealSample()
-                frames = 4
-            self.s.talon.dealRow(rows=(self.s.rows[j],), frames=frames)
-            j = j + 1
+                frames = -1
+            if i % self.RSTEP == 0:     # left column
+                continue
+            self.s.talon.dealRow(rows=(self.s.rows[i],), frames=frames)
         ace_rows = filter(lambda r: r.cards and r.cards[-1].rank == ACE, self.s.rows)
         j = 0
         for r in ace_rows:
             self.moveMove(1, r, self.s.rows[j])
-            j = j + 14
+            j += self.RSTEP
 
 
 # /***********************************************************************
@@ -338,6 +340,7 @@ class Galary(RedMoon):
     RowStack_Class = Galary_RowStack
     Hint_Class = Galary_Hint
 
+
 # /***********************************************************************
 # // Moonlight
 # ************************************************************************/
@@ -386,6 +389,55 @@ class SpacesAndAces(BlueMoon):
     RowStack_Class = SpacesAndAces_RowStack
 
 
+# /***********************************************************************
+# // Paganini
+# ************************************************************************/
+
+class Paganini_Talon(Montana_Talon):
+    def _inSequence(self, card, suit, rank):
+        card_rank = card.rank
+        if card_rank >= 5:
+            card_rank -= 4
+        return card.suit == suit and card_rank == rank
+
+class Paganini_RowStack(Montana_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not BasicRowStack.acceptsCards(self, from_stack, cards):
+            return False
+        if self.id % self.game.RSTEP == 0:
+            return cards[0].rank == self.game.RBASE
+        left = self.game.s.rows[self.id - 1]
+        if not left.cards:
+            return False
+        if left.cards[-1].suit != cards[0].suit:
+            return False
+        if left.cards[-1].rank == ACE:
+            return cards[0].rank == 5
+        return left.cards[-1].rank+1 == cards[0].rank
+
+class Paganini(BlueMoon):
+    RLEN, RSTEP, RBASE = 40, 10, 0
+
+    Talon_Class = StackWrapper(Paganini_Talon, max_rounds=2)
+    RowStack_Class = Paganini_RowStack
+
+    def isGameWon(self):
+        rows = self.s.rows
+        for i in range(0, self.RLEN, self.RSTEP):
+            if not rows[i].cards:
+                return False
+            suit = rows[i].cards[-1].suit
+            for j in range(self.RSTEP - 1):
+                r = rows[i + j]
+                if not r.cards:
+                    return False
+                card = r.cards[-1]
+                card_rank = card.rank
+                if card_rank >= 5:
+                    card_rank -= 4
+                if card_rank != self.RBASE + j or card.suit != suit:
+                    return False
+        return True
 
 
 # register the game
@@ -409,4 +461,8 @@ registerGame(GameInfo(380, Jungle, "Jungle",
                       GI.GT_MONTANA | GI.GT_OPEN, 1, 1, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(381, SpacesAndAces, "Spaces and Aces",
                       GI.GT_MONTANA | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(706, Paganini, "Paganini",
+                      GI.GT_MONTANA | GI.GT_OPEN, 1, 1, GI.SL_MOSTLY_SKILL,
+                      ranks=(0, 5, 6, 7, 8, 9, 10, 11, 12),
+                      ))
 

@@ -40,7 +40,7 @@ import os, sys, Tkinter
 
 # Toolkit imports
 from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
-from tkutil import makeToplevel, setTransient, wm_set_icon
+from tkutil import makeToplevel, setTransient
 
 
 # /***********************************************************************
@@ -75,10 +75,6 @@ class PysolProgressBar:
             self.f2 = Tkinter.Label(self.frame, image=images[1])
             self.f2.grid_configure(column=2, row=0, sticky="ew", ipadx=8, ipady=4)
         self.top.config(cursor="watch")
-        if app:
-            try:
-                wm_set_icon(self.top, app.dataloader.findIcon())
-            except: pass
         self.pack()
         if 1:
             setTransient(self.top, None, relx=0.5, rely=0.5)

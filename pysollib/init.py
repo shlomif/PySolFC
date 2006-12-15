@@ -73,26 +73,28 @@ def init():
         settings.TOOLKIT = 'tk'
         settings.USE_TILE = True
         sys.argv.remove('--tile')
-    elif settings.TOOLKIT == 'tk' and settings.USE_TILE == 'auto':
-        # check tile
+    if settings.TOOLKIT == 'tk':
         import Tkinter
         from Tkinter import TclError
         root = Tkinter.Tk()
-        #
-        # TkAqua displays the console automatically in application
-        # bundles, so we hide it here.
-        from macosx.appSupport import hideTkConsole
-        #
-        hideTkConsole(root)
-        root.withdraw()
-        settings.USE_TILE = False
-        try:
-            root.tk.call('package', 'require', 'tile', '0.7.8')
-        except TclError:
-            pass
-        else:
-            settings.USE_TILE = True
         settings.WIN_SYSTEM = root.tk.call('tk', 'windowingsystem')
+        if settings.WIN_SYSTEM == 'aqua':
+            # TkAqua displays the console automatically in application
+            # bundles, so we hide it here.
+            from macosx.appSupport import hideTkConsole
+            hideTkConsole(root)
+        #
+        root.withdraw()
+        if settings.USE_TILE == 'auto':
+            # check tile
+            settings.USE_TILE = False
+            try:
+                root.tk.call('package', 'require', 'tile', '0.7.8')
+            except TclError:
+                pass
+            else:
+                settings.USE_TILE = True
+        # "can't invoke event <<ThemeChanged>>: application has been destroyed"
         #root.destroy()
         Tkinter._default_root = None
 

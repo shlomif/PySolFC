@@ -331,7 +331,7 @@ class CanvasFormatter(PysolStatsFormatter):
     def pstats(self, y, args, gameid=None):
         x = 1
         t1, t2, t3, t4, t5, t6, t7 = args
-        self.gamenumber = None
+        self.gameid = gameid
         if gameid is None:              # header
             self.gameid = 'header'
         for var, text, anchor, tab in (
@@ -342,6 +342,7 @@ class CanvasFormatter(PysolStatsFormatter):
             ('time',    t5, 'ne', self._tabs[5]),
             ('moves',   t6, 'ne', self._tabs[6]),
             ('percent', t7, 'ne', self._tabs[7]), ):
+            self.gamenumber = None
             if gameid is None:          # header
                 self.gamenumber=var
             id = self.canvas.create_text(x, y, text=text, anchor=anchor,
@@ -477,6 +478,7 @@ class AllGames_StatsDialog(MfxDialog):
         self.player = player
         self.title = title
         self.sort_by = 'name'
+        self.selected_game = None
         #
         kwdefault(kw, width=self.CHAR_W*64, height=lines*self.CHAR_H)
         kw = self.initKw(kw)
@@ -535,7 +537,7 @@ class AllGames_StatsDialog(MfxDialog):
         id = self.canvas.find_withtag(Tkinter.CURRENT)
         if not id:
             return
-        ##print id, self.nodes.get(id[0])
+        ##print 'singleClick:', id, self.nodes.get(id[0])
         gameid, gamenumber = self.nodes.get(id[0], (None, None))
         if gameid == 'header':
             if self.sort_by == gamenumber: return

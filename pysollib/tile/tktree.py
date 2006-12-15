@@ -239,9 +239,6 @@ class MfxTreeInCanvas(MfxScrolledCanvas):
             self.font = None
             self.linestyle = "gray50"
             self.linecolor = "black"
-            if WIN_SYSTEM == "win32":
-                self.linestyle = ""                 # Tk bug ?
-                self.linecolor = "gray50"
 
     def __init__(self, parent, rootnodes, **kw):
         kw['bd'] = 0

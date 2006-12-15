@@ -49,7 +49,7 @@ from tkFont import Font
 from pysollib.mfxutil import destruct, Struct
 from pysollib.settings import PACKAGE, VERSION, WIN_SYSTEM
 from pysollib.macosx.appSupport import setupApp
-from tkutil import after_idle, wm_set_icon
+from tkutil import after_idle
 from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
 
 
@@ -99,81 +99,6 @@ class MfxRoot(Tkinter.Tk):
 
     def connectApp(self, app):
         self.app = app
-
-    def initToolkit(self, app, fg=None, bg=None, font=None, theme=None):
-        setupApp(app)
-        sw, sh, sd = self.winfo_screenwidth(), self.winfo_screenheight(), self.winfo_screendepth()
-        self.wm_group(self)
-        self.wm_title(PACKAGE + ' ' + VERSION)
-        self.wm_iconname(PACKAGE + ' ' + VERSION)
-        if sw < 640 or sh < 480:
-            self.wm_minsize(400, 300)
-        else:
-            self.wm_minsize(520, 360)
-        ##self.self.wm_maxsize(9999, 9999) # unlimited
-        self.wm_protocol('WM_DELETE_WINDOW', self.wmDeleteWindow)
-        prog = sys.executable
-        if prog and os.path.isfile(prog):
-            argv0 = os.path.normpath(sys.argv[0])
-            prog = os.path.abspath(prog)
-            if os.path.isfile(argv0):
-                wm_command = prog + " " + os.path.abspath(argv0)
-                self.wm_command(wm_command)
-        if 1:
-            # set expected window size to assist the layout of the window manager
-            self.config(width=min(800,sw-64), height=min(600,sh-64))
-        try:
-            wm_set_icon(self, app.dataloader.findIcon())
-        except: pass
-
-        # set global color scheme
-        if not fg and not bg:
-            if WIN_SYSTEM == 'x11':      # Unix/X11
-                pass
-        else:
-            if bg:
-                self.tk_setPalette(bg)
-                app.top_palette[1] = bg
-                app.top_bg = bg
-            if fg:
-                self.option_add('*foreground', fg)
-                app.top_palette[0] = fg
-
-        #
-        if WIN_SYSTEM == 'x11':         # Unix/X11
-            self.option_add('*Entry.background', 'white', 60)
-            self.option_add('*Entry.foreground', 'black', 60)
-            self.option_add('*Listbox.background', 'white', 60)
-            self.option_add('*Listbox.foreground', 'black', 60)
-            ##self.option_add('*borderWidth', '1', 50)
-            ##self.option_add('*Button.borderWidth', '1', 50)
-            self.option_add('*Scrollbar.elementBorderWidth', '1', 60)
-            self.option_add('*Scrollbar.borderWidth', '1', 60)
-            self.option_add('*Menu.borderWidth', '1', 60)
-            #self.option_add('*Button.HighlightBackground', '#595d59')
-            #self.option_add('*Button.HighlightThickness', '1')
-
-        # font
-        if font:
-            self.option_add('*font', font)
-        elif WIN_SYSTEM == 'x11':
-            self.option_add('*font', 'Helvetica 12', 50)
-            font = self.option_get('font', '')
-        try:
-            f = Font(self, font)
-        except:
-            print >> sys.stderr, 'invalid font name:', font
-            pass
-        else:
-            if font:
-                fa = f.actual()
-                app.opt.fonts['default'] = (fa['family'],
-                                            fa['size'],
-                                            fa['slant'],
-                                            fa['weight'])
-            else:
-                app.opt.fonts['default'] = None
-
 
     # sometimes an update() is needed under Windows, whereas
     # under Unix an update_idletasks() would be enough...

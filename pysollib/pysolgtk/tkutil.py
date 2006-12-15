@@ -51,9 +51,6 @@ def wm_deiconify(window):
 def wm_map(window, maximized=None):
     window.show()
 
-def wm_set_icon(window, icon):
-    pass
-
 def makeToplevel(parent, title=None, class_=None, gtkclass=gtk.Window):
     window = gtkclass()
     if not hasattr(window, 'table'):

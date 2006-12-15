@@ -56,6 +56,7 @@ from game import Game
 from gamedb import GI, GAME_DB, loadGame
 from settings import TOP_SIZE, TOP_TITLE, TOOLKIT
 from settings import DEBUG
+from tksettings import TkSettings
 
 # Toolkit imports
 from pysoltk import wm_withdraw, loadImage
@@ -671,11 +672,9 @@ class Application:
         # create the canvas
         self.scrolled_canvas = MfxScrolledCanvas(self.top)
         self.canvas = self.scrolled_canvas.canvas
-        if WIN_SYSTEM == 'win32':
-            self.scrolled_canvas.grid(row=1, column=1, sticky='nsew',
-                                      padx=1, pady=1)
-        else:
-            self.scrolled_canvas.grid(row=1, column=1, sticky='nsew')
+        padx, pady = TkSettings.canvas_padding
+        self.scrolled_canvas.grid(row=1, column=1, sticky='nsew',
+                                  padx=padx, pady=pady)
         self.top.grid_columnconfigure(1, weight=1)
         self.top.grid_rowconfigure(1, weight=1)
         self.setTile(self.tabletile_index, force=True)

@@ -51,7 +51,7 @@ from pysollib.actions import PysolMenubarActions
 
 # toolkit imports
 from tkconst import EVENT_HANDLED, EVENT_PROPAGATE, CURSOR_WATCH, COMPOUNDS
-from tkutil import bind, after_idle, load_theme
+from tkutil import bind, after_idle
 from selectgame import SelectGameDialog, SelectGameDialogWithPreview
 from soundoptionsdialog import SoundOptionsDialog
 from selectcardset import SelectCardsetDialogWithPreview

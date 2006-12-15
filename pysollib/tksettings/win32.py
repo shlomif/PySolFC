@@ -24,7 +24,7 @@ import sys, os
 from pysollib.settings import TOOLKIT, USE_TILE
 from pysollib.tile import Tile
 
-from common import baseInitRootWindow
+from common import baseInitRootWindow, BaseTkSettings
 
 
 class initRootWindow(baseInitRootWindow):
@@ -34,13 +34,14 @@ class initRootWindow(baseInitRootWindow):
             pass
         elif USE_TILE:
             theme = app.opt.tile_theme
+            style = Tile.Style(root)
             if theme not in ('winnative', 'xpnative'):
                 color = style.lookup('.', 'background')
                 if color:
-                    top.tk_setPalette(color)
-                ##top.option_add('*Menu.foreground', 'black')
-                top.option_add('*Menu.activeBackground', '#08246b')
-                top.option_add('*Menu.activeForeground', 'white')
+                    root.tk_setPalette(color)
+                ##root.option_add('*Menu.foreground', 'black')
+                root.option_add('*Menu.activeBackground', '#08246b')
+                root.option_add('*Menu.activeForeground', 'white')
             if theme == 'winnative':
                 style.configure('Toolbutton', padding=2)
         else:
@@ -49,9 +50,9 @@ class initRootWindow(baseInitRootWindow):
 
 
 class TkSettings(BaseTkSettings):
+    canvas_padding = (1, 1)
     toolbar_relief = 'groove'
     toolbar_borderwidth = 2
     if USE_TILE:
         toolbar_button_padding = (2, 0)
-        toolbar_label_padding = (6, 6)
 

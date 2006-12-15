@@ -24,7 +24,6 @@ import sys, os, traceback
 from pysollib.settings import PACKAGE, VERSION
 from pysollib.settings import TOOLKIT, USE_TILE
 from pysollib.tile import Tile
-from pysollib.pysoltk import wm_set_icon
 
 
 def init_tile(app, top, theme):
@@ -57,9 +56,9 @@ class baseInitRootWindow:
         #root.wm_group(root)
         root.wm_title(PACKAGE + ' ' + VERSION)
         root.wm_iconname(PACKAGE + ' ' + VERSION)
-        try:
-            wm_set_icon(root, app.dataloader.findIcon())
-        except: pass
+
+        root.wm_protocol('WM_DELETE_WINDOW', root.wmDeleteWindow)
+
         # set minsize
         sw, sh, sd = (root.winfo_screenwidth(),
                       root.winfo_screenheight(),
@@ -79,6 +78,7 @@ class baseInitRootWindow:
             pass
 
 class BaseTkSettings:
+    canvas_padding = (0, 0)
     toolbar_button_padding = (2, 2)
     toolbar_label_padding = (4, 4)
     if USE_TILE:

@@ -31,8 +31,9 @@ from common import baseInitRootWindow, BaseTkSettings
 class initRootWindow(baseInitRootWindow):
     def __init__(self, root, app):
         baseInitRootWindow.__init__(self, root, app)
-        #setupApp(app)
-        hideTkConsole(root)
+        if TOOLKIT == 'tk':
+            #setupApp(app)
+            hideTkConsole(root)
         if TOOLKIT == 'gtk':
             pass
         elif USE_TILE:

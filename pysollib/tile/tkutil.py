@@ -36,7 +36,6 @@
 __all__ = ['wm_withdraw',
            'wm_deiconify',
            'wm_map',
-           'wm_set_icon',
            'wm_get_geometry',
            #'setTransient',
            #'makeToplevel',
@@ -53,8 +52,6 @@ __all__ = ['wm_withdraw',
            'createImage',
            'shadowImage',
            'get_text_width',
-           #'init_tile',
-           #'load_theme',
            ]
 
 # imports
@@ -90,17 +87,6 @@ def wm_map(window, maximized=0):
             window.wm_state("zoomed")
         else:
             wm_deiconify(window)
-
-def wm_set_icon(window, filename):
-    if not filename:
-        return
-    if WIN_SYSTEM == 'win32':
-        ##window.tk.call('wm', 'iconbitmap', root._w, '-default', '@'+filename)
-        pass
-    elif WIN_SYSTEM == 'x11':
-        ##window.wm_iconbitmap("@"+filename)
-        ##window.wm_iconmask("@"+filename)
-        pass
 
 __wm_get_geometry_re = re.compile(r"^(\d+)x(\d+)\+([\-]?\d+)\+([\-]?\d+)$")
 
@@ -381,66 +367,6 @@ def shadowImage(image):
 
 def get_text_width(text, font, root=None):
     return Font(root=root, font=font).measure(text)
-
-
-# /***********************************************************************
-# //
-# ************************************************************************/
-
-def init_tile(app, top, theme):
-    if WIN_SYSTEM == 'x11':
-        f = os.path.join(app.dataloader.dir, 'tcl', 'menu8.4.tcl')
-        if os.path.exists(f):
-            top.tk.call('source', f)
-    top.tk.call("package", "require", "tile")
-    # load available themes
-    d = os.path.join(app.dataloader.dir, 'themes')
-    if os.path.isdir(d):
-        top.tk.call('lappend', 'auto_path', d)
-        for t in os.listdir(d):
-            if os.path.exists(os.path.join(d, t, 'pkgIndex.tcl')):
-                try:
-                    top.tk.call('package', 'require', 'tile::theme::'+t)
-                    #print 'load theme:', t
-                except:
-                    traceback.print_exc()
-                    pass
-    #
-    load_theme(app, top, theme)
-
-def load_theme(app, top, theme):
-    # set theme
-    style = Tkinter.Style(top)
-    all_themes = style.theme_names()
-    if theme not in all_themes:
-        print >> sys.stderr, 'WARNING: invalid theme name:', theme
-        theme = 'default'
-    if theme:
-        style.theme_use(theme)
-    if WIN_SYSTEM == 'x11':
-        color = style.lookup('.', 'background')
-        if color:
-            top.tk_setPalette(color)
-        color = style.lookup('.', 'background', 'active')
-        if color:
-            top.option_add('*Menu.activeBackground', color)
-    elif WIN_SYSTEM == 'win32':
-        if theme not in ('winnative', 'xpnative'):
-            color = style.lookup('.', 'background')
-            if color:
-                top.tk_setPalette(color)
-            ##top.option_add('*Menu.foreground', 'black')
-            top.option_add('*Menu.activeBackground', '#08246b')
-            top.option_add('*Menu.activeForeground', 'white')
-        if theme == 'winnative':
-            style.configure('Toolbutton', padding=2)
-    font = app.opt.fonts['default']
-    if font:
-        style.configure('.', font=font)
-    else:
-        font = style.lookup('.', 'font')
-        if font:
-            top.option_add('*font', font)
 
 
 

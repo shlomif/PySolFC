@@ -36,7 +36,6 @@
 __all__ = ['wm_withdraw',
            'wm_deiconify',
            'wm_map',
-           'wm_set_icon',
            'wm_get_geometry',
            #'setTransient',
            #'makeToplevel',
@@ -88,17 +87,6 @@ def wm_map(window, maximized=0):
             window.wm_state("zoomed")
         else:
             wm_deiconify(window)
-
-def wm_set_icon(window, filename):
-    if not filename:
-        return
-    if WIN_SYSTEM == 'win32':
-        pass
-        ##window.wm_iconbitmap(default="@"+filename)
-    elif WIN_SYSTEM == "x11":
-        pass
-        ##window.wm_iconbitmap("@" + filename)
-        ##window.wm_iconmask("@" + filename)
 
 __wm_get_geometry_re = re.compile(r"^(\d+)x(\d+)\+([\-]?\d+)\+([\-]?\d+)$")
 

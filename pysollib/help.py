@@ -42,7 +42,7 @@ import Tkinter
 # PySol imports
 from mfxutil import EnvError
 from settings import PACKAGE, PACKAGE_URL, TOOLKIT, VERSION, FC_VERSION
-from pysoltk import make_help_toplevel, wm_map, wm_set_icon
+from pysoltk import make_help_toplevel, wm_map
 from pysoltk import MfxMessageDialog
 from pysoltk import HTMLViewer
 from gamedb import GAME_DB
@@ -155,10 +155,6 @@ def help_html(app, document, dir_, top=None):
         else:
             #maximized = 0
             top.wm_minsize(400, 200)
-        try:
-            wm_set_icon(top, app.dataloader.findIcon())
-        except:
-            pass
         viewer = HTMLViewer(top, app, help_html_index)
         viewer.display(doc)
     #wm_map(top, maximized=maximized)

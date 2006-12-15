@@ -47,7 +47,7 @@ except ImportError:
 # PySol imports
 from pysollib.mfxutil import destruct
 from pysollib.util import IMAGE_EXTENSIONS
-from pysollib.settings import PACKAGE, WIN_SYSTEM
+from pysollib.settings import PACKAGE
 from pysollib.actions import PysolToolbarActions
 from pysollib.tksettings import TkSettings
 

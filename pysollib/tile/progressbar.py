@@ -41,7 +41,7 @@ import Tile as Tkinter
 
 # Toolkit imports
 from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
-from tkutil import makeToplevel, setTransient, wm_set_icon
+from tkutil import makeToplevel, setTransient
 
 
 # /***********************************************************************
@@ -72,10 +72,6 @@ class PysolProgressBar:
         else:
             self.progress.pack(expand='yes', fill='x')
         self.frame.pack(expand='yes', fill='both')
-        if app:
-            try:
-                wm_set_icon(self.top, app.dataloader.findIcon())
-            except: pass
         if 1:
             setTransient(self.top, None, relx=0.5, rely=0.5)
         else:

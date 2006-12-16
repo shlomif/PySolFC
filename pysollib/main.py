@@ -124,9 +124,6 @@ def parse_option(argv):
   -g    --game=GAMENAME        start game GAMENAME
   -i    --gameid=GAMEID
         --french-only
-  --fg  --foreground=COLOR     foreground color
-  --bg  --background=COLOR     background color
-  --fn  --font=FONT            default font
         --sound-mod=MOD
         --nosound              disable sound support
         --noplugins            disable load plugins
@@ -186,7 +183,6 @@ def pysol_init(app, args):
     # init games database
     import games
     if not opts['french-only']:
-        #import games.contrib
         import games.ultra
         import games.mahjongg
         import games.special
@@ -209,7 +205,6 @@ def pysol_init(app, args):
     top = MfxRoot(className=PACKAGE)
     app.top = top
     app.top_bg = top.cget("bg")
-    app.top_palette = [None, None]       # [fg, bg]
     app.top_cursor = top.cget("cursor")
 
     # load options

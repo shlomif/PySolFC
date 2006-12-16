@@ -89,6 +89,7 @@ class MfxRoot(Tkinter.Tk):
     def __init__(self, **kw):
         apply(Tkinter.Tk.__init__, (self,), kw)
         self.app = None
+        self.wm_protocol('WM_DELETE_WINDOW', self.wmDeleteWindow)
         # for interruptible sleep
         #self.sleep_var = Tkinter.IntVar(self)
         #self.sleep_var.set(0)

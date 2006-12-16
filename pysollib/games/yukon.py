@@ -657,6 +657,45 @@ class Brisbane(Yukon):
     shallHighlightMatch = Game._shallHighlightMatch_RK
 
 
+# /***********************************************************************
+# // Hawaiian
+# ************************************************************************/
+
+class Hawaiian(Game):
+    Hint_Class = Yukon_Hint
+
+    def createGame(self, rows=10, playcards=20):
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+max(rows, 8)*l.XS,
+                     l.YM+2*l.YS+playcards*l.YOFFSET)
+        x, y = l.XM, l.YM
+        stack = OpenStack(x, y, self, max_move=1, max_accept=0)
+        s.reserves.append(stack)
+        l.createText(stack, 'ne')
+        x, y = self.width-8*l.XS, l.YM
+        for i in range(8):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i/2))
+            x += l.XS
+        x, y = self.width-rows*l.XS, l.YM+l.YS
+        for i in range(rows):
+            s.rows.append(Yukon_AC_RowStack(x, y, self))
+            x += l.XS
+        x, y = l.XM, self.height-l.YS
+        s.talon = InitialDealTalonStack(x, y, self)
+
+        l.defaultStackGroups()
+
+    def startGame(self):
+        for i in range(104-5*10):
+            self.s.talon.dealRow(rows=self.s.reserves, frames=0)
+        for i in range(4):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+    shallHighlightMatch = Game._shallHighlightMatch_AC
+
+
 
 # register the game
 registerGame(GameInfo(19, Yukon, "Yukon",
@@ -716,3 +755,5 @@ registerGame(GameInfo(531, DoubleRussianSpider, "Double Russian Spider",
                       GI.GT_SPIDER | GI.GT_ORIGINAL, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(603, Brisbane, "Brisbane",
                       GI.GT_SPIDER, 1, 0, GI.SL_BALANCED))
+registerGame(GameInfo(707, Hawaiian, "Hawaiian",
+                      GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 0, GI.SL_BALANCED))

@@ -56,9 +56,6 @@ class baseInitRootWindow:
         #root.wm_group(root)
         root.wm_title(PACKAGE + ' ' + VERSION)
         root.wm_iconname(PACKAGE + ' ' + VERSION)
-
-        root.wm_protocol('WM_DELETE_WINDOW', root.wmDeleteWindow)
-
         # set minsize
         sw, sh, sd = (root.winfo_screenwidth(),
                       root.winfo_screenheight(),

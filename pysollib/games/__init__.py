@@ -61,5 +61,3 @@ import wavemotion
 import windmill
 import yukon
 import zodiac
-from ultra import *
-from special import *

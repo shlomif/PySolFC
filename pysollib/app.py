@@ -513,11 +513,11 @@ class Application:
         # visual components
         self.top = None                 # the root toplevel window
         self.top_bg = None              # default background
-        self.top_palette = [None, None] # from command line [fg, bg]
         self.top_cursor = None          # default cursor
         self.menubar = None
         self.toolbar = None
-        self.canvas = None
+        self.canvas = None              # MfxCanvas
+        self.scrolled_canvas = None     # MfxScrolledCanvas
         self.statusbar = None
         #
         self.game = None

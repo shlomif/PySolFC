@@ -186,12 +186,6 @@ class _MfxToplevel(gtk.Window):
         pass
         ##~ self.set_geometry_hints(min_width=width, min_height=height)
 
-    def wm_protocol(self, name=None, func=None):
-        if name == 'WM_DELETE_WINDOW':
-            self.connect("delete_event", func)
-        else:
-            raise AttributeError, name
-
     def wm_title(self, title):
         self.set_title(title)
 
@@ -234,6 +228,7 @@ class MfxRoot(_MfxToplevel):
     def __init__(self, **kw):
         apply(_MfxToplevel.__init__, (self,), kw)
         self.app = None
+        self.connect("delete_event", self.wmDeleteWindow)
 
     def connectApp(self, app):
         self.app = app

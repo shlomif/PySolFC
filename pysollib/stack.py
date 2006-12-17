@@ -100,12 +100,14 @@ from util import ACE, KING, SUITS
 from util import ANY_SUIT, ANY_COLOR, ANY_RANK, NO_RANK
 from util import NO_REDEAL, UNLIMITED_REDEALS, VARIABLE_REDEALS
 from pysoltk import EVENT_HANDLED, EVENT_PROPAGATE
-from pysoltk import CURSOR_DRAG, CURSOR_DOWN_ARROW, ANCHOR_NW, ANCHOR_SE
+from pysoltk import CURSOR_DRAG, CURSOR_DOWN_ARROW, CURSOR_CAN_MOVE, CURSOR_NO_MOVE
+from pysoltk import ANCHOR_NW, ANCHOR_SE
 from pysoltk import bind, unbind_destroy
 from pysoltk import after, after_idle, after_cancel
 from pysoltk import MfxCanvasGroup, MfxCanvasImage, MfxCanvasRectangle, MfxCanvasText, MfxCanvasLine
 from pysoltk import Card
 from pysoltk import get_text_width
+from pysoltk import markImage
 from settings import TOOLKIT
 from settings import DEBUG
 
@@ -316,6 +318,7 @@ class Stack:
         view.is_open = -1
         view.can_hide_cards = -1
         view.max_shadow_cards = -1
+        view.current_cursor = ''
         view.cursor_changed = False
 
     def destruct(self):
@@ -986,6 +989,8 @@ class Stack:
         return self.__defaultClickEventHandler(event, self.shiftrightclickHandler)
 
     def __motionEventHandler(self, event):
+        ##if not self.game.drag.stack:
+        ##    self._setMotionCursor(event)
         if not self.game.drag.stack or not self is self.game.drag.stack:
             return EVENT_PROPAGATE
         if self.game.demo:
@@ -1023,6 +1028,7 @@ class Stack:
                 if self.acceptsCards(self.game.drag.stack,
                                      self.game.drag.cards):
                     self.game.canvas.config(cursor=CURSOR_DOWN_ARROW)
+                    self.current_cursor = CURSOR_DOWN_ARROW
                     self.cursor_changed = True
         else:
             after_idle(self.canvas, self.game.showHelp,
@@ -1037,6 +1043,7 @@ class Stack:
             return EVENT_HANDLED
         if self.cursor_changed:
             self.game.canvas.config(cursor='')
+            self.current_cursor = ''
             self.cursor_changed = False
         drag_stack = self.game.drag.stack
         if self is drag_stack:
@@ -1283,13 +1290,11 @@ class Stack:
         y1 = y1 + self.game.app.images.CARDH
         xx0, yy0 = x0, y0
         w, h = x1-x0, y1-y0
-        m = max(w, h)
         #
         Image = None
         if TOOLKIT == 'tk':
             try:
                 import Image, ImageTk
-                from ImageDraw import ImageDraw
             except ImportError:
                 pass
         ##Image = None
@@ -1307,43 +1312,33 @@ class Stack:
 ##             drag.shadows.append(l)
             return
         #
-        mask = Image.new('RGBA', (w, h))
+        shade = Image.new('RGBA', (w, h))
         for c in cards:
             x, y = self.getPositionFor(c)
             x, y = x-xx0, y-yy0
-            im = c.item._image._pil_image
-            mask.paste(im, (x, y), im)
+            im = c._active_image._pil_image
+            shade.paste(im, (x, y), im)
         #
-        shade = Image.new('RGBA', (w, h))
-        draw = ImageDraw(shade, 'RGBA')
-        color = 'black'
-        d = 8
-##         y0, y1 = 0, h
-##         for x0 in range(-m, m, d):
-##             x1 = x0+h
-##             draw.line((x0, y0, x1, y1), fill=color, width=1)
-##             draw.line((x1, y0, x0, y1), fill=color, width=1)
-        for i in xrange(0, m, d):
-            x0, x1 = i, m
-            y0, y1 = 0, m-i
-            draw.line((x0, y0, x1, y1), fill=color, width=1)
-            x0, x1 = 0, m-i
-            y0, y1 = i, m
-            draw.line((x0, y0, x1, y1), fill=color, width=1)
-            x0, x1 = m-i, 0
-            y0, y1 = 0, m-i
-            draw.line((x0, y0, x1, y1), fill=color, width=1)
-            x0, x1 = m, i
-            y0, y1 = i, m
-            draw.line((x0, y0, x1, y1), fill=color, width=1)
-
-        sh2 = Image.composite(shade, mask, mask)
-        tkshade = ImageTk.PhotoImage(sh2)
+        shade = markImage(shade)
+        tkshade = ImageTk.PhotoImage(shade)
         im = MfxCanvasImage(self.game.canvas, xx0, yy0,
                             image=tkshade, anchor=ANCHOR_NW,
                             group=self.group)
         drag.shadows.append(im)
 
+    def _setMotionCursor(self, event):
+        if not event:
+            return
+        self.cursor_changed = True
+        i = self._findCard(event)
+        if i < 0 or not self.canMoveCards(self.cards[i:]):
+            if self.current_cursor != CURSOR_NO_MOVE:
+                self.game.canvas.config(cursor=CURSOR_NO_MOVE)
+                self.current_cursor = CURSOR_NO_MOVE
+        else:
+            if self.current_cursor != CURSOR_CAN_MOVE:
+                self.game.canvas.config(cursor=CURSOR_CAN_MOVE)
+                self.current_cursor = CURSOR_CAN_MOVE
 
     def _stopDrag(self):
         drag = self.game.drag
@@ -1364,7 +1359,7 @@ class Stack:
     # finish a drag operation
     def finishDrag(self, event=None):
         if self.game.app.opt.dragcursor:
-            self.game.canvas.config(cursor=self.game.app.top_cursor)
+            self.game.canvas.config(cursor='')
         drag = self.game.drag.copy()
         self._stopDrag()
         if drag.cards:
@@ -1377,7 +1372,7 @@ class Stack:
     # cancel a drag operation
     def cancelDrag(self, event=None):
         if self.game.app.opt.dragcursor:
-            self.game.canvas.config(cursor=self.game.app.top_cursor)
+            self.game.canvas.config(cursor='')
         drag = self.game.drag.copy()
         self._stopDrag()
         if drag.cards:

@@ -490,8 +490,7 @@ class PysolMenubar(PysolMenubarActions):
         menu.add_command(label=n_("&Colors..."), command=self.mOptColors)
         menu.add_command(label=n_("Time&outs..."), command=self.mOptTimeouts)
         menu.add_separator()
-        submenu = MfxMenu(menu, label=n_("Set t&heme"))
-        self.createThemesMenu(submenu)
+        self.createThemesMenu(menu)
         submenu = MfxMenu(menu, label=n_("&Toolbar"))
         createToolbarMenu(self, submenu)
         submenu = MfxMenu(menu, label=n_("Stat&usbar"))
@@ -1318,6 +1317,7 @@ the next time you restart """)+PACKAGE,
         self.app.opt.tile_theme = theme
 
     def createThemesMenu(self, menu):
+        submenu = MfxMenu(menu, label=n_("Set t&heme"))
         style = Tkinter.Style(self.top)
         all_themes = list(style.theme_names())
         all_themes.sort()
@@ -1335,6 +1335,6 @@ the next time you restart """)+PACKAGE,
                 n = tn[t]
             except KeyError:
                 n = t.capitalize()
-            menu.add_radiobutton(label=n, variable=self.tkopt.theme,
-                                 value=t, command=self.mOptTheme)
+            submenu.add_radiobutton(label=n, variable=self.tkopt.theme,
+                                    value=t, command=self.mOptTheme)
 

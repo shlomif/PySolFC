@@ -40,6 +40,8 @@ __all__ = ['tkversion',
            'CURSOR_DRAG',
            'CURSOR_WATCH',
            'CURSOR_DOWN_ARROW',
+           'CURSOR_CAN_MOVE',
+           'CURSOR_NO_MOVE',
            'ANCHOR_CENTER',
            'ANCHOR_N',
            'ANCHOR_NW',
@@ -85,6 +87,8 @@ EVENT_PROPAGATE = None
 CURSOR_DRAG     = "hand1"
 CURSOR_WATCH    = "watch"
 CURSOR_DOWN_ARROW = 'sb_down_arrow'
+CURSOR_CAN_MOVE = 'hand2'
+CURSOR_NO_MOVE = 'dot'
 
 ANCHOR_CENTER = Tkinter.CENTER
 ANCHOR_N      = Tkinter.N

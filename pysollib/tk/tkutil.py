@@ -51,6 +51,7 @@ __all__ = ['wm_withdraw',
            #'fillImage',
            'createImage',
            'shadowImage',
+           'markImage',
            'get_text_width',
            ]
 
@@ -63,6 +64,7 @@ try:
     # PIL
     import Image
     import ImageTk
+    import ImageOps
 except ImportError:
     Image = None
 
@@ -355,11 +357,23 @@ def shadowImage(image):
     if not hasattr(image, '_pil_image'):
         return None
     im = image._pil_image
-    sh = Image.new('RGBA', im.size, 'black')
-    tmp = Image.blend(im, sh, 0.2)
+    #color, factor = 'black', 0.2
+    color, factor = '#3896f8', 0.3
+    sh = Image.new('RGBA', im.size, color)
+    tmp = Image.blend(im, sh, factor)
     out = Image.composite(tmp, im, im)
     return PIL_Image(image=out)
 
+def markImage(image):
+    assert Image
+    if 1:                               # shadow
+        color, factor = '#6ae400', 0.3
+        sh = Image.new('RGBA', image.size, color)
+        tmp = Image.blend(image, sh, factor)
+    else:                               # negate
+        tmp = ImageOps.invert(image.convert('RGB'))
+    out = Image.composite(tmp, image, image)
+    return out
 
 # /***********************************************************************
 # // font utils

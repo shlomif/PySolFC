@@ -353,7 +353,8 @@ class AbstractShisenGame(AbstractMahjonggGame):
 
         # create other stacks
         y = l.YM + dyy
-        s.foundations.append(Shisen_Foundation(-l.XS, y, self))
+        s.foundations.append(Shisen_Foundation(-l.XS-self.canvas.xmargin,
+                                               y, self))
         self.texts.info = MfxCanvasText(self.canvas,
                                         self.width - l.XM - ti_width, y,
                                         anchor="nw", font=font)

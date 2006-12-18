@@ -37,8 +37,11 @@ class initRootWindow(baseInitRootWindow):
         if TOOLKIT == 'gtk':
             pass
         elif USE_TILE:
+            color = style.lookup('.', 'background')
+            if color:
+                root.tk_setPalette(color) # for non-Tile widgets
             pass
-        else:
+        else:                           # pure Tk
             #root.option_add(...)
             pass
 

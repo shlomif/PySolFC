@@ -344,14 +344,13 @@ class CardsetInfoDialog(MfxDialog):
                 from random import choice
                 im = choice(images)
                 f = os.path.join(cardset.dir, cardset.backname)
-                self.back_image = loadImage(file=f)
-                canvas = Tkinter.Canvas(info_frame,
-                                        width=2*im.width()+30,
-                                        height=im.height()+2)
-                canvas.create_image(10, 1, image=im, anchor='nw')
-                canvas.create_image(im.width()+20, 1,
-                                    image=self.back_image, anchor='nw')
-                canvas.grid(row=0, column=2, rowspan=row+1, sticky='ne')
+                self.back_image = loadImage(file=f) # store the image
+                l = Tkinter.Label(info_frame, image=im, padding=5)
+                l.grid(row=0, column=2, rowspan=row+1, sticky='ne')
+                l = Tkinter.Label(info_frame, image=self.back_image,
+                                  padding=(0,5,5,5)) # left margin = 0
+                l.grid(row=0, column=3, rowspan=row+1, sticky='ne')
+
                 info_frame.columnconfigure(2, weight=1)
                 info_frame.rowconfigure(row, weight=1)
             except:

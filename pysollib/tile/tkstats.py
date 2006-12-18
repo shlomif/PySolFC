@@ -136,18 +136,18 @@ class SingleGame_StatsDialog(MfxDialog):
         return pwon, plost
 
     def _createChartInit(self, text):
-        w, h = self.tab_x[-1]+20, self.tab_y[-1]+20
-        c = Tkinter.Canvas(self.top_frame, width=w, height=h)
-        c.pack(side=Tkinter.TOP, fill=Tkinter.BOTH, expand=0, padx=20, pady=10)
-        self.canvas = c
-        ##self.fg = c.cget("insertbackground")
-        self.fg = c.option_get('foreground', '') or c.cget("insertbackground")
+        frame = Tkinter.LabelFrame(self.top_frame, text=text)
+        frame.pack(side='top', fill='both', expand=False, padx=20, pady=10)
+        style = Tkinter.Style(self.top_frame)
+        fg = style.lookup('.', 'foreground') or None # use default if fg == ''
+        bg = style.lookup('.', 'background') or None
+        self.fg = fg
         #
-        c.create_rectangle(2, 7, w, h, fill="", outline="#7f7f7f")
-        l = Tkinter.Label(c, text=text)
-        dy = int(self.font_metrics['ascent']) - 10
-        dy = dy/2
-        c.create_window(20, -dy, window=l, anchor="nw")
+        w, h = self.tab_x[-1]+20, self.tab_y[-1]+20
+        c = Tkinter.Canvas(frame, width=w, height=h,
+                           bg=bg, highlightthickness=0)
+        c.pack(fill='both', expand=True)
+        self.canvas = c
 
     def _createChartTexts(self, tx, ty, won, lost):
         c, tfont, fg = self.canvas, self.font, self.fg

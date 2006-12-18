@@ -971,6 +971,9 @@ class York(RelaxedSpider):
         self.startDealSample()
         self.s.talon.dealRow(rows=self.s.rows[2:-2])
 
+    shallHighlightMatch = Game._shallHighlightMatch_RKW
+
+
 class BigYork(York):
 
     def createGame(self):

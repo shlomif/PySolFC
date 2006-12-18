@@ -106,9 +106,8 @@ class FontChooserDialog(MfxDialog):
         cb2.grid(row=3, column=0, columnspan=2, sticky='we')
 
         sc = PysolScale(frame, from_=6, to=40, resolution=1,
-                           #label='Size',
-                           orient='horizontal',
-                           command=self.fontupdate, variable=self.size_var)
+                        label=_('Size:'), orient='horizontal',
+                        command=self.fontupdate, variable=self.size_var)
         sc.grid(row=4, column=0, columnspan=2, sticky='news')
         #
         font_families = list(tkFont.families())

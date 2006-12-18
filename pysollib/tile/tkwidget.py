@@ -75,6 +75,8 @@ class MfxDialog: # ex. _ToplevelDialog
         self.buttons = []
         self.accel_keys = {}
         self.top = makeToplevel(parent, title=title)
+        self._frame = Tkinter.Frame(self.top)
+        self._frame.pack(expand=True, fill='both')
         self.top.wm_resizable(resizable, resizable)
         ##w, h = self.top.winfo_screenwidth(), self.top.winfo_screenheight()
         ##self.top.wm_maxsize(w-4, h-32)
@@ -159,12 +161,12 @@ class MfxDialog: # ex. _ToplevelDialog
         return kw
 
     def createFrames(self, kw):
-        bottom_frame = Tkinter.Frame(self.top)
+        bottom_frame = Tkinter.Frame(self._frame)
         bottom_frame.pack(side='bottom', fill='both', expand=0, ipadx=3, ipady=3, padx=5)
         if kw.separatorwidth > 0:
-            separator = Tkinter.Separator(self.top)
+            separator = Tkinter.Separator(self._frame)
             separator.pack(side='bottom', fill='x', pady=kw.separatorwidth/2)
-        top_frame = Tkinter.Frame(self.top)
+        top_frame = Tkinter.Frame(self._frame)
         top_frame.pack(side='top', fill='both', expand=1)
         return top_frame, bottom_frame
 
@@ -708,38 +710,77 @@ class StackDesc:
 
 
 # /***********************************************************************
-# //
+# // Tile.Scale workaround (label and resolution)
 # ************************************************************************/
 
 class MyPysolScale:
     def __init__(self, parent, **kw):
         if kw.has_key('resolution'):
             self.resolution = kw['resolution']
+            del kw['resolution']
         else:
             self.resolution = 1
+        if kw.has_key('from_'):
+            kw['from_'] = kw['from_']/self.resolution
+        if kw.has_key('to'):
+            kw['to'] = kw['to']/self.resolution
         if kw.has_key('command'):
             self.command = kw['command']
         else:
             self.command = None
-        self.frame = Tkinter.Frame(parent)
-
-        self.label = Tkinter.Label(self.frame)
-        self.label.pack()
-
-        kw['command'] = self._scale_command
-        self.scale = Tkinter.Scale(self.frame, **kw)
-        self.scale.pack(expand=True, fill='both')
-
+        if kw.has_key('variable'):
+            self.variable = kw['variable']
+            del kw['variable']
+        else:
+            self.variable = None
         if kw.has_key('value'):
-            self.label.configure(text=self._round(kw['value']))
-        elif kw.has_key('variable'):
-            self.label.configure(text=self._round(kw['variable'].get()))
+            value = kw['value']
+            del kw['value']
+            if self.variable:
+                self.variable.set(value)
+        else:
+            value = None
+            if self.variable:
+                value = self.variable.get()
+        if self.variable:
+            self.variable.trace('w', self._trace_var)
+        kw['command'] = self._scale_command
+        if kw.has_key('label'):
+            self.label_text = kw['label']
+            del kw['label']
+        else:
+            self.label_text = None
+
+        # create widgets
+        side = 'left' # 'top'
+        self.frame = Tkinter.Frame(parent)
+        self.label = Tkinter.Label(self.frame, anchor='w', padding=(5,0))
+        self.label.pack(side=side, expand=False, fill='x')
+        self.scale = Tkinter.Scale(self.frame, **kw)
+        self.scale.pack(side=side, expand=True, fill='both', pady=4)
+
+        if not value is None:
+            if self.variable:
+                self.variable.set(self._round(value))
+            self._set_text(self._round(value))
 
     def _round(self, value):
         return int(float(value)/self.resolution)*self.resolution
 
+    def _trace_var(self, *args):
+        self.scale.set(float(self.variable.get())/self.resolution)
+
+    def _set_text(self, v):
+        if self.label_text:
+            t = self.label_text+' '+str(v)
+        else:
+            t = str(v)
+        self.label.configure(text=t)
+
     def _scale_command(self, value):
-        self.label.configure(text=self._round(value))
+        v = self._round(float(value)*self.resolution)
+        self._set_text(v)
+        self.variable.set(v)
         if self.command:
             self.command(value)
 
@@ -760,5 +801,5 @@ class TkinterScale(Tk.Scale):
         Tk.Scale.__init__(self, parent, **kw)
 
 
-#PysolScale = MyPysolScale
-PysolScale = TkinterScale
+PysolScale = MyPysolScale
+#PysolScale = TkinterScale

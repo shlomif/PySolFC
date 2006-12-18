@@ -162,7 +162,7 @@ class Calculation(Game):
         for i in range(4):
             s.rows.append(self.RowStack_Class(x, y, self))
             x = x + l.XS
-        self.setRegion(s.rows, (-999, y, 999999, 999999))
+        self.setRegion(s.rows, (-999, y-l.CH/2, 999999, 999999))
         x = l.XM
         s.talon = WasteTalonStack(x, y, self, max_rounds=1)
         l.createText(s.talon, "n")

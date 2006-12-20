@@ -161,7 +161,7 @@ class ResourceManager:
                         self._addDir(result, os.path.join(dir, s))
                 except EnvError, ex:
                     pass
-        if DEBUG >= 5:
+        if DEBUG >= 6:
             print "getSearchDirs", env, search, "->", result
         return result
 

@@ -1196,7 +1196,11 @@ Please select a %s type %s.
             return
         opt = unpickle(self.fn.opt)
         if opt:
-            ##import pprint; pprint.pprint(opt.__dict__)
+            if DEBUG >= 6:
+                import pprint
+                print '======== options ========'
+                pprint.pprint(opt.__dict__)
+                print '========================='
             self.opt.__dict__.update(opt.__dict__)
         self.opt.setConstants()
 

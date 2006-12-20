@@ -23,6 +23,7 @@ import sys, os, traceback
 
 from pysollib.settings import PACKAGE, VERSION
 from pysollib.settings import TOOLKIT, USE_TILE
+from pysollib.settings import DEBUG
 from pysollib.tile import Tile
 
 
@@ -49,6 +50,26 @@ def set_theme(top, theme):
         print >> sys.stderr, 'WARNING: invalid theme name:', theme
         theme = 'default'
     style.theme_use(theme)
+
+
+def get_font_name(font):
+    # create font name
+    # i.e. "helvetica 12" -> ("helvetica", 12, "roman", "normal")
+    from tkFont import Font
+    font_name = None
+    try:
+        f = Font(font=font)
+    except:
+        print >> sys.stderr, 'invalid font name:', font
+        if DEBUG:
+            traceback.print_exc()
+    else:
+        fa = f.actual()
+        font_name = (fa['family'],
+                     fa['size'],
+                     fa['slant'],
+                     fa['weight'])
+    return font_name
 
 
 class baseInitRootWindow:

@@ -35,33 +35,32 @@
 
 
 # imports
-import sys, os, re, time, types
+import sys, os, re, types
 import traceback
 
 # PySol imports
 from mfxutil import destruct, Struct
-from mfxutil import pickle, unpickle, Unpickler, UnpicklingError
+from mfxutil import pickle, unpickle, UnpicklingError
 from mfxutil import getusername, gethomedir, getprefdir, EnvError
 from mfxutil import latin1_to_ascii
 from util import Timer
 from util import CARDSET, IMAGE_EXTENSIONS
-from settings import PACKAGE, PACKAGE_URL, VERSION, VERSION_TUPLE, WIN_SYSTEM
+from settings import PACKAGE, VERSION, VERSION_TUPLE, WIN_SYSTEM
 from resource import CSI, CardsetConfig, Cardset, CardsetManager
 from resource import Tile, TileManager
 from resource import Sample, SampleManager
 from resource import Music, MusicManager
 from images import Images, SubsampledImages
 from pysolrandom import PysolRandom
-from game import Game
 from gamedb import GI, GAME_DB, loadGame
 from settings import TOP_SIZE, TOP_TITLE, TOOLKIT
 from settings import DEBUG
-from tksettings import TkSettings
+from winsystems import TkSettings
 
 # Toolkit imports
 from pysoltk import wm_withdraw, loadImage
 from pysoltk import MfxDialog, MfxMessageDialog, MfxExceptionDialog
-from pysoltk import TclError, MfxRoot, MfxCanvas, MfxScrolledCanvas
+from pysoltk import TclError, MfxScrolledCanvas
 from pysoltk import PysolMenubar
 from pysoltk import PysolProgressBar
 from pysoltk import PysolToolbar

@@ -41,17 +41,15 @@ from cStringIO import StringIO
 # PySol imports
 from mfxutil import Pickler, Unpickler, UnpicklingError
 from mfxutil import destruct, Struct, SubclassResponsibility
-from mfxutil import UnpicklingError, uclock, usleep
+from mfxutil import uclock, usleep
 from mfxutil import format_time
 from util import get_version_tuple, Timer
-from util import ACE, QUEEN, KING
 from settings import PACKAGE, TOOLKIT, TOP_TITLE, VERSION, VERSION_TUPLE
 from settings import DEBUG
 from gamedb import GI
-from resource import CSI
 from pysolrandom import PysolRandom, LCRandom31
 from pysoltk import EVENT_HANDLED, EVENT_PROPAGATE
-from pysoltk import CURSOR_WATCH, ANCHOR_SW, ANCHOR_SE
+from pysoltk import CURSOR_WATCH
 from pysoltk import bind, wm_map
 from pysoltk import after, after_idle, after_cancel
 from pysoltk import MfxMessageDialog, MfxExceptionDialog
@@ -1073,9 +1071,6 @@ class Game:
     #
 
     def getCardFaceImage(self, deck, suit, rank):
-##         if self.app.cardset.type == CSI.TYPE_TAROCK:
-##             if rank >= 10:
-##                 rank = rank + 1
         return self.app.images.getFace(deck, suit, rank)
 
     def getCardBackImage(self, deck, suit, rank):

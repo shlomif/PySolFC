@@ -118,12 +118,12 @@ class SingleGame_StatsDialog(MfxDialog):
         t2 = 45
         ##t3 = font.measure('100%')+10
         t3 = 45
-        tx = (t0, t0+t1+t2, t0+t1+t2+t3)
+        tx = (t0, t0+t1+t2, t0+t1+t2+t3, t0+t1+t2+t3+20)
         #
         ls = self.font_metrics['linespace']
         ls += 5
-        ls = max(ls, 20)
-        ty = (ls, 2*ls, 3*ls+15, 3*ls+25)
+        #ls = max(ls, 20)
+        ty = (5, 5+ls, 5+2*ls+15, max(85, 5+3*ls+15))
         #
         self.tab_x, self.tab_y = tx, ty
 
@@ -143,7 +143,7 @@ class SingleGame_StatsDialog(MfxDialog):
         bg = style.lookup('.', 'background') or None
         self.fg = fg
         #
-        w, h = self.tab_x[-1]+20, self.tab_y[-1]+20
+        w, h = self.tab_x[-1], self.tab_y[-1]
         c = Tkinter.Canvas(frame, width=w, height=h,
                            bg=bg, highlightthickness=0)
         c.pack(fill='both', expand=True)
@@ -184,21 +184,24 @@ class SingleGame_StatsDialog(MfxDialog):
         #ty = (21, 41, 75)
         #
         tx, ty = self.tab_x, self.tab_y
+        x0, y0 = 20, 10                 # base coords
+        w, h = 90, 50                   # size
+        d = 9                           # delta
         if won + lost > 0:
             ##s, ewon, elost = 90.0, -360.0 * pwon, -360.0 * plost
             s, ewon, elost = 0.0, 360.0 * pwon, 360.0 * plost
-            c.create_arc(20, 25+9, 110, 75+9,  fill="#007f00", start=s, extent=ewon)
-            c.create_arc(20, 25+9, 110, 75+9,  fill="#7f0000", start=s+ewon, extent=elost)
-            c.create_arc(20, 25,   110, 75,    fill="#00ff00", start=s, extent=ewon)
-            c.create_arc(20, 25,   110, 75,    fill="#ff0000", start=s+ewon, extent=elost)
+            c.create_arc(x0, y0+d, x0+w, y0+h+d,  fill="#007f00", start=s, extent=ewon)
+            c.create_arc(x0, y0+d, x0+w, y0+h+d,  fill="#7f0000", start=s+ewon, extent=elost)
+            c.create_arc(x0, y0,   x0+w, y0+h,    fill="#00ff00", start=s, extent=ewon)
+            c.create_arc(x0, y0,   x0+w, y0+h,    fill="#ff0000", start=s+ewon, extent=elost)
             x, y = tx[0] - 25, ty[0]
             c.create_rectangle(x, y, x+10, y+10, fill="#00ff00")
             y = ty[1]
             c.create_rectangle(x, y, x+10, y+10, fill="#ff0000")
         else:
-            c.create_oval(20, 25+10, 110, 75+10, fill="#7f7f7f")
-            c.create_oval(20, 25,    110, 75,    fill="#f0f0f0")
-            c.create_text(65, 50, text=_("No games"), anchor="center", font=tfont, fill="#bfbfbf")
+            c.create_oval(x0, y0+d, x0+w, y0+h+d, fill="#7f7f7f")
+            c.create_oval(x0, y0,   x0+w, y0+h,   fill="#f0f0f0")
+            c.create_text(x0+w/2, y0+h/2, text=_("No games"), anchor="center", font=tfont, fill="#bfbfbf")
         #
         self._createChartTexts(tx, ty, won, lost)
 

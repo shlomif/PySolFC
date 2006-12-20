@@ -75,8 +75,9 @@ class MfxDialog: # ex. _ToplevelDialog
         self.buttons = []
         self.accel_keys = {}
         self.top = makeToplevel(parent, title=title)
-        self._frame = Tkinter.Frame(self.top)
-        self._frame.pack(expand=True, fill='both')
+        #self._frame = Tkinter.Frame(self.top)
+        #self._frame.pack(expand=True, fill='both')
+        self._frame = self.top
         self.top.wm_resizable(resizable, resizable)
         ##w, h = self.top.winfo_screenwidth(), self.top.winfo_screenheight()
         ##self.top.wm_maxsize(w-4, h-32)
@@ -161,11 +162,11 @@ class MfxDialog: # ex. _ToplevelDialog
         return kw
 
     def createFrames(self, kw):
-        bottom_frame = Tkinter.Frame(self._frame)
-        bottom_frame.pack(side='bottom', fill='both', expand=0, ipadx=3, ipady=3, padx=5)
+        bottom_frame = Tkinter.Frame(self._frame, relief='flat', borderwidth=4)
+        bottom_frame.pack(side='bottom', fill='both', expand=0)
         if kw.separatorwidth > 0:
             separator = Tkinter.Separator(self._frame)
-            separator.pack(side='bottom', fill='x', pady=kw.separatorwidth/2)
+            separator.pack(side='bottom', fill='x')
         top_frame = Tkinter.Frame(self._frame)
         top_frame.pack(side='top', fill='both', expand=1)
         return top_frame, bottom_frame
@@ -181,7 +182,7 @@ class MfxDialog: # ex. _ToplevelDialog
 
     def createButtons(self, frame, kw):
         xbutton = column = -1
-        padx, pady = kw.get("buttonpadx", 5), kw.get("buttonpady", 5)
+        padx, pady = 4, 4
         focus = None
         max_len = 0
         if 'sep' in kw.strings:

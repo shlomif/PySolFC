@@ -35,7 +35,7 @@
 
 
 # imports
-import os, re, sys, string, time, types, locale
+import os, sys, types, locale
 
 # PySol imports
 from mfxutil import EnvError, SubclassResponsibility
@@ -44,7 +44,6 @@ from pysolrandom import constructRandom
 from settings import PACKAGE, PACKAGE_URL
 from settings import TOP_TITLE
 from settings import DEBUG
-from gamedb import GI
 
 # stats imports
 from stats import FileStatsFormatter
@@ -61,7 +60,6 @@ from pysoltk import TimeoutsDialog
 from pysoltk import ColorsDialog
 from pysoltk import FontsDialog
 from pysoltk import EditTextDialog
-from pysoltk import TOOLBAR_BUTTONS
 from pysoltk import create_find_card_dialog
 from help import help_about, help_html
 

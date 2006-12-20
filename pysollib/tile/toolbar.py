@@ -51,7 +51,7 @@ from pysollib.mfxutil import destruct
 from pysollib.util import IMAGE_EXTENSIONS
 from pysollib.settings import PACKAGE
 from pysollib.actions import PysolToolbarActions
-from pysollib.tksettings import TkSettings
+from pysollib.winsystems import TkSettings
 
 # Toolkit imports
 from tkconst import EVENT_HANDLED, EVENT_PROPAGATE

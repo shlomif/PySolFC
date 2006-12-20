@@ -38,7 +38,7 @@
 import sys, imp, os, types
 
 # PySol imports
-from mfxutil import Struct, latin1_to_ascii
+from mfxutil import Struct
 from resource import CSI
 from settings import CHECK_GAMES
 
@@ -399,8 +399,6 @@ class GameInfo(Struct):
         ncards = decks * (len(suits) * len(ranks) + len(trumps))
         game_flags = game_type & ~1023
         game_type = game_type & 1023
-        #if os.name == "mac":
-        #    name = latin1_to_ascii(name)
         name = to_unicode(name)
         if not short_name:
             short_name = name
@@ -560,15 +558,12 @@ class GameManager:
         if self.__games_by_name is None:
             l1, l2, l3  = [], [], []
             for id, gi in self.__games.items():
-                #name = latin1_to_ascii(gi.name).lower()
                 name = gettext(gi.name).lower()
                 l1.append((name, id))
                 if gi.name != gi.short_name:
-                    #name = latin1_to_ascii(gi.short_name).lower()
                     name = gettext(gi.short_name).lower()
                 l2.append((name, id))
                 for n in gi.altnames:
-                    #name = latin1_to_ascii(n).lower()
                     name = gettext(n).lower()
                     l3.append((name, id, n))
             l1.sort()

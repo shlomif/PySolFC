@@ -105,7 +105,6 @@ from pysoltk import ANCHOR_NW, ANCHOR_SE
 from pysoltk import bind, unbind_destroy
 from pysoltk import after, after_idle, after_cancel
 from pysoltk import MfxCanvasGroup, MfxCanvasImage, MfxCanvasRectangle, MfxCanvasText, MfxCanvasLine
-from pysoltk import Card
 from pysoltk import get_text_width
 from pysoltk import markImage
 from settings import TOOLKIT

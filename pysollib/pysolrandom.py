@@ -37,6 +37,7 @@
 # imports
 import sys, os, re, time, types
 import random
+from mfxutil import SubclassResponsibility
 
 
 # /***********************************************************************

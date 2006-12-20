@@ -324,10 +324,11 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         w2 = max(200, min(w2, 10 + 12*(app.subsampled_images.CARDW+10)))
         ##print sw, w1, w2
         ##padx, pady = kw.padx, kw.pady
-        padx, pady = kw.padx/2, kw.pady/2
+        #padx, pady = kw.padx/2, kw.pady/2
+        padx, pady = 4, 4
         # PanedWindow
         paned_window = Tkinter.PanedWindow(top_frame)
-        paned_window.pack(expand=1, fill='both')
+        paned_window.pack(expand=1, fill='both', padx=8, pady=8)
         left_frame = Tkinter.Frame(paned_window)
         right_frame = Tkinter.Frame(paned_window)
         paned_window.add(left_frame)

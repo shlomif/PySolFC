@@ -146,7 +146,7 @@ def makeToplevel(parent, title=None):
 
 def make_help_toplevel(app, title=None):
     # Create an independent Toplevel window.
-    from pysollib.tksettings import initRootWindow
+    from pysollib.winsystems import initRootWindow
     window = Tkinter.Tk(className=PACKAGE)
     initRootWindow(window, app)
     return window

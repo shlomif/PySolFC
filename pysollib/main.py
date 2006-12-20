@@ -45,11 +45,10 @@ from util import DataLoader
 from resource import Tile
 from gamedb import GI
 from app import Application
-from pysolaudio import thread, pysolsoundserver
 from pysolaudio import AbstractAudioClient, PysolSoundServerModuleClient
 from pysolaudio import Win32AudioClient, OSSAudioClient, PyGameAudioClient
 from settings import PACKAGE, SOUND_MOD
-from tksettings import initRootWindow
+from winsystems import initRootWindow
 
 # Toolkit imports
 from pysoltk import wm_withdraw, loadImage

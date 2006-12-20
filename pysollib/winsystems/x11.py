@@ -21,10 +21,11 @@
 
 import sys, os
 
+from pysollib.settings import PACKAGE
 from pysollib.settings import TOOLKIT, USE_TILE
 from pysollib.tile import Tile
 
-from common import baseInitRootWindow, BaseTkSettings
+from common import baseInitRootWindow, BaseTkSettings, get_font_name
 
 
 # /***********************************************************************
@@ -53,9 +54,22 @@ class initRootWindow(baseInitRootWindow):
             color = style.lookup('.', 'background', 'active')
             if color:
                 root.option_add('*Menu.activeBackground', color)
-            font = style.lookup('.', 'font')
+            font = root.option_get('font', PACKAGE)
             if font:
-                root.option_add('*font', font)
+                # use font from xrdb
+                fn = get_font_name(font)
+                if fn:
+                    root.option_add('*font', font)
+                    style.configure('.', font=font)
+                    app.opt.fonts['default'] = fn
+            else:
+                # use font from Tile settings
+                font = style.lookup('.', 'font')
+                if font:
+                    fn = get_font_name(font)
+                    if fn:
+                        root.option_add('*font', font)
+                        app.opt.fonts['default'] = fn
             root.option_add('*Menu.borderWidth', 1, 60)
             root.option_add('*Menu.activeBorderWidth', 1, 60)
         #

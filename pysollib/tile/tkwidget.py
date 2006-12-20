@@ -129,19 +129,23 @@ class MfxDialog: # ex. _ToplevelDialog
         raise SystemExit
 
     def altKeyEvent(self, event):
-        key = event.char
-        try:
-            if os.name == 'nt':
-                key = unicode(key, locale.getpreferredencoding())
-            else:
-                key = unicode(key, 'utf-8')
-        except:
-            pass
+        widget = None
+        if self.accel_keys.has_key(event.keysym):
+            widget = self.accel_keys[event.keysym]
         else:
-            key = key.lower()
-            widget = self.accel_keys.get(key)
-            if not widget is None:
-                widget.event_generate('<<Invoke>>')
+            key = event.char
+            try:
+                if os.name == 'nt':
+                    key = unicode(key, locale.getpreferredencoding())
+                else:
+                    key = unicode(key, 'utf-8')
+            except:
+                pass
+            else:
+                key = key.lower()
+                widget = self.accel_keys.get(key)
+        if not widget is None:
+            widget.event_generate('<<Invoke>>')
 
     def initKw(self, kw):
         kw = KwStruct(kw,
@@ -181,8 +185,8 @@ class MfxDialog: # ex. _ToplevelDialog
             b.pack(side=kw.image_side, padx=kw.image_padx, pady=kw.image_pady)
 
     def createButtons(self, frame, kw):
-        xbutton = column = -1
         padx, pady = 4, 4
+        xbutton = column = -1
         focus = None
         max_len = 0
         if 'sep' in kw.strings:
@@ -247,7 +251,7 @@ class MfxDialog: # ex. _ToplevelDialog
                 widget.config(compound='left', image=button_img)
             widget.grid(column=column, row=0, sticky="nse", padx=padx, pady=pady)
         if focus is not None:
-            l = (lambda event=None, self=self, button=kw.default: self.mDone(button))
+            l = lambda event=None, w=focus: w.event_generate('<<Invoke>>')
             bind(self.top, "<Return>", l)
             bind(self.top, "<KP_Enter>", l)
         # right justify

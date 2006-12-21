@@ -54,9 +54,9 @@ class FontChooserDialog(MfxDialog):
         self.font_weight = 'normal'
         self.font_slant = 'roman'
 
-        if not init_font is None:
+        if init_font is not None:
             assert 2 <= len(init_font) <= 4
-            assert type(init_font[1]) is types.IntType
+            assert isinstance(init_font[1], int)
             self.font_family, self.font_size = init_font[:2]
             if len(init_font) > 2:
                 if init_font[2] in ['bold', 'normal']:
@@ -64,14 +64,14 @@ class FontChooserDialog(MfxDialog):
                 elif init_font[2] in ['italic', 'roman']:
                     self.font_slant = init_font[2]
                 else:
-                    raise TypeError, 'invalid font style: '+ init_font[2]
+                    raise ValueError('invalid font style: '+init_font[2])
                 if len(init_font) > 3:
                     if init_font[3] in ['bold', 'normal']:
                         self.font_weight = init_font[3]
                     elif init_font[2] in ['italic', 'roman']:
                         self.font_slant = init_font[3]
                     else:
-                        raise TypeError, 'invalid font style: '+ init_font[3]
+                        raise ValueError('invalid font style: '+init_font[3])
 
         #self.family_var = Tkinter.StringVar()
         self.weight_var = Tkinter.BooleanVar()
@@ -177,7 +177,7 @@ class FontsDialog(MfxDialog):
             Tkinter.Label(frame, text=title, anchor='w'
                           ).grid(row=row, column=0, sticky='we')
             if font:
-                title = ' '.join([str(i) for i in font if not i in ('roman', 'normal')])
+                title = ' '.join([str(i) for i in font if i not in ('roman', 'normal')])
             elif font is None:
                 title = 'Default'
             l = Tkinter.Label(frame, font=font, text=title)
@@ -195,7 +195,7 @@ class FontsDialog(MfxDialog):
         d = FontChooserDialog(self.top, _('Select font'), self.fonts[fn])
         if d.status == 0 and d.button == 0:
             self.fonts[fn] = d.font
-            title = ' '.join([str(i) for i in d.font if not i in ('roman', 'normal')])
+            title = ' '.join([str(i) for i in d.font if i not in ('roman', 'normal')])
             label.configure(font=d.font, text=title)
 
 

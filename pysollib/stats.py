@@ -35,11 +35,10 @@
 
 
 # imports
-import os, sys, time, types
+import time
 
 # PySol imports
 from mfxutil import format_time
-from settings import PACKAGE, VERSION
 from gamedb import GI
 
 
@@ -121,7 +120,7 @@ class PysolStatsFormatter:
     def getLogResults(self, player, prev_games):
         twon, tlost = 0, 0
         for pg in prev_games:
-            if type(pg) is not types.TupleType:
+            if not isinstance(pg, tuple):
                 continue
             if len(pg) == 5:
                 pg = pg + ("", None, None, 1)
@@ -132,7 +131,7 @@ class PysolStatsFormatter:
             if len(pg) < 8:
                 continue
             gameid = pg[0]
-            if type(gameid) is not types.IntType:
+            if not isinstance(gameid, int):
                 continue
             gi = self.app.getGameInfo(gameid)
             if not gi:

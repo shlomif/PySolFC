@@ -88,7 +88,7 @@ class FontsDialog:
         label = self.widgets_tree.get_widget(name+'_label')
         font_desc = create_pango_font_desc(font)
         label.modify_font(font_desc)
-        text = ' '.join([str(i) for i in font if not i in ('roman', 'normal')])
+        text = ' '.join([str(i) for i in font if i not in ('roman', 'normal')])
         label.set_text(text)
         label.set_data('user_data', font)
 

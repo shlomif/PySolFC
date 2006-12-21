@@ -41,7 +41,7 @@ __all__ = ['Card']
 from pysollib.acard import AbstractCard
 
 # Toolkit imports
-from tkconst import tkversion, TK_DASH_PATCH
+from tkconst import TK_DASH_PATCH
 from tkcanvas import MfxCanvasGroup, MfxCanvasImage
 
 

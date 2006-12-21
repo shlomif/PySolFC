@@ -140,7 +140,7 @@ class GameInfoDialog(MfxDialog):
             fs = {}
             for f in stacks:
                 cn = f.__class__.__name__
-                if fs.has_key(cn):
+                if cn in fs:
                     fs[cn] += 1
                 else:
                     fs[cn] = 1

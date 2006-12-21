@@ -35,19 +35,13 @@
 
 
 # imports
-import os, types
+import os
 
 # PySol imports
-from mfxutil import Pickler, Unpickler, UnpicklingError
-from mfxutil import Struct, EnvError
 
 # Toolkit imports
 from pysoltk import tkversion, loadImage, copyImage, createImage, shadowImage
 
-try:
-    import Image
-except ImportError:
-    Image = None
 
 # /***********************************************************************
 # // Images
@@ -110,7 +104,7 @@ class Images:
         else:
             if ((check_w and w != self.CARDW) or
                 (check_h and h != self.CARDH)):
-                raise Exception, "Invalid size %dx%d of image %s" % (w, h, f)
+                raise ValueError("Invalid size %dx%d of image %s" % (w, h, f))
         return img
 
     def __addBack(self, im1, name):
@@ -262,7 +256,7 @@ class Images:
         return self._blank_bottom
 
     def getSuitBottom(self, suit=-1):
-        assert type(suit) is types.IntType
+        assert isinstance(suit, int)
         if suit == -1: return self._bottom[1]   # any suit
         i = 3 + suit
         if i >= len(self._bottom):
@@ -295,7 +289,7 @@ class Images:
         return self._shade[self._shade_index]
 
     def getShadowCard(self, deck, suit, rank):
-        if self._shadow_cards.has_key((suit, rank)):
+        if (suit, rank) in self._shadow_cards:
             shade = self._shadow_cards[(suit, rank)]
         else:
             image = self.getFace(deck, suit, rank)

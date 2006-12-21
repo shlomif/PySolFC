@@ -338,8 +338,8 @@ class Game_StatsDialog:
 
 
     def _updateTop(self, gameid):
-        if (not self.app.stats.games_stats.has_key(self.player) or
-            not self.app.stats.games_stats[self.player].has_key(gameid) or
+        if (self.player not in self.app.stats.games_stats or
+            gameid not in self.app.stats.games_stats[self.player] or
             not self.app.stats.games_stats[self.player][gameid].time_result.top):
             return
 

@@ -60,12 +60,10 @@ __all__ = ['SUITS',
            ]
 
 # imports
-import sys, os, re, time, types
+import sys, os, re, time
 
 # PySol imports
-from mfxutil import Pickler, Unpickler, UnpicklingError
-from mfxutil import Struct, EnvError
-from settings import DATA_DIRS, PACKAGE, VERSION, VERSION_TUPLE
+from settings import DATA_DIRS
 
 # /***********************************************************************
 # // constants
@@ -149,9 +147,9 @@ class Timer:
 class DataLoader:
     def __init__(self, argv0, filenames, path=[]):
         self.dir = None
-        if type(filenames) is types.StringType:
+        if isinstance(filenames, str):
             filenames = (filenames,)
-        assert type(filenames) in (types.TupleType, types.ListType)
+        assert isinstance(filenames, (tuple, list))
         #$ init path
         path = path[:]
         head, tail = os.path.split(argv0)
@@ -171,7 +169,7 @@ class DataLoader:
         for p in path:
             if not p: continue
             np = os.path.abspath(p)
-            if np and (not np in self.path) and os.path.isdir(np):
+            if np and (np not in self.path) and os.path.isdir(np):
                 self.path.append(np)
         # now try to find all filenames along path
         for p in self.path:
@@ -186,14 +184,14 @@ class DataLoader:
                 self.dir = p
                 break
         else:
-            raise os.error, str(argv0) + ": DataLoader could not find " + str(filenames)
+            raise OSError(str(argv0)+": DataLoader could not find "+str(filenames))
         ##print path, self.path, self.dir
 
 
     def __findFile(self, func, filename, subdirs=None, do_raise=1):
         if subdirs is None:
             subdirs = ("",)
-        elif type(subdirs) is types.StringType:
+        elif isinstance(subdirs, str):
             subdirs = (subdirs,)
         for dir in subdirs:
             f = os.path.join(self.dir, dir, filename)
@@ -201,7 +199,7 @@ class DataLoader:
             if func(f):
                 return f
         if do_raise:
-            raise os.error, "DataLoader could not find " + filename + " in " + self.dir + " " + str(subdirs)
+            raise OSError("DataLoader could not find "+filename+" in "+self.dir+" "+str(subdirs))
         return None
 
     def findFile(self, filename, subdirs=None):
@@ -212,7 +210,7 @@ class DataLoader:
             f = self.__findFile(os.path.isfile, filename+ext, subdirs, 0)
             if f:
                 return f
-        raise os.error, "DataLoader could not find image " + filename + " in " + self.dir + " " + str(subdirs)
+        raise OSError("DataLoader could not find image "+filename+" in "+self.dir+" "+str(subdirs))
 
     def findIcon(self, filename=None, subdirs=None):
         if not filename:

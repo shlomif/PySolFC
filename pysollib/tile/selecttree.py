@@ -78,7 +78,7 @@ class SelectDialogTreeNode(MfxTreeNode):
         if self.subnodes is not None:
             return self.subnodes
         ##print self.whoami()
-        if type(self.select_func) in (types.TupleType, types.ListType):
+        if isinstance(self.select_func, (tuple, list)):
             return self.select_func
         return self._getContents()
 

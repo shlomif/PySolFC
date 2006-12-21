@@ -723,8 +723,8 @@ class Top_StatsDialog(MfxDialog):
         frame.pack(expand=Tkinter.YES, fill=Tkinter.BOTH, padx=5, pady=10)
         frame.columnconfigure(0, weight=1)
 
-        if (app.stats.games_stats.has_key(player) and
-            app.stats.games_stats[player].has_key(gameid) and
+        if (player in app.stats.games_stats and
+            gameid in app.stats.games_stats[player] and
             app.stats.games_stats[player][gameid].time_result.top):
 
             Tkinter.Label(frame, text=_('Minimum')).grid(row=0, column=1)

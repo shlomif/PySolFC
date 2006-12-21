@@ -96,7 +96,7 @@ def wm_get_geometry(window):
     g = window.wm_geometry()
     m = __wm_get_geometry_re.search(g)
     if not m:
-        raise Tkinter.TclError, "invalid geometry " + str(g)
+        raise Tkinter.TclError("invalid geometry "+str(g))
     l = map(int, m.groups())
     if window.wm_state() == "zoomed":
         # workaround as Tk returns the "unzoomed" origin
@@ -215,7 +215,7 @@ def bind(widget, sequence, func, add=None):
         ##add = add and "+" or ""
         funcid = widget.bind(sequence, func, add)
     k = id(widget)
-    if __mfx_bindings.has_key(k):
+    if k in __mfx_bindings:
         __mfx_bindings[k].append((sequence, funcid))
     else:
         __mfx_bindings[k] = [(sequence, funcid)]
@@ -224,7 +224,7 @@ def unbind_destroy(widget):
     if widget is None:
         return
     k = id(widget)
-    if __mfx_bindings.has_key(k):
+    if k in __mfx_bindings:
         for sequence, funcid in __mfx_bindings[k]:
             ##print widget, sequence, funcid
             try:

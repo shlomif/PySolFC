@@ -129,12 +129,12 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         items.sort(lambda a, b: cmp(a[1], b[1]))
         added = False
         for key, label in items:
-            if not getattr(manager, registered).has_key(key):
+            if key not in getattr(manager, registered):
                 continue
             cardsets = []
             for cs in all_cardsets:
                 si = getattr(cs.si, selecter_type)
-                if type(si) is int: # type
+                if isinstance(si, int): # type
                     if key == si:
                         cardsets.append((cs.index, cs.name))
                 else: # style, nationality, date
@@ -197,7 +197,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
 
     def showSelected(self, w):
         key = self.getSelected()
-        if not key is None:
+        if key is not None:
             self.updatePreview(key)
         pass
 

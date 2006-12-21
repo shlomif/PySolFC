@@ -35,7 +35,7 @@
 
 
 # imports
-import sys, os, re, types
+import sys, os, re
 import traceback
 
 # PySol imports
@@ -53,7 +53,7 @@ from resource import Music, MusicManager
 from images import Images, SubsampledImages
 from pysolrandom import PysolRandom
 from gamedb import GI, GAME_DB, loadGame
-from settings import TOP_SIZE, TOP_TITLE, TOOLKIT
+from settings import TOP_SIZE, TOOLKIT
 from settings import DEBUG
 from winsystems import TkSettings
 
@@ -342,13 +342,13 @@ class GameStat:
         score = game.getGameScore()
         ##print 'GameScore:', score
         score_p = None
-        if not score is None:
+        if score is not None:
             score_p = self.score_result.update(
                 score, game_number, game_start_time)
         score = game.getGameScoreCasino()
         ##print 'GameScoreCasino:', score
         score_casino_p = None
-        if not score is None:
+        if score is not None:
             score_casino_p = self.score_casino_result.update(
                 score, game_number, game_start_time)
 
@@ -391,7 +391,7 @@ class Statistics:
     def resetStats(self, player, gameid):
         self.__resetPrevGames(player, self.prev_games, gameid)
         self.__resetPrevGames(player, self.session_games, gameid)
-        if not self.games_stats.has_key(player):
+        if player not in self.games_stats:
             return
         if gameid == 0:
             # remove all games
@@ -402,7 +402,7 @@ class Statistics:
             except KeyError: pass
 
     def __resetPrevGames(self, player, games, gameid):
-        if not games.has_key(player):
+        if player not in games:
             return
         if gameid == 0:
             del games[player]
@@ -416,7 +416,7 @@ class Statistics:
     def getFullStats(self, player, gameid):
         # returned (won, lost, playing time, moves)
         stats = self.games_stats
-        if stats.has_key(player) and stats[player].has_key(gameid):
+        if player in stats and gameid in stats[player]:
             s = self.games_stats[player][gameid]
             return (s.num_won+s.num_perfect,
                     s.num_lost,
@@ -444,24 +444,24 @@ class Statistics:
                 ret = self.updateGameStat(player, game, status)
             else:
                 # player
-                if not self.prev_games.has_key(player):
+                if player not in self.prev_games:
                     self.prev_games[player] = []
                 self.prev_games[player].append(log)
-                if not self.all_prev_games.has_key(player):
+                if player not in self.all_prev_games:
                     self.all_prev_games[player] = []
                 self.all_prev_games[player].append(log)
                 ret = self.updateGameStat(player, game, status)
         # session log
-        if not self.session_games.has_key(player):
+        if player not in self.session_games:
             self.session_games[player] = []
         self.session_games[player].append(log)
         return ret
 
     def updateGameStat(self, player, game, status):
         #
-        if not self.games_stats.has_key(player):
+        if player not in self.games_stats:
             self.games_stats[player] = {}
-        if not self.games_stats[player].has_key(game.id):
+        if game.id not in self.games_stats[player]:
             game_stat = GameStat(game.id)
             self.games_stats[player][game.id] = game_stat
         else:
@@ -644,13 +644,13 @@ class Application:
                     self.nextgame.loadedgame.gstats.holded = 0
                 except:
                     self.nextgame.loadedgame = None
-            elif not self.commandline.game is None:
+            elif self.commandline.game is not None:
                 gameid = self.gdb.getGameByName(self.commandline.game)
                 if gameid is None:
                     print >> sys.stderr, "WARNING: can't find game:", self.commandline.game
                 else:
                     self.nextgame.id, self.nextgame.random = gameid, None
-            elif not self.commandline.gameid is None:
+            elif self.commandline.gameid is not None:
                 self.nextgame.id, self.nextgame.random = self.commandline.gameid, None
         self.opt.game_holded = 0
         tmpgame.destruct()
@@ -763,7 +763,6 @@ class Application:
                 id = self.gdb.getGamesIdSortedByName()[0]
                 g = self.getGameClass(id)
         gi = self.getGameInfo(id)
-        #assert g and type(g) is types.ClassType and id > 0
         assert gi is not None and gi.id == id
         self.game = self.constructGame(id)
         self.gdb.setSelected(id)
@@ -923,9 +922,9 @@ class Application:
     def loadImages4(self):
         # load all remaining images
         for k, v in self.gimages.__dict__.items():
-            if type(v) is types.ListType:
+            if isinstance(v, list):
                 for i in range(len(v)):
-                    if type(v[i]) is types.StringType:
+                    if isinstance(v[i], str):
                         v[i] = loadImage(v[i])
                         if self.intro.progress:
                             self.intro.progress.update(step=1)
@@ -1037,7 +1036,7 @@ class Application:
         images = Images(self.dataloader, cs)
         try:
             if not images.load(app=self, progress=progress):
-                raise Exception, "Invalid or damaged "+CARDSET
+                raise Exception("Invalid or damaged "+CARDSET)
             simages = SubsampledImages(images)
             if self.opt.cache_cardsets:
                 c = self.cardsets_cache.get(cs.type)
@@ -1242,7 +1241,7 @@ Please select a %s type %s.
     def constructGame(self, id):
         gi = self.gdb.get(id)
         if gi is None:
-            raise Exception, "Unknown game (id %d)" % id
+            raise Exception("Unknown game (id %d)" % id)
         return gi.gameclass(gi)
 
     def getGamesIdSortedById(self):
@@ -1472,7 +1471,7 @@ Please select a %s type %s.
                     if _debug: print_err(1, 5, 'not integer')
                     return 0
                 s = int(m.group(1))
-                if not s in cs.styles:
+                if s not in cs.styles:
                     cs.styles.append(s)
         if cs.version >= 5:
             if len(fields) < 7:
@@ -1538,7 +1537,7 @@ Please select a %s type %s.
             dir = dir.strip()
             try:
                 names = []
-                if dir and os.path.isdir(dir) and not t.has_key(dir):
+                if dir and os.path.isdir(dir) and dir not in t:
                     t[dir] = 1
                     names = os.listdir(dir)
                     names.sort()
@@ -1625,7 +1624,7 @@ Please select a %s type %s.
                     ##n = unicode(n)
                     tile.name = n
                     key = n.lower()
-                    if not t.has_key(key):
+                    if key not in t:
                         t[key] = 1
                         found.append((n, tile))
             except EnvError, ex:
@@ -1666,7 +1665,7 @@ Please select a %s type %s.
                     n = ext_re.sub("", name.strip())
                     obj.name = n
                     key = n.lower()
-                    if not t.has_key(key):
+                    if key not in t:
                         t[key] = 1
                         found.append((n, obj))
             except EnvError, ex:

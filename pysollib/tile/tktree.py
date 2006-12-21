@@ -34,13 +34,12 @@
 ##---------------------------------------------------------------------------##
 
 # imports
-import os, string, types
+import os
 import Tile as Tkinter
 
 # Toolkit imports
 from tkutil import bind
 from tkwidget import MfxScrolledCanvas
-from pysollib.settings import WIN_SYSTEM
 
 
 # /***********************************************************************
@@ -338,7 +337,7 @@ class MfxTreeInCanvas(MfxScrolledCanvas):
         l1 = self.keys.get(self.selection_key, [])
         l2 = self.keys.get(key, [])
         for node in l1:
-            if node.selected and not node in l2:
+            if node.selected and node not in l2:
                 node.selected = 0
                 node.updateSymbol()
                 node.updateText()
@@ -364,7 +363,7 @@ class MfxTreeInCanvas(MfxScrolledCanvas):
 class DirectoryBrowser(MfxTreeInCanvas):
     def __init__(self, parent, dirs):
         nodes = []
-        if type(dirs) is types.StringType:
+        if isinstance(dirs, str):
             dirs = (dirs,)
         for dir in dirs:
             self.addNode(nodes, None, dir, dir)

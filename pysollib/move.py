@@ -35,7 +35,6 @@
 
 
 # imports
-import sys
 
 
 # /***********************************************************************
@@ -119,6 +118,7 @@ class AFlipMove(AtomicMove):
     # do the actual move
     def __doMove(self, game, stack):
         card = stack.cards[-1]
+        game.animatedFlip(stack)
         if card.face_up:
             card.showBack()
         else:

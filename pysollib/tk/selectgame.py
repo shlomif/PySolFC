@@ -527,7 +527,7 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         altnames = '\n'.join([gettext(n) for n in gi.altnames])
         category = gettext(CSI.TYPE[gi.category])
         type = ''
-        if GI.TYPE_NAMES.has_key(gi.si.game_type):
+        if gi.si.game_type in GI.TYPE_NAMES:
             type = gettext(GI.TYPE_NAMES[gi.si.game_type])
         sl = {
             GI.SL_LUCK:         _('Luck only'),

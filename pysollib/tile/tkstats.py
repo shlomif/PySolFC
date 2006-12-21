@@ -394,7 +394,7 @@ class AllGames_StatsDialog(MfxDialog):
     def mDone(self, button):
         sel = self.tree.selection()
         if sel and len(sel) == 1:
-            if self.games.has_key(sel[0]):
+            if sel[0] in self.games:
                 self.selected_game = self.games[sel[0]]
         MfxDialog.mDone(self, button)
 
@@ -407,7 +407,7 @@ class AllGames_StatsDialog(MfxDialog):
         sel = self.tree.selection()
         run_button = self.buttons[0]
         if sel and len(sel) == 1:
-            if not self.games.has_key(sel[0]): # "Total"
+            if sel[0] not in self.games: # "Total"
                 run_button.config(state='disabled')
             else:
                 run_button.config(state='normal')
@@ -607,8 +607,8 @@ class Top_StatsDialog(MfxDialog):
         frame.pack(expand=Tkinter.YES, fill=Tkinter.BOTH, padx=5, pady=10)
         frame.columnconfigure(0, weight=1)
 
-        if (app.stats.games_stats.has_key(player) and
-            app.stats.games_stats[player].has_key(gameid) and
+        if (player in app.stats.games_stats and
+            gameid in app.stats.games_stats[player] and
             app.stats.games_stats[player][gameid].time_result.top):
 
             Tkinter.Label(frame, text=_('Minimum')).grid(row=0, column=1, padx=4)

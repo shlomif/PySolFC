@@ -34,13 +34,12 @@
 ##---------------------------------------------------------------------------##
 
 # imports
-import os, string, types
+import os
 import Tkinter
 
 # Toolkit imports
 from tkutil import bind
 from tkwidget import MfxScrolledCanvas
-from pysollib.settings import WIN_SYSTEM
 
 
 # /***********************************************************************
@@ -239,9 +238,6 @@ class MfxTreeInCanvas(MfxScrolledCanvas):
             self.font = None
             self.linestyle = "gray50"
             self.linecolor = "black"
-            if WIN_SYSTEM == "win32":
-                self.linestyle = ""                 # Tk bug ?
-                self.linecolor = "gray50"
 
     def __init__(self, parent, rootnodes, **kw):
         bg = kw["bg"] = kw.get("bg") or parent.cget("bg")
@@ -339,7 +335,7 @@ class MfxTreeInCanvas(MfxScrolledCanvas):
         l1 = self.keys.get(self.selection_key, [])
         l2 = self.keys.get(key, [])
         for node in l1:
-            if node.selected and not node in l2:
+            if node.selected and node not in l2:
                 node.selected = 0
                 node.updateSymbol()
                 node.updateText()
@@ -365,7 +361,7 @@ class MfxTreeInCanvas(MfxScrolledCanvas):
 class DirectoryBrowser(MfxTreeInCanvas):
     def __init__(self, parent, dirs):
         nodes = []
-        if type(dirs) is types.StringType:
+        if isinstance(dirs, str):
             dirs = (dirs,)
         for dir in dirs:
             self.addNode(nodes, None, dir, dir)

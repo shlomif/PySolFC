@@ -35,7 +35,7 @@
 
 
 # imports
-import sys, os, re, time, types
+import sys, re, time
 import random
 from mfxutil import SubclassResponsibility
 
@@ -121,7 +121,7 @@ class MFXRandom:
 
     def setSeed(self, seed):
         seed = self._convertSeed(seed)
-        if type(seed) is not types.LongType:
+        if not isinstance(seed, long):
             raise TypeError, "seeds must be longs"
         if not (0L <= seed <= self.MAX_SEED):
             raise ValueError, "seed out of range"

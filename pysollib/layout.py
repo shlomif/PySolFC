@@ -35,10 +35,9 @@
 
 
 # imports
-import sys
 
 # PySol imports
-from mfxutil import destruct, Struct, SubclassResponsibility
+from mfxutil import Struct
 from pysoltk import MfxCanvasText
 from resource import CSI
 
@@ -129,9 +128,9 @@ class Layout:
 
         self.__dict__.update(kw)
         if self.game.preview > 1:
-            if kw.has_key("XOFFSET"):
+            if "XOFFSET" in kw:
                 self.XOFFSET =  self.XOFFSET / self.game.preview
-            if kw.has_key("YOFFSET"):
+            if "YOFFSET" in kw:
                 self.YOFFSET =  self.YOFFSET / self.game.preview
             self.TEXT_HEIGHT = 10
 
@@ -141,7 +140,7 @@ class Layout:
         #from pprint import pprint
         #print mapkey
         #pprint(self.stackmap)
-        assert not self.stackmap.has_key(mapkey)
+        assert mapkey not in self.stackmap
         self.stackmap[mapkey] = stack
         return stack
 
@@ -172,7 +171,7 @@ class Layout:
         if waste_class:
             s.waste = waste_class(self.s.waste.x, self.s.waste.y, game)
         if foundation_class:
-            if type(foundation_class) in (list, tuple):
+            if isinstance(foundation_class, (list, tuple)):
                 n = len(self.s.foundations)/len(foundation_class)
                 i = 0
                 for j in range(n):
@@ -225,7 +224,7 @@ class Layout:
             return (x+self.CW+delta_x, y+self.CH, "sw", f)
         if anchor == "e":
             return (x+self.CW+delta_x, y+self.CH/2, "w", f)
-        raise Exception, anchor
+        raise ValueError(anchor)
 
     def createText(self, stack, anchor, dx=0, dy=0, text_format=""):
         if self.canvas.preview > 1:

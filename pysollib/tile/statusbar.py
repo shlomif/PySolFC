@@ -106,7 +106,7 @@ class MfxStatusbar:
             label["text"] = unicode(v)
 
     def configLabel(self, name, **kw):
-        if kw.has_key('fg'):
+        if 'fg' in kw:
             kw['foreground'] = kw['fg']
             del kw['fg']
         label = getattr(self, name + "_label")

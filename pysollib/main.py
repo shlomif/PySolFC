@@ -40,10 +40,8 @@ import traceback
 import getopt
 
 # PySol imports
-from mfxutil import destruct, EnvError
 from util import DataLoader
 from resource import Tile
-from gamedb import GI
 from app import Application
 from pysolaudio import AbstractAudioClient, PysolSoundServerModuleClient
 from pysolaudio import Win32AudioClient, OSSAudioClient, PyGameAudioClient
@@ -51,8 +49,8 @@ from settings import PACKAGE, SOUND_MOD
 from winsystems import initRootWindow
 
 # Toolkit imports
-from pysoltk import wm_withdraw, loadImage
-from pysoltk import MfxMessageDialog, MfxExceptionDialog
+from pysoltk import loadImage
+from pysoltk import MfxMessageDialog
 from pysoltk import MfxRoot
 from pysoltk import PysolProgressBar
 
@@ -72,7 +70,6 @@ Main data directory is:
 Please check your %s installation.
 ''') % (app.dataloader.dir, PACKAGE),
                          bitmap="error", strings=(_("&Quit"),))
-    ##raise Exception, "no cardsets found !"
 
 
 # /***********************************************************************
@@ -173,7 +170,7 @@ def pysol_init(app, args):
     if filename:
         app.commandline.loadgame = filename
     app.commandline.game = opts['game']
-    if not opts['gameid'] is None:
+    if opts['gameid'] is not None:
         try:
             app.commandline.gameid = int(opts['gameid'])
         except:

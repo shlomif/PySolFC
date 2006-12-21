@@ -168,7 +168,7 @@ class MfxMenubar(Tkinter.Menu):
 
 class MfxMenu(MfxMenubar):
     def __init__(self, master, label, underline=None, **kw):
-        if kw.has_key('name'):
+        if 'name' in kw:
             name, label_underline = kw['name'], -1
         else:
             name, label, label_underline = self.labeltoname(label)
@@ -320,7 +320,7 @@ class PysolMenubar(PysolMenubarActions):
 
     # create a GTK-like path
     def _addPath(self, path, menu, index, submenu):
-        if not self.__menupath.has_key(path):
+        if path not in self.__menupath:
             ##print path, menu, index, submenu
             self.__menupath[path] = (menu, index, submenu)
 
@@ -693,7 +693,7 @@ class PysolMenubar(PysolMenubarActions):
         games = {}
         for gi in mahjongg_games:
             c = gettext(gi.short_name).strip()[0]
-            if games.has_key(c):
+            if c in games:
                 games[c].append(gi)
             else:
                 games[c] = [gi]
@@ -1168,7 +1168,7 @@ class PysolMenubar(PysolMenubarActions):
                                         manager=self.app.tabletile_manager,
                                         key=key)
         if d.status == 0 and d.button == 0:
-            if type(d.key) is str:
+            if isinstance(d.key, str):
                 tile = self.app.tabletile_manager.get(0)
                 tile.color = d.key
                 if self.app.setTile(0):

@@ -35,7 +35,7 @@
 
 
 # imports
-import sys, imp, os, types
+import imp
 
 # PySol imports
 from mfxutil import Struct
@@ -392,7 +392,7 @@ class GameInfo(Struct):
                  rules_filename=None,
                  ):
         def to_unicode(s):
-            if not type(s) is unicode:
+            if not isinstance(s, unicode):
                 return unicode(s, 'utf-8')
             return s
         #
@@ -403,7 +403,7 @@ class GameInfo(Struct):
         if not short_name:
             short_name = name
         short_name = to_unicode(short_name)
-        if type(altnames) in types.StringTypes:
+        if isinstance(altnames, basestring):
             altnames = (altnames,)
         altnames = [to_unicode(n) for n in altnames]
         #
@@ -426,19 +426,17 @@ class GameInfo(Struct):
                 category = GI.GC_FRENCH
         #
         if not (1 <= id <= 999999):
-            raise GameInfoException, name + ": invalid game ID " + str(id)
+            raise GameInfoException(name+": invalid game ID "+str(id))
         if category == GI.GC_MAHJONGG:
             if decks%4:
-                raise GameInfoException, name + ": invalid number of decks " + str(id)
+                raise GameInfoException(name+": invalid number of decks "+str(id))
         else:
             if not (1 <= decks <= 4):
-                raise GameInfoException, name + ": invalid number of decks " + str(id)
-        ##if not name or not (2 <= len(short_name) <= 30):
-        ##    raise GameInfoException, name + ": invalid game name"
+                raise GameInfoException(name+": invalid number of decks "+str(id))
         if not name:
-            raise GameInfoException, name + ": invalid game name"
+            raise GameInfoException(name+": invalid game name")
         if GI.PROTECTED_GAMES.get(id):
-            raise GameInfoException, name + ": protected game ID " + str(id)
+            raise GameInfoException(name+": protected game ID "+str(id))
         #
         for f, l in ((GI.GT_CHILDREN, GI._CHILDREN_GAMES),
                      (GI.GT_OPEN, GI._OPEN_GAMES),
@@ -480,7 +478,7 @@ class GameManager:
         return self.__selected_key
 
     def setSelected(self, gameid):
-        assert self.__all_games.has_key(gameid)
+        assert gameid in self.__all_games
         self.__selected_key = gameid
 
     def get(self, key):
@@ -488,29 +486,30 @@ class GameManager:
 
     def _check_game(self, gi):
         ##print 'check game:', gi.id, gi.short_name.encode('utf-8')
-        if self.__all_games.has_key(gi.id):
-            raise GameInfoException, "duplicate game ID %s: %s and %s" % \
-                  (gi.id, str(gi.gameclass),
-                   str(self.__all_games[gi.id].gameclass))
-        if self.__all_gamenames.has_key(gi.name):
+        if gi.id in self.__all_games:
+            raise GameInfoException("duplicate game ID %s: %s and %s" %
+                                    (gi.id, str(gi.gameclass),
+                                     str(self.__all_games[gi.id].gameclass)))
+        if gi.name in self.__all_gamenames:
             gameclass = self.__all_gamenames[gi.name].gameclass
-            raise GameInfoException, "duplicate game name %s: %s and %s" % \
-                  (gi.name, str(gi.gameclass), str(gameclass))
+            raise GameInfoException("duplicate game name %s: %s and %s" %
+                                    (gi.name, str(gi.gameclass),
+                                     str(gameclass)))
         if 1:
             for id, game in self.__all_games.items():
                 if gi.gameclass is game.gameclass:
-                    raise GameInfoException, \
-                          "duplicate game class %s: %s and %s" % \
-                          (gi.id, str(gi.gameclass), str(game.gameclass))
+                    raise GameInfoException(
+                        "duplicate game class %s: %s and %s" %
+                        (gi.id, str(gi.gameclass), str(game.gameclass)))
         for n in gi.altnames:
-            if self.__all_gamenames.has_key(n):
-                raise GameInfoException, "duplicate game altname %s: %s" % \
-                      (gi.id, n)
+            if n in self.__all_gamenames:
+                raise GameInfoException("duplicate game altname %s: %s" %
+                                        (gi.id, n))
 
     def register(self, gi):
         ##print gi.id, gi.short_name.encode('utf-8')
         if not isinstance(gi, GameInfo):
-            raise GameInfoException, "wrong GameInfo class"
+            raise GameInfoException("wrong GameInfo class")
         gi.plugin = self.loading_plugin
         if self.loading_plugin or CHECK_GAMES:
             self._check_game(gi)

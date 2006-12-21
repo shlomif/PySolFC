@@ -35,13 +35,11 @@
 
 
 # imports
-import sys, os
-import traceback
 
 # PySol imports
 from mfxutil import EnvError
-from settings import PACKAGE, PACKAGE_URL, TOOLKIT, VERSION, FC_VERSION
-from pysoltk import make_help_toplevel, wm_map
+from settings import PACKAGE, PACKAGE_URL, TOOLKIT, FC_VERSION
+from pysoltk import make_help_toplevel
 from pysoltk import MfxMessageDialog
 from pysoltk import HTMLViewer
 

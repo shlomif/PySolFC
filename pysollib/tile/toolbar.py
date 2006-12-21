@@ -36,9 +36,7 @@
 __all__ = ['PysolToolbar'] #, 'TOOLBAR_BUTTONS']
 
 # imports
-import os, sys, types
-import traceback
-import Tkinter as Tk
+import os
 import Tile as Tkinter
 try:
     # PIL

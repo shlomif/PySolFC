@@ -31,7 +31,7 @@
 
 
 # imports
-import sys, os, string, time, types
+import sys, os, string, time
 
 import gobject
 import pango, gtk
@@ -82,10 +82,10 @@ def setTransient(window, parent, relx=0.5, rely=0.3, expose=1):
 # ************************************************************************/
 
 def anchor_tk2gtk(anchor):
-    if type(anchor) is types.IntType:
+    if isinstance(anchor, int):
         assert 0 <= anchor <= 8
         return anchor
-    if type(anchor) is types.StringType:
+    if isinstance(anchor, str):
         a = ['center', 'n', 'nw', 'ne', 's', 'sw', 'se', 'w', 'e']
         return a.index(string.lower(anchor))
     assert 0
@@ -164,6 +164,10 @@ def createImage(width, height, fill, outline=None):
 def shadowImage(image):
     # FIXME
     return None
+
+def markImage(image):
+    # FIXME
+    return image
 
 
 # /***********************************************************************
@@ -254,7 +258,7 @@ def bind(widget, sequence, func, add=None):
     wrap, signal = wrap
     #
     k = id(widget)
-    if __bindings.has_key(k):
+    if k in __bindings:
         __bindings[k].append((wrap, func))
     else:
         l = [(wrap, func)]
@@ -264,7 +268,7 @@ def bind(widget, sequence, func, add=None):
 
 def unbind_destroy(widget):
     k = id(widget)
-    if __bindings.has_key(k):
+    if k in __bindings:
         ## FIXME
         del __bindings[k]
 

@@ -94,7 +94,7 @@ class tkHTMLWriter(formatter.NullWriter):
         if self.anchor:
             href = self.anchor[0]
             tag_name = 'href_' + href
-            if self.viewer.anchor_tags.has_key(tag_name):
+            if tag_name in self.viewer.anchor_tags:
                 tag = self.viewer.anchor_tags[tag_name][0]
             else:
                 tag = self.text.create_tag(tag_name, foreground='blue',
@@ -124,7 +124,7 @@ class tkHTMLWriter(formatter.NullWriter):
         if font:
             ##print 'start_font(%s)' % `font`
             self.font_mark = self.text.get_end_iter().get_offset()
-            if self.viewer.fontmap.has_key(font[0]):
+            if font[0] in self.viewer.fontmap:
                 self.font = font[0]
             elif font[3]:
                 self.font = 'pre'
@@ -506,7 +506,7 @@ to open the following URL:
 
 
     def addHistory(self, url, position=(0,0)):
-        if not url in self.visited_urls:
+        if url not in self.visited_urls:
             self.visited_urls.append(url)
         if self.history.index > 0:
             u, pos = self.history.list[self.history.index-1]
@@ -548,7 +548,7 @@ to open the following URL:
                              strings=(_('&OK'),), default=0)
 
     def getImage(self, fn):
-        if self.images.has_key(fn):
+        if fn in self.images:
             return self.images[fn]
         try:
             img = gdk.pixbuf_new_from_file(fn)

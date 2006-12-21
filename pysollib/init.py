@@ -31,7 +31,7 @@ import settings
 
 def init():
 
-    if os.name == 'nt' and not os.environ.has_key('LANG'):
+    if os.name == 'nt' and 'LANG' not in os.environ:
         try:
             l = locale.getdefaultlocale()
             os.environ['LANG'] = l[0]
@@ -51,11 +51,11 @@ def init():
     ##if locale_dir: locale_dir = os.path.normpath(locale_dir)
     gettext.install('pysol', locale_dir, unicode=True)
 
-    if os.environ.has_key('PYSOL_CHECK_GAMES') or \
-           os.environ.has_key('PYSOL_DEBUG'):
+    if 'PYSOL_CHECK_GAMES' in os.environ or \
+           'PYSOL_DEBUG' in os.environ:
         settings.CHECK_GAMES = True
         print 'PySol debugging: set CHECK_GAMES to True'
-    if os.environ.has_key('PYSOL_DEBUG'):
+    if 'PYSOL_DEBUG' in os.environ:
         try:
             settings.DEBUG = int(os.environ['PYSOL_DEBUG'])
         except:

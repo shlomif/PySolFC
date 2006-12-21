@@ -116,7 +116,6 @@ class _CanvasItem:
 ##             ##self._item.get_property('parent').lower_to_bottom()
 ##         else:
 ##             print self, positions
-##             ##~ assert type(positions) is types.IntType and positions > 0
 ##             self._item.lower(positions)
 
     def tkraise(self, positions=None):
@@ -127,7 +126,6 @@ class _CanvasItem:
         else:
             #print self, 'tkraise', positions
             #self._item.raise_to_top()
-            ##~ assert type(positions) is types.IntType and positions > 0
             self._item.raise_to_top() #positions)
 
     def move(self, x, y):
@@ -163,7 +161,7 @@ class MfxCanvasImage(_CanvasItem):
     def __init__(self, canvas, x, y, image, anchor=gtk.ANCHOR_NW, group=None):
         _CanvasItem.__init__(self, canvas)
         self._x, self._y = x, y
-        if type(anchor) is str:
+        if isinstance(anchor, str):
             anchor = anchor_tk2gtk(anchor)
         if group:
             self._group = group
@@ -187,7 +185,7 @@ class MfxCanvasLine(_CanvasItem):
     def __init__(self, canvas, *points, **kw):
         _CanvasItem.__init__(self, canvas)
         kwargs = {}
-        if kw.has_key('arrow'):
+        if 'arrow' in kw:
             if kw['arrow'] == 'first':
                 kwargs['first_arrowhead'] = True
             elif kw['arrow'] == 'last':
@@ -195,15 +193,15 @@ class MfxCanvasLine(_CanvasItem):
             elif kw['arrow'] == 'both':
                 kwargs['first_arrowhead'] = True
                 kwargs['last_arrowhead'] = True
-        if kw.has_key('fill'):
+        if 'fill' in kw:
             kwargs['fill_color'] = kw['fill']
-        if kw.has_key('width'):
+        if 'width' in kw:
             kwargs['width_units'] = float(kw['width'])
-        if kw.has_key('arrowshape'):
+        if 'arrowshape' in kw:
             kwargs['arrow_shape_a'] = kw['arrowshape'][0]
             kwargs['arrow_shape_b'] = kw['arrowshape'][1]
             kwargs['arrow_shape_c'] = kw['arrowshape'][2]
-        if kw.has_key('group'):
+        if 'group' in kw:
             self._group = kw['group']
             group = kw['group']._item
         else:
@@ -241,7 +239,7 @@ class MfxCanvasText(_CanvasItem):
             self._item = None
             return
         anchor = anchor_tk2gtk(anchor)
-        if kw.has_key('group'):
+        if 'group' in kw:
             self._group = kw['group']
             group = kw['group']._item
             del kw['group']
@@ -249,7 +247,7 @@ class MfxCanvasText(_CanvasItem):
             group = canvas.root()
         self._item = group.add(gnomecanvas.CanvasText,
                                x=x, y=y, anchor=anchor)
-        if not kw.has_key('fill'):
+        if 'fill' not in kw:
             kw['fill'] = canvas._text_color
         for k, v in kw.items():
             self[k] = v
@@ -526,7 +524,7 @@ class MfxCanvas(gnomecanvas.Canvas):
             self.__topimage = None
         if not image:
             return
-        if type(image) is str:
+        if isinstance(image, str):
             pixbuf = gtk.gdk.pixbuf_new_from_file(image)
         else:
             pixbuf = image.pixbuf

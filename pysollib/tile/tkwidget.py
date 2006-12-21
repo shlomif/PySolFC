@@ -67,6 +67,7 @@ from tkcanvas import MfxCanvas
 class MfxDialog: # ex. _ToplevelDialog
     img = {}
     button_img = {}
+
     def __init__(self, parent, title="", resizable=0, default=-1):
         self.parent = parent
         self.status = 0
@@ -82,7 +83,6 @@ class MfxDialog: # ex. _ToplevelDialog
         ##w, h = self.top.winfo_screenwidth(), self.top.winfo_screenheight()
         ##self.top.wm_maxsize(w-4, h-32)
         bind(self.top, "WM_DELETE_WINDOW", self.wmDeleteWindow)
-        #
 
     def mainloop(self, focus=None, timeout=0, transient=True):
         bind(self.top, "<Escape>", self.mCancel)
@@ -130,7 +130,7 @@ class MfxDialog: # ex. _ToplevelDialog
 
     def altKeyEvent(self, event):
         widget = None
-        if self.accel_keys.has_key(event.keysym):
+        if event.keysym in self.accel_keys:
             widget = self.accel_keys[event.keysym]
         else:
             key = event.char
@@ -144,7 +144,7 @@ class MfxDialog: # ex. _ToplevelDialog
             else:
                 key = key.lower()
                 widget = self.accel_keys.get(key)
-        if not widget is None:
+        if widget is not None:
             widget.event_generate('<<Invoke>>')
 
     def initKw(self, kw):
@@ -179,7 +179,8 @@ class MfxDialog: # ex. _ToplevelDialog
         if kw.bitmap: ## in ("error", "info", "question", "warning")
             img = self.img.get(kw.bitmap)
             b = Tkinter.Label(frame, image=img)
-            b.pack(side=kw.bitmap_side, padx=kw.bitmap_padx, pady=kw.bitmap_pady)
+            b.pack(side=kw.bitmap_side,
+                   padx=kw.bitmap_padx, pady=kw.bitmap_pady)
         elif kw.image:
             b = Tkinter.Label(frame, image=kw.image)
             b.pack(side=kw.image_side, padx=kw.image_padx, pady=kw.image_pady)
@@ -196,7 +197,7 @@ class MfxDialog: # ex. _ToplevelDialog
             sep_column = 0
             strings = kw.strings
         for s in strings:
-            if type(s) is tuple:
+            if isinstance(s, tuple):
                 s = s[0]
             if s:
                 s = s.replace('&', '')
@@ -214,7 +215,7 @@ class MfxDialog: # ex. _ToplevelDialog
             if s == 'sep':
                 column += 1
                 continue
-            if type(s) is tuple:
+            if isinstance(s, tuple):
                 assert len(s) == 2
                 button = int(s[1])
                 s = s[0]
@@ -230,7 +231,8 @@ class MfxDialog: # ex. _ToplevelDialog
                 widget = Tkinter.Button(frame, text=s, state="disabled")
             else:
                 widget = Tkinter.Button(frame, text=s, default="normal",
-                    command=(lambda self=self, button=button: self.mDone(button)))
+                    command = lambda self=self, button=button: \
+                                        self.mDone(button))
                 if button == kw.default:
                     focus = widget
                     focus.config(default="active")
@@ -720,25 +722,25 @@ class StackDesc:
 
 class MyPysolScale:
     def __init__(self, parent, **kw):
-        if kw.has_key('resolution'):
+        if 'resolution' in kw:
             self.resolution = kw['resolution']
             del kw['resolution']
         else:
             self.resolution = 1
-        if kw.has_key('from_'):
+        if 'from_' in kw:
             kw['from_'] = kw['from_']/self.resolution
-        if kw.has_key('to'):
+        if 'to' in kw:
             kw['to'] = kw['to']/self.resolution
-        if kw.has_key('command'):
+        if 'command' in kw:
             self.command = kw['command']
         else:
             self.command = None
-        if kw.has_key('variable'):
+        if 'variable' in kw:
             self.variable = kw['variable']
             del kw['variable']
         else:
             self.variable = None
-        if kw.has_key('value'):
+        if 'value' in kw:
             value = kw['value']
             del kw['value']
             if self.variable:
@@ -750,7 +752,7 @@ class MyPysolScale:
         if self.variable:
             self.variable.trace('w', self._trace_var)
         kw['command'] = self._scale_command
-        if kw.has_key('label'):
+        if 'label' in kw:
             self.label_text = kw['label']
             del kw['label']
         else:
@@ -764,7 +766,7 @@ class MyPysolScale:
         self.scale = Tkinter.Scale(self.frame, **kw)
         self.scale.pack(side=side, expand=True, fill='both', pady=4)
 
-        if not value is None:
+        if value is not None:
             if self.variable:
                 self.variable.set(self._round(value))
             self._set_text(self._round(value))
@@ -801,7 +803,7 @@ class MyPysolScale:
 
 class TkinterScale(Tk.Scale):
     def __init__(self, parent, **kw):
-        if kw.has_key('value'):
+        if 'value' in kw:
             del kw['value']
         Tk.Scale.__init__(self, parent, **kw)
 

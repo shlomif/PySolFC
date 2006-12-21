@@ -155,7 +155,7 @@ class tkHTMLWriter(formatter.NullWriter):
         if font:
             ##print "start_font(%s)" % `font`
             self.font_mark = self.text.index("insert")
-            if self.fontmap.has_key(font[0]):
+            if font[0] in self.fontmap:
                 self.font = font[0]
             elif font[3]:
                 self.font = "pre"
@@ -456,7 +456,7 @@ to open the following URL:
         ##self.frame.config(cursor=self.defcursor)
 
     def addHistory(self, url, xview=0, yview=0):
-        if not url in self.visited_urls:
+        if url not in self.visited_urls:
             self.visited_urls.append(url)
         if self.history.index > 0:
             u, xv, yv = self.history.list[self.history.index-1]
@@ -500,7 +500,7 @@ to open the following URL:
                              strings=(_("&OK"),), default=0)
 
     def getImage(self, fn):
-        if self.images.has_key(fn):
+        if fn in self.images:
             return self.images[fn]
         try:
             img = Tkinter.PhotoImage(master=self.parent, file=fn)

@@ -149,7 +149,7 @@ class MfxDialog: # ex. _ToplevelDialog
         key = unicode(key, 'utf-8')
         key = key.lower()
         button = self.accel_keys.get(key)
-        if not button is None:
+        if button is not None:
             self.mDone(button)
 
 
@@ -198,10 +198,9 @@ class MfxDialog: # ex. _ToplevelDialog
         focus = None
         max_len = 0
         for s in kw.strings:
-            if type(s) is types.TupleType:
+            if isinstance(s, tuple):
                 s = s[0]
             if s:
-                ##s = re.sub(r"[\s\.\,]", "", s)
                 #if os.name == 'posix':
                 #    s = s.replace('...', '.')
                 s = s.replace('&', '')
@@ -216,7 +215,7 @@ class MfxDialog: # ex. _ToplevelDialog
         #
         for s in kw.strings:
             xbutton = button = button + 1
-            if type(s) is types.TupleType:
+            if isinstance(s, tuple):
                 assert len(s) == 2
                 button = int(s[1])
                 s = s[0]

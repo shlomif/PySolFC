@@ -35,8 +35,7 @@
 
 
 # imports
-import sys, os, time, types
-#import traceback
+import os, time, types
 
 try:
     from cPickle import Pickler, Unpickler, UnpicklingError
@@ -69,30 +68,7 @@ class SubclassResponsibility(Exception):
 # // misc. util
 # ************************************************************************/
 
-## def static(f, *args, **kw):
-##     if args:
-##         a = tuple([f.im_class()] + list(args))
-##     else:
-##         a = (f.im_class(),)
-##     return apply(f, a, kw)
 
-
-## def ifelse(expr, val1, val2):
-##     if expr:
-##         return val1
-##     return val2
-
-
-## def merge_dict(dict1, dict2, merge_none=1):
-##     for k, v in dict2.items():
-##         if dict1.has_key(k):
-##             if type(dict1[k]) is type(v):
-##                 dict1[k] = v
-##             elif dict2[k] is None and merge_none:
-##                 dict1[k] = v
-
-
-# this is a quick hack - we definitely need Unicode support...
 def latin1_to_ascii(n):
     #return n
     n = n.encode('iso8859-1', 'replace')
@@ -198,7 +174,7 @@ def win32_gethomedir():
 def destruct(obj):
     # assist in breaking circular references
     if obj is not None:
-        assert type(obj) is types.InstanceType
+        assert isinstance(obj, types.InstanceType)
         for k in obj.__dict__.keys():
             obj.__dict__[k] = None
             ##del obj.__dict__[k]
@@ -216,30 +192,29 @@ class Struct:
         return str(self.__dict__)
 
     def __setattr__(self, key, value):
-        if not self.__dict__.has_key(key):
-            raise AttributeError, key
+        if key not in self.__dict__:
+            raise AttributeError(key)
         self.__dict__[key] = value
 
     def addattr(self, **kw):
         for key in kw.keys():
             if hasattr(self, key):
-                raise AttributeError, key
+                raise AttributeError(key)
         self.__dict__.update(kw)
 
     def update(self, dict):
         for key in dict.keys():
-            if not self.__dict__.has_key(key):
-                raise AttributeError, key
+            if key not in self.__dict__:
+                raise AttributeError(key)
         self.__dict__.update(dict)
 
     def clear(self):
         for key in self.__dict__.keys():
-            t = type(key)
-            if t is types.ListType:
+            if isinstance(key, list):
                 self.__dict__[key] = []
-            elif t is types.TupleType:
+            elif isinstance(key, tuple):
                 self.__dict__[key] = ()
-            elif t is types.DictType:
+            elif isinstance(key, dict):
                 self.__dict__[key] = {}
             else:
                 self.__dict__[key] = None
@@ -258,7 +233,7 @@ class Struct:
 # update keyword arguments with default arguments
 def kwdefault(kw, **defaults):
     for k, v in defaults.items():
-        if not kw.has_key(k):
+        if k not in kw:
             kw[k] = v
 
 
@@ -271,13 +246,13 @@ class KwStruct:
         if defaults:
             kw = kw.copy()
             for k, v in defaults.items():
-                if not kw.has_key(k):
+                if k not in kw:
                     kw[k] = v
         self.__dict__.update(kw)
 
     def __setattr__(self, key, value):
-        if not self.__dict__.has_key(key):
-            raise AttributeError, key
+        if key not in self.__dict__:
+            raise AttributeError(key)
         self.__dict__[key] = value
 
     def __getitem__(self, key):

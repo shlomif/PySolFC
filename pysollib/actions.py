@@ -35,11 +35,11 @@
 
 
 # imports
-import os, sys, types, locale
+import os, locale
 
 # PySol imports
 from mfxutil import EnvError, SubclassResponsibility
-from mfxutil import Struct, destruct, openURL
+from mfxutil import Struct, openURL
 from pysolrandom import constructRandom
 from settings import PACKAGE, PACKAGE_URL
 from settings import TOP_TITLE
@@ -142,7 +142,7 @@ class PysolMenubarActions:
     def _clearMenuState(self):
         ms = self.menustate
         for k, v in ms.__dict__.items():
-            if type(v) is types.ListType:
+            if isinstance(v, list):
                 ms.__dict__[k] = [0] * len(v)
             else:
                 ms.__dict__[k] = 0

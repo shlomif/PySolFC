@@ -63,7 +63,6 @@ class MfxCheckMenuItem(Tkinter.BooleanVar):
     def set(self, value):
         if not value or value == "false": value = 0
         ##print value, type(value)
-        ##assert type(value) is types.IntType and 0 <= value <= 1
         Tkinter.BooleanVar.set(self, value)
 
 
@@ -71,7 +70,6 @@ class MfxRadioMenuItem(Tkinter.IntVar):
     def __init__(self, menubar, path=None):
         Tkinter.IntVar.__init__(self)
     def set(self, value):
-        ##assert type(value) is types.IntType and 0 <= value
         Tkinter.IntVar.set(self, value)
 
 

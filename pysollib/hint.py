@@ -35,11 +35,10 @@
 
 
 # imports
-import struct, os, sys
-import traceback
+import os, sys
 
 # PySol imports
-from mfxutil import Struct, destruct
+from mfxutil import destruct
 from util import KING
 
 
@@ -250,7 +249,7 @@ class AbstractHint(HintInterface):
     #
 
     def _canDropAllCards(self, from_stack, stacks, stackcards):
-        assert not from_stack in stacks
+        assert from_stack not in stacks
         return 0
         # FIXME: this does not account for cards which are dropped herein
         cards = pile[:]
@@ -785,13 +784,13 @@ class FreeCellSolverWrapper:
                      ]
             #
             game_type = self.fcs_args[3]
-            if game_type.has_key('sbb'):
+            if 'sbb' in game_type:
                 args += ['--sequences-are-built-by', game_type['sbb']]
-            if game_type.has_key('sm'):
+            if 'sm' in game_type:
                 args += ['--sequence-move', game_type['sm']]
-            if game_type.has_key('esf'):
+            if 'esf' in game_type:
                 args += ['--empty-stacks-filled-by', game_type['esf']]
-            if game_type.has_key('preset'):
+            if 'preset' in game_type:
                 args += ['--preset', game_type['preset']]
 
             command = fcs_command+' '+' '.join([str(i) for i in args])
@@ -907,7 +906,7 @@ class FreeCellSolverWrapper:
             game_type = self.fcs_args[3]
             game_type_defaults = {'sbb' : 'alternate_color', 'sm' : 'limited', 'esf': 'all'}
             for k,v in game_type_defaults.items():
-                if (not game_type.has_key(k)):
+                if k not in game_type:
                     game_type[k] = v
             
             solver.config(["--sequences-are-built-by", game_type['sbb'],

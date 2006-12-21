@@ -35,12 +35,10 @@
 
 
 # imports
-import sys, os, glob, operator, types
-#import traceback
+import os, glob
 
 # PySol imports
-from mfxutil import Struct, KwStruct, EnvError, latin1_to_ascii
-from settings import PACKAGE, VERSION
+from mfxutil import Struct, KwStruct, EnvError
 from settings import DEBUG
 
 gettext = _
@@ -89,7 +87,7 @@ class ResourceManager:
 
     def register(self, obj):
         assert obj.index == -1
-        assert obj.name and not self._objects_cache_name.has_key(obj.name)
+        assert obj.name and obj.name not in self._objects_cache_name
         self._objects_cache_name[obj.name] = obj
         if obj.filename:
             obj.absname = os.path.abspath(obj.filename)
@@ -130,13 +128,13 @@ class ResourceManager:
         try:
             if dir:
                 dir = os.path.normpath(dir)
-                if dir and os.path.isdir(dir) and not dir in result:
+                if dir and os.path.isdir(dir) and dir not in result:
                     result.append(dir)
         except EnvError, ex:
             pass
 
     def getSearchDirs(self, app, search, env=None):
-        if type(search) is types.StringType:
+        if isinstance(search, str):
             search = (search,)
         result = []
         if env:
@@ -378,10 +376,10 @@ class Cardset(Resource):
 
     def updateCardback(self, backname=None, backindex=None):
         # update default back
-        if type(backname) is types.StringType:
+        if isinstance(backname, str):
             if backname in self.backnames:
                 backindex = self.backnames.index(backname)
-        if type(backindex) is types.IntType:
+        if isinstance(backindex, int):
             self.backindex = backindex % len(self.backnames)
         self.backname = self.backnames[self.backindex]
 
@@ -397,7 +395,7 @@ class CardsetManager(ResourceManager):
 
     def _check(self, cs):
         s = cs.type
-        if not CSI.TYPE.has_key(s):
+        if s not in CSI.TYPE:
             return 0
         cs.si.type = s
         if s == CSI.TYPE_FRENCH:
@@ -473,14 +471,14 @@ class CardsetManager(ResourceManager):
                 cs.si.size = CSI.SIZE_XLARGE
         #
         keys = cs.styles[:]
-        cs.si.styles = tuple(filter(lambda s: CSI.STYLE.has_key(s), keys))
+        cs.si.styles = tuple(filter(lambda s: s in CSI.STYLE, keys))
         for s in cs.si.styles:
             self.registered_styles[s] = self.registered_styles.get(s, 0) + 1
-        cs.si.nationalities = tuple(filter(lambda s: CSI.NATIONALITY.has_key(s), keys))
+        cs.si.nationalities = tuple(filter(lambda s: s in CSI.NATIONALITY, keys))
         for s in cs.si.nationalities:
             self.registered_nationalities[s] = self.registered_nationalities.get(s, 0) + 1
         keys = (cs.year / 100,)
-        cs.si.dates = tuple(filter(lambda s: CSI.DATE.has_key(s), keys))
+        cs.si.dates = tuple(filter(lambda s: s in CSI.DATE, keys))
         for s in cs.si.dates:
             self.registered_dates[s] = self.registered_dates.get(s, 0) + 1
         #

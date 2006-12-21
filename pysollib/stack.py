@@ -91,14 +91,12 @@ __all__ = ['cardsFaceUp',
            ]
 
 # imports
-import time, types
+import types
 
 # PySol imports
 from mfxutil import Struct, kwdefault, SubclassResponsibility
-from util import Timer
-from util import ACE, KING, SUITS
+from util import ACE, KING
 from util import ANY_SUIT, ANY_COLOR, ANY_RANK, NO_RANK
-from util import NO_REDEAL, UNLIMITED_REDEALS, VARIABLE_REDEALS
 from pysoltk import EVENT_HANDLED, EVENT_PROPAGATE
 from pysoltk import CURSOR_DRAG, CURSOR_DOWN_ARROW, CURSOR_CAN_MOVE, CURSOR_NO_MOVE
 from pysoltk import ANCHOR_NW, ANCHOR_SE
@@ -271,12 +269,12 @@ class Stack:
             min_cards = 0,      # total number of cards this stack at least requires
         )
         model.cap.update(cap)
-        assert type(model.cap.suit) is types.IntType
-        assert type(model.cap.color) is types.IntType
-        assert type(model.cap.rank) is types.IntType
-        assert type(model.cap.base_suit) is types.IntType
-        assert type(model.cap.base_color) is types.IntType
-        assert type(model.cap.base_rank) is types.IntType
+        assert isinstance(model.cap.suit, int)
+        assert isinstance(model.cap.color, int)
+        assert isinstance(model.cap.rank, int)
+        assert isinstance(model.cap.base_suit, int)
+        assert isinstance(model.cap.base_color, int)
+        assert isinstance(model.cap.base_rank, int)
         #
         # view
         #
@@ -354,11 +352,11 @@ class Stack:
             assert self.cap.max_move <= 1
         # prepare some variables
         ox, oy = self.CARD_XOFFSET, self.CARD_YOFFSET
-        if type(ox) is types.IntType:
+        if isinstance(ox, int):
             self.CARD_XOFFSET = (ox,)
         else:
             self.CARD_XOFFSET = tuple(map(int, map(round, ox)))
-        if type(oy) is types.IntType:
+        if isinstance(oy, int):
             self.CARD_YOFFSET = (oy,)
         else:
             self.CARD_YOFFSET = tuple(map(int, map(round, oy)))
@@ -385,7 +383,7 @@ class Stack:
 ##                 # and the images don't match
 ##                 self.max_shadow_cards = 1
         if (self.game.app.opt.shrink_face_down and
-            type(ox) is int and type(oy) is int):
+            isinstance(ox, int) and isinstance(oy, int)):
             # no shrink if xoffset/yoffset too small
             f = self.SHRINK_FACTOR
             if ((ox == 0 and oy >= self.game.app.images.CARD_YOFFSET/f) or
@@ -689,7 +687,7 @@ class Stack:
         self.moveMove(ncards, to_stack, frames=frames, shadow=shadow)
         if not self.game.checkForWin():
             # let the player put cards back from the foundations
-            if not self in self.game.s.foundations:
+            if self not in self.game.s.foundations:
                 self.game.autoPlay()
         self.game.finishMove()
 
@@ -990,7 +988,7 @@ class Stack:
     def __motionEventHandler(self, event):
         ##if not self.game.drag.stack:
         ##    self._setMotionCursor(event)
-        if not self.game.drag.stack or not self is self.game.drag.stack:
+        if not self.game.drag.stack or self is not self.game.drag.stack:
             return EVENT_PROPAGATE
         if self.game.demo:
             self.game.stopDemo(event)
@@ -2472,7 +2470,7 @@ class ArbitraryStack(OpenStack):
         self.singleCardMove(index, to_stack, frames=frames, shadow=shadow)
         if not self.game.checkForWin():
             # let the player put cards back from the foundations
-            if not self in self.game.s.foundations:
+            if self not in self.game.s.foundations:
                 self.game.autoPlay()
         self.game.finishMove()
 
@@ -2513,7 +2511,7 @@ class ArbitraryStack(OpenStack):
 # self.cap override any call-time cap
 class StackWrapper:
     def __init__(self, stack_class, **cap):
-        assert type(stack_class) is types.ClassType
+        assert isinstance(stack_class, types.ClassType)
         assert issubclass(stack_class, Stack)
         self.stack_class = stack_class
         self.cap = cap

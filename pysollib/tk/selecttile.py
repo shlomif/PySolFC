@@ -78,7 +78,7 @@ class SelectTileData(SelectDialogTreeData):
         self.all_objects = filter(lambda obj: not obj.error, self.all_objects)
         self.all_objects = filter(lambda tile: tile.index > 0 and tile.filename, self.all_objects)
         self.no_contents = [ SelectTileLeaf(None, None, _("(no tiles)"), key=None), ]
-        e1 = type(key) is types.StringType or len(self.all_objects) <=17
+        e1 = isinstance(key, str) or len(self.all_objects) <=17
         e2 = 1
         self.rootnodes = (
             SelectTileNode(None, _("Solid Colors"), (
@@ -167,7 +167,7 @@ class SelectTileDialogWithPreview(MfxDialog):
 
     def mDone(self, button):
         if button == 0:        # "OK" or double click
-            if type(self.tree.selection_key) in types.StringTypes:
+            if isinstance(self.tree.selection_key, basestring):
                 self.key = str(self.tree.selection_key)
             else:
                 self.key = self.tree.selection_key
@@ -191,7 +191,7 @@ class SelectTileDialogWithPreview(MfxDialog):
             return
         canvas = self.preview.canvas
         canvas.deleteAllItems()
-        if type(key) is str:
+        if isinstance(key, str):
             # solid color
             canvas.config(bg=key)
             canvas.setTile(None)

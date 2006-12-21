@@ -67,7 +67,7 @@ class MfxCanvasGroup(Canvas.Group):
     def __init__(self, canvas, tag=None):
         Canvas.Group.__init__(self, canvas=canvas, tag=tag)
         # register ourself so that we can unbind from the canvas
-        assert not self.canvas.items.has_key(self.id)
+        assert self.id not in self.canvas.items
         self.canvas.items[self.id] = self
     def addtag(self, tag, option="withtag"):
         self.canvas.addtag(tag, option, self.id)
@@ -80,10 +80,10 @@ class MfxCanvasGroup(Canvas.Group):
 class MfxCanvasImage(Canvas.ImageItem):
     def __init__(self, canvas, *args, **kwargs):
         group = None
-        if kwargs.has_key('group'):
+        if 'group' in kwargs:
             group = kwargs['group']
             del kwargs['group']
-        if kwargs.has_key('image'):
+        if 'image' in kwargs:
             self._image = kwargs['image']
         Canvas.ImageItem.__init__(self, canvas, *args, **kwargs)
         if group:
@@ -101,7 +101,7 @@ MfxCanvasLine = Canvas.Line
 class MfxCanvasRectangle(Canvas.Rectangle):
     def __init__(self, canvas, *args, **kwargs):
         group = None
-        if kwargs.has_key('group'):
+        if 'group' in kwargs:
             group = kwargs['group']
             del kwargs['group']
         Canvas.Rectangle.__init__(self, canvas, *args, **kwargs)
@@ -114,10 +114,10 @@ class MfxCanvasText(Canvas.CanvasText):
             preview = canvas.preview
         if preview > 1:
             return
-        if not kwargs.has_key("fill"):
+        if "fill" not in kwargs:
             kwargs["fill"] = canvas._text_color
         group = None
-        if kwargs.has_key('group'):
+        if 'group' in kwargs:
             group = kwargs['group']
             del kwargs['group']
         Canvas.CanvasText.__init__(self, canvas, x, y, **kwargs)
@@ -252,7 +252,7 @@ class MfxCanvas(Tkinter.Canvas):
     def deleteAllItems(self):
         self._text_items = []
         for id in self.items.keys():
-            assert not id in self.__tiles   # because the tile is created by id
+            assert id not in self.__tiles   # because the tile is created by id
             unbind_destroy(self.items[id])
             self.items[id].delete()
         assert self.items == {}
@@ -286,7 +286,7 @@ class MfxCanvas(Tkinter.Canvas):
     def setTextColor(self, color):
         if color is None:
             c = self.cget("bg")
-            if type(c) is not types.StringType or c[0] != "#" or len(c) != 7:
+            if not isinstance(c, str) or c[0] != "#" or len(c) != 7:
                 return
             v = []
             for i in (1, 3, 5):
@@ -323,7 +323,7 @@ class MfxCanvas(Tkinter.Canvas):
 
     def setTopImage(self, image, cw=0, ch=0):
         try:
-            if image and type(image) is types.StringType:
+            if image and isinstance(image, str):
                 image = loadImage(file=image)
         except Tkinter.TclError:
             return 0

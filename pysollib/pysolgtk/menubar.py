@@ -565,7 +565,7 @@ class PysolMenubar(PysolMenubarActions):
         games = {}
         for gi in mahjongg_games:
             c = gettext(gi.short_name).strip()[0]
-            if games.has_key(c):
+            if c in games:
                 games[c].append(gi)
             else:
                 games[c] = [gi]
@@ -610,7 +610,7 @@ class PysolMenubar(PysolMenubarActions):
             'help.rulesforthisgame': '/menubar/help/rules',
             'options.automaticplay.autodrop': '/menubar/options/automaticplay/optautodrop'
             }
-        if path_map.has_key(path):
+        if path in path_map:
             path = path_map[path]
         else:
             path = '/menubar/'+path.replace('.', '/')
@@ -809,7 +809,7 @@ class PysolMenubar(PysolMenubarActions):
                                         manager=self.app.tabletile_manager,
                                         key=key)
         if d.status == 0 and d.button in (0, 1):
-            if type(d.key) is str:
+            if isinstance(d.key, str):
                 tile = self.app.tabletile_manager.get(0)
                 tile.color = d.key
                 self.app.setTile(0)

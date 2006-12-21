@@ -35,7 +35,7 @@
 
 
 # imports
-import time, types
+import time
 from cStringIO import StringIO
 
 # PySol imports
@@ -53,8 +53,7 @@ from pysoltk import CURSOR_WATCH
 from pysoltk import bind, wm_map
 from pysoltk import after, after_idle, after_cancel
 from pysoltk import MfxMessageDialog, MfxExceptionDialog
-from pysoltk import MfxCanvasText, MfxCanvasImage
-from pysoltk import MfxCanvasLine, MfxCanvasRectangle
+from pysoltk import MfxCanvasText, MfxCanvasLine, MfxCanvasRectangle
 from pysoltk import Card
 from move import AMoveMove, AFlipMove, ATurnStackMove
 from move import ANextRoundMove, ASaveSeedMove, AShuffleStackMove
@@ -237,7 +236,7 @@ class Game:
                  (self._shallHighlightMatch_RK,
                   self._shallHighlightMatch_RKW)),):
                 if isinstance(r, c):
-                    if not self.shallHighlightMatch in f:
+                    if self.shallHighlightMatch not in f:
                         print 'WARNING: shallHighlightMatch is not valid:', \
                               class_name, r.__class__
                     if r.cap.mod == 13 and self.shallHighlightMatch != f[1]:
@@ -817,7 +816,7 @@ class Game:
                 if v is None:
                     if sb: sb.updateText(gamenumber="")
                     continue
-                if type(v) is types.StringType:
+                if isinstance(v, str):
                     if sb: sb.updateText(gamenumber=v)
                     continue
             if k == "info":
@@ -825,7 +824,7 @@ class Game:
                 if v is None:
                     if sb: sb.updateText(info="")
                     continue
-                if type(v) is types.StringType:
+                if isinstance(v, str):
                     if sb: sb.updateText(info=v)
                     continue
             if k == "moves":
@@ -833,15 +832,15 @@ class Game:
                     ##if tb: tb.updateText(moves="Moves\n")
                     if sb: sb.updateText(moves="")
                     continue
-                if type(v) is types.TupleType:
+                if isinstance(v, tuple):
                     ##if tb: tb.updateText(moves="Moves\n%d/%d" % v)
                     if sb: sb.updateText(moves="%d/%d" % v)
                     continue
-                if type(v) is types.IntType:
+                if isinstance(v, int):
                     ##if tb: tb.updateText(moves="Moves\n%d" % v)
                     if sb: sb.updateText(moves="%d" % v)
                     continue
-                if type(v) is types.StringType:
+                if isinstance(v, str):
                     ##if tb: tb.updateText(moves=v)
                     if sb: sb.updateText(moves=v)
                     continue
@@ -849,7 +848,7 @@ class Game:
                 if v is None:
                     if tb: tb.updateText(player=_("Player\n"))
                     continue
-                if type(v) in types.StringTypes:
+                if isinstance(v, basestring):
                     if tb:
                         #if self.app.opt.toolbar_size:
                         if self.app.toolbar.getSize():
@@ -861,17 +860,17 @@ class Game:
                 if v is None:
                     if sb: sb.updateText(stats="")
                     continue
-                if type(v) is types.TupleType:
+                if isinstance(v, tuple):
                     t = "%d: %d/%d" % (v[0]+v[1], v[0], v[1])
                     if sb: sb.updateText(stats=t)
                     continue
             if k == "time":
                 if v is None:
                     if sb: sb.updateText(time='')
-                if type(v) in types.StringTypes:
+                if isinstance(v, basestring):
                     if sb: sb.updateText(time=v)
                 continue
-            raise AttributeError, k
+            raise AttributeError(k)
 
     def _unmapHandler(self, event):
         # pause game if root window has been iconified
@@ -885,7 +884,7 @@ class Game:
 
     def playSample(self, name, priority=0, loop=0):
         ##print "Game.playSample:", name, priority, loop
-        if self.app.opt.sound_samples.has_key(name) and \
+        if name in self.app.opt.sound_samples and \
                not self.app.opt.sound_samples[name]:
             return 0
         if self.app.audio:
@@ -1009,6 +1008,71 @@ class Game:
             card.moveBy(dx, dy)
         self.canvas.update_idletasks()
 
+    def animatedFlip(self, stack):
+        if self.app.opt.animations == 0:
+            return False
+        if TOOLKIT == 'gtk':
+            return False
+        if not stack.cards:
+            return False
+        try:
+            import ImageTk              # use PIL
+        except ImportError:
+            return False
+        if self.moves.state == self.S_INIT:
+            # don't use flip animation for initial dealing
+            return False
+        canvas = self.canvas
+        card = stack.cards[-1]
+        im1 = card._active_image._pil_image
+        if card.face_up:
+            im2 = card._back_image._pil_image
+        else:
+            im2 = card._face_image._pil_image
+        w, h = im1.size
+        id = card.item.id
+        #
+        delay = 10
+        frames = 3.0                    # num frames for each step
+        if self.app.opt.animations == 3:        # slow
+            delay = 10
+            frames = 7.0
+        elif self.app.opt.animations == 4:      # very slow
+            delay = 10
+            frames = 12.0
+        delta = 2*int(w/frames/2)       # should be even for save position
+        ddx, ddy = 0, self.app.images.SHADOW_YOFFSET/2 # ascent of the card
+        # siep 1
+        ww = w
+        dx = delta/2
+        canvas.move(id, -ddx, -ddy)
+        canvas.update_idletasks()
+        canvas.after(delay)
+        while True:
+            if ww-delta <= 0:
+                break
+            ww -= delta
+            tmp = im1.resize((ww, h))
+            tk_tmp = ImageTk.PhotoImage(image=tmp)
+            canvas.itemconfig(id, image=tk_tmp)
+            canvas.move(id, dx, 0)
+            canvas.update_idletasks()
+            canvas.after(delay)
+        dx = -dx
+        # step 2
+        while True:
+            tmp = im2.resize((ww, h))
+            tk_tmp = ImageTk.PhotoImage(image=tmp)
+            canvas.itemconfig(id, image=tk_tmp)
+            canvas.move(id, dx, 0)
+            canvas.update_idletasks()
+            canvas.after(delay)
+            ww += delta
+            if ww >= w:
+                break
+        canvas.move(id, ddx, ddy)
+        return True
+
     def winAnimation(self, perfect=0):
         # Stupid animation when you win a game.
         # FIXME: make this interruptible by a key- or mousepress
@@ -1033,7 +1097,7 @@ class Game:
         acards = []
         for i in range(16):
             c, s = self.app.miscrandom.choice(cards)
-            if not c in acards:
+            if c not in acards:
                 acards.append(c)
         # animate
         sx, sy = self.s.talon.x, self.s.talon.y
@@ -1117,7 +1181,7 @@ class Game:
             # with the same priority
             for d in self.regions.data:
                 if priority == d[0]:
-                    assert not s in d[2]
+                    assert s not in d[2]
         # add to regions
         self.regions.data.append((priority, -len(self.regions.data), tuple(stacks), tuple(rect)))
 
@@ -2427,32 +2491,34 @@ Please report this bug."""))
         #
         def pload(t=None, p=p):
             obj = p.load()
-            if type(t) is types.TypeType:
-                assert type(obj) is t, err_txt
+            if isinstance(t, type):
+                assert isinstance(obj, t), err_txt
             return obj
         #
         package = pload()
-        assert type(package) is types.StringType and package == PACKAGE, err_txt
+        assert isinstance(package, str) and package == PACKAGE, err_txt
         version = pload()
-        assert type(version) is types.StringType and len(version) <= 20, err_txt
+        assert isinstance(version, str) and len(version) <= 20, err_txt
         version_tuple = get_version_tuple(version)
         v = self._getUndumpVersion(version_tuple)
-        assert v >= 0 and version_tuple <= VERSION_TUPLE, "Cannot load games saved with\n" + PACKAGE + " version " + version
+        assert v >= 0 and version_tuple <= VERSION_TUPLE, \
+               "Cannot load games saved with\n"+PACKAGE+" version "+version
         game_version = 1
         bookmark = 0
         if v >= 2:
             vt = pload()
-            assert type(vt) is types.TupleType and vt == version_tuple, err_txt
+            assert isinstance(vt, tuple) and vt == version_tuple, err_txt
             bookmark = pload()
-            assert type(bookmark) is types.IntType and 0 <= bookmark <= 2, "Incompatible savegame format"
+            assert isinstance(bookmark, int) and 0 <= bookmark <= 2, \
+                   "Incompatible savegame format"
             game_version = pload()
-            assert type(game_version) is types.IntType and game_version > 0, err_txt
+            assert isinstance(game_version, int) and game_version > 0, err_txt
             if v <= 3:
                 bookmark = 0
         #
         id = pload()
-        assert type(id) is types.IntType and id > 0, err_txt
-        if not GI.PROTECTED_GAMES.has_key(id):
+        assert isinstance(id, int) and id > 0, err_txt
+        if id not in GI.PROTECTED_GAMES:
             game = app.constructGame(id)
             if game:
                 if not game.canLoadGame(version_tuple, game_version):
@@ -2468,7 +2534,7 @@ in the current implementation.''' % version
         #game.random = pload()
         #assert isinstance(game.random, PysolRandom), err_txt
         initial_seed = pload()
-        assert type(initial_seed) is types.LongType
+        assert isinstance(initial_seed, long)
         if initial_seed <= 32000:
             game.random = LCRandom31(initial_seed)
         else:
@@ -2480,15 +2546,14 @@ in the current implementation.''' % version
         game.loadinfo.stacks = []
         game.loadinfo.ncards = 0
         nstacks = pload()
-        #assert type(nstacks) is types.IntType and 1 <= nstacks <= 255, err_txt
-        assert type(nstacks) is types.IntType and 1 <= nstacks, err_txt
+        assert isinstance(nstacks, int) and 1 <= nstacks, err_txt
         for i in range(nstacks):
             stack = []
             ncards = pload()
-            assert type(ncards) is types.IntType and 0 <= ncards <= 1024, err_txt
+            assert isinstance(ncards, int) and 0 <= ncards <= 1024, err_txt
             for j in range(ncards):
-                card_id = pload(types.IntType)
-                face_up = pload(types.IntType)
+                card_id = pload(int)
+                face_up = pload(int)
                 stack.append((card_id, face_up))
             game.loadinfo.stacks.append(stack)
             game.loadinfo.ncards = game.loadinfo.ncards + ncards
@@ -2506,7 +2571,7 @@ in the current implementation.''' % version
                     game.gsaveinfo.__dict__.update(gsaveinfo.__dict__)
             elif v >= 1:
                 # not used
-                talon_base_cards = pload(types.ListType)
+                talon_base_cards = pload(list)
         moves = pload()
         assert isinstance(moves, Struct), err_txt
         game.moves.__dict__.update(moves.__dict__)
@@ -2519,7 +2584,7 @@ in the current implementation.''' % version
             game.stats.__dict__.update(stats.__dict__)
         game._loadGameHook(p)
         if v >= 4:
-            dummy = pload(types.StringType)
+            dummy = pload(str)
             assert dummy == "EOF", err_txt
         if bookmark == 2:
             # copy back all variables that are not saved
@@ -2533,7 +2598,7 @@ in the current implementation.''' % version
         f = None
         try:
             if not self.canSaveGame():
-                raise Exception, "Cannot save this game."
+                raise Exception("Cannot save this game.")
             f = open(filename, "wb")
             p = Pickler(f, binmode)
             self._dumpGame(p)
@@ -2633,9 +2698,9 @@ in the current implementation.''' % version
         kw = dict([(args[i], args[i+1]) for i in range(0, len(args), 2)])
         if not kw:
             kw = {'info': '', 'help': ''}
-        if kw.has_key('info') and self.app.opt.statusbar and self.app.opt.num_cards:
+        if 'info' in kw and self.app.opt.statusbar and self.app.opt.num_cards:
             self.app.statusbar.updateText(info=kw['info'])
-        if kw.has_key('help') and self.app.opt.helpbar:
+        if 'help' in kw and self.app.opt.helpbar:
             self.app.helpbar.updateText(info=kw['help'])
 
     #

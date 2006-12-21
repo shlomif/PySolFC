@@ -260,7 +260,7 @@ class Paned(Widget):
         subracted to each pane proportionally to its -weight
         """
     def __init__(self, master=None, cnf={}, **kw):
-        if not kw.has_key('orient'):
+        if 'orient' not in kw:
             kw['orient'] = 'horizontal'
         ##Widget.__init__(self, master, "ttk::paned", cnf, kw)
         Widget.__init__(self, master, "ttk::panedwindow", cnf, kw)

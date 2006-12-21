@@ -340,7 +340,7 @@ class CardsetInfoDialog(MfxDialog):
             ##(_('Number of cards:'), str(cardset.ncards)),
             (_('Size:'), '%d x %d' % (cardset.CARDW, cardset.CARDH)),
             ):
-            if not t is None:
+            if t is not None:
                 l = Tkinter.Label(info_frame, text=n,
                                   anchor='w', justify='left')
                 l.grid(row=row, column=0, sticky='nw')

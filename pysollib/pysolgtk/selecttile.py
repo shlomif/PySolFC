@@ -144,7 +144,7 @@ class SelectTileDialogWithPreview(MfxDialog):
             return
         canvas = self.preview
         ##canvas.deleteAllItems()
-        if type(key) is str:
+        if isinstance(key, str):
             # solid color
             canvas.setTile(self.app, 0, force=True)
             canvas.config(bg=key)
@@ -182,7 +182,7 @@ class SelectTileDialogWithPreview(MfxDialog):
         win = gtk.ColorSelectionDialog(_('Select table color'))
         win.help_button.destroy()
         win.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
-        if type(self.preview_key) is str:
+        if isinstance(self.preview_key, str):
             color =  self.preview_key
         else:
             color = self.app.opt.colors['table']

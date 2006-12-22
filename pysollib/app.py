@@ -102,6 +102,8 @@ class Options:
         self.mahjongg_create_solvable = True
         self.shisen_show_hint = True
         self.animations = 2                     # default to Timer based
+        self.redeal_animation = True
+        self.win_animation = True
         self.shadow = True
         self.shade = True
         self.shrink_face_down = True

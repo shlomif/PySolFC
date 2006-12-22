@@ -36,6 +36,7 @@
 
 # imports
 import time
+import math
 from cStringIO import StringIO
 
 # PySol imports
@@ -374,6 +375,16 @@ class Game:
             bookmarks = {},
             comment = "",
         )
+        # some vars for win animation
+        self.win_animation = Struct(
+            timer = None,
+            images = [],
+            tk_images = [],             # saved tk images
+            saved_images = {},          # saved resampled images
+            frame_num = 0,              # number of the current frame
+            width = 0,
+            height = 0,
+            )
 
     def getTitleName(self):
         return self.app.getGameTitleName(self.id)
@@ -404,7 +415,9 @@ class Game:
         self.finished = False
         old_busy, self.busy = self.busy, 1
         self.setCursor(cursor=CURSOR_WATCH)
+        self.stopWinAnimation()
         self.disableMenus()
+        self.redealAnimation()
         self.reset(restart=restart)
         self.resetGame()
         self.createRandom(random)
@@ -752,6 +765,7 @@ class Game:
         return 0
 
     def _cancelDrag(self, break_pause=True):
+        self.stopWinAnimation()
         if self.demo:
             self.stopDemo()
         if break_pause and self.pause:
@@ -772,21 +786,23 @@ class Game:
             self.app.menubar.disableMenus()
 
 
-
     #
     # UI & graphics support
     #
+
     def _defaultHandler(self):
         self.interruptSleep()
         self.deleteStackDesc()
 
     def clickHandler(self, event):
+        if self.stopWinAnimation(): return EVENT_PROPAGATE
         self._defaultHandler()
         self.event_handled = False
         return EVENT_PROPAGATE
 
     def undoHandler(self, event):
         if not self.app: return EVENT_PROPAGATE # FIXME (GTK)
+        if self.stopWinAnimation(): return EVENT_PROPAGATE
         self._defaultHandler()
         if self.demo:
             self.stopDemo()
@@ -798,6 +814,7 @@ class Game:
 
     def redoHandler(self, event):
         if not self.app: return EVENT_PROPAGATE # FIXME (GTK)
+        if self.stopWinAnimation(): return EVENT_PROPAGATE
         self._defaultHandler()
         if self.demo:
             self.stopDemo()
@@ -1073,12 +1090,113 @@ class Game:
         canvas.move(id, ddx, ddy)
         return True
 
+    def doWinAnimation(self):
+        # based on code from pygtk-demo
+        import Image, ImageTk
+
+        FRAME_DELAY = 40
+        CYCLE_LEN = 60
+        images = self.win_animation.images
+        saved_images = self.win_animation.saved_images # cached images
+        canvas = self.canvas
+
+        x0 = int(int(canvas.cget('width'))*(canvas.xview()[0]))
+        y0 = int(int(canvas.cget('height'))*(canvas.yview()[0]))
+        width, height = self.win_animation.width, self.win_animation.height
+
+        tmp_tk_images = []
+        raised_images = []
+        n_images = len(images)
+        xmid = width / 2.0
+        ymid = height / 2.0
+        radius = min(xmid, ymid) / 2.0
+
+        f = float(self.win_animation.frame_num % CYCLE_LEN) / float(CYCLE_LEN)
+        r = radius +(radius / 3.0) * math.sin(f * 2.0 * math.pi)
+        img_index = 0
+
+        for im in images:
+
+            iw, ih = im.size
+
+            ang = 2.0 * math.pi * img_index / n_images - f * 2.0 * math.pi
+            xpos = x0 + int(xmid + r * math.cos(ang) - iw / 2.0)
+            ypos = y0 + int(ymid + r * math.sin(ang) - ih / 2.0)
+
+            if img_index & 1:
+                k = math.sin(f * 2.0 * math.pi)
+            else:
+                k = math.cos(f * 2.0 * math.pi)
+            k = k * k
+            k = max(0.4, k)
+            round_k = int(round(k*100))
+            if img_index not in saved_images:
+                saved_images[img_index] = {}
+            if round_k == 100:
+                tmp = im
+            elif round_k in saved_images[img_index]:
+                tmp = saved_images[img_index][round_k]
+            else:
+                new_size = (int(iw*k), int(ih*k))
+                tmp = im.resize(new_size, resample=Image.BICUBIC)
+                saved_images[img_index][round_k] = tmp
+
+            tk_tmp = ImageTk.PhotoImage(image=tmp)
+            id = canvas.create_image(xpos, ypos, image=tk_tmp, anchor='nw')
+            if k > 0.6:
+                raised_images.append(id)
+            tmp_tk_images.append(tk_tmp)
+
+            img_index += 1
+
+        for id in raised_images:
+            canvas.tag_raise(id)
+        self.win_animation.frame_num = (self.win_animation.frame_num+1) % CYCLE_LEN
+        self.win_animation.tk_images = tmp_tk_images
+        canvas.update_idletasks()
+        # loop
+        self.win_animation.timer = after(canvas, FRAME_DELAY, self.doWinAnimation)
+
+    def stopWinAnimation(self):
+        if self.win_animation.timer:
+            after_cancel(self.win_animation.timer) # stop loop
+            self.win_animation.timer = None
+            self.win_animation.tk_images = [] # delete all images
+            self.saved_images = {}
+            self.canvas.showAllItems()
+            return True
+        return False
+
     def winAnimation(self, perfect=0):
-        # Stupid animation when you win a game.
-        # FIXME: make this interruptible by a key- or mousepress
 ###        if not self.app.opt.win_animation:
 ###            return
         if not self.app.opt.animations:
+            return
+        if TOOLKIT == 'gtk':
+            return
+        try:
+            import Image
+        except ImportError:
+            return
+        self.canvas.hideAllItems()
+        # select some random cards
+        cards = self.cards[:]
+        scards = []
+        for i in xrange(10):
+            c = self.app.miscrandom.choice(cards)
+            scards.append(c)
+            cards.remove(c)
+        for c in scards:
+            self.win_animation.images.append(c._face_image._pil_image)
+        # compute visible geometry
+        self.win_animation.width = self.canvas.winfo_width()
+        self.win_animation.height = self.canvas.winfo_height()
+        # run win animation in background
+        after_idle(self.canvas, self.doWinAnimation)
+        return
+
+    def redealAnimation(self):
+        if not self.app.opt.animations or not self.app.opt.redeal_animation:
             return
         self.setCursor(cursor=CURSOR_WATCH)
         self.top.busyUpdate()
@@ -1093,12 +1211,18 @@ class Game:
             if s is not self.s.talon:
                 for c in s.cards:
                     cards.append((c,s))
+        if not cards:
+            return
         # select some random cards
         acards = []
-        for i in range(16):
-            c, s = self.app.miscrandom.choice(cards)
+        scards = cards[:]
+        for i in range(12):
+            c, s = self.app.miscrandom.choice(scards)
             if c not in acards:
                 acards.append(c)
+                scards.remove((c,s))
+                if not scards:
+                    break
         # animate
         sx, sy = self.s.talon.x, self.s.talon.y
         w, h = self.width, self.height
@@ -1363,6 +1487,7 @@ You have reached
             time = self.getTime()
             self.finished = True
             self.playSample("gameperfect", priority=1000)
+            self.winAnimation(perfect=1)
             d = MfxMessageDialog(self.top, title=_("Game won"),
                                  text=_('''
 Congratulations, this
@@ -1379,6 +1504,7 @@ for %d moves.
             time = self.getTime()
             self.finished = True
             self.playSample("gamewon", priority=1000)
+            self.winAnimation()
             d = MfxMessageDialog(self.top, title=_("Game won"),
                                  text=_('''
 Congratulations, you did it !
@@ -1405,10 +1531,6 @@ for %d moves.
         if d.status == 0 and d.button == 0:
             # new game
             self.endGame()
-            if status == 2:
-                self.winAnimation(perfect=1)
-            elif status == 1:
-                self.winAnimation()
             self.newGame()
         elif d.status == 0 and d.button == 1:
             # restart game

@@ -996,16 +996,17 @@ class Stack:
             return EVENT_HANDLED
         if self.game.app.opt.mouse_type == 'point-n-click':
             return EVENT_HANDLED
-        if self.game.app.opt.mouse_type == 'drag-n-drop' and TOOLKIT == 'tk':
-            # use a timer to update the drag
-            # this allows us to skip redraws on slow machines
-            drag = self.game.drag
-            if drag.timer is None:
-                drag.timer = after_idle(self.canvas, self.keepDragTimer)
-            drag.event = event
-        else:
-            # update now
-            self.keepDrag(event)
+        self.keepDrag(event)
+##         if self.game.app.opt.mouse_type == 'drag-n-drop' and TOOLKIT == 'tk':
+##             # use a timer to update the drag
+##             # this allows us to skip redraws on slow machines
+##             drag = self.game.drag
+##             if drag.timer is None:
+##                 drag.timer = after_idle(self.canvas, self.keepDragTimer)
+##             drag.event = event
+##         else:
+##             # update now
+##             self.keepDrag(event)
         return EVENT_HANDLED
 
     def __releaseEventHandler(self, event):

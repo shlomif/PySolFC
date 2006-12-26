@@ -802,7 +802,8 @@ class Game:
 
     def undoHandler(self, event):
         if not self.app: return EVENT_PROPAGATE # FIXME (GTK)
-        if self.stopWinAnimation(): return EVENT_PROPAGATE
+        if not self.event_handled and self.stopWinAnimation():
+            return EVENT_PROPAGATE
         self._defaultHandler()
         if self.demo:
             self.stopDemo()
@@ -814,7 +815,8 @@ class Game:
 
     def redoHandler(self, event):
         if not self.app: return EVENT_PROPAGATE # FIXME (GTK)
-        if self.stopWinAnimation(): return EVENT_PROPAGATE
+        if not self.event_handled and self.stopWinAnimation():
+            return EVENT_PROPAGATE
         self._defaultHandler()
         if self.demo:
             self.stopDemo()
@@ -1026,6 +1028,7 @@ class Game:
         self.canvas.update_idletasks()
 
     def animatedFlip(self, stack):
+        return False
         if self.app.opt.animations == 0:
             return False
         if TOOLKIT == 'gtk':
@@ -1216,7 +1219,7 @@ class Game:
         # select some random cards
         acards = []
         scards = cards[:]
-        for i in range(12):
+        for i in range(8):
             c, s = self.app.miscrandom.choice(scards)
             if c not in acards:
                 acards.append(c)

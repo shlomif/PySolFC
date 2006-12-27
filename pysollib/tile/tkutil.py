@@ -60,13 +60,9 @@ import sys, os, re
 import traceback
 import Tile as Tkinter
 from tkFont import Font
-try:
-    # PIL
-    import Image
-    import ImageTk
-    import ImageOps
-except ImportError:
-    Image = None
+
+# PySol imports
+from pysollib.mfxutil import Image, ImageTk, ImageOps
 
 # Toolkit imports
 from tkconst import tkversion

@@ -66,6 +66,9 @@ if os.name == 'mac':
 TOP_SIZE = 10
 TOP_TITLE = n_('Top 10')
 
+# use menu for select game
+SELECT_GAME_MENU = True
+
 # debug
 DEBUG = 0                               # must be integer
 CHECK_GAMES = False                     # check duplicated names and classes

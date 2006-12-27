@@ -47,6 +47,24 @@ try:
 except:
     thread = None
 
+from settings import TOOLKIT
+Image = ImageTk = ImageOps = None
+if TOOLKIT == 'tk':
+    try: # PIL
+        import Image
+    except ImportError:
+        pass
+    else:
+        import ImageTk
+        import ImageOps
+        # for py2exe
+        import GifImagePlugin
+        import PngImagePlugin
+        import JpegImagePlugin
+        import BmpImagePlugin
+        import PpmImagePlugin
+        Image._initialized=2
+
 if os.name == "mac":
     # macfs module is deprecated, consider using Carbon.File or Carbon.Folder
     import macfs, MACFS

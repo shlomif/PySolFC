@@ -41,6 +41,7 @@ from cStringIO import StringIO
 
 # PySol imports
 from mfxutil import Pickler, Unpickler, UnpicklingError
+from mfxutil import Image, ImageTk
 from mfxutil import destruct, Struct, SubclassResponsibility
 from mfxutil import uclock, usleep
 from mfxutil import format_time
@@ -1035,9 +1036,7 @@ class Game:
             return False
         if not stack.cards:
             return False
-        try:
-            import ImageTk              # use PIL
-        except ImportError:
+        if not Image:
             return False
         if self.moves.state == self.S_INIT:
             # don't use flip animation for initial dealing
@@ -1095,8 +1094,6 @@ class Game:
 
     def doWinAnimation(self):
         # based on code from pygtk-demo
-        import Image, ImageTk
-
         FRAME_DELAY = 40
         CYCLE_LEN = 60
         images = self.win_animation.images
@@ -1173,13 +1170,13 @@ class Game:
     def winAnimation(self, perfect=0):
 ###        if not self.app.opt.win_animation:
 ###            return
+        if self.preview:
+            return
         if not self.app.opt.animations:
             return
         if TOOLKIT == 'gtk':
             return
-        try:
-            import Image
-        except ImportError:
+        if not Image:
             return
         self.canvas.hideAllItems()
         # select some random cards
@@ -1199,6 +1196,8 @@ class Game:
         return
 
     def redealAnimation(self):
+        if self.preview:
+            return
         if not self.app.opt.animations or not self.app.opt.redeal_animation:
             return
         self.setCursor(cursor=CURSOR_WATCH)

@@ -43,16 +43,9 @@ __all__ = ['MfxCanvasGroup',
 # imports
 import os, sys, types
 import Tkinter, Canvas
-try:
-    # PIL (Python Image Library)
-    import Image
-except ImportError:
-    Image = None
-else:
-    import ImageTk
-    # for py2exe
-    import GifImagePlugin, PngImagePlugin, JpegImagePlugin, BmpImagePlugin, PpmImagePlugin
-    Image._initialized=2
+
+# PySol imports
+from pysollib.mfxutil import Image, ImageTk
 
 # Toolkit imports
 from tkutil import bind, unbind_destroy, loadImage

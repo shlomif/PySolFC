@@ -95,6 +95,7 @@ import types
 
 # PySol imports
 from mfxutil import Struct, kwdefault, SubclassResponsibility
+from mfxutil import Image, ImageTk, ImageOps
 from util import ACE, KING
 from util import ANY_SUIT, ANY_COLOR, ANY_RANK, NO_RANK
 from pysoltk import EVENT_HANDLED, EVENT_PROPAGATE
@@ -1289,13 +1290,6 @@ class Stack:
         xx0, yy0 = x0, y0
         w, h = x1-x0, y1-y0
         #
-        Image = None
-        if TOOLKIT == 'tk':
-            try:
-                import Image, ImageTk
-            except ImportError:
-                pass
-        ##Image = None
         if TOOLKIT == 'gtk' or not Image:
             color = self.game.app.opt.colors['cards_1']
             r = MfxCanvasRectangle(self.canvas, xx0, yy0, xx0+w, yy0+h,

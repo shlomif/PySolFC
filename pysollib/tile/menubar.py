@@ -46,6 +46,7 @@ from pysollib.mfxutil import destruct, Struct, kwdefault
 from pysollib.util import CARDSET
 from pysollib.settings import PACKAGE, WIN_SYSTEM
 from pysollib.settings import TOP_TITLE
+from pysollib.settings import SELECT_GAME_MENU
 from pysollib.gamedb import GI
 from pysollib.actions import PysolMenubarActions
 
@@ -630,6 +631,8 @@ class PysolMenubar(PysolMenubarActions):
                          command=self.mSelectGameDialog)
         menu.add_command(label=n_("Playable pre&view..."), accelerator="V",
                          command=self.mSelectGameDialogWithPreview)
+        if not SELECT_GAME_MENU:
+            return
         menu.add_separator()
         self._addSelectPopularGameSubMenu(games, menu, self.mSelectGame,
                                           self.tkopt.gameid)

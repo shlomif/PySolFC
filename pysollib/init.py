@@ -50,7 +50,7 @@ def init():
         locale_dir = d
     ##if locale_dir: locale_dir = os.path.normpath(locale_dir)
     gettext.install('pysol', locale_dir, unicode=True)
-
+    # debug
     if 'PYSOL_CHECK_GAMES' in os.environ or \
            'PYSOL_DEBUG' in os.environ:
         settings.CHECK_GAMES = True
@@ -97,4 +97,8 @@ def init():
         # "can't invoke event <<ThemeChanged>>: application has been destroyed"
         #root.destroy()
         Tkinter._default_root = None
+    #
+    if '--no-games-menu' in sys.argv:
+        sys.argv.remove('--no-games-menu')
+        settings.SELECT_GAME_MENU = False
 

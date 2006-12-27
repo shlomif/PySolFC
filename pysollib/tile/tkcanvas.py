@@ -44,16 +44,9 @@ __all__ = ['MfxCanvasGroup',
 import os, sys, types
 import Tile as Tkinter
 import Canvas
-try:
-    # PIL (Python Image Library)
-    import Image
-except ImportError:
-    Image = None
-else:
-    import ImageTk
-    # for py2exe
-    import GifImagePlugin, PngImagePlugin, JpegImagePlugin, BmpImagePlugin, PpmImagePlugin
-    Image._initialized=2
+
+# PySol imports
+from pysollib.mfxutil import Image, ImageTk, ImageOps
 
 # Toolkit imports
 from tkutil import bind, unbind_destroy, loadImage

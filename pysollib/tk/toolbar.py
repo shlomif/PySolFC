@@ -38,14 +38,10 @@ __all__ = ['PysolToolbar'] #, 'TOOLBAR_BUTTONS']
 # imports
 import os, sys, types, Tkinter
 import traceback
-try:
-    # PIL
-    import Image, ImageTk
-except ImportError:
-    Image = None
 
 # PySol imports
 from pysollib.mfxutil import destruct
+from pysollib.mfxutil import Image, ImageTk
 from pysollib.util import IMAGE_EXTENSIONS
 from pysollib.settings import PACKAGE
 from pysollib.actions import PysolToolbarActions

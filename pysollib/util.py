@@ -62,8 +62,16 @@ __all__ = ['SUITS',
 # imports
 import sys, os, re, time
 
+
+try:
+    import Image, ImageTk, ImageOps
+except ImportError:
+    Image = ImageTk = ImageOps = None
+
 # PySol imports
 from settings import DATA_DIRS
+from mfxutil import Image
+
 
 # /***********************************************************************
 # // constants
@@ -102,11 +110,8 @@ IMAGE_EXTENSIONS = (".gif", ".ppm",)
 if 1 and os.name == "nt":
     IMAGE_EXTENSIONS = (".png", ".gif", ".ppm", ".jpg",)
     pass
-try:
-    import Image
-except ImportError:
-    pass
-else:
+
+if Image:
     IMAGE_EXTENSIONS = (".png", ".gif", ".jpg", ".ppm", ".bmp")
 
 

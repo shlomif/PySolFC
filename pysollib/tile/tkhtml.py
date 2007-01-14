@@ -317,7 +317,7 @@ class HTMLViewer:
         self.parent = None
 
     def _yview(self, *args):
-        apply(self.text.yview, args, {})
+        self.text.yview(*args)
         return 'break'
 
     def page_up(self, *event):

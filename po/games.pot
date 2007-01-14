@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Thu Dec  7 15:25:59 2006\n"
+"POT-Creation-Date: Fri Jan 12 13:34:09 2007\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -255,6 +255,9 @@ msgstr ""
 msgid "Betsy Ross"
 msgstr ""
 
+msgid "Big Ben"
+msgstr ""
+
 msgid "Big Bertha"
 msgstr ""
 
@@ -426,6 +429,9 @@ msgstr ""
 msgid "Busy Aces"
 msgstr ""
 
+msgid "Busy Cards"
+msgstr ""
+
 msgid "Butterfly"
 msgstr ""
 
@@ -436,6 +442,9 @@ msgid "Calculation"
 msgstr ""
 
 msgid "Camelot"
+msgstr ""
+
+msgid "Can Can"
 msgstr ""
 
 msgid "Canfield"
@@ -568,6 +577,9 @@ msgid "Citadel"
 msgstr ""
 
 msgid "Clink"
+msgstr ""
+
+msgid "Clock"
 msgstr ""
 
 msgid "Clover Leaf"
@@ -804,6 +816,9 @@ msgstr ""
 msgid "Double Klondike by Threes"
 msgstr ""
 
+msgid "Double Line"
+msgstr ""
+
 msgid "Double Mahjongg Big Castle"
 msgstr ""
 
@@ -829,6 +844,9 @@ msgid "Double Mahjongg Two Squares"
 msgstr ""
 
 msgid "Double Measure"
+msgstr ""
+
+msgid "Double Pyramid"
 msgstr ""
 
 msgid "Double Rail"
@@ -1143,6 +1161,9 @@ msgstr ""
 msgid "Four Winds"
 msgstr ""
 
+msgid "Four by Four"
+msgstr ""
+
 msgid "Foursome"
 msgstr ""
 
@@ -1354,6 +1375,9 @@ msgid "Hare"
 msgstr ""
 
 msgid "Harvestman"
+msgstr ""
+
+msgid "Hawaiian"
 msgstr ""
 
 msgid "Hayagriva"
@@ -2631,6 +2655,9 @@ msgstr ""
 msgid "Ox"
 msgstr ""
 
+msgid "Paganini"
+msgstr ""
+
 msgid "Pagat"
 msgstr ""
 
@@ -2922,21 +2949,6 @@ msgstr ""
 msgid "Robin"
 msgstr ""
 
-msgid "Rock Hopper"
-msgstr ""
-
-msgid "Rock Hopper 6x6"
-msgstr ""
-
-msgid "Rock Hopper 7x7"
-msgstr ""
-
-msgid "Rock Hopper Cross 1"
-msgstr ""
-
-msgid "Rock Hopper Cross 2"
-msgstr ""
-
 msgid "Rocket"
 msgstr ""
 
@@ -3001,6 +3013,9 @@ msgid "Russian Solitaire"
 msgstr ""
 
 msgid "Russian Spider"
+msgstr ""
+
+msgid "S Patience"
 msgstr ""
 
 msgid "Salic Law"
@@ -3552,6 +3567,9 @@ msgstr ""
 msgid "Trefoil"
 msgstr ""
 
+msgid "Triangle"
+msgstr ""
+
 msgid "Trika"
 msgstr ""
 
@@ -3634,6 +3652,9 @@ msgid "Union Square"
 msgstr ""
 
 msgid "Unlimited"
+msgstr ""
+
+msgid "Up and Down"
 msgstr ""
 
 msgid "Usk"

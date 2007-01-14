@@ -38,6 +38,8 @@
 import os
 
 # PySol imports
+from settings import TOOLKIT
+from mfxutil import Image, ImageTk
 
 # Toolkit imports
 from pysoltk import tkversion, loadImage, copyImage, createImage, shadowImage
@@ -87,7 +89,9 @@ class Images:
         self._shadow = []
         self._xshadow = []
         self._shade = []
-        self._shadow_cards = {}          # key: (suit, rank)
+        self._shadow_cards = {}         # key: (suit, rank)
+        self._pil_shadow = {}           # key: (width, height)
+        self._pil_shadow_image = None
 
     def destruct(self):
         pass
@@ -202,28 +206,32 @@ class Images:
                 pass
             if progress: progress.update(step=pstep)
         # shadow
-        for i in range(self.cs.nshadows):
-            if fast:
-                self._shadow.append(None)
-            else:
-                name = "shadow%02d.%s" % (i, ext)
-                try:
-                    im = self.__loadCard(name, check_w=0, check_h=0)
-                except:
-                    im = None
-                self._shadow.append(im)
+        if TOOLKIT == 'tk' and Image:
+            fn = self.d.findImage('shadow', 'images')
+            self._pil_shadow_image = Image.open(fn).convert('RGBA')
+        else:
+            for i in range(self.cs.nshadows):
+                if fast:
+                    self._shadow.append(None)
+                else:
+                    name = "shadow%02d.%s" % (i, ext)
+                    try:
+                        im = self.__loadCard(name, check_w=0, check_h=0)
+                    except:
+                        im = None
+                    self._shadow.append(im)
 
-            if fast:
-                self._xshadow.append(None)
-            elif i > 0: # skip 0
-                name = "xshadow%02d.%s" % (i, ext)
-                try:
-                    im = self.__loadCard(name, check_w=0, check_h=0)
-                except:
-                    im = None
-                self._xshadow.append(im)
+                if fast:
+                    self._xshadow.append(None)
+                elif i > 0: # skip 0
+                    name = "xshadow%02d.%s" % (i, ext)
+                    try:
+                        im = self.__loadCard(name, check_w=0, check_h=0)
+                    except:
+                        im = None
+                    self._xshadow.append(im)
 
-            if progress: progress.update(step=pstep)
+                if progress: progress.update(step=pstep)
         # shade
         if fast:
             self._shade.append(None)
@@ -235,6 +243,8 @@ class Images:
         #
         self._bottom = self._bottom_positive
         self._letter = self._letter_positive
+        #
+
         return 1
 
     def getFace(self, deck, suit, rank):
@@ -284,6 +294,46 @@ class Images:
             if ncards >= len(self._xshadow):
                 return None
             return self._xshadow[ncards]
+
+    def getShadowPIL(self, stack, cards):
+        x0, y0 = stack.getPositionFor(cards[0])
+        x1, y1 = stack.getPositionFor(cards[-1])
+        x0, x1 = min(x1, x0), max(x1, x0)
+        y0, y1 = min(y1, y0), max(y1, y0)
+        x1 = x1 + self.CARDW
+        y1 = y1 + self.CARDH
+        #xx0, yy0 = x0, y0
+        w, h = x1-x0, y1-y0
+        if (w,h) in self._pil_shadow:
+            return self._pil_shadow[(w,h)]
+        # create mask
+        mask = Image.new('RGBA', (w, h))
+        for c in cards:
+            x, y = stack.getPositionFor(c)
+            x, y = x-x0, y-y0
+            im = c._active_image._pil_image
+            mask.paste(im, (x, y), im)
+        # create shadow
+        sh = self._pil_shadow_image
+        shw, shh = sh.size
+        shadow = Image.new('RGBA', (w, h))
+        x = 0
+        while x < w:
+            y = 0
+            while y < h:
+                shadow.paste(sh, (x,y))
+                y += shh
+            x += shw
+        shadow = Image.composite(shadow, mask, mask)
+        # crop image (for speed)
+        sx, sy = self.SHADOW_XOFFSET, self.SHADOW_YOFFSET
+        mask = mask.crop((sx,sy,w,h))
+        tmp = Image.new('RGBA', (w-sx,h-sy))
+        shadow.paste(tmp, (0,0), mask)
+        #
+        shadow = ImageTk.PhotoImage(shadow)
+        self._pil_shadow[(w,h)] = shadow
+        return shadow
 
     def getShade(self):
         return self._shade[self._shade_index]

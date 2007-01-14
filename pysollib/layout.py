@@ -263,7 +263,7 @@ class Layout:
         if layout_stack is None or not layout_stack.text_args:
             return None
         layout_stack.text_args["font"] = self.game.app.getFont("canvas_default")
-        t = apply(MfxCanvasText, (self.game.canvas,), layout_stack.text_args)
+        t = MfxCanvasText(self.game.canvas, **layout_stack.text_args)
         t.text_format = layout_stack.text_format
         return t
 

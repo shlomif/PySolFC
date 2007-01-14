@@ -169,7 +169,7 @@ class LarasGame_Talon(WasteTalonStack):
 
 class LarasGame_RowStack(OpenStack):
     def __init__(self, x, y, game, yoffset = 1, **cap):
-        apply(OpenStack.__init__, (self, x, y, game), cap)
+        OpenStack.__init__(self, x, y, game, **cap)
         self.CARD_YOFFSET = yoffset
 
 

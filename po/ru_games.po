@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Thu Dec  7 15:25:59 2006\n"
-"PO-Revision-Date: 2006-12-07 15:51+0300\n"
+"POT-Creation-Date: Fri Jan 12 13:34:09 2007\n"
+"PO-Revision-Date: 2007-01-13 20:30+0300\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -256,6 +256,9 @@ msgstr "Бельведер"
 msgid "Betsy Ross"
 msgstr "Бетси Росс"
 
+msgid "Big Ben"
+msgstr "Большой Бен"
+
 msgid "Big Bertha"
 msgstr "Большая Берта"
 
@@ -428,6 +431,9 @@ msgstr "Клоп"
 msgid "Busy Aces"
 msgstr "Занятые тузы"
 
+msgid "Busy Cards"
+msgstr "Занятые карты"
+
 msgid "Butterfly"
 msgstr "Бабочка"
 
@@ -439,6 +445,9 @@ msgstr "Вычисление"
 
 msgid "Camelot"
 msgstr "Камелот"
+
+msgid "Can Can"
+msgstr "Канкан"
 
 msgid "Canfield"
 msgstr "Кенфилд"
@@ -572,6 +581,9 @@ msgstr "Цитадель"
 
 msgid "Clink"
 msgstr "Застенок"
+
+msgid "Clock"
+msgstr "Часы"
 
 msgid "Clover Leaf"
 msgstr "Лепесток клевера"
@@ -810,6 +822,9 @@ msgstr "Двойной Клондайк"
 msgid "Double Klondike by Threes"
 msgstr "Двойной Клондайк по три"
 
+msgid "Double Line"
+msgstr "Двойной ряд"
+
 msgid "Double Mahjongg Big Castle"
 msgstr "Двойной Маджонг Большой замок"
 
@@ -836,6 +851,9 @@ msgstr "Двойной Маджонг Два квадрата"
 
 msgid "Double Measure"
 msgstr "Двойная Мера"
+
+msgid "Double Pyramid"
+msgstr "Двойная пирамида"
 
 msgid "Double Rail"
 msgstr "Двойные рельсы"
@@ -1155,8 +1173,11 @@ msgstr "Четыре кучи"
 msgid "Four Winds"
 msgstr "Четыре ветра"
 
+msgid "Four by Four"
+msgstr "Четыре по четыре"
+
 msgid "Foursome"
-msgstr "Четвёрки"
+msgstr "По четыре"
 
 msgid "Fourteen"
 msgstr "Четырнадцать"
@@ -1373,6 +1394,9 @@ msgstr "Заяц"
 msgid "Harvestman"
 msgstr "Сенокосец"
 
+msgid "Hawaiian"
+msgstr "Гавайский"
+
 msgid "Hayagriva"
 msgstr ""
 
@@ -1389,7 +1413,7 @@ msgid "Helios"
 msgstr "Гелиос"
 
 msgid "Hemispheres"
-msgstr ""
+msgstr "Полушария"
 
 msgid "Hex A Klon"
 msgstr "Шестнадцатиричный Клондайк"
@@ -2663,6 +2687,9 @@ msgstr "Сова"
 msgid "Ox"
 msgstr "Бык"
 
+msgid "Paganini"
+msgstr "Паганини"
+
 #, fuzzy
 msgid "Pagat"
 msgstr "Пагода"
@@ -2955,21 +2982,6 @@ msgstr "Роберт"
 msgid "Robin"
 msgstr "Робин"
 
-msgid "Rock Hopper"
-msgstr ""
-
-msgid "Rock Hopper 6x6"
-msgstr ""
-
-msgid "Rock Hopper 7x7"
-msgstr ""
-
-msgid "Rock Hopper Cross 1"
-msgstr ""
-
-msgid "Rock Hopper Cross 2"
-msgstr ""
-
 msgid "Rocket"
 msgstr "Ракета"
 
@@ -3036,6 +3048,9 @@ msgstr "Русский солитер"
 
 msgid "Russian Spider"
 msgstr "Русский паук"
+
+msgid "S Patience"
+msgstr "S-пасьянс"
 
 msgid "Salic Law"
 msgstr "Салический закон"
@@ -3602,6 +3617,9 @@ msgstr "Древо жизни"
 msgid "Trefoil"
 msgstr "Клевер"
 
+msgid "Triangle"
+msgstr "Треугольник"
+
 msgid "Trika"
 msgstr ""
 
@@ -3686,6 +3704,9 @@ msgstr "Объединённый квадрата"
 
 msgid "Unlimited"
 msgstr "Неограниченный"
+
+msgid "Up and Down"
+msgstr "Вверх и вниз"
 
 msgid "Usk"
 msgstr ""

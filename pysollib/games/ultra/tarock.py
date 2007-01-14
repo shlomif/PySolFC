@@ -50,7 +50,7 @@ class Tarock_OpenStack(OpenStack):
 
     def __init__(self, x, y, game, yoffset=-1, **cap):
         kwdefault(cap, max_move=UNLIMITED_MOVES, max_accept=UNLIMITED_ACCEPTS, dir=-1)
-        apply(OpenStack.__init__, (self, x, y, game), cap)
+        OpenStack.__init__(self, x, y, game, **cap)
         if yoffset < 0:
             yoffset = game.app.images.CARD_YOFFSET
         self.CARD_YOFFSET = yoffset

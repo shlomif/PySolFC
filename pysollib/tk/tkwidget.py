@@ -292,7 +292,7 @@ class MfxExceptionDialog(MfxMessageDialog):
         else:
             t = str(ex)
         kw.text = text + unicode(t, errors='replace')
-        apply(MfxMessageDialog.__init__, (self, parent, title), kw.getKw())
+        MfxMessageDialog.__init__(self, parent, title, **kw.getKw())
 
 
 # /***********************************************************************
@@ -474,10 +474,10 @@ class MfxScrolledCanvas:
         self.frame.destroy()
 
     def pack(self, **kw):
-        apply(self.frame.pack, (), kw)
+        self.frame.pack(**kw)
 
     def grid(self, **kw):
-        apply(self.frame.grid, (), kw)
+        self.frame.grid(**kw)
 
     #
     #
@@ -533,11 +533,10 @@ class MfxScrolledCanvas:
     def createFrame(self, kw):
         width = kw.get("width")
         height = kw.get("height")
-        self.frame = Tkinter.Frame(self.parent, width=width, height=height, bg=None)
+        self.frame = Tkinter.Frame(self.parent, width=width, height=height)
 
     def createCanvas(self, kw):
-        #self.canvas = apply(Tkinter.Canvas, (self.frame,), kw)
-        self.canvas = apply(MfxCanvas, (self.frame,), kw)
+        self.canvas = MfxCanvas(self.frame, **kw)
         self.canvas.grid(row=0, column=0, sticky="news")
     def createHbar(self):
         self.hbar = Tkinter.Scrollbar(self.frame, name="hbar",
@@ -585,15 +584,13 @@ class MfxScrolledCanvas:
         top.wm_geometry(g)
 
     def _setHbar(self, *args):
-        ##apply(self.hbar.set, args)
         self.canvas.update()
-        apply(self.hbar.set, self.canvas.xview())
+        self.hbar.set(*self.canvas.xview())
         self.showHbar()
         ##self.hbar.update_idletasks()
     def _setVbar(self, *args):
-        ##apply(self.vbar.set, args)
         self.canvas.update()
-        apply(self.vbar.set, self.canvas.yview())
+        self.vbar.set(*self.canvas.yview())
         self.showVbar()
         ##self.vbar.update_idletasks()
 
@@ -638,10 +635,10 @@ class MfxScrolledCanvas:
         return 1
 
     def _xview(self, *args):
-        if self.hbar_show: apply(self.canvas.xview, args, {})
+        if self.hbar_show: self.canvas.xview(*args)
         return 'break'
     def _yview(self, *args):
-        if self.vbar_show: apply(self.canvas.yview, args, {})
+        if self.vbar_show: self.canvas.yview(*args)
         return 'break'
 
     def page_up(self, *event):

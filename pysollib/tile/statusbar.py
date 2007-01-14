@@ -110,7 +110,7 @@ class MfxStatusbar:
             kw['foreground'] = kw['fg']
             del kw['fg']
         label = getattr(self, name + "_label")
-        apply(label.config, (), kw)
+        label.config(**kw)
 
     def show(self, show=True, resize=False):
         if self._show == show:

@@ -62,7 +62,7 @@ class CastlesInSpain(Game):
         # create layout
         l, s = Layout(self), self.s
         kwdefault(layout, rows=13, playcards=9)
-        apply(self.Layout_Method, (l,), layout)
+        self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
         # create stacks
         s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self)

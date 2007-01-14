@@ -62,7 +62,7 @@ class UnionSquare_RowStack(OpenStack):
     def __init__(self, x, y, game, **cap):
         kwdefault(cap, mod=8192, dir=0, base_rank=ANY_RANK,
                   max_accept=1, max_move=1)
-        apply(OpenStack.__init__, (self, x, y, game), cap)
+        OpenStack.__init__(self, x, y, game, **cap)
         #self.CARD_YOFFSET = 1
 
     def acceptsCards(self, from_stack, cards):

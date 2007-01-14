@@ -43,6 +43,7 @@ from mfxutil import destruct, Struct
 from mfxutil import pickle, unpickle, UnpicklingError
 from mfxutil import getusername, gethomedir, getprefdir, EnvError
 from mfxutil import latin1_to_ascii
+from mfxutil import Image
 from util import Timer
 from util import CARDSET, IMAGE_EXTENSIONS
 from settings import PACKAGE, VERSION, VERSION_TUPLE, WIN_SYSTEM
@@ -250,7 +251,6 @@ class Options:
 
     # not changeable options
     def setConstants(self):
-        self.win_animation = True
         self.dragcursor = True
         self.randomize_place = False
 

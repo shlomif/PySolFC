@@ -85,7 +85,7 @@ class Flower_FoundationStack(AbstractFoundationStack):
 
     def __init__(self, x, y, game, suit, **cap):
         kwdefault(cap, max_cards=12, max_move=0, base_rank=ANY_RANK, base_suit=ANY_SUIT)
-        apply(AbstractFoundationStack.__init__, (self, x, y, game, suit), cap)
+        AbstractFoundationStack.__init__(self, x, y, game, suit, **cap)
 
     def updateText(self):
         AbstractFoundationStack.updateText(self)
@@ -143,7 +143,7 @@ class Gaji_Foundation(Flower_FoundationStack):
 
     def __init__(self, x, y, game, suit, **cap):
         kwdefault(cap, max_move=1, min_cards=1, max_accept=1, base_suit=ANY_SUIT)
-        apply(Flower_FoundationStack.__init__, (self, x, y, game, suit), cap)
+        Flower_FoundationStack.__init__(self, x, y, game, suit, **cap)
         self.CARD_YOFFSET = self.game.app.images.CARD_YOFFSET
 
     def acceptsCards(self, from_stack, cards):
@@ -181,7 +181,7 @@ class MatsuKiri_Foundation(Flower_FoundationStack):
 
     def __init__(self, x, y, game, suit, **cap):
         kwdefault(cap, max_move=0, max_cards=48, max_accept=4, min_accept=4)
-        apply(AbstractFoundationStack.__init__, (self, x, y, game, suit), cap)
+        AbstractFoundationStack.__init__(self, x, y, game, suit, **cap)
         self.CARD_YOFFSET = self.game.app.images.CARDH / 10
 
     def acceptsCards(self, from_stack, cards):
@@ -202,7 +202,7 @@ class GreatWall_FoundationStack(Flower_FoundationStack):
 
     def __init__(self, x, y, game, suit, **cap):
         kwdefault(cap, max_cards=48, max_move=1, min_accept=1, max_accept=1)
-        apply(Flower_FoundationStack.__init__, (self, x, y, game, suit), cap)
+        Flower_FoundationStack.__init__(self, x, y, game, suit, **cap)
         self.CARD_YOFFSET = self.game.app.images.CARDH / 20
 
     def acceptsCards(self, from_stack, cards):
@@ -239,7 +239,7 @@ class FourWinds_Foundation(Flower_FoundationStack):
 class Queue_Foundation(AbstractFoundationStack):
     def __init__(self, x, y, game, suit, **cap):
         kwdefault(cap, mod=12, dir=0, base_suit=ANY_SUIT, max_move=0)
-        apply(AbstractFoundationStack.__init__, (self, x, y, game, suit), cap)
+        AbstractFoundationStack.__init__(self, x, y, game, suit, **cap)
 
     def acceptsCards(self, from_stack, cards):
         if not AbstractFoundationStack.acceptsCards(self, from_stack, cards):
@@ -267,7 +267,7 @@ class Flower_OpenStack(OpenStack):
 
     def __init__(self, x, y, game, yoffset, **cap):
         kwdefault(cap, max_move=99, max_cards=99, max_accept=99, base_rank=0, dir=1)
-        apply(OpenStack.__init__, (self, x, y, game), cap)
+        OpenStack.__init__(self, x, y, game, **cap)
         self.CARD_YOFFSET = yoffset
 
     def isHanafudaSequence(self, cards, strictness=1):

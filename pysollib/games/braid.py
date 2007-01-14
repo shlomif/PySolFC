@@ -59,7 +59,7 @@ class Braid_Hint(DefaultHint):
 class Braid_Foundation(AbstractFoundationStack):
     def __init__(self, x, y, game, suit, **cap):
         kwdefault(cap, mod=13, dir=0, base_rank=NO_RANK, max_move=0)
-        apply(AbstractFoundationStack.__init__, (self, x, y, game, suit), cap)
+        AbstractFoundationStack.__init__(self, x, y, game, suit, **cap)
 
     def acceptsCards(self, from_stack, cards):
         if not AbstractFoundationStack.acceptsCards(self, from_stack, cards):
@@ -294,7 +294,7 @@ class Fort(Braid):
 
 class Backbone_BraidStack(OpenStack):
     def __init__(self, x, y, game, **cap):
-        apply(OpenStack.__init__, (self, x, y, game), cap)
+        OpenStack.__init__(self, x, y, game, **cap)
         self.CARD_YOFFSET = self.game.app.images.CARD_YOFFSET
 
     def basicIsBlocked(self):

@@ -48,7 +48,7 @@ from pysollib.pysoltk import MfxCanvasText
 class HexADeck_FoundationStack(SS_FoundationStack):
     def __init__(self, x, y, game, suit, **cap):
         kwdefault(cap, max_move=0, max_cards=12)
-        apply(SS_FoundationStack.__init__, (self, x, y, game, suit), cap)
+        SS_FoundationStack.__init__(self, x, y, game, suit, **cap)
 
 
 class HexATrump_Foundation(HexADeck_FoundationStack):
@@ -64,7 +64,7 @@ class HexATrump_Foundation(HexADeck_FoundationStack):
 class Merlins_Foundation(AbstractFoundationStack):
     def __init__(self, x, y, game, suit, **cap):
         kwdefault(cap, mod=16, dir=0, base_rank=NO_RANK, max_move=0)
-        apply(AbstractFoundationStack.__init__, (self, x, y, game, suit), cap)
+        AbstractFoundationStack.__init__(self, x, y, game, suit, **cap)
 
     def acceptsCards(self, from_stack, cards):
         if not AbstractFoundationStack.acceptsCards(self, from_stack, cards):
@@ -87,7 +87,7 @@ class HexADeck_OpenStack(OpenStack):
 
     def __init__(self, x, y, game, yoffset, **cap):
         kwdefault(cap, max_move=UNLIMITED_MOVES, max_accept=UNLIMITED_ACCEPTS, dir=-1)
-        apply(OpenStack.__init__, (self, x, y, game), cap)
+        OpenStack.__init__(self, x, y, game, **cap)
         self.CARD_YOFFSET = yoffset
 
     def isRankSequence(self, cards, dir=None):
@@ -405,7 +405,7 @@ class HexAKlon(Game):
     def createGame(self, max_rounds=-1, num_deal=1, **layout):
         l, s = Layout(self), self.s
         kwdefault(layout, rows=8, waste=1, playcards=20)
-        apply(self.Layout_Method, (l,), layout)
+        self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
 
         # Create talon
@@ -464,7 +464,7 @@ class HexAKlonByThrees(Game):
     def createGame(self, max_rounds=-1, num_deal=3, **layout):
         l, s = Layout(self), self.s
         kwdefault(layout, rows=8, waste=1, playcards=20)
-        apply(self.Layout_Method, (l,), layout)
+        self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
 
         # Create talon
@@ -523,7 +523,7 @@ class KingOnlyHexAKlon(Game):
     def createGame(self, max_rounds=-1, num_deal=1, **layout):
         l, s = Layout(self), self.s
         kwdefault(layout, rows=8, waste=1, playcards=20)
-        apply(self.Layout_Method, (l,), layout)
+        self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
 
         # Create talon
@@ -593,7 +593,7 @@ class KlondikePlus16(Game):
     def createGame(self, max_rounds=2, num_deal=1, **layout):
         l, s = Layout(self), self.s
         kwdefault(layout, rows=8, waste=1, playcards=20)
-        apply(self.Layout_Method, (l,), layout)
+        self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
 
         # Create talon
@@ -649,7 +649,7 @@ class TheFamiliar(Game):
     def createGame(self, max_rounds=2, num_deal=1, **layout):
         l, s = Layout(self), self.s
         kwdefault(layout, rows=8, waste=1, playcards=20)
-        apply(self.Layout_Method, (l,), layout)
+        self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
 
         # Create talon
@@ -711,7 +711,7 @@ class TwoFamiliars(Game):
     def createGame(self, max_rounds=2, num_deal=1, **layout):
         l, s = Layout(self), self.s
         kwdefault(layout, rows=12, waste=1, playcards=20)
-        apply(self.Layout_Method, (l,), layout)
+        self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
 
         # Create talon
@@ -773,7 +773,7 @@ class TenByEight(Game):
     def createGame(self, max_rounds=-1, num_deal=1, **layout):
         l, s = Layout(self), self.s
         kwdefault(layout, rows=10, waste=1, playcards=30)
-        apply(self.Layout_Method, (l,), layout)
+        self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
 
         # Create talon
@@ -831,7 +831,7 @@ class Drawbridge(Game):
     def createGame(self, max_rounds=2, num_deal=1, **layout):
         l, s = Layout(self), self.s
         kwdefault(layout, rows=7, waste=1, playcards=20)
-        apply(self.Layout_Method, (l,), layout)
+        self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
 
         # Create talon
@@ -887,7 +887,7 @@ class DoubleDrawbridge(Game):
     def createGame(self, max_rounds=2, num_deal=1, **layout):
         l, s = Layout(self), self.s
         kwdefault(layout, rows=10, waste=1, playcards=20)
-        apply(self.Layout_Method, (l,), layout)
+        self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
 
         # Create talon
@@ -943,7 +943,7 @@ class HiddenPassages(Game):
     def createGame(self, max_rounds=2, num_deal=1, **layout):
         l, s = Layout(self), self.s
         kwdefault(layout, rows=7, waste=1, playcards=20)
-        apply(self.Layout_Method, (l,), layout)
+        self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
 
         # Create talon
@@ -1012,7 +1012,7 @@ class CluitjarsLair(Game):
     def createGame(self, max_rounds=1, num_deal=1, **layout):
         l, s = Layout(self), self.s
         kwdefault(layout, rows=7, waste=1, playcards=20)
-        apply(self.Layout_Method, (l,), layout)
+        self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
 
         # Create talon
@@ -1219,7 +1219,7 @@ class MagesGame(Game):
     def createGame(self, max_rounds=1, num_deal=1, **layout):
         l, s = Layout(self), self.s
         kwdefault(layout, rows=12, texts=0, playcards=20)
-        apply(self.Layout_Method, (l,), layout)
+        self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
 
         # Create talon

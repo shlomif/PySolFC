@@ -84,7 +84,7 @@ class Ponytail_Foundation(Braid_Foundation):
 class Tarock_OpenStack(OpenStack):
     def __init__(self, x, y, game, yoffset=-1, **cap):
         kwdefault(cap, max_move=UNLIMITED_MOVES, max_accept=UNLIMITED_ACCEPTS)
-        apply(OpenStack.__init__, (self, x, y, game), cap)
+        OpenStack.__init__(self, x, y, game, **cap)
         if yoffset < 0:
             yoffset = game.app.images.CARD_YOFFSET
         self.CARD_YOFFSET = yoffset
@@ -845,7 +845,7 @@ class Cavalier(AbstractTarockGame):
         # Create layout
         l, s = Layout(self), self.s
         kwdefault(layout, rows=18, playcards=19)
-        apply(self.Layout_Method, (l,), layout)
+        self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
 
         # Create foundations

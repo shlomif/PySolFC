@@ -57,7 +57,7 @@ class Terrace_Talon(WasteTalonStack):
 class Terrace_AC_Foundation(AC_FoundationStack):
     def __init__(self, x, y, game, suit, **cap):
         kwdefault(cap, mod=13, min_cards=1, max_move=0)
-        apply(AC_FoundationStack.__init__, (self, x, y, game, suit), cap)
+        AC_FoundationStack.__init__(self, x, y, game, suit, **cap)
 
     def acceptsCards(self, from_stack, cards):
         if self.game.getState() == 0:
@@ -72,7 +72,7 @@ class Terrace_AC_Foundation(AC_FoundationStack):
 class Terrace_SS_Foundation(SS_FoundationStack):
     def __init__(self, x, y, game, suit, **cap):
         kwdefault(cap, mod=13, min_cards=1, max_move=0)
-        apply(SS_FoundationStack.__init__, (self, x, y, game, suit), cap)
+        SS_FoundationStack.__init__(self, x, y, game, suit, **cap)
 
     def acceptsCards(self, from_stack, cards):
         if self.game.getState() == 0:
@@ -87,7 +87,7 @@ class Terrace_SS_Foundation(SS_FoundationStack):
 class Terrace_RowStack(AC_RowStack):
     def __init__(self, x, y, game, **cap):
         kwdefault(cap, mod=13, max_move=1)
-        apply(AC_RowStack.__init__, (self, x, y, game), cap)
+        AC_RowStack.__init__(self, x, y, game, **cap)
 
     def acceptsCards(self, from_stack, cards):
         if self.game.getState() == 0:

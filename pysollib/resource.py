@@ -58,7 +58,7 @@ class Resource(Struct):
             index = -1,
             error = 0,          # error while loading this resource
         )
-        apply(Struct.__init__, (self,), kw.getKw())
+        Struct.__init__(self, **kw.getKw())
 
     def getSortKey(self):
         return self.name.lower()
@@ -327,7 +327,7 @@ class Cardset(Resource):
     def __init__(self, **kw):
         # start with all fields from CardsetConfig
         config = CardsetConfig()
-        kw = apply(KwStruct, (config.__dict__,), kw)
+        kw = KwStruct(config.__dict__, **kw)
         # si is the SelectionInfo struct that will be queried by
         # the "select cardset" dialogs. It can be freely modified.
         si = Struct(type=0, size=0, styles=[], nationalities=[], dates=[])
@@ -345,7 +345,7 @@ class Cardset(Resource):
             backname = None,
             dir = "",
         )
-        apply(Resource.__init__, (self,), kw.getKw())
+        Resource.__init__(self, **kw.getKw())
 
     def getFaceCardNames(self):
         names = []
@@ -496,12 +496,10 @@ class CardsetManager(ResourceManager):
 
 class Tile(Resource):
     def __init__(self, **kw):
-        kw = KwStruct(kw,
-                      color = None,
-                      text_color = "#000000",
-                      stretch = 0,
-                      )
-        apply(Resource.__init__, (self,), kw.getKw())
+        kw['color'] = None
+        kw['text_color'] = "#000000"
+        kw['stretch'] = 0
+        Resource.__init__(self, **kw)
 
 
 class TileManager(ResourceManager):
@@ -514,10 +512,8 @@ class TileManager(ResourceManager):
 
 class Sample(Resource):
     def __init__(self, **kw):
-        kw = KwStruct(kw,
-            volume = -1,
-        )
-        apply(Resource.__init__, (self,), kw.getKw())
+        kw['volume'] = -1
+        Resource.__init__(self, **kw)
 
 
 class SampleManager(ResourceManager):

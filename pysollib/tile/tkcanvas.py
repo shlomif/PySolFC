@@ -126,7 +126,7 @@ class MfxCanvasText(Canvas.CanvasText):
 
 class MfxCanvas(Tkinter.Canvas):
     def __init__(self, *args, **kw):
-        apply(Tkinter.Canvas.__init__, (self,) + args, kw)
+        Tkinter.Canvas.__init__(self, *args, **kw)
         self.preview = 0
         # this is also used by lib-tk/Canvas.py
         self.items = {}

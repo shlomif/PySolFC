@@ -96,7 +96,7 @@ class PysolProgressBar:
 
     def pack(self, **kw):
         self.canvas.pack(fill=Tkinter.X, expand=0)
-        apply(self.frame.pack, (), kw)
+        self.frame.pack(**kw)
 
     def reset(self, percent=0):
         self.percent = percent

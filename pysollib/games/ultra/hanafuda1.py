@@ -61,7 +61,7 @@ class Paulownia(AbstractFlowerGame):
     def createGame(self, **layout):
         l, s = Layout(self), self.s
         kwdefault(layout, rows=8, waste=1)
-        apply(self.Layout_Method, (l,), layout)
+        self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
 
         # Create talon
@@ -585,7 +585,7 @@ class FlowerArrangement_Hint(AbstractHint):
 class FlowerArrangement_TableauStack(Flower_OpenStack):
     def __init__(self, x, y, game, yoffset, **cap):
         kwdefault(cap, dir=-1, max_move=1, max_cards=4, max_accept=1, base_rank=3)
-        apply(OpenStack.__init__, (self, x, y, game), cap)
+        OpenStack.__init__(self, x, y, game, **cap)
         self.CARD_YOFFSET = yoffset
 
     def acceptsCards(self, from_stack, cards):

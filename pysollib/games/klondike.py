@@ -63,7 +63,7 @@ class Klondike(Game):
         # create layout
         l, s = Layout(self), self.s
         kwdefault(layout, rows=7, waste=1, texts=1, playcards=16)
-        apply(self.Layout_Method, (l,), layout)
+        self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
         # create stacks
         s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self,
@@ -440,7 +440,7 @@ class Batsford_ReserveStack(ReserveStack):
 class Batsford(Klondike):
     def createGame(self, **layout):
         kwdefault(layout, rows=10, max_rounds=1, playcards=22)
-        l = apply(Klondike.createGame, (self,), layout)
+        l = Klondike.createGame(self, **layout)
         s = self.s
         x, y = l.XM, self.height - l.YS
         s.reserves.append(Batsford_ReserveStack(x, y, self, max_cards=3))

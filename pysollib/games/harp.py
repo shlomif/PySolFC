@@ -63,7 +63,7 @@ class DoubleKlondike(Game):
         # create layout
         l, s = Layout(self), self.s
         kwdefault(layout, rows=9, waste=1, texts=1, playcards=19)
-        apply(self.Layout_Method, (l,), layout)
+        self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
         # create stacks
         s.talon = WasteTalonStack(l.s.talon.x, l.s.talon.y, self,

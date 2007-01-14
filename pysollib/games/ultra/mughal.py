@@ -48,7 +48,7 @@ class Mughal_FoundationStack(AbstractFoundationStack):
 
     def __init__(self, x, y, game, suit, **cap):
         kwdefault(cap, max_move=0)
-        apply(SS_FoundationStack.__init__, (self, x, y, game, suit), cap)
+        SS_FoundationStack.__init__(self, x, y, game, suit, **cap)
 
     def updateText(self):
         AbstractFoundationStack.updateText(self)
@@ -59,7 +59,7 @@ class Triumph_Foundation(AbstractFoundationStack):
 
     def __init__(self, x, y, game, suit, **cap):
         kwdefault(cap, mod=12, dir=0, base_rank=NO_RANK, max_move=0)
-        apply(AbstractFoundationStack.__init__, (self, x, y, game, suit), cap)
+        AbstractFoundationStack.__init__(self, x, y, game, suit, **cap)
 
     def acceptsCards(self, from_stack, cards):
 
@@ -85,7 +85,7 @@ class Mughal_OpenStack(OpenStack):
     def __init__(self, x, y, game, yoffset, **cap):
         kwdefault(cap, max_move=UNLIMITED_MOVES, max_cards=UNLIMITED_CARDS,
                   max_accept=UNLIMITED_ACCEPTS, base_rank=0, dir=-1)
-        apply(OpenStack.__init__, (self, x, y, game), cap)
+        OpenStack.__init__(self, x, y, game, **cap)
         self.CARD_YOFFSET = yoffset
 
     def isRankSequence(self, cards, dir=None):
@@ -436,7 +436,7 @@ class Shamsher(AbstractMughalGame):
     def createGame(self, **layout):
         l, s = Layout(self), self.s
         kwdefault(layout, rows=14, reserves=4, texts=0)
-        apply(self.Layout_Method, (l,), layout)
+        self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
 
         # Create foundations
@@ -537,7 +537,7 @@ class Tipati(AbstractMughalGame):
     def createGame(self, max_rounds=1, num_deal=1, **layout):
         l, s = Layout(self), self.s
         kwdefault(layout, rows=8, waste=1)
-        apply(self.Layout_Method, (l,), layout)
+        self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
 
         # Create talon
@@ -953,7 +953,7 @@ class Dikapala_TableauStack(Mughal_OpenStack):
 
     def __init__(self, x, y, game, base_rank, yoffset, **cap):
         kwdefault(cap, dir=3, max_move=99, max_cards=4, max_accept=1, base_rank=base_rank)
-        apply(OpenStack.__init__, (self, x, y, game), cap)
+        OpenStack.__init__(self, x, y, game, **cap)
         self.CARD_YOFFSET = yoffset
 
     def acceptsCards(self, from_stack, cards):
@@ -975,7 +975,7 @@ class Dikapala_ReserveStack(ReserveStack):
 
     def __init__(self, x, y, game, **cap):
         kwdefault(cap, max_cards=1, max_accept=1, base_rank=ANY_RANK)
-        apply(OpenStack.__init__, (self, x, y, game), cap)
+        OpenStack.__init__(self, x, y, game, **cap)
 
     def acceptsCards(self, from_stack, cards):
         return (ReserveStack.acceptsCards(self, from_stack, cards)

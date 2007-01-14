@@ -50,7 +50,7 @@ class Matrix_RowStack(OpenStack):
     def __init__(self, x, y, game, **cap):
         kwdefault(cap, max_move=1, max_accept=1, max_cards=1,
                     base_rank=ANY_RANK)
-        apply(OpenStack.__init__, (self, x, y, game), cap)
+        OpenStack.__init__(self, x, y, game, **cap)
 
     def canFlipCard(self):
         return 0

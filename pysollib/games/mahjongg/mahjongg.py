@@ -85,8 +85,7 @@ class Mahjongg_Foundation(OpenStack):
 
     def __init__(self, x, y, game, suit=ANY_SUIT, **cap):
         kwdefault(cap, max_move=0, max_accept=0, max_cards=game.NCARDS)
-        #apply(AbstractFoundationStack.__init__, (self, x, y, game, suit), cap)
-        apply(OpenStack.__init__, (self, x, y, game), cap)
+        OpenStack.__init__(self, x, y, game, **cap)
 
     def acceptsCards(self, from_stack, cards):
         # We do not accept any cards - pairs will get
@@ -125,7 +124,7 @@ class Mahjongg_RowStack(OpenStack):
     def __init__(self, x, y, game, **cap):
         kwdefault(cap, max_move=1, max_accept=1, max_cards=2,
                   base_rank=NO_RANK)
-        apply(OpenStack.__init__, (self, x, y, game), cap)
+        OpenStack.__init__(self, x, y, game, **cap)
 
     def basicIsBlocked(self):
         # any of above blocks

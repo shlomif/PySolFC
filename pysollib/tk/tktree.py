@@ -242,7 +242,7 @@ class MfxTreeInCanvas(MfxScrolledCanvas):
     def __init__(self, parent, rootnodes, **kw):
         bg = kw["bg"] = kw.get("bg") or parent.cget("bg")
         kw['bd'] = 0
-        apply(MfxScrolledCanvas.__init__, (self, parent,), kw)
+        MfxScrolledCanvas.__init__(self, parent, **kw)
         #
         self.rootnodes = rootnodes
         self.updateNodesWithTree(self.rootnodes, self)

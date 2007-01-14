@@ -231,7 +231,7 @@ class MfxExceptionDialog(MfxDialog):
         else:
             t = str(ex)
         kw.text = text + t
-        apply(MfxDialog.__init__, (self, parent, title), kw.__dict__)
+        MfxDialog.__init__(self, parent, title, **kw.__dict__)
 
 
 # /***********************************************************************

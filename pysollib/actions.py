@@ -126,7 +126,7 @@ class PysolMenubarActions:
 
     def changed(self, *args, **kw):
         assert self.game is not None
-        return apply(self.game.changed, args, kw)
+        return self.game.changed(*args, **kw)
 
 
     #

@@ -85,7 +85,7 @@ class Spider_SS_Foundation(AbstractFoundationStack):
     def __init__(self, x, y, game, suit=ANY_SUIT, **cap):
         kwdefault(cap, dir=-1, base_rank=KING,
                   min_accept=13, max_accept=13, max_move=0)
-        apply(AbstractFoundationStack.__init__, (self, x, y, game, suit), cap)
+        AbstractFoundationStack.__init__(self, x, y, game, suit, **cap)
 
     def acceptsCards(self, from_stack, cards):
         if not AbstractFoundationStack.acceptsCards(self, from_stack, cards):
@@ -128,7 +128,7 @@ class RelaxedSpider(Game):
         # create layout
         l, s = Layout(self), self.s
         kwdefault(layout, rows=10, waste=0, texts=1, playcards=23)
-        apply(self.Layout_Method, (l,), layout)
+        self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
         # create stacks
         s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self)
@@ -466,7 +466,7 @@ class RougeEtNoir(Game):
         # create layout
         l, s = Layout(self), self.s
         kwdefault(layout, rows=10, waste=0, texts=1, playcards=23)
-        apply(self.Layout_Method, (l,), layout)
+        self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
         # create stacks
         s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self)
@@ -724,7 +724,7 @@ class ScorpionHead(Scorpion):
         # create layout
         l, s = Layout(self), self.s
         kwdefault(layout, rows=7, reserves=4)
-        apply(self.Layout_Method, (l,), layout)
+        self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
 
         # create stacks

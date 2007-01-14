@@ -60,7 +60,7 @@ class Napoleon_RowStack(UD_SS_RowStack):
 class Napoleon_ReserveStack(BasicRowStack):
     def __init__(self, x, y, game, **cap):
         kwdefault(cap, max_move=1, max_accept=0)
-        apply(BasicRowStack.__init__, (self, x, y, game), cap)
+        BasicRowStack.__init__(self, x, y, game, **cap)
 
 
 class Napoleon_SingleFreeCell(ReserveStack):

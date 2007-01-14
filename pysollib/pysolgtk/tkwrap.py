@@ -226,7 +226,7 @@ class _MfxToplevel(gtk.Window):
 
 class MfxRoot(_MfxToplevel):
     def __init__(self, **kw):
-        apply(_MfxToplevel.__init__, (self,), kw)
+        _MfxToplevel.__init__(self, **kw)
         self.app = None
         self.connect("delete_event", self.wmDeleteWindow)
 

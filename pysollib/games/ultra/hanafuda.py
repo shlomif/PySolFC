@@ -223,7 +223,7 @@ class Oonsoo(AbstractFlowerGame):
         l, s = Layout(self), self.s
         kwdefault(layout, rows=self.Rows, reserves=self.Reserves,
                   texts=1, playcards=20)
-        apply(self.Layout_Method, (l,), layout)
+        self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
 
         # Create stacks
@@ -636,7 +636,7 @@ class Sumo(AbstractFlowerGame):
     def createGame(self, **layout):
         l, s = Layout(self), self.s
         kwdefault(layout, rows=8, reserves=2, texts=0, playcards=16)
-        apply(self.Layout_Method, (l,), layout)
+        self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
 
         # Create stacks
@@ -681,7 +681,7 @@ class BigSumo(AbstractFlowerGame):
     def createGame(self, **layout):
         l, s = Layout(self), self.s
         kwdefault(layout, rows=10, reserves=4, texts=0, playcards=20)
-        apply(self.Layout_Method, (l,), layout)
+        self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
 
         # Create stacks
@@ -727,7 +727,7 @@ class Samuri(AbstractFlowerGame):
     def createGame(self, max_rounds=1, num_deal=1, **layout):
         l, s = Layout(self), self.s
         kwdefault(layout, rows=self.Rows, waste=1, texts=1, playcards=21)
-        apply(self.Layout_Method, (l,), layout)
+        self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
 
         # Create stacks
@@ -808,7 +808,7 @@ class LittleEasy(AbstractFlowerGame):
     def createGame(self, max_rounds=-1, num_deal=3, **layout):
         l, s = Layout(self), self.s
         kwdefault(layout, rows=self.Rows, waste=1, texts=1, playcards=self.PlayCards)
-        apply(self.Layout_Method, (l,), layout)
+        self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
 
         # Create stacks
@@ -899,7 +899,7 @@ class JustForFun(AbstractFlowerGame):
     def createGame(self, **layout):
         l, s = Layout(self), self.s
         kwdefault(layout, rows=self.Rows, reserves=self.Reserves, texts=0, playcards=22)
-        apply(self.Layout_Method, (l,), layout)
+        self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
 
         # Create stacks
@@ -976,7 +976,7 @@ class Paulownia(AbstractFlowerGame):
     def createGame(self, max_rounds=-1, num_deal=1, **layout):
         l, s = Layout(self), self.s
         kwdefault(layout, rows=8, waste=1)
-        apply(self.Layout_Method, (l,), layout)
+        self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
 
         # Create talon

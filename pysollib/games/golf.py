@@ -93,7 +93,7 @@ class Golf_Talon(WasteTalonStack):
 class Golf_Waste(WasteStack):
     def __init__(self, x, y, game, **cap):
         kwdefault(cap, max_move=0, max_accept=1)
-        apply(WasteStack.__init__, (self, x, y, game), cap)
+        WasteStack.__init__(self, x, y, game, **cap)
 
     def acceptsCards(self, from_stack, cards):
         if not WasteStack.acceptsCards(self, from_stack, cards):

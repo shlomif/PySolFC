@@ -658,37 +658,37 @@ class _TopDialog(MfxDialog):
                'highlightthickness': 1,
                'highlightbackground': 'black',
                }
-        frame = apply(Tkinter.Frame, (), cnf)
+        frame = Tkinter.Frame(**cnf)
         frame.pack(expand=Tkinter.YES, fill=Tkinter.BOTH, padx=10, pady=10)
         frame.columnconfigure(0, weight=1)
         cnf['master'] = frame
         cnf['text'] = _('N')
-        l = apply(Tkinter.Label, (), cnf)
+        l = Tkinter.Label(**cnf)
         l.grid(row=0, column=0, sticky='ew')
         cnf['text'] = _('Game number')
-        l = apply(Tkinter.Label, (), cnf)
+        l = Tkinter.Label(**cnf)
         l.grid(row=0, column=1, sticky='ew')
         cnf['text'] = _('Started at')
-        l = apply(Tkinter.Label, (), cnf)
+        l = Tkinter.Label(**cnf)
         l.grid(row=0, column=2, sticky='ew')
         cnf['text'] = _('Result')
-        l = apply(Tkinter.Label, (), cnf)
+        l = Tkinter.Label(**cnf)
         l.grid(row=0, column=3, sticky='ew')
 
         row = 1
         for i in top:
             # N
             cnf['text'] = str(row)
-            l = apply(Tkinter.Label, (), cnf)
+            l = Tkinter.Label(**cnf)
             l.grid(row=row, column=0, sticky='ew')
             # Game number
             cnf['text'] = '#'+str(i.game_number)
-            l = apply(Tkinter.Label, (), cnf)
+            l = Tkinter.Label(**cnf)
             l.grid(row=row, column=1, sticky='ew')
             # Start time
             t = time.strftime('%Y-%m-%d %H:%M', time.localtime(i.game_start_time))
             cnf['text'] = t
-            l = apply(Tkinter.Label, (), cnf)
+            l = Tkinter.Label(**cnf)
             l.grid(row=row, column=2, sticky='ew')
             # Result
             if isinstance(i.value, float):
@@ -698,7 +698,7 @@ class _TopDialog(MfxDialog):
                 # moves
                 s = str(i.value)
             cnf['text'] = s
-            l = apply(Tkinter.Label, (), cnf)
+            l = Tkinter.Label(**cnf)
             l.grid(row=row, column=3, sticky='ew')
             row += 1
 

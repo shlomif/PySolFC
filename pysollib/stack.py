@@ -1154,6 +1154,17 @@ class Stack:
         images = self.game.app.images
         cx, cy = cards[0].x, cards[0].y
         ddx, ddy = cx-cards[-1].x, cy-cards[-1].y
+        if TOOLKIT == 'tk' and Image:   # use PIL
+            c0 = cards[-1]
+            if self.CARD_XOFFSET[0] < 0: c0 = cards[0]
+            if self.CARD_YOFFSET[0] < 0: c0 = cards[0]
+            img = images.getShadowPIL(self, cards)
+            cx, cy = c0.x + images.CARDW + dx, c0.y + images.CARDH + dy
+            s = MfxCanvasImage(self.game.canvas, cx, cy,
+                               image=img, anchor=ANCHOR_SE)
+            s.lower(c0.item)
+            return (s,)
+
         if ddx == 0: # vertical
             for c in cards[1:]:
                 if c.x != cx or abs(c.y - cy) != images.CARD_YOFFSET:
@@ -1285,6 +1296,8 @@ class Stack:
         #
         x0, y0 = self.getPositionFor(cards[0])
         x1, y1 = self.getPositionFor(cards[-1])
+        x0, x1 = min(x1, x0), max(x1, x0)
+        y0, y1 = min(y1, y0), max(y1, y0)
         x1 = x1 + self.game.app.images.CARDW
         y1 = y1 + self.game.app.images.CARDH
         xx0, yy0 = x0, y0
@@ -1926,7 +1939,7 @@ class AbstractFoundationStack(OpenStack):
     def __init__(self, x, y, game, suit, **cap):
         kwdefault(cap, suit=suit, base_suit=suit, base_rank=ACE,
                   dir=1, max_accept=1, max_cards=13)
-        apply(OpenStack.__init__, (self, x, y, game), cap)
+        OpenStack.__init__(self, x, y, game, **cap)
 
     def canDropCards(self, stacks):
         return (None, 0)
@@ -1976,7 +1989,7 @@ class SS_FoundationStack(AbstractFoundationStack):
 # A Rank_FoundationStack builds up in rank and ignores color and suit.
 class RK_FoundationStack(SS_FoundationStack):
     def __init__(self, x, y, game, suit=ANY_SUIT, **cap):
-        apply(SS_FoundationStack.__init__, (self, x, y, game, ANY_SUIT), cap)
+        SS_FoundationStack.__init__(self, x, y, game, ANY_SUIT, **cap)
 
     def assertStack(self):
         SS_FoundationStack.assertStack(self)
@@ -1994,7 +2007,7 @@ class RK_FoundationStack(SS_FoundationStack):
 class AC_FoundationStack(SS_FoundationStack):
     def __init__(self, x, y, game, suit, **cap):
         kwdefault(cap, base_suit=suit)
-        apply(SS_FoundationStack.__init__, (self, x, y, game, ANY_SUIT), cap)
+        SS_FoundationStack.__init__(self, x, y, game, ANY_SUIT, **cap)
 
     def acceptsCards(self, from_stack, cards):
         if not SS_FoundationStack.acceptsCards(self, from_stack, cards):
@@ -2046,7 +2059,7 @@ class SequenceStack_StackMethods:
 class BasicRowStack(OpenStack):
     def __init__(self, x, y, game, **cap):
         kwdefault(cap, dir=-1, base_rank=ANY_RANK)
-        apply(OpenStack.__init__, (self, x, y, game), cap)
+        OpenStack.__init__(self, x, y, game, **cap)
         self.CARD_YOFFSET = game.app.images.CARD_YOFFSET
 
     def getHelp(self):
@@ -2062,7 +2075,7 @@ class BasicRowStack(OpenStack):
 class SequenceRowStack(SequenceStack_StackMethods, BasicRowStack):
     def __init__(self, x, y, game, **cap):
         kwdefault(cap, max_move=999999, max_accept=999999)
-        apply(BasicRowStack.__init__, (self, x, y, game), cap)
+        BasicRowStack.__init__(self, x, y, game, **cap)
     def getBaseCard(self):
         return self._getBaseCard()
 
@@ -2161,7 +2174,7 @@ class Spider_SS_RowStack(SS_RowStack):
 class Yukon_AC_RowStack(BasicRowStack):
     def __init__(self, x, y, game, **cap):
         kwdefault(cap, max_move=999999, max_accept=999999)
-        apply(BasicRowStack.__init__, (self, x, y, game), cap)
+        BasicRowStack.__init__(self, x, y, game, **cap)
 
     def _isSequence(self, c1, c2):
         return (c1.rank + self.cap.dir) % self.cap.mod == c2.rank and c1.color != c2.color
@@ -2200,24 +2213,24 @@ class Yukon_SS_RowStack(Yukon_AC_RowStack):
 class KingAC_RowStack(AC_RowStack):
     def __init__(self, x, y, game, **cap):
         kwdefault(cap, base_rank=KING)
-        apply(AC_RowStack.__init__, (self, x, y, game), cap)
+        AC_RowStack.__init__(self, x, y, game, **cap)
 
 class KingSS_RowStack(SS_RowStack):
     def __init__(self, x, y, game, **cap):
         kwdefault(cap, base_rank=KING)
-        apply(SS_RowStack.__init__, (self, x, y, game), cap)
+        SS_RowStack.__init__(self, x, y, game, **cap)
 
 class KingRK_RowStack(RK_RowStack):
     def __init__(self, x, y, game, **cap):
         kwdefault(cap, base_rank=KING)
-        apply(RK_RowStack.__init__, (self, x, y, game), cap)
+        RK_RowStack.__init__(self, x, y, game, **cap)
 
 
 # up or down by color
 class UD_SC_RowStack(SequenceRowStack):
     def __init__(self, x, y, game, **cap):
         kwdefault(cap, max_move=1, max_accept=1)
-        apply(SequenceRowStack.__init__, (self, x, y, game), cap)
+        SequenceRowStack.__init__(self, x, y, game, **cap)
     def _isSequence(self, cards):
         return (isSameColorSequence(cards, self.cap.mod, 1) or
                 isSameColorSequence(cards, self.cap.mod, -1))
@@ -2228,7 +2241,7 @@ class UD_SC_RowStack(SequenceRowStack):
 class UD_AC_RowStack(SequenceRowStack):
     def __init__(self, x, y, game, **cap):
         kwdefault(cap, max_move=1, max_accept=1)
-        apply(SequenceRowStack.__init__, (self, x, y, game), cap)
+        SequenceRowStack.__init__(self, x, y, game, **cap)
     def _isSequence(self, cards):
         return (isAlternateColorSequence(cards, self.cap.mod, 1) or
                 isAlternateColorSequence(cards, self.cap.mod, -1))
@@ -2239,7 +2252,7 @@ class UD_AC_RowStack(SequenceRowStack):
 class UD_SS_RowStack(SequenceRowStack):
     def __init__(self, x, y, game, **cap):
         kwdefault(cap, max_move=1, max_accept=1)
-        apply(SequenceRowStack.__init__, (self, x, y, game), cap)
+        SequenceRowStack.__init__(self, x, y, game, **cap)
     def _isSequence(self, cards):
         return (isSameSuitSequence(cards, self.cap.mod, 1) or
                 isSameSuitSequence(cards, self.cap.mod, -1))
@@ -2250,7 +2263,7 @@ class UD_SS_RowStack(SequenceRowStack):
 class UD_RK_RowStack(SequenceRowStack):
     def __init__(self, x, y, game, **cap):
         kwdefault(cap, max_move=1, max_accept=1)
-        apply(SequenceRowStack.__init__, (self, x, y, game), cap)
+        SequenceRowStack.__init__(self, x, y, game, **cap)
     def _isSequence(self, cards):
         return (isRankSequence(cards, self.cap.mod, 1) or
                 isRankSequence(cards, self.cap.mod, -1))
@@ -2274,7 +2287,7 @@ class WasteTalonStack(TalonStack):
     # moves it face up; if we're out of cards, it moves the waste
     # back to the talon and increases the number of rounds (redeals).
     def __init__(self, x, y, game, max_rounds, num_deal=1, waste=None, **cap):
-        apply(TalonStack.__init__, (self, x, y, game, max_rounds, num_deal), cap)
+        TalonStack.__init__(self, x, y, game, max_rounds, num_deal, **cap)
         self.waste = waste
 
     def prepareStack(self):
@@ -2331,7 +2344,7 @@ class OpenTalonStack(TalonStack, OpenStack):
 
     def __init__(self, x, y, game, **cap):
         kwdefault(cap, max_move=1)
-        apply(TalonStack.__init__, (self, x, y, game), cap)
+        TalonStack.__init__(self, x, y, game, **cap)
 
     def canDealCards(self):
         return 0
@@ -2358,7 +2371,7 @@ class OpenTalonStack(TalonStack, OpenStack):
 class ReserveStack(OpenStack):
     def __init__(self, x, y, game, **cap):
         kwdefault(cap, max_accept=1, max_cards=1)
-        apply(OpenStack.__init__, (self, x, y, game), cap)
+        OpenStack.__init__(self, x, y, game, **cap)
 
     def getBottomImage(self):
         return self.game.app.images.getReserveBottom()
@@ -2405,7 +2418,7 @@ class ArbitraryStack(OpenStack):
 
     def __init__(self, x, y, game, **cap):
         kwdefault(cap, max_accept=0)
-        apply(OpenStack.__init__, (self, x, y, game), cap)
+        OpenStack.__init__(self, x, y, game, **cap)
         self.CARD_YOFFSET = game.app.images.CARD_YOFFSET
 
     def canMoveCards(self, cards):
@@ -2515,21 +2528,21 @@ class StackWrapper:
     def __call__(self, x, y, game, **cap):
         # must preserve self.cap, so create a shallow copy
         c = self.cap.copy()
-        apply(kwdefault, (c,), cap)
-        return apply(self.stack_class, (x, y, game), c)
+        kwdefault(c, **cap)
+        return self.stack_class(x, y, game, **c)
 
 
 # call-time cap override self.cap
 class WeakStackWrapper(StackWrapper):
     def __call__(self, x, y, game, **cap):
-        apply(kwdefault, (cap,), self.cap)
-        return apply(self.stack_class, (x, y, game), cap)
+        kwdefault(cap, **self.cap)
+        return self.stack_class(x, y, game, **cap)
 
 
 # self.cap only, call-time cap is completely ignored
 class FullStackWrapper(StackWrapper):
     def __call__(self, x, y, game, **cap):
-        return apply(self.stack_class, (x, y, game), self.cap)
+        return self.stack_class(x, y, game, **self.cap)
 
 
 

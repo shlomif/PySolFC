@@ -42,6 +42,7 @@ import Tkinter, tkFileDialog
 
 # PySol imports
 from pysollib.mfxutil import destruct, Struct, kwdefault
+from pysollib.mfxutil import Image
 from pysollib.util import CARDSET
 from pysollib.settings import PACKAGE, WIN_SYSTEM
 from pysollib.settings import TOP_TITLE
@@ -131,7 +132,7 @@ class MfxMenubar(Tkinter.Menu):
         self.name = kw["name"]
         tearoff = 0
         self.n = kw["tearoff"] = int(kw.get("tearoff", tearoff))
-        apply(Tkinter.Menu.__init__, (self, master, ), kw)
+        Tkinter.Menu.__init__(self, master, **kw)
 
     def labeltoname(self, label):
         #print label, type(label)
@@ -173,7 +174,7 @@ class MfxMenu(MfxMenubar):
         else:
             name, label, label_underline = self.labeltoname(label)
         kwdefault(kw, name=name)
-        apply(MfxMenubar.__init__, (self, master,), kw)
+        MfxMenubar.__init__(self, master, **kw)
         if underline is None:
             underline = label_underline
         if master:
@@ -235,6 +236,8 @@ class PysolMenubar(PysolMenubarActions):
             cardback = MfxRadioMenuItem(self),
             tabletile = MfxRadioMenuItem(self),
             animations = MfxRadioMenuItem(self),
+            redeal_animation = MfxCheckMenuItem(self),
+            win_animation = MfxCheckMenuItem(self),
             shadow = MfxCheckMenuItem(self),
             shade = MfxCheckMenuItem(self),
             shade_filled_stacks = MfxCheckMenuItem(self),
@@ -281,6 +284,8 @@ class PysolMenubar(PysolMenubarActions):
         tkopt.cardback.set(self.app.cardset.backindex)
         tkopt.tabletile.set(self.app.tabletile_index)
         tkopt.animations.set(opt.animations)
+        tkopt.redeal_animation.set(opt.redeal_animation)
+        tkopt.win_animation.set(opt.win_animation)
         tkopt.shadow.set(opt.shadow)
         tkopt.shade.set(opt.shade)
         tkopt.toolbar.set(opt.toolbar)
@@ -338,7 +343,7 @@ class PysolMenubar(PysolMenubarActions):
     def _createMenubar(self):
         MfxMenubar.addPath = self._addPath
         kw = { "name": "menubar" }
-        self.__menubar = apply(MfxMenubar, (self.top,), kw)
+        self.__menubar = MfxMenubar(self.top, **kw)
 
         # init keybindings
         bind(self.top, "<KeyPress>", self._keyPressHandler)
@@ -477,6 +482,10 @@ class PysolMenubar(PysolMenubarActions):
         submenu.add_radiobutton(label=n_("&Fast"), variable=self.tkopt.animations, value=1, command=self.mOptAnimations)
         submenu.add_radiobutton(label=n_("&Slow"), variable=self.tkopt.animations, value=3, command=self.mOptAnimations)
         submenu.add_radiobutton(label=n_("&Very slow"), variable=self.tkopt.animations, value=4, command=self.mOptAnimations)
+        submenu.add_separator()
+        submenu.add_checkbutton(label=n_("&Redeal animation"), variable=self.tkopt.redeal_animation, command=self.mRedealAnimation)
+        if Image:
+            submenu.add_checkbutton(label=n_("&Winning animation"), variable=self.tkopt.win_animation, command=self.mWinAnimation)
         submenu = MfxMenu(menu, label=n_("&Mouse"))
         submenu.add_radiobutton(label=n_("&Drag-and-Drop"), variable=self.tkopt.mouse_type, value='drag-n-drop', command=self.mOptMouseType)
         submenu.add_radiobutton(label=n_("&Point-and-Click"), variable=self.tkopt.mouse_type, value='point-n-click', command=self.mOptMouseType)
@@ -1079,6 +1088,14 @@ class PysolMenubar(PysolMenubarActions):
     def mOptAnimations(self, *args):
         if self._cancelDrag(break_pause=False): return
         self.app.opt.animations = self.tkopt.animations.get()
+
+    def mRedealAnimation(self, *args):
+        if self._cancelDrag(break_pause=False): return
+        self.app.opt.redeal_animation = self.tkopt.redeal_animation.get()
+
+    def mWinAnimation(self, *args):
+        if self._cancelDrag(break_pause=False): return
+        self.app.opt.win_animation = self.tkopt.win_animation.get()
 
     def mOptShadow(self, *args):
         if self._cancelDrag(break_pause=False): return

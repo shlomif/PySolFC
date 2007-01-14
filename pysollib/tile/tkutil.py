@@ -241,12 +241,12 @@ def unbind_destroy(widget):
 # ************************************************************************/
 
 def after(widget, ms, func, *args):
-    timer = apply(widget.after, (ms, func) + args)
+    timer = widget.after(ms, func, *args)
     command = widget._tclCommands[-1]
     return (timer, command, widget)
 
 def after_idle(widget, func, *args):
-    return apply(after, (widget, "idle", func) + args)
+    return after(widget, "idle", func, *args)
 
 def after_cancel(t):
     if t is not None:
@@ -293,7 +293,7 @@ def makeImage(file=None, data=None, dither=None, alpha=None):
         # fromstring(mode, size, data, decoder_name='raw', *args)
         else:
             return Tkinter.PhotoImage(data=data)
-    return apply(Tkinter.PhotoImage, (), kw)
+    return Tkinter.PhotoImage(**kw)
 
 loadImage = makeImage
 

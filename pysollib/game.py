@@ -1168,11 +1168,11 @@ class Game:
         return False
 
     def winAnimation(self, perfect=0):
-###        if not self.app.opt.win_animation:
-###            return
         if self.preview:
             return
         if not self.app.opt.animations:
+            return
+        if not self.app.opt.win_animation:
             return
         if TOOLKIT == 'gtk':
             return

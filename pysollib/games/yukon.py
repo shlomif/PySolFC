@@ -91,7 +91,7 @@ class Yukon(Game):
         # create layout
         l, s = Layout(self), self.s
         kwdefault(layout, rows=7, texts=0, playcards=25)
-        apply(self.Layout_Method, (l,), layout)
+        self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
         # create stacks
         s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self)
@@ -299,7 +299,7 @@ class RussianPoint(Rushdike):
 class Abacus_Foundation(SS_FoundationStack):
     def __init__(self, x, y, game, suit, **cap):
         kwdefault(cap, base_rank=suit, mod=13, dir=suit+1, max_move=0)
-        apply(SS_FoundationStack.__init__, (self, x, y, game, suit), cap)
+        SS_FoundationStack.__init__(self, x, y, game, suit, **cap)
 
 
 class Abacus_RowStack(Yukon_SS_RowStack):
@@ -407,7 +407,7 @@ class TenAcross(Yukon):
         # create layout
         l, s = Layout(self), self.s
         kwdefault(layout, rows=10, reserves=2, texts=0)
-        apply(self.Layout_Method, (l,), layout)
+        self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
         # create stacks
         s.talon = InitialDealTalonStack(l.s.talon.x, l.s.talon.y, self)

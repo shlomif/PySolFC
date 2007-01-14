@@ -78,7 +78,7 @@ class ThreePeaks_RowStack(OpenStack):
     def __init__(self, x, y, game, **cap):
         kwdefault(cap, max_move=1, max_accept=0, max_cards=1,
                   base_rank=ANY_RANK)
-        apply(OpenStack.__init__, (self, x, y, game), cap)
+        OpenStack.__init__(self, x, y, game, **cap)
 
     def basicIsBlocked(self):
         r, step = self.game.s.rows, (3, 4, 5, 6, 6, 7, 7, 8, 8, 9, 9, 9, 9, 9, 9, 9, 9, 9)

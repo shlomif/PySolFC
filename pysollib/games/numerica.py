@@ -250,7 +250,7 @@ class PussInTheCorner_Talon(OpenTalonStack):
 class PussInTheCorner_Foundation(SS_FoundationStack):
     def __init__(self, x, y, game, **cap):
         kwdefault(cap, base_suit=ANY_SUIT)
-        apply(SS_FoundationStack.__init__, (self, x, y, game, ANY_SUIT), cap)
+        SS_FoundationStack.__init__(self, x, y, game, ANY_SUIT, **cap)
     def acceptsCards(self, from_stack, cards):
         if not SS_FoundationStack.acceptsCards(self, from_stack, cards):
             return False

@@ -121,7 +121,7 @@ class MfxStatusbar:
 
     def configLabel(self, name, **kw):
         label = getattr(self, name + "_label")
-        apply(label.config, (), kw)
+        label.config(**kw)
 
     def show(self, show=True, resize=False):
         if self._show == show:

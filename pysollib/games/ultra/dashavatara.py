@@ -49,7 +49,7 @@ class Dashavatara_FoundationStack(AbstractFoundationStack):
 
     def __init__(self, x, y, game, suit, **cap):
         kwdefault(cap, max_move=0, max_cards=12)
-        apply(SS_FoundationStack.__init__, (self, x, y, game, suit), cap)
+        SS_FoundationStack.__init__(self, x, y, game, suit, **cap)
 
     def updateText(self):
         AbstractFoundationStack.updateText(self)
@@ -60,7 +60,7 @@ class Journey_Foundation(AbstractFoundationStack):
 
     def __init__(self, x, y, game, suit, **cap):
         kwdefault(cap, mod=12, dir=0, base_rank=NO_RANK, max_move=0)
-        apply(AbstractFoundationStack.__init__, (self, x, y, game, suit), cap)
+        AbstractFoundationStack.__init__(self, x, y, game, suit, **cap)
 
     def acceptsCards(self, from_stack, cards):
         if not AbstractFoundationStack.acceptsCards(self, from_stack, cards):
@@ -80,7 +80,7 @@ class AppachansWaterfall_Foundation(AbstractFoundationStack):
 
     def __init__(self, x, y, game, suit, **cap):
         kwdefault(cap, base_suit=0, mod=12, max_cards=120, max_move=0)
-        apply(AbstractFoundationStack.__init__, (self, x, y, game, suit), cap)
+        AbstractFoundationStack.__init__(self, x, y, game, suit, **cap)
 
     def acceptsCards(self, from_stack, cards):
         if not (from_stack in self.game.s.rows and
@@ -106,7 +106,7 @@ class Dashavatara_OpenStack(OpenStack):
     def __init__(self, x, y, game, yoffset, **cap):
         kwdefault(cap, max_move=UNLIMITED_MOVES, max_cards=UNLIMITED_CARDS,
                   max_accept=UNLIMITED_ACCEPTS, base_rank=0, dir=-1)
-        apply(OpenStack.__init__, (self, x, y, game), cap)
+        OpenStack.__init__(self, x, y, game, **cap)
         self.CARD_YOFFSET = yoffset
 
     def currentForce(self, card):
@@ -296,7 +296,7 @@ class Dashavatara_TableauStack(Dashavatara_OpenStack):
 
     def __init__(self, x, y, game, base_rank, yoffset, **cap):
         kwdefault(cap, dir=3, max_move=99, max_cards=4, max_accept=1, base_rank=base_rank)
-        apply(OpenStack.__init__, (self, x, y, game), cap)
+        OpenStack.__init__(self, x, y, game, **cap)
         self.CARD_YOFFSET = yoffset
 
     def acceptsCards(self, from_stack, cards):
@@ -318,7 +318,7 @@ class Dashavatara_ReserveStack(ReserveStack):
 
     def __init__(self, x, y, game, **cap):
         kwdefault(cap, max_cards=1, max_accept=1, base_rank=ANY_RANK)
-        apply(OpenStack.__init__, (self, x, y, game), cap)
+        OpenStack.__init__(self, x, y, game, **cap)
 
     def acceptsCards(self, from_stack, cards):
         return (ReserveStack.acceptsCards(self, from_stack, cards)
@@ -524,7 +524,7 @@ class Balarama(AbstractDashavataraGame):
     def createGame(self, **layout):
         l, s = Layout(self), self.s
         kwdefault(layout, rows=16, reserves=4, texts=0)
-        apply(self.Layout_Method, (l,), layout)
+        self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
 
         # Create foundations
@@ -670,7 +670,7 @@ class Matsya(AbstractDashavataraGame):
     def createGame(self, max_rounds=1, num_deal=1, **layout):
         l, s = Layout(self), self.s
         kwdefault(layout, rows=10, waste=1)
-        apply(self.Layout_Method, (l,), layout)
+        self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
 
         # Create talon

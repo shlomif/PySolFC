@@ -71,7 +71,7 @@ class Shisen_Hint(AbstractHint):
 class Shisen_Foundation(AbstractFoundationStack):
     def __init__(self, x, y, game, suit=ANY_SUIT, **cap):
         kwdefault(cap, max_move=0, max_accept=0, max_cards=game.NCARDS)
-        apply(AbstractFoundationStack.__init__, (self, x, y, game, suit), cap)
+        AbstractFoundationStack.__init__(self, x, y, game, suit, **cap)
 
     def acceptsCards(self, from_stack, cards):
         # We do not accept any cards - pairs will get

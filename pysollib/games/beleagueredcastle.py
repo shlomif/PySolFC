@@ -200,7 +200,7 @@ class Fortress(Game):
         # create layout
         l, s = Layout(self), self.s
         kwdefault(layout, rows=10, waste=0, texts=0, playcards=16)
-        apply(self.Layout_Method, (l,), layout)
+        self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
         # create stacks
         s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self)
@@ -251,7 +251,7 @@ class Bastion(Game):
         # create layout
         l, s = Layout(self), self.s
         kwdefault(layout, rows=10, reserves=2, texts=0, playcards=16)
-        apply(self.Layout_Method, (l,), layout)
+        self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
         # create stacks
         s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self)
@@ -379,7 +379,7 @@ class CastlesEnd(Bastion):
 class Chessboard_Foundation(SS_FoundationStack):
     def __init__(self, x, y, game, suit, **cap):
         kwdefault(cap, mod=13, min_cards=1, max_move=0)
-        apply(SS_FoundationStack.__init__, (self, x, y, game, suit), cap)
+        SS_FoundationStack.__init__(self, x, y, game, suit, **cap)
 
     def acceptsCards(self, from_stack, cards):
         if not self.cards:

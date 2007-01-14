@@ -322,7 +322,7 @@ def openURL(url):
         import webbrowser
         webbrowser.open(url)
         return 1
-    except:
+    except ImportError:                 # FIXME
         return 0
 
 

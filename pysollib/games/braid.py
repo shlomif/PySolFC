@@ -423,7 +423,6 @@ class Casket(Game):
     def createGame(self):
         # create layout
         l, s = Layout(self), self.s
-        font=self.app.getFont("canvas_default")
 
         # set window
         self.setSize(l.XM+10*l.XS, l.YM+4.5*l.YS)

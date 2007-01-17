@@ -603,6 +603,77 @@ class DoubleDolphin(Dolphin):
         self.s.talon.dealRowAvail()
 
 
+# /***********************************************************************
+# // Waterfall
+# ************************************************************************/
+
+class Waterfall_Foundation(AbstractFoundationStack):
+    def acceptsCards(self, from_stack, cards):
+        if not AbstractFoundationStack.acceptsCards(self, from_stack, cards):
+            return False
+        c1 = cards[0]
+        if not self.cards:
+            return c1.rank == ACE and c1.suit == 0
+        c2 = self.cards[-1]
+        if c2.rank == KING:
+            suit = (c2.suit+1) % 4
+            rank = ACE
+        else:
+            suit = c2.suit
+            rank = c2.rank+1
+        return c1.suit == suit and c1.rank == rank
+
+
+class Waterfall(Game):
+
+    def createGame(self):
+        rows = 8
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+rows*l.XS, l.YM+2*l.YS+20*l.YOFFSET)
+
+        x, y = l.XM, l.YM
+        for i in range(rows):
+            s.rows.append(RK_RowStack(x, y, self))
+            x += l.XS
+        x, y = l.XM+(rows-1)*l.XS/2, self.height-l.YS
+        s.foundations.append(Waterfall_Foundation(x, y, self, suit=ANY_SUIT,
+                                                  max_cards=104))
+        stack = s.foundations[0]
+        tx, ty, ta, tf = l.getTextAttr(stack, 'se')
+        font = self.app.getFont('canvas_default')
+        stack.texts.misc = MfxCanvasText(self.canvas, tx, ty,
+                                         anchor=ta, font=font)
+        x, y = self.width-l.XS, self.height-l.YS
+        s.talon = DealRowTalonStack(x, y, self)
+        l.createText(s.talon, 'sw')
+
+        l.defaultStackGroups()
+
+    def startGame(self):
+        for i in range(3):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+    def updateText(self):
+        if self.preview > 1:
+            return
+        f = self.s.foundations[0]
+        if len(f.cards) == 104:
+            t = ''
+        elif len(f.cards) == 0:
+            t = SUITS[0]
+        else:
+            c = f.cards[-1]
+            if c.rank == KING:
+                suit = (c.suit+1) % 4
+            else:
+                suit = c.suit
+            t = SUITS[suit]
+        f.texts.misc.config(text=t)
+
+    shallHighlightMatch = Game._shallHighlightMatch_RK
+
 
 # register the game
 registerGame(GameInfo(36, Golf, "Golf",
@@ -627,7 +698,9 @@ registerGame(GameInfo(432, Robert, "Robert",
 registerGame(GameInfo(551, DiamondMine, "Diamond Mine",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(661, Dolphin, "Dolphin",
-                      GI.GT_GOLF, 1, 0, GI.SL_MOSTLY_SKILL | GI.GT_ORIGINAL))
+                      GI.GT_GOLF | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(662, DoubleDolphin, "Double Dolphin",
-                      GI.GT_GOLF, 2, 0, GI.SL_MOSTLY_SKILL | GI.GT_ORIGINAL))
+                      GI.GT_GOLF | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(709, Waterfall, "Waterfall",
+                      GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 

@@ -193,7 +193,7 @@ class LesQuatreCoins_Talon(RedealTalonStack):
         if sound and not self.game.demo:
             self.game.startDealSample()
         rows = self.game.s.rows
-        rows = rows[:1]+rows[4:8]+(rows[2],rows[1])+rows[8:]+rows[3:4]
+        rows = rows[:1]+rows[4:8]+rows[2:3]+rows[1:2]+rows[8:]+rows[3:4]
         num_cards = self.dealRowAvail(rows=rows)
         if sound and not self.game.demo:
             self.game.stopSamples()

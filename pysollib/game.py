@@ -382,6 +382,7 @@ class Game:
             images = [],
             tk_images = [],             # saved tk images
             saved_images = {},          # saved resampled images
+            canvas_images = [],         # ids of canvas images
             frame_num = 0,              # number of the current frame
             width = 0,
             height = 0,
@@ -1099,6 +1100,8 @@ class Game:
         images = self.win_animation.images
         saved_images = self.win_animation.saved_images # cached images
         canvas = self.canvas
+        canvas.delete(*self.win_animation.canvas_images)
+        self.win_animation.canvas_images = []
 
         x0 = int(int(canvas.cget('width'))*(canvas.xview()[0]))
         y0 = int(int(canvas.cget('height'))*(canvas.yview()[0]))
@@ -1132,17 +1135,19 @@ class Game:
             round_k = int(round(k*100))
             if img_index not in saved_images:
                 saved_images[img_index] = {}
-            if round_k == 100:
-                tmp = im
-            elif round_k in saved_images[img_index]:
-                tmp = saved_images[img_index][round_k]
+            if round_k in saved_images[img_index]:
+                tk_tmp = saved_images[img_index][round_k]
             else:
                 new_size = (int(iw*k), int(ih*k))
-                tmp = im.resize(new_size, resample=Image.BICUBIC)
-                saved_images[img_index][round_k] = tmp
+                if round_k == 100:
+                    tmp = im
+                else:
+                    tmp = im.resize(new_size, resample=Image.BICUBIC)
+                tk_tmp = ImageTk.PhotoImage(image=tmp)
+                saved_images[img_index][round_k] = tk_tmp
 
-            tk_tmp = ImageTk.PhotoImage(image=tmp)
             id = canvas.create_image(xpos, ypos, image=tk_tmp, anchor='nw')
+            self.win_animation.canvas_images.append(id)
             if k > 0.6:
                 raised_images.append(id)
             tmp_tk_images.append(tk_tmp)
@@ -1161,6 +1166,8 @@ class Game:
         if self.win_animation.timer:
             after_cancel(self.win_animation.timer) # stop loop
             self.win_animation.timer = None
+            self.canvas.delete(*self.win_animation.canvas_images)
+            self.win_animation.canvas_images = []
             self.win_animation.tk_images = [] # delete all images
             self.saved_images = {}
             self.canvas.showAllItems()

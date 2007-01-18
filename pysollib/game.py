@@ -997,14 +997,14 @@ class Game:
         while i < frames:
             mx, my = int(round(dx * i)) - tx, int(round(dy * i)) - ty
             tx, ty = tx + mx, ty + my
-            for s in shadows:
-                s.move(mx, my)
-            for card in cards:
-                card.moveBy(mx, my)
             if i == 1 and shadow and from_stack:
                 # create shadows in the first frame
                 sx, sy = self.app.images.SHADOW_XOFFSET, self.app.images.SHADOW_YOFFSET
                 shadows = from_stack.createShadows(cards, sx, sy)
+            for s in shadows:
+                s.move(mx, my)
+            for card in cards:
+                card.moveBy(mx, my)
             self.canvas.update_idletasks()
             step = 1
             if clock:

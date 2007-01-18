@@ -702,14 +702,14 @@ class Stack:
 
     def getPositionFor(self, card):
         model, view = self, self
-        if view.can_hide_cards:
-            return view.x, view.y
         x, y = view.x, view.y
+        if view.can_hide_cards:
+            return x, y
         ix, iy, lx, ly = 0, 0, len(view.CARD_XOFFSET), len(view.CARD_YOFFSET)
+        d = self.shrink_face_down
         for c in model.cards:
             if c is card:
                 break
-            d = self.shrink_face_down
             if c.face_up:
                 x += self.CARD_XOFFSET[ix]
                 y += self.CARD_YOFFSET[iy]
@@ -718,7 +718,26 @@ class Stack:
                 y += int(self.CARD_YOFFSET[iy]/d)
             ix = (ix + 1) % lx
             iy = (iy + 1) % ly
+        return (x, y)
 
+    def getPositionForNextCard(self):
+        model, view = self, self
+        x, y = view.x, view.y
+        if view.can_hide_cards:
+            return x, y
+        if not self.cards:
+            return x, y
+        ix, iy, lx, ly = 0, 0, len(view.CARD_XOFFSET), len(view.CARD_YOFFSET)
+        d = self.shrink_face_down
+        for c in model.cards:
+            if c.face_up:
+                x += self.CARD_XOFFSET[ix]
+                y += self.CARD_YOFFSET[iy]
+            else:
+                x += int(self.CARD_XOFFSET[ix]/d)
+                y += int(self.CARD_YOFFSET[iy]/d)
+            ix = (ix + 1) % lx
+            iy = (iy + 1) % ly
         return (x, y)
 
     def getOffsetFor(self, card):

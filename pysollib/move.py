@@ -82,14 +82,13 @@ class AMoveMove(AtomicMove):
     def __doMove(self, game, ncards, from_stack, to_stack):
         if game.moves.state == game.S_PLAY:
             assert to_stack.acceptsCards(from_stack, from_stack.cards[-ncards:])
-        cards = []
-        for i in range(ncards):
-            card = from_stack.removeCard()
-            cards.append(card)
-        cards.reverse()
+        cards = from_stack.cards[-ncards:]
         if self.frames != 0:
-            x, y = to_stack.getPositionFor(cards[0])
-            game.animatedMoveTo(from_stack, to_stack, cards, x, y, frames=self.frames, shadow=self.shadow)
+            x, y = to_stack.getPositionForNextCard()
+            game.animatedMoveTo(from_stack, to_stack, cards, x, y,
+                                frames=self.frames, shadow=self.shadow)
+        for i in range(ncards):
+            from_stack.removeCard()
         for c in cards:
             to_stack.addCard(c)
 

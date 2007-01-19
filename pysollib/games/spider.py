@@ -32,7 +32,6 @@
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
@@ -288,8 +287,8 @@ class SimpleSimon(Spider):
         Spider.createGame(self, rows=10, texts=0)
 
     def startGame(self):
-        for l in (9, 8, 7, 6, 5, 4, 3):
-            self.s.talon.dealRow(rows=self.s.rows[:l], frames=0)
+        for i in (9, 8, 7, 6, 5, 4, 3):
+            self.s.talon.dealRow(rows=self.s.rows[:i], frames=0)
         self.startDealSample()
         self.s.talon.dealRow()
 
@@ -770,12 +769,12 @@ class SpiderWeb(RelaxedSpider):
         x += 2*l.XS
         s.reserves.append(ReserveStack(x, y, self))
         x += 2*l.XS
-        for r in range(4):
+        for i in range(4):
             s.foundations.append(Spider_SS_Foundation(x, y, self,
                                                       suit=ANY_SUIT))
             x += l.XS
         x, y = l.XM+l.XS, l.YM+l.YS
-        for r in range(7):
+        for i in range(7):
             s.rows.append(Spider_RowStack(x, y, self,
                                           base_rank=ANY_RANK))
             x += l.XS
@@ -803,8 +802,8 @@ class SimonJester(Spider):
         Spider.createGame(self, rows=14, texts=0)
 
     def startGame(self):
-        for l in range(1, 14):
-            self.s.talon.dealRow(rows=self.s.rows[:l], frames=0)
+        for i in range(1, 14):
+            self.s.talon.dealRow(rows=self.s.rows[:i], frames=0)
         self.startDealSample()
         self.s.talon.dealRow(rows=self.s.rows[1:])
 
@@ -873,7 +872,7 @@ class BigSpider(Spider):
     def createGame(self):
         Spider.createGame(self, rows=13, playcards=28)
     def startGame(self):
-        for l in range(5):
+        for i in range(5):
             self.s.talon.dealRow(frames=0, flip=0)
         self.startDealSample()
         self.s.talon.dealRow()
@@ -887,7 +886,7 @@ class BigSpider2Suits(BigSpider):
 
 class Spider3x3(BigSpider):
     def startGame(self):
-        for l in range(4):
+        for i in range(4):
             self.s.talon.dealRow(frames=0, flip=0)
         self.startDealSample()
         self.s.talon.dealRow()
@@ -946,7 +945,7 @@ class ChineseSpider(Spider):
     def createGame(self):
         Spider.createGame(self, rows=12, playcards=28)
     def startGame(self):
-        for l in range(5):
+        for i in range(5):
             self.s.talon.dealRow(frames=0, flip=0)
         self.startDealSample()
         self.s.talon.dealRow()
@@ -1197,6 +1196,58 @@ class FechtersGame(RelaxedSpider):
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
+# /***********************************************************************
+# // Bebop
+# ************************************************************************/
+
+class Bebop(Game):
+
+    def createGame(self):
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+10*l.XS, l.YM+2*l.YS+18*l.YOFFSET)
+
+        x, y = l.XM+2*l.XS, l.YM
+        for i in range(8):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i/2))
+            x += l.XS
+        x, y = l.XM+l.XS, l.YM+l.YS
+        for i in range(8):
+            s.rows.append(RK_RowStack(x, y, self))
+            x += l.XS
+        x, y = l.XM, l.YM
+        s.talon = TalonStack(x, y, self)
+        l.createText(s.talon, 'ne')
+
+        l.defaultStackGroups()
+
+    def startGame(self):
+        for i in range(len(self.s.rows)-1):
+            self.s.talon.dealRow(frames=0, flip=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+    def fillStack(self, stack):
+        if stack in self.s.rows:
+            if len(stack.cards) == len(self.s.rows)-1:
+                for c in stack.cards:
+                    if c.face_up:
+                        return
+                old_state = self.enterState(self.S_FILL)
+                for s in self.s.rows:
+                    if s is stack:
+                        continue
+                    stack.flipMove()
+                    stack.moveMove(1, s, frames=4)
+                for i in range(len(self.s.rows)-1):
+                    if self.s.talon.cards:
+                        self.s.talon.dealRow(rows=[stack], frames=4, flip=0)
+                if self.s.talon.cards:
+                    self.s.talon.dealRow(rows=[stack])
+                self.leaveState(old_state)
+
+    shallHighlightMatch = Game._shallHighlightMatch_RK
+
+
 
 # register the game
 registerGame(GameInfo(10, RelaxedSpider, "Relaxed Spider",
@@ -1317,4 +1368,6 @@ registerGame(GameInfo(680, Tarantula, "Tarantula",
                       GI.GT_SPIDER, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(685, FechtersGame, "Fechter's Game",
                       GI.GT_SPIDER, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(710, Bebop, "Bebop",
+                      GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 

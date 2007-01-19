@@ -986,6 +986,7 @@ class Game:
             shadow = self.app.opt.shadow
         shadows = ()
         # start animation
+        from_stack._unshadeStack()
         if tkraise:
             for card in cards:
                 card.tkraise()

@@ -23,7 +23,7 @@ import sys, os
 
 from pysollib.settings import TOOLKIT, USE_TILE
 from pysollib.tile import Tile
-from pysollib.macosx.appSupport import setupApp, hideTkConsole
+from pysollib.macosx.appSupport import hideTkConsole
 
 from common import baseInitRootWindow, BaseTkSettings
 

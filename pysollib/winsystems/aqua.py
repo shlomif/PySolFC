@@ -32,11 +32,11 @@ class initRootWindow(baseInitRootWindow):
     def __init__(self, root, app):
         baseInitRootWindow.__init__(self, root, app)
         if TOOLKIT == 'tk':
-            #setupApp(app)
             hideTkConsole(root)
         if TOOLKIT == 'gtk':
             pass
         elif USE_TILE:
+            style = Tile.Style(root)
             color = style.lookup('.', 'background')
             if color:
                 root.tk_setPalette(color) # for non-Tile widgets

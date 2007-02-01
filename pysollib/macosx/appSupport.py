@@ -20,6 +20,4 @@ def setupApp(app):
     Perform setup for the OSX application bundle.
     """
     if not runningAsOSXApp(): return
-
     hideTkConsole(app.top)
-    #overrideRootMenu(root, flist)

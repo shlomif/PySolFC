@@ -159,6 +159,7 @@ class DutchSolitaire_RowStack(UD_RK_RowStack):
 
 
 class DutchSolitaire(Windmill):
+    Hint_Class = CautiousDefaultHint
     Foundation_Classes = [
         StackWrapper(BlackHole_Foundation, suit=ANY_SUIT, mod=13,
                      max_cards=UNLIMITED_CARDS, min_cards=1),
@@ -270,7 +271,7 @@ class Corners(Game):
         self.setSize(5*l.XS+l.XM, 4*l.YS+3*l.YM)
 
         # create stacks
-        x, y = l.XM+l.XS, l.YM
+        x, y = l.XM+1.5*l.XS, l.YM
         s.talon = WasteTalonStack(x, y, self, max_rounds=max_rounds)
         l.createText(s.talon, "sw")
         x += l.XS

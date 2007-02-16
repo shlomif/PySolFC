@@ -716,7 +716,7 @@ class Assembly_RowStack(RK_RowStack):
 
 
 class Assembly(Numerica):
-    Hint_Class = DefaultHint
+    Hint_Class = CautiousDefaultHint
 
     Foundation_Class = StackWrapper(RK_FoundationStack, suit=ANY_SUIT)
     RowStack_Class = StackWrapper(Assembly_RowStack, max_move=1)

@@ -37,6 +37,7 @@ if TOOLKIT == 'tk':
         from tile.colorsdialog import *
         from tile.fontsdialog import *
         from tile.findcarddialog import *
+        from tile.solverdialog import *
         from tile.gameinfodialog import *
         from tile.toolbar import *
         from tile.statusbar import *
@@ -60,6 +61,7 @@ if TOOLKIT == 'tk':
         from tk.colorsdialog import *
         from tk.fontsdialog import *
         from tk.findcarddialog import *
+        from tk.solverdialog import *
         from tk.gameinfodialog import *
         from tk.toolbar import *
         from tk.statusbar import *
@@ -84,6 +86,7 @@ else: # gtk
     from pysolgtk.colorsdialog import *
     from pysolgtk.fontsdialog import *
     from pysolgtk.findcarddialog import *
+    from pysolgtk.solverdialog import *
     from pysolgtk.gameinfodialog import *
     from pysolgtk.toolbar import *
     from pysolgtk.statusbar import *

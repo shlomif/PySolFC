@@ -542,6 +542,7 @@ class Octave_Talon(WasteTalonStack):
 
 
 class Octave(Game):
+    Hint_Class = CautiousDefaultHint
 
     #
     # game layout

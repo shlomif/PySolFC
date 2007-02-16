@@ -76,7 +76,7 @@ def init():
     if settings.TOOLKIT == 'tk':
         import Tkinter
         from Tkinter import TclError
-        root = Tkinter.Tk()
+        root = Tkinter.Tk(className='PySol')
         settings.WIN_SYSTEM = root.tk.call('tk', 'windowingsystem')
         if settings.WIN_SYSTEM == 'aqua':
             # TkAqua displays the console automatically in application
@@ -97,7 +97,35 @@ def init():
         # "can't invoke event <<ThemeChanged>>: application has been destroyed"
         #root.destroy()
         Tkinter._default_root = None
-    #
+
+    # check FreeCell-Solver
+    settings.USE_FREECELL_SOLVER = False
+    if os.name == 'nt':
+        if sys.path[0] and not os.path.isdir(sys.path[0]): # i.e. library.zip
+            d = os.path.dirname(sys.path[0])
+            ##d = os.path.join(d, 'freecell-solver')
+            fcs_command = os.path.join('freecell-solver', 'fc-solve.exe')
+            ##fcs_command = '"%s"' % fcs_command # quote command
+            settings.FCS_COMMAND = fcs_command
+            f = os.path.join(d, 'freecell-solver', 'presetrc')
+            os.environ['FREECELL_SOLVER_PRESETRC'] = f
+            os.chdir(d)                 # for read presets
+            ##print >> file('/fcs.log', 'a'), d
+            ##print >> file('/fcs.log', 'a'), f
+    if os.name in ('posix', 'nt'):
+        try:
+            pin, pout, perr = os.popen3(settings.FCS_COMMAND+' --help')
+            if pout.readline().startswith('fc-solve'):
+                settings.USE_FREECELL_SOLVER = True
+            del pin, pout, perr
+            if os.name == 'posix':
+                os.wait()               # kill zombi
+        except:
+            ##traceback.print_exc()
+            pass
+    os.environ['FREECELL_SOLVER_QUIET'] = '1'
+
+    # run app without games menus (more fast start)
     if '--no-games-menu' in sys.argv:
         sys.argv.remove('--no-games-menu')
         settings.SELECT_GAME_MENU = False

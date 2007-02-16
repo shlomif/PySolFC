@@ -339,6 +339,7 @@ class GI:
         ('fc-0.9.2', tuple(range(441, 466))),
         ('fc-0.9.3', tuple(range(466, 661))),
         ('fc-0.9.4', tuple(range(661, 671))),
+        ('fc-1.0',   tuple(range(671, 711))),
     )
 
     # deprecated - the correct way is to or a GI.GT_XXX flag
@@ -346,8 +347,6 @@ class GI:
     _CHILDREN_GAMES = [16, 33, 55, 90, 91, 96, 97, 176, 903,]
 
     _OPEN_GAMES = []
-    #_OPEN_GAMES = [ 5, 6, 8, 9, 26, 31, 45, 46, 50, 53, 63, 64, 77, 85, 86,
-    #    96, 116, 117, 118, 258, ]
 
     _POPULAR_GAMES = [
         1,     # Gypsy
@@ -471,6 +470,7 @@ class GameManager:
         self.__games_by_altname = None
         self.__all_games = {}           # includes hidden games
         self.__all_gamenames = {}       # includes hidden games
+        self.__games_for_solver = []
         self.loading_plugin = 0
         self.registered_game_types = {}
 
@@ -536,7 +536,9 @@ class GameManager:
 ##                     if gi.id in k: break
 ##                 else:
 ##                     print gi.id
-
+            if hasattr(gi.gameclass, 'Solver_Class') and \
+               gi.gameclass.Solver_Class is not None:
+                self.__games_for_solver.append(gi.id)
 
     #
     # access games database - we do not expose hidden games
@@ -590,6 +592,9 @@ class GameManager:
         if gi:
             return gi.id
         return None
+
+    def getGamesForSolver(self):
+        return self.__games_for_solver
 
 
 # /***********************************************************************

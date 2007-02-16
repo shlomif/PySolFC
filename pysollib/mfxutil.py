@@ -36,6 +36,7 @@
 
 # imports
 import os, time, types
+import webbrowser
 
 try:
     from cPickle import Pickler, Unpickler, UnpicklingError
@@ -319,10 +320,10 @@ def unpickle(filename):
 
 def openURL(url):
     try:
-        import webbrowser
         webbrowser.open(url)
-        return 1
-    except ImportError:                 # FIXME
+    except OSError:                  # raised on windows if link is unreadable
+        pass
+    except:
         return 0
-
+    return 1
 

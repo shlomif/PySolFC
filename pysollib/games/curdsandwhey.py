@@ -286,6 +286,7 @@ class Harvestman(Arachnida):
 # ************************************************************************/
 
 class GermanPatience(Game):
+    Hint_Class = CautiousDefaultHint
 
     def createGame(self, rows=8):
 

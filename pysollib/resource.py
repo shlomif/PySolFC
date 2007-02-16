@@ -497,7 +497,6 @@ class CardsetManager(ResourceManager):
 class Tile(Resource):
     def __init__(self, **kw):
         kw['color'] = None
-        kw['text_color'] = "#000000"
         kw['stretch'] = 0
         Resource.__init__(self, **kw)
 

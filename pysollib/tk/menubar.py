@@ -47,6 +47,7 @@ from pysollib.util import CARDSET
 from pysollib.settings import PACKAGE, WIN_SYSTEM
 from pysollib.settings import TOP_TITLE
 from pysollib.settings import SELECT_GAME_MENU
+from pysollib.settings import USE_FREECELL_SOLVER
 from pysollib.gamedb import GI
 from pysollib.actions import PysolMenubarActions
 
@@ -58,6 +59,7 @@ from soundoptionsdialog import SoundOptionsDialog
 from selectcardset import SelectCardsetDialogWithPreview
 from selecttile import SelectTileDialogWithPreview
 from findcarddialog import connect_game_find_card_dialog, destroy_find_card_dialog
+from solverdialog import connect_game_solver_dialog
 from tkwrap import MfxRadioMenuItem, MfxCheckMenuItem, StringVar
 
 #from toolbar import TOOLBAR_BUTTONS
@@ -138,25 +140,18 @@ class MfxMenubar(Tkinter.Menu):
         #print label, type(label)
         name = re.sub(r"[^0-9a-zA-Z]", "", label).lower()
         label = gettext(label)
-        underline = -1
-        m = re.search(r"^(.*)\&([^\&].*)$", label)
-        if m:
-            l1, l2 = m.group(1), m.group(2)
-            l1 = re.sub(r"\&\&", "&", l1)
-            l2 = re.sub(r"\&\&", "&", l2)
-            label = l1 + l2
-            underline = len(l1)
+        underline = label.find('&')
+        if underline >= 0:
+            label = label.replace('&', '')
         return name, label, underline
 
     def add(self, itemType, cnf={}):
         label = cnf.get("label")
         if label:
             name = cnf.get('name')
-            try:
+            if name:
                 del cnf['name'] # TclError: unknown option "-name"
-            except KeyError:
-                pass
-            if not name:
+            else:
                 name, label, underline = self.labeltoname(label)
                 cnf["underline"] = cnf.get("underline", underline)
             cnf["label"] = label
@@ -320,6 +315,7 @@ class PysolMenubar(PysolMenubarActions):
             connect_game_find_card_dialog(game)
         else:
             destroy_find_card_dialog()
+        connect_game_solver_dialog(game)
 
     # create a GTK-like path
     def _addPath(self, path, menu, index, submenu):
@@ -368,7 +364,7 @@ class PysolMenubar(PysolMenubarActions):
         menu.add_separator()
         submenu = MfxMenu(menu, label=n_("Fa&vorite games"))
         menu.add_command(label=n_("A&dd to favorites"), command=self.mAddFavor)
-        menu.add_command(label=n_("R&emove from favorites"), command=self.mDelFavor)
+        menu.add_command(label=n_("Remove &from favorites"), command=self.mDelFavor)
         menu.add_separator()
         menu.add_command(label=n_("&Open..."), command=self.mOpen, accelerator=m+"O")
         menu.add_command(label=n_("&Save"), command=self.mSave, accelerator=m+"S")
@@ -411,7 +407,7 @@ class PysolMenubar(PysolMenubarActions):
         menu.add_checkbutton(label=n_("&Pause"), variable=self.tkopt.pause, command=self.mPause, accelerator="P")
         #menu.add_command(label=n_("&Pause"), command=self.mPause, accelerator="P")
         menu.add_separator()
-        menu.add_command(label=n_("S&tatus..."), command=self.mStatus, accelerator="T")
+        menu.add_command(label=n_("S&tatus..."), command=self.mStatus, accelerator=m+"Y")
         menu.add_checkbutton(label=n_("&Comments..."), variable=self.tkopt.comment, command=self.mEditGameComment)
         menu.add_separator()
         submenu = MfxMenu(menu, label=n_("&Statistics"))
@@ -422,6 +418,7 @@ class PysolMenubar(PysolMenubarActions):
         submenu.add_command(label=n_("Full log..."), command=lambda self=self: self.mPlayerStats(mode=103))
         submenu.add_separator()
         submenu.add_command(label=TOP_TITLE+"...", command=self.mTop10, accelerator=m+"T")
+        submenu.add_command(label=n_("Progression..."), command=lambda self=self: self.mPlayerStats(mode=107))
         submenu = MfxMenu(menu, label=n_("D&emo statistics"))
         submenu.add_command(label=n_("Current game..."), command=lambda self=self: self.mPlayerStats(mode=1101))
         submenu.add_command(label=n_("All games..."), command=lambda self=self: self.mPlayerStats(mode=1102))
@@ -429,12 +426,16 @@ class PysolMenubar(PysolMenubarActions):
         menu = MfxMenu(self.__menubar, label=n_("&Assist"))
         menu.add_command(label=n_("&Hint"), command=self.mHint, accelerator="H")
         menu.add_command(label=n_("Highlight p&iles"), command=self.mHighlightPiles, accelerator="I")
-        menu.add_command(label=n_("Find card"), command=self.mFindCard, accelerator="F")
+        menu.add_command(label=n_("&Find card"), command=self.mFindCard, accelerator="F3")
         menu.add_separator()
         menu.add_command(label=n_("&Demo"), command=self.mDemo, accelerator=m+"D")
         menu.add_command(label=n_("Demo (&all games)"), command=self.mMixedDemo)
+        if USE_FREECELL_SOLVER:
+            menu.add_command(label=n_("&Solver (experimental)"), command=self.mSolver)
+        else:
+            menu.add_command(label=n_("&Solver (experimental)"), command=self.mSolver, state=Tkinter.DISABLED)
         menu.add_separator()
-        menu.add_command(label=n_("Piles description"), command=self.mStackDesk, accelerator="F2")
+        menu.add_command(label=n_("&Piles description"), command=self.mStackDesk, accelerator="F2")
 
         if self.progress: self.progress.update(step=1)
 
@@ -478,10 +479,11 @@ class PysolMenubar(PysolMenubarActions):
         submenu.add_checkbutton(label=n_("Shade &filled stacks"), variable=self.tkopt.shade_filled_stacks, command=self.mOptShadeFilledStacks)
         submenu = MfxMenu(menu, label=n_("A&nimations"))
         submenu.add_radiobutton(label=n_("&None"), variable=self.tkopt.animations, value=0, command=self.mOptAnimations)
-        submenu.add_radiobutton(label=n_("&Timer based"), variable=self.tkopt.animations, value=2, command=self.mOptAnimations)
-        submenu.add_radiobutton(label=n_("&Fast"), variable=self.tkopt.animations, value=1, command=self.mOptAnimations)
-        submenu.add_radiobutton(label=n_("&Slow"), variable=self.tkopt.animations, value=3, command=self.mOptAnimations)
-        submenu.add_radiobutton(label=n_("&Very slow"), variable=self.tkopt.animations, value=4, command=self.mOptAnimations)
+        submenu.add_radiobutton(label=n_("&Very fast"), variable=self.tkopt.animations, value=1, command=self.mOptAnimations)
+        submenu.add_radiobutton(label=n_("&Fast"), variable=self.tkopt.animations, value=2, command=self.mOptAnimations)
+        submenu.add_radiobutton(label=n_("&Medium"), variable=self.tkopt.animations, value=3, command=self.mOptAnimations)
+        submenu.add_radiobutton(label=n_("&Slow"), variable=self.tkopt.animations, value=4, command=self.mOptAnimations)
+        submenu.add_radiobutton(label=n_("V&ery slow"), variable=self.tkopt.animations, value=5, command=self.mOptAnimations)
         submenu.add_separator()
         submenu.add_checkbutton(label=n_("&Redeal animation"), variable=self.tkopt.redeal_animation, command=self.mRedealAnimation)
         if Image:
@@ -527,15 +529,13 @@ class PysolMenubar(PysolMenubarActions):
         ctrl = "Control-"
         if sys.platform == "darwin": ctrl = "Command-"
         self._bindKey("",   "n", self.mNewGame)
-        self._bindKey("",   "g", self.mSelectGameDialog)
-        self._bindKey("",   "v", self.mSelectGameDialogWithPreview)
+        self._bindKey(ctrl, "w", self.mSelectGameDialog)
+        self._bindKey(ctrl, "v", self.mSelectGameDialogWithPreview)
         self._bindKey(ctrl, "r", lambda e, self=self: self.mSelectRandomGame())
         self._bindKey(ctrl, "m", self.mSelectGameById)
         self._bindKey(ctrl, "n", self.mNewGameWithNextId)
         self._bindKey(ctrl, "o", self.mOpen)
-        ##self._bindKey("",   "F3", self.mOpen)           # undocumented
         self._bindKey(ctrl, "s", self.mSave)
-        ##self._bindKey("",   "F2", self.mSaveAs)         # undocumented
         self._bindKey(ctrl, "q", self.mQuit)
         self._bindKey("",   "z", self.mUndo)
         self._bindKey("",   "BackSpace", self.mUndo)    # undocumented
@@ -543,14 +543,14 @@ class PysolMenubar(PysolMenubarActions):
         self._bindKey("",   "r", self.mRedo)
         self._bindKey(ctrl, "g", self.mRestart)
         self._bindKey("",   "space", self.mDeal)        # undocumented
-        self._bindKey("",   "t", self.mStatus)
+        self._bindKey(ctrl, "y", self.mStatus)
         self._bindKey(ctrl, "t", self.mTop10)
         self._bindKey("",   "h", self.mHint)
         self._bindKey(ctrl, "h", self.mHint1)           # undocumented
         ##self._bindKey("",   "Shift_L", self.mHighlightPiles)
         ##self._bindKey("",   "Shift_R", self.mHighlightPiles)
         self._bindKey("",   "i", self.mHighlightPiles)
-        self._bindKey("",   "f", self.mFindCard)
+        self._bindKey("",   "F3", self.mFindCard)
         self._bindKey(ctrl, "d", self.mDemo)
         self._bindKey(ctrl, "e", self.mSelectCardsetDialog)
         self._bindKey(ctrl, "b", self.mOptChangeCardback) # undocumented
@@ -593,19 +593,19 @@ class PysolMenubar(PysolMenubarActions):
     #
 
     def _bindKey(self, modifier, key, func):
-        if 0 and not modifier and len(key) == 1:
-            self.__keybindings[key.lower()] = func
-            self.__keybindings[key.upper()] = func
-            return
+##         if 0 and not modifier and len(key) == 1:
+##             self.__keybindings[key.lower()] = func
+##             self.__keybindings[key.upper()] = func
+##             return
+        if not modifier and len(key) == 1:
+            # ignore Ctrl/Shift/Alt
+            func = lambda e, func=func: e.state == 0 and func(e)
         sequence = "<" + modifier + "KeyPress-" + key + ">"
-        try:
+        bind(self.top, sequence, func)
+        if len(key) == 1 and key != key.upper():
+            key = key.upper()
+            sequence = "<" + modifier + "KeyPress-" + key + ">"
             bind(self.top, sequence, func)
-            if len(key) == 1 and key != key.upper():
-                key = key.upper()
-                sequence = "<" + modifier + "KeyPress-" + key + ">"
-                bind(self.top, sequence, func)
-        except:
-            raise
 
 
     def _keyPressHandler(self, event):
@@ -617,10 +617,10 @@ class PysolMenubar(PysolMenubarActions):
                 if event.char:    # ignore Ctrl/Shift/etc.
                     self.game.demo.keypress = event.char
                     r = EVENT_HANDLED
-            func = self.__keybindings.get(event.char)
-            if func and (event.state & ~2) == 0:
-                func(event)
-                r = EVENT_HANDLED
+##             func = self.__keybindings.get(event.char)
+##             if func and (event.state & ~2) == 0:
+##                 func(event)
+##                 r = EVENT_HANDLED
         return r
 
     #
@@ -632,9 +632,11 @@ class PysolMenubar(PysolMenubarActions):
         games = map(self.app.gdb.get, self.app.gdb.getGamesIdSortedByName())
         ##games = tuple(games)
         ###menu = MfxMenu(menu, label="Select &game")
-        menu.add_command(label=n_("All &games..."), accelerator="G",
+        m = "Ctrl-"
+        if sys.platform == "darwin": m = "Cmd-"
+        menu.add_command(label=n_("All &games..."), accelerator=m+"W",
                          command=self.mSelectGameDialog)
-        menu.add_command(label=n_("Playable pre&view..."), accelerator="V",
+        menu.add_command(label=n_("Playable pre&view..."), accelerator=m+"V",
                          command=self.mSelectGameDialogWithPreview)
         if not SELECT_GAME_MENU:
             return
@@ -779,13 +781,19 @@ class PysolMenubar(PysolMenubarActions):
             gi = games[i]
             columnbreak = i > 0 and (i % cb) == 0
             if short_name:
-                label = gi.short_name
+                label = gettext(gi.short_name)
             else:
-                label = gi.name
-            menu.add_radiobutton(command=command, variable=variable,
-                                 columnbreak=columnbreak,
-                                 value=gi.id, label=label, name=None)
-
+                label = gettext(gi.name)
+##             menu.add_radiobutton(command=command, variable=variable,
+##                                  columnbreak=columnbreak,
+##                                  value=gi.id, label=label, name=None)
+            # optimized by inlining
+            menu.tk.call((menu._w, 'add', 'radiobutton') +
+                         menu._options({'command': command,
+                                        'variable': variable,
+                                        'columnbreak': columnbreak,
+                                        'value': gi.id,
+                                        'label': label}))
 
     #
     # Select Game menu actions
@@ -1149,7 +1157,6 @@ class PysolMenubar(PysolMenubarActions):
                 self._cancelDrag()
                 self.game.endGame(bookmark=1)
                 self.game.quitGame(bookmark=1)
-                self.app.opt.games_geometry = {} # clear saved games geometry
 
     def _mOptCardback(self, index):
         if self._cancelDrag(break_pause=False): return
@@ -1170,10 +1177,6 @@ class PysolMenubar(PysolMenubarActions):
 
     def mOptChangeCardback(self, *event):
         self._mOptCardback(self.app.cardset.backindex + 1)
-
-##     def mOptTableTile(self, *event):
-##         if self._cancelDrag(break_pause=False): return
-##         self._mOptTableTile(self.tkopt.tabletile.get())
 
     def mOptChangeTableTile(self, *event):
         if self._cancelDrag(break_pause=False): return
@@ -1337,4 +1340,3 @@ class PysolMenubar(PysolMenubarActions):
         else:
             if self._cancelDrag(break_pause=True): return
             self.game.showStackDesc()
-

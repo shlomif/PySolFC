@@ -42,6 +42,8 @@ from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 from pysollib.pysoltk import MfxCanvasText
 
+from numerica import Numerica_Hint
+
 
 # /***********************************************************************
 # // Tam O'Shanter
@@ -159,6 +161,8 @@ class Strategy_RowStack(BasicRowStack):
 
 
 class Strategy(Game):
+    Hint_Class = Numerica_Hint
+
     def createGame(self, rows=8):
         # create layout
         l, s = Layout(self), self.s
@@ -181,6 +185,7 @@ class Strategy(Game):
 
         # define stack-groups
         l.defaultStackGroups()
+        self.sg.dropstacks.append(s.talon)
 
     #
     # game overrides
@@ -209,14 +214,16 @@ class StrategyPlus(Strategy):
 
     def fillStack(self, stack):
         if stack is self.s.talon and stack.cards:
+            old_state = self.enterState(self.S_FILL)
             c = stack.cards[-1]
             while c.rank == ACE:
-                old_state = self.enterState(self.S_FILL)
                 self.moveMove(1, stack, self.s.foundations[c.suit])
                 if stack.canFlipCard():
                     stack.flipMove()
-                self.leaveState(old_state)
+                if not stack.cards:
+                    break
                 c = stack.cards[-1]
+            self.leaveState(old_state)
 
 
 # /***********************************************************************
@@ -480,6 +487,8 @@ class Amazons_Foundation(AbstractFoundationStack):
             rank = 5
         if (rank + self.cap.dir) % self.cap.mod != cards[0].rank:
             return False
+        if cards[0].rank == QUEEN:
+            return True
         i = list(self.game.s.foundations).index(self)
         j = list(self.game.s.rows).index(from_stack)
         return i == j

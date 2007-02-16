@@ -762,13 +762,13 @@ class RoyalAids(Game):
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, 'se')
 
-        x, y = l.XM+4*l.XS, l.YM+2*l.YS
+        x, y = l.XM+3.75*l.XS, l.YM+2*l.YS
         for i in (0,1):
             stack = RoyalAids_RowStack(x, y, self, max_move=1)
             s.rows.append(stack)
             stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, 0
             x += l.XS
-        x, y = l.XM+3*l.XS, l.YM+3*l.YS
+        x, y = l.XM+2.75*l.XS, l.YM+3*l.YS
         for i in range(4):
             stack = BasicRowStack(x, y, self)
             s.reserves.append(stack)
@@ -995,7 +995,7 @@ class Khedive(Game):
 
     def startGame(self):
         self.startDealSample()
-        self.s.talon.dealRow()
+        self.s.talon.dealRow(frames=4)
         self.s.talon.dealCards()
 
     def fillStack(self, stack):

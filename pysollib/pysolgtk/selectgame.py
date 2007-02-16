@@ -389,7 +389,7 @@ class SelectGameDialogWithPreview(MfxDialog):
                 destruct(self.preview_app)
             self.preview_app = None
 
-    def updatePreview(self, gameid, animations=5):
+    def updatePreview(self, gameid, animations=10):
         if gameid == self.preview_key:
             return
         self.deletePreview()
@@ -456,7 +456,7 @@ class SelectGameDialogWithPreview(MfxDialog):
         #
         self.preview_app.audio = self.app.audio
         if self.app.opt.animations:
-            self.preview_app.opt.animations = 5
+            self.preview_app.opt.animations = 10
         else:
             self.preview_app.opt.animations = 0
         # save seed
@@ -514,14 +514,13 @@ class SelectGameDialogWithPreview(MfxDialog):
             ('percent',     percent),
             ):
             title_label, text_label = self.info_labels[n]
-            if t == '':
+            if t in ('', None):
                 title_label.hide()
                 text_label.hide()
             else:
                 title_label.show()
                 text_label.show()
             text_label.set_text(str(t))
-            #self.info_labels[n].config(text=t)
 
     def done(self, button):
         button = button.get_data("user_data")

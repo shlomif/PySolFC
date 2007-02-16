@@ -41,6 +41,7 @@ from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.hint import FreeCellSolverWrapper
 from pysollib.pysoltk import MfxCanvasText
 
 
@@ -131,6 +132,10 @@ class Fan(Game):
 
     def getHighlightPilesStacks(self):
         return ()
+
+
+class FanGame(Fan):
+    Solver_Class = FreeCellSolverWrapper(preset='fan')
 
 
 # /***********************************************************************
@@ -461,6 +466,8 @@ class CloverLeaf_RowStack(UD_SS_RowStack):
         if not self.cards:
             return cards[0].rank in (ACE, KING)
         return True
+    def _getBaseCard(self):
+        return _('Base card - Ace or King.')
 
 
 class CloverLeaf(Game):
@@ -531,6 +538,8 @@ class CloverLeaf(Game):
 # ************************************************************************/
 
 class FreeFan(Fan):
+    RowStack_Class = FullStackWrapper(SuperMoveSS_RowStack, base_rank=KING)
+    Solver_Class = FreeCellSolverWrapper(esf='kings', sbb='suit')
     def createGame(self):
         Fan.createGame(self, reserves=2, playcards=8)
 
@@ -542,6 +551,7 @@ class FreeFan(Fan):
 class BoxFan(Fan):
 
     RowStack_Class = KingAC_RowStack
+    Solver_Class = FreeCellSolverWrapper(esf='kings')
 
     def createGame(self):
         Fan.createGame(self, rows=(4,4,4,4))
@@ -632,7 +642,7 @@ class FascinationFan(Fan):
     def redealCards(self):
         r0 = r1 = len(self.s.talon.cards)/3
         m = len(self.s.talon.cards)%3
-        if m >= 1: r2 += 1
+        if m >= 1: r1 += 1
         self.s.talon.dealRow(rows=self.s.rows[:r0], flip=0, frames=4)
         self.s.talon.dealRow(rows=self.s.rows[:r1], flip=0, frames=4)
         self.s.talon.dealRowAvail(frames=4)
@@ -726,7 +736,7 @@ class Crescent(Game):
 
 
 # register the game
-registerGame(GameInfo(56, Fan, "Fan",
+registerGame(GameInfo(56, FanGame, "Fan",
                       GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(87, ScotchPatience, "Scotch Patience",
                       GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))

@@ -379,7 +379,8 @@ class PrincessPatience_RowStack(SS_RowStack):
     def canMoveCards(self, cards):
         if not SS_RowStack.canMoveCards(self, cards):
             return False
-        index = list(self.game.s.rows).index(self)
+        ##index = list(self.game.s.rows).index(self) # don't work in demo-mode with cloned stack
+        index = self.id
         col = index % 4
         row = index / 4
         if index < 16: # left
@@ -403,6 +404,7 @@ class PrincessPatience_RowStack(SS_RowStack):
 
 
 class PrincessPatience(Game):
+    Hint_Class = CautiousDefaultHint
     RowStack_Class = PrincessPatience_RowStack
 
     def createGame(self, max_rounds=1):

@@ -370,21 +370,14 @@ class MfxCanvas(Tkinter.Canvas):
 
     def _substitute(self, *args):
         e = Tkinter.Event()
-        e.x = int(args[0])
-        e.y = int(args[1])
+        try:
+            # Tk changed behavior in 8.4.2, returning "??" rather more often.
+            e.x = int(args[0])
+        except ValueError:
+            e.x = args[0]
+        try:
+            e.y = int(args[1])
+        except ValueError:
+            e.y = args[1]
         return (e,)
-
-
-    #
-    # debug
-    #
-
-    def update(self):
-        ##import mfxutil; print mfxutil.callername()
-        # ??????
-        Tkinter.Canvas.update(self)
-
-    def update_idletasks(self):
-        ##import mfxutil; print mfxutil.callername()
-        Tkinter.Canvas.update_idletasks(self)
 

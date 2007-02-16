@@ -71,6 +71,8 @@ from pysoltk import SelectDialogTreeData
 from pysoltk import HTMLViewer
 from pysoltk import TOOLBAR_BUTTONS
 from pysoltk import destroy_find_card_dialog
+from pysoltk import destroy_solver_dialog
+from pysoltk import connect_game_solver_dialog
 from help import help_about, destroy_help_html
 
 gettext = _
@@ -102,7 +104,7 @@ class Options:
         self.mahjongg_show_removed = False
         self.mahjongg_create_solvable = True
         self.shisen_show_hint = True
-        self.animations = 2                     # default to Timer based
+        self.animations = 2                     # default to Fast
         self.redeal_animation = True
         self.win_animation = True
         self.shadow = True
@@ -112,13 +114,14 @@ class Options:
         self.demo_logo = True
         self.tile_theme = 'default'
         if WIN_SYSTEM == 'win32':
-            self.tile_theme = 'winnative'
+            self.tile_theme = self.default_tile_theme = 'winnative'
             if sys.getwindowsversion() >= (5, 1): # xp
                 self.tile_theme = 'xpnative'
         elif WIN_SYSTEM == 'x11':
-            self.tile_theme = 'step'
+            self.tile_theme = 'clam'
+            self.default_tile_theme = 'default'
         elif WIN_SYSTEM == 'aqua':
-            self.tile_theme = 'aqua'
+            self.tile_theme = self.default_tile_theme = 'aqua'
         self.toolbar = 1       # 0 == hide, 1,2,3,4 == top, bottom, lef, right
         ##self.toolbar_style = 'default'
         self.toolbar_style = 'bluecurve'
@@ -190,7 +193,6 @@ class Options:
             'hintarrow':    '#303030',
             'not_matching': '#ff0000',
             }
-        self.use_default_text_color = False
         # delays
         self.timeouts = {
             'hint':               1.0,
@@ -708,10 +710,12 @@ class Application:
                     except:
                         traceback.print_exc()
                         pass
-                # save game geometry
                 self.wm_save_state()
+                # save game geometry
                 if self.opt.save_games_geometry and not self.opt.wm_maximized:
-                    geom = (self.canvas.winfo_width(), self.canvas.winfo_height())
+                    w = self.canvas.winfo_width()
+                    h = self.canvas.winfo_height()
+                    geom = (w-2, h-2)   # XXX: subtract canvas borderwidth
                     self.opt.games_geometry[self.game.id] = geom
                 self.freeGame()
                 #
@@ -726,8 +730,9 @@ class Application:
             # hide main window
             self.wm_withdraw()
             #
-            destroy_find_card_dialog()
             destroy_help_html()
+            destroy_find_card_dialog()
+            destroy_solver_dialog()
             # update options
             self.opt.last_gameid = id
             # save options
@@ -1005,7 +1010,7 @@ class Application:
         #from pprint import pprint; pprint(self.opt.cardset)
 
     def loadCardset(self, cs, id=0, update=7, progress=None):
-        #print 'loadCardset', cs.ident
+        ##print 'loadCardset', cs.ident
         r = 0
         if cs is None or cs.error:
             return 0
@@ -1049,6 +1054,10 @@ class Application:
             elif self.images is not None:
                 ##self.images.destruct()
                 destruct(self.images)
+            #
+            if self.cardset and self.cardset.ident != cs.ident and \
+                   self.cardset.type == cs.type:
+                self.opt.games_geometry = {} # clear saved games geometry
             # update
             self.images = images
             self.subsampled_images = simages
@@ -1381,6 +1390,9 @@ Please select a %s type %s.
         names.sort()
         return names
 
+    def getGamesForSolver(self):
+        return self.gdb.getGamesForSolver()
+
     #
     # plugins
     #
@@ -1591,7 +1603,6 @@ Please select a %s type %s.
         ##print dirs
         s = "((\\" + ")|(\\".join(IMAGE_EXTENSIONS) + "))$"
         ext_re = re.compile(s, re.I)
-        text_color_re = re.compile(r"^(.+)-([0-9A-Fa-f]{6})$")
         found, t = [], {}
         for dir in dirs:
             dir = dir.strip()
@@ -1611,16 +1622,6 @@ Please select a %s type %s.
                     n = ext_re.sub("", name.strip())
                     if os.path.split(dir)[-1] == 'stretch':
                         tile.stretch = 1
-                    elif n.find('-stretch') > 0:
-                        # stretch?
-                        tile.stretch = 1
-                        n = n.replace('-stretch', '')
-                    #else:
-                    #    tile.stretch = 0
-                    m = text_color_re.search(n)
-                    if m:
-                        n = m.group(1)
-                        tile.text_color = "#" + m.group(2).lower()
                     #n = re.sub("[-_]", " ", n)
                     n = n.replace('_', ' ')
                     ##n = unicode(n)

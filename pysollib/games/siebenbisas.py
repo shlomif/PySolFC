@@ -161,6 +161,19 @@ class SiebenBisAs(Game):
 # // Maze
 # ************************************************************************/
 
+class Maze_Hint(SiebenBisAs_Hint):
+    def shallMovePile(self, from_stack, to_stack, pile, rpile):
+        if from_stack is to_stack or not to_stack.acceptsCards(from_stack, pile):
+            return 0
+        # now check for loops
+        rr = self.ClonedStack(from_stack, stackcards=rpile)
+        if rr.acceptsCards(to_stack, pile):
+            # the pile we are going to move could be moved back -
+            # this is dangerous as we can create endless loops...
+            return 0
+        return 1
+
+
 class Maze_RowStack(BasicRowStack):
     def acceptsCards(self, from_stack, cards):
         if not BasicRowStack.acceptsCards(self, from_stack, cards):
@@ -189,7 +202,7 @@ class Maze_RowStack(BasicRowStack):
 class Maze(Game):
     GAME_VERSION = 2
 
-    Hint_Class = SiebenBisAs_Hint
+    Hint_Class = Maze_Hint #SiebenBisAs_Hint
 
     #
     # game layout

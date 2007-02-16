@@ -42,13 +42,13 @@ def init_tile(app, top, theme):
                     traceback.print_exc()
                     pass
 
-def set_theme(top, theme):
+def set_theme(app, top, theme):
     # set theme
     style = Tile.Style(top)
     all_themes = style.theme_names()
     if theme not in all_themes:
         print >> sys.stderr, 'WARNING: invalid theme name:', theme
-        theme = 'default'
+        theme = app.opt.default_tile_theme
     style.theme_use(theme)
 
 
@@ -91,7 +91,7 @@ class baseInitRootWindow:
         elif USE_TILE:
             theme = app.opt.tile_theme
             init_tile(app, root, theme)
-            set_theme(root, theme)
+            set_theme(app, root, theme)
         else:
             pass
 

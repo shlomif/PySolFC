@@ -4,6 +4,7 @@
 import os
 from distutils.core import setup
 from pysollib.settings import FC_VERSION as VERSION
+from pysollib.settings import PACKAGE_URL
 if os.name == 'nt':
     import py2exe
 
@@ -14,7 +15,7 @@ elif os.name == 'nt':
 else:
     data_dir = 'data'
 
-datas = [
+ddirs = [
     'html',
     'images',
     'sound',
@@ -25,11 +26,11 @@ datas = [
     ]
 for s in file('MANIFEST.in'):
     if s.startswith('graft data/cardset-'):
-        datas.append(s[11:].strip())
+        ddirs.append(s[11:].strip())
 
 data_files = []
 
-for d in datas:
+for d in ddirs:
     for root, dirs, files in os.walk(os.path.join('data', d)):
         if root.find('.svn') >= 0:
             continue
@@ -57,7 +58,7 @@ integrated HTML help browser, and it\'s free Open Source software.
 kw = {
     'name'         : 'PySolFC',
     'version'      : VERSION,
-    'url'          : 'http://sourceforge.net/projects/pysolfc/',
+    'url'          : PACKAGE_URL,
     'author'       : 'Skomoroh',
     'author_email' : 'skomoroh@gmail.com',
     'description'  : 'PySol - a solitaire game collection',

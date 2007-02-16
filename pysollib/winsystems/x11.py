@@ -72,6 +72,8 @@ class initRootWindow(baseInitRootWindow):
                         app.opt.fonts['default'] = fn
             root.option_add('*Menu.borderWidth', 1, 60)
             root.option_add('*Menu.activeBorderWidth', 1, 60)
+            if app.opt.tile_theme == 'clam':
+                root.wm_minsize(550, 360)
         #
         else:
             root.option_add('*Entry.background', 'white', 60)

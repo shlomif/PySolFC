@@ -29,7 +29,7 @@ PACKAGE = 'PySol'
 PACKAGE_URL = 'http://sourceforge.net/projects/pysolfc/'
 
 VERSION = '4.82'
-FC_VERSION = '0.9.5'
+FC_VERSION = '1.0'
 VERSION_TUPLE = (4, 82)
 
 # Tk windowing system (auto determine in init.py)
@@ -47,6 +47,11 @@ USE_TILE = 'auto'                       # or True or False
 #   'win' (windows)
 #   'none' - disable
 SOUND_MOD = 'auto'
+
+# freecell-solver
+USE_FREECELL_SOLVER = True
+FCS_COMMAND = 'fc-solve'
+##FCS_HOME = None                         # path to fcs presets files
 
 # data dirs
 DATA_DIRS = []

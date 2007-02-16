@@ -114,6 +114,7 @@ class FindCardDialog(Tkinter.Toplevel):
         self.groups.append(group)
 
     def connectGame(self, game):
+        self.canvas.delete('all')
         self.game = game
         suits = game.gameinfo.suits
         ranks = game.gameinfo.ranks
@@ -133,6 +134,7 @@ class FindCardDialog(Tkinter.Toplevel):
         w, h = dx*j+2, dy*i+2
         self.canvas.config(width=w, height=h)
         self.wm_iconname(PACKAGE + " - " + game.getTitleName())
+        self.wm_geometry('')            # cancel user-specified geometry
 
     def enterEvent(self, suit, rank, rect, group):
         ##print 'enterEvent', suit, rank, self.busy

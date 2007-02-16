@@ -462,9 +462,9 @@ class BigBen(Game):
 
     def startGame(self):
         self.startDealSample()
-        self.s.talon.dealRow(rows=self.s.foundations)
+        self.s.talon.dealRow(rows=self.s.foundations, frames=4)
         for i in range(3):
-            self.s.talon.dealRow()
+            self.s.talon.dealRow(frames=4)
 
     def _autoDeal(self, sound=1):
         # don't deal a card to the waste if the waste is empty

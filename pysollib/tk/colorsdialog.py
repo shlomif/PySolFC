@@ -48,8 +48,6 @@ class ColorsDialog(MfxDialog):
         frame.pack(expand=True, fill='both', padx=5, pady=10)
         frame.columnconfigure(0, weight=1)
 
-        self.use_default_var = Tkinter.BooleanVar()
-        self.use_default_var.set(not app.opt.use_default_text_color)
         self.text_var = Tkinter.StringVar()
         self.text_var.set(app.opt.colors['text'])
         self.piles_var = Tkinter.StringVar()
@@ -67,17 +65,9 @@ class ColorsDialog(MfxDialog):
         self.not_matching_var = Tkinter.StringVar()
         self.not_matching_var.set(app.opt.colors['not_matching'])
         #
-        c = Tkinter.Checkbutton(frame, variable=self.use_default_var,
-                                text=_("Text foreground:"), anchor='w')
-        c.grid(row=0, column=0, sticky='we')
-        l = Tkinter.Label(frame, width=10, height=2,
-                          bg=self.text_var.get(), textvariable=self.text_var)
-        l.grid(row=0, column=1, padx=5)
-        b = Tkinter.Button(frame, text=_('Change...'), width=10,
-                           command=lambda l=l: self.selectColor(l))
-        b.grid(row=0, column=2)
-        row = 1
+        row = 0
         for title, var in (
+            (_('Text foreground:'),        self.text_var),
             (_('Highlight piles:'),        self.piles_var),
             (_('Highlight cards 1:'),      self.cards_1_var),
             (_('Highlight cards 2:'),      self.cards_2_var),
@@ -86,7 +76,7 @@ class ColorsDialog(MfxDialog):
             (_('Hint arrow:'),             self.hintarrow_var),
             (_('Highlight not matching:'), self.not_matching_var),
             ):
-            Tkinter.Label(frame, text=title, anchor='w'
+            Tkinter.Label(frame, text=title, anchor='w',
                           ).grid(row=row, column=0, sticky='we')
             l = Tkinter.Label(frame, width=10, height=2,
                               bg=var.get(), textvariable=var)
@@ -99,7 +89,6 @@ class ColorsDialog(MfxDialog):
         focus = self.createButtons(bottom_frame, kw)
         self.mainloop(focus, kw.timeout)
         #
-        self.use_default_color = not self.use_default_var.get()
         self.text_color = self.text_var.get()
         self.piles_color = self.piles_var.get()
         self.cards_1_color = self.cards_1_var.get()

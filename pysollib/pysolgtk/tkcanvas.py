@@ -445,16 +445,11 @@ class MfxCanvas(gnomecanvas.Canvas):
             self.setBackgroundImage(None)
             self.configure(bg=tile.color)
             ##app.top.config(bg=tile.color)
-            color = None
         else:
             self._setTile()
             self.configure(bg=self.top_bg)
-            color = tile.text_color
 
-        if app.opt.use_default_text_color:
-            self.setTextColor(color)
-        else:
-            self.setTextColor(app.opt.colors['text'])
+        self.setTextColor(app.opt.colors['text'])
 
         return True
 

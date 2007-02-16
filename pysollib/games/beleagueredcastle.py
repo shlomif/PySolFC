@@ -42,6 +42,7 @@ from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import CautiousDefaultHint, FreeCellType_Hint
+from pysollib.hint import FreeCellSolverWrapper
 from pysollib.pysoltk import MfxCanvasText
 
 
@@ -60,9 +61,11 @@ class BeleagueredCastleType_Hint(CautiousDefaultHint):
 
 class StreetsAndAlleys(Game):
     Hint_Class = BeleagueredCastleType_Hint
+    Solver_Class = FreeCellSolverWrapper(preset='streets_and_alleys')
 
     Foundation_Class = SS_FoundationStack
-    RowStack_Class = RK_RowStack
+    ##RowStack_Class = RK_RowStack
+    RowStack_Class = SuperMoveRK_RowStack
 
     #
     # game layout
@@ -102,7 +105,7 @@ class StreetsAndAlleys(Game):
         for x in (x0, x2):
             y = l.YM+l.YS*int(reserves!=0)
             for i in range(4):
-                stack = self.RowStack_Class(x, y, self, max_move=1, max_accept=1)
+                stack = self.RowStack_Class(x, y, self)
                 stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
                 s.rows.append(stack)
                 y = y + l.YS
@@ -178,6 +181,8 @@ class Citadel(StreetsAndAlleys):
 
 
 class ExiledKings(Citadel):
+    Hint_Class = BeleagueredCastleType_Hint
+    Solver_Class = FreeCellSolverWrapper(sbb='rank', esf='kings')
     RowStack_Class = StackWrapper(RK_RowStack, base_rank=KING)
 
 
@@ -432,11 +437,13 @@ class Chessboard(Fortress):
 
 class Stronghold(StreetsAndAlleys):
     Hint_Class = FreeCellType_Hint
+    Solver_Class = FreeCellSolverWrapper(sbb='rank')
     def createGame(self):
         StreetsAndAlleys.createGame(self, reserves=1)
 
 class Fastness(StreetsAndAlleys):
     Hint_Class = FreeCellType_Hint
+    Solver_Class = FreeCellSolverWrapper(sbb='rank')
     def createGame(self):
         StreetsAndAlleys.createGame(self, reserves=2)
 
@@ -727,6 +734,8 @@ class Rittenhouse(Game):
 class Lightweight(StreetsAndAlleys):
     DEAL = (7, 1)
     RowStack_Class = StackWrapper(RK_RowStack, base_rank=KING)
+    Solver_Class = FreeCellSolverWrapper(sbb='rank', esf='kings',
+                                         sm='unlimited')
 
     def createGame(self, rows=12, playcards=20):
         l, s = Layout(self), self.s
@@ -765,6 +774,7 @@ class Lightweight(StreetsAndAlleys):
 class CastleMount(Lightweight):
     DEAL = (11, 1)
     RowStack_Class = Spider_SS_RowStack
+    Solver_Class = None
 
     shallHighlightMatch = Game._shallHighlightMatch_RK
     getQuickPlayScore = Game._getSpiderQuickPlayScore
@@ -786,6 +796,7 @@ class SelectiveCastle_RowStack(RK_RowStack):
 class SelectiveCastle(StreetsAndAlleys, Chessboard):
     Foundation_Class = Chessboard_Foundation
     RowStack_Class = StackWrapper(SelectiveCastle_RowStack, mod=13)
+    Solver_Class = None
 
     def createGame(self):
         StreetsAndAlleys.createGame(self, texts=True)
@@ -854,7 +865,7 @@ class Soother(Game):
 
 class PenelopesWeb(StreetsAndAlleys):
     RowStack_Class = StackWrapper(RK_RowStack, base_rank=KING)
-
+    Solver_Class = FreeCellSolverWrapper(sbb='rank', esf='kings')
 
 
 # register the game

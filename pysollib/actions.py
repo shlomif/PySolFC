@@ -50,6 +50,7 @@ from stats import FileStatsFormatter
 from pysoltk import SingleGame_StatsDialog, AllGames_StatsDialog
 from pysoltk import FullLog_StatsDialog, SessionLog_StatsDialog
 from pysoltk import Status_StatsDialog, Top_StatsDialog
+from pysoltk import ProgressionDialog
 from pysoltk import GameInfoDialog
 
 # toolkit imports
@@ -61,6 +62,7 @@ from pysoltk import ColorsDialog
 from pysoltk import FontsDialog
 from pysoltk import EditTextDialog
 from pysoltk import create_find_card_dialog
+from pysoltk import create_solver_dialog
 from help import help_about, help_html
 
 gettext = _
@@ -473,11 +475,13 @@ class PysolMenubarActions:
 
     def mDrop(self, *args):
         if self._cancelDrag(): return
-        self.game.autoPlay(autofaceup=-1, autodrop=1)
+        ##self.game.autoPlay(autofaceup=-1, autodrop=1)
+        self.game.autoDrop(autofaceup=-1)
 
     def mDrop1(self, *args):
         if self._cancelDrag(): return
-        self.game.autoPlay(autofaceup=1, autodrop=1)
+        ##self.game.autoPlay(autofaceup=1, autodrop=1)
+        self.game.autoDrop(autofaceup=1)
 
     def mStatus(self, *args):
         if self._cancelDrag(break_pause=False): return
@@ -494,6 +498,9 @@ class PysolMenubarActions:
     def mFindCard(self, *args):
         create_find_card_dialog(self.game.top, self.game,
                                 self.app.getFindCardImagesDir())
+
+    def mSolver(self, *args):
+        create_solver_dialog(self.game.top, self.app)
 
     def mEditGameComment(self, *args):
         if self._cancelDrag(break_pause=False): return
@@ -593,6 +600,9 @@ class PysolMenubarActions:
             elif mode == 106:
                 header = _("Game Info")
                 d = GameInfoDialog(self.top, header, self.app)
+            elif mode == 107:
+                header = _("Statistics progression")
+                d = ProgressionDialog(self.top, header, self.app, player, gameid=self.game.id)
             elif mode == 202:
                 # print stats to file
                 write_method = FileStatsFormatter.writeStats
@@ -698,9 +708,7 @@ class PysolMenubarActions:
         if self._cancelDrag(break_pause=False): return
         d = ColorsDialog(self.top, _("Set colors"), self.app)
         text_color = self.app.opt.colors['text']
-        use_default_text_color = self.app.opt.use_default_text_color
         if d.status == 0 and d.button == 0:
-            self.app.opt.use_default_text_color = d.use_default_color
             self.app.opt.colors['text'] = d.text_color
             self.app.opt.colors['piles'] = d.piles_color
             self.app.opt.colors['cards_1'] = d.cards_1_color
@@ -710,9 +718,8 @@ class PysolMenubarActions:
             self.app.opt.colors['hintarrow'] = d.hintarrow_color
             self.app.opt.colors['not_matching'] = d.not_matching_color
             #
-            if (text_color != self.app.opt.colors['text'] or
-                use_default_text_color != self.app.opt.use_default_text_color):
-                self.app.setTile(self.app.tabletile_index)
+            if text_color != self.app.opt.colors['text']:
+                self.app.setTile(self.app.tabletile_index, force=True)
 
     def mOptFonts(self, *args):
         if self._cancelDrag(break_pause=False): return

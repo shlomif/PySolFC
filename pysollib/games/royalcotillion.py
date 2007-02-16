@@ -592,6 +592,7 @@ class ThreePirates_Talon(DealRowTalonStack):
 
 
 class ThreePirates(Game):
+    Hint_Class = CautiousDefaultHint
 
     def createGame(self):
         l, s = Layout(self), self.s
@@ -634,6 +635,20 @@ class ThreePirates(Game):
 # // Frames
 # ************************************************************************/
 
+class Frames_Hint(CautiousDefaultHint):
+    def computeHints(self):
+        CautiousDefaultHint.computeHints(self)
+        if self.hints:
+            return
+        if not self.game.s.talon.cards:
+            return
+        for s in self.game.s.reserves:
+            if s.cards:
+                for r in self.game.s.rows:
+                    if r.acceptsCards(s, s.cards):
+                        self.addHint(5000, 1, s, r)
+
+
 class Frames_Foundation(UnionSquare_Foundation):
     def acceptsCards(self, from_stack, cards):
         if not UnionSquare_Foundation.acceptsCards(self, from_stack, cards):
@@ -664,7 +679,7 @@ class Frames_RowStack(UD_SS_RowStack):
 
 
 class Frames(Game):
-    Hint_Class = CautiousDefaultHint
+    Hint_Class = Frames_Hint #CautiousDefaultHint
 
     def createGame(self):
         l, s = Layout(self), self.s
@@ -1053,7 +1068,7 @@ class Colonel(Game):
 
         x, y = l.XM+2*l.XS, l.YM
         for i in range(8):
-            s.foundations.append(SS_FoundationStack(x, y, self, suit=i%4,
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i/2,
                                                     max_move=0))
             x += l.XS
 
@@ -1079,7 +1094,7 @@ class Colonel(Game):
 
     def startGame(self):
         self.startDealSample()
-        self.s.talon.dealRow()
+        self.s.talon.dealRow(frames=4)
         self.s.talon.dealCards()
 
     shallHighlightMatch = Game._shallHighlightMatch_SS

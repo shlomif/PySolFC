@@ -36,8 +36,10 @@
 
 # imports
 import os, sys
+import time
 
 # PySol imports
+from settings import USE_FREECELL_SOLVER, FCS_COMMAND
 from mfxutil import destruct
 from util import KING
 
@@ -689,289 +691,234 @@ class SpiderType_Hint(DefaultHint):
 
 
 # /***********************************************************************
-# //
+# // FreeCell-Solver
 # ************************************************************************/
 
-FreecellSolver = None
 
-## try:
-##     import FreecellSolver
-## except:
-##     FreecellSolver = None
+class FreeCellSolver_Hint:
 
-fcs_command = 'fc-solve'
-if os.name == 'nt':
-    if sys.path[0] and not os.path.isdir(sys.path[0]): # i.e. library.zip
-        fcs_command = os.path.join(os.path.split(sys.path[0])[0], 'fc-solve.exe')
-        fcs_command = '"%s"' % fcs_command
+    def __init__(self, game, dialog, **game_type):
+        self.game = game
+        self.dialog = dialog
+        self.game_type = game_type
+        self.options = {
+            'method': 'dfs',
+            'max_iters': 10000,
+            'max_depth': 1000,
+            'progress': False,
+            'preset': None,
+            }
+        self.hints = []
+        self.hints_index = 0
 
-if os.name in ('posix', 'nt'):
-    try:
-        pin, pout, perr = os.popen3(fcs_command+' --help')
-        if pout.readline().startswith('fc-solve'):
-            FreecellSolver = True
-        del pin, pout, perr
-        if os.name == 'posix':
-            os.wait()
-    except:
-        ##traceback.print_exc()
-        pass
+        # correct cards rank if foundations.base_rank != 0 (Penguin, Opus)
+        if 'base_rank' in game_type:    # (Simple Simon)
+            self.base_rank = game_type['base_rank']
+        else:
+            self.base_rank = game.s.foundations[0].cap.base_rank
+        ##print 'game_type:', game_type
+        ##print 'base_rank:', self.base_rank
 
-
-class FreeCellSolverWrapper:
-    __name__ = 'FreeCellSolverWrapper' # for gameinfodialog
-
-    class FreeCellSolver_Hint(AbstractHint):
-        def str1(self, card):
-            return "A23456789TJQK"[card.rank] + "CSHD"[card.suit]
-        def str2(self, card):
-            return "CSHD"[card.suit] + "-" + "A23456789TJQK"[card.rank]
+    def config(self, **kw):
+        self.options.update(kw)
 
 
-        def computeHints(self):
-            ##print 'FreeCellSolver_Hint.computeHints'
+    def card2str1(self, card):
+        # row and reserves
+        rank = (card.rank-self.base_rank) % 13
+        return "A23456789TJQK"[rank] + "CSHD"[card.suit]
+    def card2str2(self, card):
+        # foundations
+        rank = (card.rank-self.base_rank) % 13
+        return "CSHD"[card.suit] + "-" + "A23456789TJQK"[rank]
 
-            board = ''
-            pboard = {}
-            #
+# hard solvable: Freecell #47038300998351211829 (65539 iters)
+
+    def getHints(self, taken_hint=None):
+        if taken_hint and taken_hint[6]:
+            return [taken_hint[6]]
+        h = self.hints[self.hints_index]
+        #print 'getHints', taken_hint, h
+        if h is None:
+            return None
+        ncards, src, dest = h
+        thint = None
+        if len(src.cards) > ncards and not src.cards[-ncards-1].face_up:
+            # flip card
+            thint = (999999, 0, 1, src, src, None, None)
+        if dest == None:                 # foundation
+            cards = src.cards[-ncards:]
+            for f in self.game.s.foundations:
+                if f.acceptsCards(src, cards):
+                    dest = f
+                    break
+        assert dest
+        hint = (999999, 0, ncards, src, dest, None, thint)
+        self.hints_index += 1
+        #print hint
+        return [hint]
+
+    def computeHints(self):
+        game = self.game
+        game_type = self.game_type
+        progress = self.options['progress']
+        board = ''
+        #
+        #
+        b = ''
+        for s in self.game.s.foundations:
+            if s.cards:
+                ss = self.card2str2(s.cards[-1])
+                b += ' ' + ss
+        if b:
+            board += 'Founds:' + b + '\n'
+        #
+        b = ''
+        for s in self.game.s.reserves:
+            if s.cards:
+                cs = self.card2str1(s.cards[-1])
+                b += ' ' + cs
+            else:
+                b += ' -'
+        if b:
+            board += 'FC:' + b + '\n'
+        #
+        for s in self.game.s.rows:
             b = ''
-            #l = []
-            for s in self.game.s.foundations:
-                if s.cards:
-                    b = b + ' ' + self.str2(s.cards[-1])
-                    #l.append(self.str2(s.cards[-1]))
-            if b:
-                board = board  + 'Founds:' + b + '\n'
-            #pboard['Founds'] = l
-            #
-            b = ''
-            l = []
-            for s in self.game.s.reserves:
-                if s.cards:
-                    cs = self.str1(s.cards[-1])
-                    b = b + ' ' + cs
-                    l.append(cs)
-                else:
-                    b = b + ' -'
-                    l.append(None)
-            if b:
-                board = board  + 'FC:' + b + '\n'
-            pboard['FC'] = l
-            #
-            n = 0
-            for s in self.game.s.rows:
-                b = ''
-                l = []
-                for c in s.cards:
-                    cs = self.str1(c)
-                    if not c.face_up:
-                        cs = '<%s>' % cs
-                    b = b + cs + ' '
-                    l.append(cs)
-                board = board + b.strip() + '\n'
-                pboard[n] = l
-                n += 1
-            #
-            ##print board
-            #
-            args = []
-            args += ['-sam', '-p', '--display-10-as-t']
-            ##args += ['-l', 'good-intentions']
-            args += ['--max-iters', 200000]
-            args += ['--decks-num', self.fcs_args[0],
-                     '--stacks-num', self.fcs_args[1],
-                     '--freecells-num', self.fcs_args[2],                    
-                     ]
-            #
-            game_type = self.fcs_args[3]
-            if 'sbb' in game_type:
-                args += ['--sequences-are-built-by', game_type['sbb']]
-            if 'sm' in game_type:
-                args += ['--sequence-move', game_type['sm']]
-            if 'esf' in game_type:
-                args += ['--empty-stacks-filled-by', game_type['esf']]
-            if 'preset' in game_type:
-                args += ['--preset', game_type['preset']]
+            for c in s.cards:
+                cs = self.card2str1(c)
+                if not c.face_up:
+                    cs = '<%s>' % cs
+                b += cs + ' '
+            board = board + b.strip() + '\n'
+        #
+        ##print '--------------------\n', board, '--------------------'
+        #
+        args = []
+        ##args += ['-sam', '-p', '-opt', '--display-10-as-t']
+        args += ['-m', '-p', '-opt']
+        if self.options['preset'] and self.options['preset'] != 'none':
+            args += ['-l', self.options['preset']]
+        if progress:
+            args += ['--iter-output']
+            ##args += ['-s']
+        args += ['--max-iters', self.options['max_iters'],
+                 '--max-depth', self.options['max_depth'],
+                 '--method', self.options['method'],
+                 '--decks-num', game.gameinfo.decks,
+                 '--stacks-num', len(game.s.rows),
+                 '--freecells-num', len(game.s.reserves),
+                 ]
+        #
+        if 'preset' in game_type:
+            args += ['--preset', game_type['preset']]
+        if 'sbb' in game_type:
+            args += ['--sequences-are-built-by', game_type['sbb']]
+        if 'sm' in game_type:
+            args += ['--sequence-move', game_type['sm']]
+        if 'esf' in game_type:
+            args += ['--empty-stacks-filled-by', game_type['esf']]
 
-            command = fcs_command+' '+' '.join([str(i) for i in args])
-            ##print command
-            pin, pout, perr = os.popen3(command)
-            pin.write(board)
-            pin.close()
-            #
-            stack_types = {
-                'the'      : self.game.s.foundations,
-                'stack'    : self.game.s.rows,
-                'freecell' : self.game.s.reserves,
-                }
-            my_hints = []
-            pboard_n = 0
-            ##print pboard
+        command = FCS_COMMAND+' '+' '.join([str(i) for i in args])
+        ##print command
+        pin, pout, perr = os.popen3(command)
+        pin.write(board)
+        pin.close()
+        #
+        stack_types = {
+            'the'      : game.s.foundations,
+            'stack'    : game.s.rows,
+            'freecell' : game.s.reserves,
+            }
+        ##start_time = time.time()
+        if progress:
+            # iteration output
+            iter = 0
+            depth = 0
+            states = 0
             for s in pout:
                 ##print s,
-                if not s.startswith('Move'):
-                    if s.startswith('Freecells:'):
-                        ss=s[10:]
-                        pboard['FC'] = [ss[i:i+4].strip() for i in range(0, len(ss), 4)]
-                    elif s.startswith(':'):
-                        pboard[pboard_n] = s.split()[1:]
-                        pboard_n += 1
-                    continue
+                if s.startswith('Iter'):
+                    #print `s`
+                    iter = int(s[10:-1])
+                elif s.startswith('Depth'):
+                    #print s,
+                    depth = int(s[6:-1])
+                elif s.startswith('Stor'):
+                    #print s,
+                    states = int(s[14:-1])
+                    if iter % 100 == 0:
+                        self.dialog.setText(iter=iter, depth=depth,
+                                            states=states)
+                elif s.startswith('-=-') or \
+                         s.startswith('I co'): # "I could not solve this game."
+                    break
+            self.dialog.setText(iter=iter, depth=depth, states=states)
 
-                words = s.split()
-                ncards = words[1]
-                if ncards == 'a':
-                    ncards = 1
-                else:
-                    ncards = int(ncards)
+        hints = []
+        for s in pout:
+            #print s,
+            # TODO:
+            # Total number of states checked is 6.
+            # This scan generated 6 states.
 
-                sn = int(words[5])
+            if not s.startswith('Move'):
+                continue
+
+            words = s.split()
+            ncards = words[1]
+            if ncards == 'the':
+                # "Move the sequence on top of Stack 1 to the foundations"
+                # (Simple Simon)
+                ncards = 0
+            elif ncards == 'a':
+                ncards = 1
+            else:
+                ncards = int(ncards)
+
+            if ncards:
                 st = stack_types[words[4]]
-                src = st[sn]
-
+                sn = int(words[5])
+                src = st[sn]            # source stack
                 if words[7] == 'the':
                     # to foundation
-                    if words[4] == 'stack':
-                        # from rows
-                        card = pboard[sn][-1]
-                    else:
-                        # from reserves
-                        card = pboard['FC'][sn]
-                    suit = 'CSHD'.index(card[1])
-                    ##dest = self.game.s.foundations[suit]
                     dest = None
-                    for f in self.game.s.foundations:
-                        if f.cap.base_suit == suit:
-                            dest = f
-                            break
-                    assert dest is not None
-
                 else:
                     # to rows or reserves
                     dt = stack_types[words[7]]
                     dn = int(words[8])
                     dest = dt[dn]
+            else:                       # move sequence
+                ncards = 13
+                st =  stack_types['stack']
+                sn = int(words[7])
+                src = st[sn]
+                dest = None
 
-                my_hints.append([ncards, src, dest])
-                ##print src, dest, ncards
+            hints.append([ncards, src, dest])
+            ##print src, dest, ncards
 
-                pboard = {}
-                pboard_n = 0
+        #
+        ##print 'time:', time.time()-start_time
+        ##print perr.read(),
 
-            my_hints.reverse()
-            hint = None
-            for i in my_hints:
-                hint = (999999, 0, i[0], i[1], i[2], None, hint)
-            if hint:
-                self.hints.append(hint)
-            ##print self.hints
-            if os.name == 'posix':
-                os.wait()
+        self.hints = hints
+        self.hints.append(None)         # XXX
+
+        ##print self.hints
+
+        pout.close()
+        perr.close()
+        if os.name == 'posix':
+            os.wait()
 
 
-        def computeHints_mod(self):
-            board = ""
-            #
-            b = ""
-            for s in self.game.s.foundations:
-                if s.cards:
-                    b = b + " " + self.str2(s.cards[-1])
-            if b:
-                board = board  + "Founds:" + b + "\n"
-            #
-            b = ""
-            for s in self.game.s.reserves:
-                if s.cards:
-                    b = b + " " + self.str1(s.cards[-1])
-                else:
-                    b = b + " -"
-            if b:
-                board = board  + "FC:" + b + "\n"
-            #
-            for s in self.game.s.rows:
-                b = ""
-                for c in s.cards:
-                    b = b + self.str1(c) + " "
-                board = board + b.strip() + "\n"
-            #
-            ##print board
-            # solver = apply(FreecellSolver.FCSolver, self.fcs_args)
-            solver = FreecellSolver.alloc()
-            solver.config(["-l", "good-intentions"]);
-            solver.config(["--decks-num", self.fcs_args[0],
-                    "--stacks-num", self.fcs_args[1],
-                    "--freecells-num", self.fcs_args[2],                    
-                    ])
+class FreeCellSolverWrapper:
 
-            game_type = self.fcs_args[3]
-            game_type_defaults = {'sbb' : 'alternate_color', 'sm' : 'limited', 'esf': 'all'}
-            for k,v in game_type_defaults.items():
-                if k not in game_type:
-                    game_type[k] = v
-            
-            solver.config(["--sequences-are-built-by", game_type['sbb'],
-                    "--sequence-move", game_type['sm'],
-                    "--empty-stacks-filled-by", game_type['esf'],
-                    ])
+    def __init__(self, **game_type):
+        self.game_type = game_type
 
-            solver.limit_iterations(200000)
-            
-            h = solver.solve(board)
-            if (h == "solved"):
-                move = solver.get_next_move()
-                hint = None
-                founds_map = [2,0,3,1,6,4,7,5]
-                my_hints = []
-                while (move):
-                    print move
-
-                    if (move['type'] == "s2s"):
-                        ncards = move['num_cards']
-                    else:
-                        ncards = 1
-
-                    src_idx = move['src']
-                    if move['type'] in ("s2s", "s2found", "s2f"):
-                        src = self.game.s.rows[src_idx]
-                    else:
-                        src = self.game.s.reserves[src_idx]
-
-                    d_idx = move['dest']
-                    if move['type'] in ("s2s", "f2s"):
-                        dest = self.game.s.rows[d_idx]
-                    elif move['type'] in ("s2f", "f2f"):
-                        dest = self.game.s.reserves[d_idx]
-                    else:
-                        dest = self.game.s.foundations[founds_map[d_idx]]
-                        
-                    # hint = (999999, 0, ncards, src, dest, None, 0)
-                    my_hints.append([ncards, src, dest])
-                    # self.hints.append(hint)
-                    move = solver.get_next_move();
-                hint = None
-                my_hints.reverse()
-                for i in my_hints:
-                    hint = (999999, 0, i[0], i[1], i[2], None, hint)
-                self.hints.append(hint)
-                #i = len(h)
-                #assert i % 3 == 0
-                #hint = None
-                #map = self.game.s.foundations + self.game.s.rows + self.game.s.reserves
-                #while i > 0:
-                #    i = i - 3
-                #    v = struct.unpack("<BBB", h[i:i+3])
-                #    hint = (999999, 0, v[0], map[v[1]], map[v[2]], None, hint)
-                #self.hints.append(hint)
-
-    def __init__(self, Fallback_Class, *args):
-        self.Fallback_Class = Fallback_Class
-        self.args = args
-
-    def __call__(self, game, level):
-        if FreecellSolver is None:
-            hint = self.Fallback_Class(game, level)
-        else:
-            hint = self.FreeCellSolver_Hint(game, level)
-            hint.fcs_args = (game.gameinfo.decks, len(game.s.rows), len(game.s.reserves)) + self.args
+    def __call__(self, game, dialog):
+        hint = FreeCellSolver_Hint(game, dialog, **self.game_type)
         return hint
 

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Fri Jan 12 13:34:09 2007\n"
+"POT-Creation-Date: Thu Feb 15 18:35:01 2007\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -216,6 +216,9 @@ msgstr ""
 msgid "Baroness"
 msgstr ""
 
+msgid "Barrier"
+msgstr ""
+
 msgid "Bastille Day"
 msgstr ""
 
@@ -241,6 +244,9 @@ msgid "Beak and Flipper"
 msgstr ""
 
 msgid "Beatle"
+msgstr ""
+
+msgid "Bebop"
 msgstr ""
 
 msgid "Beetle"
@@ -3715,6 +3721,9 @@ msgid "Washington's Favorite"
 msgstr ""
 
 msgid "Wasp"
+msgstr ""
+
+msgid "Waterfall"
 msgstr ""
 
 msgid "Waterloo"

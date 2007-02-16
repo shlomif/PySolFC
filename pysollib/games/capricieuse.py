@@ -40,7 +40,7 @@ from gypsy import DieRussische_Foundation
 # ************************************************************************/
 
 class Capricieuse(Game):
-
+    Hint_Class = CautiousDefaultHint
     Talon_Class = StackWrapper(RedealTalonStack, max_rounds=3)
     RowStack_Class = UD_SS_RowStack
 
@@ -113,6 +113,7 @@ class Nationale(Capricieuse):
 # ************************************************************************/
 
 class Strata(Game):
+    Hint_Class = CautiousDefaultHint
 
     def createGame(self):
 

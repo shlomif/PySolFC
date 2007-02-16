@@ -206,7 +206,7 @@ class Images:
                 pass
             if progress: progress.update(step=pstep)
         # shadow
-        if TOOLKIT == 'tk' and Image:
+        if 0 and TOOLKIT == 'tk' and Image:
             fn = self.d.findImage('shadow', 'images')
             self._pil_shadow_image = Image.open(fn).convert('RGBA')
         else:
@@ -302,7 +302,6 @@ class Images:
         y0, y1 = min(y1, y0), max(y1, y0)
         x1 = x1 + self.CARDW
         y1 = y1 + self.CARDH
-        #xx0, yy0 = x0, y0
         w, h = x1-x0, y1-y0
         if (w,h) in self._pil_shadow:
             return self._pil_shadow[(w,h)]

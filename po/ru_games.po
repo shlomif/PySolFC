@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Fri Jan 12 13:34:09 2007\n"
-"PO-Revision-Date: 2007-01-17 19:12+0300\n"
+"POT-Creation-Date: Thu Feb 15 18:35:01 2007\n"
+"PO-Revision-Date: 2007-02-12 19:08+0300\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -217,6 +217,10 @@ msgstr "Баларама"
 msgid "Baroness"
 msgstr "Баронесса"
 
+#, fuzzy
+msgid "Barrier"
+msgstr "Причудливый"
+
 msgid "Bastille Day"
 msgstr "День Бастилии"
 
@@ -243,6 +247,9 @@ msgstr "Клюв и ласты"
 
 msgid "Beatle"
 msgstr "Жук"
+
+msgid "Bebop"
+msgstr ""
 
 msgid "Beetle"
 msgstr "Жук"
@@ -3771,6 +3778,10 @@ msgstr "Фаворит Вашингтона"
 
 msgid "Wasp"
 msgstr "Оса"
+
+#, fuzzy
+msgid "Waterfall"
+msgstr "Ватерлоо"
 
 msgid "Waterloo"
 msgstr "Ватерлоо"

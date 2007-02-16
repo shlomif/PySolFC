@@ -17,6 +17,7 @@ Message = Tkinter.Message
 Listbox = Tkinter.Listbox
 Text = Tkinter.Text
 Canvas = Tkinter.Canvas
+Spinbox = Tkinter.Spinbox
 
 PhotoImage = Tkinter.PhotoImage
 Event = Tkinter.Event

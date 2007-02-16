@@ -121,7 +121,7 @@ class SoundOptionsDialog(MfxDialog):
         if app.audio.CAN_PLAY_MUSIC: # and app.startup_opt.sound_mode > 0:
             row += 1
             w = Tkinter.Label(frame, text=_('Sample volume:'))
-            w.grid(row=row, column=0, sticky='ew')
+            w.grid(row=row, column=0, sticky='w', padx=5)
             w = Tkinter.Scale(frame, from_=0, to=128, resolution=1,
                               orient='horizontal', takefocus=0,
                               length="3i", #label=_('Sample volume'),
@@ -134,7 +134,7 @@ class SoundOptionsDialog(MfxDialog):
                               orient='horizontal', takefocus=0,
                               length="3i", #label=_('Music volume'),
                               variable=self.music_volume)
-            w.grid(row=row, column=1, sticky='w', padx=5)
+            w.grid(row=row, column=1, sticky='ew', padx=5)
 
         else:
             # remove "Apply" button

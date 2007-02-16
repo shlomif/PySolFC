@@ -59,8 +59,6 @@ class ColorsDialog:
             self._setColor(n, app.opt.colors[n])
             button = self.widgets_tree.get_widget(n+'_button')
             button.connect('clicked', self._changeColor, n)
-        checkbutton = self.widgets_tree.get_widget('use_default_checkbutton')
-        checkbutton.set_active(not app.opt.use_default_text_color)
 
         self._translateLabels()
 
@@ -79,7 +77,6 @@ class ColorsDialog:
                 w = self.widgets_tree.get_widget(n+'_label')
                 c = w.get_data('user_data')
                 setattr(self, n+'_color', c)
-            self.use_default_color = not checkbutton.get_active()
 
         dialog.destroy()
 
@@ -125,9 +122,8 @@ class ColorsDialog:
             'label51',
             'label52',
             'label53',
+            'label79',
             ):
             w = self.widgets_tree.get_widget(n)
             w.set_text(gettext(w.get_text()))
-        w = self.widgets_tree.get_widget('use_default_checkbutton')
-        w.set_label(gettext(w.get_label()))
 

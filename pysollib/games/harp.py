@@ -263,6 +263,7 @@ class BigDeal(DoubleKlondike):
 # ************************************************************************/
 
 class Delivery(BigDeal):
+    Hint_Class = CautiousDefaultHint
     RowStack_Class = StackWrapper(SS_RowStack, max_move=1)
 
     def createGame(self):

@@ -140,8 +140,8 @@ def all_games(sort_by='id'):
             gt = 'French (%s)' % GAME_BY_TYPE[gi.si.game_type]
         name = gi.name.encode('utf-8')
         altnames = '<br>'.join(gi.altnames).encode('utf-8')
-        if 1 and os.path.exists(os.path.join(rules_dir, rules_fn)):
-            fn = '../data/html/rules/'+rules_fn
+        fn = os.path.join(rules_dir, rules_fn)
+        if 1 and os.path.exists(fn):
             print '''<tr><td>%s</td><td>
 <a href="%s" title="Rules for this game">%s</a>
 </td><td>%s</td><td>%s</td></tr>
@@ -152,13 +152,19 @@ def all_games(sort_by='id'):
     print '</table>'
 
 def create_html(sort_by):
-    print '<html><body>'
+    print '''<html>
+<head>
+  <title>PySolFC - List of solitaire games</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+'''
     print '<b>Total games: %d</b>' % len(GAME_DB.getGamesIdSortedById())
     print '<h2>Categories</h2>'
     by_category()
     print '<h2>Types</h2>'
     by_type()
-    print '<h2>All games</h2>'
+    #print '<h2>All games</h2>'
     all_games(sort_by)
     print '</body></html>'
 
@@ -220,6 +226,9 @@ def plain_text():
         gi = GAME_DB.get(id)
         if gi.category == GI.GC_FRENCH:
             ##print str(gi.gameclass)
+            ##gc = gi.gameclass
+            ##h = gc.Hint_Class is None and 'None' or gc.Hint_Class.__name__
+            ##print gi.name.encode('utf-8'), h
             print gi.name.encode('utf-8')
             for n in gi.altnames:
                 print n.encode('utf-8')
@@ -233,6 +242,8 @@ if len(sys.argv) < 2 or sys.argv[1] == 'html':
     sort_by = 'id'
     if len(sys.argv) > 2:
         sort_by = sys.argv[2]
+    if len(sys.argv) > 3:
+        rules_dir = sys.argv[3]
     create_html(sort_by)
 elif sys.argv[1] == 'gettext':
     get_text()

@@ -33,7 +33,7 @@
 ##
 ##---------------------------------------------------------------------------##
 
-__all__ = ['PysolToolbar'] #, 'TOOLBAR_BUTTONS']
+__all__ = ['PysolToolbar']
 
 # imports
 import os
@@ -240,6 +240,7 @@ class PysolToolbar(PysolToolbarActions):
                 widget.hide()
         #
         prev_visible = None
+        last_visible = None
         for w in self._widgets:
             if isinstance(w, ToolbarSeparator):
                 if prev_visible is None or isinstance(prev_visible, ToolbarSeparator):
@@ -248,6 +249,10 @@ class PysolToolbar(PysolToolbarActions):
                     w.show(orient=self.orient)
             if w.visible:
                 prev_visible = w
+                if not isinstance(w, ToolbarLabel):
+                    last_visible = w
+        if isinstance(last_visible, ToolbarSeparator):
+            last_visible.hide()
 
     # util
     def _loadImage(self, name):

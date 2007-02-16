@@ -43,6 +43,7 @@ from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 from pysollib.hint import KlondikeType_Hint
+from pysollib.hint import FreeCellSolverWrapper
 from pysollib.pysoltk import MfxCanvasText
 
 from canfield import CanfieldRush_Talon
@@ -283,15 +284,14 @@ class BlindAlleys(Eastcliff):
 # /***********************************************************************
 # // Somerset
 # // Morehead
-# // Canister
-# // American Canister
-# // British Canister
+# // Usk
 # ************************************************************************/
 
 class Somerset(Klondike):
     Talon_Class = InitialDealTalonStack
-    RowStack_Class = StackWrapper(AC_RowStack, max_move=1)
+    RowStack_Class = SuperMoveAC_RowStack
     Hint_Class = CautiousDefaultHint
+    Solver_Class = FreeCellSolverWrapper()
 
     def createGame(self):
         Klondike.createGame(self, max_rounds=1, rows=10, waste=0, texts=0)
@@ -306,12 +306,14 @@ class Somerset(Klondike):
 
 class Morehead(Somerset):
     RowStack_Class = StackWrapper(BO_RowStack, max_move=1)
+    Solver_Class = None
 
 
 class Usk(Somerset):
 
     Talon_Class = RedealTalonStack
     RowStack_Class = StackWrapper(AC_RowStack, base_rank=KING)
+    Solver_Class = None
 
     def createGame(self):
         Klondike.createGame(self, max_rounds=2, rows=10, waste=0, texts=0)
@@ -330,6 +332,8 @@ class Usk(Somerset):
 
 class AmericanCanister(Klondike):
     Talon_Class = InitialDealTalonStack
+    RowStack_Class = AC_RowStack
+    Solver_Class = FreeCellSolverWrapper(sm='unlimited')
 
     def createGame(self):
         Klondike.createGame(self, max_rounds=1, rows=8, waste=0, texts=0)
@@ -344,11 +348,13 @@ class AmericanCanister(Klondike):
 
 class Canister(AmericanCanister):
     RowStack_Class = RK_RowStack
+    Solver_Class = FreeCellSolverWrapper(sbb='rank', sm='unlimited')
     shallHighlightMatch = Game._shallHighlightMatch_RK
 
 
 class BritishCanister(AmericanCanister):
     RowStack_Class = StackWrapper(KingAC_RowStack, max_move=1)
+    Solver_Class = FreeCellSolverWrapper(esf='kings')
 
 
 # /***********************************************************************
@@ -813,6 +819,7 @@ class Alternation(Klondike):
 
 class Lanes(Klondike):
 
+    Hint_Class = CautiousDefaultHint
     Foundation_Class = StackWrapper(SS_FoundationStack, max_move=0)
     RowStack_Class = StackWrapper(AC_RowStack, base_rank=ANY_RANK, max_move=1)
 
@@ -978,6 +985,8 @@ class DoubleDot(Klondike):
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return abs(card1.rank-card2.rank) == 2
+
+    shallHighlightMatch = Game._shallHighlightMatch_RKW
 
 
 # /***********************************************************************
@@ -1176,6 +1185,7 @@ class GoldMine(Klondike):
 # ************************************************************************/
 
 class LuckyThirteen(Game):
+    Hint_Class = CautiousDefaultHint
     RowStack_Class = StackWrapper(RK_RowStack, base_rank=NO_RANK)
 
     def createGame(self, xoffset=0, playcards=0):

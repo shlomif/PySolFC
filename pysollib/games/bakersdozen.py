@@ -42,6 +42,8 @@ from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.hint import FreeCellSolverWrapper
+
 
 # /***********************************************************************
 # // Castles in Spain
@@ -51,8 +53,9 @@ class CastlesInSpain(Game):
     Layout_Method = Layout.bakersDozenLayout
     Talon_Class = InitialDealTalonStack
     Foundation_Class = SS_FoundationStack
-    RowStack_Class = AC_RowStack
+    RowStack_Class = SuperMoveAC_RowStack
     Hint_Class = CautiousDefaultHint
+    Solver_Class = FreeCellSolverWrapper()
 
     #
     # game layout
@@ -69,8 +72,7 @@ class CastlesInSpain(Game):
         for r in l.s.foundations:
             s.foundations.append(self.Foundation_Class(r.x, r.y, self, suit=r.suit))
         for r in l.s.rows:
-            s.rows.append(self.RowStack_Class(r.x, r.y, self,
-                                              max_move=1, max_accept=1))
+            s.rows.append(self.RowStack_Class(r.x, r.y, self))
         # default
         l.defaultAll()
 
@@ -96,7 +98,8 @@ class Martha_RowStack(AC_RowStack):
 
 
 class Martha(CastlesInSpain):
-    RowStack_Class = FullStackWrapper(Martha_RowStack)
+    Solver_Class = None
+    RowStack_Class = Martha_RowStack
 
     def createGame(self):
         CastlesInSpain.createGame(self, rows=12, playcards=13)
@@ -115,7 +118,9 @@ class Martha(CastlesInSpain):
 # ************************************************************************/
 
 class BakersDozen(CastlesInSpain):
-    RowStack_Class = StackWrapper(RK_RowStack, base_rank=NO_RANK)
+    RowStack_Class = StackWrapper(RK_RowStack, max_move=1, max_accept=1,
+                                  base_rank=NO_RANK)
+    Solver_Class = FreeCellSolverWrapper(preset='bakers_dozen')
 
     def _shuffleHook(self, cards):
         # move Kings to bottom of each stack
@@ -148,16 +153,19 @@ class BakersDozen(CastlesInSpain):
 
 class SpanishPatience(BakersDozen):
     Foundation_Class = AC_FoundationStack
+    Solver_Class = None
 
 
 class PortugueseSolitaire(BakersDozen):
     RowStack_Class = StackWrapper(RK_RowStack, base_rank=KING)
+    Solver_Class = FreeCellSolverWrapper(sbb='rank', esf='kings')
     def _shuffleHook(self, cards):
         return cards
 
 
 class SpanishPatienceII(PortugueseSolitaire):
     RowStack_Class = RK_RowStack
+    Solver_Class = FreeCellSolverWrapper(sbb='rank', sm='unlimited')
 
 
 # /***********************************************************************
@@ -165,6 +173,8 @@ class SpanishPatienceII(PortugueseSolitaire):
 # ************************************************************************/
 
 class GoodMeasure(BakersDozen):
+    Solver_Class = FreeCellSolverWrapper(preset='good_measure')
+
     def createGame(self):
         CastlesInSpain.createGame(self, rows=10)
 
@@ -189,8 +199,8 @@ class GoodMeasure(BakersDozen):
 class Cruel_Talon(TalonStack):
     def canDealCards(self):
         ## FIXME: this is to avoid loops in the demo
-        if self.game.demo and self.game.moves.index >= 100:
-            return False
+        #if self.game.demo and self.game.moves.index >= 100:
+        #    return False
         if self.round == self.max_rounds:
             return False
         return not self.game.isGameWon()
@@ -238,6 +248,8 @@ class Cruel_Talon(TalonStack):
 class Cruel(CastlesInSpain):
     Talon_Class = StackWrapper(Cruel_Talon, max_rounds=-1)
     RowStack_Class = StackWrapper(SS_RowStack, base_rank=NO_RANK)
+    ##Solver_Class = FreeCellSolverWrapper(preset='cruel')
+    Solver_Class = None
 
     def createGame(self):
         CastlesInSpain.createGame(self, rows=12)
@@ -289,6 +301,7 @@ class Indefatigable(Cruel):
 class Perseverance(Cruel, BakersDozen):
     Talon_Class = StackWrapper(Cruel_Talon, max_rounds=3)
     RowStack_Class = StackWrapper(SS_RowStack, base_rank=NO_RANK, dir=-1, max_move=UNLIMITED_MOVES, max_accept=UNLIMITED_ACCEPTS)
+    Solver_Class = None
 
     def _shuffleHook(self, cards):
         # move Kings to bottom of each stack (???)
@@ -306,6 +319,7 @@ class Perseverance(Cruel, BakersDozen):
 # ************************************************************************/
 
 class RippleFan(CastlesInSpain):
+    Solver_Class = None
 
     def createGame(self):
         # create layout

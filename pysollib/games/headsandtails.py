@@ -45,6 +45,7 @@ class HeadsAndTails_Reserve(OpenStack):
 
 
 class HeadsAndTails(Game):
+    Hint_Class = CautiousDefaultHint
 
     #
     # game layout

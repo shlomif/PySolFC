@@ -291,6 +291,8 @@ class BlackHole_Foundation(AbstractFoundationStack):
             r1, r2 = self.cards[-1].rank, cards[0].rank
             return (r1 + 1) % self.cap.mod == r2 or (r2 + 1) % self.cap.mod == r1
         return 1
+    def getHelp(self):
+        return _('Foundation. Build up or down regardless of suit.')
 
 
 class BlackHole_RowStack(ReserveStack):

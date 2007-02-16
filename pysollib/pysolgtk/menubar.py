@@ -289,10 +289,11 @@ class PysolMenubar(PysolMenubarActions):
         #
         animations_entries = (
           ('animationnone',     None, ltk2gtk('&None'),        None, None, 0),
-          ('animationfast',     None, ltk2gtk('&Fast'),        None, None, 1),
-          ('animationtimer',    None, ltk2gtk('&Timer based'), None, None, 2),
-          ('animationslow',     None, ltk2gtk('&Slow'),        None, None, 3),
-          ('animationveryslow', None, ltk2gtk('&Very slow'),   None, None, 4),
+          ('animationveryfast', None, ltk2gtk('&Very fast'),   None, None, 1),
+          ('animationfast',     None, ltk2gtk('&Fast'),        None, None, 2),
+          ('animationmedium',    None, ltk2gtk('&Medium'),      None, None, 3),
+          ('animationslow',     None, ltk2gtk('&Slow'),        None, None, 4),
+          ('animationveryslow', None, ltk2gtk('V&ery slow'),   None, None, 5),
           )
         mouse_entries = (
           ('draganddrop',   None, ltk2gtk('&Drag-and-Drop'),   None, None, 0),
@@ -388,8 +389,9 @@ class PysolMenubar(PysolMenubarActions):
       <menuitem action='tabletile'/>
       <menu action='animations'>
         <menuitem action='animationnone'/>
-        <menuitem action='animationtimer'/>
+        <menuitem action='animationveryfast'/>
         <menuitem action='animationfast'/>
+        <menuitem action='animationmedium'/>
         <menuitem action='animationslow'/>
         <menuitem action='animationveryslow'/>
       </menu>
@@ -831,7 +833,6 @@ class PysolMenubar(PysolMenubarActions):
                 self._cancelDrag()
                 self.game.endGame(bookmark=1)
                 self.game.quitGame(bookmark=1)
-                self.app.opt.games_geometry = {} # clear saved games geometry
 
 
     def mOptToggle(self, w, opt_name, update_game):

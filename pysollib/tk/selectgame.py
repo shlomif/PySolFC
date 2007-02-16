@@ -437,7 +437,7 @@ class SelectGameDialogWithPreview(SelectGameDialog):
                 destruct(self.preview_app)
             self.preview_app = None
 
-    def updatePreview(self, gameid, animations=5):
+    def updatePreview(self, gameid, animations=10):
         if gameid == self.preview_key:
             return
         self.deletePreview()
@@ -504,7 +504,7 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         #
         self.preview_app.audio = self.app.audio
         if self.app.opt.animations:
-            self.preview_app.opt.animations = 5
+            self.preview_app.opt.animations = 10
         else:
             self.preview_app.opt.animations = 0
         # save seed
@@ -562,13 +562,12 @@ class SelectGameDialogWithPreview(SelectGameDialog):
             ('percent',     percent),
             ):
             title_label, text_label = self.info_labels[n]
-            if t == '':
+            if t in ('', None):
                 title_label.grid_remove()
                 text_label.grid_remove()
             else:
                 title_label.grid()
                 text_label.grid()
             text_label.config(text=t)
-            #self.info_labels[n].config(text=t)
 
 

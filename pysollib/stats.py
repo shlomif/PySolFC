@@ -243,3 +243,126 @@ class FileStatsFormatter(PysolStatsFormatter):
         prev_games = self.app.stats.session_games.get(player)
         return self.writeLog(player, header, prev_games)
 
+
+# /***********************************************************************
+# //
+# ************************************************************************/
+
+class ProgressionFormatter:
+
+    def __init__(self, app, player, gameid):
+
+        all_results = {}      # key: (year, month, day);  value: [played, won]
+        self.all_results = all_results
+        game_results = {}
+        self.game_results = game_results
+        games = app.stats.prev_games.get(player)
+        if not games:
+            return
+        for g in games:
+            id = g[0]
+            status = g[2]
+            start_time = g[3]
+            t = time.localtime(start_time)[:3]
+            if t not in all_results:
+                all_results[t] = [0,0]
+            all_results[t][0] += 1
+            if status > 0:
+                all_results[t][1] += 1
+            if id == gameid:
+                if t not in game_results:
+                    game_results[t] = [0,0]
+                game_results[t][0] += 1
+                if status > 0:
+                    game_results[t][1] += 1
+        ##from pprint import pprint; pprint(all_results)
+
+    def norm_time(self, t):
+        if len(t) == 3:
+            t = list(t)+[0,0,0,-1,-1,-1]
+        return list(time.localtime(time.mktime((t))))
+
+    def getResults(self, interval, all_games=True):
+        if all_games:
+            results = self.all_results
+        else:
+            results = self.game_results
+        t = list(time.localtime())
+        if interval == 'week':
+            t[2] -= 7
+            lt = self.norm_time(t)
+            marks = None
+            delta = 1
+            format = '%d.%m'
+        elif interval == 'month':
+            tt = t[:]
+            t[1] -= 1
+            lt = self.norm_time(t)
+            marks = [lt[:3], tt[:3]]
+            tt[2] -= 10
+            marks.append(self.norm_time(tt)[:3])
+            tt[2] -= 10
+            marks.append(self.norm_time(tt)[:3])
+            delta = 1
+            format = '%d.%m'
+        elif interval == 'year':
+            tt = t[:]
+            t[0] -= 1
+            lt = self.norm_time(t)
+            marks = [lt[:3], tt[:3]]
+            for i in xrange(5):
+                tt[1] -= 2
+                marks.append(self.norm_time(tt)[:3])
+            delta = 7
+            format = '%d.%m.%y'
+        else:                           # all
+            tt = t[:]
+            tt[1] -= 1
+            tt = self.norm_time(tt)
+            if results:
+                lt = self.norm_time(min(results.keys()))
+                lt = min(lt, tt)        # min 1 month
+            else:
+                lt = tt
+            dt = time.time()-time.mktime(lt)
+            if dt > 63072000:           # 2 years
+                d = 6
+            elif dt > 31536000:         # 1 year
+                d = 4
+            elif dt > 10512000:         # 4 month
+                d = 2
+            else:
+                d = 1
+            marks = [lt[:3], t[:3]]
+            while t > lt:
+                t[1] -= d
+                t = self.norm_time(t)
+                marks.append(t[:3])
+            delta = 7
+            format = '%d.%m.%y'
+
+        res = []
+        ct = list(time.localtime())
+        while lt <= ct:
+            ##assert type(lt) is type(ct)
+            sum = [0,0]
+            played = 0
+            won = 0
+            text = None
+            for i in xrange(delta):
+                if marks:
+                    if ct[:3] in marks:
+                        text = time.strftime(format, ct)
+                else:
+                    text = time.strftime(format, ct)
+                t = tuple(ct[:3])
+                if t in results:
+                    played += results[t][0]
+                    won += results[t][1]
+                ct[2] -= 1
+                ct = self.norm_time(ct)
+            res.append((text, played, won))
+        res.reverse()
+        ##from pprint import pprint; pprint(res)
+        return res
+

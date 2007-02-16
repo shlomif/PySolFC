@@ -49,36 +49,12 @@ from pysollib.hint import FreeCellType_Hint, FreeCellSolverWrapper
 # // Baker's Game
 # ************************************************************************/
 
-# To simplify playing we also consider the number of free rows.
-# Note that this only is legal if the game.s.rows have a
-# cap.base_rank == ANY_RANK.
-# See also the "SuperMove" section in the FreeCell FAQ.
-class BakersGame_RowStack(SS_RowStack):
-    def _getMaxMove(self, to_stack_ncards):
-        max_move = getNumberOfFreeStacks(self.game.s.reserves) + 1
-        n = getNumberOfFreeStacks(self.game.s.rows)
-        if to_stack_ncards == 0:
-            n = n - 1
-        while n > 0 and max_move < 1000:
-            max_move = max_move * 2
-            n = n - 1
-        return max_move
-
-    def canMoveCards(self, cards):
-        max_move = self._getMaxMove(1)
-        return len(cards) <= max_move and SS_RowStack.canMoveCards(self, cards)
-
-    def acceptsCards(self, from_stack, cards):
-        max_move = self._getMaxMove(len(self.cards))
-        return len(cards) <= max_move and SS_RowStack.acceptsCards(self, from_stack, cards)
-
-
 class BakersGame(Game):
     Layout_Method = Layout.freeCellLayout
     Foundation_Class = SS_FoundationStack
-    RowStack_Class = BakersGame_RowStack
-    ##Hint_Class = FreeCellType_Hint
-    Hint_Class = FreeCellSolverWrapper(FreeCellType_Hint, {'sbb' : "suit" })
+    RowStack_Class = SuperMoveSS_RowStack
+    Hint_Class = FreeCellType_Hint
+    Solver_Class = FreeCellSolverWrapper(sbb='suit')
 
     #
     # game layout
@@ -123,7 +99,7 @@ class BakersGame(Game):
 
 class KingOnlyBakersGame(BakersGame):
     RowStack_Class = StackWrapper(FreeCell_SS_RowStack, base_rank=KING)
-    Hint_Class = FreeCellSolverWrapper(FreeCellType_Hint, {'sbb' : "suit", 'esf' : "kings" })
+    Solver_Class = FreeCellSolverWrapper(sbb='suit', esf='kings')
 
 
 # /***********************************************************************
@@ -235,19 +211,22 @@ class SeahavenTowers(KingOnlyBakersGame):
 
 class RelaxedSeahavenTowers(SeahavenTowers):
     RowStack_Class = KingSS_RowStack
-    Hint_Class = FreeCellSolverWrapper(FreeCellType_Hint, {'sbb' : "suit", 'esf' : "kings", 'sm' : "unlimited",})
+    Solver_Class = FreeCellSolverWrapper(sbb='suit', esf='kings', sm='unlimited')
 
 
 # /***********************************************************************
+# // Tuxedo
 # // Penguin
 # // Opus
-# // Tuxedo
 # ************************************************************************/
 
 class Tuxedo(Game):
 
-    RowStack_Class = SS_RowStack
+    RowStack_Class = StackWrapper(SS_RowStack, mod=13)
+    ReserveStack_Class = ReserveStack
+    Foundation_Class = StackWrapper(SS_FoundationStack, mod=13, max_move=0)
     Hint_Class = FreeCellType_Hint
+    Solver_Class = FreeCellSolverWrapper(sbb='suit', sm='unlimited')
 
     def createGame(self, rows=7, reserves=7):
         # create layout
@@ -265,16 +244,16 @@ class Tuxedo(Game):
         # create stacks
         x, y = self.width - l.XS, l.YM
         for i in range(4):
-            s.foundations.append(SS_FoundationStack(x, y, self, i, mod=13, max_move=0))
+            s.foundations.append(self.Foundation_Class(x, y, self, suit=i))
             y = y + l.YS
         self.setRegion(s.foundations, (x - l.CW/2, -999, 999999, 999999))
         x, y = l.XM + (maxrows-rows)*l.XS/2, l.YM
         for i in range(rows):
-            s.rows.append(self.RowStack_Class(x, y, self, mod=13))
+            s.rows.append(self.RowStack_Class(x, y, self))
             x = x + l.XS
         x, y = l.XM + (maxrows-reserves)*l.XS/2, self.height - l.YS
         for i in range(reserves):
-            s.reserves.append(ReserveStack(x, y, self))
+            s.reserves.append(self.ReserveStack_Class(x, y, self))
             x = x + l.XS
         self.setRegion(s.reserves, (-999, y - l.CH / 2, 999999, 999999))
         s.talon = InitialDealTalonStack(l.XM+1, y, self)
@@ -294,6 +273,7 @@ class Tuxedo(Game):
 
 class Penguin(Tuxedo):
     GAME_VERSION = 2
+    Solver_Class = FreeCellSolverWrapper(sbb='suit', esf='kings', sm='unlimited')
 
     def _shuffleHook(self, cards):
         # move base cards to top of the Talon (i.e. first cards to be dealt)

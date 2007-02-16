@@ -24,7 +24,7 @@ graft html-src
 ## data - images
 ##
 #graft data/images
-recursive-include data/images *.gif *.png
+recursive-include data/images *.gif *.png *.jpg
 graft data/tiles
 include data/pysol.xbm data/pysol.xpm data/pysol.ico
 ##

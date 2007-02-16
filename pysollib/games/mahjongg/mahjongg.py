@@ -95,8 +95,8 @@ class Mahjongg_Foundation(OpenStack):
     def basicIsBlocked(self):
         return 1
 
-    def initBindings(self):
-        pass
+    #def initBindings(self):
+    #    pass
 
     def _position(self, card):
         #AbstractFoundationStack._position(self, card)
@@ -360,11 +360,13 @@ class AbstractMahjonggGame(Game):
             if self.preview:
                 # Fixme
                 dx, dy, d_x, d_y = dx/2, dy/2, d_x/2, d_y/2
+            self._delta_x, self._delta_y = dx, -dy
         else:
             dx = 3
             dy = -3
             d_x = 0
             d_y = 0
+            self._delta_x, self._delta_y = 0, 0
         #print dx, dy, d_x, d_y, cs.version
 
         font = self.app.getFont("canvas_default")
@@ -472,7 +474,7 @@ class AbstractMahjonggGame(Game):
                     y = l.YM+fdyy+j*cardh
                 else:
                     if TOOLKIT == 'tk':
-                        x = -l.XS
+                        x = -l.XS-self.canvas.xmargin
                         y = l.YM+dyy
                     elif TOOLKIT == 'gtk':
                         # FIXME
@@ -635,6 +637,10 @@ class AbstractMahjonggGame(Game):
         # Mahjongg special: highlight all moveable tiles
         return ((self.s.rows, 1),)
 
+    def _highlightCards(self, info, sleep=1.5, delta=(1,1,1,1)):
+        delta = (-self._delta_x, 0, 0, -self._delta_y)
+        Game._highlightCards(self, info, sleep=sleep, delta=delta)
+
     def getCardFaceImage(self, deck, suit, rank):
         if suit == 3:
             cs = self.app.cardset
@@ -689,6 +695,7 @@ class AbstractMahjonggGame(Game):
             if card1.rank >= 4:
                 return 7 >= card2.rank >= 4
         return card1.rank == card2.rank
+
 
 ## mahjongg util
 def comp_cardset(ncards):

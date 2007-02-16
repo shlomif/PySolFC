@@ -204,7 +204,7 @@ class Realm(Game):
         l, s = Layout(self), self.s
 
         # set window
-        w, h = l.XM+8*l.XS, l.YM+2*l.YS+15*l.YOFFSET
+        w, h = 3*l.XM+8*l.XS, l.YM+2*l.YS+15*l.YOFFSET
         self.setSize(w, h)
 
         # create stacks

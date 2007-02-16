@@ -42,6 +42,7 @@ from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 from pysollib.hint import SpiderType_Hint, YukonType_Hint
+from pysollib.hint import FreeCellSolverWrapper
 
 
 # /***********************************************************************
@@ -110,6 +111,23 @@ class Spider_RowStack(Spider_SS_RowStack):
             if s is not self and s.acceptsCards(self, cards):
                 return (s, 13)
         return (None, 0)
+
+
+class SuperMoveSpider_RowStack(SuperMoveStack_StackMethods, Spider_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not Spider_RowStack.acceptsCards(self, from_stack, cards):
+            return False
+        num_seq = self._getNumSSSeq(cards)
+        max_move = self._getMaxMove(len(self.cards))
+        return num_seq <= max_move
+    def canMoveCards(self, cards):
+        if not self.basicCanMoveCards(cards):
+            return False
+        if not isRankSequence(cards, self.cap.mod, self.cap.dir):
+            return False
+        num_seq = self._getNumSSSeq(cards)
+        max_move = self._getMaxMove(1)
+        return num_seq <= max_move
 
 
 # /***********************************************************************
@@ -282,6 +300,8 @@ class WillOTheWisp(Spiderette):
 
 class SimpleSimon(Spider):
     Talon_Class = InitialDealTalonStack
+    RowStack_Class = SuperMoveSpider_RowStack
+    Solver_Class = FreeCellSolverWrapper(preset='simple_simon', base_rank=0)
 
     def createGame(self):
         Spider.createGame(self, rows=10, texts=0)
@@ -291,6 +311,12 @@ class SimpleSimon(Spider):
             self.s.talon.dealRow(rows=self.s.rows[:i], frames=0)
         self.startDealSample()
         self.s.talon.dealRow()
+
+class SimpleSimonII(SimpleSimon):
+    Solver_Class = None
+    Foundation_Class = StackWrapper(Spider_SS_Foundation,
+                                    base_rank=ANY_RANK, mod=13)
+    RowStack_Class = StackWrapper(SuperMoveSpider_RowStack, mod=13)
 
 
 # /***********************************************************************
@@ -1370,4 +1396,6 @@ registerGame(GameInfo(685, FechtersGame, "Fechter's Game",
                       GI.GT_SPIDER, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(710, Bebop, "Bebop",
                       GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
+#registerGame(GameInfo(711, SimpleSimonII, "Simple Simon II",
+#                      GI.GT_SPIDER | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 

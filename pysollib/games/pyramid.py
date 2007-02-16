@@ -274,7 +274,7 @@ class Pyramid(Game):
 
     def startGame(self):
         self.startDealSample()
-        self.s.talon.dealRow()
+        self.s.talon.dealRow(frames=4)
         self.s.talon.dealCards()          # deal first card to WasteStack
 
     def getAutoStacks(self, event=None):
@@ -585,7 +585,7 @@ class Fifteens_RowStack(Elevens_RowStack):
     def acceptsCards(self, from_stack, cards):
         if not Elevens_RowStack.acceptsCards(self, from_stack, cards):
             return False
-        return cards[0].rank < 9 and self.cards[0] < 9
+        return cards[0].rank < 9 and self.cards[0].rank < 9
 
 
 class Fifteens_Reserve(ReserveStack):
@@ -919,7 +919,7 @@ class Apophis(Pharaohs):
 
     def startGame(self):
         self.startDealSample()
-        self.s.talon.dealRow(frames=3)
+        self.s.talon.dealRow(frames=4)
         self.s.talon.dealCards()
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
@@ -954,7 +954,7 @@ class Cheops_RowStack(Cheops_StackMethods, Pyramid_RowStack):
 
 class Cheops(Pyramid):
 
-    Foundation_Class = AbstractFoundationStack
+    Foundation_Class = StackWrapper(AbstractFoundationStack, max_accept=0)
     Talon_Class = StackWrapper(Cheops_Talon, max_rounds=1, max_accept=1)
     RowStack_Class = Cheops_RowStack
     WasteStack_Class = Cheops_Waste

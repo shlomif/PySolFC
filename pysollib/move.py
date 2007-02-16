@@ -79,26 +79,31 @@ class AMoveMove(AtomicMove):
         self.shadow = shadow
 
     # do the actual move
-    def __doMove(self, game, ncards, from_stack, to_stack):
+    def _doMove(self, game, ncards, from_stack, to_stack):
         if game.moves.state == game.S_PLAY:
             assert to_stack.acceptsCards(from_stack, from_stack.cards[-ncards:])
+        frames = self.frames
+        if frames == -2 and game.moves.state not in (game.S_UNDO, game.S_REDO):
+            # don't use animation for drag-move
+            frames = 0
         cards = from_stack.cards[-ncards:]
-        if self.frames != 0:
+        if frames != 0:
+            from_stack.unshadeStack()
             x, y = to_stack.getPositionForNextCard()
             game.animatedMoveTo(from_stack, to_stack, cards, x, y,
-                                frames=self.frames, shadow=self.shadow)
+                                frames=frames, shadow=self.shadow)
         for i in range(ncards):
             from_stack.removeCard()
         for c in cards:
             to_stack.addCard(c)
 
     def redo(self, game):
-        self.__doMove(game, self.ncards, game.allstacks[self.from_stack_id],
-                      game.allstacks[self.to_stack_id])
+        self._doMove(game, self.ncards, game.allstacks[self.from_stack_id],
+                     game.allstacks[self.to_stack_id])
 
     def undo(self, game):
-        self.__doMove(game, self.ncards, game.allstacks[self.to_stack_id],
-                      game.allstacks[self.from_stack_id])
+        self._doMove(game, self.ncards, game.allstacks[self.to_stack_id],
+                     game.allstacks[self.from_stack_id])
 
     def cmpForRedo(self, other):
         return (cmp(self.ncards, other.ncards) or
@@ -115,7 +120,26 @@ class AFlipMove(AtomicMove):
         self.stack_id = stack.id
 
     # do the actual move
-    def __doMove(self, game, stack):
+    def _doMove(self, game, stack):
+        card = stack.cards[-1]
+        ##game.animatedFlip(stack)
+        if card.face_up:
+            card.showBack()
+        else:
+            card.showFace()
+
+    def redo(self, game):
+        self._doMove(game, game.allstacks[self.stack_id])
+
+    def undo(self, game):
+        self._doMove(game, game.allstacks[self.stack_id])
+
+    def cmpForRedo(self, other):
+        return cmp(self.stack_id, other.stack_id)
+
+# flip with animation
+class ASingleFlipMove(AFlipMove):
+    def _doMove(self, game, stack):
         card = stack.cards[-1]
         game.animatedFlip(stack)
         if card.face_up:
@@ -123,14 +147,46 @@ class AFlipMove(AtomicMove):
         else:
             card.showFace()
 
+# flip and move one card
+class AFlipAndMoveMove(AtomicMove):
+
+    def __init__(self, from_stack, to_stack, frames):
+        assert from_stack is not to_stack
+        self.from_stack_id = from_stack.id
+        self.to_stack_id = to_stack.id
+        self.frames = frames
+
+    def _doMove(self, game, from_stack, to_stack):
+        if game.moves.state == game.S_PLAY:
+            assert to_stack.acceptsCards(from_stack, from_stack.cards[-1])
+        if self.frames == 0:
+            moved = True
+        else:
+            moved = game.animatedFlipAndMove(from_stack, to_stack, self.frames)
+        c = from_stack.cards[-1]
+        if c.face_up:
+            c.showBack()
+        else:
+            c.showFace()
+        if not moved:
+            cards = from_stack.cards[-1:]
+            x, y = to_stack.getPositionForNextCard()
+            game.animatedMoveTo(from_stack, to_stack, cards, x, y,
+                                frames=self.frames, shadow=0)
+        c = from_stack.removeCard()
+        to_stack.addCard(c)
+
     def redo(self, game):
-        self.__doMove(game, game.allstacks[self.stack_id])
+        self._doMove(game, game.allstacks[self.from_stack_id],
+                     game.allstacks[self.to_stack_id])
 
     def undo(self, game):
-        self.__doMove(game, game.allstacks[self.stack_id])
+        self._doMove(game, game.allstacks[self.to_stack_id],
+                     game.allstacks[self.from_stack_id])
 
     def cmpForRedo(self, other):
-        return cmp(self.stack_id, other.stack_id)
+        return (cmp(self.from_stack_id, other.from_stack_id) or
+                cmp(self.to_stack_id, other.to_stack_id))
 
 
 # /***********************************************************************
@@ -246,7 +302,7 @@ class NEW_ATurnStackMove(AtomicMove):
         self.update_flags = update_flags
 
     # do the actual turning move
-    def __doMove(self, from_stack, to_stack, show_face):
+    def _doMove(self, from_stack, to_stack, show_face):
         assert len(from_stack.cards) > 0
         assert len(to_stack.cards) == 0
         for card in from_stack.cards:
@@ -272,7 +328,7 @@ class NEW_ATurnStackMove(AtomicMove):
             assert to_stack is game.s.talon
             assert to_stack.round < to_stack.max_rounds or to_stack.max_rounds < 0
             to_stack.round = to_stack.round + 1
-        self.__doMove(from_stack, to_stack, 0)
+        self._doMove(from_stack, to_stack, 0)
 
     def undo(self, game):
         from_stack = game.allstacks[self.from_stack_id]
@@ -281,7 +337,7 @@ class NEW_ATurnStackMove(AtomicMove):
             assert to_stack is game.s.talon
             assert to_stack.round > 1
             to_stack.round = to_stack.round - 1
-        self.__doMove(to_stack, from_stack, 1)
+        self._doMove(to_stack, from_stack, 1)
 
     def cmpForRedo(self, other):
         return (cmp(self.from_stack_id, other.from_stack_id) or
@@ -300,7 +356,7 @@ class AUpdateStackMove(AtomicMove):
         self.flags = flags
 
     # do the actual move
-    def __doMove(self, game, stack, undo):
+    def _doMove(self, game, stack, undo):
         if self.flags & 64:
             # model
             stack.updateModel(undo, self.flags)
@@ -313,11 +369,11 @@ class AUpdateStackMove(AtomicMove):
 
     def redo(self, game):
         if (self.flags & 3) in (1, 3):
-            self.__doMove(game, game.allstacks[self.stack_id], 0)
+            self._doMove(game, game.allstacks[self.stack_id], 0)
 
     def undo(self, game):
         if (self.flags & 3) in (2, 3):
-            self.__doMove(game, game.allstacks[self.stack_id], 1)
+            self._doMove(game, game.allstacks[self.stack_id], 1)
 
     def cmpForRedo(self, other):
         return cmp(self.stack_id, other.stack_id) or cmp(self.flags, other.flags)

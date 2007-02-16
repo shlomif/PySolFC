@@ -368,7 +368,7 @@ class SeniorWrangler_Talon(DealRowTalonStack):
         r = self.game.s.rows[self.round-1]
         if not r.cards:
             self.game.nextRoundMove(self)
-            return
+            return 1
         if sound:
             self.game.startDealSample()
         old_state = self.game.enterState(self.game.S_DEAL)

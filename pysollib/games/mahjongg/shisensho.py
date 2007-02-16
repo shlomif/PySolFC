@@ -254,13 +254,14 @@ class Shisen_RowStack(Mahjongg_RowStack):
             cardw = images.CARDW
             cardh = images.CARDH
         coords = []
+        dx, dy = game._delta_x, game._delta_y
         for x, y in path:
             if x == 0:
                 coords.append(6)
             elif x == game.L[0]+1:
-                coords.append(x0+cardw*(x-1)+10)
+                coords.append(x0+cardw*(x-1)+10+dx)
             else:
-                coords.append(x0+cardw/2+cardw*(x-1))
+                coords.append(x0+cardw/2+cardw*(x-1)+dx)
             if y == 0:
                 coords.append(6)
             elif y == game.L[1]+1:
@@ -308,11 +309,13 @@ class AbstractShisenGame(AbstractMahjonggGame):
             dy = -l.YOFFSET
             d_x = cs.SHADOW_XOFFSET
             d_y = cs.SHADOW_YOFFSET
+            self._delta_x, self._delta_y = dx, -dy
         else:
             dx = 3
             dy = -3
             d_x = 0
             d_y = 0
+            self._delta_x, self._delta_y = 0, 0
 
         font = self.app.getFont("canvas_default")
 
@@ -358,10 +361,9 @@ class AbstractShisenGame(AbstractMahjonggGame):
         self.texts.info = MfxCanvasText(self.canvas,
                                         self.width - l.XM - ti_width, y,
                                         anchor="nw", font=font)
-        x = self.width + l.XS
-        y = self.height - l.YS - dxx
         # the Talon is invisble
-        s.talon = InitialDealTalonStack(x, y + l.YS, self)
+        s.talon = InitialDealTalonStack(-l.XS-self.canvas.xmargin,
+                                        self.height-dyy, self)
 
         # Define stack groups
         l.defaultStackGroups()

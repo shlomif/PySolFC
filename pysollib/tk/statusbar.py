@@ -116,8 +116,11 @@ class MfxStatusbar:
     def updateText(self, **kw):
         for k, v in kw.items():
             label = getattr(self, k + "_label")
-            #label["text"] = str(v)
-            label["text"] = unicode(v)
+            text = unicode(v)
+            width = label['width']
+            if width and len(text) > width:
+                label['width'] = len(text)
+            label["text"] = text
 
     def configLabel(self, name, **kw):
         label = getattr(self, name + "_label")

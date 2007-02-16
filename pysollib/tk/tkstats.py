@@ -38,7 +38,9 @@ __all__ = ['SingleGame_StatsDialog',
            'FullLog_StatsDialog',
            'SessionLog_StatsDialog',
            'Status_StatsDialog',
-           'Top_StatsDialog']
+           'Top_StatsDialog',
+           'ProgressionDialog',
+           ]
 
 # imports
 import os, string, sys, types
@@ -49,7 +51,7 @@ import Tkinter, tkFont
 from pysollib.mfxutil import destruct, Struct, kwdefault, KwStruct
 from pysollib.mfxutil import format_time
 ##from pysollib.util import *
-from pysollib.stats import PysolStatsFormatter
+from pysollib.stats import PysolStatsFormatter, ProgressionFormatter
 from pysollib.settings import TOP_TITLE
 
 # Toolkit imports
@@ -720,7 +722,7 @@ class Top_StatsDialog(MfxDialog):
         self.createBitmaps(top_frame, kw)
 
         frame = Tkinter.Frame(top_frame)
-        frame.pack(expand=Tkinter.YES, fill=Tkinter.BOTH, padx=5, pady=10)
+        frame.pack(expand=Tkinter.YES, fill=Tkinter.BOTH, padx=10, pady=10)
         frame.columnconfigure(0, weight=1)
 
         if (player in app.stats.games_stats and
@@ -797,3 +799,266 @@ class Top_StatsDialog(MfxDialog):
                       separatorwidth=2,
                       )
         return MfxDialog.initKw(self, kw)
+
+
+# /***********************************************************************
+# //
+# ************************************************************************/
+
+class ProgressionDialog(MfxDialog):
+    def __init__(self, parent, title, app, player, gameid, **kw):
+
+        font_name = app.getFont('default')
+        font = tkFont.Font(parent, font_name)
+        tkfont = tkFont.Font(parent, font)
+        font_metrics = font.metrics()
+        measure = tkfont.measure
+        self.text_height = font_metrics['linespace']
+        self.text_width = measure('XX.XX.XX')
+
+        self.items = []
+        self.formatter = ProgressionFormatter(app, player, gameid)
+
+        kw = self.initKw(kw)
+        MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
+        top_frame, bottom_frame = self.createFrames(kw)
+        self.createBitmaps(top_frame, kw)
+
+        frame = Tkinter.Frame(top_frame)
+        frame.pack(expand=True, fill='both', padx=5, pady=10)
+        frame.columnconfigure(0, weight=1)
+
+        # constants
+        self.canvas_width, self.canvas_height = 600, 250
+        if parent.winfo_screenwidth() < 800 or \
+               parent.winfo_screenheight() < 600:
+            self.canvas_width, self.canvas_height = 400, 200
+        self.xmargin, self.ymargin = 10, 10
+        self.graph_dx, self.graph_dy = 10, 10
+        self.played_color = '#ff7ee9'
+        self.won_color = '#00dc28'
+        self.percent_color = 'blue'
+        # create canvas
+        self.canvas = canvas = Tkinter.Canvas(frame, bg='#dfe8ff',
+                                              highlightthickness=1,
+                                              highlightbackground='black',
+                                              width=self.canvas_width,
+                                              height=self.canvas_height)
+        canvas.pack(side='left', padx=5)
+        #
+        dir = os.path.join('images', 'stats')
+        try:
+            fn = app.dataloader.findImage('progression', dir)
+            self.bg_image = loadImage(fn)
+            canvas.create_image(0, 0, image=self.bg_image, anchor='nw')
+        except:
+            pass
+        #
+        tw = max(measure(_('Games/day')),
+                 measure(_('Games/week')),
+                 measure(_('% won')))
+        self.left_margin = self.xmargin+tw/2
+        self.right_margin = self.xmargin+tw/2
+        self.top_margin = 15+self.text_height
+        self.bottom_margin = 15+self.text_height+10+self.text_height
+        #
+        x0, y0 = self.left_margin, self.canvas_height-self.bottom_margin
+        x1, y1 = self.canvas_width-self.right_margin, self.top_margin
+        canvas.create_rectangle(x0, y0, x1, y1, fill='white')
+        # horizontal axis
+        canvas.create_line(x0, y0, x1, y0, width=3)
+
+        # left vertical axis
+        canvas.create_line(x0, y0, x0, y1, width=3)
+        t = _('Games/day')
+        self.games_text_id = canvas.create_text(x0-4, y1-4, anchor='s', text=t)
+
+        # right vertical axis
+        canvas.create_line(x1, y0, x1, y1, width=3)
+        canvas.create_text(x1+4, y1-4, anchor='s', text=_('% won'))
+
+        # caption
+        d = self.text_height
+        x, y = self.xmargin, self.canvas_height-self.ymargin
+        id = canvas.create_rectangle(x, y, x+d, y-d, outline='black',
+                                     fill=self.played_color)
+        x += d+5
+        canvas.create_text(x, y, anchor='sw', text=_('Played'))
+        x += measure(_('Played'))+20
+        id = canvas.create_rectangle(x, y, x+d, y-d, outline='black',
+                                     fill=self.won_color)
+        x += d+5
+        canvas.create_text(x, y, anchor='sw', text=_('Won'))
+        x += measure(_('Won'))+20
+        id = canvas.create_rectangle(x, y, x+d, y-d, outline='black',
+                                     fill=self.percent_color)
+        x += d+5
+        canvas.create_text(x, y, anchor='sw', text=_('% won'))
+
+        # right frame
+        right_frame = Tkinter.Frame(frame)
+        right_frame.pack(side='left', fill='x', padx=5)
+        self.all_games_variable = var = Tkinter.StringVar()
+        var.set('all')
+        b = Tkinter.Radiobutton(right_frame, text=_('All games'),
+                                variable=var, value='all',
+                                command=self.updateGraph,
+                                justify='left', anchor='w'
+                                )
+        b.pack(fill='x', expand=True, padx=3, pady=1)
+        b = Tkinter.Radiobutton(right_frame, text=_('Current game'),
+                                variable=var, value='current',
+                                command=self.updateGraph,
+                                justify='left', anchor='w'
+                                )
+        b.pack(fill='x', expand=True, padx=3, pady=1)
+        if Tkinter.TkVersion >= 8.4:
+            label_frame = Tkinter.LabelFrame(right_frame, text=_('Statistics for'))
+        else:
+            label_frame = Tkinter.Frame(right_frame)
+        label_frame.pack(side='top', fill='x', pady=10)
+        self.variable = var = Tkinter.StringVar()
+        var.set('week')
+        for v, t in (
+            ('week',  _('Last 7 days')),
+            ('month', _('Last month')),
+            ('year',  _('Last year')),
+            ('all',   _('All time')),
+            ):
+            b = Tkinter.Radiobutton(label_frame, text=t, variable=var, value=v,
+                                    command=self.updateGraph,
+                                    justify='left', anchor='w'
+                                    )
+            b.pack(fill='x', expand=True, padx=3, pady=1)
+        if Tkinter.TkVersion >= 8.4:
+            label_frame = Tkinter.LabelFrame(right_frame, text=_('Show graphs'))
+        else:
+            label_frame = Tkinter.Frame(right_frame)
+        label_frame.pack(side='top', fill='x')
+        self.played_graph_var = Tkinter.BooleanVar()
+        self.played_graph_var.set(True)
+        b = Tkinter.Checkbutton(label_frame, text=_('Played'),
+                                command=self.updateGraph,
+                                variable=self.played_graph_var,
+                                justify='left', anchor='w'
+                                )
+        b.pack(fill='x', expand=True, padx=3, pady=1)
+        self.won_graph_var = Tkinter.BooleanVar()
+        self.won_graph_var.set(True)
+        b = Tkinter.Checkbutton(label_frame, text=_('Won'),
+                                command=self.updateGraph,
+                                variable=self.won_graph_var,
+                                justify='left', anchor='w'
+                                )
+        b.pack(fill='x', expand=True, padx=3, pady=1)
+        self.percent_graph_var = Tkinter.BooleanVar()
+        self.percent_graph_var.set(True)
+        b = Tkinter.Checkbutton(label_frame, text=_('% won'),
+                                command=self.updateGraph,
+                                variable=self.percent_graph_var,
+                                justify='left', anchor='w'
+                                )
+        b.pack(fill='x', expand=True, padx=3, pady=1)
+
+        self.updateGraph()
+
+        focus = self.createButtons(bottom_frame, kw)
+        self.mainloop(focus, kw.timeout)
+
+
+    def initKw(self, kw):
+        kw = KwStruct(kw, strings=(_('&OK'),), default=0, separatorwidth=2)
+        return MfxDialog.initKw(self, kw)
+
+
+    def updateGraph(self, *args):
+        interval = self.variable.get()
+        canvas = self.canvas
+        if self.items:
+            canvas.delete(*self.items)
+        self.items = []
+
+        all_games = (self.all_games_variable.get() == 'all')
+        result = self.formatter.getResults(interval, all_games)
+
+        if interval in ('week', 'month'):
+            t = _('Games/day')
+        else:
+            t = _('Games/week')
+        canvas.itemconfig(self.games_text_id, text=t)
+
+        graph_width = self.canvas_width-self.left_margin-self.right_margin
+        graph_height = self.canvas_height-self.top_margin-self.bottom_margin
+        dx = (graph_width-2*self.graph_dx)/(len(result)-1)
+        graph_dx = (graph_width-(len(result)-1)*dx)/2
+        dy = (graph_height-self.graph_dy)/5
+        x0, y0 = self.left_margin, self.canvas_height-self.bottom_margin
+        x1, y1 = self.canvas_width-self.right_margin, self.top_margin
+        td = self.text_height/2
+
+        # vertical scale
+        x = x0+graph_dx
+        xx = -100
+        for res in result:
+            if res[0] is not None and x > xx+self.text_width+4:
+                ##id = canvas.create_line(x, y0, x, y0-5, width=3)
+                ##self.items.append(id)
+                id = canvas.create_line(x, y0, x, y1, stipple='gray50')
+                self.items.append(id)
+                id = canvas.create_text(x, y0+td, anchor='n', text=res[0])
+                self.items.append(id)
+                xx = x
+            else:
+                id = canvas.create_line(x, y0, x, y0-3, width=1)
+                self.items.append(id)
+            x += dx
+
+        # horizontal scale
+        max_games = max([i[1] for i in result])
+        games_delta = max_games/5+1
+        percent = 0
+        games = 0
+        for y in range(y0, y1, -dy):
+            if y != y0:
+                id = canvas.create_line(x0, y, x1, y, stipple='gray50')
+                self.items.append(id)
+            id = canvas.create_text(x0-td, y, anchor='e', text=str(games))
+            self.items.append(id)
+            id = canvas.create_text(x1+td, y, anchor='w', text=str(percent))
+            self.items.append(id)
+            games += games_delta
+            percent += 20
+
+        # draw result
+        games_resolution = float(dy)/games_delta
+        percent_resolution = float(dy)/20
+        played_coords = []
+        won_coords = []
+        percent_coords = []
+        x = x0+graph_dx
+        for res in result:
+            played, won = res[1], res[2]
+            y = y0 - int(games_resolution*played)
+            played_coords += [x,y]
+            y = y0 - int(games_resolution*won)
+            won_coords += [x,y]
+            if played > 0:
+                percent = int(100.*won/played)
+            else:
+                percent = 0
+            y = y0 - int(percent_resolution*percent)
+            percent_coords += [x,y]
+            x += dx
+        if self.played_graph_var.get():
+            id = canvas.create_line(fill=self.played_color, width=3,
+                                    *played_coords)
+            self.items.append(id)
+        if self.won_graph_var.get():
+            id = canvas.create_line(fill=self.won_color, width=3,
+                                    *won_coords)
+            self.items.append(id)
+        if self.percent_graph_var.get():
+            id = canvas.create_line(fill=self.percent_color, width=3,
+                                    *percent_coords)
+            self.items.append(id)
+

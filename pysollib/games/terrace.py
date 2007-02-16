@@ -365,9 +365,9 @@ class BastilleDay_BastilleStack(Stack):
         old_state = self.game.enterState(self.game.S_DEAL)
         if sound and not self.game.demo:
             self.game.playSample("dealwaste")
-        self.flipMove()
-        self.moveMove(1, self.game.s.reserves[-1], frames=4, shadow=0)
+        self.game.flipAndMoveMove(self, self.game.s.reserves[-1])
         self.game.leaveState(old_state)
+        self.game.finishMove()
         return 1
 
     def getHelp(self):
@@ -432,7 +432,7 @@ class BastilleDay(Game):
         if self.demo:
             r = self.s.reserves[0]
             if r.canDealCards():
-                self.demo.last_deal = [] # don't check last deal
+                ##self.demo.last_deal = [] # don't check last deal
                 return r.dealCards(sound=sound)
         return Game.dealCards(self, sound=sound)
 

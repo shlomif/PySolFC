@@ -37,6 +37,7 @@
 # imports
 import time
 import math
+import md5
 from cStringIO import StringIO
 
 # PySol imports
@@ -57,7 +58,9 @@ from pysoltk import after, after_idle, after_cancel
 from pysoltk import MfxMessageDialog, MfxExceptionDialog
 from pysoltk import MfxCanvasText, MfxCanvasLine, MfxCanvasRectangle
 from pysoltk import Card
-from move import AMoveMove, AFlipMove, ATurnStackMove
+from pysoltk import reset_solver_dialog
+from move import AMoveMove, AFlipMove, AFlipAndMoveMove
+from move import ASingleFlipMove, ATurnStackMove
 from move import ANextRoundMove, ASaveSeedMove, AShuffleStackMove
 from move import AUpdateStackMove, AFlipAllMove, ASaveStateMove
 from move import ASingleCardMove
@@ -114,6 +117,8 @@ class Game:
         self.cards = []
         self.stackmap = {}              # dict with (x,y) tuples as key
         self.allstacks = []
+        self.sn_groups = []  # snapshot groups; list of list of similar stacks
+        self.snapshots = []
         self.stackdesc_list = []
         self.demo_logo = None
         self.pause_logo = None
@@ -160,6 +165,7 @@ class Game:
         # set some defaults
         self.sg.openstacks = filter(lambda s: s.cap.max_accept >= s.cap.min_accept, self.sg.openstacks)
         self.sg.hp_stacks = filter(lambda s: s.cap.max_move >= 2, self.sg.dropstacks)
+        self.createSnGroups()
         # convert stackgroups to tuples (speed)
         self.allstacks = tuple(self.allstacks)
         self.s.foundations = tuple(self.s.foundations)
@@ -193,15 +199,15 @@ class Game:
         # update display properties
         self.top.wm_geometry("")        # cancel user-specified geometry
         self.canvas.setInitialSize(self.width, self.height)
+        if self.app.opt.save_games_geometry and \
+               self.id in self.app.opt.games_geometry:
+            # restore game geometry
+            w, h = self.app.opt.games_geometry[self.id]
+            self.canvas.config(width=w, height=h)
         self.top.update_idletasks()     # apply geometry now
         if DEBUG >= 4:
             MfxCanvasRectangle(self.canvas, 0, 0, self.width, self.height,
                                width=2, fill=None, outline='green')
-        # restore game geometry
-        if self.app.opt.save_games_geometry:
-            w, h = self.app.opt.games_geometry.get(self.id, (0, 0))
-            w, h = max(w, self.width), max(h, self.height)
-            self.canvas.config(width=w, height=h)
         #
         self.stats.update_time = time.time()
         self.busy = old_busy
@@ -253,10 +259,9 @@ class Game:
         bind(self.canvas, "<2>", self.clickHandler)
         ##bind(self.canvas, "<3>", self.clickHandler)
         ##bind(self.canvas, "<Double-1>", self.undoHandler)
-        ##bind(self.canvas, "<Double-1>", self.undoHandler)
         bind(self.canvas, "<1>", self.undoHandler)
         bind(self.canvas, "<3>", self.redoHandler)
-        bind(self.top, '<Unmap>', self._unmapHandler)
+        bind(self.canvas, '<Unmap>', self._unmapHandler)
 
     def __createCommon(self, app):
         self.busy = 1
@@ -324,6 +329,7 @@ class Game:
     def reset(self, restart=0):
         self.filename = ""
         self.demo = None
+        self.solver = None
         self.hints = Struct(
             list = None,                # list of hints for the current move
             index = -1,
@@ -337,6 +343,7 @@ class Game:
             talon_round = 1,
             ncards = 0,
         )
+        self.snapshots = []
         # local statistics are reset on each game restart
         self.stats = Struct(
             hints = 0,                  # number of hints consumed
@@ -434,6 +441,7 @@ class Game:
                           gamenumber=self.getGameNumber(format=1),
                           moves=(0, 0),
                           stats=self.app.stats.getStats(self.app.opt.player, self.id))
+        reset_solver_dialog()
         # unhide toplevel when we use a progress bar
         if not self.preview:
             wm_map(self.top, maximized=self.app.opt.wm_maximized)
@@ -458,6 +466,7 @@ class Game:
         self.startMoves()
         for stack in self.allstacks:
             stack.updateText()
+        self.updateSnapshots()
         self.updateText()
         self.updateStatus(moves=(0, 0))
         self.updateMenus()
@@ -490,6 +499,7 @@ class Game:
         self.gsaveinfo = game.gsaveinfo
         self.s.talon.round = game.loadinfo.talon_round
         self.finished = game.finished
+        self.snapshots = game.snapshots
         # 3) move cards to stacks
         assert len(self.allstacks) == len(game.loadinfo.stacks)
         for i in range(len(self.allstacks)):
@@ -643,6 +653,49 @@ class Game:
 
     def leaveState(self, old_state):
         self.moves.state = old_state
+
+    def getSnapshot(self, hex=False):
+        # generate hash (unique string) of current move
+        sn = []
+        for stack in self.allstacks:
+            s = []
+            for card in stack.cards:
+                s.append('%d%03d%d' % (card.suit, card.rank, card.face_up))
+            sn.append(''.join(s))
+        sn = '-'.join(sn)
+        # make more short string
+        if hex:
+            sn = md5.new(sn).hexdigest()
+        else:
+            sn = md5.new(sn).digest()
+        return sn
+
+    def createSnGroups(self):
+        # group stacks by class and cap
+        sg = {}
+        for s in self.allstacks:
+            for k in sg:
+                if s.__class__ is k.__class__ and \
+                       s.cap.__dict__ == k.cap.__dict__:
+                    g = sg[k]
+                    g.append(s.id)
+                    break
+            else:
+                # new group
+                sg[s] = [s.id]
+        sg = sg.values()
+        self.sn_groups = sg
+        ##print sg
+
+
+    def updateSnapshots(self):
+        sn = self.getSnapshot()
+        if sn in self.snapshots:
+            ##self.updateStatus(snapshot=True)
+            pass
+        else:
+            self.snapshots.append(sn)
+            ##self.updateStatus(snapshot=False)
 
 
     #
@@ -810,8 +863,11 @@ class Game:
         if self.demo:
             self.stopDemo()
             return
-        if self.app.opt.mouse_undo and not self.event_handled:
-            self.app.menubar.mUndo()
+        if not self.event_handled:
+            if self.drag.stack:
+                self.drag.stack.cancelDrag(event)
+            elif self.app.opt.mouse_undo:
+                self.app.menubar.mUndo()
         self.event_handled = False
         return EVENT_PROPAGATE
 
@@ -823,8 +879,11 @@ class Game:
         if self.demo:
             self.stopDemo()
             return
-        if self.app.opt.mouse_undo and not self.event_handled:
-            self.app.menubar.mRedo()
+        if not self.event_handled:
+            if self.drag.stack:
+                self.drag.stack.cancelDrag(event)
+            elif self.app.opt.mouse_undo:
+                self.app.menubar.mRedo()
         self.event_handled = False
         return EVENT_PROPAGATE
 
@@ -895,7 +954,7 @@ class Game:
 
     def _unmapHandler(self, event):
         # pause game if root window has been iconified
-        if event.widget is self.top and not self.pause:
+        if self.app and not self.pause:
             self.app.menubar.mPause()
 
 
@@ -925,11 +984,11 @@ class Game:
         if a and not self.preview:
             self.canvas.update_idletasks()
         if self.app.audio and self.app.opt.sound and self.app.opt.sound_samples['deal']:
-            if a in (1, 2, 5):
+            if a in (1, 2, 3, 10):
                 self.playSample("deal01", priority=100, loop=loop)
-            elif a == 3:
-                self.playSample("deal04", priority=100, loop=loop)
             elif a == 4:
+                self.playSample("deal04", priority=100, loop=loop)
+            elif a == 5:
                 self.playSample("deal08", priority=100, loop=loop)
 
 
@@ -960,7 +1019,16 @@ class Game:
                              bitmap="error")
 
     # main animation method
-    def animatedMoveTo(self, from_stack, to_stack, cards, x, y, tkraise=1, frames=-1, shadow=-1):
+    def animatedMoveTo(self, from_stack, to_stack, cards, x, y,
+                       tkraise=1, frames=-1, shadow=-1):
+        # available values of app.opt.animations:
+        #  0 - without animations
+        #  1 - very fast (without timer)
+        #  2 - fast (default)
+        #  3 - medium (2/3 of fast speed)
+        #  4 - slow (1/4 of fast speed)
+        #  5 - very slow (1/8 of fast speed)
+        #  10 - used internally in game preview
         if self.app.opt.animations == 0 or frames == 0:
             return
         # init timer - need a high resolution for this to work
@@ -971,13 +1039,16 @@ class Game:
         if frames < 0:
             frames = 8
         assert frames >= 2
-        if self.app.opt.animations == 3:        # slow
+        if self.app.opt.animations == 3:        # medium
+            frames = frames * 3
+            SPF = SPF / 2
+        elif self.app.opt.animations == 4:      # slow
             frames = frames * 8
             SPF = SPF / 2
-        elif self.app.opt.animations == 4:      # very slow
+        elif self.app.opt.animations == 5:      # very slow
             frames = frames * 16
             SPF = SPF / 2
-        elif self.app.opt.animations == 5:
+        elif self.app.opt.animations == 10:
             # this is used internally in game preview to speed up
             # the initial dealing
             if self.moves.state == self.S_INIT and frames > 4:
@@ -986,7 +1057,6 @@ class Game:
             shadow = self.app.opt.shadow
         shadows = ()
         # start animation
-        from_stack._unshadeStack()
         if tkraise:
             for card in cards:
                 card.tkraise()
@@ -1030,21 +1100,19 @@ class Game:
             card.moveBy(dx, dy)
         self.canvas.update_idletasks()
 
-    def animatedFlip(self, stack):
-        return False
-        if self.app.opt.animations == 0:
+
+    def doAnimatedFlipAndMove(self, from_stack, to_stack=None, frames=-1):
+        if self.app.opt.animations == 0 or frames == 0:
+            return False
+        if not from_stack.cards:
             return False
         if TOOLKIT == 'gtk':
             return False
-        if not stack.cards:
-            return False
         if not Image:
             return False
-        if self.moves.state == self.S_INIT:
-            # don't use flip animation for initial dealing
-            return False
+
         canvas = self.canvas
-        card = stack.cards[-1]
+        card = from_stack.cards[-1]
         im1 = card._active_image._pil_image
         if card.face_up:
             im2 = card._back_image._pil_image
@@ -1053,51 +1121,134 @@ class Game:
         w, h = im1.size
         id = card.item.id
         #
-        delay = 10
-        frames = 3.0                    # num frames for each step
-        if self.app.opt.animations == 3:        # slow
-            delay = 10
+        SPF = 0.1/8                     # animation speed - seconds per frame
+        frames = 4.0                    # num frames for each step
+        if self.app.opt.animations == 3: # medium
+            SPF = 0.1/8
             frames = 7.0
-        elif self.app.opt.animations == 4:      # very slow
-            delay = 10
+        elif self.app.opt.animations == 4: # slow
+            SPF = 0.1/8
             frames = 12.0
-        delta = 2*int(w/frames/2)       # should be even for save position
-        ddx, ddy = 0, self.app.images.SHADOW_YOFFSET/2 # ascent of the card
-        # siep 1
-        ww = w
-        dx = delta/2
-        canvas.move(id, -ddx, -ddy)
-        canvas.update_idletasks()
-        canvas.after(delay)
-        while True:
-            if ww-delta <= 0:
-                break
-            ww -= delta
-            tmp = im1.resize((ww, h))
+        elif self.app.opt.animations == 5: # very slow
+            SPF = 0.1/8
+            frames = 24.0
+
+        if to_stack is None:
+            x0, y0 = from_stack.getPositionFor(card)
+            x1, y1 = x0, y0
+            dest_x, dest_y = 0, 0
+        else:
+            x0, y0 = from_stack.getPositionFor(card)
+            x1, y1 = to_stack.getPositionForNextCard()
+            dest_x, dest_y = x1-x0, y1-y0
+
+        if dest_x == 0 and dest_y == 0:
+            # flip
+            #ascent_dx, ascent_dy = 0, self.app.images.SHADOW_YOFFSET/frames
+            ascent_dx, ascent_dy = 0, h/10.0/frames
+            min_size = w/10
+            shrink_dx = (w-min_size) / (frames-1)
+            shrink_dy = 0
+        elif dest_y == 0:
+            # move to left/right waste
+            #ascent_dx, ascent_dy = 0, self.app.images.SHADOW_YOFFSET/frames
+            ascent_dx, ascent_dy = 0, h/10.0/frames
+            min_size = w/10
+            shrink_dx = (w-min_size) / (frames-1)
+            shrink_dy = 0
+        elif dest_x == 0:
+            # move to top/bottom waste
+            return False
+            ascent_dx, ascent_dy = 0, 0
+##             min_size = h/10
+##             shrink_dx = 0
+##             shrink_dy = (h-min_size) / (frames-1)
+            min_size = w/10
+            shrink_dx = (w-min_size) / (frames-1)
+            shrink_dy = 0
+
+        else:
+            # dest_x != 0 and dest_y != 0
+            return False
+
+        move_dx = dest_x / frames / 2
+        move_dy = dest_y / frames / 2
+        xpos, ypos = float(x0), float(y0)
+
+        card.tkraise()
+
+        # step 1
+        d_x = shrink_dx/2+move_dx-ascent_dx
+        d_y = shrink_dy/2+move_dy-ascent_dy
+        nframe = 0
+        while nframe < frames:
+            starttime = uclock()
+            # resize img
+            ww = w - nframe*shrink_dx
+            hh = h - nframe*shrink_dy
+            tmp = im1.resize((int(ww), int(hh)))
             tk_tmp = ImageTk.PhotoImage(image=tmp)
             canvas.itemconfig(id, image=tk_tmp)
-            canvas.move(id, dx, 0)
+            # move img
+            xpos += d_x
+            ypos += d_y
+            card.moveTo(int(round(xpos)), int(round(ypos)))
             canvas.update_idletasks()
-            canvas.after(delay)
-        dx = -dx
+
+            nframe += 1
+            t = (SPF-(uclock()-starttime))*1000 # milliseconds
+            if t > 0:
+                usleep(t/1000)
+##             else:
+##                 nframe += 1
+##                 xpos += d_x
+##                 ypos += d_y
+
         # step 2
-        while True:
-            tmp = im2.resize((ww, h))
+        d_x = -shrink_dx/2+move_dx+ascent_dx
+        d_y = -shrink_dy/2+move_dy+ascent_dy
+        nframe = 0
+        while nframe < frames:
+            starttime = uclock()
+            # resize img
+            ww = w - (frames-nframe-1)*shrink_dx
+            hh = h - (frames-nframe-1)*shrink_dy
+            tmp = im2.resize((int(ww), int(hh)))
             tk_tmp = ImageTk.PhotoImage(image=tmp)
             canvas.itemconfig(id, image=tk_tmp)
-            canvas.move(id, dx, 0)
+            # move img
+            xpos += d_x
+            ypos += d_y
+            card.moveTo(int(round(xpos)), int(round(ypos)))
             canvas.update_idletasks()
-            canvas.after(delay)
-            ww += delta
-            if ww >= w:
-                break
-        canvas.move(id, ddx, ddy)
+
+            nframe += 1
+            t = (SPF-(uclock()-starttime))*1000 # milliseconds
+            if t > 0:
+                usleep(t/1000)
+##             else:
+##                 nframe += 1
+##                 xpos += d_x
+##                 ypos += d_y
+
+        card.moveTo(x1, y1)
+        #canvas.update_idletasks()
         return True
 
-    def doWinAnimation(self):
+    def animatedFlip(self, stack):
+        ##return False
+        return self.doAnimatedFlipAndMove(stack)
+
+    def animatedFlipAndMove(self, from_stack, to_stack, frames=-1):
+        ##return False
+        return self.doAnimatedFlipAndMove(from_stack, to_stack, frames)
+
+
+    def winAnimationEvent(self):
         # based on code from pygtk-demo
-        FRAME_DELAY = 40
+        FRAME_DELAY = 80
         CYCLE_LEN = 60
+        starttime = uclock()
         images = self.win_animation.images
         saved_images = self.win_animation.saved_images # cached images
         canvas = self.canvas
@@ -1107,6 +1258,10 @@ class Game:
         x0 = int(int(canvas.cget('width'))*(canvas.xview()[0]))
         y0 = int(int(canvas.cget('height'))*(canvas.yview()[0]))
         width, height = self.win_animation.width, self.win_animation.height
+        cw = self.canvas.winfo_width()
+        ch = self.canvas.winfo_height()
+        x0 -= (width-cw)/2
+        y0 -= (height-ch)/2
 
         tmp_tk_images = []
         raised_images = []
@@ -1143,7 +1298,7 @@ class Game:
                 if round_k == 100:
                     tmp = im
                 else:
-                    tmp = im.resize(new_size, resample=Image.BICUBIC)
+                    tmp = im.resize(new_size, resample=Image.BILINEAR)
                 tk_tmp = ImageTk.PhotoImage(image=tmp)
                 saved_images[img_index][round_k] = tk_tmp
 
@@ -1161,7 +1316,11 @@ class Game:
         self.win_animation.tk_images = tmp_tk_images
         canvas.update_idletasks()
         # loop
-        self.win_animation.timer = after(canvas, FRAME_DELAY, self.doWinAnimation)
+        t = FRAME_DELAY-int((uclock()-starttime)*1000)
+        if t > 0:
+            self.win_animation.timer = after(canvas, t, self.winAnimationEvent)
+        else:
+            self.win_animation.timer = after_idle(canvas, self.winAnimationEvent)
 
     def stopWinAnimation(self):
         if self.win_animation.timer:
@@ -1178,8 +1337,8 @@ class Game:
     def winAnimation(self, perfect=0):
         if self.preview:
             return
-        if not self.app.opt.animations:
-            return
+        #if not self.app.opt.animations:
+        #    return
         if not self.app.opt.win_animation:
             return
         if TOOLKIT == 'gtk':
@@ -1190,7 +1349,8 @@ class Game:
         # select some random cards
         cards = self.cards[:]
         scards = []
-        for i in xrange(10):
+        ncards = min(10, len(cards))
+        for i in xrange(ncards):
             c = self.app.miscrandom.choice(cards)
             scards.append(c)
             cards.remove(c)
@@ -1200,7 +1360,8 @@ class Game:
         self.win_animation.width = self.canvas.winfo_width()
         self.win_animation.height = self.canvas.winfo_height()
         # run win animation in background
-        after_idle(self.canvas, self.doWinAnimation)
+        ##after_idle(self.canvas, self.winAnimationEvent)
+        after(self.canvas, 200, self.winAnimationEvent)
         return
 
     def redealAnimation(self):
@@ -1208,14 +1369,6 @@ class Game:
             return
         if not self.app.opt.animations or not self.app.opt.redeal_animation:
             return
-        self.setCursor(cursor=CURSOR_WATCH)
-        self.top.busyUpdate()
-        self.canvas.update_idletasks()
-        old_a = self.app.opt.animations
-        if old_a == 0:
-            self.app.opt.animations = 1     # timer based
-        elif old_a == 4:                    # very slow
-            self.app.opt.animations = 3     # slow
         cards = []
         for s in self.allstacks:
             if s is not self.s.talon:
@@ -1223,6 +1376,16 @@ class Game:
                     cards.append((c,s))
         if not cards:
             return
+        self.setCursor(cursor=CURSOR_WATCH)
+        self.top.busyUpdate()
+        self.canvas.update_idletasks()
+        old_a = self.app.opt.animations
+        if old_a == 0:
+            self.app.opt.animations = 1     # very fast
+        elif old_a == 3:                    # medium
+            self.app.opt.animations = 2     # fast
+        elif old_a == 4:                    # very slow
+            self.app.opt.animations = 3     # slow
         # select some random cards
         acards = []
         scards = cards[:]
@@ -1381,6 +1544,7 @@ class Game:
 
     # the actual hint class (or None)
     Hint_Class = DefaultHint
+    Solver_Class = None
 
     def getHintClass(self):
         return self.Hint_Class
@@ -1625,7 +1789,8 @@ for %d moves.
                     if s.canFlipCard():
                         if sound:
                             self.playSample("autoflip", priority=5)
-                        s.flipMove()
+                        #~s.flipMove()
+                        s.flipMove(animation=True)
                         done_something = 1
                         # each single flip is undo-able unless opt.autofaceup
                         self.finishMove()
@@ -1661,6 +1826,13 @@ for %d moves.
             return self.dealCards(sound=sound)
         return 0
 
+    def autoDrop(self, autofaceup=-1):
+        old_a = self.app.opt.animations
+        if old_a == 3:                  # medium
+            self.app.opt.animations = 2 # fast
+        self.autoPlay(autofaceup=autofaceup, autodrop=1)
+        self.app.opt.animations = old_a
+
     ## for find_card_dialog
     def highlightCard(self, suit, rank):
         if not self.app:
@@ -1681,11 +1853,12 @@ for %d moves.
             return ((self.sg.hp_stacks, 2),)
         return ()
 
-    def _highlightCards(self, info, sleep=1.5):
+    def _highlightCards(self, info, sleep=1.5, delta=(1,1,1,1)):
         if not info:
             return 0
         if self.pause:
             return 0
+        self.stopWinAnimation()
         items = []
         for s, c1, c2, color in info:
             assert c1 in s.cards and c2 in s.cards
@@ -1741,13 +1914,15 @@ for %d moves.
                 y2 = y2 + self.app.images.CARDH
                 tkraise = True
             ##print c1, c2, x1, y1, x2, y2
+            x1, x2 = x1-delta[0], x2+delta[1]
+            y1, y2 = y1-delta[2], y2+delta[3]
             if TOOLKIT == 'tk':
-                r = MfxCanvasRectangle(self.canvas, x1-1, y1-1, x2+1, y2+1,
+                r = MfxCanvasRectangle(self.canvas, x1, y1, x2, y2,
                                        width=4, fill=None, outline=color)
                 if tkraise:
                     r.tkraise(c2.item)
             elif TOOLKIT == 'gtk':
-                r = MfxCanvasRectangle(self.canvas, x1-1, y1-1, x2+1, y2+1,
+                r = MfxCanvasRectangle(self.canvas, x1, y1, x2, y2,
                                        width=4, fill=None, outline=color,
                                        group=s.group)
                 if tkraise:
@@ -1801,7 +1976,7 @@ for %d moves.
             for s in si[0]:
                 pile = s.getPile()
                 if pile and len(pile) >= si[1]:
-                    hi.append((s, pile[0], pile[-1], col[1]))
+                    hi.append((s, pile[0], pile[-1], col))
         if not hi:
             self.highlightNotMatching()
             return 0
@@ -1855,7 +2030,7 @@ for %d moves.
         # for spider-type stacks
         if to_stack.cards:
             # check suit
-            return int(from_stack.cards[-1].suit == to_stack.cards[-1].suit)+1
+            return int(from_stack.cards[-ncards].suit == to_stack.cards[-1].suit)+1
         return 0
 
     #
@@ -1896,6 +2071,10 @@ for %d moves.
     # compute all hints for the current position
     # this is the only method that actually uses class Hint
     def getHints(self, level, taken_hint=None):
+        if level == 3:
+            #if self.solver is None:
+            #    return None
+            return self.solver.getHints(taken_hint)
         hint_class = self.getHintClass()
         if hint_class is None:
             return None
@@ -1941,10 +2120,17 @@ for %d moves.
             # a move move
             assert to_stack
             assert 1 <= ncards <= len(from_stack.cards)
+            if DEBUG:
+                if not to_stack.acceptsCards(
+                    from_stack, from_stack.cards[-ncards:]):
+                    print '*fail accepts cards*', from_stack, to_stack, ncards
+                if not from_stack.canMoveCards(from_stack.cards[-ncards:]):
+                    print '*fail move cards*', from_stack, ncards
+            ##assert from_stack.canMoveCards(from_stack.cards[-ncards:]) # FIXME: Pyramid
             assert to_stack.acceptsCards(from_stack, from_stack.cards[-ncards:])
         if sleep <= 0.0:
             return h
-        info = (level == 1) or (level > 1 and DEBUG >= 3)
+        info = (level == 1) or (level > 1 and DEBUG)
         if info and self.app.statusbar and self.app.opt.statusbar:
             self.app.statusbar.configLabel("info", text=_("Score %6d") % (score), fg=text_color)
         else:
@@ -2000,6 +2186,7 @@ for %d moves.
             mixed = mixed,
             sleep = self.app.opt.timeouts['demo'],
             last_deal = [],
+            snapshots = [],
             hint = None,
             keypress = None,
             start_demo_moves = self.stats.demo_moves,
@@ -2036,6 +2223,8 @@ for %d moves.
         timeout = 10000
         if 1 and player_moves == 0:
             timeout = 5000
+        if self.demo and self.demo.level == 3:
+            timeout = 0
         if self.isGameWon():
             self.updateTime()
             finished = 1
@@ -2044,7 +2233,7 @@ for %d moves.
             if not self.top.winfo_ismapped():
                 status = 2
             elif player_moves == 0:
-                self.playSample("autopilotwon")
+                self.playSample("autopilotwon", priority=1000)
                 s = self.app.miscrandom.choice((_("&Great"), _("&Cool"), _("&Yeah"), _("&Wow"))) # ??? accelerators
                 d = MfxMessageDialog(self.top, title=PACKAGE+_(" Autopilot"),
                                      text=_("\nGame solved in %d moves.\n") % self.moves.index,
@@ -2067,7 +2256,7 @@ for %d moves.
                 status = 2
             else:
                 if player_moves == 0:
-                    self.playSample("autopilotlost")
+                    self.playSample("autopilotlost", priority=1000)
                 s = self.app.miscrandom.choice((_("&Oh well"), _("&That's life"), _("&Hmm"))) # ??? accelerators
                 d = MfxMessageDialog(self.top, title=PACKAGE+_(" Autopilot"),
                                      text=_("\nThis won't come out...\n"),
@@ -2076,7 +2265,7 @@ for %d moves.
                 status = d.status
         if finished:
             self.updateStats(demo=1)
-            if self.demo and status == 2:
+            if not DEBUG and self.demo and status == 2:
                 # timeout in dialog
                 if self.stats.demo_moves > self.demo.start_demo_moves:
                     # we only increase the splash-screen counter if the last
@@ -2143,29 +2332,38 @@ for %d moves.
         score, pos, ncards, from_stack, to_stack, text_color, forced_move = h
         if ncards == 0:
             # a deal-move
+            # do not let games like Klondike and Canfield deal forever
             if self.dealCards() == 0:
                 return 1
-            # do not let games like Klondike and Canfield deal forever
-            c = self.s.talon.getCard()
-            if c in demo.last_deal:
-                # We went through the whole Talon. Give up.
-                return 1
-            # Note that `None' is a valid entry in last_deal[]
-            # (this means that all cards are on the Waste).
-            demo.last_deal.append(c)
+            if 0:                       # old version, based on dealing card
+                c = self.s.talon.getCard()
+                if c in demo.last_deal:
+                    # We went through the whole Talon. Give up.
+                    return 1
+                # Note that `None' is a valid entry in last_deal[]
+                # (this means that all cards are on the Waste).
+                demo.last_deal.append(c)
+            else:                       # new version, based on snapshots
+                # check snapshot
+                sn = self.getSnapshot()
+                if sn in demo.snapshots:
+                    # not unique
+                    return 1
+                demo.snapshots.append(sn)
         elif from_stack == to_stack:
             # a flip-move
-            from_stack.flipMove()
+            from_stack.flipMove(animation=True)
             demo.last_deal = []
         else:
             # a move-move
             from_stack.moveMove(ncards, to_stack, frames=-1)
             demo.last_deal = []
-        ##print self.moves.index
         return 0
 
     def createDemoInfoText(self):
         ## TODO - the text placement is not fully ok
+        if DEBUG:
+            self.showHelp('help', self.getDemoInfoText())
         return
         if not self.demo or self.demo.info_text or self.preview:
             return
@@ -2177,13 +2375,15 @@ for %d moves.
         ]
         ta = self.getDemoInfoTextAttr(tinfo)
         if ta:
-            font = self.app.getFont("canvas_large")
+            #font = self.app.getFont("canvas_large")
+            font = self.app.getFont("default")
             self.demo.info_text = MfxCanvasText(self.canvas, ta[1], ta[2],
                                                 anchor=ta[0], font=font,
                                                 text=self.getDemoInfoText())
 
     def getDemoInfoText(self):
-        return self.gameinfo.short_name
+        h = self.Hint_Class is None and 'None' or self.Hint_Class.__name__
+        return '%s (%s)' % (self.gameinfo.short_name, h)
 
     def getDemoInfoTextAttr(self, tinfo):
         items1, items2 = [], []
@@ -2287,6 +2487,21 @@ for %d moves.
     def flipMove(self, stack):
         assert stack
         am = AFlipMove(stack)
+        self.__storeMove(am)
+        am.do(self)
+        self.hints.list = None
+
+    def singleFlipMove(self, stack):
+        # flip with animation (without "moveMove" in this move)
+        assert stack
+        am = ASingleFlipMove(stack)
+        self.__storeMove(am)
+        am.do(self)
+        self.hints.list = None
+
+    def flipAndMoveMove(self, from_stack, to_stack, frames=-1):
+        assert from_stack and to_stack and (from_stack is not to_stack)
+        am = AFlipAndMoveMove(from_stack, to_stack, frames)
         self.__storeMove(am)
         am.do(self)
         self.hints.list = None
@@ -2398,11 +2613,14 @@ for %d moves.
             assert moves.index == len(moves.history)
 
         moves.current = []
+        self.updateSnapshots()
         # update view
         self.updateText()
         self.updateStatus(moves=(moves.index, self.stats.total_moves))
         self.updateMenus()
         self.updatePlayTime(do_after=0)
+        reset_solver_dialog()
+
 
         return 1
 
@@ -2428,6 +2646,7 @@ for %d moves.
         self.stats.undo_moves += 1
         self.stats.total_moves += 1
         self.hints.list = None
+        self.updateSnapshots()
         self.updateText()
         self.updateStatus(moves=(self.moves.index, self.stats.total_moves))
         self.updateMenus()
@@ -2451,6 +2670,7 @@ for %d moves.
         self.stats.redo_moves += 1
         self.stats.total_moves += 1
         self.hints.list = None
+        self.updateSnapshots()
         self.updateText()
         self.updateStatus(moves=(self.moves.index, self.stats.total_moves))
         self.updateMenus()
@@ -2707,6 +2927,9 @@ in the current implementation.''' % version
         moves = pload()
         assert isinstance(moves, Struct), err_txt
         game.moves.__dict__.update(moves.__dict__)
+        snapshots = p.load()
+        assert isinstance(snapshots, list), err_txt
+        game.snapshots = snapshots
         if 0 <= bookmark <= 1:
             gstats = pload()
             assert isinstance(gstats, Struct), err_txt
@@ -2763,6 +2986,7 @@ in the current implementation.''' % version
             p.dump(self.saveinfo)
             p.dump(self.gsaveinfo)
         p.dump(self.moves)
+        p.dump(self.snapshots)
         if 0 <= bookmark <= 1:
             if bookmark == 0:
                 self.gstats.saved = self.gstats.saved + 1

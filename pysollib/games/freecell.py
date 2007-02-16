@@ -51,37 +51,14 @@ from spider import Spider_AC_Foundation
 # // FreeCell
 # ************************************************************************/
 
-# To simplify playing we also consider the number of free rows.
-# Note that this only is legal if the game.s.rows have a
-# cap.base_rank == ANY_RANK.
-# See also the "SuperMove" section in the FreeCell FAQ.
-class FreeCell_RowStack(AC_RowStack):
-    def _getMaxMove(self, to_stack_ncards):
-        max_move = getNumberOfFreeStacks(self.game.s.reserves) + 1
-        n = getNumberOfFreeStacks(self.game.s.rows)
-        if to_stack_ncards == 0:
-            n = n - 1
-        while n > 0 and max_move < 1000:
-            max_move = max_move * 2
-            n = n - 1
-        return max_move
-
-    def canMoveCards(self, cards):
-        max_move = self._getMaxMove(1)
-        return len(cards) <= max_move and AC_RowStack.canMoveCards(self, cards)
-
-    def acceptsCards(self, from_stack, cards):
-        max_move = self._getMaxMove(len(self.cards))
-        return len(cards) <= max_move and AC_RowStack.acceptsCards(self, from_stack, cards)
-
-
 class FreeCell(Game):
     Layout_Method = Layout.freeCellLayout
     Talon_Class = InitialDealTalonStack
     Foundation_Class = SS_FoundationStack
-    RowStack_Class = FreeCell_RowStack
+    RowStack_Class = SuperMoveAC_RowStack
     ReserveStack_Class = ReserveStack
-    Hint_Class = FreeCellSolverWrapper(FreeCellType_Hint, {})
+    Hint_Class = FreeCellType_Hint
+    Solver_Class = FreeCellSolverWrapper()
 
 
     #
@@ -127,7 +104,7 @@ class FreeCell(Game):
 
 class RelaxedFreeCell(FreeCell):
     RowStack_Class = AC_RowStack
-    Hint_Class = FreeCellSolverWrapper(FreeCellType_Hint, {'sm' : "unlimited"})
+    Solver_Class = FreeCellSolverWrapper(sm='unlimited')
 
 
 # /***********************************************************************
@@ -136,7 +113,7 @@ class RelaxedFreeCell(FreeCell):
 
 class ForeCell(FreeCell):
     RowStack_Class = StackWrapper(FreeCell_AC_RowStack, base_rank=KING)
-    Hint_Class = FreeCellSolverWrapper(FreeCellType_Hint, {'esf' : "kings"})
+    Solver_Class = FreeCellSolverWrapper(esf='kings')
 
     def startGame(self):
         for i in range(5):
@@ -159,7 +136,7 @@ class ChallengeFreeCell(FreeCell):
 
 class SuperChallengeFreeCell(ChallengeFreeCell):
     RowStack_Class = StackWrapper(FreeCell_AC_RowStack, base_rank=KING)
-    Hint_Class = FreeCellSolverWrapper(FreeCellType_Hint, {'esf' : "kings"})
+    Solver_Class = FreeCellSolverWrapper(esf='kings')
 
 
 # /***********************************************************************
@@ -169,7 +146,7 @@ class SuperChallengeFreeCell(ChallengeFreeCell):
 class Stalactites(FreeCell):
     Foundation_Class = StackWrapper(RK_FoundationStack, suit=ANY_SUIT, mod=13, min_cards=1)
     RowStack_Class = StackWrapper(BasicRowStack, max_move=1, max_accept=0)
-    Hint_Class = FreeCellType_Hint
+    Solver_Class = None
 
     def createGame(self):
         FreeCell.createGame(self, reserves=2)
@@ -192,7 +169,7 @@ class Stalactites(FreeCell):
 # ************************************************************************/
 
 class DoubleFreecell(FreeCell):
-    Hint_Class = FreeCellType_Hint
+    Solver_Class = None
 
     #
     # game layout
@@ -246,7 +223,7 @@ class DoubleFreecell(FreeCell):
 # ************************************************************************/
 
 class TripleFreecell(FreeCell):
-    Hint_Class = FreeCellType_Hint
+    Solver_Class = None
 
     #
     # game layout
@@ -267,8 +244,8 @@ class TripleFreecell(FreeCell):
         s.talon = self.Talon_Class(l.XM, h-l.YS, self)
 
         x, y = l.XM+(max_rows-decks*4)*l.XS/2, l.YM
-        for i in range(decks):
-            for j in range(4):
+        for j in range(4):
+            for i in range(decks):
                 s.foundations.append(self.Foundation_Class(x, y, self, suit=j))
                 x += l.XS
         x, y = l.XM+(max_rows-reserves)*l.XS/2, l.YM+l.YS
@@ -323,16 +300,24 @@ class BigCell(TripleFreecell):
 # // Spidercells
 # ************************************************************************/
 
-class Spidercells_RowStack(FreeCell_RowStack):
+class Spidercells_RowStack(SuperMoveAC_RowStack):
     def canMoveCards(self, cards):
         if len(cards) == 13 and isAlternateColorSequence(cards):
             return True
-        return FreeCell_RowStack.canMoveCards(self, cards)
+        return SuperMoveAC_RowStack.canMoveCards(self, cards)
+    def canDropCards(self, stacks):
+        if len(self.cards) < 13:
+            return (None, 0)
+        cards = self.cards[-13:]
+        for s in stacks:
+            if s is not self and s.acceptsCards(self, cards):
+                return (s, 13)
+        return (None, 0)
 
 
 class Spidercells(FreeCell):
 
-    Hint_Class = FreeCellType_Hint
+    Solver_Class = None
     Foundation_Class = Spider_AC_Foundation
     RowStack_Class = Spidercells_RowStack
 
@@ -361,8 +346,6 @@ class Spidercells(FreeCell):
 # ************************************************************************/
 
 class SevenByFour(FreeCell):
-    Hint_Class = FreeCellSolverWrapper(FreeCellType_Hint, {})
-    #Hint_Class = FreeCellType_Hint
     def createGame(self):
         FreeCell.createGame(self, rows=7)
     def startGame(self):
@@ -377,9 +360,8 @@ class SevenByFive(SevenByFour):
         FreeCell.createGame(self, rows=7, reserves=5)
 
 class Bath(FreeCell):
-    Hint_Class = FreeCellSolverWrapper(FreeCellType_Hint, {'esf' : 'kings'})
-    #Hint_Class = FreeCellType_Hint
-    RowStack_Class = StackWrapper(FreeCell_RowStack, base_rank=KING)
+    Solver_Class = FreeCellSolverWrapper(esf='kings')
+    RowStack_Class = StackWrapper(SuperMoveAC_RowStack, base_rank=KING)
     def createGame(self):
         FreeCell.createGame(self, rows=10, reserves=2)
     def startGame(self):
@@ -395,7 +377,7 @@ class Bath(FreeCell):
 # ************************************************************************/
 
 class Clink(FreeCell):
-    Hint_Class = FreeCellType_Hint
+    Solver_Class = None
 
     def createGame(self):
         # create layout
@@ -440,7 +422,7 @@ class Clink(FreeCell):
 # ************************************************************************/
 
 class Repair(FreeCell):
-    Hint_Class = FreeCellType_Hint
+    Solver_Class = FreeCellSolverWrapper(sm='unlimited')
     RowStack_Class = AC_RowStack
 
     def createGame(self):
@@ -464,7 +446,7 @@ class FourColours_RowStack(AC_RowStack):
         return self.game.app.images.getReserveBottom()
 
 class FourColours(FreeCell):
-    Hint_Class = FreeCellType_Hint
+    Solver_Class = None
     RowStack_Class = AC_RowStack
 
     def createGame(self):
@@ -507,7 +489,7 @@ class GermanFreeCell_Reserve(ReserveStack):
 
 
 class GermanFreeCell(SevenByFour):
-    Hint_Class = FreeCellType_Hint
+    Solver_Class = None
     RowStack_Class = AC_RowStack
     ReserveStack_Class = GermanFreeCell_Reserve
 
@@ -524,7 +506,7 @@ class GermanFreeCell(SevenByFour):
 # ************************************************************************/
 
 class OceanTowers(TripleFreecell):
-    Hint_Class = FreeCellType_Hint
+    Solver_Class = FreeCellSolverWrapper(esf='kings', sbb='suit')
     RowStack_Class = StackWrapper(FreeCell_SS_RowStack, base_rank=KING)
 
     def createGame(self):
@@ -550,7 +532,7 @@ class KingCell_RowStack(RK_RowStack):
         return len(cards) <= max_move and RK_RowStack.canMoveCards(self, cards)
 
 class KingCell(FreeCell):
-    Hint_Class = FreeCellType_Hint
+    Solver_Class = FreeCellSolverWrapper(esf='kings')
     RowStack_Class = StackWrapper(KingCell_RowStack, base_rank=KING)
 
     shallHighlightMatch = Game._shallHighlightMatch_RK
@@ -612,6 +594,7 @@ class Headquarters(Game):
 
 class CanCan(FreeCell):
     Hint_Class = DefaultHint
+    Solver_Class = None
     RowStack_Class = KingAC_RowStack
     ReserveStack_Class = StackWrapper(OpenStack, max_accept=0)
 

@@ -51,6 +51,7 @@ class initRootWindow(baseInitRootWindow):
 
 class TkSettings(BaseTkSettings):
     canvas_padding = (1, 1)
+    horizontal_toolbar_padding = (1, 0)
     toolbar_relief = 'groove'
     toolbar_borderwidth = 2
     if USE_TILE:

@@ -351,16 +351,20 @@ class PysolToolbar(PysolToolbarActions):
 
             if side == 1:
                 # top
-                pack_func(row=0, column=1, sticky='ew', padx=0, pady=0)
+                padx, pady = TkSettings.horizontal_toolbar_padding
+                pack_func(row=0, column=1, sticky='ew', padx=padx, pady=pady)
             elif side == 2:
                 # bottom
-                pack_func(row=2, column=1, sticky='ew', padx=0, pady=0)
+                padx, pady = TkSettings.horizontal_toolbar_padding
+                pack_func(row=2, column=1, sticky='ew', padx=padx, pady=pady)
             elif side == 3:
                 # left
-                pack_func(row=1, column=0, sticky='ns', padx=0, pady=1)
+                padx, pady = TkSettings.vertical_toolbar_padding
+                pack_func(row=1, column=0, sticky='ns', padx=padx, pady=pady)
             else:
                 # right
-                pack_func(row=1, column=2, sticky='ns', padx=0, pady=1)
+                padx, pady = TkSettings.vertical_toolbar_padding
+                pack_func(row=1, column=2, sticky='ns', padx=padx, pady=pady)
             # set orient
             orient = side in (1, 2) and Tkinter.HORIZONTAL or Tkinter.VERTICAL
             self._setOrient(orient)

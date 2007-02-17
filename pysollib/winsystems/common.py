@@ -97,6 +97,8 @@ class baseInitRootWindow:
 
 class BaseTkSettings:
     canvas_padding = (0, 0)
+    horizontal_toolbar_padding = (0, 0)
+    vertical_toolbar_padding = (0, 1)
     toolbar_button_padding = (2, 2)
     toolbar_label_padding = (4, 4)
     if USE_TILE:

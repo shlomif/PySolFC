@@ -103,15 +103,11 @@ def init():
     if os.name == 'nt':
         if sys.path[0] and not os.path.isdir(sys.path[0]): # i.e. library.zip
             d = os.path.dirname(sys.path[0])
-            ##d = os.path.join(d, 'freecell-solver')
-            fcs_command = os.path.join('freecell-solver', 'fc-solve.exe')
-            ##fcs_command = '"%s"' % fcs_command # quote command
-            settings.FCS_COMMAND = fcs_command
-            f = os.path.join(d, 'freecell-solver', 'presetrc')
-            os.environ['FREECELL_SOLVER_PRESETRC'] = f
             os.chdir(d)                 # for read presets
-            ##print >> file('/fcs.log', 'a'), d
-            ##print >> file('/fcs.log', 'a'), f
+            fcs_command = os.path.join('freecell-solver', 'fc-solve.exe')
+            settings.FCS_COMMAND = fcs_command
+            ##f = os.path.join(d, 'freecell-solver', 'presetrc')
+            ##os.environ['FREECELL_SOLVER_PRESETRC'] = f # defined in prefix.h
     if os.name in ('posix', 'nt'):
         try:
             pin, pout, perr = os.popen3(settings.FCS_COMMAND+' --help')

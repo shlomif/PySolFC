@@ -21,7 +21,8 @@
 
 import sys, os, traceback
 
-from pysollib.settings import PACKAGE, VERSION
+from pysollib.settings import PACKAGE
+from pysollib.settings import FC_VERSION as VERSION
 from pysollib.settings import TOOLKIT, USE_TILE
 from pysollib.settings import DEBUG
 from pysollib.tile import Tile

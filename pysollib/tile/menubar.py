@@ -117,7 +117,7 @@ def createToolbarMenu(menubar, menu):
     #
     #return
     menu.add_separator()
-    submenu = MfxMenu(menu, label=n_('Customize toolbar'), tearoff=tearoff)
+    submenu = MfxMenu(menu, label=n_('Visible buttons'), tearoff=tearoff)
     for w in TOOLBAR_BUTTONS:
         submenu.add_checkbutton(label=gettext(w.capitalize()),
             variable=menubar.tkopt.toolbar_vars[w],

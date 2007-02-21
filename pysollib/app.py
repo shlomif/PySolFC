@@ -104,7 +104,7 @@ class Options:
         self.mahjongg_show_removed = False
         self.mahjongg_create_solvable = True
         self.shisen_show_hint = True
-        self.animations = 2                     # default to Fast
+        self.animations = 2             # default to Fast
         self.redeal_animation = True
         self.win_animation = True
         self.shadow = True
@@ -128,11 +128,11 @@ class Options:
         if WIN_SYSTEM == 'win32':
             self.toolbar_style = 'crystal'
         self.toolbar_relief = 'flat'
-        self.toolbar_compound = 'none'          # icons only
+        self.toolbar_compound = 'none'  # icons only
         self.toolbar_size = 0
         self.toolbar_vars = {}
         for w in TOOLBAR_BUTTONS:
-            self.toolbar_vars[w] = True
+            self.toolbar_vars[w] = True # show all buttons
         self.statusbar = True
         self.num_cards = False
         self.helpbar = False
@@ -219,7 +219,7 @@ class Options:
         self.mouse_undo = False    # use mouse for undo/redo
         self.negative_bottom = True
         self.randomize_place = False
-        self.cache_cardsets = True
+        self.save_cardsets = True
         # defaults & constants
         self.setDefaults()
         self.setConstants()
@@ -1045,7 +1045,7 @@ class Application:
             if not images.load(app=self, progress=progress):
                 raise Exception("Invalid or damaged "+CARDSET)
             simages = SubsampledImages(images)
-            if self.opt.cache_cardsets:
+            if self.opt.save_cardsets:
                 c = self.cardsets_cache.get(cs.type)
                 if c:
                     ##c[1].destruct()
@@ -1233,7 +1233,7 @@ Please select a %s type %s.
     def __saveObject(self, obj, fn):
         obj.version_tuple = VERSION_TUPLE
         obj.saved = obj.saved + 1
-        pickle(obj, fn, binmode=1)
+        pickle(obj, fn, protocol=-1)
 
     def saveOptions(self):
         self.__saveObject(self.opt, self.fn.opt)

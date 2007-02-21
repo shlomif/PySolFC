@@ -63,10 +63,10 @@ from tkFont import Font
 
 # PySol imports
 from pysollib.mfxutil import Image, ImageTk, ImageOps
+from pysollib.settings import PACKAGE, WIN_SYSTEM
 
 # Toolkit imports
 from tkconst import tkversion
-from pysollib.settings import PACKAGE, WIN_SYSTEM
 
 
 # /***********************************************************************

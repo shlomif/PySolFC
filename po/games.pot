@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Thu Feb 15 18:35:01 2007\n"
+"POT-Creation-Date: Wed Feb 21 17:56:30 2007\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"

@@ -30,7 +30,7 @@ PACKAGE_URL = 'http://sourceforge.net/projects/pysolfc/'
 
 VERSION = '4.82'
 FC_VERSION = '1.0'
-VERSION_TUPLE = (4, 82)
+VERSION_TUPLE = (10, 0)
 
 # Tk windowing system (auto determine in init.py)
 WIN_SYSTEM = 'x11'                      # win32, x11, aqua, classic

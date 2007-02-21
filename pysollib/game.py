@@ -38,6 +38,7 @@
 import time
 import math
 import md5
+import traceback
 from cStringIO import StringIO
 
 # PySol imports
@@ -46,8 +47,9 @@ from mfxutil import Image, ImageTk
 from mfxutil import destruct, Struct, SubclassResponsibility
 from mfxutil import uclock, usleep
 from mfxutil import format_time
-from util import get_version_tuple, Timer
-from settings import PACKAGE, TOOLKIT, TOP_TITLE, VERSION, VERSION_TUPLE
+from util import Timer
+from settings import PACKAGE, TOOLKIT, TOP_TITLE
+from settings import VERSION, VERSION_TUPLE, FC_VERSION
 from settings import DEBUG
 from gamedb import GI
 from pysolrandom import PysolRandom, LCRandom31
@@ -2771,6 +2773,7 @@ Error while loading game.
 
 Probably the game file is damaged,
 but this could also be a bug you might want to report."""))
+            traceback.print_exc()
         except (Exception, UnpicklingError), ex:
             self.updateMenus()
             self.setCursor(cursor=self.app.top_cursor)
@@ -2779,12 +2782,16 @@ but this could also be a bug you might want to report."""))
         except:
             self.updateMenus()
             self.setCursor(cursor=self.app.top_cursor)
-            d = MfxMessageDialog(self.top, title=_("Load game error"), bitmap="error",
-                                 text=_("""\
+            d = MfxMessageDialog(self.top, title=_("Load game error"),
+                                 bitmap="error", text=_("""\
 Internal error while loading game.
 
 Please report this bug."""))
+            traceback.print_exc()
         else:
+            if self.pause:
+                # unselect pause-button
+                self.app.menubar.mPause()
             self.filename = filename
             game.filename = filename
             # now start the new game
@@ -2798,11 +2805,11 @@ Please report this bug."""))
                 self.quitGame(game.id, loadedgame=game)
 
 
-    def saveGame(self, filename, binmode=1):
+    def saveGame(self, filename, protocol=-1):
         self.finishMove()       # just in case
         self.setCursor(cursor=CURSOR_WATCH)
         try:
-            self._saveGame(filename, binmode)
+            self._saveGame(filename, protocol)
         except Exception, ex:
             self.setCursor(cursor=self.app.top_cursor)
             d = MfxExceptionDialog(self.top, ex, title=_("Save game error"),
@@ -2828,18 +2835,10 @@ Please report this bug."""))
             if f: f.close()
         return game
 
-    def _getUndumpVersion(self, version_tuple):
-        if version_tuple > (4, 41): return 4
-        if version_tuple > (4, 30): return 3
-        if version_tuple > (4, 20): return 2
-        if version_tuple > (3, 20): return 1
-        if version_tuple >= (2, 99): return 0
-        return -1
-
     def _undumpGame(self, p, app):
         self.updateTime()
         #
-        err_txt = "Invalid or damaged %s save file" % PACKAGE
+        err_txt = _("Invalid or damaged %s save file") % PACKAGE
         #
         def pload(t=None, p=p):
             obj = p.load()
@@ -2847,46 +2846,37 @@ Please report this bug."""))
                 assert isinstance(obj, t), err_txt
             return obj
         #
-        package = pload()
-        assert isinstance(package, str) and package == PACKAGE, err_txt
-        version = pload()
-        assert isinstance(version, str) and len(version) <= 20, err_txt
-        version_tuple = get_version_tuple(version)
-        v = self._getUndumpVersion(version_tuple)
-        assert v >= 0 and version_tuple <= VERSION_TUPLE, \
-               "Cannot load games saved with\n"+PACKAGE+" version "+version
+        package = pload(str)
+        assert package == PACKAGE, err_txt
+        version = pload(str)
+        #assert isinstance(version, str) and len(version) <= 20, err_txt
+        version_tuple = pload(tuple)
+        if version_tuple < (10,):
+            raise UnpicklingError(_('''\
+Cannot load games saved with
+%s version %s''') % (PACKAGE, version))
         game_version = 1
-        bookmark = 0
-        if v >= 2:
-            vt = pload()
-            assert isinstance(vt, tuple) and vt == version_tuple, err_txt
-            bookmark = pload()
-            assert isinstance(bookmark, int) and 0 <= bookmark <= 2, \
-                   "Incompatible savegame format"
-            game_version = pload()
-            assert isinstance(game_version, int) and game_version > 0, err_txt
-            if v <= 3:
-                bookmark = 0
+        bookmark = pload(int)
+        assert 0 <= bookmark <= 2, err_txt
+        game_version = pload(int)
+        assert game_version > 0, err_txt
         #
-        id = pload()
-        assert isinstance(id, int) and id > 0, err_txt
+        id = pload(int)
+        assert id > 0, err_txt
         if id not in GI.PROTECTED_GAMES:
             game = app.constructGame(id)
             if game:
                 if not game.canLoadGame(version_tuple, game_version):
                     destruct(game)
                     game = None
-        assert game is not None, '''\
+        assert game is not None, _('''\
 Cannot load this game from version %s
 as the game rules have changed
-in the current implementation.''' % version
+in the current implementation.''') % version
         game.version = version
         game.version_tuple = version_tuple
         #
-        #game.random = pload()
-        #assert isinstance(game.random, PysolRandom), err_txt
-        initial_seed = pload()
-        assert isinstance(initial_seed, long)
+        initial_seed = pload(long)
         if initial_seed <= 32000:
             game.random = LCRandom31(initial_seed)
         else:
@@ -2897,12 +2887,12 @@ in the current implementation.''' % version
         #    game.random.origin = game.random.ORIGIN_UNKNOWN
         game.loadinfo.stacks = []
         game.loadinfo.ncards = 0
-        nstacks = pload()
-        assert isinstance(nstacks, int) and 1 <= nstacks, err_txt
+        nstacks = pload(int)
+        assert 1 <= nstacks, err_txt
         for i in range(nstacks):
             stack = []
-            ncards = pload()
-            assert isinstance(ncards, int) and 0 <= ncards <= 1024, err_txt
+            ncards = pload(int)
+            assert 0 <= ncards <= 1024, err_txt
             for j in range(ncards):
                 card_id = pload(int)
                 face_up = pload(int)
@@ -2913,34 +2903,22 @@ in the current implementation.''' % version
         game.loadinfo.talon_round = pload()
         game.finished = pload()
         if 0 <= bookmark <= 1:
-            if v >= 3:
-                saveinfo = pload()
-                assert isinstance(saveinfo, Struct), err_txt
-                game.saveinfo.__dict__.update(saveinfo.__dict__)
-                if v >= 4:
-                    gsaveinfo = pload()
-                    assert isinstance(gsaveinfo, Struct), err_txt
-                    game.gsaveinfo.__dict__.update(gsaveinfo.__dict__)
-            elif v >= 1:
-                # not used
-                talon_base_cards = pload(list)
-        moves = pload()
-        assert isinstance(moves, Struct), err_txt
+            saveinfo = pload(Struct)
+            game.saveinfo.__dict__.update(saveinfo.__dict__)
+            gsaveinfo = pload(Struct)
+            game.gsaveinfo.__dict__.update(gsaveinfo.__dict__)
+        moves = pload(Struct)
         game.moves.__dict__.update(moves.__dict__)
-        snapshots = p.load()
-        assert isinstance(snapshots, list), err_txt
+        snapshots = pload(list)
         game.snapshots = snapshots
         if 0 <= bookmark <= 1:
-            gstats = pload()
-            assert isinstance(gstats, Struct), err_txt
+            gstats = pload(Struct)
             game.gstats.__dict__.update(gstats.__dict__)
-            stats = pload()
-            assert isinstance(stats, Struct), err_txt
+            stats = pload(Struct)
             game.stats.__dict__.update(stats.__dict__)
         game._loadGameHook(p)
-        if v >= 4:
-            dummy = pload(str)
-            assert dummy == "EOF", err_txt
+        dummy = pload(str)
+        assert dummy == "EOF", err_txt
         if bookmark == 2:
             # copy back all variables that are not saved
             game.stats = self.stats
@@ -2949,13 +2927,13 @@ in the current implementation.''' % version
             game.gsaveinfo = self.gsaveinfo
         return game
 
-    def _saveGame(self, filename, binmode=1):
+    def _saveGame(self, filename, protocol=-1):
         f = None
         try:
             if not self.canSaveGame():
                 raise Exception("Cannot save this game.")
             f = open(filename, "wb")
-            p = Pickler(f, binmode)
+            p = Pickler(f, protocol)
             self._dumpGame(p)
         finally:
             if f: f.close()
@@ -2964,13 +2942,12 @@ in the current implementation.''' % version
         self.updateTime()
         assert 0 <= bookmark <= 2
         p.dump(PACKAGE)
-        p.dump(VERSION)
+        p.dump(FC_VERSION)
         p.dump(VERSION_TUPLE)
         p.dump(bookmark)
         p.dump(self.GAME_VERSION)
         p.dump(self.id)
         #
-        #p.dump(self.random)
         p.dump(self.random.initial_seed)
         p.dump(self.random.getstate())
         #

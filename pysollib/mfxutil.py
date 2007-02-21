@@ -100,22 +100,6 @@ def latin1_to_ascii(n):
          .replace("\xfc", "ue"))
     return n
 
-## import htmlentitydefs
-## htmlentitydefs_i = {}
-## def latin1_to_html(n):
-##     global htmlentitydefs_i
-##     if not htmlentitydefs_i:
-##         for k, v in htmlentitydefs.entitydefs.items():
-##             htmlentitydefs_i[v] = "&" + k + ";"
-##     s, g = "", htmlentitydefs_i.get
-##     for c in n:
-##         s = s + g(c, c)
-##     return s
-
-
-## def hexify(s):
-##     return "%02x"*len(s) % tuple(map(ord, s))
-
 
 def format_time(t):
     ##print 'format_time:', t
@@ -288,11 +272,11 @@ class KwStruct:
 # // pickling support
 # ************************************************************************/
 
-def pickle(obj, filename, binmode=0):
+def pickle(obj, filename, protocol=0):
     f = None
     try:
         f = open(filename, "wb")
-        p = Pickler(f, binmode)
+        p = Pickler(f, protocol)
         p.dump(obj)
         f.close(); f = None
         ##print "Pickled", filename

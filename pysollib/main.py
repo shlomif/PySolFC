@@ -204,7 +204,11 @@ def pysol_init(app, args):
     app.top_cursor = top.cget("cursor")
 
     # load options
-    app.loadOptions()
+    try:
+        app.loadOptions()
+    except:
+        traceback.print_exc()
+        pass
 
     # init audio 1)
     app.audio = None

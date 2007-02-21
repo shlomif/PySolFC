@@ -54,7 +54,6 @@ __all__ = ['SUITS',
            'VARIABLE_REDEALS',
            'CARDSET',
            'IMAGE_EXTENSIONS',
-           'get_version_tuple',
            'Timer',
            'DataLoader',
            ]
@@ -113,17 +112,6 @@ if 1 and os.name == "nt":
 
 if Image:
     IMAGE_EXTENSIONS = (".png", ".gif", ".jpg", ".ppm", ".bmp")
-
-
-def get_version_tuple(version_string):
-    v = re.split(r"[^\d\.]", version_string)
-    if not v or not v[0]:
-        return (0,)
-    v = v[0].split(".")
-    v = filter(lambda x: x != "", v)
-    if not v or not v[0]:
-        return (0,)
-    return tuple(map(int, v))
 
 
 # /***********************************************************************

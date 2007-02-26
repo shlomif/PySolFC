@@ -40,9 +40,10 @@ finally:
 # Use Freecell Solver, if it is installed.
 # http://fc-solve.berlios.de/
 SOLVER_LIB_PATH = "/usr/local/lib/libfreecell-solver.0.dylib"
-SOLVER = "/usr/local/bin/fc-solve"
+SOLVER = ["/usr/local/bin/fc-solve"]
 if not os.path.exists(SOLVER_LIB_PATH):
-    SOLVER_LIB_PATH = SOLVER = ""
+    SOLVER_LIB_PATH = None
+    SOLVER = []
 
 GETINFO_STRING = "PySol Fan Club Edition \
                 %s %s, (C) 1998-2003 Markus F.X.J Oberhumer \
@@ -60,9 +61,9 @@ PLIST = dict(
     )
 APP = ['pysol.py']
 ICON_FILE = 'data/PySol.icns'
-DATA_FILES = ['docs', 'data', 'scripts','COPYING', 'README', SOLVER]
+DATA_FILES = ['docs', 'data', 'scripts','COPYING', 'README'] + SOLVER
 RESOURCES = [os.path.join(TCL_EXTENSION_PATH, TILE)] if TILE else []
-FRAMEWORKS = [SOLVER_LIB_PATH]
+FRAMEWORKS = [SOLVER_LIB_PATH] if SOLVER_LIB_PATH else []
 OPTIONS = dict(argv_emulation=True,
                plist=PLIST,
                iconfile=ICON_FILE,

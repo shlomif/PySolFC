@@ -694,6 +694,9 @@ class Hawaiian(Game):
         self.startDealSample()
         self.s.talon.dealRow()
 
+    def getHighlightPilesStacks(self):
+        return ()
+
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
 

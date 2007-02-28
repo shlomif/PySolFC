@@ -320,6 +320,39 @@ class Opus(Penguin):
 
 
 
+# /***********************************************************************
+# // Flipper
+# ************************************************************************/
+
+class Flipper_Row(AC_RowStack):
+    def canFlipCard(self):
+        if not OpenStack.canFlipCard(self):
+            return False
+        i = list(self.game.s.rows).index(self)
+        return len(self.game.s.reserves[i].cards) == 0
+
+
+class Flipper(Tuxedo):
+
+    RowStack_Class = Flipper_Row
+    Foundation_Class = SS_FoundationStack
+    Hint_Class = DefaultHint
+    Solver_Class = None
+
+    def fillStack(self, stack):
+        i = 0
+        for s in self.s.reserves:
+            r = self.s.rows[i]
+            if r.cards:
+                if ((s.cards and r.cards[-1].face_up) or
+                    (not s.cards and not r.cards[-1].face_up)):
+                    r.flipMove(animation=True)
+            i += 1
+
+    shallHighlightMatch = Game._shallHighlightMatch_AC
+
+
+
 # register the game
 registerGame(GameInfo(45, BakersGame, "Baker's Game",
                       GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_SKILL))
@@ -339,3 +372,5 @@ registerGame(GameInfo(427, Opus, "Opus",
                       GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(629, Tuxedo, "Tuxedo",
                       GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(713, Flipper, "Flipper",
+                      GI.GT_FREECELL | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))

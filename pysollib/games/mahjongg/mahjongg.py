@@ -539,12 +539,12 @@ class AbstractMahjonggGame(Game):
                     del cards[i]
                     break
             #
-            free_stacks = []
+            free_stacks = []            # none-blocked stacks
             for r in rows:
                 if new_cards[r.id] is None and not is_blocked(r, new_cards):
                     free_stacks.append(r)
             if len(free_stacks) < 2:
-                return None
+                return None             # try another way
             #
             i = factorial(len(free_stacks))/2/factorial(len(free_stacks)-2)
             old_pairs = []
@@ -559,15 +559,16 @@ class AbstractMahjonggGame(Game):
                     if (r1, r2) not in old_pairs and (r2, r1) not in old_pairs:
                         old_pairs.append((r1, r2))
                         break
+                # add two selected cards to new_cards
                 s1 = free_stacks[r1]
                 s2 = free_stacks[r2]
                 nc[s1.id] = c1
                 nc[s2.id] = c2
+                # check if this layout is solvable (backtracking)
                 nc = create_solvable(cards[:], nc)
                 if nc:
                     return nc
-
-            return None
+            return None                 # try another way
 
         new_cards = create_solvable(cards, [None]*len(cards))
         if new_cards:

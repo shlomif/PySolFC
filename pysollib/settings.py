@@ -26,11 +26,12 @@ n_ = lambda x: x                        # for gettext
 
 #PACKAGE = 'PySolFC'
 PACKAGE = 'PySol'
+#PACKAGE_URL = 'http://pysolfc/sourceforge.net/'
 PACKAGE_URL = 'http://sourceforge.net/projects/pysolfc/'
 
 VERSION = '4.82'
-FC_VERSION = '1.0'
-VERSION_TUPLE = (10, 0)
+FC_VERSION = '1.0.1'
+VERSION_TUPLE = (10, 0, 1)
 
 # Tk windowing system (auto determine in init.py)
 WIN_SYSTEM = 'x11'                      # win32, x11, aqua, classic

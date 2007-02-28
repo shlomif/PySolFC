@@ -110,7 +110,12 @@ def show_cardset(*args):
                         # zoom
                         z = 1.0 + zoom/10.0
                         z = max(0.2, z)
-                        im = im.resize((int(w*z), int(h*z)), resample=filter)
+                        if 1:
+                            tmp = Image.new('RGBA', (w+2, h+2))
+                            tmp.paste(im, (1,1), im)
+                            im = tmp.resize((int(w*z), int(h*z)), resample=filter)
+                        else:
+                            im = im.resize((int(w*z), int(h*z)), resample=filter)
                         t = '%d %%' % int(z*100)
 
                     zoom_label.config(text=t)

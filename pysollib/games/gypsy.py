@@ -746,6 +746,63 @@ class BrazilianPatience(Gypsy):
         self.s.talon.dealRow()
 
 
+# /***********************************************************************
+# // Leprechaun
+# ************************************************************************/
+
+class Leprechaun_Reserve(OpenStack):
+    def canFlipCard(self):
+        if not OpenStack.canFlipCard(self):
+            return False
+        i = list(self.game.s.reserves).index(self)
+        return len(self.game.s.foundations[i].cards) != 0
+
+
+class Leprechaun(Game):
+
+    def createGame(self):
+
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        self.setSize(l.XM+9.5*l.XS, l.YM+3*l.YS+l.TEXT_HEIGHT+12*l.YOFFSET)
+
+        # create stacks
+        x, y = l.XM+1.5*l.XS, l.TEXT_HEIGHT
+        for i in range(8):
+            stack = Leprechaun_Reserve(x, y, self)
+            s.reserves.append(stack)
+            l.createText(stack, 'n')
+            x += l.XS
+
+        x, y = l.XM+1.5*l.XS, l.YS+l.TEXT_HEIGHT
+        for i in range(8):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i/2))
+            x += l.XS
+
+        x, y = l.XM+1.5*l.XS, 2*l.YS+l.TEXT_HEIGHT
+        for i in range(8):
+            s.rows.append(AC_RowStack(x, y, self))
+            x += l.XS
+
+        s.talon = DealRowTalonStack(l.XM, l.YM, self)
+        l.createText(s.talon, 's')
+
+        # define stack-groups
+        l.defaultStackGroups()
+
+    def startGame(self):
+        for i in range(4):
+            self.s.talon.dealRow(rows=self.s.reserves, flip=0, frames=0)
+        self.s.talon.dealRow(flip=0, frames=0)
+        self.s.talon.dealRow(flip=0, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+    shallHighlightMatch = Game._shallHighlightMatch_AC
+
+
 
 # register the game
 registerGame(GameInfo(1, Gypsy, "Gypsy",
@@ -811,3 +868,5 @@ registerGame(GameInfo(640, BrazilianPatience, "Brazilian Patience",
                       GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(666, TrapdoorSpider, "Trapdoor Spider",
                       GI.GT_SPIDER | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(712, Leprechaun, "Leprechaun",
+                      GI.GT_GYPSY | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))

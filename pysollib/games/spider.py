@@ -1274,6 +1274,114 @@ class Bebop(Game):
     shallHighlightMatch = Game._shallHighlightMatch_RK
 
 
+# /***********************************************************************
+# // The Jolly Roger
+# ************************************************************************/
+
+class TheJollyRoger_Foundation(AbstractFoundationStack):
+
+    def acceptsCards(self, from_stack, cards):
+        if not AbstractFoundationStack.acceptsCards(self, from_stack, cards):
+            return False
+        return isSameColorSequence(cards, self.cap.mod, self.cap.dir)
+
+    def getBottomImage(self):
+        return self.game.app.images.getLetter(ACE)
+
+
+class TheJollyRoger_RowStack(BasicRowStack):
+
+    def acceptsCards(self, from_stack, cards):
+        if not BasicRowStack.acceptsCards(self, from_stack, cards):
+            return False
+        if not self.cards:
+            return True
+        c1, c2 = self.cards[-1], cards[0]
+        if c2.rank == ACE:
+            return c1.rank == ACE
+        return c1.rank == c2.rank+2
+
+    def canMoveCards(self, cards):
+        if cards[0].rank == ACE:
+            return isSameColorSequence(cards, dir=0)
+        elif cards[-1].rank == ACE:
+            return False                # 5-3-ace
+        return isSameSuitSequence(cards, dir=-2)
+
+    def canDropCards(self, stacks):
+        cards = self.cards
+        if not cards:
+            return (None, 0)
+        dcards = None
+        if cards[-1].rank == ACE:
+            if len(cards) < 4:
+                return (None, 0)
+            if isSameColorSequence(cards[-4:], dir=0):
+                dcards = cards[-4:]
+        else:
+            if len(cards) < 6:
+                return (None, 0)
+            if isSameSuitSequence(cards, dir=-2):
+                dcards = cards[-6:]
+        if not dcards:
+            return (None, 0)
+        for s in stacks:
+            if s is not self and s.acceptsCards(self, dcards):
+                return (s, len(dcards))
+        return (None, 0)
+
+
+class TheJollyRoger(Game):
+    Hint_Class = Spider_Hint
+
+    def createGame(self):
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        self.setSize(l.XM+13*l.XS, l.YM+3*l.YS+12*l.YOFFSET)
+
+        # create stacks
+        y = l.YM
+        for i in range(2):
+            x = l.XM+2*l.XS
+            for j in range(8):
+                s.foundations.append(Spider_SS_Foundation(x, y, self,
+                                     dir=-2, base_rank=ANY_RANK,
+                                     min_accept=6, max_cards=6, max_move=0))
+                x += l.XS
+            s.foundations.append(TheJollyRoger_Foundation(x, y, self,
+                                 suit=ANY_SUIT, dir=0,
+                                 min_accept=4, max_accept=4,
+                                 max_cards=4, max_move=0))
+            y += l.YS
+
+        x, y = l.XM, l.YM+2*l.YS
+        for i in range(13):
+            s.rows.append(TheJollyRoger_RowStack(x, y, self, dir=2,
+                   max_move=UNLIMITED_MOVES, max_accept=UNLIMITED_ACCEPTS))
+            x += l.XS
+        s.talon = DealRowTalonStack(l.XM, l.YM, self)
+        l.createText(s.talon, 's')
+
+        # define stack-groups
+        l.defaultStackGroups()
+
+    def startGame(self):
+        for i in range(2):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        if card1.rank != ACE and card2.rank != ACE:
+            # by rank
+            return abs(card1.rank-card2.rank) == 2
+        return card1.rank == ACE and card2.rank == ACE
+
+    getQuickPlayScore = Game._getSpiderQuickPlayScore
+
+
 
 # register the game
 registerGame(GameInfo(10, RelaxedSpider, "Relaxed Spider",
@@ -1396,6 +1504,8 @@ registerGame(GameInfo(685, FechtersGame, "Fechter's Game",
                       GI.GT_SPIDER, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(710, Bebop, "Bebop",
                       GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
-#registerGame(GameInfo(711, SimpleSimonII, "Simple Simon II",
+#registerGame(GameInfo(000, SimpleSimonII, "Simple Simon II",
 #                      GI.GT_SPIDER | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(711, TheJollyRoger, "The Jolly Roger",
+                      GI.GT_SPIDER | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 

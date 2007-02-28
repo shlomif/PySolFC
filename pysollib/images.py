@@ -313,22 +313,46 @@ class Images:
             im = c._active_image._pil_image
             mask.paste(im, (x, y), im)
         # create shadow
-        sh = self._pil_shadow_image
-        shw, shh = sh.size
-        shadow = Image.new('RGBA', (w, h))
-        x = 0
-        while x < w:
-            y = 0
-            while y < h:
-                shadow.paste(sh, (x,y))
-                y += shh
-            x += shw
-        shadow = Image.composite(shadow, mask, mask)
-        # crop image (for speed)
-        sx, sy = self.SHADOW_XOFFSET, self.SHADOW_YOFFSET
-        mask = mask.crop((sx,sy,w,h))
-        tmp = Image.new('RGBA', (w-sx,h-sy))
-        shadow.paste(tmp, (0,0), mask)
+        if 0:
+            sh = self._pil_shadow_image
+            shw, shh = sh.size
+            shadow = Image.new('RGBA', (w, h))
+            x = 0
+            while x < w:
+                y = 0
+                while y < h:
+                    shadow.paste(sh, (x,y))
+                    y += shh
+                x += shw
+            shadow = Image.composite(shadow, mask, mask)
+            # crop image (for speed)
+            sx, sy = self.SHADOW_XOFFSET, self.SHADOW_YOFFSET
+            mask = mask.crop((sx,sy,w,h))
+            tmp = Image.new('RGBA', (w-sx,h-sy))
+            shadow.paste(tmp, (0,0), mask)
+        elif 0:
+            import ImageFilter
+            dx, dy = 5, 5
+            sh_color = (0x00,0x00,0x00,0x80)
+            shadow = Image.new('RGBA', (w+dx, h+dy))
+            sx, sy = self.SHADOW_XOFFSET, self.SHADOW_YOFFSET
+            shadow.paste(sh_color, (0, 0, w, h), mask)
+            for i in range(3):
+                shadow = shadow.filter(ImageFilter.BLUR)
+            shadow = shadow.crop((dx,dy,w,h))
+            sx, sy = self.SHADOW_XOFFSET, self.SHADOW_YOFFSET
+            mask = mask.crop((sx,sy,w,h))
+            tmp = Image.new('RGBA', (w-sx,h-sy))
+            shadow.paste(tmp, (0,0), mask)
+        else:
+            sh_color = (0x00,0x00,0x00,0x50)
+            shadow = Image.new('RGBA', (w, h))
+            shadow.paste(sh_color, (0, 0, w, h), mask)
+            sx, sy = self.SHADOW_XOFFSET, self.SHADOW_YOFFSET
+            mask = mask.crop((sx,sy,w,h))
+            tmp = Image.new('RGBA', (w-sx,h-sy))
+            shadow.paste(tmp, (0,0), mask)
+
         #
         shadow = ImageTk.PhotoImage(shadow)
         self._pil_shadow[(w,h)] = shadow

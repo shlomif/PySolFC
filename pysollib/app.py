@@ -1411,7 +1411,7 @@ Please select a %s type %s.
                 try:
                     loadGame(m.group(1), n)
                 except Exception, ex:
-                    print >> sys.stderr, "Error loading plugin " + n + ": " + str(ex)
+                    print >> sys.stderr, _("Error loading plugin %s: %s") % (n, ex)
                     sys.stderr.flush()
                 sys.path = p
 
@@ -1429,7 +1429,7 @@ Please select a %s type %s.
         finally:
             if f: f.close()
         lines = [l.strip() for l in lines]
-        if lines[0].find("PySol") != 0:
+        if not lines[0].startswith("PySol"):
             return None
         config = CardsetConfig()
         if not self._parseCardsetConfig(config, lines):

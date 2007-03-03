@@ -71,6 +71,7 @@ gettext = _
 class SingleGame_StatsDialog(MfxDialog):
     def __init__(self, parent, title, app, player, gameid, **kw):
         self.app = app
+        self.selected_game = None
         kw = self.initKw(kw)
         MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)

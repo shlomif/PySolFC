@@ -215,6 +215,7 @@ class Game:
         self.busy = old_busy
         ##print timer
         self.showHelp()                 # just in case
+        ##self.reallocateStacks()
 
 
     def _checkGame(self):
@@ -630,6 +631,23 @@ class Game:
     def restartGame(self):
         self.endGame(restart=1)
         self.newGame(restart=1, random=self.random)
+
+    def reallocateStacks(self):
+        w0, h0 = self.width, self.height
+        iw = int(self.canvas.cget('width'))
+        ih = int(self.canvas.cget('height'))
+        vw = self.canvas.winfo_width()
+        vh = self.canvas.winfo_height()
+        if vw <= iw or vh <= ih:
+            return
+        xf = float(vw)/iw
+        yf = float(vh)/ih
+        for stack in self.allstacks:
+            x0, y0 = stack.init_coord
+            x, y = int(x0*xf), int(y0*yf)
+            if x == stack.x and y == stack.y:
+                continue
+            stack.moveTo(x, y)
 
     def createRandom(self, random):
         if random is None:

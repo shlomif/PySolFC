@@ -112,6 +112,7 @@ class Game_StatsDialog:
     def __init__(self, parent, header, app, player, gameid):
         #
         self.app = app
+        self.selected_game = None
         self.player = player
         self.gameid = gameid
         self.games = {}

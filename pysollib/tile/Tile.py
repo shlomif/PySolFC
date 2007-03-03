@@ -222,10 +222,11 @@ class Notebook(Widget):
         """
         return self.tk.call(self._w, "index")
 
-    def select(self, index):
-        """Selects the specified tab; the associated child pane will 
-        be displayed, and the previously-selected pane (if different)
-        is unmapped. 
+    def select(self, index=None):
+        """Selects the specified tab. The associated child pane will be
+        displayed, and the previously-selected pane (if different) is
+        unmapped. If tabid is omitted, returns the widget name of the
+        currently selected pane.
         """
         return self.tk.call(self._w, "select", index)
 

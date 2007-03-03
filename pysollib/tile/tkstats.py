@@ -63,39 +63,132 @@ from tkwidget import MfxScrolledCanvas
 gettext = _
 
 
-# FIXME - this file a quick hack and needs a rewrite
+# /***********************************************************************
+# //
+# ************************************************************************/
+
+class StatsDialog(MfxDialog):
+    SELECTED_TAB = 0
+
+    def __init__(self, parent, title, app, player, gameid, **kw):
+
+        kw = self.initKw(kw)
+        MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
+
+        self.font = app.getFont('default')
+        self.tkfont = tkFont.Font(parent, self.font)
+        self.font_metrics = self.tkfont.metrics()
+
+        self.selected_game = None
+
+        top_frame, bottom_frame = self.createFrames(kw)
+        notebook = Tkinter.Notebook(top_frame)
+        notebook.pack(expand=True, fill='both', padx=10, pady=10)
+
+        self.notebook_tabs = []
+
+##         frame = Tkinter.Frame(notebook)
+##         notebook.add(frame, text=_('Current game'))
+##         single_frame = SingleGameFrame(self, frame, app, player, gameid)
+##         single_frame.pack(side='left', expand=True, fill='both')
+##         top_frame = TopFrame(self, frame, app, player, gameid)
+##         top_frame.pack(side='right', expand=True, fill='both')
+
+        single_frame = SingleGameFrame(self, notebook, app, player, gameid)
+        notebook.add(single_frame, text=_('Current game'))
+        self.notebook_tabs.append(single_frame._w)
+
+        all_frame = AllGamesFrame(self, notebook, app, player)
+        notebook.add(all_frame, text=_('All games'))
+        self.all_games_frame = all_frame
+        self.notebook_tabs.append(all_frame._w)
+
+        top_frame = TopFrame(self, notebook, app, player, gameid)
+        notebook.add(top_frame, text=TOP_TITLE)
+        self.notebook_tabs.append(top_frame._w)
+
+        if player is not None:
+            progr_frame = ProgressionFrame(self, notebook, app, player, gameid)
+            notebook.add(progr_frame, text=_('Progression'))
+            self.notebook_tabs.append(progr_frame._w)
+
+        if StatsDialog.SELECTED_TAB < len(self.notebook_tabs):
+            notebook.select(StatsDialog.SELECTED_TAB)
+        bind(notebook, '<<NotebookTabChanged>>', self.tabChanged)
+        self.notebook = notebook
+
+        focus = self.createButtons(bottom_frame, kw)
+        self.tabChanged()               # configure buttons state
+        self.mainloop(focus, kw.timeout)
+
+    def initKw(self, kw):
+        kw = KwStruct(kw,
+                      strings=((_("&Play this game"), 401),
+                               "sep",_("&OK"),
+                               (_("&Reset..."), 500)), default=0,
+        )
+        return MfxDialog.initKw(self, kw)
+
+    def tabChanged(self, *args):
+        w = self.notebook.select()
+        run_button = self.buttons[0]
+        indx = self.notebook_tabs.index(w)
+        if indx == 1:                   # "All games"
+            g = self.all_games_frame.getSelectedGame()
+            if g is None:
+                run_button.config(state='disabled')
+            else:
+                run_button.config(state='normal')
+        else:
+            run_button.config(state='disabled')
+        reset_button = self.buttons[2]
+        if indx in (0, 1):              # "Current game" or "All games"
+            reset_button.config(state='normal')
+        else:
+            reset_button.config(state='disabled')
+
+
+    def mDone(self, button):
+        self.selected_game = self.all_games_frame.getSelectedGame()
+        w = self.notebook.select()
+        indx = self.notebook_tabs.index(w)
+        StatsDialog.SELECTED_TAB = indx
+        if button == 500:               # "Reset..."
+            assert indx in (0, 1)
+            if indx == 0:               # "Current game"
+                button = 302
+            else:                       # "All games"
+                button = 301
+        MfxDialog.mDone(self, button)
+
+
+SingleGame_StatsDialog = AllGames_StatsDialog = Top_StatsDialog = ProgressionDialog = StatsDialog
+
 
 # /***********************************************************************
 # //
 # ************************************************************************/
 
-class SingleGame_StatsDialog(MfxDialog):
-    def __init__(self, parent, title, app, player, gameid, **kw):
+class SingleGameFrame(Tkinter.Frame):
+    def __init__(self, dialog, parent, app, player, gameid, **kw):
+        Tkinter.Frame.__init__(self, parent)
+
+        left_label = Tkinter.Label(self, image=app.gimages.logos[5])
+        left_label.pack(side='left', expand=True, fill='both')
+        self.right_frame = Tkinter.Frame(self)
+        self.right_frame.pack(side='right', expand=True)
+
+        self.dialog = dialog
         self.app = app
-        kw = self.initKw(kw)
-        MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
-        top_frame, bottom_frame = self.createFrames(kw)
-        self.top_frame = top_frame
-        self.createBitmaps(top_frame, kw)
-        #
         self.player = player or _("Demo games")
-        self.top.wm_minsize(200, 200)
-        self.button = kw.default
         #
-        createChart = self.createPieChart
-        #
-        self.font = self.app.getFont("default")
-        self.tk_font = tkFont.Font(self.top, self.font)
-        self.font_metrics = self.tk_font.metrics()
         self._calc_tabs()
         #
         won, lost = app.stats.getStats(player, gameid)
-        createChart(app, won, lost, _("Total"))
+        self.createPieChart(app, won, lost, _("Total"))
         won, lost = app.stats.getSessionStats(player, gameid)
-        createChart(app, won, lost, _("Current session"))
+        self.createPieChart(app, won, lost, _("Current session"))
         #
-        focus = self.createButtons(bottom_frame, kw)
-        self.mainloop(focus, kw.timeout)
 
     #
     # helpers
@@ -103,7 +196,7 @@ class SingleGame_StatsDialog(MfxDialog):
 
     def _calc_tabs(self):
         #
-        font = self.tk_font
+        font = self.dialog.tkfont
         t0 = 160
         t = ''
         for i in (_("Won:"),
@@ -122,7 +215,7 @@ class SingleGame_StatsDialog(MfxDialog):
         t3 = 45
         tx = (t0, t0+t1+t2, t0+t1+t2+t3, t0+t1+t2+t3+20)
         #
-        ls = self.font_metrics['linespace']
+        ls = self.dialog.font_metrics['linespace']
         ls += 5
         #ls = max(ls, 20)
         ty = (5, 5+ls, 5+2*ls+15, max(85, 5+3*ls+15))
@@ -138,9 +231,9 @@ class SingleGame_StatsDialog(MfxDialog):
         return pwon, plost
 
     def _createChartInit(self, text):
-        frame = Tkinter.LabelFrame(self.top_frame, text=text)
+        frame = Tkinter.LabelFrame(self.right_frame, text=text)
         frame.pack(side='top', fill='both', expand=False, padx=20, pady=10)
-        style = Tkinter.Style(self.top_frame)
+        style = Tkinter.Style(self.right_frame)
         fg = style.lookup('.', 'foreground') or None # use default if fg == ''
         bg = style.lookup('.', 'background') or None
         self.fg = fg
@@ -152,11 +245,11 @@ class SingleGame_StatsDialog(MfxDialog):
         self.canvas = c
 
     def _createChartTexts(self, tx, ty, won, lost):
-        c, tfont, fg = self.canvas, self.font, self.fg
+        c, tfont, fg = self.canvas, self.dialog.font, self.fg
         pwon, plost = self._getPwon(won, lost)
         #
         x = tx[0]
-        dy = int(self.font_metrics['ascent']) - 10
+        dy = int(self.dialog.font_metrics['ascent']) - 10
         dy = dy/2
         c.create_text(x, ty[0]-dy, text=_("Won:"), anchor="nw", font=tfont, fill=fg)
         c.create_text(x, ty[1]-dy, text=_("Lost:"), anchor="nw", font=tfont, fill=fg)
@@ -179,7 +272,7 @@ class SingleGame_StatsDialog(MfxDialog):
         #c, tfont, fg = self._createChartInit(frame, 300, 100, text)
         #
         self._createChartInit(text)
-        c, tfont, fg = self.canvas, self.font, self.fg
+        c, tfont, fg = self.canvas, self.dialog.font, self.fg
         pwon, plost = self._getPwon(won, lost)
         #
         #tx = (160, 250, 280)
@@ -207,21 +300,6 @@ class SingleGame_StatsDialog(MfxDialog):
         #
         self._createChartTexts(tx, ty, won, lost)
 
-    #
-    #
-    #
-
-    def initKw(self, kw):
-        kw = KwStruct(kw,
-                      strings=(_("&OK"),
-                               (_("&All games..."), 102),
-                               (TOP_TITLE+"...", 105),
-                               (_("&Reset..."), 302)), default=0,
-                      image=self.app.gimages.logos[5],
-                      padx=10, pady=10,
-        )
-        return MfxDialog.initKw(self, kw)
-
 
 # /***********************************************************************
 # //
@@ -234,8 +312,7 @@ class TreeFormatter(PysolStatsFormatter):
         self.app = app
         self.tree = tree
         self.parent_window = parent_window
-        self.font = font
-        self.tkfont = tkFont.Font(tree, font)
+        self.tkfont = font
         self.gameid = None
         self.gamenumber = None
         self._tabs = None
@@ -249,7 +326,6 @@ class TreeFormatter(PysolStatsFormatter):
         tw = 20*self.w
         ##tw = 160
         self._tabs = [tw]
-        #font = tkFont.Font(self.tree, self.font)
         font = self.tkfont
         for t in arg[1:]:
             tw = font.measure(t)+20
@@ -332,41 +408,26 @@ class TreeFormatter(PysolStatsFormatter):
 # //
 # ************************************************************************/
 
-class AllGames_StatsDialog(MfxDialog):
+class AllGamesFrame(Tkinter.Frame):
 
     COLUMNS = ('played', 'won', 'lost', 'time', 'moves', 'percent')
 
-    def __init__(self, parent, title, app, player, **kw):
-        lines = 25
-        #if parent and parent.winfo_screenheight() < 600:
-        #    lines = 20
+    def __init__(self, dialog, parent, app, player, **kw):
+        Tkinter.Frame.__init__(self, parent)
         #
-        self.font = app.getFont('default')
-        font = tkFont.Font(parent, self.font)
-        self.font_metrics = font.metrics()
-        self.CHAR_H = self.font_metrics['linespace']
-        self.CHAR_W = font.measure('M')
+        self.dialog = dialog
         self.app = app
+        self.CHAR_H = self.dialog.font_metrics['linespace']
+        self.CHAR_W = self.dialog.tkfont.measure('M')
         #
         self.player = player
-        self.title = title
         self.sort_by = 'name'
         self.tree_items = []
         self.tree_tabs = None
         self.games = {}                 # tree_itemid: gameid
-        self.selected_game = None
         #
-        kwdefault(kw, width=self.CHAR_W*64, height=lines*self.CHAR_H)
-        kw = self.initKw(kw)
-        MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
-        top_frame, bottom_frame = self.createFrames(kw)
-        self.createBitmaps(top_frame, kw)
-        #
-        self.top.wm_minsize(200, 200)
-        self.button = kw.default
-        #
-        frame = Tkinter.Frame(top_frame)
-        frame.pack(fill='both', expand=True, padx=kw.padx, pady=kw.pady)
+        frame = Tkinter.Frame(self)
+        frame.pack(fill='both', expand=True, padx=10, pady=10)
         sb = Tkinter.Scrollbar(frame)
         sb.pack(side='right', fill='y')
         self.tree = Tkinter.Treeview(frame, columns=self.COLUMNS,
@@ -376,40 +437,18 @@ class AllGames_StatsDialog(MfxDialog):
         sb.config(command=self.tree.yview)
         bind(self.tree, '<<TreeviewSelect>>', self.treeviewSelected)
         #
-        focus = self.createButtons(bottom_frame, kw)
-        self.fillCanvas(player, title)
-        #run_button = self.buttons[0]
-        #run_button.config(state='disabled')
-        self.mainloop(focus, kw.timeout)
+        self.fillTreeview(player)
 
-    def initKw(self, kw):
-        kw = KwStruct(kw,
-                      strings=((_("&Play this game"), 401),
-                                "sep", _("&OK"),
-                               (_("&Save to file"), 202),
-                               (_("&Reset all..."), 301),),
-                      default=0,
-                      resizable=1,
-                      padx=10, pady=10,
-                      #width=900,
-        )
-        return MfxDialog.initKw(self, kw)
-
-    def mDone(self, button):
+    def getSelectedGame(self):
         sel = self.tree.selection()
         if sel and len(sel) == 1:
             if sel[0] in self.games:
-                self.selected_game = self.games[sel[0]]
-        MfxDialog.mDone(self, button)
-
-    def destroy(self):
-        self.app = None
-        self.tree.destroy()
-        MfxDialog.destroy(self)
+                return self.games[sel[0]]
+        return None
 
     def treeviewSelected(self, *args):
         sel = self.tree.selection()
-        run_button = self.buttons[0]
+        run_button = self.dialog.buttons[0]
         if sel and len(sel) == 1:
             if sel[0] not in self.games: # "Total"
                 run_button.config(state='disabled')
@@ -425,21 +464,21 @@ class AllGames_StatsDialog(MfxDialog):
             sort_by = column
         if self.sort_by == sort_by: return
         self.sort_by = sort_by
-        self.fillCanvas(self.player, self.title)
+        self.fillTreeview(self.player)
 
     #
     #
     #
 
-    def fillCanvas(self, player, header):
+    def fillTreeview(self, player):
         if self.tree_items:
             self.tree.delete(tuple(self.tree_items))
             self.tree_items = []
         formatter = TreeFormatter(self.app, self.tree, self,
-                                  self.font, self.CHAR_W, self.CHAR_H)
+                                  self.dialog.tkfont, self.CHAR_W, self.CHAR_H)
         formatter.writeStats(player, sort_by=self.sort_by)
-        if self.buttons:
-            run_button = self.buttons[0]
+        if self.dialog.buttons:
+            run_button = self.dialog.buttons[0]
             run_button.config(state='disabled')
 
 
@@ -447,25 +486,82 @@ class AllGames_StatsDialog(MfxDialog):
 # //
 # ************************************************************************/
 
-class FullLog_StatsDialog(AllGames_StatsDialog):
+class LogDialog(MfxDialog):
+    SELECTED_TAB = 0
 
-    COLUMNS = ('gamenumber', 'date', 'status')
+    def __init__(self, parent, title, app, player, **kw):
 
-    def fillCanvas(self, player, header):
-        formatter = TreeFormatter(self.app, self.tree, self, self.font,
-                                  self.CHAR_W, self.CHAR_H)
-        formatter.writeFullLog(player)
+        self.font = app.getFont('default')
+        self.tkfont = tkFont.Font(parent, self.font)
+        self.font_metrics = self.tkfont.metrics()
+
+        self.CHAR_H = self.font_metrics['linespace']
+        self.CHAR_W = self.tkfont.measure('M')
+
+        kw = self.initKw(kw)
+        MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
+
+        ##self.selected_game = None
+
+        top_frame, bottom_frame = self.createFrames(kw)
+        notebook = Tkinter.Notebook(top_frame)
+        notebook.pack(expand=True, fill='both', padx=10, pady=10)
+
+        self.notebook_tabs = []
+
+        full_frame = FullLogFrame(self, notebook, app, player)
+        notebook.add(full_frame, text=_('Full log'))
+        self.notebook_tabs.append(full_frame._w)
+
+        session_frame = SessionLogFrame(self, notebook, app, player)
+        notebook.add(session_frame, text=_('Session log'))
+        self.notebook_tabs.append(session_frame._w)
+
+        notebook.select(LogDialog.SELECTED_TAB)
+##         bind(notebook, '<<NotebookTabChanged>>', self.tabChanged)
+
+        self.notebook = notebook
+
+        focus = self.createButtons(bottom_frame, kw)
+        ##self.tabChanged()               # configure buttons state
+        self.mainloop(focus, kw.timeout)
 
     def initKw(self, kw):
         kw = KwStruct(kw,
-                      strings=(_("&OK"), (_("Session &log..."), 104),
-                               (_("&Save to file"), 203)), default=0,
+                      strings=(_("&OK"),
+                               (_("&Save to file"), 500)), default=0,
                       width=76*self.CHAR_W,
                       )
-        return AllGames_StatsDialog.initKw(self, kw)
+        return MfxDialog.initKw(self, kw)
 
     def mDone(self, button):
+        ##self.selected_game = self.all_games_frame.getSelectedGame()
+        w = self.notebook.select()
+        indx = self.notebook_tabs.index(w)
+        LogDialog.SELECTED_TAB = indx
+        if button == 500:               # "Save to file"
+            assert indx in (0, 1)
+            if indx == 0:               # "Full log"
+                button = 203
+            else:                       # "Session log"
+                button = 204
         MfxDialog.mDone(self, button)
+
+FullLog_StatsDialog = SessionLog_StatsDialog = LogDialog
+
+
+
+
+##class FullLog_StatsDialog(AllGames_StatsDialog):
+class FullLogFrame(AllGamesFrame):
+
+    COLUMNS = ('gamenumber', 'date', 'status')
+
+    def fillTreeview(self, player):
+        formatter = TreeFormatter(self.app, self.tree, self,
+                                  self.dialog.tkfont,
+                                  self.CHAR_W, self.CHAR_H)
+        formatter.writeFullLog(player)
 
     def treeviewSelected(self, *args):
         pass
@@ -473,18 +569,14 @@ class FullLog_StatsDialog(AllGames_StatsDialog):
         pass
 
 
-class SessionLog_StatsDialog(FullLog_StatsDialog):
-    def fillCanvas(self, player, header):
-        formatter = TreeFormatter(self.app, self.tree, self, self.font,
+##class SessionLog_StatsDialog(FullLog_StatsDialog):
+class SessionLogFrame(FullLogFrame):
+    def fillTreeview(self, player):
+        formatter = TreeFormatter(self.app, self.tree, self,
+                                  self.dialog.tkfont,
                                   self.CHAR_W, self.CHAR_H)
         formatter.writeSessionLog(player)
 
-    def initKw(self, kw):
-        kw = KwStruct(kw,
-                      strings=(_("&OK"), (_("&Full log..."), 103),
-                               (_("&Save to file"), 204)), default=0,
-                      )
-        return FullLog_StatsDialog.initKw(self, kw)
 
 # /***********************************************************************
 # //
@@ -525,8 +617,7 @@ class Status_StatsDialog(MfxMessageDialog):
                                   "\n" +
                                   w1 + w2,
                                   strings=(_("&OK"),
-                                           (_("&Statistics..."), 101),
-                                           (TOP_TITLE+"...", 105), ),
+                                           (_("&Statistics..."), 101))
                                   image=game.app.gimages.logos[3],
                                   image_side="left", image_padx=20,
                                   padx=20,
@@ -599,17 +690,18 @@ class _TopDialog(MfxDialog):
         return MfxDialog.initKw(self, kw)
 
 
-class Top_StatsDialog(MfxDialog):
-    def __init__(self, parent, title, app, player, gameid, **kw):
-        self.app = app
-        kw = self.initKw(kw)
-        MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
-        top_frame, bottom_frame = self.createFrames(kw)
-        self.createBitmaps(top_frame, kw)
+class TopFrame(Tkinter.Frame):
+    def __init__(self, dialog, parent, app, player, gameid):
+        Tkinter.Frame.__init__(self, parent)
 
-        frame = Tkinter.Frame(top_frame)
-        frame.pack(expand=Tkinter.YES, fill=Tkinter.BOTH, padx=10, pady=10)
-        frame.columnconfigure(0, weight=1)
+        self.app = app
+        self.dialog = dialog
+
+        left_label = Tkinter.Label(self, image=app.gimages.logos[4])
+        left_label.pack(side='left', expand=True, fill='both')
+        frame = Tkinter.Frame(self)
+        frame.pack(side='right', expand=True, fill='both', padx=10, pady=10)
+        ##frame.columnconfigure(0, weight=1)
 
         if (player in app.stats.games_stats and
             gameid in app.stats.games_stats[player] and
@@ -670,52 +762,35 @@ class Top_StatsDialog(MfxDialog):
         else:
             Tkinter.Label(frame, text=_('No TOP for this game')).pack()
 
-        focus = self.createButtons(bottom_frame, kw)
-        self.mainloop(focus, kw.timeout)
-
     def showTop(self, top):
-        #print top
-        d = _TopDialog(self.top, TOP_TITLE, top)
-
-    def initKw(self, kw):
-        kw = KwStruct(kw,
-                      strings=(_('&OK'),),
-                      default=0,
-                      image=self.app.gimages.logos[4],
-                      separatorwidth=2,
-                      )
-        return MfxDialog.initKw(self, kw)
+        d = _TopDialog(self.dialog.top, TOP_TITLE, top)
 
 
 # /***********************************************************************
 # //
 # ************************************************************************/
 
-class ProgressionDialog(MfxDialog):
-    def __init__(self, parent, title, app, player, gameid, **kw):
+##class ProgressionDialog(MfxDialog):
 
-        font_name = app.getFont('default')
-        font = tkFont.Font(parent, font_name)
-        tkfont = tkFont.Font(parent, font)
-        font_metrics = font.metrics()
-        measure = tkfont.measure
-        self.text_height = font_metrics['linespace']
-        self.text_width = measure('XX.XX.XX')
+class ProgressionFrame(Tkinter.Frame):
+
+    def __init__(self, dialog, parent, app, player, gameid, **kw):
+        Tkinter.Frame.__init__(self, parent)
+
+        self.text_height = dialog.font_metrics['linespace']
+        measure = dialog.tkfont.measure
+        self.text_width_1 = measure('XX.XX')
+        self.text_width_2 = measure('XX.XX.XX')
 
         self.items = []
         self.formatter = ProgressionFormatter(app, player, gameid)
 
-        kw = self.initKw(kw)
-        MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
-        top_frame, bottom_frame = self.createFrames(kw)
-        self.createBitmaps(top_frame, kw)
-
-        frame = Tkinter.Frame(top_frame)
+        frame = Tkinter.Frame(self)
         frame.pack(expand=True, fill='both', padx=5, pady=10)
         frame.columnconfigure(0, weight=1)
 
         # constants
-        self.canvas_width, self.canvas_height = 600, 250
+        self.canvas_width, self.canvas_height = 540, 220
         if parent.winfo_screenwidth() < 800 or \
                parent.winfo_screenheight() < 600:
             self.canvas_width, self.canvas_height = 400, 200
@@ -836,15 +911,6 @@ class ProgressionDialog(MfxDialog):
 
         self.updateGraph()
 
-        focus = self.createButtons(bottom_frame, kw)
-        self.mainloop(focus, kw.timeout)
-
-
-    def initKw(self, kw):
-        kw = KwStruct(kw, strings=(_('&OK'),), default=0, separatorwidth=2)
-        return MfxDialog.initKw(self, kw)
-
-
     def updateGraph(self, *args):
         interval = self.variable.get()
         canvas = self.canvas
@@ -874,12 +940,19 @@ class ProgressionDialog(MfxDialog):
         x = x0+graph_dx
         xx = -100                       # coord. of prev. text
         for res in result:
-            if res[0] is not None and x > xx+self.text_width+4:
+            text = res[0]
+            text_width = 0
+            if text is not None:
+                if len(text) == 5:      # day.month
+                    text_width = self.text_width_1
+                else:                   # day.month.year
+                    text_width = self.text_width_2
+            if text is not None and x > xx+text_width+4:
                 ##id = canvas.create_line(x, y0, x, y0-5, width=3)
                 ##self.items.append(id)
                 id = canvas.create_line(x, y0, x, y1, stipple='gray50')
                 self.items.append(id)
-                id = canvas.create_text(x, y0+td, anchor='n', text=res[0])
+                id = canvas.create_text(x, y0+td, anchor='n', text=text)
                 self.items.append(id)
                 xx = x
             else:

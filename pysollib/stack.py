@@ -241,6 +241,7 @@ class Stack:
         mapkey = (x, y)
         ###assert not game.stackmap.has_key(mapkey) ## can happen in PyJonngg
         game.stackmap[mapkey] = id
+        self.init_coord = (x, y)
 
         #
         # setup our pseudo MVC scheme
@@ -519,6 +520,26 @@ class Stack:
     def _position(self, card):
         x, y = self.getPositionFor(card)
         card.moveTo(x, y)
+
+    # move stack to new coords
+    def moveTo(self, x, y):
+        dx, dy = x-self.x, y-self.y
+        self.x, self.y = x, y
+        for c in self.cards:
+            x, y = self.getPositionFor(c)
+            c.moveTo(x, y)
+        if self.images.bottom:
+            self.images.bottom.move(dx, dy)
+        if self.images.redeal:
+            self.images.redeal.move(dx, dy)
+        if self.texts.ncards:
+            self.texts.ncards.move(dx, dy)
+        if self.texts.rounds:
+            self.texts.rounds.move(dx, dy)
+        if self.texts.redeal:
+            self.texts.redeal.move(dx, dy)
+        if self.texts.misc:
+            self.texts.misc.move(dx, dy)
 
     # find card
     def _findCard(self, event):

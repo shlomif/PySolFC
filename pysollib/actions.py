@@ -584,6 +584,7 @@ class PysolMenubarActions:
             elif mode == 101:
                 header = p1 + _("Statistics for ") + n
                 d = SingleGame_StatsDialog(self.top, header, self.app, player, gameid=self.game.id)
+                gameid = d.selected_game
             elif mode == 102:
                 header = p1 + _("Statistics") + p2
                 d = AllGames_StatsDialog(self.top, header, self.app, player)

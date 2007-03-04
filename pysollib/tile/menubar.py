@@ -413,7 +413,7 @@ class PysolMenubar(PysolMenubarActions):
         menu.add_command(label=n_("S&tatus..."), command=self.mStatus, accelerator=m+"Y")
         menu.add_checkbutton(label=n_("&Comments..."), variable=self.tkopt.comment, command=self.mEditGameComment)
         menu.add_separator()
-        menu.add_command(label=n_("&Statistics..."), command=lambda self=self: self.mPlayerStats(mode=102))
+        menu.add_command(label=n_("&Statistics..."), command=self.mPlayerStats)
         menu.add_command(label=n_("Log..."), command=lambda self=self: self.mPlayerStats(mode=103))
         menu.add_separator()
         menu.add_command(label=n_("D&emo statistics"), command=lambda self=self: self.mPlayerStats(mode=1102))

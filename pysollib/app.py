@@ -276,7 +276,7 @@ class _GameStatResult:
         self.total = 0 # sum of all values
         self.average = 0
 
-    def update(self, value, game_number, game_start_time):
+    def update(self, gameid, value, game_number, game_start_time):
         # update min & max
         if not self.min or value < self.min:
             self.min = value
@@ -288,7 +288,8 @@ class _GameStatResult:
         for i in self.top:
             if value < i.value:
                 position = n+1
-                v = Struct(value=value,
+                v = Struct(gameid=gameid,
+                           value=value,
                            game_number=game_number,
                            game_start_time=game_start_time)
                 self.top.insert(n, v)
@@ -296,7 +297,8 @@ class _GameStatResult:
                 break
             n += 1
         if not position and len(self.top) < TOP_SIZE:
-            v = Struct(value=value,
+            v = Struct(gameid=gameid,
+                       value=value,
                        game_number=game_number,
                        game_start_time=game_start_time)
             self.top.append(v)
@@ -348,24 +350,24 @@ class GameStat:
         score_p = None
         if score is not None:
             score_p = self.score_result.update(
-                score, game_number, game_start_time)
+                game.id, score, game_number, game_start_time)
         score = game.getGameScoreCasino()
         ##print 'GameScoreCasino:', score
         score_casino_p = None
         if score is not None:
             score_casino_p = self.score_casino_result.update(
-                score, game_number, game_start_time)
+                game.id, score, game_number, game_start_time)
 
         if status == 0:
             return
 
         game.updateTime()
         time_p = self.time_result.update(
-            game.stats.elapsed_time, game_number, game_start_time)
+            game.id, game.stats.elapsed_time, game_number, game_start_time)
         moves_p = self.moves_result.update(
-            game.moves.index, game_number, game_start_time)
+            game.id, game.moves.index, game_number, game_start_time)
         total_moves_p = self.total_moves_result.update(
-            game.stats.total_moves, game_number, game_start_time)
+            game.id, game.stats.total_moves, game_number, game_start_time)
 
         return time_p, moves_p, total_moves_p, score_p, score_casino_p
 
@@ -470,7 +472,18 @@ class Statistics:
             self.games_stats[player][game.id] = game_stat
         else:
             game_stat = self.games_stats[player][game.id]
+        if 'all' not in self.games_stats[player]:
+            all_games_stat = GameStat('all')
+            self.games_stats[player]['all'] = all_games_stat
+        else:
+            all_games_stat = self.games_stats[player]['all']
+        all_games_stat.update(game, status)
         return game_stat.update(game, status)
+
+##     def __setstate__(self, state):      # for backward compatible
+##         if 'gameid' not in state:
+##             self.gameid = None
+##         self.__dict__.update(state)
 
 
 # /***********************************************************************

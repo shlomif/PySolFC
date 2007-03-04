@@ -243,6 +243,25 @@ class Notebook(Widget):
         """Returns a list of all pane windows managed by the widget."""
         return self.tk.call(self._w, "tabs")
 
+    def enableTraversal(self):
+        """To enable keyboard traversal for a toplevel window containing a
+        notebook widget $nb, call:
+
+        ttk::notebook::enableTraversal $nb
+
+        This will extend the bindings for the toplevel widget containing the
+        notebook as follows:
+
+        * Control-Tab selects the tab following the currently selected one.
+        * Shift-Control-Tab selects the tab preceding the currently selected
+        one.
+        * Alt-K, where K is the mnemonic (underlined) character of any tab,
+        will select that tab.
+
+        Multiple notebooks in a single toplevel may be enabled for traversal,
+        including nested notebooks. However, notebook traversal only works
+        properly if all panes are direct children of the notebook."""
+        return self.tk.call("ttk::notebook::enableTraversal", self._w)
 
 class Paned(Widget):
     """

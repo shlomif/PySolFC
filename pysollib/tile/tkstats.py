@@ -617,7 +617,7 @@ class Status_StatsDialog(MfxMessageDialog):
                                   "\n" +
                                   w1 + w2,
                                   strings=(_("&OK"),
-                                           (_("&Statistics..."), 101))
+                                           (_("&Statistics..."), 101)),
                                   image=game.app.gimages.logos[3],
                                   image_side="left", image_padx=20,
                                   padx=20,

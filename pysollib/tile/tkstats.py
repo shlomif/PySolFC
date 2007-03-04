@@ -73,6 +73,7 @@ class StatsDialog(MfxDialog):
     def __init__(self, parent, title, app, player, gameid, **kw):
 
         kw = self.initKw(kw)
+        title = _('Statistics')
         MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
 
         self.font = app.getFont('default')
@@ -86,13 +87,6 @@ class StatsDialog(MfxDialog):
         notebook.pack(expand=True, fill='both', padx=10, pady=10)
 
         self.notebook_tabs = []
-
-##         frame = Tkinter.Frame(notebook)
-##         notebook.add(frame, text=_('Current game'))
-##         single_frame = SingleGameFrame(self, frame, app, player, gameid)
-##         single_frame.pack(side='left', expand=True, fill='both')
-##         top_frame = TopFrame(self, frame, app, player, gameid)
-##         top_frame.pack(side='right', expand=True, fill='both')
 
         single_frame = SingleGameFrame(self, notebook, app, player, gameid)
         notebook.add(single_frame, text=_('Current game'))
@@ -115,6 +109,7 @@ class StatsDialog(MfxDialog):
         if StatsDialog.SELECTED_TAB < len(self.notebook_tabs):
             notebook.select(StatsDialog.SELECTED_TAB)
         bind(notebook, '<<NotebookTabChanged>>', self.tabChanged)
+        ##notebook.enableTraversal()
         self.notebook = notebook
 
         focus = self.createButtons(bottom_frame, kw)
@@ -173,6 +168,9 @@ class SingleGameFrame(Tkinter.Frame):
     def __init__(self, dialog, parent, app, player, gameid, **kw):
         Tkinter.Frame.__init__(self, parent)
 
+        self.oval_width = 120
+        self.oval_height = 60
+
         left_label = Tkinter.Label(self, image=app.gimages.logos[5])
         left_label.pack(side='left', expand=True, fill='both')
         self.right_frame = Tkinter.Frame(self)
@@ -197,7 +195,7 @@ class SingleGameFrame(Tkinter.Frame):
     def _calc_tabs(self):
         #
         font = self.dialog.tkfont
-        t0 = 160
+        t0 = self.oval_width+70
         t = ''
         for i in (_("Won:"),
                   _("Lost:"),
@@ -238,7 +236,7 @@ class SingleGameFrame(Tkinter.Frame):
         bg = style.lookup('.', 'background') or None
         self.fg = fg
         #
-        w, h = self.tab_x[-1], self.tab_y[-1]
+        w, h = self.tab_x[-1], max(self.tab_y[-1], self.oval_height+40)
         c = Tkinter.Canvas(frame, width=w, height=h,
                            bg=bg, highlightthickness=0)
         c.pack(fill='both', expand=True)
@@ -251,21 +249,28 @@ class SingleGameFrame(Tkinter.Frame):
         x = tx[0]
         dy = int(self.dialog.font_metrics['ascent']) - 10
         dy = dy/2
-        c.create_text(x, ty[0]-dy, text=_("Won:"), anchor="nw", font=tfont, fill=fg)
-        c.create_text(x, ty[1]-dy, text=_("Lost:"), anchor="nw", font=tfont, fill=fg)
-        c.create_text(x, ty[2]-dy, text=_("Total:"), anchor="nw", font=tfont, fill=fg)
+        c.create_text(x, ty[0]-dy, text=_("Won:"),
+                      anchor="nw", font=tfont, fill=fg)
+        c.create_text(x, ty[1]-dy, text=_("Lost:"),
+                      anchor="nw", font=tfont, fill=fg)
+        c.create_text(x, ty[2]-dy, text=_("Total:"),
+                      anchor="nw", font=tfont, fill=fg)
         x = tx[1] - 16
-        c.create_text(x, ty[0]-dy, text="%d" % won, anchor="ne", font=tfont, fill=fg)
-        c.create_text(x, ty[1]-dy, text="%d" % lost, anchor="ne", font=tfont, fill=fg)
-        c.create_text(x, ty[2]-dy, text="%d" % (won + lost), anchor="ne", font=tfont, fill=fg)
+        c.create_text(x, ty[0]-dy, text="%d" % won,
+                      anchor="ne", font=tfont, fill=fg)
+        c.create_text(x, ty[1]-dy, text="%d" % lost,
+                      anchor="ne", font=tfont, fill=fg)
+        c.create_text(x, ty[2]-dy, text="%d" % (won + lost),
+                      anchor="ne", font=tfont, fill=fg)
         y = ty[2] - 11
         c.create_line(tx[0], y, x, y, fill=fg)
         if won + lost > 0:
             x = tx[2]
             pw = int(round(100.0 * pwon))
-            c.create_text(x, ty[0]-dy, text="%d%%" % pw, anchor="ne", font=tfont, fill=fg)
-            c.create_text(x, ty[1]-dy, text="%d%%" % (100-pw), anchor="ne", font=tfont, fill=fg)
-
+            c.create_text(x, ty[0]-dy, text="%d%%" % pw,
+                          anchor="ne", font=tfont, fill=fg)
+            c.create_text(x, ty[1]-dy, text="%d%%" % (100-pw),
+                          anchor="ne", font=tfont, fill=fg)
 
 
     def createPieChart(self, app, won, lost, text):
@@ -280,15 +285,20 @@ class SingleGameFrame(Tkinter.Frame):
         #
         tx, ty = self.tab_x, self.tab_y
         x0, y0 = 20, 10                 # base coords
-        w, h = 90, 50                   # size
+        w = self.oval_width
+        h = self.oval_height
         d = 9                           # delta
         if won + lost > 0:
             ##s, ewon, elost = 90.0, -360.0 * pwon, -360.0 * plost
             s, ewon, elost = 0.0, 360.0 * pwon, 360.0 * plost
-            c.create_arc(x0, y0+d, x0+w, y0+h+d,  fill="#007f00", start=s, extent=ewon)
-            c.create_arc(x0, y0+d, x0+w, y0+h+d,  fill="#7f0000", start=s+ewon, extent=elost)
-            c.create_arc(x0, y0,   x0+w, y0+h,    fill="#00ff00", start=s, extent=ewon)
-            c.create_arc(x0, y0,   x0+w, y0+h,    fill="#ff0000", start=s+ewon, extent=elost)
+            c.create_arc(x0, y0+d, x0+w, y0+h+d, fill="#007f00",
+                         start=s, extent=ewon)
+            c.create_arc(x0, y0+d, x0+w, y0+h+d, fill="#7f0000",
+                         start=s+ewon, extent=elost)
+            c.create_arc(x0, y0,   x0+w, y0+h,   fill="#00ff00",
+                         start=s, extent=ewon)
+            c.create_arc(x0, y0,   x0+w, y0+h,   fill="#ff0000",
+                         start=s+ewon, extent=elost)
             x, y = tx[0] - 25, ty[0]
             c.create_rectangle(x, y, x+10, y+10, fill="#00ff00")
             y = ty[1]
@@ -296,7 +306,8 @@ class SingleGameFrame(Tkinter.Frame):
         else:
             c.create_oval(x0, y0+d, x0+w, y0+h+d, fill="#7f7f7f")
             c.create_oval(x0, y0,   x0+w, y0+h,   fill="#f0f0f0")
-            c.create_text(x0+w/2, y0+h/2, text=_("No games"), anchor="center", font=tfont, fill="#bfbfbf")
+            c.create_text(x0+w/2, y0+h/2, text=_("No games"),
+                          anchor="center", font=tfont, fill="#bfbfbf")
         #
         self._createChartTexts(tx, ty, won, lost)
 
@@ -499,6 +510,7 @@ class LogDialog(MfxDialog):
         self.CHAR_W = self.tkfont.measure('M')
 
         kw = self.initKw(kw)
+        title = _('Log')
         MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
 
         ##self.selected_game = None
@@ -602,33 +614,34 @@ class Status_StatsDialog(MfxMessageDialog):
             w2 = w2 + _("\nCards in Foundations: ") + str(n)
         #
         date = time.strftime("%Y-%m-%d %H:%M", time.localtime(game.gstats.start_time))
-        MfxMessageDialog.__init__(self, parent, title=_("Game status"),
-                                  text=game.getTitleName() + "\n" +
-                                  game.getGameNumber(format=1) + "\n" +
-                                  _("Playing time: ") + game.getTime() + "\n" +
-                                  _("Started at: ") + date + "\n\n"+
-                                  _("Moves: ") + str(game.moves.index) + "\n" +
-                                  _("Undo moves: ") + str(stats.undo_moves) + "\n" +
-                                  _("Bookmark moves: ") + str(gstats.goto_bookmark_moves) + "\n" +
-                                  _("Demo moves: ") + str(stats.demo_moves) + "\n" +
-                                  _("Total player moves: ") + str(stats.player_moves) + "\n" +
-                                  _("Total moves in this game: ") + str(stats.total_moves) + "\n" +
-                                  _("Hints: ") + str(stats.hints) + "\n" +
-                                  "\n" +
-                                  w1 + w2,
-                                  strings=(_("&OK"),
-                                           (_("&Statistics..."), 101)),
-                                  image=game.app.gimages.logos[3],
-                                  image_side="left", image_padx=20,
-                                  padx=20,
-                                  )
+        MfxMessageDialog.__init__(
+            self, parent, title=_("Game status"),
+            text=game.getTitleName() + "\n" +
+            game.getGameNumber(format=1) + "\n" +
+            _("Playing time: ") + game.getTime() + "\n" +
+            _("Started at: ") + date + "\n\n"+
+            _("Moves: ") + str(game.moves.index) + "\n" +
+            _("Undo moves: ") + str(stats.undo_moves) + "\n" +
+            _("Bookmark moves: ") + str(gstats.goto_bookmark_moves) + "\n" +
+            _("Demo moves: ") + str(stats.demo_moves) + "\n" +
+            _("Total player moves: ") + str(stats.player_moves) + "\n" +
+            _("Total moves in this game: ") + str(stats.total_moves) + "\n" +
+            _("Hints: ") + str(stats.hints) + "\n" +
+            "\n" +
+            w1 + w2,
+            strings=(_("&OK"),
+                     (_("&Statistics..."), 101)),
+            image=game.app.gimages.logos[3],
+            image_side="left", image_padx=20,
+            padx=20,
+            )
 
 # /***********************************************************************
 # //
 # ************************************************************************/
 
 class _TopDialog(MfxDialog):
-    def __init__(self, parent, title, top, **kw):
+    def __init__(self, parent, title, app, gameid, top, **kw):
         kw = self.initKw(kw)
         MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)
@@ -644,15 +657,19 @@ class _TopDialog(MfxDialog):
         cnf['text'] = _('N')
         l = Tkinter.Label(**cnf)
         l.grid(row=0, column=0, sticky='ew')
+        if gameid == 'all':
+            cnf['text'] = _('Game')
+            l = Tkinter.Label(**cnf)
+            l.grid(row=0, column=1, sticky='ew')
         cnf['text'] = _('Game number')
         l = Tkinter.Label(**cnf)
-        l.grid(row=0, column=1, sticky='ew')
+        l.grid(row=0, column=2, sticky='ew')
         cnf['text'] = _('Started at')
         l = Tkinter.Label(**cnf)
-        l.grid(row=0, column=2, sticky='ew')
+        l.grid(row=0, column=3, sticky='ew')
         cnf['text'] = _('Result')
         l = Tkinter.Label(**cnf)
-        l.grid(row=0, column=3, sticky='ew')
+        l.grid(row=0, column=4, sticky='ew')
 
         row = 1
         for i in top:
@@ -660,15 +677,22 @@ class _TopDialog(MfxDialog):
             cnf['text'] = str(row)
             l = Tkinter.Label(**cnf)
             l.grid(row=row, column=0, sticky='ew')
+            if gameid == 'all':
+                name = app.getGameTitleName(i.gameid)
+                if name is None:
+                    name = _("** UNKNOWN %d **") % i.gameid
+                cnf['text'] = name
+                l = Tkinter.Label(**cnf)
+                l.grid(row=row, column=1, sticky='ew')
             # Game number
             cnf['text'] = '#'+str(i.game_number)
             l = Tkinter.Label(**cnf)
-            l.grid(row=row, column=1, sticky='ew')
+            l.grid(row=row, column=2, sticky='ew')
             # Start time
             t = time.strftime('%Y-%m-%d %H:%M', time.localtime(i.game_start_time))
             cnf['text'] = t
             l = Tkinter.Label(**cnf)
-            l.grid(row=row, column=2, sticky='ew')
+            l.grid(row=row, column=3, sticky='ew')
             # Result
             if isinstance(i.value, float):
                 # time
@@ -678,7 +702,7 @@ class _TopDialog(MfxDialog):
                 s = str(i.value)
             cnf['text'] = s
             l = Tkinter.Label(**cnf)
-            l.grid(row=row, column=3, sticky='ew')
+            l.grid(row=row, column=4, sticky='ew')
             row += 1
 
         focus = self.createButtons(bottom_frame, kw)
@@ -697,46 +721,67 @@ class TopFrame(Tkinter.Frame):
         self.app = app
         self.dialog = dialog
 
-        left_label = Tkinter.Label(self, image=app.gimages.logos[4])
+        left_label = Tkinter.Label(self, image=app.gimages.logos[5])
         left_label.pack(side='left', expand=True, fill='both')
-        frame = Tkinter.Frame(self)
-        frame.pack(side='right', expand=True, fill='both', padx=10, pady=10)
+
+        frame = Tkinter.LabelFrame(self, text='All games',
+                                   padding=(10,5,10,10))
+        frame.pack(side='top', expand=True, fill='x', padx=10, pady=10)
         ##frame.columnconfigure(0, weight=1)
+        if not self.createTopFrame(frame, player, 'all'):
+            Tkinter.Label(frame, text=_('No TOP for all games')
+                          ).pack(padx=10, pady=10)
 
-        if (player in app.stats.games_stats and
-            gameid in app.stats.games_stats[player] and
-            app.stats.games_stats[player][gameid].time_result.top):
+        frame = Tkinter.LabelFrame(self, text='Current game',
+                                   padding=(10,5,10,10))
+        frame.pack(side='top', expand=True, fill='x', padx=10, pady=10)
+        ##frame.columnconfigure(0, weight=1)
+        if not self.createTopFrame(frame, player, gameid):
+            Tkinter.Label(frame, text=_('No TOP for this game')
+                          ).pack(padx=10, pady=10)
 
-            Tkinter.Label(frame, text=_('Minimum')).grid(row=0, column=1, padx=4)
-            Tkinter.Label(frame, text=_('Maximum')).grid(row=0, column=2, padx=4)
-            Tkinter.Label(frame, text=_('Average')).grid(row=0, column=3, padx=4)
-            ##Tkinter.Label(frame, text=_('Total')).grid(row=0, column=4)
+    def createTopFrame(self, frame, player, gameid):
+        app = self.app
 
-            s = app.stats.games_stats[player][gameid]
-            row = 1
-            ll = [
-                (_('Playing time:'),
-                 format_time(s.time_result.min),
-                 format_time(s.time_result.max),
-                 format_time(s.time_result.average),
-                 format_time(s.time_result.total),
-                 s.time_result.top,
-                 ),
-                (_('Moves:'),
-                 s.moves_result.min,
-                 s.moves_result.max,
-                 round(s.moves_result.average, 2),
-                 s.moves_result.total,
-                 s.moves_result.top,
-                 ),
-                (_('Total moves:'),
-                 s.total_moves_result.min,
-                 s.total_moves_result.max,
-                 round(s.total_moves_result.average, 2),
-                 s.total_moves_result.total,
-                 s.total_moves_result.top,
-                 ),
-                ]
+        if (player not in app.stats.games_stats or
+            gameid not in app.stats.games_stats[player] or
+            not app.stats.games_stats[player][gameid].time_result.top):
+            return False
+
+        Tkinter.Label(frame, text=_('Minimum')
+                      ).grid(row=0, column=1, padx=5, pady=5)
+        Tkinter.Label(frame, text=_('Maximum')
+                      ).grid(row=0, column=2, padx=5, pady=5)
+        Tkinter.Label(frame, text=_('Average')
+                      ).grid(row=0, column=3, padx=5, pady=5)
+        ##Tkinter.Label(frame, text=_('Total')).grid(row=0, column=4)
+
+        s = app.stats.games_stats[player][gameid]
+
+        row = 1
+        ll = [
+            (_('Playing time:'),
+             format_time(s.time_result.min),
+             format_time(s.time_result.max),
+             format_time(s.time_result.average),
+             format_time(s.time_result.total),
+             s.time_result.top,
+             ),
+            (_('Moves:'),
+             s.moves_result.min,
+             s.moves_result.max,
+             round(s.moves_result.average, 2),
+             s.moves_result.total,
+             s.moves_result.top,
+             ),
+            (_('Total moves:'),
+             s.total_moves_result.min,
+             s.total_moves_result.max,
+             round(s.total_moves_result.average, 2),
+             s.total_moves_result.total,
+             s.total_moves_result.top,
+             ),
+            ]
 ##             if s.score_result.min:
 ##                 ll.append(('Score:',
 ##                            s.score_result.min,
@@ -749,21 +794,26 @@ class TopFrame(Tkinter.Frame):
 ##                            s.score_casino_result.min,
 ##                            s.score_casino_result.max,
 ##                            round(s.score_casino_result.average, 2), ))
-            for l, min, max, avr, tot, top in ll:
-                Tkinter.Label(frame, text=l).grid(row=row, column=0)
-                Tkinter.Label(frame, text=str(min)).grid(row=row, column=1)
-                Tkinter.Label(frame, text=str(max)).grid(row=row, column=2)
-                Tkinter.Label(frame, text=str(avr)).grid(row=row, column=3)
-                ##Tkinter.Label(frame, text=str(tot)).grid(row=row, column=4)
-                b = Tkinter.Button(frame, text=TOP_TITLE+' ...', width=10,
-                                   command=lambda top=top: self.showTop(top))
-                b.grid(row=row, column=5)
-                row += 1
-        else:
-            Tkinter.Label(frame, text=_('No TOP for this game')).pack()
+        for l, min, max, avr, tot, top in ll:
+            Tkinter.Label(frame, text=l
+                          ).grid(row=row, column=0, padx=5, pady=5)
+            Tkinter.Label(frame, text=str(min)
+                          ).grid(row=row, column=1, padx=5, pady=5)
+            Tkinter.Label(frame, text=str(max)
+                          ).grid(row=row, column=2, padx=5, pady=5)
+            Tkinter.Label(frame, text=str(avr)
+                          ).grid(row=row, column=3, padx=5, pady=5)
+            ##Tkinter.Label(frame, text=str(tot)).grid(row=row, column=4)
+            def command(gameid=gameid, top=top):
+                self.showTop(gameid, top)
+            b = Tkinter.Button(frame, text=TOP_TITLE+' ...', width=10,
+                               command=command)
+            b.grid(row=row, column=5)
+            row += 1
+        return True
 
-    def showTop(self, top):
-        d = _TopDialog(self.dialog.top, TOP_TITLE, top)
+    def showTop(self, gameid, top):
+        d = _TopDialog(self.dialog.top, TOP_TITLE, self.app, gameid, top)
 
 
 # /***********************************************************************
@@ -790,7 +840,7 @@ class ProgressionFrame(Tkinter.Frame):
         frame.columnconfigure(0, weight=1)
 
         # constants
-        self.canvas_width, self.canvas_height = 540, 220
+        self.canvas_width, self.canvas_height = 500, 250
         if parent.winfo_screenwidth() < 800 or \
                parent.winfo_screenheight() < 600:
             self.canvas_width, self.canvas_height = 400, 200

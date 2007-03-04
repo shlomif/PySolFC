@@ -137,7 +137,7 @@ class PysolStatsFormatter:
             if not gi:
                 gi = self.app.getGameInfo(GI.PROTECTED_GAMES.get(gameid))
             if gi:
-                name = gi.short_name
+                name = gi.name
             else:
                 name = _("** UNKNOWN %d **") % gameid
             f = pg[1]

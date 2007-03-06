@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Wed Feb 21 17:56:30 2007\n"
+"POT-Creation-Date: Mon Mar  5 17:55:43 2007\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1092,6 +1092,9 @@ msgstr ""
 msgid "Flamenco"
 msgstr ""
 
+msgid "Flipper"
+msgstr ""
+
 msgid "Floating City"
 msgstr ""
 
@@ -1744,6 +1747,9 @@ msgid "Le Grande Teton"
 msgstr ""
 
 msgid "Legion"
+msgstr ""
+
+msgid "Leprechaun"
 msgstr ""
 
 msgid "Les Quatre Coins"
@@ -3114,6 +3120,9 @@ msgstr ""
 msgid "Shamrocks"
 msgstr ""
 
+msgid "Shamrocks II"
+msgstr ""
+
 msgid "Shamsher"
 msgstr ""
 
@@ -3460,6 +3469,9 @@ msgid "The Garden"
 msgstr ""
 
 msgid "The Great Wall"
+msgstr ""
+
+msgid "The Jolly Roger"
 msgstr ""
 
 msgid "The Last Monarch"

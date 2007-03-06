@@ -167,7 +167,7 @@ class Whitehead_RowStack(SS_RowStack):
     def _isAcceptableSequence(self, cards):
         return isSameColorSequence(cards, self.cap.mod, self.cap.dir)
     def getHelp(self):
-        return _('Tableau. Build down by color.')
+        return _('Tableau. Build down by color. Sequences of cards in the same suit can be moved as a unit.')
 
 class Whitehead(Klondike):
     RowStack_Class = Whitehead_RowStack
@@ -180,6 +180,7 @@ class Whitehead(Klondike):
         Klondike.startGame(self, flip=1)
 
     shallHighlightMatch = Game._shallHighlightMatch_SS
+    getQuickPlayScore = Game._getSpiderQuickPlayScore
 
 
 # /***********************************************************************

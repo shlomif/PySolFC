@@ -21,6 +21,8 @@
 
 import sys, os
 
+import tkFont
+
 from pysollib.settings import PACKAGE
 from pysollib.settings import TOOLKIT, USE_TILE
 from pysollib.tile import Tile
@@ -62,6 +64,9 @@ class initRootWindow(baseInitRootWindow):
                     root.option_add('*font', font)
                     style.configure('.', font=font)
                     app.opt.fonts['default'] = fn
+                    # treeview heading
+                    f = root.tk.splitlist(root.tk.call('font', 'actual', fn))
+                    root.tk.call('font', 'configure', 'TkHeadingFont', *f)
             else:
                 # use font from Tile settings
                 font = style.lookup('.', 'font')

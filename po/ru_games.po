@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Wed Feb 21 17:56:30 2007\n"
-"PO-Revision-Date: 2007-02-12 19:08+0300\n"
+"POT-Creation-Date: Mon Mar  5 17:55:43 2007\n"
+"PO-Revision-Date: 2007-03-05 18:01+0300\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1104,6 +1104,10 @@ msgstr "Пять пирамид"
 msgid "Flamenco"
 msgstr "Фламенко"
 
+#, fuzzy
+msgid "Flipper"
+msgstr "Dieppe"
+
 msgid "Floating City"
 msgstr "Плавающий город"
 
@@ -1769,6 +1773,9 @@ msgstr "Le Grande Teton"
 
 msgid "Legion"
 msgstr "Легион"
+
+msgid "Leprechaun"
+msgstr ""
 
 msgid "Les Quatre Coins"
 msgstr "Les Quatre Coins"
@@ -2840,7 +2847,7 @@ msgid "Princess Patience"
 msgstr "Княжеский пасьянс"
 
 msgid "Progression"
-msgstr "Движение"
+msgstr "Прогресс"
 
 msgid "Provisions"
 msgstr "Припасы"
@@ -3147,6 +3154,10 @@ msgid "Shady Lanes"
 msgstr "Тенистые аллеи"
 
 msgid "Shamrocks"
+msgstr "Трилистники"
+
+#, fuzzy
+msgid "Shamrocks II"
 msgstr "Трилистники"
 
 msgid "Shamsher"
@@ -3505,6 +3516,10 @@ msgstr "Сад"
 
 msgid "The Great Wall"
 msgstr "Великая Стена"
+
+#, fuzzy
+msgid "The Jolly Roger"
+msgstr "Дверь"
 
 msgid "The Last Monarch"
 msgstr "Последний Монарх"

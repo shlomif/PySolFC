@@ -25,6 +25,7 @@ from pysollib.settings import PACKAGE
 from pysollib.settings import FC_VERSION as VERSION
 from pysollib.settings import TOOLKIT, USE_TILE
 from pysollib.settings import DEBUG
+from pysollib.mfxutil import print_err
 from pysollib.tile import Tile
 
 
@@ -48,7 +49,7 @@ def set_theme(app, top, theme):
     style = Tile.Style(top)
     all_themes = style.theme_names()
     if theme not in all_themes:
-        print >> sys.stderr, 'WARNING: invalid theme name:', theme
+        print_err(_('invalid theme name: ') + theme)
         theme = app.opt.default_tile_theme
     style.theme_use(theme)
 
@@ -61,7 +62,7 @@ def get_font_name(font):
     try:
         f = Font(font=font)
     except:
-        print >> sys.stderr, 'invalid font name:', font
+        print_err(_('invalid font name: ') + font)
         if DEBUG:
             traceback.print_exc()
     else:

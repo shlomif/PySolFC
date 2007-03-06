@@ -79,6 +79,9 @@ class StatsDialog(MfxDialog):
         self.font = app.getFont('default')
         self.tkfont = tkFont.Font(parent, self.font)
         self.font_metrics = self.tkfont.metrics()
+        style = Tkinter.Style()
+        self.heading_font = style.lookup('Heading', 'font') # treeview heading
+        self.heading_tkfont = tkFont.Font(parent, self.heading_font)
 
         self.selected_game = None
 
@@ -339,7 +342,7 @@ class TreeFormatter(PysolStatsFormatter):
         self._tabs = [tw]
         font = self.tkfont
         for t in arg[1:]:
-            tw = font.measure(t)+20
+            tw = font.measure(t)+8
             self._tabs.append(tw)
         self._tabs.append(10)
         self.parent_window.tree_tabs = self._tabs
@@ -486,7 +489,8 @@ class AllGamesFrame(Tkinter.Frame):
             self.tree.delete(tuple(self.tree_items))
             self.tree_items = []
         formatter = TreeFormatter(self.app, self.tree, self,
-                                  self.dialog.tkfont, self.CHAR_W, self.CHAR_H)
+                                  self.dialog.heading_tkfont,
+                                  self.CHAR_W, self.CHAR_H)
         formatter.writeStats(player, sort_by=self.sort_by)
         if self.dialog.buttons:
             run_button = self.dialog.buttons[0]
@@ -724,20 +728,20 @@ class TopFrame(Tkinter.Frame):
         left_label = Tkinter.Label(self, image=app.gimages.logos[5])
         left_label.pack(side='left', expand=True, fill='both')
 
-        frame = Tkinter.LabelFrame(self, text='All games',
-                                   padding=(10,5,10,10))
-        frame.pack(side='top', expand=True, fill='x', padx=10, pady=10)
-        ##frame.columnconfigure(0, weight=1)
-        if not self.createTopFrame(frame, player, 'all'):
-            Tkinter.Label(frame, text=_('No TOP for all games')
-                          ).pack(padx=10, pady=10)
-
-        frame = Tkinter.LabelFrame(self, text='Current game',
+        frame = Tkinter.LabelFrame(self, text=_('Current game'),
                                    padding=(10,5,10,10))
         frame.pack(side='top', expand=True, fill='x', padx=10, pady=10)
         ##frame.columnconfigure(0, weight=1)
         if not self.createTopFrame(frame, player, gameid):
             Tkinter.Label(frame, text=_('No TOP for this game')
+                          ).pack(padx=10, pady=10)
+
+        frame = Tkinter.LabelFrame(self, text=_('All games'),
+                                   padding=(10,5,10,10))
+        frame.pack(side='top', expand=True, fill='x', padx=10, pady=10)
+        ##frame.columnconfigure(0, weight=1)
+        if not self.createTopFrame(frame, player, 'all'):
+            Tkinter.Label(frame, text=_('No TOP for all games')
                           ).pack(padx=10, pady=10)
 
     def createTopFrame(self, frame, player, gameid):

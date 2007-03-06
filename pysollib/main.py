@@ -41,6 +41,7 @@ import getopt
 
 # PySol imports
 from util import DataLoader
+from mfxutil import print_err
 from resource import Tile
 from app import Application
 from pysolaudio import AbstractAudioClient, PysolSoundServerModuleClient
@@ -87,8 +88,8 @@ def parse_option(argv):
                                        "sound-mod=",
                                        "help"])
     except getopt.GetoptError, err:
-        print >> sys.stderr, _("%s: %s\ntry %s --help for more information") \
-              % (prog_name, err, prog_name)
+        print_err(_("%s\ntry %s --help for more information") %
+                  (err, prog_name), 0)
         return None
     opts = {"help"        : False,
             "game"        : None,
@@ -131,11 +132,15 @@ def parse_option(argv):
         return None
 
     if len(args) > 1:
-        print >> sys.stderr, _("%s: too many files\ntry %s --help for more information") % (prog_name, prog_name)
+        print_err(
+            _("too many files\ntry %s --help for more information") %
+            prog_name, 0)
         return None
     filename = args and args[0] or None
     if filename and not os.path.isfile(filename):
-        print >> sys.stderr, _("%s: invalid file name\ntry %s --help for more information") % (prog_name, prog_name)
+        print_err(
+            _("invalid file name\ntry %s --help for more information") %
+            prog_name, 0)
         return None
     return opts, filename
 
@@ -173,8 +178,8 @@ def pysol_init(app, args):
     if opts['gameid'] is not None:
         try:
             app.commandline.gameid = int(opts['gameid'])
-        except:
-            print >> sys.stderr, 'WARNING: invalid game id:', opts['gameid']
+        except ValueError:
+            print_err(_('invalid game id: ') + opts['gameid'])
 
     # init games database
     import games

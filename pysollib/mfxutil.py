@@ -35,7 +35,7 @@
 
 
 # imports
-import os, time, types
+import sys, os, time, types, locale
 import webbrowser
 
 try:
@@ -48,7 +48,8 @@ try:
 except:
     thread = None
 
-from settings import TOOLKIT
+from settings import PACKAGE, TOOLKIT
+
 Image = ImageTk = ImageOps = None
 if TOOLKIT == 'tk':
     try: # PIL
@@ -106,6 +107,15 @@ def format_time(t):
     if t <= 0: return "0:00"
     if t < 3600: return "%d:%02d" % (t / 60, t % 60)
     return "%d:%02d:%02d" % (t / 3600, (t % 3600) / 60, t % 60)
+
+
+def print_err(s, level=1):
+    if level == 0:
+        ss = PACKAGE+': ERROR:'
+    elif level == 1:
+        ss = PACKAGE+': WARNING:'
+    print >> sys.stderr, ss, s.encode(locale.getpreferredencoding())
+    sys.stderr.flush()
 
 
 # /***********************************************************************

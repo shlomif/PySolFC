@@ -42,7 +42,7 @@ import traceback
 from mfxutil import destruct, Struct
 from mfxutil import pickle, unpickle, UnpicklingError
 from mfxutil import getusername, gethomedir, getprefdir, EnvError
-from mfxutil import latin1_to_ascii
+from mfxutil import latin1_to_ascii, print_err
 from mfxutil import Image
 from util import Timer
 from util import CARDSET, IMAGE_EXTENSIONS
@@ -664,7 +664,7 @@ class Application:
             elif self.commandline.game is not None:
                 gameid = self.gdb.getGameByName(self.commandline.game)
                 if gameid is None:
-                    print >> sys.stderr, "WARNING: can't find game:", self.commandline.game
+                    print_err(_("can't find game: ") + self.commandline.game)
                 else:
                     self.nextgame.id, self.nextgame.random = gameid, None
             elif self.commandline.gameid is not None:
@@ -1424,8 +1424,7 @@ Please select a %s type %s.
                 try:
                     loadGame(m.group(1), n)
                 except Exception, ex:
-                    print >> sys.stderr, _("Error loading plugin %s: %s") % (n, ex)
-                    sys.stderr.flush()
+                    print_err(_("error loading plugin %s: %s") % (n, ex))
                 sys.path = p
 
 
@@ -1456,8 +1455,9 @@ Please select a %s type %s.
         return cs
 
     def _parseCardsetConfig(self, cs, line):
-        _debug = True
-        def print_err(line, field=None, msg=''):
+        def perr(line, field=None, msg=''):
+            if not DEBUG:
+                return
             if field:
                 print '_parseCardsetConfig error: line #%d, fields#%d %s' \
                       % (line, field, msg)
@@ -1465,7 +1465,7 @@ Please select a %s type %s.
                 print '_parseCardsetConfig error: line #%d: %s' \
                       % (line, msg)
         if len(line) < 6:
-            if _debug: print_err(1, msg='number of lines')
+            perr(1, msg='number of lines')
             return 0
         # line[0]: magic identifier, possible version information
         fields = [f.strip() for f in line[0].split(';')]
@@ -1474,64 +1474,64 @@ Please select a %s type %s.
             if m: cs.version = int(m.group(1))
         if cs.version >= 3:
             if len(fields) < 5:
-                if _debug: print_err(1, msg='number of fields')
+                perr(1, msg='number of fields')
                 return 0
             cs.ext = fields[2]
             m = re.search(r"^(\d+)$", fields[3])
             if not m:
-                if _debug: print_err(1, 3, 'not integer')
+                perr(1, 3, 'not integer')
                 return 0
             cs.type = int(m.group(1))
             m = re.search(r"^(\d+)$", fields[4])
             if not m:
-                if _debug: print_err(1, 4, 'not integer')
+                perr(1, 4, 'not integer')
                 return 0
             cs.ncards = int(m.group(1))
         if cs.version >= 4:
             if len(fields) < 6:
-                if _debug: print_err(1, msg='number of fields')
+                perr(1, msg='number of fields')
                 return 0
             styles = fields[5].split(",")
             for s in styles:
                 m = re.search(r"^\s*(\d+)\s*$", s)
                 if not m:
-                    if _debug: print_err(1, 5, 'not integer')
+                    perr(1, 5, 'not integer')
                     return 0
                 s = int(m.group(1))
                 if s not in cs.styles:
                     cs.styles.append(s)
         if cs.version >= 5:
             if len(fields) < 7:
-                if _debug: print_err(1, msg='number of fields')
+                perr(1, msg='number of fields')
                 return 0
             m = re.search(r"^(\d+)$", fields[6])
             if not m:
-                if _debug: print_err(1, 6, 'not integer')
+                perr(1, 6, 'not integer')
                 return 0
             cs.year = int(m.group(1))
         if len(cs.ext) < 2 or cs.ext[0] != ".":
-            if _debug: print_err(1, msg='invalid extention')
+            perr(1, msg='invalid extention')
             return 0
         # line[1]: identifier/name
         if not line[1]:
-            if _debug: print_err(2, msg='empty line')
+            perr(2, msg='empty line')
             return 0
         cs.ident = line[1]
         m = re.search(r"^(.*;)?([^;]+)$", cs.ident)
         if not m:
-            if _debug: print_err(2, msg='invalid format')
+            perr(2, msg='invalid format')
             return 0
         cs.name = m.group(2).strip()
         # line[2]: CARDW, CARDH, CARDD
         m = re.search(r"^(\d+)\s+(\d+)\s+(\d+)", line[2])
         if not m:
-            if _debug: print_err(3, msg='invalid format')
+            perr(3, msg='invalid format')
             return 0
         cs.CARDW, cs.CARDH, cs.CARDD = int(m.group(1)), int(m.group(2)), int(m.group(3))
         # line[3]: CARD_UP_YOFFSET, CARD_DOWN_YOFFSET, SHADOW_XOFFSET, SHADOW_YOFFSET
         m = re.search(r"^(\d+)\s+(\d+)\s+(\d+)\s+(\d+)", line[3])
         if not m:
-            if _debug: print_err(4, msg='invalid format')
+            perr(4, msg='invalid format')
             return 0
         cs.CARD_XOFFSET = int(m.group(1))
         cs.CARD_YOFFSET = int(m.group(2))
@@ -1540,7 +1540,7 @@ Please select a %s type %s.
         # line[4]: default background
         back = line[4]
         if not back:
-            if _debug: print_err(5, msg='empty line')
+            perr(5, msg='empty line')
             return 0
         # line[5]: all available backgrounds
         cs.backnames = [f.strip() for f in line[5].split(';')]

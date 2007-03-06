@@ -152,6 +152,7 @@ class ScotchPatience(Fan):
 
 # /***********************************************************************
 # // Shamrocks
+# // Shamrocks II
 # ************************************************************************/
 
 class Shamrocks(Fan):
@@ -159,6 +160,27 @@ class Shamrocks(Fan):
     def createGame(self):
         Fan.createGame(self, playcards=4)
     shallHighlightMatch = Game._shallHighlightMatch_RK
+
+class ShamrocksII(Shamrocks):
+    def _shuffleHook(self, cards):
+        # move Kings to bottom of each stack
+        i, n = 0, 17
+        kings = []
+        for c in cards:
+            if c.rank == KING:
+                kings.append(i)
+            i += 1
+        for i in kings:
+            if i == 51:
+                continue
+            j = i % n
+            while j < i:
+                if cards[j].rank != KING:
+                    cards[i], cards[j] = cards[j], cards[i]
+                    break
+                j += n
+        cards.reverse()
+        return cards
 
 
 # /***********************************************************************
@@ -774,4 +796,6 @@ registerGame(GameInfo(625, FascinationFan, "Fascination Fan",
                       GI.GT_FAN_TYPE, 1, 6, GI.SL_BALANCED))
 registerGame(GameInfo(647, Crescent, "Crescent",
                       GI.GT_FAN_TYPE, 2, 3, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(714, ShamrocksII, "Shamrocks II",
+                      GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 

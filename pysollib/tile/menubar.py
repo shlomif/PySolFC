@@ -416,7 +416,7 @@ class PysolMenubar(PysolMenubarActions):
         menu.add_command(label=n_("&Statistics..."), command=self.mPlayerStats)
         menu.add_command(label=n_("Log..."), command=lambda self=self: self.mPlayerStats(mode=103))
         menu.add_separator()
-        menu.add_command(label=n_("D&emo statistics"), command=lambda self=self: self.mPlayerStats(mode=1102))
+        menu.add_command(label=n_("D&emo statistics"), command=lambda self=self: self.mPlayerStats(mode=1101))
 
         menu = MfxMenu(self.__menubar, label=n_("&Assist"))
         menu.add_command(label=n_("&Hint"), command=self.mHint, accelerator="H")

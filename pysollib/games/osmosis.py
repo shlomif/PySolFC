@@ -63,8 +63,12 @@ class Osmosis_Foundation(AbstractFoundationStack):
         #
         return  1
 
+    def getHelp(self):
+        return _('Build in suit regardless of rank.')
+
 
 class Osmosis(Game):
+    Foundation_Class = Osmosis_Foundation
 
     #
     # game layout
@@ -87,12 +91,14 @@ class Osmosis(Game):
             y = y + l.YS
         x, y, = 2*l.XM+l.XS+4*l.XOFFSET, l.YM
         for i in range(4):
-            stack = Osmosis_Foundation(x, y, self, i, base_rank=ANY_RANK, max_move=0)
+            stack = self.Foundation_Class(x, y, self, suit=i,
+                                          base_rank=ANY_RANK, max_move=0)
             stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
             s.foundations.append(stack)
             y = y + l.YS
         x, y, = self.width - l.XS, l.YM + l.YS
-        s.talon = WasteTalonStack(x, y, self, max_rounds=max_rounds, num_deal=num_deal)
+        s.talon = WasteTalonStack(x, y, self,
+                                  max_rounds=max_rounds, num_deal=num_deal)
         l.createText(s.talon, "sw")
         y = y + l.YS
         s.waste = WasteStack(x, y, self)
@@ -127,6 +133,63 @@ class Osmosis(Game):
 class Peek(Osmosis):
     def startGame(self):
         Osmosis.startGame(self, flip=1)
+
+
+# /***********************************************************************
+# // Treasure Trove
+# // Peek II
+# ************************************************************************/
+
+class OsmosisII_Foundation(AbstractFoundationStack):
+    def acceptsCards(self, from_stack, cards):
+        if not AbstractFoundationStack.acceptsCards(self, from_stack, cards):
+            return False
+        assert len(cards) == 1
+        indx = list(self.game.s.foundations).index(self)
+        c0 = cards[0]
+        below_found = self.game.s.foundations[indx-1]
+        if indx == 0:
+            if not self.cards:
+                return True
+            return c0.suit == self.cards[0].suit
+        if not below_found.cards:
+            return False
+        if not self.cards:
+            return c0.rank == below_found.cards[0].rank
+        if c0.suit != self.cards[0].suit:
+            return False
+        for c1 in below_found.cards:
+            if c0.rank == c1.rank:
+                return True
+        return False
+
+    def getHelp(self):
+        return _('Build in suit regardless of rank.')
+
+
+class OsmosisII(Osmosis):
+    Foundation_Class = FullStackWrapper(OsmosisII_Foundation,
+                       base_rank=ANY_RANK, suit=ANY_SUIT, max_move=0)
+
+    def createGame(self, max_rounds=-1, num_deal=3):
+        Osmosis.createGame(self, num_deal=3)
+
+    def startGame(self, flip=0):
+        self.startDealSample()
+        # deal cards
+        for i in range(3):
+            self.s.talon.dealRow(flip=flip)
+        self.s.talon.dealRow()
+        # deal one card to foundation
+        self.s.talon.dealRow(rows=self.s.foundations[:1])
+        # deal cards to WasteStack
+        self.s.talon.dealCards()
+
+
+class PeekII(OsmosisII):
+    def startGame(self):
+        OsmosisII.startGame(self, flip=1)
+
 
 # /***********************************************************************
 # // Open Peek
@@ -283,12 +346,9 @@ class Bridesmaids(Game):
 
 
 
-
-
 # register the game
 registerGame(GameInfo(59, Osmosis, "Osmosis",
-                      GI.GT_1DECK_TYPE, 1, -1, GI.SL_MOSTLY_LUCK,
-                      altnames=("Treasure Trove",) ))
+                      GI.GT_1DECK_TYPE, 1, -1, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(60, Peek, "Peek",
                       GI.GT_1DECK_TYPE, 1, -1, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(298, OpenPeek, "Open Peek",
@@ -299,4 +359,9 @@ registerGame(GameInfo(371, GenesisPlus, "Genesis +",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(409, Bridesmaids, "Bridesmaids",
                       GI.GT_1DECK_TYPE, 1, -1, GI.SL_MOSTLY_LUCK))
+registerGame(GameInfo(715, OsmosisII, "Treasure Trove",
+                      GI.GT_1DECK_TYPE, 1, -1, GI.SL_MOSTLY_LUCK))
+registerGame(GameInfo(716, PeekII, "Peek II",
+                      GI.GT_1DECK_TYPE, 1, -1, GI.SL_MOSTLY_LUCK,
+                      rules_filename='treasuretrove.html'))
 

@@ -1364,7 +1364,7 @@ registerGame(GameInfo(18, KlondikeByThrees, "Klondike by Threes",
 registerGame(GameInfo(58, ThumbAndPouch, "Thumb and Pouch",
                       GI.GT_KLONDIKE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(67, Whitehead, "Whitehead",
-                      GI.GT_KLONDIKE, 1, 0, GI.SL_MOSTLY_LUCK))
+                      GI.GT_KLONDIKE, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(39, SmallHarp, "Small Harp",
                       GI.GT_KLONDIKE, 1, -1, GI.SL_BALANCED,
                       altnames=("Die kleine Harfe",) ))

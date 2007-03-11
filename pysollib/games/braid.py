@@ -427,7 +427,6 @@ class Casket(Game):
         # set window
         self.setSize(l.XM+10*l.XS, l.YM+4.5*l.YS)
 
-
         # register extra stack variables
         s.addattr(jewels=None)
         s.addattr(lid=[])
@@ -509,6 +508,129 @@ class Casket(Game):
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
+# /***********************************************************************
+# // Well
+# ************************************************************************/
+
+class Well_TalonStack(DealRowRedealTalonStack):
+
+    def canDealCards(self):
+        return DealRowRedealTalonStack.canDealCards(self, rows=self.game.s.wastes)
+
+    def dealCards(self, sound=0):
+        num_cards = 0
+        if sound and self.game.app.opt.animations:
+            self.game.startDealSample()
+        if not self.cards:
+            # move all cards to talon
+            num_cards = self._redeal(rows=self.game.s.wastes, frames=3)
+            self.game.nextRoundMove(self)
+        wastes = self.game.s.wastes[:(6-self.round)]
+        num_cards += self.dealRowAvail(rows=wastes, frames=4, sound=0)
+        if sound:
+            self.game.stopSamples()
+        return num_cards
+
+
+class Well_RowStack(SS_RowStack):
+    def getBottomImage(self):
+        return self.game.app.images.getReserveBottom()
+
+
+class Well(Game):
+    Hint_Class = CautiousDefaultHint
+
+    def createGame(self):
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        self.setSize(l.XM+6*l.XS, l.YM+6*l.YS+l.TEXT_HEIGHT)
+
+        # register extra stack variables
+        s.addattr(wastes=[])
+
+        # foundations
+        suit = 0
+        x0, y0 = l.XM+1.5*l.XS, l.YM+1.5*l.YS+l.TEXT_HEIGHT
+        for xx, yy in ((3,0),
+                       (0,3),
+                       (3,3),
+                       (0,0)):
+            x, y = x0+xx*l.XS, y0+yy*l.YS
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=suit,
+                                 base_rank=KING, mod=13, max_cards=26,
+                                 dir=-1, max_move=0))
+            suit += 1
+
+        # rows
+        x0, y0 = l.XM+l.XS, l.YM+l.YS+l.TEXT_HEIGHT
+        for xx, yy in ((0,2),
+                       (2,0),
+                       (4,2),
+                       (2,4)):
+            x, y = x0+xx*l.XS, y0+yy*l.YS
+            stack = Well_RowStack(x, y, self, dir=1, max_move=1)
+            stack.CARD_YOFFSET = 0
+            s.rows.append(stack)
+
+        # left stack
+        x, y = l.XM, l.YM+l.YS+l.TEXT_HEIGHT
+        stack = Well_RowStack(x, y, self, base_rank=ACE, dir=1, max_move=1)
+        stack.CARD_YOFFSET = 0
+        s.rows.append(stack)
+
+        # reserves
+        x0, y0 = l.XM+2*l.XS, l.YM+2*l.YS+l.TEXT_HEIGHT
+        for xx, yy, anchor in ((0,1,'e'),
+                               (1,0,'s'),
+                               (2,1,'w'),
+                               (1,2,'n')):
+            x, y = x0+xx*l.XS, y0+yy*l.YS
+            stack = OpenStack(x, y, self)
+            l.createText(stack, anchor)
+            s.reserves.append(stack)
+
+        # wastes
+        x, y = l.XM+l.XS, l.YM
+        for i in range(5):
+            stack = WasteStack(x, y, self)
+            l.createText(stack, 's', text_format='%D')
+            s.wastes.append(stack)
+            x += l.XS
+
+        # talon
+        x, y = l.XM, l.YM
+        s.talon = Well_TalonStack(x, y, self, max_rounds=5)
+        l.createText(s.talon, "s")
+
+        # define stack-groups
+        self.sg.talonstacks = [s.talon] + s.wastes
+        self.sg.openstacks = s.foundations + s.rows
+        self.sg.dropstacks = s.rows + s.wastes + s.reserves
+        
+
+    def startGame(self):
+        for i in range(10):
+            self.s.talon.dealRow(rows=self.s.reserves, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow(rows=self.s.rows[:4])
+        self.s.talon.dealCards()
+
+
+    def fillStack(self, stack):
+        if not stack.cards and stack in self.s.rows[:4]:
+            indx = list(self.s.rows).index(stack)
+            r = self.s.reserves[indx]
+            if r.cards:
+                old_state = self.enterState(self.S_FILL)
+                r.moveMove(1, stack)
+                self.leaveState(old_state)
+
+    shallHighlightMatch = Game._shallHighlightMatch_SSW
+
+
+
 # register the game
 registerGame(GameInfo(12, Braid, "Braid",
                       GI.GT_NAPOLEON, 2, 2, GI.SL_BALANCED,
@@ -526,3 +648,5 @@ registerGame(GameInfo(510, BigBraid, "Big Braid",
                       GI.GT_NAPOLEON | GI.GT_ORIGINAL, 3, 2, GI.SL_BALANCED))
 registerGame(GameInfo(694, Casket, "Casket",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(717, Well, "Well",
+                      GI.GT_2DECK_TYPE, 2, 4, GI.SL_BALANCED))

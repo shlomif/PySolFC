@@ -324,11 +324,11 @@ class Bridesmaids(Game):
 
         x, y = l.XM+2*l.XS, l.YM
         for i in range(4):
-            stack = Osmosis_Foundation(x, y, self, suit=i,
-                                       base_rank=ANY_RANK, max_move=0)
+            stack = OsmosisII_Foundation(x, y, self, suit=ANY_SUIT,
+                                         base_rank=ANY_RANK, max_move=0)
             stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
             s.foundations.append(stack)
-            y = y + l.YS
+            y += l.YS
 
         # define stack-groups
         l.defaultStackGroups()
@@ -337,8 +337,7 @@ class Bridesmaids(Game):
     def startGame(self, flip=0):
         # deal first card to foundation
         base_card = self.s.talon.getCard()
-        n = base_card.suit * self.gameinfo.decks
-        to_stack = self.s.foundations[n]
+        to_stack = self.s.foundations[0]
         self.startDealSample()
         self.flipMove(self.s.talon)
         self.moveMove(1, self.s.talon, to_stack)

@@ -756,6 +756,34 @@ class Crescent(Game):
     shallHighlightMatch = Game._shallHighlightMatch_SSW
 
 
+# /***********************************************************************
+# // School
+# ************************************************************************/
+
+class School(Fan):
+
+    Talon_Class = StackWrapper(LaBelleLucie_Talon, max_rounds=3)
+    RowStack_Class = StackWrapper(RK_RowStack, dir=0, base_rank=NO_RANK)
+
+    def createGame(self):
+        Fan.createGame(self, rows=(4, 4, 4, 4), playcards=10)
+
+    def startGame(self):
+        for i in range(2):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealRow(rows=self.s.foundations)
+
+    def _shuffleHook(self, cards):
+        # move Aces to bottom of the Talon (i.e. last cards to be dealt)
+        return self._shuffleHookMoveToBottom(cards,
+                                             lambda c: (c.rank == ACE, c.suit))
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        return card1.rank == card2.rank
+
+
 
 # register the game
 registerGame(GameInfo(56, FanGame, "Fan",
@@ -798,4 +826,6 @@ registerGame(GameInfo(647, Crescent, "Crescent",
                       GI.GT_FAN_TYPE, 2, 3, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(714, ShamrocksII, "Shamrocks II",
                       GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(719, School, "School",
+                      GI.GT_FAN_TYPE, 1, 2, GI.SL_MOSTLY_SKILL))
 

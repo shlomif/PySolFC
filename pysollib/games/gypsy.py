@@ -44,6 +44,7 @@ from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 from pysollib.hint import KlondikeType_Hint, YukonType_Hint
+from pysollib.pysoltk import MfxCanvasText
 
 from spider import Spider_SS_Foundation, Spider_RowStack, Spider_Hint
 
@@ -803,6 +804,82 @@ class Leprechaun(Game):
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
+# /***********************************************************************
+# // Locked Cards
+# ************************************************************************/
+
+class LockedCards_Reserve(OpenStack):
+    def canFlipCard(self):
+        if not OpenStack.canFlipCard(self):
+            return False
+        i = list(self.game.s.reserves).index(self)
+        return len(self.game.s.foundations[i].cards) == 13
+
+
+class LockedCards_Foundation(SS_FoundationStack):
+    def acceptsCards(self, from_stack, cards):
+        if not SS_FoundationStack.acceptsCards(self, from_stack, cards):
+            return False
+        if self.cards:
+            # check suit
+            return self.cards[-1].suit == cards[0].suit
+        return True
+
+
+class LockedCards(Game):
+
+    def createGame(self):
+
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        self.setSize(l.XM+10*l.XS, l.YM+3*l.YS+14*l.YOFFSET)
+
+        # create stacks
+        x, y = l.XM, l.YM
+        for i in range(7):
+            s.reserves.append(LockedCards_Reserve(x, y, self))
+            x += l.XS
+
+        x, y = l.XM, l.YM+l.YS
+        for i in range(8):
+            s.foundations.append(LockedCards_Foundation(x, y, self,
+                                 suit=ANY_SUIT, max_move=0))
+            x += l.XS
+
+        x, y = l.XM, l.YM+2*l.YS
+        for i in range(8):
+            s.rows.append(AC_RowStack(x, y, self))
+            x += l.XS
+
+        x, y = self.width-l.XS, self.height-l.YS
+        s.talon = WasteTalonStack(x, y, self, max_rounds=3)
+        l.createText(s.talon, 'n')
+        tx, ty, ta, tf = l.getTextAttr(s.talon, "nn")
+        font = self.app.getFont("canvas_default")
+        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty-l.TEXT_MARGIN,
+                                             anchor=ta, font=font)
+
+        x -= l.XS
+        s.waste = WasteStack(x, y, self)
+        l.createText(s.waste, 'n')
+
+        # define stack-groups
+        l.defaultStackGroups()
+
+
+    def startGame(self):
+        self.s.talon.dealRow(rows=self.s.reserves, flip=0, frames=0)
+        for i in range(4):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
+
+    shallHighlightMatch = Game._shallHighlightMatch_AC
+
+
 
 # register the game
 registerGame(GameInfo(1, Gypsy, "Gypsy",
@@ -870,3 +947,5 @@ registerGame(GameInfo(666, TrapdoorSpider, "Trapdoor Spider",
                       GI.GT_SPIDER | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(712, Leprechaun, "Leprechaun",
                       GI.GT_GYPSY | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(718, LockedCards, "Locked Cards",
+                      GI.GT_2DECK_TYPE, 2, 2, GI.SL_MOSTLY_SKILL))

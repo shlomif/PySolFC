@@ -386,6 +386,7 @@ class FourLeafClovers_Foundation(AbstractFoundationStack):
     def getHelp(self):
         return _('Foundation. Build up regardless of suit.')
 
+
 class FourLeafClovers(Game):
 
     Hint_Class = CautiousDefaultHint
@@ -431,8 +432,6 @@ class FourLeafClovers(Game):
 # /***********************************************************************
 # // All in a Row
 # ************************************************************************/
-
-
 
 class AllInARow(BlackHole):
 
@@ -677,6 +676,171 @@ class Waterfall(Game):
     shallHighlightMatch = Game._shallHighlightMatch_RK
 
 
+# /***********************************************************************
+# // Basis
+# ************************************************************************/
+
+class Basis_RowStack(BasicRowStack):
+    clickHandler = BasicRowStack.doubleclickHandler
+
+
+class Basis(Game):
+
+    def createGame(self):
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+6*l.XS, l.YM+4*l.YS)
+
+        x, y = l.XM, l.YM
+        s.talon = TalonStack(x, y, self)
+        l.createText(s.talon, 'ne')
+
+        x, y = l.XM+2*l.XS, l.YM
+        for i in range(4):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i,
+                                 base_rank=ANY_RANK, mod=13))
+            x += l.XS
+
+        y = l.YM+l.YS
+        for i in range(3):
+            x = l.XM
+            for j in range(6):
+                s.rows.append(Basis_RowStack(x, y, self))
+                x += l.XS
+            y += l.YS
+
+        l.defaultStackGroups()
+
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.flipMove()
+
+    def fillStack(self, stack):
+        if stack in self.s.rows and not stack.cards:
+            if self.s.talon.cards:
+                old_state = self.enterState(self.S_FILL)
+                if not self.s.talon.cards[-1].face_up:
+                    self.s.talon.flipMove()
+                self.s.talon.moveMove(1, stack)
+                self.leaveState(old_state)
+
+    def getAutoStacks(self, event=None):
+        if event is None:
+            # disable auto drop - this would ruin the whole gameplay
+            return ((), (), self.sg.dropstacks)
+        else:
+            # rightclickHandler
+            return ((), self.sg.dropstacks, self.sg.dropstacks)
+
+
+# /***********************************************************************
+# // Devil's Solitaire
+# ************************************************************************/
+
+class DevilsSolitaire_Foundation(RK_FoundationStack):
+    def acceptsCards(self, from_stack, cards):
+        if not RK_FoundationStack.acceptsCards(self, from_stack, cards):
+            return False
+        if self.cards:
+            return True
+        if self.game.s.reserves[0].cards:
+            c = self.game.s.reserves[0].cards[-1]
+            return (c.rank+1) % 13 == cards[-1].rank
+        return True
+
+
+class DevilsSolitaire_WasteStack(WasteStack):
+    clickHandler = WasteStack.doubleclickHandler
+
+
+class DevilsSolitaire(Game):
+
+    def createGame(self):
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+9*l.XS, l.YM+3*l.YS+7*l.YOFFSET+2*l.TEXT_HEIGHT)
+
+        x, y = l.XM+4*l.XS, l.YM
+        stack = DevilsSolitaire_Foundation(x, y, self,
+                             suit=ANY_SUIT, base_rank=ANY_RANK, mod=13)
+        tx, ty, ta, tf = l.getTextAttr(stack, 'nw')
+        font = self.app.getFont('canvas_default')
+        stack.texts.misc = MfxCanvasText(self.canvas, tx, ty,
+                                         anchor=ta, font=font)
+        s.foundations.append(stack)
+
+        x, y = self.width-l.XS, l.YM
+        stack = AbstractFoundationStack(x, y, self,
+                             suit=ANY_SUIT, max_move=0, max_cards=104,
+                             max_accept=0, base_rank=ANY_RANK)
+        l.createText(stack, 'nw')
+        s.foundations.append(stack)
+
+        x, y = l.XM, l.YM+l.YS
+        for i in range(4):
+            s.rows.append(Basis_RowStack(x, y, self))
+            x += l.XS
+        x += l.XS
+        for i in range(4):
+            s.rows.append(Basis_RowStack(x, y, self))
+            x += l.XS
+
+        x, y = l.XM+4*l.XS, l.YM+l.YS
+        stack = OpenStack(x, y, self)
+        stack.CARD_YOFFSET = l.YOFFSET
+        s.reserves.append(stack)
+
+        x, y = l.XM+4.5*l.XS, self.height-l.YS
+        s.talon = WasteTalonStack(x, y, self, max_rounds=3)
+        l.createText(s.talon, 'n')
+        tx, ty, ta, tf = l.getTextAttr(s.talon, "nn")
+        font = self.app.getFont("canvas_default")
+        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty-l.TEXT_MARGIN,
+                                             anchor=ta, font=font)
+
+        x -= l.XS
+        s.waste = DevilsSolitaire_WasteStack(x, y, self)
+        l.createText(s.waste, 'n')
+
+        l.defaultStackGroups()
+
+
+    def startGame(self):
+        for i in range(8):
+            self.s.talon.dealRow(rows=self.s.reserves, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
+
+    def fillStack(self, stack):
+        old_state = self.enterState(self.S_FILL)
+        if stack in self.s.rows and not stack.cards:
+            if not self.s.waste.cards:
+                self.s.talon.dealCards()
+            if self.s.waste.cards:
+                self.s.waste.moveMove(1, stack)
+        f0 = self.s.foundations[0]
+        if len(f0.cards) == 12:
+            self.moveMove(1, self.s.reserves[0], f0, frames=4)
+            f1 = self.s.foundations[1]
+            for i in range(13):
+                self.moveMove(1, f0, f1, frames=4)
+        self.leaveState(old_state)
+
+    def updateText(self):
+        if self.preview > 1:
+            return
+        f = self.s.foundations[0]
+        r = self.s.reserves[0]
+        if not r.cards:
+            t = ''
+        else:
+            c = r.cards[-1]
+            t = RANKS[(c.rank+1) % 13]
+        f.texts.misc.config(text=t)
+
+
+
 # register the game
 registerGame(GameInfo(36, Golf, "Golf",
                       GI.GT_GOLF, 1, 0, GI.SL_BALANCED))
@@ -705,4 +869,8 @@ registerGame(GameInfo(662, DoubleDolphin, "Double Dolphin",
                       GI.GT_GOLF | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(709, Waterfall, "Waterfall",
                       GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(720, Basis, "Basis",
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
+registerGame(GameInfo(723, DevilsSolitaire, "Devil's Solitaire",
+                      GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED))
 

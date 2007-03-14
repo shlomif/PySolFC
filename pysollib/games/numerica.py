@@ -767,6 +767,8 @@ class AnnoDomini(Numerica):
 
 # /***********************************************************************
 # // Circle Nine
+# // Measure
+# // Double Measure
 # ************************************************************************/
 
 class CircleNine_RowStack(BasicRowStack):

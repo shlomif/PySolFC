@@ -32,6 +32,9 @@ from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.pysoltk import MfxCanvasText
+
+
 
 # /***********************************************************************
 # // Zodiac
@@ -54,6 +57,7 @@ class Zodiac_RowStack(UD_SS_RowStack):
             return False
         return True
 
+
 class Zodiac_ReserveStack(ReserveStack):
     def acceptsCards(self, from_stack, cards):
         if not ReserveStack.acceptsCards(self, from_stack, cards):
@@ -61,7 +65,6 @@ class Zodiac_ReserveStack(ReserveStack):
         if from_stack in self.game.s.rows:
             return False
         return True
-
 
 
 class Zodiac(Game):
@@ -120,6 +123,86 @@ class Zodiac(Game):
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
+# /***********************************************************************
+# // Twelve Sleeping Maids
+# ************************************************************************/
+
+class TwelveSleepingMaids_Reserve(OpenStack):
+    def canFlipCard(self):
+        if not OpenStack.canFlipCard(self):
+            return False
+        for s in self.game.s.rows:
+            if not s.cards:
+                break
+        else:
+            return False
+        i = list(self.game.s.reserves).index(self)
+        if i == 0:
+            return True
+        if self.game.s.reserves[i-1].cards:
+            return False
+        return True
+
+
+class TwelveSleepingMaids(Game):
+
+    def createGame(self):
+
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        self.setSize(l.XM+12*l.XS, l.YM+3*l.YS+14*l.YOFFSET)
+
+        # create stacks
+        x, y = l.XM, l.YM
+        for i in range(12):
+            stack = TwelveSleepingMaids_Reserve(x, y, self)
+            stack.CARD_YOFFSET = l.YOFFSET
+            s.reserves.append(stack)
+            x += l.XS
+
+        x, y = l.XM+2*l.XS, l.YM+l.YS+3*l.YOFFSET
+        for i in range(8):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i/2,
+                                                    base_rank=KING, mod=13))
+            x += l.XS
+
+        x, y = l.XM+2*l.XS, l.YM+2*l.YS+3*l.YOFFSET
+        for i in range(8):
+            s.rows.append(SS_RowStack(x, y, self))
+            x += l.XS
+
+        x, y = self.width-l.XS, self.height-l.YS
+        s.talon = WasteTalonStack(x, y, self, max_rounds=3)
+        l.createText(s.talon, 'n')
+        tx, ty, ta, tf = l.getTextAttr(s.talon, "nn")
+        font = self.app.getFont("canvas_default")
+        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty-l.TEXT_MARGIN,
+                                             anchor=ta, font=font)
+
+        x -= l.XS
+        s.waste = WasteStack(x, y, self)
+        l.createText(s.waste, 'n')
+
+        # define stack-groups
+        l.defaultStackGroups()
+
+
+    def startGame(self):
+        for i in range(4):
+            self.s.talon.dealRow(rows=self.s.reserves, flip=0, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
+
+
+    shallHighlightMatch = Game._shallHighlightMatch_SS
+
+
+
 # register the game
 registerGame(GameInfo(467, Zodiac, "Zodiac",
                       GI.GT_2DECK_TYPE, 2, -1, GI.SL_BALANCED))
+registerGame(GameInfo(722, TwelveSleepingMaids, "Twelve Sleeping Maids",
+                      GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED))

@@ -880,6 +880,83 @@ class LockedCards(Game):
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
+# /***********************************************************************
+# // Thirty
+# ************************************************************************/
+
+class Thirty_RowStack(BasicRowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not BasicRowStack.acceptsCards(self, from_stack, cards):
+            return False
+        if self.cards:
+            # check the rank - an ACE equals a Six
+            rank = self.cards[-1].rank
+            if rank == ACE:
+                rank = 5
+            if (rank + self.cap.dir) % self.cap.mod != cards[0].rank:
+                return False
+        return True
+
+    def canMoveCards(self, cards):
+        if not BasicRowStack.canMoveCards(self, cards):
+            return False
+        c1 = cards[0]
+        for c2 in cards[1:]:
+            if c1.suit != c2.suit:
+                return False
+            # check the rank - an ACE equals a Six
+            rank = c1.rank
+            if rank == ACE:
+                rank = 5
+            if (rank + self.cap.dir) % self.cap.mod != c2.rank:
+                return False
+            c1 = c2
+        return True
+
+
+class Thirty(Game):
+
+    def createGame(self):
+
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+7*l.XS, l.YM+2*l.YS+12*l.YOFFSET)
+
+        x, y = l.XM, l.YM
+        for i in range(2):
+            s.reserves.append(OpenStack(x, y, self))
+            x += l.XS
+
+        x, y = l.XM+3*l.XS, l.YM
+        for i in range(4):
+            s.foundations.append(DieRussische_Foundation(x, y, self,
+                                                         suit=i, max_cards=8))
+            x += l.XS
+
+        x, y = l.XM+l.XS/2, l.YM+l.YS
+        for i in range(6):
+            s.rows.append(Thirty_RowStack(x, y, self,
+                          max_move=UNLIMITED_MOVES,
+                          max_accept=UNLIMITED_ACCEPTS))
+            x += l.XS
+
+        x, y = self.width-l.XS, self.height-l.YS
+        s.talon = InitialDealTalonStack(x, y, self)
+
+        l.defaultAll()
+
+
+    def startGame(self):
+        for i in range(4):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealRow(rows=self.s.reserves)
+
+    shallHighlightMatch = Game._shallHighlightMatch_RK
+    getQuickPlayScore = Game._getSpiderQuickPlayScore
+
+
+
 
 # register the game
 registerGame(GameInfo(1, Gypsy, "Gypsy",
@@ -949,3 +1026,6 @@ registerGame(GameInfo(712, Leprechaun, "Leprechaun",
                       GI.GT_GYPSY | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(718, LockedCards, "Locked Cards",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(721, Thirty, "Thirty",
+                      GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL,
+                      ranks=(0, 6, 7, 8, 9, 10, 11, 12)))

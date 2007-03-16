@@ -806,6 +806,7 @@ class Leprechaun(Game):
 
 # /***********************************************************************
 # // Locked Cards
+# // Topsy-Turvy Queens
 # ************************************************************************/
 
 class LockedCards_Reserve(OpenStack):
@@ -827,6 +828,8 @@ class LockedCards_Foundation(SS_FoundationStack):
 
 
 class LockedCards(Game):
+    Foundation_Class = LockedCards_Foundation
+    RowStack_Class = AC_RowStack
 
     def createGame(self):
 
@@ -844,20 +847,20 @@ class LockedCards(Game):
 
         x, y = l.XM, l.YM+l.YS
         for i in range(8):
-            s.foundations.append(LockedCards_Foundation(x, y, self,
+            s.foundations.append(self.Foundation_Class(x, y, self,
                                  suit=ANY_SUIT, max_move=0))
             x += l.XS
 
         x, y = l.XM, l.YM+2*l.YS
         for i in range(8):
-            s.rows.append(AC_RowStack(x, y, self))
+            s.rows.append(self.RowStack_Class(x, y, self))
             x += l.XS
 
         x, y = self.width-l.XS, self.height-l.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
         l.createText(s.talon, 'n')
-        tx, ty, ta, tf = l.getTextAttr(s.talon, "nn")
-        font = self.app.getFont("canvas_default")
+        tx, ty, ta, tf = l.getTextAttr(s.talon, 'nn')
+        font = self.app.getFont('canvas_default')
         s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty-l.TEXT_MARGIN,
                                              anchor=ta, font=font)
 
@@ -869,15 +872,26 @@ class LockedCards(Game):
         l.defaultStackGroups()
 
 
-    def startGame(self):
+    def startGame(self, rows=5):
         self.s.talon.dealRow(rows=self.s.reserves, flip=0, frames=0)
-        for i in range(4):
+        for i in range(rows-1):
             self.s.talon.dealRow(frames=0)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealCards()
 
     shallHighlightMatch = Game._shallHighlightMatch_AC
+
+
+class TopsyTurvyQueens(LockedCards):
+    Foundation_Class = StackWrapper(LockedCards_Foundation,
+                                    base_rank=KING, mod=13)
+    RowStack_Class = StackWrapper(SS_RowStack, mod=13)
+
+    def startGame(self):
+        LockedCards.startGame(self, rows=4)
+
+    shallHighlightMatch = Game._shallHighlightMatch_SSW
 
 
 # /***********************************************************************
@@ -957,7 +971,6 @@ class Thirty(Game):
 
 
 
-
 # register the game
 registerGame(GameInfo(1, Gypsy, "Gypsy",
                       GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
@@ -1025,7 +1038,9 @@ registerGame(GameInfo(666, TrapdoorSpider, "Trapdoor Spider",
 registerGame(GameInfo(712, Leprechaun, "Leprechaun",
                       GI.GT_GYPSY | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(718, LockedCards, "Locked Cards",
-                      GI.GT_2DECK_TYPE, 2, 2, GI.SL_MOSTLY_SKILL))
+                      GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED))
 registerGame(GameInfo(721, Thirty, "Thirty",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL,
                       ranks=(0, 6, 7, 8, 9, 10, 11, 12)))
+registerGame(GameInfo(725, TopsyTurvyQueens, "Topsy-Turvy Queens",
+                      GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED))

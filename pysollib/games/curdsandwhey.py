@@ -32,6 +32,8 @@ from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.pysoltk import MfxCanvasText
+
 
 # /***********************************************************************
 # // Curds and Whey
@@ -448,6 +450,49 @@ class Glacier(Game):
     shallHighlightMatch = Game._shallHighlightMatch_RKW
 
 
+# /***********************************************************************
+# // Four Packs
+# ************************************************************************/
+
+class FourPacks(Game):
+    def createGame(self):
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+10*l.XS, l.YM+2*l.YS+l.TEXT_HEIGHT+14*l.YOFFSET)
+
+        x, y = l.XM, l.YM
+        for i in range(10):
+            s.rows.append(SS_RowStack(x, y, self, dir=1))
+            x += l.XS
+
+        x, y = self.width-l.XS, self.height-l.YS
+        s.talon = WasteTalonStack(x, y, self, max_rounds=3)
+        l.createText(s.talon, 'n')
+        tx, ty, ta, tf = l.getTextAttr(s.talon, "nn")
+        font = self.app.getFont("canvas_default")
+        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty-l.TEXT_MARGIN,
+                                             anchor=ta, font=font)
+
+        x -= l.XS
+        s.waste = WasteStack(x, y, self)
+        l.createText(s.waste, 'n')
+
+        l.defaultStackGroups()
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
+
+    def isGameWon(self):
+        for s in self.s.rows:
+            if s.cards:
+                if len(s.cards) != 13 or not isSameSuitSequence(s.cards, dir=1):
+                    return False
+        return True
+
+    shallHighlightMatch = Game._shallHighlightMatch_SS
+
+
 
 # register the game
 registerGame(GameInfo(294, CurdsAndWhey, "Curds and Whey",
@@ -478,5 +523,7 @@ registerGame(GameInfo(534, Harvestman, "Harvestman",
                       GI.GT_SPIDER | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(687, Glacier, "Glacier",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(724, FourPacks, "Four Packs",
+                      GI.GT_2DECK_TYPE, 2, 2, GI.SL_MOSTLY_SKILL))
 
 

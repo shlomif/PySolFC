@@ -677,14 +677,14 @@ class Waterfall(Game):
 
 
 # /***********************************************************************
-# // Basis
+# // Vague
 # ************************************************************************/
 
-class Basis_RowStack(BasicRowStack):
+class Vague_RowStack(BasicRowStack):
     clickHandler = BasicRowStack.doubleclickHandler
 
 
-class Basis(Game):
+class Vague(Game):
 
     def createGame(self):
         l, s = Layout(self), self.s
@@ -704,7 +704,7 @@ class Basis(Game):
         for i in range(3):
             x = l.XM
             for j in range(6):
-                s.rows.append(Basis_RowStack(x, y, self))
+                s.rows.append(Vague_RowStack(x, y, self))
                 x += l.XS
             y += l.YS
 
@@ -778,11 +778,11 @@ class DevilsSolitaire(Game):
 
         x, y = l.XM, l.YM+l.YS
         for i in range(4):
-            s.rows.append(Basis_RowStack(x, y, self))
+            s.rows.append(Vague_RowStack(x, y, self))
             x += l.XS
         x += l.XS
         for i in range(4):
-            s.rows.append(Basis_RowStack(x, y, self))
+            s.rows.append(Vague_RowStack(x, y, self))
             x += l.XS
 
         x, y = l.XM+4*l.XS, l.YM+l.YS
@@ -793,8 +793,8 @@ class DevilsSolitaire(Game):
         x, y = l.XM+4.5*l.XS, self.height-l.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
         l.createText(s.talon, 'n')
-        tx, ty, ta, tf = l.getTextAttr(s.talon, "nn")
-        font = self.app.getFont("canvas_default")
+        tx, ty, ta, tf = l.getTextAttr(s.talon, 'nn')
+        font = self.app.getFont('canvas_default')
         s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty-l.TEXT_MARGIN,
                                              anchor=ta, font=font)
 
@@ -869,7 +869,7 @@ registerGame(GameInfo(662, DoubleDolphin, "Double Dolphin",
                       GI.GT_GOLF | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(709, Waterfall, "Waterfall",
                       GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
-registerGame(GameInfo(720, Basis, "Basis",
+registerGame(GameInfo(720, Vague, "Vague",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(723, DevilsSolitaire, "Devil's Solitaire",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED))

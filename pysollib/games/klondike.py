@@ -1351,6 +1351,28 @@ class Scarp(Klondike):
         Klondike.startGame(self, flip=1)
 
 
+# /***********************************************************************
+# // Eight Sages
+# ************************************************************************/
+
+class EightSages_Row(AC_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not AC_RowStack.acceptsCards(self, from_stack, cards):
+            return False
+        return from_stack is self.game.s.waste
+
+class EightSages(Klondike):
+    RowStack_Class = EightSages_Row
+
+    def createGame(self):
+        Klondike.createGame(self, max_rounds=2, rows=8, playcards=12)
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
+
+
 
 # register the game
 registerGame(GameInfo(2, Klondike, "Klondike",
@@ -1493,5 +1515,6 @@ registerGame(GameInfo(667, Kingsley, "Kingsley",
                       GI.GT_KLONDIKE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(669, Scarp, "Scarp",
                       GI.GT_GYPSY | GI.GT_ORIGINAL, 3, 0, GI.SL_MOSTLY_SKILL))
-
+registerGame(GameInfo(726, EightSages, "Eight Sages",
+                      GI.GT_KLONDIKE, 2, 1, GI.SL_MOSTLY_LUCK))
 

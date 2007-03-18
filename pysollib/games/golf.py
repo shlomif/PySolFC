@@ -106,6 +106,9 @@ class Golf_Waste(WasteStack):
                 return 0
         return (r1 + 1) % self.cap.mod == r2 or (r2 + 1) % self.cap.mod == r1
 
+    def getHelp(self):
+        return _('Waste. Build up or down regardless of suit.')
+
 
 class Golf_RowStack(BasicRowStack):
     def clickHandler(self, event):
@@ -678,6 +681,7 @@ class Waterfall(Game):
 
 # /***********************************************************************
 # // Vague
+# // Thirty Two Cards
 # ************************************************************************/
 
 class Vague_RowStack(BasicRowStack):
@@ -685,25 +689,29 @@ class Vague_RowStack(BasicRowStack):
 
 
 class Vague(Game):
+    Foundation_Classes = [StackWrapper(SS_FoundationStack,
+                                       base_rank=ANY_RANK, mod=13)]
 
-    def createGame(self):
+    def createGame(self, rows=3, columns=6):
         l, s = Layout(self), self.s
-        self.setSize(l.XM+6*l.XS, l.YM+4*l.YS)
+        decks = self.gameinfo.decks
+        maxrows = max(columns, 2+decks*4)
+        self.setSize(l.XM+maxrows*l.XS, l.YM+(rows+1)*l.YS)
 
         x, y = l.XM, l.YM
         s.talon = TalonStack(x, y, self)
         l.createText(s.talon, 'ne')
 
         x, y = l.XM+2*l.XS, l.YM
-        for i in range(4):
-            s.foundations.append(SS_FoundationStack(x, y, self, suit=i,
-                                 base_rank=ANY_RANK, mod=13))
-            x += l.XS
+        for found in self.Foundation_Classes:
+            for i in range(4):
+                s.foundations.append(found(x, y, self, suit=i))
+                x += l.XS
 
         y = l.YM+l.YS
-        for i in range(3):
-            x = l.XM
-            for j in range(6):
+        for i in range(rows):
+            x = l.XM + (maxrows-columns)*l.XS/2
+            for j in range(columns):
                 s.rows.append(Vague_RowStack(x, y, self))
                 x += l.XS
             y += l.YS
@@ -732,6 +740,19 @@ class Vague(Game):
         else:
             # rightclickHandler
             return ((), self.sg.dropstacks, self.sg.dropstacks)
+
+
+class ThirtyTwoCards(Vague):
+    Foundation_Classes = [
+        SS_FoundationStack,
+        StackWrapper(SS_FoundationStack, base_rank=KING, dir=-1)]
+
+    def createGame(self):
+        Vague.createGame(self, rows=4, columns=8)
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow()
 
 
 # /***********************************************************************
@@ -840,6 +861,79 @@ class DevilsSolitaire(Game):
         f.texts.misc.config(text=t)
 
 
+# /***********************************************************************
+# // Three Fir-trees
+# ************************************************************************/
+
+class ThreeFirTrees_RowStack(Golf_RowStack):
+    def __init__(self, x, y, game):
+        Golf_RowStack.__init__(self, x, y, game, max_accept=0, max_cards=1)
+        self.CARD_YOFFSET = 0
+        self.blockmap = []
+
+    def basicIsBlocked(self):
+        for r in self.blockmap:
+            if r.cards:
+                return True
+        return False
+
+
+class ThreeFirTrees(Golf):
+    Hint_Class = CautiousDefaultHint
+
+    def _createFirTree(self, l, x0, y0):
+        rows = []
+        # create stacks
+        for i in range(11):
+            x = x0 + ((i+1)%2) * l.XS / 2
+            y = y0 + i * l.YS / 4
+            for j in range((i%2) + 1):
+                rows.append(ThreeFirTrees_RowStack(x, y, self))
+                x += l.XS
+        # compute blocking
+        n = 0
+        for i in range(10):
+            if i%2:
+                rows[n].blockmap = [rows[n+2]]
+                rows[n+1].blockmap = [rows[n+2]]
+                n += 2
+            else:
+                rows[n].blockmap = [rows[n+1],rows[n+2]]
+                n += 1
+        return rows
+
+    def createGame(self):
+
+        l, s = Layout(self), self.s
+
+        self.setSize(l.XM+max(7*l.XS, 2*l.XS+26*l.XOFFSET), l.YM+5*l.YS)
+
+        x0, y0 = (self.width-7*l.XS)/2, l.YM
+        for i in range(3):
+            s.rows += self._createFirTree(l, x0, y0)
+            x0 += 2.5*l.XS
+
+        x, y = l.XM, self.height - l.YS
+        s.talon = Golf_Talon(x, y, self, max_rounds=1)
+        l.createText(s.talon, 'n')
+        x += l.XS
+        s.waste = Golf_Waste(x, y, self)
+        s.waste.CARD_XOFFSET = l.XOFFSET/4
+        l.createText(s.waste, 'n')
+        # the Waste is also our only Foundation in this game
+        s.foundations.append(s.waste)
+
+        # define stack-groups (non default)
+        self.sg.openstacks = [s.waste]
+        self.sg.talonstacks = [s.talon]
+        self.sg.dropstacks = s.rows
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow(frames=4)
+        self.s.talon.dealCards()
+
+
 
 # register the game
 registerGame(GameInfo(36, Golf, "Golf",
@@ -873,4 +967,8 @@ registerGame(GameInfo(720, Vague, "Vague",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(723, DevilsSolitaire, "Devil's Solitaire",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED))
+registerGame(GameInfo(728, ThirtyTwoCards, "Thirty Two Cards",
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_LUCK))
+registerGame(GameInfo(731, ThreeFirTrees, "Three Fir-trees",
+                      GI.GT_GOLF, 2, 0, GI.SL_BALANCED))
 

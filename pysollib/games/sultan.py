@@ -564,6 +564,7 @@ class Patriarchs(PicturePatience):
 
 # /***********************************************************************
 # // Sixes and Sevens
+# // Two Rings
 # ************************************************************************/
 
 class SixesAndSevens(Game):
@@ -615,6 +616,64 @@ class SixesAndSevens(Game):
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealCards()
+
+
+class TwoRings(Game):
+
+    def createGame(self, max_rounds=2):
+
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+10*l.XS, l.YM+5*l.YS)
+
+        lay = (
+            (1.5, 0  ),
+            (2.5, 0.3),
+            (3,   1.3),
+            (2.5, 2.3),
+            (1.5, 2.6),
+            (0.5, 2.3),
+            (0,   1.3),
+            (0.5, 0.3),
+            )
+
+        suit = 0
+        x0, y0 = l.XM+l.XS, l.YM
+        for xx, yy in lay:
+            x, y = x0+xx*l.XS, y0+yy*l.YS
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=suit/2,
+                                 base_rank=6, max_cards=7))
+            suit += 1
+        suit = 0
+        x0, y0 = l.XM+5*l.XS, l.YM
+        for xx, yy in lay:
+            x, y = x0+xx*l.XS, y0+yy*l.YS
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=suit/2,
+                                 base_rank=5, dir=-1, max_cards=6))
+            suit += 1
+
+        x, y = l.XM, l.YM+4*l.YS
+        for i in range(8):
+            stack = BasicRowStack(x, y, self)
+            stack.CARD_YOFFSET = 0
+            s.rows.append(stack)
+            x += l.XS
+
+        x += l.XS
+        s.talon = DealRowRedealTalonStack(x, y, self, max_rounds=2)
+        l.createText(s.talon, 'sw')
+
+        l.defaultStackGroups()
+
+
+    def _shuffleHook(self, cards):
+        return self._shuffleHookMoveToTop(cards,
+            lambda c: (c.rank in (5, 6), (-c.rank, c.suit)))
+
+
+    def startGame(self):
+        self.s.talon.dealRow(rows=self.s.foundations, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
 
 
 # /***********************************************************************
@@ -1008,6 +1067,50 @@ class Khedive(Game):
             self.leaveState(old_state)
 
 
+# /***********************************************************************
+# // Phalanx
+# ************************************************************************/
+
+class Phalanx(Game):
+
+    def createGame(self):
+
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+8*l.XS, l.YM+5*l.YS)
+
+        y = l.YM
+        for i in range(5):
+            x = l.XM+(8-i)*l.XS/2
+            for j in range(i+1):
+                s.rows.append(ReserveStack(x, y, self))
+                x += l.XS
+            y += l.YS
+
+        suit = 0
+        for xx, yy in ((1.5, 1.5),
+                       (1,   2.5),
+                       (6.5, 1.5),
+                       (7,   2.5)):
+            x, y = l.XM+xx*l.XS, l.YM+yy*l.YS
+            s.foundations.append(SS_FoundationStack(x, y, self, suit))
+            suit += 1
+
+        x, y = l.XM, l.YM
+        s.talon = WasteTalonStack(x, y, self, max_rounds=1)
+        l.createText(s.talon, 's')
+        x += l.XS
+        s.waste = WasteStack(x, y, self)
+        l.createText(s.waste, 's')
+
+        l.defaultStackGroups()
+
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow(frames=4)
+        self.s.talon.dealCards()
+
+
 
 # register the game
 registerGame(GameInfo(330, Sultan, "Sultan",
@@ -1050,3 +1153,7 @@ registerGame(GameInfo(660, Toni, "Toni",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(691, Khedive, "Khedive",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_LUCK))
+registerGame(GameInfo(729, TwoRings, "Two Rings",
+                      GI.GT_2DECK_TYPE, 2, 1, GI.SL_MOSTLY_LUCK))
+registerGame(GameInfo(730, Phalanx, "Phalanx",
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))

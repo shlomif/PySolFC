@@ -840,6 +840,54 @@ class DoubletsII(Game):
                     self.leaveState(old_state)
 
 
+# /***********************************************************************
+# // Right and Left
+# ************************************************************************/
+
+class RightAndLeft_Talon(DealRowRedealTalonStack):
+    def _redeal(self, rows=None, reverse=False, frames=0):
+        return DealRowRedealTalonStack._redeal(self, rows=rows,
+                                               reverse=reverse, frames=3)
+
+
+class RightAndLeft(Game):
+
+    FILL_STACKS_AFTER_DROP = 0
+
+    def createGame(self):
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        self.setSize(l.XM+5*l.XS, l.YM+3*l.YS)
+
+        # create stacks
+        x, y = l.XM+l.XS, l.YM+2*l.YS
+        s.talon = RightAndLeft_Talon(x, y, self, max_rounds=UNLIMITED_REDEALS)
+
+        x, y = l.XM+0.5*l.XS, l.YM
+        for i in range(2):
+            stack = Nestor_RowStack(x, y, self, max_move=1, max_accept=1,
+                                    dir=0, base_rank=NO_RANK)
+            stack.CARD_YOFFSET = 0
+            s.rows.append(stack)
+            x += l.XS
+
+        x += 1.5*l.XS
+        s.foundations.append(AbstractFoundationStack(x, y, self, suit=ANY_SUIT,
+                             max_move=0, max_cards=104,
+                             max_accept=0, base_rank=ANY_RANK))
+        l.createText(s.foundations[0], 'nw')
+
+        # define stack-groups
+        l.defaultStackGroups()
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+
+
 # register the game
 registerGame(GameInfo(89, MonteCarlo, "Monte Carlo",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK,
@@ -874,4 +922,6 @@ registerGame(GameInfo(649, DoubletsII, "Doublets II",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(663, TheLastMonarchII, "The Last Monarch II",
                       GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(727, RightAndLeft, "Right and Left",
+                      GI.GT_PAIRING_TYPE, 2, -1, GI.SL_LUCK))
 

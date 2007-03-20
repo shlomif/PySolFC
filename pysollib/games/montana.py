@@ -464,5 +464,5 @@ registerGame(GameInfo(381, SpacesAndAces, "Spaces and Aces",
 registerGame(GameInfo(706, Paganini, "Paganini",
                       GI.GT_MONTANA | GI.GT_OPEN, 1, 1, GI.SL_MOSTLY_SKILL,
                       ranks=(0, 5, 6, 7, 8, 9, 10, 11, 12),
-                      ))
+                      altnames=('Long Trip',) ))
 

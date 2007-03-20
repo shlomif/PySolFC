@@ -700,6 +700,45 @@ class Hawaiian(Game):
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
+# /***********************************************************************
+# // Wave
+# ************************************************************************/
+
+class WaveTalon(DealRowTalonStack):
+    def dealCards(self, sound=0):
+        if sound and self.game.app.opt.animations:
+            self.game.startDealSample()
+        n = self.dealRowAvail(flip=0, sound=0)
+        n += self.dealRowAvail(sound=0)
+        if sound:
+            self.game.stopSamples()
+        return n
+
+
+class Wave(Game):
+    Hint_Class = Yukon_Hint
+
+    def createGame(self, rows=8):
+        l, s = Layout(self), self.s
+        l.klondikeLayout(rows=rows, waste=0, playcards=25)
+        self.setSize(l.size[0], l.size[1])
+        s.talon = WaveTalon(l.s.talon.x, l.s.talon.y, self)
+        for r in l.s.foundations:
+            s.foundations.append(SS_FoundationStack(r.x, r.y, self,
+                                                    suit=r.suit))
+        for r in l.s.rows:
+            s.rows.append(Yukon_AC_RowStack(r.x, r.y, self))
+        l.defaultAll()
+
+    def startGame(self):
+        self.s.talon.dealRow(frames=0)
+        self.s.talon.dealRow(frames=0, flip=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+    shallHighlightMatch = Game._shallHighlightMatch_AC
+
+
 
 # register the game
 registerGame(GameInfo(19, Yukon, "Yukon",
@@ -760,4 +799,6 @@ registerGame(GameInfo(531, DoubleRussianSpider, "Double Russian Spider",
 registerGame(GameInfo(603, Brisbane, "Brisbane",
                       GI.GT_SPIDER, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(707, Hawaiian, "Hawaiian",
+                      GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(732, Wave, "Wave",
                       GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 0, GI.SL_BALANCED))

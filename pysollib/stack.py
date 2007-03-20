@@ -76,6 +76,7 @@ __all__ = ['cardsFaceUp',
            'Spider_SS_RowStack',
            'Yukon_AC_RowStack',
            'Yukon_SS_RowStack',
+           'Yukon_RK_RowStack',
            'KingAC_RowStack',
            'KingSS_RowStack',
            'KingRK_RowStack',
@@ -2308,6 +2309,16 @@ class Yukon_SS_RowStack(Yukon_AC_RowStack):
     def getHelp(self):
         if self.cap.dir > 0:   return _('Tableau. Build up by suit, can move any face-up cards regardless of sequence.')
         elif self.cap.dir < 0: return _('Tableau. Build down by suit, can move any face-up cards regardless of sequence.')
+        else:                  return _('Tableau. Build by same rank, can move any face-up cards regardless of sequence.')
+
+# A Yukon_Rank_RowStack builds down by rank
+# but can move any face-up cards regardless of sequence.
+class Yukon_RK_RowStack(Yukon_AC_RowStack):
+    def _isSequence(self, c1, c2):
+        return (c1.rank + self.cap.dir) % self.cap.mod == c2.rank
+    def getHelp(self):
+        if self.cap.dir > 0:   return _('Tableau. Build up regardless of suit, can move any face-up cards regardless of sequence.')
+        elif self.cap.dir < 0: return _('Tableau. Build up regardless of suit, can move any face-up cards regardless of sequence.')
         else:                  return _('Tableau. Build by same rank, can move any face-up cards regardless of sequence.')
 
 #

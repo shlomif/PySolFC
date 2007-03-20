@@ -878,9 +878,7 @@ class ThreeFirTrees_RowStack(Golf_RowStack):
         return False
 
 
-class ThreeFirTrees(Golf):
-    Hint_Class = CautiousDefaultHint
-
+class FirTree_GameMethods:
     def _createFirTree(self, l, x0, y0):
         rows = []
         # create stacks
@@ -902,10 +900,13 @@ class ThreeFirTrees(Golf):
                 n += 1
         return rows
 
+
+class ThreeFirTrees(Golf, FirTree_GameMethods):
+    Hint_Class = CautiousDefaultHint
+
     def createGame(self):
 
         l, s = Layout(self), self.s
-
         self.setSize(l.XM+max(7*l.XS, 2*l.XS+26*l.XOFFSET), l.YM+5*l.YS)
 
         x0, y0 = (self.width-7*l.XS)/2, l.YM
@@ -933,6 +934,73 @@ class ThreeFirTrees(Golf):
         self.s.talon.dealRow(frames=4)
         self.s.talon.dealCards()
 
+
+# /***********************************************************************
+# // Napoleon Takes Moscow
+# // Napoleon Leaves Moscow
+# ************************************************************************/
+
+class NapoleonTakesMoscow(Game, FirTree_GameMethods):
+    RowStack_Class = StackWrapper(SS_RowStack, base_rank=KING, max_move=1)
+    Hint_Class = CautiousDefaultHint
+
+    def createGame(self):
+
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+10*l.XS, l.YM+3*l.YS+15*l.YOFFSET)
+
+        x, y = l.XM+l.XS, l.YM
+        for i in range(8):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i/2))
+            x += l.XS
+
+        x, y = l.XM, l.YM+l.YS
+        for i in range(2):
+            for j in range(4):
+                s.rows.append(self.RowStack_Class(x, y, self))
+                x += l.XS
+            x += 2*l.XS
+
+        x, y = l.XM+4*l.XS, l.YM+l.YS
+        s.reserves += self._createFirTree(l, x, y)
+
+        x, y = l.XM, self.height-l.YS
+        s.talon = WasteTalonStack(x, y, self, max_rounds=3)
+        l.createText(s.talon, 'n')
+        tx, ty, ta, tf = l.getTextAttr(s.talon, 'nn')
+        font = self.app.getFont('canvas_default')
+        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty-l.TEXT_MARGIN,
+                                             anchor=ta, font=font)
+
+        x += l.XS
+        s.waste = WasteStack(x, y, self)
+        l.createText(s.waste, 'n')
+
+        # define stack-groups
+        l.defaultStackGroups()
+        
+    def startGame(self):
+        self.s.talon.dealRow(rows=self.s.reserves, frames=0)
+        for i in range(3):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
+
+    shallHighlightMatch = Game._shallHighlightMatch_SS
+
+
+class NapoleonLeavesMoscow(NapoleonTakesMoscow):
+    RowStack_Class = StackWrapper(SS_RowStack, base_rank=KING)
+    Hint_Class = DefaultHint
+
+    def startGame(self):
+        self.s.talon.dealRow(rows=self.s.reserves, frames=0)
+        for i in range(4):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
 
 
 # register the game
@@ -966,9 +1034,14 @@ registerGame(GameInfo(709, Waterfall, "Waterfall",
 registerGame(GameInfo(720, Vague, "Vague",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(723, DevilsSolitaire, "Devil's Solitaire",
-                      GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED))
+                      GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED,
+                      altnames=('Banner',) ))
 registerGame(GameInfo(728, ThirtyTwoCards, "Thirty Two Cards",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_LUCK))
 registerGame(GameInfo(731, ThreeFirTrees, "Three Fir-trees",
                       GI.GT_GOLF, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(733, NapoleonTakesMoscow, "Napoleon Takes Moscow",
+                      GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED))
+registerGame(GameInfo(734, NapoleonLeavesMoscow, "Napoleon Leaves Moscow",
+                      GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED))
 

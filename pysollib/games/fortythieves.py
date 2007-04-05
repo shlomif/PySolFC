@@ -975,7 +975,7 @@ class DoubleGoldMine(Streets):
 # // Unlimited
 # // Breakwater
 # // Forty Nine
-# // Alternations
+# // Alternation
 # // Triple Interchange
 # ************************************************************************/
 
@@ -1030,7 +1030,7 @@ class FortyNine(Interchange):
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
-class Alternations(Interchange):
+class Alternation(Interchange):
     RowStack_Class = AC_RowStack
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
@@ -1239,7 +1239,7 @@ registerGame(GameInfo(588, Roosevelt, "Roosevelt",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(628, Crossroads, "Crossroads",
                       GI.GT_FORTY_THIEVES, 4, 0, GI.SL_BALANCED))
-registerGame(GameInfo(631, Alternations, "Alternations",
+registerGame(GameInfo(631, Alternation, "Alternation",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(632, Floradora, "Floradora",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_LUCK))

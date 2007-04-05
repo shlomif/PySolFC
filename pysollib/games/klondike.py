@@ -795,26 +795,6 @@ class Arizona(Phoenix):
 
 
 # /***********************************************************************
-# // Alternation
-# ************************************************************************/
-
-class Alternation(Klondike):
-
-    Foundation_Class = StackWrapper(SS_FoundationStack, max_move=0)
-    RowStack_Class = StackWrapper(AC_RowStack, base_rank=ANY_RANK)
-
-    def createGame(self):
-        Klondike.createGame(self, max_rounds=1)
-
-    def startGame(self):
-        for i in range(6):
-            self.s.talon.dealRow(rows=self.s.rows, flip=(i+1)%2, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
-        self.s.talon.dealCards()          # deal first card to WasteStack
-
-
-# /***********************************************************************
 # // Lanes
 # ************************************************************************/
 
@@ -1437,8 +1417,6 @@ registerGame(GameInfo(283, Jumbo, "Jumbo",
                       GI.GT_KLONDIKE, 2, 1, GI.SL_BALANCED))
 registerGame(GameInfo(333, OpenJumbo, "Open Jumbo",
                       GI.GT_KLONDIKE, 2, 1, GI.SL_BALANCED))
-registerGame(GameInfo(297, Alternation, "Alternation",
-                      GI.GT_KLONDIKE, 2, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(326, Lanes, "Lanes",
                       GI.GT_KLONDIKE, 1, 1, GI.SL_BALANCED))
 registerGame(GameInfo(327, ThirtySix, "Thirty Six",

@@ -80,8 +80,8 @@ class StatsDialog(MfxDialog):
         self.tkfont = tkFont.Font(parent, self.font)
         self.font_metrics = self.tkfont.metrics()
         style = Tkinter.Style()
-        self.heading_font = style.lookup('Heading', 'font') # treeview heading
-        self.heading_tkfont = tkFont.Font(parent, self.heading_font)
+        heading_font = style.lookup('Heading', 'font') # treeview heading
+        self.heading_tkfont = tkFont.Font(parent, heading_font)
 
         self.selected_game = None
 
@@ -122,8 +122,10 @@ class StatsDialog(MfxDialog):
     def initKw(self, kw):
         kw = KwStruct(kw,
                       strings=((_("&Play this game"), 401),
-                               "sep",_("&OK"),
-                               (_("&Reset..."), 500)), default=0,
+                               "sep", _("&OK"),
+                               (_("&Reset..."), 500)),
+                      default=0,
+                      separatorwidth=0,
         )
         return MfxDialog.initKw(self, kw)
 
@@ -340,29 +342,36 @@ class TreeFormatter(PysolStatsFormatter):
         tw = 20*self.w
         ##tw = 160
         self._tabs = [tw]
-        font = self.tkfont
+        measure = self.tkfont.measure
         for t in arg[1:]:
-            tw = font.measure(t)+8
+            tw = measure(t)+8
             self._tabs.append(tw)
         self._tabs.append(10)
         self.parent_window.tree_tabs = self._tabs
 
-    def writeStats(self, player, sort_by='name'):
-        header = self.getStatHeader()
-        if self._tabs is None:
-            self._calc_tabs(header)
-        t1, t2, t3, t4, t5, t6, t7 = header
-        for column, text, anchor, tab in (
-            ('#0',      t1, 'nw', self._tabs[0]),
-            ('played',  t2, 'ne', self._tabs[1]),
-            ('won',     t3, 'ne', self._tabs[2]),
-            ('lost',    t4, 'ne', self._tabs[3]),
-            ('time',    t5, 'ne', self._tabs[4]),
-            ('moves',   t6, 'ne', self._tabs[5]),
-            ('percent', t7, 'ne', self._tabs[6]), ):
+    def createHeader(self, player, header):
+        i = 0
+        for column in ('#0',) + self.parent_window.COLUMNS:
+            text = header[i]
+            anchor = i == 0 and 'nw' or 'ne'
             self.tree.heading(column, text=text,
                 command=lambda par=self.parent_window, col=column: par.headerClick(col))
+            self.tree.column(column, width=16)
+            i += 1
+
+    def resizeHeader(self, player, header):
+        if self._tabs is not None:
+            return
+        self._calc_tabs(header)
+        i = 0
+        for column in ('#0',) + self.parent_window.COLUMNS:
+            tab = self._tabs[i]
             self.tree.column(column, width=tab)
+            i += 1
+
+    def writeStats(self, player, sort_by='name'):
+        header = self.getStatHeader()
+        self.resizeHeader(player, header)
 
         for result in self.getStatResults(player, sort_by):
             # result == [name, won+lost, won, lost, time, moves, perc, id]
@@ -378,24 +387,9 @@ class TreeFormatter(PysolStatsFormatter):
         id = self.tree.insert(None, "end", text=text,
                               values=(won+lost, won, lost, time, moves, perc))
         self.parent_window.tree_items.append(id)
-
         return 1
 
     def writeLog(self, player, prev_games):
-        if self._tabs is None:
-            self._calc_tabs(('', '99999999999999999999', '9999-99-99  99:99', 'XXXXXXXXXXXX'))
-        header = self.getLogHeader()
-        t1, t2, t3, t4 = header
-        for column, text, anchor, tab in (
-            ('#0',         t1, 'nw', self._tabs[0]),
-            ('gamenumber', t2, 'ne', self._tabs[1]),
-            ('date',       t3, 'ne', self._tabs[2]),
-            ('status',     t4, 'ne', self._tabs[3]), ):
-            self.tree.heading(column, text=text,
-                command=lambda par=self.parent_window, col=column: par.headerClick(col))
-            self.tree.column(column, width=tab)
-            ##if column in ('gamenumber', 'date', 'status'):
-            ##    self.tree.column(column, anchor='center')
         if not player or not prev_games:
             return 0
         num_rows = 0
@@ -451,7 +445,12 @@ class AllGamesFrame(Tkinter.Frame):
         sb.config(command=self.tree.yview)
         bind(self.tree, '<<TreeviewSelect>>', self.treeviewSelected)
         #
-        self.fillTreeview(player)
+        self.formatter = TreeFormatter(self.app, self.tree, self,
+                                       self.dialog.heading_tkfont,
+                                       self.CHAR_W, self.CHAR_H)
+        self.createHeader(player)
+        bind(self.tree, '<Map>',
+             lambda e, player=player: self.fillTreeview(player))
 
     def getSelectedGame(self):
         sel = self.tree.selection()
@@ -480,18 +479,15 @@ class AllGamesFrame(Tkinter.Frame):
         self.sort_by = sort_by
         self.fillTreeview(self.player)
 
-    #
-    #
-    #
+    def createHeader(self, player):
+        header = self.formatter.getStatHeader()
+        self.formatter.createHeader(player, header)
 
     def fillTreeview(self, player):
         if self.tree_items:
             self.tree.delete(tuple(self.tree_items))
             self.tree_items = []
-        formatter = TreeFormatter(self.app, self.tree, self,
-                                  self.dialog.heading_tkfont,
-                                  self.CHAR_W, self.CHAR_H)
-        formatter.writeStats(player, sort_by=self.sort_by)
+        self.formatter.writeStats(player, sort_by=self.sort_by)
         if self.dialog.buttons:
             run_button = self.dialog.buttons[0]
             run_button.config(state='disabled')
@@ -508,6 +504,9 @@ class LogDialog(MfxDialog):
 
         self.font = app.getFont('default')
         self.tkfont = tkFont.Font(parent, self.font)
+        style = Tkinter.Style()
+        heading_font = style.lookup('Heading', 'font') # treeview heading
+        self.heading_tkfont = tkFont.Font(parent, heading_font)
         self.font_metrics = self.tkfont.metrics()
 
         self.CHAR_H = self.font_metrics['linespace']
@@ -545,8 +544,10 @@ class LogDialog(MfxDialog):
     def initKw(self, kw):
         kw = KwStruct(kw,
                       strings=(_("&OK"),
-                               (_("&Save to file"), 500)), default=0,
+                               (_("&Save to file"), 500)),
+                      default=0,
                       width=76*self.CHAR_W,
+                      separatorwidth=0,
                       )
         return MfxDialog.initKw(self, kw)
 
@@ -566,18 +567,28 @@ class LogDialog(MfxDialog):
 FullLog_StatsDialog = SessionLog_StatsDialog = LogDialog
 
 
+# /***********************************************************************
+# //
+# ************************************************************************/
 
-
-##class FullLog_StatsDialog(AllGames_StatsDialog):
 class FullLogFrame(AllGamesFrame):
 
     COLUMNS = ('gamenumber', 'date', 'status')
 
+    def __init__(self, dialog, parent, app, player, **kw):
+        AllGamesFrame.__init__(self, dialog, parent, app, player, **kw)
+        header = ('', '99999999999999999999', '9999-99-99  99:99',
+                  'XXXXXXXXXXXX')
+        self.formatter.resizeHeader(player, header)
+
+    def createHeader(self, player):
+        header = self.formatter.getLogHeader()
+        self.formatter.createHeader(player, header)
+
     def fillTreeview(self, player):
-        formatter = TreeFormatter(self.app, self.tree, self,
-                                  self.dialog.tkfont,
-                                  self.CHAR_W, self.CHAR_H)
-        formatter.writeFullLog(player)
+        if self.tree_items:
+            return
+        self.formatter.writeFullLog(player)
 
     def treeviewSelected(self, *args):
         pass
@@ -585,13 +596,11 @@ class FullLogFrame(AllGamesFrame):
         pass
 
 
-##class SessionLog_StatsDialog(FullLog_StatsDialog):
 class SessionLogFrame(FullLogFrame):
     def fillTreeview(self, player):
-        formatter = TreeFormatter(self.app, self.tree, self,
-                                  self.dialog.tkfont,
-                                  self.CHAR_W, self.CHAR_H)
-        formatter.writeSessionLog(player)
+        if self.tree_items:
+            return
+        self.formatter.writeSessionLog(player)
 
 
 # /***********************************************************************
@@ -639,6 +648,7 @@ class Status_StatsDialog(MfxMessageDialog):
             image_side="left", image_padx=20,
             padx=20,
             )
+
 
 # /***********************************************************************
 # //
@@ -824,18 +834,17 @@ class TopFrame(Tkinter.Frame):
 # //
 # ************************************************************************/
 
-##class ProgressionDialog(MfxDialog):
-
 class ProgressionFrame(Tkinter.Frame):
 
     def __init__(self, dialog, parent, app, player, gameid, **kw):
         Tkinter.Frame.__init__(self, parent)
 
-        self.text_height = dialog.font_metrics['linespace']
-        measure = dialog.tkfont.measure
-        self.text_width_1 = measure('XX.XX')
-        self.text_width_2 = measure('XX.XX.XX')
+        self.mapped = False
 
+        self.dialog = dialog
+        self.app = app
+        self.player = player
+        self.gameid = gameid
         self.items = []
         self.formatter = ProgressionFormatter(app, player, gameid)
 
@@ -860,55 +869,6 @@ class ProgressionFrame(Tkinter.Frame):
                                               width=self.canvas_width,
                                               height=self.canvas_height)
         canvas.pack(side='left', padx=5)
-        #
-        dir = os.path.join('images', 'stats')
-        try:
-            fn = app.dataloader.findImage('progression', dir)
-            self.bg_image = loadImage(fn)
-            canvas.create_image(0, 0, image=self.bg_image, anchor='nw')
-        except:
-            pass
-        #
-        tw = max(measure(_('Games/day')),
-                 measure(_('Games/week')),
-                 measure(_('% won')))
-        self.left_margin = self.xmargin+tw/2
-        self.right_margin = self.xmargin+tw/2
-        self.top_margin = 15+self.text_height
-        self.bottom_margin = 15+self.text_height+10+self.text_height
-        #
-        x0, y0 = self.left_margin, self.canvas_height-self.bottom_margin
-        x1, y1 = self.canvas_width-self.right_margin, self.top_margin
-        canvas.create_rectangle(x0, y0, x1, y1, fill='white')
-        # horizontal axis
-        canvas.create_line(x0, y0, x1, y0, width=3)
-
-        # left vertical axis
-        canvas.create_line(x0, y0, x0, y1, width=3)
-        t = _('Games/day')
-        self.games_text_id = canvas.create_text(x0-4, y1-4, anchor='s', text=t)
-
-        # right vertical axis
-        canvas.create_line(x1, y0, x1, y1, width=3)
-        canvas.create_text(x1+4, y1-4, anchor='s', text=_('% won'))
-
-        # caption
-        d = self.text_height
-        x, y = self.xmargin, self.canvas_height-self.ymargin
-        id = canvas.create_rectangle(x, y, x+d, y-d, outline='black',
-                                     fill=self.played_color)
-        x += d+5
-        canvas.create_text(x, y, anchor='sw', text=_('Played'))
-        x += measure(_('Played'))+20
-        id = canvas.create_rectangle(x, y, x+d, y-d, outline='black',
-                                     fill=self.won_color)
-        x += d+5
-        canvas.create_text(x, y, anchor='sw', text=_('Won'))
-        x += measure(_('Won'))+20
-        id = canvas.create_rectangle(x, y, x+d, y-d, outline='black',
-                                     fill=self.percent_color)
-        x += d+5
-        canvas.create_text(x, y, anchor='sw', text=_('% won'))
 
         # right frame
         right_frame = Tkinter.Frame(frame)
@@ -963,7 +923,73 @@ class ProgressionFrame(Tkinter.Frame):
                                 )
         b.pack(fill='x', expand=True, padx=3, pady=1)
 
+        #self.createGraph()
+        bind(canvas, '<Map>', self.createGraph)
+
+
+    def createGraph(self, event):
+        if self.mapped:
+            return
+        self.mapped = True
+
+        canvas = self.canvas
+
+        self.text_height = self.dialog.font_metrics['linespace']
+        measure = self.dialog.tkfont.measure
+        self.text_width_1 = measure('XX.XX')
+        self.text_width_2 = measure('XX.XX.XX')
+
+        dir = os.path.join('images', 'stats')
+        try:
+            fn = self.app.dataloader.findImage('progression', dir)
+            self.bg_image = loadImage(fn)
+            canvas.create_image(0, 0, image=self.bg_image, anchor='nw')
+        except:
+            pass
+        #
+        tw = max(measure(_('Games/day')),
+                 measure(_('Games/week')),
+                 measure(_('% won')))
+        self.left_margin = self.xmargin+tw/2
+        self.right_margin = self.xmargin+tw/2
+        self.top_margin = 15+self.text_height
+        self.bottom_margin = 15+self.text_height+10+self.text_height
+        #
+        x0, y0 = self.left_margin, self.canvas_height-self.bottom_margin
+        x1, y1 = self.canvas_width-self.right_margin, self.top_margin
+        canvas.create_rectangle(x0, y0, x1, y1, fill='white')
+        # horizontal axis
+        canvas.create_line(x0, y0, x1, y0, width=3)
+
+        # left vertical axis
+        canvas.create_line(x0, y0, x0, y1, width=3)
+        t = _('Games/day')
+        self.games_text_id = canvas.create_text(x0-4, y1-4, anchor='s', text=t)
+
+        # right vertical axis
+        canvas.create_line(x1, y0, x1, y1, width=3)
+        canvas.create_text(x1+4, y1-4, anchor='s', text=_('% won'))
+
+        # caption
+        d = self.text_height
+        x, y = self.xmargin, self.canvas_height-self.ymargin
+        id = canvas.create_rectangle(x, y, x+d, y-d, outline='black',
+                                     fill=self.played_color)
+        x += d+5
+        canvas.create_text(x, y, anchor='sw', text=_('Played'))
+        x += measure(_('Played'))+20
+        id = canvas.create_rectangle(x, y, x+d, y-d, outline='black',
+                                     fill=self.won_color)
+        x += d+5
+        canvas.create_text(x, y, anchor='sw', text=_('Won'))
+        x += measure(_('Won'))+20
+        id = canvas.create_rectangle(x, y, x+d, y-d, outline='black',
+                                     fill=self.percent_color)
+        x += d+5
+        canvas.create_text(x, y, anchor='sw', text=_('% won'))
+
         self.updateGraph()
+
 
     def updateGraph(self, *args):
         interval = self.variable.get()

@@ -1237,6 +1237,105 @@ class UpAndDown(Pyramid):
         self.s.talon.dealCards()          # deal first card to WasteStack
 
 
+# /***********************************************************************
+# // Hurricane
+# ************************************************************************/
+
+class Hurricane_Hint(DefaultHint):
+    def step010(self, dropstacks, rows):
+        rows = rows + self.game.s.reserves
+        return DefaultHint.step010(self, dropstacks, rows)
+
+
+class Hurricane_StackMethods(Pyramid_StackMethods):
+
+    def acceptsCards(self, from_stack, cards):
+        if from_stack is self:
+            return False
+        if len(cards) != 1:
+            return False
+        if not self.cards:
+            return False
+        c1 = self.cards[-1]
+        c2 = cards[0]
+        return c1.face_up and c2.face_up and c1.rank + c2.rank == 12
+
+    def moveMove(self, ncards, to_stack, frames=-1, shadow=-1):
+        if to_stack in self.game.s.rows or \
+               to_stack in self.game.s.reserves:
+            self._dropPairMove(ncards, to_stack, frames=-1, shadow=shadow)
+        else:
+            self.game.moveMove(ncards, self, to_stack,
+                               frames=frames, shadow=shadow)
+            self.fillStack()
+
+class Hurricane_RowStack(Hurricane_StackMethods, BasicRowStack):
+    pass
+
+class Hurricane_Reserve(Hurricane_StackMethods, OpenStack):
+    pass
+
+
+class Hurricane(Pyramid):
+    Hint_Class = Hurricane_Hint
+
+    def createGame(self):
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        ww = l.XS + max(2*l.XOFFSET, l.XS/2)
+        w = l.XM + 1.5*l.XS + 4*ww
+        h = l.YM + 3*l.YS
+        self.setSize(w, h)
+
+        # create stacks
+        for xx, yy in ((0,0),(1,0),(2,0),(3,0),
+                       (0,1),            (3,1),
+                       (0,2),(1,2),(2,2),(3,2),
+                       ):
+            x, y = l.XM + 1.5*l.XS + ww*xx, l.YM + l.YS*yy
+            stack = Hurricane_Reserve(x, y, self, max_accept=1)
+            stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
+            s.reserves.append(stack)
+
+        d = 3*ww - 4*l.XS - 2*l.XOFFSET
+        x = l.XM + 1.5*l.XS + l.XS+2*l.XOFFSET + d/2
+        y = l.YM+l.YS
+        for i in range(3):
+            stack = Hurricane_RowStack(x, y, self, max_accept=1)
+            s.rows.append(stack)
+            x += l.XS
+
+        x, y = l.XM, l.YM
+        s.talon = TalonStack(x, y, self)
+        l.createText(s.talon, 'ne')
+        y += 2*l.YS
+        s.foundations.append(AbstractFoundationStack(x, y, self,
+                             suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
+                             max_accept=0, max_move=0, max_cards=52))
+        l.createText(s.foundations[0], 'ne')
+
+        # define stack-groups
+        l.defaultStackGroups()
+
+
+    def startGame(self):
+        for i in range(2):
+            self.s.talon.dealRow(rows=self.s.reserves, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow(rows=self.s.reserves)
+        self.s.talon.dealRow()
+
+
+    def fillStack(self, stack):
+        if stack in self.s.rows and not stack.cards and self.s.talon.cards:
+            old_state = self.enterState(self.S_FILL)
+            self.s.talon.flipMove()
+            self.s.talon.moveMove(1, stack)
+            self.leaveState(old_state)
+
+
 
 # register the game
 registerGame(GameInfo(38, Pyramid, "Pyramid",
@@ -1281,4 +1380,5 @@ registerGame(GameInfo(700, Triangle, "Triangle",
                       GI.GT_PAIRING_TYPE, 1, 2, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(701, UpAndDown, "Up and Down",
                       GI.GT_PAIRING_TYPE | GI.GT_ORIGINAL, 2, 2, GI.SL_MOSTLY_LUCK))
-
+registerGame(GameInfo(735, Hurricane, "Hurricane",
+                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))

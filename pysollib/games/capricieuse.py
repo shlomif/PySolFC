@@ -180,7 +180,8 @@ registerGame(GameInfo(293, Nationale, "Nationale",
                       altnames=('Zigzag Course',) ))
 registerGame(GameInfo(606, Strata, "Strata",
                       GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 2, 2, GI.SL_MOSTLY_SKILL,
-                      ranks=(0, 6, 7, 8, 9, 10, 11, 12) ))
+                      ranks=(0, 6, 7, 8, 9, 10, 11, 12),
+                      altnames=('Persian Patience',) ))
 registerGame(GameInfo(673, Fifteen, "Fifteen",
                       GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL))
 

@@ -39,7 +39,7 @@ import os, sys
 import time
 
 # PySol imports
-from settings import USE_FREECELL_SOLVER, FCS_COMMAND
+from settings import DEBUG, USE_FREECELL_SOLVER, FCS_COMMAND
 from mfxutil import destruct
 from util import KING
 
@@ -702,7 +702,7 @@ class FreeCellSolver_Hint:
         self.dialog = dialog
         self.game_type = game_type
         self.options = {
-            'method': 'dfs',
+            'method': 'soft-dfs',
             'max_iters': 10000,
             'max_depth': 1000,
             'progress': False,
@@ -768,7 +768,10 @@ class FreeCellSolver_Hint:
         b = ''
         for s in self.game.s.foundations:
             if s.cards:
-                ss = self.card2str2(s.cards[-1])
+                if 'preset' in game_type and game_type['preset'] == 'simple_simon':
+                    ss = self.card2str2(s.cards[0])
+                else:
+                    ss = self.card2str2(s.cards[-1])
                 b += ' ' + ss
         if b:
             board += 'Founds:' + b + '\n'
@@ -792,16 +795,18 @@ class FreeCellSolver_Hint:
                 b += cs + ' '
             board = board + b.strip() + '\n'
         #
-        ##print '--------------------\n', board, '--------------------'
+        if DEBUG:
+            print '--------------------\n', board, '--------------------'
         #
         args = []
         ##args += ['-sam', '-p', '-opt', '--display-10-as-t']
         args += ['-m', '-p', '-opt']
-        if self.options['preset'] and self.options['preset'] != 'none':
-            args += ['-l', self.options['preset']]
         if progress:
             args += ['--iter-output']
-            ##args += ['-s']
+            if DEBUG:
+                args += ['-s']
+        if self.options['preset'] and self.options['preset'] != 'none':
+            args += ['--load-config', self.options['preset']]
         args += ['--max-iters', self.options['max_iters'],
                  '--max-depth', self.options['max_depth'],
                  '--method', self.options['method'],
@@ -820,7 +825,8 @@ class FreeCellSolver_Hint:
             args += ['--empty-stacks-filled-by', game_type['esf']]
 
         command = FCS_COMMAND+' '+' '.join([str(i) for i in args])
-        ##print command
+        if DEBUG:
+            print command
         pin, pout, perr = os.popen3(command)
         pin.write(board)
         pin.close()
@@ -830,14 +836,16 @@ class FreeCellSolver_Hint:
             'stack'    : game.s.rows,
             'freecell' : game.s.reserves,
             }
-        ##start_time = time.time()
+        if DEBUG:
+            start_time = time.time()
         if progress:
             # iteration output
             iter = 0
             depth = 0
             states = 0
             for s in pout:
-                ##print s,
+                if DEBUG >= 5:
+                    print s,
                 if s.startswith('Iter'):
                     #print `s`
                     iter = int(s[10:-1])
@@ -857,7 +865,8 @@ class FreeCellSolver_Hint:
 
         hints = []
         for s in pout:
-            #print s,
+            if DEBUG:
+                print s,
             # TODO:
             # Total number of states checked is 6.
             # This scan generated 6 states.
@@ -899,7 +908,8 @@ class FreeCellSolver_Hint:
             ##print src, dest, ncards
 
         #
-        ##print 'time:', time.time()-start_time
+        if DEBUG:
+            print 'time:', time.time()-start_time
         ##print perr.read(),
 
         self.hints = hints

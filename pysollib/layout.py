@@ -330,10 +330,10 @@ class Layout:
     # FreeCell layout
     #  - top: free cells, foundations
     #  - below: rows
-    #  - left bottom: talon
+    #  - left bottom: talon, waste
     #
 
-    def freeCellLayout(self, rows, reserves, texts=0, playcards=18):
+    def freeCellLayout(self, rows, reserves, waste=0, texts=0, playcards=18):
         S = self.__createStack
         CW, CH = self.CW, self.CH
         XM, YM = self.XM, self.YM
@@ -371,8 +371,18 @@ class Layout:
         x, y = XM, h - YS
         self.s.talon = s = S(x, y)
         if texts:
-            # place text right of stack
-            self._setText(s, anchor="se")
+            if waste:
+                # place text top of stack
+                self._setText(s, anchor="n")
+            else:
+                # place text right of stack
+                self._setText(s, anchor="se")
+        if waste:
+            x += XS
+            self.s.waste = s = S(x, y)
+            if texts:
+                # place text top of stack
+                self._setText(s, anchor="n")
 
         # set window
         self.size = (w, h)
@@ -394,6 +404,7 @@ class Layout:
         decks = self.game.gameinfo.decks
         suits = len(self.game.gameinfo.suits) + bool(self.game.gameinfo.trumps)
 
+        w = XM + max(rows+decks, reserves+2+waste)*XS
         if reserves:
             h = YS+(playcards-1)*self.YOFFSET+YS
         else:
@@ -409,6 +420,7 @@ class Layout:
         self.setRegion(self.s.rows, (-999, -999, x - CW / 2, 999999))
 
         # create foundations
+        x = w - decks*XS
         for suit in range(suits):
             for i in range(decks):
                 self.s.foundations.append(S(x+i*XS, y, suit=suit))
@@ -435,16 +447,16 @@ class Layout:
             x += XS
 
         # set window
-        self.size = (XM + (max(rows, reserves)+decks)*XS, h)
+        self.size = (w, h)
 
 
     #
     # Harp layout
-    #  - top: rows
+    #  - top: reserves, rows
     #  - bottom: foundations, waste, talon
     #
 
-    def harpLayout(self, rows, waste, texts=1, playcards=19):
+    def harpLayout(self, rows, waste, reserves=0, texts=1, playcards=19):
         S = self.__createStack
         CW, CH = self.CW, self.CH
         XM, YM = self.XM, self.YM
@@ -453,19 +465,29 @@ class Layout:
         decks = self.game.gameinfo.decks
         suits = len(self.game.gameinfo.suits) + bool(self.game.gameinfo.trumps)
 
-        w = max(rows*XS, (suits*decks+waste+1)*XS, (suits*decks+1)*XS+2*XM)
+        w = max(reserves*XS, rows*XS, (suits*decks+waste+1)*XS,
+                (suits*decks+1)*XS+2*XM)
         w = XM + w
 
         # set size so that at least 19 cards are fully playable
         h = YS + (playcards-1)*self.YOFFSET
         h = max(h, 3*YS)
         if texts: h += self.TEXT_HEIGHT
+        if reserves:
+            h += YS
 
         # top
-        x, y = (w - (rows*XS - XM))/2, YM
+        y = YM
+        if reserves:
+            x = (w - (reserves*XS - XM))/2
+            for i in range(reserves):
+                self.s.reserves.append(S(x, y))
+                x += XS
+            y += YS
+        x = (w - (rows*XS - XM))/2
         for i in range(rows):
             self.s.rows.append(S(x, y))
-            x = x + XS
+            x += XS
 
         # bottom
         x, y = XM, YM + h
@@ -493,10 +515,12 @@ class Layout:
     #
     # Klondike layout
     #  - top: talon, waste, foundations
-    #  - bottom: rows
+    #  - below: rows
+    #  - bottom: reserves
     #
 
-    def klondikeLayout(self, rows, waste, texts=1, playcards=16, center=1, text_height=0):
+    def klondikeLayout(self, rows, waste, reserves=0,
+                       texts=1, playcards=16, center=1, text_height=0):
         S = self.__createStack
         CW, CH = self.CW, self.CH
         XM, YM = self.XM, self.YM
@@ -507,7 +531,7 @@ class Layout:
         foundrows = 1 + (suits > 5)
         frows = decks * suits / foundrows
         toprows = 1 + waste + frows
-        maxrows = max(rows, toprows)
+        maxrows = max(rows, toprows, reserves)
 
         # set size so that at least 2/3 of a card is visible with 16 cards
         h = CH * 2 / 3 + (playcards - 1) * self.YOFFSET
@@ -544,7 +568,7 @@ class Layout:
                     x = x + XS
             y = y + YS
 
-        # bottom
+        # below
         x = XM
         if rows < maxrows: x += (maxrows-rows) * XS/2
         ##y += YM * (3 - foundrows)
@@ -553,6 +577,15 @@ class Layout:
         for i in range(rows):
             self.s.rows.append(S(x, y))
             x = x + XS
+
+        # bottom
+        if reserves:
+            x = (maxrows-reserves)*XS/2
+            y = h + YM + YS * foundrows
+            h += YS
+            for i in range(reserves):
+                self.s.reserves.append(S(x, y))
+                x += XS
 
         # set window
         self.size = (XM + maxrows * XS, h + YM + YS * foundrows)

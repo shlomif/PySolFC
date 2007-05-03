@@ -1420,12 +1420,12 @@ Please select a %s type %s.
             m = re.search(r"^(.+)\.py$", name)
             n = os.path.join(dir, name)
             if m and os.path.isfile(n):
-                p = sys.path[:]
                 try:
                     loadGame(m.group(1), n)
                 except Exception, ex:
+                    if DEBUG:
+                        traceback.print_exc()
                     print_err(_("error loading plugin %s: %s") % (n, ex))
-                sys.path = p
 
 
     #

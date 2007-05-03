@@ -44,6 +44,7 @@ from pysolrandom import constructRandom
 from settings import PACKAGE, PACKAGE_URL
 from settings import TOP_TITLE
 from settings import DEBUG
+from gamedb import GI
 
 # stats imports
 from stats import FileStatsFormatter
@@ -95,6 +96,7 @@ class PysolMenubarActions:
             find_card = 0,
             rules = 0,
             pause = 0,
+            custom_game = 0,
         )
 
     def connectGame(self, game):
@@ -192,6 +194,8 @@ class PysolMenubarActions:
             ms.rules = 1
         if not game.finished:
             ms.pause = 1
+        if game.gameinfo.si.game_type == GI.GT_CUSTOM:
+            ms.custom_game = 1
 
     # update menu items and toolbar
     def _updateMenus(self):
@@ -208,6 +212,7 @@ class PysolMenubarActions:
         self.setMenuState(ms.redo, "edit.redoall")
         self.updateBookmarkMenuState()
         self.setMenuState(ms.restart, "edit.restart")
+        self.setMenuState(ms.custom_game, "edit.editcurrentgame")
         # Game menu
         self.setMenuState(ms.deal, "game.dealcards")
         self.setMenuState(ms.autodrop, "game.autodrop")
@@ -264,9 +269,9 @@ class PysolMenubarActions:
             self.game.endGame()
             self.game.quitGame(self.game.id)
 
-    def _mSelectGame(self, id, random=None):
+    def _mSelectGame(self, id, random=None, force=False):
         if self._cancelDrag(): return
-        if self.game.id == id:
+        if not force and self.game.id == id:
             return
         if self.changed():
             if not self.game.areYouSure(_("Select game")):

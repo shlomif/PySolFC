@@ -98,6 +98,7 @@ class GI:
     GT_TERRACE      = 32
     GT_YUKON        = 33
     GT_SHISEN_SHO   = 34
+    GT_CUSTOM       = 40
     # extra flags
     GT_BETA          = 1 << 12      # beta version of game driver
     GT_CHILDREN      = 1 << 13      # *not used*
@@ -173,6 +174,7 @@ class GI:
         (n_("Two-Deck games"),lambda gi, gt=GT_2DECK_TYPE: gi.si.game_type == gt),
         (n_("Three-Deck games"),lambda gi, gt=GT_3DECK_TYPE: gi.si.game_type == gt),
         (n_("Four-Deck games"),lambda gi, gt=GT_4DECK_TYPE: gi.si.game_type == gt),
+        (n_("Cusom games"),   lambda gi, gt=GT_CUSTOM: gi.si.game_type == gt),
     )
 
     SELECT_ORIGINAL_GAME_BY_TYPE = (
@@ -471,7 +473,8 @@ class GameManager:
         self.__all_games = {}           # includes hidden games
         self.__all_gamenames = {}       # includes hidden games
         self.__games_for_solver = []
-        self.loading_plugin = 0
+        self.loading_plugin = False
+        self.check_game = True
         self.registered_game_types = {}
 
     def getSelected(self):
@@ -506,12 +509,12 @@ class GameManager:
                 raise GameInfoException("duplicate game altname %s: %s" %
                                         (gi.id, n))
 
-    def register(self, gi):
+    def register(self, gi, check_game=True):
         ##print gi.id, gi.short_name.encode('utf-8')
         if not isinstance(gi, GameInfo):
             raise GameInfoException("wrong GameInfo class")
         gi.plugin = self.loading_plugin
-        if self.loading_plugin or CHECK_GAMES:
+        if self.check_game and (self.loading_plugin or CHECK_GAMES):
             self._check_game(gi)
         ##if 0 and gi.si.game_flags & GI.GT_XORIGINAL:
         ##    return
@@ -610,9 +613,10 @@ def registerGame(gameinfo):
     return gameinfo
 
 
-def loadGame(modname, filename, plugin=1):
+def loadGame(modname, filename, plugin=True, check_game=True):
     ##print "load game", modname, filename
     GAME_DB.loading_plugin = plugin
+    GAME_DB.check_game = check_game
     module = imp.load_source(modname, filename)
     ##execfile(filename, globals(), globals())
 

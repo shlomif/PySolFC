@@ -57,6 +57,7 @@ __all__ = ['cardsFaceUp',
            'SS_FoundationStack',
            'RK_FoundationStack',
            'AC_FoundationStack',
+           'SC_FoundationStack',
            #'SequenceStack_StackMethods',
            'BasicRowStack',
            'SequenceRowStack',
@@ -2121,6 +2122,27 @@ class AC_FoundationStack(SS_FoundationStack):
     def getHelp(self):
         if self.cap.dir > 0:   return _('Foundation. Build up by alternate color.')
         elif self.cap.dir < 0: return _('Foundation. Build down by alternate color.')
+        else:                  return _('Foundation. Build by same rank.')
+
+# A SameColor_FoundationStack builds up in rank and alternate color.
+# It is used in only a few games.
+class SC_FoundationStack(SS_FoundationStack):
+    def __init__(self, x, y, game, suit, **cap):
+        kwdefault(cap, base_suit=suit)
+        SS_FoundationStack.__init__(self, x, y, game, ANY_SUIT, **cap)
+
+    def acceptsCards(self, from_stack, cards):
+        if not SS_FoundationStack.acceptsCards(self, from_stack, cards):
+            return 0
+        if self.cards:
+            # check the color
+            if cards[0].color != self.cards[-1].color:
+                return 0
+        return 1
+
+    def getHelp(self):
+        if self.cap.dir > 0:   return _('Foundation. Build up by color.')
+        elif self.cap.dir < 0: return _('Foundation. Build down by color.')
         else:                  return _('Foundation. Build by same rank.')
 
 

@@ -348,7 +348,7 @@ class PysolMenubar(PysolMenubarActions):
         if sys.platform == "darwin": m = "Cmd-"
 
         if WIN_SYSTEM == "aqua":
-            applemenu=MfxMenu(self.__menubar, n_("apple"))
+            applemenu=MfxMenu(self.__menubar, "apple")
             applemenu.add_command(label=_("&About ")+PACKAGE, command=self.mHelpAbout)
 
         menu = MfxMenu(self.__menubar, n_("&File"))

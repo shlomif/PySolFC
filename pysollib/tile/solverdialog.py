@@ -63,9 +63,9 @@ class SolverDialog(MfxDialog):
         self.solving_methods = {
             'A*':                   'a-star',
             'Breadth-First Search': 'bfs',
-            'Depth-First Search':   'dfs', # default
+            'Depth-First Search':   'soft-dfs', # default
             'A randomized DFS':     'random-dfs',
-            '"Soft" DFS':           'soft-dfs',
+            ##'"Soft" DFS':           'soft-dfs',
             }
         self.games = {}                 # key: gamename; value: gameid
 
@@ -99,8 +99,12 @@ class SolverDialog(MfxDialog):
                       ).grid(row=row, column=0, sticky='ew', padx=2, pady=2)
         ##sm = self.solving_methods.values()
         ##sm.sort()
-        sm = ['A*', 'Breadth-First Search', 'Depth-First Search',
-              'A randomized DFS', '"Soft" DFS']
+        sm = ['A*',
+              'Breadth-First Search',
+              'Depth-First Search',
+              'A randomized DFS',
+              ##'"Soft" DFS'
+              ]
         cb = Tkinter.Combobox(frame, values=tuple(sm), state='readonly')
         cb.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
         cb.current(sm.index('Depth-First Search'))

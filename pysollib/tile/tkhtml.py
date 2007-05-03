@@ -247,27 +247,30 @@ class HTMLViewer:
         ##self.defcursor = 'xterm'
         self.handcursor = "hand2"
 
+        frame = Tkinter.Frame(parent)
+        frame.pack(expand=True, fill='both')
+
         # create buttons
         button_width = 8
-        self.homeButton = Tkinter.Button(parent, text=_("Index"),
+        self.homeButton = Tkinter.Button(frame, text=_("Index"),
                                          width=button_width,
                                          command=self.goHome)
         self.homeButton.grid(row=0, column=0, sticky='w')
-        self.backButton = Tkinter.Button(parent, text=_("Back"),
+        self.backButton = Tkinter.Button(frame, text=_("Back"),
                                          width=button_width,
                                          command=self.goBack)
         self.backButton.grid(row=0, column=1, sticky='w')
-        self.forwardButton = Tkinter.Button(parent, text=_("Forward"),
+        self.forwardButton = Tkinter.Button(frame, text=_("Forward"),
                                             width=button_width,
                                             command=self.goForward)
         self.forwardButton.grid(row=0, column=2, sticky='w')
-        self.closeButton = Tkinter.Button(parent, text=_("Close"),
+        self.closeButton = Tkinter.Button(frame, text=_("Close"),
                                           width=button_width,
                                           command=self.destroy)
         self.closeButton.grid(row=0, column=3, sticky='e')
 
         # create text widget
-        text_frame = Tkinter.Frame(parent)
+        text_frame = Tkinter.Frame(frame)
         text_frame.grid(row=1, column=0, columnspan=4,
                         sticky='nsew', padx=1, pady=1)
         vbar = Tkinter.Scrollbar(text_frame)
@@ -282,10 +285,10 @@ class HTMLViewer:
         vbar["command"] = self.text.yview
 
         # statusbar
-        self.statusbar = HtmlStatusbar(parent, row=2, column=0, columnspan=4)
+        self.statusbar = HtmlStatusbar(frame, row=2, column=0, columnspan=4)
 
-        parent.columnconfigure(2, weight=1)
-        parent.rowconfigure(1, weight=1)
+        frame.columnconfigure(2, weight=1)
+        frame.rowconfigure(1, weight=1)
 
         # load images
         for name, fn in self.symbols_fn.items():

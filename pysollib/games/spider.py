@@ -81,36 +81,8 @@ class Spider_Hint(SpiderType_Hint):
 # //
 # ************************************************************************/
 
-class Spider_SS_Foundation(AbstractFoundationStack):
-    def __init__(self, x, y, game, suit=ANY_SUIT, **cap):
-        kwdefault(cap, dir=-1, base_rank=KING,
-                  min_accept=13, max_accept=13, max_move=0)
-        AbstractFoundationStack.__init__(self, x, y, game, suit, **cap)
-
-    def acceptsCards(self, from_stack, cards):
-        if not AbstractFoundationStack.acceptsCards(self, from_stack, cards):
-            return 0
-        # now check the cards
-        return isSameSuitSequence(cards, self.cap.mod, self.cap.dir)
-
-
-class Spider_AC_Foundation(Spider_SS_Foundation):
-    def acceptsCards(self, from_stack, cards):
-        if not AbstractFoundationStack.acceptsCards(self, from_stack, cards):
-            return 0
-        # now check the cards
-        return isAlternateColorSequence(cards, self.cap.mod, self.cap.dir)
-
-
 class Spider_RowStack(Spider_SS_RowStack):
-    def canDropCards(self, stacks):
-        if len(self.cards) < 13:
-            return (None, 0)
-        cards = self.cards[-13:]
-        for s in stacks:
-            if s is not self and s.acceptsCards(self, cards):
-                return (s, 13)
-        return (None, 0)
+    canDropCards = BasicRowStack.spiderCanDropCards
 
 
 class SuperMoveSpider_RowStack(SuperMoveStack_StackMethods, Spider_RowStack):

@@ -2038,6 +2038,27 @@ for %d moves.
         return ((card1.rank + 1) % 13 == card2.rank
                 or (card2.rank + 1) % 13 == card1.rank)
 
+    def _shallHighlightMatch_BO(self, stack1, card1, stack2, card2):
+        # by any suit but own
+        return card1.suit != card2.suit and abs(card1.rank-card2.rank) == 1
+
+    def _shallHighlightMatch_BOW(self, stack1, card1, stack2, card2):
+        # by any suit but own with wrapping (only for french games)
+        return (card1.suit != card2.suit
+                and ((card1.rank + 1) % 13 == card2.rank
+                     or (card2.rank + 1) % 13 == card1.rank))
+
+    def _shallHighlightMatch_SC(self, stack1, card1, stack2, card2):
+        # by same color
+        return card1.color == card2.color and abs(card1.rank-card2.rank) == 1
+
+    def _shallHighlightMatch_SCW(self, stack1, card1, stack2, card2):
+        # by same color with wrapping (only for french games)
+        return (card1.color == card2.color
+                and ((card1.rank + 1) % 13 == card2.rank
+                     or (card2.rank + 1) % 13 == card1.rank))
+
+
     #
     # quick-play
     #

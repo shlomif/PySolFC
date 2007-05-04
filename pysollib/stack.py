@@ -58,6 +58,8 @@ __all__ = ['cardsFaceUp',
            'RK_FoundationStack',
            'AC_FoundationStack',
            'SC_FoundationStack',
+           'Spider_SS_Foundation',
+           'Spider_AC_Foundation',
            #'SequenceStack_StackMethods',
            'BasicRowStack',
            'SequenceRowStack',
@@ -1492,11 +1494,14 @@ class Stack:
     def getBaseCard(self):
         return ''
 
-    def _getBaseCard(self):
+    def _getBaseCard(self, rank=None):
         # FIXME: no-french games
         if self.cap.max_accept == 0:
             return ''
-        br = self.cap.base_rank
+        if rank is None:
+            br = self.cap.base_rank
+        else:
+            br = rank
         s = _('Base card - %s.')
         if br == NO_RANK: s = _('Empty row cannot be filled.')
         elif br == -1: s = s % _('any card')
@@ -2068,6 +2073,28 @@ class AbstractFoundationStack(OpenStack):
     def getHelp(self):
         return _('Foundation.')
 
+    def varyAcceptsCards(self, from_stack, cards):
+        # if base rank of foundations is vary
+        subclass = self.__class__    # derived class (SS_FoundationStack, etc)
+        assert subclass is not AbstractFoundationStack
+        if self.cards:
+            return subclass.acceptsCards(self, from_stack, cards)
+        if not subclass.acceptsCards(self, from_stack, cards):
+            return False
+        # this stack don't have cards: check base rank of other stacks
+        for s in self.game.s.foundations:
+            if s.cards:
+                base_card = s.cards[0]
+                return base_card.rank == cards[0].rank
+        return True                     # all foundations is empty
+
+    def getVaryBaseCard(self):
+        rank = None
+        for s in self.game.s.foundations:
+            if s.cards:
+                rank = s.cards[0].rank
+        return self._getBaseCard(rank=rank)
+
 
 # A SameSuit_FoundationStack is the typical Foundation stack.
 # It builds up in rank and suit.
@@ -2146,6 +2173,29 @@ class SC_FoundationStack(SS_FoundationStack):
         else:                  return _('Foundation. Build by same rank.')
 
 
+# Spider-type foundations
+class Spider_SS_Foundation(AbstractFoundationStack):
+    def __init__(self, x, y, game, suit=ANY_SUIT, **cap):
+        kwdefault(cap, dir=-1, base_rank=KING,
+                  min_accept=13, max_accept=13, max_move=0)
+        AbstractFoundationStack.__init__(self, x, y, game, suit, **cap)
+
+    def acceptsCards(self, from_stack, cards):
+        if not AbstractFoundationStack.acceptsCards(self, from_stack, cards):
+            return 0
+        # now check the cards
+        return isSameSuitSequence(cards, self.cap.mod, self.cap.dir)
+
+
+class Spider_AC_Foundation(Spider_SS_Foundation):
+    def acceptsCards(self, from_stack, cards):
+        if not AbstractFoundationStack.acceptsCards(self, from_stack, cards):
+            return 0
+        # now check the cards
+        return isAlternateColorSequence(cards, self.cap.mod, self.cap.dir)
+
+
+
 # /***********************************************************************
 # // Abstract classes for row stacks.
 # ************************************************************************/
@@ -2191,6 +2241,16 @@ class BasicRowStack(OpenStack):
 
     #def getBaseCard(self):
     #    return self._getBaseCard()
+
+    def spiderCanDropCards(self, stacks):
+        # drop whole sequence
+        if len(self.cards) < 13:
+            return (None, 0)
+        cards = self.cards[-13:]
+        for s in stacks:
+            if s is not self and s.acceptsCards(self, cards):
+                return (s, 13)
+        return (None, 0)
 
 
 # Abstract class.

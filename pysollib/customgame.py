@@ -29,6 +29,7 @@ from hint import AbstractHint, DefaultHint, CautiousDefaultHint
 
 from wizardutil import WizardWidgets
 
+
 # /***********************************************************************
 # //
 # ************************************************************************/
@@ -48,58 +49,117 @@ class CustomGame(Game):
                 v = ss[w.var_name]
             s[w.var_name] = v
         ##from pprint import pprint; pprint(s)
-        foundation = StackWrapper(
-            s['found_type'],
-            base_rank=s['found_base_card'],
-            dir=s['found_dir'],
-            max_move=s['found_max_move'],
-            )
-        max_rounds = s['redeals']
-        if max_rounds >= 0:
-            max_rounds += 1
-        talon = StackWrapper(
-            s['talon'],
-            max_rounds=max_rounds,
-            )
-        row = StackWrapper(
-            s['rows_type'],
-            base_rank=s['rows_base_card'],
-            dir=s['rows_dir'],
-            max_move=s['rows_max_move'],
-            )
-        kw = {'rows'     : s['rows_num'],
+
+        # foundations
+        kw = {
+            'dir': s['found_dir'],
+            'base_rank': s['found_base_card'],
+            }
+        if s['found_type'] not in (Spider_SS_Foundation,
+                                   Spider_AC_Foundation,):
+            kw['max_move'] = s['found_max_move']
+        else:
+            kw['dir'] = -kw['dir']
+            if s['found_base_card'] == KING:
+                kw['base_rank'] = ACE
+            elif s['found_base_card'] == ACE:
+                kw['base_rank'] = KING
+        if s['found_wrap']:
+            kw['mod'] = 13
+        foundation = StackWrapper(s['found_type'], **kw)
+
+        # talon
+        kw = {
+            'max_rounds': s['redeals'],
+            }
+        if s['redeals'] >= 0:
+            kw['max_rounds'] += 1
+        talon = StackWrapper(s['talon'], **kw)
+
+        # rows
+        kw = {
+            'base_rank': s['rows_base_card'],
+            'dir':       s['rows_dir'],
+            'max_move':  s['rows_max_move'],
+            }
+        if s['rows_wrap']:
+            kw['mod'] = 13
+        row = StackWrapper(s['rows_type'], **kw)
+
+        # layout
+        layout_kw = {'rows'     : s['rows_num'],
               'waste'    : False,
               'texts'    : True,
               }
         if s['talon'] is InitialDealTalonStack:
-            kw['texts'] = False
-        if s['talon'] is WasteTalonStack:
-            kw['waste'] = True
-            kw['waste_class'] = WasteStack
-        if int(s['reserves_num']):
-            kw['reserves'] = s['reserves_num']
-            kw['reserve_class'] = s['reserves_type']
+            layout_kw['texts'] = False
+        layout_kw['playcards'] = 12+s['deal_to_rows']
 
-        kw['playcards'] = 12+s['deal_to_rows']
+        # reserves
+        if s['reserves_num']:
+            layout_kw['reserves'] = s['reserves_num']
+            kw = {
+                'max_accept': s['reserves_max_accept'],
+                }
+            if s['reserves_max_accept']:
+                layout_kw['reserve_class'] = StackWrapper(ReserveStack, **kw)
+            else:
+                layout_kw['reserve_class'] = StackWrapper(OpenStack, **kw)
+
+        # waste
+        if s['talon'] is WasteTalonStack:
+            layout_kw['waste'] = True
+            layout_kw['waste_class'] = WasteStack
 
         Layout(self).createGame(layout_method    = s['layout'],
                                 talon_class      = talon,
                                 foundation_class = foundation,
                                 row_class        = row,
-                                **kw
+                                **layout_kw
                                 )
 
+        # shallHighlightMatch
         for c, f in (
-            ((AC_RowStack, UD_AC_RowStack),
-             self._shallHighlightMatch_AC),
-            ((SS_RowStack, UD_SS_RowStack),
-             self._shallHighlightMatch_SS),
-            ((RK_RowStack, UD_RK_RowStack),
-             self._shallHighlightMatch_RK),
-            ):
+                ((Spider_AC_RowStack, Spider_SS_RowStack),
+                 (self._shallHighlightMatch_RK,
+                  self._shallHighlightMatch_RKW)),
+                ((AC_RowStack, UD_AC_RowStack),
+                 (self._shallHighlightMatch_AC,
+                  self._shallHighlightMatch_ACW)),
+                ((SS_RowStack, UD_SS_RowStack),
+                 (self._shallHighlightMatch_SS,
+                  self._shallHighlightMatch_SSW)),
+                ((RK_RowStack, UD_RK_RowStack),
+                 (self._shallHighlightMatch_RK,
+                  self._shallHighlightMatch_RKW)),
+                ((SC_RowStack, UD_SC_RowStack),
+                 (self._shallHighlightMatch_SC,
+                  self._shallHighlightMatch_SCW)),
+                ((BO_RowStack,),
+                 (self._shallHighlightMatch_BO,
+                  self._shallHighlightMatch_BOW)),
+                ):
             if s['rows_type'] in c:
-                self.shallHighlightMatch = f
+                if s['rows_wrap']:
+                    self.shallHighlightMatch = f[1]
+                else:
+                    self.shallHighlightMatch = f[0]
                 break
+
+        # getQuickPlayScore
+        if s['rows_type'] in (Spider_AC_RowStack, Spider_SS_RowStack):
+            self.getQuickPlayScore = self._getSpiderQuickPlayScore
+
+        # canDropCards
+        if s['found_type'] in (Spider_SS_Foundation,
+                               Spider_AC_Foundation,):
+            for stack in self.s.rows:
+                stack.canDropCards = stack.spiderCanDropCards
+
+        if s['found_base_card'] == ANY_RANK:
+            for stack in self.s.foundations:
+                stack.acceptsCards = stack.varyAcceptsCards
+                stack.getBaseCard = stack.getVaryBaseCard
 
 
     def startGame(self):
@@ -115,7 +175,7 @@ class CustomGame(Game):
                 self.startDealSample()
 
         # deal to rows
-        flip = self.SETTINGS['deal_faceup'] == 'All cards'
+        flip = (self.SETTINGS['deal_faceup'] == 'All cards')
         max_rows = self.SETTINGS['deal_to_rows']
         if self.SETTINGS['deal_type'] == 'Triangle':
             # triangle
@@ -140,10 +200,14 @@ class CustomGame(Game):
         if frames == 0:
             self.startDealSample()
         self.s.talon.dealRowAvail()
+        if isinstance(self.s.talon, InitialDealTalonStack):
+            while self.s.talon.cards:
+                self.s.talon.dealRowAvail()
 
         # deal to waste
         if self.s.waste:
             self.s.talon.dealCards()
+
 
 
 def registerCustomGame(gameclass):

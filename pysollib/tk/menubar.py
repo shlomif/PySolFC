@@ -61,6 +61,7 @@ from selecttile import SelectTileDialogWithPreview
 from findcarddialog import connect_game_find_card_dialog, destroy_find_card_dialog
 from solverdialog import connect_game_solver_dialog
 from tkwrap import MfxRadioMenuItem, MfxCheckMenuItem, StringVar
+from wizarddialog import WizardDialog
 
 #from toolbar import TOOLBAR_BUTTONS
 from tkconst import TOOLBAR_BUTTONS
@@ -400,6 +401,10 @@ class PysolMenubar(PysolMenubarActions):
         menu.add_separator()
 
         menu.add_command(label=n_("Restart"), command=self.mRestart, accelerator=m+"G")
+
+        menu.add_separator()
+        menu.add_command(label=n_("Solitaire &Wizard"), command=self.mWizard)
+        menu.add_command(label=n_("Edit current game"), command=self.mWizardEdit)
 
         menu = MfxMenu(self.__menubar, label=n_("&Game"))
         menu.add_command(label=n_("&Deal cards"), command=self.mDeal, accelerator="D")
@@ -1340,3 +1345,46 @@ class PysolMenubar(PysolMenubarActions):
         else:
             if self._cancelDrag(break_pause=True): return
             self.game.showStackDesc()
+
+
+    def wizardDialog(self, edit=False):
+        from pysollib.wizardutil import write_game, reset_wizard
+        if edit:
+            reset_wizard(self.game)
+        d = WizardDialog(self.top, _('Solitaire Wizard'), self.app)
+        if d.status == 0 and d.button == 0:
+            try:
+                if edit:
+                    gameid = write_game(self.app, game=self.game)
+                else:
+                    gameid = write_game(self.app)
+            except Exception, err:
+                if DEBUG:
+                    traceback.print_exc()
+                d = MfxMessageDialog(self.top, title=_('Save game error'),
+                                     text=_('''
+Error while saving game.
+
+%s
+''') % str(err),
+                                     bitmap='error')
+                return
+            if SELECT_GAME_MENU and not edit:
+                gi = self.app.getGameInfo(gameid)
+                label = gettext(gi.name)
+                menu = self.__menupath[".menubar.select.frenchgames.cusomgames"][2]
+                menu.add_radiobutton(command=self.mSelectGame,
+                                     variable=self.tkopt.gameid,
+                                     value=gameid, label=label, name=None)
+            self.tkopt.gameid.set(gameid)
+            self._mSelectGame(gameid, force=True)
+
+
+    def mWizard(self, *event):
+        if self._cancelDrag(break_pause=False): return
+        self.wizardDialog()
+
+    def mWizardEdit(self, *event):
+        if self._cancelDrag(break_pause=False): return
+        self.wizardDialog(edit=True)
+

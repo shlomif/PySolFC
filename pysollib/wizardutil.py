@@ -117,17 +117,22 @@ Redeals = WizSetting(
     var_name = 'redeals',
     )
 FoundType = WizSetting(
-    values_map = ((n_('Same suit'),       SS_FoundationStack),
-                  (n_('Alternate color'), AC_FoundationStack),
-                  (n_('Same color'),      SC_FoundationStack),
-                  (n_('Rank'),            RK_FoundationStack),
+    values_map = ((n_('Same suit'),              SS_FoundationStack),
+                  (n_('Alternate color'),        AC_FoundationStack),
+                  (n_('Same color'),             SC_FoundationStack),
+                  (n_('Rank'),                   RK_FoundationStack),
+                  (n_('Spider same suit'),       Spider_SS_Foundation),
+                  (n_('Spider alternate color'), Spider_AC_Foundation),
                   ),
     default = n_('Same suit'),
     label = _('Type:'),
     var_name = 'found_type',
     )
 FoundBaseCard = WizSetting(
-    values_map = ((n_('Ace'), ACE), (n_('King'), KING)),
+    values_map = ((n_('Ace'),  ACE),
+                  (n_('King'), KING),
+                  (n_('Any'),  ANY_RANK),
+                  ),
     default = n_('Ace'),
     label = _('Base card:'),
     var_name = 'found_base_card',
@@ -139,10 +144,11 @@ FoundDir = WizSetting(
     var_name = 'found_dir',
     )
 FoundWrap = WizSetting(
-    values_map = ((n_('Yes'), True), (n_('No'), False)),
-    default = n_('No'),
+    values_map = (True, False),
+    default = False,
     label = _('Wrapping:'),
     var_name = 'found_wrap',
+    widget = 'check',
     )
 FoundMaxMove = WizSetting(
     values_map = ((n_('No move'), 0,), (n_('One card'), 1)),
@@ -158,11 +164,17 @@ RowsNum = WizSetting(
     var_name = 'rows_num',
     )
 RowsType = WizSetting(
-    values_map = ((n_('Same suit'),             SS_RowStack),
-                  (n_('Alternate color'),       AC_RowStack),
-                  (n_('Same color'),            SC_RowStack),
-                  (n_('Rank'),                  RK_RowStack),
-                  (n_('Any suit but the same'), BO_RowStack),
+    values_map = ((n_('Same suit'),                     SS_RowStack),
+                  (n_('Alternate color'),               AC_RowStack),
+                  (n_('Same color'),                    SC_RowStack),
+                  (n_('Rank'),                          RK_RowStack),
+                  (n_('Any suit but the same'),         BO_RowStack),
+                  (n_('Up or down by same suit'),       UD_SS_RowStack),
+                  (n_('Up or down by alternate color'), UD_AC_RowStack),
+                  (n_('Up or down by rank'),            UD_RK_RowStack),
+                  (n_('Up or down by same color'),      UD_SC_RowStack),
+                  (n_('Spider same suit'),              Spider_SS_RowStack),
+                  (n_('Spider alternate color'),        Spider_AC_RowStack),
                   ),
     default = n_('Alternate color'),
     label = _('Type:'),
@@ -185,10 +197,11 @@ RowsDir = WizSetting(
     var_name = 'rows_dir',
     )
 RowsWrap = WizSetting(
-    values_map = ((n_('Yes'), True), (n_('No'), False)),
-    default = n_('No'),
+    values_map = (True, False),
+    default = False,
     label = _('Wrapping:'),
     var_name = 'rows_wrap',
+    widget = 'check',
     )
 RowsMaxMove = WizSetting(
     values_map = ((n_('One card'), 1), (n_('Unlimited'), UNLIMITED_MOVES)),
@@ -203,13 +216,12 @@ ReservesNum = WizSetting(
     label = _('Number of reserves:'),
     var_name = 'reserves_num',
     )
-ReservesType = WizSetting(
-    values_map = ((n_('FreeCell'), ReserveStack),
-                  (n_('Reserve'),  OpenStack),
-                  ),
-    default = n_('FreeCell'),
-    label = n_('Type of reserves:'),
-    var_name = 'reserves_type',
+ReservesMaxAccept = WizSetting(
+    values_map = (0, 20),
+    default = 1,
+    widget = 'spin',
+    label = _('Max accept:'),
+    var_name = 'reserves_max_accept',
     )
 DealType = WizSetting(
     values_map = ((n_('Triangle'),  'triangle'),
@@ -264,7 +276,7 @@ WizardWidgets = (
     RowsMaxMove,
     _('Reserves'),
     ReservesNum,
-    ReservesType,
+    ReservesMaxAccept,
     _('Initial dealing'),
     DealType,
     DealFaceUp,
@@ -320,6 +332,8 @@ class MyCustomGame(CustomGame):
         if isinstance(v, int):
             fd.write("        '%s': %i,\n" % (w.var_name, v))
         else:
+            if w.var_name == 'name' and not v:
+                v = 'Invalid Game Name'
             fd.write("        '%s': '%s',\n" % (w.var_name, v))
     fd.write("        'gameid': %i,\n" % gameid)
     fd.write("        'file': '%s',\n" % os.path.split(fn)[1])

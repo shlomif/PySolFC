@@ -23,7 +23,8 @@ __all__ = ['WizardDialog']
 
 
 # imports
-from Tile import *
+from Tkinter import *
+from tabpage import TabPageSet
 
 # PySol imports
 from pysollib.mfxutil import destruct, kwdefault, KwStruct, Struct
@@ -31,7 +32,6 @@ from pysollib.wizardutil import WizardWidgets
 
 # Toolkit imports
 from tkwidget import MfxDialog
-from tkwidget import PysolScale
 
 
 # /***********************************************************************
@@ -49,39 +49,39 @@ class WizardDialog(MfxDialog):
         frame.pack(expand=True, fill='both', padx=10, pady=10)
         frame.columnconfigure(0, weight=1)
 
-        notebook = Notebook(frame)
+        notebook = TabPageSet(frame)
         notebook.pack(expand=True, fill='both')
 
         for w in WizardWidgets:
             if isinstance(w, basestring):
-                frame = Frame(notebook)
-                notebook.add(frame, text=w, sticky='nsew', padding=5)
+                p = notebook.AddPage(w)
+                frame = Frame(notebook.pages[w]['page'])
+                frame.pack(expand=True, fill='both', padx=2, pady=4)
                 frame.columnconfigure(1, weight=1)
                 row = 0
                 continue
 
-            Label(frame, text=w.label).grid(row=row, column=0)
+            Label(frame, text=w.label).grid(row=row, column=0, padx=2)
 
             if w.widget == 'entry':
                 w.variable = var = StringVar()
                 en = Entry(frame, textvariable=var)
-                en.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
+                en.grid(row=row, column=1, sticky='ew', padx=2)
             elif w.widget == 'menu':
                 w.variable = var = StringVar()
-                cb = Combobox(frame, values=tuple(w.values), textvariable=var,
-                              state='readonly', width=32)
-                cb.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
+                om = OptionMenu(frame, var, *w.values)
+                om.grid(row=row, column=1, sticky='ew', padx=2)
             elif w.widget == 'spin':
                 w.variable = var = IntVar()
                 from_, to = w.values
-                ##s = Spinbox(frame, textvariable=var, from_=from_, to=to)
-                s = PysolScale(frame, from_=from_, to=to, resolution=1,
+                s = Scale(frame, from_=from_, to=to, resolution=1,
                                orient='horizontal',
                                variable=var)
-                s.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
+                s.grid(row=row, column=1, sticky='ew', padx=2)
             elif w.widget == 'check':
                 w.variable = var = BooleanVar()
-                ch = Checkbutton(frame, variable=var, takefocus=False)
+                ch = Checkbutton(frame, variable=var,
+                                 takefocus=False, anchor='w')
                 ch.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
 
             if w.current_value is None:
@@ -91,6 +91,7 @@ class WizardDialog(MfxDialog):
 
             row += 1
 
+        notebook.ChangePage()
 
         focus = self.createButtons(bottom_frame, kw)
         self.mainloop(focus, kw.timeout)

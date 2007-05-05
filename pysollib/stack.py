@@ -2088,7 +2088,7 @@ class AbstractFoundationStack(OpenStack):
                 return base_card.rank == cards[0].rank
         return True                     # all foundations is empty
 
-    def getVaryBaseCard(self):
+    def varyGetBaseCard(self):
         rank = None
         for s in self.game.s.foundations:
             if s.cards:
@@ -2118,11 +2118,6 @@ class SS_FoundationStack(AbstractFoundationStack):
 class RK_FoundationStack(SS_FoundationStack):
     def __init__(self, x, y, game, suit=ANY_SUIT, **cap):
         SS_FoundationStack.__init__(self, x, y, game, ANY_SUIT, **cap)
-
-    def assertStack(self):
-        SS_FoundationStack.assertStack(self)
-        ##assert self.cap.suit == ANY_SUIT
-        assert self.cap.color == ANY_COLOR
 
     def getHelp(self):
         if self.cap.dir > 0:   return _('Foundation. Build up regardless of suit.')

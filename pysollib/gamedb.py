@@ -174,7 +174,6 @@ class GI:
         (n_("Two-Deck games"),lambda gi, gt=GT_2DECK_TYPE: gi.si.game_type == gt),
         (n_("Three-Deck games"),lambda gi, gt=GT_3DECK_TYPE: gi.si.game_type == gt),
         (n_("Four-Deck games"),lambda gi, gt=GT_4DECK_TYPE: gi.si.game_type == gt),
-        (n_("Cusom games"),   lambda gi, gt=GT_CUSTOM: gi.si.game_type == gt),
     )
 
     SELECT_ORIGINAL_GAME_BY_TYPE = (

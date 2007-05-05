@@ -43,10 +43,12 @@ class CustomGame(Game):
         for w in WizardWidgets:
             if isinstance(w, basestring):
                 continue
-            if w.widget == 'menu':
-                v = dict(w.values_map)[ss[w.var_name]]
-            else:
+            if w.var_name in ss:
                 v = ss[w.var_name]
+            else:
+                v = w.default
+            if w.widget == 'menu':
+                v = dict(w.values_map)[v]
             s[w.var_name] = v
         ##from pprint import pprint; pprint(s)
 
@@ -54,6 +56,7 @@ class CustomGame(Game):
         kw = {
             'dir': s['found_dir'],
             'base_rank': s['found_base_card'],
+            'mod': 13,
             }
         if s['found_type'] not in (Spider_SS_Foundation,
                                    Spider_AC_Foundation,):
@@ -64,8 +67,6 @@ class CustomGame(Game):
                 kw['base_rank'] = ACE
             elif s['found_base_card'] == ACE:
                 kw['base_rank'] = KING
-        if s['found_wrap']:
-            kw['mod'] = 13
         foundation = StackWrapper(s['found_type'], **kw)
 
         # talon
@@ -74,6 +75,8 @@ class CustomGame(Game):
             }
         if s['redeals'] >= 0:
             kw['max_rounds'] += 1
+        if s['talon'] is WasteTalonStack:
+            kw['num_deal'] = s['deal_to_waste']
         talon = StackWrapper(s['talon'], **kw)
 
         # rows
@@ -84,20 +87,24 @@ class CustomGame(Game):
             }
         if s['rows_wrap']:
             kw['mod'] = 13
+        if s['rows_type'] in (UD_SS_RowStack, UD_AC_RowStack,
+                              UD_RK_RowStack, UD_SC_RowStack):
+            kw['max_move'] = 1
         row = StackWrapper(s['rows_type'], **kw)
 
         # layout
-        layout_kw = {'rows'     : s['rows_num'],
-              'waste'    : False,
-              'texts'    : True,
-              }
+        layout_kw = {
+            'rows'     : s['rows_num'],
+            'reserves' : s['reserves_num'],
+            'waste'    : False,
+            'texts'    : True,
+            }
         if s['talon'] is InitialDealTalonStack:
             layout_kw['texts'] = False
         layout_kw['playcards'] = 12+s['deal_to_rows']
 
         # reserves
         if s['reserves_num']:
-            layout_kw['reserves'] = s['reserves_num']
             kw = {
                 'max_accept': s['reserves_max_accept'],
                 }
@@ -156,10 +163,11 @@ class CustomGame(Game):
             for stack in self.s.rows:
                 stack.canDropCards = stack.spiderCanDropCards
 
-        if s['found_base_card'] == ANY_RANK:
+        # acceptsCards
+        if s['found_base_card'] == ANY_RANK and s['found_equal']:
             for stack in self.s.foundations:
                 stack.acceptsCards = stack.varyAcceptsCards
-                stack.getBaseCard = stack.getVaryBaseCard
+                stack.getBaseCard = stack.varyGetBaseCard
 
 
     def startGame(self):
@@ -213,17 +221,16 @@ class CustomGame(Game):
 def registerCustomGame(gameclass):
 
     s = gameclass.SETTINGS
-
     for w in WizardWidgets:
         if isinstance(w, basestring):
             continue
         if w.var_name == 'decks':
             v = s['decks']
             decks = dict(w.values_map)[v]
-        if w.var_name == 'redeals':
+        elif w.var_name == 'redeals':
             v = s['redeals']
             redeals = dict(w.values_map)[v]
-        if w.var_name == 'skill_level':
+        elif w.var_name == 'skill_level':
             v = s['skill_level']
             skill_level = dict(w.values_map)[v]
     gameid = s['gameid']

@@ -314,7 +314,7 @@ class Layout:
         for suit in range(suits):
             for i in range(decks):
                 self.s.foundations.append(S(x+i*XS, y, suit=suit))
-            y = y + YS
+            y += YS
 
         # create talon
         h = YM + 2*h
@@ -341,7 +341,9 @@ class Layout:
 
         decks = self.game.gameinfo.decks
         suits = len(self.game.gameinfo.suits) + bool(self.game.gameinfo.trumps)
-        toprows = reserves + 1 + suits*decks
+        toprows = suits*decks
+        if reserves:
+            toprows += reserves+1
         maxrows = max(rows, toprows)
 
         w = XM + maxrows*XS
@@ -352,19 +354,21 @@ class Layout:
 
         # create reserves & foundations
         x, y = (w - (toprows*XS - XM))/2, YM
-        for i in range(reserves):
-            self.s.reserves.append(S(x, y))
-            x = x + XS
+        if reserves:
+            for i in range(reserves):
+                self.s.reserves.append(S(x, y))
+                x += XS
+            x += XS
         for suit in range(suits):
             for i in range(decks):
-                x = x + XS
                 self.s.foundations.append(S(x, y, suit=suit))
+                x += XS
 
         # create rows
         x, y = (w - (rows*XS - XM))/2, YM + YS
         for i in range(rows):
             self.s.rows.append(S(x, y))
-            x = x + XS
+            x += XS
         self.setRegion(self.s.rows, (-999, y - CH / 2, 999999, 999999))
 
         # create talon
@@ -416,7 +420,7 @@ class Layout:
         x, y = XM, YM
         for i in range(rows):
             self.s.rows.append(S(x, y))
-            x = x + XS
+            x += XS
         self.setRegion(self.s.rows, (-999, -999, x - CW / 2, 999999))
 
         # create foundations
@@ -424,18 +428,18 @@ class Layout:
         for suit in range(suits):
             for i in range(decks):
                 self.s.foundations.append(S(x+i*XS, y, suit=suit))
-            y = y + YS
+            y += YS
 
         # create talon and waste
         x, y = x + (decks-1)*XS, h - YS
         if texts:
-            x = x - XS/2
+            x -= XS/2
         self.s.talon = s = S(x, y)
         if texts:
             # place text right of stack
             self._setText(s, anchor="se")
         if waste:
-            x = x - XS
+            x -= XS
             self.s.waste = s = S(x, y)
             if texts:
                 # place text left of stack
@@ -495,7 +499,7 @@ class Layout:
         for suit in range(suits):
             for i in range(decks):
                 self.s.foundations.append(S(x, y, suit=suit))
-                x = x + XS
+                x += XS
         if waste:
             x = w - 2*XS
             self.s.waste = s = S(x, y)
@@ -550,7 +554,7 @@ class Layout:
                 # place text right of stack
                 self._setText(s, 'ne')
         if waste:
-            x = x + XS
+            x += XS
             self.s.waste = s = S(x, y)
             if texts:
                 # place text below stack
@@ -565,8 +569,8 @@ class Layout:
             for suit in range(suits / foundrows):
                 for i in range(decks):
                     self.s.foundations.append(S(x, y, suit=suit + (row * (suits / 2))))
-                    x = x + XS
-            y = y + YS
+                    x += XS
+            y += YS
 
         # below
         x = XM
@@ -576,7 +580,7 @@ class Layout:
         self.setRegion(self.s.rows, (-999, y-CH/2, 999999, 999999))
         for i in range(rows):
             self.s.rows.append(S(x, y))
-            x = x + XS
+            x += XS
 
         # bottom
         if reserves:
@@ -615,14 +619,14 @@ class Layout:
         x, y = XM, YM
         for i in range(rows):
             self.s.rows.append(S(x, y))
-            x = x + XS
+            x += XS
         self.setRegion(self.s.rows, (-999, -999, x - CW / 2, 999999))
 
         # create foundations
         for suit in range(suits):
             for i in range(decks):
                 self.s.foundations.append(S(x+i*XS, y, suit=suit))
-            y = y + YS
+            y += YS
 
         # create talon
         x, y = XM, h - YS
@@ -670,7 +674,7 @@ class Layout:
                 # place text right of stack
                 self._setText(s, 'ne')
         if waste:
-            x = x + XS
+            x += XS
             self.s.waste = s = S(x, y)
             if texts:
                 # place text below stack
@@ -684,7 +688,7 @@ class Layout:
         for i in range(decks):
             for rank in range(ranks):
                 self.s.foundations.append(S(x0, y0, suit=rank))
-                x0 = x0 + XS
+                x0 += XS
             if i == 1 and decks > 2:
                 x0, y0 = x, y + YS
                 y = y0
@@ -694,7 +698,7 @@ class Layout:
         self.setRegion(self.s.rows, (-999, y - YM / 2, 999999, 999999))
         for i in range(rows):
             self.s.rows.append(S(x, y))
-            x = x + XS
+            x += XS
 
         # set window
         self.size = (XM + maxrows * XS, YM + YS + yextra + h)
@@ -735,7 +739,7 @@ class Layout:
                 # place text right of stack
                 self._setText(s, 'ne')
         if waste:
-            x = x + XS
+            x += XS
             self.s.waste = s = S(x, y)
             if texts:
                 # place text below stack
@@ -751,14 +755,14 @@ class Layout:
                 if i == decks - 1 and suit == 5:
                     x0, y0 = x + XS * (toprows - decks), YM
                     d, x, y = -1, x0, y0
-            d = d + 1
+            d += 1
 
         # top center
         x, y = XM + XS * decks, YM
         self.setRegion(self.s.rows, (x - XM / 2, 0, x + XS * rows, 999999))
         for i in range(rows):
             self.s.rows.append(S(x, y))
-            x = x + XS
+            x += XS
 
         # set window
         self.size = (XM + toprows * XS, YM + YS + yextra + h)
@@ -793,25 +797,25 @@ class Layout:
         for i in range(decks):
             for suit in range(12):
                 self.s.foundations.append(S(x, y, suit=suit))
-                x = x + XS
+                x += XS
             x, y = XM, y + YS
 
         # create rows
         x, y = XM + XS * ((toprows - rows) / 2), YM + YS * decks
         for i in range(rows):
             self.s.rows.append(S(x, y))
-            x = x + XS
+            x += XS
         self.setRegion(self.s.rows, (XS + XM / 2, YS * decks + YM / 2, XS * 11 - XM / 2, 999999))
 
         # create reserves
         x, y = XM, YM + YS * decks
         for i in range(reserves / 2):
             self.s.reserves.append(S(x, y))
-            y = y + YS
+            y += YS
         x, y = w - XS, YM + YS * decks
         for i in range(reserves / 2):
             self.s.reserves.append(S(x, y))
-            y = y + YS
+            y += YS
 
         # create talon
         x, y = XM, h + YM
@@ -853,18 +857,18 @@ class Layout:
         for i in range(decks):
             for rank in range(ranks):
                 self.s.foundations.append(S(x, y, suit=rank))
-                y = y + YS
+                y += YS
             x, y = x + XS, YM
 
         # create rows
         x, y = XM, YM
         for i in range(rows / 2):
             self.s.rows.append(S(x, y))
-            x = x + XS
+            x += XS
         x, y = XM, (YS + h) / 2
         for i in range(rows / 2):
             self.s.rows.append(S(x, y))
-            x = x + XS
+            x += XS
         self.setRegion(self.s.rows, (0, 0, XS * rows / 2 + XM / 2, 999999))
 
         # create reserves
@@ -872,7 +876,7 @@ class Layout:
         for i in range(decks):
             for i in range(reserves / decks):
                 self.s.reserves.append(S(x, y))
-                y = y + YS
+                y += YS
             x, y = x + XS, YM + YS * 4
 
         # create talon
@@ -919,11 +923,11 @@ class Layout:
         x, y = XS + XM * 3, YM
         for i in range(rows / 2):
             self.s.rows.append(S(x, y))
-            x = x + XS + XM
+            x += XS + XM
         x, y = XS + XM * 3, (YS + h) / 2
         for i in range(rows / 2):
             self.s.rows.append(S(x, y))
-            x = x + XS + XM
+            x += XS + XM
         self.setRegion(self.s.rows, (XS + XM, -999, 999999, 999999))
 
         # create reserves
@@ -931,7 +935,7 @@ class Layout:
         for i in range(decks):
             for i in range(reserves / decks):
                 self.s.reserves.append(S(x, y))
-                y = y + YS
+                y += YS
             x, y = x + XS, YM + YS * 4
 
         # set window
@@ -963,7 +967,7 @@ class Layout:
         x, y = XM, YM
         for i in range(suits):
             self.s.foundations.append(S(x, y, suit=i))
-            y = y + YS
+            y += YS
             if i == suits / 2 - 1:
                 x, y = w - XS, YM
 
@@ -1023,18 +1027,18 @@ class Layout:
         for suit in range(suits / 2):
             for i in range(decks):
                 self.s.foundations.append(S(x, y, suit = suit))
-                x = x + XS
+                x += XS
         x = w - fspace - XS * frows / 2
-        y = y + YS
+        y += YS
         for suit in range(suits / 2):
             for i in range(decks):
                 self.s.foundations.append(S(x, y, suit = suit + suits / 2))
-                x = x + XS
+                x += XS
 
         # bottom
         x, y = XM, YM * 2 + YS * 2
         for i in range(rows):
             self.s.rows.append(S(x, y))
-            x = x + XS
+            x += XS
         self.setRegion(self.s.rows, (-999, y - YM, 999999, 999999))
 

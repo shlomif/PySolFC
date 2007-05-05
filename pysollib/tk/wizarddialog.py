@@ -64,30 +64,34 @@ class WizardDialog(MfxDialog):
             Label(frame, text=w.label).grid(row=row, column=0, padx=2)
 
             if w.widget == 'entry':
-                w.variable = var = StringVar()
-                en = Entry(frame, textvariable=var)
+                if w.variable is None:
+                    w.variable = StringVar()
+                en = Entry(frame, textvariable=w.variable)
                 en.grid(row=row, column=1, sticky='ew', padx=2)
             elif w.widget == 'menu':
-                w.variable = var = StringVar()
-                om = OptionMenu(frame, var, *w.values)
+                if w.variable is None:
+                    w.variable = StringVar()
+                om = OptionMenu(frame, w.variable, *w.values)
                 om.grid(row=row, column=1, sticky='ew', padx=2)
             elif w.widget == 'spin':
-                w.variable = var = IntVar()
+                if w.variable is None:
+                    w.variable = IntVar()
                 from_, to = w.values
                 s = Scale(frame, from_=from_, to=to, resolution=1,
                                orient='horizontal',
-                               variable=var)
+                               variable=w.variable)
                 s.grid(row=row, column=1, sticky='ew', padx=2)
             elif w.widget == 'check':
-                w.variable = var = BooleanVar()
-                ch = Checkbutton(frame, variable=var,
+                if w.variable is None:
+                    w.variable = BooleanVar()
+                ch = Checkbutton(frame, variable=w.variable,
                                  takefocus=False, anchor='w')
                 ch.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
 
             if w.current_value is None:
-                var.set(w.default)
+                w.variable.set(w.default)
             else:
-                var.set(w.current_value)
+                w.variable.set(w.current_value)
 
             row += 1
 

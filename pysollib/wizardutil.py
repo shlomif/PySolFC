@@ -103,18 +103,26 @@ TalonType = WizSetting(
                   (n_('Deal to rows'),    DealRowTalonStack),
                   ),
     default = n_('Initial dealing'),
-    label = _('Type of talon:'),
+    label = _('Type:'),
     var_name = 'talon',
     )
 Redeals = WizSetting(
     values_map = ((n_('No redeals'), 0),
                   (n_('One redeal'), 1),
                   (n_('Two redeals'), 2),
+                  (n_('Three redeals'), 3),
                   (n_('Unlimited redeals'), -1),
                   ),
     default = n_('No redeals'),
     label = _('Number of redeals:'),
     var_name = 'redeals',
+    )
+DealToWaste = WizSetting(
+    values_map = (1, 5),
+    default = 1,
+    widget = 'spin',
+    label = _('Deal to waste:'),
+    var_name = 'deal_to_waste',
     )
 FoundType = WizSetting(
     values_map = ((n_('Same suit'),              SS_FoundationStack),
@@ -144,8 +152,8 @@ FoundDir = WizSetting(
     var_name = 'found_dir',
     )
 FoundWrap = WizSetting(
-    values_map = (True, False),
-    default = False,
+    values_map = (0, 1),
+    default = 0,
     label = _('Wrapping:'),
     var_name = 'found_wrap',
     widget = 'check',
@@ -155,6 +163,13 @@ FoundMaxMove = WizSetting(
     default = n_('One card'),
     label = _('Max move cards:'),
     var_name = 'found_max_move',
+    )
+FoundEqual = WizSetting(
+    values_map = (0, 1),
+    default = 1,
+    label = _('Equal base cards:'),
+    var_name = 'found_equal',
+    widget = 'check',
     )
 RowsNum = WizSetting(
     values_map = (1, 20),
@@ -261,19 +276,21 @@ WizardWidgets = (
     _('Talon'),
     TalonType,
     Redeals,
+    DealToWaste,
     _('Foundations'),
     FoundType,
     FoundBaseCard,
     FoundDir,
-    FoundWrap,
+    ##FoundWrap,
     FoundMaxMove,
+    FoundEqual,
     _('Tableau'),
     RowsNum,
     RowsType,
     RowsBaseCard,
     RowsDir,
-    RowsWrap,
     RowsMaxMove,
+    RowsWrap,
     _('Reserves'),
     ReservesNum,
     ReservesMaxAccept,
@@ -332,8 +349,11 @@ class MyCustomGame(CustomGame):
         if isinstance(v, int):
             fd.write("        '%s': %i,\n" % (w.var_name, v))
         else:
-            if w.var_name == 'name' and not v:
-                v = 'Invalid Game Name'
+            if w.var_name == 'name':
+                v = v.replace('\\', '\\\\')
+                v = v.replace("'", "\\'")
+                if not v:
+                    v = 'Invalid Game Name'
             fd.write("        '%s': '%s',\n" % (w.var_name, v))
     fd.write("        'gameid': %i,\n" % gameid)
     fd.write("        'file': '%s',\n" % os.path.split(fn)[1])
@@ -350,11 +370,18 @@ registerCustomGame(MyCustomGame)
     return gameid
 
 def reset_wizard(game):
-    s = game.SETTINGS
     for w in WizardWidgets:
         if isinstance(w, basestring):
             continue
-        v = s[w.var_name]
+        if game is None:
+            # set to default
+            v = w.default
+        else:
+            # set from current game
+            if w.var_name in game.SETTINGS:
+                v = game.SETTINGS[w.var_name]
+            else:
+                v = w.default
         if w.widget == 'menu':
             v = gettext(v)
         w.current_value = v

@@ -653,7 +653,9 @@ class PysolMenubar(PysolMenubarActions):
         self._addSelectOrientalGameSubMenu(games, menu, self.mSelectGame,
                                            self.tkopt.gameid)
         self._addSelectSpecialGameSubMenu(games, menu, self.mSelectGame,
-                                           self.tkopt.gameid)
+                                          self.tkopt.gameid)
+        self._addSelectCustomGameSubMenu(games, menu, self.mSelectGame,
+                                         self.tkopt.gameid)
         menu.add_separator()
         if self.progress: self.progress.update(step=1)
         self._addSelectAllGameSubMenu(games, menu, self.mSelectGame,
@@ -755,6 +757,12 @@ class PysolMenubar(PysolMenubarActions):
                                    GI.SELECT_SPECIAL_GAME_BY_TYPE,
                                    self.mSelectGame, self.tkopt.gameid)
 
+    def _addSelectCustomGameSubMenu(self, games, menu, command, variable):
+        submenu = MfxMenu(menu, label=n_("&Cusom games"))
+        select_func = lambda gi: gi.si.game_type == GI.GT_CUSTOM
+        games = filter(select_func, games)
+        self.updateGamesMenu(submenu, games)
+
     def _addSelectAllGameSubMenu(self, games, menu, command, variable):
         menu = MfxMenu(menu, label=n_("&All games by name"))
         n, d = 0, self.__cb_max
@@ -796,6 +804,20 @@ class PysolMenubar(PysolMenubarActions):
                                         'columnbreak': columnbreak,
                                         'value': gi.id,
                                         'label': label}))
+
+    def updateGamesMenu(self, menu, games):
+        menu.delete(0, 'last')
+        if len(games) == 0:
+            menu.add_radiobutton(label='<none>', name=None, state='disabled')
+        elif len(games) > self.__cb_max*4:
+            games.sort(lambda a, b: cmp(gettext(a.name), gettext(b.name)))
+            self._addSelectAllGameSubMenu(games, menu,
+                                          command=self.mSelectGame,
+                                          variable=self.tkopt.gameid)
+        else:
+            self._addSelectGameSubSubMenu(games, menu,
+                                          command=self.mSelectGame,
+                                          variable=self.tkopt.gameid)
 
     #
     # Select Game menu actions
@@ -853,24 +875,13 @@ class PysolMenubar(PysolMenubarActions):
 
     def updateFavoriteGamesMenu(self):
         gameids = self.app.opt.favorite_gameid
-        # delete all entries
         submenu = self.__menupath[".menubar.file.favoritegames"][2]
-        submenu.delete(0, "last")
-        # insert games
         games = []
         for id in gameids:
             gi = self.app.getGameInfo(id)
             if gi:
                 games.append(gi)
-        if len(games) > self.__cb_max*4:
-            games.sort(lambda a, b: cmp(gettext(a.name), gettext(b.name)))
-            self._addSelectAllGameSubMenu(games, submenu,
-                                          command=self.mSelectGame,
-                                          variable=self.tkopt.gameid)
-        else:
-            self._addSelectGameSubSubMenu(games, submenu,
-                                          command=self.mSelectGame,
-                                          variable=self.tkopt.gameid)
+        self.updateGamesMenu(submenu, games)
         state = self._getEnabledState
         in_favor = self.app.game.id in gameids
         menu, index, submenu = self.__menupath[".menubar.file.addtofavorites"]
@@ -1367,6 +1378,8 @@ the next time you restart """)+PACKAGE,
         from pysollib.wizardutil import write_game, reset_wizard
         if edit:
             reset_wizard(self.game)
+        else:
+            reset_wizard(None)
         d = WizardDialog(self.top, _('Solitaire Wizard'), self.app)
         if d.status == 0 and d.button == 0:
             try:
@@ -1385,13 +1398,15 @@ Error while saving game.
 ''') % str(err),
                                      bitmap='error')
                 return
-            if SELECT_GAME_MENU and not edit:
-                gi = self.app.getGameInfo(gameid)
-                label = gettext(gi.name)
-                menu = self.__menupath[".menubar.select.frenchgames.cusomgames"][2]
-                menu.add_radiobutton(command=self.mSelectGame,
-                                     variable=self.tkopt.gameid,
-                                     value=gameid, label=label, name=None)
+
+            if SELECT_GAME_MENU:
+                menu = self.__menupath[".menubar.select.cusomgames"][2]
+                select_func = lambda gi: gi.si.game_type == GI.GT_CUSTOM
+                games = map(self.app.gdb.get,
+                            self.app.gdb.getGamesIdSortedByName())
+                games = filter(select_func, games)
+                self.updateGamesMenu(menu, games)
+
             self.tkopt.gameid.set(gameid)
             self._mSelectGame(gameid, force=True)
 
@@ -1403,6 +1418,4 @@ Error while saving game.
     def mWizardEdit(self, *event):
         if self._cancelDrag(break_pause=False): return
         self.wizardDialog(edit=True)
-
-
 

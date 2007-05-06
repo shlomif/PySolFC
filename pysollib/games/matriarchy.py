@@ -108,7 +108,9 @@ class Matriarchy_Talon(WasteTalonStack):
             if n < ncards and len(waste.cards) > 0:
                 assert len(self.cards) == 0
                 assert self.round < self.max_rounds or update_flags == 0
-                self.game.turnStackMove(waste, self, update_flags=update_flags)
+                self.game.turnStackMove(waste, self)
+                if update_flags:
+                    self.game.nextRoundMove(self)
                 # do not update self.round anymore in this deal
                 update_flags = 0
         assert self.round <= self.max_rounds

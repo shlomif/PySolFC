@@ -38,9 +38,9 @@ from pysollib.util import *
 from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint, Yukon_Hint
 from pysollib.games.gypsy import Gypsy
-from pysollib.games.yukon import Yukon_Hint
+
 
 # /************************************************************************
 # // Sanibel

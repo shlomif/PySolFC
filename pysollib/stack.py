@@ -1840,7 +1840,7 @@ class DealRowRedealTalonStack(TalonStack, RedealCards_StackMethods):
             return True
         return False
 
-    def dealCards(self, sound=0, rows=None):
+    def dealCards(self, sound=0, rows=None, shuffle=False):
         num_cards = 0
         if rows is None:
             rows = self.game.s.rows
@@ -1849,11 +1849,18 @@ class DealRowRedealTalonStack(TalonStack, RedealCards_StackMethods):
         if not self.cards:
             # move all cards to talon
             num_cards = self._redeal(rows=rows, frames=4)
+            if shuffle:
+                # shuffle
+                self.game.shuffleStackMove(self)
             self.game.nextRoundMove(self)
         num_cards += self.dealRowAvail(rows=rows, sound=0)
         if sound:
             self.game.stopSamples()
         return num_cards
+
+    def shuffleAndDealCards(self, sound=0, rows=None):
+        DealRowRedealTalonStack.dealCards(self, sound=sound,
+                                          rows=rows, shuffle=True)
 
 
 class DealReserveRedealTalonStack(DealRowRedealTalonStack):
@@ -2564,7 +2571,7 @@ class WasteTalonStack(TalonStack):
             return 1
         return 0
 
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=0, shuffle=False):
         old_state = self.game.enterState(self.game.S_DEAL)
         num_cards = 0
         waste = self.waste
@@ -2587,9 +2594,16 @@ class WasteTalonStack(TalonStack):
             if sound:
                 self.game.playSample("turnwaste", priority=20)
             num_cards = len(waste.cards)
-            self.game.turnStackMove(waste, self, update_flags=1)
+            self.game.turnStackMove(waste, self)
+            if shuffle:
+                # shuffle
+                self.game.shuffleStackMove(self)
+            self.game.nextRoundMove(self)
         self.game.leaveState(old_state)
         return num_cards
+
+    def shuffleAndDealCards(self, sound=0):
+        WasteTalonStack.dealCards(self, sound=sound, shuffle=True)
 
 
 class FaceUpWasteTalonStack(WasteTalonStack):

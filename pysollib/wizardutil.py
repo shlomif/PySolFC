@@ -42,14 +42,14 @@ class WizSetting:
         self.values_map = values_map
         self.default = gettext(default)
         ##self.values_dict = dict(self.values_map)
-        self.translate_map = {}
+        self.translation_map = {}
         ##self.values = [i[0] for i in self.values_map]
         if widget == 'menu':
             self.values = []
             for k, v in self.values_map:
                 t = gettext(k)
                 self.values.append(t)
-                self.translate_map[t] = k
+                self.translation_map[t] = k
             assert self.default in self.values
         else:
             self.values = self.values_map
@@ -100,7 +100,7 @@ LayoutType = WizSetting(
 TalonType = WizSetting(
     values_map = ((n_('Initial dealing'), InitialDealTalonStack),
                   (n_('Deal to waste'),   WasteTalonStack),
-                  (n_('Deal to rows'),    DealRowTalonStack),
+                  (n_('Deal to rows'),    DealRowRedealTalonStack),
                   ),
     default = n_('Initial dealing'),
     label = _('Type:'),
@@ -123,6 +123,13 @@ DealToWaste = WizSetting(
     widget = 'spin',
     label = _('Deal to waste:'),
     var_name = 'deal_to_waste',
+    )
+TalonShuffle = WizSetting(
+    values_map = (0, 1),
+    default = 0,
+    label = _('Shuffle:'),
+    var_name = 'talon_shuffle',
+    widget = 'check',
     )
 FoundType = WizSetting(
     values_map = ((n_('Same suit'),              SS_FoundationStack),
@@ -184,12 +191,18 @@ RowsType = WizSetting(
                   (n_('Same color'),                    SC_RowStack),
                   (n_('Rank'),                          RK_RowStack),
                   (n_('Any suit but the same'),         BO_RowStack),
+
                   (n_('Up or down by same suit'),       UD_SS_RowStack),
                   (n_('Up or down by alternate color'), UD_AC_RowStack),
                   (n_('Up or down by rank'),            UD_RK_RowStack),
                   (n_('Up or down by same color'),      UD_SC_RowStack),
+
                   (n_('Spider same suit'),              Spider_SS_RowStack),
                   (n_('Spider alternate color'),        Spider_AC_RowStack),
+
+                  (n_('Yukon same suit'),               Yukon_SS_RowStack),
+                  (n_('Yukon alternate color'),         Yukon_AC_RowStack),
+                  (n_('Yukon rank'),                    Yukon_RK_RowStack),
                   ),
     default = n_('Alternate color'),
     label = _('Type:'),
@@ -246,25 +259,33 @@ DealType = WizSetting(
     label = _('Type:'),
     var_name = 'deal_type',
     )
-DealFaceUp = WizSetting(
-    values_map = ((n_('Top cards'), 'top'), (n_('All cards'), 'all')),
-    default = n_('All cards'),
-    label = _('Face-up:'),
-    var_name = 'deal_faceup',
-    )
-DealMaxRows = WizSetting(
+DealFaceDown = WizSetting(
     values_map = (0, 20),
-    default = 7,
+    default = 0,
     widget = 'spin',
-    label = _('Deal to rows:'),
-    var_name = 'deal_to_rows',
+    label = _('# of face-down cards:'),
+    var_name = 'deal_face_down',
+    )
+DealFaceUp = WizSetting(
+    values_map = (1, 20),
+    default = 8,
+    widget = 'spin',
+    label = _('# of face-up cards:'),
+    var_name = 'deal_face_up',
     )
 DealToReseves = WizSetting(
     values_map = (0, 20),
     default = 0,
     widget = 'spin',
-    label = _('Deal ro reserves:'),
+    label = _('Deal to reserves:'),
     var_name = 'deal_to_reserves',
+    )
+DealMaxCards = WizSetting(
+    values_map = (0, 208),
+    default = 52,
+    widget = 'spin',
+    label = _('Max # of dealt cards:'),
+    var_name = 'deal_max_cards',
     )
 
 WizardWidgets = (
@@ -277,6 +298,7 @@ WizardWidgets = (
     TalonType,
     Redeals,
     DealToWaste,
+    TalonShuffle,
     _('Foundations'),
     FoundType,
     FoundBaseCard,
@@ -296,9 +318,10 @@ WizardWidgets = (
     ReservesMaxAccept,
     _('Initial dealing'),
     DealType,
+    DealFaceDown,
     DealFaceUp,
-    DealMaxRows,
     DealToReseves,
+    DealMaxCards,
     )
 
 
@@ -319,17 +342,16 @@ def write_game(app, game=None):
         check_game = True
     else:
         # edit current game
-        fn = game.SETTINGS['file']
-        fn = os.path.join(app.dn.plugins, fn)
+        fn = game.MODULE_FILENAME
         mn = game.__module__
         gameid = game.SETTINGS['gameid']
-        n = gameid-200000
         check_game = False
 
     ##print '===>', fn
     fd = open(fn, 'w')
 
     fd.write('''\
+## -*- coding: utf-8 -*-
 ## THIS FILE WAS GENERATED AUTOMATICALLY BY SOLITAIRE WIZARD
 ## DO NOT EDIT
 
@@ -345,18 +367,19 @@ class MyCustomGame(CustomGame):
             continue
         v = w.variable.get()
         if w.widget == 'menu':
-            v = w.translate_map[v]
+            v = w.translation_map[v]
         if isinstance(v, int):
             fd.write("        '%s': %i,\n" % (w.var_name, v))
         else:
             if w.var_name == 'name':
                 v = v.replace('\\', '\\\\')
                 v = v.replace("'", "\\'")
+                if isinstance(v, unicode):
+                    v = v.encode('utf-8')
                 if not v:
                     v = 'Invalid Game Name'
             fd.write("        '%s': '%s',\n" % (w.var_name, v))
     fd.write("        'gameid': %i,\n" % gameid)
-    fd.write("        'file': '%s',\n" % os.path.split(fn)[1])
 
     fd.write('''\
         }

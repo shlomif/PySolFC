@@ -678,6 +678,31 @@ class YukonType_Hint(CautiousDefaultHint):
             p = p[1:]       # note: we need a fresh shallow copy
         return piles
 
+class Yukon_Hint(YukonType_Hint):
+    BONUS_FLIP_CARD = 9000
+    BONUS_CREATE_EMPTY_ROW = 100
+
+    ## FIXME: this is only a rough approximation and doesn't seem to help
+    ##        for Russian Solitaire
+    def _getMovePileScore(self, score, color, r, t, pile, rpile):
+        s, color = YukonType_Hint._getMovePileScore(self, score, color, r, t, pile, rpile)
+        bonus = s - score
+        assert 0 <= bonus <= 9999
+        # We must take care when moving piles that we won't block cards,
+        # i.e. if there is a card in pile which would be needed
+        # for a card in stack t.
+        tpile = t.getPile()
+        if tpile:
+            for cr in pile:
+                rr = self.ClonedStack(r, stackcards=[cr])
+                for ct in tpile:
+                    if rr.acceptsCards(t, [ct]):
+                        d = bonus / 1000
+                        bonus = (d * 1000) + bonus % 100
+                        break
+        return score + bonus, color
+
+
 # FIXME
 class FreeCellType_Hint(CautiousDefaultHint):
     pass

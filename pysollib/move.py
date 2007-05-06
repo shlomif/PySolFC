@@ -224,11 +224,10 @@ class AFlipAllMove(AtomicMove):
 # ************************************************************************/
 
 class ATurnStackMove(AtomicMove):
-    def __init__(self, from_stack, to_stack, update_flags=1):
+    def __init__(self, from_stack, to_stack):
         assert from_stack is not to_stack
         self.from_stack_id = from_stack.id
         self.to_stack_id = to_stack.id
-        self.update_flags = update_flags
 
     def redo(self, game):
         from_stack = game.allstacks[self.from_stack_id]
@@ -246,16 +245,6 @@ class ATurnStackMove(AtomicMove):
             to_stack.addCard(card, unhide=unhide, update=0)
             card.showBack(unhide=unhide)
             ##print 3, unhide, to_stack.getCard().__dict__
-        if self.update_flags & 2:
-            ### not used yet
-            assert 0
-            from_stack.round = from_stack.round + 1
-        if self.update_flags & 1:
-            assert to_stack is game.s.talon
-            assert to_stack.round < to_stack.max_rounds or to_stack.max_rounds < 0
-            to_stack.round = to_stack.round + 1
-        from_stack.updateText()
-        to_stack.updateText()
 
     def undo(self, game):
         from_stack = game.allstacks[self.to_stack_id]
@@ -270,22 +259,10 @@ class ATurnStackMove(AtomicMove):
             assert not card.face_up
             card.showFace(unhide=unhide)
             to_stack.addCard(card, unhide=unhide, update=0)
-        if self.update_flags & 2:
-            ### not used yet
-            assert 0
-            assert to_stack.round > 1
-            to_stack.round = to_stack.round - 1
-        if self.update_flags & 1:
-            assert from_stack is game.s.talon
-            assert from_stack.round > 1
-            from_stack.round = from_stack.round - 1
-        from_stack.updateText()
-        to_stack.updateText()
 
     def cmpForRedo(self, other):
         return (cmp(self.from_stack_id, other.from_stack_id) or
-                cmp(self.to_stack_id, other.to_stack_id) or
-                cmp(self.update_flags, other.update_flags))
+                cmp(self.to_stack_id, other.to_stack_id))
 
 
 # /***********************************************************************

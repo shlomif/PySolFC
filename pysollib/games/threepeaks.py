@@ -68,7 +68,8 @@ class ThreePeaks_TalonStack(WasteTalonStack):
             if sound:
                 self.game.playSample("turnwaste", priority=20)
             num_cards = len(waste.cards)
-            game.turnStackMove(waste, self, update_flags=1)
+            game.turnStackMove(waste, self)
+            game.nextRoundMove(self)
         game.leaveState(old_state)
         return num_cards
 

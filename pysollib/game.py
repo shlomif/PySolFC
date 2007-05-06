@@ -2548,10 +2548,10 @@ for %d moves.
         self.hints.list = None
 
     # move type 3
-    def turnStackMove(self, from_stack, to_stack, update_flags=1):
+    def turnStackMove(self, from_stack, to_stack):
         assert from_stack and to_stack and (from_stack is not to_stack)
         assert len(to_stack.cards) == 0
-        am = ATurnStackMove(from_stack, to_stack, update_flags=update_flags)
+        am = ATurnStackMove(from_stack, to_stack)
         self.__storeMove(am)
         am.do(self)
         self.hints.list = None

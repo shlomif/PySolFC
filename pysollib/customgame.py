@@ -24,7 +24,7 @@ from util import *
 from stack import *
 from game import Game
 from layout import Layout
-from hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from hint import AbstractHint, DefaultHint, CautiousDefaultHint, Yukon_Hint
 #from pysoltk import MfxCanvasText
 
 from wizardutil import WizardWidgets
@@ -58,10 +58,17 @@ class CustomGame(Game):
             'base_rank': s['found_base_card'],
             'mod': 13,
             }
+        # max_move
         if s['found_type'] not in (Spider_SS_Foundation,
                                    Spider_AC_Foundation,):
             kw['max_move'] = s['found_max_move']
-        else:
+        # suit
+        if s['found_type'] in (Spider_SS_Foundation,
+                               Spider_AC_Foundation,):
+            kw['suit'] = ANY_SUIT
+        # fix dir and base_rank for Spider foundations
+        if s['found_type'] in (Spider_SS_Foundation,
+                               Spider_AC_Foundation,):
             kw['dir'] = -kw['dir']
             if s['found_base_card'] == KING:
                 kw['base_rank'] = ACE
@@ -101,7 +108,7 @@ class CustomGame(Game):
             }
         if s['talon'] is InitialDealTalonStack:
             layout_kw['texts'] = False
-        layout_kw['playcards'] = 12+s['deal_to_rows']
+        layout_kw['playcards'] = max(16, 12+s['deal_face_down']+s['deal_face_up'])
 
         # reserves
         if s['reserves_num']:
@@ -125,18 +132,23 @@ class CustomGame(Game):
                                 **layout_kw
                                 )
 
+        # shuffle
+        if s['talon_shuffle'] and s['talon'] in (WasteTalonStack,
+                                                 DealRowRedealTalonStack):
+            self.s.talon.dealCards = self.s.talon.shuffleAndDealCards
+
         # shallHighlightMatch
         for c, f in (
                 ((Spider_AC_RowStack, Spider_SS_RowStack),
                  (self._shallHighlightMatch_RK,
                   self._shallHighlightMatch_RKW)),
-                ((AC_RowStack, UD_AC_RowStack),
+                ((AC_RowStack, UD_AC_RowStack, Yukon_AC_RowStack),
                  (self._shallHighlightMatch_AC,
                   self._shallHighlightMatch_ACW)),
-                ((SS_RowStack, UD_SS_RowStack),
+                ((SS_RowStack, UD_SS_RowStack, Yukon_SS_RowStack),
                  (self._shallHighlightMatch_SS,
                   self._shallHighlightMatch_SSW)),
-                ((RK_RowStack, UD_RK_RowStack),
+                ((RK_RowStack, UD_RK_RowStack, Yukon_RK_RowStack),
                  (self._shallHighlightMatch_RK,
                   self._shallHighlightMatch_RKW)),
                 ((SC_RowStack, UD_SC_RowStack),
@@ -169,48 +181,71 @@ class CustomGame(Game):
                 stack.acceptsCards = stack.varyAcceptsCards
                 stack.getBaseCard = stack.varyGetBaseCard
 
+        # Hint_Class
+        # TODO
+        if s['rows_type'] in (Yukon_SS_RowStack,
+                              Yukon_AC_RowStack,
+                              Yukon_RK_RowStack):
+            self.Hint_Class = Yukon_Hint
+
 
     def startGame(self):
+
+        def deal(rows, flip, frames, max_cards):
+            if max_cards <= 0:
+                return 0
+            return self.s.talon.dealRowAvail(rows=rows, flip=flip,
+                                             frames=frames)
+
         frames = 0
+        s = self.SETTINGS
+        max_cards = s['deal_max_cards'] - len(self.s.rows)
+        if self.s.waste:
+            max_cards -= 1
+        anim_frames = -1
 
         # deal to reserves
-        n = self.SETTINGS['deal_to_reserves']
+        n = s['deal_to_reserves']
         for i in range(n):
-            self.s.talon.dealRowAvail(rows=self.s.reserves,
-                                      flip=True, frames=frames)
+            max_cards -= deal(self.s.reserves[:max_cards],
+                              True, frames, max_cards)
             if frames == 0 and len(self.s.talon.cards) < 16:
-                frames = -1
+                frames = anim_frames
                 self.startDealSample()
 
         # deal to rows
-        flip = (self.SETTINGS['deal_faceup'] == 'All cards')
-        max_rows = self.SETTINGS['deal_to_rows']
-        if self.SETTINGS['deal_type'] == 'Triangle':
+        face_down = s['deal_face_down']
+        max_rows = s['deal_face_down'] + s['deal_face_up']
+        if s['deal_type'] == 'Triangle':
             # triangle
             for i in range(1, len(self.s.rows)):
-                self.s.talon.dealRowAvail(rows=self.s.rows[i:],
-                                          flip=flip, frames=frames)
+                flip = (face_down <= 0)
+                max_cards -= deal(self.s.rows[i:i+max_cards],
+                                  flip, frames, max_cards)
+                face_down -= 1
                 max_rows -= 1
                 if max_rows == 1:
                     break
                 if frames == 0 and len(self.s.talon.cards) < 16:
-                    frames = -1
+                    frames = anim_frames
                     self.startDealSample()
 
         else:
             # rectangle
             for i in range(max_rows-1):
-                self.s.talon.dealRowAvail(rows=self.s.rows,
-                                          flip=flip, frames=frames)
+                flip = (face_down <= 0)
+                max_cards -= deal(self.s.rows[:max_cards],
+                                  flip, frames, max_cards)
+                face_down -= 1
                 if frames == 0 and len(self.s.talon.cards) < 16:
-                    frames = -1
+                    frames = anim_frames
                     self.startDealSample()
         if frames == 0:
             self.startDealSample()
-        self.s.talon.dealRowAvail()
+        self.s.talon.dealRowAvail(frames=anim_frames)
         if isinstance(self.s.talon, InitialDealTalonStack):
             while self.s.talon.cards:
-                self.s.talon.dealRowAvail()
+                self.s.talon.dealRowAvail(frames=anim_frames)
 
         # deal to waste
         if self.s.waste:

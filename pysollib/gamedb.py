@@ -456,8 +456,9 @@ class GameInfo(Struct):
                         altnames=tuple(altnames),
                         decks=decks, redeals=redeals, ncards=ncards,
                         category=category, skill_level=skill_level,
-                        suits=tuple(suits), ranks=tuple(ranks), trumps=tuple(trumps),
-                        si=gi_si, rules_filename=rules_filename, plugin=0)
+                        suits=tuple(suits), ranks=tuple(ranks),
+                        trumps=tuple(trumps),
+                        si=gi_si, rules_filename=rules_filename)
 
 
 class GameManager:
@@ -472,8 +473,8 @@ class GameManager:
         self.__all_games = {}           # includes hidden games
         self.__all_gamenames = {}       # includes hidden games
         self.__games_for_solver = []
-        self.loading_plugin = False
         self.check_game = True
+        self.current_filename = None
         self.registered_game_types = {}
 
     def getSelected(self):
@@ -508,12 +509,11 @@ class GameManager:
                 raise GameInfoException("duplicate game altname %s: %s" %
                                         (gi.id, n))
 
-    def register(self, gi, check_game=True):
+    def register(self, gi):
         ##print gi.id, gi.short_name.encode('utf-8')
         if not isinstance(gi, GameInfo):
             raise GameInfoException("wrong GameInfo class")
-        gi.plugin = self.loading_plugin
-        if self.check_game and (self.loading_plugin or CHECK_GAMES):
+        if self.check_game and CHECK_GAMES:
             self._check_game(gi)
         ##if 0 and gi.si.game_flags & GI.GT_XORIGINAL:
         ##    return
@@ -541,6 +541,8 @@ class GameManager:
             if hasattr(gi.gameclass, 'Solver_Class') and \
                gi.gameclass.Solver_Class is not None:
                 self.__games_for_solver.append(gi.id)
+        if self.current_filename is not None:
+            gi.gameclass.MODULE_FILENAME = self.current_filename
 
     #
     # access games database - we do not expose hidden games
@@ -612,10 +614,11 @@ def registerGame(gameinfo):
     return gameinfo
 
 
-def loadGame(modname, filename, plugin=True, check_game=True):
+def loadGame(modname, filename, check_game=False):
     ##print "load game", modname, filename
-    GAME_DB.loading_plugin = plugin
     GAME_DB.check_game = check_game
+    GAME_DB.current_filename = filename
     module = imp.load_source(modname, filename)
     ##execfile(filename, globals(), globals())
+    GAME_DB.current_filename = None
 

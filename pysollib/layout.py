@@ -421,7 +421,11 @@ class Layout:
         for i in range(rows):
             self.s.rows.append(S(x, y))
             x += XS
-        self.setRegion(self.s.rows, (-999, -999, x - CW / 2, 999999))
+        if reserves:
+            yy = h - YS - CH/2
+        else:
+            yy = 999999
+        self.setRegion(self.s.rows, (-999, -999, x - CW / 2, yy))
 
         # create foundations
         x = w - decks*XS
@@ -471,7 +475,7 @@ class Layout:
 
         w = max(reserves*XS, rows*XS, (suits*decks+waste+1)*XS,
                 (suits*decks+1)*XS+2*XM)
-        w = XM + w
+        w += XM
 
         # set size so that at least 19 cards are fully playable
         h = YS + (playcards-1)*self.YOFFSET
@@ -495,11 +499,15 @@ class Layout:
 
         # bottom
         x, y = XM, YM + h
-        self.setRegion(self.s.rows, (-999, -999, 999999, y - YS / 2))
         for suit in range(suits):
             for i in range(decks):
                 self.s.foundations.append(S(x, y, suit=suit))
                 x += XS
+        if reserves:
+            yy = YM + YS - CH/2
+        else:
+            yy = -999
+        self.setRegion(self.s.rows, (-999, yy, 999999, y - YS / 2))
         if waste:
             x = w - 2*XS
             self.s.waste = s = S(x, y)
@@ -540,6 +548,7 @@ class Layout:
         # set size so that at least 2/3 of a card is visible with 16 cards
         h = CH * 2 / 3 + (playcards - 1) * self.YOFFSET
         h = max(h, 2 * YS)
+        h += YM + YS * foundrows
 
         # top
         ##text_height = 0
@@ -577,22 +586,26 @@ class Layout:
         if rows < maxrows: x += (maxrows-rows) * XS/2
         ##y += YM * (3 - foundrows)
         y += text_height
-        self.setRegion(self.s.rows, (-999, y-CH/2, 999999, 999999))
         for i in range(rows):
             self.s.rows.append(S(x, y))
             x += XS
+        if reserves:
+            yy = h - CH/2
+        else:
+            yy = 999999
+        self.setRegion(self.s.rows, (-999, y-CH/2, 999999, yy))
 
         # bottom
         if reserves:
             x = (maxrows-reserves)*XS/2
-            y = h + YM + YS * foundrows
+            y = h
             h += YS
             for i in range(reserves):
                 self.s.reserves.append(S(x, y))
                 x += XS
 
         # set window
-        self.size = (XM + maxrows * XS, h + YM + YS * foundrows)
+        self.size = (XM + maxrows * XS, h)
 
 
     #

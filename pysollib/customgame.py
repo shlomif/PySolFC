@@ -97,6 +97,17 @@ class CustomGame(Game):
         if s['rows_type'] in (UD_SS_RowStack, UD_AC_RowStack,
                               UD_RK_RowStack, UD_SC_RowStack):
             kw['max_move'] = 1
+        # Super Move
+        if s['rows_super_move'] and kw['max_move'] == 1:
+            for s1, s2 in ((SS_RowStack, SuperMoveSS_RowStack),
+                           (AC_RowStack, SuperMoveAC_RowStack),
+                           (RK_RowStack, SuperMoveRK_RowStack),
+                           (SC_RowStack, SuperMoveSC_RowStack),
+                           (BO_RowStack, SuperMoveBO_RowStack)):
+                if s['rows_type'] is s1:
+                    s['rows_type'] = s2
+                    kw['max_move'] = UNLIMITED_MOVES
+                    break
         row = StackWrapper(s['rows_type'], **kw)
 
         # layout
@@ -181,6 +192,11 @@ class CustomGame(Game):
                 stack.acceptsCards = stack.varyAcceptsCards
                 stack.getBaseCard = stack.varyGetBaseCard
 
+        # getBottomImage
+        if s['deal_face_down'] + s['deal_face_up'] == 0:
+            for stack in self.s.rows:
+                stack.getBottomImage = stack.getReserveBottomImage
+
         # Hint_Class
         # TODO
         if s['rows_type'] in (Yukon_SS_RowStack,
@@ -242,7 +258,8 @@ class CustomGame(Game):
                     self.startDealSample()
         if frames == 0:
             self.startDealSample()
-        self.s.talon.dealRowAvail(frames=anim_frames)
+        if s['deal_face_down'] + s['deal_face_up'] > 0:
+            self.s.talon.dealRowAvail(frames=anim_frames)
         if isinstance(self.s.talon, InitialDealTalonStack):
             while self.s.talon.cards:
                 self.s.talon.dealRowAvail(frames=anim_frames)

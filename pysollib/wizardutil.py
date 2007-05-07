@@ -43,7 +43,6 @@ class WizSetting:
         self.default = gettext(default)
         ##self.values_dict = dict(self.values_map)
         self.translation_map = {}
-        ##self.values = [i[0] for i in self.values_map]
         if widget == 'menu':
             self.values = []
             for k, v in self.values_map:
@@ -98,9 +97,10 @@ LayoutType = WizSetting(
     var_name = 'layout',
     )
 TalonType = WizSetting(
-    values_map = ((n_('Initial dealing'), InitialDealTalonStack),
-                  (n_('Deal to waste'),   WasteTalonStack),
-                  (n_('Deal to rows'),    DealRowRedealTalonStack),
+    values_map = ((n_('Initial dealing'),  InitialDealTalonStack),
+                  (n_('Deal to waste'),    WasteTalonStack),
+                  (n_('Deal to tableau'),  DealRowRedealTalonStack),
+                  (n_('Deal to reserves'), DealReserveRedealTalonStack),
                   ),
     default = n_('Initial dealing'),
     label = _('Type:'),
@@ -121,13 +121,13 @@ DealToWaste = WizSetting(
     values_map = (1, 5),
     default = 1,
     widget = 'spin',
-    label = _('Deal to waste:'),
+    label = _('# of cards dealt to waste:'),
     var_name = 'deal_to_waste',
     )
 TalonShuffle = WizSetting(
     values_map = (0, 1),
     default = 0,
-    label = _('Shuffle:'),
+    label = _('Shuffle during redeal:'),
     var_name = 'talon_shuffle',
     widget = 'check',
     )
@@ -166,7 +166,7 @@ FoundWrap = WizSetting(
     widget = 'check',
     )
 FoundMaxMove = WizSetting(
-    values_map = ((n_('No move'), 0,), (n_('One card'), 1)),
+    values_map = ((n_('None'), 0,), (n_('One card'), 1)),
     default = n_('One card'),
     label = _('Max move cards:'),
     var_name = 'found_max_move',
@@ -174,7 +174,7 @@ FoundMaxMove = WizSetting(
 FoundEqual = WizSetting(
     values_map = (0, 1),
     default = 1,
-    label = _('Equal base cards:'),
+    label = _('First card sets first rank:'),
     var_name = 'found_equal',
     widget = 'check',
     )
@@ -182,7 +182,7 @@ RowsNum = WizSetting(
     values_map = (1, 20),
     default = 8,
     widget = 'spin',
-    label = _('Number of rows:'),
+    label = _('Number of tableau piles:'),
     var_name = 'rows_num',
     )
 RowsType = WizSetting(
@@ -224,18 +224,25 @@ RowsDir = WizSetting(
     label = _('Direction:'),
     var_name = 'rows_dir',
     )
+RowsMaxMove = WizSetting(
+    values_map = ((n_('One card'), 1), (n_('Unlimited'), UNLIMITED_MOVES)),
+    default = n_('Unlimited'),
+    label = _('Max # of moved cards:'),
+    var_name = 'rows_max_move',
+    )
 RowsWrap = WizSetting(
-    values_map = (True, False),
-    default = False,
+    values_map = (0, 1),
+    default = 0,
     label = _('Wrapping:'),
     var_name = 'rows_wrap',
     widget = 'check',
     )
-RowsMaxMove = WizSetting(
-    values_map = ((n_('One card'), 1), (n_('Unlimited'), UNLIMITED_MOVES)),
-    default = n_('Unlimited'),
-    label = _('Max move cards:'),
-    var_name = 'rows_max_move',
+RowsSuperMove = WizSetting(
+    values_map = (0, 1),
+    default = 0,
+    label = _('Use "Super Move" feature:'),
+    var_name = 'rows_super_move',
+    widget = 'check',
     )
 ReservesNum = WizSetting(
     values_map = (0, 20),
@@ -248,7 +255,7 @@ ReservesMaxAccept = WizSetting(
     values_map = (0, 20),
     default = 1,
     widget = 'spin',
-    label = _('Max accept:'),
+    label = _('Max # of accepted cards:'),
     var_name = 'reserves_max_accept',
     )
 DealType = WizSetting(
@@ -263,21 +270,21 @@ DealFaceDown = WizSetting(
     values_map = (0, 20),
     default = 0,
     widget = 'spin',
-    label = _('# of face-down cards:'),
+    label = _('# of face-down cards dealt to tableau pile:'),
     var_name = 'deal_face_down',
     )
 DealFaceUp = WizSetting(
-    values_map = (1, 20),
+    values_map = (0, 20),
     default = 8,
     widget = 'spin',
-    label = _('# of face-up cards:'),
+    label = _('# of face-up cards dealt to tableau pile:'),
     var_name = 'deal_face_up',
     )
 DealToReseves = WizSetting(
     values_map = (0, 20),
     default = 0,
     widget = 'spin',
-    label = _('Deal to reserves:'),
+    label = _('# cards dealt to reserve:'),
     var_name = 'deal_to_reserves',
     )
 DealMaxCards = WizSetting(
@@ -313,6 +320,7 @@ WizardWidgets = (
     RowsDir,
     RowsMaxMove,
     RowsWrap,
+    RowsSuperMove,
     _('Reserves'),
     ReservesNum,
     ReservesMaxAccept,

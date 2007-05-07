@@ -405,7 +405,7 @@ class PysolMenubar(PysolMenubarActions):
 
         menu.add_separator()
         menu.add_command(label=n_("Solitaire &Wizard"), command=self.mWizard)
-        menu.add_command(label=n_("Edit current game"), command=self.mWizardEdit)
+        menu.add_command(label=n_("&Edit current game"), command=self.mWizardEdit)
 
         menu = MfxMenu(self.__menubar, label=n_("&Game"))
         menu.add_command(label=n_("&Deal cards"), command=self.mDeal, accelerator="D")

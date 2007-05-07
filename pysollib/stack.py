@@ -92,6 +92,8 @@ __all__ = ['cardsFaceUp',
            'SuperMoveSS_RowStack',
            'SuperMoveAC_RowStack',
            'SuperMoveRK_RowStack',
+           'SuperMoveSC_RowStack',
+           'SuperMoveBO_RowStack',
            'InvisibleStack',
            'StackWrapper',
            'WeakStackWrapper',
@@ -2254,6 +2256,8 @@ class BasicRowStack(OpenStack):
                 return (s, 13)
         return (None, 0)
 
+    def getReserveBottomImage(self):
+        return self.game.app.images.getReserveBottom()
 
 # Abstract class.
 class SequenceRowStack(SequenceStack_StackMethods, BasicRowStack):
@@ -2538,6 +2542,29 @@ class SuperMoveRK_RowStack(SuperMoveStack_StackMethods, RK_RowStack):
         max_move = self._getMaxMove(len(self.cards))
         return len(cards) <= max_move
 
+class SuperMoveSC_RowStack(SuperMoveStack_StackMethods, SC_RowStack):
+    def canMoveCards(self, cards):
+        if not SC_RowStack.canMoveCards(self, cards):
+            return False
+        max_move = self._getMaxMove(1)
+        return len(cards) <= max_move
+    def acceptsCards(self, from_stack, cards):
+        if not SC_RowStack.acceptsCards(self, from_stack, cards):
+            return False
+        max_move = self._getMaxMove(len(self.cards))
+        return len(cards) <= max_move
+
+class SuperMoveBO_RowStack(SuperMoveStack_StackMethods, BO_RowStack):
+    def canMoveCards(self, cards):
+        if not BO_RowStack.canMoveCards(self, cards):
+            return False
+        max_move = self._getMaxMove(1)
+        return len(cards) <= max_move
+    def acceptsCards(self, from_stack, cards):
+        if not BO_RowStack.acceptsCards(self, from_stack, cards):
+            return False
+        max_move = self._getMaxMove(len(self.cards))
+        return len(cards) <= max_move
 
 
 # /***********************************************************************

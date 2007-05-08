@@ -28,11 +28,14 @@ from Tile import *
 # PySol imports
 from pysollib.mfxutil import destruct, kwdefault, KwStruct, Struct
 from pysollib.wizardutil import WizardWidgets
+from pysollib.wizardpresets import presets
 
 # Toolkit imports
 from tkwidget import MfxDialog
 from tkwidget import PysolScale
 
+
+gettext = _
 
 # /***********************************************************************
 # //
@@ -62,7 +65,21 @@ class WizardDialog(MfxDialog):
 
             Label(frame, text=w.label).grid(row=row, column=0)
 
-            if w.widget == 'entry':
+            if w.widget == 'preset':
+                if w.variable is None:
+                    w.variable = StringVar()
+                values = [gettext(v) for v in w.values]
+                default = gettext(w.default)
+                values.remove(default)
+                values.sort()
+                values.insert(0, default)
+                cb = Combobox(frame, values=tuple(values),
+                              textvariable=w.variable,
+                              state='readonly', width=32)
+                cb.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
+                callback = lambda e, w=w: self.presetSelected(e, w)
+                cb.bind('<<ComboboxSelected>>', callback)
+            elif w.widget == 'entry':
                 if w.variable is None:
                     w.variable = StringVar()
                 en = Entry(frame, textvariable=w.variable)
@@ -70,7 +87,8 @@ class WizardDialog(MfxDialog):
             elif w.widget == 'menu':
                 if w.variable is None:
                     w.variable = StringVar()
-                cb = Combobox(frame, values=tuple(w.values),
+                values = [gettext(v) for v in w.values]
+                cb = Combobox(frame, values=tuple(values),
                               textvariable=w.variable,
                               state='readonly', width=32)
                 cb.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
@@ -94,15 +112,30 @@ class WizardDialog(MfxDialog):
                 ch.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
 
             if w.current_value is None:
-                w.variable.set(w.default)
+                w.variable.set(gettext(w.default))
             else:
-                w.variable.set(w.current_value)
+                w.variable.set(gettext(w.current_value))
 
             row += 1
 
-
         focus = self.createButtons(bottom_frame, kw)
         self.mainloop(focus, kw.timeout)
+
+
+    def presetSelected(self, e, w):
+        n = e.widget.get()
+        n = w.translation_map[n]
+        p = presets[n]
+        for w in WizardWidgets:
+            if isinstance(w, basestring):
+                continue
+            if w.var_name in p:
+                v = p[w.var_name]
+            else:
+                v = w.default
+            if w.widget in ('menu', 'preset'):
+                v = gettext(v)
+            w.variable.set(v)
 
 
     def initKw(self, kw):

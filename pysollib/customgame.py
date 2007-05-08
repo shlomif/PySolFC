@@ -30,26 +30,32 @@ from hint import AbstractHint, DefaultHint, CautiousDefaultHint, Yukon_Hint
 from wizardutil import WizardWidgets
 
 
+gettext = _
+
 # /***********************************************************************
 # //
 # ************************************************************************/
+
+def get_settings(ss):
+    s = {}
+    for w in WizardWidgets:
+        if isinstance(w, basestring):
+            continue
+        if w.var_name in ss:
+            v = ss[w.var_name]
+        else:
+            v = w.default
+        if w.widget == 'menu':
+            v = dict(w.values_map)[v]
+        s[w.var_name] = v
+    return s
+
 
 class CustomGame(Game):
 
     def createGame(self):
 
-        ss = self.SETTINGS
-        s = {}
-        for w in WizardWidgets:
-            if isinstance(w, basestring):
-                continue
-            if w.var_name in ss:
-                v = ss[w.var_name]
-            else:
-                v = w.default
-            if w.widget == 'menu':
-                v = dict(w.values_map)[v]
-            s[w.var_name] = v
+        s = get_settings(self.SETTINGS)
         ##from pprint import pprint; pprint(s)
 
         # foundations
@@ -119,17 +125,25 @@ class CustomGame(Game):
             }
         if s['talon'] is InitialDealTalonStack:
             layout_kw['texts'] = False
-        layout_kw['playcards'] = max(16, 12+s['deal_face_down']+s['deal_face_up'])
+        layout_kw['playcards'] = max(
+            16, 12+s['deal_face_down']+s['deal_face_up'])
+        if s['talon'] in (DealRowRedealTalonStack,
+                          SpiderTalonStack,
+                          GroundForADivorceTalonStack):
+            layout_kw['playcards'] += 2 * s['decks']
 
         # reserves
         if s['reserves_num']:
             kw = {
-                'max_accept': s['reserves_max_accept'],
+                'max_cards': s['reserves_max_accept'],
                 }
             if s['reserves_max_accept']:
                 layout_kw['reserve_class'] = StackWrapper(ReserveStack, **kw)
             else:
                 layout_kw['reserve_class'] = StackWrapper(OpenStack, **kw)
+            if s['talon'] is DealReserveRedealTalonStack or \
+               s['reserves_max_accept'] > 1:
+                layout_kw['reserve_texts'] = True
 
         # waste
         if s['talon'] is WasteTalonStack:
@@ -153,19 +167,22 @@ class CustomGame(Game):
                 ((Spider_AC_RowStack, Spider_SS_RowStack),
                  (self._shallHighlightMatch_RK,
                   self._shallHighlightMatch_RKW)),
-                ((AC_RowStack, UD_AC_RowStack, Yukon_AC_RowStack),
+                ((AC_RowStack, UD_AC_RowStack,
+                  Yukon_AC_RowStack, SuperMoveAC_RowStack),
                  (self._shallHighlightMatch_AC,
                   self._shallHighlightMatch_ACW)),
-                ((SS_RowStack, UD_SS_RowStack, Yukon_SS_RowStack),
+                ((SS_RowStack, UD_SS_RowStack,
+                  Yukon_SS_RowStack, SuperMoveSS_RowStack),
                  (self._shallHighlightMatch_SS,
                   self._shallHighlightMatch_SSW)),
-                ((RK_RowStack, UD_RK_RowStack, Yukon_RK_RowStack),
+                ((RK_RowStack, UD_RK_RowStack,
+                  Yukon_RK_RowStack, SuperMoveRK_RowStack),
                  (self._shallHighlightMatch_RK,
                   self._shallHighlightMatch_RKW)),
-                ((SC_RowStack, UD_SC_RowStack),
+                ((SC_RowStack, UD_SC_RowStack, SuperMoveSC_RowStack),
                  (self._shallHighlightMatch_SC,
                   self._shallHighlightMatch_SCW)),
-                ((BO_RowStack,),
+                ((BO_RowStack, SuperMoveBO_RowStack),
                  (self._shallHighlightMatch_BO,
                   self._shallHighlightMatch_BOW)),
                 ):
@@ -214,7 +231,7 @@ class CustomGame(Game):
                                              frames=frames)
 
         frames = 0
-        s = self.SETTINGS
+        s = get_settings(self.SETTINGS)
         max_cards = s['deal_max_cards'] - len(self.s.rows)
         if self.s.waste:
             max_cards -= 1
@@ -232,7 +249,7 @@ class CustomGame(Game):
         # deal to rows
         face_down = s['deal_face_down']
         max_rows = s['deal_face_down'] + s['deal_face_up']
-        if s['deal_type'] == 'Triangle':
+        if s['deal_type'] == 'triangle':
             # triangle
             for i in range(1, len(self.s.rows)):
                 flip = (face_down <= 0)
@@ -269,25 +286,12 @@ class CustomGame(Game):
             self.s.talon.dealCards()
 
 
-
 def registerCustomGame(gameclass):
 
-    s = gameclass.SETTINGS
-    for w in WizardWidgets:
-        if isinstance(w, basestring):
-            continue
-        if w.var_name == 'decks':
-            v = s['decks']
-            decks = dict(w.values_map)[v]
-        elif w.var_name == 'redeals':
-            v = s['redeals']
-            redeals = dict(w.values_map)[v]
-        elif w.var_name == 'skill_level':
-            v = s['skill_level']
-            skill_level = dict(w.values_map)[v]
-    gameid = s['gameid']
+    s = get_settings(gameclass.SETTINGS)
+    gameid = gameclass.SETTINGS['gameid']
 
     registerGame(GameInfo(gameid, gameclass, s['name'],
                           GI.GT_CUSTOM | GI.GT_ORIGINAL,
-                          decks, redeals, skill_level))
+                          s['decks'], s['redeals'], s['skill_level']))
 

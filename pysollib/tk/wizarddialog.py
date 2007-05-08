@@ -29,10 +29,13 @@ from tabpage import TabPageSet
 # PySol imports
 from pysollib.mfxutil import destruct, kwdefault, KwStruct, Struct
 from pysollib.wizardutil import WizardWidgets
+from pysollib.wizardpresets import presets
 
 # Toolkit imports
 from tkwidget import MfxDialog
 
+
+gettext = _
 
 # /***********************************************************************
 # //
@@ -63,7 +66,19 @@ class WizardDialog(MfxDialog):
 
             Label(frame, text=w.label).grid(row=row, column=0, padx=2)
 
-            if w.widget == 'entry':
+            if w.widget == 'preset':
+                if w.variable is None:
+                    w.variable = StringVar()
+                values = [gettext(v) for v in w.values]
+                default = gettext(w.default)
+                values.remove(default)
+                values.sort()
+                values.insert(0, default)
+                callback = lambda v, w=w: self.presetSelected(v, w)
+                om = OptionMenu(frame, w.variable,
+                                command=callback, *values)
+                om.grid(row=row, column=1, sticky='ew', padx=2)
+            elif w.widget == 'entry':
                 if w.variable is None:
                     w.variable = StringVar()
                 en = Entry(frame, textvariable=w.variable)
@@ -71,15 +86,15 @@ class WizardDialog(MfxDialog):
             elif w.widget == 'menu':
                 if w.variable is None:
                     w.variable = StringVar()
-                om = OptionMenu(frame, w.variable, *w.values)
+                values = [gettext(v) for v in w.values]
+                om = OptionMenu(frame, w.variable, *values)
                 om.grid(row=row, column=1, sticky='ew', padx=2)
             elif w.widget == 'spin':
                 if w.variable is None:
                     w.variable = IntVar()
                 from_, to = w.values
                 s = Scale(frame, from_=from_, to=to, resolution=1,
-                               orient='horizontal',
-                               variable=w.variable)
+                          orient='horizontal', length=200, variable=w.variable)
                 s.grid(row=row, column=1, sticky='ew', padx=2)
             elif w.widget == 'check':
                 if w.variable is None:
@@ -89,9 +104,9 @@ class WizardDialog(MfxDialog):
                 ch.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
 
             if w.current_value is None:
-                w.variable.set(w.default)
+                w.variable.set(gettext(w.default))
             else:
-                w.variable.set(w.current_value)
+                w.variable.set(gettext(w.current_value))
 
             row += 1
 
@@ -99,6 +114,21 @@ class WizardDialog(MfxDialog):
 
         focus = self.createButtons(bottom_frame, kw)
         self.mainloop(focus, kw.timeout)
+
+
+    def presetSelected(self, v, w):
+        n = w.translation_map[v]
+        p = presets[n]
+        for w in WizardWidgets:
+            if isinstance(w, basestring):
+                continue
+            if w.var_name in p:
+                v = p[w.var_name]
+            else:
+                v = w.default
+            if w.widget in ('menu', 'preset'):
+                v = gettext(v)
+            w.variable.set(v)
 
 
     def initKw(self, kw):

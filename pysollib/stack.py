@@ -52,6 +52,8 @@ __all__ = ['cardsFaceUp',
            'RedealTalonStack',
            'DealRowRedealTalonStack',
            'DealReserveRedealTalonStack',
+           'SpiderTalonStack',
+           'GroundForADivorceTalonStack',
            'OpenStack',
            'AbstractFoundationStack',
            'SS_FoundationStack',
@@ -1874,6 +1876,29 @@ class DealReserveRedealTalonStack(DealRowRedealTalonStack):
     def dealCards(self, sound=0, rows=None):
         return DealRowRedealTalonStack.dealCards(self, sound=sound,
                                        rows=self.game.s.reserves)
+
+# Spider Talons
+class SpiderTalonStack(DealRowRedealTalonStack):
+    def canDealCards(self):
+        if not DealRowRedealTalonStack.canDealCards(self):
+            return False
+        # no row may be empty
+        for r in self.game.s.rows:
+            if not r.cards:
+                return False
+        return True
+
+class GroundForADivorceTalonStack(DealRowRedealTalonStack):
+    # A single click deals a new cards to each non-empty row.
+    def dealCards(self, sound=1):
+        if self.cards:
+            rows = filter(lambda r: r.cards, self.game.s.rows)
+##             if not rows:
+##                 # deal one card to first row if all rows are emtpy
+##                 rows = self.game.s.rows[:1]
+            return DealRowRedealTalonStack.dealRowAvail(self, rows=rows,
+                                                        sound=sound)
+        return 0
 
 
 # /***********************************************************************

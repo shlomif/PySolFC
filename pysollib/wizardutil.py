@@ -24,10 +24,8 @@ import sys, os
 from gamedb import GI, loadGame
 from util import *
 from stack import *
-#from game import Game
 from layout import Layout
-#from hint import AbstractHint, DefaultHint, CautiousDefaultHint
-#from pysoltk import MfxCanvasText
+from wizardpresets import presets
 
 gettext = _
 n_ = lambda x: x
@@ -40,15 +38,20 @@ class WizSetting:
     def __init__(self, values_map, default, var_name,
                  label, widget='menu'):
         self.values_map = values_map
-        self.default = gettext(default)
+        self.default = default
         ##self.values_dict = dict(self.values_map)
         self.translation_map = {}
         if widget == 'menu':
             self.values = []
             for k, v in self.values_map:
-                t = gettext(k)
-                self.values.append(t)
-                self.translation_map[t] = k
+                self.values.append(k)
+                self.translation_map[gettext(k)] = k
+            assert self.default in self.values
+        elif widget == 'preset':
+            self.values = []
+            for v in self.values_map:
+                self.values.append(v)
+                self.translation_map[gettext(v)] = v
             assert self.default in self.values
         else:
             self.values = self.values_map
@@ -59,6 +62,13 @@ class WizSetting:
         self.current_value = None
 
 
+WizardPresets = WizSetting(
+    values_map = presets.keys(),
+    default = 'None',
+    widget = 'preset',
+    label = _('Initial setting:'),
+    var_name = 'preset',
+    )
 GameName = WizSetting(
     values_map = (),
     default = 'My Game',
@@ -97,10 +107,12 @@ LayoutType = WizSetting(
     var_name = 'layout',
     )
 TalonType = WizSetting(
-    values_map = ((n_('Initial dealing'),  InitialDealTalonStack),
-                  (n_('Deal to waste'),    WasteTalonStack),
-                  (n_('Deal to tableau'),  DealRowRedealTalonStack),
-                  (n_('Deal to reserves'), DealReserveRedealTalonStack),
+    values_map = ((n_('Initial dealing'),      InitialDealTalonStack),
+                  (n_('Deal to waste'),        WasteTalonStack),
+                  (n_('Deal to tableau'),      DealRowRedealTalonStack),
+                  (n_('Deal to reserves'),     DealReserveRedealTalonStack),
+                  (n_('Spider'),               SpiderTalonStack),
+                  (n_('Ground for a Divorce'), GroundForADivorceTalonStack),
                   ),
     default = n_('Initial dealing'),
     label = _('Type:'),
@@ -166,15 +178,15 @@ FoundWrap = WizSetting(
     widget = 'check',
     )
 FoundMaxMove = WizSetting(
-    values_map = ((n_('None'), 0,), (n_('One card'), 1)),
-    default = n_('One card'),
-    label = _('Max move cards:'),
+    values_map = ((n_('None'), 0,), (n_('Top card'), 1)),
+    default = n_('Top card'),
+    label = _('Move:'),
     var_name = 'found_max_move',
     )
 FoundEqual = WizSetting(
     values_map = (0, 1),
     default = 1,
-    label = _('First card sets first rank:'),
+    label = _('First card sets base rank:'),
     var_name = 'found_equal',
     widget = 'check',
     )
@@ -225,9 +237,9 @@ RowsDir = WizSetting(
     var_name = 'rows_dir',
     )
 RowsMaxMove = WizSetting(
-    values_map = ((n_('One card'), 1), (n_('Unlimited'), UNLIMITED_MOVES)),
-    default = n_('Unlimited'),
-    label = _('Max # of moved cards:'),
+    values_map = ((n_('Top card'), 1), (n_('Sequence'), UNLIMITED_MOVES)),
+    default = n_('Sequence'),
+    label = _('Move:'),
     var_name = 'rows_max_move',
     )
 RowsWrap = WizSetting(
@@ -284,7 +296,7 @@ DealToReseves = WizSetting(
     values_map = (0, 20),
     default = 0,
     widget = 'spin',
-    label = _('# cards dealt to reserve:'),
+    label = _('# of cards dealt to reserve:'),
     var_name = 'deal_to_reserves',
     )
 DealMaxCards = WizSetting(
@@ -297,6 +309,7 @@ DealMaxCards = WizSetting(
 
 WizardWidgets = (
     _('General'),
+    WizardPresets,
     GameName,
     SkillLevel,
     NumDecks,
@@ -374,12 +387,16 @@ class MyCustomGame(CustomGame):
         if isinstance(w, basestring):
             continue
         v = w.variable.get()
-        if w.widget == 'menu':
+        if w.widget in ('menu', 'presets'):
             v = w.translation_map[v]
+        if v == w.default:
+            # save only unique values
+            continue
         if isinstance(v, int):
             fd.write("        '%s': %i,\n" % (w.var_name, v))
         else:
             if w.var_name == 'name':
+                # escape
                 v = v.replace('\\', '\\\\')
                 v = v.replace("'", "\\'")
                 if isinstance(v, unicode):
@@ -413,8 +430,6 @@ def reset_wizard(game):
                 v = game.SETTINGS[w.var_name]
             else:
                 v = w.default
-        if w.widget == 'menu':
-            v = gettext(v)
         w.current_value = v
 
 

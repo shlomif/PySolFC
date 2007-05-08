@@ -2064,15 +2064,22 @@ for %d moves.
     #
 
     def getQuickPlayScore(self, ncards, from_stack, to_stack):
+        if to_stack in self.s.reserves:
+            # if to_stack in reserves prefer empty stack
+            return 1000-len(to_stack.cards)
         # prefer non-empty piles in to_stack
-        return (len(to_stack.cards) != 0)
+        return 1001 + int(len(to_stack.cards) != 0)
 
     def _getSpiderQuickPlayScore(self, ncards, from_stack, to_stack):
+        if to_stack in self.s.reserves:
+            # if to_stack in reserves prefer empty stack
+            return 1000-len(to_stack.cards)
         # for spider-type stacks
         if to_stack.cards:
             # check suit
-            return int(from_stack.cards[-ncards].suit == to_stack.cards[-1].suit)+1
-        return 0
+            same_suit = from_stack.cards[-ncards].suit == to_stack.cards[-1].suit
+            return int(same_suit)+1002
+        return 1001
 
     #
     # Score (I really don't like scores in Patience games...)

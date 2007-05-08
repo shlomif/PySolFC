@@ -192,6 +192,14 @@ class Layout:
                 s.reserves.append(reserve_class(r.x, r.y, game))
         # default
         self.defaultAll()
+        # reserves texts
+        if self.s.reserves and ('reserve_texts' in kw) and kw['reserve_texts']:
+            game = self.game
+            for i in range(len(game.s.reserves)):
+                s1 = game.s.reserves[i]
+                s2 = self.s.reserves[i]
+                s1.texts.ncards = self.defaultText(s2)
+
 
     #
     # public util for use by class Game
@@ -333,7 +341,8 @@ class Layout:
     #  - left bottom: talon, waste
     #
 
-    def freeCellLayout(self, rows, reserves, waste=0, texts=0, playcards=18):
+    def freeCellLayout(self, rows, reserves, waste=0,
+                       texts=0, reserve_texts=False, playcards=18):
         S = self.__createStack
         CW, CH = self.CW, self.CH
         XM, YM = self.XM, self.YM
@@ -351,12 +360,17 @@ class Layout:
         # set size so that at least 2/3 of a card is visible with 18 cards
         h = CH*2/3 + (playcards-1)*self.YOFFSET
         h = YM + YS + max(h, 3*YS)
+        if reserves and reserve_texts:
+            h += self.TEXT_HEIGHT
 
         # create reserves & foundations
         x, y = (w - (toprows*XS - XM))/2, YM
         if reserves:
             for i in range(reserves):
-                self.s.reserves.append(S(x, y))
+                s = S(x, y)
+                self.s.reserves.append(s)
+                if reserve_texts:
+                    self._setText(s, anchor="s")
                 x += XS
             x += XS
         for suit in range(suits):
@@ -366,6 +380,8 @@ class Layout:
 
         # create rows
         x, y = (w - (rows*XS - XM))/2, YM + YS
+        if reserves and reserve_texts:
+            y += self.TEXT_HEIGHT
         for i in range(rows):
             self.s.rows.append(S(x, y))
             x += XS
@@ -399,7 +415,8 @@ class Layout:
     #  - bottom: reserves
     #
 
-    def gypsyLayout(self, rows, waste=0, reserves=0, texts=1, playcards=25):
+    def gypsyLayout(self, rows, waste=0, reserves=0,
+                    texts=1, reserve_texts=False, playcards=25):
         S = self.__createStack
         CW, CH = self.CW, self.CH
         XM, YM = self.XM, self.YM
@@ -415,6 +432,8 @@ class Layout:
             # set size so that at least 2/3 of a card is visible with 25 cards
             h = CH*2/3 + (playcards-1)*self.YOFFSET
         h = YM + max(h, (suits+1)*YS)
+        if reserves and reserve_texts:
+            h += self.TEXT_HEIGHT
 
         # create rows
         x, y = XM, YM
@@ -451,7 +470,10 @@ class Layout:
         # create reserves
         x, y = XM, h-YS
         for i in range(reserves):
-            self.s.reserves.append(S(x, y))
+            s = S(x, y)
+            self.s.reserves.append(s)
+            if reserve_texts:
+                self._setText(s, anchor="n")
             x += XS
 
         # set window
@@ -464,7 +486,8 @@ class Layout:
     #  - bottom: foundations, waste, talon
     #
 
-    def harpLayout(self, rows, waste, reserves=0, texts=1, playcards=19):
+    def harpLayout(self, rows, waste, reserves=0,
+                   texts=1, reserve_texts=False, playcards=19):
         S = self.__createStack
         CW, CH = self.CW, self.CH
         XM, YM = self.XM, self.YM
@@ -483,14 +506,21 @@ class Layout:
         if texts: h += self.TEXT_HEIGHT
         if reserves:
             h += YS
+        if reserves and reserve_texts:
+            h += self.TEXT_HEIGHT
 
         # top
         y = YM
         if reserves:
+            if reserve_texts:
+                y += self.TEXT_HEIGHT
             x = (w - (reserves*XS - XM))/2
             for i in range(reserves):
-                self.s.reserves.append(S(x, y))
+                s = S(x, y)
+                self.s.reserves.append(s)
                 x += XS
+                if reserve_texts:
+                    self._setText(s, anchor="n")
             y += YS
         x = (w - (rows*XS - XM))/2
         for i in range(rows):
@@ -505,6 +535,8 @@ class Layout:
                 x += XS
         if reserves:
             yy = YM + YS - CH/2
+            if reserve_texts:
+                yy += self.TEXT_HEIGHT
         else:
             yy = -999
         self.setRegion(self.s.rows, (-999, yy, 999999, y - YS / 2))
@@ -532,7 +564,8 @@ class Layout:
     #
 
     def klondikeLayout(self, rows, waste, reserves=0,
-                       texts=1, playcards=16, center=1, text_height=0):
+                       texts=1, reserve_texts=False,
+                       playcards=16, center=1, text_height=0):
         S = self.__createStack
         CW, CH = self.CW, self.CH
         XM, YM = self.XM, self.YM
@@ -549,6 +582,8 @@ class Layout:
         h = CH * 2 / 3 + (playcards - 1) * self.YOFFSET
         h = max(h, 2 * YS)
         h += YM + YS * foundrows
+        if reserves and reserve_texts:
+            h += self.TEXT_HEIGHT
 
         # top
         ##text_height = 0
@@ -601,8 +636,11 @@ class Layout:
             y = h
             h += YS
             for i in range(reserves):
-                self.s.reserves.append(S(x, y))
+                s = S(x, y)
+                self.s.reserves.append(s)
                 x += XS
+                if reserve_texts:
+                    self._setText(s, anchor="n")
 
         # set window
         self.size = (XM + maxrows * XS, h)

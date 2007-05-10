@@ -222,6 +222,22 @@ class CustomGame(Game):
             self.Hint_Class = Yukon_Hint
 
 
+    def _shuffleHook(self, cards):
+        s = get_settings(self.SETTINGS)
+        if not s['deal_found']:
+            return cards
+        if s['found_type'] in (Spider_SS_Foundation,
+                               Spider_AC_Foundation,):
+            return cards
+        base_card = s['found_base_card']
+        if base_card == ANY_RANK:
+            base_card = cards[0].rank
+        # move base_card to top of the Talon (i.e. first cards to be dealt)
+        return self._shuffleHookMoveToTop(
+            cards,
+            lambda c, rank=base_card: (c.rank == rank, c.suit))
+
+
     def startGame(self):
 
         def deal(rows, flip, frames, max_cards):
@@ -232,10 +248,17 @@ class CustomGame(Game):
 
         frames = 0
         s = get_settings(self.SETTINGS)
-        max_cards = s['deal_max_cards'] - len(self.s.rows)
+        if isinstance(self.s.talon, InitialDealTalonStack):
+            max_cards = 52 * s['decks'] - len(self.s.rows)
+        else:
+            max_cards = s['deal_max_cards'] - len(self.s.rows)
         if self.s.waste:
             max_cards -= 1
         anim_frames = -1
+
+        # deal to foundations
+        if s['deal_found']:
+            max_cards -= deal(self.s.foundations, True, frames, max_cards)
 
         # deal to reserves
         n = s['deal_to_reserves']

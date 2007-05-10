@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Mon Mar  5 17:55:43 2007\n"
+"POT-Creation-Date: Thu May 10 14:22:52 2007\n"
 "PO-Revision-Date: 2007-03-05 18:01+0300\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -110,9 +110,6 @@ msgstr "Алтарь"
 msgid "Alternation"
 msgstr "Чередование"
 
-msgid "Alternations"
-msgstr "Чередования"
-
 msgid "Amazons"
 msgstr "Амазонки"
 
@@ -213,6 +210,10 @@ msgstr "Баланс"
 
 msgid "Balarama"
 msgstr "Баларама"
+
+#, fuzzy
+msgid "Banner"
+msgstr "Баланс"
 
 msgid "Baroness"
 msgstr "Баронесса"
@@ -728,6 +729,10 @@ msgstr "Der letzte Monarch"
 msgid "Deuces"
 msgstr "Двойки"
 
+#, fuzzy
+msgid "Devil's Solitaire"
+msgstr "Китайский пасьянс"
+
 msgid "Dhanpati"
 msgstr "Dhanpati"
 
@@ -957,6 +962,10 @@ msgstr "Восемь легионов"
 msgid "Eight Off"
 msgstr "Восемь удалённых"
 
+#, fuzzy
+msgid "Eight Sages"
+msgstr "Восемь квадратов"
+
 msgid "Eight Squares"
 msgstr "Восемь квадратов"
 
@@ -1174,6 +1183,10 @@ msgstr "Четыре короля"
 
 msgid "Four Leaf Clovers"
 msgstr "Четырёхлистный клевер"
+
+#, fuzzy
+msgid "Four Packs"
+msgstr "Четыре кучи"
 
 msgid "Four Seasons"
 msgstr "Четыре сезона"
@@ -1817,6 +1830,10 @@ msgstr "Маленький Наполеон"
 msgid "Lobachevsky"
 msgstr "Лобачевский"
 
+#, fuzzy
+msgid "Locked Cards"
+msgstr "Угловая карта"
+
 msgid "Long Braid"
 msgstr "Долгая коса"
 
@@ -1824,6 +1841,10 @@ msgid "Long Journey to Cuddapah"
 msgstr "Долгое путешествие в Куддапах"
 
 msgid "Long Tail"
+msgstr "Длинный хвост"
+
+#, fuzzy
+msgid "Long Trip"
 msgstr "Длинный хвост"
 
 msgid "Loose Ends"
@@ -2035,9 +2056,6 @@ msgstr "Маджонг Ховеркрафт"
 
 msgid "Mahjongg Hurdles"
 msgstr "Маджонг Барьеры"
-
-msgid "Mahjongg Hurricane"
-msgstr "Маджонг Ураган"
 
 msgid "Mahjongg IloveU"
 msgstr "Маджонг IloveU"
@@ -2330,6 +2348,10 @@ msgstr "Маджонг Time Tunnel"
 msgid "Mahjongg Tomb"
 msgstr "Маджонг Гробница"
 
+#, fuzzy
+msgid "Mahjongg Tornado"
+msgstr "Маджонг Арена"
+
 msgid "Mahjongg Totally Random-Made"
 msgstr "Маджонг Totally Random-Made"
 
@@ -2558,6 +2580,13 @@ msgstr "Маджонг N for Namida"
 msgid "Napoleon"
 msgstr "Наполеон"
 
+msgid "Napoleon Leaves Moscow"
+msgstr ""
+
+#, fuzzy
+msgid "Napoleon Takes Moscow"
+msgstr "Гробница Наполеона"
+
 msgid "Napoleon at St.Helena"
 msgstr "Наполеон на острове св.Елена"
 
@@ -2756,6 +2785,10 @@ msgstr ""
 msgid "Peek"
 msgstr "Взгляд"
 
+#, fuzzy
+msgid "Peek II"
+msgstr "Взгляд"
+
 msgid "Pegged"
 msgstr ""
 
@@ -2791,6 +2824,14 @@ msgstr "Перпетуум-мобиле"
 
 msgid "Perseverance"
 msgstr "Настойчивость"
+
+#, fuzzy
+msgid "Persian Patience"
+msgstr "Алжирский пасьянс"
+
+#, fuzzy
+msgid "Phalanx"
+msgstr "Реглан"
 
 msgid "Phantom Blockade"
 msgstr "Призрачная блокада"
@@ -2978,6 +3019,10 @@ msgstr "Свита"
 msgid "Right Triangle"
 msgstr "Правый треугольник"
 
+#, fuzzy
+msgid "Right and Left"
+msgstr "Верхний и нижний"
+
 msgid "Rings"
 msgstr "Круги"
 
@@ -3092,6 +3137,9 @@ msgstr "Откос"
 
 msgid "Scheidungsgrund"
 msgstr "Scheidungsgrund"
+
+msgid "School"
+msgstr ""
 
 msgid "Scorpion"
 msgstr "Скорпион"
@@ -3554,11 +3602,22 @@ msgstr "Тринадцать вверх"
 msgid "Thirteens"
 msgstr "По тринадцать"
 
+#, fuzzy
+msgid "Thirty"
+msgstr "Тридцать шесть"
+
 msgid "Thirty Six"
 msgstr "Тридцать шесть"
 
+msgid "Thirty Two Cards"
+msgstr ""
+
 msgid "Three Blind Mice"
 msgstr "Три слепые мышки"
+
+#, fuzzy
+msgid "Three Fir-trees"
+msgstr "Три пирата"
 
 msgid "Three Peaks"
 msgstr "Три вершины"
@@ -3602,6 +3661,13 @@ msgstr "Гробница"
 
 msgid "Toni"
 msgstr ""
+
+msgid "Topsy-Turvy Queens"
+msgstr ""
+
+#, fuzzy
+msgid "Tornado"
+msgstr "Жаба"
 
 #, fuzzy
 msgid "Totally Random-Made"
@@ -3690,6 +3756,9 @@ msgstr "Верные двенадцать"
 msgid "Tuxedo"
 msgstr "Смокинг"
 
+msgid "Twelve Sleeping Maids"
+msgstr ""
+
 msgid "Twenty"
 msgstr "Двенадцать"
 
@@ -3715,6 +3784,10 @@ msgstr "Два знакомца"
 msgid "Two Pyramids"
 msgstr "Две пирамиды"
 
+#, fuzzy
+msgid "Two Rings"
+msgstr "Круги"
+
 msgid "Two Squares"
 msgstr "Два квадрата"
 
@@ -3732,6 +3805,10 @@ msgstr "Вверх и вниз"
 
 msgid "Usk"
 msgstr ""
+
+#, fuzzy
+msgid "Vague"
+msgstr "Смутный"
 
 msgid "Vagues"
 msgstr "Смутный"
@@ -3800,6 +3877,10 @@ msgstr "Ватерлоо"
 
 msgid "Waterloo"
 msgstr "Ватерлоо"
+
+#, fuzzy
+msgid "Wave"
+msgstr "Волны"
 
 msgid "Wave Motion"
 msgstr "Волновое движение"
@@ -3895,3 +3976,9 @@ msgstr "Зигзагообразный курс"
 
 msgid "Zodiac"
 msgstr "Зодиак"
+
+#~ msgid "Alternations"
+#~ msgstr "Чередования"
+
+#~ msgid "Mahjongg Hurricane"
+#~ msgstr "Маджонг Ураган"

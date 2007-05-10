@@ -64,7 +64,7 @@ class Osmosis_Foundation(AbstractFoundationStack):
         return  1
 
     def getHelp(self):
-        return _('Build in suit regardless of rank.')
+        return _('Foundation. Build in suit regardless of rank.')
 
 
 class Osmosis(Game):
@@ -164,7 +164,7 @@ class OsmosisII_Foundation(AbstractFoundationStack):
         return False
 
     def getHelp(self):
-        return _('Build in suit regardless of rank.')
+        return _('Foundation. Build in suit regardless of rank.')
 
 
 class OsmosisII(Osmosis):

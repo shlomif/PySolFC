@@ -112,9 +112,12 @@ class WizardDialog(MfxDialog):
                 ch.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
 
             if w.current_value is None:
-                w.variable.set(gettext(w.default))
+                v = w.default
             else:
-                w.variable.set(gettext(w.current_value))
+                v = w.current_value
+            if w.widget in ('menu', 'preset'):
+                v = gettext(v)
+            w.variable.set(v)
 
             row += 1
 

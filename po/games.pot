@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Mon Mar  5 17:55:43 2007\n"
+"POT-Creation-Date: Thu May 10 14:22:52 2007\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -111,9 +111,6 @@ msgstr ""
 msgid "Alternation"
 msgstr ""
 
-msgid "Alternations"
-msgstr ""
-
 msgid "Amazons"
 msgstr ""
 
@@ -211,6 +208,9 @@ msgid "Balance"
 msgstr ""
 
 msgid "Balarama"
+msgstr ""
+
+msgid "Banner"
 msgstr ""
 
 msgid "Baroness"
@@ -723,6 +723,9 @@ msgstr ""
 msgid "Deuces"
 msgstr ""
 
+msgid "Devil's Solitaire"
+msgstr ""
+
 msgid "Dhanpati"
 msgstr ""
 
@@ -948,6 +951,9 @@ msgstr ""
 msgid "Eight Off"
 msgstr ""
 
+msgid "Eight Sages"
+msgstr ""
+
 msgid "Eight Squares"
 msgstr ""
 
@@ -1159,6 +1165,9 @@ msgid "Four Kings"
 msgstr ""
 
 msgid "Four Leaf Clovers"
+msgstr ""
+
+msgid "Four Packs"
 msgstr ""
 
 msgid "Four Seasons"
@@ -1791,6 +1800,9 @@ msgstr ""
 msgid "Lobachevsky"
 msgstr ""
 
+msgid "Locked Cards"
+msgstr ""
+
 msgid "Long Braid"
 msgstr ""
 
@@ -1798,6 +1810,9 @@ msgid "Long Journey to Cuddapah"
 msgstr ""
 
 msgid "Long Tail"
+msgstr ""
+
+msgid "Long Trip"
 msgstr ""
 
 msgid "Loose Ends"
@@ -2008,9 +2023,6 @@ msgid "Mahjongg Hovercraft"
 msgstr ""
 
 msgid "Mahjongg Hurdles"
-msgstr ""
-
-msgid "Mahjongg Hurricane"
 msgstr ""
 
 msgid "Mahjongg IloveU"
@@ -2304,6 +2316,9 @@ msgstr ""
 msgid "Mahjongg Tomb"
 msgstr ""
 
+msgid "Mahjongg Tornado"
+msgstr ""
+
 msgid "Mahjongg Totally Random-Made"
 msgstr ""
 
@@ -2526,6 +2541,12 @@ msgstr ""
 msgid "Napoleon"
 msgstr ""
 
+msgid "Napoleon Leaves Moscow"
+msgstr ""
+
+msgid "Napoleon Takes Moscow"
+msgstr ""
+
 msgid "Napoleon at St.Helena"
 msgstr ""
 
@@ -2721,6 +2742,9 @@ msgstr ""
 msgid "Peek"
 msgstr ""
 
+msgid "Peek II"
+msgstr ""
+
 msgid "Pegged"
 msgstr ""
 
@@ -2755,6 +2779,12 @@ msgid "Perpetual Motion"
 msgstr ""
 
 msgid "Perseverance"
+msgstr ""
+
+msgid "Persian Patience"
+msgstr ""
+
+msgid "Phalanx"
 msgstr ""
 
 msgid "Phantom Blockade"
@@ -2943,6 +2973,9 @@ msgstr ""
 msgid "Right Triangle"
 msgstr ""
 
+msgid "Right and Left"
+msgstr ""
+
 msgid "Rings"
 msgstr ""
 
@@ -3055,6 +3088,9 @@ msgid "Scarp"
 msgstr ""
 
 msgid "Scheidungsgrund"
+msgstr ""
+
+msgid "School"
 msgstr ""
 
 msgid "Scorpion"
@@ -3507,10 +3543,19 @@ msgstr ""
 msgid "Thirteens"
 msgstr ""
 
+msgid "Thirty"
+msgstr ""
+
 msgid "Thirty Six"
 msgstr ""
 
+msgid "Thirty Two Cards"
+msgstr ""
+
 msgid "Three Blind Mice"
+msgstr ""
+
+msgid "Three Fir-trees"
 msgstr ""
 
 msgid "Three Peaks"
@@ -3550,6 +3595,12 @@ msgid "Tomb"
 msgstr ""
 
 msgid "Toni"
+msgstr ""
+
+msgid "Topsy-Turvy Queens"
+msgstr ""
+
+msgid "Tornado"
 msgstr ""
 
 msgid "Totally Random-Made"
@@ -3636,6 +3687,9 @@ msgstr ""
 msgid "Tuxedo"
 msgstr ""
 
+msgid "Twelve Sleeping Maids"
+msgstr ""
+
 msgid "Twenty"
 msgstr ""
 
@@ -3660,6 +3714,9 @@ msgstr ""
 msgid "Two Pyramids"
 msgstr ""
 
+msgid "Two Rings"
+msgstr ""
+
 msgid "Two Squares"
 msgstr ""
 
@@ -3676,6 +3733,9 @@ msgid "Up and Down"
 msgstr ""
 
 msgid "Usk"
+msgstr ""
+
+msgid "Vague"
 msgstr ""
 
 msgid "Vagues"
@@ -3739,6 +3799,9 @@ msgid "Waterfall"
 msgstr ""
 
 msgid "Waterloo"
+msgstr ""
+
+msgid "Wave"
 msgstr ""
 
 msgid "Wave Motion"

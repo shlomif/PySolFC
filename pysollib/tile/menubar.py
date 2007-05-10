@@ -64,7 +64,6 @@ from findcarddialog import connect_game_find_card_dialog, destroy_find_card_dial
 from solverdialog import connect_game_solver_dialog
 from tkwrap import MfxRadioMenuItem, MfxCheckMenuItem, StringVar
 from tkwidget import MfxMessageDialog
-from wizarddialog import WizardDialog
 
 #from toolbar import TOOLBAR_BUTTONS
 from tkconst import TOOLBAR_BUTTONS
@@ -1376,6 +1375,8 @@ the next time you restart """)+PACKAGE,
 
     def wizardDialog(self, edit=False):
         from pysollib.wizardutil import write_game, reset_wizard
+        from wizarddialog import WizardDialog
+
         if edit:
             reset_wizard(self.game)
         else:

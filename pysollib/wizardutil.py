@@ -133,7 +133,7 @@ DealToWaste = WizSetting(
     values_map = (1, 5),
     default = 1,
     widget = 'spin',
-    label = _('# of cards dealt to waste:'),
+    label = _('# of cards dealt to the waste:'),
     var_name = 'deal_to_waste',
     )
 TalonShuffle = WizSetting(
@@ -224,7 +224,7 @@ RowsBaseCard = WizSetting(
     values_map = ((n_('Ace'),  ACE),
                   (n_('King'), KING),
                   (n_('Any'),  ANY_RANK),
-                  (n_('No'),   NO_RANK),
+                  (n_('None'),   NO_RANK),
                   ),
     default = n_('Any'),
     label = _('Base card:'),
@@ -282,21 +282,21 @@ DealFaceDown = WizSetting(
     values_map = (0, 20),
     default = 0,
     widget = 'spin',
-    label = _('# of face-down cards dealt to tableau pile:'),
+    label = _('# of face-down cards dealt to the tableau pile:'),
     var_name = 'deal_face_down',
     )
 DealFaceUp = WizSetting(
     values_map = (0, 20),
     default = 8,
     widget = 'spin',
-    label = _('# of face-up cards dealt to tableau pile:'),
+    label = _('# of face-up cards dealt to the tableau pile:'),
     var_name = 'deal_face_up',
     )
 DealToReseves = WizSetting(
     values_map = (0, 20),
     default = 0,
     widget = 'spin',
-    label = _('# of cards dealt to reserve:'),
+    label = _('# of cards dealt to the reserve:'),
     var_name = 'deal_to_reserves',
     )
 DealMaxCards = WizSetting(
@@ -305,6 +305,13 @@ DealMaxCards = WizSetting(
     widget = 'spin',
     label = _('Max # of dealt cards:'),
     var_name = 'deal_max_cards',
+    )
+DealToFound = WizSetting(
+    values_map = (0, 1),
+    default = 0,
+    label = _('Deal first cards to the foundations:'),
+    var_name = 'deal_found',
+    widget = 'check',
     )
 
 WizardWidgets = (
@@ -343,6 +350,7 @@ WizardWidgets = (
     DealFaceUp,
     DealToReseves,
     DealMaxCards,
+    DealToFound,
     )
 
 
@@ -387,7 +395,7 @@ class MyCustomGame(CustomGame):
         if isinstance(w, basestring):
             continue
         v = w.variable.get()
-        if w.widget in ('menu', 'presets'):
+        if w.widget in ('menu', 'preset'):
             v = w.translation_map[v]
         if v == w.default:
             # save only unique values

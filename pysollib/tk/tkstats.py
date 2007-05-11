@@ -59,8 +59,6 @@ from tkutil import bind, unbind_destroy, loadImage
 from tkwidget import MfxDialog, MfxMessageDialog
 from tkwidget import MfxScrolledCanvas
 
-gettext = _
-
 
 # FIXME - this file a quick hack and needs a rewrite
 
@@ -413,7 +411,7 @@ class CanvasFormatter(PysolStatsFormatter):
         y += 2*self.h
         for result in self.getStatResults(player, sort_by):
             gameid = result.pop()
-            result[0]=gettext(result[0]) # game name
+            result[0] = _(result[0]) # game name
             self.pstats(y, result, gameid)
             y += self.h
         #
@@ -434,7 +432,7 @@ class CanvasFormatter(PysolStatsFormatter):
         if not player or not prev_games:
             return 0
         for result in self.getLogResults(player, prev_games):
-            result[0]=gettext(result[0]) # game name
+            result[0] = _(result[0]) # game name
             s = "%-25s %-20s  %-17s  %s" % tuple(result[:4])
             id = self.canvas.create_text(1, y, text=s, anchor="nw",
                                          font=self.font, fill=self.fg)

@@ -60,8 +60,6 @@ from tkutil import bind, unbind_destroy, loadImage
 from tkwidget import MfxDialog, MfxMessageDialog
 from tkwidget import MfxScrolledCanvas
 
-gettext = _
-
 
 # /***********************************************************************
 # //
@@ -376,7 +374,7 @@ class TreeFormatter(PysolStatsFormatter):
         for result in self.getStatResults(player, sort_by):
             # result == [name, won+lost, won, lost, time, moves, perc, id]
             t1, t2, t3, t4, t5, t6, t7, t8 = result
-            t1=gettext(t1)              # game name
+            t1 = _(t1)                  # game name
             id = self.tree.insert(None, "end", text=t1,
                                   values=(t2, t3, t4, t5, t6, t7))
             self.parent_window.tree_items.append(id)
@@ -395,7 +393,7 @@ class TreeFormatter(PysolStatsFormatter):
         num_rows = 0
         for result in self.getLogResults(player, prev_games):
             t1, t2, t3, t4, t5, t6 = result
-            t1=gettext(t1)              # game name
+            t1 = _(t1)                  # game name
             id = self.tree.insert(None, "end", text=t1, values=(t2, t3, t4))
             self.parent_window.tree_items.append(id)
             num_rows += 1

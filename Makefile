@@ -29,7 +29,7 @@ rules:
 
 pot:
 	./scripts/all_games.py gettext > po/games.pot
-	pygettext.py -k n_ -o po/pysol-1.pot $(PYSOLLIB_FILES)
+	./scripts/pygettext.py -k n_ --ngettext-keyword ungettext -o po/pysol-1.pot $(PYSOLLIB_FILES)
 	xgettext -L C --keyword=N_ -o po/pysol-2.pot data/glade-translations
 	msgcat po/pysol-1.pot po/pysol-2.pot > po/pysol.pot
 	rm -f po/pysol-1.pot po/pysol-2.pot

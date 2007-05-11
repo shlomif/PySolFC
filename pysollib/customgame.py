@@ -30,8 +30,6 @@ from hint import AbstractHint, DefaultHint, CautiousDefaultHint, Yukon_Hint
 from wizardutil import WizardWidgets
 
 
-gettext = _
-
 # /***********************************************************************
 # //
 # ************************************************************************/

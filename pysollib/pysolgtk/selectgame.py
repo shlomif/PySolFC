@@ -54,8 +54,6 @@ from tkwidget import MfxDialog
 from tkcanvas  import MfxCanvas, MfxCanvasText
 from pysoltree import PysolTreeView
 
-gettext = _
-
 
 # /***********************************************************************
 # // Dialog
@@ -197,7 +195,7 @@ class SelectGameDialogWithPreview(MfxDialog):
         iter = store.append(root_iter)
         store.set(iter, 0, root_label, 1, -1)
         for label, games in gl:
-            label = gettext(label)
+            label = _(label)
             label = label.replace("&", "")
             self._addGames(store, iter, label, games)
 
@@ -209,7 +207,7 @@ class SelectGameDialogWithPreview(MfxDialog):
         store.set(iter, 0, root_label, 1, -1)
         for id, name in games:
             child_iter = store.append(iter)
-            name = gettext(name)
+            name = _(name)
             store.set(child_iter, 0, name, 1, id)
 
 
@@ -294,7 +292,7 @@ class SelectGameDialogWithPreview(MfxDialog):
         data = []
         for label, vg in GI.GAMES_BY_COMPATIBILITY:
             selecter = lambda gi, vg=vg: gi.id in vg
-            label = gettext(label)
+            label = _(label)
             data.append((label, selecter))
         self._addGamesFromData(data, store, root_iter,
                                _("by Compatibility"), all_games)
@@ -475,12 +473,12 @@ class SelectGameDialogWithPreview(MfxDialog):
     def updateInfo(self, gameid):
         gi = self.app.gdb.get(gameid)
         # info
-        name = gettext(gi.name)
-        altnames = '\n'.join([gettext(n) for n in gi.altnames])
-        category = gettext(CSI.TYPE[gi.category])
+        name = _(gi.name)
+        altnames = '\n'.join([_(n) for n in gi.altnames])
+        category = _(CSI.TYPE[gi.category])
         type = ''
         if gi.si.game_type in GI.TYPE_NAMES:
-            type = gettext(GI.TYPE_NAMES[gi.si.game_type])
+            type = _(GI.TYPE_NAMES[gi.si.game_type])
         sl = {
             GI.SL_LUCK:         _('Luck only'),
             GI.SL_MOSTLY_LUCK:  _('Mostly luck'),

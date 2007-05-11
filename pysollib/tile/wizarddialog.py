@@ -35,8 +35,6 @@ from tkwidget import MfxDialog
 from tkwidget import PysolScale
 
 
-gettext = _
-
 # /***********************************************************************
 # //
 # ************************************************************************/
@@ -68,8 +66,8 @@ class WizardDialog(MfxDialog):
             if w.widget == 'preset':
                 if w.variable is None:
                     w.variable = StringVar()
-                values = [gettext(v) for v in w.values]
-                default = gettext(w.default)
+                values = [_(v) for v in w.values]
+                default = _(w.default)
                 values.remove(default)
                 values.sort()
                 values.insert(0, default)
@@ -87,7 +85,7 @@ class WizardDialog(MfxDialog):
             elif w.widget == 'menu':
                 if w.variable is None:
                     w.variable = StringVar()
-                values = [gettext(v) for v in w.values]
+                values = [_(v) for v in w.values]
                 cb = Combobox(frame, values=tuple(values),
                               textvariable=w.variable,
                               state='readonly', width=32)
@@ -116,7 +114,7 @@ class WizardDialog(MfxDialog):
             else:
                 v = w.current_value
             if w.widget in ('menu', 'preset'):
-                v = gettext(v)
+                v = _(v)
             w.variable.set(v)
 
             row += 1
@@ -136,8 +134,8 @@ class WizardDialog(MfxDialog):
                 v = p[w.var_name]
             else:
                 v = w.default
-            if w.widget in ('menu', 'preset'):
-                v = gettext(v)
+            if w.widget in ('menu', 'preset', 'entry'):
+                v = _(v)
             w.variable.set(v)
 
 

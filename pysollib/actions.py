@@ -66,7 +66,6 @@ from pysoltk import create_find_card_dialog
 from pysoltk import create_solver_dialog
 from help import help_about, help_html
 
-gettext = _
 
 # /***********************************************************************
 # // menubar
@@ -582,7 +581,7 @@ class PysolMenubarActions:
             else:
                 player = self.app.opt.player
                 p0, p1, p2 = player, "", _(" for ") + player
-            n = gettext(self.game.gameinfo.short_name)
+            n = _(self.game.gameinfo.short_name)
             #
             if mode == 100:
                 d = Status_StatsDialog(self.top, game=self.game)

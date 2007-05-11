@@ -52,9 +52,6 @@ from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
 from tkwidget import MfxTooltip
 from menubar import createToolbarMenu, MfxMenu
 
-gettext = _
-n_ = lambda x: x
-
 
 # /***********************************************************************
 # //
@@ -288,7 +285,7 @@ class PysolToolbar(PysolToolbarActions):
             'toolbar_name' : name,
             'command'      : command,
             'takefocus'    : 0,
-            'text'         : gettext(label),
+            'text'         : _(label),
             }
         if image:
             kw['image'] = image

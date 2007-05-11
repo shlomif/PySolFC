@@ -27,8 +27,6 @@ from stack import *
 from layout import Layout
 from wizardpresets import presets
 
-gettext = _
-n_ = lambda x: x
 
 # /***********************************************************************
 # //
@@ -45,13 +43,13 @@ class WizSetting:
             self.values = []
             for k, v in self.values_map:
                 self.values.append(k)
-                self.translation_map[gettext(k)] = k
+                self.translation_map[_(k)] = k
             assert self.default in self.values
         elif widget == 'preset':
             self.values = []
             for v in self.values_map:
                 self.values.append(v)
-                self.translation_map[gettext(v)] = v
+                self.translation_map[_(v)] = v
             assert self.default in self.values
         else:
             self.values = self.values_map
@@ -71,7 +69,7 @@ WizardPresets = WizSetting(
     )
 GameName = WizSetting(
     values_map = (),
-    default = 'My Game',
+    default = _('My Game'),
     widget = 'entry',
     label = _('Name:'),
     var_name = 'name',
@@ -186,7 +184,7 @@ FoundMaxMove = WizSetting(
 FoundEqual = WizSetting(
     values_map = (0, 1),
     default = 1,
-    label = _('First card sets base rank:'),
+    label = _('First card sets base cards:'),
     var_name = 'found_equal',
     widget = 'check',
     )

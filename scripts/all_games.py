@@ -6,8 +6,9 @@ import sys, os, re, time
 from pprint import pprint
 
 os.environ['LANG'] = 'C'
-import gettext
-gettext.install('pysol', 'locale', unicode=True)
+import __builtin__
+__builtin__.__dict__['_'] = lambda x: x
+__builtin__.__dict__['n_'] = lambda x: x
 
 pysollib_path = os.path.join(sys.path[0], '..')
 sys.path[0] = os.path.normpath(pysollib_path)

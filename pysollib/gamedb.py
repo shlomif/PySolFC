@@ -42,8 +42,6 @@ from mfxutil import Struct
 from resource import CSI
 from settings import CHECK_GAMES
 
-gettext = _
-n_ = lambda x: x
 
 # /***********************************************************************
 # // constants
@@ -563,13 +561,13 @@ class GameManager:
         if self.__games_by_name is None:
             l1, l2, l3  = [], [], []
             for id, gi in self.__games.items():
-                name = gettext(gi.name).lower()
+                name = _(gi.name).lower()
                 l1.append((name, id))
                 if gi.name != gi.short_name:
-                    name = gettext(gi.short_name).lower()
+                    name = _(gi.short_name).lower()
                 l2.append((name, id))
                 for n in gi.altnames:
-                    name = gettext(n).lower()
+                    name = _(n).lower()
                     l3.append((name, id, n))
             l1.sort()
             l2.sort()

@@ -28,13 +28,8 @@ import gtk, gobject, pango
 import gtk.glade
 
 # PySol imports
-
 from tkutil import create_pango_font_desc
 
-# Toolkit imports
-
-
-gettext = _
 
 # /***********************************************************************
 # //
@@ -144,7 +139,7 @@ class FontsDialog:
             'label75',
             ):
             w = self.widgets_tree.get_widget(n)
-            w.set_text(gettext(w.get_text()))
+            w.set_text(_(w.get_text()))
 
 
 

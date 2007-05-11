@@ -50,11 +50,9 @@ from selecttile import SelectTileDialogWithPreview
 from selectgame import SelectGameDialogWithPreview
 from findcarddialog import connect_game_find_card_dialog, destroy_find_card_dialog
 
-gettext = _
-
 def ltk2gtk(s):
     # label tk to gtk
-    return gettext(s).replace('&', '_')
+    return _(s).replace('&', '_')
 
 
 # /***********************************************************************
@@ -499,7 +497,7 @@ class PysolMenubar(PysolMenubarActions):
             label = gi.short_name
         else:
             label = gi.name
-        label = gettext(label)
+        label = _(label)
         menu_item = gtk.MenuItem(label)
         menu_item.set_data('user_data', gi.id)
         menu_item.connect('activate', self.mSelectGame)
@@ -521,7 +519,7 @@ class PysolMenubar(PysolMenubarActions):
                 break
             m = min(n+d-1, len(games)-1)
             n1, n2 = games[n].name, games[m].name
-            n1, n2 = gettext(n1), gettext(n2)
+            n1, n2 = _(n1), _(n2)
             label = n1[:3]+' - '+n2[:3]
             submenu = self._createSubMenu(menu, label=label)
             self._addGamesSubMenu(games[n:n+d], submenu)
@@ -566,7 +564,7 @@ class PysolMenubar(PysolMenubarActions):
         #
         games = {}
         for gi in mahjongg_games:
-            c = gettext(gi.short_name).strip()[0]
+            c = _(gi.short_name).strip()[0]
             if c in games:
                 games[c].append(gi)
             else:

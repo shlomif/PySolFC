@@ -30,8 +30,6 @@ from gtk import glade
 # Toolkit imports
 from tkwidget import MfxDialog
 
-gettext = _
-
 
 # /***********************************************************************
 # //
@@ -149,7 +147,7 @@ class SoundOptionsDialog:
             'label78',
             ):
             w = self.widgets_tree.get_widget(n)
-            w.set_text(gettext(w.get_text()))
+            w.set_text(_(w.get_text()))
         w = self.widgets_tree.get_widget('enable_checkbutton')
-        w.set_label(gettext(w.get_label()))
+        w.set_label(_(w.get_label()))
 

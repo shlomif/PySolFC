@@ -33,8 +33,6 @@ from pysollib.stats import PysolStatsFormatter
 # Toolkit imports
 from tkwidget import MfxDialog, MfxMessageDialog
 
-gettext = _
-
 
 # /***********************************************************************
 # //
@@ -50,7 +48,7 @@ class StatsFormatter(PysolStatsFormatter):
         for result in self.getStatResults(player, sort_by):
             iter = self.store.append(None)
             self.store.set(iter,
-                           0, gettext(result[0]),
+                           0, _(result[0]),
                            1, result[1],
                            2, result[2],
                            3, result[3],
@@ -88,7 +86,7 @@ class LogFormatter(PysolStatsFormatter):
         for result in self.getLogResults(player, prev_games):
             iter = self.store.append(None)
             self.store.set(iter,
-                           0, gettext(result[0]),
+                           0, _(result[0]),
                            1, result[1],
                            2, result[2],
                            3, result[3],
@@ -189,7 +187,7 @@ class Game_StatsDialog:
             'label18',
             ):
             w = self.widgets_tree.get_widget(n)
-            w.set_text_with_mnemonic(gettext(w.get_label()))
+            w.set_text_with_mnemonic(_(w.get_label()))
         # simple
         for n in (
             'label5',
@@ -198,7 +196,7 @@ class Game_StatsDialog:
             'label14'
             ):
             w = self.widgets_tree.get_widget(n)
-            w.set_text(gettext(w.get_text()))
+            w.set_text(_(w.get_text()))
         # markup
         for n in (
             'label8',
@@ -215,7 +213,7 @@ class Game_StatsDialog:
             'label24',
             ):
             w = self.widgets_tree.get_widget(n)
-            s = gettext(w.get_label())
+            s = _(w.get_label())
             w.set_markup('<b>%s</b>' % s)
 
 
@@ -231,7 +229,7 @@ class Game_StatsDialog:
         current = 0
         for id in self.games_id:
             gi = self.app.gdb.get(id)
-            combo.append_text(gettext(gi.name))
+            combo.append_text(_(gi.name))
             if id == self.gameid:
                 current = n
             n += 1

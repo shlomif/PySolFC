@@ -116,7 +116,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         store.set(iter, 0, root_label, 1, -1)
         for index, name in cardsets:
             child_iter = store.append(iter)
-            ##~ name = gettext(name)
+            ##~ name = _(name)
             store.set(child_iter, 0, name, 1, index)
 
 

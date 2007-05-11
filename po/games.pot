@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Thu May 10 14:22:52 2007\n"
+"POT-Creation-Date: Fri May 11 22:05:05 2007\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -741,7 +741,7 @@ msgstr ""
 msgid "Die Bildgallerie"
 msgstr ""
 
-msgid "Die Königsbergerin"
+msgid "Die Koenigsbergerin"
 msgstr ""
 
 msgid "Die Russische"
@@ -750,10 +750,7 @@ msgstr ""
 msgid "Die Schlange"
 msgstr ""
 
-msgid "Die böse Sieben"
-msgstr ""
-
-msgid "Die große Harfe"
+msgid "Die boese Sieben"
 msgstr ""
 
 msgid "Die kleine Harfe"

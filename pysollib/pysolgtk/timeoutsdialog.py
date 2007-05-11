@@ -26,12 +26,6 @@ __all__ = ['TimeoutsDialog']
 import gtk, gobject, pango
 import gtk.glade
 
-# PySol imports
-
-# Toolkit imports
-
-
-gettext = _
 
 # /***********************************************************************
 # //
@@ -102,5 +96,5 @@ class TimeoutsDialog:
             'label30',
             ):
             w = self.widgets_tree.get_widget(n)
-            w.set_text(gettext(w.get_text()))
+            w.set_text(_(w.get_text()))
 

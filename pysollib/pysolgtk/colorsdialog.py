@@ -27,12 +27,6 @@ import gtk, gobject, pango
 import gtk.glade
 from gtk import gdk
 
-# PySol imports
-
-# Toolkit imports
-
-
-gettext = _
 
 # /***********************************************************************
 # //
@@ -125,5 +119,5 @@ class ColorsDialog:
             'label79',
             ):
             w = self.widgets_tree.get_widget(n)
-            w.set_text(gettext(w.get_text()))
+            w.set_text(_(w.get_text()))
 

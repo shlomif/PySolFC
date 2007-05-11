@@ -1517,10 +1517,10 @@ class Stack:
         return s
 
     def getNumCards(self):
+        from gettext import ungettext
         n = len(self.cards)
         if   n == 0 : return _('No cards')
-        elif n == 1 : return _('1 card')
-        else        : return str(n)+_(' cards')
+        else:         return ungettext('%d card', '%d cards', n) % n
 
 
 # /***********************************************************************
@@ -1795,11 +1795,12 @@ class TalonStack(Stack,
         return self.game.app.gimages.redeal
 
     def getHelp(self):
+        from gettext import ungettext
         if   self.max_rounds == -2: nredeals = _('Variable redeals.')
         elif self.max_rounds == -1: nredeals = _('Unlimited redeals.')
-        elif self.max_rounds ==  1: nredeals = _('No redeals.')
-        elif self.max_rounds ==  2: nredeals = _('One redeal.')
-        else: nredeals = str(self.max_rounds-1)+_(' redeals.')
+        else:
+            n = self.max_rounds-1
+            nredeals = ungettext('%d readeal', '%d redeals', n) % n
         ##round = _('Round #%d.') % self.round
         return _('Talon.')+' '+nredeals ##+' '+round
 

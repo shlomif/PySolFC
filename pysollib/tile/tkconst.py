@@ -59,9 +59,6 @@ import sys, os
 import traceback
 import Tkinter
 
-# Toolkit imports
-
-n_ = lambda x: x
 
 # /***********************************************************************
 # // constants

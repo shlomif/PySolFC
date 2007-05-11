@@ -29,7 +29,34 @@ import settings
 # // init
 # ************************************************************************/
 
+def fix_gettext():
+    def ugettext(message):
+        # unicoded gettext
+        domain = gettext._current_domain
+        try:
+            t = gettext.translation(domain,
+                                    gettext._localedirs.get(domain, None))
+        except IOError:
+            return message
+        return t.ugettext(message)
+    gettext.ugettext = ugettext
+    def ungettext(msgid1, msgid2, n):
+        # unicoded ngettext
+        domain = gettext._current_domain
+        try:
+            t = gettext.translation(domain,
+                                    gettext._localedirs.get(domain, None))
+        except IOError:
+            if n == 1:
+                return msgid1
+            else:
+                return msgid2
+        return t.ungettext(msgid1, msgid2, n)
+    gettext.ungettext = ungettext
+
+
 def init():
+    fix_gettext()
 
     if os.name == 'nt' and 'LANG' not in os.environ:
         try:
@@ -39,6 +66,7 @@ def init():
             pass
     ##locale.setlocale(locale.LC_ALL, '')
 
+    ## install gettext
     ##locale_dir = 'locale'
     locale_dir = None
     if os.path.isdir(sys.path[0]):
@@ -49,8 +77,14 @@ def init():
     if os.path.exists(d) and os.path.isdir(d):
         locale_dir = d
     ##if locale_dir: locale_dir = os.path.normpath(locale_dir)
-    gettext.install('pysol', locale_dir, unicode=True)
-    # debug
+    #gettext.install('pysol', locale_dir, unicode=True) # ngettext don't work
+    gettext.bindtextdomain('pysol', locale_dir)
+    gettext.textdomain('pysol')
+    import __builtin__
+    __builtin__.__dict__['_'] = gettext.ugettext # use unicode
+    __builtin__.__dict__['n_'] = lambda x: x
+
+    ## debug
     if 'PYSOL_CHECK_GAMES' in os.environ or \
            'PYSOL_DEBUG' in os.environ:
         settings.CHECK_GAMES = True
@@ -61,6 +95,7 @@ def init():
         except:
             settings.DEBUG = 1
         print 'PySol debugging: set DEBUG to', settings.DEBUG
+
     ## init toolkit
     if '--gtk' in sys.argv:
         settings.TOOLKIT = 'gtk'

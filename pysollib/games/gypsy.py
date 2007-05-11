@@ -978,7 +978,7 @@ registerGame(GameInfo(65, Giant, "Giant",
                       GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(3, Irmgard, "Irmgard",
                       GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
-registerGame(GameInfo(119, DieKoenigsbergerin, "Die Königsbergerin",
+registerGame(GameInfo(119, DieKoenigsbergerin, "Die Koenigsbergerin",
                       GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(174, DieRussische, "Russian Patience",
                       GI.GT_2DECK_TYPE | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL,

@@ -58,9 +58,6 @@ __all__ = ['tkversion',
 import sys, os
 import Tkinter
 
-# Toolkit imports
-
-n_ = lambda x: x
 
 # /***********************************************************************
 # // constants

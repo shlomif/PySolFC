@@ -347,8 +347,7 @@ registerGame(GameInfo(28, DoubleKlondikeByThrees, "Double Klondike by Threes",
 registerGame(GameInfo(25, Gargantua, "Gargantua",
                       GI.GT_KLONDIKE, 2, 1, GI.SL_BALANCED))
 registerGame(GameInfo(15, BigHarp, "Big Harp",
-                      GI.GT_KLONDIKE, 2, 0, GI.SL_BALANCED,
-                      altnames=("Die große Harfe",) ))
+                      GI.GT_KLONDIKE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(51, Steps, "Steps",
                       GI.GT_KLONDIKE, 2, 1, GI.SL_BALANCED))
 registerGame(GameInfo(273, TripleKlondike, "Triple Klondike",

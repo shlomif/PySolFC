@@ -41,7 +41,6 @@ import os, glob
 from mfxutil import Struct, KwStruct, EnvError
 from settings import DEBUG
 
-gettext = _
 
 # /***********************************************************************
 # // Abstract

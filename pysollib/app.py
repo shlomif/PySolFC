@@ -75,7 +75,6 @@ from pysoltk import destroy_solver_dialog
 from pysoltk import connect_game_solver_dialog
 from help import help_about, destroy_help_html
 
-gettext = _
 
 # /***********************************************************************
 # // Options
@@ -1350,12 +1349,12 @@ Please select a %s type %s.
     def getGameTitleName(self, id):
         gi = self.gdb.get(id)
         if gi is None: return None
-        return gettext(gi.name)
+        return _(gi.name)
 
     def getGameMenuitemName(self, id):
         gi = self.gdb.get(id)
         if gi is None: return None
-        return gettext(gi.short_name)
+        return _(gi.short_name)
 
     def getGameRulesFilename(self, id):
         gi = self.gdb.get(id)

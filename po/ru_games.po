@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Thu May 10 14:22:52 2007\n"
-"PO-Revision-Date: 2007-03-05 18:01+0300\n"
+"POT-Creation-Date: Fri May 11 22:05:05 2007\n"
+"PO-Revision-Date: 2007-05-11 17:25+0400\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -211,16 +211,14 @@ msgstr "Баланс"
 msgid "Balarama"
 msgstr "Баларама"
 
-#, fuzzy
 msgid "Banner"
-msgstr "Баланс"
+msgstr "Флаг"
 
 msgid "Baroness"
 msgstr "Баронесса"
 
-#, fuzzy
 msgid "Barrier"
-msgstr "Причудливый"
+msgstr "Барьер"
 
 msgid "Bastille Day"
 msgstr "День Бастилии"
@@ -250,7 +248,7 @@ msgid "Beatle"
 msgstr "Жук"
 
 msgid "Bebop"
-msgstr ""
+msgstr "Бибоп"
 
 msgid "Beetle"
 msgstr "Жук"
@@ -663,7 +661,7 @@ msgid "Crossroads"
 msgstr "Перекрестки"
 
 msgid "Crown"
-msgstr "Венец"
+msgstr "Корона"
 
 msgid "Cruel"
 msgstr "Изнурительный"
@@ -729,9 +727,8 @@ msgstr "Der letzte Monarch"
 msgid "Deuces"
 msgstr "Двойки"
 
-#, fuzzy
 msgid "Devil's Solitaire"
-msgstr "Китайский пасьянс"
+msgstr "Дьявольский пасьянс"
 
 msgid "Dhanpati"
 msgstr "Dhanpati"
@@ -748,8 +745,8 @@ msgstr "Алмазный рудник"
 msgid "Die Bildgallerie"
 msgstr "Die Bildgallerie"
 
-msgid "Die Königsbergerin"
-msgstr "Die Königsbergerin"
+msgid "Die Koenigsbergerin"
+msgstr "Die Koenigsbergerin"
 
 msgid "Die Russische"
 msgstr "Die Russische"
@@ -757,11 +754,8 @@ msgstr "Die Russische"
 msgid "Die Schlange"
 msgstr "Die Schlange"
 
-msgid "Die böse Sieben"
-msgstr "Die böse Sieben"
-
-msgid "Die große Harfe"
-msgstr "Die große Harfe"
+msgid "Die boese Sieben"
+msgstr "Die boese Sieben"
 
 msgid "Die kleine Harfe"
 msgstr "Die kleine Harfe"
@@ -2581,11 +2575,10 @@ msgid "Napoleon"
 msgstr "Наполеон"
 
 msgid "Napoleon Leaves Moscow"
-msgstr ""
+msgstr "Наполеон бежит из Москвы"
 
-#, fuzzy
 msgid "Napoleon Takes Moscow"
-msgstr "Гробница Наполеона"
+msgstr "Наполеон идет на Москву"
 
 msgid "Napoleon at St.Helena"
 msgstr "Наполеон на острове св.Елена"
@@ -2825,13 +2818,11 @@ msgstr "Перпетуум-мобиле"
 msgid "Perseverance"
 msgstr "Настойчивость"
 
-#, fuzzy
 msgid "Persian Patience"
-msgstr "Алжирский пасьянс"
+msgstr "Персидский пасьянс"
 
-#, fuzzy
 msgid "Phalanx"
-msgstr "Реглан"
+msgstr "Фаланга"
 
 msgid "Phantom Blockade"
 msgstr "Призрачная блокада"
@@ -3019,9 +3010,8 @@ msgstr "Свита"
 msgid "Right Triangle"
 msgstr "Правый треугольник"
 
-#, fuzzy
 msgid "Right and Left"
-msgstr "Верхний и нижний"
+msgstr "Справа и слева"
 
 msgid "Rings"
 msgstr "Круги"
@@ -3139,7 +3129,7 @@ msgid "Scheidungsgrund"
 msgstr "Scheidungsgrund"
 
 msgid "School"
-msgstr ""
+msgstr "Школьный"
 
 msgid "Scorpion"
 msgstr "Скорпион"
@@ -3602,22 +3592,20 @@ msgstr "Тринадцать вверх"
 msgid "Thirteens"
 msgstr "По тринадцать"
 
-#, fuzzy
 msgid "Thirty"
-msgstr "Тридцать шесть"
+msgstr "Тридцать"
 
 msgid "Thirty Six"
 msgstr "Тридцать шесть"
 
 msgid "Thirty Two Cards"
-msgstr ""
+msgstr "Тридцать две карты"
 
 msgid "Three Blind Mice"
 msgstr "Три слепые мышки"
 
-#, fuzzy
 msgid "Three Fir-trees"
-msgstr "Три пирата"
+msgstr "Три елки"
 
 msgid "Three Peaks"
 msgstr "Три вершины"
@@ -3692,9 +3680,8 @@ msgstr "Маджонг Traditional Reviewed"
 msgid "Trapdoor"
 msgstr "Люк"
 
-#, fuzzy
 msgid "Trapdoor Spider"
-msgstr "Люк"
+msgstr "Люк Паука"
 
 msgid "Treasure Trove"
 msgstr "Клад"
@@ -3976,9 +3963,3 @@ msgstr "Зигзагообразный курс"
 
 msgid "Zodiac"
 msgstr "Зодиак"
-
-#~ msgid "Alternations"
-#~ msgstr "Чередования"
-
-#~ msgid "Mahjongg Hurricane"
-#~ msgstr "Маджонг Ураган"

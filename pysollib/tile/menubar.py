@@ -68,9 +68,6 @@ from tkwidget import MfxMessageDialog
 #from toolbar import TOOLBAR_BUTTONS
 from tkconst import TOOLBAR_BUTTONS
 
-gettext = _
-n_ = lambda x: x
-
 
 # /***********************************************************************
 # //
@@ -120,7 +117,7 @@ def createToolbarMenu(menubar, menu):
     menu.add_separator()
     submenu = MfxMenu(menu, label=n_('Visible buttons'), tearoff=tearoff)
     for w in TOOLBAR_BUTTONS:
-        submenu.add_checkbutton(label=gettext(w.capitalize()),
+        submenu.add_checkbutton(label=_(w.capitalize()),
             variable=menubar.tkopt.toolbar_vars[w],
             command=lambda m=menubar, w=w: m.mOptToolbarConfig(w))
 
@@ -141,7 +138,7 @@ class MfxMenubar(Tkinter.Menu):
     def labeltoname(self, label):
         #print label, type(label)
         name = re.sub(r"[^0-9a-zA-Z]", "", label).lower()
-        label = gettext(label)
+        label = _(label)
         underline = label.find('&')
         if underline >= 0:
             label = label.replace('&', '')
@@ -705,7 +702,7 @@ class PysolMenubar(PysolMenubarActions):
 
         games = {}
         for gi in mahjongg_games:
-            c = gettext(gi.short_name).strip()[0]
+            c = _(gi.short_name).strip()[0]
             if c in games:
                 games[c].append(gi)
             else:
@@ -773,7 +770,7 @@ class PysolMenubar(PysolMenubarActions):
             if not games[n:n+d]:
                 break
             m = min(n+d-1, len(games)-1)
-            label = gettext(games[n].name)[:3]+' - '+gettext(games[m].name)[:3]
+            label = _(games[n].name)[:3]+' - '+_(games[m].name)[:3]
             submenu = MfxMenu(menu, label=label, name=None)
             self._addSelectGameSubSubMenu(games[n:n+d], submenu,
                                           command, variable)
@@ -790,9 +787,9 @@ class PysolMenubar(PysolMenubarActions):
             gi = games[i]
             columnbreak = i > 0 and (i % cb) == 0
             if short_name:
-                label = gettext(gi.short_name)
+                label = _(gi.short_name)
             else:
-                label = gettext(gi.name)
+                label = _(gi.name)
 ##             menu.add_radiobutton(command=command, variable=variable,
 ##                                  columnbreak=columnbreak,
 ##                                  value=gi.id, label=label, name=None)
@@ -809,7 +806,7 @@ class PysolMenubar(PysolMenubarActions):
         if len(games) == 0:
             menu.add_radiobutton(label='<none>', name=None, state='disabled')
         elif len(games) > self.__cb_max*4:
-            games.sort(lambda a, b: cmp(gettext(a.name), gettext(b.name)))
+            games.sort(lambda a, b: cmp(_(a.name), _(b.name)))
             self._addSelectAllGameSubMenu(games, menu,
                                           command=self.mSelectGame,
                                           variable=self.tkopt.gameid)

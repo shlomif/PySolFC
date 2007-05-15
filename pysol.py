@@ -27,5 +27,7 @@ init()
 
 import sys
 from pysollib.main import main
+#import profile
+#profile.run("main(sys.argv)")
 sys.exit(main(sys.argv))
 

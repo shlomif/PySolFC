@@ -27,7 +27,8 @@
 __all__ = []
 
 # Imports
-import sys, string, re
+import sys, re
+import time
 #from tkFont import Font
 
 # PySol imports
@@ -44,7 +45,7 @@ from pysollib.settings import TOOLKIT
 
 
 def factorial(x):
-    if x < 1:
+    if x <= 1:
         return 1
     a = 1
     for i in xrange(x):
@@ -218,6 +219,8 @@ class Mahjongg_RowStack(OpenStack):
         bind(group, "<1>", self.__clickEventHandler)
         bind(group, "<3>", self.__controlclickEventHandler)
         bind(group, "<Control-1>", self.__controlclickEventHandler)
+        ##bind(group, "<Enter>", self._Stack__enterEventHandler)
+        ##bind(group, "<Leave>", self._Stack__leaveEventHandler)
 
     def __defaultClickEventHandler(self, event, handler):
         self.game.event_handled = True # for Game.undoHandler
@@ -427,13 +430,19 @@ class AbstractMahjonggGame(Game):
         # compute blockmap
         for stack in s.rows:
             level, tx, ty = tiles[stack.id]
-            above, left, right, up, bottom = {}, {}, {}, {}, {}
+            above, below, left, right, up, bottom = {}, {}, {}, {}, {}, {}
             # above blockers
             for tl in range(level+1, level+2):
                 above[tilemap.get((tl, tx, ty))] = 1
                 above[tilemap.get((tl, tx+1, ty))] = 1
                 above[tilemap.get((tl, tx, ty+1))] = 1
                 above[tilemap.get((tl, tx+1, ty+1))] = 1
+            #
+            for tl in range(level):
+                below[tilemap.get((tl, tx, ty))] = 1
+                below[tilemap.get((tl, tx+1, ty))] = 1
+                below[tilemap.get((tl, tx, ty+1))] = 1
+                below[tilemap.get((tl, tx+1, ty+1))] = 1
             # left blockers
             left[tilemap.get((level, tx-1, ty))] = 1
             left[tilemap.get((level, tx-1, ty+1))] = 1
@@ -453,18 +462,48 @@ class AbstractMahjonggGame(Game):
             assert tilemap.get((level, tx+1, ty+1)) is stack
             #
             above = tuple(filter(None, above.keys()))
+            below = tuple(filter(None, below.keys()))
             left = tuple(filter(None, left.keys()))
             right = tuple(filter(None, right.keys()))
             ##up = tuple(filter(None, up.keys()))
             ##bottom = tuple(filter(None, bottom.keys()))
+
             # assemble
             stack.blockmap = Struct(
                 above = above,
+                below = below,
                 left = left,
                 right = right,
                 ##up = up,
                 ##bottom = bottom,
+                all_left = None,
+                all_right = None,
             )
+
+        def get_all_left(s):
+            if s.blockmap.all_left is None:
+                s.blockmap.all_left = {}
+            for t in s.blockmap.left:
+                if t.blockmap.all_left is None:
+                    get_all_left(t)
+                s.blockmap.all_left.update(t.blockmap.all_left)
+                s.blockmap.all_left[t] = 1
+        def get_all_right(s):
+            if s.blockmap.all_right is None:
+                s.blockmap.all_right = {}
+            for t in s.blockmap.right:
+                if t.blockmap.all_right is None:
+                    get_all_right(t)
+                s.blockmap.all_right.update(t.blockmap.all_right)
+                s.blockmap.all_right[t] = 1
+
+        for r in s.rows:
+            get_all_left(r)
+            get_all_right(r)
+        for r in s.rows:
+            r.blockmap.all_left = tuple(r.blockmap.all_left.keys())
+            r.blockmap.all_right = tuple(r.blockmap.all_right.keys())
+
 
         # create other stacks
         for i in range(4):
@@ -503,9 +542,17 @@ class AbstractMahjonggGame(Game):
     #
 
     def _shuffleHook(self, cards):
-        if not self.app.opt.mahjongg_create_solvable:
+        if self.app.opt.mahjongg_create_solvable == 0:
             return cards
         # try to create a solvable game
+        if self.app.opt.mahjongg_create_solvable == 1:
+            # easy
+            return self._shuffleHook1(cards[:])
+        # hard
+        return self._shuffleHook2(cards)
+
+
+    def _shuffleHook1(self, cards):
         old_cards = cards[:]
         rows = self.s.rows
 
@@ -576,6 +623,121 @@ class AbstractMahjonggGame(Game):
             return new_cards
         print 'oops! can\'t create a solvable game'
         return old_cards
+
+
+    def _shuffleHook2(self, cards):
+
+        start_time = time.time()
+        iters = [0]
+        # limitations
+        max_time = 2.0                  # seconds
+        max_iters = len(cards)
+
+        rows = self.s.rows
+
+        def is_suitable(stack, cards):
+            for s in stack.blockmap.below:
+                # check if below stacks are non-empty
+                if cards[s.id] is None:
+                    return False
+
+            nleft = 0
+            for s in stack.blockmap.left:
+                if cards[s.id] is None:
+                    for t in s.blockmap.all_left:
+                        if cards[t.id] is not None:
+                            # we have empty stack between two non-empty
+                            return False
+                else:
+                    nleft += 1
+
+            nright = 0
+            for s in stack.blockmap.right:
+                if cards[s.id] is None:
+                    for t in s.blockmap.all_right:
+                        if cards[t.id] is not None:
+                            # we have empty stack between two non-empty
+                            return False
+                else:
+                    nright += 1
+
+            if nleft > 0 and nright > 0:
+                # we have left and right non-empty stacks
+                return False
+            return True
+
+        def create_solvable(cards, new_cards):
+            iters[0] += 1
+            if iters[0] > max_iters:
+                return None
+            if time.time() - start_time > max_time:
+                return None
+            if not cards:
+                return new_cards
+
+            nc = new_cards[:]
+
+            # select two matching cards
+            c1 = cards[0]
+            del cards[0]
+            c2 = None
+            for i in xrange(len(cards)):
+                if self.cardsMatch(c1, cards[i]):
+                    c2 = cards[i]
+                    del cards[i]
+                    break
+
+            # find suitable stacks
+            suitable_stacks = []
+            for r in rows:
+                if nc[r.id] is None and is_suitable(r, nc):
+                    suitable_stacks.append(r)
+
+            old_pairs = []
+            i = factorial(len(suitable_stacks))/2/factorial(len(suitable_stacks)-2)
+            for j in xrange(i):
+                if iters[0] > max_iters:
+                    return None
+                if time.time() - start_time > max_time:
+                    return None
+
+                while True:
+                    # create uniq pair
+                    r1 = self.random.randrange(0, len(suitable_stacks))
+                    r2 = self.random.randrange(0, len(suitable_stacks)-1)
+                    if r2 >= r1:
+                        r2 += 1
+                    if (r1, r2) not in old_pairs and (r2, r1) not in old_pairs:
+                        old_pairs.append((r1, r2))
+                        break
+                # select two suitable stacks
+                s1 = suitable_stacks[r1]
+                s2 = suitable_stacks[r2]
+                #
+                nc[s1.id] = c1
+                if not is_suitable(s2, nc):
+                    nc[s1.id] = None
+                    continue
+                nc[s2.id] = c2
+                # check if this layout is solvable (backtracking)
+                ret = create_solvable(cards[:], nc)
+                if ret:
+                    return ret
+                nc[s1.id] = nc[s2.id] = None # try another way
+
+            return None
+
+        while True:
+            if time.time() - start_time > max_time:
+                print 'oops! can\'t create a solvable game'
+                return cards
+            ret = create_solvable(cards[:], [None]*len(cards))
+            if ret:
+                ret.reverse()
+                return ret
+            iters = [0]
+        print 'oops! can\'t create a solvable game'
+        return cards
 
 
     def startGame(self):

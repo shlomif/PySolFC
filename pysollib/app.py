@@ -101,7 +101,7 @@ class Options:
         self.highlight_samerank = True
         self.highlight_not_matching = True
         self.mahjongg_show_removed = False
-        self.mahjongg_create_solvable = True
+        self.mahjongg_create_solvable = 2 # 0 - none, 1 - easy, 2 - hard
         self.shisen_show_hint = True
         self.animations = 2             # default to Fast
         self.redeal_animation = True
@@ -254,6 +254,7 @@ class Options:
     def setConstants(self):
         self.dragcursor = True
         self.randomize_place = False
+        self.mahjongg_create_solvable = 2
 
     def copy(self):
         opt = Options()

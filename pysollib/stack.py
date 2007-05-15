@@ -1133,7 +1133,7 @@ class Stack:
                     self.cursor_changed = True
         else:
             help = self.getHelp() ##+' '+self.getBaseCard(),
-            if DEBUG >= 5:
+            if DEBUG:
                 help = repr(self)
             after_idle(self.canvas, self.game.showHelp,
                        'help', help,

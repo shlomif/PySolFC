@@ -1588,6 +1588,10 @@ class Game:
     def canRedo(self):
         return self.canUndo()
 
+    # Mahjongg
+    def canShuffle(self):
+        return False
+
 
     #
     # Game - stats handlers

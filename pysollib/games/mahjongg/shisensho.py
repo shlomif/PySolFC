@@ -417,6 +417,9 @@ class AbstractShisenGame(AbstractMahjonggGame):
     def _shuffleHook(self, cards):
         return cards
 
+    def canShuffle(self):
+        return False
+
 
 class Shisen_18x8(AbstractShisenGame):
     L = (18, 8)

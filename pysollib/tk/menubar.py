@@ -578,6 +578,8 @@ class PysolMenubar(PysolMenubarActions):
         self._bindKey("",   "F2", self.mStackDesk)
         #
         self._bindKey("",   "slash", self.mGameInfo) # undocumented, devel
+        #
+        self._bindKey("",   "f", self.mShuffle)
 
         for i in range(9):
             self._bindKey(ctrl, str(i+1),  lambda event, self=self, i=i: self.mGotoBookmark(i, confirm=0))

@@ -29,6 +29,7 @@ __all__ = []
 # Imports
 import sys, re
 import time
+from gettext import ungettext
 #from tkFont import Font
 
 # PySol imports
@@ -39,8 +40,9 @@ from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
-from pysollib.pysoltk import MfxCanvasText, MfxCanvasImage, bind, \
-     EVENT_HANDLED, ANCHOR_NW
+from pysollib.pysoltk import MfxCanvasText, MfxCanvasImage
+from pysollib.pysoltk import bind, EVENT_HANDLED, ANCHOR_NW
+from pysollib.pysoltk import MfxMessageDialog
 from pysollib.settings import TOOLKIT
 
 
@@ -72,7 +74,14 @@ class Mahjongg_Hint(AbstractHint):
             for t in stacks[i+1:]:
                 if game.cardsMatch(r.cards[0], t.cards[0]):
                     # simple scoring...
-                    score = 10000 + r.id + t.id
+                    ##score = 10000 + r.id + t.id
+                    rb = r.blockmap
+                    tb = t.blockmap
+                    score = \
+                          10000 + \
+                          1000 * (len(rb.below) + len(tb.below)) + \
+                          len(rb.all_left) + len(rb.all_right) + \
+                          len(tb.all_left) + len(tb.all_right)
                     self.addHint(score, 1, r, t)
             i = i + 1
 
@@ -302,17 +311,9 @@ class AbstractMahjonggGame(Game):
     Hint_Class = Mahjongg_Hint
     RowStack_Class = Mahjongg_RowStack
 
-    GAME_VERSION = 2
+    GAME_VERSION = 3
 
     NCARDS = 144
-
-    # For i18n
-    text_free_matching_pairs_0 = _("No Free\nMatching\nPairs")
-    text_free_matching_pairs_1 = _("1 Free\nMatching\nPair")
-    text_free_matching_pairs_2 = _(" Free\nMatching\nPairs")
-    text_tiles_removed = _("\nTiles\nRemoved\n\n")
-    text_tiles_remaining = _("\nTiles\nRemaining\n\n")
-
 
     def getTiles(self):
         # decode tile positions
@@ -549,7 +550,10 @@ class AbstractMahjonggGame(Game):
             # easy
             return self._shuffleHook1(cards[:])
         # hard
-        return self._shuffleHook2(cards)
+        new_cards = self._shuffleHook2(self.s.rows, cards)
+        if new_cards is None:
+            return cards
+        return new_cards
 
 
     def _shuffleHook1(self, cards):
@@ -625,7 +629,7 @@ class AbstractMahjonggGame(Game):
         return old_cards
 
 
-    def _shuffleHook2(self, cards):
+    def _shuffleHook2(self, rows, cards):
 
         start_time = time.time()
         iters = [0]
@@ -633,37 +637,35 @@ class AbstractMahjonggGame(Game):
         max_time = 2.0                  # seconds
         max_iters = len(cards)
 
-        rows = self.s.rows
-
         def is_suitable(stack, cards):
             for s in stack.blockmap.below:
+                if cards[s.id] == 1:
+                    continue
                 # check if below stacks are non-empty
                 if cards[s.id] is None:
                     return False
 
-            nleft = 0
             for s in stack.blockmap.left:
+                if cards[s.id] == 1:
+                    continue
                 if cards[s.id] is None:
                     for t in s.blockmap.all_left:
+                        if cards[t.id] == 1:
+                            continue
                         if cards[t.id] is not None:
                             # we have empty stack between two non-empty
                             return False
-                else:
-                    nleft += 1
 
-            nright = 0
             for s in stack.blockmap.right:
+                if cards[s.id] == 1:
+                    continue
                 if cards[s.id] is None:
                     for t in s.blockmap.all_right:
+                        if cards[t.id] == 1:
+                            continue
                         if cards[t.id] is not None:
                             # we have empty stack between two non-empty
                             return False
-                else:
-                    nright += 1
-
-            if nleft > 0 and nright > 0:
-                # we have left and right non-empty stacks
-                return False
             return True
 
         def create_solvable(cards, new_cards):
@@ -713,7 +715,7 @@ class AbstractMahjonggGame(Game):
                 # select two suitable stacks
                 s1 = suitable_stacks[r1]
                 s2 = suitable_stacks[r2]
-                #
+                # check if s1 don't block s2
                 nc[s1.id] = c1
                 if not is_suitable(s2, nc):
                     nc[s1.id] = None
@@ -722,31 +724,96 @@ class AbstractMahjonggGame(Game):
                 # check if this layout is solvable (backtracking)
                 ret = create_solvable(cards[:], nc)
                 if ret:
+                    ret = filter(lambda x: x != 1, ret)
                     return ret
                 nc[s1.id] = nc[s2.id] = None # try another way
 
             return None
 
+        new_cards = [None]*len(self.s.rows) # None - empty stack, 1 - non-used
+        drows = dict.fromkeys(rows)     # optimization
+        for r in self.s.rows:
+            if r not in drows:
+                new_cards[r.id] = 1
+        del drows
+
         while True:
-            if time.time() - start_time > max_time:
-                print 'oops! can\'t create a solvable game'
-                return cards
-            ret = create_solvable(cards[:], [None]*len(cards))
+            ret = create_solvable(cards[:], new_cards)
             if ret:
                 ret.reverse()
                 return ret
+            if time.time() - start_time > max_time or \
+                   iters[0] <= max_iters:
+                print 'oops! can\'t create a solvable game'
+                return None
             iters = [0]
         print 'oops! can\'t create a solvable game'
-        return cards
+        return None
 
+    def _mahjonggShuffle(self):
+        talon = self.s.talon
+        rows = []
+        cards = []
+
+        for r in self.s.rows:
+            if r.cards:
+                rows.append(r)
+                cards.append(r.cards[0])
+        if not rows:
+            return
+
+        if self.app.opt.mahjongg_create_solvable == 0:
+            self.playSample('turnwaste')
+            old_state = self.enterState(self.S_FILL)
+            self.saveSeedMove()
+            for r in rows:
+                self.moveMove(1, r, talon, frames=0)
+            self.shuffleStackMove(talon)
+            for r in rows:
+                self.moveMove(1, talon, r, frames=0)
+            self.leaveState(old_state)
+            self.finishMove()
+            return
+
+        self.playSample('turnwaste')
+        old_state = self.enterState(self.S_FILL)
+        self.saveSeedMove()
+
+        new_cards = self._shuffleHook2(rows, cards)
+        if new_cards is None:
+            d = MfxMessageDialog(self.top, title=_('Warning'),
+                                 text=_('''\
+Sorry, I can\'t find
+a solvable configuration.'''),
+                                 bitmap='warning')
+            self.leaveState(old_state)
+            ##self.finishMove()
+            self.moves.current = []     # hack
+            return
+
+        # move new_cards to talon
+        for c in new_cards:
+            for r in rows:
+                if r.cards and r.cards[0] is c:
+                    self.moveMove(1, r, talon, frames=0)
+                    break
+        # deal
+        for r in rows:
+            self.moveMove(1, talon, r, frames=0)
+
+        self.leaveState(old_state)
+        self.finishMove()
+
+    def canShuffle(self):
+        return True
 
     def startGame(self):
         assert len(self.s.talon.cards) == self.NCARDS
         #self.s.talon.dealRow(rows = self.s.rows, frames = 0)
         n = 12
-        self.s.talon.dealRow(rows = self.s.rows[:self.NCARDS-n], frames = 0)
+        self.s.talon.dealRow(rows=self.s.rows[:self.NCARDS-n], frames=0)
         self.startDealSample()
-        self.s.talon.dealRow(rows = self.s.rows[self.NCARDS-n:])
+        self.s.talon.dealRow(rows=self.s.rows[self.NCARDS-n:])
         assert len(self.s.talon.cards) == 0
 
     def isGameWon(self):
@@ -763,6 +830,7 @@ class AbstractMahjonggGame(Game):
     def updateText(self):
         if self.preview > 1 or self.texts.info is None:
             return
+
         # find matching tiles
         stacks = []
         for r in self.s.rows:
@@ -781,16 +849,21 @@ class AbstractMahjonggGame(Game):
             i += 1
 
         if f == 0:
-            f = self.text_free_matching_pairs_0
-        elif f == 1:
-            f = self.text_free_matching_pairs_1
+            f = _('No Free\nMatching\nPairs')
         else:
-            f = str(f) + self.text_free_matching_pairs_2
+            f = ungettext('%d Free\nMatching\nPair',
+                          '%d Free\nMatching\nPairs',
+                          f) % f
         t = sum([len(i.cards) for i in self.s.foundations])
-        t = str(t) + self.text_tiles_removed \
-            + str(self.NCARDS - t) + self.text_tiles_remaining \
-            + f
-        self.texts.info.config(text = t)
+        r1 = ungettext('%d\nTile\nRemoved\n\n',
+                       '%d\nTiles\nRemoved\n\n',
+                       t) % t
+        r2 = ungettext('%d\nTile\nRemaining\n\n',
+                       '%d\nTiles\nRemaining\n\n',
+                       t) % (self.NCARDS - t)
+
+        t = r1 + r2 + f
+        self.texts.info.config(text=t)
 
     #
     # Mahjongg special overrides

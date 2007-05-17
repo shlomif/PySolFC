@@ -88,6 +88,7 @@ class PysolMenubarActions:
             hint = 0,
             autofaceup = 0,
             autodrop = 0,
+            shuffle = 0,
             autodeal = 0,
             quickplay = 0,
             demo = 0,
@@ -195,6 +196,8 @@ class PysolMenubarActions:
             ms.pause = 1
         if game.gameinfo.si.game_type == GI.GT_CUSTOM:
             ms.custom_game = 1
+        if game.canShuffle():
+            ms.shuffle = 1
 
     # update menu items and toolbar
     def _updateMenus(self):
@@ -235,6 +238,7 @@ class PysolMenubarActions:
         self.setToolbarState(ms.undo, "undo")
         self.setToolbarState(ms.redo, "redo")
         self.setToolbarState(ms.autodrop, "autodrop")
+        self.setToolbarState(ms.shuffle, "shuffle")
         self.setToolbarState(ms.pause, "pause")
         self.setToolbarState(ms.rules, "rules")
 
@@ -486,6 +490,11 @@ class PysolMenubarActions:
         if self._cancelDrag(): return
         ##self.game.autoPlay(autofaceup=1, autodrop=1)
         self.game.autoDrop(autofaceup=1)
+
+    def mShuffle(self, *args):
+        if self._cancelDrag(): return
+        if self.game.canShuffle():
+            self.game._mahjonggShuffle()
 
     def mStatus(self, *args):
         if self._cancelDrag(break_pause=False): return
@@ -887,6 +896,11 @@ class PysolToolbarActions:
     def mDrop(self, *args):
         if not self._busy():
             self.menubar.mDrop()
+        return 1
+
+    def mShuffle(self, *args):
+        if not self._busy():
+            self.menubar.mShuffle()
         return 1
 
     def mPause(self, *args):

@@ -43,7 +43,7 @@ from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 from pysollib.pysoltk import MfxCanvasText, MfxCanvasImage
 from pysollib.pysoltk import bind, EVENT_HANDLED, ANCHOR_NW
 from pysollib.pysoltk import MfxMessageDialog
-from pysollib.settings import TOOLKIT
+from pysollib.settings import TOOLKIT, DEBUG
 
 
 def factorial(x):
@@ -557,6 +557,7 @@ class AbstractMahjonggGame(Game):
 
 
     def _shuffleHook1(self, cards):
+        # old version; it generate a very easy layouts
         old_cards = cards[:]
         rows = self.s.rows
 
@@ -703,16 +704,16 @@ class AbstractMahjonggGame(Game):
                 if time.time() - start_time > max_time:
                     return None
 
+                # select two suitable stacks
                 while True:
-                    # create uniq pair
+                    # create a uniq pair
                     r1 = self.random.randrange(0, len(suitable_stacks))
-                    r2 = self.random.randrange(0, len(suitable_stacks)-1)
-                    if r2 >= r1:
-                        r2 += 1
+                    r2 = self.random.randrange(0, len(suitable_stacks))
+                    if r1 == r2:
+                        continue
                     if (r1, r2) not in old_pairs and (r2, r1) not in old_pairs:
                         old_pairs.append((r1, r2))
                         break
-                # select two suitable stacks
                 s1 = suitable_stacks[r1]
                 s2 = suitable_stacks[r2]
                 # check if s1 don't block s2
@@ -739,6 +740,8 @@ class AbstractMahjonggGame(Game):
 
         while True:
             ret = create_solvable(cards[:], new_cards)
+            if DEBUG:
+                print 'create_solvable time:', time.time() - start_time
             if ret:
                 ret.reverse()
                 return ret
@@ -788,9 +791,13 @@ a solvable configuration.'''),
                                  bitmap='warning')
             self.leaveState(old_state)
             ##self.finishMove()
-            self.moves.current = []     # hack
+            # hack
+            am = self.moves.current[0]
+            am.undo(self)               # restore random
+            self.moves.current = []
             return
 
+        self.stats.shuffle_moves += 1
         # move new_cards to talon
         for c in new_cards:
             for r in rows:

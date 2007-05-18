@@ -361,6 +361,7 @@ class Game:
             autoplay_moves = 0,         # number of moves
             quickplay_moves = 0,        # number of quickplay moves
             goto_bookmark_moves = 0,    # number of goto bookmark
+            shuffle_moves = 0,          # number of shuffles (Mahjongg)
             demo_updated = 0,           # did this game already update the demo stats ?
             update_time = time.time(),  # for updateTime()
             elapsed_time = 0.0,
@@ -1618,10 +1619,11 @@ class Game:
             # sorry, you lose
             return won, 0, self.U_LOST
         if (self.stats.undo_moves == 0 and
-              self.stats.goto_bookmark_moves == 0 and
+            self.stats.goto_bookmark_moves == 0 and
 ###              self.stats.quickplay_moves == 0 and
-              self.stats.highlight_piles == 0 and
-              self.stats.highlight_cards == 0):
+            self.stats.highlight_piles == 0 and
+            self.stats.highlight_cards == 0 and
+            self.stats.shuffle_moves == 0):
             # perfect !
             return won, 2, self.U_PERFECT
         return won, 1, self.U_WON

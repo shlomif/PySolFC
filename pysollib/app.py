@@ -801,6 +801,8 @@ class Application:
         del self.opt.recent_gameid[self.opt.num_recent_games:]
         self.menubar.updateRecentGamesMenu(self.opt.recent_gameid)
         self.menubar.updateFavoriteGamesMenu()
+        # hide/show "Shuffle" button
+        self.toolbar.config('shuffle', self.game.canShuffle())
         # delete intro progress bar
         if self.intro.progress:
             self.intro.progress.destroy()

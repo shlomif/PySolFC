@@ -483,8 +483,9 @@ class AllGamesFrame(Tkinter.Frame):
 
     def fillTreeview(self, player):
         if self.tree_items:
-            self.tree.delete(tuple(self.tree_items))
-            self.tree_items = []
+            return
+            #self.tree.delete(tuple(self.tree_items))
+            #self.tree_items = []
         self.formatter.writeStats(player, sort_by=self.sort_by)
         if self.dialog.buttons:
             run_button = self.dialog.buttons[0]

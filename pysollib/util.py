@@ -61,15 +61,17 @@ __all__ = ['SUITS',
 # imports
 import sys, os, re, time
 
-
-try:
-    import Image, ImageTk, ImageOps
-except ImportError:
-    Image = ImageTk = ImageOps = None
-
 # PySol imports
-from settings import DATA_DIRS
+from settings import DATA_DIRS, TOOLKIT
 from mfxutil import Image
+
+# PIL
+Image = ImageTk = ImageOps = None
+if TOOLKIT == 'tk':
+    try:
+        import Image, ImageTk, ImageOps
+    except ImportError:
+        pass
 
 
 # /***********************************************************************

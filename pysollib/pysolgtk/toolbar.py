@@ -63,6 +63,7 @@ class PysolToolbar(PysolToolbarActions):
     <separator/>
     <toolitem action='undo'/>
     <toolitem action='redo'/>
+    <toolitem action='shuffle'/>
     <toolitem action='autodrop'/>
     <toolitem action='pause'/>
     <separator/>
@@ -160,40 +161,7 @@ class PysolToolbar(PysolToolbarActions):
         # FIXME
         pass
 
-
-# /***********************************************************************
-# //
-# ************************************************************************/
-
-#%ifndef BUNDLE
-
-class TestToolbar(PysolToolbar):
-    def __init__(self, top, args):
-        from util import DataLoader
-        dir = "kde-large"
-        dir = "gnome-large"
-        if len(args) > 1: dir = args[1]
-        dir = os.path.join(os.pardir, os.pardir, "data", "toolbar", dir)
-        ##print dataloader.dir
-        PysolToolbar.__init__(self, top, dir)
-        # test some settings
-        self.updateText(player="Player\nPySol")
-        self.undo_button.set_state(STATE_INSENSITIVE)
-    def mQuit(self, *args):
-        gtk.main_quit()
-
-def toolbar_main(args):
-    from tkwrap import MfxRoot
-    root = MfxRoot()
-    root.connect("destroy", mainquit)
-    root.connect("delete_event", mainquit)
-    toolbar = TestToolbar(root, args)
-    root.show_all()
-    mainloop()
-    return 0
-
-if __name__ == '__main__':
-    sys.exit(toolbar_main(sys.argv))
-
-#%endif
+    def config(self, w, v):
+        # FIXME
+        pass
 

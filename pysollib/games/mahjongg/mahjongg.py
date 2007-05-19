@@ -29,7 +29,6 @@ __all__ = []
 # Imports
 import sys, re
 import time
-from gettext import ungettext
 #from tkFont import Font
 
 # PySol imports
@@ -838,6 +837,8 @@ a solvable configuration.'''),
         if self.preview > 1 or self.texts.info is None:
             return
 
+        from gettext import ungettext
+
         # find matching tiles
         stacks = []
         for r in self.s.rows:
@@ -867,7 +868,7 @@ a solvable configuration.'''),
                        t) % t
         r2 = ungettext('%d\nTile\nRemaining\n\n',
                        '%d\nTiles\nRemaining\n\n',
-                       t) % (self.NCARDS - t)
+                       self.NCARDS - t) % (self.NCARDS - t)
 
         t = r1 + r2 + f
         self.texts.info.config(text=t)

@@ -634,8 +634,8 @@ class AbstractMahjonggGame(Game):
         start_time = time.time()
         iters = [0]
         # limitations
-        max_time = 2.0                  # seconds
-        max_iters = len(cards)
+        max_time = 5.0                  # seconds
+        max_iters = 2*len(cards)
 
         def is_suitable(stack, cards):
             for s in stack.blockmap.below:
@@ -690,10 +690,12 @@ class AbstractMahjonggGame(Game):
                     break
 
             # find suitable stacks
-            suitable_stacks = []
-            for r in rows:
-                if nc[r.id] is None and is_suitable(r, nc):
-                    suitable_stacks.append(r)
+##             suitable_stacks = []
+##             for r in rows:
+##                 if nc[r.id] is None and is_suitable(r, nc):
+##                     suitable_stacks.append(r)
+            suitable_stacks = [r for r in rows
+                               if nc[r.id] is None and is_suitable(r, nc)]
 
             old_pairs = []
             i = factorial(len(suitable_stacks))/2/factorial(len(suitable_stacks)-2)

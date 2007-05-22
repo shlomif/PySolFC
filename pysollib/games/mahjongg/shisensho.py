@@ -380,7 +380,10 @@ class AbstractShisenGame(AbstractMahjonggGame):
     def updateText(self):
         if self.preview > 1 or self.texts.info is None:
             return
+
+        from gettext import ungettext
         game = self.app.game
+
         if 0:
             # find matching tiles
             stacks = game.s.rows
@@ -395,18 +398,23 @@ class AbstractShisenGame(AbstractMahjonggGame):
                     if r.acceptsCards(t, t.cards):
                         f += 1
             if f == 0:
-                f = self.text_free_matching_pairs_0
-            elif f == 1:
-                f = self.text_free_matching_pairs_1
+                f = _('No Free\nMatching\nPairs')
             else:
-                f = str(f) + self.text_free_matching_pairs_2
+                f = ungettext('%d Free\nMatching\nPair',
+                              '%d Free\nMatching\nPairs',
+                              f) % f
         else:
             f = ''
 
         t = len(self.s.foundations[0].cards)
-        t = str(t) + self.text_tiles_removed \
-            + str(self.NCARDS - t) + self.text_tiles_remaining \
-            + f
+        r1 = ungettext('%d\nTile\nRemoved\n\n',
+                       '%d\nTiles\nRemoved\n\n',
+                       t) % t
+        r2 = ungettext('%d\nTile\nRemaining\n\n',
+                       '%d\nTiles\nRemaining\n\n',
+                       self.NCARDS - t) % (self.NCARDS - t)
+
+        t = r1 + r2 + f
         self.texts.info.config(text = t)
 
 

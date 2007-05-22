@@ -383,6 +383,7 @@ class PysolMenubar(PysolMenubarActions):
         menu.add_command(label=n_("&Undo"), command=self.mUndo, accelerator="Z")
         menu.add_command(label=n_("&Redo"), command=self.mRedo, accelerator="R")
         menu.add_command(label=n_("Redo &all"), command=self.mRedoAll)
+        menu.add_command(label=n_("Shu&ffle tiles"), command=self.mShuffle, accelerator="F")
 
         menu.add_separator()
         submenu = MfxMenu(menu, label=n_("&Set bookmark"))

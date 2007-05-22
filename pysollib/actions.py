@@ -212,6 +212,7 @@ class PysolMenubarActions:
         self.setMenuState(ms.undo, "edit.undo")
         self.setMenuState(ms.redo, "edit.redo")
         self.setMenuState(ms.redo, "edit.redoall")
+        self.setMenuState(ms.shuffle, "edit.shuffletiles")
         self.updateBookmarkMenuState()
         self.setMenuState(ms.restart, "edit.restart")
         self.setMenuState(ms.custom_game, "edit.editcurrentgame")

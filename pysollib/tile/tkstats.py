@@ -447,8 +447,7 @@ class AllGamesFrame(Tkinter.Frame):
                                        self.dialog.heading_tkfont,
                                        self.CHAR_W, self.CHAR_H)
         self.createHeader(player)
-        bind(self.tree, '<Map>',
-             lambda e, player=player: self.fillTreeview(player))
+        bind(self.tree, '<Map>', self.mapEvent)
 
     def getSelectedGame(self):
         sel = self.tree.selection()
@@ -468,6 +467,10 @@ class AllGamesFrame(Tkinter.Frame):
         else:
             run_button.config(state='disabled')
 
+    def mapEvent(self, *args):
+        if not self.tree_items:
+            self.fillTreeview(self.player)
+
     def headerClick(self, column):
         if column == '#0':
             sort_by = 'name'
@@ -483,9 +486,9 @@ class AllGamesFrame(Tkinter.Frame):
 
     def fillTreeview(self, player):
         if self.tree_items:
-            return
-            #self.tree.delete(tuple(self.tree_items))
-            #self.tree_items = []
+            #return
+            self.tree.delete(tuple(self.tree_items))
+            self.tree_items = []
         self.formatter.writeStats(player, sort_by=self.sort_by)
         if self.dialog.buttons:
             run_button = self.dialog.buttons[0]

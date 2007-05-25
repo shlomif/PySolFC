@@ -47,7 +47,6 @@ from mfxutil import Image, ImageTk
 from mfxutil import destruct, Struct, SubclassResponsibility
 from mfxutil import uclock, usleep
 from mfxutil import format_time
-from util import Timer
 from settings import PACKAGE, TOOLKIT, TOP_TITLE
 from settings import VERSION, VERSION_TUPLE, FC_VERSION
 from settings import DEBUG
@@ -152,7 +151,6 @@ class Game:
 
     # main constructor
     def create(self, app):
-        ##timer = Timer("Game.create")
         old_busy = self.busy
         self.__createCommon(app)
         self.setCursor(cursor=CURSOR_WATCH)
@@ -161,9 +159,7 @@ class Game:
         self.top.wm_iconname(PACKAGE + " - " + self.getTitleName())
         # create the game
         if self.app.intro.progress: self.app.intro.progress.update(step=1)
-        ##print timer
         self.createGame()
-        ##print timer
         # set some defaults
         self.sg.openstacks = filter(lambda s: s.cap.max_accept >= s.cap.min_accept, self.sg.openstacks)
         self.sg.hp_stacks = filter(lambda s: s.cap.max_move >= 2, self.sg.dropstacks)
@@ -191,13 +187,11 @@ class Game:
         # optimize regions
         self.optimizeRegions()
         # create cards
-        ##print timer
         if not self.cards:
             self.cards = self.createCards(progress=self.app.intro.progress)
         self.initBindings()
         ##self.top.bind('<ButtonPress>', self.top._sleepEvent)
         ##self.top.bind('<3>', self.top._sleepEvent)
-        ##print timer
         # update display properties
         self.top.wm_geometry("")        # cancel user-specified geometry
         self.canvas.setInitialSize(self.width, self.height)
@@ -213,7 +207,6 @@ class Game:
         #
         self.stats.update_time = time.time()
         self.busy = old_busy
-        ##print timer
         self.showHelp()                 # just in case
         ##self.reallocateStacks()
 
@@ -298,13 +291,11 @@ class Game:
         )
 
     def createPreview(self, app):
-        ##timer = Timer("Game.createPreview")
         old_busy = self.busy
         self.__createCommon(app)
         self.preview = max(1, self.canvas.preview)
         # create game
         self.createGame()
-        ##print timer
         # set some defaults
         self.sg.openstacks = filter(lambda s: s.cap.max_accept >= s.cap.min_accept, self.sg.openstacks)
         self.sg.hp_stacks = filter(lambda s: s.cap.max_move >= 2, self.sg.dropstacks)
@@ -437,7 +428,6 @@ class Game:
         ##print self.random, self.random.__dict__
         self.shuffle()
         assert len(self.s.talon.cards) == self.gameinfo.ncards
-        ##print self.app.starttimer
         for stack in self.allstacks:
             stack.updateText()
         self.updateText()
@@ -725,7 +715,6 @@ class Game:
 
     # Create all cards for the game.
     def createCards(self, progress=None):
-        ##timer = Timer("Game.createCards")
         gi = self.gameinfo
         pstep = 0
         if progress:
@@ -752,7 +741,6 @@ class Game:
                 if progress: progress.update(step=pstep)
         if progress: progress.update(percent=100)
         assert len(cards) == gi.ncards
-        ##print timer
         return cards
 
     def _createCard(self, id, deck, suit, rank, x, y):

@@ -65,20 +65,12 @@ if TOOLKIT == 'tk':
         import JpegImagePlugin
         import BmpImagePlugin
         import PpmImagePlugin
-        Image._initialized=2
+        Image._initialized = 2
 
-if os.name == "mac":
-    # macfs module is deprecated, consider using Carbon.File or Carbon.Folder
-    import macfs, MACFS
 
 # /***********************************************************************
 # // exceptions
 # ************************************************************************/
-
-# work around a Mac problem
-##EnvError = EnvironmentError
-EnvError = (IOError, OSError, os.error,)
-
 
 class SubclassResponsibility(Exception):
     pass
@@ -143,10 +135,6 @@ def gethomedir():
 def getprefdir(package, home=None):
     if os.name == "nt":
         return win32_getprefdir(package)
-    if os.name == "mac":
-        vrefnum, dirid = macfs.FindFolder(MACFS.kOnSystemDisk, MACFS.kPreferencesFolderType, 0)
-        fss = macfs.FSSpec((vrefnum, dirid, ":" + "PySolFC"))
-        return fss.as_pathname()
     if home is None:
         home = gethomedir()
     return os.path.join(home, ".PySolFC")

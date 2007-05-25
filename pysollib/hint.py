@@ -35,11 +35,11 @@
 
 
 # imports
-import os, sys
+import os
 import time
 
 # PySol imports
-from settings import DEBUG, USE_FREECELL_SOLVER, FCS_COMMAND
+from settings import DEBUG, FCS_COMMAND
 from mfxutil import destruct
 from util import KING
 
@@ -253,17 +253,17 @@ class AbstractHint(HintInterface):
     def _canDropAllCards(self, from_stack, stacks, stackcards):
         assert from_stack not in stacks
         return 0
-        # FIXME: this does not account for cards which are dropped herein
-        cards = pile[:]
-        cards.reverse()
-        for card in cards:
-            for s in stacks:
-                if s is not from_stack:
-                    if s.acceptsCards(from_stack, [card]):
-                        break
-            else:
-                return 0
-        return 1
+##         # FIXME: this does not account for cards which are dropped herein
+##         cards = pile[:]
+##         cards.reverse()
+##         for card in cards:
+##             for s in stacks:
+##                 if s is not from_stack:
+##                     if s.acceptsCards(from_stack, [card]):
+##                         break
+##             else:
+##                 return 0
+##         return 1
 
     #
     # misc. constants

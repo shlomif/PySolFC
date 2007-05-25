@@ -392,8 +392,9 @@ class AbstractMahjonggGame(Game):
             left_margin = l.XM + 4*cardw+fdxx+d_x + l.XM
         else:
             left_margin = l.XM
-        w = left_margin + (max_tx+2)*cardw/2+dxx+d_x + l.XM+ti_width+l.XM
-        #   left margin |          tiles             | right margin
+        tableau_width = (max_tx+2)*cardw/2+dxx+d_x
+        right_margin = l.XM+ti_width+l.XM
+        w = left_margin + tableau_width + right_margin
         h = l.YM + dyy + (max_ty + 2) * cardh / 2 + d_y + l.YM
         if show_removed:
             h = max(h, l.YM+fdyy+cardh*9+d_y+l.YM)

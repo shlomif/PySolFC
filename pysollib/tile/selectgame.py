@@ -118,16 +118,21 @@ class SelectGameData(SelectDialogTreeData):
         select_mahjongg_game = lambda gi: gi.si.game_type == GI.GT_MAHJONGG
         gg = None
         if filter(select_mahjongg_game, self.all_games_gi):
-            gg = SelectGameNode(None, _("Mahjongg Games"), select_mahjongg_game)
+            gg = SelectGameNode(None, _("Mahjongg Games"),
+                                select_mahjongg_game)
         g.append(gg)
         if g[0]:
-            s_by_type = SelectGameNode(None, _("French games"), tuple(g[0]), expanded=1)
+            s_by_type = SelectGameNode(None, _("French games"),
+                                       tuple(g[0]), expanded=1)
         if g[1]:
-            s_oriental = SelectGameNode(None, _("Oriental Games"), tuple(g[1]))
+            s_oriental = SelectGameNode(None, _("Oriental Games"),
+                                        tuple(g[1]))
         if g[2]:
-            s_special = SelectGameNode(None, _("Special Games"), tuple(g[2]))
+            s_special = SelectGameNode(None, _("Special Games"),
+                                       tuple(g[2]))
         if g[3]:
-            s_original = SelectGameNode(None, _("Original Games"), tuple(g[3]))
+            s_original = SelectGameNode(None, _("Original Games"),
+                                        tuple(g[3]))
 ##         if g[4]:
 ##             s_contrib = SelectGameNode(None, "Contributed Games", tuple(g[4]))
         if g[5]:
@@ -141,8 +146,8 @@ class SelectGameData(SelectDialogTreeData):
             name = _(name)
             gg.append(SelectGameNode(None, name, select_func))
         if 1 and gg:
-            s_by_compatibility = SelectGameNode(None, _("by Compatibility"), tuple(gg))
-            pass
+            s_by_compatibility = SelectGameNode(None, _("by Compatibility"),
+                                                tuple(gg))
         #
         s_by_pysol_version, gg = None, []
         for name, games in GI.GAMES_BY_PYSOL_VERSION:
@@ -152,62 +157,93 @@ class SelectGameData(SelectDialogTreeData):
             name = _("New games in v. ") + name
             gg.append(SelectGameNode(None, name, select_func))
         if 1 and gg:
-            s_by_pysol_version = SelectGameNode(None, _("by PySol version"), tuple(gg))
-            pass
+            s_by_pysol_version = SelectGameNode(None, _("by PySol version"),
+                                                tuple(gg))
         #
         ul_alternate_names = UserList(list(app.gdb.getGamesTuplesSortedByAlternateName()))
         #
         self.rootnodes = filter(None, (
-            #SelectGameNode(None, "All Games", lambda gi: 1, expanded=0),
             SelectGameNode(None, _("All Games"), None, expanded=0),
             SelectGameNode(None, _("Alternate Names"), ul_alternate_names),
-            SelectGameNode(None, _("Popular Games"), lambda gi: gi.si.game_flags & GI.GT_POPULAR, expanded=0),
+            SelectGameNode(None, _("Popular Games"),
+                           lambda gi: gi.si.game_flags & GI.GT_POPULAR),
+            s_by_type,
             s_mahjongg,
             s_oriental,
             s_special,
-            s_by_type,
+            SelectGameNode(None, _("Custom Games"),
+                           lambda gi: gi.si.game_type == GI.GT_CUSTOM),
             SelectGameNode(None, _('by Skill Level'), (
-                SelectGameNode(None, _('Luck only'), lambda gi: gi.skill_level == GI.SL_LUCK),
-                SelectGameNode(None, _('Mostly luck'), lambda gi: gi.skill_level == GI.SL_MOSTLY_LUCK),
-                SelectGameNode(None, _('Balanced'), lambda gi: gi.skill_level == GI.SL_BALANCED),
-                SelectGameNode(None, _('Mostly skill'), lambda gi: gi.skill_level == GI.SL_MOSTLY_SKILL),
-                SelectGameNode(None, _('Skill only'), lambda gi: gi.skill_level == GI.SL_SKILL),
+                SelectGameNode(None, _('Luck only'),
+                               lambda gi: gi.skill_level == GI.SL_LUCK),
+                SelectGameNode(None, _('Mostly luck'),
+                               lambda gi: gi.skill_level == GI.SL_MOSTLY_LUCK),
+                SelectGameNode(None, _('Balanced'),
+                               lambda gi: gi.skill_level == GI.SL_BALANCED),
+                SelectGameNode(None, _('Mostly skill'),
+                               lambda gi: gi.skill_level == GI.SL_MOSTLY_SKILL),
+                SelectGameNode(None, _('Skill only'),
+                               lambda gi: gi.skill_level == GI.SL_SKILL),
                 )),
             SelectGameNode(None, _("by Game Feature"), (
                 SelectGameNode(None, _("by Number of Cards"), (
-                    SelectGameNode(None, _("32 cards"), lambda gi: gi.si.ncards == 32),
-                    SelectGameNode(None, _("48 cards"), lambda gi: gi.si.ncards == 48),
-                    SelectGameNode(None, _("52 cards"), lambda gi: gi.si.ncards == 52),
-                    SelectGameNode(None, _("64 cards"), lambda gi: gi.si.ncards == 64),
-                    SelectGameNode(None, _("78 cards"), lambda gi: gi.si.ncards == 78),
-                    SelectGameNode(None, _("104 cards"), lambda gi: gi.si.ncards == 104),
-                    SelectGameNode(None, _("144 cards"), lambda gi: gi.si.ncards == 144),
-                    SelectGameNode(None, _("Other number"), lambda gi: gi.si.ncards not in (32, 48, 52, 64, 78, 104, 144)),
+                    SelectGameNode(None, _("32 cards"),
+                                   lambda gi: gi.si.ncards == 32),
+                    SelectGameNode(None, _("48 cards"),
+                                   lambda gi: gi.si.ncards == 48),
+                    SelectGameNode(None, _("52 cards"),
+                                   lambda gi: gi.si.ncards == 52),
+                    SelectGameNode(None, _("64 cards"),
+                                   lambda gi: gi.si.ncards == 64),
+                    SelectGameNode(None, _("78 cards"),
+                                   lambda gi: gi.si.ncards == 78),
+                    SelectGameNode(None, _("104 cards"),
+                                   lambda gi: gi.si.ncards == 104),
+                    SelectGameNode(None, _("144 cards"),
+                                   lambda gi: gi.si.ncards == 144),
+                    SelectGameNode(None, _("Other number"),
+                                   lambda gi: gi.si.ncards not in (32, 48, 52, 64, 78, 104, 144)),
                 )),
                 SelectGameNode(None, _("by Number of Decks"), (
-                    SelectGameNode(None, _("1 deck games"), lambda gi: gi.si.decks == 1),
-                    SelectGameNode(None, _("2 deck games"), lambda gi: gi.si.decks == 2),
-                    SelectGameNode(None, _("3 deck games"), lambda gi: gi.si.decks == 3),
-                    SelectGameNode(None, _("4 deck games"), lambda gi: gi.si.decks == 4),
+                    SelectGameNode(None, _("1 deck games"),
+                                   lambda gi: gi.si.decks == 1),
+                    SelectGameNode(None, _("2 deck games"),
+                                   lambda gi: gi.si.decks == 2),
+                    SelectGameNode(None, _("3 deck games"),
+                                   lambda gi: gi.si.decks == 3),
+                    SelectGameNode(None, _("4 deck games"),
+                                   lambda gi: gi.si.decks == 4),
                 )),
                 SelectGameNode(None, _("by Number of Redeals"), (
-                    SelectGameNode(None, _("No redeal"), lambda gi: gi.si.redeals == 0),
-                    SelectGameNode(None, _("1 redeal"), lambda gi: gi.si.redeals == 1),
-                    SelectGameNode(None, _("2 redeals"), lambda gi: gi.si.redeals == 2),
-                    SelectGameNode(None, _("3 redeals"), lambda gi: gi.si.redeals == 3),
-                    SelectGameNode(None, _("Unlimited redeals"), lambda gi: gi.si.redeals == -1),
-##                    SelectGameNode(None, "Variable redeals", lambda gi: gi.si.redeals == -2),
-                    SelectGameNode(None, _("Other number of redeals"), lambda gi: gi.si.redeals not in (-1, 0, 1, 2, 3)),
+                    SelectGameNode(None, _("No redeal"),
+                                   lambda gi: gi.si.redeals == 0),
+                    SelectGameNode(None, _("1 redeal"),
+                                   lambda gi: gi.si.redeals == 1),
+                    SelectGameNode(None, _("2 redeals"),
+                                   lambda gi: gi.si.redeals == 2),
+                    SelectGameNode(None, _("3 redeals"),
+                                   lambda gi: gi.si.redeals == 3),
+                    SelectGameNode(None, _("Unlimited redeals"),
+                                   lambda gi: gi.si.redeals == -1),
+##                     SelectGameNode(None, "Variable redeals",
+##                                    lambda gi: gi.si.redeals == -2),
+                    SelectGameNode(None, _("Other number of redeals"),
+                                   lambda gi: gi.si.redeals not in (-1, 0, 1, 2, 3)),
                 )),
                 s_by_compatibility,
             )),
             s_by_pysol_version,
             SelectGameNode(None, _("Other Categories"), (
-                SelectGameNode(None, _("Games for Children (very easy)"), lambda gi: gi.si.game_flags & GI.GT_CHILDREN),
-                SelectGameNode(None, _("Games with Scoring"),  lambda gi: gi.si.game_flags & GI.GT_SCORE),
-                SelectGameNode(None, _("Games with Separate Decks"),  lambda gi: gi.si.game_flags & GI.GT_SEPARATE_DECKS),
-                SelectGameNode(None, _("Open Games (all cards visible)"), lambda gi: gi.si.game_flags & GI.GT_OPEN),
-                SelectGameNode(None, _("Relaxed Variants"),  lambda gi: gi.si.game_flags & GI.GT_RELAXED),
+                SelectGameNode(None, _("Games for Children (very easy)"),
+                               lambda gi: gi.si.game_flags & GI.GT_CHILDREN),
+                SelectGameNode(None, _("Games with Scoring"),
+                               lambda gi: gi.si.game_flags & GI.GT_SCORE),
+                SelectGameNode(None, _("Games with Separate Decks"),
+                               lambda gi: gi.si.game_flags & GI.GT_SEPARATE_DECKS),
+                SelectGameNode(None, _("Open Games (all cards visible)"),
+                               lambda gi: gi.si.game_flags & GI.GT_OPEN),
+                SelectGameNode(None, _("Relaxed Variants"),
+                               lambda gi: gi.si.game_flags & GI.GT_RELAXED),
             )),
             s_original,
             s_contrib,

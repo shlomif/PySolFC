@@ -38,7 +38,7 @@
 import os, locale
 
 # PySol imports
-from mfxutil import EnvError, SubclassResponsibility
+from mfxutil import SubclassResponsibility
 from mfxutil import Struct, openURL
 from pysolrandom import constructRandom
 from settings import PACKAGE, PACKAGE_URL
@@ -565,7 +565,7 @@ class PysolMenubarActions:
             file = open(filename, "a")
             a = FileStatsFormatter(self.app, file)
             write_method(a, player)
-        except EnvError, ex:
+        except EnvironmentError, ex:
             if file: file.close()
             d = MfxExceptionDialog(self.top, ex,
                                    text=_("Error while writing to file"))
@@ -755,18 +755,6 @@ class PysolMenubarActions:
             self.app.opt.timeouts['highlight_piles'] = d.highlight_piles_timeout
             self.app.opt.timeouts['highlight_cards'] = d.highlight_cards_timeout
             self.app.opt.timeouts['highlight_samerank'] = d.highlight_samerank_timeout
-
-##     def mOptSave(self, *args):
-##         if self._cancelDrag(break_pause=False): return
-##         try:
-##             self.app.saveOptions()
-##         except Exception, ex:
-##             d = MfxExceptionDialog(self.top, ex,
-##                                    text=_("Error while saving options"))
-##         else:
-##             # tell the player where their config files reside
-##             d = MfxMessageDialog(self.top, title=PACKAGE+_(" Info"), bitmap="info",
-##                                  text=_("Options were saved to\n\n") + self.app.fn.opt)
 
 
     #

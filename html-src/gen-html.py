@@ -10,8 +10,9 @@ pysollib_dir = '../'
 import sys, os, re
 from glob import glob
 
-import gettext
-gettext.install('pysol', 'locale', unicode=True)
+import __builtin__
+__builtin__._ = lambda x: x
+__builtin__.n_ = lambda x: x
 
 try: os.mkdir('html')
 except: pass

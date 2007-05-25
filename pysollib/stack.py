@@ -108,7 +108,7 @@ import types
 
 # PySol imports
 from mfxutil import Struct, kwdefault, SubclassResponsibility
-from mfxutil import Image, ImageTk, ImageOps
+from mfxutil import Image, ImageTk
 from util import ACE, KING
 from util import ANY_SUIT, ANY_COLOR, ANY_RANK, NO_RANK
 from pysoltk import EVENT_HANDLED, EVENT_PROPAGATE

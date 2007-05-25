@@ -37,7 +37,6 @@
 # imports
 
 # PySol imports
-from mfxutil import EnvError
 from settings import PACKAGE, PACKAGE_URL, TOOLKIT, FC_VERSION
 from pysoltk import make_help_toplevel
 from pysoltk import MfxMessageDialog
@@ -130,7 +129,7 @@ def help_html(app, document, dir_, top=None):
         if help_html_index is None:
             document, dir_ = "index.html", "html"
             help_html_index = app.dataloader.findFile(document, dir_)
-    except EnvError:
+    except EnvironmentError:
         d = MfxMessageDialog(app.top, title=PACKAGE + _(" HTML Problem"),
                              text=_("Cannot find help document\n") + document,
                              bitmap="warning")

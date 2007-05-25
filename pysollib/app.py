@@ -37,16 +37,15 @@
 # imports
 import sys, os, re
 import traceback
+import ConfigParser
 
 # PySol imports
 from mfxutil import destruct, Struct
 from mfxutil import pickle, unpickle, UnpicklingError
-from mfxutil import getusername, gethomedir, getprefdir, EnvError
+from mfxutil import getusername, gethomedir, getprefdir
 from mfxutil import latin1_to_ascii, print_err
-from mfxutil import Image
-from util import Timer
 from util import CARDSET, IMAGE_EXTENSIONS
-from settings import PACKAGE, VERSION, VERSION_TUPLE, WIN_SYSTEM
+from settings import PACKAGE, VERSION_TUPLE, WIN_SYSTEM
 from resource import CSI, CardsetConfig, Cardset, CardsetManager
 from resource import Tile, TileManager
 from resource import Sample, SampleManager
@@ -72,7 +71,6 @@ from pysoltk import HTMLViewer
 from pysoltk import TOOLBAR_BUTTONS
 from pysoltk import destroy_find_card_dialog
 from pysoltk import destroy_solver_dialog
-from pysoltk import connect_game_solver_dialog
 from help import help_about, destroy_help_html
 
 
@@ -82,9 +80,80 @@ from help import help_about, destroy_help_html
 
 
 class Options:
+    GENERAL_OPTIONS = [
+        ('player', 'str'),
+        ('confirm', 'bool'),
+        ('update_player_stats', 'bool'),
+        ('autofaceup', 'bool'),
+        ('autodrop', 'bool'),
+        ('autodeal', 'bool'),
+        ('quickplay', 'bool'),
+        ('undo', 'bool'),
+        ('bookmarks', 'bool'),
+        ('hint', 'bool'),
+        ('highlight_piles', 'bool'),
+        ('highlight_cards', 'bool'),
+        ('highlight_samerank', 'bool'),
+        ('highlight_not_matching', 'bool'),
+        ('mahjongg_show_removed', 'bool'),
+        ('mahjongg_create_solvable', 'int'),
+        ('shisen_show_hint', 'bool'),
+        ('animations', 'int'),
+        ('redeal_animation', 'bool'),
+        ('win_animation', 'bool'),
+        ('shadow', 'bool'),
+        ('shade', 'bool'),
+        ('shrink_face_down', 'bool'),
+        ('shade_filled_stacks', 'bool'),
+        ('demo_logo', 'bool'),
+        ('tile_theme', 'str'),
+        ('default_tile_theme', 'str'),
+        ('toolbar', 'int'),
+        ('toolbar_style', 'str'),
+        ('toolbar_relief', 'str'),
+        ('toolbar_compound', 'str'),
+        ('toolbar_size', 'int'),
+        ('statusbar', 'bool'),
+        ('num_cards', 'bool'),
+        ('helpbar', 'bool'),
+        ('num_recent_games', 'int'),
+        ('last_gameid', 'int'),
+        ('game_holded', 'int'),
+        ('wm_maximized', 'bool'),
+        ('splashscreen', 'bool'),
+        ('mouse_type', 'str'),
+        ('mouse_undo', 'bool'),
+        ('negative_bottom', 'bool'),
+        ('randomize_place', 'bool'),
+        ('save_cardsets', 'bool'),
+        ('dragcursor', 'bool'),
+        ('save_games_geometry', 'bool'),
+        ('sound', 'bool'),
+        ('sound_mode', 'int'),
+        ('sound_sample_volume', 'int'),
+        ('sound_music_volume', 'int'),
+        ('tabletile_name', 'str'),
+        #('toolbar_vars', 'list'),
+        #('recent_gameid', 'list'),
+        #('favorite_gameid', 'list'),
+        ]
+
+
     def __init__(self):
-        self.version_tuple = VERSION_TUPLE
-        self.saved = 0
+        config = self._config = ConfigParser.ConfigParser()
+        for section in (
+            'general',
+            'sound_samples',
+            'fonts',
+            'colors',
+            'timeouts',
+            'cardsets',
+            'games_geometry',
+            ):
+            config.add_section(section)
+
+        self.version_tuple = VERSION_TUPLE # XXX
+        self.saved = 0                  # XXX
         # options menu:
         self.player = _("Unknown")
         self.confirm = True
@@ -112,20 +181,10 @@ class Options:
         self.shade_filled_stacks = True
         self.demo_logo = True
         self.tile_theme = 'default'
-        if WIN_SYSTEM == 'win32':
-            self.tile_theme = self.default_tile_theme = 'winnative'
-            if sys.getwindowsversion() >= (5, 1): # xp
-                self.tile_theme = 'xpnative'
-        elif WIN_SYSTEM == 'x11':
-            self.tile_theme = 'clam'
-            self.default_tile_theme = 'default'
-        elif WIN_SYSTEM == 'aqua':
-            self.tile_theme = self.default_tile_theme = 'aqua'
+        self.default_tile_theme = 'default'
         self.toolbar = 1       # 0 == hide, 1,2,3,4 == top, bottom, lef, right
         ##self.toolbar_style = 'default'
         self.toolbar_style = 'bluecurve'
-        if WIN_SYSTEM == 'win32':
-            self.toolbar_style = 'crystal'
         self.toolbar_relief = 'flat'
         self.toolbar_compound = 'none'  # icons only
         self.toolbar_size = 0
@@ -135,6 +194,10 @@ class Options:
         self.statusbar = True
         self.num_cards = False
         self.helpbar = False
+        self.splashscreen = True
+        self.mouse_type = 'drag-n-drop' # or 'sticky-mouse' or 'point-n-click'
+        self.mouse_undo = False         # use mouse for undo/redo
+        self.negative_bottom = True
         # sound
         self.sound = True
         self.sound_mode = 1
@@ -164,22 +227,18 @@ class Options:
             'gamewon'       : False,
             }
         # fonts
-        self.fonts = {"default"        : None,
-                      #"default"        : ("helvetica", 12),
-                      "sans"           : ("times",     12), # for html
-                      "fixed"          : ("courier",   12), # for html & log
-                      "small"          : ("helvetica", 12),
-                      "canvas_default" : ("helvetica", 12),
-                      #"canvas_card"    : ("helvetica", 12),
-                      "canvas_fixed"   : ("courier",   12),
-                      "canvas_large"   : ("helvetica", 16),
-                      "canvas_small"   : ("helvetica", 10),
-                      }
-        if WIN_SYSTEM == 'win32':
-            self.fonts["sans"] = ("times new roman", 12)
-            self.fonts["fixed"] = ("courier new", 10)
-        elif WIN_SYSTEM == 'x11':
-            self.fonts["sans"] = ("helvetica", 12)
+        self.fonts = {
+            "default"        : None,
+            #"default"        : ("helvetica", 12),
+            "sans"           : ("times",     12), # for html
+            "fixed"          : ("courier",   12), # for html & log
+            "small"          : ("helvetica", 12),
+            "canvas_default" : ("helvetica", 12),
+            #"canvas_card"    : ("helvetica", 12),
+            "canvas_fixed"   : ("courier",   12),
+            "canvas_large"   : ("helvetica", 16),
+            "canvas_small"   : ("helvetica", 10),
+            }
         # colors
         self.colors = {
             'table':        '#008200',
@@ -205,38 +264,57 @@ class Options:
         self.num_recent_games = 15
         self.recent_gameid = []
         self.favorite_gameid = []
-        self.last_gameid = 0        # last game played
-        #self.last_player = None     # last player
-        #self.last_save_dir = None   # last directory for load/save
-        self.game_holded = 0
+        self.last_gameid = 0            # last game played
+        self.game_holded = 0            # gameid or 0
         self.wm_maximized = 0
         self.save_games_geometry = False
-        self.games_geometry = {}   # saved games geometry (gameid: (width, height))
+        self.games_geometry = {} # saved games geometry (gameid: (width, height))
         #
-        self.splashscreen = True
-        self.mouse_type = 'drag-n-drop' # or 'sticky-mouse' or 'point-n-click'
-        self.mouse_undo = False    # use mouse for undo/redo
-        self.negative_bottom = True
         self.randomize_place = False
         self.save_cardsets = True
+        self.dragcursor = True
         # defaults & constants
         self.setDefaults()
         self.setConstants()
 
     def setDefaults(self, top=None):
+        # toolbar
+        if WIN_SYSTEM == 'win32':
+            self.toolbar_style = 'crystal'
+        # fonts
+        if WIN_SYSTEM == 'win32':
+            self.fonts["sans"] = ("times new roman", 12)
+            self.fonts["fixed"] = ("courier new", 10)
+        elif WIN_SYSTEM == 'x11':
+            self.fonts["sans"] = ("helvetica", 12)
+        # tile theme
+        if WIN_SYSTEM == 'win32':
+            self.tile_theme = self.default_tile_theme = 'winnative'
+            if sys.getwindowsversion() >= (5, 1): # xp
+                self.tile_theme = 'xpnative'
+        elif WIN_SYSTEM == 'x11':
+            self.tile_theme = 'clam'
+            self.default_tile_theme = 'default'
+        elif WIN_SYSTEM == 'aqua':
+            self.tile_theme = self.default_tile_theme = 'aqua'
+        # cardsets
         sw, sh, sd = 0, 0, 8
         if top:
-            sw, sh, sd = top.winfo_screenwidth(), top.winfo_screenheight(), top.winfo_screendepth()
+            sw, sh, sd = (top.winfo_screenwidth(),
+                          top.winfo_screenheight(),
+                          top.winfo_screendepth())
         if sd > 8:
-            self.tabletile_name = "Nostalgy.gif"  # basename
+            self.tabletile_name = "Nostalgy.gif" # basename
         else:
             self.tabletile_name = None
         #
-        #c = "Oxymoron"
         c = "Standard"
         if sw < 800 or sh < 600:
             c = "2000"
+        #if sw > 1024 and sh > 768:
+        #    c = 'Dondorf'
         self.cardset = {
+            # game_type:        (cardset_name, back_file)
             0:                  (c, ""),
             CSI.TYPE_FRENCH:    (c, ""),
             CSI.TYPE_HANAFUDA:  ("Kintengu", ""),
@@ -252,15 +330,174 @@ class Options:
 
     # not changeable options
     def setConstants(self):
-        self.dragcursor = True
-        self.randomize_place = False
-        self.mahjongg_create_solvable = 2
+##         self.dragcursor = True
+##         self.randomize_place = False
+        pass
 
     def copy(self):
         opt = Options()
         opt.__dict__.update(self.__dict__)
         opt.setConstants()
         return opt
+
+    def save(self, filename):
+        config = self._config
+
+        # general
+        for key, t in self.GENERAL_OPTIONS:
+            val = getattr(self, key)
+            config.set('general', key, val)
+
+        recent_gameid = ' '.join([str(i) for i in self.recent_gameid])
+        config.set('general', 'recent_gameid', recent_gameid)
+
+        favorite_gameid = ' '.join([str(i) for i in self.favorite_gameid])
+        config.set('general', 'favorite_gameid', favorite_gameid)
+
+        visible_buttons = [b for b in self.toolbar_vars
+                           if self.toolbar_vars[b]]
+        visible_buttons = ' '.join(visible_buttons)
+        config.set('general', 'visible_buttons', visible_buttons)
+
+        # sound_samples
+        for key, val in self.sound_samples.items():
+            config.set('sound_samples', key, val)
+
+        # fonts
+        for key, val in self.fonts.items():
+            if val is None:
+                continue
+            val = list(val)
+            val[0] = val[0].replace(' ', '_') # XXX: hack
+            val = ' '.join([str(i) for i in val])
+            config.set('fonts', key, val)
+
+        # colors
+        for key, val in self.colors.items():
+            config.set('colors', key, val)
+
+        # timeouts
+        for key, val in self.timeouts.items():
+            config.set('timeouts', key, val)
+
+        # cardsets
+        for key, val in self.cardset.items():
+            val = list(val)
+            if val[1] == '':
+                val[1] = 'none'
+            val = ' '.join(val)
+            config.set('cardsets', str(key), val)
+
+        # games_geometry
+        for key, val in self.games_geometry.items():
+            val = ' '.join(val)
+            config.set('games_geometry', str(key), val)
+
+        config.write(file(filename, 'w'))
+        #config.write(sys.stdout)
+
+    def _getOption(self, section, key, t):
+        config = self._config
+        try:
+            if t == 'bool':
+                val = config.getboolean(section, key)
+            elif t == 'int':
+                val = config.getint(section, key)
+            elif t == 'float':
+                val = config.getfloat(section, key)
+            else:
+                val = config.get(section, key)
+        except ConfigParser.NoOptionError:
+            val = None
+        except:
+            traceback.print_exc()
+            val = None
+        return val
+
+    def load(self, filename):
+        config = self._config
+        config.read(filename)
+
+        # general
+        for key, t in self.GENERAL_OPTIONS:
+            val = self._getOption('general', key, t)
+            if val is not None:
+                setattr(self, key, val)
+
+        recent_gameid = self._getOption('general', 'recent_gameid', 'str')
+        if recent_gameid is not None:
+            try:
+                self.recent_gameid = [int(i) for i in recent_gameid.split()]
+            except:
+                traceback.print_exc()
+
+        favorite_gameid = self._getOption('general', 'favorite_gameid', 'str')
+        if favorite_gameid is not None:
+            try:
+                self.favorite_gameid = [int(i) for i in favorite_gameid.split()]
+            except:
+                traceback.print_exc()
+
+        visible_buttons = self._getOption('general', 'visible_buttons', 'str')
+        if visible_buttons is not None:
+            visible_buttons = visible_buttons.split()
+            for key in self.toolbar_vars:
+                self.toolbar_vars[key] = (key in visible_buttons)
+
+        # sound_samples
+        for key in self.sound_samples:
+            val = self._getOption('sound_samples', key, 'bool')
+            if val is not None:
+                self.sound_samples[key] = val
+
+        # fonts
+        for key in self.fonts:
+            val = self._getOption('fonts', key, 'str')
+            if val is not None:
+                val = val.split()
+                try:
+                    val[0] = val[0].replace('_', ' ')
+                    val[1] = int(val[1])
+                except:
+                    traceback.print_exc()
+                else:
+                    val = tuple(val)
+                    self.fonts[key] = val
+
+        # colors
+        for key in self.colors:
+            val = self._getOption('colors', key, 'str')
+            if val is not None:
+                self.colors[key] = val
+
+        # timeouts
+        for key in self.timeouts:
+            val = self._getOption('timeouts', key, 'float')
+            if val is not None:
+                self.timeouts[key] = val
+
+        # cardsets
+        for key in self.cardset:
+            val = self._getOption('cardsets', str(key), 'str')
+            if val is not None:
+                try:
+                    i = val.rindex(' ')
+                    if val[i+1:] == 'none':
+                        val = (val[:i], '')
+                    else:
+                        val = [val[:i], val[i+1:]]
+                    self.cardset[int(key)] = val
+                except:
+                    traceback.print_exc()
+
+        # games_geometry
+        for key, val in config.items('games_geometry'):
+            try:
+                val = [int(i) for i in val.split()]
+                assert len(val) == 2
+                self.games_geometry[int(key)] = val
+            except:
+                traceback.print_exc()
 
 
 # /***********************************************************************
@@ -519,7 +756,6 @@ class Comments:
 
 class Application:
     def __init__(self):
-        ##self.starttimer = Timer("Application.__init__")
         self.gdb = GAME_DB
         self.opt = Options()
         self.startup_opt = self.opt.copy()
@@ -581,7 +817,7 @@ class Application:
         # file names
         self.fn = Struct(
             opt      = os.path.join(self.dn.config, "options.dat"),
-            opt_conf = os.path.join(self.dn.config, "options.conf"),
+            opt_cfg  = os.path.join(self.dn.config, "options.cfg"),
             stats    = os.path.join(self.dn.config, "statistics.dat"),
             holdgame = os.path.join(self.dn.config, "holdgame.dat"),
             comments = os.path.join(self.dn.config, "comments.dat"),
@@ -867,9 +1103,9 @@ class Application:
             s = self.top.wm_state()
             ##print "wm_save_state", s
             if s == "zoomed": # Windows only
-                self.opt.wm_maximized = 1
+                self.opt.wm_maximized = True
             elif s == "normal":
-                self.opt.wm_maximized = 0
+                self.opt.wm_maximized = False
 
     def wm_withdraw(self):
         if self.intro.progress:
@@ -1217,16 +1453,9 @@ Please select a %s type %s.
 
     def loadOptions(self):
         self.opt.setDefaults(self.top)
-        if not os.path.exists(self.fn.opt):
+        if not os.path.exists(self.fn.opt_cfg):
             return
-        opt = unpickle(self.fn.opt)
-        if opt:
-            if DEBUG >= 6:
-                import pprint
-                print '======== options ========'
-                pprint.pprint(opt.__dict__)
-                print '========================='
-            self.opt.__dict__.update(opt.__dict__)
+        self.opt.load(self.fn.opt_cfg)
         self.opt.setConstants()
 
     def loadStatistics(self):
@@ -1247,11 +1476,11 @@ Please select a %s type %s.
 
     def __saveObject(self, obj, fn):
         obj.version_tuple = VERSION_TUPLE
-        obj.saved = obj.saved + 1
+        obj.saved += 1
         pickle(obj, fn, protocol=-1)
 
     def saveOptions(self):
-        self.__saveObject(self.opt, self.fn.opt)
+        self.opt.save(self.fn.opt_cfg)
 
     def saveStatistics(self):
         self.__saveObject(self.stats, self.fn.stats)
@@ -1596,7 +1825,7 @@ Please select a %s type %s.
                         except Exception, err:
                             ##traceback.print_exc()
                             pass
-            except EnvError, ex:
+            except EnvironmentError, ex:
                 pass
         # register cardsets
         for obj in found:
@@ -1645,7 +1874,7 @@ Please select a %s type %s.
                     if key not in t:
                         t[key] = 1
                         found.append((n, tile))
-            except EnvError, ex:
+            except EnvironmentError, ex:
                 pass
         # register tiles
         found.sort()
@@ -1686,7 +1915,7 @@ Please select a %s type %s.
                     if key not in t:
                         t[key] = 1
                         found.append((n, obj))
-            except EnvError, ex:
+            except EnvironmentError, ex:
                 pass
         # register songs
         found.sort()

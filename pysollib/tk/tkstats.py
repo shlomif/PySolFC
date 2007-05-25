@@ -457,10 +457,7 @@ class AllGames_StatsDialogScrolledCanvas(MfxScrolledCanvas):
 
 
 class AllGames_StatsDialog(MfxDialog):
-    # for font "canvas_fixed"
-    #CHAR_W, CHAR_H = 7, 16
-    #if os.name == "mac": CHAR_W = 6
-    #
+
     YVIEW = 0
     FONT_TYPE = "default"
 

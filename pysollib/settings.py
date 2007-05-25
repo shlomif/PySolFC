@@ -66,8 +66,6 @@ if os.name == 'posix':
         ]
 if os.name == 'nt':
     pass
-if os.name == 'mac':
-    pass
 
 TOP_SIZE = 10
 TOP_TITLE = n_('Top 10')

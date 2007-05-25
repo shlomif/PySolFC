@@ -54,12 +54,11 @@ __all__ = ['SUITS',
            'VARIABLE_REDEALS',
            'CARDSET',
            'IMAGE_EXTENSIONS',
-           'Timer',
            'DataLoader',
            ]
 
 # imports
-import sys, os, re, time
+import sys, os
 
 # PySol imports
 from settings import DATA_DIRS, TOOLKIT
@@ -114,25 +113,6 @@ if 1 and os.name == "nt":
 
 if Image:
     IMAGE_EXTENSIONS = (".png", ".gif", ".jpg", ".ppm", ".bmp")
-
-
-# /***********************************************************************
-# // simple benchmarking
-# ************************************************************************/
-
-class Timer:
-    def __init__(self, msg = ""):
-        self.msg = msg
-        self.clock = time.time
-        if os.name == "nt":
-            self.clock = time.clock
-        self.start = self.clock()
-    def reset(self):
-        self.start = self.clock()
-    def get(self):
-        return self.clock() - self.start
-    def __repr__(self):
-        return "%-20s %6.3f seconds" % (self.msg, self.clock() - self.start)
 
 
 # /***********************************************************************

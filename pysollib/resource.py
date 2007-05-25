@@ -38,7 +38,7 @@
 import os, glob
 
 # PySol imports
-from mfxutil import Struct, KwStruct, EnvError
+from mfxutil import Struct, KwStruct
 from settings import DEBUG
 
 
@@ -129,7 +129,7 @@ class ResourceManager:
                 dir = os.path.normpath(dir)
                 if dir and os.path.isdir(dir) and dir not in result:
                     result.append(dir)
-        except EnvError, ex:
+        except EnvironmentError, ex:
             pass
 
     def getSearchDirs(self, app, search, env=None):
@@ -156,7 +156,7 @@ class ResourceManager:
                             self._addDir(result, d)
                     else:
                         self._addDir(result, os.path.join(dir, s))
-                except EnvError, ex:
+                except EnvironmentError, ex:
                     pass
         if DEBUG >= 6:
             print "getSearchDirs", env, search, "->", result

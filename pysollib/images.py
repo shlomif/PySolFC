@@ -42,7 +42,7 @@ from settings import TOOLKIT
 from mfxutil import Image, ImageTk
 
 # Toolkit imports
-from pysoltk import tkversion, loadImage, copyImage, createImage, shadowImage
+from pysoltk import loadImage, copyImage, createImage, shadowImage
 
 
 # /***********************************************************************
@@ -408,10 +408,8 @@ class SubsampledImages(Images):
         #
         CW, CH = self.CARDW, self.CARDH
         for im in images._shade:
-            if im is None or tkversion < (8, 3, 0, 0):
-                self._shade.append(None)
-            else:
-                self._shade.append(copyImage(im, 0, 0, CW, CH))
+            ##self._shade.append(None)
+            self._shade.append(copyImage(im, 0, 0, CW, CH))
 
     def getShadow(self, ncards):
         return None

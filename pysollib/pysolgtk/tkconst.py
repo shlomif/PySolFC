@@ -42,17 +42,12 @@ from gtk import ANCHOR_NW, ANCHOR_SW, ANCHOR_NE, ANCHOR_SE
 # // constants
 # ************************************************************************/
 
-# (major version, minor version, micro version, patchlevel)
-tkversion = (0, 0, 0, 0)
-
 EVENT_HANDLED   = 1
 EVENT_PROPAGATE = 0
 
 CURSOR_DRAG     = gdk.HAND1
 CURSOR_WATCH    = gdk.WATCH
 CURSOR_DOWN_ARROW = gdk.SB_DOWN_ARROW
-CURSOR_CAN_MOVE = gdk.HAND2
-CURSOR_NO_MOVE = gdk.DOT
 
 TOOLBAR_BUTTONS = (
     "new",

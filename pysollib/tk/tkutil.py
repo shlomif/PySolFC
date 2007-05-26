@@ -65,9 +65,6 @@ from tkFont import Font
 from pysollib.mfxutil import Image, ImageTk, ImageOps
 from pysollib.settings import PACKAGE, WIN_SYSTEM
 
-# Toolkit imports
-from tkconst import tkversion
-
 
 # /***********************************************************************
 # // window manager util

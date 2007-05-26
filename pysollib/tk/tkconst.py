@@ -33,15 +33,11 @@
 ##
 ##---------------------------------------------------------------------------##
 
-__all__ = ['tkversion',
-           'TK_DASH_PATCH',
-           'EVENT_HANDLED',
+__all__ = ['EVENT_HANDLED',
            'EVENT_PROPAGATE',
            'CURSOR_DRAG',
            'CURSOR_WATCH',
            'CURSOR_DOWN_ARROW',
-           'CURSOR_CAN_MOVE',
-           'CURSOR_NO_MOVE',
            'ANCHOR_CENTER',
            'ANCHOR_N',
            'ANCHOR_NW',
@@ -63,29 +59,12 @@ import Tkinter
 # // constants
 # ************************************************************************/
 
-# (major version, minor version, micro version, patchlevel)
-tkversion = (8, 0, 0, 0)
-try:
-    m = str(Tkinter._tkinter.TK_VERSION).split(".")
-    if m:
-        m = map(int, m) + 4*[0]
-        tkversion = tuple(m[:4])
-    del m
-except:
-    pass
-
-# experimental
-TK_DASH_PATCH = 0
-
-
 EVENT_HANDLED   = "break"
 EVENT_PROPAGATE = None
 
 CURSOR_DRAG     = "hand1"
 CURSOR_WATCH    = "watch"
 CURSOR_DOWN_ARROW = 'sb_down_arrow'
-CURSOR_CAN_MOVE = 'hand2'
-CURSOR_NO_MOVE = 'dot'
 
 ANCHOR_CENTER = Tkinter.CENTER
 ANCHOR_N      = Tkinter.N
@@ -115,6 +94,7 @@ TOOLBAR_BUTTONS = (
     "undo",
     "redo",
     "autodrop",
+    "shuffle",
     "pause",
     "statistics",
     "rules",

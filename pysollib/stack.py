@@ -112,7 +112,7 @@ from mfxutil import Image, ImageTk
 from util import ACE, KING
 from util import ANY_SUIT, ANY_COLOR, ANY_RANK, NO_RANK
 from pysoltk import EVENT_HANDLED, EVENT_PROPAGATE
-from pysoltk import CURSOR_DRAG, CURSOR_DOWN_ARROW, CURSOR_CAN_MOVE, CURSOR_NO_MOVE
+from pysoltk import CURSOR_DRAG, CURSOR_DOWN_ARROW
 from pysoltk import ANCHOR_NW, ANCHOR_SE
 from pysoltk import bind, unbind_destroy
 from pysoltk import after, after_idle, after_cancel
@@ -1089,8 +1089,6 @@ class Stack:
         return self.__defaultClickEventHandler(event, self.shiftrightclickHandler)
 
     def __motionEventHandler(self, event):
-        ##if not self.game.drag.stack:
-        ##    self._setMotionCursor(event)
         if not self.game.drag.stack or self is not self.game.drag.stack:
             return EVENT_PROPAGATE
         if self.game.demo:
@@ -1435,20 +1433,6 @@ class Stack:
                             image=tkshade, anchor=ANCHOR_NW,
                             group=self.group)
         drag.shadows.append(im)
-
-##     def _setMotionCursor(self, event):
-##         if not event:
-##             return
-##         self.cursor_changed = True
-##         i = self._findCard(event)
-##         if i < 0 or not self.canMoveCards(self.cards[i:]):
-##             if self.current_cursor != CURSOR_NO_MOVE:
-##                 self.game.canvas.config(cursor=CURSOR_NO_MOVE)
-##                 self.current_cursor = CURSOR_NO_MOVE
-##         else:
-##             if self.current_cursor != CURSOR_CAN_MOVE:
-##                 self.game.canvas.config(cursor=CURSOR_CAN_MOVE)
-##                 self.current_cursor = CURSOR_CAN_MOVE
 
     def _stopDrag(self):
         drag = self.game.drag

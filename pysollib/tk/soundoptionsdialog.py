@@ -180,7 +180,7 @@ class SoundOptionsDialog(MfxDialog):
     def mDone(self, button):
         if button == 0 or button == 1:
             self.app.opt.sound = self.sound.get()
-            self.app.opt.sound_mode = self.sound_mode.get()
+            self.app.opt.sound_mode = int(self.sound_mode.get())
             self.app.opt.sound_sample_volume = self.sample_volume.get()
             self.app.opt.sound_music_volume = self.music_volume.get()
             for n, t, v in self.samples:

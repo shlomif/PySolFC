@@ -297,17 +297,18 @@ class Options:
             self.default_tile_theme = 'default'
         elif WIN_SYSTEM == 'aqua':
             self.tile_theme = self.default_tile_theme = 'aqua'
-        # cardsets
+        #
         sw, sh, sd = 0, 0, 8
         if top:
             sw, sh, sd = (top.winfo_screenwidth(),
                           top.winfo_screenheight(),
                           top.winfo_screendepth())
+        # bg
         if sd > 8:
             self.tabletile_name = "Nostalgy.gif" # basename
         else:
             self.tabletile_name = None
-        #
+        # cardsets
         c = "Standard"
         if sw < 800 or sh < 600:
             c = "2000"
@@ -390,11 +391,14 @@ class Options:
 
         # games_geometry
         for key, val in self.games_geometry.items():
-            val = ' '.join(val)
+            val = ' '.join([str(i) for i in val])
             config.set('games_geometry', str(key), val)
 
         config.write(file(filename, 'w'))
         #config.write(sys.stdout)
+
+    def printOptError(self, key):
+        pass
 
     def _getOption(self, section, key, t):
         config = self._config
@@ -410,6 +414,7 @@ class Options:
         except ConfigParser.NoOptionError:
             val = None
         except:
+            print >> sys.stderr, 'Load option error:', key
             traceback.print_exc()
             val = None
         return val
@@ -1038,7 +1043,7 @@ class Application:
         self.menubar.updateRecentGamesMenu(self.opt.recent_gameid)
         self.menubar.updateFavoriteGamesMenu()
         # hide/show "Shuffle" button
-        self.toolbar.config('shuffle', self.game.canShuffle())
+        ##self.toolbar.config('shuffle', self.game.canShuffle() and self.opt.toolbar_vars['shuffle'])
         # delete intro progress bar
         if self.intro.progress:
             self.intro.progress.destroy()
@@ -1453,6 +1458,14 @@ Please select a %s type %s.
 
     def loadOptions(self):
         self.opt.setDefaults(self.top)
+
+        if os.path.exists(self.fn.opt):
+            # for backwards compatibility
+            opt = unpickle(self.fn.opt)
+            if opt:
+                self.opt.__dict__.update(opt.__dict__)
+            os.remove(self.fn.opt)
+
         if not os.path.exists(self.fn.opt_cfg):
             return
         self.opt.load(self.fn.opt_cfg)

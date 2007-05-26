@@ -41,7 +41,6 @@ __all__ = ['Card']
 from pysollib.acard import AbstractCard
 
 # Toolkit imports
-from tkconst import TK_DASH_PATCH
 from tkcanvas import MfxCanvasGroup, MfxCanvasImage
 
 
@@ -190,18 +189,12 @@ class _TwoImageCard(_HideableCard):
 
     def showFace(self, unhide=1):
         if not self.face_up:
-            if TK_DASH_PATCH:
-                self.__back.config(state="hidden")
-                self.__face.config(state="normal")
             self.__face.tkraise()
             self.tkraise(unhide)
             self.face_up = 1
 
     def showBack(self, unhide=1):
         if self.face_up:
-            if TK_DASH_PATCH:
-                self.__face.config(state="hidden")
-                self.__back.config(state="normal")
             self.__back.tkraise()
             self.tkraise(unhide)
             self.face_up = 0

@@ -101,6 +101,7 @@ class Options:
         ('animations', 'int'),
         ('redeal_animation', 'bool'),
         ('win_animation', 'bool'),
+        ('flip_animation', 'bool'),
         ('shadow', 'bool'),
         ('shade', 'bool'),
         ('shrink_face_down', 'bool'),
@@ -175,6 +176,7 @@ class Options:
         self.animations = 2             # default to Fast
         self.redeal_animation = True
         self.win_animation = True
+        self.flip_animation = True
         self.shadow = True
         self.shade = True
         self.shrink_face_down = True
@@ -1464,11 +1466,13 @@ Please select a %s type %s.
             opt = unpickle(self.fn.opt)
             if opt:
                 self.opt.__dict__.update(opt.__dict__)
-            os.remove(self.fn.opt)
+            try:
+                os.remove(self.fn.opt)
+            except:
+                pass
 
-        if not os.path.exists(self.fn.opt_cfg):
-            return
-        self.opt.load(self.fn.opt_cfg)
+        if os.path.exists(self.fn.opt_cfg):
+            self.opt.load(self.fn.opt_cfg)
         self.opt.setConstants()
 
     def loadStatistics(self):

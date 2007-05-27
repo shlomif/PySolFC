@@ -238,34 +238,39 @@ class CustomGame(Game):
 
     def startGame(self):
 
+        min_cards = max(len(self.s.rows), 8)
+        anim_frames = -1
+
         def deal(rows, flip, frames, max_cards):
+            if frames == 0:
+                if len(self.s.talon.cards) <= min_cards or \
+                       max_cards <= min_cards:
+                    frames = anim_frames
+                    self.startDealSample()
             if max_cards <= 0:
-                return 0
-            return self.s.talon.dealRowAvail(rows=rows, flip=flip,
-                                             frames=frames)
+                return frames, 0
+            max_cards -= self.s.talon.dealRowAvail(rows=rows, flip=flip,
+                                                   frames=frames)
+            return frames, max_cards
+
 
         frames = 0
         s = get_settings(self.SETTINGS)
         if isinstance(self.s.talon, InitialDealTalonStack):
-            max_cards = 52 * s['decks'] - len(self.s.rows)
+            max_cards = 52 * s['decks']
         else:
-            max_cards = s['deal_max_cards'] - len(self.s.rows)
-        if self.s.waste:
-            max_cards -= 1
-        anim_frames = -1
+            max_cards = s['deal_max_cards']
 
         # deal to foundations
         if s['deal_found']:
-            max_cards -= deal(self.s.foundations, True, frames, max_cards)
+            frames, max_cards = deal(self.s.foundations,
+                                     True, frames, max_cards)
 
         # deal to reserves
         n = s['deal_to_reserves']
         for i in range(n):
-            max_cards -= deal(self.s.reserves[:max_cards],
-                              True, frames, max_cards)
-            if frames == 0 and len(self.s.talon.cards) < 16:
-                frames = anim_frames
-                self.startDealSample()
+            frames, max_cards = deal(self.s.reserves[:max_cards],
+                                     True, frames, max_cards)
 
         # deal to rows
         face_down = s['deal_face_down']
@@ -273,37 +278,35 @@ class CustomGame(Game):
         if s['deal_type'] == 'triangle':
             # triangle
             for i in range(1, len(self.s.rows)):
+                if max_rows <= 1:
+                    break
                 flip = (face_down <= 0)
-                max_cards -= deal(self.s.rows[i:i+max_cards],
-                                  flip, frames, max_cards)
+                mc = max_cards - len(self.s.rows)
+                frames, max_cards = deal(self.s.rows[i:i+mc],
+                                         flip, frames, max_cards)
                 face_down -= 1
                 max_rows -= 1
-                if max_rows == 1:
-                    break
-                if frames == 0 and len(self.s.talon.cards) < 16:
-                    frames = anim_frames
-                    self.startDealSample()
 
         else:
             # rectangle
             for i in range(max_rows-1):
                 flip = (face_down <= 0)
-                max_cards -= deal(self.s.rows[:max_cards],
-                                  flip, frames, max_cards)
+                mc = max_cards - len(self.s.rows)
+                frames, max_cards = deal(self.s.rows[:mc],
+                                         flip, frames, max_cards)
                 face_down -= 1
-                if frames == 0 and len(self.s.talon.cards) < 16:
-                    frames = anim_frames
-                    self.startDealSample()
-        if frames == 0:
-            self.startDealSample()
-        if s['deal_face_down'] + s['deal_face_up'] > 0:
-            self.s.talon.dealRowAvail(frames=anim_frames)
+
         if isinstance(self.s.talon, InitialDealTalonStack):
             while self.s.talon.cards:
-                self.s.talon.dealRowAvail(frames=anim_frames)
+                frames, max_cards = deal(self.s.rows, True, frames, max_cards)
+        else:
+            if max_rows > 0:
+                deal(self.s.rows, True, frames, len(self.s.rows))
 
         # deal to waste
         if self.s.waste:
+            if frames == 0:
+                self.startDealSample()
             self.s.talon.dealCards()
 
 

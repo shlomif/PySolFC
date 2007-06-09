@@ -168,13 +168,6 @@ FoundDir = WizSetting(
     label = _('Direction:'),
     var_name = 'found_dir',
     )
-FoundWrap = WizSetting(
-    values_map = (0, 1),
-    default = 0,
-    label = _('Wrapping:'),
-    var_name = 'found_wrap',
-    widget = 'check',
-    )
 FoundMaxMove = WizSetting(
     values_map = ((n_('None'), 0,), (n_('Top card'), 1)),
     default = n_('Top card'),
@@ -328,7 +321,6 @@ WizardWidgets = (
     FoundType,
     FoundBaseCard,
     FoundDir,
-    ##FoundWrap,
     FoundMaxMove,
     FoundEqual,
     _('Tableau'),

@@ -145,7 +145,8 @@ class Canfield(Game):
                 tx, ty, ta, tf = l.getTextAttr(None, "ss")
                 tx, ty = x + tx, y + ty
             font = self.app.getFont("canvas_default")
-            self.texts.info = MfxCanvasText(self.canvas, tx, ty, anchor=ta, font=font)
+            self.texts.info = MfxCanvasText(self.canvas, tx, ty,
+                                            anchor=ta, font=font)
         x, y = l.XM, l.YM + l.YS + l.TEXT_HEIGHT
         s.reserves.append(self.ReserveStack_Class(x, y, self))
         s.reserves[0].CARD_YOFFSET = yoffset

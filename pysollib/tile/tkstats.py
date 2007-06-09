@@ -374,7 +374,6 @@ class TreeFormatter(PysolStatsFormatter):
         for result in self.getStatResults(player, sort_by):
             # result == [name, won+lost, won, lost, time, moves, perc, id]
             t1, t2, t3, t4, t5, t6, t7, t8 = result
-            t1 = _(t1)                  # game name
             id = self.tree.insert(None, "end", text=t1,
                                   values=(t2, t3, t4, t5, t6, t7))
             self.parent_window.tree_items.append(id)
@@ -486,7 +485,6 @@ class AllGamesFrame(Tkinter.Frame):
 
     def fillTreeview(self, player):
         if self.tree_items:
-            #return
             self.tree.delete(tuple(self.tree_items))
             self.tree_items = []
         self.formatter.writeStats(player, sort_by=self.sort_by)
@@ -667,7 +665,7 @@ class _TopDialog(MfxDialog):
                'padding': (4, 1),
                }
         frame = Tkinter.Frame(**cnf)
-        frame.pack(expand=Tkinter.YES, fill=Tkinter.BOTH, padx=10, pady=10)
+        frame.pack(expand=True, fill='both', padx=10, pady=10)
         frame.columnconfigure(0, weight=1)
         cnf['master'] = frame
         cnf['text'] = _('N')

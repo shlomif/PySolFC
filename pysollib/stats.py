@@ -73,18 +73,21 @@ class PysolStatsFormatter:
         g = sort_func(player=player)
         twon, tlost, tgames, ttime, tmoves = 0, 0, 0, 0, 0
         for id in g:
-            name = app.getGameTitleName(id)
-            #won, lost = app.stats.getStats(player, id)
             won, lost, time, moves = app.stats.getFullStats(player, id)
-            twon, tlost = twon + won, tlost + lost
-            ttime, tmoves = ttime+time, tmoves+moves
-            if won + lost > 0: perc = "%.1f" % (100.0 * won / (won + lost))
-            else: perc = "0.0"
             if won > 0 or lost > 0 or id == app.game.id:
+                # yield only played games
+                name = app.getGameTitleName(id)
+                twon, tlost = twon + won, tlost + lost
+                ttime, tmoves = ttime+time, tmoves+moves
+                if won + lost > 0:
+                    perc = "%.1f" % (100.0 * won / (won + lost))
+                else:
+                    perc = "0.0"
                 t = format_time(time)
                 m = str(round(moves, 1))
                 yield [name, won+lost, won, lost, t, m, perc, id]
-                tgames = tgames + 1
+                tgames += 1
+        # summary
         won, lost = twon, tlost
         if won + lost > 0:
             if won > 0:
@@ -94,7 +97,8 @@ class PysolStatsFormatter:
                 time = format_time(0)
                 moves = 0
             perc = "%.1f" % (100.0*won/(won+lost))
-        else: perc = "0.0"
+        else:
+            perc = "0.0"
         self.total_games = len(g)
         self.played_games = tgames
         self.won_games = won

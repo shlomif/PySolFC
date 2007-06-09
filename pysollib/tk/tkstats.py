@@ -143,7 +143,7 @@ class SingleGame_StatsDialog(MfxDialog):
     def _createChartInit(self, text):
         w, h = self.tab_x[-1]+20, self.tab_y[-1]+20
         c = Tkinter.Canvas(self.top_frame, width=w, height=h)
-        c.pack(side=Tkinter.TOP, fill=Tkinter.BOTH, expand=0, padx=20, pady=10)
+        c.pack(side='top', fill='both', expand=False, padx=20, pady=10)
         self.canvas = c
         ##self.fg = c.cget("insertbackground")
         self.fg = c.option_get('foreground', '') or c.cget("insertbackground")
@@ -411,7 +411,6 @@ class CanvasFormatter(PysolStatsFormatter):
         y += 2*self.h
         for result in self.getStatResults(player, sort_by):
             gameid = result.pop()
-            result[0] = _(result[0]) # game name
             self.pstats(y, result, gameid)
             y += self.h
         #
@@ -489,7 +488,7 @@ class AllGames_StatsDialog(MfxDialog):
         #
         self.sc = AllGames_StatsDialogScrolledCanvas(top_frame,
                                        width=kw.width, height=kw.height)
-        self.sc.pack(fill=Tkinter.BOTH, expand=1, padx=kw.padx, pady=kw.pady)
+        self.sc.pack(fill='both', expand=True, padx=kw.padx, pady=kw.pady)
         #
         self.nodes = {}
         self.canvas = self.sc.canvas
@@ -532,7 +531,7 @@ class AllGames_StatsDialog(MfxDialog):
         self.fillCanvas(self.player, self.title)
 
     def singleClick(self, event=None):
-        id = self.canvas.find_withtag(Tkinter.CURRENT)
+        id = self.canvas.find_withtag('current')
         if not id:
             return
         ##print 'singleClick:', id, self.nodes.get(id[0])
@@ -657,7 +656,7 @@ class _TopDialog(MfxDialog):
                'highlightbackground': 'black',
                }
         frame = Tkinter.Frame(**cnf)
-        frame.pack(expand=Tkinter.YES, fill=Tkinter.BOTH, padx=10, pady=10)
+        frame.pack(expand=True, fill='both', padx=10, pady=10)
         frame.columnconfigure(0, weight=1)
         cnf['master'] = frame
         cnf['text'] = _('N')
@@ -718,7 +717,7 @@ class Top_StatsDialog(MfxDialog):
         self.createBitmaps(top_frame, kw)
 
         frame = Tkinter.Frame(top_frame)
-        frame.pack(expand=Tkinter.YES, fill=Tkinter.BOTH, padx=10, pady=10)
+        frame.pack(expand=True, fill='both', padx=10, pady=10)
         frame.columnconfigure(0, weight=1)
 
         if (player in app.stats.games_stats and

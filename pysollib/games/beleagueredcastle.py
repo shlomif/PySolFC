@@ -101,7 +101,8 @@ class StreetsAndAlleys(Game):
             tx, ty, ta, tf = l.getTextAttr(None, "ss")
             tx, ty = x+tx, y-l.YS+ty
             font = self.app.getFont("canvas_default")
-            self.texts.info = MfxCanvasText(self.canvas, tx, ty, anchor=ta, font=font)
+            self.texts.info = MfxCanvasText(self.canvas, tx, ty,
+                                            anchor=ta, font=font)
         for x in (x0, x2):
             y = l.YM+l.YS*int(reserves!=0)
             for i in range(4):

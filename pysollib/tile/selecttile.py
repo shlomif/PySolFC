@@ -134,11 +134,10 @@ class SelectTileDialogWithPreview(MfxDialog):
         font = app.getFont("default")
         self.tree = self.Tree_Class(self, top_frame, key=key,
                                     default=kw.default,
-                                    font=font,
-                                    width=w1)
-        self.tree.frame.pack(side="left", fill=Tkinter.BOTH, expand=0, padx=kw.padx, pady=kw.pady)
+                                    font=font, width=w1)
+        self.tree.frame.pack(side="left", fill='both', expand=False, padx=kw.padx, pady=kw.pady)
         self.preview = MfxScrolledCanvas(top_frame, width=w2, hbar=0, vbar=0)
-        self.preview.pack(side="right", fill=Tkinter.BOTH, expand=1,
+        self.preview.pack(side="right", fill='both', expand=True,
                           padx=kw.padx, pady=kw.pady)
         self.preview.canvas.preview = 1
         # create a preview of the current state
@@ -173,15 +172,19 @@ class SelectTileDialogWithPreview(MfxDialog):
                 self.key = self.tree.selection_key
             self.tree.n_expansions = 1  # save xyview in any case
         if button == 10:        # "Solid color..."
-            c = tkColorChooser.askcolor(master=self.top,
-                                        initialcolor=self.table_color,
-                                        title=_("Select table color"))
-            if c and c[1]:
-                color = str(c[1])
-                self.key = color.lower()
-                self.table_color = self.key
-                self.tree.updateSelection(self.key)
-                self.updatePreview(self.key)
+            try:
+                c = tkColorChooser.askcolor(master=self.top,
+                                            initialcolor=self.table_color,
+                                            title=_("Select table color"))
+            except Tkinter.TclError:
+                pass
+            else:
+                if c and c[1]:
+                    color = str(c[1])
+                    self.key = color.lower()
+                    self.table_color = self.key
+                    self.tree.updateSelection(self.key)
+                    self.updatePreview(self.key)
             return
         MfxDialog.mDone(self, button)
 

@@ -164,8 +164,7 @@ class ToolbarLabel(Tkinter.Message):
 
 class PysolToolbar(PysolToolbarActions):
 
-    def __init__(self, top, dir, size=0, relief=Tkinter.FLAT,
-                 compound=Tkinter.NONE):
+    def __init__(self, top, dir, size=0, relief='flat', compound='none'):
 
         PysolToolbarActions.__init__(self)
 
@@ -364,7 +363,7 @@ class PysolToolbar(PysolToolbarActions):
                 padx, pady = TkSettings.vertical_toolbar_padding
                 pack_func(row=1, column=2, sticky='ns', padx=padx, pady=pady)
             # set orient
-            orient = side in (1, 2) and Tkinter.HORIZONTAL or Tkinter.VERTICAL
+            orient = side in (1, 2) and 'horizontal' or 'vertical'
             self._setOrient(orient)
         self.side = side
         return 1
@@ -467,6 +466,6 @@ class PysolToolbar(PysolToolbarActions):
         if self.compound == 'text':
             return 0
         size = self.size
-        comp = int(self.compound in (Tkinter.TOP, Tkinter.BOTTOM))
+        comp = int(self.compound in ('top', 'bottom'))
         return int((size+comp) != 0)
 

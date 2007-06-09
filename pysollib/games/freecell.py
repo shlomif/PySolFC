@@ -526,14 +526,9 @@ class OceanTowers(TripleFreecell):
 # // KingCell
 # ************************************************************************/
 
-class KingCell_RowStack(RK_RowStack):
-    def canMoveCards(self, cards):
-        max_move = getNumberOfFreeStacks(self.game.s.reserves) + 1
-        return len(cards) <= max_move and RK_RowStack.canMoveCards(self, cards)
-
 class KingCell(FreeCell):
-    Solver_Class = FreeCellSolverWrapper(esf='kings')
-    RowStack_Class = StackWrapper(KingCell_RowStack, base_rank=KING)
+    Solver_Class = FreeCellSolverWrapper(sbb='rank', esf='kings')
+    RowStack_Class = StackWrapper(SuperMoveRK_RowStack, base_rank=KING)
 
     shallHighlightMatch = Game._shallHighlightMatch_RK
 

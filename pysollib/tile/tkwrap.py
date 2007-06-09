@@ -34,9 +34,6 @@
 ##---------------------------------------------------------------------------##
 
 __all__ = ['TclError',
-           'MfxCheckMenuItem',
-           'MfxRadioMenuItem',
-           'StringVar',
            'MfxRoot']
 
 # imports
@@ -51,31 +48,6 @@ from pysollib.settings import PACKAGE, VERSION
 from pysollib.macosx.appSupport import setupApp
 from tkutil import after_idle
 from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
-
-# /***********************************************************************
-# // menubar
-# ************************************************************************/
-
-class MfxCheckMenuItem(Tkinter.BooleanVar):
-    def __init__(self, menubar, path=None):
-        Tkinter.BooleanVar.__init__(self)
-    def set(self, value):
-        if not value or value == "false": value = 0
-        ##print value, type(value)
-        Tkinter.BooleanVar.set(self, value)
-
-
-class MfxRadioMenuItem(Tkinter.IntVar):
-    def __init__(self, menubar, path=None):
-        Tkinter.IntVar.__init__(self)
-    def set(self, value):
-        Tkinter.IntVar.set(self, value)
-
-
-## BooleanVar = Tkinter.BooleanVar
-## IntVar = Tkinter.IntVar
-
-StringVar = Tkinter.StringVar
 
 
 # /***********************************************************************

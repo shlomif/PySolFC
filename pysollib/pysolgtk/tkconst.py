@@ -57,6 +57,7 @@ TOOLBAR_BUTTONS = (
     "undo",
     "redo",
     "autodrop",
+    "shuffle",
     "pause",
     "statistics",
     "rules",

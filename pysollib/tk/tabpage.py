@@ -19,7 +19,7 @@ class PageTab(Frame):
     """
     def __init__(self,parent):
         Frame.__init__(self, parent, borderwidth=2, relief=MYRIDGE)
-        self.button=Radiobutton(self, padx=5, pady=5, takefocus=FALSE,
+        self.button=Radiobutton(self, padx=5, pady=5, takefocus=0,
                                 indicatoron=FALSE, highlightthickness=0,
                                 borderwidth=0, selectcolor=self.cget('bg'))
         self.button.pack()

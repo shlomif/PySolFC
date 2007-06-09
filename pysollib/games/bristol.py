@@ -213,7 +213,8 @@ class Dover(Bristol):
             tx, ty, ta, tf = l.getTextAttr(None, "ss")
             tx, ty = x+tx+l.XM, y+ty
             font = self.app.getFont("canvas_default")
-            self.texts.info = MfxCanvasText(self.canvas, tx, ty, anchor=ta, font=font)
+            self.texts.info = MfxCanvasText(self.canvas, tx, ty,
+                                            anchor=ta, font=font)
 
         x, y = 2*l.XM+(max_rows-rows)*l.XS, l.YM+l.YS
         if text:

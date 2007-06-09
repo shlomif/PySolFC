@@ -69,7 +69,7 @@ class AbstractToolbarButton:
             return
         self.visible = True
         padx, pady = 2, 2
-        if orient == Tkinter.HORIZONTAL:
+        if orient == 'horizontal':
             self.grid(row=0,
                       column=self.position,
                       ipadx=padx, ipady=pady,
@@ -112,7 +112,7 @@ class ToolbarSeparator(Tkinter.Frame):
         height = 4
         padx = 6
         pady = 6
-        if orient == Tkinter.HORIZONTAL:
+        if orient == 'horizontal':
             self.config(width=width, height=height)
             self.grid(row=0,
                       column=self.position,
@@ -144,7 +144,7 @@ class ToolbarLabel(Tkinter.Message):
             return
         self.visible = True
         padx, pady = TkSettings.toolbar_label_padding
-        if orient == Tkinter.HORIZONTAL:
+        if orient == 'horizontal':
             self.grid(row=0,
                       column=self.position,
                       padx=padx, pady=pady,
@@ -166,8 +166,7 @@ class ToolbarLabel(Tkinter.Message):
 
 class PysolToolbar(PysolToolbarActions):
 
-    def __init__(self, top, dir, size=0, relief=Tkinter.FLAT,
-                 compound=Tkinter.NONE):
+    def __init__(self, top, dir, size=0, relief='flat', compound='none'):
 
         PysolToolbarActions.__init__(self)
 
@@ -179,7 +178,7 @@ class PysolToolbar(PysolToolbarActions):
         self.dir = dir
         self.size = size
         self.compound = compound
-        self.orient=Tkinter.HORIZONTAL
+        self.orient = 'horizontal'
         self.button_pad = 2
         #
         self.frame = Tkinter.Frame(top, relief=TkSettings.toolbar_relief,
@@ -401,7 +400,7 @@ class PysolToolbar(PysolToolbarActions):
                 # right
                 pack_func(row=1, column=2, sticky='ns')
             # set orient
-            orient = side in (1, 2) and Tkinter.HORIZONTAL or Tkinter.VERTICAL
+            orient = side in (1, 2) and 'horizontal' or 'vertical'
             self._setOrient(orient)
         self.side = side
         return 1
@@ -516,6 +515,6 @@ class PysolToolbar(PysolToolbarActions):
         if self.compound == 'text':
             return 0
         size = self.size
-        comp = int(self.compound in (Tkinter.TOP, Tkinter.BOTTOM))
+        comp = int(self.compound in ('top', 'bottom'))
         return int((size+comp) != 0)
 

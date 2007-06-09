@@ -247,8 +247,9 @@ class HTMLViewer:
         ##self.defcursor = 'xterm'
         self.handcursor = "hand2"
 
-        frame = Tkinter.Frame(parent)
+        frame = Tkinter.Frame(parent, width=640, height=440)
         frame.pack(expand=True, fill='both')
+        frame.grid_propagate(False)
 
         # create buttons
         button_width = 8
@@ -274,13 +275,13 @@ class HTMLViewer:
         text_frame.grid(row=1, column=0, columnspan=4,
                         sticky='nsew', padx=1, pady=1)
         vbar = Tkinter.Scrollbar(text_frame)
-        vbar.pack(side=Tkinter.RIGHT, fill=Tkinter.Y)
+        vbar.pack(side='right', fill='y')
         self.text = Tkinter.Text(text_frame,
                                  fg='black', bg='white',
                                  bd=1, relief='sunken',
                                  cursor=self.defcursor,
                                  wrap='word', padx=10)
-        self.text.pack(side=Tkinter.LEFT, fill=Tkinter.BOTH, expand=1)
+        self.text.pack(side='left', fill='both', expand=True)
         self.text["yscrollcommand"] = vbar.set
         vbar["command"] = self.text.yview
 

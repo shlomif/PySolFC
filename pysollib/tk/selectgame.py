@@ -289,9 +289,8 @@ class SelectGameDialog(MfxDialog):
         self.top.wm_minsize(200, 200)
         font = app.getFont("default")
         self.tree = self.Tree_Class(self, top_frame, key=gameid,
-                                    font=font,
-                                    default=kw.default)
-        self.tree.frame.pack(fill=Tkinter.BOTH, expand=1,
+                                    font=font, default=kw.default)
+        self.tree.frame.pack(fill='both', expand=True,
                              padx=kw.padx, pady=kw.pady)
         #
         focus = self.createButtons(bottom_frame, kw)
@@ -366,7 +365,7 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         # PanedWindow
         if Tkinter.TkVersion >= 8.4:
             paned_window = Tkinter.PanedWindow(top_frame)
-            paned_window.pack(expand=1, fill='both')
+            paned_window.pack(expand=True, fill='both')
             left_frame = Tkinter.Frame(paned_window)
             right_frame = Tkinter.Frame(paned_window)
             paned_window.add(left_frame)
@@ -374,13 +373,13 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         else:
             left_frame = Tkinter.Frame(top_frame)
             right_frame = Tkinter.Frame(top_frame)
-            left_frame.pack(side='left', expand=1, fill='both')
-            right_frame.pack(side='right', expand=1, fill='both')
+            left_frame.pack(side='left', expand=True, fill='both')
+            right_frame.pack(side='right', expand=True, fill='both')
         # Tree
         font = app.getFont("default")
         self.tree = self.Tree_Class(self, left_frame, key=gameid,
                                     default=kw.default, font=font, width=w1)
-        self.tree.frame.pack(padx=padx, pady=pady, expand=1, fill='both')
+        self.tree.frame.pack(padx=padx, pady=pady, expand=True, fill='both')
         # LabelFrame
         if Tkinter.TkVersion >= 8.4:
             info_frame = Tkinter.LabelFrame(right_frame, text=_('About game'))

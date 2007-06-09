@@ -62,7 +62,6 @@ from selectcardset import SelectCardsetDialogWithPreview
 from selecttile import SelectTileDialogWithPreview
 from findcarddialog import connect_game_find_card_dialog, destroy_find_card_dialog
 from solverdialog import connect_game_solver_dialog
-from tkwrap import MfxRadioMenuItem, MfxCheckMenuItem, StringVar
 from tkwidget import MfxMessageDialog
 
 #from toolbar import TOOLBAR_BUTTONS
@@ -74,16 +73,16 @@ from tkconst import TOOLBAR_BUTTONS
 # ************************************************************************/
 
 def createToolbarMenu(menubar, menu):
-    data_dir = os.path.join(menubar.app.dataloader.dir, 'images', 'toolbar')
     tearoff = menu.cget('tearoff')
-    submenu = MfxMenu(menu, label=n_('Style'), tearoff=tearoff)
-    for f in os.listdir(data_dir):
-        d = os.path.join(data_dir, f)
-        if os.path.isdir(d) and os.path.exists(os.path.join(d, 'small')):
-            name = f.replace('_', ' ').capitalize()
-            submenu.add_radiobutton(label=name,
-                                    variable=menubar.tkopt.toolbar_style,
-                                    value=f, command=menubar.mOptToolbarStyle)
+##     data_dir = os.path.join(menubar.app.dataloader.dir, 'images', 'toolbar')
+##     submenu = MfxMenu(menu, label=n_('Style'), tearoff=tearoff)
+##     for f in os.listdir(data_dir):
+##         d = os.path.join(data_dir, f)
+##         if os.path.isdir(d) and os.path.exists(os.path.join(d, 'small')):
+##             name = f.replace('_', ' ').capitalize()
+##             submenu.add_radiobutton(label=name,
+##                                     variable=menubar.tkopt.toolbar_style,
+##                                     value=f, command=menubar.mOptToolbarStyle)
     submenu = MfxMenu(menu, label=n_('Compound'), tearoff=tearoff)
     for comp, label in COMPOUNDS:
         submenu.add_radiobutton(
@@ -105,15 +104,13 @@ def createToolbarMenu(menubar, menu):
     menu.add_radiobutton(label=n_("Right"),
                          variable=menubar.tkopt.toolbar, value=4,
                          command=menubar.mOptToolbar)
-    menu.add_separator()
-    menu.add_radiobutton(label=n_("Small icons"),
-                         variable=menubar.tkopt.toolbar_size, value=0,
-                         command=menubar.mOptToolbarSize)
-    menu.add_radiobutton(label=n_("Large icons"),
-                         variable=menubar.tkopt.toolbar_size, value=1,
-                         command=menubar.mOptToolbarSize)
-    #
-    #return
+##     menu.add_separator()
+##     menu.add_radiobutton(label=n_("Small icons"),
+##                          variable=menubar.tkopt.toolbar_size, value=0,
+##                          command=menubar.mOptToolbarSize)
+##     menu.add_radiobutton(label=n_("Large icons"),
+##                          variable=menubar.tkopt.toolbar_size, value=1,
+##                          command=menubar.mOptToolbarSize)
     menu.add_separator()
     submenu = MfxMenu(menu, label=n_('Visible buttons'), tearoff=tearoff)
     for w in TOOLBAR_BUTTONS:
@@ -210,52 +207,52 @@ class PysolMenubar(PysolMenubarActions):
     def _createTkOpt(self):
         # structure to convert menu-options to Toolkit variables
         self.tkopt = Struct(
-            gameid = MfxRadioMenuItem(self),
-            gameid_popular = MfxRadioMenuItem(self),
-            comment = MfxCheckMenuItem(self),
-            autofaceup = MfxCheckMenuItem(self),
-            autodrop = MfxCheckMenuItem(self),
-            autodeal = MfxCheckMenuItem(self),
-            quickplay = MfxCheckMenuItem(self),
-            undo = MfxCheckMenuItem(self),
-            bookmarks = MfxCheckMenuItem(self),
-            hint = MfxCheckMenuItem(self),
-            highlight_piles = MfxCheckMenuItem(self),
-            highlight_cards = MfxCheckMenuItem(self),
-            highlight_samerank = MfxCheckMenuItem(self),
-            highlight_not_matching = MfxCheckMenuItem(self),
-            mahjongg_show_removed = MfxCheckMenuItem(self),
-            shisen_show_hint = MfxCheckMenuItem(self),
-            sound = MfxCheckMenuItem(self),
-            cardback = MfxRadioMenuItem(self),
-            tabletile = MfxRadioMenuItem(self),
-            animations = MfxRadioMenuItem(self),
-            redeal_animation = MfxCheckMenuItem(self),
-            win_animation = MfxCheckMenuItem(self),
-            shadow = MfxCheckMenuItem(self),
-            shade = MfxCheckMenuItem(self),
-            shade_filled_stacks = MfxCheckMenuItem(self),
-            shrink_face_down = MfxCheckMenuItem(self),
-            toolbar = MfxRadioMenuItem(self),
-            toolbar_style = StringVar(),
-            toolbar_relief = StringVar(),
-            toolbar_compound = StringVar(),
-            toolbar_size = MfxRadioMenuItem(self),
-            statusbar = MfxCheckMenuItem(self),
-            num_cards = MfxCheckMenuItem(self),
-            helpbar = MfxCheckMenuItem(self),
-            save_games_geometry = MfxCheckMenuItem(self),
-            splashscreen = MfxCheckMenuItem(self),
-            demo_logo = MfxCheckMenuItem(self),
-            mouse_type = StringVar(),
-            mouse_undo = MfxCheckMenuItem(self),
-            negative_bottom = MfxCheckMenuItem(self),
-            pause = MfxCheckMenuItem(self),
-            theme = StringVar(),
+            gameid = Tkinter.IntVar(),
+            gameid_popular = Tkinter.IntVar(),
+            comment = Tkinter.BooleanVar(),
+            autofaceup = Tkinter.BooleanVar(),
+            autodrop = Tkinter.BooleanVar(),
+            autodeal = Tkinter.BooleanVar(),
+            quickplay = Tkinter.BooleanVar(),
+            undo = Tkinter.BooleanVar(),
+            bookmarks = Tkinter.BooleanVar(),
+            hint = Tkinter.BooleanVar(),
+            highlight_piles = Tkinter.BooleanVar(),
+            highlight_cards = Tkinter.BooleanVar(),
+            highlight_samerank = Tkinter.BooleanVar(),
+            highlight_not_matching = Tkinter.BooleanVar(),
+            mahjongg_show_removed = Tkinter.BooleanVar(),
+            shisen_show_hint = Tkinter.BooleanVar(),
+            sound = Tkinter.BooleanVar(),
+            cardback = Tkinter.IntVar(),
+            tabletile = Tkinter.IntVar(),
+            animations = Tkinter.IntVar(),
+            redeal_animation = Tkinter.BooleanVar(),
+            win_animation = Tkinter.BooleanVar(),
+            shadow = Tkinter.BooleanVar(),
+            shade = Tkinter.BooleanVar(),
+            shade_filled_stacks = Tkinter.BooleanVar(),
+            shrink_face_down = Tkinter.BooleanVar(),
+            toolbar = Tkinter.IntVar(),
+            toolbar_style = Tkinter.StringVar(),
+            toolbar_relief = Tkinter.StringVar(),
+            toolbar_compound = Tkinter.StringVar(),
+            toolbar_size = Tkinter.IntVar(),
+            statusbar = Tkinter.BooleanVar(),
+            num_cards = Tkinter.BooleanVar(),
+            helpbar = Tkinter.BooleanVar(),
+            save_games_geometry = Tkinter.BooleanVar(),
+            splashscreen = Tkinter.BooleanVar(),
+            demo_logo = Tkinter.BooleanVar(),
+            mouse_type = Tkinter.StringVar(),
+            mouse_undo = Tkinter.BooleanVar(),
+            negative_bottom = Tkinter.BooleanVar(),
+            pause = Tkinter.BooleanVar(),
+            theme = Tkinter.StringVar(),
             toolbar_vars = {},
         )
         for w in TOOLBAR_BUTTONS:
-            self.tkopt.toolbar_vars[w] = MfxCheckMenuItem(self)
+            self.tkopt.toolbar_vars[w] = Tkinter.BooleanVar()
 
     def _setOptions(self):
         tkopt, opt = self.tkopt, self.app.opt
@@ -300,7 +297,7 @@ class PysolMenubar(PysolMenubarActions):
         tkopt.negative_bottom.set(opt.negative_bottom)
         tkopt.theme.set(opt.tile_theme)
         for w in TOOLBAR_BUTTONS:
-            tkopt.toolbar_vars[w].set(opt.toolbar_vars[w])
+            tkopt.toolbar_vars[w].set(opt.toolbar_vars.get(w, False))
 
     def connectGame(self, game):
         self.game = game
@@ -386,7 +383,6 @@ class PysolMenubar(PysolMenubarActions):
         menu.add_command(label=n_("&Undo"), command=self.mUndo, accelerator="Z")
         menu.add_command(label=n_("&Redo"), command=self.mRedo, accelerator="R")
         menu.add_command(label=n_("Redo &all"), command=self.mRedoAll)
-        menu.add_command(label=n_("Shu&ffle tiles"), command=self.mShuffle, accelerator="F")
 
         menu.add_separator()
         submenu = MfxMenu(menu, label=n_("&Set bookmark"))
@@ -410,6 +406,7 @@ class PysolMenubar(PysolMenubarActions):
         menu = MfxMenu(self.__menubar, label=n_("&Game"))
         menu.add_command(label=n_("&Deal cards"), command=self.mDeal, accelerator="D")
         menu.add_command(label=n_("&Auto drop"), command=self.mDrop, accelerator="A")
+        menu.add_command(label=n_("Shu&ffle tiles"), command=self.mShuffle, accelerator="F")
         menu.add_checkbutton(label=n_("&Pause"), variable=self.tkopt.pause, command=self.mPause, accelerator="P")
         #menu.add_command(label=n_("&Pause"), command=self.mPause, accelerator="P")
         menu.add_separator()
@@ -431,7 +428,7 @@ class PysolMenubar(PysolMenubarActions):
         if USE_FREECELL_SOLVER:
             menu.add_command(label=n_("&Solver (experimental)"), command=self.mSolver)
         else:
-            menu.add_command(label=n_("&Solver (experimental)"), command=self.mSolver, state=Tkinter.DISABLED)
+            menu.add_command(label=n_("&Solver (experimental)"), command=self.mSolver, state='disabled')
         menu.add_separator()
         menu.add_command(label=n_("&Piles description"), command=self.mStackDesk, accelerator="F2")
 
@@ -459,7 +456,7 @@ class PysolMenubar(PysolMenubarActions):
         menu.add_separator()
         label = n_("&Sound...")
         if not self.app.audio.CAN_PLAY_SOUND:
-            menu.add_checkbutton(label=label, variable=self.tkopt.sound, command=self.mOptSoundDialog, state=Tkinter.DISABLED)
+            menu.add_checkbutton(label=label, variable=self.tkopt.sound, command=self.mOptSoundDialog, state='disabled')
         else:
             menu.add_checkbutton(label=label, variable=self.tkopt.sound, command=self.mOptSoundDialog)
         # cardsets

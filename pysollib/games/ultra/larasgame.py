@@ -35,7 +35,6 @@ from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
-from pysollib.pysoltk import MfxCanvasText
 
 from pysollib.games.larasgame import LarasGame_Talon, LarasGame, LarasGame_Reserve
 

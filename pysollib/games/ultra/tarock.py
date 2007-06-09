@@ -36,7 +36,6 @@ from pysollib.mfxutil import kwdefault
 from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-#from pysollib.pysoltk import MfxCanvasText
 
 from pysollib.games.special.tarock import AbstractTarockGame, Grasshopper
 from pysollib.games.threepeaks import ThreePeaksNoScore

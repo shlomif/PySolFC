@@ -32,7 +32,7 @@ from pysollib.wizardpresets import presets
 
 # Toolkit imports
 from tkwidget import MfxDialog
-from tkwidget import PysolScale
+from tkwidget import PysolScale, PysolCombo
 
 
 # /***********************************************************************
@@ -71,12 +71,13 @@ class WizardDialog(MfxDialog):
                 values.remove(default)
                 values.sort()
                 values.insert(0, default)
-                cb = Combobox(frame, values=tuple(values),
-                              textvariable=w.variable,
-                              state='readonly', width=32)
-                cb.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
                 callback = lambda e, w=w: self.presetSelected(e, w)
-                cb.bind('<<ComboboxSelected>>', callback)
+                cb = PysolCombo(frame, values=tuple(values),
+                                textvariable=w.variable,
+                                exportselection=False,
+                                selectcommand=callback,
+                                state='readonly', width=32)
+                cb.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
             elif w.widget == 'entry':
                 if w.variable is None:
                     w.variable = StringVar()
@@ -86,9 +87,10 @@ class WizardDialog(MfxDialog):
                 if w.variable is None:
                     w.variable = StringVar()
                 values = [_(v) for v in w.values]
-                cb = Combobox(frame, values=tuple(values),
-                              textvariable=w.variable,
-                              state='readonly', width=32)
+                cb = PysolCombo(frame, values=tuple(values),
+                                textvariable=w.variable,
+                                exportselection=False,
+                                state='readonly', width=32)
                 cb.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
             elif w.widget == 'spin':
                 if w.variable is None:

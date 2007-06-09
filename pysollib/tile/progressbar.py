@@ -66,12 +66,12 @@ class PysolProgressBar:
         if images:
             self.f1 = Tkinter.Label(self.frame, image=images[0])
             self.f1.pack(side='left', ipadx=8, ipady=4)
-            self.progress.pack(side='left', expand='yes', fill='x')
+            self.progress.pack(side='left', expand=True, fill='x')
             self.f2 = Tkinter.Label(self.frame, image=images[1])
             self.f2.pack(side='left', ipadx=8, ipady=4)
         else:
-            self.progress.pack(expand='yes', fill='x')
-        self.frame.pack(expand='yes', fill='both')
+            self.progress.pack(expand=True, fill='x')
+        self.frame.pack(expand=True, fill='both')
         if 1:
             setTransient(self.top, None, relx=0.5, rely=0.5)
         else:

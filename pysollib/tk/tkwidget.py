@@ -37,6 +37,7 @@ __all__ = ['MfxDialog',
            'MfxMessageDialog',
            'MfxExceptionDialog',
            'MfxSimpleEntry',
+           'PysolAboutDialog',
            'MfxTooltip',
            'MfxScrolledCanvas',
            'StackDesc',
@@ -45,10 +46,11 @@ __all__ = ['MfxDialog',
 # imports
 import os, sys, time, types
 import Tkinter
+import tkFont
 import traceback
 
 # PySol imports
-from pysollib.mfxutil import destruct, kwdefault, KwStruct
+from pysollib.mfxutil import destruct, kwdefault, KwStruct, openURL
 from pysollib.settings import WIN_SYSTEM
 
 # Toolkit imports
@@ -173,14 +175,15 @@ class MfxDialog: # ex. _ToplevelDialog
 
     def createFrames(self, kw):
         bottom_frame = Tkinter.Frame(self.top)
-        bottom_frame.pack(side='bottom', fill='both', expand=0, ipadx=3, ipady=3)
+        bottom_frame.pack(side='bottom', fill='both', expand=False,
+                          ipadx=3, ipady=3)
         if kw.separatorwidth > 0:
             separator = Tkinter.Frame(self.top, relief="sunken",
                     height=kw.separatorwidth, width=kw.separatorwidth,
                     borderwidth=kw.separatorwidth / 2)
             separator.pack(side='bottom', fill='x')
         top_frame = Tkinter.Frame(self.top)
-        top_frame.pack(side='top', fill='both', expand=1)
+        top_frame.pack(side='top', fill='both', expand=True)
         return top_frame, bottom_frame
 
     def createBitmaps(self, frame, kw):
@@ -270,7 +273,7 @@ class MfxMessageDialog(MfxDialog):
         self.button = kw.default
         msg = Tkinter.Label(top_frame, text=kw.text, justify=kw.justify,
                             width=kw.width)
-        msg.pack(fill=Tkinter.BOTH, expand=1, padx=kw.padx, pady=kw.pady)
+        msg.pack(fill='both', expand=True, padx=kw.padx, pady=kw.pady)
         #
         focus = self.createButtons(bottom_frame, kw)
         self.mainloop(focus, kw.timeout)
@@ -299,6 +302,39 @@ class MfxExceptionDialog(MfxMessageDialog):
 # //
 # ************************************************************************/
 
+class PysolAboutDialog(MfxMessageDialog):
+    def __init__(self, app, parent, title, **kw):
+        self._url = kw['url']
+        kw = self.initKw(kw)
+        MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
+        top_frame, bottom_frame = self.createFrames(kw)
+        self.createBitmaps(top_frame, kw)
+        #
+        self.button = kw.default
+        frame = Tkinter.Frame(top_frame)
+        frame.pack(fill='both', expand=True, padx=kw.padx, pady=kw.pady)
+        msg = Tkinter.Label(frame, text=kw.text, justify=kw.justify,
+                            width=kw.width)
+        msg.pack(fill='both', expand=True)
+
+        font = tkFont.Font(parent, app.getFont('default'))
+        font.configure(underline=True)
+        url_label = Tkinter.Label(frame, text=kw.url, font=font,
+                                  foreground='blue', cursor='hand2')
+        url_label.pack()
+        url_label.bind('<1>', self._urlClicked)
+        #
+        focus = self.createButtons(bottom_frame, kw)
+        self.mainloop(focus, kw.timeout)
+
+    def _urlClicked(self, event):
+        openURL(self._url)
+
+
+# /***********************************************************************
+# //
+# ************************************************************************/
+
 class MfxSimpleEntry(MfxDialog):
     def __init__(self, parent, title, label, value, **kw):
         kw = self.initKw(kw)
@@ -313,7 +349,7 @@ class MfxSimpleEntry(MfxDialog):
         w = kw.get("e_width", 0)    # width in characters
         self.var = Tkinter.Entry(top_frame, exportselection=1, width=w)
         self.var.insert(0, value)
-        self.var.pack(side=Tkinter.TOP, padx=kw.padx, pady=kw.pady)
+        self.var.pack(side='top', padx=kw.padx, pady=kw.pady)
         #
         focus = self.createButtons(bottom_frame, kw)
         focus = self.var
@@ -355,8 +391,8 @@ class MfxTooltip:
         self.timeout = 800                    # milliseconds
         self.cancel_timeout = 5000
         self.leave_timeout = 400
-        self.relief = Tkinter.SOLID
-        self.justify = Tkinter.LEFT
+        self.relief = 'solid'
+        self.justify = 'left'
         self.fg = "#000000"
         self.bg = "#ffffe0"
         self.xoffset = 0
@@ -403,7 +439,7 @@ class MfxTooltip:
         if self.tooltip or not self.text:
             return
 ##         if isinstance(self.widget, (Tkinter.Button, Tkinter.Checkbutton)):
-##             if self.widget["state"] == Tkinter.DISABLED:
+##             if self.widget["state"] == 'disabled':
 ##                 return
         ##x = self.widget.winfo_rootx()
         x = self.widget.winfo_pointerx()
@@ -429,36 +465,24 @@ class MfxTooltip:
 # ************************************************************************/
 
 class MfxScrolledCanvas:
-    def __init__(self, parent, hbar=2, vbar=2, **kw):
+    def __init__(self, parent, hbar=True, vbar=True, propagate=False, **kw):
         kwdefault(kw, highlightthickness=0, bd=1, relief='sunken')
         self.parent = parent
         self.createFrame(kw)
         self.canvas = None
         self.hbar = None
-        self.hbar_mode = hbar
         self.vbar = None
-        self.vbar_mode = vbar
-        self.hbar_show = 0
-        self.vbar_show = 0
-        self.resize_pending = 0
-        self.timer = None
+        self.hbar_show = False
+        self.vbar_show = False
         self.createCanvas(kw)
         self.frame.grid_rowconfigure(0, weight=1)
         self.frame.grid_columnconfigure(0, weight=1)
+        self.frame.grid_propagate(propagate)
         if hbar:
-            if hbar == 3:
-                w = 21
-                self.frame.grid_rowconfigure(1, minsize=w)
             self.createHbar()
-            if not vbar:
-                bind(self.hbar, "<Map>", self._mapBar)
             self.bindHbar()
         if vbar:
-            if vbar == 3:
-                w = 21
-                self.frame.grid_columnconfigure(1, minsize=w)
             self.createVbar()
-            bind(self.vbar, "<Map>", self._mapBar)
             self.bindVbar()
         ###self.canvas.focus_set()
 
@@ -467,8 +491,6 @@ class MfxScrolledCanvas:
     #
 
     def destroy(self):
-        after_cancel(self.timer)
-        self.timer = None
         self.unbind_all()
         self.canvas.destroy()
         self.frame.destroy()
@@ -534,14 +556,18 @@ class MfxScrolledCanvas:
         self.canvas = MfxCanvas(self.frame, **kw)
         self.canvas.grid(row=0, column=0, sticky="news")
     def createHbar(self):
-        self.hbar = Tkinter.Scrollbar(self.frame, name="hbar",
-                                      takefocus=0, orient="horizontal")
+        self.hbar = Tkinter.Scrollbar(self.frame, takefocus=0,
+                                      orient="horizontal")
         self.canvas["xscrollcommand"] = self._setHbar
         self.hbar["command"] = self.canvas.xview
+        self.hbar.grid(row=1, column=0, sticky="we")
+        self.hbar.grid_remove()
     def createVbar(self):
-        self.vbar = Tkinter.Scrollbar(self.frame, name="vbar", takefocus=0)
+        self.vbar = Tkinter.Scrollbar(self.frame, takefocus=0)
         self.canvas["yscrollcommand"] = self._setVbar
         self.vbar["command"] = self.canvas.yview
+        self.vbar.grid(row=0, column=1, sticky="ns")
+        self.vbar.grid_remove()
     def bindHbar(self, w=None):
         if w is None:
             w = self.canvas
@@ -564,70 +590,33 @@ class MfxScrolledCanvas:
         # don't work on Linux
         #bind(w, '<MouseWheel>', self.mouse_wheel)
 
-
     def mouse_wheel(self, *args):
         print 'MfxScrolledCanvas.mouse_wheel', args
 
-    def _mapBar(self, event):
-        # see: autoscroll.tcl, http://mini.net/cgi-bin/wikit/950.html
-        top = event.widget.winfo_toplevel()
-        g = top.wm_geometry()
-        if self.resize_pending:
-            self.resize_pending = 0
-            self.canvas.update()
-            self.canvas.update_idletasks()
-        top.wm_geometry(g)
-
-    def _setHbar(self, *args):
-        self.canvas.update()
-        self.hbar.set(*self.canvas.xview())
-        self.showHbar()
-        ##self.hbar.update_idletasks()
-    def _setVbar(self, *args):
-        self.canvas.update()
-        self.vbar.set(*self.canvas.yview())
-        self.showVbar()
-        ##self.vbar.update_idletasks()
-
-    def showHbar(self, show=-1):
-        if not self.hbar:
-            return 0
-        if show < 0:
-            show = self.hbar_mode
-        if show > 1:
-            if not self.canvas.winfo_ismapped():
-                return 0
-            ##self.canvas.update()
-            view = self.canvas.xview()
-            show = abs(view[0]) > 0.0001 or abs(view[1] - 1.0) > 0.0001
-        if show == self.hbar_show:
-            return 0
-        if show:
-            self.hbar.grid(row=1, column=0, sticky="we")
+    def _setHbar(self, first, last):
+        sb = self.hbar
+        if not self.canvas.winfo_ismapped():
+            sb.set(first, last)
+            return
+        if float(first) <= 0 and float(last) >= 1:
+            sb.grid_remove()
+            self.hbar_show = False
         else:
-            self.hbar.grid_forget()
-        self.hbar_show = show
-        return 1
-
-    def showVbar(self, show=-1):
-        if not self.vbar:
-            return 0
-        if show < 0:
-            show = self.vbar_mode
-        if show > 1:
-            if not self.canvas.winfo_ismapped():
-                return 0
-            ##self.canvas.update()
-            view = self.canvas.yview()
-            show = abs(view[0]) > 0.0001 or abs(view[1] - 1.0) > 0.0001
-        if show == self.vbar_show:
-            return 0
-        if show:
-            self.vbar.grid(row=0, column=1, sticky="ns")
+            sb.grid()
+            self.hbar_show = True
+        sb.set(first, last)
+    def _setVbar(self, first, last):
+        sb = self.vbar
+        if not self.canvas.winfo_ismapped():
+            sb.set(first, last)
+            return
+        if float(first) <= 0 and float(last) >= 1:
+            sb.grid_remove()
+            self.vbar_show = False
         else:
-            self.vbar.grid_forget()
-        self.vbar_show = show
-        return 1
+            sb.grid()
+            self.vbar_show = True
+        sb.set(first, last)
 
     def _xview(self, *args):
         if self.hbar_show: self.canvas.xview(*args)

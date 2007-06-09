@@ -122,7 +122,8 @@ class Glenwood(Game):
         tx, ty, ta, tf = l.getTextAttr(None, "ss")
         tx, ty = x - l.XS + tx, y + ty
         font = self.app.getFont("canvas_default")
-        self.texts.info = MfxCanvasText(self.canvas, tx, ty, anchor=ta, font=font)
+        self.texts.info = MfxCanvasText(self.canvas, tx, ty,
+                                        anchor=ta, font=font)
 
         for i in range(4):
             x = 2*l.XM + (i+2)*l.XS

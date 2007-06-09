@@ -38,7 +38,7 @@ from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
-from pysollib.pysoltk import MfxCanvasText, MfxCanvasImage, bind, ANCHOR_NW
+from pysollib.pysoltk import bind
 
 
 # /***********************************************************************

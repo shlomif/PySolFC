@@ -25,7 +25,6 @@ from stack import *
 from game import Game
 from layout import Layout
 from hint import AbstractHint, DefaultHint, CautiousDefaultHint, Yukon_Hint
-#from pysoltk import MfxCanvasText
 
 from wizardutil import WizardWidgets
 
@@ -238,7 +237,7 @@ class CustomGame(Game):
 
     def startGame(self):
 
-        min_cards = max(len(self.s.rows), 8)
+        s = get_settings(self.SETTINGS)
         anim_frames = -1
 
         def deal(rows, flip, frames, max_cards):
@@ -253,13 +252,16 @@ class CustomGame(Game):
                                                    frames=frames)
             return frames, max_cards
 
-
         frames = 0
-        s = get_settings(self.SETTINGS)
         if isinstance(self.s.talon, InitialDealTalonStack):
             max_cards = 52 * s['decks']
         else:
             max_cards = s['deal_max_cards']
+
+        min_cards = max(len(self.s.rows), 8)
+        max_rows = s['deal_face_down'] + s['deal_face_up'] + s['deal_to_reserves']
+        if max_rows <= 1:
+            min_cards = max_cards
 
         # deal to foundations
         if s['deal_found']:

@@ -236,7 +236,8 @@ class DerFreieNapoleon(DerKleineNapoleon):
         if texts:
             tx, ty, ta, tf = l.getTextAttr(s.foundations[-1], "se")
             font = self.app.getFont("canvas_default")
-            self.texts.info = MfxCanvasText(self.canvas, tx, ty, anchor=ta, font=font)
+            self.texts.info = MfxCanvasText(self.canvas, tx, ty, anchor=ta,
+                                            font=font)
         # talon
         x, y = l.XM, self.height - l.YS
         s.talon = InitialDealTalonStack(x, y, self)

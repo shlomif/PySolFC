@@ -44,8 +44,10 @@ if os.name == 'posix':
     for l in ('ru', 'ru_RU'):
         data_files.append(('share/locale/%s/LC_MESSAGES' % l,
                            ['locale/%s/LC_MESSAGES/pysol.mo' % l]))
+    data_files.append((data_dir, ['data/pysolfc.glade']))
 
 ##from pprint import pprint; pprint(data_files)
+##import sys; sys.exit()
 
 long_description = '''\
 PySol is a solitaire card game. Its features include support for many

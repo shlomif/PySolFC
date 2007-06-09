@@ -269,14 +269,15 @@ class HTMLViewer:
         # create text widget
         text_frame = Tkinter.Frame(parent)
         text_frame.grid(row=1, column=0, columnspan=4, sticky='nsew')
+        text_frame.grid_propagate(False)
         vbar = Tkinter.Scrollbar(text_frame)
-        vbar.pack(side=Tkinter.RIGHT, fill=Tkinter.Y)
+        vbar.pack(side='right', fill='y')
         self.text = Tkinter.Text(text_frame,
                                  fg='black', bg='white',
                                  bd=1, relief='sunken',
                                  cursor=self.defcursor,
                                  wrap='word', padx=10)
-        self.text.pack(side=Tkinter.LEFT, fill=Tkinter.BOTH, expand=1)
+        self.text.pack(side='left', fill='both', expand=True)
         self.text["yscrollcommand"] = vbar.set
         vbar["command"] = self.text.yview
 

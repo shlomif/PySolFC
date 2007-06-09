@@ -68,7 +68,7 @@ class PlayerOptionsDialog(MfxDialog):
         self.win_animation_var.set(app.opt.win_animation != 0)
         #
         frame = Tkinter.Frame(top_frame)
-        frame.pack(expand=1, fill='both', padx=5, pady=10)
+        frame.pack(expand=True, fill='both', padx=5, pady=10)
         widget = Tkinter.Label(frame, text=_("\nPlease enter your name"),
                                takefocus=0)
         widget.grid(row=0, column=0, columnspan=2, sticky='ew', padx=0, pady=5)
@@ -87,7 +87,7 @@ class PlayerOptionsDialog(MfxDialog):
         widget.grid(row=3, column=0, columnspan=2, sticky='ew', padx=0, pady=5)
 ###        widget = Tkinter.Checkbutton(frame, variable=self.win_animation_var,
 ###                                     text="Win animation")
-###        widget.pack(side=Tkinter.TOP, padx=kw.padx, pady=kw.pady)
+###        widget.pack(side='top', padx=kw.padx, pady=kw.pady)
         frame.columnconfigure(0, weight=1)
         #
         self.player = self.player_var.get()

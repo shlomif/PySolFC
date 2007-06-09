@@ -34,14 +34,14 @@
 import os, sys
 
 import gtk
-from gtk import gdk
+gdk = gtk.gdk
 
 # PySol imports
 
 # Toolkit imports
 from tkutil import makeToplevel, setTransient, wm_withdraw
 
-from pysollib.mfxutil import kwdefault, KwStruct
+from pysollib.mfxutil import kwdefault, KwStruct, openURL
 
 
 # /***********************************************************************
@@ -78,7 +78,8 @@ class MfxDialog(_MyDialog):
                  bitmap=None, bitmap_side='left',
                  bitmap_padx=20, bitmap_pady=20,
                  image=None, image_side='left',
-                 image_padx=10, image_pady=20):
+                 image_padx=10, image_pady=20,
+                 **kw):
         _MyDialog.__init__(self)
         self.status = 1
         self.button = -1
@@ -219,6 +220,55 @@ class MfxMessageDialog(MfxDialog):
 # //
 # ************************************************************************/
 
+class PysolAboutDialog(MfxDialog):
+    def __init__(self, app, parent, title, **kw):
+        self._url = kw['url']
+        kw = self.initKw(kw)
+        MfxDialog.__init__(self, parent, title, **kw)
+
+        top_box, bottom_box = self.createBox()
+        self.createBitmaps(top_box, kw)
+
+        box = gtk.VBox()
+        box.set_property('border-width', 20)
+        top_box.pack_start(box)
+
+        label = gtk.Label(kw['text'])
+        label.set_justify(gtk.JUSTIFY_CENTER)
+        box.pack_start(label)
+
+        url_label = gtk.Label()
+        url_label.set_justify(gtk.JUSTIFY_CENTER)
+        url_label.set_markup(
+            '<span foreground="blue" underline="single">%s</span>' % kw['url'])
+
+        event_box = gtk.EventBox()
+        box.pack_start(event_box)
+        event_box.connect('button-press-event', self._urlClicked)
+        event_box.add(url_label)
+
+        self.createButtons(bottom_box, kw)
+
+        self.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
+        ##self.set_position(gtk.WIN_POS_CENTER)
+
+        self.show_all()
+        event_box.window.set_cursor(gdk.Cursor(gdk.HAND2))
+        gtk.main()
+
+    def initKw(self, kw):
+        #if kw.has_key('bitmap'):
+        #    kwdefault(kw, width=250, height=150)
+        return MfxDialog.initKw(self, kw)
+
+    def _urlClicked(self, *args):
+        openURL(self._url)
+
+
+# /***********************************************************************
+# //
+# ************************************************************************/
+
 class MfxExceptionDialog(MfxDialog):
     def __init__(self, parent, ex, title="Error", **kw):
         kw = KwStruct(kw, bitmap="error")
@@ -232,19 +282,6 @@ class MfxExceptionDialog(MfxDialog):
             t = str(ex)
         kw.text = text + t
         MfxDialog.__init__(self, parent, title, **kw.__dict__)
-
-
-# /***********************************************************************
-# //
-# ************************************************************************/
-
-class MfxSimpleSlider(_MyDialog):
-    def __init__(self, parent, title,
-                 label, value, from_, to, resolution,
-                 resizable=0):
-        self.button = 0
-        self.status = 1
-        self.value = value
 
 
 # /***********************************************************************

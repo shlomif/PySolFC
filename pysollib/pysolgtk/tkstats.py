@@ -48,7 +48,7 @@ class StatsFormatter(PysolStatsFormatter):
         for result in self.getStatResults(player, sort_by):
             iter = self.store.append(None)
             self.store.set(iter,
-                           0, _(result[0]),
+                           0, result[0],
                            1, result[1],
                            2, result[2],
                            3, result[3],

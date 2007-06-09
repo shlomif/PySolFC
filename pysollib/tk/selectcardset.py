@@ -201,7 +201,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             w1, w2 = 200, 300
         if Tkinter.TkVersion >= 8.4:
             paned_window = Tkinter.PanedWindow(top_frame)
-            paned_window.pack(expand=1, fill='both')
+            paned_window.pack(expand=True, fill='both')
             left_frame = Tkinter.Frame(paned_window)
             right_frame = Tkinter.Frame(paned_window)
             paned_window.add(left_frame)
@@ -209,16 +209,16 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         else:
             left_frame = Tkinter.Frame(top_frame)
             right_frame = Tkinter.Frame(top_frame)
-            left_frame.pack(side='left', expand=0, fill='both')
-            right_frame.pack(side='right', expand=1, fill='both')
+            left_frame.pack(side='left', expand=False, fill='both')
+            right_frame.pack(side='right', expand=True, fill='both')
         font = app.getFont("default")
         self.tree = self.Tree_Class(self, left_frame, key=key,
                                     default=kw.default,
                                     font=font, width=w1)
-        self.tree.frame.pack(fill='both', expand=1, padx=padx, pady=pady)
+        self.tree.frame.pack(fill='both', expand=True, padx=padx, pady=pady)
         self.preview = MfxScrolledCanvas(right_frame, width=w2)
         self.preview.setTile(app, app.tabletile_index, force=True)
-        self.preview.pack(fill='both', expand=1, padx=padx, pady=pady)
+        self.preview.pack(fill='both', expand=True, padx=padx, pady=pady)
         self.preview.canvas.preview = 1
         # create a preview of the current state
         self.preview_key = -1
@@ -289,11 +289,10 @@ class SelectCardsetDialogWithPreview(MfxDialog):
                 x, y = 10, y + dy
             else:
                 x = x + dx
-        canvas.config(scrollregion=(0, 0, sx+dx, sy+dy))
-        canvas.config(width=sx+dx, height=sy+dy)
+        canvas.config(scrollregion=(0, 0, sx+dx, sy+dy),
+                      width=sx+dx, height=sy+dy)
+        canvas.event_generate('<Configure>') # update bg image
         #canvas.config(xscrollincrement=dx, yscrollincrement=dy)
-##        self.preview.showHbar()
-##        self.preview.showVbar()
         self.preview_key = key
 
 

@@ -75,9 +75,8 @@ class MfxStatusbar:
         self.frame.pack(side='left', expand=True, fill='both', padx=0, pady=1)
 
     # util
-    def _createLabel(self, name, side='left',
-                     fill='none', expand=0, width=0,
-                     tooltip=None):
+    def _createLabel(self, name, side='left', fill='none',
+                     expand=False, width=0, tooltip=None):
         frame = Tkinter.Frame(self.frame, borderwidth=1, relief=self.label_relief)
         frame.pack(side=side, fill=fill, padx=self.padx, expand=expand)
         label = Tkinter.Label(frame, width=width)
@@ -154,7 +153,7 @@ class PysolStatusbar(MfxStatusbar):
             ):
             self._createLabel(n, tooltip=t, width=w)
         #
-        l = self._createLabel("info", fill='both', expand=1)
+        l = self._createLabel("info", fill='both', expand=True)
         ##l.config(text="", justify="left", anchor='w')
         l.config(padding=(8, 0))
         self._createSizegrip()
@@ -163,14 +162,14 @@ class PysolStatusbar(MfxStatusbar):
 class HelpStatusbar(MfxStatusbar):
     def __init__(self, top):
         MfxStatusbar.__init__(self, top, row=3, column=0, columnspan=3)
-        l = self._createLabel("info", fill='both', expand=1)
+        l = self._createLabel("info", fill='both', expand=True)
         l.config(justify="left", anchor='w', padding=(8, 0))
 
 
 class HtmlStatusbar(MfxStatusbar):
     def __init__(self, top, row, column, columnspan):
         MfxStatusbar.__init__(self, top, row=row, column=column, columnspan=columnspan)
-        l = self._createLabel("url", fill='both', expand=1)
+        l = self._createLabel("url", fill='both', expand=True)
         l.config(justify="left", anchor='w', padding=(8, 0))
         self._createSizegrip()
 

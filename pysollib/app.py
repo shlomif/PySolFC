@@ -929,7 +929,7 @@ class Application:
         self.helpbar = HelpStatusbar(self.top)
         self.helpbar.show(self.opt.helpbar)
         # create the canvas
-        self.scrolled_canvas = MfxScrolledCanvas(self.top)
+        self.scrolled_canvas = MfxScrolledCanvas(self.top, propagate=True)
         self.canvas = self.scrolled_canvas.canvas
         padx, pady = TkSettings.canvas_padding
         self.scrolled_canvas.grid(row=1, column=1, sticky='nsew',
@@ -1045,7 +1045,9 @@ class Application:
         self.menubar.updateRecentGamesMenu(self.opt.recent_gameid)
         self.menubar.updateFavoriteGamesMenu()
         # hide/show "Shuffle" button
-        ##self.toolbar.config('shuffle', self.game.canShuffle() and self.opt.toolbar_vars['shuffle'])
+        self.toolbar.config(
+            'shuffle',
+            self.opt.toolbar_vars['shuffle'] and self.game.canShuffle())
         # delete intro progress bar
         if self.intro.progress:
             self.intro.progress.destroy()

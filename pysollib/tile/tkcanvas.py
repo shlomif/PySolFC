@@ -142,10 +142,10 @@ class MfxCanvas(Tkinter.Canvas):
         #
         self.xmargin, self.ymargin = 10, 10
         # resize bg image
-        self.bind('<Configure>', lambda e: self.set_bg_image())
+        self.bind('<Configure>', self.setBackgroundImage)
 
-    def set_bg_image(self):
-        ##print 'set_bg_image', self._bg_img
+    def setBackgroundImage(self, event=None):
+        ##print 'setBackgroundImage', self._bg_img
         if not hasattr(self, '_bg_img'):
             return
         if not self._bg_img: # solid color
@@ -306,7 +306,7 @@ class MfxCanvas(Tkinter.Canvas):
                 except:
                     return 0
             self._stretch_bg_image = stretch
-            self.set_bg_image()
+            self.setBackgroundImage()
         else:
             for id in self.__tiles:
                 self.delete(id)

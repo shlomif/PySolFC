@@ -285,6 +285,7 @@ class HTMLViewer:
 
         parent.set_default_size(600, 440)
         parent.show_all()
+        gobject.idle_add(gtk.main)
 
 
     def motion_notify_event(self, widget, event):

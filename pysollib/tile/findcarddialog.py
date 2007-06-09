@@ -139,6 +139,7 @@ class FindCardDialog(Tkinter.Toplevel):
     def enterEvent(self, suit, rank, rect, group):
         ##print 'enterEvent', suit, rank, self.busy
         if self.busy: return
+        if self.game.demo: return
         self.busy = True
         self.highlight_items = self.game.highlightCard(suit, rank)
         if not self.highlight_items:

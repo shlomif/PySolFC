@@ -39,10 +39,10 @@ from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.settings import TOOLKIT, DEBUG
 from pysollib.pysoltk import MfxCanvasText, MfxCanvasImage
 from pysollib.pysoltk import bind, EVENT_HANDLED, ANCHOR_NW
 from pysollib.pysoltk import MfxMessageDialog
-from pysollib.settings import TOOLKIT, DEBUG
 
 
 def factorial(x):

@@ -53,9 +53,16 @@ class initRootWindow(baseInitRootWindow):
             color = style.lookup('.', 'background')
             if color:
                 root.tk_setPalette(color)
+
+            root.option_add('*Menu.borderWidth', 1, 60)
+            root.option_add('*Menu.activeBorderWidth', 1, 60)
             color = style.lookup('.', 'background', 'active')
             if color:
-                root.option_add('*Menu.activeBackground', color)
+                root.option_add('*Menu.activeBackground', color, 60)
+
+            root.option_add('*Listbox.background', 'white', 60)
+            root.option_add('*Listbox.foreground', 'black', 60)
+
             font = root.option_get('font', PACKAGE)
             if font:
                 # use font from xrdb
@@ -75,10 +82,10 @@ class initRootWindow(baseInitRootWindow):
                     if fn:
                         root.option_add('*font', font)
                         app.opt.fonts['default'] = fn
-            root.option_add('*Menu.borderWidth', 1, 60)
-            root.option_add('*Menu.activeBorderWidth', 1, 60)
-            if app.opt.tile_theme == 'clam':
+            if app.opt.tile_theme in ('clam', 'clearlooks'):
                 root.wm_minsize(550, 360)
+                style.configure('TLabelframe', labeloutside=False,
+                                labelmargins=(8, 0, 8, 0))
         #
         else:
             root.option_add('*Entry.background', 'white', 60)

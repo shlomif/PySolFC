@@ -194,14 +194,11 @@ class SolverDialog(MfxDialog):
 
         #
         focus = self.createButtons(bottom_frame, kw)
-        self.mainloop(focus, kw.timeout, transient=False)
-
         self.start_button = self.buttons[0]
         self.play_button = self.buttons[1]
-
-        #
         self._reset()
         self.connectGame(self.app.game)
+        self.mainloop(focus, kw.timeout, transient=False)
 
     def initKw(self, kw):
         strings=[_('&Start'), _('&Play'), _('&New'), _('&Close'),]
@@ -259,6 +256,8 @@ class SolverDialog(MfxDialog):
         self.play_button.config(state='disabled')
 
     def startSolving(self):
+        from gettext import ungettext
+
         self._reset()
         game = self.app.game
         solver = game.Solver_Class(game, self) # create solver instance
@@ -274,7 +273,10 @@ class SolverDialog(MfxDialog):
         solver.computeHints()
         hints_len = len(solver.hints)-1
         if hints_len > 0:
-            self.result_label['text'] = _('This game is solveable in %s moves.') % hints_len
+            t = ungettext('This game is solveable in %d move.',
+                          'This game is solveable in %d moves.',
+                          hints_len) % hints_len
+            self.result_label['text'] = t
             self.play_button.config(state='normal')
         else:
             self.result_label['text'] = _('I could not solve this game.')
@@ -282,9 +284,13 @@ class SolverDialog(MfxDialog):
 
     def startPlay(self):
         self.play_button.config(state='disabled')
+        self.start_button.focus()
+        if self.app.game.pause:
+            self.app.menubar.mPause()
         self.app.top.tkraise()
         self.app.top.update_idletasks()
         self.app.top.update()
+        self.app.top.after(200)
         self.app.game.startDemo(level=3)
 
     def setText(self, **kw):

@@ -59,8 +59,8 @@ class EditTextDialog(MfxDialog):
         #
         self.text_w = Tkinter.Text(top_frame, bd=1, relief="sunken",
                                    wrap="word", width=64, height=16)
-        self.text_w.pack(side='left', fill="both", expand=1)
-        ###self.text_w.pack(side=Tkinter.TOP, padx=kw.padx, pady=kw.pady)
+        self.text_w.pack(side='left', fill="both", expand=True)
+        ###self.text_w.pack(side='top', padx=kw.padx, pady=kw.pady)
         vbar = Tkinter.Scrollbar(top_frame)
         vbar.pack(side='right', fill='y')
         self.text_w["yscrollcommand"] = vbar.set

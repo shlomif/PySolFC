@@ -258,7 +258,7 @@ class MfxTreeInCanvas(MfxScrolledCanvas):
         bind(self.canvas, "<ButtonPress-1>", self.singleClick)
         bind(self.canvas, "<Double-Button-1>", self.doubleClick)
         ##bind(self.canvas, "<ButtonRelease-1>", xxx)
-        self.pack(fill=Tkinter.BOTH, expand=1)
+        self.pack(fill='both', expand=True)
 
     def destroy(self):
         for node in self.keys.get(self.selection_key, []):
@@ -266,7 +266,7 @@ class MfxTreeInCanvas(MfxScrolledCanvas):
         MfxScrolledCanvas.destroy(self)
 
     def findNode(self, event=None):
-        id = self.canvas.find_withtag(Tkinter.CURRENT)
+        id = self.canvas.find_withtag('current')
         if id:
             return self.nodes.get(id[0])
         return None

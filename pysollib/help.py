@@ -40,18 +40,13 @@
 from settings import PACKAGE, PACKAGE_URL, TOOLKIT, FC_VERSION
 from pysoltk import make_help_toplevel
 from pysoltk import MfxMessageDialog
+from pysoltk import PysolAboutDialog
 from pysoltk import HTMLViewer
 
 
 # /***********************************************************************
 # //
 # ************************************************************************/
-
-class AboutDialog(MfxMessageDialog):
-    def createFrames(self, kw):
-        top_frame, bottom_frame = MfxMessageDialog.createFrames(self, kw)
-        return top_frame, bottom_frame
-
 
 def help_about(app, timeout=0, sound=1):
     if sound:
@@ -62,25 +57,26 @@ def help_about(app, timeout=0, sound=1):
     strings=(_("&Nice"), _("&Credits..."))
     if timeout:
         strings=(_("&Enjoy"),)
-    ##version = _("Version %s (%s)\n\n") % (FC_VERSION, VERSION)
-    version = _("Version %s\n\n") % FC_VERSION
-    d = AboutDialog(app.top, title=_("About ") + PACKAGE, timeout=timeout,
-                    text=_('''PySol Fan Club edition
+    version = _("Version %s") % FC_VERSION
+    d = PysolAboutDialog(app, app.top, title=_("About ") + PACKAGE,
+                         timeout=timeout,
+                         text=_('''PySol Fan Club edition
 %s%s
+
 Copyright (C) 1998, 1999, 2000, 2001, 2002, 2003
 Markus F.X.J. Oberhumer
 Copyright (C) 2003 Mt. Hood Playing Card Co.
-Copyright (C) 2005 Skomoroh (Fan Club edition)
+Copyright (C) 2005 Skomoroh
 All Rights Reserved.
 
 PySol is free software distributed under the terms
 of the GNU General Public License.
 
-For more information about this application visit
-%s''') % (t, version, PACKAGE_URL),
-                    image=app.gimages.logos[2],
-                    strings=strings, default=0,
-                    separatorwidth=2)
+For more information about this application visit''') % (t, version),
+                         url=PACKAGE_URL,
+                         image=app.gimages.logos[2],
+                         strings=strings, default=0,
+                         separatorwidth=2)
     if d.status == 0 and d.button == 1:
         help_credits(app, sound=sound)
     return d.status

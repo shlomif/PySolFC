@@ -110,8 +110,8 @@ def init():
         sys.argv.remove('--tile')
     if settings.TOOLKIT == 'tk':
         import Tkinter
-        from Tkinter import TclError
         root = Tkinter.Tk(className='PySol')
+        root.withdraw()
         settings.WIN_SYSTEM = root.tk.call('tk', 'windowingsystem')
         if settings.WIN_SYSTEM == 'aqua':
             # TkAqua displays the console automatically in application
@@ -119,13 +119,12 @@ def init():
             from macosx.appSupport import hideTkConsole
             hideTkConsole(root)
         #
-        root.withdraw()
         if settings.USE_TILE == 'auto':
-            # check tile
+            # check Tile
             settings.USE_TILE = False
             try:
                 root.tk.call('package', 'require', 'tile', '0.7.8')
-            except TclError:
+            except Tkinter.TclError:
                 pass
             else:
                 settings.USE_TILE = True

@@ -594,28 +594,28 @@ class MfxScrolledCanvas:
         print 'MfxScrolledCanvas.mouse_wheel', args
 
     def _setHbar(self, first, last):
-        sb = self.hbar
-        if not self.canvas.winfo_ismapped():
-            sb.set(first, last)
+        if self.canvas.busy:
             return
+        sb = self.hbar
         if float(first) <= 0 and float(last) >= 1:
             sb.grid_remove()
             self.hbar_show = False
         else:
-            sb.grid()
-            self.hbar_show = True
+            if self.canvas.winfo_ismapped():
+                sb.grid()
+                self.hbar_show = True
         sb.set(first, last)
     def _setVbar(self, first, last):
-        sb = self.vbar
-        if not self.canvas.winfo_ismapped():
-            sb.set(first, last)
+        if self.canvas.busy:
             return
+        sb = self.vbar
         if float(first) <= 0 and float(last) >= 1:
             sb.grid_remove()
             self.vbar_show = False
         else:
-            sb.grid()
-            self.vbar_show = True
+            if self.canvas.winfo_ismapped():
+                sb.grid()
+                self.vbar_show = True
         sb.set(first, last)
 
     def _xview(self, *args):

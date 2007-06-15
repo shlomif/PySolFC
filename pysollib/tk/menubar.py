@@ -1038,6 +1038,8 @@ class PysolMenubar(PysolMenubarActions):
             self.updateMenus()
 
     def mPause(self, *args):
+        if not self.game:
+            return
         if not self.game.pause:
             if self._cancelDrag(): return
         self.game.doPause()

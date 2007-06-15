@@ -23,10 +23,11 @@ __all__ = ['WizardDialog']
 
 
 # imports
-from Tile import *
+import Tkinter
+import Tile
 
 # PySol imports
-from pysollib.mfxutil import destruct, kwdefault, KwStruct, Struct
+from pysollib.mfxutil import KwStruct
 from pysollib.wizardutil import WizardWidgets
 from pysollib.wizardpresets import presets
 
@@ -46,26 +47,26 @@ class WizardDialog(MfxDialog):
         top_frame, bottom_frame = self.createFrames(kw)
         self.createBitmaps(top_frame, kw)
 
-        frame = Frame(top_frame)
+        frame = Tile.Frame(top_frame)
         frame.pack(expand=True, fill='both', padx=10, pady=10)
         frame.columnconfigure(0, weight=1)
 
-        notebook = Notebook(frame)
+        notebook = Tile.Notebook(frame)
         notebook.pack(expand=True, fill='both')
 
         for w in WizardWidgets:
             if isinstance(w, basestring):
-                frame = Frame(notebook)
+                frame = Tile.Frame(notebook)
                 notebook.add(frame, text=w, sticky='nsew', padding=5)
                 frame.columnconfigure(1, weight=1)
                 row = 0
                 continue
 
-            Label(frame, text=w.label).grid(row=row, column=0)
+            Tile.Label(frame, text=w.label).grid(row=row, column=0)
 
             if w.widget == 'preset':
                 if w.variable is None:
-                    w.variable = StringVar()
+                    w.variable = Tkinter.StringVar()
                 values = [_(v) for v in w.values]
                 default = _(w.default)
                 values.remove(default)
@@ -80,12 +81,12 @@ class WizardDialog(MfxDialog):
                 cb.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
             elif w.widget == 'entry':
                 if w.variable is None:
-                    w.variable = StringVar()
-                en = Entry(frame, textvariable=w.variable)
+                    w.variable = Tkinter.StringVar()
+                en = Tile.Entry(frame, textvariable=w.variable)
                 en.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
             elif w.widget == 'menu':
                 if w.variable is None:
-                    w.variable = StringVar()
+                    w.variable = Tkinter.StringVar()
                 values = [_(v) for v in w.values]
                 cb = PysolCombo(frame, values=tuple(values),
                                 textvariable=w.variable,
@@ -94,7 +95,7 @@ class WizardDialog(MfxDialog):
                 cb.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
             elif w.widget == 'spin':
                 if w.variable is None:
-                    w.variable = IntVar()
+                    w.variable = Tkinter.IntVar()
                 else:
                     # delete all trace callbacks
                     for mod, cbname in w.variable.trace_vinfo():
@@ -107,8 +108,9 @@ class WizardDialog(MfxDialog):
                 s.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
             elif w.widget == 'check':
                 if w.variable is None:
-                    w.variable = BooleanVar()
-                ch = Checkbutton(frame, variable=w.variable, takefocus=False)
+                    w.variable = Tkinter.BooleanVar()
+                ch = Tile.Checkbutton(frame, variable=w.variable,
+                                      takefocus=False)
                 ch.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
 
             if w.current_value is None:

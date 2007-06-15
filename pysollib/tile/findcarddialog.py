@@ -27,9 +27,6 @@ __all__ = ['create_find_card_dialog',
 # imports
 import os
 import Tkinter
-import traceback
-
-# PySol imports
 
 # Toolkit imports
 from tkutil import after, after_cancel

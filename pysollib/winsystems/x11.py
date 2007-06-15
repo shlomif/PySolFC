@@ -19,8 +19,9 @@
 ##
 ##---------------------------------------------------------------------------##
 
-import sys, os
+import sys, os, traceback
 
+import Tkinter
 import tkFont
 
 from pysollib.settings import PACKAGE
@@ -48,7 +49,28 @@ class initRootWindow(baseInitRootWindow):
         elif USE_TILE:
             f = os.path.join(app.dataloader.dir, 'tcl', 'menu8.4.tcl')
             if os.path.exists(f):
-                root.tk.call('source', f)
+                try:
+                    root.tk.call('source', f)
+                except:
+                    traceback.print_exc()
+            f = os.path.join(app.dataloader.dir, 'tcl', 'clrpick.tcl')
+            if os.path.exists(f):
+                try:
+                    root.tk.call('source', f)
+                except:
+                    traceback.print_exc()
+            f = os.path.join(app.dataloader.dir, 'tcl', 'fsdialog.tcl')
+            if os.path.exists(f):
+                try:
+                    root.tk.call('source', f)
+                except:
+                    traceback.print_exc()
+                else:
+                    import tkFileDialog
+                    tkFileDialog.Open.command = 'ttk::getOpenFile'
+                    tkFileDialog.SaveAs.command = 'ttk::getSaveFile'
+                    tkFileDialog.Directory.command = 'ttk::chooseDirectory'
+
             style = Tile.Style(root)
             color = style.lookup('.', 'background')
             if color:
@@ -62,6 +84,8 @@ class initRootWindow(baseInitRootWindow):
 
             root.option_add('*Listbox.background', 'white', 60)
             root.option_add('*Listbox.foreground', 'black', 60)
+            root.option_add('*Listbox*selectBackground', '#0a5f89', 60)
+            root.option_add('*Listbox*selectForeground', 'white', 60)
 
             font = root.option_get('font', PACKAGE)
             if font:
@@ -86,12 +110,15 @@ class initRootWindow(baseInitRootWindow):
                 root.wm_minsize(550, 360)
                 style.configure('TLabelframe', labeloutside=False,
                                 labelmargins=(8, 0, 8, 0))
+
         #
         else:
             root.option_add('*Entry.background', 'white', 60)
             root.option_add('*Entry.foreground', 'black', 60)
             root.option_add('*Listbox.background', 'white', 60)
             root.option_add('*Listbox.foreground', 'black', 60)
+            root.option_add('*Listbox*selectBackground', '#0a5f89', 60)
+            root.option_add('*Listbox*selectForeground', 'white', 60)
             ##root.option_add('*borderWidth', '1', 50)
             ##root.option_add('*Button.borderWidth', '1', 50)
             root.option_add('*Scrollbar.elementBorderWidth', 1, 60)

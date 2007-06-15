@@ -56,9 +56,8 @@ __all__ = ['wm_withdraw',
            ]
 
 # imports
-import sys, os, re
-import traceback
-import Tile as Tkinter
+import re
+import Tkinter
 from tkFont import Font
 
 # PySol imports

@@ -38,15 +38,15 @@ __all__ = ['PysolMenubar']
 
 # imports
 import math, os, sys, re, traceback
-import Tile as Tkinter
+import Tile
+import Tkinter
 import tkFileDialog
 
 # PySol imports
-from pysollib.mfxutil import destruct, Struct, kwdefault
+from pysollib.mfxutil import Struct, kwdefault
 from pysollib.mfxutil import Image
 from pysollib.util import CARDSET
 from pysollib.settings import PACKAGE, WIN_SYSTEM
-from pysollib.settings import TOP_TITLE
 from pysollib.settings import SELECT_GAME_MENU
 from pysollib.settings import USE_FREECELL_SOLVER
 from pysollib.settings import DEBUG
@@ -1035,6 +1035,8 @@ class PysolMenubar(PysolMenubarActions):
             self.updateMenus()
 
     def mPause(self, *args):
+        if not self.game:
+            return
         if not self.game.pause:
             if self._cancelDrag(): return
         self.game.doPause()
@@ -1350,8 +1352,7 @@ the next time you restart """)+PACKAGE,
 
     def createThemesMenu(self, menu):
         submenu = MfxMenu(menu, label=n_("Set t&heme"))
-        style = Tkinter.Style(self.top)
-        all_themes = list(style.theme_names())
+        all_themes = list(Tile.availableThemes())
         all_themes.sort()
         #
         tn = {

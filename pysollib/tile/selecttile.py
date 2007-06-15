@@ -35,16 +35,13 @@
 
 
 # imports
-import os, string, sys, types
-import Tile as Tkinter
+import Tkinter
 import tkColorChooser
 
 # PySol imports
-from pysollib.mfxutil import destruct, Struct, KwStruct
-from pysollib.resource import CSI
+from pysollib.mfxutil import KwStruct
 
 # Toolkit imports
-from tkutil import loadImage
 from tkwidget import MfxDialog, MfxScrolledCanvas
 from selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
 from selecttree import SelectDialogTreeData, SelectDialogTreeCanvas

@@ -35,8 +35,8 @@
 
 
 # imports
-import os, re, sys, types
-import Tile as Tkinter
+import os
+import Tile
 from UserList import UserList
 
 # PySol imports
@@ -49,7 +49,6 @@ from pysollib.resource import CSI
 # Toolkit imports
 from tkutil import unbind_destroy
 from tkwidget import MfxDialog, MfxScrolledCanvas
-from tkcanvas  import MfxCanvasText
 from selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
 from selecttree import SelectDialogTreeData, SelectDialogTreeCanvas
 
@@ -361,10 +360,10 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         #padx, pady = kw.padx/2, kw.pady/2
         padx, pady = 4, 4
         # PanedWindow
-        paned_window = Tkinter.PanedWindow(top_frame)
+        paned_window = Tile.PanedWindow(top_frame)
         paned_window.pack(expand=True, fill='both', padx=8, pady=8)
-        left_frame = Tkinter.Frame(paned_window)
-        right_frame = Tkinter.Frame(paned_window)
+        left_frame = Tile.Frame(paned_window)
+        right_frame = Tile.Frame(paned_window)
         paned_window.add(left_frame)
         paned_window.add(right_frame)
         # Tree
@@ -373,10 +372,10 @@ class SelectGameDialogWithPreview(SelectGameDialog):
                                     default=kw.default, font=font, width=w1)
         self.tree.frame.pack(padx=padx, pady=pady, expand=True, fill='both')
         # LabelFrame
-        info_frame = Tkinter.LabelFrame(right_frame, text=_('About game'))
+        info_frame = Tile.LabelFrame(right_frame, text=_('About game'))
         info_frame.grid(row=0, column=0, padx=padx, pady=pady,
                         ipadx=4, ipady=4, sticky='nws')
-        stats_frame = Tkinter.LabelFrame(right_frame, text=_('Statistics'))
+        stats_frame = Tile.LabelFrame(right_frame, text=_('Statistics'))
         stats_frame.grid(row=0, column=1, padx=padx, pady=pady,
                          ipadx=4, ipady=4, sticky='nws')
         # Info
@@ -398,9 +397,9 @@ class SelectGameDialogWithPreview(SelectGameDialog):
             ('moves',       _('Moves:'),            stats_frame,  4),
             ('percent',     _('% won:'),            stats_frame,  5),
             ):
-            title_label = Tkinter.Label(f, text=t, justify='left', anchor='w')
+            title_label = Tile.Label(f, text=t, justify='left', anchor='w')
             title_label.grid(row=row, column=0, sticky='nw', padx=4)
-            text_label = Tkinter.Label(f, justify='left', anchor='w')
+            text_label = Tile.Label(f, justify='left', anchor='w')
             text_label.grid(row=row, column=1, sticky='nw', padx=4)
             self.info_labels[n] = (title_label, text_label)
         ##info_frame.columnconfigure(1, weight=1)
@@ -512,11 +511,6 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         #
         self.preview_game = gi.gameclass(gi)
         self.preview_game.createPreview(self.preview_app)
-        tx, ty = 0, 0
-        gw, gh = self.preview_game.width, self.preview_game.height
-        canvas.config(scrollregion=(-tx, -ty, -tx, -ty))
-        canvas.xview_moveto(0)
-        canvas.yview_moveto(0)
         #
         random = None
         if gameid == self.gameid:
@@ -525,7 +519,10 @@ class SelectGameDialogWithPreview(SelectGameDialog):
             self.preview_game.restoreGameFromBookmark(self.bookmark)
         else:
             self.preview_game.newGame(random=random, autoplay=1)
-        canvas.config(scrollregion=(-tx, -ty, gw, gh))
+        gw, gh = self.preview_game.width, self.preview_game.height
+        canvas.config(scrollregion=(0, 0, gw, gh))
+        canvas.xview_moveto(0)
+        canvas.yview_moveto(0)
         #
         self.preview_app.audio = self.app.audio
         if self.app.opt.animations:
@@ -594,5 +591,4 @@ class SelectGameDialogWithPreview(SelectGameDialog):
                 title_label.grid()
                 text_label.grid()
             text_label.config(text=t)
-
 

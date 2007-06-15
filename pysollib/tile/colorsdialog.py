@@ -22,16 +22,14 @@
 __all__ = ['ColorsDialog']
 
 # imports
-import os, sys
-import Tkinter as Tk
-import Tile as Tkinter
+import Tkinter
+import Tile
 from tkColorChooser import askcolor
 
 # PySol imports
-from pysollib.mfxutil import destruct, kwdefault, KwStruct, Struct
+from pysollib.mfxutil import KwStruct
 
 # Toolkit imports
-from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
 from tkwidget import MfxDialog
 
 # /***********************************************************************
@@ -45,7 +43,7 @@ class ColorsDialog(MfxDialog):
         top_frame, bottom_frame = self.createFrames(kw)
         self.createBitmaps(top_frame, kw)
 
-        frame = Tkinter.Frame(top_frame)
+        frame = Tile.Frame(top_frame)
         frame.pack(expand=True, fill='both', padx=5, pady=10)
         frame.columnconfigure(0, weight=1)
 
@@ -77,13 +75,13 @@ class ColorsDialog(MfxDialog):
             (_('Hint arrow:'),             self.hintarrow_var),
             (_('Highlight not matching:'), self.not_matching_var),
             ):
-            Tkinter.Label(frame, text=title, anchor='w',
-                          ).grid(row=row, column=0, sticky='we')
-            l = Tk.Label(frame, width=10, height=2,
+            Tile.Label(frame, text=title, anchor='w',
+                       ).grid(row=row, column=0, sticky='we')
+            l = Tkinter.Label(frame, width=10, height=2,
                               bg=var.get(), textvariable=var)
             l.grid(row=row, column=1, padx=5)
-            b = Tkinter.Button(frame, text=_('Change...'), width=10,
-                               command=lambda l=l: self.selectColor(l))
+            b = Tile.Button(frame, text=_('Change...'), width=10,
+                            command=lambda l=l: self.selectColor(l))
             b.grid(row=row, column=2)
             row += 1
         #
@@ -100,7 +98,7 @@ class ColorsDialog(MfxDialog):
         self.not_matching_color = self.not_matching_var.get()
 
     def selectColor(self, label):
-        c = askcolor(master=self.top, initialcolor=label.cget('bg'),
+        c = askcolor(parent=self.top, initialcolor=label.cget('bg'),
                      title=_("Select color"))
         if c and c[1]:
             label.configure(bg=c[1])

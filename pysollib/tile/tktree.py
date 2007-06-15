@@ -35,7 +35,7 @@
 
 # imports
 import os
-import Tile as Tkinter
+import Tkinter
 
 # Toolkit imports
 from tkutil import bind

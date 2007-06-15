@@ -36,11 +36,11 @@
 __all__ = ['PysolProgressBar']
 
 # imports
-import os, sys
-import Tile as Tkinter
+import Tkinter
+import Tile
 
 # Toolkit imports
-from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
+from tkconst import EVENT_HANDLED
 from tkutil import makeToplevel, setTransient
 
 
@@ -59,15 +59,15 @@ class PysolProgressBar:
         self.top.wm_resizable(0, 0)
         self.top.config(cursor="watch")
         #
-        self.frame = Tkinter.Frame(self.top, relief='flat', borderwidth=0)
-        self.progress = Tkinter.Progressbar(self.frame, maximum=100, length=250)
-        ##style = Tkinter.Style(self.progress)
+        self.frame = Tile.Frame(self.top, relief='flat', borderwidth=0)
+        self.progress = Tile.Progressbar(self.frame, maximum=100, length=250)
+        ##style = Tile.Style(self.progress)
         ##style.configure('TProgressbar', background=color)
         if images:
-            self.f1 = Tkinter.Label(self.frame, image=images[0])
+            self.f1 = Tile.Label(self.frame, image=images[0])
             self.f1.pack(side='left', ipadx=8, ipady=4)
             self.progress.pack(side='left', expand=True, fill='x')
-            self.f2 = Tkinter.Label(self.frame, image=images[1])
+            self.f2 = Tile.Label(self.frame, image=images[1])
             self.f2.pack(side='left', ipadx=8, ipady=4)
         else:
             self.progress.pack(expand=True, fill='x')

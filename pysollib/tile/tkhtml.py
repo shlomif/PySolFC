@@ -36,9 +36,10 @@
 __all__ = ['HTMLViewer']
 
 # imports
-import os, sys, re, types
+import os, sys
 import htmllib, formatter
-import Tile as Tkinter
+import Tkinter
+import Tile
 
 if __name__ == '__main__':
     d = os.path.abspath(os.path.join(sys.path[0], '..', '..'))
@@ -51,7 +52,7 @@ from pysollib.mfxutil import Struct, openURL
 from pysollib.settings import PACKAGE
 
 # Toolkit imports
-from tkutil import bind, unbind_destroy, loadImage
+from tkutil import bind, unbind_destroy
 from tkwidget import MfxMessageDialog
 from statusbar import HtmlStatusbar
 
@@ -247,34 +248,34 @@ class HTMLViewer:
         ##self.defcursor = 'xterm'
         self.handcursor = "hand2"
 
-        frame = Tkinter.Frame(parent, width=640, height=440)
+        frame = Tile.Frame(parent, width=640, height=440)
         frame.pack(expand=True, fill='both')
         frame.grid_propagate(False)
 
         # create buttons
         button_width = 8
-        self.homeButton = Tkinter.Button(frame, text=_("Index"),
-                                         width=button_width,
-                                         command=self.goHome)
+        self.homeButton = Tile.Button(frame, text=_("Index"),
+                                      width=button_width,
+                                      command=self.goHome)
         self.homeButton.grid(row=0, column=0, sticky='w')
-        self.backButton = Tkinter.Button(frame, text=_("Back"),
-                                         width=button_width,
-                                         command=self.goBack)
+        self.backButton = Tile.Button(frame, text=_("Back"),
+                                      width=button_width,
+                                      command=self.goBack)
         self.backButton.grid(row=0, column=1, sticky='w')
-        self.forwardButton = Tkinter.Button(frame, text=_("Forward"),
-                                            width=button_width,
-                                            command=self.goForward)
+        self.forwardButton = Tile.Button(frame, text=_("Forward"),
+                                         width=button_width,
+                                         command=self.goForward)
         self.forwardButton.grid(row=0, column=2, sticky='w')
-        self.closeButton = Tkinter.Button(frame, text=_("Close"),
-                                          width=button_width,
-                                          command=self.destroy)
+        self.closeButton = Tile.Button(frame, text=_("Close"),
+                                       width=button_width,
+                                       command=self.destroy)
         self.closeButton.grid(row=0, column=3, sticky='e')
 
         # create text widget
-        text_frame = Tkinter.Frame(frame)
+        text_frame = Tile.Frame(frame)
         text_frame.grid(row=1, column=0, columnspan=4,
                         sticky='nsew', padx=1, pady=1)
-        vbar = Tkinter.Scrollbar(text_frame)
+        vbar = Tile.Scrollbar(text_frame)
         vbar.pack(side='right', fill='y')
         self.text = Tkinter.Text(text_frame,
                                  fg='black', bg='white',

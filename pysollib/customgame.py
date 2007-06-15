@@ -120,10 +120,13 @@ class CustomGame(Game):
             'waste'    : False,
             'texts'    : True,
             }
+        playcards = 0
         if s['talon'] is InitialDealTalonStack:
             layout_kw['texts'] = False
-        layout_kw['playcards'] = max(
-            16, 12+s['deal_face_down']+s['deal_face_up'])
+            playcards = 12 + 52 * s['decks'] / s['rows_num']
+        else:
+            playcards = 12 + s['deal_face_down'] + s['deal_face_up']
+        layout_kw['playcards'] = max(16, playcards)
         if s['talon'] in (DealRowRedealTalonStack,
                           SpiderTalonStack,
                           GroundForADivorceTalonStack):

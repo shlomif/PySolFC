@@ -29,29 +29,26 @@ from pysollib.mfxutil import print_err
 from pysollib.tile import Tile
 
 
-def init_tile(app, top, theme):
-    top.tk.call("package", "require", "tile")
-    # load available themes
+def init_tile(app, top):
     d = os.path.join(app.dataloader.dir, 'themes')
     if os.path.isdir(d):
         top.tk.call('lappend', 'auto_path', d)
-        for t in os.listdir(d):
-            if os.path.exists(os.path.join(d, t, 'pkgIndex.tcl')):
-                try:
-                    top.tk.call('package', 'require', 'tile::theme::'+t)
-                    #print 'load theme:', t
-                except:
-                    traceback.print_exc()
-                    pass
+    Tile.initialize(top)
+
 
 def set_theme(app, top, theme):
     # set theme
-    style = Tile.Style(top)
-    all_themes = style.theme_names()
-    if theme not in all_themes:
+    try:
+        Tile.setTheme(top, theme)
+    except:
         print_err(_('invalid theme name: ') + theme)
-        theme = app.opt.default_tile_theme
-    style.theme_use(theme)
+        Tile.setTheme(top, app.opt.default_tile_theme)
+##     style = Tile.Style(top)
+##     #all_themes = style.theme_names()
+##     if theme not in all_themes:
+##         print_err(_('invalid theme name: ') + theme)
+##         theme = app.opt.default_tile_theme
+##     style.theme_use(theme)
 
 
 def get_font_name(font):
@@ -92,7 +89,7 @@ class baseInitRootWindow:
             pass
         elif USE_TILE:
             theme = app.opt.tile_theme
-            init_tile(app, root, theme)
+            init_tile(app, root)
             set_theme(app, root, theme)
         else:
             pass

@@ -20,6 +20,7 @@
 ##---------------------------------------------------------------------------##
 
 import sys, os
+import Tkinter
 
 from pysollib.settings import TOOLKIT, USE_TILE
 from pysollib.tile import Tile
@@ -40,7 +41,10 @@ class initRootWindow(baseInitRootWindow):
             color = style.lookup('.', 'background')
             if color:
                 root.tk_setPalette(color) # for non-Tile widgets
-            pass
+
+            # standard Tk scrollbars work on OS X, but Tile ones look weird
+            Tile.Scrollbar = Tkinter.Scrollbar
+
         else:                           # pure Tk
             #root.option_add(...)
             pass

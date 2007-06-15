@@ -37,18 +37,19 @@ __all__ = ['PysolToolbar']
 
 # imports
 import os
-import Tile as Tkinter
+import Tkinter
+import Tile
 
 # PySol imports
 from pysollib.mfxutil import destruct
-from pysollib.mfxutil import Image, ImageTk, ImageOps
+from pysollib.mfxutil import Image, ImageTk
 from pysollib.util import IMAGE_EXTENSIONS
 from pysollib.settings import PACKAGE
 from pysollib.actions import PysolToolbarActions
 from pysollib.winsystems import TkSettings
 
 # Toolkit imports
-from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
+from tkconst import EVENT_HANDLED
 from tkwidget import MfxTooltip
 from menubar import createToolbarMenu, MfxMenu
 
@@ -87,23 +88,25 @@ class AbstractToolbarButton:
         self.grid_forget()
 
 
-class ToolbarCheckbutton(AbstractToolbarButton, Tkinter.Checkbutton):
+class ToolbarCheckbutton(AbstractToolbarButton, Tile.Checkbutton):
     def __init__(self, parent, toolbar, toolbar_name, position, **kwargs):
         kwargs['style'] = 'Toolbutton'
-        Tkinter.Checkbutton.__init__(self, parent, **kwargs)
-        AbstractToolbarButton.__init__(self, parent, toolbar, toolbar_name, position)
+        Tile.Checkbutton.__init__(self, parent, **kwargs)
+        AbstractToolbarButton.__init__(self, parent, toolbar,
+                                       toolbar_name, position)
 
 
-class ToolbarButton(AbstractToolbarButton, Tkinter.Button):
+class ToolbarButton(AbstractToolbarButton, Tile.Button):
     def __init__(self, parent, toolbar, toolbar_name, position, **kwargs):
         kwargs['style'] = 'Toolbutton'
-        Tkinter.Button.__init__(self, parent, **kwargs)
-        AbstractToolbarButton.__init__(self, parent, toolbar, toolbar_name, position)
+        Tile.Button.__init__(self, parent, **kwargs)
+        AbstractToolbarButton.__init__(self, parent, toolbar,
+                                       toolbar_name, position)
 
-class ToolbarSeparator(Tkinter.Separator):
+class ToolbarSeparator(Tile.Separator):
     def __init__(self, parent, toolbar, position, **kwargs):
         kwargs['orient'] = 'vertical'
-        Tkinter.Separator.__init__(self, parent, **kwargs)
+        Tile.Separator.__init__(self, parent, **kwargs)
         self.toolbar = toolbar
         self.position = position
         self.visible = False
@@ -177,9 +180,9 @@ class PysolToolbar(PysolToolbarActions):
         self.compound = compound
         self.orient='horizontal'
         #
-        self.frame = Tkinter.Frame(top, class_='Toolbar',
-                                   relief=TkSettings.toolbar_relief,
-                                   borderwidth=TkSettings.toolbar_borderwidth)
+        self.frame = Tile.Frame(top, class_='Toolbar',
+                                relief=TkSettings.toolbar_relief,
+                                borderwidth=TkSettings.toolbar_borderwidth)
         #
         for l, f, t in (
             (n_("New"),      self.mNewGame,   _("New game")),

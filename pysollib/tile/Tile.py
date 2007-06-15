@@ -1,28 +1,25 @@
-
-from pysollib.settings import WIN_SYSTEM
+# http://tkinter.unpythonic.net/wiki/TileWrapper
 
 import Tkinter
-from Tkconstants import *
 
 
-BooleanVar = Tkinter.BooleanVar
-IntVar = Tkinter.IntVar
-DoubleVar = Tkinter.DoubleVar
-StringVar = Tkinter.StringVar
+def initialize(root=None):
+    if root is None:
+        root = Tkinter._default_root
+    root.tk.call("package", "require", "tile", "0.7.8")
+    # This forces an update of the available packages list.
+    # It's required for package names to find the themes in data/themes/
+    root.tk.call('eval', '[package unknown]', 'Tcl', '[package provide Tcl]')
 
-Tk = Tkinter.Tk
-Toplevel = Tkinter.Toplevel
-Menu = Tkinter.Menu
-Message = Tkinter.Message
-Listbox = Tkinter.Listbox
-Text = Tkinter.Text
-Canvas = Tkinter.Canvas
-Spinbox = Tkinter.Spinbox
+def availableThemes(root=None):
+    if root is None:
+        root = Tkinter._default_root
+    return root.tk.call("tile::availableThemes")
 
-PhotoImage = Tkinter.PhotoImage
-Event = Tkinter.Event
-TkVersion = Tkinter.TkVersion
-TclError = Tkinter.TclError
+def setTheme(root=None, theme=None):
+    if root is None:
+        root = Tkinter._default_root
+    return root.tk.call("tile::setTheme", theme)
 
 
 class Style(Tkinter.Misc):
@@ -33,18 +30,21 @@ class Style(Tkinter.Misc):
 
     def default(self, style, **kw):
         """Sets the default value of the specified option(s) in style"""
-        pass
+        opts = self._options(kw)
+        return self.tk.call("style", "default", style, *opts)
 
     def map_style(self, **kw):
         """Sets dynamic values of the specified option(s) in style. See 
-        "STATE MAPS", below."""
-        pass
+        "STATE MAPS", below.
+        """
+        raise NotImplementedError()
 
     def layout(self, style, layoutSpec):
         """Define the widget layout for style style. See "LAYOUTS" below 
         for the format of layoutSpec. If layoutSpec is omitted, return the 
-        layout specification for style style. """
-        pass
+        layout specification for style style.
+        """
+        raise NotImplementedError()
 
     def element_create(self, name, type, *args):
         """Creates a new element in the current theme of type type. The 
@@ -52,11 +52,11 @@ class Style(Tkinter.Misc):
         themes may define other element types (see 
         Ttk_RegisterElementFactory). 
         """
-        pass
+        raise NotImplementedError()
 
     def element_names(self):
-        """Returns a list of all elements defined in the current theme. """
-        pass
+        """Returns a list of all elements defined in the current theme."""
+        return self.tk.call("style", "elements", "names")
 
     def theme_create(self, name, parent=None, basedon=None):
         """Creates a new theme. It is an error if themeName already exists. 
@@ -65,17 +65,17 @@ class Style(Tkinter.Misc):
         script is evaluated in the context of the new theme as per style theme 
         settings. 
         """
-        pass
+        raise NotImplementedError()
 
     def theme_settings(self, name, script):
-        """Temporarily sets the current theme to themeName, evaluate script, 
-        then restore the previous theme. Typically script simply defines styles 
-        and elements, though arbitrary Tcl code may appear. 
+        """Temporarily sets the current theme to themeName, evaluate script,
+        then restore the previous theme. Typically script simply defines
+        styles and elements, though arbitrary Tcl code may appear.
         """
-        pass
+        raise NotImplementedError()
 
     def theme_names(self):
-        """Returns a list of the available themes. """
+        """Returns a list of the available themes."""
         return self.tk.call("style", "theme", "names")
 
     def theme_use(self, theme):   
@@ -263,6 +263,7 @@ class Notebook(Widget):
         properly if all panes are direct children of the notebook."""
         return self.tk.call("ttk::notebook::enableTraversal", self._w)
 
+
 class Paned(Widget):
     """
     WIDGET OPTIONS
@@ -300,10 +301,11 @@ class Paned(Widget):
         self.tk.call(self._w, "forget", pane)
 
     def insert(self, pos, subwindow, **kw):
-        """Inserts a pane at the specified position. pos is either the string 
-        end, an integer index, or the name of a managed subwindow. If subwindow 
-        is already managed by the paned window, moves it to the specified 
-        position. See PANE OPTIONS for the list of available options. 
+        """Inserts a pane at the specified position. pos is either the string
+        end, an integer index, or the name of a managed subwindow. If
+        subwindow is already managed by the paned window, moves it to the
+        specified position. See PANE OPTIONS for the list of available
+        options.
         """
         return self.tk.call((self._w, "insert", pos, subwindow) + self._options(kw))
 
@@ -325,13 +327,21 @@ class Progressbar(Widget):
 
     def step(self, amount=1.0):
         """Increments the -value by amount. amount defaults to 1.0 
-        if omitted. """
+        if omitted.
+        """
         return self.tk.call(self._w, "step", amount)
 
-    def start(self):
-        self.tk.call("ttk::progressbar::start", self._w)
+    def start(self, interval=None):
+        """Begin autoincrement mode: schedules a recurring timer event that
+        calls step every interval milliseconds. If omitted, interval defaults
+        to 50 milliseconds (20 steps/second).
+        """
+        self.tk.call("ttk::progressbar::start", self._w, interval)
 
     def stop(self):
+        """Stop autoincrement mode: cancels any recurring timer event
+        initiated by pathName start.
+        """
         self.tk.call("ttk::progressbar::stop", self._w)
 
 
@@ -343,11 +353,6 @@ class Radiobutton(Widget, Tkinter.Radiobutton):
 class Scrollbar(Widget, Tkinter.Scrollbar):
     def __init__(self, master=None, cnf={}, **kw):
         Widget.__init__(self, master, "ttk::scrollbar", cnf, kw)
-
-# from http://tkinter.unpythonic.net/wiki/PyLocateTile :
-# standard Tk scrollbars work on OS X, but Tile ones look weird
-if WIN_SYSTEM == "aqua":
-    Scrollbar = Tkinter.Scrollbar
 
 
 class Separator(Widget):
@@ -369,6 +374,9 @@ class Treeview(Widget, Tkinter.Listbox):
         the items in newchildren may be an ancestor of item.
         """
         return self.tk.call(self._w, "children", item, newchildren)
+    # Workaround: `children' overwrite in Tkinter.BaseWidget.__init__
+    child = children
+    tree_children = children
 
     def column(self, column, **kw):
         """Query or modify the options for the specified column. 
@@ -433,35 +441,35 @@ class Treeview(Widget, Tkinter.Listbox):
         """
         return self.tk.call((self._w, 'heading', column) + self._options(kw))
 
-    def identify(self, x, y):
-        """Returns a description of the widget component under the point given 
-        by x and y. The return value is a list with one of the following forms:
+    def identify(self, component, x, y):
+        """Returns a description of the specified component under the point
+        given by x and y, or the empty string if no such component is
+        present at that position. The following subcommands are
+        supported:
 
-        heading #n
-            The column heading for display column #n. 
-        separator #n
-            The border to the right of display column #n. 
-        cell itemid #n
-            The data value for item itemid in display column #n. 
-        item itemid element
-            The tree label for item itemid; element is one of text, image, or 
-            indicator, or another element name depending on the style. 
-        row itemid
-            The y position is over the item but x does not identify any element
-            or displayed data value. 
-        nothing
-            The coordinates are not over any identifiable object. 
+        pathname identify row x y
+            Returns  the item ID of the item at position y.
 
-        See COLUMN IDENTIFIERS for a discussion of display columns and data 
+        pathname identify column x y
+            Returns the data column identifier of the cell at position x.
+            The tree column has ID #0.
+
+        See COLUMN IDENTIFIERS for a discussion of display columns and data
         columns.
         """
-        pass
+        return self.tk.call(self._w, "identify", component, x, y)
+
+    def identify_row(self, x, y):
+        return self.identify('row', x, y)
+
+    def identify_column(self, x, y):
+        return self.identify('column', x, y)
 
     def index(self, item):
         """Returns the integer index of item within its parent's list of 
         children. 
         """
-        pass
+        return self.tk.call(self._w, "index", item)
 
     def insert(self, parent, index, id=None, **kw):
         """Creates a new item. parent is the item ID of the parent item, or 
@@ -488,7 +496,7 @@ class Treeview(Widget, Tkinter.Listbox):
         item's options are updated with the specified values. See ITEM OPTIONS 
         for the list of available options. 
         """
-        pass
+        return self.tk.call((self._w, 'item') + self._options(kw))
 
     def move(self, item, parent, index):
         """Moves item to position index in parent's list of children. It is 
@@ -498,148 +506,105 @@ class Treeview(Widget, Tkinter.Listbox):
         beginning; if greater than or equal to the number of children, it's 
         moved to the end.
         """
-        pass
+        return self.tk.call(self._w, 'move', item, parent, index)
 
     def next(self, item):
         """Returns the identifier of item's next sibling, or {} if item is the 
         last child of its parent. 
         """
-        pass
+        return self.tk.call(self._w, 'next', item)
 
     def parent(self, item):
         """Returns the ID of the parent of item, or {} if item is at the top 
         level of the hierarchy. 
         """
-        pass
+        return self.tk.call(self._w, 'parent', item)
 
     def prev(self, item):
         """Returns the identifier of item's previous sibling, or {} if item is 
         the first child of its parent. 
         """
-        pass
+        return self.tk.call(self._w, 'prev', item)
 
     def selection(self):
-        """Returns the list of selected items"""
+        """Returns the list of selected items."""
         return self.tk.call(self._w, "selection")
 
     def selection_set(self, items):
-        """items becomes the new selection. """
-        pass
+        """items becomes the new selection."""
+        return self.tk.call(self._w, "selection", "set", items)
 
     def selection_add(self, items):
-        """Add items to the selection """
-        pass
+        """Add items to the selection."""
+        return self.tk.call(self._w, "selection", "add", items)
 
     def selection_remove(self, items):
-        """Remove items from the selection """
-        pass
+        """Remove items from the selection."""
+        return self.tk.call(self._w, "selection", "remove", items)
 
     def selection_toggle(self, items):
-        """Toggle the selection state of each item in items. """
-        pass
+        """Toggle the selection state of each item in items."""
+        return self.tk.call(self._w, "selection", "toggle", items)
 
     def set(self, item, column, value=None):
-        """If value is specified, sets the value of column column in item item, 
-        otherwise returns the current value. See COLUMN IDENTIFIERS. 
+        """If value is specified, sets the value of column column in item
+        item, otherwise returns the current value. See COLUMN IDENTIFIERS.
         """
-        pass
+        raise NotImplementedError()
 
 
-
-if __name__=="__main__":
-    def callback():
-        print "Hello"
-
+def test():
+    import sys
     root = Tkinter.Tk()
-    root.tk.call("package", "require", "tile")
-
-    b = Button(root, text="Tile Button", command=callback)
-    b.pack()
-
-    #~ c = Checkbutton(root)
-    #~ c.pack()
-    #~ print b.theme_names()
-
-    #~ cb = Combobox(root)
-    #~ cb.pack()
-
-    #~ e = Entry(root)
-    #~ e.validate()
-    #~ e.pack()
-
-    #~ l = Label(root, text="Tile Label")
-    #~ l.pack()
-
-
-    #~ mb = Menubutton(root)
-    #~ mb.pack()
-
-
-    #~ nb = Notebook(root)
-
-    #~ f1 = Label(nb, text="page1")
-    #~ nb.add(f1, text="Page1")
-    #~ f1.pack()
-
-    #~ f2 =  Label(nb, text="page2")
-    #~ nb.add(f2, text="Page 2")
-    #~ f2.pack()
-
-    #~ nb.pack()
-
-
-    pb = Progressbar(root, mode="indeterminate")
-    pb.pack()
-
-
-    pb.start()
-    b = Button(root, text="Start", command=pb.start)
-    b.pack()
-    b = Button(root, text="Stop", command=pb.stop)
-    b.pack()
-
-    #~ rb = Radiobutton(root)
-    #~ rb.pack()
-
-    #~ text = Tkinter.Text(root)
-    #~ scrol = Scrollbar(root)
-    #~ text.pack(side="left", fill="both", expand="yes")
-    #~ scrol.pack(side="left", fill="y")
-    #~ text['yscrollcommand'] = scrol.set
-    #~ scrol['command'] = text.yview
-
-
-    #~ l = Label(root, text="Label1")
-    #~ l.pack()
-    #~ s = Separator(root)
-    #~ s.pack(fill="x")
-    #~ l = Label(root, text="Label2")
-    #~ l.pack()
-
-
-    b.theme_use("default")
-
-    #~ b1 = Tkinter.Button(root, text="Tk Button", command=callback)
-    #~ b1.pack()
-
-
-    panes = Paned(root)
-    panes.pack(fill="both", expand="yes")
-
-    label1 = Label(panes, text="pane1")
-    label2 = Label(panes, text="Pane2")
-
-
-    panes.add(label1)
-    panes.add(label2)
-
-
-
-
-    #~ tree = Treeview(root, columns=("One", "Two", "Three"))
-
-    #~ tree.insert(None, "end", text="Hello")
-
-    #~ tree.pack()
-
+    initialize()
+    root.option_add('*Toolbar.relief', 'groove')
+    root.option_add('*Toolbar.borderWidth', 2)
+    root.option_add('*Toolbar.Button.Pad', 2)
+    base = Frame(root)
+    base.pack(expand=True, fill='both')
+    tb_frame = Frame(base, class_='Toolbar')
+    tb_frame.pack(side='top', expand=False, fill='x')
+    b = Button(tb_frame, text='Open', style='Toolbutton')
+    b.grid(row=0, column=0, sticky='news')
+    b = Button(tb_frame, text='Save', style='Toolbutton')
+    b.grid(row=0, column=1, sticky='news')
+    b = Checkbutton(tb_frame, text='Bold', style='Toolbutton')
+    b.grid(row=0, column=2, sticky='news')
+    b = Checkbutton(tb_frame, text='Italic', style='Toolbutton')
+    b.grid(row=0, column=3, sticky='news')
+    tb_frame.grid_columnconfigure(4, weight=1)
+    theme_frame = LabelFrame(base, text='Theme')
+    theme_frame.pack(side='left', expand=False, fill='y', padx=4, pady=4)
+    theme_var = Tkinter.StringVar()
+    theme_var.set('default')
+    for theme in availableThemes():
+        command = lambda theme=theme: setTheme(theme=theme)
+        b = Radiobutton(theme_frame, text=theme, variable=theme_var,
+                        value=theme, command=command)
+        b.pack(side='top', expand=False, fill='x', padx=4)
+    right_frame = Frame(base)
+    right_frame.pack(side='right', expand=True, fill='both')
+    b = Checkbutton(right_frame, text='Checkbutton')
+    b.pack(expand=False, fill='x')
+    b = Button(right_frame, text='Button')
+    b.pack(expand=False, fill='x')
+    text_frame = Frame(right_frame)
+    text_frame.pack(expand=True, fill='both')
+    text = Tkinter.Text(text_frame, width=40, height=20,
+                        fg='black', bg='white', wrap='none')
+    hsb = Scrollbar(text_frame, orient='horizontal', command=text.xview)
+    vsb = Scrollbar(text_frame, orient='vertical', command=text.yview)
+    text.grid(row=0, column=0, sticky='nwse')
+    hsb.grid(row=1, column=0, sticky='we')
+    vsb.grid(row=0, column=1, sticky='ns')
+    text.configure(xscrollcommand=hsb.set)
+    text.configure(yscrollcommand=vsb.set)
+    text.insert('end', open(sys.argv[0]).read())
+    grip = Sizegrip(text_frame)
+    grip.grid(row=1, column=1, sticky='se')
+    text_frame.grid_columnconfigure(0, weight=1)
+    text_frame.grid_rowconfigure(0, weight=1)
     root.mainloop()
+
+if __name__ == '__main__':
+    test()

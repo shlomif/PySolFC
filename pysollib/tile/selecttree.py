@@ -36,16 +36,9 @@
 __all__ = ['SelectDialogTreeData']
 
 # imports
-import os, re, sys, types
-import Tile as Tkinter
 import tkFont
 
-# PySol imports
-from pysollib.mfxutil import destruct, Struct, KwStruct, kwdefault
-
 # Toolkit imports
-from tkutil import makeImage
-from tkcanvas import MfxCanvas
 from tktree import MfxTreeLeaf, MfxTreeNode, MfxTreeInCanvas
 
 

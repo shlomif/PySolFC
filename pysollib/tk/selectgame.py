@@ -523,11 +523,6 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         #
         self.preview_game = gi.gameclass(gi)
         self.preview_game.createPreview(self.preview_app)
-        tx, ty = 0, 0
-        gw, gh = self.preview_game.width, self.preview_game.height
-        canvas.config(scrollregion=(-tx, -ty, -tx, -ty))
-        canvas.xview_moveto(0)
-        canvas.yview_moveto(0)
         #
         random = None
         if gameid == self.gameid:
@@ -536,7 +531,10 @@ class SelectGameDialogWithPreview(SelectGameDialog):
             self.preview_game.restoreGameFromBookmark(self.bookmark)
         else:
             self.preview_game.newGame(random=random, autoplay=1)
-        canvas.config(scrollregion=(-tx, -ty, gw, gh))
+        gw, gh = self.preview_game.width, self.preview_game.height
+        canvas.config(scrollregion=(0, 0, gw, gh))
+        canvas.xview_moveto(0)
+        canvas.yview_moveto(0)
         #
         self.preview_app.audio = self.app.audio
         if self.app.opt.animations:
@@ -605,5 +603,4 @@ class SelectGameDialogWithPreview(SelectGameDialog):
                 title_label.grid()
                 text_label.grid()
             text_label.config(text=t)
-
 

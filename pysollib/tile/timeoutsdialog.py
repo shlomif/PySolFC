@@ -22,16 +22,14 @@
 __all__ = ['TimeoutsDialog']
 
 # imports
-import os, sys
-import Tile as Tkinter
+import Tkinter
+import Tile
 
 # PySol imports
-from pysollib.mfxutil import destruct, kwdefault, KwStruct, Struct
+from pysollib.mfxutil import KwStruct
 
 # Toolkit imports
-from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
-from tkwidget import MfxDialog
-from tkwidget import PysolScale
+from tkwidget import MfxDialog, PysolScale
 
 
 # /***********************************************************************
@@ -45,7 +43,7 @@ class TimeoutsDialog(MfxDialog):
         top_frame, bottom_frame = self.createFrames(kw)
         #self.createBitmaps(top_frame, kw)
 
-        frame = Tkinter.Frame(top_frame)
+        frame = Tile.Frame(top_frame)
         frame.pack(expand=True, fill='both', padx=5, pady=10)
         frame.columnconfigure(0, weight=1)
 
@@ -62,20 +60,23 @@ class TimeoutsDialog(MfxDialog):
         self.highlight_samerank_sleep_var = Tkinter.DoubleVar()
         self.highlight_samerank_sleep_var.set(app.opt.timeouts['highlight_samerank'])
         #
-        #Tkinter.Label(frame, text='Set delays in seconds').grid(row=0, column=0, columnspan=2)
+        lframe = Tile.LabelFrame(frame, text=_('Set delays in seconds'),
+                                 padding=(10, 5))
+        lframe.pack(expand=True, fill='both', padx=4)
         row = 0
-        for title, var in ((_('Demo:'), self.demo_sleep_var),
-                           (_('Hint:'), self.hint_sleep_var),
-                           (_('Raise card:'), self.raise_card_sleep_var),
-                           (_('Highlight piles:'), self.highlight_piles_sleep_var),
-                           (_('Highlight cards:'), self.highlight_cards_sleep_var),
-                           (_('Highlight same rank:'), self.highlight_samerank_sleep_var),
-                           ):
-            Tkinter.Label(frame, text=title, anchor='w'
-                          ).grid(row=row, column=0, sticky='we')
-            widget = PysolScale(frame, from_=0.2, to=9.9, value=var.get(),
-                                   resolution=0.1, orient='horizontal',
-                                   length="3i", variable=var, takefocus=0)
+        for title, var in (
+            (_('Demo:'),                self.demo_sleep_var),
+            (_('Hint:'),                self.hint_sleep_var),
+            (_('Raise card:'),          self.raise_card_sleep_var),
+            (_('Highlight piles:'),     self.highlight_piles_sleep_var),
+            (_('Highlight cards:'),     self.highlight_cards_sleep_var),
+            (_('Highlight same rank:'), self.highlight_samerank_sleep_var),
+            ):
+            Tile.Label(lframe, text=title, anchor='w'
+                       ).grid(row=row, column=0, sticky='we')
+            widget = PysolScale(lframe, from_=0.2, to=9.9, value=var.get(),
+                                resolution=0.1, orient='horizontal',
+                                length="3i", variable=var, takefocus=0)
             widget.grid(row=row, column=1)
             row += 1
         #

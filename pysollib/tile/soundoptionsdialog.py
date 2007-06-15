@@ -36,17 +36,17 @@
 __all__ = ['SoundOptionsDialog']
 
 # imports
-import os, sys, string
-import Tile as Tkinter
-import traceback
+import os
+import Tkinter
+import Tile
 
 # PySol imports
-from pysollib.mfxutil import destruct, kwdefault, KwStruct, Struct
+from pysollib.mfxutil import KwStruct
 from pysollib.settings import PACKAGE
 from pysollib.pysolaudio import pysolsoundserver
 
 # Toolkit imports
-from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
+from tkconst import EVENT_HANDLED
 from tkwidget import MfxDialog, MfxMessageDialog
 from tkwidget import PysolScale
 
@@ -104,45 +104,45 @@ class SoundOptionsDialog(MfxDialog):
             ]
 
         #
-        frame = Tkinter.Frame(top_frame)
+        frame = Tile.Frame(top_frame)
         frame.pack(expand=True, fill='both', padx=5, pady=5)
         frame.columnconfigure(1, weight=1)
         #
         row = 0
-        w = Tkinter.Checkbutton(frame, variable=self.sound,
-                                text=_("Sound enabled"))
+        w = Tile.Checkbutton(frame, variable=self.sound,
+                             text=_("Sound enabled"))
         w.grid(row=row, column=0, columnspan=2, sticky='ew')
         #
         if os.name == "nt" and pysolsoundserver:
             row += 1
-            w = Tkinter.Checkbutton(frame, variable=self.sound_mode,
-                                    text=_("Use DirectX for sound playing"),
-                                    command=self.mOptSoundDirectX)
+            w = Tile.Checkbutton(frame, variable=self.sound_mode,
+                                 text=_("Use DirectX for sound playing"),
+                                 command=self.mOptSoundDirectX)
             w.grid(row=row, column=0, columnspan=2, sticky='ew')
         #
         if app.audio.CAN_PLAY_MUSIC: # and app.startup_opt.sound_mode > 0:
             row += 1
-            Tkinter.Label(frame, text=_('Sample volume:'), anchor='w'
-                          ).grid(row=row, column=0, sticky='ew')
+            Tile.Label(frame, text=_('Sample volume:'), anchor='w'
+                       ).grid(row=row, column=0, sticky='ew')
             w = PysolScale(frame, from_=0, to=128, resolution=1,
-                              orient='horizontal', takefocus=0,
-                              length="3i", #label=_('Sample volume'),
-                              variable=self.sample_volume)
+                           orient='horizontal', takefocus=0,
+                           length="3i", #label=_('Sample volume'),
+                           variable=self.sample_volume)
             w.grid(row=row, column=1, sticky='w', padx=5)
             row += 1
-            Tkinter.Label(frame, text=_('Music volume:'), anchor='w'
-                          ).grid(row=row, column=0, sticky='ew')
+            Tile.Label(frame, text=_('Music volume:'), anchor='w'
+                       ).grid(row=row, column=0, sticky='ew')
             w = PysolScale(frame, from_=0, to=128, resolution=1,
-                              orient='horizontal', takefocus=0,
-                              length="3i", #label=_('Music volume'),
-                              variable=self.music_volume)
+                           orient='horizontal', takefocus=0,
+                           length="3i", #label=_('Music volume'),
+                           variable=self.music_volume)
             w.grid(row=row, column=1, sticky='w', padx=5)
 
         else:
             # remove "Apply" button
             kw.strings[1] = None
         #
-        frame = Tkinter.LabelFrame(top_frame, text=_('Enable samples'))
+        frame = Tile.LabelFrame(top_frame, text=_('Enable samples'))
         frame.pack(expand=True, fill='both', padx=5, pady=5)
         frame.columnconfigure(0, weight=1)
         frame.columnconfigure(1, weight=1)
@@ -151,7 +151,7 @@ class SoundOptionsDialog(MfxDialog):
         col = 0
         for n, t, v in self.samples:
             v.set(app.opt.sound_samples[n])
-            w = Tkinter.Checkbutton(frame, text=t, variable=v)
+            w = Tile.Checkbutton(frame, text=t, variable=v)
             w.grid(row=row, column=col, sticky='ew', padx=3, pady=1)
             if col == 1:
                 col = 0

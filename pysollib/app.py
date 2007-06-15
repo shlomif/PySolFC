@@ -281,8 +281,8 @@ class Options:
 
     def setDefaults(self, top=None):
         # toolbar
-        if WIN_SYSTEM == 'win32':
-            self.toolbar_style = 'crystal'
+        #if WIN_SYSTEM == 'win32':
+        #    self.toolbar_style = 'crystal'
         # fonts
         if WIN_SYSTEM == 'win32':
             self.fonts["sans"] = ("times new roman", 12)

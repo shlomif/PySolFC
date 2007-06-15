@@ -41,12 +41,11 @@ __all__ = ['MfxCanvasGroup',
            'MfxCanvas']
 
 # imports
-import os, sys, types
-import Tile as Tkinter
+import Tkinter
 import Canvas
 
 # PySol imports
-from pysollib.mfxutil import Image, ImageTk, ImageOps
+from pysollib.mfxutil import Image, ImageTk
 
 # Toolkit imports
 from tkutil import bind, unbind_destroy, loadImage
@@ -128,6 +127,7 @@ class MfxCanvas(Tkinter.Canvas):
     def __init__(self, *args, **kw):
         Tkinter.Canvas.__init__(self, *args, **kw)
         self.preview = 0
+        self.busy = False
         # this is also used by lib-tk/Canvas.py
         self.items = {}
         # private
@@ -227,14 +227,14 @@ class MfxCanvas(Tkinter.Canvas):
     def setInitialSize(self, width, height):
         ##print 'setInitialSize:', width, height
         if self.preview:
-            self.config(width=width, height=height)
-            self.config(scrollregion=(0, 0, width, height))
+            self.config(width=width, height=height,
+                        scrollregion=(0, 0, width, height))
         else:
             # add margins
             ##dx, dy = 40, 40
             dx, dy = self.xmargin, self.ymargin
-            self.config(width=dx+width+dx, height=dy+height+dy)
-            self.config(scrollregion=(-dx, -dy, width+dx, height+dy))
+            self.config(width=dx+width+dx, height=dy+height+dy,
+                        scrollregion=(-dx, -dy, width+dx, height+dy))
 
 
     #

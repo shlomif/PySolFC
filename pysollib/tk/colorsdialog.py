@@ -99,7 +99,7 @@ class ColorsDialog(MfxDialog):
         self.not_matching_color = self.not_matching_var.get()
 
     def selectColor(self, label):
-        c = askcolor(master=self.top, initialcolor=label.cget('bg'),
+        c = askcolor(parent=self.top, initialcolor=label.cget('bg'),
                      title=_("Select color"))
         if c and c[1]:
             label.configure(bg=c[1])

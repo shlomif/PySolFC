@@ -193,14 +193,16 @@ class Game:
         ##self.top.bind('<ButtonPress>', self.top._sleepEvent)
         ##self.top.bind('<3>', self.top._sleepEvent)
         # update display properties
-        self.top.wm_geometry("")        # cancel user-specified geometry
+        self.canvas.busy = True
         self.canvas.setInitialSize(self.width, self.height)
         if self.app.opt.save_games_geometry and \
                self.id in self.app.opt.games_geometry:
             # restore game geometry
             w, h = self.app.opt.games_geometry[self.id]
             self.canvas.config(width=w, height=h)
-        self.top.update_idletasks()     # apply geometry now
+        self.top.wm_geometry("")        # cancel user-specified geometry
+        self.top.update_idletasks()
+        self.canvas.busy = False
         if DEBUG >= 4:
             MfxCanvasRectangle(self.canvas, 0, 0, self.width, self.height,
                                width=2, fill=None, outline='green')
@@ -2665,7 +2667,6 @@ for %d moves.
         self.updatePlayTime(do_after=0)
         reset_solver_dialog()
 
-
         return 1
 
 
@@ -2694,6 +2695,7 @@ for %d moves.
         self.updateText()
         self.updateStatus(moves=(self.moves.index, self.stats.total_moves))
         self.updateMenus()
+        reset_solver_dialog()
 
     def redo(self):
         assert self.canRedo()
@@ -2718,6 +2720,7 @@ for %d moves.
         self.updateText()
         self.updateStatus(moves=(self.moves.index, self.stats.total_moves))
         self.updateMenus()
+        reset_solver_dialog()
 
 
     #

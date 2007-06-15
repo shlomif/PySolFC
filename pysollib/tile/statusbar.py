@@ -38,7 +38,8 @@ __all__ = ['PysolStatusbar',
 
 # imports
 import os, sys
-import Tile as Tkinter
+import Tkinter
+import Tile
 
 if __name__ == '__main__':
     d = os.path.abspath(os.path.join(sys.path[0], os.pardir, os.pardir))
@@ -68,18 +69,18 @@ class MfxStatusbar:
         #
         self.padx = 1
         self.label_relief = 'sunken'
-        self.top_frame = Tkinter.Frame(self.top)
+        self.top_frame = Tile.Frame(self.top)
         self.top_frame.grid(row=self._row, column=self._column,
                             columnspan=self._columnspan, sticky='ew')
-        self.frame = Tkinter.Frame(self.top_frame)
+        self.frame = Tile.Frame(self.top_frame)
         self.frame.pack(side='left', expand=True, fill='both', padx=0, pady=1)
 
     # util
     def _createLabel(self, name, side='left', fill='none',
                      expand=False, width=0, tooltip=None):
-        frame = Tkinter.Frame(self.frame, borderwidth=1, relief=self.label_relief)
+        frame = Tile.Frame(self.frame, borderwidth=1, relief=self.label_relief)
         frame.pack(side=side, fill=fill, padx=self.padx, expand=expand)
-        label = Tkinter.Label(frame, width=width)
+        label = Tile.Label(frame, width=width)
         label.pack(expand=True, fill='both')
         setattr(self, name + "_label", label)
         self._widgets.append(label)
@@ -90,7 +91,7 @@ class MfxStatusbar:
         return label
 
     def _createSizegrip(self):
-        sg = Tkinter.Sizegrip(self.top_frame)
+        sg = Tile.Sizegrip(self.top_frame)
         sg.pack(side='right', anchor='se')
 
 

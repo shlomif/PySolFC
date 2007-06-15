@@ -44,9 +44,9 @@ __all__ = ['MfxDialog',
            ]
 
 # imports
-import os, sys, time, locale
-import Tkinter as Tk
-import Tile as Tkinter
+import os, time, locale
+import Tkinter
+import Tile
 import tkFont
 import traceback
 
@@ -55,8 +55,7 @@ from pysollib.mfxutil import destruct, kwdefault, KwStruct, openURL
 from pysollib.settings import WIN_SYSTEM
 
 # Toolkit imports
-from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
-from tkutil import after, after_idle, after_cancel
+from tkutil import after, after_cancel
 from tkutil import bind, unbind_destroy
 from tkutil import makeToplevel, setTransient
 from tkcanvas import MfxCanvas
@@ -78,7 +77,7 @@ class MfxDialog: # ex. _ToplevelDialog
         self.buttons = []
         self.accel_keys = {}
         self.top = makeToplevel(parent, title=title)
-        #self._frame = Tkinter.Frame(self.top)
+        #self._frame = Tile.Frame(self.top)
         #self._frame.pack(expand=True, fill='both')
         self._frame = self.top
         self.top.wm_resizable(resizable, resizable)
@@ -168,23 +167,23 @@ class MfxDialog: # ex. _ToplevelDialog
         return kw
 
     def createFrames(self, kw):
-        bottom_frame = Tkinter.Frame(self._frame, relief='flat', borderwidth=4)
+        bottom_frame = Tile.Frame(self._frame, relief='flat', borderwidth=4)
         bottom_frame.pack(side='bottom', fill='both', expand=False)
         if kw.separatorwidth > 0:
-            separator = Tkinter.Separator(self._frame)
+            separator = Tile.Separator(self._frame)
             separator.pack(side='bottom', fill='x')
-        top_frame = Tkinter.Frame(self._frame)
+        top_frame = Tile.Frame(self._frame)
         top_frame.pack(side='top', fill='both', expand=1)
         return top_frame, bottom_frame
 
     def createBitmaps(self, frame, kw):
         if kw.bitmap: ## in ("error", "info", "question", "warning")
             img = self.img.get(kw.bitmap)
-            b = Tkinter.Label(frame, image=img)
+            b = Tile.Label(frame, image=img)
             b.pack(side=kw.bitmap_side,
                    padx=kw.bitmap_padx, pady=kw.bitmap_pady)
         elif kw.image:
-            b = Tkinter.Label(frame, image=kw.image)
+            b = Tile.Label(frame, image=kw.image)
             b.pack(side=kw.image_side, padx=kw.image_padx, pady=kw.image_pady)
 
     def createButtons(self, frame, kw):
@@ -230,9 +229,9 @@ class MfxDialog: # ex. _ToplevelDialog
                 button_img = MfxDialog.button_img.get(s)
             s = s.replace('&', '')
             if button < 0:
-                widget = Tkinter.Button(frame, text=s, state="disabled")
+                widget = Tile.Button(frame, text=s, state="disabled")
             else:
-                widget = Tkinter.Button(frame, text=s, default="normal",
+                widget = Tile.Button(frame, text=s, default="normal",
                     command = lambda self=self, button=button: \
                                         self.mDone(button))
                 if button == kw.default:
@@ -275,7 +274,7 @@ class MfxMessageDialog(MfxDialog):
         self.createBitmaps(top_frame, kw)
         #
         self.button = kw.default
-        msg = Tkinter.Label(top_frame, text=kw.text, justify=kw.justify,
+        msg = Tile.Label(top_frame, text=kw.text, justify=kw.justify,
                             width=kw.width)
         msg.pack(fill='both', expand=True, padx=kw.padx, pady=kw.pady)
         #
@@ -315,16 +314,16 @@ class PysolAboutDialog(MfxMessageDialog):
         self.createBitmaps(top_frame, kw)
         #
         self.button = kw.default
-        frame = Tkinter.Frame(top_frame)
+        frame = Tile.Frame(top_frame)
         frame.pack(fill='both', expand=True, padx=kw.padx, pady=kw.pady)
-        msg = Tkinter.Label(frame, text=kw.text, justify=kw.justify,
-                            width=kw.width)
+        msg = Tile.Label(frame, text=kw.text, justify=kw.justify,
+                         width=kw.width)
         msg.pack(fill='both', expand=True)
 
         font = tkFont.Font(parent, app.getFont('default'))
         font.configure(underline=True)
-        url_label = Tkinter.Label(frame, text=kw.url, font=font,
-                                  foreground='blue', cursor='hand2')
+        url_label = Tile.Label(frame, text=kw.url, font=font,
+                               foreground='blue', cursor='hand2')
         url_label.pack()
         url_label.bind('<1>', self._urlClicked)
         #
@@ -348,10 +347,10 @@ class MfxSimpleEntry(MfxDialog):
         #
         self.value = value
         if label:
-            label = Tkinter.Label(top_frame, text=label, takefocus=0)
+            label = Tile.Label(top_frame, text=label, takefocus=0)
             label.pack(pady=5)
         w = kw.get("e_width", 0)    # width in characters
-        self.var = Tkinter.Entry(top_frame, exportselection=1, width=w)
+        self.var = Tile.Entry(top_frame, exportselection=1, width=w)
         self.var.insert(0, value)
         self.var.pack(side='top', padx=kw.padx, pady=kw.pady)
         #
@@ -442,10 +441,9 @@ class MfxTooltip:
         self.timer = None
         if self.tooltip or not self.text:
             return
-##         if isinstance(self.widget, (Tkinter.Button, Tkinter.Checkbutton)):
+##         if isinstance(self.widget, (Tile.Button, Tile.Checkbutton)):
 ##             if self.widget["state"] == 'disabled':
 ##                 return
-        import Tkinter # not Tile
         ##x = self.widget.winfo_rootx()
         x = self.widget.winfo_pointerx()
         y = self.widget.winfo_rooty() + self.widget.winfo_height()
@@ -555,20 +553,20 @@ class MfxScrolledCanvas:
     def createFrame(self, kw):
         width = kw.get("width")
         height = kw.get("height")
-        self.frame = Tkinter.Frame(self.parent, width=width, height=height)
+        self.frame = Tile.Frame(self.parent, width=width, height=height)
 
     def createCanvas(self, kw):
         self.canvas = MfxCanvas(self.frame, **kw)
         self.canvas.grid(row=0, column=0, sticky="news")
     def createHbar(self):
-        self.hbar = Tkinter.Scrollbar(self.frame, takefocus=0,
-                                      orient="horizontal")
+        self.hbar = Tile.Scrollbar(self.frame, takefocus=0,
+                                   orient="horizontal")
         self.canvas["xscrollcommand"] = self._setHbar
         self.hbar["command"] = self.canvas.xview
         self.hbar.grid(row=1, column=0, sticky="we")
         self.hbar.grid_remove()
     def createVbar(self):
-        self.vbar = Tkinter.Scrollbar(self.frame, takefocus=0)
+        self.vbar = Tile.Scrollbar(self.frame, takefocus=0)
         self.canvas["yscrollcommand"] = self._setVbar
         self.vbar["command"] = self.canvas.yview
         self.vbar.grid(row=0, column=1, sticky="ns")
@@ -599,28 +597,28 @@ class MfxScrolledCanvas:
         print 'MfxScrolledCanvas.mouse_wheel', args
 
     def _setHbar(self, first, last):
-        sb = self.hbar
-        if not self.canvas.winfo_ismapped():
-            sb.set(first, last)
+        if self.canvas.busy:
             return
+        sb = self.hbar
         if float(first) <= 0 and float(last) >= 1:
             sb.grid_remove()
             self.hbar_show = False
         else:
-            sb.grid()
-            self.hbar_show = True
+            if self.canvas.winfo_ismapped():
+                sb.grid()
+                self.hbar_show = True
         sb.set(first, last)
     def _setVbar(self, first, last):
-        sb = self.vbar
-        if not self.canvas.winfo_ismapped():
-            sb.set(first, last)
+        if self.canvas.busy:
             return
-        if float(first) <= 0and float(last) >= 1:
+        sb = self.vbar
+        if float(first) <= 0 and float(last) >= 1:
             sb.grid_remove()
             self.vbar_show = False
         else:
-            sb.grid()
-            self.vbar_show = True
+            if self.canvas.winfo_ismapped():
+                sb.grid()
+                self.vbar_show = True
         sb.set(first, last)
 
     def _xview(self, *args):
@@ -668,8 +666,6 @@ class StackDesc:
         self.canvas = game.canvas
         self.bindings = []
 
-        import Tkinter # not Tile
-
         font = game.app.getFont('canvas_small')
         ##print self.app.cardset.CARDW, self.app.images.CARDW
         cardw = game.app.images.CARDW
@@ -684,7 +680,8 @@ class StackDesc:
             label.pack()
             self.label = label
             self.id = self.canvas.create_window(x, y, window=frame, anchor='n')
-            self.bindings.append(label.bind('<ButtonPress>', self._buttonPressEvent))
+            self.bindings.append(label.bind('<ButtonPress>',
+                                            self._buttonPressEvent))
             ##self.bindings.append(label.bind('<Enter>', self._enterEvent))
         else:
             self.id = None
@@ -749,11 +746,11 @@ class MyPysolScale:
 
         # create widgets
         side = 'left' # 'top'
-        self.frame = Tkinter.Frame(parent)
-        self.label = Tkinter.Label(self.frame, anchor='w',
-                                   width=width, padding=(5,0))
+        self.frame = Tile.Frame(parent)
+        self.label = Tile.Label(self.frame, anchor='w',
+                                width=width, padding=(5,0))
         self.label.pack(side=side, expand=False, fill='x')
-        self.scale = Tkinter.Scale(self.frame, **kw)
+        self.scale = Tile.Scale(self.frame, **kw)
         self.scale.pack(side=side, expand=True, fill='both', pady=4)
 
         if value is not None:
@@ -791,11 +788,11 @@ class MyPysolScale:
     config = configure
 
 
-class TkinterScale(Tk.Scale):
+class TkinterScale(Tkinter.Scale):
     def __init__(self, parent, **kw):
         if 'value' in kw:
             del kw['value']
-        Tk.Scale.__init__(self, parent, **kw)
+        Tkinter.Scale.__init__(self, parent, **kw)
 
 
 PysolScale = MyPysolScale
@@ -806,13 +803,13 @@ PysolScale = MyPysolScale
 # // Tile.Combobox workaround (clear selection)
 # ************************************************************************/
 
-class PysolCombo(Tkinter.Combobox):
+class PysolCombo(Tile.Combobox):
     def __init__(self, master=None, **kw):
         self._command = None
         if 'selectcommand' in kw:
             self._command = kw['selectcommand']
             del kw['selectcommand']
-        Tkinter.Combobox.__init__(self, master, **kw)
+        Tile.Combobox.__init__(self, master, **kw)
         self.bind('<<ComboboxSelected>>', self._callback)
 
     def _callback(self, *args):

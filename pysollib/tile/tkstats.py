@@ -433,13 +433,20 @@ class AllGamesFrame(Tile.Frame):
         #
         frame = Tile.Frame(self)
         frame.pack(fill='both', expand=True, padx=10, pady=10)
-        sb = Tile.Scrollbar(frame)
-        sb.pack(side='right', fill='y')
+        vsb = Tile.Scrollbar(frame)
+        vsb.grid(row=0, column=1, sticky='ns')
         self.tree = Tile.Treeview(frame, columns=self.COLUMNS,
                                   selectmode='browse')
-        self.tree.pack(side='left', fill='both', expand=True)
-        self.tree.config(yscrollcommand=sb.set)
-        sb.config(command=self.tree.yview)
+        self.tree.grid(row=0, column=0, sticky='nsew')
+        self.tree.config(yscrollcommand=vsb.set)
+        vsb.config(command=self.tree.yview)
+        frame.rowconfigure(0, weight=1)
+        frame.columnconfigure(0, weight=1)
+        if Tile.TileVersion >= '0.8':
+            hsb = Tile.Scrollbar(frame, orient='horizontal')
+            hsb.grid(row=1, column=0, sticky='ew')
+            self.tree.config(xscrollcommand=hsb.set)
+            hsb.config(command=self.tree.xview)
         bind(self.tree, '<<TreeviewSelect>>', self.treeviewSelected)
         #
         self.formatter = TreeFormatter(self.app, self.tree, self,

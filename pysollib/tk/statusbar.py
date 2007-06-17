@@ -66,6 +66,7 @@ class MfxStatusbar:
         self._row = row
         self._column = column
         self._columnspan = columnspan
+        self._label_column = 0
         #
         self.padx = 1
         self.label_relief = 'sunken'
@@ -82,22 +83,18 @@ class MfxStatusbar:
             self.padx = 0
 
     # util
-    def _createLabel(self, name, side='left', fill='none',
-                     expand=False, width=0, tooltip=None):
-        if 0:
-            frame = Tkinter.Frame(self.frame, bd=1, relief=self.label_relief,
-                                  highlightbackground='#9e9a9e',
-                                  highlightthickness=1)
-            frame.pack(side=side, fill=fill, padx=self.padx, expand=expand)
-            label = Tkinter.Label(frame, width=width, bd=0)
-            label.pack(expand=True, fill='both')
-        else:
-            label = Tkinter.Label(self.frame, width=width,
-                                  relief=self.label_relief, bd=1,
-                                  highlightbackground='black'
-                                  )
-            label.pack(side=side, fill=fill, padx=self.padx, expand=expand)
-        setattr(self, name + "_label", label)
+    def _createLabel(self, name, expand=False, width=0, tooltip=None):
+        label = Tkinter.Label(self.frame, width=width,
+                              relief=self.label_relief, bd=1,
+                              highlightbackground='black'
+                              )
+        label.grid(row=0, column=self._label_column,
+                   sticky='nsew', padx=self.padx)
+        if expand:
+            self.frame.grid_columnconfigure(self._label_column,
+                                            weight=1)
+        self._label_column += 1
+        setattr(self, name + '_label', label)
         self._widgets.append(label)
         if tooltip:
             b = MfxTooltip(label)
@@ -112,22 +109,29 @@ class MfxStatusbar:
 
     def updateText(self, **kw):
         for k, v in kw.items():
-            label = getattr(self, k + "_label")
+            label = getattr(self, k + '_label')
             text = unicode(v)
             width = label['width']
             if width and len(text) > width:
                 label['width'] = len(text)
-            label["text"] = text
+            label['text'] = text
+
+    def config(self, name, show):
+        label = getattr(self, name + '_label')
+        if show:
+            label.grid()
+        else:
+            label.grid_remove()
 
     def configLabel(self, name, **kw):
-        label = getattr(self, name + "_label")
+        label = getattr(self, name + '_label')
         label.config(**kw)
 
     def show(self, show=True, resize=False):
         if self._show == show:
             return False
         if resize:
-            self.top.wm_geometry("")    # cancel user-specified geometry
+            self.top.wm_geometry('')    # cancel user-specified geometry
         if not show:
             # hide
             self.frame.grid_forget()
@@ -155,30 +159,30 @@ class PysolStatusbar(MfxStatusbar):
         MfxStatusbar.__init__(self, top, row=3, column=0, columnspan=3)
         #
         for n, t, w in (
-            ("time",        _("Playing time"),            10),
-            ("moves",       _('Moves/Total moves'),       10),
-            ("gamenumber",  _("Game number"),             26),
-            ("stats",       _("Games played: won/lost"),  12),
+            ('time',        _('Playing time'),            10),
+            ('moves',       _('Moves/Total moves'),       10),
+            ('gamenumber',  _('Game number'),             26),
+            ('stats',       _('Games played: won/lost'),  12),
             ):
             self._createLabel(n, tooltip=t, width=w)
         #
-        l = self._createLabel("info", fill='both', expand=True)
-        ##l.config(text="", justify="left", anchor='w')
+        l = self._createLabel('info', expand=True)
+        ##l.config(text='', justify='left', anchor='w')
         l.config(padx=8)
 
 
 class HelpStatusbar(MfxStatusbar):
     def __init__(self, top):
         MfxStatusbar.__init__(self, top, row=4, column=0, columnspan=3)
-        l = self._createLabel("info", fill='both', expand=True)
-        l.config(justify="left", anchor='w', padx=8)
+        l = self._createLabel('info', expand=True)
+        l.config(justify='left', anchor='w', padx=8)
 
 
 class HtmlStatusbar(MfxStatusbar):
     def __init__(self, top, row, column, columnspan):
         MfxStatusbar.__init__(self, top, row=row, column=column, columnspan=columnspan)
-        l = self._createLabel("url", fill='both', expand=True)
-        l.config(justify="left", anchor='w', padx=8)
+        l = self._createLabel('url', expand=True)
+        l.config(justify='left', anchor='w', padx=8)
 
 
 # /***********************************************************************
@@ -190,8 +194,8 @@ class TestStatusbar(PysolStatusbar):
     def __init__(self, top, args):
         PysolStatusbar.__init__(self, top)
         # test some settings
-        self.updateText(moves=999, gamenumber="#0123456789ABCDEF0123")
-        self.updateText(info="Some info text.")
+        self.updateText(moves=999, gamenumber='#0123456789ABCDEF0123')
+        self.updateText(info='Some info text.')
 
 def statusbar_main(args):
     tk = Tkinter.Tk()
@@ -199,7 +203,7 @@ def statusbar_main(args):
     tk.mainloop()
     return 0
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     sys.exit(statusbar_main(sys.argv))
 
 

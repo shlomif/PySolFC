@@ -24,29 +24,28 @@ import sys, os
 from pysollib.settings import TOOLKIT, USE_TILE
 from pysollib.tile import Tile
 
-from common import baseInitRootWindow, BaseTkSettings
+from common import base_init_root_window, BaseTkSettings
 
 
-class initRootWindow(baseInitRootWindow):
-    def __init__(self, root, app):
-        baseInitRootWindow.__init__(self, root, app)
-        if TOOLKIT == 'gtk':
-            pass
-        elif USE_TILE:
-            theme = app.opt.tile_theme
-            style = Tile.Style(root)
-            if theme not in ('winnative', 'xpnative'):
-                color = style.lookup('.', 'background')
-                if color:
-                    root.tk_setPalette(color)
-                ##root.option_add('*Menu.foreground', 'black')
-                root.option_add('*Menu.activeBackground', '#08246b')
-                root.option_add('*Menu.activeForeground', 'white')
-            if theme == 'winnative':
-                style.configure('Toolbutton', padding=2)
-        else:
-            #root.option_add(...)
-            pass
+def init_root_window(root, app):
+    base_init_root_window(root, app)
+    if TOOLKIT == 'gtk':
+        pass
+    elif USE_TILE:
+        theme = app.opt.tile_theme
+        style = Tile.Style(root)
+        if theme not in ('winnative', 'xpnative'):
+            color = style.lookup('.', 'background')
+            if color:
+                root.tk_setPalette(color)
+            ##root.option_add('*Menu.foreground', 'black')
+            root.option_add('*Menu.activeBackground', '#08246b')
+            root.option_add('*Menu.activeForeground', 'white')
+        if theme == 'winnative':
+            style.configure('Toolbutton', padding=2)
+    else:
+        #root.option_add(...)
+        pass
 
 
 class TkSettings(BaseTkSettings):

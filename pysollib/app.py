@@ -115,6 +115,7 @@ class Options:
         ('toolbar_compound', 'str'),
         ('toolbar_size', 'int'),
         ('statusbar', 'bool'),
+        ('statusbar_game_number', 'bool'),
         ('num_cards', 'bool'),
         ('helpbar', 'bool'),
         ('num_recent_games', 'int'),
@@ -194,6 +195,7 @@ class Options:
         for w in TOOLBAR_BUTTONS:
             self.toolbar_vars[w] = True # show all buttons
         self.statusbar = True
+        self.statusbar_game_number = False # show game number in statusbar
         self.num_cards = False
         self.helpbar = False
         self.splashscreen = True
@@ -398,9 +400,6 @@ class Options:
 
         config.write(file(filename, 'w'))
         #config.write(sys.stdout)
-
-    def printOptError(self, key):
-        pass
 
     def _getOption(self, section, key, t):
         config = self._config
@@ -869,11 +868,13 @@ class Application:
         try:
             self.loadStatistics()
         except:
+            traceback.print_exc()
             pass
         # try to load comments
         try:
             self.loadComments()
         except:
+            traceback.print_exc()
             pass
         # startup information
         if self.getGameClass(self.opt.last_gameid):
@@ -886,6 +887,7 @@ class Application:
             try:
                 game = tmpgame._loadGame(self.fn.holdgame, self)
             except:
+                traceback.print_exc()
                 game = None
             if game:
                 if game.id == self.opt.game_holded and game.gstats.holded:
@@ -903,6 +905,7 @@ class Application:
                     self.nextgame.loadedgame = tmpgame._loadGame(self.commandline.loadgame, self)
                     self.nextgame.loadedgame.gstats.holded = 0
                 except:
+                    traceback.print_exc()
                     self.nextgame.loadedgame = None
             elif self.commandline.game is not None:
                 gameid = self.gdb.getGameByName(self.commandline.game)
@@ -926,6 +929,7 @@ class Application:
         # create the statusbar(s)
         self.statusbar = PysolStatusbar(self.top)
         self.statusbar.show(self.opt.statusbar)
+        self.statusbar.config('gamenumber', self.opt.statusbar_game_number)
         self.helpbar = HelpStatusbar(self.top)
         self.helpbar.show(self.opt.helpbar)
         # create the canvas
@@ -956,7 +960,15 @@ class Application:
                 assert self.cardset is not None
                 id, random = self.nextgame.id, self.nextgame.random
                 self.nextgame.id, self.nextgame.random = 0, None
-                self.runGame(id, random)
+                try:
+                    self.runGame(id, random)
+                except:
+                    # try Klondike if current game fails
+                    if id == 2:
+                        raise           # internal error?
+                    traceback.print_exc()
+                    self.nextgame.id = 2
+                    continue
                 if self.nextgame.holdgame:
                     assert self.nextgame.id <= 0
                     try:

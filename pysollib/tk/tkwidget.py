@@ -196,7 +196,8 @@ class MfxDialog: # ex. _ToplevelDialog
             b.pack(side=kw.image_side, padx=kw.image_padx, pady=kw.image_pady)
 
     def createButtons(self, frame, kw):
-        button = column = -1
+        button = -1
+        column = 0
         padx, pady = kw.get("buttonpadx", 10), kw.get("buttonpady", 10)
         focus = None
         max_len = 0
@@ -249,13 +250,13 @@ class MfxDialog: # ex. _ToplevelDialog
 ##                 img = self.button_img.get(s)
 ##             b.config(compound='left', image=img)
             column += 1
-            b.grid(column=column, row=0, sticky="nse", padx=padx, pady=pady)
+            b.grid(column=column, row=0, sticky="ns", padx=padx, pady=pady)
         if focus is not None:
             l = (lambda event=None, self=self, button=kw.default: self.mDone(button))
             bind(self.top, "<Return>", l)
             bind(self.top, "<KP_Enter>", l)
-        # left justify
-        ##frame.columnconfigure(0, weight=1)
+        frame.columnconfigure(0, weight=1)
+        frame.columnconfigure(99, weight=1)
         return focus
 
 

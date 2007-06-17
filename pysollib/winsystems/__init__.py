@@ -28,5 +28,5 @@ elif WIN_SYSTEM == 'aqua':
 else:                                   # 'x11'
     import x11 as gui
 
-initRootWindow = gui.initRootWindow
+init_root_window = gui.init_root_window
 TkSettings = gui.TkSettings

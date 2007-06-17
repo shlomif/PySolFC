@@ -30,10 +30,22 @@ from pysollib.tile import Tile
 
 
 def init_tile(app, top):
+    Tile.initialize(top)
+    # load available themes
     d = os.path.join(app.dataloader.dir, 'themes')
     if os.path.isdir(d):
         top.tk.call('lappend', 'auto_path', d)
-    Tile.initialize(top)
+        for t in os.listdir(d):
+            if os.path.exists(os.path.join(d, t, 'pkgIndex.tcl')):
+                try:
+                    if Tile.TileVersion < '0.8':
+                        top.tk.call('package', 'require', 'tile::theme::'+t)
+                    else:
+                        top.tk.call('package', 'require', 'ttk::theme::'+t)
+                    #print 'load theme:', t
+                except:
+                    traceback.print_exc()
+                    pass
 
 
 def set_theme(app, top, theme):
@@ -64,6 +76,8 @@ def get_font_name(font):
             traceback.print_exc()
     else:
         fa = f.actual()
+        if fa['size'] > 0:
+            fa['size'] = -fa['size']
         font_name = (fa['family'],
                      fa['size'],
                      fa['slant'],
@@ -71,28 +85,28 @@ def get_font_name(font):
     return font_name
 
 
-class baseInitRootWindow:
-    def __init__(self, root, app):
-        #root.wm_group(root)
-        root.wm_title(PACKAGE + ' ' + VERSION)
-        root.wm_iconname(PACKAGE + ' ' + VERSION)
-        # set minsize
-        sw, sh, sd = (root.winfo_screenwidth(),
-                      root.winfo_screenheight(),
-                      root.winfo_screendepth())
-        if sw < 640 or sh < 480:
-            root.wm_minsize(400, 300)
-        else:
-            root.wm_minsize(520, 360)
+def base_init_root_window(root, app):
+    #root.wm_group(root)
+    root.wm_title(PACKAGE + ' ' + VERSION)
+    root.wm_iconname(PACKAGE + ' ' + VERSION)
+    # set minsize
+    sw, sh, sd = (root.winfo_screenwidth(),
+                  root.winfo_screenheight(),
+                  root.winfo_screendepth())
+    if sw < 640 or sh < 480:
+        root.wm_minsize(400, 300)
+    else:
+        root.wm_minsize(520, 360)
 
-        if TOOLKIT == 'gtk':
-            pass
-        elif USE_TILE:
-            theme = app.opt.tile_theme
-            init_tile(app, root)
-            set_theme(app, root, theme)
-        else:
-            pass
+    if TOOLKIT == 'gtk':
+        pass
+    elif USE_TILE:
+        theme = app.opt.tile_theme
+        init_tile(app, root)
+        set_theme(app, root, theme)
+    else:
+        pass
+
 
 class BaseTkSettings:
     canvas_padding = (0, 0)

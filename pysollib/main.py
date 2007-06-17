@@ -47,7 +47,7 @@ from app import Application
 from pysolaudio import AbstractAudioClient, PysolSoundServerModuleClient
 from pysolaudio import Win32AudioClient, OSSAudioClient, PyGameAudioClient
 from settings import PACKAGE, SOUND_MOD
-from winsystems import initRootWindow
+from winsystems import init_root_window
 
 # Toolkit imports
 from pysoltk import loadImage
@@ -250,7 +250,7 @@ def pysol_init(app, args):
         app.opt.sound_mode = 0
 
     # init toolkit 2)
-    initRootWindow(top, app)
+    init_root_window(top, app)
 
     # check games
     if len(app.gdb.getGamesIdSortedByName()) == 0:

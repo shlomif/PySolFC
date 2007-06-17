@@ -127,7 +127,7 @@ class WizardDialog(MfxDialog):
                 v = p[w.var_name]
             else:
                 v = w.default
-            if w.widget in ('menu', 'preset'):
+            if w.widget in ('menu', 'preset', 'entry'):
                 v = _(v)
             w.variable.set(v)
 

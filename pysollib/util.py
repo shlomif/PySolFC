@@ -64,14 +64,6 @@ import sys, os
 from settings import DATA_DIRS, TOOLKIT
 from mfxutil import Image
 
-# PIL
-Image = ImageTk = ImageOps = None
-if TOOLKIT == 'tk':
-    try:
-        import Image, ImageTk, ImageOps
-    except ImportError:
-        pass
-
 
 # /***********************************************************************
 # // constants

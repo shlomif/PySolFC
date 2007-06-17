@@ -599,7 +599,7 @@ proc ::ttk::dialog::file::ChangeDir {w dir} {
 	lappend data(history) $data(selectPath)
 	if {[incr data(histpos)]} {
 		$data(prevBtn) state !disabled
-		set data(selectFile) ""
+		#set data(selectFile) ""
 	}
 	$data(nextBtn) state disabled
 

@@ -2,24 +2,28 @@
 
 import Tkinter
 
+TileVersion = None
+_tile_prefix = ''                       # XXX
 
 def initialize(root=None):
+    global TileVersion, _tile_prefix
     if root is None:
         root = Tkinter._default_root
-    root.tk.call("package", "require", "tile", "0.7.8")
-    # This forces an update of the available packages list.
-    # It's required for package names to find the themes in data/themes/
-    root.tk.call('eval', '[package unknown]', 'Tcl', '[package provide Tcl]')
+    TileVersion = root.tk.call("package", "require", "tile", "0.7.8")
+    if TileVersion >= '0.8':
+        _tile_prefix = 'ttk::'          # XXX
 
 def availableThemes(root=None):
     if root is None:
         root = Tkinter._default_root
+    if TileVersion >= '0.8':
+        return root.tk.call("ttk::themes")
     return root.tk.call("tile::availableThemes")
 
 def setTheme(root=None, theme=None):
     if root is None:
         root = Tkinter._default_root
-    return root.tk.call("tile::setTheme", theme)
+    return root.tk.call(_tile_prefix+"setTheme", theme)
 
 
 class Style(Tkinter.Misc):
@@ -31,7 +35,7 @@ class Style(Tkinter.Misc):
     def default(self, style, **kw):
         """Sets the default value of the specified option(s) in style"""
         opts = self._options(kw)
-        return self.tk.call("style", "default", style, *opts)
+        return self.tk.call(_tile_prefix+"style", "default", style, *opts)
 
     def map_style(self, **kw):
         """Sets dynamic values of the specified option(s) in style. See 
@@ -56,7 +60,7 @@ class Style(Tkinter.Misc):
 
     def element_names(self):
         """Returns a list of all elements defined in the current theme."""
-        return self.tk.call("style", "elements", "names")
+        return self.tk.call(_tile_prefix+"style", "elements", "names")
 
     def theme_create(self, name, parent=None, basedon=None):
         """Creates a new theme. It is an error if themeName already exists. 
@@ -76,17 +80,17 @@ class Style(Tkinter.Misc):
 
     def theme_names(self):
         """Returns a list of the available themes."""
-        return self.tk.call("style", "theme", "names")
+        return self.tk.call(_tile_prefix+"style", "theme", "names")
 
     def theme_use(self, theme):   
         """Sets the current theme to themeName, and refreshes all widgets."""
-        return self.tk.call("style", "theme", "use", theme)
+        return self.tk.call(_tile_prefix+"style", "theme", "use", theme)
 
     def configure(self, style, cnf={}, **kw):
         """Sets  the  default value of the specified option(s)
         in style."""
         opts = self._options(cnf, kw)
-        return self.tk.call("style", "configure", style, *opts)
+        return self.tk.call(_tile_prefix+"style", "configure", style, *opts)
     config = configure
 
     def lookup(self, style, option, state=None, default=None):
@@ -102,7 +106,8 @@ class Style(Tkinter.Misc):
             opts = [state]
         if default:
             opts.append(default)
-        return self.tk.call("style", "lookup", style, "-"+option, *opts)
+        return self.tk.call(_tile_prefix+"style", "lookup", style,
+                            "-"+option, *opts)
 
 
 

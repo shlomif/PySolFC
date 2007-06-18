@@ -23,7 +23,9 @@ def availableThemes(root=None):
 def setTheme(root=None, theme=None):
     if root is None:
         root = Tkinter._default_root
-    return root.tk.call(_tile_prefix+"setTheme", theme)
+    if TileVersion >= '0.8':
+        return root.tk.call("ttk::setTheme", theme)
+    return root.tk.call("tile::setTheme", theme)
 
 
 class Style(Tkinter.Misc):

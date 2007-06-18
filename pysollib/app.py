@@ -784,13 +784,10 @@ class Application:
         self.images = None
         self.subsampled_images = None
         self.gimages = Struct(          # global images
-            border = [],
             demo = [],                  # demo logos
             pause = [],                 # pause logos
             logos = [],
             redeal = [],
-            ##shade = [],
-            ##stats = [],
         )
         #self.progress_bg = None
         self.progress_images = []

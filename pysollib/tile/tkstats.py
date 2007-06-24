@@ -649,8 +649,9 @@ class Status_StatsDialog(MfxMessageDialog):
             _("Hints: ") + str(stats.hints) + "\n" +
             "\n" +
             w1 + w2,
-            strings=(_("&OK"),
-                     (_("&Statistics..."), 101)),
+            strings=((_("&Statistics..."), 101),
+                     'sep',
+                     _("&OK")),
             image=game.app.gimages.logos[3],
             image_side="left", image_padx=20,
             padx=20,
@@ -860,7 +861,7 @@ class ProgressionFrame(Tile.Frame):
         frame.columnconfigure(0, weight=1)
 
         # constants
-        self.canvas_width, self.canvas_height = 500, 250
+        self.canvas_width, self.canvas_height = 550, 250
         if parent.winfo_screenwidth() < 800 or \
                parent.winfo_screenheight() < 600:
             self.canvas_width, self.canvas_height = 400, 200

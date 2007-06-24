@@ -470,12 +470,10 @@ proc ::ttk::dialog::file::Create {win class} {
 	set data(fileArea) [text $data(short).t -width 50 -height 16 \
 		-bg white -font $font -bd 0 -highlightthickness 0 \
 		-cursor "" -wrap none -spacing1 1 -spacing3 1 \
-		-exportselection 0 -state disabled \
-		-xscrollcommand [list ::ttk::dialog::file::scrollset $win]]
-	set data(xScroll) [ttk::scrollbar $data(short).x -orient horizontal \
-		-command [list ::ttk::dialog::file::xview $win]]
-# 	set data(xScroll) [ttk::scrollbar $data(short).x -orient horizontal \
-# 		-command [list $data(short).t xview]]
+		-exportselection 0 -state disabled]
+	set data(xScroll) [ttk::scrollbar $data(short).x -orient horizontal]
+	$data(xScroll) config -command [list $data(fileArea) xview]
+	$data(fileArea) config -xscrollcommand [list $data(xScroll) set]
 	grid $data(short).t -sticky news -padx 2 -pady {2 0}
 	grid $data(short).x -sticky ew
 	grid $data(short).bg -row 0 -column 0 \
@@ -576,6 +574,8 @@ proc ::ttk::dialog::file::Create {win class} {
 	pack propagate $w 0
 
 	wm protocol $win WM_DELETE_WINDOW [list $data(cancelBtn) invoke]
+	bind $win <KeyPress-Escape> \
+		[list event generate $data(cancelBtn) <<Invoke>>]
 
 	bind $data(fileArea) <Configure> \
 		[list ::ttk::dialog::file::configure $win]
@@ -811,7 +811,6 @@ proc ::ttk::dialog::file::Update {w} {
 		# Make sure maxsize is a multiple of an average size character
 		set dx [font measure $font 0]
 		set maxsize [expr {($maxsize + 20 + $dx) / $dx * $dx}]
-		$t insert 1.end "\t"
 		$t configure -state disabled
 		$t configure -tabs $maxsize
 		set data(columns) [expr {$row > 1 ? $col + 1 : $col}]
@@ -885,57 +884,6 @@ proc ::ttk::dialog::file::modefmt {type mode} {
 	set rc
 }
 
-proc ::ttk::dialog::file::xview {w cmd number {units ""}} {
-	set dataName [winfo name $w]
-	upvar ::ttk::dialog::file::$dataName data
-
-	set width [winfo width $data(fileArea)]
-	lassign [$data(fileArea) xview] pos1 pos2
-	set cols $data(columns)
-	set page [expr {int($width / $data(colwidth))}]
-	if {!$page} {set page 1}
-
-	switch $cmd {
-		scroll {
-			set col [expr {round($pos1 * ($cols + 1))}]
-			if {[string match p* $units]} {
-				incr col [expr {$number * $page}]
-			} else {
-				incr col $number
-			}
-		}
-		moveto {
-			set col [expr {round($number * $cols)}]
-		}
-	}
-	set max [expr {$cols - $page}]
-	if {$col > $max} {set col $max}
-	if {$col < 0} {set col 0}
-	set pos [expr {double($col) / ($cols + 1)}]
-	$data(fileArea) xview moveto $pos
-}
-
-proc ::ttk::dialog::file::scrollset {w first last} {
-	set dataName [winfo name $w]
-	upvar ::ttk::dialog::file::$dataName data
-
-	if {$data(columns)} {
-		if {$last >= 0.999} {
-			xview $w scroll -1 units
-			return
-		}
-		set w $data(colwidth)
-		set cols $data(columns)
-		set width [winfo width $data(fileArea)]
-		set vwidth [expr {$width % $w + $cols * $w}]
-		set total [expr {$width / ($last - $first)}]
-		set first [expr {$first * $total / $vwidth}]
-		set last [expr {$last * $total / $vwidth}]
-	}
-
-	$data(xScroll) set $first $last
-}
-
 proc ::ttk::dialog::file::scrollhdr {w first last} {
 	set dataName [winfo name $w]
 	upvar ::ttk::dialog::file::$dataName data
@@ -946,46 +894,13 @@ proc ::ttk::dialog::file::scrollhdr {w first last} {
 }
 
 proc ::ttk::dialog::file::configure {w} {
-	set dataName [winfo name $w]
-	upvar ::ttk::dialog::file::$dataName data
-
-	if {$data(columns) == 0} return
-
-	set dir ::ttk::dialog::image::folder
-	set file ::ttk::dialog::image::file
-
-	set h [winfo height $data(fileArea)]
-	set rows [expr {$h / 18}]
-	if {$rows == $data(rows)} return
-	set t $data(fileArea)
-	set lines $rows
-	set row 1
-	set col 0
-	$t configure -state normal
-	$t delete 1.0 end
-	foreach {name type} $data(list) {
-		set idx $row.end
-		set image [expr {$type eq "directory" ? $dir : $file}]
-		$t tag add file [$t image create $idx -image $image]
-		$t insert $idx " $name" file "\t"
-		if {[incr row] > $lines} {
-			incr col
-			set row 1
-		} elseif {$col == 0} {
-			$t insert $idx "\n"
-		}
-	}
-	$t insert 1.end "\t"
-	$t configure -state disabled
-	set data(columns) [expr {$row > 1 ? $col + 1 : $col}]
-	set data(rows) $lines
+	UpdateWhenIdle $w
 }
 
 proc ::ttk::dialog::file::setopt {w option var} {
 	set dataName [winfo name $w]
 	upvar ::ttk::dialog::file::$dataName data
 	upvar #0 $var value
-
 	
 	set data($option) $value
 	UpdateWhenIdle $w	
@@ -1747,10 +1662,8 @@ bind FileDialogFile <ButtonPress-1> {::ttk::dialog::file::FileButton1 %W %x %y}
 bind FileDialogFile <ButtonRelease-1> {::ttk::dialog::file::FileRelease1 %W %x %y}
 bind FileDialogFile <B1-Motion> {::ttk::dialog::file::FileMotion1 %W %x %y}
 bind FileDialogFile <Double-1> {::ttk::dialog::file::Done [winfo toplevel %W]}
-bind FileDialogFile <4> \
-	{::ttk::dialog::file::xview [winfo toplevel %W] scroll -1 units}
-bind FileDialogFile <5> \
-	{::ttk::dialog::file::xview [winfo toplevel %W] scroll 1 units}
+bind FileDialogFile <4> {%W xview scroll -10 units}
+bind FileDialogFile <5> {%W xview scroll 10 units}
 bind FileDialogList <ButtonPress-1> {::ttk::dialog::file::FileButton1 %W %x %y}
 bind FileDialogList <ButtonRelease-1> {::ttk::dialog::file::FileRelease1 %W %x %y}
 bind FileDialogList <B1-Motion> {::ttk::dialog::file::FileMotion1 %W %x %y}

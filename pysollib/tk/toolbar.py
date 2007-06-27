@@ -36,8 +36,8 @@
 __all__ = ['PysolToolbar']
 
 # imports
-import os, sys, types, Tkinter
-import traceback
+import os
+import Tkinter
 
 # PySol imports
 from pysollib.mfxutil import destruct
@@ -48,7 +48,7 @@ from pysollib.actions import PysolToolbarActions
 from pysollib.winsystems import TkSettings
 
 # Toolkit imports
-from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
+from tkconst import EVENT_HANDLED
 from tkwidget import MfxTooltip
 from menubar import createToolbarMenu, MfxMenu
 
@@ -321,14 +321,12 @@ class PysolToolbar(PysolToolbarActions):
             'relief'       : button_relief,
             'padx'         : padx,
             'pady'         : pady,
+            'overrelief'   : 'raised',
             }
-        if Tkinter.TkVersion >= 8.4:
-            kw['overrelief'] = 'raised'
         if image:
             kw['image'] = image
         if check:
-            if Tkinter.TkVersion >= 8.4:
-                kw['offrelief'] = button_relief
+            kw['offrelief'] = button_relief
             kw['indicatoron'] = False
             kw['selectcolor'] = ''
             button = ToolbarCheckbutton(self.frame, **kw)
@@ -466,8 +464,6 @@ class PysolToolbar(PysolToolbarActions):
         return 1
 
     def setCompound(self, compound, force=False):
-        if Tkinter.TkVersion < 8.4:
-            return False
         if not force and self.compound == compound:
             return False
         for w in self._widgets:

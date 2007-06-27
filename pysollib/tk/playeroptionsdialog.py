@@ -36,13 +36,12 @@
 __all__ = ['PlayerOptionsDialog']
 
 # imports
-import os, sys, Tkinter
+import Tkinter
 
 # PySol imports
-from pysollib.mfxutil import destruct, kwdefault, KwStruct, Struct
+from pysollib.mfxutil import KwStruct, Struct
 
 # Toolkit imports
-from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
 from tkwidget import MfxDialog
 from tkutil import bind
 

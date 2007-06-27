@@ -41,7 +41,6 @@ __all__ = ['MfxCanvasGroup',
            'MfxCanvas']
 
 # imports
-import os, sys, types
 import Tkinter, Canvas
 
 # PySol imports

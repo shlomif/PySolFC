@@ -38,10 +38,11 @@ __all__ = ['PysolMenubar']
 
 # imports
 import math, os, sys, re
+import traceback
 import Tkinter, tkFileDialog
 
 # PySol imports
-from pysollib.mfxutil import destruct, Struct, kwdefault
+from pysollib.mfxutil import Struct, kwdefault
 from pysollib.mfxutil import Image
 from pysollib.util import CARDSET
 from pysollib.settings import PACKAGE, WIN_SYSTEM
@@ -55,6 +56,7 @@ from pysollib.actions import PysolMenubarActions
 # toolkit imports
 from tkconst import EVENT_HANDLED, EVENT_PROPAGATE, CURSOR_WATCH, COMPOUNDS
 from tkutil import bind, after_idle
+from tkwidget import MfxMessageDialog
 from selectgame import SelectGameDialog, SelectGameDialogWithPreview
 from soundoptionsdialog import SoundOptionsDialog
 from selectcardset import SelectCardsetDialogWithPreview
@@ -80,12 +82,11 @@ def createToolbarMenu(menubar, menu):
 ##             submenu.add_radiobutton(label=name,
 ##                                     variable=menubar.tkopt.toolbar_style,
 ##                                     value=f, command=menubar.mOptToolbarStyle)
-    if Tkinter.TkVersion >= 8.4:
-        submenu = MfxMenu(menu, label=n_('Compound'), tearoff=tearoff)
-        for comp, label in COMPOUNDS:
-            submenu.add_radiobutton(
-                label=label, variable=menubar.tkopt.toolbar_compound,
-                value=comp, command=menubar.mOptToolbarCompound)
+    submenu = MfxMenu(menu, label=n_('Compound'), tearoff=tearoff)
+    for comp, label in COMPOUNDS:
+        submenu.add_radiobutton(
+            label=label, variable=menubar.tkopt.toolbar_compound,
+            value=comp, command=menubar.mOptToolbarCompound)
     menu.add_separator()
     menu.add_radiobutton(label=n_("Hide"),
                          variable=menubar.tkopt.toolbar, value=0,

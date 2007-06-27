@@ -36,10 +36,10 @@
 __all__ = ['PysolProgressBar']
 
 # imports
-import os, sys, Tkinter
+import Tkinter
 
 # Toolkit imports
-from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
+from tkconst import EVENT_HANDLED
 from tkutil import makeToplevel, setTransient
 
 

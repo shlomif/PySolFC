@@ -36,10 +36,10 @@
 __all__ = ['EditTextDialog']
 
 # imports
-import os, sys, Tkinter
+import Tkinter
 
 # PySol imports
-from pysollib.mfxutil import destruct, kwdefault, KwStruct, Struct
+from pysollib.mfxutil import KwStruct
 
 # Toolkit imports
 from tkwidget import MfxDialog

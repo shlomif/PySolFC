@@ -22,16 +22,13 @@
 __all__ = ['FontsDialog']
 
 # imports
-import os, sys
-import types
 import Tkinter
 import tkFont
 
 # PySol imports
-from pysollib.mfxutil import destruct, kwdefault, KwStruct, Struct
+from pysollib.mfxutil import KwStruct
 
 # Toolkit imports
-from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
 from tkwidget import MfxDialog
 from tkutil import bind
 

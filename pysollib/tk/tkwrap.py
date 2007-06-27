@@ -37,17 +37,11 @@ __all__ = ['TclError',
            'MfxRoot']
 
 # imports
-import os, sys, time, types
 import Tkinter
-from Tkinter import TclError
-from tkFont import Font
+TclError = Tkinter.TclError
 
 # PySol imports
-from pysollib.mfxutil import destruct, Struct
-from pysollib.settings import PACKAGE, VERSION, WIN_SYSTEM
-from pysollib.macosx.appSupport import setupApp
-from tkutil import after_idle
-from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
+from tkconst import EVENT_PROPAGATE
 
 
 # /***********************************************************************

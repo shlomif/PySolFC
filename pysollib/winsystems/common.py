@@ -34,14 +34,14 @@ def init_tile(app, top):
     # load available themes
     d = os.path.join(app.dataloader.dir, 'themes')
     if os.path.isdir(d):
-        top.tk.call('lappend', 'auto_path', d)
+        top.tk.eval('global auto_path; lappend auto_path {%s}' % d)
         for t in os.listdir(d):
             if os.path.exists(os.path.join(d, t, 'pkgIndex.tcl')):
                 try:
                     if Tile.TileVersion < '0.8':
-                        top.tk.call('package', 'require', 'tile::theme::'+t)
+                        top.tk.eval('package require tile::theme::'+t)
                     else:
-                        top.tk.call('package', 'require', 'ttk::theme::'+t)
+                        top.tk.eval('package require ttk::theme::'+t)
                     #print 'load theme:', t
                 except:
                     traceback.print_exc()

@@ -23,7 +23,6 @@
 __all__ = ['GameInfoDialog']
 
 # imports
-import os, sys
 import Tkinter
 
 # PySol imports

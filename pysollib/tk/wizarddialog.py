@@ -23,11 +23,11 @@ __all__ = ['WizardDialog']
 
 
 # imports
-from Tkinter import *
+import Tkinter
 from tabpage import TabPageSet
 
 # PySol imports
-from pysollib.mfxutil import destruct, kwdefault, KwStruct, Struct
+from pysollib.mfxutil import KwStruct
 from pysollib.wizardutil import WizardWidgets
 from pysollib.wizardpresets import presets
 
@@ -46,7 +46,7 @@ class WizardDialog(MfxDialog):
         top_frame, bottom_frame = self.createFrames(kw)
         self.createBitmaps(top_frame, kw)
 
-        frame = Frame(top_frame)
+        frame = Tkinter.Frame(top_frame)
         frame.pack(expand=True, fill='both', padx=10, pady=10)
         frame.columnconfigure(0, weight=1)
 
@@ -56,49 +56,50 @@ class WizardDialog(MfxDialog):
         for w in WizardWidgets:
             if isinstance(w, basestring):
                 p = notebook.AddPage(w)
-                frame = Frame(notebook.pages[w]['page'])
+                frame = Tkinter.Frame(notebook.pages[w]['page'])
                 frame.pack(expand=True, fill='both', padx=2, pady=4)
                 frame.columnconfigure(1, weight=1)
                 row = 0
                 continue
 
-            Label(frame, text=w.label).grid(row=row, column=0, padx=2)
+            Tkinter.Label(frame, text=w.label).grid(row=row, column=0, padx=2)
 
             if w.widget == 'preset':
                 if w.variable is None:
-                    w.variable = StringVar()
+                    w.variable = Tkinter.StringVar()
                 values = [_(v) for v in w.values]
                 default = _(w.default)
                 values.remove(default)
                 values.sort()
                 values.insert(0, default)
                 callback = lambda v, w=w: self.presetSelected(v, w)
-                om = OptionMenu(frame, w.variable,
-                                command=callback, *values)
+                om = Tkinter.OptionMenu(frame, w.variable,
+                                        command=callback, *values)
                 om.grid(row=row, column=1, sticky='ew', padx=2)
             elif w.widget == 'entry':
                 if w.variable is None:
-                    w.variable = StringVar()
-                en = Entry(frame, textvariable=w.variable)
+                    w.variable = Tkinter.StringVar()
+                en = Tkinter.Entry(frame, textvariable=w.variable)
                 en.grid(row=row, column=1, sticky='ew', padx=2)
             elif w.widget == 'menu':
                 if w.variable is None:
-                    w.variable = StringVar()
+                    w.variable = Tkinter.StringVar()
                 values = [_(v) for v in w.values]
-                om = OptionMenu(frame, w.variable, *values)
+                om = Tkinter.OptionMenu(frame, w.variable, *values)
                 om.grid(row=row, column=1, sticky='ew', padx=2)
             elif w.widget == 'spin':
                 if w.variable is None:
-                    w.variable = IntVar()
+                    w.variable = Tkinter.IntVar()
                 from_, to = w.values
-                s = Scale(frame, from_=from_, to=to, resolution=1,
-                          orient='horizontal', length=200, variable=w.variable)
+                s = Tkinter.Scale(frame, from_=from_, to=to, resolution=1,
+                                  orient='horizontal', length=200,
+                                  variable=w.variable)
                 s.grid(row=row, column=1, sticky='ew', padx=2)
             elif w.widget == 'check':
                 if w.variable is None:
-                    w.variable = BooleanVar()
-                ch = Checkbutton(frame, variable=w.variable,
-                                 takefocus=False, anchor='w')
+                    w.variable = Tkinter.BooleanVar()
+                ch = Tkinter.Checkbutton(frame, variable=w.variable,
+                                         takefocus=False, anchor='w')
                 ch.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
 
             if w.current_value is None:

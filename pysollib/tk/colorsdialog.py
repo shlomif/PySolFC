@@ -22,15 +22,13 @@
 __all__ = ['ColorsDialog']
 
 # imports
-import os, sys
 import Tkinter
 from tkColorChooser import askcolor
 
 # PySol imports
-from pysollib.mfxutil import destruct, kwdefault, KwStruct, Struct
+from pysollib.mfxutil import KwStruct
 
 # Toolkit imports
-from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
 from tkwidget import MfxDialog
 
 # /***********************************************************************

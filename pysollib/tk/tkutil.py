@@ -56,8 +56,7 @@ __all__ = ['wm_withdraw',
            ]
 
 # imports
-import sys, os, re
-import traceback
+import re
 import Tkinter
 from tkFont import Font
 

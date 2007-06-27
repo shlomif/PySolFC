@@ -110,8 +110,12 @@ def init():
         sys.argv.remove('--tile')
     if settings.TOOLKIT == 'tk':
         import Tkinter
-        root = Tkinter.Tk(className='PySol')
+        root = Tkinter.Tk(className=settings.PACKAGE)
         root.withdraw()
+        if Tkinter.TkVersion < 8.4:
+            # we need unicode support
+            sys.exit("%s needs Tcl/Tk 8.4 or better (you have %s)" %
+                     (settings.PACKAGE, str(Tkinter.TkVersion)))
         settings.WIN_SYSTEM = root.tk.call('tk', 'windowingsystem')
         if settings.WIN_SYSTEM == 'aqua':
             # TkAqua displays the console automatically in application
@@ -123,7 +127,7 @@ def init():
             # check Tile
             settings.USE_TILE = False
             try:
-                root.tk.call('package', 'require', 'tile', '0.7.8')
+                root.tk.eval('package require tile 0.7.8')
             except Tkinter.TclError:
                 pass
             else:

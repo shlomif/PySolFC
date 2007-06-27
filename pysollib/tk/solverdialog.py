@@ -28,18 +28,16 @@ __all__ = [
     ]
 
 # imports
-import os, sys
 import Tkinter
-import traceback
+##import traceback
 
 # PySol imports
-from pysollib.mfxutil import destruct, kwdefault, KwStruct, Struct
+from pysollib.mfxutil import KwStruct
 from pysollib.settings import PACKAGE
 
 # Toolkit imports
-from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
+from tkconst import EVENT_HANDLED
 from tkwidget import MfxDialog
-from tkutil import bind, unbind_destroy
 
 
 # /***********************************************************************

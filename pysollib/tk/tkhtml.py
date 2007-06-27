@@ -36,7 +36,7 @@
 __all__ = ['HTMLViewer']
 
 # imports
-import os, sys, re, types
+import os, sys
 import htmllib, formatter
 import Tkinter
 
@@ -51,7 +51,7 @@ from pysollib.mfxutil import Struct, openURL
 from pysollib.settings import PACKAGE
 
 # Toolkit imports
-from tkutil import bind, unbind_destroy, loadImage
+from tkutil import bind, unbind_destroy
 from tkwidget import MfxMessageDialog
 from statusbar import HtmlStatusbar
 

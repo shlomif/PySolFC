@@ -51,7 +51,6 @@ __all__ = ['EVENT_HANDLED',
            ]
 
 # imports
-import sys, os
 import Tkinter
 
 

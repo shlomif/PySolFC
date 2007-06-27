@@ -35,7 +35,8 @@
 
 
 # imports
-import os, re, sys, types, Tkinter
+import os
+import Tkinter
 from UserList import UserList
 
 # PySol imports
@@ -48,7 +49,6 @@ from pysollib.resource import CSI
 # Toolkit imports
 from tkutil import unbind_destroy
 from tkwidget import MfxDialog, MfxScrolledCanvas
-from tkcanvas  import MfxCanvasText
 from selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
 from selecttree import SelectDialogTreeData, SelectDialogTreeCanvas
 
@@ -363,30 +363,20 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         ##padx, pady = kw.padx, kw.pady
         padx, pady = kw.padx/2, kw.pady/2
         # PanedWindow
-        if Tkinter.TkVersion >= 8.4:
-            paned_window = Tkinter.PanedWindow(top_frame)
-            paned_window.pack(expand=True, fill='both')
-            left_frame = Tkinter.Frame(paned_window)
-            right_frame = Tkinter.Frame(paned_window)
-            paned_window.add(left_frame)
-            paned_window.add(right_frame)
-        else:
-            left_frame = Tkinter.Frame(top_frame)
-            right_frame = Tkinter.Frame(top_frame)
-            left_frame.pack(side='left', expand=True, fill='both')
-            right_frame.pack(side='right', expand=True, fill='both')
+        paned_window = Tkinter.PanedWindow(top_frame)
+        paned_window.pack(expand=True, fill='both')
+        left_frame = Tkinter.Frame(paned_window)
+        right_frame = Tkinter.Frame(paned_window)
+        paned_window.add(left_frame)
+        paned_window.add(right_frame)
         # Tree
         font = app.getFont("default")
         self.tree = self.Tree_Class(self, left_frame, key=gameid,
                                     default=kw.default, font=font, width=w1)
         self.tree.frame.pack(padx=padx, pady=pady, expand=True, fill='both')
         # LabelFrame
-        if Tkinter.TkVersion >= 8.4:
-            info_frame = Tkinter.LabelFrame(right_frame, text=_('About game'))
-            stats_frame = Tkinter.LabelFrame(right_frame, text=_('Statistics'))
-        else:
-            info_frame = Tkinter.Frame(right_frame, bd=2, relief='groove')
-            stats_frame = Tkinter.Frame(right_frame, bd=2, relief='groove')
+        info_frame = Tkinter.LabelFrame(right_frame, text=_('About game'))
+        stats_frame = Tkinter.LabelFrame(right_frame, text=_('Statistics'))
         info_frame.grid(row=0, column=0, padx=padx, pady=pady,
                         ipadx=padx, ipady=pady, sticky='nws')
         stats_frame.grid(row=0, column=1, padx=padx, pady=pady,

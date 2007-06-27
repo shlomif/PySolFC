@@ -50,7 +50,7 @@ def init_root_window(root, app):
         f = os.path.join(app.dataloader.dir, 'tcl', 'menu8.4.tcl')
         if os.path.exists(f):
             try:
-                root.tk.call('source', f)
+                root.tk.evalfile(f)
             except:
                 traceback.print_exc()
         f = 'clrpick8.4.tcl'
@@ -59,7 +59,7 @@ def init_root_window(root, app):
         f = os.path.join(app.dataloader.dir, 'tcl', f)
         if os.path.exists(f):
             try:
-                root.tk.call('source', f)
+                root.tk.evalfile(f)
             except:
                 traceback.print_exc()
         f = 'fsdialog8.4.tcl'
@@ -68,7 +68,7 @@ def init_root_window(root, app):
         f = os.path.join(app.dataloader.dir, 'tcl', f)
         if os.path.exists(f):
             try:
-                root.tk.call('source', f)
+                root.tk.evalfile(f)
             except:
                 traceback.print_exc()
             else:

@@ -43,12 +43,12 @@ __all__ = ['SingleGame_StatsDialog',
            ]
 
 # imports
-import os, string, sys, types
+import os
 import time
 import Tkinter, tkFont
 
 # PySol imports
-from pysollib.mfxutil import destruct, Struct, kwdefault, KwStruct
+from pysollib.mfxutil import kwdefault, KwStruct
 from pysollib.mfxutil import format_time
 ##from pysollib.util import *
 from pysollib.stats import PysolStatsFormatter, ProgressionFormatter
@@ -415,9 +415,9 @@ class CanvasFormatter(PysolStatsFormatter):
             y += self.h
         #
         y += self.h
-        total, played, won, lost, time, moves, perc = self.getStatSummary()
+        total, played, won, lost, time_, moves, perc = self.getStatSummary()
         s = _("Total (%d out of %d games)") % (played, total)
-        self.pstats(y, (s, won+lost, won, lost, time, moves, perc))
+        self.pstats(y, (s, won+lost, won, lost, time_, moves, perc))
 
     def writeLog(self, player, prev_games):
         y = 0
@@ -907,10 +907,7 @@ class ProgressionDialog(MfxDialog):
                                 justify='left', anchor='w'
                                 )
         b.pack(fill='x', expand=True, padx=3, pady=1)
-        if Tkinter.TkVersion >= 8.4:
-            label_frame = Tkinter.LabelFrame(right_frame, text=_('Statistics for'))
-        else:
-            label_frame = Tkinter.Frame(right_frame)
+        label_frame = Tkinter.LabelFrame(right_frame, text=_('Statistics for'))
         label_frame.pack(side='top', fill='x', pady=10)
         self.variable = var = Tkinter.StringVar()
         var.set('week')
@@ -925,10 +922,7 @@ class ProgressionDialog(MfxDialog):
                                     justify='left', anchor='w'
                                     )
             b.pack(fill='x', expand=True, padx=3, pady=1)
-        if Tkinter.TkVersion >= 8.4:
-            label_frame = Tkinter.LabelFrame(right_frame, text=_('Show graphs'))
-        else:
-            label_frame = Tkinter.Frame(right_frame)
+        label_frame = Tkinter.LabelFrame(right_frame, text=_('Show graphs'))
         label_frame.pack(side='top', fill='x')
         self.played_graph_var = Tkinter.BooleanVar()
         self.played_graph_var.set(True)

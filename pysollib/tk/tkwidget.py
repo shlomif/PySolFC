@@ -44,7 +44,7 @@ __all__ = ['MfxDialog',
            ]
 
 # imports
-import os, sys, time, types
+import time
 import Tkinter
 import tkFont
 import traceback
@@ -54,8 +54,7 @@ from pysollib.mfxutil import destruct, kwdefault, KwStruct, openURL
 from pysollib.settings import WIN_SYSTEM
 
 # Toolkit imports
-from tkconst import EVENT_HANDLED, EVENT_PROPAGATE
-from tkutil import after, after_idle, after_cancel
+from tkutil import after, after_cancel
 from tkutil import bind, unbind_destroy
 from tkutil import makeToplevel, setTransient
 from tkcanvas import MfxCanvas

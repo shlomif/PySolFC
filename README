@@ -6,7 +6,7 @@ Requirements.
 -------------
 
 - Python (2.3 or later)
-- Tkinter
+- Tkinter (Tcl/Tk 8.4 or later)
 
 ** for sound support (optional) **
   - PySol-Sound-Server: http://www.pysol.org/ (mp3, wav, tracker music)

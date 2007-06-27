@@ -351,6 +351,8 @@ class Options:
         # general
         for key, t in self.GENERAL_OPTIONS:
             val = getattr(self, key)
+            if t == 'str' and isinstance(val, unicode):
+                val = val.encode('utf-8')
             config.set('general', key, val)
 
         recent_gameid = ' '.join([str(i) for i in self.recent_gameid])
@@ -410,8 +412,10 @@ class Options:
                 val = config.getint(section, key)
             elif t == 'float':
                 val = config.getfloat(section, key)
-            else:
+            else: # str
                 val = config.get(section, key)
+                if isinstance(val, str):
+                    val = unicode(val, 'utf-8')
         except ConfigParser.NoOptionError:
             val = None
         except:

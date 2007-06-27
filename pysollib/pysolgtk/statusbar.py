@@ -77,6 +77,9 @@ class BasicStatusbar:
             label.pop(0)
             label.push(0, unicode(v))
 
+    def config(self, name, show):
+        # FIXME
+        pass
 
     def configLabel(self, name, **kw):
         label = getattr(self, name + "_label")

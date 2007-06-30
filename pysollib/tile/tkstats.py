@@ -123,7 +123,7 @@ class StatsDialog(MfxDialog):
                                "sep", _("&OK"),
                                (_("&Reset..."), 500)),
                       default=0,
-                      separatorwidth=0,
+                      separator=False,
         )
         return MfxDialog.initKw(self, kw)
 
@@ -554,7 +554,7 @@ class LogDialog(MfxDialog):
                                (_("&Save to file"), 500)),
                       default=0,
                       width=76*self.CHAR_W,
-                      separatorwidth=0,
+                      separator=False,
                       )
         return MfxDialog.initKw(self, kw)
 
@@ -732,7 +732,7 @@ class _TopDialog(MfxDialog):
 
 
     def initKw(self, kw):
-        kw = KwStruct(kw, strings=(_('&OK'),), default=0, separatorwidth=2)
+        kw = KwStruct(kw, strings=(_('&OK'),), default=0, separator=True)
         return MfxDialog.initKw(self, kw)
 
 

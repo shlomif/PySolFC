@@ -90,8 +90,21 @@ def init_root_window(root, app):
 
         root.option_add('*Listbox.background', 'white', 60)
         root.option_add('*Listbox.foreground', 'black', 60)
-        root.option_add('*Listbox*selectBackground', '#0a5f89', 60)
-        root.option_add('*Listbox*selectForeground', 'white', 60)
+        root.option_add('*Text.background', 'white', 60)
+        root.option_add('*Text.foreground', 'black', 60)
+        root.option_add('*selectForeground', 'white', 60)
+        root.option_add('*selectBackground', '#0a5f89', 60)
+        root.option_add('*inactiveSelectBackground', '#0a5f89', 60) # Tk-8.5
+
+        color = style.lookup('TEntry', 'selectbackground', 'focus')
+        if color:
+            root.option_add('*selectBackground', color, 60)
+            root.option_add('*inactiveSelectBackground', color, 60)
+        color = style.lookup('TEntry', 'selectforeground', 'focus')
+        if color:
+            root.option_add('*selectForeground', color, 60)
+
+        root.option_add('*selectBorderWidth', 0, 60)
 
         font = root.option_get('font', PACKAGE)
         if font:
@@ -113,7 +126,7 @@ def init_root_window(root, app):
                     root.option_add('*font', font)
                     app.opt.fonts['default'] = fn
         if app.opt.tile_theme in ('clam', 'clearlooks'):
-            root.wm_minsize(550, 360)
+            ##root.wm_minsize(550, 360)
             style.configure('TLabelframe', labeloutside=False,
                             labelmargins=(8, 0, 8, 0))
 
@@ -123,8 +136,12 @@ def init_root_window(root, app):
         root.option_add('*Entry.foreground', 'black', 60)
         root.option_add('*Listbox.background', 'white', 60)
         root.option_add('*Listbox.foreground', 'black', 60)
-        root.option_add('*Listbox*selectBackground', '#0a5f89', 60)
-        root.option_add('*Listbox*selectForeground', 'white', 60)
+        root.option_add('*Text.background', 'white', 60)
+        root.option_add('*Text.foreground', 'black', 60)
+        root.option_add('*selectForeground', 'white', 60)
+        root.option_add('*selectBackground', '#0a5f89', 60)
+        root.option_add('*inactiveSelectBackground', '#0a5f89', 60) # Tk-8.5
+        root.option_add('*selectBorderWidth', 0, 60)
         ##root.option_add('*borderWidth', '1', 50)
         ##root.option_add('*Button.borderWidth', '1', 50)
         root.option_add('*Scrollbar.elementBorderWidth', 1, 60)

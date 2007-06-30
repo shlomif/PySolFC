@@ -82,8 +82,8 @@ class SelectUserNameDialog(MfxDialog):
     def initKw(self, kw):
         kw = KwStruct(kw,
                       strings=(_("&OK"), _("&Cancel")), default=0,
-                      separatorwidth=0,
-                      resizable=0,
+                      separator=False,
+                      resizable=False,
                       padx=10, pady=10,
                       buttonpadx=10, buttonpady=5,
                       )

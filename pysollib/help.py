@@ -76,7 +76,7 @@ For more information about this application visit''') % (t, version),
                          url=PACKAGE_URL,
                          image=app.gimages.logos[2],
                          strings=strings, default=0,
-                         separatorwidth=2)
+                         separator=True)
     if d.status == 0 and d.button == 1:
         help_credits(app, sound=sound)
     return d.status
@@ -103,7 +103,7 @@ Natascha
 The Python, %s, SDL & Linux crews
 for making this program possible''') % t,
                   image=app.gimages.logos[3], image_side="right",
-                  separatorwidth=2)
+                  separator=True)
     return d.status
 
 

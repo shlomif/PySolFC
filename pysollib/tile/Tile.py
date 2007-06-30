@@ -36,6 +36,7 @@ class Style(Tkinter.Misc):
 
     def default(self, style, **kw):
         """Sets the default value of the specified option(s) in style"""
+        assert TileVersion < '0.8'      # removed in Tile-0.8.0
         opts = self._options(kw)
         return self.tk.call(_tile_prefix+"style", "default", style, *opts)
 
@@ -496,7 +497,7 @@ class Treeview(Widget, Tkinter.Listbox):
         if id: args = args + ('-id', id)
         return self.tk.call(args + self._options(kw))
 
-    def item(item, **kw):
+    def item(self, item, **kw):
         """Query or modify the options for the specified item. If no -option 
         is specified, returns a dictionary of option/value pairs. If a single 
         -option is specified, returns the value of that option. Otherwise, the

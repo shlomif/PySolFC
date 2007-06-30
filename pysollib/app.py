@@ -414,12 +414,11 @@ class Options:
                 val = config.getfloat(section, key)
             else: # str
                 val = config.get(section, key)
-                if isinstance(val, str):
-                    val = unicode(val, 'utf-8')
+                val = unicode(val, 'utf-8')
         except ConfigParser.NoOptionError:
             val = None
         except:
-            print >> sys.stderr, 'Load option error:', key
+            print_err('load option error: '+key)
             traceback.print_exc()
             val = None
         return val
@@ -969,6 +968,7 @@ class Application:
                         raise           # internal error?
                     traceback.print_exc()
                     self.nextgame.id = 2
+                    self.freeGame()
                     continue
                 if self.nextgame.holdgame:
                     assert self.nextgame.id <= 0

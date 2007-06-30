@@ -137,6 +137,7 @@ class WizardDialog(MfxDialog):
         kw = KwStruct(kw,
                       strings=(_('&OK'), _('&Cancel')),
                       default=0,
+                      separator=False,
                       )
         return MfxDialog.initKw(self, kw)
 

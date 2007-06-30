@@ -19,7 +19,7 @@
 ##
 ##---------------------------------------------------------------------------##
 
-import sys, os
+import os
 
 from gamedb import GI, loadGame
 from util import *

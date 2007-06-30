@@ -237,7 +237,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
                       strings = ((_("&Info..."), 10), 'sep',
                                  _("&Load"), _("&Cancel"),),
                       default=0,
-                      resizable=1,
+                      resizable=True,
                       )
         return MfxDialog.initKw(self, kw)
 
@@ -388,8 +388,8 @@ class CardsetInfoDialog(MfxDialog):
         kw = KwStruct(kw,
                       strings=(_("&OK"),),
                       default=0,
-                      resizable=1,
-                      separatorwidth=2,
+                      resizable=True,
+                      separator=True,
                       )
         return MfxDialog.initKw(self, kw)
 

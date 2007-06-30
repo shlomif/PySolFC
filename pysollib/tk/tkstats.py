@@ -512,7 +512,7 @@ class AllGames_StatsDialog(MfxDialog):
                                (_("&Save to file"), 202),
                                (_("&Reset all..."), 301),),
                       default=0,
-                      resizable=1,
+                      resizable=True,
                       padx=10, pady=10,
                       #width=900,
         )
@@ -704,7 +704,7 @@ class _TopDialog(MfxDialog):
 
 
     def initKw(self, kw):
-        kw = KwStruct(kw, strings=(_('&OK'),), default=0, separatorwidth=2)
+        kw = KwStruct(kw, strings=(_('&OK'),), default=0, separator=True)
         return MfxDialog.initKw(self, kw)
 
 
@@ -791,7 +791,7 @@ class Top_StatsDialog(MfxDialog):
                       strings=(_('&OK'),),
                       default=0,
                       image=self.app.gimages.logos[4],
-                      separatorwidth=2,
+                      separator=True,
                       )
         return MfxDialog.initKw(self, kw)
 
@@ -956,7 +956,7 @@ class ProgressionDialog(MfxDialog):
 
 
     def initKw(self, kw):
-        kw = KwStruct(kw, strings=(_('&OK'),), default=0, separatorwidth=2)
+        kw = KwStruct(kw, strings=(_('&OK'),), default=0, separator=True)
         return MfxDialog.initKw(self, kw)
 
 

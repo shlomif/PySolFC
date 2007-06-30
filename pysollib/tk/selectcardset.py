@@ -236,7 +236,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         kw = KwStruct(kw,
                       strings=(_("&OK"), _("&Load"), _("&Cancel"),),
                       default=0,
-                      resizable=1,
+                      resizable=True,
                       padx=10, pady=10,
                       buttonpadx=10, buttonpady=5,
                       )
@@ -388,8 +388,8 @@ class CardsetInfoDialog(MfxDialog):
         kw = KwStruct(kw,
                       strings=(_("&OK"),),
                       default=0,
-                      resizable=1,
-                      separatorwidth=2,
+                      resizable=True,
+                      separator=True,
                       padx=10, pady=10,
                       buttonpadx=10, buttonpady=5,
                       )

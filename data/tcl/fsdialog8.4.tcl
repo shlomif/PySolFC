@@ -1676,8 +1676,8 @@ if {![llength [info procs lassign]]} {
 }
 
 style default Slim.TButton -padding 0
-option add *TkFDialog*selectBackground #0a5f89
-option add *TkFDialog*selectForeground #ffffff
+# option add *TkFDialog*selectBackground #0a5f89
+# option add *TkFDialog*selectForeground #ffffff
 option add *TkFDialog*Toolbar*takeFocus 0
 option add *TkFDialog*Text.background white
 # option add *TkFDialog*Menu.activeBackground #0a5f89

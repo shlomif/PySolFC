@@ -153,6 +153,6 @@ class GameInfoDialog(MfxDialog):
         kw = KwStruct(kw,
                       strings=(_("&OK"),),
                       default=0,
-                      separatorwidth=2,
+                      separator=True,
                       )
         return MfxDialog.initKw(self, kw)

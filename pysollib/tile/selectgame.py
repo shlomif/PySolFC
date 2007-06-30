@@ -298,8 +298,8 @@ class SelectGameDialog(MfxDialog):
     def initKw(self, kw):
         kw = KwStruct(kw,
                       strings=(None, None, _("&Cancel"),), default=0,
-                      separatorwidth=2,
-                      resizable=1,
+                      resizable=True,
+                      separator=True,
                       )
         return MfxDialog.initKw(self, kw)
 

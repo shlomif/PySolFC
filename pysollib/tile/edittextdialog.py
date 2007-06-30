@@ -82,8 +82,8 @@ class EditTextDialog(MfxDialog):
         kw = KwStruct(kw,
                       strings=(_("&OK"), _("&Cancel")),
                       default=-1,
-                      resizable=1,
-                      separatorwidth=0,
+                      resizable=False,
+                      separator=False,
                       )
         return MfxDialog.initKw(self, kw)
 

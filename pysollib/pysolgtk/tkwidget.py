@@ -73,7 +73,7 @@ class MfxDialog(_MyDialog):
                  width=-1, height=-1,
                  text='', justify='center',
                  strings=("OK",), default=0,
-                 separatorwidth=0,
+                 separator=False,
                  padx=20, pady=20,
                  bitmap=None, bitmap_side='left',
                  bitmap_padx=20, bitmap_pady=20,
@@ -172,8 +172,8 @@ class MfxDialog(_MyDialog):
                   image_padx=10, image_pady=20,
                   )
 ##         # default to separator if more than one button
-##         sw = 2 * (len(kw.strings) > 1)
-##         kwdefault(kw.__dict__, separatorwidth=sw)
+##         sw = len(kw.strings) > 1
+##         kwdefault(kw.__dict__, separator=sw)
         return kw
 
     def done(self, button):

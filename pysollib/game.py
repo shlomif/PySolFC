@@ -37,7 +37,6 @@
 # imports
 import time
 import math
-import md5
 import traceback
 from cStringIO import StringIO
 
@@ -667,7 +666,7 @@ class Game:
     def leaveState(self, old_state):
         self.moves.state = old_state
 
-    def getSnapshot(self, hex=False):
+    def getSnapshot(self):
         # generate hash (unique string) of current move
         sn = []
         for stack in self.allstacks:
@@ -676,11 +675,8 @@ class Game:
                 s.append('%d%03d%d' % (card.suit, card.rank, card.face_up))
             sn.append(''.join(s))
         sn = '-'.join(sn)
-        # make more short string
-        if hex:
-            sn = md5.new(sn).hexdigest()
-        else:
-            sn = md5.new(sn).digest()
+        # optimisation
+        sn = hash(sn)
         return sn
 
     def createSnGroups(self):
@@ -1690,7 +1686,7 @@ for %d moves.
 %s
 ''') % (time, self.moves.index, top_msg),
                                  strings=(_("&New game"), None, _("&Cancel")),
-                                 image=self.app.gimages.logos[5], separatorwidth=2)
+                                 image=self.app.gimages.logos[5])
         elif status == 1:
             top_msg = self.updateStats()
             time = self.getTime()
@@ -1706,7 +1702,7 @@ for %d moves.
 %s
 ''') % (time, self.moves.index, top_msg),
                                  strings=(_("&New game"), None, _("&Cancel")),
-                                 image=self.app.gimages.logos[4], separatorwidth=2)
+                                 image=self.app.gimages.logos[4])
         elif self.gstats.updated < 0:
             self.finished = True
             self.playSample("gamefinished", priority=1000)

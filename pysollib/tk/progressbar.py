@@ -55,7 +55,7 @@ class PysolProgressBar:
         self.top = makeToplevel(parent, title=title)
         self.top.wm_protocol("WM_DELETE_WINDOW", self.wmDeleteWindow)
         self.top.wm_group(parent)
-        self.top.wm_resizable(0, 0)
+        self.top.wm_resizable(False, False)
         self.frame = Tkinter.Frame(self.top, relief='flat', bd=0,
                                    takefocus=0)
         self.cframe = Tkinter.Frame(self.frame, relief='sunken', bd=1,

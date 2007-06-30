@@ -156,7 +156,7 @@ class SelectTileDialogWithPreview(MfxDialog):
                       strings=((_("&Solid color..."), 10),
                                'sep', _("&OK"), _("&Cancel"),),
                       default=0,
-                      resizable=1,
+                      resizable=True,
                       font=None,
                       )
         return MfxDialog.initKw(self, kw)

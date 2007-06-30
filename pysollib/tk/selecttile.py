@@ -155,7 +155,7 @@ class SelectTileDialogWithPreview(MfxDialog):
         kw = KwStruct(kw,
                       strings=(_("&OK"), _("&Solid color..."), _("&Cancel"),),
                       default=0,
-                      resizable=1,
+                      resizable=True,
                       font=None,
                       padx=10, pady=10,
                       buttonpadx=10, buttonpady=5,

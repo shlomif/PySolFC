@@ -167,7 +167,6 @@ class SoundOptionsDialog(MfxDialog):
         kw = KwStruct(kw,
                       strings=strings,
                       default=0,
-                      resizable=1,
                       padx=10, pady=10,
                       buttonpadx=10, buttonpady=5,
                       )

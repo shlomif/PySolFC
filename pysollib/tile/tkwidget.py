@@ -69,7 +69,7 @@ class MfxDialog: # ex. _ToplevelDialog
     img = {}
     button_img = {}
 
-    def __init__(self, parent, title="", resizable=0, default=-1):
+    def __init__(self, parent, title="", resizable=False, default=-1):
         self.parent = parent
         self.status = 0
         self.button = default
@@ -150,7 +150,7 @@ class MfxDialog: # ex. _ToplevelDialog
 
     def initKw(self, kw):
         kw = KwStruct(kw,
-                      timeout=0, resizable=0,
+                      timeout=0, resizable=False,
                       text="", justify="center",
                       strings=(_("&OK"),),
                       default=0,
@@ -162,14 +162,14 @@ class MfxDialog: # ex. _ToplevelDialog
                       image_padx=10, image_pady=20,
                       )
         # default to separator if more than one button
-        sw = 2 * (len(kw.strings) > 1)
-        kwdefault(kw.__dict__, separatorwidth=sw)
+        sep = len(kw.strings) > 1
+        kwdefault(kw.__dict__, separator=sep)
         return kw
 
     def createFrames(self, kw):
         bottom_frame = Tile.Frame(self._frame, relief='flat', borderwidth=4)
         bottom_frame.pack(side='bottom', fill='both', expand=False)
-        if kw.separatorwidth > 0:
+        if kw.separator:
             separator = Tile.Separator(self._frame)
             separator.pack(side='bottom', fill='x')
         top_frame = Tile.Frame(self._frame)
@@ -361,7 +361,7 @@ class MfxSimpleEntry(MfxDialog):
     def initKw(self, kw):
         kw = KwStruct(kw,
                       strings=(_("&OK"), _("&Cancel")), default=0,
-                      separatorwidth = 0,
+                      separator=False,
                       )
         return MfxDialog.initKw(self, kw)
 

@@ -375,7 +375,7 @@ class Cardset(Resource):
 
     def updateCardback(self, backname=None, backindex=None):
         # update default back
-        if isinstance(backname, str):
+        if isinstance(backname, basestring):
             if backname in self.backnames:
                 backindex = self.backnames.index(backname)
         if isinstance(backindex, int):

@@ -1181,8 +1181,8 @@ class PysolMenubar(PysolMenubarActions):
         if cs.backindex == old_index:
             return
         self.app.updateCardset(self.game.id)
+        image = self.app.images.getBack(update=True)
         for card in self.game.cards:
-            image = self.app.images.getBack(card.deck, card.suit, card.rank)
             card.updateCardBackground(image=image)
         self.app.canvas.update_idletasks()
         self.tkopt.cardback.set(cs.backindex)

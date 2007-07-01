@@ -90,6 +90,7 @@ class Images:
         self._xshadow = []
         self._shade = []
         self._shadow_cards = {}         # key: (suit, rank)
+        self._shadow_back = None
         self._pil_shadow = {}           # key: (width, height)
         self._pil_shadow_image = None
 
@@ -252,7 +253,9 @@ class Images:
         ##print "getFace:", suit, rank, index
         return self._card[index % self.cs.ncards]
 
-    def getBack(self, deck, suit, rank):
+    def getBack(self, update=False):
+        if update:
+            self._shadow_back = None
         index = self.cs.backindex % len(self._back)
         return self._back[index].image
 
@@ -370,6 +373,14 @@ class Images:
             self._shadow_cards[(suit, rank)] = shade
         if not shade:
             return self.getShade()
+        return shade
+
+    def getShadowBack(self):
+        if self._shadow_back:
+            return self._shadow_back
+        image = self.getBack()
+        shade = shadowImage(image)
+        self._shadow_back = shade
         return shade
 
     def getCardbacks(self):

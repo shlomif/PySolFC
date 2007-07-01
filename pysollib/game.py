@@ -1444,7 +1444,7 @@ class Game:
         return self.app.images.getFace(deck, suit, rank)
 
     def getCardBackImage(self, deck, suit, rank):
-        return self.app.images.getBack(deck, suit, rank)
+        return self.app.images.getBack()
 
     def getCardShadeImage(self):
         return self.app.images.getShade()
@@ -2276,11 +2276,15 @@ for %d moves.
                 status = 2
             elif player_moves == 0:
                 self.playSample("autopilotwon", priority=1000)
-                s = self.app.miscrandom.choice((_("&Great"), _("&Cool"), _("&Yeah"), _("&Wow"))) # ??? accelerators
+                s = self.app.miscrandom.choice((_("&Great"), _("&Cool"),
+                                                _("&Yeah"),  _("&Wow")))
                 d = MfxMessageDialog(self.top, title=PACKAGE+_(" Autopilot"),
-                                     text=_("\nGame solved in %d moves.\n") % self.moves.index,
-                                     image=self.app.gimages.logos[4], strings=(s,),
-                                     separatorwidth=2, timeout=timeout)
+                                     text=_("\nGame solved in %d moves.\n") %
+                                     self.moves.index,
+                                     image=self.app.gimages.logos[4],
+                                     strings=(s,),
+                                     separator=True,
+                                     timeout=timeout)
                 status = d.status
             else:
                 ##s = self.app.miscrandom.choice((_("&OK"), _("&OK")))

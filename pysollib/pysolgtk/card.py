@@ -68,7 +68,7 @@ class _OneImageCard(_HideableCard):
         _HideableCard.__init__(self, id, deck, suit, rank, game, x=x, y=y)
         images = game.app.images
         self.__face_image = images.getFace(deck, suit, rank)
-        self.__back_image = images.getBack(deck, suit, rank)
+        self.__back_image = images.getBack()
         self.__image = MfxCanvasImage(game.canvas, self.x, self.y,
                                       image=self.__back_image,
                                       anchor=gtk.ANCHOR_NW)
@@ -106,8 +106,12 @@ class _TwoImageCard(_HideableCard):
         _HideableCard.__init__(self, id, deck, suit, rank, game, x=x, y=y)
         images = game.app.images
         self.item = MfxCanvasGroup(game.canvas)
-        self.__face = MfxCanvasImage(game.canvas, self.x, self.y, image=images.getFace(deck, suit, rank), anchor='nw')
-        self.__back = MfxCanvasImage(game.canvas, self.x, self.y, image=images.getBack(deck, suit, rank), anchor='nw')
+        self.__face = MfxCanvasImage(game.canvas, self.x, self.y,
+                                     image=images.getFace(deck, suit, rank),
+                                     anchor='nw')
+        self.__back = MfxCanvasImage(game.canvas, self.x, self.y,
+                                     image=images.getBack(),
+                                     anchor='nw')
         self.__face.addtag(self.item)
         self.__back.addtag(self.item)
         self.__face.hide()

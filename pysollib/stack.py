@@ -1352,7 +1352,10 @@ class Stack:
         drag.shade_stack = sstack
         if sstack.cards:
             card = sstack.cards[-1]
-            img = images.getShadowCard(card.deck, card.suit, card.rank)
+            if card.face_up:
+                img = images.getShadowCard(card.deck, card.suit, card.rank)
+            else:
+                img = images.getShadowBack()
         else:
             img = images.getShade()
         if not img:

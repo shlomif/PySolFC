@@ -284,7 +284,7 @@ DealFaceUp = WizSetting(
     var_name = 'deal_face_up',
     )
 DealToReseves = WizSetting(
-    values_map = (0, 20),
+    values_map = (0, 208),
     default = 0,
     widget = 'spin',
     label = _('# of cards dealt to the reserve:'),

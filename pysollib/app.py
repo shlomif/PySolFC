@@ -966,6 +966,8 @@ class Application:
                     # try Klondike if current game fails
                     if id == 2:
                         raise           # internal error?
+                    if DEBUG:
+                        raise
                     traceback.print_exc()
                     self.nextgame.id = 2
                     self.freeGame()

@@ -142,7 +142,7 @@ class CustomGame(Game):
             else:
                 layout_kw['reserve_class'] = StackWrapper(OpenStack, **kw)
             if s['talon'] is DealReserveRedealTalonStack or \
-               s['reserves_max_accept'] > 1:
+               s['reserves_max_accept'] > 1 or s['deal_to_reserves'] > 1:
                 layout_kw['reserve_texts'] = True
 
         # waste

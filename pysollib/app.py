@@ -78,6 +78,7 @@ from help import help_about, destroy_help_html
 # // Options
 # ************************************************************************/
 
+from configobj import configobj
 
 class Options:
     GENERAL_OPTIONS = [
@@ -142,17 +143,8 @@ class Options:
 
 
     def __init__(self):
-        config = self._config = ConfigParser.ConfigParser()
-        for section in (
-            'general',
-            'sound_samples',
-            'fonts',
-            'colors',
-            'timeouts',
-            'cardsets',
-            'games_geometry',
-            ):
-            config.add_section(section)
+        self._config = None             # configobj.ConfigObj instance
+        self._config_encoding = 'utf-8'
 
         self.version_tuple = VERSION_TUPLE # XXX
         self.saved = 0                  # XXX
@@ -335,8 +327,12 @@ class Options:
 
     # not changeable options
     def setConstants(self):
-##         self.dragcursor = True
-##         self.randomize_place = False
+        if 'shuffle' not in self.toolbar_vars:
+            # new in v.1.1
+            self.toolbar_vars['shuffle'] = True
+        if isinstance(self.mahjongg_create_solvable, bool):
+            # changed in v.1.1
+            self.mahjongg_create_solvable = 2
         pass
 
     def copy(self):
@@ -351,81 +347,90 @@ class Options:
         # general
         for key, t in self.GENERAL_OPTIONS:
             val = getattr(self, key)
-            if t == 'str' and isinstance(val, unicode):
-                val = val.encode('utf-8')
-            config.set('general', key, val)
+            config['general'][key] = val
 
-        recent_gameid = ' '.join([str(i) for i in self.recent_gameid])
-        config.set('general', 'recent_gameid', recent_gameid)
-
-        favorite_gameid = ' '.join([str(i) for i in self.favorite_gameid])
-        config.set('general', 'favorite_gameid', favorite_gameid)
-
+        config['general']['recent_gameid'] = self.recent_gameid
+        config['general']['favorite_gameid'] = self.favorite_gameid
         visible_buttons = [b for b in self.toolbar_vars
                            if self.toolbar_vars[b]]
-        visible_buttons = ' '.join(visible_buttons)
-        config.set('general', 'visible_buttons', visible_buttons)
+        config['general']['visible_buttons'] = visible_buttons
 
         # sound_samples
-        for key, val in self.sound_samples.items():
-            config.set('sound_samples', key, val)
+        config['sound_samples'] = self.sound_samples
 
         # fonts
         for key, val in self.fonts.items():
             if val is None:
                 continue
-            val = list(val)
-            val[0] = val[0].replace(' ', '_') # XXX: hack
-            val = ' '.join([str(i) for i in val])
-            config.set('fonts', key, val)
+            config['fonts'][key] = val
 
         # colors
-        for key, val in self.colors.items():
-            config.set('colors', key, val)
+        config['colors'] = self.colors
 
         # timeouts
-        for key, val in self.timeouts.items():
-            config.set('timeouts', key, val)
+        config['timeouts'] = self.timeouts
 
         # cardsets
         for key, val in self.cardset.items():
-            val = list(val)
-            if val[1] == '':
-                val[1] = 'none'
-            val = ' '.join(val)
-            config.set('cardsets', str(key), val)
+            config['cardsets'][str(key)] = val
 
         # games_geometry
+        config['games_geometry'].clear()
         for key, val in self.games_geometry.items():
-            val = ' '.join([str(i) for i in val])
-            config.set('games_geometry', str(key), val)
+            config['games_geometry'][str(key)] = val
 
-        config.write(file(filename, 'w'))
-        #config.write(sys.stdout)
+        config.write()
+        ##config.write(sys.stdout); print
+
 
     def _getOption(self, section, key, t):
         config = self._config
         try:
             if t == 'bool':
-                val = config.getboolean(section, key)
+                val = config[section].as_bool(key)
             elif t == 'int':
-                val = config.getint(section, key)
+                val = config[section].as_int(key)
             elif t == 'float':
-                val = config.getfloat(section, key)
+                val = config[section].as_float(key)
+            elif t == 'list':
+                val = config[section][key]
+                assert isinstance(val, (list, tuple))
             else: # str
-                val = config.get(section, key)
-                val = unicode(val, 'utf-8')
-        except ConfigParser.NoOptionError:
+                val = config[section][key]
+        except KeyError:
             val = None
         except:
-            print_err('load option error: '+key)
+            print_err('load option error: %s: %s' % (section, key))
             traceback.print_exc()
             val = None
         return val
 
     def load(self, filename):
-        config = self._config
-        config.read(filename)
+
+        try:
+            config = configobj.ConfigObj(filename,
+                                         encoding=self._config_encoding)
+        except configobj.ParseError:
+            traceback.print_exc()
+            config = configobj.ConfigObj(encoding=self._config_encoding)
+        self._config = config
+
+        for section in (
+            'general',
+            'sound_samples',
+            'fonts',
+            'colors',
+            'timeouts',
+            'cardsets',
+            'games_geometry',
+            ):
+            if section not in config:
+                config[section] = {}
+
+        if not os.path.exists(filename):
+            config.initial_comment = ['-*- coding: %s -*-' %
+                                      self._config_encoding]
+            return
 
         # general
         for key, t in self.GENERAL_OPTIONS:
@@ -433,24 +438,23 @@ class Options:
             if val is not None:
                 setattr(self, key, val)
 
-        recent_gameid = self._getOption('general', 'recent_gameid', 'str')
+        recent_gameid = self._getOption('general', 'recent_gameid', 'list')
         if recent_gameid is not None:
             try:
-                self.recent_gameid = [int(i) for i in recent_gameid.split()]
+                self.recent_gameid = [int(i) for i in recent_gameid]
             except:
                 traceback.print_exc()
 
-        favorite_gameid = self._getOption('general', 'favorite_gameid', 'str')
+        favorite_gameid = self._getOption('general', 'favorite_gameid', 'list')
         if favorite_gameid is not None:
             try:
-                self.favorite_gameid = [int(i) for i in favorite_gameid.split()]
+                self.favorite_gameid = [int(i) for i in favorite_gameid]
             except:
                 traceback.print_exc()
 
-        visible_buttons = self._getOption('general', 'visible_buttons', 'str')
+        visible_buttons = self._getOption('general', 'visible_buttons', 'list')
         if visible_buttons is not None:
-            visible_buttons = visible_buttons.split()
-            for key in self.toolbar_vars:
+            for key in TOOLBAR_BUTTONS:
                 self.toolbar_vars[key] = (key in visible_buttons)
 
         # sound_samples
@@ -463,9 +467,7 @@ class Options:
         for key in self.fonts:
             val = self._getOption('fonts', key, 'str')
             if val is not None:
-                val = val.split()
                 try:
-                    val[0] = val[0].replace('_', ' ')
                     val[1] = int(val[1])
                 except:
                     traceback.print_exc()
@@ -487,26 +489,22 @@ class Options:
 
         # cardsets
         for key in self.cardset:
-            val = self._getOption('cardsets', str(key), 'str')
+            val = self._getOption('cardsets', str(key), 'list')
             if val is not None:
                 try:
-                    i = val.rindex(' ')
-                    if val[i+1:] == 'none':
-                        val = (val[:i], '')
-                    else:
-                        val = [val[:i], val[i+1:]]
                     self.cardset[int(key)] = val
                 except:
                     traceback.print_exc()
 
         # games_geometry
-        for key, val in config.items('games_geometry'):
+        for key, val in config['games_geometry'].items():
             try:
-                val = [int(i) for i in val.split()]
+                val = [int(i) for i in val]
                 assert len(val) == 2
                 self.games_geometry[int(key)] = val
             except:
                 traceback.print_exc()
+
 
 
 # /***********************************************************************
@@ -1488,8 +1486,7 @@ Please select a %s type %s.
             except:
                 pass
 
-        if os.path.exists(self.fn.opt_cfg):
-            self.opt.load(self.fn.opt_cfg)
+        self.opt.load(self.fn.opt_cfg)
         self.opt.setConstants()
 
     def loadStatistics(self):

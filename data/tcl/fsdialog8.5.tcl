@@ -1003,7 +1003,7 @@ proc ::ttk::dialog::file::NewDirExit {w {save 0}} {
 		set newdir [file join $dir [$w.new.f.box get]]
 		if {[catch {file mkdir $newdir} err]} {
 			ttk::messageBox -type ok -parent $w.new -icon error \
-				-message "$err"
+				-message "$err" -title Error
 			return
 		} else {
 			ChangeDir $w $newdir
@@ -1043,7 +1043,7 @@ proc ::ttk::dialog::file::Done {w} {
 	if {[file exists $path]} {
 		if {[string equal $data(type) save]} {
 			set reply [ttk::messageBox -icon warning -type yesno \
-				-parent $w -message "File\
+				-parent $w -title Warning -message "File\
 				\"$path\" already exists.\nDo\
 				you want to overwrite it?"]
 			if {[string equal $reply "no"]} {return}
@@ -1051,7 +1051,8 @@ proc ::ttk::dialog::file::Done {w} {
 	} else {
 		if {[string equal $data(type) open]} {
 			ttk::messageBox -icon warning -type ok -parent $w \
-				-message "File \"$path\" does not exist."
+                            -title Error \
+                            -message "File \"$path\" does not exist."
 			return
 		}
 	}
@@ -1073,7 +1074,7 @@ proc ::ttk::dialog::file::chdir {w} {
 		ttk::messageBox -type ok -parent $w \
 			-message "Cannot change to the directory\
 				\"$data(selectPath)\".\nPermission denied." \
-			-icon warning
+			-icon warning -title Error
 	}
 	return -code break
 }

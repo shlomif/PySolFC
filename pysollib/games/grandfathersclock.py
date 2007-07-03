@@ -473,6 +473,139 @@ class BigBen(Game):
     shallHighlightMatch = Game._shallHighlightMatch_SSW
 
 
+# /***********************************************************************
+# // Clock
+# ************************************************************************/
+
+class Clock_RowStack(RK_RowStack):
+
+    def _numFaceDown(self):
+        ncards = 0
+        for c in self.cards:
+            if not c.face_up:
+                ncards += 1
+        return ncards
+
+    def acceptsCards(self, from_stack, cards):
+        return cards[0].rank == self.id
+
+    def moveMove(self, ncards, to_stack, frames=-1, shadow=-1):
+        self._swapPairMove(ncards, to_stack, frames=-1, shadow=0)
+
+    def _swapPairMove(self, n, other_stack, frames=-1, shadow=-1):
+        is_king = other_stack.cards[-1].rank == KING
+        game = self.game
+        old_state = game.enterState(game.S_FILL)
+        swap = game.s.internals[0]
+        ncards = other_stack._numFaceDown()
+        for i in range(ncards):
+            game.moveMove(n, other_stack, swap, frames=0)
+        game.moveMove(n, self, other_stack, frames=0)
+        for i in range(ncards):
+            game.moveMove(n, swap, other_stack, frames=0)
+        game.flipMove(other_stack)
+        game.moveMove(n, other_stack, self)
+        if is_king:
+            self._moveKingToBottom()
+        game.leaveState(old_state)
+
+    def _moveKingToBottom(self):
+        # move king to bottom of stack
+        game = self.game
+        swap, swap2 = game.s.internals
+        game.moveMove(1, self, swap2, frames=0)
+        ncards = self._numFaceDown()
+        for i in range(ncards):
+            game.moveMove(1, self, swap, frames=0)
+        game.moveMove(1, swap2, self, frames=0)
+        for i in range(ncards):
+            game.moveMove(1, swap, self, frames=0)
+        if not self.cards[-1].face_up:
+            game.flipMove(self)
+        self._fillStack()
+
+    def _fillStack(self):
+        c = self.cards[-1]
+        n = self._numFaceDown()
+        if n == 0:
+            return
+        if c.face_up and c.rank == KING:
+            self._moveKingToBottom()
+
+    def canFlipCard(self):
+        return False
+
+
+class Clock(Game):
+
+    def createGame(self):
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        dx = l.XS + 3*l.XOFFSET
+        w = max(5.25*dx + l.XS, 5.5*dx)
+        self.setSize(l.XM + w, l.YM + 4*l.YS)
+
+        # create stacks
+        for xx, yy in (
+            (3.25, 0.15),
+            (4.25, 0.5),
+            (4.5,  1.5),
+            (4.25, 2.5),
+            (3.25, 2.85),
+            (2.25, 3),
+            (1.25, 2.85),
+            (0.25, 2.5),
+            (0,    1.5),
+            (0.25, 0.5),
+            (1.25, 0.15),
+            (2.25, 0),
+            ):
+            x = l.XM + xx*dx
+            y = l.YM + yy*l.YS
+            stack = Clock_RowStack(x, y, self, max_move=0)
+            stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
+            stack.SHRINK_FACTOR = 1
+            s.rows.append(stack)
+
+        x, y = l.XM + 2.25*dx, l.YM + 1.5*l.YS
+        stack = Clock_RowStack(x, y, self, max_move=1)
+        stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
+        stack.SHRINK_FACTOR = 1
+        s.rows.append(stack)
+
+        x, y = self.width - l.XS, self.height - l.YS
+        s.talon = InitialDealTalonStack(x, y, self)
+
+        # create an invisible stacks
+        s.internals.append(InvisibleStack(self))
+        s.internals.append(InvisibleStack(self))
+
+        # default
+        l.defaultAll()
+
+    def startGame(self):
+        for i in range(3):
+            self.s.talon.dealRow(frames=0, flip=False)
+        self.startDealSample()
+        self.s.talon.dealRow(flip=False)
+        self.flipMove(self.s.rows[-1])
+        self.s.rows[-1]._fillStack()
+
+    def isGameWon(self):
+        for r in self.s.rows:
+            if not r.cards[-1].face_up:
+                return False
+        return True
+
+    def getHighlightPilesStacks(self):
+        return ()
+
+    def getAutoStacks(self, event=None):
+        return (), (), ()
+
+
 
 # register the game
 registerGame(GameInfo(261, GrandfathersClock, "Grandfather's Clock",
@@ -483,6 +616,8 @@ registerGame(GameInfo(690, Hemispheres, "Hemispheres",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED,
                       altnames=("The Four Continents",) ))
 registerGame(GameInfo(697, BigBen, "Big Ben",
-                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED,
-                      altnames=("Clock",) ))
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(737, Clock, "Clock",
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_LUCK,
+                      altnames=("Travellers",) ))
 

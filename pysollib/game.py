@@ -1970,8 +1970,12 @@ for %d moves.
         #
         color = self.app.opt.colors['not_matching']
         width = 6
-        x0, y0 = x+width/2-self.canvas.xmargin, y+width/2-self.canvas.ymargin
-        x1, y1 = x+w-width-self.canvas.xmargin, y+h-width-self.canvas.ymargin
+        xmargin, ymargin = self.canvas.xmargin, self.canvas.ymargin
+        if self.preview:
+            width = 4
+            xmargin, ymargin = 0, 0
+        x0, y0 = x+width/2-xmargin, y+width/2-ymargin
+        x1, y1 = x+w-width-xmargin, y+h-width-ymargin
         r = MfxCanvasRectangle(self.canvas, x0, y0, x1, y1,
                                width=width, fill=None, outline=color)
         self.canvas.update_idletasks()

@@ -895,48 +895,12 @@ proc ::ttk::dialog::file::scrollhdr {w first last} {
 
 proc ::ttk::dialog::file::configure {w} {
 	UpdateWhenIdle $w
-	return
-
-	set dataName [winfo name $w]
-	upvar ::ttk::dialog::file::$dataName data
-
-	if {$data(columns) == 0} return
-
-	set dir ::ttk::dialog::image::folder
-	set file ::ttk::dialog::image::file
-
-	set h [winfo height $data(fileArea)]
-	set rows [expr {$h / 18}]
-	if {$rows == $data(rows)} return
-	set t $data(fileArea)
-	set lines $rows
-	set row 1
-	set col 0
-	$t configure -state normal
-	$t delete 1.0 end
-	foreach {name type} $data(list) {
-		set idx $row.end
-		set image [expr {$type eq "directory" ? $dir : $file}]
-		$t tag add file [$t image create $idx -image $image]
-		$t insert $idx " $name" file "\t"
-		if {[incr row] > $lines} {
-			incr col
-			set row 1
-		} elseif {$col == 0} {
-			$t insert $idx "\n"
-		}
-	}
-	$t insert 1.end "\t"
-	$t configure -state disabled
-	set data(columns) [expr {$row > 1 ? $col + 1 : $col}]
-	set data(rows) $lines
 }
 
 proc ::ttk::dialog::file::setopt {w option var} {
 	set dataName [winfo name $w]
 	upvar ::ttk::dialog::file::$dataName data
 	upvar #0 $var value
-
 	
 	set data($option) $value
 	UpdateWhenIdle $w	
@@ -1039,7 +1003,7 @@ proc ::ttk::dialog::file::NewDirExit {w {save 0}} {
 		set newdir [file join $dir [$w.new.f.box get]]
 		if {[catch {file mkdir $newdir} err]} {
 			ttk::messageBox -type ok -parent $w.new -icon error \
-				-message "$err"
+				-message "$err" -title Error
 			return
 		} else {
 			ChangeDir $w $newdir
@@ -1079,7 +1043,7 @@ proc ::ttk::dialog::file::Done {w} {
 	if {[file exists $path]} {
 		if {[string equal $data(type) save]} {
 			set reply [ttk::messageBox -icon warning -type yesno \
-				-parent $w -message "File\
+				-parent $w -title Warning -message "File\
 				\"$path\" already exists.\nDo\
 				you want to overwrite it?"]
 			if {[string equal $reply "no"]} {return}
@@ -1087,7 +1051,8 @@ proc ::ttk::dialog::file::Done {w} {
 	} else {
 		if {[string equal $data(type) open]} {
 			ttk::messageBox -icon warning -type ok -parent $w \
-				-message "File \"$path\" does not exist."
+                            -title Error \
+                            -message "File \"$path\" does not exist."
 			return
 		}
 	}
@@ -1109,7 +1074,7 @@ proc ::ttk::dialog::file::chdir {w} {
 		ttk::messageBox -type ok -parent $w \
 			-message "Cannot change to the directory\
 				\"$data(selectPath)\".\nPermission denied." \
-			-icon warning
+			-icon warning -title Error
 	}
 	return -code break
 }

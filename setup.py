@@ -68,6 +68,7 @@ kw = {
     'license'      : 'GPL',
     'scripts'      : ['pysol.py'],
     'packages'     : ['pysollib',
+                      'pysollib.configobj',
                       'pysollib.macosx',
                       'pysollib.winsystems',
                       'pysollib.tk',

@@ -440,6 +440,116 @@ class Paganini(BlueMoon):
         return True
 
 
+# /***********************************************************************
+# // Spoilt
+# ************************************************************************/
+
+class Spoilt_RowStack(BasicRowStack):
+    def acceptsCards(self, from_stack, cards):
+        #if not BasicRowStack.acceptsCards(self, from_stack, cards):
+        #    return False
+
+        card = cards[0]
+        RSTEP = self.game.RSTEP
+        RBASE = self.game.RBASE
+        row, col = divmod(self.id, RSTEP)
+        # check rank
+        if card.rank == ACE:
+            if col != RSTEP-1:
+                return False
+        else:
+            if card.rank - RBASE != col:
+                return False
+        # check suit
+        suit = None
+        for i in range(row*RSTEP, (row+1)*RSTEP):
+            r = self.game.s.rows[i]
+            if r.cards and r.cards[0].face_up:
+                suit = r.cards[0].suit
+                break
+        if suit is not None:
+            return card.suit == suit
+        for r in self.game.s.rows:      # check other rows
+            if r.cards and r.cards[0].face_up and r.cards[0].suit == card.suit:
+                return False
+        return True
+
+    def canFlipCard(self):
+        return False
+
+
+class Spoilt_Waste(WasteStack):
+
+    def moveMove(self, ncards, to_stack, frames=-1, shadow=-1):
+        assert ncards == 1 and to_stack in self.game.s.rows
+        if to_stack.cards:
+            self._swapPairMove(ncards, to_stack, frames=-1, shadow=0)
+        else:
+            WasteStack.moveMove(self, ncards, to_stack, frames, shadow)
+
+    def _swapPairMove(self, n, other_stack, frames=-1, shadow=-1):
+        game = self.game
+        old_state = game.enterState(game.S_FILL)
+        swap = game.s.internals[0]
+        game.flipMove(other_stack)
+        game.moveMove(n, self, swap, frames=0)
+        game.moveMove(n, other_stack, self, frames=frames, shadow=shadow)
+        game.moveMove(n, swap, other_stack, frames=0)
+        game.leaveState(old_state)
+
+
+class Spoilt(Game):
+    RSTEP, RBASE = 8, 6
+
+    def createGame(self):
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        self.setSize(l.XM + self.RSTEP*l.XS, l.YM + 5.5*l.YS)
+
+        # create stacks
+        for i in range(4):
+            x, y, = l.XM, l.YM + i*l.YS
+            for j in range(self.RSTEP):
+                s.rows.append(Spoilt_RowStack(x, y, self,
+                              max_accept=1, max_cards=2, min_cards=1))
+                x += l.XS
+        x, y = self.width/2 - l.XS, self.height-l.YS
+        s.talon = WasteTalonStack(x, y, self, max_rounds=1)
+        l.createText(s.talon, 'n')
+        x += l.XS
+        s.waste = Spoilt_Waste(x, y, self, max_cards=1)
+
+        # create an invisible stack
+        s.internals.append(InvisibleStack(self))
+
+        # define stack-groups
+        l.defaultStackGroups()
+
+    def startGame(self):
+        self.startDealSample()
+        for i in range(4):
+            rows = self.s.rows[self.RSTEP*i+1:self.RSTEP*(i+1)]
+            self.s.talon.dealRow(rows=rows, frames=4, flip=False)
+        self.s.talon.dealCards()
+
+    def isGameWon(self):
+        for r in self.s.rows:
+            if not r.cards:
+                return False
+            if not r.cards[0].face_up:
+                return False
+        return True
+
+    def getHighlightPilesStacks(self):
+        return ()
+
+    def getAutoStacks(self, event=None):
+        return (), (), ()
+
+
+
 # register the game
 registerGame(GameInfo(53, Montana, "Montana",
                       GI.GT_MONTANA | GI.GT_OPEN, 1, 2, GI.SL_MOSTLY_SKILL,
@@ -465,4 +575,8 @@ registerGame(GameInfo(706, Paganini, "Paganini",
                       GI.GT_MONTANA | GI.GT_OPEN, 1, 1, GI.SL_MOSTLY_SKILL,
                       ranks=(0, 5, 6, 7, 8, 9, 10, 11, 12),
                       altnames=('Long Trip',) ))
+registerGame(GameInfo(736, Spoilt, "Spoilt",
+                      GI.GT_MONTANA, 1, 0, GI.SL_MOSTLY_LUCK,
+                      ranks=(0, 6, 7, 8, 9, 10, 11, 12),
+                      ))
 

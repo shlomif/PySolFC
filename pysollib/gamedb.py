@@ -244,9 +244,9 @@ class GI:
         ##    41, 42, 43, 58, 59, 92, 93, 94, 95, 96,
         ##    100, 105, 111, 112, 113, 130, 200, 201,
         ##)),
-        # Gnome AisleRiot 2.2.0 (we have 60 out of 70 games)
+        # Gnome AisleRiot 2.2.0 (we have 61 out of 70 games)
         #   still missing:
-        #         Clock, Gay gordons, Helsinki,
+        #         Gay gordons, Helsinki,
         #         Isabel, Labyrinth, Quatorze, Thieves,
         #         Treize, Valentine, Yeld.
         ("Gnome AisleRiot", (
@@ -254,7 +254,7 @@ class GI:
             41, 42, 43, 45, 48, 58, 59, 67, 89, 91, 92, 93, 94, 95, 96,
             100, 105, 111, 112, 113, 130, 139, 144, 146, 147, 148, 200,
             201, 206, 224, 225, 229, 230, 233, 257, 258, 280, 281, 282,
-            283, 284, 551, 552, 553,
+            283, 284, 551, 552, 553, 737,
         )),
 
         ## KDE Patience 0.7.3 from KDE 1.1.2 (we have 6 out of 9 games)

@@ -32,7 +32,6 @@
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
@@ -50,7 +49,7 @@ from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 class UnionSquare_Foundation(AbstractFoundationStack):
     def acceptsCards(self, from_stack, cards):
         if not AbstractFoundationStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         # check the rank
         if len(self.cards) > 12:
             return cards[0].rank == 25 - len(self.cards)
@@ -89,6 +88,7 @@ class UnionSquare_RowStack(OpenStack):
 
 class UnionSquare(Game):
     Hint_Class = CautiousDefaultHint
+    Foundation_Class = StackWrapper(UnionSquare_Foundation, max_cards=26)
     RowStack_Class = UnionSquare_RowStack
 
     #
@@ -119,8 +119,8 @@ class UnionSquare(Game):
             y = y + l.YS
         x, y = self.width-l.XS, l.YM
         for i in range(4):
-            stack = UnionSquare_Foundation(x, y, self, i, max_move=0,
-                                           dir=0, max_cards=26)
+            stack = self.Foundation_Class(x, y, self, suit=i,
+                                          max_move=0, dir=0)
             l.createText(stack, "sw")
             s.foundations.append(stack)
             y = y + l.YS
@@ -174,6 +174,41 @@ class SolidSquare(UnionSquare):
     shallHighlightMatch = Game._shallHighlightMatch_SSW
 
 
+# /***********************************************************************
+# // Boomerang
+# ************************************************************************/
+
+class Boomerang_Foundation(AbstractFoundationStack):
+    def acceptsCards(self, from_stack, cards):
+        if not AbstractFoundationStack.acceptsCards(self, from_stack, cards):
+            return False
+        # check the rank
+        # 7, 8, 9, 10, J, Q, K, A, K, Q, J, 10, 9, 8, 7, A
+        if len(self.cards) < 7:
+            return cards[0].rank - 6 == len(self.cards)
+        elif len(self.cards) == 7:
+            return cards[0].rank == ACE
+        elif len(self.cards) < 15:
+            return cards[0].rank == 20 - len(self.cards)
+        else: # len(self.cards) == 15
+            return cards[0].rank == ACE
+
+class Boomerang(UnionSquare):
+    Foundation_Class = StackWrapper(Boomerang_Foundation,
+                                    base_rank=6, max_cards=16)
+
+    def createGame(self):
+        UnionSquare.createGame(self, rows=12)
+
+    def fillStack(self, stack):
+        if stack in self.s.rows and not stack.cards:
+            old_state = self.enterState(self.S_FILL)
+            if not self.s.waste.cards:
+                self.s.talon.dealCards()
+            if self.s.waste.cards:
+                self.s.waste.moveMove(1, stack)
+            self.leaveState(old_state)
+
 
 # register the game
 registerGame(GameInfo(35, UnionSquare, "Union Square",
@@ -182,3 +217,7 @@ registerGame(GameInfo(35, UnionSquare, "Union Square",
                       ))
 registerGame(GameInfo(439, SolidSquare, "Solid Square",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(738, Boomerang, "Boomerang",
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED,
+                      ranks=(0, 6, 7, 8, 9, 10, 11, 12),
+                      ))

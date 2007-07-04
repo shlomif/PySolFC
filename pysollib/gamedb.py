@@ -274,6 +274,26 @@ class GI:
         )),
     )
 
+    GAMES_BY_INVENTORS = (
+        ("Paul Alfille", (8,)),
+        ("C.L. Baker", (45,)),
+        ("David Bernazzani", (314,)),
+        ("Art Cabral", (9,)),
+        ("Charles Jewell", (220, 309,)),
+        ("Robert Harbin", (381,)),
+        ("Michael Keller", (592,)),
+        ("Fred Lunde", (459,)),
+        ("Albert Morehead and Geoffrey Mott-Smith", (25, 42, 48, 173,
+                                                     303, 547, 738)),
+        ("David Parlett", (64, 98, 294, 338, 654, 674,)),
+        ("Capt. Jeffrey T. Spaulding", (400,)),
+        ("John Stoneham", (201,)),
+        ("Bryan Stout", (655,)),
+        ("Bill Taylor", (349,)),
+        ("Thomas Warfield", (189, 264, 300, 320, 336, 337, 359,
+                             415, 427, 458, 495, 496, 497, 508,)),
+        )
+
     GAMES_BY_PYSOL_VERSION = (
         ("1.00", (1, 2, 3, 4)),
         ("1.01", (5, 6)),

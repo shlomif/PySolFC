@@ -159,7 +159,15 @@ class SelectGameData(SelectDialogTreeData):
         if 1 and gg:
             s_by_pysol_version = SelectGameNode(None, _("by PySol version"),
                                                 tuple(gg))
-            pass
+        s_by_inventors, gg = None, []
+        for name, games in GI.GAMES_BY_INVENTORS:
+            select_func = lambda gi, games=games: gi.id in games
+            if name is None or not filter(select_func, self.all_games_gi):
+               continue
+            gg.append(SelectGameNode(None, name, select_func))
+        if 1 and gg:
+            s_by_inventors = SelectGameNode(None, _("by Inventors"),
+                                            tuple(gg))
         #
         ul_alternate_names = UserList(list(app.gdb.getGamesTuplesSortedByAlternateName()))
         #
@@ -234,6 +242,7 @@ class SelectGameData(SelectDialogTreeData):
                 s_by_compatibility,
             )),
             s_by_pysol_version,
+            s_by_inventors,
             SelectGameNode(None, _("Other Categories"), (
                 SelectGameNode(None, _("Games for Children (very easy)"),
                                lambda gi: gi.si.game_flags & GI.GT_CHILDREN),
@@ -257,7 +266,6 @@ class SelectGameData(SelectDialogTreeData):
 
 class SelectGameTreeWithPreview(SelectDialogTreeCanvas):
     data = None
-    html_viewer = None
 
 
 class SelectGameTree(SelectGameTreeWithPreview):
@@ -425,7 +433,6 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         self.preview_app = None
         self.updatePreview(gameid, animations=0)
         ##focus = self.tree.frame
-        SelectGameTreeWithPreview.html_viewer = None
         self.mainloop(focus, kw.timeout)
 
     def initKw(self, kw):

@@ -46,7 +46,7 @@ import tkFileDialog
 from pysollib.mfxutil import Struct, kwdefault
 from pysollib.mfxutil import Image
 from pysollib.util import CARDSET
-from pysollib.settings import PACKAGE, WIN_SYSTEM
+from pysollib.settings import TITLE, WIN_SYSTEM
 from pysollib.settings import SELECT_GAME_MENU
 from pysollib.settings import USE_FREECELL_SOLVER
 from pysollib.settings import DEBUG
@@ -347,7 +347,7 @@ class PysolMenubar(PysolMenubarActions):
 
         if WIN_SYSTEM == "aqua":
             applemenu=MfxMenu(self.__menubar, "apple")
-            applemenu.add_command(label=_("&About ")+PACKAGE, command=self.mHelpAbout)
+            applemenu.add_command(label=_("&About ")+TITLE, command=self.mHelpAbout)
 
         menu = MfxMenu(self.__menubar, n_("&File"))
         menu.add_command(label=n_("&New game"), command=self.mNewGame, accelerator="N")
@@ -517,7 +517,7 @@ class PysolMenubar(PysolMenubarActions):
         ##menu.add_command(label=n_("What's &new ?"), command=self.mHelpNews)
         if WIN_SYSTEM != "aqua":
             menu.add_separator()
-            menu.add_command(label=n_("&About ")+PACKAGE+"...", command=self.mHelpAbout)
+            menu.add_command(label=n_("&About ")+TITLE+"...", command=self.mHelpAbout)
 
         MfxMenubar.addPath = None
 
@@ -973,7 +973,7 @@ class PysolMenubar(PysolMenubarActions):
     #
 
     DEFAULTEXTENSION = ".pso"
-    FILETYPES = ((PACKAGE+" files", "*"+DEFAULTEXTENSION), ("All files", "*"))
+    FILETYPES = ((TITLE+" files", "*"+DEFAULTEXTENSION), ("All files", "*"))
 
     def mAddFavor(self, *event):
         gameid = self.app.game.id
@@ -1346,7 +1346,7 @@ class PysolMenubar(PysolMenubarActions):
         d = MfxMessageDialog(self.top, title=_("Change theme"),
                       text=_("""\
 This settings will take effect
-the next time you restart """)+PACKAGE,
+the next time you restart """)+TITLE,
                       bitmap="warning",
                       default=0, strings=(_("&OK"),))
 

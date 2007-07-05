@@ -21,8 +21,8 @@
 
 import sys, os, traceback
 
-from pysollib.settings import PACKAGE
-from pysollib.settings import FC_VERSION as VERSION
+from pysollib.settings import TITLE
+from pysollib.settings import VERSION
 from pysollib.settings import TOOLKIT, USE_TILE
 from pysollib.settings import DEBUG
 from pysollib.mfxutil import print_err
@@ -87,8 +87,8 @@ def get_font_name(font):
 
 def base_init_root_window(root, app):
     #root.wm_group(root)
-    root.wm_title(PACKAGE + ' ' + VERSION)
-    root.wm_iconname(PACKAGE + ' ' + VERSION)
+    root.wm_title(TITLE + ' ' + VERSION)
+    root.wm_iconname(TITLE + ' ' + VERSION)
     # set minsize
     sw, sh, sd = (root.winfo_screenwidth(),
                   root.winfo_screenheight(),

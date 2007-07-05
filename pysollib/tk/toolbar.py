@@ -43,7 +43,7 @@ import Tkinter
 from pysollib.mfxutil import destruct
 from pysollib.mfxutil import Image, ImageTk
 from pysollib.util import IMAGE_EXTENSIONS
-from pysollib.settings import PACKAGE
+from pysollib.settings import TITLE
 from pysollib.actions import PysolToolbarActions
 from pysollib.winsystems import TkSettings
 
@@ -200,7 +200,7 @@ class PysolToolbar(PysolToolbarActions):
             (n_("Statistics"), self.mPlayerStats, _("View statistics")),
             (n_("Rules"),    self.mHelpRules, _("Rules for this game")),
             (None,           None,            None),
-            (n_("Quit"),     self.mQuit,      _("Quit ")+PACKAGE),
+            (n_("Quit"),     self.mQuit,      _("Quit ")+TITLE),
             ):
             if l is None:
                 sep = self._createSeparator()

@@ -27,7 +27,7 @@ import gtk.glade
 
 # PySol imports
 from pysollib.mfxutil import format_time
-from pysollib.settings import TOP_TITLE, PACKAGE
+from pysollib.settings import TOP_TITLE, TITLE
 from pysollib.stats import PysolStatsFormatter
 
 # Toolkit imports
@@ -166,7 +166,7 @@ class Game_StatsDialog:
         dialog.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
         dialog.set_transient_for(parent)
         dialog.resize(500, 340)
-        dialog.set_title(PACKAGE+' - '+_("Statistics"))
+        dialog.set_title(TITLE+' - '+_("Statistics"))
         #
         dialog.run()
         self.status = -1

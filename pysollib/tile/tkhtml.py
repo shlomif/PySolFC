@@ -49,7 +49,7 @@ if __name__ == '__main__':
 
 # PySol imports
 from pysollib.mfxutil import Struct, openURL
-from pysollib.settings import PACKAGE
+from pysollib.settings import TITLE
 
 # Toolkit imports
 from tkutil import bind, unbind_destroy
@@ -388,7 +388,7 @@ class HTMLViewer:
         for p in REMOTE_PROTOCOLS:
             if url.startswith(p):
                 if not openURL(url):
-                    self.errorDialog(PACKAGE + _('''HTML limitation:
+                    self.errorDialog(TITLE + _('''HTML limitation:
 The %s protocol is not supported yet.
 
 Please use your standard web browser
@@ -500,7 +500,7 @@ to open the following URL:
             self.display(self.home, relpath=0)
 
     def errorDialog(self, msg):
-        d = MfxMessageDialog(self.parent, title=PACKAGE+" HTML Problem",
+        d = MfxMessageDialog(self.parent, title=TITLE+" HTML Problem",
                              text=msg,
                              ##bitmap="warning", # FIXME: this interp don't have images
                              strings=(_("&OK"),), default=0)

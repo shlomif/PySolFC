@@ -62,7 +62,7 @@ from tkFont import Font
 
 # PySol imports
 from pysollib.mfxutil import Image, ImageTk, ImageOps
-from pysollib.settings import PACKAGE, WIN_SYSTEM
+from pysollib.settings import TITLE, WIN_SYSTEM
 
 
 # /***********************************************************************
@@ -125,7 +125,7 @@ def makeToplevel(parent, title=None):
     #
     # This is a shortcut for a Toplevel() instantiation plus calls to
     # set the title and icon name of the window.
-    window = Tkinter.Toplevel(parent) #, class_=PACKAGE)
+    window = Tkinter.Toplevel(parent) #, class_=TITLE)
     ##window.wm_group(parent)
     ##window.wm_command("")
     if WIN_SYSTEM == "x11":
@@ -139,7 +139,7 @@ def makeToplevel(parent, title=None):
 def make_help_toplevel(app, title=None):
     # Create an independent Toplevel window.
     from pysollib.winsystems import init_root_window
-    window = Tkinter.Tk(className=PACKAGE)
+    window = Tkinter.Tk(className=TITLE)
     init_root_window(window, app)
     return window
 

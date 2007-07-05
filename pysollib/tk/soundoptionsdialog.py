@@ -41,7 +41,7 @@ import Tkinter
 
 # PySol imports
 from pysollib.mfxutil import KwStruct
-from pysollib.settings import PACKAGE
+from pysollib.settings import TITLE
 from pysollib.pysolaudio import pysolsoundserver
 
 # Toolkit imports
@@ -201,7 +201,7 @@ class SoundOptionsDialog(MfxDialog):
         d = MfxMessageDialog(self.top, title=_("Sound preferences info"),
                       text=_("""\
 Changing DirectX settings will take effect
-the next time you restart """)+PACKAGE,
+the next time you restart """)+TITLE,
                       bitmap="warning",
                       default=0, strings=(_("&OK"),))
 

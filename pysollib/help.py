@@ -37,7 +37,7 @@
 # imports
 
 # PySol imports
-from settings import PACKAGE, PACKAGE_URL, TOOLKIT, FC_VERSION
+from settings import TITLE, PACKAGE_URL, TOOLKIT, VERSION
 from pysoltk import make_help_toplevel
 from pysoltk import MfxMessageDialog
 from pysoltk import PysolAboutDialog
@@ -57,8 +57,8 @@ def help_about(app, timeout=0, sound=1):
     strings=(_("&Nice"), _("&Credits..."))
     if timeout:
         strings=(_("&Enjoy"),)
-    version = _("Version %s") % FC_VERSION
-    d = PysolAboutDialog(app, app.top, title=_("About ") + PACKAGE,
+    version = _("Version %s") % VERSION
+    d = PysolAboutDialog(app, app.top, title=_("About ") + TITLE,
                          timeout=timeout,
                          text=_('''PySol Fan Club edition
 %s%s
@@ -91,7 +91,7 @@ def help_credits(app, timeout=0, sound=1):
     elif TOOLKIT == "kde": t = "pyKDE"
     elif TOOLKIT == "wx" : t = "wxPython"
     d = MfxMessageDialog(app.top, title=_("Credits"), timeout=timeout,
-                         text=PACKAGE+_(''' credits go to:
+                         text=TITLE+_(''' credits go to:
 
 Volker Weidner for getting me into Solitaire
 Guido van Rossum for the initial example program
@@ -126,7 +126,7 @@ def help_html(app, document, dir_, top=None):
             document, dir_ = "index.html", "html"
             help_html_index = app.dataloader.findFile(document, dir_)
     except EnvironmentError:
-        d = MfxMessageDialog(app.top, title=PACKAGE + _(" HTML Problem"),
+        d = MfxMessageDialog(app.top, title=TITLE + _(" HTML Problem"),
                              text=_("Cannot find help document\n") + document,
                              bitmap="warning")
         return None
@@ -140,7 +140,7 @@ def help_html(app, document, dir_, top=None):
         viewer.display(doc, relpath=0)
     except:
         ##traceback.print_exc()
-        top = make_help_toplevel(app, title=PACKAGE+_(" Help"))
+        top = make_help_toplevel(app, title=TITLE+_(" Help"))
         if top.winfo_screenwidth() < 800 or top.winfo_screenheight() < 600:
             #maximized = 1
             top.wm_minsize(300, 150)

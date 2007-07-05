@@ -24,7 +24,7 @@ import sys, os, traceback
 import Tkinter
 import tkFont
 
-from pysollib.settings import PACKAGE
+from pysollib.settings import TITLE
 from pysollib.settings import TOOLKIT, USE_TILE
 from pysollib.tile import Tile
 
@@ -106,7 +106,7 @@ def init_root_window(root, app):
 
         root.option_add('*selectBorderWidth', 0, 60)
 
-        font = root.option_get('font', PACKAGE)
+        font = root.option_get('font', TITLE)
         if font:
             # use font from xrdb
             fn = get_font_name(font)
@@ -150,7 +150,7 @@ def init_root_window(root, app):
         root.option_add('*Menu.activeBorderWidth', 1, 60)
         #root.option_add('*Button.HighlightBackground', '#595d59')
         #root.option_add('*Button.HighlightThickness', '1')
-        font = root.option_get('font', PACKAGE)
+        font = root.option_get('font', TITLE)
         if font:
             fn = get_font_name(font)
             app.opt.fonts['default'] = fn

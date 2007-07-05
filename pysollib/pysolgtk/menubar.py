@@ -39,7 +39,7 @@ from gtk import gdk
 # PySol imports
 from pysollib.gamedb import GI
 from pysollib.actions import PysolMenubarActions
-from pysollib.settings import PACKAGE
+from pysollib.settings import TITLE
 
 # toolkit imports
 from tkutil import setTransient
@@ -229,7 +229,7 @@ class PysolMenubar(PysolMenubarActions):
              ltk2gtk('&Contents'), '<control>F1',
              None, self.mHelp),
             ('aboutpysol', None,
-             ltk2gtk('&About ')+PACKAGE+'...',
+             ltk2gtk('&About ')+TITLE+'...',
              None,None,self.mHelpAbout),
             ('updateall', None,
              'Redraw Game', '<control>L',

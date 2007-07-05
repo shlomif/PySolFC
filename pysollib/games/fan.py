@@ -784,6 +784,135 @@ class School(Fan):
         return card1.rank == card2.rank
 
 
+# /***********************************************************************
+# // Forest Glade
+# ************************************************************************/
+
+class ForestGlade_Talon(DealRowRedealTalonStack):
+
+    def _redeal(self, rows=None, frames=0):
+        # move all cards to the talon
+        num_cards = 0
+        if rows is None:
+            rows = self.game.s.rows
+        for r in rows:
+            for i in range(len(r.cards)):
+                num_cards += 1
+                self.game.moveMove(1, r, self, frames=frames, shadow=0)
+                if self.cards[-1].face_up:
+                    self.game.flipMove(self)
+        return num_cards
+
+    def canDealCards(self):
+        if self.round == self.max_rounds:
+            if not self.cards:
+                return False
+            for r in self.game.s.rows:
+                if not r.cards:
+                    return True
+            return False
+        return True
+
+    def dealCards(self, sound=0):
+        rows = [r for r in self.game.s.rows if not r.cards]
+        if not rows or not self.cards:
+            if sound and self.game.app.opt.animations:
+                self.game.startDealSample()
+            # move all cards to the talon
+            ncards = self._redeal(frames=4)
+            # shuffle
+            self.game.shuffleStackMove(self)
+            # deal
+            if self.cards:
+                for r in self.game.s.rows:
+                    for i in range(3):
+                        if not self.cards:
+                            break
+                        ncards += self.dealRowAvail(rows=[r], frames=4)
+            #
+            self.game.nextRoundMove(self)
+            if sound:
+                self.game.stopSamples()
+            return ncards
+        #
+        if sound and self.game.app.opt.animations:
+            self.game.startDealSample()
+        ncards = 0
+        for r in rows:
+            for i in range(3):
+                if not self.cards:
+                    break
+                ncards += self.dealRowAvail(rows=[r], sound=0)
+        if sound:
+            self.game.stopSamples()
+        return ncards
+
+
+class ForestGlade(Game):
+    Hint_Class = CautiousDefaultHint
+
+    def createGame(self):
+
+        l, s = Layout(self), self.s
+        playcards = 7
+        w0 = l.XS+(playcards-1)*l.XOFFSET
+        w, h = l.XM + 3*w0 + 4*l.XS, l.YM+6*l.YS
+        self.setSize(w, h)
+
+        x1, x2 = l.XM, self.width - 2*l.XS
+        for i in range(2):
+            y = l.YM
+            for j in range(4):
+                s.foundations.append(SS_FoundationStack(x1, y, self,
+                                     suit=j, dir=2, max_cards=7))
+                s.foundations.append(SS_FoundationStack(x2, y, self,
+                                     base_rank=1, suit=j, dir=2, max_cards=6))
+                y += l.YS
+            x1 += l.XS
+            x2 += l.XS
+
+        x, y = l.XM + 3*l.XS, l.YM
+        for i in (0, 1):
+            stack = SS_RowStack(x, y, self, max_move=1, base_rank=KING)
+            stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
+            s.rows.append(stack)
+            x += w0
+        y = l.YM+l.YS
+        for i in range(4):
+            x = l.XM + 2*l.XS
+            for j in range(3):
+                stack = SS_RowStack(x, y, self, max_move=1, base_rank=KING)
+                stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
+                s.rows.append(stack)
+                x += w0
+            y += l.YS
+        x, y = l.XM + 3*l.XS, l.YM + 5*l.YS
+        for i in (0, 1):
+            stack = SS_RowStack(x, y, self, max_move=1, base_rank=KING)
+            stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
+            s.rows.append(stack)
+            x += w0
+
+        x, y = l.XM, self.height - l.YS
+        s.talon = ForestGlade_Talon(x, y, self, max_rounds=3)
+        l.createText(s.talon, 'ne')
+        tx, ty, ta, tf = l.getTextAttr(s.talon, 'se')
+        font=self.app.getFont('canvas_default')
+        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
+                                             anchor=ta, font=font)
+
+        l.defaultStackGroups()
+
+
+    def startGame(self):
+        for i in range(2):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+    shallHighlightMatch = Game._shallHighlightMatch_SS
+
+
 
 # register the game
 registerGame(GameInfo(56, FanGame, "Fan",
@@ -828,4 +957,6 @@ registerGame(GameInfo(714, ShamrocksII, "Shamrocks II",
                       GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(719, School, "School",
                       GI.GT_FAN_TYPE, 1, 2, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(739, ForestGlade, "Forest Glade",
+                      GI.GT_FAN_TYPE, 2, 2, GI.SL_MOSTLY_SKILL))
 

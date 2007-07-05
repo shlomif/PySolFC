@@ -36,7 +36,7 @@ from tkutil import after, after_cancel
 from tkutil import bind, unbind_destroy, makeImage
 from tkcanvas import MfxCanvas, MfxCanvasGroup, MfxCanvasImage, MfxCanvasRectangle
 
-from pysollib.settings import PACKAGE
+from pysollib.settings import TITLE
 
 
 # /***********************************************************************
@@ -133,7 +133,7 @@ class FindCardDialog(Tkinter.Toplevel):
             i += 1
         w, h = dx*j+2, dy*i+2
         self.canvas.config(width=w, height=h)
-        self.wm_iconname(PACKAGE + " - " + game.getTitleName())
+        self.wm_iconname(TITLE + " - " + game.getTitleName())
         self.wm_geometry('')            # cancel user-specified geometry
 
     def enterEvent(self, suit, rank, rect, group):

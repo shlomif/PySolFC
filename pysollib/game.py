@@ -46,8 +46,8 @@ from mfxutil import Image, ImageTk
 from mfxutil import destruct, Struct, SubclassResponsibility
 from mfxutil import uclock, usleep
 from mfxutil import format_time
-from settings import PACKAGE, TOOLKIT, TOP_TITLE
-from settings import VERSION, VERSION_TUPLE, FC_VERSION
+from settings import PACKAGE, TITLE, TOOLKIT, TOP_TITLE
+from settings import VERSION, VERSION_TUPLE
 from settings import DEBUG
 from gamedb import GI
 from pysolrandom import PysolRandom, LCRandom31
@@ -154,8 +154,8 @@ class Game:
         self.__createCommon(app)
         self.setCursor(cursor=CURSOR_WATCH)
         #print 'gameid:', self.id
-        self.top.wm_title(PACKAGE + " - " + self.getTitleName())
-        self.top.wm_iconname(PACKAGE + " - " + self.getTitleName())
+        self.top.wm_title(TITLE + " - " + self.getTitleName())
+        self.top.wm_iconname(TITLE + " - " + self.getTitleName())
         # create the game
         if self.app.intro.progress: self.app.intro.progress.update(step=1)
         self.createGame()
@@ -1009,7 +1009,7 @@ class Game:
         if confirm < 0:
             confirm = self.app.opt.confirm
         if confirm:
-            if not title: title = PACKAGE
+            if not title: title = TITLE
             if not text: text = _("Discard current game ?")
             self.playSample("areyousure")
             d = MfxMessageDialog(self.top, title=title, text=text,
@@ -2282,7 +2282,7 @@ for %d moves.
                 self.playSample("autopilotwon", priority=1000)
                 s = self.app.miscrandom.choice((_("&Great"), _("&Cool"),
                                                 _("&Yeah"),  _("&Wow")))
-                d = MfxMessageDialog(self.top, title=PACKAGE+_(" Autopilot"),
+                d = MfxMessageDialog(self.top, title=TITLE+_(" Autopilot"),
                                      text=_("\nGame solved in %d moves.\n") %
                                      self.moves.index,
                                      image=self.app.gimages.logos[4],
@@ -2296,7 +2296,7 @@ for %d moves.
                 text = _("\nGame finished\n")
                 if DEBUG:
                     text += "\nplayer_moves: %d\ndemo_moves: %d\n" % (self.stats.player_moves, self.stats.demo_moves)
-                d = MfxMessageDialog(self.top, title=PACKAGE+_(" Autopilot"),
+                d = MfxMessageDialog(self.top, title=TITLE+_(" Autopilot"),
                                      text=text, bitmap=bitmap, strings=(s,),
                                      padx=30, timeout=timeout)
                 status = d.status
@@ -2308,7 +2308,7 @@ for %d moves.
                 if player_moves == 0:
                     self.playSample("autopilotlost", priority=1000)
                 s = self.app.miscrandom.choice((_("&Oh well"), _("&That's life"), _("&Hmm"))) # ??? accelerators
-                d = MfxMessageDialog(self.top, title=PACKAGE+_(" Autopilot"),
+                d = MfxMessageDialog(self.top, title=TITLE+_(" Autopilot"),
                                      text=_("\nThis won't come out...\n"),
                                      bitmap=bitmap, strings=(s,),
                                      padx=30, timeout=timeout)
@@ -2823,7 +2823,7 @@ Error while loading game.
 Probably the game file is damaged,
 but this could also be a bug you might want to report."""))
             traceback.print_exc()
-        except (Exception, UnpicklingError), ex:
+        except UnpicklingError, ex:
             self.updateMenus()
             self.setCursor(cursor=self.app.top_cursor)
             d = MfxExceptionDialog(self.top, ex, title=_("Load game error"),
@@ -2894,34 +2894,36 @@ Please report this bug."""))
             if isinstance(t, type):
                 assert isinstance(obj, t), err_txt
             return obj
+        def validate(v, txt):
+            if not v:
+                raise UnpicklingError(txt)
         #
         package = pload(str)
-        assert package == PACKAGE, err_txt
+        validate(package == PACKAGE, err_txt)
         version = pload(str)
-        #assert isinstance(version, str) and len(version) <= 20, err_txt
+        #validate(isinstance(version, str) and len(version) <= 20, err_txt)
         version_tuple = pload(tuple)
-        if version_tuple < (10,):
-            raise UnpicklingError(_('''\
+        validate(version_tuple >= (1,0), _('''\
 Cannot load games saved with
 %s version %s''') % (PACKAGE, version))
         game_version = 1
         bookmark = pload(int)
-        assert 0 <= bookmark <= 2, err_txt
+        validate(0 <= bookmark <= 2, err_txt)
         game_version = pload(int)
-        assert game_version > 0, err_txt
+        validate(game_version > 0, err_txt)
         #
         id = pload(int)
-        assert id > 0, err_txt
+        validate(id > 0, err_txt)
         if id not in GI.PROTECTED_GAMES:
             game = app.constructGame(id)
             if game:
                 if not game.canLoadGame(version_tuple, game_version):
                     destruct(game)
                     game = None
-        assert game is not None, _('''\
+        validate(game is not None, _('''\
 Cannot load this game from version %s
 as the game rules have changed
-in the current implementation.''') % version
+in the current implementation.''') % version)
         game.version = version
         game.version_tuple = version_tuple
         #
@@ -2937,18 +2939,18 @@ in the current implementation.''') % version
         game.loadinfo.stacks = []
         game.loadinfo.ncards = 0
         nstacks = pload(int)
-        assert 1 <= nstacks, err_txt
+        validate(1 <= nstacks, err_txt)
         for i in range(nstacks):
             stack = []
             ncards = pload(int)
-            assert 0 <= ncards <= 1024, err_txt
+            validate(0 <= ncards <= 1024, err_txt)
             for j in range(ncards):
                 card_id = pload(int)
                 face_up = pload(int)
                 stack.append((card_id, face_up))
             game.loadinfo.stacks.append(stack)
             game.loadinfo.ncards = game.loadinfo.ncards + ncards
-        assert game.loadinfo.ncards == game.gameinfo.ncards, err_txt
+        validate(game.loadinfo.ncards == game.gameinfo.ncards, err_txt)
         game.loadinfo.talon_round = pload()
         game.finished = pload()
         if 0 <= bookmark <= 1:
@@ -2967,7 +2969,7 @@ in the current implementation.''') % version
             game.stats.__dict__.update(stats.__dict__)
         game._loadGameHook(p)
         dummy = pload(str)
-        assert dummy == "EOF", err_txt
+        validate(dummy == "EOF", err_txt)
         if bookmark == 2:
             # copy back all variables that are not saved
             game.stats = self.stats
@@ -2991,7 +2993,7 @@ in the current implementation.''') % version
         self.updateTime()
         assert 0 <= bookmark <= 2
         p.dump(PACKAGE)
-        p.dump(FC_VERSION)
+        p.dump(VERSION)
         p.dump(VERSION_TUPLE)
         p.dump(bookmark)
         p.dump(self.GAME_VERSION)

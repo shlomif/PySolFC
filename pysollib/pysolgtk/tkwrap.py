@@ -38,7 +38,7 @@ from gtk import gdk
 
 # PySol imports
 ## from pysollib.images import Images
-from pysollib.settings import PACKAGE, VERSION
+from pysollib.settings import TITLE, VERSION
 
 # Toolkit imports
 from tkutil import makeToplevel, loadImage
@@ -236,8 +236,8 @@ class MfxRoot(_MfxToplevel):
     def initToolkit(self, app, fg=None, bg=None, font=None, theme=None):
         sw, sh, sd = self.winfo_screenwidth(), self.winfo_screenheight(), self.winfo_screendepth()
         ##self.wm_group(self)
-        self.wm_title(PACKAGE + ' ' + VERSION)
-        ##self.wm_iconname(PACKAGE + ' ' + VERSION)
+        self.wm_title(TITLE + ' ' + VERSION)
+        ##self.wm_iconname(TITLE + ' ' + VERSION)
         if sw < 640 or sh < 480:
             self.wm_minsize(400, 300)
         else:

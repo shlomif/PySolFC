@@ -110,12 +110,12 @@ def init():
         sys.argv.remove('--tile')
     if settings.TOOLKIT == 'tk':
         import Tkinter
-        root = Tkinter.Tk(className=settings.PACKAGE)
+        root = Tkinter.Tk(className=settings.TITLE)
         root.withdraw()
         if Tkinter.TkVersion < 8.4:
             # we need unicode support
             sys.exit("%s needs Tcl/Tk 8.4 or better (you have %s)" %
-                     (settings.PACKAGE, str(Tkinter.TkVersion)))
+                     (settings.TITLE, str(Tkinter.TkVersion)))
         settings.WIN_SYSTEM = root.tk.call('tk', 'windowingsystem')
         if settings.WIN_SYSTEM == 'aqua':
             # TkAqua displays the console automatically in application

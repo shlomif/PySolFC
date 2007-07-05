@@ -46,7 +46,7 @@ from resource import Tile
 from app import Application
 from pysolaudio import AbstractAudioClient, PysolSoundServerModuleClient
 from pysolaudio import Win32AudioClient, OSSAudioClient, PyGameAudioClient
-from settings import PACKAGE, SOUND_MOD
+from settings import TITLE, SOUND_MOD
 from winsystems import init_root_window
 
 # Toolkit imports
@@ -62,14 +62,14 @@ from pysoltk import PysolProgressBar
 
 def fatal_no_cardsets(app):
     app.wm_withdraw()
-    d = MfxMessageDialog(app.top, title=_("%s installation error") % PACKAGE,
+    d = MfxMessageDialog(app.top, title=_("%s installation error") % TITLE,
                          text=_('''No cardsets were found !!!
 
 Main data directory is:
 %s
 
 Please check your %s installation.
-''') % (app.dataloader.dir, PACKAGE),
+''') % (app.dataloader.dir, TITLE),
                          bitmap="error", strings=(_("&Quit"),))
 
 
@@ -203,7 +203,7 @@ def pysol_init(app, args):
                 pass
 
     # init toolkit 1)
-    top = MfxRoot(className=PACKAGE)
+    top = MfxRoot(className=TITLE)
     app.top = top
     app.top_bg = top.cget("bg")
     app.top_cursor = top.cget("cursor")
@@ -255,7 +255,7 @@ def pysol_init(app, args):
     # check games
     if len(app.gdb.getGamesIdSortedByName()) == 0:
         app.wm_withdraw()
-        d = MfxMessageDialog(top, title=_("%s installation error") % PACKAGE,
+        d = MfxMessageDialog(top, title=_("%s installation error") % TITLE,
                              text=_('''
 No games were found !!!
 
@@ -263,7 +263,7 @@ Main data directory is:
 %s
 
 Please check your %s installation.
-''') % (app.dataloader.dir, PACKAGE), bitmap="error", strings=(_("&Quit"),))
+''') % (app.dataloader.dir, TITLE), bitmap="error", strings=(_("&Quit"),))
         return 1
 
     # init cardsets
@@ -325,7 +325,7 @@ Please check your %s installation.
     app.wm_withdraw()
 
     # create the progress bar
-    title = _("Welcome to %s") % PACKAGE
+    title = _("Welcome to %s") % TITLE
     color = app.opt.colors['table']
     if app.tabletile_index > 0:
         color = "#008200"

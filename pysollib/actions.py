@@ -41,7 +41,7 @@ import os, locale
 from mfxutil import SubclassResponsibility
 from mfxutil import Struct, openURL
 from pysolrandom import constructRandom
-from settings import PACKAGE, PACKAGE_URL
+from settings import TITLE, PACKAGE_URL
 from settings import TOP_TITLE
 from settings import DEBUG
 from gamedb import GI
@@ -406,7 +406,7 @@ class PysolMenubarActions:
     def mQuit(self, *args):
         if self._cancelDrag(): return
         if self.changed():
-            if not self.game.areYouSure(_("Quit ") + PACKAGE): return
+            if not self.game.areYouSure(_("Quit ") + TITLE): return
         self.game.endGame()
         self.game.quitGame()
 
@@ -543,7 +543,7 @@ class PysolMenubarActions:
                                            text=_("Error while writing to file"))
                 else:
                     if fd: fd.close()
-                    d = MfxMessageDialog(self.top, title=PACKAGE+_(" Info"), bitmap="info",
+                    d = MfxMessageDialog(self.top, title=TITLE+_(" Info"), bitmap="info",
                                          text=_("Comments were appended to\n\n") + fn)
         self._setCommentMenu(bool(game.gsaveinfo.comment))
 
@@ -571,7 +571,7 @@ class PysolMenubarActions:
                                    text=_("Error while writing to file"))
         else:
             if file: file.close()
-            d = MfxMessageDialog(self.top, title=PACKAGE+_(" Info"), bitmap="info",
+            d = MfxMessageDialog(self.top, title=TITLE+_(" Info"), bitmap="info",
                                  text=text + _(" were appended to\n\n") + filename)
 
 
@@ -587,7 +587,7 @@ class PysolMenubarActions:
             d = Struct(status=-1, button=-1)
             if demo:
                 player = None
-                p0, p1, p2 = PACKAGE+_(" Demo"), PACKAGE+_(" Demo "), ""
+                p0, p1, p2 = TITLE+_(" Demo"), TITLE+_(" Demo "), ""
             else:
                 player = self.app.opt.player
                 p0, p1, p2 = player, "", _(" for ") + player

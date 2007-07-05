@@ -33,7 +33,7 @@ import Tkinter
 
 # PySol imports
 from pysollib.mfxutil import KwStruct
-from pysollib.settings import PACKAGE
+from pysollib.settings import TITLE
 
 # Toolkit imports
 from tkconst import EVENT_HANDLED
@@ -49,7 +49,7 @@ class SolverDialog(MfxDialog):
     def __init__(self, parent, app, **kw):
         self.parent = parent
         self.app = app
-        title = PACKAGE+' - FreeCell Solver'
+        title = TITLE+' - FreeCell Solver'
         kw = self.initKw(kw)
         MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)

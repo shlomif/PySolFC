@@ -44,6 +44,7 @@ from util import DataLoader
 from mfxutil import print_err
 from resource import Tile
 from app import Application
+from gamedb import GAME_DB
 from pysolaudio import AbstractAudioClient, PysolSoundServerModuleClient
 from pysolaudio import Win32AudioClient, OSSAudioClient, PyGameAudioClient
 from settings import TITLE, SOUND_MOD
@@ -149,6 +150,22 @@ def parse_option(argv):
 # ************************************************************************/
 
 def pysol_init(app, args):
+
+    # init commandline options (undocumented)
+    opts = parse_option(args)
+    if not opts:
+        return 1
+        sys.exit(1)
+    opts, filename = opts
+    if filename:
+        app.commandline.loadgame = filename
+    app.commandline.game = opts['game']
+    if opts['gameid'] is not None:
+        try:
+            app.commandline.gameid = int(opts['gameid'])
+        except ValueError:
+            print_err(_('invalid game id: ') + opts['gameid'])
+
     # try to create the config directory
     for d in (
         app.dn.config,
@@ -166,31 +183,51 @@ def pysol_init(app, args):
                 traceback.print_exc()
                 pass
 
-    # init commandline options (undocumented)
-    opts = parse_option(args)
-    if not opts:
-        return 1
-        sys.exit(1)
-    opts, filename = opts
-    if filename:
-        app.commandline.loadgame = filename
-    app.commandline.game = opts['game']
-    if opts['gameid'] is not None:
-        try:
-            app.commandline.gameid = int(opts['gameid'])
-        except ValueError:
-            print_err(_('invalid game id: ') + opts['gameid'])
+    # load options
+    try:
+        app.loadOptions()
+    except:
+        traceback.print_exc()
+        pass
+
+    # init DataLoader
+    f = os.path.join("html", "license.html")
+    app.dataloader = DataLoader(args[0], f)
+
+    # init toolkit 1)
+    top = MfxRoot(className=TITLE)
+    app.top = top
+    app.top_bg = top.cget("bg")
+    app.top_cursor = top.cget("cursor")
+
+    # init toolkit 2)
+    init_root_window(top, app)
+
+    # prepare the progress bar
+    app.loadImages1()
+    if not app.progress_images:
+        app.progress_images = (loadImage(app.gimages.logos[0]),
+                               loadImage(app.gimages.logos[1]))
+    app.wm_withdraw()
+
+    # create the progress bar
+    title = _("Welcome to %s") % TITLE
+    color = app.opt.colors['table']
+    if app.tabletile_index > 0:
+        color = "#008200"
+    app.intro.progress = PysolProgressBar(app, top, title=title, color=color,
+                                          images=app.progress_images, norm=2.0)
+    app.intro.progress.update(step=1)
 
     # init games database
+    def progressCallback(*args):
+        app.intro.progress.update(step=1)
+    GAME_DB.setCallback(progressCallback)
     import games
     if not opts['french-only']:
         import games.ultra
         import games.mahjongg
         import games.special
-
-    # init DataLoader
-    f = os.path.join("html", "license.html")
-    app.dataloader = DataLoader(args[0], f)
 
     # try to load plugins
     if not opts["noplugins"]:
@@ -201,19 +238,7 @@ def pysol_init(app, args):
                 app.loadPlugins(dir)
             except:
                 pass
-
-    # init toolkit 1)
-    top = MfxRoot(className=TITLE)
-    app.top = top
-    app.top_bg = top.cget("bg")
-    app.top_cursor = top.cget("cursor")
-
-    # load options
-    try:
-        app.loadOptions()
-    except:
-        traceback.print_exc()
-        pass
+    GAME_DB.setCallback(None)
 
     # init audio 1)
     app.audio = None
@@ -249,12 +274,10 @@ def pysol_init(app, args):
     else:
         app.opt.sound_mode = 0
 
-    # init toolkit 2)
-    init_root_window(top, app)
-
     # check games
     if len(app.gdb.getGamesIdSortedByName()) == 0:
         app.wm_withdraw()
+        app.intro.progress.destroy()
         d = MfxMessageDialog(top, title=_("%s installation error") % TITLE,
                              text=_('''
 No games were found !!!
@@ -316,21 +339,6 @@ Please check your %s installation.
                         app.music_playlist.insert(0, m)
                         break
             app.audio.playContinuousMusic(app.music_playlist)
-
-    # prepare the progress bar
-    app.loadImages1()
-    if not app.progress_images:
-        app.progress_images = (loadImage(app.gimages.logos[0]),
-                               loadImage(app.gimages.logos[1]))
-    app.wm_withdraw()
-
-    # create the progress bar
-    title = _("Welcome to %s") % TITLE
-    color = app.opt.colors['table']
-    if app.tabletile_index > 0:
-        color = "#008200"
-    app.intro.progress = PysolProgressBar(app, top, title=title, color=color,
-                                          images=app.progress_images, norm=1.4)
 
     # prepare other images
     app.loadImages2()

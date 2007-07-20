@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Tue Jun  5 04:28:06 2007\n"
+"POT-Creation-Date: Fri Jul 20 23:41:28 2007\n"
 "PO-Revision-Date: 2007-05-11 17:25+0400\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -361,6 +361,9 @@ msgstr "Лодка"
 
 msgid "Bonaparte"
 msgstr "Бонапарт"
+
+msgid "Boomerang"
+msgstr ""
 
 msgid "Boost"
 msgstr "Повышение"
@@ -724,6 +727,9 @@ msgstr "Der lange Zopf"
 msgid "Der letzte Monarch"
 msgstr "Der letzte Monarch"
 
+msgid "Desert Island"
+msgstr ""
+
 msgid "Deuces"
 msgstr "Двойки"
 
@@ -808,6 +814,10 @@ msgstr "Двойной кузнечик"
 
 msgid "Double Fives"
 msgstr "Двойные пятёрки"
+
+#, fuzzy
+msgid "Double Footling"
+msgstr "Двойной Дельфин"
 
 msgid "Double FreeCell"
 msgstr "Двойная свободная ячейка"
@@ -1138,9 +1148,16 @@ msgstr "Полёт"
 msgid "Flying Dragon"
 msgstr "Летящий дракон"
 
+msgid "Footling"
+msgstr ""
+
 #, fuzzy
 msgid "ForeCell"
 msgstr "Свободная ячейка"
+
+#, fuzzy
+msgid "Forest Glade"
+msgstr "Цветочный сад"
 
 msgid "Formic"
 msgstr "Муравьиный"
@@ -1338,6 +1355,10 @@ msgstr "Великая Герцогиня"
 
 msgid "Grand Duchess +"
 msgstr "Великая Герцогиня +"
+
+#, fuzzy
+msgid "Grandee"
+msgstr "Гранада"
 
 msgid "Grandfather"
 msgstr "Дедушка"
@@ -1801,6 +1822,9 @@ msgstr "Лили"
 
 msgid "Limited"
 msgstr "Ограниченный"
+
+msgid "Limpopo"
+msgstr ""
 
 msgid "Lion"
 msgstr "Лев"
@@ -3370,6 +3394,9 @@ msgstr "Пауклонд"
 msgid "Spike"
 msgstr "Шип"
 
+msgid "Spoilt"
+msgstr ""
+
 msgid "Squadron"
 msgstr "Эскадрон"
 
@@ -3683,6 +3710,10 @@ msgstr "Люк"
 msgid "Trapdoor Spider"
 msgstr "Люк Паука"
 
+#, fuzzy
+msgid "Travellers"
+msgstr "Волны"
+
 msgid "Treasure Trove"
 msgstr "Клад"
 
@@ -3691,6 +3722,10 @@ msgstr "Древо жизни"
 
 msgid "Trefoil"
 msgstr "Клевер"
+
+#, fuzzy
+msgid "Tri Peaks"
+msgstr "Три вершины"
 
 msgid "Triangle"
 msgstr "Треугольник"
@@ -3739,6 +3774,10 @@ msgstr "Тройка"
 
 msgid "Trusty Twelve"
 msgstr "Верные двенадцать"
+
+#, fuzzy
+msgid "Turncoats"
+msgstr "Турнир"
 
 msgid "Tuxedo"
 msgstr "Смокинг"
@@ -3837,6 +3876,9 @@ msgstr "Маджонг Victory Arrow"
 
 msgid "Virginia Reel"
 msgstr "Виргинский Рил"
+
+msgid "Voracious"
+msgstr ""
 
 #, fuzzy
 msgid "Wake-Robin"

@@ -30,6 +30,7 @@ __all__ = []
 import sys, re
 import time
 #from tkFont import Font
+from gettext import ungettext
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
@@ -839,8 +840,6 @@ a solvable configuration.'''),
     def updateText(self):
         if self.preview > 1 or self.texts.info is None:
             return
-
-        from gettext import ungettext
 
         # find matching tiles
         stacks = []

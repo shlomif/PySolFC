@@ -501,7 +501,6 @@ class PysolMenubar(PysolMenubarActions):
             label = gi.short_name
         else:
             label = gi.name
-        label = _(label)
         menu_item = gtk.MenuItem(label)
         menu_item.set_data('user_data', gi.id)
         menu_item.connect('activate', self.mSelectGame)
@@ -523,7 +522,6 @@ class PysolMenubar(PysolMenubarActions):
                 break
             m = min(n+d-1, len(games)-1)
             n1, n2 = games[n].name, games[m].name
-            n1, n2 = _(n1), _(n2)
             label = n1[:3]+' - '+n2[:3]
             submenu = self._createSubMenu(menu, label=label)
             self._addGamesSubMenu(games[n:n+d], submenu)
@@ -568,7 +566,7 @@ class PysolMenubar(PysolMenubarActions):
         #
         games = {}
         for gi in mahjongg_games:
-            c = _(gi.short_name).strip()[0]
+            c = gi.short_name.strip()[0]
             if c in games:
                 games[c].append(gi)
             else:

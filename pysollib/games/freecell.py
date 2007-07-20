@@ -604,6 +604,54 @@ class CanCan(FreeCell):
         self.s.talon.dealRowAvail()
 
 
+# /***********************************************************************
+# // Limpopo
+# ************************************************************************/
+
+class Limpopo(Game):
+
+    def createGame(self):
+
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        self.setSize(l.XM+10.5*l.XS, l.YM+2*l.YS+20*l.YOFFSET)
+
+        # create stacks
+        x, y = l.XM, l.YM+l.YS/2
+        for i in (0,1):
+            stack = ReserveStack(x, y, self, max_cards=4)
+            s.reserves.append(stack)
+            stack.CARD_YOFFSET = l.YOFFSET
+            l.createText(stack, 'n')
+            x += l.XS
+
+        x, y = l.XM+2.5*l.XS, l.YM
+        for i in range(8):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i/2))
+            x += l.XS
+
+        x, y = l.XM+2.5*l.XS, l.YM+l.YS
+        for i in range(8):
+            s.rows.append(AC_RowStack(x, y, self))
+            x += l.XS
+
+        x, y = l.XM, self.height-l.YS
+        s.talon = InitialDealTalonStack(x, y, self)
+
+        # define stack-groups
+        l.defaultStackGroups()
+
+    def startGame(self):
+        for i in range(12):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+    shallHighlightMatch = Game._shallHighlightMatch_AC
+
+
 
 # register the game
 registerGame(GameInfo(5, RelaxedFreeCell, "Relaxed FreeCell",
@@ -652,4 +700,6 @@ registerGame(GameInfo(648, Headquarters, "Headquarters",
                       GI.GT_FREECELL | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(698, CanCan, "Can Can",
                       GI.GT_RAGLAN | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(746, Limpopo, "Limpopo",
+                      GI.GT_FREECELL | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 

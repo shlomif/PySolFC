@@ -702,7 +702,7 @@ class PysolMenubar(PysolMenubarActions):
 
         games = {}
         for gi in mahjongg_games:
-            c = _(gi.short_name).strip()[0]
+            c = gi.short_name.strip()[0]
             if c in games:
                 games[c].append(gi)
             else:
@@ -770,7 +770,7 @@ class PysolMenubar(PysolMenubarActions):
             if not games[n:n+d]:
                 break
             m = min(n+d-1, len(games)-1)
-            label = _(games[n].name)[:3]+' - '+_(games[m].name)[:3]
+            label = games[n].name[:3] + ' - ' + games[m].name[:3]
             submenu = MfxMenu(menu, label=label, name=None)
             self._addSelectGameSubSubMenu(games[n:n+d], submenu,
                                           command, variable)
@@ -787,9 +787,9 @@ class PysolMenubar(PysolMenubarActions):
             gi = games[i]
             columnbreak = i > 0 and (i % cb) == 0
             if short_name:
-                label = _(gi.short_name)
+                label = gi.short_name
             else:
-                label = _(gi.name)
+                label = gi.name
 ##             menu.add_radiobutton(command=command, variable=variable,
 ##                                  columnbreak=columnbreak,
 ##                                  value=gi.id, label=label, name=None)
@@ -806,7 +806,7 @@ class PysolMenubar(PysolMenubarActions):
         if len(games) == 0:
             menu.add_radiobutton(label='<none>', name=None, state='disabled')
         elif len(games) > self.__cb_max*4:
-            games.sort(lambda a, b: cmp(_(a.name), _(b.name)))
+            games.sort(lambda a, b: cmp(a.name, b.name))
             self._addSelectAllGameSubMenu(games, menu,
                                           command=self.mSelectGame,
                                           variable=self.tkopt.gameid)

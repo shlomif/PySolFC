@@ -86,7 +86,7 @@ class LogFormatter(PysolStatsFormatter):
         for result in self.getLogResults(player, prev_games):
             iter = self.store.append(None)
             self.store.set(iter,
-                           0, _(result[0]),
+                           0, result[0],
                            1, result[1],
                            2, result[2],
                            3, result[3],
@@ -229,7 +229,7 @@ class Game_StatsDialog:
         current = 0
         for id in self.games_id:
             gi = self.app.gdb.get(id)
-            combo.append_text(_(gi.name))
+            combo.append_text(gi.name)
             if id == self.gameid:
                 current = n
             n += 1

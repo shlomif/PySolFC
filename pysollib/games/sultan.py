@@ -1112,6 +1112,162 @@ class Phalanx(Game):
 
 
 
+# /***********************************************************************
+# // Grandee
+# // Turncoats
+# // Voracious
+# ************************************************************************/
+
+class Grandee(Game):
+    Hint_Class = CautiousDefaultHint
+    Talon_Class = DealRowTalonStack
+    RowStack_Class = SS_RowStack
+
+    def createGame(self, waste=False, rows=14):
+
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        decks = self.gameinfo.decks
+        w = max(decks*4, rows/2)
+        self.setSize(l.XM+w*l.XS, l.YM+5*l.YS)
+
+        # create stacks
+        x, y = l.XM + (w-decks*4)*l.XS/2, l.YM
+        for i in range(4):
+            for j in range(decks):
+                s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
+                x += l.XS
+
+        y = l.YM+1.5*l.YS
+        for i in range(2):
+            x = l.XM + (w-rows/2)*l.XS/2
+            for j in range(rows/2):
+                stack = self.RowStack_Class(x, y, self, max_move=1)
+                stack.CARD_YOFFSET = 0
+                s.rows.append(stack)
+                x += l.XS
+            y += l.YS
+
+        x, y = self.width-l.XS, self.height-l.YS
+        s.talon = self.Talon_Class(x, y, self)
+        if waste:
+            l.createText(s.talon, 'n')
+            x -= l.XS
+            s.waste = WasteStack(x, y, self)
+            l.createText(s.waste, 'n')
+        else:
+            l.createText(s.talon, 'sw')
+
+        # define stack-groups
+        l.defaultStackGroups()
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+    shallHighlightMatch = Game._shallHighlightMatch_SS
+
+
+class Turncoats(Grandee):
+    Talon_Class = TalonStack
+    RowStack_Class = StackWrapper(UD_AC_RowStack, base_rank=NO_RANK)
+
+    def createGame(self):
+        Grandee.createGame(self, rows=12)
+
+    def fillStack(self, stack):
+        if not stack.cards:
+            if stack in self.s.rows and self.s.talon.cards:
+                old_state = self.enterState(self.S_FILL)
+                self.s.talon.flipMove()
+                self.s.talon.moveMove(1, stack)
+                self.leaveState(old_state)
+
+    shallHighlightMatch = Game._shallHighlightMatch_AC
+
+
+class Voracious(Grandee):
+    Talon_Class = StackWrapper(WasteTalonStack, max_rounds=1)
+    RowStack_Class = StackWrapper(SS_RowStack, base_rank=NO_RANK)
+
+    def createGame(self):
+        Grandee.createGame(self, waste=True, rows=12)
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
+
+    def fillStack(self, stack):
+        if not stack.cards:
+            if stack in self.s.rows:
+                old_state = self.enterState(self.S_FILL)
+                if not self.s.waste.cards:
+                    self.s.talon.dealCards()
+                if self.s.waste.cards:
+                    self.s.waste.moveMove(1, stack)
+                self.leaveState(old_state)
+
+
+# /***********************************************************************
+# //
+# ************************************************************************/
+
+class DesertIsland(Game):
+
+    def createGame(self):
+
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        self.setSize(l.XM+8*l.XS, l.YM+5*l.YS)
+
+        # create stacks
+        x, y = l.XM, l.YM
+        for i in range(8):
+            s.foundations.append(SS_FoundationStack(x, y, self,
+                                                    suit=i/2, max_cards=10))
+            x += l.XS
+
+        y = l.YM+l.YS
+        for i in range(3):
+            x = l.XM
+            for j in range(8):
+                ##stack = SS_RowStack(x, y, self, max_move=1)
+                stack = ReserveStack(x, y, self)
+                stack.CARD_YOFFSET = 0
+                s.rows.append(stack)
+                x += l.XS
+            y += l.YS
+
+        x, y = self.width-l.XS, self.height-l.YS
+        s.talon = DealRowTalonStack(x, y, self)
+        l.createText(s.talon, 'sw')
+
+        # define stack-groups
+        l.defaultStackGroups()
+
+
+    def _shuffleHook(self, cards):
+        return self._shuffleHookMoveToTop(cards,
+                   lambda c: (c.rank == ACE, c.suit))
+
+    def startGame(self):
+        self.s.talon.dealRow(rows=self.s.foundations, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+    def isGameWon(self):
+        for s in self.s.foundations:
+            if len(s.cards) != 10:
+                return False
+        return True
+
+
+
 # register the game
 registerGame(GameInfo(330, Sultan, "Sultan",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_MOSTLY_LUCK,
@@ -1157,3 +1313,11 @@ registerGame(GameInfo(729, TwoRings, "Two Rings",
                       GI.GT_2DECK_TYPE, 2, 1, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(730, Phalanx, "Phalanx",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
+registerGame(GameInfo(742, Grandee, "Grandee",
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(743, Turncoats, "Turncoats",
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))
+registerGame(GameInfo(744, Voracious, "Voracious",
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(745, DesertIsland, "Desert Island",
+                      GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 0, GI.SL_BALANCED))

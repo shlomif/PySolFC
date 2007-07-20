@@ -1178,12 +1178,12 @@ Please select a %s type %s.
     def getGameTitleName(self, id):
         gi = self.gdb.get(id)
         if gi is None: return None
-        return _(gi.name)
+        return gi.name
 
     def getGameMenuitemName(self, id):
         gi = self.gdb.get(id)
         if gi is None: return None
-        return _(gi.short_name)
+        return gi.short_name
 
     def getGameRulesFilename(self, id):
         gi = self.gdb.get(id)

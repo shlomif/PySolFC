@@ -38,6 +38,7 @@
 import time
 import math
 import traceback
+from gettext import ungettext
 from cStringIO import StringIO
 
 # PySol imports
@@ -1676,15 +1677,18 @@ You have reached
             self.finished = True
             self.playSample("gameperfect", priority=1000)
             self.winAnimation(perfect=1)
+            text = ungettext('''Your playing time is %s\nfor %d move.''',
+                             '''Your playing time is %s\nfor %d moves.''',
+                             self.moves.index)
+            text = text % (time, self.moves.index)
             d = MfxMessageDialog(self.top, title=_("Game won"),
                                  text=_('''
 Congratulations, this
 was a truly perfect game !
 
-Your playing time is %s
-for %d moves.
 %s
-''') % (time, self.moves.index, top_msg),
+%s
+''') % (text, top_msg),
                                  strings=(_("&New game"), None, _("&Cancel")),
                                  image=self.app.gimages.logos[5])
         elif status == 1:
@@ -1693,14 +1697,17 @@ for %d moves.
             self.finished = True
             self.playSample("gamewon", priority=1000)
             self.winAnimation()
+            text = ungettext('''Your playing time is %s\nfor %d move.''',
+                             '''Your playing time is %s\nfor %d moves.''',
+                             self.moves.index)
+            text = text % (time, self.moves.index)
             d = MfxMessageDialog(self.top, title=_("Game won"),
                                  text=_('''
 Congratulations, you did it !
 
-Your playing time is %s
-for %d moves.
 %s
-''') % (time, self.moves.index, top_msg),
+%s
+''') % (text, top_msg),
                                  strings=(_("&New game"), None, _("&Cancel")),
                                  image=self.app.gimages.logos[4])
         elif self.gstats.updated < 0:
@@ -2282,9 +2289,12 @@ for %d moves.
                 self.playSample("autopilotwon", priority=1000)
                 s = self.app.miscrandom.choice((_("&Great"), _("&Cool"),
                                                 _("&Yeah"),  _("&Wow")))
+                text = ungettext('\nGame solved in %d move.\n',
+                                 '\nGame solved in %d moves.\n',
+                                 self.moves.index)
+                text = text % self.moves.index
                 d = MfxMessageDialog(self.top, title=TITLE+_(" Autopilot"),
-                                     text=_("\nGame solved in %d moves.\n") %
-                                     self.moves.index,
+                                     text=text,
                                      image=self.app.gimages.logos[4],
                                      strings=(s,),
                                      separator=True,

@@ -24,6 +24,7 @@ __all__ = []
 # Imports
 import sys
 #from tkFont import Font
+from gettext import ungettext
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
@@ -381,7 +382,6 @@ class AbstractShisenGame(AbstractMahjonggGame):
         if self.preview > 1 or self.texts.info is None:
             return
 
-        from gettext import ungettext
         game = self.app.game
 
         if 0:

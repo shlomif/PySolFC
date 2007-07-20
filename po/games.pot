@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Tue Jun  5 04:28:06 2007\n"
+"POT-Creation-Date: Fri Jul 20 23:41:28 2007\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -358,6 +358,9 @@ msgid "Boat"
 msgstr ""
 
 msgid "Bonaparte"
+msgstr ""
+
+msgid "Boomerang"
 msgstr ""
 
 msgid "Boost"
@@ -720,6 +723,9 @@ msgstr ""
 msgid "Der letzte Monarch"
 msgstr ""
 
+msgid "Desert Island"
+msgstr ""
+
 msgid "Deuces"
 msgstr ""
 
@@ -802,6 +808,9 @@ msgid "Double Easthaven"
 msgstr ""
 
 msgid "Double Fives"
+msgstr ""
+
+msgid "Double Footling"
 msgstr ""
 
 msgid "Double FreeCell"
@@ -1125,7 +1134,13 @@ msgstr ""
 msgid "Flying Dragon"
 msgstr ""
 
+msgid "Footling"
+msgstr ""
+
 msgid "ForeCell"
+msgstr ""
+
+msgid "Forest Glade"
 msgstr ""
 
 msgid "Formic"
@@ -1318,6 +1333,9 @@ msgid "Grand Duchess"
 msgstr ""
 
 msgid "Grand Duchess +"
+msgstr ""
+
+msgid "Grandee"
 msgstr ""
 
 msgid "Grandfather"
@@ -1774,6 +1792,9 @@ msgid "Lily"
 msgstr ""
 
 msgid "Limited"
+msgstr ""
+
+msgid "Limpopo"
 msgstr ""
 
 msgid "Lion"
@@ -3324,6 +3345,9 @@ msgstr ""
 msgid "Spike"
 msgstr ""
 
+msgid "Spoilt"
+msgstr ""
+
 msgid "Squadron"
 msgstr ""
 
@@ -3624,6 +3648,9 @@ msgstr ""
 msgid "Trapdoor Spider"
 msgstr ""
 
+msgid "Travellers"
+msgstr ""
+
 msgid "Treasure Trove"
 msgstr ""
 
@@ -3631,6 +3658,9 @@ msgid "Tree of Life"
 msgstr ""
 
 msgid "Trefoil"
+msgstr ""
+
+msgid "Tri Peaks"
 msgstr ""
 
 msgid "Triangle"
@@ -3679,6 +3709,9 @@ msgid "Troika"
 msgstr ""
 
 msgid "Trusty Twelve"
+msgstr ""
+
+msgid "Turncoats"
 msgstr ""
 
 msgid "Tuxedo"
@@ -3772,6 +3805,9 @@ msgid "Victory Arrow"
 msgstr ""
 
 msgid "Virginia Reel"
+msgstr ""
+
+msgid "Voracious"
 msgstr ""
 
 msgid "Wake-Robin"

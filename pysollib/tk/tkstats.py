@@ -431,7 +431,6 @@ class CanvasFormatter(PysolStatsFormatter):
         if not player or not prev_games:
             return 0
         for result in self.getLogResults(player, prev_games):
-            result[0] = _(result[0]) # game name
             s = "%-25s %-20s  %-17s  %s" % tuple(result[:4])
             id = self.canvas.create_text(1, y, text=s, anchor="nw",
                                          font=self.font, fill=self.fg)

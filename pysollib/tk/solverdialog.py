@@ -77,7 +77,6 @@ class SolverDialog(MfxDialog):
         gamenames = ['']
         for id in games:
             name = app.getGameTitleName(id)
-            name = _(name)
             gamenames.append(name)
             self.games[name] = id
         gamenames.sort()
@@ -234,7 +233,6 @@ class SolverDialog(MfxDialog):
 
     def connectGame(self, game):
         name = self.app.getGameTitleName(game.id)
-        name = _(name)
         if name in self.gamenames:
             self.start_button.config(state='normal')
             i = self.gamenames.index(name)

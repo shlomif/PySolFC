@@ -68,7 +68,6 @@ class SelectGameNode(SelectDialogTreeNode):
             # key/value pairs
             for id, name in self.select_func:
                 if id and name:
-                    name = _(name) # name of game
                     node = SelectGameLeaf(self.tree, self, name, key=id)
                     contents.append(node)
         else:
@@ -77,12 +76,10 @@ class SelectGameNode(SelectDialogTreeNode):
                     # All games
                     ##name = '%s (%s)' % (gi.name, CSI.TYPE_NAME[gi.category])
                     name = gi.name
-                    name = _(name) # name of game
                     node = SelectGameLeaf(self.tree, self, name, key=gi.id)
                     contents.append(node)
                 elif gi and self.select_func(gi):
                     name = gi.name
-                    name = _(name) # name of game
                     node = SelectGameLeaf(self.tree, self, name, key=gi.id)
                     contents.append(node)
         return contents or self.tree.data.no_games
@@ -110,8 +107,6 @@ class SelectGameData(SelectDialogTreeData):
             for name, select_func in data:
                 if name is None or not filter(select_func, self.all_games_gi):
                     continue
-                name = _(name)
-                name = name.replace("&", "")
                 gg.append(SelectGameNode(None, name, select_func))
             g.append(gg)
         select_mahjongg_game = lambda gi: gi.si.game_type == GI.GT_MAHJONGG
@@ -142,7 +137,6 @@ class SelectGameData(SelectDialogTreeData):
             select_func = lambda gi, games=games: gi.id in games
             if name is None or not filter(select_func, self.all_games_gi):
                 continue
-            name = _(name)
             gg.append(SelectGameNode(None, name, select_func))
         if 1 and gg:
             s_by_compatibility = SelectGameNode(None, _("by Compatibility"),
@@ -554,8 +548,7 @@ class SelectGameDialogWithPreview(SelectGameDialog):
     def updateInfo(self, gameid):
         gi = self.app.gdb.get(gameid)
         # info
-        name = _(gi.name)
-        altnames = '\n'.join([_(n) for n in gi.altnames])
+        altnames = '\n'.join(gi.altnames)
         category = _(CSI.TYPE[gi.category])
         type = ''
         if gi.si.game_type in GI.TYPE_NAMES:

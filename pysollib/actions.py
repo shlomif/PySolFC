@@ -591,7 +591,7 @@ class PysolMenubarActions:
             else:
                 player = self.app.opt.player
                 p0, p1, p2 = player, "", _(" for ") + player
-            n = _(self.game.gameinfo.short_name)
+            n = self.game.gameinfo.name
             #
             if mode == 100:
                 d = Status_StatsDialog(self.top, game=self.game)

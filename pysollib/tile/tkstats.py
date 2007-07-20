@@ -392,7 +392,6 @@ class TreeFormatter(PysolStatsFormatter):
         num_rows = 0
         for result in self.getLogResults(player, prev_games):
             t1, t2, t3, t4, t5, t6 = result
-            t1 = _(t1)                  # game name
             id = self.tree.insert(None, "end", text=t1, values=(t2, t3, t4))
             self.parent_window.tree_items.append(id)
             num_rows += 1
@@ -861,7 +860,10 @@ class ProgressionFrame(Tile.Frame):
         frame.columnconfigure(0, weight=1)
 
         # constants
-        self.canvas_width, self.canvas_height = 550, 250
+        w = dialog.tkfont.measure('M') * 42
+        w = max(w, 500)
+        w = min(w, 600)
+        self.canvas_width, self.canvas_height = w, 250
         if parent.winfo_screenwidth() < 800 or \
                parent.winfo_screenheight() < 600:
             self.canvas_width, self.canvas_height = 400, 200

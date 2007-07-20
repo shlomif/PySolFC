@@ -81,12 +81,11 @@ def init():
     gettext.bindtextdomain('pysol', locale_dir)
     gettext.textdomain('pysol')
     import __builtin__
-    __builtin__.__dict__['_'] = gettext.ugettext # use unicode
-    __builtin__.__dict__['n_'] = lambda x: x
+    __builtin__._ = gettext.ugettext    # use unicode
+    __builtin__.n_ = lambda x: x
 
     ## debug
-    if 'PYSOL_CHECK_GAMES' in os.environ or \
-           'PYSOL_DEBUG' in os.environ:
+    if 'PYSOL_CHECK_GAMES' in os.environ or 'PYSOL_DEBUG' in os.environ:
         settings.CHECK_GAMES = True
         print 'PySol debugging: set CHECK_GAMES to True'
     if 'PYSOL_DEBUG' in os.environ:

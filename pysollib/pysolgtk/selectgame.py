@@ -195,8 +195,6 @@ class SelectGameDialogWithPreview(MfxDialog):
         iter = store.append(root_iter)
         store.set(iter, 0, root_label, 1, -1)
         for label, games in gl:
-            label = _(label)
-            label = label.replace("&", "")
             self._addGames(store, iter, label, games)
 
 
@@ -207,7 +205,6 @@ class SelectGameDialogWithPreview(MfxDialog):
         store.set(iter, 0, root_label, 1, -1)
         for id, name in games:
             child_iter = store.append(iter)
-            name = _(name)
             store.set(child_iter, 0, name, 1, id)
 
 
@@ -292,7 +289,6 @@ class SelectGameDialogWithPreview(MfxDialog):
         data = []
         for label, vg in GI.GAMES_BY_COMPATIBILITY:
             selecter = lambda gi, vg=vg: gi.id in vg
-            label = _(label)
             data.append((label, selecter))
         self._addGamesFromData(data, store, root_iter,
                                _("by Compatibility"), all_games)
@@ -473,8 +469,8 @@ class SelectGameDialogWithPreview(MfxDialog):
     def updateInfo(self, gameid):
         gi = self.app.gdb.get(gameid)
         # info
-        name = _(gi.name)
-        altnames = '\n'.join([_(n) for n in gi.altnames])
+        name = gi.name
+        altnames = '\n'.join(gi.altnames)
         category = _(CSI.TYPE[gi.category])
         type = ''
         if gi.si.game_type in GI.TYPE_NAMES:

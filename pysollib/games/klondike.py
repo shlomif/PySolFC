@@ -1470,9 +1470,9 @@ registerGame(GameInfo(541, BatsfordAgain, "Batsford Again",
 registerGame(GameInfo(572, GoldMine, "Gold Mine",
                       GI.GT_NUMERICA, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(585, LuckyThirteen, "Lucky Thirteen",
-                      GI.GT_NUMERICA, 1, 0, GI.SL_MOSTLY_LUCK))
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(586, LuckyPiles, "Lucky Piles",
-                      GI.GT_NUMERICA, 1, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_FAN_TYPE, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(601, AmericanCanister, "American Canister",
                       GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(602, BritishCanister, "British Canister",

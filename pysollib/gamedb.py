@@ -281,6 +281,7 @@ class GI:
         ("Art Cabral", (9,)),
         ("Charles Jewell", (220, 309,)),
         ("Robert Harbin", (381,)),
+        ("Robert Hogue", (22216,)),
         ("Michael Keller", (592,)),
         ("Fred Lunde", (459,)),
         ("Albert Morehead and Geoffrey Mott-Smith", (25, 42, 48, 173,
@@ -409,21 +410,22 @@ class GameInfo(Struct):
                  suits=range(4), ranks=range(13), trumps=(),
                  rules_filename=None,
                  ):
-        def to_unicode(s):
+        def gettext_name(s):
             if not isinstance(s, unicode):
-                return unicode(s, 'utf-8')
-            return s
+                return _(unicode(s, 'utf-8'))
+            return _(s)
         #
         ncards = decks * (len(suits) * len(ranks) + len(trumps))
         game_flags = game_type & ~1023
         game_type = game_type & 1023
-        name = to_unicode(name)
+        name = gettext_name(name)
         if not short_name:
             short_name = name
-        short_name = to_unicode(short_name)
+        else:
+            short_name = gettext_name(short_name)
         if isinstance(altnames, basestring):
             altnames = (altnames,)
-        altnames = [to_unicode(n) for n in altnames]
+        altnames = [gettext_name(n) for n in altnames]
         #
         if not (1 <= category <= 9):
             if game_type == GI.GT_HANAFUDA:
@@ -494,6 +496,11 @@ class GameManager:
         self.check_game = True
         self.current_filename = None
         self.registered_game_types = {}
+        self.callback = None            # update progress-bar (see main.py)
+        self._num_games = 0             # for callback only
+
+    def setCallback(self, func):
+        self.callback = func
 
     def getSelected(self):
         return self.__selected_key
@@ -562,6 +569,10 @@ class GameManager:
         if self.current_filename is not None:
             gi.gameclass.MODULE_FILENAME = self.current_filename
 
+        if self.callback and self._num_games % 10 == 0:
+            self.callback()
+        self._num_games += 1
+
     #
     # access games database - we do not expose hidden games
     #
@@ -581,20 +592,20 @@ class GameManager:
         if self.__games_by_name is None:
             l1, l2, l3  = [], [], []
             for id, gi in self.__games.items():
-                name = _(gi.name).lower()
+                name = gi.name #.lower()
                 l1.append((name, id))
                 if gi.name != gi.short_name:
-                    name = _(gi.short_name).lower()
+                    name = gi.short_name #.lower()
                 l2.append((name, id))
                 for n in gi.altnames:
-                    name = _(n).lower()
+                    name = n #.lower()
                     l3.append((name, id, n))
             l1.sort()
             l2.sort()
             l3.sort()
-            self.__games_by_name = tuple(map(lambda item: item[1], l1))
-            self.__games_by_short_name = tuple(map(lambda item: item[1], l2))
-            self.__games_by_altname = tuple(map(lambda item: item[1:], l3))
+            self.__games_by_name = tuple([i[1] for i in l1])
+            self.__games_by_short_name = tuple([i[1] for i in l2])
+            self.__games_by_altname = tuple([i[1:] for i in l3])
         return self.__games_by_name
 
     def getGamesIdSortedByShortName(self):

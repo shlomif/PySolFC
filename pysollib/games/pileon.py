@@ -224,9 +224,10 @@ class FourByFour_Hint(DefaultHint):
 class FourByFour_Foundation(AbstractFoundationStack):
 
     def _getNumSameCards(self):
+        decks = self.game.gameinfo.decks
         rank = self.cards[-1].rank
         n = 1
-        for i in range(2,5):
+        for i in range(2, 4*decks+1):
             if len(self.cards) < i:
                 break
             if self.cards[-i].rank != rank:
@@ -235,23 +236,20 @@ class FourByFour_Foundation(AbstractFoundationStack):
         return n
 
     def _getDir(self):
-        if len(self.cards) < 4:
+        decks = self.game.gameinfo.decks
+        if len(self.cards) < 4*decks:
             return 0
-        if isRankSequence(self.cards[-4:], dir=0):
+        if isRankSequence(self.cards[-4*decks:], dir=0):
             return 1
         return 0
 
     def acceptsCards(self, from_stack, cards):
         if not AbstractFoundationStack.acceptsCards(self, from_stack, cards):
             return False
+        if not self.cards:
+            return True
         dir = self._getDir()
-        return (self.cards[-1].rank+dir) % 13 == cards[0].rank
-
-        if len(self.cards) < 4:
-            return cards[0].rank == self.cards[-1].rank
-        if isRankSequence(self.cards[-4:], dir=0):
-            return (cards[0].rank+1) % 13 == self.cards[-1].rank
-        return cards[0].rank == self.cards[-1].rank
+        return (self.cards[-1].rank+dir) % self.cap.mod == cards[0].rank
 
     def getHelp(self):
         return _('Foundation. Build up regardless of suit.')
@@ -271,7 +269,7 @@ class FourByFour(Game):
         self.setSize(l.XM+7*l.XS, l.YM+2*l.YS+20*l.YOFFSET)
 
         x, y = l.XM, l.YM
-        s.talon = WasteTalonStack(y, x, self, max_rounds=1)
+        s.talon = WasteTalonStack(x, y, self, max_rounds=1)
         l.createText(s.talon, 's')
         x += l.XS
         s.waste = WasteStack(x, y, self)
@@ -301,26 +299,91 @@ class FourByFour(Game):
         self.s.talon.dealCards()
 
     def updateText(self):
+        decks = self.gameinfo.decks
         if self.preview > 1:
             return
         f = self.s.foundations[0]
         if not f.cards:
-            return
-        if len(f.cards) == 52:
+            if f.cap.base_rank == ANY_RANK:
+                t = ''
+            else:
+                r = RANKS[f.cap.base_rank]
+                n = 4*decks
+                t = '%s (%d)' % (r, n)
+        elif len(f.cards) == 52*decks:
             t = ''
         else:
             n = f._getNumSameCards()
-            n = 4-n
+            n = 4*decks - n
             r = f.cards[-1].rank
             if n == 0:
-                n = 4
-                r = (r+1)%13
+                n = 4*decks
+                r = (r+1) % f.cap.mod
             r = RANKS[r]
             t = '%s (%d)' % (r, n)
         f.texts.misc.config(text=t)
 
     shallHighlightMatch = Game._shallHighlightMatch_RKW
 
+
+# /***********************************************************************
+# // Footling
+# ************************************************************************/
+
+class Footling(FourByFour):
+    Hint_Class = DefaultHint
+
+    def createGame(self, rows=8, reserves=4, playcards=15):
+
+        decks = self.gameinfo.decks
+
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+rows*l.XS, l.YM+2*l.YS+playcards*l.YOFFSET)
+
+        x, y = l.XM, l.YM
+        for i in range(reserves):
+            s.reserves.append(ReserveStack(x, y, self))
+            x += l.XS
+
+        x = self.width - 2*l.XS
+        s.foundations.append(FourByFour_Foundation(x, y, self,
+                             suit=ANY_SUIT, base_rank=ACE, max_cards=52*decks,
+                             max_accept=1, max_move=0))
+        stack = s.foundations[0]
+        tx, ty, ta, tf = l.getTextAttr(stack, 'ne')
+        font = self.app.getFont('canvas_default')
+        stack.texts.misc = MfxCanvasText(self.canvas, tx, ty,
+                                         anchor=ta, font=font)
+
+        x, y = l.XM, l.YM+l.YS
+        for i in range(rows):
+            s.rows.append(AC_RowStack(x, y, self))
+            x += l.XS
+
+        x, y = l.XM, self.height-l.YS
+        s.talon = InitialDealTalonStack(x, y, self)
+
+        l.defaultStackGroups()
+
+    def startGame(self):
+        for i in range(5):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealRowAvail()
+
+    shallHighlightMatch = Game._shallHighlightMatch_AC
+
+
+class DoubleFootling(Footling):
+    def createGame(self):
+        Footling.createGame(self, rows=10, reserves=5, playcards=18)
+    def startGame(self):
+        for i in range(9):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealRowAvail()
 
 
 # register the game
@@ -337,5 +400,9 @@ registerGame(GameInfo(555, Quartets, "Quartets",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(703, FourByFour, "Four by Four",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))
+registerGame(GameInfo(740, Footling, "Footling",
+                      GI.GT_FREECELL | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(741, DoubleFootling, "Double Footling",
+                      GI.GT_FREECELL | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 
 

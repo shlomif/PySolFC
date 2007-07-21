@@ -283,7 +283,7 @@ class ThreePeaksNoScore(ThreePeaks):
 
 
 registerGame(GameInfo(22216, ThreePeaks, "Three Peaks",
-                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_BALANCED,
+                      GI.GT_PAIRING_TYPE | GI.GT_SCORE, 1, 0, GI.SL_BALANCED,
                       altnames=("Tri Peaks",)
                       ))
 registerGame(GameInfo(22231, ThreePeaksNoScore, "Three Peaks Non-scoring",

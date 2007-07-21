@@ -548,6 +548,7 @@ class SelectGameDialogWithPreview(SelectGameDialog):
     def updateInfo(self, gameid):
         gi = self.app.gdb.get(gameid)
         # info
+        name = gi.name
         altnames = '\n'.join(gi.altnames)
         category = _(CSI.TYPE[gi.category])
         type = ''

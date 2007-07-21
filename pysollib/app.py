@@ -1190,7 +1190,7 @@ Please select a %s type %s.
         if gi is None: return None
         if gi.rules_filename is not None:
             return gi.rules_filename
-        n = gi.name
+        n = gi.en_name                  # english name
         ##n = re.sub(r"[\[\(].*$", "", n)
         n = latin1_to_ascii(n)
         n = re.sub(r"[^\w]", "", n)
@@ -1205,7 +1205,7 @@ Please select a %s type %s.
         if os.path.supports_unicode_filenames: # new in python 2.3
             return self.getGameTitleName(id)
         gi = self.gdb.get(id)
-        n = gi.name
+        n = gi.en_name                  # english name
         if not n: return None
 ##         m = re.search(r"^(.*)([\[\(](\w+).*[\]\)])\s*$", n)
 ##         if m:

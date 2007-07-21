@@ -418,6 +418,7 @@ class GameInfo(Struct):
         ncards = decks * (len(suits) * len(ranks) + len(trumps))
         game_flags = game_type & ~1023
         game_type = game_type & 1023
+        en_name = name                  # for Application.getGameRulesFilename
         name = gettext_name(name)
         if not short_name:
             short_name = name
@@ -473,7 +474,7 @@ class GameInfo(Struct):
         #
         Struct.__init__(self, id=id, gameclass=gameclass,
                         name=name, short_name=short_name,
-                        altnames=tuple(altnames),
+                        altnames=tuple(altnames), en_name=en_name,
                         decks=decks, redeals=redeals, ncards=ncards,
                         category=category, skill_level=skill_level,
                         suits=tuple(suits), ranks=tuple(ranks),

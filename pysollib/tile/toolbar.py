@@ -42,9 +42,9 @@ import Tile
 
 # PySol imports
 from pysollib.mfxutil import destruct
-from pysollib.mfxutil import Image, ImageTk
+from pysollib.mfxutil import Image, ImageTk, ImageOps
 from pysollib.util import IMAGE_EXTENSIONS
-from pysollib.settings import TITLE
+from pysollib.settings import TITLE, WIN_SYSTEM
 from pysollib.actions import PysolToolbarActions
 from pysollib.winsystems import TkSettings
 
@@ -52,6 +52,7 @@ from pysollib.winsystems import TkSettings
 from tkconst import EVENT_HANDLED
 from tkwidget import MfxTooltip
 from menubar import createToolbarMenu, MfxMenu
+from tkutil import loadImage
 
 
 # /***********************************************************************
@@ -261,10 +262,7 @@ class PysolToolbar(PysolToolbarActions):
         for ext in IMAGE_EXTENSIONS:
             file = os.path.join(self.dir, name+ext)
             if os.path.isfile(file):
-                if Image:
-                    image = ImageTk.PhotoImage(Image.open(file))
-                else:
-                    image = Tkinter.PhotoImage(file=file)
+                image = loadImage(file=file)
                 break
         return image
 
@@ -278,9 +276,34 @@ class PysolToolbar(PysolToolbarActions):
         self._widgets.append(sep)
         return sep
 
+    def _createDisabledButtonImage(self, tkim):
+        # grayscale and light-up image
+        im = tkim._pil_image
+        dis_im = ImageOps.grayscale(im)
+        ##color = '#ffffff'
+        ##factor = 0.6
+        color = '#dedede'
+        factor = 0.75
+        sh = Image.new(dis_im.mode, dis_im.size, color)
+        tmp = Image.blend(dis_im, sh, factor)
+        dis_im = Image.composite(tmp, im, im)
+        dis_tkim = ImageTk.PhotoImage(image=dis_im)
+        return dis_tkim
+
+    def _setButtonImage(self, button, name):
+        image = self._loadImage(name)
+        if Image: # ??? and WIN_SYSTEM != 'aqua':
+            dis_image = self._createDisabledButtonImage(image)
+            setattr(self, name + "_disabled_image", dis_image)
+            setattr(self, name + "_image", image)
+            button.config(image=(image, 'disabled', dis_image))
+        else:
+            image = self._loadImage(name)
+            setattr(self, name + "_image", image)
+            button.config(image=image)
+
     def _createButton(self, label, command, check=False, tooltip=None):
         name = label.lower()
-        image = self._loadImage(name)
         position = len(self._widgets)
         kw = {
             'position'     : position,
@@ -290,14 +313,13 @@ class PysolToolbar(PysolToolbarActions):
             'takefocus'    : 0,
             'text'         : _(label),
             }
-        if image:
-            kw['image'] = image
+
         if check:
             button = ToolbarCheckbutton(self.frame, **kw)
         else:
             button = ToolbarButton(self.frame, **kw)
+        self._setButtonImage(button, name)
         button.show(orient=self.orient)
-        setattr(self, name + "_image", image)
         setattr(self, name + "_button", button)
         self._widgets.append(button)
         if tooltip:
@@ -409,25 +431,18 @@ class PysolToolbar(PysolToolbarActions):
             return 0
         if not os.path.isdir(dir):
             return 0
-        old_dir, old_size = self.dir, self.size
         self.dir, self.size = dir, size
         data = []
-        try:
-            for w in self._widgets:
-                if not isinstance(w, (ToolbarButton, ToolbarCheckbutton)):
-                    continue
-                name = w.toolbar_name
-                image = self._loadImage(name)
-                data.append((name, w, image))
-        except:
-            self.dir, self.size = old_dir, old_size
-            return 0
+        for w in self._widgets:
+            if not isinstance(w, (ToolbarButton, ToolbarCheckbutton)):
+                continue
+            name = w.toolbar_name
+            data.append((name, w))
         l = self.player_label
         aspect = (400, 300) [size != 0]
         l.config(aspect=aspect)
-        for name, w, image in data:
-            w.config(image=image)
-            setattr(self, name + "_image", image)
+        for name, w in data:
+            self._setButtonImage(w, name)
         self.setCompound(self.compound, force=True)
         return 1
 
@@ -437,11 +452,7 @@ class PysolToolbar(PysolToolbarActions):
         for w in self._widgets:
             if not isinstance(w, (ToolbarButton, ToolbarCheckbutton)):
                 continue
-            if compound == 'text':
-                w.config(compound='none', image='')
-            else:
-                image = getattr(self, w.toolbar_name+'_image')
-                w.config(compound=compound, image=image)
+            w.config(compound=compound)
         self.compound = compound
         return True
 

@@ -410,23 +410,21 @@ class GameInfo(Struct):
                  suits=range(4), ranks=range(13), trumps=(),
                  rules_filename=None,
                  ):
-        def gettext_name(s):
-            if not isinstance(s, unicode):
-                return _(unicode(s, 'utf-8'))
-            return _(s)
         #
         ncards = decks * (len(suits) * len(ranks) + len(trumps))
         game_flags = game_type & ~1023
         game_type = game_type & 1023
-        en_name = name                  # for Application.getGameRulesFilename
-        name = gettext_name(name)
+        en_name = name                  # for app.getGameRulesFilename
+        if not isinstance(name, unicode):
+            en_name = unicode(name, 'utf-8')
+        name = _(name)
         if not short_name:
             short_name = name
         else:
-            short_name = gettext_name(short_name)
+            short_name = _(short_name)
         if isinstance(altnames, basestring):
             altnames = (altnames,)
-        altnames = [gettext_name(n) for n in altnames]
+        altnames = [_(n) for n in altnames]
         #
         if not (1 <= category <= 9):
             if game_type == GI.GT_HANAFUDA:

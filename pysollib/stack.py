@@ -130,74 +130,74 @@ from settings import DEBUG
 
 # check that all cards are face-up
 def cardsFaceUp(cards):
-    if not cards: return 0
+    if not cards: return False
     for c in cards:
         if not c.face_up:
-            return 0
-    return 1
+            return False
+    return True
 
 # check that all cards are face-down
 def cardsFaceDown(cards):
-    if not cards: return 0
+    if not cards: return False
     for c in cards:
         if c.face_up:
-            return 0
-    return 1
+            return False
+    return True
 
 # check that cards are face-up and build down by rank
 def isRankSequence(cards, mod=8192, dir=-1):
     if not cardsFaceUp(cards):
-        return 0
+        return False
     c1 = cards[0]
     for c2 in cards[1:]:
         if (c1.rank + dir) % mod != c2.rank:
-            return 0
+            return False
         c1 = c2
-    return 1
+    return True
 
 # check that cards are face-up and build down by alternate color
 def isAlternateColorSequence(cards, mod=8192, dir=-1):
     if not cardsFaceUp(cards):
-        return 0
+        return False
     c1 = cards[0]
     for c2 in cards[1:]:
         if (c1.rank + dir) % mod != c2.rank or c1.color == c2.color:
-            return 0
+            return False
         c1 = c2
-    return 1
+    return True
 
 # check that cards are face-up and build down by same color
 def isSameColorSequence(cards, mod=8192, dir=-1):
     if not cardsFaceUp(cards):
-        return 0
+        return False
     c1 = cards[0]
     for c2 in cards[1:]:
         if (c1.rank + dir) % mod != c2.rank or c1.color != c2.color:
-            return 0
+            return False
         c1 = c2
-    return 1
+    return True
 
 # check that cards are face-up and build down by same suit
 def isSameSuitSequence(cards, mod=8192, dir=-1):
     if not cardsFaceUp(cards):
-        return 0
+        return False
     c1 = cards[0]
     for c2 in cards[1:]:
         if (c1.rank + dir) % mod != c2.rank or c1.suit != c2.suit:
-            return 0
+            return False
         c1 = c2
-    return 1
+    return True
 
 # check that cards are face-up and build down by any suit but own
 def isAnySuitButOwnSequence(cards, mod=8192, dir=-1):
     if not cardsFaceUp(cards):
-        return 0
+        return False
     c1 = cards[0]
     for c2 in cards[1:]:
         if (c1.rank + dir) % mod != c2.rank or c1.suit == c2.suit:
-            return 0
+            return False
         c1 = c2
-    return 1
+    return True
 
 def getNumberOfFreeStacks(stacks):
     return len(filter(lambda s: not s.cards, stacks))
@@ -598,28 +598,28 @@ class Stack:
 
     def basicIsBlocked(self):
         # Check if the stack is blocked (e.g. Pyramid or Mahjongg)
-        return 0
+        return False
 
     def basicAcceptsCards(self, from_stack, cards):
         # Check that the limits are ok and that the cards are face up
         if from_stack is self or self.basicIsBlocked():
-            return 0
+            return False
         cap = self.cap
         l = len(cards)
         if l < cap.min_accept or l > cap.max_accept:
-            return 0
+            return False
         l = l + len(self.cards)
         if l > cap.max_cards:       # note: we don't check cap.min_cards here
-            return 0
+            return False
         for c in cards:
             if not c.face_up:
-                return 0
+                return False
             if cap.suit >= 0 and c.suit != cap.suit:
-                return 0
+                return False
             if cap.color >= 0 and c.color != cap.color:
-                return 0
+                return False
             if cap.rank >= 0 and c.rank != cap.rank:
-                return 0
+                return False
         if self.cards:
             # top card of our stack must be face up
             return self.cards[-1].face_up
@@ -627,24 +627,24 @@ class Stack:
             # check required base
             c = cards[0]
             if cap.base_suit >= 0 and c.suit != cap.base_suit:
-                return 0
+                return False
             if cap.base_color >= 0 and c.color != cap.base_color:
-                return 0
+                return False
             if cap.base_rank >= 0 and c.rank != cap.base_rank:
-                return 0
-            return 1
+                return False
+            return True
 
     def basicCanMoveCards(self, cards):
         # Check that the limits are ok and the cards are face up
         if self.basicIsBlocked():
-            return 0
+            return False
         cap = self.cap
         l = len(cards)
         if l < cap.min_move or l > cap.max_move:
-            return 0
+            return False
         l = len(self.cards) - l
         if l < cap.min_cards:       # note: we don't check cap.max_cards here
-            return 0
+            return False
         return cardsFaceUp(cards)
 
 
@@ -654,15 +654,15 @@ class Stack:
 
     def acceptsCards(self, from_stack, cards):
         # Do we accept receiving `cards' from `from_stack' ?
-        return 0
+        return False
 
     def canMoveCards(self, cards):
         # Can we move these cards when assuming they are our top-cards ?
-        return 0
+        return False
 
     def canFlipCard(self):
         # Can we flip our top card ?
-        return 0
+        return False
 
     def canDropCards(self, stacks):
         # Can we drop the top cards onto one of the foundation stacks ?
@@ -1917,7 +1917,7 @@ class OpenStack(Stack):
     def canFlipCard(self):
         # default for OpenStack: we can flip the top card
         if self.basicIsBlocked() or not self.cards:
-            return 0
+            return False
         return not self.cards[-1].face_up
 
     def canDropCards(self, stacks):
@@ -2123,12 +2123,12 @@ class AbstractFoundationStack(OpenStack):
 class SS_FoundationStack(AbstractFoundationStack):
     def acceptsCards(self, from_stack, cards):
         if not AbstractFoundationStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         if self.cards:
             # check the rank
             if (self.cards[-1].rank + self.cap.dir) % self.cap.mod != cards[0].rank:
-                return 0
-        return 1
+                return False
+        return True
 
     def getHelp(self):
         if self.cap.dir > 0:   return _('Foundation. Build up by suit.')
@@ -2156,12 +2156,12 @@ class AC_FoundationStack(SS_FoundationStack):
 
     def acceptsCards(self, from_stack, cards):
         if not SS_FoundationStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         if self.cards:
             # check the color
             if cards[0].color == self.cards[-1].color:
-                return 0
-        return 1
+                return False
+        return True
 
     def getHelp(self):
         if self.cap.dir > 0:   return _('Foundation. Build up by alternate color.')
@@ -2177,12 +2177,12 @@ class SC_FoundationStack(SS_FoundationStack):
 
     def acceptsCards(self, from_stack, cards):
         if not SS_FoundationStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         if self.cards:
             # check the color
             if cards[0].color != self.cards[-1].color:
-                return 0
-        return 1
+                return False
+        return True
 
     def getHelp(self):
         if self.cap.dir > 0:   return _('Foundation. Build up by color.')
@@ -2199,7 +2199,7 @@ class Spider_SS_Foundation(AbstractFoundationStack):
 
     def acceptsCards(self, from_stack, cards):
         if not AbstractFoundationStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         # now check the cards
         return isSameSuitSequence(cards, self.cap.mod, self.cap.dir)
 
@@ -2207,7 +2207,7 @@ class Spider_SS_Foundation(AbstractFoundationStack):
 class Spider_AC_Foundation(Spider_SS_Foundation):
     def acceptsCards(self, from_stack, cards):
         if not AbstractFoundationStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         # now check the cards
         return isAlternateColorSequence(cards, self.cap.mod, self.cap.dir)
 
@@ -2231,14 +2231,14 @@ class SequenceStack_StackMethods:
 
     def acceptsCards(self, from_stack, cards):
         if not self.basicAcceptsCards(from_stack, cards):
-            return 0
+            return False
         # cards must be an acceptable sequence
         if not self._isAcceptableSequence(cards):
-            return 0
+            return False
         # [topcard + cards] must be an acceptable sequence
         if self.cards and not self._isAcceptableSequence([self.cards[-1]] + cards):
-            return 0
-        return 1
+            return False
+        return True
 
     def canMoveCards(self, cards):
         return self.basicCanMoveCards(cards) and self._isMoveableSequence(cards)
@@ -2388,11 +2388,11 @@ class Yukon_AC_RowStack(BasicRowStack):
 
     def acceptsCards(self, from_stack, cards):
         if not self.basicAcceptsCards(from_stack, cards):
-            return 0
+            return False
         # [topcard + card[0]] must be acceptable
         if self.cards and not self._isSequence(self.cards[-1], cards[0]):
-            return 0
-        return 1
+            return False
+        return True
 
     def getHelp(self):
         if self.cap.dir > 0:   return _('Tableau. Build up by alternate color, can move any face-up cards regardless of sequence.')
@@ -2490,8 +2490,6 @@ class UD_RK_RowStack(SequenceRowStack):
 
 
 # To simplify playing we also consider the number of free rows.
-# Note that this only is legal if the game.s.rows have a
-# cap.base_rank == ANY_RANK.
 # See also the "SuperMove" section in the FreeCell FAQ.
 class SuperMoveStack_StackMethods:
     def _getMaxMove(self, to_stack_ncards):
@@ -2608,8 +2606,8 @@ class WasteTalonStack(TalonStack):
             num_cards = min(len(self.cards), self.num_deal)
             return len(waste.cards) + num_cards <= waste.cap.max_cards
         elif waste.cards and self.round != self.max_rounds:
-            return 1
-        return 0
+            return True
+        return False
 
     def dealCards(self, sound=0, shuffle=False):
         old_state = self.game.enterState(self.game.S_DEAL)
@@ -2652,7 +2650,7 @@ class FaceUpWasteTalonStack(WasteTalonStack):
 
     def fillStack(self):
         if self.canFlipCard():
-            self.game.flipMove(self)
+            self.game.singleFlipMove(self)
         self.game.fillStack(self)
 
     def dealCards(self, sound=0):
@@ -2671,14 +2669,14 @@ class OpenTalonStack(TalonStack, OpenStack):
         TalonStack.__init__(self, x, y, game, **cap)
 
     def canDealCards(self):
-        return 0
+        return False
 
     def canFlipCard(self):
         return len(self.cards) > 0 and not self.cards[-1].face_up
 
     def fillStack(self):
         if self.canFlipCard():
-            self.game.flipMove(self)
+            self.game.singleFlipMove(self)
         self.game.fillStack(self)
 
     def clickHandler(self, event):

@@ -50,7 +50,7 @@ from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 class Terrace_Talon(WasteTalonStack):
     def canDealCards(self):
         if self.game.getState() == 0:
-            return 0
+            return False
         return WasteTalonStack.canDealCards(self)
 
 
@@ -62,9 +62,9 @@ class Terrace_AC_Foundation(AC_FoundationStack):
     def acceptsCards(self, from_stack, cards):
         if self.game.getState() == 0:
             if len(cards) != 1 or not cards[0].face_up:
-                return 0
+                return False
             if cards[0].suit != self.cap.base_suit:
-                return 0
+                return False
             return from_stack in self.game.s.rows
         return AC_FoundationStack.acceptsCards(self, from_stack, cards)
 
@@ -77,9 +77,9 @@ class Terrace_SS_Foundation(SS_FoundationStack):
     def acceptsCards(self, from_stack, cards):
         if self.game.getState() == 0:
             if len(cards) != 1 or not cards[0].face_up:
-                return 0
+                return False
             if cards[0].suit != self.cap.base_suit:
-                return 0
+                return False
             return from_stack in self.game.s.rows
         return SS_FoundationStack.acceptsCards(self, from_stack, cards)
 
@@ -91,9 +91,9 @@ class Terrace_RowStack(AC_RowStack):
 
     def acceptsCards(self, from_stack, cards):
         if self.game.getState() == 0:
-            return 0
+            return False
         if from_stack in self.game.s.reserves:
-            return 0
+            return False
         return AC_RowStack.acceptsCards(self, from_stack, cards)
 
     def moveMove(self, ncards, to_stack, frames=-1, shadow=-1):

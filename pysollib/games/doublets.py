@@ -50,12 +50,12 @@ from pysollib.pysoltk import MfxCanvasText
 class Doublets_Foundation(AbstractFoundationStack):
     def acceptsCards(self, from_stack, cards):
         if not AbstractFoundationStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         if self.cards:
             # check the rank
             if (2 * self.cards[-1].rank + 1) % self.cap.mod != cards[0].rank:
-                return 0
-        return 1
+                return False
+        return True
 
 
 class Doublets(Game):
@@ -119,7 +119,7 @@ class Doublets(Game):
 
     def isGameWon(self):
         if self.s.talon.cards or self.s.waste.cards:
-            return 0
+            return False
         return len(self.s.foundations[0].cards) == 48
 
     def fillStack(self, stack):

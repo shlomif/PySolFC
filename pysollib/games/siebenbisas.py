@@ -79,31 +79,31 @@ class SiebenBisAs_Hint(CautiousDefaultHint):
 class SiebenBisAs_Foundation(SS_FoundationStack):
     def acceptsCards(self, from_stack, cards):
         if not SS_FoundationStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         # this stack accepts only a card from a rowstack with an empty
         # left neighbour
         if not from_stack in self.game.s.rows:
-            return 0
+            return False
         if from_stack.id % 10 == 0:
-            return 0
+            return False
         return len(self.game.s.rows[from_stack.id - 1].cards) == 0
 
 
 class SiebenBisAs_RowStack(BasicRowStack):
     def acceptsCards(self, from_stack, cards):
         if not BasicRowStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         if self.id % 10 != 0:
             # left neighbour
             s = self.game.s.rows[self.id - 1]
             if s.cards and s.cards[-1].suit == cards[0].suit and (s.cards[-1].rank + 1) % 13 == cards[0].rank:
-                return 1
+                return True
         if self.id % 10 != 10 - 1:
             # right neighbour
             s = self.game.s.rows[self.id + 1]
             if s.cards and s.cards[-1].suit == cards[0].suit and (s.cards[-1].rank - 1) % 13 == cards[0].rank:
-                return 1
-        return 0
+                return True
+        return False
 
     # bottom to get events for an empty stack
     ###prepareBottom = Stack.prepareInvisibleBottom
@@ -164,33 +164,33 @@ class SiebenBisAs(Game):
 class Maze_Hint(SiebenBisAs_Hint):
     def shallMovePile(self, from_stack, to_stack, pile, rpile):
         if from_stack is to_stack or not to_stack.acceptsCards(from_stack, pile):
-            return 0
+            return False
         # now check for loops
         rr = self.ClonedStack(from_stack, stackcards=rpile)
         if rr.acceptsCards(to_stack, pile):
             # the pile we are going to move could be moved back -
             # this is dangerous as we can create endless loops...
-            return 0
-        return 1
+            return False
+        return True
 
 
 class Maze_RowStack(BasicRowStack):
     def acceptsCards(self, from_stack, cards):
         if not BasicRowStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         # left neighbour
         s = self.game.s.rows[(self.id - 1) % 54]
         if s.cards:
             if s.cards[-1].suit == cards[0].suit and s.cards[-1].rank + 1 == cards[0].rank:
-                return 1
+                return True
             if s.cards[-1].rank == QUEEN and cards[0].rank == ACE:
-                return 1
+                return True
         # right neighbour
         s = self.game.s.rows[(self.id + 1) % 54]
         if s.cards:
             if s.cards[-1].suit == cards[0].suit and s.cards[-1].rank - 1 == cards[0].rank:
-                return 1
-        return 0
+                return True
+        return False
 
     # bottom to get events for an empty stack
     prepareBottom = Stack.prepareInvisibleBottom
@@ -250,7 +250,7 @@ class Maze(Game):
     def isGameWon(self):
         rows = filter(lambda s: s.cards, self.s.rows)
         if len(rows) != 48:
-            return 0            # no cards dealt yet
+            return False            # no cards dealt yet
         i = 0
         if 1:
             # allow wrap around: search first Ace
@@ -263,13 +263,13 @@ class Maze(Game):
             r2 = rows[j+11]
             if (r2.id - r1.id) % 54 != 11:
                 # found a space within the sequence
-                return 0
+                return False
             if r1.cards[-1].rank != ACE or r2.cards[-1].rank != QUEEN:
-                return 0
+                return False
             pile = getPileFromStacks(rows[j:j+12])
             if not pile or not isSameSuitSequence(pile, dir=1):
-                return 0
-        return 1
+                return False
+        return True
 
 
 # register the game

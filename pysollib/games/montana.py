@@ -144,7 +144,7 @@ class Montana_Talon(TalonStack):
 class Montana_RowStack(BasicRowStack):
     def acceptsCards(self, from_stack, cards):
         if not BasicRowStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         if self.id % self.game.RSTEP == 0:
             return cards[0].rank == self.game.RBASE
         left = self.game.s.rows[self.id - 1]
@@ -212,13 +212,13 @@ class Montana(Game):
         rows = self.s.rows
         for i in range(0, self.RLEN, self.RSTEP):
             if not rows[i].cards:
-                return 0
+                return False
             suit = rows[i].cards[-1].suit
             for j in range(self.RSTEP - 1):
                 r = rows[i + j]
                 if not r.cards or r.cards[-1].rank != self.RBASE + j or r.cards[-1].suit != suit:
-                    return 0
-        return 1
+                    return False
+        return True
 
     def getHighlightPilesStacks(self):
         return ()
@@ -307,33 +307,33 @@ class RedMoon(BlueMoon):
 class Galary_Hint(Montana_Hint):
     def shallMovePile(self, from_stack, to_stack, pile, rpile):
         if from_stack is to_stack or not to_stack.acceptsCards(from_stack, pile):
-            return 0
+            return False
         # now check for loops
         rr = self.ClonedStack(from_stack, stackcards=rpile)
         if rr.acceptsCards(to_stack, pile):
             # the pile we are going to move could be moved back -
             # this is dangerous as we can create endless loops...
-            return 0
-        return 1
+            return False
+        return True
 
 
 class Galary_RowStack(Montana_RowStack):
     def acceptsCards(self, from_stack, cards):
         if not BasicRowStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         if self.id % self.game.RSTEP == 0:
             return cards[0].rank == self.game.RBASE
         r = self.game.s.rows
         left = r[self.id - 1]
         if left.cards and left.cards[-1].suit == cards[0].suit \
                and left.cards[-1].rank + 1 == cards[0].rank:
-            return 1
+            return True
         if self.id < len(r)-1:
             right = r[self.id + 1]
             if right.cards and right.cards[-1].suit == cards[0].suit \
                    and right.cards[-1].rank - 1 == cards[0].rank:
-                return 1
-        return 0
+                return True
+        return False
 
 
 class Galary(RedMoon):
@@ -357,7 +357,7 @@ class Moonlight(Montana):
 class Jungle_RowStack(Montana_RowStack):
     def acceptsCards(self, from_stack, cards):
         if not BasicRowStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         if self.id % self.game.RSTEP == 0:
             return cards[0].rank == self.game.RBASE
         left = self.game.s.rows[self.id - 1]
@@ -376,7 +376,7 @@ class Jungle(BlueMoon):
 class SpacesAndAces_RowStack(Montana_RowStack):
     def acceptsCards(self, from_stack, cards):
         if not BasicRowStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         if self.id % self.game.RSTEP == 0:
             return cards[0].rank == self.game.RBASE
         left = self.game.s.rows[self.id - 1]

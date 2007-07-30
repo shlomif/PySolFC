@@ -283,7 +283,7 @@ class PysolToolbar(PysolToolbarActions):
         ##color = '#ffffff'
         ##factor = 0.6
         color = '#dedede'
-        factor = 0.75
+        factor = 0.7
         sh = Image.new(dis_im.mode, dis_im.size, color)
         tmp = Image.blend(dis_im, sh, factor)
         dis_im = Image.composite(tmp, im, im)

@@ -59,7 +59,7 @@ class Windmill_Foundation(RK_FoundationStack):
 class Windmill_RowStack(ReserveStack):
     def acceptsCards(self, from_stack, cards):
         if not ReserveStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         # this stack accepts one card from the Waste pile
         return from_stack is self.game.s.waste
 

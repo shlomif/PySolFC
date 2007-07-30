@@ -290,12 +290,12 @@ class ThreeShufflesAndADraw_RowStack(SS_RowStack):
 class ThreeShufflesAndADraw_ReserveStack(ReserveStack):
     def acceptsCards(self, from_stack, cards):
         if not ReserveStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         if not from_stack in self.game.s.rows:
-            return 0
+            return False
         if self.game.draw_done or not from_stack._canDrawCard():
-            return 0
-        return 1
+            return False
+        return True
 
     def updateModel(self, undo, flags):
         assert undo == self.game.draw_done
@@ -418,7 +418,7 @@ class Intelligence_ReserveStack(ReserveStack, DealRow_StackMethods):
     dealToStacks = DealRow_StackMethods.dealToStacksOrFoundations
 
     def canFlipCard(self):
-        return 0
+        return False
 
 
 class Intelligence(Fan):

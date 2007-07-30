@@ -44,7 +44,7 @@ __all__ = ['MfxDialog',
            ]
 
 # imports
-import os, time, locale
+import sys, os, time, locale
 import Tkinter
 import Tile
 import tkFont
@@ -320,7 +320,13 @@ class PysolAboutDialog(MfxMessageDialog):
                          width=kw.width)
         msg.pack(fill='both', expand=True)
 
-        font = tkFont.Font(parent, app.getFont('default'))
+        if sys.version_info >= (2, 4):
+            ##font_name = msg.lookup('TLabel', 'font')
+            font_name = 'TkDefaultFont'
+            font = tkFont.Font(parent, name=font_name, exists=True)
+            font = font.copy()
+        else:
+            font = tkFont.Font(parent, app.getFont('default'))
         font.configure(underline=True)
         url_label = Tile.Label(frame, text=kw.url, font=font,
                                foreground='blue', cursor='hand2')

@@ -67,7 +67,7 @@ class Canfield_AC_RowStack(AC_RowStack):
     def basicAcceptsCards(self, from_stack, cards):
         if from_stack in self.game.s.rows:
             if len(cards) != 1 and len(cards) != len(from_stack.cards):
-                return 0
+                return False
         return AC_RowStack.basicAcceptsCards(self, from_stack, cards)
 
 
@@ -75,7 +75,7 @@ class Canfield_SS_RowStack(SS_RowStack):
     def basicAcceptsCards(self, from_stack, cards):
         if from_stack in self.game.s.rows:
             if len(cards) != 1 and len(cards) != len(from_stack.cards):
-                return 0
+                return False
         return SS_RowStack.basicAcceptsCards(self, from_stack, cards)
 
 
@@ -83,7 +83,7 @@ class Canfield_RK_RowStack(RK_RowStack):
     def basicAcceptsCards(self, from_stack, cards):
         if from_stack in self.game.s.rows:
             if len(cards) != 1 and len(cards) != len(from_stack.cards):
-                return 0
+                return False
         return RK_RowStack.basicAcceptsCards(self, from_stack, cards)
 
 

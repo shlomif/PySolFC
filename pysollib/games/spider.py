@@ -59,22 +59,22 @@ class Spider_Hint(SpiderType_Hint):
 
     def shallMovePile(self, r, t, pile, rpile):
         if not SpiderType_Hint.shallMovePile(self, r, t, pile, rpile):
-            return 0
+            return False
         rr = self.ClonedStack(r, stackcards=rpile)
         if rr.acceptsCards(t, pile):
             # the pile we are going to move from r to t
             # could be moved back from t ro r - this is
             # dangerous for as we can create loops...
             if len(t.cards) == 0:
-                return 1
+                return True
             if pile[0].suit == t.cards[-1].suit:
                 # The pile will get moved onto the correct suit
                 if len(rpile) == 0 or pile[0].suit != rpile[-1].suit:
-                    return 1
+                    return True
             if self.level <= 1 and len(rpile) == 0:
-                return 1
-            return 0
-        return 1
+                return True
+            return False
+        return True
 
 
 # /***********************************************************************
@@ -150,12 +150,12 @@ class RelaxedSpider(Game):
 class Spider(RelaxedSpider):
     def canDealCards(self):
         if not RelaxedSpider.canDealCards(self):
-            return 0
+            return False
         # no row may be empty
         for r in self.s.rows:
             if not r.cards:
-                return 0
-        return 1
+                return False
+        return True
 
 class Spider1Suit(Spider):
     pass

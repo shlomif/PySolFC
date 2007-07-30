@@ -99,21 +99,21 @@ class PasDeDeux_Hint(AbstractHint):
 
 class PasDeDeux_Waste(WasteStack):
     def canFlipCard(self):
-        return 0
+        return False
 
 
 class PasDeDeux_RowStack(ReserveStack):
     def canMoveCards(self, cards):
         if not ReserveStack.canMoveCards(self, cards):
-            return 0
+            return False
         if not self.game.s.waste.cards:
-            return 0
+            return False
         c = self.game.s.waste.cards[-1]
         return c.face_up and cards[0].suit == c.suit and cards[0].rank == c.rank
 
     def acceptsCards(self, from_stack, cards):
         if not ReserveStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         # must be neighbours
         return self.game.isNeighbour(from_stack, self)
 
@@ -204,11 +204,11 @@ class PasDeDeux(Game):
     def isGameWon(self):
         for r in self.s.rows:
             if len(r.cards) != 1:
-                return 0
+                return False
             c = r.cards[-1]
             if c.suit != r.id / 13 or c.rank != r.id % 13:
-                return 0
-        return 1
+                return False
+        return True
 
     #
     # game extras

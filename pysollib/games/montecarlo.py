@@ -53,7 +53,7 @@ class MonteCarlo_Hint(DefaultHint):
 
 # /***********************************************************************
 # // Monte Carlo
-# // Monaco
+# // Monte Carlo (2 decks)
 # ************************************************************************/
 
 class MonteCarlo_Talon(TalonStack):
@@ -63,7 +63,7 @@ class MonteCarlo_Talon(TalonStack):
             if not r.cards:
                 free = 1
             elif free:
-                return 1
+                return True
         return free and len(self.cards)
 
     def dealCards(self, sound=0):
@@ -76,10 +76,10 @@ class MonteCarlo_Talon(TalonStack):
 class MonteCarlo_RowStack(BasicRowStack):
     def acceptsCards(self, from_stack, cards):
         if not OpenStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         # check the rank
         if self.cards[-1].rank != cards[0].rank:
-            return 0
+            return False
         # now look if the stacks are neighbours
         return self.game.isNeighbour(from_stack, self)
 
@@ -165,7 +165,7 @@ class MonteCarlo(Game):
 
     def isNeighbour(self, stack1, stack2):
         if not (0 <= stack1.id <= 24 and 0 <= stack2.id <= 24):
-            return 0
+            return False
         column = stack2.id % 5
         diff = stack1.id - stack2.id
         if column == 0:
@@ -181,7 +181,7 @@ class MonteCarlo(Game):
         for r in self.s.rows:
             assert len(r.cards) <= 1
             if not r.cards:
-                free = free + 1
+                free += 1
             elif free > 0:
                 to_stack = self.allstacks[r.id - free]
                 self.moveMove(1, r, to_stack, frames=4, shadow=0)
@@ -192,12 +192,12 @@ class MonteCarlo(Game):
                         break
                     self.flipMove(self.s.talon)
                     self.moveMove(1, self.s.talon, r)
-                    n = n + 1
+                    n += 1
         self.stopSamples()
-        return n
+        return n + free
 
 
-class Monaco(MonteCarlo):
+class MonteCarlo2Decks(MonteCarlo):
     pass
 
 
@@ -216,7 +216,7 @@ class Weddings_Talon(MonteCarlo_Talon):
                 while k >= 5 and not self.game.allstacks[k - 5].cards:
                     k = k - 5
                 if k != r.id:
-                    return 1
+                    return True
         return free and len(self.cards)
 
 
@@ -311,7 +311,7 @@ class SimplePairs(MonteCarlo):
 class Neighbour_Foundation(AbstractFoundationStack):
     def acceptsCards(self, from_stack, cards):
         if not AbstractFoundationStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         # We accept any King. Pairs will get delivered by _dropPairMove.
         return cards[0].rank == KING
 
@@ -319,10 +319,10 @@ class Neighbour_Foundation(AbstractFoundationStack):
 class Neighbour_RowStack(MonteCarlo_RowStack):
     def acceptsCards(self, from_stack, cards):
         if not OpenStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         # check the rank
         if self.cards[-1].rank + cards[0].rank != 11:
-            return 0
+            return False
         # now look if the stacks are neighbours
         return self.game.isNeighbour(from_stack, self)
 
@@ -376,7 +376,7 @@ class Neighbour(MonteCarlo):
 class Fourteen_RowStack(MonteCarlo_RowStack):
     def acceptsCards(self, from_stack, cards):
         if not OpenStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         # check the rank
         return self.cards[-1].rank + cards[0].rank == 12
 
@@ -440,7 +440,7 @@ class Fourteen(Game):
 class Nestor_RowStack(MonteCarlo_RowStack):
     def acceptsCards(self, from_stack, cards):
         if not OpenStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         # check the rank
         return self.cards[-1].rank == cards[0].rank
 
@@ -644,7 +644,7 @@ class DerLetzteMonarch_Foundation(SS_FoundationStack):
             return SS_FoundationStack.acceptsCards(self, from_stack, from_stack.cards)
         #
         if not SS_FoundationStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         # We only accept cards from a Reserve. Other cards will get
         # delivered by _handlePairMove.
         return from_stack in self.game.s.reserves
@@ -656,10 +656,10 @@ class DerLetzteMonarch_RowStack(ReserveStack):
 
     def acceptsCards(self, from_stack, cards):
         if not ReserveStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         # must be neighbours
         if not self.game.isNeighbour(from_stack, self):
-            return 0
+            return False
         # must be able to move our card to the foundations or reserves
         return self._getDropStack() is not None
 
@@ -767,7 +767,7 @@ class DerLetzteMonarch(Game):
 
     def isNeighbour(self, stack1, stack2):
         if not (0 <= stack1.id <= 51 and 0 <= stack2.id <= 51):
-            return 0
+            return False
         column = stack2.id % 13
         diff = stack1.id - stack2.id
         if column == 0:
@@ -892,7 +892,7 @@ class RightAndLeft(Game):
 registerGame(GameInfo(89, MonteCarlo, "Monte Carlo",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK,
                       altnames=("Quilt",) ))
-registerGame(GameInfo(216, Monaco, "Monaco",
+registerGame(GameInfo(216, MonteCarlo2Decks, "Monte Carlo (2 decks)",
                       GI.GT_PAIRING_TYPE, 2, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(212, Weddings, "Weddings",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))

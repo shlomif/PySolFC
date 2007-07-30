@@ -390,13 +390,13 @@ class Chessboard_Foundation(SS_FoundationStack):
     def acceptsCards(self, from_stack, cards):
         if not self.cards:
             if len(cards) != 1 or not cards[0].face_up:
-                return 0
+                return False
             if cards[0].suit != self.cap.base_suit:
-                return 0
+                return False
             for s in self.game.s.foundations:
                 if s.cards:
                     return cards[0].rank == s.cards[0].rank
-            return 1
+            return True
         return SS_FoundationStack.acceptsCards(self, from_stack, cards)
 
 

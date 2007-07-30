@@ -92,7 +92,7 @@ class CastlesInSpain(Game):
 class Martha_RowStack(AC_RowStack):
     def acceptsCards(self, from_stack, cards):
         if not AC_RowStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         # when empty, only accept a single card
         return self.cards or len(cards) == 1
 

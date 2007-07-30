@@ -81,7 +81,7 @@ class Numerica_Hint(DefaultHint):
 class Numerica_RowStack(BasicRowStack):
     def acceptsCards(self, from_stack, cards):
         if not BasicRowStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         # this stack accepts any one card from the Waste pile
         return from_stack is self.game.s.waste and len(cards) == 1
 
@@ -265,7 +265,7 @@ class PussInTheCorner_Foundation(SS_FoundationStack):
 class PussInTheCorner_RowStack(BasicRowStack):
     def acceptsCards(self, from_stack, cards):
         if not BasicRowStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         # this stack accepts any one card from the Talon
         return from_stack is self.game.s.talon and len(cards) == 1
     def getBottomImage(self):
@@ -476,7 +476,7 @@ class Gnat(Game):
 class Gloaming_RowStack(Numerica_RowStack):
     def acceptsCards(self, from_stack, cards):
         if not BasicRowStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         # this stack accepts any one card from reserves
         return from_stack in self.game.s.reserves
 

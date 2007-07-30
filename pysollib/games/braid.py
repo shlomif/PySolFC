@@ -63,9 +63,9 @@ class Braid_Foundation(AbstractFoundationStack):
 
     def acceptsCards(self, from_stack, cards):
         if not AbstractFoundationStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         if not self.cards:
-            return 1
+            return True
         stack_dir = self.game.getFoundationDir()
         if stack_dir == 0:
             card_dir = self.getRankDir(cards=(self.cards[-1], cards[0]))
@@ -106,7 +106,7 @@ class Braid_RowStack(ReserveStack):
 class Braid_ReserveStack(ReserveStack):
     def acceptsCards(self, from_stack, cards):
         if from_stack is self.game.s.braid or from_stack in self.game.s.rows:
-            return 0
+            return False
         return ReserveStack.acceptsCards(self, from_stack, cards)
 
     def getBottomImage(self):

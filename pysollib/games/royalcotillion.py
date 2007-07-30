@@ -1174,6 +1174,124 @@ class TheRedAndTheBlack(Game):
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
+# /***********************************************************************
+# // Twilight Zone
+# ************************************************************************/
+
+class TwilightZone_Foundation(AC_FoundationStack):
+    def acceptsCards(self, from_stack, cards):
+        if not AC_FoundationStack.acceptsCards(self, from_stack, cards):
+            return False
+        if from_stack is self.game.s.waste or \
+               from_stack in self.game.s.reserves:
+            return False
+        return True
+
+
+class TwilightZone_Talon(OpenTalonStack, WasteTalonStack):
+    rightclickHandler = OpenStack.rightclickHandler
+    doubleclickHandler = OpenStack.doubleclickHandler
+
+    def prepareStack(self):
+        OpenTalonStack.prepareStack(self)
+        self.waste = self.game.s.waste
+
+    canDealCards = WasteTalonStack.canDealCards
+    dealCards = WasteTalonStack.dealCards
+
+
+class TwilightZone_RowStack(AC_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not AC_RowStack.acceptsCards(self, from_stack, cards):
+            return False
+        if from_stack is self.game.s.waste:
+            return False
+        return True
+
+
+class TwilightZone_Waste(WasteStack):
+    def acceptsCards(self, from_stack, cards):
+        if not WasteStack.acceptsCards(self, from_stack, cards):
+            return False
+        return from_stack is self.game.s.talon
+
+
+class TwilightZone(Game):
+    Hint_Class = CautiousDefaultHint
+
+    def createGame(self):
+
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        self.setSize(l.XM+7*l.XS, l.YM+5*l.YS)
+
+        # create stacks
+        y = l.YM
+        for i in range(2):
+            x = l.XM+3*l.XS
+            for j in range(4):
+                s.foundations.append(TwilightZone_Foundation(x, y, self,
+                                                             suit=j))
+                x += l.XS
+            y += l.YS
+
+        x, y = l.XM+3*l.XS, l.YM+2*l.YS
+        for i in range(4):
+            stack = TwilightZone_RowStack(x, y, self, max_move=1)
+            stack.CARD_YOFFSET = 0
+            s.rows.append(stack)
+            x += l.XS
+
+        x, y = l.XM+3*l.XS, l.YM+4*l.YS
+        for i in range(4):
+            s.reserves.append(OpenStack(x, y, self))
+            x += l.XS
+
+
+        x, y = l.XM, l.YM
+        s.talon = TwilightZone_Talon(x, y, self, max_move=1, max_rounds=2)
+        l.createText(s.talon, 's')
+        x += l.XS
+        s.waste = TwilightZone_Waste(x, y, self, max_accept=1)
+        l.createText(s.waste, 's')
+
+
+        # define stack-groups
+        l.defaultStackGroups()
+        self.sg.dropstacks.append(s.talon)
+        self.sg.openstacks.append(s.waste)
+
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealRow(rows=self.s.reserves)
+        self.s.talon.fillStack()
+
+    def fillStack(self, stack):
+        if not stack.cards:
+            old_state = self.enterState(self.S_FILL)
+            if stack in self.s.rows:
+                i = list(self.s.rows).index(stack)
+                from_stack = self.s.reserves[i]
+                if from_stack.cards:
+                    from_stack.moveMove(1, stack)
+            elif stack in self.s.reserves:
+                from_stack = self.s.waste
+                if not from_stack.cards:
+                    from_stack = self.s.talon
+                if from_stack.cards:
+                    from_stack.moveMove(1, stack)
+            self.leaveState(old_state)
+
+    def _autoDeal(self, sound=1):
+        return 0
+
+    shallHighlightMatch = Game._shallHighlightMatch_AC
+
+
 
 # register the game
 registerGame(GameInfo(54, RoyalCotillion, "Royal Cotillion",
@@ -1216,4 +1334,6 @@ registerGame(GameInfo(693, Colonel, "Colonel",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(695, TheRedAndTheBlack, "The Red and the Black",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(748, TwilightZone, "Twilight Zone",
+                      GI.GT_2DECK_TYPE, 2, 1, GI.SL_BALANCED))
 

@@ -62,9 +62,9 @@ class Pyramid_Hint(DefaultHint):
 class Pyramid_StackMethods:
     def acceptsCards(self, from_stack, cards):
         if self.basicIsBlocked():
-            return 0
+            return False
         if from_stack is self or not self.cards or len(cards) != 1:
-            return 0
+            return False
         c = self.cards[-1]
         return c.face_up and cards[0].face_up and cards[0].rank + c.rank == 11
 
@@ -105,7 +105,7 @@ class Pyramid_StackMethods:
 class Pyramid_Foundation(AbstractFoundationStack):
     def acceptsCards(self, from_stack, cards):
         if not AbstractFoundationStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         # We accept any King. Pairs will get delivered by _dropPairMove.
         return cards[0].rank == KING
 
@@ -119,7 +119,7 @@ class Pyramid_Talon(Pyramid_StackMethods, FaceUpWasteTalonStack):
 
     def canDealCards(self):
         if not FaceUpWasteTalonStack.canDealCards(self):
-            return 0
+            return False
         return not self.game.isGameWon()
 
     def canDropCards(self, stacks):
@@ -428,7 +428,7 @@ class Elevens_RowStack(Giza_Reserve):
 
     def acceptsCards(self, from_stack, cards):
         #if self.basicIsBlocked():
-        #    return 0
+        #    return False
         if from_stack is self or not self.cards or len(cards) != 1:
             return False
         c = self.cards[-1]
@@ -932,9 +932,9 @@ class Apophis(Pharaohs):
 class Cheops_StackMethods(Pyramid_StackMethods):
     def acceptsCards(self, from_stack, cards):
         if self.basicIsBlocked():
-            return 0
+            return False
         if from_stack is self or not self.cards or len(cards) != 1:
-            return 0
+            return False
         c = self.cards[-1]
         return (c.face_up and cards[0].face_up and
                 abs(cards[0].rank-c.rank) in (0,1))
@@ -970,7 +970,7 @@ class Cheops(Pyramid):
 class Exit_RowStack(Elevens_RowStack):
     def acceptsCards(self, from_stack, cards):
         #if self.basicIsBlocked():
-        #    return 0
+        #    return False
         if from_stack is self or not self.cards or len(cards) != 1:
             return False
         c1 = self.cards[-1]

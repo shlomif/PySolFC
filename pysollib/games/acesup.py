@@ -52,20 +52,20 @@ from montecarlo import MonteCarlo_RowStack
 class AcesUp_Foundation(AbstractFoundationStack):
     def acceptsCards(self, from_stack, cards):
         if not AbstractFoundationStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         c = cards[0]
         for s in self.game.s.rows:
             if s is not from_stack and s.cards and s.cards[-1].suit == c.suit:
                 if s.cards[-1].rank > c.rank or s.cards[-1].rank == ACE:
                     # found a higher rank or an Ace on the row stacks
                     return c.rank != ACE
-        return 0
+        return False
 
 
 class AcesUp_RowStack(BasicRowStack):
     def acceptsCards(self, from_stack, cards):
         if not BasicRowStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         return len(self.cards) == 0
 
     clickHandler = BasicRowStack.doubleclickHandler
@@ -121,11 +121,11 @@ class AcesUp(Game):
 
     def isGameWon(self):
         if len(self.s.foundations[0].cards) != 48:
-            return 0
+            return False
         for s in self.s.rows:
             if len(s.cards) != 1 or s.cards[0].rank != ACE:
-                return 0
-        return 1
+                return False
+        return True
 
     def getAutoStacks(self, event=None):
         if event is None:
@@ -168,7 +168,7 @@ class PerpetualMotion_Talon(DealRowTalonStack):
     def canDealCards(self):
         ## FIXME: this is to avoid loops in the demo
         if self.game.demo and self.game.moves.index >= 500:
-            return 0
+            return False
         return not self.game.isGameWon()
 
     def dealCards(self, sound=0):
@@ -195,7 +195,7 @@ class PerpetualMotion_Talon(DealRowTalonStack):
 class PerpetualMotion_Foundation(AbstractFoundationStack):
     def acceptsCards(self, from_stack, cards):
         if not AbstractFoundationStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         return isRankSequence(cards, dir=0)
 
 

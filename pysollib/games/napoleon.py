@@ -67,19 +67,19 @@ class Napoleon_SingleFreeCell(ReserveStack):
     def acceptsCards(self, from_stack, cards):
 ##        if from_stack.id >= 8:
 ##            # from_stack must be a Napoleon_RowStack
-##            return 0
+##            return False
         return ReserveStack.acceptsCards(self, from_stack, cards)
 
     def canMoveCards(self, cards):
         if self.game.s.rows[8].cards and self.game.s.rows[9].cards:
-            return 0
+            return False
         return ReserveStack.canMoveCards(self, cards)
 
 
 class Napoleon_FreeCell(ReserveStack):
     def canMoveCards(self, cards):
         if self.game.s.rows[self.id-2].cards:
-            return 0
+            return False
         return ReserveStack.canMoveCards(self, cards)
 
 

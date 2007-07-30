@@ -151,7 +151,7 @@ class LarasGame_Talon(WasteTalonStack):
 
     def canDealCards(self):
         if self.game.demo and self.game.moves.index >= 400:
-            return 0
+            return False
         return (self.cards or (self.round < self.max_rounds and not self.game.isGameWon()))
 
     def updateText(self):
@@ -181,7 +181,7 @@ class LarasGame_Reserve(OpenStack):
 
     def acceptsCards(self, from_stack, cards):
         if not OpenStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         return from_stack in self.game.s.rows
 
     def getBottomImage(self):

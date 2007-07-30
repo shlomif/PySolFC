@@ -86,7 +86,7 @@ class Golf_Hint(AbstractHint):
 class Golf_Talon(WasteTalonStack):
     def canDealCards(self):
         if not WasteTalonStack.canDealCards(self):
-            return 0
+            return False
         return not self.game.isGameWon()
 
 
@@ -97,13 +97,13 @@ class Golf_Waste(WasteStack):
 
     def acceptsCards(self, from_stack, cards):
         if not WasteStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         # check cards
         r1, r2 = self.cards[-1].rank, cards[0].rank
         if self.game.getStrictness() == 1:
             # nothing on a King
             if r1 == KING:
-                return 0
+                return False
         return (r1 + 1) % self.cap.mod == r2 or (r2 + 1) % self.cap.mod == r1
 
     def getHelp(self):
@@ -174,8 +174,8 @@ class Golf(Game):
     def isGameWon(self):
         for r in self.s.rows:
             if r.cards:
-                return 0
-        return 1
+                return False
+        return True
 
     shallHighlightMatch = Game._shallHighlightMatch_RK
 
@@ -201,7 +201,7 @@ class DeadKingGolf(Golf):
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         if card1.rank == KING:
-            return 0
+            return False
         return Golf.shallHighlightMatch(self, stack1, card1, stack2, card2)
 
 
@@ -226,8 +226,8 @@ class Elevator_RowStack(Golf_RowStack):
             n = n + 1
             for j in range(i, i+n):
                 if r[j].cards:
-                    return 1
-        return 0
+                    return True
+        return False
 
 
 class Elevator(RelaxedGolf):
@@ -288,12 +288,12 @@ class Escalator(Elevator):
 class BlackHole_Foundation(AbstractFoundationStack):
     def acceptsCards(self, from_stack, cards):
         if not AbstractFoundationStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         # check the rank
         if self.cards:
             r1, r2 = self.cards[-1].rank, cards[0].rank
             return (r1 + 1) % self.cap.mod == r2 or (r2 + 1) % self.cap.mod == r1
-        return 1
+        return True
     def getHelp(self):
         return _('Foundation. Build up or down regardless of suit.')
 
@@ -380,12 +380,12 @@ class BlackHole(Game):
 class FourLeafClovers_Foundation(AbstractFoundationStack):
     def acceptsCards(self, from_stack, cards):
         if not AbstractFoundationStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         # check the rank
         if self.cards:
             r1, r2 = self.cards[-1].rank, cards[0].rank
             return (r1 + 1) % self.cap.mod == r2
-        return 1
+        return True
     def getHelp(self):
         return _('Foundation. Build up regardless of suit.')
 
@@ -1003,6 +1003,62 @@ class NapoleonLeavesMoscow(NapoleonTakesMoscow):
         self.s.talon.dealCards()
 
 
+# /***********************************************************************
+# // Flake
+# // Flake (2 decks)
+# ************************************************************************/
+
+from pileon import FourByFour_Hint
+
+class Flake(Game):
+    Hint_Class = FourByFour_Hint #CautiousDefaultHint
+
+    def createGame(self, rows=6, playcards=18):
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        self.setSize(l.XM + rows*l.XS, l.YM + 2*l.YS + playcards*l.XOFFSET)
+
+        # create stacks
+        x, y, = l.XM, l.YM+l.YS
+        for i in range(rows):
+            s.rows.append(UD_RK_RowStack(x, y, self, mod=13))
+            x += l.XS
+
+        x, y = l.XM + (rows-1)*l.XS/2, l.YM
+        stack = BlackHole_Foundation(x, y, self, max_move=0, suit=ANY_SUIT,
+                                     base_rank=ANY_RANK, dir=0, mod=13,
+                                     max_cards=52*self.gameinfo.decks)
+        s.foundations.append(stack)
+        l.createText(stack, 'ne')
+
+        x, y = l.XM, self.height-l.YS
+        s.talon = InitialDealTalonStack(x, y, self)
+
+        # define stack-groups
+        l.defaultStackGroups()
+
+    def startGame(self):
+        for i in range(7):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealRowAvail()
+
+    shallHighlightMatch = Game._shallHighlightMatch_RKW
+
+
+class Flake2Decks(Flake):
+    def createGame(self):
+        Flake.createGame(self, rows=8, playcards=22)
+    def startGame(self):
+        for i in range(12):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+
 # register the game
 registerGame(GameInfo(36, Golf, "Golf",
                       GI.GT_GOLF, 1, 0, GI.SL_BALANCED))
@@ -1044,4 +1100,10 @@ registerGame(GameInfo(733, NapoleonTakesMoscow, "Napoleon Takes Moscow",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED))
 registerGame(GameInfo(734, NapoleonLeavesMoscow, "Napoleon Leaves Moscow",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED))
+registerGame(GameInfo(749, Flake, "Flake",
+                      GI.GT_GOLF | GI.GT_OPEN | GI.GT_ORIGINAL,
+                      1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(750, Flake2Decks, "Flake (2 decks)",
+                      GI.GT_GOLF | GI.GT_OPEN | GI.GT_ORIGINAL,
+                      2, 0, GI.SL_MOSTLY_SKILL))
 

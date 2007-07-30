@@ -93,7 +93,7 @@ class Gypsy(Game):
 class Giant_Foundation(SS_FoundationStack):
     def canMoveCards(self, cards):
         if not SS_FoundationStack.canMoveCards(self, cards):
-            return 0
+            return False
         # can only move cards if the Talon is empty
         return len(self.game.s.talon.cards) == 0
 
@@ -166,21 +166,21 @@ class DieKoenigsbergerin(Gypsy):
 class DieRussische_Foundation(AbstractFoundationStack):
     def acceptsCards(self, from_stack, cards):
         if not AbstractFoundationStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         if self.cards:
             # check the rank - an ACE equals a Six
             rank = self.cards[-1].rank
             if rank == ACE:
                 rank = 5
             if (rank + self.cap.dir) % self.cap.mod != cards[0].rank:
-                return 0
-        return 1
+                return False
+        return True
 
 
 class DieRussische_RowStack(AC_RowStack):
     def acceptsCards(self, from_stack, cards):
         if not AC_RowStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         # when empty, only accept a single card
         return self.cards or len(cards) == 1
 
@@ -215,7 +215,7 @@ class DieRussische(Gypsy):
 class MissMilligan_ReserveStack(AC_RowStack):
     def acceptsCards(self, from_stack, cards):
         if not AC_RowStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         # Note that this reserve stack accepts sequences if both
         # the reserve stack and the Talon are empty.
         return len(self.cards) == 0 and len(self.game.s.talon.cards) == 0

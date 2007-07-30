@@ -49,7 +49,7 @@ from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 class Osmosis_Foundation(AbstractFoundationStack):
     def acceptsCards(self, from_stack, cards):
         if not AbstractFoundationStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         # search foundation with max number of cards
         assert len(cards) == 1
         max_s, max_cards = None, -1
@@ -59,9 +59,9 @@ class Osmosis_Foundation(AbstractFoundationStack):
         # if we have less cards, then rank must match the card in this foundation
         if len(self.cards) < max_cards:
             if cards[0].rank != max_s.cards[len(self.cards)].rank:
-                return 0
+                return False
         #
-        return  1
+        return True
 
     def getHelp(self):
         return _('Foundation. Build in suit regardless of rank.')

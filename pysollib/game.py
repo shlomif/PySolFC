@@ -1006,7 +1006,7 @@ class Game:
 
     def areYouSure(self, title=None, text=None, confirm=-1, default=0):
         if self.preview:
-            return 1
+            return True
         if confirm < 0:
             confirm = self.app.opt.confirm
         if confirm:
@@ -1017,8 +1017,8 @@ class Game:
                                  bitmap="question",
                                  strings=(_("&OK"), _("&Cancel")))
             if d.status != 0 or d.button != 0:
-                return 0
-        return 1
+                return False
+        return True
 
     def notYetImplemented(self):
         # don't used
@@ -1166,15 +1166,18 @@ class Game:
             shrink_dy = 0
         elif dest_x == 0:
             # move to top/bottom waste
-            return False
-            ascent_dx, ascent_dy = 0, 0
-##             min_size = h/10
-##             shrink_dx = 0
-##             shrink_dy = (h-min_size) / (frames-1)
-            min_size = w/10
-            shrink_dx = (w-min_size) / (frames-1)
-            shrink_dy = 0
-
+            if 0:
+                ascent_dx, ascent_dy = 0, h/10.0/frames
+                min_size = w/10
+                shrink_dx = (w-min_size) / (frames-1)
+                shrink_dy = 0
+            elif 0:
+                ascent_dx, ascent_dy = 0, 0
+                min_size = h/10
+                shrink_dx = 0
+                shrink_dy = (h-min_size) / (frames-1)
+            else:
+                return False
         else:
             # dest_x != 0 and dest_y != 0
             return False
@@ -1564,7 +1567,7 @@ class Game:
 
     # can we save outself ?
     def canSaveGame(self):
-        return 1
+        return True
     # can we load this game ?
     def canLoadGame(self, version_tuple, game_version):
         return self.GAME_VERSION == game_version
@@ -1574,7 +1577,7 @@ class Game:
 
     # can we undo/redo ?
     def canUndo(self):
-        return 1
+        return True
     def canRedo(self):
         return self.canUndo()
 
@@ -2012,7 +2015,7 @@ Congratulations, you did it !
     #
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return 0
+        return False
 
     def _shallHighlightMatch_AC(self, stack1, card1, stack2, card2):
         # by alternate color
@@ -2108,10 +2111,10 @@ Congratulations, you did it !
         # Update the balance unless this is a loaded game or
         # a manually selected game number.
         if self.gstats.loaded:
-            return 0
+            return False
         if self.random.origin == self.random.ORIGIN_SELECTED:
-            return 0
-        return 1
+            return False
+        return True
 
     def getGameBalance(self):
         return 0

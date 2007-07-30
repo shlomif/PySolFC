@@ -438,7 +438,7 @@ class EightByEight(EightTimesEight):
 class Batsford_ReserveStack(ReserveStack):
     def acceptsCards(self, from_stack, cards):
         if not ReserveStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         # must be a King
         return cards[0].rank == KING
     def getHelp(self):
@@ -602,7 +602,7 @@ class Jane_Talon(OpenTalonStack):
     doubleclickHandler = OpenStack.doubleclickHandler
 
     def canFlipCard(self):
-        return 0
+        return False
 
     def canDealCards(self):
         return len(self.cards) >= 2

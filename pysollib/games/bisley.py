@@ -353,6 +353,63 @@ class BoardPatience(Game):
         p.dump(self.base_card.id)
 
 
+# /***********************************************************************
+# // Cringle
+# ************************************************************************/
+
+class Cringle(Game):
+
+    def createGame(self):
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        self.setSize(l.XM + 8.5*l.XS, l.YM + 3*l.YS + 14*l.XOFFSET)
+
+        # create stacks
+        x, y, = l.XM, l.YM
+        for i in range(4):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
+            x += l.XS
+        x += l.XS/2
+        for i in range(4):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i,
+                                                    base_rank=KING, dir=-1))
+            x += l.XS
+
+        x, y = l.XM, l.YM+l.YS
+        for j in range(4):
+            s.rows.append(AC_RowStack(x, y, self))
+            x += l.XS
+        x += l.XS/2
+        for j in range(4):
+            s.rows.append(AC_RowStack(x, y, self, dir=1))
+            x += l.XS
+
+        x, y = self.width-l.XS, self.height-l.YS
+        s.talon = WasteTalonStack(x, y, self, max_rounds=1)
+        l.createText(s.talon, 'n')
+        x -= l.XS
+        s.waste = WasteStack(x, y, self)
+        l.createText(s.waste, 'n')
+
+        # define stack-groups
+        l.defaultStackGroups()
+
+
+    def startGame(self):
+        for i in range(4):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
+
+    shallHighlightMatch = Game._shallHighlightMatch_AC
+
+
+
+
+
 # register the game
 registerGame(GameInfo(290, Bisley, "Bisley",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
@@ -368,4 +425,6 @@ registerGame(GameInfo(686, HospitalPatience, "Hospital Patience",
                       GI.GT_1DECK_TYPE, 1, -1, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(692, BoardPatience, "Board Patience",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(747, Cringle, "Cringle",
+                      GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 0, GI.SL_BALANCED))
 

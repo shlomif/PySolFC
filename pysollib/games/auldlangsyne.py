@@ -124,7 +124,7 @@ class AuldLangSyne(TamOShanter):
 class Strategy_Foundation(SS_FoundationStack):
     def acceptsCards(self, from_stack, cards):
         if not SS_FoundationStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         # we only accept cards if there are no cards in the talon
         return len(self.game.s.talon.cards) == 0
 
@@ -132,13 +132,13 @@ class Strategy_Foundation(SS_FoundationStack):
 class Strategy_RowStack(BasicRowStack):
     def acceptsCards(self, from_stack, cards):
         if not BasicRowStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         # this stack accepts any one card from the Talon
         return from_stack is self.game.s.talon and len(cards) == 1
 
     def canMoveCards(self, cards):
         if self.game.s.talon.cards:
-            return 0
+            return False
         return BasicRowStack.canMoveCards(self, cards)
 
     def clickHandler(self, event):
@@ -233,7 +233,7 @@ class StrategyPlus(Strategy):
 class Interregnum_Foundation(RK_FoundationStack):
     def acceptsCards(self, from_stack, cards):
         if not RK_FoundationStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         if len(self.cards) == 12:
             # the final card must come from the reserve above the foundation
             return from_stack.id == self.id - 8
@@ -379,7 +379,7 @@ class Primrose(Interregnum):
 class Colorado_RowStack(OpenStack):
     def acceptsCards(self, from_stack, cards):
         if not OpenStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         # this stack accepts any one card from the Waste
         return from_stack is self.game.s.waste and len(cards) == 1
 
@@ -555,7 +555,7 @@ class DoubleAcquaintance(AuldLangSyne):
 class Formic_Foundation(AbstractFoundationStack):
     def acceptsCards(self, from_stack, cards):
         if not AbstractFoundationStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         # check the rank
         return ((self.cards[-1].rank+1) % 13 == cards[0].rank or
                 (self.cards[-1].rank-1) % 13 == cards[0].rank)
@@ -610,7 +610,8 @@ class Formic(TamOShanter):
 registerGame(GameInfo(172, TamOShanter, "Tam O'Shanter",
                       GI.GT_NUMERICA, 1, 0, GI.SL_LUCK))
 registerGame(GameInfo(95, AuldLangSyne, "Auld Lang Syne",
-                      GI.GT_NUMERICA, 1, 0, GI.SL_LUCK))
+                      GI.GT_NUMERICA, 1, 0, GI.SL_LUCK,
+                      altnames=("Patience",) ))
 registerGame(GameInfo(173, Strategy, "Strategy",
                       GI.GT_NUMERICA, 1, 0, GI.SL_SKILL))
 registerGame(GameInfo(123, Interregnum, "Interregnum",

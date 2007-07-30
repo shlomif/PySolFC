@@ -160,11 +160,11 @@ class PictureGallery_TableauStack(SS_RowStack):
 
     def acceptsCards(self, from_stack, cards):
         if not SS_RowStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         # check that the base card is correct
         if self.cards and self.cards[0].rank != self.cap.base_rank:
-            return 0
-        return 1
+            return False
+        return True
 
     def getBottomImage(self):
         return self.game.app.images.getLetter(self.cap.base_rank)
@@ -173,11 +173,11 @@ class PictureGallery_TableauStack(SS_RowStack):
 class PictureGallery_RowStack(BasicRowStack):
     def acceptsCards(self, from_stack, cards):
         if not BasicRowStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         # check
         if self.cards or self.game.s.talon.cards:
-            return 0
-        return 1
+            return False
+        return True
 
     def getBottomImage(self):
         return self.game.app.images.getTalonBottom()
@@ -263,11 +263,11 @@ class PictureGallery(Game):
 
     def isGameWon(self):
         if len(self.s.foundations[0].cards) != 8:
-            return 0
+            return False
         for stack in self.s.tableaux:
             if len(stack.cards) != 4:
-                return 0
-        return 1
+                return False
+        return True
 
     def fillStack(self, stack):
         if self.s.talon.cards:
@@ -276,7 +276,7 @@ class PictureGallery(Game):
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         if card1.rank == ACE or card2.rank == ACE:
-            return 0
+            return False
         return (card1.suit == card2.suit and
                 (card1.rank + 3 == card2.rank or card2.rank + 3 == card1.rank))
 
@@ -364,7 +364,7 @@ class GreatWheel(PictureGallery):
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         if card1.rank == ACE or card2.rank == ACE:
-            return 0
+            return False
         return (card1.suit == card2.suit and
                 (card1.rank + 2 == card2.rank or card2.rank + 2 == card1.rank))
 

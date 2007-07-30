@@ -88,30 +88,10 @@ class ThreePeaks_RowStack(OpenStack):
             i = i + step[i]
             for j in range(2):
                 if r[i + j].cards:
-                    return 1
-        return 0
+                    return True
+        return False
 
-    def clickHandler(self, event):
-        if self.basicIsBlocked():
-            # remove selection
-            self._stopDrag()
-            return 1
-        game = self.game
-        #print self.cards, game.s.waste.cards
-        card, waste = self.cards[0], game.s.waste.cards[-1]
-        mod, ranks, trumps = [], len(game.gameinfo.ranks), len(game.gameinfo.trumps)
-        mod.append([ranks, trumps][(card.suit == len(game.gameinfo.suits))])
-        mod.append([ranks, trumps][(waste.suit == len(game.gameinfo.suits))])
-        if ((card.rank + 1) % mod[0] == waste.rank
-            or (card.rank - 1) % mod[1] == waste.rank
-            or (waste.rank + 1) % mod[1] == card.rank
-            or (waste.rank - 1) % mod[0] == card.rank):
-            game.sequence = game.sequence + 1
-            self._stopDrag()
-            self.game.playSample("autodrop", priority=20)
-            self.playMoveMove(1, game.s.waste, frames=-1, sound=0)
-            game.updateText()
-        return 1
+    clickHandler = OpenStack.doubleclickHandler
 
 
 # /***********************************************************************
@@ -206,12 +186,12 @@ class ThreePeaks(Game):
     def isGameWon(self):
         for r in self.s.rows:
             if r.cards:
-                return 0
+                return False
         if self.sequence:
             self.hand_score = self.hand_score + len(self.s.talon.cards) * 10
         self.updateText()
         self.sequence = 0
-        return 1
+        return True
 
     def updateText(self):
         if self.preview > 1 or not self.texts.info or not self.SCORING:
@@ -224,7 +204,7 @@ class ThreePeaks(Game):
         if stack1 == self.s.waste or stack2 == self.s.waste:
             return ((card1.rank + 1) % 13 == card2.rank
                     or (card1.rank - 1) % 13 == card2.rank)
-        return 0
+        return False
 
     def getHandScore(self):
         score, i = self.hand_score, 1
@@ -245,7 +225,7 @@ class ThreePeaks(Game):
         return score
 
     def canUndo(self):
-        return 0
+        return False
 
     def _restoreGameHook(self, game):
         self.game_score = game.loadinfo.game_score
@@ -278,7 +258,7 @@ class ThreePeaksNoScore(ThreePeaks):
     SCORING = 0
 
     def canUndo(self):
-        return 1
+        return True
 
 
 

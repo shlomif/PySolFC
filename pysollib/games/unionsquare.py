@@ -66,11 +66,11 @@ class UnionSquare_RowStack(OpenStack):
 
     def acceptsCards(self, from_stack, cards):
         if not OpenStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         if not self.cards:
-            return 1
+            return True
         if cards[0].suit != self.cards[0].suit:
-            return 0
+            return False
         if len(self.cards) == 1:
             card_dir = cards[0].rank - self.cards[-1].rank
             return card_dir == 1 or card_dir == -1

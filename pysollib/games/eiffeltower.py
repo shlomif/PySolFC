@@ -53,7 +53,7 @@ class EiffelTower_RowStack(OpenStack):
 
     def acceptsCards(self, from_stack, cards):
         if not OpenStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         return self.cards[-1].rank + cards[0].rank == 12
 
 

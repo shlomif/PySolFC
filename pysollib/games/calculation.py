@@ -93,7 +93,7 @@ class Calculation_Foundation(BetsyRoss_Foundation):
 class Calculation_RowStack(BasicRowStack):
     def acceptsCards(self, from_stack, cards):
         if not BasicRowStack.acceptsCards(self, from_stack, cards):
-            return 0
+            return False
         # this stack accepts any one card from the Waste pile
         return from_stack is self.game.s.waste and len(cards) == 1
 

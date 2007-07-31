@@ -46,11 +46,11 @@ class GrandDuchess_Talon(RedealTalonStack):
             return len(self.cards) != 0
         return not self.game.isGameWon()
 
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         rows = self.game.s.rows
         reserves = self.game.s.reserves
         if not self.cards:
-            RedealTalonStack.redealCards(self, rows=rows+reserves, sound=0)
+            RedealTalonStack.redealCards(self, rows=rows+reserves, sound=False)
         if sound and not self.game.demo:
             self.game.startDealSample()
         num_cards = 0

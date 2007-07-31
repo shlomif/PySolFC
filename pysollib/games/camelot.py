@@ -94,7 +94,7 @@ class Camelot_RowStack(ReserveStack):
         game = self.game
         if game.is_fill and self.cards and self.cards[0].rank == 9:
             game.playSample("autodrop", priority=20)
-            self.playMoveMove(1, game.s.foundations[0], sound=0)
+            self.playMoveMove(1, game.s.foundations[0], sound=False)
             self.fillStack()
             return True
         return False

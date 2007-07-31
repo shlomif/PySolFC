@@ -48,7 +48,7 @@ from golf import Golf_Waste, Golf_Hint
 
 class ThreePeaks_TalonStack(WasteTalonStack):
 
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         game = self.game
         game.sequence = 0
         old_state = game.enterState(game.S_DEAL)

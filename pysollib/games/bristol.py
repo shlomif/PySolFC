@@ -71,7 +71,7 @@ class Bristol_Hint(CautiousDefaultHint):
 # ************************************************************************/
 
 class Bristol_Talon(TalonStack):
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         return self.dealRowAvail(rows=self.game.s.reserves, sound=sound)
 
 

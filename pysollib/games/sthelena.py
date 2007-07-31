@@ -46,7 +46,7 @@ class StHelena_Talon(TalonStack):
             return False
         return not self.game.isGameWon()
 
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         # move all cards to the Talon and redeal
         lr = len(self.game.s.rows)
         num_cards = 0
@@ -187,9 +187,9 @@ class LesQuatreCoins_Talon(RedealTalonStack):
             return len(self.cards) != 0
         return not self.game.isGameWon()
 
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         if not self.cards:
-            RedealTalonStack.redealCards(self, sound=0)
+            RedealTalonStack.redealCards(self, sound=False)
         if sound and not self.game.demo:
             self.game.startDealSample()
         rows = self.game.s.rows

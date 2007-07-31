@@ -269,7 +269,7 @@ class Mahjongg_RowStack(OpenStack):
             if self.acceptsCards(from_stack, from_stack.cards):
                 self._stopDrag()
                 # this code actually moves the tiles
-                from_stack.playMoveMove(1, self, frames=0, sound=1)
+                from_stack.playMoveMove(1, self, frames=0, sound=True)
                 return 1
         drag.stack = self
         self.game.playSample("startdrag")

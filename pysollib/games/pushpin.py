@@ -57,7 +57,7 @@ class PushPin_Foundation(AbstractFoundationStack):
         return True
 
 class PushPin_Talon(DealRowTalonStack):
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         for r in self.game.s.rows:
             if not r.cards:
                 return self.dealRowAvail(rows=[r], sound=sound)
@@ -82,7 +82,7 @@ class PushPin_RowStack(ReserveStack):
         if self._checkPair(ps, ns):
             if not self.game.demo:
                 self.game.playSample("autodrop", priority=20)
-            self.playMoveMove(1, self.game.s.foundations[0], sound=0)
+            self.playMoveMove(1, self.game.s.foundations[0], sound=False)
             return True
         return False
 

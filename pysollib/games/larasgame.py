@@ -53,7 +53,7 @@ class LarasGame_Hint(CautiousDefaultHint):
 class LarasGame_Talon(WasteTalonStack):
     # Deal a card to each of the RowStacks.  Then deal
     # cards to the talon.  Return number of cards dealt.
-    def dealRow(self, rows=None, flip=1, reverse=0, frames=-1, sound=0):
+    def dealRow(self, rows=None, flip=1, reverse=0, frames=-1, sound=False):
         game = self.game
         if rows is None:
             rows = game.s.rows
@@ -103,7 +103,7 @@ class LarasGame_Talon(WasteTalonStack):
                 move(1, self, game.s.rows[-1], frames=frames)
         return len(stacks)
 
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         game = self.game
         if sound and self.game.app.opt.animations:
             self.game.startDealSample()

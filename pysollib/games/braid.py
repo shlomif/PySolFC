@@ -517,7 +517,7 @@ class Well_TalonStack(DealRowRedealTalonStack):
     def canDealCards(self):
         return DealRowRedealTalonStack.canDealCards(self, rows=self.game.s.wastes)
 
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         num_cards = 0
         if sound and self.game.app.opt.animations:
             self.game.startDealSample()
@@ -526,7 +526,7 @@ class Well_TalonStack(DealRowRedealTalonStack):
             num_cards = self._redeal(rows=self.game.s.wastes, frames=3)
             self.game.nextRoundMove(self)
         wastes = self.game.s.wastes[:(6-self.round)]
-        num_cards += self.dealRowAvail(rows=wastes, frames=4, sound=0)
+        num_cards += self.dealRowAvail(rows=wastes, frames=4, sound=False)
         if sound:
             self.game.stopSamples()
         return num_cards

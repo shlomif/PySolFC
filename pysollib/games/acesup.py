@@ -149,7 +149,7 @@ class Fortunes(AcesUp):
 # ************************************************************************/
 
 class RussianAces_Talon(DealRowTalonStack):
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         rows = filter(lambda s: not s.cards, self.game.s.rows)
         if not rows:
             rows = self.game.s.rows
@@ -171,7 +171,7 @@ class PerpetualMotion_Talon(DealRowTalonStack):
             return False
         return not self.game.isGameWon()
 
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         if self.cards:
             return DealRowTalonStack.dealCards(self, sound=sound)
         if sound:
@@ -186,7 +186,7 @@ class PerpetualMotion_Talon(DealRowTalonStack):
                 if self.cards[-1].face_up:
                     game.flipMove(self)
         assert len(self.cards) == num_cards
-        n = DealRowTalonStack.dealCards(self, sound=0)
+        n = DealRowTalonStack.dealCards(self, sound=False)
         if sound:
             self.game.stopSamples()
         return n

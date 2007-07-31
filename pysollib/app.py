@@ -1041,7 +1041,6 @@ Please select a %s type %s.
 
     def loadOptions(self):
         self.opt.setDefaults(self.top)
-
         if os.path.exists(self.fn.opt):
             # for backwards compatibility
             opt = unpickle(self.fn.opt)
@@ -1051,11 +1050,12 @@ Please select a %s type %s.
                 os.remove(self.fn.opt)
             except:
                 pass
-
         self.opt.load(self.fn.opt_cfg)
         self.opt.setConstants()
 
     def loadStatistics(self):
+        if not os.path.exists(self.fn.stats):
+            return
         stats = unpickle(self.fn.stats)
         if stats:
             ##print "loaded:", stats.__dict__
@@ -1066,6 +1066,8 @@ Please select a %s type %s.
         self.stats.gameid_balance = 0
 
     def loadComments(self):
+        if not os.path.exists(self.fn.comments):
+            return
         comments = unpickle(self.fn.comments)
         if comments:
             ##print "loaded:", comments.__dict__

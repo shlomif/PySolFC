@@ -520,7 +520,7 @@ class FinalBattle(DoubleRail):
 
 class Octave_Talon(WasteTalonStack):
 
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         if self.round == self.max_rounds:
             # last round
             old_state = self.game.enterState(self.game.S_DEAL)
@@ -607,7 +607,7 @@ class Octave(Game):
 
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
-    def _autoDeal(self, sound=1):
+    def _autoDeal(self, sound=True):
         ncards = len(self.s.waste.cards) + sum([len(i.cards) for i in self.s.reserves])
         if ncards == 0:
             return self.dealCards(sound=sound)
@@ -878,7 +878,7 @@ class TheSpark_Talon(TalonStack):
     def canDealCards(self):
         return len(self.cards) > 0
 
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         old_state = self.game.enterState(self.game.S_DEAL)
         num_cards = 0
         if self.cards:

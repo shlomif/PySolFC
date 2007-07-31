@@ -39,14 +39,14 @@ from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 # ************************************************************************/
 
 class Carthage_Talon(DealRowTalonStack):
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         if sound:
             self.game.startDealSample()
         if len(self.cards) == len(self.game.s.rows):
-            n = self.dealRowAvail(rows=self.game.s.rows, sound=0)
+            n = self.dealRowAvail(rows=self.game.s.rows, sound=False)
         else:
-            n = self.dealRowAvail(rows=self.game.s.reserves, sound=0)
-            n += self.dealRowAvail(rows=self.game.s.reserves, sound=0)
+            n = self.dealRowAvail(rows=self.game.s.reserves, sound=False)
+            n += self.dealRowAvail(rows=self.game.s.reserves, sound=False)
         if sound:
             self.game.stopSamples()
         return n

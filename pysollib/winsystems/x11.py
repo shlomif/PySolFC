@@ -125,8 +125,7 @@ def init_root_window(root, app):
                 if fn:
                     root.option_add('*font', font)
                     app.opt.fonts['default'] = fn
-        if app.opt.tile_theme in ('clam', 'clearlooks'):
-            ##root.wm_minsize(550, 360)
+        if app.opt.tile_theme == 'clam':
             style.configure('TLabelframe', labeloutside=False,
                             labelmargins=(8, 0, 8, 0))
 

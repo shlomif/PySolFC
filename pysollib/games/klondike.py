@@ -607,7 +607,7 @@ class Jane_Talon(OpenTalonStack):
     def canDealCards(self):
         return len(self.cards) >= 2
 
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         c = 0
         if len(self.cards) > 2:
             c = self.dealRow(self.game.s.reserves, sound=sound)
@@ -675,12 +675,12 @@ class Jane(Klondike):
 
     shallHighlightMatch = Game._shallHighlightMatch_ACW
 
-    def _autoDeal(self, sound=1):
+    def _autoDeal(self, sound=True):
         return 0
 
 
 class AgnesBernauer_Talon(DealRowTalonStack):
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         return self.dealRowAvail(self.game.s.reserves, sound=sound)
 
 

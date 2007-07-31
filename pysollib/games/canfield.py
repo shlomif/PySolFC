@@ -715,7 +715,7 @@ class Demon(Canfield):
 # ************************************************************************/
 
 class CanfieldRush_Talon(WasteTalonStack):
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         self.num_deal = 4-self.round
         WasteTalonStack.dealCards(self, sound=sound)
 

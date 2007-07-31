@@ -141,7 +141,7 @@ class Odessa(RussianSolitaire):
 # ************************************************************************/
 
 class Grandfather_Talon(RedealTalonStack):
-    def redealCards(self, sound=0):
+    def redealCards(self, sound=False):
         RedealTalonStack.redealCards(self, sound=sound, shuffle=True)
 
 class Grandfather(RussianSolitaire):
@@ -677,11 +677,11 @@ class Hawaiian(Game):
 # ************************************************************************/
 
 class WaveTalon(DealRowTalonStack):
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         if sound and self.game.app.opt.animations:
             self.game.startDealSample()
-        n = self.dealRowAvail(flip=0, sound=0)
-        n += self.dealRowAvail(sound=0)
+        n = self.dealRowAvail(flip=0, sound=False)
+        n += self.dealRowAvail(sound=False)
         if sound:
             self.game.stopSamples()
         return n

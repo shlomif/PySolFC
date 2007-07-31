@@ -229,7 +229,7 @@ class PussInTheCorner_Talon(OpenTalonStack):
         else:
             return TalonStack.clickHandler(self, event)
 
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         ncards = 0
         old_state = self.game.enterState(self.game.S_DEAL)
         if not self.cards and self.round != self.max_rounds:
@@ -315,7 +315,7 @@ class PussInTheCorner(Numerica):
         self.s.talon.fillStack()
 
 
-    def _autoDeal(self, sound=1):
+    def _autoDeal(self, sound=True):
         return 0
 
 
@@ -473,6 +473,24 @@ class Gnat(Game):
 # // Chamberlain
 # ************************************************************************/
 
+class Gloaming_Hint(Numerica_Hint):
+    def computeHints(self):
+        self.step010(self.game.s.rows, self.game.s.rows)
+        self.step060(self.game.sg.reservestacks, self.game.s.rows)
+
+    # try if we should move a card from a ReserveStack to a RowStack
+    def step060(self, reservestacks, rows):
+        for r in reservestacks:
+            if not r.cards:
+                continue
+            for t in rows:
+                if t.cards:
+                    score = self._computeScore(r, t)
+                    self.addHint(score, 1, r, t)
+                else:
+                    self.addHint(90000+r.cards[-1].rank, 1, r, t)
+
+
 class Gloaming_RowStack(Numerica_RowStack):
     def acceptsCards(self, from_stack, cards):
         if not BasicRowStack.acceptsCards(self, from_stack, cards):
@@ -483,7 +501,7 @@ class Gloaming_RowStack(Numerica_RowStack):
 
 class Gloaming(Game):
 
-    Hint_Class = Numerica_Hint
+    Hint_Class = Gloaming_Hint
     Foundation_Class = SS_FoundationStack
 
     def createGame(self, reserves=3, rows=5):
@@ -544,23 +562,6 @@ class Chamberlain(Gloaming):
 # // Toad
 # ************************************************************************/
 
-class Toad_Hint(Numerica_Hint):
-    def computeHints(self):
-        self.step010(self.game.s.rows, self.game.s.rows)
-        self.step060(self.game.sg.reservestacks, self.game.s.rows)
-
-    # try if we should move a card from a ReserveStack to a RowStack
-    def step060(self, reservestacks, rows):
-        for r in reservestacks:
-            if not r.cards:
-                continue
-            for t in rows:
-                if t.cards:
-                    score = self._computeScore(r, t)
-                    self.addHint(score, 1, r, t)
-                else:
-                    self.addHint(90000+r.cards[-1].rank, 1, r, t)
-
 
 class Toad_TalonStack(DealRowTalonStack):
     def canDealCards(self):
@@ -570,12 +571,12 @@ class Toad_TalonStack(DealRowTalonStack):
             if r.cards:
                 return False
         return True
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         self.dealRow(rows=self.game.s.reserves, sound=sound)
 
 
 class Toad(Game):
-    Hint_Class = Toad_Hint
+    Hint_Class = Gloaming_Hint
 
     def createGame(self, reserves=3, rows=5):
         # create layout

@@ -425,19 +425,19 @@ class Matrimony_Talon(DealRowTalonStack):
         self.game.nextRoundMove(self)
         return num_cards
 
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         if sound:
             self.game.startDealSample()
         num_cards = 0
         if len(self.cards) == 0:
             num_cards += self._redeal()
         if self.round == 1:
-            num_cards += self.dealRowAvail(sound=0)
+            num_cards += self.dealRowAvail(sound=False)
         else:
             rows = self.game.s.rows[-self.round+1:]
-            num_cards += self.dealRowAvail(rows=rows, sound=0)
+            num_cards += self.dealRowAvail(rows=rows, sound=False)
             while self.cards:
-                num_cards += self.dealRowAvail(rows=self.game.s.rows, sound=0)
+                num_cards += self.dealRowAvail(rows=self.game.s.rows, sound=False)
         if sound:
             self.game.stopSamples()
         return num_cards

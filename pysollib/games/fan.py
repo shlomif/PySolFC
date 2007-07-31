@@ -191,7 +191,7 @@ class LaBelleLucie_Talon(TalonStack):
     def canDealCards(self):
         return self.round != self.max_rounds and not self.game.isGameWon()
 
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         n = self.redealCards1()
         if n == 0:
             return 0
@@ -410,7 +410,7 @@ class Intelligence_RowStack(UD_SS_RowStack):
         if not self.cards:
             r = self.game.s.reserves[0]
             if r.cards:
-                r.dealRow((self,self,self), sound=1)
+                r.dealRow((self,self,self), sound=True)
 
 
 class Intelligence_ReserveStack(ReserveStack, DealRow_StackMethods):
@@ -644,7 +644,7 @@ class Quads(Troika):
 # ************************************************************************/
 
 class FascinationFan_Talon(RedealTalonStack):
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         RedealTalonStack.redealCards(self, shuffle=True, sound=sound)
 
 class FascinationFan(Fan):
@@ -678,7 +678,7 @@ class FascinationFan(Fan):
 
 class Crescent_Talon(RedealTalonStack):
 
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         old_state = self.game.enterState(self.game.S_DEAL)
         ncards = 0
         intern1, intern2 = self.game.s.internals
@@ -813,7 +813,7 @@ class ForestGlade_Talon(DealRowRedealTalonStack):
             return False
         return True
 
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         rows = [r for r in self.game.s.rows if not r.cards]
         if not rows or not self.cards:
             if sound and self.game.app.opt.animations:
@@ -842,7 +842,7 @@ class ForestGlade_Talon(DealRowRedealTalonStack):
             for i in range(3):
                 if not self.cards:
                     break
-                ncards += self.dealRowAvail(rows=[r], sound=0)
+                ncards += self.dealRowAvail(rows=[r], sound=False)
         if sound:
             self.game.stopSamples()
         return ncards

@@ -54,10 +54,10 @@ class Parallels_RowStack(BasicRowStack):
 
 
 class Parallels_TalonStack(DealRowTalonStack):
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         return self.dealRow(sound=sound)
 
-    def dealRow(self, rows=None, flip=1, reverse=0, frames=-1, sound=0):
+    def dealRow(self, rows=None, flip=1, reverse=0, frames=-1, sound=False):
         if not rows is None:
             return DealRowTalonStack.dealRowAvail(self, rows=rows, flip=flip,
                        reverse=reverse, frames=frames, sound=sound)
@@ -76,7 +76,7 @@ class Parallels_TalonStack(DealRowTalonStack):
         return DealRowTalonStack.dealRowAvail(self, rows=r, flip=flip,
                    reverse=reverse, frames=frames, sound=sound)
 
-    def _fillRow(self, frames=-1, sound=0):
+    def _fillRow(self, frames=-1, sound=False):
         rows = self.game.s.rows
         column_ncards = []
         for i in range(10):

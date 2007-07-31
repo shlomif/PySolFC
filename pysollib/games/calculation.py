@@ -363,7 +363,7 @@ class SeniorWrangler_Talon(DealRowTalonStack):
             return False
         return not self.game.isGameWon()
 
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         num_cards = 0
         r = self.game.s.rows[self.round-1]
         if not r.cards:
@@ -375,9 +375,9 @@ class SeniorWrangler_Talon(DealRowTalonStack):
         while r.cards:
             self.game.flipMove(r)
             self.game.moveMove(1, r, self, frames=4, shadow=0)
-        self.dealRowAvail(rows=self.game.s.rows[self.round-1:], sound=0)
+        self.dealRowAvail(rows=self.game.s.rows[self.round-1:], sound=False)
         while self.cards:
-            num_cards += self.dealRowAvail(sound=0)
+            num_cards += self.dealRowAvail(sound=False)
         self.game.nextRoundMove(self)
         self.game.leaveState(old_state)
         if sound:

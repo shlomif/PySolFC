@@ -86,7 +86,7 @@ class Montana_Talon(TalonStack):
     def _inSequence(self, card, suit, rank):
         return card.suit == suit and card.rank == rank
 
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         # move cards to the Talon, shuffle and redeal
         game = self.game
         RLEN, RSTEP, RBASE = game.RLEN, game.RSTEP, game.RBASE

@@ -39,7 +39,7 @@ from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 # ************************************************************************/
 
 class Labyrinth_Talon(DealRowTalonStack):
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         top_stacks = []
         for i in range(8):
             for r in self.game.s.rows[i::8]:

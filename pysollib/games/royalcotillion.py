@@ -245,7 +245,7 @@ class Alhambra_Talon(DealRowTalonStack):
             return True
         return False
 
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         old_state = self.game.enterState(self.game.S_DEAL)
         num_cards = 0
         rows = self.game.s.rows
@@ -253,7 +253,7 @@ class Alhambra_Talon(DealRowTalonStack):
         if self.cards:
             if sound and not self.game.demo:
                 self.game.playSample("dealwaste")
-            num_cards = self.dealRowAvail(sound=0, frames=4)
+            num_cards = self.dealRowAvail(sound=False, frames=4)
         elif r_cards and self.round != self.max_rounds:
             if sound:
                 self.game.playSample("turnwaste", priority=20)
@@ -261,7 +261,7 @@ class Alhambra_Talon(DealRowTalonStack):
                 for i in range(len(r.cards)):
                     self.game.moveMove(1, r, self, frames=0)
                     self.game.flipMove(self)
-            num_cards = self.dealRowAvail(sound=0, frames=4)
+            num_cards = self.dealRowAvail(sound=False, frames=4)
             self.game.nextRoundMove(self)
         self.game.leaveState(old_state)
         return num_cards
@@ -579,14 +579,14 @@ class Twenty(Game):
 # ************************************************************************/
 
 class ThreePirates_Talon(DealRowTalonStack):
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         num_cards = 0
         old_state = self.game.enterState(self.game.S_DEAL)
         if self.cards:
             if sound and not self.game.demo:
                 self.game.playSample("dealwaste")
             num_cards = self.dealRowAvail(rows=self.game.s.reserves,
-                                          sound=0, frames=4)
+                                          sound=False, frames=4)
         self.game.leaveState(old_state)
         return num_cards
 
@@ -1286,7 +1286,7 @@ class TwilightZone(Game):
                     from_stack.moveMove(1, stack)
             self.leaveState(old_state)
 
-    def _autoDeal(self, sound=1):
+    def _autoDeal(self, sound=True):
         return 0
 
     shallHighlightMatch = Game._shallHighlightMatch_AC

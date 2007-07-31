@@ -40,7 +40,7 @@ from pysollib.pysoltk import MfxCanvasText
 # ************************************************************************/
 
 class Tournament_Talon(DealRowRedealTalonStack):
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         num_cards = 0
         if sound and self.game.app.opt.animations:
             self.game.startDealSample()
@@ -51,7 +51,7 @@ class Tournament_Talon(DealRowRedealTalonStack):
             for i in range(4):
                 if not self.cards:
                     break
-                num_cards += self.dealRow([r], sound=0)
+                num_cards += self.dealRow([r], sound=False)
         if sound:
             self.game.stopSamples()
         return num_cards
@@ -151,7 +151,7 @@ class LaNivernaise(Tournament):
 # ************************************************************************/
 
 class KingsdownEights_Talon(DealRowTalonStack):
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         if len(self.cards) == 0:
             self._redeal()
         self.game.startDealSample()

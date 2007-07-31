@@ -53,7 +53,7 @@ class DieBoeseSieben_Talon(DieKoenigsbergerin_Talon):
     def canDealCards(self):
         return len(self.cards) or self.round != self.max_rounds
 
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         if self.cards:
             return DieKoenigsbergerin_Talon.dealCards(self, sound=sound)
         game, num_cards = self.game, len(self.cards)

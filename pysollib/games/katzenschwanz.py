@@ -225,7 +225,7 @@ class SalicLaw_Talon(OpenTalonStack):
     def canFlipCard(self):
         return False
 
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         if len(self.cards) == 0:
             return 0
         base_rank=self.game.ROW_BASE_RANK
@@ -239,11 +239,11 @@ class SalicLaw_Talon(OpenTalonStack):
             to_stack = rows[ri-1]
         ##frames = (3, 4)[ri > 4]
         frames = 3
-        if not self.game.demo:
+        if sound and not self.game.demo:
             self.game.startDealSample()
         self.game.flipMove(self)
         self.game.moveMove(1, self, to_stack, frames=frames)
-        if not self.game.demo:
+        if sound and not self.game.demo:
             self.game.stopSamples()
         self.game.leaveState(old_state)
         return 1

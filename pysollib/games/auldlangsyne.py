@@ -342,19 +342,19 @@ class Primrose_Talon(DealRowTalonStack):
             self.game.flipMove(self)
         self.game.nextRoundMove(self)
 
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         if sound:
             self.game.startDealSample()
         if len(self.cards) == 0:
             self._redeal()
         if self.round == 1:
-            n = self.dealRowAvail(sound=0)
+            n = self.dealRowAvail(sound=False)
         else:
             rows = self.game.s.rows
-            n = self.dealRowAvail(rows=rows[self.round-2:], sound=0)
+            n = self.dealRowAvail(rows=rows[self.round-2:], sound=False)
             #n = 0
             while self.cards:
-                n += self.dealRowAvail(rows=rows, sound=0)
+                n += self.dealRowAvail(rows=rows, sound=False)
         if sound:
             self.game.stopSamples()
         return n
@@ -455,12 +455,12 @@ class Amazons_Talon(RedealTalonStack):
     def canDealCards(self):
         return not self.game.isGameWon()
 
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         if not self.cards:
             RedealTalonStack.redealCards(self, frames=4, sound=sound)
         return self.dealRowAvail(sound=sound)
 
-    def dealRowAvail(self, rows=None, flip=1, reverse=0, frames=-1, sound=0):
+    def dealRowAvail(self, rows=None, flip=1, reverse=0, frames=-1, sound=False):
         if rows is None:
             rows = []
             i = 0
@@ -518,7 +518,7 @@ class Scuffle_Talon(RedealTalonStack):
             return len(self.cards) != 0
         return not self.game.isGameWon()
 
-    def dealCards(self, sound=0, shuffle=True):
+    def dealCards(self, sound=False, shuffle=True):
         if self.cards:
             return self.dealRowAvail(sound=sound)
         self.redealCards(frames=4, shuffle=shuffle, sound=sound)
@@ -532,7 +532,7 @@ class Scuffle(AuldLangSyne):
 
 
 class Acquaintance_Talon(Scuffle_Talon):
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         Scuffle_Talon.dealCards(self, sound=sound, shuffle=False)
 
 

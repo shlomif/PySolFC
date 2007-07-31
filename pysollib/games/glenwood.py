@@ -199,7 +199,7 @@ class DoubleFives_Talon(RedealTalonStack):
             return len(self.cards) != 0
         return not self.game.isGameWon()
 
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         old_state = self.game.enterState(self.game.S_DEAL)
         num_cards = 0
         if self.round == 1:
@@ -208,10 +208,10 @@ class DoubleFives_Talon(RedealTalonStack):
             self.moveToStock()
             if not self.cards:
                 num_cards += self.redealCards(rows=[self.game.s.stock],
-                                              frames=4, sound=0)
+                                              frames=4, sound=False)
             else:
                 num_cards += self.dealRowAvail(rows=self.game.s.reserves[:5],
-                                               sound=0)
+                                               sound=False)
             if sound:
                 self.game.stopSamples()
         else:
@@ -315,7 +315,7 @@ class DoubleFives(Glenwood):
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.reserves[-2:])
 
-    def _autoDeal(self, sound=1):
+    def _autoDeal(self, sound=True):
         waste_cards = 0
         for r in self.s.reserves[:5]:
             waste_cards += len(r.cards)

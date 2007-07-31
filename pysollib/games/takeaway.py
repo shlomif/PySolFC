@@ -157,7 +157,7 @@ class Striptease(TakeAway):
             x += l.XS
         x += l.XS
         for i in range(4):
-            stack = Striptease_RowStack(x, y, self, max_move=0)
+            stack = Striptease_RowStack(x, y, self, max_move=0, mod=13)
             stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, l.YOFFSET
             s.rows.append(stack)
             x += l.XS
@@ -201,8 +201,4 @@ registerGame(GameInfo(335, FourStacks, "Four Stacks",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(654, Striptease, "Striptease",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_SKILL))
-
-
-
-
 

@@ -708,7 +708,7 @@ class Stack:
     # Playing move actions. Better not override.
     #
 
-    def playFlipMove(self, sound=1, animation=False):
+    def playFlipMove(self, sound=True, animation=False):
         if sound:
             self.game.playSample("flip", 5)
         self.flipMove(animation=animation)
@@ -716,7 +716,7 @@ class Stack:
             self.game.autoPlay()
         self.game.finishMove()
 
-    def playMoveMove(self, ncards, to_stack, frames=-1, shadow=-1, sound=1):
+    def playMoveMove(self, ncards, to_stack, frames=-1, shadow=-1, sound=True):
         if sound:
             if to_stack in self.game.s.foundations:
                 self.game.playSample("drop", priority=30)
@@ -998,7 +998,7 @@ class Stack:
     def shiftrightclickHandler(self, event):
         return 0
 
-    def releaseHandler(self, event, drag, sound=1):
+    def releaseHandler(self, event, drag, sound=True):
         # default action: move cards back to their origin position
         if drag.cards:
             if sound:
@@ -1171,7 +1171,7 @@ class Stack:
         return self.cards[index:]
 
     # begin a drag operation
-    def startDrag(self, event, sound=1):
+    def startDrag(self, event, sound=True):
         #print event.x, event.y
         assert self.game.drag.stack is None
         i = self._findCard(event)
@@ -1516,7 +1516,7 @@ class Stack:
 
 class DealRow_StackMethods:
     # Deal a card to each of the RowStacks. Return number of cards dealt.
-    def dealRow(self, rows=None, flip=1, reverse=0, frames=-1, sound=0):
+    def dealRow(self, rows=None, flip=1, reverse=0, frames=-1, sound=False):
         if rows is None: rows = self.game.s.rows
         if sound and frames and self.game.app.opt.animations:
             self.game.startDealSample()
@@ -1526,7 +1526,7 @@ class DealRow_StackMethods:
         return n
 
     # Same, but no error if not enough cards are available.
-    def dealRowAvail(self, rows=None, flip=1, reverse=0, frames=-1, sound=0):
+    def dealRowAvail(self, rows=None, flip=1, reverse=0, frames=-1, sound=False):
         if rows is None: rows = self.game.s.rows
         if sound and frames and self.game.app.opt.animations:
             self.game.startDealSample()
@@ -1637,7 +1637,7 @@ class RedealCards_StackMethods:
         assert len(self.cards) == num_cards
         return num_cards
 
-    def redealCards(self, rows=None, sound=0,
+    def redealCards(self, rows=None, sound=False,
                     shuffle=False, reverse=False, frames=0):
         if sound and self.game.app.opt.animations:
             self.game.startDealSample()
@@ -1682,7 +1682,7 @@ class TalonStack(Stack,
     # Control of dealing is transferred to the game which usually
     # transfers it back to the Talon - see dealCards() below.
     def clickHandler(self, event):
-        return self.game.dealCards(sound=1)
+        return self.game.dealCards(sound=True)
 
     def rightclickHandler(self, event):
         return self.clickHandler(event)
@@ -1693,7 +1693,7 @@ class TalonStack(Stack,
 
     # Actual dealing, usually called by Game.dealCards().
     # Either deal all cards in Game.startGame(), or subclass responsibility.
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         pass
 
     # remove all cards from all stacks
@@ -1797,7 +1797,7 @@ class TalonStack(Stack,
 
 # A single click deals one card to each of the RowStacks.
 class DealRowTalonStack(TalonStack):
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         return self.dealRowAvail(sound=sound)
 
 
@@ -1816,7 +1816,7 @@ class RedealTalonStack(TalonStack, RedealCards_StackMethods):
         if self.round == self.max_rounds:
             return False
         return not self.game.isGameWon()
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         RedealCards_StackMethods.redealCards(self, sound=sound)
 
 
@@ -1832,7 +1832,7 @@ class DealRowRedealTalonStack(TalonStack, RedealCards_StackMethods):
             return True
         return False
 
-    def dealCards(self, sound=0, rows=None, shuffle=False):
+    def dealCards(self, sound=False, rows=None, shuffle=False):
         num_cards = 0
         if rows is None:
             rows = self.game.s.rows
@@ -1845,12 +1845,12 @@ class DealRowRedealTalonStack(TalonStack, RedealCards_StackMethods):
                 # shuffle
                 self.game.shuffleStackMove(self)
             self.game.nextRoundMove(self)
-        num_cards += self.dealRowAvail(rows=rows, sound=0)
+        num_cards += self.dealRowAvail(rows=rows, sound=False)
         if sound:
             self.game.stopSamples()
         return num_cards
 
-    def shuffleAndDealCards(self, sound=0, rows=None):
+    def shuffleAndDealCards(self, sound=False, rows=None):
         DealRowRedealTalonStack.dealCards(self, sound=sound,
                                           rows=rows, shuffle=True)
 
@@ -1861,7 +1861,7 @@ class DealReserveRedealTalonStack(DealRowRedealTalonStack):
         return DealRowRedealTalonStack.canDealCards(self,
                                        rows=self.game.s.reserves)
 
-    def dealCards(self, sound=0, rows=None):
+    def dealCards(self, sound=False, rows=None):
         return DealRowRedealTalonStack.dealCards(self, sound=sound,
                                        rows=self.game.s.reserves)
 
@@ -1878,7 +1878,7 @@ class SpiderTalonStack(DealRowRedealTalonStack):
 
 class GroundForADivorceTalonStack(DealRowRedealTalonStack):
     # A single click deals a new cards to each non-empty row.
-    def dealCards(self, sound=1):
+    def dealCards(self, sound=True):
         if self.cards:
             rows = filter(lambda r: r.cards, self.game.s.rows)
 ##             if not rows:
@@ -1964,7 +1964,7 @@ class OpenStack(Stack):
             to_stack, ncards = self.canDropCards(self.game.s.foundations)
             if to_stack:
                 self.game.playSample("autodrop", priority=30)
-                self.playMoveMove(ncards, to_stack, sound=0)
+                self.playMoveMove(ncards, to_stack, sound=False)
                 return 1
         return 0
 
@@ -1974,14 +1974,14 @@ class OpenStack(Stack):
             return self.highlightMatchingCards(event)
         return 0
 
-    def dragMove(self, drag, stack, sound=1):
+    def dragMove(self, drag, stack, sound=True):
         if self.game.app.opt.mouse_type == 'point-n-click':
             self.playMoveMove(len(drag.cards), stack, sound=sound)
         else:
             #self.playMoveMove(len(drag.cards), stack, frames=0, sound=sound)
             self.playMoveMove(len(drag.cards), stack, frames=-2, sound=sound)
 
-    def releaseHandler(self, event, drag, sound=1):
+    def releaseHandler(self, event, drag, sound=True):
         cards = drag.cards
         # check if we moved the card by at least 10 pixels
         if event is not None:
@@ -2609,7 +2609,7 @@ class WasteTalonStack(TalonStack):
             return True
         return False
 
-    def dealCards(self, sound=0, shuffle=False):
+    def dealCards(self, sound=False, shuffle=False):
         old_state = self.game.enterState(self.game.S_DEAL)
         num_cards = 0
         waste = self.waste
@@ -2640,7 +2640,7 @@ class WasteTalonStack(TalonStack):
         self.game.leaveState(old_state)
         return num_cards
 
-    def shuffleAndDealCards(self, sound=0):
+    def shuffleAndDealCards(self, sound=False):
         WasteTalonStack.dealCards(self, sound=sound, shuffle=True)
 
 
@@ -2653,7 +2653,7 @@ class FaceUpWasteTalonStack(WasteTalonStack):
             self.game.singleFlipMove(self)
         self.game.fillStack(self)
 
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         WasteTalonStack.dealCards(self, sound=sound)
         if self.canFlipCard():
             self.flipMove()
@@ -2749,7 +2749,7 @@ class ArbitraryStack(OpenStack):
     def getDragCards(self, index):
         return [ self.cards[index] ]
 
-    def startDrag(self, event, sound=1):
+    def startDrag(self, event, sound=True):
         OpenStack.startDrag(self, event, sound=sound)
         if self.game.app.opt.mouse_type == 'point-n-click':
             self.cards[self.game.drag.index].tkraise()
@@ -2773,7 +2773,7 @@ class ArbitraryStack(OpenStack):
             for s in self.game.s.foundations:
                 if s is not self and s.acceptsCards(self, cards):
                     self.game.playSample("autodrop", priority=30)
-                    self.playSingleCardMove(i, s, sound=0)
+                    self.playSingleCardMove(i, s, sound=False)
                     return 1
         return 0
 
@@ -2788,10 +2788,10 @@ class ArbitraryStack(OpenStack):
         self.game.singleCardMove(self, to_stack, index, frames=frames, shadow=shadow)
         self.fillStack()
 
-    def dragMove(self, drag, to_stack, sound=1):
+    def dragMove(self, drag, to_stack, sound=True):
         self.playSingleCardMove(drag.index, to_stack, frames=0, sound=sound)
 
-    def playSingleCardMove(self, index, to_stack, frames=-1, shadow=-1, sound=1):
+    def playSingleCardMove(self, index, to_stack, frames=-1, shadow=-1, sound=True):
         if sound:
             if to_stack in self.game.s.foundations:
                 self.game.playSample("drop", priority=30)

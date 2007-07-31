@@ -48,7 +48,7 @@ from pysoltk import HTMLViewer
 # //
 # ************************************************************************/
 
-def help_about(app, timeout=0, sound=1):
+def help_about(app, timeout=0, sound=True):
     if sound:
         app.audio.playSample("about")
     t = _("A Python Solitaire Game Collection\n")
@@ -82,7 +82,7 @@ For more information about this application visit''') % (t, version),
     return d.status
 
 
-def help_credits(app, timeout=0, sound=1):
+def help_credits(app, timeout=0, sound=True):
     if sound:
         app.audio.playSample("credits")
     t = ""

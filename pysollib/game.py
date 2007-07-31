@@ -1534,7 +1534,7 @@ class Game:
         return self.s.talon and self.s.talon.canDealCards()
 
     # deal cards - return number of cards dealt
-    def dealCards(self, sound=1):
+    def dealCards(self, sound=True):
         # default: set state to deal and pass dealing to Talon
         if self.s.talon and self.canDealCards():
             self.finishMove()
@@ -1788,7 +1788,7 @@ Congratulations, you did it !
         return (self.sg.dropstacks, self.sg.dropstacks, self.sg.dropstacks)
 
     # handles autofaceup, autodrop and autodeal
-    def autoPlay(self, autofaceup=-1, autodrop=-1, autodeal=-1, sound=1):
+    def autoPlay(self, autofaceup=-1, autodrop=-1, autodeal=-1, sound=True):
         if self.demo:
             return 0
         old_busy, self.busy = self.busy, 1
@@ -1843,7 +1843,7 @@ Congratulations, you did it !
                         return 1
         return 0
 
-    def _autoDeal(self, sound=1):
+    def _autoDeal(self, sound=True):
         # default: deal a card to the waste if the waste is empty
         w = self.s.waste
         if w and len(w.cards) == 0 and self.canDealCards():
@@ -2384,7 +2384,7 @@ Congratulations, you did it !
         sleep = demo.sleep
         # first try to deal cards to the Waste (unless there was a forced move)
         if not demo.hint or not demo.hint[6]:
-            if self._autoDeal(sound=0):
+            if self._autoDeal(sound=False):
                 return 0
         # display a hint
         h = self.showHint(demo.level, sleep, taken_hint=demo.hint)

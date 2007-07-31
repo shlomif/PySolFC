@@ -121,7 +121,6 @@ redo = boolean
 dealwaste = boolean
 
 [fonts]
-default = list
 sans = list
 small = list
 fixed = list
@@ -353,9 +352,6 @@ class Options:
         self.randomize_place = False
         self.save_cardsets = True
         self.dragcursor = True
-        # defaults & constants
-        self.setDefaults()
-        self.setConstants()
 
     def setDefaults(self, top=None):
         # toolbar
@@ -366,7 +362,7 @@ class Options:
             self.fonts["sans"] = ("times new roman", 12)
             self.fonts["fixed"] = ("courier new", 10)
         elif WIN_SYSTEM == 'x11':
-            self.fonts["sans"] = ("helvetica", 12)
+            self.fonts["sans"] = ("helvetica", -12)
         # tile theme
         if WIN_SYSTEM == 'win32':
             self.tile_theme = self.default_tile_theme = 'winnative'
@@ -444,6 +440,8 @@ class Options:
 
         # fonts
         for key, val in self.fonts.items():
+            if key == 'default':
+                continue
             if val is None:
                 continue
             config['fonts'][key] = val
@@ -569,6 +567,8 @@ class Options:
 
         # fonts
         for key in self.fonts:
+            if key == 'default':
+                continue
             val = self._getOption('fonts', key, 'str')
             if val is not None:
                 try:

@@ -367,17 +367,17 @@ class Hemispheres(Game):
 
 class BigBen_Talon(DealRowTalonStack):
 
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         rows = [s for s in self.game.s.rows if len(s.cards) < 3]
         if not rows:
             if sound and not self.game.demo:
                 self.game.playSample("dealwaste")
-            return self.dealRow(rows=[self.game.s.waste], sound=0)
+            return self.dealRow(rows=[self.game.s.waste], sound=False)
         if sound and self.game.app.opt.animations:
             self.game.startDealSample()
         ncards = 0
         while rows:
-            n = self.dealRowAvail(rows=rows, sound=0)
+            n = self.dealRowAvail(rows=rows, sound=False)
             if not n:
                 break
             ncards += n
@@ -466,7 +466,7 @@ class BigBen(Game):
         for i in range(3):
             self.s.talon.dealRow(frames=4)
 
-    def _autoDeal(self, sound=1):
+    def _autoDeal(self, sound=True):
         # don't deal a card to the waste if the waste is empty
         return 0
 

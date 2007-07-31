@@ -108,7 +108,7 @@ class Terrace_RowStack(AC_RowStack):
         for s in self.game.s.foundations:
             s.cap.base_rank = to_stack.cards[0].rank
         freerows = filter(lambda s: not s.cards, self.game.s.rows)
-        self.game.s.talon.dealRow(rows=freerows, sound=1)
+        self.game.s.talon.dealRow(rows=freerows, sound=True)
         self.game.s.talon.dealCards()     # deal first card to WasteStack
 
 
@@ -349,7 +349,7 @@ class MamySusan(Terrace):
 
 class BastilleDay_BastilleStack(Stack):
     def clickHandler(self, event):
-        return self.dealCards(sound=1)
+        return self.dealCards(sound=True)
 
     def rightclickHandler(self, event):
         return self.clickHandler(event)
@@ -359,7 +359,7 @@ class BastilleDay_BastilleStack(Stack):
             return 0 < len(self.cards) < 12
         return len(self.cards) > 0
 
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         if not self.canDealCards():
             return 0
         old_state = self.game.enterState(self.game.S_DEAL)
@@ -427,7 +427,7 @@ class BastilleDay(Game):
         self.s.talon.dealRow()
         self.s.talon.dealCards()
 
-    def dealCards(self, sound=1):
+    def dealCards(self, sound=True):
         # for demo-mode
         if self.demo:
             r = self.s.reserves[0]

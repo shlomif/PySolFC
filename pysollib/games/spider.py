@@ -186,7 +186,7 @@ class BlackWidow(Spider):
 
 class GroundForADivorce_Talon(TalonStack):
     # A single click deals a new cards to each non-empty row.
-    def dealCards(self, sound=1):
+    def dealCards(self, sound=True):
         if self.cards:
             rows = filter(lambda r: r.cards, self.game.s.rows)
             if not rows:
@@ -514,12 +514,12 @@ class MrsMop(RelaxedSpider):
 # ************************************************************************/
 
 class Cicely_Talon(DealRowTalonStack):
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         n = 0
         if sound:
             self.game.startDealSample()
         for i in range(4):
-            n += self.dealRow(rows=self.game.s.rows, sound=0)
+            n += self.dealRow(rows=self.game.s.rows, sound=False)
         if sound:
             self.game.stopSamples()
         return n
@@ -1148,7 +1148,7 @@ class Tarantula(Spider):
 # ************************************************************************/
 
 class FechtersGame_Talon(TalonStack):
-    def dealCards(self, sound=1):
+    def dealCards(self, sound=True):
         if self.cards:
             rows = []
             for r in self.game.s.rows:

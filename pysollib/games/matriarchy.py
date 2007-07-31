@@ -85,7 +85,7 @@ class Matriarchy_Talon(WasteTalonStack):
         assert ncards > 0
         return len(self.cards) >= ncards or self.round < self.max_rounds
 
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         # get number of cards to deal
         ncards = self.DEAL[self.round-1]
         assert ncards > 0

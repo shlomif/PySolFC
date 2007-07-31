@@ -113,11 +113,11 @@ class Matrix_RowStack(OpenStack):
                     step = 1
                     from_stack = row[stack_map[j][i + dir]]
                     while not from_stack is self:
-                        from_stack.playMoveMove(1, to_stack, frames=0, sound=0)
+                        from_stack.playMoveMove(1, to_stack, frames=0, sound=False)
                         to_stack = from_stack
                         step = step + 1
                         from_stack = row[stack_map[j][i + dir * step]]
-                    self.playMoveMove(1, to_stack, frames=0, sound=0)
+                    self.playMoveMove(1, to_stack, frames=0, sound=False)
                     return 1
         return 1
 

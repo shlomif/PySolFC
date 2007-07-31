@@ -183,13 +183,6 @@ def pysol_init(app, args):
                 traceback.print_exc()
                 pass
 
-    # load options
-    try:
-        app.loadOptions()
-    except:
-        traceback.print_exc()
-        pass
-
     # init DataLoader
     f = os.path.join("html", "license.html")
     app.dataloader = DataLoader(args[0], f)
@@ -199,6 +192,13 @@ def pysol_init(app, args):
     app.top = top
     app.top_bg = top.cget("bg")
     app.top_cursor = top.cget("cursor")
+
+    # load options
+    try:
+        app.loadOptions()
+    except:
+        traceback.print_exc()
+        pass
 
     # init toolkit 2)
     init_root_window(top, app)

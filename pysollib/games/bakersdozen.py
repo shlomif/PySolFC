@@ -205,7 +205,7 @@ class Cruel_Talon(TalonStack):
             return False
         return not self.game.isGameWon()
 
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         lr = len(self.game.s.rows)
         # move all cards to the Talon and redeal (no shuffling)
         num_cards = 0
@@ -310,7 +310,7 @@ class Perseverance(Cruel, BakersDozen):
         cards = Cruel._shuffleHook(self, cards)
         return cards
 
-##     def dealCards(self, sound=1):
+##     def dealCards(self, sound=True):
 ##         Cruel.dealCards(self, sound)
 
 

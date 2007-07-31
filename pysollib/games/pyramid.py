@@ -74,7 +74,7 @@ class Pyramid_StackMethods:
         c = self.cards[-1]
         if c.face_up and c.rank == KING and not self.basicIsBlocked():
             self.game.playSample("autodrop", priority=20)
-            self.playMoveMove(1, self.game.s.foundations[0], sound=0)
+            self.playMoveMove(1, self.game.s.foundations[0], sound=sound)
             return 1
         return 0
 
@@ -790,7 +790,7 @@ class Pharaohs(Pyramid):
 # ************************************************************************/
 
 class Baroness_Talon(DealRowTalonStack):
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         rows = self.game.s.rows
         if len(self.cards) == 7:
             rows += self.game.s.reserves

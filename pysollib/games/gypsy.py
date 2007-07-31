@@ -112,7 +112,7 @@ class Giant(Gypsy):
 
 class Irmgard_Talon(TalonStack):
     # A single click deals 9 (or 7) new cards to the RowStacks.
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         if self.cards:
             if len(self.cards) > 7:
                 c = self.dealRow(sound=sound)
@@ -415,7 +415,7 @@ class Cone_Talon(DealRowTalonStack):
                 return False
         return True
 
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         rows = self.game.s.rows
         if len(self.cards) == 4:
             rows = self.game.s.reserves
@@ -577,7 +577,7 @@ class RightTriangle_Talon(OpenStack, DealRowTalonStack):
 
     def clickHandler(self, event):
         if self.cards and not self.cards[-1].face_up:
-            return self.game.dealCards(sound=1)
+            return self.game.dealCards(sound=True)
         return OpenStack.clickHandler(self, event)
 
     def canDealCards(self):
@@ -612,7 +612,7 @@ class RightTriangle(Hypotenuse):
 # ************************************************************************/
 
 class Trapdoor_Talon(DealRowTalonStack):
-    def dealCards(self, sound=0):
+    def dealCards(self, sound=False):
         if not self.cards:
             return 0
         if sound:
@@ -626,7 +626,7 @@ class Trapdoor_Talon(DealRowTalonStack):
             if r1.cards:
                 r1.moveMove(1, r2)
                 n += 1
-        n += self.dealRowAvail(rows=self.game.s.reserves, sound=0)
+        n += self.dealRowAvail(rows=self.game.s.reserves, sound=False)
         if sound:
             self.game.stopSamples()
         return n

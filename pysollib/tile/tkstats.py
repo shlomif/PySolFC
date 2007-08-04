@@ -357,19 +357,28 @@ class TreeFormatter(PysolStatsFormatter):
             self.tree.column(column, width=16)
             i += 1
 
-    def resizeHeader(self, player, header):
+    def resizeHeader(self, player, header, tree_width=0):
         if self._tabs is not None:
             return
         self._calc_tabs(header)
-        i = 0
-        for column in ('#0',) + self.parent_window.COLUMNS:
+        # set first column width
+        if tree_width != 0:
+            tab = tree_width - sum(self._tabs[1:])
+            tab = min(tree_width, self._tabs[0])
+        else:
+            tab = self._tabs[0]
+        self.tree.column('#0', width=tab)
+        # other column
+        i = 1
+        for column in self.parent_window.COLUMNS:
             tab = self._tabs[i]
             self.tree.column(column, width=tab)
             i += 1
 
     def writeStats(self, player, sort_by='name'):
         header = self.getStatHeader()
-        self.resizeHeader(player, header)
+        tree_width = self.tree.winfo_width()
+        self.resizeHeader(player, header, tree_width)
 
         for result in self.getStatResults(player, sort_by):
             # result == [name, won+lost, won, lost, time, moves, perc, id]

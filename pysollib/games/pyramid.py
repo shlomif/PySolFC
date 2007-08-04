@@ -74,7 +74,7 @@ class Pyramid_StackMethods:
         c = self.cards[-1]
         if c.face_up and c.rank == KING and not self.basicIsBlocked():
             self.game.playSample("autodrop", priority=20)
-            self.playMoveMove(1, self.game.s.foundations[0], sound=sound)
+            self.playMoveMove(1, self.game.s.foundations[0], sound=False)
             return 1
         return 0
 

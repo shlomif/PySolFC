@@ -929,6 +929,7 @@ class Thirty_RowStack(BasicRowStack):
 
 
 class Thirty(Game):
+    Hint_Class = Spider_Hint
 
     def createGame(self):
 

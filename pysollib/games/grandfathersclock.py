@@ -368,11 +368,16 @@ class Hemispheres(Game):
 class BigBen_Talon(DealRowTalonStack):
 
     def dealCards(self, sound=False):
+        if not self.cards:
+            return 0
         rows = [s for s in self.game.s.rows if len(s.cards) < 3]
         if not rows:
+            # deal to the waste
             if sound and not self.game.demo:
                 self.game.playSample("dealwaste")
-            return self.dealRow(rows=[self.game.s.waste], sound=False)
+            self.game.flipAndMoveMove(self, self.game.s.waste)
+            return 1
+        # deal to the rows
         if sound and self.game.app.opt.animations:
             self.game.startDealSample()
         ncards = 0

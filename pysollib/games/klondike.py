@@ -1220,7 +1220,7 @@ class LuckyPiles(LuckyThirteen):
     RowStack_Class = StackWrapper(UD_SS_RowStack, base_rank=KING)
 
     def createGame(self):
-        LuckyThirteen.createGame(self, xoffset=1, playcards=5)
+        LuckyThirteen.createGame(self, xoffset=1, playcards=7)
 
     shallHighlightMatch = Game._shallHighlightMatch_SS
 

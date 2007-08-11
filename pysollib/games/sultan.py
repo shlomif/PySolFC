@@ -687,8 +687,7 @@ class CornerSuite_RowStack(RK_RowStack):
         if not self.cards:
             return from_stack is self.game.s.waste
         return True
-    def getBottomImage(self):
-        return self.game.app.images.getReserveBottom()
+    getBottomImage = Stack._getReserveBottomImage
 
 
 class CornerSuite(Game):
@@ -791,11 +790,6 @@ class Marshal(Game):
 # // Royal Aids
 # ************************************************************************/
 
-class RoyalAids_RowStack(KingAC_RowStack):
-    def getBottomImage(self):
-        return self.game.app.images.getReserveBottom()
-
-
 class RoyalAids(Game):
 
     Hint_Class = CautiousDefaultHint
@@ -823,7 +817,8 @@ class RoyalAids(Game):
 
         x, y = l.XM+3.75*l.XS, l.YM+2*l.YS
         for i in (0,1):
-            stack = RoyalAids_RowStack(x, y, self, max_move=1)
+            stack = KingAC_RowStack(x, y, self, max_move=1)
+            stack.getBottomImage = stack._getReserveBottomImage
             s.rows.append(stack)
             stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, 0
             x += l.XS

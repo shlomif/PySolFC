@@ -166,8 +166,7 @@ class PictureGallery_TableauStack(SS_RowStack):
             return False
         return True
 
-    def getBottomImage(self):
-        return self.game.app.images.getLetter(self.cap.base_rank)
+    getBottomImage = Stack._getLetterImage
 
 
 class PictureGallery_RowStack(BasicRowStack):
@@ -179,8 +178,7 @@ class PictureGallery_RowStack(BasicRowStack):
             return False
         return True
 
-    def getBottomImage(self):
-        return self.game.app.images.getTalonBottom()
+    getBottomImage = Stack._getTalonBottomImage
 
 
 # /***********************************************************************
@@ -313,8 +311,7 @@ class GreatWheel_RowStack(BasicRowStack):
         c1, c2 = self.cards[-1], cards[0]
         return c1.suit == c2.suit and c1.rank == c2.rank+1
 
-    def getBottomImage(self):
-        return self.game.app.images.getTalonBottom()
+    getBottomImage = Stack._getTalonBottomImage
 
 
 class GreatWheel(PictureGallery):
@@ -374,10 +371,6 @@ class GreatWheel(PictureGallery):
 # ************************************************************************/
 
 class MountOlympus_Foundation(SS_FoundationStack):
-
-    #def getBottomImage(self):
-    #    return self.game.app.images.getLetter(self.cap.base_rank)
-
     def getHelp(self):
         return 'Build up in suit by twos.'
 

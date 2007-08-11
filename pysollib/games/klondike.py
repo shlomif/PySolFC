@@ -1145,8 +1145,7 @@ class GoldRush(Klondike):
 # ************************************************************************/
 
 class GoldMine_RowStack(AC_RowStack):
-    def getBottomImage(self):
-        return self.game.app.images.getReserveBottom()
+    getBottomImage = Stack._getReserveBottomImage
 
 
 class GoldMine(Klondike):

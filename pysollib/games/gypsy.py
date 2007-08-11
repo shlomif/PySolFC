@@ -220,8 +220,7 @@ class MissMilligan_ReserveStack(AC_RowStack):
         # the reserve stack and the Talon are empty.
         return len(self.cards) == 0 and len(self.game.s.talon.cards) == 0
 
-    def getBottomImage(self):
-        return self.game.app.images.getReserveBottom()
+    getBottomImage = Stack._getReserveBottomImage
 
 
 class MissMilligan(Gypsy):
@@ -532,6 +531,9 @@ class Elba(Gypsy):
 class Millie(Gypsy):
     Layout_Method = Layout.klondikeLayout
 
+    def createGame(self):
+        Gypsy.createGame(self, playcards=24)
+
     def startGame(self):
         self.startDealSample()
         self.s.talon.dealRow()
@@ -590,8 +592,7 @@ class RightTriangle_Talon(OpenStack, DealRowTalonStack):
     def canFlipCard(self):
         return False
 
-    def getBottomImage(self):
-        return self.game.app.images.getReserveBottom()
+    getBottomImage = Stack._getReserveBottomImage
 
     def getHelp(self):
         return DealRowTalonStack.getHelp(self)

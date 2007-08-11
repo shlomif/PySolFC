@@ -53,8 +53,7 @@ from braid import Braid_Foundation
 
 
 class Napoleon_RowStack(UD_SS_RowStack):
-    def getBottomImage(self):
-        return self.game.app.images.getReserveBottom()
+    getBottomImage = Stack._getReserveBottomImage
 
 
 class Napoleon_ReserveStack(BasicRowStack):

@@ -287,7 +287,7 @@ class GI:
         ("Albert Morehead and Geoffrey Mott-Smith", (25, 42, 48, 173,
                                                      303, 547, 738)),
         ("David Parlett", (64, 98, 294, 338, 654, 674,)),
-        ("Capt. Jeffrey T. Spaulding", (400,)),
+        ("Captain Jeffrey T. Spaulding", (400,)),
         ("John Stoneham", (201,)),
         ("Bryan Stout", (655,)),
         ("Bill Taylor", (349,)),

@@ -1440,34 +1440,37 @@ Please select a %s type %s.
     def initTiles(self):
         manager = self.tabletile_manager
         # find all available tiles
+        # Note: we use a unicoded filenames
         dirs = manager.getSearchDirs(self,
-                           ("tiles-*", os.path.join("tiles", 'stretch')),
+                           (u"tiles-*", os.path.join(u"tiles", u"stretch")),
                            "PYSOL_TILES")
         ##print dirs
         s = "((\\" + ")|(\\".join(IMAGE_EXTENSIONS) + "))$"
-        ext_re = re.compile(s, re.I)
+        ext_re = re.compile(s, re.I | re.U)
         found, t = [], {}
         for dir in dirs:
-            dir = dir.strip()
             try:
                 names = []
                 if dir and os.path.isdir(dir):
                     names = os.listdir(dir)
-                    names.sort()
                 for name in names:
                     if not name or not ext_re.search(name):
                         continue
+                    if not isinstance(name, unicode):
+                        try:
+                            name = unicode(name)
+                        except:
+                            continue
                     f = os.path.join(dir, name)
                     if not os.path.isfile(f):
                         continue
                     tile = Tile()
                     tile.filename = f
-                    n = ext_re.sub("", name.strip())
+                    n = ext_re.sub("", name)
                     if os.path.split(dir)[-1] == 'stretch':
                         tile.stretch = 1
                     #n = re.sub("[-_]", " ", n)
                     n = n.replace('_', ' ')
-                    ##n = unicode(n)
                     tile.name = n
                     key = n.lower()
                     if key not in t:

@@ -427,6 +427,8 @@ class Options:
         # general
         for key, t in self.GENERAL_OPTIONS:
             val = getattr(self, key)
+            if isinstance(val, str):
+                val = unicode(val, 'utf-8')
             config['general'][key] = val
 
         config['general']['recent_gameid'] = self.recent_gameid
@@ -537,7 +539,9 @@ class Options:
         # general
         for key, t in self.GENERAL_OPTIONS:
             val = self._getOption('general', key, t)
-            if val is not None:
+            if val == 'None':
+                setattr(self, key, None)
+            elif val is not None:
                 setattr(self, key, val)
 
         recent_gameid = self._getOption('general', 'recent_gameid', 'list')

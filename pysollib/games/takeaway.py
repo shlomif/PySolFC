@@ -49,6 +49,9 @@ class TakeAway_Foundation(AbstractFoundationStack):
     def closeStack(self):
         pass
 
+    def getHelp(self):
+        return _('Foundation. Build up or down regardless of suit.')
+
 
 class TakeAway(Game):
 
@@ -127,8 +130,8 @@ class Striptease_RowStack(UD_RK_RowStack):
             (r2 == JACK and r1 == KING)):
             return True
         return ((r1+1) % 13 == r2 or (r2+1) % 13 == r1)
-    def getBottomImage(self):
-        return self.game.app.images.getReserveBottom()
+
+    getBottomImage = Stack._getReserveBottomImage
 
 
 class Striptease_Reserve(OpenStack):

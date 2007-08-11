@@ -154,8 +154,7 @@ class Windmill(Game):
 
 
 class DutchSolitaire_RowStack(UD_RK_RowStack):
-    def getBottomImage(self):
-        return self.game.app.images.getReserveBottom()
+    getBottomImage = Stack._getReserveBottomImage
 
 
 class DutchSolitaire(Windmill):
@@ -330,8 +329,7 @@ class Corners(Game):
 # ************************************************************************/
 
 class Czarina_RowStack(RK_RowStack):
-    def getBottomImage(self):
-        return self.game.app.images.getReserveBottom()
+    getBottomImage = Stack._getReserveBottomImage
 
 
 class Czarina(Corners):

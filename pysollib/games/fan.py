@@ -621,8 +621,7 @@ class Troika(Fan):
 
 
 class Quads_RowStack(RK_RowStack):
-    def getBottomImage(self):
-        return self.game.app.images.getReserveBottom()
+    getBottomImage = Stack._getReserveBottomImage
 
 class Quads(Troika):
     RowStack_Class = StackWrapper(Quads_RowStack, dir=0,

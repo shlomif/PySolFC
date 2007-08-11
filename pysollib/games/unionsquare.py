@@ -78,8 +78,7 @@ class UnionSquare_RowStack(OpenStack):
             stack_dir = (self.cards[1].rank - self.cards[0].rank) % self.cap.mod
             return (self.cards[-1].rank + stack_dir) % self.cap.mod == cards[0].rank
 
-    def getBottomImage(self):
-        return self.game.app.images.getReserveBottom()
+    getBottomImage = Stack._getReserveBottomImage
 
 
 # /***********************************************************************

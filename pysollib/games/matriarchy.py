@@ -141,8 +141,7 @@ class Matriarchy_UpRowStack(SS_RowStack):
                              min_cards=1, max_cards=12)
         self.CARD_YOFFSET = -self.CARD_YOFFSET
 
-    def getBottomImage(self):
-        return self.game.app.images.getSuitBottom(self.cap.suit)
+    getBottomImage = Stack._getSuitBottomImage
 
 
 class Matriarchy_DownRowStack(SS_RowStack):
@@ -151,8 +150,7 @@ class Matriarchy_DownRowStack(SS_RowStack):
                              base_rank=QUEEN, mod=13, dir=-1,
                              min_cards=1, max_cards=12)
 
-    def getBottomImage(self):
-        return self.game.app.images.getSuitBottom(self.cap.suit)
+    getBottomImage = Stack._getSuitBottomImage
 
 
 # /***********************************************************************

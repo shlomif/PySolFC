@@ -85,8 +85,7 @@ class Numerica_RowStack(BasicRowStack):
         # this stack accepts any one card from the Waste pile
         return from_stack is self.game.s.waste and len(cards) == 1
 
-    def getBottomImage(self):
-        return self.game.app.images.getReserveBottom()
+    getBottomImage = Stack._getReserveBottomImage
 
     def getHelp(self):
         ##return _('Tableau. Accepts any one card from the Waste.')
@@ -263,13 +262,15 @@ class PussInTheCorner_Foundation(SS_FoundationStack):
 
 
 class PussInTheCorner_RowStack(BasicRowStack):
+
     def acceptsCards(self, from_stack, cards):
         if not BasicRowStack.acceptsCards(self, from_stack, cards):
             return False
         # this stack accepts any one card from the Talon
         return from_stack is self.game.s.talon and len(cards) == 1
-    def getBottomImage(self):
-        return self.game.app.images.getReserveBottom()
+
+    getBottomImage = Stack._getReserveBottomImage
+
     def getHelp(self):
         ##return _('Tableau. Accepts any one card from the Waste.')
         return _('Tableau. Build regardless of rank and suit.')
@@ -659,8 +660,7 @@ class Strategerie_RowStack(BasicRowStack):
             return True
         return False
 
-    def getBottomImage(self):
-        return self.game.app.images.getReserveBottom()
+    getBottomImage = Stack._getReserveBottomImage
 
     def getHelp(self):
         return _('Tableau. Build regardless of rank and suit.')

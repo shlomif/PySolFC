@@ -49,8 +49,7 @@ from pysollib.pysoltk import MfxCanvasText
 # ************************************************************************/
 
 class PileOn_RowStack(RK_RowStack):
-    def getBottomImage(self):
-        return self.game.app.images.getReserveBottom()
+    getBottomImage = Stack._getReserveBottomImage
 
     def closeStack(self):
         if len(self.cards) == 4 and isRankSequence(self.cards, dir=0):
@@ -255,11 +254,6 @@ class FourByFour_Foundation(AbstractFoundationStack):
         return _('Foundation. Build up regardless of suit.')
 
 
-class FourByFour_RowStack(UD_RK_RowStack):
-    def getBottomImage(self):
-        return self.game.app.images.getReserveBottom()
-
-
 class FourByFour(Game):
     Hint_Class = FourByFour_Hint
 
@@ -287,7 +281,9 @@ class FourByFour(Game):
 
         x, y = l.XM+3*l.XS, l.YM+l.YS
         for i in range(4):
-            s.rows.append(FourByFour_RowStack(x, y, self, mod=13))
+            stack = UD_RK_RowStack(x, y, self, mod=13)
+            stack.getBottomImage = stack._getReserveBottomImage
+            s.rows.append(stack)
             x += l.XS
 
         l.defaultStackGroups()

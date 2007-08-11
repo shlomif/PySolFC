@@ -442,8 +442,7 @@ class Repair(FreeCell):
 # ************************************************************************/
 
 class FourColours_RowStack(AC_RowStack):
-    def getBottomImage(self):
-        return self.game.app.images.getReserveBottom()
+    getBottomImage = Stack._getReserveBottomImage
 
 class FourColours(FreeCell):
     Solver_Class = None
@@ -484,8 +483,7 @@ class FourColours(FreeCell):
 
 
 class GermanFreeCell_Reserve(ReserveStack):
-    def getBottomImage(self):
-        return self.game.app.images.getSuitBottom(self.cap.base_suit)
+    getBottomImage = Stack._getSuitBottomImage
 
 
 class GermanFreeCell(SevenByFour):

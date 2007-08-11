@@ -1641,18 +1641,19 @@ class Game:
                 self.updateStatus(stats=self.app.stats.getStats(self.app.opt.player, self.id))
                 top_msg = ''
                 if ret:
-                    if ret[0]:          # playing time
+                    if ret[0] and ret[1]:
                         top_msg = _('''
 You have reached
-#%d in the %s of playing time''') % (ret[0], TOP_TITLE)
-                    if ret[1]:          # moves
-                        if top_msg:
-                            top_msg += _('''
-and #%d in the %s of moves''') % (ret[1], TOP_TITLE)
-                        else:
-                            top_msg = _('''
+#%d in the %s of playing time
+and #%d in the %s of moves.''') % (ret[0], TOP_TITLE, ret[1], TOP_TITLE)
+                    elif ret[0]:        # playing time
+                        top_msg = _('''
 You have reached
-#%d in the %s of moves''') % (ret[1], TOP_TITLE)
+#%d in the %s of playing time.''') % (ret[0], TOP_TITLE)
+                    elif ret[1]:        # moves
+                        top_msg = _('''
+You have reached
+#%d in the %s of moves.''') % (ret[1], TOP_TITLE)
                 return top_msg
         elif not demo:
             # only update the session log

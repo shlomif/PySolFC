@@ -86,8 +86,7 @@ class BetsyRoss_Foundation(RK_FoundationStack):
 
 
 class Calculation_Foundation(BetsyRoss_Foundation):
-    def getBottomImage(self):
-        return self.game.app.images.getLetter(self.cap.base_rank)
+    getBottomImage = Stack._getLetterImage
 
 
 class Calculation_RowStack(BasicRowStack):
@@ -97,8 +96,7 @@ class Calculation_RowStack(BasicRowStack):
         # this stack accepts any one card from the Waste pile
         return from_stack is self.game.s.waste and len(cards) == 1
 
-    def getBottomImage(self):
-        return self.game.app.images.getReserveBottom()
+    getBottomImage = Stack._getReserveBottomImage
 
     def getHelp(self):
         return _('Tableau. Build regardless of rank and suit.')

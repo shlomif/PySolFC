@@ -209,9 +209,6 @@ class Canfield(Game):
                     if not self.s.reserves[0].cards[-1].face_up:
                         self.s.reserves[0].flipMove()
                     self.s.reserves[0].moveMove(1, stack)
-        elif stack in self.s.reserves:
-            if stack.canFlipCard():
-                stack.flipMove()
 
     shallHighlightMatch = Game._shallHighlightMatch_ACW
 

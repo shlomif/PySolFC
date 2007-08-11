@@ -232,8 +232,7 @@ class Alhambra_Hint(CautiousDefaultHint):
 
 
 class Alhambra_RowStack(UD_SS_RowStack):
-    def getBottomImage(self):
-        return self.game.app.images.getReserveBottom()
+    getBottomImage = Stack._getReserveBottomImage
 
 
 class Alhambra_Talon(DealRowTalonStack):
@@ -930,11 +929,6 @@ class ShadyLanes(Game):
 # // Boxing the Compass
 # ************************************************************************/
 
-class FourWinds_RowStack(ReserveStack):
-    def getBottomImage(self):
-        return self.game.app.images.getSuitBottom(self.cap.base_suit)
-
-
 class FourWinds(Game):
 
     def createGame(self):
@@ -946,7 +940,9 @@ class FourWinds(Game):
         for i in (0, 1):
             y = l.YM+l.YS
             for j in range(4):
-                s.rows.append(FourWinds_RowStack(x, y, self, base_suit=i))
+                stack = ReserveStack(x, y, self, base_suit=i)
+                stack.getBottomImage = stack._getSuitBottomImage
+                s.rows.append(stack)
                 y += l.YS
             x += 6*l.XS
         # horizontal rows
@@ -954,7 +950,9 @@ class FourWinds(Game):
         for i in (2, 3):
             x = l.XM+2.5*l.XS
             for j in range(4):
-                s.rows.append(FourWinds_RowStack(x, y, self, base_suit=i))
+                stack = ReserveStack(x, y, self, base_suit=i)
+                stack.getBottomImage = stack._getSuitBottomImage
+                s.rows.append(stack)
                 x += l.XS
             y += 3*l.YS
         # foundations
@@ -1055,8 +1053,7 @@ class Colonel_RowStack(SS_RowStack):
                 return False
         return SS_RowStack.canMoveCards(self, cards)
 
-    def getBottomImage(self):
-        return self.game.app.images.getReserveBottom()
+    getBottomImage = Stack._getReserveBottomImage
 
 
 class Colonel(Game):
@@ -1122,10 +1119,6 @@ class TheRedAndTheBlack_Reserve(ReserveStack):
             return True
         return False
 
-class TheRedAndTheBlack_RowStack(AC_RowStack):
-    def getBottomImage(self):
-        return self.game.app.images.getReserveBottom()
-
 
 class TheRedAndTheBlack(Game):
     Hint_Class = CautiousDefaultHint
@@ -1142,7 +1135,8 @@ class TheRedAndTheBlack(Game):
             x += l.XS
         x, y = l.XM+2*l.XS, l.YM+l.YS
         for i in range(4):
-            stack = TheRedAndTheBlack_RowStack(x, y, self, max_move=1)
+            stack = AC_RowStack(x, y, self, max_move=1)
+            stack.getBottomImage = stack._getReserveBottomImage
             stack.CARD_YOFFSET = 0
             s.rows.append(stack)
             x += l.XS

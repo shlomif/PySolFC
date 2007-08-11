@@ -164,10 +164,6 @@ class KingsdownEights_Talon(DealRowTalonStack):
         self.game.stopSamples()
         return n
 
-class KingsdownEights_Row(AC_RowStack):
-    def getBottomImage(self):
-        return self.game.app.images.getReserveBottom()
-
 class KingsdownEights(Game):
 
     Hint_Class = CautiousDefaultHint
@@ -191,7 +187,8 @@ class KingsdownEights(Game):
             x += l.XS
         x, y = l.XM+2*l.XS, l.YM
         for i in range(8):
-            stack = KingsdownEights_Row(x, y, self, max_move=1)
+            stack = AC_RowStack(x, y, self, max_move=1)
+            stack.getBottomImage = stack._getReserveBottomImage
             stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, 0
             s.rows.append(stack)
             x += l.XS
@@ -220,8 +217,7 @@ class KingsdownEights(Game):
 # ************************************************************************/
 
 class Saxony_Reserve(SS_RowStack):
-    def getBottomImage(self):
-        return self.game.app.images.getReserveBottom()
+    getBottomImage = Stack._getReserveBottomImage
     def getHelp(self):
         return _('Reserve. Build down by suit.')
 

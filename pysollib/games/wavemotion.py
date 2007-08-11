@@ -33,36 +33,36 @@ from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 
+
 # /***********************************************************************
 # // Wave Motion
 # ************************************************************************/
 
-class WaveMotion_RowStack(SS_RowStack):
-    def getBottomImage(self):
-        return self.game.app.images.getReserveBottom()
-
 class WaveMotion(Game):
+    RowStack_Class = SS_RowStack
 
     #
     # game layout
     #
 
-    def createGame(self):
+    def createGame(self, rows=8, reserves=8, playcards=7):
         # create layout
         l, s = Layout(self), self.s
 
         # set window
-        w, h = l.XM+8*l.XS, l.YM+2*l.YS+19*l.YOFFSET
+        max_rows = max(rows, reserves)
+        w, h = l.XM + max_rows*l.XS, l.YM + 2*l.YS + (12+playcards)*l.YOFFSET
         self.setSize(w, h)
 
         # create stacks
-        x, y = l.XM, l.YM
-        for i in range(8):
-            stack = WaveMotion_RowStack(x, y, self, base_rank=ANY_RANK)
+        x, y = l.XM + (max_rows-rows)*l.XS/2, l.YM
+        for i in range(rows):
+            stack = self.RowStack_Class(x, y, self, base_rank=ANY_RANK)
+            stack.getBottomImage = stack._getReserveBottomImage
             s.rows.append(stack)
             x += l.XS
-        x, y = l.XM, l.YM+l.YS+12*l.YOFFSET
-        for i in range(8):
+        x, y = l.XM + (max_rows-reserves)*l.XS/2, l.YM+l.YS+12*l.YOFFSET
+        for i in range(reserves):
             stack = OpenStack(x, y, self, max_accept=0)
             s.reserves.append(stack)
             stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, l.YOFFSET

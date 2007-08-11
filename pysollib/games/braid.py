@@ -99,8 +99,7 @@ class Braid_RowStack(ReserveStack):
         if not self.cards and self.game.s.braid.cards:
             self.game.moveMove(1, self.game.s.braid, self)
 
-    def getBottomImage(self):
-        return self.game.app.images.getBraidBottom()
+    getBottomImage = Stack._getBraidBottomImage
 
 
 class Braid_ReserveStack(ReserveStack):
@@ -109,8 +108,7 @@ class Braid_ReserveStack(ReserveStack):
             return False
         return ReserveStack.acceptsCards(self, from_stack, cards)
 
-    def getBottomImage(self):
-        return self.game.app.images.getTalonBottom()
+    getBottomImage = Stack._getTalonBottomImage
 
 
 # /***********************************************************************
@@ -399,8 +397,9 @@ class JewelsStack(OpenStack):
 
 
 class Casket_RowStack(SS_RowStack):
-    def getBottomImage(self):
-        return self.game.app.images.getReserveBottom()
+
+    getBottomImage = Stack._getReserveBottomImage
+
     def acceptsCards(self, from_stack, cards):
         if not SS_RowStack.acceptsCards(self, from_stack, cards):
             return False
@@ -532,11 +531,6 @@ class Well_TalonStack(DealRowRedealTalonStack):
         return num_cards
 
 
-class Well_RowStack(SS_RowStack):
-    def getBottomImage(self):
-        return self.game.app.images.getReserveBottom()
-
-
 class Well(Game):
     Hint_Class = CautiousDefaultHint
 
@@ -570,13 +564,15 @@ class Well(Game):
                        (4,2),
                        (2,4)):
             x, y = x0+xx*l.XS, y0+yy*l.YS
-            stack = Well_RowStack(x, y, self, dir=1, max_move=1)
+            stack = SS_RowStack(x, y, self, dir=1, max_move=1)
+            stack.getBottomImage = stack._getReserveBottomImage
             stack.CARD_YOFFSET = 0
             s.rows.append(stack)
 
         # left stack
         x, y = l.XM, l.YM+l.YS+l.TEXT_HEIGHT
-        stack = Well_RowStack(x, y, self, base_rank=ACE, dir=1, max_move=1)
+        stack = SS_RowStack(x, y, self, base_rank=ACE, dir=1, max_move=1)
+        stack.getBottomImage = stack._getReserveBottomImage
         stack.CARD_YOFFSET = 0
         s.rows.append(stack)
 

@@ -415,8 +415,11 @@ class FourLeafClovers(Game):
         for i in range(6):
             x = l.XM + i*l.XS
             s.rows.append(UD_RK_RowStack(x, y, self, mod=13, base_rank=NO_RANK))
-
-        s.foundations.append(FourLeafClovers_Foundation(l.XM+6*l.XS, self.height-l.YS, self, ANY_SUIT, dir=0, mod=13, max_move=0, max_cards=52))
+        stack = FourLeafClovers_Foundation(l.XM+6*l.XS, self.height-l.YS, self,
+                                           suit=ANY_SUIT, dir=0, mod=13,
+                                           max_move=0, max_cards=52)
+        s.foundations.append(stack)
+        l.createText(stack, 'n')
         x, y = l.XM + 7*l.XS, self.height - l.YS
         s.talon = InitialDealTalonStack(x, y, self)
 

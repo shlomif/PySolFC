@@ -153,8 +153,7 @@ class Strategy_RowStack(BasicRowStack):
             return 1
         return BasicRowStack.doubleclickHandler(self, event)
 
-    def getBottomImage(self):
-        return self.game.app.images.getReserveBottom()
+    getBottomImage = Stack._getReserveBottomImage
 
     def getHelp(self):
         return _('Tableau. Build regardless of rank and suit.')
@@ -219,7 +218,7 @@ class StrategyPlus(Strategy):
             while c.rank == ACE:
                 self.moveMove(1, stack, self.s.foundations[c.suit])
                 if stack.canFlipCard():
-                    stack.flipMove()
+                    stack.flipMove(animation=True)
                 if not stack.cards:
                     break
                 c = stack.cards[-1]

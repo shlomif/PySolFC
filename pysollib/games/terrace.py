@@ -111,9 +111,7 @@ class Terrace_RowStack(AC_RowStack):
         self.game.s.talon.dealRow(rows=freerows, sound=True)
         self.game.s.talon.dealCards()     # deal first card to WasteStack
 
-
-    def getBottomImage(self):
-        return self.game.app.images.getReserveBottom()
+    getBottomImage = Stack._getReserveBottomImage
 
 
 # /***********************************************************************

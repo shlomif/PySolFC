@@ -953,8 +953,7 @@ class TheSpark(Game):
 # ************************************************************************/
 
 class DoubleGoldMine_RowStack(AC_RowStack):
-    def getBottomImage(self):
-        return self.game.app.images.getReserveBottom()
+    getBottomImage = Stack._getReserveBottomImage
 
 class DoubleGoldMine(Streets):
 

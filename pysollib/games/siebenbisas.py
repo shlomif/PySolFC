@@ -108,8 +108,7 @@ class SiebenBisAs_RowStack(BasicRowStack):
     # bottom to get events for an empty stack
     ###prepareBottom = Stack.prepareInvisibleBottom
 
-    def getBottomImage(self):
-        return self.game.app.images.getReserveBottom()
+    getBottomImage = Stack._getReserveBottomImage
 
 
 class SiebenBisAs(Game):
@@ -195,8 +194,7 @@ class Maze_RowStack(BasicRowStack):
     # bottom to get events for an empty stack
     prepareBottom = Stack.prepareInvisibleBottom
 
-    def getBottomImage(self):
-        return self.game.app.images.getReserveBottom()
+    getBottomImage = Stack._getReserveBottomImage
 
 
 class Maze(Game):

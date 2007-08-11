@@ -734,8 +734,21 @@ class Stack:
     # Appearance {view}
     #
 
-    def getBottomImage(self):
+    def _getBlankBottomImage(self):
         return self.game.app.images.getBlankBottom()
+    def _getReserveBottomImage(self):
+        return self.game.app.images.getReserveBottom()
+    def _getSuitBottomImage(self):
+        return self.game.app.images.getSuitBottom(self.cap.base_suit)
+    def _getNoneBottomImage(self):
+        return None
+    def _getTalonBottomImage(self):
+        return self.game.app.images.getTalonBottom()
+    def _getBraidBottomImage(self):
+        return self.game.app.images.getBraidBottom()
+    def _getLetterImage(self):
+        return self.game.app.images.getLetter(self.cap.base_rank)
+    getBottomImage = _getBlankBottomImage
 
     def getPositionFor(self, card):
         model, view = self, self
@@ -1774,8 +1787,7 @@ class TalonStack(Stack,
                     pass
                 self.top_bottom = self.texts.redeal
 
-    def getBottomImage(self):
-        return self.game.app.images.getTalonBottom()
+    getBottomImage = Stack._getTalonBottomImage
 
     def getRedealImages(self):
         # returns a tuple of two PhotoImages
@@ -1807,8 +1819,7 @@ class InitialDealTalonStack(TalonStack):
     def initBindings(self):
         pass
     # no bottom
-    def getBottomImage(self):
-        return None
+    getBottomImage = Stack._getNoneBottomImage
 
 
 class RedealTalonStack(TalonStack, RedealCards_StackMethods):
@@ -2081,8 +2092,7 @@ class AbstractFoundationStack(OpenStack):
     def quickPlayHandler(self, event, from_stacks=None, to_stacks=None):
         return 0
 
-    def getBottomImage(self):
-        return self.game.app.images.getSuitBottom(self.cap.base_suit)
+    getBottomImage = Stack._getSuitBottomImage
 
     def getBaseCard(self):
         return self._getBaseCard()
@@ -2695,8 +2705,7 @@ class ReserveStack(OpenStack):
         kwdefault(cap, max_accept=1, max_cards=1)
         OpenStack.__init__(self, x, y, game, **cap)
 
-    def getBottomImage(self):
-        return self.game.app.images.getReserveBottom()
+    getBottomImage = Stack._getReserveBottomImage
 
     def getHelp(self):
         if self.cap.max_accept == 0:
@@ -2725,8 +2734,7 @@ class InvisibleStack(Stack):
         pass
 
     # no bottom
-    def getBottomImage(self):
-        return None
+    getBottomImage = Stack._getNoneBottomImage
 
 
 # /***********************************************************************

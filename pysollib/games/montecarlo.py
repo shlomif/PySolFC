@@ -119,25 +119,26 @@ class MonteCarlo(Game):
     # game layout
     #
 
-    def createGame(self):
+    def createGame(self, rows=5, cols=5):
         # create layout
         l, s = Layout(self), self.s
 
         # set window
-        self.setSize(l.XM + 6.5*l.XS, l.YM + 5*l.YS)
+        self.setSize(l.XM + (cols+1.5)*l.XS, l.YM + rows*l.YS)
 
         # create stacks
-        for i in range(5):
-            for j in range(5):
+        for i in range(rows):
+            for j in range(cols):
                 x, y = l.XM + j*l.XS, l.YM + i*l.YS
                 s.rows.append(self.RowStack_Class(x, y, self,
                                                   max_accept=1, max_cards=2,
                                                   dir=0, base_rank=NO_RANK))
-        x, y = l.XM + 11*l.XS/2, l.YM
+        x, y = self.width - l.XS, l.YM
         s.foundations.append(self.Foundation_Class(x, y, self, suit=ANY_SUIT,
-                             max_move=0, max_cards=self.gameinfo.ncards, base_rank=ANY_RANK))
+                             max_move=0, base_rank=ANY_RANK,
+                             max_cards=self.gameinfo.ncards))
         l.createText(s.foundations[0], "s")
-        y = y + 2*l.YS
+        y += 2*l.YS
         s.talon = self.Talon_Class(x, y, self, max_rounds=1)
         l.createText(s.talon, "s", text_format="%D")
 
@@ -831,7 +832,7 @@ class DoubletsII(Game):
     def fillStack(self, stack):
         if stack in self.s.rows:
             if stack.cards:
-                stack.flipMove()
+                stack.flipMove(animation=True)
             else:
                 if self.s.talon.cards:
                     old_state = self.enterState(self.S_FILL)

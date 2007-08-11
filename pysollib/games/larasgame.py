@@ -184,8 +184,7 @@ class LarasGame_Reserve(OpenStack):
             return False
         return from_stack in self.game.s.rows
 
-    def getBottomImage(self):
-        return self.game.app.images.getReserveBottom()
+    getBottomImage = Stack._getReserveBottomImage
 
 
 # /***********************************************************************

@@ -522,23 +522,36 @@ class Octave_Talon(WasteTalonStack):
 
     def dealCards(self, sound=False):
         if self.round == self.max_rounds:
-            # last round
-            old_state = self.game.enterState(self.game.S_DEAL)
-            num_cards = 0
-            wastes = [self.waste]+list(self.game.s.reserves)
-            if self.cards:
-                if sound and not self.game.demo:
-                    self.game.startDealSample()
-                num_cards = min(len(self.cards), 8)
-                for i in range(num_cards):
-                    if not self.cards[-1].face_up:
-                        self.game.flipMove(self)
-                    self.game.moveMove(1, self, wastes[i], frames=4, shadow=0)
-                if sound and not self.game.demo:
-                    self.game.stopSamples()
-            self.game.leaveState(old_state)
-            return num_cards
-        return WasteTalonStack.dealCards(self, sound)
+            return 0
+        if self.cards:
+            return WasteTalonStack.dealCards(self, sound)
+        # last round
+        num_cards = WasteTalonStack.dealCards(self, sound)
+        wastes = [self.waste]+list(self.game.s.reserves)
+        old_state = self.game.enterState(self.game.S_DEAL)
+        if self.cards:
+            if sound and not self.game.demo:
+                self.game.startDealSample()
+            num_cards = min(len(self.cards), 8)
+            for i in range(num_cards):
+                if not self.cards[-1].face_up:
+                    self.game.flipMove(self)
+                self.game.moveMove(1, self, wastes[i], frames=4, shadow=0)
+            if sound and not self.game.demo:
+                self.game.stopSamples()
+        self.game.leaveState(old_state)
+        return num_cards
+
+
+class Octave_Waste(WasteStack):
+    def updateText(self):
+        if self.game.preview > 1 or self.texts.ncards is None:
+            return
+        if self.game.s.talon.round == self.game.s.talon.max_rounds:
+            t = ''
+        else:
+            t = str(len(self.cards))
+        self.texts.ncards.config(text=t)
 
 
 class Octave(Game):
@@ -558,13 +571,13 @@ class Octave(Game):
         self.setSize(w, h)
 
         # create stacks
-        x, y = l.XM, l.YM
+        x, y = l.XM+l.XS/2, l.YM
         for i in range(8):
             s.foundations.append(SS_FoundationStack(x, y, self,
                                  suit=int(i/2), max_cards=10))
             x += l.XS
 
-        x, y = l.XM, l.YM+l.YS
+        x, y = l.XM+l.XS/2, l.YM+l.YS
         for i in range(8):
             s.rows.append(AC_RowStack(x, y, self,
                                       base_rank=ANY_RANK, max_move=1))
@@ -574,10 +587,12 @@ class Octave(Game):
         s.talon = Octave_Talon(x, y, self, max_rounds=2)
         l.createText(s.talon, "n")
         x += l.XS
-        s.waste = WasteStack(x, y, self)
+        s.waste = Octave_Waste(x, y, self)
+        l.createText(s.waste, 'n')
         x += l.XS
         for i in range(7):
-            s.reserves.append(OpenStack(x, y, self, max_accept=0))
+            stack = WasteStack(x, y, self, max_accept=0)
+            s.reserves.append(stack)
             x += l.XS
 
         # define stack-groups
@@ -586,7 +601,7 @@ class Octave(Game):
     def _shuffleHook(self, cards):
         # move Aces to top of the Talon (i.e. first cards to be dealt)
         return self._shuffleHookMoveToTop(cards,
-                                          lambda c: (c.rank == 0, c.suit))
+                                          lambda c: (c.rank == ACE, c.suit))
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
@@ -612,6 +627,16 @@ class Octave(Game):
         if ncards == 0:
             return self.dealCards(sound=sound)
         return 0
+
+    def fillStack(self, stack):
+        if self.s.talon.round == self.s.talon.max_rounds:
+            # last round
+            if not stack.cards and self.s.talon.cards:
+                if stack is self.s.waste or stack in self.s.reserves:
+                    old_state = self.enterState(self.S_FILL)
+                    self.flipMove(self.s.talon)
+                    self.moveMove(1, self.s.talon, stack, frames=4, shadow=0)
+                    self.leaveState(old_state)
 
 
 # /***********************************************************************
@@ -1186,7 +1211,7 @@ registerGame(GameInfo(295, NapoleonsSquare, "Napoleon's Square",
 registerGame(GameInfo(310, Emperor, "Emperor",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(323, Octave, "Octave",
-                      GI.GT_FORTY_THIEVES, 2, 1, GI.SL_BALANCED))
+                      GI.GT_FORTY_THIEVES, 2, 1, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(332, Mumbai, "Mumbai",
                       GI.GT_FORTY_THIEVES, 3, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(411, CarreNapoleon, "Carre Napoleon",

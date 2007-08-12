@@ -253,9 +253,7 @@ class Game:
 
     def initBindings(self):
         # note: a Game is only allowed to bind self.canvas and not to self.top
-        ##bind(self.canvas, "<1>", self.clickHandler)
-        bind(self.canvas, "<2>", self.clickHandler)
-        ##bind(self.canvas, "<3>", self.clickHandler)
+        bind(self.canvas, "<2>", self.dropHandler)
         ##bind(self.canvas, "<Double-1>", self.undoHandler)
         bind(self.canvas, "<1>", self.undoHandler)
         bind(self.canvas, "<3>", self.redoHandler)
@@ -853,45 +851,43 @@ class Game:
     # UI & graphics support
     #
 
-    def _defaultHandler(self):
+    def _defaultHandler(self, event):
+        if not self.app:
+            return True                 # FIXME (GTK)
+        if not self.app.opt.mouse_undo:
+            return True
+        # stop animation
+        if not self.event_handled and self.stopWinAnimation():
+            return True
         self.interruptSleep()
-        self.deleteStackDesc()
+        if self.deleteStackDesc():
+            # delete piles descriptions
+            return True
+        if self.demo:
+            # stop demo
+            self.stopDemo()
+            return True
+        if not self.event_handled and self.drag.stack:
+            # cancel drag
+            self.drag.stack.cancelDrag(event)
+            return True
+        return False                    # continue this event
 
-    def clickHandler(self, event):
-        if self.stopWinAnimation(): return EVENT_PROPAGATE
-        self._defaultHandler()
+    def dropHandler(self, event):
+        if not self._defaultHandler(event) and not self.event_handled:
+            self.app.menubar.mDrop()
         self.event_handled = False
         return EVENT_PROPAGATE
 
     def undoHandler(self, event):
-        if not self.app: return EVENT_PROPAGATE # FIXME (GTK)
-        if not self.event_handled and self.stopWinAnimation():
-            return EVENT_PROPAGATE
-        self._defaultHandler()
-        if self.demo:
-            self.stopDemo()
-            return
-        if not self.event_handled:
-            if self.drag.stack:
-                self.drag.stack.cancelDrag(event)
-            elif self.app.opt.mouse_undo:
-                self.app.menubar.mUndo()
+        if not self._defaultHandler(event) and not self.event_handled:
+            self.app.menubar.mUndo()
         self.event_handled = False
         return EVENT_PROPAGATE
 
     def redoHandler(self, event):
-        if not self.app: return EVENT_PROPAGATE # FIXME (GTK)
-        if not self.event_handled and self.stopWinAnimation():
-            return EVENT_PROPAGATE
-        self._defaultHandler()
-        if self.demo:
-            self.stopDemo()
-            return
-        if not self.event_handled:
-            if self.drag.stack:
-                self.drag.stack.cancelDrag(event)
-            elif self.app.opt.mouse_undo:
-                self.app.menubar.mRedo()
+        if not self._defaultHandler(event) and not self.event_handled:
+            self.app.menubar.mRedo()
         self.event_handled = False
         return EVENT_PROPAGATE
 
@@ -3124,6 +3120,8 @@ in the current implementation.''') % version)
             for sd in self.stackdesc_list:
                 sd.delete()
             self.stackdesc_list = []
+            return True
+        return False
 
     ## for find_card_dialog
     def canFindCard(self):

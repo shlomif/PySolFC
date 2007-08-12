@@ -672,7 +672,8 @@ class StackDesc:
             frame = Tkinter.Frame(self.canvas, highlightthickness=1,
                                   highlightbackground='black')
             self.frame = frame
-            label = Tkinter.Message(frame, font=font, text=text, width=cardw-8,
+            label = Tkinter.Message(frame, font=font, text=text,
+                                    width=cardw-8, relief='solid',
                                     fg='#000000', bg='#ffffe0', bd=1)
             label.pack()
             self.label = label

@@ -156,7 +156,7 @@ class AbstractHint(HintInterface):
         self.hints.append(ah)
 
     # clean up and return hints sorted by score
-    def __returnHints(self):
+    def _returnHints(self):
         hints = self.hints
         self.reset()
         hints.sort()
@@ -189,14 +189,14 @@ class AbstractHint(HintInterface):
                 if r.canFlipCard():
                     self.addHint(self.SCORE_FLIP, 1, r, r)
                     if self.SCORE_FLIP >= 90000:
-                        return self.__returnHints()
+                        return self._returnHints()
         # 3) ask subclass to do something useful
         self.computeHints()
         # 4) try if we can deal cards
         if self.level >= 2:
             if game.canDealCards():
                 self.addHint(self.SCORE_DEAL, 0, game.s.talon, None)
-        return self.__returnHints()
+        return self._returnHints()
 
     # subclass
     def computeHints(self):

@@ -273,6 +273,8 @@ class Corners(Game):
         x, y = l.XM+1.5*l.XS, l.YM
         s.talon = WasteTalonStack(x, y, self, max_rounds=max_rounds)
         l.createText(s.talon, "sw")
+        if max_rounds > 1:
+            l.createRoundText(self.s.talon, 'nw')
         x += l.XS
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, "se")

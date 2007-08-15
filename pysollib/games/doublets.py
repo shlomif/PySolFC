@@ -90,6 +90,7 @@ class Doublets(Game):
         x = x + l.XS
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, "s")
+        l.createRoundText(s.talon, 'nn')
 
         # define stack-groups
         l.defaultStackGroups()

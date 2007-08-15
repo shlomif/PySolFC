@@ -49,7 +49,7 @@ class Sultan(Game):
         l, s = Layout(self), self.s
 
         # set window
-        w, h = 3*l.XM+5*l.XS, l.YM+4*l.YS+l.TEXT_HEIGHT
+        w, h = 3*l.XM+5*l.XS, l.YM+4*l.YS+l.TEXT_HEIGHT+l.TEXT_MARGIN
         self.setSize(w, h)
 
         # create stacks
@@ -82,6 +82,7 @@ class Sultan(Game):
         x, y = 2*l.XM+1.5*l.XS, l.YM+3*l.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
         l.createText(s.talon, "s")
+        l.createRoundText(self.s.talon, 'sss')
         x += l.XS
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, "s")
@@ -128,11 +129,8 @@ class Boudoir(Game):
 
         x, y = l.XM, l.YM+l.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
-        tx, ty, ta, tf = l.getTextAttr(s.talon, "nn")
-        font=self.app.getFont("canvas_default")
-        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
-                                             anchor=ta, font=font)
         l.createText(s.talon, 'ne')
+        l.createRoundText(s.talon, 'nn')
         y += l.YS
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, 'ne')
@@ -194,10 +192,7 @@ class CaptiveQueens(Game):
         x, y = l.XM, l.YM+l.YS/2
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
         l.createText(s.talon, "se")
-        tx, ty, ta, tf = l.getTextAttr(s.talon, "nn")
-        font = self.app.getFont("canvas_default")
-        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
-                                             anchor=ta, font=font)
+        l.createRoundText(s.talon, 'nn')
         y += l.YS
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, "se")
@@ -210,8 +205,8 @@ class CaptiveQueens(Game):
 
         x, y = l.XM+1.5*l.XS, l.YM+l.YS
         for i in range(4):
-            s.rows.append(AbstractFoundationStack(x, y, self, suit=i,
-                          max_cards=1, max_move=0, base_rank=QUEEN))
+            s.foundations.append(AbstractFoundationStack(x, y, self, suit=i,
+                                 max_cards=1, max_move=0, base_rank=QUEEN))
             x += l.XS
 
         x, y = l.XM+1.5*l.XS, l.YM+2*l.YS
@@ -255,6 +250,7 @@ class Contradance(Game):
         x, y = l.XM+3*l.XS, l.YM+3*l.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=2)
         l.createText(s.talon, 'n')
+        l.createRoundText(self.s.talon, 'nnn')
         x += l.XS
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, 'n')
@@ -294,6 +290,7 @@ class IdleAces(Game):
         x, y = l.XM, l.YM
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
         l.createText(s.talon, 's')
+        l.createRoundText(s.talon, 'ne', dx=l.XS)
         x += l.XS
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, 's')
@@ -452,10 +449,7 @@ class Matrimony(Game):
 
         s.talon = Matrimony_Talon(l.XM, l.YM, self, max_rounds=17)
         l.createText(s.talon, 'se')
-        tx, ty, ta, tf = l.getTextAttr(s.talon, "ne")
-        font = self.app.getFont("canvas_default")
-        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
-                                             anchor=ta, font=font)
+        l.createRoundText(s.talon, 'ne')
 
         x, y = l.XM+2*l.XS, l.YM
         for i in range(4):
@@ -503,7 +497,10 @@ class PicturePatience(Game):
     def createGame(self, max_rounds=1):
 
         l, s = Layout(self), self.s
-        self.setSize(3*l.XM+5*l.XS, l.YM+4*l.YS)
+        w, h = 3*l.XM+5*l.XS, l.YM+4*l.YS
+        if max_rounds > 1:
+            h += l.TEXT_HEIGHT+l.TEXT_MARGIN
+        self.setSize(w, h)
 
         x, y = l.XM, l.YM
         for i in range(4):
@@ -524,10 +521,15 @@ class PicturePatience(Game):
             y += l.YS
         x, y = 2*l.XM+l.XS+l.XS/2, l.YM+3*l.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=max_rounds)
-        l.createText(s.talon, 'sw')
         x += l.XS
         s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, 'se')
+        if max_rounds > 1:
+            l.createText(s.talon, 's')
+            l.createRoundText(s.talon, 'sss')
+            l.createText(s.waste, 's')
+        else:
+            l.createText(s.talon, 'sw')
+            l.createText(s.waste, 'se')
 
         l.defaultStackGroups()
 
@@ -660,7 +662,8 @@ class TwoRings(Game):
 
         x += l.XS
         s.talon = DealRowRedealTalonStack(x, y, self, max_rounds=2)
-        l.createText(s.talon, 'sw')
+        l.createText(s.talon, 'nw')
+        l.createRoundText(s.talon, 'sw')
 
         l.defaultStackGroups()
 
@@ -859,25 +862,26 @@ class CircleEight(Game):
     def createGame(self):
 
         l, s = Layout(self), self.s
-        self.setSize(l.XM+5*l.XS, l.YM+3*l.YS)
+        self.setSize(l.XM+5*l.XS, l.YM+4*l.YS)
 
         for i, j in ((1,0),
                      (2,0),
                      (3,0),
-                     (4,1),
-                     (3,2),
-                     (2,2),
-                     (1,2),
-                     (0,1),
+                     (4,1.5),
+                     (3,3),
+                     (2,3),
+                     (1,3),
+                     (0,1.5),
                      ):
             x, y = l.XM+i*l.XS, l.YM+j*l.YS
             stack = RK_RowStack(x, y, self, dir=1, mod=13, max_move=0)
             s.rows.append(stack)
             stack.CARD_YOFFSET = 0
 
-        x, y = l.XM+1.5*l.XS, l.YM+l.YS
+        x, y = l.XM+1.5*l.XS, l.YM+1.5*l.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=2)
         l.createText(s.talon, 'nw')
+        l.createRoundText(self.s.talon, 'nn')
         x += l.XS
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, 'ne')
@@ -994,10 +998,7 @@ class Toni(Game):
         x, y = l.XM, l.YM
         s.talon = DealRowRedealTalonStack(x, y, self, max_rounds=3)
         l.createText(s.talon, 'se')
-        tx, ty, ta, tf = l.getTextAttr(s.talon, 'ne')
-        font = self.app.getFont('canvas_default')
-        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
-                                             anchor=ta, font=font)
+        l.createRoundText(s.talon, 'ne')
 
         l.defaultStackGroups()
 

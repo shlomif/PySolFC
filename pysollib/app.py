@@ -1218,8 +1218,10 @@ Please select a %s type %s.
         n = re.sub(r"[^\w]", "", n)
         return n
 
-    def getRandomGameId(self):
-        return self.miscrandom.choice(self.gdb.getGamesIdSortedById())
+    def getRandomGameId(self, games=None):
+        if games is None:
+            return self.miscrandom.choice(self.gdb.getGamesIdSortedById())
+        return self.miscrandom.choice(games)
 
     def getAllUserNames(self):
         names = []

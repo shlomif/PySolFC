@@ -249,10 +249,7 @@ class LesQuatreCoins(Game):
         x, y = l.XM, l.YM+2*l.YS
         s.talon = LesQuatreCoins_Talon(x, y, self, max_rounds=3)
         l.createText(s.talon, 's')
-        tx, ty, ta, tf = l.getTextAttr(s.talon, "nn")
-        font = self.app.getFont("canvas_default")
-        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
-                                             anchor=ta, font=font)
+        l.createRoundText(s.talon, 'nn')
 
         l.defaultStackGroups()
 

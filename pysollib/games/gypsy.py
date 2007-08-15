@@ -860,10 +860,7 @@ class LockedCards(Game):
         x, y = self.width-l.XS, self.height-l.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
         l.createText(s.talon, 'n')
-        tx, ty, ta, tf = l.getTextAttr(s.talon, 'nn')
-        font = self.app.getFont('canvas_default')
-        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty-l.TEXT_MARGIN,
-                                             anchor=ta, font=font)
+        l.createRoundText(s.talon, 'nnn')
 
         x -= l.XS
         s.waste = WasteStack(x, y, self)

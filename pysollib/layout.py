@@ -235,6 +235,24 @@ class Layout:
                                            anchor=ta, font=font)
         stack.texts.ncards.text_format = text_format or tf
 
+    def createRoundText(self, stack, anchor, dx=0, dy=0):
+        if self.canvas.preview > 1:
+            return
+        assert stack.texts.rounds is None
+        delta_x, delta_y = 0, 0
+        if anchor == 'nnn':
+            anchor = 'nn'
+            delta_y = -self.TEXT_MARGIN
+        elif anchor == 'sss':
+            anchor = 'ss'
+            delta_y = self.TEXT_MARGIN
+        tx, ty, ta, tf = self.getTextAttr(stack, anchor)
+        tx += delta_x + dx
+        ty += delta_y + dy
+        font = self.game.app.getFont("canvas_default")
+        stack.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
+                                           anchor=ta, font=font)
+
     def setRegion(self, stacks, rects):
         self.regions.append((stacks, rects))
 
@@ -416,7 +434,8 @@ class Layout:
     #
 
     def gypsyLayout(self, rows, waste=0, reserves=0,
-                    texts=1, reserve_texts=False, playcards=25):
+                    texts=1, reserve_texts=False, round_text=False,
+                    playcards=25):
         S = self.__createStack
         CW, CH = self.CW, self.CH
         XM, YM = self.XM, self.YM
@@ -458,15 +477,18 @@ class Layout:
         if texts:
             x -= XS/2
         self.s.talon = s = S(x, y)
+        anchor = 's'
+        if round_text:
+            anchor = 'n'
         if texts:
             # place text right of stack
-            self._setText(s, anchor="se")
+            self._setText(s, anchor=anchor+"e")
         if waste:
             x -= XS
             self.s.waste = s = S(x, y)
             if texts:
                 # place text left of stack
-                self._setText(s, anchor="sw")
+                self._setText(s, anchor=anchor+"w")
         # create reserves
         x, y = XM, h-YS
         for i in range(reserves):
@@ -564,7 +586,7 @@ class Layout:
     #
 
     def klondikeLayout(self, rows, waste, reserves=0,
-                       texts=1, reserve_texts=False,
+                       texts=1, reserve_texts=False, round_text=False,
                        playcards=16, center=1, text_height=0):
         S = self.__createStack
         CW, CH = self.CW, self.CH
@@ -576,8 +598,11 @@ class Layout:
         foundrows = 1 + (suits > 5)
         frows = decks * suits / foundrows
         toprows = 1 + waste + frows
+        if round_text:
+            toprows += 1
         maxrows = max(rows, toprows, reserves)
 
+        w = XM + maxrows * XS
         # set size so that at least 2/3 of a card is visible with 16 cards
         h = CH * 2 / 3 + (playcards - 1) * self.YOFFSET
         h = max(h, 2 * YS)
@@ -606,7 +631,7 @@ class Layout:
                 text_height = self.TEXT_HEIGHT
 
         for row in range(foundrows):
-            x = XM + (maxrows - frows) * XS
+            x = w - frows * XS
             if center and frows + 2 * (1 + waste + 1) <= maxrows:
                 # center the foundations
                 x = XM + (maxrows - frows) * XS / 2
@@ -618,7 +643,8 @@ class Layout:
 
         # below
         x = XM
-        if rows < maxrows: x += (maxrows-rows) * XS/2
+        if rows < maxrows:
+            x += (maxrows-rows) * XS/2
         ##y += YM * (3 - foundrows)
         y += text_height
         for i in range(rows):
@@ -643,7 +669,7 @@ class Layout:
                     self._setText(s, anchor="n")
 
         # set window
-        self.size = (XM + maxrows * XS, h)
+        self.size = (w, h)
 
 
     #

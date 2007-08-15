@@ -192,9 +192,7 @@ class Matriarchy(Game):
         y = c2 + l.CH / 2
         s.talon = Matriarchy_Talon(x, y, self, max_rounds=VARIABLE_REDEALS)
         l.createText(s.talon, "n")
-        s.talon.texts.rounds = MfxCanvasText(self.canvas,
-                                             tx, y + l.YS, anchor="n",
-                                             font=self.app.getFont("canvas_default"))
+        l.createRoundText(s.talon, 'ss')
         s.talon.texts.misc = MfxCanvasText(self.canvas,
                                            tx, center, anchor="center",
                                            font=self.app.getFont("canvas_large"))

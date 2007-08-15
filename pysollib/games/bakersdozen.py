@@ -75,6 +75,7 @@ class CastlesInSpain(Game):
             s.rows.append(self.RowStack_Class(r.x, r.y, self))
         # default
         l.defaultAll()
+        return l
 
     def startGame(self, flip=(0, 0, 0)):
         for f in flip:
@@ -252,7 +253,7 @@ class Cruel(CastlesInSpain):
     Solver_Class = None
 
     def createGame(self):
-        CastlesInSpain.createGame(self, rows=12)
+        return CastlesInSpain.createGame(self, rows=12)
 
     def _shuffleHook(self, cards):
         # move Aces to bottom of the Talon (i.e. last cards to be dealt)
@@ -275,6 +276,11 @@ class RoyalFamily(Cruel):
     Talon_Class = StackWrapper(Cruel_Talon, max_rounds=2)
     RowStack_Class = UD_AC_RowStack
 
+    def createGame(self):
+        l = Cruel.createGame(self)
+        l.createRoundText(self.s.talon, 'sw')
+
+
     def _shuffleHook(self, cards):
         # move Kings to bottom of the Talon (i.e. last cards to be dealt)
         return self._shuffleHookMoveToBottom(cards, lambda c: (c.rank == KING, c.suit))
@@ -286,6 +292,10 @@ class Indefatigable(Cruel):
     Foundation_Class = StackWrapper(SS_FoundationStack, max_move=0)
     Talon_Class = StackWrapper(Cruel_Talon, max_rounds=3)
     RowStack_Class = UD_SS_RowStack
+
+    def createGame(self):
+        l = Cruel.createGame(self)
+        l.createRoundText(self.s.talon, 'sw')
 
     def _shuffleHook(self, cards):
         # move Aces to bottom of the Talon (i.e. last cards to be dealt)
@@ -300,8 +310,14 @@ class Indefatigable(Cruel):
 
 class Perseverance(Cruel, BakersDozen):
     Talon_Class = StackWrapper(Cruel_Talon, max_rounds=3)
-    RowStack_Class = StackWrapper(SS_RowStack, base_rank=NO_RANK, dir=-1, max_move=UNLIMITED_MOVES, max_accept=UNLIMITED_ACCEPTS)
+    RowStack_Class = StackWrapper(SS_RowStack, base_rank=NO_RANK, dir=-1,
+                                  max_move=UNLIMITED_MOVES,
+                                  max_accept=UNLIMITED_ACCEPTS)
     Solver_Class = None
+
+    def createGame(self):
+        l = Cruel.createGame(self)
+        l.createRoundText(self.s.talon, 'sw')
 
     def _shuffleHook(self, cards):
         # move Kings to bottom of each stack (???)

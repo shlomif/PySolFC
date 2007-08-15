@@ -148,6 +148,8 @@ class Numerica(Game):
         # define stack-groups
         l.defaultStackGroups()
 
+        return l
+
 
     #
     # game overrides
@@ -280,26 +282,27 @@ class PussInTheCorner(Numerica):
 
     def createGame(self, rows=4):
         l, s = Layout(self), self.s
-        self.setSize(l.XM+4*l.XS, l.YM+4*l.YS)
+        self.setSize(l.XM+5*l.XS, l.YM+4*l.YS)
         for x, y in ((l.XM,        l.YM       ),
-                     (l.XM+3*l.XS, l.YM       ),
+                     (l.XM+4*l.XS, l.YM       ),
                      (l.XM,        l.YM+3*l.YS),
-                     (l.XM+3*l.XS, l.YM+3*l.YS),
+                     (l.XM+4*l.XS, l.YM+3*l.YS),
                      ):
             stack = PussInTheCorner_RowStack(x, y, self,
                                              max_accept=1, max_move=1)
             stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, 0
             s.rows.append(stack)
-        for x, y in ((l.XM+  l.XS, l.YM+  l.YS),
-                     (l.XM+  l.XS, l.YM+2*l.YS),
-                     (l.XM+2*l.XS, l.YM+  l.YS),
-                     (l.XM+2*l.XS, l.YM+2*l.YS),
+        for x, y in ((l.XM+1.5*l.XS, l.YM+  l.YS),
+                     (l.XM+1.5*l.XS, l.YM+2*l.YS),
+                     (l.XM+2.5*l.XS, l.YM+  l.YS),
+                     (l.XM+2.5*l.XS, l.YM+2*l.YS),
                      ):
             s.foundations.append(PussInTheCorner_Foundation(x, y, self,
                                                             max_move=0))
-        x, y = l.XM+3*l.XS/2, l.YM
+        x, y = l.XM + 2*l.XS, l.YM
         s.waste = s.talon = PussInTheCorner_Talon(x, y, self, max_rounds=2)
         l.createText(s.talon, 'se')
+        l.createRoundText(self.s.talon, 'ne')
 
         # define stack-groups
         l.defaultStackGroups()
@@ -744,7 +747,7 @@ class AnnoDomini(Numerica):
     RowStack_Class = StackWrapper(AC_RowStack, mod=13)
 
     def createGame(self):
-        Numerica.createGame(self, max_rounds=3, waste_max_cards=UNLIMITED_CARDS)
+        l = Numerica.createGame(self, max_rounds=3, waste_max_cards=UNLIMITED_CARDS)
         year = str(time.localtime()[0])
         i = 0
         for s in self.s.foundations:
@@ -756,6 +759,7 @@ class AnnoDomini(Numerica):
                 d = JACK
             s.cap.base_rank = d
             i += 1
+        l.createRoundText(self.s.talon, 'nn')
 
     def startGame(self):
         self.startDealSample()

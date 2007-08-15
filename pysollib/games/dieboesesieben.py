@@ -103,7 +103,8 @@ class DieBoeseSieben(Game):
             x, y, = l.XM + (2*i+8-rows)*l.XS/2, l.YM + l.YS
             s.rows.append(AC_RowStack(x, y, self))
         s.talon = DieBoeseSieben_Talon(l.XM, self.height-l.YS, self, max_rounds=2)
-        l.createText(s.talon, "se")
+        l.createText(s.talon, 'ne')
+        l.createRoundText(s.talon, 'se')
 
         # define stack-groups
         l.defaultStackGroups()

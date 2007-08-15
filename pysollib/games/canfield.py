@@ -106,7 +106,8 @@ class Canfield(Game):
     # game layout
     #
 
-    def createGame(self, rows=4, max_rounds=-1, num_deal=3, text=True):
+    def createGame(self, rows=4, max_rounds=-1, num_deal=3,
+                   text=True, round_text=False):
         # create layout
         l, s = Layout(self), self.s
         decks = self.gameinfo.decks
@@ -120,6 +121,8 @@ class Canfield(Game):
                 yoffset = 5
         # (piles up to 20 cards are playable in default window size)
         h = max(3*l.YS, l.YS+self.INITIAL_RESERVE_CARDS*yoffset)
+        if round_text:
+            h += l.TEXT_HEIGHT
         self.setSize(l.XM + (2+max(rows, 4*decks))*l.XS + l.XM, l.YM + l.YS + l.TEXT_HEIGHT + h)
 
         # extra settings
@@ -127,16 +130,21 @@ class Canfield(Game):
 
         # create stacks
         x, y = l.XM, l.YM
-        s.talon = self.Talon_Class(x, y, self, max_rounds=max_rounds, num_deal=num_deal)
+        s.talon = self.Talon_Class(x, y, self,
+                                   max_rounds=max_rounds, num_deal=num_deal)
         l.createText(s.talon, "s")
-        x = x + l.XS
+        if round_text:
+            l.createRoundText(s.talon, 'sss')
+        x += l.XS
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, "s")
-        x = x + l.XM
+        x += l.XM
+        y = l.YM
         for i in range(4):
             for j in range(decks):
-                x = x + l.XS
-                s.foundations.append(self.Foundation_Class(x, y, self, i, mod=13, max_move=0))
+                x += l.XS
+                s.foundations.append(self.Foundation_Class(x, y, self, i,
+                                                           mod=13, max_move=0))
         if text:
             if rows > 4 * decks:
                 tx, ty, ta, tf = l.getTextAttr(None, "se")
@@ -148,12 +156,16 @@ class Canfield(Game):
             self.texts.info = MfxCanvasText(self.canvas, tx, ty,
                                             anchor=ta, font=font)
         x, y = l.XM, l.YM + l.YS + l.TEXT_HEIGHT
+        if round_text:
+            y += l.TEXT_HEIGHT
         s.reserves.append(self.ReserveStack_Class(x, y, self))
         s.reserves[0].CARD_YOFFSET = yoffset
-        x = l.XM + 2 * l.XS + l.XM
+        x, y = l.XM + 2 * l.XS + l.XM, l.YM + l.YS
+        if text:
+            y += l.TEXT_HEIGHT
         for i in range(rows):
             s.rows.append(self.RowStack_Class(x, y, self))
-            x = x + l.XS
+            x += l.XS
 
         # define stack-groups
         l.defaultStackGroups()
@@ -240,7 +252,7 @@ class SuperiorCanfield(Canfield):
 
 class Rainfall(Canfield):
     def createGame(self):
-        Canfield.createGame(self, max_rounds=3, num_deal=1)
+        Canfield.createGame(self, max_rounds=3, num_deal=1, round_text=True)
 
 
 # /***********************************************************************
@@ -263,7 +275,7 @@ class Storehouse(Canfield):
     RowStack_Class = StackWrapper(Canfield_SS_RowStack, mod=13)
 
     def createGame(self):
-        Canfield.createGame(self, max_rounds=3, num_deal=1)
+        Canfield.createGame(self, max_rounds=3, num_deal=1, round_text=True)
 
     def _shuffleHook(self, cards):
         # move Twos to top of the Talon (i.e. first cards to be dealt)
@@ -315,7 +327,8 @@ class AmericanToad(Canfield):
     INITIAL_RESERVE_FACEUP = 1
 
     def createGame(self):
-        Canfield.createGame(self, rows=8, max_rounds=2, num_deal=1)
+        Canfield.createGame(self, rows=8, max_rounds=2, num_deal=1,
+                            round_text=True)
 
     shallHighlightMatch = Game._shallHighlightMatch_SSW
 
@@ -330,7 +343,8 @@ class VariegatedCanfield(Canfield):
     INITIAL_RESERVE_FACEUP = 1
 
     def createGame(self):
-        Canfield.createGame(self, rows=5, max_rounds=3)
+        Canfield.createGame(self, rows=5, max_rounds=3,
+                            text=False, round_text=True)
 
     def _shuffleHook(self, cards):
         # move Aces to top of the Talon (i.e. first cards to be dealt)
@@ -375,7 +389,8 @@ class EagleWing(Canfield):
         x, y = l.XM, l.YM
         s.talon = WasteTalonStack(x, y, self, max_rounds=3, num_deal=1)
         l.createText(s.talon, "s")
-        x = x + l.XS
+        l.createRoundText(s.talon, 'ne', dx=l.XS)
+        x += l.XS
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, "s")
         for i in range(4):
@@ -521,14 +536,19 @@ class Doorway(LittleGate):
 
     def createGame(self):
         l = LittleGate.createGame(self, rows=5)
-        tx, ty, ta, tf = l.getTextAttr(self.s.reserves[0], "s")
+        king_stack, queen_stack = self.s.reserves
+        tx, ty, ta, tf = l.getTextAttr(king_stack, "s")
         font = self.app.getFont("canvas_default")
-        MfxCanvasText(self.canvas, tx, ty, anchor=ta, font=font, text=_('King'))
-        tx, ty, ta, tf = l.getTextAttr(self.s.reserves[1], "s")
+        king_stack.texts.misc = MfxCanvasText(self.canvas, tx, ty,
+                                              anchor=ta, font=font,
+                                              text=_('King'))
+        tx, ty, ta, tf = l.getTextAttr(queen_stack, "s")
         font = self.app.getFont("canvas_default")
-        MfxCanvasText(self.canvas, tx, ty, anchor=ta, font=font, text=_('Queen'))
-        self.s.reserves[0].cap.base_rank = KING
-        self.s.reserves[1].cap.base_rank = QUEEN
+        queen_stack.texts.misc = MfxCanvasText(self.canvas, tx, ty,
+                                               anchor=ta, font=font,
+                                               text=_('Queen'))
+        king_stack.cap.base_rank = KING
+        queen_stack.cap.base_rank = QUEEN
 
     def startGame(self):
         self.startDealSample()
@@ -554,7 +574,8 @@ class Minerva(Canfield):
     INITIAL_RESERVE_CARDS = 11
 
     def createGame(self):
-        Canfield.createGame(self, rows=7, max_rounds=2, num_deal=1, text=False)
+        Canfield.createGame(self, rows=7, max_rounds=2, num_deal=1,
+                            text=False, round_text=True)
 
     def startGame(self):
         self.s.talon.dealRow(frames=0, flip=0)
@@ -608,7 +629,7 @@ class Acme(Canfield):
     Hint_Class = Canfield_Hint
 
     def createGame(self):
-        Canfield.createGame(self, max_rounds=2, num_deal=1)
+        Canfield.createGame(self, max_rounds=2, num_deal=1, round_text=True)
 
     def _shuffleHook(self, cards):
         # move Aces to top of the Talon (i.e. first cards to be dealt)
@@ -644,43 +665,34 @@ class Duke(Game):
     ReserveStack_Class = OpenStack
     RowStack_Class = AC_RowStack
 
-    def createGame(self, max_rounds=3, texts=False):
+    def createGame(self):
         l, s = Layout(self), self.s
 
-        w, h = l.XM+6*l.XS+4*l.XOFFSET, l.YM+2*l.YS+12*l.YOFFSET
-        if texts:
-            h += l.TEXT_HEIGHT
+        w, h = l.XM + 6*l.XS + 4*l.XOFFSET, l.YM + l.TEXT_HEIGHT + 2*l.YS + 12*l.YOFFSET
         self.setSize(w, h)
 
-        self.base_card = None
-
         x, y = l.XM, l.YM
-        s.talon = WasteTalonStack(x, y, self, max_rounds=max_rounds)
+        s.talon = WasteTalonStack(x, y, self, max_rounds=3)
         l.createText(s.talon, 's')
+        l.createRoundText(s.talon, 'ne', dx=l.XS)
         x += l.XS
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, 's')
         x += l.XS+4*l.XOFFSET
+        y = l.YM
         for i in range(4):
             s.foundations.append(self.Foundation_Class(x, y, self, suit=i))
             x += l.XS
-        x0, y0, w = l.XM, l.YM+l.YS+l.TEXT_HEIGHT, l.XS+2*l.XOFFSET
+        x0, y0, w = l.XM, l.YM+l.YS+2*l.TEXT_HEIGHT, l.XS+2*l.XOFFSET
         for i, j in ((0,0), (0,1), (1,0), (1,1)):
             x, y = x0+i*w, y0+j*l.YS
             stack = self.ReserveStack_Class(x, y, self, max_accept=0)
             stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
             s.reserves.append(stack)
         x, y = l.XM+2*l.XS+4*l.XOFFSET, l.YM+l.YS
-        if texts:
-            y += l.TEXT_HEIGHT
         for i in range(4):
             s.rows.append(self.RowStack_Class(x, y, self))
             x += l.XS
-        if texts:
-            tx, ty, ta, tf = l.getTextAttr(s.foundations[-1], "ss")
-            font = self.app.getFont("canvas_default")
-            self.texts.info = MfxCanvasText(self.canvas, tx, ty,
-                                            anchor=ta, font=font)
 
         l.defaultStackGroups()
 
@@ -720,7 +732,7 @@ class CanfieldRush(Canfield):
     Talon_Class = CanfieldRush_Talon
     #RowStack_Class = StackWrapper(AC_RowStack, mod=13)
     def createGame(self):
-        Canfield.createGame(self, max_rounds=3)
+        Canfield.createGame(self, max_rounds=3, round_text=True)
 
 
 # /***********************************************************************

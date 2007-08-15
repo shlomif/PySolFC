@@ -153,8 +153,7 @@ class MfxCanvas(Tkinter.Canvas):
         stretch = self._stretch_bg_image
         if Image:
             if stretch:
-                w = max(self.winfo_width(), int(self.cget('width')))
-                h = max(self.winfo_height(), int(self.cget('height')))
+                w, h = self._geometry()
                 im = self._bg_img.resize((w, h))
                 image = ImageTk.PhotoImage(im)
             else:
@@ -179,16 +178,26 @@ class MfxCanvas(Tkinter.Canvas):
             self.__tiles.append(id)
         else:
             iw, ih = image.width(), image.height()
-            #sw = max(self.winfo_screenwidth(), 1024)
-            #sh = max(self.winfo_screenheight(), 768)
-            sw = max(self.winfo_width(), int(self.cget('width')))
-            sh = max(self.winfo_height(), int(self.cget('height')))
+            sw, sh = self._geometry()
             for x in range(-self.xmargin, sw, iw):
                 for y in range(-self.ymargin, sh, ih):
                     id = self._x_create("image", x, y, image=image, anchor="nw")
                     self.tag_lower(id)          # also see tag_lower above
                     self.__tiles.append(id)
         return 1
+
+    def _geometry(self):
+        w = max(self.winfo_width(), int(self.cget('width')))
+        h = max(self.winfo_height(), int(self.cget('height')))
+        scrollregion = self.cget('scrollregion')
+        if not scrollregion:
+            return w, h
+        x, y, sw, sh = [int(i) for i in scrollregion.split()]
+        sw -= x
+        sh -= y
+        w = max(w, sw)
+        h = max(h, sh)
+        return w, h
 
 
     #

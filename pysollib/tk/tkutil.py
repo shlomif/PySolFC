@@ -197,7 +197,7 @@ __mfx_bindings = {}
 __mfx_wm_protocols = ("WM_DELETE_WINDOW", "WM_TAKE_FOCUS", "WM_SAVE_YOURSELF")
 
 def bind(widget, sequence, func, add=None):
-    assert callable(func)
+    ##assert callable(func) # XXX: removed in py3k
     if sequence in __mfx_wm_protocols:
         funcid = widget._register(func)
         widget.tk.call("wm", "protocol", widget._w, sequence, funcid)

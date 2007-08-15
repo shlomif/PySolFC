@@ -108,11 +108,7 @@ class Fan(Game):
         x, y = self.width - l.XS, self.height - l.YS
         s.talon = self.Talon_Class(x, y, self)
         if texts:
-            tx, ty, ta, tf = l.getTextAttr(s.talon, "nn")
-            font = self.app.getFont("canvas_default")
-            s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
-                                                 anchor=ta, font=font)
-
+            l.createRoundText(s.talon, 'nn')
 
         # define stack-groups
         l.defaultStackGroups()
@@ -238,6 +234,8 @@ class LaBelleLucie_Talon(TalonStack):
 class LaBelleLucie(Fan):
     Talon_Class = StackWrapper(LaBelleLucie_Talon, max_rounds=3)
     RowStack_Class = StackWrapper(SS_RowStack, base_rank=NO_RANK)
+    def createGame(self):
+        return Fan.createGame(self, texts=True)
 
 
 # /***********************************************************************
@@ -356,7 +354,7 @@ class Trefoil(LaBelleLucie):
     Foundation_Classes = [StackWrapper(SS_FoundationStack, min_cards=1)]
 
     def createGame(self):
-        return Fan.createGame(self, rows=(5,5,5,1))
+        return Fan.createGame(self, rows=(5,5,5,1), texts=True)
 
     def _shuffleHook(self, cards):
         # move Aces to bottom of the Talon (i.e. last cards to be dealt)
@@ -434,6 +432,7 @@ class Intelligence(Fan):
         x, y = s.talon.x - l.XS, s.talon.y
         s.reserves.append(Intelligence_ReserveStack(x, y, self, max_move=0, max_accept=0, max_cards=UNLIMITED_CARDS))
         l.createText(s.reserves[0], "sw")
+        l.createRoundText(s.talon, 'nn')
         # redefine the stack-groups
         l.defaultStackGroups()
 
@@ -713,10 +712,7 @@ class Crescent(Game):
         self.setSize(w, h)
         x, y = l.XM, l.YM
         s.talon = Crescent_Talon(x, y, self, max_rounds=4)
-        tx, ty, ta, tf = l.getTextAttr(s.talon, 'ne')
-        font=self.app.getFont("canvas_default")
-        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
-                                             anchor=ta, font=font)
+        l.createRoundText(s.talon, 'ne')
         x, y = w-8*l.XS, l.YM
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
@@ -765,7 +761,7 @@ class School(Fan):
     RowStack_Class = StackWrapper(RK_RowStack, dir=0, base_rank=NO_RANK)
 
     def createGame(self):
-        Fan.createGame(self, rows=(4, 4, 4, 4), playcards=10)
+        Fan.createGame(self, rows=(4, 4, 4, 4), playcards=10, texts=True)
 
     def startGame(self):
         for i in range(2):
@@ -895,10 +891,7 @@ class ForestGlade(Game):
         x, y = l.XM, self.height - l.YS
         s.talon = ForestGlade_Talon(x, y, self, max_rounds=3)
         l.createText(s.talon, 'ne')
-        tx, ty, ta, tf = l.getTextAttr(s.talon, 'se')
-        font=self.app.getFont('canvas_default')
-        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
-                                             anchor=ta, font=font)
+        l.createRoundText(s.talon, 'se')
 
         l.defaultStackGroups()
 

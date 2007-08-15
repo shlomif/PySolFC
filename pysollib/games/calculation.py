@@ -235,7 +235,7 @@ class BetsyRoss(Calculation):
             stack = BetsyRoss_Foundation(x, y, self, base_rank=i,
                                          max_cards=1, max_move=0, max_accept=0)
             s.foundations.append(stack)
-            x = x + l.XS
+            x += l.XS
         x = x0
         y = l.YM + l.YS
         for i in range(4):
@@ -247,13 +247,15 @@ class BetsyRoss(Calculation):
             stack.texts.misc = MfxCanvasText(self.canvas, tx, ty,
                                              anchor=ta, font=font)
             s.foundations.append(stack)
-            x = x + l.XS
-        self.texts.help = MfxCanvasText(self.canvas, x + l.XM, y + l.CH / 2, text=help,
-                                        anchor="w", font=self.app.getFont("canvas_fixed"))
+            x += l.XS
+        self.texts.help = MfxCanvasText(self.canvas, x + l.XM, y + l.CH / 2,
+                                        text=help, anchor="w",
+                                        font=self.app.getFont("canvas_fixed"))
         x = l.XM
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
         l.createText(s.talon, "n")
-        y = y + l.YS
+        l.createRoundText(s.talon, 'nnn')
+        y += l.YS
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, "s")
 
@@ -411,10 +413,7 @@ class SeniorWrangler(Game):
             x += l.XS
         x, y = l.XM, l.YM+l.YS
         s.talon = SeniorWrangler_Talon(x, y, self, max_rounds=9)
-        tx, ty, ta, tf = l.getTextAttr(s.talon, "nn")
-        font = self.app.getFont("canvas_default")
-        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
-                                             anchor=ta, font=font)
+        l.createRoundText(s.talon, 'nn')
 
         # define stack-groups
         l.defaultStackGroups()

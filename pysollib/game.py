@@ -249,6 +249,14 @@ class Game:
                         print 'WARNING: shallHighlightMatch is not valid (wrap):', \
                               class_name, r.__class__
                     break
+        if self.s.talon.max_rounds > 1 and \
+               self.s.talon.texts.rounds is None:
+            print 'WARNING: max_rounds > 1, but talon.texts.rounds is None:', \
+                  class_name
+        elif self.s.talon.max_rounds <= 1 and \
+             self.s.talon.texts.rounds is not None:
+            print 'WARNING: max_rounds <= 1, but talon.texts.rounds is not None:', \
+                  class_name
 
 
     def initBindings(self):
@@ -2071,7 +2079,8 @@ Congratulations, you did it !
     def getQuickPlayScore(self, ncards, from_stack, to_stack):
         if to_stack in self.s.reserves:
             # if to_stack in reserves prefer empty stack
-            return 1000-len(to_stack.cards)
+            ##return 1000 - len(to_stack.cards)
+            return 1000 - int(len(to_stack.cards) != 0)
         # prefer non-empty piles in to_stack
         return 1001 + int(len(to_stack.cards) != 0)
 

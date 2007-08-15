@@ -48,7 +48,7 @@ class Capricieuse(Game):
     # game layout
     #
 
-    def createGame(self, rows=12):
+    def createGame(self, rows=12, round_text=True):
 
         # create layout
         l, s = Layout(self), self.s
@@ -60,20 +60,22 @@ class Capricieuse(Game):
         x, y, = l.XM+(rows-8)*l.XS/2, l.YM
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
-            x = x + l.XS
+            x += l.XS
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i,
                                                     base_rank=KING, dir=-1))
-            x = x + l.XS
+            x += l.XS
         x, y, = l.XM, y + l.YS
         for i in range(rows):
             s.rows.append(self.RowStack_Class(x, y, self,
                                               max_move=1, max_accept=1))
-            x = x + l.XS
+            x += l.XS
         s.talon = self.Talon_Class(l.XM, l.YM, self)
+        if round_text:
+            l.createRoundText(self.s.talon, 'ne')
 
-        # default
-        l.defaultAll()
+        # define stack-groups
+        l.defaultStackGroups()
 
     #
     # game overrides
@@ -105,6 +107,9 @@ class Nationale(Capricieuse):
     Talon_Class = InitialDealTalonStack
     RowStack_Class = StackWrapper(UD_SS_RowStack, mod=13)
 
+    def createGame(self):
+        Capricieuse.createGame(self, round_text=False)
+
     shallHighlightMatch = Game._shallHighlightMatch_SSW
 
 
@@ -129,11 +134,12 @@ class Strata(Game):
             s.foundations.append(DieRussische_Foundation(x, y, self,
                                  suit=i%4, max_cards=8))
             x = x + l.XS
-        x, y, = l.XM+l.XS/2, l.YM+l.YS
+        x, y, = l.XM+l.XS, l.YM+l.YS
         for i in range(8):
             s.rows.append(AC_RowStack(x, y, self, max_move=1, max_accept=1))
             x = x + l.XS
-        s.talon = RedealTalonStack(l.XM, l.YM, self, max_rounds=3)
+        s.talon = RedealTalonStack(l.XM, l.YM+l.YS/2, self, max_rounds=3)
+        l.createRoundText(s.talon, 'nn')
 
         # define stack-groups
         l.defaultStackGroups()
@@ -159,7 +165,7 @@ class Fifteen(Capricieuse):
     Talon_Class = InitialDealTalonStack
 
     def createGame(self):
-        Capricieuse.createGame(self, rows=15)
+        Capricieuse.createGame(self, rows=15, round_text=False)
 
     def startGame(self):
         for i in range(6):

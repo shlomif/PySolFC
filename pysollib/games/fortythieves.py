@@ -115,13 +115,8 @@ class FortyThieves(Game):
                                   max_rounds=max_rounds, num_deal=num_deal)
         l.createText(s.talon, "n")
         if max_rounds > 1:
-            tx, ty, ta, tf = l.getTextAttr(s.talon, "nn")
-            font = self.app.getFont("canvas_default")
-            s.talon.texts.rounds = MfxCanvasText(self.canvas,
-                                                 tx, ty-l.TEXT_MARGIN,
-                                                 anchor=ta,
-                                                 font=font)
-        x = x - l.XS
+            l.createRoundText(s.talon, 'nnn')
+        x -= l.XS
         s.waste = WasteStack(x, y, self)
         s.waste.CARD_XOFFSET = -l.XOFFSET
         l.createText(s.waste, "n")
@@ -711,33 +706,34 @@ class Octagon(Game):
         l, s = Layout(self), self.s
 
         w1 = l.XS+12*l.XOFFSET
-        w, h = l.XM+2*l.XS+2*w1, l.YM+3*l.YS
+        w, h = l.XM+2*l.XS+2*w1, l.YM+4*l.YS
         self.setSize(w, h)
 
         for x, y in ((l.XM,                l.YM),
                      (l.XM+w1+2*l.XS+l.XM, l.YM),
-                     (l.XM,                l.YM+2*l.YS),
-                     (l.XM+w1+2*l.XS+l.XM, l.YM+2*l.YS),):
+                     (l.XM,                l.YM+3*l.YS),
+                     (l.XM+w1+2*l.XS+l.XM, l.YM+3*l.YS),):
             stack = SS_RowStack(x, y, self, max_move=1)
             stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
             s.rows.append(stack)
         i = 0
-        for x, y in ((l.XM+w1,        l.YM),
-                     (l.XM+w1+l.XS,   l.YM),
-                     (l.XM+w1-2*l.XS-l.XS/2-l.XM, l.YM+l.YS),
-                     (l.XM+w1-l.XS-l.XS/2-l.XM,   l.YM+l.YS),
-                     (l.XM+w1+2*l.XS+l.XS/2+l.XM, l.YM+l.YS),
-                     (l.XM+w1+3*l.XS+l.XS/2+l.XM, l.YM+l.YS),
-                     (l.XM+w1,        l.YM+2*l.YS),
-                     (l.XM+w1+l.XS,   l.YM+2*l.YS),):
+        for x, y in ((l.XM+w1,                    l.YM),
+                     (l.XM+w1+l.XS,               l.YM),
+                     (l.XM+w1-2*l.XS-l.XS/2-l.XM, l.YM+1.5*l.YS),
+                     (l.XM+w1-l.XS-l.XS/2-l.XM,   l.YM+1.5*l.YS),
+                     (l.XM+w1+2*l.XS+l.XS/2+l.XM, l.YM+1.5*l.YS),
+                     (l.XM+w1+3*l.XS+l.XS/2+l.XM, l.YM+1.5*l.YS),
+                     (l.XM+w1,                    l.YM+3*l.YS),
+                     (l.XM+w1+l.XS,               l.YM+3*l.YS),):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i%4))
             i += 1
-        x, y = l.XM+w1, l.YM+l.YS
+        x, y = l.XM+w1, l.YM+1.5*l.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=4)
-        l.createText(s.talon, 'nw')
+        l.createText(s.talon, 's')
+        l.createRoundText(s.talon, 'nn')
         x += l.XS
         s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, 'ne')
+        l.createText(s.waste, 's')
 
         l.defaultStackGroups()
 
@@ -1154,6 +1150,82 @@ class Floradora(Game):
     shallHighlightMatch = Game._shallHighlightMatch_RK
 
 
+# /***********************************************************************
+# // Blind Patience
+# ************************************************************************/
+
+class BlindPatience_Hint(DefaultHint):
+    SCORE_FLIP = 80000
+
+    def shallMovePile(self, from_stack, to_stack, pile, rpile):
+        if from_stack is to_stack or not to_stack.acceptsCards(from_stack, pile):
+            return False
+        #
+        if len(rpile) == 0:
+            return True
+        # now check for loops
+        rr = self.ClonedStack(from_stack, stackcards=rpile)
+        if self.level < 2:
+            # hint
+            if to_stack.cards and not to_stack.cards[-1].face_up:
+                if rr.cards and not rr.cards[-1].face_up:
+                    return True
+            if rr.cards and not rr.cards[-1].face_up:
+                return True
+            if not to_stack.cards:
+                return True
+        else:
+            # demo mode
+            if rr.cards and not rr.cards[-1].face_up:
+                if len(rr.cards) < len(to_stack.cards):
+                    return True
+        if rr.acceptsCards(to_stack, pile):
+            # the pile we are going to move could be moved back -
+            # this is dangerous as we can create endless loops...
+            return False
+        return True
+
+
+class BlindPatience_RowStack(AC_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if self.cards and not self.cards[-1].face_up:
+            return True
+        return AC_RowStack.acceptsCards(self, from_stack, cards)
+
+
+class BlindPatience(FortyThieves):
+    Hint_Class = BlindPatience_Hint
+    RowStack_Class = BlindPatience_RowStack
+
+    def startGame(self):
+        for i in range(3):
+            self.s.talon.dealRow(flip=0, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow(flip=0)
+        self.s.talon.dealCards()        # deal first card to WasteStack
+
+    def getAutoStacks(self, event=None):
+        if event is None:
+            # do not auto flip
+            return ([], self.sg.dropstacks, self.sg.dropstacks)
+        return (self.sg.dropstacks, self.sg.dropstacks, self.sg.dropstacks)
+
+    def getQuickPlayScore(self, ncards, from_stack, to_stack):
+        if to_stack in self.s.rows:
+            if to_stack.cards:
+                if to_stack.cards[-1].face_up:
+                    # top card is face up
+                    return 1001
+                else:
+                    return 1000
+            else:
+                return 999
+        # prefer non-empty piles in to_stack
+        return 1001 + int(len(to_stack.cards) != 0)
+
+    shallHighlightMatch = Game._shallHighlightMatch_AC
+
+
 
 # register the game
 registerGame(GameInfo(13, FortyThieves, "Forty Thieves",
@@ -1270,5 +1342,7 @@ registerGame(GameInfo(632, Floradora, "Floradora",
 registerGame(GameInfo(679, TripleInterchange, "Triple Interchange",
                       GI.GT_FORTY_THIEVES, 3, -1, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(683, FamousFifty, "Famous Fifty",
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(751, BlindPatience, "Blind Patience",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL))
 

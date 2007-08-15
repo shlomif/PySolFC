@@ -72,21 +72,23 @@ class Simplex(Game):
         l, s = Layout(self), self.s
 
         # set window
-        w, h = l.XM+10*l.XS, l.YM+2*l.YS+9*l.YOFFSET
+        w, h = l.XM+10*l.XS, l.YM+2*l.YS+4*l.YOFFSET+l.TEXT_HEIGHT
         self.setSize(w, h)
 
         # create stacks
         x, y = l.XM, l.YM
         s.talon = WasteTalonStack(x, y, self, max_rounds=1)
+        l.createText(s.talon, 's')
         x += l.XS
         s.waste = WasteStack(x, y, self)
+        l.createText(s.waste, 's')
         x += l.XS
         stack = Simplex_Foundation(x, y, self,
                     suit=ANY_SUIT, base_rank=ANY_RANK, max_cards=52)
         xoffset = (self.width-3*l.XS)/51
         stack.CARD_XOFFSET, stack.CARD_YOFFSET = xoffset, 0
         s.foundations.append(stack)
-        x, y = l.XM, l.YM+l.YS
+        x, y = l.XM, l.YM+l.YS+l.TEXT_HEIGHT
         for i in range(9):
             s.rows.append(Simplex_RowStack(x, y, self))
             x += l.XS

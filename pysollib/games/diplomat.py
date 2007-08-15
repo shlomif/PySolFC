@@ -82,6 +82,8 @@ class Diplomat(Game):
         x, y, = l.XM, self.height - l.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=max_rounds)
         l.createText(s.talon, "n")
+        if max_rounds > 1:
+            l.createRoundText(self.s.talon, 'nnn')
         x = x + l.XS
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, "n")
@@ -166,10 +168,7 @@ class Congress(Diplomat):
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, "s")
         if max_rounds > 1:
-            tx, ty, ta, tf = l.getTextAttr(s.waste, "ne")
-            font = self.app.getFont("canvas_default")
-            s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
-                                                 anchor=ta, font=font)
+            l.createRoundText(s.talon, 'ne', dx=l.XS)
 
         # define stack-groups
         l.defaultStackGroups()

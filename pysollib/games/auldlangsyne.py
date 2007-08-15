@@ -72,10 +72,7 @@ class TamOShanter(Game):
         s.talon = self.Talon_Class(x, y, self)
         l.createText(s.talon, "s")
         if texts:
-            tx, ty, ta, tf = l.getTextAttr(s.talon, 'nn')
-            font = self.app.getFont('canvas_default')
-            s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
-                                                 anchor=ta, font=font)
+            l.createRoundText(s.talon, 'nn')
         x, y = l.XM+2*l.XS, l.YM
         for i in range(4*self.gameinfo.decks):
             s.foundations.append(self.Foundation_Class(x, y, self, suit=i%4))
@@ -273,10 +270,7 @@ class Interregnum(Game):
             s.rows.append(self.RowStack_Class(x, y, self))
         s.talon = self.Talon_Class(self.width-l.XS, self.height-l.YS, self)
         if texts:
-            tx, ty, ta, tf = l.getTextAttr(s.talon, "nn")
-            font = self.app.getFont("canvas_default")
-            s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
-                                                 anchor=ta, font=font)
+            l.createRoundText(s.talon, 'nn')
         else:
             l.createText(s.talon, "n")
 
@@ -404,12 +398,12 @@ class Colorado(Game):
         for i in range(4):
             s.foundations.append(self.Foundation_Class(x, y, self,
                                  suit=i, max_move=0))
-            x = x + l.XS
+            x += l.XS
         x += 2*l.XM
         for i in range(4):
             s.foundations.append(self.Foundation_Class(x, y, self,
                                  suit=i, max_move=0, base_rank=KING, dir=-1))
-            x = x + l.XS
+            x += l.XS
 
         y = l.YM+l.YS
         for i in range(2):
@@ -422,9 +416,9 @@ class Colorado(Game):
                 x += l.XS
             y += l.YS
 
-        x, y = l.XM+9*l.XS, l.YM+3*l.YS
+        x, y = l.XM + 9*l.XS, self.height - l.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=1)
-        l.createText(s.talon, "s")
+        l.createText(s.talon, "n")
         x -= l.XS
         s.waste = WasteStack(x, y, self, max_cards=1)
 

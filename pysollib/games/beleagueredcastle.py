@@ -608,11 +608,11 @@ class CastleOfIndolence(Game):
         # create stacks
         x, y = l.XM, l.YM+4*l.YS
         s.talon = InitialDealTalonStack(x, y, self)
-        x, y = l.XM+w-l.XS, l.YM+4*l.YS
+        x, y = l.XM+w-l.XS, self.height-l.YS
         for i in range(4):
             stack = OpenStack(x, y, self, max_accept=0)
             s.reserves.append(stack)
-            l.createText(stack, 's')
+            l.createText(stack, 'n')
             x += l.XS
 
         x = l.XM + w

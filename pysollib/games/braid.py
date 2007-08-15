@@ -159,10 +159,8 @@ class Braid(Game):
         x, y = l.XM + 7 * l.XS, l.YM + l.YS * 3/2
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
         l.createText(s.talon, "s")
-        s.talon.texts.rounds = MfxCanvasText(self.canvas,
-                                             x + l.CW / 2, y - l.TEXT_MARGIN,
-                                             anchor="s", font=font)
-        x = x - l.XS
+        l.createRoundText(s.talon, 'nn')
+        x -= l.XS
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, "s")
         y = l.YM

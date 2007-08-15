@@ -99,10 +99,11 @@ class VegasKlondike(Klondike):
     getGameBalance = Game.getGameScoreCasino
 
     def createGame(self, max_rounds=1):
-        Klondike.createGame(self, max_rounds=max_rounds)
+        l = Klondike.createGame(self, max_rounds=max_rounds)
         self.texts.score = MfxCanvasText(self.canvas,
                                          8, self.height - 8, anchor="sw",
                                          font=self.app.getFont("canvas_large"))
+        return l
 
     def updateText(self):
         if self.preview > 1:
@@ -123,7 +124,8 @@ class VegasKlondike(Klondike):
 
 class CasinoKlondike(VegasKlondike):
     def createGame(self):
-        VegasKlondike.createGame(self, max_rounds=3)
+        l = VegasKlondike.createGame(self, max_rounds=3)
+        l.createRoundText(self.s.talon, 'ne', dx=l.XS)
 
 
 # /***********************************************************************
@@ -156,7 +158,9 @@ class Chinaman(ThumbAndPouch):
     RowStack_Class = StackWrapper(BO_RowStack, base_rank=KING)
 
     def createGame(self):
-        Klondike.createGame(self, num_deal=3, max_rounds=2)
+        l = Klondike.createGame(self, num_deal=3,
+                                max_rounds=2, round_text=True)
+        l.createRoundText(self.s.talon, 'ne', dx=l.XS)
 
 
 # /***********************************************************************
@@ -271,7 +275,8 @@ class PasSeul(Eastcliff):
 
 class BlindAlleys(Eastcliff):
     def createGame(self):
-        Klondike.createGame(self, max_rounds=2, rows=6)
+        l = Klondike.createGame(self, max_rounds=2, rows=6, round_text=True)
+        l.createRoundText(self.s.talon, 'ne', dx=l.XS)
 
     def _shuffleHook(self, cards):
         # move Aces to top of the Talon (i.e. first cards to be dealt)
@@ -317,7 +322,9 @@ class Usk(Somerset):
     Solver_Class = None
 
     def createGame(self):
-        Klondike.createGame(self, max_rounds=2, rows=10, waste=0, texts=0)
+        l = Klondike.createGame(self, max_rounds=2, rows=10,
+                                waste=False, texts=False, round_text=True)
+        l.createRoundText(self.s.talon, 'ne')
 
     def redealCards(self):
         n = 0
@@ -403,12 +410,8 @@ class EightTimesEight(Klondike):
 
 class AchtmalAcht(EightTimesEight):
     def createGame(self):
-        l = Klondike.createGame(self, rows=8, max_rounds=3)
-        s = self.s
-        x, y = s.waste.x - l.XM, s.waste.y
-        s.talon.texts.rounds = MfxCanvasText(self.canvas, x, y,
-                                             anchor="ne",
-                                             font=self.app.getFont("canvas_default"))
+        l = Klondike.createGame(self, rows=8, max_rounds=3, round_text=True)
+        l.createRoundText(self.s.talon, 'sw', dx=-l.XS)
 
 
 class EightByEight_RowStack(RK_RowStack):
@@ -425,7 +428,8 @@ class EightByEight(EightTimesEight):
     RowStack_Class = EightByEight_RowStack
 
     def createGame(self):
-        Klondike.createGame(self, rows=8, max_rounds=3)
+        l = Klondike.createGame(self, rows=8, max_rounds=3, round_text=True)
+        l.createRoundText(self.s.talon, 'ne', dx=l.XS)
 
     shallHighlightMatch = Game._shallHighlightMatch_RK
 
@@ -447,12 +451,16 @@ class Batsford_ReserveStack(ReserveStack):
 class Batsford(Klondike):
     def createGame(self, **layout):
         kwdefault(layout, rows=10, max_rounds=1, playcards=22)
+        round_text = (layout['max_rounds'] > 1)
+        layout['round_text'] = round_text
         l = Klondike.createGame(self, **layout)
         s = self.s
         x, y = l.XM, self.height - l.YS
         s.reserves.append(Batsford_ReserveStack(x, y, self, max_cards=3))
-        self.setRegion(s.reserves, (-999, y - l.YM, x + l.XS, 999999), priority=1)
+        self.setRegion(s.reserves, (-999, y - l.YM - l.CH/2, x + l.XS - l.CW/2, 999999), priority=1)
         l.createText(s.reserves[0], "se")
+        if round_text:
+            l.createRoundText(self.s.talon, 'ne', dx=l.XS)
         l.defaultStackGroups()
 
 
@@ -467,7 +475,8 @@ class BatsfordAgain(Batsford):
 
 class Jumbo(Klondike):
     def createGame(self):
-        Klondike.createGame(self, rows=9, max_rounds=2)
+        l = Klondike.createGame(self, rows=9, max_rounds=2, round_text=True)
+        l.createRoundText(self.s.talon, 'ne', dx=l.XS)
 
     def startGame(self, flip=0):
         for i in range(9):
@@ -805,7 +814,8 @@ class Lanes(Klondike):
     RowStack_Class = StackWrapper(AC_RowStack, base_rank=ANY_RANK, max_move=1)
 
     def createGame(self):
-        Klondike.createGame(self, rows=6, max_rounds=2)
+        l = Klondike.createGame(self, rows=6, max_rounds=2, round_text=True)
+        l.createRoundText(self.s.talon, 'ne', dx=l.XS)
 
     def _shuffleHook(self, cards):
         # move Aces to top of the Talon (i.e. first cards to be dealt)
@@ -866,7 +876,8 @@ class Q_C_(Klondike):
     RowStack_Class = StackWrapper(SS_RowStack, base_rank=ANY_RANK, max_move=1)
 
     def createGame(self):
-        Klondike.createGame(self, rows=6, max_rounds=2)
+        l = Klondike.createGame(self, rows=6, max_rounds=2)
+        l.createRoundText(self.s.talon, 'sss')
 
     def startGame(self):
         for i in range(3):
@@ -1044,7 +1055,9 @@ class MovingLeft(Klondike):
 
 class Souter(MovingLeft):
     def createGame(self):
-        Klondike.createGame(self, max_rounds=2, rows=10, playcards=24)
+        l = Klondike.createGame(self, max_rounds=2, rows=10,
+                                playcards=24, round_text=True)
+        l.createRoundText(self.s.talon, 'ne', dx=l.XS)
 
 
 # /***********************************************************************
@@ -1127,7 +1140,8 @@ class Whitehorse(Klondike):
 
 class Boost(Klondike):
     def createGame(self):
-        Klondike.createGame(self, rows=4, max_rounds=3)
+        l = Klondike.createGame(self, rows=4, max_rounds=3, round_text=True)
+        l.createRoundText(self.s.talon, 'ne', dx=l.XS)
 
 
 # /***********************************************************************
@@ -1137,7 +1151,8 @@ class Boost(Klondike):
 class GoldRush(Klondike):
     Talon_Class = CanfieldRush_Talon
     def createGame(self):
-        Klondike.createGame(self, max_rounds=3)
+        l = Klondike.createGame(self, max_rounds=3, round_text=True)
+        l.createRoundText(self.s.talon, 'ne', dx=l.XS)
 
 
 # /***********************************************************************
@@ -1344,7 +1359,9 @@ class EightSages(Klondike):
     RowStack_Class = EightSages_Row
 
     def createGame(self):
-        Klondike.createGame(self, max_rounds=2, rows=8, playcards=12)
+        l = Klondike.createGame(self, max_rounds=2, rows=8,
+                                playcards=12, round_text=True)
+        l.createRoundText(self.s.talon, 'ne', dx=l.XS)
 
     def startGame(self):
         self.startDealSample()

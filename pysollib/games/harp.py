@@ -77,13 +77,10 @@ class DoubleKlondike(Game):
         l.defaultAll()
         # extra
         if max_rounds > 1:
-            assert s.talon.texts.rounds is None
-            tx, ty, ta, tf = l.getTextAttr(s.talon, "nn")
+            anchor = 'nn'
             if layout.get("texts"):
-                ty = ty - l.TEXT_MARGIN
-            font = self.app.getFont("canvas_default")
-            s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
-                                                 anchor=ta, font=font)
+                anchor = 'nnn'
+            l.createRoundText(s.talon, anchor)
         return l
 
     def startGame(self, flip=0):
@@ -249,12 +246,9 @@ class BigDeal(DoubleKlondike):
         s.waste.CARD_XOFFSET = XOFFSET
         l.createText(s.waste, 'n')
         if max_rounds > 1:
-            tx, ty, ta, tf = l.getTextAttr(s.talon, 'nn')
-            ty -= l.TEXT_MARGIN
-            font = self.app.getFont('canvas_default')
-            s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
-                                                 anchor=ta, font=font)
-        self.setRegion(s.rows, (-999, -999, l.XM+rows*l.XS-l.CW/2, 999999), priority=1)
+            l.createRoundText(s.talon, 'nnn')
+        self.setRegion(s.rows, (-999, -999, l.XM+rows*l.XS-l.CW/2, 999999),
+                       priority=1)
         l.defaultStackGroups()
 
 

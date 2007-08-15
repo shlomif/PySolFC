@@ -174,11 +174,8 @@ class PasDeDeux(Game):
         x, y = self.width - 2*l.XS, self.height - l.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=2)
         l.createText(s.talon, "se")
-        s.talon.texts.rounds = MfxCanvasText(self.canvas,
-                                             x + l.XS, y,
-                                             anchor="nw",
-                                             font=self.app.getFont("canvas_default"))
-        x = x - l.XS
+        l.createRoundText(s.talon, 'ne')
+        x -= l.XS
         s.waste = PasDeDeux_Waste(x, y, self, max_move=0)
         l.createText(s.waste, "sw")
         s.internals.append(InvisibleStack(self))    # for _swapPairMove()

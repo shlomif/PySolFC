@@ -91,10 +91,7 @@ class GrandDuchess(Game):
         x, y = l.XM, l.YM
         s.talon = GrandDuchess_Talon(x, y, self, max_rounds=4)
         l.createText(s.talon, 'se')
-        tx, ty, ta, tf = l.getTextAttr(s.talon, 'ne')
-        font = self.app.getFont('canvas_default')
-        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
-                                             anchor=ta, font=font)
+        l.createRoundText(s.talon, 'ne')
 
         x += 2*l.XS
         for i in range(4):

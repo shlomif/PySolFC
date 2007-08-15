@@ -339,32 +339,29 @@ class PysolMenubarActions:
         if self.changed():
             if not self.game.areYouSure(_("Select random game")): return
         game_id = None
-        for i in range(1000):       # just in case, don't loop forever
-            gi = self.app.getGameInfo(self.app.getRandomGameId())
-            if gi is None:
-                continue
+        games = []
+        for g in self.app.gdb.getGamesIdSortedById():
+            gi = self.app.getGameInfo(g)
             if 1 and gi.id == self.game.id:
                 # force change of game
                 continue
             if 1 and gi.category != self.game.gameinfo.category:
                 # don't change game category
                 continue
-            if type == 'all':
-                game_id = gi.id
-                break
             won, lost = self.app.stats.getStats(self.app.opt.player, gi.id)
-            if type == 'won' and won > 0:
-                game_id = gi.id
-                break
-            if type == 'not won' and won == 0 and lost > 0:
-                game_id = gi.id
-                break
-            if type == 'not played' and won+lost == 0:
-                game_id = gi.id
-                break
+            if type == 'all':
+                games.append(gi.id)
+            elif type == 'won' and won > 0:
+                games.append(gi.id)
+            elif type == 'not won' and won == 0 and lost > 0:
+                games.append(gi.id)
+            elif type == 'not played' and won+lost == 0:
+                games.append(gi.id)
+        if games:
+            game_id = self.app.getRandomGameId(games)
         if game_id and game_id != self.game.id:
             self.game.endGame()
-            self.game.quitGame(gi.id)
+            self.game.quitGame(game_id)
 
     def _mSelectNextGameFromList(self, gl, step):
         if self._cancelDrag(): return

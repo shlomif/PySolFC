@@ -240,10 +240,7 @@ class Pyramid(Game):
         if texts:
             l.createText(s.talon, "se")
             if s.talon.max_rounds > 1:
-                tx, ty, ta, tf = l.getTextAttr(s.talon, "ne")
-                font=self.app.getFont("canvas_default")
-                s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
-                                                     anchor=ta, font=font)
+                l.createRoundText(s.talon, 'ne')
         if waste:
             y = y + l.YS
             s.waste = self.WasteStack_Class(x, y, self, max_accept=1)
@@ -252,6 +249,7 @@ class Pyramid(Game):
         s.foundations.append(self.Foundation_Class(x, y, self,
                              suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
                              max_move=0, max_cards=52*decks))
+        l.createText(s.foundations[0], 's')
         if reserves:
             x, y = l.XM+(max_rows-reserves)*l.XS/2, l.YM+4*l.YS
             for i in range(reserves):
@@ -402,6 +400,7 @@ class Thirteens(Pyramid):
         s.foundations.append(Pyramid_Foundation(x, y, self,
                              suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
                              max_move=0, max_cards=52))
+        l.createText(s.foundations[0], 'n')
 
         # define stack-groups
         l.defaultStackGroups()
@@ -480,6 +479,7 @@ class Elevens(Pyramid):
         s.foundations.append(AbstractFoundationStack(x, y, self,
                              suit=ANY_SUIT, max_accept=0,
                              max_move=0, max_cards=52))
+        l.createText(s.foundations[0], 'n')
         y = l.YM
         for i in range(rows):
             x = l.XM
@@ -684,6 +684,7 @@ class TripleAlliance(Game):
         x, y = self.width-l.XS, l.YM
         s.foundations.append(AbstractFoundationStack(x, y, self, suit=ANY_SUIT,
                              max_move=0, max_accept=0, max_cards=52))
+        l.createText(s.foundations[0], 'nw')
         y = l.YM+l.YS
         nstacks = 0
         for i in range(4):
@@ -836,6 +837,7 @@ class Baroness(Pyramid):
         s.foundations.append(Pyramid_Foundation(x, y, self,
                              suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
                              max_move=0, max_cards=52))
+        l.createText(s.foundations[0], 's')
         x, y = l.XM, self.height-l.YS
         s.reserves.append(Giza_Reserve(x, y, self, max_accept=1))
         y -= l.YS
@@ -899,10 +901,8 @@ class Apophis(Pharaohs):
         x, y = l.XM, l.YM
         s.talon = DealReserveRedealTalonStack(x, y, self, max_rounds=3)
         l.createText(s.talon, 'se')
-        tx, ty, ta, tf = l.getTextAttr(s.talon, "ne")
-        font = self.app.getFont("canvas_default")
-        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
-                                             anchor=ta, font=font)
+        l.createRoundText(s.talon, 'ne')
+
         y += l.YS
         for i in range(3):
             stack = Pyramid_Waste(x, y, self, max_accept=1)
@@ -913,6 +913,7 @@ class Apophis(Pharaohs):
         s.foundations.append(Pyramid_Foundation(x, y, self,
                              suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
                              max_move=0, max_cards=52))
+        l.createText(s.foundations[0], 'nw')
 
         # define stack-groups
         l.defaultStackGroups()
@@ -1087,10 +1088,8 @@ class TwoPyramids(Pyramid):
         x, y = l.XM, l.YM
         s.talon = self.Talon_Class(x, y, self)
         l.createText(s.talon, "se")
-        tx, ty, ta, tf = l.getTextAttr(s.talon, "ne")
-        font = self.app.getFont("canvas_default")
-        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
-                                             anchor=ta, font=font)
+        l.createRoundText(s.talon, 'ne')
+
         y += l.YS
         s.waste = self.WasteStack_Class(x, y, self, max_accept=1)
         l.createText(s.waste, "se")
@@ -1098,6 +1097,7 @@ class TwoPyramids(Pyramid):
         s.foundations.append(self.Foundation_Class(x, y, self,
                              suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
                              max_move=0, max_cards=104))
+        l.createText(s.foundations[0], 'nw')
         # define stack-groups
         l.defaultStackGroups()
         self.sg.openstacks.append(s.talon)
@@ -1133,6 +1133,7 @@ class KingTut(RelaxedPyramid):
         s.foundations.append(self.Foundation_Class(x, y, self,
                              suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
                              max_move=0, max_cards=52))
+        l.createText(s.foundations[0], 'nw')
 
         l.defaultStackGroups()
         self.sg.openstacks.append(s.waste)
@@ -1169,10 +1170,8 @@ class Triangle(Pyramid):
         x, y = l.XM, l.YM
         s.talon = self.Talon_Class(x, y, self)
         l.createText(s.talon, "se")
-        tx, ty, ta, tf = l.getTextAttr(s.talon, "ne")
-        font=self.app.getFont("canvas_default")
-        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
-                                             anchor=ta, font=font)
+        l.createRoundText(s.talon, 'ne')
+
         y += l.YS
         s.waste = self.WasteStack_Class(x, y, self, max_accept=1)
         l.createText(s.waste, "se")
@@ -1212,10 +1211,8 @@ class UpAndDown(Pyramid):
         x, y = l.XM, l.YM
         s.talon = self.Talon_Class(x, y, self)
         l.createText(s.talon, "se")
-        tx, ty, ta, tf = l.getTextAttr(s.talon, "ne")
-        font=self.app.getFont("canvas_default")
-        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
-                                             anchor=ta, font=font)
+        l.createRoundText(s.talon, 'ne')
+
         y += l.YS
         s.waste = self.WasteStack_Class(x, y, self, max_accept=1)
         l.createText(s.waste, "se")
@@ -1223,6 +1220,7 @@ class UpAndDown(Pyramid):
         s.foundations.append(self.Foundation_Class(x, y, self,
                              suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
                              max_move=0, max_cards=104))
+        l.createText(s.foundations[0], 'sw')
 
         # define stack-groups
         l.defaultStackGroups()

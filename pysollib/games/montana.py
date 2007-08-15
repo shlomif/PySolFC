@@ -168,7 +168,7 @@ class Montana(Game):
 
     RLEN, RSTEP, RBASE = 52, 13, 1
 
-    def createGame(self):
+    def createGame(self, round_text=True):
         # create layout
         l, s = Layout(self, card_x_space=4), self.s
 
@@ -183,6 +183,8 @@ class Montana(Game):
                 x = x + l.XS
         x = l.XM + (self.RSTEP-1)*l.XS/2
         s.talon = self.Talon_Class(x, self.height-l.YS, self)
+        if round_text:
+            l.createRoundText(s.talon, 'se')
         if self.RBASE:
             # create an invisible stack to hold the four Aces
             s.internals.append(InvisibleStack(self))
@@ -387,6 +389,8 @@ class SpacesAndAces(BlueMoon):
     Talon_Class = InitialDealTalonStack
     RowStack_Class = SpacesAndAces_RowStack
 
+    def createGame(self):
+        Montana.createGame(self, round_text=False)
 
 # /***********************************************************************
 # // Paganini

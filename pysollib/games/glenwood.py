@@ -104,16 +104,17 @@ class Glenwood(Game):
         l, s = Layout(self), self.s
 
         # set window
-        self.setSize(2*l.XM + 6*l.XS, l.YM + l.TEXT_HEIGHT + 5*l.YS)
+        self.setSize(l.XM + 7*l.XS, l.YM + l.TEXT_HEIGHT + 5*l.YS)
 
         # create stacks
         x, y = l.XM, l.YM
         s.talon = Glenwood_Talon(x, y, self, max_rounds=2, num_deal=1)
         l.createText(s.talon, "s")
+        l.createRoundText(s.talon, 'ne', dx=l.XS)
         x += l.XS
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, "s")
-        x += l.XS+l.XM
+        x += 2*l.XS
         for i in range(4):
             s.foundations.append(self.Foundation_Class(x, y, self, i, dir=1,
                                  mod=13, base_rank=ANY_RANK, max_move=0))
@@ -126,7 +127,7 @@ class Glenwood(Game):
                                         anchor=ta, font=font)
 
         for i in range(4):
-            x = 2*l.XM + (i+2)*l.XS
+            x = l.XM + (i+3)*l.XS
             y = l.YM+l.TEXT_HEIGHT+l.YS
             s.rows.append(self.RowStack_Class(x, y, self, mod=13))
         for i in range(4):
@@ -269,6 +270,7 @@ class DoubleFives(Glenwood):
         x, y = l.XM, self.height-l.YS
         s.talon = DoubleFives_Talon(x, y, self, max_rounds=2, num_deal=1)
         l.createText(s.talon, "n")
+        l.createRoundText(self.s.talon, 'nnn')
         x += l.XS
         for i in range(5):
             s.reserves.append(DoubleFives_WasteStack(x, y, self))

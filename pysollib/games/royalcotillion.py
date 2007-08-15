@@ -41,6 +41,7 @@ from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.pysoltk import MfxCanvasText
 
 from unionsquare import UnionSquare_Foundation
 
@@ -153,6 +154,7 @@ class OddAndEven(RoyalCotillion):
         x, y = l.XM, self.height - l.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=2)
         l.createText(s.talon, "n")
+        l.createRoundText(s.talon, 'nnn')
         x = x + l.XS
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, "n")
@@ -189,15 +191,15 @@ class Kingdom(RoyalCotillion):
         x, y, = l.XM, l.YM
         for i in range(8):
             s.foundations.append(self.Foundation_Class(x, y, self, ANY_SUIT))
-            x = x + l.XS
+            x += l.XS
         x, y, = l.XM, y + l.YS
         for i in range(8):
             s.reserves.append(ReserveStack(x, y, self, max_accept=0))
-            x = x + l.XS
-        x, y = l.XM + 3*l.XS, y + 3*l.YS/2
+            x += l.XS
+        x, y = l.XM + 3*l.XS, l.YM + 3*l.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=1)
         l.createText(s.talon, "sw")
-        x = x + l.XS
+        x += l.XS
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, "se")
 
@@ -223,6 +225,7 @@ class Kingdom(RoyalCotillion):
 # /***********************************************************************
 # // Alhambra
 # // Granada
+# // Reserves
 # // Grant's Reinforcement
 # ************************************************************************/
 
@@ -233,6 +236,8 @@ class Alhambra_Hint(CautiousDefaultHint):
 
 class Alhambra_RowStack(UD_SS_RowStack):
     getBottomImage = Stack._getReserveBottomImage
+    def getHelp(self):
+        return _('Waste. Build up or down by suit.')
 
 
 class Alhambra_Talon(DealRowTalonStack):
@@ -244,6 +249,13 @@ class Alhambra_Talon(DealRowTalonStack):
             return True
         return False
 
+    def _deal(self):
+        num_cards = 0
+        for r in self.game.s.rows:
+            if self.cards:
+                self.game.flipAndMoveMove(self, r)
+                num_cards += 1
+
     def dealCards(self, sound=False):
         old_state = self.game.enterState(self.game.S_DEAL)
         num_cards = 0
@@ -252,7 +264,10 @@ class Alhambra_Talon(DealRowTalonStack):
         if self.cards:
             if sound and not self.game.demo:
                 self.game.playSample("dealwaste")
-            num_cards = self.dealRowAvail(sound=False, frames=4)
+            if len(self.game.s.rows) > 1:
+                num_cards = self.dealRowAvail(sound=False, frames=4)
+            else:
+                num_cards = self._deal()
         elif r_cards and self.round != self.max_rounds:
             if sound:
                 self.game.playSample("turnwaste", priority=20)
@@ -260,7 +275,10 @@ class Alhambra_Talon(DealRowTalonStack):
                 for i in range(len(r.cards)):
                     self.game.moveMove(1, r, self, frames=0)
                     self.game.flipMove(self)
-            num_cards = self.dealRowAvail(sound=False, frames=4)
+            if len(self.game.s.rows) > 1:
+                num_cards = self.dealRowAvail(sound=False, frames=4)
+            else:
+                num_cards = self._deal()
             self.game.nextRoundMove(self)
         self.game.leaveState(old_state)
         return num_cards
@@ -276,7 +294,9 @@ class Alhambra(Game):
         l, s = Layout(self), self.s
 
         # set window
-        self.setSize(l.XM+8*l.XS, l.YM+3.5*l.YS+playcards*l.YOFFSET)
+        w, h = l.XM+8*l.XS, l.YM+3.5*l.YS+playcards*l.YOFFSET
+        h += l.TEXT_HEIGHT
+        self.setSize(w, h)
 
         # create stacks
         x, y, = l.XM, l.YM
@@ -296,15 +316,25 @@ class Alhambra(Game):
             x = x + l.XS
         x, y = l.XM+(8-1-rows)*l.XS/2, self.height-l.YS
         s.talon = Alhambra_Talon(x, y, self, max_rounds=3)
-        l.createText(s.talon, "sw")
+        if rows == 1:
+            l.createText(s.talon, 'sw')
+        else:
+            l.createText(s.talon, 'n')
+        anchor = 'nn'
+        if rows > 1:
+            anchor = 'nnn'
+        l.createRoundText(s.talon, anchor)
+
         x += l.XS
         for i in range(rows):
             stack = self.RowStack_Class(x, y, self, mod=13, max_accept=1)
             stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, 0
             s.rows.append(stack)
             x += l.XS
-        if rows == 1:
-            l.createText(stack, 'se')
+            if rows == 1:
+                l.createText(stack, 'se')
+            else:
+                l.createText(stack, 'n')
 
         # define stack-groups (non default)
         l.defaultStackGroups()
@@ -333,8 +363,13 @@ class Granada(Alhambra):
         Alhambra.createGame(self, rows=4)
 
 
-class GrantsReinforcement(Alhambra):
-    RowStack_Class = StackWrapper(Alhambra_RowStack, base_rank=NO_RANK)
+class Reserves_RowStack(UD_RK_RowStack):
+    getBottomImage = Stack._getReserveBottomImage
+    def getHelp(self):
+        return _('Waste. Build up or down regardless of suit.')
+
+class Reserves(Alhambra):
+    RowStack_Class = StackWrapper(Reserves_RowStack, base_rank=NO_RANK)
 
     def createGame(self):
         Alhambra.createGame(self, reserves=4, playcards=11)
@@ -347,6 +382,12 @@ class GrantsReinforcement(Alhambra):
         self.s.talon.dealRow(rows=self.s.reserves)
         self.s.talon.dealCards()
 
+    shallHighlightMatch = Game._shallHighlightMatch_RKW
+
+
+class GrantsReinforcement(Reserves):
+    RowStack_Class = StackWrapper(Alhambra_RowStack, base_rank=NO_RANK)
+
     def fillStack(self, stack):
         for r in self.s.reserves:
             if r.cards:
@@ -356,6 +397,8 @@ class GrantsReinforcement(Alhambra):
                 self.s.talon.flipMove()
                 self.s.talon.moveMove(1, r)
                 self.leaveState(old_state)
+
+    shallHighlightMatch = Game._shallHighlightMatch_SSW
 
 
 # /***********************************************************************
@@ -511,6 +554,8 @@ class BritishConstitution(Game):
 
 class NewBritishConstitution(BritishConstitution):
     RowStack_Class = StackWrapper(NewBritishConstitution_RowStack, base_rank=JACK)
+
+    shallHighlightMatch = Game._shallHighlightMatch_RK
 
 
 # /***********************************************************************
@@ -970,10 +1015,11 @@ class FourWinds(Game):
         # talon & waste
         x, y = l.XM+3.5*l.XS, l.YM+2.5*l.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=2)
-        l.createText(s.talon, 'n')
+        l.createText(s.talon, 's')
+        l.createRoundText(self.s.talon, 'nn')
         x += l.XS
         s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, 'n')
+        l.createText(s.waste, 's')
 
         l.defaultStackGroups()
 
@@ -1244,9 +1290,10 @@ class TwilightZone(Game):
             x += l.XS
 
 
-        x, y = l.XM, l.YM
+        x, y = l.XM, l.YM+l.YS/2
         s.talon = TwilightZone_Talon(x, y, self, max_move=1, max_rounds=2)
         l.createText(s.talon, 's')
+        l.createRoundText(s.talon, 'nn')
         x += l.XS
         s.waste = TwilightZone_Waste(x, y, self, max_accept=1)
         l.createText(s.waste, 's')
@@ -1315,7 +1362,7 @@ registerGame(GameInfo(579, ThreePirates, "Three Pirates",
 registerGame(GameInfo(608, Frames, "Frames",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(609, GrantsReinforcement, "Grant's Reinforcement",
-                      GI.GT_2DECK_TYPE, 2, 2, GI.SL_MOSTLY_SKILL))
+                      GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED))
 registerGame(GameInfo(638, RoyalRendezvous, "Royal Rendezvous",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(639, ShadyLanes, "Shady Lanes",
@@ -1330,4 +1377,6 @@ registerGame(GameInfo(695, TheRedAndTheBlack, "The Red and the Black",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(748, TwilightZone, "Twilight Zone",
                       GI.GT_2DECK_TYPE, 2, 1, GI.SL_BALANCED))
+registerGame(GameInfo(752, Reserves, "Reserves",
+                      GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED))
 

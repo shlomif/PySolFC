@@ -147,6 +147,10 @@ class Grandfather_Talon(RedealTalonStack):
 class Grandfather(RussianSolitaire):
     Talon_Class = StackWrapper(Grandfather_Talon, max_rounds=3)
 
+    def createGame(self):
+        l = Yukon.createGame(self)
+        l.createRoundText(self.s.talon, 'nn')
+
     def startGame(self):
         for i, j in ((1,7),(1,6),(2,6),(2,5),(3,5),(3,4)):
             self.s.talon.dealRowAvail(rows=self.s.rows[i:j], flip=0, frames=0)

@@ -493,10 +493,11 @@ class Robert(Game):
         s.foundations.append(BlackHole_Foundation(x, y, self, ANY_SUIT, dir=0, mod=13, max_move=0, max_cards=52))
         x, y = l.XM+l.XS, l.YM+l.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
-        l.createText(s.talon, 'sw')
+        l.createText(s.talon, 'nw')
+        l.createRoundText(self.s.talon, 'se', dx=l.XS)
         x += l.XS
         s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, 'se')
+        l.createText(s.waste, 'ne')
 
         # define stack-groups
         l.defaultStackGroups()
@@ -581,6 +582,7 @@ class Dolphin(Game):
         max_cards = 52*self.gameinfo.decks
         s.foundations.append(RK_FoundationStack(x, y, self,
                              base_rank=ANY_RANK, mod=13, max_cards=max_cards))
+        l.createText(s.foundations[0], 'ne')
         x, y = l.XM, l.YM+l.YS
         for i in range(rows):
             s.rows.append(BasicRowStack(x, y, self))
@@ -817,11 +819,7 @@ class DevilsSolitaire(Game):
         x, y = l.XM+4.5*l.XS, self.height-l.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
         l.createText(s.talon, 'n')
-        tx, ty, ta, tf = l.getTextAttr(s.talon, 'nn')
-        font = self.app.getFont('canvas_default')
-        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty-l.TEXT_MARGIN,
-                                             anchor=ta, font=font)
-
+        l.createRoundText(s.talon, 'nnn')
         x -= l.XS
         s.waste = DevilsSolitaire_WasteStack(x, y, self)
         l.createText(s.waste, 'n')
@@ -970,11 +968,7 @@ class NapoleonTakesMoscow(Game, FirTree_GameMethods):
         x, y = l.XM, self.height-l.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
         l.createText(s.talon, 'n')
-        tx, ty, ta, tf = l.getTextAttr(s.talon, 'nn')
-        font = self.app.getFont('canvas_default')
-        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty-l.TEXT_MARGIN,
-                                             anchor=ta, font=font)
-
+        l.createRoundText(s.talon, 'nnn')
         x += l.XS
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, 'n')

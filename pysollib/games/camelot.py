@@ -162,10 +162,12 @@ class Camelot(Game):
                 s.rows.append(self.RowStack_Class(x, y, self))
         x, y = l.XM, l.YM
         s.talon = self.Talon_Class(x, y, self)
+        l.createText(s.talon, 's')
         x, y = l.XM + w + 4*l.XS + w, l.YM
         s.foundations.append(Camelot_Foundation(x, y, self,
                              suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
                              max_accept=0, max_move=0, max_cards=52))
+        l.createText(s.foundations[0], 's')
         # define stack-groups
         l.defaultStackGroups()
         return l

@@ -101,10 +101,7 @@ class Tournament(Game):
 
         s.talon = Tournament_Talon(l.XM, l.YM, self, max_rounds=3)
         l.createText(s.talon, "se")
-        tx, ty, ta, tf = l.getTextAttr(s.talon, "ne")
-        font = self.app.getFont("canvas_default")
-        s.talon.texts.rounds = MfxCanvasText(self.canvas, tx, ty,
-                                             anchor=ta, font=font)
+        l.createRoundText(s.talon, 'ne')
 
         # define stack-groups
         l.defaultStackGroups()

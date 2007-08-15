@@ -36,6 +36,7 @@
 
 # imports
 import Tkinter
+import Tile
 import tkColorChooser
 
 # PySol imports
@@ -129,13 +130,17 @@ class SelectTileDialogWithPreview(MfxDialog):
         else:
             w1, w2 = 200, 300
         font = app.getFont("default")
-        self.tree = self.Tree_Class(self, top_frame, key=key,
-                                    default=kw.default,
+        padx, pady = 4, 4
+        frame = Tile.Frame(top_frame)
+        frame.pack(fill='both', expand=True,
+                   padx=kw.padx-padx, pady=kw.pady-pady)
+        self.tree = self.Tree_Class(self, frame, key=key, default=kw.default,
                                     font=font, width=w1)
-        self.tree.frame.pack(side="left", fill='both', expand=False, padx=kw.padx, pady=kw.pady)
-        self.preview = MfxScrolledCanvas(top_frame, width=w2, hbar=0, vbar=0)
+        self.tree.frame.pack(side="left", fill='both', expand=False,
+                             padx=padx, pady=pady)
+        self.preview = MfxScrolledCanvas(frame, width=w2, hbar=0, vbar=0)
         self.preview.pack(side="right", fill='both', expand=True,
-                          padx=kw.padx, pady=kw.pady)
+                          padx=padx, pady=pady)
         self.preview.canvas.preview = 1
         # create a preview of the current state
         self.preview_key = -1
@@ -158,6 +163,7 @@ class SelectTileDialogWithPreview(MfxDialog):
                       default=0,
                       resizable=True,
                       font=None,
+                      padx=10, pady=10,
                       )
         return MfxDialog.initKw(self, kw)
 

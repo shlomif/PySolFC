@@ -196,7 +196,7 @@ class SelectTileDialogWithPreview(MfxDialog):
             return
         canvas = self.preview.canvas
         canvas.deleteAllItems()
-        if isinstance(key, str):
+        if isinstance(key, basestring):
             # solid color
             canvas.config(bg=key)
             canvas.setTile(None)

@@ -25,9 +25,9 @@ import traceback
 
 # PySol imports
 from mfxutil import print_err
-from settings import VERSION_TUPLE, WIN_SYSTEM
 from resource import CSI
 from configobj import configobj, validate
+import settings
 
 # Toolkit imports
 from pysoltk import TOOLBAR_BUTTONS
@@ -97,6 +97,7 @@ tabletile_name = string
 recent_gameid = int_list
 favorite_gameid = int_list
 visible_buttons = string_list
+translate_game_names = boolean
 
 [sound_samples]
 move = boolean
@@ -219,6 +220,7 @@ class Options:
         ('sound_sample_volume', 'int'),
         ('sound_music_volume', 'int'),
         ('tabletile_name', 'str'),
+        ('translate_game_names', 'bool'),
         #('toolbar_vars', 'list'),
         #('recent_gameid', 'list'),
         #('favorite_gameid', 'list'),
@@ -229,7 +231,7 @@ class Options:
         self._config = None             # configobj.ConfigObj instance
         self._config_encoding = 'utf-8'
 
-        self.version_tuple = VERSION_TUPLE # XXX
+        self.version_tuple = settings.VERSION_TUPLE # XXX
         self.saved = 0                  # XXX
         # options menu:
         self.player = _("Unknown")
@@ -277,6 +279,7 @@ class Options:
         self.mouse_type = 'drag-n-drop' # or 'sticky-mouse' or 'point-n-click'
         self.mouse_undo = False         # use mouse for undo/redo
         self.negative_bottom = True
+        self.translate_game_names = True
         # sound
         self.sound = True
         self.sound_mode = 1
@@ -354,6 +357,7 @@ class Options:
         self.dragcursor = True
 
     def setDefaults(self, top=None):
+        WIN_SYSTEM = settings.WIN_SYSTEM
         # toolbar
         #if WIN_SYSTEM == 'win32':
         #    self.toolbar_style = 'crystal'
@@ -494,6 +498,7 @@ class Options:
 
     def load(self, filename):
 
+        # create ConfigObj instance
         try:
             config = configobj.ConfigObj(filename,
                                          configspec=configspec,
@@ -504,6 +509,7 @@ class Options:
                                          encoding=self._config_encoding)
         self._config = config
 
+        # create sections
         for section in (
             'general',
             'sound_samples',
@@ -516,6 +522,7 @@ class Options:
             if section not in config:
                 config[section] = {}
 
+        # add initial comment
         if not os.path.exists(filename):
             config.initial_comment = ['-*- coding: %s -*-' %
                                       self._config_encoding]
@@ -543,6 +550,8 @@ class Options:
                 setattr(self, key, None)
             elif val is not None:
                 setattr(self, key, val)
+
+        settings.TRANSLATE_GAME_NAMES = self.translate_game_names
 
         recent_gameid = self._getOption('general', 'recent_gameid', 'list')
         if recent_gameid is not None:

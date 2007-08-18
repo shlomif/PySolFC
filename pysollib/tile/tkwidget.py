@@ -560,10 +560,15 @@ class MfxScrolledCanvas:
         width = kw.get("width")
         height = kw.get("height")
         self.frame = Tile.Frame(self.parent, width=width, height=height)
-
     def createCanvas(self, kw):
-        self.canvas = MfxCanvas(self.frame, **kw)
-        self.canvas.grid(row=0, column=0, sticky="news")
+        bd = kw['bd']
+        kw['bd'] = 0
+        relief = kw['relief']
+        del kw['relief']
+        frame = Tkinter.Frame(self.frame, bd=bd, relief=relief)
+        frame.grid(row=0, column=0, sticky="news")
+        self.canvas = MfxCanvas(frame, **kw)
+        self.canvas.pack(expand=True, fill='both')
     def createHbar(self):
         self.hbar = Tile.Scrollbar(self.frame, takefocus=0,
                                    orient="horizontal")

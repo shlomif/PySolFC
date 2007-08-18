@@ -38,9 +38,9 @@
 import imp
 
 # PySol imports
-from mfxutil import Struct
+from mfxutil import Struct, print_err
 from resource import CSI
-from settings import CHECK_GAMES
+import settings
 
 
 # /***********************************************************************
@@ -411,20 +411,33 @@ class GameInfo(Struct):
                  rules_filename=None,
                  ):
         #
+        def to_unicode(s):
+            if isinstance(s, unicode):
+                return s
+            try:
+                s = unicode(s, 'utf-8')
+            except UnicodeDecodeError, err:
+                print_err(err)
+                s = unicode(s, 'utf-8', 'ignore')
+            return s
         ncards = decks * (len(suits) * len(ranks) + len(trumps))
         game_flags = game_type & ~1023
         game_type = game_type & 1023
+        name = to_unicode(name)
         en_name = name                  # for app.getGameRulesFilename
-        if not isinstance(name, unicode):
-            en_name = unicode(name, 'utf-8')
-        name = _(name)
+        if settings.TRANSLATE_GAME_NAMES:
+            name = _(name)
         if not short_name:
             short_name = name
         else:
-            short_name = _(short_name)
+            short_name = to_unicode(short_name)
+            if settings.TRANSLATE_GAME_NAMES:
+                short_name = _(short_name)
         if isinstance(altnames, basestring):
             altnames = (altnames,)
-        altnames = [_(n) for n in altnames]
+        altnames = [to_unicode(n) for n in altnames]
+        if settings.TRANSLATE_GAME_NAMES:
+            altnames = [_(n) for n in altnames]
         #
         if not (1 <= category <= 9):
             if game_type == GI.GT_HANAFUDA:
@@ -537,7 +550,7 @@ class GameManager:
         ##print gi.id, gi.short_name.encode('utf-8')
         if not isinstance(gi, GameInfo):
             raise GameInfoException("wrong GameInfo class")
-        if self.check_game and CHECK_GAMES:
+        if self.check_game and settings.CHECK_GAMES:
             self._check_game(gi)
         ##if 0 and gi.si.game_flags & GI.GT_XORIGINAL:
         ##    return

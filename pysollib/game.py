@@ -46,7 +46,7 @@ from mfxutil import Pickler, Unpickler, UnpicklingError
 from mfxutil import Image, ImageTk
 from mfxutil import destruct, Struct, SubclassResponsibility
 from mfxutil import uclock, usleep
-from mfxutil import format_time
+from mfxutil import format_time, print_err
 from settings import PACKAGE, TITLE, TOOLKIT, TOP_TITLE
 from settings import VERSION, VERSION_TUPLE
 from settings import DEBUG
@@ -220,8 +220,9 @@ class Game:
             for stack in self.s.foundations:
                 ncards += stack.cap.max_cards
             if ncards != self.gameinfo.ncards:
-                print 'WARNING: invalid sum of foundations.max_cards:', \
-                      class_name, ncards, self.gameinfo.ncards
+                print_err('invalid sum of foundations.max_cards: '
+                          '%s: %s %s' % (class_name, ncards, self.gameinfo.ncards),
+                          2)
         if self.s.rows:
             from stack import AC_RowStack, UD_AC_RowStack, \
                  SS_RowStack, UD_SS_RowStack, \
@@ -243,20 +244,20 @@ class Game:
                   self._shallHighlightMatch_RKW)),):
                 if isinstance(r, c):
                     if self.shallHighlightMatch not in f:
-                        print 'WARNING: shallHighlightMatch is not valid:', \
-                              class_name, r.__class__
+                        print_err('shallHighlightMatch is not valid: '
+                                  ' %s, %s' % (class_name, r.__class__), 2)
                     if r.cap.mod == 13 and self.shallHighlightMatch != f[1]:
-                        print 'WARNING: shallHighlightMatch is not valid (wrap):', \
-                              class_name, r.__class__
+                        print_err('shallHighlightMatch is not valid (wrap): '
+                                  ' %s, %s' % (class_name, r.__class__), 2)
                     break
         if self.s.talon.max_rounds > 1 and \
                self.s.talon.texts.rounds is None:
-            print 'WARNING: max_rounds > 1, but talon.texts.rounds is None:', \
-                  class_name
+            print_err('max_rounds > 1, but talon.texts.rounds is None: '
+                      '%s' % class_name, 2)
         elif self.s.talon.max_rounds <= 1 and \
              self.s.talon.texts.rounds is not None:
-            print 'WARNING: max_rounds <= 1, but talon.texts.rounds is not None:', \
-                  class_name
+            print_err('max_rounds <= 1, but talon.texts.rounds is not None: '
+                      '%s' % class_name, 2)
 
 
     def initBindings(self):

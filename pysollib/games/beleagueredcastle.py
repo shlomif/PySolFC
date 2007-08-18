@@ -96,7 +96,7 @@ class StreetsAndAlleys(Game):
         x = x1
         for i in range(4):
             s.foundations.append(self.Foundation_Class(x, y, self, suit=i, max_move=0))
-            y = y + l.YS
+            y += l.YS
         if texts:
             tx, ty, ta, tf = l.getTextAttr(None, "ss")
             tx, ty = x+tx, y-l.YS+ty
@@ -109,7 +109,7 @@ class StreetsAndAlleys(Game):
                 stack = self.RowStack_Class(x, y, self)
                 stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
                 s.rows.append(stack)
-                y = y + l.YS
+                y += l.YS
         x, y = self.width - l.XS, self.height - l.YS
         s.talon = InitialDealTalonStack(x, y, self)
         if reserves:
@@ -384,20 +384,17 @@ class CastlesEnd(Bastion):
 
 class Chessboard_Foundation(SS_FoundationStack):
     def __init__(self, x, y, game, suit, **cap):
-        kwdefault(cap, mod=13, min_cards=1, max_move=0)
+        kwdefault(cap, mod=13, min_cards=1, max_move=0, base_rank=ANY_RANK)
         SS_FoundationStack.__init__(self, x, y, game, suit, **cap)
 
     def acceptsCards(self, from_stack, cards):
+        if not SS_FoundationStack.acceptsCards(self, from_stack, cards):
+            return False
         if not self.cards:
-            if len(cards) != 1 or not cards[0].face_up:
-                return False
-            if cards[0].suit != self.cap.base_suit:
-                return False
             for s in self.game.s.foundations:
                 if s.cards:
                     return cards[0].rank == s.cards[0].rank
-            return True
-        return SS_FoundationStack.acceptsCards(self, from_stack, cards)
+        return True
 
 
 class Chessboard_RowStack(UD_SS_RowStack):

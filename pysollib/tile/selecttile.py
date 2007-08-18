@@ -192,12 +192,11 @@ class SelectTileDialogWithPreview(MfxDialog):
         MfxDialog.mDone(self, button)
 
     def updatePreview(self, key):
-        ##print key
         if key == self.preview_key:
             return
         canvas = self.preview.canvas
         canvas.deleteAllItems()
-        if isinstance(key, str):
+        if isinstance(key, basestring):
             # solid color
             canvas.config(bg=key)
             canvas.setTile(None)

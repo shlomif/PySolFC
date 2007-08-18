@@ -884,34 +884,35 @@ class Q_C_(Klondike):
             self.s.talon.dealRow(frames=0)
         self.startDealSample()
         self.s.talon.dealRow()
-        self.s.talon.dealCards()          # deal first card to WasteStack
-        self.fillAll()
+        while self.s.talon.cards:
+            self.s.talon.dealCards()    # deal first card to WasteStack
+            if not self.fillWaste():
+                break
 
-    def fillOne(self, stack):
-        if stack.cards:
-            c = stack.cards[-1]
+    def fillWaste(self):
+        waste = self.s.waste
+        if waste.cards:
+            c = waste.cards[-1]
             for f in self.s.foundations:
-                if f.acceptsCards(stack, [c]):
-                    stack.moveMove(1, f)
-                    return 1
-        return 0
+                if f.acceptsCards(self.s.waste, [c]):
+                    waste.moveMove(1, f)
+                    return True
+        return False
 
-    def fillAll(self):
-        # fill
-        if not self.s.waste.cards and self.s.talon.cards:
-            self.s.talon.dealCards()
-        for stack in self.s.rows:
-            if not stack.cards and self.s.waste.cards:
-                self.s.waste.moveMove(1, stack)
-        # move to foundations
-        if self.fillOne(self.s.waste):
-            self.fillAll()
-        for stack in self.s.rows:
-            if self.fillOne(stack):
-                self.fillAll()
+    def fillStack(self, stack=None):
+        waste = self.s.waste
+        while True:
+            if not self.fillWaste():
+                break
+        if stack in self.s.rows and not stack.cards:
+            if not waste.cards:
+                while self.s.talon.cards:
+                    self.s.talon.dealCards()
+                    if not self.fillWaste():
+                        break
+            if waste.cards:
+                waste.moveMove(1, stack)
 
-    def fillStack(self, stack):
-        self.fillAll()
 
     shallHighlightMatch = Game._shallHighlightMatch_SS
 

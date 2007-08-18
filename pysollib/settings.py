@@ -72,6 +72,9 @@ TOP_TITLE = n_('Top 10')
 # use menu for select game
 SELECT_GAME_MENU = True
 
+# i18n, see also options.py
+TRANSLATE_GAME_NAMES = True
+
 # debug
 DEBUG = 0                               # must be integer
 CHECK_GAMES = False                     # check duplicated names and classes

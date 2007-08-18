@@ -106,6 +106,8 @@ def print_err(s, level=1):
         ss = PACKAGE+': ERROR:'
     elif level == 1:
         ss = PACKAGE+': WARNING:'
+    elif level == 2:
+        ss = PACKAGE+': DEBUG WARNING:'
     print >> sys.stderr, ss, s.encode(locale.getpreferredencoding())
     sys.stderr.flush()
 
@@ -165,7 +167,9 @@ def win32_gethomedir():
         return hd
     hd = os.path.expanduser('~')
     if hd == '~': # win9x
-        return os.path.abspath('/')
+        hd = os.path.abspath('/windows/Application Data')
+        if not os.path.exists(hd):
+            hd = os.path.abspath('/')
     return hd
 
 # /***********************************************************************

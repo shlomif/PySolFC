@@ -368,7 +368,7 @@ class PysolMenubar(PysolMenubarActions):
         menu.add_command(label=n_("&Save"), command=self.mSave, accelerator=m+"S")
         menu.add_command(label=n_("Save &as..."), command=self.mSaveAs)
         menu.add_separator()
-        menu.add_command(label=n_("&Hold and quit"), command=self.mHoldAndQuit)
+        menu.add_command(label=n_("&Hold and quit"), command=self.mHoldAndQuit, accelerator=m+"X")
         if WIN_SYSTEM != "aqua":
             menu.add_command(label=n_("&Quit"), command=self.mQuit, accelerator=m+"Q")
 
@@ -532,6 +532,7 @@ class PysolMenubar(PysolMenubarActions):
         self._bindKey(ctrl, "n", self.mNewGameWithNextId)
         self._bindKey(ctrl, "o", self.mOpen)
         self._bindKey(ctrl, "s", self.mSave)
+        self._bindKey(ctrl, "x", self.mHoldAndQuit)
         self._bindKey(ctrl, "q", self.mQuit)
         self._bindKey("",   "z", self.mUndo)
         self._bindKey("",   "BackSpace", self.mUndo)    # undocumented

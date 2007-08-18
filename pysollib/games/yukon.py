@@ -141,8 +141,8 @@ class Odessa(RussianSolitaire):
 # ************************************************************************/
 
 class Grandfather_Talon(RedealTalonStack):
-    def redealCards(self, sound=False):
-        RedealTalonStack.redealCards(self, sound=sound, shuffle=True)
+    def dealCards(self, sound=False):
+        self.redealCards(sound=sound, shuffle=True)
 
 class Grandfather(RussianSolitaire):
     Talon_Class = StackWrapper(Grandfather_Talon, max_rounds=3)
@@ -152,9 +152,17 @@ class Grandfather(RussianSolitaire):
         l.createRoundText(self.s.talon, 'nn')
 
     def startGame(self):
+        frames = 0
+        sound = False
         for i, j in ((1,7),(1,6),(2,6),(2,5),(3,5),(3,4)):
-            self.s.talon.dealRowAvail(rows=self.s.rows[i:j], flip=0, frames=0)
-        self.startDealSample()
+            if len(self.s.talon.cards) <= j-i:
+                frames = -1
+                sound = True
+                self.startDealSample()
+            self.s.talon.dealRowAvail(rows=self.s.rows[i:j],
+                                      flip=0, frames=frames)
+        if not sound:
+            self.startDealSample()
         self.s.talon.dealRowAvail()
         for i in range(4):
             self.s.talon.dealRowAvail(rows=self.s.rows[1:])

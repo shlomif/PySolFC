@@ -76,14 +76,13 @@ class Bristol_Talon(TalonStack):
 
 
 class Bristol(Game):
-    Layout_Method = Layout.klondikeLayout
     Hint_Class = Bristol_Hint
 
     #
     # game layout
     #
 
-    def createGame(self, **layout):
+    def createGame(self):
         # create layout
         l, s = Layout(self), self.s
 
@@ -94,7 +93,7 @@ class Bristol(Game):
         x, y, = l.XM + 3*l.XS, l.YM
         for i in range(4):
             s.foundations.append(RK_FoundationStack(x, y, self, max_move=0))
-            x = x + l.XS
+            x += l.XS
         for i in range(2):
             y = l.YM + (i*2+3)*l.YS/2
             for j in range(4):
@@ -105,9 +104,12 @@ class Bristol(Game):
         x, y, = l.XM + 3*l.XS, l.YM + 4*l.YS
         s.talon = Bristol_Talon(x, y, self)
         l.createText(s.talon, "sw")
+        x += l.XS
         for i in range(3):
-            x = x + l.XS
-            s.reserves.append(ReserveStack(x, y, self, max_accept=0, max_cards=UNLIMITED_CARDS))
+            stack = WasteStack(x, y, self)
+            l.createText(stack, 'n')
+            s.reserves.append(stack)
+            x += l.XS
 
         # define stack-groups
         self.sg.openstacks = s.foundations + s.rows
@@ -125,14 +127,14 @@ class Bristol(Game):
         for c in cards[:24]:    # search the first 24 cards only
             if c.rank == KING:
                 kings.append(i)
-            i = i + 1
+            i += 1
         for i in kings:
             j = i % n           # j = card index of rowstack bottom
             while j < i:
                 if cards[j].rank != KING:
                     cards[j], cards[i] = cards[i], cards[j]
                     break
-                j = j + n
+                j += n
         cards.reverse()
         return cards
 

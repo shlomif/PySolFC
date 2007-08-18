@@ -564,9 +564,11 @@ class NewBritishConstitution(BritishConstitution):
 
 class Twenty_RowStack(BasicRowStack):
     def acceptsCards(self, from_stack, cards):
-        #if not BasicRowStack.acceptsCards(self, from_stack, cards):
-        #    return False
+        if not BasicRowStack.acceptsCards(self, from_stack, cards):
+            return False
         return len(self.cards) == 0
+    def getHelp(self):
+        return _('Tableau. Empty piles can be filled with any card.')
 
 class Twenty(Game):
     def createGame(self):
@@ -574,7 +576,7 @@ class Twenty(Game):
         l, s = Layout(self), self.s
 
         # set window
-        self.setSize(l.XM+10*l.XS, l.YM+3*l.XS+10*l.YOFFSET)
+        self.setSize(l.XM+10*l.XS, l.YM+3*l.YS+10*l.YOFFSET)
 
         # create stacks
         x, y = l.XM, l.YM
@@ -589,10 +591,11 @@ class Twenty(Game):
                                  base_rank=KING, dir=-1))
             x += l.XS
 
-        for y in (l.YM+l.YS, l.YM+2*l.XS+5*l.YOFFSET):
+        for y in (l.YM+l.YS, l.YM+2*l.YS+5*l.YOFFSET):
             x = l.XM
             for i in range(10):
-                s.rows.append(Twenty_RowStack(x, y, self))
+                s.rows.append(Twenty_RowStack(x, y, self,
+                              base_rank=ANY_RANK, max_accept=1))
                 x += l.XS
 
         # define stack-groups

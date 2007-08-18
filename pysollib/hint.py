@@ -463,11 +463,11 @@ class DefaultHint(AbstractHint):
             self.step030(game.s.foundations, game.s.rows, game.sg.dropstacks)
 
         # 4) try if we can move a card from a RowStack to a ReserveStack
-        if not self.hints:
+        if not self.hints or self.level == 0:
             self.step040(game.s.rows, game.sg.reservestacks)
 
         # 5) try if we should move a card from a ReserveStack to a RowStack
-        if not self.hints:
+        if not self.hints or self.level == 0:
             self.step050(game.sg.reservestacks, game.s.rows)
 
         # Don't be too clever and give up ;-)
@@ -488,7 +488,7 @@ class DefaultHint(AbstractHint):
                 score, color = 0, None
                 score, color = self._getDropCardScore(score, color, r, t, ncards)
                 self.addHint(score, ncards, r, t, color)
-                if score >= 90000:
+                if score >= 90000 and self.level >= 1:
                     break
             # 1b) try if we can move cards to one of the RowStacks
             for pile in self.step010b_getPiles(r):

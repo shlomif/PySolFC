@@ -550,7 +550,7 @@ class Application:
                 if self.opt.save_games_geometry and not self.opt.wm_maximized:
                     w = self.canvas.winfo_width()
                     h = self.canvas.winfo_height()
-                    geom = (w-2, h-2)   # XXX: subtract canvas borderwidth
+                    geom = (w, h)
                     self.opt.games_geometry[self.game.id] = geom
                 self.freeGame()
                 #
@@ -1056,7 +1056,10 @@ Please select a %s type %s.
     def loadStatistics(self):
         if not os.path.exists(self.fn.stats):
             return
+        import time
+        t = time.time()
         stats = unpickle(self.fn.stats)
+        print 'loadStatistics', time.time()-t
         if stats:
             ##print "loaded:", stats.__dict__
             self.stats.__dict__.update(stats.__dict__)
@@ -1082,7 +1085,10 @@ Please select a %s type %s.
         self.opt.save(self.fn.opt_cfg)
 
     def saveStatistics(self):
+        import time
+        t = time.time()
         self.__saveObject(self.stats, self.fn.stats)
+        print 'saveStatistics', time.time()-t
 
     def saveComments(self):
         self.__saveObject(self.comments, self.fn.comments)

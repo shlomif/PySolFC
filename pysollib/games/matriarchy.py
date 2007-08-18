@@ -94,6 +94,9 @@ class Matriarchy_Talon(WasteTalonStack):
         n = 0
         update_flags = 1
         # deal
+        if self.cards:
+            if sound and not self.game.demo:
+                self.game.playSample("dealwaste")
         while n < ncards:
             # from self to waste
             while n < ncards:
@@ -108,6 +111,8 @@ class Matriarchy_Talon(WasteTalonStack):
             if n < ncards and len(waste.cards) > 0:
                 assert len(self.cards) == 0
                 assert self.round < self.max_rounds or update_flags == 0
+                if sound:
+                    self.game.playSample("turnwaste", priority=20)
                 self.game.turnStackMove(waste, self)
                 if update_flags:
                     self.game.nextRoundMove(self)

@@ -51,7 +51,8 @@ class FindCardDialog(Tkinter.Toplevel):
 
     def __init__(self, parent, game, dir, size='large'):
         Tkinter.Toplevel.__init__(self)
-        self.title(_('Find card'))
+        title = TITLE + ' - ' + _('Find card')
+        self.title(title)
         self.wm_resizable(False, False)
         #
         ##self.images_dir = dir

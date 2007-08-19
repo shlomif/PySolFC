@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Fri Jul 20 23:41:28 2007\n"
+"POT-Creation-Date: Sun Aug 19 18:52:43 2007\n"
 "PO-Revision-Date: 2007-05-11 17:25+0400\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -341,6 +341,10 @@ msgstr "Чёрная вдова"
 msgid "Blind Alleys"
 msgstr "Тёмные аллеи"
 
+#, fuzzy
+msgid "Blind Patience"
+msgstr "Бразильский пасьянс"
+
 msgid "Blockade"
 msgstr "Блокада"
 
@@ -656,6 +660,10 @@ msgstr "Конверт"
 
 msgid "Crescent"
 msgstr "Полумесяц"
+
+#, fuzzy
+msgid "Cringle"
+msgstr "Треугольник"
 
 msgid "Cross"
 msgstr "Крест"
@@ -1113,6 +1121,14 @@ msgstr "Пять кучек"
 
 msgid "Five Pyramids"
 msgstr "Пять пирамид"
+
+#, fuzzy
+msgid "Flake"
+msgstr "Фламенко"
+
+#, fuzzy
+msgid "Flake (2 decks)"
+msgstr "Церлин (3 колоды)"
 
 msgid "Flamenco"
 msgstr "Фламенко"
@@ -2537,9 +2553,6 @@ msgstr "Миссисипи"
 msgid "Mod-3"
 msgstr "Mod-3"
 
-msgid "Monaco"
-msgstr "Монако"
-
 msgid "Monkey"
 msgstr "Обезьяна"
 
@@ -2547,6 +2560,10 @@ msgid "Montana"
 msgstr "Монтана"
 
 msgid "Monte Carlo"
+msgstr "Монте-Карло"
+
+#, fuzzy
+msgid "Monte Carlo (2 decks)"
 msgstr "Монте-Карло"
 
 msgid "Moonlight"
@@ -2790,6 +2807,10 @@ msgstr "Сольный танец"
 msgid "Pas de Deux"
 msgstr "Па-де-де"
 
+#, fuzzy
+msgid "Patience"
+msgstr "S-пасьянс"
+
 msgid "Patriarchs"
 msgstr "Патриархи"
 
@@ -3027,6 +3048,10 @@ msgstr "Смягчённый Паук"
 
 msgid "Repair"
 msgstr "Ремонт"
+
+#, fuzzy
+msgid "Reserves"
+msgstr "Полушария"
 
 msgid "Retinue"
 msgstr "Свита"
@@ -3788,6 +3813,10 @@ msgstr ""
 msgid "Twenty"
 msgstr "Двенадцать"
 
+#, fuzzy
+msgid "Twilight Zone"
+msgstr "Маджонг Tile Fighter"
+
 msgid "Twin"
 msgstr "Двоня"
 
@@ -4005,3 +4034,6 @@ msgstr "Зигзагообразный курс"
 
 msgid "Zodiac"
 msgstr "Зодиак"
+
+#~ msgid "Monaco"
+#~ msgstr "Монако"

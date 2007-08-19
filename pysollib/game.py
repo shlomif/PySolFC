@@ -865,6 +865,9 @@ class Game:
             return True                 # FIXME (GTK)
         if not self.app.opt.mouse_undo:
             return True
+        if self.pause:
+            self.app.menubar.mPause()
+            return True
         # stop animation
         if not self.event_handled and self.stopWinAnimation():
             return True

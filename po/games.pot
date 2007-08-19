@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Fri Jul 20 23:41:28 2007\n"
+"POT-Creation-Date: Sun Aug 19 18:52:43 2007\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -339,6 +339,9 @@ msgstr ""
 msgid "Blind Alleys"
 msgstr ""
 
+msgid "Blind Patience"
+msgstr ""
+
 msgid "Blockade"
 msgstr ""
 
@@ -652,6 +655,9 @@ msgid "Cover"
 msgstr ""
 
 msgid "Crescent"
+msgstr ""
+
+msgid "Cringle"
 msgstr ""
 
 msgid "Cross"
@@ -1099,6 +1105,12 @@ msgid "Five Piles"
 msgstr ""
 
 msgid "Five Pyramids"
+msgstr ""
+
+msgid "Flake"
+msgstr ""
+
+msgid "Flake (2 decks)"
 msgstr ""
 
 msgid "Flamenco"
@@ -2502,9 +2514,6 @@ msgstr ""
 msgid "Mod-3"
 msgstr ""
 
-msgid "Monaco"
-msgstr ""
-
 msgid "Monkey"
 msgstr ""
 
@@ -2512,6 +2521,9 @@ msgid "Montana"
 msgstr ""
 
 msgid "Monte Carlo"
+msgstr ""
+
+msgid "Monte Carlo (2 decks)"
 msgstr ""
 
 msgid "Moonlight"
@@ -2746,6 +2758,9 @@ msgid "Pas Seul"
 msgstr ""
 
 msgid "Pas de Deux"
+msgstr ""
+
+msgid "Patience"
 msgstr ""
 
 msgid "Patriarchs"
@@ -2983,6 +2998,9 @@ msgid "Relaxed Spider"
 msgstr ""
 
 msgid "Repair"
+msgstr ""
+
+msgid "Reserves"
 msgstr ""
 
 msgid "Retinue"
@@ -3721,6 +3739,9 @@ msgid "Twelve Sleeping Maids"
 msgstr ""
 
 msgid "Twenty"
+msgstr ""
+
+msgid "Twilight Zone"
 msgstr ""
 
 msgid "Twin"

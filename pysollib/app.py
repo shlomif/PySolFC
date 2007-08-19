@@ -1056,10 +1056,7 @@ Please select a %s type %s.
     def loadStatistics(self):
         if not os.path.exists(self.fn.stats):
             return
-        import time
-        t = time.time()
         stats = unpickle(self.fn.stats)
-        print 'loadStatistics', time.time()-t
         if stats:
             ##print "loaded:", stats.__dict__
             self.stats.__dict__.update(stats.__dict__)
@@ -1085,10 +1082,7 @@ Please select a %s type %s.
         self.opt.save(self.fn.opt_cfg)
 
     def saveStatistics(self):
-        import time
-        t = time.time()
         self.__saveObject(self.stats, self.fn.stats)
-        print 'saveStatistics', time.time()-t
 
     def saveComments(self):
         self.__saveObject(self.comments, self.fn.comments)

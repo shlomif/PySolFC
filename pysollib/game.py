@@ -262,11 +262,12 @@ class Game:
 
     def initBindings(self):
         # note: a Game is only allowed to bind self.canvas and not to self.top
-        bind(self.canvas, "<2>", self.dropHandler)
         ##bind(self.canvas, "<Double-1>", self.undoHandler)
         bind(self.canvas, "<1>", self.undoHandler)
+        bind(self.canvas, "<2>", self.dropHandler)
         bind(self.canvas, "<3>", self.redoHandler)
         bind(self.canvas, '<Unmap>', self._unmapHandler)
+        bind(self.canvas, '<Configure>', self.configureHandler, add=True)
 
     def __createCommon(self, app):
         self.busy = 1
@@ -534,6 +535,9 @@ class Game:
         self.setCursor(cursor=self.app.top_cursor)
         self.stats.update_time = time.time()
         self.busy = old_busy
+        #
+        ##self.configureHandler()         # reallocateCards
+        after(self.top, 200, self.configureHandler) # wait for canvas is mapped
         #
         if TOOLKIT == 'gtk':
             ## FIXME
@@ -973,6 +977,11 @@ class Game:
         if self.app and not self.pause:
             self.app.menubar.mPause()
 
+    def configureHandler(self, event=None):
+        if not self.canvas:
+            return
+        for stack in self.allstacks:
+            stack.updatePositions()
 
     #
     # sound support

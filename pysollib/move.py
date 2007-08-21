@@ -96,6 +96,8 @@ class AMoveMove(AtomicMove):
             from_stack.removeCard()
         for c in cards:
             to_stack.addCard(c)
+        from_stack.updatePositions()
+        to_stack.updatePositions()
 
     def redo(self, game):
         self._doMove(game, self.ncards, game.allstacks[self.from_stack_id],

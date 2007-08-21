@@ -444,8 +444,9 @@ class Interment(Game):
             x += l.XS
         x, y = l.XM, l.YM+l.YS
         for i in range(3):
-            s.xwastes.append(Interment_Waste(x, y, self,
-                                             max_cards=UNLIMITED_CARDS))
+            stack = Interment_Waste(x, y, self, max_cards=UNLIMITED_CARDS)
+            l.createText(stack, 'ne')
+            s.xwastes.append(stack)
             y += l.YS
         x, y = l.XM+1.5*l.XS, l.YM+l.YS
         for i in range(8):

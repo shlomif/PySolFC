@@ -408,6 +408,7 @@ class Stack:
         # bottom image
         if self.is_visible:
             self.prepareBottom()
+        self.INIT_CARD_YOFFSET = self.CARD_YOFFSET # for reallocateCards
 
     # stack bottom image
     def prepareBottom(self):
@@ -858,6 +859,57 @@ class Stack:
 ##                     assert c.hide_stack is None
 ##             t  = t + " (%d)" % visible
         self.texts.ncards.config(text=t)
+
+    def updatePositions(self):
+        # squeeze the stack if a cards is off-screen
+        if self.reallocateCards():
+            for c in self.cards:
+                self._position(c)
+
+    def reallocateCards(self):
+        # change CARD_YOFFSET if a cards is off-screen
+        if not self.game.app.opt.squeeze_stacks:
+            return False
+        if TOOLKIT != 'tk':
+            return False
+        if self.CARD_XOFFSET != (0,):
+            return False
+        if len(self.CARD_YOFFSET) != 1:
+            return False
+        if self.CARD_YOFFSET[0] <= 0:
+            return False
+        if len(self.cards) <= 1:
+            return False
+        if not self.canvas.winfo_ismapped():
+            return False
+        yoffset = self.CARD_YOFFSET[0]
+        cardh = self.game.app.images.CARDH / 2 # 1/2 of a card is visible
+        num_face_up = len([c for c in self.cards if c.face_up])
+        num_face_down = len(self.cards) - num_face_up
+        stack_height = int(self.y +
+                           num_face_down * yoffset / self.shrink_face_down +
+                           num_face_up * yoffset +
+                           cardh)
+        visible_height = self.canvas.winfo_height()
+        game_height = self.game.height + 2*self.canvas.ymargin
+        height = max(visible_height, game_height)
+        if stack_height > height:
+            # squeeze stack
+            n = num_face_down / self.shrink_face_down + num_face_up
+            dy = float(height - self.y - cardh) / n
+            if dy < yoffset:
+                self.CARD_YOFFSET = (dy,)
+            return True
+        elif stack_height < height:
+            # expande stack
+            if self.CARD_YOFFSET == self.INIT_CARD_YOFFSET:
+                return False
+            n = num_face_down / self.shrink_face_down + num_face_up
+            dy = float(height - self.y - cardh) / n
+            dy = min(dy, self.INIT_CARD_YOFFSET[0])
+            self.CARD_YOFFSET = (dy,)
+            return True
+        return False
 
     def basicShallHighlightSameRank(self, card):
         # by default all open stacks are available for highlighting

@@ -298,6 +298,7 @@ class Stack:
         view.canvas = game.canvas
         view.CARD_XOFFSET = 0
         view.CARD_YOFFSET = 0
+        view.INIT_CARD_YOFFSET = 0      # for reallocateCards
         view.group = MfxCanvasGroup(view.canvas)
         view.shrink_face_down = 1
         ##view.group.move(view.x, view.y)
@@ -676,7 +677,7 @@ class Stack:
 
     def resetGame(self):
         # Called when starting a new game.
-        pass
+        self.CARD_YOFFSET = self.INIT_CARD_YOFFSET
 
     def __repr__(self):
         # Return a string for debug print statements.
@@ -868,6 +869,7 @@ class Stack:
 
     def reallocateCards(self):
         # change CARD_YOFFSET if a cards is off-screen
+        # returned False if CARD_YOFFSET is not changed, otherwise True
         if not self.game.app.opt.squeeze_stacks:
             return False
         if TOOLKIT != 'tk':
@@ -878,7 +880,7 @@ class Stack:
             return False
         if self.CARD_YOFFSET[0] <= 0:
             return False
-        if len(self.cards) <= 1:
+        if len(self.cards) <= 8:        # XXX
             return False
         if not self.canvas.winfo_ismapped():
             return False
@@ -1735,6 +1737,7 @@ class TalonStack(Stack,
         self.resetGame()
 
     def resetGame(self):
+        Stack.resetGame(self)
         self.round = 1
         self.base_cards = []        # for DealBaseCard_StackMethods
 

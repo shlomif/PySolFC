@@ -534,7 +534,7 @@ class Cicely(Game):
         l, s = Layout(self), self.s
 
         # set window
-        w, h = l.XM+10*l.XS, l.YM+max(5*l.YS, 2*l.YS+16*l.YOFFSET)
+        w, h = l.XM+11*l.XS, l.YM+max(5*l.YS, 2*l.YS+16*l.YOFFSET)
         self.setSize(w, h)
 
         # create stacks
@@ -542,24 +542,25 @@ class Cicely(Game):
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
             y += l.YS
-        x, y = l.XM+9*l.XS, l.YM+l.YS
+        x, y = l.XM+10*l.XS, l.YM+l.YS
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i, base_rank=KING, dir=-1))
             y += l.YS
-        x, y = l.XM+l.XS, l.YM
+        x, y = l.XM+1.5*l.XS, l.YM
         for i in range(8):
             s.reserves.append(ReserveStack(x, y, self))
             x += l.XS
-        x, y = l.XM+l.XS, l.YM+l.YS
+        x, y = l.XM+1.5*l.XS, l.YM+l.YS
         for i in range(8):
             s.rows.append(UD_SS_RowStack(x, y, self))
             x += l.XS
         s.talon = Cicely_Talon(l.XM, l.YM, self)
-        l.setRegion(s.rows, (l.XM+l.XS-l.CW/2, l.YM+l.YS-l.CH/2,
-                             w-l.XS-l.CW/2, 999999))
+        l.createText(s.talon, "ne")
+        l.setRegion(s.rows, (l.XM+1.5*l.XS-l.CW/2, l.YM+l.YS-l.CH/2,
+                             w-1.5*l.XS-l.CW/2, 999999))
 
-        # default
-        l.defaultAll()
+        # define stack-groups
+        l.defaultStackGroups()
 
 
     def startGame(self):

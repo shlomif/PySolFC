@@ -889,22 +889,13 @@ class PysolMenubar(PysolMenubarActions):
 
 
     def updateRecentGamesMenu(self, gameids):
-        # delete all entries
         submenu = self.__menupath[".menubar.file.recentgames"][2]
-        submenu.delete(0, "last")
-        # insert games
-        cb = (25, self.__cb_max) [ len(gameids) > 4 * 25 ]
-        i = 0
+        games = []
         for id in gameids:
             gi = self.app.getGameInfo(id)
-            if not gi:
-                continue
-            columnbreak = i > 0 and (i % cb) == 0
-            submenu.add_radiobutton(command=self.mSelectGame,
-                                    variable=self.tkopt.gameid,
-                                    columnbreak=columnbreak,
-                                    value=gi.id, label=gi.name)
-            i = i + 1
+            if gi:
+                games.append(gi)
+        self.updateGamesMenu(submenu, games)
 
     def updateBookmarkMenuState(self):
         state = self._getEnabledState

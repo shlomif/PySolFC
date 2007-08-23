@@ -878,6 +878,8 @@ class ThreeFirTrees_RowStack(Golf_RowStack):
                 return True
         return False
 
+    getBottomImage = Stack._getNoneBottomImage
+
 
 class FirTree_GameMethods:
     def _createFirTree(self, l, x0, y0):

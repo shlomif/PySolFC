@@ -278,6 +278,8 @@ class PysolToolbar(PysolToolbarActions):
 
     def _createDisabledButtonImage(self, tkim):
         # grayscale and light-up image
+        if not tkim:
+            return None
         im = tkim._pil_image
         dis_im = ImageOps.grayscale(im)
         ##color = '#ffffff'
@@ -292,14 +294,14 @@ class PysolToolbar(PysolToolbarActions):
 
     def _setButtonImage(self, button, name):
         image = self._loadImage(name)
-        if Image: # ??? and WIN_SYSTEM != 'aqua':
+        setattr(self, name + "_image", image)
+        if Image: # XXX: and WIN_SYSTEM != 'aqua':
             dis_image = self._createDisabledButtonImage(image)
-            setattr(self, name + "_disabled_image", dis_image)
-            setattr(self, name + "_image", image)
-            button.config(image=(image, 'disabled', dis_image))
+            if dis_image:
+                setattr(self, name + "_disabled_image", dis_image)
+                button.config(image=(image, 'disabled', dis_image))
         else:
             image = self._loadImage(name)
-            setattr(self, name + "_image", image)
             button.config(image=image)
 
     def _createButton(self, label, command, check=False, tooltip=None):

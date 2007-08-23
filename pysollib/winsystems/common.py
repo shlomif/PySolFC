@@ -76,8 +76,6 @@ def get_font_name(font):
             traceback.print_exc()
     else:
         fa = f.actual()
-        if fa['size'] > 0:
-            fa['size'] = -fa['size']
         font_name = (fa['family'],
                      fa['size'],
                      fa['slant'],

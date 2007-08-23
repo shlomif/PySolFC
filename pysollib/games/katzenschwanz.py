@@ -217,13 +217,7 @@ class SalicLaw_Hint(CautiousDefaultHint):
         return score+len(r.cards), color
 
 
-class SalicLaw_Talon(OpenTalonStack):
-
-    def canDealCards(self):
-        return True
-
-    def canFlipCard(self):
-        return False
+class SalicLaw_Talon(TalonStack):
 
     def dealCards(self, sound=False):
         if len(self.cards) == 0:
@@ -237,16 +231,48 @@ class SalicLaw_Talon(OpenTalonStack):
             to_stack = rows[ri]
         else:
             to_stack = rows[ri-1]
-        ##frames = (3, 4)[ri > 4]
-        frames = 3
         if sound and not self.game.demo:
             self.game.startDealSample()
-        self.game.flipMove(self)
-        self.game.moveMove(1, self, to_stack, frames=frames)
+        self.dealToStacks(stacks=[to_stack])
         if sound and not self.game.demo:
             self.game.stopSamples()
-        self.game.leaveState(old_state)
         return 1
+
+# all Aces go to the Foundations
+class SalicLaw_Talon_2(SalicLaw_Talon):
+    def dealCards(self, sound=False):
+        if len(self.cards) == 0:
+            return 0
+        if self.cards[-1].rank == ACE:
+            for f in self.game.s.foundations:
+                if not f.cards:
+                    break
+            if sound and not self.game.demo:
+                self.game.startDealSample()
+            self.dealToStacks(stacks=[f])
+            if sound and not self.game.demo:
+                self.game.stopSamples()
+            return 1
+        else:
+            return SalicLaw_Talon.dealCards(self, sound=sound)
+
+
+class SalicLaw_RowStack(OpenStack):
+    def acceptsCards(self, from_stack, cards):
+        if len(self.cards) == 1:
+            return True
+        return False
+        return OpenStack.acceptsCards(self, from_stack, cards)
+
+
+class SalicLaw_Foundation(RK_FoundationStack):
+    def acceptsCards(self, from_stack, cards):
+        if not RK_FoundationStack.acceptsCards(self, from_stack, cards):
+            return False
+        if from_stack not in self.game.s.rows:
+            return False
+        row_id = self.id + 8
+        return len(self.game.allstacks[row_id].cards) > 0
 
 
 class SalicLaw(DerKatzenschwanz):
@@ -254,11 +280,13 @@ class SalicLaw(DerKatzenschwanz):
     Hint_Class = SalicLaw_Hint
     Solver_Class = None
 
+    Talon_Class = SalicLaw_Talon_2
     Foundation_Classes = [
         StackWrapper(AbstractFoundationStack, max_cards=1, base_rank=QUEEN),
-        StackWrapper(RK_FoundationStack, base_rank=ACE, max_cards=11),
+        StackWrapper(SalicLaw_Foundation, max_cards=11, base_rank=ACE),
         ]
-    RowStack_Class = OpenStack
+    RowStack_Class = StackWrapper(SalicLaw_RowStack, min_cards=1,
+                                  max_accept=UNLIMITED_ACCEPTS)
 
     ROW_BASE_RANK = KING
 
@@ -301,7 +329,7 @@ class SalicLaw(DerKatzenschwanz):
             stack.CARD_YOFFSET = yoffset
             s.rows.append(stack)
             x += l.XS
-        s.talon = SalicLaw_Talon(l.XM+9*l.XS, l.YM, self)
+        s.talon = self.Talon_Class(l.XM+9*l.XS, l.YM, self)
         l.createText(s.talon, "s")
 
         # define stack-groups
@@ -317,10 +345,13 @@ class SalicLaw(DerKatzenschwanz):
                 cards.remove(c)
                 break
         cards.append(c)
+        cards = self._shuffleHookMoveToTop(cards,
+                                           lambda c: (c.rank == QUEEN, None))
         return cards
 
     def startGame(self):
         self.startDealSample()
+        self.s.talon.dealRow(self.s.foundations[:8]) # deal Queens
         self.s.talon.dealRow(self.s.rows[:1]) # deal King
 
     def isGameWon(self):
@@ -328,14 +359,6 @@ class SalicLaw(DerKatzenschwanz):
             if len(s.cards) != 11:
                 return False
         return True
-
-    def getAutoStacks(self, event=None):
-        if event is None:
-            # disable auto drop
-            return (self.sg.dropstacks, (), self.sg.dropstacks)
-        else:
-            # rightclickHandler
-            return (self.sg.dropstacks, self.sg.dropstacks, self.sg.dropstacks)
 
 
 # /***********************************************************************
@@ -371,10 +394,23 @@ class FaerieQueen_RowStack(RK_RowStack):
 
 class FaerieQueen(SalicLaw):
 
+    Talon_Class = SalicLaw_Talon
     Foundation_Classes = [
         StackWrapper(RK_FoundationStack, max_move=0, max_cards=12)
         ]
     RowStack_Class = StackWrapper(FaerieQueen_RowStack, min_cards=1, max_move=1)
+
+    def _shuffleHook(self, cards):
+        for c in cards[:]:
+            if c.rank == KING:
+                cards.remove(c)
+                break
+        cards.append(c)
+        return cards
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow(self.s.rows[:1]) # deal King
 
     def isGameWon(self):
         if self.s.talon.cards:
@@ -405,6 +441,7 @@ class Intrigue_RowStack(OpenStack):
 
 class Intrigue(SalicLaw):
 
+    Talon_Class = SalicLaw_Talon
     Foundation_Classes = [
         StackWrapper(RK_FoundationStack, base_rank=5, max_cards=6),
         StackWrapper(RK_FoundationStack, base_rank=4, max_cards=6, dir=-1, mod=13),
@@ -420,6 +457,10 @@ class Intrigue(SalicLaw):
                 break
         cards.append(c)
         return cards
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow(self.s.rows[:1]) # deal King
 
     def isGameWon(self):
         if self.s.talon.cards:

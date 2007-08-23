@@ -273,7 +273,7 @@ class FourByFour(Game):
         x += 3.5*l.XS
         s.foundations.append(FourByFour_Foundation(x, y, self,
                              suit=ANY_SUIT, base_rank=ANY_RANK, max_cards=52,
-                             max_accept=1, max_move=0))
+                             max_accept=1, max_move=0, mod=13))
         stack = s.foundations[0]
         tx, ty, ta, tf = l.getTextAttr(stack, 'ne')
         font = self.app.getFont('canvas_default')
@@ -316,6 +316,7 @@ class FourByFour(Game):
             if n == 0:
                 n = 4*decks
                 r = (r+1) % f.cap.mod
+            r = r % 13
             r = RANKS[r]
             t = '%s (%d)' % (r, n)
         f.texts.misc.config(text=t)

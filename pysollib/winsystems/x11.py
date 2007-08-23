@@ -111,7 +111,7 @@ def init_root_window(root, app):
             # use font from xrdb
             fn = get_font_name(font)
             if fn:
-                root.option_add('*font', font)
+                ##root.option_add('*font', font)
                 style.configure('.', font=font)
                 app.opt.fonts['default'] = fn
                 # treeview heading
@@ -154,8 +154,8 @@ def init_root_window(root, app):
             fn = get_font_name(font)
             app.opt.fonts['default'] = fn
         else:
-            root.option_add('*font', 'helvetica -12', 60)
-            app.opt.fonts['default'] = ('helvetica', -12,
+            root.option_add('*font', 'helvetica 12', 60)
+            app.opt.fonts['default'] = ('helvetica', 12,
                                         'roman', 'normal')
 
 

@@ -915,9 +915,12 @@ class Game:
             if k == "gamenumber":
                 if v is None:
                     if sb: sb.updateText(gamenumber="")
+                    #self.top.wm_title("%s - %s" % (TITLE, self.getTitleName()))
                     continue
-                if isinstance(v, str):
+                if isinstance(v, basestring):
                     if sb: sb.updateText(gamenumber=v)
+                    #self.top.wm_title("%s - %s %s" % (TITLE,
+                    #                                  self.getTitleName(), v))
                     continue
             if k == "info":
                 ##print 'updateStatus info:', v

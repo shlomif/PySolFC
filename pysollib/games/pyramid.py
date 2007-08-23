@@ -155,6 +155,8 @@ class Pyramid_RowStack(Pyramid_StackMethods, OpenStack):
             return 1
         return OpenStack.clickHandler(self, event)
 
+    getBottomImage = Stack._getNoneBottomImage
+
 
 # /***********************************************************************
 # // Pyramid

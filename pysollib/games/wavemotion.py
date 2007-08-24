@@ -94,6 +94,29 @@ class WaveMotion(Game):
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
+# /***********************************************************************
+# // Flourish
+# ************************************************************************/
+
+class Flourish(WaveMotion):
+    RowStack_Class = AC_RowStack
+
+    def createGame(self):
+        WaveMotion.createGame(self, rows=7, reserves=8, playcards=7)
+
+    def isGameWon(self):
+        for s in self.s.rows:
+            if s.cards:
+                if len(s.cards) != 13 or not isAlternateColorSequence(s.cards):
+                    return False
+        return True
+            
+    shallHighlightMatch = Game._shallHighlightMatch_AC
+
+
+
 # register the game
 registerGame(GameInfo(314, WaveMotion, "Wave Motion",
-                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(753, Flourish, "Flourish",
+                      GI.GT_1DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))

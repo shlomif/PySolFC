@@ -875,6 +875,57 @@ class DoubleMeasure(Measure):
         Measure.createGame(self, rows=10)
 
 
+# /***********************************************************************
+# // Amphibian
+# ************************************************************************/
+
+class Amphibian(Game):
+    Hint_Class = Gloaming_Hint
+
+    def createGame(self, rows=5, reserves=4, playcards=15):
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        self.setSize(l.XM + 8 * l.XS, l.YM + 3*l.YS + playcards*l.YOFFSET)
+
+        # create stacks
+        x, y = l.XM, l.YM
+        for i in range(4):
+            for j in range(2):
+                s.foundations.append(RK_FoundationStack(x, y, self,
+                                                        suit=ANY_SUIT))
+                x += l.XS
+        x, y = l.XM+(8-rows)*l.XS/2, l.YM + l.YS
+        for i in range(rows):
+            s.rows.append(Gloaming_RowStack(x, y, self, max_accept=1))
+            x += l.XS
+
+        x, y = l.XM+(8-reserves-1)*l.XS/2, self.height-l.YS
+        for i in range(reserves):
+            s.reserves.append(OpenStack(x, y, self, max_accept=0))
+            x += l.XS
+
+        s.talon = TalonStack(x, y, self)
+        l.createText(s.talon, 'n')
+
+        # define stack-groups
+        l.defaultStackGroups()
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow(rows=self.s.reserves)
+
+    def fillStack(self, stack):
+        if stack in self.s.reserves:
+            for stack in self.s.reserves:
+                if stack.cards:
+                    return
+            old_state = self.enterState(self.S_FILL)
+            self.s.talon.dealRow(rows=self.s.reserves, sound=1)
+            self.leaveState(old_state)
+
+
 
 # register the game
 registerGame(GameInfo(257, Numerica, "Numerica",
@@ -916,5 +967,7 @@ registerGame(GameInfo(641, CircleNine, "Circle Nine",
 registerGame(GameInfo(643, Measure, "Measure",
                       GI.GT_NUMERICA | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(644, DoubleMeasure, "Double Measure",
+                      GI.GT_NUMERICA | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(754, Amphibian, "Amphibian",
                       GI.GT_NUMERICA | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 

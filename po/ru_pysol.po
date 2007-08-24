@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: Sun Aug 19 18:54:00 2007\n"
-"PO-Revision-Date: 2007-08-19 18:59+0400\n"
+"PO-Revision-Date: 2007-08-24 19:21+0400\n"
 "Last-Translator: Skomoroh <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -829,7 +829,7 @@ msgstr "Король"
 #: pysollib/games/canfield.py:549 pysollib/games/special/tarock.py:224
 #: pysollib/stack.py:1513 pysollib/util.py:78
 msgid "Queen"
-msgstr "Королева"
+msgstr "Дама"
 
 #: pysollib/games/curdsandwhey.py:62
 msgid "Tableau. Build down by suit or of the same rank."

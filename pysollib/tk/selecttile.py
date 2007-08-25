@@ -72,8 +72,8 @@ class SelectTileData(SelectDialogTreeData):
     def __init__(self, manager, key):
         SelectDialogTreeData.__init__(self)
         self.all_objects = manager.getAllSortedByName()
-        self.all_objects = filter(lambda obj: not obj.error, self.all_objects)
-        self.all_objects = filter(lambda tile: tile.index > 0 and tile.filename, self.all_objects)
+        self.all_objects = [obj for obj in self.all_objects if not obj.error]
+        self.all_objects = [tile for tile in self.all_objects if tile.index > 0 and tile.filename]
         self.no_contents = [ SelectTileLeaf(None, None, _("(no tiles)"), key=None), ]
         e1 = isinstance(key, str) or len(self.all_objects) <=17
         e2 = 1

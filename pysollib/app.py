@@ -142,6 +142,7 @@ class GameStat:
         game_start_time = game.gstats.start_time
         # update number of games
         # status:
+        # -1 - NOT WON (not played)
         # 0 - LOST
         # 1 - WON
         # 2 - PERFECT
@@ -223,7 +224,7 @@ class Statistics:
         if gameid == 0:
             del games[player]
         else:
-            games[player] = filter(lambda a, b=gameid: a[0] != b, games[player])
+            games[player] = [g for g in games[player] if g[0] != gameid]
 
     def getStats(self, player, gameid):
         # returned (won, lost)
@@ -241,10 +242,10 @@ class Statistics:
         return (0, 0, 0, 0)
 
     def getSessionStats(self, player, gameid):
-        g = self.session_games.get(player, [])
-        g = filter(lambda a, b=gameid: a[0] == b, g)
-        won = len(filter(lambda a, b=gameid: a[2] > 0, g))
-        lost = len(filter(lambda a, b=gameid: a[2] == 0, g))
+        games = self.session_games.get(player, [])
+        games = [g for g in games if g[0] == gameid]
+        won = len([g for g in games if g[2] > 0])
+        lost = len([g for g in games if g[2] == 0])
         return won, lost
 
     def updateStats(self, player, game, status):
@@ -1291,11 +1292,11 @@ Please select a %s type %s.
             if not DEBUG:
                 return
             if field:
-                print '_parseCardsetConfig error: line #%d, fields#%d %s' \
-                      % (line, field, msg)
+                print_err('_parseCardsetConfig error: line #%d, field #%d %s'
+                          % (line, field, msg))
             else:
-                print '_parseCardsetConfig error: line #%d: %s' \
-                      % (line, msg)
+                print_err('_parseCardsetConfig error: line #%d: %s'
+                          % (line, msg))
         if len(line) < 6:
             perr(1, msg='number of lines')
             return 0
@@ -1421,7 +1422,8 @@ Please select a %s type %s.
                                     found.append(cs)
                                     #print '+', cs.name
                             else:
-                                print 'fail _readCardsetConfig:', d, f1
+                                print_err('fail _readCardsetConfig: %s %s'
+                                          % (d, f1))
                                 pass
                         except Exception, err:
                             ##traceback.print_exc()

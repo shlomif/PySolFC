@@ -188,7 +188,7 @@ class GroundForADivorce_Talon(TalonStack):
     # A single click deals a new cards to each non-empty row.
     def dealCards(self, sound=True):
         if self.cards:
-            rows = filter(lambda r: r.cards, self.game.s.rows)
+            rows = [r for r in self.game.s.rows if r.cards]
             if not rows:
                 # deal one card to first row if all rows are emtpy
                 rows = self.game.s.rows[:1]

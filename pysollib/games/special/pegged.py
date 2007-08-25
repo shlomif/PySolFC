@@ -51,7 +51,7 @@ class Pegged_Hint(AbstractHint):
     def computeHints(self):
         game = self.game
         # get free stacks
-        stacks = filter(lambda r: not r.cards, game.s.rows)
+        stacks = [r for r in game.s.rows if not r.cards]
         #
         for t in stacks:
             for dx, dy in game.STEPS:
@@ -192,7 +192,7 @@ class Pegged(Game):
     def getWinStatus(self):
         won, status, updated = Game.getWinStatus(self)
         if status == 2:
-            stacks = filter(lambda r: r.cards, self.s.rows)
+            stacks = [r for r in self.s.rows if r.cards]
             assert len(stacks) == 1
             if stacks[0].id != self.EMPTY_STACK_ID:
                 # not perfect

@@ -158,7 +158,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
                               gobject.TYPE_INT)
         manager = self.manager
         all_cardsets = manager.getAllSortedByName()
-        all_cardsets = filter(lambda obj: not obj.error, all_cardsets)
+        all_cardsets = [obj for obj in all_cardsets if not obj.error]
 
         cs = self._selectCardset(all_cardsets, None)
         self._addCardsets(store, None, 'All cadsets', cs)

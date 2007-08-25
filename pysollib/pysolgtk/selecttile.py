@@ -118,8 +118,8 @@ class SelectTileDialogWithPreview(MfxDialog):
             index += 1
         #
         tiles = manager.getAllSortedByName()
-        tiles = filter(lambda obj: not obj.error, tiles)
-        tiles = filter(lambda tile: tile.index > 0 and tile.filename, tiles)
+        tiles = [obj for obj in tiles if not obj.error]
+        tiles = [tile for tile in tiles if tile.index > 0 and tile.filename]
         #
         iter = model.append(None)
         model.set(iter, 0, _('All Backgrounds'), 1, -1)

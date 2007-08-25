@@ -107,7 +107,7 @@ class Terrace_RowStack(AC_RowStack):
         self.game.moveMove(ncards, self, to_stack, frames=frames, shadow=shadow)
         for s in self.game.s.foundations:
             s.cap.base_rank = to_stack.cards[0].rank
-        freerows = filter(lambda s: not s.cards, self.game.s.rows)
+        freerows = [s for s in self.game.s.rows if not s.cards]
         self.game.s.talon.dealRow(rows=freerows, sound=True)
         self.game.s.talon.dealCards()     # deal first card to WasteStack
 

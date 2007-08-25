@@ -161,8 +161,10 @@ class Game:
         if self.app.intro.progress: self.app.intro.progress.update(step=1)
         self.createGame()
         # set some defaults
-        self.sg.openstacks = filter(lambda s: s.cap.max_accept >= s.cap.min_accept, self.sg.openstacks)
-        self.sg.hp_stacks = filter(lambda s: s.cap.max_move >= 2, self.sg.dropstacks)
+        self.sg.openstacks = [s for s in self.sg.openstacks
+                              if s.cap.max_accept >= s.cap.min_accept]
+        self.sg.hp_stacks = [s for s in self.sg.dropstacks
+                             if s.cap.max_move >= 2]
         self.createSnGroups()
         # convert stackgroups to tuples (speed)
         self.allstacks = tuple(self.allstacks)
@@ -307,8 +309,10 @@ class Game:
         # create game
         self.createGame()
         # set some defaults
-        self.sg.openstacks = filter(lambda s: s.cap.max_accept >= s.cap.min_accept, self.sg.openstacks)
-        self.sg.hp_stacks = filter(lambda s: s.cap.max_move >= 2, self.sg.dropstacks)
+        self.sg.openstacks = [s for s in self.sg.openstacks
+                              if s.cap.max_accept >= s.cap.min_accept]
+        self.sg.hp_stacks = [s for s in self.sg.dropstacks
+                             if s.cap.max_move >= 2]
         # init the stack view
         for stack in self.allstacks:
             stack.prepareStack()
@@ -822,7 +826,7 @@ class Game:
             i = i - 1
         sitems.sort()
         sitems.reverse()
-        scards = map(lambda item: item[2], sitems)
+        scards = [item[2] for item in sitems]
         return cards, scards
 
 
@@ -2006,7 +2010,7 @@ Congratulations, you did it !
             width = 4
             xmargin, ymargin = 0, 0
         x0, y0 = x+width/2-xmargin, y+width/2-ymargin
-        x1, y1 = x+w-width-xmargin, y+h-width-ymargin
+        x1, y1 = x+w-width/2-xmargin, y+h-width/2-ymargin
         r = MfxCanvasRectangle(self.canvas, x0, y0, x1, y1,
                                width=width, fill=None, outline=color)
         self.canvas.update_idletasks()

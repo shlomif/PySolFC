@@ -50,7 +50,7 @@ class Montana_Hint(DefaultHint):
     def computeHints(self):
         game = self.game
         RLEN, RSTEP, RBASE = game.RLEN, game.RSTEP, game.RBASE
-        freerows = filter(lambda s: not s.cards, game.s.rows)
+        freerows = [s for s in game.s.rows if not s.cards]
         # for each stack
         for r in game.s.rows:
             if not r.cards:
@@ -272,7 +272,7 @@ class BlueMoon(Montana):
             if i % self.RSTEP == 0:     # left column
                 continue
             self.s.talon.dealRow(rows=(self.s.rows[i],), frames=frames)
-        ace_rows = filter(lambda r: r.cards and r.cards[-1].rank == ACE, self.s.rows)
+        ace_rows = [r for r in self.s.rows if r.cards and r.cards[-1].rank == ACE]
         j = 0
         for r in ace_rows:
             self.moveMove(1, r, self.s.rows[j])

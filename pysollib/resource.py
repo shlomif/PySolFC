@@ -114,9 +114,9 @@ class ResourceManager:
 
     def getAllSortedByName(self):
         if self._objects_by_name is None:
-            l = map(lambda obj: (obj.getSortKey(), obj), self._objects)
+            l = [(obj.getSortKey(), obj) for obj in self._objects]
             l.sort()
-            self._objects_by_name = tuple(map(lambda item: item[1], l))
+            self._objects_by_name = tuple([item[1] for item in l])
         return self._objects_by_name
 
     #
@@ -470,14 +470,14 @@ class CardsetManager(ResourceManager):
                 cs.si.size = CSI.SIZE_XLARGE
         #
         keys = cs.styles[:]
-        cs.si.styles = tuple(filter(lambda s: s in CSI.STYLE, keys))
+        cs.si.styles = tuple([s for s in keys if s in CSI.STYLE])
         for s in cs.si.styles:
             self.registered_styles[s] = self.registered_styles.get(s, 0) + 1
-        cs.si.nationalities = tuple(filter(lambda s: s in CSI.NATIONALITY, keys))
+        cs.si.nationalities = tuple([s for s in keys if s in CSI.NATIONALITY])
         for s in cs.si.nationalities:
             self.registered_nationalities[s] = self.registered_nationalities.get(s, 0) + 1
         keys = (cs.year / 100,)
-        cs.si.dates = tuple(filter(lambda s: s in CSI.DATE, keys))
+        cs.si.dates = tuple([s for s in keys if s in CSI.DATE])
         for s in cs.si.dates:
             self.registered_dates[s] = self.registered_dates.get(s, 0) + 1
         #

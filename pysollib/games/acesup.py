@@ -150,7 +150,7 @@ class Fortunes(AcesUp):
 
 class RussianAces_Talon(DealRowTalonStack):
     def dealCards(self, sound=False):
-        rows = filter(lambda s: not s.cards, self.game.s.rows)
+        rows = [s for s in self.game.s.rows if not s.cards]
         if not rows:
             rows = self.game.s.rows
         return self.dealRowAvail(rows=rows, sound=sound)

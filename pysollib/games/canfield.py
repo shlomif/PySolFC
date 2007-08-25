@@ -716,7 +716,7 @@ class Demon(Canfield):
     INITIAL_RESERVE_CARDS = 40
     RowStack_Class = StackWrapper(AC_RowStack, mod=13)
     def createGame(self):
-        Canfield.createGame(self, rows=8, max_rounds=UNLIMITED_REDEALS, num_deal=1)
+        Canfield.createGame(self, rows=8, max_rounds=UNLIMITED_REDEALS, num_deal=3)
 
 
 # /***********************************************************************

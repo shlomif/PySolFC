@@ -79,7 +79,7 @@ class SelectCardsetData(SelectDialogTreeData):
     def __init__(self, manager, key):
         SelectDialogTreeData.__init__(self)
         self.all_objects = manager.getAllSortedByName()
-        self.all_objects = filter(lambda obj: not obj.error, self.all_objects)
+        self.all_objects = [obj for obj in self.all_objects if not obj.error]
         self.no_contents = [ SelectCardsetLeaf(None, None, _("(no cardsets)"), key=None), ]
         #
         select_by_type = None

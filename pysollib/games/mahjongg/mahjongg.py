@@ -202,11 +202,11 @@ class Mahjongg_RowStack(OpenStack):
         OpenStack._position(self, card)
         #
         if TOOLKIT == 'tk':
-            rows = filter(lambda s: s.cards, self.game.s.rows[:self.id])
+            rows = [s for s in self.game.s.rows[:self.id] if s.cards]
             if rows:
                 self.group.tkraise(rows[-1].group)
                 return
-            rows = filter(lambda s: s.cards, self.game.s.rows[self.id+1:])
+            rows = [s for s in self.game.s.rows[self.id+1:] if s.cards]
             if rows:
                 self.group.lower(rows[0].group)
                 return
@@ -728,7 +728,7 @@ class AbstractMahjonggGame(Game):
                 # check if this layout is solvable (backtracking)
                 ret = create_solvable(cards[:], nc)
                 if ret:
-                    ret = filter(lambda x: x != 1, ret)
+                    ret = [x for x in ret if x != 1]
                     return ret
                 nc[s1.id] = nc[s2.id] = None # try another way
 

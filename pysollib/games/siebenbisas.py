@@ -51,7 +51,7 @@ from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 class SiebenBisAs_Hint(CautiousDefaultHint):
     def computeHints(self):
         game = self.game
-        freerows = filter(lambda s: not s.cards, game.s.rows)
+        freerows = [s for s in game.s.rows if not s.cards]
         # for each stack
         for r in game.sg.dropstacks:
             if not r.cards:
@@ -149,7 +149,7 @@ class SiebenBisAs(Game):
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.reserves)
-        stacks = filter(lambda r: r.cards[-1].rank == 6, self.s.rows)
+        stacks = [r for r in self.s.rows if r.cards[-1].rank == 6]
         for r in stacks:
             self.moveMove(1, r, self.s.foundations[r.cards[-1].suit])
 
@@ -246,7 +246,7 @@ class Maze(Game):
                 self.s.talon.dealRow(rows=(self.s.rows[i],), frames=frames)
 
     def isGameWon(self):
-        rows = filter(lambda s: s.cards, self.s.rows)
+        rows = [s for s in self.s.rows if s.cards]
         if len(rows) != 48:
             return False            # no cards dealt yet
         i = 0

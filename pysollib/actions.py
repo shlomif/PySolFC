@@ -40,6 +40,7 @@ import os, locale
 # PySol imports
 from mfxutil import SubclassResponsibility
 from mfxutil import Struct, openURL
+from mfxutil import print_err
 from pysolrandom import constructRandom
 from settings import TITLE, PACKAGE_URL
 from settings import TOP_TITLE
@@ -651,7 +652,7 @@ class PysolMenubarActions:
                 ## TODO
                 pass
             else:
-                print "stats problem:", mode, demo, player
+                print_err("stats problem: %s %s %s" % (mode, demo, player))
                 pass
             if d.status != 0:
                 break

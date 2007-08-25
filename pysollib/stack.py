@@ -200,7 +200,7 @@ def isAnySuitButOwnSequence(cards, mod=8192, dir=-1):
     return True
 
 def getNumberOfFreeStacks(stacks):
-    return len(filter(lambda s: not s.cards, stacks))
+    return len([s for s in stacks if not s.cards])
 
 # collect the top cards of several stacks into a pile
 def getPileFromStacks(stacks, reverse=0):
@@ -372,11 +372,11 @@ class Stack:
         if isinstance(ox, int):
             self.CARD_XOFFSET = (ox,)
         else:
-            self.CARD_XOFFSET = tuple(map(int, map(round, ox)))
+            self.CARD_XOFFSET = tuple([int(round(x)) for x in ox])
         if isinstance(oy, int):
             self.CARD_YOFFSET = (oy,)
         else:
-            self.CARD_YOFFSET = tuple(map(int, map(round, oy)))
+            self.CARD_YOFFSET = tuple([int(round(y)) for y in oy])
         if self.can_hide_cards < 0:
             self.can_hide_cards = self.is_visible
             if self.cap.max_cards < 3:
@@ -1946,7 +1946,7 @@ class GroundForADivorceTalonStack(DealRowRedealTalonStack):
     # A single click deals a new cards to each non-empty row.
     def dealCards(self, sound=True):
         if self.cards:
-            rows = filter(lambda r: r.cards, self.game.s.rows)
+            rows = [r for r in self.game.s.rows if r.cards]
 ##             if not rows:
 ##                 # deal one card to first row if all rows are emtpy
 ##                 rows = self.game.s.rows[:1]

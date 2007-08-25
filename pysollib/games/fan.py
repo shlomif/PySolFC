@@ -942,7 +942,8 @@ registerGame(GameInfo(516, Troika, "Troika",
 registerGame(GameInfo(517, Quads, "Quads",
                       GI.GT_FAN_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(625, FascinationFan, "Fascination Fan",
-                      GI.GT_FAN_TYPE, 1, 6, GI.SL_BALANCED))
+                      GI.GT_FAN_TYPE, 1, 6, GI.SL_BALANCED,
+                      altnames=('Demon Fan',) ))
 registerGame(GameInfo(647, Crescent, "Crescent",
                       GI.GT_FAN_TYPE, 2, 3, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(714, ShamrocksII, "Shamrocks II",

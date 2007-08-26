@@ -198,7 +198,8 @@ class PysolMenubarActions:
         if game.gameinfo.si.game_type == GI.GT_CUSTOM:
             ms.custom_game = 1
         if game.canShuffle():
-            ms.shuffle = 1
+            if opt.shuffle:
+                ms.shuffle = 1
 
     # update menu items and toolbar
     def _updateMenus(self):
@@ -492,8 +493,9 @@ class PysolMenubarActions:
 
     def mShuffle(self, *args):
         if self._cancelDrag(): return
-        if self.game.canShuffle():
-            self.game._mahjonggShuffle()
+        if self.menustate.shuffle:
+            if self.game.canShuffle():
+                self.game._mahjonggShuffle()
 
     def mStatus(self, *args):
         if self._cancelDrag(break_pause=False): return

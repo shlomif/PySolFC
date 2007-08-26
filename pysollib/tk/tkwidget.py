@@ -674,8 +674,7 @@ class StackDesc:
         text = stack.getHelp()+'\n'+stack.getBaseCard()
         text = text.strip()
         if text:
-            frame = Tkinter.Frame(self.canvas, highlightthickness=1,
-                                  highlightbackground='black')
+            frame = Tkinter.Frame(self.canvas)
             self.frame = frame
             label = Tkinter.Message(frame, font=font, text=text,
                                     width=cardw-8, relief='solid',

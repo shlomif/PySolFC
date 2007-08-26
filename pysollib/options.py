@@ -47,6 +47,7 @@ autofaceup = boolean
 autodrop = boolean
 autodeal = boolean
 quickplay = boolean
+shuffle = boolean
 undo = boolean
 bookmarks = boolean
 hint = boolean
@@ -174,6 +175,7 @@ class Options:
         ('autodrop', 'bool'),
         ('autodeal', 'bool'),
         ('quickplay', 'bool'),
+        ('shuffle', 'bool'),
         ('undo', 'bool'),
         ('bookmarks', 'bool'),
         ('hint', 'bool'),
@@ -243,6 +245,7 @@ class Options:
         self.autodrop = False
         self.autodeal = True
         self.quickplay = True
+        self.shuffle = True
         self.undo = True
         self.bookmarks = True
         self.hint = True

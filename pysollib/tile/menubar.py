@@ -217,6 +217,7 @@ class PysolMenubar(PysolMenubarActions):
             undo = Tkinter.BooleanVar(),
             bookmarks = Tkinter.BooleanVar(),
             hint = Tkinter.BooleanVar(),
+            shuffle = Tkinter.BooleanVar(),
             highlight_piles = Tkinter.BooleanVar(),
             highlight_cards = Tkinter.BooleanVar(),
             highlight_samerank = Tkinter.BooleanVar(),
@@ -263,6 +264,7 @@ class PysolMenubar(PysolMenubarActions):
         tkopt.quickplay.set(opt.quickplay)
         tkopt.undo.set(opt.undo)
         tkopt.hint.set(opt.hint)
+        tkopt.shuffle.set(opt.shuffle)
         tkopt.bookmarks.set(opt.bookmarks)
         tkopt.highlight_piles.set(opt.highlight_piles)
         tkopt.highlight_cards.set(opt.highlight_cards)
@@ -446,6 +448,7 @@ class PysolMenubar(PysolMenubarActions):
         submenu.add_checkbutton(label=n_("Enable &undo"), variable=self.tkopt.undo, command=self.mOptEnableUndo)
         submenu.add_checkbutton(label=n_("Enable &bookmarks"), variable=self.tkopt.bookmarks, command=self.mOptEnableBookmarks)
         submenu.add_checkbutton(label=n_("Enable &hint"), variable=self.tkopt.hint, command=self.mOptEnableHint)
+        submenu.add_checkbutton(label=n_("Enable shu&ffle"), variable=self.tkopt.shuffle, command=self.mOptEnableShuffle)
         submenu.add_checkbutton(label=n_("Enable highlight p&iles"), variable=self.tkopt.highlight_piles, command=self.mOptEnableHighlightPiles)
         submenu.add_checkbutton(label=n_("Enable highlight &cards"), variable=self.tkopt.highlight_cards, command=self.mOptEnableHighlightCards)
         submenu.add_checkbutton(label=n_("Enable highlight same &rank"), variable=self.tkopt.highlight_samerank, command=self.mOptEnableHighlightSameRank)
@@ -1074,6 +1077,11 @@ class PysolMenubar(PysolMenubarActions):
     def mOptEnableHint(self, *args):
         if self._cancelDrag(break_pause=False): return
         self.app.opt.hint = self.tkopt.hint.get()
+        self.game.updateMenus()
+
+    def mOptEnableShuffle(self, *args):
+        if self._cancelDrag(break_pause=False): return
+        self.app.opt.shuffle = self.tkopt.shuffle.get()
         self.game.updateMenus()
 
     def mOptEnableHighlightPiles(self, *args):

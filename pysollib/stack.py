@@ -229,8 +229,8 @@ class Stack:
     # moving a subpile around.
 
     # constants
-    MIN_VISIBLE_XOFFSET = 5
-    MIN_VISIBLE_YOFFSET = 5
+    MIN_VISIBLE_XOFFSET = 3
+    MIN_VISIBLE_YOFFSET = 3
     SHRINK_FACTOR = 2.
 
     def __init__(self, x, y, game, cap={}):

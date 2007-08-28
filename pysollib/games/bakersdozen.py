@@ -158,15 +158,15 @@ class SpanishPatience(BakersDozen):
 
 
 class PortugueseSolitaire(BakersDozen):
-    RowStack_Class = StackWrapper(RK_RowStack, base_rank=KING)
+    RowStack_Class = StackWrapper(RK_RowStack, base_rank=KING, max_move=1)
     Solver_Class = FreeCellSolverWrapper(sbb='rank', esf='kings')
     def _shuffleHook(self, cards):
         return cards
 
 
 class SpanishPatienceII(PortugueseSolitaire):
-    RowStack_Class = RK_RowStack
-    Solver_Class = FreeCellSolverWrapper(sbb='rank', sm='unlimited')
+    RowStack_Class = StackWrapper(RK_RowStack, max_move=1)
+    Solver_Class = FreeCellSolverWrapper(sbb='rank')
 
 
 # /***********************************************************************

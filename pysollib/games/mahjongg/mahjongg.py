@@ -35,7 +35,7 @@ from gettext import ungettext
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.util import *
-from pysollib.mfxutil import kwdefault, Struct
+from pysollib.mfxutil import kwdefault, Struct, Image
 from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
@@ -884,8 +884,41 @@ a solvable configuration.'''),
         return ((self.s.rows, 1),)
 
     def _highlightCards(self, info, sleep=1.5, delta=(1,1,1,1)):
-        delta = (-self._delta_x, 0, 0, -self._delta_y)
-        Game._highlightCards(self, info, sleep=sleep, delta=delta)
+        if not Image:
+            delta = (-self._delta_x, 0, 0, -self._delta_y)
+            return Game._highlightCards(self, info, sleep=sleep, delta=delta)
+
+        if not info:
+            return 0
+        if self.pause:
+            return 0
+        self.stopWinAnimation()
+        items = []
+        for s, c1, c2, color in info:
+            assert c1 is c2
+            assert c1 in s.cards
+            tkraise = False
+            x, y = s.x, s.y
+            img = self.app.images.getShadowCard(c1.deck, c1.suit, c1.rank)
+            if img is None:
+                continue
+            img = MfxCanvasImage(self.canvas, x, y, image=img,
+                                 anchor=ANCHOR_NW, group=s.group)
+            img.tkraise(c1.item)
+            items.append(img)
+        if not items:
+            return 0
+        self.canvas.update_idletasks()
+        if sleep:
+            self.sleep(sleep)
+            items.reverse()
+            for r in items:
+                r.delete()
+            self.canvas.update_idletasks()
+            return EVENT_HANDLED
+        else:
+            # remove items later (find_card_dialog)
+            return items
 
     def getCardFaceImage(self, deck, suit, rank):
         if suit == 3:

@@ -90,6 +90,7 @@ class Images:
         self._xshadow = []
         self._shade = []
         self._shadow_cards = {}         # key: (suit, rank)
+        self._highlight_cards = {}      # for mahjongg
         self._shadow_back = None
         self._pil_shadow = {}           # key: (width, height)
         self._pil_shadow_image = None
@@ -371,6 +372,17 @@ class Images:
             image = self.getFace(deck, suit, rank)
             shade = shadowImage(image)
             self._shadow_cards[(suit, rank)] = shade
+        if not shade:
+            return self.getShade()
+        return shade
+
+    def getHighlightCard(self, deck, suit, rank):
+        if (suit, rank) in self._highlight_cards:
+            shade = self._highlight_cards[(suit, rank)]
+        else:
+            image = self.getFace(deck, suit, rank)
+            shade = shadowImage(image, color='black', factor=0.3)
+            self._highlight_cards[(suit, rank)] = shade
         if not shade:
             return self.getShade()
         return shade

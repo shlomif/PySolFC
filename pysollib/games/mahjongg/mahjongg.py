@@ -83,7 +83,7 @@ class Mahjongg_Hint(AbstractHint):
                           len(rb.all_left) + len(rb.all_right) + \
                           len(tb.all_left) + len(tb.all_right)
                     self.addHint(score, 1, r, t)
-            i = i + 1
+            i += 1
 
 
 # /***********************************************************************
@@ -899,12 +899,15 @@ a solvable configuration.'''),
             assert c1 in s.cards
             tkraise = False
             x, y = s.x, s.y
-            img = self.app.images.getShadowCard(c1.deck, c1.suit, c1.rank)
+            img = self.app.images.getHighlightCard(c1.deck, c1.suit, c1.rank)
             if img is None:
                 continue
             img = MfxCanvasImage(self.canvas, x, y, image=img,
                                  anchor=ANCHOR_NW, group=s.group)
-            img.tkraise(c1.item)
+            if self.drag.stack and s is self.drag.stack:
+                img.tkraise(self.drag.shade_img)
+            else:
+                img.tkraise(c1.item)
             items.append(img)
         if not items:
             return 0

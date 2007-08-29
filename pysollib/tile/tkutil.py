@@ -345,12 +345,10 @@ def createImage(width, height, fill, outline=None):
     fillImage(image, fill, outline)
     return image
 
-def shadowImage(image):
+def shadowImage(image, color='#3896f8', factor=0.3):
     if not hasattr(image, '_pil_image'):
         return None
     im = image._pil_image
-    #color, factor = 'black', 0.2
-    color, factor = '#3896f8', 0.3
     sh = Image.new('RGBA', im.size, color)
     tmp = Image.blend(im, sh, factor)
     out = Image.composite(tmp, im, im)

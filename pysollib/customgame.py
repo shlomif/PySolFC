@@ -129,7 +129,7 @@ class CustomGame(Game):
         layout_kw['playcards'] = max(16, playcards)
         if s['talon'] in (DealRowRedealTalonStack,
                           SpiderTalonStack,
-                          GroundForADivorceTalonStack):
+                          GroundsForADivorceTalonStack):
             layout_kw['playcards'] += 2 * s['decks']
 
         # reserves

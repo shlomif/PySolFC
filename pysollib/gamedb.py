@@ -353,13 +353,14 @@ class GI:
                       16674, 16675, 16676, 16677, 16678, 16679, 16680, 22216,
                       22223, 22224, 22225, 22226, 22227, 22228, 22229, 22230,
                       22231, 22232,)),
-        ('fc-0.8.0', tuple(range(263, 323))),
+        ('fc-0.8.0', tuple(range(263, 323))), # exclude 297
         ('fc-0.9.0', tuple(range(323, 421))),
         ('fc-0.9.1', tuple(range(421, 441))),
         ('fc-0.9.2', tuple(range(441, 466))),
         ('fc-0.9.3', tuple(range(466, 661))),
         ('fc-0.9.4', tuple(range(661, 671))),
         ('fc-1.0',   tuple(range(671, 711))),
+        ('fc-1.1',   tuple(range(711, 756))),
     )
 
     # deprecated - the correct way is to or a GI.GT_XXX flag
@@ -377,7 +378,7 @@ class GI:
         11,    # Spider
         12,    # Braid
         13,    # Forty Thieves
-        14,    # Ground for a Divorce
+        14,    # Grounds for a Divorce
         19,    # Yukon
         31,    # Baker's Dozen
         36,    # Golf

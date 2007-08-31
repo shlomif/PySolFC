@@ -295,7 +295,7 @@ class PysolToolbar(PysolToolbarActions):
     def _setButtonImage(self, button, name):
         image = self._loadImage(name)
         setattr(self, name + "_image", image)
-        if Image: # XXX: and WIN_SYSTEM != 'aqua':
+        if Image:
             dis_image = self._createDisabledButtonImage(image)
             if dis_image:
                 setattr(self, name + "_disabled_image", dis_image)

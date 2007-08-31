@@ -78,13 +78,13 @@ presets = {
         'deal_face_up': 1,
         },
 
-    'Ground for a Divorce': {
-        'preset': 'Ground for a Divorce',
-        'name': n_('My Ground for a Divorce'),
+    'Grounds for a Divorce': {
+        'preset': 'Grounds for a Divorce',
+        'name': n_('My Grounds for a Divorce'),
         'skill_level': 'Mostly skill',
         'decks': 'Two',
         'layout': 'Harp',
-        'talon': 'Ground for a Divorce',
+        'talon': 'Grounds for a Divorce',
         'found_type': 'Spider same suit',
         'found_base_card': 'Any',
         'found_equal': 0,

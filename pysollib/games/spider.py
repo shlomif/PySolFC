@@ -181,10 +181,10 @@ class BlackWidow(Spider):
 
 
 # /***********************************************************************
-# // Scheidungsgrund (aka Ground for a Divorce)
+# // Scheidungsgrund (aka Grounds for a Divorce)
 # ************************************************************************/
 
-class GroundForADivorce_Talon(TalonStack):
+class GroundsForADivorce_Talon(TalonStack):
     # A single click deals a new cards to each non-empty row.
     def dealCards(self, sound=True):
         if self.cards:
@@ -196,9 +196,9 @@ class GroundForADivorce_Talon(TalonStack):
         return 0
 
 
-class GroundForADivorce(RelaxedSpider):
+class GroundsForADivorce(RelaxedSpider):
     Layout_Method = Layout.harpLayout
-    Talon_Class = GroundForADivorce_Talon
+    Talon_Class = GroundsForADivorce_Talon
     Foundation_Class = StackWrapper(Spider_SS_Foundation, base_rank=ANY_RANK, mod=13)
     RowStack_Class = StackWrapper(Spider_RowStack, mod=13)
 
@@ -891,8 +891,8 @@ class Spider3x3(BigSpider):
         self.s.talon.dealRow()
 
 
-class GroundForADivorce3Decks(BigSpider):
-    Talon_Class = GroundForADivorce_Talon
+class GroundsForADivorce3Decks(BigSpider):
+    Talon_Class = GroundsForADivorce_Talon
     Foundation_Class = StackWrapper(Spider_SS_Foundation, base_rank=ANY_RANK, mod=13)
     RowStack_Class = StackWrapper(Spider_RowStack, mod=13)
     def canDealCards(self):
@@ -929,8 +929,8 @@ class Spider4Decks(BigSpider):
         l.defaultRegions()
 
 
-class GroundForADivorce4Decks(Spider4Decks):
-    Talon_Class = GroundForADivorce_Talon
+class GroundsForADivorce4Decks(Spider4Decks):
+    Talon_Class = GroundsForADivorce_Talon
     Foundation_Class = StackWrapper(Spider_SS_Foundation, base_rank=ANY_RANK, mod=13)
     RowStack_Class = StackWrapper(Spider_RowStack, mod=13)
     def createGame(self):
@@ -1089,7 +1089,7 @@ class ShortTail(LongTail):
 # ************************************************************************/
 
 class Incompatibility(Spidike):
-    Talon_Class = GroundForADivorce_Talon
+    Talon_Class = GroundsForADivorce_Talon
     RowStack_Class = Spider_SS_RowStack
 
     def createGame(self):
@@ -1364,7 +1364,7 @@ registerGame(GameInfo(11, Spider, "Spider",
 registerGame(GameInfo(49, BlackWidow, "Black Widow",
                       GI.GT_SPIDER, 2, 0, GI.SL_MOSTLY_SKILL,
                       altnames=("Scarab",) ))
-registerGame(GameInfo(14, GroundForADivorce, "Ground for a Divorce",
+registerGame(GameInfo(14, GroundsForADivorce, "Grounds for a Divorce",
                       GI.GT_SPIDER, 2, 0, GI.SL_MOSTLY_SKILL,
                       altnames=('Scheidungsgrund',) ))
 registerGame(GameInfo(114, GrandmothersGame, "Grandmother's Game",
@@ -1417,7 +1417,7 @@ registerGame(GameInfo(382, Applegate, "Applegate",
                       GI.GT_SPIDER, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(384, BigSpider, "Big Spider",
                       GI.GT_SPIDER, 3, 0, GI.SL_MOSTLY_SKILL))
-registerGame(GameInfo(401, GroundForADivorce3Decks, "Big Divorce",
+registerGame(GameInfo(401, GroundsForADivorce3Decks, "Big Divorce",
                       GI.GT_SPIDER, 3, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(441, York, "York",
                       GI.GT_SPIDER | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0, GI.SL_SKILL))
@@ -1437,7 +1437,7 @@ registerGame(GameInfo(449, Spider3x3, "Spider 3x3",
                       rules_filename="bigspider.html"))
 registerGame(GameInfo(454, Spider4Decks, "Spider (4 decks)",
                       GI.GT_SPIDER, 4, 0, GI.SL_MOSTLY_SKILL))
-registerGame(GameInfo(455, GroundForADivorce4Decks, "Very Big Divorce",
+registerGame(GameInfo(455, GroundsForADivorce4Decks, "Very Big Divorce",
                       GI.GT_SPIDER, 4, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(458, Spidike, "Spidike",
                       GI.GT_SPIDER, 1, 0, GI.SL_BALANCED)) # GT_GYPSY ?

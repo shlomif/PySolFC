@@ -53,7 +53,7 @@ __all__ = ['cardsFaceUp',
            'DealRowRedealTalonStack',
            'DealReserveRedealTalonStack',
            'SpiderTalonStack',
-           'GroundForADivorceTalonStack',
+           'GroundsForADivorceTalonStack',
            'OpenStack',
            'AbstractFoundationStack',
            'SS_FoundationStack',
@@ -1942,7 +1942,7 @@ class SpiderTalonStack(DealRowRedealTalonStack):
                 return False
         return True
 
-class GroundForADivorceTalonStack(DealRowRedealTalonStack):
+class GroundsForADivorceTalonStack(DealRowRedealTalonStack):
     # A single click deals a new cards to each non-empty row.
     def dealCards(self, sound=True):
         if self.cards:

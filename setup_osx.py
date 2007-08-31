@@ -7,7 +7,7 @@ import os, sys
 import shutil
 from subprocess import call
 from setuptools import setup
-from pysollib.settings import PACKAGE, VERSION, FC_VERSION
+from pysollib.settings import PACKAGE, VERSION
 
 # build the rule pages
 if not os.path.exists('data/html'):
@@ -19,7 +19,10 @@ if not os.path.exists('data/html'):
         shutil.rmtree('data/html')
     except OSError:
         pass
-    shutil.move('html-src/html', 'data/html')
+    shutil.copytree('html-src/html', 'data/html')
+
+# build the HTML list of games
+call("./scripts/all_games.py > docs/all_games.html", shell=True)
 
 # Use Tile widgets, if they are installed.
 # http://tktable.sourceforge.net/tile/
@@ -47,7 +50,7 @@ if not os.path.exists(SOLVER_LIB_PATH):
 
 GETINFO_STRING = "PySol Fan Club Edition \
                 %s %s, (C) 1998-2003 Markus F.X.J Oberhumer \
-                %s, (C) 2006 Skomoroh" % (PACKAGE, VERSION, FC_VERSION)
+                (C) 2006-2007 Skomoroh" % (PACKAGE, VERSION)
 PLIST = dict(
     CFBundleDevelopmentRegion = 'en_US',
     CFBundleExecutable = PACKAGE,
@@ -55,7 +58,7 @@ PLIST = dict(
     CFBundleGetInfoString = GETINFO_STRING,
     CFBundleIdentifier = 'org.pysol.PySol',
     CFBundleName = PACKAGE,
-    CFBundleVersion = '%s (%s)' % (VERSION, FC_VERSION),
+    CFBundleVersion = '%s' % VERSION,
     CFBundleShortVersionString = '%s' % VERSION, 
     NSHumanReadableCopyright = "Copyright (C) 1998-2003 Markus F.X.J. Oberhumer",
     )

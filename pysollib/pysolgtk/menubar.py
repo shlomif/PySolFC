@@ -890,3 +890,8 @@ class PysolMenubar(PysolMenubarActions):
     def _setPauseMenu(self, v):
         # FIXME
         pass
+
+    def mStatus(self, *args):
+        if self._cancelDrag(break_pause=False): return
+        self.mPlayerStats(mode=100)
+

@@ -334,7 +334,7 @@ WizardWidgets = (
     _('Reserves'),
     ReservesNum,
     ReservesMaxAccept,
-    _('Initial dealing'),
+    _('Opening deal'),
     DealType,
     DealFaceDown,
     DealFaceUp,

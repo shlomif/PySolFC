@@ -880,7 +880,7 @@ class Stack:
             return False
         if self.CARD_YOFFSET[0] <= 0:
             return False
-        if len(self.cards) <= 8:        # XXX
+        if len(self.cards) <= 1:
             return False
         if not self.canvas.winfo_ismapped():
             return False

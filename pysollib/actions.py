@@ -497,18 +497,6 @@ class PysolMenubarActions:
             if self.game.canShuffle():
                 self.game._mahjonggShuffle()
 
-    def mStatus(self, *args):
-        if self._cancelDrag(break_pause=False): return
-        self.mPlayerStats(mode=100)
-
-    def mTop10(self, *args):
-        if self._cancelDrag(break_pause=False): return
-        self.mPlayerStats(mode=105)
-
-    def mGameInfo(self, *args):
-        if self._cancelDrag(break_pause=False): return
-        self.mPlayerStats(mode=106)
-
     def mFindCard(self, *args):
         create_find_card_dialog(self.game.top, self.game,
                                 self.app.getFindCardImagesDir())
@@ -895,11 +883,6 @@ class PysolToolbarActions:
     def mPause(self, *args):
         if not self._busy():
             self.menubar.mPause()
-        return 1
-
-    def mStatus(self, *args):
-        if not self._busy():
-            self.menubar.mStatus()
         return 1
 
     def mPlayerStats(self, *args):

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Sun Aug 19 18:52:43 2007\n"
+"POT-Creation-Date: Sat Sep  1 22:26:18 2007\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -118,6 +118,9 @@ msgid "American Canister"
 msgstr ""
 
 msgid "American Toad"
+msgstr ""
+
+msgid "Amphibian"
 msgstr ""
 
 msgid "Anno Domini"
@@ -576,6 +579,9 @@ msgstr ""
 msgid "Chip"
 msgstr ""
 
+msgid "Choice"
+msgstr ""
+
 msgid "Cicely"
 msgstr ""
 
@@ -709,6 +715,9 @@ msgid "Delivery"
 msgstr ""
 
 msgid "Demon"
+msgstr ""
+
+msgid "Demon Fan"
 msgstr ""
 
 msgid "Der Katzenschwanz"
@@ -1128,6 +1137,9 @@ msgstr ""
 msgid "Florentine Patience"
 msgstr ""
 
+msgid "Flourish"
+msgstr ""
+
 msgid "Flower Arrangement"
 msgstr ""
 
@@ -1380,7 +1392,7 @@ msgstr ""
 msgid "Griffon"
 msgstr ""
 
-msgid "Ground for a Divorce"
+msgid "Grounds for a Divorce"
 msgstr ""
 
 msgid "Gypsy"

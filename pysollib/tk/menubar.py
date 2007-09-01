@@ -353,10 +353,10 @@ class PysolMenubar(PysolMenubarActions):
         submenu = MfxMenu(menu, label=n_("R&ecent games"))
         ##menu.add_command(label=n_("Select &random game"), command=self.mSelectRandomGame, accelerator=m+"R")
         submenu = MfxMenu(menu, label=n_("Select &random game"))
-        submenu.add_command(label=n_("&All games"), command=lambda self=self: self.mSelectRandomGame('all'), accelerator=m+"R")
-        submenu.add_command(label=n_("Games played and &won"), command=lambda self=self: self.mSelectRandomGame('won'))
-        submenu.add_command(label=n_("Games played and &not won"), command=lambda self=self: self.mSelectRandomGame('not won'))
-        submenu.add_command(label=n_("Games not &played"), command=lambda self=self: self.mSelectRandomGame('not played'))
+        submenu.add_command(label=n_("&All games"), command=lambda : self.mSelectRandomGame('all'), accelerator=m+"R")
+        submenu.add_command(label=n_("Games played and &won"), command=lambda : self.mSelectRandomGame('won'))
+        submenu.add_command(label=n_("Games played and &not won"), command=lambda : self.mSelectRandomGame('not won'))
+        submenu.add_command(label=n_("Games not &played"), command=lambda : self.mSelectRandomGame('not played'))
         menu.add_command(label=n_("Select game by nu&mber..."), command=self.mSelectGameById, accelerator=m+"M")
         menu.add_separator()
         submenu = MfxMenu(menu, label=n_("Fa&vorite games"))
@@ -387,12 +387,12 @@ class PysolMenubar(PysolMenubarActions):
         submenu = MfxMenu(menu, label=n_("&Set bookmark"))
         for i in range(9):
             label = _("Bookmark %d") % (i + 1)
-            submenu.add_command(label=label, command=lambda self=self, i=i: self.mSetBookmark(i))
+            submenu.add_command(label=label, command=lambda i=i: self.mSetBookmark(i))
         submenu = MfxMenu(menu, label=n_("Go&to bookmark"))
         for i in range(9):
             label = _("Bookmark %d") % (i + 1)
             acc = m + "%d" % (i + 1)
-            submenu.add_command(label=label, command=lambda self=self, i=i: self.mGotoBookmark(i), accelerator=acc)
+            submenu.add_command(label=label, command=lambda i=i: self.mGotoBookmark(i), accelerator=acc)
         menu.add_command(label=n_("&Clear bookmarks"), command=self.mClearBookmarks)
         menu.add_separator()
 
@@ -409,21 +409,21 @@ class PysolMenubar(PysolMenubarActions):
         menu.add_checkbutton(label=n_("&Pause"), variable=self.tkopt.pause, command=self.mPause, accelerator="P")
         #menu.add_command(label=n_("&Pause"), command=self.mPause, accelerator="P")
         menu.add_separator()
-        menu.add_command(label=n_("S&tatus..."), command=self.mStatus, accelerator=m+"Y")
+        menu.add_command(label=n_("S&tatus..."), command=lambda : self.mPlayerStats(mode=100), accelerator=m+"Y")
         menu.add_checkbutton(label=n_("&Comments..."), variable=self.tkopt.comment, command=self.mEditGameComment)
         menu.add_separator()
         submenu = MfxMenu(menu, label=n_("&Statistics"))
-        submenu.add_command(label=n_("Current game..."), command=lambda self=self: self.mPlayerStats(mode=101))
-        submenu.add_command(label=n_("All games..."), command=lambda self=self: self.mPlayerStats(mode=102))
+        submenu.add_command(label=n_("Current game..."), command=lambda : self.mPlayerStats(mode=101))
+        submenu.add_command(label=n_("All games..."), command=lambda : self.mPlayerStats(mode=102))
         submenu.add_separator()
-        submenu.add_command(label=n_("Session log..."), command=lambda self=self: self.mPlayerStats(mode=104))
-        submenu.add_command(label=n_("Full log..."), command=lambda self=self: self.mPlayerStats(mode=103))
+        submenu.add_command(label=n_("Session log..."), command=lambda : self.mPlayerStats(mode=104))
+        submenu.add_command(label=n_("Full log..."), command=lambda : self.mPlayerStats(mode=103))
         submenu.add_separator()
-        submenu.add_command(label=TOP_TITLE+"...", command=self.mTop10, accelerator=m+"T")
-        submenu.add_command(label=n_("Progression..."), command=lambda self=self: self.mPlayerStats(mode=107))
+        submenu.add_command(label=TOP_TITLE+"...", command=lambda : self.mPlayerStats(mode=105), accelerator=m+"T")
+        submenu.add_command(label=n_("Progression..."), command=lambda : self.mPlayerStats(mode=107))
         submenu = MfxMenu(menu, label=n_("D&emo statistics"))
-        submenu.add_command(label=n_("Current game..."), command=lambda self=self: self.mPlayerStats(mode=1101))
-        submenu.add_command(label=n_("All games..."), command=lambda self=self: self.mPlayerStats(mode=1102))
+        submenu.add_command(label=n_("Current game..."), command=lambda : self.mPlayerStats(mode=1101))
+        submenu.add_command(label=n_("All games..."), command=lambda : self.mPlayerStats(mode=1102))
 
         menu = MfxMenu(self.__menubar, label=n_("&Assist"))
         menu.add_command(label=n_("&Hint"), command=self.mHint, accelerator="H")
@@ -433,9 +433,9 @@ class PysolMenubar(PysolMenubarActions):
         menu.add_command(label=n_("&Demo"), command=self.mDemo, accelerator=m+"D")
         menu.add_command(label=n_("Demo (&all games)"), command=self.mMixedDemo)
         if USE_FREECELL_SOLVER:
-            menu.add_command(label=n_("&Solver (experimental)"), command=self.mSolver)
+            menu.add_command(label=n_("&Solver"), command=self.mSolver)
         else:
-            menu.add_command(label=n_("&Solver (experimental)"), command=self.mSolver, state='disabled')
+            menu.add_command(label=n_("&Solver"), state='disabled')
         menu.add_separator()
         menu.add_command(label=n_("&Piles description"), command=self.mStackDesk, accelerator="F2")
 
@@ -534,7 +534,7 @@ class PysolMenubar(PysolMenubarActions):
         self._bindKey("",   "n", self.mNewGame)
         self._bindKey(ctrl, "w", self.mSelectGameDialog)
         self._bindKey(ctrl, "v", self.mSelectGameDialogWithPreview)
-        self._bindKey(ctrl, "r", lambda e, self=self: self.mSelectRandomGame())
+        self._bindKey(ctrl, "r", lambda e: self.mSelectRandomGame())
         self._bindKey(ctrl, "m", self.mSelectGameById)
         self._bindKey(ctrl, "n", self.mNewGameWithNextId)
         self._bindKey(ctrl, "o", self.mOpen)
@@ -547,8 +547,8 @@ class PysolMenubar(PysolMenubarActions):
         self._bindKey("",   "r", self.mRedo)
         self._bindKey(ctrl, "g", self.mRestart)
         self._bindKey("",   "space", self.mDeal)        # undocumented
-        self._bindKey(ctrl, "y", self.mStatus)
-        self._bindKey(ctrl, "t", self.mTop10)
+        self._bindKey(ctrl, "y", lambda e: self.mPlayerStats(mode=100))
+        self._bindKey(ctrl, "t", lambda e: self.mPlayerStats(mode=105))
         self._bindKey("",   "h", self.mHint)
         self._bindKey(ctrl, "h", self.mHint1)           # undocumented
         ##self._bindKey("",   "Shift_L", self.mHighlightPiles)
@@ -579,12 +579,12 @@ class PysolMenubar(PysolMenubarActions):
 
         self._bindKey("",   "F2", self.mStackDesk)
         #
-        self._bindKey("",   "slash", self.mGameInfo) # undocumented, devel
+        self._bindKey("", "slash", lambda e: self.mPlayerStats(mode=106)) # undocumented, devel
         #
         self._bindKey("",   "f", self.mShuffle)
 
         for i in range(9):
-            self._bindKey(ctrl, str(i+1),  lambda event, self=self, i=i: self.mGotoBookmark(i, confirm=0))
+            self._bindKey(ctrl, str(i+1),  lambda e, i=i: self.mGotoBookmark(i, confirm=0))
 
         # undocumented, devel
         self._bindKey(ctrl, "End", self.mPlayNextMusic)

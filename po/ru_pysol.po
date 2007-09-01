@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: Sun Aug 19 18:54:00 2007\n"
-"PO-Revision-Date: 2007-08-24 19:21+0400\n"
+"POT-Creation-Date: Sat Sep  1 22:27:31 2007\n"
+"PO-Revision-Date: 2007-09-01 23:16+0400\n"
 "Last-Translator: Skomoroh <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,34 +16,34 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: pysollib/actions.py:268 pysollib/tile/toolbar.py:189
+#: pysollib/actions.py:270 pysollib/tile/toolbar.py:189
 #: pysollib/tk/toolbar.py:188
 msgid "New game"
 msgstr "Новая игра"
 
-#: pysollib/actions.py:281 pysollib/tile/menubar.py:849
-#: pysollib/tile/menubar.py:863 pysollib/tk/menubar.py:850
-#: pysollib/tk/menubar.py:864
+#: pysollib/actions.py:283 pysollib/tile/menubar.py:852
+#: pysollib/tile/menubar.py:866 pysollib/tk/menubar.py:853
+#: pysollib/tk/menubar.py:867
 msgid "Select game"
 msgstr "Выбрать игру"
 
-#: pysollib/actions.py:295
+#: pysollib/actions.py:297
 msgid "Invalid game number"
 msgstr "Неправильный номер игры"
 
-#: pysollib/actions.py:296
+#: pysollib/actions.py:298
 msgid "Invalid game number\n"
 msgstr "Неправильный номер игры\n"
 
-#: pysollib/actions.py:313
+#: pysollib/actions.py:315
 msgid "Select next game number"
 msgstr "Выберите номер следующей игры"
 
-#: pysollib/actions.py:322 pysollib/actions.py:332
+#: pysollib/actions.py:324 pysollib/actions.py:334
 msgid "Select new game number"
 msgstr "Выберите номер новой игры"
 
-#: pysollib/actions.py:323
+#: pysollib/actions.py:325
 msgid ""
 "\n"
 "\n"
@@ -53,15 +53,15 @@ msgstr ""
 "\n"
 "Введите номер новой игры"
 
-#: pysollib/actions.py:324
+#: pysollib/actions.py:326
 msgid "&Next number"
 msgstr "&Следующий номер"
 
-#: pysollib/actions.py:324 pysollib/app.py:730 pysollib/app.py:1017
-#: pysollib/app.py:1029 pysollib/game.py:1026 pysollib/game.py:2318
+#: pysollib/actions.py:326 pysollib/app.py:731 pysollib/app.py:1018
+#: pysollib/app.py:1030 pysollib/game.py:1042 pysollib/game.py:2334
 #: pysollib/tile/colorsdialog.py:114 pysollib/tile/edittextdialog.py:83
 #: pysollib/tile/fontsdialog.py:142 pysollib/tile/fontsdialog.py:202
-#: pysollib/tile/gameinfodialog.py:154 pysollib/tile/menubar.py:1352
+#: pysollib/tile/gameinfodialog.py:154 pysollib/tile/menubar.py:1351
 #: pysollib/tile/playeroptionsdialog.py:109 pysollib/tile/selectcardset.py:389
 #: pysollib/tile/selecttile.py:162 pysollib/tile/soundoptionsdialog.py:168
 #: pysollib/tile/soundoptionsdialog.py:206 pysollib/tile/timeoutsdialog.py:95
@@ -85,9 +85,9 @@ msgstr "&Следующий номер"
 msgid "&OK"
 msgstr "&ОК"
 
-#: pysollib/actions.py:324 pysollib/app.py:731 pysollib/app.py:1029
-#: pysollib/game.py:1026 pysollib/game.py:1704 pysollib/game.py:1723
-#: pysollib/game.py:1730 pysollib/game.py:1736
+#: pysollib/actions.py:326 pysollib/app.py:732 pysollib/app.py:1030
+#: pysollib/game.py:1042 pysollib/game.py:1720 pysollib/game.py:1739
+#: pysollib/game.py:1746 pysollib/game.py:1752
 #: pysollib/tile/colorsdialog.py:114 pysollib/tile/edittextdialog.py:83
 #: pysollib/tile/fontsdialog.py:142 pysollib/tile/fontsdialog.py:202
 #: pysollib/tile/playeroptionsdialog.py:109 pysollib/tile/selectcardset.py:238
@@ -96,8 +96,8 @@ msgstr "&ОК"
 #: pysollib/tile/timeoutsdialog.py:95 pysollib/tile/tkwidget.py:369
 #: pysollib/tile/wizarddialog.py:148 pysollib/tk/colorsdialog.py:113
 #: pysollib/tk/edittextdialog.py:82 pysollib/tk/fontsdialog.py:140
-#: pysollib/tk/fontsdialog.py:202 pysollib/tk/menubar.py:1156
-#: pysollib/tk/menubar.py:1158 pysollib/tk/playeroptionsdialog.py:84
+#: pysollib/tk/fontsdialog.py:202 pysollib/tk/menubar.py:1155
+#: pysollib/tk/menubar.py:1157 pysollib/tk/playeroptionsdialog.py:84
 #: pysollib/tk/playeroptionsdialog.py:159 pysollib/tk/selectcardset.py:237
 #: pysollib/tk/selectgame.py:304 pysollib/tk/selectgame.py:434
 #: pysollib/tk/selecttile.py:160 pysollib/tk/soundoptionsdialog.py:166
@@ -106,36 +106,36 @@ msgstr "&ОК"
 msgid "&Cancel"
 msgstr "От&мена"
 
-#: pysollib/actions.py:340
+#: pysollib/actions.py:342
 msgid "Select random game"
 msgstr "Выбор случайной игры"
 
-#: pysollib/actions.py:373
+#: pysollib/actions.py:375
 msgid "Select next game"
 msgstr "Выбрать следующую игру"
 
-#: pysollib/actions.py:406 pysollib/tile/toolbar.py:204
+#: pysollib/actions.py:408 pysollib/tile/toolbar.py:204
 #: pysollib/tk/toolbar.py:203
 msgid "Quit "
 msgstr "Выйти из "
 
-#: pysollib/actions.py:457
+#: pysollib/actions.py:459
 msgid "Clear bookmarks"
 msgstr "Удалить закладки"
 
-#: pysollib/actions.py:458
+#: pysollib/actions.py:460
 msgid "Clear all bookmarks ?"
 msgstr "Удалить все закладки?"
 
-#: pysollib/actions.py:468
+#: pysollib/actions.py:470
 msgid "Restart game"
 msgstr "Начать игру с начала"
 
-#: pysollib/actions.py:469
+#: pysollib/actions.py:471
 msgid "Restart this game ?"
 msgstr "Начать игру с начала?"
 
-#: pysollib/actions.py:520
+#: pysollib/actions.py:511
 msgid ""
 "Comments for %s:\n"
 "\n"
@@ -143,19 +143,19 @@ msgstr ""
 "Комментарий для %s:\n"
 "\n"
 
-#: pysollib/actions.py:522
+#: pysollib/actions.py:513
 msgid "Comments for "
 msgstr "Комментарий для "
 
-#: pysollib/actions.py:540 pysollib/actions.py:568
+#: pysollib/actions.py:531 pysollib/actions.py:559
 msgid "Error while writing to file"
 msgstr "Ошибка при записи в файл"
 
-#: pysollib/actions.py:543 pysollib/actions.py:571
+#: pysollib/actions.py:534 pysollib/actions.py:562
 msgid " Info"
 msgstr " Информация"
 
-#: pysollib/actions.py:544
+#: pysollib/actions.py:535
 msgid ""
 "Comments were appended to\n"
 "\n"
@@ -163,15 +163,15 @@ msgstr ""
 "Комментарий добавлен в файл\n"
 "\n"
 
-#: pysollib/actions.py:555
+#: pysollib/actions.py:546
 msgid "Demo statistics"
 msgstr "Статистика демо"
 
-#: pysollib/actions.py:558
+#: pysollib/actions.py:549
 msgid "Your statistics"
 msgstr "Ваша статистика"
 
-#: pysollib/actions.py:572
+#: pysollib/actions.py:563
 msgid ""
 " were appended to\n"
 "\n"
@@ -179,51 +179,51 @@ msgstr ""
 " добавлена в файл\n"
 "\n"
 
-#: pysollib/actions.py:587
+#: pysollib/actions.py:578
 msgid " Demo"
 msgstr " Демо"
 
-#: pysollib/actions.py:587
+#: pysollib/actions.py:578
 msgid " Demo "
 msgstr " Демо "
 
-#: pysollib/actions.py:590 pysollib/actions.py:610
+#: pysollib/actions.py:581 pysollib/actions.py:601
 msgid " for "
 msgstr " для "
 
-#: pysollib/actions.py:596 pysollib/stats.py:209
+#: pysollib/actions.py:587 pysollib/stats.py:209
 msgid "Statistics for "
 msgstr "Статистика игры "
 
-#: pysollib/actions.py:600 pysollib/tile/selectgame.py:381
+#: pysollib/actions.py:591 pysollib/tile/selectgame.py:381
 #: pysollib/tile/tkstats.py:74 pysollib/tile/toolbar.py:201
 #: pysollib/tk/selectgame.py:381 pysollib/tk/toolbar.py:200
 msgid "Statistics"
 msgstr "Статистика"
 
-#: pysollib/actions.py:604 pysollib/tile/tkstats.py:543
+#: pysollib/actions.py:595 pysollib/tile/tkstats.py:543
 #: data/glade-translations:31
 msgid "Full log"
 msgstr "Полный лог"
 
-#: pysollib/actions.py:607 pysollib/tile/tkstats.py:547
+#: pysollib/actions.py:598 pysollib/tile/tkstats.py:547
 #: data/glade-translations:32
 msgid "Session log"
 msgstr "Лог сессии"
 
-#: pysollib/actions.py:613
+#: pysollib/actions.py:604
 msgid "Game Info"
 msgstr "Информация об игре"
 
-#: pysollib/actions.py:616
+#: pysollib/actions.py:607
 msgid "Statistics progression"
 msgstr "Прогресс статистики"
 
-#: pysollib/actions.py:632
+#: pysollib/actions.py:623
 msgid "Reset all statistics"
 msgstr "Очистить всю статистику"
 
-#: pysollib/actions.py:633
+#: pysollib/actions.py:624
 msgid ""
 "Reset ALL statistics and logs for player\n"
 "%s ?"
@@ -231,11 +231,11 @@ msgstr ""
 "Очистить всю статистику и лог для игрока\n"
 "%s?"
 
-#: pysollib/actions.py:639
+#: pysollib/actions.py:630
 msgid "Reset game statistics"
 msgstr "Очистить статистику игры"
 
-#: pysollib/actions.py:640
+#: pysollib/actions.py:631
 msgid ""
 "Reset statistics and logs for player\n"
 "%s\n"
@@ -247,53 +247,53 @@ msgstr ""
 "и игры\n"
 "%s?"
 
-#: pysollib/actions.py:696
+#: pysollib/actions.py:687
 msgid "Play demo"
 msgstr "Показать демо"
 
-#: pysollib/actions.py:707
+#: pysollib/actions.py:698
 msgid "Set player options"
 msgstr "Установить настройки игрока"
 
-#: pysollib/actions.py:721 data/glade-translations:40
+#: pysollib/actions.py:712 data/glade-translations:40
 msgid "Set colors"
 msgstr "Настроить цвета"
 
-#: pysollib/actions.py:738
+#: pysollib/actions.py:729
 msgid "Set fonts"
 msgstr "Настроить шрифт"
 
-#: pysollib/actions.py:747 data/glade-translations:33
+#: pysollib/actions.py:738 data/glade-translations:33
 msgid "Set timeouts"
 msgstr "Настроить таймауты"
 
-#: pysollib/app.py:477
+#: pysollib/app.py:478
 msgid "can't find game: "
 msgstr ""
 
-#: pysollib/app.py:732 pysollib/game.py:1704 pysollib/game.py:1723
-#: pysollib/game.py:1730 pysollib/game.py:1736 pysollib/tile/menubar.py:353
-#: pysollib/tk/menubar.py:350
+#: pysollib/app.py:733 pysollib/game.py:1720 pysollib/game.py:1739
+#: pysollib/game.py:1746 pysollib/game.py:1752 pysollib/tile/menubar.py:355
+#: pysollib/tk/menubar.py:352
 msgid "&New game"
 msgstr "&Новая игра"
 
-#: pysollib/app.py:875
+#: pysollib/app.py:876
 msgid "Loading %s %s..."
 msgstr "Загружается %s %s..."
 
-#: pysollib/app.py:914
+#: pysollib/app.py:915
 msgid " load error"
 msgstr " ошибка при загрузке"
 
-#: pysollib/app.py:915
+#: pysollib/app.py:916
 msgid "Error while loading "
 msgstr "Ошибка при загрузке"
 
-#: pysollib/app.py:1009
+#: pysollib/app.py:1010
 msgid "Incompatible "
 msgstr "Несовместимый "
 
-#: pysollib/app.py:1011
+#: pysollib/app.py:1012
 msgid ""
 "The currently selected %s %s\n"
 "is not compatible with the game\n"
@@ -307,23 +307,23 @@ msgstr ""
 "\n"
 "Необходимо выбрать %s типа %s.\n"
 
-#: pysollib/app.py:1027
+#: pysollib/app.py:1028
 msgid "Please select a %s type %s"
 msgstr "Выберите %s типа %s"
 
-#: pysollib/app.py:1266
+#: pysollib/app.py:1261
 msgid "error loading plugin %s: %s"
 msgstr ""
 
-#: pysollib/game.py:945 pysollib/game.py:951
+#: pysollib/game.py:956 pysollib/game.py:962
 msgid "Player\n"
 msgstr "Игрок\n"
 
-#: pysollib/game.py:1022
+#: pysollib/game.py:1038
 msgid "Discard current game ?"
 msgstr "Завершить текущую игру?"
 
-#: pysollib/game.py:1653
+#: pysollib/game.py:1669
 msgid ""
 "\n"
 "You have reached\n"
@@ -335,7 +335,7 @@ msgstr ""
 "#%d в %s игрового времени\n"
 "и #%d в %s количества ходов."
 
-#: pysollib/game.py:1658
+#: pysollib/game.py:1674
 msgid ""
 "\n"
 "You have reached\n"
@@ -345,7 +345,7 @@ msgstr ""
 "Вы достигли\n"
 "#%d в %s игрового времени."
 
-#: pysollib/game.py:1662
+#: pysollib/game.py:1678
 msgid ""
 "\n"
 "You have reached\n"
@@ -355,7 +355,7 @@ msgstr ""
 "Вы достигли\n"
 "#%d в %s количества ходов."
 
-#: pysollib/game.py:1692 pysollib/game.py:1712
+#: pysollib/game.py:1708 pysollib/game.py:1728
 msgid ""
 "Your playing time is %s\n"
 "for %d move."
@@ -372,13 +372,13 @@ msgstr[2] ""
 "Ваше игровое время: %s\n"
 "Количество ходов: %s"
 
-#: pysollib/game.py:1696 pysollib/game.py:1716
+#: pysollib/game.py:1712 pysollib/game.py:1732
 #: pysollib/tile/soundoptionsdialog.py:102
 #: pysollib/tk/soundoptionsdialog.py:99
 msgid "Game won"
 msgstr "Игра выиграна"
 
-#: pysollib/game.py:1697
+#: pysollib/game.py:1713
 msgid ""
 "\n"
 "Congratulations, this\n"
@@ -395,7 +395,7 @@ msgstr ""
 "%s\n"
 "%s\n"
 
-#: pysollib/game.py:1717
+#: pysollib/game.py:1733
 msgid ""
 "\n"
 "Congratulations, you did it !\n"
@@ -410,13 +410,13 @@ msgstr ""
 "%s\n"
 "%s\n"
 
-#: pysollib/game.py:1728 pysollib/game.py:1734
+#: pysollib/game.py:1744 pysollib/game.py:1750
 #: pysollib/tile/soundoptionsdialog.py:100
 #: pysollib/tk/soundoptionsdialog.py:97
 msgid "Game finished"
 msgstr "Игра закончена"
 
-#: pysollib/game.py:1729 pysollib/game.py:2319
+#: pysollib/game.py:1745 pysollib/game.py:2335
 msgid ""
 "\n"
 "Game finished\n"
@@ -424,7 +424,7 @@ msgstr ""
 "\n"
 "Игра закончена\n"
 
-#: pysollib/game.py:1735
+#: pysollib/game.py:1751
 msgid ""
 "\n"
 "Game finished, but not without my help...\n"
@@ -432,31 +432,31 @@ msgstr ""
 "\n"
 "Игра закончена, но не без моей помощи...\n"
 
-#: pysollib/game.py:1736
+#: pysollib/game.py:1752
 msgid "&Restart"
 msgstr "&Начало"
 
-#: pysollib/game.py:2201
+#: pysollib/game.py:2217
 msgid "Score %6d"
 msgstr "Счёт %6d"
 
-#: pysollib/game.py:2303
+#: pysollib/game.py:2319
 msgid "&Cool"
 msgstr "&Отлично"
 
-#: pysollib/game.py:2303
+#: pysollib/game.py:2319
 msgid "&Great"
 msgstr "&Здорово"
 
-#: pysollib/game.py:2304
+#: pysollib/game.py:2320
 msgid "&Wow"
 msgstr "&Ура"
 
-#: pysollib/game.py:2304
+#: pysollib/game.py:2320
 msgid "&Yeah"
 msgstr "&Ага"
 
-#: pysollib/game.py:2305
+#: pysollib/game.py:2321
 msgid ""
 "\n"
 "Game solved in %d move.\n"
@@ -473,23 +473,23 @@ msgstr[2] ""
 "\n"
 "Игра решена за %d ходов\n"
 
-#: pysollib/game.py:2309 pysollib/game.py:2322 pysollib/game.py:2334
+#: pysollib/game.py:2325 pysollib/game.py:2338 pysollib/game.py:2350
 msgid " Autopilot"
 msgstr " Автопилот"
 
-#: pysollib/game.py:2333
+#: pysollib/game.py:2349
 msgid "&Hmm"
 msgstr "&Хмм"
 
-#: pysollib/game.py:2333
+#: pysollib/game.py:2349
 msgid "&Oh well"
 msgstr "&Ох"
 
-#: pysollib/game.py:2333
+#: pysollib/game.py:2349
 msgid "&That's life"
 msgstr "&Такова жизнь"
 
-#: pysollib/game.py:2335
+#: pysollib/game.py:2351
 msgid ""
 "\n"
 "This won't come out...\n"
@@ -497,31 +497,31 @@ msgstr ""
 "\n"
 "Не удалось...\n"
 
-#: pysollib/game.py:2776
+#: pysollib/game.py:2792
 msgid "Set bookmark"
 msgstr "Установить закладку"
 
-#: pysollib/game.py:2777
+#: pysollib/game.py:2793
 msgid "Replace existing bookmark %d ?"
 msgstr "Заменить существующую закладку %d ?"
 
-#: pysollib/game.py:2799
+#: pysollib/game.py:2815
 msgid "Goto bookmark"
 msgstr "Перейти к закладке"
 
-#: pysollib/game.py:2800
+#: pysollib/game.py:2816
 msgid "Goto bookmark %d ?"
 msgstr "Перейти к закладке %d ?"
 
-#: pysollib/game.py:2831
+#: pysollib/game.py:2847
 msgid "Open game"
 msgstr "Открыть игру"
 
-#: pysollib/game.py:2842 pysollib/game.py:2852 pysollib/game.py:2857
+#: pysollib/game.py:2858 pysollib/game.py:2868 pysollib/game.py:2873
 msgid "Load game error"
 msgstr "Ошибка при загрузке игры"
 
-#: pysollib/game.py:2843
+#: pysollib/game.py:2859
 msgid ""
 "Error while loading game.\n"
 "\n"
@@ -533,11 +533,11 @@ msgstr ""
 "Возможно повреждён файл,\n"
 "или ошибка в программе."
 
-#: pysollib/game.py:2853
+#: pysollib/game.py:2869
 msgid "Error while loading game"
 msgstr "Ошибка при загрузке игры"
 
-#: pysollib/game.py:2858
+#: pysollib/game.py:2874
 msgid ""
 "Internal error while loading game.\n"
 "\n"
@@ -547,26 +547,26 @@ msgstr ""
 "\n"
 "Пожалуйста сообщите об этой ошибке."
 
-#: pysollib/game.py:2887 pysollib/tile/menubar.py:1393
-#: pysollib/tk/menubar.py:1376
+#: pysollib/game.py:2903 pysollib/tile/menubar.py:1392
+#: pysollib/tk/menubar.py:1375
 msgid "Save game error"
 msgstr "Ошибка при сохранении игры"
 
-#: pysollib/game.py:2888
+#: pysollib/game.py:2904
 msgid "Error while saving game"
 msgstr "Ошибка при сохранении игры"
 
-#: pysollib/game.py:2913
+#: pysollib/game.py:2929
 msgid "Invalid or damaged %s save file"
 msgstr ""
 
-#: pysollib/game.py:2929
+#: pysollib/game.py:2945
 msgid ""
 "Cannot load games saved with\n"
 "%s version %s"
 msgstr ""
 
-#: pysollib/game.py:2946
+#: pysollib/game.py:2962
 msgid ""
 "Cannot load this game from version %s\n"
 "as the game rules have changed\n"
@@ -821,13 +821,13 @@ msgstr ""
 "4:  8  Д  3  7  В  2  6 10  Т  5  9  К"
 
 #: pysollib/games/canfield.py:544 pysollib/games/special/tarock.py:224
-#: pysollib/stack.py:1514 pysollib/util.py:78 pysollib/wizardutil.py:158
+#: pysollib/stack.py:1568 pysollib/util.py:78 pysollib/wizardutil.py:158
 #: pysollib/wizardutil.py:216
 msgid "King"
 msgstr "Король"
 
 #: pysollib/games/canfield.py:549 pysollib/games/special/tarock.py:224
-#: pysollib/stack.py:1513 pysollib/util.py:78
+#: pysollib/stack.py:1567 pysollib/util.py:78
 msgid "Queen"
 msgstr "Дама"
 
@@ -853,12 +853,12 @@ msgid "Waste. Build up or down regardless of suit."
 msgstr "Сброс. Складывать по возрастанию или убыванию не считаясь с мастью."
 
 #: pysollib/games/golf.py:117 pysollib/games/golf.py:305
-#: pysollib/stack.py:2266
+#: pysollib/stack.py:2321
 msgid "Tableau. No building."
 msgstr "Игровой стол. Без выкладывания."
 
 #: pysollib/games/golf.py:390 pysollib/games/pileon.py:255
-#: pysollib/stack.py:2155
+#: pysollib/stack.py:2210
 msgid "Foundation. Build up regardless of suit."
 msgstr "Базовая ячейка. Складывать по возрастанию не считаясь с мастью."
 
@@ -878,7 +878,7 @@ msgstr ""
 msgid "Reserve. Only Kings are acceptable."
 msgstr "Резерв. Только для королей."
 
-#: pysollib/games/larasgame.py:163 pysollib/stack.py:1726
+#: pysollib/games/larasgame.py:163 pysollib/stack.py:1781
 msgid "Round %d"
 msgstr "Раунд %d"
 
@@ -993,7 +993,7 @@ msgid "Deal %d"
 msgstr "Сдача %d"
 
 #: pysollib/games/numerica.py:263 pysollib/games/royalcotillion.py:912
-#: pysollib/stack.py:2198
+#: pysollib/stack.py:2253
 msgid "Foundation. Build up by color."
 msgstr "Базовая ячейка. Складывать по возрастанию в соответствии с цветом."
 
@@ -1072,7 +1072,7 @@ msgstr "Жезлы"
 #: pysollib/games/special/tarock.py:223
 #: pysollib/games/ultra/dashavatara.py:351
 #: pysollib/games/ultra/hexadeck.py:273 pysollib/games/ultra/mughal.py:254
-#: pysollib/stack.py:1515 pysollib/util.py:77 pysollib/wizardutil.py:157
+#: pysollib/stack.py:1569 pysollib/util.py:77 pysollib/wizardutil.py:157
 #: pysollib/wizardutil.py:161 pysollib/wizardutil.py:215
 msgid "Ace"
 msgstr "Туз"
@@ -1085,7 +1085,7 @@ msgstr "Паж"
 msgid "Valet"
 msgstr "Валет"
 
-#: pysollib/games/spider.py:1128
+#: pysollib/games/spider.py:1129
 msgid ""
 "Tableau. Build down regardless of suit. Sequences of cards in the same color "
 "can be moved as a unit."
@@ -1505,8 +1505,8 @@ msgstr ""
 "\n"
 "Пожалуйста проверьте установку %s.\n"
 
-#: pysollib/main.py:74 pysollib/main.py:289 pysollib/tile/menubar.py:373
-#: pysollib/tk/menubar.py:370
+#: pysollib/main.py:74 pysollib/main.py:289 pysollib/tile/menubar.py:375
+#: pysollib/tk/menubar.py:372
 msgid "&Quit"
 msgstr "В&ыход"
 
@@ -1586,7 +1586,7 @@ msgstr ""
 "\n"
 "Пожалуйста проверьте установку %s.\n"
 
-#: pysollib/options.py:237
+#: pysollib/options.py:241
 msgid "Unknown"
 msgstr "Неизвестный"
 
@@ -1854,148 +1854,148 @@ msgstr "Швейцария"
 msgid "USA"
 msgstr "США"
 
-#: pysollib/settings.py:70 data/glade-translations:29
+#: pysollib/settings.py:69 data/glade-translations:29
 msgid "Top 10"
 msgstr "Top 10"
 
-#: pysollib/stack.py:1509
+#: pysollib/stack.py:1563
 msgid "Base card - %s."
 msgstr "Базовая карта - %s."
 
-#: pysollib/stack.py:1510
+#: pysollib/stack.py:1564
 msgid "Empty row cannot be filled."
 msgstr "Пустой ряд не заполняется."
 
-#: pysollib/stack.py:1511
+#: pysollib/stack.py:1565
 msgid "any card"
 msgstr "любая карта"
 
-#: pysollib/stack.py:1512 pysollib/util.py:78
+#: pysollib/stack.py:1566 pysollib/util.py:78
 msgid "Jack"
 msgstr "Валет"
 
-#: pysollib/stack.py:1522
+#: pysollib/stack.py:1576
 msgid "No cards"
 msgstr "Нет карт"
 
-#: pysollib/stack.py:1523
+#: pysollib/stack.py:1577
 msgid "%d card"
 msgid_plural "%d cards"
 msgstr[0] "%d карта"
 msgstr[1] "%d карты"
 msgstr[2] "%d карт"
 
-#: pysollib/stack.py:1735 pysollib/stack.py:1737 pysollib/stack.py:1773
+#: pysollib/stack.py:1790 pysollib/stack.py:1792 pysollib/stack.py:1828
 msgid "Redeal"
 msgstr "Сдать"
 
-#: pysollib/stack.py:1737
+#: pysollib/stack.py:1792
 msgid "Stop"
 msgstr "Стоп"
 
-#: pysollib/stack.py:1798
+#: pysollib/stack.py:1853
 msgid "Variable redeals."
 msgstr "Переменное количество пересдач."
 
-#: pysollib/stack.py:1799
+#: pysollib/stack.py:1854
 msgid "Unlimited redeals."
 msgstr "Неограниченное количество пересдач."
 
-#: pysollib/stack.py:1802
+#: pysollib/stack.py:1857
 msgid "%d readeal"
 msgid_plural "%d redeals"
 msgstr[0] "%d пересдача"
 msgstr[1] "%d пересдачи"
 msgstr[2] "%d пересдач"
 
-#: pysollib/stack.py:1804
+#: pysollib/stack.py:1859
 msgid "Talon."
 msgstr "Колода."
 
-#: pysollib/stack.py:2069 pysollib/stack.py:2712
+#: pysollib/stack.py:2124 pysollib/stack.py:2767
 msgid "Reserve. No building."
 msgstr "Резерв. Без выкладывания."
 
-#: pysollib/stack.py:2106
+#: pysollib/stack.py:2161
 msgid "Foundation."
 msgstr "Базовая ячейка"
 
-#: pysollib/stack.py:2144
+#: pysollib/stack.py:2199
 msgid "Foundation. Build up by suit."
 msgstr "Базовая ячейка. Складывать по возрастанию в соответствии с мастью."
 
-#: pysollib/stack.py:2145
+#: pysollib/stack.py:2200
 msgid "Foundation. Build down by suit."
 msgstr "Базовая ячейка. Складывать по убыванию в соответствии с мастью."
 
-#: pysollib/stack.py:2146 pysollib/stack.py:2157 pysollib/stack.py:2179
-#: pysollib/stack.py:2200
+#: pysollib/stack.py:2201 pysollib/stack.py:2212 pysollib/stack.py:2234
+#: pysollib/stack.py:2255
 msgid "Foundation. Build by same rank."
 msgstr "Базовая ячейка. Складывать в соответствии с достоинством."
 
-#: pysollib/stack.py:2156
+#: pysollib/stack.py:2211
 msgid "Foundation. Build down regardless of suit."
 msgstr "Базовая ячейка. Складывать по убыванию не считаясь с мастью."
 
-#: pysollib/stack.py:2177
+#: pysollib/stack.py:2232
 msgid "Foundation. Build up by alternate color."
 msgstr "Базовая ячейка. Складывать по возрастанию чередуя цвет."
 
-#: pysollib/stack.py:2178
+#: pysollib/stack.py:2233
 msgid "Foundation. Build down by alternate color."
 msgstr "Базовая ячейка. Складывать по убыванию чередуя цвет."
 
-#: pysollib/stack.py:2199
+#: pysollib/stack.py:2254
 msgid "Foundation. Build down by color."
 msgstr "Базовая ячейка. Складывать по убыванию в соответствии с цветом."
 
-#: pysollib/stack.py:2308
+#: pysollib/stack.py:2363
 msgid "Tableau. Build up by alternate color."
 msgstr "Игровой стол. Складывать по возрастанию чередуя цвет."
 
-#: pysollib/stack.py:2309
+#: pysollib/stack.py:2364
 msgid "Tableau. Build down by alternate color."
 msgstr "Игровой стол. Складывать по убыванию чередуя цвет."
 
-#: pysollib/stack.py:2310 pysollib/stack.py:2320 pysollib/stack.py:2329
-#: pysollib/stack.py:2338 pysollib/stack.py:2348 pysollib/stack.py:2377
-#: pysollib/stack.py:2387
+#: pysollib/stack.py:2365 pysollib/stack.py:2375 pysollib/stack.py:2384
+#: pysollib/stack.py:2393 pysollib/stack.py:2403 pysollib/stack.py:2432
+#: pysollib/stack.py:2442
 msgid "Tableau. Build by same rank."
 msgstr "Игровой стол. Складывать в соответствии с достоинством."
 
-#: pysollib/stack.py:2318
+#: pysollib/stack.py:2373
 msgid "Tableau. Build up by color."
 msgstr "Игровой стол. Складывать по возрастанию в соответствии с цветом."
 
-#: pysollib/stack.py:2319
+#: pysollib/stack.py:2374
 msgid "Tableau. Build down by color."
 msgstr "Игровой стол. Складывать по убыванию в соответствии с цветом."
 
-#: pysollib/stack.py:2327
+#: pysollib/stack.py:2382
 msgid "Tableau. Build up by suit."
 msgstr "Игровой стол. Складывать по возрастанию в соответствии с мастью."
 
-#: pysollib/stack.py:2328
+#: pysollib/stack.py:2383
 msgid "Tableau. Build down by suit."
 msgstr "Игровой стол. Складывать по убыванию в соответствии с мастью."
 
-#: pysollib/stack.py:2336
+#: pysollib/stack.py:2391
 msgid "Tableau. Build up regardless of suit."
 msgstr "Игровой стол. Складывать по возрастанию не считаясь с мастью."
 
-#: pysollib/stack.py:2337
+#: pysollib/stack.py:2392
 msgid "Tableau. Build down regardless of suit."
 msgstr "Игровой стол. Складывать по убыванию не считаясь с мастью."
 
-#: pysollib/stack.py:2346
+#: pysollib/stack.py:2401
 msgid "Tableau. Build up in any suit but the same."
 msgstr "Игровой стол. Складывать по возрастанию в любую масть кроме такой же."
 
-#: pysollib/stack.py:2347
+#: pysollib/stack.py:2402
 msgid "Tableau. Build down in any suit but the same."
 msgstr "Игровой стол. Складывать по убыванию в любую масть кроме такой же."
 
-#: pysollib/stack.py:2375
+#: pysollib/stack.py:2430
 msgid ""
 "Tableau. Build up regardless of suit. Sequences of cards in alternate color "
 "can be moved as a unit."
@@ -2003,7 +2003,7 @@ msgstr ""
 "Игровой стол. Складывать по возрастанию не считаясь с мастью. Можно "
 "перемещать серии карт чередующихся цветом."
 
-#: pysollib/stack.py:2376
+#: pysollib/stack.py:2431
 msgid ""
 "Tableau. Build down regardless of suit. Sequences of cards in alternate "
 "color can be moved as a unit."
@@ -2011,7 +2011,7 @@ msgstr ""
 "Игровой стол. Складывать по убыванию не считаясь с мастью. Можно перемещать "
 "серии карт чередующихся цветом."
 
-#: pysollib/stack.py:2385
+#: pysollib/stack.py:2440
 msgid ""
 "Tableau. Build up regardless of suit. Sequences of cards in the same suit "
 "can be moved as a unit."
@@ -2019,7 +2019,7 @@ msgstr ""
 "Игровой стол. Складывать по возрастанию не считаясь с мастью. Можно "
 "перемещать серии карт одинаковой масти."
 
-#: pysollib/stack.py:2386
+#: pysollib/stack.py:2441
 msgid ""
 "Tableau. Build down regardless of suit. Sequences of cards in the same suit "
 "can be moved as a unit."
@@ -2027,7 +2027,7 @@ msgstr ""
 "Игровой стол. Складывать по убыванию не считаясь с мастью. Можно перемещать "
 "серии карт одинаковой масти."
 
-#: pysollib/stack.py:2408
+#: pysollib/stack.py:2463
 msgid ""
 "Tableau. Build up by alternate color, can move any face-up cards regardless "
 "of sequence."
@@ -2035,7 +2035,7 @@ msgstr ""
 "Игровой стол. Складывать по возрастанию чередуя цвет, можно перемещать любую "
 "серию открытых карт."
 
-#: pysollib/stack.py:2409
+#: pysollib/stack.py:2464
 msgid ""
 "Tableau. Build down by alternate color, can move any face-up cards "
 "regardless of sequence."
@@ -2043,7 +2043,7 @@ msgstr ""
 "Игровой стол. Складывать по убыванию чередуя цвет, можно перемещать любую "
 "серию открытых карт."
 
-#: pysollib/stack.py:2410 pysollib/stack.py:2423 pysollib/stack.py:2433
+#: pysollib/stack.py:2465 pysollib/stack.py:2478 pysollib/stack.py:2488
 msgid ""
 "Tableau. Build by same rank, can move any face-up cards regardless of "
 "sequence."
@@ -2051,14 +2051,14 @@ msgstr ""
 "Игровой стол. Складывать в соответствии с достоинством, можно перемещать "
 "любую серию открытых карт."
 
-#: pysollib/stack.py:2421
+#: pysollib/stack.py:2476
 msgid ""
 "Tableau. Build up by suit, can move any face-up cards regardless of sequence."
 msgstr ""
 "Игровой стол. Складывать по возрастанию в соответствии с мастью, можно "
 "перемещать любую серию открытых карт."
 
-#: pysollib/stack.py:2422
+#: pysollib/stack.py:2477
 msgid ""
 "Tableau. Build down by suit, can move any face-up cards regardless of "
 "sequence."
@@ -2066,7 +2066,7 @@ msgstr ""
 "Игровой стол. Складывать по убыванию в соответствии с мастью, можно "
 "перемещать любую серию открытых карт."
 
-#: pysollib/stack.py:2431 pysollib/stack.py:2432
+#: pysollib/stack.py:2486 pysollib/stack.py:2487
 msgid ""
 "Tableau. Build up regardless of suit, can move any face-up cards regardless "
 "of sequence."
@@ -2074,30 +2074,30 @@ msgstr ""
 "Игровой стол. Складывать по возрастанию не считаясь с мастью, можно "
 "перемещать любую серию открытых карт."
 
-#: pysollib/stack.py:2465
+#: pysollib/stack.py:2520
 msgid "Tableau. Build up or down by color."
 msgstr ""
 "Игровой стол. Складывать по возрастанию или убыванию в соответствии с цветом."
 
-#: pysollib/stack.py:2476
+#: pysollib/stack.py:2531
 msgid "Tableau. Build up or down by alternate color."
 msgstr "Игровой стол. Складывать по возрастанию или убыванию чередуя цвет."
 
-#: pysollib/stack.py:2487
+#: pysollib/stack.py:2542
 msgid "Tableau. Build up or down by suit."
 msgstr ""
 "Игровой стол. Складывать по возрастанию или убыванию в соответствии с мастью."
 
-#: pysollib/stack.py:2498
+#: pysollib/stack.py:2553
 msgid "Tableau. Build up or down regardless of suit."
 msgstr ""
 "Игровой стол. Складывать по возрастанию или убыванию не считаясь с мастью."
 
-#: pysollib/stack.py:2597
+#: pysollib/stack.py:2652
 msgid "Waste."
 msgstr "Сброс."
 
-#: pysollib/stack.py:2713
+#: pysollib/stack.py:2768
 msgid "Free cell."
 msgstr "Свободная ячейка."
 
@@ -2338,478 +2338,483 @@ msgstr "Справа"
 msgid "Visible buttons"
 msgstr "Показывать кнопки"
 
-#: pysollib/tile/menubar.py:350 pysollib/tile/menubar.py:520
-#: pysollib/tk/menubar.py:347 pysollib/tk/menubar.py:524
+#: pysollib/tile/menubar.py:352 pysollib/tile/menubar.py:523
+#: pysollib/tk/menubar.py:349 pysollib/tk/menubar.py:527
 msgid "&About "
 msgstr "&О программе "
 
-#: pysollib/tile/menubar.py:352 pysollib/tk/menubar.py:349
+#: pysollib/tile/menubar.py:354 pysollib/tk/menubar.py:351
 msgid "&File"
 msgstr "&Файл"
 
-#: pysollib/tile/menubar.py:354 pysollib/tk/menubar.py:351
+#: pysollib/tile/menubar.py:356 pysollib/tk/menubar.py:353
 msgid "R&ecent games"
 msgstr "Выбрать н&едавнюю игру"
 
-#: pysollib/tile/menubar.py:356 pysollib/tk/menubar.py:353
+#: pysollib/tile/menubar.py:358 pysollib/tk/menubar.py:355
 msgid "Select &random game"
 msgstr "С&лучайная игра"
 
-#: pysollib/tile/menubar.py:357 pysollib/tk/menubar.py:354
+#: pysollib/tile/menubar.py:359 pysollib/tk/menubar.py:356
 msgid "&All games"
 msgstr "&Все игры"
 
-#: pysollib/tile/menubar.py:358 pysollib/tk/menubar.py:355
+#: pysollib/tile/menubar.py:360 pysollib/tk/menubar.py:357
 msgid "Games played and &won"
 msgstr "&Выигранные игры"
 
-#: pysollib/tile/menubar.py:359 pysollib/tk/menubar.py:356
+#: pysollib/tile/menubar.py:361 pysollib/tk/menubar.py:358
 msgid "Games played and &not won"
 msgstr "&Невыигранные игры"
 
-#: pysollib/tile/menubar.py:360 pysollib/tk/menubar.py:357
+#: pysollib/tile/menubar.py:362 pysollib/tk/menubar.py:359
 msgid "Games not &played"
 msgstr "Не&сыгранные игры"
 
-#: pysollib/tile/menubar.py:361 pysollib/tk/menubar.py:358
+#: pysollib/tile/menubar.py:363 pysollib/tk/menubar.py:360
 msgid "Select game by nu&mber..."
 msgstr "Выбрать игру по &номеру..."
 
-#: pysollib/tile/menubar.py:363 pysollib/tk/menubar.py:360
+#: pysollib/tile/menubar.py:365 pysollib/tk/menubar.py:362
 msgid "Fa&vorite games"
 msgstr "&Избранные игры"
 
-#: pysollib/tile/menubar.py:364 pysollib/tk/menubar.py:361
+#: pysollib/tile/menubar.py:366 pysollib/tk/menubar.py:363
 msgid "A&dd to favorites"
 msgstr "&Добавить в избранное"
 
-#: pysollib/tile/menubar.py:365 pysollib/tk/menubar.py:362
+#: pysollib/tile/menubar.py:367 pysollib/tk/menubar.py:364
 msgid "Remove &from favorites"
 msgstr "&Удалить из избранных"
 
-#: pysollib/tile/menubar.py:367 pysollib/tk/menubar.py:364
+#: pysollib/tile/menubar.py:369 pysollib/tk/menubar.py:366
 msgid "&Open..."
 msgstr "&Открыть..."
 
-#: pysollib/tile/menubar.py:368 pysollib/tk/menubar.py:365
+#: pysollib/tile/menubar.py:370 pysollib/tk/menubar.py:367
 msgid "&Save"
 msgstr "&Сохранить"
 
-#: pysollib/tile/menubar.py:369 pysollib/tk/menubar.py:366
+#: pysollib/tile/menubar.py:371 pysollib/tk/menubar.py:368
 msgid "Save &as..."
 msgstr "Сохранить &как..."
 
-#: pysollib/tile/menubar.py:371 pysollib/tk/menubar.py:368
+#: pysollib/tile/menubar.py:373 pysollib/tk/menubar.py:370
 msgid "&Hold and quit"
 msgstr "Со&храниться и выйти"
 
-#: pysollib/tile/menubar.py:377 pysollib/tile/selectgame.py:433
-#: pysollib/tk/menubar.py:374 pysollib/tk/selectgame.py:434
+#: pysollib/tile/menubar.py:379 pysollib/tile/selectgame.py:433
+#: pysollib/tk/menubar.py:376 pysollib/tk/selectgame.py:434
 msgid "&Select"
 msgstr "&Выбрать"
 
-#: pysollib/tile/menubar.py:382 pysollib/tk/menubar.py:379
+#: pysollib/tile/menubar.py:384 pysollib/tk/menubar.py:381
 msgid "&Edit"
 msgstr "Р&едактировать"
 
-#: pysollib/tile/menubar.py:383 pysollib/tk/menubar.py:380
+#: pysollib/tile/menubar.py:385 pysollib/tk/menubar.py:382
 msgid "&Undo"
 msgstr "&Отмена"
 
-#: pysollib/tile/menubar.py:384 pysollib/tk/menubar.py:381
+#: pysollib/tile/menubar.py:386 pysollib/tk/menubar.py:383
 msgid "&Redo"
 msgstr "&Повтор"
 
-#: pysollib/tile/menubar.py:385 pysollib/tk/menubar.py:382
+#: pysollib/tile/menubar.py:387 pysollib/tk/menubar.py:384
 msgid "Redo &all"
 msgstr "Вернуть все"
 
-#: pysollib/tile/menubar.py:388 pysollib/tk/menubar.py:385
+#: pysollib/tile/menubar.py:390 pysollib/tk/menubar.py:387
 msgid "&Set bookmark"
 msgstr "Установить &закладку"
 
-#: pysollib/tile/menubar.py:390 pysollib/tile/menubar.py:394
-#: pysollib/tk/menubar.py:387 pysollib/tk/menubar.py:391
+#: pysollib/tile/menubar.py:392 pysollib/tile/menubar.py:396
+#: pysollib/tk/menubar.py:389 pysollib/tk/menubar.py:393
 msgid "Bookmark %d"
 msgstr "Закладка %d"
 
-#: pysollib/tile/menubar.py:392 pysollib/tk/menubar.py:389
+#: pysollib/tile/menubar.py:394 pysollib/tk/menubar.py:391
 msgid "Go&to bookmark"
 msgstr "&Перейти к закладке"
 
-#: pysollib/tile/menubar.py:397 pysollib/tk/menubar.py:394
+#: pysollib/tile/menubar.py:399 pysollib/tk/menubar.py:396
 msgid "&Clear bookmarks"
 msgstr "О&чистить закладки"
 
-#: pysollib/tile/menubar.py:400 pysollib/tile/toolbar.py:190
-#: pysollib/tk/menubar.py:397 pysollib/tk/toolbar.py:189
+#: pysollib/tile/menubar.py:402 pysollib/tile/toolbar.py:190
+#: pysollib/tk/menubar.py:399 pysollib/tk/toolbar.py:189
 msgid "Restart"
 msgstr "Начало"
 
-#: pysollib/tile/menubar.py:403 pysollib/tk/menubar.py:400
+#: pysollib/tile/menubar.py:405 pysollib/tk/menubar.py:402
 msgid "Solitaire &Wizard"
 msgstr "Конструктор пасьянсов"
 
-#: pysollib/tile/menubar.py:404 pysollib/tk/menubar.py:401
+#: pysollib/tile/menubar.py:406 pysollib/tk/menubar.py:403
 msgid "&Edit current game"
 msgstr "Редактировать текущую игру"
 
-#: pysollib/tile/menubar.py:406 pysollib/tk/menubar.py:403
+#: pysollib/tile/menubar.py:408 pysollib/tk/menubar.py:405
 msgid "&Game"
 msgstr "&Игра"
 
-#: pysollib/tile/menubar.py:407 pysollib/tk/menubar.py:404
+#: pysollib/tile/menubar.py:409 pysollib/tk/menubar.py:406
 msgid "&Deal cards"
 msgstr "&Сдать карты"
 
-#: pysollib/tile/menubar.py:408 pysollib/tk/menubar.py:405
+#: pysollib/tile/menubar.py:410 pysollib/tk/menubar.py:407
 msgid "&Auto drop"
 msgstr "С&бросить карты"
 
-#: pysollib/tile/menubar.py:409 pysollib/tk/menubar.py:406
+#: pysollib/tile/menubar.py:411 pysollib/tk/menubar.py:408
 msgid "Shu&ffle tiles"
 msgstr "Переме&шать фишки"
 
-#: pysollib/tile/menubar.py:410 pysollib/tk/menubar.py:407
+#: pysollib/tile/menubar.py:412 pysollib/tk/menubar.py:409
 msgid "&Pause"
 msgstr "&Пауза"
 
-#: pysollib/tile/menubar.py:413 pysollib/tk/menubar.py:410
+#: pysollib/tile/menubar.py:415 pysollib/tk/menubar.py:412
 msgid "S&tatus..."
 msgstr "С&татус"
 
-#: pysollib/tile/menubar.py:414 pysollib/tk/menubar.py:411
+#: pysollib/tile/menubar.py:416 pysollib/tk/menubar.py:413
 msgid "&Comments..."
 msgstr "&Комментарии..."
 
-#: pysollib/tile/menubar.py:416 pysollib/tile/tkstats.py:660
+#: pysollib/tile/menubar.py:418 pysollib/tile/tkstats.py:660
 #: pysollib/tk/tkstats.py:635
 msgid "&Statistics..."
 msgstr "&Статистика..."
 
-#: pysollib/tile/menubar.py:417
+#: pysollib/tile/menubar.py:419
 msgid "Log..."
 msgstr "Лог..."
 
-#: pysollib/tile/menubar.py:419 pysollib/tk/menubar.py:422
+#: pysollib/tile/menubar.py:421 pysollib/tk/menubar.py:424
 msgid "D&emo statistics"
 msgstr "Статистика демо"
 
-#: pysollib/tile/menubar.py:421 pysollib/tk/menubar.py:426
+#: pysollib/tile/menubar.py:423 pysollib/tk/menubar.py:428
 msgid "&Assist"
 msgstr "&Подсказка"
 
-#: pysollib/tile/menubar.py:422 pysollib/tk/menubar.py:427
+#: pysollib/tile/menubar.py:424 pysollib/tk/menubar.py:429
 msgid "&Hint"
 msgstr "Подсказать &ход"
 
-#: pysollib/tile/menubar.py:423 pysollib/tk/menubar.py:428
+#: pysollib/tile/menubar.py:425 pysollib/tk/menubar.py:430
 msgid "Highlight p&iles"
 msgstr "П&оказать группы"
 
-#: pysollib/tile/menubar.py:424 pysollib/tk/menubar.py:429
+#: pysollib/tile/menubar.py:426 pysollib/tk/menubar.py:431
 msgid "&Find card"
 msgstr "&Найти карту"
 
-#: pysollib/tile/menubar.py:426 pysollib/tk/menubar.py:431
+#: pysollib/tile/menubar.py:428 pysollib/tk/menubar.py:433
 msgid "&Demo"
 msgstr "&Демо"
 
-#: pysollib/tile/menubar.py:427 pysollib/tk/menubar.py:432
+#: pysollib/tile/menubar.py:429 pysollib/tk/menubar.py:434
 msgid "Demo (&all games)"
 msgstr "Демо (&все игры)"
 
-#: pysollib/tile/menubar.py:429 pysollib/tile/menubar.py:431
-#: pysollib/tk/menubar.py:434 pysollib/tk/menubar.py:436
-msgid "&Solver (experimental)"
-msgstr ""
+#: pysollib/tile/menubar.py:431 pysollib/tile/menubar.py:433
+#: pysollib/tk/menubar.py:436 pysollib/tk/menubar.py:438
+#, fuzzy
+msgid "&Solver"
+msgstr "Серебро"
 
-#: pysollib/tile/menubar.py:433 pysollib/tk/menubar.py:438
+#: pysollib/tile/menubar.py:435 pysollib/tk/menubar.py:440
 msgid "&Piles description"
 msgstr "Описания &ячеек"
 
-#: pysollib/tile/menubar.py:437 pysollib/tk/menubar.py:442
+#: pysollib/tile/menubar.py:439 pysollib/tk/menubar.py:444
 msgid "&Options"
 msgstr "&Настройка"
 
-#: pysollib/tile/menubar.py:438 pysollib/tk/menubar.py:443
+#: pysollib/tile/menubar.py:440 pysollib/tk/menubar.py:445
 msgid "&Player options..."
 msgstr "Настройки &игрока..."
 
-#: pysollib/tile/menubar.py:439 pysollib/tk/menubar.py:444
+#: pysollib/tile/menubar.py:441 pysollib/tk/menubar.py:446
 msgid "&Automatic play"
 msgstr "Настройки &автоматической игры"
 
-#: pysollib/tile/menubar.py:440 pysollib/tk/menubar.py:445
+#: pysollib/tile/menubar.py:442 pysollib/tk/menubar.py:447
 msgid "Auto &face up"
 msgstr "Автоматически &переворачивать"
 
-#: pysollib/tile/menubar.py:441 pysollib/tk/menubar.py:446
+#: pysollib/tile/menubar.py:443 pysollib/tk/menubar.py:448
 msgid "A&uto drop"
 msgstr "А&втоматически сбрасывать карты"
 
-#: pysollib/tile/menubar.py:442 pysollib/tk/menubar.py:447
+#: pysollib/tile/menubar.py:444 pysollib/tk/menubar.py:449
 msgid "Auto &deal"
 msgstr "Автоматически &сдавать карты"
 
-#: pysollib/tile/menubar.py:444 pysollib/tk/menubar.py:449
+#: pysollib/tile/menubar.py:446 pysollib/tk/menubar.py:451
 msgid "&Quick play"
 msgstr "&Быстрая игра"
 
-#: pysollib/tile/menubar.py:445 pysollib/tk/menubar.py:450
+#: pysollib/tile/menubar.py:447 pysollib/tk/menubar.py:452
 msgid "Assist &level"
 msgstr "&Уровень подсказки"
 
-#: pysollib/tile/menubar.py:446 pysollib/tk/menubar.py:451
+#: pysollib/tile/menubar.py:448 pysollib/tk/menubar.py:453
 msgid "Enable &undo"
 msgstr "Разрешить &возврат хода"
 
-#: pysollib/tile/menubar.py:447 pysollib/tk/menubar.py:452
+#: pysollib/tile/menubar.py:449 pysollib/tk/menubar.py:454
 msgid "Enable &bookmarks"
 msgstr "Разрешить &закладки"
 
-#: pysollib/tile/menubar.py:448 pysollib/tk/menubar.py:453
+#: pysollib/tile/menubar.py:450 pysollib/tk/menubar.py:455
 msgid "Enable &hint"
 msgstr "Разрешить &подсказки"
 
-#: pysollib/tile/menubar.py:449 pysollib/tk/menubar.py:454
+#: pysollib/tile/menubar.py:451 pysollib/tk/menubar.py:456
+msgid "Enable shu&ffle"
+msgstr "Разрешить перемешивание &фишек"
+
+#: pysollib/tile/menubar.py:452 pysollib/tk/menubar.py:457
 msgid "Enable highlight p&iles"
 msgstr "Разрешить показывать к&учи"
 
-#: pysollib/tile/menubar.py:450 pysollib/tk/menubar.py:455
+#: pysollib/tile/menubar.py:453 pysollib/tk/menubar.py:458
 msgid "Enable highlight &cards"
 msgstr "Разрешить показывать &карты"
 
-#: pysollib/tile/menubar.py:451 pysollib/tk/menubar.py:456
+#: pysollib/tile/menubar.py:454 pysollib/tk/menubar.py:459
 msgid "Enable highlight same &rank"
 msgstr "Разрешить показывать карты &одного достоинства"
 
-#: pysollib/tile/menubar.py:452 pysollib/tk/menubar.py:457
+#: pysollib/tile/menubar.py:455 pysollib/tk/menubar.py:460
 msgid "Highlight &no matching"
 msgstr "Подсветка отсутствия &совпадения"
 
-#: pysollib/tile/menubar.py:454 pysollib/tk/menubar.py:459
+#: pysollib/tile/menubar.py:457 pysollib/tk/menubar.py:462
 msgid "&Show removed tiles (in Mahjongg games)"
 msgstr "Показывать удалённые (в Маджонг)"
 
-#: pysollib/tile/menubar.py:455 pysollib/tk/menubar.py:460
+#: pysollib/tile/menubar.py:458 pysollib/tk/menubar.py:463
 msgid "Show hint &arrow (in Shisen-Sho games)"
 msgstr "Показывать стрелку (в Шисен-Сё)"
 
-#: pysollib/tile/menubar.py:457 pysollib/tk/menubar.py:462
+#: pysollib/tile/menubar.py:460 pysollib/tk/menubar.py:465
 msgid "&Sound..."
 msgstr "&Звук..."
 
-#: pysollib/tile/menubar.py:465 pysollib/tk/menubar.py:470
+#: pysollib/tile/menubar.py:468 pysollib/tk/menubar.py:473
 msgid "Cards&et..."
 msgstr "Коло&да..."
 
-#: pysollib/tile/menubar.py:466 pysollib/tk/menubar.py:471
+#: pysollib/tile/menubar.py:469 pysollib/tk/menubar.py:474
 msgid "Table t&ile..."
 msgstr "Игровой &стол..."
 
-#: pysollib/tile/menubar.py:468 pysollib/tk/menubar.py:473
+#: pysollib/tile/menubar.py:471 pysollib/tk/menubar.py:476
 msgid "Card &background"
 msgstr "&Рубашка карты"
 
-#: pysollib/tile/menubar.py:469 pysollib/tk/menubar.py:474
+#: pysollib/tile/menubar.py:472 pysollib/tk/menubar.py:477
 msgid "Card &view"
 msgstr "&Вид карты"
 
-#: pysollib/tile/menubar.py:470 pysollib/tk/menubar.py:475
+#: pysollib/tile/menubar.py:473 pysollib/tk/menubar.py:478
 msgid "Card shado&w"
 msgstr "Тень карты"
 
-#: pysollib/tile/menubar.py:471 pysollib/tk/menubar.py:476
+#: pysollib/tile/menubar.py:474 pysollib/tk/menubar.py:479
 msgid "Shade &legal moves"
 msgstr "Подсвечивать &разрешённые ходы"
 
-#: pysollib/tile/menubar.py:472 pysollib/tk/menubar.py:477
+#: pysollib/tile/menubar.py:475 pysollib/tk/menubar.py:480
 msgid "&Negative cards bottom"
 msgstr "&Негативные контуры карты"
 
-#: pysollib/tile/menubar.py:473 pysollib/tk/menubar.py:478
+#: pysollib/tile/menubar.py:476 pysollib/tk/menubar.py:481
 msgid "Shrink face-down cards"
 msgstr "Сжимать закрытые карты"
 
-#: pysollib/tile/menubar.py:474 pysollib/tk/menubar.py:479
+#: pysollib/tile/menubar.py:477 pysollib/tk/menubar.py:482
 msgid "Shade &filled stacks"
 msgstr "Затемнять заполненные ячейки"
 
-#: pysollib/tile/menubar.py:475 pysollib/tk/menubar.py:480
+#: pysollib/tile/menubar.py:478 pysollib/tk/menubar.py:483
 msgid "A&nimations"
 msgstr "Анимаци&я"
 
-#: pysollib/tile/menubar.py:476 pysollib/tk/menubar.py:481
+#: pysollib/tile/menubar.py:479 pysollib/tk/menubar.py:484
 msgid "&None"
 msgstr "&Нет"
 
-#: pysollib/tile/menubar.py:477 pysollib/tk/menubar.py:482
+#: pysollib/tile/menubar.py:480 pysollib/tk/menubar.py:485
 msgid "&Very fast"
 msgstr "&Очень быстрая"
 
-#: pysollib/tile/menubar.py:478 pysollib/tk/menubar.py:483
+#: pysollib/tile/menubar.py:481 pysollib/tk/menubar.py:486
 msgid "&Fast"
 msgstr "&Быстрая"
 
-#: pysollib/tile/menubar.py:479 pysollib/tk/menubar.py:484
+#: pysollib/tile/menubar.py:482 pysollib/tk/menubar.py:487
 msgid "&Medium"
 msgstr "С&редняя"
 
-#: pysollib/tile/menubar.py:480 pysollib/tk/menubar.py:485
+#: pysollib/tile/menubar.py:483 pysollib/tk/menubar.py:488
 msgid "&Slow"
 msgstr "&Медленная"
 
-#: pysollib/tile/menubar.py:481 pysollib/tk/menubar.py:486
+#: pysollib/tile/menubar.py:484 pysollib/tk/menubar.py:489
 msgid "V&ery slow"
 msgstr "&Очень медленная"
 
-#: pysollib/tile/menubar.py:483 pysollib/tk/menubar.py:488
+#: pysollib/tile/menubar.py:486 pysollib/tk/menubar.py:491
 msgid "&Redeal animation"
 msgstr "Анимация пере&сдачи"
 
-#: pysollib/tile/menubar.py:485 pysollib/tk/menubar.py:490
+#: pysollib/tile/menubar.py:488 pysollib/tk/menubar.py:493
 msgid "&Winning animation"
 msgstr "Анимация &победы"
 
-#: pysollib/tile/menubar.py:486 pysollib/tk/menubar.py:491
+#: pysollib/tile/menubar.py:489 pysollib/tk/menubar.py:494
 msgid "&Mouse"
 msgstr "&Мышь"
 
-#: pysollib/tile/menubar.py:487 pysollib/tk/menubar.py:492
+#: pysollib/tile/menubar.py:490 pysollib/tk/menubar.py:495
 msgid "&Drag-and-Drop"
 msgstr ""
 
-#: pysollib/tile/menubar.py:488 pysollib/tk/menubar.py:493
+#: pysollib/tile/menubar.py:491 pysollib/tk/menubar.py:496
 msgid "&Point-and-Click"
 msgstr ""
 
-#: pysollib/tile/menubar.py:489 pysollib/tk/menubar.py:494
+#: pysollib/tile/menubar.py:492 pysollib/tk/menubar.py:497
 msgid "&Sticky mouse"
 msgstr "&Липкая мышь"
 
-#: pysollib/tile/menubar.py:491 pysollib/tk/menubar.py:496
+#: pysollib/tile/menubar.py:494 pysollib/tk/menubar.py:499
 msgid "Use mouse for undo/redo"
 msgstr "Использовать мышь для отмены/повтора"
 
-#: pysollib/tile/menubar.py:493 pysollib/tk/menubar.py:498
+#: pysollib/tile/menubar.py:496 pysollib/tk/menubar.py:501
 msgid "&Fonts..."
 msgstr "&Шрифты..."
 
-#: pysollib/tile/menubar.py:494 pysollib/tk/menubar.py:499
+#: pysollib/tile/menubar.py:497 pysollib/tk/menubar.py:502
 msgid "&Colors..."
 msgstr "&Цвета..."
 
-#: pysollib/tile/menubar.py:495 pysollib/tk/menubar.py:500
+#: pysollib/tile/menubar.py:498 pysollib/tk/menubar.py:503
 msgid "Time&outs..."
 msgstr "Тайма&уты..."
 
-#: pysollib/tile/menubar.py:498 pysollib/tk/menubar.py:502
+#: pysollib/tile/menubar.py:501 pysollib/tk/menubar.py:505
 msgid "&Toolbar"
 msgstr "Панель и&нструментов"
 
-#: pysollib/tile/menubar.py:500 pysollib/tk/menubar.py:504
+#: pysollib/tile/menubar.py:503 pysollib/tk/menubar.py:507
 msgid "Stat&usbar"
 msgstr "Панель с&остояния"
 
-#: pysollib/tile/menubar.py:501 pysollib/tk/menubar.py:505
+#: pysollib/tile/menubar.py:504 pysollib/tk/menubar.py:508
 msgid "Show &statusbar"
 msgstr "Показывать панель состояния"
 
-#: pysollib/tile/menubar.py:502 pysollib/tk/menubar.py:506
+#: pysollib/tile/menubar.py:505 pysollib/tk/menubar.py:509
 msgid "Show &number of cards"
 msgstr "Показывать количество карт"
 
-#: pysollib/tile/menubar.py:503 pysollib/tk/menubar.py:507
+#: pysollib/tile/menubar.py:506 pysollib/tk/menubar.py:510
 msgid "Show &help bar"
 msgstr "Показывать панель помощи"
 
-#: pysollib/tile/menubar.py:504 pysollib/tk/menubar.py:508
+#: pysollib/tile/menubar.py:507 pysollib/tk/menubar.py:511
 msgid "Save games &geometry"
 msgstr "Сохранение &геометрии игры"
 
-#: pysollib/tile/menubar.py:505 pysollib/tk/menubar.py:509
+#: pysollib/tile/menubar.py:508 pysollib/tk/menubar.py:512
 msgid "&Demo logo"
 msgstr "Д&емо лого"
 
-#: pysollib/tile/menubar.py:506 pysollib/tk/menubar.py:510
+#: pysollib/tile/menubar.py:509 pysollib/tk/menubar.py:513
 msgid "Startup splash sc&reen"
 msgstr "О&кно запуска"
 
-#: pysollib/tile/menubar.py:512 pysollib/tk/menubar.py:516
+#: pysollib/tile/menubar.py:515 pysollib/tk/menubar.py:519
 msgid "&Help"
 msgstr "&Помощь"
 
-#: pysollib/tile/menubar.py:513 pysollib/tk/menubar.py:517
+#: pysollib/tile/menubar.py:516 pysollib/tk/menubar.py:520
 msgid "&Contents"
 msgstr "&Содержание"
 
-#: pysollib/tile/menubar.py:514 pysollib/tk/menubar.py:518
+#: pysollib/tile/menubar.py:517 pysollib/tk/menubar.py:521
 msgid "&How to play"
 msgstr "Как &играть"
 
-#: pysollib/tile/menubar.py:515 pysollib/tk/menubar.py:519
+#: pysollib/tile/menubar.py:518 pysollib/tk/menubar.py:522
 msgid "&Rules for this game"
 msgstr "&Правила текущей игры"
 
-#: pysollib/tile/menubar.py:516 pysollib/tk/menubar.py:520
+#: pysollib/tile/menubar.py:519 pysollib/tk/menubar.py:523
 msgid "&License terms"
 msgstr "&Лицензия"
 
-#: pysollib/tile/menubar.py:636 pysollib/tk/menubar.py:640
+#: pysollib/tile/menubar.py:639 pysollib/tk/menubar.py:643
 msgid "All &games..."
 msgstr "&Все игры..."
 
-#: pysollib/tile/menubar.py:638 pysollib/tk/menubar.py:642
+#: pysollib/tile/menubar.py:641 pysollib/tk/menubar.py:645
 msgid "Playable pre&view..."
 msgstr "Играемый &предпросмотр..."
 
-#: pysollib/tile/menubar.py:691 pysollib/tk/menubar.py:695
+#: pysollib/tile/menubar.py:694 pysollib/tk/menubar.py:698
 msgid "&Mahjongg games"
 msgstr "Игры маджонг"
 
-#: pysollib/tile/menubar.py:729 pysollib/tk/menubar.py:733
+#: pysollib/tile/menubar.py:732 pysollib/tk/menubar.py:736
 msgid "&Popular games"
 msgstr "&Популярные игры"
 
-#: pysollib/tile/menubar.py:737 pysollib/tk/menubar.py:741
+#: pysollib/tile/menubar.py:740 pysollib/tk/menubar.py:744
 msgid "&French games"
 msgstr "&Классические игры"
 
-#: pysollib/tile/menubar.py:744 pysollib/tk/menubar.py:748
+#: pysollib/tile/menubar.py:747 pysollib/tk/menubar.py:751
 msgid "&Oriental games"
 msgstr "&Восточные игры"
 
-#: pysollib/tile/menubar.py:752 pysollib/tk/menubar.py:756
+#: pysollib/tile/menubar.py:755 pysollib/tk/menubar.py:759
 msgid "&Special games"
 msgstr "&Особые игры"
 
-#: pysollib/tile/menubar.py:758 pysollib/tk/menubar.py:762
+#: pysollib/tile/menubar.py:761 pysollib/tk/menubar.py:765
 msgid "&Cusom games"
 msgstr "Самодельные игры"
 
-#: pysollib/tile/menubar.py:764 pysollib/tk/menubar.py:768
+#: pysollib/tile/menubar.py:767 pysollib/tk/menubar.py:771
 msgid "&All games by name"
 msgstr "&Все игры по имени"
 
-#: pysollib/tile/menubar.py:1048 pysollib/tk/menubar.py:1049
+#: pysollib/tile/menubar.py:1042 pysollib/tk/menubar.py:1043
 #: data/glade-translations:72
 msgid "Sound settings"
 msgstr "Настройка звука"
 
-#: pysollib/tile/menubar.py:1156 pysollib/tk/menubar.py:1161
+#: pysollib/tile/menubar.py:1155 pysollib/tk/menubar.py:1160
 msgid "Select "
 msgstr "Выбрать "
 
-#: pysollib/tile/menubar.py:1202 pysollib/tk/menubar.py:1208
+#: pysollib/tile/menubar.py:1201 pysollib/tk/menubar.py:1207
 msgid "Select table background"
 msgstr "Выбрать фоновое изображение"
 
-#: pysollib/tile/menubar.py:1347
+#: pysollib/tile/menubar.py:1346
 msgid "Change theme"
 msgstr "Изменение темы"
 
-#: pysollib/tile/menubar.py:1348
+#: pysollib/tile/menubar.py:1347
 msgid ""
 "This settings will take effect\n"
 "the next time you restart "
@@ -2817,41 +2822,41 @@ msgstr ""
 "Эта установка вступит в силу\n"
 "при следующем запуске "
 
-#: pysollib/tile/menubar.py:1355
+#: pysollib/tile/menubar.py:1354
 msgid "Set t&heme"
 msgstr "Установить &тему"
 
-#: pysollib/tile/menubar.py:1360
+#: pysollib/tile/menubar.py:1359
 #, fuzzy
 msgid "Default"
 msgstr "Сдача"
 
-#: pysollib/tile/menubar.py:1361
+#: pysollib/tile/menubar.py:1360
 #, fuzzy
 msgid "Classic"
 msgstr "Классический вид"
 
-#: pysollib/tile/menubar.py:1362
+#: pysollib/tile/menubar.py:1361
 msgid "Revitalized"
 msgstr ""
 
-#: pysollib/tile/menubar.py:1363
+#: pysollib/tile/menubar.py:1362
 msgid "Windows native"
 msgstr ""
 
-#: pysollib/tile/menubar.py:1364
+#: pysollib/tile/menubar.py:1363
 msgid "XP Native"
 msgstr ""
 
-#: pysollib/tile/menubar.py:1365
+#: pysollib/tile/menubar.py:1364
 msgid "Aqua"
 msgstr ""
 
-#: pysollib/tile/menubar.py:1383 pysollib/tk/menubar.py:1366
+#: pysollib/tile/menubar.py:1382 pysollib/tk/menubar.py:1365
 msgid "Solitaire Wizard"
 msgstr "Конструктор пасьянсов"
 
-#: pysollib/tile/menubar.py:1394 pysollib/tk/menubar.py:1377
+#: pysollib/tile/menubar.py:1393 pysollib/tk/menubar.py:1376
 msgid ""
 "\n"
 "Error while saving game.\n"
@@ -2938,12 +2943,12 @@ msgstr "Большие колоды"
 msgid "XLarge cardsets"
 msgstr "Очень большие колоды"
 
-#: pysollib/tile/selectcardset.py:237 pysollib/tk/menubar.py:1158
+#: pysollib/tile/selectcardset.py:237 pysollib/tk/menubar.py:1157
 msgid "&Info..."
 msgstr "&Информация..."
 
-#: pysollib/tile/selectcardset.py:238 pysollib/tk/menubar.py:1156
-#: pysollib/tk/menubar.py:1158 pysollib/tk/selectcardset.py:237
+#: pysollib/tile/selectcardset.py:238 pysollib/tk/menubar.py:1155
+#: pysollib/tk/menubar.py:1157 pysollib/tk/selectcardset.py:237
 msgid "&Load"
 msgstr "&Загрузить"
 
@@ -3862,31 +3867,31 @@ msgstr "Игрок"
 msgid "Player options"
 msgstr "Установки игрока"
 
-#: pysollib/tile/toolbar.py:421 pysollib/tk/toolbar.py:431
+#: pysollib/tile/toolbar.py:423 pysollib/tk/toolbar.py:431
 msgid "Toolbar"
 msgstr "Панель инструментов"
 
-#: pysollib/tk/menubar.py:413
+#: pysollib/tk/menubar.py:415
 msgid "&Statistics"
 msgstr "Ст&атистика"
 
-#: pysollib/tk/menubar.py:414 pysollib/tk/menubar.py:423
+#: pysollib/tk/menubar.py:416 pysollib/tk/menubar.py:425
 msgid "Current game..."
 msgstr "Текущая игра..."
 
-#: pysollib/tk/menubar.py:415 pysollib/tk/menubar.py:424
+#: pysollib/tk/menubar.py:417 pysollib/tk/menubar.py:426
 msgid "All games..."
 msgstr "Все игры..."
 
-#: pysollib/tk/menubar.py:417
+#: pysollib/tk/menubar.py:419
 msgid "Session log..."
 msgstr "Лог сессии..."
 
-#: pysollib/tk/menubar.py:418
+#: pysollib/tk/menubar.py:420
 msgid "Full log..."
 msgstr "Полный лог..."
 
-#: pysollib/tk/menubar.py:421
+#: pysollib/tk/menubar.py:423
 msgid "Progression..."
 msgstr "Прогресс..."
 
@@ -3967,8 +3972,8 @@ msgid "My Gypsy"
 msgstr "Мой Цыганский пасьянс"
 
 #: pysollib/wizardpresets.py:83
-msgid "My Ground for a Divorce"
-msgstr "Мой Повод для разрыва"
+msgid "My Grounds for a Divorce"
+msgstr "Моё Основание для развода"
 
 #: pysollib/wizardpresets.py:100
 msgid "My Double Klondike"
@@ -4008,7 +4013,7 @@ msgstr "Раскладка:"
 
 #: pysollib/wizardutil.py:108 pysollib/wizardutil.py:115
 #: pysollib/wizardutil.py:337
-msgid "Initial dealing"
+msgid "Opening deal"
 msgstr "Начальная раздача"
 
 #: pysollib/wizardutil.py:109
@@ -4024,7 +4029,7 @@ msgid "Deal to reserves"
 msgstr "Сдавать на резервные ячейки"
 
 #: pysollib/wizardutil.py:113
-msgid "Ground for a Divorce"
+msgid "Grounds for a Divorce"
 msgstr ""
 
 #: pysollib/wizardutil.py:120 pysollib/wizardutil.py:126
@@ -4240,6 +4245,9 @@ msgstr "Всего ходов"
 #: data/glade-translations:57
 msgid "Set font"
 msgstr "Настроить шрифт"
+
+#~ msgid "Initial dealing"
+#~ msgstr "Начальная раздача"
 
 #~ msgid ""
 #~ "\n"

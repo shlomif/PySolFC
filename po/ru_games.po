@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Sun Aug 19 18:52:43 2007\n"
-"PO-Revision-Date: 2007-05-11 17:25+0400\n"
+"POT-Creation-Date: Sat Sep  1 22:26:18 2007\n"
+"PO-Revision-Date: 2007-09-01 23:15+0400\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -118,6 +118,9 @@ msgstr "Американская коробочка"
 
 msgid "American Toad"
 msgstr "Американская жаба"
+
+msgid "Amphibian"
+msgstr "Амфибия"
 
 msgid "Anno Domini"
 msgstr "Anno Domini"
@@ -341,9 +344,8 @@ msgstr "Чёрная вдова"
 msgid "Blind Alleys"
 msgstr "Тёмные аллеи"
 
-#, fuzzy
 msgid "Blind Patience"
-msgstr "Бразильский пасьянс"
+msgstr "Слепой пасьянс"
 
 msgid "Blockade"
 msgstr "Блокада"
@@ -367,7 +369,7 @@ msgid "Bonaparte"
 msgstr "Бонапарт"
 
 msgid "Boomerang"
-msgstr ""
+msgstr "Бумеранг"
 
 msgid "Boost"
 msgstr "Повышение"
@@ -580,6 +582,9 @@ msgstr "Китайский Паук"
 msgid "Chip"
 msgstr "Щепка"
 
+msgid "Choice"
+msgstr "Выбор"
+
 msgid "Cicely"
 msgstr "Кервель"
 
@@ -661,9 +666,8 @@ msgstr "Конверт"
 msgid "Crescent"
 msgstr "Полумесяц"
 
-#, fuzzy
 msgid "Cringle"
-msgstr "Треугольник"
+msgstr "Люверс"
 
 msgid "Cross"
 msgstr "Крест"
@@ -717,6 +721,10 @@ msgstr "Доставка"
 msgid "Demon"
 msgstr "Демон"
 
+#, fuzzy
+msgid "Demon Fan"
+msgstr "Демон"
+
 msgid "Der Katzenschwanz"
 msgstr "Der Katzenschwanz"
 
@@ -736,7 +744,7 @@ msgid "Der letzte Monarch"
 msgstr "Der letzte Monarch"
 
 msgid "Desert Island"
-msgstr ""
+msgstr "Необитаемый остров"
 
 msgid "Deuces"
 msgstr "Двойки"
@@ -823,9 +831,8 @@ msgstr "Двойной кузнечик"
 msgid "Double Fives"
 msgstr "Двойные пятёрки"
 
-#, fuzzy
 msgid "Double Footling"
-msgstr "Двойной Дельфин"
+msgstr "Двойной Пустяковый"
 
 msgid "Double FreeCell"
 msgstr "Двойная свободная ячейка"
@@ -1122,20 +1129,17 @@ msgstr "Пять кучек"
 msgid "Five Pyramids"
 msgstr "Пять пирамид"
 
-#, fuzzy
 msgid "Flake"
-msgstr "Фламенко"
+msgstr "Хлопья"
 
-#, fuzzy
 msgid "Flake (2 decks)"
-msgstr "Церлин (3 колоды)"
+msgstr "Хлопья (2 колоды)"
 
 msgid "Flamenco"
 msgstr "Фламенко"
 
-#, fuzzy
 msgid "Flipper"
-msgstr "Dieppe"
+msgstr "Флиппер"
 
 msgid "Floating City"
 msgstr "Плавающий город"
@@ -1145,6 +1149,9 @@ msgstr "Флорадора"
 
 msgid "Florentine Patience"
 msgstr "Флорентийский пасьянс"
+
+msgid "Flourish"
+msgstr "Завиток"
 
 msgid "Flower Arrangement"
 msgstr "Аранжировка цветов"
@@ -1165,15 +1172,14 @@ msgid "Flying Dragon"
 msgstr "Летящий дракон"
 
 msgid "Footling"
-msgstr ""
+msgstr "Пустяковый"
 
 #, fuzzy
 msgid "ForeCell"
 msgstr "Свободная ячейка"
 
-#, fuzzy
 msgid "Forest Glade"
-msgstr "Цветочный сад"
+msgstr "Лесная поляна"
 
 msgid "Formic"
 msgstr "Муравьиный"
@@ -1211,9 +1217,8 @@ msgstr "Четыре короля"
 msgid "Four Leaf Clovers"
 msgstr "Четырёхлистный клевер"
 
-#, fuzzy
 msgid "Four Packs"
-msgstr "Четыре кучи"
+msgstr "Четыре пакета"
 
 msgid "Four Seasons"
 msgstr "Четыре сезона"
@@ -1372,9 +1377,8 @@ msgstr "Великая Герцогиня"
 msgid "Grand Duchess +"
 msgstr "Великая Герцогиня +"
 
-#, fuzzy
 msgid "Grandee"
-msgstr "Гранада"
+msgstr "Гранд"
 
 msgid "Grandfather"
 msgstr "Дедушка"
@@ -1406,8 +1410,8 @@ msgstr "Длинная коса"
 msgid "Griffon"
 msgstr "Грифон"
 
-msgid "Ground for a Divorce"
-msgstr "Повод для разрыва"
+msgid "Grounds for a Divorce"
+msgstr "Основание для развода"
 
 msgid "Gypsy"
 msgstr "Цыганский"
@@ -1670,9 +1674,8 @@ msgstr ""
 msgid "King Only Hex A Klon"
 msgstr "Королевский Шестнадцатиричный Клондайк"
 
-#, fuzzy
 msgid "King Tut"
-msgstr "Король Альберт"
+msgstr "Король Тут"
 
 msgid "KingCell"
 msgstr "Королевская Ячейка"
@@ -1819,7 +1822,7 @@ msgid "Legion"
 msgstr "Легион"
 
 msgid "Leprechaun"
-msgstr ""
+msgstr "Лепрехун"
 
 msgid "Les Quatre Coins"
 msgstr "Les Quatre Coins"
@@ -1840,7 +1843,7 @@ msgid "Limited"
 msgstr "Ограниченный"
 
 msgid "Limpopo"
-msgstr ""
+msgstr "Лимпопо"
 
 msgid "Lion"
 msgstr "Лев"
@@ -1864,9 +1867,8 @@ msgstr "Маленький Наполеон"
 msgid "Lobachevsky"
 msgstr "Лобачевский"
 
-#, fuzzy
 msgid "Locked Cards"
-msgstr "Угловая карта"
+msgstr "Блокированные карты"
 
 msgid "Long Braid"
 msgstr "Долгая коса"
@@ -1877,9 +1879,8 @@ msgstr "Долгое путешествие в Куддапах"
 msgid "Long Tail"
 msgstr "Длинный хвост"
 
-#, fuzzy
 msgid "Long Trip"
-msgstr "Длинный хвост"
+msgstr "Долгий путь"
 
 msgid "Loose Ends"
 msgstr "Свободные концы"
@@ -2562,9 +2563,8 @@ msgstr "Монтана"
 msgid "Monte Carlo"
 msgstr "Монте-Карло"
 
-#, fuzzy
 msgid "Monte Carlo (2 decks)"
-msgstr "Монте-Карло"
+msgstr "Монте-Карло (2 колоды)"
 
 msgid "Moonlight"
 msgstr "Лунный свет"
@@ -2823,9 +2823,8 @@ msgstr ""
 msgid "Peek"
 msgstr "Взгляд"
 
-#, fuzzy
 msgid "Peek II"
-msgstr "Взгляд"
+msgstr "Взгляд II"
 
 msgid "Pegged"
 msgstr ""
@@ -3049,9 +3048,8 @@ msgstr "Смягчённый Паук"
 msgid "Repair"
 msgstr "Ремонт"
 
-#, fuzzy
 msgid "Reserves"
-msgstr "Полушария"
+msgstr "Резервные ячейки"
 
 msgid "Retinue"
 msgstr "Свита"
@@ -3243,9 +3241,8 @@ msgstr "Тенистые аллеи"
 msgid "Shamrocks"
 msgstr "Трилистники"
 
-#, fuzzy
 msgid "Shamrocks II"
-msgstr "Трилистники"
+msgstr "Трилистники II"
 
 msgid "Shamsher"
 msgstr ""
@@ -3607,9 +3604,8 @@ msgstr "Сад"
 msgid "The Great Wall"
 msgstr "Великая Стена"
 
-#, fuzzy
 msgid "The Jolly Roger"
-msgstr "Дверь"
+msgstr "Весёлый Роджер"
 
 msgid "The Last Monarch"
 msgstr "Последний Монарх"
@@ -3703,11 +3699,10 @@ msgid "Toni"
 msgstr ""
 
 msgid "Topsy-Turvy Queens"
-msgstr ""
+msgstr "Дамы кувырком"
 
-#, fuzzy
 msgid "Tornado"
-msgstr "Жаба"
+msgstr "Торнадо"
 
 #, fuzzy
 msgid "Totally Random-Made"
@@ -3735,9 +3730,8 @@ msgstr "Люк"
 msgid "Trapdoor Spider"
 msgstr "Люк Паука"
 
-#, fuzzy
 msgid "Travellers"
-msgstr "Волны"
+msgstr "Путешественники"
 
 msgid "Treasure Trove"
 msgstr "Клад"
@@ -3800,22 +3794,20 @@ msgstr "Тройка"
 msgid "Trusty Twelve"
 msgstr "Верные двенадцать"
 
-#, fuzzy
 msgid "Turncoats"
-msgstr "Турнир"
+msgstr "Перебежчики"
 
 msgid "Tuxedo"
 msgstr "Смокинг"
 
 msgid "Twelve Sleeping Maids"
-msgstr ""
+msgstr "Двенадцать спящих дев"
 
 msgid "Twenty"
 msgstr "Двенадцать"
 
-#, fuzzy
 msgid "Twilight Zone"
-msgstr "Маджонг Tile Fighter"
+msgstr "Сумеречная зона"
 
 msgid "Twin"
 msgstr "Двоня"
@@ -3839,9 +3831,8 @@ msgstr "Два знакомца"
 msgid "Two Pyramids"
 msgstr "Две пирамиды"
 
-#, fuzzy
 msgid "Two Rings"
-msgstr "Круги"
+msgstr "Два кольца"
 
 msgid "Two Squares"
 msgstr "Два квадрата"
@@ -3907,7 +3898,7 @@ msgid "Virginia Reel"
 msgstr "Виргинский Рил"
 
 msgid "Voracious"
-msgstr ""
+msgstr "Ненасытный"
 
 #, fuzzy
 msgid "Wake-Robin"
@@ -3929,9 +3920,8 @@ msgstr "Фаворит Вашингтона"
 msgid "Wasp"
 msgstr "Оса"
 
-#, fuzzy
 msgid "Waterfall"
-msgstr "Ватерлоо"
+msgstr "Водопад"
 
 msgid "Waterloo"
 msgstr "Ватерлоо"
@@ -3952,9 +3942,8 @@ msgstr "Свадьбы"
 msgid "Wedges"
 msgstr "Клинья"
 
-#, fuzzy
 msgid "Well"
-msgstr "Стена"
+msgstr "Колодец"
 
 #, fuzzy
 msgid "Well2"
@@ -3978,9 +3967,8 @@ msgstr "Колесо фортуны"
 msgid "Whitehead"
 msgstr "Уайтхэд"
 
-#, fuzzy
 msgid "Whitehorse"
-msgstr "Риттенхаус"
+msgstr "Уайтхорс"
 
 msgid "Wicked"
 msgstr "Злой"

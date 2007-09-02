@@ -63,10 +63,9 @@ def help_about(app, timeout=0, sound=True):
                          text=_('''PySol Fan Club edition
 %s%s
 
-Copyright (C) 1998, 1999, 2000, 2001, 2002, 2003
-Markus F.X.J. Oberhumer
+Copyright (C) 1998 - 2003 Markus F.X.J. Oberhumer.
 Copyright (C) 2003 Mt. Hood Playing Card Co.
-Copyright (C) 2005 Skomoroh
+Copyright (C) 2005 - 2007 Skomoroh.
 All Rights Reserved.
 
 PySol is free software distributed under the terms

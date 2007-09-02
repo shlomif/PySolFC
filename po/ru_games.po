@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "POT-Creation-Date: Sat Sep  1 22:26:18 2007\n"
-"PO-Revision-Date: 2007-09-01 23:15+0400\n"
+"PO-Revision-Date: 2007-09-02 22:22+0400\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -286,9 +286,8 @@ msgstr "Большая Расдача"
 msgid "Big Divorce"
 msgstr "Большой разрыв"
 
-#, fuzzy
 msgid "Big Easy"
-msgstr "Большая арфа"
+msgstr "Большая лёгкая"
 
 msgid "Big Flying Dragon"
 msgstr "Большой Летящий Дракон"
@@ -721,9 +720,8 @@ msgstr "Доставка"
 msgid "Demon"
 msgstr "Демон"
 
-#, fuzzy
 msgid "Demon Fan"
-msgstr "Демон"
+msgstr "Демонический веер"
 
 msgid "Der Katzenschwanz"
 msgstr "Der Katzenschwanz"
@@ -895,16 +893,14 @@ msgstr "Двойной Русский солитер"
 msgid "Double Russian Spider"
 msgstr "Двойной Русский Паук"
 
-#, fuzzy
 msgid "Double Samuri"
-msgstr "Двойные рельсы"
+msgstr "Двойной самурай"
 
 msgid "Double Scorpion"
 msgstr "Двойной Скорпион"
 
-#, fuzzy
 msgid "Double Your Fun"
-msgstr "Двойной Юкон"
+msgstr "Двойное удовольствие"
 
 msgid "Double Yukon"
 msgstr "Двойной Юкон"
@@ -981,9 +977,8 @@ msgstr "Восемь легионов"
 msgid "Eight Off"
 msgstr "Восемь удалённых"
 
-#, fuzzy
 msgid "Eight Sages"
-msgstr "Восемь квадратов"
+msgstr "Восемь мудрецов"
 
 msgid "Eight Squares"
 msgstr "Восемь квадратов"
@@ -1056,7 +1051,7 @@ msgid "Falling Star"
 msgstr "Падающая звезда"
 
 msgid "Famous Fifty"
-msgstr ""
+msgstr "Славные пятьдесят"
 
 msgid "Fan"
 msgstr "Веер"
@@ -1116,9 +1111,8 @@ msgstr "Фундаментальный закон"
 msgid "Fish"
 msgstr "Рыба"
 
-#, fuzzy
 msgid "Fish face"
-msgstr "Маджонг Fish face"
+msgstr "Рыбья голова"
 
 msgid "Five Aces"
 msgstr "Пять тузов"
@@ -1259,13 +1253,11 @@ msgstr "Свободная ячейка"
 msgid "Frog"
 msgstr "Лягушка"
 
-#, fuzzy
 msgid "Full Vision"
-msgstr "Маджонг Full Vision"
+msgstr "Полностью видимый"
 
-#, fuzzy
 msgid "Full Vision 2"
-msgstr "Маджонг Full Vision 2"
+msgstr "Полностью видимый 2"
 
 msgid "Future"
 msgstr "Будущее"
@@ -1514,7 +1506,7 @@ msgid "Hovercraft"
 msgstr "Ховеркрафт"
 
 msgid "How They Run"
-msgstr "Как оно работает"
+msgstr "Как они бегут"
 
 msgid "Hurdles"
 msgstr "Барьеры"
@@ -1851,9 +1843,8 @@ msgstr "Лев"
 msgid "Little Billie"
 msgstr "Малыш Билли"
 
-#, fuzzy
 msgid "Little Easy"
-msgstr "Малые ворота"
+msgstr "Малая лёгкая"
 
 msgid "Little Forty"
 msgstr "Малые сорок"
@@ -2033,7 +2024,7 @@ msgid "Mahjongg Fish"
 msgstr "Маджонг Рыба"
 
 msgid "Mahjongg Fish face"
-msgstr "Маджонг Fish face"
+msgstr "Маджонг Рыбья голова"
 
 msgid "Mahjongg Five Pyramids"
 msgstr "Маджонг Пять пирамид"
@@ -2051,10 +2042,10 @@ msgid "Mahjongg Fortress Towers"
 msgstr "Маджонг Крепостные башни"
 
 msgid "Mahjongg Full Vision"
-msgstr "Маджонг Full Vision"
+msgstr "Маджонг Полностью видимый"
 
 msgid "Mahjongg Full Vision 2"
-msgstr "Маджонг Full Vision 2"
+msgstr "Маджонг Полностью видимый 2"
 
 msgid "Mahjongg Future"
 msgstr "Маджонг Будущее"
@@ -2383,9 +2374,8 @@ msgstr "Маджонг Time Tunnel"
 msgid "Mahjongg Tomb"
 msgstr "Маджонг Гробница"
 
-#, fuzzy
 msgid "Mahjongg Tornado"
-msgstr "Маджонг Арена"
+msgstr "Маджонг Торнадо"
 
 msgid "Mahjongg Totally Random-Made"
 msgstr "Маджонг Totally Random-Made"
@@ -2807,9 +2797,8 @@ msgstr "Сольный танец"
 msgid "Pas de Deux"
 msgstr "Па-де-де"
 
-#, fuzzy
 msgid "Patience"
-msgstr "S-пасьянс"
+msgstr "Пасьянс"
 
 msgid "Patriarchs"
 msgstr "Патриархи"
@@ -3152,7 +3141,7 @@ msgid "Salic Law"
 msgstr "Салический закон"
 
 msgid "Samuri"
-msgstr ""
+msgstr "Самурай"
 
 msgid "San Juan Hill"
 msgstr "Гора Сан-Хуан"
@@ -3539,7 +3528,7 @@ msgid "Super Flower Garden"
 msgstr "Превосходный Цветочный сад"
 
 msgid "Super Samuri"
-msgstr ""
+msgstr "Супер самурай"
 
 msgid "Superior Canfield"
 msgstr "Больший Кенфилд"
@@ -3926,9 +3915,8 @@ msgstr "Водопад"
 msgid "Waterloo"
 msgstr "Ватерлоо"
 
-#, fuzzy
 msgid "Wave"
-msgstr "Волны"
+msgstr "Волна"
 
 msgid "Wave Motion"
 msgstr "Волновое движение"

@@ -195,6 +195,7 @@ class Boomerang_Foundation(AbstractFoundationStack):
 class Boomerang(UnionSquare):
     Foundation_Class = StackWrapper(Boomerang_Foundation,
                                     base_rank=6, max_cards=16)
+    RowStack_Class = StackWrapper(UnionSquare_RowStack, base_rank=NO_RANK)
 
     def createGame(self):
         UnionSquare.createGame(self, rows=12)

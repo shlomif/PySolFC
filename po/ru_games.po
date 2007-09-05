@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Sat Sep  1 22:26:18 2007\n"
-"PO-Revision-Date: 2007-09-02 22:22+0400\n"
+"POT-Creation-Date: Wed Sep  5 17:37:12 2007\n"
+"PO-Revision-Date: 2007-09-05 17:43+0400\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2435,6 +2435,10 @@ msgid "Mahjongg Yummy"
 msgstr "Маджонг Приятный"
 
 #, fuzzy
+msgid "Maine Coon"
+msgstr "Луна на ущербе"
+
+#, fuzzy
 msgid "Makara"
 msgstr "Мария"
 
@@ -2443,6 +2447,9 @@ msgstr "Мамочка Сюзи"
 
 msgid "Mancunian"
 msgstr "Манчестерский"
+
+msgid "Manx"
+msgstr "Бесхвостая кошка"
 
 msgid "Maria"
 msgstr "Мария"
@@ -3541,6 +3548,9 @@ msgstr ""
 
 msgid "Sweet Sixteen"
 msgstr "Приятные шестнадцать"
+
+msgid "Tabby Cat"
+msgstr "Полосатая кошка"
 
 msgid "Taipei"
 msgstr "Тайпей"

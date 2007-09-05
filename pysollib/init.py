@@ -70,7 +70,7 @@ def init():
             os.environ['LANG'] = l[0]
         except:
             pass
-    ##locale.setlocale(locale.LC_ALL, '')
+    locale.setlocale(locale.LC_ALL, '')
 
     ## install gettext
     ##locale_dir = 'locale'

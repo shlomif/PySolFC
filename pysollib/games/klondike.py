@@ -428,7 +428,8 @@ class EightByEight(EightTimesEight):
     RowStack_Class = EightByEight_RowStack
 
     def createGame(self):
-        l = Klondike.createGame(self, rows=8, max_rounds=3, round_text=True)
+        l = Klondike.createGame(self, rows=8, playcards=20,
+                                max_rounds=3, round_text=True)
         l.createRoundText(self.s.talon, 'ne', dx=l.XS)
 
     shallHighlightMatch = Game._shallHighlightMatch_RK

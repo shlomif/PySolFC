@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Sat Sep  1 22:26:18 2007\n"
+"POT-Creation-Date: Wed Sep  5 17:37:12 2007\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2418,6 +2418,9 @@ msgstr ""
 msgid "Mahjongg Yummy"
 msgstr ""
 
+msgid "Maine Coon"
+msgstr ""
+
 msgid "Makara"
 msgstr ""
 
@@ -2425,6 +2428,9 @@ msgid "Mamy Susan"
 msgstr ""
 
 msgid "Mancunian"
+msgstr ""
+
+msgid "Manx"
 msgstr ""
 
 msgid "Maria"
@@ -3505,6 +3511,9 @@ msgid "Surukh"
 msgstr ""
 
 msgid "Sweet Sixteen"
+msgstr ""
+
+msgid "Tabby Cat"
 msgstr ""
 
 msgid "Taipei"

@@ -328,6 +328,82 @@ class FiringSquad(AcesUp):
         AcesUp.createGame(self, reserve=True)
 
 
+# /***********************************************************************
+# // Tabby Cat
+# // Manx
+# // Maine Coon
+# ************************************************************************/
+
+class TabbyCatStack(RK_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not RK_RowStack.acceptsCards( self, from_stack, cards):
+            return False
+        # Only allow a sequence if pile is empty
+        if len( self.cards) > 0:
+            return False
+        return True
+
+    getBottomImage = Stack._getReserveBottomImage
+
+
+class TabbyCat(Game):
+    Talon_Class = DealRowTalonStack
+    Foundation_Class = Spider_RK_Foundation
+    RowStack_Class = StackWrapper(RK_RowStack, mod=13)
+    ReserveStack_Class = StackWrapper(TabbyCatStack, mod=13)
+
+    #
+    # game layout
+    #
+
+    def createGame(self, rows=4, playcards=20):
+        # create layout
+        l, s = Layout(self), self.s
+        decks = self.gameinfo.decks
+
+        # set window
+        self.setSize(l.XM + (decks+rows+3.5)*l.XS,
+                     l.YM + max(4*l.YS, l.YS+playcards*l.YOFFSET))
+
+        # create stacks
+        x = l.XM
+        for i in range(decks):
+            y = l.YM
+            for j in range(4):
+                s.foundations.append(self.Foundation_Class(x, y, self))
+                y += l.YS
+            x += l.XS
+
+        x, y, = l.XM + (decks+0.5)*l.XS, l.YM
+        for i in range(rows):
+            stack = self.RowStack_Class(x, y, self)
+            s.rows.append(stack)
+            stack.canDropCards = stack.spiderCanDropCards
+            x += l.XS
+        x += l.XS/2
+        s.reserves.append(self.ReserveStack_Class(x, y, self))
+        x += 1.5*l.XS
+        s.talon = self.Talon_Class(x, y, self)
+        l.createText(s.talon, "s")
+
+        # define stack-groups
+        l.defaultStackGroups()
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+    shallHighlightMatch = Game._shallHighlightMatch_RKW
+
+
+class Manx(TabbyCat):
+    ReserveStack_Class = ReserveStack
+
+
+class MaineCoon(TabbyCat):
+    def createGame(self):
+        TabbyCat.createGame(self, playcards=26)
+
 
 # register the game
 registerGame(GameInfo(903, AcesUp, "Aces Up",                   # was: 52
@@ -348,3 +424,9 @@ registerGame(GameInfo(583, FiringSquad, "Firing Squad",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(684, Deck, "Deck",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_LUCK))
+registerGame(GameInfo(756, TabbyCat, "Tabby Cat",
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(757, Manx, "Manx",
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(758, MaineCoon, "Maine Coon",
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))

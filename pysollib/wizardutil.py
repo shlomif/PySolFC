@@ -105,14 +105,14 @@ LayoutType = WizSetting(
     var_name = 'layout',
     )
 TalonType = WizSetting(
-    values_map = ((n_('Opening deal'),          InitialDealTalonStack),
+    values_map = ((n_('Deal all cards at the beginning'), InitialDealTalonStack),
                   (n_('Deal to waste'),         WasteTalonStack),
                   (n_('Deal to tableau'),       DealRowRedealTalonStack),
                   (n_('Deal to reserves'),      DealReserveRedealTalonStack),
                   (n_('Spider'),                SpiderTalonStack),
                   (n_('Grounds for a Divorce'), GroundsForADivorceTalonStack),
                   ),
-    default = n_('Opening deal'),
+    default = n_('Deal all cards at the beginning'),
     label = _('Type:'),
     var_name = 'talon',
     )

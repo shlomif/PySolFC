@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "#-#-#-#-#  pysol-1.pot (PACKAGE VERSION)  #-#-#-#-#\n"
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: Sat Sep  1 22:27:31 2007\n"
+"POT-Creation-Date: Wed Sep  5 17:38:29 2007\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Generated-By: pygettext.py 1.6con\n"
 "#-#-#-#-#  pysol-2.pot (PACKAGE VERSION)  #-#-#-#-#\n"
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2007-09-01 22:27+0400\n"
+"POT-Creation-Date: 2007-09-05 17:38+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -762,13 +762,13 @@ msgid ""
 msgstr ""
 
 #: pysollib/games/canfield.py:544 pysollib/games/special/tarock.py:224
-#: pysollib/stack.py:1568 pysollib/util.py:78 pysollib/wizardutil.py:158
+#: pysollib/stack.py:1569 pysollib/util.py:78 pysollib/wizardutil.py:158
 #: pysollib/wizardutil.py:216
 msgid "King"
 msgstr ""
 
 #: pysollib/games/canfield.py:549 pysollib/games/special/tarock.py:224
-#: pysollib/stack.py:1567 pysollib/util.py:78
+#: pysollib/stack.py:1568 pysollib/util.py:78
 msgid "Queen"
 msgstr ""
 
@@ -793,12 +793,12 @@ msgid "Waste. Build up or down regardless of suit."
 msgstr ""
 
 #: pysollib/games/golf.py:117 pysollib/games/golf.py:305
-#: pysollib/stack.py:2321
+#: pysollib/stack.py:2330
 msgid "Tableau. No building."
 msgstr ""
 
 #: pysollib/games/golf.py:390 pysollib/games/pileon.py:255
-#: pysollib/stack.py:2210
+#: pysollib/stack.py:2211
 msgid "Foundation. Build up regardless of suit."
 msgstr ""
 
@@ -812,11 +812,11 @@ msgid ""
 "moved as a unit."
 msgstr ""
 
-#: pysollib/games/klondike.py:449
+#: pysollib/games/klondike.py:450
 msgid "Reserve. Only Kings are acceptable."
 msgstr ""
 
-#: pysollib/games/larasgame.py:163 pysollib/stack.py:1781
+#: pysollib/games/larasgame.py:163 pysollib/stack.py:1782
 msgid "Round %d"
 msgstr ""
 
@@ -890,7 +890,7 @@ msgid "Deal %d"
 msgstr ""
 
 #: pysollib/games/numerica.py:263 pysollib/games/royalcotillion.py:912
-#: pysollib/stack.py:2253
+#: pysollib/stack.py:2254
 msgid "Foundation. Build up by color."
 msgstr ""
 
@@ -956,7 +956,7 @@ msgstr ""
 #: pysollib/games/special/tarock.py:223
 #: pysollib/games/ultra/dashavatara.py:351
 #: pysollib/games/ultra/hexadeck.py:273 pysollib/games/ultra/mughal.py:254
-#: pysollib/stack.py:1569 pysollib/util.py:77 pysollib/wizardutil.py:157
+#: pysollib/stack.py:1570 pysollib/util.py:77 pysollib/wizardutil.py:157
 #: pysollib/wizardutil.py:161 pysollib/wizardutil.py:215
 msgid "Ace"
 msgstr ""
@@ -1299,10 +1299,9 @@ msgid ""
 "PySol Fan Club edition\n"
 "%s%s\n"
 "\n"
-"Copyright (C) 1998, 1999, 2000, 2001, 2002, 2003\n"
-"Markus F.X.J. Oberhumer\n"
+"Copyright (C) 1998 - 2003 Markus F.X.J. Oberhumer.\n"
 "Copyright (C) 2003 Mt. Hood Playing Card Co.\n"
-"Copyright (C) 2005 Skomoroh\n"
+"Copyright (C) 2005 - 2007 Skomoroh.\n"
 "All Rights Reserved.\n"
 "\n"
 "PySol is free software distributed under the terms\n"
@@ -1311,11 +1310,11 @@ msgid ""
 "For more information about this application visit"
 msgstr ""
 
-#: pysollib/help.py:93
+#: pysollib/help.py:92
 msgid "Credits"
 msgstr ""
 
-#: pysollib/help.py:94
+#: pysollib/help.py:93
 msgid ""
 " credits go to:\n"
 "\n"
@@ -1330,15 +1329,15 @@ msgid ""
 "for making this program possible"
 msgstr ""
 
-#: pysollib/help.py:129
+#: pysollib/help.py:128
 msgid " HTML Problem"
 msgstr ""
 
-#: pysollib/help.py:130
+#: pysollib/help.py:129
 msgid "Cannot find help document\n"
 msgstr ""
 
-#: pysollib/help.py:143
+#: pysollib/help.py:142
 msgid " Help"
 msgstr ""
 
@@ -1685,221 +1684,221 @@ msgstr ""
 msgid "Top 10"
 msgstr ""
 
-#: pysollib/stack.py:1563
+#: pysollib/stack.py:1564
 msgid "Base card - %s."
 msgstr ""
 
-#: pysollib/stack.py:1564
+#: pysollib/stack.py:1565
 msgid "Empty row cannot be filled."
 msgstr ""
 
-#: pysollib/stack.py:1565
+#: pysollib/stack.py:1566
 msgid "any card"
 msgstr ""
 
-#: pysollib/stack.py:1566 pysollib/util.py:78
+#: pysollib/stack.py:1567 pysollib/util.py:78
 msgid "Jack"
 msgstr ""
 
-#: pysollib/stack.py:1576
+#: pysollib/stack.py:1577
 msgid "No cards"
 msgstr ""
 
-#: pysollib/stack.py:1577
+#: pysollib/stack.py:1578
 msgid "%d card"
 msgid_plural "%d cards"
 msgstr[0] ""
 msgstr[1] ""
 
-#: pysollib/stack.py:1790 pysollib/stack.py:1792 pysollib/stack.py:1828
+#: pysollib/stack.py:1791 pysollib/stack.py:1793 pysollib/stack.py:1829
 msgid "Redeal"
 msgstr ""
 
-#: pysollib/stack.py:1792
+#: pysollib/stack.py:1793
 msgid "Stop"
 msgstr ""
 
-#: pysollib/stack.py:1853
+#: pysollib/stack.py:1854
 msgid "Variable redeals."
 msgstr ""
 
-#: pysollib/stack.py:1854
+#: pysollib/stack.py:1855
 msgid "Unlimited redeals."
 msgstr ""
 
-#: pysollib/stack.py:1857
+#: pysollib/stack.py:1858
 msgid "%d readeal"
 msgid_plural "%d redeals"
 msgstr[0] ""
 msgstr[1] ""
 
-#: pysollib/stack.py:1859
+#: pysollib/stack.py:1860
 msgid "Talon."
 msgstr ""
 
-#: pysollib/stack.py:2124 pysollib/stack.py:2767
+#: pysollib/stack.py:2125 pysollib/stack.py:2776
 msgid "Reserve. No building."
 msgstr ""
 
-#: pysollib/stack.py:2161
+#: pysollib/stack.py:2162
 msgid "Foundation."
 msgstr ""
 
-#: pysollib/stack.py:2199
+#: pysollib/stack.py:2200
 msgid "Foundation. Build up by suit."
 msgstr ""
 
-#: pysollib/stack.py:2200
+#: pysollib/stack.py:2201
 msgid "Foundation. Build down by suit."
 msgstr ""
 
-#: pysollib/stack.py:2201 pysollib/stack.py:2212 pysollib/stack.py:2234
-#: pysollib/stack.py:2255
+#: pysollib/stack.py:2202 pysollib/stack.py:2213 pysollib/stack.py:2235
+#: pysollib/stack.py:2256
 msgid "Foundation. Build by same rank."
 msgstr ""
 
-#: pysollib/stack.py:2211
+#: pysollib/stack.py:2212
 msgid "Foundation. Build down regardless of suit."
 msgstr ""
 
-#: pysollib/stack.py:2232
+#: pysollib/stack.py:2233
 msgid "Foundation. Build up by alternate color."
 msgstr ""
 
-#: pysollib/stack.py:2233
+#: pysollib/stack.py:2234
 msgid "Foundation. Build down by alternate color."
 msgstr ""
 
-#: pysollib/stack.py:2254
+#: pysollib/stack.py:2255
 msgid "Foundation. Build down by color."
 msgstr ""
 
-#: pysollib/stack.py:2363
+#: pysollib/stack.py:2372
 msgid "Tableau. Build up by alternate color."
 msgstr ""
 
-#: pysollib/stack.py:2364
+#: pysollib/stack.py:2373
 msgid "Tableau. Build down by alternate color."
 msgstr ""
 
-#: pysollib/stack.py:2365 pysollib/stack.py:2375 pysollib/stack.py:2384
-#: pysollib/stack.py:2393 pysollib/stack.py:2403 pysollib/stack.py:2432
-#: pysollib/stack.py:2442
+#: pysollib/stack.py:2374 pysollib/stack.py:2384 pysollib/stack.py:2393
+#: pysollib/stack.py:2402 pysollib/stack.py:2412 pysollib/stack.py:2441
+#: pysollib/stack.py:2451
 msgid "Tableau. Build by same rank."
 msgstr ""
 
-#: pysollib/stack.py:2373
+#: pysollib/stack.py:2382
 msgid "Tableau. Build up by color."
 msgstr ""
 
-#: pysollib/stack.py:2374
+#: pysollib/stack.py:2383
 msgid "Tableau. Build down by color."
 msgstr ""
 
-#: pysollib/stack.py:2382
+#: pysollib/stack.py:2391
 msgid "Tableau. Build up by suit."
 msgstr ""
 
-#: pysollib/stack.py:2383
+#: pysollib/stack.py:2392
 msgid "Tableau. Build down by suit."
 msgstr ""
 
-#: pysollib/stack.py:2391
+#: pysollib/stack.py:2400
 msgid "Tableau. Build up regardless of suit."
 msgstr ""
 
-#: pysollib/stack.py:2392
+#: pysollib/stack.py:2401
 msgid "Tableau. Build down regardless of suit."
 msgstr ""
 
-#: pysollib/stack.py:2401
+#: pysollib/stack.py:2410
 msgid "Tableau. Build up in any suit but the same."
 msgstr ""
 
-#: pysollib/stack.py:2402
+#: pysollib/stack.py:2411
 msgid "Tableau. Build down in any suit but the same."
 msgstr ""
 
-#: pysollib/stack.py:2430
+#: pysollib/stack.py:2439
 msgid ""
 "Tableau. Build up regardless of suit. Sequences of cards in alternate color "
 "can be moved as a unit."
 msgstr ""
 
-#: pysollib/stack.py:2431
+#: pysollib/stack.py:2440
 msgid ""
 "Tableau. Build down regardless of suit. Sequences of cards in alternate "
 "color can be moved as a unit."
 msgstr ""
 
-#: pysollib/stack.py:2440
+#: pysollib/stack.py:2449
 msgid ""
 "Tableau. Build up regardless of suit. Sequences of cards in the same suit "
 "can be moved as a unit."
 msgstr ""
 
-#: pysollib/stack.py:2441
+#: pysollib/stack.py:2450
 msgid ""
 "Tableau. Build down regardless of suit. Sequences of cards in the same suit "
 "can be moved as a unit."
 msgstr ""
 
-#: pysollib/stack.py:2463
+#: pysollib/stack.py:2472
 msgid ""
 "Tableau. Build up by alternate color, can move any face-up cards regardless "
 "of sequence."
 msgstr ""
 
-#: pysollib/stack.py:2464
+#: pysollib/stack.py:2473
 msgid ""
 "Tableau. Build down by alternate color, can move any face-up cards "
 "regardless of sequence."
 msgstr ""
 
-#: pysollib/stack.py:2465 pysollib/stack.py:2478 pysollib/stack.py:2488
+#: pysollib/stack.py:2474 pysollib/stack.py:2487 pysollib/stack.py:2497
 msgid ""
 "Tableau. Build by same rank, can move any face-up cards regardless of "
 "sequence."
 msgstr ""
 
-#: pysollib/stack.py:2476
+#: pysollib/stack.py:2485
 msgid ""
 "Tableau. Build up by suit, can move any face-up cards regardless of sequence."
 msgstr ""
 
-#: pysollib/stack.py:2477
+#: pysollib/stack.py:2486
 msgid ""
 "Tableau. Build down by suit, can move any face-up cards regardless of "
 "sequence."
 msgstr ""
 
-#: pysollib/stack.py:2486 pysollib/stack.py:2487
+#: pysollib/stack.py:2495 pysollib/stack.py:2496
 msgid ""
 "Tableau. Build up regardless of suit, can move any face-up cards regardless "
 "of sequence."
 msgstr ""
 
-#: pysollib/stack.py:2520
+#: pysollib/stack.py:2529
 msgid "Tableau. Build up or down by color."
 msgstr ""
 
-#: pysollib/stack.py:2531
+#: pysollib/stack.py:2540
 msgid "Tableau. Build up or down by alternate color."
 msgstr ""
 
-#: pysollib/stack.py:2542
+#: pysollib/stack.py:2551
 msgid "Tableau. Build up or down by suit."
 msgstr ""
 
-#: pysollib/stack.py:2553
+#: pysollib/stack.py:2562
 msgid "Tableau. Build up or down regardless of suit."
 msgstr ""
 
-#: pysollib/stack.py:2652
+#: pysollib/stack.py:2661
 msgid "Waste."
 msgstr ""
 
-#: pysollib/stack.py:2768
+#: pysollib/stack.py:2777
 msgid "Free cell."
 msgstr ""
 

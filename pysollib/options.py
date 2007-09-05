@@ -62,7 +62,7 @@ animations = integer(0, 5)
 redeal_animation = boolean
 win_animation = boolean
 flip_animation = boolean
-squeeze_stacks = boolean
+compact_stacks = boolean
 shadow = boolean
 shade = boolean
 shrink_face_down = boolean
@@ -190,7 +190,7 @@ class Options:
         ('redeal_animation', 'bool'),
         ('win_animation', 'bool'),
         ('flip_animation', 'bool'),
-        ('squeeze_stacks', 'bool'),
+        ('compact_stacks', 'bool'),
         ('shadow', 'bool'),
         ('shade', 'bool'),
         ('shrink_face_down', 'bool'),
@@ -260,7 +260,7 @@ class Options:
         self.redeal_animation = True
         self.win_animation = True
         self.flip_animation = True
-        self.squeeze_stacks = True
+        self.compact_stacks = True
         self.shadow = True
         self.shade = True
         self.shrink_face_down = True

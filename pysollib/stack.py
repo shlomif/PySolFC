@@ -62,6 +62,7 @@ __all__ = ['cardsFaceUp',
            'SC_FoundationStack',
            'Spider_SS_Foundation',
            'Spider_AC_Foundation',
+           'Spider_RK_Foundation',
            #'SequenceStack_StackMethods',
            'BasicRowStack',
            'SequenceRowStack',
@@ -862,7 +863,7 @@ class Stack:
         self.texts.ncards.config(text=t)
 
     def updatePositions(self):
-        # squeeze the stack if a cards is off-screen
+        # compact the stack when a cards goes off screen
         if self.reallocateCards():
             for c in self.cards:
                 self._position(c)
@@ -870,7 +871,7 @@ class Stack:
     def reallocateCards(self):
         # change CARD_YOFFSET if a cards is off-screen
         # returned False if CARD_YOFFSET is not changed, otherwise True
-        if not self.game.app.opt.squeeze_stacks:
+        if not self.game.app.opt.compact_stacks:
             return False
         if TOOLKIT != 'tk':
             return False
@@ -896,7 +897,7 @@ class Stack:
         game_height = self.game.height + 2*self.canvas.ymargin
         height = max(visible_height, game_height)
         if stack_height > height:
-            # squeeze stack
+            # compact stack
             n = num_face_down / self.shrink_face_down + num_face_up
             dy = float(height - self.y - cardh) / n
             if dy < yoffset:
@@ -2275,6 +2276,14 @@ class Spider_AC_Foundation(Spider_SS_Foundation):
             return False
         # now check the cards
         return isAlternateColorSequence(cards, self.cap.mod, self.cap.dir)
+
+
+class Spider_RK_Foundation(Spider_SS_Foundation):
+    def acceptsCards(self, from_stack, cards):
+        if not AbstractFoundationStack.acceptsCards(self, from_stack, cards):
+            return False
+        # now check the cards
+        return isRankSequence(cards, self.cap.mod, self.cap.dir)
 
 
 

@@ -12,7 +12,7 @@ for root, dirs, files in os.walk('dist'):
     dirs_list.append(root)
 
 execfile(os.path.join('pysollib', 'settings.py'))
-prog_version = FC_VERSION
+prog_version = VERSION
 
 out = open('setup.iss', 'w')
 

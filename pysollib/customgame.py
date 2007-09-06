@@ -63,15 +63,18 @@ class CustomGame(Game):
             }
         # max_move
         if s['found_type'] not in (Spider_SS_Foundation,
-                                   Spider_AC_Foundation,):
+                                   Spider_AC_Foundation,
+                                   Spider_RK_Foundation,):
             kw['max_move'] = s['found_max_move']
         # suit
         if s['found_type'] in (Spider_SS_Foundation,
-                               Spider_AC_Foundation,):
+                               Spider_AC_Foundation,
+                               Spider_RK_Foundation,):
             kw['suit'] = ANY_SUIT
         # fix dir and base_rank for Spider foundations
         if s['found_type'] in (Spider_SS_Foundation,
-                               Spider_AC_Foundation,):
+                               Spider_AC_Foundation,
+                               Spider_RK_Foundation,):
             kw['dir'] = -kw['dir']
             if s['found_base_card'] == KING:
                 kw['base_rank'] = ACE
@@ -194,12 +197,14 @@ class CustomGame(Game):
                 break
 
         # getQuickPlayScore
-        if s['rows_type'] in (Spider_AC_RowStack, Spider_SS_RowStack):
+        if s['rows_type'] in (Spider_AC_RowStack,
+                              Spider_SS_RowStack,):
             self.getQuickPlayScore = self._getSpiderQuickPlayScore
 
         # canDropCards
         if s['found_type'] in (Spider_SS_Foundation,
-                               Spider_AC_Foundation,):
+                               Spider_AC_Foundation,
+                               Spider_RK_Foundation,):
             for stack in self.s.rows:
                 stack.canDropCards = stack.spiderCanDropCards
 
@@ -227,7 +232,8 @@ class CustomGame(Game):
         if not s['deal_found']:
             return cards
         if s['found_type'] in (Spider_SS_Foundation,
-                               Spider_AC_Foundation,):
+                               Spider_AC_Foundation,
+                               Spider_RK_Foundation,):
             return cards
         base_card = s['found_base_card']
         if base_card == ANY_RANK:

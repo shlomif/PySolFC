@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "#-#-#-#-#  pysol-1.pot (PACKAGE VERSION)  #-#-#-#-#\n"
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: Wed Sep  5 17:38:29 2007\n"
+"POT-Creation-Date: Thu Sep  6 15:07:58 2007\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Generated-By: pygettext.py 1.6con\n"
 "#-#-#-#-#  pysol-2.pot (PACKAGE VERSION)  #-#-#-#-#\n"
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2007-09-05 17:38+0400\n"
+"POT-Creation-Date: 2007-09-06 15:07+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -762,8 +762,8 @@ msgid ""
 msgstr ""
 
 #: pysollib/games/canfield.py:544 pysollib/games/special/tarock.py:224
-#: pysollib/stack.py:1569 pysollib/util.py:78 pysollib/wizardutil.py:158
-#: pysollib/wizardutil.py:216
+#: pysollib/stack.py:1569 pysollib/util.py:78 pysollib/wizardutil.py:159
+#: pysollib/wizardutil.py:217
 msgid "King"
 msgstr ""
 
@@ -956,8 +956,8 @@ msgstr ""
 #: pysollib/games/special/tarock.py:223
 #: pysollib/games/ultra/dashavatara.py:351
 #: pysollib/games/ultra/hexadeck.py:273 pysollib/games/ultra/mughal.py:254
-#: pysollib/stack.py:1570 pysollib/util.py:77 pysollib/wizardutil.py:157
-#: pysollib/wizardutil.py:161 pysollib/wizardutil.py:215
+#: pysollib/stack.py:1570 pysollib/util.py:77 pysollib/wizardutil.py:158
+#: pysollib/wizardutil.py:162 pysollib/wizardutil.py:216
 msgid "Ace"
 msgstr ""
 
@@ -2748,8 +2748,8 @@ msgstr ""
 
 #: pysollib/tile/selectcardset.py:329 pysollib/tile/selectgame.py:391
 #: pysollib/tk/selectcardset.py:328 pysollib/tk/selectgame.py:393
-#: pysollib/wizardutil.py:116 pysollib/wizardutil.py:153
-#: pysollib/wizardutil.py:211 pysollib/wizardutil.py:269
+#: pysollib/wizardutil.py:116 pysollib/wizardutil.py:154
+#: pysollib/wizardutil.py:212 pysollib/wizardutil.py:270
 msgid "Type:"
 msgstr ""
 
@@ -3781,8 +3781,7 @@ msgid "Layout:"
 msgstr ""
 
 #: pysollib/wizardutil.py:108 pysollib/wizardutil.py:115
-#: pysollib/wizardutil.py:337
-msgid "Opening deal"
+msgid "Deal all cards at the beginning"
 msgstr ""
 
 #: pysollib/wizardutil.py:109
@@ -3829,174 +3828,182 @@ msgstr ""
 msgid "Shuffle during redeal:"
 msgstr ""
 
-#: pysollib/wizardutil.py:145 pysollib/wizardutil.py:152
-#: pysollib/wizardutil.py:192
+#: pysollib/wizardutil.py:145 pysollib/wizardutil.py:153
+#: pysollib/wizardutil.py:193
 msgid "Same suit"
 msgstr ""
 
-#: pysollib/wizardutil.py:146 pysollib/wizardutil.py:193
-#: pysollib/wizardutil.py:210
+#: pysollib/wizardutil.py:146 pysollib/wizardutil.py:194
+#: pysollib/wizardutil.py:211
 msgid "Alternate color"
 msgstr ""
 
-#: pysollib/wizardutil.py:147 pysollib/wizardutil.py:194
+#: pysollib/wizardutil.py:147 pysollib/wizardutil.py:195
 msgid "Same color"
 msgstr ""
 
-#: pysollib/wizardutil.py:148 pysollib/wizardutil.py:195
+#: pysollib/wizardutil.py:148 pysollib/wizardutil.py:196
 msgid "Rank"
 msgstr ""
 
-#: pysollib/wizardutil.py:149 pysollib/wizardutil.py:203
+#: pysollib/wizardutil.py:149 pysollib/wizardutil.py:204
 msgid "Spider same suit"
 msgstr ""
 
-#: pysollib/wizardutil.py:150 pysollib/wizardutil.py:204
+#: pysollib/wizardutil.py:150 pysollib/wizardutil.py:205
 msgid "Spider alternate color"
 msgstr ""
 
-#: pysollib/wizardutil.py:159 pysollib/wizardutil.py:217
-#: pysollib/wizardutil.py:220
+#: pysollib/wizardutil.py:151
+msgid "Spider rank"
+msgstr ""
+
+#: pysollib/wizardutil.py:160 pysollib/wizardutil.py:218
+#: pysollib/wizardutil.py:221
 msgid "Any"
 msgstr ""
 
-#: pysollib/wizardutil.py:162 pysollib/wizardutil.py:221
+#: pysollib/wizardutil.py:163 pysollib/wizardutil.py:222
 msgid "Base card:"
 msgstr ""
 
-#: pysollib/wizardutil.py:166 pysollib/wizardutil.py:167
-#: pysollib/wizardutil.py:225
+#: pysollib/wizardutil.py:167 pysollib/wizardutil.py:168
+#: pysollib/wizardutil.py:226
 msgid "Up"
 msgstr ""
 
-#: pysollib/wizardutil.py:166 pysollib/wizardutil.py:225
-#: pysollib/wizardutil.py:226
+#: pysollib/wizardutil.py:167 pysollib/wizardutil.py:226
+#: pysollib/wizardutil.py:227
 msgid "Down"
 msgstr ""
 
-#: pysollib/wizardutil.py:168 pysollib/wizardutil.py:227
+#: pysollib/wizardutil.py:169 pysollib/wizardutil.py:228
 msgid "Direction:"
 msgstr ""
 
-#: pysollib/wizardutil.py:172 pysollib/wizardutil.py:173
-#: pysollib/wizardutil.py:231
+#: pysollib/wizardutil.py:173 pysollib/wizardutil.py:174
+#: pysollib/wizardutil.py:232
 msgid "Top card"
 msgstr ""
 
-#: pysollib/wizardutil.py:172 pysollib/wizardutil.py:218
+#: pysollib/wizardutil.py:173 pysollib/wizardutil.py:219
 msgid "None"
 msgstr ""
 
-#: pysollib/wizardutil.py:174 pysollib/wizardutil.py:233
+#: pysollib/wizardutil.py:175 pysollib/wizardutil.py:234
 msgid "Move:"
 msgstr ""
 
-#: pysollib/wizardutil.py:180
+#: pysollib/wizardutil.py:181
 msgid "First card sets base cards:"
 msgstr ""
 
-#: pysollib/wizardutil.py:188
+#: pysollib/wizardutil.py:189
 msgid "Number of tableau piles:"
 msgstr ""
 
-#: pysollib/wizardutil.py:196
+#: pysollib/wizardutil.py:197
 msgid "Any suit but the same"
 msgstr ""
 
-#: pysollib/wizardutil.py:198
+#: pysollib/wizardutil.py:199
 msgid "Up or down by same suit"
 msgstr ""
 
-#: pysollib/wizardutil.py:199
+#: pysollib/wizardutil.py:200
 msgid "Up or down by alternate color"
 msgstr ""
 
-#: pysollib/wizardutil.py:200
+#: pysollib/wizardutil.py:201
 msgid "Up or down by rank"
 msgstr ""
 
-#: pysollib/wizardutil.py:201
+#: pysollib/wizardutil.py:202
 msgid "Up or down by same color"
 msgstr ""
 
-#: pysollib/wizardutil.py:206
+#: pysollib/wizardutil.py:207
 msgid "Yukon same suit"
 msgstr ""
 
-#: pysollib/wizardutil.py:207
+#: pysollib/wizardutil.py:208
 msgid "Yukon alternate color"
 msgstr ""
 
-#: pysollib/wizardutil.py:208
+#: pysollib/wizardutil.py:209
 msgid "Yukon rank"
 msgstr ""
 
-#: pysollib/wizardutil.py:231 pysollib/wizardutil.py:232
+#: pysollib/wizardutil.py:232 pysollib/wizardutil.py:233
 msgid "Sequence"
 msgstr ""
 
-#: pysollib/wizardutil.py:239
+#: pysollib/wizardutil.py:240
 msgid "Wrapping:"
 msgstr ""
 
-#: pysollib/wizardutil.py:246
+#: pysollib/wizardutil.py:247
 msgid "Use \"Super Move\" feature:"
 msgstr ""
 
-#: pysollib/wizardutil.py:254
+#: pysollib/wizardutil.py:255
 msgid "Number of reserves:"
 msgstr ""
 
-#: pysollib/wizardutil.py:261
+#: pysollib/wizardutil.py:262
 msgid "Max # of accepted cards:"
 msgstr ""
 
-#: pysollib/wizardutil.py:265
+#: pysollib/wizardutil.py:266
 msgid "Triangle"
 msgstr ""
 
-#: pysollib/wizardutil.py:266 pysollib/wizardutil.py:268
+#: pysollib/wizardutil.py:267 pysollib/wizardutil.py:269
 msgid "Rectangle"
 msgstr ""
 
-#: pysollib/wizardutil.py:276
+#: pysollib/wizardutil.py:277
 msgid "# of face-down cards dealt to the tableau pile:"
 msgstr ""
 
-#: pysollib/wizardutil.py:283
+#: pysollib/wizardutil.py:284
 msgid "# of face-up cards dealt to the tableau pile:"
 msgstr ""
 
-#: pysollib/wizardutil.py:290
+#: pysollib/wizardutil.py:291
 msgid "# of cards dealt to the reserve:"
 msgstr ""
 
-#: pysollib/wizardutil.py:297
+#: pysollib/wizardutil.py:298
 msgid "Max # of dealt cards:"
 msgstr ""
 
-#: pysollib/wizardutil.py:303
+#: pysollib/wizardutil.py:304
 msgid "Deal first cards to the foundations:"
 msgstr ""
 
-#: pysollib/wizardutil.py:309
+#: pysollib/wizardutil.py:310
 msgid "General"
 msgstr ""
 
-#: pysollib/wizardutil.py:315
+#: pysollib/wizardutil.py:316
 msgid "Talon"
 msgstr ""
 
-#: pysollib/wizardutil.py:320
+#: pysollib/wizardutil.py:321
 msgid "Foundations"
 msgstr ""
 
-#: pysollib/wizardutil.py:326
+#: pysollib/wizardutil.py:327
 msgid "Tableau"
 msgstr ""
 
-#: pysollib/wizardutil.py:334
+#: pysollib/wizardutil.py:335
 msgid "Reserves"
+msgstr ""
+
+#: pysollib/wizardutil.py:338
+msgid "Opening deal"
 msgstr ""
 
 #: data/glade-translations:7

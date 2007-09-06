@@ -148,6 +148,7 @@ FoundType = WizSetting(
                   (n_('Rank'),                   RK_FoundationStack),
                   (n_('Spider same suit'),       Spider_SS_Foundation),
                   (n_('Spider alternate color'), Spider_AC_Foundation),
+                  (n_('Spider rank'),            Spider_RK_Foundation),
                   ),
     default = n_('Same suit'),
     label = _('Type:'),
@@ -345,6 +346,7 @@ WizardWidgets = (
 
 
 def write_game(app, game=None):
+    import customgame                   # for py2exe
 
     if game is None:
         # new game

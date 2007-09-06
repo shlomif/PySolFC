@@ -13,7 +13,7 @@ include pysollib/games/ultra/*.py pysollib/games/mahjongg/*.py
 include data/tcl/*.tcl
 graft data/themes
 include scripts/build.bat scripts/create_iss.py scripts/mahjongg_utils.py
-include scripts/all_games.py scripts/cardset_viewer.py
+include scripts/pygettext.py scripts/all_games.py scripts/cardset_viewer.py
 #graft data/plugins
 ##
 ## data - docs

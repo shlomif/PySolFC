@@ -38,7 +38,7 @@ class WizSetting:
         self.values_map = values_map
         self.default = default
         ##self.values_dict = dict(self.values_map)
-        self.translation_map = {}
+        self.translation_map = {}       # for backward translation
         if widget == 'menu':
             self.values = []
             for k, v in self.values_map:
@@ -216,7 +216,7 @@ RowsBaseCard = WizSetting(
     values_map = ((n_('Ace'),  ACE),
                   (n_('King'), KING),
                   (n_('Any'),  ANY_RANK),
-                  (n_('None'),   NO_RANK),
+                  (n_('None'), NO_RANK),
                   ),
     default = n_('Any'),
     label = _('Base card:'),

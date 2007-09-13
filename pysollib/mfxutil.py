@@ -225,8 +225,7 @@ class Struct:
                 self.__dict__[key] = None
 
     def copy(self):
-        c = Struct()
-        c.__class__ = self.__class__
+        c = self.__class__()
         c.__dict__.update(self.__dict__)
         return c
 

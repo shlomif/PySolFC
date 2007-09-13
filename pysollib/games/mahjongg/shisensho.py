@@ -209,8 +209,6 @@ class Shisen_RowStack(Mahjongg_RowStack):
         #print res_path
         return res_path
 
-        return a[x2][y2] < 4
-
 
     def fillStack(self):
         self.game.fillStack(self)
@@ -353,7 +351,6 @@ class AbstractShisenGame(AbstractMahjonggGame):
                 self.cols[col].append(stack)
         #from pprint import pprint
         #pprint(self.cols)
-        self.cols_len = [rows]*cols
 
         # create other stacks
         y = l.YM + dyy
@@ -454,13 +451,41 @@ class Shisen_24x12_NoGravity(AbstractShisenGame):
     NCARDS = 288
     GRAVITY = False
 
+
+# /***********************************************************************
+# // Not Shisen-Sho
+# ************************************************************************/
+
+class NotShisen_RowStack(Shisen_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not self.game.cardsMatch(self.cards[0], cards[-1]):
+            return 0
+        if self.coln != from_stack.coln and self.rown != from_stack.rown:
+            return 0
+        return [(self.coln+1, self.rown+1),
+                (from_stack.coln+1, from_stack.rown+1)]
+
+
+class NotShisen_14x6(AbstractShisenGame):
+    RowStack_Class = NotShisen_RowStack
+    L = (14, 6)
+    NCARDS = 84
+
+class NotShisen_18x8(AbstractShisenGame):
+    RowStack_Class = NotShisen_RowStack
+    L = (18, 8)
+
+class NotShisen_24x12(AbstractShisenGame):
+    RowStack_Class = NotShisen_RowStack
+    L = (24, 12)
+    NCARDS = 288
+
+
 # /***********************************************************************
 # // register a Shisen-Sho type game
 # ************************************************************************/
 
-def r(id, gameclass, short_name, name=None, decks=1, ranks=10, trumps=12):
-    if not name:
-        name = short_name
+def r(id, gameclass, name, rules_filename="shisensho.html"):
     decks, ranks, trumps = comp_cardset(gameclass.NCARDS)
     gi = GameInfo(id, gameclass, name,
                   GI.GT_SHISEN_SHO, 4*decks, 0, GI.SL_MOSTLY_SKILL,
@@ -468,15 +493,19 @@ def r(id, gameclass, short_name, name=None, decks=1, ranks=10, trumps=12):
                   suits=range(3), ranks=range(ranks), trumps=range(trumps),
                   si={"decks": decks, "ncards": gameclass.NCARDS})
     gi.ncards = gameclass.NCARDS
-    gi.rules_filename = "shisensho.html"
+    gi.rules_filename = rules_filename
     registerGame(gi)
     return gi
 
 r(11001, Shisen_14x6, "Shisen-Sho 14x6")
 r(11002, Shisen_18x8, "Shisen-Sho 18x8")
 r(11003, Shisen_24x12, "Shisen-Sho 24x12")
-r(11004, Shisen_14x6_NoGravity, "Shisen-Sho (No Gra) 14x6")
-r(11005, Shisen_18x8_NoGravity, "Shisen-Sho (No Gra) 18x8")
-r(11006, Shisen_24x12_NoGravity, "Shisen-Sho (No Gra) 24x12")
+r(11004, Shisen_14x6_NoGravity, "Shisen-Sho (No Gravity) 14x6")
+r(11005, Shisen_18x8_NoGravity, "Shisen-Sho (No Gravity) 18x8")
+r(11006, Shisen_24x12_NoGravity, "Shisen-Sho (No Gravity) 24x12")
+r(11011, NotShisen_14x6, "Not Shisen-Sho 14x6", "notshisensho.html")
+r(11012, NotShisen_18x8, "Not Shisen-Sho 18x8", "notshisensho.html")
+r(11013, NotShisen_24x12, "Not Shisen-Sho 24x12", "notshisensho.html")
+
 
 del r

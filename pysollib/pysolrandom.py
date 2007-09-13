@@ -73,8 +73,7 @@ class SysRandom(random.Random):
         self.setstate(self.initial_state)
 
     def copy(self):
-        random = PysolRandom(0L)
-        random.__class__ = self.__class__
+        random = self.__class__(0L)
         random.__dict__.update(self.__dict__)
         return random
 
@@ -135,8 +134,7 @@ class MFXRandom:
         self.seed = state
 
     def copy(self):
-        random = PysolRandom(0L)
-        random.__class__ = self.__class__
+        random = self.__class__(0L)
         random.__dict__.update(self.__dict__)
         return random
 

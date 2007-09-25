@@ -50,11 +50,11 @@ if os.name == 'posix':
 ##import sys; sys.exit()
 
 long_description = '''\
-PySol is a solitaire card game. Its features include support for many
-different games, very nice look and feel, multiple cardsets and
-backgrounds, unlimited undo & redo, load & save games, player
-statistics, hint system, demo games, support for user written plug-ins,
-integrated HTML help browser, and it\'s free Open Source software. 
+PySolFC is a collection of more than 1000 solitaire card games.
+Its features include modern look and feel (uses Tile widget set), multiple
+cardsets and tableau backgrounds, sound, unlimited undo, player statistics,
+a hint system, demo games, a solitaire wizard, support for user written
+plug-ins, an integrated HTML help browser, and lots of documentation.
 '''
 
 kw = {
@@ -63,7 +63,7 @@ kw = {
     'url'          : PACKAGE_URL,
     'author'       : 'Skomoroh',
     'author_email' : 'skomoroh@gmail.com',
-    'description'  : 'PySol - a solitaire game collection',
+    'description'  : 'a Python solitaire game collection',
     'long_description' : long_description,
     'license'      : 'GPL',
     'scripts'      : ['pysol.py'],

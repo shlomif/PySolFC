@@ -61,7 +61,7 @@ class Shisen_Hint(AbstractHint):
                     # simple scoring...
                     score = 1000 + r.rown + t.rown
                     self.addHint(score, 1, r, t)
-            i = i + 1
+            i += 1
 
 
 # /***********************************************************************
@@ -456,6 +456,27 @@ class Shisen_24x12_NoGravity(AbstractShisenGame):
 # // Not Shisen-Sho
 # ************************************************************************/
 
+class NotShisen_Hint(AbstractHint):
+    # FIXME: no intelligence whatsoever is implemented here
+    def computeHints(self):
+        game = self.game
+        # get free stacks
+        stacks = []
+        for r in game.s.rows:
+            if r.cards:
+                stacks.append(r)
+        # find matching tiles
+        i = 0
+        for r in stacks:
+            for t in stacks[i+1:]:
+                #if game.cardsMatch(r.cards[0], t.cards[0]):
+                if r.acceptsCards(t, t.cards):
+                    # simple scoring...
+                    score = 2000 - r.rown - t.rown
+                    self.addHint(score, 1, r, t)
+            i += 1
+
+
 class NotShisen_RowStack(Shisen_RowStack):
     def acceptsCards(self, from_stack, cards):
         if not self.game.cardsMatch(self.cards[0], cards[-1]):
@@ -467,15 +488,18 @@ class NotShisen_RowStack(Shisen_RowStack):
 
 
 class NotShisen_14x6(AbstractShisenGame):
+    Hint_Class = NotShisen_Hint
     RowStack_Class = NotShisen_RowStack
     L = (14, 6)
     NCARDS = 84
 
 class NotShisen_18x8(AbstractShisenGame):
+    Hint_Class = NotShisen_Hint
     RowStack_Class = NotShisen_RowStack
     L = (18, 8)
 
 class NotShisen_24x12(AbstractShisenGame):
+    Hint_Class = NotShisen_Hint
     RowStack_Class = NotShisen_RowStack
     L = (24, 12)
     NCARDS = 288

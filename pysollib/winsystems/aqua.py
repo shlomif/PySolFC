@@ -41,8 +41,9 @@ def init_root_window(root, app):
         if color:
             root.tk_setPalette(color)   # for non-Tile widgets
 
-        # standard Tk scrollbars work on OS X, but Tile ones look weird
-        Tile.Scrollbar = Tkinter.Scrollbar
+        if app.opt.tile_theme == 'aqua':
+            # standard Tk scrollbars work on OS X, but Tile ones look weird
+            Tile.Scrollbar = Tkinter.Scrollbar
 
     else:                               # pure Tk
         #root.option_add(...)

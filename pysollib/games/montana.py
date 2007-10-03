@@ -169,22 +169,33 @@ class Montana(Game):
     RLEN, RSTEP, RBASE = 52, 13, 1
 
     def createGame(self, round_text=True):
+        decks = self.gameinfo.decks
+
         # create layout
         l, s = Layout(self, card_x_space=4), self.s
 
         # set window
-        self.setSize(l.XM + self.RSTEP*l.XS, l.YM + 5*l.YS)
+        w, h = l.XM + self.RSTEP*l.XS, l.YM + (4*decks)*l.YS
+        if round_text:
+            h += l.YS
+        self.setSize(w, h)
 
         # create stacks
-        for i in range(4):
-            x, y, = l.XM, l.YM + i*l.YS
-            for j in range(self.RSTEP):
-                s.rows.append(self.RowStack_Class(x, y, self, max_accept=1, max_cards=1))
-                x = x + l.XS
-        x = l.XM + (self.RSTEP-1)*l.XS/2
-        s.talon = self.Talon_Class(x, self.height-l.YS, self)
+        for k in range(decks):
+            for i in range(4):
+                x, y = l.XM, l.YM + (i+k*4)*l.YS
+                for j in range(self.RSTEP):
+                    s.rows.append(self.RowStack_Class(x, y, self,
+                                  max_accept=1, max_cards=1))
+                    x += l.XS
         if round_text:
+            x, y = l.XM + (self.RSTEP-1)*l.XS/2, self.height-l.YS
+            s.talon = self.Talon_Class(x, y, self)
             l.createRoundText(s.talon, 'se')
+        else:
+            # Talon is invisible
+            x, y = self.getInvisibleCoords()
+            s.talon = self.Talon_Class(x, y, self)
         if self.RBASE:
             # create an invisible stack to hold the four Aces
             s.internals.append(InvisibleStack(self))
@@ -552,6 +563,29 @@ class Spoilt(Game):
         return (), (), ()
 
 
+# /***********************************************************************
+# // Double Montana
+# ************************************************************************/
+
+class DoubleMontana(Montana):
+    Talon_Class = InitialDealTalonStack
+    Hint_Class = Galary_Hint
+    RLEN, RSTEP, RBASE = 112, 14, 0
+
+    def createGame(self):
+        Montana.createGame(self, round_text=False)
+
+    def startGame(self):
+        frames = 0
+        for i in range(self.RLEN):
+            if i == self.RLEN-self.RSTEP: # last row
+                self.startDealSample()
+                frames = -1
+            if i % self.RSTEP == 0:     # left column
+                continue
+            self.s.talon.dealRow(rows=(self.s.rows[i],), frames=frames)
+
+
 
 # register the game
 registerGame(GameInfo(53, Montana, "Montana",
@@ -582,4 +616,7 @@ registerGame(GameInfo(736, Spoilt, "Spoilt",
                       GI.GT_MONTANA, 1, 0, GI.SL_MOSTLY_LUCK,
                       ranks=(0, 6, 7, 8, 9, 10, 11, 12),
                       ))
+registerGame(GameInfo(759, DoubleMontana, "Double Montana",
+                      GI.GT_MONTANA | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL))
+
 

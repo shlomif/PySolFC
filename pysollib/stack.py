@@ -2783,11 +2783,9 @@ class ReserveStack(OpenStack):
 
 class InvisibleStack(Stack):
     def __init__(self, game, **cap):
-        ##x, y = -500, -500 - len(game.allstacks)
-        cardw, cardh = game.app.images.CARDW, game.app.images.CARDH
-        x, y = cardw+game.canvas.xmargin, cardh+game.canvas.ymargin
+        x, y = game.getInvisibleCoords()
         kwdefault(cap, max_move=0, max_accept=0)
-        Stack.__init__(self, -x-10, -y-10, game, cap=cap)
+        Stack.__init__(self, x, y, game, cap=cap)
 
     def assertStack(self):
         Stack.assertStack(self)

@@ -1539,6 +1539,13 @@ class Game:
         self.regions.remaining = tuple(remaining)
         ##print self.regions.info
 
+    def getInvisibleCoords(self):
+        # for InvisibleStack, etc
+        ##x, y = -500, -500 - len(game.allstacks)
+        cardw, cardh = self.app.images.CARDW, self.app.images.CARDH
+        x, y = cardw + self.canvas.xmargin, cardh + self.canvas.ymargin
+        return -x-10, -y-10
+
 
     #
     # Game - subclass overridable actions - IMPORTANT FOR GAME LOGIC

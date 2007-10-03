@@ -15,7 +15,7 @@ Requirements.
 
 ** other packages (optional) **
   - Tile: http://tktable.sourceforge.net/tile/ (0.7.8 or later)
-  - PIL (Python Image Library): http://www.pythonware.com/products/pil
+  - PIL (Python Imaging Library): http://www.pythonware.com/products/pil
   - Freecell Solver: http://vipe.technion.ac.il/~shlomif/freecell-solver/
 
 
@@ -27,6 +27,7 @@ See: http://www.python.org/doc/current/inst/
 or just run from the source directory:
 
 $ python pysol.py
+
 
 ** Freecell Solver **
 If you want to use Solver, you should configure freecell-solver with following

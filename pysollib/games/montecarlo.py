@@ -113,7 +113,7 @@ class MonteCarlo(Game):
     RowStack_Class = MonteCarlo_RowStack
     Hint_Class = MonteCarlo_Hint
 
-    FILL_STACKS_AFTER_DROP = 0
+    FILL_STACKS_AFTER_DROP = False
 
     #
     # game layout
@@ -256,7 +256,7 @@ class Weddings(MonteCarlo):
 # ************************************************************************/
 
 class SimpleCarlo(MonteCarlo):
-    FILL_STACKS_AFTER_DROP = 1
+    FILL_STACKS_AFTER_DROP = True
 
     def getAutoStacks(self, event=None):
         return ((), (), ())
@@ -361,7 +361,7 @@ class Neighbour(MonteCarlo):
     Foundation_Class = Neighbour_Foundation
     RowStack_Class = Neighbour_RowStack
 
-    FILL_STACKS_AFTER_DROP = 1
+    FILL_STACKS_AFTER_DROP = True
 
     def getAutoStacks(self, event=None):
         return ((), self.sg.dropstacks, ())
@@ -386,7 +386,7 @@ class Fourteen(Game):
     Foundation_Class = StackWrapper(AbstractFoundationStack, max_accept=0)
     RowStack_Class = Fourteen_RowStack
 
-    FILL_STACKS_AFTER_DROP = 0
+    FILL_STACKS_AFTER_DROP = False
 
     #
     # game layout
@@ -450,7 +450,7 @@ class Nestor(Game):
     Foundation_Class = StackWrapper(AbstractFoundationStack, max_accept=0)
     RowStack_Class = Nestor_RowStack
 
-    FILL_STACKS_AFTER_DROP = 0
+    FILL_STACKS_AFTER_DROP = False
 
     #
     # game layout
@@ -577,7 +577,7 @@ class Vertical(Nestor):
 
 class TheWish(Game):
 
-    FILL_STACKS_AFTER_DROP = 0
+    FILL_STACKS_AFTER_DROP = False
 
     def createGame(self):
         # create layout
@@ -853,7 +853,7 @@ class RightAndLeft_Talon(DealRowRedealTalonStack):
 
 class RightAndLeft(Game):
 
-    FILL_STACKS_AFTER_DROP = 0
+    FILL_STACKS_AFTER_DROP = False
 
     def createGame(self):
         # create layout

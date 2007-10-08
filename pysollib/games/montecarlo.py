@@ -866,11 +866,13 @@ class RightAndLeft(Game):
         x, y = l.XM+l.XS, l.YM+2*l.YS
         s.talon = RightAndLeft_Talon(x, y, self, max_rounds=UNLIMITED_REDEALS)
 
+        l.createText(s.talon, 'se')
         x, y = l.XM+0.5*l.XS, l.YM
         for i in range(2):
             stack = Nestor_RowStack(x, y, self, max_move=1, max_accept=1,
                                     dir=0, base_rank=NO_RANK)
             stack.CARD_YOFFSET = 0
+            l.createText(stack, 's')
             s.rows.append(stack)
             x += l.XS
 
@@ -878,7 +880,7 @@ class RightAndLeft(Game):
         s.foundations.append(AbstractFoundationStack(x, y, self, suit=ANY_SUIT,
                              max_move=0, max_cards=104,
                              max_accept=0, base_rank=ANY_RANK))
-        l.createText(s.foundations[0], 'nw')
+        l.createText(s.foundations[0], 's')
 
         # define stack-groups
         l.defaultStackGroups()

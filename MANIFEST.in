@@ -3,7 +3,8 @@
 ##
 ## code
 ##
-include pysol.py setup.py setup.cfg MANIFEST.in Makefile COPYING README
+include pysol.py setup.py setup_osx.py setup.cfg MANIFEST.in Makefile
+include COPYING README AUTHORS
 #recursive-include pysollib *.py
 include pysollib/*.py pysollib/macosx/*.py pysollib/configobj/*.py
 include pysollib/winsystems/*.py

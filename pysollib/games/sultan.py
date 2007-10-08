@@ -1263,6 +1263,84 @@ class DesertIsland(Game):
         return True
 
 
+# /***********************************************************************
+# // Catherine the Great
+# ************************************************************************/
+
+class CatherineTheGreat(Game):
+    Hint_Class = CautiousDefaultHint
+
+    def createGame(self, reserves=6):
+
+        l, s = Layout(self), self.s
+        w, h = 3*l.XM+5*l.XS, l.YM+5*l.YS
+        self.setSize(w, h)
+
+        lay = ((0,2,0,QUEEN,-1),
+               (0,1,0,QUEEN,-1),
+               (0,0,1,QUEEN,-1),
+               (2,0,1,QUEEN,-1),
+               (1,0,2,QUEEN,-1),
+               (2,1,3,QUEEN,-1),
+               (2,2,3,QUEEN,-1),
+               (1,1,2,KING,1),
+               )
+        for xx, yy, suit, base_rank, dir in lay:
+            x, y = 2*l.XM+l.XS+xx*l.XS, l.YM+yy*l.YS
+            stack = SS_FoundationStack(x, y, self, suit=suit,
+                                       max_move=0, base_rank=base_rank,
+                                       dir=dir, mod=13)
+            s.foundations.append(stack)
+
+        for x, y in ((l.XM,          l.YM),
+                     (3*l.XM+4*l.XS, l.YM)):
+            for i in range(5):
+                stack = RK_RowStack(x, y, self, dir=1,
+                                    base_rank=NO_RANK,
+                                    max_move=1, mod=13)
+                stack.CARD_YOFFSET = 0
+                s.rows.append(stack)
+                y += l.YS
+
+        x, y = 2*l.XM+1.5*l.XS, l.YM+4*l.YS
+        s.talon = WasteTalonStack(x, y, self, max_rounds=1)
+        l.createText(s.talon, 'n')
+        x += l.XS
+        s.waste = WasteStack(x, y, self)
+        l.createText(s.waste, 'n')
+
+        l.defaultStackGroups()
+
+    def _shuffleHook(self, cards):
+        def select_func(card):
+            if card.rank == KING and card.suit == 2 and card.deck == 0:
+                return (True, 999)
+            if card.rank == QUEEN:
+                if card.suit == 2 and card.deck == 0:
+                    return (False, 0)
+                return (True, card.suit)
+            return (False, 0)
+        cards = self._shuffleHookMoveToTop(cards, select_func)
+        return cards
+
+    def startGame(self):
+        self.s.talon.dealRow(rows=self.s.foundations, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()        # deal first card to WasteStack
+
+    def fillStack(self, stack):
+        if stack in self.s.rows and not stack.cards:
+            old_state = self.enterState(self.S_FILL)
+            if not self.s.waste.cards:
+                self.s.talon.dealCards()
+            if self.s.waste.cards:
+                self.s.waste.moveMove(1, stack)
+            self.leaveState(old_state)
+
+    shallHighlightMatch = Game._shallHighlightMatch_RKW
+
+
 
 # register the game
 registerGame(GameInfo(330, Sultan, "Sultan",
@@ -1317,3 +1395,5 @@ registerGame(GameInfo(744, Voracious, "Voracious",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(745, DesertIsland, "Desert Island",
                       GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(761, CatherineTheGreat, "Catherine the Great",
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))

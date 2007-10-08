@@ -926,6 +926,55 @@ class Amphibian(Game):
             self.leaveState(old_state)
 
 
+# /***********************************************************************
+# // Aglet
+# ************************************************************************/
+
+class Aglet(Game):
+
+    def createGame(self, playcards=20, rows=8, reserves=1):
+
+        decks = self.gameinfo.decks
+        l, s = Layout(self), self.s
+        self.setSize(l.XM+(reserves+0.5+rows)*l.XS,
+                     l.YM+max(2*l.YS+7*l.YOFFSET, l.YS+playcards*l.YOFFSET))
+
+        x, y = self.width-l.XS, self.height-l.YS
+        s.talon = InitialDealTalonStack(x, y, self)
+
+        x, y = l.XM, l.YM
+        for i in range(reserves):
+            stack = ReserveStack(x, y, self, max_cards=UNLIMITED_CARDS)
+            stack.CARD_YOFFSET = l.YOFFSET
+            s.reserves.append(stack)
+            x += l.XS
+
+        x, y = l.XM + (reserves+0.5+(rows-decks*4)/2.0)*l.XS, l.YM
+        for i in range(4):
+            s.foundations.append(RK_FoundationStack(x, y, self, suit=ANY_SUIT))
+            x += l.XS
+
+        x, y = l.XM+(reserves+0.5)*l.XS, l.YM+l.YS
+        for i in range(rows):
+            s.rows.append(BasicRowStack(x, y, self, base_rank=NO_RANK))
+            x += l.XS
+
+        l.defaultStackGroups()
+
+    def _shuffleHook(self, cards):
+        # move Aces to top of the Talon (i.e. first cards to be dealt)
+        return self._shuffleHookMoveToTop(cards,
+                   lambda c: (c.rank == ACE, c.suit))
+
+    def startGame(self):
+        self.s.talon.dealRow(rows=self.s.foundations, frames=0)
+        for i in range(4):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRowAvail()
+        self.s.talon.dealRowAvail()
+
+
 
 # register the game
 registerGame(GameInfo(257, Numerica, "Numerica",
@@ -970,4 +1019,6 @@ registerGame(GameInfo(644, DoubleMeasure, "Double Measure",
                       GI.GT_NUMERICA | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(754, Amphibian, "Amphibian",
                       GI.GT_NUMERICA | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(760, Aglet, "Aglet",
+                      GI.GT_1DECK_TYPE | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))
 

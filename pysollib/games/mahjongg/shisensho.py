@@ -44,6 +44,7 @@ from mahjongg import Mahjongg_RowStack, AbstractMahjonggGame, comp_cardset
 # ************************************************************************/
 
 class Shisen_Hint(AbstractHint):
+    TOP_MATCHING = False
     # FIXME: no intelligence whatsoever is implemented here
     def computeHints(self):
         game = self.game
@@ -59,9 +60,16 @@ class Shisen_Hint(AbstractHint):
                 #if game.cardsMatch(r.cards[0], t.cards[0]):
                 if r.acceptsCards(t, t.cards):
                     # simple scoring...
-                    score = 1000 + r.rown + t.rown
+                    if self.TOP_MATCHING:
+                        score = 2000 - r.rown - t.rown
+                    else:
+                        score = 1000 + r.rown + t.rown
                     self.addHint(score, 1, r, t)
             i += 1
+
+
+class NotShisen_Hint(Shisen_Hint):
+    TOP_MATCHING = True
 
 
 # /***********************************************************************
@@ -288,7 +296,7 @@ class Shisen_RowStack(Mahjongg_RowStack):
 
 
 class AbstractShisenGame(AbstractMahjonggGame):
-    Hint_Class = Shisen_Hint
+    Hint_Class = NotShisen_Hint #Shisen_Hint
     RowStack_Class = Shisen_RowStack
 
     #NCARDS = 144
@@ -379,11 +387,9 @@ class AbstractShisenGame(AbstractMahjonggGame):
         if self.preview > 1 or self.texts.info is None:
             return
 
-        game = self.app.game
-
-        if 0:
+        if self.app.opt.shisen_show_matching:
             # find matching tiles
-            stacks = game.s.rows
+            stacks = self.s.rows
             f, i = 0, 0
             for r in stacks:
                 i = i + 1
@@ -455,27 +461,6 @@ class Shisen_24x12_NoGravity(AbstractShisenGame):
 # /***********************************************************************
 # // Not Shisen-Sho
 # ************************************************************************/
-
-class NotShisen_Hint(AbstractHint):
-    # FIXME: no intelligence whatsoever is implemented here
-    def computeHints(self):
-        game = self.game
-        # get free stacks
-        stacks = []
-        for r in game.s.rows:
-            if r.cards:
-                stacks.append(r)
-        # find matching tiles
-        i = 0
-        for r in stacks:
-            for t in stacks[i+1:]:
-                #if game.cardsMatch(r.cards[0], t.cards[0]):
-                if r.acceptsCards(t, t.cards):
-                    # simple scoring...
-                    score = 2000 - r.rown - t.rown
-                    self.addHint(score, 1, r, t)
-            i += 1
-
 
 class NotShisen_RowStack(Shisen_RowStack):
     def acceptsCards(self, from_stack, cards):

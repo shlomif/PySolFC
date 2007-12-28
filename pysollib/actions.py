@@ -65,6 +65,7 @@ from pysoltk import FontsDialog
 from pysoltk import EditTextDialog
 from pysoltk import create_find_card_dialog
 from pysoltk import create_solver_dialog
+from pysoltk import PysolMenubarTk, PysolToolbarTk
 from help import help_about, help_html
 
 
@@ -72,8 +73,8 @@ from help import help_about, help_html
 # // menubar
 # ************************************************************************/
 
-class PysolMenubarActions:
-    def __init__(self, app, top):
+class PysolMenubar(PysolMenubarTk):
+    def __init__(self, app, top, progress=None):
         self.app = app
         self.top = top
         self.game = None
@@ -99,21 +100,7 @@ class PysolMenubarActions:
             pause = 0,
             custom_game = 0,
         )
-
-    def connectGame(self, game):
-        self.game = game
-
-    # will get called after connectGame()
-    def updateRecentGamesMenu(self, gameids):
-        pass
-
-    def updateBookmarkMenuState(self):
-        pass
-
-    # will get called after a new cardset has been loaded
-    def updateBackgroundImagesMenu(self):
-        pass
-
+        PysolMenubarTk.__init__(self, app, top, progress)
 
     #
     # delegation to Game
@@ -137,12 +124,6 @@ class PysolMenubarActions:
     #
     # menu updates
     #
-
-    def setMenuState(self, state, path):
-        raise SubclassResponsibility
-
-    def setToolbarState(self, state, path):
-        raise SubclassResponsibility
 
     def _clearMenuState(self):
         ms = self.menustate
@@ -819,26 +800,21 @@ class PysolMenubarActions:
 # // toolbar
 # ************************************************************************/
 
-class PysolToolbarActions:
-    def __init__(self):
+class PysolToolbar(PysolToolbarTk):
+    def __init__(self, *args, **kwargs):
         self.game = None
-        self.menubar = None
+        PysolToolbarTk.__init__(self, *args, **kwargs)
 
     #
     # public methods
     #
 
-    def connectGame(self, game, menubar):
+    def connectGame(self, game):
         self.game = game
-        self.menubar = menubar
-
 
     #
     # button event handlers - delegate to menubar
     #
-
-    def _busy(self):
-        raise SubclassResponsibility
 
     def mNewGame(self, *args):
         if not self._busy():

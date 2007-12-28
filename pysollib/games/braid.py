@@ -562,14 +562,14 @@ class Well(Game):
                        (4,2),
                        (2,4)):
             x, y = x0+xx*l.XS, y0+yy*l.YS
-            stack = SS_RowStack(x, y, self, dir=1, max_move=1)
+            stack = SS_RowStack(x, y, self, dir=1, mod=13, max_move=1)
             stack.getBottomImage = stack._getReserveBottomImage
             stack.CARD_YOFFSET = 0
             s.rows.append(stack)
 
         # left stack
         x, y = l.XM, l.YM+l.YS+l.TEXT_HEIGHT
-        stack = SS_RowStack(x, y, self, base_rank=ACE, dir=1, max_move=1)
+        stack = SS_RowStack(x, y, self, base_rank=ACE, dir=1, mod=13, max_move=1)
         stack.getBottomImage = stack._getReserveBottomImage
         stack.CARD_YOFFSET = 0
         s.rows.append(stack)

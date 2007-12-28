@@ -61,15 +61,16 @@ from winsystems import TkSettings
 from pysoltk import wm_withdraw, loadImage
 from pysoltk import MfxDialog, MfxMessageDialog, MfxExceptionDialog
 from pysoltk import TclError, MfxScrolledCanvas
-from pysoltk import PysolMenubar
 from pysoltk import PysolProgressBar
-from pysoltk import PysolToolbar
 from pysoltk import PysolStatusbar, HelpStatusbar
 from pysoltk import SelectCardsetDialogWithPreview
 from pysoltk import SelectDialogTreeData
 from pysoltk import HTMLViewer
 from pysoltk import destroy_find_card_dialog
 from pysoltk import destroy_solver_dialog
+
+from actions import PysolMenubar
+from actions import PysolToolbar
 from help import help_about, destroy_help_html
 
 
@@ -508,7 +509,7 @@ class Application:
         self.setTile(self.tabletile_index, force=True)
         # create the toolbar
         dir = self.getToolbarImagesDir()
-        self.toolbar = PysolToolbar(self.top, dir=dir,
+        self.toolbar = PysolToolbar(self.top, self.menubar, dir=dir,
                                     size=self.opt.toolbar_size,
                                     relief=self.opt.toolbar_relief,
                                     compound=self.opt.toolbar_compound)
@@ -615,7 +616,7 @@ class Application:
         # connect with game
         self.menubar.connectGame(self.game)
         if self.toolbar: ##~
-            self.toolbar.connectGame(self.game, self.menubar)
+            self.toolbar.connectGame(self.game)
         self.game.updateStatus(player=self.opt.player)
         # update "Recent games" menubar entry
         if id in self.opt.recent_gameid:
@@ -670,8 +671,8 @@ class Application:
     # free game
     def freeGame(self):
         # disconnect from game
-        self.toolbar.connectGame(None, None)
         self.menubar.connectGame(None)
+        self.toolbar.connectGame(None)
         # clean up the canvas
         self.canvas.deleteAllItems()
         self.canvas.update_idletasks()

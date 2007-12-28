@@ -36,7 +36,6 @@ import gtk
 from gtk import gdk
 
 # PySol imports
-from pysollib.actions import PysolToolbarActions
 
 
 
@@ -44,11 +43,10 @@ from pysollib.actions import PysolToolbarActions
 # //
 # ************************************************************************/
 
-class PysolToolbar(PysolToolbarActions):
-    def __init__(self, top, dir, size=0, relief=0, compound=None):
-
-        PysolToolbarActions.__init__(self)
+class PysolToolbarTk:
+    def __init__(self, top, menubar, dir, size=0, relief=0, compound=None):
         self.top = top
+        self.menubar = menubar
         self.dir = dir
         self.side = -1
 

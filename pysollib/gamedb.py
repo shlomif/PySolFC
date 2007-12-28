@@ -287,6 +287,7 @@ class GI:
         ("Fred Lunde", (459,)),
         ("Albert Morehead and Geoffrey Mott-Smith", (25, 42, 48, 173,
                                                      303, 547, 738)),
+        ("Albert Morehead", (362,)),
         ("David Parlett", (64, 98, 294, 338, 654, 674,)),
         ("Captain Jeffrey T. Spaulding", (400,)),
         ("John Stoneham", (201,)),

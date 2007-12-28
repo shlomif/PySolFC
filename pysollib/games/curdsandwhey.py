@@ -451,21 +451,25 @@ class Glacier(Game):
 
 
 # /***********************************************************************
+# // Eight Packs (ex. Four Packs)
 # // Four Packs
 # ************************************************************************/
 
-class FourPacks(Game):
-    def createGame(self):
+class EightPacks(Game):
+    RowStack_Class = SS_RowStack
+
+    def createGame(self, max_rounds=3, width=10, playcards=14):
         l, s = Layout(self), self.s
-        self.setSize(l.XM+10*l.XS, l.YM+2*l.YS+l.TEXT_HEIGHT+14*l.YOFFSET)
+        self.setSize(l.XM+width*l.XS,
+                     l.YM+2*l.YS+l.TEXT_HEIGHT+playcards*l.YOFFSET)
 
         x, y = l.XM, l.YM
         for i in range(10):
-            s.rows.append(SS_RowStack(x, y, self, dir=1))
+            s.rows.append(self.RowStack_Class(x, y, self, dir=1))
             x += l.XS
 
         x, y = self.width-l.XS, self.height-l.YS
-        s.talon = WasteTalonStack(x, y, self, max_rounds=3)
+        s.talon = WasteTalonStack(x, y, self, max_rounds=max_rounds)
         l.createText(s.talon, 'n')
         l.createRoundText(s.talon, 'nnn')
 
@@ -481,14 +485,40 @@ class FourPacks(Game):
         self.s.talon.dealCards()
 
     def isGameWon(self):
+        if self.s.talon.cards or self.s.waste.cards:
+            return False
         for s in self.s.rows:
             if s.cards:
-                if len(s.cards) != 13 or not isSameSuitSequence(s.cards, dir=1):
+                if len(s.cards) != 13:
                     return False
         return True
 
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
+
+class FourPacks_RowStack(SS_RowStack):
+    def canMoveCards(self, cards):
+        if not self.basicCanMoveCards(cards):
+            return False
+        return len(cards) == len(self.cards)
+
+
+class FourPacks(EightPacks):
+    RowStack_Class = StackWrapper(FourPacks_RowStack, mod=13)
+
+    def createGame(self):
+        EightPacks.createGame(self, max_rounds=2, width=12, playcards=18)
+
+    def isGameWon(self):
+        if self.s.talon.cards or self.s.waste.cards:
+            return False
+        for s in self.s.rows:
+            if s.cards:
+                if s.cards[0].rank != ACE:
+                    return False
+                if len(s.cards) != 26:
+                    return False
+        return True
 
 
 # register the game
@@ -520,7 +550,9 @@ registerGame(GameInfo(534, Harvestman, "Harvestman",
                       GI.GT_SPIDER | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(687, Glacier, "Glacier",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
-registerGame(GameInfo(724, FourPacks, "Four Packs",
-                      GI.GT_2DECK_TYPE, 2, 2, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(724, EightPacks, "Eight Packs",
+                      GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 2, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(762, FourPacks, "Four Packs",
+                      GI.GT_2DECK_TYPE, 2, 1, GI.SL_MOSTLY_SKILL))
 
 

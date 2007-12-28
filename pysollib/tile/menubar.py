@@ -34,7 +34,7 @@
 ##
 ##---------------------------------------------------------------------------##
 
-__all__ = ['PysolMenubar']
+__all__ = ['PysolMenubarTk']
 
 # imports
 import math, os, sys, re, traceback
@@ -51,7 +51,6 @@ from pysollib.settings import SELECT_GAME_MENU
 from pysollib.settings import USE_FREECELL_SOLVER
 from pysollib.settings import DEBUG
 from pysollib.gamedb import GI
-from pysollib.actions import PysolMenubarActions
 
 # toolkit imports
 from tkconst import EVENT_HANDLED, EVENT_PROPAGATE, CURSOR_WATCH, COMPOUNDS
@@ -178,9 +177,8 @@ class MfxMenu(MfxMenubar):
 # // - menu actions
 # ************************************************************************/
 
-class PysolMenubar(PysolMenubarActions):
+class PysolMenubarTk:
     def __init__(self, app, top, progress=None):
-        PysolMenubarActions.__init__(self, app, top)
         self._createTkOpt()
         self._setOptions()
         # init columnbreak

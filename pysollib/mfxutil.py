@@ -54,11 +54,11 @@ Image = ImageTk = ImageOps = None
 if TOOLKIT == 'tk':
     try: # PIL
         import Image
-    except ImportError:
-        pass
-    else:
         import ImageTk
         import ImageOps
+    except ImportError:
+        Image = None
+    else:
         # for py2exe
         import GifImagePlugin
         import PngImagePlugin

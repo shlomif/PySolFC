@@ -1351,7 +1351,8 @@ registerGame(GameInfo(331, SultanPlus, "Sultan +",
 registerGame(GameInfo(354, Boudoir, "Boudoir",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(410, CaptiveQueens, "Captive Queens",
-                      GI.GT_1DECK_TYPE, 1, 2, GI.SL_MOSTLY_LUCK))
+                      GI.GT_1DECK_TYPE, 1, 2, GI.SL_MOSTLY_LUCK,
+                      altnames=("Quadrille",) ))
 registerGame(GameInfo(418, Contradance, "Contradance",
                       GI.GT_2DECK_TYPE, 2, 1, GI.SL_LUCK,
                       altnames=("Cotillion",) ))

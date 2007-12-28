@@ -58,6 +58,7 @@ highlight_not_matching = boolean
 mahjongg_show_removed = boolean
 mahjongg_create_solvable = integer(0, 2)
 shisen_show_hint = boolean
+shisen_show_matching = boolean
 animations = integer(0, 5)
 redeal_animation = boolean
 win_animation = boolean
@@ -186,6 +187,7 @@ class Options:
         ('mahjongg_show_removed', 'bool'),
         ('mahjongg_create_solvable', 'int'),
         ('shisen_show_hint', 'bool'),
+        ('shisen_show_matching', 'bool'),
         ('animations', 'int'),
         ('redeal_animation', 'bool'),
         ('win_animation', 'bool'),
@@ -256,6 +258,7 @@ class Options:
         self.mahjongg_show_removed = False
         self.mahjongg_create_solvable = 2 # 0 - none, 1 - easy, 2 - hard
         self.shisen_show_hint = True
+        self.shisen_show_matching = False
         self.animations = 2             # default to Fast
         self.redeal_animation = True
         self.win_animation = True

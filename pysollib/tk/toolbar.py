@@ -33,7 +33,7 @@
 ##
 ##---------------------------------------------------------------------------##
 
-__all__ = ['PysolToolbar']
+__all__ = ['PysolToolbarTk']
 
 # imports
 import os
@@ -44,7 +44,6 @@ from pysollib.mfxutil import destruct
 from pysollib.mfxutil import Image, ImageTk
 from pysollib.util import IMAGE_EXTENSIONS
 from pysollib.settings import TITLE
-from pysollib.actions import PysolToolbarActions
 from pysollib.winsystems import TkSettings
 
 # Toolkit imports
@@ -164,13 +163,12 @@ class ToolbarLabel(Tkinter.Message):
 # // Note: Applications should call show/hide after constructor.
 # ************************************************************************/
 
-class PysolToolbar(PysolToolbarActions):
+class PysolToolbarTk:
 
-    def __init__(self, top, dir, size=0, relief='flat', compound='none'):
-
-        PysolToolbarActions.__init__(self)
-
+    def __init__(self, top, menubar, dir,
+                 size=0, relief='flat', compound='none'):
         self.top = top
+        self.menubar = menubar
         #self._setRelief(relief)
         self.side = -1
         self._tooltips = []
@@ -210,6 +208,7 @@ class PysolToolbar(PysolToolbarActions):
                 self._createButton(l, f, check=True, tooltip=t)
             else:
                 self._createButton(l, f, tooltip=t)
+        self.pause_button.config(variable=menubar.tkopt.pause)
 
         sep = self._createFlatSeparator()
         sep.bind("<1>", self.clickHandler)
@@ -219,7 +218,8 @@ class PysolToolbar(PysolToolbarActions):
         #
         self.player_label.bind("<1>",self.mOptPlayerOptions)
         ##self.player_label.bind("<3>",self.mOptPlayerOptions)
-        self.popup = None
+        self.popup = MfxMenu(master=None, label=n_('Toolbar'), tearoff=0)
+        createToolbarMenu(menubar, self.popup)
         self.frame.bind("<1>", self.clickHandler)
         self.frame.bind("<3>", self.rightclickHandler)
         #
@@ -418,18 +418,6 @@ class PysolToolbar(PysolToolbarActions):
         if self.side:
             self.frame.config(cursor=cursor)
             self.frame.update_idletasks()
-
-    def connectGame(self, game, menubar):
-        PysolToolbarActions.connectGame(self, game, menubar)
-        if self.popup:
-            self.popup.destroy()
-            destruct(self.popup)
-            self.popup = None
-        if menubar:
-            tkopt = menubar.tkopt
-            self.pause_button.config(variable=tkopt.pause)
-            self.popup = MfxMenu(master=None, label=n_('Toolbar'), tearoff=0)
-            createToolbarMenu(menubar, self.popup)
 
     def updateText(self, **kw):
         for name in kw.keys():

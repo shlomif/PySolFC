@@ -38,7 +38,6 @@ from gtk import gdk
 
 # PySol imports
 from pysollib.gamedb import GI
-from pysollib.actions import PysolMenubarActions
 from pysollib.settings import TITLE
 
 # toolkit imports
@@ -61,9 +60,8 @@ def ltk2gtk(s):
 # // - menu actions
 # ************************************************************************/
 
-class PysolMenubar(PysolMenubarActions):
+class PysolMenubarTk:
     def __init__(self, app, top, progress=None):
-        PysolMenubarActions.__init__(self, app, top)
         self.progress = progress
         self._cb_max = gdk.screen_height()/24
         # create menus
@@ -659,6 +657,10 @@ class PysolMenubar(PysolMenubarActions):
 
     def updateRecentGamesMenu(self, games):
         self._updateGamesMenu('/menubar/file/recentgames', games)
+
+    def updateBookmarkMenuState(self):
+        # FIXME
+        pass
 
     def _updateGamesMenu(self, path, games):
         item = self.top.ui_manager.get_widget(path)

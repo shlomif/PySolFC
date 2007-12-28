@@ -41,10 +41,12 @@ from mfxutil import SubclassResponsibility
 
 
 # /***********************************************************************
-# // system based random (need python >= 2.3)
+# // Abstract class for PySol Random number generator.
+# //
+# // We use a seed of type long in the range [0, MAX_SEED].
 # ************************************************************************/
 
-class SysRandom(random.Random):
+class BasicRandom:
     #MAX_SEED = 0L
     #MAX_SEED = 0xffffffffffffffffL  # 64 bits
     MAX_SEED = 100000000000000000000L # 20 digits
@@ -55,14 +57,6 @@ class SysRandom(random.Random):
     ORIGIN_SELECTED = 3         # manually entered
     ORIGIN_NEXT_GAME = 4        # "Next game number"
 
-    def __init__(self, seed=None):
-        if seed is None:
-            seed = self._getRandomSeed()
-        random.Random.__init__(self, seed)
-        self.initial_seed = seed
-        self.initial_state = self.getstate()
-        self.origin = self.ORIGIN_UNKNOWN
-
     def __str__(self):
         return self.str(self.initial_seed)
 
@@ -70,7 +64,7 @@ class SysRandom(random.Random):
         return '%020d' % seed
 
     def reset(self):
-        self.setstate(self.initial_state)
+        raise SubclassResponsibility
 
     def copy(self):
         random = self.__class__(0L)
@@ -89,28 +83,54 @@ class SysRandom(random.Random):
 
 
 # /***********************************************************************
-# // Abstract PySol Random number generator.
-# //
-# // We use a seed of type long in the range [0, MAX_SEED].
+# // Mersenne Twister random number generator
+# // uses standart python module `random'
 # ************************************************************************/
 
-class MFXRandom:
-    MAX_SEED = 0L
+class MTRandom(BasicRandom, random.Random):
 
-    ORIGIN_UNKNOWN  = 0
-    ORIGIN_RANDOM   = 1
-    ORIGIN_PREVIEW  = 2         # random from preview
-    ORIGIN_SELECTED = 3         # manually entered
-    ORIGIN_NEXT_GAME = 4        # "Next game number"
+    def __init__(self, seed=None):
+        if seed is None:
+            seed = self._getRandomSeed()
+        random.Random.__init__(self, seed)
+        self.initial_seed = seed
+        self.initial_state = self.getstate()
+        self.origin = self.ORIGIN_UNKNOWN
+
+    def reset(self):
+        self.setstate(self.initial_state)
+
+
+# /***********************************************************************
+# // Wichman-Hill random number generator
+# // uses standart python module `random'
+# ************************************************************************/
+
+class WHRandom(BasicRandom, random.WichmannHill):
+    
+    def __init__(self, seed=None):
+        if seed is None:
+            seed = self._getRandomSeed()
+        random.WichmannHill.__init__(self, seed)
+        self.initial_seed = seed
+        self.initial_state = self.getstate()
+        self.origin = self.ORIGIN_UNKNOWN
+
+    def reset(self):
+        self.setstate(self.initial_state)
+
+
+# /***********************************************************************
+# // Abstract class for LC Random number generators.
+# ************************************************************************/
+
+class MFXRandom(BasicRandom):
 
     def __init__(self, seed=None):
         if seed is None:
             seed = self._getRandomSeed()
         self.initial_seed = self.setSeed(seed)
         self.origin = self.ORIGIN_UNKNOWN
-
-    def __str__(self):
-        return self.str(self.initial_seed)
 
     def reset(self):
         self.seed = self.initial_seed
@@ -119,9 +139,7 @@ class MFXRandom:
         return self.seed
 
     def setSeed(self, seed):
-        seed = self._convertSeed(seed)
-        if not isinstance(seed, long):
-            raise TypeError, "seeds must be longs"
+        seed = long(seed)
         if not (0L <= seed <= self.MAX_SEED):
             raise ValueError, "seed out of range"
         self.seed = seed
@@ -132,11 +150,6 @@ class MFXRandom:
 
     def setstate(self, state):
         self.seed = state
-
-    def copy(self):
-        random = self.__class__(0L)
-        random.__dict__.update(self.__dict__)
-        return random
 
     #
     # implementation
@@ -152,43 +165,12 @@ class MFXRandom:
     def randrange(self, a, b):
         return self.randint(a, b-1)
 
-    #
-    # subclass responsibility
-    #
-
-    # Get the next random number in the range [0.0, 1.0).
-    def random(self):
-        raise SubclassResponsibility
-
-    #
-    # subclass overrideable
-    #
-
-    def _convertSeed(self, seed):
-        return long(seed)
-
-    def increaseSeed(self, seed):
-        if seed < self.MAX_SEED:
-            return seed + 1L
-        return 0L
-
-    def _getRandomSeed(self):
-        t = long(time.time() * 256.0)
-        t = (t ^ (t >> 24)) % (self.MAX_SEED + 1L)
-        return t
-
-    #
-    # shuffle
-    #   see: Knuth, Vol. 2, Chapter 3.4.2, Algorithm P
-    #   see: FAQ of sci.crypt: "How do I shuffle cards ?"
-    #
-
     def shuffle(self, seq):
         n = len(seq) - 1
         while n > 0:
             j = self.randint(0, n)
             seq[n], seq[j] = seq[j], seq[n]
-            n = n - 1
+            n -= 1
 
 
 # /***********************************************************************
@@ -200,14 +182,6 @@ class MFXRandom:
 # ************************************************************************/
 
 class LCRandom64(MFXRandom):
-    MAX_SEED = 0xffffffffffffffffL  # 64 bits
-
-    def str(self, seed):
-        s = repr(long(seed))
-        if s[-1:] == "L":
-            s = s[:-1]
-        s = "0"*(20-len(s)) + s
-        return s
 
     def random(self):
         self.seed = (self.seed*6364136223846793005L + 1L) & self.MAX_SEED
@@ -216,7 +190,8 @@ class LCRandom64(MFXRandom):
 
 # /***********************************************************************
 # // Linear Congruential random generator
-# // In PySol this is only used for 0 <= seed <= 32000.
+# // In PySol this is only used for 0 <= seed <= 32000
+# // for Windows FreeCell compatibility
 # ************************************************************************/
 
 class LCRandom31(MFXRandom):
@@ -233,12 +208,18 @@ class LCRandom31(MFXRandom):
         self.seed = (self.seed*214013L + 2531011L) & self.MAX_SEED
         return a + (int(self.seed >> 16) % (b+1-a))
 
+    def shuffle(self, seq):
+        n = len(seq) - 1
+        while n > 0:
+            j = self.randint(0, n)
+            seq[n], seq[j] = seq[j], seq[n]
+            n -= 1
+
 
 # select
-if sys.version_info >= (2,3):
-    PysolRandom = SysRandom
-else:
-    PysolRandom = LCRandom64
+#PysolRandom = LCRandom64
+#PysolRandom = WHRandom
+PysolRandom = MTRandom
 
 
 # /***********************************************************************
@@ -258,7 +239,7 @@ def constructRandom(s):
 
 # test
 if __name__ == '__main__':
-    _, r = constructRandom('12345')
+    r = constructRandom('12345')
     print r.randint(0, 100)
     print r.random()
     print type(r)

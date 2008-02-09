@@ -41,10 +41,14 @@ for d in ddirs:
 
 if os.name == 'posix':
     data_files.append(('share/pixmaps', ['data/pysol.xbm', 'data/pysol.xpm']))
+    data_files.append(('share/icons',
+                       ['data/images/misc/pysol01.png',
+                        'data/images/misc/pysol02.png',]))
     for l in ('ru', 'ru_RU'):
         data_files.append(('share/locale/%s/LC_MESSAGES' % l,
                            ['locale/%s/LC_MESSAGES/pysol.mo' % l]))
     data_files.append((data_dir, ['data/pysolfc.glade']))
+    data_files.append(('share/applications', ['data/pysol.desktop']))
 
 ##from pprint import pprint; pprint(data_files)
 ##import sys; sys.exit()

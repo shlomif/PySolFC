@@ -77,7 +77,8 @@ namespace eval tile::theme::clearlooks {
 
         ## Buttons.
         #
-        style configure TButton -padding {10 0}
+        #style configure TButton -padding {10 0} -anchor center
+        style configure TButton -padding {5 5} -anchor center -width -9
         style layout TButton {
             Button.button -children {
                 Button.focus -children {

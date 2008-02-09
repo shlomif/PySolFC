@@ -12,6 +12,7 @@ include pysollib/tk/*.py pysollib/tile/*.py pysollib/pysolgtk/*.py
 include pysollib/games/*.py pysollib/games/special/*.py
 include pysollib/games/ultra/*.py pysollib/games/mahjongg/*.py
 include data/tcl/*.tcl
+include data/pysol.desktop
 include data/pysolfc.glade
 graft data/themes
 include scripts/build.bat scripts/create_iss.py scripts/mahjongg_utils.py

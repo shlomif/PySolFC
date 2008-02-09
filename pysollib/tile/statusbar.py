@@ -87,7 +87,7 @@ class MfxStatusbar:
         self._label_column += 1
         setattr(self, name + '_frame', frame)
         self._widgets.append(frame)
-        label = Tile.Label(frame, width=width)
+        label = Tile.Label(frame, width=width, anchor='center')
         label.pack(expand=True, fill='both')
         setattr(self, name + '_label', label)
         self._widgets.append(label)

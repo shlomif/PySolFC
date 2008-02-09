@@ -430,6 +430,16 @@ class PyGameAudioClient(AbstractAudioClient):
             # for py2exe
             import pygame.base, pygame.rwobject, pygame.mixer_music
         self.mixer = pygame.mixer
+        ## http://www.pygame.org/docs/ref/mixer.html
+        ## NOTE: there is currently a bug on some windows machines which
+        ## makes sound play back 'scratchy'. There is not enough cpu in
+        ## the sound thread to feed the buffer to the sound api. To get
+        ## around this you can increase the buffer size. However this
+        ## means that there is more of a delay between the time you ask to
+        ## play the sound and when it gets played. Try calling this before
+        ## the pygame.init or pygame.mixer.init calls.
+        ## pygame.mixer.pre_init(44100,-16,2, 1024 * 3)
+        self.mixer.pre_init(44100, -16, 2, 1024 * 3)
         self.mixer.init()
         self.music = self.mixer.music
         self.time = pygame.time

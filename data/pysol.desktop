@@ -1,0 +1,8 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=PySol Fan Club Edition
+Exec=pysol.py
+Terminal=false
+Type=Application
+Categories=Game;CardGame;
+Icon=/usr/share/icons/pysol01.png

@@ -756,7 +756,7 @@ class PysolMenubarTk:
                                    self.mSelectGame, self.tkopt.gameid)
 
     def _addSelectCustomGameSubMenu(self, games, menu, command, variable):
-        submenu = MfxMenu(menu, label=n_("&Cusom games"))
+        submenu = MfxMenu(menu, label=n_("&Custom games"))
         select_func = lambda gi: gi.si.game_type == GI.GT_CUSTOM
         games = filter(select_func, games)
         self.updateGamesMenu(submenu, games)

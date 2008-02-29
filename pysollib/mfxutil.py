@@ -125,20 +125,12 @@ def getusername():
     return user
 
 
-def gethomedir():
+def getprefdir(package):
     if os.name == "nt":
-        return win32_gethomedir()
+        return win32_getprefdir(package)
     home = os.environ.get("HOME", "").strip()
     if not home or not os.path.isdir(home):
         home = os.curdir
-    return os.path.abspath(home)
-
-
-def getprefdir(package, home=None):
-    if os.name == "nt":
-        return win32_getprefdir(package)
-    if home is None:
-        home = gethomedir()
     return os.path.join(home, ".PySolFC")
 
 
@@ -157,20 +149,16 @@ def win32_getusername():
     return user
 
 def win32_getprefdir(package):
-    hd = win32_gethomedir()
-    return os.path.join(hd, 'PySolFC')
-
-def win32_gethomedir():
     # %USERPROFILE%, %APPDATA%
     hd = os.environ.get('APPDATA')
-    if hd:
-        return hd
-    hd = os.path.expanduser('~')
-    if hd == '~': # win9x
-        hd = os.path.abspath('/windows/Application Data')
-        if not os.path.exists(hd):
-            hd = os.path.abspath('/')
-    return hd
+    if not hd:
+        hd = os.path.expanduser('~')
+        if hd == '~': # win9x
+            hd = os.path.abspath('/windows/Application Data')
+            if not os.path.exists(hd):
+                hd = os.path.abspath('/')
+    return os.path.join(hd, 'PySolFC')
+
 
 # /***********************************************************************
 # // memory util

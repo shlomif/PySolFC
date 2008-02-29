@@ -41,7 +41,7 @@ import traceback
 # PySol imports
 from mfxutil import destruct, Struct
 from mfxutil import pickle, unpickle, UnpicklingError
-from mfxutil import getusername, gethomedir, getprefdir
+from mfxutil import getusername, getprefdir
 from mfxutil import latin1_to_ascii, print_err
 from util import CARDSET, IMAGE_EXTENSIONS
 from settings import PACKAGE, VERSION_TUPLE, WIN_SYSTEM
@@ -372,10 +372,8 @@ class Application:
             progress = None,            # progress bar
         )
         # directory names
-        home = os.path.normpath(gethomedir())
-        config = os.path.normpath(getprefdir(PACKAGE, home))
+        config = os.path.normpath(getprefdir(PACKAGE))
         self.dn = Struct(
-            home = home,
             config = config,
             plugins = os.path.join(config, "plugins"),
             savegames = os.path.join(config, "savegames"),
@@ -780,6 +778,7 @@ class Application:
 
     def _getImagesDir(self, *dirs, **kwargs):
         check = kwargs.get('check', True)
+        dirs = [str(d) for d in dirs]   # XXX: don't use unicode
         d =  os.path.join(self.dataloader.dir, 'images', *dirs)
         if check:
             if os.path.exists(d):
@@ -1445,9 +1444,8 @@ Please select a %s type %s.
     def initTiles(self):
         manager = self.tabletile_manager
         # find all available tiles
-        # Note: we use a unicoded filenames
         dirs = manager.getSearchDirs(self,
-                           (u"tiles-*", os.path.join(u"tiles", u"stretch")),
+                           ("tiles-*", os.path.join("tiles", "stretch")),
                            "PYSOL_TILES")
         ##print dirs
         s = "((\\" + ")|(\\".join(IMAGE_EXTENSIONS) + "))$"
@@ -1461,11 +1459,6 @@ Please select a %s type %s.
                 for name in names:
                     if not name or not ext_re.search(name):
                         continue
-                    if not isinstance(name, unicode):
-                        try:
-                            name = unicode(name)
-                        except:
-                            continue
                     f = os.path.join(dir, name)
                     if not os.path.isfile(f):
                         continue

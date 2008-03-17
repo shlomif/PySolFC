@@ -1379,7 +1379,7 @@ Error while saving game.
                                      bitmap='error')
                 return
             if SELECT_GAME_MENU:
-                menu = self.__menupath[".menubar.select.cusomgames"][2]
+                menu = self.__menupath[".menubar.select.customgames"][2]
                 select_func = lambda gi: gi.si.game_type == GI.GT_CUSTOM
                 games = map(self.app.gdb.get,
                             self.app.gdb.getGamesIdSortedByName())

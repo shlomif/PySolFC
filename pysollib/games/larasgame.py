@@ -436,7 +436,8 @@ class DoubleLarasGame(RelaxedLarasGame):
 # register the game
 
 registerGame(GameInfo(37, LarasGame, "Lara's Game",
-                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED,
+                      altnames=("Thirteen Packs",) ))
 registerGame(GameInfo(13006, RelaxedLarasGame, "Lara's Game Relaxed",
                       GI.GT_2DECK_TYPE, 2, 1, GI.SL_BALANCED))
 registerGame(GameInfo(13007, DoubleLarasGame, "Lara's Game Doubled",

@@ -279,6 +279,7 @@ class GI:
         ("Paul Alfille", (8,)),
         ("C.L. Baker", (45,)),
         ("David Bernazzani", (314,)),
+        ("Gordon Bower", (763,)),
         ("Art Cabral", (9,)),
         ("Charles Jewell", (220, 309,)),
         ("Robert Harbin", (381,)),

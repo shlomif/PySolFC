@@ -482,19 +482,25 @@ class AllInARow(BlackHole):
 
 # /***********************************************************************
 # // Robert
+# // Wasatch
 # ************************************************************************/
 
 class Robert(Game):
 
-    def createGame(self):
+    def createGame(self, max_rounds=3, num_deal=1):
         l, s = Layout(self), self.s
         self.setSize(l.XM+4*l.XS, l.YM+2*l.YS)
         x, y = l.XM+3*l.XS/2, l.YM
-        s.foundations.append(BlackHole_Foundation(x, y, self, ANY_SUIT, dir=0, mod=13, max_move=0, max_cards=52))
+        stack = BlackHole_Foundation(x, y, self, ANY_SUIT,
+                                     dir=0, mod=13, max_move=0, max_cards=52)
+        s.foundations.append(stack)
+        l.createText(stack, 'ne')
         x, y = l.XM+l.XS, l.YM+l.YS
-        s.talon = WasteTalonStack(x, y, self, max_rounds=3)
+        s.talon = WasteTalonStack(x, y, self,
+                                  max_rounds=max_rounds, num_deal=num_deal)
         l.createText(s.talon, 'nw')
-        l.createRoundText(self.s.talon, 'se', dx=l.XS)
+        if max_rounds > 0:
+            l.createRoundText(self.s.talon, 'se', dx=l.XS)
         x += l.XS
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, 'ne')
@@ -505,6 +511,16 @@ class Robert(Game):
     def startGame(self):
         self.startDealSample()
         self.s.talon.dealRow(rows=self.s.foundations)
+        self.s.talon.dealCards()
+
+
+class Wasatch(Robert):
+
+    def createGame(self):
+        Robert.createGame(self, max_rounds=UNLIMITED_REDEALS, num_deal=3)
+
+    def startGame(self):
+        self.startDealSample()
         self.s.talon.dealCards()
 
 
@@ -1105,4 +1121,6 @@ registerGame(GameInfo(749, Flake, "Flake",
 registerGame(GameInfo(750, Flake2Decks, "Flake (2 decks)",
                       GI.GT_GOLF | GI.GT_OPEN | GI.GT_ORIGINAL,
                       2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(763, Wasatch, "Wasatch",
+                      GI.GT_1DECK_TYPE, 1, UNLIMITED_REDEALS, GI.SL_MOSTLY_LUCK))
 

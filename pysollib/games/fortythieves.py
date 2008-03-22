@@ -1226,6 +1226,18 @@ class BlindPatience(FortyThieves):
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
+# /***********************************************************************
+# // Foothold
+# ************************************************************************/
+
+class Foothold(FortyThieves):
+    RowStack_Class = UD_AC_RowStack
+    DEAL = (0, 5)
+    def createGame(self):
+        FortyThieves.createGame(self, rows=8)
+    shallHighlightMatch = Game._shallHighlightMatch_AC
+
+
 
 # register the game
 registerGame(GameInfo(13, FortyThieves, "Forty Thieves",
@@ -1345,4 +1357,6 @@ registerGame(GameInfo(683, FamousFifty, "Famous Fifty",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(751, BlindPatience, "Blind Patience",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(765, Foothold, "Foothold",
+                      GI.GT_FORTY_THIEVES | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 

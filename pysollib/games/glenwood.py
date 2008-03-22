@@ -330,9 +330,9 @@ class DoubleFives(Glenwood):
 
 
 # register the game
-registerGame(GameInfo(282, Glenwood, "Glenwood",
+registerGame(GameInfo(282, Glenwood, "Dutchess",
                       GI.GT_CANFIELD, 1, 1, GI.SL_BALANCED,
-                      altnames=("Duchess",) ))
+                      altnames=("Duchess", "Glenwood",) ))
 registerGame(GameInfo(587, DoubleFives, "Double Fives",
                       GI.GT_2DECK_TYPE, 2, 1, GI.SL_BALANCED))
 

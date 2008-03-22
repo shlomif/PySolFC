@@ -1074,13 +1074,65 @@ class Flake2Decks(Flake):
         self.s.talon.dealRow()
 
 
+# /***********************************************************************
+# // Beacon
+# ************************************************************************/
+
+class Beacon(Game):
+
+    def createGame(self, rows=8):
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        playcards = 12
+        self.setSize(l.XM+rows*l.XS, l.YM+3*l.YS+playcards*l.YOFFSET)
+
+        # create stacks
+        x, y = l.XM + (rows-1)*l.XS/2, l.YM
+        stack = RK_FoundationStack(x, y, self, base_rank=ANY_RANK,
+                                   max_cards=52, mod=13)
+        s.foundations.append(stack)
+        l.createText(stack, 'ne')
+
+        x, y = l.XM, l.YM+l.YS
+        for i in range(rows):
+            s.rows.append(RK_RowStack(x, y, self, base_rank=NO_RANK, mod=13))
+            x += l.XS
+
+        x, y = l.XM, self.height-l.YS
+        s.talon = TalonStack(x, y, self)
+        l.createText(s.talon, 'se')
+
+        # define stack-groups
+        l.defaultStackGroups()
+
+    def startGame(self):
+        for i in range(3):
+            self.s.talon.dealRow(frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+    def fillStack(self, stack):
+        if stack in self.s.rows and not stack.cards:
+            if self.s.talon.cards:
+                old_state = self.enterState(self.S_FILL)
+                self.s.talon.flipMove()
+                self.s.talon.moveMove(1, stack)
+                self.leaveState(old_state)
+
+    shallHighlightMatch = Game._shallHighlightMatch_RKW
+
+
+
 # register the game
 registerGame(GameInfo(36, Golf, "Golf",
                       GI.GT_GOLF, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(259, DeadKingGolf, "Dead King Golf",
                       GI.GT_GOLF, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(260, RelaxedGolf, "Relaxed Golf",
-                      GI.GT_GOLF | GI.GT_RELAXED, 1, 0, GI.SL_BALANCED))
+                      GI.GT_GOLF | GI.GT_RELAXED, 1, 0, GI.SL_BALANCED,
+                      altnames=("Putt Putt",) ))
 registerGame(GameInfo(40, Elevator, "Elevator",
                       GI.GT_GOLF, 1, 0, GI.SL_BALANCED,
                       altnames=("Egyptian Solitaire", "Pyramid Golf") ))
@@ -1123,4 +1175,6 @@ registerGame(GameInfo(750, Flake2Decks, "Flake (2 decks)",
                       2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(763, Wasatch, "Wasatch",
                       GI.GT_1DECK_TYPE, 1, UNLIMITED_REDEALS, GI.SL_MOSTLY_LUCK))
+registerGame(GameInfo(764, Beacon, "Beacon",
+                      GI.GT_1DECK_TYPE | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))
 

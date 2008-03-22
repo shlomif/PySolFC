@@ -294,11 +294,13 @@ class Signora(Terrace):
 # ************************************************************************/
 
 class Madame(Terrace):
+    Talon_Class = WasteTalonStack
     INITIAL_RESERVE_CARDS = 15
     def createGame(self):
         Terrace.createGame(self, rows=10, playcards=20)
     def startGame(self):
         Terrace.startGame(self, nrows=10)
+        self.s.talon.dealCards()
 
 
 # /***********************************************************************

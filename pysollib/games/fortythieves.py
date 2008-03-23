@@ -1234,7 +1234,7 @@ class Foothold(FortyThieves):
     RowStack_Class = UD_AC_RowStack
     DEAL = (0, 5)
     def createGame(self):
-        FortyThieves.createGame(self, rows=8)
+        FortyThieves.createGame(self, rows=8, playcards=16)
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
 

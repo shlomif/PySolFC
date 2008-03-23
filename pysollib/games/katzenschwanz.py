@@ -618,6 +618,72 @@ class StepUp(Game):
     shallHighlightMatch = Game._shallHighlightMatch_ACW
 
 
+# /***********************************************************************
+# // Kentish
+# ************************************************************************/
+
+class Kentish(Kings):
+
+    def createGame(self, rows=8):
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set size
+        self.setSize(l.XM + (rows+2)*l.XS, l.YM + 5*l.YS)
+
+        #
+        playcards = 4*l.YS / l.YOFFSET
+        xoffset, yoffset = [], []
+        for i in range(playcards):
+            xoffset.append(0)
+            yoffset.append(l.YOFFSET)
+        for i in range(104-playcards):
+            xoffset.append(l.XOFFSET)
+            yoffset.append(0)
+
+        # create stacks
+        x, y = l.XM, l.YM
+        for i in range(rows):
+            stack = RK_RowStack(x, y, self)
+            stack.CARD_XOFFSET = xoffset
+            stack.CARD_YOFFSET = yoffset
+            s.rows.append(stack)
+            x += l.XS
+        x, y = l.XM + rows*l.XS, l.YM
+        for suit in range(4):
+            for i in range(2):
+                s.foundations.append(RK_FoundationStack(x+i*l.XS, y, self,
+                                                        suit=suit))
+            y += l.YS
+        self.setRegion(self.s.foundations,
+                       (x - l.CW / 2, -999, 999999, y), priority=1)
+        x, y = self.width-3*l.XS/2, self.height-l.YS
+        s.talon = InitialDealTalonStack(x, y, self)
+
+        # define stack-groups
+        l.defaultStackGroups()
+
+    def _shuffleHook(self, cards):
+        for c in cards[:]:
+            if c.rank == ACE:
+                cards.remove(c)
+                break
+        cards.insert(0, c)
+        return cards
+
+    def startGame(self):
+        self.startDealSample()
+        i = 0
+        while self.s.talon.cards:
+            r = self.s.talon.cards[-1].rank
+            self.s.talon.dealRow(rows=[self.s.rows[i]], frames=4)
+            if r == ACE:
+                i += 1
+
+    shallHighlightMatch = Game._shallHighlightMatch_RK
+
+
+
 # register the game
 registerGame(GameInfo(141, DerKatzenschwanz, "Cat's Tail",
                       GI.GT_FREECELL | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL,
@@ -645,6 +711,8 @@ registerGame(GameInfo(616, LaggardLady, "Laggard Lady",
                       rules_filename="intrigue.html"))
 registerGame(GameInfo(624, StepUp, "Step-Up",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(766, Kentish, "Kentish",
+                      GI.GT_2DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 
 
 

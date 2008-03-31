@@ -599,7 +599,8 @@ class PysolMenubarTk:
 ##             return
         if not modifier and len(key) == 1:
             # ignore Ctrl/Shift/Alt
-            func = lambda e, func=func: e.state == 0 and func(e)
+            # but don't ignore NumLock (state == 16)
+            func = lambda e, func=func: e.state in (0, 16) and func(e)
         sequence = "<" + modifier + "KeyPress-" + key + ">"
         bind(self.top, sequence, func)
         if len(key) == 1 and key != key.upper():

@@ -623,6 +623,7 @@ class StepUp(Game):
 # ************************************************************************/
 
 class Kentish(Kings):
+    Solver_Class = FreeCellSolverWrapper(sbb='rank', sm='unlimited')
 
     def createGame(self, rows=8):
         # create layout

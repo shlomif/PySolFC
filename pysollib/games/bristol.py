@@ -201,38 +201,40 @@ class Dover(Bristol):
 
         # set window
         max_rows = max(rows, self.gameinfo.decks*4)
-        w, h = 2*l.XM+l.XS+max_rows*l.XS, l.YM+l.TEXT_HEIGHT+5*l.YS
+        w, h = 2*l.XM+l.XS+max_rows*l.XS+l.XS/2, l.YM+l.TEXT_HEIGHT+5*l.YS
         self.setSize(w, h)
 
         # create stacks
-        x, y, = 2*l.XM+l.XS+l.XS*(max_rows-self.gameinfo.decks*4), l.YM
+        x, y, = w-l.XS*self.gameinfo.decks*4, l.YM
         for j in range(self.gameinfo.decks):
             for i in range(4):
                 s.foundations.append(self.Foundation_Class(x, y, self, suit=i))
                 x += l.XS
         if text:
-            x, y = l.XM+8*l.XS, l.YM
+            x, y = w-l.XS, l.YM
             tx, ty, ta, tf = l.getTextAttr(None, "ss")
-            tx, ty = x+tx+l.XM, y+ty
+            tx, ty = x+tx, y+ty
             font = self.app.getFont("canvas_default")
             self.texts.info = MfxCanvasText(self.canvas, tx, ty,
                                             anchor=ta, font=font)
 
-        x, y = 2*l.XM+(max_rows-rows)*l.XS, l.YM+l.YS
+        x, y = w-rows*l.XS, l.YM+l.YS
         if text:
             y += l.TEXT_HEIGHT
         for i in range(rows):
-            x += l.XS
             stack = self.RowStack_Class(x, y, self)
             stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, l.YOFFSET
             s.rows.append(stack)
+            x += l.XS
         x, y, = l.XM, l.YM
         s.talon = self.Talon_Class(x, y, self)
         l.createText(s.talon, "s")
         y += l.TEXT_HEIGHT
         for i in range(3):
             y += l.YS
-            s.reserves.append(self.ReserveStack_Class(x, y, self))
+            stack = self.ReserveStack_Class(x, y, self)
+            s.reserves.append(stack)
+            l.createText(stack, "se")
 
         # define stack-groups
         l.defaultStackGroups()

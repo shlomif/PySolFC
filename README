@@ -14,7 +14,7 @@ Requirements.
   - PyGame: http://www.pygame.org/ (mp3, ogg, wav, midi, tracker music)
 
 ** other packages (optional) **
-  - Tile: http://tktable.sourceforge.net/tile/ (0.7.8 or later)
+  - Tile (ttk): http://tktable.sourceforge.net/tile/ (0.8.0 or later)
   - PIL (Python Imaging Library): http://www.pythonware.com/products/pil
   - Freecell Solver: http://vipe.technion.ac.il/~shlomif/freecell-solver/
 

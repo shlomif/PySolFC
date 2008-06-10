@@ -37,7 +37,7 @@ __all__ = ['PlayerOptionsDialog']
 
 # imports
 import Tkinter
-import Tile
+import ttk
 
 # PySol imports
 from pysollib.mfxutil import KwStruct
@@ -65,25 +65,25 @@ class PlayerOptionsDialog(MfxDialog):
         self.win_animation_var = Tkinter.BooleanVar()
         self.win_animation_var.set(app.opt.win_animation != 0)
         #
-        frame = Tile.Frame(top_frame)
+        frame = ttk.Frame(top_frame)
         frame.pack(expand=True, fill='both', padx=5, pady=10)
-        widget = Tile.Label(frame, text=_("\nPlease enter your name"),
-                            takefocus=0)
+        widget = ttk.Label(frame, text=_("\nPlease enter your name"),
+                           takefocus=0)
         widget.grid(row=0, column=0, columnspan=2, sticky='ew', padx=0, pady=5)
         #
         w = kw.get("e_width", 30)    # width in characters
         names = self.app.getAllUserNames()
-        self.player_var = Tile.Combobox(frame, width=w, values=tuple(names))
+        self.player_var = ttk.Combobox(frame, width=w, values=tuple(names))
         self.player_var.current(names.index(app.opt.player))
         self.player_var.grid(row=1, column=0, sticky='ew', padx=0, pady=5)
         #
-        widget = Tile.Checkbutton(frame, variable=self.confirm_var,
-                                  text=_("Confirm quit"))
+        widget = ttk.Checkbutton(frame, variable=self.confirm_var,
+                                 text=_("Confirm quit"))
         widget.grid(row=2, column=0, columnspan=2, sticky='ew', padx=0, pady=5)
-        widget = Tile.Checkbutton(frame, variable=self.update_stats_var,
-                                  text=_("Update statistics and logs"))
+        widget = ttk.Checkbutton(frame, variable=self.update_stats_var,
+                                 text=_("Update statistics and logs"))
         widget.grid(row=3, column=0, columnspan=2, sticky='ew', padx=0, pady=5)
-###        widget = Tile.Checkbutton(frame, variable=self.win_animation_var,
+###        widget = ttk.Checkbutton(frame, variable=self.win_animation_var,
 ###                                     text="Win animation")
 ###        widget.pack(side='top', padx=kw.padx, pady=kw.pady)
         frame.columnconfigure(0, weight=1)

@@ -23,7 +23,7 @@ __all__ = ['FontsDialog']
 
 # imports
 import Tkinter
-import Tile
+import ttk
 import tkFont
 
 # PySol imports
@@ -79,28 +79,28 @@ class FontChooserDialog(MfxDialog):
         self.size_var = Tkinter.IntVar()
         self.size_var.set(self.font_size)
         #
-        frame = Tile.Frame(top_frame)
+        frame = ttk.Frame(top_frame)
         frame.pack(expand=True, fill='both', padx=5, pady=10)
         frame.columnconfigure(0, weight=1)
         #frame.rowconfigure(1, weight=1)
-        self.entry = Tile.Entry(frame)
+        self.entry = ttk.Entry(frame)
         self.entry.grid(row=0, column=0, columnspan=2, sticky='news')
         self.entry.insert('end', _('abcdefghABCDEFGH'))
         self.list_box = Tkinter.Listbox(frame, width=36, exportselection=False)
-        sb = Tile.Scrollbar(frame)
+        sb = ttk.Scrollbar(frame)
         self.list_box.configure(yscrollcommand=sb.set)
         sb.configure(command=self.list_box.yview)
         self.list_box.grid(row=1, column=0, sticky='news') # rowspan=4
         sb.grid(row=1, column=1, sticky='ns')
         bind(self.list_box, '<<ListboxSelect>>', self.fontupdate)
         ##self.list_box.focus()
-        cb1 = Tile.Checkbutton(frame, text=_('Bold'),
-                               command=self.fontupdate,
-                               variable=self.weight_var)
+        cb1 = ttk.Checkbutton(frame, text=_('Bold'),
+                              command=self.fontupdate,
+                              variable=self.weight_var)
         cb1.grid(row=2, column=0, columnspan=2, sticky='we')
-        cb2 = Tile.Checkbutton(frame, text=_('Italic'),
-                               command=self.fontupdate,
-                               variable=self.slant_var)
+        cb2 = ttk.Checkbutton(frame, text=_('Italic'),
+                              command=self.fontupdate,
+                              variable=self.slant_var)
         cb2.grid(row=3, column=0, columnspan=2, sticky='we')
 
         sc = PysolScale(frame, from_=6, to=40, resolution=1,
@@ -155,7 +155,7 @@ class FontsDialog(MfxDialog):
         top_frame, bottom_frame = self.createFrames(kw)
         self.createBitmaps(top_frame, kw)
 
-        frame = Tile.Frame(top_frame)
+        frame = ttk.Frame(top_frame)
         frame.pack(expand=True, fill='both', padx=5, pady=10)
         frame.columnconfigure(0, weight=1)
 
@@ -172,16 +172,16 @@ class FontsDialog(MfxDialog):
                           ):
             font = app.opt.fonts[fn]
             self.fonts[fn] = font
-            Tile.Label(frame, text=title, anchor='w'
-                       ).grid(row=row, column=0, sticky='we')
+            ttk.Label(frame, text=title, anchor='w'
+                      ).grid(row=row, column=0, sticky='we')
             if font:
                 title = ' '.join([str(i) for i in font if i not in ('roman', 'normal')])
             elif font is None:
                 title = 'Default'
-            l = Tile.Label(frame, font=font, text=title)
+            l = ttk.Label(frame, font=font, text=title)
             l.grid(row=row, column=1, padx=8)
-            b = Tile.Button(frame, text=_('Change...'), width=10,
-                            command=lambda l=l, fn=fn: self.selectFont(l, fn))
+            b = ttk.Button(frame, text=_('Change...'), width=10,
+                           command=lambda l=l, fn=fn: self.selectFont(l, fn))
             b.grid(row=row, column=2)
             row += 1
         #

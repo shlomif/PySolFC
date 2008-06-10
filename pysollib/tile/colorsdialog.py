@@ -23,7 +23,7 @@ __all__ = ['ColorsDialog']
 
 # imports
 import Tkinter
-import Tile
+import ttk
 from tkColorChooser import askcolor
 
 # PySol imports
@@ -43,7 +43,7 @@ class ColorsDialog(MfxDialog):
         top_frame, bottom_frame = self.createFrames(kw)
         self.createBitmaps(top_frame, kw)
 
-        frame = Tile.Frame(top_frame)
+        frame = ttk.Frame(top_frame)
         frame.pack(expand=True, fill='both', padx=5, pady=10)
         frame.columnconfigure(0, weight=1)
 
@@ -75,13 +75,13 @@ class ColorsDialog(MfxDialog):
             (_('Hint arrow:'),             self.hintarrow_var),
             (_('Highlight not matching:'), self.not_matching_var),
             ):
-            Tile.Label(frame, text=title, anchor='w',
-                       ).grid(row=row, column=0, sticky='we')
+            ttk.Label(frame, text=title, anchor='w',
+                      ).grid(row=row, column=0, sticky='we')
             l = Tkinter.Label(frame, width=10, height=2,
                               bg=var.get(), textvariable=var)
             l.grid(row=row, column=1, padx=5)
-            b = Tile.Button(frame, text=_('Change...'), width=10,
-                            command=lambda l=l: self.selectColor(l))
+            b = ttk.Button(frame, text=_('Change...'), width=10,
+                           command=lambda l=l: self.selectColor(l))
             b.grid(row=row, column=2)
             row += 1
         #

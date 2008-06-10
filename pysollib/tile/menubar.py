@@ -38,8 +38,8 @@ __all__ = ['PysolMenubarTk']
 
 # imports
 import math, os, sys, re, traceback
-import Tile
 import Tkinter
+import ttk
 import tkFileDialog
 
 # PySol imports
@@ -1351,7 +1351,7 @@ the next time you restart """)+TITLE,
 
     def createThemesMenu(self, menu):
         submenu = MfxMenu(menu, label=n_("Set t&heme"))
-        all_themes = list(Tile.availableThemes())
+        all_themes = list(ttk.Style(self.top).theme_names())
         all_themes.sort()
         #
         tn = {

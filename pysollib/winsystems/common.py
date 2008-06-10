@@ -26,11 +26,10 @@ from pysollib.settings import VERSION
 from pysollib.settings import TOOLKIT, USE_TILE
 from pysollib.settings import DEBUG
 from pysollib.mfxutil import print_err
-from pysollib.tile import Tile
+from pysollib.tile import ttk
 
 
 def init_tile(app, top):
-    Tile.initialize(top)
     # load available themes
     d = os.path.join(app.dataloader.dir, 'themes')
     if os.path.isdir(d):
@@ -38,10 +37,7 @@ def init_tile(app, top):
         for t in os.listdir(d):
             if os.path.exists(os.path.join(d, t, 'pkgIndex.tcl')):
                 try:
-                    if Tile.TileVersion < '0.8':
-                        top.tk.eval('package require tile::theme::'+t)
-                    else:
-                        top.tk.eval('package require ttk::theme::'+t)
+                    top.tk.eval('package require ttk::theme::'+t)
                     #print 'load theme:', t
                 except:
                     traceback.print_exc()
@@ -50,17 +46,12 @@ def init_tile(app, top):
 
 def set_theme(app, top, theme):
     # set theme
+    style = ttk.Style(top)
     try:
-        Tile.setTheme(top, theme)
+        style.theme_use(theme)
     except:
         print_err(_('invalid theme name: ') + theme)
-        Tile.setTheme(top, app.opt.default_tile_theme)
-##     style = Tile.Style(top)
-##     #all_themes = style.theme_names()
-##     if theme not in all_themes:
-##         print_err(_('invalid theme name: ') + theme)
-##         theme = app.opt.default_tile_theme
-##     style.theme_use(theme)
+        style.theme_use(app.opt.default_tile_theme)
 
 
 def get_font_name(font):

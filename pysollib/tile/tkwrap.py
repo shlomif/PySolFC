@@ -39,7 +39,6 @@ __all__ = ['TclError',
 # imports
 import Tkinter
 TclError = Tkinter.TclError
-import Tile
 
 # PySol imports
 from tkconst import EVENT_PROPAGATE
@@ -53,7 +52,6 @@ from tkconst import EVENT_PROPAGATE
 class MfxRoot(Tkinter.Tk):
     def __init__(self, **kw):
         Tkinter.Tk.__init__(self, **kw)
-        Tile.initialize(self)
         self.app = None
         self.wm_protocol('WM_DELETE_WINDOW', self.wmDeleteWindow)
         # for interruptible sleep

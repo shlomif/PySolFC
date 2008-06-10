@@ -36,7 +36,7 @@
 
 # imports
 import os
-import Tile
+import ttk
 from UserList import UserList
 
 # PySol imports
@@ -363,10 +363,10 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         #padx, pady = kw.padx/2, kw.pady/2
         padx, pady = 4, 4
         # PanedWindow
-        paned_window = Tile.PanedWindow(top_frame)
+        paned_window = ttk.PanedWindow(top_frame, orient='horizontal')
         paned_window.pack(expand=True, fill='both', padx=8, pady=8)
-        left_frame = Tile.Frame(paned_window)
-        right_frame = Tile.Frame(paned_window)
+        left_frame = ttk.Frame(paned_window)
+        right_frame = ttk.Frame(paned_window)
         paned_window.add(left_frame)
         paned_window.add(right_frame)
         # Tree
@@ -375,10 +375,10 @@ class SelectGameDialogWithPreview(SelectGameDialog):
                                     default=kw.default, font=font, width=w1)
         self.tree.frame.pack(padx=padx, pady=pady, expand=True, fill='both')
         # LabelFrame
-        info_frame = Tile.LabelFrame(right_frame, text=_('About game'))
+        info_frame = ttk.LabelFrame(right_frame, text=_('About game'))
         info_frame.grid(row=0, column=0, padx=padx, pady=pady,
                         ipadx=4, ipady=4, sticky='nws')
-        stats_frame = Tile.LabelFrame(right_frame, text=_('Statistics'))
+        stats_frame = ttk.LabelFrame(right_frame, text=_('Statistics'))
         stats_frame.grid(row=0, column=1, padx=padx, pady=pady,
                          ipadx=4, ipady=4, sticky='nws')
         # Info
@@ -400,9 +400,9 @@ class SelectGameDialogWithPreview(SelectGameDialog):
             ('moves',       _('Moves:'),            stats_frame,  4),
             ('percent',     _('% won:'),            stats_frame,  5),
             ):
-            title_label = Tile.Label(f, text=t, justify='left', anchor='w')
+            title_label = ttk.Label(f, text=t, justify='left', anchor='w')
             title_label.grid(row=row, column=0, sticky='nw', padx=4)
-            text_label = Tile.Label(f, justify='left', anchor='w')
+            text_label = ttk.Label(f, justify='left', anchor='w')
             text_label.grid(row=row, column=1, sticky='nw', padx=4)
             self.info_labels[n] = (title_label, text_label)
         ##info_frame.columnconfigure(1, weight=1)

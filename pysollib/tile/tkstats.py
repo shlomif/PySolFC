@@ -46,7 +46,7 @@ __all__ = ['SingleGame_StatsDialog',
 import os
 import time
 import Tkinter
-import Tile
+import ttk
 import tkFont
 
 # PySol imports
@@ -77,14 +77,14 @@ class StatsDialog(MfxDialog):
         self.font = app.getFont('default')
         self.tkfont = tkFont.Font(parent, self.font)
         self.font_metrics = self.tkfont.metrics()
-        style = Tile.Style()
+        style = ttk.Style(parent)
         heading_font = style.lookup('Heading', 'font') # treeview heading
         self.heading_tkfont = tkFont.Font(parent, heading_font)
 
         self.selected_game = None
 
         top_frame, bottom_frame = self.createFrames(kw)
-        notebook = Tile.Notebook(top_frame)
+        notebook = ttk.Notebook(top_frame)
         notebook.pack(expand=True, fill='both', padx=10, pady=10)
 
         self.notebook_tabs = []
@@ -167,20 +167,21 @@ SingleGame_StatsDialog = AllGames_StatsDialog = Top_StatsDialog = ProgressionDia
 # //
 # ************************************************************************/
 
-class SingleGameFrame(Tile.Frame):
+class SingleGameFrame(ttk.Frame):
     def __init__(self, dialog, parent, app, player, gameid, **kw):
-        Tile.Frame.__init__(self, parent)
+        ttk.Frame.__init__(self, parent)
 
         self.oval_width = 120
         self.oval_height = 60
 
-        left_label = Tile.Label(self, image=app.gimages.logos[5])
+        left_label = ttk.Label(self, image=app.gimages.logos[5])
         left_label.pack(side='left', expand=True, fill='both')
-        self.right_frame = Tile.Frame(self)
+        self.right_frame = ttk.Frame(self)
         self.right_frame.pack(side='right', expand=True)
 
         self.dialog = dialog
         self.app = app
+        self.parent = parent
         self.player = player or _("Demo games")
         #
         self._calc_tabs()
@@ -232,9 +233,9 @@ class SingleGameFrame(Tile.Frame):
         return pwon, plost
 
     def _createChartInit(self, text):
-        frame = Tile.LabelFrame(self.right_frame, text=text)
+        frame = ttk.LabelFrame(self.right_frame, text=text)
         frame.pack(side='top', fill='both', expand=False, padx=20, pady=10)
-        style = Tile.Style(self.right_frame)
+        style = ttk.Style(self.parent)
         fg = style.lookup('.', 'foreground') or None # use default if fg == ''
         bg = style.lookup('.', 'background') or None
         self.fg = fg
@@ -383,14 +384,14 @@ class TreeFormatter(PysolStatsFormatter):
         for result in self.getStatResults(player, sort_by):
             # result == [name, won+lost, won, lost, time, moves, perc, id]
             t1, t2, t3, t4, t5, t6, t7, t8 = result
-            id = self.tree.insert(None, "end", text=t1,
+            id = self.tree.insert("", "end", text=t1,
                                   values=(t2, t3, t4, t5, t6, t7))
             self.parent_window.tree_items.append(id)
             self.parent_window.games[id] = t8
 
         total, played, won, lost, time_, moves, perc = self.getStatSummary()
         text = _("Total (%d out of %d games)") % (played, total)
-        id = self.tree.insert(None, "end", text=text,
+        id = self.tree.insert("", "end", text=text,
                               values=(won+lost, won, lost, time_, moves, perc))
         self.parent_window.tree_items.append(id)
         return 1
@@ -401,7 +402,7 @@ class TreeFormatter(PysolStatsFormatter):
         num_rows = 0
         for result in self.getLogResults(player, prev_games):
             t1, t2, t3, t4, t5, t6 = result
-            id = self.tree.insert(None, "end", text=t1, values=(t2, t3, t4))
+            id = self.tree.insert("", "end", text=t1, values=(t2, t3, t4))
             self.parent_window.tree_items.append(id)
             num_rows += 1
             if num_rows > self.MAX_ROWS:
@@ -421,12 +422,12 @@ class TreeFormatter(PysolStatsFormatter):
 # //
 # ************************************************************************/
 
-class AllGamesFrame(Tile.Frame):
+class AllGamesFrame(ttk.Frame):
 
     COLUMNS = ('played', 'won', 'lost', 'time', 'moves', 'percent')
 
     def __init__(self, dialog, parent, app, player, **kw):
-        Tile.Frame.__init__(self, parent)
+        ttk.Frame.__init__(self, parent)
         #
         self.dialog = dialog
         self.app = app
@@ -439,22 +440,21 @@ class AllGamesFrame(Tile.Frame):
         self.tree_tabs = None
         self.games = {}                 # tree_itemid: gameid
         #
-        frame = Tile.Frame(self)
+        frame = ttk.Frame(self)
         frame.pack(fill='both', expand=True, padx=10, pady=10)
-        vsb = Tile.Scrollbar(frame)
+        vsb = ttk.Scrollbar(frame)
         vsb.grid(row=0, column=1, sticky='ns')
-        self.tree = Tile.Treeview(frame, columns=self.COLUMNS,
-                                  selectmode='browse')
+        self.tree = ttk.Treeview(frame, columns=self.COLUMNS,
+                                 selectmode='browse')
         self.tree.grid(row=0, column=0, sticky='nsew')
         self.tree.config(yscrollcommand=vsb.set)
         vsb.config(command=self.tree.yview)
         frame.rowconfigure(0, weight=1)
         frame.columnconfigure(0, weight=1)
-        if Tile.TileVersion >= '0.8':
-            hsb = Tile.Scrollbar(frame, orient='horizontal')
-            hsb.grid(row=1, column=0, sticky='ew')
-            self.tree.config(xscrollcommand=hsb.set)
-            hsb.config(command=self.tree.xview)
+        hsb = ttk.Scrollbar(frame, orient='horizontal')
+        hsb.grid(row=1, column=0, sticky='ew')
+        self.tree.config(xscrollcommand=hsb.set)
+        hsb.config(command=self.tree.xview)
         bind(self.tree, '<<TreeviewSelect>>', self.treeviewSelected)
         #
         self.formatter = TreeFormatter(self.app, self.tree, self,
@@ -519,7 +519,7 @@ class LogDialog(MfxDialog):
 
         self.font = app.getFont('default')
         self.tkfont = tkFont.Font(parent, self.font)
-        style = Tile.Style()
+        style = ttk.Style(parent)
         heading_font = style.lookup('Heading', 'font') # treeview heading
         self.heading_tkfont = tkFont.Font(parent, heading_font)
         self.font_metrics = self.tkfont.metrics()
@@ -534,7 +534,7 @@ class LogDialog(MfxDialog):
         ##self.selected_game = None
 
         top_frame, bottom_frame = self.createFrames(kw)
-        notebook = Tile.Notebook(top_frame)
+        notebook = ttk.Notebook(top_frame)
         notebook.pack(expand=True, fill='both', padx=10, pady=10)
 
         self.notebook_tabs = []
@@ -680,48 +680,48 @@ class _TopDialog(MfxDialog):
         cnf = {'master': top_frame,
                'padding': (4, 1),
                }
-        frame = Tile.Frame(**cnf)
+        frame = ttk.Frame(**cnf)
         frame.pack(expand=True, fill='both', padx=10, pady=10)
         frame.columnconfigure(0, weight=1)
         cnf['master'] = frame
         cnf['text'] = _('N')
-        l = Tile.Label(**cnf)
+        l = ttk.Label(**cnf)
         l.grid(row=0, column=0, sticky='ew')
         if gameid == 'all':
             cnf['text'] = _('Game')
-            l = Tile.Label(**cnf)
+            l = ttk.Label(**cnf)
             l.grid(row=0, column=1, sticky='ew')
         cnf['text'] = _('Game number')
-        l = Tile.Label(**cnf)
+        l = ttk.Label(**cnf)
         l.grid(row=0, column=2, sticky='ew')
         cnf['text'] = _('Started at')
-        l = Tile.Label(**cnf)
+        l = ttk.Label(**cnf)
         l.grid(row=0, column=3, sticky='ew')
         cnf['text'] = _('Result')
-        l = Tile.Label(**cnf)
+        l = ttk.Label(**cnf)
         l.grid(row=0, column=4, sticky='ew')
 
         row = 1
         for i in top:
             # N
             cnf['text'] = str(row)
-            l = Tile.Label(**cnf)
+            l = ttk.Label(**cnf)
             l.grid(row=row, column=0, sticky='ew')
             if gameid == 'all':
                 name = app.getGameTitleName(i.gameid)
                 if name is None:
                     name = _("** UNKNOWN %d **") % i.gameid
                 cnf['text'] = name
-                l = Tile.Label(**cnf)
+                l = ttk.Label(**cnf)
                 l.grid(row=row, column=1, sticky='ew')
             # Game number
             cnf['text'] = '#'+str(i.game_number)
-            l = Tile.Label(**cnf)
+            l = ttk.Label(**cnf)
             l.grid(row=row, column=2, sticky='ew')
             # Start time
             t = time.strftime('%Y-%m-%d %H:%M', time.localtime(i.game_start_time))
             cnf['text'] = t
-            l = Tile.Label(**cnf)
+            l = ttk.Label(**cnf)
             l.grid(row=row, column=3, sticky='ew')
             # Result
             if isinstance(i.value, float):
@@ -731,7 +731,7 @@ class _TopDialog(MfxDialog):
                 # moves
                 s = str(i.value)
             cnf['text'] = s
-            l = Tile.Label(**cnf)
+            l = ttk.Label(**cnf)
             l.grid(row=row, column=4, sticky='ew')
             row += 1
 
@@ -744,31 +744,31 @@ class _TopDialog(MfxDialog):
         return MfxDialog.initKw(self, kw)
 
 
-class TopFrame(Tile.Frame):
+class TopFrame(ttk.Frame):
     def __init__(self, dialog, parent, app, player, gameid):
-        Tile.Frame.__init__(self, parent)
+        ttk.Frame.__init__(self, parent)
 
         self.app = app
         self.dialog = dialog
 
-        left_label = Tile.Label(self, image=app.gimages.logos[5])
+        left_label = ttk.Label(self, image=app.gimages.logos[5])
         left_label.pack(side='left', expand=True, fill='both')
 
-        frame = Tile.LabelFrame(self, text=_('Current game'),
-                                   padding=(10,5,10,10))
+        frame = ttk.LabelFrame(self, text=_('Current game'),
+                               padding=(10,5,10,10))
         frame.pack(side='top', expand=True, fill='x', padx=10, pady=10)
         ##frame.columnconfigure(0, weight=1)
         if not self.createTopFrame(frame, player, gameid):
-            Tile.Label(frame, text=_('No TOP for this game')
-                       ).pack(padx=10, pady=10)
+            ttk.Label(frame, text=_('No TOP for this game')
+                      ).pack(padx=10, pady=10)
 
-        frame = Tile.LabelFrame(self, text=_('All games'),
-                                padding=(10,5,10,10))
+        frame = ttk.LabelFrame(self, text=_('All games'),
+                               padding=(10,5,10,10))
         frame.pack(side='top', expand=True, fill='x', padx=10, pady=10)
         ##frame.columnconfigure(0, weight=1)
         if not self.createTopFrame(frame, player, 'all'):
-            Tile.Label(frame, text=_('No TOP for all games')
-                       ).pack(padx=10, pady=10)
+            ttk.Label(frame, text=_('No TOP for all games')
+                      ).pack(padx=10, pady=10)
 
     def createTopFrame(self, frame, player, gameid):
         app = self.app
@@ -778,13 +778,13 @@ class TopFrame(Tile.Frame):
             not app.stats.games_stats[player][gameid].time_result.top):
             return False
 
-        Tile.Label(frame, text=_('Minimum')
-                   ).grid(row=0, column=1, padx=5, pady=5)
-        Tile.Label(frame, text=_('Maximum')
-                   ).grid(row=0, column=2, padx=5, pady=5)
-        Tile.Label(frame, text=_('Average')
-                   ).grid(row=0, column=3, padx=5, pady=5)
-        ##Tile.Label(frame, text=_('Total')).grid(row=0, column=4)
+        ttk.Label(frame, text=_('Minimum')
+                  ).grid(row=0, column=1, padx=5, pady=5)
+        ttk.Label(frame, text=_('Maximum')
+                  ).grid(row=0, column=2, padx=5, pady=5)
+        ttk.Label(frame, text=_('Average')
+                  ).grid(row=0, column=3, padx=5, pady=5)
+        ##ttk.Label(frame, text=_('Total')).grid(row=0, column=4)
 
         s = app.stats.games_stats[player][gameid]
 
@@ -825,19 +825,19 @@ class TopFrame(Tile.Frame):
 ##                            s.score_casino_result.max,
 ##                            round(s.score_casino_result.average, 2), ))
         for l, min, max, avr, tot, top in ll:
-            Tile.Label(frame, text=l
-                       ).grid(row=row, column=0, padx=5, pady=5)
-            Tile.Label(frame, text=str(min)
-                       ).grid(row=row, column=1, padx=5, pady=5)
-            Tile.Label(frame, text=str(max)
-                       ).grid(row=row, column=2, padx=5, pady=5)
-            Tile.Label(frame, text=str(avr)
-                       ).grid(row=row, column=3, padx=5, pady=5)
-            ##Tile.Label(frame, text=str(tot)).grid(row=row, column=4)
+            ttk.Label(frame, text=l
+                      ).grid(row=row, column=0, padx=5, pady=5)
+            ttk.Label(frame, text=str(min)
+                      ).grid(row=row, column=1, padx=5, pady=5)
+            ttk.Label(frame, text=str(max)
+                      ).grid(row=row, column=2, padx=5, pady=5)
+            ttk.Label(frame, text=str(avr)
+                      ).grid(row=row, column=3, padx=5, pady=5)
+            ##ttk.Label(frame, text=str(tot)).grid(row=row, column=4)
             def command(gameid=gameid, top=top):
                 self.showTop(gameid, top)
-            b = Tile.Button(frame, text=TOP_TITLE+' ...',
-                            width=10, command=command)
+            b = ttk.Button(frame, text=TOP_TITLE+' ...',
+                           width=10, command=command)
             b.grid(row=row, column=5)
             row += 1
         return True
@@ -850,10 +850,10 @@ class TopFrame(Tile.Frame):
 # //
 # ************************************************************************/
 
-class ProgressionFrame(Tile.Frame):
+class ProgressionFrame(ttk.Frame):
 
     def __init__(self, dialog, parent, app, player, gameid, **kw):
-        Tile.Frame.__init__(self, parent)
+        ttk.Frame.__init__(self, parent)
 
         self.mapped = False
 
@@ -864,7 +864,7 @@ class ProgressionFrame(Tile.Frame):
         self.items = []
         self.formatter = ProgressionFormatter(app, player, gameid)
 
-        frame = Tile.Frame(self)
+        frame = ttk.Frame(self)
         frame.pack(expand=True, fill='both', padx=5, pady=10)
         frame.columnconfigure(0, weight=1)
 
@@ -890,19 +890,19 @@ class ProgressionFrame(Tile.Frame):
         canvas.pack(side='left', padx=5)
 
         # right frame
-        right_frame = Tile.Frame(frame)
+        right_frame = ttk.Frame(frame)
         right_frame.pack(side='left', fill='x', padx=5)
         self.all_games_variable = var = Tkinter.StringVar()
         var.set('all')
-        b = Tile.Radiobutton(right_frame, text=_('All games'),
-                             variable=var, value='all',
-                             command=self.updateGraph)
+        b = ttk.Radiobutton(right_frame, text=_('All games'),
+                            variable=var, value='all',
+                            command=self.updateGraph)
         b.pack(fill='x', expand=True, padx=3, pady=1)
-        b = Tile.Radiobutton(right_frame, text=_('Current game'),
-                             variable=var, value='current',
-                             command=self.updateGraph)
+        b = ttk.Radiobutton(right_frame, text=_('Current game'),
+                            variable=var, value='current',
+                            command=self.updateGraph)
         b.pack(fill='x', expand=True, padx=3, pady=1)
-        label_frame = Tile.LabelFrame(right_frame, text=_('Statistics for'))
+        label_frame = ttk.LabelFrame(right_frame, text=_('Statistics for'))
         label_frame.pack(side='top', fill='x', pady=10)
         self.variable = var = Tkinter.StringVar()
         var.set('week')
@@ -912,28 +912,28 @@ class ProgressionFrame(Tile.Frame):
             ('year',  _('Last year')),
             ('all',   _('All time')),
             ):
-            b = Tile.Radiobutton(label_frame, text=t, variable=var,
-                                 value=v, command=self.updateGraph)
+            b = ttk.Radiobutton(label_frame, text=t, variable=var,
+                                value=v, command=self.updateGraph)
             b.pack(fill='x', expand=True, padx=3, pady=1)
-        label_frame = Tile.LabelFrame(right_frame, text=_('Show graphs'))
+        label_frame = ttk.LabelFrame(right_frame, text=_('Show graphs'))
         label_frame.pack(side='top', fill='x')
         self.played_graph_var = Tkinter.BooleanVar()
         self.played_graph_var.set(True)
-        b = Tile.Checkbutton(label_frame, text=_('Played'),
-                             command=self.updateGraph,
-                             variable=self.played_graph_var)
+        b = ttk.Checkbutton(label_frame, text=_('Played'),
+                            command=self.updateGraph,
+                            variable=self.played_graph_var)
         b.pack(fill='x', expand=True, padx=3, pady=1)
         self.won_graph_var = Tkinter.BooleanVar()
         self.won_graph_var.set(True)
-        b = Tile.Checkbutton(label_frame, text=_('Won'),
-                             command=self.updateGraph,
-                             variable=self.won_graph_var)
+        b = ttk.Checkbutton(label_frame, text=_('Won'),
+                            command=self.updateGraph,
+                            variable=self.won_graph_var)
         b.pack(fill='x', expand=True, padx=3, pady=1)
         self.percent_graph_var = Tkinter.BooleanVar()
         self.percent_graph_var.set(True)
-        b = Tile.Checkbutton(label_frame, text=_('% won'),
-                             command=self.updateGraph,
-                             variable=self.percent_graph_var)
+        b = ttk.Checkbutton(label_frame, text=_('% won'),
+                            command=self.updateGraph,
+                            variable=self.percent_graph_var)
         b.pack(fill='x', expand=True, padx=3, pady=1)
 
         #self.createGraph()

@@ -39,7 +39,7 @@ __all__ = ['HTMLViewer']
 import os, sys
 import htmllib, formatter
 import Tkinter
-import Tile
+import ttk
 
 if __name__ == '__main__':
     d = os.path.abspath(os.path.join(sys.path[0], '..', '..'))
@@ -248,34 +248,34 @@ class HTMLViewer:
         ##self.defcursor = 'xterm'
         self.handcursor = "hand2"
 
-        frame = Tile.Frame(parent, width=640, height=440)
+        frame = ttk.Frame(parent, width=640, height=440)
         frame.pack(expand=True, fill='both')
         frame.grid_propagate(False)
 
         # create buttons
         button_width = 8
-        self.homeButton = Tile.Button(frame, text=_("Index"),
-                                      width=button_width,
-                                      command=self.goHome)
+        self.homeButton = ttk.Button(frame, text=_("Index"),
+                                     width=button_width,
+                                     command=self.goHome)
         self.homeButton.grid(row=0, column=0, sticky='w')
-        self.backButton = Tile.Button(frame, text=_("Back"),
-                                      width=button_width,
-                                      command=self.goBack)
+        self.backButton = ttk.Button(frame, text=_("Back"),
+                                     width=button_width,
+                                     command=self.goBack)
         self.backButton.grid(row=0, column=1, sticky='w')
-        self.forwardButton = Tile.Button(frame, text=_("Forward"),
-                                         width=button_width,
-                                         command=self.goForward)
+        self.forwardButton = ttk.Button(frame, text=_("Forward"),
+                                        width=button_width,
+                                        command=self.goForward)
         self.forwardButton.grid(row=0, column=2, sticky='w')
-        self.closeButton = Tile.Button(frame, text=_("Close"),
-                                       width=button_width,
-                                       command=self.destroy)
+        self.closeButton = ttk.Button(frame, text=_("Close"),
+                                      width=button_width,
+                                      command=self.destroy)
         self.closeButton.grid(row=0, column=3, sticky='e')
 
         # create text widget
-        text_frame = Tile.Frame(frame)
+        text_frame = ttk.Frame(frame)
         text_frame.grid(row=1, column=0, columnspan=4,
                         sticky='nsew', padx=1, pady=1)
-        vbar = Tile.Scrollbar(text_frame)
+        vbar = ttk.Scrollbar(text_frame)
         vbar.pack(side='right', fill='y')
         self.text = Tkinter.Text(text_frame,
                                  fg='black', bg='white',

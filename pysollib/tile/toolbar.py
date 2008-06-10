@@ -38,7 +38,7 @@ __all__ = ['PysolToolbarTk']
 # imports
 import os
 import Tkinter
-import Tile
+import ttk
 
 # PySol imports
 from pysollib.mfxutil import destruct
@@ -88,25 +88,25 @@ class AbstractToolbarButton:
         self.grid_forget()
 
 
-class ToolbarCheckbutton(AbstractToolbarButton, Tile.Checkbutton):
+class ToolbarCheckbutton(AbstractToolbarButton, ttk.Checkbutton):
     def __init__(self, parent, toolbar, toolbar_name, position, **kwargs):
         kwargs['style'] = 'Toolbutton'
-        Tile.Checkbutton.__init__(self, parent, **kwargs)
+        ttk.Checkbutton.__init__(self, parent, **kwargs)
         AbstractToolbarButton.__init__(self, parent, toolbar,
                                        toolbar_name, position)
 
 
-class ToolbarButton(AbstractToolbarButton, Tile.Button):
+class ToolbarButton(AbstractToolbarButton, ttk.Button):
     def __init__(self, parent, toolbar, toolbar_name, position, **kwargs):
         kwargs['style'] = 'Toolbutton'
-        Tile.Button.__init__(self, parent, **kwargs)
+        ttk.Button.__init__(self, parent, **kwargs)
         AbstractToolbarButton.__init__(self, parent, toolbar,
                                        toolbar_name, position)
 
-class ToolbarSeparator(Tile.Separator):
+class ToolbarSeparator(ttk.Separator):
     def __init__(self, parent, toolbar, position, **kwargs):
         kwargs['orient'] = 'vertical'
-        Tile.Separator.__init__(self, parent, **kwargs)
+        ttk.Separator.__init__(self, parent, **kwargs)
         self.toolbar = toolbar
         self.position = position
         self.visible = False
@@ -179,9 +179,9 @@ class PysolToolbarTk:
         self.compound = compound
         self.orient='horizontal'
         #
-        self.frame = Tile.Frame(top, class_='Toolbar',
-                                relief=TkSettings.toolbar_relief,
-                                borderwidth=TkSettings.toolbar_borderwidth)
+        self.frame = ttk.Frame(top, class_='Toolbar',
+                               relief=TkSettings.toolbar_relief,
+                               borderwidth=TkSettings.toolbar_borderwidth)
         #
         for l, f, t in (
             (n_("New"),      self.mNewGame,   _("New game")),

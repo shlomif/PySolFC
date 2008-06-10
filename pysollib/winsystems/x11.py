@@ -26,7 +26,7 @@ import tkFont
 
 from pysollib.settings import TITLE
 from pysollib.settings import TOOLKIT, USE_TILE
-from pysollib.tile import Tile
+from pysollib.tile import ttk
 
 from common import base_init_root_window, BaseTkSettings, get_font_name
 
@@ -53,18 +53,14 @@ def init_root_window(root, app):
                 root.tk.evalfile(f)
             except:
                 traceback.print_exc()
-        f = 'clrpick8.4.tcl'
-        if Tile.TileVersion >= '0.8':
-            f = 'clrpick8.5.tcl'
+        f = 'clrpick8.5.tcl'
         f = os.path.join(app.dataloader.dir, 'tcl', f)
         if os.path.exists(f):
             try:
                 root.tk.evalfile(f)
             except:
                 traceback.print_exc()
-        f = 'fsdialog8.4.tcl'
-        if Tile.TileVersion >= '0.8':
-            f = 'fsdialog8.5.tcl'
+        f = 'fsdialog8.5.tcl'
         f = os.path.join(app.dataloader.dir, 'tcl', f)
         if os.path.exists(f):
             try:
@@ -77,14 +73,14 @@ def init_root_window(root, app):
                 tkFileDialog.SaveAs.command = 'ttk::getSaveFile'
                 tkFileDialog.Directory.command = 'ttk::chooseDirectory'
 
-        style = Tile.Style(root)
+        style = ttk.Style(root)
         color = style.lookup('.', 'background')
         if color:
             root.tk_setPalette(color)
 
         root.option_add('*Menu.borderWidth', 1, 60)
         root.option_add('*Menu.activeBorderWidth', 1, 60)
-        color = style.lookup('.', 'background', 'active')
+        color = style.lookup('.', 'background', ['active'])
         if color:
             root.option_add('*Menu.activeBackground', color, 60)
 
@@ -96,11 +92,11 @@ def init_root_window(root, app):
         root.option_add('*selectBackground', '#0a5f89', 60)
         root.option_add('*inactiveSelectBackground', '#0a5f89', 60) # Tk-8.5
 
-        color = style.lookup('TEntry', 'selectbackground', 'focus')
+        color = style.lookup('TEntry', 'selectbackground', ['focus'])
         if color:
             root.option_add('*selectBackground', color, 60)
             root.option_add('*inactiveSelectBackground', color, 60)
-        color = style.lookup('TEntry', 'selectforeground', 'focus')
+        color = style.lookup('TEntry', 'selectforeground', ['focus'])
         if color:
             root.option_add('*selectForeground', color, 60)
 
@@ -118,7 +114,7 @@ def init_root_window(root, app):
                 f = root.tk.splitlist(root.tk.call('font', 'actual', fn))
                 root.tk.call('font', 'configure', 'TkHeadingFont', *f)
         else:
-            # use font from Tile settings
+            # use font from ttk settings
             font = style.lookup('.', 'font')
             if font:
                 fn = get_font_name(font)

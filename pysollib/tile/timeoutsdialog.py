@@ -23,7 +23,7 @@ __all__ = ['TimeoutsDialog']
 
 # imports
 import Tkinter
-import Tile
+import ttk
 
 # PySol imports
 from pysollib.mfxutil import KwStruct
@@ -43,7 +43,7 @@ class TimeoutsDialog(MfxDialog):
         top_frame, bottom_frame = self.createFrames(kw)
         #self.createBitmaps(top_frame, kw)
 
-        frame = Tile.Frame(top_frame)
+        frame = ttk.Frame(top_frame)
         frame.pack(expand=True, fill='both', padx=5, pady=10)
         frame.columnconfigure(0, weight=1)
 
@@ -60,7 +60,7 @@ class TimeoutsDialog(MfxDialog):
         self.highlight_samerank_sleep_var = Tkinter.DoubleVar()
         self.highlight_samerank_sleep_var.set(app.opt.timeouts['highlight_samerank'])
         #
-        lframe = Tile.LabelFrame(frame, text=_('Set delays in seconds'),
+        lframe = ttk.LabelFrame(frame, text=_('Set delays in seconds'),
                                  padding=(10, 5))
         lframe.pack(expand=True, fill='both', padx=4)
         row = 0
@@ -72,7 +72,7 @@ class TimeoutsDialog(MfxDialog):
             (_('Highlight cards:'),     self.highlight_cards_sleep_var),
             (_('Highlight same rank:'), self.highlight_samerank_sleep_var),
             ):
-            Tile.Label(lframe, text=title, anchor='w'
+            ttk.Label(lframe, text=title, anchor='w'
                        ).grid(row=row, column=0, sticky='we')
             widget = PysolScale(lframe, from_=0.2, to=9.9, value=var.get(),
                                 resolution=0.1, orient='horizontal',

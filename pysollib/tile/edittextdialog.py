@@ -37,7 +37,7 @@ __all__ = ['EditTextDialog']
 
 # imports
 import Tkinter
-import Tile
+import ttk
 
 # PySol imports
 from pysollib.mfxutil import KwStruct
@@ -61,7 +61,7 @@ class EditTextDialog(MfxDialog):
                                    wrap="word", width=64, height=16)
         self.text_w.pack(side='left', fill="both", expand=True)
         ###self.text_w.pack(side='top', padx=kw.padx, pady=kw.pady)
-        vbar = Tile.Scrollbar(top_frame)
+        vbar = ttk.Scrollbar(top_frame)
         vbar.pack(side='right', fill='y')
         self.text_w["yscrollcommand"] = vbar.set
         vbar["command"] = self.text_w.yview

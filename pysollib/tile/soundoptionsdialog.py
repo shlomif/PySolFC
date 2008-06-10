@@ -38,7 +38,7 @@ __all__ = ['SoundOptionsDialog']
 # imports
 import os
 import Tkinter
-import Tile
+import ttk
 
 # PySol imports
 from pysollib.mfxutil import KwStruct
@@ -104,34 +104,34 @@ class SoundOptionsDialog(MfxDialog):
             ]
 
         #
-        frame = Tile.Frame(top_frame)
+        frame = ttk.Frame(top_frame)
         frame.pack(expand=True, fill='both', padx=5, pady=5)
         frame.columnconfigure(1, weight=1)
         #
         row = 0
-        w = Tile.Checkbutton(frame, variable=self.sound,
-                             text=_("Sound enabled"))
+        w = ttk.Checkbutton(frame, variable=self.sound,
+                            text=_("Sound enabled"))
         w.grid(row=row, column=0, columnspan=2, sticky='ew')
         #
         if os.name == "nt" and pysolsoundserver:
             row += 1
-            w = Tile.Checkbutton(frame, variable=self.sound_mode,
-                                 text=_("Use DirectX for sound playing"),
-                                 command=self.mOptSoundDirectX)
+            w = ttk.Checkbutton(frame, variable=self.sound_mode,
+                                text=_("Use DirectX for sound playing"),
+                                command=self.mOptSoundDirectX)
             w.grid(row=row, column=0, columnspan=2, sticky='ew')
         #
         if app.audio.CAN_PLAY_MUSIC: # and app.startup_opt.sound_mode > 0:
             row += 1
-            Tile.Label(frame, text=_('Sample volume:'), anchor='w'
-                       ).grid(row=row, column=0, sticky='ew')
+            ttk.Label(frame, text=_('Sample volume:'), anchor='w'
+                      ).grid(row=row, column=0, sticky='ew')
             w = PysolScale(frame, from_=0, to=128, resolution=1,
                            orient='horizontal', takefocus=0,
                            length="3i", #label=_('Sample volume'),
                            variable=self.sample_volume)
             w.grid(row=row, column=1, sticky='w', padx=5)
             row += 1
-            Tile.Label(frame, text=_('Music volume:'), anchor='w'
-                       ).grid(row=row, column=0, sticky='ew')
+            ttk.Label(frame, text=_('Music volume:'), anchor='w'
+                      ).grid(row=row, column=0, sticky='ew')
             w = PysolScale(frame, from_=0, to=128, resolution=1,
                            orient='horizontal', takefocus=0,
                            length="3i", #label=_('Music volume'),
@@ -142,7 +142,7 @@ class SoundOptionsDialog(MfxDialog):
             # remove "Apply" button
             kw.strings[1] = None
         #
-        frame = Tile.LabelFrame(top_frame, text=_('Enable samples'))
+        frame = ttk.LabelFrame(top_frame, text=_('Enable samples'))
         frame.pack(expand=True, fill='both', padx=5, pady=5)
         frame.columnconfigure(0, weight=1)
         frame.columnconfigure(1, weight=1)
@@ -151,7 +151,7 @@ class SoundOptionsDialog(MfxDialog):
         col = 0
         for n, t, v in self.samples:
             v.set(app.opt.sound_samples[n])
-            w = Tile.Checkbutton(frame, text=t, variable=v)
+            w = ttk.Checkbutton(frame, text=t, variable=v)
             w.grid(row=row, column=col, sticky='ew', padx=3, pady=1)
             if col == 1:
                 col = 0

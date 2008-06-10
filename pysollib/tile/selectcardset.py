@@ -38,7 +38,7 @@ __all__ = ['SelectCardsetDialogWithPreview']
 # imports
 import os
 import Tkinter
-import Tile
+import ttk
 
 # PySol imports
 from pysollib.mfxutil import KwStruct
@@ -201,10 +201,10 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             w1, w2 = 216, 400
         else:
             w1, w2 = 200, 300
-        paned_window = Tile.PanedWindow(top_frame)
+        paned_window = ttk.PanedWindow(top_frame, orient='horizontal')
         paned_window.pack(expand=True, fill='both')
-        left_frame = Tile.Frame(paned_window)
-        right_frame = Tile.Frame(paned_window)
+        left_frame = ttk.Frame(paned_window)
+        right_frame = ttk.Frame(paned_window)
         paned_window.add(left_frame)
         paned_window.add(right_frame)
         font = app.getFont("default")
@@ -308,11 +308,11 @@ class CardsetInfoDialog(MfxDialog):
         MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)
         self.createBitmaps(top_frame, kw)
-        frame = Tile.Frame(top_frame)
+        frame = ttk.Frame(top_frame)
         frame.pack(fill="both", expand=True, padx=5, pady=10)
         #
         #
-        info_frame = Tile.LabelFrame(frame, text=_('About cardset'))
+        info_frame = ttk.LabelFrame(frame, text=_('About cardset'))
         info_frame.grid(row=0, column=0, columnspan=2, sticky='ew',
                         padx=0, pady=5, ipadx=5, ipady=5)
         styles = nationalities = year = None
@@ -334,11 +334,11 @@ class CardsetInfoDialog(MfxDialog):
             (_('Size:'), '%d x %d' % (cardset.CARDW, cardset.CARDH)),
             ):
             if t is not None:
-                l = Tile.Label(info_frame, text=n,
-                               anchor='w', justify='left')
+                l = ttk.Label(info_frame, text=n,
+                              anchor='w', justify='left')
                 l.grid(row=row, column=0, sticky='nw', padx=4)
-                l = Tile.Label(info_frame, text=t,
-                               anchor='w', justify='left')
+                l = ttk.Label(info_frame, text=t,
+                              anchor='w', justify='left')
                 l.grid(row=row, column=1, sticky='nw', padx=4)
                 row += 1
         if images:
@@ -347,10 +347,10 @@ class CardsetInfoDialog(MfxDialog):
                 im = choice(images)
                 f = os.path.join(cardset.dir, cardset.backname)
                 self.back_image = loadImage(file=f) # store the image
-                l = Tile.Label(info_frame, image=im, padding=5)
+                l = ttk.Label(info_frame, image=im, padding=5)
                 l.grid(row=0, column=2, rowspan=row+1, sticky='ne')
-                l = Tile.Label(info_frame, image=self.back_image,
-                               padding=(0,5,5,5)) # left margin = 0
+                l = ttk.Label(info_frame, image=self.back_image,
+                              padding=(0,5,5,5)) # left margin = 0
                 l.grid(row=0, column=3, rowspan=row+1, sticky='ne')
 
                 info_frame.columnconfigure(2, weight=1)
@@ -362,7 +362,7 @@ class CardsetInfoDialog(MfxDialog):
         text_w = Tkinter.Text(frame, bd=1, relief="sunken", wrap="word",
                               padx=4, width=64, height=16, bg=bg)
         text_w.grid(row=1, column=0, sticky='nsew')
-        sb = Tile.Scrollbar(frame)
+        sb = ttk.Scrollbar(frame)
         sb.grid(row=1, column=1, sticky='ns')
         text_w.configure(yscrollcommand=sb.set)
         sb.configure(command=text_w.yview)

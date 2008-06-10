@@ -418,7 +418,7 @@ class OSSAudioClient(AbstractAudioClient):
 
 class PyGameAudioClient(AbstractAudioClient):
 
-    EXTENSIONS = r'\.((ogg)|(mp3)|(wav)|(it)|(mod)|(s3m)|(xm)|(mid))$'
+    EXTENSIONS = r'\.((ogg)|(mp3)|(wav)|(it)|(mod)|(s3m)|(xm)|(mid)|(midi))$'
 
     CAN_PLAY_SOUND = True
     CAN_PLAY_MUSIC = True
@@ -492,17 +492,21 @@ class PyGameAudioClient(AbstractAudioClient):
                     self.music.set_volume(vol)
                     self.music.play()
                     while self.music and self.music.get_busy():
-                        self.time.wait(200)
-                    if self.time:
-                        self.time.wait(300)
+                        self._wait(200)
+                    self._wait(300)
                 except:
                     ##if traceback: traceback.print_exc()
-                    self.time.wait(1000)
+                    self._wait(1000)
 
     def _destroy(self):
         self.mixer.stop()
         self.mixer.quit()
         self.music = None
+
+    def _wait(self, s):
+        # sometime time or time.wait is None (threading)
+        if self.time and self.time.wait:
+            self.time.wait(s)
 
     def playContinuousMusic(self, music_list):
         ##print 'playContinuousMusic'

@@ -36,7 +36,7 @@
 
 # imports
 import Tkinter
-import Tile
+import ttk
 import tkColorChooser
 
 # PySol imports
@@ -131,7 +131,7 @@ class SelectTileDialogWithPreview(MfxDialog):
             w1, w2 = 200, 300
         font = app.getFont("default")
         padx, pady = 4, 4
-        frame = Tile.Frame(top_frame)
+        frame = ttk.Frame(top_frame)
         frame.pack(fill='both', expand=True,
                    padx=kw.padx-padx, pady=kw.pady-pady)
         self.tree = self.Tree_Class(self, frame, key=key, default=kw.default,

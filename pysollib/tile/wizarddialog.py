@@ -24,7 +24,7 @@ __all__ = ['WizardDialog']
 
 # imports
 import Tkinter
-import Tile
+import ttk
 
 # PySol imports
 from pysollib.mfxutil import KwStruct
@@ -47,22 +47,22 @@ class WizardDialog(MfxDialog):
         top_frame, bottom_frame = self.createFrames(kw)
         self.createBitmaps(top_frame, kw)
 
-        frame = Tile.Frame(top_frame)
+        frame = ttk.Frame(top_frame)
         frame.pack(expand=True, fill='both', padx=10, pady=10)
         frame.columnconfigure(0, weight=1)
 
-        notebook = Tile.Notebook(frame)
+        notebook = ttk.Notebook(frame)
         notebook.pack(expand=True, fill='both')
 
         for w in WizardWidgets:
             if isinstance(w, basestring):
-                frame = Tile.Frame(notebook)
+                frame = ttk.Frame(notebook)
                 notebook.add(frame, text=w, sticky='nsew', padding=5)
                 frame.columnconfigure(1, weight=1)
                 row = 0
                 continue
 
-            Tile.Label(frame, text=w.label).grid(row=row, column=0)
+            ttk.Label(frame, text=w.label).grid(row=row, column=0)
 
             if w.widget == 'preset':
                 if w.variable is None:
@@ -82,7 +82,7 @@ class WizardDialog(MfxDialog):
             elif w.widget == 'entry':
                 if w.variable is None:
                     w.variable = Tkinter.StringVar()
-                en = Tile.Entry(frame, textvariable=w.variable)
+                en = ttk.Entry(frame, textvariable=w.variable)
                 en.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
             elif w.widget == 'menu':
                 if w.variable is None:
@@ -109,8 +109,8 @@ class WizardDialog(MfxDialog):
             elif w.widget == 'check':
                 if w.variable is None:
                     w.variable = Tkinter.BooleanVar()
-                ch = Tile.Checkbutton(frame, variable=w.variable,
-                                      takefocus=False)
+                ch = ttk.Checkbutton(frame, variable=w.variable,
+                                     takefocus=False)
                 ch.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
 
             if w.current_value is None:

@@ -1,10 +1,14 @@
+#!/usr/bin/env python
+# -*- mode: python; coding: utf-8; -*-
 ##---------------------------------------------------------------------------##
 ##
-## PySol -- a Python Solitaire game
+## Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
+## Copyright (C) 2003 Mt. Hood Playing Card Co.
+## Copyright (C) 2005-2009 Skomoroh
 ##
-## This program is free software; you can redistribute it and/or modify
+## This program is free software: you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
-## the Free Software Foundation; either version 2 of the License, or
+## the Free Software Foundation, either version 3 of the License, or
 ## (at your option) any later version.
 ##
 ## This program is distributed in the hope that it will be useful,
@@ -13,9 +17,7 @@
 ## GNU General Public License for more details.
 ##
 ## You should have received a copy of the GNU General Public License
-## along with this program; see the file COPYING.
-## If not, write to the Free Software Foundation, Inc.,
-## 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
 ##---------------------------------------------------------------------------##
 
@@ -95,7 +97,7 @@ save_games_geometry = boolean
 sound = boolean
 sound_mode = integer(0, 1)
 sound_sample_volume = integer(0, 128)
-sound_music_volume = integer(0, 128)
+sound_sample_buffer_size = integer(1, 4)
 tabletile_name = string
 recent_gameid = int_list
 favorite_gameid = int_list
@@ -225,6 +227,7 @@ class Options:
         ('sound_mode', 'int'),
         ('sound_sample_volume', 'int'),
         ('sound_music_volume', 'int'),
+        ('sound_sample_buffer_size', 'int'),
         ('tabletile_name', 'str'),
         ('translate_game_names', 'bool'),
         #('toolbar_vars', 'list'),
@@ -259,7 +262,7 @@ class Options:
         self.mahjongg_create_solvable = 2 # 0 - none, 1 - easy, 2 - hard
         self.shisen_show_hint = True
         self.shisen_show_matching = False
-        self.animations = 2             # default to Fast
+        self.animations = 3             # default to Medium
         self.redeal_animation = True
         self.win_animation = True
         self.flip_animation = True
@@ -294,6 +297,7 @@ class Options:
         self.sound_mode = 1
         self.sound_sample_volume = 80
         self.sound_music_volume = 100
+        self.sound_sample_buffer_size = 1 # 1 - 4 (1024 - 4096 bytes)
         self.sound_samples = {
             'areyousure'    : True,
             'autodrop'      : True,

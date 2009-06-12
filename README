@@ -5,7 +5,7 @@ PySol Fan Club edition
 Requirements.
 -------------
 
-- Python (2.3 or later)
+- Python (2.4 or later) (NB: python 2.6.0 has a bug, use 2.6.1 instead)
 - Tkinter (Tcl/Tk 8.4 or later)
 
 ** for sound support (optional) **
@@ -16,7 +16,7 @@ Requirements.
 ** other packages (optional) **
   - Tile (ttk): http://tktable.sourceforge.net/tile/ (0.8.0 or later)
   - PIL (Python Imaging Library): http://www.pythonware.com/products/pil
-  - Freecell Solver: http://vipe.technion.ac.il/~shlomif/freecell-solver/
+  - Freecell Solver: http://fc-solve.berlios.de/
 
 
 Installation.

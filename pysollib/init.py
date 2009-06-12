@@ -1,10 +1,14 @@
+#!/usr/bin/env python
+# -*- mode: python; coding: utf-8; -*-
 ##---------------------------------------------------------------------------##
 ##
-## PySol -- a Python Solitaire game
+## Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
+## Copyright (C) 2003 Mt. Hood Playing Card Co.
+## Copyright (C) 2005-2009 Skomoroh
 ##
-## This program is free software; you can redistribute it and/or modify
+## This program is free software: you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
-## the Free Software Foundation; either version 2 of the License, or
+## the Free Software Foundation, either version 3 of the License, or
 ## (at your option) any later version.
 ##
 ## This program is distributed in the hope that it will be useful,
@@ -13,13 +17,11 @@
 ## GNU General Public License for more details.
 ##
 ## You should have received a copy of the GNU General Public License
-## along with this program; see the file COPYING.
-## If not, write to the Free Software Foundation, Inc.,
-## 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
 ##---------------------------------------------------------------------------##
 
-import sys, os, locale
+import sys, os, locale, subprocess
 import traceback
 import gettext
 
@@ -153,14 +155,15 @@ def init():
             ##os.environ['FREECELL_SOLVER_PRESETRC'] = f # defined in prefix.h
     if os.name in ('posix', 'nt'):
         try:
-            pin, pout, perr = os.popen3(settings.FCS_COMMAND+' --help')
-            if pout.readline().startswith('fc-solve'):
+            p = subprocess.Popen(settings.FCS_COMMAND+' --help', shell=True,
+                                 stdout=subprocess.PIPE,
+                                 stderr=subprocess.PIPE, close_fds=True)
+            if p.stdout.readline().startswith('fc-solve'):
                 settings.USE_FREECELL_SOLVER = True
-            del pin, pout, perr
             if os.name == 'posix':
                 os.wait()               # kill zombi
         except:
-            ##traceback.print_exc()
+            traceback.print_exc()
             pass
     os.environ['FREECELL_SOLVER_QUIET'] = '1'
 

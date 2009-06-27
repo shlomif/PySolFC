@@ -155,9 +155,12 @@ def init():
             ##os.environ['FREECELL_SOLVER_PRESETRC'] = f # defined in prefix.h
     if os.name in ('posix', 'nt'):
         try:
-            p = subprocess.Popen(settings.FCS_COMMAND+' --help', shell=True,
-                                 stdout=subprocess.PIPE,
-                                 stderr=subprocess.PIPE, close_fds=True)
+            kw = {'shell': True,
+                  'stdout': subprocess.PIPE,
+                  'stderr': subprocess.PIPE}
+            if os.name != 'nt':
+                kw['close_fds'] = True
+            p = subprocess.Popen(settings.FCS_COMMAND+' --help', **kw)
             if p.stdout.readline().startswith('fc-solve'):
                 settings.USE_FREECELL_SOLVER = True
             if os.name == 'posix':

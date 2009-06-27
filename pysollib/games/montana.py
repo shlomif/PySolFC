@@ -395,6 +395,16 @@ class SpacesAndAces(BlueMoon):
     def createGame(self):
         Montana.createGame(self, round_text=False)
 
+    def startGame(self):
+        frames = 0
+        for i in range(self.RLEN):
+            if i == self.RLEN-self.RSTEP: # last row
+                self.startDealSample()
+                frames = -1
+            if i % self.RSTEP == 0:     # left column
+                continue
+            self.s.talon.dealRow(rows=(self.s.rows[i],), frames=frames)
+
 # /***********************************************************************
 # // Paganini
 # ************************************************************************/

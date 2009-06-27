@@ -235,6 +235,8 @@ class ATurnStackMove(AtomicMove):
             to_stack.addCard(card, unhide=unhide, update=0)
             card.showBack(unhide=unhide)
             ##print 3, unhide, to_stack.getCard().__dict__
+        from_stack.updateText()
+        to_stack.updateText()
 
     def undo(self, game):
         from_stack = game.allstacks[self.to_stack_id]
@@ -249,6 +251,8 @@ class ATurnStackMove(AtomicMove):
             assert not card.face_up
             card.showFace(unhide=unhide)
             to_stack.addCard(card, unhide=unhide, update=0)
+        from_stack.updateText()
+        to_stack.updateText()
 
     def cmpForRedo(self, other):
         return (cmp(self.from_stack_id, other.from_stack_id) or

@@ -755,11 +755,11 @@ class Stack:
                 x += self.CARD_XOFFSET[ix]
                 y += self.CARD_YOFFSET[iy]
             else:
-                x += int(self.CARD_XOFFSET[ix]/d)
-                y += int(self.CARD_YOFFSET[iy]/d)
+                x += self.CARD_XOFFSET[ix]/d
+                y += self.CARD_YOFFSET[iy]/d
             ix = (ix + 1) % lx
             iy = (iy + 1) % ly
-        return (x, y)
+        return int(x), int(y)
 
     def getPositionForNextCard(self):
         model, view = self, self
@@ -775,11 +775,11 @@ class Stack:
                 x += self.CARD_XOFFSET[ix]
                 y += self.CARD_YOFFSET[iy]
             else:
-                x += int(self.CARD_XOFFSET[ix]/d)
-                y += int(self.CARD_YOFFSET[iy]/d)
+                x += self.CARD_XOFFSET[ix]/d
+                y += self.CARD_YOFFSET[iy]/d
             ix = (ix + 1) % lx
             iy = (iy + 1) % ly
-        return (x, y)
+        return int(x), int(y)
 
     def getOffsetFor(self, card):
         model, view = self, self
@@ -1313,7 +1313,7 @@ class Stack:
         images = self.game.app.images
         cx, cy = cards[0].x, cards[0].y
         ddx, ddy = cx-cards[-1].x, cy-cards[-1].y
-        if 0 and TOOLKIT == 'tk' and Image: # use PIL
+        if TOOLKIT == 'tk' and Image and Image.VERSION > '1.1.7': # use PIL
             c0 = cards[-1]
             if self.CARD_XOFFSET[0] < 0: c0 = cards[0]
             if self.CARD_YOFFSET[0] < 0: c0 = cards[0]

@@ -841,11 +841,13 @@ class FreeCellSolver_Hint:
         command = FCS_COMMAND+' '+' '.join([str(i) for i in args])
         if DEBUG:
             print command
-        p = subprocess.Popen(command, shell=True,
-                             stdin=subprocess.PIPE,
-                             stdout=subprocess.PIPE,
-                             stderr=subprocess.PIPE,
-                             close_fds=True)
+        kw = {'shell': True,
+              'stdin': subprocess.PIPE,
+              'stdout': subprocess.PIPE,
+              'stderr': subprocess.PIPE}
+        if os.name != 'nt':
+            kw['close_fds'] = True
+        p = subprocess.Popen(command, **kw)
         pin, pout, perr = p.stdin, p.stdout, p.stderr
         pin.write(board)
         pin.close()

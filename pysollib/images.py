@@ -196,9 +196,10 @@ class Images:
                 pass
             if progress: progress.update(step=pstep)
         # shadow
-        if 0 and TOOLKIT == 'tk' and Image:
-            fn = self.d.findImage('shadow', 'images')
-            self._pil_shadow_image = Image.open(fn).convert('RGBA')
+        if TOOLKIT == 'tk' and Image and Image.VERSION >= '1.1.7':
+            if 0:
+                fn = self.d.findImage('shadow', 'images')
+                self._pil_shadow_image = Image.open(fn).convert('RGBA')
         else:
             for i in range(self.cs.nshadows):
                 if fast:
@@ -292,8 +293,8 @@ class Images:
         x1, y1 = stack.getPositionFor(cards[-1])
         x0, x1 = min(x1, x0), max(x1, x0)
         y0, y1 = min(y1, y0), max(y1, y0)
-        x1 = x1 + self.CARDW
-        y1 = y1 + self.CARDH
+        x1 += self.CARDW
+        y1 += self.CARDH
         w, h = x1-x0, y1-y0
         if (w,h) in self._pil_shadow:
             return self._pil_shadow[(w,h)]

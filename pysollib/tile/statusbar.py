@@ -149,6 +149,7 @@ class PysolStatusbar(MfxStatusbar):
         MfxStatusbar.__init__(self, top, row=4, column=0, columnspan=3)
         #
         for n, t, w in (
+            ('stuck',       _("'You Are Stuck' indicator"), 3),
             ('time',        _('Playing time'),            10),
             ('moves',       _('Moves/Total moves'),       10),
             ('gamenumber',  _('Game number'),             26),
@@ -156,6 +157,7 @@ class PysolStatusbar(MfxStatusbar):
             ):
             self._createLabel(n, tooltip=t, width=w)
         #
+        #self.configLabel("stuck", fg="red")
         l = self._createLabel('info', expand=True)
         l.config(padding=(8, 0))
         self._createSizegrip()

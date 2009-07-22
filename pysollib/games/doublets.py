@@ -35,9 +35,9 @@ from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 from pysollib.pysoltk import MfxCanvasText
 
-# /***********************************************************************
-# // Doublets
-# ************************************************************************/
+# ************************************************************************
+# * Doublets
+# ************************************************************************
 
 class Doublets_Foundation(AbstractFoundationStack):
     def acceptsCards(self, from_stack, cards):

@@ -54,15 +54,15 @@ except ImportError:
 from tkutil import anchor_tk2gtk, loadImage, bind, create_pango_font_desc
 
 
-# /***********************************************************************
-# // canvas items
-# //
-# // My first (obvious) approach was to subclass the GnomeCanvas*
-# // classes, but this didn't work at all...
-# //
-# // Now I've resorted to delegation, but what are the Gnome canvas item
-# // classes for then ?
-# ************************************************************************/
+# ************************************************************************
+# * canvas items
+# *
+# * My first (obvious) approach was to subclass the GnomeCanvas*
+# * classes, but this didn't work at all...
+# *
+# * Now I've resorted to delegation, but what are the Gnome canvas item
+# * classes for then ?
+# ************************************************************************
 
 class _CanvasItem:
 
@@ -271,9 +271,9 @@ class MfxCanvasText(_CanvasItem):
     cget = __getitem__
 
 
-# /***********************************************************************
-# // canvas
-# ************************************************************************/
+# ************************************************************************
+# * canvas
+# ************************************************************************
 
 class MfxCanvas(gnomecanvas.Canvas):
     def __init__(self, top, bg=None, highlightthickness=0):

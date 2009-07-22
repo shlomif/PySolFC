@@ -23,9 +23,9 @@
 
 from mahjongg import r
 
-# /***********************************************************************
-# // game definitions
-# ************************************************************************/
+# ************************************************************************
+# * game definitions
+# ************************************************************************
 
 r(5001, "Altar", layout="0aaaacaaiaakaamaaoaaqaasaauaawaaCaaEaaacaccaicckccmccoccqccsccucawcaCcaEcaieckecmecoecqecsecueaweaigckgcmgcogcqgcsgcugawgaiiakiamiaoiaqiasiauiawiaokaqkaamacmaomaqmaCmaEmaaoacoaooaqoaCoaEohabhcbhCbhEbkpijpkipmhanhcnhCnhEnhpoobboDbobnoDnvlcvncvpcvrcvtcvlevnevpevrevtevlgwngwpgwrgvtgCocCqcCmeCoeCqeCse")
 r(5002, "Arena", layout="0eaadcaceabgaaiaaqabsacuadwaeyadaccccbecagcakcbmcaocascbuccwcdyccaebceaeeameauebwecyebagacgakgbmgaogawgbygcaibciaeiamiauibwicyidakcckbekagkakkbmkaokaskbukcwkdykeamdcmcembgmaimaqmbsmcumdwmeym")

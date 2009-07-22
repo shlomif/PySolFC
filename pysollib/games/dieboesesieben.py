@@ -36,9 +36,9 @@ from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 
 from gypsy import DieKoenigsbergerin_Talon, DieRussische_Foundation
 
-# /***********************************************************************
-# // Die böse Sieben
-# ************************************************************************/
+# ************************************************************************
+# * Die böse Sieben
+# ************************************************************************
 
 class DieBoeseSieben_Talon(DieKoenigsbergerin_Talon):
     def canDealCards(self):

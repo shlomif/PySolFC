@@ -36,9 +36,9 @@ from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 
 
-# /***********************************************************************
-# // Carthage
-# ************************************************************************/
+# ************************************************************************
+# * Carthage
+# ************************************************************************
 
 class Carthage_Talon(DealRowTalonStack):
     def dealCards(self, sound=False):
@@ -119,9 +119,9 @@ class Carthage(Game):
     shallHighlightMatch = Game._shallHighlightMatch_SSW
 
 
-# /***********************************************************************
-# // Algerian Patience
-# ************************************************************************/
+# ************************************************************************
+# * Algerian Patience
+# ************************************************************************
 
 class AlgerianPatience(Carthage):
 

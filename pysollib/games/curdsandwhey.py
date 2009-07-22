@@ -37,11 +37,11 @@ from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 from pysollib.pysoltk import MfxCanvasText
 
 
-# /***********************************************************************
-# // Curds and Whey
-# // Miss Muffet
-# // Nordic
-# ************************************************************************/
+# ************************************************************************
+# * Curds and Whey
+# * Miss Muffet
+# * Nordic
+# ************************************************************************
 
 class CurdsAndWhey_RowStack(BasicRowStack):
 
@@ -134,11 +134,11 @@ class Nordic(MissMuffet):
                                   max_move=UNLIMITED_MOVES, max_accept=UNLIMITED_ACCEPTS)
 
 
-# /***********************************************************************
-# // Dumfries
-# // Galloway
-# // Robin
-# ************************************************************************/
+# ************************************************************************
+# * Dumfries
+# * Galloway
+# * Robin
+# ************************************************************************
 
 class Dumfries_TalonStack(OpenTalonStack):
     rightclickHandler = OpenStack.rightclickHandler
@@ -202,10 +202,10 @@ class Robin(Dumfries):
 
 
 
-# /***********************************************************************
-# // Arachnida
-# // Harvestman
-# ************************************************************************/
+# ************************************************************************
+# * Arachnida
+# * Harvestman
+# ************************************************************************
 
 class Arachnida_RowStack(BasicRowStack):
 
@@ -284,10 +284,10 @@ class Harvestman(Arachnida):
     RowStack_Class = CurdsAndWhey_RowStack
 
 
-# /***********************************************************************
-# // German Patience
-# // Bavarian Patience
-# ************************************************************************/
+# ************************************************************************
+# * German Patience
+# * Bavarian Patience
+# ************************************************************************
 
 class GermanPatience(Game):
     Hint_Class = CautiousDefaultHint
@@ -337,11 +337,11 @@ class BavarianPatience(GermanPatience):
         GermanPatience.createGame(self, rows=10)
 
 
-# /***********************************************************************
-# // Trusty Twelve
-# // Knotty Nines
-# // Sweet Sixteen
-# ************************************************************************/
+# ************************************************************************
+# * Trusty Twelve
+# * Knotty Nines
+# * Sweet Sixteen
+# ************************************************************************
 
 class TrustyTwelve_Hint(AbstractHint):
     def computeHints(self):
@@ -416,9 +416,9 @@ class SweetSixteen(TrustyTwelve):
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
-# /***********************************************************************
-# // Glacier
-# ************************************************************************/
+# ************************************************************************
+# * Glacier
+# ************************************************************************
 
 class Glacier(Game):
 
@@ -452,10 +452,10 @@ class Glacier(Game):
     shallHighlightMatch = Game._shallHighlightMatch_RKW
 
 
-# /***********************************************************************
-# // Eight Packs (ex. Four Packs)
-# // Four Packs
-# ************************************************************************/
+# ************************************************************************
+# * Eight Packs (ex. Four Packs)
+# * Four Packs
+# ************************************************************************
 
 class EightPacks(Game):
     RowStack_Class = SS_RowStack

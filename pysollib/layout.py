@@ -30,9 +30,9 @@ from pysoltk import MfxCanvasText
 from resource import CSI
 
 
-# /***********************************************************************
-# // a helper class to create common layouts
-# ************************************************************************/
+# ************************************************************************
+# * a helper class to create common layouts
+# ************************************************************************
 
 # a layout stack
 class _LayoutStack:

@@ -36,10 +36,10 @@ from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint, Yukon_
 from pysollib.games.gypsy import Gypsy
 
 
-# /************************************************************************
-# // Sanibel
-# //   play similar to Yukon
-# *************************************************************************/
+# ************************************************************************
+# * Sanibel
+# *   play similar to Yukon
+# ************************************************************************
 
 class Sanibel(Gypsy):
     Layout_Method = Layout.klondikeLayout

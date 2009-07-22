@@ -41,9 +41,9 @@ from selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
 from selecttree import SelectDialogTreeData, SelectDialogTreeCanvas
 
 
-# /***********************************************************************
-# // Nodes
-# ************************************************************************/
+# ************************************************************************
+# * Nodes
+# ************************************************************************
 
 class SelectGameLeaf(SelectDialogTreeLeaf):
     pass
@@ -73,9 +73,9 @@ class SelectGameNode(SelectDialogTreeNode):
         return contents or self.tree.data.no_games
 
 
-# /***********************************************************************
-# // Tree database
-# ************************************************************************/
+# ************************************************************************
+# * Tree database
+# ************************************************************************
 
 class SelectGameData(SelectDialogTreeData):
     def __init__(self, app):
@@ -241,9 +241,9 @@ class SelectGameData(SelectDialogTreeData):
         ))
 
 
-# /***********************************************************************
-# // Canvas that shows the tree
-# ************************************************************************/
+# ************************************************************************
+# * Canvas that shows the tree
+# ************************************************************************
 
 class SelectGameTreeWithPreview(SelectDialogTreeCanvas):
     data = None
@@ -254,9 +254,9 @@ class SelectGameTree(SelectGameTreeWithPreview):
         self.doubleClick(event)
 
 
-# /***********************************************************************
-# // Dialog
-# ************************************************************************/
+# ************************************************************************
+# * Dialog
+# ************************************************************************
 
 class SelectGameDialog(MfxDialog):
     Tree_Class = SelectGameTree
@@ -314,9 +314,9 @@ class SelectGameDialog(MfxDialog):
         MfxDialog.mDone(self, button)
 
 
-# /***********************************************************************
-# // Dialog
-# ************************************************************************/
+# ************************************************************************
+# * Dialog
+# ************************************************************************
 
 class SelectGameDialogWithPreview(SelectGameDialog):
     Tree_Class = SelectGameTreeWithPreview

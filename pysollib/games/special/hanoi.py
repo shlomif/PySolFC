@@ -34,9 +34,9 @@ from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 
-# /***********************************************************************
-# // Tower of Hanoy
-# ************************************************************************/
+# ************************************************************************
+# * Tower of Hanoy
+# ************************************************************************
 
 class TowerOfHanoy_Hint(CautiousDefaultHint):
     # FIXME: demo is completely clueless
@@ -103,9 +103,9 @@ class TowerOfHanoy(Game):
         return ((), (), self.sg.dropstacks)
 
 
-# /***********************************************************************
-# // Hanoi Puzzle
-# ************************************************************************/
+# ************************************************************************
+# * Hanoi Puzzle
+# ************************************************************************
 
 class HanoiPuzzle_RowStack(TowerOfHanoy_RowStack):
     def getBottomImage(self):

@@ -35,10 +35,10 @@ from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 
 
-# /***********************************************************************
-# // Parallels
-# // British Blockade
-# ************************************************************************/
+# ************************************************************************
+# * Parallels
+# * British Blockade
+# ************************************************************************
 
 class Parallels_RowStack(BasicRowStack):
     def basicIsBlocked(self):

@@ -38,9 +38,9 @@ from pysollib.games.special.tarock import AbstractTarockGame, Grasshopper
 from pysollib.games.threepeaks import ThreePeaksNoScore
 
 
-# /***********************************************************************
-# //
-# ************************************************************************/
+# ************************************************************************
+# *
+# ************************************************************************
 
 class Tarock_OpenStack(OpenStack):
 
@@ -130,9 +130,9 @@ class Tarock_AC_RowStack(Tarock_OpenStack):
         return (self.basicCanMoveCards(cards)
                 and self.isAlternateColorSequence(cards))
 
-# /***********************************************************************
-# //
-# ************************************************************************/
+# ************************************************************************
+# *
+# ************************************************************************
 
 class Cockroach(Grasshopper):
     MAX_ROUNDS = 1
@@ -140,9 +140,9 @@ class Cockroach(Grasshopper):
 class DoubleCockroach(Grasshopper):
     MAX_ROUNDS = 1
 
-# /***********************************************************************
-# //
-# ************************************************************************/
+# ************************************************************************
+# *
+# ************************************************************************
 
 class Corkscrew(AbstractTarockGame):
     RowStack_Class = StackWrapper(Tarock_RK_RowStack, base_rank=NO_RANK)
@@ -227,9 +227,9 @@ class Corkscrew(AbstractTarockGame):
         sequence = row.isRankSequence
         return (sequence([card1, card2]) or sequence([card2, card1]))
 
-# /***********************************************************************
-# //
-# ************************************************************************/
+# ************************************************************************
+# *
+# ************************************************************************
 
 class Serpent(Corkscrew):
     RowStack_Class = StackWrapper(Tarock_AC_RowStack, base_rank=NO_RANK)
@@ -239,9 +239,9 @@ class Serpent(Corkscrew):
         sequence = row.isAlternateColorSequence
         return (sequence([card1, card2]) or sequence([card2, card1]))
 
-# /***********************************************************************
-# //
-# ************************************************************************/
+# ************************************************************************
+# *
+# ************************************************************************
 
 class Rambling(Corkscrew):
     RowStack_Class = StackWrapper(Tarock_SS_RowStack, base_rank=NO_RANK)
@@ -251,18 +251,18 @@ class Rambling(Corkscrew):
         sequence = row.isSuitSequence
         return (sequence([card1, card2]) or sequence([card2, card1]))
 
-# /***********************************************************************
-# // Le Grande Teton
-# ************************************************************************/
+# ************************************************************************
+# * Le Grande Teton
+# ************************************************************************
 
 class LeGrandeTeton(ThreePeaksNoScore):
     pass
 
 
 
-# /***********************************************************************
-# // register the games
-# ************************************************************************/
+# ************************************************************************
+# * register the games
+# ************************************************************************
 
 def r(id, gameclass, name, game_type, decks, redeals, skill_level):
     game_type = game_type | GI.GT_TAROCK | GI.GT_CONTRIB | GI.GT_ORIGINAL

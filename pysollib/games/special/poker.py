@@ -36,9 +36,9 @@ from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 from pysollib.pysoltk import MfxCanvasText
 
 
-# /***********************************************************************
-# // Poker Square
-# ************************************************************************/
+# ************************************************************************
+# * Poker Square
+# ************************************************************************
 
 class PokerSquare_RowStack(ReserveStack):
     def clickHandler(self, event):
@@ -236,9 +236,9 @@ One Pair'''))
         return -1, 0
 
 
-# /***********************************************************************
-# // Poker Shuffle
-# ************************************************************************/
+# ************************************************************************
+# * Poker Shuffle
+# ************************************************************************
 
 class PokerShuffle_RowStack(ReserveStack):
     def moveMove(self, ncards, to_stack, frames=-1, shadow=-1):

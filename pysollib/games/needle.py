@@ -36,11 +36,11 @@ from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 
 
-# /***********************************************************************
-# // Needle
-# // Haystack
-# // Pitchfork
-# ************************************************************************/
+# ************************************************************************
+# * Needle
+# * Haystack
+# * Pitchfork
+# ************************************************************************
 
 class Needle(Game):
 

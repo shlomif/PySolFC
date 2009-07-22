@@ -37,9 +37,9 @@ from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 from golf import BlackHole_Foundation
 
 
-# /***********************************************************************
-# //
-# ************************************************************************/
+# ************************************************************************
+# *
+# ************************************************************************
 
 class Windmill_Foundation(RK_FoundationStack):
     def getBottomImage(self):
@@ -56,10 +56,10 @@ class Windmill_RowStack(ReserveStack):
         return from_stack is self.game.s.waste
 
 
-# /***********************************************************************
-# // Windmill
-# // Dutch Solitaire
-# ************************************************************************/
+# ************************************************************************
+# * Windmill
+# * Dutch Solitaire
+# ************************************************************************
 
 class Windmill(Game):
 
@@ -190,9 +190,9 @@ class DutchSolitaire(Windmill):
         return (self.sg.dropstacks, self.sg.dropstacks, self.sg.dropstacks)
 
 
-# /***********************************************************************
-# // Napoleon's Tomb
-# ************************************************************************/
+# ************************************************************************
+# * Napoleon's Tomb
+# ************************************************************************
 
 class NapoleonsTomb(Windmill):
 
@@ -247,9 +247,9 @@ class NapoleonsTomb(Windmill):
         self.s.talon.dealCards()          # deal first card to WasteStack
 
 
-# /***********************************************************************
-# // Corners
-# ************************************************************************/
+# ************************************************************************
+# * Corners
+# ************************************************************************
 
 class Corners(Game):
     RowStack_Class = ReserveStack
@@ -316,11 +316,11 @@ class Corners(Game):
         self.s.talon.dealCards()          # deal first card to WasteStack
 
 
-# /***********************************************************************
-# // Czarina
-# // Four Seasons
-# // Florentine Patience
-# ************************************************************************/
+# ************************************************************************
+# * Czarina
+# * Four Seasons
+# * Florentine Patience
+# ************************************************************************
 
 class Czarina_RowStack(RK_RowStack):
     getBottomImage = Stack._getReserveBottomImage
@@ -374,9 +374,9 @@ class FlorentinePatience(FourSeasons):
         Czarina.createGame(self, max_rounds=2)
 
 
-# /***********************************************************************
-# // Simplicity
-# ************************************************************************/
+# ************************************************************************
+# * Simplicity
+# ************************************************************************
 
 class Simplicity(Game):
     Hint_Class = CautiousDefaultHint

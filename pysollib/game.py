@@ -58,14 +58,14 @@ from help import help_about
 
 PLAY_TIME_TIMEOUT = 200
 
-# /***********************************************************************
-# // Base class for all solitaire games
-# //
-# // Handles:
-# //   load/save
-# //   undo/redo (using a move history)
-# //   hints/demo
-# ************************************************************************/
+# ************************************************************************
+# * Base class for all solitaire games
+# *
+# * Handles:
+# *   load/save
+# *   undo/redo (using a move history)
+# *   hints/demo
+# ************************************************************************
 
 class Game:
     # for self.gstats.updated

@@ -27,9 +27,9 @@
 
 from mahjongg import r
 
-# /***********************************************************************
-# // game definitions
-# ************************************************************************/
+# ************************************************************************
+# * game definitions
+# ************************************************************************
 
 #
 r(5200, "Another Round", ncards=140, layout="0aagaaihbhacfachacjhdghdiaecaeeaegoehaeiaekaemhfdhffhfhhfjhflagaagcageogeaggoggagiogiagkogkagmagohhbhhdhhfhhhhhjhhlhhnaiaaicoicaieoieaigoigaiioiiaikoikaimoimaiohjbhjdhjfhjhhjjhjlhjnakaakcakeakgakiakkakmakoamaamcammamoaoaaocaoeaogaoiaokaomaoohpbhpdhpfhphhpjhplhpnaqaaqcoqcaqeoqeaqgoqgaqioqiaqkoqkaqmoqmaqohrbhrdhrfhrhhrjhrlhrnasaascaseoseasgosgasiosiaskoskasmasohtdhtfhthhtjhtlaucaueaugouhauiaukaumhvghviawfawhawjhxhaygayi")

@@ -36,9 +36,9 @@ from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 
 
-# /***********************************************************************
-# // Labyrinth
-# ************************************************************************/
+# ************************************************************************
+# * Labyrinth
+# ************************************************************************
 
 class Labyrinth_Talon(DealRowTalonStack):
     def dealCards(self, sound=False):

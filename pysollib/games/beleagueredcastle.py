@@ -38,18 +38,18 @@ from pysollib.hint import FreeCellSolverWrapper
 from pysollib.pysoltk import MfxCanvasText
 
 
-# /***********************************************************************
-# //
-# ************************************************************************/
+# ************************************************************************
+# *
+# ************************************************************************
 
 class BeleagueredCastleType_Hint(CautiousDefaultHint):
     # FIXME: demo is not too clever in this game
     pass
 
 
-# /***********************************************************************
-# // Streets and Alleys
-# ************************************************************************/
+# ************************************************************************
+# * Streets and Alleys
+# ************************************************************************
 
 class StreetsAndAlleys(Game):
     Hint_Class = BeleagueredCastleType_Hint
@@ -126,9 +126,9 @@ class StreetsAndAlleys(Game):
     shallHighlightMatch = Game._shallHighlightMatch_RK
 
 
-# /***********************************************************************
-# // Beleaguered Castle
-# ************************************************************************/
+# ************************************************************************
+# * Beleaguered Castle
+# ************************************************************************
 
 class BeleagueredCastle(StreetsAndAlleys):
     def _shuffleHook(self, cards):
@@ -144,10 +144,10 @@ class BeleagueredCastle(StreetsAndAlleys):
         self.s.talon.dealRow(rows=self.s.foundations)
 
 
-# /***********************************************************************
-# // Citadel
-# // Exiled Kings
-# ************************************************************************/
+# ************************************************************************
+# * Citadel
+# * Exiled Kings
+# ************************************************************************
 
 class Citadel(StreetsAndAlleys):
     def _shuffleHook(self, cards):
@@ -179,9 +179,9 @@ class ExiledKings(Citadel):
     RowStack_Class = StackWrapper(RK_RowStack, base_rank=KING)
 
 
-# /***********************************************************************
-# // Fortress
-# ************************************************************************/
+# ************************************************************************
+# * Fortress
+# ************************************************************************
 
 class Fortress(Game):
     Layout_Method = Layout.klondikeLayout
@@ -227,11 +227,11 @@ class Fortress(Game):
     shallHighlightMatch = Game._shallHighlightMatch_SSW
 
 
-# /***********************************************************************
-# // Bastion
-# // Ten by One
-# // Castles End
-# ************************************************************************/
+# ************************************************************************
+# * Bastion
+# * Ten by One
+# * Castles End
+# ************************************************************************
 
 class Bastion(Game):
     Layout_Method = Layout.freeCellLayout
@@ -370,9 +370,9 @@ class CastlesEnd(Bastion):
     shallHighlightMatch = Game._shallHighlightMatch_ACW
 
 
-# /***********************************************************************
-# // Chessboard
-# ************************************************************************/
+# ************************************************************************
+# * Chessboard
+# ************************************************************************
 
 class Chessboard_Foundation(SS_FoundationStack):
     def __init__(self, x, y, game, suit, **cap):
@@ -420,10 +420,10 @@ class Chessboard(Fortress):
         self.texts.info.config(text=t)
 
 
-# /***********************************************************************
-# // Stronghold
-# // Fastness
-# ************************************************************************/
+# ************************************************************************
+# * Stronghold
+# * Fastness
+# ************************************************************************
 
 class Stronghold(StreetsAndAlleys):
     Hint_Class = FreeCellType_Hint
@@ -438,9 +438,9 @@ class Fastness(StreetsAndAlleys):
         StreetsAndAlleys.createGame(self, reserves=2)
 
 
-# /***********************************************************************
-# // Zerline
-# ************************************************************************/
+# ************************************************************************
+# * Zerline
+# ************************************************************************
 
 class Zerline_ReserveStack(ReserveStack):
     def acceptsCards(self, from_stack, cards):
@@ -525,9 +525,9 @@ class Zerline3Decks(Zerline):
         Zerline.createGame(self, rows=8, reserve_max_cards=6)
 
 
-# /***********************************************************************
-# // Chequers
-# ************************************************************************/
+# ************************************************************************
+# * Chequers
+# ************************************************************************
 
 class Chequers(Fortress):
 
@@ -578,9 +578,9 @@ class Chequers(Fortress):
             self.s.talon.dealToStacks([stack])
 
 
-# /***********************************************************************
-# // Castle of Indolence
-# ************************************************************************/
+# ************************************************************************
+# * Castle of Indolence
+# ************************************************************************
 
 class CastleOfIndolence(Game):
     Hint_Class = BeleagueredCastleType_Hint
@@ -639,9 +639,9 @@ class CastleOfIndolence(Game):
     shallHighlightMatch = Game._shallHighlightMatch_RK
 
 
-# /***********************************************************************
-# // Rittenhouse
-# ************************************************************************/
+# ************************************************************************
+# * Rittenhouse
+# ************************************************************************
 
 class Rittenhouse_Foundation(RK_FoundationStack):
     def acceptsCards(self, from_stack, cards):
@@ -716,10 +716,10 @@ class Rittenhouse(Game):
     shallHighlightMatch = Game._shallHighlightMatch_RK
 
 
-# /***********************************************************************
-# // Lightweight
-# // Castle Mount
-# ************************************************************************/
+# ************************************************************************
+# * Lightweight
+# * Castle Mount
+# ************************************************************************
 
 class Lightweight(StreetsAndAlleys):
     DEAL = (7, 1)
@@ -770,9 +770,9 @@ class CastleMount(Lightweight):
     getQuickPlayScore = Game._getSpiderQuickPlayScore
 
 
-# /***********************************************************************
-# // Selective Castle
-# ************************************************************************/
+# ************************************************************************
+# * Selective Castle
+# ************************************************************************
 
 class SelectiveCastle_RowStack(RK_RowStack):
     def canDropCards(self, stacks):
@@ -797,9 +797,9 @@ class SelectiveCastle(StreetsAndAlleys, Chessboard):
     shallHighlightMatch = Game._shallHighlightMatch_RKW
 
 
-# /***********************************************************************
-# // Soother
-# ************************************************************************/
+# ************************************************************************
+# * Soother
+# ************************************************************************
 
 class Soother(Game):
     Hint_Class = CautiousDefaultHint
@@ -849,9 +849,9 @@ class Soother(Game):
         return int(to_stack in self.s.rows)
 
 
-# /***********************************************************************
-# // Penelope's Web
-# ************************************************************************/
+# ************************************************************************
+# * Penelope's Web
+# ************************************************************************
 
 class PenelopesWeb(StreetsAndAlleys):
     RowStack_Class = StackWrapper(RK_RowStack, base_rank=KING)

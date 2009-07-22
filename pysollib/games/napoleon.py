@@ -39,9 +39,9 @@ from pysollib.pysoltk import MfxCanvasText
 from braid import Braid_Foundation
 
 
-# /***********************************************************************
-# // stacks
-# ************************************************************************/
+# ************************************************************************
+# * stacks
+# ************************************************************************
 
 
 class Napoleon_RowStack(UD_SS_RowStack):
@@ -74,9 +74,9 @@ class Napoleon_FreeCell(ReserveStack):
         return ReserveStack.canMoveCards(self, cards)
 
 
-# /***********************************************************************
-# // Der kleine Napoleon
-# ************************************************************************/
+# ************************************************************************
+# * Der kleine Napoleon
+# ************************************************************************
 
 class DerKleineNapoleon(Game):
 
@@ -177,10 +177,10 @@ class DerKleineNapoleon(Game):
         self.texts.info.config(text=t)
 
 
-# /***********************************************************************
-# // Der freie Napoleon (completely equivalent to Der kleine Napoleon,
-# // just a different layout)
-# ************************************************************************/
+# ************************************************************************
+# * Der freie Napoleon (completely equivalent to Der kleine Napoleon,
+# * just a different layout)
+# ************************************************************************
 
 class DerFreieNapoleon(DerKleineNapoleon):
 
@@ -237,9 +237,9 @@ class DerFreieNapoleon(DerKleineNapoleon):
         l.defaultStackGroups()
 
 
-# /***********************************************************************
-# // Napoleon (two FreeCells instead of one SingleFreeCell)
-# ************************************************************************/
+# ************************************************************************
+# * Napoleon (two FreeCells instead of one SingleFreeCell)
+# ************************************************************************
 
 class Napoleon(DerKleineNapoleon):
     def createGame(self):
@@ -252,9 +252,9 @@ class FreeNapoleon(DerFreieNapoleon):
         DerFreieNapoleon.createGame(self, cells=2)
 
 
-# /***********************************************************************
-# // Master
-# ************************************************************************/
+# ************************************************************************
+# * Master
+# ************************************************************************
 
 class Master(DerFreieNapoleon):
 
@@ -268,10 +268,10 @@ class Master(DerFreieNapoleon):
                                              lambda c: (c.rank == ACE, c.suit))
 
 
-# /***********************************************************************
-# // The Little Corporal
-# // Bonaparte
-# ************************************************************************/
+# ************************************************************************
+# * The Little Corporal
+# * Bonaparte
+# ************************************************************************
 
 class TheLittleCorporal_RowStack(UD_SS_RowStack):
     def acceptsCards(self, from_stack, cards):
@@ -340,9 +340,9 @@ class Bonaparte(TheLittleCorporal):
         self.s.talon.dealBaseCards(ncards=4)
 
 
-# /***********************************************************************
-# // Busy Cards
-# ************************************************************************/
+# ************************************************************************
+# * Busy Cards
+# ************************************************************************
 
 class BusyCards_FreeCell(ReserveStack):
     def canMoveCards(self, cards):

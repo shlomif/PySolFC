@@ -36,9 +36,9 @@ from pysollib.pysolaudio import pysolsoundserver
 from tkconst import EVENT_HANDLED
 from tkwidget import MfxDialog, MfxMessageDialog
 
-# /***********************************************************************
-# //
-# ************************************************************************/
+# ************************************************************************
+# *
+# ************************************************************************
 
 class SoundOptionsDialog(MfxDialog):
 

@@ -35,9 +35,9 @@ from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 
-# /***********************************************************************
-# // Take Away
-# ************************************************************************/
+# ************************************************************************
+# * Take Away
+# ************************************************************************
 
 class TakeAway_Foundation(AbstractFoundationStack):
 
@@ -102,9 +102,9 @@ class TakeAway(Game):
             self.s.talon.dealRow()
 
 
-# /***********************************************************************
-# // Four Stacks
-# ************************************************************************/
+# ************************************************************************
+# * Four Stacks
+# ************************************************************************
 
 class FourStacks_Foundation(AC_FoundationStack):
     def closeStack(self):
@@ -117,9 +117,9 @@ class FourStacks(TakeAway):
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
-# /***********************************************************************
-# // Striptease
-# ************************************************************************/
+# ************************************************************************
+# * Striptease
+# ************************************************************************
 
 class Striptease_RowStack(UD_RK_RowStack):
     def acceptsCards(self, from_stack, cards):

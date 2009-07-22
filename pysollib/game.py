@@ -108,6 +108,7 @@ class Game:
         self.allstacks = []
         self.sn_groups = []  # snapshot groups; list of list of similar stacks
         self.snapshots = []
+        self.failed_snapshots = []
         self.stackdesc_list = []
         self.demo_logo = None
         self.pause_logo = None
@@ -200,6 +201,9 @@ class Game:
         self.stats.update_time = time.time()
         self.busy = old_busy
         self.showHelp()                 # just in case
+        hint_class = self.getHintClass()
+        if hint_class is not None:
+            self.Stuck_Class = hint_class(self, 0)
         ##self.reallocateStacks()
 
 
@@ -340,6 +344,7 @@ class Game:
             ncards = 0,
         )
         self.snapshots = []
+        self.failed_snapshots = []
         # local statistics are reset on each game restart
         self.stats = Struct(
             hints = 0,                  # number of hints consumed
@@ -436,7 +441,8 @@ class Game:
         self.updateStatus(player=self.app.opt.player,
                           gamenumber=self.getGameNumber(format=1),
                           moves=(0, 0),
-                          stats=self.app.stats.getStats(self.app.opt.player, self.id))
+                          stats=self.app.stats.getStats(self.app.opt.player, self.id),
+                          stuck='')
         reset_solver_dialog()
         # unhide toplevel when we use a progress bar
         if not self.preview:
@@ -964,6 +970,9 @@ class Game:
                     if sb: sb.updateText(time='')
                 if isinstance(v, basestring):
                     if sb: sb.updateText(time=v)
+                continue
+            if k == 'stuck':
+                if sb: sb.updateText(stuck=v)
                 continue
             raise AttributeError(k)
 
@@ -1577,6 +1586,7 @@ class Game:
     # the actual hint class (or None)
     Hint_Class = DefaultHint
     Solver_Class = None
+    Stuck_Class = None
 
     def getHintClass(self):
         return self.Hint_Class
@@ -2523,6 +2533,37 @@ Congratulations, you did it !
         self.demo_logo = self.app.gimages.demo[int(n)]
         self.canvas.setTopImage(self.demo_logo)
 
+    #
+    # stuck
+    #
+
+    def getStuck(self):
+        h = self.Stuck_Class.getHints(None)
+        if h:
+            self.failed_snapshots = []
+            return True
+        if not self.canDealCards():
+            return False
+        # can deal cards: do we have any hints in previous deals ?
+        sn = self.getSnapshot()
+        if sn in self.failed_snapshots:
+            return False
+        self.failed_snapshots.append(sn)
+        return True
+
+    def updateStuck(self):
+        # stuck
+        if self.finished:
+            return
+        if self.Stuck_Class is None:
+            return
+        if self.getStuck():
+            text = ''
+        else:
+            text = 'x'
+            #self.playSample("autopilotlost", priority=1000)
+        self.updateStatus(stuck=text)
+
 
     #
     # Handle moves (with move history for undo/redo)
@@ -2703,6 +2744,7 @@ Congratulations, you did it !
         self.updateStatus(moves=(moves.index, self.stats.total_moves))
         self.updateMenus()
         self.updatePlayTime(do_after=0)
+        self.updateStuck()
         reset_solver_dialog()
 
         return 1
@@ -2733,7 +2775,10 @@ Congratulations, you did it !
         self.updateText()
         self.updateStatus(moves=(self.moves.index, self.stats.total_moves))
         self.updateMenus()
+        self.updateStatus(stuck='')
+        self.failed_snapshots = []
         reset_solver_dialog()
+        
 
     def redo(self):
         assert self.canRedo()
@@ -2758,6 +2803,7 @@ Congratulations, you did it !
         self.updateText()
         self.updateStatus(moves=(self.moves.index, self.stats.total_moves))
         self.updateMenus()
+        self.updateStuck()
         reset_solver_dialog()
 
 

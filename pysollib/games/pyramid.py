@@ -149,6 +149,10 @@ class Pyramid_RowStack(Pyramid_StackMethods, OpenStack):
 
     getBottomImage = Stack._getNoneBottomImage
 
+    def copyModel(self, clone):
+        OpenStack.copyModel(self, clone)
+        clone.blockmap = self.blockmap
+
 
 # /***********************************************************************
 # // Pyramid
@@ -308,7 +312,7 @@ class Giza(Pyramid):
         for i in range(3):
             self.s.talon.dealRow(rows=self.s.reserves, frames=0)
         self.startDealSample()
-        self.s.talon.dealRow()
+        self.s.talon.dealRow(frames=4)
 
 
 # /***********************************************************************

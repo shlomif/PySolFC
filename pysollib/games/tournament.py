@@ -221,6 +221,11 @@ class Saxony_Reserve(SS_RowStack):
         return _('Reserve. Build down by suit.')
 
 
+class Saxony_Talon(DealRowTalonStack):
+    def dealCards(self, sound=False):
+        return self.dealRowAvail(rows=self.game.s.reserves[:8], sound=sound)
+
+
 class Saxony(Game):
 
     def createGame(self):
@@ -230,31 +235,32 @@ class Saxony(Game):
         x, y, = l.XM+1.5*l.XS, l.YM
         for i in range(8):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i%4))
-            x = x + l.XS
+            x += l.XS
         x, y = l.XM+1.5*l.XS, 2*l.YM+l.YS
         for i in range(8):
-            s.rows.append(BasicRowStack(x, y, self, max_move=1, max_accept=0))
-            x = x + l.XS
+            s.reserves.append(BasicRowStack(x, y, self, max_move=1, max_accept=0))
+            x += l.XS
         x, y = l.XM, 2*l.YM+l.YS
         for i in range(4):
             stack = Saxony_Reserve(x, y, self, max_move=1)
-            self.s.reserves.append(stack)
+            self.s.rows.append(stack)
             stack.CARD_YOFFSET = 0
             y += l.YS
         x, y = self.width-l.XS, 2*l.YM+l.YS
         for i in range(4):
             self.s.reserves.append(ReserveStack(x, y, self))
             y += l.YS
-        s.talon = DealRowTalonStack(l.XM, l.YM, self)
+        s.talon = Saxony_Talon(l.XM, l.YM, self)
         l.createText(s.talon, "ne")
 
         l.defaultStackGroups()
 
 
     def startGame(self):
-        self.s.talon.dealRow(rows=self.s.reserves, frames=0)
+        self.s.talon.dealRow(rows=self.s.reserves[8:], frames=0)
+        self.s.talon.dealRow(frames=0)
         self.startDealSample()
-        self.s.talon.dealRow()
+        self.s.talon.dealCards()
 
 
 # /***********************************************************************

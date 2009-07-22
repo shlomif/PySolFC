@@ -37,9 +37,9 @@ from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 from pysollib.pysoltk import MfxCanvasText
 
 
-# /***********************************************************************
-# // Tournament
-# ************************************************************************/
+# ************************************************************************
+# * Tournament
+# ************************************************************************
 
 class Tournament_Talon(DealRowRedealTalonStack):
     def dealCards(self, sound=False):
@@ -145,9 +145,9 @@ class Tournament(Game):
 class LaNivernaise(Tournament):
     ROW_YOFFSET = False
 
-# /***********************************************************************
-# // Kingsdown Eights
-# ************************************************************************/
+# ************************************************************************
+# * Kingsdown Eights
+# ************************************************************************
 
 class KingsdownEights_Talon(DealRowTalonStack):
     def dealCards(self, sound=False):
@@ -211,9 +211,9 @@ class KingsdownEights(Game):
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
-# /***********************************************************************
-# // Saxony
-# ************************************************************************/
+# ************************************************************************
+# * Saxony
+# ************************************************************************
 
 class Saxony_Reserve(SS_RowStack):
     getBottomImage = Stack._getReserveBottomImage
@@ -263,9 +263,9 @@ class Saxony(Game):
         self.s.talon.dealCards()
 
 
-# /***********************************************************************
-# // Ladies Battle
-# ************************************************************************/
+# ************************************************************************
+# * Ladies Battle
+# ************************************************************************
 
 class LadiesBattle_RowStack(AC_RowStack):
     def acceptsCards(self, from_stack, cards):

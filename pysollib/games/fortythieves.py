@@ -37,19 +37,19 @@ from pysollib.pysoltk import MfxCanvasText
 from gypsy import DieRussische_Foundation
 
 
-# /***********************************************************************
-# //
-# ************************************************************************/
+# ************************************************************************
+# *
+# ************************************************************************
 
 class FortyThieves_Hint(CautiousDefaultHint):
     # FIXME: demo is not too clever in this game
     pass
 
 
-# /***********************************************************************
-# // Forty Thieves
-# //   rows build down by suit
-# ************************************************************************/
+# ************************************************************************
+# * Forty Thieves
+# *   rows build down by suit
+# ************************************************************************
 
 class FortyThieves(Game):
     Foundation_Class = SS_FoundationStack
@@ -142,21 +142,21 @@ class FortyThieves(Game):
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
-# /***********************************************************************
-# // Busy Aces
-# // Limited
-# // Courtyard
-# // Waning Moon
-# // Lucas
-# // Napoleon's Square
-# // Carre Napoleon
-# // Josephine
-# // Marie Rose
-# // Big Courtyard
-# // San Juan Hill
-# // Famous Fifty
-# //   rows build down by suit
-# ************************************************************************/
+# ************************************************************************
+# * Busy Aces
+# * Limited
+# * Courtyard
+# * Waning Moon
+# * Lucas
+# * Napoleon's Square
+# * Carre Napoleon
+# * Josephine
+# * Marie Rose
+# * Big Courtyard
+# * San Juan Hill
+# * Famous Fifty
+# *   rows build down by suit
+# ************************************************************************
 
 class BusyAces(FortyThieves):
     DEAL = (0, 1)
@@ -261,9 +261,9 @@ class FamousFifty(FortyThieves):
     DEAL = (0, 5)
 
 
-# /***********************************************************************
-# // Deuces
-# ************************************************************************/
+# ************************************************************************
+# * Deuces
+# ************************************************************************
 
 class Deuces(FortyThieves):
     Foundation_Class = StackWrapper(SS_FoundationStack, mod=13, base_rank=1)
@@ -283,10 +283,10 @@ class Deuces(FortyThieves):
     shallHighlightMatch = Game._shallHighlightMatch_SSW
 
 
-# /***********************************************************************
-# // Corona
-# // Quadrangle
-# ************************************************************************/
+# ************************************************************************
+# * Corona
+# * Quadrangle
+# ************************************************************************
 
 class Corona(FortyThieves):
     FOUNDATION_MAX_MOVE = 0
@@ -308,18 +308,18 @@ class Quadrangle(Corona):
     shallHighlightMatch = Game._shallHighlightMatch_SSW
 
 
-# /***********************************************************************
-# // Forty and Eight
-# ************************************************************************/
+# ************************************************************************
+# * Forty and Eight
+# ************************************************************************
 
 class FortyAndEight(FortyThieves):
     def createGame(self):
         FortyThieves.createGame(self, max_rounds=2, rows=8, XCARDS=72)
 
 
-# /***********************************************************************
-# // Little Forty
-# ************************************************************************/
+# ************************************************************************
+# * Little Forty
+# ************************************************************************
 
 class LittleForty(FortyThieves):
     RowStack_Class = Spider_SS_RowStack
@@ -334,18 +334,18 @@ class LittleForty(FortyThieves):
     getQuickPlayScore = Game._getSpiderQuickPlayScore
 
 
-# /***********************************************************************
-# // Streets
-# // Maria
-# // Number Ten
-# // Rank and File
-# // Emperor
-# // Triple Line
-# // Big Streets
-# // Number Twelve
-# // Roosevelt
-# //   rows build down by alternate color
-# ************************************************************************/
+# ************************************************************************
+# * Streets
+# * Maria
+# * Number Ten
+# * Rank and File
+# * Emperor
+# * Triple Line
+# * Big Streets
+# * Number Twelve
+# * Roosevelt
+# *   rows build down by alternate color
+# ************************************************************************
 
 class Streets(FortyThieves):
     RowStack_Class = AC_RowStack
@@ -400,11 +400,11 @@ class Roosevelt(Streets):
         Streets.createGame(self, rows=7)
 
 
-# /***********************************************************************
-# // Red and Black
-# // Zebra
-# //   rows build down by alternate color, foundations up by alternate color
-# ************************************************************************/
+# ************************************************************************
+# * Red and Black
+# * Zebra
+# *   rows build down by alternate color, foundations up by alternate color
+# ************************************************************************
 
 class RedAndBlack(Streets):
     Foundation_Class = AC_FoundationStack
@@ -434,12 +434,12 @@ class Zebra(RedAndBlack):
         FortyThieves.createGame(self, max_rounds=2, rows=8, XOFFSET=0)
 
 
-# /***********************************************************************
-# // Indian
-# // Midshipman
-# // Mumbai
-# //   rows build down by any suit but own
-# ************************************************************************/
+# ************************************************************************
+# * Indian
+# * Midshipman
+# * Mumbai
+# *   rows build down by any suit but own
+# ************************************************************************
 
 class Indian(FortyThieves):
     RowStack_Class = BO_RowStack
@@ -466,13 +466,13 @@ class Mumbai(Indian):
         FortyThieves.createGame(self, XCARDS=84, rows=13)
 
 
-# /***********************************************************************
-# // Napoleon's Exile
-# // Double Rail
-# // Single Rail (1 deck)
-# // Final Battle
-# //   rows build down by rank
-# ************************************************************************/
+# ************************************************************************
+# * Napoleon's Exile
+# * Double Rail
+# * Single Rail (1 deck)
+# * Final Battle
+# *   rows build down by rank
+# ************************************************************************
 
 class NapoleonsExile(FortyThieves):
     RowStack_Class = RK_RowStack
@@ -501,9 +501,9 @@ class FinalBattle(DoubleRail):
 
 
 
-# /***********************************************************************
-# // Octave
-# ************************************************************************/
+# ************************************************************************
+# * Octave
+# ************************************************************************
 
 class Octave_Talon(WasteTalonStack):
 
@@ -626,9 +626,9 @@ class Octave(Game):
                     self.leaveState(old_state)
 
 
-# /***********************************************************************
-# // Fortune's Favor
-# ************************************************************************/
+# ************************************************************************
+# * Fortune's Favor
+# ************************************************************************
 
 class FortunesFavor(Game):
 
@@ -686,9 +686,9 @@ class FortunesFavor(Game):
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
-# /***********************************************************************
-# // Octagon
-# ************************************************************************/
+# ************************************************************************
+# * Octagon
+# ************************************************************************
 
 class Octagon(Game):
     Hint_Class = CautiousDefaultHint
@@ -752,9 +752,9 @@ class Octagon(Game):
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
-# /***********************************************************************
-# // Squadron
-# ************************************************************************/
+# ************************************************************************
+# * Squadron
+# ************************************************************************
 
 class Squadron(FortyThieves):
 
@@ -794,9 +794,9 @@ class Squadron(FortyThieves):
         self.s.talon.dealCards()          # deal first card to WasteStack
 
 
-# /***********************************************************************
-# // Waterloo
-# ************************************************************************/
+# ************************************************************************
+# * Waterloo
+# ************************************************************************
 
 class Waterloo(FortyThieves):
 
@@ -823,10 +823,10 @@ class Waterloo(FortyThieves):
     shallHighlightMatch = Game._shallHighlightMatch_RK
 
 
-# /***********************************************************************
-# // Junction
-# // Crossroads
-# ************************************************************************/
+# ************************************************************************
+# * Junction
+# * Crossroads
+# ************************************************************************
 
 class Junction(Game):
     Foundation_Class = StackWrapper(DieRussische_Foundation, max_cards=8)
@@ -882,9 +882,9 @@ class Crossroads(Junction):
         self.s.talon.dealCards()
 
 
-# /***********************************************************************
-# // The Spark
-# ************************************************************************/
+# ************************************************************************
+# * The Spark
+# ************************************************************************
 
 class TheSpark_Talon(TalonStack):
 
@@ -961,9 +961,9 @@ class TheSpark(Game):
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
-# /***********************************************************************
-# // Double Gold Mine
-# ************************************************************************/
+# ************************************************************************
+# * Double Gold Mine
+# ************************************************************************
 
 class DoubleGoldMine_RowStack(AC_RowStack):
     getBottomImage = Stack._getReserveBottomImage
@@ -982,14 +982,14 @@ class DoubleGoldMine(Streets):
         self.s.talon.dealCards()
 
 
-# /***********************************************************************
-# // Interchange
-# // Unlimited
-# // Breakwater
-# // Forty Nine
-# // Alternation
-# // Triple Interchange
-# ************************************************************************/
+# ************************************************************************
+# * Interchange
+# * Unlimited
+# * Breakwater
+# * Forty Nine
+# * Alternation
+# * Triple Interchange
+# ************************************************************************
 
 class Interchange(FortyThieves):
 
@@ -1063,9 +1063,9 @@ class TripleInterchange(Interchange):
         self.s.talon.dealCards()
 
 
-# /***********************************************************************
-# // Indian Patience
-# ************************************************************************/
+# ************************************************************************
+# * Indian Patience
+# ************************************************************************
 
 class IndianPatience_RowStack(BO_RowStack):
     def acceptsCards(self, from_stack, cards):
@@ -1098,9 +1098,9 @@ class IndianPatience(Indian):
             self.leaveState(old_state)
 
 
-# /***********************************************************************
-# // Floradora
-# ************************************************************************/
+# ************************************************************************
+# * Floradora
+# ************************************************************************
 
 class Floradora(Game):
     Hint_Class = CautiousDefaultHint
@@ -1142,9 +1142,9 @@ class Floradora(Game):
     shallHighlightMatch = Game._shallHighlightMatch_RK
 
 
-# /***********************************************************************
-# // Blind Patience
-# ************************************************************************/
+# ************************************************************************
+# * Blind Patience
+# ************************************************************************
 
 class BlindPatience_Hint(DefaultHint):
     SCORE_FLIP = 80000
@@ -1218,9 +1218,9 @@ class BlindPatience(FortyThieves):
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
-# /***********************************************************************
-# // Foothold
-# ************************************************************************/
+# ************************************************************************
+# * Foothold
+# ************************************************************************
 
 class Foothold(FortyThieves):
     RowStack_Class = UD_AC_RowStack

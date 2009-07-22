@@ -28,11 +28,11 @@ import random
 from mfxutil import SubclassResponsibility
 
 
-# /***********************************************************************
-# // Abstract class for PySol Random number generator.
-# //
-# // We use a seed of type long in the range [0, MAX_SEED].
-# ************************************************************************/
+# ************************************************************************
+# * Abstract class for PySol Random number generator.
+# *
+# * We use a seed of type long in the range [0, MAX_SEED].
+# ************************************************************************
 
 class BasicRandom:
     #MAX_SEED = 0L
@@ -70,10 +70,10 @@ class BasicRandom:
         return t
 
 
-# /***********************************************************************
-# // Mersenne Twister random number generator
-# // uses standart python module `random'
-# ************************************************************************/
+# ************************************************************************
+# * Mersenne Twister random number generator
+# * uses standart python module `random'
+# ************************************************************************
 
 class MTRandom(BasicRandom, random.Random):
 
@@ -89,10 +89,10 @@ class MTRandom(BasicRandom, random.Random):
         self.setstate(self.initial_state)
 
 
-# /***********************************************************************
-# // Wichman-Hill random number generator
-# // uses standart python module `random'
-# ************************************************************************/
+# ************************************************************************
+# * Wichman-Hill random number generator
+# * uses standart python module `random'
+# ************************************************************************
 
 class WHRandom(BasicRandom, random.WichmannHill):
     
@@ -108,9 +108,9 @@ class WHRandom(BasicRandom, random.WichmannHill):
         self.setstate(self.initial_state)
 
 
-# /***********************************************************************
-# // Abstract class for LC Random number generators.
-# ************************************************************************/
+# ************************************************************************
+# * Abstract class for LC Random number generators.
+# ************************************************************************
 
 class MFXRandom(BasicRandom):
 
@@ -161,13 +161,13 @@ class MFXRandom(BasicRandom):
             n -= 1
 
 
-# /***********************************************************************
-# // Linear Congruential random generator
-# //
-# // Knuth, Donald.E., "The Art of Computer Programming,", Vol 2,
-# // Seminumerical Algorithms, Third Edition, Addison-Wesley, 1998,
-# // p. 106 (line 26) & p. 108
-# ************************************************************************/
+# ************************************************************************
+# * Linear Congruential random generator
+# *
+# * Knuth, Donald.E., "The Art of Computer Programming,", Vol 2,
+# * Seminumerical Algorithms, Third Edition, Addison-Wesley, 1998,
+# * p. 106 (line 26) & p. 108
+# ************************************************************************
 
 class LCRandom64(MFXRandom):
 
@@ -176,11 +176,11 @@ class LCRandom64(MFXRandom):
         return ((self.seed >> 21) & 0x7fffffffL) / 2147483648.0
 
 
-# /***********************************************************************
-# // Linear Congruential random generator
-# // In PySol this is only used for 0 <= seed <= 32000
-# // for Windows FreeCell compatibility
-# ************************************************************************/
+# ************************************************************************
+# * Linear Congruential random generator
+# * In PySol this is only used for 0 <= seed <= 32000
+# * for Windows FreeCell compatibility
+# ************************************************************************
 
 class LCRandom31(MFXRandom):
     MAX_SEED = 0x7fffffffL          # 31 bits
@@ -210,9 +210,9 @@ class LCRandom31(MFXRandom):
 PysolRandom = MTRandom
 
 
-# /***********************************************************************
-# // PySol support code
-# ************************************************************************/
+# ************************************************************************
+# * PySol support code
+# ************************************************************************
 
 # construct Random from seed string
 def constructRandom(s):

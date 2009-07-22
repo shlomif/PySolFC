@@ -29,9 +29,9 @@ from mahjongg import r
 #r(5993, "AAA 3", ncards=20, layout="0daaCabdacKbbdcaCcbdcc")
 #r(5994, "AAA 4", ncards=20, layout="0daaDabdacdcaDcbdcc")
 
-# /***********************************************************************
-# // game definitions
-# ************************************************************************/
+# ************************************************************************
+# * game definitions
+# ************************************************************************
 
 r(5401, "Taipei", layout="0aagabbabdabjablhccacfachhckadbaddhdehdghdiadjadlhecaefoegaehhekafcifehfgvfgifiafkagahgcageaggoggagihgkagmhhaahcohehhfvhfhhhvhhohiahkhhmaiahidaieaigoigCigaiihijaimhjbajcojehjfvjfJjghjhvjhojiajkhjlakahkdakeakgokgCkgQkgakihkjakmhlbalcolehlfvlfJlghlhvlholialkhllamahmdameamgomgCmgamihmjammhnaanconehnfvnfhnhvnhoniankhnmaoahocaoeaogoogaoihokaomapcipehpgvpgipiapkhqcaqfoqgaqhhqkarbardhrehrghriarjarlhscasfashhskatbatdatjatlaug")
 r(5402, "Hare", layout="0aacaamacabccaceackbcmacobeacecbeebekcembeoofavfcofeofkvfmofobgacgcbgebgkcgmbgoaiabicbiebikbimaioakcakebkhakkakmamebmgbmiamkbogoohboicqfcqhcqjasejsfasgjshasijsjaskCtgCtibuddufduhdujbulovdCvgCviovlbwddwfdwhdwjbwlcyfcyhcyjbAhbCh")

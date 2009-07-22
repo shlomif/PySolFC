@@ -32,9 +32,9 @@ from pysollib.acard import AbstractCard
 from tkcanvas import MfxCanvasGroup, MfxCanvasImage
 
 
-# /***********************************************************************
-# //
-# ************************************************************************/
+# ************************************************************************
+# *
+# ************************************************************************
 
 class _HideableCard(AbstractCard):
     def hide(self, stack):
@@ -53,15 +53,15 @@ class _HideableCard(AbstractCard):
         return 1
 
 
-# /***********************************************************************
-# // New implemetation since 2.10
-# //
-# // We use a single CanvasImage and call CanvasImage.config() to
-# // turn the card.
-# // This makes turning cards a little bit slower, but dragging cards
-# // around is noticeable faster as the total number of images is
-# // reduced by half.
-# ************************************************************************/
+# ************************************************************************
+# * New implemetation since 2.10
+# *
+# * We use a single CanvasImage and call CanvasImage.config() to
+# * turn the card.
+# * This makes turning cards a little bit slower, but dragging cards
+# * around is noticeable faster as the total number of images is
+# * reduced by half.
+# ************************************************************************
 
 class _OneImageCard(_HideableCard):
     def __init__(self, id, deck, suit, rank, game, x=0, y=0):
@@ -109,11 +109,11 @@ class _OneImageCard(_HideableCard):
 
 
 
-# /***********************************************************************
-# // New idea since 3.00
-# //
-# // Hide a card by configuring the canvas image to None.
-# ************************************************************************/
+# ************************************************************************
+# * New idea since 3.00
+# *
+# * Hide a card by configuring the canvas image to None.
+# ************************************************************************
 
 class _OneImageCardWithHideByConfig(_OneImageCard):
     def hide(self, stack):
@@ -156,13 +156,13 @@ class _OneImageCardWithHideByConfig(_OneImageCard):
             self._setImage(image=image)
 
 
-# /***********************************************************************
-# // Old implemetation prior to 2.10
-# //
-# // The card consists of two CanvasImages. To show the card face up,
-# // the face item is placed in front of the back. To show it face
-# // down, this is reversed.
-# ************************************************************************/
+# ************************************************************************
+# * Old implemetation prior to 2.10
+# *
+# * The card consists of two CanvasImages. To show the card face up,
+# * the face item is placed in front of the back. To show it face
+# * down, this is reversed.
+# ************************************************************************
 
 class _TwoImageCard(_HideableCard):
     # Private instance variables:
@@ -191,13 +191,13 @@ class _TwoImageCard(_HideableCard):
         self.__back.config(image=image)
 
 
-# /***********************************************************************
-# // New idea since 2.90
-# //
-# // The card consists of two CanvasImages. Instead of raising
-# // one image above the other we move the inactive image out
-# // of the visible canvas.
-# ************************************************************************/
+# ************************************************************************
+# * New idea since 2.90
+# *
+# * The card consists of two CanvasImages. Instead of raising
+# * one image above the other we move the inactive image out
+# * of the visible canvas.
+# ************************************************************************
 
 class _TwoImageCardWithHideItem(_HideableCard):
     # Private instance variables:

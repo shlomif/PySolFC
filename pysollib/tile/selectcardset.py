@@ -41,9 +41,9 @@ from selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
 from selecttree import SelectDialogTreeData, SelectDialogTreeCanvas
 
 
-# /***********************************************************************
-# // Nodes
-# ************************************************************************/
+# ************************************************************************
+# * Nodes
+# ************************************************************************
 
 class SelectCardsetLeaf(SelectDialogTreeLeaf):
     pass
@@ -59,9 +59,9 @@ class SelectCardsetNode(SelectDialogTreeNode):
         return contents or self.tree.data.no_contents
 
 
-# /***********************************************************************
-# // Tree database
-# ************************************************************************/
+# ************************************************************************
+# * Tree database
+# ************************************************************************
 
 class SelectCardsetData(SelectDialogTreeData):
     def __init__(self, manager, key):
@@ -148,9 +148,9 @@ class SelectCardsetByTypeData(SelectDialogTreeData):
         ))
 
 
-# /***********************************************************************
-# // Canvas that shows the tree
-# ************************************************************************/
+# ************************************************************************
+# * Canvas that shows the tree
+# ************************************************************************
 
 class SelectCardsetTree(SelectDialogTreeCanvas):
     data = None
@@ -160,9 +160,9 @@ class SelectCardsetByTypeTree(SelectDialogTreeCanvas):
     data = None
 
 
-# /***********************************************************************
-# // Dialog
-# ************************************************************************/
+# ************************************************************************
+# * Dialog
+# ************************************************************************
 
 class SelectCardsetDialogWithPreview(MfxDialog):
     Tree_Class = SelectCardsetTree
@@ -286,9 +286,9 @@ class SelectCardsetByTypeDialogWithPreview(SelectCardsetDialogWithPreview):
     TreeDataHolder_Class = SelectCardsetByTypeTree
     TreeData_Class = SelectCardsetByTypeData
 
-# /***********************************************************************
-# // Cardset Info
-# ************************************************************************/
+# ************************************************************************
+# * Cardset Info
+# ************************************************************************
 
 class CardsetInfoDialog(MfxDialog):
     def __init__(self, parent, title, cardset, images, **kw):

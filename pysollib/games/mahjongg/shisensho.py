@@ -41,9 +41,9 @@ from pysollib.pysoltk import MfxCanvasText, MfxCanvasLine
 from mahjongg import Mahjongg_RowStack, AbstractMahjonggGame, comp_cardset
 
 
-# /***********************************************************************
-# //
-# ************************************************************************/
+# ************************************************************************
+# *
+# ************************************************************************
 
 class Shisen_Hint(AbstractHint):
     TOP_MATCHING = False
@@ -74,9 +74,9 @@ class NotShisen_Hint(Shisen_Hint):
     TOP_MATCHING = True
 
 
-# /***********************************************************************
-# // Shisen-Sho
-# ************************************************************************/
+# ************************************************************************
+# * Shisen-Sho
+# ************************************************************************
 
 
 class Shisen_Foundation(AbstractFoundationStack):
@@ -460,9 +460,9 @@ class Shisen_24x12_NoGravity(AbstractShisenGame):
     GRAVITY = False
 
 
-# /***********************************************************************
-# // Not Shisen-Sho
-# ************************************************************************/
+# ************************************************************************
+# * Not Shisen-Sho
+# ************************************************************************
 
 class NotShisen_RowStack(Shisen_RowStack):
     def acceptsCards(self, from_stack, cards):
@@ -492,9 +492,9 @@ class NotShisen_24x12(AbstractShisenGame):
     NCARDS = 288
 
 
-# /***********************************************************************
-# // register a Shisen-Sho type game
-# ************************************************************************/
+# ************************************************************************
+# * register a Shisen-Sho type game
+# ************************************************************************
 
 def r(id, gameclass, name, rules_filename="shisensho.html"):
     decks, ranks, trumps = comp_cardset(gameclass.NCARDS)

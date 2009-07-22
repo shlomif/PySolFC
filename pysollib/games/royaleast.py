@@ -34,9 +34,9 @@ from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 
-# /***********************************************************************
-# // Royal East
-# ************************************************************************/
+# ************************************************************************
+# * Royal East
+# ************************************************************************
 
 class RoyalEast(Game):
     Hint_Class = CautiousDefaultHint

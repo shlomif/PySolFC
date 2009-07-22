@@ -33,13 +33,13 @@ from mfxutil import destruct
 from util import KING
 
 
-# /***********************************************************************
-# // HintInterface is an abstract class that defines the public
-# // interface - it only consists of the constructor
-# // and the getHints() method.
-# //
-# // The whole hint system is exclusively used by Game.getHints().
-# ************************************************************************/
+# ************************************************************************
+# * HintInterface is an abstract class that defines the public
+# * interface - it only consists of the constructor
+# * and the getHints() method.
+# *
+# * The whole hint system is exclusively used by Game.getHints().
+# ************************************************************************
 
 class HintInterface:
     # level == 0: show hint (key `H')
@@ -69,11 +69,11 @@ class HintInterface:
         return []
 
 
-# /***********************************************************************
-# // AbstractHint provides a useful framework for derived hint classes.
-# //
-# // Subclasses should override computeHints()
-# ************************************************************************/
+# ************************************************************************
+# * AbstractHint provides a useful framework for derived hint classes.
+# *
+# * Subclasses should override computeHints()
+# ************************************************************************
 
 class AbstractHint(HintInterface):
     def __init__(self, game, level):
@@ -266,9 +266,9 @@ class AbstractHint(HintInterface):
     BLUE = "blue"
 
 
-# /***********************************************************************
-# //
-# ************************************************************************/
+# ************************************************************************
+# *
+# ************************************************************************
 
 class DefaultHint(AbstractHint):
 
@@ -636,9 +636,9 @@ class DefaultHint(AbstractHint):
         ### FIXME
 
 
-# /***********************************************************************
-# //
-# ************************************************************************/
+# ************************************************************************
+# *
+# ************************************************************************
 
 class CautiousDefaultHint(DefaultHint):
     shallMovePile = DefaultHint._cautiousShallMovePile
@@ -648,9 +648,9 @@ class CautiousDefaultHint(DefaultHint):
         return 1
 
 
-# /***********************************************************************
-# // now some default hints for the various game types
-# ************************************************************************/
+# ************************************************************************
+# * now some default hints for the various game types
+# ************************************************************************
 
 # DefaultHint is optimized for Klondike type games anyway
 class KlondikeType_Hint(DefaultHint):
@@ -704,9 +704,9 @@ class SpiderType_Hint(DefaultHint):
 
 
 
-# /***********************************************************************
-# // FreeCell-Solver
-# ************************************************************************/
+# ************************************************************************
+# * FreeCell-Solver
+# ************************************************************************
 
 
 class FreeCellSolver_Hint:

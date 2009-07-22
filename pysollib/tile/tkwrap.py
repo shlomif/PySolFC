@@ -32,10 +32,10 @@ TclError = Tkinter.TclError
 from tkconst import EVENT_PROPAGATE
 
 
-# /***********************************************************************
-# // Wrapper class for Tk.
-# // Required so that a Game will get properly destroyed.
-# ************************************************************************/
+# ************************************************************************
+# * Wrapper class for Tk.
+# * Required so that a Game will get properly destroyed.
+# ************************************************************************
 
 class MfxRoot(Tkinter.Tk):
     def __init__(self, **kw):

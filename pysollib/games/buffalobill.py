@@ -35,10 +35,10 @@ from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 
-# /***********************************************************************
-# // Buffalo Bill
-# // Little Billie
-# ************************************************************************/
+# ************************************************************************
+# * Buffalo Bill
+# * Little Billie
+# ************************************************************************
 
 class BuffaloBill(Game):
 

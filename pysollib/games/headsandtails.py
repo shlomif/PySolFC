@@ -36,9 +36,9 @@ from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 
 
-# /***********************************************************************
-# // Heads and Tails
-# ************************************************************************/
+# ************************************************************************
+# * Heads and Tails
+# ************************************************************************
 
 class HeadsAndTails_Reserve(OpenStack):
     def canFlipCard(self):
@@ -133,9 +133,9 @@ class HeadsAndTails(Game):
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
-# /***********************************************************************
-# // Barrier
-# ************************************************************************/
+# ************************************************************************
+# * Barrier
+# ************************************************************************
 
 
 class Barrier_ReserveStack(OpenStack):

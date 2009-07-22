@@ -41,9 +41,9 @@ from pysollib.pysoltk import MfxCanvasText
 from spider import Spider_SS_Foundation
 
 
-# /***********************************************************************
-# // Yukon
-# ************************************************************************/
+# ************************************************************************
+# * Yukon
+# ************************************************************************
 
 class Yukon(Game):
     Layout_Method = Layout.yukonLayout
@@ -83,9 +83,9 @@ class Yukon(Game):
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
-# /***********************************************************************
-# // Russian Solitaire (like Yukon, but build down by suit)
-# ************************************************************************/
+# ************************************************************************
+# * Russian Solitaire (like Yukon, but build down by suit)
+# ************************************************************************
 
 class RussianSolitaire(Yukon):
     RowStack_Class = StackWrapper(Yukon_SS_RowStack, base_rank=KING)
@@ -93,9 +93,9 @@ class RussianSolitaire(Yukon):
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
-# /***********************************************************************
-# // Moosehide (build down in any suit but the same)
-# ************************************************************************/
+# ************************************************************************
+# * Moosehide (build down in any suit but the same)
+# ************************************************************************
 
 class Moosehide_RowStack(Yukon_AC_RowStack):
     def _isSequence(self, c1, c2):
@@ -111,10 +111,10 @@ class Moosehide(Yukon):
                 abs(card1.rank-card2.rank) == 1)
 
 
-# /***********************************************************************
-# // Odessa (just like Russian Solitaire, only a different initial
-# // card layout)
-# ************************************************************************/
+# ************************************************************************
+# * Odessa (just like Russian Solitaire, only a different initial
+# * card layout)
+# ************************************************************************
 
 class Odessa(RussianSolitaire):
     def startGame(self):
@@ -128,9 +128,9 @@ class Odessa(RussianSolitaire):
         self.s.talon.dealRow()
 
 
-# /***********************************************************************
-# // Grandfather
-# ************************************************************************/
+# ************************************************************************
+# * Grandfather
+# ************************************************************************
 
 class Grandfather_Talon(RedealTalonStack):
     def dealCards(self, sound=False):
@@ -162,9 +162,9 @@ class Grandfather(RussianSolitaire):
     redealCards = startGame
 
 
-# /***********************************************************************
-# // Alaska (like Russian Solitaire, but build up or down in suit)
-# ************************************************************************/
+# ************************************************************************
+# * Alaska (like Russian Solitaire, but build up or down in suit)
+# ************************************************************************
 
 class Alaska_RowStack(Yukon_SS_RowStack):
     def _isSequence(self, c1, c2):
@@ -179,9 +179,9 @@ class Alaska(RussianSolitaire):
     RowStack_Class = StackWrapper(Alaska_RowStack, base_rank=KING)
 
 
-# /***********************************************************************
-# // Roslin (like Yukon, but build up or down by alternate color)
-# ************************************************************************/
+# ************************************************************************
+# * Roslin (like Yukon, but build up or down by alternate color)
+# ************************************************************************
 
 class Roslin_RowStack(Yukon_AC_RowStack):
     def _isSequence(self, c1, c2):
@@ -196,10 +196,10 @@ class Roslin(Yukon):
     RowStack_Class = StackWrapper(Roslin_RowStack, base_rank=KING)
 
 
-# /***********************************************************************
-# // Chinese Discipline
-# // Chinese Solitaire
-# ************************************************************************/
+# ************************************************************************
+# * Chinese Discipline
+# * Chinese Solitaire
+# ************************************************************************
 
 class ChineseDiscipline(Yukon):
     Layout_Method = Layout.klondikeLayout
@@ -220,9 +220,9 @@ class ChineseSolitaire(ChineseDiscipline):
     RowStack_Class = Yukon_AC_RowStack      # anything on an empty space
 
 
-# /***********************************************************************
-# // Queenie
-# ************************************************************************/
+# ************************************************************************
+# * Queenie
+# ************************************************************************
 
 class Queenie(Yukon):
     Layout_Method = Layout.klondikeLayout
@@ -238,9 +238,9 @@ class Queenie(Yukon):
         self.s.talon.dealRow(reverse=reverse)
 
 
-# /***********************************************************************
-# // Rushdike (like Queenie, but built down by suit)
-# ************************************************************************/
+# ************************************************************************
+# * Rushdike (like Queenie, but built down by suit)
+# ************************************************************************
 
 class Rushdike(RussianSolitaire):
     Layout_Method = Layout.klondikeLayout
@@ -256,9 +256,9 @@ class Rushdike(RussianSolitaire):
         self.s.talon.dealRow(reverse=reverse)
 
 
-# /***********************************************************************
-# // Russian Point (Rushdike in a different layout)
-# ************************************************************************/
+# ************************************************************************
+# * Russian Point (Rushdike in a different layout)
+# ************************************************************************
 
 class RussianPoint(Rushdike):
     def startGame(self):
@@ -269,9 +269,9 @@ class RussianPoint(Rushdike):
         self.s.talon.dealRow()
 
 
-# /***********************************************************************
-# // Abacus
-# ************************************************************************/
+# ************************************************************************
+# * Abacus
+# ************************************************************************
 
 class Abacus_Foundation(SS_FoundationStack):
     def __init__(self, x, y, game, suit, **cap):
@@ -319,10 +319,10 @@ Diamond: 4 8 Q 3 7 J 2 6 T A 5 9 K'''))
                  (card2.rank + dir) % mod == card1.rank))
 
 
-# /***********************************************************************
-# // Double Yukon
-# // Double Russian Solitaire
-# ************************************************************************/
+# ************************************************************************
+# * Double Yukon
+# * Double Russian Solitaire
+# ************************************************************************
 
 class DoubleYukon(Yukon):
     def createGame(self):
@@ -343,10 +343,10 @@ class DoubleRussianSolitaire(DoubleYukon):
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
-# /***********************************************************************
-# // Triple Yukon
-# // Triple Russian Solitaire
-# ************************************************************************/
+# ************************************************************************
+# * Triple Yukon
+# * Triple Russian Solitaire
+# ************************************************************************
 
 class TripleYukon(Yukon):
     def createGame(self):
@@ -366,9 +366,9 @@ class TripleRussianSolitaire(TripleYukon):
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
-# /***********************************************************************
-# // Ten Across
-# ************************************************************************/
+# ************************************************************************
+# * Ten Across
+# ************************************************************************
 
 class TenAcross(Yukon):
 
@@ -415,9 +415,9 @@ class TenAcross(Yukon):
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
-# /***********************************************************************
-# // Panopticon
-# ************************************************************************/
+# ************************************************************************
+# * Panopticon
+# ************************************************************************
 
 class Panopticon(TenAcross):
 
@@ -440,11 +440,11 @@ class Panopticon(TenAcross):
         self.s.talon.dealRow(rows=self.s.reserves)
 
 
-# /***********************************************************************
-# // Australian Patience
-# // Raw Prawn
-# // Bim Bom
-# ************************************************************************/
+# ************************************************************************
+# * Australian Patience
+# * Raw Prawn
+# * Bim Bom
+# ************************************************************************
 
 class AustralianPatience(RussianSolitaire):
 
@@ -486,9 +486,9 @@ class BimBom(AustralianPatience):
         self.s.talon.dealCards()
 
 
-# /***********************************************************************
-# // Geoffrey
-# ************************************************************************/
+# ************************************************************************
+# * Geoffrey
+# ************************************************************************
 
 class Geoffrey(Yukon):
     Layout_Method = Layout.klondikeLayout
@@ -508,9 +508,9 @@ class Geoffrey(Yukon):
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
-# /***********************************************************************
-# // Queensland
-# ************************************************************************/
+# ************************************************************************
+# * Queensland
+# ************************************************************************
 
 class Queensland(Yukon):
     Layout_Method = Layout.klondikeLayout
@@ -531,9 +531,9 @@ class Queensland(Yukon):
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
-# /***********************************************************************
-# // Outback Patience
-# ************************************************************************/
+# ************************************************************************
+# * Outback Patience
+# ************************************************************************
 
 class OutbackPatience(Yukon):
 
@@ -561,10 +561,10 @@ class OutbackPatience(Yukon):
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
-# /***********************************************************************
-# // Russian Spider
-# // Double Russian Spider
-# ************************************************************************/
+# ************************************************************************
+# * Russian Spider
+# * Double Russian Spider
+# ************************************************************************
 
 class RussianSpider_RowStack(Yukon_SS_RowStack): #Spider_SS_RowStack
     def canDropCards(self, stacks):
@@ -605,9 +605,9 @@ class DoubleRussianSpider(RussianSpider, DoubleRussianSolitaire):
         DoubleRussianSolitaire.startGame(self)
 
 
-# /***********************************************************************
-# // Brisbane
-# ************************************************************************/
+# ************************************************************************
+# * Brisbane
+# ************************************************************************
 
 class Brisbane_RowStack(Yukon_AC_RowStack):
     def _isSequence(self, c1, c2):
@@ -634,9 +634,9 @@ class Brisbane(Yukon):
     shallHighlightMatch = Game._shallHighlightMatch_RK
 
 
-# /***********************************************************************
-# // Hawaiian
-# ************************************************************************/
+# ************************************************************************
+# * Hawaiian
+# ************************************************************************
 
 class Hawaiian(Game):
     Hint_Class = Yukon_Hint
@@ -676,9 +676,9 @@ class Hawaiian(Game):
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
-# /***********************************************************************
-# // Wave
-# ************************************************************************/
+# ************************************************************************
+# * Wave
+# ************************************************************************
 
 class WaveTalon(DealRowTalonStack):
     def dealCards(self, sound=False):

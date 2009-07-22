@@ -25,9 +25,9 @@
 # imports
 
 
-# /***********************************************************************
-# // moves (undo / redo)
-# ************************************************************************/
+# ************************************************************************
+# * moves (undo / redo)
+# ************************************************************************
 
 ## Currently we have the following atomic moves:
 ## - move the top cards from one stack on the top of another
@@ -53,9 +53,9 @@ class AtomicMove:
         return -1
 
 
-# /***********************************************************************
-# // Move the top N cards from a stack to another stack.
-# ************************************************************************/
+# ************************************************************************
+# * Move the top N cards from a stack to another stack.
+# ************************************************************************
 
 class AMoveMove(AtomicMove):
     def __init__(self, ncards, from_stack, to_stack, frames, shadow=-1):
@@ -101,9 +101,9 @@ class AMoveMove(AtomicMove):
                 cmp(self.to_stack_id, other.to_stack_id))
 
 
-# /***********************************************************************
-# // Flip the top card of a stack.
-# ************************************************************************/
+# ************************************************************************
+# * Flip the top card of a stack.
+# ************************************************************************
 
 class AFlipMove(AtomicMove):
     def __init__(self, stack):
@@ -179,9 +179,9 @@ class AFlipAndMoveMove(AtomicMove):
                 cmp(self.to_stack_id, other.to_stack_id))
 
 
-# /***********************************************************************
-# // Flip all cards
-# ************************************************************************/
+# ************************************************************************
+# * Flip all cards
+# ************************************************************************
 
 class AFlipAllMove(AtomicMove):
     def __init__(self, stack):
@@ -209,9 +209,9 @@ class AFlipAllMove(AtomicMove):
         return cmp(self.stack_id, other.stack_id)
 
 
-# /***********************************************************************
-# // Turn the Waste stack onto the empty Talon.
-# ************************************************************************/
+# ************************************************************************
+# * Turn the Waste stack onto the empty Talon.
+# ************************************************************************
 
 class ATurnStackMove(AtomicMove):
     def __init__(self, from_stack, to_stack):
@@ -259,11 +259,11 @@ class ATurnStackMove(AtomicMove):
                 cmp(self.to_stack_id, other.to_stack_id))
 
 
-# /***********************************************************************
-# // ATurnStackMove is somewhat optimized to avoid unnecessary
-# // unhide and hide operations.
-# // FIXME: doesn't work yet
-# ************************************************************************/
+# ************************************************************************
+# * ATurnStackMove is somewhat optimized to avoid unnecessary
+# * unhide and hide operations.
+# * FIXME: doesn't work yet
+# ************************************************************************
 
 class NEW_ATurnStackMove(AtomicMove):
     def __init__(self, from_stack, to_stack, update_flags=1):
@@ -316,10 +316,10 @@ class NEW_ATurnStackMove(AtomicMove):
                 cmp(self.update_flags, other.update_flags))
 
 
-# /***********************************************************************
-# // Update the view or model of a stack. Only needed for complex
-# // games in combination with undo.
-# ************************************************************************/
+# ************************************************************************
+# * Update the view or model of a stack. Only needed for complex
+# * games in combination with undo.
+# ************************************************************************
 
 class AUpdateStackMove(AtomicMove):
     def __init__(self, stack, flags):
@@ -354,9 +354,9 @@ AUpdateStackModelMove = AUpdateStackMove
 AUpdateStackViewMove = AUpdateStackMove
 
 
-# /***********************************************************************
-# // Increase the `round' member variable of a Talon stack.
-# ************************************************************************/
+# ************************************************************************
+# * Increase the `round' member variable of a Talon stack.
+# ************************************************************************
 
 class ANextRoundMove(AtomicMove):
     def __init__(self, stack):
@@ -380,9 +380,9 @@ class ANextRoundMove(AtomicMove):
         return cmp(self.stack_id, other.stack_id)
 
 
-# /***********************************************************************
-# // Save the current state (needed for undo in some games).
-# ************************************************************************/
+# ************************************************************************
+# * Save the current state (needed for undo in some games).
+# ************************************************************************
 
 class ASaveSeedMove(AtomicMove):
     def __init__(self, game):
@@ -398,9 +398,9 @@ class ASaveSeedMove(AtomicMove):
         return cmp(self.state, other.state)
 
 
-# /***********************************************************************
-# // Save game variables
-# ************************************************************************/
+# ************************************************************************
+# * Save game variables
+# ************************************************************************
 
 class ASaveStateMove(AtomicMove):
     def __init__(self, game, flags):
@@ -419,9 +419,9 @@ class ASaveStateMove(AtomicMove):
         return cmp(self.state, other.state)
 
 
-# /***********************************************************************
-# // Shuffle all cards of a stack. Saves the seed. Does not flip any cards.
-# ************************************************************************/
+# ************************************************************************
+# * Shuffle all cards of a stack. Saves the seed. Does not flip any cards.
+# ************************************************************************
 
 class AShuffleStackMove(AtomicMove):
     def __init__(self, stack, game):
@@ -463,10 +463,10 @@ class AShuffleStackMove(AtomicMove):
                 cmp(self.state, other.state))
 
 
-# /***********************************************************************
-# // ASingleCardMove - move single card from *anyone* position
-# // (for ArbitraryStack)
-# ************************************************************************/
+# ************************************************************************
+# * ASingleCardMove - move single card from *anyone* position
+# * (for ArbitraryStack)
+# ************************************************************************
 
 class ASingleCardMove(AtomicMove):
 
@@ -509,9 +509,9 @@ class ASingleCardMove(AtomicMove):
                    (other.from_stack_id, other.to_stack_id, other.from_pos))
 
 
-# /***********************************************************************
-# // AInnerMove - change position of single card in stack (TODO)
-# ************************************************************************/
+# ************************************************************************
+# * AInnerMove - change position of single card in stack (TODO)
+# ************************************************************************
 
 class AInnerMove(AtomicMove):
 

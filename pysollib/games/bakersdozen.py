@@ -37,9 +37,9 @@ from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 from pysollib.hint import FreeCellSolverWrapper
 
 
-# /***********************************************************************
-# // Castles in Spain
-# ************************************************************************/
+# ************************************************************************
+# * Castles in Spain
+# ************************************************************************
 
 class CastlesInSpain(Game):
     Layout_Method = Layout.bakersDozenLayout
@@ -78,9 +78,9 @@ class CastlesInSpain(Game):
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
-# /***********************************************************************
-# // Martha
-# ************************************************************************/
+# ************************************************************************
+# * Martha
+# ************************************************************************
 
 class Martha_RowStack(AC_RowStack):
     def acceptsCards(self, from_stack, cards):
@@ -106,9 +106,9 @@ class Martha(CastlesInSpain):
         self.s.talon.dealRow(rows=self.s.foundations)
 
 
-# /***********************************************************************
-# // Baker's Dozen
-# ************************************************************************/
+# ************************************************************************
+# * Baker's Dozen
+# ************************************************************************
 
 class BakersDozen(CastlesInSpain):
     RowStack_Class = StackWrapper(RK_RowStack, max_move=1, max_accept=1,
@@ -139,10 +139,10 @@ class BakersDozen(CastlesInSpain):
     shallHighlightMatch = Game._shallHighlightMatch_RK
 
 
-# /***********************************************************************
-# // Spanish Patience
-# // Portuguese Solitaire
-# ************************************************************************/
+# ************************************************************************
+# * Spanish Patience
+# * Portuguese Solitaire
+# ************************************************************************
 
 class SpanishPatience(BakersDozen):
     Foundation_Class = AC_FoundationStack
@@ -161,9 +161,9 @@ class SpanishPatienceII(PortugueseSolitaire):
     Solver_Class = FreeCellSolverWrapper(sbb='rank')
 
 
-# /***********************************************************************
-# // Good Measure
-# ************************************************************************/
+# ************************************************************************
+# * Good Measure
+# ************************************************************************
 
 class GoodMeasure(BakersDozen):
     Solver_Class = FreeCellSolverWrapper(preset='good_measure')
@@ -185,9 +185,9 @@ class GoodMeasure(BakersDozen):
             self.moveMove(1, self.s.talon, self.s.foundations[c.suit])
 
 
-# /***********************************************************************
-# // Cruel
-# ************************************************************************/
+# ************************************************************************
+# * Cruel
+# ************************************************************************
 
 class Cruel_Talon(TalonStack):
     def canDealCards(self):
@@ -258,10 +258,10 @@ class Cruel(CastlesInSpain):
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
-# /***********************************************************************
-# // Royal Family
-# // Indefatigable
-# ************************************************************************/
+# ************************************************************************
+# * Royal Family
+# * Indefatigable
+# ************************************************************************
 
 class RoyalFamily(Cruel):
     Foundation_Class = StackWrapper(SS_FoundationStack, base_rank=KING, dir=-1)
@@ -296,9 +296,9 @@ class Indefatigable(Cruel):
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
-# /***********************************************************************
-# // Perseverance
-# ************************************************************************/
+# ************************************************************************
+# * Perseverance
+# ************************************************************************
 
 class Perseverance(Cruel, BakersDozen):
     Talon_Class = StackWrapper(Cruel_Talon, max_rounds=3)
@@ -322,9 +322,9 @@ class Perseverance(Cruel, BakersDozen):
 ##         Cruel.dealCards(self, sound)
 
 
-# /***********************************************************************
-# // Ripple Fan
-# ************************************************************************/
+# ************************************************************************
+# * Ripple Fan
+# ************************************************************************
 
 class RippleFan(CastlesInSpain):
     Solver_Class = None

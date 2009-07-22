@@ -34,9 +34,9 @@ from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 
-# /***********************************************************************
-# //
-# ************************************************************************/
+# ************************************************************************
+# *
+# ************************************************************************
 
 class UnionSquare_Foundation(AbstractFoundationStack):
     def acceptsCards(self, from_stack, cards):
@@ -73,9 +73,9 @@ class UnionSquare_RowStack(OpenStack):
     getBottomImage = Stack._getReserveBottomImage
 
 
-# /***********************************************************************
-# //
-# ************************************************************************/
+# ************************************************************************
+# *
+# ************************************************************************
 
 class UnionSquare(Game):
     Hint_Class = CautiousDefaultHint
@@ -135,9 +135,9 @@ class UnionSquare(Game):
         return ()
 
 
-# /***********************************************************************
-# // Solid Square
-# ************************************************************************/
+# ************************************************************************
+# * Solid Square
+# ************************************************************************
 
 class SolidSquare(UnionSquare):
     RowStack_Class = StackWrapper(UD_SS_RowStack, base_rank=NO_RANK,
@@ -165,9 +165,9 @@ class SolidSquare(UnionSquare):
     shallHighlightMatch = Game._shallHighlightMatch_SSW
 
 
-# /***********************************************************************
-# // Boomerang
-# ************************************************************************/
+# ************************************************************************
+# * Boomerang
+# ************************************************************************
 
 class Boomerang_Foundation(AbstractFoundationStack):
     def acceptsCards(self, from_stack, cards):

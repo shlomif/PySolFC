@@ -34,9 +34,9 @@ from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 
-# /***********************************************************************
-# // Eiffel Tower
-# ************************************************************************/
+# ************************************************************************
+# * Eiffel Tower
+# ************************************************************************
 
 class EiffelTower_RowStack(OpenStack):
     def __init__(self, x, y, game):
@@ -102,9 +102,9 @@ class EiffelTower(Game):
         return card1.rank + card2.rank == 12
 
 
-# /***********************************************************************
-# // Strict Eiffel Tower
-# ************************************************************************/
+# ************************************************************************
+# * Strict Eiffel Tower
+# ************************************************************************
 
 class StrictEiffelTower(EiffelTower):
     Waste_Class = StackWrapper(WasteStack, max_cards=2)

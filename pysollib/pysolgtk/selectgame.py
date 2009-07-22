@@ -43,9 +43,9 @@ from tkcanvas  import MfxCanvas, MfxCanvasText
 from pysoltree import PysolTreeView
 
 
-# /***********************************************************************
-# // Dialog
-# ************************************************************************/
+# ************************************************************************
+# * Dialog
+# ************************************************************************
 
 class SelectGameDialogWithPreview(MfxDialog):
     #Tree_Class = SelectGameTreeWithPreview

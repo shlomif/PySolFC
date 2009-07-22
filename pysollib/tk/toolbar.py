@@ -40,9 +40,9 @@ from tkwidget import MfxTooltip
 from menubar import createToolbarMenu, MfxMenu
 
 
-# /***********************************************************************
-# //
-# ************************************************************************/
+# ************************************************************************
+# *
+# ************************************************************************
 
 class AbstractToolbarButton:
     def __init__(self, parent, toolbar, toolbar_name, position):
@@ -147,9 +147,9 @@ class ToolbarLabel(Tkinter.Message):
         self.grid_forget()
 
 
-# /***********************************************************************
-# // Note: Applications should call show/hide after constructor.
-# ************************************************************************/
+# ************************************************************************
+# * Note: Applications should call show/hide after constructor.
+# ************************************************************************
 
 class PysolToolbarTk:
 

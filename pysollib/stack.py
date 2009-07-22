@@ -112,10 +112,10 @@ from settings import TOOLKIT
 from settings import DEBUG
 
 
-# /***********************************************************************
-# // Let's start with some test methods for cards.
-# // Empty card-lists return false.
-# ************************************************************************/
+# ************************************************************************
+# * Let's start with some test methods for cards.
+# * Empty card-lists return false.
+# ************************************************************************
 
 # check that all cards are face-up
 def cardsFaceUp(cards):
@@ -203,9 +203,9 @@ def getPileFromStacks(stacks, reverse=0):
     return cards
 
 
-# /***********************************************************************
-# //
-# ************************************************************************/
+# ************************************************************************
+# *
+# ************************************************************************
 
 class Stack:
     # A generic stack of cards.
@@ -1566,9 +1566,9 @@ class Stack:
         else:         return ungettext('%d card', '%d cards', n) % n
 
 
-# /***********************************************************************
-# // Abstract interface that supports a concept of dealing.
-# ************************************************************************/
+# ************************************************************************
+# * Abstract interface that supports a concept of dealing.
+# ************************************************************************
 
 class DealRow_StackMethods:
     # Deal a card to each of the RowStacks. Return number of cards dealt.
@@ -1711,9 +1711,9 @@ class RedealCards_StackMethods:
         return num_cards
 
 
-# /***********************************************************************
-# // The Talon is a stack with support for dealing.
-# ************************************************************************/
+# ************************************************************************
+# * The Talon is a stack with support for dealing.
+# ************************************************************************
 
 class TalonStack(Stack,
                  DealRow_StackMethods,
@@ -1944,12 +1944,12 @@ class GroundsForADivorceTalonStack(DealRowRedealTalonStack):
         return 0
 
 
-# /***********************************************************************
-# // An OpenStack is a stack where cards can be placed and dragged
-# // (i.e. FoundationStack, RowStack, ReserveStack, ...)
-# //
-# // Note that it defaults to max_move=1 and max_accept=0.
-# ************************************************************************/
+# ************************************************************************
+# * An OpenStack is a stack where cards can be placed and dragged
+# * (i.e. FoundationStack, RowStack, ReserveStack, ...)
+# *
+# * Note that it defaults to max_move=1 and max_accept=0.
+# ************************************************************************
 
 class OpenStack(Stack):
     def __init__(self, x, y, game, **cap):
@@ -2114,9 +2114,9 @@ class OpenStack(Stack):
         return ''
 
 
-# /***********************************************************************
-# // Foundations stacks
-# ************************************************************************/
+# ************************************************************************
+# * Foundations stacks
+# ************************************************************************
 
 class AbstractFoundationStack(OpenStack):
     def __init__(self, x, y, game, suit, **cap):
@@ -2275,9 +2275,9 @@ class Spider_RK_Foundation(Spider_SS_Foundation):
 
 
 
-# /***********************************************************************
-# // Abstract classes for row stacks.
-# ************************************************************************/
+# ************************************************************************
+# * Abstract classes for row stacks.
+# ************************************************************************
 
 # Abstract class.
 class SequenceStack_StackMethods:
@@ -2343,9 +2343,9 @@ class SequenceRowStack(SequenceStack_StackMethods, BasicRowStack):
         return self._getBaseCard()
 
 
-# /***********************************************************************
-# // Row stacks (the main playing stacks on the Tableau).
-# ************************************************************************/
+# ************************************************************************
+# * Row stacks (the main playing stacks on the Tableau).
+# ************************************************************************
 
 #
 # Implementation of common row stacks follows here.
@@ -2640,9 +2640,9 @@ class SuperMoveBO_RowStack(SuperMoveStack_StackMethods, BO_RowStack):
         return len(cards) <= max_move
 
 
-# /***********************************************************************
-# // WasteStack (a helper stack for the Talon, e.g. in Klondike)
-# ************************************************************************/
+# ************************************************************************
+# * WasteStack (a helper stack for the Talon, e.g. in Klondike)
+# ************************************************************************
 
 class WasteStack(OpenStack):
     def getHelp(self):
@@ -2748,9 +2748,9 @@ class OpenTalonStack(TalonStack, OpenStack):
             return OpenStack.clickHandler(self, event)
 
 
-# /***********************************************************************
-# // ReserveStack (free cell)
-# ************************************************************************/
+# ************************************************************************
+# * ReserveStack (free cell)
+# ************************************************************************
 
 class ReserveStack(OpenStack):
     def __init__(self, x, y, game, **cap):
@@ -2765,9 +2765,9 @@ class ReserveStack(OpenStack):
         return _('Free cell.')
 
 
-# /***********************************************************************
-# // InvisibleStack (an internal off-screen stack to hold cards)
-# ************************************************************************/
+# ************************************************************************
+# * InvisibleStack (an internal off-screen stack to hold cards)
+# ************************************************************************
 
 class InvisibleStack(Stack):
     def __init__(self, game, **cap):
@@ -2787,12 +2787,12 @@ class InvisibleStack(Stack):
     getBottomImage = Stack._getNoneBottomImage
 
 
-# /***********************************************************************
-# // ArbitraryStack (stack with arbitrary access)
-# //
-# // NB: don't support hint and demo for non-top cards
-# // NB: this stack only for CARD_XOFFSET == 0
-# ************************************************************************/
+# ************************************************************************
+# * ArbitraryStack (stack with arbitrary access)
+# *
+# * NB: don't support hint and demo for non-top cards
+# * NB: this stack only for CARD_XOFFSET == 0
+# ************************************************************************
 
 class ArbitraryStack(OpenStack):
 
@@ -2889,12 +2889,12 @@ class ArbitraryStack(OpenStack):
         return 0
 
 
-# /***********************************************************************
-# // A StackWrapper is a functor (function object) that creates a
-# // new stack when called, i.e. it wraps the constructor.
-# //
-# // "cap" are the capabilites, see class Stack above.
-# ************************************************************************/
+# ************************************************************************
+# * A StackWrapper is a functor (function object) that creates a
+# * new stack when called, i.e. it wraps the constructor.
+# *
+# * "cap" are the capabilites, see class Stack above.
+# ************************************************************************
 
 # self.cap override any call-time cap
 class StackWrapper:

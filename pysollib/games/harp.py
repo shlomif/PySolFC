@@ -40,9 +40,9 @@ from pysollib.pysoltk import MfxCanvasText
 from spider import Spider_RowStack, Spider_SS_Foundation, Spider_Hint
 
 
-# /***********************************************************************
-# // Double Klondike (Klondike with 2 decks and 9 rows)
-# ************************************************************************/
+# ************************************************************************
+# * Double Klondike (Klondike with 2 decks and 9 rows)
+# ************************************************************************
 
 class DoubleKlondike(Game):
     Layout_Method = Layout.harpLayout
@@ -84,19 +84,19 @@ class DoubleKlondike(Game):
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
-# /***********************************************************************
-# // Double Klondike by Threes
-# ************************************************************************/
+# ************************************************************************
+# * Double Klondike by Threes
+# ************************************************************************
 
 class DoubleKlondikeByThrees(DoubleKlondike):
     def createGame(self):
         DoubleKlondike.createGame(self, num_deal=3)
 
 
-# /***********************************************************************
-# // Gargantua (Double Klondike with one redeal)
-# // Pantagruel
-# ************************************************************************/
+# ************************************************************************
+# * Gargantua (Double Klondike with one redeal)
+# * Pantagruel
+# ************************************************************************
 
 class Gargantua(DoubleKlondike):
     def createGame(self):
@@ -107,9 +107,9 @@ class Pantagruel(DoubleKlondike):
     def createGame(self):
         DoubleKlondike.createGame(self, max_rounds=1)
 
-# /***********************************************************************
-# // Harp (Double Klondike with 10 non-king rows and no redeal)
-# ************************************************************************/
+# ************************************************************************
+# * Harp (Double Klondike with 10 non-king rows and no redeal)
+# ************************************************************************
 
 class BigHarp(DoubleKlondike):
     RowStack_Class = AC_RowStack
@@ -131,9 +131,9 @@ class BigHarp(DoubleKlondike):
         self.s.talon.dealCards()          # deal first card to WasteStack
 
 
-# /***********************************************************************
-# // Steps (Harp with 7 rows)
-# ************************************************************************/
+# ************************************************************************
+# * Steps (Harp with 7 rows)
+# ************************************************************************
 
 class Steps(DoubleKlondike):
     RowStack_Class = AC_RowStack
@@ -142,11 +142,11 @@ class Steps(DoubleKlondike):
         DoubleKlondike.createGame(self, max_rounds=2, rows=7)
 
 
-# /***********************************************************************
-# // Triple Klondike
-# // Triple Klondike by Threes
-# // Chinese Klondike
-# ************************************************************************/
+# ************************************************************************
+# * Triple Klondike
+# * Triple Klondike by Threes
+# * Chinese Klondike
+# ************************************************************************
 
 class TripleKlondike(DoubleKlondike):
     def createGame(self):
@@ -164,10 +164,10 @@ class ChineseKlondike(DoubleKlondike):
         DoubleKlondike.createGame(self, rows=12)
 
 
-# /***********************************************************************
-# // Lady Jane
-# // Inquisitor
-# ************************************************************************/
+# ************************************************************************
+# * Lady Jane
+# * Inquisitor
+# ************************************************************************
 
 class LadyJane(DoubleKlondike):
     Hint_Class = Spider_Hint
@@ -192,9 +192,9 @@ class Inquisitor(DoubleKlondike):
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
-# /***********************************************************************
-# // Arabella
-# ************************************************************************/
+# ************************************************************************
+# * Arabella
+# ************************************************************************
 
 class Arabella(DoubleKlondike):
     Hint_Class = Spider_Hint
@@ -209,9 +209,9 @@ class Arabella(DoubleKlondike):
     getQuickPlayScore = Game._getSpiderQuickPlayScore
 
 
-# /***********************************************************************
-# // Big Deal
-# ************************************************************************/
+# ************************************************************************
+# * Big Deal
+# ************************************************************************
 
 class BigDeal(DoubleKlondike):
     RowStack_Class = KingAC_RowStack
@@ -243,9 +243,9 @@ class BigDeal(DoubleKlondike):
         l.defaultStackGroups()
 
 
-# /***********************************************************************
-# // Delivery
-# ************************************************************************/
+# ************************************************************************
+# * Delivery
+# ************************************************************************
 
 class Delivery(BigDeal):
     Hint_Class = CautiousDefaultHint
@@ -265,9 +265,9 @@ class Delivery(BigDeal):
         self.s.talon.dealCards()          # deal first card to WasteStack
 
 
-# /***********************************************************************
-# // Double Kingsley
-# ************************************************************************/
+# ************************************************************************
+# * Double Kingsley
+# ************************************************************************
 
 class DoubleKingsley(DoubleKlondike):
     Foundation_Class = StackWrapper(SS_FoundationStack, base_rank=KING, dir=-1)
@@ -277,9 +277,9 @@ class DoubleKingsley(DoubleKlondike):
         DoubleKlondike.createGame(self, max_rounds=1)
 
 
-# /***********************************************************************
-# // Thieves of Egypt
-# ************************************************************************/
+# ************************************************************************
+# * Thieves of Egypt
+# ************************************************************************
 
 class ThievesOfEgypt(DoubleKlondike):
     Layout_Method = Layout.klondikeLayout
@@ -299,9 +299,9 @@ class ThievesOfEgypt(DoubleKlondike):
         self.s.talon.dealCards()          # deal first card to WasteStack
 
 
-# /***********************************************************************
-# // Brush
-# ************************************************************************/
+# ************************************************************************
+# * Brush
+# ************************************************************************
 
 class Brush(DoubleKlondike):
     Layout_Method = Layout.klondikeLayout

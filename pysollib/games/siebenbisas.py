@@ -34,9 +34,9 @@ from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 
-# /***********************************************************************
-# //
-# ************************************************************************/
+# ************************************************************************
+# *
+# ************************************************************************
 
 class SiebenBisAs_Hint(CautiousDefaultHint):
     def computeHints(self):
@@ -72,9 +72,9 @@ class SiebenBisAs_Hint(CautiousDefaultHint):
             return 0
         return 1
 
-# /***********************************************************************
-# // Sieben bis As (Seven to Ace)
-# ************************************************************************/
+# ************************************************************************
+# * Sieben bis As (Seven to Ace)
+# ************************************************************************
 
 class SiebenBisAs_Foundation(SS_FoundationStack):
     def acceptsCards(self, from_stack, cards):
@@ -156,9 +156,9 @@ class SiebenBisAs(Game):
     shallHighlightMatch = Game._shallHighlightMatch_SSW
 
 
-# /***********************************************************************
-# // Maze
-# ************************************************************************/
+# ************************************************************************
+# * Maze
+# ************************************************************************
 
 class Maze_Hint(SiebenBisAs_Hint):
     def shallMovePile(self, from_stack, to_stack, pile, rpile):

@@ -53,9 +53,9 @@ from pysollib.mfxutil import Image, ImageTk, ImageOps
 from pysollib.settings import TITLE, WIN_SYSTEM
 
 
-# /***********************************************************************
-# // window manager util
-# ************************************************************************/
+# ************************************************************************
+# * window manager util
+# ************************************************************************
 
 def wm_withdraw(window):
     window.wm_withdraw()
@@ -84,9 +84,9 @@ def wm_get_geometry(window):
     return l
 
 
-# /***********************************************************************
-# // window util
-# ************************************************************************/
+# ************************************************************************
+# * window util
+# ************************************************************************
 
 def setTransient(window, parent, relx=None, rely=None, expose=1):
     # Make an existing toplevel window transient for a parent.
@@ -177,9 +177,9 @@ def __getWidgetXY(widget, parent, relx=None, rely=None,
     return x, y
 
 
-# /***********************************************************************
-# // bind wrapper - Tkinter doesn't properly delete all bindings
-# ************************************************************************/
+# ************************************************************************
+# * bind wrapper - Tkinter doesn't properly delete all bindings
+# ************************************************************************
 
 __mfx_bindings = {}
 __mfx_wm_protocols = ("WM_DELETE_WINDOW", "WM_TAKE_FOCUS", "WM_SAVE_YOURSELF")
@@ -220,9 +220,9 @@ def unbind_destroy(widget):
     ##print len(__mfx_bindings.keys())
 
 
-# /***********************************************************************
-# // timer wrapper - Tkinter doesn't properly delete all commands
-# ************************************************************************/
+# ************************************************************************
+# * timer wrapper - Tkinter doesn't properly delete all commands
+# ************************************************************************
 
 def after(widget, ms, func, *args):
     timer = widget.after(ms, func, *args)
@@ -241,9 +241,9 @@ def after_cancel(t):
             pass
 
 
-# /***********************************************************************
-# // image handling
-# ************************************************************************/
+# ************************************************************************
+# * image handling
+# ************************************************************************
 
 if Image:
     class PIL_Image(ImageTk.PhotoImage):
@@ -353,9 +353,9 @@ def markImage(image):
     out = Image.composite(tmp, image, image)
     return out
 
-# /***********************************************************************
-# // font utils
-# ************************************************************************/
+# ************************************************************************
+# * font utils
+# ************************************************************************
 
 def get_text_width(text, font, root=None):
     return Font(root=root, font=font).measure(text)

@@ -2131,10 +2131,19 @@ class AbstractFoundationStack(OpenStack):
         return 0
 
     def rightclickHandler(self, event):
+        ##return 0
+        if self.game.app.opt.quickplay:
+            n = self.quickPlayHandler(event)
+            self.game.stats.quickplay_moves += n
+            return n
         return 0
 
-    def quickPlayHandler(self, event, from_stacks=None, to_stacks=None):
-        return 0
+    def quickPlayHandler(self, event):
+        ##return 0
+        from_stacks = self.game.sg.dropstacks + self.game.s.foundations
+        ##to_stacks = self.game.sg.dropstacks
+        to_stacks = from_stacks
+        return OpenStack.quickPlayHandler(self, event, from_stacks, to_stacks)
 
     getBottomImage = Stack._getSuitBottomImage
 

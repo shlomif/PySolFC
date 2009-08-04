@@ -78,8 +78,6 @@ class Images:
         self._xshadow = []
         self._shade = []
         self._shadow_cards = {}         # key: (suit, rank)
-        self._highlight_cards = {}      # for mahjongg
-        self._shadow_back = None
         self._pil_shadow = {}           # key: (width, height)
         self._pil_shadow_image = None
 
@@ -354,35 +352,35 @@ class Images:
     def getShade(self):
         return self._shade[self._shade_index]
 
-    def getShadowCard(self, deck, suit, rank):
-        if (suit, rank) in self._shadow_cards:
-            shade = self._shadow_cards[(suit, rank)]
+    def _getShadow(self, image, card, color='#3896f8', factor=0.3):
+        if TOOLKIT == 'tk' and Image and Image.VERSION >= '1.1.7':
+            # use alpha image; one for each color
+            if color in self._shadow_cards:
+                shade = self._shadow_cards[color]
+            else:
+                shade = shadowImage(image, color, factor)
+                self._shadow_cards[color] = shade
         else:
-            image = self.getFace(deck, suit, rank)
-            shade = shadowImage(image)
-            self._shadow_cards[(suit, rank)] = shade
+            if card in self._shadow_cards:
+                shade = self._shadow_cards[card]
+            else:
+                shade = shadowImage(image, color, factor)
+                self._shadow_cards[card] = shade
         if not shade:
             return self.getShade()
         return shade
+
+    def getShadowCard(self, deck, suit, rank):
+        image = self.getFace(deck, suit, rank)
+        return self._getShadow(image, (suit, rank))
 
     def getHighlightCard(self, deck, suit, rank):
-        if (suit, rank) in self._highlight_cards:
-            shade = self._highlight_cards[(suit, rank)]
-        else:
-            image = self.getFace(deck, suit, rank)
-            shade = shadowImage(image, color='black', factor=0.3)
-            self._highlight_cards[(suit, rank)] = shade
-        if not shade:
-            return self.getShade()
-        return shade
+        image = self.getFace(deck, suit, rank)
+        return self._getShadow(image, (suit, rank, 'black'), 'black')
 
     def getShadowBack(self):
-        if self._shadow_back:
-            return self._shadow_back
         image = self.getBack()
-        shade = shadowImage(image)
-        self._shadow_back = shade
-        return shade
+        return self._getShadow(image, 'back')
 
     def getCardbacks(self):
         return self._back

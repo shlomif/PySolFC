@@ -615,7 +615,7 @@ class Quads_RowStack(RK_RowStack):
     getBottomImage = Stack._getReserveBottomImage
 
 class Quads(Troika):
-    RowStack_Class = StackWrapper(Quads_RowStack, dir=0,
+    RowStack_Class = FullStackWrapper(Quads_RowStack, dir=0,
                                   ##base_rank=NO_RANK,
                                   max_cards=4)
     def createGame(self):
@@ -623,10 +623,18 @@ class Quads(Troika):
 
     def startGame(self):
         Troika.startGame(self, ncards=4)
-##         for i in range(3):
-##             self.s.talon.dealRow(rows=self.s.rows[:-1], frames=0)
-##         self.startDealSample()
-##         self.s.talon.dealRow(rows=self.s.rows[:-1])
+
+class QuadsPlus(Quads):
+    def _shuffleHook(self, cards):
+        return self._shuffleHookMoveToTop(cards,
+                                          lambda c: (c.rank == ACE, c.suit))
+
+    def startGame(self):
+        self.s.talon.dealRow(rows=self.s.foundations, frames=0)
+        for i in range(3):
+            self.s.talon.dealRow(rows=self.s.rows[:-1], frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow(rows=self.s.rows[:-1])
 
 
 # ************************************************************************
@@ -944,4 +952,6 @@ registerGame(GameInfo(719, School, "School",
                       GI.GT_FAN_TYPE, 1, 2, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(739, ForestGlade, "Forest Glade",
                       GI.GT_FAN_TYPE, 2, 2, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(767, QuadsPlus, "Quads +",
+                      GI.GT_FAN_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))
 

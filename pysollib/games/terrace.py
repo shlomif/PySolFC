@@ -60,6 +60,11 @@ class Terrace_AC_Foundation(AC_FoundationStack):
             return from_stack in self.game.s.rows
         return AC_FoundationStack.acceptsCards(self, from_stack, cards)
 
+    def getBaseCard(self):
+        if self.game.getState() == 0:
+            return _('Base card - %s.') % _('any card')
+        return AC_FoundationStack.getBaseCard(self)
+
 
 class Terrace_SS_Foundation(SS_FoundationStack):
     def __init__(self, x, y, game, suit, **cap):
@@ -74,6 +79,11 @@ class Terrace_SS_Foundation(SS_FoundationStack):
                 return False
             return from_stack in self.game.s.rows
         return SS_FoundationStack.acceptsCards(self, from_stack, cards)
+
+    def getBaseCard(self):
+        if self.game.getState() == 0:
+            return _('Base card - %s.') % _('any card')
+        return SS_FoundationStack.getBaseCard(self)
 
 
 class Terrace_RowStack(AC_RowStack):
@@ -286,13 +296,11 @@ class Signora(Terrace):
 # ************************************************************************
 
 class Madame(Terrace):
-    Talon_Class = WasteTalonStack
     INITIAL_RESERVE_CARDS = 15
     def createGame(self):
         Terrace.createGame(self, rows=10, playcards=20)
     def startGame(self):
         Terrace.startGame(self, nrows=10)
-        self.s.talon.dealCards()
 
 
 # ************************************************************************

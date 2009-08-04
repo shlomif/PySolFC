@@ -378,6 +378,8 @@ class TabbyCat(Game):
         s.talon = self.Talon_Class(x, y, self)
         l.createText(s.talon, "s")
 
+        self.setRegion(s.foundations, (-999, -999, l.YS*decks-l.CH/2, 999999))
+
         # define stack-groups
         l.defaultStackGroups()
 

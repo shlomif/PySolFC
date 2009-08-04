@@ -23,6 +23,8 @@ cardset_type = {
     '9': 'Trump only',
     }
 
+all_imgs = False
+
 class Cardset:
     def __init__(self, dir, name, type, ext, x, y):
         self.dir, self.name, self.type, self.ext, self.x, self.y = dir, name, type, ext, x, y
@@ -61,8 +63,9 @@ def show_cardset(*args):
         cs = cardsets_dict[cs_name]
         ls = glob(os.path.join(cs.dir, '[0-9][0-9][a-z]'+cs.ext))
         ls += glob(os.path.join(cs.dir, 'back*'+cs.ext))
-        #ls += glob(os.path.join(cs.dir, 'bottom*.gif'))
-        #ls += glob(os.path.join(cs.dir, 'l*.gif'))
+        if all_imgs:
+            ls += glob(os.path.join(cs.dir, 'bottom*.gif'))
+            ls += glob(os.path.join(cs.dir, 'l*.gif'))
         #ls = glob(os.path.join(cs.dir, '*.gif'))
         ##if not ls: return
         ls.sort()
@@ -251,6 +254,9 @@ def create_widgets():
     return root
 
 if __name__ == '__main__':
+    if '-a' in sys.argv:
+        sys.argv.remove('-a')
+        all_imgs = True
     if len(sys.argv) > 1:
         data_dir = sys.argv[1]
     else:

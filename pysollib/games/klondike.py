@@ -1182,33 +1182,33 @@ class LuckyThirteen(Game):
         if xoffset:
             xoffset = l.XOFFSET
         w0 = l.XS+playcards*l.XOFFSET
-        self.setSize(l.XM + 5*w0+2*l.XS, l.YM+4*l.YS)
+        self.setSize(l.XM + 5*w0, l.YM+4*l.YS)
 
-        x, y = l.XM, l.YM
+        x, y = l.XM, l.YM+l.YS
         for i in range(5):
             stack = self.RowStack_Class(x, y, self, max_move=1)
             s.rows.append(stack)
             stack.CARD_XOFFSET = xoffset
             stack.CARD_YOFFSET = 0
             x += w0
-        x, y = l.XM+w0, l.YM+l.YS
+        x, y = l.XM+w0, l.YM+2*l.YS
         for i in range(3):
             stack = self.RowStack_Class(x, y, self, max_move=1)
             s.rows.append(stack)
             stack.CARD_XOFFSET = xoffset
             stack.CARD_YOFFSET = 0
             x += w0
-        x, y = l.XM, l.YM+2*l.YS
+        x, y = l.XM, l.YM+3*l.YS
         for i in range(5):
             stack = self.RowStack_Class(x, y, self, max_move=1)
             s.rows.append(stack)
             stack.CARD_XOFFSET = xoffset
             stack.CARD_YOFFSET = 0
             x += w0
-        x, y = self.width-l.XS, l.YM
+        x, y = (self.width-4*l.XS)/2, l.YM
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
-            y += l.YS
+            x += l.XS
         x, y = l.XM, self.height-l.YS
         s.talon = InitialDealTalonStack(x, y, self, max_rounds=1)
 

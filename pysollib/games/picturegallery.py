@@ -137,7 +137,7 @@ class PictureGallery_Foundation(RK_FoundationStack):
 
     def closeStack(self):
         if len(self.cards) == 8:
-            if not self.game.moves.state == self.game.S_REDO:
+            if self.game.moves.state not in (self.game.S_REDO, self.game.S_RESTORE):
                 self.game.flipAllMove(self)
 
     def canFlipCard(self):

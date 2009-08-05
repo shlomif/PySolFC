@@ -64,8 +64,8 @@ def show_cardset(*args):
         ls = glob(os.path.join(cs.dir, '[0-9][0-9][a-z]'+cs.ext))
         ls += glob(os.path.join(cs.dir, 'back*'+cs.ext))
         if all_imgs:
-            ls += glob(os.path.join(cs.dir, 'bottom*.gif'))
-            ls += glob(os.path.join(cs.dir, 'l*.gif'))
+            ls += glob(os.path.join(cs.dir, 'bottom*'+cs.ext))
+            ls += glob(os.path.join(cs.dir, 'l*'+cs.ext))
         #ls = glob(os.path.join(cs.dir, '*.gif'))
         ##if not ls: return
         ls.sort()

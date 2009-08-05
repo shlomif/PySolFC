@@ -40,6 +40,7 @@ __all__ = ['wm_withdraw',
            'createImage',
            'shadowImage',
            'markImage',
+           'createBottom',
            'get_text_width',
            ]
 
@@ -358,6 +359,32 @@ def markImage(image):
         tmp = ImageOps.invert(image.convert('RGB'))
     out = Image.composite(tmp, image, image)
     return out
+
+def createBottom(image, color='white', backfile=None):
+    if not hasattr(image, '_pil_image'):
+        return None
+    im = image._pil_image
+    th = 1                              # thickness
+    sh = Image.new('RGBA', im.size, color)
+    out = Image.composite(sh, im, im)
+    w, h = im.size
+    size = (w-th*2, h-th*2)
+    tmp = Image.new('RGBA', size, color)
+    tmp.putalpha(40)
+    mask = out.resize(size, Image.ANTIALIAS)
+    out.paste(tmp, (th,th), mask)
+    if backfile:
+        back = Image.open(backfile).convert('RGBA')
+        w0, h0 = back.size
+        w1, h1 = im.size
+        a = min(float(w1)/w0, float(h1)/h0)
+        a = a*0.9
+        w0, h0 = int(w0*a), int(h0*a)
+        back = back.resize((w0,h0), Image.ANTIALIAS)
+        x, y = (w1 - w0) / 2, (h1 - h0) / 2
+        out.paste(back, (x,y), back)
+    return PIL_Image(image=out)
+
 
 # ************************************************************************
 # * font utils

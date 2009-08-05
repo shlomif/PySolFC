@@ -200,6 +200,18 @@ class CSI:
         9:  _("Trumps only"),
     }
 
+    TYPE_ID = {
+        1: "french",
+        2: "hanafuda",
+        3: "tarock",
+        4: "mahjongg",
+        5: "hex-a-deck",
+        6: "mughal-ganjifa",
+        7: "navagraha-ganjifa",
+        8: "dashavatara-ganjifa",
+        9: "trumps-only",
+    }
+
     # cardset styles
     STYLE = {
         1:  _("Adult"),                #

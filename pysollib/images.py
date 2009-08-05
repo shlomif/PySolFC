@@ -24,13 +24,15 @@
 
 # imports
 import os
+import traceback
 
 # PySol imports
+from resource import CSI
 from settings import TOOLKIT
 from mfxutil import Image, ImageTk
 
 # Toolkit imports
-from pysoltk import loadImage, copyImage, createImage, shadowImage
+from pysoltk import loadImage, copyImage, createImage, shadowImage, createBottom
 
 
 # ************************************************************************
@@ -54,6 +56,9 @@ class Images:
         self.reduced = r
         if cs is None:
             return
+        self.use_pil = False
+        if TOOLKIT == 'tk' and Image and Image.VERSION >= '1.1.7':
+            self.use_pil = True
         # copy from cardset
         self.CARDW, self.CARDH, self.CARDD = cs.CARDW/r, cs.CARDH/r, cs.CARDD/r
         self.CARD_XOFFSET = cs.CARD_XOFFSET
@@ -89,7 +94,10 @@ class Images:
         f = os.path.join(self.cs.dir, filename)
         if not os.path.exists(f):
             return None
-        img = loadImage(file=f)
+        try:
+            img = loadImage(file=f)
+        except:
+            return None
         w, h = img.width(), img.height()
         if self.CARDW < 0:
             self.CARDW, self.CARDH = w, h
@@ -97,6 +105,26 @@ class Images:
             if ((check_w and w != self.CARDW) or
                 (check_h and h != self.CARDH)):
                 raise ValueError("Invalid size %dx%d of image %s" % (w, h, f))
+        return img
+
+    def __loadBottom(self, filename, check_w=1, check_h=1, color='white'):
+        cs_type = CSI.TYPE_ID[self.cs.type]
+        imagedir = None
+        d = os.path.join('images', 'cards', 'bottoms')
+        try:
+            imagedir = self.d.findDir(cs_type, d)
+        except:
+            pass
+        if not self.use_pil or imagedir is None:
+            # load image
+            return self.__loadCard(filename+self.cs.ext, check_w, check_h)
+        # create image
+        d = os.path.join('images', 'cards', 'bottoms', cs_type)
+        try:
+            fn = self.d.findImage(filename, d)
+        except:
+            fn = None
+        img = createBottom(self._card[0], color, fn)
         return img
 
     def __addBack(self, im1, name):
@@ -133,20 +161,12 @@ class Images:
             self._letter_negative.append(neg_bottom)
         self._blank_bottom = createImage(self.CARDW, self.CARDH, fill=None, outline=None)
 
-    def load(self, app, progress=None, fast=0):
-        ##fast = 1
-        ##fast = 2
-        if fast > 1:
-            # only for testing
-            self.cs.backnames = ()
-            self.cs.nbottoms = 0
-            self.cs.nletters = 0
+    def load(self, app, progress=None):
         ext = self.cs.ext[1:]
         pstep = 0
         if progress:
             pstep = self.cs.ncards + len(self.cs.backnames) + self.cs.nbottoms + self.cs.nletters
-            if not fast:
-                pstep = pstep + self.cs.nshadows + 1    # shadows & shade
+            pstep += self.cs.nshadows + 1 # shadows & shade
             pstep = max(0, (80.0 - progress.percent) / pstep)
         # load face cards
         for n in self.cs.getFaceCardNames():
@@ -157,73 +177,41 @@ class Images:
         # load backgrounds
         for name in self.cs.backnames:
             if name:
-                try:
-                    im = self.__loadCard(name)
-                    self.__addBack(im, name)
-                except:
-                    pass
+                im = self.__loadCard(name)
+                self.__addBack(im, name)
         if progress: progress.update(step=1)
         # load bottoms
         for i in range(self.cs.nbottoms):
-            try:
-                name = "bottom%02d.%s" % (i + 1, ext)
-                self._bottom_positive.append(self.__loadCard(name))
-            except:
-                pass
+            name = "bottom%02d" % (i + 1)
+            self._bottom_positive.append(self.__loadBottom(name, color='black'))
             if progress: progress.update(step=pstep)
             # load negative bottoms
-            try:
-                name = "bottom%02d-n.%s" % (i + 1, ext)
-                self._bottom_negative.append(self.__loadCard(name))
-            except:
-                pass
+            name = "bottom%02d-n" % (i + 1)
+            self._bottom_negative.append(self.__loadBottom(name, color='white'))
             if progress: progress.update(step=pstep)
         # load letters
         for rank in range(self.cs.nletters):
-            try:
-                name = "l%02d.%s" % (rank + 1, ext)
-                self._letter_positive.append(self.__loadCard(name))
-            except:
-                pass
+            name = "l%02d" % (rank + 1)
+            self._letter_positive.append(self.__loadBottom(name, color='black'))
             if progress: progress.update(step=pstep)
             # load negative letters
-            try:
-                name = "l%02d-n.%s" % (rank + 1, ext)
-                self._letter_negative.append(self.__loadCard(name))
-            except:
-                pass
+            name = "l%02d-n" % (rank + 1)
+            self._letter_negative.append(self.__loadBottom(name, color='white'))
             if progress: progress.update(step=pstep)
         # shadow
-        if TOOLKIT == 'tk' and Image and Image.VERSION >= '1.1.7':
-            if 0:
-                fn = self.d.findImage('shadow', 'images')
-                self._pil_shadow_image = Image.open(fn).convert('RGBA')
-        else:
+        if not self.use_pil:
             for i in range(self.cs.nshadows):
-                if fast:
-                    self._shadow.append(None)
-                else:
-                    name = "shadow%02d.%s" % (i, ext)
-                    try:
-                        im = self.__loadCard(name, check_w=0, check_h=0)
-                    except:
-                        im = None
-                    self._shadow.append(im)
-
-                if fast:
-                    self._xshadow.append(None)
-                elif i > 0: # skip 0
+                name = "shadow%02d.%s" % (i, ext)
+                im = self.__loadCard(name, check_w=0, check_h=0)
+                self._shadow.append(im)
+                if i > 0: # skip 0
                     name = "xshadow%02d.%s" % (i, ext)
-                    try:
-                        im = self.__loadCard(name, check_w=0, check_h=0)
-                    except:
-                        im = None
+                    im = self.__loadCard(name, check_w=0, check_h=0)
                     self._xshadow.append(im)
-
                 if progress: progress.update(step=pstep)
         # shade
-        if fast:
-            self._shade.append(None)
+        if self.use_pil:
+            self._shade.append(self._getShadow(self._card[0], None, '#3896f8'))
         else:
             self._shade.append(self.__loadCard("shade." + ext))
         if progress: progress.update(step=pstep)
@@ -233,7 +221,6 @@ class Images:
         self._bottom = self._bottom_positive
         self._letter = self._letter_positive
         #
-
         return 1
 
     def getFace(self, deck, suit, rank):
@@ -304,46 +291,13 @@ class Images:
             im = c._active_image._pil_image
             mask.paste(im, (x, y), im)
         # create shadow
-        if 0:
-            sh = self._pil_shadow_image
-            shw, shh = sh.size
-            shadow = Image.new('RGBA', (w, h))
-            x = 0
-            while x < w:
-                y = 0
-                while y < h:
-                    shadow.paste(sh, (x,y))
-                    y += shh
-                x += shw
-            shadow = Image.composite(shadow, mask, mask)
-            # crop image (for speed)
-            sx, sy = self.SHADOW_XOFFSET, self.SHADOW_YOFFSET
-            mask = mask.crop((sx,sy,w,h))
-            tmp = Image.new('RGBA', (w-sx,h-sy))
-            shadow.paste(tmp, (0,0), mask)
-        elif 0:
-            import ImageFilter
-            dx, dy = 5, 5
-            sh_color = (0x00,0x00,0x00,0x80)
-            shadow = Image.new('RGBA', (w+dx, h+dy))
-            sx, sy = self.SHADOW_XOFFSET, self.SHADOW_YOFFSET
-            shadow.paste(sh_color, (0, 0, w, h), mask)
-            for i in range(3):
-                shadow = shadow.filter(ImageFilter.BLUR)
-            shadow = shadow.crop((dx,dy,w,h))
-            sx, sy = self.SHADOW_XOFFSET, self.SHADOW_YOFFSET
-            mask = mask.crop((sx,sy,w,h))
-            tmp = Image.new('RGBA', (w-sx,h-sy))
-            shadow.paste(tmp, (0,0), mask)
-        else:
-            sh_color = (0x00,0x00,0x00,0x50)
-            shadow = Image.new('RGBA', (w, h))
-            shadow.paste(sh_color, (0, 0, w, h), mask)
-            sx, sy = self.SHADOW_XOFFSET, self.SHADOW_YOFFSET
-            mask = mask.crop((sx,sy,w,h))
-            tmp = Image.new('RGBA', (w-sx,h-sy))
-            shadow.paste(tmp, (0,0), mask)
-
+        sh_color = (0x00,0x00,0x00,0x50)
+        shadow = Image.new('RGBA', (w, h))
+        shadow.paste(sh_color, (0, 0, w, h), mask)
+        sx, sy = self.SHADOW_XOFFSET, self.SHADOW_YOFFSET
+        mask = mask.crop((sx,sy,w,h))
+        tmp = Image.new('RGBA', (w-sx,h-sy))
+        shadow.paste(tmp, (0,0), mask)
         #
         shadow = ImageTk.PhotoImage(shadow)
         self._pil_shadow[(w,h)] = shadow
@@ -353,7 +307,7 @@ class Images:
         return self._shade[self._shade_index]
 
     def _getShadow(self, image, card, color='#3896f8', factor=0.3):
-        if TOOLKIT == 'tk' and Image and Image.VERSION >= '1.1.7':
+        if self.use_pil:
             # use alpha image; one for each color
             if color in self._shadow_cards:
                 shade = self._shadow_cards[color]

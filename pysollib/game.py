@@ -78,9 +78,10 @@ class Game:
     S_INIT = 0x00
     S_DEAL = 0x10
     S_FILL = 0x20
-    S_PLAY = 0x30
-    S_UNDO = 0x40
-    S_REDO = 0x50
+    S_RESTORE = 0x30
+    S_PLAY = 0x40
+    S_UNDO = 0x50
+    S_REDO = 0x60
 
     # for loading and saving - subclasses should override if
     # the format for a saved game changed (see also canLoadGame())
@@ -504,6 +505,8 @@ class Game:
         self.snapshots = game.snapshots
         # 3) move cards to stacks
         assert len(self.allstacks) == len(game.loadinfo.stacks)
+        old_state = game.moves.state
+        game.moves.state = self.S_RESTORE
         for i in range(len(self.allstacks)):
             for t in game.loadinfo.stacks[i]:
                 card_id, face_up = t
@@ -513,6 +516,7 @@ class Game:
                 else:
                     card.showBack()
                 self.allstacks[i].addCard(card)
+        game.moves.state = old_state
         # 4) update settings
         for stack_id, cap in self.saveinfo.stack_caps:
             ##print stack_id, cap

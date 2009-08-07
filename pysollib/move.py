@@ -163,8 +163,10 @@ class AFlipAndMoveMove(AtomicMove):
             x, y = to_stack.getPositionForNextCard()
             game.animatedMoveTo(from_stack, to_stack, cards, x, y,
                                 frames=self.frames, shadow=0)
-        c = from_stack.removeCard()
-        to_stack.addCard(c)
+        c = from_stack.removeCard(update=False)
+        to_stack.addCard(c, update=False)
+        from_stack.updateText()
+        to_stack.updateText()
 
     def redo(self, game):
         self._doMove(game, game.allstacks[self.from_stack_id],

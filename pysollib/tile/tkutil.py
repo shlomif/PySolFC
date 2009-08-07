@@ -370,7 +370,7 @@ def createBottom(image, color='white', backfile=None):
     w, h = im.size
     size = (w-th*2, h-th*2)
     tmp = Image.new('RGBA', size, color)
-    tmp.putalpha(40)
+    tmp.putalpha(60)
     mask = out.resize(size, Image.ANTIALIAS)
     out.paste(tmp, (th,th), mask)
     if backfile:

@@ -914,6 +914,7 @@ class FirTree_GameMethods:
 
 class ThreeFirTrees(Golf, FirTree_GameMethods):
     Hint_Class = CautiousDefaultHint
+    Waste_Class = Golf_Waste
 
     def createGame(self):
 
@@ -929,7 +930,7 @@ class ThreeFirTrees(Golf, FirTree_GameMethods):
         s.talon = Golf_Talon(x, y, self, max_rounds=1)
         l.createText(s.talon, 'n')
         x += l.XS
-        s.waste = Golf_Waste(x, y, self)
+        s.waste = self.Waste_Class(x, y, self)
         s.waste.CARD_XOFFSET = l.XOFFSET/4
         l.createText(s.waste, 'n')
         # the Waste is also our only Foundation in this game
@@ -944,6 +945,10 @@ class ThreeFirTrees(Golf, FirTree_GameMethods):
         self.startDealSample()
         self.s.talon.dealRow(frames=4)
         self.s.talon.dealCards()
+
+
+class RelaxedThreeFirTrees(ThreeFirTrees):
+    Waste_Class = StackWrapper(Golf_Waste, mod=13)
 
 
 # ************************************************************************
@@ -1169,4 +1174,6 @@ registerGame(GameInfo(763, Wasatch, "Wasatch",
                       GI.GT_1DECK_TYPE, 1, UNLIMITED_REDEALS, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(764, Beacon, "Beacon",
                       GI.GT_1DECK_TYPE | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(768, RelaxedThreeFirTrees, "Relaxed Three Fir-trees",
+                      GI.GT_GOLF, 2, 0, GI.SL_BALANCED))
 

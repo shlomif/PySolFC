@@ -194,9 +194,7 @@ class DutchSolitaire(Windmill):
 # * Napoleon's Tomb
 # ************************************************************************
 
-class NapoleonsTomb(Windmill):
-
-    FILL_STACK = False
+class NapoleonsTomb(Game):
 
     #
     # game layout
@@ -223,12 +221,11 @@ class NapoleonsTomb(Windmill):
             s.rows.append(Windmill_RowStack(x, y, self))
         x, y = x0 + l.XS, y0 + l.YS
         s.foundations.append(Windmill_Foundation(x, y, self, base_rank=5,
-                             mod=6, min_cards=1, max_cards=24,
-                             max_move=0, dir=-1))
+                             mod=13, max_cards=24, dir=-1))
         for d in ((0.1, 0.1), (1.9, 0.1), (0.1, 1.9), (1.9, 1.9)):
             x, y = x0 + d[0] * l.XS, y0 + d[1] * l.YS
             s.foundations.append(Windmill_Foundation(x, y, self,
-                                 max_cards=7, base_rank=6, max_move=0))
+                                 max_cards=7, base_rank=6, mod=13))
 
         # define stack-groups
         l.defaultStackGroups()
@@ -237,9 +234,6 @@ class NapoleonsTomb(Windmill):
     #
     # game overrides
     #
-
-    def _shuffleHook(self, cards):
-        return cards
 
     def startGame(self):
         self.startDealSample()

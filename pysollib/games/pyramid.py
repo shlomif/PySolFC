@@ -727,22 +727,10 @@ class TripleAlliance(Game):
 # * Pharaohs
 # ************************************************************************
 
-class Pharaohs_RowStack(Pyramid_RowStack):
-    def acceptsCards(self, from_stack, cards):
-        if not self.basicAcceptsCards(from_stack, cards):
-            return False
-        if not self.cards:
-            return False
-        r0, r1 = cards[0].rank, self.cards[-1].rank
-        if r0+r1 == 11:
-            return True
-        return r0 == r1
-
-
 class Pharaohs(Pyramid):
 
     Talon_Class = InitialDealTalonStack
-    RowStack_Class = Pharaohs_RowStack
+    RowStack_Class = Pyramid_RowStack
 
     PYRAMID_Y_FACTOR = 3
 
@@ -769,6 +757,7 @@ class Pharaohs(Pyramid):
         s.foundations.append(Pyramid_Foundation(x, y, self,
                              suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
                              max_move=0, max_cards=52))
+        l.createText(s.foundations[0], 's')
 
         # define stack-groups
         l.defaultStackGroups()
@@ -867,7 +856,7 @@ class Apophis_Hint(Pyramid_Hint):
                     self.addHint(50000+len(r1.cards)+len(r2.cards), 1, r1, r2)
 
 
-class Apophis_RowStack(Pharaohs_RowStack):
+class Apophis_RowStack(Pyramid_RowStack):
     def acceptsCards(self, from_stack, cards):
         if not self.basicAcceptsCards(from_stack, cards):
             return False

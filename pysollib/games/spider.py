@@ -289,7 +289,7 @@ class SimpleSimonII(SimpleSimon):
 
 class Rachel(RelaxedSpider):
     Talon_Class = StackWrapper(WasteTalonStack, max_rounds=1)
-    RowStack_Class = RK_RowStack
+    RowStack_Class = BlackWidow_RowStack
 
     def createGame(self):
         RelaxedSpider.createGame(self, waste=1, rows=6, texts=1)

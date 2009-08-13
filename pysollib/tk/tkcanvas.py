@@ -125,6 +125,7 @@ class MfxCanvas(Tkinter.Canvas):
         # friend MfxCanvasText
         self._text_color = "#000000"
         self._stretch_bg_image = 0
+        self._save_aspect_bg_image = 0
         self._text_items = []
         #
         self.xmargin, self.ymargin = 10, 10
@@ -138,10 +139,17 @@ class MfxCanvas(Tkinter.Canvas):
         if not self._bg_img: # solid color
             return
         stretch = self._stretch_bg_image
+        save_aspect = self._save_aspect_bg_image
         if Image:
             if stretch:
                 w, h = self._geometry()
-                im = self._bg_img.resize((w, h))
+                if save_aspect:
+                    w0, h0 = self._bg_img.size
+                    a = min(float(w0)/w, float(h0)/h)
+                    w0, h0 = int(w0/a), int(h0/a)
+                    im = self._bg_img.resize((w0, h0))
+                else:
+                    im = self._bg_img.resize((w, h))
                 image = ImageTk.PhotoImage(im)
             else:
                 image = ImageTk.PhotoImage(self._bg_img)
@@ -288,7 +296,7 @@ class MfxCanvas(Tkinter.Canvas):
             for item in self._text_items:
                 item.config(fill=self._text_color)
 
-    def setTile(self, image, stretch=0):
+    def setTile(self, image, stretch=0, save_aspect=0):
         ##print 'setTile:', image, stretch
         if image:
             if Image:
@@ -302,6 +310,7 @@ class MfxCanvas(Tkinter.Canvas):
                 except:
                     return 0
             self._stretch_bg_image = stretch
+            self._save_aspect_bg_image = save_aspect
             self.setBackgroundImage()
         else:
             for id in self.__tiles:

@@ -499,6 +499,7 @@ class Tile(Resource):
     def __init__(self, **kw):
         kw['color'] = None
         kw['stretch'] = 0
+        kw['save_aspect'] = 0
         Resource.__init__(self, **kw)
 
 

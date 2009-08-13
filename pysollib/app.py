@@ -1433,7 +1433,9 @@ Please select a %s type %s.
         manager = self.tabletile_manager
         # find all available tiles
         dirs = manager.getSearchDirs(self,
-                           ("tiles-*", os.path.join("tiles", "stretch")),
+                           ("tiles-*",
+                            os.path.join("tiles", "stretch"),
+                            os.path.join("tiles", "save-aspect")),
                            "PYSOL_TILES")
         ##print dirs
         s = "((\\" + ")|(\\".join(IMAGE_EXTENSIONS) + "))$"
@@ -1455,6 +1457,9 @@ Please select a %s type %s.
                     n = ext_re.sub("", name)
                     if os.path.split(dir)[-1] == 'stretch':
                         tile.stretch = 1
+                    if os.path.split(dir)[-1] == 'save-aspect':
+                        tile.stretch = 1
+                        tile.save_aspect = 1
                     #n = re.sub("[-_]", " ", n)
                     n = n.replace('_', ' ')
                     tile.name = n

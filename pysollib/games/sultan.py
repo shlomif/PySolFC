@@ -802,7 +802,7 @@ class RoyalAids(Game):
     def createGame(self):
 
         l, s = Layout(self), self.s
-        self.setSize(l.XM+8*l.XS, l.YM+4*l.YS)
+        self.setSize(l.XM+8*l.XS, l.YM+4*l.YS+l.TEXT_HEIGHT)
 
         x0 = l.XM+1.5*l.XS
         for k in (0,1):
@@ -832,6 +832,7 @@ class RoyalAids(Game):
             stack = BasicRowStack(x, y, self)
             s.reserves.append(stack)
             stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, 0
+            l.createText(stack, 's')
             x += l.XS
 
         l.defaultStackGroups()

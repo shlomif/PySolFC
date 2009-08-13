@@ -162,6 +162,7 @@ def pysol_init(app, args):
         ##os.path.join(app.dn.config, "screenshots"),
         os.path.join(app.dn.config, "tiles"),
         os.path.join(app.dn.config, "tiles", "stretch"),
+        os.path.join(app.dn.config, "tiles", "save-aspect"),
         os.path.join(app.dn.config, "cardsets"),
         os.path.join(app.dn.config, "plugins"),
         ):

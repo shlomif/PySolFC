@@ -509,7 +509,7 @@ class MfxScrolledCanvas:
                 tile.color == app.opt.colors['table']):
                 return False
         #
-        if not self.canvas.setTile(tile.filename, tile.stretch):
+        if not self.canvas.setTile(tile.filename, tile.stretch, tile.save_aspect):
             tile.error = True
             return False
 

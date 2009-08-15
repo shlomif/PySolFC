@@ -53,7 +53,7 @@ class Tournament_Talon(DealRowRedealTalonStack):
             for i in range(4):
                 if not self.cards:
                     break
-                num_cards += self.dealRow([r], sound=False)
+                num_cards += self.dealRow([r], sound=False, frames=4)
         if sound:
             self.game.stopSamples()
         return num_cards
@@ -125,10 +125,8 @@ class Tournament(Game):
 
     def startGame(self):
         self.startDealSample()
-        self.s.talon.dealRow(self.s.reserves)
-        for r in self.s.rows:
-            for i in range(4):
-                self.s.talon.dealRow([r])
+        self.s.talon.dealRow(self.s.reserves, frames=4)
+        self.s.talon.dealCards()
 
     def fillStack(self, stack):
         if stack in self.s.rows and not stack.cards:

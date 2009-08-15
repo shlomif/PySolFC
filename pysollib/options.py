@@ -80,6 +80,7 @@ toolbar_compound = string
 toolbar_size = integer(0, 1)
 statusbar = boolean
 statusbar_game_number = boolean
+statusbar_stuck = boolean
 num_cards = boolean
 helpbar = boolean
 num_recent_games = integer(10, 100)
@@ -209,6 +210,7 @@ class Options:
         ('toolbar_size', 'int'),
         ('statusbar', 'bool'),
         ('statusbar_game_number', 'bool'),
+        ('statusbar_stuck', 'bool'),
         ('num_cards', 'bool'),
         ('helpbar', 'bool'),
         ('num_recent_games', 'int'),
@@ -285,6 +287,7 @@ class Options:
             self.toolbar_vars[w] = True # show all buttons
         self.statusbar = True
         self.statusbar_game_number = False # show game number in statusbar
+        self.statusbar_stuck = False       # show stuck indicator
         self.num_cards = False
         self.helpbar = False
         self.splashscreen = True

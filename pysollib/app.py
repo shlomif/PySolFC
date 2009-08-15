@@ -482,6 +482,7 @@ class Application:
         self.statusbar = PysolStatusbar(self.top)
         self.statusbar.show(self.opt.statusbar)
         self.statusbar.config('gamenumber', self.opt.statusbar_game_number)
+        self.statusbar.config('stuck', self.opt.statusbar_stuck)
         self.helpbar = HelpStatusbar(self.top)
         self.helpbar.show(self.opt.helpbar)
         # create the canvas

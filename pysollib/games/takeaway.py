@@ -106,13 +106,42 @@ class TakeAway(Game):
 # * Four Stacks
 # ************************************************************************
 
-class FourStacks_Foundation(AC_FoundationStack):
-    def closeStack(self):
-        pass
+class FourStacks_RowStack(AC_RowStack):
+    getBottomImage = Stack._getReserveBottomImage    
 
-class FourStacks(TakeAway):
-    RowStack_Class = StackWrapper(AC_RowStack, max_move=UNLIMITED_MOVES, max_accept=UNLIMITED_ACCEPTS)
-    Foundation_Class = StackWrapper(FourStacks_Foundation, max_move=UNLIMITED_MOVES, max_accept=UNLIMITED_ACCEPTS, dir=-1)
+class FourStacks(Game):
+    def createGame(self):
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        w, h = l.XM+10*l.XS, l.YM+l.YS+16*l.YOFFSET
+        self.setSize(w, h)
+
+        # create stacks
+        x, y = l.XM, l.YM
+        for i in range(10):
+            s.rows.append(FourStacks_RowStack(x, y, self))
+            x += l.XS
+        s.talon = InitialDealTalonStack(w-l.XS, h-l.YS, self)
+
+        # default
+        l.defaultAll()
+
+    def startGame(self):
+        rows = self.s.rows[:4]
+        for i in range(10):
+            self.s.talon.dealRow(rows=rows, frames=0)
+        self.startDealSample()
+        for i in range(3):
+            self.s.talon.dealRow(rows=rows)
+
+    def isGameWon(self):
+        for s in self.s.rows:
+            if s.cards:
+                if len(s.cards) != 13 or not isAlternateColorSequence(s.cards):
+                    return False
+        return True
 
     shallHighlightMatch = Game._shallHighlightMatch_AC
 

@@ -106,15 +106,14 @@ class Dashavatara_OpenStack(OpenStack):
         self.CARD_YOFFSET = yoffset
 
     def currentForce(self, card):
+        force = self._getForce(card)
         hour = time.localtime(time.time())[3]
-        if hour >= 7 and hour <= 19:
-            strong, weak = 0, 1
-        else:
-            strong, weak = 1, 0
-        if card.suit <= 4:
-            return strong
-        else:
-            return weak
+        if not (hour >= 7 and hour <= 19):
+            force = not force
+        return force
+
+    def _getForce(self, card):
+        return int(card.suit >= 5)
 
     def isRankSequence(self, cards, dir=None):
         if not dir:
@@ -141,12 +140,13 @@ class Dashavatara_OpenStack(OpenStack):
         if not dir:
             dir = self.cap.dir
         c1 = cards[0]
+        f1 = self._getForce(c1)
         for c2 in cards[1:]:
-            if not ((c1.suit < 4 and c2.suit > 3
-                    or c1.suit > 3 and c2.suit < 4)
-                    and c1.rank + dir == c2.rank):
+            f2 = self._getForce(c2)
+            if f1 == f2 or c1.rank + dir != c2.rank:
                 return 0
             c1 = c2
+            f1 = f2
         return 1
 
     def isSuitSequence(self, cards, dir=None):

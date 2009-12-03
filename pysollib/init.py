@@ -149,10 +149,10 @@ def init():
         if sys.path[0] and not os.path.isdir(sys.path[0]): # i.e. library.zip
             d = os.path.dirname(sys.path[0])
             os.chdir(d)                 # for read presets
-            fcs_command = os.path.join('freecell-solver', 'fc-solve.exe')
+            fcs_command = os.path.join('freecell-solver', 'bin', 'fc-solve.exe')
             settings.FCS_COMMAND = fcs_command
-            ##f = os.path.join(d, 'freecell-solver', 'presetrc')
-            ##os.environ['FREECELL_SOLVER_PRESETRC'] = f # defined in prefix.h
+            f = os.path.join('freecell-solver', 'presetrc')
+            os.environ['FREECELL_SOLVER_PRESETRC'] = f
     if os.name in ('posix', 'nt'):
         try:
             kw = {'shell': True,

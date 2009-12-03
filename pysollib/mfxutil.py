@@ -134,9 +134,16 @@ if os.name == "posix":
 
 def win32_getusername():
     user = os.environ.get('USERNAME','').strip()
+    try:
+        user = unicode(user, locale.getpreferredencoding())
+    except:
+        user = ''
     return user
 
 def win32_getprefdir(package):
+    portprefdir = 'config'      # portable varsion
+    if os.path.isdir(portprefdir):
+        return portprefdir
     # %USERPROFILE%, %APPDATA%
     hd = os.environ.get('APPDATA')
     if not hd:

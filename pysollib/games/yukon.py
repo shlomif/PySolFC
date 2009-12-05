@@ -532,36 +532,6 @@ class Queensland(Yukon):
 
 
 # ************************************************************************
-# * Outback Patience
-# ************************************************************************
-
-class OutbackPatience(Yukon):
-
-    def createGame(self, max_rounds=-1, num_deal=1, **layout):
-        l, s = Layout(self), self.s
-        l.klondikeLayout(rows=7, waste=1, texts=1, playcards=20)
-        self.setSize(l.size[0], l.size[1])
-
-        s.talon = WasteTalonStack(l.s.talon.x, l.s.talon.y, self, max_rounds=1)
-        s.waste = WasteStack(l.s.waste.x, l.s.waste.y, self)
-        for r in l.s.foundations:
-            s.foundations.append(SS_FoundationStack(r.x, r.y, self, suit=r.suit))
-        for r in l.s.rows:
-            s.rows.append(Yukon_SS_RowStack(r.x, r.y, self, base_rank=KING))
-
-        l.defaultAll()
-
-    def startGame(self):
-        for i in range(3):
-            self.s.talon.dealRow(frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
-        self.s.talon.dealCards()
-
-    shallHighlightMatch = Game._shallHighlightMatch_SS
-
-
-# ************************************************************************
 # * Russian Spider
 # * Double Russian Spider
 # ************************************************************************
@@ -752,7 +722,8 @@ registerGame(GameInfo(339, Moosehide, "Moosehide",
 registerGame(GameInfo(387, Roslin, "Roslin",
                       GI.GT_YUKON, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(447, AustralianPatience, "Australian Patience",
-                      GI.GT_YUKON, 1, 0, GI.SL_BALANCED))
+                      GI.GT_YUKON, 1, 0, GI.SL_BALANCED,
+                      altnames=('Outback Patience',) ))
 registerGame(GameInfo(450, RawPrawn, "Raw Prawn",
                       GI.GT_YUKON, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(456, BimBom, "Bim Bom",
@@ -764,8 +735,6 @@ registerGame(GameInfo(488, TripleRussianSolitaire, "Triple Russian Solitaire",
 registerGame(GameInfo(492, Geoffrey, "Geoffrey",
                       GI.GT_YUKON, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(525, Queensland, "Queensland",
-                      GI.GT_YUKON, 1, 0, GI.SL_BALANCED))
-registerGame(GameInfo(526, OutbackPatience, "Outback Patience",
                       GI.GT_YUKON, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(530, RussianSpider, "Russian Spider",
                       GI.GT_SPIDER, 1, 0, GI.SL_BALANCED,

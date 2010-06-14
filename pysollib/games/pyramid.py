@@ -109,6 +109,12 @@ class Pyramid_Talon(Pyramid_StackMethods, FaceUpWasteTalonStack):
             return 1
         return FaceUpWasteTalonStack.clickHandler(self, event)
 
+    def releaseHandler(self, event, drag, sound=True):
+        if self.game.app.opt.mouse_type == 'point-n-click':
+            drag.stack.dragMove(drag, self, sound=sound)
+            return
+        FaceUpWasteTalonStack.releaseHandler(self, event, drag, sound)
+
     def canDealCards(self):
         if not FaceUpWasteTalonStack.canDealCards(self):
             return False

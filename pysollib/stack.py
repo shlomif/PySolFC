@@ -902,6 +902,9 @@ class Stack:
             return True
         return False
 
+    def resize(self, xf, yf):
+        print 'resize', self
+
     def basicShallHighlightSameRank(self, card):
         # by default all open stacks are available for highlighting
         assert card in self.cards
@@ -1313,7 +1316,7 @@ class Stack:
         images = self.game.app.images
         cx, cy = cards[0].x, cards[0].y
         ddx, ddy = cx-cards[-1].x, cy-cards[-1].y
-        if TOOLKIT == 'tk' and Image and Image.VERSION > '1.1.7': # use PIL
+        if TOOLKIT == 'tk' and Image and Image.VERSION >= '1.1.7': # use PIL
             c0 = cards[-1]
             if self.CARD_XOFFSET[0] < 0: c0 = cards[0]
             if self.CARD_YOFFSET[0] < 0: c0 = cards[0]

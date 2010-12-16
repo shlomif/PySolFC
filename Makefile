@@ -43,8 +43,13 @@ pot:
 	done
 
 mo:
-	test -d locale/ru/LC_MESSAGES || mkdir -p locale/ru/LC_MESSAGES
-	test -d locale/ru_RU/LC_MESSAGES || mkdir -p locale/ru_RU/LC_MESSAGES
+	for loc in ru ru_RU de de_AT de_BE de_LU de_CH; do \
+		test -d locale/$${loc}/LC_MESSAGES || mkdir -p locale/$${loc}/LC_MESSAGES; \
+	done
 	msgcat po/ru_games.po po/ru_pysol.po > po/ru.po 2>/dev/null
 	msgfmt -o locale/ru/LC_MESSAGES/pysol.mo po/ru.po
 	cp -f locale/ru/LC_MESSAGES/pysol.mo locale/ru_RU/LC_MESSAGES/pysol.mo
+	msgfmt -o locale/de/LC_MESSAGES/pysol.mo po/de.po
+	for dir in de_AT de_BE de_LU de_CH; do \
+		cp -f locale/de/LC_MESSAGES/pysol.mo locale/$${dir}/LC_MESSAGES/pysol.mo; \
+	done

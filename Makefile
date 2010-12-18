@@ -33,7 +33,7 @@ pot:
 	xgettext -L C --keyword=N_ -o po/pysol-2.pot data/glade-translations
 	msgcat po/pysol-1.pot po/pysol-2.pot > po/pysol.pot
 	rm -f po/pysol-1.pot po/pysol-2.pot
-	for lng in ru; do \
+	for lng in ru pl; do \
 		mv -f po/$${lng}_pysol.po po/$${lng}_pysol.old.po; \
 		msgmerge po/$${lng}_pysol.old.po po/pysol.pot > po/$${lng}_pysol.po; \
 		rm -f po/$${lng}_pysol.old.po; \
@@ -43,13 +43,17 @@ pot:
 	done
 
 mo:
-	for loc in ru ru_RU de de_AT de_BE de_LU de_CH; do \
+	for loc in ru ru_RU de de_AT de_BE de_DE de_LU de_CH pl pl_PL; do \
 		test -d locale/$${loc}/LC_MESSAGES || mkdir -p locale/$${loc}/LC_MESSAGES; \
 	done
-	msgcat po/ru_games.po po/ru_pysol.po > po/ru.po 2>/dev/null
-	msgfmt -o locale/ru/LC_MESSAGES/pysol.mo po/ru.po
+	for lang in ru pl; do \
+		msgcat po/$${lang}_games.po po/$${lang}_pysol.po > po/$${lang}.po 2>/dev/null; \
+	done
+	for lang in ru de pl; do \
+		msgfmt -o locale/$${lang}/LC_MESSAGES/pysol.mo po/$${lang}.po; \
+	done
 	cp -f locale/ru/LC_MESSAGES/pysol.mo locale/ru_RU/LC_MESSAGES/pysol.mo
-	msgfmt -o locale/de/LC_MESSAGES/pysol.mo po/de.po
-	for dir in de_AT de_BE de_LU de_CH; do \
+	for dir in de_AT de_BE de_DE de_LU de_CH; do \
 		cp -f locale/de/LC_MESSAGES/pysol.mo locale/$${dir}/LC_MESSAGES/pysol.mo; \
 	done
+	cp -f locale/pl/LC_MESSAGES/pysol.mo locale/pl_PL/LC_MESSAGES/pysol.mo

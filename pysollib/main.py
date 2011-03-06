@@ -248,6 +248,8 @@ def pysol_init(app, args):
                   AbstractAudioClient):
             try:
                 app.audio = c()
+                app.audio.startServer()
+                app.audio.connectServer(app)
             except:
                 pass
             else:
@@ -256,7 +258,9 @@ def pysol_init(app, args):
     else:
         c = sounds[SOUND_MOD]
         app.audio = c()
-    app.audio.startServer()
+        app.audio.startServer()
+        app.audio.connectServer(app)
+
     # update sound_mode
     if isinstance(app.audio, PysolSoundServerModuleClient):
         app.opt.sound_mode = 1
@@ -311,7 +315,6 @@ Please check your %s installation.
     app.initMusic()
 
     # init audio 2)
-    app.audio.connectServer(app)
     if not app.audio.CAN_PLAY_SOUND:
         app.opt.sound = 0
     app.audio.updateSettings()

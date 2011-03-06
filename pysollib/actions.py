@@ -467,8 +467,9 @@ class PysolMenubar(PysolMenubarTk):
                 self.game._mahjonggShuffle()
 
     def mFindCard(self, *args):
-        create_find_card_dialog(self.game.top, self.game,
-                                self.app.getFindCardImagesDir())
+        if self.game.canFindCard():
+            create_find_card_dialog(self.game.top, self.game,
+                                    self.app.getFindCardImagesDir())
 
     def mSolver(self, *args):
         create_solver_dialog(self.game.top, self.app)

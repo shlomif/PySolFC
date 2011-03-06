@@ -105,6 +105,7 @@ recent_gameid = int_list
 favorite_gameid = int_list
 visible_buttons = string_list
 translate_game_names = boolean
+solver_presets = string_list
 
 [sound_samples]
 move = boolean
@@ -237,6 +238,7 @@ class Options:
         ('sound_sample_buffer_size', 'int'),
         ('tabletile_name', 'str'),
         ('translate_game_names', 'bool'),
+        ('solver_presets', 'list'),
         #('toolbar_vars', 'list'),
         #('recent_gameid', 'list'),
         #('favorite_gameid', 'list'),
@@ -382,6 +384,22 @@ class Options:
         self.scale_y = 1.0
         self.auto_scale = False
         self.preserve_aspect_ratio = True
+        # solver
+        self.solver_presets = [
+            'none',
+            'abra-kadabra',
+            'cool-jives',
+            'crooked-nose',
+            'fools-gold',
+            'good-intentions',
+            'hello-world',
+            'john-galt-line',
+            'rin-tin-tin',
+            'yellow-brick-road',
+            'the-last-mohican',
+            'blue-yonder',
+            'slick-rock',
+            ]
 
     def setDefaults(self, top=None):
         WIN_SYSTEM = settings.WIN_SYSTEM
@@ -467,6 +485,7 @@ class Options:
         visible_buttons = [b for b in self.toolbar_vars
                            if self.toolbar_vars[b]]
         config['general']['visible_buttons'] = visible_buttons
+        config['general']['solver_presets'].remove('none')
 
         # sound_samples
         config['sound_samples'] = self.sound_samples
@@ -602,6 +621,13 @@ class Options:
         if visible_buttons is not None:
             for key in TOOLBAR_BUTTONS:
                 self.toolbar_vars[key] = (key in visible_buttons)
+
+        # solver
+        solver_presets = self._getOption('general', 'solver_presets', 'list')
+        if solver_presets is not None:
+            if 'none' not in solver_presets:
+                solver_presets.insert(0, 'none')
+            self.solver_presets = solver_presets
 
         # sound_samples
         for key in self.sound_samples:

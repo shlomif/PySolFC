@@ -138,6 +138,17 @@ class HanoiPuzzle6(HanoiPuzzle4):
     pass
 
 
+# ************************************************************************
+# * Hanoi Sequence
+# ************************************************************************
+
+class HanoiSequence(TowerOfHanoy):
+    def isGameWon(self):
+        for s in self.s.rows:
+            if len(s.cards) == len(self.cards) and isRankSequence(s.cards):
+                return 1
+        return 0
+
 # register the game
 registerGame(GameInfo(124, TowerOfHanoy, "Tower of Hanoy",
                       GI.GT_PUZZLE_TYPE, 1, 0, GI.SL_SKILL,
@@ -154,4 +165,7 @@ registerGame(GameInfo(209, HanoiPuzzle6, "Hanoi Puzzle 6",
                       GI.GT_PUZZLE_TYPE, 1, 0, GI.SL_SKILL,
                       suits=(2,), ranks=range(6),
                       rules_filename="hanoipuzzle.html"))
+registerGame(GameInfo(769, HanoiSequence, "Hanoi Sequence",
+                      GI.GT_PUZZLE_TYPE, 1, 0, GI.SL_SKILL,
+                      suits=(2,), ranks=range(9)))
 

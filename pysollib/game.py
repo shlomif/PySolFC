@@ -31,7 +31,7 @@ from cStringIO import StringIO
 
 # PySol imports
 from mfxutil import Pickler, Unpickler, UnpicklingError
-from mfxutil import Image, ImageTk
+from mfxutil import Image, ImageTk, USE_PIL
 from mfxutil import destruct, Struct, SubclassResponsibility
 from mfxutil import uclock, usleep
 from mfxutil import format_time, print_err
@@ -135,12 +135,15 @@ class Game:
             remaining = [],             #   list of stacks in no region
             #
             data = [],                  #   raw data
+            init_info = [],             #   init info (at the start)
         )
+        self.init_size = (0,0)
         self.event_handled = False      # if click event handled by Stack (???)
         self.reset()
 
     # main constructor
     def create(self, app):
+        #print 'Game.create'
         old_busy = self.busy
         self.__createCommon(app)
         self.setCursor(cursor=CURSOR_WATCH)
@@ -186,13 +189,46 @@ class Game:
         ##self.top.bind('<3>', self.top._sleepEvent)
         # update display properties
         self.canvas.busy = True
-        self.canvas.setInitialSize(self.width, self.height)
-        if self.app.opt.save_games_geometry and \
+        # geometry
+        if not USE_PIL and self.app.opt.save_games_geometry and \
                self.id in self.app.opt.games_geometry:
             # restore game geometry
             w, h = self.app.opt.games_geometry[self.id]
             self.canvas.config(width=w, height=h)
-        self.top.wm_geometry("")        # cancel user-specified geometry
+        if USE_PIL:
+            if self.app.opt.auto_scale:
+                w, h = self.app.opt.game_geometry
+                self.canvas.setInitialSize(w, h, margins=False,
+                                           scrollregion=False)
+                ## self.canvas.config(width=w, height=h)
+                ## dx, dy = self.canvas.xmargin, self.canvas.ymargin
+                ## self.canvas.config(scrollregion=(-dx, -dy, dx, dy))
+            else:
+                w = int(round(self.width * self.app.opt.scale_x))
+                h = int(round(self.height * self.app.opt.scale_y))
+                self.canvas.setInitialSize(w, h)
+                self.top.wm_geometry("")    # cancel user-specified geometry
+            # preserve texts positions
+            for t in ('info', 'help', 'misc', 'score', 'base_rank'):
+                item = getattr(self.texts, t)
+                if item:
+                    coords = self.canvas.coords(item)
+                    setattr(self.init_texts, t, coords)
+            #
+            for item in self.texts.list:
+                coords = self.canvas.coords(item)
+                self.init_texts.list.append(coords)
+            # resize
+            self.resizeGame()
+            # fix coords of cards (see self.createCards)
+            x, y = self.s.talon.x, self.s.talon.y
+            for c in self.cards:
+                c.moveTo(x, y)
+        else:
+            # no PIL
+            self.canvas.setInitialSize(self.width, self.height)
+            self.top.wm_geometry("")    # cancel user-specified geometry
+        # done; update view
         self.top.update_idletasks()
         self.canvas.busy = False
         if DEBUG >= 4:
@@ -200,12 +236,11 @@ class Game:
                                width=2, fill=None, outline='green')
         #
         self.stats.update_time = time.time()
-        self.busy = old_busy
         self.showHelp()                 # just in case
         hint_class = self.getHintClass()
         if hint_class is not None:
             self.Stuck_Class = hint_class(self, 0)
-        ##self.reallocateStacks()
+        self.busy = old_busy
 
 
     def _checkGame(self):
@@ -262,7 +297,8 @@ class Game:
         bind(self.canvas, "<2>", self.dropHandler)
         bind(self.canvas, "<3>", self.redoHandler)
         bind(self.canvas, '<Unmap>', self._unmapHandler)
-        bind(self.canvas, '<Configure>', self.configureHandler, add=True)
+        bind(self.canvas, '<Configure>', self._configureHandler, add=True)
+
 
     def __createCommon(self, app):
         self.busy = 1
@@ -293,6 +329,16 @@ class Game:
             misc = None,                #
             score = None,               # for displaying the score
             base_rank = None,           # for displaying the base_rank
+            list = [],                  # list of texts (if we use many text)
+        )
+        # initial position of the texts
+        self.init_texts = Struct(
+            info = None,                # misc info text
+            help = None,                # a static help text
+            misc = None,                #
+            score = None,               # for displaying the score
+            base_rank = None,           # for displaying the base_rank
+            list = [],
         )
 
     def createPreview(self, app):
@@ -409,6 +455,8 @@ class Game:
     # this is called from within createGame()
     def setSize(self, w, h):
         self.width, self.height = int(round(w)), int(round(h))
+        dx, dy = self.canvas.xmargin, self.canvas.ymargin
+        self.init_size = self.width+2*dx, self.height+2*dy
 
     def setCursor(self, cursor):
         if self.canvas:
@@ -424,6 +472,7 @@ class Game:
 
     # start a new name
     def newGame(self, random=None, restart=0, autoplay=1):
+        #print 'Game.newGame'
         self.finished = False
         old_busy, self.busy = self.busy, 1
         self.setCursor(cursor=CURSOR_WATCH)
@@ -538,8 +587,8 @@ class Game:
         self.stats.update_time = time.time()
         self.busy = old_busy
         #
-        ##self.configureHandler()         # reallocateCards
-        after(self.top, 200, self.configureHandler) # wait for canvas is mapped
+        ##self._configureHandler()         # reallocateCards
+        after(self.top, 200, self._configureHandler) # wait for canvas is mapped
         #
         if TOOLKIT == 'gtk':
             ## FIXME
@@ -561,6 +610,7 @@ class Game:
         self.busy = old_busy
 
     def resetGame(self):
+        #print 'Game.resetGame'
         self.hints.list = None
         self.s.talon.removeAllCards()
         for stack in self.allstacks:
@@ -638,22 +688,73 @@ class Game:
         self.endGame(restart=1)
         self.newGame(restart=1, random=self.random)
 
-    def reallocateStacks(self):
-        w0, h0 = self.width, self.height
-        iw = int(self.canvas.cget('width'))
-        ih = int(self.canvas.cget('height'))
-        vw = self.canvas.winfo_width()
-        vh = self.canvas.winfo_height()
-        if vw <= iw or vh <= ih:
+    def resizeImages(self):
+        # resizing images and cards
+        if self.app.opt.auto_scale:
+            if self.canvas.winfo_ismapped():
+                # apparent size of canvas
+                vw = self.canvas.winfo_width()
+                vh = self.canvas.winfo_height()
+            else:
+                # we have no a real size of canvas (winfo_width / winfo_reqwidth)
+                # so we use a saved size
+                vw, vh = self.app.opt.game_geometry
+                if not vw:
+                    # first run of the game
+                    return 1, 1
+            iw, ih = self.init_size # requested size of canvas (createGame -> setSize)
+            # calculate factor of resizing
+            xf = float(vw)/iw
+            yf = float(vh)/ih
+            if self.app.opt.preserve_aspect_ratio:
+                xf = yf = min(xf, yf)
+        else:
+            xf, yf = self.app.opt.scale_x, self.app.opt.scale_y
+        # images
+        self.app.images.resize(xf, yf)
+        # cards
+        for card in self.cards:
+            card.update(card.id, card.deck, card.suit, card.rank, self)
+        return xf, yf
+
+    def resizeGame(self):
+        #if self.busy:
+        #    return
+        if not USE_PIL:
             return
-        xf = float(vw)/iw
-        yf = float(vh)/ih
+        self.deleteStackDesc()
+        xf, yf = self.resizeImages()
+        #print 'resizeGame', xf, yf
+        # stacks
         for stack in self.allstacks:
             x0, y0 = stack.init_coord
-            x, y = int(x0*xf), int(y0*yf)
-            if x == stack.x and y == stack.y:
-                continue
-            stack.moveTo(x, y)
+            x, y = int(round(x0*xf)), int(round(y0*yf))
+            #if x == stack.x and y == stack.y:
+            #    continue
+            stack.resize(xf, yf)
+            stack.updatePositions()
+        # regions
+        info = []
+        for stacks, rect in self.regions.init_info:
+            rect = (int(round(rect[0]*xf)), int(round(rect[1]*yf)),
+                    int(round(rect[2]*xf)), int(round(rect[3]*yf)))
+            info.append((stacks, rect))
+        self.regions.info = tuple(info)
+        # texts
+        for t in ('info', 'help', 'misc', 'score', 'base_rank'):
+            init_coord = getattr(self.init_texts, t)
+            if init_coord:
+                item = getattr(self.texts, t)
+                x, y = int(round(init_coord[0]*xf)), int(round(init_coord[1]*yf))
+                self.canvas.coords(item, x, y)
+        for i in range(len(self.texts.list)):
+            init_coord = self.init_texts.list[i]
+            item = self.texts.list[i]
+            x, y = int(round(init_coord[0]*xf)), int(round(init_coord[1]*yf))
+            self.canvas.coords(item, x, y)
+        #
+        #self.canvas.update()
+        #self.canvas.update_idletasks()
 
     def createRandom(self, random):
         if random is None:
@@ -985,11 +1086,27 @@ class Game:
         if self.app and not self.pause:
             self.app.menubar.mPause()
 
-    def configureHandler(self, event=None):
+    _resizeHandlerID = None
+    def _resizeHandler(self):
+        #print '_resizeHandler'
+        self._resizeHandlerID = None
+        self.resizeGame()
+
+    def _configureHandler(self, event=None):
+        #print 'configureHandler'
+        if not USE_PIL:
+            return
+        if not self.app:
+            return
         if not self.canvas:
             return
-        for stack in self.allstacks:
-            stack.updatePositions()
+        if not self.app.opt.auto_scale:
+            return
+        if self.preview:
+            return
+        if self._resizeHandlerID:
+            self.canvas.after_cancel(self._resizeHandlerID)
+        self._resizeHandlerID = self.canvas.after(250, self._resizeHandler)
 
     #
     # sound support
@@ -1504,13 +1621,20 @@ class Game:
         assert len(stacks) > 0
         assert len(rect) == 4 and rect[0] < rect[2] and rect[1] < rect[3]
         if DEBUG >= 2:
-            MfxCanvasRectangle(self.canvas, rect[0], rect[1], rect[2], rect[3],
+            xf, yf = self.app.images._xfactor, self.app.images._yfactor
+            MfxCanvasRectangle(self.canvas,
+                               xf*rect[0], yf*rect[1], xf*rect[2], yf*rect[3],
                                width=2, fill=None, outline='red')
         for s in stacks:
             assert s and s in self.allstacks
             # verify that the stack lies within the rectangle
-            x, y, r = s.x, s.y, rect
-            ##print x, y, r
+            r = rect
+            if USE_PIL:
+                x, y = s.init_coord
+                #print 'setRegion:', x, y, r
+            else:
+                x, y = s.x, s.y
+                #print 'setRegion:', x, y, r
             assert r[0] <= x <= r[2] and r[1] <= y <= r[3]
             # verify that the stack is not already in another region
             # with the same priority
@@ -1538,7 +1662,7 @@ class Game:
                 while stack in remaining:
                     remaining.remove(stack)
         self.regions.remaining = tuple(remaining)
-        ##print self.regions.info
+        self.regions.init_info = self.regions.info
 
     def getInvisibleCoords(self):
         # for InvisibleStack, etc
@@ -1917,6 +2041,7 @@ Congratulations, you did it !
         if self.pause:
             return 0
         self.stopWinAnimation()
+        cw, ch = self.app.images.getSize()
         items = []
         for s, c1, c2, color in info:
             assert c1 in s.cards and c2 in s.cards
@@ -1943,33 +2068,33 @@ Congratulations, you did it !
                 x2, y2 = s.getPositionFor(c2)
             if sx0 != 0 and sy0 == 0:
                 # horizontal stack
-                y2 = y2 + self.app.images.CARDH
+                y2 += ch
                 if c2 is s.cards[-1]: # top card
-                    x2 = x2 + self.app.images.CARDW
+                    x2 += cw
                 else:
                     if sx0 > 0:
                         # left to right
-                        x2 = x2 + sx0
+                        x2 += sx0
                     else:
                         # right to left
-                        x1 = x1 + self.app.images.CARDW
-                        x2 = x2 + self.app.images.CARDW + sx0
+                        x1 += cw
+                        x2 += cw + sx0
             elif sx0 == 0 and sy0 != 0:
                 # vertical stack
-                x2 = x2 + self.app.images.CARDW
+                x2 += cw
                 if c2 is s.cards[-1]: # top card
-                    y2 = y2 + self.app.images.CARDH
+                    y2 += ch
                 else:
                     if sy0 > 0:
                         # up to down
                         y2 = y2 + sy0
                     else:
                         # down to up
-                        y1 = y1 + self.app.images.CARDH
-                        y2 = y2 + self.app.images.CARDH + sy0
+                        y1 += ch
+                        y2 += ch + sy0
             else:
-                x2 = x2 + self.app.images.CARDW
-                y2 = y2 + self.app.images.CARDH
+                x2 += cw
+                y2 += ch
                 tkraise = True
             ##print c1, c2, x1, y1, x2, y2
             x1, x2 = x1-delta[0], x2+delta[1]
@@ -2237,19 +2362,21 @@ Congratulations, you did it !
         images = self.app.images
         x1, y1 = from_stack.getPositionFor(from_stack.cards[-ncards])
         x2, y2 = to_stack.getPositionFor(to_stack.getCard())
-        x1, y1 = x1 + images.CARD_DX, y1 + images.CARD_DY
-        x2, y2 = x2 + images.CARD_DX, y2 + images.CARD_DY
+        cw, ch = images.getSize()
+        dx, dy = images.getDelta()
+        x1, y1 = x1 + dx, y1 + dy
+        x2, y2 = x2 + dx, y2 + dy
         if ncards == 1:
-            x1 = x1 + images.CARDW / 2
-            y1 = y1 + images.CARDH / 2
+            x1 += cw / 2
+            y1 += ch / 2
         elif from_stack.CARD_XOFFSET[0]:
-            x1 = x1 + from_stack.CARD_XOFFSET[0] / 2
-            y1 = y1 + images.CARDH / 2
+            x1 += from_stack.CARD_XOFFSET[0] / 2
+            y1 += ch / 2
         else:
-            x1 = x1 + images.CARDW / 2
-            y1 = y1 + from_stack.CARD_YOFFSET[0] / 2
-        x2 = x2 + images.CARDW / 2
-        y2 = y2 + images.CARDH / 2
+            x1 += cw / 2
+            y1 += from_stack.CARD_YOFFSET[0] / 2
+        x2 += cw / 2
+        y2 += ch / 2
         # draw the hint
         arrow = MfxCanvasLine(self.canvas, x1, y1, x2, y2, width=7,
                               fill=self.app.opt.colors['hintarrow'],

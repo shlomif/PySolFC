@@ -31,6 +31,7 @@ from mfxutil import destruct, Struct
 from mfxutil import pickle, unpickle, UnpicklingError
 from mfxutil import getusername, getprefdir
 from mfxutil import latin1_to_ascii, print_err
+from mfxutil import USE_PIL
 from util import CARDSET, IMAGE_EXTENSIONS
 from settings import PACKAGE, VERSION_TUPLE, WIN_SYSTEM
 from resource import CSI, CardsetConfig, Cardset, CardsetManager
@@ -536,11 +537,10 @@ class Application:
                         pass
                 self.wm_save_state()
                 # save game geometry
+                geom = (self.canvas.winfo_width(), self.canvas.winfo_height())
                 if self.opt.save_games_geometry and not self.opt.wm_maximized:
-                    w = self.canvas.winfo_width()
-                    h = self.canvas.winfo_height()
-                    geom = (w, h)
                     self.opt.games_geometry[self.game.id] = geom
+                self.opt.game_geometry = geom
                 self.freeGame()
                 #
                 if self.nextgame.id <= 0:
@@ -1020,8 +1020,18 @@ Please select a %s type %s.
         if d.status != 0 or d.button != 1:
             return None
         cs = self.cardset_manager.get(d.key)
-        if cs is None or d.key == key:
+        changed = (self.opt.scale_x,
+                   self.opt.scale_y,
+                   self.opt.auto_scale,
+                   self.opt.preserve_aspect_ratio) != d.scale_values
+        if cs is None:
             return None
+        if d.key == key and not changed:
+            return None
+        (self.opt.scale_x,
+         self.opt.scale_y,
+         self.opt.auto_scale,
+         self.opt.preserve_aspect_ratio) = d.scale_values
         return cs
 
 

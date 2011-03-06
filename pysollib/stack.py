@@ -97,7 +97,7 @@ import types
 
 # PySol imports
 from mfxutil import Struct, kwdefault, SubclassResponsibility
-from mfxutil import Image, ImageTk
+from mfxutil import Image, ImageTk, USE_PIL
 from util import ACE, KING
 from util import ANY_SUIT, ANY_COLOR, ANY_RANK, NO_RANK
 from pysoltk import EVENT_HANDLED, EVENT_PROPAGATE
@@ -238,7 +238,6 @@ class Stack:
         mapkey = (x, y)
         ###assert not game.stackmap.has_key(mapkey) ## can happen in PyJonngg
         game.stackmap[mapkey] = id
-        self.init_coord = (x, y)
 
         #
         # setup our pseudo MVC scheme
@@ -282,15 +281,16 @@ class Stack:
         #
         # view
         #
+        self.init_coord = (x, y)
         view.x = x
         view.y = y
         view.canvas = game.canvas
         view.CARD_XOFFSET = 0
         view.CARD_YOFFSET = 0
+        view.INIT_CARD_OFFSETS = (0,0)
         view.INIT_CARD_YOFFSET = 0      # for reallocateCards
         view.group = MfxCanvasGroup(view.canvas)
         view.shrink_face_down = 1
-        ##view.group.move(view.x, view.y)
         # image items
         view.images = Struct(
             bottom = None,              # canvas item
@@ -366,6 +366,11 @@ class Stack:
             self.CARD_YOFFSET = (oy,)
         else:
             self.CARD_YOFFSET = tuple([int(round(y)) for y in oy])
+
+        # preserve offsets
+        self.INIT_CARD_OFFSETS = (self.CARD_XOFFSET, self.CARD_YOFFSET) # for resize()
+        self.INIT_CARD_YOFFSET = self.CARD_YOFFSET # for reallocateCards
+
         if self.can_hide_cards < 0:
             self.can_hide_cards = self.is_visible
             if self.cap.max_cards < 3:
@@ -398,7 +403,7 @@ class Stack:
         # bottom image
         if self.is_visible:
             self.prepareBottom()
-        self.INIT_CARD_YOFFSET = self.CARD_YOFFSET # for reallocateCards
+
 
     # stack bottom image
     def prepareBottom(self):
@@ -520,26 +525,6 @@ class Stack:
         x, y = self.getPositionFor(card)
         card.moveTo(x, y)
 
-    # move stack to new coords
-    def moveTo(self, x, y):
-        dx, dy = x-self.x, y-self.y
-        self.x, self.y = x, y
-        for c in self.cards:
-            x, y = self.getPositionFor(c)
-            c.moveTo(x, y)
-        if self.images.bottom:
-            self.images.bottom.move(dx, dy)
-        if self.images.redeal:
-            self.images.redeal.move(dx, dy)
-        if self.texts.ncards:
-            self.texts.ncards.move(dx, dy)
-        if self.texts.rounds:
-            self.texts.rounds.move(dx, dy)
-        if self.texts.redeal:
-            self.texts.redeal.move(dx, dy)
-        if self.texts.misc:
-            self.texts.misc.move(dx, dy)
-
     # find card
     def _findCard(self, event):
         model, view = self, self
@@ -553,11 +538,12 @@ class Stack:
         model, view = self, self
         if cards is None: cards = model.cards
         images = self.game.app.images
+        cw, ch = images.getSize()
         index = -1
         for i in range(len(cards)):
             c = cards[i]
-            r = (c.x, c.y, c.x + images.CARDW, c.y + images.CARDH)
-            if x >= r[0] and x < r[2] and y >= r[1] and y < r[3]:
+            r = (c.x, c.y, c.x + cw, c.y + ch)
+            if r[0] <= x < r[2] and r[1] <= y < r[3]:
                 index = i
         return index
 
@@ -667,6 +653,10 @@ class Stack:
     def resetGame(self):
         # Called when starting a new game.
         self.CARD_YOFFSET = self.INIT_CARD_YOFFSET
+        self.items.shade_item = None
+        self.images.shade_img = None
+        #self.items.bottom = None
+        #self.images.bottom = None
 
     def __repr__(self):
         # Return a string for debug print statements.
@@ -874,7 +864,7 @@ class Stack:
         if not self.canvas.winfo_ismapped():
             return False
         yoffset = self.CARD_YOFFSET[0]
-        cardh = self.game.app.images.CARDH / 2 # 1/2 of a card is visible
+        cardh = self.game.app.images.getSize()[0] / 2 # 1/2 of a card is visible
         num_face_up = len([c for c in self.cards if c.face_up])
         num_face_down = len(self.cards) - num_face_up
         stack_height = int(self.y +
@@ -882,13 +872,19 @@ class Stack:
                            num_face_up * yoffset +
                            cardh)
         visible_height = self.canvas.winfo_height()
-        game_height = self.game.height + 2*self.canvas.ymargin
+        if USE_PIL and self.game.app.opt.auto_scale:
+            # use visible_height only
+            game_height = 0
+        else:
+            game_height = self.game.height + 2*self.canvas.ymargin
         height = max(visible_height, game_height)
+        #print 'reallocateCards:', stack_height, height, visible_height, game_height
         if stack_height > height:
             # compact stack
             n = num_face_down / self.shrink_face_down + num_face_up
             dy = float(height - self.y - cardh) / n
             if dy < yoffset:
+                #print 'compact:', dy
                 self.CARD_YOFFSET = (dy,)
             return True
         elif stack_height < height:
@@ -898,12 +894,62 @@ class Stack:
             n = num_face_down / self.shrink_face_down + num_face_up
             dy = float(height - self.y - cardh) / n
             dy = min(dy, self.INIT_CARD_YOFFSET[0])
+            #print 'expande:', dy
             self.CARD_YOFFSET = (dy,)
             return True
         return False
 
     def resize(self, xf, yf):
-        print 'resize', self
+        # resize and move stack
+        # xf, yf - a multiplicative factor (from the original values)
+        #print 'Stack.resize:', self, self.is_visible, xf, yf
+        x0, y0 = self.init_coord
+        x, y = int(round(x0*xf)), int(round(y0*yf))
+        self.x, self.y = x, y
+        # offsets
+        xoffset = tuple(int(round(i*xf)) for i in self.INIT_CARD_OFFSETS[0])
+        yoffset = tuple(int(round(i*yf)) for i in self.INIT_CARD_OFFSETS[1])
+        self.CARD_XOFFSET = xoffset
+        self.CARD_YOFFSET = yoffset
+        self.INIT_CARD_YOFFSET = yoffset
+        #print '* resize offset:', self.INIT_CARD_XOFFSET, 
+        # move cards
+        for c in self.cards:
+            cx, cy = self.getPositionFor(c)
+            c.moveTo(cx, cy)
+        # ---
+        if not self.is_visible:
+            return
+        # bottom and shade
+        if self.images.bottom:
+            img = self.getBottomImage()
+            self.images.bottom['image'] = img
+            self.images.bottom.moveTo(x, y)
+        if self.items.shade_item:
+            c = self.cards[-1]
+            img = self.game.app.images.getHighlightedCard(c.deck, c.suit, c.rank)
+            if img:
+                self.items.shade_item['image'] = img
+            self.items.shade_item.moveTo(x, y)
+        #
+        def move(item):
+            ix, iy = item.init_coord
+            x = int(round(ix*xf))
+            y = int(round(iy*yf))
+            item.moveTo(x, y)
+        # images
+        if self.images.redeal:
+            move(self.images.redeal)
+        # texts
+        if self.texts.ncards:
+            move(self.texts.ncards)
+        if self.texts.rounds:
+            move(self.texts.rounds)
+        if self.texts.redeal:
+            move(self.texts.redeal)
+        if self.texts.misc:
+            move(self.texts.misc)
+
 
     def basicShallHighlightSameRank(self, card):
         # by default all open stacks are available for highlighting
@@ -1003,14 +1049,14 @@ class Stack:
             return 0
         ##print self.cards[i]
         self.cards[i].item.tkraise()
-        self.game.canvas.update_idletasks()
+        self.canvas.update_idletasks()
         self.game.sleep(self.game.app.opt.timeouts['raise_card'])
         if TOOLKIT == 'tk':
             self.cards[i].item.lower(self.cards[i+1].item)
         elif TOOLKIT == 'gtk':
             for c in self.cards[i+1:]:
                 c.tkraise()
-        self.game.canvas.update_idletasks()
+        self.canvas.update_idletasks()
         return 1
 
     def controlmiddleclickHandler(self, event):
@@ -1026,7 +1072,7 @@ class Stack:
         if not face_up:
             self.cards[i].showFace()
         self.cards[i].item.tkraise()
-        self.game.canvas.update_idletasks()
+        self.canvas.update_idletasks()
         self.game.sleep(self.game.app.opt.timeouts['raise_card'])
         if not face_up:
             self.cards[i].showBack()
@@ -1036,7 +1082,7 @@ class Stack:
         elif TOOLKIT == 'gtk':
             for c in self.cards[i+1:]:
                 c.tkraise()
-        self.game.canvas.update_idletasks()
+        self.canvas.update_idletasks()
         return 1
 
     def rightclickHandler(self, event):
@@ -1074,8 +1120,7 @@ class Stack:
                 x0, y0 = drag.stack.getPositionFor(c)
                 x1, y1 = c.x, c.y
                 dx, dy = abs(x0-x1), abs(y0-y1)
-                w = self.game.app.images.CARDW
-                h = self.game.app.images.CARDH
+                w, h = self.game.app.images.getSize()
                 if dx > 2*w or dy > 2*h:
                     self.game.animatedMoveTo(drag.stack, drag.stack,
                                              drag.cards, x0, y0, frames=-1)
@@ -1185,7 +1230,7 @@ class Stack:
             if self.game.app.opt.mouse_type == 'point-n-click':
                 if self.acceptsCards(self.game.drag.stack,
                                      self.game.drag.cards):
-                    self.game.canvas.config(cursor=CURSOR_DOWN_ARROW)
+                    self.canvas.config(cursor=CURSOR_DOWN_ARROW)
                     self.current_cursor = CURSOR_DOWN_ARROW
                     self.cursor_changed = True
         else:
@@ -1203,13 +1248,13 @@ class Stack:
         if self.game.app.opt.mouse_type == 'drag-n-drop':
             return EVENT_HANDLED
         if self.cursor_changed:
-            self.game.canvas.config(cursor='')
+            self.canvas.config(cursor='')
             self.current_cursor = ''
             self.cursor_changed = False
         drag_stack = self.game.drag.stack
         if self is drag_stack:
             x, y = event.x, event.y
-            w, h = self.game.canvas.winfo_width(), self.game.canvas.winfo_height()
+            w, h = self.canvas.winfo_width(), self.canvas.winfo_height()
             if x < 0 or y < 0 or x >= w or y >= h:
                 # cancel drag if mouse leave canvas
                 drag_stack.cancelDrag(event)
@@ -1261,10 +1306,11 @@ class Stack:
         ##sx, sy = 0, 0
         sx, sy = -images.SHADOW_XOFFSET, -images.SHADOW_YOFFSET
         dx, dy = 0, 0
+        cw, ch = images.getSize()
         if game.app.opt.mouse_type == 'sticky-mouse':
             # return cards under mouse
-            dx = event.x - (x_offset+images.CARDW+sx) - game.canvas.xmargin
-            dy = event.y - (y_offset+images.CARDH+sy) - game.canvas.ymargin
+            dx = event.x - (x_offset+cw+sx) - game.canvas.xmargin
+            dy = event.y - (y_offset+ch+sy) - game.canvas.ymargin
             if dx < 0: dx = 0
             if dy < 0: dy = 0
         for s in drag.shadows:
@@ -1316,13 +1362,14 @@ class Stack:
         images = self.game.app.images
         cx, cy = cards[0].x, cards[0].y
         ddx, ddy = cx-cards[-1].x, cy-cards[-1].y
-        if TOOLKIT == 'tk' and Image and Image.VERSION >= '1.1.7': # use PIL
+        cw, ch = images.getSize()
+        if USE_PIL:
             c0 = cards[-1]
             if self.CARD_XOFFSET[0] < 0: c0 = cards[0]
             if self.CARD_YOFFSET[0] < 0: c0 = cards[0]
             img = images.getShadowPIL(self, cards)
-            cx, cy = c0.x + images.CARDW + dx, c0.y + images.CARDH + dy
-            s = MfxCanvasImage(self.game.canvas, cx, cy,
+            cx, cy = c0.x + cw + dx, c0.y + ch + dy
+            s = MfxCanvasImage(self.canvas, cx, cy,
                                image=img, anchor=ANCHOR_SE)
             s.lower(c0.item)
             return (s,)
@@ -1346,10 +1393,10 @@ class Stack:
         else:
             return ()
         if img0 and img1:
-            cx, cy = c0.x + images.CARDW + dx, c0.y + images.CARDH + dy
-            s1 = MfxCanvasImage(self.game.canvas, cx, cy - img0.height(),
+            cx, cy = c0.x + cw + dx, c0.y + ch + dy
+            s1 = MfxCanvasImage(self.canvas, cx, cy - img0.height(),
                                 image=img1, anchor=ANCHOR_SE)
-            s2 = MfxCanvasImage(self.game.canvas, cx, cy,
+            s2 = MfxCanvasImage(self.canvas, cx, cy,
                                 image=img0, anchor=ANCHOR_SE)
             if TOOLKIT == 'tk':
                 s1.lower(c0.item)
@@ -1412,9 +1459,9 @@ class Stack:
         if sstack.cards:
             card = sstack.cards[-1]
             if card.face_up:
-                img = images.getShadowCard(card.deck, card.suit, card.rank)
+                img = images.getHighlightedCard(card.deck, card.suit, card.rank)
             else:
-                img = images.getShadowBack()
+                img = images.getHighlightedBack()
         else:
             img = images.getShade()
         if not img:
@@ -1440,11 +1487,11 @@ class Stack:
 ##             self.CARD_YOFFSET != (0,)):
 ##             return
         card = self.cards[-1]
-        img = self.game.app.images.getShadowCard(card.deck, card.suit, card.rank)
+        img = self.game.app.images.getHighlightedCard(card.deck, card.suit, card.rank)
         if img is None:
             return
-        #self.game.canvas.update_idletasks()
-        item = MfxCanvasImage(self.game.canvas, card.x, card.y,
+        #self.canvas.update_idletasks()
+        item = MfxCanvasImage(self.canvas, card.x, card.y,
                               image=img, anchor=ANCHOR_NW, group=self.group)
         #item.tkraise()
         self.items.shade_item = item
@@ -1463,8 +1510,9 @@ class Stack:
         x1, y1 = self.getPositionFor(cards[-1])
         x0, x1 = min(x1, x0), max(x1, x0)
         y0, y1 = min(y1, y0), max(y1, y0)
-        x1 = x1 + self.game.app.images.CARDW
-        y1 = y1 + self.game.app.images.CARDH
+        cw, ch = self.game.app.images.getSize()
+        x1 += cw
+        y1 += ch
         xx0, yy0 = x0, y0
         w, h = x1-x0, y1-y0
         #
@@ -1491,7 +1539,7 @@ class Stack:
         #
         shade = markImage(shade)
         tkshade = ImageTk.PhotoImage(shade)
-        im = MfxCanvasImage(self.game.canvas, xx0, yy0,
+        im = MfxCanvasImage(self.canvas, xx0, yy0,
                             image=tkshade, anchor=ANCHOR_NW,
                             group=self.group)
         drag.shadows.append(im)
@@ -1512,7 +1560,7 @@ class Stack:
     # finish a drag operation
     def finishDrag(self, event=None):
         if self.game.app.opt.dragcursor:
-            self.game.canvas.config(cursor='')
+            self.canvas.config(cursor='')
         drag = self.game.drag.copy()
         if self.game.app.opt.mouse_type == 'point-n-click':
             drag.stack._stopDrag()
@@ -1528,7 +1576,7 @@ class Stack:
     # cancel a drag operation
     def cancelDrag(self, event=None):
         if self.game.app.opt.dragcursor:
-            self.game.canvas.config(cursor='')
+            self.canvas.config(cursor='')
         drag = self.game.drag.copy()
         if self.game.app.opt.mouse_type == 'point-n-click':
             drag.stack._stopDrag()
@@ -1726,6 +1774,11 @@ class TalonStack(Stack,
         Stack.__init__(self, x, y, game, cap=cap)
         self.max_rounds = max_rounds
         self.num_deal = num_deal
+        self.init_redeal = Struct(
+            top_bottom = None,
+            img_coord = None,
+            txt_coord = None,
+            )
         self.resetGame()
 
     def resetGame(self):
@@ -1787,22 +1840,34 @@ class TalonStack(Stack,
                     self.texts.redeal.config(text=t)
                     self.texts.redeal_str = t
 
-    def prepareView(self):
-        Stack.prepareView(self)
+    def _addRedealImage(self):
+        # add or remove the redeal image/text
         if not self.is_visible or self.images.bottom is None:
-            return
-        if self.images.redeal is not None or self.texts.redeal is not None:
             return
         if self.game.preview > 1:
             return
         images = self.game.app.images
-        cx, cy, ca = self.x + images.CARDW/2, self.y + images.CARDH/2, "center"
-        if images.CARDW >= 54 and images.CARDH >= 54:
+        cw, ch = images.getSize()
+        cx, cy = self.init_redeal.img_coord
+        ca = 'center'
+        tx, ty = self.init_redeal.txt_coord
+
+        if self.images.redeal:
+            self.canvas.delete(self.images.redeal)
+            self.images.redeal = None
+            self.images.redeal_img = None
+        if self.texts.redeal:
+            self.canvas.delete(self.texts.redeal)
+            self.texts.redeal = None
+            self.texts.redeal_str = ''
+        self.top_bottom = self.init_redeal.top_bottom
+
+        if cw >= 60 and ch >= 60:
             # add a redeal image above the bottom image
             img = (self.getRedealImages())[self.max_rounds != 1]
             if img is not None:
                 self.images.redeal_img = img
-                self.images.redeal = MfxCanvasImage(self.game.canvas,
+                self.images.redeal = MfxCanvasImage(self.canvas,
                                                     cx, cy, image=img,
                                                     anchor="center",
                                                     group=self.group)
@@ -1812,19 +1877,21 @@ class TalonStack(Stack,
                     ### FIXME
                     pass
                 self.top_bottom = self.images.redeal
-                if images.CARDH >= 90:
-                    cy, ca = self.y + images.CARDH - 4, "s"
+                if ch >= 90:
+                    cy, ca = ty, "s"
                 else:
                     ca = None
         font = self.game.app.getFont("canvas_default")
         text_width = get_text_width(_('Redeal'), font=font,
-                                    root=self.game.canvas)
-        if images.CARDW >= text_width+4 and ca:
-            # add a redeal text above the bottom image
+                                    root=self.canvas)
+        if cw >= text_width+4 and ca:
+            # add a redeal text below the bottom image
             if self.max_rounds != 1:
+                # FIXME: sometimes canvas do not show the text
+                #print 'add txt', cx, cy
                 self.texts.redeal_str = ""
                 images = self.game.app.images
-                self.texts.redeal = MfxCanvasText(self.game.canvas, cx, cy,
+                self.texts.redeal = MfxCanvasText(self.canvas, cx, cy,
                                                   anchor=ca, font=font,
                                                   group=self.group)
                 if TOOLKIT == 'tk':
@@ -1833,6 +1900,22 @@ class TalonStack(Stack,
                     ### FIXME
                     pass
                 self.top_bottom = self.texts.redeal
+
+    def prepareView(self):
+        Stack.prepareView(self)
+        if 0:
+            if not self.is_visible or self.images.bottom is None:
+                return
+            if self.images.redeal is not None or self.texts.redeal is not None:
+                return
+            if self.game.preview > 1:
+                return
+        images = self.game.app.images
+        self.init_redeal.top_bottom = self.top_bottom
+        cx, cy, ca = self.x + images.CARDW/2, self.y + images.CARDH/2, "center"
+        ty = self.y + images.CARDH - 4
+        self.init_redeal.img_coord = cx, cy
+        self.init_redeal.txt_coord = cx, ty
 
     getBottomImage = Stack._getTalonBottomImage
 
@@ -1852,6 +1935,10 @@ class TalonStack(Stack,
 
     #def getBaseCard(self):
     #    return self._getBaseCard()
+
+    def resize(self, xf, yf):
+        self._addRedealImage()
+        Stack.resize(self, xf, yf)
 
 
 # A single click deals one card to each of the RowStacks.

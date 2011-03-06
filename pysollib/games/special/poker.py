@@ -81,6 +81,7 @@ Straight
 Three of a Kind
 Two Pair
 One Pair'''))
+            self.texts.list.append(t)
             bb = t.bbox()
             x = bb[1][0] + 16
             h = bb[1][1] - bb[0][1]
@@ -91,6 +92,7 @@ One Pair'''))
             t = MfxCanvasText(self.canvas, x, y, anchor="nw",
                               font=self.app.getFont("canvas_default"),
                               text="100\n75\n50\n25\n20\n15\n10\n5\n2")
+            self.texts.list.append(t)
             x = t.bbox()[1][0] + 16
             self.texts.misc = MfxCanvasText(self.canvas, x, y, anchor="nw",
                                             font=self.app.getFont("canvas_default"),
@@ -113,18 +115,17 @@ One Pair'''))
 
         # create texts 2)
         if self.preview <= 1:
-            self.texts.addattr(hands=[])
             for i in (4, 9, 14, 19, 24):
                 tx, ty, ta, tf = l.getTextAttr(s.rows[i], anchor="e")
                 t = MfxCanvasText(self.canvas, tx+8, ty,
                                   anchor=ta,
                                   font=self.app.getFont("canvas_default"))
-                self.texts.hands.append(t)
+                self.texts.list.append(t)
             for i in range(20, 25):
                 tx, ty, ta, tf = l.getTextAttr(s.rows[i], anchor="ss")
                 t = MfxCanvasText(self.canvas, tx, ty, anchor=ta,
                                   font=self.app.getFont("canvas_default"))
-                self.texts.hands.append(t)
+                self.texts.list.append(t)
             self.texts.score = MfxCanvasText(self.canvas, l.XM, 5*l.YS, anchor="sw",
                                              font=self.app.getFont("canvas_large"))
 
@@ -171,7 +172,7 @@ One Pair'''))
             type, value = self.getHandScore(self.poker_hands[i])
             if 0 <= type <= 8:
                 count[type] = count[type] + 1
-            self.texts.hands[i].config(text=str(value))
+            self.texts.list[i+2].config(text=str(value))
             score = score + value
         t = '\n'.join(map(str, count))
         self.texts.misc.config(text=t)

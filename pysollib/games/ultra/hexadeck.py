@@ -297,10 +297,12 @@ class BitsNBytes(Game):
         for j in range(4):
             x = l.XM * 4 + l.XS * 7
             for i in range(4):
-                s.rows.append(Bits_RowStack(x, y, self, max_cards=1,
-                                    max_accept=1, base_suit=j, max_move=0))
-                self.bit_texts.append(MfxCanvasText(self.canvas, x + l.CW / 2 , y + l.CH / 2,
-                                        anchor="center", font=font))
+                stack = Bits_RowStack(x, y, self, max_cards=1, max_accept=1,
+                                      base_suit=j, max_move=0)
+                s.rows.append(stack)
+                stack.texts.misc = MfxCanvasText(self.canvas,
+                                                 x + l.CW / 2 , y + l.CH / 2,
+                                                 anchor="center", font=font)
                 x = x - l.XS
             y = y + l.YS
 
@@ -347,7 +349,8 @@ class BitsNBytes(Game):
                 break
             s = self.s.foundations[j].cards[-1].rank + 1
             for i in range(4):
-                self.bit_texts[i + j * 4].config(text = str(s % 2))
+                stack = self.s.rows[i + j * 4]
+                stack.texts.misc.config(text = str(s % 2))
                 s = int(s / 2)
 
     def _shuffleHook(self, cards):

@@ -41,6 +41,7 @@ __all__ = ['wm_withdraw',
            'shadowImage',
            'markImage',
            'createBottom',
+           'resizeBottom',
            'get_text_width',
            ]
 
@@ -248,11 +249,15 @@ def after_cancel(t):
 
 if Image:
     class PIL_Image(ImageTk.PhotoImage):
-        def __init__(self, file=None, image=None):
+        def __init__(self, file=None, image=None, pil_image_orig=None):
             if file:
                 image = Image.open(file).convert('RGBA')
             ImageTk.PhotoImage.__init__(self, image)
             self._pil_image = image
+            if pil_image_orig:
+                self._pil_image_orig = pil_image_orig
+            else:
+                self._pil_image_orig = image
         def subsample(self, r):
             im = self._pil_image
             w, h = im.size
@@ -260,6 +265,11 @@ if Image:
             im = im.resize((w, h))
             im = PIL_Image(image=im)
             return im
+        def resize(self, xf, yf):
+            w, h = self._pil_image_orig.size
+            w0, h0 = int(w*xf), int(h*yf)
+            im = self._pil_image_orig.resize((w0,h0), Image.ANTIALIAS)
+            return PIL_Image(image=im, pil_image_orig=self._pil_image_orig)
 
 
 def makeImage(file=None, data=None, dither=None, alpha=None):
@@ -360,14 +370,11 @@ def markImage(image):
     out = Image.composite(tmp, image, image)
     return out
 
-def createBottom(image, color='white', backfile=None):
-    if not hasattr(image, '_pil_image'):
-        return None
-    im = image._pil_image
+def _createBottomImage(image, color='white', backfile=None):
     th = 1                              # thickness
-    sh = Image.new('RGBA', im.size, color)
-    out = Image.composite(sh, im, im)
-    w, h = im.size
+    sh = Image.new('RGBA', image.size, color)
+    out = Image.composite(sh, image, image)
+    w, h = image.size
     size = (w-th*2, h-th*2)
     tmp = Image.new('RGBA', size, color)
     tmp.putalpha(60)
@@ -376,14 +383,26 @@ def createBottom(image, color='white', backfile=None):
     if backfile:
         back = Image.open(backfile).convert('RGBA')
         w0, h0 = back.size
-        w1, h1 = im.size
+        w1, h1 = w, h
         a = min(float(w1)/w0, float(h1)/h0)
         a = a*0.9
         w0, h0 = int(w0*a), int(h0*a)
         back = back.resize((w0,h0), Image.ANTIALIAS)
         x, y = (w1 - w0) / 2, (h1 - h0) / 2
         out.paste(back, (x,y), back)
+    return out
+
+def createBottom(maskimage, color='white', backfile=None):
+    if not hasattr(maskimage, '_pil_image'):
+        return None
+    maskimage = maskimage._pil_image
+    out = _createBottomImage(maskimage, color, backfile)
     return PIL_Image(image=out)
+
+def resizeBottom(image, maskimage, color='white', backfile=None):
+    maskimage = maskimage._pil_image
+    out = _createBottomImage(maskimage, color, backfile)
+    image['image'] = out
 
 
 # ************************************************************************

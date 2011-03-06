@@ -29,13 +29,13 @@ import Tkinter
 import ttk
 
 # PySol imports
-from pysollib.mfxutil import KwStruct
+from pysollib.mfxutil import KwStruct, USE_PIL
 from pysollib.util import CARDSET
 from pysollib.resource import CSI
 
 # Toolkit imports
 from tkutil import loadImage
-from tkwidget import MfxDialog, MfxScrolledCanvas
+from tkwidget import MfxDialog, MfxScrolledCanvas, PysolScale
 from tkcanvas import MfxCanvasImage
 from selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
 from selecttree import SelectDialogTreeData, SelectDialogTreeCanvas
@@ -179,6 +179,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             key = manager.getSelected()
         self.manager = manager
         self.key = key
+        self.app = app
         #padx, pady = kw.padx, kw.pady
         padx, pady = 5, 5
         if self.TreeDataHolder_Class.data is None:
@@ -186,7 +187,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         #
         self.top.wm_minsize(400, 200)
         if self.top.winfo_screenwidth() >= 800:
-            w1, w2 = 216, 400
+            w1, w2 = 240, 400
         else:
             w1, w2 = 200, 300
         paned_window = ttk.PanedWindow(top_frame, orient='horizontal')
@@ -199,7 +200,56 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         self.tree = self.Tree_Class(self, left_frame, key=key,
                                     default=kw.default,
                                     font=font, width=w1)
-        self.tree.frame.pack(fill='both', expand=True, padx=padx, pady=pady)
+        self.tree.frame.grid(row=0, column=0, sticky='nsew',
+                             padx=padx, pady=pady)
+        if USE_PIL:
+            #
+            var = Tkinter.DoubleVar()
+            var.set(app.opt.scale_x)
+            self.scale_x = PysolScale(
+                left_frame, label=_('Scale X:'),
+                from_=0.5, to=4.0, resolution=0.1,
+                orient='horizontal', variable=var,
+                value=app.opt.scale_x,
+                command=self._updateScale)
+            self.scale_x.grid(row=1, column=0, sticky='ew', padx=padx, pady=pady)
+            #
+            var = Tkinter.DoubleVar()
+            var.set(app.opt.scale_y)
+            self.scale_y = PysolScale(
+                left_frame, label=_('Scale Y:'),
+                from_=0.5, to=4.0, resolution=0.1,
+                orient='horizontal', variable=var,
+                value=app.opt.scale_y,
+                command=self._updateScale)
+            self.scale_y.grid(row=2, column=0, sticky='ew', padx=padx, pady=pady)
+            #
+            self.auto_scale = Tkinter.BooleanVar()
+            self.auto_scale.set(app.opt.auto_scale)
+            check = ttk.Checkbutton(
+                left_frame, text=_('Auto scaling'),
+                variable=self.auto_scale,
+                takefocus=False,
+                command=self._updateAutoScale
+                )
+            check.grid(row=3, column=0, columnspan=2, sticky='ew',
+                       padx=padx, pady=pady)
+            #
+            self.preserve_aspect = Tkinter.BooleanVar()
+            self.preserve_aspect.set(app.opt.preserve_aspect_ratio)
+            self.aspect_check = ttk.Checkbutton(
+                left_frame, text=_('Preserve aspect ratio'),
+                variable=self.preserve_aspect,
+                takefocus=False,
+                #command=self._updateScale
+                )
+            self.aspect_check.grid(row=4, column=0, sticky='ew',
+                                   padx=padx, pady=pady)
+            self._updateAutoScale()
+        #
+        left_frame.rowconfigure(0, weight=1)
+        left_frame.columnconfigure(0, weight=1)
+        #
         self.preview = MfxScrolledCanvas(right_frame, width=w2)
         self.preview.setTile(app, app.tabletile_index, force=True)
         self.preview.pack(fill='both', expand=True, padx=padx, pady=pady)
@@ -207,6 +257,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         # create a preview of the current state
         self.preview_key = -1
         self.preview_images = []
+        self.scale_images = []
         self.updatePreview(key)
         #
         focus = self.createButtons(bottom_frame, kw)
@@ -233,6 +284,20 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         if button in (0, 1):            # Load/Cancel
             self.key = self.tree.selection_key
             self.tree.n_expansions = 1  # save xyview in any case
+            if USE_PIL:
+                auto_scale = bool(self.auto_scale.get())
+                if button == 1:
+                    self.app.menubar.tkopt.auto_scale.set(auto_scale)
+                if auto_scale:
+                    self.scale_values = (self.app.opt.scale_x,
+                                         self.app.opt.scale_y,
+                                         auto_scale,
+                                         bool(self.preserve_aspect.get()))
+                else:
+                    self.scale_values = (self.scale_x.get(),
+                                         self.scale_y.get(),
+                                         auto_scale,
+                                         self.app.opt.preserve_aspect_ratio)
         if button == 10:                # Info
             cs = self.manager.get(self.tree.selection_key)
             if not cs:
@@ -243,9 +308,24 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             return
         MfxDialog.mDone(self, button)
 
-    def updatePreview(self, key):
+    def _updateAutoScale(self, v=None):
+        if self.auto_scale.get():
+            self.aspect_check.config(state='normal')
+            self.scale_x.state('disabled')
+            self.scale_y.state('disabled')
+        else:
+            self.aspect_check.config(state='disabled')
+            self.scale_x.state('!disabled')
+            self.scale_y.state('!disabled')
+
+    def _updateScale(self, v):
+        self.updatePreview()
+
+    def updatePreview(self, key=None):
         if key == self.preview_key:
             return
+        if key is None:
+            key = self.key
         canvas = self.preview.canvas
         canvas.deleteAllItems()
         self.preview_images = []
@@ -264,7 +344,16 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             self.preview_images = []
             return
         i, x, y, sx, sy, dx, dy = 0, 10, 10, 0, 0, cs.CARDW + 10, cs.CARDH + 10
+        if USE_PIL:
+            xf = self.scale_x.get()
+            yf = self.scale_y.get()
+            dx = int(dx*xf)
+            dy = int(dy*yf)
+            self.scale_images = []
         for image in self.preview_images:
+            if USE_PIL:
+                image = image.resize(xf, yf)
+                self.scale_images.append(image)
             MfxCanvasImage(canvas, x, y, anchor="nw", image=image)
             sx, sy = max(x, sx), max(y, sy)
             i = i + 1
@@ -272,13 +361,12 @@ class SelectCardsetDialogWithPreview(MfxDialog):
                 x, y = 10, y + dy
             else:
                 x = x + dx
-##         canvas.config(scrollregion=(0, 0, sx+dx, sy+dy))
-##         canvas.config(width=sx+dx, height=sy+dy)
         canvas.config(scrollregion=(0, 0, sx+dx, sy+dy),
                       width=sx+dx, height=sy+dy)
         #canvas.config(xscrollincrement=dx, yscrollincrement=dy)
         canvas.event_generate('<Configure>') # update bg image
         self.preview_key = key
+        self.key = key
 
 
 class SelectCardsetByTypeDialogWithPreview(SelectCardsetDialogWithPreview):

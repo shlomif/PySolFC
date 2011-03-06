@@ -31,7 +31,7 @@ import tkFileDialog
 
 # PySol imports
 from pysollib.mfxutil import Struct, kwdefault
-from pysollib.mfxutil import Image
+from pysollib.mfxutil import Image, USE_PIL
 from pysollib.util import CARDSET
 from pysollib.settings import TITLE, WIN_SYSTEM
 from pysollib.settings import SELECT_GAME_MENU
@@ -210,6 +210,7 @@ class PysolMenubarTk:
             mahjongg_show_removed = Tkinter.BooleanVar(),
             shisen_show_hint = Tkinter.BooleanVar(),
             sound = Tkinter.BooleanVar(),
+            auto_scale = Tkinter.BooleanVar(),
             cardback = Tkinter.IntVar(),
             tabletile = Tkinter.IntVar(),
             animations = Tkinter.IntVar(),
@@ -260,6 +261,7 @@ class PysolMenubarTk:
         tkopt.mahjongg_show_removed.set(opt.mahjongg_show_removed)
         tkopt.shisen_show_hint.set(opt.shisen_show_hint)
         tkopt.sound.set(opt.sound)
+        tkopt.auto_scale.set(opt.auto_scale)
         tkopt.cardback.set(self.app.cardset.backindex)
         tkopt.tabletile.set(self.app.tabletile_index)
         tkopt.animations.set(opt.animations)
@@ -448,6 +450,11 @@ class PysolMenubarTk:
         else:
             menu.add_checkbutton(label=label, variable=self.tkopt.sound, command=self.mOptSoundDialog)
         # cardsets
+        if USE_PIL:
+            submenu = MfxMenu(menu, label=n_("Card si&ze"))
+            submenu.add_command(label=n_("&Increase the card size"), command=self.mIncreaseCardset, accelerator=m+"+")
+            submenu.add_command(label=n_("&Decrease the card size"), command=self.mDecreaseCardset, accelerator=m+"-")
+            submenu.add_checkbutton(label=n_("&Auto scaling"), variable=self.tkopt.auto_scale, command=self.mOptAutoScale, accelerator=m+'0')
         #manager = self.app.cardset_manager
         #n = manager.len()
         menu.add_command(label=n_("Cards&et..."), command=self.mSelectCardsetDialog, accelerator=m+"E")
@@ -489,7 +496,7 @@ class PysolMenubarTk:
         submenu.add_checkbutton(label=n_("Show &statusbar"), variable=self.tkopt.statusbar, command=self.mOptStatusbar)
         submenu.add_checkbutton(label=n_("Show &number of cards"), variable=self.tkopt.num_cards, command=self.mOptNumCards)
         submenu.add_checkbutton(label=n_("Show &help bar"), variable=self.tkopt.helpbar, command=self.mOptHelpbar)
-        menu.add_checkbutton(label=n_("Save games &geometry"), variable=self.tkopt.save_games_geometry, command=self.mOptSaveGamesGeometry)
+        #menu.add_checkbutton(label=n_("Save games &geometry"), variable=self.tkopt.save_games_geometry, command=self.mOptSaveGamesGeometry)
         menu.add_checkbutton(label=n_("&Demo logo"), variable=self.tkopt.demo_logo, command=self.mOptDemoLogo)
         menu.add_checkbutton(label=n_("Startup splash sc&reen"), variable=self.tkopt.splashscreen, command=self.mOptSplashscreen)
 ###        menu.add_separator()
@@ -538,6 +545,11 @@ class PysolMenubarTk:
         self._bindKey("",   "F3", self.mFindCard)
         self._bindKey(ctrl, "d", self.mDemo)
         self._bindKey(ctrl, "e", self.mSelectCardsetDialog)
+        if USE_PIL:
+            self._bindKey(ctrl, "plus", self.mIncreaseCardset)
+            self._bindKey(ctrl, "equal", self.mIncreaseCardset)
+            self._bindKey(ctrl, "minus", self.mDecreaseCardset)
+            self._bindKey(ctrl, "0", self.mOptAutoScale)
         self._bindKey(ctrl, "b", self.mOptChangeCardback) # undocumented
         self._bindKey(ctrl, "i", self.mOptChangeTableTile) # undocumented
         self._bindKey(ctrl, "p", self.mOptPlayerOptions)   # undocumented
@@ -1134,6 +1146,56 @@ class PysolMenubarTk:
         self.app.opt.shisen_show_hint = self.tkopt.shisen_show_hint.get()
         ##self.game.updateMenus()
 
+    def _updateCardSize(self):
+        geom = (self.app.canvas.winfo_width(),
+                self.app.canvas.winfo_height())
+        self.app.opt.game_geometry = geom
+        self.app.game.resizeGame()
+        if self.app.opt.auto_scale:
+            w, h = self.app.opt.game_geometry
+            self.app.canvas.setInitialSize(w, h, scrollregion=False)
+        else:
+            w = int(round(self.app.game.width * self.app.opt.scale_x))
+            h = int(round(self.app.game.height * self.app.opt.scale_y))
+            self.app.canvas.setInitialSize(w, h)
+            self.app.top.wm_geometry("")    # cancel user-specified geometry
+        ##self.app.top.update_idletasks()
+
+    def mIncreaseCardset(self, *event):
+        if self._cancelDrag(break_pause=True): return
+        if self.app.opt.scale_x < 4:
+            self.app.opt.scale_x += 0.1
+        else:
+            return
+        if self.app.opt.scale_y < 4:
+            self.app.opt.scale_y += 0.1
+        else:
+            return
+        self.app.opt.auto_scale = False
+        self.tkopt.auto_scale.set(False)
+        self._updateCardSize()
+
+    def mDecreaseCardset(self, *event):
+        if self._cancelDrag(break_pause=True): return
+        if self.app.opt.scale_x > 0.5:
+            self.app.opt.scale_x -= 0.1
+        else:
+            return
+        if self.app.opt.scale_y > 0.5:
+            self.app.opt.scale_y -= 0.1
+        else:
+            return
+        self.app.opt.auto_scale = False
+        self.tkopt.auto_scale.set(False)
+        self._updateCardSize()
+
+    def mOptAutoScale(self, *event):
+        if self._cancelDrag(break_pause=True): return
+        auto_scale = not self.app.opt.auto_scale
+        self.app.opt.auto_scale = auto_scale
+        self.tkopt.auto_scale.set(auto_scale)
+        self._updateCardSize()
+
     def mSelectCardsetDialog(self, *event):
         if self._cancelDrag(break_pause=False): return
         t = CARDSET
@@ -1141,14 +1203,30 @@ class PysolMenubarTk:
         d = SelectCardsetDialogWithPreview(self.top, title=_("Select ")+t,
                 app=self.app, manager=self.app.cardset_manager, key=key)
         cs = self.app.cardset_manager.get(d.key)
-        if cs is None or d.key == self.app.cardset.index:
+        if d.status != 0 or d.button != 0 or cs is None:
             return
-        if d.status == 0 and d.button == 0 and d.key >= 0:
+        if USE_PIL:
+            changed = (self.app.opt.scale_x,
+                       self.app.opt.scale_y,
+                       self.app.opt.auto_scale,
+                       self.app.opt.preserve_aspect_ratio) != d.scale_values
+        else:
+            changed = False
+        if d.key == self.app.cardset.index and not changed:
+            return
+        if d.key >= 0:
             self.app.nextgame.cardset = cs
-            if d.button == 0:
-                self._cancelDrag()
-                self.game.endGame(bookmark=1)
-                self.game.quitGame(bookmark=1)
+            if USE_PIL:
+                (self.app.opt.scale_x,
+                 self.app.opt.scale_y,
+                 self.app.opt.auto_scale,
+                 self.app.opt.preserve_aspect_ratio) = d.scale_values
+                if not self.app.opt.auto_scale:
+                    self.app.images.resize(self.app.opt.scale_x,
+                                           self.app.opt.scale_y)
+            self._cancelDrag()
+            self.game.endGame(bookmark=1)
+            self.game.quitGame(bookmark=1)
 
     def _mOptCardback(self, index):
         if self._cancelDrag(break_pause=False): return
@@ -1323,7 +1401,7 @@ class PysolMenubarTk:
             self.game.showStackDesc()
 
     #
-    # Tlie
+    # Tile (ttk)
     #
 
     def mOptTheme(self, *event):

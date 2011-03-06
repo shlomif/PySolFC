@@ -95,6 +95,7 @@ randomize_place = boolean
 save_cardsets = boolean
 dragcursor = boolean
 save_games_geometry = boolean
+game_geometry = int_list(min=2, max=2)
 sound = boolean
 sound_mode = integer(0, 1)
 sound_sample_volume = integer(0, 128)
@@ -166,7 +167,11 @@ highlight_piles = float(0.2, 9.9)
 7 = string_list(min=2, max=2)
 8 = string_list(min=2, max=2)
 9 = string_list(min=2, max=2)
-
+scale_cards = boolean
+scale_x = float
+scale_y = float
+auto_scale = boolean
+preserve_aspect_ratio = boolean
 '''.splitlines()
 
 
@@ -236,7 +241,6 @@ class Options:
         #('recent_gameid', 'list'),
         #('favorite_gameid', 'list'),
         ]
-
 
     def __init__(self):
         self._config = None             # configobj.ConfigObj instance
@@ -367,10 +371,17 @@ class Options:
         self.wm_maximized = 0
         self.save_games_geometry = False
         self.games_geometry = {} # saved games geometry (gameid: (width, height))
+        self.game_geometry = (0, 0) # game geometry before exit
         #
         self.randomize_place = False
         self.save_cardsets = True
         self.dragcursor = True
+        #
+        self.scale_cards = False
+        self.scale_x = 1.0
+        self.scale_y = 1.0
+        self.auto_scale = False
+        self.preserve_aspect_ratio = True
 
     def setDefaults(self, top=None):
         WIN_SYSTEM = settings.WIN_SYSTEM
@@ -477,11 +488,15 @@ class Options:
         # cardsets
         for key, val in self.cardset.items():
             config['cardsets'][str(key)] = val
+        for key in ('scale_cards', 'scale_x', 'scale_y',
+                    'auto_scale', 'preserve_aspect_ratio'):
+            config['cardsets'][key] = getattr(self, key)
 
         # games_geometry
         config['games_geometry'].clear()
         for key, val in self.games_geometry.items():
             config['games_geometry'][str(key)] = val
+        config['general']['game_geometry'] = self.game_geometry
 
         config.write()
         ##config.write(sys.stdout); print
@@ -628,6 +643,14 @@ class Options:
                     self.cardset[int(key)] = val
                 except:
                     traceback.print_exc()
+        for key, t in (('scale_cards', 'bool'),
+                       ('scale_x', 'float'),
+                       ('scale_y', 'float'),
+                       ('auto_scale', 'bool'),
+                       ('preserve_aspect_ratio', 'bool')):
+            val = self._getOption('cardsets', key, t)
+            if val is not None:
+                setattr(self, key, val)
 
         # games_geometry
         for key, val in config['games_geometry'].items():
@@ -635,6 +658,12 @@ class Options:
                 val = [int(i) for i in val]
                 assert len(val) == 2
                 self.games_geometry[int(key)] = val
+            except:
+                traceback.print_exc()
+        game_geometry = self._getOption('general', 'game_geometry', 'list')
+        if game_geometry is not None:
+            try:
+                self.game_geometry = tuple(int(i) for i in game_geometry)
             except:
                 traceback.print_exc()
 

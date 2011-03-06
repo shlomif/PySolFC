@@ -64,10 +64,12 @@ class FlowerClock(AbstractFlowerGame):
         for i in range(12):
             x0 = x + xoffset[i] * l.XS
             y0 = y + yoffset[i] * l.YS
-            s.foundations.append(FlowerClock_Foundation(x0, y0, self, ANY_SUIT, base_rank=3))
+            stack = FlowerClock_Foundation(x0, y0, self, ANY_SUIT, base_rank=3)
+            s.foundations.append(stack)
             t = MfxCanvasText(self.canvas, x0 + l.CW / 2, y0 + l.YS,
                               anchor="center", font=font,
                               text=self.SUITS[i])
+            stack.texts.misc = t
 
         # Create row stacks
         for j in range(2):
@@ -311,15 +313,15 @@ class Pagoda(AbstractFlowerGame):
         self.setSize(l.XM + l.XS * 11, l.YS * 6)
 
         # Create foundations
-        self.foundation_texts = []
         id = 0
         for j in range(4):
             x, y = l.XM + l.XS * 8, l.YM * 3 + l.YS * j * 1.5
             for i in range(3):
-                s.foundations.append(Pagoda_Foundation(x, y, self, id))
+                stack = Pagoda_Foundation(x, y, self, id)
+                s.foundations.append(stack)
                 t = MfxCanvasText(self.canvas, x + l.CW / 2, y - 12,
                                   anchor="center", font=font)
-                self.foundation_texts.append(t)
+                stack.texts.misc = t
                 x = x + l.XS
                 id = id + 1
 
@@ -370,7 +372,7 @@ class Pagoda(AbstractFlowerGame):
                 text = _("Rising")
             else:
                 text = _("Setting")
-            self.foundation_texts[i].config(text=text)
+            s.texts.misc.config(text=text)
 
     #
     # Game over rides
@@ -468,13 +470,14 @@ class GreatWall(AbstractFlowerGame):
         self.setSize(w, h)
 
         # Create foundations
-        self.foundation_texts = []
         x, y = (l.XM, l.XM, w - l.XS, w - l.XS), (l.YM, h / 2, l.YM, h / 2)
         for i in range(4):
-            s.foundations.append(GreatWall_FoundationStack(x[i], y[i] + l.YM, self, -1, base_rank=i))
-            self.foundation_texts.append(MfxCanvasText(self.canvas,
-                                                       x[i] + l.CW / 2, y[i],
-                                                       anchor="center", font=font))
+            stack = GreatWall_FoundationStack(x[i], y[i] + l.YM, self, -1,
+                                              base_rank=i)
+            s.foundations.append(stack)
+            stack.texts.misc = MfxCanvasText(self.canvas,
+                                             x[i] + l.CW / 2, y[i],
+                                             anchor="center", font=font)
 
         # Create row stacks
         x = l.XM + l.XS * 1.5
@@ -501,14 +504,15 @@ class GreatWall(AbstractFlowerGame):
         if self.preview > 1:
             return
         for i in range(4):
-            l = len(self.s.foundations[i].cards) / 12
+            stack = self.s.foundations[i]
+            l = len(stack.cards) / 12
             if l == 0:
-                t = ""
+                text = ""
             elif l == 4:
-                t = _("Filled")
+                text = _("Filled")
             else:
-                t = str(l) + (_("st"), _("nd"), _("rd"), _("th"))[l - 1] + _(" Deck")
-            self.foundation_texts[i].config(text=str(t))
+                text = str(l) + (_("st"), _("nd"), _("rd"), _("th"))[l - 1] + _(" Deck")
+            stack.texts.misc.config(text=text)
 
     #
     # Game over rides
@@ -568,11 +572,13 @@ class FourWinds(AbstractFlowerGame):
         for i in range(4):
             x0 = x + (xoffset[i] * l.XS)
             y0 = y + (yoffset[i] * l.YS)
-            s.foundations.append(FourWinds_Foundation(x0, y0, self, -1,
-                                    max_cards=12, max_accept=1, base_rank=i))
+            stack = FourWinds_Foundation(x0, y0, self, -1,
+                                         max_cards=12, max_accept=1, base_rank=i)
+            s.foundations.append(stack)
             t = MfxCanvasText(self.canvas, x0 + l.CW / 2, y0 + l.YS + 5,
                               anchor="center", font=font,
                               text=TEXTS[i])
+            stack.texts.misc = t
 
         # Create rows
         xoffset = (1.25, 3.75, 3.75, 1.25)
@@ -580,11 +586,14 @@ class FourWinds(AbstractFlowerGame):
         for i in range(4):
             x0 = x + (xoffset[i] * l.XS)
             y0 = y + (yoffset[i] * l.YS)
-            s.rows.append(FourWinds_RowStack(x0, y0, self, yoffset=10,
-                                    max_cards=3, max_accept=1, base_rank=ANY_RANK))
+            stack = FourWinds_RowStack(x0, y0, self, yoffset=10,
+                                       max_cards=3, max_accept=1,
+                                       base_rank=ANY_RANK)
+            s.rows.append(stack)
             t = MfxCanvasText(self.canvas, x0 + l.CW / 2, y0 + l.YS + 5,
                               anchor="center", font=font,
                               text=TEXTS[i+4])
+            stack.texts.misc = t
         self.setRegion(s.rows, (x + l.XS, y + l.YS * 0.65, x + l.XS * 4 + 5, y + l.YS * 3 + 5))
 
         # Create talon

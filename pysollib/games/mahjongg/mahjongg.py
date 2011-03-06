@@ -276,7 +276,7 @@ class Mahjongg_RowStack(OpenStack):
             drag.shade_img.delete()
             #game.canvas.delete(drag.shade_img)
             drag.shade_img = None
-        img = game.app.images.getShadowCard(card.deck, card.suit, card.rank)
+        img = game.app.images.getHighlightedCard(card.deck, card.suit, card.rank)
         if img is None:
             return 1
         img = MfxCanvasImage(game.canvas, self.x, self.y, image=img,
@@ -896,7 +896,7 @@ a solvable configuration.'''),
             assert c1 in s.cards
             tkraise = False
             x, y = s.x, s.y
-            img = self.app.images.getHighlightCard(c1.deck, c1.suit, c1.rank)
+            img = self.app.images.getHighlightedCard(c1.deck, c1.suit, c1.rank, 'black')
             if img is None:
                 continue
             img = MfxCanvasImage(self.canvas, x, y, image=img,

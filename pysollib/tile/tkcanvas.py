@@ -58,14 +58,15 @@ class MfxCanvasGroup(Canvas.Group):
         return self.canvas.tk.splitlist(self._do("gettags"))
 
 class MfxCanvasImage(Canvas.ImageItem):
-    def __init__(self, canvas, *args, **kwargs):
+    def __init__(self, canvas, x, y, **kwargs):
+        self.init_coord = x, y
         group = None
         if 'group' in kwargs:
             group = kwargs['group']
             del kwargs['group']
         if 'image' in kwargs:
             self._image = kwargs['image']
-        Canvas.ImageItem.__init__(self, canvas, *args, **kwargs)
+        Canvas.ImageItem.__init__(self, canvas, x, y, **kwargs)
         if group:
             self.addtag(group)
     def moveTo(self, x, y):
@@ -90,6 +91,8 @@ class MfxCanvasRectangle(Canvas.Rectangle):
 
 class MfxCanvasText(Canvas.CanvasText):
     def __init__(self, canvas, x, y, preview=-1, **kwargs):
+        self.init_coord = x, y
+        self.x, self.y = x, y
         if preview < 0:
             preview = canvas.preview
         if preview > 1:
@@ -105,6 +108,10 @@ class MfxCanvasText(Canvas.CanvasText):
         canvas._text_items.append(self)
         if group:
             self.addtag(group)
+    def moveTo(self, x, y):
+        dx, dy = x - self.x, y - self.y
+        self.x, self.y = x, y
+        self.move(dx, dy)
 
 
 # ************************************************************************
@@ -229,17 +236,24 @@ class MfxCanvas(Tkinter.Canvas):
     #
     #
 
-    def setInitialSize(self, width, height):
-        ##print 'setInitialSize:', width, height
+    def setInitialSize(self, width, height, margins=True, scrollregion=True):
+        #print 'Canvas.setInitialSize:', width, height, scrollregion
         if self.preview:
             self.config(width=width, height=height,
                         scrollregion=(0, 0, width, height))
         else:
             # add margins
-            ##dx, dy = 40, 40
             dx, dy = self.xmargin, self.ymargin
-            self.config(width=dx+width+dx, height=dy+height+dy,
-                        scrollregion=(-dx, -dy, width+dx, height+dy))
+            if margins:
+                w, h = dx+width+dx, dy+height+dy
+            else:
+                w, h = width, height
+            self.config(width=w, height=h)
+            if scrollregion:
+                self.config(scrollregion=(-dx, -dy, width+dx, height+dy))
+            else:
+                # no scrolls
+                self.config(scrollregion=(-dx, -dy, dx, dy))
 
 
     #

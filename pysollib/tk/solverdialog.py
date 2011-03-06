@@ -114,18 +114,7 @@ class SolverDialog(MfxDialog):
         row += 1
         Tkinter.Label(frame, text=_('Preset:'), anchor='w'
                       ).grid(row=row, column=0, sticky='ew', padx=2, pady=2)
-        presets = [
-            'none',
-            'abra-kadabra',
-            'cool-jives',
-            'crooked-nose',
-            'fools-gold',
-            'good-intentions',
-            'hello-world',
-            'john-galt-line',
-            'rin-tin-tin',
-            'yellow-brick-road',
-            ]
+        presets = app.opt.solver_presets
         self.presets = presets
         self.preset_var = var = Tkinter.StringVar()
         var.set('none')

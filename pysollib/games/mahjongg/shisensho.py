@@ -250,33 +250,31 @@ class Shisen_RowStack(Mahjongg_RowStack):
 
     def drawArrow(self, other_stack, sleep):
         game = self.game
+        images = game.app.images
+        cs = game.app.cardset
         path = self.acceptsCards(other_stack, [other_stack.cards[-1]])
         #print path
         x0, y0 = game.XMARGIN, game.YMARGIN
-        #print x0, y0
-        images = game.app.images
-        cs = game.app.cardset
+        cardw, cardh = images.CARDW, images.CARDH
         if cs.version >= 6:
-            cardw = images.CARDW-cs.SHADOW_XOFFSET
-            cardh = images.CARDH-cs.SHADOW_YOFFSET
-        else:
-            cardw = images.CARDW
-            cardh = images.CARDH
+            cardw -= cs.SHADOW_XOFFSET
+            cardh -= cs.SHADOW_YOFFSET
         coords = []
         dx, dy = game._delta_x, game._delta_y
+        xf, yf = images._xfactor, images._yfactor
         for x, y in path:
             if x == 0:
                 coords.append(6)
             elif x == game.L[0]+1:
-                coords.append(x0+cardw*(x-1)+10+dx)
+                coords.append(int(round(xf * (x0+cardw*(x-1)+10+dx))))
             else:
-                coords.append(x0+cardw/2+cardw*(x-1)+dx)
+                coords.append(int(round(xf * (x0+cardw/2+cardw*(x-1)+dx))))
             if y == 0:
                 coords.append(6)
             elif y == game.L[1]+1:
-                coords.append(y0+cardh*(y-1)+6)
+                coords.append(int(round(yf * (y0+cardh*(y-1)+6))))
             else:
-                coords.append(y0+cardh/2+cardh*(y-1))
+                coords.append(int(round(yf * (y0+cardh/2+cardh*(y-1)))))
         #print coords
         ##s1 = min(cardw/2, cardh/2, 30)
         ##w = min(s1/3, 7)

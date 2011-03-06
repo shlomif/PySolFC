@@ -667,7 +667,7 @@ class StackDesc:
 
         font = game.app.getFont('canvas_small')
         ##print self.app.cardset.CARDW, self.app.images.CARDW
-        cardw = game.app.images.CARDW
+        cardw = game.app.images.getSize()[0]
         x, y = stack.x+cardw/2, stack.y
         text = stack.getHelp()+'\n'+stack.getBaseCard()
         text = text.strip()
@@ -715,30 +715,26 @@ class MyPysolScale:
             kw['from_'] = kw['from_']/self.resolution
         if 'to' in kw:
             kw['to'] = kw['to']/self.resolution
-        if 'command' in kw:
-            self.command = kw['command']
-        else:
-            self.command = None
         if 'variable' in kw:
             self.variable = kw['variable']
             del kw['variable']
         else:
             self.variable = None
+        value = None
         if 'value' in kw:
             value = kw['value']
             del kw['value']
-            if self.variable:
-                self.variable.set(value)
-        else:
-            value = None
-            if self.variable:
-                value = self.variable.get()
-        if self.variable:
-            self.variable.trace('w', self._trace_var)
+        elif self.variable:
+            value = self.variable.get()
+        self.value = value
+        self.command = command = None
+        if 'command' in kw:
+            command = kw['command']
         kw['command'] = self._scale_command
         if 'label' in kw:
             self.label_text = kw['label']
             width = len(self.label_text)+4
+            #width = None
             del kw['label']
         else:
             self.label_text = None
@@ -753,13 +749,16 @@ class MyPysolScale:
         self.scale = ttk.Scale(self.frame, **kw)
         self.scale.pack(side=side, expand=True, fill='both', pady=4)
 
+        if self.variable:
+            self.variable.trace('w', self._trace_var)
         if value is not None:
-            if self.variable:
-                self.variable.set(self._round(value))
             self._set_text(self._round(value))
+            if self.variable:
+                self.variable.set(value)
+        self.command = command
 
     def _round(self, value):
-        return int(float(value)/self.resolution)*self.resolution
+        return int(round(float(value)/self.resolution))*self.resolution
 
     def _trace_var(self, *args):
         self.scale.set(float(self.variable.get())/self.resolution)
@@ -775,8 +774,9 @@ class MyPysolScale:
         v = self._round(float(value)*self.resolution)
         self._set_text(v)
         self.variable.set(v)
-        if self.command:
+        if value != self.value and self.command:
             self.command(value)
+        self.value = value
 
     def pack(self, **kw):
         self.frame.pack(**kw)
@@ -786,6 +786,15 @@ class MyPysolScale:
     def configure(self, **kw):
         self.scale.configure(**kw)
     config = configure
+
+    def state(self, v):
+        self.scale.state(statespec=(v,))
+        self.label.state(statespec=(v,))
+
+    def get(self):
+        return self.variable.get()
+    def set(self, v):
+        self.variable.set(v)
 
 
 class TkinterScale(Tkinter.Scale):

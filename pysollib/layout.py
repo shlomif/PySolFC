@@ -89,10 +89,8 @@ class Layout:
         self.CH = images.CARDH
         self.XOFFSET = images.CARD_XOFFSET
         self.YOFFSET = images.CARD_YOFFSET
-
-        self.XM = layout_x_margin                   # XMARGIN
-        self.YM = layout_y_margin                   # YMARGIN
-
+        self.XM = layout_x_margin       # XMARGIN
+        self.YM = layout_y_margin       # YMARGIN
 
         if card_x_space is None:
             self.XS = self.CW + layout_card_x_space          # XSPACE
@@ -914,8 +912,9 @@ class Layout:
         w = XM * 2 + toprows * XS
 
         # set size so that at least 2/3 of a card is visible with 12 cards
-        h = CH * 2 / 3 + (playcards - 1) * self.YOFFSET
-        h = max(h, 2 * YS)
+        h1 = CH * 2 / 3 + (playcards - 1) * self.YOFFSET
+        h2 = (3 + reserves / decks) * YS
+        h = max(h1, h2)
 
         # create foundations
         x, y = w - XS * decks, YM

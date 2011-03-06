@@ -36,7 +36,7 @@ try:
 except:
     thread = None
 
-from settings import PACKAGE, TOOLKIT
+from settings import PACKAGE, TOOLKIT, USE_TILE
 
 Image = ImageTk = ImageOps = None
 if TOOLKIT == 'tk':
@@ -54,7 +54,13 @@ if TOOLKIT == 'tk':
         import BmpImagePlugin
         import PpmImagePlugin
         Image._initialized = 2
+USE_PIL = False
+if TOOLKIT == 'tk' and USE_TILE and Image and Image.VERSION >= '1.1.7':
+    USE_PIL = True
 
+# debug
+#Image = None
+#USE_PIL = False
 
 # ************************************************************************
 # * exceptions

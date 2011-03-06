@@ -64,7 +64,7 @@ class PushPin_Talon(DealRowTalonStack):
             if not r.cards:
                 return self.dealRowAvail(rows=[r], sound=sound)
         return self.dealRowAvail(rows=[self.game.s.rows[0]], sound=sound)
-    getBottomImage = Stack._getBlankBottomImage
+    getBottomImage = Stack._getNoneBottomImage
 
 class PushPin_RowStack(ReserveStack):
 

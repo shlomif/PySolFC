@@ -81,14 +81,15 @@ class Montana_Talon(TalonStack):
     def dealCards(self, sound=False):
         # move cards to the Talon, shuffle and redeal
         game = self.game
+        decks = game.gameinfo.decks
         RLEN, RSTEP, RBASE = game.RLEN, game.RSTEP, game.RBASE
         num_cards = 0
         assert len(self.cards) == 0
         rows = game.s.rows
         # move out-of-sequence cards from the Tableau to the Talon
         stacks = []
-        gaps = [None] * 4
-        for g in range(4):
+        gaps = [None] * 4 * decks
+        for g in range(4*decks):
             i = g * RSTEP
             r = rows[i]
             if r.cards and r.cards[-1].rank == RBASE:
@@ -292,11 +293,12 @@ class RedMoon(BlueMoon):
         return self._shuffleHookMoveToTop(cards, lambda c: (c.rank == 0, c.suit))
 
     def startGame(self):
+        decks = self.gameinfo.decks
         frames = 0
         r = self.s.rows
-        self.s.talon.dealRow(rows=(r[0],r[14],r[28],r[42]), frames=frames)
-        for i in range(4):
-            if i == 3:
+        self.s.talon.dealRow(rows=(r[::14]), frames=frames)
+        for i in range(4*decks):
+            if i == 4*decks-1:
                 self.startDealSample()
                 frames = 4
             n = i * 14 + 2
@@ -587,6 +589,20 @@ class DoubleMontana(Montana):
                 continue
             self.s.talon.dealRow(rows=(self.s.rows[i],), frames=frames)
 
+class DoubleBlueMoon(DoubleMontana, BlueMoon):
+    Talon_Class = StackWrapper(Montana_Talon, max_rounds=3)
+    RLEN, RSTEP, RBASE = 112, 14, 0
+    def createGame(self):
+        BlueMoon.createGame(self, round_text=True)
+    startGame = BlueMoon.startGame
+
+class DoubleRedMoon(DoubleMontana, RedMoon):
+    Talon_Class = StackWrapper(Montana_Talon, max_rounds=3)
+    RLEN, RROWS = 112, 8
+    _shuffleHook = RedMoon._shuffleHook
+    def createGame(self):
+        RedMoon.createGame(self, round_text=True)
+    startGame = RedMoon.startGame
 
 
 # register the game
@@ -620,5 +636,9 @@ registerGame(GameInfo(736, Spoilt, "Spoilt",
                       ))
 registerGame(GameInfo(759, DoubleMontana, "Double Montana",
                       GI.GT_MONTANA | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(770, DoubleBlueMoon, "Double Blue Moon",
+                      GI.GT_MONTANA | GI.GT_OPEN, 2, 2, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(771, DoubleRedMoon, "Double Red Moon",
+                      GI.GT_MONTANA | GI.GT_OPEN, 2, 2, GI.SL_MOSTLY_SKILL))
 
 

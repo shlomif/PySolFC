@@ -203,8 +203,9 @@ class ThreePeaks(Game):
         return False
 
     def getHandScore(self):
+        # FIXME: bug #2937253
         score, i = self.hand_score, 1
-        if self.busy:
+        if 0: #self.busy:
             return score
         # First count the empty peaks
         for r in self.s.rows[:3]:
@@ -218,6 +219,7 @@ class ThreePeaks(Game):
         if self.sequence and len(self.s.waste.cards) - 1:
             score = score + i * 2 ** int((self.sequence - 1) / 4)
         self.hand_score = score
+        #print 'getHandScore: score:', score
         return score
 
     def canUndo(self):

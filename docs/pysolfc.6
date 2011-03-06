@@ -1,0 +1,142 @@
+.\" ========================================================================
+.\"
+.IX Title "PYSOLFC 6"
+.TH PYSOLFC 6 "Mar 2009" "Version 3.0" "PySolFC team"
+.SH "NAME"
+PySolFC \- a collection of more than 1000 solitaire games
+.SH "SYNOPSIS"
+.IX Header "SYNOPSIS"
+\&\fBpysol.py\fR [\fIOPTION\fR]... [\fIFILE\fR]
+
+.SH "DESCRIPTION"
+.IX Header "DESCRIPTION"
+\&\fBPySolFC\fR is a collection of more than 1000 solitaire card games.
+It stands for PySol Fan Club Edition, as it is a fork of 
+(the now unmaintained) PySol Solitaire.
+.PP
+There are games that use the 52 card International Pattern deck,
+games for the 78 card Tarock deck, eight and ten suit Ganjifa games,
+Hanafuda games, Matrix games, Mahjongg games, and games for an original
+hexadecimal-based deck.
+.PP
+Its features include modern look and feel (uses Ttk widget set),
+multiple cardsets and tableau backgrounds, sound, unlimited undo,
+player statistics, a hint system, demo games, a solitaire wizard,
+support for user written plug-ins, an integrated HTML help browser,
+and lots of documentation.
+.PP
+The integrated help browser can be started by pressin <F1> after
+the program has launched.
+.PP
+\&\fBPySolFC\fR is written in 100% pure Python and runs out-of-the-box
+on Unix (X11), MS Windows and Mac OS X platforms.
+
+.SH "OPTIONS"
+.IX Header "OPTIONS"
+.PP
+Available options:
+.TP
+\fB\-g\fR, \fB\-\-game=\fIGAMENAME\fR
+start game GAMENAME (Klondike, etc.)
+.TP
+\fB\-i\fR, \fB\-\-gameid=\fIGAMEID\fR
+.TP
+\fB\-\-french-only\fR
+.TP
+\fB\-\-sound\-mod=\fIMOD\fR
+MOD \- sound mode, one of following:
+`pss' (pysol sound server), `pygame' (default), `oss' (open sound system),
+`win' (MS Windows)
+.TP
+\fB\-\-nosound\fR
+disable sound support
+.TP
+\fB\-\-noplugins\fR
+disable load plugins
+.TP
+\fB-h\fR, \fB\-\-help\fR
+display help message and exit
+.PP
+\fBFILE\fR \- optional file name of a saved game
+
+.SH "FILES"
+.IX Header "FILES"
+\&\fBPySolFC\fR searches its data files in a number of directories including:
+.br
+the current directory
+.br
+/usr/share/PySolFC
+.br
+/usr/local/share/PySolFC
+.br
+/usr/games/PySolFC
+.br
+/usr/local/games/PySolFC
+.PP
+Options are saved in \fB~/.PySolFC/options.cfg\fR
+.PP
+Statistics and logs are saved in \fB~/.PySolFC/statistics.dat\fR
+.PP
+Comments are indexed in \fB~/.PySolFC/comments.dat\fR
+.PP
+Savegames are searched in \fB~/.PySolFC/savegames/\fR
+.PP
+Additional plugins are searched in \fB~/.PySolFC/plugins/\fR
+.PP
+Additional cardsets are searched in \fB~/.PySolFC/cardsets/\fR
+.PP
+Additional table tiles are searched in \fB~/.PySolFC/tiles/\fR
+.PP
+Additional music songs are searched in \fB~/.PySolFC/music/\fR
+.SH "ENVIRONMENT"
+.IX Header "ENVIRONMENT"
+\&\fB\s-1HOME\s0\fR is used for finding the users home directory.
+.PP
+\&\fB\s-1USER\s0\fR and \fB\s-1LOGNAME\s0\fR are used for getting the initial name of the player.
+.PP
+Additional cardsets are searched according to the path variable
+\&\fB\s-1PYSOL_CARDSETS\s0\fR. You can specify multiple directories.
+.PP
+Additional table tiles are searched according to the path variable
+\&\fB\s-1PYSOL_TILES\s0\fR. You can specify multiple directories.
+.PP
+Additional music songs are searched according to the path variable
+\&\fB\s-1PYSOL_MUSIC\s0\fR. You can specify multiple directories.
+.SH "DIAGNOSTICS"
+.IX Header "DIAGNOSTICS"
+Exit status is normally 0.
+.SH "SEE ALSO"
+.IX Header "SEE ALSO"
+\&\fBpython\fR(1)
+.PP
+\&\fBace_solitaire\fR, \fBfreecell\fR, \fBgnome-freecell\fR,
+\&\fBkabale\fR, \fBklondike\fR, \fBkpat\fR, \fBseahaven\fR, \fBsol\fR,
+\&\fBspider\fR, \fBtksol\fR, \fBxfreecell\fR, \fBxpat2\fR, \fBxsol\fR
+.SH "BUGS"
+.IX Header "BUGS"
+Please report all bugs immediately to the author.
+.SH "AUTHOR"
+.IX Header "AUTHOR"
+Markus F.X.J. Oberhumer <markus@oberhumer.com>
+.PP
+T. Kirk
+.PP
+Skomoroh <skomoroh@users.sourceforge.net>
+.PP
+Brian Lenihan <brianl@users.sourceforge.net>
+.PP
+http://pysolfc.sourceforge.net/
+.SH "COPYRIGHT"
+.IX Header "COPYRIGHT"
+PySolFC is
+.PP
+Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
+.PP
+Copyright (C) 2003 Mt. Hood Playing Card Co.
+.PP
+Copyright (C) 2005-2011 Skomoroh
+.PP
+All Rights Reserved.
+.PP
+PySolFC is distributed under the terms of the
+\&\s-1GNU\s0 General Public License Version 3 or later (\s-1GPLv3\s0)

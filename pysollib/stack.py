@@ -925,13 +925,18 @@ class Stack:
             img = self.getBottomImage()
             self.images.bottom['image'] = img
             self.images.bottom.moveTo(x, y)
+        if self.items.bottom:
+            c = self.items.bottom.coords()
+            c = ((int(round(c[0]*xf)), int(round(c[1]*yf))),
+                 (int(round(c[2]*xf)), int(round(c[3]*yf))))
+            self.items.bottom.coords(c)
         if self.items.shade_item:
             c = self.cards[-1]
             img = self.game.app.images.getHighlightedCard(c.deck, c.suit, c.rank)
             if img:
                 self.items.shade_item['image'] = img
             self.items.shade_item.moveTo(x, y)
-        #
+        # move the items
         def move(item):
             ix, iy = item.init_coord
             x = int(round(ix*xf))

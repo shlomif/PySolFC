@@ -107,6 +107,17 @@ class _OneImageCard(_HideableCard):
         item = self.item
         item.canvas.tk.call(item.canvas._w, "move", item.id, dx, dy)
 
+    # for resize
+    def update(self, id, deck, suit, rank, game):
+        self._face_image = game.getCardFaceImage(deck, suit, rank)
+        self._back_image = game.getCardBackImage(deck, suit, rank)
+        self._shade_image = game.getCardShadeImage()
+        if self.face_up:
+            img = self._face_image
+        else:
+            img = self._back_image
+        self.item.config(image=img)
+        self._active_image = img
 
 
 # ************************************************************************

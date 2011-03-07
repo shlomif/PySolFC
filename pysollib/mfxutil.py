@@ -55,7 +55,7 @@ if TOOLKIT == 'tk':
         import PpmImagePlugin
         Image._initialized = 2
 USE_PIL = False
-if TOOLKIT == 'tk' and USE_TILE and Image and Image.VERSION >= '1.1.7':
+if TOOLKIT == 'tk' and Image and Image.VERSION >= '1.1.7':
     USE_PIL = True
 
 # debug

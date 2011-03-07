@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Thu Sep  6 15:06:46 2007\n"
+"POT-Creation-Date: Mon Mar  7 21:38:07 2011\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -73,6 +73,9 @@ msgid "Acquaintance"
 msgstr ""
 
 msgid "Adela"
+msgstr ""
+
+msgid "Aglet"
 msgstr ""
 
 msgid "Agnes Bernauer"
@@ -241,6 +244,12 @@ msgid "Batsford Again"
 msgstr ""
 
 msgid "Bavarian Patience"
+msgstr ""
+
+msgid "Bayan"
+msgstr ""
+
+msgid "Beacon"
 msgstr ""
 
 msgid "Beak and Flipper"
@@ -520,6 +529,9 @@ msgid "Cat and Mouse"
 msgstr ""
 
 msgid "Cat's Tail"
+msgstr ""
+
+msgid "Catherine the Great"
 msgstr ""
 
 msgid "Cavalier"
@@ -804,6 +816,9 @@ msgstr ""
 msgid "Double Bisley"
 msgstr ""
 
+msgid "Double Blue Moon"
+msgstr ""
+
 msgid "Double Canfield"
 msgstr ""
 
@@ -876,10 +891,16 @@ msgstr ""
 msgid "Double Measure"
 msgstr ""
 
+msgid "Double Montana"
+msgstr ""
+
 msgid "Double Pyramid"
 msgstr ""
 
 msgid "Double Rail"
+msgstr ""
+
+msgid "Double Red Moon"
 msgstr ""
 
 msgid "Double Russian Solitaire"
@@ -942,6 +963,9 @@ msgstr ""
 msgid "Dutch Solitaire"
 msgstr ""
 
+msgid "Dutchess"
+msgstr ""
+
 msgid "Eagle Wing"
 msgstr ""
 
@@ -970,6 +994,9 @@ msgid "Eight Legions"
 msgstr ""
 
 msgid "Eight Off"
+msgstr ""
+
+msgid "Eight Packs"
 msgstr ""
 
 msgid "Eight Sages"
@@ -1156,6 +1183,9 @@ msgid "Fly"
 msgstr ""
 
 msgid "Flying Dragon"
+msgstr ""
+
+msgid "Foothold"
 msgstr ""
 
 msgid "Footling"
@@ -1425,6 +1455,9 @@ msgstr ""
 msgid "Hanoi Puzzle 6"
 msgstr ""
 
+msgid "Hanoi Sequence"
+msgstr ""
+
 msgid "Happy New Year"
 msgstr ""
 
@@ -1636,6 +1669,9 @@ msgid "Katrina's Game Doubled"
 msgstr ""
 
 msgid "Katrina's Game Relaxed"
+msgstr ""
+
+msgid "Kentish"
 msgstr ""
 
 msgid "Khadga"
@@ -2310,7 +2346,7 @@ msgstr ""
 msgid "Mahjongg Stargate"
 msgstr ""
 
-msgid "Mahjongg Step Pyramid"
+msgid "Mahjongg Steps Pyramid"
 msgstr ""
 
 msgid "Mahjongg Stonehenge"
@@ -2652,6 +2688,15 @@ msgstr ""
 msgid "Northwest Territory"
 msgstr ""
 
+msgid "Not Shisen-Sho 14x6"
+msgstr ""
+
+msgid "Not Shisen-Sho 18x8"
+msgstr ""
+
+msgid "Not Shisen-Sho 24x12"
+msgstr ""
+
 msgid "Number Ten"
 msgstr ""
 
@@ -2904,6 +2949,9 @@ msgstr ""
 msgid "Puss in the Corner"
 msgstr ""
 
+msgid "Putt Putt"
+msgstr ""
+
 msgid "Pyramid"
 msgstr ""
 
@@ -2925,10 +2973,16 @@ msgstr ""
 msgid "Quadrangle"
 msgstr ""
 
+msgid "Quadrille"
+msgstr ""
+
 msgid "Quadruple Alliance"
 msgstr ""
 
 msgid "Quads"
+msgstr ""
+
+msgid "Quads +"
 msgstr ""
 
 msgid "Quartets"
@@ -3000,6 +3054,9 @@ msgstr ""
 msgid "Relax"
 msgstr ""
 
+msgid "Relaxed Accordion"
+msgstr ""
+
 msgid "Relaxed FreeCell"
 msgstr ""
 
@@ -3013,6 +3070,9 @@ msgid "Relaxed Seahaven Towers"
 msgstr ""
 
 msgid "Relaxed Spider"
+msgstr ""
+
+msgid "Relaxed Three Fir-trees"
 msgstr ""
 
 msgid "Repair"
@@ -3228,13 +3288,13 @@ msgstr ""
 msgid "Shifting"
 msgstr ""
 
-msgid "Shisen-Sho (No Gra) 14x6"
+msgid "Shisen-Sho (No Gravity) 14x6"
 msgstr ""
 
-msgid "Shisen-Sho (No Gra) 18x8"
+msgid "Shisen-Sho (No Gravity) 18x8"
 msgstr ""
 
-msgid "Shisen-Sho (No Gra) 24x12"
+msgid "Shisen-Sho (No Gravity) 24x12"
 msgstr ""
 
 msgid "Shisen-Sho 14x6"
@@ -3423,13 +3483,13 @@ msgstr ""
 msgid "Stargate"
 msgstr ""
 
-msgid "Step Pyramid"
-msgstr ""
-
 msgid "Step-Up"
 msgstr ""
 
 msgid "Steps"
+msgstr ""
+
+msgid "Steps Pyramid"
 msgstr ""
 
 msgid "Steve"
@@ -3595,6 +3655,9 @@ msgid "Theater"
 msgstr ""
 
 msgid "Thieves of Egypt"
+msgstr ""
+
+msgid "Thirteen Packs"
 msgstr ""
 
 msgid "Thirteen Up"
@@ -3862,6 +3925,9 @@ msgid "Wall"
 msgstr ""
 
 msgid "Waning Moon"
+msgstr ""
+
+msgid "Wasatch"
 msgstr ""
 
 msgid "Washington's Favorite"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Thu Sep  6 15:06:46 2007\n"
+"POT-Creation-Date: Mon Mar  7 21:38:07 2011\n"
 "PO-Revision-Date: 2007-09-05 17:43+0400\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -73,6 +73,10 @@ msgstr "Знакомство"
 
 msgid "Adela"
 msgstr "Адела"
+
+#, fuzzy
+msgid "Aglet"
+msgstr "Алтарь"
 
 msgid "Agnes Bernauer"
 msgstr "Агнесса Берно"
@@ -244,6 +248,14 @@ msgstr "Бетсфорд снова"
 msgid "Bavarian Patience"
 msgstr "Баварский пасьянс"
 
+#, fuzzy
+msgid "Bayan"
+msgstr "Баланс"
+
+#, fuzzy
+msgid "Beacon"
+msgstr "Основа"
+
 msgid "Beak and Flipper"
 msgstr "Клюв и ласты"
 
@@ -281,7 +293,7 @@ msgid "Big Courtyard"
 msgstr "Большой Внутренний двор"
 
 msgid "Big Deal"
-msgstr "Большая Расдача"
+msgstr "Большая Раздача"
 
 msgid "Big Divorce"
 msgstr "Большой разрыв"
@@ -522,6 +534,9 @@ msgstr "Кот и Мышь"
 
 msgid "Cat's Tail"
 msgstr "Кошачий хвост"
+
+msgid "Catherine the Great"
+msgstr ""
 
 msgid "Cavalier"
 msgstr "Рыцарь"
@@ -807,6 +822,10 @@ msgstr "Двойное Знакомство"
 msgid "Double Bisley"
 msgstr "Двойной Бисли"
 
+#, fuzzy
+msgid "Double Blue Moon"
+msgstr "Голубая луна"
+
 msgid "Double Canfield"
 msgstr "Двойной Кенфилд"
 
@@ -881,11 +900,19 @@ msgstr "Двойной Маджонг Два квадрата"
 msgid "Double Measure"
 msgstr "Двойная Мера"
 
+#, fuzzy
+msgid "Double Montana"
+msgstr "Двоеточие"
+
 msgid "Double Pyramid"
 msgstr "Двойная пирамида"
 
 msgid "Double Rail"
 msgstr "Двойные рельсы"
+
+#, fuzzy
+msgid "Double Red Moon"
+msgstr "Двойной Золотой рудник"
 
 msgid "Double Russian Solitaire"
 msgstr "Двойной Русский солитер"
@@ -947,6 +974,10 @@ msgstr ""
 msgid "Dutch Solitaire"
 msgstr "Голландский пасьянс"
 
+#, fuzzy
+msgid "Dutchess"
+msgstr "Герцогиня"
+
 msgid "Eagle Wing"
 msgstr "Крыло орла"
 
@@ -976,6 +1007,10 @@ msgstr "Восемь легионов"
 
 msgid "Eight Off"
 msgstr "Восемь удалённых"
+
+#, fuzzy
+msgid "Eight Packs"
+msgstr "Восемь мудрецов"
 
 msgid "Eight Sages"
 msgstr "Восемь мудрецов"
@@ -1164,6 +1199,10 @@ msgstr "Полёт"
 
 msgid "Flying Dragon"
 msgstr "Летящий дракон"
+
+#, fuzzy
+msgid "Foothold"
+msgstr "Пустяковый"
 
 msgid "Footling"
 msgstr "Пустяковый"
@@ -1436,6 +1475,9 @@ msgstr "Ханойская головоломка 5"
 msgid "Hanoi Puzzle 6"
 msgstr "Ханойская головоломка 6"
 
+msgid "Hanoi Sequence"
+msgstr ""
+
 msgid "Happy New Year"
 msgstr "С Новым Годом"
 
@@ -1650,6 +1692,9 @@ msgstr "Двойной Пасьянс Катрины"
 
 msgid "Katrina's Game Relaxed"
 msgstr "Облегчённый Пасьянс Катрины"
+
+msgid "Kentish"
+msgstr ""
 
 msgid "Khadga"
 msgstr "Khadga"
@@ -2326,7 +2371,8 @@ msgstr "Маджонг Космический корабль"
 msgid "Mahjongg Stargate"
 msgstr "Маджонг Звёздные врата"
 
-msgid "Mahjongg Step Pyramid"
+#, fuzzy
+msgid "Mahjongg Steps Pyramid"
 msgstr "Маджонг Семь пирамид"
 
 msgid "Mahjongg Stonehenge"
@@ -2676,6 +2722,15 @@ msgstr "Скандинавский"
 msgid "Northwest Territory"
 msgstr "Северо-Западные Территории"
 
+msgid "Not Shisen-Sho 14x6"
+msgstr ""
+
+msgid "Not Shisen-Sho 18x8"
+msgstr ""
+
+msgid "Not Shisen-Sho 24x12"
+msgstr ""
+
 msgid "Number Ten"
 msgstr "Номер десять"
 
@@ -2930,6 +2985,9 @@ msgstr "Пуш-пин"
 msgid "Puss in the Corner"
 msgstr "Кошка в углу"
 
+msgid "Putt Putt"
+msgstr ""
+
 msgid "Pyramid"
 msgstr "Пирамида"
 
@@ -2951,10 +3009,18 @@ msgstr "Четвёрка"
 msgid "Quadrangle"
 msgstr "Четырёхугольник"
 
+#, fuzzy
+msgid "Quadrille"
+msgstr "Четырёхугольник"
+
 msgid "Quadruple Alliance"
 msgstr "Четырёхсторонний альянс"
 
 msgid "Quads"
+msgstr "Четвёрки"
+
+#, fuzzy
+msgid "Quads +"
 msgstr "Четвёрки"
 
 msgid "Quartets"
@@ -3026,6 +3092,10 @@ msgstr "Северный олень"
 msgid "Relax"
 msgstr "Смягчённый"
 
+#, fuzzy
+msgid "Relaxed Accordion"
+msgstr "Аккордеон"
+
 msgid "Relaxed FreeCell"
 msgstr "Смягчённая Свободная ячейка"
 
@@ -3040,6 +3110,10 @@ msgstr "Смягчённые Приморские башни"
 
 msgid "Relaxed Spider"
 msgstr "Смягчённый Паук"
+
+#, fuzzy
+msgid "Relaxed Three Fir-trees"
+msgstr "Три елки"
 
 msgid "Repair"
 msgstr "Ремонт"
@@ -3256,13 +3330,13 @@ msgstr "Щит"
 msgid "Shifting"
 msgstr "Изменчивый"
 
-msgid "Shisen-Sho (No Gra) 14x6"
+msgid "Shisen-Sho (No Gravity) 14x6"
 msgstr ""
 
-msgid "Shisen-Sho (No Gra) 18x8"
+msgid "Shisen-Sho (No Gravity) 18x8"
 msgstr ""
 
-msgid "Shisen-Sho (No Gra) 24x12"
+msgid "Shisen-Sho (No Gravity) 24x12"
 msgstr ""
 
 msgid "Shisen-Sho 14x6"
@@ -3457,15 +3531,15 @@ msgid "Stargate"
 msgstr "Звёздные врата"
 
 #, fuzzy
-msgid "Step Pyramid"
-msgstr "Семь пирамид"
-
-#, fuzzy
 msgid "Step-Up"
 msgstr "Шаги"
 
 msgid "Steps"
 msgstr "Шаги"
+
+#, fuzzy
+msgid "Steps Pyramid"
+msgstr "Семь пирамид"
 
 msgid "Steve"
 msgstr "Стив"
@@ -3632,6 +3706,10 @@ msgstr "Театр"
 
 msgid "Thieves of Egypt"
 msgstr "Египетский вор"
+
+#, fuzzy
+msgid "Thirteen Packs"
+msgstr "Три вершины"
 
 msgid "Thirteen Up"
 msgstr "Тринадцать вверх"
@@ -3912,6 +3990,9 @@ msgstr "Стена"
 
 msgid "Waning Moon"
 msgstr "Луна на ущербе"
+
+msgid "Wasatch"
+msgstr ""
 
 msgid "Washington's Favorite"
 msgstr "Фаворит Вашингтона"

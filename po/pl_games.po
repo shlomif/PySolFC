@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Thu Sep  6 15:06:46 2007\n"
+"POT-Creation-Date: Mon Mar  7 21:38:07 2011\n"
 "PO-Revision-Date: 2010-12-16 23:56+0100\n"
 "Last-Translator: Jerzy Trzeciak <artusek@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -74,6 +74,10 @@ msgstr ""
 
 msgid "Adela"
 msgstr "Adela"
+
+#, fuzzy
+msgid "Aglet"
+msgstr "Altar"
 
 msgid "Agnes Bernauer"
 msgstr "Agnes Bernauer"
@@ -242,6 +246,14 @@ msgstr "Jeszcze raz Batsford"
 
 msgid "Bavarian Patience"
 msgstr "Pasjans Bawarski"
+
+#, fuzzy
+msgid "Bayan"
+msgstr "Japonia"
+
+#, fuzzy
+msgid "Beacon"
+msgstr "Kręgosłup"
 
 msgid "Beak and Flipper"
 msgstr "Dziób i płetwa"
@@ -520,6 +532,9 @@ msgid "Cat and Mouse"
 msgstr "Kot i Mysz"
 
 msgid "Cat's Tail"
+msgstr ""
+
+msgid "Catherine the Great"
 msgstr ""
 
 msgid "Cavalier"
@@ -804,6 +819,10 @@ msgstr ""
 msgid "Double Bisley"
 msgstr ""
 
+#, fuzzy
+msgid "Double Blue Moon"
+msgstr "Smutny Księżyc"
+
 msgid "Double Canfield"
 msgstr ""
 
@@ -876,10 +895,17 @@ msgstr ""
 msgid "Double Measure"
 msgstr ""
 
+#, fuzzy
+msgid "Double Montana"
+msgstr "Montana"
+
 msgid "Double Pyramid"
 msgstr ""
 
 msgid "Double Rail"
+msgstr ""
+
+msgid "Double Red Moon"
 msgstr ""
 
 msgid "Double Russian Solitaire"
@@ -942,6 +968,9 @@ msgstr ""
 msgid "Dutch Solitaire"
 msgstr ""
 
+msgid "Dutchess"
+msgstr ""
+
 msgid "Eagle Wing"
 msgstr "Skrzydło Orła"
 
@@ -970,6 +999,9 @@ msgid "Eight Legions"
 msgstr ""
 
 msgid "Eight Off"
+msgstr ""
+
+msgid "Eight Packs"
 msgstr ""
 
 msgid "Eight Sages"
@@ -1157,6 +1189,9 @@ msgstr "Mucha"
 
 msgid "Flying Dragon"
 msgstr "Latający Smok"
+
+msgid "Foothold"
+msgstr ""
 
 msgid "Footling"
 msgstr ""
@@ -1425,6 +1460,9 @@ msgstr "Hanoi Puzzle 5"
 msgid "Hanoi Puzzle 6"
 msgstr "Hanoi Puzzle 6"
 
+msgid "Hanoi Sequence"
+msgstr ""
+
 msgid "Happy New Year"
 msgstr "Happy New Year"
 
@@ -1636,6 +1674,9 @@ msgid "Katrina's Game Doubled"
 msgstr ""
 
 msgid "Katrina's Game Relaxed"
+msgstr ""
+
+msgid "Kentish"
 msgstr ""
 
 msgid "Khadga"
@@ -2310,8 +2351,9 @@ msgstr ""
 msgid "Mahjongg Stargate"
 msgstr ""
 
-msgid "Mahjongg Step Pyramid"
-msgstr ""
+#, fuzzy
+msgid "Mahjongg Steps Pyramid"
+msgstr "Mahjongg Bridge"
 
 msgid "Mahjongg Stonehenge"
 msgstr ""
@@ -2652,6 +2694,15 @@ msgstr ""
 msgid "Northwest Territory"
 msgstr ""
 
+msgid "Not Shisen-Sho 14x6"
+msgstr ""
+
+msgid "Not Shisen-Sho 18x8"
+msgstr ""
+
+msgid "Not Shisen-Sho 24x12"
+msgstr ""
+
 msgid "Number Ten"
 msgstr ""
 
@@ -2904,6 +2955,9 @@ msgstr ""
 msgid "Puss in the Corner"
 msgstr ""
 
+msgid "Putt Putt"
+msgstr ""
+
 msgid "Pyramid"
 msgstr "Piramida"
 
@@ -2925,10 +2979,16 @@ msgstr ""
 msgid "Quadrangle"
 msgstr ""
 
+msgid "Quadrille"
+msgstr ""
+
 msgid "Quadruple Alliance"
 msgstr ""
 
 msgid "Quads"
+msgstr ""
+
+msgid "Quads +"
 msgstr ""
 
 msgid "Quartets"
@@ -3000,6 +3060,10 @@ msgstr ""
 msgid "Relax"
 msgstr ""
 
+#, fuzzy
+msgid "Relaxed Accordion"
+msgstr "Akordeon"
+
 msgid "Relaxed FreeCell"
 msgstr ""
 
@@ -3013,6 +3077,9 @@ msgid "Relaxed Seahaven Towers"
 msgstr ""
 
 msgid "Relaxed Spider"
+msgstr ""
+
+msgid "Relaxed Three Fir-trees"
 msgstr ""
 
 msgid "Repair"
@@ -3228,13 +3295,13 @@ msgstr ""
 msgid "Shifting"
 msgstr ""
 
-msgid "Shisen-Sho (No Gra) 14x6"
+msgid "Shisen-Sho (No Gravity) 14x6"
 msgstr ""
 
-msgid "Shisen-Sho (No Gra) 18x8"
+msgid "Shisen-Sho (No Gravity) 18x8"
 msgstr ""
 
-msgid "Shisen-Sho (No Gra) 24x12"
+msgid "Shisen-Sho (No Gravity) 24x12"
 msgstr ""
 
 msgid "Shisen-Sho 14x6"
@@ -3423,14 +3490,15 @@ msgstr ""
 msgid "Stargate"
 msgstr ""
 
-msgid "Step Pyramid"
-msgstr ""
-
 msgid "Step-Up"
 msgstr ""
 
 msgid "Steps"
 msgstr ""
+
+#, fuzzy
+msgid "Steps Pyramid"
+msgstr "Piramida"
 
 msgid "Steve"
 msgstr ""
@@ -3595,6 +3663,9 @@ msgid "Theater"
 msgstr ""
 
 msgid "Thieves of Egypt"
+msgstr ""
+
+msgid "Thirteen Packs"
 msgstr ""
 
 msgid "Thirteen Up"
@@ -3864,6 +3935,9 @@ msgstr ""
 msgid "Waning Moon"
 msgstr ""
 
+msgid "Wasatch"
+msgstr ""
+
 msgid "Washington's Favorite"
 msgstr ""
 
@@ -3968,5 +4042,3 @@ msgstr ""
 
 msgid "Zodiac"
 msgstr "Zodiak"
-
-

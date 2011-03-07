@@ -226,7 +226,7 @@ class Queens(PushPin):
 
 
 # ************************************************************************
-# * Accordion
+# * Bayan (ex. Accordion)
 # ************************************************************************
 
 class Accordion_Hint(AbstractHint):
@@ -239,12 +239,18 @@ class Accordion_Hint(AbstractHint):
             if r1.cards and r2.cards:
                 c1, c2 = r1.cards[0], r2.cards[0]
                 if c1.rank == c2.rank or c1.suit == c2.suit:
-                    self.addHint(5000, 1, r1, r2)
+                    if r2.acceptsCards(r1, [c1]):
+                        self.addHint(5000, 1, r1, r2)
+                    if r1.acceptsCards(r2, [c2]):
+                        self.addHint(5000, 1, r2, r1)
             r1, r2 = rows[i], rows[i+3]
             if r1.cards and r2.cards:
                 c1, c2 = r1.cards[0], r2.cards[0]
                 if c1.rank == c2.rank or c1.suit == c2.suit:
-                    self.addHint(6000, 1, r1, r2)
+                    if r2.acceptsCards(r1, [c1]):
+                        self.addHint(6000, 1, r1, r2)
+                    if r1.acceptsCards(r2, [c2]):
+                        self.addHint(6000, 1, r2, r1)
 
 
 class Accordion_RowStack(PushPin_RowStack):
@@ -273,6 +279,44 @@ class Accordion(PushPin):
     def isGameWon(self):
         return len(self.s.foundations[0].cards) == 52
 
+# ************************************************************************
+# * Accordion (fixed)
+# ************************************************************************
+
+class Accordion2_RowStack(Accordion_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not Accordion_RowStack.acceptsCards(self, from_stack, cards):
+            return False
+        # accepts only from right stack
+        return self.id < from_stack.id
+    def moveMove(self, ncards, to_stack, frames=-1, shadow=-1):
+        game = self.game
+        old_state = game.enterState(game.S_FILL)
+        f = game.s.foundations[0]
+        game.updateStackMove(game.s.talon, 2|16)            # for undo
+
+        game.moveMove(ncards, to_stack, f, frames=frames, shadow=shadow)
+        game.moveMove(ncards, self, to_stack, frames=frames, shadow=shadow)
+        self.fillStack()
+
+        game.updateStackMove(game.s.talon, 1|16)            # for redo
+        game.leaveState(old_state)
+
+class Accordion2(Accordion):
+    RowStack_Class = Accordion2_RowStack
+    def isGameWon(self):
+        return len(self.s.foundations[0].cards) == 51
+
+# ************************************************************************
+# * Relaxed Accordion
+# ************************************************************************
+
+class RelaxedAccordion_RowStack(Accordion2_RowStack):
+    acceptsCards = Accordion_RowStack.acceptsCards
+
+class RelaxedAccordion(Accordion2):
+    RowStack_Class = RelaxedAccordion_RowStack
+
 
 registerGame(GameInfo(287, PushPin, "Push Pin",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
@@ -280,6 +324,10 @@ registerGame(GameInfo(288, RoyalMarriage, "Royal Marriage",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 ## registerGame(GameInfo(303, Queens, "Queens",
 ##                       GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0))
-registerGame(GameInfo(656, Accordion, "Accordion",
+registerGame(GameInfo(656, Accordion, "Bayan",
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))
+registerGame(GameInfo(772, Accordion2, "Accordion",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED,
                       altnames=('Idle Year', 'Methuselah', 'Tower of Babel') ))
+registerGame(GameInfo(773, RelaxedAccordion, "Relaxed Accordion",
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))

@@ -68,6 +68,7 @@ class Memory_RowStack(OpenStack):
                 self.flipMove()
             game.other_stack = None
         self.game.finishMove()
+        self.game.checkForWin()
         return 1
 
     def _dropPairMove(self, n, other_stack, frames=-1, shadow=-1):

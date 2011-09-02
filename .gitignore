@@ -4,6 +4,7 @@ data/html/*
 dist/*
 docs/all_games.html
 html-src/html/*
-locale/ru/LC_MESSAGES/pysol.mo
-locale/ru_RU/LC_MESSAGES/pysol.mo
+locale/*
+po/pl.po
 po/ru.po
+*.pyc

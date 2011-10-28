@@ -1,5 +1,5 @@
 build/*
-data/cardset*
+data/cardsets/*
 data/html/*
 dist/*
 docs/all_games.html

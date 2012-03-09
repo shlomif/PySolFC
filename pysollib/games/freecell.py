@@ -641,12 +641,16 @@ class Limpopo(Game):
 
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
-
+class PairFcFreeCell(FreeCell):
+    def createGame(self):
+        FreeCell.createGame(self, reserves=2)
 
 # register the game
 registerGame(GameInfo(5, RelaxedFreeCell, "Relaxed FreeCell",
                       GI.GT_FREECELL | GI.GT_RELAXED | GI.GT_OPEN, 1, 0, GI.SL_SKILL))
 registerGame(GameInfo(8, FreeCell, "FreeCell",
+                      GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_SKILL))
+registerGame(GameInfo(1900, PairFcFreeCell, "FreeCell with Two Reserves",
                       GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_SKILL))
 registerGame(GameInfo(46, ForeCell, "ForeCell",
                       GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))

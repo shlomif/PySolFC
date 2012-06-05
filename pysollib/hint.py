@@ -26,6 +26,7 @@
 import os
 import time
 import subprocess
+import re
 
 # PySol imports
 from settings import DEBUG, FCS_COMMAND
@@ -888,9 +889,16 @@ class FreeCellSolver_Hint:
         for s in pout:
             if DEBUG:
                 print s,
-            # TODO:
-            # Total number of states checked is 6.
-            # This scan generated 6 states.
+            m = re.match('Total number of states checked is (\d+)\.', s)
+            if m:
+                iter = int(m.group(1))
+                self.dialog.setText(iter=iter)
+
+            m = re.match('This scan generated (\d+) states\.', s)
+
+            if m:
+                states = int(m.group(1))
+                self.dialog.setText(states=states)
 
             if not s.startswith('Move'):
                 continue

@@ -1199,35 +1199,14 @@ class PysolMenubarTk:
 
     def mSelectCardsetDialog(self, *event):
         if self._cancelDrag(break_pause=False): return
-        t = CARDSET
         key = self.app.nextgame.cardset.index
-        d = SelectCardsetDialogWithPreview(self.top, title=_("Select ")+t,
-                app=self.app, manager=self.app.cardset_manager, key=key)
-        cs = self.app.cardset_manager.get(d.key)
-        if d.status != 0 or d.button != 0 or cs is None:
+        cs = self.app.selectCardset(_("Select ")+CARDSET, key)
+        if not cs:
             return
-        if USE_PIL:
-            changed = (self.app.opt.scale_x,
-                       self.app.opt.scale_y,
-                       self.app.opt.auto_scale,
-                       self.app.opt.preserve_aspect_ratio) != d.scale_values
-        else:
-            changed = False
-        if d.key == self.app.cardset.index and not changed:
-            return
-        if d.key >= 0:
-            self.app.nextgame.cardset = cs
-            if USE_PIL:
-                (self.app.opt.scale_x,
-                 self.app.opt.scale_y,
-                 self.app.opt.auto_scale,
-                 self.app.opt.preserve_aspect_ratio) = d.scale_values
-                if not self.app.opt.auto_scale:
-                    self.app.images.resize(self.app.opt.scale_x,
-                                           self.app.opt.scale_y)
-            self._cancelDrag()
-            self.game.endGame(bookmark=1)
-            self.game.quitGame(bookmark=1)
+        self.app.nextgame.cardset = cs
+        self._cancelDrag()
+        self.game.endGame(bookmark=1)
+        self.game.quitGame(bookmark=1)
 
     def _mOptCardback(self, index):
         if self._cancelDrag(break_pause=False): return

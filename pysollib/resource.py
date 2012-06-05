@@ -383,6 +383,9 @@ class Cardset(Resource):
             self.backindex = backindex % len(self.backnames)
         self.backname = self.backnames[self.backindex]
 
+    def saveSettings(self):
+        print 'saveSettings'
+
 
 class CardsetManager(ResourceManager):
     def __init__(self):

@@ -166,7 +166,7 @@ def init():
             if os.name == 'posix':
                 os.wait()               # kill zombi
         except:
-            traceback.print_exc()
+            #traceback.print_exc()
             pass
     os.environ['FREECELL_SOLVER_QUIET'] = '1'
 

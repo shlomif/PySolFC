@@ -374,6 +374,7 @@ class Options:
         self.save_games_geometry = False
         self.games_geometry = {} # saved games geometry (gameid: (width, height))
         self.game_geometry = (0, 0) # game geometry before exit
+        self.offsets = {}           # cards offsets
         #
         self.randomize_place = False
         self.save_cardsets = True
@@ -517,6 +518,10 @@ class Options:
             config['games_geometry'][str(key)] = val
         config['general']['game_geometry'] = self.game_geometry
 
+        # offsets
+        for key, val in self.offsets.items():
+            config['offsets'][key] = val
+
         config.write()
         ##config.write(sys.stdout); print
 
@@ -568,6 +573,7 @@ class Options:
             'timeouts',
             'cardsets',
             'games_geometry',
+            'offsets',
             ):
             if section not in config:
                 config[section] = {}
@@ -690,6 +696,15 @@ class Options:
         if game_geometry is not None:
             try:
                 self.game_geometry = tuple(int(i) for i in game_geometry)
+            except:
+                traceback.print_exc()
+
+        # cards offsets
+        for key, val in config['offsets'].items():
+            try:
+                val = [int(i) for i in val]
+                assert len(val) == 2
+                self.offsets[key] = val
             except:
                 traceback.print_exc()
 

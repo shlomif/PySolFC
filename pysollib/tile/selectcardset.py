@@ -25,6 +25,7 @@ __all__ = ['SelectCardsetDialogWithPreview']
 
 # imports
 import os
+import traceback
 import Tkinter
 import ttk
 
@@ -180,6 +181,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         self.manager = manager
         self.key = key
         self.app = app
+        self.cardset_values = None
         #padx, pady = kw.padx, kw.pady
         padx, pady = 5, 5
         if self.TreeDataHolder_Class.data is None:
@@ -272,9 +274,13 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         MfxDialog.destroy(self)
 
     def initKw(self, kw):
+        if USE_PIL:
+            s = (_("&Info / Settings..."), 10)
+        else:
+            s = (_("&Info..."), 10)
         kw = KwStruct(kw,
-                      strings = ((_("&Info..."), 10), 'sep',
-                                 _("&Load"), _("&Cancel"),),
+                      strings = (s, 'sep',
+                                 _("&OK"), _("&Cancel"),),
                       default=0,
                       resizable=True,
                       )
@@ -304,7 +310,9 @@ class SelectCardsetDialogWithPreview(MfxDialog):
                 return
             ##title = CARDSET+" "+cs.name
             title = CARDSET.capitalize()+" "+cs.name
-            CardsetInfoDialog(self.top, title=title, cardset=cs, images=self.preview_images)
+            d = CardsetInfoDialog(self.top, title=title, cardset=cs,
+                                  images=self.preview_images)
+            self.cardset_values = d.cardset_values
             return
         MfxDialog.mDone(self, button)
 
@@ -388,9 +396,11 @@ class CardsetInfoDialog(MfxDialog):
         frame.pack(fill="both", expand=True, padx=5, pady=10)
         #
         #
+        row = 0
         info_frame = ttk.LabelFrame(frame, text=_('About cardset'))
-        info_frame.grid(row=0, column=0, columnspan=2, sticky='ew',
+        info_frame.grid(row=row, column=0, columnspan=2, sticky='ew',
                         padx=0, pady=5, ipadx=5, ipady=5)
+        row += 1
         styles = nationalities = year = None
         if cardset.si.styles:
             styles = '\n'.join([CSI.STYLE[i] for i in cardset.si.styles])
@@ -399,7 +409,7 @@ class CardsetInfoDialog(MfxDialog):
                                        for i in cardset.si.nationalities])
         if cardset.year:
             year = str(cardset.year)
-        row = 0
+        frow = 0
         for n, t in (
             ##('Version:', str(cardset.version)),
             (_('Type:'),          CSI.TYPE[cardset.type]),
@@ -412,11 +422,11 @@ class CardsetInfoDialog(MfxDialog):
             if t is not None:
                 l = ttk.Label(info_frame, text=n,
                               anchor='w', justify='left')
-                l.grid(row=row, column=0, sticky='nw', padx=4)
+                l.grid(row=frow, column=0, sticky='nw', padx=4)
                 l = ttk.Label(info_frame, text=t,
                               anchor='w', justify='left')
-                l.grid(row=row, column=1, sticky='nw', padx=4)
-                row += 1
+                l.grid(row=frow, column=1, sticky='nw', padx=4)
+                frow += 1
         if images:
             try:
                 from random import choice
@@ -424,22 +434,52 @@ class CardsetInfoDialog(MfxDialog):
                 f = os.path.join(cardset.dir, cardset.backname)
                 self.back_image = loadImage(file=f) # store the image
                 l = ttk.Label(info_frame, image=im, padding=5)
-                l.grid(row=0, column=2, rowspan=row+1, sticky='ne')
+                l.grid(row=0, column=2, rowspan=frow+1, sticky='ne')
                 l = ttk.Label(info_frame, image=self.back_image,
                               padding=(0,5,5,5)) # left margin = 0
-                l.grid(row=0, column=3, rowspan=row+1, sticky='ne')
+                l.grid(row=0, column=3, rowspan=frow+1, sticky='ne')
 
                 info_frame.columnconfigure(2, weight=1)
-                info_frame.rowconfigure(row, weight=1)
+                info_frame.rowconfigure(frow, weight=1)
             except:
+                traceback.print_exc()
                 pass
+        if USE_PIL:
+            padx = 4
+            pady = 0
+            settings_frame = ttk.LabelFrame(frame, text=_('Settings'))
+            settings_frame.grid(row=row, column=0, columnspan=2, sticky='ew',
+                                padx=0, pady=5, ipadx=5, ipady=5)
+            row += 1
+            var = Tkinter.IntVar()
+            self.x_offset = PysolScale(
+                settings_frame, label=_('X offset:'),
+                from_=5, to=40, resolution=1,
+                orient='horizontal', variable=var,
+                value=cardset.CARD_XOFFSET,
+                #command=self._updateScale
+                )
+            self.x_offset.grid(row=0, column=0, sticky='ew',
+                               padx=padx, pady=pady)
+            var = Tkinter.IntVar()
+            self.y_offset = PysolScale(
+                settings_frame, label=_('Y offset:'),
+                from_=5, to=40, resolution=1,
+                orient='horizontal', variable=var,
+                value=cardset.CARD_YOFFSET,
+                #command=self._updateScale
+                )
+            self.y_offset.grid(row=1, column=0, sticky='ew',
+                               padx=padx, pady=pady)
+            row += 1
+            
         ##bg = top_frame["bg"]
         bg = 'white'
         text_w = Tkinter.Text(frame, bd=1, relief="sunken", wrap="word",
                               padx=4, width=64, height=16, bg=bg)
-        text_w.grid(row=1, column=0, sticky='nsew')
+        text_w.grid(row=row, column=0, sticky='nsew')
         sb = ttk.Scrollbar(frame)
-        sb.grid(row=1, column=1, sticky='ns')
+        sb.grid(row=row, column=1, sticky='ns')
         text_w.configure(yscrollcommand=sb.set)
         sb.configure(command=text_w.yview)
         frame.columnconfigure(0, weight=1)
@@ -461,12 +501,22 @@ class CardsetInfoDialog(MfxDialog):
         self.mainloop(focus, kw.timeout)
 
     def initKw(self, kw):
+        if USE_PIL:
+            strings = (_("&Save"),_("&Cancel"))
+        else:
+            strings = (_("&OK"),)
         kw = KwStruct(kw,
-                      strings=(_("&OK"),),
+                      strings=strings,
                       default=0,
                       resizable=True,
                       separator=True,
                       )
         return MfxDialog.initKw(self, kw)
 
+    def mDone(self, button):
+        if USE_PIL and button == 0:
+            self.cardset_values = self.x_offset.get(), self.y_offset.get()
+        else:
+            self.cardset_values = None
+        MfxDialog.mDone(self, button)
 

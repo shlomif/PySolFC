@@ -358,11 +358,11 @@ class Stack:
             assert self.cap.max_move <= 1
         # prepare some variables
         ox, oy = self.CARD_XOFFSET, self.CARD_YOFFSET
-        if isinstance(ox, int):
+        if isinstance(ox, (int, float)):
             self.CARD_XOFFSET = (ox,)
         else:
             self.CARD_XOFFSET = tuple([int(round(x)) for x in ox])
-        if isinstance(oy, int):
+        if isinstance(oy, (int, float)):
             self.CARD_YOFFSET = (oy,)
         else:
             self.CARD_YOFFSET = tuple([int(round(y)) for y in oy])
@@ -394,7 +394,7 @@ class Stack:
 ##                 # and the images don't match
 ##                 self.max_shadow_cards = 1
         if (self.game.app.opt.shrink_face_down and
-            isinstance(ox, int) and isinstance(oy, int)):
+            isinstance(ox, (int, float)) and isinstance(oy, (int, float))):
             # no shrink if xoffset/yoffset too small
             f = self.SHRINK_FACTOR
             if ((ox == 0 and oy >= self.game.app.images.CARD_YOFFSET/f) or

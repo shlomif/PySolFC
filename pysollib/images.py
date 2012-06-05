@@ -342,8 +342,23 @@ class Images:
             self._bottom = self._bottom_positive
             self._letter = self._letter_positive
 
+    def setOffsets(self):
+        cs = self.cs
+        if cs is None:
+            return
+        r = self.reduced
+        if r > 1:
+            self.CARD_XOFFSET = max(10/r, cs.CARD_XOFFSET)
+            self.CARD_YOFFSET = max(10/r, cs.CARD_YOFFSET)
+        else:
+            self.CARD_XOFFSET = cs.CARD_XOFFSET
+            self.CARD_YOFFSET = cs.CARD_YOFFSET
+        self.SHADOW_XOFFSET = cs.SHADOW_XOFFSET
+        self.SHADOW_YOFFSET = cs.SHADOW_YOFFSET
+        self.CARD_DX, self.CARD_DY = cs.CARD_DX, cs.CARD_DY
+
     def _setSize(self, xf=1, yf=1):
-        #print 'Images._setSize', xf, yf
+        #print 'image._setSize', xf, yf
         self._xfactor = xf
         self._yfactor = yf
         cs = self.cs
@@ -352,17 +367,9 @@ class Images:
         r = self.reduced
         xf = float(xf)/r
         yf = float(yf)/r
-        # copy from cardset
+        # from cardset
         self.CARDW, self.CARDH = int(cs.CARDW*xf), int(cs.CARDH*yf)
-        if r > 1:
-            self.CARD_XOFFSET = max(10/r, int(cs.CARD_XOFFSET*xf))
-            self.CARD_YOFFSET = max(10/r, int(cs.CARD_YOFFSET*yf))
-        else:
-            self.CARD_XOFFSET = int(cs.CARD_XOFFSET*xf)
-            self.CARD_YOFFSET = int(cs.CARD_YOFFSET*yf)
-        self.SHADOW_XOFFSET = int(cs.SHADOW_XOFFSET*xf)
-        self.SHADOW_YOFFSET = int(cs.SHADOW_YOFFSET*yf)
-        self.CARD_DX, self.CARD_DY = int(cs.CARD_DX*xf), int(cs.CARD_DY*yf)
+        self.setOffsets()
 
     def getSize(self):
         return (int(self.CARDW * self._xfactor),
@@ -375,12 +382,14 @@ class Images:
                 int(self.CARD_DY * self._yfactor))
 
     def resize(self, xf, yf):
-        #print 'Images.resize:', xf, yf, self._card[0].width()
+        #print 'Images.resize:', xf, yf, self._card[0].width(), self.CARDW
         if self._xfactor == xf and self._yfactor == yf:
             #print 'no resize'
             return
         self._xfactor = xf
         self._yfactor = yf
+        #???self._setSize(xf, yf)
+        self.setOffsets()
         # cards
         cards = []
         for c in self._card:

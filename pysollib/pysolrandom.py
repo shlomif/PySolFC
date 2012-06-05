@@ -221,7 +221,7 @@ def constructRandom(s):
     if not s:
         return None
     seed = long(s)
-    if 0 <= seed <= 32000:
+    if 0 <= seed < (1<<31):
         return LCRandom31(seed)
     return PysolRandom(seed)
 

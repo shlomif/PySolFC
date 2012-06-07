@@ -43,13 +43,13 @@ pot:
 	done
 
 mo:
-	for loc in ru ru_RU de de_AT de_BE de_DE de_LU de_CH pl pl_PL; do \
+	for loc in ru ru_RU de de_AT de_BE de_DE de_LU de_CH pl pl_PL it it_IT; do \
 		test -d locale/$${loc}/LC_MESSAGES || mkdir -p locale/$${loc}/LC_MESSAGES; \
 	done
-	for lang in ru pl; do \
-		msgcat po/$${lang}_games.po po/$${lang}_pysol.po > po/$${lang}.po 2>/dev/null; \
+	for lang in ru pl it; do \
+		msgcat --use-first po/$${lang}_games.po po/$${lang}_pysol.po > po/$${lang}.po 2>/dev/null; \
 	done
-	for lang in ru de pl; do \
+	for lang in ru de pl it; do \
 		msgfmt -o locale/$${lang}/LC_MESSAGES/pysol.mo po/$${lang}.po; \
 	done
 	cp -f locale/ru/LC_MESSAGES/pysol.mo locale/ru_RU/LC_MESSAGES/pysol.mo
@@ -57,3 +57,4 @@ mo:
 		cp -f locale/de/LC_MESSAGES/pysol.mo locale/$${dir}/LC_MESSAGES/pysol.mo; \
 	done
 	cp -f locale/pl/LC_MESSAGES/pysol.mo locale/pl_PL/LC_MESSAGES/pysol.mo
+	cp -f locale/it/LC_MESSAGES/pysol.mo locale/it_IT/LC_MESSAGES/pysol.mo

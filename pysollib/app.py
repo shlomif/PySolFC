@@ -1011,27 +1011,39 @@ Please select a %s type %s.
         self.loadCardset(cs, id=id)
         return 1
 
-    def __selectCardsetDialog(self, t):
-        key = self.cardset.index
+    def selectCardset(self, title, key):
         d = SelectCardsetDialogWithPreview(
-            self.top, title=_("Please select a %s type %s") % (t[0], CARDSET),
-            app=self, manager=self.cardset_manager, key=key,
-            strings=(None, _("&OK"), _("&Cancel")), default=1)
-        if d.status != 0 or d.button != 1:
-            return None
+            self.top, title=title, app=self,
+            manager=self.cardset_manager, key=key)
         cs = self.cardset_manager.get(d.key)
-        changed = (self.opt.scale_x,
-                   self.opt.scale_y,
-                   self.opt.auto_scale,
-                   self.opt.preserve_aspect_ratio) != d.scale_values
-        if cs is None:
+        if d.status != 0 or d.button != 0 or d.key < 0 or cs is None:
             return None
-        if d.key == key and not changed:
+        changed = False
+        if USE_PIL:
+            if (self.opt.scale_x, self.opt.scale_y,
+                self.opt.auto_scale, self.opt.preserve_aspect_ratio) != \
+                d.scale_values or \
+                (cs.CARD_XOFFSET, cs.CARD_YOFFSET) != d.cardset_values:
+                changed = True
+        if d.key == self.cardset.index and not changed:
             return None
-        (self.opt.scale_x,
-         self.opt.scale_y,
-         self.opt.auto_scale,
-         self.opt.preserve_aspect_ratio) = d.scale_values
+        if USE_PIL:
+            (self.opt.scale_x,
+             self.opt.scale_y,
+             self.opt.auto_scale,
+             self.opt.preserve_aspect_ratio) = d.scale_values
+            if not self.opt.auto_scale:
+                self.images.resize(self.opt.scale_x, self.opt.scale_y)
+            if d.cardset_values:
+                cs.CARD_XOFFSET, cs.CARD_YOFFSET = d.cardset_values
+                self.opt.offsets[cs.ident] = d.cardset_values
+                self.images.setOffsets()
+        return cs
+
+    def __selectCardsetDialog(self, t):
+        cs = self.selectCardset(
+            _("Please select a %s type %s") % (t[0], CARDSET),
+            self.cardset.index)
         return cs
 
 
@@ -1381,6 +1393,9 @@ Please select a %s type %s.
         else:
             cs.backnames.insert(0, back)
             cs.backindex = 0
+        # set offsets from options.cfg
+        if cs.ident in self.opt.offsets:
+            cs.CARD_XOFFSET, cs.CARD_YOFFSET = self.opt.offsets[cs.ident]
         ##if cs.type != 1: print cs.type, cs.name
         return 1
 

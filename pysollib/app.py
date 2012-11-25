@@ -38,7 +38,7 @@ from pysollib.resource import CSI, CardsetConfig, Cardset, CardsetManager
 from pysollib.resource import Tile, TileManager
 from pysollib.resource import Sample, SampleManager
 from pysollib.resource import Music, MusicManager
-from images import Images, SubsampledImages
+from pysollib.images import Images, SubsampledImages
 from pysollib.pysolrandom import PysolRandom
 from pysollib.gamedb import GI, GAME_DB, loadGame
 from pysollib.options import Options

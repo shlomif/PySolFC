@@ -39,7 +39,7 @@ from pysollib.settings import PACKAGE, TITLE, TOOLKIT, TOP_TITLE
 from pysollib.settings import VERSION, VERSION_TUPLE
 from pysollib.settings import DEBUG
 from pysollib.gamedb import GI
-from pysolrandom import PysolRandom, LCRandom31
+from pysollib.pysolrandom import PysolRandom, LCRandom31
 from pysoltk import EVENT_HANDLED, EVENT_PROPAGATE
 from pysoltk import CURSOR_WATCH
 from pysoltk import bind, wm_map

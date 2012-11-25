@@ -23,7 +23,7 @@
 
 import os
 
-from gamedb import GI, loadGame
+from pysollib.gamedb import GI, loadGame
 from pysollib.util import *
 from stack import *
 from layout import Layout

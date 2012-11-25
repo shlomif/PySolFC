@@ -30,6 +30,7 @@ from pysollib.mfxutil import Struct, print_err
 from pysollib.resource import CSI
 import pysollib.settings
 
+from pysollib.mygettext import _, n_
 
 # ************************************************************************
 # * constants

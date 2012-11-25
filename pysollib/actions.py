@@ -33,7 +33,7 @@ from pysolrandom import constructRandom
 from pysollib.settings import TITLE, PACKAGE_URL
 from pysollib.settings import TOP_TITLE
 from pysollib.settings import DEBUG
-from gamedb import GI
+from pysollib.gamedb import GI
 
 # stats imports
 from stats import FileStatsFormatter

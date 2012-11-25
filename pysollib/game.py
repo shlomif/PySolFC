@@ -38,7 +38,7 @@ from pysollib.mfxutil import format_time, print_err
 from pysollib.settings import PACKAGE, TITLE, TOOLKIT, TOP_TITLE
 from pysollib.settings import VERSION, VERSION_TUPLE
 from pysollib.settings import DEBUG
-from gamedb import GI
+from pysollib.gamedb import GI
 from pysolrandom import PysolRandom, LCRandom31
 from pysoltk import EVENT_HANDLED, EVENT_PROPAGATE
 from pysoltk import CURSOR_WATCH

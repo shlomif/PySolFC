@@ -21,7 +21,7 @@
 ##
 ##---------------------------------------------------------------------------##
 
-from gamedb import registerGame, GameInfo, GI
+from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.util import *
 from stack import *
 from game import Game

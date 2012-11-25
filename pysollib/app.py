@@ -40,7 +40,7 @@ from pysollib.resource import Sample, SampleManager
 from pysollib.resource import Music, MusicManager
 from images import Images, SubsampledImages
 from pysolrandom import PysolRandom
-from gamedb import GI, GAME_DB, loadGame
+from pysollib.gamedb import GI, GAME_DB, loadGame
 from options import Options
 from pysollib.settings import TOP_SIZE, TOOLKIT
 from pysollib.settings import DEBUG

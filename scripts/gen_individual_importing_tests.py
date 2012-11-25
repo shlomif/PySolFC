@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import os.path
-for module_name in ['pysollib.acard', 'pysollib.mfxutil', 'pysollib.move', 'pysollib.resource', 'pysollib.settings', 'pysollib.mygettext', 'pysollib.wizardpresets', 'pysollib.util', ]:
+for module_name in ['pysollib.acard', 'pysollib.mfxutil', 'pysollib.move', 'pysollib.resource', 'pysollib.settings', 'pysollib.mygettext', 'pysollib.wizardpresets', 'pysollib.util', 'pysollib.gamedb', ]:
     open(os.path.join(".", "tests", "individually-importing", "import_" + module_name + ".py"), 'w').write('''#!/usr/bin/env python
 import sys
 sys.path.append("./tests/lib")

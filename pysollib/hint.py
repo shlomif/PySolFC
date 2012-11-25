@@ -31,7 +31,7 @@ import re
 # PySol imports
 from pysollib.settings import DEBUG, FCS_COMMAND
 from pysollib.mfxutil import destruct
-from util import KING
+from pysollib.util import KING
 
 
 # ************************************************************************

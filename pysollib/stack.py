@@ -98,8 +98,8 @@ import types
 # PySol imports
 from pysollib.mfxutil import Struct, kwdefault, SubclassResponsibility
 from pysollib.mfxutil import Image, ImageTk, USE_PIL
-from util import ACE, KING
-from util import ANY_SUIT, ANY_COLOR, ANY_RANK, NO_RANK
+from pysollib.util import ACE, KING
+from pysollib.util import ANY_SUIT, ANY_COLOR, ANY_RANK, NO_RANK
 from pysoltk import EVENT_HANDLED, EVENT_PROPAGATE
 from pysoltk import CURSOR_DRAG, CURSOR_DOWN_ARROW
 from pysoltk import ANCHOR_NW, ANCHOR_SE

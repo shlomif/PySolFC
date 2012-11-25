@@ -52,6 +52,7 @@ import sys, os
 from pysollib.settings import DATA_DIRS, TOOLKIT
 from pysollib.mfxutil import Image
 
+from pysollib.mygettext import _, n_
 
 # ************************************************************************
 # * constants

@@ -22,7 +22,7 @@
 ##---------------------------------------------------------------------------##
 
 from gamedb import registerGame, GameInfo, GI
-from util import *
+from pysollib.util import *
 from stack import *
 from game import Game
 from layout import Layout

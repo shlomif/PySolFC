@@ -32,7 +32,7 @@ from pysollib.mfxutil import pickle, unpickle, UnpicklingError
 from pysollib.mfxutil import getusername, getprefdir
 from pysollib.mfxutil import latin1_to_ascii, print_err
 from pysollib.mfxutil import USE_PIL
-from util import CARDSET, IMAGE_EXTENSIONS
+from pysollib.util import CARDSET, IMAGE_EXTENSIONS
 from pysollib.settings import PACKAGE, VERSION_TUPLE, WIN_SYSTEM
 from pysollib.resource import CSI, CardsetConfig, Cardset, CardsetManager
 from pysollib.resource import Tile, TileManager

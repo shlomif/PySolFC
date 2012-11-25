@@ -28,7 +28,7 @@ import traceback
 import getopt
 
 # PySol imports
-from util import DataLoader
+from pysollib.util import DataLoader
 from pysollib.mfxutil import print_err
 from pysollib.resource import Tile
 from app import Application

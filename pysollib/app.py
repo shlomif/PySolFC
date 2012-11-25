@@ -41,7 +41,7 @@ from pysollib.resource import Music, MusicManager
 from images import Images, SubsampledImages
 from pysollib.pysolrandom import PysolRandom
 from pysollib.gamedb import GI, GAME_DB, loadGame
-from options import Options
+from pysollib.options import Options
 from pysollib.settings import TOP_SIZE, TOOLKIT
 from pysollib.settings import DEBUG
 from winsystems import TkSettings

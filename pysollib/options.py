@@ -28,7 +28,7 @@ import traceback
 # PySol imports
 from pysollib.mfxutil import print_err
 from pysollib.resource import CSI
-from configobj import configobj, validate
+from pysollib.configobj import configobj, validate
 import pysollib.settings
 
 # Toolkit imports

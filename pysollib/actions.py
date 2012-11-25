@@ -26,13 +26,13 @@
 import os, locale
 
 # PySol imports
-from mfxutil import SubclassResponsibility
-from mfxutil import Struct, openURL
-from mfxutil import print_err
+from pysollib.mfxutil import SubclassResponsibility
+from pysollib.mfxutil import Struct, openURL
+from pysollib.mfxutil import print_err
 from pysolrandom import constructRandom
-from settings import TITLE, PACKAGE_URL
-from settings import TOP_TITLE
-from settings import DEBUG
+from pysollib.settings import TITLE, PACKAGE_URL
+from pysollib.settings import TOP_TITLE
+from pysollib.settings import DEBUG
 from gamedb import GI
 
 # stats imports

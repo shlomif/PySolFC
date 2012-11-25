@@ -29,13 +29,13 @@ import getopt
 
 # PySol imports
 from util import DataLoader
-from mfxutil import print_err
+from pysollib.mfxutil import print_err
 from resource import Tile
 from app import Application
 from gamedb import GAME_DB
 from pysolaudio import AbstractAudioClient, PysolSoundServerModuleClient
 from pysolaudio import Win32AudioClient, OSSAudioClient, PyGameAudioClient
-from settings import TITLE, SOUND_MOD
+from pysollib.settings import TITLE, SOUND_MOD
 from winsystems import init_root_window
 
 # Toolkit imports

@@ -26,7 +26,7 @@ import sys, os
 import traceback
 
 # PySol imports
-from mfxutil import print_err
+from pysollib.mfxutil import print_err
 from resource import CSI
 from configobj import configobj, validate
 import pysollib.settings

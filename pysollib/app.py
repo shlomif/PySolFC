@@ -27,13 +27,13 @@ import os, re
 import traceback
 
 # PySol imports
-from mfxutil import destruct, Struct
-from mfxutil import pickle, unpickle, UnpicklingError
-from mfxutil import getusername, getprefdir
-from mfxutil import latin1_to_ascii, print_err
-from mfxutil import USE_PIL
+from pysollib.mfxutil import destruct, Struct
+from pysollib.mfxutil import pickle, unpickle, UnpicklingError
+from pysollib.mfxutil import getusername, getprefdir
+from pysollib.mfxutil import latin1_to_ascii, print_err
+from pysollib.mfxutil import USE_PIL
 from util import CARDSET, IMAGE_EXTENSIONS
-from settings import PACKAGE, VERSION_TUPLE, WIN_SYSTEM
+from pysollib.settings import PACKAGE, VERSION_TUPLE, WIN_SYSTEM
 from resource import CSI, CardsetConfig, Cardset, CardsetManager
 from resource import Tile, TileManager
 from resource import Sample, SampleManager
@@ -42,8 +42,8 @@ from images import Images, SubsampledImages
 from pysolrandom import PysolRandom
 from gamedb import GI, GAME_DB, loadGame
 from options import Options
-from settings import TOP_SIZE, TOOLKIT
-from settings import DEBUG
+from pysollib.settings import TOP_SIZE, TOOLKIT
+from pysollib.settings import DEBUG
 from winsystems import TkSettings
 
 # Toolkit imports

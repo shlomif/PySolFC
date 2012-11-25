@@ -25,7 +25,7 @@
 # imports
 import sys, re, time
 import random
-from mfxutil import SubclassResponsibility
+from pysollib.mfxutil import SubclassResponsibility
 
 
 # ************************************************************************

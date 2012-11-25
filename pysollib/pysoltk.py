@@ -21,7 +21,7 @@
 ##
 ##---------------------------------------------------------------------------##
 
-from settings import TOOLKIT, USE_TILE
+from pysollib.settings import TOOLKIT, USE_TILE
 
 if TOOLKIT == 'tk':
     if USE_TILE:

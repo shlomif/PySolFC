@@ -36,7 +36,7 @@ try:
 except:
     thread = None
 
-from settings import PACKAGE, TOOLKIT, USE_TILE
+from pysollib.settings import PACKAGE, TOOLKIT, USE_TILE
 
 Image = ImageTk = ImageOps = None
 if TOOLKIT == 'tk':

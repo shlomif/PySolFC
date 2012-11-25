@@ -25,7 +25,7 @@
 # imports
 
 # PySol imports
-from mfxutil import Struct
+from pysollib.mfxutil import Struct
 from pysoltk import MfxCanvasText
 from resource import CSI
 

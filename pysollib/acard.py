@@ -26,7 +26,7 @@
 from random import randint
 
 # PySol imports
-from mfxutil import SubclassResponsibility
+from pysollib.mfxutil import SubclassResponsibility
 
 # ************************************************************************
 # *

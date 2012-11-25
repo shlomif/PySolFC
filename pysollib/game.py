@@ -30,14 +30,14 @@ from gettext import ungettext
 from cStringIO import StringIO
 
 # PySol imports
-from mfxutil import Pickler, Unpickler, UnpicklingError
-from mfxutil import Image, ImageTk, USE_PIL
-from mfxutil import destruct, Struct, SubclassResponsibility
-from mfxutil import uclock, usleep
-from mfxutil import format_time, print_err
-from settings import PACKAGE, TITLE, TOOLKIT, TOP_TITLE
-from settings import VERSION, VERSION_TUPLE
-from settings import DEBUG
+from pysollib.mfxutil import Pickler, Unpickler, UnpicklingError
+from pysollib.mfxutil import Image, ImageTk, USE_PIL
+from pysollib.mfxutil import destruct, Struct, SubclassResponsibility
+from pysollib.mfxutil import uclock, usleep
+from pysollib.mfxutil import format_time, print_err
+from pysollib.settings import PACKAGE, TITLE, TOOLKIT, TOP_TITLE
+from pysollib.settings import VERSION, VERSION_TUPLE
+from pysollib.settings import DEBUG
 from gamedb import GI
 from pysolrandom import PysolRandom, LCRandom31
 from pysoltk import EVENT_HANDLED, EVENT_PROPAGATE

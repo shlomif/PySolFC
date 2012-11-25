@@ -25,7 +25,7 @@
 # imports
 
 # PySol imports
-from settings import TITLE, PACKAGE_URL, TOOLKIT, VERSION
+from pysollib.settings import TITLE, PACKAGE_URL, TOOLKIT, VERSION
 from pysoltk import make_help_toplevel
 from pysoltk import MfxMessageDialog
 from pysoltk import PysolAboutDialog

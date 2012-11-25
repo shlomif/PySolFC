@@ -49,8 +49,8 @@ __all__ = ['SUITS',
 import sys, os
 
 # PySol imports
-from settings import DATA_DIRS, TOOLKIT
-from mfxutil import Image
+from pysollib.settings import DATA_DIRS, TOOLKIT
+from pysollib.mfxutil import Image
 
 
 # ************************************************************************

@@ -29,8 +29,8 @@ import subprocess
 import re
 
 # PySol imports
-from settings import DEBUG, FCS_COMMAND
-from mfxutil import destruct
+from pysollib.settings import DEBUG, FCS_COMMAND
+from pysollib.mfxutil import destruct
 from util import KING
 
 

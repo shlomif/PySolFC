@@ -28,8 +28,8 @@ import traceback
 
 # PySol imports
 from resource import CSI
-from settings import TOOLKIT
-from mfxutil import Image, ImageTk, USE_PIL
+from pysollib.settings import TOOLKIT
+from pysollib.mfxutil import Image, ImageTk, USE_PIL
 
 # Toolkit imports
 from pysoltk import loadImage, copyImage, createImage, shadowImage, createBottom, resizeBottom

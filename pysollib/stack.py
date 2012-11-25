@@ -95,6 +95,7 @@ __all__ = ['cardsFaceUp',
 # imports
 import types
 
+from pysollib.mygettext import _, n_
 # PySol imports
 from pysollib.mfxutil import Struct, kwdefault, SubclassResponsibility
 from pysollib.mfxutil import Image, ImageTk, USE_PIL

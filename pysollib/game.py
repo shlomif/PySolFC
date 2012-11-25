@@ -254,7 +254,7 @@ class Game:
                           '%s: %s %s' % (class_name, ncards, self.gameinfo.ncards),
                           2)
         if self.s.rows:
-            from stack import AC_RowStack, UD_AC_RowStack, \
+            from pysollib.stack import AC_RowStack, UD_AC_RowStack, \
                  SS_RowStack, UD_SS_RowStack, \
                  RK_RowStack, UD_RK_RowStack, \
                  Spider_AC_RowStack, Spider_SS_RowStack
@@ -3304,7 +3304,7 @@ in the current implementation.''') % version)
 
     def showStackDesc(self):
         from pysoltk import StackDesc
-        from stack import InitialDealTalonStack
+        from pysollib.stack import InitialDealTalonStack
         sd_list = []
         for s in self.allstacks:
             sd = (s.__class__.__name__, s.cap.base_rank, s.cap.dir)

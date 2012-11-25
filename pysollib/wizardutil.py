@@ -25,7 +25,7 @@ import os
 
 from pysollib.gamedb import GI, loadGame
 from pysollib.util import *
-from stack import *
+from pysollib.stack import *
 from layout import Layout
 from wizardpresets import presets
 

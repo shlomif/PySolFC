@@ -23,7 +23,7 @@
 
 from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.util import *
-from stack import *
+from pysollib.stack import *
 from game import Game
 from layout import Layout
 from hint import AbstractHint, DefaultHint, CautiousDefaultHint, Yukon_Hint

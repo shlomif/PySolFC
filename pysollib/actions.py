@@ -36,7 +36,7 @@ from pysollib.settings import DEBUG
 from pysollib.gamedb import GI
 
 # stats imports
-from stats import FileStatsFormatter
+from pysollib.stats import FileStatsFormatter
 from pysoltk import SingleGame_StatsDialog, AllGames_StatsDialog
 from pysoltk import FullLog_StatsDialog, SessionLog_StatsDialog
 from pysoltk import Status_StatsDialog, Top_StatsDialog

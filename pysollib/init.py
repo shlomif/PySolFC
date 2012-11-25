@@ -127,7 +127,7 @@ def init():
         if pysollib.settings.WIN_SYSTEM == 'aqua':
             # TkAqua displays the console automatically in application
             # bundles, so we hide it here.
-            from macosx.appSupport import hideTkConsole
+            from pysollib.macosx.appSupport import hideTkConsole
             hideTkConsole(root)
         #
         if pysollib.settings.USE_TILE == 'auto':

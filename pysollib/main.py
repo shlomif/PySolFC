@@ -31,7 +31,7 @@ import getopt
 from pysollib.util import DataLoader
 from pysollib.mfxutil import print_err
 from pysollib.resource import Tile
-from app import Application
+from pysollib.app import Application
 from pysollib.gamedb import GAME_DB
 from pysolaudio import AbstractAudioClient, PysolSoundServerModuleClient
 from pysolaudio import Win32AudioClient, OSSAudioClient, PyGameAudioClient

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import os.path
-for module_name in ['pysollib.app', 'pysollib.acard', 'pysollib.actions', 'pysollib.customgame', 'pysollib.help', 'pysollib.hint', 'pysollib.images', 'pysollib.main', 'pysollib.layout', 'pysollib.mfxutil', 'pysollib.move', 'pysollib.options', 'pysollib.pysolrandom', 'pysollib.resource', 'pysollib.settings', 'pysollib.stack', 'pysollib.stats', 'pysollib.mygettext', 'pysollib.wizardpresets', 'pysollib.util', 'pysollib.gamedb', 'pysollib.configobj.configobj', 'pysollib.configobj.validate', 'pysollib.game', 'pysollib.pysoltk', 'pysollib.pysolaudio', 'pysollib.wizardutil', ]:
+for module_name in ['pysollib.app', 'pysollib.acard', 'pysollib.actions', 'pysollib.customgame', 'pysollib.help', 'pysollib.hint', 'pysollib.images', 'pysollib.main', 'pysollib.layout', 'pysollib.mfxutil', 'pysollib.move', 'pysollib.options', 'pysollib.pysolrandom', 'pysollib.resource', 'pysollib.settings', 'pysollib.stack', 'pysollib.stats', 'pysollib.mygettext', 'pysollib.wizardpresets', 'pysollib.util', 'pysollib.gamedb', 'pysollib.configobj.configobj', 'pysollib.configobj.validate', 'pysollib.game', 'pysollib.pysoltk', 'pysollib.pysolaudio', 'pysollib.wizardutil', 'pysollib.winsystems.aqua', 'pysollib.winsystems.common', 'pysollib.winsystems.x11', 'pysollib.winsystems.win32', ]:
     open(os.path.join(".", "tests", "individually-importing", "import_" + module_name + ".py"), 'w').write('''#!/usr/bin/env python
 import sys
 sys.path.append("./tests/lib")

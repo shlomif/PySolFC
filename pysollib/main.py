@@ -36,7 +36,7 @@ from pysollib.gamedb import GAME_DB
 from pysollib.pysolaudio import AbstractAudioClient, PysolSoundServerModuleClient
 from pysollib.pysolaudio import Win32AudioClient, OSSAudioClient, PyGameAudioClient
 from pysollib.settings import TITLE, SOUND_MOD
-from winsystems import init_root_window
+from pysollib.winsystems import init_root_window
 
 # Toolkit imports
 from pysollib.pysoltk import loadImage

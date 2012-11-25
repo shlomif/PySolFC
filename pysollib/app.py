@@ -44,7 +44,7 @@ from pysollib.gamedb import GI, GAME_DB, loadGame
 from pysollib.options import Options
 from pysollib.settings import TOP_SIZE, TOOLKIT
 from pysollib.settings import DEBUG
-from winsystems import TkSettings
+from pysollib.winsystems import TkSettings
 
 # Toolkit imports
 from pysollib.pysoltk import wm_withdraw, loadImage

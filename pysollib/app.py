@@ -60,7 +60,7 @@ from pysoltk import destroy_solver_dialog
 
 from pysollib.actions import PysolMenubar
 from pysollib.actions import PysolToolbar
-from help import help_about, destroy_help_html
+from pysollib.help import help_about, destroy_help_html
 
 
 # ************************************************************************

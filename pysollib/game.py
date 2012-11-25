@@ -57,7 +57,7 @@ from pysollib.move import ANextRoundMove, ASaveSeedMove, AShuffleStackMove
 from pysollib.move import AUpdateStackMove, AFlipAllMove, ASaveStateMove
 from pysollib.move import ASingleCardMove
 from pysollib.hint import DefaultHint
-from help import help_about
+from pysollib.help import help_about
 
 PLAY_TIME_TIMEOUT = 200
 

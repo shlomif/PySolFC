@@ -31,7 +31,6 @@ from UserList import UserList
 from pysollib.mfxutil import destruct, Struct, KwStruct
 from pysollib.mfxutil import format_time
 from pysollib.gamedb import GI
-from pysollib.help import help_html
 from pysollib.resource import CSI
 
 # Toolkit imports
@@ -309,6 +308,7 @@ class SelectGameDialog(MfxDialog):
             if not doc:
                 return
             dir = os.path.join("html", "rules")
+            from pysollib.help import help_html
             help_html(self.app, doc, dir, self.top)
             return
         MfxDialog.mDone(self, button)

@@ -54,7 +54,7 @@ from pysoltk import EditTextDialog
 from pysoltk import create_find_card_dialog
 from pysoltk import create_solver_dialog
 from pysoltk import PysolMenubarTk, PysolToolbarTk
-from help import help_about, help_html
+from pysollib.help import help_about, help_html
 
 
 # ************************************************************************

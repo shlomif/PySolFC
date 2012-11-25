@@ -58,8 +58,8 @@ from pysoltk import HTMLViewer
 from pysoltk import destroy_find_card_dialog
 from pysoltk import destroy_solver_dialog
 
-from actions import PysolMenubar
-from actions import PysolToolbar
+from pysollib.actions import PysolMenubar
+from pysollib.actions import PysolToolbar
 from help import help_about, destroy_help_html
 
 

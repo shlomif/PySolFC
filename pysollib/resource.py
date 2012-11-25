@@ -29,6 +29,7 @@ import os, glob, traceback
 from pysollib.mfxutil import Struct, KwStruct
 from pysollib.settings import DEBUG
 
+from pysollib.mygettext import _
 
 # ************************************************************************
 # * Abstract

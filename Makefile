@@ -58,3 +58,6 @@ mo:
 	done
 	cp -f locale/pl/LC_MESSAGES/pysol.mo locale/pl_PL/LC_MESSAGES/pysol.mo
 	cp -f locale/it/LC_MESSAGES/pysol.mo locale/it_IT/LC_MESSAGES/pysol.mo
+
+test:
+	runprove tests/individually-importing/*.py

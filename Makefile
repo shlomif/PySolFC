@@ -60,5 +60,6 @@ mo:
 	cp -f locale/it/LC_MESSAGES/pysol.mo locale/it_IT/LC_MESSAGES/pysol.mo
 
 test:
+	@rm -f tests/individually-importing/*.py # To avoid stray files
 	python scripts/gen_individual_importing_tests.py
 	runprove tests/individually-importing/*.py

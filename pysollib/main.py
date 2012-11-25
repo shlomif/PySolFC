@@ -212,11 +212,11 @@ def pysol_init(app, args):
     def progressCallback(*args):
         app.intro.progress.update(step=1)
     GAME_DB.setCallback(progressCallback)
-    import games
+    import pysollib.games
     if not opts['french-only']:
-        import games.ultra
-        import games.mahjongg
-        import games.special
+        import pysollib.games.ultra
+        import pysollib.games.mahjongg
+        import pysollib.games.special
 
     # try to load plugins
     if not opts["noplugins"]:

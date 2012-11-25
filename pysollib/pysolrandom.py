@@ -25,6 +25,7 @@
 # imports
 import sys, re, time
 import random
+from pysollib.mygettext import _, n_
 from pysollib.mfxutil import SubclassResponsibility
 
 

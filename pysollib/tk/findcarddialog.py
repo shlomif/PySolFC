@@ -32,6 +32,7 @@ import Tkinter
 ##import traceback
 
 # PySol imports
+from pysollib.mygettext import _, n_
 
 # Toolkit imports
 from tkutil import after, after_cancel

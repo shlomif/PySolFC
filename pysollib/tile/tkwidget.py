@@ -39,6 +39,7 @@ import tkFont
 import traceback
 
 # PySol imports
+from pysollib.mygettext import _, n_
 from pysollib.mfxutil import destruct, kwdefault, KwStruct, openURL
 from pysollib.settings import WIN_SYSTEM
 

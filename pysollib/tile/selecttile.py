@@ -28,6 +28,7 @@ import ttk
 import tkColorChooser
 
 # PySol imports
+from pysollib.mygettext import _, n_
 from pysollib.mfxutil import KwStruct
 
 # Toolkit imports

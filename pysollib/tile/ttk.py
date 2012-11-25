@@ -26,6 +26,7 @@ __all__ = ["Button", "Checkbutton", "Combobox", "Entry", "Frame", "Label",
            "tclobjs_to_py"]
 
 import Tkinter
+from pysollib.mygettext import _, n_
 
 _flatten = Tkinter._flatten
 

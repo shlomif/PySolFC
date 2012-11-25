@@ -29,6 +29,7 @@ import traceback
 import Tkinter, tkFileDialog
 
 # PySol imports
+from pysollib.mygettext import _, n_
 from pysollib.mfxutil import Struct, kwdefault
 from pysollib.mfxutil import Image, USE_PIL
 from pysollib.util import CARDSET

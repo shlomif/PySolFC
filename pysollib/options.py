@@ -34,6 +34,7 @@ import pysollib.settings
 # Toolkit imports
 from pysollib.pysoltk import TOOLBAR_BUTTONS
 
+from pysollib.mygettext import _, n_
 
 # ************************************************************************
 # * Options

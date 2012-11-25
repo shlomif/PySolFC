@@ -28,6 +28,7 @@ import gtk
 from gtk import glade
 
 # PySol imports
+from pysollib.mygettext import _, n_
 
 # Toolkit imports
 from tkwidget import MfxDialog

@@ -34,6 +34,7 @@ if __name__ == '__main__':
     gettext.install('pysol', d, unicode=True)
 
 # PySol imports
+from pysollib.mygettext import _, n_
 
 # Toolkit imports
 from tkwidget import MfxTooltip

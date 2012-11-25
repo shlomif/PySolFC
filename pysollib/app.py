@@ -47,6 +47,7 @@ from pysollib.settings import DEBUG
 from pysollib.winsystems import TkSettings
 
 # Toolkit imports
+from pysollib.mygettext import _, n_
 from pysollib.pysoltk import wm_withdraw, loadImage
 from pysollib.pysoltk import MfxDialog, MfxMessageDialog, MfxExceptionDialog
 from pysollib.pysoltk import TclError, MfxScrolledCanvas

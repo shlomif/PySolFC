@@ -27,6 +27,7 @@ __all__ = []
 import sys
 
 # PySol imports
+from pysollib.mygettext import _, n_
 from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.util import *
 from pysollib.mfxutil import kwdefault, Struct

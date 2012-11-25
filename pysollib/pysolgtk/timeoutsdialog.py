@@ -25,6 +25,7 @@ __all__ = ['TimeoutsDialog']
 
 # imports
 ## import os, sys
+from pysollib.mygettext import _, n_
 import gtk, gobject, pango
 import gtk.glade
 

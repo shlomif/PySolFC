@@ -28,6 +28,7 @@ __all__ = ['GameInfoDialog']
 import Tkinter
 
 # PySol imports
+from pysollib.mygettext import _, n_
 from pysollib.mfxutil import KwStruct
 from pysollib.gamedb import GI
 

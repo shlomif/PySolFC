@@ -24,6 +24,7 @@
 __all__ = ['ColorsDialog']
 
 # imports
+from pysollib.mygettext import _, n_
 ## import os, sys
 import gtk, gobject, pango
 import gtk.glade

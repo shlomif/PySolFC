@@ -29,6 +29,7 @@ import Tkinter
 import ttk
 
 # PySol imports
+from pysollib.mygettext import _, n_
 from pysollib.mfxutil import KwStruct
 from pysollib.settings import TITLE
 from pysollib.pysolaudio import pysolsoundserver

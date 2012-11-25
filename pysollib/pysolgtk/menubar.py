@@ -29,6 +29,7 @@ import gtk
 from gtk import gdk
 
 # PySol imports
+from pysollib.mygettext import _, n_
 from pysollib.gamedb import GI
 from pysollib.settings import TITLE
 

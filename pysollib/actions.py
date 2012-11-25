@@ -44,6 +44,7 @@ from pysollib.pysoltk import ProgressionDialog
 from pysollib.pysoltk import GameInfoDialog
 
 # toolkit imports
+from pysollib.mygettext import _, n_
 from pysollib.pysoltk import MfxMessageDialog, MfxSimpleEntry
 from pysollib.pysoltk import MfxExceptionDialog
 from pysollib.pysoltk import PlayerOptionsDialog

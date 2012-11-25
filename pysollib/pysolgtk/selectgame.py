@@ -29,6 +29,7 @@ import gtk, gobject
 #from UserList import UserList
 
 # PySol imports
+from pysollib.mygettext import _, n_
 from pysollib.mfxutil import destruct, Struct, KwStruct
 from pysollib.mfxutil import kwdefault
 from pysollib.mfxutil import format_time

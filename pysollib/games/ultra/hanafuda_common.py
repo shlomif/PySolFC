@@ -52,6 +52,7 @@ __all__ = [
 
 import sys, math
 
+from pysollib.mygettext import _, n_
 from pysollib.util import *
 from pysollib.mfxutil import kwdefault
 from pysollib.stack import *

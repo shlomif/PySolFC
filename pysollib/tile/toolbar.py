@@ -29,6 +29,7 @@ import Tkinter
 import ttk
 
 # PySol imports
+from pysollib.mygettext import _, n_
 from pysollib.mfxutil import destruct
 from pysollib.mfxutil import Image, ImageTk, ImageOps
 from pysollib.util import IMAGE_EXTENSIONS

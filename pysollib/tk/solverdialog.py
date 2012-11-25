@@ -34,6 +34,7 @@ import Tkinter
 ##import traceback
 
 # PySol imports
+from pysollib.mygettext import _, n_
 from pysollib.mfxutil import KwStruct
 from pysollib.settings import TITLE
 

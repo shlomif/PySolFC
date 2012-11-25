@@ -28,6 +28,7 @@ import Tkinter
 import ttk
 
 # PySol imports
+from pysollib.mygettext import _, n_
 from pysollib.mfxutil import KwStruct
 
 # Toolkit imports

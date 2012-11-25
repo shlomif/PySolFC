@@ -28,7 +28,7 @@ import imp
 # PySol imports
 from mfxutil import Struct, print_err
 from resource import CSI
-import settings
+import pysollib.settings
 
 
 # ************************************************************************
@@ -420,18 +420,18 @@ class GameInfo(Struct):
         game_type = game_type & 1023
         name = to_unicode(name)
         en_name = name                  # for app.getGameRulesFilename
-        if settings.TRANSLATE_GAME_NAMES:
+        if pysollib.settings.TRANSLATE_GAME_NAMES:
             name = _(name)
         if not short_name:
             short_name = name
         else:
             short_name = to_unicode(short_name)
-            if settings.TRANSLATE_GAME_NAMES:
+            if pysollib.settings.TRANSLATE_GAME_NAMES:
                 short_name = _(short_name)
         if isinstance(altnames, basestring):
             altnames = (altnames,)
         altnames = [to_unicode(n) for n in altnames]
-        if settings.TRANSLATE_GAME_NAMES:
+        if pysollib.settings.TRANSLATE_GAME_NAMES:
             altnames = [_(n) for n in altnames]
         #
         if not (1 <= category <= 9):
@@ -545,7 +545,7 @@ class GameManager:
         ##print gi.id, gi.short_name.encode('utf-8')
         if not isinstance(gi, GameInfo):
             raise GameInfoException("wrong GameInfo class")
-        if self.check_game and settings.CHECK_GAMES:
+        if self.check_game and pysollib.settings.CHECK_GAMES:
             self._check_game(gi)
         ##if 0 and gi.si.game_flags & GI.GT_XORIGINAL:
         ##    return

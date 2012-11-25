@@ -25,7 +25,7 @@ import sys, os, locale, subprocess
 import traceback
 import gettext
 
-import settings
+import pysollib.settings
 
 # ************************************************************************
 # * init
@@ -94,63 +94,63 @@ def init():
 
     ## debug
     if 'PYSOL_CHECK_GAMES' in os.environ or 'PYSOL_DEBUG' in os.environ:
-        settings.CHECK_GAMES = True
+        pysollib.settings.CHECK_GAMES = True
         print 'PySol debugging: set CHECK_GAMES to True'
     if 'PYSOL_DEBUG' in os.environ:
         try:
-            settings.DEBUG = int(os.environ['PYSOL_DEBUG'])
+            pysollib.settings.DEBUG = int(os.environ['PYSOL_DEBUG'])
         except:
-            settings.DEBUG = 1
-        print 'PySol debugging: set DEBUG to', settings.DEBUG
+            pysollib.settings.DEBUG = 1
+        print 'PySol debugging: set DEBUG to', pysollib.settings.DEBUG
 
     ## init toolkit
     if '--gtk' in sys.argv:
-        settings.TOOLKIT = 'gtk'
+        pysollib.settings.TOOLKIT = 'gtk'
         sys.argv.remove('--gtk')
     elif '--tk' in sys.argv:
-        settings.TOOLKIT = 'tk'
-        settings.USE_TILE = False
+        pysollib.settings.TOOLKIT = 'tk'
+        pysollib.settings.USE_TILE = False
         sys.argv.remove('--tk')
     elif '--tile' in sys.argv:
-        settings.TOOLKIT = 'tk'
-        settings.USE_TILE = True
+        pysollib.settings.TOOLKIT = 'tk'
+        pysollib.settings.USE_TILE = True
         sys.argv.remove('--tile')
-    if settings.TOOLKIT == 'tk':
+    if pysollib.settings.TOOLKIT == 'tk':
         import Tkinter
-        root = Tkinter.Tk(className=settings.TITLE)
+        root = Tkinter.Tk(className=pysollib.settings.TITLE)
         root.withdraw()
         if Tkinter.TkVersion < 8.4:
             # we need unicode support
             sys.exit("%s needs Tcl/Tk 8.4 or better (you have %s)" %
-                     (settings.TITLE, str(Tkinter.TkVersion)))
-        settings.WIN_SYSTEM = root.tk.call('tk', 'windowingsystem')
-        if settings.WIN_SYSTEM == 'aqua':
+                     (pysollib.settings.TITLE, str(Tkinter.TkVersion)))
+        pysollib.settings.WIN_SYSTEM = root.tk.call('tk', 'windowingsystem')
+        if pysollib.settings.WIN_SYSTEM == 'aqua':
             # TkAqua displays the console automatically in application
             # bundles, so we hide it here.
             from macosx.appSupport import hideTkConsole
             hideTkConsole(root)
         #
-        if settings.USE_TILE == 'auto':
+        if pysollib.settings.USE_TILE == 'auto':
             # check Tile
-            settings.USE_TILE = False
+            pysollib.settings.USE_TILE = False
             try:
                 root.tk.eval('package require tile 0.7.8')
             except Tkinter.TclError:
                 pass
             else:
-                settings.USE_TILE = True
+                pysollib.settings.USE_TILE = True
         # "can't invoke event <<ThemeChanged>>: application has been destroyed"
         #root.destroy()
         Tkinter._default_root = None
 
     # check FreeCell-Solver
-    settings.USE_FREECELL_SOLVER = False
+    pysollib.settings.USE_FREECELL_SOLVER = False
     if os.name == 'nt':
         if sys.path[0] and not os.path.isdir(sys.path[0]): # i.e. library.zip
             d = os.path.dirname(sys.path[0])
             os.chdir(d)                 # for read presets
             fcs_command = os.path.join('freecell-solver', 'bin', 'fc-solve.exe')
-            settings.FCS_COMMAND = fcs_command
+            pysollib.settings.FCS_COMMAND = fcs_command
             f = os.path.join('freecell-solver', 'presetrc')
             os.environ['FREECELL_SOLVER_PRESETRC'] = f
     if os.name in ('posix', 'nt'):
@@ -160,9 +160,9 @@ def init():
                   'stderr': subprocess.PIPE}
             if os.name != 'nt':
                 kw['close_fds'] = True
-            p = subprocess.Popen(settings.FCS_COMMAND+' --help', **kw)
+            p = subprocess.Popen(pysollib.settings.FCS_COMMAND+' --help', **kw)
             if p.stdout.readline().startswith('fc-solve'):
-                settings.USE_FREECELL_SOLVER = True
+                pysollib.settings.USE_FREECELL_SOLVER = True
             if os.name == 'posix':
                 os.wait()               # kill zombi
         except:
@@ -173,5 +173,5 @@ def init():
     # run app without games menus (more fast start)
     if '--no-games-menu' in sys.argv:
         sys.argv.remove('--no-games-menu')
-        settings.SELECT_GAME_MENU = False
+        pysollib.settings.SELECT_GAME_MENU = False
 

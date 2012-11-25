@@ -34,10 +34,10 @@ from pysollib.mfxutil import latin1_to_ascii, print_err
 from pysollib.mfxutil import USE_PIL
 from util import CARDSET, IMAGE_EXTENSIONS
 from pysollib.settings import PACKAGE, VERSION_TUPLE, WIN_SYSTEM
-from resource import CSI, CardsetConfig, Cardset, CardsetManager
-from resource import Tile, TileManager
-from resource import Sample, SampleManager
-from resource import Music, MusicManager
+from pysollib.resource import CSI, CardsetConfig, Cardset, CardsetManager
+from pysollib.resource import Tile, TileManager
+from pysollib.resource import Sample, SampleManager
+from pysollib.resource import Music, MusicManager
 from images import Images, SubsampledImages
 from pysolrandom import PysolRandom
 from gamedb import GI, GAME_DB, loadGame

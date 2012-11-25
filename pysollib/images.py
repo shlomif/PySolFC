@@ -27,7 +27,7 @@ import os
 import traceback
 
 # PySol imports
-from resource import CSI
+from pysollib.resource import CSI
 from pysollib.settings import TOOLKIT
 from pysollib.mfxutil import Image, ImageTk, USE_PIL
 

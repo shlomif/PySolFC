@@ -30,7 +30,7 @@ import getopt
 # PySol imports
 from util import DataLoader
 from pysollib.mfxutil import print_err
-from resource import Tile
+from pysollib.resource import Tile
 from app import Application
 from gamedb import GAME_DB
 from pysolaudio import AbstractAudioClient, PysolSoundServerModuleClient

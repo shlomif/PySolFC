@@ -27,7 +27,7 @@ import imp
 
 # PySol imports
 from pysollib.mfxutil import Struct, print_err
-from resource import CSI
+from pysollib.resource import CSI
 import pysollib.settings
 
 

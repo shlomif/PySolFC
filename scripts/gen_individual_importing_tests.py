@@ -7,7 +7,7 @@ sys.path.append("./tests/lib")
 from TAP.Simple import plan, ok
 
 plan(1)
-sys.path.append(".")
+sys.path.insert(0, ".")
 import %(module_name)s
 ok(1, "imported")
 ''' % { 'module_name': module_name })

@@ -48,11 +48,11 @@ from pysoltk import MfxMessageDialog, MfxExceptionDialog
 from pysoltk import MfxCanvasText, MfxCanvasLine, MfxCanvasRectangle
 from pysoltk import Card
 from pysoltk import reset_solver_dialog
-from move import AMoveMove, AFlipMove, AFlipAndMoveMove
-from move import ASingleFlipMove, ATurnStackMove
-from move import ANextRoundMove, ASaveSeedMove, AShuffleStackMove
-from move import AUpdateStackMove, AFlipAllMove, ASaveStateMove
-from move import ASingleCardMove
+from pysollib.move import AMoveMove, AFlipMove, AFlipAndMoveMove
+from pysollib.move import ASingleFlipMove, ATurnStackMove
+from pysollib.move import ANextRoundMove, ASaveSeedMove, AShuffleStackMove
+from pysollib.move import AUpdateStackMove, AFlipAllMove, ASaveStateMove
+from pysollib.move import ASingleCardMove
 from hint import DefaultHint
 from help import help_about
 

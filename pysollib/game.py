@@ -26,6 +26,9 @@
 import time
 import math
 import traceback
+
+from pysollib.mygettext import _, n_
+
 from gettext import ungettext
 from cStringIO import StringIO
 

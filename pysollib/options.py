@@ -32,7 +32,7 @@ from pysollib.configobj import configobj, validate
 import pysollib.settings
 
 # Toolkit imports
-from pysoltk import TOOLBAR_BUTTONS
+from pysollib.pysoltk import TOOLBAR_BUTTONS
 
 
 # ************************************************************************

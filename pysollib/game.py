@@ -43,14 +43,14 @@ from pysollib.settings import VERSION, VERSION_TUPLE
 from pysollib.settings import DEBUG
 from pysollib.gamedb import GI
 from pysollib.pysolrandom import PysolRandom, LCRandom31
-from pysoltk import EVENT_HANDLED, EVENT_PROPAGATE
-from pysoltk import CURSOR_WATCH
-from pysoltk import bind, wm_map
-from pysoltk import after, after_idle, after_cancel
-from pysoltk import MfxMessageDialog, MfxExceptionDialog
-from pysoltk import MfxCanvasText, MfxCanvasLine, MfxCanvasRectangle
-from pysoltk import Card
-from pysoltk import reset_solver_dialog
+from pysollib.pysoltk import EVENT_HANDLED, EVENT_PROPAGATE
+from pysollib.pysoltk import CURSOR_WATCH
+from pysollib.pysoltk import bind, wm_map
+from pysollib.pysoltk import after, after_idle, after_cancel
+from pysollib.pysoltk import MfxMessageDialog, MfxExceptionDialog
+from pysollib.pysoltk import MfxCanvasText, MfxCanvasLine, MfxCanvasRectangle
+from pysollib.pysoltk import Card
+from pysollib.pysoltk import reset_solver_dialog
 from pysollib.move import AMoveMove, AFlipMove, AFlipAndMoveMove
 from pysollib.move import ASingleFlipMove, ATurnStackMove
 from pysollib.move import ANextRoundMove, ASaveSeedMove, AShuffleStackMove
@@ -3306,7 +3306,7 @@ in the current implementation.''') % version)
     #
 
     def showStackDesc(self):
-        from pysoltk import StackDesc
+        from pysollib.pysoltk import StackDesc
         from pysollib.stack import InitialDealTalonStack
         sd_list = []
         for s in self.allstacks:

@@ -32,7 +32,7 @@ from pysollib.settings import TOOLKIT
 from pysollib.mfxutil import Image, ImageTk, USE_PIL
 
 # Toolkit imports
-from pysoltk import loadImage, copyImage, createImage, shadowImage, createBottom, resizeBottom
+from pysollib.pysoltk import loadImage, copyImage, createImage, shadowImage, createBottom, resizeBottom
 
 
 # ************************************************************************

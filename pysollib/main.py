@@ -39,10 +39,10 @@ from pysollib.settings import TITLE, SOUND_MOD
 from winsystems import init_root_window
 
 # Toolkit imports
-from pysoltk import loadImage
-from pysoltk import MfxMessageDialog
-from pysoltk import MfxRoot
-from pysoltk import PysolProgressBar
+from pysollib.pysoltk import loadImage
+from pysollib.pysoltk import MfxMessageDialog
+from pysollib.pysoltk import MfxRoot
+from pysollib.pysoltk import PysolProgressBar
 
 
 # ************************************************************************

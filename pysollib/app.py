@@ -47,16 +47,16 @@ from pysollib.settings import DEBUG
 from winsystems import TkSettings
 
 # Toolkit imports
-from pysoltk import wm_withdraw, loadImage
-from pysoltk import MfxDialog, MfxMessageDialog, MfxExceptionDialog
-from pysoltk import TclError, MfxScrolledCanvas
-from pysoltk import PysolProgressBar
-from pysoltk import PysolStatusbar, HelpStatusbar
-from pysoltk import SelectCardsetDialogWithPreview
-from pysoltk import SelectDialogTreeData
-from pysoltk import HTMLViewer
-from pysoltk import destroy_find_card_dialog
-from pysoltk import destroy_solver_dialog
+from pysollib.pysoltk import wm_withdraw, loadImage
+from pysollib.pysoltk import MfxDialog, MfxMessageDialog, MfxExceptionDialog
+from pysollib.pysoltk import TclError, MfxScrolledCanvas
+from pysollib.pysoltk import PysolProgressBar
+from pysollib.pysoltk import PysolStatusbar, HelpStatusbar
+from pysollib.pysoltk import SelectCardsetDialogWithPreview
+from pysollib.pysoltk import SelectDialogTreeData
+from pysollib.pysoltk import HTMLViewer
+from pysollib.pysoltk import destroy_find_card_dialog
+from pysollib.pysoltk import destroy_solver_dialog
 
 from pysollib.actions import PysolMenubar
 from pysollib.actions import PysolToolbar

@@ -26,7 +26,7 @@ from pysollib.util import *
 from pysollib.stack import *
 from game import Game
 from layout import Layout
-from hint import AbstractHint, DefaultHint, CautiousDefaultHint, Yukon_Hint
+from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint, Yukon_Hint
 
 from wizardutil import WizardWidgets
 

@@ -45,7 +45,6 @@ from pysollib.pysoltk import MfxMessageDialog
 from pysollib.pysoltk import MfxRoot
 from pysollib.pysoltk import PysolProgressBar
 
-
 # ************************************************************************
 # *
 # ************************************************************************

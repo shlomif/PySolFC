@@ -112,7 +112,6 @@ from pysollib.pysoltk import markImage
 from pysollib.settings import TOOLKIT
 from pysollib.settings import DEBUG
 
-
 # ************************************************************************
 # * Let's start with some test methods for cards.
 # * Empty card-lists return false.

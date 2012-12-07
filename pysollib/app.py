@@ -63,7 +63,6 @@ from pysollib.actions import PysolMenubar
 from pysollib.actions import PysolToolbar
 from pysollib.help import help_about, destroy_help_html
 
-
 # ************************************************************************
 # * Statistics
 # ************************************************************************
@@ -517,7 +516,7 @@ class Application:
                 self.nextgame.id, self.nextgame.random = 0, None
                 try:
                     self.runGame(id, random)
-                except:
+                except Exception:
                     # try Klondike if current game fails
                     if id == 2:
                         raise           # internal error?

@@ -30,6 +30,7 @@ from pysollib.layout import Layout
 from wizardpresets import presets
 
 from pysollib.mygettext import _, n_
+
 # ************************************************************************
 # *
 # ************************************************************************

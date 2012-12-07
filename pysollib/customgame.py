@@ -30,7 +30,6 @@ from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint, Yukon_
 
 from pysollib.wizardutil import WizardWidgets
 
-
 # ************************************************************************
 # *
 # ************************************************************************

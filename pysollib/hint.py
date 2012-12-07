@@ -33,7 +33,6 @@ from pysollib.settings import DEBUG, FCS_COMMAND
 from pysollib.mfxutil import destruct
 from pysollib.util import KING
 
-
 # ************************************************************************
 # * HintInterface is an abstract class that defines the public
 # * interface - it only consists of the constructor

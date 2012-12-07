@@ -35,6 +35,7 @@ import camelot
 import canfield
 import capricieuse
 import curdsandwhey
+import daddylonglegs
 import dieboesesieben
 import diplomat
 import doublets

@@ -37,23 +37,23 @@ from gamedb import GI
 
 # stats imports
 from stats import FileStatsFormatter
-from pysoltk import SingleGame_StatsDialog, AllGames_StatsDialog
-from pysoltk import FullLog_StatsDialog, SessionLog_StatsDialog
-from pysoltk import Status_StatsDialog, Top_StatsDialog
-from pysoltk import ProgressionDialog
-from pysoltk import GameInfoDialog
+from pysollib.pysoltk import SingleGame_StatsDialog, AllGames_StatsDialog
+from pysollib.pysoltk import FullLog_StatsDialog, SessionLog_StatsDialog
+from pysollib.pysoltk import Status_StatsDialog, Top_StatsDialog
+from pysollib.pysoltk import ProgressionDialog
+from pysollib.pysoltk import GameInfoDialog
 
 # toolkit imports
-from pysoltk import MfxMessageDialog, MfxSimpleEntry
-from pysoltk import MfxExceptionDialog
-from pysoltk import PlayerOptionsDialog
-from pysoltk import TimeoutsDialog
-from pysoltk import ColorsDialog
-from pysoltk import FontsDialog
-from pysoltk import EditTextDialog
-from pysoltk import create_find_card_dialog
-from pysoltk import create_solver_dialog
-from pysoltk import PysolMenubarTk, PysolToolbarTk
+from pysollib.pysoltk import MfxMessageDialog, MfxSimpleEntry
+from pysollib.pysoltk import MfxExceptionDialog
+from pysollib.pysoltk import PlayerOptionsDialog
+from pysollib.pysoltk import TimeoutsDialog
+from pysollib.pysoltk import ColorsDialog
+from pysollib.pysoltk import FontsDialog
+from pysollib.pysoltk import EditTextDialog
+from pysollib.pysoltk import create_find_card_dialog
+from pysollib.pysoltk import create_solver_dialog
+from pysollib.pysoltk import PysolMenubarTk, PysolToolbarTk
 from help import help_about, help_html
 
 

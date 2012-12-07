@@ -26,13 +26,13 @@ import sys, os
 import traceback
 
 # PySol imports
-from mfxutil import print_err
-from resource import CSI
-from configobj import configobj, validate
-import settings
+from pysollib.mfxutil import print_err
+from pysollib.resource import CSI
+from pysollib.configobj import configobj, validate
+import pysollib.settings
 
 # Toolkit imports
-from pysoltk import TOOLBAR_BUTTONS
+from pysollib.pysoltk import TOOLBAR_BUTTONS
 
 
 # ************************************************************************
@@ -248,7 +248,7 @@ class Options:
         self._config = None             # configobj.ConfigObj instance
         self._config_encoding = 'utf-8'
 
-        self.version_tuple = settings.VERSION_TUPLE # XXX
+        self.version_tuple = pysollib.settings.VERSION_TUPLE # XXX
         self.saved = 0                  # XXX
         # options menu:
         self.player = _("Unknown")
@@ -403,7 +403,7 @@ class Options:
             ]
 
     def setDefaults(self, top=None):
-        WIN_SYSTEM = settings.WIN_SYSTEM
+        WIN_SYSTEM = pysollib.settings.WIN_SYSTEM
         # toolbar
         #if WIN_SYSTEM == 'win32':
         #    self.toolbar_style = 'crystal'
@@ -607,7 +607,7 @@ class Options:
             elif val is not None:
                 setattr(self, key, val)
 
-        settings.TRANSLATE_GAME_NAMES = self.translate_game_names
+        pysollib.settings.TRANSLATE_GAME_NAMES = self.translate_game_names
 
         recent_gameid = self._getOption('general', 'recent_gameid', 'list')
         if recent_gameid is not None:

@@ -26,10 +26,10 @@
 
 # PySol imports
 from settings import TITLE, PACKAGE_URL, TOOLKIT, VERSION
-from pysoltk import make_help_toplevel
-from pysoltk import MfxMessageDialog
-from pysoltk import PysolAboutDialog
-from pysoltk import HTMLViewer
+from pysollib.pysoltk import make_help_toplevel
+from pysollib.pysoltk import MfxMessageDialog
+from pysollib.pysoltk import PysolAboutDialog
+from pysollib.pysoltk import HTMLViewer
 
 
 # ************************************************************************

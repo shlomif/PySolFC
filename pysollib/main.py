@@ -31,7 +31,7 @@ import getopt
 from util import DataLoader
 from mfxutil import print_err
 from resource import Tile
-from app import Application
+from pysollib.app import Application
 from gamedb import GAME_DB
 from pysolaudio import AbstractAudioClient, PysolSoundServerModuleClient
 from pysolaudio import Win32AudioClient, OSSAudioClient, PyGameAudioClient
@@ -39,10 +39,10 @@ from settings import TITLE, SOUND_MOD
 from winsystems import init_root_window
 
 # Toolkit imports
-from pysoltk import loadImage
-from pysoltk import MfxMessageDialog
-from pysoltk import MfxRoot
-from pysoltk import PysolProgressBar
+from pysollib.pysoltk import loadImage
+from pysollib.pysoltk import MfxMessageDialog
+from pysollib.pysoltk import MfxRoot
+from pysollib.pysoltk import PysolProgressBar
 
 
 # ************************************************************************

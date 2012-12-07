@@ -100,14 +100,14 @@ from mfxutil import Struct, kwdefault, SubclassResponsibility
 from mfxutil import Image, ImageTk, USE_PIL
 from util import ACE, KING
 from util import ANY_SUIT, ANY_COLOR, ANY_RANK, NO_RANK
-from pysoltk import EVENT_HANDLED, EVENT_PROPAGATE
-from pysoltk import CURSOR_DRAG, CURSOR_DOWN_ARROW
-from pysoltk import ANCHOR_NW, ANCHOR_SE
-from pysoltk import bind, unbind_destroy
-from pysoltk import after, after_idle, after_cancel
-from pysoltk import MfxCanvasGroup, MfxCanvasImage, MfxCanvasRectangle, MfxCanvasText, MfxCanvasLine
-from pysoltk import get_text_width
-from pysoltk import markImage
+from pysollib.pysoltk import EVENT_HANDLED, EVENT_PROPAGATE
+from pysollib.pysoltk import CURSOR_DRAG, CURSOR_DOWN_ARROW
+from pysollib.pysoltk import ANCHOR_NW, ANCHOR_SE
+from pysollib.pysoltk import bind, unbind_destroy
+from pysollib.pysoltk import after, after_idle, after_cancel
+from pysollib.pysoltk import MfxCanvasGroup, MfxCanvasImage, MfxCanvasRectangle, MfxCanvasText, MfxCanvasLine
+from pysollib.pysoltk import get_text_width
+from pysollib.pysoltk import markImage
 from settings import TOOLKIT
 from settings import DEBUG
 

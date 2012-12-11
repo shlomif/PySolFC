@@ -96,23 +96,6 @@ class SolverDialog(MfxDialog):
 
         #
         row += 1
-        Tkinter.Label(frame, text=_('Solving method:'), anchor='w'
-                      ).grid(row=row, column=0, sticky='ew', padx=2, pady=2)
-        ##sm = self.solving_methods.values()
-        ##sm.sort()
-        sm = ['A*',
-              'Breadth-First Search',
-              'Depth-First Search',
-              'A randomized DFS',
-              ##'"Soft" DFS'
-              ]
-        self.solving_method_var = var = Tkinter.StringVar()
-        var.set('Depth-First Search')
-        om = Tkinter.OptionMenu(frame, var, *sm)
-        om.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
-
-        #
-        row += 1
         Tkinter.Label(frame, text=_('Preset:'), anchor='w'
                       ).grid(row=row, column=0, sticky='ew', padx=2, pady=2)
         presets = app.opt.solver_presets
@@ -250,13 +233,11 @@ class SolverDialog(MfxDialog):
         game = self.app.game
         solver = game.Solver_Class(game, self) # create solver instance
         game.solver = solver
-        method = self.solving_method_var.get()
-        method = self.solving_methods[method]
         preset = self.preset_var.get()
         max_iters = self.max_iters_var.get()
         max_depth = self.max_depth_var.get()
         progress = self.progress_var.get()
-        solver.config(method=method, preset=preset, max_iters=max_iters,
+        solver.config(preset=preset, max_iters=max_iters,
                       max_depth=max_depth, progress=progress)
         solver.computeHints()
         hints_len = len(solver.hints)-1

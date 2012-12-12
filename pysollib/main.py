@@ -44,10 +44,7 @@ from pysollib.pysoltk import loadImage
 from pysollib.pysoltk import MfxMessageDialog
 from pysollib.pysoltk import MfxRoot
 from pysollib.pysoltk import PysolProgressBar
-<<<<<<< HEAD
 
-=======
->>>>>>> solver_dialog_remove_so_called_solving_method
 
 # ************************************************************************
 # *

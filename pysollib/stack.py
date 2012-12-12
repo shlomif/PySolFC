@@ -109,14 +109,8 @@ from pysollib.pysoltk import after, after_idle, after_cancel
 from pysollib.pysoltk import MfxCanvasGroup, MfxCanvasImage, MfxCanvasRectangle, MfxCanvasText, MfxCanvasLine
 from pysollib.pysoltk import get_text_width
 from pysollib.pysoltk import markImage
-<<<<<<< HEAD
-from settings import TOOLKIT
-from settings import DEBUG
-
-=======
 from pysollib.settings import TOOLKIT
 from pysollib.settings import DEBUG
->>>>>>> solver_dialog_remove_so_called_solving_method
 
 # ************************************************************************
 # * Let's start with some test methods for cards.

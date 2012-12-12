@@ -59,6 +59,9 @@ import random
 sys.path.append("./tests/lib")
 from TAP.Simple import plan, ok
 
+# So the localpaths will be overrided.
+sys.path.insert(0, ".")
+
 from pysollib.pysolrandom import constructRandom, LCRandom31
 
 # PySol imports
@@ -554,7 +557,7 @@ class Game:
 
 def shlomif_main(args):
 
-    plan(1)
+    plan(2)
 
     rand = constructRandom('24')
     game = Game("freecell", rand, True)
@@ -570,6 +573,22 @@ AH 5S 6S AD 8H JD
 7S 6C 7D 4D 8S 9D
 ''',
     'Deal 24',
+);
+
+    rand = constructRandom('ms123456')
+    game = Game("freecell", rand, True)
+    # TEST
+    got_s = game.print_layout()
+    ok (got_s == '''QD TC AS KC AH KH 6H
+6D TD 8D TH 7C 2H 9C
+AC AD 5C 5H 8C 9H 9D
+JS 8S 4D 4C 2S 7D 3C
+7H 7S 9S 2C JC 5S
+5D 3S 3D 3H KD JH
+6C QS 4S 2D KS TS
+JD QH 6S 4H QC 8H
+''',
+    'Microsoft Deal 123456',
 );
 
 if __name__ == "__main__":

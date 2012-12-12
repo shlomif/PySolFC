@@ -217,12 +217,19 @@ PysolRandom = MTRandom
 
 # construct Random from seed string
 def constructRandom(s):
+    m = re.match(r"ms(\d+)\n?\Z", s);
+    if m:
+        seed = long(m.group(1))
+        if 0 <= seed < (1 << 31):
+            return LCRandom31(seed)
+        else:
+            raise ValueError, "ms seed out of range"
     s = re.sub(r"L$", "", str(s))   # cut off "L" from possible conversion to long
     s = re.sub(r"[\s\#\-\_\.\,]", "", s.lower())
     if not s:
         return None
     seed = long(s)
-    if 0 <= seed < (1<<31):
+    if 0 <= seed < 32000:
         return LCRandom31(seed)
     return PysolRandom(seed)
 

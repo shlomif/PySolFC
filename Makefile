@@ -62,4 +62,4 @@ mo:
 test:
 	@rm -f tests/individually-importing/*.py # To avoid stray files
 	python scripts/gen_individual_importing_tests.py
-	runprove tests/individually-importing/*.py
+	runprove tests/board_gen/*.py tests/individually-importing/*.py

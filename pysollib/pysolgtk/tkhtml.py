@@ -27,6 +27,7 @@ __all__ = ['HTMLViewer']
 import os, sys, re, types
 import htmllib, formatter
 import traceback
+from pysollib.mygettext import _, n_
 
 import gtk, pango, gobject
 from gtk import gdk

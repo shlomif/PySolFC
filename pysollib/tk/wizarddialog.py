@@ -29,6 +29,7 @@ import Tkinter
 from tabpage import TabPageSet
 
 # PySol imports
+from pysollib.mygettext import _, n_
 from pysollib.mfxutil import KwStruct
 from pysollib.wizardutil import WizardWidgets
 from pysollib.wizardpresets import presets

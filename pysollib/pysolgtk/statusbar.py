@@ -27,6 +27,7 @@ import os, sys
 import gtk
 
 # PySol imports
+from pysollib.mygettext import _, n_
 
 
 # ************************************************************************

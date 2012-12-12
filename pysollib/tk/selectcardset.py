@@ -28,6 +28,7 @@ import os
 import Tkinter
 
 # PySol imports
+from pysollib.mygettext import _, n_
 from pysollib.mfxutil import KwStruct, USE_PIL
 from pysollib.util import CARDSET
 from pysollib.resource import CSI

@@ -29,10 +29,9 @@ import subprocess
 import re
 
 # PySol imports
-from settings import DEBUG, FCS_COMMAND
-from mfxutil import destruct
-from util import KING
-
+from pysollib.settings import DEBUG, FCS_COMMAND
+from pysollib.mfxutil import destruct
+from pysollib.util import KING
 
 # ************************************************************************
 # * HintInterface is an abstract class that defines the public
@@ -717,7 +716,6 @@ class FreeCellSolver_Hint:
         self.dialog = dialog
         self.game_type = game_type
         self.options = {
-            'method': 'soft-dfs',
             'max_iters': 10000,
             'max_depth': 1000,
             'progress': False,
@@ -824,7 +822,6 @@ class FreeCellSolver_Hint:
             args += ['--load-config', self.options['preset']]
         args += ['--max-iters', self.options['max_iters'],
                  '--max-depth', self.options['max_depth'],
-                 '--method', self.options['method'],
                  '--decks-num', game.gameinfo.decks,
                  '--stacks-num', len(game.s.rows),
                  '--freecells-num', len(game.s.reserves),

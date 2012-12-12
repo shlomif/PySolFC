@@ -28,6 +28,7 @@ import gtk, gobject, pango
 import gtk.glade
 
 # PySol imports
+from pysollib.mygettext import _, n_
 from pysollib.mfxutil import format_time
 from pysollib.settings import TOP_TITLE, TITLE
 from pysollib.stats import PysolStatsFormatter

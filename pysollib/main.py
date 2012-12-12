@@ -28,22 +28,26 @@ import traceback
 import getopt
 
 # PySol imports
-from util import DataLoader
-from mfxutil import print_err
-from resource import Tile
+from pysollib.mygettext import _, n_
+from pysollib.util import DataLoader
+from pysollib.mfxutil import print_err
+from pysollib.resource import Tile
 from pysollib.app import Application
-from gamedb import GAME_DB
-from pysolaudio import AbstractAudioClient, PysolSoundServerModuleClient
-from pysolaudio import Win32AudioClient, OSSAudioClient, PyGameAudioClient
-from settings import TITLE, SOUND_MOD
-from winsystems import init_root_window
+from pysollib.gamedb import GAME_DB
+from pysollib.pysolaudio import AbstractAudioClient, PysolSoundServerModuleClient
+from pysollib.pysolaudio import Win32AudioClient, OSSAudioClient, PyGameAudioClient
+from pysollib.settings import TITLE, SOUND_MOD
+from pysollib.winsystems import init_root_window
 
 # Toolkit imports
 from pysollib.pysoltk import loadImage
 from pysollib.pysoltk import MfxMessageDialog
 from pysollib.pysoltk import MfxRoot
 from pysollib.pysoltk import PysolProgressBar
+<<<<<<< HEAD
 
+=======
+>>>>>>> solver_dialog_remove_so_called_solving_method
 
 # ************************************************************************
 # *
@@ -212,11 +216,11 @@ def pysol_init(app, args):
     def progressCallback(*args):
         app.intro.progress.update(step=1)
     GAME_DB.setCallback(progressCallback)
-    import games
+    import pysollib.games
     if not opts['french-only']:
-        import games.ultra
-        import games.mahjongg
-        import games.special
+        import pysollib.games.ultra
+        import pysollib.games.mahjongg
+        import pysollib.games.special
 
     # try to load plugins
     if not opts["noplugins"]:

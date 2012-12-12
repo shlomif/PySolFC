@@ -21,15 +21,14 @@
 ##
 ##---------------------------------------------------------------------------##
 
-from gamedb import registerGame, GameInfo, GI
-from util import *
-from stack import *
-from game import Game
-from layout import Layout
-from hint import AbstractHint, DefaultHint, CautiousDefaultHint, Yukon_Hint
+from pysollib.gamedb import registerGame, GameInfo, GI
+from pysollib.util import *
+from pysollib.stack import *
+from pysollib.game import Game
+from pysollib.layout import Layout
+from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint, Yukon_Hint
 
-from wizardutil import WizardWidgets
-
+from pysollib.wizardutil import WizardWidgets
 
 # ************************************************************************
 # *

@@ -29,6 +29,7 @@ import gtk
 gdk = gtk.gdk
 
 # PySol imports
+from pysollib.mygettext import _, n_
 
 # Toolkit imports
 from tkutil import makeToplevel, setTransient, wm_withdraw

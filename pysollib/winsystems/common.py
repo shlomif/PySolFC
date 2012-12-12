@@ -23,6 +23,7 @@
 
 import sys, os, traceback
 
+from pysollib.mygettext import _, n_
 from pysollib.settings import TITLE
 from pysollib.settings import VERSION
 from pysollib.settings import TOOLKIT, USE_TILE

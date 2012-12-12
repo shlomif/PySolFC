@@ -36,6 +36,7 @@ import time
 import Tkinter, tkFont
 
 # PySol imports
+from pysollib.mygettext import _, n_
 from pysollib.mfxutil import kwdefault, KwStruct
 from pysollib.mfxutil import format_time
 ##from pysollib.util import *

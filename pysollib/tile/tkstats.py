@@ -38,6 +38,7 @@ import ttk
 import tkFont
 
 # PySol imports
+from pysollib.mygettext import _, n_
 from pysollib.mfxutil import KwStruct
 from pysollib.mfxutil import format_time
 ##from pysollib.util import *

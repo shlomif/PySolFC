@@ -41,6 +41,7 @@ __all__ = ['EVENT_HANDLED',
 # imports
 import Tkinter
 
+from pysollib.mygettext import _, n_
 
 # ************************************************************************
 # * constants

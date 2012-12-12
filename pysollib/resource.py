@@ -26,9 +26,10 @@
 import os, glob, traceback
 
 # PySol imports
-from mfxutil import Struct, KwStruct
-from settings import DEBUG
+from pysollib.mfxutil import Struct, KwStruct
+from pysollib.settings import DEBUG
 
+from pysollib.mygettext import _
 
 # ************************************************************************
 # * Abstract

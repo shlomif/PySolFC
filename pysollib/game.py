@@ -26,20 +26,23 @@
 import time
 import math
 import traceback
+
+from pysollib.mygettext import _, n_
+
 from gettext import ungettext
 from cStringIO import StringIO
 
 # PySol imports
-from mfxutil import Pickler, Unpickler, UnpicklingError
-from mfxutil import Image, ImageTk, USE_PIL
-from mfxutil import destruct, Struct, SubclassResponsibility
-from mfxutil import uclock, usleep
-from mfxutil import format_time, print_err
-from settings import PACKAGE, TITLE, TOOLKIT, TOP_TITLE
-from settings import VERSION, VERSION_TUPLE
-from settings import DEBUG
-from gamedb import GI
-from pysolrandom import PysolRandom, LCRandom31
+from pysollib.mfxutil import Pickler, Unpickler, UnpicklingError
+from pysollib.mfxutil import Image, ImageTk, USE_PIL
+from pysollib.mfxutil import destruct, Struct, SubclassResponsibility
+from pysollib.mfxutil import uclock, usleep
+from pysollib.mfxutil import format_time, print_err
+from pysollib.settings import PACKAGE, TITLE, TOOLKIT, TOP_TITLE
+from pysollib.settings import VERSION, VERSION_TUPLE
+from pysollib.settings import DEBUG
+from pysollib.gamedb import GI
+from pysollib.pysolrandom import PysolRandom, LCRandom31
 from pysollib.pysoltk import EVENT_HANDLED, EVENT_PROPAGATE
 from pysollib.pysoltk import CURSOR_WATCH
 from pysollib.pysoltk import bind, wm_map
@@ -48,13 +51,13 @@ from pysollib.pysoltk import MfxMessageDialog, MfxExceptionDialog
 from pysollib.pysoltk import MfxCanvasText, MfxCanvasLine, MfxCanvasRectangle
 from pysollib.pysoltk import Card
 from pysollib.pysoltk import reset_solver_dialog
-from move import AMoveMove, AFlipMove, AFlipAndMoveMove
-from move import ASingleFlipMove, ATurnStackMove
-from move import ANextRoundMove, ASaveSeedMove, AShuffleStackMove
-from move import AUpdateStackMove, AFlipAllMove, ASaveStateMove
-from move import ASingleCardMove
-from hint import DefaultHint
-from help import help_about
+from pysollib.move import AMoveMove, AFlipMove, AFlipAndMoveMove
+from pysollib.move import ASingleFlipMove, ATurnStackMove
+from pysollib.move import ANextRoundMove, ASaveSeedMove, AShuffleStackMove
+from pysollib.move import AUpdateStackMove, AFlipAllMove, ASaveStateMove
+from pysollib.move import ASingleCardMove
+from pysollib.hint import DefaultHint
+from pysollib.help import help_about
 
 PLAY_TIME_TIMEOUT = 200
 
@@ -254,7 +257,7 @@ class Game:
                           '%s: %s %s' % (class_name, ncards, self.gameinfo.ncards),
                           2)
         if self.s.rows:
-            from stack import AC_RowStack, UD_AC_RowStack, \
+            from pysollib.stack import AC_RowStack, UD_AC_RowStack, \
                  SS_RowStack, UD_SS_RowStack, \
                  RK_RowStack, UD_RK_RowStack, \
                  Spider_AC_RowStack, Spider_SS_RowStack
@@ -3303,8 +3306,8 @@ in the current implementation.''') % version)
     #
 
     def showStackDesc(self):
-        from pysoltk import StackDesc
-        from stack import InitialDealTalonStack
+        from pysollib.pysoltk import StackDesc
+        from pysollib.stack import InitialDealTalonStack
         sd_list = []
         for s in self.allstacks:
             sd = (s.__class__.__name__, s.cap.base_rank, s.cap.dir)

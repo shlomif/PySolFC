@@ -26,8 +26,9 @@
 import time
 
 # PySol imports
-from mfxutil import format_time
-from gamedb import GI
+from pysollib.mfxutil import format_time
+from pysollib.gamedb import GI
+from pysollib.mygettext import _, n_
 
 
 # ************************************************************************

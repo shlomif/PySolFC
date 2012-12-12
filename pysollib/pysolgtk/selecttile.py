@@ -30,6 +30,7 @@ from gtk import gdk
 
 # PySol imports
 ## from pysollib.mfxutil import destruct, Struct, KwStruct
+from pysollib.mygettext import _, n_
 from pysollib.resource import CSI
 from pysollib.mfxutil import kwdefault
 

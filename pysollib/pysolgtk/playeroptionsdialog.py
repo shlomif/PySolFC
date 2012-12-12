@@ -27,6 +27,7 @@ __all__ = ['PlayerOptionsDialog']
 import gobject, gtk
 
 # PySol imports
+from pysollib.mygettext import _, n_
 
 # Toolkit imports
 from tkwidget import MfxDialog

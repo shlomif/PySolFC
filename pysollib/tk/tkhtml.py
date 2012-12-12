@@ -35,6 +35,7 @@ if __name__ == '__main__':
     gettext.install('pysol', d, unicode=True)
 
 # PySol imports
+from pysollib.mygettext import _, n_
 from pysollib.mfxutil import Struct, openURL
 from pysollib.settings import TITLE
 

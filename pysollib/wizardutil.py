@@ -23,12 +23,13 @@
 
 import os
 
-from gamedb import GI, loadGame
-from util import *
-from stack import *
-from layout import Layout
+from pysollib.gamedb import GI, loadGame
+from pysollib.util import *
+from pysollib.stack import *
+from pysollib.layout import Layout
 from wizardpresets import presets
 
+from pysollib.mygettext import _, n_
 
 # ************************************************************************
 # *
@@ -348,7 +349,7 @@ WizardWidgets = (
 
 
 def write_game(app, game=None):
-    import customgame                   # for py2exe
+    import pysollib.customgame                   # for py2exe
 
     if game is None:
         # new game

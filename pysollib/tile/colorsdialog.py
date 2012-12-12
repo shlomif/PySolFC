@@ -30,6 +30,7 @@ from tkColorChooser import askcolor
 
 # PySol imports
 from pysollib.mfxutil import KwStruct
+from pysollib.mygettext import _, n_
 
 # Toolkit imports
 from tkwidget import MfxDialog

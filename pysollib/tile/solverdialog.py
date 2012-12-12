@@ -34,6 +34,7 @@ import Tkinter
 import ttk
 
 # PySol imports
+from pysollib.mygettext import _, n_
 from pysollib.settings import TITLE
 from pysollib.mfxutil import KwStruct
 
@@ -89,23 +90,6 @@ class SolverDialog(MfxDialog):
                         state='readonly', width=40)
         cb.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
         self.games_var = cb
-
-        #
-        row += 1
-        ttk.Label(frame, text=_('Solving method:'), anchor='w'
-                  ).grid(row=row, column=0, sticky='ew', padx=2, pady=2)
-        ##sm = self.solving_methods.values()
-        ##sm.sort()
-        sm = ['A*',
-              'Breadth-First Search',
-              'Depth-First Search',
-              'A randomized DFS',
-              ##'"Soft" DFS'
-              ]
-        cb = PysolCombo(frame, values=tuple(sm), state='readonly')
-        cb.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
-        cb.current(sm.index('Depth-First Search'))
-        self.solving_method_var = cb
 
         #
         row += 1
@@ -246,13 +230,11 @@ class SolverDialog(MfxDialog):
         game = self.app.game
         solver = game.Solver_Class(game, self) # create solver instance
         game.solver = solver
-        method = self.solving_method_var.get()
-        method = self.solving_methods[method]
         preset = self.preset_var.get()
         max_iters = self.max_iters_var.get()
         max_depth = self.max_depth_var.get()
         progress = self.progress_var.get()
-        solver.config(method=method, preset=preset,  max_iters=max_iters,
+        solver.config(preset=preset,  max_iters=max_iters,
                       max_depth=max_depth, progress=progress)
         solver.computeHints()
         hints_len = len(solver.hints)-1

@@ -27,6 +27,7 @@ __all__ = ['PlayerOptionsDialog']
 import Tkinter
 
 # PySol imports
+from pysollib.mygettext import _, n_
 from pysollib.mfxutil import KwStruct, Struct
 
 # Toolkit imports

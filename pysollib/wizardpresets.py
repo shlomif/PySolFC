@@ -21,6 +21,8 @@
 ##
 ##---------------------------------------------------------------------------##
 
+from pysollib.mygettext import n_
+
 presets = {
     'None': {
         'preset': 'None',

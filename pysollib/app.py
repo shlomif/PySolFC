@@ -27,26 +27,27 @@ import os, re
 import traceback
 
 # PySol imports
-from mfxutil import destruct, Struct
-from mfxutil import pickle, unpickle, UnpicklingError
-from mfxutil import getusername, getprefdir
-from mfxutil import latin1_to_ascii, print_err
-from mfxutil import USE_PIL
-from util import CARDSET, IMAGE_EXTENSIONS
-from settings import PACKAGE, VERSION_TUPLE, WIN_SYSTEM
-from resource import CSI, CardsetConfig, Cardset, CardsetManager
-from resource import Tile, TileManager
-from resource import Sample, SampleManager
-from resource import Music, MusicManager
+from pysollib.mfxutil import destruct, Struct
+from pysollib.mfxutil import pickle, unpickle, UnpicklingError
+from pysollib.mfxutil import getusername, getprefdir
+from pysollib.mfxutil import latin1_to_ascii, print_err
+from pysollib.mfxutil import USE_PIL
+from pysollib.util import CARDSET, IMAGE_EXTENSIONS
+from pysollib.settings import PACKAGE, VERSION_TUPLE, WIN_SYSTEM
+from pysollib.resource import CSI, CardsetConfig, Cardset, CardsetManager
+from pysollib.resource import Tile, TileManager
+from pysollib.resource import Sample, SampleManager
+from pysollib.resource import Music, MusicManager
 from pysollib.images import Images, SubsampledImages
-from pysolrandom import PysolRandom
-from gamedb import GI, GAME_DB, loadGame
-from options import Options
-from settings import TOP_SIZE, TOOLKIT
-from settings import DEBUG
-from winsystems import TkSettings
+from pysollib.pysolrandom import PysolRandom
+from pysollib.gamedb import GI, GAME_DB, loadGame
+from pysollib.options import Options
+from pysollib.settings import TOP_SIZE, TOOLKIT
+from pysollib.settings import DEBUG
+from pysollib.winsystems import TkSettings
 
 # Toolkit imports
+from pysollib.mygettext import _, n_
 from pysollib.pysoltk import wm_withdraw, loadImage
 from pysollib.pysoltk import MfxDialog, MfxMessageDialog, MfxExceptionDialog
 from pysollib.pysoltk import TclError, MfxScrolledCanvas
@@ -58,10 +59,9 @@ from pysollib.pysoltk import HTMLViewer
 from pysollib.pysoltk import destroy_find_card_dialog
 from pysollib.pysoltk import destroy_solver_dialog
 
-from actions import PysolMenubar
-from actions import PysolToolbar
-from help import help_about, destroy_help_html
-
+from pysollib.actions import PysolMenubar
+from pysollib.actions import PysolToolbar
+from pysollib.help import help_about, destroy_help_html
 
 # ************************************************************************
 # * Statistics
@@ -516,7 +516,7 @@ class Application:
                 self.nextgame.id, self.nextgame.random = 0, None
                 try:
                     self.runGame(id, random)
-                except:
+                except Exception:
                     # try Klondike if current game fails
                     if id == 2:
                         raise           # internal error?

@@ -27,6 +27,7 @@ __all__ = ['TimeoutsDialog']
 import Tkinter
 
 # PySol imports
+from pysollib.mygettext import _, n_
 from pysollib.mfxutil import KwStruct
 
 # Toolkit imports

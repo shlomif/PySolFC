@@ -95,11 +95,12 @@ __all__ = ['cardsFaceUp',
 # imports
 import types
 
+from pysollib.mygettext import _, n_
 # PySol imports
-from mfxutil import Struct, kwdefault, SubclassResponsibility
-from mfxutil import Image, ImageTk, USE_PIL
-from util import ACE, KING
-from util import ANY_SUIT, ANY_COLOR, ANY_RANK, NO_RANK
+from pysollib.mfxutil import Struct, kwdefault, SubclassResponsibility
+from pysollib.mfxutil import Image, ImageTk, USE_PIL
+from pysollib.util import ACE, KING
+from pysollib.util import ANY_SUIT, ANY_COLOR, ANY_RANK, NO_RANK
 from pysollib.pysoltk import EVENT_HANDLED, EVENT_PROPAGATE
 from pysollib.pysoltk import CURSOR_DRAG, CURSOR_DOWN_ARROW
 from pysollib.pysoltk import ANCHOR_NW, ANCHOR_SE
@@ -108,9 +109,14 @@ from pysollib.pysoltk import after, after_idle, after_cancel
 from pysollib.pysoltk import MfxCanvasGroup, MfxCanvasImage, MfxCanvasRectangle, MfxCanvasText, MfxCanvasLine
 from pysollib.pysoltk import get_text_width
 from pysollib.pysoltk import markImage
+<<<<<<< HEAD
 from settings import TOOLKIT
 from settings import DEBUG
 
+=======
+from pysollib.settings import TOOLKIT
+from pysollib.settings import DEBUG
+>>>>>>> solver_dialog_remove_so_called_solving_method
 
 # ************************************************************************
 # * Let's start with some test methods for cards.

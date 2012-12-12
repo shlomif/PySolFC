@@ -27,6 +27,7 @@ import os, re, sys, types
 import gtk, gobject
 
 # PySol imports
+from pysollib.mygettext import _, n_
 from pysollib.resource import CSI
 from pysollib.mfxutil import kwdefault
 

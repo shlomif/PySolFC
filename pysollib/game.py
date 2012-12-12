@@ -451,7 +451,7 @@ class Game:
         return self.app.getGameTitleName(self.id)
 
     def getGameNumber(self, format):
-        s = str(self.random)
+        s = self.random.getSeedAsStr()
         if format: return "#" + s
         return s
 

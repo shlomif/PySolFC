@@ -46,6 +46,9 @@ class BasicRandom:
     ORIGIN_SELECTED = 3         # manually entered
     ORIGIN_NEXT_GAME = 4        # "Next game number"
 
+    def __init__(self):
+        self.seed_as_string = None
+
     def __str__(self):
         return self.str(self.initial_seed)
 
@@ -70,6 +73,15 @@ class BasicRandom:
         t = (t ^ (t >> 24)) % (self.MAX_SEED + 1L)
         return t
 
+    def setSeedAsStr(self, new_s):
+        self.seed_as_string = new_s
+
+    def getSeedAsStr(self):
+        if self.seed_as_string:
+            return self.seed_as_string
+        else:
+            return str(self)
+
 
 # ************************************************************************
 # * Mersenne Twister random number generator
@@ -81,6 +93,7 @@ class MTRandom(BasicRandom, random.Random):
     def __init__(self, seed=None):
         if seed is None:
             seed = self._getRandomSeed()
+        BasicRandom.__init__(self)
         random.Random.__init__(self, seed)
         self.initial_seed = seed
         self.initial_state = self.getstate()
@@ -96,10 +109,11 @@ class MTRandom(BasicRandom, random.Random):
 # ************************************************************************
 
 class WHRandom(BasicRandom, random.WichmannHill):
-    
+
     def __init__(self, seed=None):
         if seed is None:
             seed = self._getRandomSeed()
+        BasicRandom.__init__(self)
         random.WichmannHill.__init__(self, seed)
         self.initial_seed = seed
         self.initial_state = self.getstate()
@@ -108,7 +122,6 @@ class WHRandom(BasicRandom, random.WichmannHill):
     def reset(self):
         self.setstate(self.initial_state)
 
-
 # ************************************************************************
 # * Abstract class for LC Random number generators.
 # ************************************************************************
@@ -116,6 +129,7 @@ class WHRandom(BasicRandom, random.WichmannHill):
 class MFXRandom(BasicRandom):
 
     def __init__(self, seed=None):
+        BasicRandom.__init__(self)
         if seed is None:
             seed = self._getRandomSeed()
         self.initial_seed = self.setSeed(seed)
@@ -221,7 +235,9 @@ def constructRandom(s):
     if m:
         seed = long(m.group(1))
         if 0 <= seed < (1 << 31):
-            return LCRandom31(seed)
+            ret = LCRandom31(seed)
+            ret.setSeedAsStr(s)
+            return ret
         else:
             raise ValueError, "ms seed out of range"
     s = re.sub(r"L$", "", str(s))   # cut off "L" from possible conversion to long

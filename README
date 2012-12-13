@@ -30,11 +30,12 @@ $ python pysol.py
 
 
 ** Freecell Solver **
-If you want to use the Solver, you should configure freecell-solver with
-following options:
---enable-max-num-freecells=8
---enable-max-num-stacks=20
---enable-max-num-initial-cards-per-stack=60
+If you want to use the Solver, you should configure freecell-solver
+( http://fc-solve.shlomifish.org/ ) by passing the following options
+to its CMake-based build-system:
+-DMAX_NUM_FREECELLS=8
+-DMAX_NUM_STACKS=20
+-DMAX_NUM_INITIAL_CARDS_IN_A_STACK=60
 (or edit config.h)
 
 

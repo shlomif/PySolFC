@@ -557,7 +557,7 @@ class Game:
 
 def shlomif_main(args):
 
-    plan(2)
+    plan(3)
 
     rand = constructRandom('24')
     game = Game("freecell", rand, True)
@@ -589,6 +589,22 @@ JS 8S 4D 4C 2S 7D 3C
 JD QH 6S 4H QC 8H
 ''',
     'Microsoft Deal 123456',
+);
+
+    rand = constructRandom('123456')
+    game = Game("freecell", rand, True)
+    # TEST
+    got_s = game.print_layout()
+    ok (got_s == '''3D 6C AS TS QC 8D 4D
+2D TC 4H JD TD 2H 5C
+2C 8S AH KD KH 5S 7C
+9C 8C QH 3C 5D 9S QD
+AC 9D 7H 6D KS JH
+6H TH 8H QS 7D JC
+4C 2S 3S 6S 5H 3H
+KC JS 9H 4S 7S AD
+''',
+    'PySolFC deal No. 123456',
 );
 
 if __name__ == "__main__":

@@ -30,8 +30,8 @@ $ python pysol.py
 
 
 ** Freecell Solver **
-If you want to use Solver, you should configure freecell-solver with following
-options:
+If you want to use the Solver, you should configure freecell-solver with
+following options:
 --enable-max-num-freecells=8
 --enable-max-num-stacks=20
 --enable-max-num-initial-cards-per-stack=60

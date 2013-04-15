@@ -306,16 +306,16 @@ class DefaultHint(AbstractHint):
                 bonus = self.BONUS_DROP_CARD
         if t.cards and t.cards[-1].suit == pile[0].suit:
             # simple heuristics - prefer moving high-rank cards
-            bonus = bonus + self.BONUS_SAME_SUIT_MOVE + (1 + pile[0].rank)
+            bonus += self.BONUS_SAME_SUIT_MOVE + (1 + pile[0].rank)
         elif self._preferHighRankMoves():
             # simple heuristics - prefer moving high-rank cards
-            bonus = bonus + self.BONUS_NORMAL_MOVE + (1 + pile[0].rank)
+            bonus += self.BONUS_NORMAL_MOVE + (1 + pile[0].rank)
         elif rpile:
             # simple heuristics - prefer low-rank cards in rpile
-            bonus = bonus + self.BONUS_NORMAL_MOVE + (self.K - rpile[-1].rank)
+            bonus += self.BONUS_NORMAL_MOVE + (self.K - rpile[-1].rank)
         else:
             # simple heuristics - prefer moving high-rank cards
-            bonus = bonus + self.BONUS_NORMAL_MOVE + (1 + pile[0].rank)
+            bonus += self.BONUS_NORMAL_MOVE + (1 + pile[0].rank)
         return bonus
 
 

@@ -36,52 +36,15 @@ from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 from pysollib.hint import FreeCellType_Hint, FreeCellSolverWrapper
 
+from pysollib.games.freecell import FreeCell
 
 # ************************************************************************
 # * Baker's Game
 # ************************************************************************
 
-class BakersGame(Game):
-    Layout_Method = Layout.freeCellLayout
-    Foundation_Class = SS_FoundationStack
+class BakersGame(FreeCell):
     RowStack_Class = SuperMoveSS_RowStack
-    Hint_Class = FreeCellType_Hint
     Solver_Class = FreeCellSolverWrapper(sbb='suit')
-
-    #
-    # game layout
-    #
-
-    def createGame(self, **layout):
-        # create layout
-        l, s = Layout(self), self.s
-        kwdefault(layout, rows=8, reserves=4, texts=0)
-        self.Layout_Method(l, **layout)
-        self.setSize(l.size[0], l.size[1])
-        # create stacks
-        s.talon = InitialDealTalonStack(l.s.talon.x, l.s.talon.y, self)
-        for r in l.s.foundations:
-            self.s.foundations.append(self.Foundation_Class(r.x, r.y, self, suit=r.suit))
-        for r in l.s.rows:
-            s.rows.append(self.RowStack_Class(r.x, r.y, self))
-        for r in l.s.reserves:
-            self.s.reserves.append(ReserveStack(r.x, r.y, self))
-        # default
-        l.defaultAll()
-
-    #
-    # game overrides
-    #
-
-    def startGame(self):
-        for i in range(5):
-            self.s.talon.dealRow(frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
-        r = self.s.rows
-        ##self.s.talon.dealRow(rows=(r[0], r[1], r[6], r[7]))
-        self.s.talon.dealRow(rows=r[:4])
-
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
 

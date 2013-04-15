@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env pytho
 # -*- mode: python; coding: utf-8; -*-
 ##---------------------------------------------------------------------------##
 ##
@@ -771,6 +771,15 @@ class FreeCellSolver_Hint:
         #print hint
         return [hint]
 
+    def colonPrefixMatch(self, prefix, s):
+        m = re.match(prefix + ': (\d+)', s)
+        if m:
+            self._v = int(m.group(1))
+            return True
+        else:
+            self._v = None
+            return False
+
     def computeHints(self):
         game = self.game
         game_type = self.game_type
@@ -862,23 +871,21 @@ class FreeCellSolver_Hint:
             iter = 0
             depth = 0
             states = 0
+
             for s in pout:
                 if DEBUG >= 5:
                     print s,
-                if s.startswith('Iter'):
-                    #print `s`
-                    iter = int(s[10:-1])
-                elif s.startswith('Depth'):
-                    #print s,
-                    depth = int(s[6:-1])
-                elif s.startswith('Stor'):
-                    #print s,
-                    states = int(s[14:-1])
+
+                if self.colonPrefixMatch('Iteration', s):
+                    iter = self._v
+                elif self.colonPrefixMatch('Depth', s):
+                    depth = self._v
+                elif self.colonPrefixMatch('Stored-States', s):
+                    states = self._v
                     if iter % 100 == 0:
                         self.dialog.setText(iter=iter, depth=depth,
                                             states=states)
-                elif s.startswith('-=-') or \
-                         s.startswith('I co'): # "I could not solve this game."
+                elif re.search('^(?:-=-=|I could not solve this game)', s):
                     break
             self.dialog.setText(iter=iter, depth=depth, states=states)
 

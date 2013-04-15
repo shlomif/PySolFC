@@ -2912,7 +2912,7 @@ Congratulations, you did it !
         self.updateStatus(stuck='')
         self.failed_snapshots = []
         reset_solver_dialog()
-        
+
 
     def redo(self):
         assert self.canRedo()

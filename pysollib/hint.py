@@ -909,9 +909,6 @@ class FreeCellSolver_Hint:
                 continue
 
             move_s = m.group(1)
-            words = move_s.split()
-
-            words = ["Move"] + words
 
             m = re.match('the sequence on top of Stack (\d+) to the foundations', move_s);
 

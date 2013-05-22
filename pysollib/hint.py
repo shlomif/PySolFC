@@ -904,10 +904,15 @@ class FreeCellSolver_Hint:
                 states = int(m.group(1))
                 self.dialog.setText(states=states)
 
-            if not s.startswith('Move'):
+            m = re.match('Move (.*)', s)
+            if not m:
                 continue
 
-            words = s.split()
+            move_s = m.group(1)
+            words = move_s.split()
+
+            words = ["Move"] + words
+
             ncards = words[1]
             if ncards == 'the':
                 # "Move the sequence on top of Stack 1 to the foundations"

@@ -913,34 +913,39 @@ class FreeCellSolver_Hint:
 
             words = ["Move"] + words
 
-            ncards = words[1]
-            if ncards == 'the':
-                # "Move the sequence on top of Stack 1 to the foundations"
-                # (Simple Simon)
-                ncards = 0
-            elif ncards == 'a':
-                ncards = 1
-            else:
-                ncards = int(ncards)
+            m = re.match('the sequence on top of Stack (\d+) to the foundations', move_s);
 
-            if ncards:
-                st = stack_types[words[4]]
-                sn = int(words[5])
+            if m:
+                ncards = 13
+                st = stack_types['stack']
+                sn = int(m.group(1))
+                src = st[sn]
+                dest = None
+            else:
+                m = re.match('(?P<ncards>a card|(?P<count>\d+) cards) from (?P<source_type>stack|freecell) (?P<source_idx>\d+) to (?P<dest>the foundations|(?P<dest_type>freecell|stack) (?P<dest_idx>\d+))\s*', move_s);
+
+                if not m:
+                    continue
+
+                ncards = m.group('ncards')
+                if ncards == 'a card':
+                    ncards = 1
+                else:
+                    ncards = int(m.group('count'))
+
+                st = stack_types[m.group('source_type')]
+                sn = int(m.group('source_idx'))
                 src = st[sn]            # source stack
-                if words[7] == 'the':
+
+                dest_s = m.group('dest')
+                if dest_s == 'the foundations':
                     # to foundation
                     dest = None
                 else:
                     # to rows or reserves
-                    dt = stack_types[words[7]]
-                    dn = int(words[8])
+                    dt = stack_types[m.group('dest_type')]
+                    dn = int(m.group('dest_idx'))
                     dest = dt[dn]
-            else:                       # move sequence
-                ncards = 13
-                st =  stack_types['stack']
-                sn = int(words[7])
-                src = st[sn]
-                dest = None
 
             hints.append([ncards, src, dest])
             ##print src, dest, ncards

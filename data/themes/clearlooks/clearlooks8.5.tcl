@@ -19,7 +19,7 @@ namespace eval ttk::theme::clearlooks {
     variable I
     array set I [LoadImages \
                      [file join [file dirname [info script]] clearlooks] *.gif]
-    
+
     variable colors
 
     array set colors {

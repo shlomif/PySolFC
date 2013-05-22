@@ -991,7 +991,7 @@ class NapoleonTakesMoscow(Game, FirTree_GameMethods):
 
         # define stack-groups
         l.defaultStackGroups()
-        
+
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.reserves, frames=0)
         for i in range(3):

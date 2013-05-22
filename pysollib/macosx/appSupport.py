@@ -36,7 +36,7 @@ def hideTkConsole(root):
         root.tk.call('console', 'hide')
     except TclError:
         pass
-    
+
 def setupApp(app):
     """
     Perform setup for the OSX application bundle.

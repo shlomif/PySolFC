@@ -831,7 +831,7 @@ class Junction(Game):
     Foundation_Class = StackWrapper(DieRussische_Foundation, max_cards=8)
 
     def createGame(self, rows=7):
-        
+
         l, s = Layout(self), self.s
 
         self.setSize(l.XM+10*l.XS, l.YM+3*l.YS+12*l.YOFFSET)

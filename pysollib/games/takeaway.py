@@ -108,7 +108,7 @@ class TakeAway(Game):
 # ************************************************************************
 
 class FourStacks_RowStack(AC_RowStack):
-    getBottomImage = Stack._getReserveBottomImage    
+    getBottomImage = Stack._getReserveBottomImage
 
 class FourStacks(Game):
     def createGame(self):

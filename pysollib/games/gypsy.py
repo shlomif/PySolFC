@@ -436,7 +436,7 @@ class Cone(Gypsy):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i,
                                                     mod=13, max_cards=26))
             y += l.YS
-        
+
         # define stack-groups
         l.defaultStackGroups()
 

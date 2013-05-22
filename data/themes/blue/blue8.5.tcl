@@ -23,7 +23,7 @@ namespace eval ttk::theme::blue {
     variable I
     array set I [LoadImages \
                      [file join [file dirname [info script]] blue] *.gif]
-    
+
     variable colors
     array set colors {
 	-frame  	"#6699cc"
@@ -88,12 +88,12 @@ namespace eval ttk::theme::blue {
 	ttk::style configure Toolbutton \
 	    -width 0 -relief flat -borderwidth 2 -padding 4 \
 	    -background $colors(-frame) -foreground #000000 ;
-	ttk::style map Toolbutton -background [list active $colors(-selectbg)] 
-	ttk::style map Toolbutton -foreground [list active $colors(-selectfg)] 
+	ttk::style map Toolbutton -background [list active $colors(-selectbg)]
+	ttk::style map Toolbutton -foreground [list active $colors(-selectfg)]
 	ttk::style map Toolbutton -relief {
 	    disabled 	flat
-	    selected	sunken  
-	    pressed 	sunken  
+	    selected	sunken
+	    pressed 	sunken
 	    active  	raised
 	}
 

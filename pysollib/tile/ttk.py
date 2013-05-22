@@ -56,7 +56,7 @@ Tkinter.Tk._loadtk = _loadttk(Tkinter.Tk._loadtk)
 
 def _format_optdict(optdict, script=False, ignore=None):
     """Formats optdict to a tuple to pass it to tk.call.
-    
+
     E.g. (script=False):
       {'foreground': 'blue', 'padding': [1, 2, 3, 4]} returns:
       ('-foreground', 'blue', '-padding', '1 2 3 4')"""
@@ -90,7 +90,7 @@ def _format_optdict(optdict, script=False, ignore=None):
 
 def _format_mapdict(mapdict, script=False):
     """Formats mapdict to pass it to tk.call.
-    
+
     E.g. (script=False):
       {'expand': [('active', 'selected', 'grey'), ('focus', [1, 2, 3, 4])]}
 
@@ -1198,7 +1198,7 @@ class Treeview(Widget):
 
     def get_children(self, item=None):
         """Returns a tuple of children belonging to item.
-        
+
         If item is not specified, returns root children."""
         return self.tk.call(self._w, "children", item or '') or ()
 
@@ -1480,7 +1480,7 @@ class Treeview(Widget):
 class LabeledScale(Frame, object):
     """A Ttk Scale widget with a Ttk Label widget indicating its
     current value.
-    
+
     The Ttk Scale can be accessed through instance.scale, and Ttk Label
     can be accessed through instance.label"""
 

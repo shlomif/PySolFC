@@ -92,7 +92,7 @@ class WaveMotion(Game):
                 if len(s.cards) != 13 or not isSameSuitSequence(s.cards):
                     return False
         return True
-            
+
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
@@ -112,7 +112,7 @@ class Flourish(WaveMotion):
                 if len(s.cards) != 13 or not isAlternateColorSequence(s.cards):
                     return False
         return True
-            
+
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
 

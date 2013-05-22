@@ -59,7 +59,7 @@ PLIST = dict(
     CFBundleIdentifier = 'net.sourceforge.pysolfc',
     CFBundleName = PACKAGE,
     CFBundleVersion = '%s' % VERSION,
-    CFBundleShortVersionString = '%s' % VERSION, 
+    CFBundleShortVersionString = '%s' % VERSION,
     NSHumanReadableCopyright = "Copyright (C) 1998-2003 Markus F.X.J. Oberhumer",
     )
 APP = ['pysol.py']

@@ -330,7 +330,7 @@ proc ::ttk::dialog::file::Create {win class} {
 	set f1 [ttk::frame $w.f1 -class Toolbar]
 	set data(bgLabel) [ttk::label $f1.bg -style Toolbutton]
 	set data(upBtn) [ttk::button $f1.up -style Toolbutton]
-	$data(upBtn) configure -image {::ttk::dialog::image::up 
+	$data(upBtn) configure -image {::ttk::dialog::image::up
 		disabled ::ttk::dialog::image::upbw} \
 		-command [list ::ttk::dialog::file::UpDirCmd $win]
 	set data(prevBtn) [ttk::button $f1.prev -style Toolbutton]
@@ -671,7 +671,7 @@ proc ::ttk::dialog::file::Update {w} {
 		lappend dlist [list $f dir]
 	}
 
-	# Make the file list	
+	# Make the file list
 	set flist ""
 	set filter $data(filter)
 	if {[string equal $filter *]} {
@@ -695,8 +695,8 @@ proc ::ttk::dialog::file::Update {w} {
 		set flist [sort $w [concat $flist $dlist]]
 		set dlist ""
 	}
-	
-	set t $data(dirArea) 
+
+	set t $data(dirArea)
 	$t configure -state normal
 	$t delete 1.0 end
 	foreach f $dlist {
@@ -735,7 +735,7 @@ proc ::ttk::dialog::file::Update {w} {
 					} else {
 						set groups($gid) ""
 					}
-				}	
+				}
 			}
 			catch {set uid $users($uid)}
 			catch {set gid $groups($gid)}
@@ -902,9 +902,9 @@ proc ::ttk::dialog::file::setopt {w option var} {
 	set dataName [winfo name $w]
 	upvar ::ttk::dialog::file::$dataName data
 	upvar #0 $var value
-	
+
 	set data($option) $value
-	UpdateWhenIdle $w	
+	UpdateWhenIdle $w
 }
 
 proc ::ttk::dialog::file::UpDirCmd {w} {
@@ -1371,7 +1371,7 @@ proc ::ttk::dialog::file::treeCreate {w} {
 	pack $f2 -side top -fill both -expand 1
 
 	$data(text) image create end -padx 1 \
-		-image ::ttk::dialog::image::folder 
+		-image ::ttk::dialog::image::folder
 	$data(text) insert end " /" name
 	$data(text) configure -state disabled
 

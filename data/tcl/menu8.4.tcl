@@ -36,7 +36,7 @@ set myMenuMotion 0
 # ::tk::MenuNextEntry --
 # Activate the next higher or lower entry in the posted menu,
 # wrapping around at the ends.  Disabled entries are skipped.
-#               
+#
 # Arguments:
 # menu -                        Menu window that received the keystroke.
 # count -                       1 means go to the next lower entry,
@@ -98,7 +98,7 @@ proc ::tk::MenuNextEntry {menu count} {
 # This procedure is invoked to handle "left" and "right" traversal
 # motions in menus.  It traverses to the next menu in a menu bar,
 # or into or out of a cascaded menu.
-#   
+#
 # Arguments:
 # menu -                The menu that received the keyboard
 #                       event.
@@ -253,13 +253,13 @@ proc ::tk::MenuFirstEntry menu {
 # state -               Modifier state (tells whether buttons are down).
 
 proc ::tk::MenuMotion {menu x y state} {
-    global ::tk::Priv 
+    global ::tk::Priv
     if {$menu eq $::tk::Priv(window)} {
         if {[$menu cget -type] eq "menubar"} {
             if {[info exists ::tk::Priv(focus)] && $menu ne $::tk::Priv(focus)} {
                 $menu activate @$x,$y
                 ::tk::GenerateMenuSelect $menu
-            }   
+            }
         } else {
             $menu activate @$x,$y
             ::tk::GenerateMenuSelect $menu
@@ -329,7 +329,7 @@ proc ::tk::MenuButtonDown menu {
 	    grab -global $menu
 	}
     }
-}                                       
+}
 
 set myPriv(id) ""
 set myPriv(delay) 170

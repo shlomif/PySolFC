@@ -56,7 +56,7 @@ class PileOn_RowStack(RK_RowStack):
 class PileOn(Game):
     Hint_Class = DefaultHint
     ##Hint_Class = CautiousDefaultHint
-    TWIDTH = 4     
+    TWIDTH = 4
     NSTACKS = 15
     PLAYCARDS = 4
 

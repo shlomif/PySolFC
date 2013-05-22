@@ -535,7 +535,7 @@ class MfxCanvas(gnomecanvas.Canvas):
         pass
 
     def updateAll(self):
-        print 'Canvas - updateAll', 
+        print 'Canvas - updateAll',
         for i in self._all_items:
             i._item.hide()
         self.update_now()

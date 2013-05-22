@@ -116,7 +116,7 @@ class Sultan(Game):
 class SultanPlus(Sultan):
     def createGame(self):
         Sultan.createGame(self, reserves=8)
- 
+
 
 # ************************************************************************
 # * Boudoir
@@ -947,7 +947,7 @@ class Adela(Game):
             s.rows.append(stack)
             stack.CARD_YOFFSET = 0
             x += l.XS
-            
+
         l.defaultStackGroups()
 
 

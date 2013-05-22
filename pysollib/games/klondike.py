@@ -993,7 +993,7 @@ class SevenDevils(Klondike):
     RowStack_Class = StackWrapper(SevenDevils_RowStack, max_move=1)
 
     def createGame(self):
-        
+
         l, s = Layout(self), self.s
         self.setSize(l.XM + 10*l.XS, l.YM+3*l.YS+12*l.YOFFSET)
 

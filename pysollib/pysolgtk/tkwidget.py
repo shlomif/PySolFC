@@ -326,7 +326,7 @@ class MfxSimpleEntry(_MyDialog):
         self.quit()
 
 
-        
+
 
 
 

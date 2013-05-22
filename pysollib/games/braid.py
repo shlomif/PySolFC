@@ -595,7 +595,7 @@ class Well(Game):
         self.sg.talonstacks = [s.talon] + s.wastes
         self.sg.openstacks = s.foundations + s.rows
         self.sg.dropstacks = s.rows + s.wastes + s.reserves
-        
+
 
     def startGame(self):
         for i in range(10):

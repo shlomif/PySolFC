@@ -7,7 +7,7 @@ namespace eval tile::theme::clearlooks {
     variable I
     array set I [tile::LoadImages \
                      [file join [file dirname [info script]] clearlooks] *.gif]
-    
+
     variable colors
 
     array set colors {

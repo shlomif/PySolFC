@@ -71,8 +71,8 @@ class Images:
         self._xshadow = []              # horizontal shadow of card
         self._pil_shadow = {}           # key: (width, height)
         self._highlight = []            # highlight of card (tip)
-        self._highlight_index = 0       # 
-        self._highlighted_images = {}    # key: (suit, rank)
+        self._highlight_index = 0       #
+        self._highlighted_images = {}   # key: (suit, rank)
 
     def destruct(self):
         pass

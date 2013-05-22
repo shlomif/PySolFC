@@ -11,7 +11,7 @@ namespace eval tile::theme::blue {
     variable I
     array set I [tile::LoadImages \
                      [file join [file dirname [info script]] blue] *.gif]
-    
+
     variable colors
     array set colors {
 	-frame  	"#6699cc"
@@ -72,12 +72,12 @@ namespace eval tile::theme::blue {
 	style configure Toolbutton \
 	    -width 0 -relief flat -borderwidth 2 -padding 4 \
 	    -background $colors(-frame) -foreground #000000 ;
-	style map Toolbutton -background [list active $colors(-selectbg)] 
-	style map Toolbutton -foreground [list active $colors(-selectfg)] 
+	style map Toolbutton -background [list active $colors(-selectbg)]
+	style map Toolbutton -foreground [list active $colors(-selectfg)]
 	style map Toolbutton -relief {
 	    disabled 	flat
-	    selected	sunken  
-	    pressed 	sunken  
+	    selected	sunken
+	    pressed 	sunken
 	    active  	raised
 	}
 

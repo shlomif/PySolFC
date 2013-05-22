@@ -808,7 +808,7 @@ class Applegate(Game):
     Hint_Class = YukonType_Hint
 
     def createGame(self):
-        
+
         # create layout
         l, s = Layout(self), self.s
         self.setSize(l.XM+8*l.XS, l.YM+max(l.YS+16*l.YOFFSET, 4*l.YS))

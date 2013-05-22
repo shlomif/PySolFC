@@ -121,7 +121,7 @@ class _PysolPixmap:
             if outline:
                 # FIXME
                 pass
-            
+
 
     def clone(self):
         pixbuf = self.pixbuf.copy()

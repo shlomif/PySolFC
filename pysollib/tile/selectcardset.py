@@ -473,7 +473,7 @@ class CardsetInfoDialog(MfxDialog):
             self.y_offset.grid(row=1, column=0, sticky='ew',
                                padx=padx, pady=pady)
             row += 1
-            
+
         ##bg = top_frame["bg"]
         bg = 'white'
         text_w = Tkinter.Text(frame, bd=1, relief="sunken", wrap="word",

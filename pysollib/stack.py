@@ -912,7 +912,7 @@ class Stack:
         self.CARD_XOFFSET = xoffset
         self.CARD_YOFFSET = yoffset
         self.INIT_CARD_YOFFSET = yoffset
-        #print '* resize offset:', self.INIT_CARD_XOFFSET, 
+        #print '* resize offset:', self.INIT_CARD_XOFFSET,
         # move cards
         for c in self.cards:
             cx, cy = self.getPositionFor(c)

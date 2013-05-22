@@ -84,7 +84,7 @@ kw = {
                       'pysollib.games.mahjongg'],
     'data_files'   : data_files,
     }
-    
+
 if os.name == 'nt':
     kw['windows'] = [{'script': 'pysol.py',
                       'icon_resources': [(1, 'data/pysol.ico')], }]

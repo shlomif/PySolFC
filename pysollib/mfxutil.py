@@ -41,18 +41,18 @@ from pysollib.settings import PACKAGE, TOOLKIT, USE_TILE
 Image = ImageTk = ImageOps = None
 if TOOLKIT == 'tk':
     try: # PIL
-        import Image
-        import ImageTk
-        import ImageOps
+        from PIL import Image
+        from PIL import ImageTk
+        from PIL import ImageOps
     except ImportError:
         Image = None
     else:
         # for py2exe
-        import GifImagePlugin
-        import PngImagePlugin
-        import JpegImagePlugin
-        import BmpImagePlugin
-        import PpmImagePlugin
+        from PIL import GifImagePlugin
+        from PIL import PngImagePlugin
+        from PIL import JpegImagePlugin
+        from PIL import BmpImagePlugin
+        from PIL import PpmImagePlugin
         Image._initialized = 2
 USE_PIL = False
 if TOOLKIT == 'tk' and Image and Image.VERSION >= '1.1.7':

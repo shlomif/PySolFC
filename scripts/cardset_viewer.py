@@ -7,7 +7,7 @@ from glob import glob
 from math import sqrt, sin, cos, pi
 from Tkinter import *
 try:
-    import Image, ImageTk
+    from PIL import Image, ImageTk
 except ImportError:
     Image = None
 

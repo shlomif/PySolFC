@@ -708,9 +708,7 @@ class SpiderType_Hint(DefaultHint):
 # * FreeCell-Solver
 # ************************************************************************
 
-
-class FreeCellSolver_Hint:
-
+class Base_Solver_Hint:
     def __init__(self, game, dialog, **game_type):
         self.game = game
         self.dialog = dialog
@@ -780,6 +778,7 @@ class FreeCellSolver_Hint:
             self._v = None
             return False
 
+class FreeCellSolver_Hint(Base_Solver_Hint):
     def computeHints(self):
         game = self.game
         game_type = self.game_type
@@ -962,71 +961,8 @@ class FreeCellSolver_Hint:
         if os.name == 'posix':
             os.wait()
 
-class BlackHoleSolver_Hint:
-
+class BlackHoleSolver_Hint(Base_Solver_Hint):
     BLACK_HOLE_SOLVER_COMMAND = 'black-hole-solve'
-    def __init__(self, game, dialog, **game_type):
-        self.game = game
-        self.dialog = dialog
-        self.game_type = game_type
-        self.options = {
-            'max_iters': 1000000,
-            'progress': False,
-            'preset': None,
-            }
-        self.hints = []
-        self.hints_index = 0
-
-        self.base_rank = 0
-
-    def config(self, **kw):
-        self.options.update(kw)
-
-
-    def card2str1(self, card):
-        # row and reserves
-        rank = (card.rank-self.base_rank) % 13
-        return "A23456789TJQK"[rank] + "CSHD"[card.suit]
-    def card2str2(self, card):
-        # foundations
-        rank = (card.rank-self.base_rank) % 13
-        return "CSHD"[card.suit] + "-" + "A23456789TJQK"[rank]
-
-# hard solvable: Freecell #47038300998351211829 (65539 iters)
-
-    def getHints(self, taken_hint=None):
-        if taken_hint and taken_hint[6]:
-            return [taken_hint[6]]
-        h = self.hints[self.hints_index]
-        #print 'getHints', taken_hint, h
-        if h is None:
-            return None
-        ncards, src, dest = h
-        thint = None
-        if len(src.cards) > ncards and not src.cards[-ncards-1].face_up:
-            # flip card
-            thint = (999999, 0, 1, src, src, None, None)
-        if dest == None:                 # foundation
-            cards = src.cards[-ncards:]
-            for f in self.game.s.foundations:
-                if f.acceptsCards(src, cards):
-                    dest = f
-                    break
-        assert dest
-        hint = (999999, 0, ncards, src, dest, None, thint)
-        self.hints_index += 1
-        #print hint
-        return [hint]
-
-    def colonPrefixMatch(self, prefix, s):
-        m = re.match(prefix + ': (\d+)', s)
-        if m:
-            self._v = int(m.group(1))
-            return True
-        else:
-            self._v = None
-            return False
-
     def computeHints(self):
         game = self.game
         game_type = self.game_type

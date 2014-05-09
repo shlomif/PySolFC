@@ -989,7 +989,6 @@ class BlackHoleSolver_Hint:
         return "A23456789TJQK"[rank] + "CSHD"[card.suit]
     def card2str2(self, card):
         # foundations
-        import pdb; pdb.set_trace()
         rank = (card.rank-self.base_rank) % 13
         return "CSHD"[card.suit] + "-" + "A23456789TJQK"[rank]
 
@@ -1036,7 +1035,6 @@ class BlackHoleSolver_Hint:
         #
         #
 
-        # import pdb; pdb.set_trace()
         cards = self.game.s.foundations[0].cards
         s = '-'
         if (len(cards) > 0):
@@ -1078,7 +1076,6 @@ class BlackHoleSolver_Hint:
         if DEBUG:
             start_time = time.time()
 
-        import pdb; pdb.set_trace()
         result = ''
         # iteration output
         iter = 0
@@ -1108,12 +1105,14 @@ class BlackHoleSolver_Hint:
             if m:
                 iter = int(m.group(1))
                 self.dialog.setText(iter=iter)
+                continue
 
             m = re.match('This scan generated (\d+) states\.', s)
 
             if m:
                 states = int(m.group(1))
                 self.dialog.setText(states=states)
+                continue
 
             m = re.match('Move a card from stack ([0-9]+) to the foundations', s)
             if not m:

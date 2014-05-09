@@ -962,6 +962,185 @@ class FreeCellSolver_Hint:
         if os.name == 'posix':
             os.wait()
 
+class BlackHoleSolver_Hint:
+
+    BLACK_HOLE_SOLVER_COMMAND = 'black-hole-solve'
+    def __init__(self, game, dialog, **game_type):
+        self.game = game
+        self.dialog = dialog
+        self.game_type = game_type
+        self.options = {
+            'max_iters': 1000000,
+            'progress': False,
+            'preset': None,
+            }
+        self.hints = []
+        self.hints_index = 0
+
+        self.base_rank = 0
+
+    def config(self, **kw):
+        self.options.update(kw)
+
+
+    def card2str1(self, card):
+        # row and reserves
+        rank = (card.rank-self.base_rank) % 13
+        return "A23456789TJQK"[rank] + "CSHD"[card.suit]
+    def card2str2(self, card):
+        # foundations
+        import pdb; pdb.set_trace()
+        rank = (card.rank-self.base_rank) % 13
+        return "CSHD"[card.suit] + "-" + "A23456789TJQK"[rank]
+
+# hard solvable: Freecell #47038300998351211829 (65539 iters)
+
+    def getHints(self, taken_hint=None):
+        if taken_hint and taken_hint[6]:
+            return [taken_hint[6]]
+        h = self.hints[self.hints_index]
+        #print 'getHints', taken_hint, h
+        if h is None:
+            return None
+        ncards, src, dest = h
+        thint = None
+        if len(src.cards) > ncards and not src.cards[-ncards-1].face_up:
+            # flip card
+            thint = (999999, 0, 1, src, src, None, None)
+        if dest == None:                 # foundation
+            cards = src.cards[-ncards:]
+            for f in self.game.s.foundations:
+                if f.acceptsCards(src, cards):
+                    dest = f
+                    break
+        assert dest
+        hint = (999999, 0, ncards, src, dest, None, thint)
+        self.hints_index += 1
+        #print hint
+        return [hint]
+
+    def colonPrefixMatch(self, prefix, s):
+        m = re.match(prefix + ': (\d+)', s)
+        if m:
+            self._v = int(m.group(1))
+            return True
+        else:
+            self._v = None
+            return False
+
+    def computeHints(self):
+        game = self.game
+        game_type = self.game_type
+        progress = self.options['progress']
+        board = ''
+        #
+        #
+
+        # import pdb; pdb.set_trace()
+        card = self.game.s.foundations[0].cards[-1]
+        if card:
+            board += 'Foundations: ' + self.card2str1(card) + '\n'
+
+        for s in self.game.s.rows:
+            b = ''
+            for c in s.cards:
+                cs = self.card2str1(c)
+                if not c.face_up:
+                    cs = '<%s>' % cs
+                b += cs + ' '
+            board += b.strip() + '\n'
+        #
+        if DEBUG:
+            print '--------------------\n', board, '--------------------'
+        #
+        args = []
+        ##args += ['-sam', '-p', '-opt', '--display-10-as-t']
+        args += ['--game', game_type['preset'], '--rank-reach-prune',]
+        args += ['--max-iters', self.options['max_iters'],]
+        #
+
+        command = self.BLACK_HOLE_SOLVER_COMMAND+' '+' '.join([str(i) for i in args])
+        if DEBUG:
+            print command
+        kw = {'shell': True,
+              'stdin': subprocess.PIPE,
+              'stdout': subprocess.PIPE,
+              'stderr': subprocess.PIPE}
+        if os.name != 'nt':
+            kw['close_fds'] = True
+        p = subprocess.Popen(command, **kw)
+        pin, pout, perr = p.stdin, p.stdout, p.stderr
+        pin.write(board)
+        pin.close()
+        #
+        if DEBUG:
+            start_time = time.time()
+
+        import pdb; pdb.set_trace()
+        result = ''
+        # iteration output
+        iter = 0
+        depth = 0
+        states = 0
+
+        for s in pout:
+            if DEBUG >= 5:
+                print s,
+
+            m = re.search('^(Intractable!|Unsolved!|Solved!)\n', s)
+            if m:
+                result = m.group(1)
+                break
+        self.dialog.setText(iter=iter, depth=depth, states=states)
+
+        if (result == 'Intractable!'):
+            return
+        if (result == 'Unsolved!'):
+            return
+
+        hints = []
+        for s in pout:
+            if DEBUG:
+                print s,
+            m = re.match('Total number of states checked is (\d+)\.', s)
+            if m:
+                iter = int(m.group(1))
+                self.dialog.setText(iter=iter)
+
+            m = re.match('This scan generated (\d+) states\.', s)
+
+            if m:
+                states = int(m.group(1))
+                self.dialog.setText(states=states)
+
+            m = re.match('Move a card from stack ([0-9]+) to the foundations', s)
+            if not m:
+                continue
+
+            found_stack_idx = int(m.group(1))
+            ncards = 1
+            st = game.s.rows
+            sn = found_stack_idx
+            src = st[sn]            # source stack
+            dest = None
+
+            hints.append([ncards, src, dest])
+            ##print src, dest, ncards
+
+        #
+        if DEBUG:
+            print 'time:', time.time()-start_time
+        ##print perr.read(),
+
+        self.hints = hints
+        self.hints.append(None)         # XXX
+
+        ##print self.hints
+
+        pout.close()
+        perr.close()
+        if os.name == 'posix':
+            os.wait()
 
 class FreeCellSolverWrapper:
 
@@ -970,5 +1149,14 @@ class FreeCellSolverWrapper:
 
     def __call__(self, game, dialog):
         hint = FreeCellSolver_Hint(game, dialog, **self.game_type)
+        return hint
+
+class BlackHoleSolverWrapper:
+
+    def __init__(self, **game_type):
+        self.game_type = game_type
+
+    def __call__(self, game, dialog):
+        hint = BlackHoleSolver_Hint(game, dialog, **self.game_type)
         return hint
 

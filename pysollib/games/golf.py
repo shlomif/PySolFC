@@ -35,6 +35,7 @@ from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.hint import BlackHoleSolverWrapper
 from pysollib.pysoltk import MfxCanvasText
 
 # ************************************************************************
@@ -301,6 +302,7 @@ class BlackHole_RowStack(ReserveStack):
 class BlackHole(Game):
     RowStack_Class = StackWrapper(BlackHole_RowStack, max_accept=0, max_cards=3)
     Hint_Class = Golf_Hint
+    Solver_Class = BlackHoleSolverWrapper(preset='black_hole')
 
     #
     # game layout
@@ -434,6 +436,7 @@ class FourLeafClovers(Game):
 
 class AllInARow(BlackHole):
 
+    Solver_Class = BlackHoleSolverWrapper(preset='all_in_a_row')
     def createGame(self):
         # create layout
         l, s = Layout(self), self.s

@@ -1037,9 +1037,11 @@ class BlackHoleSolver_Hint:
         #
 
         # import pdb; pdb.set_trace()
-        card = self.game.s.foundations[0].cards[-1]
-        if card:
-            board += 'Foundations: ' + self.card2str1(card) + '\n'
+        cards = self.game.s.foundations[0].cards
+        s = '-'
+        if (len(cards) > 0):
+            s = self.card2str1(cards[-1])
+        board += 'Foundations: ' + s + '\n'
 
         for s in self.game.s.rows:
             b = ''

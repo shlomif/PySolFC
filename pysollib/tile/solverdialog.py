@@ -245,7 +245,7 @@ class SolverDialog(MfxDialog):
             self.result_label['text'] = t
             self.play_button.config(state='normal')
         else:
-            self.result_label['text'] = _('I could not solve this game.')
+            self.result_label['text'] = (_('I could not solve this game.') if solver.solver_state == 'unsolved' else _('Iterations count exceeded (Intractable)'))
             self.play_button.config(state='disabled')
 
     def startPlay(self):

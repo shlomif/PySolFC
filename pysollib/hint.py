@@ -95,6 +95,7 @@ class AbstractHint(HintInterface):
         self.hints = []
         self.max_score = 0
         self.__destructClones()
+        self.solver_state = 'not_started';
 
     #
     # stack cloning
@@ -821,7 +822,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
         #
         args = []
         ##args += ['-sam', '-p', '-opt', '--display-10-as-t']
-        args += ['-m', '-p', '-opt']
+        args += ['-m', '-p', '-opt', '-sel']
         if progress:
             args += ['--iter-output']
             if DEBUG:
@@ -884,7 +885,13 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                     if iter % 100 == 0:
                         self.dialog.setText(iter=iter, depth=depth,
                                             states=states)
-                elif re.search('^(?:-=-=|I could not solve this game)', s):
+                elif re.search('^(?:-=-=)', s):
+                    break
+                elif re.search('^(?:Iterations count exceeded)', s):
+                    self.solver_state = 'intractable'
+                    break
+                elif re.search('^(?:I could not solve this game)', s):
+                    self.solver_state = 'unsolved'
                     break
             self.dialog.setText(iter=iter, depth=depth, states=states)
 
@@ -952,6 +959,8 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
         ##print perr.read(),
 
         self.hints = hints
+        if len(hints) > 0:
+            self.solver_state = 'solved'
         self.hints.append(None)         # XXX
 
         ##print self.hints
@@ -1029,9 +1038,13 @@ class BlackHoleSolver_Hint(Base_Solver_Hint):
         self.dialog.setText(iter=iter, depth=depth, states=states)
 
         if (result == 'Intractable!'):
+            self.solver_state = 'intractable'
             return
         if (result == 'Unsolved!'):
+            self.solver_state = 'unsolved'
             return
+
+        self.solver_state = 'solved'
 
         hints = []
         for s in pout:

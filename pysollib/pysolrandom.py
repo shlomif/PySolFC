@@ -85,7 +85,7 @@ class BasicRandom:
 
 # ************************************************************************
 # * Mersenne Twister random number generator
-# * uses standart python module `random'
+# * uses the standard python module `random'
 # ************************************************************************
 
 class MTRandom(BasicRandom, random.Random):
@@ -105,7 +105,7 @@ class MTRandom(BasicRandom, random.Random):
 
 # ************************************************************************
 # * Wichman-Hill random number generator
-# * uses standart python module `random'
+# * uses the standard python module `random'
 # ************************************************************************
 
 class WHRandom(BasicRandom, random.WichmannHill):

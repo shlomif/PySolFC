@@ -780,6 +780,16 @@ class Base_Solver_Hint:
             return False
 
 class FreeCellSolver_Hint(Base_Solver_Hint):
+    def _determineIfSolverState(self, line):
+        if re.search('^(?:Iterations count exceeded)', line):
+            self.solver_state = 'intractable'
+            return True
+        elif re.search('^(?:I could not solve this game)', line):
+            self.solver_state = 'unsolved'
+            return True
+        else:
+            return False
+
     def computeHints(self):
         game = self.game
         game_type = self.game_type
@@ -887,11 +897,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                                             states=states)
                 elif re.search('^(?:-=-=)', s):
                     break
-                elif re.search('^(?:Iterations count exceeded)', s):
-                    self.solver_state = 'intractable'
-                    break
-                elif re.search('^(?:I could not solve this game)', s):
-                    self.solver_state = 'unsolved'
+                elif self._determineIfSolverState(s):
                     break
             self.dialog.setText(iter=iter, depth=depth, states=states)
 
@@ -899,6 +905,8 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
         for s in pout:
             if DEBUG:
                 print s,
+            if self._determineIfSolverState(s):
+                next
             m = re.match('Total number of states checked is (\d+)\.', s)
             if m:
                 iter = int(m.group(1))

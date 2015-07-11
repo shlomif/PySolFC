@@ -24,15 +24,15 @@
 __all__ = ['PlayerOptionsDialog']
 
 # imports
-import Tkinter
-import ttk
+import tkinter
+from . import ttk
 
 # PySol imports
 from pysollib.mygettext import _, n_
 from pysollib.mfxutil import KwStruct
 
 # Toolkit imports
-from tkwidget import MfxDialog
+from .tkwidget import MfxDialog
 
 
 # ************************************************************************
@@ -47,11 +47,11 @@ class PlayerOptionsDialog(MfxDialog):
         self.createBitmaps(top_frame, kw)
         self.app = app
         #
-        self.update_stats_var = Tkinter.BooleanVar()
+        self.update_stats_var = tkinter.BooleanVar()
         self.update_stats_var.set(app.opt.update_player_stats != 0)
-        self.confirm_var = Tkinter.BooleanVar()
+        self.confirm_var = tkinter.BooleanVar()
         self.confirm_var.set(app.opt.confirm != 0)
-        self.win_animation_var = Tkinter.BooleanVar()
+        self.win_animation_var = tkinter.BooleanVar()
         self.win_animation_var.set(app.opt.win_animation != 0)
         #
         frame = ttk.Frame(top_frame)

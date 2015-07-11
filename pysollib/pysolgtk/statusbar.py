@@ -65,10 +65,10 @@ class BasicStatusbar:
 
 
     def updateText(self, **kw):
-        for k, v in kw.items():
+        for k, v in list(kw.items()):
             label = getattr(self, k + "_label")
             label.pop(0)
-            label.push(0, unicode(v))
+            label.push(0, str(v))
 
     def config(self, name, show):
         # FIXME
@@ -78,7 +78,7 @@ class BasicStatusbar:
         label = getattr(self, name + "_label")
         # FIXME kw['fg']
         label.pop(0)
-        label.push(0, unicode(kw['text']))
+        label.push(0, str(kw['text']))
 
 
     def show(self, show=True, resize=False):

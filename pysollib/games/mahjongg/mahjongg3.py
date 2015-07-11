@@ -21,7 +21,7 @@
 ##
 ##---------------------------------------------------------------------------##
 
-from mahjongg import r
+from .mahjongg import r
 
 # test
 #r(5991, "AAA 1", ncards=4, layout="0daa")

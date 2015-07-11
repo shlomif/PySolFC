@@ -368,7 +368,7 @@ class Application:
             savegames = os.path.join(config, "savegames"),
             maint = os.path.join(config, "maint"),          # debug
         )
-        for k, v in self.dn.__dict__.items():
+        for k, v in list(self.dn.__dict__.items()):
 ##            if os.name == "nt":
 ##                v = os.path.normcase(v)
             v = os.path.normpath(v)
@@ -381,7 +381,7 @@ class Application:
             holdgame = os.path.join(self.dn.config, "holdgame.dat"),
             comments = os.path.join(self.dn.config, "comments.dat"),
         )
-        for k, v in self.dn.__dict__.items():
+        for k, v in list(self.dn.__dict__.items()):
             if os.name == "nt":
                 v = os.path.normcase(v)
             v = os.path.normpath(v)
@@ -503,7 +503,7 @@ class Application:
                                     compound=self.opt.toolbar_compound)
         self.toolbar.show(self.opt.toolbar)
         if TOOLKIT == 'tk':
-            for w, v in self.opt.toolbar_vars.items():
+            for w, v in list(self.opt.toolbar_vars.items()):
                 self.toolbar.config(w, v)
         #
         if self.intro.progress: self.intro.progress.update(step=1)
@@ -756,7 +756,7 @@ class Application:
 
     def loadImages4(self):
         # load all remaining images
-        for k, v in self.gimages.__dict__.items():
+        for k, v in list(self.gimages.__dict__.items()):
             if isinstance(v, list):
                 for i in range(len(v)):
                     if isinstance(v[i], str):
@@ -892,7 +892,7 @@ class Application:
             self.subsampled_images = simages
             self.updateCardset(id, update=update)
             r = 1
-        except (Exception, TclError, UnpicklingError), ex:
+        except (Exception, TclError, UnpicklingError) as ex:
             traceback.print_exc()
             cs.error = 1
             # restore settings
@@ -1237,7 +1237,7 @@ Please select a %s type %s.
 
     def getAllUserNames(self):
         names = []
-        for n in self.stats.games_stats.keys():
+        for n in list(self.stats.games_stats.keys()):
             if n is None:               # demo
                 continue
             if self.stats.games_stats[n]:
@@ -1258,7 +1258,7 @@ Please select a %s type %s.
         if not dir or not os.path.isdir(dir):
             return
         names = os.listdir(dir)
-        names = map(os.path.normcase, names)
+        names = list(map(os.path.normcase, names))
         names.sort()
         for name in names:
             m = re.search(r"^(.+)\.py$", name)
@@ -1266,7 +1266,7 @@ Please select a %s type %s.
             if m and os.path.isfile(n):
                 try:
                     loadGame(m.group(1), n)
-                except Exception, ex:
+                except Exception as ex:
                     if DEBUG:
                         traceback.print_exc()
                     print_err(_("error loading plugin %s: %s") % (n, ex))
@@ -1439,10 +1439,10 @@ Please select a %s type %s.
                                 print_err('fail _readCardsetConfig: %s %s'
                                           % (d, f1))
                                 pass
-                        except Exception, err:
+                        except Exception as err:
                             ##traceback.print_exc()
                             pass
-            except EnvironmentError, ex:
+            except EnvironmentError as ex:
                 pass
         # register cardsets
         for obj in found:
@@ -1493,7 +1493,7 @@ Please select a %s type %s.
                     if key not in t:
                         t[key] = 1
                         found.append((n, tile))
-            except EnvironmentError, ex:
+            except EnvironmentError as ex:
                 pass
         # register tiles
         found.sort()
@@ -1517,7 +1517,7 @@ Please select a %s type %s.
                 names = []
                 if dir and os.path.isdir(dir):
                     names = os.listdir(dir)
-                    names = map(os.path.normcase, names)
+                    names = list(map(os.path.normcase, names))
                     names.sort()
                 for name in names:
                     if not name or not ext_re.search(name):
@@ -1534,7 +1534,7 @@ Please select a %s type %s.
                     if key not in t:
                         t[key] = 1
                         found.append((n, obj))
-            except EnvironmentError, ex:
+            except EnvironmentError as ex:
                 pass
         # register songs
         found.sort()

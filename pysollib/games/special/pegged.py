@@ -247,7 +247,7 @@ def r(id, gameclass, name):
     gi = GameInfo(id, gameclass, name,
                   GI.GT_PUZZLE_TYPE, 1, 0, GI.SL_SKILL,
                   category=GI.GC_TRUMP_ONLY,
-                  suits=(), ranks=(), trumps=range(ncards),
+                  suits=(), ranks=(), trumps=list(range(ncards)),
                   si = {"decks": 1, "ncards": ncards},
                   rules_filename = "pegged.html")
     registerGame(gi)

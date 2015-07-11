@@ -36,7 +36,7 @@ from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 from pysollib.hint import FreeCellType_Hint, FreeCellSolverWrapper
 
-from spider import Spider_AC_Foundation
+from .spider import Spider_AC_Foundation
 
 
 # ************************************************************************

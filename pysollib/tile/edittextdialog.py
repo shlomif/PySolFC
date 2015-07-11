@@ -24,15 +24,15 @@
 __all__ = ['EditTextDialog']
 
 # imports
-import Tkinter
-import ttk
+import tkinter
+from . import ttk
 
 # PySol imports
 from pysollib.mfxutil import KwStruct
 from pysollib.mygettext import _, n_
 
 # Toolkit imports
-from tkwidget import MfxDialog
+from .tkwidget import MfxDialog
 
 # ************************************************************************
 # *
@@ -46,7 +46,7 @@ class EditTextDialog(MfxDialog):
         top_frame, bottom_frame = self.createFrames(kw)
         self.createBitmaps(top_frame, kw)
         #
-        self.text_w = Tkinter.Text(top_frame, bd=1, relief="sunken",
+        self.text_w = tkinter.Text(top_frame, bd=1, relief="sunken",
                                    wrap="word", width=64, height=16)
         self.text_w.pack(side='left', fill="both", expand=True)
         ###self.text_w.pack(side='top', padx=kw.padx, pady=kw.pady)

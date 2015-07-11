@@ -32,10 +32,10 @@ from pysollib.resource import CSI
 from pysollib.mfxutil import kwdefault
 
 # Toolkit imports
-from tkwidget import MfxDialog
-from pysoltree import PysolTreeView
-from tkcanvas import MfxCanvas, MfxCanvasImage
-from tkutil import loadImage
+from .tkwidget import MfxDialog
+from .pysoltree import PysolTreeView
+from .tkcanvas import MfxCanvas, MfxCanvasImage
+from .tkutil import loadImage
 
 
 # ************************************************************************
@@ -118,7 +118,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         manager = self.manager
         root_iter = store.append(None)
         store.set(root_iter, 0, root_label, 1, -1)
-        items = cardset_types.items()
+        items = list(cardset_types.items())
         items.sort(lambda a, b: cmp(a[1], b[1]))
         added = False
         for key, label in items:

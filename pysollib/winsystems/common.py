@@ -61,7 +61,7 @@ def set_theme(app, top, theme):
 def get_font_name(font):
     # create font name
     # i.e. "helvetica 12" -> ("helvetica", 12, "roman", "normal")
-    from tkFont import Font
+    from tkinter.font import Font
     font_name = None
     try:
         f = Font(font=font)

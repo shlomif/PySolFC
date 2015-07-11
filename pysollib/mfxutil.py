@@ -27,12 +27,12 @@ import sys, os, time, types, locale
 import webbrowser
 
 try:
-    from cPickle import Pickler, Unpickler, UnpicklingError
+    from pickle import Pickler, Unpickler, UnpicklingError
 except ImportError:
     from pickle import Pickler, Unpickler, UnpicklingError
 
 try:
-    import thread
+    import _thread
 except:
     thread = None
 
@@ -102,7 +102,7 @@ def print_err(s, level=1):
         ss = PACKAGE+': WARNING:'
     elif level == 2:
         ss = PACKAGE+': DEBUG WARNING:'
-    print >> sys.stderr, ss, s.encode(locale.getpreferredencoding())
+    print(ss, s.encode(locale.getpreferredencoding()), file=sys.stderr)
     sys.stderr.flush()
 
 
@@ -141,7 +141,7 @@ if os.name == "posix":
 def win32_getusername():
     user = os.environ.get('USERNAME','').strip()
     try:
-        user = unicode(user, locale.getpreferredencoding())
+        user = str(user, locale.getpreferredencoding())
     except:
         user = ''
     return user
@@ -169,7 +169,7 @@ def destruct(obj):
     # assist in breaking circular references
     if obj is not None:
         assert isinstance(obj, types.InstanceType)
-        for k in obj.__dict__.keys():
+        for k in list(obj.__dict__.keys()):
             obj.__dict__[k] = None
             ##del obj.__dict__[k]
 
@@ -191,19 +191,19 @@ class Struct:
         self.__dict__[key] = value
 
     def addattr(self, **kw):
-        for key in kw.keys():
+        for key in list(kw.keys()):
             if hasattr(self, key):
                 raise AttributeError(key)
         self.__dict__.update(kw)
 
     def update(self, dict):
-        for key in dict.keys():
+        for key in list(dict.keys()):
             if key not in self.__dict__:
                 raise AttributeError(key)
         self.__dict__.update(dict)
 
     def clear(self):
-        for key in self.__dict__.keys():
+        for key in list(self.__dict__.keys()):
             if isinstance(key, list):
                 self.__dict__[key] = []
             elif isinstance(key, tuple):
@@ -225,7 +225,7 @@ class Struct:
 
 # update keyword arguments with default arguments
 def kwdefault(kw, **defaults):
-    for k, v in defaults.items():
+    for k, v in list(defaults.items()):
         if k not in kw:
             kw[k] = v
 
@@ -238,7 +238,7 @@ class KwStruct:
             defaults = defaults.__dict__
         if defaults:
             kw = kw.copy()
-            for k, v in defaults.items():
+            for k, v in list(defaults.items()):
                 if k not in kw:
                     kw[k] = v
         self.__dict__.update(kw)

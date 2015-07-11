@@ -140,7 +140,7 @@ One Pair'''))
             (r[3], r[3+5], r[3+10], r[3+15], r[3+20]),
             (r[4], r[4+5], r[4+10], r[4+15], r[4+20]),
         ]
-        self.poker_hands = map(tuple, self.poker_hands)
+        self.poker_hands = list(map(tuple, self.poker_hands))
 
         # define stack-groups
         l.defaultStackGroups()

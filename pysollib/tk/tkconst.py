@@ -39,7 +39,7 @@ __all__ = ['EVENT_HANDLED',
            ]
 
 # imports
-import Tkinter
+import tkinter
 
 from pysollib.mygettext import _, n_
 
@@ -54,23 +54,23 @@ CURSOR_DRAG     = "hand1"
 CURSOR_WATCH    = "watch"
 CURSOR_DOWN_ARROW = 'sb_down_arrow'
 
-ANCHOR_CENTER = Tkinter.CENTER
-ANCHOR_N      = Tkinter.N
-ANCHOR_NW     = Tkinter.NW
-ANCHOR_NE     = Tkinter.NE
-ANCHOR_S      = Tkinter.S
-ANCHOR_SW     = Tkinter.SW
-ANCHOR_SE     = Tkinter.SE
-ANCHOR_W      = Tkinter.W
-ANCHOR_E      = Tkinter.E
+ANCHOR_CENTER = tkinter.CENTER
+ANCHOR_N      = tkinter.N
+ANCHOR_NW     = tkinter.NW
+ANCHOR_NE     = tkinter.NE
+ANCHOR_S      = tkinter.S
+ANCHOR_SW     = tkinter.SW
+ANCHOR_SE     = tkinter.SE
+ANCHOR_W      = tkinter.W
+ANCHOR_E      = tkinter.E
 
 COMPOUNDS = (
     ##(Tkinter.BOTTOM,  'bottom'),
     ##(Tkinter.CENTER,  'center'),
     ##(Tkinter.RIGHT,    'right'),
-    (Tkinter.NONE,   n_('Icons only')),
-    (Tkinter.TOP,    n_('Text below icons')),
-    (Tkinter.LEFT,   n_('Text beside icons')),
+    (tkinter.NONE,   n_('Icons only')),
+    (tkinter.TOP,    n_('Text below icons')),
+    (tkinter.LEFT,   n_('Text beside icons')),
     ('text',         n_('Text only')),
     )
 

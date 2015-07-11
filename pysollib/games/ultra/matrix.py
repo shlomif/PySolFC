@@ -239,7 +239,7 @@ def r(id, gameclass, short_name):
     gi = GameInfo(id, gameclass, name,
                 GI.GT_MATRIX, 1, 0, GI.SL_SKILL,
                 category=GI.GC_TRUMP_ONLY, short_name=short_name,
-                suits=(), ranks=(), trumps=range(ncards),
+                suits=(), ranks=(), trumps=list(range(ncards)),
                 si = {"decks": 1, "ncards": ncards})
     gi.ncards = ncards
     gi.rules_filename = "matrix.html"

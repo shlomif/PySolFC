@@ -37,7 +37,7 @@ from pysollib.layout import Layout
 from pysollib.hint import FreeCellType_Hint
 from pysollib.pysoltk import MfxCanvasText
 
-from hanafuda_common import *
+from .hanafuda_common import *
 
 
 # ************************************************************************
@@ -1025,7 +1025,7 @@ class Paulownia(AbstractFlowerGame):
 def r(id, gameclass, name, game_type, decks, redeals, skill_level):
     game_type = game_type | GI.GT_HANAFUDA
     gi = GameInfo(id, gameclass, name, game_type, decks, redeals, skill_level,
-                  suits=range(12), ranks=range(4))
+                  suits=list(range(12)), ranks=list(range(4)))
     registerGame(gi)
     return gi
 

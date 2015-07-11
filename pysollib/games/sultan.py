@@ -1035,7 +1035,7 @@ class Khedive(Game):
             x += l.XS
 
         x, y = l.XM+4*l.XS, l.YM
-        r = range(11)
+        r = list(range(11))
         for i in range(5,0,-1):
             for j in r[i:-i]:
                 x, y = l.XM+(j-0.5)*l.XS, l.YM+(5-i)*l.YS

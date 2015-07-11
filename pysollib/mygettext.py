@@ -9,8 +9,8 @@ def n_(x):
 def fix_gettext():
     def ugettext(message):
         # unicoded gettext
-        if not isinstance(message, unicode):
-            message = unicode(message, 'utf-8')
+        if not isinstance(message, str):
+            message = str(message, 'utf-8')
         domain = gettext._current_domain
         try:
             t = gettext.translation(domain,
@@ -21,10 +21,10 @@ def fix_gettext():
     gettext.ugettext = ugettext
     def ungettext(msgid1, msgid2, n):
         # unicoded ngettext
-        if not isinstance(msgid1, unicode):
-            msgid1 = unicode(msgid1, 'utf-8')
-        if not isinstance(msgid2, unicode):
-            msgid2 = unicode(msgid2, 'utf-8')
+        if not isinstance(msgid1, str):
+            msgid1 = str(msgid1, 'utf-8')
+        if not isinstance(msgid2, str):
+            msgid2 = str(msgid2, 'utf-8')
         domain = gettext._current_domain
         try:
             t = gettext.translation(domain,

@@ -284,37 +284,37 @@ class DoubleDojoujisGame(DojoujisGame):
 # register the game
 registerGame(GameInfo(13001, KatrinasGame, "Katrina's Game",
                       GI.GT_TAROCK, 2, 1, GI.SL_BALANCED,
-                      ranks = range(14), trumps = range(22)))
+                      ranks = list(range(14)), trumps = list(range(22))))
 registerGame(GameInfo(13002, BridgetsGame, "Bridget's Game",
                       GI.GT_HEXADECK, 2, 1, GI.SL_BALANCED,
-                      ranks = range(16), trumps = range(4)))
+                      ranks = list(range(16)), trumps = list(range(4))))
 registerGame(GameInfo(13003, FatimehsGame, "Fatimeh's Game",
                       GI.GT_MUGHAL_GANJIFA, 1, 2, GI.SL_BALANCED,
-                      suits = range(8), ranks = range(12)))
+                      suits = list(range(8)), ranks = list(range(12))))
 registerGame(GameInfo(13004, KalisGame, "Kali's Game",
                       GI.GT_DASHAVATARA_GANJIFA, 1, 2, GI.SL_BALANCED,
-                      suits = range(10), ranks = range(12)))
+                      suits = list(range(10)), ranks = list(range(12))))
 registerGame(GameInfo(13005, DojoujisGame, "Dojouji's Game",
                       GI.GT_HANAFUDA, 2, 0, GI.SL_BALANCED,
-                      suits = range(12), ranks = range(4)))
+                      suits = list(range(12)), ranks = list(range(4))))
 registerGame(GameInfo(13008, RelaxedKatrinasGame, "Katrina's Game Relaxed",
                       GI.GT_TAROCK, 2, 1, GI.SL_BALANCED,
-                      ranks = range(14), trumps = range(22)))
+                      ranks = list(range(14)), trumps = list(range(22))))
 registerGame(GameInfo(13009, DoubleKatrinasGame, "Katrina's Game Doubled",
                       GI.GT_TAROCK, 4, 2, GI.SL_BALANCED,
-                      ranks = range(14), trumps = range(22)))
+                      ranks = list(range(14)), trumps = list(range(22))))
 registerGame(GameInfo(13010, DoubleBridgetsGame, "Bridget's Game Doubled",
                       GI.GT_HEXADECK, 4, 2, GI.SL_BALANCED,
-                      ranks = range(16), trumps = range(4)))
+                      ranks = list(range(16)), trumps = list(range(4))))
 registerGame(GameInfo(13011, RelaxedKalisGame, "Kali's Game Relaxed",
                       GI.GT_DASHAVATARA_GANJIFA, 1, 2, GI.SL_BALANCED,
-                      suits = range(10), ranks = range(12)))
+                      suits = list(range(10)), ranks = list(range(12))))
 registerGame(GameInfo(13012, DoubleKalisGame, "Kali's Game Doubled",
                       GI.GT_DASHAVATARA_GANJIFA, 2, 3, GI.SL_BALANCED,
-                      suits = range(10), ranks = range(12)))
+                      suits = list(range(10)), ranks = list(range(12))))
 registerGame(GameInfo(13013, RelaxedFatimehsGame, "Fatimeh's Game Relaxed",
                       GI.GT_MUGHAL_GANJIFA, 1, 2, GI.SL_BALANCED,
-                      suits = range(8), ranks = range(12)))
+                      suits = list(range(8)), ranks = list(range(12))))
 registerGame(GameInfo(13014, DoubleDojoujisGame, "Dojouji's Game Doubled",
                       GI.GT_HANAFUDA, 4, 0, GI.SL_BALANCED,
-                      suits = range(12), ranks = range(4)))
+                      suits = list(range(12)), ranks = list(range(4))))

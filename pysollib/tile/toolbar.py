@@ -25,8 +25,8 @@ __all__ = ['PysolToolbarTk']
 
 # imports
 import os
-import Tkinter
-import ttk
+import tkinter
+from . import ttk
 
 # PySol imports
 from pysollib.mygettext import _, n_
@@ -37,10 +37,10 @@ from pysollib.settings import TITLE, WIN_SYSTEM
 from pysollib.winsystems import TkSettings
 
 # Toolkit imports
-from tkconst import EVENT_HANDLED
-from tkwidget import MfxTooltip
-from menubar import createToolbarMenu, MfxMenu
-from tkutil import loadImage
+from .tkconst import EVENT_HANDLED
+from .tkwidget import MfxTooltip
+from .menubar import createToolbarMenu, MfxMenu
+from .tkutil import loadImage
 
 
 # ************************************************************************
@@ -122,9 +122,9 @@ class ToolbarSeparator(ttk.Separator):
         self.visible = False
         self.grid_forget()
 
-class ToolbarLabel(Tkinter.Message):
+class ToolbarLabel(tkinter.Message):
     def __init__(self, parent, toolbar, toolbar_name, position, **kwargs):
-        Tkinter.Message.__init__(self, parent, **kwargs)
+        tkinter.Message.__init__(self, parent, **kwargs)
         self.toolbar = toolbar
         self.toolbar_name = toolbar_name
         self.position = position
@@ -401,7 +401,7 @@ class PysolToolbarTk:
             self.frame.update_idletasks()
 
     def updateText(self, **kw):
-        for name in kw.keys():
+        for name in list(kw.keys()):
             label = getattr(self, name + "_label")
             label["text"] = kw[name]
 

@@ -497,7 +497,7 @@ class Nestor(Game):
                 if j < 0:
                     break
                 j += i*6
-                k = self.random.choice(range((i+1)*6, 52))
+                k = self.random.choice(list(range((i+1)*6, 52)))
                 cards[j], cards[k] = cards[k], cards[j]
         cards.reverse()
         return cards

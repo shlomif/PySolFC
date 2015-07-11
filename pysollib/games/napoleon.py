@@ -37,7 +37,7 @@ from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 from pysollib.pysoltk import MfxCanvasText
 
-from braid import Braid_Foundation
+from .braid import Braid_Foundation
 
 
 # ************************************************************************

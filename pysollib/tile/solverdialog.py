@@ -30,8 +30,8 @@ __all__ = [
     ]
 
 # imports
-import Tkinter
-import ttk
+import tkinter
+from . import ttk
 
 # PySol imports
 from pysollib.mygettext import _, n_
@@ -39,9 +39,9 @@ from pysollib.settings import TITLE
 from pysollib.mfxutil import KwStruct
 
 # Toolkit imports
-from tkconst import EVENT_HANDLED
-from tkwidget import MfxDialog
-from tkwidget import PysolCombo
+from .tkconst import EVENT_HANDLED
+from .tkwidget import MfxDialog
+from .tkwidget import PysolCombo
 
 
 # ************************************************************************
@@ -104,27 +104,27 @@ class SolverDialog(MfxDialog):
 
         #
         row += 1
-        self.max_iters_var = Tkinter.IntVar()
+        self.max_iters_var = tkinter.IntVar()
         self.max_iters_var.set(10e4)
         ttk.Label(frame, text=_('Max iterations:'), anchor='w'
                   ).grid(row=row, column=0, sticky='ew', padx=2, pady=2)
-        spin = Tkinter.Spinbox(frame, bg='white', from_=1000, to=10e6,
+        spin = tkinter.Spinbox(frame, bg='white', from_=1000, to=10e6,
                                increment=1000, textvariable=self.max_iters_var)
         spin.grid(row=row, column=1, sticky='w', padx=2, pady=2)
 
         #
         row += 1
-        self.max_depth_var = Tkinter.IntVar()
+        self.max_depth_var = tkinter.IntVar()
         self.max_depth_var.set(1000)
         ttk.Label(frame, text=_('Max depth:'), anchor='w'
                   ).grid(row=row, column=0, sticky='ew', padx=2, pady=2)
-        spin = Tkinter.Spinbox(frame, bg='white', from_=100, to=10000,
+        spin = tkinter.Spinbox(frame, bg='white', from_=100, to=10000,
                                increment=100, textvariable=self.max_depth_var)
         spin.grid(row=row, column=1, sticky='w', padx=2, pady=2)
 
         #
         row += 1
-        self.progress_var = Tkinter.BooleanVar()
+        self.progress_var = tkinter.BooleanVar()
         self.progress_var.set(True)
         w = ttk.Checkbutton(frame, variable=self.progress_var,
                             text=_('Show progress'))

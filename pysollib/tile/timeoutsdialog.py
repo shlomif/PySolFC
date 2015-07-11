@@ -24,15 +24,15 @@
 __all__ = ['TimeoutsDialog']
 
 # imports
-import Tkinter
-import ttk
+import tkinter
+from . import ttk
 
 # PySol imports
 from pysollib.mygettext import _, n_
 from pysollib.mfxutil import KwStruct
 
 # Toolkit imports
-from tkwidget import MfxDialog, PysolScale
+from .tkwidget import MfxDialog, PysolScale
 
 
 # ************************************************************************
@@ -50,17 +50,17 @@ class TimeoutsDialog(MfxDialog):
         frame.pack(expand=True, fill='both', padx=5, pady=10)
         frame.columnconfigure(0, weight=1)
 
-        self.demo_sleep_var = Tkinter.DoubleVar()
+        self.demo_sleep_var = tkinter.DoubleVar()
         self.demo_sleep_var.set(app.opt.timeouts['demo'])
-        self.hint_sleep_var = Tkinter.DoubleVar()
+        self.hint_sleep_var = tkinter.DoubleVar()
         self.hint_sleep_var.set(app.opt.timeouts['hint'])
-        self.raise_card_sleep_var = Tkinter.DoubleVar()
+        self.raise_card_sleep_var = tkinter.DoubleVar()
         self.raise_card_sleep_var.set(app.opt.timeouts['raise_card'])
-        self.highlight_piles_sleep_var = Tkinter.DoubleVar()
+        self.highlight_piles_sleep_var = tkinter.DoubleVar()
         self.highlight_piles_sleep_var.set(app.opt.timeouts['highlight_piles'])
-        self.highlight_cards_sleep_var = Tkinter.DoubleVar()
+        self.highlight_cards_sleep_var = tkinter.DoubleVar()
         self.highlight_cards_sleep_var.set(app.opt.timeouts['highlight_cards'])
-        self.highlight_samerank_sleep_var = Tkinter.DoubleVar()
+        self.highlight_samerank_sleep_var = tkinter.DoubleVar()
         self.highlight_samerank_sleep_var.set(app.opt.timeouts['highlight_samerank'])
         #
         lframe = ttk.LabelFrame(frame, text=_('Set delays in seconds'),

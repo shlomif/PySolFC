@@ -30,7 +30,7 @@ import gobject, gtk
 from pysollib.mygettext import _, n_
 
 # Toolkit imports
-from tkwidget import MfxDialog
+from .tkwidget import MfxDialog
 from pysollib.mfxutil import kwdefault
 
 

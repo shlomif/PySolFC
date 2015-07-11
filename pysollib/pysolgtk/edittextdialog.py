@@ -29,7 +29,7 @@ __all__ = ['EditTextDialog']
 # PySol imports
 
 # Toolkit imports
-from tkwidget import MfxDialog
+from .tkwidget import MfxDialog
 
 # ************************************************************************
 # *

@@ -35,7 +35,7 @@ from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 from pysollib.pysoltk import MfxCanvasText
 
-from numerica import Numerica_Hint
+from .numerica import Numerica_Hint
 
 
 # ************************************************************************

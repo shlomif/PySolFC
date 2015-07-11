@@ -24,11 +24,11 @@
 __all__ = ['PysolProgressBar']
 
 # imports
-import Tkinter
+import tkinter
 
 # Toolkit imports
-from tkconst import EVENT_HANDLED
-from tkutil import makeToplevel, setTransient
+from .tkconst import EVENT_HANDLED
+from .tkutil import makeToplevel, setTransient
 
 
 # ************************************************************************
@@ -44,23 +44,23 @@ class PysolProgressBar:
         self.top.wm_protocol("WM_DELETE_WINDOW", self.wmDeleteWindow)
         self.top.wm_group(parent)
         self.top.wm_resizable(False, False)
-        self.frame = Tkinter.Frame(self.top, relief='flat', bd=0,
+        self.frame = tkinter.Frame(self.top, relief='flat', bd=0,
                                    takefocus=0)
-        self.cframe = Tkinter.Frame(self.frame, relief='sunken', bd=1,
+        self.cframe = tkinter.Frame(self.frame, relief='sunken', bd=1,
                                    takefocus=0)
-        self.canvas = Tkinter.Canvas(self.cframe, width=width, height=height,
+        self.canvas = tkinter.Canvas(self.cframe, width=width, height=height,
                                      takefocus=0, bd=0, highlightthickness=0)
         self.scale = self.canvas.create_rectangle(-10, -10, 0, height,
                                                   outline=color, fill=color)
         self.text = -1
         if show_text:
-            self.text = self.canvas.create_text(0, 0, anchor=Tkinter.CENTER)
+            self.text = self.canvas.create_text(0, 0, anchor=tkinter.CENTER)
         self.cframe.grid_configure(column=0, row=0, sticky="ew")
         if images:
-            self.f1 = Tkinter.Label(self.frame, image=images[0])
+            self.f1 = tkinter.Label(self.frame, image=images[0])
             self.f1.grid_configure(column=0, row=0, sticky="ew", ipadx=8, ipady=4)
             self.cframe.grid_configure(column=1, row=0, sticky="ew", padx=8)
-            self.f2 = Tkinter.Label(self.frame, image=images[1])
+            self.f2 = tkinter.Label(self.frame, image=images[1])
             self.f2.grid_configure(column=2, row=0, sticky="ew", ipadx=8, ipady=4)
         self.top.config(cursor="watch")
         self.pack()
@@ -83,7 +83,7 @@ class PysolProgressBar:
         self.top = None
 
     def pack(self, **kw):
-        self.canvas.pack(fill=Tkinter.X, expand=False)
+        self.canvas.pack(fill=tkinter.X, expand=False)
         self.frame.pack(**kw)
 
     def reset(self, percent=0):
@@ -132,8 +132,8 @@ class TestProgressBar:
         self.progress.frame.after(30, self.update)
 
 def progressbar_main(args):
-    from tkutil import wm_withdraw
-    tk = Tkinter.Tk()
+    from .tkutil import wm_withdraw
+    tk = tkinter.Tk()
     wm_withdraw(tk)
     pb = TestProgressBar(tk)
     tk.mainloop()

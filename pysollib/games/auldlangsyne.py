@@ -34,7 +34,7 @@ from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 
-from numerica import Numerica_Hint
+from .numerica import Numerica_Hint
 
 
 # ************************************************************************

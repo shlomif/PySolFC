@@ -116,7 +116,7 @@ class PysolMenubar(PysolMenubarTk):
 
     def _clearMenuState(self):
         ms = self.menustate
-        for k, v in ms.__dict__.items():
+        for k, v in list(ms.__dict__.items()):
             if isinstance(v, list):
                 ms.__dict__[k] = [0] * len(v)
             else:
@@ -263,7 +263,7 @@ class PysolMenubar(PysolMenubarTk):
             id = self.game.id
             if not self.app.getGameInfo(id):
                 raise ValueError
-        except (ValueError, TypeError), ex:
+        except (ValueError, TypeError) as ex:
             d = MfxMessageDialog(self.top, title=_("Invalid game number"),
                                  text=_("Invalid game number\n") + str(seed),
                                  bitmap="error")
@@ -497,7 +497,7 @@ class PysolMenubar(PysolMenubarTk):
                 try:
                     fd = open(fn, 'a')
                     fd.write(text.encode(enc, 'replace'))
-                except Exception, err:
+                except Exception as err:
                     d = MfxExceptionDialog(self.top, err,
                                            text=_("Error while writing to file"))
                 else:
@@ -524,7 +524,7 @@ class PysolMenubar(PysolMenubarTk):
             file = open(filename, "a")
             a = FileStatsFormatter(self.app, file)
             write_method(a, player)
-        except EnvironmentError, ex:
+        except EnvironmentError as ex:
             if file: file.close()
             d = MfxExceptionDialog(self.top, ex,
                                    text=_("Error while writing to file"))
@@ -779,7 +779,7 @@ class PysolMenubar(PysolMenubarTk):
                 index = self.app.audio.getMusicInfo()
                 music = self.app.music_manager.get(index)
                 if music:
-                    print "playing music:", music.filename
+                    print("playing music:", music.filename)
 
     def mIconify(self, *args):
         if self._cancelDrag(break_pause=False): return

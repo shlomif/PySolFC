@@ -1024,7 +1024,7 @@ class NapoleonLeavesMoscow(NapoleonTakesMoscow):
 # * Flake (2 decks)
 # ************************************************************************
 
-from pileon import FourByFour_Hint
+from .pileon import FourByFour_Hint
 
 class Flake(Game):
     Hint_Class = FourByFour_Hint #CautiousDefaultHint

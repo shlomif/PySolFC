@@ -20,11 +20,11 @@
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
 ##---------------------------------------------------------------------------##
-import dashavatara
-import hanafuda
-import hanafuda1
-import hexadeck
-import larasgame
-import matrix
-import mughal
-import tarock
+from . import dashavatara
+from . import hanafuda
+from . import hanafuda1
+from . import hexadeck
+from . import larasgame
+from . import matrix
+from . import mughal
+from . import tarock

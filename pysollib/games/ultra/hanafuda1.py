@@ -37,7 +37,7 @@ from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 from pysollib.pysoltk import MfxCanvasText
 
-from hanafuda_common import *
+from .hanafuda_common import *
 
 # ************************************************************************
 # * Paulownia
@@ -590,7 +590,7 @@ class FlowerArrangement_TableauStack(Flower_OpenStack):
         if not self.basicAcceptsCards(from_stack, cards):
             return 0
         # check that the base card is correct
-        suits = range(self.cap.mod, (self.cap.mod + 4))
+        suits = list(range(self.cap.mod, (self.cap.mod + 4)))
         if self.cards and (self.cards[0].rank == 3
                 and self.cards[-1].suit in suits):
             return self.isHanafudaSequence([self.cards[-1], cards[0]])
@@ -693,7 +693,7 @@ class FlowerArrangement(Game):
 def r(id, gameclass, name, game_type, decks, redeals, skill_level):
     game_type = game_type | GI.GT_HANAFUDA
     gi = GameInfo(id, gameclass, name, game_type, decks, redeals, skill_level,
-                  suits=range(12), ranks=range(4))
+                  suits=list(range(12)), ranks=list(range(4)))
     registerGame(gi)
     return gi
 

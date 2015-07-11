@@ -23,11 +23,11 @@
 
 # imports
 import os
-import Tkinter
+import tkinter
 
 # Toolkit imports
-from tkutil import bind
-from tkwidget import MfxScrolledCanvas
+from .tkutil import bind
+from .tkwidget import MfxScrolledCanvas
 
 
 # ************************************************************************
@@ -104,7 +104,7 @@ class MfxTreeBaseNode:
             try:
                 # _tkinter.TclError: unknown option "-fill" ???
                 canvas.itemconfig(self.textrect_id, fill=bg)
-            except Tkinter.TclError:
+            except tkinter.TclError:
                 pass
         elif self.selected:
             b = canvas.bbox(self.text_id)
@@ -276,7 +276,7 @@ class MfxTreeInCanvas(MfxScrolledCanvas):
             # draw
             try:
                 lx, ly, nx, ny = node.draw(nx, ny, None, None)
-            except Tkinter.TclError:
+            except tkinter.TclError:
                 # FIXME: Tk bug ???
                 raise
         # set scroll region
@@ -372,7 +372,7 @@ class DirectoryBrowser(MfxTreeInCanvas):
             return node.subnodes
         #
         dir = node.key
-        print "Getting %s" % dir
+        print("Getting %s" % dir)
         try:
             filenames = os.listdir(dir)
             filenames.sort()
@@ -388,7 +388,7 @@ class DirectoryBrowser(MfxTreeInCanvas):
         node = self.findNode(event)
         if not node:
             return
-        print "Clicked node %s %s" % (node.text, node.key)
+        print("Clicked node %s %s" % (node.text, node.key))
         if isinstance(node, MfxTreeLeaf):
             self.updateSelection(key=node.key)
         elif isinstance(node, MfxTreeNode):
@@ -398,7 +398,7 @@ class DirectoryBrowser(MfxTreeInCanvas):
 
 
 if __name__ == "__main__":
-    tk = Tkinter.Tk()
+    tk = tkinter.Tk()
     if os.name == "nt":
         app = DirectoryBrowser(tk, ("c:\\", "c:\\windows"))
     else:

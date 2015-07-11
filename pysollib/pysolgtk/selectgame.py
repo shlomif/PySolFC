@@ -38,10 +38,10 @@ from pysollib.help import help_html
 from pysollib.resource import CSI
 
 # Toolkit imports
-from tkutil import unbind_destroy
-from tkwidget import MfxDialog
-from tkcanvas  import MfxCanvas, MfxCanvasText
-from pysoltree import PysolTreeView
+from .tkutil import unbind_destroy
+from .tkwidget import MfxDialog
+from .tkcanvas  import MfxCanvas, MfxCanvasText
+from .pysoltree import PysolTreeView
 
 
 # ************************************************************************
@@ -211,7 +211,7 @@ class SelectGameDialogWithPreview(MfxDialog):
         app = self.app
         gdb = app.gdb
 
-        all_games = map(gdb.get, gdb.getGamesIdSortedByName())
+        all_games = list(map(gdb.get, gdb.getGamesIdSortedByName()))
         #
         alter_games = gdb.getGamesTuplesSortedByAlternateName()
         for label, games, selecter in (
@@ -507,7 +507,7 @@ class SelectGameDialogWithPreview(MfxDialog):
 
     def done(self, button):
         button = button.get_data("user_data")
-        print 'done', button
+        print('done', button)
         if button == 0:                    # Ok or double click
             id = self.getSelected()
             if id:

@@ -909,7 +909,7 @@ class Nasty(Wicked):
 def r(id, gameclass, name, game_type, decks, redeals, skill_level):
     game_type = game_type | GI.GT_TAROCK | GI.GT_CONTRIB | GI.GT_ORIGINAL
     gi = GameInfo(id, gameclass, name, game_type, decks, redeals, skill_level,
-                  ranks=range(14), trumps=range(22))
+                  ranks=list(range(14)), trumps=list(range(22)))
     registerGame(gi)
     return gi
 

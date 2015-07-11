@@ -23,18 +23,18 @@
 
 
 # imports
-import Tkinter
-import ttk
-import tkColorChooser
+import tkinter
+from . import ttk
+import tkinter.colorchooser
 
 # PySol imports
 from pysollib.mygettext import _, n_
 from pysollib.mfxutil import KwStruct
 
 # Toolkit imports
-from tkwidget import MfxDialog, MfxScrolledCanvas
-from selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
-from selecttree import SelectDialogTreeData, SelectDialogTreeCanvas
+from .tkwidget import MfxDialog, MfxScrolledCanvas
+from .selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
+from .selecttree import SelectDialogTreeData, SelectDialogTreeCanvas
 
 
 # ************************************************************************
@@ -158,17 +158,17 @@ class SelectTileDialogWithPreview(MfxDialog):
 
     def mDone(self, button):
         if button == 0:        # "OK" or double click
-            if isinstance(self.tree.selection_key, basestring):
+            if isinstance(self.tree.selection_key, str):
                 self.key = str(self.tree.selection_key)
             else:
                 self.key = self.tree.selection_key
             self.tree.n_expansions = 1  # save xyview in any case
         if button == 10:        # "Solid color..."
             try:
-                c = tkColorChooser.askcolor(master=self.top,
+                c = tkinter.colorchooser.askcolor(master=self.top,
                                             initialcolor=self.table_color,
                                             title=_("Select table color"))
-            except Tkinter.TclError:
+            except tkinter.TclError:
                 pass
             else:
                 if c and c[1]:
@@ -185,7 +185,7 @@ class SelectTileDialogWithPreview(MfxDialog):
             return
         canvas = self.preview.canvas
         canvas.deleteAllItems()
-        if isinstance(key, basestring):
+        if isinstance(key, str):
             # solid color
             canvas.config(bg=key)
             canvas.setTile(None)

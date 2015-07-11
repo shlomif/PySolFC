@@ -25,7 +25,7 @@ A number of function that enhance PySol on MacOSX when it used as a normal
 GUI application (as opposed to an X11 application).
 """
 import sys
-from Tkinter import Menu, Text, TclError
+from tkinter import Menu, Text, TclError
 
 def runningAsOSXApp():
     """ Returns True iff running from the PySol.app bundle on OSX """

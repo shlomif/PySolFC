@@ -77,7 +77,7 @@ def parse_option(argv):
                                        "nosound",
                                        "sound-mod=",
                                        "help"])
-    except getopt.GetoptError, err:
+    except getopt.GetoptError as err:
         print_err(_("%s\ntry %s --help for more information") %
                   (err, prog_name), 0)
         return None
@@ -107,7 +107,7 @@ def parse_option(argv):
             opts["sound-mod"] = i[1]
 
     if opts["help"]:
-        print _("""Usage: %s [OPTIONS] [FILE]
+        print(_("""Usage: %s [OPTIONS] [FILE]
   -g    --game=GAMENAME        start game GAMENAME
   -i    --gameid=GAMEID
         --french-only
@@ -118,7 +118,7 @@ def parse_option(argv):
 
   FILE - file name of a saved game
   MOD - one of following: pss(default), pygame, oss, win
-""") % prog_name
+""") % prog_name)
         return None
 
     if len(args) > 1:

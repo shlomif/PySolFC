@@ -33,9 +33,9 @@ __all__ = ['SingleGame_StatsDialog',
 # imports
 import os
 import time
-import Tkinter
-import ttk
-import tkFont
+import tkinter
+from . import ttk
+import tkinter.font
 
 # PySol imports
 from pysollib.mygettext import _, n_
@@ -46,8 +46,8 @@ from pysollib.stats import PysolStatsFormatter, ProgressionFormatter
 from pysollib.settings import TOP_TITLE
 
 # Toolkit imports
-from tkutil import bind, unbind_destroy, loadImage
-from tkwidget import MfxDialog, MfxMessageDialog
+from .tkutil import bind, unbind_destroy, loadImage
+from .tkwidget import MfxDialog, MfxMessageDialog
 
 
 # ************************************************************************
@@ -64,11 +64,11 @@ class StatsDialog(MfxDialog):
         MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
 
         self.font = app.getFont('default')
-        self.tkfont = tkFont.Font(parent, self.font)
+        self.tkfont = tkinter.font.Font(parent, self.font)
         self.font_metrics = self.tkfont.metrics()
         style = ttk.Style(parent)
         heading_font = style.lookup('Heading', 'font') # treeview heading
-        self.heading_tkfont = tkFont.Font(parent, heading_font)
+        self.heading_tkfont = tkinter.font.Font(parent, heading_font)
 
         self.selected_game = None
 
@@ -230,7 +230,7 @@ class SingleGameFrame(ttk.Frame):
         self.fg = fg
         #
         w, h = self.tab_x[-1], max(self.tab_y[-1], self.oval_height+40)
-        c = Tkinter.Canvas(frame, width=w, height=h,
+        c = tkinter.Canvas(frame, width=w, height=h,
                            bg=bg, highlightthickness=0)
         c.pack(fill='both', expand=True)
         self.canvas = c
@@ -507,10 +507,10 @@ class LogDialog(MfxDialog):
     def __init__(self, parent, title, app, player, **kw):
 
         self.font = app.getFont('default')
-        self.tkfont = tkFont.Font(parent, self.font)
+        self.tkfont = tkinter.font.Font(parent, self.font)
         style = ttk.Style(parent)
         heading_font = style.lookup('Heading', 'font') # treeview heading
-        self.heading_tkfont = tkFont.Font(parent, heading_font)
+        self.heading_tkfont = tkinter.font.Font(parent, heading_font)
         self.font_metrics = self.tkfont.metrics()
 
         self.CHAR_H = self.font_metrics['linespace']
@@ -871,7 +871,7 @@ class ProgressionFrame(ttk.Frame):
         self.won_color = '#00dc28'
         self.percent_color = 'blue'
         # create canvas
-        self.canvas = canvas = Tkinter.Canvas(frame, bg='#dfe8ff', bd=0,
+        self.canvas = canvas = tkinter.Canvas(frame, bg='#dfe8ff', bd=0,
                                               highlightthickness=1,
                                               highlightbackground='black',
                                               width=self.canvas_width,
@@ -881,7 +881,7 @@ class ProgressionFrame(ttk.Frame):
         # right frame
         right_frame = ttk.Frame(frame)
         right_frame.pack(side='left', fill='x', padx=5)
-        self.all_games_variable = var = Tkinter.StringVar()
+        self.all_games_variable = var = tkinter.StringVar()
         var.set('all')
         b = ttk.Radiobutton(right_frame, text=_('All games'),
                             variable=var, value='all',
@@ -893,7 +893,7 @@ class ProgressionFrame(ttk.Frame):
         b.pack(fill='x', expand=True, padx=3, pady=1)
         label_frame = ttk.LabelFrame(right_frame, text=_('Statistics for'))
         label_frame.pack(side='top', fill='x', pady=10)
-        self.variable = var = Tkinter.StringVar()
+        self.variable = var = tkinter.StringVar()
         var.set('week')
         for v, t in (
             ('week',  _('Last 7 days')),
@@ -906,19 +906,19 @@ class ProgressionFrame(ttk.Frame):
             b.pack(fill='x', expand=True, padx=3, pady=1)
         label_frame = ttk.LabelFrame(right_frame, text=_('Show graphs'))
         label_frame.pack(side='top', fill='x')
-        self.played_graph_var = Tkinter.BooleanVar()
+        self.played_graph_var = tkinter.BooleanVar()
         self.played_graph_var.set(True)
         b = ttk.Checkbutton(label_frame, text=_('Played'),
                             command=self.updateGraph,
                             variable=self.played_graph_var)
         b.pack(fill='x', expand=True, padx=3, pady=1)
-        self.won_graph_var = Tkinter.BooleanVar()
+        self.won_graph_var = tkinter.BooleanVar()
         self.won_graph_var.set(True)
         b = ttk.Checkbutton(label_frame, text=_('Won'),
                             command=self.updateGraph,
                             variable=self.won_graph_var)
         b.pack(fill='x', expand=True, padx=3, pady=1)
-        self.percent_graph_var = Tkinter.BooleanVar()
+        self.percent_graph_var = tkinter.BooleanVar()
         self.percent_graph_var.set(True)
         b = ttk.Checkbutton(label_frame, text=_('% won'),
                             command=self.updateGraph,

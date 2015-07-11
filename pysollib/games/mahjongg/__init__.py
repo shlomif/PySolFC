@@ -20,7 +20,7 @@
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
 ##---------------------------------------------------------------------------##
-import mahjongg1
-import mahjongg2
-import mahjongg3
-import shisensho
+from . import mahjongg1
+from . import mahjongg2
+from . import mahjongg3
+from . import shisensho

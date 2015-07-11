@@ -33,7 +33,7 @@ __all__ = ['GameInfoDialog']
 ## from pysollib.gamedb import GI
 
 # Toolkit imports
-from tkwidget import MfxDialog
+from .tkwidget import MfxDialog
 
 # ************************************************************************
 # *

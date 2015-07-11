@@ -33,7 +33,7 @@ from gtk import gdk
 from pysollib.settings import TITLE, VERSION
 
 # Toolkit imports
-from tkutil import makeToplevel, loadImage
+from .tkutil import makeToplevel, loadImage
 
 
 # ************************************************************************
@@ -72,13 +72,13 @@ class _MfxToplevel(gtk.Window):
             c = self.style.bg[gtk.STATE_NORMAL]
             c = '#%02x%02x%02x' % (c.red/256, c.green/256, c.blue/256)
             return c
-        print "Toplevel cget:", attr
+        print("Toplevel cget:", attr)
         ##~ raise AttributeError, attr
         return None
 
     def configure(self, **kw):
         height, width = -1, -1
-        for k, v in kw.items():
+        for k, v in list(kw.items()):
             if k in ("background", "bg"):
                 ##print "Toplevel configure: bg"
                 pass
@@ -89,8 +89,8 @@ class _MfxToplevel(gtk.Window):
             elif k == "width":
                 width = v
             else:
-                print "Toplevel configure:", k, v
-                raise AttributeError, k
+                print("Toplevel configure:", k, v)
+                raise AttributeError(k)
         if height > 0 and width > 0:
             ##print 'configure: size:', width, height
             ## FIXME
@@ -163,7 +163,7 @@ class _MfxToplevel(gtk.Window):
         pass
 
     def wm_iconbitmap(self, name):
-        print 'wm_iconbitmap:', name
+        print('wm_iconbitmap:', name)
         if name and name[0] == '@' and name[-4:] == '.xbm':
             name = name[1:-4] + '.xpm'
             bg = self.get_style().bg[gtk.STATE_NORMAL]
@@ -191,7 +191,7 @@ class _MfxToplevel(gtk.Window):
     def option_get(self, *args):
         if args and args[0] == 'font':
             return self.get_style().font_desc.to_string()
-        print '_MfxToplevel: option_get', args
+        print('_MfxToplevel: option_get', args)
         return None
 
     def grid_columnconfigure(self, *args, **kw):

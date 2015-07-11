@@ -20,8 +20,8 @@
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
 ##---------------------------------------------------------------------------##
-import hanoi
-import memory
-import pegged
-import poker
-import tarock
+from . import hanoi
+from . import memory
+from . import pegged
+from . import poker
+from . import tarock

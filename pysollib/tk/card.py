@@ -29,7 +29,7 @@ __all__ = ['Card']
 from pysollib.acard import AbstractCard
 
 # Toolkit imports
-from tkcanvas import MfxCanvasGroup, MfxCanvasImage
+from .tkcanvas import MfxCanvasGroup, MfxCanvasImage
 
 
 # ************************************************************************

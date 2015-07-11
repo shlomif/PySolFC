@@ -30,7 +30,7 @@ __all__ = [
     ]
 
 # imports
-import Tkinter
+import tkinter
 ##import traceback
 
 # PySol imports
@@ -39,8 +39,8 @@ from pysollib.mfxutil import KwStruct
 from pysollib.settings import TITLE
 
 # Toolkit imports
-from tkconst import EVENT_HANDLED
-from tkwidget import MfxDialog
+from .tkconst import EVENT_HANDLED
+from .tkwidget import MfxDialog
 
 
 # ************************************************************************
@@ -68,13 +68,13 @@ class SolverDialog(MfxDialog):
         self.games = {}                 # key: gamename; value: gameid
 
         #
-        frame = Tkinter.Frame(top_frame)
+        frame = tkinter.Frame(top_frame)
         frame.pack(expand=True, fill='both', padx=4, pady=4)
         frame.columnconfigure(1, weight=1)
 
         #
         row = 0
-        Tkinter.Label(frame, text=_('Game:'), anchor='w'
+        tkinter.Label(frame, text=_('Game:'), anchor='w'
                       ).grid(row=row, column=0, sticky='ew', padx=2, pady=2)
         games = app.getGamesForSolver()
         gamenames = ['']
@@ -84,83 +84,83 @@ class SolverDialog(MfxDialog):
             self.games[name] = id
         gamenames.sort()
         self.gamenames = gamenames
-        self.games_var = var = Tkinter.StringVar()
-        om = Tkinter.OptionMenu(frame, var, command=self.gameSelected,
+        self.games_var = var = tkinter.StringVar()
+        om = tkinter.OptionMenu(frame, var, command=self.gameSelected,
                                 *gamenames)
         om.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
         n = len(gamenames)
         cb_max = int(self.top.winfo_screenheight()/23)
         cb_max = n / (n/cb_max+1)
-        for i in xrange(cb_max, n, cb_max):
+        for i in range(cb_max, n, cb_max):
             om['menu'].entryconfig(i, columnbreak=True)
 
         #
         row += 1
-        Tkinter.Label(frame, text=_('Preset:'), anchor='w'
+        tkinter.Label(frame, text=_('Preset:'), anchor='w'
                       ).grid(row=row, column=0, sticky='ew', padx=2, pady=2)
         presets = app.opt.solver_presets
         self.presets = presets
-        self.preset_var = var = Tkinter.StringVar()
+        self.preset_var = var = tkinter.StringVar()
         var.set('none')
-        om = Tkinter.OptionMenu(frame, var, *presets)
+        om = tkinter.OptionMenu(frame, var, *presets)
         om.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
 
         #
         row += 1
-        self.max_iters_var = Tkinter.IntVar()
+        self.max_iters_var = tkinter.IntVar()
         self.max_iters_var.set(10e4)
-        Tkinter.Label(frame, text=_('Max iterations:'), anchor='w'
+        tkinter.Label(frame, text=_('Max iterations:'), anchor='w'
                       ).grid(row=row, column=0, sticky='ew', padx=2, pady=2)
-        spin = Tkinter.Spinbox(frame, bg='white', from_=1000, to=10e6,
+        spin = tkinter.Spinbox(frame, bg='white', from_=1000, to=10e6,
                                increment=1000, textvariable=self.max_iters_var)
         spin.grid(row=row, column=1, sticky='w', padx=2, pady=2)
 
         #
         row += 1
-        self.max_depth_var = Tkinter.IntVar()
+        self.max_depth_var = tkinter.IntVar()
         self.max_depth_var.set(1000)
-        Tkinter.Label(frame, text=_('Max depth:'), anchor='w'
+        tkinter.Label(frame, text=_('Max depth:'), anchor='w'
                       ).grid(row=row, column=0, sticky='ew', padx=2, pady=2)
-        spin = Tkinter.Spinbox(frame, bg='white', from_=100, to=10000,
+        spin = tkinter.Spinbox(frame, bg='white', from_=100, to=10000,
                                increment=100, textvariable=self.max_depth_var)
         spin.grid(row=row, column=1, sticky='w', padx=2, pady=2)
 
         #
         row += 1
-        self.progress_var = Tkinter.BooleanVar()
+        self.progress_var = tkinter.BooleanVar()
         self.progress_var.set(True)
-        w = Tkinter.Checkbutton(frame, variable=self.progress_var,
+        w = tkinter.Checkbutton(frame, variable=self.progress_var,
                                 text=_('Show progress'), anchor='w')
         w.grid(row=row, column=0, columnspan=2, sticky='ew', padx=2, pady=2)
 
         #
-        label_frame = Tkinter.LabelFrame(top_frame, text=_('Progress'))
+        label_frame = tkinter.LabelFrame(top_frame, text=_('Progress'))
         label_frame.pack(expand=True, fill='both', padx=6, pady=2)
         #label_frame.columnconfigure(0, weight=1)
         label_frame.columnconfigure(1, weight=1)
 
         #
         frow = 0
-        Tkinter.Label(label_frame, text=_('Iteration:'), anchor='w'
+        tkinter.Label(label_frame, text=_('Iteration:'), anchor='w'
                       ).grid(row=frow, column=0, sticky='ew', padx=4, pady=2)
-        lb = Tkinter.Label(label_frame, anchor='w')
+        lb = tkinter.Label(label_frame, anchor='w')
         lb.grid(row=frow, column=1, sticky='ew', padx=4, pady=2)
         self.iter_label = lb
         frow += 1
-        Tkinter.Label(label_frame, text=_('Depth:'), anchor='w'
+        tkinter.Label(label_frame, text=_('Depth:'), anchor='w'
                       ).grid(row=frow, column=0, sticky='ew', padx=4, pady=2)
-        lb = Tkinter.Label(label_frame, anchor='w')
+        lb = tkinter.Label(label_frame, anchor='w')
         lb.grid(row=frow, column=1, sticky='ew', padx=4, pady=2)
         self.depth_label = lb
         frow += 1
-        Tkinter.Label(label_frame, text=_('Stored-States:'), anchor='w'
+        tkinter.Label(label_frame, text=_('Stored-States:'), anchor='w'
                       ).grid(row=frow, column=0, sticky='ew', padx=4, pady=2)
-        lb = Tkinter.Label(label_frame, anchor='w')
+        lb = tkinter.Label(label_frame, anchor='w')
         lb.grid(row=frow, column=1, sticky='ew', padx=4, pady=2)
         self.states_label = lb
 
         #
-        lb = Tkinter.Label(top_frame, anchor='w')
+        lb = tkinter.Label(top_frame, anchor='w')
         lb.pack(expand=True, fill='x', padx=6, pady=4)
         self.result_label = lb
 

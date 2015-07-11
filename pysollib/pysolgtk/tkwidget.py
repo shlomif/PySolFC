@@ -32,7 +32,7 @@ gdk = gtk.gdk
 from pysollib.mygettext import _, n_
 
 # Toolkit imports
-from tkutil import makeToplevel, setTransient, wm_withdraw
+from .tkutil import makeToplevel, setTransient, wm_withdraw
 
 from pysollib.mfxutil import kwdefault, KwStruct, openURL
 

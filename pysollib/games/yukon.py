@@ -39,7 +39,7 @@ from pysollib.hint import YukonType_Hint
 from pysollib.hint import FreeCellSolverWrapper
 from pysollib.pysoltk import MfxCanvasText
 
-from spider import Spider_SS_Foundation
+from .spider import Spider_SS_Foundation
 
 
 # ************************************************************************

@@ -29,13 +29,15 @@ __all__ = ['MfxCanvasGroup',
            'MfxCanvas']
 
 # imports
-import Tkinter, Canvas
+import tkinter
+
+import pysollib.Py2Canvas as Canvas
 
 # PySol imports
 from pysollib.mfxutil import Image, ImageTk
 
 # Toolkit imports
-from tkutil import bind, unbind_destroy, loadImage
+from .tkutil import bind, unbind_destroy, loadImage
 
 
 # ************************************************************************
@@ -117,9 +119,9 @@ class MfxCanvasText(Canvas.CanvasText):
 # * canvas
 # ************************************************************************
 
-class MfxCanvas(Tkinter.Canvas):
+class MfxCanvas(tkinter.Canvas):
     def __init__(self, *args, **kw):
-        Tkinter.Canvas.__init__(self, *args, **kw)
+        tkinter.Canvas.__init__(self, *args, **kw)
         self.preview = 0
         self.busy = False
         # this is also used by lib-tk/Canvas.py
@@ -207,11 +209,11 @@ class MfxCanvas(Tkinter.Canvas):
     #
 
     def _x_create(self, itemType, *args, **kw):
-        return Tkinter.Canvas._create(self, itemType, args, kw)
+        return tkinter.Canvas._create(self, itemType, args, kw)
 
     def _create(self, itemType, args, kw):
         ##print "_create:", itemType, args, kw
-        id = Tkinter.Canvas._create(self, itemType, args, kw)
+        id = tkinter.Canvas._create(self, itemType, args, kw)
         if self.__tops:
             self.tk.call(self._w, "lower", id, self.__tops[0])
         return id
@@ -262,7 +264,7 @@ class MfxCanvas(Tkinter.Canvas):
     # delete all CanvasItems, but keep the background and top tiles
     def deleteAllItems(self):
         self._text_items = []
-        for id in self.items.keys():
+        for id in list(self.items.keys()):
             assert id not in self.__tiles   # because the tile is created by id
             unbind_destroy(self.items[id])
             self.items[id].delete()
@@ -337,7 +339,7 @@ class MfxCanvas(Tkinter.Canvas):
         try:
             if image and isinstance(image, str):
                 image = loadImage(file=image)
-        except Tkinter.TclError:
+        except tkinter.TclError:
             return 0
         if len(self.__tops) == 1 and image is self.__tops[0]:
             return 1
@@ -369,11 +371,11 @@ class MfxCanvas(Tkinter.Canvas):
     #
 
     def hideAllItems(self):
-        for item in self.items.values():
+        for item in list(self.items.values()):
             item.config(state='hidden')
 
     def showAllItems(self):
-        for item in self.items.values():
+        for item in list(self.items.values()):
             item.config(state='normal')
 
 
@@ -389,7 +391,7 @@ class MfxCanvas(Tkinter.Canvas):
         return funcid
 
     def _substitute(self, *args):
-        e = Tkinter.Event()
+        e = tkinter.Event()
         try:
             # Tk changed behavior in 8.4.2, returning "??" rather more often.
             e.x = int(args[0])

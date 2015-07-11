@@ -30,7 +30,7 @@ import traceback
 from pysollib.mygettext import _, n_
 
 from gettext import ungettext
-from cStringIO import StringIO
+from io import StringIO
 
 # PySol imports
 from pysollib.mfxutil import Pickler, Unpickler, UnpicklingError
@@ -765,7 +765,7 @@ class Game:
                 state = self.random.getstate()
                 self.app.gamerandom.setstate(state)
             # we want at least 17 digits
-            seed = self.app.gamerandom.randrange(10000000000000000L,
+            seed = self.app.gamerandom.randrange(10000000000000000,
                                                  PysolRandom.MAX_SEED)
             self.random = PysolRandom(seed)
             self.random.origin = self.random.ORIGIN_RANDOM
@@ -810,7 +810,7 @@ class Game:
             else:
                 # new group
                 sg[s] = [s.id]
-        sg = sg.values()
+        sg = list(sg.values())
         self.sn_groups = sg
         ##print sg
 
@@ -1017,13 +1017,13 @@ class Game:
         if self.preview:
             return
         tb, sb = self.app.toolbar, self.app.statusbar
-        for k, v in kw.items():
+        for k, v in list(kw.items()):
             if k == "gamenumber":
                 if v is None:
                     if sb: sb.updateText(gamenumber="")
                     #self.top.wm_title("%s - %s" % (TITLE, self.getTitleName()))
                     continue
-                if isinstance(v, basestring):
+                if isinstance(v, str):
                     if sb: sb.updateText(gamenumber=v)
                     #self.top.wm_title("%s - %s %s" % (TITLE,
                     #                                  self.getTitleName(), v))
@@ -1057,7 +1057,7 @@ class Game:
                 if v is None:
                     if tb: tb.updateText(player=_("Player\n"))
                     continue
-                if isinstance(v, basestring):
+                if isinstance(v, str):
                     if tb:
                         #if self.app.opt.toolbar_size:
                         if self.app.toolbar.getSize():
@@ -1076,7 +1076,7 @@ class Game:
             if k == "time":
                 if v is None:
                     if sb: sb.updateText(time='')
-                if isinstance(v, basestring):
+                if isinstance(v, str):
                     if sb: sb.updateText(time=v)
                 continue
             if k == 'stuck':
@@ -1508,7 +1508,7 @@ class Game:
         cards = self.cards[:]
         scards = []
         ncards = min(10, len(cards))
-        for i in xrange(ncards):
+        for i in range(ncards):
             c = self.app.miscrandom.choice(cards)
             scards.append(c)
             cards.remove(c)
@@ -2342,9 +2342,9 @@ Congratulations, you did it !
             if DEBUG:
                 if not to_stack.acceptsCards(
                     from_stack, from_stack.cards[-ncards:]):
-                    print '*fail accepts cards*', from_stack, to_stack, ncards
+                    print('*fail accepts cards*', from_stack, to_stack, ncards)
                 if not from_stack.canMoveCards(from_stack.cards[-ncards:]):
-                    print '*fail move cards*', from_stack, ncards
+                    print('*fail move cards*', from_stack, ncards)
             ##assert from_stack.canMoveCards(from_stack.cards[-ncards:]) # FIXME: Pyramid
             assert to_stack.acceptsCards(from_stack, from_stack.cards[-ncards:])
         if sleep <= 0.0:
@@ -3027,7 +3027,7 @@ Congratulations, you did it !
         try:
             game = self._loadGame(filename, self.app)
             game.gstats.holded = 0
-        except AssertionError, ex:
+        except AssertionError as ex:
             self.updateMenus()
             self.setCursor(cursor=self.app.top_cursor)
             d = MfxMessageDialog(self.top, title=_("Load game error"), bitmap="error",
@@ -3037,7 +3037,7 @@ Error while loading game.
 Probably the game file is damaged,
 but this could also be a bug you might want to report."""))
             traceback.print_exc()
-        except UnpicklingError, ex:
+        except UnpicklingError as ex:
             self.updateMenus()
             self.setCursor(cursor=self.app.top_cursor)
             d = MfxExceptionDialog(self.top, ex, title=_("Load game error"),
@@ -3073,7 +3073,7 @@ Please report this bug."""))
         self.setCursor(cursor=CURSOR_WATCH)
         try:
             self._saveGame(filename, protocol)
-        except Exception, ex:
+        except Exception as ex:
             self.setCursor(cursor=self.app.top_cursor)
             d = MfxExceptionDialog(self.top, ex, title=_("Save game error"),
                                    text=_("Error while saving game"))
@@ -3141,7 +3141,7 @@ in the current implementation.''') % version)
         game.version = version
         game.version_tuple = version_tuple
         #
-        initial_seed = pload(long)
+        initial_seed = pload(int)
         if initial_seed <= 32000:
             game.random = LCRandom31(initial_seed)
         else:

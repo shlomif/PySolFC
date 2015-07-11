@@ -152,20 +152,20 @@ class HanoiSequence(TowerOfHanoy):
 # register the game
 registerGame(GameInfo(124, TowerOfHanoy, "Tower of Hanoy",
                       GI.GT_PUZZLE_TYPE, 1, 0, GI.SL_SKILL,
-                      suits=(2,), ranks=range(9)))
+                      suits=(2,), ranks=list(range(9))))
 registerGame(GameInfo(207, HanoiPuzzle4, "Hanoi Puzzle 4",
                       GI.GT_PUZZLE_TYPE, 1, 0, GI.SL_SKILL,
-                      suits=(2,), ranks=range(4),
+                      suits=(2,), ranks=list(range(4)),
                       rules_filename="hanoipuzzle.html"))
 registerGame(GameInfo(208, HanoiPuzzle5, "Hanoi Puzzle 5",
                       GI.GT_PUZZLE_TYPE, 1, 0, GI.SL_SKILL,
-                      suits=(2,), ranks=range(5),
+                      suits=(2,), ranks=list(range(5)),
                       rules_filename="hanoipuzzle.html"))
 registerGame(GameInfo(209, HanoiPuzzle6, "Hanoi Puzzle 6",
                       GI.GT_PUZZLE_TYPE, 1, 0, GI.SL_SKILL,
-                      suits=(2,), ranks=range(6),
+                      suits=(2,), ranks=list(range(6)),
                       rules_filename="hanoipuzzle.html"))
 registerGame(GameInfo(769, HanoiSequence, "Hanoi Sequence",
                       GI.GT_PUZZLE_TYPE, 1, 0, GI.SL_SKILL,
-                      suits=(2,), ranks=range(9)))
+                      suits=(2,), ranks=list(range(9))))
 

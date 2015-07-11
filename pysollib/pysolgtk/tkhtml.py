@@ -36,15 +36,15 @@ if __name__ == '__main__':
     d = os.path.abspath(os.path.join(sys.path[0], '..', '..'))
     sys.path.append(d)
     import gettext
-    gettext.install('pysol', d, unicode=True)
+    gettext.install('pysol', d, str=True)
 
 # PySol imports
 from pysollib.mfxutil import Struct, openURL
 from pysollib.settings import TITLE
 
 # Toolkit imports
-from tkutil import bind, unbind_destroy, loadImage
-from tkwidget import MfxMessageDialog
+from .tkutil import bind, unbind_destroy, loadImage
+from .tkwidget import MfxMessageDialog
 
 
 REMOTE_PROTOCOLS = ('ftp:', 'gopher:', 'http:', 'mailto:', 'news:', 'telnet:')
@@ -70,7 +70,7 @@ class tkHTMLWriter(formatter.NullWriter):
 
 
     def write(self, data):
-        data = unicode(data)
+        data = str(data)
         self.text.insert(self.text.get_end_iter(), data, len(data))
 
     def anchor_bgn(self, href, name, type):
@@ -251,7 +251,7 @@ class HTMLViewer:
         vbox.pack_start(self.statusbar, fill=True, expand=False)
 
         # load images
-        for name, fn in self.symbols_fn.items():
+        for name, fn in list(self.symbols_fn.items()):
             self.symbols_img[name] = self.getImage(fn)
 
         # bindings
@@ -282,7 +282,7 @@ class HTMLViewer:
         x, y = widget.window_to_buffer_coords(gtk.TEXT_WINDOW_TEXT, x, y)
         tags = widget.get_iter_at_location(x, y).get_tags()
         is_over_anchor = False
-        for tag, href in self.anchor_tags.values():
+        for tag, href in list(self.anchor_tags.values()):
             if tag in tags:
                 is_over_anchor = True
                 break
@@ -346,7 +346,7 @@ class HTMLViewer:
             'bold'    : (default_font[0], size,           'bold'),
         }
 
-        for tag_name in self.fontmap.keys():
+        for tag_name in list(self.fontmap.keys()):
             font = self.fontmap[tag_name]
             font = font[0]+' '+str(font[1])
             tag = self.textbuffer.create_tag(tag_name, font=font)
@@ -385,8 +385,8 @@ class HTMLViewer:
         if baseurl is None:
             baseurl = self.url
         if 0:
-            import urllib
-            url = urllib.pathname2url(url)
+            import urllib.request, urllib.parse, urllib.error
+            url = urllib.request.pathname2url(url)
             if relpath and self.url:
                 url = urllib.basejoin(baseurl, url)
         else:
@@ -449,14 +449,14 @@ to open the following URL:
         try:
             file = None
             if 0:
-                import urllib
-                file = urllib.urlopen(url)
+                import urllib.request, urllib.parse, urllib.error
+                file = urllib.request.urlopen(url)
             else:
                 file, url = self.openfile(url)
             data = file.read()
             file.close()
             file = None
-        except Exception, ex:
+        except Exception as ex:
             if file: file.close()
             self.errorDialog(_('Unable to service request:\n') + url + '\n\n' + str(ex))
             return

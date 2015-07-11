@@ -25,7 +25,7 @@
 __all__ = ['GameInfoDialog']
 
 # imports
-import ttk
+from . import ttk
 
 # PySol imports
 from pysollib.mygettext import _, n_
@@ -33,7 +33,7 @@ from pysollib.mfxutil import KwStruct
 from pysollib.gamedb import GI
 
 # Toolkit imports
-from tkwidget import MfxDialog
+from .tkwidget import MfxDialog
 
 # ************************************************************************
 # *
@@ -146,7 +146,7 @@ class GameInfoDialog(MfxDialog):
                     fs[cn] += 1
                 else:
                     fs[cn] = 1
-            t = '\n'.join(['%s (%d)' % (i[0], i[1]) for i in fs.items()])
+            t = '\n'.join(['%s (%d)' % (i[0], i[1]) for i in list(fs.items())])
         else:
             t = stacks.__class__.__name__
         ttk.Label(frame, text=t, anchor='w', justify='left'

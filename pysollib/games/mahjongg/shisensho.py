@@ -39,7 +39,7 @@ from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 from pysollib.pysoltk import MfxCanvasText, MfxCanvasLine
 
-from mahjongg import Mahjongg_RowStack, AbstractMahjonggGame, comp_cardset
+from .mahjongg import Mahjongg_RowStack, AbstractMahjonggGame, comp_cardset
 
 
 # ************************************************************************
@@ -113,7 +113,7 @@ class Shisen_RowStack(Mahjongg_RowStack):
         dx, dy = x2 - x1, y2 - y1
 
         a = []
-        for i in xrange(cols+2):
+        for i in range(cols+2):
             a.append([5]*(rows+2))
 
         def can_move(x, y, nx, ny, direct, d, direct_chng_cnt):
@@ -344,12 +344,12 @@ class AbstractShisenGame(AbstractMahjonggGame):
         self.check_dist = l.CW*l.CW + l.CH*l.CH     # see _getClosestStack()
 
         #
-        self.cols = [[] for i in xrange(cols)]
-        cl = range(cols)
+        self.cols = [[] for i in range(cols)]
+        cl = list(range(cols))
         if dx > 0:
             cl.reverse()
         for col in cl:
-            for row in xrange(rows):
+            for row in range(rows):
                 x = l.XM + dxx + col * cardw
                 y = l.YM + dyy + row * cardh
                 stack = self.RowStack_Class(x, y, self)
@@ -500,7 +500,7 @@ def r(id, gameclass, name, rules_filename="shisensho.html"):
     gi = GameInfo(id, gameclass, name,
                   GI.GT_SHISEN_SHO, 4*decks, 0, GI.SL_MOSTLY_SKILL,
                   category=GI.GC_MAHJONGG, short_name=name,
-                  suits=range(3), ranks=range(ranks), trumps=range(trumps),
+                  suits=list(range(3)), ranks=list(range(ranks)), trumps=list(range(trumps)),
                   si={"decks": decks, "ncards": gameclass.NCARDS})
     gi.ncards = gameclass.NCARDS
     gi.rules_filename = rules_filename

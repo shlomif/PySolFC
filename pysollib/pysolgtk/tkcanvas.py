@@ -51,7 +51,7 @@ except ImportError:
     import gnome.canvas as gnomecanvas
 
 # toolkit imports
-from tkutil import anchor_tk2gtk, loadImage, bind, create_pango_font_desc
+from .tkutil import anchor_tk2gtk, loadImage, bind, create_pango_font_desc
 
 
 # ************************************************************************
@@ -78,7 +78,7 @@ class _CanvasItem:
         ##~ assert isinstance(group._item, CanvasGroup)
         self._item.reparent(group._item)
         if self._group == group:
-            print 'addtag: new_group == old_group'
+            print('addtag: new_group == old_group')
         self._group = group
 
     def dtag(self, group):
@@ -100,7 +100,7 @@ class _CanvasItem:
             self._item = None
 
     def lower(self, positions=None):
-        print 'lower', self, positions
+        print('lower', self, positions)
         return # don't need?
 ##         if positions is None:
 ##             pass
@@ -241,7 +241,7 @@ class MfxCanvasText(_CanvasItem):
                                x=x, y=y, anchor=anchor)
         if 'fill' not in kw:
             kw['fill'] = canvas._text_color
-        for k, v in kw.items():
+        for k, v in list(kw.items()):
             self[k] = v
         ##~ self.text_format = None
         canvas._text_items.append(self)
@@ -257,17 +257,17 @@ class MfxCanvasText(_CanvasItem):
         elif key == 'text':
             self._item.set(text=value)
         else:
-            raise AttributeError, key
+            raise AttributeError(key)
 
     def config(self, **kw):
-        for k, v in kw.items():
+        for k, v in list(kw.items()):
             self[k] = v
 
     def __getitem__(self, key):
         if key == 'text':
             return self._item.get_property('text')
         else:
-            raise AttributeError, key
+            raise AttributeError(key)
     cget = __getitem__
 
 
@@ -322,7 +322,7 @@ class MfxCanvas(gnomecanvas.Canvas):
     def bind(self, sequence=None, func=None, add=None):
         assert add is None
         # FIXME
-        print 'TkCanvas bind:', sequence
+        print('TkCanvas bind:', sequence)
         return
 
     def cget(self, attr):
@@ -334,8 +334,8 @@ class MfxCanvas(gnomecanvas.Canvas):
             return self.get_size()[0]
         elif attr == 'height':
             return self.get_size()[1]
-        print 'TkCanvas cget:', attr
-        raise AttributeError, attr
+        print('TkCanvas cget:', attr)
+        raise AttributeError(attr)
 
     def xview(self):
         w, h = self.get_size()
@@ -353,7 +353,7 @@ class MfxCanvas(gnomecanvas.Canvas):
 
     def configure(self, **kw):
         height, width = -1, -1
-        for k, v in kw.items():
+        for k, v in list(kw.items()):
             if k in ('background', 'bg'):
                 self.modify_bg(gtk.STATE_NORMAL, gdk.color_parse(v))
             elif k == 'cursor':
@@ -367,8 +367,8 @@ class MfxCanvas(gnomecanvas.Canvas):
             elif k == 'width':
                 width = v
             else:
-                print 'TkCanvas', k, v
-                raise AttributeError, k
+                print('TkCanvas', k, v)
+                raise AttributeError(k)
         if height > 0 and width > 0:
             self.set_size_request(width, height)
 
@@ -535,14 +535,14 @@ class MfxCanvas(gnomecanvas.Canvas):
         pass
 
     def updateAll(self):
-        print 'Canvas - updateAll',
+        print('Canvas - updateAll', end=' ')
         for i in self._all_items:
             i._item.hide()
         self.update_now()
         n = 0
         for i in self._all_items:
             i._item.show()
-            print n, i
+            print(n, i)
             n += 1
         self.update_now()
         #self.window.invalidate_rect((0, 0, 400, 400), True)

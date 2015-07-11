@@ -34,7 +34,7 @@ from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 
-from golf import BlackHole_Foundation
+from .golf import BlackHole_Foundation
 
 
 # ************************************************************************

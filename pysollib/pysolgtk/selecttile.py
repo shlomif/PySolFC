@@ -36,10 +36,10 @@ from pysollib.mfxutil import kwdefault
 
 # Toolkit imports
 ## from tkutil import loadImage
-from tkwidget import MfxDialog
-from tkcanvas import MfxCanvas
-from tkutil import setTransient
-from pysoltree import PysolTreeView
+from .tkwidget import MfxDialog
+from .tkcanvas import MfxCanvas
+from .tkutil import setTransient
+from .pysoltree import PysolTreeView
 
 
 class SelectTileDialogWithPreview(MfxDialog):
@@ -85,7 +85,7 @@ class SelectTileDialogWithPreview(MfxDialog):
 
     def rowActivated(self, w, row, col):
         # FIXME
-        print 'row-activated-event', row, col
+        print('row-activated-event', row, col)
 
 
     def getSelected(self):

@@ -1146,7 +1146,7 @@ class AshtaDikapala(Game):
 def r(id, gameclass, name, game_type, decks, redeals, skill_level):
     game_type = game_type | GI.GT_MUGHAL_GANJIFA
     gi = GameInfo(id, gameclass, name, game_type, decks, redeals, skill_level,
-                    suits=range(8), ranks=range(12))
+                    suits=list(range(8)), ranks=list(range(12)))
     registerGame(gi)
     return gi
 

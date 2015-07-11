@@ -27,7 +27,7 @@ from pysollib.gamedb import GI, loadGame
 from pysollib.util import *
 from pysollib.stack import *
 from pysollib.layout import Layout
-from wizardpresets import presets
+from .wizardpresets import presets
 
 from pysollib.mygettext import _, n_
 
@@ -64,7 +64,7 @@ class WizSetting:
 
 
 WizardPresets = WizSetting(
-    values_map = presets.keys(),
+    values_map = list(presets.keys()),
     default = 'None',
     widget = 'preset',
     label = _('Initial setting:'),
@@ -387,7 +387,7 @@ class MyCustomGame(CustomGame):
 ''')
 
     for w in WizardWidgets:
-        if isinstance(w, basestring):
+        if isinstance(w, str):
             continue
         v = w.variable.get()
         if w.widget in ('menu', 'preset'):
@@ -402,7 +402,7 @@ class MyCustomGame(CustomGame):
                 # escape
                 v = v.replace('\\', '\\\\')
                 v = v.replace("'", "\\'")
-                if isinstance(v, unicode):
+                if isinstance(v, str):
                     v = v.encode('utf-8')
                 if not v:
                     v = 'Invalid Game Name'
@@ -422,7 +422,7 @@ registerCustomGame(MyCustomGame)
 
 def reset_wizard(game):
     for w in WizardWidgets:
-        if isinstance(w, basestring):
+        if isinstance(w, str):
             continue
         if game is None:
             # set to default

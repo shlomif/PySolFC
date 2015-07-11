@@ -25,11 +25,11 @@ __all__ = ['TclError',
            'MfxRoot']
 
 # imports
-import Tkinter
-TclError = Tkinter.TclError
+import tkinter
+TclError = tkinter.TclError
 
 # PySol imports
-from tkconst import EVENT_PROPAGATE
+from .tkconst import EVENT_PROPAGATE
 
 
 # ************************************************************************
@@ -37,9 +37,9 @@ from tkconst import EVENT_PROPAGATE
 # * Required so that a Game will get properly destroyed.
 # ************************************************************************
 
-class MfxRoot(Tkinter.Tk):
+class MfxRoot(tkinter.Tk):
     def __init__(self, **kw):
-        Tkinter.Tk.__init__(self, **kw)
+        tkinter.Tk.__init__(self, **kw)
         self.app = None
         self.wm_protocol('WM_DELETE_WINDOW', self.wmDeleteWindow)
         # for interruptible sleep
@@ -77,11 +77,11 @@ class MfxRoot(Tkinter.Tk):
     def setCursor(self, cursor):
         if 0:
             ## FIXME: this causes ugly resizes !
-            Tkinter.Tk.config(self, cursor=cursor)
+            tkinter.Tk.config(self, cursor=cursor)
         elif 0:
             ## and this is even worse
             ##print self.children
-            for v in self.children.values():
+            for v in list(self.children.values()):
                 v.config(cursor=cursor)
         else:
             pass
@@ -94,7 +94,7 @@ class MfxRoot(Tkinter.Tk):
         #time.sleep(seconds)
         self.after(int(seconds*1000))
         return
-        print 'sleep', seconds
+        print('sleep', seconds)
         timeout = int(seconds*1000)
         self.sleep_var = 0
         while timeout > 0:
@@ -104,7 +104,7 @@ class MfxRoot(Tkinter.Tk):
                 break
             self.after(100)
             timeout -= 100
-        print 'finish sleep'
+        print('finish sleep')
         return
         if self.after_id:
             self.after_cancel(self.after_id)
@@ -115,17 +115,17 @@ class MfxRoot(Tkinter.Tk):
         if self.after_id:
             self.after_cancel(self.after_id)
             self.after_id = None
-        print 'finish sleep'
+        print('finish sleep')
 
     def _sleepEvent(self, *args):
         return
-        print '_sleepEvent', args
+        print('_sleepEvent', args)
         self.interruptSleep()
         return EVENT_PROPAGATE
 
     def interruptSleep(self):
         return
-        print 'interruptSleep'
+        print('interruptSleep')
         self.update()
         self.update_idletasks()
         self.sleep_var = 1
@@ -137,7 +137,7 @@ class MfxRoot(Tkinter.Tk):
     #
 
     def update(self):
-        Tkinter.Tk.update(self)
+        tkinter.Tk.update(self)
 
     def wmDeleteWindow(self):
         if self.app and self.app.menubar:

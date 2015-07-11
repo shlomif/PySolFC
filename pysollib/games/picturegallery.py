@@ -553,7 +553,7 @@ registerGame(GameInfo(7, PictureGallery, "Picture Gallery",
                       altnames=("Die Bildgallerie", "Mod-3") ))
 registerGame(GameInfo(397, GreatWheel, "Great Wheel",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED,
-                      ranks=range(12) # without Kings
+                      ranks=list(range(12)) # without Kings
                       ))
 registerGame(GameInfo(398, MountOlympus, "Mount Olympus",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))

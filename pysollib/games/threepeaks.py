@@ -36,7 +36,7 @@ from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 from pysollib.pysoltk import MfxCanvasText
 
-from golf import Golf_Waste, Golf_Hint
+from .golf import Golf_Waste, Golf_Hint
 
 
 # ************************************************************************

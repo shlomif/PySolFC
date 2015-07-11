@@ -26,14 +26,14 @@ __all__ = ['HTMLViewer']
 # imports
 import os, sys
 import htmllib, formatter
-import Tkinter
-import ttk
+import tkinter
+from . import ttk
 
 if __name__ == '__main__':
     d = os.path.abspath(os.path.join(sys.path[0], '..', '..'))
     sys.path.append(d)
     import gettext
-    gettext.install('pysol', d, unicode=True)
+    gettext.install('pysol', d, str=True)
 
 # PySol imports
 from pysollib.mygettext import _, n_
@@ -41,9 +41,9 @@ from pysollib.mfxutil import Struct, openURL
 from pysollib.settings import TITLE
 
 # Toolkit imports
-from tkutil import bind, unbind_destroy
-from tkwidget import MfxMessageDialog
-from statusbar import HtmlStatusbar
+from .tkutil import bind, unbind_destroy
+from .tkwidget import MfxMessageDialog
+from .statusbar import HtmlStatusbar
 
 
 REMOTE_PROTOCOLS = ("ftp:", "gopher:", "http:", "mailto:", "news:", "telnet:")
@@ -83,7 +83,7 @@ class tkHTMLWriter(formatter.NullWriter):
         }
 
         self.text.config(cursor=self.viewer.defcursor, font=font)
-        for f in self.fontmap.keys():
+        for f in list(self.fontmap.keys()):
             self.text.tag_config(f, font=self.fontmap[f])
 
         self.anchor = None
@@ -266,7 +266,7 @@ class HTMLViewer:
                         sticky='nsew', padx=1, pady=1)
         vbar = ttk.Scrollbar(text_frame)
         vbar.pack(side='right', fill='y')
-        self.text = Tkinter.Text(text_frame,
+        self.text = tkinter.Text(text_frame,
                                  fg='black', bg='white',
                                  bd=1, relief='sunken',
                                  cursor=self.defcursor,
@@ -282,7 +282,7 @@ class HTMLViewer:
         frame.rowconfigure(1, weight=1)
 
         # load images
-        for name, fn in self.symbols_fn.items():
+        for name, fn in list(self.symbols_fn.items()):
             self.symbols_img[name] = self.getImage(fn)
 
         self.initBindings()
@@ -332,8 +332,8 @@ class HTMLViewer:
         if baseurl is None:
             baseurl = self.url
         if 0:
-            import urllib
-            url = urllib.pathname2url(url)
+            import urllib.request, urllib.parse, urllib.error
+            url = urllib.request.pathname2url(url)
             if relpath and self.url:
                 url = urllib.basejoin(baseurl, url)
         else:
@@ -393,14 +393,14 @@ to open the following URL:
         try:
             file = None
             if 0:
-                import urllib
-                file = urllib.urlopen(url)
+                import urllib.request, urllib.parse, urllib.error
+                file = urllib.request.urlopen(url)
             else:
                 file, url = self.openfile(url)
             data = file.read()
             file.close()
             file = None
-        except Exception, ex:
+        except Exception as ex:
             if file: file.close()
             self.errorDialog(_("Unable to service request:\n") + url + "\n\n" + str(ex))
             return
@@ -498,7 +498,7 @@ to open the following URL:
         if fn in self.images:
             return self.images[fn]
         try:
-            img = Tkinter.PhotoImage(master=self.parent, file=fn)
+            img = tkinter.PhotoImage(master=self.parent, file=fn)
         except:
             img = None
         self.images[fn] = img
@@ -522,7 +522,7 @@ def tkhtml_main(args):
         url = args[1]
     except:
         url = os.path.join(os.pardir, os.pardir, "data", "html", "index.html")
-    top = Tkinter.Tk()
+    top = tkinter.Tk()
     top.tk.call("package", "require", "tile")
     top.wm_minsize(400, 200)
     viewer = HTMLViewer(top)

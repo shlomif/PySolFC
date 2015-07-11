@@ -23,15 +23,15 @@
 
 import sys, os, traceback
 
-import Tkinter
-import tkFont
+import tkinter
+import tkinter.font
 
 from pysollib.settings import TITLE
 from pysollib.settings import TOOLKIT, USE_TILE
 if USE_TILE:
     from pysollib.tile import ttk
 
-from common import base_init_root_window, BaseTkSettings, get_font_name
+from .common import base_init_root_window, BaseTkSettings, get_font_name
 
 
 # ************************************************************************
@@ -71,10 +71,10 @@ def init_root_window(root, app):
             except:
                 traceback.print_exc()
             else:
-                import tkFileDialog
-                tkFileDialog.Open.command = 'ttk::getOpenFile'
-                tkFileDialog.SaveAs.command = 'ttk::getSaveFile'
-                tkFileDialog.Directory.command = 'ttk::chooseDirectory'
+                import tkinter.filedialog
+                tkinter.filedialog.Open.command = 'ttk::getOpenFile'
+                tkinter.filedialog.SaveAs.command = 'ttk::getSaveFile'
+                tkinter.filedialog.Directory.command = 'ttk::chooseDirectory'
 
         style = ttk.Style(root)
         color = style.lookup('.', 'background')

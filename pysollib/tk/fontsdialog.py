@@ -24,16 +24,16 @@
 __all__ = ['FontsDialog']
 
 # imports
-import Tkinter
-import tkFont
+import tkinter
+import tkinter.font
 
 # PySol imports
 from pysollib.mygettext import _, n_
 from pysollib.mfxutil import KwStruct
 
 # Toolkit imports
-from tkwidget import MfxDialog
-from tkutil import bind
+from .tkwidget import MfxDialog
+from .tkutil import bind
 
 # ************************************************************************
 # *
@@ -72,35 +72,35 @@ class FontChooserDialog(MfxDialog):
                         raise ValueError('invalid font style: '+init_font[3])
 
         #self.family_var = Tkinter.StringVar()
-        self.weight_var = Tkinter.BooleanVar()
-        self.slant_var = Tkinter.BooleanVar()
-        self.size_var = Tkinter.IntVar()
+        self.weight_var = tkinter.BooleanVar()
+        self.slant_var = tkinter.BooleanVar()
+        self.size_var = tkinter.IntVar()
 
-        frame = Tkinter.Frame(top_frame)
+        frame = tkinter.Frame(top_frame)
         frame.pack(expand=True, fill='both', padx=5, pady=10)
         frame.columnconfigure(0, weight=1)
         #frame.rowconfigure(1, weight=1)
-        self.entry = Tkinter.Entry(frame, bg='white')
+        self.entry = tkinter.Entry(frame, bg='white')
         self.entry.grid(row=0, column=0, columnspan=2, sticky='news')
         self.entry.insert('end', _('abcdefghABCDEFGH'))
-        self.list_box = Tkinter.Listbox(frame, width=36, exportselection=False)
-        sb = Tkinter.Scrollbar(frame)
+        self.list_box = tkinter.Listbox(frame, width=36, exportselection=False)
+        sb = tkinter.Scrollbar(frame)
         self.list_box.configure(yscrollcommand=sb.set)
         sb.configure(command=self.list_box.yview)
         self.list_box.grid(row=1, column=0, sticky='news') # rowspan=4
         sb.grid(row=1, column=1, sticky='ns')
         bind(self.list_box, '<<ListboxSelect>>', self.fontupdate)
         ##self.list_box.focus()
-        cb1 = Tkinter.Checkbutton(frame, anchor='w', text=_('Bold'),
+        cb1 = tkinter.Checkbutton(frame, anchor='w', text=_('Bold'),
                                   command=self.fontupdate,
                                   variable=self.weight_var)
         cb1.grid(row=2, column=0, columnspan=2, sticky='we')
-        cb2 = Tkinter.Checkbutton(frame, anchor='w', text=_('Italic'),
+        cb2 = tkinter.Checkbutton(frame, anchor='w', text=_('Italic'),
                                   command=self.fontupdate,
                                   variable=self.slant_var)
         cb2.grid(row=3, column=0, columnspan=2, sticky='we')
 
-        sc = Tkinter.Scale(frame, from_=6, to=40, resolution=1,
+        sc = tkinter.Scale(frame, from_=6, to=40, resolution=1,
                            #label='Size',
                            orient='horizontal',
                            command=self.fontupdate, variable=self.size_var)
@@ -109,7 +109,7 @@ class FontChooserDialog(MfxDialog):
         self.size_var.set(self.font_size)
         self.weight_var.set(self.font_weight == 'bold')
         self.slant_var.set(self.font_slant == 'italic')
-        font_families = list(tkFont.families())
+        font_families = list(tkinter.font.families())
         font_families.sort()
         selected = -1
         n = 0
@@ -158,7 +158,7 @@ class FontsDialog(MfxDialog):
         top_frame, bottom_frame = self.createFrames(kw)
         self.createBitmaps(top_frame, kw)
 
-        frame = Tkinter.Frame(top_frame)
+        frame = tkinter.Frame(top_frame)
         frame.pack(expand=True, fill='both', padx=5, pady=10)
         frame.columnconfigure(0, weight=1)
 
@@ -175,15 +175,15 @@ class FontsDialog(MfxDialog):
                           ):
             font = app.opt.fonts[fn]
             self.fonts[fn] = font
-            Tkinter.Label(frame, text=title, anchor='w'
+            tkinter.Label(frame, text=title, anchor='w'
                           ).grid(row=row, column=0, sticky='we')
             if font:
                 title = ' '.join([str(i) for i in font if i not in ('roman', 'normal')])
             elif font is None:
                 title = 'Default'
-            l = Tkinter.Label(frame, font=font, text=title)
+            l = tkinter.Label(frame, font=font, text=title)
             l.grid(row=row, column=1)
-            b = Tkinter.Button(frame, text=_('Change...'), width=10,
+            b = tkinter.Button(frame, text=_('Change...'), width=10,
                                command=lambda l=l, fn=fn: self.selectFont(l, fn))
             b.grid(row=row, column=2)
             row += 1

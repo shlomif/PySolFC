@@ -25,8 +25,8 @@ __all__ = ['SoundOptionsDialog']
 
 # imports
 import os
-import Tkinter
-import ttk
+import tkinter
+from . import ttk
 
 # PySol imports
 from pysollib.mygettext import _, n_
@@ -35,9 +35,9 @@ from pysollib.settings import TITLE
 from pysollib.pysolaudio import pysolsoundserver
 
 # Toolkit imports
-from tkconst import EVENT_HANDLED
-from tkwidget import MfxDialog, MfxMessageDialog
-from tkwidget import PysolScale
+from .tkconst import EVENT_HANDLED
+from .tkwidget import MfxDialog, MfxMessageDialog
+from .tkwidget import PysolScale
 
 
 # ************************************************************************
@@ -54,42 +54,42 @@ class SoundOptionsDialog(MfxDialog):
         self.createBitmaps(top_frame, kw)
         #
         self.saved_opt = app.opt.copy()
-        self.sound = Tkinter.BooleanVar()
+        self.sound = tkinter.BooleanVar()
         self.sound.set(app.opt.sound != 0)
-        self.sound_mode = Tkinter.BooleanVar()
+        self.sound_mode = tkinter.BooleanVar()
         self.sound_mode.set(app.opt.sound_mode != 0)
-        self.sample_volume = Tkinter.IntVar()
+        self.sample_volume = tkinter.IntVar()
         self.sample_volume.set(app.opt.sound_sample_volume)
-        self.music_volume = Tkinter.IntVar()
+        self.music_volume = tkinter.IntVar()
         self.music_volume.set(app.opt.sound_music_volume)
         self.samples = [
-            ('areyousure',    _('Are You Sure'),   Tkinter.BooleanVar()),
+            ('areyousure',    _('Are You Sure'),   tkinter.BooleanVar()),
 
-            ('deal',          _('Deal'),           Tkinter.BooleanVar()),
-            ('dealwaste',     _('Deal waste'),     Tkinter.BooleanVar()),
+            ('deal',          _('Deal'),           tkinter.BooleanVar()),
+            ('dealwaste',     _('Deal waste'),     tkinter.BooleanVar()),
 
-            ('turnwaste',     _('Turn waste'),     Tkinter.BooleanVar()),
-            ('startdrag',     _('Start drag'),     Tkinter.BooleanVar()),
+            ('turnwaste',     _('Turn waste'),     tkinter.BooleanVar()),
+            ('startdrag',     _('Start drag'),     tkinter.BooleanVar()),
 
-            ('drop',          _('Drop'),           Tkinter.BooleanVar()),
-            ('droppair',      _('Drop pair'),      Tkinter.BooleanVar()),
-            ('autodrop',      _('Auto drop'),      Tkinter.BooleanVar()),
+            ('drop',          _('Drop'),           tkinter.BooleanVar()),
+            ('droppair',      _('Drop pair'),      tkinter.BooleanVar()),
+            ('autodrop',      _('Auto drop'),      tkinter.BooleanVar()),
 
-            ('flip',          _('Flip'),           Tkinter.BooleanVar()),
-            ('autoflip',      _('Auto flip'),      Tkinter.BooleanVar()),
-            ('move',          _('Move'),           Tkinter.BooleanVar()),
-            ('nomove',        _('No move'),        Tkinter.BooleanVar()),
+            ('flip',          _('Flip'),           tkinter.BooleanVar()),
+            ('autoflip',      _('Auto flip'),      tkinter.BooleanVar()),
+            ('move',          _('Move'),           tkinter.BooleanVar()),
+            ('nomove',        _('No move'),        tkinter.BooleanVar()),
 
-            ('undo',          _('Undo'),           Tkinter.BooleanVar()),
-            ('redo',          _('Redo'),           Tkinter.BooleanVar()),
+            ('undo',          _('Undo'),           tkinter.BooleanVar()),
+            ('redo',          _('Redo'),           tkinter.BooleanVar()),
 
-            ('autopilotlost', _('Autopilot lost'), Tkinter.BooleanVar()),
-            ('autopilotwon',  _('Autopilot won'),  Tkinter.BooleanVar()),
+            ('autopilotlost', _('Autopilot lost'), tkinter.BooleanVar()),
+            ('autopilotwon',  _('Autopilot won'),  tkinter.BooleanVar()),
 
-            ('gamefinished',  _('Game finished'),  Tkinter.BooleanVar()),
-            ('gamelost',      _('Game lost'),      Tkinter.BooleanVar()),
-            ('gamewon',       _('Game won'),       Tkinter.BooleanVar()),
-            ('gameperfect',   _('Perfect game'),   Tkinter.BooleanVar()),
+            ('gamefinished',  _('Game finished'),  tkinter.BooleanVar()),
+            ('gamelost',      _('Game lost'),      tkinter.BooleanVar()),
+            ('gamewon',       _('Game won'),       tkinter.BooleanVar()),
+            ('gameperfect',   _('Perfect game'),   tkinter.BooleanVar()),
             ]
 
         #

@@ -36,7 +36,7 @@ from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 from pysollib.hint import KlondikeType_Hint, YukonType_Hint
 
-from spider import Spider_SS_Foundation, Spider_RowStack, Spider_Hint
+from .spider import Spider_SS_Foundation, Spider_RowStack, Spider_Hint
 
 
 # ************************************************************************

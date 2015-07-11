@@ -27,7 +27,7 @@ import os
 import traceback
 
 try:
-    import thread
+    import _thread
     from threading import Thread
 except ImportError:
     thread = None

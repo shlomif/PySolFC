@@ -37,7 +37,7 @@ from pysollib.wizardutil import WizardWidgets
 def get_settings(ss):
     s = {}
     for w in WizardWidgets:
-        if isinstance(w, basestring):
+        if isinstance(w, str):
             continue
         if w.var_name in ss:
             v = ss[w.var_name]

@@ -48,7 +48,7 @@ def factorial(x):
     if x <= 1:
         return 1
     a = 1
-    for i in xrange(x):
+    for i in range(x):
         a *= (i+1)
     return a
 
@@ -461,10 +461,10 @@ class AbstractMahjonggGame(Game):
             assert tilemap.get((level, tx, ty+1)) is stack
             assert tilemap.get((level, tx+1, ty+1)) is stack
             #
-            above = tuple(filter(None, above.keys()))
-            below = tuple(filter(None, below.keys()))
-            left = tuple(filter(None, left.keys()))
-            right = tuple(filter(None, right.keys()))
+            above = tuple([_f for _f in list(above.keys()) if _f])
+            below = tuple([_f for _f in list(below.keys()) if _f])
+            left = tuple([_f for _f in list(left.keys()) if _f])
+            right = tuple([_f for _f in list(right.keys()) if _f])
             ##up = tuple(filter(None, up.keys()))
             ##bottom = tuple(filter(None, bottom.keys()))
 
@@ -584,7 +584,7 @@ class AbstractMahjonggGame(Game):
             c1 = cards[0]
             del cards[0]
             c2 = None
-            for i in xrange(len(cards)):
+            for i in range(len(cards)):
                 if self.cardsMatch(c1, cards[i]):
                     c2 = cards[i]
                     del cards[i]
@@ -599,7 +599,7 @@ class AbstractMahjonggGame(Game):
             #
             i = factorial(len(free_stacks))/2/factorial(len(free_stacks)-2)
             old_pairs = []
-            for j in xrange(i):
+            for j in range(i):
                 nc = new_cards[:]
                 while True:
                     # create uniq pair
@@ -625,7 +625,7 @@ class AbstractMahjonggGame(Game):
         if new_cards:
             new_cards.reverse()
             return new_cards
-        print 'oops! can\'t create a solvable game'
+        print('oops! can\'t create a solvable game')
         return old_cards
 
 
@@ -683,7 +683,7 @@ class AbstractMahjonggGame(Game):
             c1 = cards[0]
             del cards[0]
             c2 = None
-            for i in xrange(len(cards)):
+            for i in range(len(cards)):
                 if self.cardsMatch(c1, cards[i]):
                     c2 = cards[i]
                     del cards[i]
@@ -699,7 +699,7 @@ class AbstractMahjonggGame(Game):
 
             old_pairs = []
             i = factorial(len(suitable_stacks))/2/factorial(len(suitable_stacks)-2)
-            for j in xrange(i):
+            for j in range(i):
                 if iters[0] > max_iters:
                     return None
                 if time.time() - start_time > max_time:
@@ -742,16 +742,16 @@ class AbstractMahjonggGame(Game):
         while True:
             ret = create_solvable(cards[:], new_cards)
             if DEBUG:
-                print 'create_solvable time:', time.time() - start_time
+                print('create_solvable time:', time.time() - start_time)
             if ret:
                 ret.reverse()
                 return ret
             if time.time() - start_time > max_time or \
                    iters[0] <= max_iters:
-                print 'oops! can\'t create a solvable game'
+                print('oops! can\'t create a solvable game')
                 return None
             iters = [0]
-        print 'oops! can\'t create a solvable game'
+        print('oops! can\'t create a solvable game')
         return None
 
     def _mahjonggShuffle(self):
@@ -1016,7 +1016,7 @@ def r(id, short_name, name=None, ncards=144, layout=None):
     gi = GameInfo(id, gameclass, name,
                   GI.GT_MAHJONGG, 4*decks, 0, ##GI.SL_MOSTLY_SKILL,
                   category=GI.GC_MAHJONGG, short_name=short_name,
-                  suits=range(3), ranks=range(ranks), trumps=range(trumps),
+                  suits=list(range(3)), ranks=list(range(ranks)), trumps=list(range(trumps)),
                   si={"decks": decks, "ncards": ncards})
     gi.ncards = ncards
     gi.rules_filename = "mahjongg.html"

@@ -33,9 +33,9 @@ __all__ = ['MfxDialog',
 
 # imports
 import sys, os, time, locale
-import Tkinter
-import ttk
-import tkFont
+import tkinter
+from . import ttk
+import tkinter.font
 import traceback
 
 # PySol imports
@@ -44,10 +44,10 @@ from pysollib.mfxutil import destruct, kwdefault, KwStruct, openURL
 from pysollib.settings import WIN_SYSTEM
 
 # Toolkit imports
-from tkutil import after, after_cancel
-from tkutil import bind, unbind_destroy
-from tkutil import makeToplevel, setTransient
-from tkcanvas import MfxCanvas
+from .tkutil import after, after_cancel
+from .tkutil import bind, unbind_destroy
+from .tkutil import makeToplevel, setTransient
+from .tkcanvas import MfxCanvas
 
 
 # ************************************************************************
@@ -83,7 +83,7 @@ class MfxDialog: # ex. _ToplevelDialog
             setTransient(self.top, self.parent)
             try:
                 self.top.grab_set()
-            except Tkinter.TclError:
+            except tkinter.TclError:
                 if traceback: traceback.print_exc()
                 pass
             if timeout > 0:
@@ -126,9 +126,9 @@ class MfxDialog: # ex. _ToplevelDialog
             key = event.char
             try:
                 if os.name == 'nt':
-                    key = unicode(key, locale.getpreferredencoding())
+                    key = str(key, locale.getpreferredencoding())
                 else:
-                    key = unicode(key, 'utf-8')
+                    key = str(key, 'utf-8')
             except:
                 pass
             else:
@@ -286,7 +286,7 @@ class MfxExceptionDialog(MfxMessageDialog):
             t = "[Errno %s] %s:\n%s" % (ex.errno, ex.strerror, repr(ex.filename))
         else:
             t = str(ex)
-        kw.text = text + unicode(t, errors='replace')
+        kw.text = text + str(t, errors='replace')
         MfxMessageDialog.__init__(self, parent, title, **kw.getKw())
 
 
@@ -312,10 +312,10 @@ class PysolAboutDialog(MfxMessageDialog):
         if sys.version_info >= (2, 4):
             ##font_name = msg.lookup('TLabel', 'font')
             font_name = 'TkDefaultFont'
-            font = tkFont.Font(parent, name=font_name, exists=True)
+            font = tkinter.font.Font(parent, name=font_name, exists=True)
             font = font.copy()
         else:
-            font = tkFont.Font(parent, app.getFont('default'))
+            font = tkinter.font.Font(parent, app.getFont('default'))
         font.configure(underline=True)
         url_label = ttk.Label(frame, text=kw.url, font=font,
                               foreground='blue', cursor='hand2')
@@ -444,11 +444,11 @@ class MfxTooltip:
         y = self.widget.winfo_rooty() + self.widget.winfo_height()
         x += self.xoffset
         y += self.yoffset
-        self.tooltip = Tkinter.Toplevel()
+        self.tooltip = tkinter.Toplevel()
         self.tooltip.wm_iconify()
         self.tooltip.wm_overrideredirect(1)
         self.tooltip.wm_protocol("WM_DELETE_WINDOW", self.destroy)
-        self.label = Tkinter.Label(self.tooltip, text=self.text,
+        self.label = tkinter.Label(self.tooltip, text=self.text,
                                    relief=self.relief, justify=self.justify,
                                    fg=self.fg, bg=self.bg, bd=1, takefocus=0)
         self.label.pack(ipadx=1, ipady=1)
@@ -554,7 +554,7 @@ class MfxScrolledCanvas:
         kw['bd'] = 0
         relief = kw['relief']
         del kw['relief']
-        frame = Tkinter.Frame(self.frame, bd=bd, relief=relief)
+        frame = tkinter.Frame(self.frame, bd=bd, relief=relief)
         frame.grid(row=0, column=0, sticky="news")
         self.canvas = MfxCanvas(frame, **kw)
         self.canvas.pack(expand=True, fill='both')
@@ -594,7 +594,7 @@ class MfxScrolledCanvas:
         #bind(w, '<MouseWheel>', self.mouse_wheel)
 
     def mouse_wheel(self, *args):
-        print 'MfxScrolledCanvas.mouse_wheel', args
+        print('MfxScrolledCanvas.mouse_wheel', args)
 
     def _setHbar(self, first, last):
         if self.canvas.busy:
@@ -673,9 +673,9 @@ class StackDesc:
         text = stack.getHelp()+'\n'+stack.getBaseCard()
         text = text.strip()
         if text:
-            frame = Tkinter.Frame(self.canvas)
+            frame = tkinter.Frame(self.canvas)
             self.frame = frame
-            label = Tkinter.Message(frame, font=font, text=text,
+            label = tkinter.Message(frame, font=font, text=text,
                                     width=cardw-8, relief='solid',
                                     fg='#000000', bg='#ffffe0', bd=1)
             label.pack()
@@ -798,11 +798,11 @@ class MyPysolScale:
         self.variable.set(v)
 
 
-class TkinterScale(Tkinter.Scale):
+class TkinterScale(tkinter.Scale):
     def __init__(self, parent, **kw):
         if 'value' in kw:
             del kw['value']
-        Tkinter.Scale.__init__(self, parent, **kw)
+        tkinter.Scale.__init__(self, parent, **kw)
 
 
 PysolScale = MyPysolScale

@@ -26,20 +26,20 @@ __all__ = ['PysolStatusbar',
 
 # imports
 import os, sys
-import Tkinter
-import ttk
+import tkinter
+from . import ttk
 
 from pysollib.mygettext import _, n_
 if __name__ == '__main__':
     d = os.path.abspath(os.path.join(sys.path[0], os.pardir, os.pardir))
     sys.path.append(d)
     import gettext
-    gettext.install('pysol', d, unicode=True)
+    gettext.install('pysol', d, str=True)
 
 # PySol imports
 
 # Toolkit imports
-from tkwidget import MfxTooltip
+from .tkwidget import MfxTooltip
 
 # ************************************************************************
 # *
@@ -96,9 +96,9 @@ class MfxStatusbar:
     #
 
     def updateText(self, **kw):
-        for k, v in kw.items():
+        for k, v in list(kw.items()):
             label = getattr(self, k + '_label')
-            text = unicode(v)
+            text = str(v)
             width = label['width']
             if width and len(text) > width:
                 label['width'] = len(text)
@@ -193,7 +193,7 @@ class TestStatusbar(PysolStatusbar):
         self.updateText(info='Some info text.')
 
 def statusbar_main(args):
-    tk = Tkinter.Tk()
+    tk = tkinter.Tk()
     statusbar = TestStatusbar(tk, args)
     tk.mainloop()
     return 0

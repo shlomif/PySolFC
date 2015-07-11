@@ -403,18 +403,18 @@ class GameInfo(Struct):
                  # keyword arguments:
                  si={}, category=0,
                  short_name=None, altnames=(),
-                 suits=range(4), ranks=range(13), trumps=(),
+                 suits=list(range(4)), ranks=list(range(13)), trumps=(),
                  rules_filename=None,
                  ):
         #
         def to_unicode(s):
-            if isinstance(s, unicode):
+            if isinstance(s, str):
                 return s
             try:
-                s = unicode(s, 'utf-8')
-            except UnicodeDecodeError, err:
+                s = str(s, 'utf-8')
+            except UnicodeDecodeError as err:
                 print_err(err)
-                s = unicode(s, 'utf-8', 'ignore')
+                s = str(s, 'utf-8', 'ignore')
             return s
         ncards = decks * (len(suits) * len(ranks) + len(trumps))
         game_flags = game_type & ~1023
@@ -429,7 +429,7 @@ class GameInfo(Struct):
             short_name = to_unicode(short_name)
             if pysollib.settings.TRANSLATE_GAME_NAMES:
                 short_name = _(short_name)
-        if isinstance(altnames, basestring):
+        if isinstance(altnames, str):
             altnames = (altnames,)
         altnames = [to_unicode(n) for n in altnames]
         if pysollib.settings.TRANSLATE_GAME_NAMES:
@@ -532,7 +532,7 @@ class GameManager:
                                     (gi.name, str(gi.gameclass),
                                      str(gameclass)))
         if 1:
-            for id, game in self.__all_games.items():
+            for id, game in list(self.__all_games.items()):
                 if gi.gameclass is game.gameclass:
                     raise GameInfoException(
                         "duplicate game class %s: %s and %s" %
@@ -587,11 +587,11 @@ class GameManager:
 
     def getAllGames(self):
         ##return self.__all_games
-        return self.__games.values()
+        return list(self.__games.values())
 
     def getGamesIdSortedById(self):
         if self.__games_by_id is None:
-            l = self.__games.keys()
+            l = list(self.__games.keys())
             l.sort()
             self.__games_by_id = tuple(l)
         return self.__games_by_id
@@ -599,7 +599,7 @@ class GameManager:
     def getGamesIdSortedByName(self):
         if self.__games_by_name is None:
             l1, l2, l3  = [], [], []
-            for id, gi in self.__games.items():
+            for id, gi in list(self.__games.items()):
                 name = gi.name #.lower()
                 l1.append((name, id))
                 if gi.name != gi.short_name:

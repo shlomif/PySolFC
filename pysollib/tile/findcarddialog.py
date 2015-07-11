@@ -28,13 +28,13 @@ __all__ = ['create_find_card_dialog',
 
 # imports
 import os
-import Tkinter
+import tkinter
 from pysollib.mygettext import _, n_
 
 # Toolkit imports
-from tkutil import after, after_cancel
-from tkutil import bind, unbind_destroy, makeImage
-from tkcanvas import MfxCanvas, MfxCanvasGroup, MfxCanvasImage, MfxCanvasRectangle
+from .tkutil import after, after_cancel
+from .tkutil import bind, unbind_destroy, makeImage
+from .tkcanvas import MfxCanvas, MfxCanvasGroup, MfxCanvasImage, MfxCanvasRectangle
 
 from pysollib.settings import TITLE
 
@@ -46,11 +46,11 @@ from pysollib.settings import TITLE
 LARGE_EMBLEMS_SIZE = (38, 34)
 SMALL_EMBLEMS_SIZE = (31, 21)
 
-class FindCardDialog(Tkinter.Toplevel):
+class FindCardDialog(tkinter.Toplevel):
     CARD_IMAGES = {} # key: (rank, suit)
 
     def __init__(self, parent, game, dir, size='large'):
-        Tkinter.Toplevel.__init__(self)
+        tkinter.Toplevel.__init__(self)
         title = TITLE + ' - ' + _('Find card')
         self.title(title)
         self.wm_resizable(False, False)
@@ -194,7 +194,7 @@ class FindCardDialog(Tkinter.Toplevel):
         if self.highlight_items:
             for i in self.highlight_items:
                 i.delete()
-        Tkinter.Toplevel.destroy(self)
+        tkinter.Toplevel.destroy(self)
 
 
 

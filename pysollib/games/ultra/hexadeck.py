@@ -1379,7 +1379,7 @@ class Snakestone(Convolution):
 def r(id, gameclass, name, game_type, decks, redeals, skill_level):
     game_type = game_type | GI.GT_HEXADECK
     gi = GameInfo(id, gameclass, name, game_type, decks, redeals, skill_level,
-                  suits=range(4), ranks=range(16), trumps=range(4))
+                  suits=list(range(4)), ranks=list(range(16)), trumps=list(range(4)))
     registerGame(gi)
     return gi
 

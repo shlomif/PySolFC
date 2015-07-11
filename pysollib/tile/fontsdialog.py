@@ -24,18 +24,18 @@
 __all__ = ['FontsDialog']
 
 # imports
-import Tkinter
-import ttk
-import tkFont
+import tkinter
+from . import ttk
+import tkinter.font
 
 # PySol imports
 from pysollib.mfxutil import KwStruct
 from pysollib.mygettext import _, n_
 
 # Toolkit imports
-from tkwidget import MfxDialog
-from tkutil import bind
-from tkwidget import PysolScale
+from .tkwidget import MfxDialog
+from .tkutil import bind
+from .tkwidget import PysolScale
 
 
 # ************************************************************************
@@ -75,11 +75,11 @@ class FontChooserDialog(MfxDialog):
                         raise ValueError('invalid font style: '+init_font[3])
 
         #self.family_var = Tkinter.StringVar()
-        self.weight_var = Tkinter.BooleanVar()
+        self.weight_var = tkinter.BooleanVar()
         self.weight_var.set(self.font_weight == 'bold')
-        self.slant_var = Tkinter.BooleanVar()
+        self.slant_var = tkinter.BooleanVar()
         self.slant_var.set(self.font_slant == 'italic')
-        self.size_var = Tkinter.IntVar()
+        self.size_var = tkinter.IntVar()
         self.size_var.set(self.font_size)
         #
         frame = ttk.Frame(top_frame)
@@ -89,7 +89,7 @@ class FontChooserDialog(MfxDialog):
         self.entry = ttk.Entry(frame)
         self.entry.grid(row=0, column=0, columnspan=2, sticky='news')
         self.entry.insert('end', _('abcdefghABCDEFGH'))
-        self.list_box = Tkinter.Listbox(frame, width=36, exportselection=False)
+        self.list_box = tkinter.Listbox(frame, width=36, exportselection=False)
         sb = ttk.Scrollbar(frame)
         self.list_box.configure(yscrollcommand=sb.set)
         sb.configure(command=self.list_box.yview)
@@ -111,7 +111,7 @@ class FontChooserDialog(MfxDialog):
                         command=self.fontupdate, variable=self.size_var)
         sc.grid(row=4, column=0, columnspan=2, sticky='news')
         #
-        font_families = list(tkFont.families())
+        font_families = list(tkinter.font.families())
         font_families.sort()
         selected = -1
         n = 0

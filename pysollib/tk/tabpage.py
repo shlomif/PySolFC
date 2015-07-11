@@ -24,7 +24,7 @@
 a couple of classes for implementing partial tabbed-page like behaviour
 """
 
-from Tkinter import *
+from tkinter import *
 
 MYRIDGE, MYRAISED = RAISED, RIDGE
 #MYRIDGE, MYRAISED = RIDGE, RAISED
@@ -68,12 +68,12 @@ class TabPageSet(Frame):
 
     def ChangePage(self,pageName=None):
         if pageName:
-            if pageName in self.pages.keys():
+            if pageName in list(self.pages.keys()):
                 self.activePage.set(pageName)
             else:
-                raise InvalidTabPage, 'Invalid TabPage Name'
+                raise InvalidTabPage('Invalid TabPage Name')
         ## pop up the active 'tab' only
-        for page in self.pages.keys():
+        for page in list(self.pages.keys()):
             self.pages[page]['tab'].config(relief=MYRIDGE)
         self.pages[self.GetActivePage()]['tab'].config(relief=MYRAISED)
         ## switch page
@@ -83,8 +83,8 @@ class TabPageSet(Frame):
         return self.activePage.get()
 
     def AddPage(self,pageName):
-        if pageName in self.pages.keys():
-            raise AlreadyExists, 'TabPage Name Already Exists'
+        if pageName in list(self.pages.keys()):
+            raise AlreadyExists('TabPage Name Already Exists')
         self.pages[pageName]={
             'tab': PageTab(self.tabBar),
             'page': Frame(self,borderwidth=2,relief=RAISED)
@@ -103,8 +103,8 @@ class TabPageSet(Frame):
             self.ChangePage()
 
     def RemovePage(self,pageName):
-        if not pageName in self.pages.keys():
-            raise InvalidTabPage, 'Invalid TabPage Name'
+        if not pageName in list(self.pages.keys()):
+            raise InvalidTabPage('Invalid TabPage Name')
         self.pages[pageName]['tab'].pack_forget()
         self.pages[pageName]['page'].grid_forget()
         self.pages[pageName]['tab'].destroy()

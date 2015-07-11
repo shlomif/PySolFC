@@ -443,7 +443,7 @@ class BigBen(Game):
 
     def _shuffleHook(self, cards):
         # move clock cards to top of the Talon (i.e. first cards to be dealt)
-        C, S, H, D = range(4)           # suits
+        C, S, H, D = list(range(4))           # suits
         t = [(1,C), (2,H), (3,S), (4,D), (5,C), (6,H),
              (7,S), (8,D), (9,C), (JACK,H), (QUEEN,S), (KING,D)]
         clocks = []

@@ -25,7 +25,7 @@ __all__ = ['SelectCardsetDialogWithPreview']
 
 # imports
 import os
-import Tkinter
+import tkinter
 
 # PySol imports
 from pysollib.mygettext import _, n_
@@ -34,11 +34,11 @@ from pysollib.util import CARDSET
 from pysollib.resource import CSI
 
 # Toolkit imports
-from tkutil import loadImage
-from tkwidget import MfxDialog, MfxScrolledCanvas
-from tkcanvas import MfxCanvasImage
-from selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
-from selecttree import SelectDialogTreeData, SelectDialogTreeCanvas
+from .tkutil import loadImage
+from .tkwidget import MfxDialog, MfxScrolledCanvas
+from .tkcanvas import MfxCanvasImage
+from .selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
+from .selecttree import SelectDialogTreeData, SelectDialogTreeCanvas
 
 
 # ************************************************************************
@@ -71,7 +71,7 @@ class SelectCardsetData(SelectDialogTreeData):
         self.no_contents = [ SelectCardsetLeaf(None, None, _("(no cardsets)"), key=None), ]
         #
         select_by_type = None
-        items = CSI.TYPE.items()
+        items = list(CSI.TYPE.items())
         items.sort(lambda a, b: cmp(a[1], b[1]))
         nodes = []
         for key, name in items:
@@ -81,7 +81,7 @@ class SelectCardsetData(SelectDialogTreeData):
             select_by_type = SelectCardsetNode(None, _("by Type"), tuple(nodes), expanded=1)
         #
         select_by_style = None
-        items = CSI.STYLE.items()
+        items = list(CSI.STYLE.items())
         items.sort(lambda a, b: cmp(a[1], b[1]))
         nodes = []
         for key, name in items:
@@ -92,7 +92,7 @@ class SelectCardsetData(SelectDialogTreeData):
             select_by_style = SelectCardsetNode(None, _("by Style"), tuple(nodes))
         #
         select_by_nationality = None
-        items = CSI.NATIONALITY.items()
+        items = list(CSI.NATIONALITY.items())
         items.sort(lambda a, b: cmp(a[1], b[1]))
         nodes = []
         for key, name in items:
@@ -103,7 +103,7 @@ class SelectCardsetData(SelectDialogTreeData):
             select_by_nationality = SelectCardsetNode(None, _("by Nationality"), tuple(nodes))
         #
         select_by_date = None
-        items = CSI.DATE.items()
+        items = list(CSI.DATE.items())
         items.sort(lambda a, b: cmp(a[1], b[1]))
         nodes = []
         for key, name in items:
@@ -113,7 +113,7 @@ class SelectCardsetData(SelectDialogTreeData):
             nodes.append(SelectCardsetNode(None, _("Uncategorized"), lambda cs: not cs.si.dates))
             select_by_date = SelectCardsetNode(None, _("by Date"), tuple(nodes))
         #
-        self.rootnodes = filter(None, (
+        self.rootnodes = [_f for _f in (
             SelectCardsetNode(None, _("All Cardsets"), lambda cs: 1, expanded=len(self.all_objects)<=12),
             SelectCardsetNode(None, _("by Size"), (
                 SelectCardsetNode(None, _("Tiny cardsets"),   lambda cs: cs.si.size == CSI.SIZE_TINY),
@@ -126,7 +126,7 @@ class SelectCardsetData(SelectDialogTreeData):
             select_by_style,
             select_by_date,
             select_by_nationality,
-        ))
+        ) if _f]
 
 
 class SelectCardsetByTypeData(SelectDialogTreeData):
@@ -135,7 +135,7 @@ class SelectCardsetByTypeData(SelectDialogTreeData):
         self.all_objects = manager.getAllSortedByName()
         self.no_contents = [ SelectCardsetLeaf(None, None, _("(no cardsets)"), key=None), ]
         #
-        items = CSI.TYPE.items()
+        items = list(CSI.TYPE.items())
         items.sort(lambda a, b: cmp(a[1], b[1]))
         nodes = []
         for key, name in items:
@@ -143,9 +143,9 @@ class SelectCardsetByTypeData(SelectDialogTreeData):
                 nodes.append(SelectCardsetNode(None, name, lambda cs, key=key: key == cs.si.type))
         select_by_type = SelectCardsetNode(None, _("by Type"), tuple(nodes), expanded=1)
         #
-        self.rootnodes = filter(None, (
+        self.rootnodes = [_f for _f in (
             select_by_type,
-        ))
+        ) if _f]
 
 
 # ************************************************************************
@@ -190,10 +190,10 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             w1, w2 = 240, 400
         else:
             w1, w2 = 200, 300
-        paned_window = Tkinter.PanedWindow(top_frame)
+        paned_window = tkinter.PanedWindow(top_frame)
         paned_window.pack(expand=True, fill='both')
-        left_frame = Tkinter.Frame(paned_window)
-        right_frame = Tkinter.Frame(paned_window)
+        left_frame = tkinter.Frame(paned_window)
+        right_frame = tkinter.Frame(paned_window)
         paned_window.add(left_frame)
         paned_window.add(right_frame)
 
@@ -205,9 +205,9 @@ class SelectCardsetDialogWithPreview(MfxDialog):
                              padx=padx, pady=pady)
         if USE_PIL:
             #
-            var = Tkinter.DoubleVar()
+            var = tkinter.DoubleVar()
             var.set(app.opt.scale_x)
-            self.scale_x = Tkinter.Scale(
+            self.scale_x = tkinter.Scale(
                 left_frame, label=_('Scale X:'),
                 from_=0.5, to=4.0, resolution=0.1,
                 orient='horizontal', variable=var,
@@ -215,9 +215,9 @@ class SelectCardsetDialogWithPreview(MfxDialog):
                 command=self._updateScale)
             self.scale_x.grid(row=1, column=0, sticky='ew', padx=padx, pady=pady)
             #
-            var = Tkinter.DoubleVar()
+            var = tkinter.DoubleVar()
             var.set(app.opt.scale_y)
-            self.scale_y = Tkinter.Scale(
+            self.scale_y = tkinter.Scale(
                 left_frame, label=_('Scale Y:'),
                 from_=0.5, to=4.0, resolution=0.1,
                 orient='horizontal', variable=var,
@@ -225,9 +225,9 @@ class SelectCardsetDialogWithPreview(MfxDialog):
                 command=self._updateScale)
             self.scale_y.grid(row=2, column=0, sticky='ew', padx=padx, pady=pady)
             #
-            self.auto_scale = Tkinter.BooleanVar()
+            self.auto_scale = tkinter.BooleanVar()
             self.auto_scale.set(app.opt.auto_scale)
-            check = Tkinter.Checkbutton(
+            check = tkinter.Checkbutton(
                 left_frame, text=_('Auto scaling'),
                 variable=self.auto_scale,
                 takefocus=False,
@@ -236,9 +236,9 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             check.grid(row=3, column=0, columnspan=2, sticky='w',
                        padx=padx, pady=pady)
             #
-            self.preserve_aspect = Tkinter.BooleanVar()
+            self.preserve_aspect = tkinter.BooleanVar()
             self.preserve_aspect.set(app.opt.preserve_aspect_ratio)
-            self.aspect_check = Tkinter.Checkbutton(
+            self.aspect_check = tkinter.Checkbutton(
                 left_frame, text=_('Preserve aspect ratio'),
                 variable=self.preserve_aspect,
                 takefocus=False,
@@ -386,11 +386,11 @@ class CardsetInfoDialog(MfxDialog):
         MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)
         self.createBitmaps(top_frame, kw)
-        frame = Tkinter.Frame(top_frame)
+        frame = tkinter.Frame(top_frame)
         frame.pack(fill="both", expand=True, padx=5, pady=10)
         #
         #
-        info_frame = Tkinter.LabelFrame(frame, text=_('About cardset'))
+        info_frame = tkinter.LabelFrame(frame, text=_('About cardset'))
         info_frame.grid(row=0, column=0, columnspan=2, sticky='ew',
                         padx=0, pady=5, ipadx=5, ipady=5)
         styles = nationalities = year = None
@@ -412,10 +412,10 @@ class CardsetInfoDialog(MfxDialog):
             (_('Size:'), '%d x %d' % (cardset.CARDW, cardset.CARDH)),
             ):
             if t is not None:
-                l = Tkinter.Label(info_frame, text=n,
+                l = tkinter.Label(info_frame, text=n,
                                   anchor='w', justify='left')
                 l.grid(row=row, column=0, sticky='nw')
-                l = Tkinter.Label(info_frame, text=t,
+                l = tkinter.Label(info_frame, text=t,
                                   anchor='w', justify='left')
                 l.grid(row=row, column=1, sticky='nw')
                 row += 1
@@ -425,7 +425,7 @@ class CardsetInfoDialog(MfxDialog):
                 im = choice(images)
                 f = os.path.join(cardset.dir, cardset.backname)
                 self.back_image = loadImage(file=f)
-                canvas = Tkinter.Canvas(info_frame,
+                canvas = tkinter.Canvas(info_frame,
                                         width=2*im.width()+30,
                                         height=im.height()+2)
                 canvas.create_image(10, 1, image=im, anchor='nw')
@@ -438,10 +438,10 @@ class CardsetInfoDialog(MfxDialog):
                 pass
         ##bg = top_frame["bg"]
         bg = 'white'
-        text_w = Tkinter.Text(frame, bd=1, relief="sunken", wrap="word",
+        text_w = tkinter.Text(frame, bd=1, relief="sunken", wrap="word",
                               padx=4, width=64, height=16, bg=bg)
         text_w.grid(row=1, column=0, sticky='nsew')
-        sb = Tkinter.Scrollbar(frame)
+        sb = tkinter.Scrollbar(frame)
         sb.grid(row=1, column=1, sticky='ns')
         text_w.configure(yscrollcommand=sb.set)
         sb.configure(command=text_w.yview)

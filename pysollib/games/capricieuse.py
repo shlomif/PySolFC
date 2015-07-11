@@ -34,7 +34,7 @@ from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 
-from gypsy import DieRussische_Foundation
+from .gypsy import DieRussische_Foundation
 
 
 # ************************************************************************

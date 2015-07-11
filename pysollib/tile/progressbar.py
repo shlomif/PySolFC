@@ -24,12 +24,12 @@
 __all__ = ['PysolProgressBar']
 
 # imports
-import Tkinter
-import ttk
+import tkinter
+from . import ttk
 
 # Toolkit imports
-from tkconst import EVENT_HANDLED
-from tkutil import makeToplevel, setTransient
+from .tkconst import EVENT_HANDLED
+from .tkutil import makeToplevel, setTransient
 
 
 # ************************************************************************
@@ -119,8 +119,8 @@ class TestProgressBar:
         self.progress.frame.after(30, self.update)
 
 def progressbar_main(args):
-    from tkutil import wm_withdraw
-    tk = Tkinter.Tk()
+    from .tkutil import wm_withdraw
+    tk = tkinter.Tk()
     wm_withdraw(tk)
     pb = TestProgressBar(tk)
     tk.mainloop()

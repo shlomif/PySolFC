@@ -34,7 +34,7 @@ from pysollib.settings import TOP_TITLE, TITLE
 from pysollib.stats import PysolStatsFormatter
 
 # Toolkit imports
-from tkwidget import MfxDialog, MfxMessageDialog
+from .tkwidget import MfxDialog, MfxMessageDialog
 
 
 # ************************************************************************
@@ -494,8 +494,8 @@ class Game_StatsDialog:
     def _cmpPlayingTime(self, store, iter1, iter2):
         val1 = store.get_value(iter1, 4)
         val2 = store.get_value(iter2, 4)
-        t1 = map(int, val1.split(':'))
-        t2 = map(int, val2.split(':'))
+        t1 = list(map(int, val1.split(':')))
+        t2 = list(map(int, val2.split(':')))
         return cmp(len(t1), len(t2)) or cmp(t1, t2)
 
     def _cmpMoves(self, store, iter1, iter2):

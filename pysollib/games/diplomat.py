@@ -34,8 +34,8 @@ from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 
-from fortythieves import FortyThieves_Hint
-from spider import Spider_Hint
+from .fortythieves import FortyThieves_Hint
+from .spider import Spider_Hint
 
 
 # ************************************************************************

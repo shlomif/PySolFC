@@ -34,13 +34,13 @@ from pysollib.gamedb import GI
 from pysollib.settings import TITLE
 
 # toolkit imports
-from tkutil import setTransient
-from tkutil import color_tk2gtk, color_gtk2tk
-from soundoptionsdialog import SoundOptionsDialog
-from selectcardset import SelectCardsetDialogWithPreview
-from selecttile import SelectTileDialogWithPreview
-from selectgame import SelectGameDialogWithPreview
-from findcarddialog import connect_game_find_card_dialog, destroy_find_card_dialog
+from .tkutil import setTransient
+from .tkutil import color_tk2gtk, color_gtk2tk
+from .soundoptionsdialog import SoundOptionsDialog
+from .selectcardset import SelectCardsetDialogWithPreview
+from .selecttile import SelectTileDialogWithPreview
+from .selectgame import SelectGameDialogWithPreview
+from .findcarddialog import connect_game_find_card_dialog, destroy_find_card_dialog
 
 def ltk2gtk(s):
     # label tk to gtk
@@ -456,7 +456,7 @@ class PysolMenubarTk:
         #ui_manager.get_widget('/menubar/file/recentgames').show()
         #ui_manager.get_widget('/menubar/file/favoritegames').show()
 
-        games = map(self.app.gdb.get, self.app.gdb.getGamesIdSortedByName())
+        games = list(map(self.app.gdb.get, self.app.gdb.getGamesIdSortedByName()))
         menu = ui_manager.get_widget('/menubar/select').get_submenu()
         self._createSelectMenu(games, menu)
 
@@ -475,7 +475,7 @@ class PysolMenubarTk:
     def _getNumGames(self, games, select_data):
         ngames = 0
         for label, select_func in select_data:
-            ngames += len(filter(select_func, games))
+            ngames += len(list(filter(select_func, games)))
         return ngames
 
     def _createSubMenu(self, menu, label):
@@ -520,7 +520,7 @@ class PysolMenubarTk:
 
     def _addSelectedGamesSubMenu(self, games, menu, select_data):
         for label, select_func in select_data:
-            g = filter(select_func, games)
+            g = list(filter(select_func, games))
             if not g:
                 continue
             submenu = self._createSubMenu(menu, label=label)
@@ -528,7 +528,7 @@ class PysolMenubarTk:
 
     def _addPopularGamesMenu(self, games, menu):
         select_func = lambda gi: gi.si.game_flags & GI.GT_POPULAR
-        if len(filter(select_func, games)) == 0:
+        if len(list(filter(select_func, games))) == 0:
             return
         data = (ltk2gtk('&Popular games'), select_func)
         self._addSelectedGamesSubMenu(games, menu, (data, ))
@@ -541,7 +541,7 @@ class PysolMenubarTk:
 
     def _addMahjonggGamesMenu(self, games, menu):
         select_func = lambda gi: gi.si.game_type == GI.GT_MAHJONGG
-        mahjongg_games = filter(select_func, games)
+        mahjongg_games = list(filter(select_func, games))
         if len(mahjongg_games) == 0:
             return
         menu = self._createSubMenu(menu, label=ltk2gtk('&Mahjongg games'))
@@ -562,7 +562,7 @@ class PysolMenubarTk:
                 games[c].append(gi)
             else:
                 games[c] = [gi]
-        games = games.items()
+        games = list(games.items())
         games.sort()
         #
         g0 = []
@@ -618,7 +618,7 @@ class PysolMenubarTk:
         path = '/toolbar/'+path
         button = self.top.ui_manager.get_widget(path)
         if not button:
-            print 'WARNING: setToolbarState: not found:', path
+            print('WARNING: setToolbarState: not found:', path)
         else:
             button.set_sensitive(state)
 

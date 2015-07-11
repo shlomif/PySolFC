@@ -29,7 +29,7 @@ import gtk
 from gtk import gdk
 
 # Toolkit imports
-from tkutil import makeToplevel, setTransient
+from .tkutil import makeToplevel, setTransient
 
 
 # ************************************************************************
@@ -159,7 +159,7 @@ def progressbar_main(args):
     root.connect("delete_event", mainquit)
     images = None
     if 1:
-        from tkwrap import loadImage
+        from .tkwrap import loadImage
         im = loadImage(os.path.join(os.pardir, os.pardir, 'data', 'images', 'jokers', 'joker07_40_774.gif'))
         images = (im, im)
     pb = TestProgressBar(root, images=images)

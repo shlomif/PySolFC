@@ -27,7 +27,7 @@ from pysollib.settings import TOOLKIT, USE_TILE
 if USE_TILE:
     from pysollib.tile import ttk
 
-from common import base_init_root_window, BaseTkSettings
+from .common import base_init_root_window, BaseTkSettings
 
 
 def init_root_window(root, app):

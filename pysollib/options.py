@@ -479,7 +479,7 @@ class Options:
         for key, t in self.GENERAL_OPTIONS:
             val = getattr(self, key)
             if isinstance(val, str):
-                val = unicode(val, 'utf-8')
+                val = str(val, 'utf-8')
             config['general'][key] = val
 
         config['general']['recent_gameid'] = self.recent_gameid
@@ -493,7 +493,7 @@ class Options:
         config['sound_samples'] = self.sound_samples
 
         # fonts
-        for key, val in self.fonts.items():
+        for key, val in list(self.fonts.items()):
             if key == 'default':
                 continue
             if val is None:
@@ -507,7 +507,7 @@ class Options:
         config['timeouts'] = self.timeouts
 
         # cardsets
-        for key, val in self.cardset.items():
+        for key, val in list(self.cardset.items()):
             config['cardsets'][str(key)] = val
         for key in ('scale_cards', 'scale_x', 'scale_y',
                     'auto_scale', 'preserve_aspect_ratio'):
@@ -515,12 +515,12 @@ class Options:
 
         # games_geometry
         config['games_geometry'].clear()
-        for key, val in self.games_geometry.items():
+        for key, val in list(self.games_geometry.items()):
             config['games_geometry'][str(key)] = val
         config['general']['game_geometry'] = self.game_geometry
 
         # offsets
-        for key, val in self.offsets.items():
+        for key, val in list(self.offsets.items()):
             config['offsets'][key] = val
 
         config.write()
@@ -590,10 +590,10 @@ class Options:
         res = config.validate(vdt)
         ##from pprint import pprint; pprint(res)
         if res is not True:
-            for section, data in res.items():
+            for section, data in list(res.items()):
                 if data is True:
                     continue
-                for key, value in data.items():
+                for key, value in list(data.items()):
                     if value is False:
                         print_err('config file: validation error: '
                                   'section: "%s", key: "%s"' % (section, key))
@@ -686,7 +686,7 @@ class Options:
                 setattr(self, key, val)
 
         # games_geometry
-        for key, val in config['games_geometry'].items():
+        for key, val in list(config['games_geometry'].items()):
             try:
                 val = [int(i) for i in val]
                 assert len(val) == 2
@@ -701,7 +701,7 @@ class Options:
                 traceback.print_exc()
 
         # cards offsets
-        for key, val in config['offsets'].items():
+        for key, val in list(config['offsets'].items()):
             try:
                 val = [int(i) for i in val]
                 assert len(val) == 2

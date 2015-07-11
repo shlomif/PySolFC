@@ -61,7 +61,7 @@ class PasDeDeux_Hint(AbstractHint):
         for r in rows:
             r1_d = self.getDistance(r, r.cards[-1])
             column, row = r.id % 13, r.id / 13
-            stack_ids = range(column, 52, 13) + range(13*row, 13*row+13)
+            stack_ids = list(range(column, 52, 13)) + list(range(13*row, 13*row+13))
             for i in stack_ids:
                 t = self.game.s.rows[i]
                 if t is r:

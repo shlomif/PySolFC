@@ -25,19 +25,19 @@ __all__ = ['PysolStatusbar',
            'HelpStatusbar']
 
 # imports
-import os, sys, Tkinter
+import os, sys, tkinter
 
 if __name__ == '__main__':
     d = os.path.abspath(os.path.join(sys.path[0], os.pardir, os.pardir))
     sys.path.append(d)
     import gettext
-    gettext.install('pysol', d, unicode=True)
+    gettext.install('pysol', d, str=True)
 
 # PySol imports
 from pysollib.mygettext import _, n_
 
 # Toolkit imports
-from tkwidget import MfxTooltip
+from .tkwidget import MfxTooltip
 from pysollib.settings import WIN_SYSTEM
 
 
@@ -59,7 +59,7 @@ class MfxStatusbar:
         #
         self.padx = 1
         self.label_relief = 'sunken'
-        self.frame = Tkinter.Frame(self.top, bd=1)
+        self.frame = tkinter.Frame(self.top, bd=1)
         self.frame.grid(row=self._row, column=self._column,
                         columnspan=self._columnspan, sticky='ew',
                         padx=1, pady=1)
@@ -73,7 +73,7 @@ class MfxStatusbar:
 
     # util
     def _createLabel(self, name, expand=False, width=0, tooltip=None):
-        label = Tkinter.Label(self.frame, width=width,
+        label = tkinter.Label(self.frame, width=width,
                               relief=self.label_relief, bd=1,
                               highlightbackground='black'
                               )
@@ -97,9 +97,9 @@ class MfxStatusbar:
     #
 
     def updateText(self, **kw):
-        for k, v in kw.items():
+        for k, v in list(kw.items()):
             label = getattr(self, k + '_label')
-            text = unicode(v)
+            text = str(v)
             width = label['width']
             if width and len(text) > width:
                 label['width'] = len(text)
@@ -188,7 +188,7 @@ class TestStatusbar(PysolStatusbar):
         self.updateText(info='Some info text.')
 
 def statusbar_main(args):
-    tk = Tkinter.Tk()
+    tk = tkinter.Tk()
     statusbar = TestStatusbar(tk, args)
     tk.mainloop()
     return 0

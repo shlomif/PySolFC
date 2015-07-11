@@ -39,7 +39,7 @@ from pysollib.hint import KlondikeType_Hint
 from pysollib.hint import FreeCellSolverWrapper
 from pysollib.pysoltk import MfxCanvasText
 
-from canfield import CanfieldRush_Talon
+from .canfield import CanfieldRush_Talon
 
 
 # ************************************************************************

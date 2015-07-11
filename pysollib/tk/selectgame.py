@@ -24,8 +24,8 @@
 
 # imports
 import os
-import Tkinter
-from UserList import UserList
+import tkinter
+from collections import UserList
 
 # PySol imports
 from pysollib.mygettext import _, n_
@@ -36,10 +36,10 @@ from pysollib.help import help_html
 from pysollib.resource import CSI
 
 # Toolkit imports
-from tkutil import unbind_destroy
-from tkwidget import MfxDialog, MfxScrolledCanvas
-from selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
-from selecttree import SelectDialogTreeData, SelectDialogTreeCanvas
+from .tkutil import unbind_destroy
+from .tkwidget import MfxDialog, MfxScrolledCanvas
+from .selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
+from .selecttree import SelectDialogTreeData, SelectDialogTreeCanvas
 
 
 # ************************************************************************
@@ -81,7 +81,7 @@ class SelectGameNode(SelectDialogTreeNode):
 class SelectGameData(SelectDialogTreeData):
     def __init__(self, app):
         SelectDialogTreeData.__init__(self)
-        self.all_games_gi = map(app.gdb.get, app.gdb.getGamesIdSortedByName())
+        self.all_games_gi = list(map(app.gdb.get, app.gdb.getGamesIdSortedByName()))
         self.no_games = [ SelectGameLeaf(None, None, _("(no games)"), None), ]
         #
         s_by_type = s_oriental = s_special = s_original = s_contrib = s_mahjongg = None
@@ -94,13 +94,13 @@ class SelectGameData(SelectDialogTreeData):
                      ):
             gg = []
             for name, select_func in data:
-                if name is None or not filter(select_func, self.all_games_gi):
+                if name is None or not list(filter(select_func, self.all_games_gi)):
                     continue
                 gg.append(SelectGameNode(None, _(name), select_func))
             g.append(gg)
         select_mahjongg_game = lambda gi: gi.si.game_type == GI.GT_MAHJONGG
         gg = None
-        if filter(select_mahjongg_game, self.all_games_gi):
+        if list(filter(select_mahjongg_game, self.all_games_gi)):
             gg = SelectGameNode(None, _("Mahjongg Games"),
                                 select_mahjongg_game)
         g.append(gg)
@@ -124,7 +124,7 @@ class SelectGameData(SelectDialogTreeData):
         s_by_compatibility, gg = None, []
         for name, games in GI.GAMES_BY_COMPATIBILITY:
             select_func = lambda gi, games=games: gi.id in games
-            if name is None or not filter(select_func, self.all_games_gi):
+            if name is None or not list(filter(select_func, self.all_games_gi)):
                 continue
             gg.append(SelectGameNode(None, name, select_func))
         if 1 and gg:
@@ -135,7 +135,7 @@ class SelectGameData(SelectDialogTreeData):
         s_by_pysol_version, gg = None, []
         for name, games in GI.GAMES_BY_PYSOL_VERSION:
             select_func = lambda gi, games=games: gi.id in games
-            if name is None or not filter(select_func, self.all_games_gi):
+            if name is None or not list(filter(select_func, self.all_games_gi)):
                continue
             name = _("New games in v. ") + name
             gg.append(SelectGameNode(None, name, select_func))
@@ -145,7 +145,7 @@ class SelectGameData(SelectDialogTreeData):
         s_by_inventors, gg = None, []
         for name, games in GI.GAMES_BY_INVENTORS:
             select_func = lambda gi, games=games: gi.id in games
-            if name is None or not filter(select_func, self.all_games_gi):
+            if name is None or not list(filter(select_func, self.all_games_gi)):
                continue
             gg.append(SelectGameNode(None, name, select_func))
         if 1 and gg:
@@ -154,7 +154,7 @@ class SelectGameData(SelectDialogTreeData):
         #
         ul_alternate_names = UserList(list(app.gdb.getGamesTuplesSortedByAlternateName()))
         #
-        self.rootnodes = filter(None, (
+        self.rootnodes = [_f for _f in (
             SelectGameNode(None, _("All Games"), None),
             SelectGameNode(None, _("Alternate Names"), ul_alternate_names),
             SelectGameNode(None, _("Popular Games"),
@@ -240,7 +240,7 @@ class SelectGameData(SelectDialogTreeData):
             )),
             s_original,
             s_contrib,
-        ))
+        ) if _f]
 
 
 # ************************************************************************
@@ -354,10 +354,10 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         ##padx, pady = kw.padx, kw.pady
         padx, pady = kw.padx/2, kw.pady/2
         # PanedWindow
-        paned_window = Tkinter.PanedWindow(top_frame)
+        paned_window = tkinter.PanedWindow(top_frame)
         paned_window.pack(expand=True, fill='both')
-        left_frame = Tkinter.Frame(paned_window)
-        right_frame = Tkinter.Frame(paned_window)
+        left_frame = tkinter.Frame(paned_window)
+        right_frame = tkinter.Frame(paned_window)
         paned_window.add(left_frame)
         paned_window.add(right_frame)
         # Tree
@@ -366,8 +366,8 @@ class SelectGameDialogWithPreview(SelectGameDialog):
                                     default=kw.default, font=font, width=w1)
         self.tree.frame.pack(padx=padx, pady=pady, expand=True, fill='both')
         # LabelFrame
-        info_frame = Tkinter.LabelFrame(right_frame, text=_('About game'))
-        stats_frame = Tkinter.LabelFrame(right_frame, text=_('Statistics'))
+        info_frame = tkinter.LabelFrame(right_frame, text=_('About game'))
+        stats_frame = tkinter.LabelFrame(right_frame, text=_('Statistics'))
         info_frame.grid(row=0, column=0, padx=padx, pady=pady,
                         ipadx=padx, ipady=pady, sticky='nws')
         stats_frame.grid(row=0, column=1, padx=padx, pady=pady,
@@ -391,9 +391,9 @@ class SelectGameDialogWithPreview(SelectGameDialog):
             ('moves',       _('Moves:'),            stats_frame,  4),
             ('percent',     _('% won:'),            stats_frame,  5),
             ):
-            title_label = Tkinter.Label(f, text=t, justify='left', anchor='w')
+            title_label = tkinter.Label(f, text=t, justify='left', anchor='w')
             title_label.grid(row=row, column=0, sticky='nw')
-            text_label = Tkinter.Label(f, justify='left', anchor='w')
+            text_label = tkinter.Label(f, justify='left', anchor='w')
             text_label.grid(row=row, column=1, sticky='nw')
             self.info_labels[n] = (title_label, text_label)
         ##info_frame.columnconfigure(1, weight=1)

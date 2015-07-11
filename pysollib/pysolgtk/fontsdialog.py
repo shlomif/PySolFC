@@ -31,7 +31,7 @@ import gtk.glade
 
 # PySol imports
 from pysollib.mygettext import _, n_
-from tkutil import create_pango_font_desc
+from .tkutil import create_pango_font_desc
 
 
 # ************************************************************************

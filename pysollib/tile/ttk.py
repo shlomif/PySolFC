@@ -25,13 +25,13 @@ __all__ = ["Button", "Checkbutton", "Combobox", "Entry", "Frame", "Label",
            # functions
            "tclobjs_to_py"]
 
-import Tkinter
+import tkinter
 from pysollib.mygettext import _, n_
 
-_flatten = Tkinter._flatten
+_flatten = tkinter._flatten
 
 # Verify if Tk is new enough to not need Tile checking
-_REQUIRE_TILE = True if Tkinter.TkVersion < 8.5 else False
+_REQUIRE_TILE = True if tkinter.TkVersion < 8.5 else False
 
 def _loadttk(loadtk):
     # This extends the default Tkinter.Tk._loadtk method so we can be
@@ -52,7 +52,7 @@ def _loadttk(loadtk):
 
     return _wrapper
 
-Tkinter.Tk._loadtk = _loadttk(Tkinter.Tk._loadtk)
+tkinter.Tk._loadtk = _loadttk(tkinter.Tk._loadtk)
 
 def _format_optdict(optdict, script=False, ignore=None):
     """Formats optdict to a tuple to pass it to tk.call.
@@ -63,15 +63,15 @@ def _format_optdict(optdict, script=False, ignore=None):
     format = "%s" if not script else "{%s}"
 
     opts = []
-    for opt, value in optdict.iteritems():
+    for opt, value in optdict.items():
         if ignore and opt in ignore:
             continue
 
         if isinstance(value, (list, tuple)):
             v = []
             for val in value:
-                if isinstance(val, basestring):
-                    v.append(unicode(val) if val else '{}')
+                if isinstance(val, str):
+                    v.append(str(val) if val else '{}')
                 else:
                     v.append(str(val))
 
@@ -102,7 +102,7 @@ def _format_mapdict(mapdict, script=False):
     format = "%s" if not script else "{%s}"
 
     opts = []
-    for opt, value in mapdict.iteritems():
+    for opt, value in mapdict.items():
 
         opt_val = []
         # each value in mapdict is expected to be a sequence, where each item
@@ -219,14 +219,14 @@ def _script_from_settings(settings):
     script = []
     # a script will be generated according to settings passed, which
     # will then be evaluated by Tcl
-    for name, opts in settings.iteritems():
+    for name, opts in settings.items():
         # will format specific keys according to Tcl code
         if opts.get('configure'): # format 'configure'
-            s = ' '.join(map(unicode, _format_optdict(opts['configure'], True)))
+            s = ' '.join(map(str, _format_optdict(opts['configure'], True)))
             script.append("ttk::style configure %s %s;" % (name, s))
 
         if opts.get('map'): # format 'map'
-            s = ' '.join(map(unicode, _format_mapdict(opts['map'], True)))
+            s = ' '.join(map(str, _format_mapdict(opts['map'], True)))
             script.append("ttk::style map %s %s;" % (name, s))
 
         if 'layout' in opts: # format 'layout' which may be empty
@@ -329,7 +329,7 @@ def _val_or_dict(options, func, *args):
 
 def _convert_stringval(value):
     """Converts a value to, hopefully, a more appropriate Python object."""
-    value = unicode(value)
+    value = str(value)
     try:
         value = int(value)
     except (ValueError, TypeError):
@@ -340,12 +340,12 @@ def _convert_stringval(value):
 def tclobjs_to_py(adict):
     """Returns adict with its values converted from Tcl objects to Python
     objects."""
-    for opt, val in adict.iteritems():
-        if val and hasattr(val, '__len__') and not isinstance(val, basestring):
+    for opt, val in adict.items():
+        if val and hasattr(val, '__len__') and not isinstance(val, str):
             if getattr(val[0], 'typename', None) == 'StateSpec':
                 val = _list_from_statespec(val)
             else:
-                val = map(_convert_stringval, val)
+                val = list(map(_convert_stringval, val))
 
         elif hasattr(val, 'typename'): # some other (single) Tcl object
             val = _convert_stringval(val)
@@ -362,8 +362,8 @@ class Style(object):
 
     def __init__(self, master=None):
         if master is None:
-            if Tkinter._support_default_root:
-                master = Tkinter._default_root or Tkinter.Tk()
+            if tkinter._support_default_root:
+                master = tkinter._default_root or tkinter.Tk()
             else:
                 raise RuntimeError("No master specified and Tkinter is "
                     "configured to not support default master")
@@ -520,7 +520,7 @@ class Style(object):
         self.tk.call("ttk::setTheme", themename)
 
 
-class Widget(Tkinter.Widget):
+class Widget(tkinter.Widget):
     """Base class for Tk themed widgets."""
 
     def __init__(self, master, widgetname, kw=None):
@@ -543,7 +543,7 @@ class Widget(Tkinter.Widget):
             active, disabled, focus, pressed, selected, background,
             readonly, alternate, invalid
         """
-        Tkinter.Widget.__init__(self, master, widgetname, kw=kw)
+        tkinter.Widget.__init__(self, master, widgetname, kw=kw)
 
 
     def identify(self, x, y):
@@ -634,7 +634,7 @@ class Checkbutton(Widget):
         return self.tk.call(self._w, "invoke")
 
 
-class Entry(Widget, Tkinter.Entry):
+class Entry(Widget, tkinter.Entry):
     """Ttk Entry widget displays a one-line text string and allows that
     string to be edited by the user."""
 
@@ -939,7 +939,7 @@ class Notebook(Widget):
         self.tk.call("ttk::notebook::enableTraversal", self._w)
 
 
-class Panedwindow(Widget, Tkinter.PanedWindow):
+class Panedwindow(Widget, tkinter.PanedWindow):
     """Ttk Panedwindow widget displays a number of subwindows, stacked
     either vertically or horizontally."""
 
@@ -961,7 +961,7 @@ class Panedwindow(Widget, Tkinter.PanedWindow):
         Widget.__init__(self, master, "ttk::panedwindow", kw)
 
 
-    forget = Tkinter.PanedWindow.forget # overrides Pack.forget
+    forget = tkinter.PanedWindow.forget # overrides Pack.forget
 
 
     def insert(self, pos, child, **kw):
@@ -1068,7 +1068,7 @@ class Radiobutton(Widget):
         return self.tk.call(self._w, "invoke")
 
 
-class Scale(Widget, Tkinter.Scale):
+class Scale(Widget, tkinter.Scale):
     """Ttk Scale widget is typically used to control the numeric value of
     a linked variable that varies uniformly over some range."""
 
@@ -1107,7 +1107,7 @@ class Scale(Widget, Tkinter.Scale):
         return self.tk.call(self._w, 'get', x, y)
 
 
-class Scrollbar(Widget, Tkinter.Scrollbar):
+class Scrollbar(Widget, tkinter.Scrollbar):
     """Ttk Scrollbar controls the viewport of a scrollable widget."""
 
     def __init__(self, master=None, **kw):
@@ -1272,7 +1272,7 @@ class Treeview(Widget):
 
         To configure the tree column heading, call this with column = "#0" """
         cmd = kw.get('command')
-        if cmd and not isinstance(cmd, basestring):
+        if cmd and not isinstance(cmd, str):
             # callback not registered yet, do it now
             kw['command'] = self.master.register(cmd, self._substitute)
 
@@ -1498,7 +1498,7 @@ class LabeledScale(Frame, object):
         self._label_top = kw.pop('compound', 'top') == 'top'
 
         Frame.__init__(self, master, **kw)
-        self._variable = variable or Tkinter.IntVar(master)
+        self._variable = variable or tkinter.IntVar(master)
         self._variable.set(from_)
         self._last_valid = from_
 
@@ -1588,13 +1588,13 @@ class OptionMenu(Menubutton):
         kw = {'textvariable': variable, 'style': kwargs.pop('style', None),
               'direction': kwargs.pop('direction', None)}
         Menubutton.__init__(self, master, **kw)
-        self['menu'] = Tkinter.Menu(self, tearoff=False)
+        self['menu'] = tkinter.Menu(self, tearoff=False)
 
         self._variable = variable
         self._callback = kwargs.pop('command', None)
         if kwargs:
-            raise Tkinter.TclError('unknown option -%s' % (
-                kwargs.iterkeys().next()))
+            raise tkinter.TclError('unknown option -%s' % (
+                next(iter(kwargs.keys()))))
 
         self.set_menu(default, *values)
 
@@ -1613,7 +1613,7 @@ class OptionMenu(Menubutton):
         menu.delete(0, 'end')
         for val in values:
             menu.add_radiobutton(label=val,
-                command=Tkinter._setit(self._variable, val, self._callback))
+                command=tkinter._setit(self._variable, val, self._callback))
 
         if default:
             self._variable.set(default)

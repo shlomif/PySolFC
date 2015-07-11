@@ -26,7 +26,7 @@ __all__ = ['PysolMenubarTk']
 # imports
 import math, os, sys, re
 import traceback
-import Tkinter, tkFileDialog
+import tkinter, tkinter.filedialog
 
 # PySol imports
 from pysollib.mygettext import _, n_
@@ -41,17 +41,17 @@ from pysollib.settings import DEBUG
 from pysollib.gamedb import GI
 
 # toolkit imports
-from tkconst import EVENT_HANDLED, EVENT_PROPAGATE, CURSOR_WATCH, COMPOUNDS
-from tkutil import bind, after_idle
-from tkwidget import MfxMessageDialog
-from selectgame import SelectGameDialog, SelectGameDialogWithPreview
-from soundoptionsdialog import SoundOptionsDialog
-from selectcardset import SelectCardsetDialogWithPreview
-from selecttile import SelectTileDialogWithPreview
-from findcarddialog import connect_game_find_card_dialog, destroy_find_card_dialog
-from solverdialog import connect_game_solver_dialog
+from .tkconst import EVENT_HANDLED, EVENT_PROPAGATE, CURSOR_WATCH, COMPOUNDS
+from .tkutil import bind, after_idle
+from .tkwidget import MfxMessageDialog
+from .selectgame import SelectGameDialog, SelectGameDialogWithPreview
+from .soundoptionsdialog import SoundOptionsDialog
+from .selectcardset import SelectCardsetDialogWithPreview
+from .selecttile import SelectTileDialogWithPreview
+from .findcarddialog import connect_game_find_card_dialog, destroy_find_card_dialog
+from .solverdialog import connect_game_solver_dialog
 
-from tkconst import TOOLBAR_BUTTONS
+from .tkconst import TOOLBAR_BUTTONS
 
 
 # ************************************************************************
@@ -109,14 +109,14 @@ def createToolbarMenu(menubar, menu):
 # *
 # ************************************************************************
 
-class MfxMenubar(Tkinter.Menu):
+class MfxMenubar(tkinter.Menu):
     addPath = None
 
     def __init__(self, master, **kw):
         self.name = kw["name"]
         tearoff = 0
         self.n = kw["tearoff"] = int(kw.get("tearoff", tearoff))
-        Tkinter.Menu.__init__(self, master, **kw)
+        tkinter.Menu.__init__(self, master, **kw)
 
     def labeltoname(self, label):
         #print label, type(label)
@@ -140,7 +140,7 @@ class MfxMenubar(Tkinter.Menu):
             if name and self.addPath:
                 path = str(self._w) + "." + name
                 self.addPath(path, self, self.n, cnf.get("menu"))
-        Tkinter.Menu.add(self, itemType, cnf)
+        tkinter.Menu.add(self, itemType, cnf)
         self.n = self.n + 1
 
 
@@ -192,53 +192,53 @@ class PysolMenubarTk:
     def _createTkOpt(self):
         # structure to convert menu-options to Toolkit variables
         self.tkopt = Struct(
-            gameid = Tkinter.IntVar(),
-            gameid_popular = Tkinter.IntVar(),
-            comment = Tkinter.BooleanVar(),
-            autofaceup = Tkinter.BooleanVar(),
-            autodrop = Tkinter.BooleanVar(),
-            autodeal = Tkinter.BooleanVar(),
-            quickplay = Tkinter.BooleanVar(),
-            undo = Tkinter.BooleanVar(),
-            bookmarks = Tkinter.BooleanVar(),
-            hint = Tkinter.BooleanVar(),
-            shuffle = Tkinter.BooleanVar(),
-            highlight_piles = Tkinter.BooleanVar(),
-            highlight_cards = Tkinter.BooleanVar(),
-            highlight_samerank = Tkinter.BooleanVar(),
-            highlight_not_matching = Tkinter.BooleanVar(),
-            mahjongg_show_removed = Tkinter.BooleanVar(),
-            shisen_show_hint = Tkinter.BooleanVar(),
-            sound = Tkinter.BooleanVar(),
-            auto_scale = Tkinter.BooleanVar(),
-            cardback = Tkinter.IntVar(),
-            tabletile = Tkinter.IntVar(),
-            animations = Tkinter.IntVar(),
-            redeal_animation = Tkinter.BooleanVar(),
-            win_animation = Tkinter.BooleanVar(),
-            shadow = Tkinter.BooleanVar(),
-            shade = Tkinter.BooleanVar(),
-            shade_filled_stacks = Tkinter.BooleanVar(),
-            shrink_face_down = Tkinter.BooleanVar(),
-            toolbar = Tkinter.IntVar(),
-            toolbar_style = Tkinter.StringVar(),
-            toolbar_relief = Tkinter.StringVar(),
-            toolbar_compound = Tkinter.StringVar(),
-            toolbar_size = Tkinter.IntVar(),
-            statusbar = Tkinter.BooleanVar(),
-            num_cards = Tkinter.BooleanVar(),
-            helpbar = Tkinter.BooleanVar(),
-            save_games_geometry = Tkinter.BooleanVar(),
-            splashscreen = Tkinter.BooleanVar(),
-            demo_logo = Tkinter.BooleanVar(),
-            mouse_type = Tkinter.StringVar(),
-            mouse_undo = Tkinter.BooleanVar(),
-            negative_bottom = Tkinter.BooleanVar(),
-            pause = Tkinter.BooleanVar(),
+            gameid = tkinter.IntVar(),
+            gameid_popular = tkinter.IntVar(),
+            comment = tkinter.BooleanVar(),
+            autofaceup = tkinter.BooleanVar(),
+            autodrop = tkinter.BooleanVar(),
+            autodeal = tkinter.BooleanVar(),
+            quickplay = tkinter.BooleanVar(),
+            undo = tkinter.BooleanVar(),
+            bookmarks = tkinter.BooleanVar(),
+            hint = tkinter.BooleanVar(),
+            shuffle = tkinter.BooleanVar(),
+            highlight_piles = tkinter.BooleanVar(),
+            highlight_cards = tkinter.BooleanVar(),
+            highlight_samerank = tkinter.BooleanVar(),
+            highlight_not_matching = tkinter.BooleanVar(),
+            mahjongg_show_removed = tkinter.BooleanVar(),
+            shisen_show_hint = tkinter.BooleanVar(),
+            sound = tkinter.BooleanVar(),
+            auto_scale = tkinter.BooleanVar(),
+            cardback = tkinter.IntVar(),
+            tabletile = tkinter.IntVar(),
+            animations = tkinter.IntVar(),
+            redeal_animation = tkinter.BooleanVar(),
+            win_animation = tkinter.BooleanVar(),
+            shadow = tkinter.BooleanVar(),
+            shade = tkinter.BooleanVar(),
+            shade_filled_stacks = tkinter.BooleanVar(),
+            shrink_face_down = tkinter.BooleanVar(),
+            toolbar = tkinter.IntVar(),
+            toolbar_style = tkinter.StringVar(),
+            toolbar_relief = tkinter.StringVar(),
+            toolbar_compound = tkinter.StringVar(),
+            toolbar_size = tkinter.IntVar(),
+            statusbar = tkinter.BooleanVar(),
+            num_cards = tkinter.BooleanVar(),
+            helpbar = tkinter.BooleanVar(),
+            save_games_geometry = tkinter.BooleanVar(),
+            splashscreen = tkinter.BooleanVar(),
+            demo_logo = tkinter.BooleanVar(),
+            mouse_type = tkinter.StringVar(),
+            mouse_undo = tkinter.BooleanVar(),
+            negative_bottom = tkinter.BooleanVar(),
+            pause = tkinter.BooleanVar(),
             toolbar_vars = {},
         )
         for w in TOOLBAR_BUTTONS:
-            self.tkopt.toolbar_vars[w] = Tkinter.BooleanVar()
+            self.tkopt.toolbar_vars[w] = tkinter.BooleanVar()
 
     def _setOptions(self):
         tkopt, opt = self.tkopt, self.app.opt
@@ -635,7 +635,7 @@ class PysolMenubarTk:
 
     def _addSelectGameMenu(self, menu):
         #games = map(self.app.gdb.get, self.app.gdb.getGamesIdSortedByShortName())
-        games = map(self.app.gdb.get, self.app.gdb.getGamesIdSortedByName())
+        games = list(map(self.app.gdb.get, self.app.gdb.getGamesIdSortedByName()))
         ##games = tuple(games)
         ###menu = MfxMenu(menu, label="Select &game")
         m = "Ctrl-"
@@ -674,7 +674,7 @@ class PysolMenubarTk:
             if label is None:
                 need_sep = 1
                 continue
-            g = filter(select_func, games)
+            g = list(filter(select_func, games))
             if not g:
                 continue
             if need_sep:
@@ -686,12 +686,12 @@ class PysolMenubarTk:
     def _getNumGames(self, games, select_data):
         ngames = 0
         for label, select_func in select_data:
-            ngames += len(filter(select_func, games))
+            ngames += len(list(filter(select_func, games)))
         return ngames
 
     def _addSelectMahjonggGameSubMenu(self, games, menu, command, variable):
         select_func = lambda gi: gi.si.game_type == GI.GT_MAHJONGG
-        mahjongg_games = filter(select_func, games)
+        mahjongg_games = list(filter(select_func, games))
         if len(mahjongg_games) == 0:
             return
         #
@@ -715,7 +715,7 @@ class PysolMenubarTk:
                 games[c].append(gi)
             else:
                 games[c] = [gi]
-        games = games.items()
+        games = list(games.items())
         games.sort()
         g0 = []
         c0 = c1 = games[0][0]
@@ -731,7 +731,7 @@ class PysolMenubarTk:
 
     def _addSelectPopularGameSubMenu(self, games, menu, command, variable):
         select_func = lambda gi: gi.si.game_flags & GI.GT_POPULAR
-        if len(filter(select_func, games)) == 0:
+        if len(list(filter(select_func, games))) == 0:
             return
         data = (n_("&Popular games"), select_func)
         self._addSelectGameSubMenu(games, menu, (data, ),
@@ -764,7 +764,7 @@ class PysolMenubarTk:
     def _addSelectCustomGameSubMenu(self, games, menu, command, variable):
         submenu = MfxMenu(menu, label=n_("&Custom games"))
         select_func = lambda gi: gi.si.game_type == GI.GT_CUSTOM
-        games = filter(select_func, games)
+        games = list(filter(select_func, games))
         self.updateGamesMenu(submenu, games)
 
     def _addSelectAllGameSubMenu(self, games, menu, command, variable):
@@ -992,7 +992,7 @@ class PysolMenubarTk:
             idir, ifile = "", ""
         if not idir:
             idir = self.app.dn.savegames
-        d = tkFileDialog.Open()
+        d = tkinter.filedialog.Open()
         filename = d.show(filetypes=self.FILETYPES,
                           defaultextension=self.DEFAULTEXTENSION,
                           initialdir=idir, initialfile=ifile)
@@ -1020,7 +1020,7 @@ class PysolMenubarTk:
         if not idir:
             idir = self.app.dn.savegames
         ##print self.game.filename, ifile
-        d = tkFileDialog.SaveAs()
+        d = tkinter.filedialog.SaveAs()
         filename = d.show(filetypes=self.FILETYPES,
                           defaultextension=self.DEFAULTEXTENSION,
                           initialdir=idir, initialfile=ifile)
@@ -1422,7 +1422,7 @@ class PysolMenubarTk:
 
     def wizardDialog(self, edit=False):
         from pysollib.wizardutil import write_game, reset_wizard
-        from wizarddialog import WizardDialog
+        from .wizarddialog import WizardDialog
 
         if edit:
             reset_wizard(self.game)
@@ -1435,7 +1435,7 @@ class PysolMenubarTk:
                     gameid = write_game(self.app, game=self.game)
                 else:
                     gameid = write_game(self.app)
-            except Exception, err:
+            except Exception as err:
                 if DEBUG:
                     traceback.print_exc()
                 d = MfxMessageDialog(self.top, title=_('Save game error'),
@@ -1449,9 +1449,9 @@ Error while saving game.
             if SELECT_GAME_MENU:
                 menu = self.__menupath[".menubar.select.customgames"][2]
                 select_func = lambda gi: gi.si.game_type == GI.GT_CUSTOM
-                games = map(self.app.gdb.get,
-                            self.app.gdb.getGamesIdSortedByName())
-                games = filter(select_func, games)
+                games = list(map(self.app.gdb.get,
+                            self.app.gdb.getGamesIdSortedByName()))
+                games = list(filter(select_func, games))
                 self.updateGamesMenu(menu, games)
 
             self.tkopt.gameid.set(gameid)

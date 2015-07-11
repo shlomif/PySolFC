@@ -118,7 +118,7 @@ class ResourceManager:
                 dir = os.path.normpath(dir)
                 if dir and os.path.isdir(dir) and dir not in result:
                     result.append(dir)
-        except EnvironmentError, ex:
+        except EnvironmentError as ex:
             pass
 
     def getSearchDirs(self, app, search, env=None):
@@ -145,11 +145,11 @@ class ResourceManager:
                             self._addDir(result, d)
                     else:
                         self._addDir(result, os.path.join(dir, s))
-                except EnvironmentError, ex:
+                except EnvironmentError as ex:
                     traceback.print_exc()
                     pass
         if DEBUG >= 6:
-            print "getSearchDirs", env, search, "->", result
+            print("getSearchDirs", env, search, "->", result)
         return result
 
 
@@ -369,7 +369,7 @@ class Cardset(Resource):
             ls = min(ls, 4)
         low_ranks, high_ranks = 1, 3
         ###if self.type == 3: high_ranks = 4
-        for rank in range(0, low_ranks) + range(lr-high_ranks, lr):
+        for rank in list(range(0, low_ranks)) + list(range(lr-high_ranks, lr)):
             for suit in range(ls):
                 index = suit * len(self.ranks) + rank
                 pnames.append(names[index % len(names)])
@@ -377,7 +377,7 @@ class Cardset(Resource):
 
     def updateCardback(self, backname=None, backindex=None):
         # update default back
-        if isinstance(backname, basestring):
+        if isinstance(backname, str):
             if backname in self.backnames:
                 backindex = self.backnames.index(backname)
         if isinstance(backindex, int):
@@ -385,7 +385,7 @@ class Cardset(Resource):
         self.backname = self.backnames[self.backindex]
 
     def saveSettings(self):
-        print 'saveSettings'
+        print('saveSettings')
 
 
 class CardsetManager(ResourceManager):
@@ -403,42 +403,42 @@ class CardsetManager(ResourceManager):
             return 0
         cs.si.type = s
         if s == CSI.TYPE_FRENCH:
-            cs.ranks = range(13)
+            cs.ranks = list(range(13))
             cs.suits = "cshd"
         elif s == CSI.TYPE_HANAFUDA:
             cs.nbottoms = 15
-            cs.ranks = range(4)
+            cs.ranks = list(range(4))
             cs.suits = "abcdefghijkl"
         elif s == CSI.TYPE_TAROCK:
             cs.nbottoms = 8
-            cs.ranks = range(14)
+            cs.ranks = list(range(14))
             cs.suits = "cshd"
-            cs.trumps = range(22)
+            cs.trumps = list(range(22))
         elif s == CSI.TYPE_MAHJONGG:
-            cs.ranks = range(10)
+            cs.ranks = list(range(10))
             cs.suits = "abc"
-            cs.trumps = range(12)
+            cs.trumps = list(range(12))
             #
             cs.nbottoms = 0
             cs.nletters = 0
             cs.nshadows = 0
         elif s == CSI.TYPE_HEXADECK:
             cs.nbottoms = 8
-            cs.ranks = range(16)
+            cs.ranks = list(range(16))
             cs.suits = "cshd"
-            cs.trumps = range(4)
+            cs.trumps = list(range(4))
         elif s == CSI.TYPE_MUGHAL_GANJIFA:
             cs.nbottoms = 11
-            cs.ranks = range(12)
+            cs.ranks = list(range(12))
             cs.suits = "abcdefgh"
         elif s == CSI.TYPE_NAVAGRAHA_GANJIFA:
             #???return 0                            ## FIXME
             cs.nbottoms = 12
-            cs.ranks = range(12)
+            cs.ranks = list(range(12))
             cs.suits = "abcdefghi"
         elif s == CSI.TYPE_DASHAVATARA_GANJIFA:
             cs.nbottoms = 13
-            cs.ranks = range(12)
+            cs.ranks = list(range(12))
             cs.suits = "abcdefghij"
         elif s == CSI.TYPE_TRUMP_ONLY:
             #???return 0                            ## FIXME
@@ -451,7 +451,7 @@ class CardsetManager(ResourceManager):
             cs.nshadows = 0
             cs.ranks = ()
             cs.suits = ""
-            cs.trumps = range(cs.ncards)
+            cs.trumps = list(range(cs.ncards))
 
         else:
             return 0

@@ -38,7 +38,7 @@ from pysollib.mfxutil import SubclassResponsibility
 class BasicRandom:
     #MAX_SEED = 0L
     #MAX_SEED = 0xffffffffffffffffL  # 64 bits
-    MAX_SEED = 100000000000000000000L # 20 digits
+    MAX_SEED = 100000000000000000000 # 20 digits
 
     ORIGIN_UNKNOWN  = 0
     ORIGIN_RANDOM   = 1
@@ -59,18 +59,18 @@ class BasicRandom:
         raise SubclassResponsibility
 
     def copy(self):
-        random = self.__class__(0L)
+        random = self.__class__(0)
         random.__dict__.update(self.__dict__)
         return random
 
     def increaseSeed(self, seed):
         if seed < self.MAX_SEED:
-            return seed + 1L
-        return 0L
+            return seed + 1
+        return 0
 
     def _getRandomSeed(self):
-        t = long(time.time() * 256.0)
-        t = (t ^ (t >> 24)) % (self.MAX_SEED + 1L)
+        t = int(time.time() * 256.0)
+        t = (t ^ (t >> 24)) % (self.MAX_SEED + 1)
         return t
 
     def setSeedAsStr(self, new_s):
@@ -142,9 +142,9 @@ class MFXRandom(BasicRandom):
         return self.seed
 
     def setSeed(self, seed):
-        seed = long(seed)
-        if not (0L <= seed <= self.MAX_SEED):
-            raise ValueError, "seed out of range"
+        seed = int(seed)
+        if not (0 <= seed <= self.MAX_SEED):
+            raise ValueError("seed out of range")
         self.seed = seed
         return seed
 
@@ -163,7 +163,7 @@ class MFXRandom(BasicRandom):
 
     # Get a random integer in the range [a, b] including both end points.
     def randint(self, a, b):
-        return a + long(self.random() * (b+1-a))
+        return a + int(self.random() * (b+1-a))
 
     def randrange(self, a, b):
         return self.randint(a, b-1)
@@ -187,8 +187,8 @@ class MFXRandom(BasicRandom):
 class LCRandom64(MFXRandom):
 
     def random(self):
-        self.seed = (self.seed*6364136223846793005L + 1L) & self.MAX_SEED
-        return ((self.seed >> 21) & 0x7fffffffL) / 2147483648.0
+        self.seed = (self.seed*6364136223846793005 + 1) & self.MAX_SEED
+        return ((self.seed >> 21) & 0x7fffffff) / 2147483648.0
 
 
 # ************************************************************************
@@ -198,17 +198,17 @@ class LCRandom64(MFXRandom):
 # ************************************************************************
 
 class LCRandom31(MFXRandom):
-    MAX_SEED = 0x7fffffffL          # 31 bits
+    MAX_SEED = 0x7fffffff          # 31 bits
 
     def str(self, seed):
         return "%05d" % int(seed)
 
     def random(self):
-        self.seed = (self.seed*214013L + 2531011L) & self.MAX_SEED
+        self.seed = (self.seed*214013 + 2531011) & self.MAX_SEED
         return (self.seed >> 16) / 32768.0
 
     def randint(self, a, b):
-        self.seed = (self.seed*214013L + 2531011L) & self.MAX_SEED
+        self.seed = (self.seed*214013 + 2531011) & self.MAX_SEED
         return a + (int(self.seed >> 16) % (b+1-a))
 
     def shuffle(self, seq):
@@ -233,18 +233,18 @@ PysolRandom = MTRandom
 def constructRandom(s):
     m = re.match(r"ms(\d+)\n?\Z", s);
     if m:
-        seed = long(m.group(1))
+        seed = int(m.group(1))
         if 0 <= seed < (1 << 31):
             ret = LCRandom31(seed)
             ret.setSeedAsStr(s)
             return ret
         else:
-            raise ValueError, "ms seed out of range"
+            raise ValueError("ms seed out of range")
     s = re.sub(r"L$", "", str(s))   # cut off "L" from possible conversion to long
     s = re.sub(r"[\s\#\-\_\.\,]", "", s.lower())
     if not s:
         return None
-    seed = long(s)
+    seed = int(s)
     if 0 <= seed < 32000:
         return LCRandom31(seed)
     return PysolRandom(seed)
@@ -252,8 +252,8 @@ def constructRandom(s):
 # test
 if __name__ == '__main__':
     r = constructRandom('12345')
-    print r.randint(0, 100)
-    print r.random()
-    print type(r)
+    print(r.randint(0, 100))
+    print(r.random())
+    print(type(r))
 
 

@@ -54,7 +54,7 @@ class _HideableCard(AbstractCard):
 
 
 # ************************************************************************
-# * New implemetation since 2.10
+# * New implementation since 2.10
 # *
 # * We use a single CanvasImage and call CanvasImage.config() to
 # * turn the card.
@@ -168,7 +168,7 @@ class _OneImageCardWithHideByConfig(_OneImageCard):
 
 
 # ************************************************************************
-# * Old implemetation prior to 2.10
+# * Old implementation prior to 2.10
 # *
 # * The card consists of two CanvasImages. To show the card face up,
 # * the face item is placed in front of the back. To show it face

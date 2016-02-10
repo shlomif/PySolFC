@@ -790,15 +790,13 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
         else:
             return False
 
-    def computeHints(self):
+    def _calcBoard(self):
         game = self.game
-        game_type = self.game_type
-        progress = self.options['progress']
         board = ''
         #
         #
         b = ''
-        for s in self.game.s.foundations:
+        for s in game.s.foundations:
             if s.cards:
                 if 'preset' in game_type and game_type['preset'] == 'simple_simon':
                     ss = self.card2str2(s.cards[0])
@@ -809,7 +807,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
             board += 'Founds:' + b + '\n'
         #
         b = ''
-        for s in self.game.s.reserves:
+        for s in game.s.reserves:
             if s.cards:
                 cs = self.card2str1(s.cards[-1])
                 b += ' ' + cs
@@ -818,14 +816,24 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
         if b:
             board += 'FC:' + b + '\n'
         #
-        for s in self.game.s.rows:
+        for s in game.s.rows:
             b = ''
             for c in s.cards:
                 cs = self.card2str1(c)
                 if not c.face_up:
                     cs = '<%s>' % cs
                 b += cs + ' '
-            board = board + b.strip() + '\n'
+            board += b.strip() + '\n'
+
+        return board
+
+
+    def computeHints(self):
+        game = self.game
+        game_type = self.game_type
+        progress = self.options['progress']
+
+        board = self._calcBoard()
         #
         if DEBUG:
             print '--------------------\n', board, '--------------------'
@@ -980,14 +988,9 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
 
 class BlackHoleSolver_Hint(Base_Solver_Hint):
     BLACK_HOLE_SOLVER_COMMAND = 'black-hole-solve'
-    def computeHints(self):
-        game = self.game
-        game_type = self.game_type
-        progress = self.options['progress']
-        board = ''
-        #
-        #
 
+    def _calcBoard(self):
+        board = ''
         cards = self.game.s.foundations[0].cards
         s = '-'
         if (len(cards) > 0):
@@ -1002,6 +1005,15 @@ class BlackHoleSolver_Hint(Base_Solver_Hint):
                     cs = '<%s>' % cs
                 b += cs + ' '
             board += b.strip() + '\n'
+
+        return board;
+
+    def computeHints(self):
+        game = self.game
+        game_type = self.game_type
+        progress = self.options['progress']
+
+        board = self._calcBoard()
         #
         if DEBUG:
             print '--------------------\n', board, '--------------------'

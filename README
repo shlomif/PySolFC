@@ -16,7 +16,7 @@ Requirements.
 ** other packages (optional) **
   - Tile (ttk): http://tktable.sourceforge.net/tile/ (0.8.0 or later)
   - PIL (Python Imaging Library): http://www.pythonware.com/products/pil
-  - Freecell Solver: http://fc-solve.berlios.de/
+  - Freecell Solver: http://fc-solve.shlomifish.org/ .
 
 
 Installation.

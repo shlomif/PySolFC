@@ -25,8 +25,9 @@ __all__ = ['PysolMenubarTk']
 
 # imports
 import math, os, sys, re
+import Tkinter
 import traceback
-import Tkinter, tkFileDialog
+import tkFileDialog
 
 # PySol imports
 from pysollib.mygettext import _, n_

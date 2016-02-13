@@ -36,7 +36,7 @@ from pysollib.settings import TITLE
 from pysollib.winsystems import TkSettings
 
 # Toolkit imports
-from tkconst import EVENT_HANDLED
+from pysollib.ui.tktile.tkconst import EVENT_HANDLED
 from tkwidget import MfxTooltip
 from menubar import createToolbarMenu, MfxMenu
 

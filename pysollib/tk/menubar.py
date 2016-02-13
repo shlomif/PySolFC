@@ -42,7 +42,7 @@ from pysollib.settings import DEBUG
 from pysollib.gamedb import GI
 
 # toolkit imports
-from tkconst import EVENT_HANDLED, EVENT_PROPAGATE, CURSOR_WATCH, COMPOUNDS
+from pysollib.ui.tktile.tkconst import EVENT_HANDLED, EVENT_PROPAGATE, CURSOR_WATCH, COMPOUNDS
 from tkutil import bind, after_idle
 from tkwidget import MfxMessageDialog
 from selectgame import SelectGameDialog, SelectGameDialogWithPreview
@@ -52,7 +52,7 @@ from selecttile import SelectTileDialogWithPreview
 from findcarddialog import connect_game_find_card_dialog, destroy_find_card_dialog
 from solverdialog import connect_game_solver_dialog
 
-from tkconst import TOOLBAR_BUTTONS
+from pysollib.ui.tktile.tkconst import TOOLBAR_BUTTONS
 
 from pysollib.ui.tktile.menubar import createToolbarMenu, MfxMenubar, MfxMenu
 # ************************************************************************

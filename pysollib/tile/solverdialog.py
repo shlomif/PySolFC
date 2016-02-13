@@ -39,7 +39,7 @@ from pysollib.settings import TITLE
 from pysollib.mfxutil import KwStruct
 
 # Toolkit imports
-from tkconst import EVENT_HANDLED
+from pysollib.ui.tktile.tkconst import EVENT_HANDLED
 from tkwidget import MfxDialog
 from tkwidget import PysolCombo
 

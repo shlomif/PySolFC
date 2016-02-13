@@ -27,7 +27,7 @@ __all__ = ['PysolProgressBar']
 import Tkinter
 
 # Toolkit imports
-from tkconst import EVENT_HANDLED
+from pysollib.ui.tktile.tkconst import EVENT_HANDLED
 from tkutil import makeToplevel, setTransient
 
 

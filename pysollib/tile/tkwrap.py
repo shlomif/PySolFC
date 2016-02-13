@@ -29,7 +29,7 @@ import Tkinter
 TclError = Tkinter.TclError
 
 # PySol imports
-from tkconst import EVENT_PROPAGATE
+from pysollib.ui.tktile.tkconst import EVENT_PROPAGATE
 
 
 # ************************************************************************

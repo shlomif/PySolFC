@@ -4,8 +4,8 @@ import Tkinter
 from pysollib.mfxutil import kwdefault
 from pysollib.mygettext import _, n_
 
-from tkconst import EVENT_HANDLED, EVENT_PROPAGATE, CURSOR_WATCH, COMPOUNDS
-from tkconst import TOOLBAR_BUTTONS
+from pysollib.ui.tktile.tkconst import EVENT_HANDLED, EVENT_PROPAGATE, CURSOR_WATCH, COMPOUNDS
+from pysollib.ui.tktile.tkconst import TOOLBAR_BUTTONS
 
 def createToolbarMenu(menubar, menu):
     tearoff = menu.cget('tearoff')

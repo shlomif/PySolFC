@@ -151,7 +151,6 @@ for module_name in [
 'pysollib.tile.statusbar',
 'pysollib.tile.timeoutsdialog',
 'pysollib.tile.tkcanvas',
-'pysollib.tile.tkconst',
 'pysollib.tile.tkhtml',
 'pysollib.tile.tkstats',
 'pysollib.tile.tktree',

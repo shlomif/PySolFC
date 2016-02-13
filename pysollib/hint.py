@@ -790,7 +790,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
         else:
             return False
 
-    def _calcBoard(self):
+    def calcBoardString(self):
         game = self.game
         board = ''
         #
@@ -833,7 +833,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
         game_type = self.game_type
         progress = self.options['progress']
 
-        board = self._calcBoard()
+        board = self.calcBoardString()
         #
         if DEBUG:
             print '--------------------\n', board, '--------------------'
@@ -989,7 +989,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
 class BlackHoleSolver_Hint(Base_Solver_Hint):
     BLACK_HOLE_SOLVER_COMMAND = 'black-hole-solve'
 
-    def _calcBoard(self):
+    def calcBoardString(self):
         board = ''
         cards = self.game.s.foundations[0].cards
         s = '-'
@@ -1013,7 +1013,7 @@ class BlackHoleSolver_Hint(Base_Solver_Hint):
         game_type = self.game_type
         progress = self.options['progress']
 
-        board = self._calcBoard()
+        board = self.calcBoardString()
         #
         if DEBUG:
             print '--------------------\n', board, '--------------------'

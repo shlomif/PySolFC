@@ -357,6 +357,7 @@ class PysolMenubarTk:
         menu.add_command(label=n_("&Open..."), command=self.mOpen, accelerator=m+"O")
         menu.add_command(label=n_("&Save"), command=self.mSave, accelerator=m+"S")
         menu.add_command(label=n_("Save &as..."), command=self.mSaveAs)
+        menu.add_command(label=n_("E&xport current layout..."), command=self.mExportCurrentLayout)
         menu.add_separator()
         menu.add_command(label=n_("&Hold and quit"), command=self.mHoldAndQuit, accelerator=m+"X")
         if WIN_SYSTEM != "aqua":
@@ -1000,6 +1001,43 @@ class PysolMenubarTk:
             ##filename = os.path.normcase(filename)
             if os.path.isfile(filename):
                 self.game.loadGame(filename)
+
+    def mExportCurrentLayout(self, *event):
+        if self._cancelDrag(break_pause=False): return
+        game = self.game
+        if not self.menustate.save_as:
+            return
+        if not game.Solver_Class:
+            d = MfxMessageDialog(self.top, title=_('Export game error'),
+                                     text=_('''
+Unsupported game for export.
+'''),
+                                     bitmap='error')
+            return
+
+        filename = game.filename
+        if not filename:
+            filename = self.app.getGameSaveName(self.game.id)
+            if os.name == "posix" or os.path.supports_unicode_filenames:
+                filename += "-" + self.game.getGameNumber(format=0)
+            else:
+                filename += "-01"
+            filename += ".board"
+        idir, ifile = os.path.split(os.path.normpath(filename))
+        if not idir:
+            idir = self.app.dn.savegames
+        ##print self.game.filename, ifile
+        d = tkFileDialog.SaveAs()
+        filename = d.show(filetypes=self.FILETYPES,
+                          defaultextension=self.DEFAULTEXTENSION,
+                          initialdir=idir, initialfile=ifile)
+        if filename:
+            filename = os.path.normpath(filename)
+            ##filename = os.path.normcase(filename)
+            with open(filename, 'w') as fh:
+                game = self.game
+                fh.write(game.Solver_Class(game, self).calcBoardString())
+            self.updateMenus()
 
     def mSaveAs(self, *event):
         if self._cancelDrag(break_pause=False): return

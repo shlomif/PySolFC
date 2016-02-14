@@ -1,5 +1,14 @@
 # PySol Fan Club edition
 
+This is a collection of Card Solitaire/Patience games written in Python.
+See http://pysolfc.sourceforge.net/ .
+
+This is a maintenace branch of PySol FC by Shlomi Fish and by some other
+people, aiming to clean up the code, add features, fix bugs, port to Python
+3, etc.
+
+[![Build Status](https://travis-ci.org/shlomif/PySolFC.svg?branch=master)](https://travis-ci.org/shlomif/PySolFC)
+
 ## Requirements.
 
 - Python (2.4 or later) (NB: python 2.6.0 has a bug, use 2.6.1 instead)

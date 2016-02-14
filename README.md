@@ -28,12 +28,35 @@ people, aiming to clean up the code, add features, fix bugs, port to Python
 
 See: http://www.python.org/doc/current/inst/
 
-or just run from the source directory:
+### Running from source without installation.
+
+You can run from the source directory:
 
 $ python pysol.py
 
+After following steps similar to this one (on
+[Mageia Linux](http://www.mageia.org/) ):
 
-** Freecell Solver **
+```
+$ sudo urpmi git # urpmi is similar to apt-get
+$ git clone https://github.com/shlomif/PySolFC.git
+$ cd PySolFC
+$ git checkout shlomif--main-branch--master
+$ sudo urpmi tkinter
+$ sudo urpmi pygtk2
+$ sudo urpmi pygtk2.0-libglade
+$ sudo urpmi gnome-python-canvas
+$ gmake test
+$ ln -s html-src html
+$ tar -xvf PySolFC-Cardsets-2.0.tar.bz2 # Need to be downloaded from sourceforge
+$ mkdir -p ~/.PySolFC
+$ rmdir ~/.PySolFC/cardsets
+$ ln -s ~/.PySolFC/cardsets PySolFC-Cardsets-2.0
+$ python pysol.py
+```
+
+### Configuring Freecell Solver
+
 If you want to use the Solver, you should configure freecell-solver
 ( http://fc-solve.shlomifish.org/ ) by passing the following options
 to its CMake-based build-system:
@@ -41,7 +64,6 @@ to its CMake-based build-system:
 -DMAX_NUM_STACKS=20
 -DMAX_NUM_INITIAL_CARDS_IN_A_STACK=60
 (or edit config.h)
-
 
 ## Install Extras.
 

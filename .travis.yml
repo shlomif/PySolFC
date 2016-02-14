@@ -7,4 +7,4 @@ before_install:
 install:
     - sudo cpanm Test::TrailingSpace
     - which python
-script: "PATH=\"$(perl -lE 'my @p = split/:/,$ENV{PATH}; print join q#:#, grep { ! m#\A/opt/python# } @p;')\" make test"
+script: "sh -x scripts/travis-ci-build"

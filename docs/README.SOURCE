@@ -144,7 +144,7 @@ The toolkit layer
     tk/tkcanvas.py:
       Wrapper for canvas widgets.
 
-    tk/tkwrap.py:
+    pysollib/ui/tktile/tkwrap.py:
       Wrapper for other widgets.
 
     tk/card.py:

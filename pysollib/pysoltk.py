@@ -28,8 +28,8 @@ if TOOLKIT == 'tk':
     from pysollib.ui.tktile.tkutil import *
     from pysollib.ui.tktile.card import *
     from pysollib.ui.tktile.tkcanvas import *
+    from pysollib.ui.tktile.tkwrap import *
     if USE_TILE:
-        from pysollib.tile.tkwrap import *
         from pysollib.tile.tkwidget import *
         from pysollib.tile.tkhtml import *
         from pysollib.tile.edittextdialog import *
@@ -49,7 +49,6 @@ if TOOLKIT == 'tk':
         from pysollib.tile.selectcardset import *
         from pysollib.tile.selecttree import *
     else:
-        from pysollib.tk.tkwrap import *
         from pysollib.tk.tkwidget import *
         from pysollib.tk.tkhtml import *
         from pysollib.tk.edittextdialog import *

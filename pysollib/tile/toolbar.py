@@ -40,7 +40,7 @@ from pysollib.winsystems import TkSettings
 from pysollib.ui.tktile.tkconst import EVENT_HANDLED
 from tkwidget import MfxTooltip
 from menubar import createToolbarMenu, MfxMenu
-from tkutil import loadImage
+from pysollib.ui.tktile.tkutil import loadImage
 
 
 # ************************************************************************

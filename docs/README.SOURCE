@@ -138,7 +138,7 @@ The toolkit layer
 
   Important modules of the Tkinter implementation:
 
-    tk/tkconst.py, tk/tkutil.py, tk/tkwidget.py, tk/edittextdialog:
+    tk/tkconst.py, ui/tktile/tkutil.py, tk/tkwidget.py, tk/edittextdialog:
       Toolkit constants, utils and generic widgets.
 
     tk/tkcanvas.py:

@@ -44,7 +44,7 @@ from pysollib.stats import PysolStatsFormatter, ProgressionFormatter
 from pysollib.settings import TOP_TITLE
 
 # Toolkit imports
-from tkutil import bind, unbind_destroy, loadImage
+from pysollib.ui.tktile.tkutil import bind, unbind_destroy, loadImage
 from tkwidget import MfxDialog, MfxMessageDialog
 from tkwidget import MfxScrolledCanvas
 

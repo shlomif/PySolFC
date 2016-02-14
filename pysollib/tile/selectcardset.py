@@ -36,7 +36,7 @@ from pysollib.util import CARDSET
 from pysollib.resource import CSI
 
 # Toolkit imports
-from tkutil import loadImage
+from pysollib.ui.tktile.tkutil import loadImage
 from tkwidget import MfxDialog, MfxScrolledCanvas, PysolScale
 from tkcanvas import MfxCanvasImage
 from selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode

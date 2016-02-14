@@ -36,7 +36,7 @@ import Canvas
 from pysollib.mfxutil import Image, ImageTk
 
 # Toolkit imports
-from tkutil import bind, unbind_destroy, loadImage
+from pysollib.ui.tktile.tkutil import bind, unbind_destroy, loadImage
 
 
 # ************************************************************************

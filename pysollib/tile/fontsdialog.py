@@ -34,7 +34,7 @@ from pysollib.mygettext import _, n_
 
 # Toolkit imports
 from tkwidget import MfxDialog
-from tkutil import bind
+from pysollib.ui.tktile.tkutil import bind
 from tkwidget import PysolScale
 
 

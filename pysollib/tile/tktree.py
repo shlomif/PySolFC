@@ -26,7 +26,7 @@ import os
 import Tkinter
 
 # Toolkit imports
-from tkutil import bind
+from pysollib.ui.tktile.tkutil import bind
 from tkwidget import MfxScrolledCanvas
 
 

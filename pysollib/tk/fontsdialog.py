@@ -33,7 +33,7 @@ from pysollib.mfxutil import KwStruct
 
 # Toolkit imports
 from tkwidget import MfxDialog
-from tkutil import bind
+from pysollib.ui.tktile.tkutil import bind
 
 # ************************************************************************
 # *

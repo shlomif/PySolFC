@@ -41,7 +41,7 @@ from pysollib.mfxutil import Struct, openURL
 from pysollib.settings import TITLE
 
 # Toolkit imports
-from tkutil import bind, unbind_destroy
+from pysollib.ui.tktile.tkutil import bind, unbind_destroy
 from tkwidget import MfxMessageDialog
 from statusbar import HtmlStatusbar
 

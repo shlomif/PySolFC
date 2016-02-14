@@ -43,7 +43,7 @@ from pysollib.gamedb import GI
 
 # toolkit imports
 from pysollib.ui.tktile.tkconst import EVENT_HANDLED, EVENT_PROPAGATE, CURSOR_WATCH, COMPOUNDS
-from tkutil import bind, after_idle
+from pysollib.ui.tktile.tkutil import bind, after_idle
 from tkwidget import MfxMessageDialog
 from selectgame import SelectGameDialog, SelectGameDialogWithPreview
 from soundoptionsdialog import SoundOptionsDialog

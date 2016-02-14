@@ -43,9 +43,9 @@ from pysollib.mfxutil import destruct, kwdefault, KwStruct, openURL
 from pysollib.settings import WIN_SYSTEM
 
 # Toolkit imports
-from tkutil import after, after_cancel
-from tkutil import bind, unbind_destroy
-from tkutil import makeToplevel, setTransient
+from pysollib.ui.tktile.tkutil import after, after_cancel
+from pysollib.ui.tktile.tkutil import bind, unbind_destroy
+from pysollib.ui.tktile.tkutil import makeToplevel, setTransient
 from tkcanvas import MfxCanvas
 
 

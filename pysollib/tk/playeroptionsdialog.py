@@ -32,7 +32,7 @@ from pysollib.mfxutil import KwStruct, Struct
 
 # Toolkit imports
 from tkwidget import MfxDialog
-from tkutil import bind
+from pysollib.ui.tktile.tkutil import bind
 
 
 # ************************************************************************
@@ -157,7 +157,7 @@ class PlayerOptionsDialog(MfxDialog):
 
 
 def playeroptionsdialog_main(args):
-    from tkutil import wm_withdraw
+    from pysollib.ui.tktile.tkutil import wm_withdraw
     opt = Struct(player="Test", update_player_stats=1)
     app = Struct(opt=opt)
     tk = Tkinter.Tk()

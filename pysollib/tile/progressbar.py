@@ -29,7 +29,7 @@ import ttk
 
 # Toolkit imports
 from pysollib.ui.tktile.tkconst import EVENT_HANDLED
-from tkutil import makeToplevel, setTransient
+from pysollib.ui.tktile.tkutil import makeToplevel, setTransient
 
 
 # ************************************************************************
@@ -119,7 +119,7 @@ class TestProgressBar:
         self.progress.frame.after(30, self.update)
 
 def progressbar_main(args):
-    from tkutil import wm_withdraw
+    from pysollib.ui.tktile.tkutil import wm_withdraw
     tk = Tkinter.Tk()
     wm_withdraw(tk)
     pb = TestProgressBar(tk)

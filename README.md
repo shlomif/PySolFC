@@ -7,7 +7,7 @@ This is a maintenace branch of PySol FC by Shlomi Fish and by some other
 people, aiming to clean up the code, add features, fix bugs, port to Python
 3, etc.
 
-[![Build Status](https://travis-ci.org/shlomif/PySolFC.svg?branch=master)](https://travis-ci.org/shlomif/PySolFC)
+[![Build Status](https://travis-ci.org/shlomif/PySolFC.svg?branch=shlomif--main-branch--master)](https://travis-ci.org/shlomif/PySolFC)
 
 ## Requirements.
 

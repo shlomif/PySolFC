@@ -6,4 +6,5 @@ before_install:
     - sudo dpkg-divert --local --divert /usr/bin/ack --rename --add /usr/bin/ack-grep
 install:
     - sudo cpanm Test::TrailingSpace
+    - which python
 script: "make test"

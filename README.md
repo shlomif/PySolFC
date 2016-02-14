@@ -1,26 +1,21 @@
-PySol Fan Club edition
-======================
+# PySol Fan Club edition
 
-
-Requirements.
--------------
+## Requirements.
 
 - Python (2.4 or later) (NB: python 2.6.0 has a bug, use 2.6.1 instead)
 - Tkinter (Tcl/Tk 8.4 or later)
 
-** for sound support (optional) **
+- For sound support (optional)
   - PySol-Sound-Server: http://www.pysol.org/ (mp3, wav, tracker music)
   or
   - PyGame: http://www.pygame.org/ (mp3, ogg, wav, midi, tracker music)
 
-** other packages (optional) **
+- Other packages (optional):
   - Tile (ttk): http://tktable.sourceforge.net/tile/ (0.8.0 or later)
   - PIL (Python Imaging Library): http://www.pythonware.com/products/pil
   - Freecell Solver: http://fc-solve.shlomifish.org/ .
 
-
-Installation.
--------------
+## Installation.
 
 See: http://www.python.org/doc/current/inst/
 
@@ -39,16 +34,15 @@ to its CMake-based build-system:
 (or edit config.h)
 
 
-Install Extras.
----------------
+## Install Extras.
 
-** Music **
+- Music
  - Copy some music files (mp3 for example) to ~/.PySolFC/music/
 
  - Original PySol music can be download from:
    ftp://ibiblio.org/pub/linux/games/solitaires/pysol-music-4.40.tar.gz
 
-** Cardsets **
+- Cardsets
  - Copy cardsets to ~/.PySolFC/cardsets
 
  - Additional cardsets can be downloaded from the PySolFC project page:

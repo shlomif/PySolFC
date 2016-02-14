@@ -26,8 +26,9 @@ from pysollib.settings import TOOLKIT, USE_TILE
 if TOOLKIT == 'tk':
     from pysollib.ui.tktile.tkconst import *
     from pysollib.ui.tktile.tkutil import *
+    from pysollib.ui.tktile.card import *
+    from pysollib.ui.tktile.tkcanvas import *
     if USE_TILE:
-        from pysollib.tile.tkcanvas import *
         from pysollib.tile.tkwrap import *
         from pysollib.tile.tkwidget import *
         from pysollib.tile.tkhtml import *
@@ -45,11 +46,9 @@ if TOOLKIT == 'tk':
         from pysollib.tile.statusbar import *
         from pysollib.tile.progressbar import *
         from pysollib.tile.menubar import *
-        from pysollib.tile.card import *
         from pysollib.tile.selectcardset import *
         from pysollib.tile.selecttree import *
     else:
-        from pysollib.tk.tkcanvas import *
         from pysollib.tk.tkwrap import *
         from pysollib.tk.tkwidget import *
         from pysollib.tk.tkhtml import *
@@ -67,7 +66,6 @@ if TOOLKIT == 'tk':
         from pysollib.tk.statusbar import *
         from pysollib.tk.progressbar import *
         from pysollib.tk.menubar import *
-        from pysollib.tk.card import *
         from pysollib.tk.selectcardset import *
         from pysollib.tk.selecttree import *
 

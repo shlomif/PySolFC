@@ -37,7 +37,7 @@ from pysollib.mygettext import _, n_
 # Toolkit imports
 from pysollib.ui.tktile.tkutil import after, after_cancel
 from pysollib.ui.tktile.tkutil import bind, unbind_destroy, makeImage
-from tkcanvas import MfxCanvas, MfxCanvasGroup, MfxCanvasImage, MfxCanvasRectangle
+from pysollib.ui.tktile.tkcanvas import MfxCanvas, MfxCanvasGroup, MfxCanvasImage, MfxCanvasRectangle
 
 from pysollib.settings import TITLE
 

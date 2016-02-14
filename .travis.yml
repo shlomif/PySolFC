@@ -1,0 +1,9 @@
+os: linux
+dist: trusty
+before_install:
+    - sudo apt-get update -qq
+    - sudo apt-get install -y ack-grep cpanminus make libperl-dev perl python-setuptools tkinter python-gtk2 python-glade2 python-gnome2 python-gnome2-dev
+    - sudo dpkg-divert --local --divert /usr/bin/ack --rename --add /usr/bin/ack-grep
+install:
+    - sudo cpanm Test::TrailingSpace
+script: "gmake test"

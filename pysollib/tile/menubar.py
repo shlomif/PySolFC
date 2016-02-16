@@ -54,90 +54,14 @@ from solverdialog import connect_game_solver_dialog
 
 from pysollib.ui.tktile.tkconst import TOOLBAR_BUTTONS
 
-from pysollib.ui.tktile.menubar import createToolbarMenu, MfxMenubar, MfxMenu
+from pysollib.ui.tktile.menubar import createToolbarMenu, MfxMenubar, MfxMenu, PysolMenubarTkCommon
 # ************************************************************************
 # * - create menubar
 # * - update menubar
 # * - menu actions
 # ************************************************************************
 
-class PysolMenubarTk:
-    def __init__(self, app, top, progress=None):
-        self._createTkOpt()
-        self._setOptions()
-        # init columnbreak
-        self.__cb_max = int(self.top.winfo_screenheight()/23)
-##         sh = self.top.winfo_screenheight()
-##         self.__cb_max = 22
-##         if sh >= 600: self.__cb_max = 27
-##         if sh >= 768: self.__cb_max = 32
-##         if sh >= 1024: self.__cb_max = 40
-        self.progress = progress
-        # create menus
-        self.__menubar = None
-        self.__menupath = {}
-        self.__keybindings = {}
-        self._createMenubar()
-        self.top = top
-
-        if self.progress: self.progress.update(step=1)
-
-        # set the menubar
-        self.updateBackgroundImagesMenu()
-        self.top.config(menu=self.__menubar)
-
-    def _createTkOpt(self):
-        # structure to convert menu-options to Toolkit variables
-        self.tkopt = Struct(
-            gameid = Tkinter.IntVar(),
-            gameid_popular = Tkinter.IntVar(),
-            comment = Tkinter.BooleanVar(),
-            autofaceup = Tkinter.BooleanVar(),
-            autodrop = Tkinter.BooleanVar(),
-            autodeal = Tkinter.BooleanVar(),
-            quickplay = Tkinter.BooleanVar(),
-            undo = Tkinter.BooleanVar(),
-            bookmarks = Tkinter.BooleanVar(),
-            hint = Tkinter.BooleanVar(),
-            shuffle = Tkinter.BooleanVar(),
-            highlight_piles = Tkinter.BooleanVar(),
-            highlight_cards = Tkinter.BooleanVar(),
-            highlight_samerank = Tkinter.BooleanVar(),
-            highlight_not_matching = Tkinter.BooleanVar(),
-            mahjongg_show_removed = Tkinter.BooleanVar(),
-            shisen_show_hint = Tkinter.BooleanVar(),
-            sound = Tkinter.BooleanVar(),
-            auto_scale = Tkinter.BooleanVar(),
-            cardback = Tkinter.IntVar(),
-            tabletile = Tkinter.IntVar(),
-            animations = Tkinter.IntVar(),
-            redeal_animation = Tkinter.BooleanVar(),
-            win_animation = Tkinter.BooleanVar(),
-            shadow = Tkinter.BooleanVar(),
-            shade = Tkinter.BooleanVar(),
-            shade_filled_stacks = Tkinter.BooleanVar(),
-            shrink_face_down = Tkinter.BooleanVar(),
-            toolbar = Tkinter.IntVar(),
-            toolbar_style = Tkinter.StringVar(),
-            toolbar_relief = Tkinter.StringVar(),
-            toolbar_compound = Tkinter.StringVar(),
-            toolbar_size = Tkinter.IntVar(),
-            statusbar = Tkinter.BooleanVar(),
-            num_cards = Tkinter.BooleanVar(),
-            helpbar = Tkinter.BooleanVar(),
-            save_games_geometry = Tkinter.BooleanVar(),
-            splashscreen = Tkinter.BooleanVar(),
-            demo_logo = Tkinter.BooleanVar(),
-            mouse_type = Tkinter.StringVar(),
-            mouse_undo = Tkinter.BooleanVar(),
-            negative_bottom = Tkinter.BooleanVar(),
-            pause = Tkinter.BooleanVar(),
-            theme = Tkinter.StringVar(),
-            toolbar_vars = {},
-        )
-        for w in TOOLBAR_BUTTONS:
-            self.tkopt.toolbar_vars[w] = Tkinter.BooleanVar()
-
+class PysolMenubarTk(PysolMenubarTkCommon):
     def _setOptions(self):
         tkopt, opt = self.tkopt, self.app.opt
         # set state of the menu items

@@ -62,82 +62,17 @@ from pysollib.ui.tktile.menubar import createToolbarMenu, MfxMenubar, MfxMenu, P
 # ************************************************************************
 
 class PysolMenubarTk(PysolMenubarTkCommon):
-    def _setOptions(self):
-        tkopt, opt = self.tkopt, self.app.opt
-        # set state of the menu items
-        tkopt.autofaceup.set(opt.autofaceup)
-        tkopt.autodrop.set(opt.autodrop)
-        tkopt.autodeal.set(opt.autodeal)
-        tkopt.quickplay.set(opt.quickplay)
-        tkopt.undo.set(opt.undo)
-        tkopt.hint.set(opt.hint)
-        tkopt.shuffle.set(opt.shuffle)
-        tkopt.bookmarks.set(opt.bookmarks)
-        tkopt.highlight_piles.set(opt.highlight_piles)
-        tkopt.highlight_cards.set(opt.highlight_cards)
-        tkopt.highlight_samerank.set(opt.highlight_samerank)
-        tkopt.highlight_not_matching.set(opt.highlight_not_matching)
-        tkopt.shrink_face_down.set(opt.shrink_face_down)
-        tkopt.shade_filled_stacks.set(opt.shade_filled_stacks)
-        tkopt.mahjongg_show_removed.set(opt.mahjongg_show_removed)
-        tkopt.shisen_show_hint.set(opt.shisen_show_hint)
-        tkopt.sound.set(opt.sound)
-        tkopt.auto_scale.set(opt.auto_scale)
-        tkopt.cardback.set(self.app.cardset.backindex)
-        tkopt.tabletile.set(self.app.tabletile_index)
-        tkopt.animations.set(opt.animations)
-        tkopt.redeal_animation.set(opt.redeal_animation)
-        tkopt.win_animation.set(opt.win_animation)
-        tkopt.shadow.set(opt.shadow)
-        tkopt.shade.set(opt.shade)
-        tkopt.toolbar.set(opt.toolbar)
-        tkopt.toolbar_style.set(opt.toolbar_style)
-        tkopt.toolbar_relief.set(opt.toolbar_relief)
-        tkopt.toolbar_compound.set(opt.toolbar_compound)
-        tkopt.toolbar_size.set(opt.toolbar_size)
-        tkopt.toolbar_relief.set(opt.toolbar_relief)
-        tkopt.statusbar.set(opt.statusbar)
-        tkopt.num_cards.set(opt.num_cards)
-        tkopt.helpbar.set(opt.helpbar)
-        tkopt.save_games_geometry.set(opt.save_games_geometry)
-        tkopt.demo_logo.set(opt.demo_logo)
-        tkopt.splashscreen.set(opt.splashscreen)
-        tkopt.mouse_type.set(opt.mouse_type)
-        tkopt.mouse_undo.set(opt.mouse_undo)
-        tkopt.negative_bottom.set(opt.negative_bottom)
-        for w in TOOLBAR_BUTTONS:
-            tkopt.toolbar_vars[w].set(opt.toolbar_vars.get(w, False))
+    def __init__(self, app, top, progress=None):
+        PysolMenubarTkCommon.__init__(self, app, top, progress)
 
-    def connectGame(self, game):
-        self.game = game
-        if game is None:
-            return
-        assert self.app is game.app
-        tkopt, opt = self.tkopt, self.app.opt
-        tkopt.gameid.set(game.id)
-        tkopt.gameid_popular.set(game.id)
-        tkopt.comment.set(bool(game.gsaveinfo.comment))
-        tkopt.pause.set(self.game.pause)
-        if game.canFindCard():
-            connect_game_find_card_dialog(game)
-        else:
-            destroy_find_card_dialog()
-        connect_game_solver_dialog(game)
+    def _connect_game_find_card_dialog(self, game):
+        return connect_game_find_card_dialog(game)
 
-    # create a GTK-like path
-    def _addPath(self, path, menu, index, submenu):
-        if path not in self.__menupath:
-            ##print path, menu, index, submenu
-            self.__menupath[path] = (menu, index, submenu)
+    def _destroy_find_card_dialog(self):
+        return destroy_find_card_dialog()
 
-    def _getEnabledState(self, enabled):
-        if enabled:
-            return "normal"
-        return "disabled"
-
-    def updateProgress(self):
-        if self.progress: self.progress.update(step=1)
-
+    def _connect_game_solver_dialog(self, game):
+        return connect_game_solver_dialog(game)
 
     #
     # create the menubar
@@ -146,7 +81,7 @@ class PysolMenubarTk(PysolMenubarTkCommon):
     def _createMenubar(self):
         MfxMenubar.addPath = self._addPath
         kw = { "name": "menubar" }
-        self.__menubar = MfxMenubar(self.top, **kw)
+        self.menubar = MfxMenubar(self.top, **kw)
 
         # init keybindings
         bind(self.top, "<KeyPress>", self._keyPressHandler)
@@ -155,10 +90,10 @@ class PysolMenubarTk(PysolMenubarTkCommon):
         if sys.platform == "darwin": m = "Cmd-"
 
         if WIN_SYSTEM == "aqua":
-            applemenu=MfxMenu(self.__menubar, "apple")
+            applemenu=MfxMenu(self.menubar, "apple")
             applemenu.add_command(label=_("&About ")+TITLE, command=self.mHelpAbout)
 
-        menu = MfxMenu(self.__menubar, n_("&File"))
+        menu = MfxMenu(self.menubar, n_("&File"))
         menu.add_command(label=n_("&New game"), command=self.mNewGame, accelerator="N")
         submenu = MfxMenu(menu, label=n_("R&ecent games"))
         ##menu.add_command(label=n_("Select &random game"), command=self.mSelectRandomGame, accelerator=m+"R")
@@ -183,12 +118,12 @@ class PysolMenubarTk(PysolMenubarTkCommon):
 
         if self.progress: self.progress.update(step=1)
 
-        menu = MfxMenu(self.__menubar, label=n_("&Select"))
+        menu = MfxMenu(self.menubar, label=n_("&Select"))
         self._addSelectGameMenu(menu)
 
         if self.progress: self.progress.update(step=1)
 
-        menu = MfxMenu(self.__menubar, label=n_("&Edit"))
+        menu = MfxMenu(self.menubar, label=n_("&Edit"))
         menu.add_command(label=n_("&Undo"), command=self.mUndo, accelerator="Z")
         menu.add_command(label=n_("&Redo"), command=self.mRedo, accelerator="R")
         menu.add_command(label=n_("Redo &all"), command=self.mRedoAll)
@@ -212,7 +147,7 @@ class PysolMenubarTk(PysolMenubarTkCommon):
         menu.add_command(label=n_("Solitaire &Wizard"), command=self.mWizard)
         menu.add_command(label=n_("&Edit current game"), command=self.mWizardEdit)
 
-        menu = MfxMenu(self.__menubar, label=n_("&Game"))
+        menu = MfxMenu(self.menubar, label=n_("&Game"))
         menu.add_command(label=n_("&Deal cards"), command=self.mDeal, accelerator="D")
         menu.add_command(label=n_("&Auto drop"), command=self.mDrop, accelerator="A")
         menu.add_command(label=n_("Shu&ffle tiles"), command=self.mShuffle, accelerator="F")
@@ -235,7 +170,7 @@ class PysolMenubarTk(PysolMenubarTkCommon):
         submenu.add_command(label=n_("Current game..."), command=lambda : self.mPlayerStats(mode=1101))
         submenu.add_command(label=n_("All games..."), command=lambda : self.mPlayerStats(mode=1102))
 
-        menu = MfxMenu(self.__menubar, label=n_("&Assist"))
+        menu = MfxMenu(self.menubar, label=n_("&Assist"))
         menu.add_command(label=n_("&Hint"), command=self.mHint, accelerator="H")
         menu.add_command(label=n_("Highlight p&iles"), command=self.mHighlightPiles, accelerator="I")
         menu.add_command(label=n_("&Find card"), command=self.mFindCard, accelerator="F3")
@@ -251,7 +186,7 @@ class PysolMenubarTk(PysolMenubarTkCommon):
 
         if self.progress: self.progress.update(step=1)
 
-        menu = MfxMenu(self.__menubar, label=n_("&Options"))
+        menu = MfxMenu(self.menubar, label=n_("&Options"))
         menu.add_command(label=n_("&Player options..."), command=self.mOptPlayerOptions)
         submenu = MfxMenu(menu, label=n_("&Automatic play"))
         submenu.add_checkbutton(label=n_("Auto &face up"), variable=self.tkopt.autofaceup, command=self.mOptAutoFaceUp)
@@ -332,7 +267,7 @@ class PysolMenubarTk(PysolMenubarTkCommon):
 
         if self.progress: self.progress.update(step=1)
 
-        menu = MfxMenu(self.__menubar, label=n_("&Help"))
+        menu = MfxMenu(self.menubar, label=n_("&Help"))
         menu.add_command(label=n_("&Contents"), command=self.mHelp, accelerator=m+"F1")
         menu.add_command(label=n_("&How to play"), command=self.mHelpHowToPlay)
         menu.add_command(label=n_("&Rules for this game"), command=self.mHelpRules, accelerator="F1")
@@ -421,8 +356,8 @@ class PysolMenubarTk(PysolMenubarTkCommon):
 
     def _bindKey(self, modifier, key, func):
 ##         if 0 and not modifier and len(key) == 1:
-##             self.__keybindings[key.lower()] = func
-##             self.__keybindings[key.upper()] = func
+##             self.keybindings[key.lower()] = func
+##             self.keybindings[key.upper()] = func
 ##             return
         if not modifier and len(key) == 1:
             # ignore Ctrl/Shift/Alt
@@ -445,7 +380,7 @@ class PysolMenubarTk(PysolMenubarTkCommon):
                 if event.char:    # ignore Ctrl/Shift/etc.
                     self.game.demo.keypress = event.char
                     r = EVENT_HANDLED
-##             func = self.__keybindings.get(event.char)
+##             func = self.keybindings.get(event.char)
 ##             if func and (event.state & ~2) == 0:
 ##                 func(event)
 ##                 r = EVENT_HANDLED
@@ -542,7 +477,7 @@ class PysolMenubarTk(PysolMenubarTkCommon):
         g0 = []
         c0 = c1 = games[0][0]
         for c, g1 in games:
-            if len(g0)+len(g1) >= self.__cb_max:
+            if len(g0)+len(g1) >= self.cb_max:
                 add_menu(g0, c0, c1)
                 g0 = g1
                 c0 = c1 = c
@@ -591,7 +526,7 @@ class PysolMenubarTk(PysolMenubarTkCommon):
 
     def _addSelectAllGameSubMenu(self, games, menu, command, variable):
         menu = MfxMenu(menu, label=n_("&All games by name"))
-        n, d = 0, self.__cb_max
+        n, d = 0, self.cb_max
         i = 0
         while True:
             if self.progress: self.progress.update(step=1)
@@ -610,9 +545,9 @@ class PysolMenubarTk(PysolMenubarTkCommon):
 
     def _addSelectGameSubSubMenu(self, games, menu, command, variable,
                                  short_name=False):
-        ##cb = (25, self.__cb_max) [ len(g) > 4 * 25 ]
-        ##cb = min(cb, self.__cb_max)
-        cb = self.__cb_max
+        ##cb = (25, self.cb_max) [ len(g) > 4 * 25 ]
+        ##cb = min(cb, self.cb_max)
+        cb = self.cb_max
         for i in range(len(games)):
             gi = games[i]
             columnbreak = i > 0 and (i % cb) == 0
@@ -632,7 +567,7 @@ class PysolMenubarTk(PysolMenubarTkCommon):
         menu.delete(0, 'last')
         if len(games) == 0:
             menu.add_radiobutton(label='<none>', name=None, state='disabled')
-        elif len(games) > self.__cb_max*4:
+        elif len(games) > self.cb_max*4:
             games.sort(lambda a, b: cmp(a.name, b.name))
             self._addSelectAllGameSubMenu(games, menu,
                                           command=self.mSelectGame,
@@ -698,7 +633,7 @@ class PysolMenubarTk(PysolMenubarTkCommon):
 
     def updateFavoriteGamesMenu(self):
         gameids = self.app.opt.favorite_gameid
-        submenu = self.__menupath[".menubar.file.favoritegames"][2]
+        submenu = self.menupath[".menubar.file.favoritegames"][2]
         games = []
         for id in gameids:
             gi = self.app.getGameInfo(id)
@@ -707,14 +642,14 @@ class PysolMenubarTk(PysolMenubarTkCommon):
         self.updateGamesMenu(submenu, games)
         state = self._getEnabledState
         in_favor = self.app.game.id in gameids
-        menu, index, submenu = self.__menupath[".menubar.file.addtofavorites"]
+        menu, index, submenu = self.menupath[".menubar.file.addtofavorites"]
         menu.entryconfig(index, state=state(not in_favor))
-        menu, index, submenu = self.__menupath[".menubar.file.removefromfavorites"]
+        menu, index, submenu = self.menupath[".menubar.file.removefromfavorites"]
         menu.entryconfig(index, state=state(in_favor))
 
 
     def updateRecentGamesMenu(self, gameids):
-        submenu = self.__menupath[".menubar.file.recentgames"][2]
+        submenu = self.menupath[".menubar.file.recentgames"][2]
         games = []
         for id in gameids:
             gi = self.app.getGameInfo(id)
@@ -724,9 +659,9 @@ class PysolMenubarTk(PysolMenubarTkCommon):
 
     def updateBookmarkMenuState(self):
         state = self._getEnabledState
-        mp1 = self.__menupath.get(".menubar.edit.setbookmark")
-        mp2 = self.__menupath.get(".menubar.edit.gotobookmark")
-        mp3 = self.__menupath.get(".menubar.edit.clearbookmarks")
+        mp1 = self.menupath.get(".menubar.edit.setbookmark")
+        mp2 = self.menupath.get(".menubar.edit.gotobookmark")
+        mp3 = self.menupath.get(".menubar.edit.clearbookmarks")
         if mp1 is None or mp2 is None or mp3 is None:
             return
         x = self.app.opt.bookmarks and self.game.canSetBookmark()
@@ -748,7 +683,7 @@ class PysolMenubarTk(PysolMenubarTkCommon):
         menu.entryconfig(index, state=state(ms and x))
 
     def updateBackgroundImagesMenu(self):
-        mp = self.__menupath.get(".menubar.options.cardbackground")
+        mp = self.menupath.get(".menubar.options.cardbackground")
         # delete all entries
         submenu = mp[2]
         submenu.delete(0, "last")
@@ -768,7 +703,7 @@ class PysolMenubarTk(PysolMenubarTkCommon):
     def setMenuState(self, state, path):
         #print state, path
         path = ".menubar." + path
-        mp = self.__menupath.get(path)
+        mp = self.menupath.get(path)
         menu, index, submenu = mp
         s = self._getEnabledState(state)
         menu.entryconfig(index, state=s)
@@ -1269,7 +1204,7 @@ Error while saving game.
                                      bitmap='error')
                 return
             if SELECT_GAME_MENU:
-                menu = self.__menupath[".menubar.select.customgames"][2]
+                menu = self.menupath[".menubar.select.customgames"][2]
                 select_func = lambda gi: gi.si.game_type == GI.GT_CUSTOM
                 games = map(self.app.gdb.get,
                             self.app.gdb.getGamesIdSortedByName())

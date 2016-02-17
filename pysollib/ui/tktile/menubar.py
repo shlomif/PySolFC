@@ -1,7 +1,7 @@
 import re
 import Tkinter
 
-from pysollib.mfxutil import kwdefault
+from pysollib.mfxutil import Struct, kwdefault
 from pysollib.mygettext import _, n_
 
 from pysollib.ui.tktile.tkconst import EVENT_HANDLED, EVENT_PROPAGATE, CURSOR_WATCH, COMPOUNDS
@@ -109,20 +109,21 @@ class MfxMenu(MfxMenubar):
 
 class PysolMenubarTkCommon:
     def __init__(self, app, top, progress=None):
+        print "PysolMenubarTkCommon init called"
         self._createTkOpt()
         self._setOptions()
         # init columnbreak
-        self.__cb_max = int(self.top.winfo_screenheight()/23)
+        self.cb_max = int(self.top.winfo_screenheight()/23)
 ##         sh = self.top.winfo_screenheight()
-##         self.__cb_max = 22
-##         if sh >= 600: self.__cb_max = 27
-##         if sh >= 768: self.__cb_max = 32
-##         if sh >= 1024: self.__cb_max = 40
+##         self.cb_max = 22
+##         if sh >= 600: self.cb_max = 27
+##         if sh >= 768: self.cb_max = 32
+##         if sh >= 1024: self.cb_max = 40
         self.progress = progress
         # create menus
-        self.__menubar = None
-        self.__menupath = {}
-        self.__keybindings = {}
+        self.menubar = None
+        self.menupath = {}
+        self.keybindings = {}
         self._createMenubar()
         self.top = top
 
@@ -130,7 +131,7 @@ class PysolMenubarTkCommon:
 
         # set the menubar
         self.updateBackgroundImagesMenu()
-        self.top.config(menu=self.__menubar)
+        self.top.config(menu=self.menubar)
 
     def _createTkOpt(self):
         # structure to convert menu-options to Toolkit variables
@@ -183,3 +184,80 @@ class PysolMenubarTkCommon:
         )
         for w in TOOLBAR_BUTTONS:
             self.tkopt.toolbar_vars[w] = Tkinter.BooleanVar()
+
+    def _setOptions(self):
+        tkopt, opt = self.tkopt, self.app.opt
+        # set state of the menu items
+        tkopt.autofaceup.set(opt.autofaceup)
+        tkopt.autodrop.set(opt.autodrop)
+        tkopt.autodeal.set(opt.autodeal)
+        tkopt.quickplay.set(opt.quickplay)
+        tkopt.undo.set(opt.undo)
+        tkopt.hint.set(opt.hint)
+        tkopt.shuffle.set(opt.shuffle)
+        tkopt.bookmarks.set(opt.bookmarks)
+        tkopt.highlight_piles.set(opt.highlight_piles)
+        tkopt.highlight_cards.set(opt.highlight_cards)
+        tkopt.highlight_samerank.set(opt.highlight_samerank)
+        tkopt.highlight_not_matching.set(opt.highlight_not_matching)
+        tkopt.shrink_face_down.set(opt.shrink_face_down)
+        tkopt.shade_filled_stacks.set(opt.shade_filled_stacks)
+        tkopt.mahjongg_show_removed.set(opt.mahjongg_show_removed)
+        tkopt.shisen_show_hint.set(opt.shisen_show_hint)
+        tkopt.sound.set(opt.sound)
+        tkopt.auto_scale.set(opt.auto_scale)
+        tkopt.cardback.set(self.app.cardset.backindex)
+        tkopt.tabletile.set(self.app.tabletile_index)
+        tkopt.animations.set(opt.animations)
+        tkopt.redeal_animation.set(opt.redeal_animation)
+        tkopt.win_animation.set(opt.win_animation)
+        tkopt.shadow.set(opt.shadow)
+        tkopt.shade.set(opt.shade)
+        tkopt.toolbar.set(opt.toolbar)
+        tkopt.toolbar_style.set(opt.toolbar_style)
+        tkopt.toolbar_relief.set(opt.toolbar_relief)
+        tkopt.toolbar_compound.set(opt.toolbar_compound)
+        tkopt.toolbar_size.set(opt.toolbar_size)
+        tkopt.toolbar_relief.set(opt.toolbar_relief)
+        tkopt.statusbar.set(opt.statusbar)
+        tkopt.num_cards.set(opt.num_cards)
+        tkopt.helpbar.set(opt.helpbar)
+        tkopt.save_games_geometry.set(opt.save_games_geometry)
+        tkopt.demo_logo.set(opt.demo_logo)
+        tkopt.splashscreen.set(opt.splashscreen)
+        tkopt.mouse_type.set(opt.mouse_type)
+        tkopt.mouse_undo.set(opt.mouse_undo)
+        tkopt.negative_bottom.set(opt.negative_bottom)
+        for w in TOOLBAR_BUTTONS:
+            tkopt.toolbar_vars[w].set(opt.toolbar_vars.get(w, False))
+
+    def connectGame(self, game):
+        self.game = game
+        if game is None:
+            return
+        assert self.app is game.app
+        tkopt, opt = self.tkopt, self.app.opt
+        tkopt.gameid.set(game.id)
+        tkopt.gameid_popular.set(game.id)
+        tkopt.comment.set(bool(game.gsaveinfo.comment))
+        tkopt.pause.set(self.game.pause)
+        if game.canFindCard():
+            self._connect_game_find_card_dialog(game)
+        else:
+            self._destroy_find_card_dialog()
+        self._connect_game_solver_dialog(game)
+
+    # create a GTK-like path
+    def _addPath(self, path, menu, index, submenu):
+        if path not in self.menupath:
+            ##print path, menu, index, submenu
+            self.menupath[path] = (menu, index, submenu)
+
+    def _getEnabledState(self, enabled):
+        if enabled:
+            return "normal"
+        return "disabled"
+
+    def updateProgress(self):
+        if self.progress: self.progress.update(step=1)
+

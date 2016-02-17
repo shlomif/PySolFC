@@ -83,7 +83,6 @@ class PysolMenubarTk(PysolMenubarTkCommon):
     #
 
     def _createMenubar(self):
-        print "FluutterBat"
         MfxMenubar.addPath = self._addPath
         kw = { "name": "menubar" }
         self.menubar = MfxMenubar(self.top, **kw)
@@ -298,7 +297,7 @@ class PysolMenubarTk(PysolMenubarTkCommon):
         self._bindKey(ctrl, "g", self.mRestart)
         self._bindKey("",   "space", self.mDeal)        # undocumented
         self._bindKey(ctrl, "y", lambda e: self.mPlayerStats(mode=100))
-        self._bindKey(ctrl, "t", self.mPlayerStats)
+        self._bindKey(ctrl, "t", lambda e: self.mPlayerStats(mode=105))
         self._bindKey("",   "h", self.mHint)
         self._bindKey(ctrl, "h", self.mHint1)           # undocumented
         ##self._bindKey("",   "Shift_L", self.mHighlightPiles)
@@ -554,9 +553,6 @@ class PysolMenubarTk(PysolMenubarTkCommon):
                 label = gi.short_name
             else:
                 label = gi.name
-##             menu.add_radiobutton(command=command, variable=variable,
-##                                  columnbreak=columnbreak,
-##                                  value=gi.id, label=label, name=None)
             # optimized by inlining
             menu.tk.call((menu._w, 'add', 'radiobutton') +
                          menu._options({'command': command,

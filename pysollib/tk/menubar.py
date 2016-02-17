@@ -78,6 +78,9 @@ class PysolMenubarTk(PysolMenubarTkCommon):
     # create the menubar
     #
 
+    def createThemesMenu(self, menu):
+        return
+
     def _createMenubar(self):
         MfxMenubar.addPath = self._addPath
         kw = { "name": "menubar" }
@@ -111,6 +114,7 @@ class PysolMenubarTk(PysolMenubarTkCommon):
         menu.add_command(label=n_("&Open..."), command=self.mOpen, accelerator=m+"O")
         menu.add_command(label=n_("&Save"), command=self.mSave, accelerator=m+"S")
         menu.add_command(label=n_("Save &as..."), command=self.mSaveAs)
+        menu.add_command(label=n_("E&xport current layout..."), command=self.mExportCurrentLayout)
         menu.add_separator()
         menu.add_command(label=n_("&Hold and quit"), command=self.mHoldAndQuit, accelerator=m+"X")
         if WIN_SYSTEM != "aqua":
@@ -157,18 +161,10 @@ class PysolMenubarTk(PysolMenubarTkCommon):
         menu.add_command(label=n_("S&tatus..."), command=lambda : self.mPlayerStats(mode=100), accelerator=m+"Y")
         menu.add_checkbutton(label=n_("&Comments..."), variable=self.tkopt.comment, command=self.mEditGameComment)
         menu.add_separator()
-        submenu = MfxMenu(menu, label=n_("&Statistics"))
-        submenu.add_command(label=n_("Current game..."), command=lambda : self.mPlayerStats(mode=101))
-        submenu.add_command(label=n_("All games..."), command=lambda : self.mPlayerStats(mode=102))
-        submenu.add_separator()
-        submenu.add_command(label=n_("Session log..."), command=lambda : self.mPlayerStats(mode=104))
-        submenu.add_command(label=n_("Full log..."), command=lambda : self.mPlayerStats(mode=103))
-        submenu.add_separator()
-        submenu.add_command(label=TOP_TITLE+"...", command=lambda : self.mPlayerStats(mode=105), accelerator=m+"T")
-        submenu.add_command(label=n_("Progression..."), command=lambda : self.mPlayerStats(mode=107))
-        submenu = MfxMenu(menu, label=n_("D&emo statistics"))
-        submenu.add_command(label=n_("Current game..."), command=lambda : self.mPlayerStats(mode=1101))
-        submenu.add_command(label=n_("All games..."), command=lambda : self.mPlayerStats(mode=1102))
+        menu.add_command(label=n_("&Statistics..."), command=self.mPlayerStats, accelerator=m+"T")
+        menu.add_command(label=n_("Log..."), command=lambda : self.mPlayerStats(mode=103))
+        menu.add_separator()
+        menu.add_command(label=n_("D&emo statistics"), command=lambda : self.mPlayerStats(mode=1101))
 
         menu = MfxMenu(self.menubar, label=n_("&Assist"))
         menu.add_command(label=n_("&Hint"), command=self.mHint, accelerator="H")
@@ -252,6 +248,7 @@ class PysolMenubarTk(PysolMenubarTkCommon):
         menu.add_command(label=n_("&Colors..."), command=self.mOptColors)
         menu.add_command(label=n_("Time&outs..."), command=self.mOptTimeouts)
         menu.add_separator()
+        self.createThemesMenu(menu)
         submenu = MfxMenu(menu, label=n_("&Toolbar"))
         createToolbarMenu(self, submenu)
         submenu = MfxMenu(menu, label=n_("Stat&usbar"))
@@ -758,6 +755,43 @@ class PysolMenubarTk(PysolMenubarTkCommon):
             ##filename = os.path.normcase(filename)
             if os.path.isfile(filename):
                 self.game.loadGame(filename)
+
+    def mExportCurrentLayout(self, *event):
+        if self._cancelDrag(break_pause=False): return
+        game = self.game
+        if not self.menustate.save_as:
+            return
+        if not game.Solver_Class:
+            d = MfxMessageDialog(self.top, title=_('Export game error'),
+                                     text=_('''
+Unsupported game for export.
+'''),
+                                     bitmap='error')
+            return
+
+        filename = game.filename
+        if not filename:
+            filename = self.app.getGameSaveName(self.game.id)
+            if os.name == "posix" or os.path.supports_unicode_filenames:
+                filename += "-" + self.game.getGameNumber(format=0)
+            else:
+                filename += "-01"
+            filename += ".board"
+        idir, ifile = os.path.split(os.path.normpath(filename))
+        if not idir:
+            idir = self.app.dn.savegames
+        ##print self.game.filename, ifile
+        d = tkFileDialog.SaveAs()
+        filename = d.show(filetypes=self.FILETYPES,
+                          defaultextension=self.DEFAULTEXTENSION,
+                          initialdir=idir, initialfile=ifile)
+        if filename:
+            filename = os.path.normpath(filename)
+            ##filename = os.path.normcase(filename)
+            with open(filename, 'w') as fh:
+                game = self.game
+                fh.write(game.Solver_Class(game, self).calcBoardString())
+            self.updateMenus()
 
     def mSaveAs(self, *event):
         if self._cancelDrag(break_pause=False): return

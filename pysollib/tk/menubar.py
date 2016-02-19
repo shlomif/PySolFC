@@ -73,6 +73,10 @@ class PysolMenubarTk(PysolMenubarTkCommon):
     def _connect_game_solver_dialog(self, game):
         return connect_game_solver_dialog(game)
 
+    def _calcWizardDialog(self):
+        from wizarddialog import WizardDialog
+        return WizardDialog
+
     #
     # create the menubar
     #
@@ -126,22 +130,5 @@ class PysolMenubarTk(PysolMenubarTkCommon):
         self.tkopt.toolbar_relief.set(relief)           # update radiobutton
         self.app.toolbar.setRelief(relief)
         self.top.update_idletasks()
-
-    def toolbarConfig(self, w, v):
-        if self._cancelDrag(break_pause=False): return
-        self.app.opt.toolbar_vars[w] = v
-        self.app.toolbar.config(w, v)
-        self.top.update_idletasks()
-
-    #
-    # stacks descriptions
-    #
-
-    def mStackDesk(self, *event):
-        if self.game.stackdesc_list:
-            self.game.deleteStackDesc()
-        else:
-            if self._cancelDrag(break_pause=True): return
-            self.game.showStackDesc()
 
 

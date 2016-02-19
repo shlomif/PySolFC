@@ -98,23 +98,6 @@ class PysolMenubarTk(PysolMenubarTkCommon):
         self.game.endGame(bookmark=1)
         self.game.quitGame(bookmark=1)
 
-    def toolbarConfig(self, w, v):
-        if self._cancelDrag(break_pause=False): return
-        self.app.opt.toolbar_vars[w] = v
-        self.app.toolbar.config(w, v)
-        self.top.update_idletasks()
-
-    #
-    # stacks descriptions
-    #
-
-    def mStackDesk(self, *event):
-        if self.game.stackdesc_list:
-            self.game.deleteStackDesc()
-        else:
-            if self._cancelDrag(break_pause=True): return
-            self.game.showStackDesc()
-
     #
     # Tile (ttk)
     #

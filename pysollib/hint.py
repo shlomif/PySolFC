@@ -794,9 +794,18 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
         game_type = self.game_type
         return ('preset' in game_type and game_type['preset'] == 'simple_simon')
 
+    def _addBoardLine(self, l):
+        self.board += l + '\n'
+        return
+
+    def _addPrefixLine(self, prefix, b):
+        if b:
+            self._addBoardLine(prefix + b)
+        return
+
     def calcBoardString(self):
         game = self.game
-        board = ''
+        self.board = ''
         is_simple_simon = self._isSimpleSimon()
         #
         #
@@ -804,15 +813,13 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
         for s in game.s.foundations:
             if s.cards:
                 b += ' ' + self.card2str2(s.cards[0 if is_simple_simon else -1])
-        if b:
-            board += 'Founds:' + b + '\n'
-        #
+        self._addPrefixLine('Founds:', b)
+
         b = ''
         for s in game.s.reserves:
             b += ' ' + (self.card2str1(s.cards[-1]) if s.cards else '-')
-        if b:
-            board += 'FC:' + b + '\n'
-        #
+        self._addPrefixLine('FC:', b)
+
         for s in game.s.rows:
             b = ''
             for c in s.cards:
@@ -820,9 +827,9 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                 if not c.face_up:
                     cs = '<%s>' % cs
                 b += cs + ' '
-            board += b.strip() + '\n'
+            self._addBoardLine(b.strip())
 
-        return board
+        return self.board
 
 
     def computeHints(self):

@@ -792,6 +792,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
 
     def calcBoardString(self):
         game = self.game
+        game_type = self.game_type
         board = ''
         #
         #

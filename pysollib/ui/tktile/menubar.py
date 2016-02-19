@@ -1335,3 +1335,51 @@ Unsupported game for export.
         if self.app.toolbar.setCompound(compound):
             self.game.updateStatus(player=self.app.opt.player)
             self.top.update_idletasks()
+
+    def wizardDialog(self, edit=False):
+        from pysollib.wizardutil import write_game, reset_wizard
+        WizardDialog = self._calcWizardDialog()
+
+        if edit:
+            reset_wizard(self.game)
+        else:
+            reset_wizard(None)
+        d = WizardDialog(self.top, _('Solitaire Wizard'), self.app)
+        if d.status == 0 and d.button == 0:
+            try:
+                if edit:
+                    gameid = write_game(self.app, game=self.game)
+                else:
+                    gameid = write_game(self.app)
+            except Exception, err:
+                if DEBUG:
+                    traceback.print_exc()
+                d = MfxMessageDialog(self.top, title=_('Save game error'),
+                                     text=_('''
+Error while saving game.
+
+%s
+''') % str(err),
+                                     bitmap='error')
+                return
+
+            if SELECT_GAME_MENU:
+                menu = self.menupath[".menubar.select.customgames"][2]
+                select_func = lambda gi: gi.si.game_type == GI.GT_CUSTOM
+                games = map(self.app.gdb.get,
+                            self.app.gdb.getGamesIdSortedByName())
+                games = filter(select_func, games)
+                self.updateGamesMenu(menu, games)
+
+            self.tkopt.gameid.set(gameid)
+            self._mSelectGame(gameid, force=True)
+
+
+    def mWizard(self, *event):
+        if self._cancelDrag(break_pause=False): return
+        self.wizardDialog()
+
+    def mWizardEdit(self, *event):
+        if self._cancelDrag(break_pause=False): return
+        self.wizardDialog(edit=True)
+

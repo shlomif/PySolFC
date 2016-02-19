@@ -790,30 +790,26 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
         else:
             return False
 
+    def _isSimpleSimon(self):
+        game_type = self.game_type
+        return ('preset' in game_type and game_type['preset'] == 'simple_simon')
+
     def calcBoardString(self):
         game = self.game
-        game_type = self.game_type
         board = ''
+        is_simple_simon = self._isSimpleSimon()
         #
         #
         b = ''
         for s in game.s.foundations:
             if s.cards:
-                if 'preset' in game_type and game_type['preset'] == 'simple_simon':
-                    ss = self.card2str2(s.cards[0])
-                else:
-                    ss = self.card2str2(s.cards[-1])
-                b += ' ' + ss
+                b += ' ' + self.card2str2(s.cards[0 if is_simple_simon else -1])
         if b:
             board += 'Founds:' + b + '\n'
         #
         b = ''
         for s in game.s.reserves:
-            if s.cards:
-                cs = self.card2str1(s.cards[-1])
-                b += ' ' + cs
-            else:
-                b += ' -'
+            b += ' ' + (self.card2str1(s.cards[-1]) if s.cards else '-')
         if b:
             board += 'FC:' + b + '\n'
         #

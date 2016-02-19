@@ -24,13 +24,10 @@
 __all__ = ['PysolMenubarTk']
 
 # imports
-import math, os, sys, re
 import Tkinter
-import traceback
 
 # PySol imports
 from pysollib.mygettext import _, n_
-from pysollib.mfxutil import Struct, kwdefault
 from pysollib.mfxutil import Image, USE_PIL
 from pysollib.util import CARDSET
 from pysollib.settings import TITLE, WIN_SYSTEM
@@ -89,7 +86,6 @@ class PysolMenubarTk(PysolMenubarTkCommon):
         if self._cancelDrag(break_pause=False): return
         ##strings, default = ("&OK", "&Load", "&Cancel"), 0
         strings, default = (None, _("&Load"), _("&Cancel"),), 1
-        ##if os.name == "posix":
         strings, default = (None, _("&Load"), _("&Cancel"), _("&Info..."),), 1
         t = CARDSET
         key = self.app.nextgame.cardset.index

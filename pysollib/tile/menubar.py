@@ -24,14 +24,12 @@
 __all__ = ['PysolMenubarTk']
 
 # imports
-import math, os, sys, re
 import Tkinter
 import ttk
-import traceback
 
 # PySol imports
 from pysollib.mygettext import _, n_
-from pysollib.mfxutil import Struct, kwdefault
+from pysollib.mfxutil import kwdefault
 from pysollib.mfxutil import Image, USE_PIL
 from pysollib.util import CARDSET
 from pysollib.settings import TITLE, WIN_SYSTEM

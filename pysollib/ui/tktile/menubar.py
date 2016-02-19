@@ -1,8 +1,10 @@
 import math
+import os
 import re
 import sys
 
 import Tkinter
+import tkFileDialog
 
 from pysollib.mfxutil import Struct, kwdefault
 from pysollib.mfxutil import Image, USE_PIL

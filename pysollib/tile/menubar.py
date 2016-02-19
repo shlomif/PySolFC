@@ -28,7 +28,6 @@ import math, os, sys, re
 import Tkinter
 import ttk
 import traceback
-import tkFileDialog
 
 # PySol imports
 from pysollib.mygettext import _, n_

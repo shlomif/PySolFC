@@ -29,10 +29,8 @@ import ttk
 
 # PySol imports
 from pysollib.mygettext import _, n_
-from pysollib.mfxutil import kwdefault
-from pysollib.mfxutil import Image, USE_PIL
 from pysollib.util import CARDSET
-from pysollib.settings import TITLE, WIN_SYSTEM
+from pysollib.settings import WIN_SYSTEM
 from pysollib.settings import SELECT_GAME_MENU
 from pysollib.settings import USE_FREECELL_SOLVER
 from pysollib.settings import DEBUG

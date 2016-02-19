@@ -120,7 +120,6 @@ class MfxMenu(MfxMenubar):
 
 class PysolMenubarTkCommon:
     def __init__(self, app, top, progress=None):
-        print "PysolMenubarTkCommon init called"
         self._createTkOpt()
         self._setOptions()
         # init columnbreak

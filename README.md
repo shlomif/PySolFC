@@ -32,7 +32,8 @@ See: http://www.python.org/doc/current/inst/
 
 You can run from the source directory:
 
-$ python pysol.py
+$ python2 pysol.py
+
 
 After following steps similar to this one (on
 [Mageia Linux](http://www.mageia.org/) ):
@@ -52,7 +53,7 @@ $ tar -xvf PySolFC-Cardsets-2.0.tar.bz2 # Need to be downloaded from sourceforge
 $ mkdir -p ~/.PySolFC
 $ rmdir ~/.PySolFC/cardsets
 $ ln -s ~/.PySolFC/cardsets PySolFC-Cardsets-2.0
-$ python pysol.py
+$ python2 pysol.py
 ```
 
 ### Configuring Freecell Solver

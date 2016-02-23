@@ -1,5 +1,5 @@
-PySol Fan Club edition
-======================
+# PySol Fan Club edition
+
 
 
 Requirements.

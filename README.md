@@ -48,6 +48,7 @@ $ sudo urpmi pygtk2.0-libglade
 $ sudo urpmi gnome-python-canvas
 $ gmake test
 $ ln -s html-src html
+$ ln -s data/images images
 $ tar -xvf PySolFC-Cardsets-2.0.tar.bz2 # Need to be downloaded from sourceforge
 $ mkdir -p ~/.PySolFC
 $ rmdir ~/.PySolFC/cardsets

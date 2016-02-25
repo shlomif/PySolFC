@@ -180,6 +180,7 @@ for module_name in [
 'pysollib.tk.toolbar',
 'pysollib.tk.wizarddialog',
 'pysollib.ui.tktile.card',
+'pysollib.ui.tktile.colorsdialog',
 'pysollib.ui.tktile.menubar',
 'pysollib.ui.tktile.tkcanvas',
 'pysollib.ui.tktile.tkconst',

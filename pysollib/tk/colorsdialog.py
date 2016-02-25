@@ -78,12 +78,12 @@ class ColorsDialog(MfxDialog):
             (_('Highlight not matching:'), self.not_matching_var),
             ):
             Tkinter.Label(frame, text=title, anchor='w',
-                          ).grid(row=row, column=0, sticky='we')
+                      ).grid(row=row, column=0, sticky='we')
             l = Tkinter.Label(frame, width=10, height=2,
                               bg=var.get(), textvariable=var)
             l.grid(row=row, column=1, padx=5)
             b = Tkinter.Button(frame, text=_('Change...'), width=10,
-                               command=lambda l=l: self.selectColor(l))
+                           command=lambda l=l: self.selectColor(l))
             b.grid(row=row, column=2)
             row += 1
         #

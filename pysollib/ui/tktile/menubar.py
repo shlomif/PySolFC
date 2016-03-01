@@ -1213,7 +1213,7 @@ Unsupported game for export.
         key = self.app.tabletile_index
         if key <= 0:
             key = self.app.opt.colors['table'] ##.lower()
-        d = SelectTileDialogWithPreview(self.top, app=self.app,
+        d = self._calcSelectTileDialogWithPreview()(self.top, app=self.app,
                                         title=_("Select table background"),
                                         manager=self.app.tabletile_manager,
                                         key=key)

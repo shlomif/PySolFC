@@ -78,6 +78,8 @@ class PysolMenubarTk(PysolMenubarTkCommon):
         from wizarddialog import WizardDialog
         return WizardDialog
 
+    def _calcSelectTileDialogWithPreview(self):
+        return SelectTileDialogWithPreview
     #
     # create the menubar
     #

@@ -808,7 +808,7 @@ class PysolMenubarTkCommon:
                 bookmark = self.game.gsaveinfo.bookmarks[-2][0]
                 del self.game.gsaveinfo.bookmarks[-2]
         after_idle(self.top, self.__restoreCursor)
-        d = SelectGameDialogWithPreview(self.top, title=_("Select game"),
+        d = self._calcSelectGameDialogWithPreview()(self.top, title=_("Select game"),
                                         app=self.app, gameid=self.game.id,
                                         bookmark=bookmark)
         return self._mSelectGameDialog(d)

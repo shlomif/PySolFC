@@ -1021,7 +1021,7 @@ Unsupported game for export.
 
     def mOptSoundDialog(self, *args):
         if self._cancelDrag(break_pause=False): return
-        d = SoundOptionsDialog(self.top, _("Sound settings"), self.app)
+        d = self._calcSoundOptionsDialog()(self.top, _("Sound settings"), self.app)
         self.tkopt.sound.set(self.app.opt.sound)
 
     def mOptAutoFaceUp(self, *args):

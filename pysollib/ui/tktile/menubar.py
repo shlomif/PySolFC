@@ -794,7 +794,7 @@ class PysolMenubarTkCommon:
         if self._cancelDrag(break_pause=False): return
         self.game.setCursor(cursor=CURSOR_WATCH)
         after_idle(self.top, self.__restoreCursor)
-        d = SelectGameDialog(self.top, title=_("Select game"),
+        d = self._calcSelectGameDialog()(self.top, title=_("Select game"),
                              app=self.app, gameid=self.game.id)
         return self._mSelectGameDialog(d)
 

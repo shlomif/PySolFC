@@ -68,6 +68,9 @@ class PysolMenubarTk(PysolMenubarTkCommon):
         from wizarddialog import WizardDialog
         return WizardDialog
 
+    def _calcSelectGameDialog(self):
+        return SelectGameDialog
+
     def _calcSoundOptionsDialog(self):
         return SoundOptionsDialog
 

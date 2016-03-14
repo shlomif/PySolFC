@@ -16,7 +16,7 @@ rules_dir = os.path.normpath(os.path.join(pysollib_path, 'data/html/rules'))
 #pprint(sys.path)
 #print rules_dir
 
-from pysollib.init import fix_gettext
+from pysollib.mygettext import fix_gettext
 fix_gettext()
 
 import pysollib.games

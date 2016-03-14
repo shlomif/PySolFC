@@ -19,7 +19,7 @@ pysollib_path = os.path.join(sys.path[0], pysollib_dir)
 sys.path[0] = os.path.normpath(pysollib_path)
 #print sys.path
 
-from pysollib.init import fix_gettext
+from pysollib.mygettext import fix_gettext
 fix_gettext()
 
 import pysollib.games

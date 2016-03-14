@@ -79,6 +79,7 @@ kw = {
                       'pysollib.tile',
                       'pysollib.pysolgtk',
                       'pysollib.ui',
+                      'pysollib.ui.tktile',
                       'pysollib.games',
                       'pysollib.games.special',
                       'pysollib.games.ultra',

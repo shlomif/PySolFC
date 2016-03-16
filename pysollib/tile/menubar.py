@@ -46,7 +46,7 @@ from selecttile import SelectTileDialogWithPreview
 from findcarddialog import connect_game_find_card_dialog, destroy_find_card_dialog
 from solverdialog import connect_game_solver_dialog
 
-from pysollib.ui.tktile.menubar import MfxMenubar, MfxMenu, PysolMenubarTkCommon
+from pysollib.ui.tktile.menubar import MfxMenu, PysolMenubarTkCommon
 # ************************************************************************
 # * - create menubar
 # * - update menubar

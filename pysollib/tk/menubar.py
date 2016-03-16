@@ -80,6 +80,9 @@ class PysolMenubarTk(PysolMenubarTkCommon):
     def _calcSelectTileDialogWithPreview(self):
         return SelectTileDialogWithPreview
 
+    def _calc_MfxMessageDialog(self):
+        return MfxMessageDialog
+
     #
     # create the menubar
     #

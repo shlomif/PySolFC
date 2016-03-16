@@ -89,6 +89,9 @@ class PysolMenubarTk(PysolMenubarTkCommon):
     def _calcSelectTileDialogWithPreview(self):
         return SelectTileDialogWithPreview
 
+    def _calc_MfxMessageDialog(self):
+        return MfxMessageDialog
+
     #
     # create the menubar
     #
@@ -112,7 +115,7 @@ class PysolMenubarTk(PysolMenubarTkCommon):
     def mOptTheme(self, *event):
         theme = self.tkopt.theme.get()
         self.app.opt.tile_theme = theme
-        d = MfxMessageDialog(self.top, title=_("Change theme"),
+        d = self._calc_MfxMessageDialog()(self.top, title=_("Change theme"),
                       text=_("""\
 This settings will take effect
 the next time you restart """)+TITLE,

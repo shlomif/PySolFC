@@ -952,7 +952,7 @@ class PysolMenubarTkCommon:
         if not self.menustate.save_as:
             return
         if not game.Solver_Class:
-            d = MfxMessageDialog(self.top, title=_('Export game error'),
+            d = self._calc_MfxMessageDialog()(self.top, title=_('Export game error'),
                                      text=_('''
 Unsupported game for export.
 '''),
@@ -1353,7 +1353,7 @@ Unsupported game for export.
             except Exception, err:
                 if DEBUG:
                     traceback.print_exc()
-                d = MfxMessageDialog(self.top, title=_('Save game error'),
+                d = self._calc_MfxMessageDialog()(self.top, title=_('Save game error'),
                                      text=_('''
 Error while saving game.
 

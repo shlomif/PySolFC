@@ -29,7 +29,6 @@ import os, sys
 import Tkinter
 import ttk
 
-from pysollib.mygettext import _, n_
 if __name__ == '__main__':
     d = os.path.abspath(os.path.join(sys.path[0], os.pardir, os.pardir))
     sys.path.append(d)
@@ -37,6 +36,7 @@ if __name__ == '__main__':
     gettext.install('pysol', d, unicode=True)
 
 # PySol imports
+from pysollib.mygettext import _, n_
 
 # Toolkit imports
 from tkwidget import MfxTooltip

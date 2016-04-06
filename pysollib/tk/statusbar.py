@@ -146,7 +146,7 @@ class MfxStatusbar:
 
 class PysolStatusbar(MfxStatusbar):
     def __init__(self, top):
-        MfxStatusbar.__init__(self, top, row=3, column=0, columnspan=3)
+        MfxStatusbar.__init__(self, top, row=4, column=0, columnspan=3)
         #
         for n, t, w in (
             ('stuck',       _("'You Are Stuck' indicator"), 3),
@@ -158,8 +158,7 @@ class PysolStatusbar(MfxStatusbar):
             self._createLabel(n, tooltip=t, width=w)
         #
         l = self._createLabel('info', expand=True)
-        ##l.config(text='', justify='left', anchor='w')
-        l.config(padx=8)
+        l.config(padding=(8, 0))
 
 
 class HelpStatusbar(MfxStatusbar):

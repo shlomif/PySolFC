@@ -158,7 +158,6 @@ class PysolStatusbar(MfxStatusbar):
             ):
             self._createLabel(n, tooltip=t, width=w)
         #
-        #self.configLabel("stuck", fg="red")
         l = self._createLabel('info', expand=True)
         l.config(padding=(8, 0))
         self._createSizegrip()

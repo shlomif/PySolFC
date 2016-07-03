@@ -1,11 +1,13 @@
-tests/individually-importing/*.py
+*.pyc
 build/*
 data/cardsets/*
 data/html/*
 dist/*
 docs/all_games.html
+html
 html-src/html/*
+images
 locale/*
 po/pl.po
 po/ru.po
-*.pyc
+tests/individually-importing/*.py

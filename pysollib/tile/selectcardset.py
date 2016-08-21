@@ -25,7 +25,6 @@ __all__ = ['SelectCardsetDialogWithPreview']
 
 # imports
 import os
-import traceback
 import Tkinter
 import ttk
 
@@ -443,7 +442,6 @@ class CardsetInfoDialog(MfxDialog):
                 info_frame.columnconfigure(2, weight=1)
                 info_frame.rowconfigure(frow, weight=1)
             except:
-                traceback.print_exc()
                 pass
         if USE_PIL:
             padx = 4

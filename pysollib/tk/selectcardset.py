@@ -283,7 +283,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         return MfxDialog.initKw(self, kw)
 
     def mDone(self, button):
-        if button in (0, 1):               # Ok/Load
+        if button in (0, 1):            # Load/Cancel
             self.key = self.tree.selection_key
             self.tree.n_expansions = 1  # save xyview in any case
             if USE_PIL:
@@ -365,8 +365,8 @@ class SelectCardsetDialogWithPreview(MfxDialog):
                 x = x + dx
         canvas.config(scrollregion=(0, 0, sx+dx, sy+dy),
                       width=sx+dx, height=sy+dy)
-        canvas.event_generate('<Configure>') # update bg image
         #canvas.config(xscrollincrement=dx, yscrollincrement=dy)
+        canvas.event_generate('<Configure>') # update bg image
         self.preview_key = key
         self.key = key
 

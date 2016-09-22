@@ -511,13 +511,6 @@ class Game:
         # let's go
         self.moves.state = self.S_INIT
         self.startGame()
-        if self.gameinfo.si.game_flags & GI.GT_OPEN:
-            if self.s.talon:
-                assert len(self.s.talon.cards) == 0
-            for stack in self.allstacks:
-                if stack.is_visible:
-                    for c in stack.cards:
-                        assert c.face_up
         self.startMoves()
         for stack in self.allstacks:
             stack.updateText()

@@ -9,6 +9,10 @@ people, aiming to clean up the code, add features, fix bugs, port to Python
 
 [![Build Status](https://travis-ci.org/shlomif/PySolFC.svg?branch=shlomif--main-branch--master)](https://travis-ci.org/shlomif/PySolFC)
 
+# Screenshots
+
+![Image](<http://i.imgur.com/jQkTGwf.jpg>)
+
 ## Requirements.
 
 - Python (2.4 or later) (NB: python 2.6.0 has a bug, use 2.6.1 instead)

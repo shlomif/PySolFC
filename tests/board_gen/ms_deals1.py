@@ -557,7 +557,7 @@ class Game:
 
 def shlomif_main(args):
 
-    plan(4)
+    plan(5)
 
     rand = constructRandom('24')
     game = Game("freecell", rand, True)
@@ -621,6 +621,22 @@ KC JS 9H 4S 7S AD
 8C AH 2H 5H 2D 5S
 ''',
     'Microsoft Deal #3E9 - long seed.',
+);
+
+    rand = constructRandom('ms6000000000')
+    game = Game("freecell", rand, True)
+    # TEST
+    got_s = game.print_layout()
+    ok (got_s == '''2D 2C QS 8D KD 8C 4C
+3D AH 2H 4H TS 6H QD
+4D JS AD 6S JH JC JD
+KH 3H KS AS TC 5D AC
+TD 7C 9C 7H 3C 3S
+QH 9H 9D 5S 7S 6C
+5C 5H 2S KC 9S 4S
+6D QC 8S TH 7D 8H
+''',
+    'Microsoft Deal #6E9 - extra long seed.',
 );
 
 if __name__ == "__main__":

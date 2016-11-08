@@ -64,7 +64,7 @@ PLIST = dict(
     )
 APP = ['pysol.py']
 ICON_FILE = 'data/PySol.icns'
-DATA_FILES = ['docs', 'data', 'scripts','COPYING', 'README'] + SOLVER
+DATA_FILES = ['docs', 'data', 'scripts','COPYING', 'README.md'] + SOLVER
 RESOURCES = [os.path.join(TCL_EXTENSION_PATH, TILE)] if TILE else []
 FRAMEWORKS = [SOLVER_LIB_PATH] if SOLVER_LIB_PATH else []
 OPTIONS = dict(argv_emulation=True,

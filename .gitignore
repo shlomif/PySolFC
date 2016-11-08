@@ -1,4 +1,5 @@
 *.pyc
+MANIFEST
 build/*
 data/cardsets/*
 data/html/*
@@ -8,6 +9,7 @@ html
 html-src/html/*
 images
 locale/*
+po/it.po
 po/pl.po
 po/ru.po
 tests/individually-importing/*.py

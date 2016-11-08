@@ -198,18 +198,35 @@ class LCRandom64(MFXRandom):
 # ************************************************************************
 
 class LCRandom31(MFXRandom):
-    MAX_SEED = 0x7fffffffL          # 31 bits
+    MAX_SEED = 0x1ffffffffL          # 33 bits
 
     def str(self, seed):
         return "%05d" % int(seed)
 
-    def random(self):
-        self.seed = (self.seed*214013L + 2531011L) & self.MAX_SEED
-        return (self.seed >> 16) / 32768.0
+    def setSeed(self, seed):
+        seed = long(seed)
+        self.seed = seed
+        if not (0L <= seed <= self.MAX_SEED):
+            raise ValueError, "seed out of range"
+        self.seedx = (seed if (seed < 0x100000000L) else (seed - 0x100000000L))
+        return seed
+
+    def _rando(self):
+        self.seedx = (self.seedx*214013 + 2531011) & self.MAX_SEED
+        return ((self.seedx >> 16) & 0x7fff)
+
+    def _randp(self):
+        self.seedx = (self.seedx*214013 + 2531011) & self.MAX_SEED
+        return ((self.seedx >> 16) & 0xffff)
 
     def randint(self, a, b):
-        self.seed = (self.seed*214013L + 2531011L) & self.MAX_SEED
-        return a + (int(self.seed >> 16) % (b+1-a))
+        if self.seed < 0x100000000:
+            ret = self._rando()
+            ret = (ret if (self.seed < 0x80000000) else (ret | 0x8000))
+        else:
+            ret = self._randp() + 1
+
+        return a + (ret % (b+1-a))
 
     def shuffle(self, seq):
         n = len(seq) - 1
@@ -234,7 +251,7 @@ def constructRandom(s):
     m = re.match(r"ms(\d+)\n?\Z", s);
     if m:
         seed = long(m.group(1))
-        if 0 <= seed < (1 << 31):
+        if 0 <= seed <= LCRandom31.MAX_SEED:
             ret = LCRandom31(seed)
             ret.setSeedAsStr(s)
             return ret

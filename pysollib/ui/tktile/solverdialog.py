@@ -1,3 +1,6 @@
+from pysollib.mygettext import _, n_
+from pysollib.ui.tktile.tkconst import EVENT_HANDLED
+
 class BaseSolverDialog:
 
     def mDone(self, button):

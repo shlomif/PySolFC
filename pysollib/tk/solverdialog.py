@@ -38,7 +38,6 @@ from pysollib.settings import TITLE
 from pysollib.mfxutil import KwStruct
 
 # Toolkit imports
-from pysollib.ui.tktile.tkconst import EVENT_HANDLED
 from tkwidget import MfxDialog
 from pysollib.ui.tktile.solverdialog import BaseSolverDialog, solver_dialog, connect_game_solver_dialog, destroy_solver_dialog, reset_solver_dialog
 

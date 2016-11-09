@@ -7,7 +7,10 @@ PYSOLLIB_FILES=pysollib/tk/*.py pysollib/tile/*.py pysollib/*.py \
 	pysollib/games/*.py pysollib/games/special/*.py \
 	pysollib/games/ultra/*.py pysollib/games/mahjongg/*.py
 
-.PHONY : install dist all_games_html rules pot mo
+.PHONY : all install dist all_games_html rules pot mo
+
+all:
+	@echo "No default target"
 
 install:
 	python setup.py install

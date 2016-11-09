@@ -50,6 +50,9 @@ from tkwidget import PysolCombo
 
 class SolverDialog(MfxDialog):
 
+    def _calcToolkit(self):
+        return ttk
+
     def __init__(self, parent, app, **kw):
         self.parent = parent
         self.app = app
@@ -69,13 +72,13 @@ class SolverDialog(MfxDialog):
         self.games = {}                 # key: gamename; value: gameid
 
         #
-        frame = ttk.Frame(top_frame)
+        frame = self._calcToolkit().Frame(top_frame)
         frame.pack(expand=True, fill='both', padx=4, pady=4)
         frame.columnconfigure(1, weight=1)
 
         #
         row = 0
-        ttk.Label(frame, text=_('Game:'), anchor='w'
+        self._calcToolkit().Label(frame, text=_('Game:'), anchor='w'
                   ).grid(row=row, column=0, sticky='ew', padx=2, pady=2)
         games = app.getGamesForSolver()
         gamenames = ['']
@@ -93,7 +96,7 @@ class SolverDialog(MfxDialog):
 
         #
         row += 1
-        ttk.Label(frame, text=_('Preset:'), anchor='w'
+        self._calcToolkit().Label(frame, text=_('Preset:'), anchor='w'
                   ).grid(row=row, column=0, sticky='ew', padx=2, pady=2)
         presets = app.opt.solver_presets
         self.presets = presets
@@ -105,8 +108,8 @@ class SolverDialog(MfxDialog):
         #
         row += 1
         self.max_iters_var = Tkinter.IntVar()
-        self.max_iters_var.set(10e4)
-        ttk.Label(frame, text=_('Max iterations:'), anchor='w'
+        self.max_iters_var.set(11e4)
+        self._calcToolkit().Label(frame, text=_('Max iterations:'), anchor='w'
                   ).grid(row=row, column=0, sticky='ew', padx=2, pady=2)
         spin = Tkinter.Spinbox(frame, bg='white', from_=1000, to=10e6,
                                increment=1000, textvariable=self.max_iters_var)
@@ -116,7 +119,7 @@ class SolverDialog(MfxDialog):
         row += 1
         self.max_depth_var = Tkinter.IntVar()
         self.max_depth_var.set(1000)
-        ttk.Label(frame, text=_('Max depth:'), anchor='w'
+        self._calcToolkit().Label(frame, text=_('Max depth:'), anchor='w'
                   ).grid(row=row, column=0, sticky='ew', padx=2, pady=2)
         spin = Tkinter.Spinbox(frame, bg='white', from_=100, to=10000,
                                increment=100, textvariable=self.max_depth_var)
@@ -126,38 +129,38 @@ class SolverDialog(MfxDialog):
         row += 1
         self.progress_var = Tkinter.BooleanVar()
         self.progress_var.set(True)
-        w = ttk.Checkbutton(frame, variable=self.progress_var,
+        w = self._calcToolkit().Checkbutton(frame, variable=self.progress_var,
                             text=_('Show progress'))
         w.grid(row=row, column=0, columnspan=2, sticky='ew', padx=2, pady=2)
 
         #
-        label_frame = ttk.LabelFrame(top_frame, text=_('Progress'))
+        label_frame = self._calcToolkit().LabelFrame(top_frame, text=_('Progress'))
         label_frame.pack(expand=True, fill='both', padx=6, pady=2)
         #label_frame.columnconfigure(0, weight=1)
         label_frame.columnconfigure(1, weight=1)
 
         #
         frow = 0
-        ttk.Label(label_frame, text=_('Iteration:'), anchor='w'
+        self._calcToolkit().Label(label_frame, text=_('Iteration:'), anchor='w'
                   ).grid(row=frow, column=0, sticky='ew', padx=4, pady=2)
-        lb = ttk.Label(label_frame, anchor='w')
+        lb = self._calcToolkit().Label(label_frame, anchor='w')
         lb.grid(row=frow, column=1, sticky='ew', padx=4, pady=2)
         self.iter_label = lb
         frow += 1
-        ttk.Label(label_frame, text=_('Depth:'), anchor='w'
+        self._calcToolkit().Label(label_frame, text=_('Depth:'), anchor='w'
                   ).grid(row=frow, column=0, sticky='ew', padx=4, pady=2)
-        lb = ttk.Label(label_frame, anchor='w')
+        lb = self._calcToolkit().Label(label_frame, anchor='w')
         lb.grid(row=frow, column=1, sticky='ew', padx=4, pady=2)
         self.depth_label = lb
         frow += 1
-        ttk.Label(label_frame, text=_('Stored-States:'), anchor='w'
+        self._calcToolkit().Label(label_frame, text=_('Stored-States:'), anchor='w'
                   ).grid(row=frow, column=0, sticky='ew', padx=4, pady=2)
-        lb = ttk.Label(label_frame, anchor='w')
+        lb = self._calcToolkit().Label(label_frame, anchor='w')
         lb.grid(row=frow, column=1, sticky='ew', padx=4, pady=2)
         self.states_label = lb
 
         #
-        lb = ttk.Label(top_frame, anchor='w')
+        lb = self._calcToolkit().Label(top_frame, anchor='w')
         lb.pack(expand=True, fill='x', padx=6, pady=4)
         self.result_label = lb
 
@@ -234,7 +237,7 @@ class SolverDialog(MfxDialog):
         max_iters = self.max_iters_var.get()
         max_depth = self.max_depth_var.get()
         progress = self.progress_var.get()
-        solver.config(preset=preset,  max_iters=max_iters,
+        solver.config(preset=preset, max_iters=max_iters,
                       max_depth=max_depth, progress=progress)
         solver.computeHints()
         hints_len = len(solver.hints)-1

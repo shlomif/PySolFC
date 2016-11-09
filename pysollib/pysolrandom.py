@@ -246,9 +246,13 @@ PysolRandom = MTRandom
 # * PySol support code
 # ************************************************************************
 
+def _match_ms(s):
+    """match an ms based seed string."""
+    return re.match(r"ms([0-9]+)\n?\Z", s)
+
 # construct Random from seed string
 def constructRandom(s):
-    m = re.match(r"ms([0-9]+)\n?\Z", s);
+    m = _match_ms(s)
     if m:
         seed = long(m.group(1))
         if 0 <= seed <= LCRandom31.MAX_SEED:
@@ -265,6 +269,21 @@ def constructRandom(s):
     if 0 <= seed < 32000:
         return LCRandom31(seed)
     return PysolRandom(seed)
+
+MS_LONG_BIT = (1L << 1000)
+
+def random__str2long(s):
+    m = _match_ms(s)
+    if m:
+        return (long(m.group(1)) | MS_LONG_BIT)
+    else:
+        return long(s)
+
+def random__long2str(l):
+    if ((l & MS_LONG_BIT) != 0):
+        return "ms" + str(l & (~ MS_LONG_BIT))
+    else:
+        return str(l)
 
 # test
 if __name__ == '__main__':

@@ -54,7 +54,6 @@
 
 # imports
 import sys, os, re, string, time, types
-import random
 
 sys.path.append("./tests/lib")
 from TAP.Simple import plan, ok
@@ -62,7 +61,7 @@ from TAP.Simple import plan, ok
 # So the localpaths will be overrided.
 sys.path.insert(0, ".")
 
-from pysollib.pysolrandom import constructRandom, LCRandom31
+from pysollib.pysolrandom import constructRandom, LCRandom31, random__str2long, random__long2str
 
 # PySol imports
 
@@ -557,7 +556,7 @@ class Game:
 
 def shlomif_main(args):
 
-    plan(5)
+    plan(6)
 
     rand = constructRandom('24')
     game = Game("freecell", rand, True)
@@ -638,6 +637,12 @@ QH 9H 9D 5S 7S 6C
 ''',
     'Microsoft Deal #6E9 - extra long seed.',
 );
+
+    inp = 'ms12345678'
+    got = random__long2str(random__str2long(inp))
+
+    # TEST
+    ok (got == inp, 'long2str ms roundtrip.')
 
 if __name__ == "__main__":
     sys.exit(shlomif_main(sys.argv))

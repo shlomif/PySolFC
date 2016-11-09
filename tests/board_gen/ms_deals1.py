@@ -556,7 +556,7 @@ class Game:
 
 def shlomif_main(args):
 
-    plan(6)
+    plan(7)
 
     rand = constructRandom('24')
     game = Game("freecell", rand, True)
@@ -643,6 +643,12 @@ QH 9H 9D 5S 7S 6C
 
     # TEST
     ok (got == inp, 'long2str ms roundtrip.')
+
+    inp = '246007891097'
+    got = random__long2str(random__str2long(inp))
+
+    # TEST
+    ok (got == inp, 'long2str PySolFC roundtrip.')
 
 if __name__ == "__main__":
     sys.exit(shlomif_main(sys.argv))

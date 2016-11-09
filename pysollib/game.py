@@ -42,7 +42,7 @@ from pysollib.settings import PACKAGE, TITLE, TOOLKIT, TOP_TITLE
 from pysollib.settings import VERSION, VERSION_TUPLE
 from pysollib.settings import DEBUG
 from pysollib.gamedb import GI
-from pysollib.pysolrandom import PysolRandom, LCRandom31
+from pysollib.pysolrandom import PysolRandom, LCRandom31, constructRandom, random__long2str, random__str2long
 from pysollib.pysoltk import EVENT_HANDLED, EVENT_PROPAGATE
 from pysollib.pysoltk import CURSOR_WATCH
 from pysollib.pysoltk import bind, wm_map
@@ -3134,11 +3134,8 @@ in the current implementation.''') % version)
         game.version = version
         game.version_tuple = version_tuple
         #
-        initial_seed = pload(long)
-        if initial_seed <= 32000:
-            game.random = LCRandom31(initial_seed)
-        else:
-            game.random = PysolRandom(initial_seed)
+        initial_seed = random__long2str(pload(long))
+        game.random = constructRandom(initial_seed)
         state = pload()
         game.random.setstate(state)
         #if not hasattr(game.random, "origin"):
@@ -3206,7 +3203,7 @@ in the current implementation.''') % version)
         p.dump(self.GAME_VERSION)
         p.dump(self.id)
         #
-        p.dump(self.random.initial_seed)
+        p.dump(random__str2long(self.random.getSeedStr()))
         p.dump(self.random.getstate())
         #
         p.dump(len(self.allstacks))

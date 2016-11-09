@@ -49,6 +49,9 @@ class BasicRandom:
     def __init__(self):
         self.seed_as_string = None
 
+    def getSeedStr(self):
+        return str(self.initial_seed)
+
     def __str__(self):
         return self.str(self.initial_seed)
 
@@ -199,6 +202,9 @@ class LCRandom64(MFXRandom):
 
 class LCRandom31(MFXRandom):
     MAX_SEED = 0x1ffffffffL          # 33 bits
+
+    def getSeedStr(self):
+        return "ms" + str(self.initial_seed)
 
     def str(self, seed):
         return "%05d" % int(seed)

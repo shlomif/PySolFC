@@ -248,7 +248,7 @@ PysolRandom = MTRandom
 
 # construct Random from seed string
 def constructRandom(s):
-    m = re.match(r"ms(\d+)\n?\Z", s);
+    m = re.match(r"ms([0-9]+)\n?\Z", s);
     if m:
         seed = long(m.group(1))
         if 0 <= seed <= LCRandom31.MAX_SEED:

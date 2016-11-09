@@ -79,3 +79,30 @@ class BaseSolverDialog:
         if 'states' in kw:
             self.states_label['text'] = kw['states']
         self.top.update_idletasks()
+
+solver_dialog = None
+
+def connect_game_solver_dialog(game):
+    try:
+        solver_dialog.connectGame(game)
+    except:
+        pass
+
+def destroy_solver_dialog():
+    global solver_dialog
+    try:
+        solver_dialog.destroy()
+    except:
+        ##traceback.print_exc()
+        pass
+    solver_dialog = None
+
+
+def reset_solver_dialog():
+    if solver_dialog:
+        try:
+            solver_dialog.reset()
+        except:
+            ##traceback.print_exc()
+            pass
+

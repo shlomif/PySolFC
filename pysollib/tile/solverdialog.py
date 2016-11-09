@@ -42,7 +42,7 @@ from pysollib.mfxutil import KwStruct
 from pysollib.ui.tktile.tkconst import EVENT_HANDLED
 from tkwidget import MfxDialog
 from tkwidget import PysolCombo
-from pysollib.ui.tktile.solverdialog import BaseSolverDialog
+from pysollib.ui.tktile.solverdialog import BaseSolverDialog, solver_dialog, connect_game_solver_dialog, destroy_solver_dialog, reset_solver_dialog
 
 
 # ************************************************************************
@@ -193,7 +193,6 @@ class SolverDialog(BaseSolverDialog, MfxDialog):
         self.play_button.config(state='disabled')
 
 
-solver_dialog = None
 
 def create_solver_dialog(parent, game):
     global solver_dialog
@@ -203,28 +202,4 @@ def create_solver_dialog(parent, game):
     except:
         ##traceback.print_exc()
         solver_dialog = SolverDialog(parent, game)
-
-def connect_game_solver_dialog(game):
-    try:
-        solver_dialog.connectGame(game)
-    except:
-        pass
-
-def destroy_solver_dialog():
-    global solver_dialog
-    try:
-        solver_dialog.destroy()
-    except:
-        ##traceback.print_exc()
-        pass
-    solver_dialog = None
-
-
-def reset_solver_dialog():
-    if solver_dialog:
-        try:
-            solver_dialog.reset()
-        except:
-            ##traceback.print_exc()
-            pass
 

@@ -182,6 +182,7 @@ for module_name in [
 'pysollib.ui.tktile.card',
 'pysollib.ui.tktile.colorsdialog',
 'pysollib.ui.tktile.menubar',
+'pysollib.ui.tktile.solverdialog',
 'pysollib.ui.tktile.tkcanvas',
 'pysollib.ui.tktile.tkconst',
 'pysollib.ui.tktile.tkutil',

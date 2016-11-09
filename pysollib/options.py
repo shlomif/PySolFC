@@ -390,17 +390,20 @@ class Options:
         self.solver_presets = [
             'none',
             'abra-kadabra',
+            'blue-yonder',
+            'conspiracy-theory',
             'cool-jives',
             'crooked-nose',
             'fools-gold',
             'good-intentions',
             'hello-world',
             'john-galt-line',
+            'one-big-family',
             'rin-tin-tin',
-            'yellow-brick-road',
-            'the-last-mohican',
-            'blue-yonder',
             'slick-rock',
+            'the-last-mohican',
+            'video-editing',
+            'yellow-brick-road',
             ]
 
     def setDefaults(self, top=None):

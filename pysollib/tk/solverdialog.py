@@ -131,8 +131,7 @@ class SolverDialog(BaseSolverDialog, MfxDialog):
         row += 1
         self.progress_var = Tkinter.BooleanVar()
         self.progress_var.set(True)
-        w = self._calcToolkit().Checkbutton(frame, variable=self.progress_var,
-                            text=_('Show progress'), anchor='w')
+        w = self._createShowProgressButton(frame)
         w.grid(row=row, column=0, columnspan=2, sticky='ew', padx=2, pady=2)
 
         #
@@ -173,6 +172,10 @@ class SolverDialog(BaseSolverDialog, MfxDialog):
         self._reset()
         self.connectGame(self.app.game)
         self.mainloop(focus, kw.timeout, transient=False)
+
+    def _createShowProgressButton(self, frame):
+        return self._calcToolkit().Checkbutton(frame, variable=self.progress_var,
+                            text=_('Show progress'), anchor='w')
 
     def initKw(self, kw):
         strings=[_('&Start'), _('&Play'), _('&New'), _('&Close'),]

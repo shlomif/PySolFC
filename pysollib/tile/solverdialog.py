@@ -30,12 +30,10 @@ __all__ = [
     ]
 
 # imports
-import Tkinter
 import ttk
 
 # PySol imports
 from pysollib.mygettext import _, n_
-from pysollib.settings import TITLE
 from pysollib.mfxutil import KwStruct
 
 # Toolkit imports
@@ -53,116 +51,8 @@ class SolverDialog(BaseSolverDialog, MfxDialog):
     def _calcToolkit(self):
         return ttk
 
-    def __init__(self, parent, app, **kw):
-        self.parent = parent
-        self.app = app
-        title = TITLE+' - FreeCell Solver'
-        kw = self.initKw(kw)
-        MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
-        top_frame, bottom_frame = self.createFrames(kw)
-        self.createBitmaps(top_frame, kw)
-        #
-        self.solving_methods = {
-            'A*':                   'a-star',
-            'Breadth-First Search': 'bfs',
-            'Depth-First Search':   'soft-dfs', # default
-            'A randomized DFS':     'random-dfs',
-            ##'"Soft" DFS':           'soft-dfs',
-            }
-        self.games = {}                 # key: gamename; value: gameid
-
-        #
-        frame = self._calcToolkit().Frame(top_frame)
-        frame.pack(expand=True, fill='both', padx=4, pady=4)
-        frame.columnconfigure(1, weight=1)
-
-        #
-        row = 0
-        self._calcToolkit().Label(frame, text=_('Game:'), anchor='w'
-                  ).grid(row=row, column=0, sticky='ew', padx=2, pady=2)
-        games = app.getGamesForSolver()
-        gamenames = ['']
-        for id in games:
-            name = app.getGameTitleName(id)
-            gamenames.append(name)
-            self.games[name] = id
-        gamenames.sort()
-        self.gamenames = gamenames
-        self.games_var = self._createGamesVar(frame, row)
-
-        #
-        row += 1
-        self._calcToolkit().Label(frame, text=_('Preset:'), anchor='w'
-                  ).grid(row=row, column=0, sticky='ew', padx=2, pady=2)
-        presets = app.opt.solver_presets
-        self.presets = presets
-        self.preset_var = self._createPresetVar(frame, row)
-
-        #
-        row += 1
-        self.max_iters_var = Tkinter.IntVar()
-        self.max_iters_var.set(10e4)
-        self._calcToolkit().Label(frame, text=_('Max iterations:'), anchor='w'
-                  ).grid(row=row, column=0, sticky='ew', padx=2, pady=2)
-        spin = Tkinter.Spinbox(frame, bg='white', from_=1000, to=10e6,
-                               increment=1000, textvariable=self.max_iters_var)
-        spin.grid(row=row, column=1, sticky='w', padx=2, pady=2)
-
-        #
-        row += 1
-        self.max_depth_var = Tkinter.IntVar()
-        self.max_depth_var.set(1000)
-        self._calcToolkit().Label(frame, text=_('Max depth:'), anchor='w'
-                  ).grid(row=row, column=0, sticky='ew', padx=2, pady=2)
-        spin = Tkinter.Spinbox(frame, bg='white', from_=100, to=10000,
-                               increment=100, textvariable=self.max_depth_var)
-        spin.grid(row=row, column=1, sticky='w', padx=2, pady=2)
-
-        #
-        row += 1
-        self.progress_var = Tkinter.BooleanVar()
-        self.progress_var.set(True)
-        w = self._createShowProgressButton(frame)
-        w.grid(row=row, column=0, columnspan=2, sticky='ew', padx=2, pady=2)
-
-        #
-        label_frame = self._calcToolkit().LabelFrame(top_frame, text=_('Progress'))
-        label_frame.pack(expand=True, fill='both', padx=6, pady=2)
-        #label_frame.columnconfigure(0, weight=1)
-        label_frame.columnconfigure(1, weight=1)
-
-        #
-        frow = 0
-        self._calcToolkit().Label(label_frame, text=_('Iteration:'), anchor='w'
-                  ).grid(row=frow, column=0, sticky='ew', padx=4, pady=2)
-        lb = self._calcToolkit().Label(label_frame, anchor='w')
-        lb.grid(row=frow, column=1, sticky='ew', padx=4, pady=2)
-        self.iter_label = lb
-        frow += 1
-        self._calcToolkit().Label(label_frame, text=_('Depth:'), anchor='w'
-                  ).grid(row=frow, column=0, sticky='ew', padx=4, pady=2)
-        lb = self._calcToolkit().Label(label_frame, anchor='w')
-        lb.grid(row=frow, column=1, sticky='ew', padx=4, pady=2)
-        self.depth_label = lb
-        frow += 1
-        self._calcToolkit().Label(label_frame, text=_('Stored-States:'), anchor='w'
-                  ).grid(row=frow, column=0, sticky='ew', padx=4, pady=2)
-        lb = self._calcToolkit().Label(label_frame, anchor='w')
-        lb.grid(row=frow, column=1, sticky='ew', padx=4, pady=2)
-        self.states_label = lb
-
-        #
-        lb = self._calcToolkit().Label(top_frame, anchor='w')
-        lb.pack(expand=True, fill='x', padx=6, pady=4)
-        self.result_label = lb
-
-        #
-        focus = self.createButtons(bottom_frame, kw)
-        self.start_button = self.buttons[0]
-        self.play_button = self.buttons[1]
-        self._reset()
-        self.connectGame(self.app.game)
-        self.mainloop(focus, kw.timeout, transient=False)
+    def _calc_MfxDialog(self):
+        return MfxDialog
 
     def _createGamesVar(self, frame, row):
         cb = PysolCombo(frame, values=tuple(self.gamenames),

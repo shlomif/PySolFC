@@ -100,10 +100,7 @@ class SolverDialog(BaseSolverDialog, MfxDialog):
                   ).grid(row=row, column=0, sticky='ew', padx=2, pady=2)
         presets = app.opt.solver_presets
         self.presets = presets
-        cb = PysolCombo(frame, values=tuple(presets), state='readonly')
-        cb.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
-        cb.current(0)
-        self.preset_var = cb
+        self.preset_var = self._createPresetVar(frame, row)
 
         #
         row += 1
@@ -171,6 +168,11 @@ class SolverDialog(BaseSolverDialog, MfxDialog):
         self.connectGame(self.app.game)
         self.mainloop(focus, kw.timeout, transient=False)
 
+    def _createPresetVar(self, frame, row):
+        cb = PysolCombo(frame, values=tuple(self.presets), state='readonly')
+        cb.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
+        cb.current(0)
+        return cb
     def _createShowProgressButton(self, frame):
         return self._calcToolkit().Checkbutton(frame, variable=self.progress_var,
                             text=_('Show progress'))

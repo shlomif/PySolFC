@@ -102,10 +102,7 @@ class SolverDialog(BaseSolverDialog, MfxDialog):
                   ).grid(row=row, column=0, sticky='ew', padx=2, pady=2)
         presets = app.opt.solver_presets
         self.presets = presets
-        self.preset_var = var = Tkinter.StringVar()
-        var.set('none')
-        om = Tkinter.OptionMenu(frame, var, *presets)
-        om.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
+        self.preset_var = self._createPresetVar(frame, row)
 
         #
         row += 1
@@ -172,6 +169,13 @@ class SolverDialog(BaseSolverDialog, MfxDialog):
         self._reset()
         self.connectGame(self.app.game)
         self.mainloop(focus, kw.timeout, transient=False)
+
+    def _createPresetVar(self, frame, row):
+        var = Tkinter.StringVar()
+        var.set('none')
+        om = Tkinter.OptionMenu(frame, var, *(self.presets))
+        om.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
+        return var
 
     def _createShowProgressButton(self, frame):
         return self._calcToolkit().Checkbutton(frame, variable=self.progress_var,

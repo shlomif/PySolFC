@@ -86,15 +86,7 @@ class SolverDialog(BaseSolverDialog, MfxDialog):
             self.games[name] = id
         gamenames.sort()
         self.gamenames = gamenames
-        self.games_var = var = Tkinter.StringVar()
-        om = Tkinter.OptionMenu(frame, var, command=self.gameSelected,
-                                *gamenames)
-        om.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
-        n = len(gamenames)
-        cb_max = int(self.top.winfo_screenheight()/23)
-        cb_max = n / (n/cb_max+1)
-        for i in xrange(cb_max, n, cb_max):
-            om['menu'].entryconfig(i, columnbreak=True)
+        self.games_var = self._createGamesVar(frame, row)
 
         #
         row += 1
@@ -169,6 +161,18 @@ class SolverDialog(BaseSolverDialog, MfxDialog):
         self._reset()
         self.connectGame(self.app.game)
         self.mainloop(focus, kw.timeout, transient=False)
+
+    def _createGamesVar(self, frame, row):
+        var = Tkinter.StringVar()
+        om = Tkinter.OptionMenu(frame, var, command=self.gameSelected,
+                                *(self.gamenames))
+        om.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
+        n = len(gamenames)
+        cb_max = int(self.top.winfo_screenheight()/23)
+        cb_max = n / (n/cb_max+1)
+        for i in xrange(cb_max, n, cb_max):
+            om['menu'].entryconfig(i, columnbreak=True)
+        return var
 
     def _createPresetVar(self, frame, row):
         var = Tkinter.StringVar()

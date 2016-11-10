@@ -88,11 +88,7 @@ class SolverDialog(BaseSolverDialog, MfxDialog):
             self.games[name] = id
         gamenames.sort()
         self.gamenames = gamenames
-        cb = PysolCombo(frame, values=tuple(gamenames),
-                        selectcommand=self.gameSelected,
-                        state='readonly', width=40)
-        cb.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
-        self.games_var = cb
+        self.games_var = self._createGamesVar(frame, row)
 
         #
         row += 1
@@ -167,6 +163,13 @@ class SolverDialog(BaseSolverDialog, MfxDialog):
         self._reset()
         self.connectGame(self.app.game)
         self.mainloop(focus, kw.timeout, transient=False)
+
+    def _createGamesVar(self, frame, row):
+        cb = PysolCombo(frame, values=tuple(self.gamenames),
+                        selectcommand=self.gameSelected,
+                        state='readonly', width=40)
+        cb.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
+        return cb
 
     def _createPresetVar(self, frame, row):
         cb = PysolCombo(frame, values=tuple(self.presets), state='readonly')

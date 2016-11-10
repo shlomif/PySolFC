@@ -108,7 +108,7 @@ class SolverDialog(BaseSolverDialog, MfxDialog):
         #
         row += 1
         self.max_iters_var = Tkinter.IntVar()
-        self.max_iters_var.set(11e4)
+        self.max_iters_var.set(10e4)
         self._calcToolkit().Label(frame, text=_('Max iterations:'), anchor='w'
                   ).grid(row=row, column=0, sticky='ew', padx=2, pady=2)
         spin = Tkinter.Spinbox(frame, bg='white', from_=1000, to=10e6,

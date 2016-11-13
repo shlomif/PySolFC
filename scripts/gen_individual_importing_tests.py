@@ -133,6 +133,7 @@ for module_name in [
 'pysollib.settings',
 'pysollib.stack',
 'pysollib.stats',
+'pysollib.tile.basetilemfxdialog',
 'pysollib.tile.colorsdialog',
 'pysollib.tile.edittextdialog',
 'pysollib.tile.findcarddialog',

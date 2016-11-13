@@ -24,15 +24,8 @@
 
 __all__ = ['GameInfoDialog']
 
-# imports
-import ttk
-
 import pysollib.ui.tktile.gameinfodialog
-from tkwidget import MfxDialog
-class GameInfoDialog(MfxDialog, pysollib.ui.tktile.gameinfodialog.BaseGameInfoDialog):
+from pysollib.tile.basetilemfxdialog import BaseTileMfxDialog
 
-    def _calcToolkit(self):
-        return ttk
-
-    def _calc_MfxDialog(self):
-        return MfxDialog
+class GameInfoDialog(pysollib.ui.tktile.gameinfodialog.BaseGameInfoDialog, BaseTileMfxDialog):
+    True

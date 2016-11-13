@@ -37,7 +37,7 @@ from pysollib.mygettext import _, n_
 from pysollib.mfxutil import KwStruct
 
 # Toolkit imports
-from tkwidget import MfxDialog
+from pysollib.tk.basetkmfxdialog import BaseTkMfxDialog
 from pysollib.ui.tktile.solverdialog import BaseSolverDialog, solver_dialog, connect_game_solver_dialog, destroy_solver_dialog, reset_solver_dialog
 
 
@@ -45,14 +45,7 @@ from pysollib.ui.tktile.solverdialog import BaseSolverDialog, solver_dialog, con
 # *
 # ************************************************************************
 
-class SolverDialog(BaseSolverDialog, MfxDialog):
-
-    def _calcToolkit(self):
-        return Tkinter
-
-    def _calc_MfxDialog(self):
-        return MfxDialog
-
+class SolverDialog(BaseSolverDialog, BaseTkMfxDialog):
     def _createGamesVar(self, frame, row):
         var = Tkinter.StringVar()
         om = Tkinter.OptionMenu(frame, var, command=self.gameSelected,
@@ -82,7 +75,7 @@ class SolverDialog(BaseSolverDialog, MfxDialog):
                       strings=strings,
                       default=0,
                       )
-        return MfxDialog.initKw(self, kw)
+        return self._calc_MfxDialog().initKw(self, kw)
 
     def connectGame(self, game):
         name = self.app.getGameTitleName(game.id)

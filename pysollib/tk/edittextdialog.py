@@ -27,20 +27,13 @@ __all__ = ['EditTextDialog']
 import Tkinter
 
 # Toolkit imports
-from tkwidget import MfxDialog
+from pysollib.tk.basetkmfxdialog import BaseTkMfxDialog
 from pysollib.ui.tktile.edittextdialog import BaseEditTextDialog
 
 # ************************************************************************
 # *
 # ************************************************************************
 
-class EditTextDialog(BaseEditTextDialog, MfxDialog):
-
-    def _calcToolkit(self):
-        return Tkinter
-
-    def _calc_MfxDialog(self):
-        return MfxDialog
-
+class EditTextDialog(BaseEditTextDialog, BaseTkMfxDialog):
     def _calc_Resizable(self):
         return True

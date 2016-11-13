@@ -181,6 +181,7 @@ for module_name in [
 'pysollib.tk.wizarddialog',
 'pysollib.ui.tktile.card',
 'pysollib.ui.tktile.colorsdialog',
+'pysollib.ui.tktile.edittextdialog',
 'pysollib.ui.tktile.menubar',
 'pysollib.ui.tktile.solverdialog',
 'pysollib.ui.tktile.tkcanvas',

@@ -28,8 +28,8 @@ import Tkinter
 import ttk
 
 # PySol imports
-from pysollib.mfxutil import KwStruct
 from pysollib.mygettext import _, n_
+from pysollib.mfxutil import KwStruct
 
 # Toolkit imports
 from tkwidget import MfxDialog
@@ -40,9 +40,18 @@ from tkwidget import MfxDialog
 
 class EditTextDialog(MfxDialog):
 
+    def _calcToolkit(self):
+        return ttk
+
+    def _calc_MfxDialog(self):
+        return MfxDialog
+
+    def _calc_Resizable(self):
+        return False
+
     def __init__(self, parent, title, text, **kw):
         kw = self.initKw(kw)
-        MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
+        self._calc_MfxDialog().__init__(self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)
         self.createBitmaps(top_frame, kw)
         #
@@ -50,7 +59,7 @@ class EditTextDialog(MfxDialog):
                                    wrap="word", width=64, height=16)
         self.text_w.pack(side='left', fill="both", expand=True)
         ###self.text_w.pack(side='top', padx=kw.padx, pady=kw.pady)
-        vbar = ttk.Scrollbar(top_frame)
+        vbar = self._calcToolkit().Scrollbar(top_frame)
         vbar.pack(side='right', fill='y')
         self.text_w["yscrollcommand"] = vbar.set
         vbar["command"] = self.text_w.yview
@@ -71,14 +80,14 @@ class EditTextDialog(MfxDialog):
         kw = KwStruct(kw,
                       strings=(_("&OK"), _("&Cancel")),
                       default=-1,
-                      resizable=False,
+                      resizable=self._calc_Resizable(),
                       separator=False,
                       )
-        return MfxDialog.initKw(self, kw)
+        return self._calc_MfxDialog().initKw(self, kw)
 
     def destroy(self):
         self.text = self.text_w.get("1.0", "end")
-        MfxDialog.destroy(self)
+        self._calc_MfxDialog().destroy(self)
 
     def wmDeleteWindow(self, *event):   # ignore
         pass

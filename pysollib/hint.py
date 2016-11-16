@@ -716,7 +716,6 @@ class Base_Solver_Hint:
         self.game_type = game_type
         self.options = {
             'max_iters': 10000,
-            'max_depth': 1000,
             'progress': False,
             'preset': None,
             }
@@ -852,7 +851,6 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
         if self.options['preset'] and self.options['preset'] != 'none':
             args += ['--load-config', self.options['preset']]
         args += ['--max-iters', self.options['max_iters'],
-                 '--max-depth', self.options['max_depth'],
                  '--decks-num', game.gameinfo.decks,
                  '--stacks-num', len(game.s.rows),
                  '--freecells-num', len(game.s.reserves),

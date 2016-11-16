@@ -62,16 +62,6 @@ class BaseSolverDialog:
 
         #
         row += 1
-        self.max_depth_var = Tkinter.IntVar()
-        self.max_depth_var.set(1000)
-        self._calcToolkit().Label(frame, text=_('Max depth:'), anchor='w'
-                  ).grid(row=row, column=0, sticky='ew', padx=2, pady=2)
-        spin = Tkinter.Spinbox(frame, bg='white', from_=100, to=10000,
-                               increment=100, textvariable=self.max_depth_var)
-        spin.grid(row=row, column=1, sticky='w', padx=2, pady=2)
-
-        #
-        row += 1
         self.progress_var = Tkinter.BooleanVar()
         self.progress_var.set(True)
         w = self._createShowProgressButton(frame)
@@ -161,10 +151,8 @@ class BaseSolverDialog:
         game.solver = solver
         preset = self.preset_var.get()
         max_iters = self.max_iters_var.get()
-        max_depth = self.max_depth_var.get()
         progress = self.progress_var.get()
-        solver.config(preset=preset, max_iters=max_iters,
-                      max_depth=max_depth, progress=progress)
+        solver.config(preset=preset, max_iters=max_iters, progress=progress)
         solver.computeHints()
         hints_len = len(solver.hints)-1
         if hints_len > 0:

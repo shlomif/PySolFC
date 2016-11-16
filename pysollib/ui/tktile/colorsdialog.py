@@ -38,10 +38,19 @@ from pysollib.tk.tkwidget import MfxDialog
 # *
 # ************************************************************************
 
-class BaseColorsDialog(MfxDialog):
+class BaseColorsDialog:
+    def _calcFrame(self):
+        return self._calcToolkit().Frame
+
+    def _calcLabel(self):
+        return self._calcToolkit().Label
+
+    def _calcButton(self):
+        return self._calcToolkit().Button
+
     def __init__(self, parent, title, app, **kw):
         kw = self.initKw(kw)
-        MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
+        self._calc_MfxDialog().__init__(self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)
         self.createBitmaps(top_frame, kw)
 
@@ -116,7 +125,7 @@ class BaseColorsDialog(MfxDialog):
                       strings=(_("&OK"), _("&Cancel")),
                       default=0,
                       )
-        return MfxDialog.initKw(self, kw)
+        return self._calc_MfxDialog().initKw(self, kw)
 
 
 

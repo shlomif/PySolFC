@@ -23,22 +23,12 @@
 
 __all__ = ['ColorsDialog']
 
-# imports
-import Tkinter
-
 from pysollib.ui.tktile.colorsdialog import BaseColorsDialog
+from pysollib.tk.basetkmfxdialog import BaseTkMfxDialog
 
 # ************************************************************************
 # *
 # ************************************************************************
 
-class ColorsDialog(BaseColorsDialog):
-    def _calcFrame(self):
-        return Tkinter.Frame
-
-    def _calcLabel(self):
-        return Tkinter.Label
-
-    def _calcButton(self):
-        return Tkinter.Button
-
+class ColorsDialog(BaseColorsDialog, BaseTkMfxDialog):
+    pass

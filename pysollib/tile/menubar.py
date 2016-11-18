@@ -43,7 +43,7 @@ from tkwidget import MfxMessageDialog
 from selectgame import SelectGameDialog, SelectGameDialogWithPreview
 from soundoptionsdialog import SoundOptionsDialog
 from selecttile import SelectTileDialogWithPreview
-from findcarddialog import connect_game_find_card_dialog, destroy_find_card_dialog
+from pysollib.ui.tktile.findcarddialog import connect_game_find_card_dialog, destroy_find_card_dialog
 from solverdialog import connect_game_solver_dialog
 
 from pysollib.ui.tktile.menubar import MfxMenu, PysolMenubarTkCommon

@@ -29,7 +29,6 @@ __all__ = ['create_find_card_dialog',
 # imports
 import os
 import Tkinter
-##import traceback
 
 # PySol imports
 from pysollib.mygettext import _, n_

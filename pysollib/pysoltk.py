@@ -29,6 +29,7 @@ if TOOLKIT == 'tk':
     from pysollib.ui.tktile.card import *
     from pysollib.ui.tktile.tkcanvas import *
     from pysollib.ui.tktile.tkwrap import *
+    from pysollib.ui.tktile.findcarddialog import *
     if USE_TILE:
         from pysollib.tile.tkwidget import *
         from pysollib.tile.tkhtml import *
@@ -39,7 +40,6 @@ if TOOLKIT == 'tk':
         from pysollib.tile.timeoutsdialog import *
         from pysollib.tile.colorsdialog import *
         from pysollib.tile.fontsdialog import *
-        from pysollib.tile.findcarddialog import *
         from pysollib.tile.solverdialog import *
         from pysollib.tile.gameinfodialog import *
         from pysollib.tile.toolbar import *
@@ -58,7 +58,6 @@ if TOOLKIT == 'tk':
         from pysollib.tk.timeoutsdialog import *
         from pysollib.tk.colorsdialog import *
         from pysollib.tk.fontsdialog import *
-        from pysollib.tk.findcarddialog import *
         from pysollib.tk.solverdialog import *
         from pysollib.tk.gameinfodialog import *
         from pysollib.tk.toolbar import *

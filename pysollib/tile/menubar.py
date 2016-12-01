@@ -34,6 +34,7 @@ from pysollib.settings import WIN_SYSTEM
 from pysollib.settings import SELECT_GAME_MENU
 from pysollib.settings import USE_FREECELL_SOLVER
 from pysollib.settings import DEBUG
+from pysollib.settings import TITLE
 from pysollib.gamedb import GI
 
 # toolkit imports

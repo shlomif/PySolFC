@@ -23,9 +23,6 @@
 
 __all__ = ['SelectDialogTreeData']
 
-# imports
-import tkFont
-
 # Toolkit imports
 from tktree import MfxTreeLeaf, MfxTreeNode, MfxTreeInCanvas
 
@@ -35,15 +32,23 @@ from pysollib.ui.tktile.selecttree import BaseSelectDialogTreeLeaf, BaseSelectDi
 # * Nodes
 # ************************************************************************
 
-class SelectDialogTreeLeaf(MfxTreeLeaf, BaseSelectDialogTreeLeaf):
+class SelectDiagCommon:
+    def _calc_MfxTreeNode(self):
+        return MfxTreeNode
+    def _calc_MfxTreeInCanvas(self):
+        return MfxTreeInCanvas
+    def _calc_MfxTreeLeaf(self):
+        return MfxTreeLeaf
+
+class SelectDialogTreeLeaf(SelectDiagCommon, BaseSelectDialogTreeLeaf, MfxTreeLeaf):
     pass
 
-class SelectDialogTreeNode(MfxTreeNode, BaseSelectDialogTreeNode):
+class SelectDialogTreeNode(SelectDiagCommon, BaseSelectDialogTreeNode, MfxTreeNode):
     pass
 
 # ************************************************************************
 # * Canvas that shows the tree (left side)
 # ************************************************************************
 
-class SelectDialogTreeCanvas(MfxTreeInCanvas, BaseSelectDialogTreeCanvas):
+class SelectDialogTreeCanvas(SelectDiagCommon, BaseSelectDialogTreeCanvas, MfxTreeInCanvas):
     pass

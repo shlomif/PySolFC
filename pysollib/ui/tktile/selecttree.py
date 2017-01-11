@@ -25,6 +25,9 @@
 # * Nodes
 # ************************************************************************
 
+# imports
+import tkFont
+
 class BaseSelectDialogTreeLeaf:
     def drawSymbol(self, x, y, **kw):
         if self.tree.nodes.get(self.symbol_id) is not self:
@@ -35,7 +38,7 @@ class BaseSelectDialogTreeLeaf:
 
 class BaseSelectDialogTreeNode:
     def __init__(self, tree, text, select_func, expanded=0, parent_node=None):
-        MfxTreeNode.__init__(self, tree, parent_node, text, key=None, expanded=expanded)
+        self._calc_MfxTreeNode().__init__(self, tree, parent_node, text, key=None, expanded=expanded)
         # callable or a tuple/list of MfxTreeNodes
         self.select_func = select_func
 
@@ -92,7 +95,7 @@ class BaseSelectDialogTreeCanvas:
             if parent and parent.winfo_screenheight() >= 800:
                 height = 30 * disty
         self.lines = height / disty
-        MfxTreeInCanvas.__init__(self, parent, self.data.rootnodes,
+        self._calc_MfxTreeInCanvas().__init__(self, parent, self.data.rootnodes,
                                  width=width, height=height,
                                  hbar=hbar, vbar=vbar)
         self.style.distx = 20
@@ -120,14 +123,14 @@ class BaseSelectDialogTreeCanvas:
         if self.n_expansions > 0:   # must save updated xyview
             self.data.tree_xview = self.canvas.xview()
             self.data.tree_yview = self.canvas.yview()
-        MfxTreeInCanvas.destroy(self)
+        self._calc_MfxTreeInCanvas().destroy(self)
 
     def getContents(self, node):
         return node.getContents()
 
     def singleClick(self, event=None):
         node = self.findNode()
-        if isinstance(node, MfxTreeLeaf):
+        if isinstance(node, self._calc_MfxTreeLeaf()):
             if not node.selected and node.key is not None:
                 oldcur = self.canvas["cursor"]
                 self.canvas["cursor"] = "watch"
@@ -136,7 +139,7 @@ class BaseSelectDialogTreeCanvas:
                 self.updateSelection(node.key)
                 self.dialog.updatePreview(self.selection_key)
                 self.canvas["cursor"] = oldcur
-        elif isinstance(node, MfxTreeNode):
+        elif isinstance(node, self._calc_MfxTreeNode()):
             self.n_expansions = self.n_expansions + 1
             node.expanded = not node.expanded
             self.redraw()
@@ -144,12 +147,12 @@ class BaseSelectDialogTreeCanvas:
 
     def doubleClick(self, event=None):
         node = self.findNode()
-        if isinstance(node, MfxTreeLeaf):
+        if isinstance(node, self._calc_MfxTreeLeaf()):
             if node.key is not None:
                 self.n_selections = self.n_selections + 1
                 self.updateSelection(node.key)
                 self.dialog.mDone(self.default)
-        elif isinstance(node, MfxTreeNode):
+        elif isinstance(node, self._calc_MfxTreeNode()):
             self.n_expansions = self.n_expansions + 1
             node.expanded = not node.expanded
             self.redraw()

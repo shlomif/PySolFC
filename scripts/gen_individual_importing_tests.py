@@ -186,6 +186,7 @@ for module_name in [
 'pysollib.ui.tktile.solverdialog',
 'pysollib.ui.tktile.tkcanvas',
 'pysollib.ui.tktile.tkconst',
+'pysollib.ui.tktile.tkhtml',
 'pysollib.ui.tktile.tkutil',
 'pysollib.ui.tktile.tkwrap',
 'pysollib.util',

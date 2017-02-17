@@ -25,7 +25,7 @@ __all__ = ['HTMLViewer']
 
 # imports
 import os, sys
-import htmllib, formatter
+import formatter
 import Tkinter
 
 if __name__ == '__main__':

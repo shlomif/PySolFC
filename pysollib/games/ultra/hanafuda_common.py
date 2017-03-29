@@ -286,6 +286,9 @@ class Hanafuda_SequenceStack(Flower_OpenStack):
             return cards[0].rank == 0 or self.cap.base_rank == ANY_RANK
         return self.isHanafudaSequence([stackcards[-1], cards[0]])
 
+    def canMoveCards(self, cards):
+        return self.basicCanMoveCards(cards) and self.isHanafudaSequence(cards)
+
 
 class Oonsoo_SequenceStack(Flower_OpenStack):
 
@@ -297,6 +300,9 @@ class Oonsoo_SequenceStack(Flower_OpenStack):
         if not len(stackcards):
             return cards[0].rank == 0 or self.cap.base_rank == ANY_RANK
         return self.isHanafudaSequence([stackcards[-1], cards[0]], 0)
+
+    def canMoveCards(self, cards):
+        return self.basicCanMoveCards(cards) and self.isHanafudaSequence(cards, 0)
 
 
 class FlowerClock_RowStack(Flower_OpenStack):

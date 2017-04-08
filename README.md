@@ -15,7 +15,7 @@ people, aiming to clean up the code, add features, fix bugs, port to Python
 
 ## Requirements.
 
-- Python (2.4 or later) (NB: python 2.6.0 has a bug, use 2.6.1 instead)
+- Python (2.4 or later) (NB: CPython 2.6.0 has a bug, use 2.6.1 instead)
 - Tkinter (Tcl/Tk 8.4 or later)
 
 - For sound support (optional)
@@ -89,5 +89,6 @@ to its CMake-based build-system:
 To facilitate coordination about contributing to PySol, please join us for a
 real time Internet chat on
 the <a href="irc://irc.freenode.net/##pysol">##pysol</a> chat room on
-[Freenode](http://freenode.net/) (note the double octhothrope) .  We may set up
+[Freenode](http://freenode.net/) (note the double
+octhothorpe/hash-sign/pound-sign) .  We may set up
 chat rooms on different services in the future.

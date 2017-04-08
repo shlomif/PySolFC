@@ -3,7 +3,7 @@
 This is a collection of Card Solitaire/Patience games written in Python.
 See http://pysolfc.sourceforge.net/ .
 
-This is a maintenace branch of PySol FC by Shlomi Fish and by some other
+This is a maintenance branch of PySol FC by Shlomi Fish and by some other
 people, aiming to clean up the code, add features, fix bugs, port to Python
 3, etc.
 
@@ -38,7 +38,7 @@ You can run from the source directory:
 
 $ python pysol.py
 
-After following steps similar to this one (on
+After following steps similar to these (on
 [Mageia Linux](http://www.mageia.org/) ):
 
 ```
@@ -75,7 +75,7 @@ to its CMake-based build-system:
 - Music
  - Copy some music files (mp3 for example) to ~/.PySolFC/music/
 
- - Original PySol music can be download from:
+ - Original PySol music can be downloaded from:
    ftp://ibiblio.org/pub/linux/games/solitaires/pysol-music-4.40.tar.gz
 
 - Cardsets
@@ -83,5 +83,3 @@ to its CMake-based build-system:
 
  - Additional cardsets can be downloaded from the PySolFC project page:
    http://sourceforge.net/project/showfiles.php?group_id=150718
-
-

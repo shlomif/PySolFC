@@ -83,3 +83,11 @@ to its CMake-based build-system:
 
  - Additional cardsets can be downloaded from the PySolFC project page:
    http://sourceforge.net/project/showfiles.php?group_id=150718
+
+## Chat
+
+To facilitate coordination about contributing to PySol, please join us for a
+real time Internet chat on
+the <a href="irc://irc.freenode.net/##pysol">##pysol</a> chat room on
+[Freenode](http://freenode.net/) (note the double octhothrope) .  We may set up
+chat rooms on different services in the future.

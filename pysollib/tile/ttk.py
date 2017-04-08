@@ -693,7 +693,7 @@ class Combobox(Entry):
             textvariable, values, width
         """
         # The "values" option may need special formatting, so leave to
-        # _format_optdict the responsability to format it
+        # _format_optdict the responsibility to format it
         if "values" in kw:
             kw["values"] = _format_optdict({'v': kw["values"]})[1]
 
@@ -1023,7 +1023,7 @@ class Progressbar(Widget):
         """Begin autoincrement mode: schedules a recurring timer event
         that calls method step every interval milliseconds.
 
-        interval defaults to 50 milliseconds (20 steps/second) if ommited."""
+        interval defaults to 50 milliseconds (20 steps/second) if ommitted."""
         self.tk.call(self._w, "start", interval)
 
 

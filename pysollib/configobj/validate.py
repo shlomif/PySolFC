@@ -863,7 +863,7 @@ def is_boolean(value):
         except KeyError:
             raise VdtTypeError(value)
     # we do an equality test rather than an identity test
-    # this ensures Python 2.2 compatibilty
+    # this ensures Python 2.2 compatibility
     # and allows 0 and 1 to represent True and False
     if value == False:
         return False

@@ -1980,7 +1980,7 @@ Congratulations, you did it !
                     to_stack, ncards = s.canDropCards(self.s.foundations)
                     if to_stack:
                         # each single drop is undo-able (note that this call
-                        # is before the acutal move)
+                        # is before the actual move)
                         self.finishMove()
                         if sound:
                             self.playSample("autodrop", priority=30)

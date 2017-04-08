@@ -122,7 +122,7 @@ The toolkit layer
   ship with every Python installation, but a very experimental version
   for Gnome (using the pygnome and pygtk bindings) exists as well.
 
-  A more exicting idea is to use JPython to make PySol run under a
+  A more exciting idea is to use JPython to make PySol run under a
   Java VM using Swing as the toolkit.
 
   Because Tkinter is the "main" interface other toolkit layers have

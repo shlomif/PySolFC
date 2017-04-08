@@ -48,7 +48,7 @@ class AtomicMove:
     def __str__(self):
         return str(self.__dict__)
 
-    # Custom comparision for detecting redo moves. See Game.finishMove().
+    # Custom comparison for detecting redo moves. See Game.finishMove().
     def cmpForRedo(self, other):
         return -1
 

@@ -9,7 +9,7 @@
 #
 # python make_pysol_freecell_board.py [board number] | fc-solve
 #
-# This program is platform independant and will generate the same results
+# This program is platform independent and will generate the same results
 # on all architectures and operating systems.
 #
 # Based on the code by Markus Franz Xaver Johannes Oberhumer.

@@ -28,7 +28,7 @@ import sys
 from Tkinter import Menu, Text, TclError
 
 def runningAsOSXApp():
-    """ Returns True iff running from the PySol.app bundle on OSX """
+    """ Returns True if-and-only-if running from the PySol.app bundle on OSX """
     return (sys.platform == 'darwin' and 'PySol.app' in sys.argv[0])
 
 def hideTkConsole(root):

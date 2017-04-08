@@ -489,7 +489,7 @@ class SelectGameDialogWithPreview(SelectGameDialog):
             self.preview_app.opt.shadow = 0
             self.preview_app.opt.shade = 0
         #
-        self.preview_app.audio = None    # turn off audio for intial dealing
+        self.preview_app.audio = None    # turn off audio for initial dealing
         if animations >= 0:
             self.preview_app.opt.animations = animations
         #

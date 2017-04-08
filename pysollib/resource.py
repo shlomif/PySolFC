@@ -340,7 +340,7 @@ class Cardset(Resource):
             nbottoms = 7,
             nletters = 4,
             nshadows = 1 + 13,
-            # selection criterias
+            # selection criteria
             si = si,
             # implicit
             backname = None,

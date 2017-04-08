@@ -60,13 +60,13 @@ class PysolStatsFormatter:
             }
         sort_func = sort_functions[sort_by]
         g = sort_func(player=player)
-        twon, tlost, tgames, ttime, tmoves = 0, 0, 0, 0, 0
+        t_won, tlost, tgames, ttime, tmoves = 0, 0, 0, 0, 0
         for id in g:
             won, lost, time, moves = app.stats.getFullStats(player, id)
             if won > 0 or lost > 0 or id == app.game.id:
                 # yield only played games
                 name = app.getGameTitleName(id)
-                twon, tlost = twon + won, tlost + lost
+                t_won, tlost = t_won + won, tlost + lost
                 ttime, tmoves = ttime+time, tmoves+moves
                 if won + lost > 0:
                     perc = "%.1f" % (100.0 * won / (won + lost))
@@ -77,7 +77,7 @@ class PysolStatsFormatter:
                 yield [name, won+lost, won, lost, t, m, perc, id]
                 tgames += 1
         # summary
-        won, lost = twon, tlost
+        won, lost = t_won, tlost
         if won + lost > 0:
             if won > 0:
                 time = format_time(ttime/tgames)
@@ -111,7 +111,7 @@ class PysolStatsFormatter:
         return _("Game"), _("Game number"), _("Started at"), _("Status")
 
     def getLogResults(self, player, prev_games):
-        twon, tlost = 0, 0
+        t_won, tlost = 0, 0
         for pg in prev_games:
             if not isinstance(pg, tuple):
                 continue
@@ -144,7 +144,7 @@ class PysolStatsFormatter:
             date = time.strftime("%Y-%m-%d  %H:%M", time.localtime(pg[3]))
             if pg[2] >= 0:
                 won = pg[2] > 0
-                twon, tlost = twon + won, tlost + (1 - won)
+                t_won, tlost = t_won + won, tlost + (1 - won)
             status = "*error*"
             if -2 <= pg[2] <= 2:
                 status = (_("Loaded"), _("Not won"), _("Lost"), _("Won"), _("Perfect")) [pg[2]+2]

@@ -454,16 +454,16 @@ class Stack:
         self.closeStack()
         return card
 
-    def insertCard(self, card, positon, unhide=1, update=1):
+    def insertCard(self, card, position, unhide=1, update=1):
         model, view = self, self
-        model.cards.insert(positon, card)
-        for c in model.cards[positon:]:
+        model.cards.insert(position, card)
+        for c in model.cards[position:]:
             c.tkraise(unhide=unhide)
-        if view.can_hide_cards and len(model.cards) >= 3 and len(model.cards)-positon <= 2:
+        if view.can_hide_cards and len(model.cards) >= 3 and len(model.cards)-position <= 2:
             # we only need to display the 2 top cards
             model.cards[-3].hide(self)
         card.item.addtag(view.group)
-        for c in model.cards[positon:]:
+        for c in model.cards[position:]:
             view._position(c)
         if update:
             view.updateText()

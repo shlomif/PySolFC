@@ -1,5 +1,5 @@
-## vim:ts=4:et:nowrap:fileencoding=utf-8
-##
+# vim:ts=4:et:nowrap:fileencoding=utf-8
+#
 
 # imports
 import sys

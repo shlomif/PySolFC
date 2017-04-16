@@ -41,8 +41,8 @@ def encode_layout(layout):
                 i_0 = i_n = i
             s += alpha[i_0*7+(i_n-i_0)] + alpha[x] + alpha[y]
 
-##     for tl, tx, ty in layout:
-##         s += alpha[tl*7]+alpha[tx]+alpha[ty]
+#     for tl, tx, ty in layout:
+#         s += alpha[tl*7]+alpha[tx]+alpha[ty]
     return s
 
 

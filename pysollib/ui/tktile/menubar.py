@@ -20,15 +20,15 @@ from pysollib.ui.tktile.tkutil import bind, after_idle
 
 def createToolbarMenu(menubar, menu):
     tearoff = menu.cget('tearoff')
-##     data_dir = os.path.join(menubar.app.dataloader.dir, 'images', 'toolbar')
-##     submenu = MfxMenu(menu, label=n_('Style'), tearoff=tearoff)
-##     for f in os.listdir(data_dir):
-##         d = os.path.join(data_dir, f)
-##         if os.path.isdir(d) and os.path.exists(os.path.join(d, 'small')):
-##             name = f.replace('_', ' ').capitalize()
-##             submenu.add_radiobutton(label=name,
-##                                     variable=menubar.tkopt.toolbar_style,
-##                                     value=f, command=menubar.mOptToolbarStyle)
+#     data_dir = os.path.join(menubar.app.dataloader.dir, 'images', 'toolbar')
+#     submenu = MfxMenu(menu, label=n_('Style'), tearoff=tearoff)
+#     for f in os.listdir(data_dir):
+#         d = os.path.join(data_dir, f)
+#         if os.path.isdir(d) and os.path.exists(os.path.join(d, 'small')):
+#             name = f.replace('_', ' ').capitalize()
+#             submenu.add_radiobutton(label=name,
+#                                     variable=menubar.tkopt.toolbar_style,
+#                                     value=f, command=menubar.mOptToolbarStyle)
     submenu = MfxMenu(menu, label=n_('Compound'), tearoff=tearoff)
     for comp, label in COMPOUNDS:
         submenu.add_radiobutton(

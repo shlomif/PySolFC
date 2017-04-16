@@ -82,7 +82,7 @@ setup(
     setup_requires=['py2app'],
     )
 
-##
+#
 top = os.getcwd()
 # FIXME: a hack to get Tcl extensions working
 # from inside the app bundle

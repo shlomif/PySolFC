@@ -367,9 +367,9 @@ class TokenEater:
 
     def __call__(self, ttype, tstring, stup, etup, line):
         # dispatch
-##        import token
-##        print >> sys.stderr, 'ttype:', token.tok_name[ttype], \
-##              'tstring:', tstring
+#        import token
+#        print >> sys.stderr, 'ttype:', token.tok_name[ttype], \
+#              'tstring:', tstring
         self.__state(ttype, tstring, stup[0])
 
     def __waiting(self, ttype, tstring, lineno):

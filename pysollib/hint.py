@@ -955,10 +955,10 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
             else:
                 m = re.match(
                     '(?P<ncards>a card|(?P<count>\d+) cards) '
-                    'from (?P<source_type>stack|freecell)'
+                    'from (?P<source_type>stack|freecell) '
                     '(?P<source_idx>\d+) to '
-                    '(?P<dest>the foundations|(?P<dest_type>freecell|stack)'
-                    ' (?P<dest_idx>\d+))\s*', move_s)
+                    '(?P<dest>the foundations|(?P<dest_type>freecell|stack) '
+                    '(?P<dest_idx>\d+))\s*', move_s)
 
                 if not m:
                     continue

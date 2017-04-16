@@ -23,11 +23,15 @@
 
 
 # imports
-import sys, re, time
+import sys
+import re
+import time
 import random
-from pysollib.mygettext import _, n_
 from pysollib.mfxutil import SubclassResponsibility
 
+
+if sys.version_info > (3,):
+    long = int
 
 # ************************************************************************
 # * Abstract class for PySol Random number generator.
@@ -35,14 +39,15 @@ from pysollib.mfxutil import SubclassResponsibility
 # * We use a seed of type long in the range [0, MAX_SEED].
 # ************************************************************************
 
-class BasicRandom:
-    #MAX_SEED = 0L
-    #MAX_SEED = 0xffffffffffffffffL  # 64 bits
-    MAX_SEED = 100000000000000000000L # 20 digits
 
-    ORIGIN_UNKNOWN  = 0
-    ORIGIN_RANDOM   = 1
-    ORIGIN_PREVIEW  = 2         # random from preview
+class BasicRandom:
+    # MAX_SEED = 0L
+    # MAX_SEED = 0xffffffffffffffffL  # 64 bits
+    MAX_SEED = long('100000000000000000000')  # 20 digits
+
+    ORIGIN_UNKNOWN = 0
+    ORIGIN_RANDOM = 1
+    ORIGIN_PREVIEW = 2         # random from preview
     ORIGIN_SELECTED = 3         # manually entered
     ORIGIN_NEXT_GAME = 4        # "Next game number"
 
@@ -62,18 +67,18 @@ class BasicRandom:
         raise SubclassResponsibility
 
     def copy(self):
-        random = self.__class__(0L)
+        random = self.__class__(long(0))
         random.__dict__.update(self.__dict__)
         return random
 
     def increaseSeed(self, seed):
         if seed < self.MAX_SEED:
-            return seed + 1L
-        return 0L
+            return seed + long(1)
+        return long(0)
 
     def _getRandomSeed(self):
         t = long(time.time() * 256.0)
-        t = (t ^ (t >> 24)) % (self.MAX_SEED + 1L)
+        t = (t ^ (t >> 24)) % (self.MAX_SEED + long(1))
         return t
 
     def setSeedAsStr(self, new_s):
@@ -129,6 +134,7 @@ class WHRandom(BasicRandom, random.WichmannHill):
 # * Abstract class for LC Random number generators.
 # ************************************************************************
 
+
 class MFXRandom(BasicRandom):
 
     def __init__(self, seed=None):
@@ -146,8 +152,8 @@ class MFXRandom(BasicRandom):
 
     def setSeed(self, seed):
         seed = long(seed)
-        if not (0L <= seed <= self.MAX_SEED):
-            raise ValueError, "seed out of range"
+        if not (0 <= seed <= self.MAX_SEED):
+            raise ValueError("seed out of range")
         self.seed = seed
         return seed
 
@@ -190,8 +196,8 @@ class MFXRandom(BasicRandom):
 class LCRandom64(MFXRandom):
 
     def random(self):
-        self.seed = (self.seed*6364136223846793005L + 1L) & self.MAX_SEED
-        return ((self.seed >> 21) & 0x7fffffffL) / 2147483648.0
+        self.seed = (self.seed*long('6364136223846793005') + 1) & self.MAX_SEED
+        return ((self.seed >> 21) & 0x7fffffff) / 2147483648.0
 
 
 # ************************************************************************
@@ -201,7 +207,7 @@ class LCRandom64(MFXRandom):
 # ************************************************************************
 
 class LCRandom31(MFXRandom):
-    MAX_SEED = 0x1ffffffffL          # 33 bits
+    MAX_SEED = long('0x1ffffffff', 0)          # 33 bits
 
     def getSeedStr(self):
         return "ms" + str(self.initial_seed)
@@ -212,9 +218,10 @@ class LCRandom31(MFXRandom):
     def setSeed(self, seed):
         seed = long(seed)
         self.seed = seed
-        if not (0L <= seed <= self.MAX_SEED):
-            raise ValueError, "seed out of range"
-        self.seedx = (seed if (seed < 0x100000000L) else (seed - 0x100000000L))
+        if not (0 <= seed <= self.MAX_SEED):
+            raise ValueError("seed out of range")
+        self.seedx = (seed if (seed < long('0x100000000', 0)) else
+                      (seed - long('0x100000000', 0)))
         return seed
 
     def _rando(self):
@@ -243,8 +250,8 @@ class LCRandom31(MFXRandom):
 
 
 # select
-#PysolRandom = LCRandom64
-#PysolRandom = WHRandom
+# PysolRandom = LCRandom64
+# PysolRandom = WHRandom
 PysolRandom = MTRandom
 
 
@@ -256,6 +263,7 @@ def _match_ms(s):
     """match an ms based seed string."""
     return re.match(r"ms([0-9]+)\n?\Z", s)
 
+
 # construct Random from seed string
 def constructRandom(s):
     m = _match_ms(s)
@@ -266,8 +274,9 @@ def constructRandom(s):
             ret.setSeedAsStr(s)
             return ret
         else:
-            raise ValueError, "ms seed out of range"
-    s = re.sub(r"L$", "", str(s))   # cut off "L" from possible conversion to long
+            raise ValueError("ms seed out of range")
+    # cut off "L" from possible conversion to long
+    s = re.sub(r"L$", "", str(s))
     s = re.sub(r"[\s\#\-\_\.\,]", "", s.lower())
     if not s:
         return None
@@ -276,7 +285,9 @@ def constructRandom(s):
         return LCRandom31(seed)
     return PysolRandom(seed)
 
-MS_LONG_BIT = (1L << 1000)
+
+MS_LONG_BIT = (long(1) << 1000)
+
 
 def random__str2long(s):
     m = _match_ms(s)
@@ -285,17 +296,17 @@ def random__str2long(s):
     else:
         return long(s)
 
+
 def random__long2str(l):
     if ((l & MS_LONG_BIT) != 0):
         return "ms" + str(l & (~ MS_LONG_BIT))
     else:
         return str(l)
 
+
 # test
 if __name__ == '__main__':
     r = constructRandom('12345')
-    print r.randint(0, 100)
-    print r.random()
-    print type(r)
-
-
+    print(r.randint(0, 100))
+    print(r.random())
+    print(type(r))

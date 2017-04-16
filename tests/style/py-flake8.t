@@ -9,7 +9,7 @@ use Test::Differences qw( eq_or_diff );
 use String::ShellQuote qw/ shell_quote /;
 
 # my $cmd = shell_quote( 'flake8', '.' );
-my $cmd = shell_quote( 'flake8', glob('./pysollib/[a-i]*.py') );
+my $cmd = shell_quote( 'flake8', glob('./pysollib/[a-l]*.py') );
 
 # TEST
 eq_or_diff( scalar(`$cmd`), '', "flake8 is happy with the code." );

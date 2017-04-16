@@ -1,25 +1,25 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-##---------------------------------------------------------------------------##
-##
-## Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
-## Copyright (C) 2003 Mt. Hood Playing Card Co.
-## Copyright (C) 2005-2009 Skomoroh
-##
-## This program is free software: you can redistribute it and/or modify
-## it under the terms of the GNU General Public License as published by
-## the Free Software Foundation, either version 3 of the License, or
-## (at your option) any later version.
-##
-## This program is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-## GNU General Public License for more details.
-##
-## You should have received a copy of the GNU General Public License
-## along with this program.  If not, see <http://www.gnu.org/licenses/>.
-##
-##---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------##
+#
+#  Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
+#  Copyright (C) 2003 Mt. Hood Playing Card Co.
+#  Copyright (C) 2005-2009 Skomoroh
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# ---------------------------------------------------------------------------##
 
 
 # imports
@@ -58,11 +58,11 @@ class Layout:
         self.canvas = self.game.canvas
         self.size = None
         self.s = Struct(
-            talon = None,
-            waste = None,
-            foundations = [],
-            rows = [],
-            reserves = [],
+            talon=None,
+            waste=None,
+            foundations=[],
+            rows=[],
+            reserves=[],
         )
         self.stackmap = {}
         self.regions = []
@@ -101,31 +101,31 @@ class Layout:
         else:
             self.YS = self.CH + card_y_space
 
-        ##self.CARD_X_SPACE = layout_card_x_space
-        ##self.CARD_Y_SPACE = layout_card_y_space
-        ##self.RIGHT_MARGIN = layout_x_margin-layout_card_x_space
-        ##self.BOTTOM_MARGIN = layout_y_margin-layout_card_y_space
+        # self.CARD_X_SPACE = layout_card_x_space
+        # self.CARD_Y_SPACE = layout_card_y_space
+        # self.RIGHT_MARGIN = layout_x_margin-layout_card_x_space
+        # self.BOTTOM_MARGIN = layout_y_margin-layout_card_y_space
 
         font = game.app.getFont("canvas_default")
-        ##self.TEXT_MARGIN = 10
+        # self.TEXT_MARGIN = 10
         self.TEXT_MARGIN = font[1]
-        ##self.TEXT_HEIGHT = 30
+        # self.TEXT_HEIGHT = 30
         self.TEXT_HEIGHT = 18+font[1]
 
         self.__dict__.update(kw)
         if self.game.preview > 1:
             if "XOFFSET" in kw:
-                self.XOFFSET =  self.XOFFSET / self.game.preview
+                self.XOFFSET /= self.game.preview
             if "YOFFSET" in kw:
-                self.YOFFSET =  self.YOFFSET / self.game.preview
+                self.YOFFSET /= self.game.preview
             self.TEXT_HEIGHT = 10
 
     def __createStack(self, x, y, suit=None):
         stack = _LayoutStack(x, y, suit)
         mapkey = (stack.x, stack.y)
-        #from pprint import pprint
-        #print mapkey
-        #pprint(self.stackmap)
+        # from pprint import pprint
+        # print mapkey
+        # pprint(self.stackmap)
         assert mapkey not in self.stackmap
         self.stackmap[mapkey] = stack
         return stack
@@ -186,7 +186,6 @@ class Layout:
                 s2 = self.s.reserves[i]
                 s1.texts.ncards = self.defaultText(s2)
 
-
     #
     # public util for use by class Game
     #
@@ -198,16 +197,16 @@ class Layout:
         delta_x, delta_y = 4, 4
         delta_yy = 10
         d = {
-            "n" : (x+self.CW/2,       y-delta_y,          "s",  "%d"),
+            "n": (x+self.CW/2,       y-delta_y,          "s",  "%d"),
             "nn": (x+self.CW/2,       y-delta_yy,         "s",  "%d"),
-            "s" : (x+self.CW/2,       y+self.CH+delta_y,  "n",  "%d"),
+            "s": (x+self.CW/2,       y+self.CH+delta_y,  "n",  "%d"),
             "ss": (x+self.CW/2,       y+self.CH+delta_yy, "n",  "%d"),
             "nw": (x-delta_x,         y,                  "ne", "%d"),
             "sw": (x-delta_x,         y+self.CH,          "se", "%d"),
             "ne": (x+self.CW+delta_x, y,                  "nw", "%d"),
             "se": (x+self.CW+delta_x, y+self.CH,          "sw", "%d"),
-            "w" : (x-delta_x,         y+self.CH/2,        "e",  "%d"),
-            "e" : (x+self.CW+delta_x, y+self.CH/2,        "w",  "%d"),
+            "w": (x-delta_x,         y+self.CH/2,        "e",  "%d"),
+            "e": (x+self.CW+delta_x, y+self.CH/2,        "w",  "%d"),
             }
         return d[anchor]
 
@@ -242,7 +241,6 @@ class Layout:
     def setRegion(self, stacks, rects):
         self.regions.append((stacks, rects))
 
-
     #
     # util for use by a Game
     #
@@ -262,10 +260,11 @@ class Layout:
     def defaultText(self, layout_stack):
         if self.canvas.preview > 1:
             return None
-        ##print layout_stack, layout_stack.text_args
+        # print layout_stack, layout_stack.text_args
         if layout_stack is None or not layout_stack.text_args:
             return None
-        layout_stack.text_args["font"] = self.game.app.getFont("canvas_default")
+        layout_stack.text_args["font"] = \
+            self.game.app.getFont("canvas_default")
         t = MfxCanvasText(self.game.canvas, **layout_stack.text_args)
         t.text_format = layout_stack.text_format
         return t
@@ -274,7 +273,8 @@ class Layout:
     def defaultStackGroups(self):
         game = self.game
         waste = []
-        if game.s.waste is not None: waste = [game.s.waste]
+        if game.s.waste is not None:
+            waste = [game.s.waste]
         game.sg.talonstacks = [game.s.talon] + waste
         game.sg.dropstacks = game.s.rows + game.s.reserves + waste
         game.sg.openstacks = game.s.foundations + game.s.rows + game.s.reserves
@@ -288,9 +288,8 @@ class Layout:
                 mapkey = (s.x, s.y)
                 id = self.game.stackmap[mapkey]
                 stacks.append(self.game.allstacks[id])
-            ##print stacks, region[1]
+            # print stacks, region[1]
             self.game.setRegion(stacks, region[1])
-
 
     #
     # Baker's Dozen layout
@@ -330,13 +329,12 @@ class Layout:
 
         # create talon
         h = YM + 2*h
-        self.s.talon = s = S(x, h - YS)
+        self.s.talon = S(x, h - YS)
         if texts:
             assert 0
 
         # set window
         self.size = (XM + (halfrows+decks)*XS, h)
-
 
     #
     # FreeCell layout
@@ -348,7 +346,7 @@ class Layout:
     def freeCellLayout(self, rows, reserves, waste=0,
                        texts=0, reserve_texts=False, playcards=18):
         S = self.__createStack
-        CW, CH = self.CW, self.CH
+        CH = self.CH
         XM, YM = self.XM, self.YM
         XS, YS = self.XS, self.YS
 
@@ -410,7 +408,6 @@ class Layout:
 
         # set window
         self.size = (w, h)
-
 
     #
     # Gypsy layout
@@ -487,7 +484,6 @@ class Layout:
         # set window
         self.size = (w, h)
 
-
     #
     # Harp layout
     #  - top: reserves, rows
@@ -497,7 +493,7 @@ class Layout:
     def harpLayout(self, rows, waste, reserves=0,
                    texts=1, reserve_texts=False, playcards=19):
         S = self.__createStack
-        CW, CH = self.CW, self.CH
+        CH = self.CH
         XM, YM = self.XM, self.YM
         XS, YS = self.XS, self.YS
 
@@ -511,7 +507,8 @@ class Layout:
         # set size so that at least 19 cards are fully playable
         h = YS + (playcards-1)*self.YOFFSET
         h = max(h, 3*YS)
-        if texts: h += self.TEXT_HEIGHT
+        if texts:
+            h += self.TEXT_HEIGHT
         if reserves:
             h += YS
         if reserves and reserve_texts:
@@ -563,7 +560,6 @@ class Layout:
         # set window
         self.size = (w, YM + h + YS)
 
-
     #
     # Klondike layout
     #  - top: talon, waste, foundations
@@ -575,7 +571,7 @@ class Layout:
                        texts=1, reserve_texts=False, round_text=False,
                        playcards=16, center=1, text_height=0):
         S = self.__createStack
-        CW, CH = self.CW, self.CH
+        CH = self.CH
         XM, YM = self.XM, self.YM
         XS, YS = self.XS, self.YS
 
@@ -597,7 +593,7 @@ class Layout:
             h += self.TEXT_HEIGHT
 
         # top
-        ##text_height = 0
+        # text_height = 0
         x, y = XM, YM
         self.s.talon = s = S(x, y)
         if texts:
@@ -623,7 +619,8 @@ class Layout:
                 x = XM + (maxrows - frows) * XS / 2
             for suit in range(suits / foundrows):
                 for i in range(decks):
-                    self.s.foundations.append(S(x, y, suit=suit + (row * (suits / 2))))
+                    self.s.foundations.append(
+                        S(x, y, suit=suit + (row * (suits / 2))))
                     x += XS
             y += YS
 
@@ -631,7 +628,7 @@ class Layout:
         x = XM
         if rows < maxrows:
             x += (maxrows-rows) * XS/2
-        ##y += YM * (3 - foundrows)
+        # y += YM * (3 - foundrows)
         y += text_height
         for i in range(rows):
             self.s.rows.append(S(x, y))
@@ -656,7 +653,6 @@ class Layout:
 
         # set window
         self.size = (w, h)
-
 
     #
     # Yukon layout
@@ -701,7 +697,6 @@ class Layout:
         # set window
         self.size = (XM + (rows+decks)*XS,  h)
 
-
     #
     # Easy layout
     #  - top: talon, waste, foundations
@@ -710,7 +705,7 @@ class Layout:
 
     def easyLayout(self, rows, waste, texts=1, playcards=10, center=1):
         S = self.__createStack
-        CW, CH = self.CW, self.CH
+        CH = self.CH
         XM, YM = self.XM, self.YM
         XS, YS = self.XS, self.YS
 
@@ -766,7 +761,6 @@ class Layout:
         # set window
         self.size = (XM + maxrows * XS, YM + YS + yextra + h)
 
-
     #
     # Samuri layout
     #  - top center: rows
@@ -776,12 +770,11 @@ class Layout:
 
     def samuriLayout(self, rows, waste, texts=1, playcards=20, center=1):
         S = self.__createStack
-        CW, CH = self.CW, self.CH
+        CH = self.CH
         XM, YM = self.XM, self.YM
         XS, YS = self.XS, self.YS
 
         decks = self.game.gameinfo.decks
-        suits = len(self.game.gameinfo.suits) + bool(self.game.gameinfo.trumps)
         toprows = 2 * decks + rows
         yextra = 0
 
@@ -830,7 +823,6 @@ class Layout:
         # set window
         self.size = (XM + toprows * XS, YM + YS + yextra + h)
 
-
     #
     # Sumo layout
     #  - top center: rows
@@ -840,12 +832,11 @@ class Layout:
 
     def sumoLayout(self, rows, reserves, texts=0, playcards=12, center=1):
         S = self.__createStack
-        CW, CH = self.CW, self.CH
+        CH = self.CH
         XM, YM = self.XM, self.YM
         XS, YS = self.XS, self.YS
 
         decks = self.game.gameinfo.decks
-        suits = len(self.game.gameinfo.suits) + bool(self.game.gameinfo.trumps)
         assert reserves % 2 == 0
         toprows = 12
         maxrows = max(rows, toprows)
@@ -868,7 +859,9 @@ class Layout:
         for i in range(rows):
             self.s.rows.append(S(x, y))
             x += XS
-        self.setRegion(self.s.rows, (XS + XM / 2, YS * decks + YM / 2, XS * 11 - XM / 2, 999999))
+        self.setRegion(
+            self.s.rows,
+            (XS + XM / 2, YS * decks + YM / 2, XS * 11 - XM / 2, 999999))
 
         # create reserves
         x, y = XM, YM + YS * decks
@@ -890,7 +883,6 @@ class Layout:
         # set window
         self.size = (XM + toprows * XS, YM + YS + h)
 
-
     #
     # Fun layout
     #  - top: rows
@@ -900,7 +892,7 @@ class Layout:
 
     def funLayout(self, rows, reserves, texts=0, playcards=12, center=1):
         S = self.__createStack
-        CW, CH = self.CW, self.CH
+        CH = self.CH
         XM, YM = self.XM, self.YM
         XS, YS = self.XS, self.YS
 
@@ -953,7 +945,6 @@ class Layout:
         # set window
         self.size = (w, YM + YS + h)
 
-
     #
     # Oonsoo layout
     #  - top: talon & rows
@@ -963,7 +954,7 @@ class Layout:
 
     def oonsooLayout(self, rows, reserves, texts=0, playcards=12, center=1):
         S = self.__createStack
-        CW, CH = self.CW, self.CH
+        CH = self.CH
         XM, YM = self.XM, self.YM
         XS, YS = self.XS, self.YS
 
@@ -1005,7 +996,6 @@ class Layout:
         # set window
         self.size = (w, YM + YS + h)
 
-
     #
     # Ghulam layout
     #  - left & right: foundations & reserves
@@ -1015,11 +1005,9 @@ class Layout:
 
     def ghulamLayout(self, rows, reserves=0, texts=0):
         S = self.__createStack
-        CW, CH = self.CW, self.CH
         XM, YM = self.XM, self.YM
         XS, YS = self.XS, self.YS
 
-        decks = self.game.gameinfo.decks
         suits = len(self.game.gameinfo.suits)
         assert rows % 2 == 0
         assert reserves % 2 == 0
@@ -1050,13 +1038,12 @@ class Layout:
             self.s.reserves.append(S(w - XS, h - YS * (i + 1)))
 
         # create talon
-        self.s.talon = s = S(w - XS * 2, h - YS)
+        self.s.talon = S(w - XS * 2, h - YS)
         if texts:
             assert 0
 
         # set window
         self.size = (w, h)
-
 
     #
     # Generiklon layout
@@ -1064,9 +1051,8 @@ class Layout:
     #  - bottom: rows
     #
 
-    def generiklonLayout(self, rows, waste = 1, height = 6):
+    def generiklonLayout(self, rows, waste=1, height=6):
         S = self.__createStack
-        CW, CH = self.CW, self.CH
         XM, YM = self.XM, self.YM
         XS, YS = self.XS, self.YS
 
@@ -1090,13 +1076,13 @@ class Layout:
         x = w - fspace - XS * frows / 2
         for suit in range(suits / 2):
             for i in range(decks):
-                self.s.foundations.append(S(x, y, suit = suit))
+                self.s.foundations.append(S(x, y, suit=suit))
                 x += XS
         x = w - fspace - XS * frows / 2
         y += YS
         for suit in range(suits / 2):
             for i in range(decks):
-                self.s.foundations.append(S(x, y, suit = suit + suits / 2))
+                self.s.foundations.append(S(x, y, suit=(suit + suits / 20)))
                 x += XS
 
         # bottom
@@ -1105,4 +1091,3 @@ class Layout:
             self.s.rows.append(S(x, y))
             x += XS
         self.setRegion(self.s.rows, (-999, y - YM, 999999, 999999))
-

@@ -1,25 +1,25 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-##---------------------------------------------------------------------------##
-##
-## Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
-## Copyright (C) 2003 Mt. Hood Playing Card Co.
-## Copyright (C) 2005-2009 Skomoroh
-##
-## This program is free software: you can redistribute it and/or modify
-## it under the terms of the GNU General Public License as published by
-## the Free Software Foundation, either version 3 of the License, or
-## (at your option) any later version.
-##
-## This program is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-## GNU General Public License for more details.
-##
-## You should have received a copy of the GNU General Public License
-## along with this program.  If not, see <http://www.gnu.org/licenses/>.
-##
-##---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------##
+#
+# Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
+# Copyright (C) 2003 Mt. Hood Playing Card Co.
+# Copyright (C) 2005-2009 Skomoroh
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# ---------------------------------------------------------------------------##
 
 
 # imports
@@ -31,6 +31,7 @@ from pysollib.mfxutil import SubclassResponsibility
 # ************************************************************************
 # *
 # ************************************************************************
+
 
 class AbstractCard:
     # A playing card.
@@ -77,13 +78,14 @@ class AbstractCard:
 
     def __str__(self):
         # Return a string for debug print statements.
-        return "Card(%d, %d, %d, %d)" % (self.id, self.deck, self.suit, self.rank)
+        return "Card(%d, %d, %d, %d)" % \
+               (self.id, self.deck, self.suit, self.rank)
 
     def isHidden(self):
         return self.hide_stack is not None
 
     def moveTo(self, x, y):
-        ##print 'moveTo', x, y
+        # print 'moveTo', x, y
         # Move the card to absolute position (x, y).
         dx, dy = 0, 0
         if self.game.app.opt.randomize_place:
@@ -97,7 +99,7 @@ class AbstractCard:
         if dx or dy:
             self.x = self.x + dx
             self.y = self.y + dy
-            ##print "moveBy:", self.id, dx, dy, self.item.coords()
+            # print "moveBy:", self.id, dx, dy, self.item.coords()
             self.item.move(dx, dy)
 
     def tkraise(self, unhide=1):
@@ -105,7 +107,6 @@ class AbstractCard:
         if unhide:
             self.unhide()
         self.item.tkraise()
-
 
     #
     # abstract methods
@@ -131,10 +132,8 @@ class AbstractCard:
     def updateCardBackground(self, image):
         raise SubclassResponsibility
 
-
     def close(self):
         pass
 
     def unclose(self):
         pass
-

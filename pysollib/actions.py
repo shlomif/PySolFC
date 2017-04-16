@@ -1,32 +1,32 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-##---------------------------------------------------------------------------##
-##
-## Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
-## Copyright (C) 2003 Mt. Hood Playing Card Co.
-## Copyright (C) 2005-2009 Skomoroh
-##
-## This program is free software: you can redistribute it and/or modify
-## it under the terms of the GNU General Public License as published by
-## the Free Software Foundation, either version 3 of the License, or
-## (at your option) any later version.
-##
-## This program is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-## GNU General Public License for more details.
-##
-## You should have received a copy of the GNU General Public License
-## along with this program.  If not, see <http://www.gnu.org/licenses/>.
-##
-##---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------##
+#
+#  Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
+#  Copyright (C) 2003 Mt. Hood Playing Card Co.
+#  Copyright (C) 2005-2009 Skomoroh
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# ---------------------------------------------------------------------------##
 
 
 # imports
-import os, locale
+import os
+import locale
 
 # PySol imports
-from pysollib.mfxutil import SubclassResponsibility
 from pysollib.mfxutil import Struct, openURL
 from pysollib.mfxutil import print_err
 from pysollib.pysolrandom import constructRandom
@@ -44,7 +44,7 @@ from pysollib.pysoltk import ProgressionDialog
 from pysollib.pysoltk import GameInfoDialog
 
 # toolkit imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.pysoltk import MfxMessageDialog, MfxSimpleEntry
 from pysollib.pysoltk import MfxExceptionDialog
 from pysollib.pysoltk import PlayerOptionsDialog
@@ -69,25 +69,25 @@ class PysolMenubar(PysolMenubarTk):
         self.game = None
         # enabled/disabled - this is set by updateMenuState()
         self.menustate = Struct(
-            save = 0,
-            save_as = 0,
-            hold_and_quit = 0,
-            undo = 0,
-            redo = 0,
-            restart = 0,
-            deal = 0,
-            hint = 0,
-            autofaceup = 0,
-            autodrop = 0,
-            shuffle = 0,
-            autodeal = 0,
-            quickplay = 0,
-            demo = 0,
-            highlight_piles = 0,
-            find_card = 0,
-            rules = 0,
-            pause = 0,
-            custom_game = 0,
+            save=0,
+            save_as=0,
+            hold_and_quit=0,
+            undo=0,
+            redo=0,
+            restart=0,
+            deal=0,
+            hint=0,
+            autofaceup=0,
+            autodrop=0,
+            shuffle=0,
+            autodeal=0,
+            quickplay=0,
+            demo=0,
+            highlight_piles=0,
+            find_card=0,
+            rules=0,
+            pause=0,
+            custom_game=0,
         )
         PysolMenubarTk.__init__(self, app, top, progress)
 
@@ -108,7 +108,6 @@ class PysolMenubar(PysolMenubarTk):
     def changed(self, *args, **kw):
         assert self.game is not None
         return self.game.changed(*args, **kw)
-
 
     #
     # menu updates
@@ -146,7 +145,7 @@ class PysolMenubar(PysolMenubarTk):
         if game.getHintClass() is not None:
             if opt.hint:
                 ms.hint = 1
-            ###if not game.demo:       # if not already running
+            # if not game.demo:       # if not already running
             ms.demo = 1
         autostacks = game.getAutoStacks()
         if autostacks[0]:
@@ -229,15 +228,16 @@ class PysolMenubar(PysolMenubarTk):
         self._clearMenuState()
         self._updateMenus()
 
-
     #
     # File menu
     #
 
     def mNewGame(self, *args):
-        if self._cancelDrag(): return
+        if self._cancelDrag():
+            return
         if self.changed():
-            if not self.game.areYouSure(_("New game")): return
+            if not self.game.areYouSure(_("New game")):
+                return
         if self.game.nextGameFlags(self.game.id) == 0:
             self.game.endGame()
             self.game.newGame()
@@ -246,7 +246,8 @@ class PysolMenubar(PysolMenubarTk):
             self.game.quitGame(self.game.id)
 
     def _mSelectGame(self, id, random=None, force=False):
-        if self._cancelDrag(): return
+        if self._cancelDrag():
+            return
         if not force and self.game.id == id:
             return
         if self.changed():
@@ -263,10 +264,10 @@ class PysolMenubar(PysolMenubarTk):
             id = self.game.id
             if not self.app.getGameInfo(id):
                 raise ValueError
-        except (ValueError, TypeError), ex:
-            d = MfxMessageDialog(self.top, title=_("Invalid game number"),
-                                 text=_("Invalid game number\n") + str(seed),
-                                 bitmap="error")
+        except (ValueError, TypeError):
+            MfxMessageDialog(self.top, title=_("Invalid game number"),
+                             text=_("Invalid game number\n") + str(seed),
+                             bitmap="error")
             return
         f = self.game.nextGameFlags(id, random)
         if f & 17 == 0:
@@ -280,36 +281,42 @@ class PysolMenubar(PysolMenubarTk):
             self.game.quitGame(id, random=random)
 
     def mNewGameWithNextId(self, *args):
-        if self._cancelDrag(): return
+        if self._cancelDrag():
+            return
         if self.changed():
-            if not self.game.areYouSure(_("Select next game number")): return
+            if not self.game.areYouSure(_("Select next game number")):
+                return
         r = self.game.random
         seed = r.increaseSeed(r.initial_seed)
         seed = r.str(seed)
         self._mNewGameBySeed(seed, self.game.random.ORIGIN_NEXT_GAME)
 
     def mSelectGameById(self, *args):
-        if self._cancelDrag(break_pause=False): return
-        id, f = None, self.game.getGameNumber(format=0)
+        if self._cancelDrag(break_pause=False):
+            return
+        f = self.game.getGameNumber(format=0)
         d = MfxSimpleEntry(self.top, _("Select new game number"),
                            _("\n\nEnter new game number"), f,
                            strings=(_("&OK"), _("&Next number"), _("&Cancel")),
                            default=0, e_width=25)
-        if d.status != 0: return
-        if d.button == 2: return
+        if d.status != 0:
+            return
+        if d.button == 2:
+            return
         if d.button == 1:
             self.mNewGameWithNextId()
             return
         if self.changed():
-            if not self.game.areYouSure(_("Select new game number")): return
+            if not self.game.areYouSure(_("Select new game number")):
+                return
         self._mNewGameBySeed(d.value, self.game.random.ORIGIN_SELECTED)
 
-
-
     def mSelectRandomGame(self, type='all'):
-        if self._cancelDrag(): return
+        if self._cancelDrag():
+            return
         if self.changed():
-            if not self.game.areYouSure(_("Select random game")): return
+            if not self.game.areYouSure(_("Select random game")):
+                return
         game_id = None
         games = []
         for g in self.app.gdb.getGamesIdSortedById():
@@ -336,13 +343,15 @@ class PysolMenubar(PysolMenubarTk):
             self.game.quitGame(game_id)
 
     def _mSelectNextGameFromList(self, gl, step):
-        if self._cancelDrag(): return
+        if self._cancelDrag():
+            return
         id = self.game.id
         gl = list(gl)
-        if len(gl) < 2 or not id in gl:
+        if len(gl) < 2 or (id not in gl):
             return
         if self.changed():
-            if not self.game.areYouSure(_("Select next game")): return
+            if not self.game.areYouSure(_("Select next game")):
+                return
         index = (gl.index(id) + step) % len(gl)
         self.game.endGame()
         self.game.quitGame(gl[index])
@@ -357,10 +366,12 @@ class PysolMenubar(PysolMenubarTk):
         self._mSelectNextGameFromList(self.app.gdb.getGamesIdSortedByName(), 1)
 
     def mSelectPrevGameByName(self, *args):
-        self._mSelectNextGameFromList(self.app.gdb.getGamesIdSortedByName(), -1)
+        self._mSelectNextGameFromList(
+            self.app.gdb.getGamesIdSortedByName(), -1)
 
     def mSave(self, *args):
-        if self._cancelDrag(break_pause=False): return
+        if self._cancelDrag(break_pause=False):
+            return
         if self.menustate.save_as:
             if self.game.filename:
                 self.game.saveGame(self.game.filename)
@@ -368,37 +379,42 @@ class PysolMenubar(PysolMenubarTk):
                 self.mSaveAs()
 
     def mHoldAndQuit(self, *args):
-        if self._cancelDrag(): return
+        if self._cancelDrag():
+            return
         self.game.endGame(holdgame=1)
         self.game.quitGame(holdgame=1)
 
     def mQuit(self, *args):
-        if self._cancelDrag(): return
+        if self._cancelDrag():
+            return
         if self.changed():
-            if not self.game.areYouSure(_("Quit ") + TITLE): return
+            if not self.game.areYouSure(_("Quit ") + TITLE):
+                return
         self.game.endGame()
         self.game.quitGame()
-
 
     #
     # Edit menu
     #
 
     def mUndo(self, *args):
-        if self._cancelDrag(): return
+        if self._cancelDrag():
+            return
         if self.menustate.undo:
             self.game.playSample("undo")
             self.game.undo()
 
     def mRedo(self, *args):
-        if self._cancelDrag(): return
+        if self._cancelDrag():
+            return
         if self.menustate.redo:
             self.game.playSample("redo")
             self.game.redo()
             self.game.checkForWin()
 
     def mRedoAll(self, *args):
-        if self._cancelDrag(): return
+        if self._cancelDrag():
+            return
         if self.menustate.redo:
             self.app.top.busyUpdate()
             self.game.playSample("redo", loop=1)
@@ -409,23 +425,32 @@ class PysolMenubar(PysolMenubarTk):
             self.game.stopSamples()
 
     def mSetBookmark(self, n, confirm=1):
-        if self._cancelDrag(): return
-        if not self.app.opt.bookmarks: return
-        if not (0 <= n <= 8): return
+        if self._cancelDrag():
+            return
+        if not self.app.opt.bookmarks:
+            return
+        if not (0 <= n <= 8):
+            return
         self.game.setBookmark(n, confirm=confirm)
         self.game.updateMenus()
 
     def mGotoBookmark(self, n, confirm=-1):
-        if self._cancelDrag(): return
-        if not self.app.opt.bookmarks: return
-        if not (0 <= n <= 8): return
+        if self._cancelDrag():
+            return
+        if not self.app.opt.bookmarks:
+            return
+        if not (0 <= n <= 8):
+            return
         self.game.gotoBookmark(n, confirm=confirm)
         self.game.updateMenus()
 
     def mClearBookmarks(self, *args):
-        if self._cancelDrag(): return
-        if not self.app.opt.bookmarks: return
-        if not self.game.gsaveinfo.bookmarks: return
+        if self._cancelDrag():
+            return
+        if not self.app.opt.bookmarks:
+            return
+        if not self.game.gsaveinfo.bookmarks:
+            return
         if not self.game.areYouSure(_("Clear bookmarks"),
                                     _("Clear all bookmarks ?")):
             return
@@ -433,7 +458,8 @@ class PysolMenubar(PysolMenubarTk):
         self.game.updateMenus()
 
     def mRestart(self, *args):
-        if self._cancelDrag(): return
+        if self._cancelDrag():
+            return
         if self.game.moves.index == 0:
             return
         if self.changed(restart=1):
@@ -442,27 +468,30 @@ class PysolMenubar(PysolMenubarTk):
                 return
         self.game.restartGame()
 
-
     #
     # Game menu
     #
 
     def mDeal(self, *args):
-        if self._cancelDrag(): return
+        if self._cancelDrag():
+            return
         self.game.dealCards()
 
     def mDrop(self, *args):
-        if self._cancelDrag(): return
-        ##self.game.autoPlay(autofaceup=-1, autodrop=1)
+        if self._cancelDrag():
+            return
+        # self.game.autoPlay(autofaceup=-1, autodrop=1)
         self.game.autoDrop(autofaceup=-1)
 
     def mDrop1(self, *args):
-        if self._cancelDrag(): return
-        ##self.game.autoPlay(autofaceup=1, autodrop=1)
+        if self._cancelDrag():
+            return
+        # self.game.autoPlay(autofaceup=1, autodrop=1)
         self.game.autoDrop(autofaceup=1)
 
     def mShuffle(self, *args):
-        if self._cancelDrag(): return
+        if self._cancelDrag():
+            return
         if self.menustate.shuffle:
             if self.game.canShuffle():
                 self.game._mahjonggShuffle()
@@ -476,7 +505,8 @@ class PysolMenubar(PysolMenubarTk):
         create_solver_dialog(self.game.top, self.app)
 
     def mEditGameComment(self, *args):
-        if self._cancelDrag(break_pause=False): return
+        if self._cancelDrag(break_pause=False):
+            return
         game, gi = self.game, self.game.gameinfo
         t = " " + game.getGameNumber(format=1)
         cc = _("Comments for %s:\n\n") % (gi.name + t)
@@ -497,15 +527,17 @@ class PysolMenubar(PysolMenubarTk):
                 try:
                     fd = open(fn, 'a')
                     fd.write(text.encode(enc, 'replace'))
-                except Exception, err:
-                    d = MfxExceptionDialog(self.top, err,
-                                           text=_("Error while writing to file"))
+                except Exception as err:
+                    d = MfxExceptionDialog(
+                        self.top, err,
+                        text=_("Error while writing to file"))
                 else:
-                    if fd: fd.close()
-                    d = MfxMessageDialog(self.top, title=TITLE+_(" Info"), bitmap="info",
-                                         text=_("Comments were appended to\n\n") + fn)
+                    if fd:
+                        fd.close()
+                    d = MfxMessageDialog(
+                        self.top, title=TITLE+_(" Info"), bitmap="info",
+                        text=_("Comments were appended to\n\n") + fn)
         self._setCommentMenu(bool(game.gsaveinfo.comment))
-
 
     #
     # Game menu - statistics
@@ -524,15 +556,17 @@ class PysolMenubar(PysolMenubarTk):
             file = open(filename, "a")
             a = FileStatsFormatter(self.app, file)
             write_method(a, player)
-        except EnvironmentError, ex:
-            if file: file.close()
-            d = MfxExceptionDialog(self.top, ex,
-                                   text=_("Error while writing to file"))
+        except EnvironmentError as ex:
+            if file:
+                file.close()
+            MfxExceptionDialog(self.top, ex,
+                               text=_("Error while writing to file"))
         else:
-            if file: file.close()
-            d = MfxMessageDialog(self.top, title=TITLE+_(" Info"), bitmap="info",
-                                 text=text + _(" were appended to\n\n") + filename)
-
+            if file:
+                file.close()
+            MfxMessageDialog(
+                self.top, title=TITLE+_(" Info"), bitmap="info",
+                text=text + _(" were appended to\n\n") + filename)
 
     def mPlayerStats(self, *args, **kw):
         mode = kw.get("mode", 101)
@@ -556,7 +590,8 @@ class PysolMenubar(PysolMenubarTk):
                 d = Status_StatsDialog(self.top, game=self.game)
             elif mode == 101:
                 header = p1 + _("Statistics for ") + n
-                d = SingleGame_StatsDialog(self.top, header, self.app, player, gameid=self.game.id)
+                d = SingleGame_StatsDialog(
+                   self.top, header, self.app, player, gameid=self.game.id)
                 gameid = d.selected_game
             elif mode == 102:
                 header = p1 + _("Statistics") + p2
@@ -570,13 +605,15 @@ class PysolMenubar(PysolMenubarTk):
                 d = SessionLog_StatsDialog(self.top, header, self.app, player)
             elif mode == 105:
                 header = p1 + TOP_TITLE + _(" for ") + n
-                d = Top_StatsDialog(self.top, header, self.app, player, gameid=self.game.id)
+                d = Top_StatsDialog(
+                    self.top, header, self.app, player, gameid=self.game.id)
             elif mode == 106:
                 header = _("Game Info")
                 d = GameInfoDialog(self.top, header, self.app)
             elif mode == 107:
                 header = _("Statistics progression")
-                d = ProgressionDialog(self.top, header, self.app, player, gameid=self.game.id)
+                d = ProgressionDialog(
+                    self.top, header, self.app, player, gameid=self.game.id)
             elif mode == 202:
                 # print stats to file
                 write_method = FileStatsFormatter.writeStats
@@ -591,18 +628,25 @@ class PysolMenubar(PysolMenubarTk):
                 self._mStatsSave(player, "log", write_method)
             elif mode == 301:
                 # reset all player stats
-                if self.game.areYouSure(_("Reset all statistics"),
-                                        _("Reset ALL statistics and logs for player\n%s ?") % p0,
-                                        confirm=1, default=1):
+                if self.game.areYouSure(
+                    _("Reset all statistics"),
+                    _("Reset ALL statistics and logs for player\n%s ?") % p0,
+                    confirm=1, default=1
+                ):
                     self.app.stats.resetStats(player, 0)
-                    self.game.updateStatus(stats=self.app.stats.getStats(self.app.opt.player, self.game.id))
+                    self.game.updateStatus(stats=self.app.stats.getStats(
+                        self.app.opt.player, self.game.id))
             elif mode == 302:
                 # reset player stats for current game
-                if self.game.areYouSure(_("Reset game statistics"),
-                                        _('Reset statistics and logs for player\n%s\nand game\n%s ?') % (p0, n),
-                                        confirm=1, default=1):
+                if self.game.areYouSure(
+                    _("Reset game statistics"),
+                    _('Reset statistics and logs ' +
+                        'for player\n%s\nand game\n%s ?') % (p0, n),
+                    confirm=1, default=1
+                ):
                     self.app.stats.resetStats(player, self.game.id)
-                    self.game.updateStatus(stats=self.app.stats.getStats(self.app.opt.player, self.game.id))
+                    self.game.updateStatus(stats=self.app.stats.getStats(
+                        self.app.opt.player, self.game.id))
             elif mode == 401:
                 # start a new game with a gameid
                 if gameid and gameid != self.game.id:
@@ -610,7 +654,7 @@ class PysolMenubar(PysolMenubarTk):
                     self.game.quitGame(gameid)
             elif mode == 402:
                 # start a new game with a gameid / gamenumber
-                ## TODO
+                # TODO
                 pass
             else:
                 print_err("stats problem: %s %s %s" % (mode, demo, player))
@@ -619,67 +663,76 @@ class PysolMenubar(PysolMenubarTk):
                 break
             mode = d.button
 
-
     #
     # Assist menu
     #
 
     def mHint(self, *args):
-        if self._cancelDrag(): return
+        if self._cancelDrag():
+            return
         if self.app.opt.hint:
             if self.game.showHint(0, self.app.opt.timeouts['hint']):
                 self.game.stats.hints += 1
 
     def mHint1(self, *args):
-        if self._cancelDrag(): return
+        if self._cancelDrag():
+            return
         if self.app.opt.hint:
             if self.game.showHint(1, self.app.opt.timeouts['hint']):
                 self.game.stats.hints += 1
 
     def mHighlightPiles(self, *args):
-        if self._cancelDrag(): return
+        if self._cancelDrag():
+            return
         if self.app.opt.highlight_piles:
-            if self.game.highlightPiles(self.app.opt.timeouts['highlight_piles']):
+            if self.game.highlightPiles(
+                self.app.opt.timeouts['highlight_piles']
+            ):
                 self.game.stats.highlight_piles += 1
 
     def mDemo(self, *args):
-        if self._cancelDrag(): return
+        if self._cancelDrag():
+            return
         if self.game.getHintClass() is not None:
             self._mDemo(mixed=0)
 
     def mMixedDemo(self, *args):
-        if self._cancelDrag(): return
+        if self._cancelDrag():
+            return
         self._mDemo(mixed=1)
 
     def _mDemo(self, mixed):
         if self.changed():
             # only ask if there have been no demo moves or hints yet
             if self.game.stats.demo_moves == 0 and self.game.stats.hints == 0:
-                if not self.game.areYouSure(_("Play demo")): return
-        ##self.app.demo_counter = 0
+                if not self.game.areYouSure(_("Play demo")):
+                    return
+        # self.app.demo_counter = 0
         self.game.startDemo(mixed=mixed)
-
 
     #
     # Options menu
     #
 
     def mOptPlayerOptions(self, *args):
-        if self._cancelDrag(break_pause=False): return
+        if self._cancelDrag(break_pause=False):
+            return
         d = PlayerOptionsDialog(self.top, _("Set player options"), self.app)
         if d.status == 0 and d.button == 0:
             self.app.opt.confirm = bool(d.confirm)
             self.app.opt.update_player_stats = bool(d.update_stats)
             self.app.opt.win_animation = bool(d.win_animation)
-            ##n = string.strip(d.player)
+            # n = string.strip(d.player)
             n = d.player[:30].strip()
             if 0 < len(n) <= 30:
                 self.app.opt.player = n
                 self.game.updateStatus(player=self.app.opt.player)
-                self.game.updateStatus(stats=self.app.stats.getStats(self.app.opt.player, self.game.id))
+                self.game.updateStatus(stats=self.app.stats.getStats(
+                    self.app.opt.player, self.game.id))
 
     def mOptColors(self, *args):
-        if self._cancelDrag(break_pause=False): return
+        if self._cancelDrag(break_pause=False):
+            return
         d = ColorsDialog(self.top, _("Set colors"), self.app)
         text_color = self.app.opt.colors['text']
         if d.status == 0 and d.button == 0:
@@ -696,7 +749,8 @@ class PysolMenubar(PysolMenubarTk):
                 self.app.setTile(self.app.tabletile_index, force=True)
 
     def mOptFonts(self, *args):
-        if self._cancelDrag(break_pause=False): return
+        if self._cancelDrag(break_pause=False):
+            return
         d = FontsDialog(self.top, _("Set fonts"), self.app)
         if d.status == 0 and d.button == 0:
             self.app.opt.fonts.update(d.fonts)
@@ -705,50 +759,59 @@ class PysolMenubar(PysolMenubarTk):
             self.game.quitGame(bookmark=1)
 
     def mOptTimeouts(self, *args):
-        if self._cancelDrag(break_pause=False): return
+        if self._cancelDrag(break_pause=False):
+            return
         d = TimeoutsDialog(self.top, _("Set timeouts"), self.app)
         if d.status == 0 and d.button == 0:
             self.app.opt.timeouts['demo'] = d.demo_timeout
             self.app.opt.timeouts['hint'] = d.hint_timeout
             self.app.opt.timeouts['raise_card'] = d.raise_card_timeout
-            self.app.opt.timeouts['highlight_piles'] = d.highlight_piles_timeout
-            self.app.opt.timeouts['highlight_cards'] = d.highlight_cards_timeout
-            self.app.opt.timeouts['highlight_samerank'] = d.highlight_samerank_timeout
-
+            self.app.opt.timeouts['highlight_piles'] = \
+                d.highlight_piles_timeout
+            self.app.opt.timeouts['highlight_cards'] = \
+                d.highlight_cards_timeout
+            self.app.opt.timeouts['highlight_samerank'] = \
+                d.highlight_samerank_timeout
 
     #
     # Help menu
     #
 
     def mHelp(self, *args):
-        if self._cancelDrag(break_pause=False): return
+        if self._cancelDrag(break_pause=False):
+            return
         help_html(self.app, "index.html", "html")
 
     def mHelpHowToPlay(self, *args):
-        if self._cancelDrag(break_pause=False): return
+        if self._cancelDrag(break_pause=False):
+            return
         help_html(self.app, "howtoplay.html", "html")
 
     def mHelpRules(self, *args):
-        if self._cancelDrag(break_pause=False): return
+        if self._cancelDrag(break_pause=False):
+            return
         if not self.menustate.rules:
             return
         dir = os.path.join("html", "rules")
-        ## FIXME: plugins
+        # FIXME: plugins
         help_html(self.app, self.app.getGameRulesFilename(self.game.id), dir)
 
     def mHelpLicense(self, *args):
-        if self._cancelDrag(break_pause=False): return
+        if self._cancelDrag(break_pause=False):
+            return
         help_html(self.app, "license.html", "html")
 
     def mHelpNews(self, *args):
-        if self._cancelDrag(break_pause=False): return
+        if self._cancelDrag(break_pause=False):
+            return
         help_html(self.app, "news.html", "html")
 
     def mHelpWebSite(self, *args):
         openURL(PACKAGE_URL)
 
     def mHelpAbout(self, *args):
-        if self._cancelDrag(break_pause=False): return
+        if self._cancelDrag(break_pause=False):
+            return
         help_about(self.app)
 
     #
@@ -756,7 +819,8 @@ class PysolMenubar(PysolMenubarTk):
     #
 
     def mScreenshot(self, *args):
-        if self._cancelDrag(): return
+        if self._cancelDrag():
+            return
         f = os.path.join(self.app.dn.config, "screenshots")
         if not os.path.isdir(f):
             return
@@ -772,17 +836,19 @@ class PysolMenubar(PysolMenubarTk):
         self.top.screenshot(fn)
 
     def mPlayNextMusic(self, *args):
-        if self._cancelDrag(break_pause=False): return
+        if self._cancelDrag(break_pause=False):
+            return
         if self.app.audio and self.app.opt.sound_music_volume > 0:
             self.app.audio.playNextMusic()
             if 1 and DEBUG:
                 index = self.app.audio.getMusicInfo()
                 music = self.app.music_manager.get(index)
                 if music:
-                    print "playing music:", music.filename
+                    print("playing music:", music.filename)
 
     def mIconify(self, *args):
-        if self._cancelDrag(break_pause=False): return
+        if self._cancelDrag(break_pause=False):
+            return
         self.top.wm_iconify()
 
 
@@ -870,4 +936,3 @@ class PysolToolbar(PysolToolbarTk):
         if not self._busy():
             self.menubar.mOptPlayerOptions()
         return 1
-

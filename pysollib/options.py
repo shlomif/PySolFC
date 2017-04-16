@@ -22,7 +22,8 @@
 # ---------------------------------------------------------------------------##
 
 # imports
-import sys, os
+import sys
+import os
 import traceback
 
 # PySol imports
@@ -34,7 +35,10 @@ import pysollib.settings
 # Toolkit imports
 from pysollib.pysoltk import TOOLBAR_BUTTONS
 
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
+
+if sys.version_info > (3,):
+    unicode = str
 
 # ************************************************************************
 # * Options
@@ -240,16 +244,16 @@ class Options:
         ('tabletile_name', 'str'),
         ('translate_game_names', 'bool'),
         ('solver_presets', 'list'),
-        #('toolbar_vars', 'list'),
-        #('recent_gameid', 'list'),
-        #('favorite_gameid', 'list'),
+        # ('toolbar_vars', 'list'),
+        # ('recent_gameid', 'list'),
+        # ('favorite_gameid', 'list'),
         ]
 
     def __init__(self):
         self._config = None             # configobj.ConfigObj instance
         self._config_encoding = 'utf-8'
 
-        self.version_tuple = pysollib.settings.VERSION_TUPLE # XXX
+        self.version_tuple = pysollib.settings.VERSION_TUPLE  # XXX
         self.saved = 0                  # XXX
         # options menu:
         self.player = _("Unknown")
@@ -268,7 +272,7 @@ class Options:
         self.highlight_samerank = True
         self.highlight_not_matching = True
         self.mahjongg_show_removed = False
-        self.mahjongg_create_solvable = 2 # 0 - none, 1 - easy, 2 - hard
+        self.mahjongg_create_solvable = 2  # 0 - none, 1 - easy, 2 - hard
         self.shisen_show_hint = True
         self.shisen_show_matching = False
         self.animations = 3             # default to Medium
@@ -284,21 +288,21 @@ class Options:
         self.tile_theme = 'default'
         self.default_tile_theme = 'default'
         self.toolbar = 1       # 0 == hide, 1,2,3,4 == top, bottom, lef, right
-        ##self.toolbar_style = 'default'
+        # self.toolbar_style = 'default'
         self.toolbar_style = 'bluecurve'
         self.toolbar_relief = 'flat'
         self.toolbar_compound = 'none'  # icons only
         self.toolbar_size = 0
         self.toolbar_vars = {}
         for w in TOOLBAR_BUTTONS:
-            self.toolbar_vars[w] = True # show all buttons
+            self.toolbar_vars[w] = True  # show all buttons
         self.statusbar = True
-        self.statusbar_game_number = False # show game number in statusbar
-        self.statusbar_stuck = False       # show stuck indicator
+        self.statusbar_game_number = False  # show game number in statusbar
+        self.statusbar_stuck = False        # show stuck indicator
         self.num_cards = False
         self.helpbar = False
         self.splashscreen = True
-        self.mouse_type = 'drag-n-drop' # or 'sticky-mouse' or 'point-n-click'
+        self.mouse_type = 'drag-n-drop'  # or 'sticky-mouse' or 'point-n-click'
         self.mouse_undo = False         # use mouse for undo/redo
         self.negative_bottom = True
         self.translate_game_names = True
@@ -307,42 +311,42 @@ class Options:
         self.sound_mode = 1
         self.sound_sample_volume = 80
         self.sound_music_volume = 100
-        self.sound_sample_buffer_size = 1 # 1 - 4 (1024 - 4096 bytes)
+        self.sound_sample_buffer_size = 1  # 1 - 4 (1024 - 4096 bytes)
         self.sound_samples = {
-            'areyousure'    : True,
-            'autodrop'      : True,
-            'autoflip'      : True,
-            'autopilotlost' : True,
-            'autopilotwon'  : True,
-            'deal'          : True,
-            'dealwaste'     : True,
-            'droppair'      : True,
-            'drop'          : True,
-            #'extra'         : True,
-            'flip'          : True,
-            'move'          : True,
-            'nomove'        : True,
-            'redo'          : True,
-            'startdrag'     : True,
-            'turnwaste'     : True,
-            'undo'          : True,
-            'gamefinished'  : False,
-            'gamelost'      : False,
-            'gameperfect'   : False,
-            'gamewon'       : False,
+            'areyousure': True,
+            'autodrop': True,
+            'autoflip': True,
+            'autopilotlost': True,
+            'autopilotwon': True,
+            'deal': True,
+            'dealwaste': True,
+            'droppair': True,
+            'drop': True,
+            # 'extra': True,
+            'flip': True,
+            'move': True,
+            'nomove': True,
+            'redo': True,
+            'startdrag': True,
+            'turnwaste': True,
+            'undo': True,
+            'gamefinished': False,
+            'gamelost': False,
+            'gameperfect': False,
+            'gamewon': False,
             }
         # fonts
         self.fonts = {
-            "default"        : None,
-            #"default"        : ("helvetica", 12),
-            "sans"           : ("times",     12), # for html
-            "fixed"          : ("courier",   12), # for html & log
-            "small"          : ("helvetica", 12),
-            "canvas_default" : ("helvetica", 12),
-            #"canvas_card"    : ("helvetica", 12),
-            "canvas_fixed"   : ("courier",   12),
-            "canvas_large"   : ("helvetica", 16),
-            "canvas_small"   : ("helvetica", 10),
+            "default": None,
+            # "default": ("helvetica", 12),
+            "sans": ("times",     12),  # for html
+            "fixed": ("courier",   12),  # for html & log
+            "small": ("helvetica", 12),
+            "canvas_default": ("helvetica", 12),
+            # "canvas_card": ("helvetica", 12),
+            "canvas_fixed": ("courier",   12),
+            "canvas_large": ("helvetica", 16),
+            "canvas_small": ("helvetica", 10),
             }
         # colors
         self.colors = {
@@ -373,8 +377,9 @@ class Options:
         self.game_holded = 0            # gameid or 0
         self.wm_maximized = 0
         self.save_games_geometry = False
-        self.games_geometry = {} # saved games geometry (gameid: (width, height))
-        self.game_geometry = (0, 0) # game geometry before exit
+        # saved games geometry (gameid: (width, height))
+        self.games_geometry = {}
+        self.game_geometry = (0, 0)  # game geometry before exit
         self.offsets = {}           # cards offsets
         #
         self.randomize_place = False
@@ -409,7 +414,7 @@ class Options:
     def setDefaults(self, top=None):
         WIN_SYSTEM = pysollib.settings.WIN_SYSTEM
         # toolbar
-        #if WIN_SYSTEM == 'win32':
+        # if WIN_SYSTEM == 'win32':
         #    self.toolbar_style = 'crystal'
         # fonts
         if WIN_SYSTEM == 'win32':
@@ -420,7 +425,7 @@ class Options:
         # tile theme
         if WIN_SYSTEM == 'win32':
             self.tile_theme = self.default_tile_theme = 'winnative'
-            if sys.getwindowsversion() >= (5, 1): # xp
+            if sys.getwindowsversion() >= (5, 1):  # xp
                 self.tile_theme = 'xpnative'
         elif WIN_SYSTEM == 'x11':
             self.tile_theme = 'clam'
@@ -435,14 +440,14 @@ class Options:
                           top.winfo_screendepth())
         # bg
         if sd > 8:
-            self.tabletile_name = "Nostalgy.gif" # basename
+            self.tabletile_name = "Nostalgy.gif"  # basename
         else:
             self.tabletile_name = None
         # cardsets
         c = "Standard"
         if sw < 800 or sh < 600:
             c = "2000"
-        #if sw > 1024 and sh > 768:
+        # if sw > 1024 and sh > 768:
         #    c = 'Dondorf'
         self.cardset = {
             # game_type:        (cardset_name, back_file)
@@ -453,7 +458,7 @@ class Options:
             CSI.TYPE_TAROCK:    ("Vienna 2K", ""),
             CSI.TYPE_HEXADECK:  ("Hex A Deck", ""),
             CSI.TYPE_MUGHAL_GANJIFA: ("Mughal Ganjifa", ""),
-            ##CSI.TYPE_NAVAGRAHA_GANJIFA: ("Navagraha Ganjifa", ""),
+            # CSI.TYPE_NAVAGRAHA_GANJIFA: ("Navagraha Ganjifa", ""),
             CSI.TYPE_NAVAGRAHA_GANJIFA: ("Dashavatara Ganjifa", ""),
             CSI.TYPE_DASHAVATARA_GANJIFA: ("Dashavatara Ganjifa", ""),
             CSI.TYPE_TRUMP_ONLY: ("Matrix", ""),
@@ -527,8 +532,7 @@ class Options:
             config['offsets'][key] = val
 
         config.write()
-        ##config.write(sys.stdout); print
-
+        # config.write(sys.stdout); print
 
     def _getOption(self, section, key, t):
         config = self._config
@@ -545,7 +549,7 @@ class Options:
             elif t == 'list':
                 val = config[section][key]
                 assert isinstance(val, (list, tuple))
-            else: # str
+            else:  # str
                 val = config[section][key]
         except KeyError:
             val = None
@@ -578,7 +582,7 @@ class Options:
             'cardsets',
             'games_geometry',
             'offsets',
-            ):
+                ):
             if section not in config:
                 config[section] = {}
 
@@ -591,7 +595,7 @@ class Options:
         # validation
         vdt = validate.Validator()
         res = config.validate(vdt)
-        ##from pprint import pprint; pprint(res)
+        # from pprint import pprint; pprint(res)
         if res is not True:
             for section, data in res.items():
                 if data is True:
@@ -601,7 +605,6 @@ class Options:
                         print_err('config file: validation error: '
                                   'section: "%s", key: "%s"' % (section, key))
                         config[section][key] = None
-
 
         # general
         for key, t in self.GENERAL_OPTIONS:
@@ -711,5 +714,3 @@ class Options:
                 self.offsets[key] = val
             except:
                 traceback.print_exc()
-
-

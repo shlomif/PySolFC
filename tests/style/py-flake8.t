@@ -10,7 +10,7 @@ use String::ShellQuote qw/ shell_quote /;
 
 # my $cmd = shell_quote( 'flake8', '.' );
 my $cmd = shell_quote( 'flake8',
-    grep { not($_ eq './pysollib/pysoltk.py') } glob('./pysollib/[a-p]*.py') );
+    grep { not($_ eq './pysollib/pysoltk.py') } glob('./pysollib/[a-r]*.py') );
 
 # TEST
 eq_or_diff( scalar(`$cmd`), '', "flake8 is happy with the code." );

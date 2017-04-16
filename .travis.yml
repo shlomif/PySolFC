@@ -6,7 +6,6 @@ before_install:
     - sudo dpkg-divert --local --divert /usr/bin/ack --rename --add /usr/bin/ack-grep
 install:
     - sudo cpanm Test::Differences Test::TrailingSpace
-    # - sudo -H `which python3` -m pip install flake8
-    - strace -e open -f `which python3` -m pip install --user flake8 2>&1 | grep -P 'bin/flake8'
+    - `which python3` -m pip install --user flake8
     - which python
 script: "sh -x scripts/travis-ci-build"

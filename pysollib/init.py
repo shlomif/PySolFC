@@ -1,30 +1,31 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-##---------------------------------------------------------------------------##
-##
-## Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
-## Copyright (C) 2003 Mt. Hood Playing Card Co.
-## Copyright (C) 2005-2009 Skomoroh
-##
-## This program is free software: you can redistribute it and/or modify
-## it under the terms of the GNU General Public License as published by
-## the Free Software Foundation, either version 3 of the License, or
-## (at your option) any later version.
-##
-## This program is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-## GNU General Public License for more details.
-##
-## You should have received a copy of the GNU General Public License
-## along with this program.  If not, see <http://www.gnu.org/licenses/>.
-##
-##---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------##
+#
+#  Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
+#  Copyright (C) 2003 Mt. Hood Playing Card Co.
+#  Copyright (C) 2005-2009 Skomoroh
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# ---------------------------------------------------------------------------##
 
-import sys, os, locale, subprocess
-import traceback
+import sys
+import os
+import locale
+import subprocess
 
-from pysollib.mygettext import _, n_
 import gettext
 import pysollib.settings
 
@@ -41,10 +42,10 @@ def init():
             os.environ['LANG'] = l[0]
         except:
             pass
-    ##locale.setlocale(locale.LC_ALL, '')
+    # locale.setlocale(locale.LC_ALL, '')
 
-    ## install gettext
-    ##locale_dir = 'locale'
+    # install gettext
+    # locale_dir = 'locale'
     locale_dir = None
     if os.path.isdir(sys.path[0]):
         d = os.path.join(sys.path[0], 'locale')
@@ -53,23 +54,23 @@ def init():
         d = os.path.join(os.path.dirname(sys.path[0]), 'locale')
     if os.path.exists(d) and os.path.isdir(d):
         locale_dir = d
-    ##if locale_dir: locale_dir = os.path.normpath(locale_dir)
-    #gettext.install('pysol', locale_dir, unicode=True) # ngettext don't work
+    # if locale_dir: locale_dir = os.path.normpath(locale_dir)
+    # gettext.install('pysol', locale_dir, unicode=True) # ngettext don't work
     gettext.bindtextdomain('pysol', locale_dir)
     gettext.textdomain('pysol')
 
-    ## debug
+    # debug
     if 'PYSOL_CHECK_GAMES' in os.environ or 'PYSOL_DEBUG' in os.environ:
         pysollib.settings.CHECK_GAMES = True
-        print 'PySol debugging: set CHECK_GAMES to True'
+        print('PySol debugging: set CHECK_GAMES to True')
     if 'PYSOL_DEBUG' in os.environ:
         try:
             pysollib.settings.DEBUG = int(os.environ['PYSOL_DEBUG'])
         except:
             pysollib.settings.DEBUG = 1
-        print 'PySol debugging: set DEBUG to', pysollib.settings.DEBUG
+        print('PySol debugging: set DEBUG to', pysollib.settings.DEBUG)
 
-    ## init toolkit
+    # init toolkit
     if '--gtk' in sys.argv:
         pysollib.settings.TOOLKIT = 'gtk'
         sys.argv.remove('--gtk')
@@ -106,16 +107,17 @@ def init():
             else:
                 pysollib.settings.USE_TILE = True
         # "can't invoke event <<ThemeChanged>>: application has been destroyed"
-        #root.destroy()
+        # root.destroy()
         Tkinter._default_root = None
 
     # check FreeCell-Solver
     pysollib.settings.USE_FREECELL_SOLVER = False
     if os.name == 'nt':
-        if sys.path[0] and not os.path.isdir(sys.path[0]): # i.e. library.zip
+        if sys.path[0] and not os.path.isdir(sys.path[0]):  # i.e. library.zip
             d = os.path.dirname(sys.path[0])
             os.chdir(d)                 # for read presets
-            fcs_command = os.path.join('freecell-solver', 'bin', 'fc-solve.exe')
+            fcs_command = os.path.join(
+                'freecell-solver', 'bin', 'fc-solve.exe')
             pysollib.settings.FCS_COMMAND = fcs_command
             f = os.path.join('freecell-solver', 'presetrc')
             os.environ['FREECELL_SOLVER_PRESETRC'] = f
@@ -124,7 +126,7 @@ def init():
             kw = {'shell': True,
                   'stdout': subprocess.PIPE,
                   'stderr': subprocess.PIPE,
-                  'stdin': subprocess.PIPE,}
+                  'stdin': subprocess.PIPE, }
             if os.name != 'nt':
                 kw['close_fds'] = True
             p = subprocess.Popen(pysollib.settings.FCS_COMMAND+' --help', **kw)
@@ -134,7 +136,7 @@ def init():
             if os.name == 'posix':
                 os.wait()               # kill zombi
         except:
-            #traceback.print_exc()
+            # traceback.print_exc()
             pass
     os.environ['FREECELL_SOLVER_QUIET'] = '1'
 
@@ -142,4 +144,3 @@ def init():
     if '--no-games-menu' in sys.argv:
         sys.argv.remove('--no-games-menu')
         pysollib.settings.SELECT_GAME_MENU = False
-

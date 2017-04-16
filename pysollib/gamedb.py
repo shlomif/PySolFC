@@ -1,28 +1,29 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-##---------------------------------------------------------------------------##
-##
-## Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
-## Copyright (C) 2003 Mt. Hood Playing Card Co.
-## Copyright (C) 2005-2009 Skomoroh
-##
-## This program is free software: you can redistribute it and/or modify
-## it under the terms of the GNU General Public License as published by
-## the Free Software Foundation, either version 3 of the License, or
-## (at your option) any later version.
-##
-## This program is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-## GNU General Public License for more details.
-##
-## You should have received a copy of the GNU General Public License
-## along with this program.  If not, see <http://www.gnu.org/licenses/>.
-##
-##---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------##
+#
+#  Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
+#  Copyright (C) 2003 Mt. Hood Playing Card Co.
+#  Copyright (C) 2005-2009 Skomoroh
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# ---------------------------------------------------------------------------##
 
 
 # imports
+import sys
 import imp
 
 # PySol imports
@@ -32,78 +33,83 @@ import pysollib.settings
 
 from pysollib.mygettext import _, n_
 
+if sys.version_info > (3,):
+    basestring = str
+    unicode = str
+
 # ************************************************************************
 # * constants
 # ************************************************************************
 
+
 # GameInfo constants
 class GI:
     # game category - these *must* match the cardset CSI.TYPE_xxx
-    GC_FRENCH        = CSI.TYPE_FRENCH
-    GC_HANAFUDA      = CSI.TYPE_HANAFUDA
-    GC_TAROCK        = CSI.TYPE_TAROCK
-    GC_MAHJONGG      = CSI.TYPE_MAHJONGG
-    GC_HEXADECK      = CSI.TYPE_HEXADECK
+    GC_FRENCH = CSI.TYPE_FRENCH
+    GC_HANAFUDA = CSI.TYPE_HANAFUDA
+    GC_TAROCK = CSI.TYPE_TAROCK
+    GC_MAHJONGG = CSI.TYPE_MAHJONGG
+    GC_HEXADECK = CSI.TYPE_HEXADECK
     GC_MUGHAL_GANJIFA = CSI.TYPE_MUGHAL_GANJIFA
     GC_NAVAGRAHA_GANJIFA = CSI.TYPE_NAVAGRAHA_GANJIFA
     GC_DASHAVATARA_GANJIFA = CSI.TYPE_DASHAVATARA_GANJIFA
-    GC_TRUMP_ONLY    = CSI.TYPE_TRUMP_ONLY
+    GC_TRUMP_ONLY = CSI.TYPE_TRUMP_ONLY
 
     # game type
-    GT_1DECK_TYPE   = 0
-    GT_2DECK_TYPE   = 1
-    GT_3DECK_TYPE   = 2
-    GT_4DECK_TYPE   = 3
+    GT_1DECK_TYPE = 0
+    GT_2DECK_TYPE = 1
+    GT_3DECK_TYPE = 2
+    GT_4DECK_TYPE = 3
     GT_BAKERS_DOZEN = 4
     GT_BELEAGUERED_CASTLE = 5
-    GT_CANFIELD     = 6
+    GT_CANFIELD = 6
     GT_DASHAVATARA_GANJIFA = 7
-    GT_FAN_TYPE     = 8
+    GT_FAN_TYPE = 8
     GT_FORTY_THIEVES = 9
-    GT_FREECELL     = 10
-    GT_GOLF         = 11
-    GT_GYPSY        = 12
-    GT_HANAFUDA     = 13
-    GT_HEXADECK     = 14
-    GT_KLONDIKE     = 15
-    GT_MAHJONGG     = 16
-    GT_MATRIX       = 17
-    GT_MEMORY       = 18
-    GT_MONTANA      = 19
+    GT_FREECELL = 10
+    GT_GOLF = 11
+    GT_GYPSY = 12
+    GT_HANAFUDA = 13
+    GT_HEXADECK = 14
+    GT_KLONDIKE = 15
+    GT_MAHJONGG = 16
+    GT_MATRIX = 17
+    GT_MEMORY = 18
+    GT_MONTANA = 19
     GT_MUGHAL_GANJIFA = 20
-    GT_NAPOLEON     = 21
+    GT_NAPOLEON = 21
     GT_NAVAGRAHA_GANJIFA = 22
-    GT_NUMERICA     = 23
+    GT_NUMERICA = 23
     GT_PAIRING_TYPE = 24
-    GT_POKER_TYPE   = 25
-    GT_PUZZLE_TYPE  = 26
-    GT_RAGLAN       = 27
-    GT_ROW_TYPE     = 28
-    GT_SIMPLE_TYPE  = 29
-    GT_SPIDER       = 30
-    GT_TAROCK       = 31
-    GT_TERRACE      = 32
-    GT_YUKON        = 33
-    GT_SHISEN_SHO   = 34
-    GT_CUSTOM       = 40
+    GT_POKER_TYPE = 25
+    GT_PUZZLE_TYPE = 26
+    GT_RAGLAN = 27
+    GT_ROW_TYPE = 28
+    GT_SIMPLE_TYPE = 29
+    GT_SPIDER = 30
+    GT_TAROCK = 31
+    GT_TERRACE = 32
+    GT_YUKON = 33
+    GT_SHISEN_SHO = 34
+    GT_CUSTOM = 40
     # extra flags
-    GT_BETA          = 1 << 12      # beta version of game driver
-    GT_CHILDREN      = 1 << 13      # *not used*
-    GT_CONTRIB       = 1 << 14      # contributed games under the GNU GPL
-    GT_HIDDEN        = 1 << 15      # not visible in menus, but games can be loaded
-    GT_OPEN          = 1 << 16
-    GT_ORIGINAL      = 1 << 17
-    GT_POPULAR       = 1 << 18      # *not used*
-    GT_RELAXED       = 1 << 19
-    GT_SCORE         = 1 << 20      # game has some type of scoring
+    GT_BETA = 1 << 12      # beta version of game driver
+    GT_CHILDREN = 1 << 13      # *not used*
+    GT_CONTRIB = 1 << 14      # contributed games under the GNU GPL
+    GT_HIDDEN = 1 << 15      # not visible in menus, but games can be loaded
+    GT_OPEN = 1 << 16
+    GT_ORIGINAL = 1 << 17
+    GT_POPULAR = 1 << 18      # *not used*
+    GT_RELAXED = 1 << 19
+    GT_SCORE = 1 << 20      # game has some type of scoring
     GT_SEPARATE_DECKS = 1 << 21
-    GT_XORIGINAL     = 1 << 22      # original games by other people, not playable
+    GT_XORIGINAL = 1 << 22      # original games by other people, not playable
     # skill level
-    SL_LUCK         = 1
-    SL_MOSTLY_LUCK  = 2
-    SL_BALANCED     = 3
+    SL_LUCK = 1
+    SL_MOSTLY_LUCK = 2
+    SL_BALANCED = 3
     SL_MOSTLY_SKILL = 4
-    SL_SKILL        = 5
+    SL_SKILL = 5
     #
     TYPE_NAMES = {
         GT_BAKERS_DOZEN:        n_("Baker's Dozen"),
@@ -130,74 +136,114 @@ class GI:
         GT_4DECK_TYPE:          n_("Four-Deck games"),
     }
 
-##     SELECT_GAME_BY_TYPE = []
-##     for gt, name in TYPE_NAMES.items():
-##         if not name.endswith('games'):
-##             name = name+n_(' type')
-##         SELECT_GAME_BY_TYPE.append(
-##             (name, lambda gi, gt=gt: gi.si.game_type == gt))
-##     SELECT_GAME_BY_TYPE = tuple(SELECT_GAME_BY_TYPE)
+    #      SELECT_GAME_BY_TYPE = []
+    #      for gt, name in TYPE_NAMES.items():
+    #          if not name.endswith('games'):
+    #              name = name+n_(' type')
+    #          SELECT_GAME_BY_TYPE.append(
+    #              (name, lambda gi, gt=gt: gi.si.game_type == gt))
+    #      SELECT_GAME_BY_TYPE = tuple(SELECT_GAME_BY_TYPE)
 
     SELECT_GAME_BY_TYPE = (
-        (n_("Baker's Dozen type"),lambda gi, gt=GT_BAKERS_DOZEN: gi.si.game_type == gt),
-        (n_("Beleaguered Castle type"),lambda gi, gt=GT_BELEAGUERED_CASTLE: gi.si.game_type == gt),
-        (n_("Canfield type"), lambda gi, gt=GT_CANFIELD: gi.si.game_type == gt),
-        (n_("Fan type"),      lambda gi, gt=GT_FAN_TYPE: gi.si.game_type == gt),
-        (n_("Forty Thieves type"),lambda gi, gt=GT_FORTY_THIEVES: gi.si.game_type == gt),
-        (n_("FreeCell type"), lambda gi, gt=GT_FREECELL: gi.si.game_type == gt),
-        (n_("Golf type"),     lambda gi, gt=GT_GOLF: gi.si.game_type == gt),
-        (n_("Gypsy type"),    lambda gi, gt=GT_GYPSY: gi.si.game_type == gt),
-        (n_("Klondike type"), lambda gi, gt=GT_KLONDIKE: gi.si.game_type == gt),
-        (n_("Montana type"),  lambda gi, gt=GT_MONTANA: gi.si.game_type == gt),
-        (n_("Napoleon type"), lambda gi, gt=GT_NAPOLEON: gi.si.game_type == gt),
-        (n_("Numerica type"), lambda gi, gt=GT_NUMERICA: gi.si.game_type == gt),
-        (n_("Pairing type"),  lambda gi, gt=GT_PAIRING_TYPE: gi.si.game_type == gt),
-        (n_("Raglan type"),   lambda gi, gt=GT_RAGLAN: gi.si.game_type == gt),
-        (n_("Simple games"),  lambda gi, gt=GT_SIMPLE_TYPE: gi.si.game_type == gt),
-        (n_("Spider type"),   lambda gi, gt=GT_SPIDER: gi.si.game_type == gt),
-        (n_("Terrace type"),  lambda gi, gt=GT_TERRACE: gi.si.game_type == gt),
-        (n_("Yukon type"),    lambda gi, gt=GT_YUKON: gi.si.game_type == gt),
-        (n_("One-Deck games"),lambda gi, gt=GT_1DECK_TYPE: gi.si.game_type == gt),
-        (n_("Two-Deck games"),lambda gi, gt=GT_2DECK_TYPE: gi.si.game_type == gt),
-        (n_("Three-Deck games"),lambda gi, gt=GT_3DECK_TYPE: gi.si.game_type == gt),
-        (n_("Four-Deck games"),lambda gi, gt=GT_4DECK_TYPE: gi.si.game_type == gt),
+        (n_("Baker's Dozen type"), lambda gi,
+            gt=GT_BAKERS_DOZEN: gi.si.game_type == gt),
+        (n_("Beleaguered Castle type"),
+            lambda gi, gt=GT_BELEAGUERED_CASTLE: gi.si.game_type == gt),
+        (n_("Canfield type"),
+            lambda gi, gt=GT_CANFIELD: gi.si.game_type == gt),
+        (n_("Fan type"), lambda gi, gt=GT_FAN_TYPE: gi.si.game_type == gt),
+        (n_("Forty Thieves type"),
+            lambda gi, gt=GT_FORTY_THIEVES: gi.si.game_type == gt),
+        (n_("FreeCell type"),
+            lambda gi, gt=GT_FREECELL: gi.si.game_type == gt),
+        (n_("Golf type"), lambda gi, gt=GT_GOLF: gi.si.game_type == gt),
+        (n_("Gypsy type"), lambda gi, gt=GT_GYPSY: gi.si.game_type == gt),
+        (n_("Klondike type"),
+            lambda gi, gt=GT_KLONDIKE: gi.si.game_type == gt),
+        (n_("Montana type"), lambda gi, gt=GT_MONTANA: gi.si.game_type == gt),
+        (n_("Napoleon type"),
+            lambda gi, gt=GT_NAPOLEON: gi.si.game_type == gt),
+        (n_("Numerica type"),
+            lambda gi, gt=GT_NUMERICA: gi.si.game_type == gt),
+        (n_("Pairing type"),
+            lambda gi, gt=GT_PAIRING_TYPE: gi.si.game_type == gt),
+        (n_("Raglan type"), lambda gi, gt=GT_RAGLAN: gi.si.game_type == gt),
+        (n_("Simple games"),
+            lambda gi, gt=GT_SIMPLE_TYPE: gi.si.game_type == gt),
+        (n_("Spider type"), lambda gi, gt=GT_SPIDER: gi.si.game_type == gt),
+        (n_("Terrace type"), lambda gi, gt=GT_TERRACE: gi.si.game_type == gt),
+        (n_("Yukon type"), lambda gi, gt=GT_YUKON: gi.si.game_type == gt),
+        (n_("One-Deck games"),
+            lambda gi, gt=GT_1DECK_TYPE: gi.si.game_type == gt),
+        (n_("Two-Deck games"),
+            lambda gi, gt=GT_2DECK_TYPE: gi.si.game_type == gt),
+        (n_("Three-Deck games"),
+            lambda gi, gt=GT_3DECK_TYPE: gi.si.game_type == gt),
+        (n_("Four-Deck games"),
+            lambda gi, gt=GT_4DECK_TYPE: gi.si.game_type == gt),
     )
 
     SELECT_ORIGINAL_GAME_BY_TYPE = (
-        (n_("French type"),         lambda gi, gf=GT_ORIGINAL, gt=(GT_HANAFUDA, GT_HEXADECK, GT_MUGHAL_GANJIFA, GT_NAVAGRAHA_GANJIFA, GT_DASHAVATARA_GANJIFA, GT_TAROCK,): gi.si.game_flags & gf and gi.si.game_type not in gt),
-        (n_("Ganjifa type"),        lambda gi, gf=GT_ORIGINAL, gt=(GT_MUGHAL_GANJIFA, GT_NAVAGRAHA_GANJIFA, GT_DASHAVATARA_GANJIFA,): gi.si.game_flags & gf and gi.si.game_type in gt),
-        (n_("Hanafuda type"),       lambda gi, gf=GT_ORIGINAL, gt=GT_HANAFUDA: gi.si.game_flags & gf and gi.si.game_type == gt),
-        (n_("Hex A Deck type"),     lambda gi, gf=GT_ORIGINAL, gt=GT_HEXADECK: gi.si.game_flags & gf and gi.si.game_type == gt),
-        (n_("Tarock type"),         lambda gi, gf=GT_ORIGINAL, gt=GT_TAROCK: gi.si.game_flags & gf and gi.si.game_type == gt),
+        (n_("French type"), lambda gi, gf=GT_ORIGINAL,
+            gt=(
+                GT_HANAFUDA,
+                GT_HEXADECK, GT_MUGHAL_GANJIFA, GT_NAVAGRAHA_GANJIFA,
+                GT_DASHAVATARA_GANJIFA, GT_TAROCK,): gi.si.game_flags & gf and
+            gi.si.game_type not in gt),
+        (n_("Ganjifa type"), lambda gi, gf=GT_ORIGINAL,
+            gt=(GT_MUGHAL_GANJIFA, GT_NAVAGRAHA_GANJIFA,
+                GT_DASHAVATARA_GANJIFA,): gi.si.game_flags & gf and
+            gi.si.game_type in gt),
+        (n_("Hanafuda type"), lambda gi, gf=GT_ORIGINAL, gt=GT_HANAFUDA:
+            gi.si.game_flags & gf and gi.si.game_type == gt),
+        (n_("Hex A Deck type"), lambda gi, gf=GT_ORIGINAL, gt=GT_HEXADECK:
+            gi.si.game_flags & gf and gi.si.game_type == gt),
+        (n_("Tarock type"), lambda gi, gf=GT_ORIGINAL, gt=GT_TAROCK:
+            gi.si.game_flags & gf and gi.si.game_type == gt),
     )
 
     SELECT_CONTRIB_GAME_BY_TYPE = (
-        (n_("French type"),         lambda gi, gf=GT_CONTRIB, gt=(GT_HANAFUDA, GT_HEXADECK, GT_MUGHAL_GANJIFA, GT_NAVAGRAHA_GANJIFA, GT_DASHAVATARA_GANJIFA, GT_TAROCK,): gi.si.game_flags & gf and gi.si.game_type not in gt),
-        (n_("Ganjifa type"),        lambda gi, gf=GT_CONTRIB, gt=(GT_MUGHAL_GANJIFA, GT_NAVAGRAHA_GANJIFA, GT_DASHAVATARA_GANJIFA,): gi.si.game_flags & gf and gi.si.game_type in gt),
-        (n_("Hanafuda type"),       lambda gi, gf=GT_CONTRIB, gt=GT_HANAFUDA: gi.si.game_flags & gf and gi.si.game_type == gt),
-        (n_("Hex A Deck type"),     lambda gi, gf=GT_CONTRIB, gt=GT_HEXADECK: gi.si.game_flags & gf and gi.si.game_type == gt),
-        (n_("Tarock type"),         lambda gi, gf=GT_CONTRIB, gt=GT_TAROCK: gi.si.game_flags & gf and gi.si.game_type == gt),
+        (n_("French type"), lambda gi, gf=GT_CONTRIB,
+            gt=(GT_HANAFUDA, GT_HEXADECK, GT_MUGHAL_GANJIFA,
+                GT_NAVAGRAHA_GANJIFA, GT_DASHAVATARA_GANJIFA, GT_TAROCK,):
+            gi.si.game_flags & gf and gi.si.game_type not in gt),
+        (n_("Ganjifa type"), lambda gi, gf=GT_CONTRIB,
+            gt=(GT_MUGHAL_GANJIFA, GT_NAVAGRAHA_GANJIFA,
+                GT_DASHAVATARA_GANJIFA,):
+            gi.si.game_flags & gf and gi.si.game_type in gt),
+        (n_("Hanafuda type"), lambda gi, gf=GT_CONTRIB, gt=GT_HANAFUDA:
+            gi.si.game_flags & gf and gi.si.game_type == gt),
+        (n_("Hex A Deck type"), lambda gi, gf=GT_CONTRIB, gt=GT_HEXADECK:
+            gi.si.game_flags & gf and gi.si.game_type == gt),
+        (n_("Tarock type"), lambda gi, gf=GT_CONTRIB, gt=GT_TAROCK:
+            gi.si.game_flags & gf and gi.si.game_type == gt),
     )
 
     SELECT_ORIENTAL_GAME_BY_TYPE = (
-        (n_("Dashavatara Ganjifa type"), lambda gi, gt=GT_DASHAVATARA_GANJIFA: gi.si.game_type == gt),
-        (n_("Ganjifa type"),        lambda gi, gt=(GT_MUGHAL_GANJIFA, GT_NAVAGRAHA_GANJIFA, GT_DASHAVATARA_GANJIFA,): gi.si.game_type in gt),
-        (n_("Hanafuda type"),       lambda gi, gt=GT_HANAFUDA: gi.si.game_type == gt),
-        (n_("Mughal Ganjifa type"), lambda gi, gt=GT_MUGHAL_GANJIFA: gi.si.game_type == gt),
-        (n_("Navagraha Ganjifa type"), lambda gi, gt=GT_NAVAGRAHA_GANJIFA: gi.si.game_type == gt),
+        (n_("Dashavatara Ganjifa type"), lambda gi, gt=GT_DASHAVATARA_GANJIFA:
+            gi.si.game_type == gt),
+        (n_("Ganjifa type"), lambda gi,
+            gt=(GT_MUGHAL_GANJIFA, GT_NAVAGRAHA_GANJIFA,
+                GT_DASHAVATARA_GANJIFA,): gi.si.game_type in gt),
+        (n_("Hanafuda type"),
+            lambda gi, gt=GT_HANAFUDA: gi.si.game_type == gt),
+        (n_("Mughal Ganjifa type"),
+            lambda gi, gt=GT_MUGHAL_GANJIFA: gi.si.game_type == gt),
+        (n_("Navagraha Ganjifa type"),
+            lambda gi, gt=GT_NAVAGRAHA_GANJIFA: gi.si.game_type == gt),
     )
 
     SELECT_SPECIAL_GAME_BY_TYPE = (
-        (n_("Shisen-Sho"),      lambda gi, gt=GT_SHISEN_SHO: gi.si.game_type == gt),
-        (n_("Hex A Deck type"), lambda gi, gt=GT_HEXADECK: gi.si.game_type == gt),
-        (n_("Matrix type"),     lambda gi, gt=GT_MATRIX: gi.si.game_type == gt),
-        (n_("Memory type"),     lambda gi, gt=GT_MEMORY: gi.si.game_type == gt),
-        (n_("Poker type"),      lambda gi, gt=GT_POKER_TYPE: gi.si.game_type == gt),
-        (n_("Puzzle type"),     lambda gi, gt=GT_PUZZLE_TYPE: gi.si.game_type == gt),
-        (n_("Tarock type"),     lambda gi, gt=GT_TAROCK: gi.si.game_type == gt),
+        (n_("Shisen-Sho"), lambda gi, gt=GT_SHISEN_SHO: gi.si.game_type == gt),
+        (n_("Hex A Deck type"),
+            lambda gi, gt=GT_HEXADECK: gi.si.game_type == gt),
+        (n_("Matrix type"), lambda gi, gt=GT_MATRIX: gi.si.game_type == gt),
+        (n_("Memory type"), lambda gi, gt=GT_MEMORY: gi.si.game_type == gt),
+        (n_("Poker type"), lambda gi, gt=GT_POKER_TYPE: gi.si.game_type == gt),
+        (n_("Puzzle type"),
+            lambda gi, gt=GT_PUZZLE_TYPE: gi.si.game_type == gt),
+        (n_("Tarock type"), lambda gi, gt=GT_TAROCK: gi.si.game_type == gt),
     )
-
-
 
     # These obsolete gameids have been used in previous versions of
     # PySol and are no longer supported because of internal changes
@@ -209,31 +255,31 @@ class GI:
          72:  115,              # Little Forty
          75:  126,              # Red and Black
          82:  901,              # La Belle Lucie (Midnight Oil)
-##        155: 5034,              # Mahjongg - Flying Dragon
-##        156: 5035,              # Mahjongg - Fortress Towers
-        262:  105,              # Canfield
-        902:   88,              # Trefoil
-        904:   68,              # Lexington Harp
-        297:  631,              # Alternation/Alternations
+         # 155: 5034,              # Mahjongg - Flying Dragon
+         # 156: 5035,              # Mahjongg - Fortress Towers
+         262:  105,              # Canfield
+         902:   88,              # Trefoil
+         904:   68,              # Lexington Harp
+         297:  631,              # Alternation/Alternations
     }
 
     GAMES_BY_COMPATIBILITY = (
         # Atari ST Patience game v2.13 (we have 10 out of 10 games)
         ("Atari ST Patience", (1, 3, 4, 7, 12, 14, 15, 16, 17, 39,)),
 
-        ## Gnome AisleRiot 1.0.51 (we have 28 out of 32 games)
-        ##   still missing: Camelot, Clock, Thieves, Thirteen
-        ##("Gnome AisleRiot 1.0.51", (
-        ##    2, 8, 11, 19, 27, 29, 33, 34, 35, 40,
-        ##    41, 42, 43, 58, 59, 92, 93, 94, 95, 96,
-        ##    100, 105, 111, 112, 113, 130, 200, 201,
-        ##)),
-        ## Gnome AisleRiot 1.4.0.1 (we have XX out of XX games)
-        ##("Gnome AisleRiot", (
-        ##    1, 2, 8, 11, 19, 27, 29, 33, 34, 35, 40,
-        ##    41, 42, 43, 58, 59, 92, 93, 94, 95, 96,
-        ##    100, 105, 111, 112, 113, 130, 200, 201,
-        ##)),
+        #  Gnome AisleRiot 1.0.51 (we have 28 out of 32 games)
+        #    still missing: Camelot, Clock, Thieves, Thirteen
+        # ("Gnome AisleRiot 1.0.51", (
+        #     2, 8, 11, 19, 27, 29, 33, 34, 35, 40,
+        #     41, 42, 43, 58, 59, 92, 93, 94, 95, 96,
+        #     100, 105, 111, 112, 113, 130, 200, 201,
+        # )),
+        #  Gnome AisleRiot 1.4.0.1 (we have XX out of XX games)
+        # ("Gnome AisleRiot", (
+        #     1, 2, 8, 11, 19, 27, 29, 33, 34, 35, 40,
+        #     41, 42, 43, 58, 59, 92, 93, 94, 95, 96,
+        #     100, 105, 111, 112, 113, 130, 200, 201,
+        # )),
         # Gnome AisleRiot 2.2.0 (we have 61 out of 70 games)
         #   still missing:
         #         Gay gordons, Helsinki,
@@ -247,12 +293,12 @@ class GI:
             283, 284, 551, 552, 553, 737,
         )),
 
-        ## KDE Patience 0.7.3 from KDE 1.1.2 (we have 6 out of 9 games)
-        ##("KDE Patience 0.7.3", (2, 7, 8, 18, 256, 903,)),
-        ## KDE Patience 2.0 from KDE 2.1.2 (we have 11 out of 13 games)
-        ##("KDE Patience", (1, 2, 7, 8, 18, 19, 23, 50, 256, 261, 903,)),
-        ## KDE Patience 2.0 from KDE 2.2beta1 (we have 12 out of 14 games)
-        ##("KDE Patience", (1, 2, 7, 8, 18, 19, 23, 36, 50, 256, 261, 903,)),
+        #  KDE Patience 0.7.3 from KDE 1.1.2 (we have 6 out of 9 games)
+        # ("KDE Patience 0.7.3", (2, 7, 8, 18, 256, 903,)),
+        #  KDE Patience 2.0 from KDE 2.1.2 (we have 11 out of 13 games)
+        # ("KDE Patience", (1, 2, 7, 8, 18, 19, 23, 50, 256, 261, 903,)),
+        #  KDE Patience 2.0 from KDE 2.2beta1 (we have 12 out of 14 games)
+        # ("KDE Patience", (1, 2, 7, 8, 18, 19, 23, 36, 50, 256, 261, 903,)),
         # KDE Patience 2.0 from KDE 3.1.1 (we have 15 out of 15 games)
         ("KDE Patience", (1, 2, 7, 8, 18, 19, 23, 36, 50,
                           256, 261, 277, 278, 279, 903,)),
@@ -303,9 +349,9 @@ class GI:
         ("2.99", (37,)),
         ("3.00", (38, 39,
                   40, 41, 42, 43,     45, 46, 47, 48, 49,
-                  50, 51,903, 53, 54, 55, 56, 57, 58, 59,
+                  50, 51, 903, 53, 54, 55, 56, 57, 58, 59,
                   60, 61, 62, 63, 64, 65, 66, 67, 68, 69,
-                  70, 71,115, 73, 74,126, 76, 77, 78, 79,
+                  70, 71, 115, 73, 74, 126, 76, 77, 78, 79,
                   80, 81,     83, 84, 85, 86, 87, 88, 89,
                   90, 91, 92, 93, 94, 95, 96, 97, 98, 99,
                   100, 101, 102, 103, 104, 107, 108,)),
@@ -317,7 +363,7 @@ class GI:
         ("3.21", (143, 144)),
         ("3.30", (145, 146, 147, 148, 149, 150, 151)),
         ("3.40", (152, 153, 154)),
-        ("4.00", (          157, 158, 159, 160, 161, 162, 163, 164)),
+        ("4.00", (157, 158, 159, 160, 161, 162, 163, 164)),
         ("4.20", (165, 166, 167, 168, 169, 170, 171, 172, 173, 174,
                   175, 176, 177, 178)),
         ("4.30", (179, 180, 181, 182, 183, 184)),
@@ -329,8 +375,8 @@ class GI:
                   220, 221, 222, 223, 224, 225, 226, 227, 228, 229,
                   230, 231, 232, 233, 234, 235, 236)),
         ("4.70", (237,)),
-        ('fc-0.5.0', ( # moved from Ultrasol
-                      #121, 122, 187, 188, 189, 190, 191, 192, 194, 197, 198,
+        ('fc-0.5.0', (  # moved from Ultrasol
+                      # 121, 122, 187, 188, 189, 190, 191, 192, 194, 197, 198,
                       5301, 5302, 9011, 11001, 11002, 11003, 11004, 11005,
                       11006, 12353, 12354, 12355, 12356, 12357, 12358, 12359,
                       12360, 12361, 12362, 12363, 12364, 12365, 12366, 12367,
@@ -347,7 +393,7 @@ class GI:
                       16674, 16675, 16676, 16677, 16678, 16679, 16680, 22216,
                       22223, 22224, 22225, 22226, 22227, 22228, 22229, 22230,
                       22231, 22232,)),
-        ('fc-0.8.0', tuple(range(263, 323))), # exclude 297
+        ('fc-0.8.0', tuple(range(263, 323))),  # exclude 297
         ('fc-0.9.0', tuple(range(323, 421))),
         ('fc-0.9.1', tuple(range(421, 441))),
         ('fc-0.9.2', tuple(range(441, 466))),
@@ -355,12 +401,12 @@ class GI:
         ('fc-0.9.4', tuple(range(661, 671))),
         ('fc-1.0',   tuple(range(671, 711))),
         ('fc-1.1',   tuple(range(711, 759))),
-        ('fc-2.0',   tuple(range(11011, 11014)) + tuple(range(759, 767)) ),
+        ('fc-2.0',   tuple(range(11011, 11014)) + tuple(range(759, 767))),
     )
 
     # deprecated - the correct way is to or a GI.GT_XXX flag
     # in the registerGame() call
-    _CHILDREN_GAMES = [16, 33, 55, 90, 91, 96, 97, 176, 903,]
+    _CHILDREN_GAMES = [16, 33, 55, 90, 91, 96, 97, 176, 903, ]
 
     _OPEN_GAMES = []
 
@@ -384,7 +430,7 @@ class GI:
         903,   # Ace Up
         5034,  # Mahjongg Flying Dragon
         5401,  # Mahjongg Taipei
-        12345, # Oonsoo
+        12345,  # Oonsoo
     ]
 
 
@@ -412,7 +458,7 @@ class GameInfo(Struct):
                 return s
             try:
                 s = unicode(s, 'utf-8')
-            except UnicodeDecodeError, err:
+            except UnicodeDecodeError as err:
                 print_err(err)
                 s = unicode(s, 'utf-8', 'ignore')
             return s
@@ -456,11 +502,13 @@ class GameInfo(Struct):
         if not (1 <= id <= 999999):
             raise GameInfoException(name+": invalid game ID "+str(id))
         if category == GI.GC_MAHJONGG:
-            if decks%4:
-                raise GameInfoException(name+": invalid number of decks "+str(id))
+            if decks % 4:
+                raise GameInfoException(name+": invalid number of decks " +
+                                        str(id))
         else:
             if not (1 <= decks <= 4):
-                raise GameInfoException(name+": invalid number of decks "+str(id))
+                raise GameInfoException(
+                    name+": invalid number of decks "+str(id))
         if not name:
             raise GameInfoException(name+": invalid game name")
         if GI.PROTECTED_GAMES.get(id):
@@ -521,7 +569,7 @@ class GameManager:
         return self.__all_games.get(key)
 
     def _check_game(self, gi):
-        ##print 'check game:', gi.id, gi.short_name.encode('utf-8')
+        # print 'check game:', gi.id, gi.short_name.encode('utf-8')
         if gi.id in self.__all_games:
             raise GameInfoException("duplicate game ID %s: %s and %s" %
                                     (gi.id, str(gi.gameclass),
@@ -543,14 +591,14 @@ class GameManager:
                                         (gi.id, n))
 
     def register(self, gi):
-        ##print gi.id, gi.short_name.encode('utf-8')
+        # print gi.id, gi.short_name.encode('utf-8')
         if not isinstance(gi, GameInfo):
             raise GameInfoException("wrong GameInfo class")
         if self.check_game and pysollib.settings.CHECK_GAMES:
             self._check_game(gi)
-        ##if 0 and gi.si.game_flags & GI.GT_XORIGINAL:
-        ##    return
-        ##print gi.id, gi.name
+        # if 0 and gi.si.game_flags & GI.GT_XORIGINAL:
+        #     return
+        # print gi.id, gi.name
         self.__all_games[gi.id] = gi
         self.__all_gamenames[gi.name] = gi
         for n in gi.altnames:
@@ -565,12 +613,13 @@ class GameManager:
             self.__games_by_name = None
             # update registry
             k = gi.si.game_type
-            self.registered_game_types[k] = self.registered_game_types.get(k, 0) + 1
-##             if not gi.si.game_type == GI.GT_MAHJONGG:
-##                 for v, k in GI.GAMES_BY_PYSOL_VERSION:
-##                     if gi.id in k: break
-##                 else:
-##                     print gi.id
+            self.registered_game_types[k] = \
+                self.registered_game_types.get(k, 0) + 1
+#              if not gi.si.game_type == GI.GT_MAHJONGG:
+#                  for v, k in GI.GAMES_BY_PYSOL_VERSION:
+#                      if gi.id in k: break
+#                  else:
+#                      print gi.id
             if hasattr(gi.gameclass, 'Solver_Class') and \
                gi.gameclass.Solver_Class is not None:
                 self.__games_for_solver.append(gi.id)
@@ -586,7 +635,7 @@ class GameManager:
     #
 
     def getAllGames(self):
-        ##return self.__all_games
+        # return self.__all_games
         return self.__games.values()
 
     def getGamesIdSortedById(self):
@@ -598,15 +647,15 @@ class GameManager:
 
     def getGamesIdSortedByName(self):
         if self.__games_by_name is None:
-            l1, l2, l3  = [], [], []
+            l1, l2, l3 = [], [], []
             for id, gi in self.__games.items():
-                name = gi.name #.lower()
+                name = gi.name  # .lower()
                 l1.append((name, id))
                 if gi.name != gi.short_name:
-                    name = gi.short_name #.lower()
+                    name = gi.short_name  # .lower()
                 l2.append((name, id))
                 for n in gi.altnames:
-                    name = n #.lower()
+                    name = n  # .lower()
                     l3.append((name, id, n))
             l1.sort()
             l2.sort()
@@ -652,10 +701,9 @@ def registerGame(gameinfo):
 
 
 def loadGame(modname, filename, check_game=False):
-    ##print "load game", modname, filename
+    # print "load game", modname, filename
     GAME_DB.check_game = check_game
     GAME_DB.current_filename = filename
-    module = imp.load_source(modname, filename)
-    ##execfile(filename, globals(), globals())
+    imp.load_source(modname, filename)
+    # execfile(filename, globals(), globals())
     GAME_DB.current_filename = None
-

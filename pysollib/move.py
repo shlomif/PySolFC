@@ -1,26 +1,31 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-##---------------------------------------------------------------------------##
-##
-## Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
-## Copyright (C) 2003 Mt. Hood Playing Card Co.
-## Copyright (C) 2005-2009 Skomoroh
-##
-## This program is free software: you can redistribute it and/or modify
-## it under the terms of the GNU General Public License as published by
-## the Free Software Foundation, either version 3 of the License, or
-## (at your option) any later version.
-##
-## This program is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-## GNU General Public License for more details.
-##
-## You should have received a copy of the GNU General Public License
-## along with this program.  If not, see <http://www.gnu.org/licenses/>.
-##
-##---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------##
+#
+#  Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
+#  Copyright (C) 2003 Mt. Hood Playing Card Co.
+#  Copyright (C) 2005-2009 Skomoroh
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# ---------------------------------------------------------------------------##
 
+import sys
+
+if sys.version_info > (3,):
+    def cmp(a, b):
+        return ((b > a)-(a > b))
 
 # imports
 
@@ -29,14 +34,14 @@
 # * moves (undo / redo)
 # ************************************************************************
 
-## Currently we have the following atomic moves:
-## - move the top cards from one stack on the top of another
-## - flip the top card of a stack
-## - turn a whole stack onto another stack
-## - update the model or complete view a stack
-## - increase the round (the number of redeals)
-## - save the seed of game.random
-## - shuffle a stack
+# Currently we have the following atomic moves:
+# - move the top cards from one stack on the top of another
+# - flip the top card of a stack
+# - turn a whole stack onto another stack
+# - update the model or complete view a stack
+# - increase the round (the number of redeals)
+# - save the seed of game.random
+# - shuffle a stack
 
 class AtomicMove:
 
@@ -45,6 +50,7 @@ class AtomicMove:
 
     def __repr__(self):
         return str(self.__dict__)
+
     def __str__(self):
         return str(self.__dict__)
 
@@ -69,7 +75,8 @@ class AMoveMove(AtomicMove):
     # do the actual move
     def _doMove(self, game, ncards, from_stack, to_stack):
         if game.moves.state == game.S_PLAY:
-            assert to_stack.acceptsCards(from_stack, from_stack.cards[-ncards:])
+            assert to_stack.acceptsCards(
+                from_stack, from_stack.cards[-ncards:])
         frames = self.frames
         if frames == -2 and game.moves.state not in (game.S_UNDO, game.S_REDO):
             # don't use animation for drag-move
@@ -112,7 +119,7 @@ class AFlipMove(AtomicMove):
     # do the actual move
     def _doMove(self, game, stack):
         card = stack.cards[-1]
-        ##game.animatedFlip(stack)
+        # game.animatedFlip(stack)
         if card.face_up:
             card.showBack()
         else:
@@ -127,6 +134,7 @@ class AFlipMove(AtomicMove):
     def cmpForRedo(self, other):
         return cmp(self.stack_id, other.stack_id)
 
+
 # flip with animation
 class ASingleFlipMove(AFlipMove):
     def _doMove(self, game, stack):
@@ -136,6 +144,7 @@ class ASingleFlipMove(AFlipMove):
             card.showBack()
         else:
             card.showFace()
+
 
 # flip and move one card
 class AFlipAndMoveMove(AtomicMove):
@@ -228,15 +237,15 @@ class ATurnStackMove(AtomicMove):
         assert len(to_stack.cards) == 0
         l = len(from_stack.cards)
         for i in range(l):
-            ##unhide = (i >= l - 2)
+            # unhide = (i >= l - 2)
             unhide = 1
-            ##print 1, unhide, from_stack.getCard().__dict__
+            # print 1, unhide, from_stack.getCard().__dict__
             card = from_stack.removeCard(unhide=unhide, update=0)
-            ##print 2, unhide, card.__dict__
+            # print 2, unhide, card.__dict__
             assert card.face_up
             to_stack.addCard(card, unhide=unhide, update=0)
             card.showBack(unhide=unhide)
-            ##print 3, unhide, to_stack.getCard().__dict__
+            # print 3, unhide, to_stack.getCard().__dict__
         from_stack.updateText()
         to_stack.updateText()
 
@@ -247,7 +256,7 @@ class ATurnStackMove(AtomicMove):
         assert len(to_stack.cards) == 0
         l = len(from_stack.cards)
         for i in range(l):
-            ##unhide = (i >= l - 2)
+            # unhide = (i >= l - 2)
             unhide = 1
             card = from_stack.removeCard(unhide=unhide, update=0)
             assert not card.face_up
@@ -299,7 +308,8 @@ class NEW_ATurnStackMove(AtomicMove):
         to_stack = game.allstacks[self.to_stack_id]
         if self.update_flags & 1:
             assert to_stack is game.s.talon
-            assert to_stack.round < to_stack.max_rounds or to_stack.max_rounds < 0
+            assert to_stack.round < to_stack.max_rounds or \
+                to_stack.max_rounds < 0
             to_stack.round = to_stack.round + 1
         self._doMove(from_stack, to_stack, 0)
 
@@ -349,7 +359,8 @@ class AUpdateStackMove(AtomicMove):
             self._doMove(game, game.allstacks[self.stack_id], 1)
 
     def cmpForRedo(self, other):
-        return cmp(self.stack_id, other.stack_id) or cmp(self.flags, other.flags)
+        return cmp(self.stack_id, other.stack_id) or \
+            cmp(self.flags, other.flags)
 
 
 AUpdateStackModelMove = AUpdateStackMove
@@ -484,7 +495,8 @@ class ASingleCardMove(AtomicMove):
         to_stack = game.allstacks[self.to_stack_id]
         from_pos = self.from_pos
         if game.moves.state == game.S_PLAY:
-            assert to_stack.acceptsCards(from_stack, [from_stack.cards[from_pos]])
+            assert to_stack.acceptsCards(
+                from_stack, [from_stack.cards[from_pos]])
         card = from_stack.cards[from_pos]
         card = from_stack.removeCard(card, update_positions=1)
         if self.frames != 0:
@@ -492,19 +504,19 @@ class ASingleCardMove(AtomicMove):
             game.animatedMoveTo(from_stack, to_stack, [card], x, y,
                                 frames=self.frames, shadow=self.shadow)
         to_stack.addCard(card)
-        ##to_stack.refreshView()
+        # to_stack.refreshView()
 
     def undo(self, game):
         from_stack = game.allstacks[self.from_stack_id]
         to_stack = game.allstacks[self.to_stack_id]
         from_pos = self.from_pos
         card = to_stack.removeCard()
-##         if self.frames != 0:
-##             x, y = to_stack.getPositionFor(card)
-##             game.animatedMoveTo(from_stack, to_stack, [card], x, y,
-##                                 frames=self.frames, shadow=self.shadow)
+        # if self.frames != 0:
+        #  x, y = to_stack.getPositionFor(card)
+        #  game.animatedMoveTo(from_stack, to_stack, [card], x, y,
+        #                      frames=self.frames, shadow=self.shadow)
         from_stack.insertCard(card, from_pos)
-        ##to_stack.refreshView()
+        # to_stack.refreshView()
 
     def cmpForRedo(self, other):
         return cmp((self.from_stack_id, self.to_stack_id, self.from_pos),
@@ -522,12 +534,13 @@ class AInnerMove(AtomicMove):
         self.from_pos, self.to_pos = from_pos, to_pos
 
     def redo(self, game):
-        stack = game.allstacks[self.stack_id]
+        # stack = game.allstacks[self.stack_id]
+        pass
 
     def undo(self, game):
-        stack = game.allstacks[self.stack_id]
+        # stack = game.allstacks[self.stack_id]
+        pass
 
     def cmpForRedo(self, other):
         return cmp((self.stack_id, self.from_pos, self.to_pos),
                    (other.stack_id, other.from_pos, other.to_pos))
-

@@ -2,9 +2,15 @@
 # -*- mode: python; coding: utf-8; -*-
 
 import gettext
+import sys
+
+if sys.version_info > (3,):
+    unicode = str
+
 
 def n_(x):
     return x
+
 
 def fix_gettext():
     def ugettext(message):
@@ -19,6 +25,7 @@ def fix_gettext():
             return message
         return t.ugettext(message)
     gettext.ugettext = ugettext
+
     def ungettext(msgid1, msgid2, n):
         # unicoded ngettext
         if not isinstance(msgid1, unicode):
@@ -36,6 +43,7 @@ def fix_gettext():
                 return msgid2
         return t.ungettext(msgid1, msgid2, n)
     gettext.ungettext = ungettext
+
 
 fix_gettext()
 _ = gettext.ugettext

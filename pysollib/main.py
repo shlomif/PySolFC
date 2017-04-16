@@ -1,41 +1,44 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-##---------------------------------------------------------------------------##
-##
-## Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
-## Copyright (C) 2003 Mt. Hood Playing Card Co.
-## Copyright (C) 2005-2009 Skomoroh
-##
-## This program is free software: you can redistribute it and/or modify
-## it under the terms of the GNU General Public License as published by
-## the Free Software Foundation, either version 3 of the License, or
-## (at your option) any later version.
-##
-## This program is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-## GNU General Public License for more details.
-##
-## You should have received a copy of the GNU General Public License
-## along with this program.  If not, see <http://www.gnu.org/licenses/>.
-##
-##---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------##
+#
+#  Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
+#  Copyright (C) 2003 Mt. Hood Playing Card Co.
+#  Copyright (C) 2005-2009 Skomoroh
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# ---------------------------------------------------------------------------##
 
 
 # imports
-import sys, os
+import os
+import sys
 import traceback
 import getopt
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.util import DataLoader
 from pysollib.mfxutil import print_err
 from pysollib.resource import Tile
 from pysollib.app import Application
 from pysollib.gamedb import GAME_DB
-from pysollib.pysolaudio import AbstractAudioClient, PysolSoundServerModuleClient
-from pysollib.pysolaudio import Win32AudioClient, OSSAudioClient, PyGameAudioClient
+from pysollib.pysolaudio import AbstractAudioClient, \
+        PysolSoundServerModuleClient
+from pysollib.pysolaudio import Win32AudioClient, OSSAudioClient, \
+        PyGameAudioClient
 from pysollib.settings import TITLE, SOUND_MOD
 from pysollib.winsystems import init_root_window
 
@@ -52,15 +55,15 @@ from pysollib.pysoltk import PysolProgressBar
 
 def fatal_no_cardsets(app):
     app.wm_withdraw()
-    d = MfxMessageDialog(app.top, title=_("%s installation error") % TITLE,
-                         text=_('''No cardsets were found !!!
+    MfxMessageDialog(app.top, title=_("%s installation error") % TITLE,
+                     text=_('''No cardsets were found !!!
 
 Main data directory is:
 %s
 
 Please check your %s installation.
 ''') % (app.dataloader.dir, TITLE),
-                         bitmap="error", strings=(_("&Quit"),))
+                     bitmap="error", strings=(_("&Quit"),))
 
 
 # ************************************************************************
@@ -77,17 +80,17 @@ def parse_option(argv):
                                        "nosound",
                                        "sound-mod=",
                                        "help"])
-    except getopt.GetoptError, err:
+    except getopt.GetoptError as err:
         print_err(_("%s\ntry %s --help for more information") %
                   (err, prog_name), 0)
         return None
-    opts = {"help"        : False,
-            "game"        : None,
-            "gameid"      : None,
-            "french-only" : False,
-            "noplugins"   : False,
-            "nosound"     : False,
-            "sound-mod"   : None,
+    opts = {"help": False,
+            "game": None,
+            "gameid": None,
+            "french-only": False,
+            "noplugins": False,
+            "nosound": False,
+            "sound-mod": None,
             }
     for i in optlist:
         if i[0] in ("-h", "--help"):
@@ -107,7 +110,7 @@ def parse_option(argv):
             opts["sound-mod"] = i[1]
 
     if opts["help"]:
-        print _("""Usage: %s [OPTIONS] [FILE]
+        print(_("""Usage: %s [OPTIONS] [FILE]
   -g    --game=GAMENAME        start game GAMENAME
   -i    --gameid=GAMEID
         --french-only
@@ -118,7 +121,7 @@ def parse_option(argv):
 
   FILE - file name of a saved game
   MOD - one of following: pss(default), pygame, oss, win
-""") % prog_name
+""") % prog_name)
         return None
 
     if len(args) > 1:
@@ -137,6 +140,7 @@ def parse_option(argv):
 # ************************************************************************
 # *
 # ************************************************************************
+
 
 def pysol_init(app, args):
 
@@ -160,15 +164,16 @@ def pysol_init(app, args):
         app.dn.config,
         app.dn.savegames,
         os.path.join(app.dn.config, "music"),
-        ##os.path.join(app.dn.config, "screenshots"),
+        # os.path.join(app.dn.config, "screenshots"),
         os.path.join(app.dn.config, "tiles"),
         os.path.join(app.dn.config, "tiles", "stretch"),
         os.path.join(app.dn.config, "tiles", "save-aspect"),
         os.path.join(app.dn.config, "cardsets"),
         os.path.join(app.dn.config, "plugins"),
-        ):
+            ):
         if not os.path.exists(d):
-            try: os.makedirs(d)
+            try:
+                os.makedirs(d)
             except:
                 traceback.print_exc()
                 pass
@@ -218,6 +223,7 @@ def pysol_init(app, args):
         import pysollib.games.ultra
         import pysollib.games.mahjongg
         import pysollib.games.special
+        pysollib.games.special.no_use()
 
     # try to load plugins
     if not opts["noplugins"]:
@@ -305,7 +311,7 @@ Please check your %s installation.
     tile.filename = None
     manager.register(tile)
     app.initTiles()
-    if app.opt.tabletile_name: ### and top.winfo_screendepth() > 8:
+    if app.opt.tabletile_name:  # and top.winfo_screendepth() > 8:
         for tile in manager.getAll():
             if app.opt.tabletile_name == tile.basename:
                 app.tabletile_index = tile.index

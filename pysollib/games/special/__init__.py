@@ -25,3 +25,6 @@ import memory
 import pegged
 import poker
 import tarock
+
+def no_use():
+    pass

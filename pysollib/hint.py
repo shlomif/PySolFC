@@ -1,25 +1,25 @@
 #!/usr/bin/env pytho
 # -*- mode: python; coding: utf-8; -*-
-##---------------------------------------------------------------------------##
-##
-## Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
-## Copyright (C) 2003 Mt. Hood Playing Card Co.
-## Copyright (C) 2005-2009 Skomoroh
-##
-## This program is free software: you can redistribute it and/or modify
-## it under the terms of the GNU General Public License as published by
-## the Free Software Foundation, either version 3 of the License, or
-## (at your option) any later version.
-##
-## This program is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-## GNU General Public License for more details.
-##
-## You should have received a copy of the GNU General Public License
-## along with this program.  If not, see <http://www.gnu.org/licenses/>.
-##
-##---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------##
+#
+#  Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
+#  Copyright (C) 2003 Mt. Hood Playing Card Co.
+#  Copyright (C) 2005-2009 Skomoroh
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# ---------------------------------------------------------------------------##
 
 
 # imports
@@ -40,6 +40,7 @@ from pysollib.util import KING
 # *
 # * The whole hint system is exclusively used by Game.getHints().
 # ************************************************************************
+
 
 class HintInterface:
     # level == 0: show hint (key `H')
@@ -95,7 +96,7 @@ class AbstractHint(HintInterface):
         self.hints = []
         self.max_score = 0
         self.__destructClones()
-        self.solver_state = 'not_started';
+        self.solver_state = 'not_started'
 
     #
     # stack cloning
@@ -130,19 +131,22 @@ class AbstractHint(HintInterface):
     #
     # Pressing `Ctrl-H' (level 1) will preserve the score.
 
-    def addHint(self, score, ncards, from_stack, to_stack, text_color=None, forced_move=None):
+    def addHint(self, score, ncards, from_stack,
+                to_stack, text_color=None, forced_move=None):
         if score < 0:
             return
         self.max_score = max(self.max_score, score)
         # add an atomic hint
         if self.score_flatten_value > 0:
-            score = (score / self.score_flatten_value) * self.score_flatten_value
+            score = (score / self.score_flatten_value) * \
+                    self.score_flatten_value
         if text_color is None:
             text_color = self.BLACK
         assert forced_move is None or len(forced_move) == 7
         # pos is used for preserving the original sort order on equal scores
         pos = -len(self.hints)
-        ah = (int(score), pos, ncards, from_stack, to_stack, text_color, forced_move)
+        ah = (int(score), pos, ncards, from_stack, to_stack,
+              text_color, forced_move)
         self.hints.append(ah)
 
     # clean up and return hints sorted by score
@@ -198,13 +202,15 @@ class AbstractHint(HintInterface):
 
     # we move the pile if it is accepted by the target stack
     def _defaultShallMovePile(self, from_stack, to_stack, pile, rpile):
-        if from_stack is to_stack or not to_stack.acceptsCards(from_stack, pile):
+        if from_stack is to_stack or not \
+                to_stack.acceptsCards(from_stack, pile):
             return 0
         return 1
 
     # same, but check for loops
     def _cautiousShallMovePile(self, from_stack, to_stack, pile, rpile):
-        if from_stack is to_stack or not to_stack.acceptsCards(from_stack, pile):
+        if from_stack is to_stack or not \
+                to_stack.acceptsCards(from_stack, pile):
             return 0
         #
         if len(rpile) == 0:
@@ -219,7 +225,8 @@ class AbstractHint(HintInterface):
 
     # same, but only check for loops only when in demo mode
     def _cautiousDemoShallMovePile(self, from_stack, to_stack, pile, rpile):
-        if from_stack is to_stack or not to_stack.acceptsCards(from_stack, pile):
+        if from_stack is to_stack or not \
+                to_stack.acceptsCards(from_stack, pile):
             return 0
         if self.level >= 2:
             #
@@ -235,7 +242,6 @@ class AbstractHint(HintInterface):
 
     shallMovePile = _defaultShallMovePile
 
-
     #
     # other utility methods
     #
@@ -243,17 +249,17 @@ class AbstractHint(HintInterface):
     def _canDropAllCards(self, from_stack, stacks, stackcards):
         assert from_stack not in stacks
         return 0
-##         # FIXME: this does not account for cards which are dropped herein
-##         cards = pile[:]
-##         cards.reverse()
-##         for card in cards:
-##             for s in stacks:
-##                 if s is not from_stack:
-##                     if s.acceptsCards(from_stack, [card]):
-##                         break
-##             else:
-##                 return 0
-##         return 1
+        # FIXME: this does not account for cards which are dropped herein
+        #         cards = pile[:]
+        #         cards.reverse()
+        #         for card in cards:
+        #             for s in stacks:
+        #                 if s is not from_stack:
+        #                     if s.acceptsCards(from_stack, [card]):
+        #                         break
+        #             else:
+        #                 return 0
+        #         return 1
 
     #
     # misc. constants
@@ -281,7 +287,6 @@ class DefaultHint(AbstractHint):
     #
     # BTW, we do not cheat !
 
-
     #
     # bonus scoring used in _getXxxScore() below - subclass overrideable
     #
@@ -289,13 +294,12 @@ class DefaultHint(AbstractHint):
     def _preferHighRankMoves(self):
         return 0
 
-
     # Basic bonus for moving a card.
     # Bonus must be in range 0..999
 
-    BONUS_DROP_CARD      =  300        # 0..400
-    BONUS_SAME_SUIT_MOVE =  200        # 0..400
-    BONUS_NORMAL_MOVE    =  100        # 0..400
+    BONUS_DROP_CARD = 300        # 0..400
+    BONUS_SAME_SUIT_MOVE = 200        # 0..400
+    BONUS_NORMAL_MOVE = 100        # 0..400
 
     def _getMoveCardBonus(self, r, t, pile, rpile):
         assert pile
@@ -319,7 +323,6 @@ class DefaultHint(AbstractHint):
             bonus += self.BONUS_NORMAL_MOVE + (1 + pile[0].rank)
         return bonus
 
-
     # Special bonus for facing up a card after the current move.
     # Bonus must be in range 0..9000
 
@@ -333,12 +336,11 @@ class DefaultHint(AbstractHint):
         bonus = max(self.BONUS_FLIP_CARD - len(rpile), 0)
         return bonus
 
-
     # Special bonus for moving a pile from stack r to stack t.
     # Bonus must be in range 0..9000
 
-    BONUS_CREATE_EMPTY_ROW     = 9000        # 0..9000
-    BONUS_CAN_DROP_ALL_CARDS   = 4000        # 0..4000
+    BONUS_CREATE_EMPTY_ROW = 9000        # 0..9000
+    BONUS_CAN_DROP_ALL_CARDS = 4000        # 0..4000
     BONUS_CAN_CREATE_EMPTY_ROW = 2000        # 0..4000
 
     def _getMoveSpecialBonus(self, r, t, pile, rpile):
@@ -352,9 +354,10 @@ class DefaultHint(AbstractHint):
         if self._canDropAllCards(r, self.game.s.foundations, stackcards=rpile):
             # we can drop the whole remaining pile
             # (and will create an empty row in the next move)
-            ##print "BONUS_CAN_DROP_ALL_CARDS", r, pile, rpile
+            # print "BONUS_CAN_DROP_ALL_CARDS", r, pile, rpile
             self.bonus_color = self.RED
-            return self.BONUS_CAN_DROP_ALL_CARDS + self.BONUS_CAN_CREATE_EMPTY_ROW
+            return self.BONUS_CAN_DROP_ALL_CARDS + \
+                self.BONUS_CAN_CREATE_EMPTY_ROW
         # check if the cards below our pile are a whole row
         if r.canMoveCards(rpile):
             # could we move the remaining pile ?
@@ -366,11 +369,10 @@ class DefaultHint(AbstractHint):
                     continue
                 if x.acceptsCards(r, rpile):
                     # we can create an empty row in the next move
-                    ##print "BONUS_CAN_CREATE_EMPTY_ROW", r, x, pile, rpile
+                    # print "BONUS_CAN_CREATE_EMPTY_ROW", r, x, pile, rpile
                     self.bonus_color = self.BLUE
                     return self.BONUS_CAN_CREATE_EMPTY_ROW
         return 0
-
 
     #
     # scoring used in getHints() - subclass overrideable
@@ -387,24 +389,23 @@ class DefaultHint(AbstractHint):
         assert 0 <= b2 <= 999
         return score + b1 + b2, self.bonus_color
 
-
     # Score for moving a pile (usually a single card) from the WasteStack.
     def _getMoveWasteScore(self, score, color, r, t, pile, rpile):
         assert pile
         self.bonus_color = color
         score = 30000
-        if t.cards: score = 31000
+        if t.cards:
+            score = 31000
         b2 = self._getMoveCardBonus(r, t, pile, rpile)
         assert 0 <= b2 <= 999
         return score + b2, self.bonus_color
-
 
     # Score for dropping ncards from stack r to stack t.
     def _getDropCardScore(self, score, color, r, t, ncards):
         assert t is not r
         if ncards > 1:
-             # drop immediately (Spider)
-             return 93000, color
+            # drop immediately (Spider)
+            return 93000, color
         pile = r.cards
         c = pile[-1]
         # compute distance to t.cap.base_rank - compare Stack.getRankDir()
@@ -415,23 +416,23 @@ class DefaultHint(AbstractHint):
             if d > t.cap.mod / 2:
                 d = d - t.cap.mod
         if abs(d) <= 1:
-             # drop Ace and 2 immediately
-             score = 92000
+            # drop Ace and 2 immediately
+            score = 92000
         elif r in self.game.sg.talonstacks:
-             score = 25000              # less than _getMoveWasteScore()
+            score = 25000              # less than _getMoveWasteScore()
         elif len(pile) == 1:
-             ###score = 50000
-             score = 91000
-        elif self._canDropAllCards(r, self.game.s.foundations, stackcards=pile[:-1]):
-             score = 90000
-             color = self.RED
+            # score = 50000
+            score = 91000
+        elif self._canDropAllCards(
+                r, self.game.s.foundations, stackcards=pile[:-1]):
+            score = 90000
+            color = self.RED
         else:
-             # don't drop this card too eagerly - we may need it
-             # for pile moving
-             score = 50000
-        score = score + (self.K - c.rank)
+            # don't drop this card too eagerly - we may need it
+            # for pile moving
+            score = 50000
+        score += (self.K - c.rank)
         return score, color
-
 
     #
     # compute hints - main hint intelligence
@@ -462,7 +463,6 @@ class DefaultHint(AbstractHint):
 
         # Don't be too clever and give up ;-)
 
-
     #
     # implementation of the hint steps
     #
@@ -476,7 +476,8 @@ class DefaultHint(AbstractHint):
             t, ncards = r.canDropCards(self.game.s.foundations)
             if t:
                 score, color = 0, None
-                score, color = self._getDropCardScore(score, color, r, t, ncards)
+                score, color = self._getDropCardScore(
+                    score, color, r, t, ncards)
                 self.addHint(score, ncards, r, t, color)
                 if score >= 90000 and self.level >= 1:
                     break
@@ -493,7 +494,7 @@ class DefaultHint(AbstractHint):
         lp = len(pile)
         lr = len(r.cards)
         assert 1 <= lp <= lr
-        rpile = r.cards[ : (lr-lp) ]   # remaining pile
+        rpile = r.cards[: (lr-lp)]   # remaining pile
 
         empty_row_seen = 0
         r_is_waste = r in self.game.sg.talonstacks
@@ -504,7 +505,8 @@ class DefaultHint(AbstractHint):
                 continue
             if r_is_waste:
                 # moving a card from the WasteStack
-                score, color = self._getMoveWasteScore(score, color, r, t, pile, rpile)
+                score, color = self._getMoveWasteScore(
+                    score, color, r, t, pile, rpile)
             else:
                 if not t.cards:
                     # the target stack is empty
@@ -520,9 +522,9 @@ class DefaultHint(AbstractHint):
                 else:
                     # the target stack is not empty
                     score = 80000
-                score, color = self._getMovePileScore(score, color, r, t, pile, rpile)
+                score, color = self._getMovePileScore(
+                    score, color, r, t, pile, rpile)
             self.addHint(score, lp, r, t, color)
-
 
     # 2) try if we can move part of a pile within the RowStacks
     #    so that we can drop a card afterwards
@@ -548,21 +550,22 @@ class DefaultHint(AbstractHint):
                 # now try to make a move so that the drop-card will get free
                 for di in drop_info:
                     c = di[0]
-                    sub_pile = pile[di[3]+1 : ]
-                    ##print "trying drop move", c, pile, sub_pile
-                    ##assert r.canMoveCards(sub_pile)
+                    sub_pile = pile[di[3]+1:]
+                    # print "trying drop move", c, pile, sub_pile
+                    # assert r.canMoveCards(sub_pile)
                     if not r.canMoveCards(sub_pile):
                         continue
                     for t in rows:
                         if t is r or not t.acceptsCards(r, sub_pile):
                             continue
-                        ##print "drop move", r, t, sub_pile
+                        # print "drop move", r, t, sub_pile
                         score = 40000
                         score = score + 1000 + (self.K - r.getCard().rank)
                         # force the drop (to avoid loops)
                         force = (999999, 0, di[2], r, di[1], self.BLUE, None)
-                        self.addHint(score, len(sub_pile), r, t, self.RED, forced_move=force)
-
+                        self.addHint(
+                                score, len(sub_pile), r, t,
+                                self.RED, forced_move=force)
 
     # 3) try if we should move a card from a Foundation to a RowStack
     #    score: 20000 .. 29999
@@ -587,7 +590,7 @@ class DefaultHint(AbstractHint):
                     if not tt.acceptsCards(r, pile):
                         continue
                     # compute remaining pile in r
-                    rpile = r.cards[ : (len(r.cards)-len(pile)) ]
+                    rpile = r.cards[:(len(r.cards)-len(pile))]
                     rr = self.ClonedStack(r, stackcards=rpile)
                     if rr.acceptsCards(t, pile):
                         # the pile we are going to move from r to t
@@ -595,11 +598,10 @@ class DefaultHint(AbstractHint):
                         # dangerous as we can create loops...
                         continue
                     score = 20000 + card.rank
-                    ##print score, s, t, r, pile, rpile
+                    # print score, s, t, r, pile, rpile
                     # force the move from r to t (to avoid loops)
                     force = (999999, 0, len(pile), r, t, self.BLUE, None)
                     self.addHint(score, 1, s, t, self.BLUE, forced_move=force)
-
 
     # 4) try if we can move a card from a RowStack to a ReserveStack
     #    score: 10000 .. 19999
@@ -613,7 +615,7 @@ class DefaultHint(AbstractHint):
                 continue
             pile = [card]
             # compute remaining pile in r
-            rpile = r.cards[ : (len(r.cards)-len(pile)) ]
+            rpile = r.cards[:(len(r.cards)-len(pile))]
             rr = self.ClonedStack(r, stackcards=rpile)
             for t in reservestacks:
                 if t is r or not t.acceptsCards(r, pile):
@@ -624,17 +626,17 @@ class DefaultHint(AbstractHint):
                     # dangerous as we can create loops...
                     continue
                 score = 10000
-                score, color = self._getMovePileScore(score, None, r, t, pile, rpile)
+                score, color = self._getMovePileScore(
+                    score, None, r, t, pile, rpile)
                 self.addHint(score, len(pile), r, t, color)
                 break
-
 
     # 5) try if we should move a card from a ReserveStack to a RowStack
 
     def step050(self, reservestacks, rows):
         if not reservestacks:
             return
-        ### FIXME
+        # FIXME
 
 
 # ************************************************************************
@@ -643,7 +645,7 @@ class DefaultHint(AbstractHint):
 
 class CautiousDefaultHint(DefaultHint):
     shallMovePile = DefaultHint._cautiousShallMovePile
-    ##shallMovePile = DefaultHint._cautiousDemoShallMovePile
+    # shallMovePile = DefaultHint._cautiousDemoShallMovePile
 
     def _preferHighRankMoves(self):
         return 1
@@ -657,6 +659,7 @@ class CautiousDefaultHint(DefaultHint):
 class KlondikeType_Hint(DefaultHint):
     pass
 
+
 # this works for Yukon, but not too well for Russian Solitaire
 class YukonType_Hint(CautiousDefaultHint):
     def step010b_getPiles(self, stack):
@@ -668,14 +671,16 @@ class YukonType_Hint(CautiousDefaultHint):
             p = p[1:]       # note: we need a fresh shallow copy
         return piles
 
+
 class Yukon_Hint(YukonType_Hint):
     BONUS_FLIP_CARD = 9000
     BONUS_CREATE_EMPTY_ROW = 100
 
-    ## FIXME: this is only a rough approximation and doesn't seem to help
-    ##        for Russian Solitaire
+    # FIXME: this is only a rough approximation and doesn't seem to help
+    #        for Russian Solitaire
     def _getMovePileScore(self, score, color, r, t, pile, rpile):
-        s, color = YukonType_Hint._getMovePileScore(self, score, color, r, t, pile, rpile)
+        s, color = YukonType_Hint._getMovePileScore(
+            self, score, color, r, t, pile, rpile)
         bonus = s - score
         assert 0 <= bonus <= 9999
         # We must take care when moving piles that we won't block cards,
@@ -697,12 +702,13 @@ class Yukon_Hint(YukonType_Hint):
 class FreeCellType_Hint(CautiousDefaultHint):
     pass
 
+
 class GolfType_Hint(DefaultHint):
     pass
 
+
 class SpiderType_Hint(DefaultHint):
     pass
-
 
 
 # ************************************************************************
@@ -727,17 +733,17 @@ class Base_Solver_Hint:
             self.base_rank = game_type['base_rank']
         else:
             self.base_rank = game.s.foundations[0].cap.base_rank
-        ##print 'game_type:', game_type
-        ##print 'base_rank:', self.base_rank
+        # print 'game_type:', game_type
+        # print 'base_rank:', self.base_rank
 
     def config(self, **kw):
         self.options.update(kw)
-
 
     def card2str1(self, card):
         # row and reserves
         rank = (card.rank-self.base_rank) % 13
         return "A23456789TJQK"[rank] + "CSHD"[card.suit]
+
     def card2str2(self, card):
         # foundations
         rank = (card.rank-self.base_rank) % 13
@@ -749,7 +755,7 @@ class Base_Solver_Hint:
         if taken_hint and taken_hint[6]:
             return [taken_hint[6]]
         h = self.hints[self.hints_index]
-        #print 'getHints', taken_hint, h
+        # print 'getHints', taken_hint, h
         if h is None:
             return None
         ncards, src, dest = h
@@ -757,7 +763,7 @@ class Base_Solver_Hint:
         if len(src.cards) > ncards and not src.cards[-ncards-1].face_up:
             # flip card
             thint = (999999, 0, 1, src, src, None, None)
-        if dest == None:                 # foundation
+        if dest is None:                 # foundation
             cards = src.cards[-ncards:]
             for f in self.game.s.foundations:
                 if f.acceptsCards(src, cards):
@@ -766,7 +772,7 @@ class Base_Solver_Hint:
         assert dest
         hint = (999999, 0, ncards, src, dest, None, thint)
         self.hints_index += 1
-        #print hint
+        # print hint
         return [hint]
 
     def colonPrefixMatch(self, prefix, s):
@@ -777,6 +783,7 @@ class Base_Solver_Hint:
         else:
             self._v = None
             return False
+
 
 class FreeCellSolver_Hint(Base_Solver_Hint):
     def _determineIfSolverState(self, line):
@@ -791,7 +798,8 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
 
     def _isSimpleSimon(self):
         game_type = self.game_type
-        return ('preset' in game_type and game_type['preset'] == 'simple_simon')
+        return ('preset' in game_type and
+                game_type['preset'] == 'simple_simon')
 
     def _addBoardLine(self, l):
         self.board += l + '\n'
@@ -811,7 +819,8 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
         b = ''
         for s in game.s.foundations:
             if s.cards:
-                b += ' ' + self.card2str2(s.cards[0 if is_simple_simon else -1])
+                b += ' ' + self.card2str2(
+                    s.cards[0 if is_simple_simon else -1])
         self._addPrefixLine('Founds:', b)
 
         b = ''
@@ -830,7 +839,6 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
 
         return self.board
 
-
     def computeHints(self):
         game = self.game
         game_type = self.game_type
@@ -839,10 +847,10 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
         board = self.calcBoardString()
         #
         if DEBUG:
-            print '--------------------\n', board, '--------------------'
+            print('--------------------\n', board, '--------------------')
         #
         args = []
-        ##args += ['-sam', '-p', '-opt', '--display-10-as-t']
+        # args += ['-sam', '-p', '-opt', '--display-10-as-t']
         args += ['-m', '-p', '-opt', '-sel']
         if progress:
             args += ['--iter-output']
@@ -867,7 +875,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
 
         command = FCS_COMMAND+' '+' '.join([str(i) for i in args])
         if DEBUG:
-            print command
+            print(command)
         kw = {'shell': True,
               'stdin': subprocess.PIPE,
               'stdout': subprocess.PIPE,
@@ -880,9 +888,9 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
         pin.close()
         #
         stack_types = {
-            'the'      : game.s.foundations,
-            'stack'    : game.s.rows,
-            'freecell' : game.s.reserves,
+            'the': game.s.foundations,
+            'stack': game.s.rows,
+            'freecell': game.s.reserves,
             }
         if DEBUG:
             start_time = time.time()
@@ -894,7 +902,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
 
             for s in pout:
                 if DEBUG >= 5:
-                    print s,
+                    print(s)
 
                 if self.colonPrefixMatch('Iteration', s):
                     iter = self._v
@@ -914,7 +922,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
         hints = []
         for s in pout:
             if DEBUG:
-                print s,
+                print(s)
             if self._determineIfSolverState(s):
                 next
             m = re.match('Total number of states checked is (\d+)\.', s)
@@ -934,7 +942,9 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
 
             move_s = m.group(1)
 
-            m = re.match('the sequence on top of Stack (\d+) to the foundations', move_s);
+            m = re.match(
+                'the sequence on top of Stack (\d+) to the foundations',
+                move_s)
 
             if m:
                 ncards = 13
@@ -943,7 +953,12 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                 src = st[sn]
                 dest = None
             else:
-                m = re.match('(?P<ncards>a card|(?P<count>\d+) cards) from (?P<source_type>stack|freecell) (?P<source_idx>\d+) to (?P<dest>the foundations|(?P<dest_type>freecell|stack) (?P<dest_idx>\d+))\s*', move_s);
+                m = re.match(
+                    '(?P<ncards>a card|(?P<count>\d+) cards) '
+                    'from (?P<source_type>stack|freecell)'
+                    '(?P<source_idx>\d+) to '
+                    '(?P<dest>the foundations|(?P<dest_type>freecell|stack)'
+                    ' (?P<dest_idx>\d+))\s*', move_s)
 
                 if not m:
                     continue
@@ -969,24 +984,25 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                     dest = dt[dn]
 
             hints.append([ncards, src, dest])
-            ##print src, dest, ncards
+            # print src, dest, ncards
 
         #
         if DEBUG:
-            print 'time:', time.time()-start_time
-        ##print perr.read(),
+            print('time:', time.time()-start_time)
+        # print perr.read(),
 
         self.hints = hints
         if len(hints) > 0:
             self.solver_state = 'solved'
         self.hints.append(None)         # XXX
 
-        ##print self.hints
+        # print self.hints
 
         pout.close()
         perr.close()
         if os.name == 'posix':
             os.wait()
+
 
 class BlackHoleSolver_Hint(Base_Solver_Hint):
     BLACK_HOLE_SOLVER_COMMAND = 'black-hole-solve'
@@ -1008,27 +1024,27 @@ class BlackHoleSolver_Hint(Base_Solver_Hint):
                 b += cs + ' '
             board += b.strip() + '\n'
 
-        return board;
+        return board
 
     def computeHints(self):
         game = self.game
         game_type = self.game_type
-        progress = self.options['progress']
 
         board = self.calcBoardString()
         #
         if DEBUG:
-            print '--------------------\n', board, '--------------------'
+            print('--------------------\n', board, '--------------------')
         #
         args = []
-        ##args += ['-sam', '-p', '-opt', '--display-10-as-t']
-        args += ['--game', game_type['preset'], '--rank-reach-prune',]
-        args += ['--max-iters', self.options['max_iters'],]
+        # args += ['-sam', '-p', '-opt', '--display-10-as-t']
+        args += ['--game', game_type['preset'], '--rank-reach-prune']
+        args += ['--max-iters', self.options['max_iters']]
         #
 
-        command = self.BLACK_HOLE_SOLVER_COMMAND+' '+' '.join([str(i) for i in args])
+        command = self.BLACK_HOLE_SOLVER_COMMAND + ' ' + \
+            ' '.join([str(i) for i in args])
         if DEBUG:
-            print command
+            print(command)
         kw = {'shell': True,
               'stdin': subprocess.PIPE,
               'stdout': subprocess.PIPE,
@@ -1051,7 +1067,7 @@ class BlackHoleSolver_Hint(Base_Solver_Hint):
 
         for s in pout:
             if DEBUG >= 5:
-                print s,
+                print(s)
 
             m = re.search('^(Intractable!|Unsolved!|Solved!)\n', s)
             if m:
@@ -1071,7 +1087,7 @@ class BlackHoleSolver_Hint(Base_Solver_Hint):
         hints = []
         for s in pout:
             if DEBUG:
-                print s,
+                print(s)
             m = re.match('Total number of states checked is (\d+)\.', s)
             if m:
                 iter = int(m.group(1))
@@ -1085,7 +1101,8 @@ class BlackHoleSolver_Hint(Base_Solver_Hint):
                 self.dialog.setText(states=states)
                 continue
 
-            m = re.match('Move a card from stack ([0-9]+) to the foundations', s)
+            m = re.match(
+                'Move a card from stack ([0-9]+) to the foundations', s)
             if not m:
                 continue
 
@@ -1097,22 +1114,23 @@ class BlackHoleSolver_Hint(Base_Solver_Hint):
             dest = None
 
             hints.append([ncards, src, dest])
-            ##print src, dest, ncards
+            # print src, dest, ncards
 
         #
         if DEBUG:
-            print 'time:', time.time()-start_time
-        ##print perr.read(),
+            print('time:', time.time()-start_time)
+        # print perr.read(),
 
         self.hints = hints
         self.hints.append(None)         # XXX
 
-        ##print self.hints
+        # print self.hints
 
         pout.close()
         perr.close()
         if os.name == 'posix':
             os.wait()
+
 
 class FreeCellSolverWrapper:
 
@@ -1123,6 +1141,7 @@ class FreeCellSolverWrapper:
         hint = FreeCellSolver_Hint(game, dialog, **self.game_type)
         return hint
 
+
 class BlackHoleSolverWrapper:
 
     def __init__(self, **game_type):
@@ -1131,4 +1150,3 @@ class BlackHoleSolverWrapper:
     def __call__(self, game, dialog):
         hint = BlackHoleSolver_Hint(game, dialog, **self.game_type)
         return hint
-

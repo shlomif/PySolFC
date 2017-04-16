@@ -1,38 +1,76 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-##---------------------------------------------------------------------------##
-##
-## Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
-## Copyright (C) 2003 Mt. Hood Playing Card Co.
-## Copyright (C) 2005-2009 Skomoroh
-##
-## This program is free software: you can redistribute it and/or modify
-## it under the terms of the GNU General Public License as published by
-## the Free Software Foundation, either version 3 of the License, or
-## (at your option) any later version.
-##
-## This program is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-## GNU General Public License for more details.
-##
-## You should have received a copy of the GNU General Public License
-## along with this program.  If not, see <http://www.gnu.org/licenses/>.
-##
-##---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------##
+#
+#  Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
+#  Copyright (C) 2003 Mt. Hood Playing Card Co.
+#  Copyright (C) 2005-2009 Skomoroh
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# ---------------------------------------------------------------------------##
 
+import sys
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.stack import *
+from pysollib.util import ACE, ANY_RANK, ANY_SUIT, \
+    KING, \
+    UNLIMITED_MOVES
+from pysollib.stack import Spider_AC_Foundation, \
+        AC_RowStack, \
+        BO_RowStack, \
+        DealReserveRedealTalonStack, \
+        DealRowRedealTalonStack, \
+        RK_RowStack, \
+        GroundsForADivorceTalonStack, \
+        InitialDealTalonStack, \
+        OpenStack, \
+        ReserveStack, \
+        Spider_AC_RowStack, \
+        Spider_RK_Foundation, \
+        Spider_SS_Foundation, \
+        Spider_SS_RowStack, \
+        SpiderTalonStack, \
+        SC_RowStack, \
+        SS_RowStack, \
+        StackWrapper, \
+        SuperMoveAC_RowStack, \
+        SuperMoveBO_RowStack, \
+        SuperMoveRK_RowStack, \
+        SuperMoveSC_RowStack, \
+        SuperMoveSS_RowStack, \
+        UD_AC_RowStack, \
+        UD_RK_RowStack, \
+        UD_SC_RowStack, \
+        UD_SS_RowStack, \
+        WasteStack, \
+        WasteTalonStack, \
+        Yukon_AC_RowStack, \
+        Yukon_SS_RowStack, \
+        Yukon_RK_RowStack
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint, Yukon_Hint
+from pysollib.hint import Yukon_Hint
 
 from pysollib.wizardutil import WizardWidgets
 
 # ************************************************************************
 # *
 # ************************************************************************
+
+if sys.version_info > (3,):
+    basestring = str
+
 
 def get_settings(ss):
     s = {}
@@ -54,7 +92,7 @@ class CustomGame(Game):
     def createGame(self):
 
         s = get_settings(self.SETTINGS)
-        ##from pprint import pprint; pprint(s)
+        # from pprint import pprint; pprint(s)
 
         # foundations
         kw = {
@@ -119,10 +157,10 @@ class CustomGame(Game):
 
         # layout
         layout_kw = {
-            'rows'     : s['rows_num'],
-            'reserves' : s['reserves_num'],
-            'waste'    : False,
-            'texts'    : True,
+            'rows': s['rows_num'],
+            'reserves': s['reserves_num'],
+            'waste': False,
+            'texts': True,
             }
         playcards = 0
         if s['talon'] is InitialDealTalonStack:
@@ -154,12 +192,13 @@ class CustomGame(Game):
             layout_kw['waste'] = True
             layout_kw['waste_class'] = WasteStack
 
-        Layout(self).createGame(layout_method    = s['layout'],
-                                talon_class      = talon,
-                                foundation_class = foundation,
-                                row_class        = row,
-                                **layout_kw
-                                )
+        Layout(self).createGame(
+            layout_method=s['layout'],
+            talon_class=talon,
+            foundation_class=foundation,
+            row_class=row,
+            **layout_kw
+        )
 
         # shuffle
         if s['talon_shuffle'] and s['talon'] in (WasteTalonStack,
@@ -227,7 +266,6 @@ class CustomGame(Game):
                               Yukon_RK_RowStack):
             self.Hint_Class = Yukon_Hint
 
-
     def _shuffleHook(self, cards):
         s = get_settings(self.SETTINGS)
         if not s['deal_found']:
@@ -243,7 +281,6 @@ class CustomGame(Game):
         return self._shuffleHookMoveToTop(
             cards,
             lambda c, rank=base_card: (c.rank == rank, c.suit))
-
 
     def startGame(self):
 
@@ -269,7 +306,8 @@ class CustomGame(Game):
             max_cards = s['deal_max_cards']
 
         min_cards = max(len(self.s.rows), 8)
-        max_rows = s['deal_face_down'] + s['deal_face_up'] + s['deal_to_reserves']
+        max_rows = s['deal_face_down'] + s['deal_face_up'] \
+            + s['deal_to_reserves']
         if max_rows <= 1:
             min_cards = max_cards
 
@@ -330,4 +368,3 @@ def registerCustomGame(gameclass):
     registerGame(GameInfo(gameid, gameclass, s['name'],
                           GI.GT_CUSTOM | GI.GT_ORIGINAL,
                           s['decks'], s['redeals'], s['skill_level']))
-

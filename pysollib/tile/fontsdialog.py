@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 #
 # Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
 # Copyright (C) 2003 Mt. Hood Playing Card Co.
@@ -19,7 +19,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 
 __all__ = ['FontsDialog']
 
@@ -30,7 +30,7 @@ import tkFont
 
 # PySol imports
 from pysollib.mfxutil import KwStruct
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 
 # Toolkit imports
 from tkwidget import MfxDialog
@@ -44,14 +44,14 @@ from tkwidget import PysolScale
 
 class FontChooserDialog(MfxDialog):
     def __init__(self, parent, title, init_font, **kw):
-        ##print init_font
+        # print init_font
         kw = self.initKw(kw)
         MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)
         self.createBitmaps(top_frame, kw)
 
         self.font_family = 'Helvetica'
-        self.font_size =  12
+        self.font_size = 12
         self.font_weight = 'normal'
         self.font_slant = 'roman'
 
@@ -74,7 +74,7 @@ class FontChooserDialog(MfxDialog):
                     else:
                         raise ValueError('invalid font style: '+init_font[3])
 
-        #self.family_var = Tkinter.StringVar()
+        # self.family_var = Tkinter.StringVar()
         self.weight_var = Tkinter.BooleanVar()
         self.weight_var.set(self.font_weight == 'bold')
         self.slant_var = Tkinter.BooleanVar()
@@ -85,7 +85,7 @@ class FontChooserDialog(MfxDialog):
         frame = ttk.Frame(top_frame)
         frame.pack(expand=True, fill='both', padx=5, pady=10)
         frame.columnconfigure(0, weight=1)
-        #frame.rowconfigure(1, weight=1)
+        # frame.rowconfigure(1, weight=1)
         self.entry = ttk.Entry(frame)
         self.entry.grid(row=0, column=0, columnspan=2, sticky='news')
         self.entry.insert('end', _('abcdefghABCDEFGH'))
@@ -93,10 +93,10 @@ class FontChooserDialog(MfxDialog):
         sb = ttk.Scrollbar(frame)
         self.list_box.configure(yscrollcommand=sb.set)
         sb.configure(command=self.list_box.yview)
-        self.list_box.grid(row=1, column=0, sticky='news') # rowspan=4
+        self.list_box.grid(row=1, column=0, sticky='news')  # rowspan=4
         sb.grid(row=1, column=1, sticky='ns')
         bind(self.list_box, '<<ListboxSelect>>', self.fontupdate)
-        ##self.list_box.focus()
+        # self.list_box.focus()
         cb1 = ttk.Checkbutton(frame, text=_('Bold'),
                               command=self.fontupdate,
                               variable=self.weight_var)
@@ -151,6 +151,7 @@ class FontChooserDialog(MfxDialog):
 # *
 # ************************************************************************
 
+
 class FontsDialog(MfxDialog):
     def __init__(self, parent, title, app, **kw):
         kw = self.initKw(kw)
@@ -164,7 +165,7 @@ class FontsDialog(MfxDialog):
 
         self.fonts = {}
         row = 0
-        for fn, title in (##('default',        _('Default')),
+        for fn, title in (  # ('default',        _('Default')),
                           ('sans',           _('HTML: ')),
                           ('small',          _('Small: ')),
                           ('fixed',          _('Fixed: ')),
@@ -178,7 +179,8 @@ class FontsDialog(MfxDialog):
             ttk.Label(frame, text=title, anchor='w'
                       ).grid(row=row, column=0, sticky='we')
             if font:
-                title = ' '.join([str(i) for i in font if i not in ('roman', 'normal')])
+                title = ' '.join(
+                    [str(i) for i in font if i not in ('roman', 'normal')])
             elif font is None:
                 title = 'Default'
             l = ttk.Label(frame, font=font, text=title)
@@ -191,14 +193,13 @@ class FontsDialog(MfxDialog):
         focus = self.createButtons(bottom_frame, kw)
         self.mainloop(focus, kw.timeout)
 
-
     def selectFont(self, label, fn):
         d = FontChooserDialog(self.top, _('Select font'), self.fonts[fn])
         if d.status == 0 and d.button == 0:
             self.fonts[fn] = d.font
-            title = ' '.join([str(i) for i in d.font if i not in ('roman', 'normal')])
+            title = ' '.join(
+                [str(i) for i in d.font if i not in ('roman', 'normal')])
             label.configure(font=d.font, text=title)
-
 
     def initKw(self, kw):
         kw = KwStruct(kw,
@@ -206,7 +207,3 @@ class FontsDialog(MfxDialog):
                       default=0,
                       )
         return MfxDialog.initKw(self, kw)
-
-
-
-

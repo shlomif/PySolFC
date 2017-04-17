@@ -24,21 +24,26 @@
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.mfxutil import kwdefault
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.hint import CautiousDefaultHint
 
+from pysollib.util import KING
+
+from pysollib.stack import \
+        AC_RowStack, \
+        InitialDealTalonStack, \
+        OpenStack, \
+        SS_FoundationStack, \
+        SS_RowStack
 
 # ************************************************************************
 # * Heads and Tails
 # ************************************************************************
+
 
 class HeadsAndTails_Reserve(OpenStack):
     def canFlipCard(self):
@@ -109,7 +114,7 @@ class HeadsAndTails(Game):
     def fillStack(self, stack):
         if stack in self.s.rows and not stack.cards:
             reserves = self.s.reserves
-            si = list(self.s.rows).index(stack)%8
+            si = list(self.s.rows).index(stack) % 8
             from_stack = None
             if reserves[si].cards:
                 from_stack = reserves[si]
@@ -209,4 +214,3 @@ registerGame(GameInfo(307, HeadsAndTails, "Heads and Tails",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(708, Barrier, "Barrier",
                       GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 0, GI.SL_BALANCED))
-

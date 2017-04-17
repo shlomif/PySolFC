@@ -24,24 +24,34 @@
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
 from pysollib.mfxutil import kwdefault
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.hint import CautiousDefaultHint
 from pysollib.hint import KlondikeType_Hint
 
 from spider import Spider_RowStack, Spider_SS_Foundation, Spider_Hint
 
+from pysollib.util import ACE, KING
+
+from pysollib.stack import \
+        AC_RowStack, \
+        BO_RowStack, \
+        KingAC_RowStack, \
+        SS_FoundationStack, \
+        Spider_SS_RowStack, \
+        StackWrapper, \
+        WasteStack, \
+        WasteTalonStack, \
+        SS_RowStack
 
 # ************************************************************************
 # * Double Klondike (Klondike with 2 decks and 9 rows)
 # ************************************************************************
+
 
 class DoubleKlondike(Game):
     Layout_Method = Layout.harpLayout
@@ -60,7 +70,8 @@ class DoubleKlondike(Game):
                                   max_rounds=max_rounds, num_deal=num_deal)
         s.waste = WasteStack(l.s.waste.x, l.s.waste.y, self)
         for r in l.s.foundations:
-            s.foundations.append(self.Foundation_Class(r.x, r.y, self, suit=r.suit))
+            s.foundations.append(
+                self.Foundation_Class(r.x, r.y, self, suit=r.suit))
         for r in l.s.rows:
             s.rows.append(self.RowStack_Class(r.x, r.y, self))
         # default
@@ -101,14 +112,17 @@ class Gargantua(DoubleKlondike):
     def createGame(self):
         DoubleKlondike.createGame(self, max_rounds=2)
 
+
 class Pantagruel(DoubleKlondike):
     RowStack_Class = AC_RowStack
+
     def createGame(self):
         DoubleKlondike.createGame(self, max_rounds=1)
 
 # ************************************************************************
 # * Harp (Double Klondike with 10 non-king rows and no redeal)
 # ************************************************************************
+
 
 class BigHarp(DoubleKlondike):
     RowStack_Class = AC_RowStack
@@ -159,6 +173,7 @@ class TripleKlondikeByThrees(DoubleKlondike):
 
 class ChineseKlondike(DoubleKlondike):
     RowStack_Class = StackWrapper(BO_RowStack, base_rank=KING)
+
     def createGame(self):
         DoubleKlondike.createGame(self, rows=12)
 
@@ -174,6 +189,7 @@ class LadyJane(DoubleKlondike):
 
     def createGame(self):
         DoubleKlondike.createGame(self, rows=10, max_rounds=2, num_deal=3)
+
     def startGame(self):
         DoubleKlondike.startGame(self, flip=1)
 
@@ -186,6 +202,7 @@ class Inquisitor(DoubleKlondike):
 
     def createGame(self):
         DoubleKlondike.createGame(self, rows=10, max_rounds=3, num_deal=3)
+
     def startGame(self):
         DoubleKlondike.startGame(self, flip=1)
     shallHighlightMatch = Game._shallHighlightMatch_SS
@@ -201,6 +218,7 @@ class Arabella(DoubleKlondike):
 
     def createGame(self):
         DoubleKlondike.createGame(self, rows=13, max_rounds=1, playcards=24)
+
     def startGame(self):
         DoubleKlondike.startGame(self, flip=1)
 
@@ -225,7 +243,8 @@ class BigDeal(DoubleKlondike):
         for i in range(2):
             y = l.YM
             for j in range(8):
-                s.foundations.append(SS_FoundationStack(x, y, self, suit=j%4))
+                s.foundations.append(
+                    SS_FoundationStack(x, y, self, suit=j % 4))
                 y += l.YS
             x += l.XS
         x, y = l.XM, self.height-l.YS
@@ -289,7 +308,7 @@ class ThievesOfEgypt(DoubleKlondike):
     def startGame(self):
         # rows: 1 3 5 7 9 10 8 6 4 2
         row = 0
-        for i in (0,2,4,6,8,9,7,5,3,1):
+        for i in (0, 2, 4, 6, 8, 9, 7, 5, 3, 1):
             for j in range(i):
                 self.s.talon.dealRow(rows=[self.s.rows[row]], frames=0)
             row += 1
@@ -322,7 +341,6 @@ class Brush(DoubleKlondike):
     getQuickPlayScore = Game._getSpiderQuickPlayScore
 
 
-
 # register the game
 registerGame(GameInfo(21, DoubleKlondike, "Double Klondike",
                       GI.GT_KLONDIKE, 2, -1, GI.SL_BALANCED))
@@ -347,10 +365,11 @@ registerGame(GameInfo(497, Arabella, "Arabella",
 registerGame(GameInfo(545, BigDeal, "Big Deal",
                       GI.GT_KLONDIKE | GI.GT_ORIGINAL, 4, 1, GI.SL_BALANCED))
 registerGame(GameInfo(562, Delivery, "Delivery",
-                      GI.GT_FORTY_THIEVES | GI.GT_ORIGINAL, 4, 0, GI.SL_BALANCED))
+                      GI.GT_FORTY_THIEVES | GI.GT_ORIGINAL, 4, 0,
+                      GI.SL_BALANCED))
 registerGame(GameInfo(590, ChineseKlondike, "Chinese Klondike",
                       GI.GT_KLONDIKE, 3, -1, GI.SL_BALANCED,
-                      suits=(0, 1, 2) ))
+                      suits=(0, 1, 2)))
 registerGame(GameInfo(591, Pantagruel, "Pantagruel",
                       GI.GT_KLONDIKE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(668, DoubleKingsley, "Double Kingsley",
@@ -358,5 +377,5 @@ registerGame(GameInfo(668, DoubleKingsley, "Double Kingsley",
 registerGame(GameInfo(678, ThievesOfEgypt, "Thieves of Egypt",
                       GI.GT_KLONDIKE, 2, 1, GI.SL_BALANCED))
 registerGame(GameInfo(689, Brush, "Brush",
-                      GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
-
+                      GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 0,
+                      GI.SL_MOSTLY_SKILL))

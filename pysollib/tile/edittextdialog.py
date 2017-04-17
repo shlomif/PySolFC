@@ -24,8 +24,6 @@
 __all__ = ['EditTextDialog']
 
 # imports
-import Tkinter
-import ttk
 
 # Toolkit imports
 from pysollib.tile.basetilemfxdialog import BaseTileMfxDialog
@@ -34,6 +32,7 @@ from pysollib.ui.tktile.edittextdialog import BaseEditTextDialog
 # ************************************************************************
 # *
 # ************************************************************************
+
 
 class EditTextDialog(BaseEditTextDialog, BaseTileMfxDialog):
 

@@ -30,5 +30,6 @@ from pysollib.tile.basetilemfxdialog import BaseTileMfxDialog
 # *
 # ************************************************************************
 
+
 class ColorsDialog(BaseColorsDialog, BaseTileMfxDialog):
     pass

@@ -24,16 +24,20 @@
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.mfxutil import kwdefault
-from pysollib.stack import *
+from pysollib.util import ACE, KING
+from pysollib.stack import \
+        DealRowTalonStack, \
+        ReserveStack, \
+        SS_FoundationStack, \
+        SS_RowStack, \
+        UD_SS_RowStack, \
+        StackWrapper
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.hint import CautiousDefaultHint
 
 
 # ************************************************************************
@@ -126,13 +130,14 @@ class Carthage(Game):
 class AlgerianPatience(Carthage):
 
     Foundation_Classes = (SS_FoundationStack,
-                          StackWrapper(SS_FoundationStack, base_rank=KING, dir=-1))
+                          StackWrapper(SS_FoundationStack, base_rank=KING,
+                                       dir=-1))
     RowStack_Class = StackWrapper(UD_SS_RowStack, mod=13)
 
     def _shuffleHook(self, cards):
         # move 4 Kings to top of the Talon
-        return self._shuffleHookMoveToTop(cards,
-               lambda c: (c.rank == KING and c.deck == 0, c.suit))
+        return self._shuffleHookMoveToTop(
+            cards, lambda c: (c.rank == KING and c.deck == 0, c.suit))
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations[4:], frames=0)
@@ -149,13 +154,12 @@ class AlgerianPatience3(Carthage):
         Carthage.createGame(self, rows=8, reserves=8, playcards=20)
 
     def _shuffleHook(self, cards):
-        return self._shuffleHookMoveToTop(cards,
-               lambda c: (c.rank == ACE, (c.deck, c.suit)))
+        return self._shuffleHookMoveToTop(
+            cards, lambda c: (c.rank == ACE, (c.deck, c.suit)))
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
         Carthage.startGame(self)
-
 
 
 # register the game
@@ -164,5 +168,5 @@ registerGame(GameInfo(321, Carthage, "Carthage",
 registerGame(GameInfo(322, AlgerianPatience, "Algerian Patience",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(457, AlgerianPatience3, "Algerian Patience (3 decks)",
-                      GI.GT_3DECK_TYPE | GI.GT_ORIGINAL, 3, 0, GI.SL_MOSTLY_SKILL))
-
+                      GI.GT_3DECK_TYPE | GI.GT_ORIGINAL, 3, 0,
+                      GI.SL_MOSTLY_SKILL))

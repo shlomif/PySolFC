@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 #
 # Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
 # Copyright (C) 2003 Mt. Hood Playing Card Co.
@@ -19,7 +19,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 
 __all__ = ['PysolProgressBar']
 
@@ -49,8 +49,8 @@ class PysolProgressBar:
         #
         self.frame = ttk.Frame(self.top, relief='flat', borderwidth=0)
         self.progress = ttk.Progressbar(self.frame, maximum=100, length=250)
-        ##style = ttk.Style(self.progress)
-        ##style.configure('TProgressbar', background=color)
+        # style = ttk.Style(self.progress)
+        # style.configure('TProgressbar', background=color)
         if images:
             self.f1 = ttk.Label(self.frame, image=images[0])
             self.f1.pack(side='left', ipadx=8, ipady=4)
@@ -83,7 +83,7 @@ class PysolProgressBar:
 
     def update(self, percent=None, step=1):
         self.steps_sum += step
-        ##print self.steps_sum
+        # print self.steps_sum
         step = step/self.norm
         if self.top is None:        # already destroyed
             return
@@ -95,7 +95,7 @@ class PysolProgressBar:
             return
         self.percent = min(100, max(0, self.percent))
         self.progress.config(value=self.percent)
-        ##self.top.update_idletasks()
+        # self.top.update_idletasks()
         self.top.update()
 
 
@@ -107,7 +107,8 @@ class PysolProgressBar:
 class TestProgressBar:
     def __init__(self, parent):
         self.parent = parent
-        self.progress = PysolProgressBar(None, parent, title="Progress", color="#008200")
+        self.progress = PysolProgressBar(
+            None, parent, title="Progress", color="#008200")
         self.progress.pack(ipadx=10, ipady=10)
         self.progress.frame.after(1000, self.update)
 
@@ -118,16 +119,16 @@ class TestProgressBar:
         self.progress.update(step=1)
         self.progress.frame.after(30, self.update)
 
+
 def progressbar_main(args):
     from pysollib.ui.tktile.tkutil import wm_withdraw
     tk = Tkinter.Tk()
     wm_withdraw(tk)
-    pb = TestProgressBar(tk)
+    TestProgressBar(tk)
     tk.mainloop()
     return 0
+
 
 if __name__ == "__main__":
     import sys
     sys.exit(progressbar_main(sys.argv))
-
-

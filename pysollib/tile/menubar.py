@@ -24,27 +24,20 @@
 __all__ = ['PysolMenubarTk']
 
 # imports
-import Tkinter
 import ttk
 
 # PySol imports
 from pysollib.mygettext import _, n_
 from pysollib.util import CARDSET
-from pysollib.settings import WIN_SYSTEM
-from pysollib.settings import SELECT_GAME_MENU
-from pysollib.settings import USE_FREECELL_SOLVER
-from pysollib.settings import DEBUG
 from pysollib.settings import TITLE
-from pysollib.gamedb import GI
 
 # toolkit imports
-from pysollib.ui.tktile.tkconst import EVENT_HANDLED, EVENT_PROPAGATE, CURSOR_WATCH, COMPOUNDS
-from pysollib.ui.tktile.tkutil import bind, after_idle
 from tkwidget import MfxMessageDialog
 from selectgame import SelectGameDialog, SelectGameDialogWithPreview
 from soundoptionsdialog import SoundOptionsDialog
 from selecttile import SelectTileDialogWithPreview
-from pysollib.ui.tktile.findcarddialog import connect_game_find_card_dialog, destroy_find_card_dialog
+from pysollib.ui.tktile.findcarddialog import connect_game_find_card_dialog, \
+        destroy_find_card_dialog
 from solverdialog import connect_game_solver_dialog
 
 from pysollib.ui.tktile.menubar import MfxMenu, PysolMenubarTkCommon
@@ -53,6 +46,7 @@ from pysollib.ui.tktile.menubar import MfxMenu, PysolMenubarTkCommon
 # * - update menubar
 # * - menu actions
 # ************************************************************************
+
 
 class PysolMenubarTk(PysolMenubarTkCommon):
     def __init__(self, app, top, progress=None):
@@ -95,9 +89,9 @@ class PysolMenubarTk(PysolMenubarTkCommon):
     # create the menubar
     #
 
-
     def mSelectCardsetDialog(self, *event):
-        if self._cancelDrag(break_pause=False): return
+        if self._cancelDrag(break_pause=False):
+            return
         key = self.app.nextgame.cardset.index
         cs = self.app.selectCardset(_("Select ")+CARDSET, key)
         if not cs:
@@ -114,12 +108,13 @@ class PysolMenubarTk(PysolMenubarTkCommon):
     def mOptTheme(self, *event):
         theme = self.tkopt.theme.get()
         self.app.opt.tile_theme = theme
-        d = self._calc_MfxMessageDialog()(self.top, title=_("Change theme"),
-                      text=_("""\
+        self._calc_MfxMessageDialog()(
+            self.top, title=_("Change theme"),
+            text=_("""\
 This settings will take effect
 the next time you restart """)+TITLE,
-                      bitmap="warning",
-                      default=0, strings=(_("&OK"),))
+            bitmap="warning",
+            default=0, strings=(_("&OK"),))
 
     def createThemesMenu(self, menu):
         submenu = MfxMenu(menu, label=n_("Set t&heme"))
@@ -141,4 +136,3 @@ the next time you restart """)+TITLE,
                 n = t.capitalize()
             submenu.add_radiobutton(label=n, variable=self.tkopt.theme,
                                     value=t, command=self.mOptTheme)
-

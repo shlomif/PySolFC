@@ -28,7 +28,7 @@ import Tkinter
 import ttk
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.mfxutil import KwStruct
 
 # Toolkit imports
@@ -72,9 +72,9 @@ class PlayerOptionsDialog(MfxDialog):
         widget = ttk.Checkbutton(frame, variable=self.update_stats_var,
                                  text=_("Update statistics and logs"))
         widget.grid(row=3, column=0, columnspan=2, sticky='ew', padx=0, pady=5)
-###        widget = ttk.Checkbutton(frame, variable=self.win_animation_var,
-###                                     text="Win animation")
-###        widget.pack(side='top', padx=kw.padx, pady=kw.pady)
+        #  widget = ttk.Checkbutton(frame, variable=self.win_animation_var,
+        #                               text="Win animation")
+        #  widget.pack(side='top', padx=kw.padx, pady=kw.pady)
         frame.columnconfigure(0, weight=1)
         #
         self.player = self.player_var.get()
@@ -99,4 +99,3 @@ class PlayerOptionsDialog(MfxDialog):
                       padx=10, pady=10,
                       )
         return MfxDialog.initKw(self, kw)
-

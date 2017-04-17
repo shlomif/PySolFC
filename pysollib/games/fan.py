@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 #
 # Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
 # Copyright (C) 2003 Mt. Hood Playing Card Co.
@@ -19,23 +19,44 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.hint import CautiousDefaultHint
 from pysollib.hint import FreeCellSolverWrapper
 from pysollib.pysoltk import MfxCanvasText
+
+from pysollib.util import ACE, KING, NO_RANK, UNLIMITED_CARDS
+
+from pysollib.stack import \
+        AC_FoundationStack, \
+        AC_RowStack, \
+        DealRowRedealTalonStack, \
+        DealRow_StackMethods, \
+        FullStackWrapper, \
+        InitialDealTalonStack, \
+        InvisibleStack, \
+        KingAC_RowStack, \
+        KingSS_RowStack, \
+        RK_RowStack, \
+        RedealTalonStack, \
+        ReserveStack, \
+        SS_FoundationStack, \
+        SS_RowStack, \
+        Stack, \
+        SuperMoveSS_RowStack, \
+        TalonStack, \
+        UD_RK_RowStack, \
+        UD_SS_RowStack, \
+        StackWrapper
 
 
 # ************************************************************************
@@ -62,7 +83,8 @@ class Fan(Game):
     # game layout
     #
 
-    def createGame(self, rows=(5,5,5,3), playcards=9, reserves=0, texts=False):
+    def createGame(self, rows=(5, 5, 5, 3), playcards=9, reserves=0,
+                   texts=False):
         # create layout
         l, s = Layout(self), self.s
 
@@ -71,7 +93,7 @@ class Fan(Game):
         w = max(2*l.XS, l.XS+(playcards-1)*l.XOFFSET)
         w = min(3*l.XS, w)
         w = (w + 1) & ~1
-        ##print 2*l.XS, w
+        # print 2*l.XS, w
         self.setSize(l.XM + max(rows)*w, l.YM + (1+len(rows))*l.YS)
 
         # create stacks
@@ -81,7 +103,7 @@ class Fan(Game):
             for r in range(reserves):
                 s.reserves.append(self.ReserveStack_Class(x, y, self))
                 x += l.XS
-            x = (self.width - decks*4*l.XS) # - 2*l.XS) / 2
+            x = (self.width - decks*4*l.XS)  # - 2*l.XS) / 2
             dx = l.XS
         else:
             dx = (self.width - decks*4*l.XS)/(decks*4+1)
@@ -94,7 +116,8 @@ class Fan(Game):
         for i in range(len(rows)):
             x, y = l.XM, y + l.YS
             for j in range(rows[i]):
-                stack = self.RowStack_Class(x, y, self, max_move=1, max_accept=1)
+                stack = self.RowStack_Class(
+                    x, y, self, max_move=1, max_accept=1)
                 stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
                 s.rows.append(stack)
                 x += w
@@ -134,6 +157,7 @@ class FanGame(Fan):
 class ScotchPatience(Fan):
     Foundation_Classes = [AC_FoundationStack]
     RowStack_Class = StackWrapper(RK_RowStack, base_rank=NO_RANK)
+
     def createGame(self):
         Fan.createGame(self, playcards=8)
     shallHighlightMatch = Game._shallHighlightMatch_RK
@@ -145,10 +169,13 @@ class ScotchPatience(Fan):
 # ************************************************************************
 
 class Shamrocks(Fan):
-    RowStack_Class = StackWrapper(UD_RK_RowStack, base_rank=NO_RANK, max_cards=3)
+    RowStack_Class = StackWrapper(
+        UD_RK_RowStack, base_rank=NO_RANK, max_cards=3)
+
     def createGame(self):
         Fan.createGame(self, playcards=4)
     shallHighlightMatch = Game._shallHighlightMatch_RK
+
 
 class ShamrocksII(Shamrocks):
     def _shuffleHook(self, cards):
@@ -216,8 +243,8 @@ class LaBelleLucie_Talon(TalonStack):
         to_stacks = self.game.s.rows
         n = min(len(self.cards), 3*len(to_stacks))
         for i in range(3):
-            j = (n/3, (n+1)/3, (n+2)/3) [i]
-            frames = (0, 0, 4) [i]
+            j = (n/3, (n+1)/3, (n+2)/3)[i]
+            frames = (0, 0, 4)[i]
             for r in to_stacks[:j]:
                 if self.cards[-1].face_up != face_up:
                     self.game.flipMove(self)
@@ -227,6 +254,7 @@ class LaBelleLucie_Talon(TalonStack):
 class LaBelleLucie(Fan):
     Talon_Class = StackWrapper(LaBelleLucie_Talon, max_rounds=3)
     RowStack_Class = StackWrapper(SS_RowStack, base_rank=NO_RANK)
+
     def createGame(self):
         return Fan.createGame(self, texts=True)
 
@@ -248,15 +276,16 @@ class ThreeShufflesAndADraw_RowStack(SS_RowStack):
     def moveMove(self, ncards, to_stack, frames=-1, shadow=-1):
         game, r = self.game, self.game.s.reserves[0]
         if to_stack is not r:
-            SS_RowStack.moveMove(self, ncards, to_stack, frames=frames, shadow=shadow)
+            SS_RowStack.moveMove(
+                self, ncards, to_stack, frames=frames, shadow=shadow)
             return
         f = self._canDrawCard()
         assert f and game.draw_done == 0 and ncards == 1
         # 1) top card from self to reserve
-        game.updateStackMove(r, 2|16)       # update view for undo
+        game.updateStackMove(r, 2 | 16)       # update view for undo
         game.moveMove(1, self, r, frames=frames, shadow=shadow)
-        game.updateStackMove(r, 3|64)       # update model
-        game.updateStackMove(r, 1|16)       # update view for redo
+        game.updateStackMove(r, 3 | 64)       # update model
+        game.updateStackMove(r, 1 | 16)       # update view for redo
         # 2) second card from self to foundation/row
         if 1 or not game.demo:
             game.playSample("drop", priority=200)
@@ -282,7 +311,7 @@ class ThreeShufflesAndADraw_ReserveStack(ReserveStack):
     def acceptsCards(self, from_stack, cards):
         if not ReserveStack.acceptsCards(self, from_stack, cards):
             return False
-        if not from_stack in self.game.s.rows:
+        if from_stack not in self.game.s.rows:
             return False
         if self.game.draw_done or not from_stack._canDrawCard():
             return False
@@ -295,7 +324,7 @@ class ThreeShufflesAndADraw_ReserveStack(ReserveStack):
     def updateText(self):
         if self.game.preview > 1 or self.texts.misc is None:
             return
-        t = (_("X"), _("Draw")) [self.game.draw_done == 0]
+        t = (_("X"), _("Draw"))[self.game.draw_done == 0]
         self.texts.misc.config(text=t)
 
     def prepareView(self):
@@ -304,13 +333,15 @@ class ThreeShufflesAndADraw_ReserveStack(ReserveStack):
             return
         images = self.game.app.images
         x, y = self.x + images.CARDW/2, self.y + images.CARDH/2
-        self.texts.misc = MfxCanvasText(self.game.canvas, x, y,
-                                        anchor="center",
-                                        font=self.game.app.getFont("canvas_default"))
+        self.texts.misc = MfxCanvasText(
+            self.game.canvas, x, y,
+            anchor="center",
+            font=self.game.app.getFont("canvas_default"))
 
 
 class ThreeShufflesAndADraw(LaBelleLucie):
-    RowStack_Class = StackWrapper(ThreeShufflesAndADraw_RowStack, base_rank=NO_RANK)
+    RowStack_Class = StackWrapper(
+        ThreeShufflesAndADraw_RowStack, base_rank=NO_RANK)
 
     def createGame(self):
         l = LaBelleLucie.createGame(self)
@@ -347,11 +378,12 @@ class Trefoil(LaBelleLucie):
     Foundation_Classes = [StackWrapper(SS_FoundationStack, min_cards=1)]
 
     def createGame(self):
-        return Fan.createGame(self, rows=(5,5,5,1), texts=True)
+        return Fan.createGame(self, rows=(5, 5, 5, 1), texts=True)
 
     def _shuffleHook(self, cards):
         # move Aces to bottom of the Talon (i.e. last cards to be dealt)
-        return self._shuffleHookMoveToBottom(cards, lambda c: (c.rank == 0, c.suit))
+        return self._shuffleHookMoveToBottom(
+            cards, lambda c: (c.rank == 0, c.suit))
 
     def startGame(self):
         for i in range(2):
@@ -392,7 +424,8 @@ class Intelligence_Talon(LaBelleLucie_Talon):
                 if not self.cards:
                     return
         # move all remaining cards to the reserve
-        self.game.moveMove(len(self.cards), self, self.game.s.reserves[0], frames=0)
+        self.game.moveMove(
+            len(self.cards), self, self.game.s.reserves[0], frames=0)
 
 
 # up or down in suit
@@ -401,7 +434,7 @@ class Intelligence_RowStack(UD_SS_RowStack):
         if not self.cards:
             r = self.game.s.reserves[0]
             if r.cards:
-                r.dealRow((self,self,self), sound=True)
+                r.dealRow((self, self, self), sound=True)
 
 
 class Intelligence_ReserveStack(ReserveStack, DealRow_StackMethods):
@@ -418,12 +451,15 @@ class Intelligence(Fan):
     Talon_Class = StackWrapper(Intelligence_Talon, max_rounds=3)
     RowStack_Class = StackWrapper(Intelligence_RowStack, base_rank=NO_RANK)
 
-    def createGame(self, rows=(5,5,5,3)):
+    def createGame(self, rows=(5, 5, 5, 3)):
         l = Fan.createGame(self, rows)
         s = self.s
         # add a reserve stack
         x, y = s.talon.x - l.XS, s.talon.y
-        s.reserves.append(Intelligence_ReserveStack(x, y, self, max_move=0, max_accept=0, max_cards=UNLIMITED_CARDS))
+        s.reserves.append(
+            Intelligence_ReserveStack(
+                x, y, self, max_move=0, max_accept=0,
+                max_cards=UNLIMITED_CARDS))
         l.createText(s.reserves[0], "sw")
         l.createRoundText(s.talon, 'nn')
         # redefine the stack-groups
@@ -441,7 +477,7 @@ class Intelligence(Fan):
 
 class IntelligencePlus(Intelligence):
     def createGame(self):
-        Intelligence.createGame(self, rows=(5,5,5,4))
+        Intelligence.createGame(self,  rows=(5, 5, 5, 4))
 
 
 # ************************************************************************
@@ -455,7 +491,7 @@ class HouseInTheWood(Fan):
     RowStack_Class = StackWrapper(UD_SS_RowStack, base_rank=NO_RANK)
 
     def createGame(self):
-        Fan.createGame(self, rows=(6,6,6,6,6,5))
+        Fan.createGame(self,  rows=(6, 6, 6, 6, 6, 5))
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.rows[:34], frames=0)
@@ -466,7 +502,8 @@ class HouseInTheWood(Fan):
 
 class HouseOnTheHill(HouseInTheWood):
     Foundation_Classes = [SS_FoundationStack,
-                          StackWrapper(SS_FoundationStack, base_rank=KING, dir=-1)]
+                          StackWrapper(
+                              SS_FoundationStack, base_rank=KING, dir=-1)]
 
 
 # ************************************************************************
@@ -480,6 +517,7 @@ class CloverLeaf_RowStack(UD_SS_RowStack):
         if not self.cards:
             return cards[0].rank in (ACE, KING)
         return True
+
     def _getBaseCard(self):
         return _('Base card - Ace or King.')
 
@@ -539,10 +577,11 @@ class CloverLeaf(Game):
         self.s.talon.dealRow(rows=self.s.foundations)
 
     def _shuffleHook(self, cards):
-        return self._shuffleHookMoveToBottom(cards,
-                   lambda c: ((c.rank == ACE and c.suit in (0,1)) or
-                              (c.rank == KING and c.suit in (2,3)),
-                              c.suit))
+        return self._shuffleHookMoveToBottom(
+            cards,
+            lambda c: ((c.rank == ACE and c.suit in (0, 1)) or
+                       (c.rank == KING and c.suit in (2, 3)),
+                       c.suit))
 
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
@@ -554,6 +593,7 @@ class CloverLeaf(Game):
 class FreeFan(Fan):
     RowStack_Class = FullStackWrapper(SuperMoveSS_RowStack, base_rank=KING)
     Solver_Class = FreeCellSolverWrapper(esf='kings', sbb='suit')
+
     def createGame(self):
         Fan.createGame(self, reserves=2, playcards=8)
 
@@ -568,7 +608,7 @@ class BoxFan(Fan):
     Solver_Class = FreeCellSolverWrapper(esf='kings')
 
     def createGame(self):
-        Fan.createGame(self, rows=(4,4,4,4))
+        Fan.createGame(self, rows=(4, 4, 4, 4))
 
     def startGame(self):
         for i in range(2):
@@ -579,7 +619,8 @@ class BoxFan(Fan):
 
     def _shuffleHook(self, cards):
         # move Aces to bottom of the Talon (i.e. last cards to be dealt)
-        return self._shuffleHookMoveToBottom(cards, lambda c: (c.rank == 0, c.suit))
+        return self._shuffleHookMoveToBottom(
+            cards, lambda c: (c.rank == 0, c.suit))
 
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
@@ -615,15 +656,19 @@ class Troika(Fan):
 class Quads_RowStack(RK_RowStack):
     getBottomImage = Stack._getReserveBottomImage
 
+
 class Quads(Troika):
-    RowStack_Class = FullStackWrapper(Quads_RowStack, dir=0,
-                                  ##base_rank=NO_RANK,
-                                  max_cards=4)
+    RowStack_Class = FullStackWrapper(
+        Quads_RowStack, dir=0,
+        # base_rank=NO_RANK,
+        max_cards=4)
+
     def createGame(self):
         Fan.createGame(self, rows=(5, 5, 3), playcards=5)
 
     def startGame(self):
         Troika.startGame(self, ncards=4)
+
 
 class QuadsPlus(Quads):
     def _shuffleHook(self, cards):
@@ -646,9 +691,10 @@ class FascinationFan_Talon(RedealTalonStack):
     def dealCards(self, sound=False):
         RedealTalonStack.redealCards(self, shuffle=True, sound=sound)
 
+
 class FascinationFan(Fan):
     Talon_Class = StackWrapper(FascinationFan_Talon, max_rounds=7)
-    #Talon_Class = StackWrapper(LaBelleLucie_Talon, max_rounds=7)
+    # Talon_Class = StackWrapper(LaBelleLucie_Talon, max_rounds=7)
     RowStack_Class = StackWrapper(AC_RowStack, base_rank=NO_RANK)
 
     def createGame(self):
@@ -662,8 +708,9 @@ class FascinationFan(Fan):
 
     def redealCards(self):
         r0 = r1 = len(self.s.talon.cards)/3
-        m = len(self.s.talon.cards)%3
-        if m >= 1: r1 += 1
+        m = len(self.s.talon.cards) % 3
+        if m >= 1:
+            r1 += 1
         self.s.talon.dealRow(rows=self.s.rows[:r0], flip=0, frames=4)
         self.s.talon.dealRow(rows=self.s.rows[:r1], flip=0, frames=4)
         self.s.talon.dealRowAvail(frames=4)
@@ -736,11 +783,11 @@ class Crescent(Game):
 
         l.defaultStackGroups()
 
-
     def _shuffleHook(self, cards):
-        return self._shuffleHookMoveToTop(cards,
-                   lambda c: (c.rank in (ACE, KING) and c.deck == 0,
-                              (c.rank, c.suit)))
+        return self._shuffleHookMoveToTop(
+            cards,
+            lambda c: (c.rank in (ACE, KING) and c.deck == 0,
+                       (c.rank, c.suit)))
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
@@ -896,7 +943,6 @@ class ForestGlade(Game):
 
         l.defaultStackGroups()
 
-
     def startGame(self):
         for i in range(2):
             self.s.talon.dealRow(frames=0)
@@ -904,7 +950,6 @@ class ForestGlade(Game):
         self.s.talon.dealRow()
 
     shallHighlightMatch = Game._shallHighlightMatch_SS
-
 
 
 # register the game
@@ -916,7 +961,7 @@ registerGame(GameInfo(57, Shamrocks, "Shamrocks",
                       GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(901, LaBelleLucie, "La Belle Lucie",      # was: 32, 82
                       GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 2, GI.SL_MOSTLY_SKILL,
-                      altnames=("Fair Lucy", "Midnight Oil") ))
+                      altnames=("Fair Lucy", "Midnight Oil")))
 registerGame(GameInfo(132, SuperFlowerGarden, "Super Flower Garden",
                       GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 2, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(128, ThreeShufflesAndADraw, "Three Shuffles and a Draw",
@@ -941,10 +986,11 @@ registerGame(GameInfo(385, BoxFan, "Box Fan",
 registerGame(GameInfo(516, Troika, "Troika",
                       GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(517, Quads, "Quads",
-                      GI.GT_FAN_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_FAN_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0,
+                      GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(625, FascinationFan, "Fascination Fan",
                       GI.GT_FAN_TYPE, 1, 6, GI.SL_BALANCED,
-                      altnames=('Demon Fan',) ))
+                      altnames=('Demon Fan',)))
 registerGame(GameInfo(647, Crescent, "Crescent",
                       GI.GT_FAN_TYPE, 2, 3, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(714, ShamrocksII, "Shamrocks II",
@@ -954,5 +1000,5 @@ registerGame(GameInfo(719, School, "School",
 registerGame(GameInfo(739, ForestGlade, "Forest Glade",
                       GI.GT_FAN_TYPE, 2, 2, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(767, QuadsPlus, "Quads +",
-                      GI.GT_FAN_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))
-
+                      GI.GT_FAN_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0,
+                      GI.SL_MOSTLY_SKILL))

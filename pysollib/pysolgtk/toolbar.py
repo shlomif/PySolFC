@@ -23,17 +23,14 @@
 
 
 # imports
-import os, re, sys
 import gtk
-from gtk import gdk
 
 # PySol imports
-
-
 
 # ************************************************************************
 # *
 # ************************************************************************
+
 
 class PysolToolbarTk:
     def __init__(self, top, menubar, dir, size=0, relief=0, compound=None):
@@ -42,30 +39,7 @@ class PysolToolbarTk:
         self.dir = dir
         self.side = -1
 
-        ui_info = '''
-<ui>
-  <toolbar  name='toolbar'>
-    <toolitem action='newgame'/>
-    <toolitem action='restart'/>
-    <separator/>
-    <toolitem action='open'/>
-    <toolitem action='save'/>
-    <separator/>
-    <toolitem action='undo'/>
-    <toolitem action='redo'/>
-    <toolitem action='shuffle'/>
-    <toolitem action='autodrop'/>
-    <toolitem action='pause'/>
-    <separator/>
-    <toolitem action='stats'/>
-    <toolitem action='rules'/>
-    <separator/>
-    <toolitem action='quit'/>
-  </toolbar>
-</ui>
-'''
-        ui_manager = self.top.ui_manager # created in menubar.py
-        ui_manager_id = ui_manager.add_ui_from_string(ui_info)
+        ui_manager = self.top.ui_manager  # created in menubar.py
 
         toolbar = ui_manager.get_widget("/toolbar")
         self.toolbar = toolbar
@@ -74,17 +48,16 @@ class PysolToolbarTk:
 
         self._attached = False
 
-
     #
     # wrappers
     #
 
     def _busy(self):
-        return not (self.side and self.game and not self.game.busy and self.menubar)
+        return not (self.side and self.game and not self.game.busy
+                    and self.menubar)
 
     def destroy(self):
         self.toolbar.destroy()
-
 
     #
     # public methods
@@ -122,13 +95,12 @@ class PysolToolbarTk:
             x, y = 2, 2
         # set orient
         if side in (1, 2):
-            orient =  gtk.ORIENTATION_HORIZONTAL
+            orient = gtk.ORIENTATION_HORIZONTAL
         else:
-            orient =  gtk.ORIENTATION_VERTICAL
+            orient = gtk.ORIENTATION_VERTICAL
         self.toolbar.set_orientation(orient)
         if self._attached:
             self.top.table.remove(self.toolbar)
-        row_span, column_span = 1, 1
         self.top.table.attach(self.toolbar,
                               x, x+1,     y, y+1,
                               gtk.FILL,   gtk.FILL,
@@ -137,11 +109,11 @@ class PysolToolbarTk:
         self._attached = True
         return 1
 
-
     def setCursor(self, cursor):
-        if self.side:
-            if self.toolbar.window:
-                self.toolbar.window.set_cursor(gdk.Cursor(v))
+        pass
+        # if self.side:
+        #     if self.toolbar.window:
+        #         self.toolbar.window.set_cursor(gdk.Cursor(v))
 
     def setRelief(self, relief):
         # FIXME
@@ -154,4 +126,3 @@ class PysolToolbarTk:
     def config(self, w, v):
         # FIXME
         pass
-

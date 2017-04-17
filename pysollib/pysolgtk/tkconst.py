@@ -23,22 +23,19 @@
 
 
 # imports
-##import sys
+# import sys
 
 from gtk import gdk
-
-from gtk import ANCHOR_NW, ANCHOR_SW, ANCHOR_NE, ANCHOR_SE
-
 
 # ************************************************************************
 # * constants
 # ************************************************************************
 
-EVENT_HANDLED   = 1
+EVENT_HANDLED = 1
 EVENT_PROPAGATE = 0
 
-CURSOR_DRAG     = gdk.HAND1
-CURSOR_WATCH    = gdk.WATCH
+CURSOR_DRAG = gdk.HAND1
+CURSOR_WATCH = gdk.WATCH
 CURSOR_DOWN_ARROW = gdk.SB_DOWN_ARROW
 
 TOOLBAR_BUTTONS = (
@@ -56,4 +53,3 @@ TOOLBAR_BUTTONS = (
     "quit",
     "player",
     )
-

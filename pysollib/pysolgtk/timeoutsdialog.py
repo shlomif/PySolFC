@@ -24,9 +24,9 @@
 __all__ = ['TimeoutsDialog']
 
 # imports
-## import os, sys
-from pysollib.mygettext import _, n_
-import gtk, gobject, pango
+#  import os, sys
+from pysollib.mygettext import _
+import gtk
 import gtk.glade
 
 
@@ -57,6 +57,7 @@ class TimeoutsDialog:
                 sc = self.widgets_tree.get_widget(n+'_scale')
                 sp.set_value(sc.get_value())
             dic[n+'_scale_value_changed'] = callback
+
             def callback(w, n=n):
                 sp = self.widgets_tree.get_widget(n+'_spinbutton')
                 sc = self.widgets_tree.get_widget(n+'_scale')
@@ -97,7 +98,6 @@ class TimeoutsDialog:
             'label28',
             'label29',
             'label30',
-            ):
+                ):
             w = self.widgets_tree.get_widget(n)
             w.set_text(_(w.get_text()))
-

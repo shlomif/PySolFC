@@ -24,19 +24,30 @@
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.hint import DefaultHint
+
+from pysollib.util import ANY_RANK, ANY_SUIT, KING, NO_RANK, UNLIMITED_REDEALS
+
+from pysollib.stack import \
+        AbstractFoundationStack, \
+        BasicRowStack, \
+        DealRowRedealTalonStack, \
+        InitialDealTalonStack, \
+        OpenStack, \
+        ReserveStack, \
+        StackWrapper, \
+        TalonStack, \
+        SS_FoundationStack
 
 # ************************************************************************
 # *
 # ************************************************************************
+
 
 class MonteCarlo_Hint(DefaultHint):
     # FIXME: demo is not too clever in this game
@@ -59,9 +70,9 @@ class MonteCarlo_Talon(TalonStack):
         return free and len(self.cards)
 
     def dealCards(self, sound=False):
-        self.game.updateStackMove(self.game.s.talon, 2|16)  # for undo
+        self.game.updateStackMove(self.game.s.talon, 2 | 16)  # for undo
         n = self.game.fillEmptyStacks()
-        self.game.updateStackMove(self.game.s.talon, 1|16)  # for redo
+        self.game.updateStackMove(self.game.s.talon, 1 | 16)  # for redo
         return n
 
 
@@ -80,13 +91,14 @@ class MonteCarlo_RowStack(BasicRowStack):
         if to_stack.cards:
             self._dropPairMove(ncards, to_stack, frames=-1, shadow=shadow)
         else:
-            BasicRowStack.moveMove(self, ncards, to_stack, frames=frames, shadow=shadow)
+            BasicRowStack.moveMove(
+                self, ncards, to_stack, frames=frames, shadow=shadow)
 
     def _dropPairMove(self, n, other_stack, frames=-1, shadow=-1):
         game = self.game
         old_state = game.enterState(game.S_FILL)
         f = game.s.foundations[0]
-        game.updateStackMove(game.s.talon, 2|16)            # for undo
+        game.updateStackMove(game.s.talon, 2 | 16)            # for undo
         if not game.demo:
             game.playSample("droppair", priority=200)
         game.moveMove(n, self, f, frames=frames, shadow=shadow)
@@ -95,13 +107,14 @@ class MonteCarlo_RowStack(BasicRowStack):
         other_stack.fillStack()
         if self.game.FILL_STACKS_AFTER_DROP:
             game.fillEmptyStacks()
-        game.updateStackMove(game.s.talon, 1|16)            # for redo
+        game.updateStackMove(game.s.talon, 1 | 16)            # for redo
         game.leaveState(old_state)
 
 
 class MonteCarlo(Game):
     Talon_Class = MonteCarlo_Talon
-    Foundation_Class = StackWrapper(AbstractFoundationStack, max_accept=0)
+    Foundation_Class = StackWrapper(
+        AbstractFoundationStack, max_accept=0)
     RowStack_Class = MonteCarlo_RowStack
     Hint_Class = MonteCarlo_Hint
 
@@ -150,7 +163,6 @@ class MonteCarlo(Game):
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return card1.rank == card2.rank
-
 
     #
     # game extras
@@ -328,9 +340,11 @@ class Neighbour_RowStack(MonteCarlo_RowStack):
         assert ncards == 1
         if self.cards[-1].rank == KING:
             assert to_stack in self.game.s.foundations
-            BasicRowStack.moveMove(self, ncards, to_stack, frames=frames, shadow=shadow)
+            BasicRowStack.moveMove(
+                self, ncards, to_stack, frames=frames, shadow=shadow)
         else:
-            MonteCarlo_RowStack.moveMove(self, ncards, to_stack, frames=frames, shadow=shadow)
+            MonteCarlo_RowStack.moveMove(
+                self, ncards, to_stack, frames=frames, shadow=shadow)
 
     def _dropKingClickHandler(self, event):
         if not self.cards:
@@ -400,7 +414,7 @@ class Fourteen(Game):
                                                   dir=0, base_rank=NO_RANK))
         x, y = l.XM + 6*l.XS, l.YM
         s.foundations.append(self.Foundation_Class(x, y, self, suit=ANY_SUIT,
-                                max_move=0, max_cards=52, base_rank=ANY_RANK))
+                             max_move=0, max_cards=52, base_rank=ANY_RANK))
         l.createText(s.foundations[0], "s")
         x, y = self.width - l.XS, self.height - l.YS
         s.talon = InitialDealTalonStack(x, y, self)
@@ -470,7 +484,7 @@ class Nestor(Game):
             x += l.XS
         x, y = self.width-l.XS, self.height-l.YS
         s.foundations.append(self.Foundation_Class(x, y, self, suit=ANY_SUIT,
-                                max_move=0, max_cards=52, base_rank=ANY_RANK))
+                             max_move=0, max_cards=52, base_rank=ANY_RANK))
         l.createText(s.foundations[0], "n")
         x, y = l.XM, self.height - l.YS
         s.talon = InitialDealTalonStack(x, y, self)
@@ -492,7 +506,7 @@ class Nestor(Game):
     def _shuffleHook(self, cards):
         # no row will have two cards of the same rank
         for i in range(8):
-            for t in range(1000): # just in case
+            for t in range(1000):  # just in case
                 j = self._checkRow(cards[i*6:(i+1)*6])
                 if j < 0:
                     break
@@ -552,7 +566,6 @@ class Vertical(Nestor):
         # define stack-groups
         l.defaultStackGroups()
 
-
     def startGame(self):
         self.s.talon.dealRow(frames=0)
         for i in range(4):
@@ -560,7 +573,6 @@ class Vertical(Nestor):
         self.startDealSample()
         self.s.talon.dealRow(rows=self.s.rows[:7])
         self.s.talon.dealRow(rows=[self.s.rows[3]])
-
 
 
 # ************************************************************************
@@ -590,8 +602,10 @@ class TheWish(Game):
         s.talon = InitialDealTalonStack(x, y, self)
 
         x, y = self.width - l.XS, self.height - l.YS
-        s.foundations.append(AbstractFoundationStack(x, y, self, suit=ANY_SUIT,
-                             max_move=0, max_cards=32, max_accept=0, base_rank=ANY_RANK))
+        s.foundations.append(
+            AbstractFoundationStack(
+                x, y, self, suit=ANY_SUIT,
+                max_move=0, max_cards=32, max_accept=0, base_rank=ANY_RANK))
         l.createText(s.foundations[0], "n")
 
         # define stack-groups
@@ -617,9 +631,11 @@ class TheWish(Game):
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return card1.rank == card2.rank
 
+
 class TheWishOpen(TheWish):
     def fillStack(self, stack):
         pass
+
     def startGame(self):
         for i in range(3):
             self.s.talon.dealRow(frames=0)
@@ -630,11 +646,13 @@ class TheWishOpen(TheWish):
 # * Der letzte Monarch (The last Monarch)
 # ************************************************************************
 
+
 class DerLetzteMonarch_Foundation(SS_FoundationStack):
     def acceptsCards(self, from_stack, cards):
         if cards is None:
             # special hack for _getDropStack() below
-            return SS_FoundationStack.acceptsCards(self, from_stack, from_stack.cards)
+            return SS_FoundationStack.acceptsCards(
+                self, from_stack, from_stack.cards)
         #
         if not SS_FoundationStack.acceptsCards(self, from_stack, cards):
             return False
@@ -714,14 +732,18 @@ class DerLetzteMonarch(Game):
         for i in range(4):
             for j in range(13):
                 x, y, = dx + l.XM + j*l.XS, l.YM + (i+1)*l.YS
-                s.rows.append(DerLetzteMonarch_RowStack(x, y, self, max_accept=1, max_cards=2))
+                s.rows.append(
+                    DerLetzteMonarch_RowStack(
+                        x, y, self, max_accept=1, max_cards=2))
         for i in range(4):
             x, y, = l.XM + (i+2)*l.XS, l.YM
-            s.reserves.append(DerLetzteMonarch_ReserveStack(x, y, self, max_accept=0))
+            s.reserves.append(
+                DerLetzteMonarch_ReserveStack(
+                    x, y, self, max_accept=0))
         for i in range(4*decks):
             x, y, = l.XM + (i+7)*l.XS, l.YM
             s.foundations.append(DerLetzteMonarch_Foundation(x, y, self,
-                                 suit=i%4, max_move=0))
+                                 suit=i % 4, max_move=0))
         s.talon = self.Talon_Class(l.XM, l.YM, self)
         if texts:
             l.createText(s.talon, 'ne')
@@ -752,7 +774,6 @@ class DerLetzteMonarch(Game):
 
     def getDemoInfoText(self):
         return "Der letzte\nMonarch"
-
 
     #
     # game extras
@@ -791,7 +812,7 @@ class TheLastMonarchII(DerLetzteMonarch):
 # ************************************************************************
 
 class DoubletsII(Game):
-    FILL_STACKS_AFTER_DROP = False # for Nestor_RowStack
+    FILL_STACKS_AFTER_DROP = False  # for Nestor_RowStack
 
     def createGame(self):
         l, s = Layout(self), self.s
@@ -882,11 +903,10 @@ class RightAndLeft(Game):
         self.s.talon.dealRow()
 
 
-
 # register the game
 registerGame(GameInfo(89, MonteCarlo, "Monte Carlo",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK,
-                      altnames=("Quilt",) ))
+                      altnames=("Quilt",)))
 registerGame(GameInfo(216, MonteCarlo2Decks, "Monte Carlo (2 decks)",
                       GI.GT_PAIRING_TYPE, 2, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(212, Weddings, "Weddings",
@@ -899,24 +919,28 @@ registerGame(GameInfo(91, SimplePairs, "Simple Pairs",
 registerGame(GameInfo(92, Neighbour, "Neighbour",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(96, Fourteen, "Fourteen",
-                      GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_LUCK))
+                      GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0,
+                      GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(235, Nestor, "Nestor",
-                      GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_LUCK))
+                      GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0,
+                      GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(152, DerLetzteMonarch, "The Last Monarch",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL,
-                      altnames=("Der letzte Monarch",) ))
+                      altnames=("Der letzte Monarch",)))
 registerGame(GameInfo(328, TheWish, "The Wish",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK,
-                      ranks=(0, 6, 7, 8, 9, 10, 11, 12) ))
+                      ranks=(0, 6, 7, 8, 9, 10, 11, 12)))
 registerGame(GameInfo(329, TheWishOpen, "The Wish (open)",
-                      GI.GT_PAIRING_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL,
-                      ranks=(0, 6, 7, 8, 9, 10, 11, 12) ))
+                      GI.GT_PAIRING_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0,
+                      GI.SL_MOSTLY_SKILL,
+                      ranks=(0, 6, 7, 8, 9, 10, 11, 12)))
 registerGame(GameInfo(368, Vertical, "Vertical",
-                      GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_LUCK))
+                      GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0,
+                      GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(649, DoubletsII, "Doublets II",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(663, TheLastMonarchII, "The Last Monarch II",
-                      GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 0,
+                      GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(727, RightAndLeft, "Right and Left",
                       GI.GT_PAIRING_TYPE, 2, -1, GI.SL_LUCK))
-

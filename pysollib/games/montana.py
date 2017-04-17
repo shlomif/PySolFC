@@ -24,24 +24,34 @@
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.hint import DefaultHint
+
+from pysollib.util import ACE, NO_SUIT
+
+from pysollib.stack import \
+        BasicRowStack, \
+        InitialDealTalonStack, \
+        InvisibleStack, \
+        Stack, \
+        StackWrapper, \
+        TalonStack, \
+        WasteStack, \
+        WasteTalonStack
 
 # ************************************************************************
 # *
 # ************************************************************************
 
+
 class Montana_Hint(DefaultHint):
     def computeHints(self):
         game = self.game
-        RLEN, RSTEP, RBASE = game.RLEN, game.RSTEP, game.RBASE
+        RSTEP, RBASE = game.RSTEP, game.RBASE
         freerows = [s for s in game.s.rows if not s.cards]
         # for each stack
         for r in game.s.rows:
@@ -54,7 +64,8 @@ class Montana_Hint(DefaultHint):
             else:
                 left = None
                 if c.rank == RBASE:
-                    # do not move the leftmost card of a row if the rank is correct
+                    # do not move the leftmost card of a row if the
+                    # rank is correct
                     continue
             for t in freerows:
                 if self.shallMovePile(r, t, pile, rpile):
@@ -82,7 +93,7 @@ class Montana_Talon(TalonStack):
         # move cards to the Talon, shuffle and redeal
         game = self.game
         decks = game.gameinfo.decks
-        RLEN, RSTEP, RBASE = game.RLEN, game.RSTEP, game.RBASE
+        RSTEP, RBASE = game.RSTEP, game.RBASE
         num_cards = 0
         assert len(self.cards) == 0
         rows = game.s.rows
@@ -100,7 +111,7 @@ class Montana_Talon(TalonStack):
                 r = rows[i + j]
                 if in_sequence:
                     if (not r.cards or
-                        not self._inSequence(r.cards[-1], suit, RBASE+j)):
+                            not self._inSequence(r.cards[-1], suit, RBASE+j)):
                         in_sequence = 0
                 if not in_sequence:
                     stacks.append(r)
@@ -121,7 +132,7 @@ class Montana_Talon(TalonStack):
         game.nextRoundMove(self)
         spaces = self.getRedealSpaces(stacks, gaps)
         for r in stacks:
-            if not r in spaces:
+            if r not in spaces:
                 self.game.moveMove(1, self, r, frames=4)
         # done
         assert len(self.cards) == 0
@@ -141,7 +152,8 @@ class Montana_RowStack(BasicRowStack):
         if self.id % self.game.RSTEP == 0:
             return cards[0].rank == self.game.RBASE
         left = self.game.s.rows[self.id - 1]
-        return left.cards and left.cards[-1].suit == cards[0].suit and left.cards[-1].rank + 1 == cards[0].rank
+        return left.cards and left.cards[-1].suit == cards[0].suit \
+            and left.cards[-1].rank + 1 == cards[0].rank
 
     def clickHandler(self, event):
         if not self.cards:
@@ -196,7 +208,6 @@ class Montana(Game):
         # define stack-groups
         l.defaultStackGroups()
 
-
     #
     # game overrides
     #
@@ -221,7 +232,8 @@ class Montana(Game):
             suit = rows[i].cards[-1].suit
             for j in range(self.RSTEP - 1):
                 r = rows[i + j]
-                if not r.cards or r.cards[-1].rank != self.RBASE + j or r.cards[-1].suit != suit:
+                if not r.cards or r.cards[-1].rank != self.RBASE + j \
+                        or r.cards[-1].suit != suit:
                     return False
         return True
 
@@ -235,7 +247,8 @@ class Montana(Game):
 
     def getQuickPlayScore(self, ncards, from_stack, to_stack):
         if from_stack.cards:
-            if from_stack.id % self.RSTEP == 0 and from_stack.cards[-1].rank == self.RBASE:
+            if from_stack.id % self.RSTEP == 0 and \
+                    from_stack.cards[-1].rank == self.RBASE:
                 # do not move the leftmost card of a row if the rank is correct
                 return -1
         return 1
@@ -252,9 +265,10 @@ class Spaces_Talon(Montana_Talon):
         spaces = []
         while len(spaces) != 4:
             r = self.game.random.choice(stacks)
-            if not r in spaces:
+            if r not in spaces:
                 spaces.append(r)
         return spaces
+
 
 class Spaces(Montana):
     Talon_Class = StackWrapper(Spaces_Talon, max_rounds=3)
@@ -270,13 +284,14 @@ class BlueMoon(Montana):
     def startGame(self):
         frames = 0
         for i in range(self.RLEN):
-            if i == self.RLEN-self.RSTEP: # last row
+            if i == self.RLEN-self.RSTEP:  # last row
                 self.startDealSample()
                 frames = -1
             if i % self.RSTEP == 0:     # left column
                 continue
             self.s.talon.dealRow(rows=(self.s.rows[i],), frames=frames)
-        ace_rows = [r for r in self.s.rows if r.cards and r.cards[-1].rank == ACE]
+        ace_rows = [r for r in self.s.rows
+                    if r.cards and r.cards[-1].rank == ACE]
         j = 0
         for r in ace_rows:
             self.moveMove(1, r, self.s.rows[j])
@@ -290,7 +305,8 @@ class BlueMoon(Montana):
 class RedMoon(BlueMoon):
     def _shuffleHook(self, cards):
         # move Aces to top of the Talon (i.e. first cards to be dealt)
-        return self._shuffleHookMoveToTop(cards, lambda c: (c.rank == 0, c.suit))
+        return self._shuffleHookMoveToTop(
+            cards, lambda c: (c.rank == 0, c.suit))
 
     def startGame(self):
         decks = self.gameinfo.decks
@@ -312,7 +328,8 @@ class RedMoon(BlueMoon):
 
 class Galary_Hint(Montana_Hint):
     def shallMovePile(self, from_stack, to_stack, pile, rpile):
-        if from_stack is to_stack or not to_stack.acceptsCards(from_stack, pile):
+        if from_stack is to_stack or \
+                not to_stack.acceptsCards(from_stack, pile):
             return False
         # now check for loops
         rr = self.ClonedStack(from_stack, stackcards=rpile)
@@ -332,12 +349,12 @@ class Galary_RowStack(Montana_RowStack):
         r = self.game.s.rows
         left = r[self.id - 1]
         if left.cards and left.cards[-1].suit == cards[0].suit \
-               and left.cards[-1].rank + 1 == cards[0].rank:
+                and left.cards[-1].rank + 1 == cards[0].rank:
             return True
         if self.id < len(r)-1:
             right = r[self.id + 1]
             if right.cards and right.cards[-1].suit == cards[0].suit \
-                   and right.cards[-1].rank - 1 == cards[0].rank:
+                    and right.cards[-1].rank - 1 == cards[0].rank:
                 return True
         return False
 
@@ -369,6 +386,7 @@ class Jungle_RowStack(Montana_RowStack):
         left = self.game.s.rows[self.id - 1]
         return left.cards and left.cards[-1].rank + 1 == cards[0].rank
 
+
 class Jungle(BlueMoon):
     Talon_Class = StackWrapper(Montana_Talon, max_rounds=2)
     RowStack_Class = Jungle_RowStack
@@ -386,7 +404,8 @@ class SpacesAndAces_RowStack(Montana_RowStack):
         if self.id % self.game.RSTEP == 0:
             return cards[0].rank == self.game.RBASE
         left = self.game.s.rows[self.id - 1]
-        return left.cards and left.cards[-1].suit == cards[0].suit and left.cards[-1].rank < cards[0].rank
+        return left.cards and left.cards[-1].suit == cards[0].suit \
+            and left.cards[-1].rank < cards[0].rank
 
 
 class SpacesAndAces(BlueMoon):
@@ -400,7 +419,7 @@ class SpacesAndAces(BlueMoon):
     def startGame(self):
         frames = 0
         for i in range(self.RLEN):
-            if i == self.RLEN-self.RSTEP: # last row
+            if i == self.RLEN-self.RSTEP:  # last row
                 self.startDealSample()
                 frames = -1
             if i % self.RSTEP == 0:     # left column
@@ -411,12 +430,14 @@ class SpacesAndAces(BlueMoon):
 # * Paganini
 # ************************************************************************
 
+
 class Paganini_Talon(Montana_Talon):
     def _inSequence(self, card, suit, rank):
         card_rank = card.rank
         if card_rank >= 5:
             card_rank -= 4
         return card.suit == suit and card_rank == rank
+
 
 class Paganini_RowStack(Montana_RowStack):
     def acceptsCards(self, from_stack, cards):
@@ -432,6 +453,7 @@ class Paganini_RowStack(Montana_RowStack):
         if left.cards[-1].rank == ACE:
             return cards[0].rank == 5
         return left.cards[-1].rank+1 == cards[0].rank
+
 
 class Paganini(BlueMoon):
     RLEN, RSTEP, RBASE = 40, 10, 0
@@ -464,7 +486,7 @@ class Paganini(BlueMoon):
 
 class Spoilt_RowStack(BasicRowStack):
     def acceptsCards(self, from_stack, cards):
-        #if not BasicRowStack.acceptsCards(self, from_stack, cards):
+        # if not BasicRowStack.acceptsCards(self, from_stack, cards):
         #    return False
 
         card = cards[0]
@@ -582,24 +604,28 @@ class DoubleMontana(Montana):
     def startGame(self):
         frames = 0
         for i in range(self.RLEN):
-            if i == self.RLEN-self.RSTEP: # last row
+            if i == self.RLEN-self.RSTEP:  # last row
                 self.startDealSample()
                 frames = -1
             if i % self.RSTEP == 0:     # left column
                 continue
             self.s.talon.dealRow(rows=(self.s.rows[i],), frames=frames)
 
+
 class DoubleBlueMoon(DoubleMontana, BlueMoon):
     Talon_Class = StackWrapper(Montana_Talon, max_rounds=3)
     RLEN, RSTEP, RBASE = 112, 14, 0
+
     def createGame(self):
         BlueMoon.createGame(self, round_text=True)
     startGame = BlueMoon.startGame
+
 
 class DoubleRedMoon(DoubleMontana, RedMoon):
     Talon_Class = StackWrapper(Montana_Talon, max_rounds=3)
     RLEN, RROWS = 112, 8
     _shuffleHook = RedMoon._shuffleHook
+
     def createGame(self):
         RedMoon.createGame(self, round_text=True)
     startGame = RedMoon.startGame
@@ -614,13 +640,15 @@ registerGame(GameInfo(116, Spaces, "Spaces",
                       si={"ncards": 48}))
 registerGame(GameInfo(63, BlueMoon, "Blue Moon",
                       GI.GT_MONTANA | GI.GT_OPEN, 1, 2, GI.SL_MOSTLY_SKILL,
-                      altnames=("Rangoon",) ))
+                      altnames=("Rangoon",)))
 registerGame(GameInfo(117, RedMoon, "Red Moon",
                       GI.GT_MONTANA | GI.GT_OPEN, 1, 2, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(275, Galary, "Galary",
-                      GI.GT_MONTANA | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 2, GI.SL_MOSTLY_SKILL))
+                      GI.GT_MONTANA | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 2,
+                      GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(276, Moonlight, "Moonlight",
-                      GI.GT_MONTANA | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 2, GI.SL_MOSTLY_SKILL,
+                      GI.GT_MONTANA | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 2,
+                      GI.SL_MOSTLY_SKILL,
                       si={"ncards": 48}))
 registerGame(GameInfo(380, Jungle, "Jungle",
                       GI.GT_MONTANA | GI.GT_OPEN, 1, 1, GI.SL_MOSTLY_SKILL))
@@ -629,7 +657,7 @@ registerGame(GameInfo(381, SpacesAndAces, "Spaces and Aces",
 registerGame(GameInfo(706, Paganini, "Paganini",
                       GI.GT_MONTANA | GI.GT_OPEN, 1, 1, GI.SL_MOSTLY_SKILL,
                       ranks=(0, 5, 6, 7, 8, 9, 10, 11, 12),
-                      altnames=('Long Trip',) ))
+                      altnames=('Long Trip',)))
 registerGame(GameInfo(736, Spoilt, "Spoilt",
                       GI.GT_MONTANA, 1, 0, GI.SL_MOSTLY_LUCK,
                       ranks=(0, 6, 7, 8, 9, 10, 11, 12),
@@ -640,5 +668,3 @@ registerGame(GameInfo(770, DoubleBlueMoon, "Double Blue Moon",
                       GI.GT_MONTANA | GI.GT_OPEN, 2, 2, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(771, DoubleRedMoon, "Double Red Moon",
                       GI.GT_MONTANA | GI.GT_OPEN, 2, 2, GI.SL_MOSTLY_SKILL))
-
-

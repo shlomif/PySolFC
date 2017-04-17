@@ -368,3 +368,7 @@ def registerCustomGame(gameclass):
     registerGame(GameInfo(gameid, gameclass, s['name'],
                           GI.GT_CUSTOM | GI.GT_ORIGINAL,
                           s['decks'], s['redeals'], s['skill_level']))
+
+
+def no_use():
+    pass

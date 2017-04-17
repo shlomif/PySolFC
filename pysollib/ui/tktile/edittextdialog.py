@@ -1,19 +1,21 @@
 import Tkinter
 
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.mfxutil import KwStruct
+
 
 class BaseEditTextDialog:
     def __init__(self, parent, title, text, **kw):
         kw = self.initKw(kw)
-        self._calc_MfxDialog().__init__(self, parent, title, kw.resizable, kw.default)
+        self._calc_MfxDialog().__init__(
+            self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)
         self.createBitmaps(top_frame, kw)
         #
         self.text_w = Tkinter.Text(top_frame, bd=1, relief="sunken",
                                    wrap="word", width=64, height=16)
         self.text_w.pack(side='left', fill="both", expand=True)
-        ###self.text_w.pack(side='top', padx=kw.padx, pady=kw.pady)
+        # self.text_w.pack(side='top', padx=kw.padx, pady=kw.pady)
         vbar = self._calcToolkit().Scrollbar(top_frame)
         vbar.pack(side='right', fill='y')
         self.text_w["yscrollcommand"] = vbar.set
@@ -49,5 +51,3 @@ class BaseEditTextDialog:
 
     def mCancel(self, *event):          # ignore <Escape>
         pass
-
-

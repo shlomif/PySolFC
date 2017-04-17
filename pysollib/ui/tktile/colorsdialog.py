@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 #
 # Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
 # Copyright (C) 2003 Mt. Hood Playing Card Co.
@@ -19,24 +19,20 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# ---------------------------------------------------------------------------##
-
-__all__ = ['ColorsDialog']
+# ---------------------------------------------------------------------------
 
 # imports
 import Tkinter
 from tkColorChooser import askcolor
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.mfxutil import KwStruct
-
-# Toolkit imports
-from pysollib.tk.tkwidget import MfxDialog
 
 # ************************************************************************
 # *
 # ************************************************************************
+
 
 class BaseColorsDialog:
     def _calcFrame(self):
@@ -50,7 +46,8 @@ class BaseColorsDialog:
 
     def __init__(self, parent, title, app, **kw):
         kw = self.initKw(kw)
-        self._calc_MfxDialog().__init__(self, parent, title, kw.resizable, kw.default)
+        self._calc_MfxDialog().__init__(
+            self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)
         self.createBitmaps(top_frame, kw)
 
@@ -85,14 +82,16 @@ class BaseColorsDialog:
             (_('Highlight same rank 2:'),  self.samerank_2_var),
             (_('Hint arrow:'),             self.hintarrow_var),
             (_('Highlight not matching:'), self.not_matching_var),
-            ):
-            self._calcLabel()(frame, text=title, anchor='w',
-                      ).grid(row=row, column=0, sticky='we')
+                ):
+            self._calcLabel()(
+                frame, text=title, anchor='w',).grid(
+                row=row, column=0, sticky='we')
             l = Tkinter.Label(frame, width=10, height=2,
                               bg=var.get(), textvariable=var)
             l.grid(row=row, column=1, padx=5)
-            b = self._calcButton()(frame, text=_('Change...'), width=10,
-                           command=lambda l=l: self.selectColor(l))
+            b = self._calcButton()(
+                frame, text=_('Change...'), width=10,
+                command=lambda l=l: self.selectColor(l))
             b.grid(row=row, column=2)
             row += 1
         #
@@ -117,7 +116,7 @@ class BaseColorsDialog:
         else:
             if c and c[1]:
                 label.configure(bg=c[1])
-                #label.configure(text=c[1]) # don't work
+                # label.configure(text=c[1]) # don't work
                 label.setvar(label.cget('textvariable'), c[1])
 
     def initKw(self, kw):
@@ -126,7 +125,3 @@ class BaseColorsDialog:
                       default=0,
                       )
         return self._calc_MfxDialog().initKw(self, kw)
-
-
-
-

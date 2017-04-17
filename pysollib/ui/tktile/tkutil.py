@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 #
 # Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
 # Copyright (C) 2003 Mt. Hood Playing Card Co.
@@ -19,24 +19,24 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 
 __all__ = ['wm_withdraw',
            'wm_deiconify',
            'wm_map',
            'wm_get_geometry',
-           #'setTransient',
-           #'makeToplevel',
+           # 'setTransient',
+           # 'makeToplevel',
            'make_help_toplevel',
            'bind',
            'unbind_destroy',
            'after',
            'after_idle',
            'after_cancel',
-           #'makeImage',
+           # 'makeImage',
            'copyImage',
            'loadImage',
-           #'fillImage',
+           # 'fillImage',
            'createImage',
            'shadowImage',
            'markImage',
@@ -62,8 +62,10 @@ from pysollib.settings import TITLE, WIN_SYSTEM
 def wm_withdraw(window):
     window.wm_withdraw()
 
+
 def wm_deiconify(window):
     window.wm_deiconify()
+
 
 def wm_map(window, maximized=0):
     if window.wm_state() != "iconic":
@@ -72,7 +74,9 @@ def wm_map(window, maximized=0):
         else:
             wm_deiconify(window)
 
+
 __wm_get_geometry_re = re.compile(r"^(\d+)x(\d+)\+([\-]?\d+)\+([\-]?\d+)$")
+
 
 def wm_get_geometry(window):
     g = window.wm_geometry()
@@ -110,21 +114,23 @@ def setTransient(window, parent, relx=None, rely=None, expose=1):
     if expose:
         window.wm_deiconify()
 
+
 def makeToplevel(parent, title=None):
     # Create a Toplevel window.
     #
     # This is a shortcut for a Toplevel() instantiation plus calls to
     # set the title and icon name of the window.
-    window = Tkinter.Toplevel(parent) #, class_=TITLE)
-    ##window.wm_group(parent)
-    ##window.wm_command("")
+    window = Tkinter.Toplevel(parent)  # , class_=TITLE)
+    # window.wm_group(parent)
+    # window.wm_command("")
     if WIN_SYSTEM == "x11":
         window.wm_command("/bin/true")
-    ##window.wm_protocol("WM_SAVE_YOURSELF", None)
+    # window.wm_protocol("WM_SAVE_YOURSELF", None)
     if title:
         window.wm_title(title)
         window.wm_iconname(title)
     return window
+
 
 def make_help_toplevel(app, title=None):
     # Create an independent Toplevel window.
@@ -145,8 +151,10 @@ def __getWidgetXY(widget, parent, relx=None, rely=None,
     m_x = m_y = 0
     m_width, m_height = s_width, s_height
     if parent and parent.winfo_ismapped():
-        ##print parent.wm_geometry()
-        ##print parent.winfo_geometry(), parent.winfo_x(), parent.winfo_y(), parent.winfo_rootx(), parent.winfo_rooty(), parent.winfo_vrootx(), parent.winfo_vrooty()
+        # print parent.wm_geometry()
+        # print parent.winfo_geometry(), parent.winfo_x(), parent.winfo_y(), \
+        #   parent.winfo_rootx(), parent.winfo_rooty(), parent.winfo_vrootx(),\
+        #   parent.winfo_vrooty()
         m_x = m_y = None
         if WIN_SYSTEM == "win32":
             try:
@@ -158,24 +166,34 @@ def __getWidgetXY(widget, parent, relx=None, rely=None,
             m_y = parent.winfo_y()
             m_width = parent.winfo_width()
             m_height = parent.winfo_height()
-            if relx is None: relx = 0.5
-            if rely is None: rely = 0.3
+            if relx is None:
+                relx = 0.5
+            if rely is None:
+                rely = 0.3
         else:
-            if relx is None: relx = 0.5
-            if rely is None: rely = 0.5
+            if relx is None:
+                relx = 0.5
+            if rely is None:
+                rely = 0.5
         m_x = max(m_x, 0)
         m_y = max(m_y, 0)
     else:
-        if relx is None: relx = 0.5
-        if rely is None: rely = 0.3
+        if relx is None:
+            relx = 0.5
+        if rely is None:
+            rely = 0.3
     x = m_x + int((m_width - w_width) * relx)
     y = m_y + int((m_height - w_height) * rely)
-    ##print x, y, w_width, w_height, m_x, m_y, m_width, m_height
+    # print x, y, w_width, w_height, m_x, m_y, m_width, m_height
     # make sure the widget is fully on screen
-    if x < 0: x = 0
-    elif x + w_width + 32 > s_width: x = max(0, (s_width - w_width) / 2)
-    if y < 0: y = 0
-    elif y + w_height + 32 > s_height: y = max(0, (s_height - w_height) / 2)
+    if x < 0:
+        x = 0
+    elif x + w_width + 32 > s_width:
+        x = max(0, (s_width - w_width) / 2)
+    if y < 0:
+        y = 0
+    elif y + w_height + 32 > s_height:
+        y = max(0, (s_height - w_height) / 2)
     return x, y
 
 
@@ -186,15 +204,16 @@ def __getWidgetXY(widget, parent, relx=None, rely=None,
 __mfx_bindings = {}
 __mfx_wm_protocols = ("WM_DELETE_WINDOW", "WM_TAKE_FOCUS", "WM_SAVE_YOURSELF")
 
+
 def bind(widget, sequence, func, add=None):
-    ##assert callable(func) # XXX: removed in py3k
+    # assert callable(func) # XXX: removed in py3k
     if sequence in __mfx_wm_protocols:
         funcid = widget._register(func)
         widget.tk.call("wm", "protocol", widget._w, sequence, funcid)
     elif add is None:
         funcid = widget.bind(sequence, func)
     else:
-        ##add = add and "+" or ""
+        # add = add and "+" or ""
         funcid = widget.bind(sequence, func, add)
     k = id(widget)
     if k in __mfx_bindings:
@@ -202,24 +221,25 @@ def bind(widget, sequence, func, add=None):
     else:
         __mfx_bindings[k] = [(sequence, funcid)]
 
+
 def unbind_destroy(widget):
     if widget is None:
         return
     k = id(widget)
     if k in __mfx_bindings:
         for sequence, funcid in __mfx_bindings[k]:
-            ##print widget, sequence, funcid
+            # print widget, sequence, funcid
             try:
                 if sequence in __mfx_wm_protocols:
                     widget.tk.call("wm", "protocol", widget._w, sequence, "")
-                    ##widget.deletecommand(funcid)
+                    # widget.deletecommand(funcid)
                 else:
                     widget.unbind(sequence, funcid)
             except Tkinter.TclError:
                 pass
         del __mfx_bindings[k]
-    ##for k in __mfx_bindings.keys(): print __mfx_bindings[k]
-    ##print len(__mfx_bindings.keys())
+    # for k in __mfx_bindings.keys(): print __mfx_bindings[k]
+    # print len(__mfx_bindings.keys())
 
 
 # ************************************************************************
@@ -231,8 +251,10 @@ def after(widget, ms, func, *args):
     command = widget._tclCommands[-1]
     return (timer, command, widget)
 
+
 def after_idle(widget, func, *args):
     return after(widget, "idle", func, *args)
+
 
 def after_cancel(t):
     if t is not None:
@@ -258,6 +280,7 @@ if Image:
                 self._pil_image_orig = pil_image_orig
             else:
                 self._pil_image_orig = image
+
         def subsample(self, r):
             im = self._pil_image
             w, h = im.size
@@ -265,10 +288,11 @@ if Image:
             im = im.resize((w, h))
             im = PIL_Image(image=im)
             return im
+
         def resize(self, xf, yf):
             w, h = self._pil_image_orig.size
             w0, h0 = int(w*xf), int(h*yf)
-            im = self._pil_image_orig.resize((w0,h0), Image.ANTIALIAS)
+            im = self._pil_image_orig.resize((w0, h0), Image.ANTIALIAS)
             return PIL_Image(image=im, pil_image_orig=self._pil_image_orig)
 
 
@@ -278,7 +302,7 @@ def makeImage(file=None, data=None, dither=None, alpha=None):
         assert file is not None
         kw["file"] = file
     else:
-        #assert data is not None
+        # assert data is not None
         kw["data"] = data
     if Image:
         # use PIL
@@ -290,12 +314,15 @@ def makeImage(file=None, data=None, dither=None, alpha=None):
             return Tkinter.PhotoImage(data=data)
     return Tkinter.PhotoImage(**kw)
 
+
 loadImage = makeImage
+
 
 def copyImage(image, x, y, width, height):
     if Image:
         if isinstance(image, PIL_Image):
-            return ImageTk.PhotoImage(image._pil_image.crop((x, y, x+width, y+height)))
+            return ImageTk.PhotoImage(
+                image._pil_image.crop((x, y, x+width, y+height)))
     dest = Tkinter.PhotoImage(width=width, height=height)
     assert dest.width() == width
     assert dest.height() == height
@@ -304,6 +331,7 @@ def copyImage(image, x, y, width, height):
     assert dest.width() == width
     assert dest.height() == height
     return dest
+
 
 def fillImage(image, fill, outline=None):
     if not fill and not outline:
@@ -336,6 +364,7 @@ def fillImage(image, fill, outline=None):
         assert len(f) == height
         image.put(f)
 
+
 def createImage(width, height, fill, outline=None):
     image = Tkinter.PhotoImage(width=width, height=height)
     assert image.width() == width
@@ -343,6 +372,7 @@ def createImage(width, height, fill, outline=None):
     image.blank()
     fillImage(image, fill, outline)
     return image
+
 
 def shadowImage(image, color='#3896f8', factor=0.3):
     if not hasattr(image, '_pil_image'):
@@ -359,6 +389,7 @@ def shadowImage(image, color='#3896f8', factor=0.3):
     out = Image.composite(tmp, im, im)
     return PIL_Image(image=out)
 
+
 def markImage(image):
     assert Image
     if 1:                               # shadow
@@ -370,6 +401,7 @@ def markImage(image):
     out = Image.composite(tmp, image, image)
     return out
 
+
 def _createBottomImage(image, color='white', backfile=None):
     th = 1                              # thickness
     sh = Image.new('RGBA', image.size, color)
@@ -379,7 +411,7 @@ def _createBottomImage(image, color='white', backfile=None):
     tmp = Image.new('RGBA', size, color)
     tmp.putalpha(60)
     mask = out.resize(size, Image.ANTIALIAS)
-    out.paste(tmp, (th,th), mask)
+    out.paste(tmp, (th, th), mask)
     if backfile:
         back = Image.open(backfile).convert('RGBA')
         w0, h0 = back.size
@@ -387,10 +419,11 @@ def _createBottomImage(image, color='white', backfile=None):
         a = min(float(w1)/w0, float(h1)/h0)
         a = a*0.9
         w0, h0 = int(w0*a), int(h0*a)
-        back = back.resize((w0,h0), Image.ANTIALIAS)
+        back = back.resize((w0, h0), Image.ANTIALIAS)
         x, y = (w1 - w0) / 2, (h1 - h0) / 2
-        out.paste(back, (x,y), back)
+        out.paste(back, (x, y), back)
     return out
+
 
 def createBottom(maskimage, color='white', backfile=None):
     if not hasattr(maskimage, '_pil_image'):
@@ -398,6 +431,7 @@ def createBottom(maskimage, color='white', backfile=None):
     maskimage = maskimage._pil_image
     out = _createBottomImage(maskimage, color, backfile)
     return PIL_Image(image=out)
+
 
 def resizeBottom(image, maskimage, color='white', backfile=None):
     maskimage = maskimage._pil_image
@@ -411,4 +445,3 @@ def resizeBottom(image, maskimage, color='white', backfile=None):
 
 def get_text_width(text, font, root=None):
     return Font(root=root, font=font).measure(text)
-

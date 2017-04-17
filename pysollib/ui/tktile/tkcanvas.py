@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 #
 # Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
 # Copyright (C) 2003 Mt. Hood Playing Card Co.
@@ -19,7 +19,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 
 __all__ = ['MfxCanvasGroup',
            'MfxCanvasImage',
@@ -36,7 +36,7 @@ import Canvas
 from pysollib.mfxutil import Image, ImageTk
 
 # Toolkit imports
-from pysollib.ui.tktile.tkutil import bind, unbind_destroy, loadImage
+from pysollib.ui.tktile.tkutil import unbind_destroy, loadImage
 
 
 # ************************************************************************
@@ -49,13 +49,17 @@ class MfxCanvasGroup(Canvas.Group):
         # register ourself so that we can unbind from the canvas
         assert self.id not in self.canvas.items
         self.canvas.items[self.id] = self
+
     def addtag(self, tag, option="withtag"):
         self.canvas.addtag(tag, option, self.id)
+
     def delete(self):
         del self.canvas.items[self.id]
         Canvas.Group.delete(self)
+
     def gettags(self):
         return self.canvas.tk.splitlist(self._do("gettags"))
+
 
 class MfxCanvasImage(Canvas.ImageItem):
     def __init__(self, canvas, x, y, **kwargs):
@@ -69,15 +73,20 @@ class MfxCanvasImage(Canvas.ImageItem):
         Canvas.ImageItem.__init__(self, canvas, x, y, **kwargs)
         if group:
             self.addtag(group)
+
     def moveTo(self, x, y):
         c = self.coords()
         self.move(x - int(c[0]), y - int(c[1]))
+
     def show(self):
         self.config(state='normal')
+
     def hide(self):
         self.config(state='hidden')
 
+
 MfxCanvasLine = Canvas.Line
+
 
 class MfxCanvasRectangle(Canvas.Rectangle):
     def __init__(self, canvas, *args, **kwargs):
@@ -88,6 +97,7 @@ class MfxCanvasRectangle(Canvas.Rectangle):
         Canvas.Rectangle.__init__(self, canvas, *args, **kwargs)
         if group:
             self.addtag(group)
+
 
 class MfxCanvasText(Canvas.CanvasText):
     def __init__(self, canvas, x, y, preview=-1, **kwargs):
@@ -108,6 +118,7 @@ class MfxCanvasText(Canvas.CanvasText):
         canvas._text_items.append(self)
         if group:
             self.addtag(group)
+
     def moveTo(self, x, y):
         dx, dy = x - self.x, y - self.y
         self.x, self.y = x, y
@@ -141,10 +152,10 @@ class MfxCanvas(Tkinter.Canvas):
         self.bind('<Configure>', self.setBackgroundImage)
 
     def setBackgroundImage(self, event=None):
-        ##print 'setBackgroundImage', self._bg_img
+        # print 'setBackgroundImage', self._bg_img
         if not hasattr(self, '_bg_img'):
             return
-        if not self._bg_img: # solid color
+        if not self._bg_img:  # solid color
             return
         stretch = self._stretch_bg_image
         save_aspect = self._save_aspect_bg_image
@@ -161,7 +172,7 @@ class MfxCanvas(Tkinter.Canvas):
                 image = ImageTk.PhotoImage(im)
             else:
                 image = ImageTk.PhotoImage(self._bg_img)
-        else: # not Image
+        else:  # not Image
             stretch = 0
             image = self._bg_img
         for id in self.__tiles:
@@ -184,7 +195,8 @@ class MfxCanvas(Tkinter.Canvas):
             sw, sh = self._geometry()
             for x in range(-self.xmargin, sw, iw):
                 for y in range(-self.ymargin, sh, ih):
-                    id = self._x_create("image", x, y, image=image, anchor="nw")
+                    id = self._x_create(
+                        "image", x, y, image=image, anchor="nw")
                     self.tag_lower(id)          # also see tag_lower above
                     self.__tiles.append(id)
         return 1
@@ -202,7 +214,6 @@ class MfxCanvas(Tkinter.Canvas):
         h = max(h, sh)
         return w, h
 
-
     #
     # top-image support
     #
@@ -211,33 +222,28 @@ class MfxCanvas(Tkinter.Canvas):
         return Tkinter.Canvas._create(self, itemType, args, kw)
 
     def _create(self, itemType, args, kw):
-        ##print "_create:", itemType, args, kw
+        # print "_create:", itemType, args, kw
         id = Tkinter.Canvas._create(self, itemType, args, kw)
         if self.__tops:
             self.tk.call(self._w, "lower", id, self.__tops[0])
         return id
 
     def tag_raise(self, id, aboveThis=None):
-        ##print "tag_raise:", id, aboveThis
+        # print "tag_raise:", id, aboveThis
         if aboveThis is None and self.__tops:
             self.tk.call(self._w, "lower", id, self.__tops[0])
         else:
             self.tk.call(self._w, "raise", id, aboveThis)
 
     def tag_lower(self, id, belowThis=None):
-        ##print "tag_lower:", id, belowThis
+        # print "tag_lower:", id, belowThis
         if belowThis is None and self.__tiles:
             self.tk.call(self._w, "raise", id, self.__tiles[-1])
         else:
             self.tk.call(self._w, "lower", id, belowThis)
 
-
-    #
-    #
-    #
-
     def setInitialSize(self, width, height, margins=True, scrollregion=True):
-        #print 'Canvas.setInitialSize:', width, height, scrollregion
+        # print 'Canvas.setInitialSize:', width, height, scrollregion
         if self.preview:
             self.config(width=width, height=height,
                         scrollregion=(0, 0, width, height))
@@ -255,11 +261,6 @@ class MfxCanvas(Tkinter.Canvas):
                 # no scrolls
                 self.config(scrollregion=(-dx, -dy, dx, dy))
 
-
-    #
-    #
-    #
-
     # delete all CanvasItems, but keep the background and top tiles
     def deleteAllItems(self):
         self._text_items = []
@@ -276,18 +277,18 @@ class MfxCanvas(Tkinter.Canvas):
                 if stack.cards[i].item.tag in current:
                     return i
         else:
-##             current = self.find("withtag", "current")   # get item ids
-##             for i in range(len(stack.cards)):
-##                 if stack.cards[i].item.id in current:
-##                     return i
+            #  current = self.find("withtag", "current")   # get item ids
+            #  for i in range(len(stack.cards)):
+            #      if stack.cards[i].item.id in current:
+            #          return i
             if self.preview:
                 dx, dy = 0, 0
             else:
                 dx, dy = -self.xmargin, -self.ymargin
             x = event.x+dx+self.xview()[0]*int(self.cget('width'))
             y = event.y+dy+self.yview()[0]*int(self.cget('height'))
-            ##x, y = event.x, event.y
-            items = list(self.find_overlapping(x,y,x,y))
+            # x, y = event.x, event.y
+            items = list(self.find_overlapping(x, y, x, y))
             items.reverse()
             for item in items:
                 for i in range(len(stack.cards)):
@@ -303,16 +304,17 @@ class MfxCanvas(Tkinter.Canvas):
             v = []
             for i in (1, 3, 5):
                 v.append(int(c[i:i+2], 16))
-            luminance = (0.212671 * v[0] + 0.715160 * v[1] + 0.072169 * v[2]) / 255
-            ##print c, ":", v, "luminance", luminance
-            color = ("#000000", "#ffffff") [luminance < 0.3]
+            luminance = (0.212671 * v[0] + 0.715160 * v[1] + 0.072169 * v[2]) \
+                / 255
+            # print c, ":", v, "luminance", luminance
+            color = ("#000000", "#ffffff")[luminance < 0.3]
         if self._text_color != color:
             self._text_color = color
             for item in self._text_items:
                 item.config(fill=self._text_color)
 
     def setTile(self, image, stretch=0, save_aspect=0):
-        ##print 'setTile:', image, stretch
+        # print 'setTile:', image, stretch
         if image:
             if Image:
                 try:
@@ -352,12 +354,12 @@ class MfxCanvas(Tkinter.Canvas):
             return 1
         iw, ih = image.width(), image.height()
         if cw <= 0:
-            ##cw = max(int(self.cget("width")), self.winfo_width())
+            # cw = max(int(self.cget("width")), self.winfo_width())
             cw = self.winfo_width()
         if ch <= 0:
-            ##ch = max(int(self.cget("height")),  self.winfo_height())
+            # ch = max(int(self.cget("height")),  self.winfo_height())
             ch = self.winfo_height()
-        ###print iw, ih, cw, ch
+        # print iw, ih, cw, ch
         x = (cw-iw)/2-self.xmargin+self.xview()[0]*int(self.cget('width'))
         y = (ch-ih)/2-self.ymargin+self.yview()[0]*int(self.cget('height'))
         id = self._x_create("image", x, y, image=image, anchor="nw")
@@ -377,7 +379,6 @@ class MfxCanvas(Tkinter.Canvas):
         for item in self.items.values():
             item.config(state='normal')
 
-
     #
     # restricted but fast _bind and _substitute
     #
@@ -385,7 +386,7 @@ class MfxCanvas(Tkinter.Canvas):
     def _bind(self, what, sequence, func, add, needcleanup=1):
         funcid = self._register(func, self._substitute, needcleanup)
         cmd = ('%sif {"[%s %s]" == "break"} break\n' %
-                (add and '+' or '', funcid, "%x %y"))
+               (add and '+' or '', funcid, "%x %y"))
         self.tk.call(what + (sequence, cmd))
         return funcid
 
@@ -401,4 +402,3 @@ class MfxCanvas(Tkinter.Canvas):
         except ValueError:
             e.y = args[1]
         return (e,)
-

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 #
 # Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
 # Copyright (C) 2003 Mt. Hood Playing Card Co.
@@ -19,7 +19,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 
 # ************************************************************************
 # * Nodes
@@ -28,23 +28,27 @@
 # imports
 import tkFont
 
+
 class BaseSelectDialogTreeLeaf:
     def drawSymbol(self, x, y, **kw):
         if self.tree.nodes.get(self.symbol_id) is not self:
-            self.symbol_id = self.tree.canvas.create_image(x, y,
+            self.symbol_id = self.tree.canvas.create_image(
+                x, y,
                 image=self.tree.data.img[2+(self.key is None)], anchor="nw")
             self.tree.nodes[self.symbol_id] = self
 
 
 class BaseSelectDialogTreeNode:
     def __init__(self, tree, text, select_func, expanded=0, parent_node=None):
-        self._calc_MfxTreeNode().__init__(self, tree, parent_node, text, key=None, expanded=expanded)
+        self._calc_MfxTreeNode().__init__(
+            self, tree, parent_node, text, key=None, expanded=expanded)
         # callable or a tuple/list of MfxTreeNodes
         self.select_func = select_func
 
     def drawSymbol(self, x, y, **kw):
         if self.tree.nodes.get(self.symbol_id) is not self:
-            self.symbol_id = self.tree.canvas.create_image(x, y,
+            self.symbol_id = self.tree.canvas.create_image(
+                x, y,
                 image=self.tree.data.img[self.expanded], anchor="nw")
             self.tree.nodes[self.symbol_id] = self
 
@@ -52,7 +56,7 @@ class BaseSelectDialogTreeNode:
         # cached values
         if self.subnodes is not None:
             return self.subnodes
-        ##print self.whoami()
+        # print self.whoami()
         if isinstance(self.select_func, (tuple, list)):
             return self.select_func
         return self._getContents()
@@ -68,6 +72,7 @@ class BaseSelectDialogTreeNode:
 
 class SelectDialogTreeData:
     img = []  # loaded in Application.loadImages3
+
     def __init__(self):
         self.tree_xview = (0.0, 1.0)
         self.tree_yview = (0.0, 1.0)
@@ -95,9 +100,10 @@ class BaseSelectDialogTreeCanvas:
             if parent and parent.winfo_screenheight() >= 800:
                 height = 30 * disty
         self.lines = height / disty
-        self._calc_MfxTreeInCanvas().__init__(self, parent, self.data.rootnodes,
-                                 width=width, height=height,
-                                 hbar=hbar, vbar=vbar)
+        self._calc_MfxTreeInCanvas().__init__(
+                self, parent, self.data.rootnodes,
+                width=width, height=height,
+                hbar=hbar, vbar=vbar)
         self.style.distx = 20
         self.style.disty = disty
         self.style.width = 16     # width of symbol
@@ -111,12 +117,12 @@ class BaseSelectDialogTreeCanvas:
         self.draw()
         self.updateSelection(key)
         if self.hbar:
-            ##print self.data.tree_yview
-            ##print self.canvas.xview()
+            # print self.data.tree_yview
+            # print self.canvas.xview()
             self.canvas.xview_moveto(self.data.tree_xview[0])
         if self.vbar:
-            ##print self.data.tree_yview
-            ##print self.canvas.yview()
+            # print self.data.tree_yview
+            # print self.canvas.yview()
             self.canvas.yview_moveto(self.data.tree_yview[0])
 
     def destroy(self):
@@ -157,4 +163,3 @@ class BaseSelectDialogTreeCanvas:
             node.expanded = not node.expanded
             self.redraw()
         return "break"
-

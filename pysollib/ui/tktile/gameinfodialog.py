@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 #
 # Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
 # Copyright (C) 2003 Mt. Hood Playing Card Co.
@@ -19,11 +19,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.mfxutil import KwStruct
 from pysollib.gamedb import GI
 
@@ -31,10 +31,12 @@ from pysollib.gamedb import GI
 # *
 # ************************************************************************
 
+
 class BaseGameInfoDialog:
     def __init__(self, parent, title, app, **kw):
         kw = self.initKw(kw)
-        self._calc_MfxDialog().__init__(self, parent, title, kw.resizable, kw.default)
+        self._calc_MfxDialog().__init__(
+            self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)
         self.createBitmaps(top_frame, kw)
 
@@ -46,9 +48,12 @@ class BaseGameInfoDialog:
         gi = game.gameinfo
 
         #
-        if    gi.redeals == -2: redeals = 'VARIABLE'
-        elif  gi.redeals == -1: redeals = 'UNLIMITED'
-        else:                   redeals = str(gi.redeals)
+        if gi.redeals == -2:
+            redeals = 'VARIABLE'
+        elif gi.redeals == -1:
+            redeals = 'UNLIMITED'
+        else:
+            redeals = str(gi.redeals)
         cat = '<none>'
         type = '<none>'
         flags = []
@@ -59,7 +64,7 @@ class BaseGameInfoDialog:
                     cat = attr
             elif attr.startswith('GT_'):
                 t = getattr(GI, attr)
-                if t < (1<<12)-1:
+                if t < (1 << 12)-1:
                     if gi.si.game_type == t:
                         type = attr
                 else:
@@ -102,10 +107,12 @@ class BaseGameInfoDialog:
                      ('Hint:', hint),
                      ):
             if t:
-                self._calcToolkit().Label(frame, text=n, anchor='w'
-                              ).grid(row=row, column=0, sticky='nw')
-                self._calcToolkit().Label(frame, text=t, anchor='w', justify='left'
-                              ).grid(row=row, column=1, sticky='nw')
+                self._calcToolkit().Label(
+                    frame, text=n, anchor='w').grid(
+                    row=row, column=0, sticky='nw')
+                self._calcToolkit().Label(
+                    frame, text=t, anchor='w', justify='left').grid(
+                    row=row, column=1, sticky='nw')
                 row += 1
 
         if game.s.talon:
@@ -118,7 +125,7 @@ class BaseGameInfoDialog:
             ('Foundations:', game.s.foundations,),
             ('Rows:',        game.s.rows,),
             ('Reserves:',    game.s.reserves,),
-            ):
+                ):
             if s:
                 self.showStacks(frame, row, t, s)
                 row += 1
@@ -128,8 +135,9 @@ class BaseGameInfoDialog:
         self.mainloop(focus, kw.timeout)
 
     def showStacks(self, frame, row, title, stacks):
-        self._calcToolkit().Label(frame, text=title, anchor='w'
-                      ).grid(row=row, column=0, sticky='nw')
+        self._calcToolkit().Label(
+            frame, text=title, anchor='w').grid(
+            row=row, column=0, sticky='nw')
         if isinstance(stacks, (list, tuple)):
             fs = {}
             for f in stacks:
@@ -141,8 +149,9 @@ class BaseGameInfoDialog:
             t = '\n'.join(['%s (%d)' % (i[0], i[1]) for i in fs.items()])
         else:
             t = stacks.__class__.__name__
-        self._calcToolkit().Label(frame, text=t, anchor='w', justify='left'
-                      ).grid(row=row, column=1, sticky='nw')
+        self._calcToolkit().Label(
+            frame, text=t, anchor='w', justify='left').grid(
+            row=row, column=1, sticky='nw')
 
     def initKw(self, kw):
         kw = KwStruct(kw,

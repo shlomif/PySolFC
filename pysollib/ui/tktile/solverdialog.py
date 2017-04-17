@@ -1,8 +1,9 @@
 import Tkinter
 
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.ui.tktile.tkconst import EVENT_HANDLED
 from pysollib.settings import TITLE
+
 
 class BaseSolverDialog:
     def __init__(self, parent, app, **kw):
@@ -10,16 +11,17 @@ class BaseSolverDialog:
         self.app = app
         title = TITLE+' - FreeCell Solver'
         kw = self.initKw(kw)
-        self._calc_MfxDialog().__init__(self, parent, title, kw.resizable, kw.default)
+        self._calc_MfxDialog().__init__(
+            self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)
         self.createBitmaps(top_frame, kw)
         #
         self.solving_methods = {
             'A*':                   'a-star',
             'Breadth-First Search': 'bfs',
-            'Depth-First Search':   'soft-dfs', # default
+            'Depth-First Search':   'soft-dfs',  # default
             'A randomized DFS':     'random-dfs',
-            ##'"Soft" DFS':           'soft-dfs',
+            # '"Soft" DFS':           'soft-dfs',
             }
         self.games = {}                 # key: gamename; value: gameid
 
@@ -30,8 +32,9 @@ class BaseSolverDialog:
 
         #
         row = 0
-        self._calcToolkit().Label(frame, text=_('Game:'), anchor='w'
-                  ).grid(row=row, column=0, sticky='ew', padx=2, pady=2)
+        self._calcToolkit().Label(
+            frame, text=_('Game:'), anchor='w').grid(
+            row=row, column=0, sticky='ew', padx=2, pady=2)
         games = app.getGamesForSolver()
         gamenames = ['']
         for id in games:
@@ -44,8 +47,9 @@ class BaseSolverDialog:
 
         #
         row += 1
-        self._calcToolkit().Label(frame, text=_('Preset:'), anchor='w'
-                  ).grid(row=row, column=0, sticky='ew', padx=2, pady=2)
+        self._calcToolkit().Label(
+            frame, text=_('Preset:'), anchor='w').grid(
+            row=row, column=0, sticky='ew', padx=2, pady=2)
         presets = app.opt.solver_presets
         self.presets = presets
         self.preset_var = self._createPresetVar(frame, row)
@@ -54,8 +58,9 @@ class BaseSolverDialog:
         row += 1
         self.max_iters_var = Tkinter.IntVar()
         self.max_iters_var.set(10e4)
-        self._calcToolkit().Label(frame, text=_('Max iterations:'), anchor='w'
-                  ).grid(row=row, column=0, sticky='ew', padx=2, pady=2)
+        self._calcToolkit().Label(
+            frame, text=_('Max iterations:'), anchor='w').grid(
+            row=row, column=0, sticky='ew', padx=2, pady=2)
         spin = Tkinter.Spinbox(frame, bg='white', from_=1000, to=10e6,
                                increment=1000, textvariable=self.max_iters_var)
         spin.grid(row=row, column=1, sticky='w', padx=2, pady=2)
@@ -68,27 +73,31 @@ class BaseSolverDialog:
         w.grid(row=row, column=0, columnspan=2, sticky='ew', padx=2, pady=2)
 
         #
-        label_frame = self._calcToolkit().LabelFrame(top_frame, text=_('Progress'))
+        label_frame = self._calcToolkit().LabelFrame(
+            top_frame, text=_('Progress'))
         label_frame.pack(expand=True, fill='both', padx=6, pady=2)
-        #label_frame.columnconfigure(0, weight=1)
+        # label_frame.columnconfigure(0, weight=1)
         label_frame.columnconfigure(1, weight=1)
 
         #
         frow = 0
-        self._calcToolkit().Label(label_frame, text=_('Iteration:'), anchor='w'
-                  ).grid(row=frow, column=0, sticky='ew', padx=4, pady=2)
+        self._calcToolkit().Label(
+            label_frame, text=_('Iteration:'), anchor='w').grid(
+            row=frow, column=0, sticky='ew', padx=4, pady=2)
         lb = self._calcToolkit().Label(label_frame, anchor='w')
         lb.grid(row=frow, column=1, sticky='ew', padx=4, pady=2)
         self.iter_label = lb
         frow += 1
-        self._calcToolkit().Label(label_frame, text=_('Depth:'), anchor='w'
-                  ).grid(row=frow, column=0, sticky='ew', padx=4, pady=2)
+        self._calcToolkit().Label(
+            label_frame, text=_('Depth:'), anchor='w').grid(
+            row=frow, column=0, sticky='ew', padx=4, pady=2)
         lb = self._calcToolkit().Label(label_frame, anchor='w')
         lb.grid(row=frow, column=1, sticky='ew', padx=4, pady=2)
         self.depth_label = lb
         frow += 1
-        self._calcToolkit().Label(label_frame, text=_('Stored-States:'), anchor='w'
-                  ).grid(row=frow, column=0, sticky='ew', padx=4, pady=2)
+        self._calcToolkit().Label(
+            label_frame, text=_('Stored-States:'), anchor='w').grid(
+            row=frow, column=0, sticky='ew', padx=4, pady=2)
         lb = self._calcToolkit().Label(label_frame, anchor='w')
         lb.grid(row=frow, column=1, sticky='ew', padx=4, pady=2)
         self.states_label = lb
@@ -105,7 +114,6 @@ class BaseSolverDialog:
         self._reset()
         self.connectGame(self.app.game)
         self.mainloop(focus, kw.timeout, transient=False)
-
 
     def mDone(self, button):
         if button == 0:
@@ -147,7 +155,7 @@ class BaseSolverDialog:
 
         self._reset()
         game = self.app.game
-        solver = game.Solver_Class(game, self) # create solver instance
+        solver = game.Solver_Class(game, self)  # create solver instance
         game.solver = solver
         preset = self.preset_var.get()
         max_iters = self.max_iters_var.get()
@@ -162,7 +170,10 @@ class BaseSolverDialog:
             self.result_label['text'] = t
             self.play_button.config(state='normal')
         else:
-            self.result_label['text'] = (_('I could not solve this game.') if solver.solver_state == 'unsolved' else _('Iterations count exceeded (Intractable)'))
+            self.result_label['text'] = \
+                (_('I could not solve this game.')
+                 if solver.solver_state == 'unsolved'
+                 else _('Iterations count exceeded (Intractable)'))
             self.play_button.config(state='disabled')
 
     def startPlay(self):
@@ -185,7 +196,9 @@ class BaseSolverDialog:
             self.states_label['text'] = kw['states']
         self.top.update_idletasks()
 
+
 solver_dialog = None
+
 
 def connect_game_solver_dialog(game):
     try:
@@ -193,12 +206,13 @@ def connect_game_solver_dialog(game):
     except:
         pass
 
+
 def destroy_solver_dialog():
     global solver_dialog
     try:
         solver_dialog.destroy()
     except:
-        ##traceback.print_exc()
+        # traceback.print_exc()
         pass
     solver_dialog = None
 
@@ -208,6 +222,5 @@ def reset_solver_dialog():
         try:
             solver_dialog.reset()
         except:
-            ##traceback.print_exc()
+            # traceback.print_exc()
             pass
-

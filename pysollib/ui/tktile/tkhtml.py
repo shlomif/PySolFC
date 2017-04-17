@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 #
 # Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
 # Copyright (C) 2003 Mt. Hood Playing Card Co.
@@ -19,10 +19,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 
 import os
-import htmllib, formatter
+import htmllib
+import formatter
 import Tkinter
 
 from pysollib.ui.tktile.tkutil import bind, unbind_destroy
@@ -36,6 +37,7 @@ REMOTE_PROTOCOLS = ("ftp:", "gopher:", "http:", "mailto:", "news:", "telnet:")
 # *
 # ************************************************************************
 
+
 class tkHTMLWriter(formatter.NullWriter):
     def __init__(self, text, viewer, app):
         formatter.NullWriter.__init__(self)
@@ -43,7 +45,6 @@ class tkHTMLWriter(formatter.NullWriter):
         self.text = text
         self.viewer = viewer
 
-        ##
         if app:
             font = app.getFont("sans")
             fixed = app.getFont("fixed")
@@ -52,17 +53,18 @@ class tkHTMLWriter(formatter.NullWriter):
             fixed = ('courier', 12)
         size = font[1]
         sign = 1
-        if size < 0: sign = -1
+        if size < 0:
+            sign = -1
         self.fontmap = {
-            "h1"      : (font[0], size + 12*sign, "bold"),
-            "h2"      : (font[0], size +  8*sign, "bold"),
-            "h3"      : (font[0], size +  6*sign, "bold"),
-            "h4"      : (font[0], size +  4*sign, "bold"),
-            "h5"      : (font[0], size +  2*sign, "bold"),
-            "h6"      : (font[0], size +  1*sign, "bold"),
-            "bold"    : (font[0], size, "bold"),
-            "italic"  : (font[0], size, "italic"),
-            "pre"     : fixed,
+            "h1": (font[0], size + 12*sign, "bold"),
+            "h2": (font[0], size + 8*sign, "bold"),
+            "h3": (font[0], size + 6*sign, "bold"),
+            "h4": (font[0], size + 4*sign, "bold"),
+            "h5": (font[0], size + 2*sign, "bold"),
+            "h6": (font[0], size + 1*sign, "bold"),
+            "bold": (font[0], size, "bold"),
+            "italic": (font[0], size, "italic"),
+            "pre": fixed,
         }
 
         self.text.config(cursor=self.viewer.defcursor, font=font)
@@ -80,6 +82,7 @@ class tkHTMLWriter(formatter.NullWriter):
             def __init__(self, viewer, arg):
                 self.viewer = viewer
                 self.arg = arg
+
             def __call__(self, *args):
                 self.viewer.updateHistoryXYView()
                 return self.viewer.display(self.arg)
@@ -90,7 +93,7 @@ class tkHTMLWriter(formatter.NullWriter):
 
     def anchor_bgn(self, href, name, type):
         if href:
-            ##self.text.update_idletasks()   # update display during parsing
+            # self.text.update_idletasks()   # update display during parsing
             self.anchor = (href, name, type)
             self.anchor_mark = self.text.index("insert")
 
@@ -100,7 +103,8 @@ class tkHTMLWriter(formatter.NullWriter):
             tag = "href_" + url
             self.text.tag_add(tag, self.anchor_mark, "insert")
             self.text.tag_bind(tag, "<1>", self.createCallback(url))
-            self.text.tag_bind(tag, "<Enter>", lambda e: self.anchor_enter(url))
+            self.text.tag_bind(
+                tag, "<Enter>", lambda e: self.anchor_enter(url))
             self.text.tag_bind(tag, "<Leave>", self.anchor_leave)
             fg = 'blue'
             u = self.viewer.normurl(url, with_protocol=False)
@@ -121,12 +125,12 @@ class tkHTMLWriter(formatter.NullWriter):
     def new_font(self, font):
         # end the current font
         if self.font:
-            ##print "end_font(%s)" % `self.font`
+            # print "end_font(%s)" % `self.font`
             self.text.tag_add(self.font, self.font_mark, "insert")
             self.font = None
         # start the new font
         if font:
-            ##print "start_font(%s)" % `font`
+            # print "start_font(%s)" % `font`
             self.font_mark = self.text.index("insert")
             if font[0] in self.fontmap:
                 self.font = font[0]
@@ -143,9 +147,9 @@ class tkHTMLWriter(formatter.NullWriter):
         self.indent = "    " * level
 
     def send_label_data(self, data):
-        ##self.write(self.indent + data + " ")
+        # self.write(self.indent + data + " ")
         self.write(self.indent)
-        if data == '*': # <li>
+        if data == '*':  # <li>
             img = self.viewer.symbols_img.get('disk')
             if img:
                 self.text.image_create(index='insert', image=img,
@@ -194,7 +198,9 @@ class tkHTMLParser(htmllib.HTMLParser):
         self.ddpop()
 
     def handle_image(self, src, alt, ismap, align, width, height):
-        self.formatter.writer.viewer.showImage(src, alt, ismap, align, width, height)
+        self.formatter.writer.viewer.showImage(
+            src, alt, ismap, align, width, height)
+
 
 class Base_HTMLViewer:
     def initBindings(self):
@@ -214,10 +220,12 @@ class Base_HTMLViewer:
         unbind_destroy(self.parent)
         try:
             self.parent.wm_withdraw()
-        except: pass
+        except:
+            pass
         try:
             self.parent.destroy()
-        except: pass
+        except:
+            pass
         self.parent = None
 
     def _yview(self, *args):
@@ -226,14 +234,19 @@ class Base_HTMLViewer:
 
     def page_up(self, *event):
         return self._yview('scroll', -1, 'page')
+
     def page_down(self, *event):
         return self._yview('scroll', 1, 'page')
+
     def unit_up(self, *event):
         return self._yview('scroll', -1, 'unit')
+
     def unit_down(self, *event):
         return self._yview('scroll', 1, 'unit')
+
     def scroll_top(self, *event):
         return self._yview('moveto', 0)
+
     def scroll_bottom(self, *event):
         return self._yview('moveto', 1)
 
@@ -251,7 +264,7 @@ class Base_HTMLViewer:
             if relpath and baseurl and not os.path.isabs(url):
                 h1, t1 = os.path.split(url)
                 h2, t2 = os.path.split(baseurl)
-                if cmp(h1, h2) != 0:
+                if h1 != h2:
                     url = os.path.join(h2, h1, t1)
                 url = os.path.normpath(url)
         return url
@@ -279,8 +292,8 @@ class Base_HTMLViewer:
         # (is this a multithread problem with Tkinter ?)
         if self.app and self.app.game:
             self.app.game.stopDemo()
-            ##self.app.game._cancelDrag()
-            ##pass
+            # self.app.game._cancelDrag()
+            # pass
 
         # ftp: and http: would work if we use urllib, but this widget is
         # far too limited to display anything but our documentation...
@@ -310,12 +323,15 @@ to open the following URL:
             data = file.read()
             file.close()
             file = None
-        except Exception, ex:
-            if file: file.close()
-            self.errorDialog(_("Unable to service request:\n") + url + "\n\n" + str(ex))
+        except Exception as ex:
+            if file:
+                file.close()
+            self.errorDialog(_("Unable to service request:\n") + url +
+                             "\n\n" + str(ex))
             return
         except:
-            if file: file.close()
+            if file:
+                file.close()
             self.errorDialog(_("Unable to service request:\n") + url)
             return
 
@@ -325,7 +341,7 @@ to open the following URL:
         if add:
             self.addHistory(self.url, xview=xview, yview=yview)
 
-        ##print self.history.index, self.history.list
+        # print self.history.index, self.history.list
         if self.history.index > 1:
             self.backButton.config(state="normal")
         else:
@@ -339,11 +355,11 @@ to open the following URL:
         self.defcursor = self.handcursor = "watch"
         self.text.config(cursor=self.defcursor)
         self.text.update_idletasks()
-        ##self.frame.config(cursor=self.defcursor)
-        ##self.frame.update_idletasks()
+        # self.frame.config(cursor=self.defcursor)
+        # self.frame.update_idletasks()
         self.text.config(state="normal")
         self.text.delete("1.0", "end")
-        ##self.images = {}
+        # self.images = {}
         writer = tkHTMLWriter(self.text, self, self.app)
         fmt = formatter.AbstractFormatter(writer)
         parser = tkHTMLParser(fmt)
@@ -358,17 +374,17 @@ to open the following URL:
         self.parent.wm_iconname(parser.title)
         self.defcursor, self.handcursor = old_c1, old_c2
         self.text.config(cursor=self.defcursor)
-        ##self.frame.config(cursor=self.defcursor)
+        # self.frame.config(cursor=self.defcursor)
 
     def addHistory(self, url, xview=0, yview=0):
         if url not in self.visited_urls:
             self.visited_urls.append(url)
         if self.history.index > 0:
             u, xv, yv = self.history.list[self.history.index-1]
-            if cmp(u, url) == 0:
+            if u == url:
                 self.updateHistoryXYView()
                 return
-        del self.history.list[self.history.index : ]
+        del self.history.list[self.history.index:]
         self.history.list.append((url, xview, yview))
         self.history.index = self.history.index + 1
 
@@ -394,15 +410,16 @@ to open the following URL:
             self.display(url, add=0, relpath=0, xview=xview, yview=yview)
 
     def goHome(self, *event):
-        if self.home and cmp(self.home, self.url) != 0:
+        if self.home and self.home != self.url:
             self.updateHistoryXYView()
             self.display(self.home, relpath=0)
 
     def errorDialog(self, msg):
-        d = self._calc_MfxMessageDialog()(self.parent, title=TITLE+" HTML Problem",
-                             text=msg,
-                             ##bitmap="warning", # FIXME: this interp don't have images
-                             strings=(_("&OK"),), default=0)
+        self._calc_MfxMessageDialog()(
+            self.parent, title=TITLE+" HTML Problem",
+            text=msg,
+            # bitmap="warning", # FIXME: this interp don't have images
+            strings=(_("&OK"),), default=0)
 
     def getImage(self, fn):
         if fn in self.images:

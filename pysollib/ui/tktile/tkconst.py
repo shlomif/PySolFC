@@ -41,33 +41,33 @@ __all__ = ['EVENT_HANDLED',
 # imports
 import Tkinter
 
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import n_
 
 # ************************************************************************
 # * constants
 # ************************************************************************
 
-EVENT_HANDLED   = "break"
+EVENT_HANDLED = "break"
 EVENT_PROPAGATE = None
 
-CURSOR_DRAG     = "hand1"
-CURSOR_WATCH    = "watch"
+CURSOR_DRAG = "hand1"
+CURSOR_WATCH = "watch"
 CURSOR_DOWN_ARROW = 'sb_down_arrow'
 
 ANCHOR_CENTER = Tkinter.CENTER
-ANCHOR_N      = Tkinter.N
-ANCHOR_NW     = Tkinter.NW
-ANCHOR_NE     = Tkinter.NE
-ANCHOR_S      = Tkinter.S
-ANCHOR_SW     = Tkinter.SW
-ANCHOR_SE     = Tkinter.SE
-ANCHOR_W      = Tkinter.W
-ANCHOR_E      = Tkinter.E
+ANCHOR_N = Tkinter.N
+ANCHOR_NW = Tkinter.NW
+ANCHOR_NE = Tkinter.NE
+ANCHOR_S = Tkinter.S
+ANCHOR_SW = Tkinter.SW
+ANCHOR_SE = Tkinter.SE
+ANCHOR_W = Tkinter.W
+ANCHOR_E = Tkinter.E
 
 COMPOUNDS = (
-    ##(Tkinter.BOTTOM,  'bottom'),
-    ##(Tkinter.CENTER,  'center'),
-    ##(Tkinter.RIGHT,    'right'),
+    # (Tkinter.BOTTOM,  'bottom'),
+    # (Tkinter.CENTER,  'center'),
+    # (Tkinter.RIGHT,    'right'),
     (Tkinter.NONE,   n_('Icons only')),
     (Tkinter.TOP,    n_('Text below icons')),
     (Tkinter.LEFT,   n_('Text beside icons')),
@@ -89,4 +89,3 @@ TOOLBAR_BUTTONS = (
     "quit",
     "player",
     )
-

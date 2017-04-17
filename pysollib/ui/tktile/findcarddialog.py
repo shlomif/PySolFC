@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 #
 # Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
 # Copyright (C) 2003 Mt. Hood Playing Card Co.
@@ -19,7 +19,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 
 __all__ = ['create_find_card_dialog',
            'connect_game_find_card_dialog',
@@ -31,12 +31,13 @@ import os
 import Tkinter
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 
 # Toolkit imports
 from pysollib.ui.tktile.tkutil import after, after_cancel
 from pysollib.ui.tktile.tkutil import bind, unbind_destroy, makeImage
-from pysollib.ui.tktile.tkcanvas import MfxCanvas, MfxCanvasGroup, MfxCanvasImage, MfxCanvasRectangle
+from pysollib.ui.tktile.tkcanvas import MfxCanvas, MfxCanvasGroup, \
+        MfxCanvasImage, MfxCanvasRectangle
 
 from pysollib.settings import TITLE
 
@@ -48,8 +49,9 @@ from pysollib.settings import TITLE
 LARGE_EMBLEMS_SIZE = (38, 34)
 SMALL_EMBLEMS_SIZE = (31, 21)
 
+
 class FindCardDialog(Tkinter.Toplevel):
-    CARD_IMAGES = {} # key: (rank, suit)
+    CARD_IMAGES = {}  # key: (rank, suit)
 
     def __init__(self, parent, game, dir, size='large'):
         Tkinter.Toplevel.__init__(self)
@@ -57,7 +59,7 @@ class FindCardDialog(Tkinter.Toplevel):
         self.title(title)
         self.wm_resizable(False, False)
         #
-        ##self.images_dir = dir
+        # self.images_dir = dir
         if size == 'large':
             self.images_dir = os.path.join(dir, 'large')
             self.label_width, self.label_height = LARGE_EMBLEMS_SIZE
@@ -65,7 +67,7 @@ class FindCardDialog(Tkinter.Toplevel):
             self.images_dir = os.path.join(dir, 'small')
             self.label_width, self.label_height = SMALL_EMBLEMS_SIZE
         self.canvas = MfxCanvas(self, bg='white')
-        ##self.canvas = MfxCanvas(self, bg='black')
+        # self.canvas = MfxCanvas(self, bg='black')
         self.canvas.pack(expand=True, fill='both')
         #
         self.groups = []
@@ -76,8 +78,9 @@ class FindCardDialog(Tkinter.Toplevel):
         bind(self, "WM_DELETE_WINDOW", self.destroy)
         bind(self, "<Escape>", self.destroy)
         #
-        ##self.normal_timeout = 400    # in milliseconds
-        self.normal_timeout = int(1000*game.app.opt.timeouts['highlight_samerank'])
+        # self.normal_timeout = 400    # in milliseconds
+        self.normal_timeout = int(
+            1000*game.app.opt.timeouts['highlight_samerank'])
         self.hidden_timeout = 200
         self.timer = None
 
@@ -140,9 +143,11 @@ class FindCardDialog(Tkinter.Toplevel):
         self.wm_geometry('')            # cancel user-specified geometry
 
     def enterEvent(self, suit, rank, rect, group):
-        ##print 'enterEvent', suit, rank, self.busy
-        if self.busy: return
-        if self.game.demo: return
+        # print 'enterEvent', suit, rank, self.busy
+        if self.busy:
+            return
+        if self.game.demo:
+            return
         self.busy = True
         self.highlight_items = self.game.highlightCard(suit, rank)
         if not self.highlight_items:
@@ -154,8 +159,9 @@ class FindCardDialog(Tkinter.Toplevel):
         self.busy = False
 
     def leaveEvent(self, suit, rank, rect, group):
-        ##print 'leaveEvent', suit, rank, self.busy
-        if self.busy: return
+        # print 'leaveEvent', suit, rank, self.busy
+        if self.busy:
+            return
         self.busy = True
         if self.highlight_items:
             for i in self.highlight_items:
@@ -169,7 +175,6 @@ class FindCardDialog(Tkinter.Toplevel):
             self.game.canvas.update_idletasks()
         self.canvas.update_idletasks()
         self.busy = False
-
 
     def timeoutEvent(self, *event):
         if self.highlight_items:
@@ -199,8 +204,8 @@ class FindCardDialog(Tkinter.Toplevel):
         Tkinter.Toplevel.destroy(self)
 
 
-
 find_card_dialog = None
+
 
 def create_find_card_dialog(parent, game, dir):
     global find_card_dialog
@@ -208,8 +213,9 @@ def create_find_card_dialog(parent, game, dir):
         find_card_dialog.wm_deiconify()
         find_card_dialog.tkraise()
     except:
-        ##traceback.print_exc()
+        # traceback.print_exc()
         find_card_dialog = FindCardDialog(parent, game, dir)
+
 
 def connect_game_find_card_dialog(game):
     try:
@@ -217,13 +223,12 @@ def connect_game_find_card_dialog(game):
     except:
         pass
 
+
 def destroy_find_card_dialog():
     global find_card_dialog
     try:
         find_card_dialog.destroy()
     except:
-        ##traceback.print_exc()
+        # traceback.print_exc()
         pass
     find_card_dialog = None
-
-

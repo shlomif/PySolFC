@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 #
 # Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
 # Copyright (C) 2003 Mt. Hood Playing Card Co.
@@ -19,7 +19,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 
 __all__ = ['Card']
 
@@ -42,12 +42,12 @@ class _HideableCard(AbstractCard):
             return
         self.item.config(state="hidden")
         self.hide_stack = stack
-        ##print "hide:", self.id, self.item.coords()
+        # print "hide:", self.id, self.item.coords()
 
     def unhide(self):
         if self.hide_stack is None:
             return 0
-        ##print "unhide:", self.id, self.item.coords()
+        # print "unhide:", self.id, self.item.coords()
         self.item.config(state="normal")
         self.hide_stack = None
         return 1
@@ -70,9 +70,10 @@ class _OneImageCard(_HideableCard):
         self._back_image = game.getCardBackImage(deck, suit, rank)
         self._shade_image = game.getCardShadeImage()
         self._active_image = self._back_image
-        self.item = MfxCanvasImage(game.canvas, self.x, self.y, image=self._active_image, anchor="nw")
+        self.item = MfxCanvasImage(
+            game.canvas, self.x, self.y, image=self._active_image, anchor="nw")
         self.shade_item = None
-        ##self._setImage = self.item.config
+        # self._setImage = self.item.config
 
     def _setImage(self, image):
         if image is not self._active_image:
@@ -181,8 +182,12 @@ class _TwoImageCard(_HideableCard):
     def __init__(self, id, deck, suit, rank, game, x=0, y=0):
         _HideableCard.__init__(self, id, deck, suit, rank, game, x=x, y=y)
         self.item = MfxCanvasGroup(game.canvas)
-        self.__face = MfxCanvasImage(game.canvas, self.x, self.y, image=game.getCardFaceImage(deck, suit, rank), anchor="nw")
-        self.__back = MfxCanvasImage(game.canvas, self.x, self.y, image=game.getCardBackImage(deck, suit, rank), anchor="nw")
+        self.__face = MfxCanvasImage(
+            game.canvas, self.x, self.y, image=game.getCardFaceImage(
+                deck, suit, rank), anchor="nw")
+        self.__back = MfxCanvasImage(
+            game.canvas, self.x, self.y, image=game.getCardBackImage(
+                deck, suit, rank), anchor="nw")
         self.__face.addtag(self.item)
         self.__back.addtag(self.item)
 
@@ -216,15 +221,19 @@ class _TwoImageCardWithHideItem(_HideableCard):
     def __init__(self, id, deck, suit, rank, game, x=0, y=0):
         _HideableCard.__init__(self, id, deck, suit, rank, game, x=x, y=y)
         self.item = MfxCanvasGroup(game.canvas)
-        self.__face = MfxCanvasImage(game.canvas, self.x, self.y + 11000, image=game.getCardFaceImage(deck, suit, rank), anchor="nw")
-        self.__back = MfxCanvasImage(game.canvas, self.x, self.y, image=game.getCardBackImage(deck, suit, rank), anchor="nw")
+        self.__face = MfxCanvasImage(
+            game.canvas, self.x, self.y + 11000, image=game.getCardFaceImage(
+                deck, suit, rank), anchor="nw")
+        self.__back = MfxCanvasImage(
+            game.canvas, self.x, self.y, image=game.getCardBackImage(
+                deck, suit, rank), anchor="nw")
         self.__face.addtag(self.item)
         self.__back.addtag(self.item)
 
     def showFace(self, unhide=1):
         if not self.face_up:
             self.__back.move(0, 10000)
-            ##self.__face.tkraise()
+            # self.__face.tkraise()
             self.__face.move(0, -11000)
             self.tkraise(unhide)
             self.face_up = 1
@@ -232,7 +241,7 @@ class _TwoImageCardWithHideItem(_HideableCard):
     def showBack(self, unhide=1):
         if self.face_up:
             self.__face.move(0, 11000)
-            ##self.__back.tkraise()
+            # self.__back.tkraise()
             self.__back.move(0, -10000)
             self.tkraise(unhide)
             self.face_up = 0
@@ -241,10 +250,8 @@ class _TwoImageCardWithHideItem(_HideableCard):
         self.__back.config(image=image)
 
 
-
 # choose the implementation
 Card = _TwoImageCardWithHideItem
 Card = _TwoImageCard
 Card = _OneImageCardWithHideByConfig
 Card = _OneImageCard
-

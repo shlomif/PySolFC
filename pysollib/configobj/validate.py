@@ -162,11 +162,15 @@ __all__ = (
 )
 
 import sys
+import re
 INTP_VER = sys.version_info[:2]
 if INTP_VER < (2, 2):
     raise RuntimeError("Python v.2.2 or later needed")
 
-import re
+if sys.version_info > (3,):
+    long = int
+    unicode = str
+
 StringTypes = (str, unicode)
 
 
@@ -258,6 +262,7 @@ except NameError:
         else:
             return 0
 
+
 def dottedQuadToNum(ip):
     """
     Convert decimal dotted quad string to long integer
@@ -281,18 +286,20 @@ def dottedQuadToNum(ip):
     """
 
     # import here to avoid it when ip_addr values are not used
-    import socket, struct
+    import socket
+    import struct
 
     try:
         return struct.unpack('!L',
-            socket.inet_aton(ip.strip()))[0]
+                             socket.inet_aton(ip.strip()))[0]
     except socket.error:
         # bug in inet_aton, corrected in Python 2.3
         if ip.strip() == '255.255.255.255':
-            return 0xFFFFFFFFL
+            return long('0xFFFFFFFF', 0)
         else:
             raise ValueError('Not a good dotted-quad IP: %s' % ip)
     return
+
 
 def numToDottedQuad(num):
     """
@@ -317,7 +324,8 @@ def numToDottedQuad(num):
     """
 
     # import here to avoid it when ip_addr values are not used
-    import socket, struct
+    import socket
+    import struct
 
     # no need to intercept here, 4294967295L is fine
     try:
@@ -325,6 +333,7 @@ def numToDottedQuad(num):
             struct.pack('!L', long(num)))
     except (socket.error, struct.error, OverflowError):
         raise ValueError('Not a good numeric IP: %s' % num)
+
 
 class ValidateError(Exception):
     """
@@ -339,8 +348,10 @@ class ValidateError(Exception):
     ValidateError
     """
 
+
 class VdtMissingValue(ValidateError):
     """No value was supplied to a check that needed one."""
+
 
 class VdtUnknownCheckError(ValidateError):
     """An unknown check function was requested"""
@@ -354,6 +365,7 @@ class VdtUnknownCheckError(ValidateError):
         ValidateError.__init__(
             self,
             'the check "%s" is unknown.' % value)
+
 
 class VdtParamError(SyntaxError):
     """An incorrect parameter was passed"""
@@ -369,6 +381,7 @@ class VdtParamError(SyntaxError):
             'passed an incorrect value "%s" for parameter "%s".' % (
                 value, name))
 
+
 class VdtTypeError(ValidateError):
     """The value supplied was of the wrong type"""
 
@@ -381,6 +394,7 @@ class VdtTypeError(ValidateError):
         ValidateError.__init__(
             self,
             'the value "%s" is of the wrong type.' % value)
+
 
 class VdtValueError(ValidateError):
     """
@@ -397,6 +411,7 @@ class VdtValueError(ValidateError):
             self,
             'the value "%s" is unacceptable.' % value)
 
+
 class VdtValueTooSmallError(VdtValueError):
     """The value supplied was of the correct type, but was too small."""
 
@@ -409,6 +424,7 @@ class VdtValueTooSmallError(VdtValueError):
         ValidateError.__init__(
             self,
             'the value "%s" is too small.' % value)
+
 
 class VdtValueTooBigError(VdtValueError):
     """The value supplied was of the correct type, but was too big."""
@@ -423,6 +439,7 @@ class VdtValueTooBigError(VdtValueError):
             self,
             'the value "%s" is too big.' % value)
 
+
 class VdtValueTooShortError(VdtValueError):
     """The value supplied was of the correct type, but was too short."""
 
@@ -436,6 +453,7 @@ class VdtValueTooShortError(VdtValueError):
             self,
             'the value "%s" is too short.' % (value,))
 
+
 class VdtValueTooLongError(VdtValueError):
     """The value supplied was of the correct type, but was too long."""
 
@@ -447,7 +465,8 @@ class VdtValueTooLongError(VdtValueError):
         """
         ValidateError.__init__(
             self,
-            'the value "%s" is too long.' %  (value,))
+            'the value "%s" is too long.' % (value,))
+
 
 class Validator(object):
     """
@@ -527,7 +546,6 @@ class Validator(object):
     # this regex takes apart keyword arguments
     _key_arg = re.compile(r'^([a-zA-Z_][a-zA-Z0-9_]*)\s*=\s*(.*)$')
 
-
     # this regex finds keyword=list(....) type values
     _list_arg = _list_arg
 
@@ -538,7 +556,6 @@ class Validator(object):
     # and then pull the members out
     _paramfinder = re.compile(_paramstring, re.VERBOSE)
     _matchfinder = re.compile(_matchstring, re.VERBOSE)
-
 
     def __init__(self, functions=None):
         """
@@ -634,8 +651,6 @@ class Validator(object):
         except KeyError:
             raise VdtUnknownCheckError(fun_name)
         else:
-##            print fun_args
-##            print fun_kwargs
             return fun(value, *fun_args, **fun_kwargs)
 
     def _unquote(self, val):
@@ -689,7 +704,7 @@ def _is_num_param(names, values, to_float=False):
         elif isinstance(val, (int, long, float, StringTypes)):
             try:
                 out_params.append(fun(val))
-            except ValueError, e:
+            except ValueError as e:
                 raise VdtParamError(name, val)
         else:
             raise VdtParamError(name, val)
@@ -700,6 +715,7 @@ def _is_num_param(names, values, to_float=False):
 # in Validator.functions
 # note: if the params are specified wrongly in your input string,
 #       you will also raise errors.
+
 
 def is_integer(value, min=None, max=None):
     """
@@ -757,6 +773,7 @@ def is_integer(value, min=None, max=None):
         raise VdtValueTooBigError(value)
     return value
 
+
 def is_float(value, min=None, max=None):
     """
     A check that tests that a given value is a float
@@ -808,10 +825,12 @@ def is_float(value, min=None, max=None):
         raise VdtValueTooBigError(value)
     return value
 
+
 bool_dict = {
     True: True, 'on': True, '1': True, 'true': True, 'yes': True,
     False: False, 'off': False, '0': False, 'false': False, 'no': False,
 }
+
 
 def is_boolean(value):
     """
@@ -865,9 +884,9 @@ def is_boolean(value):
     # we do an equality test rather than an identity test
     # this ensures Python 2.2 compatibility
     # and allows 0 and 1 to represent True and False
-    if value == False:
+    if value is False:
         return False
-    elif value == True:
+    elif value is True:
         return True
     else:
         raise VdtTypeError(value)
@@ -912,6 +931,7 @@ def is_ip_addr(value):
         raise VdtValueError(value)
     return value
 
+
 def is_list(value, min=None, max=None):
     """
     Check that the value is a list of values.
@@ -953,6 +973,7 @@ def is_list(value, min=None, max=None):
         raise VdtValueTooLongError(value)
     return value
 
+
 def is_string(value, min=None, max=None):
     """
     Check that the supplied value is a string.
@@ -988,6 +1009,7 @@ def is_string(value, min=None, max=None):
         raise VdtValueTooLongError(value)
     return value
 
+
 def is_int_list(value, min=None, max=None):
     """
     Check that the value is a list of integers.
@@ -1009,6 +1031,7 @@ def is_int_list(value, min=None, max=None):
     VdtTypeError: the value "a" is of the wrong type.
     """
     return [is_integer(mem) for mem in is_list(value, min, max)]
+
 
 def is_bool_list(value, min=None, max=None):
     """
@@ -1034,6 +1057,7 @@ def is_bool_list(value, min=None, max=None):
     """
     return [is_boolean(mem) for mem in is_list(value, min, max)]
 
+
 def is_float_list(value, min=None, max=None):
     """
     Check that the value is a list of floats.
@@ -1055,6 +1079,7 @@ def is_float_list(value, min=None, max=None):
     VdtTypeError: the value "a" is of the wrong type.
     """
     return [is_float(mem) for mem in is_list(value, min, max)]
+
 
 def is_string_list(value, min=None, max=None):
     """
@@ -1081,6 +1106,7 @@ def is_string_list(value, min=None, max=None):
         raise VdtTypeError(value)
     return [is_string(mem) for mem in is_list(value, min, max)]
 
+
 def is_ip_addr_list(value, min=None, max=None):
     """
     Check that the value is a list of IP addresses.
@@ -1101,6 +1127,7 @@ def is_ip_addr_list(value, min=None, max=None):
     """
     return [is_ip_addr(mem) for mem in is_list(value, min, max)]
 
+
 fun_dict = {
     'integer': is_integer,
     'float': is_float,
@@ -1108,6 +1135,7 @@ fun_dict = {
     'string': is_string,
     'boolean': is_boolean,
 }
+
 
 def is_mixed_list(value, *args):
     """
@@ -1128,7 +1156,8 @@ def is_mixed_list(value, *args):
     The length of the list must match the number of positional
     arguments you supply.
 
-    >>> mix_str = "mixed_list('integer', 'float', 'ip_addr', 'string', 'boolean')"
+    >>> mix_str = "mixed_list('integer', 'float', 'ip_addr', 'string',
+       'boolean')"
     >>> check_res = vtor.check(mix_str, (1, 2.0, '1.2.3.4', 'a', True))
     >>> check_res == [1, 2.0, '1.2.3.4', 'a', True]
     1
@@ -1143,7 +1172,8 @@ def is_mixed_list(value, *args):
     VdtValueTooShortError: the value "(1, 2.0, '1.2.3.4', 'a')" is too short.
     >>> vtor.check(mix_str, (1, 2.0, '1.2.3.4', 'a', 1, 'b'))
     Traceback (most recent call last):
-    VdtValueTooLongError: the value "(1, 2.0, '1.2.3.4', 'a', 1, 'b')" is too long.
+    VdtValueTooLongError: the value "(1, 2.0, '1.2.3.4', 'a', 1, 'b')"
+        is too long.
     >>> vtor.check(mix_str, 0)
     Traceback (most recent call last):
     VdtTypeError: the value "0" is of the wrong type.
@@ -1176,8 +1206,9 @@ def is_mixed_list(value, *args):
         raise VdtValueTooLongError(value)
     try:
         return [fun_dict[arg](val) for arg, val in zip(args, value)]
-    except KeyError, e:
+    except KeyError as e:
         raise VdtParamError('mixed_list', e)
+
 
 def is_option(value, *options):
     """
@@ -1194,9 +1225,10 @@ def is_option(value, *options):
     """
     if not isinstance(value, StringTypes):
         raise VdtTypeError(value)
-    if not value in options:
+    if value not in options:
         raise VdtValueError(value)
     return value
+
 
 def _test(value, *args, **keywargs):
     """
@@ -1470,4 +1502,3 @@ if __name__ == '__main__':
 
     Code cleanup
 """
-

@@ -23,24 +23,25 @@
 
 
 # imports
-import os, re, sys
+import os
+import re
 
 import gtk
 from gtk import gdk
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.gamedb import GI
 from pysollib.settings import TITLE
 
 # toolkit imports
-from tkutil import setTransient
-from tkutil import color_tk2gtk, color_gtk2tk
 from soundoptionsdialog import SoundOptionsDialog
 from selectcardset import SelectCardsetDialogWithPreview
 from selecttile import SelectTileDialogWithPreview
 from selectgame import SelectGameDialogWithPreview
-from findcarddialog import connect_game_find_card_dialog, destroy_find_card_dialog
+from findcarddialog import connect_game_find_card_dialog, \
+        destroy_find_card_dialog
+
 
 def ltk2gtk(s):
     # label tk to gtk
@@ -62,7 +63,7 @@ class PysolMenubarTk:
         self.top.table.attach(menubar,
                               0, 3,                    0, 1,
                               gtk.EXPAND | gtk.FILL,   0,
-                              0,                       0);
+                              0,                       0)
         menubar.show()
 
     def connectGame(self, game):
@@ -70,10 +71,10 @@ class PysolMenubarTk:
         if game is None:
             return
         assert self.app is game.app
-##         tkopt, opt = self.tkopt, self.app.opt
-##         tkopt.gameid.set(game.id)
-##         tkopt.gameid_popular.set(game.id)
-##         tkopt.comment.set(bool(game.gsaveinfo.comment))
+        #  tkopt, opt = self.tkopt, self.app.opt
+        #  tkopt.gameid.set(game.id)
+        #  tkopt.gameid_popular.set(game.id)
+        #  tkopt.comment.set(bool(game.gsaveinfo.comment))
         if game.canFindCard():
             connect_game_find_card_dialog(game)
         else:
@@ -84,14 +85,14 @@ class PysolMenubarTk:
     #
 
     def m(self, *args):
-        ##print args
+        # print args
         pass
 
     def createMenubar(self):
 
         entries = (
 
-            ### toolbar
+            # toolbar
             ('newgame', gtk.STOCK_NEW,            # action name, stock
              ltk2gtk('&New game'), 'N',           # label, accelerator
              ltk2gtk('New game'),                 # tooltip
@@ -137,7 +138,7 @@ class PysolMenubarTk:
              ltk2gtk('Quit PySol'),
              self.mQuit),
 
-            ### menus
+            # menus
             ('file',           None, ltk2gtk('&File')),
             ('recentgames',    None, ltk2gtk('R&ecent games')),
             ('favoritegames',  None, ltk2gtk('Fa&vorite games')),
@@ -155,7 +156,7 @@ class PysolMenubarTk:
             ('statusbar',      None, ltk2gtk('Stat&usbar')),
             ('help',           None, ltk2gtk('&Help')),
 
-            ### menuitems
+            # menuitems
             ('playablepreview', None,
              ltk2gtk('Playable pre&view...'), 'V',
              None, self.mSelectGameDialogWithPreview),
@@ -191,13 +192,13 @@ class PysolMenubarTk:
              None, self.mHighlightPiles),
             ('demo', None,
              ltk2gtk('&Demo'), '<control>D',
-             None,self.mDemo),
+             None, self.mDemo),
             ('demoallgames', None,
              ltk2gtk('Demo (&all games)'), None,
-             None,self.mMixedDemo),
+             None, self.mMixedDemo),
             ('playeroptions', None,
              ltk2gtk('&Player options...'), None,
-             None,self.mOptPlayerOptions),
+             None, self.mOptPlayerOptions),
             ('sound', None,
              ltk2gtk('&Sound...'), None,
              None, self.mOptSoundDialog),
@@ -221,7 +222,7 @@ class PysolMenubarTk:
              None, self.mHelp),
             ('aboutpysol', None,
              ltk2gtk('&About ')+TITLE+'...',
-             None,None,self.mHelpAbout),
+             None, None, self.mHelpAbout),
             ('updateall', None,
              'Redraw Game', '<control>L',
              None,
@@ -267,9 +268,11 @@ class PysolMenubarTk:
             ('Use mouse for undo/redo', '', 'mouse_undo',             False),
             ('&Demo logo',              '', 'demo_logo',              False),
             ('Startup splash sc&reen',  '', 'splashscreen',           False),
-            ('&Show removed tiles (in Mahjongg games)', '', 'mahjongg_show_removed', True),
-            ('Show hint &arrow (in Shisen-Sho games)', '', 'shisen_show_hint', False),
-            ):
+            ('&Show removed tiles (in Mahjongg games)', '',
+             'mahjongg_show_removed', True),
+            ('Show hint &arrow (in Shisen-Sho games)', '',
+             'shisen_show_hint', False),
+                ):
             if not action:
                 action = re.sub(r'[^0-9a-zA-Z]', '', label).lower()
             toggle_entries.append(
@@ -301,139 +304,7 @@ class PysolMenubarTk:
             ('toolbarright',    None, ltk2gtk('Right'),        None, None, 4),
             )
 
-        #
-        ui_info = '''<ui>
-  <menubar name='menubar'>
-
-    <menu action='file'>
-      <menuitem action='newgame'/>
-      <menuitem action='selectgamebynumber'/>
-      <menu action='recentgames'/>
-      <menu action='favoritegames'/>
-      <menuitem action='addtofavorites'/>
-      <menuitem action='removefromfavorites'/>
-      <separator/>
-      <menuitem action='open'/>
-      <menuitem action='save'/>
-      <menuitem action='saveas'/>
-      <separator/>
-      <menuitem action='holdandquit'/>
-      <menuitem action='quit'/>
-      <menuitem action='quit'/>
-    </menu>
-
-    <menu action='select'>
-      <menuitem action='playablepreview'/>
-      <separator/>
-    </menu>
-
-    <menu action='edit'>
-      <menuitem action='undo'/>
-      <menuitem action='redo'/>
-      <menuitem action='redoall'/>
-      <separator/>
-      <menuitem action='restart'/>
-      <!--
-      <separator/>
-      <menuitem action='updateall'/>
-      -->
-    </menu>
-
-    <menu action='game'>
-      <menuitem action='dealcards'/>
-      <menuitem action='autodrop'/>
-      <menuitem action='pause'/>
-      <separator/>
-      <menuitem action='status'/>
-      <menuitem action='stats'/>
-    </menu>
-
-    <menu action='assist'>
-      <menuitem action='hint'/>
-      <menuitem action='highlightpiles'/>
-      <menuitem action='demo'/>
-      <menuitem action='demoallgames'/>
-    </menu>
-
-    <menu action='options'>
-      <menuitem action='playeroptions'/>
-      <menu action='automaticplay'>
-        <menuitem action='autofaceup'/>
-        <menuitem action='optautodrop'/>
-        <menuitem action='autodeal'/>
-        <separator/>
-        <menuitem action='quickplay'/>
-      </menu>
-      <menu action='assistlevel'>
-        <menuitem action='enableundo'/>
-        <menuitem action='enablebookmarks'/>
-        <menuitem action='enablehint'/>
-        <menuitem action='enablehighlightpiles'/>
-        <menuitem action='enablehighlightcards'/>
-        <menuitem action='enablehighlightsamerank'/>
-        <menuitem action='highlightnomatching'/>
-        <separator/>
-        <menuitem action='showremovedtilesinmahjongggames'/>
-        <menuitem action='showhintarrowinshisenshogames'/>
-      </menu>
-      <separator/>
-      <menuitem action='sound'/>
-      <menuitem action='cardset'/>
-      <menuitem action='tabletile'/>
-      <menu action='animations'>
-        <menuitem action='animationnone'/>
-        <menuitem action='animationveryfast'/>
-        <menuitem action='animationfast'/>
-        <menuitem action='animationmedium'/>
-        <menuitem action='animationslow'/>
-        <menuitem action='animationveryslow'/>
-      </menu>
-      <menu action='cardview'>
-        <menuitem action='cardshadow'/>
-        <menuitem action='shadelegalmoves'/>
-        <menuitem action='negativecardsbottom'/>
-        <menuitem action='shrinkfacedowncards'/>
-        <menuitem action='shadefilledstacks'/>
-      </menu>
-      <menu action='mouse'>
-        <menuitem action='draganddrop'/>
-        <menuitem action='pointandclick'/>
-        <menuitem action='stickymouse'/>
-        <separator/>
-        <menuitem action='usemouseforundoredo'/>
-      </menu>
-      <separator/>
-      <menuitem action='fonts'/>
-      <menuitem action='colors'/>
-      <menuitem action='timeouts'/>
-      <separator/>
-      <menuitem action='demologo'/>
-      <menuitem action='startupsplashscreen'/>
-      <menu action='toolbar'>
-        <menuitem action='toolbarhide'/>
-        <menuitem action='toolbartop'/>
-        <menuitem action='toolbarbottom'/>
-        <menuitem action='toolbarleft'/>
-        <menuitem action='toolbarright'/>
-      </menu>
-      <menu action='statusbar'>
-        <menuitem action='showstatusbar'/>
-        <menuitem action='shownumberofcards'/>
-      </menu>
-    </menu>
-
-    <menu action='help'>
-      <menuitem action='contents'/>
-      <menuitem action='rules'/>
-      <menuitem action='aboutpysol'/>
-    </menu>
-
-  </menubar>
-</ui>
-'''
-        #
         ui_manager = gtk.UIManager()
-        ui_manager_id = ui_manager.add_ui_from_string(ui_info)
 
         action_group = gtk.ActionGroup('PySolActions')
         action_group.add_actions(entries)
@@ -441,7 +312,8 @@ class PysolMenubarTk:
         action_group.add_radio_actions(animations_entries,
                                        self.app.opt.animations,
                                        self.mOptAnimations)
-        t = ['drag-n-drop', 'point-n-click', 'sticky-mouse'].index(self.app.opt.mouse_type)
+        t = ['drag-n-drop', 'point-n-click', 'sticky-mouse'].index(
+            self.app.opt.mouse_type)
         action_group.add_radio_actions(mouse_entries,
                                        t,
                                        self.mOptMouseType)
@@ -453,8 +325,8 @@ class PysolMenubarTk:
         self.top.add_accel_group(ui_manager.get_accel_group())
         self.top.ui_manager = ui_manager
 
-        #ui_manager.get_widget('/menubar/file/recentgames').show()
-        #ui_manager.get_widget('/menubar/file/favoritegames').show()
+        # ui_manager.get_widget('/menubar/file/recentgames').show()
+        # ui_manager.get_widget('/menubar/file/favoritegames').show()
 
         games = map(self.app.gdb.get, self.app.gdb.getGamesIdSortedByName())
         menu = ui_manager.get_widget('/menubar/select').get_submenu()
@@ -466,7 +338,6 @@ class PysolMenubarTk:
 
         menubar = ui_manager.get_widget('/menubar')
         return menubar
-
 
     #
     # Select Game menu creation
@@ -487,7 +358,8 @@ class PysolMenubarTk:
         return submenu
 
     def _addGamesMenuItem(self, menu, gi, short_name=False):
-        if not gi: return
+        if not gi:
+            return
         if short_name:
             label = gi.short_name
         else:
@@ -507,7 +379,8 @@ class PysolMenubarTk:
         n, d = 0, self._cb_max
         i = 0
         while True:
-            if self.progress: self.progress.update(step=1)
+            if self.progress:
+                self.progress.update(step=1)
             i += 1
             if not games[n:n+d]:
                 break
@@ -527,7 +400,8 @@ class PysolMenubarTk:
             self._addGamesSubMenu(g, submenu)
 
     def _addPopularGamesMenu(self, games, menu):
-        select_func = lambda gi: gi.si.game_flags & GI.GT_POPULAR
+        def select_func(gi):
+            return gi.si.game_flags & GI.GT_POPULAR
         if len(filter(select_func, games)) == 0:
             return
         data = (ltk2gtk('&Popular games'), select_func)
@@ -540,12 +414,14 @@ class PysolMenubarTk:
         self._addSelectedGamesSubMenu(games, submenu, data)
 
     def _addMahjonggGamesMenu(self, games, menu):
-        select_func = lambda gi: gi.si.game_type == GI.GT_MAHJONGG
+        def select_func(gi):
+            return gi.si.game_type == GI.GT_MAHJONGG
         mahjongg_games = filter(select_func, games)
         if len(mahjongg_games) == 0:
             return
         menu = self._createSubMenu(menu, label=ltk2gtk('&Mahjongg games'))
         #
+
         def add_menu(games, c0, c1, menu=menu):
             if not games:
                 return
@@ -577,7 +453,6 @@ class PysolMenubarTk:
                 c1 = c
         add_menu(g0, c0, c1)
 
-
     def _createSelectMenu(self, games, menu):
         assert isinstance(menu, gtk.Menu)
         self._addPopularGamesMenu(games, menu)
@@ -585,23 +460,23 @@ class PysolMenubarTk:
             (ltk2gtk('&French games'),   GI.SELECT_GAME_BY_TYPE),
             (ltk2gtk('&Oriental games'), GI.SELECT_ORIENTAL_GAME_BY_TYPE),
             (ltk2gtk('&Special games'),  GI.SELECT_SPECIAL_GAME_BY_TYPE),
-            ):
+                ):
             self._addGamesByType(games, menu, l, d)
         self._addMahjonggGamesMenu(games, menu)
         sep = gtk.SeparatorMenuItem()
         menu.add(sep)
         self._addAllGamesMenu(games, menu)
 
-
     #
     # menu updates
     #
 
-## WARNING: setMenuState: not found: /menubar/assist/findcard
+    #  WARNING: setMenuState: not found: /menubar/assist/findcard
     def setMenuState(self, state, path):
         path_map = {
             'help.rulesforthisgame': '/menubar/help/rules',
-            'options.automaticplay.autodrop': '/menubar/options/automaticplay/optautodrop'
+            'options.automaticplay.autodrop':
+                '/menubar/options/automaticplay/optautodrop'
             }
         if path in path_map:
             path = path_map[path]
@@ -609,19 +484,17 @@ class PysolMenubarTk:
             path = '/menubar/'+path.replace('.', '/')
         menuitem = self.top.ui_manager.get_widget(path)
         if not menuitem:
-            ##print 'WARNING: setMenuState: not found:', path
+            # print 'WARNING: setMenuState: not found:', path
             return
         menuitem.set_sensitive(state)
-
 
     def setToolbarState(self, state, path):
         path = '/toolbar/'+path
         button = self.top.ui_manager.get_widget(path)
         if not button:
-            print 'WARNING: setToolbarState: not found:', path
+            print('WARNING: setToolbarState: not found:', path)
         else:
             button.set_sensitive(state)
-
 
     #
     # menu actions
@@ -645,7 +518,8 @@ class PysolMenubarTk:
         in_favor = self.app.game.id in games
         item = self.top.ui_manager.get_widget('/menubar/file/addtofavorites')
         item.set_sensitive(not in_favor)
-        item = self.top.ui_manager.get_widget('/menubar/file/removefromfavorites')
+        item = self.top.ui_manager.get_widget(
+            '/menubar/file/removefromfavorites')
         item.set_sensitive(in_favor)
 
     def updateRecentGamesMenu(self, games):
@@ -662,6 +536,7 @@ class PysolMenubarTk:
         menu.show()
         #
         menu_games = []
+
         def checkFavor(item):
             gameid = item.get_data('user_data')
             if gameid in games:
@@ -679,7 +554,6 @@ class PysolMenubarTk:
             item.show()
             item.set_sensitive(False)
             menu.add(item)
-
 
     def _createFileChooser(self, title, action, idir, ifile, stock):
         d = gtk.FileChooserDialog(title, self.top, action,
@@ -707,14 +581,14 @@ class PysolMenubarTk:
         d.destroy()
         return filename
 
-
     def mOpen(self, *args):
-        if self._cancelDrag(break_pause=False): return
+        if self._cancelDrag(break_pause=False):
+            return
         filename = self.game.filename
         if filename:
-            idir, ifile = os.path.split(os.path.normpath(filename))
+            idir, = os.path.split(os.path.normpath(filename))
         else:
-            idir, ifile = '', ''
+            idir = ''
         if not idir:
             idir = self.app.dn.savegames
         filename = self._createFileChooser(_('Open Game'),
@@ -722,14 +596,14 @@ class PysolMenubarTk:
                                            idir, '',
                                            gtk.STOCK_OPEN)
         if filename:
-            ##filename = os.path.normpath(filename)
-            ##filename = os.path.normcase(filename)
+            # filename = os.path.normpath(filename)
+            # filename = os.path.normcase(filename)
             if os.path.isfile(filename):
                 self.game.loadGame(filename)
 
-
     def mSaveAs(self, *event):
-        if self._cancelDrag(break_pause=False): return
+        if self._cancelDrag(break_pause=False):
+            return
         if not self.menustate.save_as:
             return
         filename = self.game.filename
@@ -737,7 +611,7 @@ class PysolMenubarTk:
             filename = self.app.getGameSaveName(self.game.id)
             if os.name == 'posix':
                 filename = filename + '-' + self.game.getGameNumber(format=0)
-            elif os.path.supports_unicode_filenames: # new in python 2.3
+            elif os.path.supports_unicode_filenames:  # new in python 2.3
                 filename = filename + '-' + self.game.getGameNumber(format=0)
             else:
                 filename = filename + '-01'
@@ -745,39 +619,38 @@ class PysolMenubarTk:
         idir, ifile = os.path.split(os.path.normpath(filename))
         if not idir:
             idir = self.app.dn.savegames
-        ##print self.game.filename, ifile
+        # print self.game.filename, ifile
         filename = self._createFileChooser(_('Save Game'),
                                            gtk.FILE_CHOOSER_ACTION_SAVE,
                                            idir, ifile,
                                            gtk.STOCK_SAVE)
         if filename:
-            ##filename = os.path.normpath(filename)
-            ##filename = os.path.normcase(filename)
+            # filename = os.path.normpath(filename)
+            # filename = os.path.normcase(filename)
             self.game.saveGame(filename)
             self.updateMenus()
-
 
     def mSelectGame(self, menu_item):
         game_id = menu_item.get_data('user_data')
         self._mSelectGame(game_id)
 
-
     def mSelectGameDialogWithPreview(self, *event):
-        if self._cancelDrag(break_pause=False): return
-##         self.game.setCursor(cursor=CURSOR_WATCH)
+        if self._cancelDrag(break_pause=False):
+            return
+        #  self.game.setCursor(cursor=CURSOR_WATCH)
         bookmark = None
-##         if 0:
-##             # use a bookmark for our preview game
-##             if self.game.setBookmark(-2, confirm=0):
-##                 bookmark = self.game.gsaveinfo.bookmarks[-2][0]
-##                 del self.game.gsaveinfo.bookmarks[-2]
-        ##~ after_idle(self.top, self.__restoreCursor)
+        #  if 0:
+        #      # use a bookmark for our preview game
+        #      if self.game.setBookmark(-2, confirm=0):
+        #          bookmark = self.game.gsaveinfo.bookmarks[-2][0]
+        #          del self.game.gsaveinfo.bookmarks[-2]
+        # ~ after_idle(self.top, self.__restoreCursor)
         d = SelectGameDialogWithPreview(self.top, title=_('Select game'),
                                         app=self.app, gameid=self.game.id,
                                         bookmark=bookmark)
         if d.status == 0 and d.button == 0 and d.gameid != self.game.id:
-            ##~ self.tkopt.gameid.set(d.gameid)
-            ##~ self.tkopt.gameid_popular.set(d.gameid)
+            #   self.tkopt.gameid.set(d.gameid)
+            #   self.tkopt.gameid_popular.set(d.gameid)
             if 0:
                 self._mSelectGame(d.gameid, random=d.random)
             else:
@@ -788,16 +661,18 @@ class PysolMenubarTk:
 
     def mPause(self, *args):
         if not self.game.pause:
-            if self._cancelDrag(): return
+            if self._cancelDrag():
+                return
         self.game.doPause()
 
     def mOptSoundDialog(self, *args):
-        if self._cancelDrag(break_pause=False): return
-        d = SoundOptionsDialog(self.top, _('Sound settings'), self.app)
-
+        if self._cancelDrag(break_pause=False):
+            return
+        SoundOptionsDialog(self.top, _('Sound settings'), self.app)
 
     def mOptTableTile(self, *args):
-        if self._cancelDrag(break_pause=False): return
+        if self._cancelDrag(break_pause=False):
+            return
         key = self.app.tabletile_index
         if key <= 0:
             key = self.app.opt.colors['table']
@@ -813,12 +688,13 @@ class PysolMenubarTk:
             elif d.key > 0 and d.key != self.app.tabletile_index:
                 self.app.setTile(d.key)
 
-
     def mSelectCardsetDialog(self, *event):
-        if self._cancelDrag(break_pause=False): return
+        if self._cancelDrag(break_pause=False):
+            return
         key = self.app.nextgame.cardset.index
-        d = SelectCardsetDialogWithPreview(self.top, title=_('Select cardset'),
-                app=self.app, manager=self.app.cardset_manager, key=key)
+        d = SelectCardsetDialogWithPreview(
+            self.top, title=_('Select cardset'),
+            app=self.app, manager=self.app.cardset_manager, key=key)
         cs = self.app.cardset_manager.get(d.key)
         if cs is None or d.key == self.app.cardset.index:
             return
@@ -829,54 +705,52 @@ class PysolMenubarTk:
                 self.game.endGame(bookmark=1)
                 self.game.quitGame(bookmark=1)
 
-
     def mOptToggle(self, w, opt_name, update_game):
-        ##print 'mOptToggle:', opt, w.get_active()
-        if self._cancelDrag(break_pause=False): return
+        # print 'mOptToggle:', opt, w.get_active()
+        if self._cancelDrag(break_pause=False):
+            return
         self.app.opt.__dict__[opt_name] = w.get_active()
         if update_game:
             self.game.endGame(bookmark=1)
             self.game.quitGame(bookmark=1)
 
     def mOptNegativeBottom(self, w):
-        if self._cancelDrag(): return
+        if self._cancelDrag():
+            return
         self.app.opt.negative_bottom = w.get_active()
         self.app.updateCardset()
         self.game.endGame(bookmark=1)
         self.game.quitGame(bookmark=1)
 
-
     def mOptAnimations(self, w1, w2):
         self.app.opt.animations = w1.get_current_value()
-
 
     def mOptMouseType(self, w1, w2):
         v = w1.get_current_value()
         t = ('drag-n-drop', 'point-n-click', 'sticky-mouse')[v]
         self.app.opt.mouse_type = t
 
-
     def mOptToolbar(self, w1, w2):
-        if self._cancelDrag(break_pause=False): return
+        if self._cancelDrag(break_pause=False):
+            return
         side = w1.get_current_value()
         self.app.opt.toolbar = side
         if self.app.toolbar.show(side, resize=1):
             self.top.update_idletasks()
 
-
     def mOptStatusbar(self, w):
-        if self._cancelDrag(break_pause=False): return
-        if not self.app.statusbar: return
+        if self._cancelDrag(break_pause=False):
+            return
+        if not self.app.statusbar:
+            return
         side = w.get_active()
         self.app.opt.statusbar = side
         resize = not self.app.opt.save_games_geometry
         if self.app.statusbar.show(side, resize=resize):
             self.top.update_idletasks()
 
-
     def updateAll(self, *event):
         self.app.canvas.updateAll()
-
 
     def _setCommentMenu(self, v):
         # FIXME
@@ -887,6 +761,6 @@ class PysolMenubarTk:
         pass
 
     def mStatus(self, *args):
-        if self._cancelDrag(break_pause=False): return
+        if self._cancelDrag(break_pause=False):
+            return
         self.mPlayerStats(mode=100)
-

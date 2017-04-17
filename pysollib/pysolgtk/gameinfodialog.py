@@ -24,13 +24,13 @@
 
 __all__ = ['GameInfoDialog']
 
-## # imports
-## import os, sys
-## import Tkinter
+#  # imports
+#  import os, sys
+#  import Tkinter
 
-## # PySol imports
-## from pysollib.mfxutil import KwStruct
-## from pysollib.gamedb import GI
+#  # PySol imports
+#  from pysollib.mfxutil import KwStruct
+#  from pysollib.gamedb import GI
 
 # Toolkit imports
 from tkwidget import MfxDialog
@@ -39,6 +39,6 @@ from tkwidget import MfxDialog
 # *
 # ************************************************************************
 
+
 class GameInfoDialog(MfxDialog):
     pass
-

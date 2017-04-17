@@ -24,16 +24,20 @@
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.mfxutil import kwdefault
-from pysollib.stack import *
+from pysollib.util import KING, NO_RANK, UNLIMITED_REDEALS
+from pysollib.stack import \
+        OpenStack, \
+        ReserveStack, \
+        SS_FoundationStack, \
+        SS_RowStack, \
+        UD_SS_RowStack, \
+        WasteStack, \
+        WasteTalonStack
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 
 
 # ************************************************************************
@@ -112,13 +116,11 @@ class Zodiac(Game):
         # define stack-groups
         l.defaultStackGroups()
 
-
     def startGame(self):
         self.startDealSample()
         self.s.talon.dealRow(rows=self.s.reserves)
         self.s.talon.dealRow()
         self.s.talon.dealCards()
-
 
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
@@ -185,7 +187,6 @@ class TwelveSleepingMaids(Game):
         # define stack-groups
         l.defaultStackGroups()
 
-
     def startGame(self):
         for i in range(4):
             self.s.talon.dealRow(rows=self.s.reserves, flip=0, frames=0)
@@ -193,9 +194,7 @@ class TwelveSleepingMaids(Game):
         self.s.talon.dealRow()
         self.s.talon.dealCards()
 
-
     shallHighlightMatch = Game._shallHighlightMatch_SS
-
 
 
 # register the game

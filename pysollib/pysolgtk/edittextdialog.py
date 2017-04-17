@@ -24,7 +24,6 @@
 __all__ = ['EditTextDialog']
 
 # imports
-## import os, sys, Tkinter
 
 # PySol imports
 
@@ -35,6 +34,6 @@ from tkwidget import MfxDialog
 # *
 # ************************************************************************
 
+
 class EditTextDialog(MfxDialog):
     pass
-

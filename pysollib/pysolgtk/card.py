@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 #
 # Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
 # Copyright (C) 2003 Mt. Hood Playing Card Co.
@@ -19,7 +19,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 
 
 # imports
@@ -112,22 +112,20 @@ class _TwoImageCard(_HideableCard):
         if not self.face_up:
             self.__back.hide()
             self.__face.show()
-            ##self.tkraise(unhide)
+            # self.tkraise(unhide)
             self.face_up = 1
 
     def showBack(self, unhide=1):
         if self.face_up:
             self.__face.hide()
             self.__back.show()
-            ##self.tkraise(unhide)
+            # self.tkraise(unhide)
             self.face_up = 0
 
     def updateCardBackground(self, image):
         self.__back.config(image=image)
 
 
-
 # choose the implementation
 Card = _TwoImageCard
-#Card = _OneImageCard # FIXME: this implementation lost any cards (bug?)
-
+# Card = _OneImageCard # FIXME this implementation lost any cards (bug?)

@@ -24,9 +24,9 @@
 __all__ = ['ColorsDialog']
 
 # imports
-from pysollib.mygettext import _, n_
-## import os, sys
-import gtk, gobject, pango
+from pysollib.mygettext import _
+#  import os, sys
+import gtk
 import gtk.glade
 from gtk import gdk
 
@@ -77,14 +77,12 @@ class ColorsDialog:
 
         dialog.destroy()
 
-
     def _setColor(self, name, color):
         label = self.widgets_tree.get_widget(name+'_label')
         eventbox = self.widgets_tree.get_widget(name+'_eventbox')
         eventbox.modify_bg(gtk.STATE_NORMAL, gdk.color_parse(color))
         label.set_data('user_data', color)
         label.set_text(color)
-
 
     def _changeColor(self, w, name):
         label = self.widgets_tree.get_widget(name+'_label')
@@ -100,7 +98,6 @@ class ColorsDialog:
             c = '#%02x%02x%02x' % (c.red/256, c.green/256, c.blue/256)
             self._setColor(name, c)
         dialog.destroy()
-
 
     def _translateLabels(self):
         for n in (
@@ -120,7 +117,6 @@ class ColorsDialog:
             'label52',
             'label53',
             'label79',
-            ):
+               ):
             w = self.widgets_tree.get_widget(n)
             w.set_text(_(w.get_text()))
-

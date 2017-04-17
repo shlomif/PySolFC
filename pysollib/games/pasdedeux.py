@@ -24,20 +24,23 @@
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.hint import AbstractHint
 
+from pysollib.stack import \
+        InvisibleStack, \
+        ReserveStack, \
+        WasteStack, \
+        WasteTalonStack
 
 # ************************************************************************
 # *
 # ************************************************************************
+
 
 class PasDeDeux_Hint(AbstractHint):
     # FIXME: this is very simple
@@ -100,7 +103,8 @@ class PasDeDeux_RowStack(ReserveStack):
         if not self.game.s.waste.cards:
             return False
         c = self.game.s.waste.cards[-1]
-        return c.face_up and cards[0].suit == c.suit and cards[0].rank == c.rank
+        return c.face_up and cards[0].suit == c.suit and \
+            cards[0].rank == c.rank
 
     def acceptsCards(self, from_stack, cards):
         if not ReserveStack.acceptsCards(self, from_stack, cards):
@@ -161,7 +165,8 @@ class PasDeDeux(Game):
         for i in range(4):
             for j in range(13):
                 x, y, = l.XM + j*l.XS, l.YM + i*l.YS
-                s.rows.append(PasDeDeux_RowStack(x, y, self, max_accept=1, max_cards=2))
+                s.rows.append(
+                    PasDeDeux_RowStack(x, y, self, max_accept=1, max_cards=2))
         x, y = self.width - 2*l.XS, self.height - l.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=2)
         l.createText(s.talon, "se")
@@ -214,5 +219,5 @@ class PasDeDeux(Game):
 
 # register the game
 registerGame(GameInfo(153, PasDeDeux, "Pas de Deux",
-                      GI.GT_MONTANA | GI.GT_SEPARATE_DECKS, 2, 1, GI.SL_MOSTLY_SKILL))
-
+                      GI.GT_MONTANA | GI.GT_SEPARATE_DECKS, 2, 1,
+                      GI.SL_MOSTLY_SKILL))

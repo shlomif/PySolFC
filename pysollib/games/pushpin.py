@@ -27,15 +27,22 @@ __all__ = []
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.hint import AbstractHint
+
+from pysollib.util import ANY_RANK, ANY_SUIT
+
+from pysollib.stack import \
+        AbstractFoundationStack, \
+        DealRowTalonStack, \
+        Stack, \
+        ReserveStack
 
 # ************************************************************************
 # *
 # ************************************************************************
+
 
 class PushPin_Hint(AbstractHint):
 
@@ -58,6 +65,7 @@ class PushPin_Foundation(AbstractFoundationStack):
     def acceptsCards(self, from_stack, cards):
         return True
 
+
 class PushPin_Talon(DealRowTalonStack):
     def dealCards(self, sound=False):
         for r in self.game.s.rows:
@@ -65,6 +73,7 @@ class PushPin_Talon(DealRowTalonStack):
                 return self.dealRowAvail(rows=[r], sound=sound)
         return self.dealRowAvail(rows=[self.game.s.rows[0]], sound=sound)
     getBottomImage = Stack._getNoneBottomImage
+
 
 class PushPin_RowStack(ReserveStack):
 
@@ -100,22 +109,23 @@ class PushPin_RowStack(ReserveStack):
         self.game.fillEmptyStacks()
 
     def moveMove(self, ncards, to_stack, frames=-1, shadow=-1):
-        if not to_stack is self.game.s.foundations[0]:
+        if to_stack is not self.game.s.foundations[0]:
             self._dropPairMove(ncards, to_stack, frames=-1, shadow=shadow)
         else:
-            ReserveStack.moveMove(self, ncards, to_stack, frames=frames, shadow=shadow)
+            ReserveStack.moveMove(
+                self, ncards, to_stack, frames=frames, shadow=shadow)
 
     def _dropPairMove(self, n, other_stack, frames=-1, shadow=-1):
         game = self.game
         old_state = game.enterState(game.S_FILL)
         f = game.s.foundations[0]
-        game.updateStackMove(game.s.talon, 2|16)            # for undo
+        game.updateStackMove(game.s.talon, 2 | 16)            # for undo
         if not game.demo:
             game.playSample("droppair", priority=200)
         game.moveMove(n, self, f, frames=frames, shadow=shadow)
         game.moveMove(n, other_stack, f, frames=frames, shadow=shadow)
         self.fillStack()
-        game.updateStackMove(game.s.talon, 1|16)            # for redo
+        game.updateStackMove(game.s.talon, 1 | 16)            # for redo
         game.leaveState(old_state)
 
     getBottomImage = Stack._getBlankBottomImage
@@ -148,7 +158,7 @@ class PushPin(Game):
                 if n > 52:
                     break
                 k = j
-                if i%2:
+                if i % 2:
                     k = xx-j-1
                 x, y = l.XM + k*l.XS, l.YM + i*l.YS
                 s.rows.append(self.RowStack_Class(x, y, self))
@@ -258,7 +268,7 @@ class Accordion_RowStack(PushPin_RowStack):
     def acceptsCards(self, from_stack, cards):
         if not self.cards:
             return False
-        if abs(self.id - from_stack.id) not in (1,3):
+        if abs(self.id - from_stack.id) not in (1, 3):
             return False
         c1, c2 = self.cards[-1], cards[0]
         if c1.rank == c2.rank:
@@ -283,27 +293,31 @@ class Accordion(PushPin):
 # * Accordion (fixed)
 # ************************************************************************
 
+
 class Accordion2_RowStack(Accordion_RowStack):
     def acceptsCards(self, from_stack, cards):
         if not Accordion_RowStack.acceptsCards(self, from_stack, cards):
             return False
         # accepts only from right stack
         return self.id < from_stack.id
+
     def moveMove(self, ncards, to_stack, frames=-1, shadow=-1):
         game = self.game
         old_state = game.enterState(game.S_FILL)
         f = game.s.foundations[0]
-        game.updateStackMove(game.s.talon, 2|16)            # for undo
+        game.updateStackMove(game.s.talon, 2 | 16)            # for undo
 
         game.moveMove(ncards, to_stack, f, frames=frames, shadow=shadow)
         game.moveMove(ncards, self, to_stack, frames=frames, shadow=shadow)
         self.fillStack()
 
-        game.updateStackMove(game.s.talon, 1|16)            # for redo
+        game.updateStackMove(game.s.talon, 1 | 16)            # for redo
         game.leaveState(old_state)
+
 
 class Accordion2(Accordion):
     RowStack_Class = Accordion2_RowStack
+
     def isGameWon(self):
         return len(self.s.foundations[0].cards) == 51
 
@@ -311,8 +325,10 @@ class Accordion2(Accordion):
 # * Relaxed Accordion
 # ************************************************************************
 
+
 class RelaxedAccordion_RowStack(Accordion2_RowStack):
     acceptsCards = Accordion_RowStack.acceptsCards
+
 
 class RelaxedAccordion(Accordion2):
     RowStack_Class = RelaxedAccordion_RowStack
@@ -322,12 +338,12 @@ registerGame(GameInfo(287, PushPin, "Push Pin",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(288, RoyalMarriage, "Royal Marriage",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
-## registerGame(GameInfo(303, Queens, "Queens",
-##                       GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0))
+#  registerGame(GameInfo(303, Queens, "Queens",
+#                        GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0))
 registerGame(GameInfo(656, Accordion, "Bayan",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(772, Accordion2, "Accordion",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED,
-                      altnames=('Idle Year', 'Methuselah', 'Tower of Babel') ))
+                      altnames=('Idle Year', 'Methuselah', 'Tower of Babel')))
 registerGame(GameInfo(773, RelaxedAccordion, "Relaxed Accordion",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))

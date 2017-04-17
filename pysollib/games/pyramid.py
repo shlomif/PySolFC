@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 #
 # Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
 # Copyright (C) 2003 Mt. Hood Playing Card Co.
@@ -19,21 +19,37 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.hint import DefaultHint
 from pysollib.pysoltk import MfxCanvasText
+
+from pysollib.util import ANY_RANK, ANY_SUIT, JACK, KING, NO_RANK, QUEEN, \
+        UNLIMITED_CARDS, UNLIMITED_REDEALS
+
+from pysollib.stack import \
+        AbstractFoundationStack, \
+        BasicRowStack, \
+        DealReserveRedealTalonStack, \
+        DealRowTalonStack, \
+        FaceUpWasteTalonStack, \
+        InitialDealTalonStack, \
+        OpenStack, \
+        Stack, \
+        StackWrapper, \
+        TalonStack, \
+        WasteStack, \
+        WasteTalonStack, \
+        getNumberOfFreeStacks, \
+        ReserveStack
 
 
 # ************************************************************************
@@ -73,7 +89,8 @@ class Pyramid_StackMethods:
     def _dropPairMove(self, n, other_stack, frames=-1, shadow=-1):
         if not self.game.demo:
             self.game.playSample("droppair", priority=200)
-        assert n == 1 and self.acceptsCards(other_stack, [other_stack.cards[-1]])
+        assert n == 1 and self.acceptsCards(
+            other_stack, [other_stack.cards[-1]])
         old_state = self.game.enterState(self.game.S_FILL)
         f = self.game.s.foundations[0]
         self.game.moveMove(n, self, f, frames=frames, shadow=shadow)
@@ -84,7 +101,8 @@ class Pyramid_StackMethods:
 
     def moveMove(self, ncards, to_stack, frames=-1, shadow=-1):
         if to_stack in self.game.s.foundations:
-            self.game.moveMove(ncards, self, to_stack, frames=frames, shadow=shadow)
+            self.game.moveMove(
+                ncards, self, to_stack, frames=frames, shadow=shadow)
             self.fillStack()
         else:
             self._dropPairMove(ncards, to_stack, frames=-1, shadow=shadow)
@@ -192,7 +210,7 @@ class Pyramid(Game):
         for i in range(size-1):
             for j in range(i+1):
                 k = n+i+1
-                rows[n].blockmap = [rows[k],rows[k+1]]
+                rows[n].blockmap = [rows[k], rows[k+1]]
                 n += 1
         return rows
 
@@ -216,10 +234,9 @@ class Pyramid(Game):
                 elif j == size-i-1:     # right
                     rows[n].blockmap = [rows[k-1]]
                 else:
-                    rows[n].blockmap = [rows[k-1],rows[k]]
+                    rows[n].blockmap = [rows[k-1], rows[k]]
                 n += 1
         return rows
-
 
     def createGame(self, pyramid_len=7, reserves=0, waste=True, texts=True):
         # create layout
@@ -268,7 +285,6 @@ class Pyramid(Game):
         self.sg.dropstacks.append(s.talon)
         if s.waste:
             self.sg.openstacks.append(s.waste)
-
 
     #
     # game overrides
@@ -364,7 +380,6 @@ class Thirteen(Pyramid):
         self.sg.openstacks = s.rows + self.sg.talonstacks
         self.sg.dropstacks = s.rows + self.sg.talonstacks
 
-
     #
     # game overrides
     #
@@ -426,11 +441,12 @@ class Thirteens(Pyramid):
 # * Suit Elevens
 # ************************************************************************
 
+
 class Elevens_RowStack(Giza_Reserve):
     ACCEPTED_SUM = 9
 
     def acceptsCards(self, from_stack, cards):
-        #if self.basicIsBlocked():
+        # if self.basicIsBlocked():
         #    return False
         if from_stack is self or not self.cards or len(cards) != 1:
             return False
@@ -457,7 +473,7 @@ class Elevens_Reserve(ReserveStack):
         if not ReserveStack.acceptsCards(self, from_stack, cards):
             return False
         c = cards[0]
-        if not c.rank in self.ACCEPTED_CARDS:
+        if c.rank not in self.ACCEPTED_CARDS:
             return False
         for s in self.game.s.reserves:
             if s.cards and s.cards[0].rank == c.rank:
@@ -495,7 +511,7 @@ class Elevens(Pyramid):
         for i in range(reserves):
             stack = self.Reserve_Class(x, y, self)
             s.reserves.append(stack)
-            stack.CARD_XOFFSET = l.XOFFSET # for fifteens
+            stack.CARD_XOFFSET = l.XOFFSET  # for fifteens
             x += l.XS
 
         if texts:
@@ -507,11 +523,9 @@ class Elevens(Pyramid):
 
         l.defaultStackGroups()
 
-
     def startGame(self):
         self.startDealSample()
         self.s.talon.dealRow()
-
 
     def fillStack(self, stack):
         old_state = self.enterState(self.S_FILL)
@@ -529,7 +543,6 @@ class Elevens(Pyramid):
             for s in self.s.reserves:
                 s.moveMove(1, self.s.foundations[0], frames=4)
         self.leaveState(old_state)
-
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         # FIXME
@@ -564,6 +577,7 @@ class SuitElevens_RowStack(Elevens_RowStack):
             return False
         return cards[0].suit == self.cards[0].suit
 
+
 class SuitElevens_Reserve(Elevens_Reserve):
     def acceptsCards(self, from_stack, cards):
         if not Elevens_Reserve.acceptsCards(self, from_stack, cards):
@@ -573,9 +587,11 @@ class SuitElevens_Reserve(Elevens_Reserve):
                 return False
         return True
 
+
 class SuitElevens(Elevens):
     RowStack_Class = SuitElevens_RowStack
     Reserve_Class = SuitElevens_Reserve
+
     def createGame(self):
         Elevens.createGame(self, rows=3, cols=5)
 
@@ -586,6 +602,7 @@ class SuitElevens(Elevens):
 
 class Fifteens_RowStack(Elevens_RowStack):
     ACCEPTED_SUM = 13
+
     def acceptsCards(self, from_stack, cards):
         if not Elevens_RowStack.acceptsCards(self, from_stack, cards):
             return False
@@ -637,7 +654,7 @@ class Fifteens(Elevens):
             reserve_ranks = [c.rank for c in reserve.cards]
             reserve_ranks.sort()
             if (9 in reserve_ranks or JACK in reserve_ranks
-                or QUEEN in reserve_ranks or KING in reserve_ranks):
+                    or QUEEN in reserve_ranks or KING in reserve_ranks):
                 if reserve_ranks == [9, JACK, QUEEN, KING]:
                     self._dropReserve()
             else:
@@ -666,9 +683,9 @@ class TripleAlliance_Reserve(ReserveStack):
         if len(r_ranks) == 2:
             return r_ranks[1]-r_ranks[0] in (1, 12)
         for i in range(3):
-            j, k = (i+1)%3, (i+2)%3
+            j, k = (i+1) % 3, (i+2) % 3
             if ((r_ranks[i]+1) % 13 == r_ranks[j] and
-                (r_ranks[j]+1) % 13 == r_ranks[k]):
+                    (r_ranks[j]+1) % 13 == r_ranks[k]):
                 return True
         return False
 
@@ -768,11 +785,9 @@ class Pharaohs(Pyramid):
         # define stack-groups
         l.defaultStackGroups()
 
-
     def startGame(self):
         self.startDealSample()
         self.s.talon.dealRow(frames=4)
-
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return (card1.rank + card2.rank == 11 or
@@ -855,7 +870,7 @@ class Apophis_Hint(Pyramid_Hint):
             return
         reserves = self.game.s.reserves
         for i in range(3):
-            for j in range(i+1,3):
+            for j in range(i+1, 3):
                 r1 = reserves[i]
                 r2 = reserves[j]
                 if r1.cards and r2.acceptsCards(r1, r1.cards[-1:]):
@@ -923,6 +938,7 @@ class Apophis(Pharaohs):
 # * Cheops
 # ************************************************************************
 
+
 class Cheops_StackMethods(Pyramid_StackMethods):
     def acceptsCards(self, from_stack, cards):
         if self.basicIsBlocked():
@@ -931,15 +947,18 @@ class Cheops_StackMethods(Pyramid_StackMethods):
             return False
         c = self.cards[-1]
         return (c.face_up and cards[0].face_up and
-                abs(cards[0].rank-c.rank) in (0,1))
+                abs(cards[0].rank-c.rank) in (0, 1))
+
 
 class Cheops_Talon(Cheops_StackMethods, Pyramid_Talon):
     def clickHandler(self, event):
         return FaceUpWasteTalonStack.clickHandler(self, event)
 
+
 class Cheops_Waste(Cheops_StackMethods, Pyramid_Waste):
     def clickHandler(self, event):
         return WasteStack.clickHandler(self, event)
+
 
 class Cheops_RowStack(Cheops_StackMethods, Pyramid_RowStack):
     def clickHandler(self, event):
@@ -954,7 +973,7 @@ class Cheops(Pyramid):
     WasteStack_Class = Cheops_Waste
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return abs(card1.rank-card2.rank) in (0,1)
+        return abs(card1.rank-card2.rank) in (0, 1)
 
 
 # ************************************************************************
@@ -963,13 +982,13 @@ class Cheops(Pyramid):
 
 class Exit_RowStack(Elevens_RowStack):
     def acceptsCards(self, from_stack, cards):
-        #if self.basicIsBlocked():
+        # if self.basicIsBlocked():
         #    return False
         if from_stack is self or not self.cards or len(cards) != 1:
             return False
         c1 = self.cards[-1]
         c2 = cards[0]
-        #if not c1.face_up or not c2.face_up:
+        # if not c1.face_up or not c2.face_up:
         #    return False
         return self.game._checkPair(c1, c2)
 
@@ -1034,7 +1053,7 @@ class Exit(Game):
                 swap_index = jack_indexes[1]
             if len(jack_indexes) >= 2:
                 break
-        if not swap_index is None:
+        if swap_index is not None:
             i = -1
             if cards[-1].rank == JACK:  # paranoia
                 i = -2
@@ -1050,8 +1069,8 @@ class Exit(Game):
         self.s.talon.dealRow(rows=self.s.reserves, frames=4)
         self.s.talon.dealRow(rows=self.s.reserves, frames=4)
 
-##     def getAutoStacks(self, event=None):
-##         return ((), (), self.sg.dropstacks)
+        #     def getAutoStacks(self, event=None):
+        #         return ((), (), self.sg.dropstacks)
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return self._checkPair(card1, card2)
@@ -1115,7 +1134,8 @@ class KingTut(RelaxedPyramid):
         s.rows = self._createPyramid(l, x, y, 7)
 
         x, y = l.XM, self.height-l.YS
-        s.talon = WasteTalonStack(x, y, self, max_rounds=UNLIMITED_REDEALS, num_deal=3)
+        s.talon = WasteTalonStack(
+            x, y, self, max_rounds=UNLIMITED_REDEALS, num_deal=3)
         l.createText(s.talon, "n")
         x += l.XS
         s.waste = Pyramid_Waste(x, y, self, max_accept=1)
@@ -1221,7 +1241,6 @@ class UpAndDown(Pyramid):
         self.sg.dropstacks.append(s.talon)
         self.sg.openstacks.append(s.waste)
 
-
     def startGame(self):
         self.startDealSample()
         self.s.talon.dealRow(frames=4)
@@ -1260,8 +1279,10 @@ class Hurricane_StackMethods(Pyramid_StackMethods):
                                frames=frames, shadow=shadow)
             self.fillStack()
 
+
 class Hurricane_RowStack(Hurricane_StackMethods, BasicRowStack):
     pass
+
 
 class Hurricane_Reserve(Hurricane_StackMethods, OpenStack):
     pass
@@ -1281,10 +1302,10 @@ class Hurricane(Pyramid):
         self.setSize(w, h)
 
         # create stacks
-        for xx, yy in ((0,0),(1,0),(2,0),(3,0),
-                       (0,1),            (3,1),
-                       (0,2),(1,2),(2,2),(3,2),
-                       ):
+        for xx,  yy in ((0, 0), (1, 0), (2, 0), (3, 0),
+                        (0, 1),             (3, 1),
+                        (0, 2), (1, 2), (2, 2), (3, 2),
+                        ):
             x, y = l.XM + 1.5*l.XS + ww*xx, l.YM + l.YS*yy
             stack = Hurricane_Reserve(x, y, self, max_accept=1)
             stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
@@ -1310,14 +1331,12 @@ class Hurricane(Pyramid):
         # define stack-groups
         l.defaultStackGroups()
 
-
     def startGame(self):
         for i in range(2):
             self.s.talon.dealRow(rows=self.s.reserves, frames=0)
         self.startDealSample()
         self.s.talon.dealRow(rows=self.s.reserves)
         self.s.talon.dealRow()
-
 
     def fillStack(self, stack):
         if stack in self.s.rows and not stack.cards and self.s.talon.cards:
@@ -1327,15 +1346,15 @@ class Hurricane(Pyramid):
             self.leaveState(old_state)
 
 
-
 # register the game
 registerGame(GameInfo(38, Pyramid, "Pyramid",
                       GI.GT_PAIRING_TYPE, 1, 2, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(193, RelaxedPyramid, "Relaxed Pyramid",
-                      GI.GT_PAIRING_TYPE | GI.GT_RELAXED, 1, 2, GI.SL_MOSTLY_LUCK,
-                      altnames=(" Pyramid's Stones",) ))
-##registerGame(GameInfo(44, Thirteen, "Thirteen",
-##                      GI.GT_PAIRING_TYPE, 1, 0))
+                      GI.GT_PAIRING_TYPE | GI.GT_RELAXED, 1, 2,
+                      GI.SL_MOSTLY_LUCK,
+                      altnames=(" Pyramid's Stones",)))
+# registerGame(GameInfo(44, Thirteen, "Thirteen",
+#                       GI.GT_PAIRING_TYPE, 1, 0))
 registerGame(GameInfo(592, Giza, "Giza",
                       GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(593, Thirteens, "Thirteens",
@@ -1354,7 +1373,7 @@ registerGame(GameInfo(655, Pharaohs, "Pharaohs",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(657, Baroness, "Baroness",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_BALANCED,
-                      altnames=('Five Piles',) ))
+                      altnames=('Five Piles',)))
 registerGame(GameInfo(658, Apophis, "Apophis",
                       GI.GT_PAIRING_TYPE, 1, 2, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(659, Cheops, "Cheops",
@@ -1362,7 +1381,8 @@ registerGame(GameInfo(659, Cheops, "Cheops",
 registerGame(GameInfo(674, Exit, "Exit",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(677, TwoPyramids, "Two Pyramids",
-                      GI.GT_PAIRING_TYPE | GI.GT_ORIGINAL, 2, 2, GI.SL_MOSTLY_LUCK))
+                      GI.GT_PAIRING_TYPE | GI.GT_ORIGINAL, 2, 2,
+                      GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(681, KingTut, "King Tut",
                       GI.GT_PAIRING_TYPE, 1, -1, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(699, DoublePyramid, "Double Pyramid",
@@ -1370,6 +1390,7 @@ registerGame(GameInfo(699, DoublePyramid, "Double Pyramid",
 registerGame(GameInfo(700, Triangle, "Triangle",
                       GI.GT_PAIRING_TYPE, 1, 2, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(701, UpAndDown, "Up and Down",
-                      GI.GT_PAIRING_TYPE | GI.GT_ORIGINAL, 2, 2, GI.SL_MOSTLY_LUCK))
+                      GI.GT_PAIRING_TYPE | GI.GT_ORIGINAL, 2, 2,
+                      GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(735, Hurricane, "Hurricane",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))

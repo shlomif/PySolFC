@@ -23,8 +23,8 @@
 
 
 # imports
-import os, re, sys, types
-import gtk, gobject
+import gtk
+import gobject
 
 # PySol imports
 
@@ -66,10 +66,8 @@ class PysolTreeView:
 
         self._restoreSettings()
 
-
     def _unrealizeEvent(self, w):
         self._saveSettings()
-
 
     def _saveSettings(self):
         self._saveExpandedRows()
@@ -83,14 +81,13 @@ class PysolTreeView:
         self._loadExpandedRows()
         if self._selected_row:
             selection = self.treeview.get_selection()
-            ##selection.select_path(self._selected_row)
-            ##selection.unselect_all()
+            # selection.select_path(self._selected_row)
+            # selection.unselect_all()
             gobject.idle_add(selection.select_path, self._selected_row)
         if self._vadjustment_position is not None:
-            ##self.sw_vadjustment.set_value(self._vadjustment_position)
+            # self.sw_vadjustment.set_value(self._vadjustment_position)
             gobject.idle_add(self.sw_vadjustment.set_value,
                              self._vadjustment_position)
-
 
     def _saveExpandedRows(self):
         treeview = self.treeview
@@ -103,7 +100,6 @@ class PysolTreeView:
         for path in self._expanded_rows:
             self.treeview.expand_to_path(path)
 
-
     def getSelected(self):
         selection = self.treeview.get_selection()
         model, path = selection.get_selected_rows()
@@ -113,15 +109,6 @@ class PysolTreeView:
         index = model.get_value(iter, 1)
         return index
 
-
     def unselectAll(self):
         selection = self.treeview.get_selection()
         selection.unselect_all()
-
-
-
-
-
-
-
-

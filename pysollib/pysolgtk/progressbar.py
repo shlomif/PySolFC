@@ -23,7 +23,8 @@
 
 
 # imports
-import os, sys
+import os
+import sys
 
 import gtk
 from gtk import gdk
@@ -74,7 +75,7 @@ class PysolProgressBar:
         self.pbar.show()
         vbox.pack_start(self.pbar, True, False)
         self.pbar.realize()
-        ##~ self.pbar.set_show_text(show_text)
+        # ~ self.pbar.set_show_text(show_text)
         self.pbar.set_text(str(show_text)+'%')
         w, h = self.pbar.size_request()
         self.pbar.set_size_request(max(w, 300), max(h, height))
@@ -87,13 +88,13 @@ class PysolProgressBar:
             im.set_property('xpad', 10)
             im.set_property('ypad', 5)
         # set icon
-##         if app:
-##             try:
-##                 name = app.dataloader.findFile('pysol.xpm')
-##                 bg = self.top.get_style().bg[gtk.STATE_NORMAL]
-##                 pixmap, mask = create_pixmap_from_xpm(self.top, bg, name)
-##                 self.top.set_icon(pixmap, mask)
-##             except: pass
+        #  if app:
+        #      try:
+        #          name = app.dataloader.findFile('pysol.xpm')
+        #          bg = self.top.get_style().bg[gtk.STATE_NORMAL]
+        #          pixmap, mask = create_pixmap_from_xpm(self.top, bg, name)
+        #          self.top.set_icon(pixmap, mask)
+        #      except: pass
         setTransient(self.top, parent)
         self.top.show()
         self.top.window.set_cursor(gdk.Cursor(gdk.WATCH))
@@ -106,8 +107,8 @@ class PysolProgressBar:
         pass
 
     def update(self, percent=None, step=1):
-        ##self.steps_sum += step
-        ##print self.steps_sum, self.norm
+        # self.steps_sum += step
+        # print self.steps_sum, self.norm
         step = step/self.norm
         if percent is None:
             self.percent += step
@@ -134,7 +135,7 @@ class PysolProgressBar:
 # *
 # ************************************************************************
 
-#%ifndef BUNDLE
+# %ifndef BUNDLE
 
 class TestProgressBar:
     def __init__(self, parent, images=None):
@@ -142,32 +143,35 @@ class TestProgressBar:
         self.progress = PysolProgressBar(None, parent, title="Progress",
                                          images=images, color='#008200')
         self.progress.pack()
-        self.func = [ self.update, 0 ]
-        self.func[1] = timeout_add(30, self.func[0])
+        self.func = [self.update, 0]
+        # self.func[1] = timeout_add(30, self.func[0])
 
     def update(self, *args):
         if self.progress.percent >= 100:
             self.progress.destroy()
-            mainquit()
+            # mainquit()
             return False
         self.progress.update(step=1)
         return True
 
+
 def progressbar_main(args):
     root = gtk.Window()
-    root.connect("destroy", mainquit)
-    root.connect("delete_event", mainquit)
+    # root.connect("destroy", mainquit)
+    # root.connect("delete_event", mainquit)
     images = None
     if 1:
         from tkwrap import loadImage
-        im = loadImage(os.path.join(os.pardir, os.pardir, 'data', 'images', 'jokers', 'joker07_40_774.gif'))
+        im = loadImage(os.path.join(
+            os.pardir, os.pardir, 'data', 'images', 'jokers',
+            'joker07_40_774.gif'))
         images = (im, im)
-    pb = TestProgressBar(root, images=images)
-    main()
+    TestProgressBar(root, images=images)
+    # main()
     return 0
+
 
 if __name__ == '__main__':
     sys.exit(progressbar_main(sys.argv))
 
-#%endif
-
+# %endif

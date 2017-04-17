@@ -24,10 +24,11 @@
 __all__ = ['PlayerOptionsDialog']
 
 # imports
-import gobject, gtk
+import gobject
+import gtk
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 
 # Toolkit imports
 from tkwidget import MfxDialog
@@ -66,7 +67,8 @@ class PlayerOptionsDialog(MfxDialog):
         top_box.pack_start(self.confirm_quit_check)
         self.confirm_quit_check.set_active(app.opt.confirm != 0)
         #
-        self.update_stats_check = gtk.CheckButton(_('Update statistics and logs'))
+        self.update_stats_check = gtk.CheckButton(
+            _('Update statistics and logs'))
         self.update_stats_check.show()
         top_box.pack_start(self.update_stats_check)
         self.update_stats_check.set_active(app.opt.update_player_stats != 0)
@@ -75,18 +77,16 @@ class PlayerOptionsDialog(MfxDialog):
         self.show_all()
         gtk.main()
 
-
     def initKw(self, kw):
         kwdefault(kw,
                   strings=(_('&OK'), _('&Cancel'),),
                   default=0,
-                  #resizable=1,
+                  # resizable=1,
                   padx=10, pady=10,
-                  #width=600, height=400,
-                  ##~ buttonpadx=10, buttonpady=5,
+                  # width=600, height=400,
+                  # #~ buttonpadx=10, buttonpady=5,
                   )
         return MfxDialog.initKw(self, kw)
-
 
     def done(self, button):
         self.button = button.get_data('user_data')
@@ -95,6 +95,3 @@ class PlayerOptionsDialog(MfxDialog):
         self.update_stats = self.update_stats_check.get_active()
         self.win_animation = False
         self.quit()
-
-
-

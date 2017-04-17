@@ -24,19 +24,28 @@
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
+from pysollib.util import ANY_SUIT, KING
 from pysollib.mfxutil import kwdefault
-from pysollib.stack import *
+from pysollib.stack import \
+    DealRowTalonStack, \
+    InitialDealTalonStack, \
+    OpenStack, \
+    RedealTalonStack, \
+    ReserveStack, \
+    SS_FoundationStack, \
+    StackWrapper, \
+    Yukon_AC_RowStack, \
+    Yukon_SS_RowStack, \
+    WasteStack, \
+    WasteTalonStack
+
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint, Yukon_Hint
-from pysollib.hint import YukonType_Hint
-from pysollib.hint import FreeCellSolverWrapper
+from pysollib.hint import Yukon_Hint
 from pysollib.pysoltk import MfxCanvasText
 
 from spider import Spider_SS_Foundation
@@ -62,8 +71,9 @@ class Yukon(Game):
         # create stacks
         s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self)
         for r in l.s.foundations:
-            s.foundations.append(self.Foundation_Class(r.x, r.y, self, suit=r.suit,
-                                                       max_move=0))
+            s.foundations.append(
+                self.Foundation_Class(
+                    r.x, r.y, self, suit=r.suit, max_move=0))
         for r in l.s.rows:
             s.rows.append(self.RowStack_Class(r.x, r.y, self))
         # default
@@ -101,8 +111,11 @@ class RussianSolitaire(Yukon):
 class Moosehide_RowStack(Yukon_AC_RowStack):
     def _isSequence(self, c1, c2):
         return (c1.suit != c2.suit and c1.rank == c2.rank+1)
+
     def getHelp(self):
-        return _('Tableau. Build down in any suit but the same, can move any face-up cards regardless of sequence.')
+        return _('Tableau. Build down in any suit but the same, can move '
+                 'any face-up cards regardless of sequence.')
+
 
 class Moosehide(Yukon):
     RowStack_Class = StackWrapper(Moosehide_RowStack, base_rank=KING)
@@ -137,6 +150,7 @@ class Grandfather_Talon(RedealTalonStack):
     def dealCards(self, sound=False):
         self.redealCards(sound=sound, shuffle=True)
 
+
 class Grandfather(RussianSolitaire):
     Talon_Class = StackWrapper(Grandfather_Talon, max_rounds=3)
 
@@ -147,7 +161,7 @@ class Grandfather(RussianSolitaire):
     def startGame(self):
         frames = 0
         sound = False
-        for i, j in ((1,7),(1,6),(2,6),(2,5),(3,5),(3,4)):
+        for i,  j in ((1, 7), (1, 6), (2, 6), (2, 5), (3, 5), (3, 4)):
             if len(self.s.talon.cards) <= j-i:
                 frames = -1
                 sound = True
@@ -172,8 +186,10 @@ class Alaska_RowStack(Yukon_SS_RowStack):
         return (c1.suit == c2.suit and
                 ((c1.rank + self.cap.dir) % self.cap.mod == c2.rank or
                  (c2.rank + self.cap.dir) % self.cap.mod == c1.rank))
+
     def getHelp(self):
-        return _('Tableau. Build up or down by suit, can move any face-up cards regardless of sequence.')
+        return _('Tableau. Build up or down by suit, can move any face-up '
+                 'cards regardless of sequence.')
 
 
 class Alaska(RussianSolitaire):
@@ -189,8 +205,10 @@ class Roslin_RowStack(Yukon_AC_RowStack):
         return (c1.color != c2.color and
                 ((c1.rank + self.cap.dir) % self.cap.mod == c2.rank or
                  (c2.rank + self.cap.dir) % self.cap.mod == c1.rank))
+
     def getHelp(self):
-        return _('Tableau. Build up or down by alternate color, can move any face-up cards regardless of sequence.')
+        return _('Tableau. Build up or down by alternate color, can move '
+                 'any face-up cards regardless of sequence.')
 
 
 class Roslin(Yukon):
@@ -234,7 +252,8 @@ class Queenie(Yukon):
 
     def startGame(self, flip=1, reverse=1):
         for i in range(1, len(self.s.rows)):
-            self.s.talon.dealRow(rows=self.s.rows[i:], flip=flip, frames=0, reverse=reverse)
+            self.s.talon.dealRow(
+                rows=self.s.rows[i:], flip=flip, frames=0, reverse=reverse)
         self.startDealSample()
         self.s.talon.dealRow(reverse=reverse)
 
@@ -252,7 +271,8 @@ class Rushdike(RussianSolitaire):
 
     def startGame(self, flip=0, reverse=1):
         for i in range(1, len(self.s.rows)):
-            self.s.talon.dealRow(rows=self.s.rows[i:], flip=flip, frames=0, reverse=reverse)
+            self.s.talon.dealRow(
+                rows=self.s.rows[i:], flip=flip, frames=0, reverse=reverse)
         self.startDealSample()
         self.s.talon.dealRow(reverse=reverse)
 
@@ -304,12 +324,14 @@ Diamond: 4 8 Q 3 7 J 2 6 T A 5 9 K'''))
 
     def _shuffleHook(self, cards):
         # move Twos to top of the Talon (i.e. first cards to be dealt)
-        return self._shuffleHookMoveToTop(cards, lambda c: (c.id in (0, 14, 28, 42), c.suit))
+        return self._shuffleHookMoveToTop(
+            cards, lambda c: (c.id in (0, 14, 28, 42), c.suit))
 
     def startGame(self, flip=1, reverse=1):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
         for i in range(1, len(self.s.rows)):
-            self.s.talon.dealRow(rows=self.s.rows[i:], flip=flip, frames=0, reverse=reverse)
+            self.s.talon.dealRow(
+                rows=self.s.rows[i:], flip=flip, frames=0, reverse=reverse)
         self.startDealSample()
         self.s.talon.dealRow(reverse=reverse)
 
@@ -328,10 +350,11 @@ Diamond: 4 8 Q 3 7 J 2 6 T A 5 9 K'''))
 class DoubleYukon(Yukon):
     def createGame(self):
         Yukon.createGame(self, rows=10)
+
     def startGame(self):
         for i in range(1, len(self.s.rows)-1):
             self.s.talon.dealRow(rows=self.s.rows[i:], flip=0, frames=0)
-        #self.s.talon.dealRow(rows=self.s.rows, flip=0, frames=0)
+        # self.s.talon.dealRow(rows=self.s.rows, flip=0, frames=0)
         for i in range(5):
             self.s.talon.dealRow(flip=1, frames=0)
         self.startDealSample()
@@ -352,6 +375,7 @@ class DoubleRussianSolitaire(DoubleYukon):
 class TripleYukon(Yukon):
     def createGame(self):
         Yukon.createGame(self, rows=13, playcards=34)
+
     def startGame(self):
         for i in range(1, len(self.s.rows)):
             self.s.talon.dealRow(rows=self.s.rows[i:], flip=0, frames=0)
@@ -390,7 +414,8 @@ class TenAcross(Yukon):
         # create stacks
         s.talon = InitialDealTalonStack(l.s.talon.x, l.s.talon.y, self)
         for r in l.s.foundations:
-            self.s.foundations.append(self.Foundation_Class(r.x, r.y, self, suit=r.suit))
+            self.s.foundations.append(
+                self.Foundation_Class(r.x, r.y, self, suit=r.suit))
         for r in l.s.rows:
             s.rows.append(self.RowStack_Class(r.x, r.y, self))
         for r in l.s.reserves:
@@ -458,7 +483,8 @@ class AustralianPatience(RussianSolitaire):
         s.talon = WasteTalonStack(l.s.talon.x, l.s.talon.y, self, max_rounds=1)
         s.waste = WasteStack(l.s.waste.x, l.s.waste.y, self)
         for r in l.s.foundations:
-            s.foundations.append(SS_FoundationStack(r.x, r.y, self, suit=r.suit))
+            s.foundations.append(
+                SS_FoundationStack(r.x, r.y, self, suit=r.suit))
         for r in l.s.rows:
             s.rows.append(self.RowStack_Class(r.x, r.y, self))
         l.defaultAll()
@@ -477,8 +503,10 @@ class RawPrawn(AustralianPatience):
 
 class BimBom(AustralianPatience):
     RowStack_Class = Yukon_SS_RowStack
+
     def createGame(self):
         AustralianPatience.createGame(self, rows=8)
+
     def startGame(self):
         for i in range(4):
             self.s.talon.dealRow(frames=0)
@@ -537,7 +565,7 @@ class Queensland(Yukon):
 # * Double Russian Spider
 # ************************************************************************
 
-class RussianSpider_RowStack(Yukon_SS_RowStack): #Spider_SS_RowStack
+class RussianSpider_RowStack(Yukon_SS_RowStack):  # Spider_SS_RowStack
     def canDropCards(self, stacks):
         if len(self.cards) < 13:
             return (None, 0)
@@ -560,8 +588,9 @@ class RussianSpider(RussianSolitaire):
         # create stacks
         s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self)
         for r in l.s.foundations:
-            s.foundations.append(self.Foundation_Class(r.x, r.y, self, suit=ANY_SUIT,
-                                                       max_move=0))
+            s.foundations.append(
+                self.Foundation_Class(
+                    r.x, r.y, self, suit=ANY_SUIT, max_move=0))
         for r in l.s.rows:
             s.rows.append(self.RowStack_Class(r.x, r.y, self))
         # default
@@ -583,8 +612,10 @@ class DoubleRussianSpider(RussianSpider, DoubleRussianSolitaire):
 class Brisbane_RowStack(Yukon_AC_RowStack):
     def _isSequence(self, c1, c2):
         return (c1.rank + self.cap.dir) % self.cap.mod == c2.rank
+
     def getHelp(self):
-        return _('Tableau. Build down regardless of suit, can move any face-up cards regardless of sequence.')
+        return _('Tableau. Build down regardless of suit, can move any '
+                 'face-up cards regardless of sequence.')
 
 
 class Brisbane(Yukon):
@@ -686,7 +717,6 @@ class Wave(Game):
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
-
 # register the game
 registerGame(GameInfo(19, Yukon, "Yukon",
                       GI.GT_YUKON, 1, 0, GI.SL_BALANCED))
@@ -724,7 +754,7 @@ registerGame(GameInfo(387, Roslin, "Roslin",
                       GI.GT_YUKON, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(447, AustralianPatience, "Australian Patience",
                       GI.GT_YUKON, 1, 0, GI.SL_BALANCED,
-                      altnames=('Outback Patience',) ))
+                      altnames=('Outback Patience',)))
 registerGame(GameInfo(450, RawPrawn, "Raw Prawn",
                       GI.GT_YUKON, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(456, BimBom, "Bim Bom",
@@ -739,7 +769,7 @@ registerGame(GameInfo(525, Queensland, "Queensland",
                       GI.GT_YUKON, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(530, RussianSpider, "Russian Spider",
                       GI.GT_SPIDER, 1, 0, GI.SL_BALANCED,
-                      altnames=('Ukrainian Solitaire',) ))
+                      altnames=('Ukrainian Solitaire',)))
 registerGame(GameInfo(531, DoubleRussianSpider, "Double Russian Spider",
                       GI.GT_SPIDER | GI.GT_ORIGINAL, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(603, Brisbane, "Brisbane",

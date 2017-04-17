@@ -2,19 +2,25 @@
 #
 
 # imports
-import sys
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
 
 
-#***********************************************************************
+from pysollib.util import ACE
+
+from pysollib.stack import \
+        DealRowTalonStack, \
+        Yukon_SS_RowStack, \
+        isSameSuitSequence, \
+        StackWrapper
+
+# ***********************************************************************
 # Daddy Longlegs (by Jim Sizelove)
-#***********************************************************************
+# ***********************************************************************
+
 
 class DaddyLonglegs(Game):
     Talon_Class = DealRowTalonStack
@@ -53,5 +59,5 @@ class DaddyLonglegs(Game):
 
 # register the game
 registerGame(GameInfo(555001, DaddyLonglegs, "Daddy Longlegs",
-                         GI.GT_SPIDER, 1, 0, GI.SL_MOSTLY_SKILL,
-                         rules_filename="daddylonglegs.html"))
+                      GI.GT_SPIDER, 1, 0, GI.SL_MOSTLY_SKILL,
+                      rules_filename="daddylonglegs.html"))

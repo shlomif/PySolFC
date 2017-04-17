@@ -24,23 +24,31 @@
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 
 from fortythieves import FortyThieves_Hint
 from spider import Spider_Hint
 
+from pysollib.util import ACE, KING
+
+from pysollib.stack import \
+        RK_RowStack, \
+        SS_FoundationStack, \
+        SS_RowStack, \
+        Spider_SS_RowStack, \
+        UD_SS_RowStack, \
+        WasteStack, \
+        WasteTalonStack, \
+        StackWrapper
 
 # ************************************************************************
 # * Diplomat
 # ************************************************************************
+
 
 class Diplomat(Game):
     Foundation_Class = SS_FoundationStack
@@ -81,7 +89,6 @@ class Diplomat(Game):
 
         # define stack-groups
         l.defaultStackGroups()
-
 
     #
     # game overrides
@@ -169,8 +176,8 @@ class Parliament(Congress):
 
     def _shuffleHook(self, cards):
         # move Aces to top of the Talon (i.e. first cards to be dealt)
-        return self._shuffleHookMoveToTop(cards,
-                   lambda c: (c.rank == ACE, (c.deck, c.suit)))
+        return self._shuffleHookMoveToTop(
+            cards, lambda c: (c.rank == ACE, (c.deck, c.suit)))
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
@@ -262,7 +269,6 @@ class TwinQueens(Congress):
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
-
 # register the game
 registerGame(GameInfo(149, Diplomat, "Diplomat",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
@@ -282,4 +288,3 @@ registerGame(GameInfo(549, Wheatsheaf, "Wheatsheaf",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(563, TwinQueens, "Twin Queens",
                       GI.GT_FORTY_THIEVES, 2, 1, GI.SL_MOSTLY_SKILL))
-

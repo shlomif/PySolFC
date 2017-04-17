@@ -24,21 +24,20 @@
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 
 from gypsy import DieKoenigsbergerin_Talon, DieRussische_Foundation
+
+from pysollib.stack import AC_RowStack
 
 # ************************************************************************
 # * Die böse Sieben
 # ************************************************************************
+
 
 class DieBoeseSieben_Talon(DieKoenigsbergerin_Talon):
     def canDealCards(self):
@@ -84,16 +83,19 @@ class DieBoeseSieben(Game):
         l, s = Layout(self), self.s
 
         # set window
-        self.setSize(l.XM + max(8,rows)*l.XS, l.YM + 5*l.YS)
+        self.setSize(l.XM + max(8, rows)*l.XS, l.YM + 5*l.YS)
 
         # create stacks
         for i in range(8):
             x, y, = l.XM + i*l.XS, l.YM
-            s.foundations.append(DieRussische_Foundation(x, y, self, i/2, max_move=0, max_cards=8))
+            s.foundations.append(
+                DieRussische_Foundation(
+                    x, y, self, i/2, max_move=0, max_cards=8))
         for i in range(rows):
             x, y, = l.XM + (2*i+8-rows)*l.XS/2, l.YM + l.YS
             s.rows.append(AC_RowStack(x, y, self))
-        s.talon = DieBoeseSieben_Talon(l.XM, self.height-l.YS, self, max_rounds=2)
+        s.talon = DieBoeseSieben_Talon(
+            l.XM, self.height-l.YS, self, max_rounds=2)
         l.createText(s.talon, 'ne')
         l.createRoundText(s.talon, 'se')
 
@@ -116,5 +118,4 @@ class DieBoeseSieben(Game):
 registerGame(GameInfo(120, DieBoeseSieben, "Bad Seven",
                       GI.GT_2DECK_TYPE, 2, 1, GI.SL_MOSTLY_LUCK,
                       ranks=(0, 6, 7, 8, 9, 10, 11, 12),
-                      altnames=("Die boese Sieben",) ))
-
+                      altnames=("Die boese Sieben",)))

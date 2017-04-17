@@ -24,20 +24,25 @@
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
-from pysollib.pysoltk import MfxCanvasText
+from pysollib.hint import CautiousDefaultHint
+
+from pysollib.util import ANY_SUIT, KING
+
+from pysollib.stack import \
+        AbstractFoundationStack, \
+        ReserveStack, \
+        WasteStack, \
+        WasteTalonStack
 
 # ************************************************************************
 # * Doublets
 # ************************************************************************
+
 
 class Doublets_Foundation(AbstractFoundationStack):
     def acceptsCards(self, from_stack, cards):
@@ -74,8 +79,9 @@ class Doublets(Game):
                                                  dir=0, mod=13,
                                                  max_move=0, max_cards=48))
         l.createText(s.foundations[0], "s")
-##        help = "A, 2, 4, 8, 3, 6, Q, J, 9, 5, 10, 7, A, ..."
-##        self.texts.help = MfxCanvasText(self.canvas, x + l.CW/2, y + l.YS + l.YM, anchor="n", text=help)
+#         help = "A, 2, 4, 8, 3, 6, Q, J, 9, 5, 10, 7, A, ..."
+#         self.texts.help = MfxCanvasText(
+#             self.canvas, x + l.CW/2, y + l.YS + l.YM, anchor="n", text=help)
         x, y = l.XM, l.YM + 3*l.YS/2
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
         l.createText(s.talon, "s")
@@ -132,5 +138,4 @@ class Doublets(Game):
 # register the game
 registerGame(GameInfo(111, Doublets, "Doublets",
                       GI.GT_1DECK_TYPE, 1, 2, GI.SL_MOSTLY_LUCK,
-                      altnames=('Double or Quits',) ))
-
+                      altnames=('Double or Quits',)))

@@ -24,23 +24,29 @@
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.mfxutil import kwdefault
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.hint import CautiousDefaultHint
 
+# from pysollib.util import ANY_SUIT, KING
+
+from pysollib.stack import \
+        AC_RowStack, \
+        InitialDealTalonStack, \
+        OpenStack, \
+        ReserveStack, \
+        SS_FoundationStack, \
+        StackWrapper
 
 # ************************************************************************
 # * Needle
 # * Haystack
 # * Pitchfork
 # ************************************************************************
+
 
 class Needle(Game):
 
@@ -64,7 +70,8 @@ class Needle(Game):
         stack = self.ReserveStack_Class(x, y, self)
         stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
         s.reserves.append(stack)
-        self.setRegion(s.reserves, (-999, -999, w-4*l.XS-l.CW/2, l.YM+l.YS-l.CH/2))
+        self.setRegion(
+            s.reserves, (-999, -999, w-4*l.XS-l.CW/2, l.YM+l.YS-l.CH/2))
 
         x = w-4*l.XS
         for i in range(4):
@@ -119,4 +126,3 @@ registerGame(GameInfo(319, Haystack, "Haystack",
                       GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(367, Pitchfork, "Pitchfork",
                       GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
-

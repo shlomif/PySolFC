@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 #
 # Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
 # Copyright (C) 2003 Mt. Hood Playing Card Co.
@@ -19,33 +19,52 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 
 __all__ = []
 
 # imports
-import sys, time
+import time
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.hint import DefaultHint, CautiousDefaultHint
 from pysollib.mfxutil import kwdefault
 
+from pysollib.util import ACE, ANY_RANK, ANY_SUIT, JACK, KING, NO_RANK, \
+        UNLIMITED_ACCEPTS, \
+        UNLIMITED_CARDS
+
+from pysollib.stack import \
+        AC_RowStack, \
+        BasicRowStack, \
+        DealRowTalonStack, \
+        InitialDealTalonStack, \
+        OpenStack, \
+        OpenTalonStack, \
+        RK_FoundationStack, \
+        RK_RowStack, \
+        ReserveStack, \
+        SS_FoundationStack, \
+        Stack, \
+        StackWrapper, \
+        TalonStack, \
+        WasteStack, \
+        WasteTalonStack
 
 # ************************************************************************
 # *
 # ************************************************************************
 
+
 class Numerica_Hint(DefaultHint):
     # FIXME: demo is clueless
 
-    #def _getDropCardScore(self, score, color, r, t, ncards):
-        #FIXME: implement this method
+    # def _getDropCardScore(self, score, color, r, t, ncards):
+        # FIXME: implement this method
 
     def _getMoveWasteScore(self, score, color, r, t, pile, rpile):
         assert r in (self.game.s.waste, self.game.s.talon) and len(pile) == 1
@@ -80,7 +99,7 @@ class Numerica_RowStack(BasicRowStack):
     getBottomImage = Stack._getReserveBottomImage
 
     def getHelp(self):
-        ##return _('Tableau. Accepts any one card from the Waste.')
+        # return _('Tableau. Accepts any one card from the Waste.')
         return _('Tableau. Build regardless of rank and suit.')
 
 
@@ -97,7 +116,8 @@ class Numerica(Game):
     # game layout
     #
 
-    def createGame(self, rows=4, reserve=False, max_rounds=1, waste_max_cards=1):
+    def createGame(self, rows=4, reserve=False, max_rounds=1,
+                   waste_max_cards=1):
         # create layout
         l, s = Layout(self), self.s
         decks = self.gameinfo.decks
@@ -142,7 +162,6 @@ class Numerica(Game):
 
         return l
 
-
     #
     # game overrides
     #
@@ -169,6 +188,7 @@ class Numerica2Decks(Numerica):
 
 class LadyBetty(Numerica):
     Foundation_Class = SS_FoundationStack
+
     def createGame(self):
         Numerica.createGame(self, rows=6)
 
@@ -243,6 +263,7 @@ class PussInTheCorner_Foundation(SS_FoundationStack):
     def __init__(self, x, y, game, **cap):
         kwdefault(cap, base_suit=ANY_SUIT)
         SS_FoundationStack.__init__(self, x, y, game, ANY_SUIT, **cap)
+
     def acceptsCards(self, from_stack, cards):
         if not SS_FoundationStack.acceptsCards(self, from_stack, cards):
             return False
@@ -251,6 +272,7 @@ class PussInTheCorner_Foundation(SS_FoundationStack):
             if cards[0].color != self.cards[-1].color:
                 return False
         return True
+
     def getHelp(self):
         return _('Foundation. Build up by color.')
 
@@ -266,7 +288,7 @@ class PussInTheCorner_RowStack(BasicRowStack):
     getBottomImage = Stack._getReserveBottomImage
 
     def getHelp(self):
-        ##return _('Tableau. Accepts any one card from the Waste.')
+        # return _('Tableau. Accepts any one card from the Waste.')
         return _('Tableau. Build regardless of rank and suit.')
 
 
@@ -275,8 +297,8 @@ class PussInTheCorner(Numerica):
     def createGame(self, rows=4):
         l, s = Layout(self), self.s
         self.setSize(l.XM+5*l.XS, l.YM+4*l.YS)
-        for x, y in ((l.XM,        l.YM       ),
-                     (l.XM+4*l.XS, l.YM       ),
+        for x, y in ((l.XM,        l.YM),
+                     (l.XM+4*l.XS, l.YM),
                      (l.XM,        l.YM+3*l.YS),
                      (l.XM+4*l.XS, l.YM+3*l.YS),
                      ):
@@ -284,10 +306,10 @@ class PussInTheCorner(Numerica):
                                              max_accept=1, max_move=1)
             stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, 0
             s.rows.append(stack)
-        for x, y in ((l.XM+1.5*l.XS, l.YM+  l.YS),
-                     (l.XM+1.5*l.XS, l.YM+2*l.YS),
-                     (l.XM+2.5*l.XS, l.YM+  l.YS),
-                     (l.XM+2.5*l.XS, l.YM+2*l.YS),
+        for x, y in ((l.XM+1.5*l.XS, l.YM + l.YS),
+                     (l.XM+1.5*l.XS, l.YM + 2*l.YS),
+                     (l.XM+2.5*l.XS, l.YM + l.YS),
+                     (l.XM+2.5*l.XS, l.YM + 2*l.YS),
                      ):
             s.foundations.append(PussInTheCorner_Foundation(x, y, self,
                                                             max_move=0))
@@ -299,17 +321,14 @@ class PussInTheCorner(Numerica):
         # define stack-groups
         l.defaultStackGroups()
 
-
     def _shuffleHook(self, cards):
-        return self._shuffleHookMoveToTop(cards,
-                    lambda c: (c.rank == ACE, c.suit))
-
+        return self._shuffleHookMoveToTop(
+            cards, lambda c: (c.rank == ACE, c.suit))
 
     def startGame(self):
         self.startDealSample()
         self.s.talon.dealRow(rows=self.s.foundations)
         self.s.talon.fillStack()
-
 
     def _autoDeal(self, sound=True):
         return 0
@@ -324,7 +343,7 @@ class PussInTheCorner(Numerica):
 class Frog(Game):
 
     Hint_Class = Numerica_Hint
-    ##Foundation_Class = SS_FoundationStack
+    # Foundation_Class = SS_FoundationStack
     Foundation_Class = RK_FoundationStack
 
     def createGame(self):
@@ -356,13 +375,12 @@ class Frog(Game):
         x += l.XS
         for i in range(5):
             stack = Numerica_RowStack(x, y, self, max_accept=UNLIMITED_ACCEPTS)
-            #stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, l.YOFFSET
+            # stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, l.YOFFSET
             s.rows.append(stack)
             x = x + l.XS
 
         # define stack-groups
         l.defaultStackGroups()
-
 
     def startGame(self):
         self.startDealSample()
@@ -373,7 +391,7 @@ class Frog(Game):
             if c.rank == ACE:
                 r = self.s.foundations[f]
                 f += 1
-                ##r = self.s.foundations[c.suit*2]
+                # r = self.s.foundations[c.suit*2]
             else:
                 r = self.s.reserves[0]
                 n += 1
@@ -388,8 +406,8 @@ class Fly(Frog):
     Foundation_Class = RK_FoundationStack
 
     def _shuffleHook(self, cards):
-        return self._shuffleHookMoveToTop(cards,
-                    lambda c: (c.rank == ACE, c.suit))
+        return self._shuffleHookMoveToTop(
+            cards, lambda c: (c.rank == ACE, c.suit))
 
     def startGame(self):
         self.startDealSample()
@@ -439,7 +457,8 @@ class Gnat(Game):
 
         x, y = l.XM+2*l.XS, l.YM+l.YS
         for i in range(4):
-            s.rows.append(Numerica_RowStack(x, y, self, max_accept=UNLIMITED_ACCEPTS))
+            s.rows.append(
+                Numerica_RowStack(x, y, self, max_accept=UNLIMITED_ACCEPTS))
             x += l.XS
         x = l.XM+6*l.XS
         for i in range(2):
@@ -452,10 +471,9 @@ class Gnat(Game):
         # define stack-groups
         l.defaultStackGroups()
 
-
     def _shuffleHook(self, cards):
-        return self._shuffleHookMoveToTop(cards,
-                    lambda c: (c.rank == ACE, c.suit))
+        return self._shuffleHookMoveToTop(
+            cards, lambda c: (c.rank == ACE, c.suit))
 
     def startGame(self):
         self.startDealSample()
@@ -529,14 +547,14 @@ class Gloaming(Game):
 
         x += l.XS
         for i in range(rows):
-            s.rows.append(Gloaming_RowStack(x, y, self, max_accept=UNLIMITED_ACCEPTS))
+            s.rows.append(
+                Gloaming_RowStack(x, y, self, max_accept=UNLIMITED_ACCEPTS))
             x += l.XS
 
         s.talon = InitialDealTalonStack(w-l.XS, h-l.YS, self)
 
         # default
         l.defaultAll()
-
 
     def startGame(self):
         n = 52/len(self.s.reserves)+1
@@ -550,6 +568,7 @@ class Gloaming(Game):
 
 class Chamberlain(Gloaming):
     Foundation_Class = RK_FoundationStack
+
     def createGame(self, reserves=3, rows=5):
         Gloaming.createGame(self, reserves=4, rows=3)
 
@@ -567,6 +586,7 @@ class Toad_TalonStack(DealRowTalonStack):
             if r.cards:
                 return False
         return True
+
     def dealCards(self, sound=False):
         self.dealRow(rows=self.game.s.reserves, sound=sound)
 
@@ -592,7 +612,8 @@ class Toad(Game):
             x += l.XS
         x, y = l.XM+3*l.XS/2, l.YM+l.YS
         for i in range(5):
-            s.rows.append(Gloaming_RowStack(x, y, self, max_accept=UNLIMITED_ACCEPTS))
+            s.rows.append(
+                Gloaming_RowStack(x, y, self, max_accept=UNLIMITED_ACCEPTS))
             x += l.XS
         y = l.YM+l.YS/2
         for i in (3, 3, 3, 3, 1):
@@ -627,7 +648,7 @@ class Shifting_RowStack(Numerica_RowStack):
         if not self.cards:
             return cards[0].rank == KING
         if (from_stack in self.game.s.rows and
-            self.cards[-1].rank-cards[0].rank == 1):
+                self.cards[-1].rank-cards[0].rank == 1):
             return True
         return False
 
@@ -651,7 +672,8 @@ class Strategerie_RowStack(BasicRowStack):
     def acceptsCards(self, from_stack, cards):
         if not BasicRowStack.acceptsCards(self, from_stack, cards):
             return False
-        if from_stack is self.game.s.talon or from_stack in self.game.s.reserves:
+        if from_stack is self.game.s.talon or \
+                from_stack in self.game.s.reserves:
             return True
         return False
 
@@ -739,7 +761,8 @@ class AnnoDomini(Numerica):
     RowStack_Class = StackWrapper(AC_RowStack, mod=13)
 
     def createGame(self):
-        l = Numerica.createGame(self, max_rounds=3, waste_max_cards=UNLIMITED_CARDS)
+        l = Numerica.createGame(
+            self, max_rounds=3, waste_max_cards=UNLIMITED_CARDS)
         year = str(time.localtime()[0])
         i = 0
         for s in self.s.foundations:
@@ -784,15 +807,15 @@ class CircleNine(Game):
         l, s = Layout(self), self.s
         self.setSize(l.XM+7*l.XS, l.YM+3*l.YS)
 
-        for i, j in ((1,0),
-                     (2,0),
-                     (3,0),
-                     (4,0),
-                     (5,1),
-                     (3.5,2),
-                     (2.5,2),
-                     (1.5,2),
-                     (0,1),
+        for i, j in ((1, 0),
+                     (2, 0),
+                     (3, 0),
+                     (4, 0),
+                     (5, 1),
+                     (3.5, 2),
+                     (2.5, 2),
+                     (1.5, 2),
+                     (0, 1),
                      ):
             x, y = l.XM+(1+i)*l.XS, l.YM+j*l.YS
             stack = CircleNine_RowStack(x, y, self, max_accept=1,
@@ -812,13 +835,11 @@ class CircleNine(Game):
         l.defaultStackGroups()
         self.sg.dropstacks.append(s.talon)
 
-
     def startGame(self):
         self.startDealSample()
         self.s.talon.dealRow(rows=self.s.foundations)
         self.s.talon.dealRow()
         self.s.talon.fillStack()
-
 
     def fillStack(self, stack):
         if stack in self.s.rows and not stack.cards:
@@ -955,8 +976,8 @@ class Aglet(Game):
 
     def _shuffleHook(self, cards):
         # move Aces to top of the Talon (i.e. first cards to be dealt)
-        return self._shuffleHookMoveToTop(cards,
-                   lambda c: (c.rank == ACE, c.suit))
+        return self._shuffleHookMoveToTop(
+            cards, lambda c: (c.rank == ACE, c.suit))
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
@@ -967,11 +988,10 @@ class Aglet(Game):
         self.s.talon.dealRowAvail()
 
 
-
 # register the game
 registerGame(GameInfo(257, Numerica, "Numerica",
                       GI.GT_NUMERICA | GI.GT_CONTRIB, 1, 0, GI.SL_BALANCED,
-                      altnames=("Sir Tommy",) ))
+                      altnames=("Sir Tommy",)))
 registerGame(GameInfo(171, LadyBetty, "Lady Betty",
                       GI.GT_NUMERICA, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(355, Frog, "Frog",
@@ -982,9 +1002,11 @@ registerGame(GameInfo(356, Fly, "Fly",
 registerGame(GameInfo(357, Gnat, "Gnat",
                       GI.GT_NUMERICA, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(378, Gloaming, "Gloaming",
-                      GI.GT_NUMERICA | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_NUMERICA | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0,
+                      GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(379, Chamberlain, "Chamberlain",
-                      GI.GT_NUMERICA | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_NUMERICA | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0,
+                      GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(402, Toad, "Toad",
                       GI.GT_NUMERICA, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(430, PussInTheCorner, "Puss in the Corner",
@@ -1006,11 +1028,14 @@ registerGame(GameInfo(613, Fanny, "Fanny",
 registerGame(GameInfo(641, CircleNine, "Circle Nine",
                       GI.GT_NUMERICA, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(643, Measure, "Measure",
-                      GI.GT_NUMERICA | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_NUMERICA | GI.GT_ORIGINAL, 1, 0,
+                      GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(644, DoubleMeasure, "Double Measure",
-                      GI.GT_NUMERICA | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_NUMERICA | GI.GT_ORIGINAL, 2, 0,
+                      GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(754, Amphibian, "Amphibian",
-                      GI.GT_NUMERICA | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_NUMERICA | GI.GT_ORIGINAL, 2, 0,
+                      GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(760, Aglet, "Aglet",
-                      GI.GT_1DECK_TYPE | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))
-
+                      GI.GT_1DECK_TYPE | GI.GT_ORIGINAL, 1, 0,
+                      GI.SL_MOSTLY_SKILL))

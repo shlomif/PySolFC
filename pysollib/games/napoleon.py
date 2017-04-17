@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 #
 # Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
 # Copyright (C) 2003 Mt. Hood Playing Card Co.
@@ -19,26 +19,33 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
 from pysollib.mfxutil import kwdefault
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.hint import CautiousDefaultHint
 from pysollib.pysoltk import MfxCanvasText
 
 from braid import Braid_Foundation
 
+from pysollib.util import ACE, KING, RANKS, UNLIMITED_CARDS
+
+from pysollib.stack import \
+        BasicRowStack, \
+        InitialDealTalonStack, \
+        ReserveStack, \
+        SS_FoundationStack, \
+        Stack, \
+        UD_SS_RowStack, \
+        StackWrapper
 
 # ************************************************************************
 # * stacks
@@ -57,9 +64,9 @@ class Napoleon_ReserveStack(BasicRowStack):
 
 class Napoleon_SingleFreeCell(ReserveStack):
     def acceptsCards(self, from_stack, cards):
-##        if from_stack.id >= 8:
-##            # from_stack must be a Napoleon_RowStack
-##            return False
+        #         if from_stack.id >= 8:
+        #             # from_stack must be a Napoleon_RowStack
+        #             return False
         return ReserveStack.acceptsCards(self, from_stack, cards)
 
     def canMoveCards(self, cards):
@@ -122,7 +129,7 @@ class DerKleineNapoleon(Game):
             y = y + l.YS
         # talon
         if cells == 1:
-            ##x, y = l.XM, self.height - l.YS
+            # x, y = l.XM, self.height - l.YS
             y = self.height + l.YS
         else:
             y = self.height - l.YS
@@ -144,9 +151,11 @@ class DerKleineNapoleon(Game):
     #
 
     def _shuffleHook(self, cards):
-        # move 4 cards of the same rank to bottom of the Talon (i.e. last cards to be dealt)
+        # move 4 cards of the same rank to bottom of the Talon (i.e.
+        #   last cards to be dealt)
         rank = cards[-1].rank
-        return self._shuffleHookMoveToBottom(cards, lambda c, rank=rank: (c.rank == rank, c.suit))
+        return self._shuffleHookMoveToBottom(
+            cards, lambda c, rank=rank: (c.rank == rank, c.suit))
 
     def startGame(self):
         for i in range(4):
@@ -249,6 +258,7 @@ class Napoleon(DerKleineNapoleon):
 
 class FreeNapoleon(DerFreieNapoleon):
     FreeCell_Class = Napoleon_FreeCell
+
     def createGame(self):
         DerFreieNapoleon.createGame(self, cells=2)
 
@@ -298,7 +308,8 @@ class TheLittleCorporal(DerFreieNapoleon):
             x += l.XS
         tx, ty, ta, tf = l.getTextAttr(s.foundations[-1], "se")
         font = self.app.getFont("canvas_default")
-        self.texts.info = MfxCanvasText(self.canvas, tx, ty, anchor=ta, font=font)
+        self.texts.info = MfxCanvasText(
+            self.canvas, tx, ty, anchor=ta, font=font)
         x += 2*l.XS
         stack = ReserveStack(x, y, self, max_cards=UNLIMITED_CARDS)
         s.reserves.append(stack)
@@ -360,7 +371,7 @@ class BusyCards(Game):
     Hint_Class = CautiousDefaultHint
 
     def createGame(self):
-        rows=12
+        rows = 12
 
         l, s = Layout(self), self.s
         self.setSize(l.XM+rows*l.XS, l.YM + 3*l.YS+16*l.YOFFSET)
@@ -390,8 +401,10 @@ class BusyCards(Game):
         l.defaultStackGroups()
 
     def _shuffleHook(self, cards):
-        return self._shuffleHookMoveToTop(cards,
-            lambda c: ((c.rank in (ACE,KING) and c.deck == 0), (c.rank, c.suit)))
+        return self._shuffleHookMoveToTop(
+            cards,
+            lambda c: ((c.rank in (ACE, KING) and c.deck == 0),
+                       (c.rank, c.suit)))
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
@@ -401,7 +414,6 @@ class BusyCards(Game):
         self.s.talon.dealRow()
 
     shallHighlightMatch = Game._shallHighlightMatch_SS
-
 
 
 # register the game
@@ -418,7 +430,8 @@ registerGame(GameInfo(536, Master, "Master",
 registerGame(GameInfo(537, TheLittleCorporal, "The Little Corporal",
                       GI.GT_NAPOLEON | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(538, Bonaparte, "Bonaparte",
-                      GI.GT_NAPOLEON | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_NAPOLEON | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0,
+                      GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(705, BusyCards, "Busy Cards",
-                      GI.GT_NAPOLEON | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
-
+                      GI.GT_NAPOLEON | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0,
+                      GI.SL_MOSTLY_SKILL))

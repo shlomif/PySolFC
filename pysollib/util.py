@@ -46,13 +46,14 @@ __all__ = ['SUITS',
            ]
 
 # imports
-import sys, os
+import sys
+import os
 
 # PySol imports
-from pysollib.settings import DATA_DIRS, TOOLKIT
+from pysollib.settings import DATA_DIRS
 from pysollib.mfxutil import Image
 
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 
 # ************************************************************************
 # * constants
@@ -106,7 +107,7 @@ class DataLoader:
         if isinstance(filenames, str):
             filenames = (filenames,)
         assert isinstance(filenames, (tuple, list))
-        #$ init path
+        # init path
         path = path[:]
         head, tail = os.path.split(argv0)
         if not head:
@@ -123,7 +124,8 @@ class DataLoader:
         # check path for valid directories
         self.path = []
         for p in path:
-            if not p: continue
+            if not p:
+                continue
             np = os.path.abspath(p)
             if np and (np not in self.path) and os.path.isdir(np):
                 self.path.append(np)
@@ -140,9 +142,9 @@ class DataLoader:
                 self.dir = p
                 break
         else:
-            raise OSError(str(argv0)+": DataLoader could not find "+str(filenames))
-        ##print path, self.path, self.dir
-
+            raise OSError(str(argv0)+": DataLoader could not find " +
+                          str(filenames))
+        # print path, self.path, self.dir
 
     def __findFile(self, func, filename, subdirs=None, do_raise=1):
         if subdirs is None:
@@ -155,7 +157,8 @@ class DataLoader:
             if func(f):
                 return f
         if do_raise:
-            raise OSError("DataLoader could not find "+filename+" in "+self.dir+" "+str(subdirs))
+            raise OSError("DataLoader could not find "+filename+" in " +
+                          self.dir+" "+str(subdirs))
         return None
 
     def findFile(self, filename, subdirs=None):
@@ -166,11 +169,12 @@ class DataLoader:
             f = self.__findFile(os.path.isfile, filename+ext, subdirs, 0)
             if f:
                 return f
-        raise OSError("DataLoader could not find image "+filename+" in "+self.dir+" "+str(subdirs))
+        raise OSError("DataLoader could not find image "+filename +
+                      " in "+self.dir+" "+str(subdirs))
 
     def findIcon(self, filename=None, subdirs=None):
         if not filename:
-            ##filename = PACKAGE.lower()
+            # filename = PACKAGE.lower()
             filename = 'pysol'
         root, ext = os.path.splitext(filename)
         if not ext:
@@ -182,4 +186,3 @@ class DataLoader:
 
     def findDir(self, filename, subdirs=None):
         return self.__findFile(os.path.isdir, filename, subdirs)
-

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 #
 # Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
 # Copyright (C) 2003 Mt. Hood Playing Card Co.
@@ -19,7 +19,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 
 __all__ = ['cardsFaceUp',
            'cardsFaceDown',
@@ -51,7 +51,7 @@ __all__ = ['cardsFaceUp',
            'Spider_SS_Foundation',
            'Spider_AC_Foundation',
            'Spider_RK_Foundation',
-           #'SequenceStack_StackMethods',
+           # 'SequenceStack_StackMethods',
            'BasicRowStack',
            'SequenceRowStack',
            'AC_RowStack',
@@ -95,18 +95,19 @@ __all__ = ['cardsFaceUp',
 # imports
 import types
 
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 # PySol imports
 from pysollib.mfxutil import Struct, kwdefault, SubclassResponsibility
 from pysollib.mfxutil import Image, ImageTk, USE_PIL
 from pysollib.util import ACE, KING
-from pysollib.util import ANY_SUIT, ANY_COLOR, ANY_RANK, NO_RANK
+from pysollib.util import ANY_SUIT, ANY_RANK, NO_RANK
 from pysollib.pysoltk import EVENT_HANDLED, EVENT_PROPAGATE
 from pysollib.pysoltk import CURSOR_DRAG, CURSOR_DOWN_ARROW
 from pysollib.pysoltk import ANCHOR_NW, ANCHOR_SE
 from pysollib.pysoltk import bind, unbind_destroy
-from pysollib.pysoltk import after, after_idle, after_cancel
-from pysollib.pysoltk import MfxCanvasGroup, MfxCanvasImage, MfxCanvasRectangle, MfxCanvasText, MfxCanvasLine
+from pysollib.pysoltk import after_idle, after_cancel
+from pysollib.pysoltk import MfxCanvasGroup, MfxCanvasImage, \
+        MfxCanvasRectangle, MfxCanvasText
 from pysollib.pysoltk import get_text_width
 from pysollib.pysoltk import markImage
 from pysollib.settings import TOOLKIT
@@ -117,21 +118,26 @@ from pysollib.settings import DEBUG
 # * Empty card-lists return false.
 # ************************************************************************
 
+
 # check that all cards are face-up
 def cardsFaceUp(cards):
-    if not cards: return False
+    if not cards:
+        return False
     for c in cards:
         if not c.face_up:
             return False
     return True
 
+
 # check that all cards are face-down
 def cardsFaceDown(cards):
-    if not cards: return False
+    if not cards:
+        return False
     for c in cards:
         if c.face_up:
             return False
     return True
+
 
 # check that cards are face-up and build down by rank
 def isRankSequence(cards, mod=8192, dir=-1):
@@ -144,6 +150,7 @@ def isRankSequence(cards, mod=8192, dir=-1):
         c1 = c2
     return True
 
+
 # check that cards are face-up and build down by alternate color
 def isAlternateColorSequence(cards, mod=8192, dir=-1):
     if not cardsFaceUp(cards):
@@ -154,6 +161,7 @@ def isAlternateColorSequence(cards, mod=8192, dir=-1):
             return False
         c1 = c2
     return True
+
 
 # check that cards are face-up and build down by same color
 def isSameColorSequence(cards, mod=8192, dir=-1):
@@ -166,6 +174,7 @@ def isSameColorSequence(cards, mod=8192, dir=-1):
         c1 = c2
     return True
 
+
 # check that cards are face-up and build down by same suit
 def isSameSuitSequence(cards, mod=8192, dir=-1):
     if not cardsFaceUp(cards):
@@ -176,6 +185,7 @@ def isSameSuitSequence(cards, mod=8192, dir=-1):
             return False
         c1 = c2
     return True
+
 
 # check that cards are face-up and build down by any suit but own
 def isAnySuitButOwnSequence(cards, mod=8192, dir=-1):
@@ -188,8 +198,10 @@ def isAnySuitButOwnSequence(cards, mod=8192, dir=-1):
         c1 = c2
     return True
 
+
 def getNumberOfFreeStacks(stacks):
     return len([s for s in stacks if not s.cards])
+
 
 # collect the top cards of several stacks into a pile
 def getPileFromStacks(stacks, reverse=0):
@@ -236,13 +248,13 @@ class Stack:
         x = int(round(x))
         y = int(round(y))
         mapkey = (x, y)
-        ###assert not game.stackmap.has_key(mapkey) ## can happen in PyJonngg
+        # assert not game.stackmap.has_key(mapkey) ## can happen in PyJonngg
         game.stackmap[mapkey] = id
 
         #
         # setup our pseudo MVC scheme
         #
-        model, view, controller = self, self, self
+        model, view = self, self
 
         #
         # model
@@ -255,21 +267,22 @@ class Stack:
 
         # capabilites - the game logic
         model.cap = Struct(
-            suit = -1,          # required suit for this stack (-1 is ANY_SUIT)
-            color = -1,         # required color for this stack (-1 is ANY_COLOR)
-            rank = -1,          # required rank for this stack (-1 is ANY_RANK)
-            base_suit = -1,     # base suit for this stack (-1 is ANY_SUIT)
-            base_color = -1,    # base color for this stack (-1 is ANY_COLOR)
-            base_rank = -1,     # base rank for this stack (-1 is ANY_RANK)
-            dir = 0,            # direction - stack builds up/down
-            mod = 8192,         # modulo for wrap around (typically 13 or 8192)
-            max_move = 0,       # can move at most # cards at a time
-            max_accept = 0,     # can accept at most # cards at a time
-            max_cards = 999999, # total number of cards may not exceed this
+            suit=-1,          # required suit for this stack (-1 is ANY_SUIT)
+            color=-1,         # required color for this stack (-1 is ANY_COLOR)
+            rank=-1,          # required rank for this stack (-1 is ANY_RANK)
+            base_suit=-1,     # base suit for this stack (-1 is ANY_SUIT)
+            base_color=-1,    # base color for this stack (-1 is ANY_COLOR)
+            base_rank=-1,     # base rank for this stack (-1 is ANY_RANK)
+            dir=0,            # direction - stack builds up/down
+            mod=8192,         # modulo for wrap around (typically 13 or 8192)
+            max_move=0,       # can move at most # cards at a time
+            max_accept=0,     # can accept at most # cards at a time
+            max_cards=999999,  # total number of cards may not exceed this
             # not commonly used:
-            min_move = 1,       # must move at least # cards at a time
-            min_accept = 1,     # must accept at least # cards at a time
-            min_cards = 0,      # total number of cards this stack at least requires
+            min_move=1,       # must move at least # cards at a time
+            min_accept=1,     # must accept at least # cards at a time
+            # total number of cards this stack at least requires
+            min_cards=0,
         )
         model.cap.update(cap)
         assert isinstance(model.cap.suit, int)
@@ -287,31 +300,31 @@ class Stack:
         view.canvas = game.canvas
         view.CARD_XOFFSET = 0
         view.CARD_YOFFSET = 0
-        view.INIT_CARD_OFFSETS = (0,0)
+        view.INIT_CARD_OFFSETS = (0, 0)
         view.INIT_CARD_YOFFSET = 0      # for reallocateCards
         view.group = MfxCanvasGroup(view.canvas)
         view.shrink_face_down = 1
         # image items
         view.images = Struct(
-            bottom = None,              # canvas item
-            redeal = None,              # canvas item
-            redeal_img = None,          #   the corresponding PhotoImage
-            shade_img = None,
+            bottom=None,              # canvas item
+            redeal=None,              # canvas item
+            redeal_img=None,          # the corresponding PhotoImage
+            shade_img=None,
         )
         # other canvas items
         view.items = Struct(
-            bottom = None,              # dummy canvas item
-            shade_item = None,
+            bottom=None,              # dummy canvas item
+            shade_item=None,
         )
         # text items
         view.texts = Struct(
-            ncards = None,              # canvas item
+            ncards=None,              # canvas item
             # by default only used by Talon:
-            rounds = None,              # canvas item
-            redeal = None,              # canvas item
-            redeal_str = None,          #   the corresponding string
+            rounds=None,              # canvas item
+            redeal=None,              # canvas item
+            redeal_str=None,          # the corresponding string
             # for use by derived stacks:
-            misc = None,                # canvas item
+            misc=None,                # canvas item
         )
         view.top_bottom = None          # the highest of all bottom items
         cardw, cardh = game.app.images.CARDW, game.app.images.CARDH
@@ -332,12 +345,11 @@ class Stack:
         if self.is_visible:
             self.initBindings()
 
-
     # bindings {view widgets bind to controller}
     def initBindings(self):
         group = self.group
         bind(group, "<1>", self.__clickEventHandler)
-        ##bind(group, "<B1-Motion>", self.__motionEventHandler)
+        # bind(group, "<B1-Motion>", self.__motionEventHandler)
         bind(group, "<Motion>", self.__motionEventHandler)
         bind(group, "<ButtonRelease-1>", self.__releaseEventHandler)
         bind(group, "<Control-1>", self.__controlclickEventHandler)
@@ -346,14 +358,14 @@ class Stack:
         bind(group, "<3>", self.__rightclickEventHandler)
         bind(group, "<2>", self.__middleclickEventHandler)
         bind(group, "<Control-3>", self.__middleclickEventHandler)
-        ##bind(group, "<Control-2>", self.__controlmiddleclickEventHandler)
-        ##bind(group, "<Shift-3>", self.__shiftrightclickEventHandler)
-        ##bind(group, "<Double-2>", "")
+        # bind(group, "<Control-2>", self.__controlmiddleclickEventHandler)
+        # bind(group, "<Shift-3>", self.__shiftrightclickEventHandler)
+        # bind(group, "<Double-2>", "")
         bind(group, "<Enter>", self.__enterEventHandler)
         bind(group, "<Leave>", self.__leaveEventHandler)
 
     def prepareView(self):
-        ##assertView(self)
+        # assertView(self)
         if (self.CARD_XOFFSET == 0 and self.CARD_YOFFSET == 0):
             assert self.cap.max_move <= 1
         # prepare some variables
@@ -368,8 +380,9 @@ class Stack:
             self.CARD_YOFFSET = tuple([int(round(y)) for y in oy])
 
         # preserve offsets
-        self.INIT_CARD_OFFSETS = (self.CARD_XOFFSET, self.CARD_YOFFSET) # for resize()
-        self.INIT_CARD_YOFFSET = self.CARD_YOFFSET # for reallocateCards
+        # for resize()
+        self.INIT_CARD_OFFSETS = (self.CARD_XOFFSET, self.CARD_YOFFSET)
+        self.INIT_CARD_YOFFSET = self.CARD_YOFFSET  # for reallocateCards
 
         if self.can_hide_cards < 0:
             self.can_hide_cards = self.is_visible
@@ -389,21 +402,23 @@ class Stack:
                 self.is_open = True
         if self.max_shadow_cards < 0:
             self.max_shadow_cards = 999999
-##             if abs(self.CARD_YOFFSET[0]) != self.game.app.images.CARD_YOFFSET:
-##                 # don't display a shadow if the YOFFSET of the stack
-##                 # and the images don't match
-##                 self.max_shadow_cards = 1
+            # if abs(self.CARD_YOFFSET[0])
+            #     != self.game.app.images.CARD_YOFFSET:
+            #           # don't display a shadow if the YOFFSET of the stack
+            #           # and the images don't match
+            #      self.max_shadow_cards = 1
         if (self.game.app.opt.shrink_face_down and
-            isinstance(ox, (int, float)) and isinstance(oy, (int, float))):
+                isinstance(ox, (int, float)) and
+                isinstance(oy, (int, float))):
             # no shrink if xoffset/yoffset too small
             f = self.SHRINK_FACTOR
             if ((ox == 0 and oy >= self.game.app.images.CARD_YOFFSET/f) or
-                (oy == 0 and ox >= self.game.app.images.CARD_XOFFSET/f)):
+                    (oy == 0 and
+                     ox >= self.game.app.images.CARD_XOFFSET/f)):
                 self.shrink_face_down = f
         # bottom image
         if self.is_visible:
             self.prepareBottom()
-
 
     # stack bottom image
     def prepareBottom(self):
@@ -434,7 +449,6 @@ class Stack:
         assert self.cap.min_accept > 0
         assert not hasattr(self, "suit")
 
-
     #
     # Core access methods {model -> view}
     #
@@ -459,7 +473,8 @@ class Stack:
         model.cards.insert(position, card)
         for c in model.cards[position:]:
             c.tkraise(unhide=unhide)
-        if view.can_hide_cards and len(model.cards) >= 3 and len(model.cards)-position <= 2:
+        if (view.can_hide_cards and len(model.cards) >= 3 and
+                len(model.cards)-position <= 2):
             # we only need to display the 2 top cards
             model.cards[-3].hide(self)
         card.item.addtag(view.group)
@@ -535,8 +550,9 @@ class Stack:
 
     # find card
     def _findCardXY(self, x, y, cards=None):
-        model, view = self, self
-        if cards is None: cards = model.cards
+        model = self
+        if cards is None:
+            cards = model.cards
         images = self.game.app.images
         cw, ch = images.getSize()
         index = -1
@@ -566,7 +582,6 @@ class Stack:
         if dir > self.cap.mod / 2:
             return dir - self.cap.mod
         return dir
-
 
     #
     # Basic capabilities {model}
@@ -624,7 +639,6 @@ class Stack:
             return False
         return cardsFaceUp(cards)
 
-
     #
     # Capabilities - important for game logic {model}
     #
@@ -645,7 +659,6 @@ class Stack:
         # Can we drop the top cards onto one of the foundation stacks ?
         return (None, 0)    # return the stack and the number of cards
 
-
     #
     # State {model}
     #
@@ -655,13 +668,12 @@ class Stack:
         self.CARD_YOFFSET = self.INIT_CARD_YOFFSET
         self.items.shade_item = None
         self.images.shade_img = None
-        #self.items.bottom = None
-        #self.images.bottom = None
+        # self.items.bottom = None
+        # self.images.bottom = None
 
     def __repr__(self):
         # Return a string for debug print statements.
         return "%s(%d)" % (self.__class__.__name__, self.id)
-
 
     #
     # Atomic move actions {model -> view}
@@ -676,7 +688,8 @@ class Stack:
 
     def moveMove(self, ncards, to_stack, frames=-1, shadow=-1):
         # Move the top n cards.
-        self.game.moveMove(ncards, self, to_stack, frames=frames, shadow=shadow)
+        self.game.moveMove(
+            ncards, self, to_stack, frames=frames, shadow=shadow)
         self.fillStack()
 
     def fillStack(self):
@@ -710,25 +723,31 @@ class Stack:
                 self.game.autoPlay()
         self.game.finishMove()
 
-
     #
     # Appearance {view}
     #
 
     def _getBlankBottomImage(self):
         return self.game.app.images.getBlankBottom()
+
     def _getReserveBottomImage(self):
         return self.game.app.images.getReserveBottom()
+
     def _getSuitBottomImage(self):
         return self.game.app.images.getSuitBottom(self.cap.base_suit)
+
     def _getNoneBottomImage(self):
         return None
+
     def _getTalonBottomImage(self):
         return self.game.app.images.getTalonBottom()
+
     def _getBraidBottomImage(self):
         return self.game.app.images.getBraidBottom()
+
     def _getLetterImage(self):
         return self.game.app.images.getLetter(self.cap.base_rank)
+
     getBottomImage = _getBlankBottomImage
 
     def getPositionFor(self, card):
@@ -777,7 +796,7 @@ class Stack:
             return 0, 0
         lx, ly = len(view.CARD_XOFFSET), len(view.CARD_YOFFSET)
         i = list(model.cards).index(card)
-        return view.CARD_XOFFSET[i%lx], view.CARD_YOFFSET[i%ly]
+        return view.CARD_XOFFSET[i % lx], view.CARD_YOFFSET[i % ly]
 
     # Fully update the view of a stack - updates
     # hiding, card positions and stacking order.
@@ -790,13 +809,13 @@ class Stack:
         if view.can_hide_cards:
             # hide all lower cards
             for c in cards[:-2]:
-                ##print "refresh hide", c, c.hide_stack
+                # print "refresh hide", c, c.hide_stack
                 c.hide(self)
             # unhide the 2 top cards
             for c in cards[-2:]:
-                ##print "refresh unhide 1", c, c.hide_stack
+                # print "refresh unhide 1", c, c.hide_stack
                 c.unhide()
-                ##print "refresh unhide 1", c, c.hide_stack
+                # print "refresh unhide 1", c, c.hide_stack
         # update the card postions and stacking order
         item = cards[0].item
         x, y = view.x, view.y
@@ -829,15 +848,15 @@ class Stack:
                     format = "%d"
         if format:
             t = format % len(self.cards)
-##         if 0:
-##             visible = 0
-##             for c in self.cards:
-##                 if c.isHidden():
-##                     assert c.hide_stack is not None
-##                 else:
-##                     visible = visible + 1
-##                     assert c.hide_stack is None
-##             t  = t + " (%d)" % visible
+            # if 0:
+            #     visible = 0
+            #     for c in self.cards:
+            #         if c.isHidden():
+            #             assert c.hide_stack is not None
+            #         else:
+            #             visible = visible + 1
+            #             assert c.hide_stack is None
+            #     t  = t + " (%d)" % visible
         self.texts.ncards.config(text=t)
 
     def updatePositions(self):
@@ -864,7 +883,8 @@ class Stack:
         if not self.canvas.winfo_ismapped():
             return False
         yoffset = self.CARD_YOFFSET[0]
-        cardh = self.game.app.images.getSize()[0] / 2 # 1/2 of a card is visible
+        # 1/2 of a card is visible
+        cardh = self.game.app.images.getSize()[0] / 2
         num_face_up = len([c for c in self.cards if c.face_up])
         num_face_down = len(self.cards) - num_face_up
         stack_height = int(self.y +
@@ -878,13 +898,14 @@ class Stack:
         else:
             game_height = self.game.height + 2*self.canvas.ymargin
         height = max(visible_height, game_height)
-        #print 'reallocateCards:', stack_height, height, visible_height, game_height
+        # print 'reallocateCards:', stack_height, height, \
+        # visible_height, game_height
         if stack_height > height:
             # compact stack
             n = num_face_down / self.shrink_face_down + num_face_up
             dy = float(height - self.y - cardh) / n
             if dy < yoffset:
-                #print 'compact:', dy
+                # print 'compact:', dy
                 self.CARD_YOFFSET = (dy,)
             return True
         elif stack_height < height:
@@ -894,7 +915,7 @@ class Stack:
             n = num_face_down / self.shrink_face_down + num_face_up
             dy = float(height - self.y - cardh) / n
             dy = min(dy, self.INIT_CARD_YOFFSET[0])
-            #print 'expande:', dy
+            # print 'expande:', dy
             self.CARD_YOFFSET = (dy,)
             return True
         return False
@@ -902,7 +923,7 @@ class Stack:
     def resize(self, xf, yf):
         # resize and move stack
         # xf, yf - a multiplicative factor (from the original values)
-        #print 'Stack.resize:', self, self.is_visible, xf, yf
+        # print 'Stack.resize:', self, self.is_visible, xf, yf
         x0, y0 = self.init_coord
         x, y = int(round(x0*xf)), int(round(y0*yf))
         self.x, self.y = x, y
@@ -912,7 +933,7 @@ class Stack:
         self.CARD_XOFFSET = xoffset
         self.CARD_YOFFSET = yoffset
         self.INIT_CARD_YOFFSET = yoffset
-        #print '* resize offset:', self.INIT_CARD_XOFFSET,
+        # print '* resize offset:', self.INIT_CARD_XOFFSET,
         # move cards
         for c in self.cards:
             cx, cy = self.getPositionFor(c)
@@ -932,10 +953,12 @@ class Stack:
             self.items.bottom.coords(c)
         if self.items.shade_item:
             c = self.cards[-1]
-            img = self.game.app.images.getHighlightedCard(c.deck, c.suit, c.rank)
+            img = self.game.app.images.getHighlightedCard(
+                c.deck, c.suit, c.rank)
             if img:
                 self.items.shade_item['image'] = img
             self.items.shade_item.moveTo(x, y)
+
         # move the items
         def move(item):
             ix, iy = item.init_coord
@@ -955,7 +978,6 @@ class Stack:
         if self.texts.misc:
             move(self.texts.misc)
 
-
     def basicShallHighlightSameRank(self, card):
         # by default all open stacks are available for highlighting
         assert card in self.cards
@@ -965,10 +987,10 @@ class Stack:
             return True
         if not self.is_open:
             return False
-##         dx, dy = self.getOffsetFor(card)
-##         if ((dx == 0 and dy <= self.MIN_VISIBLE_XOFFSET) or
-##             (dx <= self.MIN_VISIBLE_YOFFSET and dy == 0)):
-##             return False
+        # dx, dy = self.getOffsetFor(card)
+        # if ((dx == 0 and dy <= self.MIN_VISIBLE_XOFFSET) or
+        #     (dx <= self.MIN_VISIBLE_YOFFSET and dy == 0)):
+        #     return False
         return True
 
     def basicShallHighlightMatch(self, card):
@@ -984,17 +1006,20 @@ class Stack:
             return 0
         col_1 = self.game.app.opt.colors['samerank_1']
         col_2 = self.game.app.opt.colors['samerank_2']
-        info = [ (self, card, card, col_1) ]
+        info = [(self, card, card, col_1)]
         for s in self.game.allstacks:
             for c in s.cards:
-                if c is card: continue
+                if c is card:
+                    continue
                 # check the rank
-                if c.rank != card.rank: continue
+                if c.rank != card.rank:
+                    continue
                 # ask the target stack
                 if s.basicShallHighlightSameRank(c):
                     info.append((s, c, c, col_2))
-        self.game.stats.highlight_samerank = self.game.stats.highlight_samerank + 1
-        return self.game._highlightCards(info, self.game.app.opt.timeouts['highlight_samerank'])
+        self.game.stats.highlight_samerank += 1
+        return self.game._highlightCards(
+            info, self.game.app.opt.timeouts['highlight_samerank'])
 
     def highlightMatchingCards(self, event):
         i = self._findCard(event)
@@ -1010,11 +1035,13 @@ class Stack:
         found = 0
         for s in self.game.allstacks:
             # continue if both stacks are foundations
-            if self in self.game.s.foundations and s in self.game.s.foundations:
+            if (self in self.game.s.foundations and
+                    s in self.game.s.foundations):
                 continue
             # for all cards
             for c in s.cards:
-                if c is card: continue
+                if c is card:
+                    continue
                 # ask the target stack
                 if not s.basicShallHighlightMatch(c):
                     continue
@@ -1024,18 +1051,22 @@ class Stack:
                     if s is self:
                         # enlarge rectangle for neighbours
                         j = self.cards.index(c)
-                        if i - 1 == j: c1 = c; continue
-                        if i + 1 == j: c2 = c; continue
+                        if i - 1 == j:
+                            c1 = c
+                            continue
+                        if i + 1 == j:
+                            c2 = c
+                            continue
                     info.append((s, c, c, col_1))
         if found:
             if info:
-                self.game.stats.highlight_cards = self.game.stats.highlight_cards + 1
+                self.game.stats.highlight_cards += 1
             info.append((self, c1, c2, col_2))
-            return self.game._highlightCards(info, self.game.app.opt.timeouts['highlight_cards'])
+            return self.game._highlightCards(
+                info, self.game.app.opt.timeouts['highlight_cards'])
         if not self.basicIsBlocked():
             self.game.highlightNotMatching()
         return 0
-
 
     #
     # Subclass overridable handlers {contoller -> model -> view}
@@ -1052,7 +1083,7 @@ class Stack:
         positions = len(self.cards) - i - 1
         if i < 0 or positions <= 0 or not self.cards[i].face_up:
             return 0
-        ##print self.cards[i]
+        # print self.cards[i]
         self.cards[i].item.tkraise()
         self.canvas.update_idletasks()
         self.game.sleep(self.game.app.opt.timeouts['raise_card'])
@@ -1072,7 +1103,7 @@ class Stack:
         positions = len(self.cards) - i - 1
         if i < 0 or positions < 0:
             return 0
-        ##print self.cards[i]
+        # print self.cards[i]
         face_up = self.cards[i].face_up
         if not face_up:
             self.cards[i].showFace()
@@ -1138,20 +1169,22 @@ class Stack:
             self.items.shade_item.show()
             self.items.shade_item.tkraise()
 
-
     #
     # Event handlers {controller}
     #
 
-    def __defaultClickEventHandler(self, event, handler, start_drag=0, cancel_drag=1):
-        self.game.event_handled = True # for Game.undoHandler
+    def __defaultClickEventHandler(self, event, handler,
+                                   start_drag=0, cancel_drag=1):
+        self.game.event_handled = True  # for Game.undoHandler
         if self.game.demo:
             self.game.stopDemo(event)
-            return  EVENT_HANDLED
+            return EVENT_HANDLED
         self.game.interruptSleep()
-        if self.game.busy: return EVENT_HANDLED
+        if self.game.busy:
+            return EVENT_HANDLED
         if self.game.drag.stack and cancel_drag:
-            self.game.drag.stack.cancelDrag(event) # in case we lost an event
+            # in case we lost an event
+            self.game.drag.stack.cancelDrag(event)
         if start_drag:
             # this handler may start a drag operation
             r = handler(event)
@@ -1167,14 +1200,15 @@ class Stack:
             cancel_drag = 1
             start_drag = 1
             handler = self.clickHandler
-        else: # sticky-mouse or point-n-click
+        else:  # sticky-mouse or point-n-click
             cancel_drag = 0
             start_drag = not self.game.drag.stack
             if start_drag:
                 handler = self.clickHandler
             else:
                 handler = self.finishDrag
-        return self.__defaultClickEventHandler(event, handler, start_drag, cancel_drag)
+        return self.__defaultClickEventHandler(
+            event, handler, start_drag, cancel_drag)
 
     def __doubleclickEventHandler(self, event):
         return self.__defaultClickEventHandler(event, self.doubleclickHandler)
@@ -1183,7 +1217,8 @@ class Stack:
         return self.__defaultClickEventHandler(event, self.middleclickHandler)
 
     def __controlmiddleclickEventHandler(self, event):
-        return self.__defaultClickEventHandler(event, self.controlmiddleclickHandler)
+        return self.__defaultClickEventHandler(
+            event, self.controlmiddleclickHandler)
 
     def __rightclickEventHandler(self, event):
         return self.__defaultClickEventHandler(event, self.rightclickHandler)
@@ -1195,7 +1230,8 @@ class Stack:
         return self.__defaultClickEventHandler(event, self.shiftclickHandler)
 
     def __shiftrightclickEventHandler(self, event):
-        return self.__defaultClickEventHandler(event, self.shiftrightclickHandler)
+        return self.__defaultClickEventHandler(
+            event, self.shiftrightclickHandler)
 
     def __motionEventHandler(self, event):
         if not self.game.drag.stack or self is not self.game.drag.stack:
@@ -1207,16 +1243,17 @@ class Stack:
         if self.game.app.opt.mouse_type == 'point-n-click':
             return EVENT_HANDLED
         self.keepDrag(event)
-##         if self.game.app.opt.mouse_type == 'drag-n-drop' and TOOLKIT == 'tk':
-##             # use a timer to update the drag
-##             # this allows us to skip redraws on slow machines
-##             drag = self.game.drag
-##             if drag.timer is None:
-##                 drag.timer = after_idle(self.canvas, self.keepDragTimer)
-##             drag.event = event
-##         else:
-##             # update now
-##             self.keepDrag(event)
+        #  if self.game.app.opt.mouse_type == 'drag-n-drop' \
+        #           and TOOLKIT == 'tk':
+        #      # use a timer to update the drag
+        #      # this allows us to skip redraws on slow machines
+        #      drag = self.game.drag
+        #      if drag.timer is None:
+        #          drag.timer = after_idle(self.canvas, self.keepDragTimer)
+        #      drag.event = event
+        #  else:
+        #      # update now
+        #      self.keepDrag(event)
         return EVENT_HANDLED
 
     def __releaseEventHandler(self, event):
@@ -1239,7 +1276,7 @@ class Stack:
                     self.current_cursor = CURSOR_DOWN_ARROW
                     self.cursor_changed = True
         else:
-            help = self.getHelp() ##+' '+self.getBaseCard(),
+            help = self.getHelp()  # +' '+self.getBaseCard(),
             if DEBUG:
                 help = repr(self)
             after_idle(self.canvas, self.game.showHelp,
@@ -1271,7 +1308,6 @@ class Stack:
         else:
             return EVENT_PROPAGATE
 
-
     #
     # Drag internals {controller -> model -> view}
     #
@@ -1281,7 +1317,7 @@ class Stack:
 
     # begin a drag operation
     def startDrag(self, event, sound=True):
-        #print event.x, event.y
+        # print event.x, event.y
         assert self.game.drag.stack is None
         i = self._findCard(event)
         if i < 0 or not self.canMoveCards(self.cards[i:]):
@@ -1298,17 +1334,17 @@ class Stack:
         drag.start_x = event.x
         drag.start_y = event.y
         drag.stack = self
-        drag.noshade_stacks = [ self ]
+        drag.noshade_stacks = [self]
         drag.cards = self.getDragCards(i)
         drag.index = i
         if self.game.app.opt.mouse_type == 'point-n-click':
             self._markCards(drag)
             return
-        ##if TOOLKIT == 'gtk':
-        ##    drag.stack.group.tkraise()
+        # if TOOLKIT == 'gtk':
+        #     drag.stack.group.tkraise()
         images = game.app.images
         drag.shadows = self.createShadows(drag.cards)
-        ##sx, sy = 0, 0
+        # sx, sy = 0, 0
         sx, sy = -images.SHADOW_XOFFSET, -images.SHADOW_YOFFSET
         dx, dy = 0, 0
         cw, ch = images.getSize()
@@ -1316,8 +1352,10 @@ class Stack:
             # return cards under mouse
             dx = event.x - (x_offset+cw+sx) - game.canvas.xmargin
             dy = event.y - (y_offset+ch+sy) - game.canvas.ymargin
-            if dx < 0: dx = 0
-            if dy < 0: dy = 0
+            if dx < 0:
+                dx = 0
+            if dy < 0:
+                dy = 0
         for s in drag.shadows:
             if dx > 0 or dy > 0:
                 s.move(dx, dy)
@@ -1370,8 +1408,10 @@ class Stack:
         cw, ch = images.getSize()
         if USE_PIL:
             c0 = cards[-1]
-            if self.CARD_XOFFSET[0] < 0: c0 = cards[0]
-            if self.CARD_YOFFSET[0] < 0: c0 = cards[0]
+            if self.CARD_XOFFSET[0] < 0:
+                c0 = cards[0]
+            if self.CARD_YOFFSET[0] < 0:
+                c0 = cards[0]
             img = images.getShadowPIL(self, cards)
             cx, cy = c0.x + cw + dx, c0.y + ch + dy
             s = MfxCanvasImage(self.canvas, cx, cy,
@@ -1379,22 +1419,24 @@ class Stack:
             s.lower(c0.item)
             return (s,)
 
-        if ddx == 0: # vertical
+        if ddx == 0:  # vertical
             for c in cards[1:]:
                 if c.x != cx or abs(c.y - cy) != images.CARD_YOFFSET:
                     return ()
                 cy = c.y
             img0, img1 = images.getShadow(0), images.getShadow(l)
             c0 = cards[-1]
-            if self.CARD_YOFFSET[0] < 0: c0 = cards[0]
-        elif ddy == 0: # horizontal
+            if self.CARD_YOFFSET[0] < 0:
+                c0 = cards[0]
+        elif ddy == 0:  # horizontal
             for c in cards[1:]:
                 if c.y != cy or abs(c.x - cx) != images.CARD_XOFFSET:
                     return ()
                 cx = c.x
             img0, img1 = images.getShadow(-l), images.getShadow(1)
             c0 = cards[-1]
-            if self.CARD_XOFFSET[0] < 0: c0 = cards[0]
+            if self.CARD_XOFFSET[0] < 0:
+                c0 = cards[0]
         else:
             return ()
         if img0 and img1:
@@ -1406,10 +1448,10 @@ class Stack:
             if TOOLKIT == 'tk':
                 s1.lower(c0.item)
                 s2.lower(c0.item)
-##             elif TOOLKIT == 'gtk':
-##                 positions = 2           ## FIXME
-##                 s1.lower(positions)
-##                 s2.lower(positions)
+            #  elif TOOLKIT == 'gtk':
+            #      positions = 2           ## FIXME
+            #      s1.lower(positions)
+            #      s2.lower(positions)
             return (s1, s2)
         return ()
 
@@ -1426,9 +1468,9 @@ class Stack:
         images = game.app.images
         CW, CH = images.CARDW, images.CARDH
         drag = game.drag
-        ##stacks = game.allstacks
+        # stacks = game.allstacks
         c = drag.cards[0]
-        stacks = ( game.getClosestStack(c, drag.stack), )
+        stacks = (game.getClosestStack(c, drag.stack), )
         r1_0, r1_1, r1_2, r1_3 = c.x, c.y, c.x + CW, c.y + CH
         sstack, sdiff, sx, sy = None, 999999999, 0, 0
         for s in stacks:
@@ -1439,7 +1481,8 @@ class Stack:
                 r2 = (c.x, c.y, c.x + CW, c.y + CH)
             else:
                 r2 = (s.x, s.y, s.x + CW, s.y + CH)
-            if r1_2 <= r2[0] or r1_3 <= r2[1] or r2[2] <= r1_0 or r2[3] <= r1_1:
+            if (r1_2 <= r2[0] or r1_3 <= r2[1] or
+                    r2[2] <= r1_0 or r2[3] <= r1_1):
                 # rectangles do not intersect
                 continue
             if s in drag.canshade_stacks:
@@ -1464,7 +1507,8 @@ class Stack:
         if sstack.cards:
             card = sstack.cards[-1]
             if card.face_up:
-                img = images.getHighlightedCard(card.deck, card.suit, card.rank)
+                img = images.getHighlightedCard(
+                    card.deck, card.suit, card.rank)
             else:
                 img = images.getHighlightedBack()
         else:
@@ -1483,29 +1527,28 @@ class Stack:
             img.tkraise()
             drag.stack.group.tkraise()
 
-
     # for closeStack
     def _shadeStack(self):
         if not self.game.app.opt.shade_filled_stacks:
             return
-##         if (self.CARD_XOFFSET != (0,) or
-##             self.CARD_YOFFSET != (0,)):
-##             return
+        #  if (self.CARD_XOFFSET != (0,) or
+        #      self.CARD_YOFFSET != (0,)):
+        #      return
         card = self.cards[-1]
-        img = self.game.app.images.getHighlightedCard(card.deck, card.suit, card.rank)
+        img = self.game.app.images.getHighlightedCard(
+            card.deck, card.suit, card.rank)
         if img is None:
             return
-        #self.canvas.update_idletasks()
+        # self.canvas.update_idletasks()
         item = MfxCanvasImage(self.canvas, card.x, card.y,
                               image=img, anchor=ANCHOR_NW, group=self.group)
-        #item.tkraise()
+        # item.tkraise()
         self.items.shade_item = item
 
     def unshadeStack(self):
         if self.items.shade_item:
             self.items.shade_item.delete()
             self.items.shade_item = None
-
 
     def _markCards(self, drag):
         cards = drag.cards
@@ -1527,12 +1570,12 @@ class Stack:
                                    fill="", outline=color, width=4,
                                    group=self.group)
             drag.shadows.append(r)
-##             l = MfxCanvasLine(self.canvas, xx0, yy0, xx0+w, yy0+h,
-##                               fill=color, width=4)
-##             drag.shadows.append(l)
-##             l = MfxCanvasLine(self.canvas, xx0, yy0+h, xx0+w, yy0,
-##                               fill=color, width=4)
-##             drag.shadows.append(l)
+            #  l = MfxCanvasLine(self.canvas, xx0, yy0, xx0+w, yy0+h,
+            #                    fill=color, width=4)
+            #  drag.shadows.append(l)
+            #  l = MfxCanvasLine(self.canvas, xx0, yy0+h, xx0+w, yy0,
+            #                    fill=color, width=4)
+            #  drag.shadows.append(l)
             return
         #
         shade = Image.new('RGBA', (w, h))
@@ -1592,7 +1635,7 @@ class Stack:
             self.moveCardsBackHandler(event, drag)
 
     def getHelp(self):
-        return str(self) # debug
+        return str(self)  # debug
 
     def getBaseCard(self):
         return ''
@@ -1606,20 +1649,29 @@ class Stack:
         else:
             br = rank
         s = _('Base card - %s.')
-        if br == NO_RANK: s = _('Empty row cannot be filled.')
-        elif br == -1: s = s % _('any card')
-        elif br == 10: s = s % _('Jack')
-        elif br == 11: s = s % _('Queen')
-        elif br == 12: s = s % _('King')
-        elif br == 0 : s = s % _('Ace')
-        else         : s = s % str(br+1)
+        if br == NO_RANK:
+            s = _('Empty row cannot be filled.')
+        elif br == -1:
+            s = s % _('any card')
+        elif br == 10:
+            s = s % _('Jack')
+        elif br == 11:
+            s = s % _('Queen')
+        elif br == 12:
+            s = s % _('King')
+        elif br == 0:
+            s = s % _('Ace')
+        else:
+            s = s % str(br+1)
         return s
 
     def getNumCards(self):
         from gettext import ungettext
         n = len(self.cards)
-        if   n == 0 : return _('No cards')
-        else:         return ungettext('%d card', '%d cards', n) % n
+        if n == 0:
+            return _('No cards')
+        else:
+            return ungettext('%d card', '%d cards', n) % n
 
 
 # ************************************************************************
@@ -1629,7 +1681,8 @@ class Stack:
 class DealRow_StackMethods:
     # Deal a card to each of the RowStacks. Return number of cards dealt.
     def dealRow(self, rows=None, flip=1, reverse=0, frames=-1, sound=False):
-        if rows is None: rows = self.game.s.rows
+        if rows is None:
+            rows = self.game.s.rows
         if sound and frames and self.game.app.opt.animations:
             self.game.startDealSample()
         n = self.dealToStacks(rows, flip, reverse, frames)
@@ -1638,8 +1691,10 @@ class DealRow_StackMethods:
         return n
 
     # Same, but no error if not enough cards are available.
-    def dealRowAvail(self, rows=None, flip=1, reverse=0, frames=-1, sound=False):
-        if rows is None: rows = self.game.s.rows
+    def dealRowAvail(self, rows=None, flip=1,
+                     reverse=0, frames=-1, sound=False):
+        if rows is None:
+            rows = self.game.s.rows
         if sound and frames and self.game.app.opt.animations:
             self.game.startDealSample()
         if len(self.cards) < len(rows):
@@ -1667,7 +1722,8 @@ class DealRow_StackMethods:
         return len(stacks)
 
     # all Aces go to the Foundations
-    def dealToStacksOrFoundations(self, stacks, flip=1, reverse=0, frames=-1, rank=-1):
+    def dealToStacksOrFoundations(self, stacks, flip=1,
+                                  reverse=0, frames=-1, rank=-1):
         if rank < 0:
             rank = self.game.s.foundations[0].cap.base_rank
         if not self.cards or not stacks:
@@ -1714,7 +1770,8 @@ class DealBaseCard_StackMethods:
             assert self.cards
             c = self.cards[-1]
             for s in self.game.s.foundations:
-                if not s.cards and (s.cap.base_suit < 0 or s.cap.base_suit == c.suit):
+                if (not s.cards and
+                        (s.cap.base_suit < 0 or s.cap.base_suit == c.suit)):
                     break
             else:
                 assert 0
@@ -1780,9 +1837,9 @@ class TalonStack(Stack,
         self.max_rounds = max_rounds
         self.num_deal = num_deal
         self.init_redeal = Struct(
-            top_bottom = None,
-            img_coord = None,
-            txt_coord = None,
+            top_bottom=None,
+            img_coord=None,
+            txt_coord=None,
             )
         self.resetGame()
 
@@ -1794,8 +1851,10 @@ class TalonStack(Stack,
     def assertStack(self):
         Stack.assertStack(self)
         n = self.game.gameinfo.redeals
-        if n < 0: assert self.max_rounds == n
-        else:     assert self.max_rounds == n + 1
+        if n < 0:
+            assert self.max_rounds == n
+        else:
+            assert self.max_rounds == n + 1
 
     # Control of dealing is transferred to the game which usually
     # transfers it back to the Talon - see dealCards() below.
@@ -1819,12 +1878,12 @@ class TalonStack(Stack,
         for stack in self.game.allstacks:
             while stack.cards:
                 stack.removeCard(update=0)
-                ##stack.removeCard(unhide=0, update=0)
+                # stack.removeCard(unhide=0, update=0)
         for stack in self.game.allstacks:
             stack.updateText()
 
     def updateText(self, update_rounds=1, update_redeal=1):
-        ##assertView(self)
+        # assertView(self)
         Stack.updateText(self)
         if update_rounds and self.game.preview <= 1:
             if self.texts.rounds is not None:
@@ -1879,7 +1938,7 @@ class TalonStack(Stack,
                 if TOOLKIT == 'tk':
                     self.images.redeal.tkraise(self.top_bottom)
                 elif TOOLKIT == 'gtk':
-                    ### FIXME
+                    # FIXME
                     pass
                 self.top_bottom = self.images.redeal
                 if ch >= 90:
@@ -1893,7 +1952,7 @@ class TalonStack(Stack,
             # add a redeal text below the bottom image
             if self.max_rounds != 1:
                 # FIXME: sometimes canvas do not show the text
-                #print 'add txt', cx, cy
+                # print 'add txt', cx, cy
                 self.texts.redeal_str = ""
                 images = self.game.app.images
                 self.texts.redeal = MfxCanvasText(self.canvas, cx, cy,
@@ -1902,7 +1961,7 @@ class TalonStack(Stack,
                 if TOOLKIT == 'tk':
                     self.texts.redeal.tkraise(self.top_bottom)
                 elif TOOLKIT == 'gtk':
-                    ### FIXME
+                    # FIXME
                     pass
                 self.top_bottom = self.texts.redeal
 
@@ -1917,7 +1976,7 @@ class TalonStack(Stack,
                 return
         images = self.game.app.images
         self.init_redeal.top_bottom = self.top_bottom
-        cx, cy, ca = self.x + images.CARDW/2, self.y + images.CARDH/2, "center"
+        cx, cy = self.x + images.CARDW/2, self.y + images.CARDH/2
         ty = self.y + images.CARDH - 4
         self.init_redeal.img_coord = cx, cy
         self.init_redeal.txt_coord = cx, ty
@@ -1930,15 +1989,17 @@ class TalonStack(Stack,
 
     def getHelp(self):
         from gettext import ungettext
-        if   self.max_rounds == -2: nredeals = _('Variable redeals.')
-        elif self.max_rounds == -1: nredeals = _('Unlimited redeals.')
+        if self.max_rounds == -2:
+            nredeals = _('Variable redeals.')
+        elif self.max_rounds == -1:
+            nredeals = _('Unlimited redeals.')
         else:
             n = self.max_rounds-1
             nredeals = ungettext('%d readeal', '%d redeals', n) % n
-        ##round = _('Round #%d.') % self.round
-        return _('Talon.')+' '+nredeals ##+' '+round
+        # round = _('Round #%d.') % self.round
+        return _('Talon.')+' '+nredeals  # +' '+round
 
-    #def getBaseCard(self):
+    # def getBaseCard(self):
     #    return self._getBaseCard()
 
     def resize(self, xf, yf):
@@ -1966,6 +2027,7 @@ class RedealTalonStack(TalonStack, RedealCards_StackMethods):
         if self.round == self.max_rounds:
             return False
         return not self.game.isGameWon()
+
     def dealCards(self, sound=False):
         RedealCards_StackMethods.redealCards(self, sound=sound)
 
@@ -2008,12 +2070,13 @@ class DealRowRedealTalonStack(TalonStack, RedealCards_StackMethods):
 class DealReserveRedealTalonStack(DealRowRedealTalonStack):
 
     def canDealCards(self, rows=None):
-        return DealRowRedealTalonStack.canDealCards(self,
-                                       rows=self.game.s.reserves)
+        return DealRowRedealTalonStack.canDealCards(
+            self, rows=self.game.s.reserves)
 
     def dealCards(self, sound=False, rows=None):
-        return DealRowRedealTalonStack.dealCards(self, sound=sound,
-                                       rows=self.game.s.reserves)
+        return DealRowRedealTalonStack.dealCards(
+            self, sound=sound, rows=self.game.s.reserves)
+
 
 # Spider Talons
 class SpiderTalonStack(DealRowRedealTalonStack):
@@ -2026,14 +2089,15 @@ class SpiderTalonStack(DealRowRedealTalonStack):
                 return False
         return True
 
+
 class GroundsForADivorceTalonStack(DealRowRedealTalonStack):
     # A single click deals a new cards to each non-empty row.
     def dealCards(self, sound=True):
         if self.cards:
             rows = [r for r in self.game.s.rows if r.cards]
-##             if not rows:
-##                 # deal one card to first row if all rows are emtpy
-##                 rows = self.game.s.rows[:1]
+            # if not rows:
+            #     # deal one card to first row if all rows are empty
+            #     rows = self.game.s.rows[:1]
             return DealRowRedealTalonStack.dealRowAvail(self, rows=rows,
                                                         sound=sound)
         return 0
@@ -2051,17 +2115,18 @@ class OpenStack(Stack):
         kwdefault(cap, max_move=1, max_accept=0, max_cards=999999)
         Stack.__init__(self, x, y, game, cap=cap)
 
-
     #
     # Capabilities {model}
     #
 
     def acceptsCards(self, from_stack, cards):
-        # default for OpenStack: we cannot accept cards (max_accept defaults to 0)
+        # default for OpenStack: we cannot accept
+        # cards (max_accept defaults to 0)
         return self.basicAcceptsCards(from_stack, cards)
 
     def canMoveCards(self, cards):
-        # default for OpenStack: we can move the top card (max_move defaults to 1)
+        # default for OpenStack: we can move the top card
+        # (max_move defaults to 1)
         return self.basicCanMoveCards(cards)
 
     def canFlipCard(self):
@@ -2080,7 +2145,6 @@ class OpenStack(Stack):
                     return (s, 1)
         return (None, 0)
 
-
     #
     # Mouse handlers {controller}
     #
@@ -2089,7 +2153,7 @@ class OpenStack(Stack):
         flipstacks, dropstacks, quickstacks = self.game.getAutoStacks(event)
         if self in flipstacks and self.canFlipCard():
             self.playFlipMove(animation=True)
-            ##return -1                   # continue this event (start a drag)
+            # return -1                   # continue this event (start a drag)
             return 1                    # break
         return 0
 
@@ -2097,7 +2161,8 @@ class OpenStack(Stack):
         if self.doubleclickHandler(event):
             return 1
         if self.game.app.opt.quickplay:
-            flipstacks, dropstacks, quickstacks = self.game.getAutoStacks(event)
+            flipstacks, dropstacks, quickstacks = \
+                self.game.getAutoStacks(event)
             if self in quickstacks:
                 n = self.quickPlayHandler(event)
                 self.game.stats.quickplay_moves += n
@@ -2128,7 +2193,7 @@ class OpenStack(Stack):
         if self.game.app.opt.mouse_type == 'point-n-click':
             self.playMoveMove(len(drag.cards), stack, sound=sound)
         else:
-            #self.playMoveMove(len(drag.cards), stack, frames=0, sound=sound)
+            # self.playMoveMove(len(drag.cards), stack, frames=0, sound=sound)
             self.playMoveMove(len(drag.cards), stack, frames=-2, sound=sound)
 
     def releaseHandler(self, event, drag, sound=True):
@@ -2140,7 +2205,7 @@ class OpenStack(Stack):
                 # move cards back to their origin stack
                 Stack.releaseHandler(self, event, drag, sound=sound)
                 return
-            ##print dx, dy
+            # print dx, dy
         # get destination stack
         if self.game.app.opt.mouse_type == 'point-n-click':
             from_stack = drag.stack
@@ -2150,12 +2215,12 @@ class OpenStack(Stack):
             to_stack = self.game.getClosestStack(cards[0], self)
         # move cards
         if (not to_stack or from_stack is to_stack or
-            not to_stack.acceptsCards(from_stack, cards)):
+                not to_stack.acceptsCards(from_stack, cards)):
             # move cards back to their origin stack
             Stack.releaseHandler(self, event, drag, sound=sound)
         else:
             # this code actually moves the cards to the new stack
-            ##self.playMoveMove(len(cards), stack, frames=0, sound=sound)
+            # self.playMoveMove(len(cards), stack, frames=0, sound=sound)
             from_stack.dragMove(drag, to_stack, sound=sound)
 
     def quickPlayHandler(self, event, from_stacks=None, to_stacks=None):
@@ -2164,10 +2229,10 @@ class OpenStack(Stack):
         if from_stacks is None:
             from_stacks = self.game.sg.dropstacks
         if to_stacks is None:
-            ##to_stacks = self.game.s.rows + self.game.s.reserves
-            ##to_stacks = self.game.sg.dropstacks
+            # to_stacks = self.game.s.rows + self.game.s.reserves
+            # to_stacks = self.game.sg.dropstacks
             to_stacks = self.game.s.foundations + self.game.sg.dropstacks
-            ##from pprint import pprint; pprint(to_stacks)
+            # from pprint import pprint; pprint(to_stacks)
         moves = []
         #
         if not self.cards:
@@ -2195,10 +2260,10 @@ class OpenStack(Stack):
         #
         if moves:
             moves.sort()
-            ##from pprint import pprint; pprint(moves)
+            # from pprint import pprint; pprint(moves)
             score, len_moves, ncards, from_stack, to_stack = moves[-1]
             if score >= 0:
-                ##self.game.playSample("startdrag")
+                # self.game.playSample("startdrag")
                 from_stack.playMoveMove(ncards, to_stack)
                 return 1
         return 0
@@ -2226,7 +2291,7 @@ class AbstractFoundationStack(OpenStack):
         return 0
 
     def rightclickHandler(self, event):
-        ##return 0
+        # return 0
         if self.game.app.opt.quickplay:
             n = self.quickPlayHandler(event)
             self.game.stats.quickplay_moves += n
@@ -2234,9 +2299,9 @@ class AbstractFoundationStack(OpenStack):
         return 0
 
     def quickPlayHandler(self, event):
-        ##return 0
+        # return 0
         from_stacks = self.game.sg.dropstacks + self.game.s.foundations
-        ##to_stacks = self.game.sg.dropstacks
+        # to_stacks = self.game.sg.dropstacks
         to_stacks = from_stacks
         return OpenStack.quickPlayHandler(self, event, from_stacks, to_stacks)
 
@@ -2284,14 +2349,18 @@ class SS_FoundationStack(AbstractFoundationStack):
             return False
         if self.cards:
             # check the rank
-            if (self.cards[-1].rank + self.cap.dir) % self.cap.mod != cards[0].rank:
+            if ((self.cards[-1].rank + self.cap.dir) % self.cap.mod
+                    != cards[0].rank):
                 return False
         return True
 
     def getHelp(self):
-        if self.cap.dir > 0:   return _('Foundation. Build up by suit.')
-        elif self.cap.dir < 0: return _('Foundation. Build down by suit.')
-        else:                  return _('Foundation. Build by same rank.')
+        if self.cap.dir > 0:
+            return _('Foundation. Build up by suit.')
+        elif self.cap.dir < 0:
+            return _('Foundation. Build down by suit.')
+        else:
+            return _('Foundation. Build by same rank.')
 
 
 # A Rank_FoundationStack builds up in rank and ignores color and suit.
@@ -2300,9 +2369,12 @@ class RK_FoundationStack(SS_FoundationStack):
         SS_FoundationStack.__init__(self, x, y, game, ANY_SUIT, **cap)
 
     def getHelp(self):
-        if self.cap.dir > 0:   return _('Foundation. Build up regardless of suit.')
-        elif self.cap.dir < 0: return _('Foundation. Build down regardless of suit.')
-        else:                  return _('Foundation. Build by same rank.')
+        if self.cap.dir > 0:
+            return _('Foundation. Build up regardless of suit.')
+        elif self.cap.dir < 0:
+            return _('Foundation. Build down regardless of suit.')
+        else:
+            return _('Foundation. Build by same rank.')
 
 
 # A AlternateColor_FoundationStack builds up in rank and alternate color.
@@ -2322,9 +2394,13 @@ class AC_FoundationStack(SS_FoundationStack):
         return True
 
     def getHelp(self):
-        if self.cap.dir > 0:   return _('Foundation. Build up by alternate color.')
-        elif self.cap.dir < 0: return _('Foundation. Build down by alternate color.')
-        else:                  return _('Foundation. Build by same rank.')
+        if self.cap.dir > 0:
+            return _('Foundation. Build up by alternate color.')
+        elif self.cap.dir < 0:
+            return _('Foundation. Build down by alternate color.')
+        else:
+            return _('Foundation. Build by same rank.')
+
 
 # A SameColor_FoundationStack builds up in rank and alternate color.
 # It is used in only a few games.
@@ -2343,9 +2419,12 @@ class SC_FoundationStack(SS_FoundationStack):
         return True
 
     def getHelp(self):
-        if self.cap.dir > 0:   return _('Foundation. Build up by color.')
-        elif self.cap.dir < 0: return _('Foundation. Build down by color.')
-        else:                  return _('Foundation. Build by same rank.')
+        if self.cap.dir > 0:
+            return _('Foundation. Build up by color.')
+        elif self.cap.dir < 0:
+            return _('Foundation. Build down by color.')
+        else:
+            return _('Foundation. Build by same rank.')
 
 
 # Spider-type foundations
@@ -2378,10 +2457,10 @@ class Spider_RK_Foundation(Spider_SS_Foundation):
         return isRankSequence(cards, self.cap.mod, self.cap.dir)
 
 
-
 # ************************************************************************
 # * Abstract classes for row stacks.
 # ************************************************************************
+
 
 # Abstract class.
 class SequenceStack_StackMethods:
@@ -2402,12 +2481,14 @@ class SequenceStack_StackMethods:
         if not self._isAcceptableSequence(cards):
             return False
         # [topcard + cards] must be an acceptable sequence
-        if self.cards and not self._isAcceptableSequence([self.cards[-1]] + cards):
+        if (self.cards and not
+                self._isAcceptableSequence([self.cards[-1]] + cards)):
             return False
         return True
 
     def canMoveCards(self, cards):
-        return self.basicCanMoveCards(cards) and self._isMoveableSequence(cards)
+        return self.basicCanMoveCards(cards) and \
+            self._isMoveableSequence(cards)
 
 
 # Abstract class.
@@ -2422,7 +2503,7 @@ class BasicRowStack(OpenStack):
             return _('Tableau. No building.')
         return ''
 
-    #def getBaseCard(self):
+    # def getBaseCard(self):
     #    return self._getBaseCard()
 
     def spiderCanDropCards(self, stacks):
@@ -2438,11 +2519,13 @@ class BasicRowStack(OpenStack):
     def getReserveBottomImage(self):
         return self.game.app.images.getReserveBottom()
 
+
 # Abstract class.
 class SequenceRowStack(SequenceStack_StackMethods, BasicRowStack):
     def __init__(self, x, y, game, **cap):
         kwdefault(cap, max_move=999999, max_accept=999999)
         BasicRowStack.__init__(self, x, y, game, **cap)
+
     def getBaseCard(self):
         return self._getBaseCard()
 
@@ -2460,48 +2543,71 @@ class SequenceRowStack(SequenceStack_StackMethods, BasicRowStack):
 class AC_RowStack(SequenceRowStack):
     def _isSequence(self, cards):
         return isAlternateColorSequence(cards, self.cap.mod, self.cap.dir)
+
     def getHelp(self):
-        if self.cap.dir > 0:   return _('Tableau. Build up by alternate color.')
-        elif self.cap.dir < 0: return _('Tableau. Build down by alternate color.')
-        else:                  return _('Tableau. Build by same rank.')
+        if self.cap.dir > 0:
+            return _('Tableau. Build up by alternate color.')
+        elif self.cap.dir < 0:
+            return _('Tableau. Build down by alternate color.')
+        else:
+            return _('Tableau. Build by same rank.')
+
 
 # A SameColor_RowStack builds down by rank and same color.
 # e.g. Klondike
 class SC_RowStack(SequenceRowStack):
     def _isSequence(self, cards):
         return isSameColorSequence(cards, self.cap.mod, self.cap.dir)
+
     def getHelp(self):
-        if self.cap.dir > 0:   return _('Tableau. Build up by color.')
-        elif self.cap.dir < 0: return _('Tableau. Build down by color.')
-        else:                  return _('Tableau. Build by same rank.')
+        if self.cap.dir > 0:
+            return _('Tableau. Build up by color.')
+        elif self.cap.dir < 0:
+            return _('Tableau. Build down by color.')
+        else:
+            return _('Tableau. Build by same rank.')
+
 
 # A SameSuit_RowStack builds down by rank and suit.
 class SS_RowStack(SequenceRowStack):
     def _isSequence(self, cards):
         return isSameSuitSequence(cards, self.cap.mod, self.cap.dir)
+
     def getHelp(self):
-        if self.cap.dir > 0:   return _('Tableau. Build up by suit.')
-        elif self.cap.dir < 0: return _('Tableau. Build down by suit.')
-        else:                  return _('Tableau. Build by same rank.')
+        if self.cap.dir > 0:
+            return _('Tableau. Build up by suit.')
+        elif self.cap.dir < 0:
+            return _('Tableau. Build down by suit.')
+        else:
+            return _('Tableau. Build by same rank.')
+
 
 # A Rank_RowStack builds down by rank ignoring suit.
 class RK_RowStack(SequenceRowStack):
     def _isSequence(self, cards):
         return isRankSequence(cards, self.cap.mod, self.cap.dir)
+
     def getHelp(self):
-        if self.cap.dir > 0:   return _('Tableau. Build up regardless of suit.')
-        elif self.cap.dir < 0: return _('Tableau. Build down regardless of suit.')
-        else:                  return _('Tableau. Build by same rank.')
+        if self.cap.dir > 0:
+            return _('Tableau. Build up regardless of suit.')
+        elif self.cap.dir < 0:
+            return _('Tableau. Build down regardless of suit.')
+        else:
+            return _('Tableau. Build by same rank.')
 
 
 # ButOwn_RowStack
 class BO_RowStack(SequenceRowStack):
     def _isSequence(self, cards):
         return isAnySuitButOwnSequence(cards, self.cap.mod, self.cap.dir)
+
     def getHelp(self):
-        if self.cap.dir > 0:   return _('Tableau. Build up in any suit but the same.')
-        elif self.cap.dir < 0: return _('Tableau. Build down in any suit but the same.')
-        else:                  return _('Tableau. Build by same rank.')
+        if self.cap.dir > 0:
+            return _('Tableau. Build up in any suit but the same.')
+        elif self.cap.dir < 0:
+            return _('Tableau. Build down in any suit but the same.')
+        else:
+            return _('Tableau. Build by same rank.')
 
 
 # A Freecell_AlternateColor_RowStack
@@ -2510,11 +2616,13 @@ class FreeCell_AC_RowStack(AC_RowStack):
         max_move = getNumberOfFreeStacks(self.game.s.reserves) + 1
         return len(cards) <= max_move and AC_RowStack.canMoveCards(self, cards)
 
+
 # A Freecell_SameSuit_RowStack (i.e. Baker's Game)
 class FreeCell_SS_RowStack(SS_RowStack):
     def canMoveCards(self, cards):
         max_move = getNumberOfFreeStacks(self.game.s.reserves) + 1
         return len(cards) <= max_move and SS_RowStack.canMoveCards(self, cards)
+
 
 # A Freecell_Rank_RowStack
 class FreeCell_RK_RowStack(RK_RowStack):
@@ -2522,25 +2630,44 @@ class FreeCell_RK_RowStack(RK_RowStack):
         max_move = getNumberOfFreeStacks(self.game.s.reserves) + 1
         return len(cards) <= max_move and RK_RowStack.canMoveCards(self, cards)
 
+
 # A Spider_AlternateColor_RowStack builds down by rank and alternate color,
 # but accepts sequences that match by rank only.
 class Spider_AC_RowStack(AC_RowStack):
     def _isAcceptableSequence(self, cards):
         return isRankSequence(cards, self.cap.mod, self.cap.dir)
+
     def getHelp(self):
-        if self.cap.dir > 0:   return _('Tableau. Build up regardless of suit. Sequences of cards in alternate color can be moved as a unit.')
-        elif self.cap.dir < 0: return _('Tableau. Build down regardless of suit. Sequences of cards in alternate color can be moved as a unit.')
-        else:                  return _('Tableau. Build by same rank.')
+        if self.cap.dir > 0:
+            return _('Tableau. Build up regardless of suit. '
+                     'Sequences of cards in alternate color '
+                     'can be moved as a unit.')
+        elif self.cap.dir < 0:
+            return _('Tableau. Build down regardless of suit. '
+                     'Sequences of cards in alternate color can be moved '
+                     'as a unit.')
+        else:
+            return _('Tableau. Build by same rank.')
+
 
 # A Spider_SameSuit_RowStack builds down by rank and suit,
 # but accepts sequences that match by rank only.
 class Spider_SS_RowStack(SS_RowStack):
     def _isAcceptableSequence(self, cards):
         return isRankSequence(cards, self.cap.mod, self.cap.dir)
+
     def getHelp(self):
-        if self.cap.dir > 0:   return _('Tableau. Build up regardless of suit. Sequences of cards in the same suit can be moved as a unit.')
-        elif self.cap.dir < 0: return _('Tableau. Build down regardless of suit. Sequences of cards in the same suit can be moved as a unit.')
-        else:                  return _('Tableau. Build by same rank.')
+        if self.cap.dir > 0:
+            return _('Tableau. Build up regardless of suit. '
+                     'Sequences of cards in the same suit can be moved '
+                     'as a unit.')
+        elif self.cap.dir < 0:
+            return _('Tableau. Build down regardless of suit. '
+                     'Sequences of cards in the same suit can be moved '
+                     'as a unit.')
+        else:
+            return _('Tableau. Build by same rank.')
+
 
 # A Yukon_AlternateColor_RowStack builds down by rank and alternate color,
 # but can move any face-up cards regardless of sequence.
@@ -2550,7 +2677,8 @@ class Yukon_AC_RowStack(BasicRowStack):
         BasicRowStack.__init__(self, x, y, game, **cap)
 
     def _isSequence(self, c1, c2):
-        return (c1.rank + self.cap.dir) % self.cap.mod == c2.rank and c1.color != c2.color
+        return ((c1.rank + self.cap.dir) % self.cap.mod == c2.rank
+                and c1.color != c2.color)
 
     def acceptsCards(self, from_stack, cards):
         if not self.basicAcceptsCards(from_stack, cards):
@@ -2561,47 +2689,73 @@ class Yukon_AC_RowStack(BasicRowStack):
         return True
 
     def getHelp(self):
-        if self.cap.dir > 0:   return _('Tableau. Build up by alternate color, can move any face-up cards regardless of sequence.')
-        elif self.cap.dir < 0: return _('Tableau. Build down by alternate color, can move any face-up cards regardless of sequence.')
-        else:                  return _('Tableau. Build by same rank, can move any face-up cards regardless of sequence.')
+        if self.cap.dir > 0:
+            return _('Tableau. Build up by alternate color, '
+                     'can move any face-up cards regardless of sequence.')
+        elif self.cap.dir < 0:
+            return _('Tableau. Build down by alternate color, '
+                     'can move any face-up cards regardless of sequence.')
+        else:
+            return _('Tableau. Build by same rank, can move '
+                     'any face-up cards regardless of sequence.')
 
     def getBaseCard(self):
         return self._getBaseCard()
+
 
 # A Yukon_SameSuit_RowStack builds down by rank and suit,
 # but can move any face-up cards regardless of sequence.
 class Yukon_SS_RowStack(Yukon_AC_RowStack):
     def _isSequence(self, c1, c2):
-        return (c1.rank + self.cap.dir) % self.cap.mod == c2.rank and c1.suit == c2.suit
+        return ((c1.rank + self.cap.dir) % self.cap.mod == c2.rank
+                and c1.suit == c2.suit)
+
     def getHelp(self):
-        if self.cap.dir > 0:   return _('Tableau. Build up by suit, can move any face-up cards regardless of sequence.')
-        elif self.cap.dir < 0: return _('Tableau. Build down by suit, can move any face-up cards regardless of sequence.')
-        else:                  return _('Tableau. Build by same rank, can move any face-up cards regardless of sequence.')
+        if self.cap.dir > 0:
+            return _('Tableau. Build up by suit, can move any face-up cards '
+                     'regardless of sequence.')
+        elif self.cap.dir < 0:
+            return _('Tableau. Build down by suit, can move any '
+                     'face-up cards regardless of sequence.')
+        else:
+            return _('Tableau. Build by same rank, can move any '
+                     'face-up cards regardless of sequence.')
+
 
 # A Yukon_Rank_RowStack builds down by rank
 # but can move any face-up cards regardless of sequence.
 class Yukon_RK_RowStack(Yukon_AC_RowStack):
     def _isSequence(self, c1, c2):
         return (c1.rank + self.cap.dir) % self.cap.mod == c2.rank
+
     def getHelp(self):
-        if self.cap.dir > 0:   return _('Tableau. Build up regardless of suit, can move any face-up cards regardless of sequence.')
-        elif self.cap.dir < 0: return _('Tableau. Build up regardless of suit, can move any face-up cards regardless of sequence.')
-        else:                  return _('Tableau. Build by same rank, can move any face-up cards regardless of sequence.')
+        if self.cap.dir > 0:
+            return _('Tableau. Build up regardless of suit, '
+                     'can move any face-up cards regardless of sequence.')
+        elif self.cap.dir < 0:
+            return _('Tableau. Build up regardless of suit, can move any '
+                     'face-up cards regardless of sequence.')
+        else:
+            return _('Tableau. Build by same rank, can move any '
+                     'face-up cards regardless of sequence.')
 
 #
 # King-versions of some of the above stacks: they accepts only Kings or
 # sequences starting with a King as base_rank cards (i.e. when empty).
 #
 
+
 class KingAC_RowStack(AC_RowStack):
     def __init__(self, x, y, game, **cap):
         kwdefault(cap, base_rank=KING)
         AC_RowStack.__init__(self, x, y, game, **cap)
 
+
 class KingSS_RowStack(SS_RowStack):
     def __init__(self, x, y, game, **cap):
         kwdefault(cap, base_rank=KING)
         SS_RowStack.__init__(self, x, y, game, **cap)
+
 
 class KingRK_RowStack(RK_RowStack):
     def __init__(self, x, y, game, **cap):
@@ -2614,45 +2768,55 @@ class UD_SC_RowStack(SequenceRowStack):
     def __init__(self, x, y, game, **cap):
         kwdefault(cap, max_move=1, max_accept=1)
         SequenceRowStack.__init__(self, x, y, game, **cap)
+
     def _isSequence(self, cards):
         return (isSameColorSequence(cards, self.cap.mod, 1) or
                 isSameColorSequence(cards, self.cap.mod, -1))
+
     def getHelp(self):
         return _('Tableau. Build up or down by color.')
+
 
 # up or down by alternate color
 class UD_AC_RowStack(SequenceRowStack):
     def __init__(self, x, y, game, **cap):
         kwdefault(cap, max_move=1, max_accept=1)
         SequenceRowStack.__init__(self, x, y, game, **cap)
+
     def _isSequence(self, cards):
         return (isAlternateColorSequence(cards, self.cap.mod, 1) or
                 isAlternateColorSequence(cards, self.cap.mod, -1))
+
     def getHelp(self):
         return _('Tableau. Build up or down by alternate color.')
+
 
 # up or down by suit
 class UD_SS_RowStack(SequenceRowStack):
     def __init__(self, x, y, game, **cap):
         kwdefault(cap, max_move=1, max_accept=1)
         SequenceRowStack.__init__(self, x, y, game, **cap)
+
     def _isSequence(self, cards):
         return (isSameSuitSequence(cards, self.cap.mod, 1) or
                 isSameSuitSequence(cards, self.cap.mod, -1))
+
     def getHelp(self):
         return _('Tableau. Build up or down by suit.')
+
 
 # up or down by rank ignoring suit
 class UD_RK_RowStack(SequenceRowStack):
     def __init__(self, x, y, game, **cap):
         kwdefault(cap, max_move=1, max_accept=1)
         SequenceRowStack.__init__(self, x, y, game, **cap)
+
     def _isSequence(self, cards):
         return (isRankSequence(cards, self.cap.mod, 1) or
                 isRankSequence(cards, self.cap.mod, -1))
+
     def getHelp(self):
         return _('Tableau. Build up or down regardless of suit.')
-
 
 
 # To simplify playing we also consider the number of free rows.
@@ -2667,14 +2831,12 @@ class SuperMoveStack_StackMethods:
             n = n - 1
         max_move = max_move * (2 ** n)
         return max_move
+
     def _getNumSSSeq(self, cards):
         # num of same-suit sequences (for SuperMoveSpider_RowStack)
         if not cards:
             return 0
-        mod = self.cap.mod
-        dir = self.cap.dir
         n = 1
-        rank = cards[-1].rank
         suit = cards[-1].suit
         for c in cards[-2::-1]:
             if c.suit != suit:
@@ -2689,11 +2851,13 @@ class SuperMoveSS_RowStack(SuperMoveStack_StackMethods, SS_RowStack):
             return False
         max_move = self._getMaxMove(1)
         return len(cards) <= max_move
+
     def acceptsCards(self, from_stack, cards):
         if not SS_RowStack.acceptsCards(self, from_stack, cards):
             return False
         max_move = self._getMaxMove(len(self.cards))
         return len(cards) <= max_move
+
 
 class SuperMoveAC_RowStack(SuperMoveStack_StackMethods, AC_RowStack):
     def canMoveCards(self, cards):
@@ -2701,11 +2865,13 @@ class SuperMoveAC_RowStack(SuperMoveStack_StackMethods, AC_RowStack):
             return False
         max_move = self._getMaxMove(1)
         return len(cards) <= max_move
+
     def acceptsCards(self, from_stack, cards):
         if not AC_RowStack.acceptsCards(self, from_stack, cards):
             return False
         max_move = self._getMaxMove(len(self.cards))
         return len(cards) <= max_move
+
 
 class SuperMoveRK_RowStack(SuperMoveStack_StackMethods, RK_RowStack):
     def canMoveCards(self, cards):
@@ -2713,11 +2879,13 @@ class SuperMoveRK_RowStack(SuperMoveStack_StackMethods, RK_RowStack):
             return False
         max_move = self._getMaxMove(1)
         return len(cards) <= max_move
+
     def acceptsCards(self, from_stack, cards):
         if not RK_RowStack.acceptsCards(self, from_stack, cards):
             return False
         max_move = self._getMaxMove(len(self.cards))
         return len(cards) <= max_move
+
 
 class SuperMoveSC_RowStack(SuperMoveStack_StackMethods, SC_RowStack):
     def canMoveCards(self, cards):
@@ -2725,11 +2893,13 @@ class SuperMoveSC_RowStack(SuperMoveStack_StackMethods, SC_RowStack):
             return False
         max_move = self._getMaxMove(1)
         return len(cards) <= max_move
+
     def acceptsCards(self, from_stack, cards):
         if not SC_RowStack.acceptsCards(self, from_stack, cards):
             return False
         max_move = self._getMaxMove(len(self.cards))
         return len(cards) <= max_move
+
 
 class SuperMoveBO_RowStack(SuperMoveStack_StackMethods, BO_RowStack):
     def canMoveCards(self, cards):
@@ -2737,6 +2907,7 @@ class SuperMoveBO_RowStack(SuperMoveStack_StackMethods, BO_RowStack):
             return False
         max_move = self._getMaxMove(1)
         return len(cards) <= max_move
+
     def acceptsCards(self, from_stack, cards):
         if not BO_RowStack.acceptsCards(self, from_stack, cards):
             return False
@@ -2909,7 +3080,7 @@ class ArbitraryStack(OpenStack):
         return True
 
     def getDragCards(self, index):
-        return [ self.cards[index] ]
+        return [self.cards[index]]
 
     def startDrag(self, event, sound=True):
         OpenStack.startDrag(self, event, sound=sound)
@@ -2919,7 +3090,6 @@ class ArbitraryStack(OpenStack):
         else:
             for c in self.cards[self.game.drag.index+1:]:
                 c.moveBy(0, -self.CARD_YOFFSET[0])
-
 
     def doubleclickHandler(self, event):
         # flip or drop a card
@@ -2931,14 +3101,13 @@ class ArbitraryStack(OpenStack):
             i = self._findCard(event)
             if i < 0:
                 return 0
-            cards = [ self.cards[i] ]
+            cards = [self.cards[i]]
             for s in self.game.s.foundations:
                 if s is not self and s.acceptsCards(self, cards):
                     self.game.playSample("autodrop", priority=30)
                     self.playSingleCardMove(i, s, sound=False)
                     return 1
         return 0
-
 
     def moveCardsBackHandler(self, event, drag):
         i = self.cards.index(drag.cards[0])
@@ -2947,13 +3116,15 @@ class ArbitraryStack(OpenStack):
             card.tkraise()
 
     def singleCardMove(self, index, to_stack, frames=-1, shadow=-1):
-        self.game.singleCardMove(self, to_stack, index, frames=frames, shadow=shadow)
+        self.game.singleCardMove(
+            self, to_stack, index, frames=frames, shadow=shadow)
         self.fillStack()
 
     def dragMove(self, drag, to_stack, sound=True):
         self.playSingleCardMove(drag.index, to_stack, frames=0, sound=sound)
 
-    def playSingleCardMove(self, index, to_stack, frames=-1, shadow=-1, sound=True):
+    def playSingleCardMove(self, index, to_stack, frames=-1, shadow=-1,
+                           sound=True):
         if sound:
             if to_stack in self.game.s.foundations:
                 self.game.playSample("drop", priority=30)
@@ -2976,7 +3147,7 @@ class ArbitraryStack(OpenStack):
         i = self._findCard(event)
         if i < 0:
             return 0
-        pile = [ self.cards[i] ]
+        pile = [self.cards[i]]
         for s in to_stacks:
             if s is not self and s.acceptsCards(self, pile):
                 score = self.game.getQuickPlayScore(1, self, s)
@@ -2984,10 +3155,10 @@ class ArbitraryStack(OpenStack):
         #
         if moves:
             moves.sort()
-            ##from pprint import pprint; pprint(moves)
+            # from pprint import pprint; pprint(moves)
             score, len_moves, index, to_stack = moves[-1]
             if score >= 0:
-                ##self.game.playSample("startdrag")
+                # self.game.playSample("startdrag")
                 self.playSingleCardMove(index, to_stack)
                 return 1
         return 0
@@ -3027,6 +3198,3 @@ class WeakStackWrapper(StackWrapper):
 class FullStackWrapper(StackWrapper):
     def __call__(self, x, y, game, **cap):
         return self.stack_class(x, y, game, **self.cap)
-
-
-

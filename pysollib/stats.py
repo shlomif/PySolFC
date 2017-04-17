@@ -23,17 +23,22 @@
 
 
 # imports
+import sys
 import time
 
 # PySol imports
 from pysollib.mfxutil import format_time
 from pysollib.gamedb import GI
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 
+
+if sys.version_info > (3,):
+    xrange = range
 
 # ************************************************************************
 # *
 # ************************************************************************
+
 
 class PysolStatsFormatter:
 
@@ -95,7 +100,7 @@ class PysolStatsFormatter:
         self.avrg_time = time
         self.avrg_moves = moves
         self.percent = perc
-        #yield (_("Total (%d out of %d games)") % (tgames, len(g)),
+        # yield (_("Total (%d out of %d games)") % (tgames, len(g)),
         #       won+lost, won, lost, time, moves, perc, '')
 
     def getStatSummary(self):
@@ -135,7 +140,8 @@ class PysolStatsFormatter:
                 name = _("** UNKNOWN %d **") % gameid
             f = pg[1]
             if len(f) == 16:
-                ##gamenumber = "%s-%s-%s-%s" % (f[0:4], f[4:8], f[8:12], f[12:16])
+                # gamenumber = "%s-%s-%s-%s" % \
+                #   (f[0:4], f[4:8], f[8:12], f[12:16])
                 gamenumber = "%s-%s-%s" % (f[4:8], f[8:12], f[12:16])
             elif len(f) <= 20:
                 gamenumber = f
@@ -147,8 +153,10 @@ class PysolStatsFormatter:
                 t_won, tlost = t_won + won, tlost + (1 - won)
             status = "*error*"
             if -2 <= pg[2] <= 2:
-                status = (_("Loaded"), _("Not won"), _("Lost"), _("Won"), _("Perfect")) [pg[2]+2]
-            #writer.plog(name, gamenumber, date, status, gameid=gameid, won=pg[2])
+                status = (_("Loaded"), _("Not won"), _("Lost"),
+                          _("Won"), _("Perfect"))[pg[2]+2]
+            # writer.plog(name, gamenumber, date, status, gameid=gameid,
+            #   won=pg[2])
             yield [name, gamenumber, date, status, pg[2], gameid]
 
     #
@@ -157,8 +165,10 @@ class PysolStatsFormatter:
 
     def writeStats(self, player, sort_by='name'):
         pass
+
     def writeFullLog(self, player):
         pass
+
     def writeSessionLog(self, player):
         pass
 
@@ -183,7 +193,8 @@ class FileStatsFormatter(PysolStatsFormatter):
         self.p(s)
 
     def plog(self, gamename, gamenumber, date, status, gameid=-1, won=-1):
-        self.p("%-25s %-20s  %17s  %s\n" % (gamename, gamenumber, date, status))
+        self.p("%-25s %-20s  %17s  %s\n" %
+               (gamename, gamenumber, date, status))
 
     def writeHeader(self, header, pagewidth=72):
         date = time.ctime(time.time())
@@ -194,7 +205,8 @@ class FileStatsFormatter(PysolStatsFormatter):
         self.pheader("\n")
 
     def writeStats(self, player, sort_by='name'):
-        if player is None: player = _('Demo')
+        if player is None:
+            player = _('Demo')
         header = _("Statistics for ") + player
         self.writeHeader(header, 62)
         header = self.getStatHeader()
@@ -206,7 +218,7 @@ class FileStatsFormatter(PysolStatsFormatter):
         self.nl()
         total, played, won, lost, time, moves, perc = self.getStatSummary()
         self.pstats(_("Total (%d out of %d games)") % (played, total),
-                      won+lost, won, lost, time, moves, perc)
+                    won+lost, won, lost, time, moves, perc)
         self.nl(2)
         return played
 
@@ -225,13 +237,15 @@ class FileStatsFormatter(PysolStatsFormatter):
         return 1
 
     def writeFullLog(self, player):
-        if player is None: player = _('Demo')
+        if player is None:
+            player = _('Demo')
         header = _("Full log for ") + player
         prev_games = self.app.stats.prev_games.get(player)
         return self.writeLog(player, header, prev_games)
 
     def writeSessionLog(self, player):
-        if player is None: player = _('Demo')
+        if player is None:
+            player = _('Demo')
         header = _("Session log for ") + player
         prev_games = self.app.stats.session_games.get(player)
         return self.writeLog(player, header, prev_games)
@@ -258,21 +272,21 @@ class ProgressionFormatter:
             start_time = g[3]
             t = time.localtime(start_time)[:3]
             if t not in all_results:
-                all_results[t] = [0,0]
+                all_results[t] = [0, 0]
             all_results[t][0] += 1
             if status > 0:
                 all_results[t][1] += 1
             if id == gameid:
                 if t not in game_results:
-                    game_results[t] = [0,0]
+                    game_results[t] = [0, 0]
                 game_results[t][0] += 1
                 if status > 0:
                     game_results[t][1] += 1
-        ##from pprint import pprint; pprint(all_results)
+        # from pprint import pprint; pprint(all_results)
 
     def norm_time(self, t):
         if len(t) == 3:
-            t = list(t)+[0,0,0,-1,-1,-1]
+            t = list(t)+[0, 0, 0, -1, -1, -1]
         return list(time.localtime(time.mktime((t))))
 
     def getResults(self, interval, all_games=True):
@@ -337,8 +351,7 @@ class ProgressionFormatter:
         res = []
         ct = list(time.localtime())
         while lt <= ct:
-            ##assert type(lt) is type(ct)
-            sum = [0,0]
+            # assert type(lt) is type(ct)
             played = 0
             won = 0
             text = None
@@ -356,6 +369,5 @@ class ProgressionFormatter:
                 ct = self.norm_time(ct)
             res.append((text, played, won))
         res.reverse()
-        ##from pprint import pprint; pprint(res)
+        # from pprint import pprint; pprint(res)
         return res
-

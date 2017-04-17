@@ -23,7 +23,9 @@
 
 import os
 
-n_ = lambda x: x                        # for gettext
+
+def n_(x):                        # for gettext
+    return x
 
 
 PACKAGE = 'PySolFC'
@@ -31,7 +33,7 @@ TITLE = 'PySol'
 PACKAGE_URL = 'http://pysolfc.sourceforge.net/'
 
 VERSION = '3.0'
-VERSION_TUPLE = (3,0,0)
+VERSION_TUPLE = (3, 0, 0)
 
 # Tk windowing system (auto set up in init.py)
 WIN_SYSTEM = 'x11'                      # win32, x11, aqua, classic
@@ -52,7 +54,7 @@ SOUND_MOD = 'auto'
 # freecell-solver
 USE_FREECELL_SOLVER = True
 FCS_COMMAND = 'fc-solve'
-##FCS_HOME = None                         # path to fcs presets files
+# FCS_HOME = None                         # path to fcs presets files
 
 # data dirs
 DATA_DIRS = []

@@ -21,15 +21,13 @@
 #
 # ---------------------------------------------------------------------------##
 
-import sys, os
 import Tkinter
 
 from pysollib.settings import TOOLKIT, USE_TILE
+from pysollib.macosx.appSupport import hideTkConsole
+from common import base_init_root_window, BaseTkSettings
 if USE_TILE:
     from pysollib.tile import ttk
-from pysollib.macosx.appSupport import hideTkConsole
-
-from common import base_init_root_window, BaseTkSettings
 
 
 def init_root_window(root, app):
@@ -49,10 +47,9 @@ def init_root_window(root, app):
             ttk.Scrollbar = Tkinter.Scrollbar
 
     else:                               # pure Tk
-        #root.option_add(...)
+        # root.option_add(...)
         pass
 
 
 class TkSettings(BaseTkSettings):
     pass
-

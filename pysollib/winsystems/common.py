@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 #
 # Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
 # Copyright (C) 2003 Mt. Hood Playing Card Co.
@@ -19,11 +19,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 
-import sys, os, traceback
+import os
+import traceback
 
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.settings import TITLE
 from pysollib.settings import VERSION
 from pysollib.settings import TOOLKIT, USE_TILE
@@ -42,7 +43,7 @@ def init_tile(app, top):
             if os.path.exists(os.path.join(d, t, 'pkgIndex.tcl')):
                 try:
                     top.tk.eval('package require ttk::theme::'+t)
-                    #print 'load theme:', t
+                    # print 'load theme:', t
                 except:
                     traceback.print_exc()
                     pass
@@ -79,13 +80,11 @@ def get_font_name(font):
 
 
 def base_init_root_window(root, app):
-    #root.wm_group(root)
+    # root.wm_group(root)
     root.wm_title(TITLE + ' ' + VERSION)
     root.wm_iconname(TITLE + ' ' + VERSION)
     # set minsize
-    sw, sh, sd = (root.winfo_screenwidth(),
-                  root.winfo_screenheight(),
-                  root.winfo_screendepth())
+    sw, sh = (root.winfo_screenwidth(), root.winfo_screenheight())
     if sw < 640 or sh < 480:
         root.wm_minsize(400, 300)
     else:
@@ -116,5 +115,3 @@ class BaseTkSettings:
         toolbar_separator_relief = 'sunken'
         toolbar_borderwidth = 1
         toolbar_button_borderwidth = 1
-
-

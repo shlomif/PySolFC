@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 #
 # Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
 # Copyright (C) 2003 Mt. Hood Playing Card Co.
@@ -19,17 +19,19 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 
 __all__ = ['WizardDialog']
 
 
 # imports
+import sys
+
 import Tkinter
 import ttk
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.mfxutil import KwStruct
 from pysollib.wizardutil import WizardWidgets
 from pysollib.wizardpresets import presets
@@ -38,10 +40,13 @@ from pysollib.wizardpresets import presets
 from tkwidget import MfxDialog
 from tkwidget import PysolScale, PysolCombo
 
+if sys.version_info > (3,):
+    basestring = str
 
 # ************************************************************************
 # *
 # ************************************************************************
+
 
 class WizardDialog(MfxDialog):
     def __init__(self, parent, title, app, **kw):
@@ -75,7 +80,9 @@ class WizardDialog(MfxDialog):
                 values.remove(default)
                 values.sort()
                 values.insert(0, default)
-                callback = lambda e, w=w: self.presetSelected(e, w)
+
+                def callback(e, w=w):
+                    self.presetSelected(e, w)
                 cb = PysolCombo(frame, values=tuple(values),
                                 textvariable=w.variable,
                                 exportselection=False,
@@ -104,7 +111,8 @@ class WizardDialog(MfxDialog):
                     for mod, cbname in w.variable.trace_vinfo():
                         w.variable.trace_vdelete(mod, cbname)
                 from_, to = w.values
-                ##s = Spinbox(frame, textvariable=w.variable, from_=from_, to=to)
+                # s = Spinbox(
+                #   frame, textvariable=w.variable, from_=from_, to=to)
                 s = PysolScale(frame, from_=from_, to=to, resolution=1,
                                orient='horizontal',
                                variable=w.variable)
@@ -129,7 +137,6 @@ class WizardDialog(MfxDialog):
         focus = self.createButtons(bottom_frame, kw)
         self.mainloop(focus, kw.timeout)
 
-
     def presetSelected(self, e, w):
         n = e.widget.get()
         n = w.translation_map[n]
@@ -145,7 +152,6 @@ class WizardDialog(MfxDialog):
                 v = _(v)
             w.variable.set(v)
 
-
     def initKw(self, kw):
         kw = KwStruct(kw,
                       strings=(_('&OK'), _('&Cancel')),
@@ -153,6 +159,3 @@ class WizardDialog(MfxDialog):
                       separator=False,
                       )
         return MfxDialog.initKw(self, kw)
-
-
-

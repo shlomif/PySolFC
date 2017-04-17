@@ -28,7 +28,7 @@ import Tkinter
 import ttk
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.mfxutil import KwStruct
 
 # Toolkit imports
@@ -44,7 +44,7 @@ class TimeoutsDialog(MfxDialog):
         kw = self.initKw(kw)
         MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)
-        #self.createBitmaps(top_frame, kw)
+        # self.createBitmaps(top_frame, kw)
 
         frame = ttk.Frame(top_frame)
         frame.pack(expand=True, fill='both', padx=5, pady=10)
@@ -61,10 +61,11 @@ class TimeoutsDialog(MfxDialog):
         self.highlight_cards_sleep_var = Tkinter.DoubleVar()
         self.highlight_cards_sleep_var.set(app.opt.timeouts['highlight_cards'])
         self.highlight_samerank_sleep_var = Tkinter.DoubleVar()
-        self.highlight_samerank_sleep_var.set(app.opt.timeouts['highlight_samerank'])
+        self.highlight_samerank_sleep_var.set(
+            app.opt.timeouts['highlight_samerank'])
         #
         lframe = ttk.LabelFrame(frame, text=_('Set delays in seconds'),
-                                 padding=(10, 5))
+                                padding=(10, 5))
         lframe.pack(expand=True, fill='both', padx=4)
         row = 0
         for title, var in (
@@ -74,9 +75,10 @@ class TimeoutsDialog(MfxDialog):
             (_('Highlight piles:'),     self.highlight_piles_sleep_var),
             (_('Highlight cards:'),     self.highlight_cards_sleep_var),
             (_('Highlight same rank:'), self.highlight_samerank_sleep_var),
-            ):
-            ttk.Label(lframe, text=title, anchor='w'
-                       ).grid(row=row, column=0, sticky='we')
+                ):
+            ttk.Label(
+                lframe, text=title, anchor='w').grid(
+                    row=row, column=0, sticky='we')
             widget = PysolScale(lframe, from_=0.2, to=9.9, value=var.get(),
                                 resolution=0.1, orient='horizontal',
                                 length="3i", variable=var, takefocus=0)
@@ -91,7 +93,8 @@ class TimeoutsDialog(MfxDialog):
         self.raise_card_timeout = self.raise_card_sleep_var.get()
         self.highlight_piles_timeout = self.highlight_piles_sleep_var.get()
         self.highlight_cards_timeout = self.highlight_cards_sleep_var.get()
-        self.highlight_samerank_timeout = self.highlight_samerank_sleep_var.get()
+        self.highlight_samerank_timeout = \
+            self.highlight_samerank_sleep_var.get()
 
     def initKw(self, kw):
         kw = KwStruct(kw,
@@ -99,7 +102,3 @@ class TimeoutsDialog(MfxDialog):
                       padx=10, pady=10,
                       )
         return MfxDialog.initKw(self, kw)
-
-
-
-

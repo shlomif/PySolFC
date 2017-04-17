@@ -24,19 +24,24 @@
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+
+# from pysollib.util import ACE
+
+from pysollib.stack import \
+        OpenStack, \
+        WasteStack, \
+        WasteTalonStack, \
+        StackWrapper
 
 # ************************************************************************
 # * Eiffel Tower
 # ************************************************************************
+
 
 class EiffelTower_RowStack(OpenStack):
     def __init__(self, x, y, game):
@@ -113,6 +118,5 @@ class StrictEiffelTower(EiffelTower):
 # register the game
 registerGame(GameInfo(16, EiffelTower, "Eiffel Tower",
                       GI.GT_PAIRING_TYPE, 2, 0, GI.SL_MOSTLY_LUCK))
-##registerGame(GameInfo(801, StrictEiffelTower, "Strict Eiffel Tower",
-##                      GI.GT_PAIRING_TYPE, 2, 0))
-
+# registerGame(GameInfo(801, StrictEiffelTower, "Strict Eiffel Tower",
+#                       GI.GT_PAIRING_TYPE, 2, 0))

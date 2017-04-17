@@ -22,7 +22,7 @@
 # ---------------------------------------------------------------------------##
 
 __all__ = [
-    #'SolverDialog',
+    # 'SolverDialog',
     'create_solver_dialog',
     'connect_game_solver_dialog',
     'destroy_solver_dialog',
@@ -30,16 +30,17 @@ __all__ = [
     ]
 
 # imports
-import ttk
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.mfxutil import KwStruct
 
 # Toolkit imports
 from pysollib.tile.basetilemfxdialog import BaseTileMfxDialog
 from tkwidget import PysolCombo
-from pysollib.ui.tktile.solverdialog import BaseSolverDialog, solver_dialog, connect_game_solver_dialog, destroy_solver_dialog, reset_solver_dialog
+from pysollib.ui.tktile.solverdialog import BaseSolverDialog, \
+        connect_game_solver_dialog, destroy_solver_dialog, solver_dialog, \
+        reset_solver_dialog
 
 
 # ************************************************************************
@@ -59,12 +60,14 @@ class SolverDialog(BaseSolverDialog, BaseTileMfxDialog):
         cb.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
         cb.current(0)
         return cb
+
     def _createShowProgressButton(self, frame):
-        return self._calcToolkit().Checkbutton(frame, variable=self.progress_var,
-                            text=_('Show progress'))
+        return self._calcToolkit().Checkbutton(
+            frame, variable=self.progress_var,
+            text=_('Show progress'))
 
     def initKw(self, kw):
-        strings=[_('&Start'), _('&Play'), _('&New'), 'sep', _('&Close'),]
+        strings = [_('&Start'), _('&Play'), _('&New'), 'sep', _('&Close'), ]
         kw = KwStruct(kw,
                       strings=strings,
                       default=0,
@@ -83,6 +86,8 @@ class SolverDialog(BaseSolverDialog, BaseTileMfxDialog):
         self.play_button.config(state='disabled')
 
 
+solver_dialog = solver_dialog
+
 
 def create_solver_dialog(parent, game):
     global solver_dialog
@@ -90,6 +95,5 @@ def create_solver_dialog(parent, game):
         solver_dialog.top.wm_deiconify()
         solver_dialog.top.tkraise()
     except:
-        ##traceback.print_exc()
+        # traceback.print_exc()
         solver_dialog = SolverDialog(parent, game)
-

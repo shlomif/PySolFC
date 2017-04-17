@@ -26,29 +26,40 @@ __all__ = ['SelectDialogTreeData']
 # Toolkit imports
 from tktree import MfxTreeLeaf, MfxTreeNode, MfxTreeInCanvas
 
-from pysollib.ui.tktile.selecttree import BaseSelectDialogTreeLeaf, BaseSelectDialogTreeNode, SelectDialogTreeData, BaseSelectDialogTreeCanvas
+from pysollib.ui.tktile.selecttree import BaseSelectDialogTreeLeaf, \
+        BaseSelectDialogTreeNode, SelectDialogTreeData, \
+        BaseSelectDialogTreeCanvas
 
 # ************************************************************************
 # * Nodes
 # ************************************************************************
 
+
 class SelectDiagCommon:
     def _calc_MfxTreeNode(self):
         return MfxTreeNode
+
     def _calc_MfxTreeInCanvas(self):
         return MfxTreeInCanvas
+
     def _calc_MfxTreeLeaf(self):
         return MfxTreeLeaf
 
-class SelectDialogTreeLeaf(SelectDiagCommon, BaseSelectDialogTreeLeaf, MfxTreeLeaf):
+
+class SelectDialogTreeLeaf(SelectDiagCommon,
+                           BaseSelectDialogTreeLeaf, MfxTreeLeaf):
     pass
 
-class SelectDialogTreeNode(SelectDiagCommon, BaseSelectDialogTreeNode, MfxTreeNode):
+
+class SelectDialogTreeNode(SelectDiagCommon,
+                           BaseSelectDialogTreeNode, MfxTreeNode):
     pass
 
 # ************************************************************************
 # * Canvas that shows the tree (left side)
 # ************************************************************************
 
-class SelectDialogTreeCanvas(SelectDiagCommon, BaseSelectDialogTreeCanvas, MfxTreeInCanvas):
+
+class SelectDialogTreeCanvas(SelectDiagCommon,
+                             BaseSelectDialogTreeCanvas, MfxTreeInCanvas):
     pass

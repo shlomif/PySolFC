@@ -23,18 +23,23 @@
 
 
 # imports
+import sys
 import Tkinter
 import ttk
 import tkColorChooser
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.mfxutil import KwStruct
 
 # Toolkit imports
 from tkwidget import MfxDialog, MfxScrolledCanvas
 from selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
 from selecttree import SelectDialogTreeData, SelectDialogTreeCanvas
+
+
+if sys.version_info > (3,):
+    basestring = str
 
 
 # ************************************************************************
@@ -50,7 +55,8 @@ class SelectTileNode(SelectDialogTreeNode):
         contents = []
         for obj in self.tree.data.all_objects:
             if self.select_func(obj):
-                node = SelectTileLeaf(self.tree, self, text=obj.name, key=obj.index)
+                node = SelectTileLeaf(
+                    self.tree, self, text=obj.name, key=obj.index)
                 contents.append(node)
         return contents or self.tree.data.no_contents
 
@@ -64,9 +70,11 @@ class SelectTileData(SelectDialogTreeData):
         SelectDialogTreeData.__init__(self)
         self.all_objects = manager.getAllSortedByName()
         self.all_objects = [obj for obj in self.all_objects if not obj.error]
-        self.all_objects = [tile for tile in self.all_objects if tile.index > 0 and tile.filename]
-        self.no_contents = [ SelectTileLeaf(None, None, _("(no tiles)"), key=None), ]
-        e1 = isinstance(key, str) or len(self.all_objects) <=17
+        self.all_objects = [tile for tile in self.all_objects
+                            if tile.index > 0 and tile.filename]
+        self.no_contents = [SelectTileLeaf(
+            None, None, _("(no tiles)"), key=None), ]
+        e1 = isinstance(key, str) or len(self.all_objects) <= 17
         e2 = 1
         self.rootnodes = (
             SelectTileNode(None, _("Solid Colors"), (
@@ -77,7 +85,9 @@ class SelectTileData(SelectDialogTreeData):
                 SelectTileLeaf(None, None, _("Orange"), key="#f79600"),
                 SelectTileLeaf(None, None, _("Teal"), key="#008286"),
             ), expanded=e1),
-            SelectTileNode(None, _("All Backgrounds"), lambda tile: 1, expanded=e2),
+            SelectTileNode(
+                None, _("All Backgrounds"),
+                lambda tile: 1, expanded=e2),
         )
 
 
@@ -199,4 +209,3 @@ class SelectTileDialogWithPreview(MfxDialog):
                 if self.preview.setTile(self.app, key):
                     return
             self.preview_key = -1
-

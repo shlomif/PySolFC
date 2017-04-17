@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 #
 # Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
 # Copyright (C) 2003 Mt. Hood Playing Card Co.
@@ -19,7 +19,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 
 __all__ = ['SoundOptionsDialog']
 
@@ -29,7 +29,7 @@ import Tkinter
 import ttk
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.mfxutil import KwStruct
 from pysollib.settings import TITLE
 from pysollib.pysolaudio import pysolsoundserver
@@ -109,13 +109,13 @@ class SoundOptionsDialog(MfxDialog):
                                 command=self.mOptSoundDirectX)
             w.grid(row=row, column=0, columnspan=2, sticky='ew')
         #
-        if app.audio.CAN_PLAY_MUSIC: # and app.startup_opt.sound_mode > 0:
+        if app.audio.CAN_PLAY_MUSIC:  # and app.startup_opt.sound_mode > 0:
             row += 1
             ttk.Label(frame, text=_('Sample volume:'), anchor='w'
                       ).grid(row=row, column=0, sticky='ew')
             w = PysolScale(frame, from_=0, to=128, resolution=1,
                            orient='horizontal', takefocus=0,
-                           length="3i", #label=_('Sample volume'),
+                           length="3i",  # label=_('Sample volume'),
                            variable=self.sample_volume)
             w.grid(row=row, column=1, sticky='w', padx=5)
             row += 1
@@ -123,7 +123,7 @@ class SoundOptionsDialog(MfxDialog):
                       ).grid(row=row, column=0, sticky='ew')
             w = PysolScale(frame, from_=0, to=128, resolution=1,
                            orient='horizontal', takefocus=0,
-                           length="3i", #label=_('Music volume'),
+                           length="3i",  # label=_('Music volume'),
                            variable=self.music_volume)
             w.grid(row=row, column=1, sticky='w', padx=5)
 
@@ -154,7 +154,7 @@ class SoundOptionsDialog(MfxDialog):
         self.mainloop(focus, kw.timeout)
 
     def initKw(self, kw):
-        strings=[_("&OK"), _("&Apply"), _("&Cancel"),]
+        strings = [_("&OK"), _("&Apply"), _("&Cancel"), ]
         kw = KwStruct(kw,
                       strings=strings,
                       default=0,
@@ -186,11 +186,11 @@ class SoundOptionsDialog(MfxDialog):
         return self.mDone(0)
 
     def mOptSoundDirectX(self, *event):
-        ##print self.sound_mode.get()
-        d = MfxMessageDialog(self.top, title=_("Sound preferences info"),
-                      text=_("""\
+        # print self.sound_mode.get()
+        MfxMessageDialog(
+            self.top, title=_("Sound preferences info"),
+            text=_("""\
 Changing DirectX settings will take effect
 the next time you restart """)+TITLE,
-                      bitmap="warning",
-                      default=0, strings=(_("&OK"),))
-
+            bitmap="warning",
+            default=0, strings=(_("&OK"),))

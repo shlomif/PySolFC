@@ -23,14 +23,15 @@
 
 
 # imports
-import os, re, sys, types
-import gtk, gobject
+import os
+import gtk
+import gobject
 
-#from UserList import UserList
+# from UserList import UserList
 
 # PySol imports
-from pysollib.mygettext import _, n_
-from pysollib.mfxutil import destruct, Struct, KwStruct
+from pysollib.mygettext import _
+from pysollib.mfxutil import destruct, Struct
 from pysollib.mfxutil import kwdefault
 from pysollib.mfxutil import format_time
 from pysollib.gamedb import GI
@@ -40,7 +41,7 @@ from pysollib.resource import CSI
 # Toolkit imports
 from tkutil import unbind_destroy
 from tkwidget import MfxDialog
-from tkcanvas  import MfxCanvas, MfxCanvasText
+from tkcanvas import MfxCanvas
 from pysoltree import PysolTreeView
 
 
@@ -49,7 +50,7 @@ from pysoltree import PysolTreeView
 # ************************************************************************
 
 class SelectGameDialogWithPreview(MfxDialog):
-    #Tree_Class = SelectGameTreeWithPreview
+    # Tree_Class = SelectGameTreeWithPreview
     game_store = None
     #
     _paned_position = 300
@@ -109,7 +110,6 @@ class SelectGameDialogWithPreview(MfxDialog):
         stats_frame.set_border_width(4)
         # info
         self.info_labels = {}
-        i = 0
         for n, t, f, row in (
             ('name',        _('Name:'),             info_frame,   0),
             ('altnames',    _('Alternate names:'),  info_frame,   1),
@@ -125,7 +125,7 @@ class SelectGameDialogWithPreview(MfxDialog):
             ('time',        _('Playing time:'),     stats_frame,  3),
             ('moves',       _('Moves:'),            stats_frame,  4),
             ('percent',     _('% won:'),            stats_frame,  5),
-            ):
+                ):
             title_label = gtk.Label()
             title_label.show()
             title_label.set_text(t)
@@ -149,9 +149,11 @@ class SelectGameDialogWithPreview(MfxDialog):
         # canvas
         self.preview = MfxCanvas(self)
         self.preview.show()
-        table.attach(self.preview,
+        table.attach(
+            self.preview,
             0, 2,                            1, 2,
-            gtk.EXPAND|gtk.FILL|gtk.SHRINK,  gtk.EXPAND|gtk.FILL|gtk.SHRINK,
+            gtk.EXPAND | gtk.FILL | gtk.SHRINK,
+            gtk.EXPAND | gtk.FILL | gtk.SHRINK,
             0,                               0)
         self.preview.set_border_width(4)
         self.preview.setTile(app, app.tabletile_index, force=True)
@@ -162,8 +164,8 @@ class SelectGameDialogWithPreview(MfxDialog):
         self.preview_key = -1
         self.preview_game = None
         self.preview_app = None
-        ##~ self.updatePreview(gameid, animations=0)
-        ##~ SelectGameTreeWithPreview.html_viewer = None
+        # ~ self.updatePreview(gameid, animations=0)
+        # ~ SelectGameTreeWithPreview.html_viewer = None
 
         self.connect('unrealize', self._unrealizeEvent)
 
@@ -171,7 +173,6 @@ class SelectGameDialogWithPreview(MfxDialog):
         self._restoreSettings()
         self.show_all()
         gtk.main()
-
 
     def _addGamesFromData(self, data, store, root_iter, root_label, all_games):
         gl = []
@@ -186,7 +187,6 @@ class SelectGameDialogWithPreview(MfxDialog):
         for label, games in gl:
             self._addGames(store, iter, label, games)
 
-
     def _addGames(self, store, root_iter, root_label, games):
         if not games:
             return
@@ -196,7 +196,6 @@ class SelectGameDialogWithPreview(MfxDialog):
             child_iter = store.append(iter)
             store.set(child_iter, 0, name, 1, id)
 
-
     def _selectGames(self, all_games, selecter):
         # return list of tuples (gameid, gamename)
         if selecter is None:
@@ -204,7 +203,6 @@ class SelectGameDialogWithPreview(MfxDialog):
         elif selecter == 'alt':
             return all_games
         return [(gi.id, gi.name) for gi in all_games if selecter(gi)]
-
 
     def createGameStore(self):
         store = gtk.TreeStore(gobject.TYPE_STRING, gobject.TYPE_INT)
@@ -217,8 +215,9 @@ class SelectGameDialogWithPreview(MfxDialog):
         for label, games, selecter in (
             (_('All Games'),       all_games,   None),
             (_('Alternate Names'), alter_games, 'alt'),
-            (_('Popular Games'),   all_games, lambda gi: gi.si.game_flags & GI.GT_POPULAR),
-            ):
+            (_('Popular Games'),   all_games,
+                lambda gi: gi.si.game_flags & GI.GT_POPULAR),
+                ):
             games = self._selectGames(games, selecter)
             self._addGames(store, None, label, games)
 
@@ -234,11 +233,11 @@ class SelectGameDialogWithPreview(MfxDialog):
                                None, _("French games"), all_games)
         # by skill level
         data = (
-          (_('Luck only'),    lambda gi: gi.skill_level == GI.SL_LUCK),
-          (_('Mostly luck'),  lambda gi: gi.skill_level == GI.SL_MOSTLY_LUCK),
-          (_('Balanced'),     lambda gi: gi.skill_level == GI.SL_BALANCED),
+          (_('Luck only'), lambda gi: gi.skill_level == GI.SL_LUCK),
+          (_('Mostly luck'), lambda gi: gi.skill_level == GI.SL_MOSTLY_LUCK),
+          (_('Balanced'), lambda gi: gi.skill_level == GI.SL_BALANCED),
           (_('Mostly skill'), lambda gi: gi.skill_level == GI.SL_MOSTLY_SKILL),
-          (_('Skill only'),   lambda gi: gi.skill_level == GI.SL_SKILL),
+          (_('Skill only'), lambda gi: gi.skill_level == GI.SL_SKILL),
           )
         self._addGamesFromData(data, store, None,
                                _("by Skill Level"), all_games)
@@ -247,37 +246,41 @@ class SelectGameDialogWithPreview(MfxDialog):
         root_iter = store.append(None)
         store.set(root_iter, 0, _('by Game Feature'), 1, -1)
         data = (
-            (_("32 cards"),     lambda gi: gi.si.ncards == 32),
-            (_("48 cards"),     lambda gi: gi.si.ncards == 48),
-            (_("52 cards"),     lambda gi: gi.si.ncards == 52),
-            (_("64 cards"),     lambda gi: gi.si.ncards == 64),
-            (_("78 cards"),     lambda gi: gi.si.ncards == 78),
-            (_("104 cards"),    lambda gi: gi.si.ncards == 104),
-            (_("144 cards"),    lambda gi: gi.si.ncards == 144),
-            (_("Other number"), lambda gi: gi.si.ncards not in (32, 48, 52, 64, 78, 104, 144)),)
-        self._addGamesFromData(data, store, root_iter,
-                             _("by Number of Cards"), all_games)
+            (_("32 cards"), lambda gi: gi.si.ncards == 32),
+            (_("48 cards"), lambda gi: gi.si.ncards == 48),
+            (_("52 cards"), lambda gi: gi.si.ncards == 52),
+            (_("64 cards"), lambda gi: gi.si.ncards == 64),
+            (_("78 cards"), lambda gi: gi.si.ncards == 78),
+            (_("104 cards"), lambda gi: gi.si.ncards == 104),
+            (_("144 cards"), lambda gi: gi.si.ncards == 144),
+            (_("Other number"),
+                lambda gi: gi.si.ncards not in (32, 48, 52, 64, 78, 104, 144))
+            )
+        self._addGamesFromData(
+            data, store, root_iter, _("by Number of Cards"), all_games)
         data = (
             (_("1 deck games"), lambda gi: gi.si.decks == 1),
             (_("2 deck games"), lambda gi: gi.si.decks == 2),
             (_("3 deck games"), lambda gi: gi.si.decks == 3),
             (_("4 deck games"), lambda gi: gi.si.decks == 4),)
-        self._addGamesFromData(data, store, root_iter,
-                             _("by Number of Decks"), all_games)
+        self._addGamesFromData(
+            data, store, root_iter, _("by Number of Decks"), all_games)
         data = (
             (_("No redeal"), lambda gi: gi.si.redeals == 0),
-            (_("1 redeal"),  lambda gi: gi.si.redeals == 1),
+            (_("1 redeal"), lambda gi: gi.si.redeals == 1),
             (_("2 redeals"), lambda gi: gi.si.redeals == 2),
             (_("3 redeals"), lambda gi: gi.si.redeals == 3),
             (_("Unlimited redeals"), lambda gi: gi.si.redeals == -1),
-            ##(_("Variable redeals"), lambda gi: gi.si.redeals == -2),
-            (_("Other number of redeals"), lambda gi: gi.si.redeals not in (-1, 0, 1, 2, 3)),)
+            # (_("Variable redeals"), lambda gi: gi.si.redeals == -2),
+            (_("Other number of redeals"),
+                lambda gi: gi.si.redeals not in (-1, 0, 1, 2, 3)),)
         self._addGamesFromData(data, store, root_iter,
                                _("by Number of Redeals"), all_games)
 
         data = []
         for label, vg in GI.GAMES_BY_COMPATIBILITY:
-            selecter = lambda gi, vg=vg: gi.id in vg
+            def selecter(gi, vg=vg):
+                return gi.id in vg
             data.append((label, selecter))
         self._addGamesFromData(data, store, root_iter,
                                _("by Compatibility"), all_games)
@@ -285,7 +288,8 @@ class SelectGameDialogWithPreview(MfxDialog):
         # by PySol version
         data = []
         for version, vg in GI.GAMES_BY_PYSOL_VERSION:
-            selecter = lambda gi, vg=vg: gi.id in vg
+            def selecter(gi, vg=vg):
+                return gi.id in vg
             label = _("New games in v. ") + version
             data.append((label, selecter))
         self._addGamesFromData(data, store, None,
@@ -293,23 +297,27 @@ class SelectGameDialogWithPreview(MfxDialog):
 
         #
         data = (
-            (_("Games for Children (very easy)"), lambda gi: gi.si.game_flags & GI.GT_CHILDREN),
-            (_("Games with Scoring"),  lambda gi: gi.si.game_flags & GI.GT_SCORE),
-            (_("Games with Separate Decks"),  lambda gi: gi.si.game_flags & GI.GT_SEPARATE_DECKS),
-            (_("Open Games (all cards visible)"), lambda gi: gi.si.game_flags & GI.GT_OPEN),
-            (_("Relaxed Variants"),  lambda gi: gi.si.game_flags & GI.GT_RELAXED),)
+            (_("Games for Children (very easy)"),
+                lambda gi: gi.si.game_flags & GI.GT_CHILDREN),
+            (_("Games with Scoring"),
+                lambda gi: gi.si.game_flags & GI.GT_SCORE),
+            (_("Games with Separate Decks"),
+                lambda gi: gi.si.game_flags & GI.GT_SEPARATE_DECKS),
+            (_("Open Games (all cards visible)"),
+                lambda gi: gi.si.game_flags & GI.GT_OPEN),
+            (_("Relaxed Variants"),
+                lambda gi: gi.si.game_flags & GI.GT_RELAXED),)
         self._addGamesFromData(data, store, None,
                                _("Other Categories"), all_games)
 
         #
         self._addGamesFromData(GI.SELECT_ORIGINAL_GAME_BY_TYPE, store,
                                None, _("Original Games"), all_games)
-        ##self._addGamesFromData(GI.SELECT_CONTRIB_GAME_BY_TYPE, store,
-        ##              None, _("Contrib Game"), all_games)
+        # self._addGamesFromData(GI.SELECT_CONTRIB_GAME_BY_TYPE, store,
+        #               None, _("Contrib Game"), all_games)
 
         SelectGameDialogWithPreview.game_store = store
         return
-
 
     def initKw(self, kw):
         kwdefault(kw,
@@ -319,23 +327,20 @@ class SelectGameDialogWithPreview(MfxDialog):
                   )
         return MfxDialog.initKw(self, kw)
 
-
     def _unrealizeEvent(self, w):
         self.deletePreview(destroy=1)
-        #self.preview.unbind_all()
+        # self.preview.unbind_all()
         self._saveSettings()
-
 
     def _saveSettings(self):
         SelectGameDialogWithPreview._geometry = self.get_size()
-        SelectGameDialogWithPreview._paned_position = self.hpaned.get_position()
-
+        SelectGameDialogWithPreview._paned_position = \
+            self.hpaned.get_position()
 
     def _restoreSettings(self):
         if self._geometry:
             self.resize(self._geometry[0], self._geometry[1])
         self.hpaned.set_position(self._paned_position)
-
 
     def getSelected(self):
         index = self.treeview.getSelected()
@@ -348,17 +353,16 @@ class SelectGameDialogWithPreview(MfxDialog):
         if id:
             self.updatePreview(id)
 
-
     def deletePreview(self, destroy=0):
         self.preview_key = -1
         # clean up the canvas
         if self.preview:
             unbind_destroy(self.preview)
             self.preview.deleteAllItems()
-            ##~ if destroy:
-            ##~     self.preview.delete("all")
+            # ~ if destroy:
+            # ~     self.preview.delete("all")
         #
-        #for l in self.info_labels.values():
+        # for l in self.info_labels.values():
         #    l.config(text='')
         # destruct the game
         if self.preview_game:
@@ -386,25 +390,25 @@ class SelectGameDialogWithPreview(MfxDialog):
         if self.preview_app is None:
             self.preview_app = Struct(
                 # variables
-                audio = self.app.audio,
-                canvas = canvas,
-                cardset = self.app.cardset.copy(),
-                comments = self.app.comments.new(),
-                gamerandom = self.app.gamerandom,
-                gdb = self.app.gdb,
-                gimages = self.app.gimages,
-                images = self.app.subsampled_images,
-                menubar = None,
-                miscrandom = self.app.miscrandom,
-                opt = self.app.opt.copy(),
-                startup_opt = self.app.startup_opt,
-                stats = self.app.stats.new(),
-                top = None,
-                top_cursor = self.app.top_cursor,
-                toolbar = None,
+                audio=self.app.audio,
+                canvas=canvas,
+                cardset=self.app.cardset.copy(),
+                comments=self.app.comments.new(),
+                gamerandom=self.app.gamerandom,
+                gdb=self.app.gdb,
+                gimages=self.app.gimages,
+                images=self.app.subsampled_images,
+                menubar=None,
+                miscrandom=self.app.miscrandom,
+                opt=self.app.opt.copy(),
+                startup_opt=self.app.startup_opt,
+                stats=self.app.stats.new(),
+                top=None,
+                top_cursor=self.app.top_cursor,
+                toolbar=None,
                 # methods
-                constructGame = self.app.constructGame,
-                getFont = self.app.getFont,
+                constructGame=self.app.constructGame,
+                getFont=self.app.getFont,
             )
             self.preview_app.opt.shadow = 0
             self.preview_app.opt.shade = 0
@@ -416,17 +420,18 @@ class SelectGameDialogWithPreview(MfxDialog):
         if self.preview_game:
             self.preview_game.endGame()
             self.preview_game.destruct()
-        ##self.top.wm_title("Select Game - " + self.app.getGameTitleName(gameid))
+        # self.top.wm_title(
+        #   "Select Game - " + self.app.getGameTitleName(gameid))
         title = self.app.getGameTitleName(gameid)
         self.set_title(_("Playable Preview - ") + title)
         #
         self.preview_game = gi.gameclass(gi)
         self.preview_game.createPreview(self.preview_app)
-        tx, ty = 0, 0
-        gw, gh = self.preview_game.width, self.preview_game.height
-        ##~ canvas.config(scrollregion=(-tx, -ty, -tx, -ty))
-        ##~ canvas.xview_moveto(0)
-        ##~ canvas.yview_moveto(0)
+        # tx, ty = 0, 0
+        # gw, gh = self.preview_game.width, self.preview_game.height
+        # ~ canvas.config(scrollregion=(-tx, -ty, -tx, -ty))
+        # ~ canvas.xview_moveto(0)
+        # ~ canvas.yview_moveto(0)
         #
         random = None
         if gameid == self.gameid:
@@ -435,7 +440,7 @@ class SelectGameDialogWithPreview(MfxDialog):
             self.preview_game.restoreGameFromBookmark(self.bookmark)
         else:
             self.preview_game.newGame(random=random, autoplay=1)
-        ##~ canvas.config(scrollregion=(-tx, -ty, gw, gh))
+        # ~ canvas.config(scrollregion=(-tx, -ty, gw, gh))
         #
         self.preview_app.audio = self.app.audio
         if self.app.opt.animations:
@@ -472,13 +477,19 @@ class SelectGameDialogWithPreview(MfxDialog):
             GI.SL_SKILL:        _('Skill only'),
             }
         skill_level = sl.get(gi.skill_level)
-        if    gi.redeals == -2: redeals = _('variable')
-        elif  gi.redeals == -1: redeals = _('unlimited')
-        else:                   redeals = str(gi.redeals)
+        if gi.redeals == -2:
+            redeals = _('variable')
+        elif gi.redeals == -1:
+            redeals = _('unlimited')
+        else:
+            redeals = str(gi.redeals)
         # stats
-        won, lost, time, moves = self.app.stats.getFullStats(self.app.opt.player, gameid)
-        if won+lost > 0: percent = "%.1f" % (100.0*won/(won+lost))
-        else: percent = "0.0"
+        won, lost, time, moves = self.app.stats.getFullStats(
+            self.app.opt.player, gameid)
+        if won+lost > 0:
+            percent = "%.1f" % (100.0*won/(won+lost))
+        else:
+            percent = "0.0"
         time = format_time(time)
         moves = str(round(moves, 1))
         for n, t in (
@@ -495,7 +506,7 @@ class SelectGameDialogWithPreview(MfxDialog):
             ('time',        time),
             ('moves',       moves),
             ('percent',     percent),
-            ):
+                ):
             title_label, text_label = self.info_labels[n]
             if t in ('', None):
                 title_label.hide()
@@ -507,12 +518,12 @@ class SelectGameDialogWithPreview(MfxDialog):
 
     def done(self, button):
         button = button.get_data("user_data")
-        print 'done', button
+        print('done', button)
         if button == 0:                    # Ok or double click
             id = self.getSelected()
             if id:
                 self.gameid = id
-            ##~ self.tree.n_expansions = 1  # save xyview in any case
+            # ~ self.tree.n_expansions = 1  # save xyview in any case
         if button == 1:                    # Rules
             id = self.getSelected()
             if id:
@@ -526,5 +537,3 @@ class SelectGameDialogWithPreview(MfxDialog):
         self.status = 0
         self.button = button
         self.quit()
-
-

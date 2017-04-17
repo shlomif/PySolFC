@@ -23,16 +23,19 @@
 
 
 # imports
-import os, sys
+import sys
 import gtk
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 
 
+if sys.version_info > (3,):
+    unicode = str
 # ************************************************************************
 # *
 # ************************************************************************
+
 
 class BasicStatusbar:
     def __init__(self, top, row, column, columnspan):
@@ -43,7 +46,6 @@ class BasicStatusbar:
                          column, column+columnspan,   row, row+1,
                          gtk.EXPAND | gtk.FILL,       0,
                          0,                           0)
-
 
     def createLabel(self, name, fill=False, expand=False,
                     tooltip=None, grip=False, width=0):
@@ -57,12 +59,11 @@ class BasicStatusbar:
         lb = label.get_children()[0].get_children()[0]
         lb.set_alignment(0.5, 0.0)
         self._widgets.append(label)
-        ##label.push(0, '')
-##         if tooltip:
-##             tt = gtk.Tooltips()
-##             tt.set_tip(label, tooltip, '')
-##             tt.enable()
-
+        # label.push(0, '')
+        #  if tooltip:
+        #      tt = gtk.Tooltips()
+        #      tt.set_tip(label, tooltip, '')
+        #      tt.enable()
 
     def updateText(self, **kw):
         for k, v in kw.items():
@@ -80,7 +81,6 @@ class BasicStatusbar:
         label.pop(0)
         label.push(0, unicode(kw['text']))
 
-
     def show(self, show=True, resize=False):
         if show:
             self.hbox.show()
@@ -91,7 +91,6 @@ class BasicStatusbar:
     def hide(self, resize=False):
         self.show(False, resize)
         return True
-
 
     def destroy(self):
         pass
@@ -109,16 +108,13 @@ class PysolStatusbar(BasicStatusbar):
             ("moves",       _('Moves/Total moves'),       10),
             ("gamenumber",  _("Game number"),             26),
             ("stats",       _("Games played: won/lost"),  12),
-            ):
+                ):
             self.createLabel(n, width=w, tooltip=t)
         #
-        l = self.createLabel("info", fill=True, expand=True, grip=True)
-
+        self.createLabel("info", fill=True, expand=True, grip=True)
 
 
 class HelpStatusbar(BasicStatusbar):
     def __init__(self, top):
         BasicStatusbar.__init__(self, top, row=5, column=0, columnspan=3)
         self.createLabel("info", fill=True, expand=True)
-
-

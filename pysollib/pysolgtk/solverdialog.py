@@ -22,7 +22,7 @@
 # ---------------------------------------------------------------------------##
 
 __all__ = [
-    #'SolverDialog',
+    # 'SolverDialog',
     'create_solver_dialog',
     'connect_game_solver_dialog',
     'destroy_solver_dialog',
@@ -30,15 +30,21 @@ __all__ = [
     ]
 
 
-solver_dialog = None
+# solver_dialog = None
+
 
 def create_solver_dialog(parent, game):
     pass
+
+
 def connect_game_solver_dialog(game):
     pass
+
+
 def destroy_solver_dialog():
     pass
-    solver_dialog = None
+    # solver_dialog = None
+
+
 def reset_solver_dialog():
     pass
-

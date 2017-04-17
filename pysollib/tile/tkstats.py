@@ -38,15 +38,15 @@ import ttk
 import tkFont
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.mfxutil import KwStruct
 from pysollib.mfxutil import format_time
-##from pysollib.util import *
+# from pysollib.util import *
 from pysollib.stats import PysolStatsFormatter, ProgressionFormatter
 from pysollib.settings import TOP_TITLE
 
 # Toolkit imports
-from pysollib.ui.tktile.tkutil import bind, unbind_destroy, loadImage
+from pysollib.ui.tktile.tkutil import bind, loadImage
 from tkwidget import MfxDialog, MfxMessageDialog
 
 
@@ -67,7 +67,7 @@ class StatsDialog(MfxDialog):
         self.tkfont = tkFont.Font(parent, self.font)
         self.font_metrics = self.tkfont.metrics()
         style = ttk.Style(parent)
-        heading_font = style.lookup('Heading', 'font') # treeview heading
+        heading_font = style.lookup('Heading', 'font')  # treeview heading
         self.heading_tkfont = tkFont.Font(parent, heading_font)
 
         self.selected_game = None
@@ -99,7 +99,7 @@ class StatsDialog(MfxDialog):
         if StatsDialog.SELECTED_TAB < len(self.notebook_tabs):
             notebook.select(StatsDialog.SELECTED_TAB)
         bind(notebook, '<<NotebookTabChanged>>', self.tabChanged)
-        ##notebook.enableTraversal()
+        # notebook.enableTraversal()
         self.notebook = notebook
 
         focus = self.createButtons(bottom_frame, kw)
@@ -107,12 +107,13 @@ class StatsDialog(MfxDialog):
         self.mainloop(focus, kw.timeout)
 
     def initKw(self, kw):
-        kw = KwStruct(kw,
-                      strings=((_("&Play this game"), 401),
-                               "sep", _("&OK"),
-                               (_("&Reset..."), 500)),
-                      default=0,
-                      separator=False,
+        kw = KwStruct(
+            kw,
+            strings=((_("&Play this game"), 401),
+                     "sep", _("&OK"),
+                     (_("&Reset..."), 500)),
+            default=0,
+            separator=False,
         )
         return MfxDialog.initKw(self, kw)
 
@@ -134,7 +135,6 @@ class StatsDialog(MfxDialog):
         else:
             reset_button.config(state='disabled')
 
-
     def mDone(self, button):
         self.selected_game = self.all_games_frame.getSelectedGame()
         w = self.notebook.select()
@@ -149,7 +149,8 @@ class StatsDialog(MfxDialog):
         MfxDialog.mDone(self, button)
 
 
-SingleGame_StatsDialog = AllGames_StatsDialog = Top_StatsDialog = ProgressionDialog = StatsDialog
+SingleGame_StatsDialog = AllGames_StatsDialog = Top_StatsDialog = \
+        ProgressionDialog = StatsDialog
 
 
 # ************************************************************************
@@ -196,19 +197,19 @@ class SingleGameFrame(ttk.Frame):
             if len(i) > len(t):
                 t = i
         t1 = font.measure(t)
-##         t1 = max(font.measure(_("Won:")),
-##                  font.measure(_("Lost:")),
-##                  font.measure(_("Total:")))
+        #  t1 = max(font.measure(_("Won:")),
+        #           font.measure(_("Lost:")),
+        #           font.measure(_("Total:")))
         t1 += 10
-        ##t2 = font.measure('99999')+10
+        # t2 = font.measure('99999')+10
         t2 = 45
-        ##t3 = font.measure('100%')+10
+        # t3 = font.measure('100%')+10
         t3 = 45
         tx = (t0, t0+t1+t2, t0+t1+t2+t3, t0+t1+t2+t3+20)
         #
         ls = self.dialog.font_metrics['linespace']
         ls += 5
-        #ls = max(ls, 20)
+        # ls = max(ls, 20)
         ty = (5, 5+ls, 5+2*ls+15, max(85, 5+3*ls+15))
         #
         self.tab_x, self.tab_y = tx, ty
@@ -225,7 +226,7 @@ class SingleGameFrame(ttk.Frame):
         frame = ttk.LabelFrame(self.right_frame, text=text)
         frame.pack(side='top', fill='both', expand=False, padx=20, pady=10)
         style = ttk.Style(self.parent)
-        fg = style.lookup('.', 'foreground') or None # use default if fg == ''
+        fg = style.lookup('.', 'foreground') or None  # use default if fg == ''
         bg = style.lookup('.', 'background') or None
         self.fg = fg
         #
@@ -265,16 +266,15 @@ class SingleGameFrame(ttk.Frame):
             c.create_text(x, ty[1]-dy, text="%d%%" % (100-pw),
                           anchor="ne", font=tfont, fill=fg)
 
-
     def createPieChart(self, app, won, lost, text):
-        #c, tfont, fg = self._createChartInit(frame, 300, 100, text)
+        # c, tfont, fg = self._createChartInit(frame, 300, 100, text)
         #
         self._createChartInit(text)
-        c, tfont, fg = self.canvas, self.dialog.font, self.fg
+        c, tfont = self.canvas, self.dialog.font
         pwon, plost = self._getPwon(won, lost)
         #
-        #tx = (160, 250, 280)
-        #ty = (21, 41, 75)
+        # tx = (160, 250, 280)
+        # ty = (21, 41, 75)
         #
         tx, ty = self.tab_x, self.tab_y
         x0, y0 = 20, 10                 # base coords
@@ -282,7 +282,7 @@ class SingleGameFrame(ttk.Frame):
         h = self.oval_height
         d = 9                           # delta
         if won + lost > 0:
-            ##s, ewon, elost = 90.0, -360.0 * pwon, -360.0 * plost
+            # s, ewon, elost = 90.0, -360.0 * pwon, -360.0 * plost
             s, ewon, elost = 0.0, 360.0 * pwon, 360.0 * plost
             c.create_arc(x0, y0+d, x0+w, y0+h+d, fill="#007f00",
                          start=s, extent=ewon)
@@ -328,7 +328,7 @@ class TreeFormatter(PysolStatsFormatter):
             self._tabs = self.parent_window.tree_tabs
             return
         tw = 20*self.w
-        ##tw = 160
+        # tw = 160
         self._tabs = [tw]
         measure = self.tkfont.measure
         for t in arg[1:]:
@@ -341,9 +341,10 @@ class TreeFormatter(PysolStatsFormatter):
         i = 0
         for column in ('#0',) + self.parent_window.COLUMNS:
             text = header[i]
-            anchor = i == 0 and 'nw' or 'ne'
-            self.tree.heading(column, text=text,
-                command=lambda par=self.parent_window, col=column: par.headerClick(col))
+            self.tree.heading(
+                column, text=text,
+                command=lambda par=self.parent_window, col=column:
+                    par.headerClick(col))
             self.tree.column(column, width=16)
             i += 1
 
@@ -463,7 +464,7 @@ class AllGamesFrame(ttk.Frame):
         sel = self.tree.selection()
         run_button = self.dialog.buttons[0]
         if sel and len(sel) == 1:
-            if sel[0] not in self.games: # "Total"
+            if sel[0] not in self.games:  # "Total"
                 run_button.config(state='disabled')
             else:
                 run_button.config(state='normal')
@@ -479,7 +480,8 @@ class AllGamesFrame(ttk.Frame):
             sort_by = 'name'
         else:
             sort_by = column
-        if self.sort_by == sort_by: return
+        if self.sort_by == sort_by:
+            return
         self.sort_by = sort_by
         self.fillTreeview(self.player)
 
@@ -509,7 +511,7 @@ class LogDialog(MfxDialog):
         self.font = app.getFont('default')
         self.tkfont = tkFont.Font(parent, self.font)
         style = ttk.Style(parent)
-        heading_font = style.lookup('Heading', 'font') # treeview heading
+        heading_font = style.lookup('Heading', 'font')  # treeview heading
         self.heading_tkfont = tkFont.Font(parent, heading_font)
         self.font_metrics = self.tkfont.metrics()
 
@@ -520,7 +522,7 @@ class LogDialog(MfxDialog):
         title = _('Log')
         MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
 
-        ##self.selected_game = None
+        # self.selected_game = None
 
         top_frame, bottom_frame = self.createFrames(kw)
         notebook = ttk.Notebook(top_frame)
@@ -537,12 +539,12 @@ class LogDialog(MfxDialog):
         self.notebook_tabs.append(session_frame._w)
 
         notebook.select(LogDialog.SELECTED_TAB)
-##         bind(notebook, '<<NotebookTabChanged>>', self.tabChanged)
+        #  bind(notebook, '<<NotebookTabChanged>>', self.tabChanged)
 
         self.notebook = notebook
 
         focus = self.createButtons(bottom_frame, kw)
-        ##self.tabChanged()               # configure buttons state
+        # self.tabChanged()               # configure buttons state
         self.mainloop(focus, kw.timeout)
 
     def initKw(self, kw):
@@ -556,7 +558,7 @@ class LogDialog(MfxDialog):
         return MfxDialog.initKw(self, kw)
 
     def mDone(self, button):
-        ##self.selected_game = self.all_games_frame.getSelectedGame()
+        # self.selected_game = self.all_games_frame.getSelectedGame()
         w = self.notebook.select()
         indx = self.notebook_tabs.index(w)
         LogDialog.SELECTED_TAB = indx
@@ -567,6 +569,7 @@ class LogDialog(MfxDialog):
             else:                       # "Session log"
                 button = 204
         MfxDialog.mDone(self, button)
+
 
 FullLog_StatsDialog = SessionLog_StatsDialog = LogDialog
 
@@ -596,6 +599,7 @@ class FullLogFrame(AllGamesFrame):
 
     def treeviewSelected(self, *args):
         pass
+
     def headerClick(self, column):
         pass
 
@@ -620,7 +624,8 @@ class Status_StatsDialog(MfxMessageDialog):
             n = n + len(s.cards)
         w1 = (_("Highlight piles: ") + str(stats.highlight_piles) + "\n" +
               _("Highlight cards: ") + str(stats.highlight_cards) + "\n" +
-              _("Highlight same rank: ") + str(stats.highlight_samerank) + "\n")
+              _("Highlight same rank: ") +
+              str(stats.highlight_samerank) + "\n")
         if game.s.talon:
             if game.gameinfo.redeals != 0:
                 w2 = w2 + _("\nRedeals: ") + str(game.s.talon.round - 1)
@@ -630,13 +635,14 @@ class Status_StatsDialog(MfxMessageDialog):
         if game.s.foundations:
             w2 = w2 + _("\nCards in Foundations: ") + str(n)
         #
-        date = time.strftime("%Y-%m-%d %H:%M", time.localtime(game.gstats.start_time))
+        date = time.strftime(
+            "%Y-%m-%d %H:%M", time.localtime(game.gstats.start_time))
         MfxMessageDialog.__init__(
             self, parent, title=_("Game status"),
             text=game.getTitleName() + "\n" +
             game.getGameNumber(format=1) + "\n" +
             _("Playing time: ") + game.getTime() + "\n" +
-            _("Started at: ") + date + "\n\n"+
+            _("Started at: ") + date + "\n\n" +
             _("Moves: ") + str(game.moves.index) + "\n" +
             _("Undo moves: ") + str(stats.undo_moves) + "\n" +
             _("Bookmark moves: ") + str(gstats.goto_bookmark_moves) + "\n" +
@@ -708,7 +714,8 @@ class _TopDialog(MfxDialog):
             l = ttk.Label(**cnf)
             l.grid(row=row, column=2, sticky='ew')
             # Start time
-            t = time.strftime('%Y-%m-%d %H:%M', time.localtime(i.game_start_time))
+            t = time.strftime(
+                '%Y-%m-%d %H:%M', time.localtime(i.game_start_time))
             cnf['text'] = t
             l = ttk.Label(**cnf)
             l.grid(row=row, column=3, sticky='ew')
@@ -727,7 +734,6 @@ class _TopDialog(MfxDialog):
         focus = self.createButtons(bottom_frame, kw)
         self.mainloop(focus, kw.timeout)
 
-
     def initKw(self, kw):
         kw = KwStruct(kw, strings=(_('&OK'),), default=0, separator=True)
         return MfxDialog.initKw(self, kw)
@@ -744,17 +750,17 @@ class TopFrame(ttk.Frame):
         left_label.pack(side='left', expand=True, fill='both')
 
         frame = ttk.LabelFrame(self, text=_('Current game'),
-                               padding=(10,5,10,10))
+                               padding=(10, 5, 10, 10))
         frame.pack(side='top', expand=True, fill='x', padx=10, pady=10)
-        ##frame.columnconfigure(0, weight=1)
+        # frame.columnconfigure(0, weight=1)
         if not self.createTopFrame(frame, player, gameid):
             ttk.Label(frame, text=_('No TOP for this game')
                       ).pack(padx=10, pady=10)
 
         frame = ttk.LabelFrame(self, text=_('All games'),
-                               padding=(10,5,10,10))
+                               padding=(10, 5, 10, 10))
         frame.pack(side='top', expand=True, fill='x', padx=10, pady=10)
-        ##frame.columnconfigure(0, weight=1)
+        # frame.columnconfigure(0, weight=1)
         if not self.createTopFrame(frame, player, 'all'):
             ttk.Label(frame, text=_('No TOP for all games')
                       ).pack(padx=10, pady=10)
@@ -762,9 +768,10 @@ class TopFrame(ttk.Frame):
     def createTopFrame(self, frame, player, gameid):
         app = self.app
 
-        if (player not in app.stats.games_stats or
-            gameid not in app.stats.games_stats[player] or
-            not app.stats.games_stats[player][gameid].time_result.top):
+        cond = (player not in app.stats.games_stats or
+                gameid not in app.stats.games_stats[player] or
+                not app.stats.games_stats[player][gameid].time_result.top)
+        if cond:
             return False
 
         ttk.Label(frame, text=_('Minimum')
@@ -773,7 +780,7 @@ class TopFrame(ttk.Frame):
                   ).grid(row=0, column=2, padx=5, pady=5)
         ttk.Label(frame, text=_('Average')
                   ).grid(row=0, column=3, padx=5, pady=5)
-        ##ttk.Label(frame, text=_('Total')).grid(row=0, column=4)
+        # ttk.Label(frame, text=_('Total')).grid(row=0, column=4)
 
         s = app.stats.games_stats[player][gameid]
 
@@ -801,18 +808,18 @@ class TopFrame(ttk.Frame):
              s.total_moves_result.top,
              ),
             ]
-##             if s.score_result.min:
-##                 ll.append(('Score:',
-##                            s.score_result.min,
-##                            s.score_result.max,
-##                            round(s.score_result.average, 2),
-##                            s.score_result.top,
-##                            ))
-##             if s.score_casino_result.min:
-##                 ll.append(('Casino Score:',
-##                            s.score_casino_result.min,
-##                            s.score_casino_result.max,
-##                            round(s.score_casino_result.average, 2), ))
+        #  if s.score_result.min:
+        #      ll.append(('Score:',
+        #                 s.score_result.min,
+        #                 s.score_result.max,
+        #                 round(s.score_result.average, 2),
+        #                 s.score_result.top,
+        #                 ))
+        #  if s.score_casino_result.min:
+        #      ll.append(('Casino Score:',
+        #                 s.score_casino_result.min,
+        #                 s.score_casino_result.max,
+        #                 round(s.score_casino_result.average, 2), ))
         for l, min, max, avr, tot, top in ll:
             ttk.Label(frame, text=l
                       ).grid(row=row, column=0, padx=5, pady=5)
@@ -822,7 +829,8 @@ class TopFrame(ttk.Frame):
                       ).grid(row=row, column=2, padx=5, pady=5)
             ttk.Label(frame, text=str(avr)
                       ).grid(row=row, column=3, padx=5, pady=5)
-            ##ttk.Label(frame, text=str(tot)).grid(row=row, column=4)
+            # ttk.Label(frame, text=str(tot)).grid(row=row, column=4)
+
             def command(gameid=gameid, top=top):
                 self.showTop(gameid, top)
             b = ttk.Button(frame, text=TOP_TITLE+' ...',
@@ -832,7 +840,7 @@ class TopFrame(ttk.Frame):
         return True
 
     def showTop(self, gameid, top):
-        d = _TopDialog(self.dialog.top, TOP_TITLE, self.app, gameid, top)
+        _TopDialog(self.dialog.top, TOP_TITLE, self.app, gameid, top)
 
 
 # ************************************************************************
@@ -862,8 +870,9 @@ class ProgressionFrame(ttk.Frame):
         w = max(w, 500)
         w = min(w, 600)
         self.canvas_width, self.canvas_height = w, 250
-        if parent.winfo_screenwidth() < 800 or \
-               parent.winfo_screenheight() < 600:
+        cond = parent.winfo_screenwidth() < 800 or \
+            parent.winfo_screenheight() < 600
+        if cond:
             self.canvas_width, self.canvas_height = 400, 200
         self.xmargin, self.ymargin = 10, 10
         self.graph_dx, self.graph_dy = 10, 10
@@ -900,7 +909,7 @@ class ProgressionFrame(ttk.Frame):
             ('month', _('Last month')),
             ('year',  _('Last year')),
             ('all',   _('All time')),
-            ):
+                ):
             b = ttk.Radiobutton(label_frame, text=t, variable=var,
                                 value=v, command=self.updateGraph)
             b.pack(fill='x', expand=True, padx=3, pady=1)
@@ -925,9 +934,8 @@ class ProgressionFrame(ttk.Frame):
                             variable=self.percent_graph_var)
         b.pack(fill='x', expand=True, padx=3, pady=1)
 
-        #self.createGraph()
+        # self.createGraph()
         bind(canvas, '<Map>', self.createGraph)
-
 
     def createGraph(self, event):
         if self.mapped:
@@ -975,23 +983,22 @@ class ProgressionFrame(ttk.Frame):
         # caption
         d = self.text_height
         x, y = self.xmargin, self.canvas_height-self.ymargin
-        id = canvas.create_rectangle(x, y, x+d, y-d, outline='black',
-                                     fill=self.played_color)
+        canvas.create_rectangle(x, y, x+d, y-d, outline='black',
+                                fill=self.played_color)
         x += d+5
         canvas.create_text(x, y, anchor='sw', text=_('Played'))
         x += measure(_('Played'))+20
-        id = canvas.create_rectangle(x, y, x+d, y-d, outline='black',
-                                     fill=self.won_color)
+        canvas.create_rectangle(x, y, x+d, y-d, outline='black',
+                                fill=self.won_color)
         x += d+5
         canvas.create_text(x, y, anchor='sw', text=_('Won'))
         x += measure(_('Won'))+20
-        id = canvas.create_rectangle(x, y, x+d, y-d, outline='black',
-                                     fill=self.percent_color)
+        canvas.create_rectangle(x, y, x+d, y-d, outline='black',
+                                fill=self.percent_color)
         x += d+5
         canvas.create_text(x, y, anchor='sw', text=_('% won'))
 
         self.updateGraph()
-
 
     def updateGraph(self, *args):
         interval = self.variable.get()
@@ -1030,8 +1037,8 @@ class ProgressionFrame(ttk.Frame):
                 else:                   # day.month.year
                     text_width = self.text_width_2
             if text is not None and x > xx+text_width+4:
-                ##id = canvas.create_line(x, y0, x, y0-5, width=3)
-                ##self.items.append(id)
+                # id = canvas.create_line(x, y0, x, y0-5, width=3)
+                # self.items.append(id)
                 id = canvas.create_line(x, y0, x, y1, stipple='gray50')
                 self.items.append(id)
                 id = canvas.create_text(x, y0+td, anchor='n', text=text)
@@ -1068,15 +1075,15 @@ class ProgressionFrame(ttk.Frame):
         for res in result:
             played, won = res[1], res[2]
             y = y0 - int(games_resolution*played)
-            played_coords += [x,y]
+            played_coords += [x, y]
             y = y0 - int(games_resolution*won)
-            won_coords += [x,y]
+            won_coords += [x, y]
             if played > 0:
                 percent = int(100.*won/played)
             else:
                 percent = 0
             y = y0 - int(percent_resolution*percent)
-            percent_coords += [x,y]
+            percent_coords += [x, y]
             x += dx
         if self.played_graph_var.get():
             id = canvas.create_line(fill=self.played_color, width=3,
@@ -1090,5 +1097,3 @@ class ProgressionFrame(ttk.Frame):
             id = canvas.create_line(fill=self.percent_color, width=3,
                                     *percent_coords)
             self.items.append(id)
-
-

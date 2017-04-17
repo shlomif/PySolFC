@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 #
 # Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
 # Copyright (C) 2003 Mt. Hood Playing Card Co.
@@ -19,7 +19,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 
 __all__ = ['MfxDialog',
            'MfxMessageDialog',
@@ -32,14 +32,17 @@ __all__ = ['MfxDialog',
            ]
 
 # imports
-import sys, os, time, locale
+import sys
+import os
+import time
+import locale
 import Tkinter
 import ttk
 import tkFont
 import traceback
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.mfxutil import destruct, kwdefault, KwStruct, openURL
 from pysollib.settings import WIN_SYSTEM
 
@@ -49,12 +52,15 @@ from pysollib.ui.tktile.tkutil import bind, unbind_destroy
 from pysollib.ui.tktile.tkutil import makeToplevel, setTransient
 from pysollib.ui.tktile.tkcanvas import MfxCanvas
 
+if sys.version_info > (3,):
+    unicode = str
 
 # ************************************************************************
 # * abstract base class for the dialogs in this module
 # ************************************************************************
 
-class MfxDialog: # ex. _ToplevelDialog
+
+class MfxDialog:  # ex. _ToplevelDialog
     img = {}
     button_img = {}
 
@@ -66,17 +72,17 @@ class MfxDialog: # ex. _ToplevelDialog
         self.buttons = []
         self.accel_keys = {}
         self.top = makeToplevel(parent, title=title)
-        #self._frame = ttk.Frame(self.top)
-        #self._frame.pack(expand=True, fill='both')
+        # self._frame = ttk.Frame(self.top)
+        # self._frame.pack(expand=True, fill='both')
         self._frame = self.top
         self.top.wm_resizable(resizable, resizable)
-        ##w, h = self.top.winfo_screenwidth(), self.top.winfo_screenheight()
-        ##self.top.wm_maxsize(w-4, h-32)
+        # w, h = self.top.winfo_screenwidth(), self.top.winfo_screenheight()
+        # self.top.wm_maxsize(w-4, h-32)
         bind(self.top, "WM_DELETE_WINDOW", self.wmDeleteWindow)
 
     def mainloop(self, focus=None, timeout=0, transient=True):
         bind(self.top, "<Escape>", self.mCancel)
-        bind(self.top, '<Alt-Key>', self.altKeyEvent) # for accelerators
+        bind(self.top, '<Alt-Key>', self.altKeyEvent)  # for accelerators
         if focus is not None:
             focus.focus()
         if transient:
@@ -84,11 +90,13 @@ class MfxDialog: # ex. _ToplevelDialog
             try:
                 self.top.grab_set()
             except Tkinter.TclError:
-                if traceback: traceback.print_exc()
+                if traceback:
+                    traceback.print_exc()
                 pass
             if timeout > 0:
                 self.timer = after(self.top, timeout, self.mTimeout)
-            try: self.top.mainloop()
+            try:
+                self.top.mainloop()
             except SystemExit:
                 pass
             self.destroy()
@@ -104,7 +112,7 @@ class MfxDialog: # ex. _ToplevelDialog
     def wmDeleteWindow(self, *event):
         self.status = 1
         raise SystemExit
-        ##return EVENT_HANDLED
+        # return EVENT_HANDLED
 
     def mCancel(self, *event):
         self.status = 1
@@ -166,7 +174,7 @@ class MfxDialog: # ex. _ToplevelDialog
         return top_frame, bottom_frame
 
     def createBitmaps(self, frame, kw):
-        if kw.bitmap: ## in ("error", "info", "question", "warning")
+        if kw.bitmap:  # in ("error", "info", "question", "warning")
             img = self.img.get(kw.bitmap)
             b = ttk.Label(frame, image=img)
             b.pack(side=kw.bitmap_side,
@@ -192,11 +200,15 @@ class MfxDialog: # ex. _ToplevelDialog
             if s:
                 s = s.replace('&', '')
                 max_len = max(max_len, len(s))
-            ##print s, len(s)
-        if   max_len > 12 and WIN_SYSTEM == 'x11': button_width = max_len
-        elif max_len > 9 : button_width = max_len+1
-        elif max_len > 6 : button_width = max_len+2
-        else             : button_width = 8
+            # print s, len(s)
+        if max_len > 12 and WIN_SYSTEM == 'x11':
+            button_width = max_len
+        elif max_len > 9:
+            button_width = max_len+1
+        elif max_len > 6:
+            button_width = max_len+2
+        else:
+            button_width = 8
         #
         for s in kw.strings:
             if s is None:
@@ -220,9 +232,10 @@ class MfxDialog: # ex. _ToplevelDialog
             if button < 0:
                 widget = ttk.Button(frame, text=s, state="disabled")
             else:
-                widget = ttk.Button(frame, text=s, default="normal",
-                    command = lambda self=self, button=button: \
-                                        self.mDone(button))
+                widget = ttk.Button(
+                    frame, text=s, default="normal",
+                    command=lambda self=self, button=button:
+                    self.mDone(button))
                 if button == kw.default:
                     focus = widget
                     focus.config(default="active")
@@ -241,9 +254,11 @@ class MfxDialog: # ex. _ToplevelDialog
             #
             if button_img:
                 widget.config(compound='left', image=button_img)
-            widget.grid(column=column, row=0, sticky="nse", padx=padx, pady=pady)
+            widget.grid(
+                column=column, row=0, sticky="nse", padx=padx, pady=pady)
         if focus is not None:
-            l = lambda event=None, w=focus: w.event_generate('<<Invoke>>')
+            def l(event=None, w=focus):
+                return w.event_generate('<<Invoke>>')
             bind(self.top, "<Return>", l)
             bind(self.top, "<KP_Enter>", l)
         # right justify
@@ -283,7 +298,8 @@ class MfxExceptionDialog(MfxMessageDialog):
             text = text + "\n"
         text = text + "\n"
         if isinstance(ex, EnvironmentError) and ex.filename is not None:
-            t = "[Errno %s] %s:\n%s" % (ex.errno, ex.strerror, repr(ex.filename))
+            t = "[Errno %s] %s:\n%s" % \
+                (ex.errno, ex.strerror, repr(ex.filename))
         else:
             t = str(ex)
         kw.text = text + unicode(t, errors='replace')
@@ -310,7 +326,7 @@ class PysolAboutDialog(MfxMessageDialog):
         msg.pack(fill='both', expand=True)
 
         if sys.version_info >= (2, 4):
-            ##font_name = msg.lookup('TLabel', 'font')
+            # font_name = msg.lookup('TLabel', 'font')
             font_name = 'TkDefaultFont'
             font = tkFont.Font(parent, name=font_name, exists=True)
             font = font.copy()
@@ -436,10 +452,10 @@ class MfxTooltip:
         self.timer = None
         if self.tooltip or not self.text:
             return
-##         if isinstance(self.widget, (ttk.Button, ttk.Checkbutton)):
-##             if self.widget["state"] == 'disabled':
-##                 return
-        ##x = self.widget.winfo_rootx()
+        #  if isinstance(self.widget, (ttk.Button, ttk.Checkbutton)):
+        #      if self.widget["state"] == 'disabled':
+        #          return
+        # x = self.widget.winfo_rootx()
         x = self.widget.winfo_pointerx()
         y = self.widget.winfo_rooty() + self.widget.winfo_height()
         x += self.xoffset
@@ -454,8 +470,9 @@ class MfxTooltip:
         self.label.pack(ipadx=1, ipady=1)
         self.tooltip.wm_geometry("%+d%+d" % (x, y))
         self.tooltip.wm_deiconify()
-        self.cancel_timer = after(self.widget, self.cancel_timeout, self._leave)
-        ##self.tooltip.tkraise()
+        self.cancel_timer = after(
+            self.widget, self.cancel_timeout, self._leave)
+        # self.tooltip.tkraise()
 
 
 # ************************************************************************
@@ -482,7 +499,7 @@ class MfxScrolledCanvas:
         if vbar:
             self.createVbar()
             self.bindVbar()
-        ###self.canvas.focus_set()
+        # self.canvas.focus_set()
 
     #
     #
@@ -507,7 +524,7 @@ class MfxScrolledCanvas:
         tile = app.tabletile_manager.get(i)
         if tile is None or tile.error:
             return False
-        ##print i, tile
+        # print i, tile
         if i == 0:
             assert tile.color
             assert tile.filename is None
@@ -517,19 +534,20 @@ class MfxScrolledCanvas:
             assert tile.basename
         if not force:
             if (i == app.tabletile_index and
-                tile.color == app.opt.colors['table']):
+                    tile.color == app.opt.colors['table']):
                 return False
         #
-        if not self.canvas.setTile(tile.filename, tile.stretch, tile.save_aspect):
+        if not self.canvas.setTile(tile.filename, tile.stretch,
+                                   tile.save_aspect):
             tile.error = True
             return False
 
         if i == 0:
             self.canvas.config(bg=tile.color)
-            ##app.top.config(bg=tile.color)
+            # app.top.config(bg=tile.color)
         else:
             self.canvas.config(bg=app.top_bg)
-            ##app.top.config(bg=app.top_bg)
+            # app.top.config(bg=app.top_bg)
 
         self.canvas.setTextColor(app.opt.colors['text'])
 
@@ -549,6 +567,7 @@ class MfxScrolledCanvas:
         width = kw.get("width")
         height = kw.get("height")
         self.frame = ttk.Frame(self.parent, width=width, height=height)
+
     def createCanvas(self, kw):
         bd = kw['bd']
         kw['bd'] = 0
@@ -558,24 +577,29 @@ class MfxScrolledCanvas:
         frame.grid(row=0, column=0, sticky="news")
         self.canvas = MfxCanvas(frame, **kw)
         self.canvas.pack(expand=True, fill='both')
+
     def createHbar(self):
+
         self.hbar = ttk.Scrollbar(self.frame, takefocus=0,
                                   orient="horizontal")
         self.canvas["xscrollcommand"] = self._setHbar
         self.hbar["command"] = self.canvas.xview
         self.hbar.grid(row=1, column=0, sticky="we")
         self.hbar.grid_remove()
+
     def createVbar(self):
         self.vbar = ttk.Scrollbar(self.frame, takefocus=0)
         self.canvas["yscrollcommand"] = self._setVbar
         self.vbar["command"] = self.canvas.yview
         self.vbar.grid(row=0, column=1, sticky="ns")
         self.vbar.grid_remove()
+
     def bindHbar(self, w=None):
         if w is None:
             w = self.canvas
         bind(w, "<KeyPress-Left>", self.unit_left)
         bind(w, "<KeyPress-Right>", self.unit_right)
+
     def bindVbar(self, w=None):
         if w is None:
             w = self.canvas
@@ -591,10 +615,10 @@ class MfxScrolledCanvas:
             bind(w, '<4>', self.mouse_wheel_up)
             bind(w, '<5>', self.mouse_wheel_down)
         # don't work on Linux
-        #bind(w, '<MouseWheel>', self.mouse_wheel)
+        # bind(w, '<MouseWheel>', self.mouse_wheel)
 
     def mouse_wheel(self, *args):
-        print 'MfxScrolledCanvas.mouse_wheel', args
+        print('MfxScrolledCanvas.mouse_wheel', args)
 
     def _setHbar(self, first, last):
         if self.canvas.busy:
@@ -608,6 +632,7 @@ class MfxScrolledCanvas:
                 sb.grid()
                 self.hbar_show = True
         sb.set(first, last)
+
     def _setVbar(self, first, last):
         if self.canvas.busy:
             return
@@ -622,34 +647,48 @@ class MfxScrolledCanvas:
         sb.set(first, last)
 
     def _xview(self, *args):
-        if self.hbar_show: self.canvas.xview(*args)
+        if self.hbar_show:
+            self.canvas.xview(*args)
         return 'break'
+
     def _yview(self, *args):
-        if self.vbar_show: self.canvas.yview(*args)
+        if self.vbar_show:
+            self.canvas.yview(*args)
         return 'break'
 
     def page_up(self, *event):
         return self._yview('scroll', -1, 'page')
+
     def page_down(self, *event):
         return self._yview('scroll', 1, 'page')
+
     def unit_up(self, *event):
         return self._yview('scroll', -1, 'unit')
+
     def unit_down(self, *event):
         return self._yview('scroll', 1, 'unit')
+
     def mouse_wheel_up(self, *event):
         return self._yview('scroll', -5, 'unit')
+
     def mouse_wheel_down(self, *event):
         return self._yview('scroll', 5, 'unit')
+
     def page_left(self, *event):
         return self._xview('scroll', -1, 'page')
+
     def page_right(self, *event):
         return self._xview('scroll', 1, 'page')
+
     def unit_left(self, *event):
         return self._xview('scroll', -1, 'unit')
+
     def unit_right(self, *event):
         return self._xview('scroll', 1, 'unit')
+
     def scroll_top(self, *event):
         return self._yview('moveto', 0)
+
     def scroll_bottom(self, *event):
         return self._yview('moveto', 1)
 
@@ -667,7 +706,7 @@ class StackDesc:
         self.bindings = []
 
         font = game.app.getFont('canvas_small')
-        ##print self.app.cardset.CARDW, self.app.images.CARDW
+        # print self.app.cardset.CARDW, self.app.images.CARDW
         cardw = game.app.images.getSize()[0]
         x, y = stack.x+cardw/2, stack.y
         text = stack.getHelp()+'\n'+stack.getBaseCard()
@@ -683,12 +722,12 @@ class StackDesc:
             self.id = self.canvas.create_window(x, y, window=frame, anchor='n')
             self.bindings.append(label.bind('<ButtonPress>',
                                             self._buttonPressEvent))
-            ##self.bindings.append(label.bind('<Enter>', self._enterEvent))
+            # self.bindings.append(label.bind('<Enter>', self._enterEvent))
         else:
             self.id = None
 
     def _buttonPressEvent(self, *event):
-        ##self.game.deleteStackDesc()
+        # self.game.deleteStackDesc()
         self.frame.tkraise()
 
     def _enterEvent(self, *event):
@@ -735,17 +774,17 @@ class MyPysolScale:
         if 'label' in kw:
             self.label_text = kw['label']
             width = len(self.label_text)+4
-            #width = None
+            # width = None
             del kw['label']
         else:
             self.label_text = None
             width = 3
 
         # create widgets
-        side = 'left' # 'top'
+        side = 'left'  # 'top'
         self.frame = ttk.Frame(parent)
         self.label = ttk.Label(self.frame, anchor='w',
-                               width=width, padding=(5,0))
+                               width=width, padding=(5, 0))
         self.label.pack(side=side, expand=False, fill='x')
         self.scale = ttk.Scale(self.frame, **kw)
         self.scale.pack(side=side, expand=True, fill='both', pady=4)
@@ -781,6 +820,7 @@ class MyPysolScale:
 
     def pack(self, **kw):
         self.frame.pack(**kw)
+
     def grid(self, **kw):
         self.frame.grid(**kw)
 
@@ -794,6 +834,7 @@ class MyPysolScale:
 
     def get(self):
         return self.variable.get()
+
     def set(self, v):
         self.variable.set(v)
 
@@ -806,7 +847,7 @@ class TkinterScale(Tkinter.Scale):
 
 
 PysolScale = MyPysolScale
-#PysolScale = TkinterScale
+# PysolScale = TkinterScale
 
 
 # ************************************************************************
@@ -823,14 +864,8 @@ class PysolCombo(ttk.Combobox):
         self.bind('<<ComboboxSelected>>', self._callback)
 
     def _callback(self, *args):
-        ##self.selection_clear()
-        self.selection_range(0,0)
+        # self.selection_clear()
+        self.selection_range(0, 0)
         if self._command is not None:
             return self._command(*args)
         return None
-
-
-
-
-
-

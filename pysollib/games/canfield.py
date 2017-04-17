@@ -1,21 +1,35 @@
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.stack import *
 from pysollib.game import Game
+from pysollib.mygettext import _
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.hint import CautiousDefaultHint
 from pysollib.pysoltk import MfxCanvasText
 
+from pysollib.util import KING, RANKS, QUEEN, UNLIMITED_REDEALS
+
+from pysollib.stack import \
+        AC_RowStack, \
+        KingAC_RowStack, \
+        OpenStack, \
+        RK_RowStack, \
+        ReserveStack, \
+        SS_FoundationStack, \
+        SS_RowStack, \
+        WasteStack, \
+        WasteTalonStack, \
+        StackWrapper
 # ************************************************************************
 # *
 # ************************************************************************
+
 
 class Canfield_Hint(CautiousDefaultHint):
     # FIXME: demo is not too clever in this game
 
     # Score for moving a pile (usually a single card) from the WasteStack.
     def _getMoveWasteScore(self, score, color, r, t, pile, rpile):
-        score, color = CautiousDefaultHint._getMovePileScore(self, score, color, r, t, pile, rpile)
+        score, color = CautiousDefaultHint._getMovePileScore(
+            self, score, color, r, t, pile, rpile)
         # we prefer moving cards from the waste over everything else
         return score + 100000, color
 
@@ -76,7 +90,7 @@ class Canfield(Game):
 
         # set window
         if self.INITIAL_RESERVE_FACEUP == 1:
-            yoffset = l.YOFFSET ##min(l.YOFFSET, 14)
+            yoffset = l.YOFFSET  # min(l.YOFFSET, 14)
         else:
             yoffset = 10
             if self.INITIAL_RESERVE_CARDS > 30:
@@ -85,7 +99,9 @@ class Canfield(Game):
         h = max(3*l.YS, l.YS+self.INITIAL_RESERVE_CARDS*yoffset)
         if round_text:
             h += l.TEXT_HEIGHT
-        self.setSize(l.XM + (2+max(rows, 4*decks))*l.XS + l.XM, l.YM + l.YS + l.TEXT_HEIGHT + h)
+        self.setSize(
+            l.XM + (2+max(rows, 4*decks))*l.XS + l.XM,
+            l.YM + l.YS + l.TEXT_HEIGHT + h)
 
         # extra settings
         self.base_card = None
@@ -170,7 +186,8 @@ class Canfield(Game):
         for i in range(self.INITIAL_RESERVE_CARDS):
             if self.INITIAL_RESERVE_FACEUP:
                 self.flipMove(self.s.talon)
-            self.moveMove(1, self.s.talon, self.s.reserves[0], frames=4, shadow=0)
+            self.moveMove(
+                1, self.s.talon, self.s.reserves[0], frames=4, shadow=0)
         if self.s.reserves[0].canFlipCard():
             self.flipMove(self.s.reserves[0])
         self.s.talon.dealRow(reverse=1)
@@ -233,6 +250,7 @@ class Rainbow(Canfield):
 # * Storehouse (aka Straight Up)
 # ************************************************************************
 
+
 class Storehouse(Canfield):
     RowStack_Class = StackWrapper(Canfield_SS_RowStack, mod=13)
 
@@ -241,7 +259,8 @@ class Storehouse(Canfield):
 
     def _shuffleHook(self, cards):
         # move Twos to top of the Talon (i.e. first cards to be dealt)
-        return self._shuffleHookMoveToTop(cards, lambda c: (c.rank == 1, c.suit))
+        return self._shuffleHookMoveToTop(
+            cards, lambda c: (c.rank == 1, c.suit))
 
     def startGame(self):
         self.startDealSample()
@@ -310,7 +329,8 @@ class VariegatedCanfield(Canfield):
 
     def _shuffleHook(self, cards):
         # move Aces to top of the Talon (i.e. first cards to be dealt)
-        return self._shuffleHookMoveToTop(cards, lambda c: (c.rank == 0, c.suit))
+        return self._shuffleHookMoveToTop(
+            cards, lambda c: (c.rank == 0, c.suit))
 
     def startGame(self):
         self.startDealSample()
@@ -337,7 +357,7 @@ class EagleWing(Canfield):
     ReserveStack_Class = EagleWing_ReserveStack
 
     def createGame(self):
-        ##Canfield.createGame(self, rows=8, max_rounds=3, num_deal=1)
+        # Canfield.createGame(self, rows=8, max_rounds=3, num_deal=1)
         # create layout
         l, s = Layout(self), self.s
 
@@ -357,11 +377,13 @@ class EagleWing(Canfield):
         l.createText(s.waste, "s")
         for i in range(4):
             x = l.XM + (i+3)*l.XS
-            s.foundations.append(self.Foundation_Class(x, y, self, i, mod=13, max_move=0))
+            s.foundations.append(
+                self.Foundation_Class(x, y, self, i, mod=13, max_move=0))
         tx, ty, ta, tf = l.getTextAttr(None, "se")
         tx, ty = x + tx + l.XM, y + ty
         font = self.app.getFont("canvas_default")
-        self.texts.info = MfxCanvasText(self.canvas, tx, ty, anchor=ta, font=font)
+        self.texts.info = MfxCanvasText(
+            self.canvas, tx, ty, anchor=ta, font=font)
         ry = l.YM + 2*l.YS
         for i in range(8):
             x = l.XM + (i + (i >= 4))*l.XS
@@ -369,7 +391,7 @@ class EagleWing(Canfield):
             s.rows.append(self.RowStack_Class(x, y, self))
         x, y = l.XM + 4*l.XS, ry
         s.reserves.append(self.ReserveStack_Class(x, y, self))
-        ##s.reserves[0].CARD_YOFFSET = 0
+        # s.reserves[0].CARD_YOFFSET = 0
         l.createText(s.reserves[0], "s")
 
         # define stack-groups
@@ -546,7 +568,8 @@ class Minerva(Canfield):
         self.startDealSample()
         self.s.talon.dealRow()
         for i in range(self.INITIAL_RESERVE_CARDS):
-            self.moveMove(1, self.s.talon, self.s.reserves[0], frames=4, shadow=0)
+            self.moveMove(
+                1, self.s.talon, self.s.reserves[0], frames=4, shadow=0)
         self.flipMove(self.s.reserves[0])
         self.s.talon.dealCards()
 
@@ -554,14 +577,17 @@ class Minerva(Canfield):
 
     def _restoreGameHook(self, game):
         pass
+
     def _loadGameHook(self, p):
         pass
+
     def _saveGameHook(self, p):
         pass
 
 
 class Munger(Minerva):
     INITIAL_RESERVE_CARDS = 7
+
     def createGame(self):
         Canfield.createGame(self, rows=7, max_rounds=1, num_deal=1, text=False)
 
@@ -577,6 +603,7 @@ class Mystique(Munger):
 
 class TripleCanfield(Canfield):
     INITIAL_RESERVE_CARDS = 26
+
     def createGame(self):
         Canfield.createGame(self, rows=7)
 
@@ -595,13 +622,15 @@ class Acme(Canfield):
 
     def _shuffleHook(self, cards):
         # move Aces to top of the Talon (i.e. first cards to be dealt)
-        return self._shuffleHookMoveToTop(cards, lambda c: (c.rank == 0, c.suit))
+        return self._shuffleHookMoveToTop(
+            cards, lambda c: (c.rank == 0, c.suit))
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
         self.startDealSample()
         for i in range(13):
-            self.moveMove(1, self.s.talon, self.s.reserves[0], frames=4, shadow=0)
+            self.moveMove(
+                1, self.s.talon, self.s.reserves[0], frames=4, shadow=0)
         self.flipMove(self.s.reserves[0])
         self.s.talon.dealRow(reverse=1)
         self.s.talon.dealCards()
@@ -610,10 +639,13 @@ class Acme(Canfield):
 
     def updateText(self):
         pass
+
     def _restoreGameHook(self, game):
         pass
+
     def _loadGameHook(self, p):
         pass
+
     def _saveGameHook(self, p):
         pass
 
@@ -630,7 +662,8 @@ class Duke(Game):
     def createGame(self):
         l, s = Layout(self), self.s
 
-        w, h = l.XM + 6*l.XS + 4*l.XOFFSET, l.YM + l.TEXT_HEIGHT + 2*l.YS + 12*l.YOFFSET
+        w, h = l.XM + 6*l.XS + 4*l.XOFFSET, \
+            l.YM + l.TEXT_HEIGHT + 2*l.YS + 12*l.YOFFSET
         self.setSize(w, h)
 
         x, y = l.XM, l.YM
@@ -646,7 +679,7 @@ class Duke(Game):
             s.foundations.append(self.Foundation_Class(x, y, self, suit=i))
             x += l.XS
         x0, y0, w = l.XM, l.YM+l.YS+2*l.TEXT_HEIGHT, l.XS+2*l.XOFFSET
-        for i, j in ((0,0), (0,1), (1,0), (1,1)):
+        for i, j in ((0, 0), (0, 1), (1, 0), (1, 1)):
             x, y = x0+i*w, y0+j*l.YS
             stack = self.ReserveStack_Class(x, y, self, max_accept=0)
             stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
@@ -658,14 +691,12 @@ class Duke(Game):
 
         l.defaultStackGroups()
 
-
     def startGame(self):
         for i in range(3):
             self.s.talon.dealRow(rows=self.s.reserves, frames=0)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealCards()
-
 
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
@@ -677,8 +708,10 @@ class Duke(Game):
 class Demon(Canfield):
     INITIAL_RESERVE_CARDS = 40
     RowStack_Class = StackWrapper(AC_RowStack, mod=13)
+
     def createGame(self):
-        Canfield.createGame(self, rows=8, max_rounds=UNLIMITED_REDEALS, num_deal=3)
+        Canfield.createGame(
+            self, rows=8, max_rounds=UNLIMITED_REDEALS, num_deal=3)
 
 
 # ************************************************************************
@@ -690,9 +723,11 @@ class CanfieldRush_Talon(WasteTalonStack):
         self.num_deal = 4-self.round
         WasteTalonStack.dealCards(self, sound=sound)
 
+
 class CanfieldRush(Canfield):
     Talon_Class = CanfieldRush_Talon
-    #RowStack_Class = StackWrapper(AC_RowStack, mod=13)
+    # RowStack_Class = StackWrapper(AC_RowStack, mod=13)
+
     def createGame(self):
         Canfield.createGame(self, max_rounds=3, round_text=True)
 
@@ -728,7 +763,7 @@ class Skippy(Canfield):
         x = self.width - 8*l.XS
         for i in range(8):
             s.foundations.append(SS_FoundationStack(x, y, self,
-                                                    suit=i%4, mod=13))
+                                                    suit=i % 4, mod=13))
             x += l.XS
         tx, ty, ta, tf = l.getTextAttr(None, "ss")
         tx, ty = x-l.XS+tx, y+ty
@@ -752,7 +787,6 @@ class Skippy(Canfield):
         # define stack-groups
         l.defaultStackGroups()
 
-
     def startGame(self):
         self.base_card = None
         self.updateText()
@@ -765,7 +799,7 @@ class Skippy(Canfield):
         self.moveMove(1, self.s.talon, self.s.foundations[n], frames=0)
         self.updateText()
         # update rows cap.base_rank
-        row_base_rank = (self.base_card.rank-1)%13
+        row_base_rank = (self.base_card.rank-1) % 13
         for s in self.s.rows:
             s.cap.base_rank = row_base_rank
         #
@@ -774,7 +808,6 @@ class Skippy(Canfield):
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealCards()
-
 
     shallHighlightMatch = Game._shallHighlightMatch_RKW
 
@@ -812,14 +845,12 @@ class Lafayette(Game):
 
         l.defaultStackGroups()
 
-
     def startGame(self):
         for i in range(13):
             self.s.talon.dealRow(rows=self.s.reserves, frames=0)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealCards()
-
 
     def fillStack(self, stack):
         if stack in self.s.rows and not stack.cards:
@@ -828,9 +859,7 @@ class Lafayette(Game):
                 self.s.reserves[0].moveMove(1, stack)
                 self.leaveState(old_state)
 
-
     shallHighlightMatch = Game._shallHighlightMatch_AC
-
 
 
 # register the game
@@ -844,7 +873,7 @@ registerGame(GameInfo(108, Rainbow, "Rainbow",
                       GI.GT_CANFIELD, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(100, Storehouse, "Storehouse",
                       GI.GT_CANFIELD, 1, 2, GI.SL_BALANCED,
-                      altnames=("Provisions", "Straight Up", "Thirteen Up") ))
+                      altnames=("Provisions", "Straight Up", "Thirteen Up")))
 registerGame(GameInfo(43, Chameleon, "Chameleon",
                       GI.GT_CANFIELD, 1, 0, GI.SL_BALANCED,
                       altnames="Kansas"))
@@ -878,9 +907,8 @@ registerGame(GameInfo(521, CanfieldRush, "Canfield Rush",
                       GI.GT_CANFIELD, 1, 2, GI.SL_BALANCED))
 registerGame(GameInfo(527, Doorway, "Doorway",
                       GI.GT_KLONDIKE, 1, 0, GI.SL_BALANCED,
-                      altnames=('Solstice',) ))
+                      altnames=('Solstice',)))
 registerGame(GameInfo(605, Skippy, "Skippy",
                       GI.GT_FAN_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(642, Lafayette, "Lafayette",
                       GI.GT_CANFIELD, 1, -1, GI.SL_BALANCED))
-

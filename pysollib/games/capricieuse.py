@@ -27,14 +27,22 @@ __all__ = []
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.mfxutil import kwdefault
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.hint import CautiousDefaultHint
 
 from gypsy import DieRussische_Foundation
+
+from pysollib.util import ANY_SUIT, KING
+
+from pysollib.stack import \
+        AC_RowStack, \
+        InitialDealTalonStack, \
+        RedealTalonStack, \
+        RK_FoundationStack, \
+        SS_FoundationStack, \
+        UD_SS_RowStack, \
+        StackWrapper
 
 
 # ************************************************************************
@@ -91,7 +99,8 @@ class Capricieuse(Game):
         self.s.talon.dealRow(self.s.foundations)
 
     def _shuffleHook(self, cards):
-        return self._shuffleHookMoveToBottom(cards,
+        return self._shuffleHookMoveToBottom(
+            cards,
             lambda c: (c.deck == 0 and c.rank in (0, 12), (c.rank, c.suit)), 8)
 
     def redealCards(self):
@@ -134,7 +143,7 @@ class Strata(Game):
         x, y, = l.XM+l.XS, l.YM
         for i in range(8):
             s.foundations.append(DieRussische_Foundation(x, y, self,
-                                 suit=i%4, max_cards=8))
+                                 suit=i % 4, max_cards=8))
             x += l.XS
         x, y, = l.XM+l.XS, l.YM+l.YS
         for i in range(8):
@@ -214,7 +223,7 @@ class Choice(Game):
         x, y = l.XM + (max_rows-8)*l.XS/2, l.YM
         for i in range(8):
             stack = Choice_Foundation(x, y, self, base_rank=(i+5), dir=0,
-                                      suit=ANY_SUIT, max_cards=(4*decks) )
+                                      suit=ANY_SUIT, max_cards=(4*decks))
             stack.CARD_YOFFSET = l.YOFFSET
             s.foundations.append(stack)
             x += l.XS
@@ -230,7 +239,6 @@ class Choice(Game):
         # define stack-groups
         l.defaultStackGroups()
 
-
     def startGame(self):
         for i in range(11):
             self.s.talon.dealRowAvail(frames=0)
@@ -240,20 +248,23 @@ class Choice(Game):
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
-
 # register the game
 registerGame(GameInfo(292, Capricieuse, "Capricieuse",
-                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 2, 2, GI.SL_MOSTLY_SKILL))
+                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 2, 2,
+                      GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(293, Nationale, "Nationale",
-                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL,
-                      altnames=('Zigzag Course',) ))
+                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 2, 0,
+                      GI.SL_MOSTLY_SKILL,
+                      altnames=('Zigzag Course',)))
 registerGame(GameInfo(606, Strata, "Strata",
-                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 2, 2, GI.SL_MOSTLY_SKILL,
+                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 2, 2,
+                      GI.SL_MOSTLY_SKILL,
                       ranks=(0, 6, 7, 8, 9, 10, 11, 12),
-                      altnames=('Persian Patience',) ))
+                      altnames=('Persian Patience',)))
 registerGame(GameInfo(673, Fifteen, "Fifteen",
-                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 2, 0,
+                      GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(755, Choice, "Choice",
-                      GI.GT_3DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 3, 0, GI.SL_MOSTLY_SKILL,
-                      ranks=(5, 6, 7, 8, 9, 10, 11, 12) ))
-
+                      GI.GT_3DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 3, 0,
+                      GI.SL_MOSTLY_SKILL,
+                      ranks=(5, 6, 7, 8, 9, 10, 11, 12)))

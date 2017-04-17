@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 #
 # Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
 # Copyright (C) 2003 Mt. Hood Playing Card Co.
@@ -19,29 +19,46 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
 from pysollib.mfxutil import kwdefault
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.hint import AbstractHint, CautiousDefaultHint
 
+from pysollib.util import ACE, ANY_RANK, ANY_SUIT, KING, UNLIMITED_ACCEPTS, \
+        UNLIMITED_MOVES
+from pysollib.stack import \
+        AbstractFoundationStack, \
+        AC_RowStack, \
+        BasicRowStack, \
+        DealRowTalonStack, \
+        InitialDealTalonStack, \
+        isRankSequence, \
+        isSameSuitSequence, \
+        OpenStack, \
+        OpenTalonStack, \
+        RK_RowStack, \
+        SS_FoundationStack, \
+        SS_RowStack, \
+        TalonStack, \
+        WasteStack, \
+        WasteTalonStack, \
+        StackWrapper
 
 # ************************************************************************
 # * Curds and Whey
 # * Miss Muffet
 # * Nordic
 # ************************************************************************
+
 
 class CurdsAndWhey_RowStack(BasicRowStack):
 
@@ -67,8 +84,9 @@ class CurdsAndWhey_RowStack(BasicRowStack):
 class CurdsAndWhey(Game):
 
     Hint_Class = CautiousDefaultHint
-    RowStack_Class = StackWrapper(CurdsAndWhey_RowStack, base_rank=KING,
-                                  max_move=UNLIMITED_MOVES, max_accept=UNLIMITED_ACCEPTS)
+    RowStack_Class = StackWrapper(
+        CurdsAndWhey_RowStack, base_rank=KING,
+        max_move=UNLIMITED_MOVES, max_accept=UNLIMITED_ACCEPTS)
 
     #
     # game layout
@@ -130,8 +148,9 @@ class MissMuffet(CurdsAndWhey):
 
 
 class Nordic(MissMuffet):
-    RowStack_Class = StackWrapper(CurdsAndWhey_RowStack, base_rank=ANY_RANK,
-                                  max_move=UNLIMITED_MOVES, max_accept=UNLIMITED_ACCEPTS)
+    RowStack_Class = StackWrapper(
+        CurdsAndWhey_RowStack, base_rank=ANY_RANK,
+        max_move=UNLIMITED_MOVES, max_accept=UNLIMITED_ACCEPTS)
 
 
 # ************************************************************************
@@ -143,6 +162,7 @@ class Nordic(MissMuffet):
 class Dumfries_TalonStack(OpenTalonStack):
     rightclickHandler = OpenStack.rightclickHandler
     doubleclickHandler = OpenStack.doubleclickHandler
+
 
 class Dumfries_RowStack(BasicRowStack):
 
@@ -159,9 +179,10 @@ class Dumfries_RowStack(BasicRowStack):
     def canMoveCards(self, cards):
         return len(cards) == 1 or len(cards) == len(self.cards)
 
+
 class Dumfries(Game):
 
-    ##Hint_Class = KlondikeType_Hint
+    # Hint_Class = KlondikeType_Hint
 
     def createGame(self, **layout):
         # create layout
@@ -188,7 +209,8 @@ class Dumfries(Game):
         self.s.talon.fillStack()
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return card1.color != card2.color and abs(card1.rank-card2.rank) in (0, 1)
+        return card1.color != card2.color and \
+            abs(card1.rank-card2.rank) in (0, 1)
 
 
 class Galloway(Dumfries):
@@ -200,12 +222,11 @@ class Robin(Dumfries):
     def createGame(self):
         Dumfries.createGame(self, rows=12)
 
-
-
 # ************************************************************************
 # * Arachnida
 # * Harvestman
 # ************************************************************************
+
 
 class Arachnida_RowStack(BasicRowStack):
 
@@ -245,8 +266,10 @@ class Arachnida(CurdsAndWhey):
                                         max_accept=UNLIMITED_ACCEPTS)
             s.rows.append(stack)
             x += l.XS
-        s.foundations.append(AbstractFoundationStack(x, y, self, suit=ANY_SUIT,
-                                                     max_accept=0, max_cards=104))
+        s.foundations.append(
+            AbstractFoundationStack(
+                x, y, self, suit=ANY_SUIT,
+                max_accept=0, max_cards=104))
         l.createText(s.foundations[0], "s")
 
         # define stack-groups
@@ -301,7 +324,9 @@ class GermanPatience(Game):
 
         x, y = l.XM, l.YM
         for i in range(rows):
-            s.rows.append(RK_RowStack(x, y, self, max_cards=13, mod=13, dir=1, max_move=1))
+            s.rows.append(
+                RK_RowStack(
+                    x, y, self, max_cards=13, mod=13, dir=1, max_move=1))
             x += l.XS
         x, y = l.XM, h-l.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=1)
@@ -312,22 +337,19 @@ class GermanPatience(Game):
 
         l.defaultStackGroups()
 
-
     def startGame(self):
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealCards()
-
 
     def isGameWon(self):
         if self.s.waste.cards or self.s.talon.cards:
             return False
         for s in self.s.rows:
             if s.cards:
-                if len(s.cards) != 13: # or not isRankSequence(s.cards):
+                if len(s.cards) != 13:  # or not isRankSequence(s.cards):
                     return False
         return True
-
 
     shallHighlightMatch = Game._shallHighlightMatch_RKW
 
@@ -531,13 +553,15 @@ registerGame(GameInfo(311, Dumfries, "Dumfries",
 registerGame(GameInfo(312, Galloway, "Galloway",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(313, Robin, "Robin",
-                      GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 0,
+                      GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(348, Arachnida, "Arachnida",
                       GI.GT_SPIDER, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(349, MissMuffet, "Miss Muffet",
                       GI.GT_SPIDER | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(352, Nordic, "Nordic",
-                      GI.GT_SPIDER | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_SPIDER | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0,
+                      GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(414, GermanPatience, "German Patience",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(415, BavarianPatience, "Bavarian Patience",
@@ -553,8 +577,7 @@ registerGame(GameInfo(534, Harvestman, "Harvestman",
 registerGame(GameInfo(687, Glacier, "Glacier",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(724, EightPacks, "Eight Packs",
-                      GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 2, GI.SL_MOSTLY_SKILL))
+                      GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 2,
+                      GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(762, FourPacks, "Four Packs",
                       GI.GT_2DECK_TYPE, 2, 1, GI.SL_MOSTLY_SKILL))
-
-

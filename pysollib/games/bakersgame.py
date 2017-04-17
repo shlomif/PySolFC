@@ -24,16 +24,24 @@
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.mfxutil import kwdefault
-from pysollib.stack import *
 from pysollib.game import Game
+from pysollib.util import KING
+from pysollib.stack import \
+        AC_RowStack, \
+        FreeCell_SS_RowStack, \
+        InitialDealTalonStack, \
+        KingSS_RowStack, \
+        OpenStack, \
+        ReserveStack, \
+        SS_FoundationStack, \
+        SS_RowStack, \
+        SuperMoveSS_RowStack, \
+        StackWrapper
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.hint import DefaultHint
 from pysollib.hint import FreeCellType_Hint, FreeCellSolverWrapper
 
 from pysollib.games.freecell import FreeCell
@@ -41,6 +49,7 @@ from pysollib.games.freecell import FreeCell
 # ************************************************************************
 # * Baker's Game
 # ************************************************************************
+
 
 class BakersGame(FreeCell):
     RowStack_Class = SuperMoveSS_RowStack
@@ -72,7 +81,8 @@ class EightOff(KingOnlyBakersGame):
         l, s = Layout(self), self.s
 
         # set window
-        # (piles up to 16 cards are playable without overlap in default window size)
+        # (piles up to 16 cards are playable without
+        # overlap in default window size)
         h = max(2*l.YS, l.YS+(16-1)*l.YOFFSET)
         maxrows = max(rows, reserves)
         self.setSize(l.XM + maxrows*l.XS, l.YM + l.YS + h + l.YS)
@@ -106,7 +116,7 @@ class EightOff(KingOnlyBakersGame):
         self.startDealSample()
         self.s.talon.dealRow()
         r = self.s.reserves
-        self.s.talon.dealRow(rows=[r[0],r[2],r[4],r[6]])
+        self.s.talon.dealRow(rows=[r[0], r[2], r[4], r[6]])
 
 
 # ************************************************************************
@@ -166,7 +176,8 @@ class SeahavenTowers(KingOnlyBakersGame):
 
 class RelaxedSeahavenTowers(SeahavenTowers):
     RowStack_Class = KingSS_RowStack
-    Solver_Class = FreeCellSolverWrapper(sbb='suit', esf='kings', sm='unlimited')
+    Solver_Class = FreeCellSolverWrapper(
+        sbb='suit', esf='kings', sm='unlimited')
 
 
 # ************************************************************************
@@ -188,7 +199,8 @@ class Tuxedo(Game):
         l, s = Layout(self), self.s
 
         # set window
-        # (piles up to 16 cards are playable without overlap in default window size)
+        # (piles up to 16 cards are playable without
+        #  overlap in default window size)
         h = max(3*l.YS, l.YS+(16-1)*l.YOFFSET)
         maxrows = max(rows, reserves)
         self.setSize(l.XM + (maxrows+1)*l.XS, l.YM + h + l.YS)
@@ -228,12 +240,14 @@ class Tuxedo(Game):
 
 class Penguin(Tuxedo):
     GAME_VERSION = 2
-    Solver_Class = FreeCellSolverWrapper(sbb='suit', esf='kings', sm='unlimited')
+    Solver_Class = FreeCellSolverWrapper(
+        sbb='suit', esf='kings', sm='unlimited')
 
     def _shuffleHook(self, cards):
         # move base cards to top of the Talon (i.e. first cards to be dealt)
-        return self._shuffleHookMoveToTop(cards,
-                   lambda c, rank=cards[-1].rank: (c.rank == rank, 0))
+        return self._shuffleHookMoveToTop(
+            cards,
+            lambda c, rank=cards[-1].rank: (c.rank == rank, 0))
 
     def _updateStacks(self):
         for s in self.s.foundations:
@@ -274,7 +288,6 @@ class Opus(Penguin):
         Tuxedo.createGame(self, reserves=5)
 
 
-
 # ************************************************************************
 # * Flipper
 # ************************************************************************
@@ -300,12 +313,11 @@ class Flipper(Tuxedo):
             r = self.s.rows[i]
             if r.cards:
                 if ((s.cards and r.cards[-1].face_up) or
-                    (not s.cards and not r.cards[-1].face_up)):
+                        (not s.cards and not r.cards[-1].face_up)):
                     r.flipMove(animation=True)
             i += 1
 
     shallHighlightMatch = Game._shallHighlightMatch_AC
-
 
 
 # register the game
@@ -317,15 +329,17 @@ registerGame(GameInfo(258, EightOff, "Eight Off",
                       GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(9, SeahavenTowers, "Seahaven Towers",
                       GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_SKILL,
-                      altnames=("Sea Towers", "Towers") ))
+                      altnames=("Sea Towers", "Towers")))
 registerGame(GameInfo(6, RelaxedSeahavenTowers, "Relaxed Seahaven Towers",
-                      GI.GT_FREECELL | GI.GT_RELAXED | GI.GT_OPEN, 1, 0, GI.SL_SKILL))
+                      GI.GT_FREECELL | GI.GT_RELAXED | GI.GT_OPEN, 1, 0,
+                      GI.SL_SKILL))
 registerGame(GameInfo(64, Penguin, "Penguin",
                       GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL,
-                      altnames=("Beak and Flipper",) ))
+                      altnames=("Beak and Flipper",)))
 registerGame(GameInfo(427, Opus, "Opus",
                       GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(629, Tuxedo, "Tuxedo",
                       GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(713, Flipper, "Flipper",
-                      GI.GT_FREECELL | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_FREECELL | GI.GT_ORIGINAL, 1, 0,
+                      GI.SL_MOSTLY_SKILL))

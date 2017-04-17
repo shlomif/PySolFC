@@ -21,24 +21,24 @@
 #
 # ---------------------------------------------------------------------------##
 
-__all__ = []
-
 # imports
-import sys
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.mfxutil import kwdefault
-from pysollib.stack import *
+from pysollib.util import KING
+from pysollib.stack import \
+        BasicRowStack, \
+        InitialDealTalonStack, \
+        SS_FoundationStack, \
+        ReserveStack
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 
 # ************************************************************************
 # * Buffalo Bill
 # * Little Billie
 # ************************************************************************
+
 
 class BuffaloBill(Game):
 
@@ -51,7 +51,8 @@ class BuffaloBill(Game):
         l, s = Layout(self), self.s
 
         # set window
-        w, h = l.XM+max(max(rows)*(l.XS+3*l.XOFFSET), 9*l.XS), l.YM+(len(rows)+2)*l.YS
+        w, h = l.XM+max(
+            max(rows)*(l.XS+3*l.XOFFSET), 9*l.XS), l.YM+(len(rows)+2)*l.YS
         self.setSize(w, h)
 
         # create stacks
@@ -97,8 +98,9 @@ class BuffaloBill(Game):
 
 class LittleBillie(BuffaloBill):
     def createGame(self):
-        #BuffaloBill.createGame(self, rows=(8, 8, 8))
-        BuffaloBill.createGame(self, rows=(6,6,6,6))
+        # BuffaloBill.createGame(self, rows=(8, 8, 8))
+        BuffaloBill.createGame(self, rows=(6, 6, 6, 6))
+
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.reserves, frames=0)
         BuffaloBill.startGame(self)
@@ -109,5 +111,3 @@ registerGame(GameInfo(338, BuffaloBill, "Buffalo Bill",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(421, LittleBillie, "Little Billie",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
-
-

@@ -21,19 +21,26 @@
 #
 # ---------------------------------------------------------------------------##
 
-__all__ = []
-
 # imports
-import sys
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.mfxutil import kwdefault
-from pysollib.stack import *
+from pysollib.util import ACE, NO_RANK, KING, RANKS, UNLIMITED_REDEALS
+from pysollib.stack import \
+        AC_RowStack, \
+        BasicRowStack, \
+        InitialDealTalonStack, \
+        ReserveStack, \
+        SS_FoundationStack, \
+        UD_AC_RowStack, \
+        UD_RK_RowStack, \
+        UD_SS_RowStack, \
+        WasteStack, \
+        WasteTalonStack, \
+        StackWrapper
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.hint import CautiousDefaultHint
 from pysollib.pysoltk import MfxCanvasText
 
 
@@ -91,7 +98,8 @@ class Bisley(Game):
 
     def _shuffleHook(self, cards):
         # move Aces to bottom of the Talon (i.e. last cards to be dealt)
-        return self._shuffleHookMoveToBottom(cards, lambda c: (c.rank == ACE, c.suit))
+        return self._shuffleHookMoveToBottom(
+            cards, lambda c: (c.rank == ACE, c.suit))
 
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
@@ -128,8 +136,10 @@ class DoubleBisley(Bisley):
                 s.foundations.append(SS_FoundationStack(x, y, self,
                                      suit=j*2+i/2, max_move=0))
                 x += l.XS
-                s.foundations.append(SS_FoundationStack(x, y, self,
-                     suit=j*2+i/2, base_rank=KING, max_move=0, dir=-1))
+                s.foundations.append(
+                    SS_FoundationStack(
+                        x, y, self,
+                        suit=j*2+i/2, base_rank=KING, max_move=0, dir=-1))
                 y += l.YS
 
         s.talon = InitialDealTalonStack(l.XM, h-l.YS, self)
@@ -165,7 +175,8 @@ class Gloria(Game):
         for j in range(2):
             for i in range(4):
                 y = l.YM
-                s.foundations.append(SS_FoundationStack(x, y, self, suit=j*2+i/2))
+                s.foundations.append(
+                    SS_FoundationStack(x, y, self, suit=j*2+i/2))
                 y += l.YS
                 s.foundations.append(SS_FoundationStack(x, y, self,
                                      suit=j*2+i/2, base_rank=KING, dir=-1))
@@ -188,7 +199,8 @@ class Gloria(Game):
 
     def _shuffleHook(self, cards):
         # move Kings to bottom of the Talon (i.e. last cards to be dealt)
-        return self._shuffleHookMoveToBottom(cards, lambda c: (c.rank == KING, c.suit))
+        return self._shuffleHookMoveToBottom(
+            cards, lambda c: (c.rank == KING, c.suit))
 
 
 # ************************************************************************
@@ -275,7 +287,6 @@ class HospitalPatience(Game):
     def startGame(self, flip=0, reverse=1):
         self.startDealSample()
         self.s.talon.dealCards()      # deal first card to WasteStack
-
 
 
 # ************************************************************************
@@ -398,7 +409,6 @@ class Cringle(Game):
         # define stack-groups
         l.defaultStackGroups()
 
-
     def startGame(self):
         for i in range(4):
             self.s.talon.dealRow(frames=0)
@@ -409,24 +419,24 @@ class Cringle(Game):
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
-
-
-
 # register the game
 registerGame(GameInfo(290, Bisley, "Bisley",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(372, DoubleBisley, "Double Bisley",
-                      GI.GT_2DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_2DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL,
+                      2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(373, Gloria, "Gloria",
-                      GI.GT_2DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_2DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL,
+                      2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(374, Realm, "Realm",
-                      GI.GT_1DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_1DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL,
+                      1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(375, Mancunian, "Mancunian",
-                      GI.GT_1DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_1DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL,
+                      1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(686, HospitalPatience, "Hospital Patience",
                       GI.GT_1DECK_TYPE, 1, -1, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(692, BoardPatience, "Board Patience",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(747, Cringle, "Cringle",
                       GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 0, GI.SL_BALANCED))
-

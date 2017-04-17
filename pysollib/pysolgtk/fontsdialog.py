@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 #
 # Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
 # Copyright (C) 2003 Mt. Hood Playing Card Co.
@@ -19,18 +19,19 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 
 __all__ = ['FontsDialog']
 
 # imports
-## import os, sys
-## import types
-import gtk, gobject, pango
+#  import os, sys
+#  import types
+import gtk
+import pango
 import gtk.glade
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from tkutil import create_pango_font_desc
 
 
@@ -81,7 +82,6 @@ class FontsDialog:
 
         dialog.destroy()
 
-
     def _setFont(self, name, font):
         label = self.widgets_tree.get_widget(name+'_label')
         font_desc = create_pango_font_desc(font)
@@ -89,7 +89,6 @@ class FontsDialog:
         text = ' '.join([str(i) for i in font if i not in ('roman', 'normal')])
         label.set_text(text)
         label.set_data('user_data', font)
-
 
     def _changeFont(self, w, name):
         label = self.widgets_tree.get_widget(name+'_label')
@@ -123,7 +122,6 @@ class FontsDialog:
 
         dialog.destroy()
 
-
     def _translateLabels(self):
         for n in (
             'label54',
@@ -140,10 +138,6 @@ class FontsDialog:
             'label73',
             'label74',
             'label75',
-            ):
+                ):
             w = self.widgets_tree.get_widget(n)
             w.set_text(_(w.get_text()))
-
-
-
-

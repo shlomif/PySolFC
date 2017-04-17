@@ -27,16 +27,17 @@ __all__ = ['create_find_card_dialog',
            ]
 
 # imports
-## import os
-## import Tkinter
-## import traceback
+#  import os
+#  import Tkinter
+#  import traceback
 
-## # PySol imports
+#  # PySol imports
 
-## # Toolkit imports
-## from tkutil import after, after_cancel
-## from tkutil import bind, unbind_destroy, makeImage
-## from tkcanvas import MfxCanvas, MfxCanvasGroup, MfxCanvasImage, MfxCanvasRectangle
+#  # Toolkit imports
+#  from tkutil import after, after_cancel
+#  from tkutil import bind, unbind_destroy, makeImage
+#  from tkcanvas import MfxCanvas, MfxCanvasGroup, MfxCanvasImage, \
+#           MfxCanvasRectangle
 
 
 # ************************************************************************
@@ -45,13 +46,14 @@ __all__ = ['create_find_card_dialog',
 
 find_card_dialog = None
 
+
 def create_find_card_dialog(parent, game, dir):
     pass
+
 
 def connect_game_find_card_dialog(game):
     pass
 
+
 def destroy_find_card_dialog():
     pass
-
-

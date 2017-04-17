@@ -26,18 +26,25 @@ __all__ = []
 # imports
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.hint import CautiousDefaultHint
 
+
+# from pysollib.util import
+
+from pysollib.stack import \
+        OpenStack, \
+        SS_FoundationStack, \
+        Stack, \
+        WasteTalonStack
 
 # ************************************************************************
 # *
 # ************************************************************************
+
 
 class LarasGame_Hint(CautiousDefaultHint):
     pass
@@ -82,7 +89,8 @@ class LarasGame_Talon(WasteTalonStack):
             # If card rank == card location then add one card to talon
             # If card rank == ACE then add two cards to talon
             # If card rank == JACK, or higher then add one card to talon
-            # After all the rows have been dealt, deal cards to talon in self.dealRow
+            # After all the rows have been dealt, deal cards to talon
+            #     in self.dealRow
             rank = r.getCard().rank
             if rank == i:       # Is the rank == position?
                 if not self.cards:
@@ -106,7 +114,8 @@ class LarasGame_Talon(WasteTalonStack):
             self.game.startDealSample()
         for r in game.s.reserves[:20]:
             while r.cards:
-                game.moveMove(1, r, game.s.rows[game.active_row], frames=3, shadow=0)
+                game.moveMove(
+                    1, r, game.s.rows[game.active_row], frames=3, shadow=0)
         if self.cards:
             game.active_row = self.getActiveRow()
             game.flipMove(self)
@@ -118,15 +127,17 @@ class LarasGame_Talon(WasteTalonStack):
                 # to have up to 28 cards on a row stack.
                 # We'll have to double up on some of the reserves.
                 for i in range(ncards - 19):
-                    game.moveMove(1, game.s.rows[game.active_row],
-                                        game.s.reserves[19 - i], frames=4, shadow=0)
+                    game.moveMove(
+                        1, game.s.rows[game.active_row],
+                        game.s.reserves[19 - i], frames=4, shadow=0)
                     ncards = len(game.s.rows[game.active_row].cards)
                 assert ncards <= 19
             for i in range(ncards):
-                game.moveMove(1, game.s.rows[game.active_row],
-                                game.s.reserves[ncards - i], frames=4, shadow=0)
+                game.moveMove(
+                    1, game.s.rows[game.active_row],
+                    game.s.reserves[ncards - i], frames=4, shadow=0)
             num_cards = len(self.cards) or self.canDealCards()
-        else: # not self.cards
+        else:  # not self.cards
             if self.round < self.max_rounds:
                 ncards = 0
                 rows = list(game.s.rows)[:game.MAX_ROW]
@@ -149,7 +160,8 @@ class LarasGame_Talon(WasteTalonStack):
     def canDealCards(self):
         if self.game.demo and self.game.moves.index >= 400:
             return False
-        return (self.cards or (self.round < self.max_rounds and not self.game.isGameWon()))
+        return (self.cards or
+                (self.round < self.max_rounds and not self.game.isGameWon()))
 
     def updateText(self):
         if self.game.preview > 1:
@@ -165,7 +177,7 @@ class LarasGame_Talon(WasteTalonStack):
 
 
 class LarasGame_RowStack(OpenStack):
-    def __init__(self, x, y, game, yoffset = 1, **cap):
+    def __init__(self, x, y, game, yoffset=1, **cap):
         OpenStack.__init__(self, x, y, game, **cap)
         self.CARD_YOFFSET = yoffset
 
@@ -208,7 +220,8 @@ class LarasGame(Game):
         ROW_LENGTH = self.ROW_LENGTH
 
         # set window
-        w, h = l.XM + l.XS * (ROW_LENGTH + 5), l.YM + l.YS * (ROW_LENGTH + (ROW_LENGTH != 6))
+        w, h = l.XM + l.XS * (ROW_LENGTH + 5), \
+            l.YM + l.YS * (ROW_LENGTH + (ROW_LENGTH != 6))
         self.setSize(w, h)
 
         # extra settings
@@ -218,9 +231,11 @@ class LarasGame(Game):
         x, y = l.XM, l.YM
         for j in range(2):
             for i in range(ROW_LENGTH):
-                s.foundations.append(SS_FoundationStack(x, y, self, self.Base_Suit(i, j),
-                                    max_cards = self.Max_Cards(i), mod = self.Mod(i),
-                                    dir = self.DIR[j], base_rank = self.Base_Rank(i, j)))
+                s.foundations.append(
+                    SS_FoundationStack(
+                        x, y, self, self.Base_Suit(i, j),
+                        max_cards=self.Max_Cards(i), mod=self.Mod(i),
+                        dir=self.DIR[j], base_rank=self.Base_Rank(i, j)))
                 y = y + l.YS * (not j)
                 x = x + l.XS * j
             x, y = x + l.XS * 2, l.YM
@@ -230,15 +245,18 @@ class LarasGame(Game):
         for i in range(self.MAX_ROW):
             s.rows.append(LarasGame_RowStack(x, y, self))
             x = x + l.XS
-            if i == ROW_LENGTH or i == ROW_LENGTH * 2 + 1 or i == ROW_LENGTH * 3 + 2:
+            if i == ROW_LENGTH or i == ROW_LENGTH * 2 + 1 \
+                    or i == ROW_LENGTH * 3 + 2:
                 x, y = l.XM + l.XS, y + l.YS
 
         # Create reserves
-        x, y = l.XM + l.XS * (ROW_LENGTH == 6), l.YM + l.YS * (ROW_LENGTH - (ROW_LENGTH == 6))
+        x, y = l.XM + l.XS * (ROW_LENGTH == 6), \
+            l.YM + l.YS * (ROW_LENGTH - (ROW_LENGTH == 6))
         for i in range(20):
             s.reserves.append(LarasGame_ReserveStack(x, y, self, max_cards=2))
-            x = x + l.XS * (i < (ROW_LENGTH + 4)) - l.XS * (i == (ROW_LENGTH + 9))
-            y = y - l.YS * (i > (ROW_LENGTH + 3) and i < (ROW_LENGTH + 9)) + l.YS * (i > (ROW_LENGTH + 9))
+            x += l.XS * (i < (ROW_LENGTH + 4)) - l.XS * (i == (ROW_LENGTH + 9))
+            y = y - l.YS * (i > (ROW_LENGTH + 3) and i < (ROW_LENGTH + 9)) \
+                + l.YS * (i > (ROW_LENGTH + 9))
 
         # Create talon
         x, y = l.XM + l.XS * (ROW_LENGTH + 2), h - l.YM - l.YS * 3
@@ -255,10 +273,12 @@ class LarasGame(Game):
         self.sg.dropstacks = s.rows[:self.MAX_ROW] + s.reserves
 
         # Create relaxed reserve
-        if self.Reserve_Class != None:
+        if self.Reserve_Class is not None:
             x, y = l.XM + l.XS * (ROW_LENGTH + 2), l.YM + l.YS * .5
-            s.reserves.append(self.Reserve_Class(x, y, self,
-                            max_accept=1, max_cards=self.Reserve_Cards))
+            s.reserves.append(
+                self.Reserve_Class(
+                    x, y, self,
+                    max_accept=1, max_cards=self.Reserve_Cards))
         self.sg.openstacks = self.sg.openstacks + s.reserves[19:]
         self.sg.dropstacks = self.sg.dropstacks + s.reserves[19:]
         self.setRegion(s.reserves[19:], (x - l.XM / 2, 0, 99999, 99999))
@@ -298,22 +318,29 @@ class LarasGame(Game):
             if i == 4 or len(self.s.talon.cards) <= ncards / 2:
                 self.startDealSample()
                 frames = 4
-            self.s.talon.dealRow(rows=self.s.rows[:self.Deal_Rows(i)], frames=frames)
-        self.moveMove(len(self.s.rows[-1].cards), self.s.rows[-1], self.s.talon, frames=0)
+            self.s.talon.dealRow(
+                rows=self.s.rows[:self.Deal_Rows(i)], frames=frames)
+        self.moveMove(
+            len(self.s.rows[-1].cards), self.s.rows[-1], self.s.talon,
+            frames=0)
         self.active_row = None
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         i, j = (stack1 in self.s.foundations), (stack2 in self.s.foundations)
-        if not (i or j): return 0
-        if i: stack = stack1
-        else: stack = stack2
+        if not (i or j):
+            return 0
+        if i:
+            stack = stack1
+        else:
+            stack = stack2
         i = 0
         for f in self.s.foundations:
-            if f == stack: break
+            if f == stack:
+                break
             i = i + 1 % self.ROW_LENGTH
         return (card1.suit == card2.suit and
                 ((card1.rank + 1) % self.Mod(i) == card2.rank
-                or (card1.rank - 1) % self.Mod(i) == card2.rank))
+                 or (card1.rank - 1) % self.Mod(i) == card2.rank))
 
     def getHighlightPilesStacks(self):
         return ()
@@ -329,8 +356,8 @@ class LarasGame(Game):
         self.hints.list = None
         # resize (i.e. possibly shorten list from previous undos)
         if not moves.index == 0:
-            m = moves.history[len(moves.history) - 1]
-        del moves.history[moves.index : ]
+            moves.history[len(moves.history) - 1]
+        del moves.history[moves.index:]
         # update stats
         if self.demo:
             stats.demo_moves = stats.demo_moves + 1
@@ -407,7 +434,6 @@ class LarasGame(Game):
         p.dump(self.active_row)
 
 
-
 # ************************************************************************
 # * Relaxed Lara's Game
 # ************************************************************************
@@ -426,6 +452,7 @@ class RelaxedLarasGame(LarasGame):
 class DoubleLarasGame(RelaxedLarasGame):
     Reserve_Cards = 2
     MAX_ROUNDS = 3
+
     def Max_Cards(self, i):
         return 26
 
@@ -434,10 +461,8 @@ class DoubleLarasGame(RelaxedLarasGame):
 
 registerGame(GameInfo(37, LarasGame, "Lara's Game",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED,
-                      altnames=("Thirteen Packs",) ))
+                      altnames=("Thirteen Packs",)))
 registerGame(GameInfo(13006, RelaxedLarasGame, "Lara's Game Relaxed",
                       GI.GT_2DECK_TYPE, 2, 1, GI.SL_BALANCED))
 registerGame(GameInfo(13007, DoubleLarasGame, "Lara's Game Doubled",
                       GI.GT_2DECK_TYPE, 4, 2, GI.SL_BALANCED))
-
-

@@ -24,21 +24,23 @@
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
-from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.mfxutil import kwdefault
-from pysollib.stack import *
+# from pysollib.gamedb import registerGame, GameInfo
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 
+# from pysollib.util import
+
+from pysollib.stack import \
+        BasicRowStack, \
+        DealRowTalonStack, \
+        SS_FoundationStack
 
 # ************************************************************************
 # * Labyrinth
 # ************************************************************************
+
 
 class Labyrinth_Talon(DealRowTalonStack):
     def dealCards(self, sound=False):
@@ -49,6 +51,7 @@ class Labyrinth_Talon(DealRowTalonStack):
                     top_stacks.append(r)
                     break
         return self.dealRowAvail(rows=top_stacks, sound=sound)
+
 
 class Labyrinth_RowStack(BasicRowStack):
 
@@ -65,7 +68,6 @@ class Labyrinth_RowStack(BasicRowStack):
         if r in self.game.s.rows and r.cards:
             return True
         return False
-
 
 
 class Labyrinth(Game):
@@ -110,15 +112,15 @@ class Labyrinth(Game):
         self.s.talon.dealRow(rows=self.s.foundations)
         self.s.talon.dealRow(rows=self.s.rows[:8])
 
-
     def _shuffleHook(self, cards):
-        return self._shuffleHookMoveToTop(cards, lambda c: (c.rank == 0, c.suit))
+        return self._shuffleHookMoveToTop(
+            cards, lambda c: (c.rank == 0, c.suit))
 
     def fillStack(self, stack):
         if stack in self.s.rows[:8] and not stack.cards:
             rows = self.s.rows
             to_stack = stack
-            #if not self.demo:
+            # if not self.demo:
             #    self.startDealSample()
             old_state = self.enterState(self.S_FILL)
             for r in rows[list(rows).index(stack)+8::8]:
@@ -130,12 +132,11 @@ class Labyrinth(Game):
             if not stack.cards and self.s.talon.cards:
                 self.s.talon.dealRow(rows=[stack])
             self.leaveState(old_state)
-            #if not self.demo:
+            # if not self.demo:
             #    self.stopSamples()
 
 
 # register the game
 
-#registerGame(GameInfo(400, Labyrinth, "Labyrinth",
+# registerGame(GameInfo(400, Labyrinth, "Labyrinth",
 #                      GI.GT_1DECK_TYPE, 1, 0))
-

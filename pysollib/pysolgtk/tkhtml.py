@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 #
 # Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
 # Copyright (C) 2003 Mt. Hood Playing Card Co.
@@ -19,18 +19,29 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 
 __all__ = ['HTMLViewer']
 
 # imports
-import os, sys, re, types
-import htmllib, formatter
+import os
+import sys
+import htmllib
+import formatter
 import traceback
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 
-import gtk, pango, gobject
+import gtk
+import pango
+import gobject
 from gtk import gdk
+
+# PySol imports
+from pysollib.mfxutil import Struct, openURL
+from pysollib.settings import TITLE
+
+# Toolkit imports
+from tkwidget import MfxMessageDialog
 
 if __name__ == '__main__':
     d = os.path.abspath(os.path.join(sys.path[0], '..', '..'))
@@ -38,14 +49,8 @@ if __name__ == '__main__':
     import gettext
     gettext.install('pysol', d, unicode=True)
 
-# PySol imports
-from pysollib.mfxutil import Struct, openURL
-from pysollib.settings import TITLE
-
-# Toolkit imports
-from tkutil import bind, unbind_destroy, loadImage
-from tkwidget import MfxMessageDialog
-
+if sys.version_info > (3,):
+    unicode = str
 
 REMOTE_PROTOCOLS = ('ftp:', 'gopher:', 'http:', 'mailto:', 'news:', 'telnet:')
 
@@ -68,14 +73,13 @@ class tkHTMLWriter(formatter.NullWriter):
         self.font_mark = None
         self.indent = ''
 
-
     def write(self, data):
         data = unicode(data)
         self.text.insert(self.text.get_end_iter(), data, len(data))
 
     def anchor_bgn(self, href, name, type):
         if href:
-            ##self.text.update_idletasks()   # update display during parsing
+            # self.text.update_idletasks()   # update display during parsing
             self.anchor = (href, name, type)
             self.anchor_mark = self.text.get_end_iter().get_offset()
 
@@ -95,7 +99,7 @@ class tkHTMLWriter(formatter.NullWriter):
                 tag.set_property('foreground', '#660099')
             start = self.text.get_iter_at_offset(self.anchor_mark)
             end = self.text.get_end_iter()
-            ##print 'apply_tag href >>', start.get_offset(), end.get_offset()
+            # print 'apply_tag href >>', start.get_offset(), end.get_offset()
             self.text.apply_tag(tag, start, end)
 
             self.anchor = None
@@ -103,15 +107,15 @@ class tkHTMLWriter(formatter.NullWriter):
     def new_font(self, font):
         # end the current font
         if self.font:
-            ##print 'end_font(%s)' % `self.font`
+            # print 'end_font(%s)' % `self.font`
             start = self.text.get_iter_at_offset(self.font_mark)
             end = self.text.get_end_iter()
-            ##print 'apply_tag font >>', start.get_offset(), end.get_offset()
+            # print 'apply_tag font >>', start.get_offset(), end.get_offset()
             self.text.apply_tag_by_name(self.font, start, end)
             self.font = None
         # start the new font
         if font:
-            ##print 'start_font(%s)' % `font`
+            # print 'start_font(%s)' % `font`
             self.font_mark = self.text.get_end_iter().get_offset()
             if font[0] in self.viewer.fontmap:
                 self.font = font[0]
@@ -128,14 +132,14 @@ class tkHTMLWriter(formatter.NullWriter):
         self.indent = '    ' * level
 
     def send_label_data(self, data):
-        ##self.write(self.indent + data + ' ')
+        # self.write(self.indent + data + ' ')
         self.write(self.indent)
-        if data == '*': # <li>
+        if data == '*':  # <li>
             img = self.viewer.symbols_img.get('disk')
             if img:
                 self.text.insert_pixbuf(self.text.get_end_iter(), img)
             else:
-                self.write('*') ##unichr(0x2022)
+                self.write('*')  # unichr(0x2022)
         else:
             self.write(data)
         self.write(' ')
@@ -147,7 +151,7 @@ class tkHTMLWriter(formatter.NullWriter):
         self.write('\n')
 
     def send_hor_rule(self, *args):
-        ##~ width = int(int(self.text['width']) * 0.9)
+        # ~ width = int(int(self.text['width']) * 0.9)
         width = 70
         self.write('_' * width)
         self.write('\n')
@@ -179,7 +183,8 @@ class tkHTMLParser(htmllib.HTMLParser):
         self.ddpop()
 
     def handle_image(self, src, alt, ismap, align, width, height):
-        self.formatter.writer.viewer.showImage(src, alt, ismap, align, width, height)
+        self.formatter.writer.viewer.showImage(
+            src, alt, ismap, align, width, height)
 
 
 # ************************************************************************
@@ -196,17 +201,17 @@ class HTMLViewer:
         self.home = home
         self.url = None
         self.history = Struct(
-            list = [],
-            index = 0,
+            list=[],
+            index=0,
         )
         self.visited_urls = []
         self.images = {}
         self.anchor_tags = {}
 
         # create buttons
-        button_width = 8
         vbox = gtk.VBox()
-        parent.table.attach(vbox,
+        parent.table.attach(
+            vbox,
             0, 1,                   0, 1,
             gtk.EXPAND | gtk.FILL,  gtk.EXPAND | gtk.FILL | gtk.SHRINK,
             0,                      0)
@@ -217,7 +222,8 @@ class HTMLViewer:
             ('homeButton',    _('Index'),   self.goHome),
             ('backButton',    _('Back'),    self.goBack),
             ('forwardButton', _('Forward'), self.goForward),
-            ('closeButton',   _('Close'),   self.destroy) ):
+            ('closeButton',   _('Close'),   self.destroy)
+                ):
             button = gtk.Button(label)
             button.show()
             button.connect('clicked', callback)
@@ -268,14 +274,13 @@ class HTMLViewer:
         # cursor
         self.defcursor = gdk.XTERM
         self.handcursor = gdk.HAND2
-        ##self.textview.realize()
-        ##window = self.textview.get_window(gtk.TEXT_WINDOW_TEXT)
-        ##window.set_cursor(gdk.Cursor(self.defcursor))
+        # self.textview.realize()
+        # window = self.textview.get_window(gtk.TEXT_WINDOW_TEXT)
+        # window.set_cursor(gdk.Cursor(self.defcursor))
 
         parent.set_default_size(600, 440)
         parent.show_all()
         gobject.idle_add(gtk.main)
-
 
     def motion_notify_event(self, widget, event):
         x, y, _ = widget.window.get_pointer()
@@ -288,16 +293,16 @@ class HTMLViewer:
                 break
         if is_over_anchor:
             if not self._changed_cursor:
-                ##print 'set cursor hand'
+                # print 'set cursor hand'
                 window = widget.get_window(gtk.TEXT_WINDOW_TEXT)
                 window.set_cursor(gdk.Cursor(self.handcursor))
                 self._changed_cursor = True
             self.statusbar.pop(0)
-            href = url = self.normurl(href)
+            href = self.normurl(href)
             self.statusbar.push(0, href)
         else:
             if self._changed_cursor:
-                ##print 'set cursor xterm'
+                # print 'set cursor xterm'
                 window = widget.get_window(gtk.TEXT_WINDOW_TEXT)
                 window.set_cursor(gdk.Cursor(self.defcursor))
                 self._changed_cursor = False
@@ -306,14 +311,14 @@ class HTMLViewer:
 
     def leave_event(self, widget, event):
         if self._changed_cursor:
-            ##print 'set cursor xterm'
+            # print 'set cursor xterm'
             window = widget.get_window(gtk.TEXT_WINDOW_TEXT)
             window.set_cursor(gdk.Cursor(self.defcursor))
             self._changed_cursor = False
         self.statusbar.pop(0)
 
     def anchor_event(self, tag, textview, event, iter, href):
-        #print 'anchor_event:', args
+        # print 'anchor_event:', args
         if event.type == gdk.BUTTON_PRESS and event.button == 1:
             self.updateHistoryXYView()
             self.display(href)
@@ -324,9 +329,8 @@ class HTMLViewer:
         if gdk.keyval_name(e.keyval) == 'Escape':
             self.destroy()
 
-
     def createFontMap(self):
-        try: ## if app
+        try:  # if app
             default_font = self.app.getFont('sans')
             fixed_font = self.app.getFont('fixed')
         except:
@@ -335,15 +339,16 @@ class HTMLViewer:
             fixed_font = ('courier', 12)
         size = default_font[1]
         sign = 1
-        if size < 0: sign = -1
+        if size < 0:
+            sign = -1
         self.fontmap = {
-            'h1'      : (default_font[0], size + 12*sign, 'bold'),
-            'h2'      : (default_font[0], size +  8*sign, 'bold'),
-            'h3'      : (default_font[0], size +  6*sign, 'bold'),
-            'h4'      : (default_font[0], size +  4*sign, 'bold'),
-            'h5'      : (default_font[0], size +  2*sign, 'bold'),
-            'h6'      : (default_font[0], size +  1*sign, 'bold'),
-            'bold'    : (default_font[0], size,           'bold'),
+            'h1': (default_font[0], size + 12*sign, 'bold'),
+            'h2': (default_font[0], size + 8*sign, 'bold'),
+            'h3': (default_font[0], size + 6*sign, 'bold'),
+            'h4': (default_font[0], size + 4*sign, 'bold'),
+            'h5': (default_font[0], size + 2*sign, 'bold'),
+            'h6': (default_font[0], size + 1*sign, 'bold'),
+            'bold': (default_font[0], size,           'bold'),
         }
 
         for tag_name in self.fontmap.keys():
@@ -417,13 +422,13 @@ class HTMLViewer:
         url = os.path.normpath(url)
         return open(url, 'rb'), url
 
-    def display(self, url, add=1, relpath=1, position=(0,0)):
-        ##print 'display:', url, position
+    def display(self, url, add=1, relpath=1, position=(0, 0)):
+        # print 'display:', url, position
         # for some reason we have to stop the PySol demo
         # (is this a multithread problem with Tkinter ?)
         try:
-            ##self.app.game.stopDemo()
-            ##self.app.game._cancelDrag()
+            # self.app.game.stopDemo()
+            # self.app.game._cancelDrag()
             pass
         except:
             pass
@@ -456,12 +461,15 @@ to open the following URL:
             data = file.read()
             file.close()
             file = None
-        except Exception, ex:
-            if file: file.close()
-            self.errorDialog(_('Unable to service request:\n') + url + '\n\n' + str(ex))
+        except Exception as ex:
+            if file:
+                file.close()
+            self.errorDialog(
+                _('Unable to service request:\n') + url + '\n\n' + str(ex))
             return
         except:
-            if file: file.close()
+            if file:
+                file.close()
             self.errorDialog(_('Unable to service request:\n') + url)
             return
 
@@ -471,7 +479,7 @@ to open the following URL:
         if add:
             self.addHistory(self.url, position=position)
 
-        ##print self.history.index, self.history.list
+        # print self.history.index, self.history.list
         if self.history.index > 1:
             self.backButton.set_sensitive(True)
         else:
@@ -494,8 +502,7 @@ to open the following URL:
 
         self.parent.set_title(parser.title)
 
-
-    def addHistory(self, url, position=(0,0)):
+    def addHistory(self, url, position=(0, 0)):
         if url not in self.visited_urls:
             self.visited_urls.append(url)
         if self.history.index > 0:
@@ -503,7 +510,7 @@ to open the following URL:
             if u == url:
                 self.updateHistoryXYView()
                 return
-        del self.history.list[self.history.index : ]
+        del self.history.list[self.history.index:]
         self.history.list.append((url, position))
         self.history.index = self.history.index + 1
 
@@ -533,9 +540,10 @@ to open the following URL:
             self.display(self.home, relpath=0)
 
     def errorDialog(self, msg):
-        d = MfxMessageDialog(self.parent, title=TITLE+' HTML Problem',
-                             text=msg, bitmap='warning',
-                             strings=(_('&OK'),), default=0)
+        MfxMessageDialog(
+            self.parent, title=TITLE+' HTML Problem',
+            text=msg, bitmap='warning',
+            strings=(_('&OK'),), default=0)
 
     def getImage(self, fn):
         if fn in self.images:
@@ -553,7 +561,6 @@ to open the following URL:
         if img:
             iter = self.textbuffer.get_end_iter()
             self.textbuffer.insert_pixbuf(iter, img)
-
 
 
 # ************************************************************************
@@ -578,7 +585,6 @@ def tkhtml_main(args):
     gtk.main()
     return 0
 
+
 if __name__ == '__main__':
     sys.exit(tkhtml_main(sys.argv))
-
-

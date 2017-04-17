@@ -24,28 +24,38 @@
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.hint import CautiousDefaultHint
 from pysollib.pysoltk import MfxCanvasText
 
 from canfield import Canfield_Hint
 
+from pysollib.util import ANY_RANK, RANKS
+
+from pysollib.stack import \
+        AC_RowStack, \
+        AbstractFoundationStack, \
+        OpenStack, \
+        RedealTalonStack, \
+        SS_RowStack, \
+        WasteStack, \
+        WasteTalonStack
+
 # ************************************************************************
 # * Glenwood
 # ************************************************************************
+
 
 class Glenwood_Talon(WasteTalonStack):
     def canDealCards(self):
         if self.game.base_rank is None:
             return False
         return WasteTalonStack.canDealCards(self)
+
 
 class Glenwood_Foundation(AbstractFoundationStack):
     def acceptsCards(self, from_stack, cards):
@@ -56,7 +66,9 @@ class Glenwood_Foundation(AbstractFoundationStack):
         if not self.cards:
             return cards[-1].rank == self.game.base_rank
         # check the rank
-        return (self.cards[-1].rank + self.cap.dir) % self.cap.mod == cards[0].rank
+        return (self.cards[-1].rank + self.cap.dir) % \
+            self.cap.mod == cards[0].rank
+
 
 class Glenwood_RowStack(AC_RowStack):
     def canMoveCards(self, cards):
@@ -76,7 +88,8 @@ class Glenwood_RowStack(AC_RowStack):
                 if stack.cards:
                     return False
             return True
-        if from_stack in self.game.s.rows and len(cards) != len(from_stack.cards):
+        if from_stack in self.game.s.rows and \
+                len(cards) != len(from_stack.cards):
             return False
         return True
 
@@ -86,9 +99,9 @@ class Glenwood_ReserveStack(OpenStack):
         OpenStack.moveMove(self, ncards, to_stack, frames, shadow)
         if self.game.base_rank is None and to_stack in self.game.s.foundations:
             old_state = self.game.enterState(self.game.S_FILL)
-            self.game.saveStateMove(2|16)            # for undo
+            self.game.saveStateMove(2 | 16)            # for undo
             self.game.base_rank = to_stack.cards[-1].rank
-            self.game.saveStateMove(1|16)            # for redo
+            self.game.saveStateMove(1 | 16)            # for redo
             self.game.leaveState(old_state)
 
 
@@ -233,9 +246,9 @@ class DoubleFives_RowStack(SS_RowStack):
         SS_RowStack.moveMove(self, ncards, to_stack, frames, shadow)
         if self.game.base_rank is None and to_stack in self.game.s.foundations:
             old_state = self.game.enterState(self.game.S_FILL)
-            self.game.saveStateMove(2|16)            # for undo
+            self.game.saveStateMove(2 | 16)            # for undo
             self.game.base_rank = to_stack.cards[-1].rank
-            self.game.saveStateMove(1|16)            # for redo
+            self.game.saveStateMove(1 | 16)            # for redo
             self.game.leaveState(old_state)
 
 
@@ -250,6 +263,7 @@ class DoubleFives_WasteStack(WasteStack):
 class DoubleFives_Stock(WasteStack):
     def canFlipCard(self):
         return False
+
     def updateText(self):
         if self.cards:
             WasteStack.updateText(self)
@@ -330,11 +344,9 @@ class DoubleFives(Glenwood):
     shallHighlightMatch = Game._shallHighlightMatch_SSW
 
 
-
 # register the game
 registerGame(GameInfo(282, Glenwood, "Dutchess",
                       GI.GT_CANFIELD, 1, 1, GI.SL_BALANCED,
-                      altnames=("Duchess", "Glenwood",) ))
+                      altnames=("Duchess", "Glenwood",)))
 registerGame(GameInfo(587, DoubleFives, "Double Fives",
                       GI.GT_2DECK_TYPE, 2, 1, GI.SL_BALANCED))
-

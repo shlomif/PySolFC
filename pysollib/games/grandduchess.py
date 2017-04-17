@@ -24,21 +24,24 @@
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.mfxutil import kwdefault
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 
+from pysollib.util import ACE, KING
+
+from pysollib.stack import \
+        ArbitraryStack, \
+        BasicRowStack, \
+        RedealTalonStack, \
+        SS_FoundationStack
 
 # ************************************************************************
 # * Grand Duchess
 # ************************************************************************
+
 
 class GrandDuchess_Talon(RedealTalonStack):
 
@@ -117,7 +120,6 @@ class GrandDuchess(Game):
         # define stack-groups
         l.defaultStackGroups()
 
-
     #
     # game overrides
     #
@@ -131,7 +133,6 @@ class GrandDuchess(Game):
     def redealCards(self):
         pass
 
-
     def getAutoStacks(self, event=None):
         return ((), (), self.sg.dropstacks)
 
@@ -144,8 +145,10 @@ class Parisienne(GrandDuchess):
     def _shuffleHook(self, cards):
         # move one Ace and one King of each suit to top of the Talon
         # (i.e. first cards to be dealt)
-        return self._shuffleHookMoveToTop(cards,
-            lambda c: (c.rank in (ACE, KING) and c.deck == 0, (c.rank, c.suit)))
+        return self._shuffleHookMoveToTop(
+            cards,
+            lambda c: (c.rank in (ACE, KING) and c.deck == 0,
+                       (c.rank, c.suit)))
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
@@ -157,13 +160,11 @@ class GrandDuchessPlus(GrandDuchess):
         GrandDuchess.createGame(self, rows=6)
 
 
-
 registerGame(GameInfo(557, GrandDuchess, "Grand Duchess",
                       GI.GT_2DECK_TYPE, 2, 3))
 registerGame(GameInfo(617, Parisienne, "Parisienne",
                       GI.GT_2DECK_TYPE, 2, 3,
                       rules_filename='grandduchess.html',
-                      altnames=('La Parisienne', 'Parisian') ))
+                      altnames=('La Parisienne', 'Parisian')))
 registerGame(GameInfo(618, GrandDuchessPlus, "Grand Duchess +",
                       GI.GT_2DECK_TYPE, 2, 3))
-

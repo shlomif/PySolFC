@@ -24,19 +24,32 @@
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.hint import DefaultHint, CautiousDefaultHint
 
 # ************************************************************************
 # *
 # ************************************************************************
+
+from pysollib.util import ACE, ANY_SUIT, JACK, KING, QUEEN
+
+from pysollib.stack import \
+        AC_FoundationStack, \
+        BasicRowStack, \
+        DealRowTalonStack, \
+        InitialDealTalonStack, \
+        InvisibleStack, \
+        RK_RowStack, \
+        SC_RowStack, \
+        SS_FoundationStack, \
+        SS_RowStack, \
+        WasteStack, \
+        WasteTalonStack
+
 
 class GrandfathersClock_Hint(CautiousDefaultHint):
     # FIXME: demo is not too clever in this game
@@ -70,24 +83,26 @@ class GrandfathersClock(Game):
         for i in range(2):
             x, y = l.XM, l.YM + i*dh
             for j in range(4):
-                s.rows.append(RK_RowStack(x, y, self, max_move=1, max_accept=1))
+                s.rows.append(
+                    RK_RowStack(x, y, self, max_move=1, max_accept=1))
                 x = x + l.XS
         y = l.YM + dh - l.CH / 2
         self.setRegion(s.rows[:4], (-999, -999, x - l.XM / 2, y))
         self.setRegion(s.rows[4:], (-999,    y, x - l.XM / 2, 999999))
-        d = [ (0,0), (1,0.15), (2,0.5), (2.5,1.5), (2,2.5), (1,2.85) ]
+        d = [(0, 0), (1, 0.15), (2, 0.5), (2.5, 1.5), (2, 2.5), (1, 2.85)]
         for i in range(len(d)):
-            d.append( (0 - d[i][0], 3 - d[i][1]) )
+            d.append((0 - d[i][0], 3 - d[i][1]))
         x0, y0 = l.XM, l.YM + dh - l.CH
         for i in range(12):
             j = (i + 5) % 12
-            x = int(round(x0 + ( 6.5+d[j][0]) * l.XS))
+            x = int(round(x0 + (6.5+d[j][0]) * l.XS))
             y = int(round(y0 + (-1.5+d[j][1]) * l.YS))
-            suit = (1, 2, 0, 3) [i % 4]
+            suit = (1, 2, 0, 3)[i % 4]
             s.foundations.append(SS_FoundationStack(x, y, self, suit,
                                                     base_rank=i+1, mod=13,
                                                     max_move=0))
-        s.talon = InitialDealTalonStack(self.width-l.XS, self.height-l.YS, self)
+        s.talon = InitialDealTalonStack(
+            self.width-l.XS, self.height-l.YS, self)
 
         # define stack-groups
         self.sg.openstacks = s.foundations + s.rows
@@ -107,7 +122,7 @@ class GrandfathersClock(Game):
                 clocks.append(c)
                 cards.remove(c)
         # sort clocks reverse by rank
-        clocks.sort(lambda a, b: cmp(b.rank, a.rank))
+        clocks.sort(key=lambda x: x.rank)
         return clocks + cards
 
     def startGame(self):
@@ -155,8 +170,10 @@ class Dial(Game):
                        ):
             x = int(x0 + xx*l.XS)
             y = int(y0 + yy*l.YS)
-            s.foundations.append(AC_FoundationStack(x, y, self, suit=ANY_SUIT,
-                                 dir=0, max_cards=4, base_rank=rank, max_move=0))
+            s.foundations.append(
+                AC_FoundationStack(
+                    x, y, self, suit=ANY_SUIT,
+                    dir=0, max_cards=4, base_rank=rank, max_move=0))
             rank += 1
 
         x, y = l.XM, l.YM
@@ -314,30 +331,28 @@ class Hemispheres(Game):
 
         l.defaultStackGroups()
 
-
     def _shuffleHook(self, cards):
         founds_cards = []               # foundations
         rows_cards = []                 # rows
         for c in cards[:]:
             if c.rank in (ACE, KING):
-                if ((c.rank == ACE and c.color == RED) or
-                    (c.rank == KING and c.color == BLACK)):
+                cond = ((c.rank == ACE and c.color == RED) or
+                        (c.rank == KING and c.color == BLACK))
+                if cond:
                     cards.remove(c)
                     founds_cards.append(c)
                 elif c.deck == 0:
                     cards.remove(c)
                     rows_cards.append(c)
-        founds_cards.sort(lambda a, b: cmp((-a.rank, -a.suit), (-b.rank, -b.suit)))
-        rows_cards.sort(lambda a, b: cmp((a.rank, a.suit), (b.rank, b.suit)))
+        founds_cards.sort(key=lambda x: (-x.rank, -x.suit))
+        rows_cards.sort(key=lambda x: (x.rank, x.suit))
         return cards+rows_cards+founds_cards
-
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealCards()       # deal first card to WasteStack
-
 
     def fillStack(self, stack):
         if stack in self.s.rows[4:] and not stack.cards:
@@ -347,7 +362,6 @@ class Hemispheres(Game):
             if self.s.waste.cards:
                 self.s.waste.moveMove(1, stack)
             self.leaveState(old_state)
-
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         # by color
@@ -384,6 +398,7 @@ class BigBen_Talon(DealRowTalonStack):
             self.game.stopSamples()
         return ncards
 
+
 class BigBen_RowStack(SS_RowStack):
     def acceptsCards(self, from_stack, cards):
         if not SS_RowStack.acceptsCards(self, from_stack, cards):
@@ -391,6 +406,7 @@ class BigBen_RowStack(SS_RowStack):
         if len(self.cards) < 3:
             return False
         return True
+
 
 class BigBen(Game):
     Hint_Class = CautiousDefaultHint
@@ -422,10 +438,10 @@ class BigBen(Game):
             (2.5, 3),
             (1.5, 2.85),
             (0.5, 2.5),
-            ):
+                ):
             x = int(x0 + xx*l.XS)
             y = int(y0 + yy*l.YS)
-            suit=(3,0,2,1)[rank%4]
+            suit = (3, 0, 2, 1)[rank % 4]
             max_cards = rank <= 4 and 8 or 9
             s.foundations.append(SS_FoundationStack(x, y, self, suit=suit,
                                  max_cards=max_cards, base_rank=rank,
@@ -444,8 +460,8 @@ class BigBen(Game):
     def _shuffleHook(self, cards):
         # move clock cards to top of the Talon (i.e. first cards to be dealt)
         C, S, H, D = range(4)           # suits
-        t = [(1,C), (2,H), (3,S), (4,D), (5,C), (6,H),
-             (7,S), (8,D), (9,C), (JACK,H), (QUEEN,S), (KING,D)]
+        t = [(1, C), (2, H), (3, S), (4, D), (5, C), (6, H),
+             (7, S), (8, D), (9, C), (JACK, H), (QUEEN, S), (KING, D)]
         clocks = []
         for c in cards[:]:
             if (c.rank, c.suit) in t:
@@ -455,7 +471,7 @@ class BigBen(Game):
             if not t:
                 break
         # sort clocks reverse by rank
-        clocks.sort(lambda a, b: cmp(b.rank, a.rank))
+        clocks.sort(key=lambda x: x.rank)
         return cards+clocks
 
     def startGame(self):
@@ -559,7 +575,7 @@ class Clock(Game):
             (0.25, 0.5),
             (1.25, 0.15),
             (2.25, 0),
-            ):
+                ):
             x = l.XM + xx*dx
             y = l.YM + yy*l.YS
             stack = Clock_RowStack(x, y, self, max_move=0)
@@ -604,7 +620,6 @@ class Clock(Game):
         return (), (), ()
 
 
-
 # register the game
 registerGame(GameInfo(261, GrandfathersClock, "Grandfather's Clock",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_BALANCED))
@@ -612,10 +627,9 @@ registerGame(GameInfo(682, Dial, "Dial",
                       GI.GT_1DECK_TYPE, 1, 1, GI.SL_LUCK))
 registerGame(GameInfo(690, Hemispheres, "Hemispheres",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED,
-                      altnames=("The Four Continents",) ))
+                      altnames=("The Four Continents",)))
 registerGame(GameInfo(697, BigBen, "Big Ben",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(737, Clock, "Clock",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_LUCK,
-                      altnames=("Travellers",) ))
-
+                      altnames=("Travellers",)))

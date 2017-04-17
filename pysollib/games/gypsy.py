@@ -24,19 +24,37 @@
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
 from pysollib.mfxutil import kwdefault
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 from pysollib.hint import KlondikeType_Hint, YukonType_Hint
 
 from spider import Spider_SS_Foundation, Spider_RowStack, Spider_Hint
+
+from pysollib.util import ACE, ANY_SUIT, KING, UNLIMITED_ACCEPTS, \
+        UNLIMITED_MOVES
+
+from pysollib.stack import \
+        AC_RowStack, \
+        AbstractFoundationStack, \
+        BasicRowStack, \
+        DealRowTalonStack, \
+        InitialDealTalonStack, \
+        KingAC_RowStack, \
+        OpenStack, \
+        ReserveStack, \
+        SS_FoundationStack, \
+        SS_RowStack, \
+        Spider_SS_RowStack, \
+        Stack, \
+        TalonStack, \
+        WasteStack, \
+        WasteTalonStack, \
+        Yukon_AC_RowStack, \
+        StackWrapper
 
 
 # ************************************************************************
@@ -61,7 +79,8 @@ class Gypsy(Game):
         if l.s.waste:
             s.waste = WasteStack(l.s.waste.x, l.s.waste.y, self)
         for r in l.s.foundations:
-            s.foundations.append(self.Foundation_Class(r.x, r.y, self, suit=r.suit))
+            s.foundations.append(
+                self.Foundation_Class(r.x, r.y, self, suit=r.suit))
         for r in l.s.rows:
             s.rows.append(self.RowStack_Class(r.x, r.y, self))
         # default
@@ -177,7 +196,8 @@ class DieRussische_RowStack(AC_RowStack):
 
 class DieRussische(Gypsy):
     Talon_Class = InitialDealTalonStack
-    Foundation_Class = StackWrapper(DieRussische_Foundation, min_cards=1, max_cards=8)
+    Foundation_Class = StackWrapper(
+        DieRussische_Foundation, min_cards=1, max_cards=8)
     RowStack_Class = DieRussische_RowStack
 
     def createGame(self):
@@ -185,7 +205,8 @@ class DieRussische(Gypsy):
 
     def _shuffleHook(self, cards):
         # move one Ace to bottom of the Talon (i.e. last card to be dealt)
-        return self._shuffleHookMoveToBottom(cards, lambda c: (c.rank == 0, c.suit), 1)
+        return self._shuffleHookMoveToBottom(
+            cards, lambda c: (c.rank == 0, c.suit), 1)
 
     def startGame(self):
         for i in range(6):
@@ -223,7 +244,9 @@ class MissMilligan(Gypsy):
         l, s = Layout(self), self.s
 
         # set window
-        self.setSize(l.XM + (1+max(8,rows))*l.XS, l.YM + (1+max(4, reserves))*l.YS+l.TEXT_HEIGHT)
+        self.setSize(
+            l.XM + (1+max(8, rows))*l.XS,
+            l.YM + (1+max(4, reserves))*l.YS+l.TEXT_HEIGHT)
 
         # create stacks
         x, y = l.XM, l.YM
@@ -234,7 +257,8 @@ class MissMilligan(Gypsy):
         x, y = l.XM, y + l.YS
         rx, ry = x + l.XS - l.CW/2, y - l.CH/2
         for i in range(reserves):
-            s.reserves.append(self.ReserveStack_Class(x, y+l.TEXT_HEIGHT, self))
+            s.reserves.append(
+                self.ReserveStack_Class(x, y+l.TEXT_HEIGHT, self))
             y = y + l.YS
         l.createText(s.talon, "s")
         if s.reserves:
@@ -330,6 +354,7 @@ class LexingtonHarp(MilliganHarp):
     GAME_VERSION = 2
     RowStack_Class = Yukon_AC_RowStack
     Hint_Class = YukonType_Hint
+
     def getHighlightPilesStacks(self):
         return ()
 
@@ -458,6 +483,7 @@ class Surprise_ReserveStack(ReserveStack):
         if not ReserveStack.acceptsCards(self, from_stack, cards):
             return False
         return len(self.game.s.talon.cards) == 0
+
 
 class Surprise(Gypsy):
 
@@ -628,15 +654,15 @@ class Trapdoor(Gypsy):
     RowStack_Class = AC_RowStack
 
     def createGame(self, rows=8):
-        kw = {'rows'     : rows,
-              'waste'    : 0,
-              'texts'    : 1,
-              'reserves' : rows,}
-        Layout(self).createGame(layout_method    = Layout.gypsyLayout,
-                                talon_class      = Trapdoor_Talon,
-                                foundation_class = self.Foundation_Class,
-                                row_class        = self.RowStack_Class,
-                                reserve_class    = OpenStack,
+        kw = {'rows': rows,
+              'waste': 0,
+              'texts': 1,
+              'reserves': rows}
+        Layout(self).createGame(layout_method=Layout.gypsyLayout,
+                                talon_class=Trapdoor_Talon,
+                                foundation_class=self.Foundation_Class,
+                                row_class=self.RowStack_Class,
+                                reserve_class=OpenStack,
                                 **kw
                                 )
 
@@ -674,22 +700,24 @@ class TrapdoorSpider(Trapdoor):
 class Flamenco(Gypsy):
 
     def createGame(self):
-        kw = {'rows'     : 8,
-              'waste'    : 0,
-              'texts'    : 1,}
+        kw = {'rows': 8,
+              'waste': 0,
+              'texts': 1, }
         foundation_class = (
             SS_FoundationStack,
             StackWrapper(SS_FoundationStack, base_rank=KING, dir=-1))
-        Layout(self).createGame(layout_method    = Layout.gypsyLayout,
-                                talon_class      = DealRowTalonStack,
-                                foundation_class = foundation_class,
-                                row_class        = AC_RowStack,
+        Layout(self).createGame(layout_method=Layout.gypsyLayout,
+                                talon_class=DealRowTalonStack,
+                                foundation_class=foundation_class,
+                                row_class=AC_RowStack,
                                 **kw
                                 )
 
     def _shuffleHook(self, cards):
-        return self._shuffleHookMoveToTop(cards,
-            lambda c: (c.rank in (ACE, KING) and c.deck == 0, (c.suit,c.rank)))
+        return self._shuffleHookMoveToTop(
+            cards,
+            lambda c: (c.rank in (ACE, KING) and c.deck == 0,
+                       (c.suit, c.rank)))
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
@@ -859,7 +887,6 @@ class LockedCards(Game):
         # define stack-groups
         l.defaultStackGroups()
 
-
     def startGame(self, rows=5):
         self.s.talon.dealRow(rows=self.s.reserves, flip=0, frames=0)
         for i in range(rows-1):
@@ -947,7 +974,6 @@ class Thirty(Game):
 
         l.defaultAll()
 
-
     def startGame(self):
         for i in range(4):
             self.s.talon.dealRow(frames=0)
@@ -957,7 +983,6 @@ class Thirty(Game):
 
     shallHighlightMatch = Game._shallHighlightMatch_RK
     getQuickPlayScore = Game._getSpiderQuickPlayScore
-
 
 
 # register the game
@@ -972,11 +997,12 @@ registerGame(GameInfo(119, DieKoenigsbergerin, "Die Koenigsbergerin",
 registerGame(GameInfo(174, DieRussische, "Russian Patience",
                       GI.GT_2DECK_TYPE | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL,
                       ranks=(0, 6, 7, 8, 9, 10, 11, 12),
-                      altnames=("Die Russische",) ))
+                      altnames=("Die Russische",)))
 registerGame(GameInfo(62, MissMilligan, "Miss Milligan",
                       GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(200, Nomad, "Nomad",
-                      GI.GT_GYPSY | GI.GT_CONTRIB | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_GYPSY | GI.GT_CONTRIB | GI.GT_ORIGINAL, 2, 0,
+                      GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(78, MilliganCell, "Milligan Cell",
                       GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(217, MilliganHarp, "Milligan Harp",
@@ -1011,7 +1037,7 @@ registerGame(GameInfo(566, Hypotenuse, "Hypotenuse",
                       GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(567, EternalTriangle, "Eternal Triangle",
                       GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL,
-                      altnames=('Lobachevsky',) ))
+                      altnames=('Lobachevsky',)))
 registerGame(GameInfo(568, RightTriangle, "Right Triangle",
                       GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(580, Trapdoor, "Trapdoor",

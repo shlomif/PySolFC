@@ -27,7 +27,7 @@ __all__ = ['PlayerOptionsDialog']
 import Tkinter
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.mfxutil import KwStruct, Struct
 
 # Toolkit imports
@@ -62,7 +62,7 @@ class SelectUserNameDialog(MfxDialog):
         focus = self.createButtons(bottom_frame, kw)
         self.mainloop(focus, kw.timeout)
 
-        #if listbox.curselection():
+        # if listbox.curselection():
         #    self.username = listbox.get(listbox.curselection())
 
     def updateUserName(self, *args):
@@ -77,7 +77,6 @@ class SelectUserNameDialog(MfxDialog):
                       buttonpadx=10, buttonpady=5,
                       )
         return MfxDialog.initKw(self, kw)
-
 
 
 class PlayerOptionsDialog(MfxDialog):
@@ -98,7 +97,7 @@ class PlayerOptionsDialog(MfxDialog):
         frame = Tkinter.Frame(top_frame)
         frame.pack(expand=True, fill='both', padx=5, pady=10)
         widget = Tkinter.Label(frame, text=_("\nPlease enter your name"),
-                               #justify='left', anchor='w',
+                               # justify='left', anchor='w',
                                takefocus=0)
         widget.grid(row=0, column=0, columnspan=2, sticky='ew', padx=0, pady=5)
         w = kw.get("e_width", 30)    # width in characters
@@ -115,9 +114,9 @@ class PlayerOptionsDialog(MfxDialog):
                                      anchor='w',
                                      text=_("Update statistics and logs"))
         widget.grid(row=3, column=0, columnspan=2, sticky='ew', padx=0, pady=5)
-###        widget = Tkinter.Checkbutton(frame, variable=self.win_animation_var,
-###                                     text="Win animation")
-###        widget.pack(side='top', padx=kw.padx, pady=kw.pady)
+        #  widget = Tkinter.Checkbutton(frame, variable=self.win_animation_var,
+        #                               text="Win animation")
+        #  widget.pack(side='top', padx=kw.padx, pady=kw.pady)
         frame.columnconfigure(0, weight=1)
         #
         self.player = self.player_var.get()
@@ -164,10 +163,10 @@ def playeroptionsdialog_main(args):
     wm_withdraw(tk)
     tk.update()
     d = PlayerOptionsDialog(tk, "Player options", app)
-    print d.status, d.button, ":", d.player, d.update_stats
+    print(d.status, d.button, ":", d.player, d.update_stats)
     return 0
+
 
 if __name__ == "__main__":
     import sys
     sys.exit(playeroptionsdialog_main(sys.argv))
-

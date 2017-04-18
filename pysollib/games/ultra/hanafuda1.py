@@ -23,25 +23,47 @@
 
 __all__ = []
 
-
-import sys
-
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
 from pysollib.mfxutil import kwdefault
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.hint import AbstractHint, CautiousDefaultHint
 from pysollib.pysoltk import MfxCanvasText
 
-from hanafuda_common import *
+from hanafuda_common import \
+        Flower_OpenStack, \
+        FlowerClock_RowStack, \
+        HanafudaRK_RowStack, \
+        Hanafuda_SS_FoundationStack, \
+        Hanafuda_SequenceStack, \
+        JapaneseGarden_RowStack, \
+        Queue_BraidStack, \
+        Queue_Foundation, \
+        Queue_Hint, \
+        Queue_ReserveStack, \
+        Queue_RowStack, \
+        Samuri_RowStack, \
+        AbstractFlowerGame
+
+from pysollib.util import ANY_RANK, ANY_SUIT, NO_RANK
+
+from pysollib.stack import \
+        BasicRowStack, \
+        DealRowTalonStack, \
+        InitialDealTalonStack, \
+        OpenStack, \
+        ReserveStack, \
+        StackWrapper, \
+        WasteStack, \
+        WasteTalonStack
+
 
 # ************************************************************************
 # * Paulownia
 # ************************************************************************
+
 
 class Paulownia(AbstractFlowerGame):
     Layout_Method = Layout.klondikeLayout
@@ -64,18 +86,19 @@ class Paulownia(AbstractFlowerGame):
 
         # Create talon
         s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self,
-                            max_rounds=self.MaxRounds, num_deal=self.NumDeal)
+                                   max_rounds=self.MaxRounds,
+                                   num_deal=self.NumDeal)
         s.waste = WasteStack(l.s.waste.x, l.s.waste.y, self)
 
         # Create foundations
         for r in l.s.foundations:
             s.foundations.append(self.Foundation_Class(r.x, r.y, self,
-                                        suit=r.suit, base_rank=3))
+                                 suit=r.suit, base_rank=3))
 
         # Create row stacks
         for r in l.s.rows:
             s.rows.append(self.RowStack_Class(r.x, r.y, self,
-                            base_rank=self.BaseRank, yoffset=l.YOFFSET))
+                          base_rank=self.BaseRank, yoffset=l.YOFFSET))
 
         # Define stack groups
         l.defaultAll()
@@ -93,7 +116,6 @@ class Paulownia(AbstractFlowerGame):
         self.s.talon.dealCards()
 
 
-
 class Pine(Paulownia):
     MaxRounds = 1
     NumDeal = 3
@@ -109,7 +131,6 @@ class Peony(Eularia):
 
 class Iris(Peony):
     MaxRounds = 1
-
 
 
 # ************************************************************************
@@ -139,13 +160,14 @@ class LesserQueue(AbstractFlowerGame):
         self.base_card = None
 
         # Create rows, reserves
-        s.addattr(braid = None)
+        s.addattr(braid=None)
         x, x0 = l.XM + l.XS * 2, (decks - 1.5) % 2.5
         for j in range(decks / 2):
             y = l.YM
             for i in range(2):
                 s.rows.append(Queue_RowStack(x + l.XS * (x0 + j), y, self))
-                s.rows.append(Queue_RowStack(x + l.XS * (4 + x0 + j + .5), y, self))
+                s.rows.append(Queue_RowStack(x + l.XS * (4 + x0 + j + .5), y,
+                                             self))
                 y = y + l.YS * (3 + (decks > 2))
         y = l.YM + l.YS
         for i in range(2):
@@ -166,10 +188,11 @@ class LesserQueue(AbstractFlowerGame):
         x, y = l.XM, h-l.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
         l.createText(s.talon, "n")
-        s.talon.texts.rounds = MfxCanvasText(self.canvas,
-                                             self.width/2, h-2*l.TEXT_MARGIN,
-                                             anchor="center",
-                                             font=self.app.getFont("canvas_default"))
+        s.talon.texts.rounds = MfxCanvasText(
+            self.canvas,
+            self.width/2, h-2*l.TEXT_MARGIN,
+            anchor="center",
+            font=self.app.getFont("canvas_default"))
         x = x + l.XS
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, "n")
@@ -179,22 +202,26 @@ class LesserQueue(AbstractFlowerGame):
         for j in range(decks / 2):
             y = l.YM
             for i in range(4):
-                s.foundations.append(Queue_Foundation(x, y, self, -1, mod=12,
-                                        max_cards=12, base_suit=ANY_SUIT, base_rank=i, rank=i))
-                s.foundations.append(Queue_Foundation(x + l.XS * (9.5 - j * 2), y, self, -1, mod=12,
-                                        max_cards=12, base_suit=ANY_SUIT, base_rank=i, rank=i))
+                s.foundations.append(Queue_Foundation(
+                    x, y, self, -1, mod=12,
+                    max_cards=12, base_suit=ANY_SUIT, base_rank=i, rank=i))
+                s.foundations.append(
+                    Queue_Foundation(
+                        x + l.XS * (9.5 - j * 2),
+                        y, self, -1, mod=12,
+                        max_cards=12, base_suit=ANY_SUIT, base_rank=i, rank=i))
                 y = y + l.YS
             x = x + l.XS
-        self.texts.info = MfxCanvasText(self.canvas,
-                                        self.width/2, h-l.TEXT_MARGIN,
-                                        anchor="center",
-                                        font=self.app.getFont("canvas_default"))
+        self.texts.info = MfxCanvasText(
+            self.canvas,
+            self.width/2, h-l.TEXT_MARGIN,
+            anchor="center",
+            font=self.app.getFont("canvas_default"))
 
         # define stack-groups
         self.sg.talonstacks = [s.talon] + [s.waste]
         self.sg.openstacks = s.foundations + s.rows + s.reserves
         self.sg.dropstacks = [s.braid] + s.rows + [s.waste] + s.reserves
-
 
     #
     # game overrides
@@ -206,7 +233,7 @@ class LesserQueue(AbstractFlowerGame):
         self.base_card = None
         self.updateText()
         for i in range(self.BRAID_CARDS):
-            self.s.talon.dealRow(rows = [self.s.braid])
+            self.s.talon.dealRow(rows=[self.s.braid])
         self.s.talon.dealRow()
         # deal base_card to foundations, update cap.base_rank
         self.base_card = self.s.talon.getCard()
@@ -221,7 +248,8 @@ class LesserQueue(AbstractFlowerGame):
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return (card1.rank == card2.rank and
-                ((card1.suit + 1) % 12 == card2.suit or (card2.suit + 1) % 12 == card1.suit))
+                ((card1.suit + 1) % 12 == card2.suit or
+                 (card2.suit + 1) % 12 == card1.suit))
 
     def getHighlightPilesStacks(self):
         return ()
@@ -237,7 +265,6 @@ class LesserQueue(AbstractFlowerGame):
 
     def _saveGameHook(self, p):
         p.dump(self.base_card.id)
-
 
     #
     # game extras
@@ -255,7 +282,7 @@ class LesserQueue(AbstractFlowerGame):
                 t = t + _(" Ascending")
             elif dir == 11:
                 t = t + _(" Descending")
-        self.texts.info.config(text = t)
+        self.texts.info.config(text=t)
 
     def getFoundationDir(self):
         for s in self.s.foundations:
@@ -264,12 +291,10 @@ class LesserQueue(AbstractFlowerGame):
         return 0
 
 
-
 class GreaterQueue(LesserQueue):
     Hint_Class = Queue_Hint
     BRAID_CARDS = 40
     BRAID_OFFSET = .5
-
 
 
 # ************************************************************************
@@ -297,7 +322,6 @@ class JapaneseGarden(AbstractFlowerGame):
 
     def createGame(self):
         l, s = Layout(self), self.s
-        font = self.app.getFont("canvas_card")
 
         # Set window size
         self.setSize(l.XM + l.XS * self.WIDTH, l.YM * 3 + l.YS * self.HEIGHT)
@@ -307,8 +331,10 @@ class JapaneseGarden(AbstractFlowerGame):
         y = l.YM
         for j in range(2):
             for i in range(6):
-                s.foundations.append(Hanafuda_SS_FoundationStack(x, y, self, i + (j * 6),
-                                    max_cards=4, max_accept=1, base_rank=3))
+                s.foundations.append(
+                    Hanafuda_SS_FoundationStack(
+                        x, y, self, i + (j * 6),
+                        max_cards=4, max_accept=1, base_rank=3))
                 x = x + l.XS
             x = self.width / 2 + l.XM / 2 - l.XS * 3
             y = y + l.YS
@@ -318,8 +344,10 @@ class JapaneseGarden(AbstractFlowerGame):
         y = l.YM * 2 + l.YS * 2
         for j in range(self.YROWS):
             for i in range(self.XROWS):
-                row = self.RowStack_Class(x, y, self, yoffset=0, max_accept=self.MAX_MOVE,
-                                max_move=self.MAX_MOVE, max_cards=self.MAX_CARDS, base_rank=0)
+                row = self.RowStack_Class(
+                    x, y, self, yoffset=0, max_accept=self.MAX_MOVE,
+                    max_move=self.MAX_MOVE, max_cards=self.MAX_CARDS,
+                    base_rank=0)
                 row.CARD_XOFFSET = l.CW / 2
                 s.rows.append(row)
                 x = x + self.width / self.XROWS
@@ -331,12 +359,14 @@ class JapaneseGarden(AbstractFlowerGame):
         x = self.width / 2 + l.XM / 2 - (l.XS * self.XRESERVES) / 2
         for j in range(self.YRESERVES):
             for i in range(self.XRESERVES):
-                s.reserves.append(ReserveStack(x, y, self, max_accept=self.MAX_RESERVE))
+                s.reserves.append(
+                    ReserveStack(x, y, self, max_accept=self.MAX_RESERVE))
                 x = x + l.XS
             x = self.width / 2 + l.XM / 2 - l.XS * (self.XRESERVES / 2)
             y = y + l.YS
         if s.reserves:
-            self.setRegion(s.reserves, (l.XM, l.YS * (2 + self.YROWS), 999999, 999999))
+            self.setRegion(
+                s.reserves, (l.XM, l.YS * (2 + self.YROWS), 999999, 999999))
 
         # Create talon
         s.talon = InitialDealTalonStack(l.XM, l.YM, self)
@@ -358,10 +388,8 @@ class JapaneseGarden(AbstractFlowerGame):
         self.s.talon.dealCards()
 
 
-
 class JapaneseGardenII(JapaneseGarden):
     RowStack_Class = JapaneseGarden_RowStack
-
 
 
 class JapaneseGardenIII(JapaneseGardenII):
@@ -393,7 +421,6 @@ class SixTengus(SixSages):
     YRESERVES = 0
 
 
-
 # ************************************************************************
 # * Hanafuda Four Seasons
 # ************************************************************************
@@ -406,7 +433,6 @@ class HanafudaFourSeasons(AbstractFlowerGame):
 
     def createGame(self):
         l, s = Layout(self), self.s
-        font = self.app.getFont("canvas_card")
 
         # Set window size
         self.setSize(l.XM + l.XS * 7, l.YM + l.YS * 5)
@@ -415,12 +441,12 @@ class HanafudaFourSeasons(AbstractFlowerGame):
         x, y, offset = l.XM, l.YM, self.app.images.CARD_YOFFSET
         for i in range(6):
             s.rows.append(Samuri_RowStack(x, y, self, offset, max_cards=8,
-                                                    max_accept=8, base_rank=0))
+                                          max_accept=8, base_rank=0))
             x = x + l.XS + l.XM + (l.XM * (i == 2))
         x, y = l.XM, y + l.YS * 2.5
         for i in range(6):
             s.rows.append(Samuri_RowStack(x, y, self, offset, max_cards=8,
-                                                    max_accept=8, base_rank=0))
+                                          max_accept=8, base_rank=0))
             x = x + l.XS + l.XM + (l.XM * (i == 2))
         self.setRegion(s.rows, (0, 0, 999999, 999999))
 
@@ -440,7 +466,6 @@ class HanafudaFourSeasons(AbstractFlowerGame):
         for i in range(4):
             self.s.talon.dealRow(flip=1)
 
-
     #
     # Game extras
     #
@@ -454,7 +479,6 @@ class HanafudaFourSeasons(AbstractFlowerGame):
                     and r.isHanafudaSequence(cards)):
                 return 0
         return 1
-
 
 
 # ************************************************************************
@@ -479,10 +503,14 @@ class Wisteria(AbstractFlowerGame):
         x, y = self.width / 2 - l.XS * 3, l.YM
         for i in range(2):
             for suit in range(6):
-                s.foundations.append(Hanafuda_SS_FoundationStack(x, y, self, suit=suit + (6 * i)))
+                s.foundations.append(
+                    Hanafuda_SS_FoundationStack(
+                        x, y, self, suit=suit + (6 * i)))
                 x = x + l.XS
             x, y = self.width / 2 - l.XS * 3, y + l.YS
-        self.setRegion(self.s.foundations, (-999, -999, 999999, l.YM + l.YS * 2), priority=1)
+        self.setRegion(
+            self.s.foundations, (-999, -999, 999999, l.YM + l.YS * 2),
+            priority=1)
         x, y = l.XM, l.YM + l.YS * 2
         for i in range(rows):
             stack = self.RowStack_Class(x, y, self, yoffset=l.YOFFSET)
@@ -505,7 +533,6 @@ class Wisteria(AbstractFlowerGame):
                 if self.s.rows[i].cards:
                     i = i + 1
             self.s.talon.dealRow(rows=[self.s.rows[i]], frames=4)
-
 
 
 # ************************************************************************
@@ -582,7 +609,8 @@ class FlowerArrangement_Hint(AbstractHint):
 
 class FlowerArrangement_TableauStack(Flower_OpenStack):
     def __init__(self, x, y, game, yoffset, **cap):
-        kwdefault(cap, dir=-1, max_move=1, max_cards=4, max_accept=1, base_rank=3)
+        kwdefault(cap, dir=-1, max_move=1, max_cards=4, max_accept=1,
+                  base_rank=3)
         OpenStack.__init__(self, x, y, game, **cap)
         self.CARD_YOFFSET = yoffset
 
@@ -592,7 +620,7 @@ class FlowerArrangement_TableauStack(Flower_OpenStack):
         # check that the base card is correct
         suits = range(self.cap.mod, (self.cap.mod + 4))
         if self.cards and (self.cards[0].rank == 3
-                and self.cards[-1].suit in suits):
+                           and self.cards[-1].suit in suits):
             return self.isHanafudaSequence([self.cards[-1], cards[0]])
         return not self.cards and cards[0].rank == 3 and cards[0].suit in suits
 
@@ -641,7 +669,9 @@ class FlowerArrangement(Game):
         for i in range(3):
             x = l.XM
             for j in range(8):
-                s.tableaux.append(FlowerArrangement_TableauStack(x, y, self, TABLEAU_YOFFSET, mod=i * 4))
+                s.tableaux.append(
+                    FlowerArrangement_TableauStack(
+                        x, y, self, TABLEAU_YOFFSET, mod=i * 4))
                 x = x + l.XS
             y = y + th
         x, y = l.XM, y + l.YM
@@ -697,20 +727,28 @@ def r(id, gameclass, name, game_type, decks, redeals, skill_level):
     registerGame(gi)
     return gi
 
+
 r(12369, Paulownia, 'Paulownia', GI.GT_HANAFUDA, 1, -1, GI.SL_BALANCED)
 r(12370, LesserQueue, 'Lesser Queue', GI.GT_HANAFUDA, 2, 2, GI.SL_BALANCED)
 r(12371, GreaterQueue, 'Greater Queue', GI.GT_HANAFUDA, 4, 2, GI.SL_BALANCED)
-r(12373, JapaneseGarden, 'Japanese Garden', GI.GT_HANAFUDA | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL)
-r(12374, JapaneseGardenII, 'Japanese Garden II', GI.GT_HANAFUDA | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL)
-r(12375, SixSages, 'Six Sages', GI.GT_HANAFUDA | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL)
-r(12376, SixTengus, 'Six Tengus', GI.GT_HANAFUDA | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL)
-r(12377, JapaneseGardenIII, 'Japanese Garden III', GI.GT_HANAFUDA | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL)
-r(12378, HanafudaFourSeasons, 'Hanafuda Four Seasons', GI.GT_HANAFUDA | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL)
+r(12373, JapaneseGarden, 'Japanese Garden', GI.GT_HANAFUDA | GI.GT_OPEN, 1, 0,
+  GI.SL_MOSTLY_SKILL)
+r(12374, JapaneseGardenII, 'Japanese Garden II', GI.GT_HANAFUDA | GI.GT_OPEN,
+  1, 0, GI.SL_MOSTLY_SKILL)
+r(12375, SixSages, 'Six Sages', GI.GT_HANAFUDA | GI.GT_OPEN, 1, 0,
+  GI.SL_MOSTLY_SKILL)
+r(12376, SixTengus, 'Six Tengus', GI.GT_HANAFUDA | GI.GT_OPEN, 1, 0,
+  GI.SL_MOSTLY_SKILL)
+r(12377, JapaneseGardenIII, 'Japanese Garden III', GI.GT_HANAFUDA | GI.GT_OPEN,
+  1, 0, GI.SL_MOSTLY_SKILL)
+r(12378, HanafudaFourSeasons, 'Hanafuda Four Seasons',
+  GI.GT_HANAFUDA | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL)
 r(12380, Eularia, 'Eularia', GI.GT_HANAFUDA, 1, -1, GI.SL_BALANCED)
 r(12381, Peony, 'Peony', GI.GT_HANAFUDA, 1, -1, GI.SL_BALANCED)
 r(12382, Iris, 'Iris', GI.GT_HANAFUDA, 1, 0, GI.SL_BALANCED)
 r(12383, Pine, 'Pine', GI.GT_HANAFUDA, 1, 0, GI.SL_BALANCED)
 r(12384, Wisteria, 'Wisteria', GI.GT_HANAFUDA, 1, 0, GI.SL_MOSTLY_SKILL)
-r(12385, FlowerArrangement, 'Flower Arrangement', GI.GT_HANAFUDA, 2, 0, GI.SL_BALANCED)
+r(12385, FlowerArrangement, 'Flower Arrangement', GI.GT_HANAFUDA, 2, 0,
+  GI.SL_BALANCED)
 
 del r

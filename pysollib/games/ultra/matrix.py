@@ -24,28 +24,31 @@
 __all__ = []
 
 # Imports
-import sys, math
+import math
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
 from pysollib.mfxutil import kwdefault
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 from pysollib.pysoltk import bind
 
+from pysollib.util import ANY_RANK
+
+from pysollib.stack import \
+        InitialDealTalonStack, \
+        OpenStack
 
 # ************************************************************************
 # * Matrix Row Stack
 # ************************************************************************
 
+
 class Matrix_RowStack(OpenStack):
 
     def __init__(self, x, y, game, **cap):
         kwdefault(cap, max_move=1, max_accept=1, max_cards=1,
-                    base_rank=ANY_RANK)
+                  base_rank=ANY_RANK)
         OpenStack.__init__(self, x, y, game, **cap)
 
     def canFlipCard(self):
@@ -108,8 +111,9 @@ class Matrix_RowStack(OpenStack):
                     self._stopDrag()
                     step = 1
                     from_stack = row[stack_map[j][i + dir]]
-                    while not from_stack is self:
-                        from_stack.playMoveMove(1, to_stack, frames=0, sound=False)
+                    while from_stack is not self:
+                        from_stack.playMoveMove(
+                            1, to_stack, frames=0, sound=False)
                         to_stack = from_stack
                         step = step + 1
                         from_stack = row[stack_map[j][i + dir * step]]
@@ -169,7 +173,7 @@ class Matrix3(Game):
                 if cards[i].rank > cards[j].rank:
                     n += 1
         cards.reverse()
-        if n%2:
+        if n % 2:
             cards[0], cards[1] = cards[1], cards[0]
         return [c]+cards
 
@@ -199,7 +203,6 @@ class Matrix3(Game):
                 or (card1.rank - 1 == card2.rank))
 
 
-
 # ************************************************************************
 # * Size variations
 # ************************************************************************
@@ -207,23 +210,30 @@ class Matrix3(Game):
 class Matrix4(Matrix3):
     pass
 
+
 class Matrix5(Matrix3):
     pass
+
 
 class Matrix6(Matrix3):
     pass
 
+
 class Matrix7(Matrix3):
     pass
+
 
 class Matrix8(Matrix3):
     pass
 
+
 class Matrix9(Matrix3):
     pass
 
+
 class Matrix10(Matrix3):
     pass
+
 
 class Matrix20(Matrix3):
     pass
@@ -236,15 +246,17 @@ class Matrix20(Matrix3):
 def r(id, gameclass, short_name):
     name = short_name
     ncards = int(name[:2]) * int(name[:2])
-    gi = GameInfo(id, gameclass, name,
-                GI.GT_MATRIX, 1, 0, GI.SL_SKILL,
-                category=GI.GC_TRUMP_ONLY, short_name=short_name,
-                suits=(), ranks=(), trumps=range(ncards),
-                si = {"decks": 1, "ncards": ncards})
+    gi = GameInfo(
+        id, gameclass, name,
+        GI.GT_MATRIX, 1, 0, GI.SL_SKILL,
+        category=GI.GC_TRUMP_ONLY, short_name=short_name,
+        suits=(), ranks=(), trumps=range(ncards),
+        si={"decks": 1, "ncards": ncards})
     gi.ncards = ncards
     gi.rules_filename = "matrix.html"
     registerGame(gi)
     return gi
+
 
 r(22223, Matrix3, " 3x3 Matrix")
 r(22224, Matrix4, " 4x4 Matrix")
@@ -254,7 +266,6 @@ r(22227, Matrix7, " 7x7 Matrix")
 r(22228, Matrix8, " 8x8 Matrix")
 r(22229, Matrix9, " 9x9 Matrix")
 r(22230, Matrix10, "10x10 Matrix")
-#r(22240, Matrix20, "20x20 Matrix")
+# r(22240, Matrix20, "20x20 Matrix")
 
 del r
-

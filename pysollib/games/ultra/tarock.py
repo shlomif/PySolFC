@@ -24,28 +24,35 @@
 __all__ = []
 
 # Imports
-import sys
 
 # Ultrasol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
 from pysollib.mfxutil import kwdefault
-from pysollib.stack import *
-from pysollib.game import Game
 from pysollib.layout import Layout
 
 from pysollib.games.special.tarock import AbstractTarockGame, Grasshopper
 from pysollib.games.threepeaks import ThreePeaksNoScore
 
+from pysollib.util import ANY_RANK, NO_RANK, UNLIMITED_ACCEPTS, UNLIMITED_MOVES
+
+from pysollib.stack import \
+        InitialDealTalonStack, \
+        ReserveStack, \
+        SS_FoundationStack, \
+        StackWrapper, \
+        OpenStack
 
 # ************************************************************************
 # *
 # ************************************************************************
 
+
 class Tarock_OpenStack(OpenStack):
 
     def __init__(self, x, y, game, yoffset=-1, **cap):
-        kwdefault(cap, max_move=UNLIMITED_MOVES, max_accept=UNLIMITED_ACCEPTS, dir=-1)
+        kwdefault(
+            cap, max_move=UNLIMITED_MOVES,
+            max_accept=UNLIMITED_ACCEPTS, dir=-1)
         OpenStack.__init__(self, x, y, game, **cap)
         if yoffset < 0:
             yoffset = game.app.images.CARD_YOFFSET
@@ -84,9 +91,11 @@ class Tarock_OpenStack(OpenStack):
         return 1
 
     def isHighRankCard(self, card):
-        maxcard = ([self.game.gameinfo.ranks[-1], self.game.gameinfo.trumps[-1]]
-                    [(card.suit == len(self.game.gameinfo.suits))])
+        maxcard = ([self.game.gameinfo.ranks[-1],
+                    self.game.gameinfo.trumps[-1]]
+                   [(card.suit == len(self.game.gameinfo.suits))])
         return card.rank == maxcard or self.cap.base_rank == ANY_RANK
+
 
 class Tarock_RK_RowStack(Tarock_OpenStack):
 
@@ -102,6 +111,7 @@ class Tarock_RK_RowStack(Tarock_OpenStack):
         return (self.basicCanMoveCards(cards)
                 and self.isRankSequence(cards))
 
+
 class Tarock_SS_RowStack(Tarock_OpenStack):
 
     def acceptsCards(self, from_stack, cards):
@@ -116,11 +126,12 @@ class Tarock_SS_RowStack(Tarock_OpenStack):
         return (self.basicCanMoveCards(cards)
                 and self.isSuitSequence(cards))
 
+
 class Tarock_AC_RowStack(Tarock_OpenStack):
 
     def acceptsCards(self, from_stack, cards):
-        if (not self.basicAcceptsCards(from_stack, cards)
-            or not self.isAlternateColorSequence(cards)):
+        if not self.basicAcceptsCards(from_stack, cards) \
+               or not self.isAlternateColorSequence(cards):
             return 0
         if not self.cards:
             return self.isHighRankCard(cards[0])
@@ -134,8 +145,10 @@ class Tarock_AC_RowStack(Tarock_OpenStack):
 # *
 # ************************************************************************
 
+
 class Cockroach(Grasshopper):
     MAX_ROUNDS = 1
+
 
 class DoubleCockroach(Grasshopper):
     MAX_ROUNDS = 1
@@ -143,6 +156,7 @@ class DoubleCockroach(Grasshopper):
 # ************************************************************************
 # *
 # ************************************************************************
+
 
 class Corkscrew(AbstractTarockGame):
     RowStack_Class = StackWrapper(Tarock_RK_RowStack, base_rank=NO_RANK)
@@ -185,13 +199,18 @@ class Corkscrew(AbstractTarockGame):
         x, y = l.XM + maxrows * l.XS, l.YM
         for i in range(2):
             for suit in range(5):
-                s.foundations.append(SS_FoundationStack(x, y, self, suit=suit,
-                                        max_cards=14 + 8 * (suit == 4)))
+                s.foundations.append(
+                    SS_FoundationStack(
+                        x, y, self, suit=suit,
+                        max_cards=14 + 8 * (suit == 4)))
                 y = y + l.YS
             x, y = x + l.XS, l.YM
-        self.setRegion(self.s.foundations, (x - l.XS * 2, -999, 999999,
-                        self.height - (l.YS + l.YM)), priority=1)
-        s.talon = InitialDealTalonStack(self.width - 3 * l.XS / 2, self.height - l.YS, self)
+        self.setRegion(
+            self.s.foundations,
+            (x - l.XS * 2, -999, 999999,
+             self.height - (l.YS + l.YM)), priority=1)
+        s.talon = InitialDealTalonStack(
+            self.width - 3 * l.XS / 2, self.height - l.YS, self)
 
         # define stack-groups
         l.defaultStackGroups()
@@ -215,7 +234,8 @@ class Corkscrew(AbstractTarockGame):
         closest, cdist = None, 999999999
         for stack in stacks:
             if stack.cards and stack is not dragstack:
-                dist = (stack.cards[-1].x - cx)**2 + (stack.cards[-1].y - cy)**2
+                dist = (stack.cards[-1].x - cx)**2 + \
+                    (stack.cards[-1].y - cy)**2
             else:
                 dist = (stack.x - cx)**2 + (stack.y - cy)**2
             if dist < cdist:
@@ -231,6 +251,7 @@ class Corkscrew(AbstractTarockGame):
 # *
 # ************************************************************************
 
+
 class Serpent(Corkscrew):
     RowStack_Class = StackWrapper(Tarock_AC_RowStack, base_rank=NO_RANK)
 
@@ -242,6 +263,7 @@ class Serpent(Corkscrew):
 # ************************************************************************
 # *
 # ************************************************************************
+
 
 class Rambling(Corkscrew):
     RowStack_Class = StackWrapper(Tarock_SS_RowStack, base_rank=NO_RANK)
@@ -255,9 +277,9 @@ class Rambling(Corkscrew):
 # * Le Grande Teton
 # ************************************************************************
 
+
 class LeGrandeTeton(ThreePeaksNoScore):
     pass
-
 
 
 # ************************************************************************
@@ -271,11 +293,11 @@ def r(id, gameclass, name, game_type, decks, redeals, skill_level):
     registerGame(gi)
     return gi
 
+
 r(13163, Cockroach, 'Cockroach', GI.GT_TAROCK, 1, 0, GI.SL_MOSTLY_SKILL)
-r(13164, DoubleCockroach, 'Double Cockroach', GI.GT_TAROCK, 2, 0, GI.SL_MOSTLY_SKILL)
+r(13164, DoubleCockroach, 'Double Cockroach', GI.GT_TAROCK, 2, 0,
+  GI.SL_MOSTLY_SKILL)
 r(13165, Corkscrew, 'Corkscrew', GI.GT_TAROCK, 2, 0, GI.SL_MOSTLY_SKILL)
 r(13166, Serpent, 'Serpent', GI.GT_TAROCK, 2, 0, GI.SL_MOSTLY_SKILL)
 r(13167, Rambling, 'Rambling', GI.GT_TAROCK, 2, 0, GI.SL_MOSTLY_SKILL)
 r(22232, LeGrandeTeton, 'Le Grande Teton', GI.GT_TAROCK, 1, 0, GI.SL_BALANCED)
-
-

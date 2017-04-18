@@ -24,20 +24,41 @@
 __all__ = []
 
 # Imports
-import sys, math
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
 from pysollib.mfxutil import kwdefault
-from pysollib.stack import *
-from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import FreeCellType_Hint
 from pysollib.pysoltk import MfxCanvasText
 
-from hanafuda_common import *
+from hanafuda_common import \
+        FlowerClock_Foundation, \
+        FlowerClock_RowStack, \
+        FourWinds_Foundation, \
+        FourWinds_RowStack, \
+        Gaji_Foundation, \
+        Gaji_RowStack, \
+        GreatWall_FoundationStack, \
+        GreatWall_RowStack, \
+        Hanafuda_SS_FoundationStack, \
+        Hanafuda_SequenceStack, \
+        MatsuKiri_Foundation, \
+        Matsukiri_RowStack, \
+        Oonsoo_SequenceStack, \
+        Pagoda_Foundation, \
+        AbstractFlowerGame
+
+from pysollib.util import ANY_RANK, ANY_SUIT
+
+from pysollib.stack import \
+        DealRowTalonStack, \
+        InitialDealTalonStack, \
+        ReserveStack, \
+        WasteStack, \
+        cardsFaceUp, \
+        WasteTalonStack
 
 
 # ************************************************************************
@@ -58,8 +79,8 @@ class FlowerClock(AbstractFlowerGame):
         self.setSize(l.XM + l.XS * 10.5, l.YM + l.YS * 5.5)
 
         # Create clock
-        xoffset = ( 1, 2, 2.5, 2, 1, 0, -1, -2, -2.5, -2, -1, 0 )
-        yoffset = ( 0.25, 0.75, 1.9, 3, 3.5, 3.75, 3.5, 3, 1.9, 0.75, 0.25, 0 )
+        xoffset = (1, 2, 2.5, 2, 1, 0, -1, -2, -2.5, -2, -1, 0)
+        yoffset = (0.25, 0.75, 1.9, 3, 3.5, 3.75, 3.5, 3, 1.9, 0.75, 0.25, 0)
         x = l.XM + l.XS * 7
         y = l.CH / 3
         for i in range(12):
@@ -82,7 +103,8 @@ class FlowerClock(AbstractFlowerGame):
         self.setRegion(s.rows, (0, 0, l.XS * 4, 999999))
 
         # Create talon
-        s.talon = InitialDealTalonStack(self.width - l.XS, self.height - l.YS, self)
+        s.talon = InitialDealTalonStack(
+            self.width - l.XS, self.height - l.YS, self)
 
         # Define stack groups
         l.defaultStackGroups()
@@ -114,7 +136,6 @@ class FlowerClock(AbstractFlowerGame):
             return (self.sg.dropstacks, self.sg.dropstacks, self.sg.dropstacks)
 
 
-
 # ************************************************************************
 #  * Gaji
 #  ***********************************************************************/
@@ -135,25 +156,27 @@ class Gaji(AbstractFlowerGame):
         x = l.XM
         y = l.YM
         s.foundations.append(Gaji_Foundation(x, y, self, -1, base_rank=0))
-        x = x + l.XS
+        x += l.XS
         s.foundations.append(Gaji_Foundation(x, y, self, -1, base_rank=1))
 
         # Create right foundations
         x = self.width - l.XS * 2
         s.foundations.append(Gaji_Foundation(x, y, self, -1, base_rank=2))
-        x = x + l.XS
+        x += l.XS
         s.foundations.append(Gaji_Foundation(x, y, self, -1, base_rank=3))
 
         # Create row stacks
         x = l.XS * 2.5 + l.XM
         for i in range(8):
             s.rows.append(Gaji_RowStack(x, y, self, yoffset=l.CH/2,
-                            max_cards=12, max_accept=12))
-            x = x + l.XS
-        self.setRegion(s.rows, (l.XM + l.XS * 2, -999, l.XM + l.XS * 10, 999999))
+                                        max_cards=12, max_accept=12))
+            x += l.XS
+        self.setRegion(
+            s.rows, (l.XM + l.XS * 2, -999, l.XM + l.XS * 10, 999999))
 
         # Create talon
-        s.talon = InitialDealTalonStack(self.width - l.XS, self.height - l.YS, self)
+        s.talon = InitialDealTalonStack(
+            self.width - l.XS, self.height - l.YS, self)
 
         # Define stack groups
         l.defaultStackGroups()
@@ -193,12 +216,11 @@ class Gaji(AbstractFlowerGame):
         if stack1 in self.s.foundations:
             return (card1.rank == card2.rank
                     and ((((card1.suit + 1) % 12) == card2.suit)
-                    or (((card1.suit - 1) % 12) == card2.suit)))
+                         or (((card1.suit - 1) % 12) == card2.suit)))
         else:
             return ((card1.suit == card2.suit)
                     and ((card1.rank + 1 == card2.rank)
                     or (card1.rank - 1 == card2.rank)))
-
 
 
 # ************************************************************************
@@ -256,14 +278,12 @@ class Oonsoo(AbstractFlowerGame):
         return 1
 
 
-
 # ************************************************************************
 # * Oonsoo Too
 # ************************************************************************
 
 class OonsooToo(Oonsoo):
     Reserves = 1
-
 
 
 # ************************************************************************
@@ -276,14 +296,12 @@ class OonsooStrict(Oonsoo):
     Strictness = 1
 
 
-
 # ************************************************************************
 # * Oonsoo Open
 # ************************************************************************
 
 class OonsooOpen(Oonsoo):
     BaseRank = ANY_RANK
-
 
 
 # ************************************************************************
@@ -293,7 +311,6 @@ class OonsooOpen(Oonsoo):
 class OonsooTimesTwo(Oonsoo):
     Rows = 24
     Reserves = 1
-
 
 
 # ************************************************************************
@@ -328,19 +345,22 @@ class Pagoda(AbstractFlowerGame):
 
         # Build pagoda
         x, y = l.XM + l.XS, l.YM
-        d = ( 0.4, 0.25, 0, 0.25, 0.4 )
+        d = (0.4, 0.25, 0, 0.25, 0.4)
         for i in range(5):
-            s.reserves.append(ReserveStack(x + l.XS * i, y + l.YS * d[i], self))
+            s.reserves.append(
+                ReserveStack(x + l.XS * i, y + l.YS * d[i], self))
 
         x, y = l.XM + l.XS * 2, y + l.YS * 1.1
-        d = ( 0.25, 0, 0.25 )
+        d = (0.25, 0, 0.25)
         for i in range(3):
-            s.reserves.append(ReserveStack(x + l.XS * i, y + l.YS * d[i], self))
+            s.reserves.append(
+                ReserveStack(x + l.XS * i, y + l.YS * d[i], self))
 
         x, y = l.XM, y + l.YS * 1.1
-        d = ( 0.5, 0.4, 0.25, 0, 0.25, 0.4, 0.5 )
+        d = (0.5, 0.4, 0.25, 0, 0.25, 0.4, 0.5)
         for i in range(7):
-            s.reserves.append(ReserveStack(x + l.XS * i, y + l.YS * d[i], self))
+            s.reserves.append(
+                ReserveStack(x + l.XS * i, y + l.YS * d[i], self))
 
         x, y = l.XM + l.XS, y + l.YS * 1.5
         for i in range(5):
@@ -392,7 +412,6 @@ class Pagoda(AbstractFlowerGame):
                 self.dealCards()
 
 
-
 # ************************************************************************
 #  * Matsukiri
 #  ***********************************************************************/
@@ -415,17 +434,19 @@ class MatsuKiri(AbstractFlowerGame):
         y = l.YM
         for i in range(8):
             s.rows.append(Matsukiri_RowStack(x, y, self, yoffset=l.CH/2,
-                            max_cards=12, max_accept=12))
+                                             max_cards=12, max_accept=12))
             x = x + l.XS
         self.setRegion(s.rows, (-999, -999, l.XM + (l.XS * 8) + 10, 999999))
 
         # Create foundation
         x = x + l.XM * 2
         s.foundations.append(MatsuKiri_Foundation(x, y, self, ANY_SUIT))
-        self.setRegion(s.foundations, (l.XM + (l.XS * 8) + 10, -999, 999999, 999999))
+        self.setRegion(
+            s.foundations, (l.XM + (l.XS * 8) + 10, -999, 999999, 999999))
 
         # Create talon
-        s.talon = InitialDealTalonStack(self.width - l.XS, self.height - l.YS, self)
+        s.talon = InitialDealTalonStack(
+            self.width - l.XS, self.height - l.YS, self)
 
         # Define stack groups
         l.defaultStackGroups()
@@ -485,9 +506,11 @@ class GreatWall(AbstractFlowerGame):
         y = l.YM
         for i in range(12):
             s.rows.append(GreatWall_RowStack(x, y, self, yoffset=l.CH/4,
-                                                max_cards=26, max_accept=26))
+                                             max_cards=26, max_accept=26))
             x = x + l.XS
-        self.setRegion(s.rows, (l.XM + l.XS * 1.25, -999, self.width - l.XS * 1.25, 999999))
+        self.setRegion(
+            s.rows, (l.XM + l.XS * 1.25, -999, self.width - l.XS * 1.25,
+                     999999))
 
         # Create talon
         x = self.width / 2 - l.CW / 2
@@ -512,7 +535,8 @@ class GreatWall(AbstractFlowerGame):
             elif l == 4:
                 text = _("Filled")
             else:
-                text = str(l) + (_("st"), _("nd"), _("rd"), _("th"))[l - 1] + _(" Deck")
+                text = str(l) + (_("st"), _("nd"), _("rd"), _("th"))[l - 1] \
+                    + _(" Deck")
             stack.texts.misc.config(text=text)
 
     #
@@ -537,11 +561,10 @@ class GreatWall(AbstractFlowerGame):
         if stack1 in self.s.foundations:
             return (card1.rank == card2.rank
                     and ((((card1.suit + 1) % 12) == card2.suit)
-                    or (((card1.suit - 1) % 12) == card2.suit)))
+                         or (((card1.suit - 1) % 12) == card2.suit)))
         else:
             return (card1.rank + 1 == card2.rank
                     or card1.rank - 1 == card2.rank)
-
 
 
 # ************************************************************************
@@ -574,7 +597,8 @@ class FourWinds(AbstractFlowerGame):
             x0 = x + (xoffset[i] * l.XS)
             y0 = y + (yoffset[i] * l.YS)
             stack = FourWinds_Foundation(x0, y0, self, -1,
-                                         max_cards=12, max_accept=1, base_rank=i)
+                                         max_cards=12, max_accept=1,
+                                         base_rank=i)
             s.foundations.append(stack)
             t = MfxCanvasText(self.canvas, x0 + l.CW / 2, y0 + l.YS + 5,
                               anchor="center", font=font,
@@ -595,7 +619,8 @@ class FourWinds(AbstractFlowerGame):
                               anchor="center", font=font,
                               text=TEXTS[i+4])
             stack.texts.misc = t
-        self.setRegion(s.rows, (x + l.XS, y + l.YS * 0.65, x + l.XS * 4 + 5, y + l.YS * 3 + 5))
+        self.setRegion(s.rows, (x + l.XS, y + l.YS * 0.65, x + l.XS * 4 + 5,
+                                y + l.YS * 3 + 5))
 
         # Create talon
         x = x + 2 * l.XS
@@ -624,7 +649,6 @@ class FourWinds(AbstractFlowerGame):
                 self.dealCards()
 
 
-
 # ************************************************************************
 # * Sumo
 # ************************************************************************
@@ -649,10 +673,13 @@ class Sumo(AbstractFlowerGame):
         # Create stacks
         s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self)
         for r in l.s.foundations:
-            s.foundations.append(self.Foundation_Class(r.x, r.y, self,
-                                    suit=r.suit, base_rank=3))
+            s.foundations.append(
+                self.Foundation_Class(
+                    r.x, r.y, self,
+                    suit=r.suit, base_rank=3))
         for r in l.s.rows:
-            s.rows.append(self.RowStack_Class(r.x, r.y, self, yoffset=l.YOFFSET))
+            s.rows.append(
+                self.RowStack_Class(r.x, r.y, self, yoffset=l.YOFFSET))
         for r in l.s.reserves:
             s.reserves.append(ReserveStack(r.x, r.y, self))
         l.defaultAll()
@@ -668,7 +695,6 @@ class Sumo(AbstractFlowerGame):
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealCards()
-
 
 
 # ************************************************************************
@@ -694,10 +720,12 @@ class BigSumo(AbstractFlowerGame):
         # Create stacks
         s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self)
         for r in l.s.foundations:
-            s.foundations.append(self.Foundation_Class(r.x, r.y, self,
-                                    suit=r.suit, base_rank=3))
+            s.foundations.append(
+                self.Foundation_Class(r.x, r.y, self,
+                                      suit=r.suit, base_rank=3))
         for r in l.s.rows:
-            s.rows.append(self.RowStack_Class(r.x, r.y, self, yoffset=l.YOFFSET))
+            s.rows.append(
+                self.RowStack_Class(r.x, r.y, self, yoffset=l.YOFFSET))
         for r in l.s.reserves:
             s.reserves.append(ReserveStack(r.x, r.y, self))
         l.defaultAll()
@@ -713,7 +741,6 @@ class BigSumo(AbstractFlowerGame):
         self.startDealSample()
         self.s.talon.dealRow(rows=self.s.rows[2:8])
         self.s.talon.dealCards()
-
 
 
 # ************************************************************************
@@ -739,21 +766,21 @@ class Samuri(AbstractFlowerGame):
 
         # Create stacks
         s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self,
-                            max_rounds=max_rounds, num_deal=num_deal)
+                                   max_rounds=max_rounds, num_deal=num_deal)
         s.waste = WasteStack(l.s.waste.x, l.s.waste.y, self)
 
         # Create foundations
         for r in l.s.foundations:
             s.foundations.append(self.Foundation_Class(r.x, r.y, self,
-                                    suit=r.suit, base_rank=3))
+                                 suit=r.suit, base_rank=3))
 
         # Create row stacks
         for r in l.s.rows:
-            s.rows.append(self.RowStack_Class(r.x, r.y, self, yoffset=l.YOFFSET))
+            s.rows.append(
+                self.RowStack_Class(r.x, r.y, self, yoffset=l.YOFFSET))
 
         # Define stack groups
         l.defaultAll()
-
 
     #
     # Game over rides
@@ -766,7 +793,8 @@ class Samuri(AbstractFlowerGame):
             self.s.talon.dealRow(flip=0, frames=0)
         max_row = len(self.s.rows)
         for i in range(max_row):
-            self.s.talon.dealRow(rows=self.s.rows[i:max_row-i], flip=0, frames=0)
+            self.s.talon.dealRow(
+                rows=self.s.rows[i:max_row-i], flip=0, frames=0)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealCards()
@@ -777,7 +805,6 @@ class Samuri(AbstractFlowerGame):
                 self.dealCards()
 
 
-
 # ************************************************************************
 #  * Double Samuri
 #  ***********************************************************************/
@@ -786,14 +813,12 @@ class DoubleSamuri(Samuri):
     Rows = 11
 
 
-
 # ************************************************************************
 #  * Super Samuri
 #  ***********************************************************************/
 
 class SuperSamuri(DoubleSamuri):
     pass
-
 
 
 # ************************************************************************
@@ -814,19 +839,21 @@ class LittleEasy(AbstractFlowerGame):
 
     def createGame(self, max_rounds=-1, num_deal=3, **layout):
         l, s = Layout(self), self.s
-        kwdefault(layout, rows=self.Rows, waste=1, texts=1, playcards=self.PlayCards)
+        kwdefault(layout, rows=self.Rows, waste=1, texts=1,
+                  playcards=self.PlayCards)
         self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
 
         # Create stacks
         s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self,
-                            max_rounds=max_rounds, num_deal=num_deal)
+                                   max_rounds=max_rounds, num_deal=num_deal)
         s.waste = WasteStack(l.s.waste.x, l.s.waste.y, self)
         for r in l.s.foundations:
             s.foundations.append(self.Foundation_Class(r.x, r.y, self,
-                                    suit=ANY_SUIT, base_rank=r.suit))
+                                 suit=ANY_SUIT, base_rank=r.suit))
         for r in l.s.rows:
-            s.rows.append(self.RowStack_Class(r.x, r.y, self, yoffset=l.YOFFSET))
+            s.rows.append(
+                self.RowStack_Class(r.x, r.y, self, yoffset=l.YOFFSET))
         l.defaultAll()
 
     #
@@ -846,7 +873,6 @@ class LittleEasy(AbstractFlowerGame):
                 self.dealCards()
 
 
-
 # ************************************************************************
 # * Easy x One
 # ************************************************************************
@@ -857,14 +883,12 @@ class EasyX1(LittleEasy):
         LittleEasy.createGame(self, max_rounds=2, num_deal=1)
 
 
-
 # ************************************************************************
 # * Relax
 # ************************************************************************
 
 class Relax(EasyX1):
     RowStack_Class = Oonsoo_SequenceStack
-
 
 
 # ************************************************************************
@@ -875,7 +899,6 @@ class BigEasy(LittleEasy):
     Rows = 11
 
 
-
 # ************************************************************************
 # * Easy Supreme
 # ************************************************************************
@@ -883,7 +906,6 @@ class BigEasy(LittleEasy):
 class EasySupreme(LittleEasy):
     Rows = 11
     PlayCards = 14
-
 
 
 # ************************************************************************
@@ -905,7 +927,8 @@ class JustForFun(AbstractFlowerGame):
 
     def createGame(self, **layout):
         l, s = Layout(self), self.s
-        kwdefault(layout, rows=self.Rows, reserves=self.Reserves, texts=0, playcards=22)
+        kwdefault(layout, rows=self.Rows, reserves=self.Reserves, texts=0,
+                  playcards=22)
         self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
 
@@ -913,10 +936,10 @@ class JustForFun(AbstractFlowerGame):
         s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self)
         for r in l.s.foundations:
             s.foundations.append(self.Foundation_Class(r.x, r.y, self,
-                                    suit=ANY_SUIT, base_rank=r.suit))
+                                 suit=ANY_SUIT, base_rank=r.suit))
         for r in l.s.rows:
             s.rows.append(self.RowStack_Class(r.x, r.y, self,
-                            base_rank=self.BaseRank, yoffset=l.YOFFSET))
+                          base_rank=self.BaseRank, yoffset=l.YOFFSET))
         for r in l.s.reserves:
             s.reserves.append(ReserveStack(r.x, r.y, self))
         l.defaultAll()
@@ -935,7 +958,6 @@ class JustForFun(AbstractFlowerGame):
         self.s.talon.dealCards()
 
 
-
 # ************************************************************************
 # * Double Your Fun
 # ************************************************************************
@@ -943,7 +965,6 @@ class JustForFun(AbstractFlowerGame):
 class DoubleYourFun(JustForFun):
     Rows = 18
     Reserves = 4
-
 
 
 # ************************************************************************
@@ -956,14 +977,12 @@ class Firecracker(JustForFun):
     BaseRank = ANY_RANK
 
 
-
 # ************************************************************************
 # * Cherry Bomb
 # ************************************************************************
 
 class CherryBomb(Firecracker):
     Rows = 18
-
 
 
 # ************************************************************************
@@ -988,18 +1007,19 @@ class Paulownia(AbstractFlowerGame):
 
         # Create talon
         s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self,
-                            max_rounds=max_rounds, num_deal=num_deal)
+                                   max_rounds=max_rounds, num_deal=num_deal)
         s.waste = WasteStack(l.s.waste.x, l.s.waste.y, self)
 
         # Create foundations
         for r in l.s.foundations:
             s.foundations.append(self.Foundation_Class(r.x, r.y, self,
-                                        suit=r.suit, base_rank=3))
+                                                       suit=r.suit,
+                                                       base_rank=3))
 
         # Create row stacks
         for r in l.s.rows:
             s.rows.append(self.RowStack_Class(r.x, r.y, self,
-                            base_rank = 0, yoffset=l.YOFFSET))
+                          base_rank=0, yoffset=l.YOFFSET))
 
         # Define stack groups
         l.defaultAll()
@@ -1017,7 +1037,6 @@ class Paulownia(AbstractFlowerGame):
         self.s.talon.dealCards()
 
 
-
 # ************************************************************************
 # *  Register the games
 # ************************************************************************
@@ -1029,15 +1048,20 @@ def r(id, gameclass, name, game_type, decks, redeals, skill_level):
     registerGame(gi)
     return gi
 
+
 r(12345, Oonsoo, "Oonsoo", GI.GT_HANAFUDA, 1, 0, GI.SL_MOSTLY_SKILL)
-r(12346, MatsuKiri, "MatsuKiri", GI.GT_HANAFUDA | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL)
-r(12372, MatsuKiriStrict, 'MatsuKiri Strict', GI.GT_HANAFUDA | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL)
+r(12346, MatsuKiri, "MatsuKiri", GI.GT_HANAFUDA | GI.GT_OPEN, 1, 0,
+  GI.SL_MOSTLY_SKILL)
+r(12372, MatsuKiriStrict, 'MatsuKiri Strict', GI.GT_HANAFUDA | GI.GT_OPEN, 1,
+  0, GI.SL_MOSTLY_SKILL)
 r(12347, Gaji, "Gaji", GI.GT_HANAFUDA | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL)
-r(12348, FlowerClock, "Flower Clock", GI.GT_HANAFUDA | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL)
+r(12348, FlowerClock, "Flower Clock", GI.GT_HANAFUDA | GI.GT_OPEN, 1, 0,
+  GI.SL_MOSTLY_SKILL)
 r(12349, Pagoda, "Pagoda", GI.GT_HANAFUDA, 2, 0, GI.SL_BALANCED)
 r(12350, Samuri, "Samuri", GI.GT_HANAFUDA, 1, 0, GI.SL_BALANCED)
 r(12351, GreatWall, "Great Wall", GI.GT_HANAFUDA, 4, 0, GI.SL_MOSTLY_SKILL)
-r(12352, FourWinds, "Hanafuda Four Winds", GI.GT_HANAFUDA, 1, 1, GI.SL_MOSTLY_SKILL)
+r(12352, FourWinds, "Hanafuda Four Winds", GI.GT_HANAFUDA, 1, 1,
+  GI.SL_MOSTLY_SKILL)
 r(12353, Sumo, "Sumo", GI.GT_HANAFUDA, 1, 0, GI.SL_MOSTLY_SKILL)
 r(12354, BigSumo, "Big Sumo", GI.GT_HANAFUDA, 2, 0, GI.SL_MOSTLY_SKILL)
 r(12355, LittleEasy, "Little Easy", GI.GT_HANAFUDA, 1, -1, GI.SL_BALANCED)
@@ -1049,11 +1073,14 @@ r(12360, EasyX1, "Easy x One", GI.GT_HANAFUDA, 1, 1, GI.SL_BALANCED)
 r(12361, Relax, "Relax", GI.GT_HANAFUDA, 1, 1, GI.SL_BALANCED)
 r(12362, DoubleSamuri, "Double Samuri", GI.GT_HANAFUDA, 2, 0, GI.SL_BALANCED)
 r(12363, SuperSamuri, "Super Samuri", GI.GT_HANAFUDA, 4, 0, GI.SL_BALANCED)
-r(12364, DoubleYourFun, "Double Your Fun", GI.GT_HANAFUDA, 2, 0, GI.SL_MOSTLY_SKILL)
+r(12364, DoubleYourFun, "Double Your Fun", GI.GT_HANAFUDA, 2, 0,
+  GI.SL_MOSTLY_SKILL)
 r(12365, CherryBomb, "Cherry Bomb", GI.GT_HANAFUDA, 2, 0, GI.SL_BALANCED)
 r(12366, OonsooToo, "Oonsoo Too", GI.GT_HANAFUDA, 1, 0, GI.SL_MOSTLY_SKILL)
-r(12367, OonsooStrict, "Oonsoo Strict", GI.GT_HANAFUDA, 1, 0, GI.SL_MOSTLY_SKILL)
+r(12367, OonsooStrict, "Oonsoo Strict", GI.GT_HANAFUDA, 1, 0,
+  GI.SL_MOSTLY_SKILL)
 r(12368, OonsooOpen, "Oonsoo Open", GI.GT_HANAFUDA, 1, 0, GI.SL_MOSTLY_SKILL)
-r(12379, OonsooTimesTwo, "Oonsoo Times Two", GI.GT_HANAFUDA, 2, 0, GI.SL_MOSTLY_SKILL)
+r(12379, OonsooTimesTwo, "Oonsoo Times Two", GI.GT_HANAFUDA, 2, 0,
+  GI.SL_MOSTLY_SKILL)
 
 del r

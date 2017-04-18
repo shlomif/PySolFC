@@ -24,18 +24,30 @@
 __all__ = []
 
 # Imports
-import sys, math
+import math
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
 from pysollib.mfxutil import kwdefault
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.hint import DefaultHint, CautiousDefaultHint
 from pysollib.pysoltk import MfxCanvasText
+
+from pysollib.util import ANY_RANK, ANY_SUIT, NO_RANK, UNLIMITED_ACCEPTS, \
+        UNLIMITED_MOVES
+
+from pysollib.stack import \
+        AC_RowStack, \
+        AbstractFoundationStack, \
+        InitialDealTalonStack, \
+        ReserveStack, \
+        SS_FoundationStack, \
+        StackWrapper, \
+        WasteStack, \
+        WasteTalonStack, \
+        OpenStack
 
 
 # ************************************************************************
@@ -73,7 +85,8 @@ class Merlins_Foundation(AbstractFoundationStack):
             card_dir = (cards[0].rank - self.cards[-1].rank) % self.cap.mod
             return card_dir in (1, 15)
         else:
-            return (self.cards[-1].rank + stack_dir) % self.cap.mod == cards[0].rank
+            return (self.cards[-1].rank + stack_dir) % self.cap.mod \
+                == cards[0].rank
 
 
 # ************************************************************************
@@ -83,7 +96,8 @@ class Merlins_Foundation(AbstractFoundationStack):
 class HexADeck_OpenStack(OpenStack):
 
     def __init__(self, x, y, game, yoffset, **cap):
-        kwdefault(cap, max_move=UNLIMITED_MOVES, max_accept=UNLIMITED_ACCEPTS, dir=-1)
+        kwdefault(cap, max_move=UNLIMITED_MOVES, max_accept=UNLIMITED_ACCEPTS,
+                  dir=-1)
         OpenStack.__init__(self, x, y, game, **cap)
         self.CARD_YOFFSET = yoffset
 
@@ -179,7 +193,7 @@ class Bits_RowStack(ReserveStack):
             if not r.cards:
                 return 0
         return ((self.game.s.foundations[i].cards[-1].rank + 1
-                    >> (self.id % 4)) % 2 == (cards[0].rank + 1) % 2)
+                 >> (self.id % 4)) % 2 == (cards[0].rank + 1) % 2)
 
 
 class Bytes_RowStack(ReserveStack):
@@ -233,7 +247,6 @@ class Familiar_ReserveStack(ReserveStack):
 class Merlins_BraidStack(OpenStack):
     def __init__(self, x, y, game):
         OpenStack.__init__(self, x, y, game)
-        CW = self.game.app.images.CARDW
         self.CARD_YOFFSET = self.game.app.images.CARD_YOFFSET
         # use a sine wave for the x offsets
         self.CARD_XOFFSET = []
@@ -302,7 +315,7 @@ class BitsNBytes(Game):
                                       base_suit=j, max_move=0)
                 s.rows.append(stack)
                 stack.texts.misc = MfxCanvasText(self.canvas,
-                                                 x + l.CW / 2 , y + l.CH / 2,
+                                                 x + l.CW / 2, y + l.CH / 2,
                                                  anchor="center", font=font)
                 x = x - l.XS
             y = y + l.YS
@@ -312,8 +325,10 @@ class BitsNBytes(Game):
         for j in range(4):
             x = l.XM * 3 + l.XS * 3
             for i in range(2):
-                s.rows.append(Bytes_RowStack(x, y, self, max_cards=1,
-                                    max_accept=1, base_suit=ANY_SUIT, max_move=0))
+                s.rows.append(
+                    Bytes_RowStack(
+                        x, y, self, max_cards=1,
+                        max_accept=1, base_suit=ANY_SUIT, max_move=0))
                 x = x - l.XS
             y = y + l.YS
 
@@ -321,8 +336,10 @@ class BitsNBytes(Game):
         x = l.XM * 2 + l.XS
         y = l.YM
         for i in range(4):
-            s.foundations.append(SS_FoundationStack(x, y, self, i, mod=1,
-                                             max_move=0, max_cards=1))
+            s.foundations.append(
+                SS_FoundationStack(
+                    x, y, self, i, mod=1,
+                    max_move=0, max_cards=1))
             y = y + l.YS
         self.setRegion(s.rows, (0, 0, 999999, 999999))
 
@@ -351,7 +368,7 @@ class BitsNBytes(Game):
             s = self.s.foundations[j].cards[-1].rank + 1
             for i in range(4):
                 stack = self.s.rows[i + j * 4]
-                stack.texts.misc.config(text = str(s % 2))
+                stack.texts.misc.config(text=str(s % 2))
                 s = int(s / 2)
 
     def _shuffleHook(self, cards):
@@ -409,22 +426,29 @@ class HexAKlon(Game):
         self.setSize(l.size[0], l.size[1])
 
         # Create talon
-        s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self,
-                                max_rounds=max_rounds, num_deal=num_deal)
+        s.talon = self.Talon_Class(
+            l.s.talon.x, l.s.talon.y, self,
+            max_rounds=max_rounds, num_deal=num_deal)
         s.waste = WasteStack(l.s.waste.x, l.s.waste.y, self)
 
         # Create foundations
         for r in l.s.foundations[:4]:
-            s.foundations.append(self.Foundation_Class(r.x, r.y, self,
-                                    r.suit, mod=16, max_cards=16, max_move=1))
+            s.foundations.append(
+                self.Foundation_Class(
+                    r.x, r.y, self,
+                    r.suit, mod=16, max_cards=16, max_move=1))
         r = l.s.foundations[4]
-        s.foundations.append(HexATrump_Foundation(r.x, r.y, self, 4, mod=4,
-                                    max_move=0, max_cards=4, base_rank=ANY_RANK))
+        s.foundations.append(
+            HexATrump_Foundation(
+                r.x, r.y, self, 4, mod=4,
+                max_move=0, max_cards=4, base_rank=ANY_RANK))
 
         # Create rows
         for r in l.s.rows:
-            s.rows.append(self.RowStack_Class(r.x, r.y, self,
-                                    suit=ANY_SUIT, base_rank=ANY_RANK))
+            s.rows.append(
+                self.RowStack_Class(
+                    r.x, r.y, self,
+                    suit=ANY_SUIT, base_rank=ANY_RANK))
 
         # Define stack groups
         l.defaultAll()
@@ -468,22 +492,29 @@ class HexAKlonByThrees(Game):
         self.setSize(l.size[0], l.size[1])
 
         # Create talon
-        s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self,
-                                max_rounds=max_rounds, num_deal=num_deal)
+        s.talon = self.Talon_Class(
+            l.s.talon.x, l.s.talon.y, self,
+            max_rounds=max_rounds, num_deal=num_deal)
         s.waste = WasteStack(l.s.waste.x, l.s.waste.y, self)
 
         # Create foundations
         for r in l.s.foundations[:4]:
-            s.foundations.append(self.Foundation_Class(r.x, r.y, self,
-                                    r.suit, mod=16, max_cards=16, max_move=1))
+            s.foundations.append(
+                self.Foundation_Class(
+                    r.x, r.y, self,
+                    r.suit, mod=16, max_cards=16, max_move=1))
         r = l.s.foundations[4]
-        s.foundations.append(HexATrump_Foundation(r.x, r.y, self, 4, mod=4,
-                                    max_move=0, max_cards=4, base_rank=ANY_RANK))
+        s.foundations.append(
+            HexATrump_Foundation(
+                r.x, r.y, self, 4, mod=4,
+                max_move=0, max_cards=4, base_rank=ANY_RANK))
 
         # Create rows
         for r in l.s.rows:
-            s.rows.append(self.RowStack_Class(r.x, r.y, self,
-                                    suit=ANY_SUIT, base_rank=ANY_RANK))
+            s.rows.append(
+                self.RowStack_Class(
+                    r.x, r.y, self,
+                    suit=ANY_SUIT, base_rank=ANY_RANK))
 
         # Define stack groups
         l.defaultAll()
@@ -528,21 +559,25 @@ class KingOnlyHexAKlon(Game):
 
         # Create talon
         s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self,
-                                max_rounds=max_rounds, num_deal=num_deal)
+                                   max_rounds=max_rounds, num_deal=num_deal)
         s.waste = WasteStack(l.s.waste.x, l.s.waste.y, self)
 
         # Create foundations
         for r in l.s.foundations[:4]:
-            s.foundations.append(self.Foundation_Class(r.x, r.y, self,
-                                    r.suit, mod=16, max_cards=16, max_move=1))
+            s.foundations.append(
+                self.Foundation_Class(
+                    r.x, r.y, self,
+                    r.suit, mod=16, max_cards=16, max_move=1))
         r = l.s.foundations[4]
-        s.foundations.append(HexATrump_Foundation(r.x, r.y, self, 4, mod=4,
-                                    max_move=0, max_cards=4, base_rank=ANY_RANK))
+        s.foundations.append(
+            HexATrump_Foundation(
+                r.x, r.y, self, 4, mod=4,
+                max_move=0, max_cards=4, base_rank=ANY_RANK))
 
         # Create rows
         for r in l.s.rows:
             s.rows.append(self.RowStack_Class(r.x, r.y, self,
-                                    suit=ANY_SUIT, base_rank=15))
+                                              suit=ANY_SUIT, base_rank=15))
 
         # Define stack groups
         l.defaultAll()
@@ -563,7 +598,7 @@ class KingOnlyHexAKlon(Game):
         basecard = [None]
         for c in cards[:]:
             if c.suit == 4:
-                if basecard[0] == None:
+                if basecard[0] is None:
                     basecard[0] = c
                     cards.remove(c)
         cards = basecard + cards
@@ -598,18 +633,20 @@ class KlondikePlus16(Game):
 
         # Create talon
         s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self,
-                                max_rounds=max_rounds, num_deal=num_deal)
+                                   max_rounds=max_rounds, num_deal=num_deal)
         s.waste = WasteStack(l.s.waste.x, l.s.waste.y, self)
 
         # Create foundations
         for r in l.s.foundations:
-            s.foundations.append(self.Foundation_Class(r.x, r.y, self,
-                                    r.suit, mod=16, max_cards=16, max_move=1))
+            s.foundations.append(
+                self.Foundation_Class(
+                    r.x, r.y, self,
+                    r.suit, mod=16, max_cards=16, max_move=1))
 
         # Create rows
         for r in l.s.rows:
             s.rows.append(self.RowStack_Class(r.x, r.y, self,
-                                    suit=ANY_SUIT, base_rank=15))
+                                              suit=ANY_SUIT, base_rank=15))
 
         # Define stack groups
         l.defaultAll()
@@ -654,23 +691,26 @@ class TheFamiliar(Game):
 
         # Create talon
         s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self,
-                                max_rounds=max_rounds, num_deal=num_deal)
+                                   max_rounds=max_rounds, num_deal=num_deal)
         s.waste = WasteStack(l.s.waste.x, l.s.waste.y, self)
 
         # Create foundations
         for r in l.s.foundations:
-            s.foundations.append(self.Foundation_Class(r.x, r.y, self,
-                                    r.suit, mod=16, max_cards=16, max_move=1))
+            s.foundations.append(
+                self.Foundation_Class(
+                    r.x, r.y, self,
+                    r.suit, mod=16, max_cards=16, max_move=1))
 
         # Create rows
         for r in l.s.rows:
             s.rows.append(self.RowStack_Class(r.x, r.y, self,
-                                    suit=ANY_SUIT, base_rank=15))
+                                              suit=ANY_SUIT, base_rank=15))
 
         # Create reserve
         x, y = l.XM, self.height - l.YS
         s.reserves.append(Familiar_ReserveStack(x, y, self, max_cards=3))
-        self.setRegion(s.reserves, (-999, y - l.YM, x + l.XS, 999999), priority=1)
+        self.setRegion(
+            s.reserves, (-999, y - l.YM, x + l.XS, 999999), priority=1)
         l.createText(s.reserves[0], "se")
 
         # Define stack groups
@@ -716,23 +756,26 @@ class TwoFamiliars(Game):
 
         # Create talon
         s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self,
-                                max_rounds=max_rounds, num_deal=num_deal)
+                                   max_rounds=max_rounds, num_deal=num_deal)
         s.waste = WasteStack(l.s.waste.x, l.s.waste.y, self)
 
         # Create foundations
         for r in l.s.foundations:
-            s.foundations.append(self.Foundation_Class(r.x, r.y, self,
-                                    r.suit, mod=16, max_cards=16, max_move=1))
+            s.foundations.append(
+                self.Foundation_Class(
+                    r.x, r.y, self,
+                    r.suit, mod=16, max_cards=16, max_move=1))
 
         # Create rows
         for r in l.s.rows:
             s.rows.append(self.RowStack_Class(r.x, r.y, self,
-                                    suit=ANY_SUIT, base_rank=15))
+                                              suit=ANY_SUIT, base_rank=15))
 
         # Create reserve
         x, y = l.XM, self.height - l.YS
         s.reserves.append(Familiar_ReserveStack(x, y, self, max_cards=3))
-        self.setRegion(s.reserves, (-999, y - l.YM, x + l.XS, 999999), priority=1)
+        self.setRegion(
+            s.reserves, (-999, y - l.YM, x + l.XS, 999999), priority=1)
         l.createText(s.reserves[0], "se")
 
         # Define stack groups
@@ -778,18 +821,21 @@ class TenByEight(Game):
 
         # Create talon
         s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self,
-                                max_rounds=max_rounds, num_deal=num_deal)
+                                   max_rounds=max_rounds, num_deal=num_deal)
         s.waste = WasteStack(l.s.waste.x, l.s.waste.y, self)
 
         # Create foundations
         for r in l.s.foundations:
-            s.foundations.append(self.Foundation_Class(r.x, r.y, self,
-                                    r.suit, mod=16, max_cards=16, max_move=1))
+            s.foundations.append(
+                self.Foundation_Class(
+                    r.x, r.y, self,
+                    r.suit, mod=16, max_cards=16, max_move=1))
 
         # Create rows
         for r in l.s.rows:
             s.rows.append(self.RowStack_Class(r.x, r.y, self,
-                                    suit=ANY_SUIT, base_rank=ANY_RANK))
+                                              suit=ANY_SUIT,
+                                              base_rank=ANY_RANK))
 
         # Define stack groups
         l.defaultAll()
@@ -836,18 +882,21 @@ class Drawbridge(Game):
 
         # Create talon
         s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self,
-                                max_rounds=max_rounds, num_deal=num_deal)
+                                   max_rounds=max_rounds, num_deal=num_deal)
         s.waste = WasteStack(l.s.waste.x, l.s.waste.y, self)
 
         # Create foundations
         for r in l.s.foundations:
-            s.foundations.append(self.Foundation_Class(r.x, r.y, self,
-                                    r.suit, mod=16, max_cards=16, max_move=1))
+            s.foundations.append(
+                self.Foundation_Class(
+                    r.x, r.y, self,
+                    r.suit, mod=16, max_cards=16, max_move=1))
 
         # Create rows
         for r in l.s.rows:
             s.rows.append(self.RowStack_Class(r.x, r.y, self,
-                                    suit=ANY_SUIT, base_rank=ANY_RANK))
+                                              suit=ANY_SUIT,
+                                              base_rank=ANY_RANK))
 
         # Define stack groups
         l.defaultAll()
@@ -892,18 +941,22 @@ class DoubleDrawbridge(Game):
 
         # Create talon
         s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self,
-                                max_rounds=max_rounds, num_deal=num_deal)
+                                   max_rounds=max_rounds, num_deal=num_deal)
         s.waste = WasteStack(l.s.waste.x, l.s.waste.y, self)
 
         # Create foundations
         for r in l.s.foundations:
-            s.foundations.append(self.Foundation_Class(r.x, r.y, self,
-                                    r.suit, mod=16, max_cards=16, max_move=1))
+            s.foundations.append(
+                self.Foundation_Class(
+                    r.x, r.y, self,
+                    r.suit, mod=16, max_cards=16, max_move=1))
 
         # Create rows
         for r in l.s.rows:
-            s.rows.append(self.RowStack_Class(r.x, r.y, self,
-                                    suit=ANY_SUIT, base_rank=ANY_RANK))
+            s.rows.append(
+                self.RowStack_Class(
+                    r.x, r.y, self,
+                    suit=ANY_SUIT, base_rank=ANY_RANK))
 
         # Define stack groups
         l.defaultAll()
@@ -948,21 +1001,26 @@ class HiddenPassages(Game):
 
         # Create talon
         s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self,
-                                max_rounds=max_rounds, num_deal=num_deal)
+                                   max_rounds=max_rounds, num_deal=num_deal)
         s.waste = WasteStack(l.s.waste.x, l.s.waste.y, self)
 
         # Create foundations
         for r in l.s.foundations[:4]:
-            s.foundations.append(self.Foundation_Class(r.x, r.y, self,
-                                    r.suit, mod=16, max_cards=16, max_move=1))
+            s.foundations.append(
+                self.Foundation_Class(
+                    r.x, r.y, self,
+                    r.suit, mod=16, max_cards=16, max_move=1))
         r = l.s.foundations[4]
-        s.foundations.append(HexATrump_Foundation(r.x, r.y, self, 4, mod=4,
-                                    max_move=0, max_cards=4, base_rank=ANY_RANK))
+        s.foundations.append(
+            HexATrump_Foundation(
+                r.x, r.y, self, 4, mod=4,
+                max_move=0, max_cards=4, base_rank=ANY_RANK))
 
         # Create rows
         for r in l.s.rows:
             s.rows.append(self.RowStack_Class(r.x, r.y, self,
-                                    suit=ANY_SUIT, base_rank=ANY_RANK))
+                                              suit=ANY_SUIT,
+                                              base_rank=ANY_RANK))
 
         # Define stack groups
         l.defaultAll()
@@ -1017,21 +1075,26 @@ class CluitjarsLair(Game):
 
         # Create talon
         s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self,
-                                max_rounds=max_rounds, num_deal=num_deal)
+                                   max_rounds=max_rounds, num_deal=num_deal)
         s.waste = WasteStack(l.s.waste.x, l.s.waste.y, self)
 
         # Create foundations
         for r in l.s.foundations[:4]:
-            s.foundations.append(self.Foundation_Class(r.x, r.y, self,
-                                    r.suit, mod=16, max_cards=16, max_move=1))
+            s.foundations.append(
+                self.Foundation_Class(
+                    r.x, r.y, self,
+                    r.suit, mod=16, max_cards=16, max_move=1))
         r = l.s.foundations[4]
-        s.foundations.append(HexATrump_Foundation(r.x, r.y, self, 4, mod=4,
-                                    max_move=0, max_cards=4, base_rank=ANY_RANK))
+        s.foundations.append(
+            HexATrump_Foundation(
+                r.x, r.y, self, 4, mod=4,
+                max_move=0, max_cards=4, base_rank=ANY_RANK))
 
         # Create rows
         for r in l.s.rows:
             s.rows.append(self.RowStack_Class(r.x, r.y, self,
-                                    suit=ANY_SUIT, base_rank=ANY_RANK))
+                                              suit=ANY_SUIT,
+                                              base_rank=ANY_RANK))
 
         # Define stack groups
         l.defaultAll()
@@ -1082,7 +1145,8 @@ class MerlinsMeander(AbstractHexADeckGame):
         for i in range(2):
             s.rows.append(Merlins_RowStack(x + l.XS * 0.5, y, self))
             s.rows.append(Merlins_RowStack(x + l.XS * 4.5, y, self))
-            s.reserves.append(Familiar_ReserveStack(x + l.XS * 6.5, y, self, max_cards=3))
+            s.reserves.append(
+                Familiar_ReserveStack(x + l.XS * 6.5, y, self, max_cards=3))
             y = y + l.YS * 3
         y = l.YM + l.YS
         for i in range(2):
@@ -1100,32 +1164,37 @@ class MerlinsMeander(AbstractHexADeckGame):
         x, y = l.XM + l.XS * 7, l.YM + l.YS * 1.5
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
         l.createText(s.talon, "s")
-        s.talon.texts.rounds = MfxCanvasText(self.canvas,
-                                             x + l.CW / 2, y - l.YM,
-                                             anchor="s",
-                                             font=self.app.getFont("canvas_default"))
-        x = x - l.XS
+        s.talon.texts.rounds = MfxCanvasText(
+            self.canvas,
+            x + l.CW / 2, y - l.YM,
+            anchor="s",
+            font=self.app.getFont("canvas_default"))
+        x -= l.XS
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, "s")
 
         # Create foundations
         x, y = l.XM + l.XS * 8, l.YM
         for i in range(4):
-            s.foundations.append(Merlins_Foundation(x, y, self, i, mod=16,
-                                                max_cards=16, base_rank=ANY_RANK))
-            s.foundations.append(Merlins_Foundation(x + l.XS, y, self, i, mod=16,
-                                                max_cards=16, base_rank=ANY_RANK))
+            s.foundations.append(
+                Merlins_Foundation(
+                    x, y, self, i, mod=16,
+                    max_cards=16, base_rank=ANY_RANK))
+            s.foundations.append(
+                Merlins_Foundation(
+                    x + l.XS, y, self, i, mod=16,
+                    max_cards=16, base_rank=ANY_RANK))
             y = y + l.YS
-        self.texts.info = MfxCanvasText(self.canvas,
-                                        x + l.CW + l.XM / 2, y,
-                                        anchor="n",
-                                        font=self.app.getFont("canvas_default"))
+        self.texts.info = MfxCanvasText(
+            self.canvas,
+            x + l.CW + l.XM / 2, y,
+            anchor="n",
+            font=self.app.getFont("canvas_default"))
 
         # define stack-groups
         self.sg.talonstacks = [s.talon] + [s.waste]
         self.sg.openstacks = s.foundations + s.rows + s.reserves
         self.sg.dropstacks = [s.braid] + s.rows + [s.waste] + s.reserves
-
 
     #
     # game overrides
@@ -1156,7 +1225,8 @@ class MerlinsMeander(AbstractHexADeckGame):
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return (card1.suit == card2.suit and
-                ((card1.rank + 1) % 16 == card2.rank or (card2.rank + 1) % 16 == card1.rank))
+                ((card1.rank + 1) % 16 == card2.rank or
+                 (card2.rank + 1) % 16 == card1.rank))
 
     def getHighlightPilesStacks(self):
         return ()
@@ -1172,7 +1242,6 @@ class MerlinsMeander(AbstractHexADeckGame):
 
     def _saveGameHook(self, p):
         p.dump(self.base_card.id)
-
 
     #
     # game extras
@@ -1224,17 +1293,20 @@ class MagesGame(Game):
 
         # Create talon
         s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self,
-                                max_rounds=max_rounds, num_deal=num_deal)
+                                   max_rounds=max_rounds, num_deal=num_deal)
 
         # Create foundations
         for r in l.s.foundations:
-            s.foundations.append(self.Foundation_Class(r.x, r.y, self,
-                                    r.suit, mod=16, max_cards=16, max_move=1))
+            s.foundations.append(
+                self.Foundation_Class(
+                    r.x, r.y, self,
+                    r.suit, mod=16, max_cards=16, max_move=1))
 
         # Create rows
         for r in l.s.rows:
             s.rows.append(self.RowStack_Class(r.x, r.y, self,
-                                    suit=ANY_SUIT, base_rank=ANY_RANK))
+                                              suit=ANY_SUIT,
+                                              base_rank=ANY_RANK))
 
         # Define stack groups
         l.defaultAll()
@@ -1255,7 +1327,6 @@ class MagesGame(Game):
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return (card1.color != card2.color and
                 (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank))
-
 
 
 # ************************************************************************
@@ -1303,12 +1374,14 @@ class Convolution(AbstractHexADeckGame):
         x, y = l.XM + maxrows * l.XS, l.YM
         for i in range(2):
             for suit in range(5):
-                s.foundations.append(SS_FoundationStack(x, y, self, suit=suit, max_cards=16))
+                s.foundations.append(
+                    SS_FoundationStack(x, y, self, suit=suit, max_cards=16))
                 y = y + l.YS
             x, y = x + l.XS, l.YM
         self.setRegion(self.s.foundations, (x - l.XS * 2, -999, 999999,
-                        self.height - (l.YS + l.YM)), priority=1)
-        s.talon = InitialDealTalonStack(self.width - 3 * l.XS / 2, self.height - l.YS, self)
+                       self.height - (l.YS + l.YM)), priority=1)
+        s.talon = InitialDealTalonStack(
+            self.width - 3 * l.XS / 2, self.height - l.YS, self)
 
         # define stack-groups
         l.defaultStackGroups()
@@ -1331,7 +1404,8 @@ class Convolution(AbstractHexADeckGame):
         closest, cdist = None, 999999999
         for stack in stacks:
             if stack.cards and stack is not dragstack:
-                dist = (stack.cards[-1].x - cx)**2 + (stack.cards[-1].y - cy)**2
+                dist = (stack.cards[-1].x - cx)**2 + \
+                    (stack.cards[-1].y - cy)**2
             else:
                 dist = (stack.x - cx)**2 + (stack.y - cy)**2
             if dist < cdist:
@@ -1357,7 +1431,6 @@ class Labyrinth(Convolution):
         return (sequence([card1, card2]) or sequence([card2, card1]))
 
 
-
 # ************************************************************************
 # *
 # ************************************************************************
@@ -1369,7 +1442,6 @@ class Snakestone(Convolution):
         row = self.s.rows[0]
         sequence = row.isSuitSequence
         return (sequence([card1, card2]) or sequence([card2, card1]))
-
 
 
 # ************************************************************************
@@ -1386,17 +1458,24 @@ def r(id, gameclass, name, game_type, decks, redeals, skill_level):
 
 r(165, BitsNBytes, 'Bits n Bytes', GI.GT_HEXADECK, 1, 1, GI.SL_BALANCED)
 r(166, HexAKlon, 'Hex A Klon', GI.GT_HEXADECK, 1, -1, GI.SL_BALANCED)
-r(16666, KlondikePlus16, 'Klondike Plus 16', GI.GT_HEXADECK, 1, 1, GI.SL_BALANCED)
-r(16667, HexAKlonByThrees, 'Hex A Klon by Threes', GI.GT_HEXADECK, 1, -1, GI.SL_BALANCED)
-r(16668, KingOnlyHexAKlon, 'King Only Hex A Klon', GI.GT_HEXADECK, 1, -1, GI.SL_BALANCED)
+r(16666, KlondikePlus16, 'Klondike Plus 16', GI.GT_HEXADECK, 1, 1,
+  GI.SL_BALANCED)
+r(16667, HexAKlonByThrees, 'Hex A Klon by Threes', GI.GT_HEXADECK, 1, -1,
+  GI.SL_BALANCED)
+r(16668, KingOnlyHexAKlon, 'King Only Hex A Klon', GI.GT_HEXADECK, 1, -1,
+  GI.SL_BALANCED)
 r(16669, TheFamiliar, 'The Familiar', GI.GT_HEXADECK, 1, 1, GI.SL_BALANCED)
 r(16670, TwoFamiliars, 'Two Familiars', GI.GT_HEXADECK, 2, 1, GI.SL_BALANCED)
 r(16671, TenByEight, '10 x 8', GI.GT_HEXADECK, 2, -1, GI.SL_BALANCED)
 r(16672, Drawbridge, 'Drawbridge', GI.GT_HEXADECK, 1, 1, GI.SL_BALANCED)
-r(16673, DoubleDrawbridge, 'Double Drawbridge', GI.GT_HEXADECK, 2, 1, GI.SL_BALANCED)
-r(16674, HiddenPassages, 'Hidden Passages', GI.GT_HEXADECK, 1, 1, GI.SL_MOSTLY_LUCK)
-r(16675, CluitjarsLair, 'Cluitjar\'s Lair', GI.GT_HEXADECK, 1, 0, GI.SL_BALANCED)
-r(16676, MerlinsMeander, 'Merlin\'s Meander', GI.GT_HEXADECK, 2, 2, GI.SL_BALANCED)
+r(16673, DoubleDrawbridge, 'Double Drawbridge', GI.GT_HEXADECK, 2, 1,
+  GI.SL_BALANCED)
+r(16674, HiddenPassages, 'Hidden Passages', GI.GT_HEXADECK, 1, 1,
+  GI.SL_MOSTLY_LUCK)
+r(16675, CluitjarsLair, 'Cluitjar\'s Lair', GI.GT_HEXADECK, 1, 0,
+  GI.SL_BALANCED)
+r(16676, MerlinsMeander, 'Merlin\'s Meander', GI.GT_HEXADECK, 2, 2,
+  GI.SL_BALANCED)
 r(16677, MagesGame, 'Mage\'s Game', GI.GT_HEXADECK, 1, 0, GI.SL_BALANCED)
 r(16678, Convolution, 'Convolution', GI.GT_HEXADECK, 2, 0, GI.SL_MOSTLY_SKILL)
 r(16679, Labyrinth, 'Hex Labyrinth', GI.GT_HEXADECK, 2, 0, GI.SL_MOSTLY_SKILL)

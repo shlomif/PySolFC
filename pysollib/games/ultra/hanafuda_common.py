@@ -50,43 +50,52 @@ __all__ = [
     ]
 
 
-import sys, math
+import math
 
-from pysollib.mygettext import _, n_
-from pysollib.util import *
+from pysollib.mygettext import _
 from pysollib.mfxutil import kwdefault
-from pysollib.stack import *
 from pysollib.game import Game
-from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.hint import DefaultHint
 
+from pysollib.util import ANY_RANK, ANY_SUIT
+
+from pysollib.stack import \
+        AbstractFoundationStack, \
+        OpenStack, \
+        ReserveStack, \
+        isRankSequence, \
+        cardsFaceUp
 
 # ************************************************************************
 #  *
 #  ***********************************************************************/
 
+
 class AbstractFlowerGame(Game):
     SUITS = (_("Pine"), _("Plum"), _("Cherry"), _("Wisteria"),
              _("Iris"), _("Peony"), _("Bush Clover"), _("Eularia"),
              _("Chrysanthemum"), _("Maple"), _("Willow"), _("Paulownia"))
+
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return ((card1.suit == card2.suit)
                 and ((card1.rank + 1 == card2.rank)
                 or (card1.rank - 1 == card2.rank)))
 
+
 class Queue_Hint(DefaultHint):
     pass
-
 
 
 # ************************************************************************
 #  * Flower Foundation Stacks
 #  ***********************************************************************/
 
+
 class Flower_FoundationStack(AbstractFoundationStack):
 
     def __init__(self, x, y, game, suit, **cap):
-        kwdefault(cap, max_cards=12, max_move=0, base_rank=ANY_RANK, base_suit=ANY_SUIT)
+        kwdefault(cap, max_cards=12, max_move=0, base_rank=ANY_RANK,
+                  base_suit=ANY_SUIT)
         AbstractFoundationStack.__init__(self, x, y, game, suit, **cap)
 
     def updateText(self):
@@ -115,6 +124,7 @@ class Flower_FoundationStack(AbstractFoundationStack):
 
     def getBaseCard(self):
         return ''                       # FIXME
+
     def getHelp(self):
         return ''                       # FIXME
 
@@ -149,7 +159,8 @@ class FlowerClock_Foundation(Flower_FoundationStack):
 class Gaji_Foundation(Flower_FoundationStack):
 
     def __init__(self, x, y, game, suit, **cap):
-        kwdefault(cap, max_move=1, min_cards=1, max_accept=1, base_suit=ANY_SUIT)
+        kwdefault(cap, max_move=1, min_cards=1, max_accept=1,
+                  base_suit=ANY_SUIT)
         Flower_FoundationStack.__init__(self, x, y, game, suit, **cap)
         self.CARD_YOFFSET = self.game.app.images.CARD_YOFFSET
 
@@ -158,7 +169,7 @@ class Gaji_Foundation(Flower_FoundationStack):
             return 0
         stackcards = self.cards
         return ((((stackcards[-1].suit + 1) % 12) == cards[0].suit)
-                    and (stackcards[-1].rank == cards[0].rank))
+                and (stackcards[-1].rank == cards[0].rank))
 
     def getBottomImage(self):
         return self.game.app.images.getLetter(self.cap.base_rank)
@@ -201,8 +212,8 @@ class MatsuKiri_Foundation(Flower_FoundationStack):
             return cards[0].suit == 0
         return stackcards[-1].suit + 1 == cards[0].suit
 
-##     def getBottomImage(self):
-##         return self.game.app.images.getBraidBottom()
+    #     def getBottomImage(self):
+    #         return self.game.app.images.getBraidBottom()
 
 
 class GreatWall_FoundationStack(Flower_FoundationStack):
@@ -239,8 +250,8 @@ class FourWinds_Foundation(Flower_FoundationStack):
         else:
             return (cards[0].suit == stackcards[-1].suit + 1)
 
-##     def getBottomImage(self):
-##         return self.game.app.images.getLetter(self.cap.base_rank)
+    #      def getBottomImage(self):
+    #          return self.game.app.images.getLetter(self.cap.base_rank)
 
 
 class Queue_Foundation(AbstractFoundationStack):
@@ -264,8 +275,6 @@ class Queue_Foundation(AbstractFoundationStack):
         return self.game.app.images.getLetter(self.cap.base_rank)
 
 
-
-
 # ************************************************************************
 #  * Flower Row Stacks
 #  ***********************************************************************/
@@ -273,7 +282,8 @@ class Queue_Foundation(AbstractFoundationStack):
 class Flower_OpenStack(OpenStack):
 
     def __init__(self, x, y, game, yoffset, **cap):
-        kwdefault(cap, max_move=99, max_cards=99, max_accept=99, base_rank=0, dir=1)
+        kwdefault(cap, max_move=99, max_cards=99, max_accept=99, base_rank=0,
+                  dir=1)
         OpenStack.__init__(self, x, y, game, **cap)
         self.CARD_YOFFSET = yoffset
 
@@ -303,8 +313,8 @@ class Flower_OpenStack(OpenStack):
 class Hanafuda_SequenceStack(Flower_OpenStack):
 
     def acceptsCards(self, from_stack, cards):
-        if (not self.basicAcceptsCards(from_stack, cards)
-            or not self.isHanafudaSequence(cards)):
+        if not self.basicAcceptsCards(from_stack, cards) \
+               or not self.isHanafudaSequence(cards):
             return 0
         stackcards = self.cards
         if not len(stackcards):
@@ -315,8 +325,8 @@ class Hanafuda_SequenceStack(Flower_OpenStack):
 class Oonsoo_SequenceStack(Flower_OpenStack):
 
     def acceptsCards(self, from_stack, cards):
-        if (not self.basicAcceptsCards(from_stack, cards)
-            or not self.isHanafudaSequence(cards, 0)):
+        if not self.basicAcceptsCards(from_stack, cards) \
+                or not self.isHanafudaSequence(cards, 0):
             return 0
         stackcards = self.cards
         if not len(stackcards):
@@ -376,7 +386,8 @@ class Matsukiri_RowStack(Flower_OpenStack):
             suit = 0
         else:
             suit = f.cards[-1].suit + 1
-        if not pile[-1].suit == suit or not self.isHanafudaSequence(pile[-4:], 0):
+        if not pile[-1].suit == suit or \
+                not self.isHanafudaSequence(pile[-4:], 0):
             return (None, 0)
         return (f, 4)
 
@@ -389,7 +400,8 @@ class Samuri_RowStack(Flower_OpenStack):
         stackcards = self.cards
         if not stackcards:
             return cards[0].rank == 0
-        return stackcards[-1].suit == cards[0].suit and stackcards[-1].rank + 1 == cards[0].rank
+        return stackcards[-1].suit == cards[0].suit and \
+            stackcards[-1].rank + 1 == cards[0].rank
 
 
 class GreatWall_RowStack(Flower_OpenStack):
@@ -416,7 +428,8 @@ class FourWinds_RowStack(Flower_OpenStack):
             return 0
         if not stackcards:
             return 1
-        return ((cards[0].rank == stackcards[-1].rank) and (cards[0].suit == stackcards[-1].suit - 1))
+        return ((cards[0].rank == stackcards[-1].rank) and
+                (cards[0].suit == stackcards[-1].suit - 1))
 
     def getBottomImage(self):
         return self.game.app.images.getReserveBottom()
@@ -426,7 +439,6 @@ class Queue_BraidStack(OpenStack):
 
     def __init__(self, x, y, game, yoffset):
         OpenStack.__init__(self, x, y, game)
-        CW = self.game.app.images.CARDW
         self.CARD_YOFFSET = int(self.game.app.images.CARD_YOFFSET * yoffset)
         # use a sine wave for the x offsets
         # compensate for card width
@@ -463,7 +475,7 @@ class JapaneseGarden_RowStack(Flower_OpenStack):
 
     def acceptsCards(self, from_stack, cards):
         if (not self.basicAcceptsCards(from_stack, cards)
-                or not from_stack in self.game.s.rows):
+                or from_stack not in self.game.s.rows):
             return 0
         stackcards = self.cards
         if not len(stackcards):
@@ -481,9 +493,3 @@ class HanafudaRK_RowStack(Flower_OpenStack):
         if not len(stackcards):
             return 1
         return stackcards[-1].rank + 1 == cards[0].rank
-
-
-
-
-
-

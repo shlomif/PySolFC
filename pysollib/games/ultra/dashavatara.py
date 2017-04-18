@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 #
 # Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
 # Copyright (C) 2003 Mt. Hood Playing Card Co.
@@ -19,29 +19,49 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 
 __all__ = []
 
 # Imports
-import sys, math, time
+import math
+import time
 
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
 from pysollib.mfxutil import kwdefault
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 from pysollib.pysoltk import MfxCanvasText
 
+from pysollib.util import ANY_RANK, ANY_SUIT, NO_RANK, \
+        UNLIMITED_ACCEPTS, \
+        UNLIMITED_CARDS, \
+        UNLIMITED_MOVES
+
+from pysollib.stack import \
+        AC_RowStack, \
+        AbstractFoundationStack, \
+        BasicRowStack, \
+        DealRowTalonStack, \
+        InitialDealTalonStack, \
+        OpenStack, \
+        RK_RowStack, \
+        ReserveStack, \
+        SS_FoundationStack, \
+        SS_RowStack, \
+        StackWrapper, \
+        WasteStack, \
+        isSameSuitSequence, \
+        WasteTalonStack
 
 # ************************************************************************
 #  * Dashavatara Foundation Stacks
 #  ***********************************************************************/
+
 
 class Dashavatara_FoundationStack(AbstractFoundationStack):
 
@@ -70,8 +90,8 @@ class Journey_Foundation(AbstractFoundationStack):
             card_dir = (cards[0].rank - self.cards[-1].rank) % self.cap.mod
             return card_dir in (1, 11)
         else:
-            return (self.cards[-1].rank + stack_dir) % self.cap.mod == cards[0].rank
-
+            return (self.cards[-1].rank + stack_dir) % \
+                    self.cap.mod == cards[0].rank
 
 
 class AppachansWaterfall_Foundation(AbstractFoundationStack):
@@ -82,7 +102,7 @@ class AppachansWaterfall_Foundation(AbstractFoundationStack):
 
     def acceptsCards(self, from_stack, cards):
         if not (from_stack in self.game.s.rows and
-                 AbstractFoundationStack.acceptsCards(self, from_stack, cards)):
+                AbstractFoundationStack.acceptsCards(self, from_stack, cards)):
             return 0
         pile, rank, suit = from_stack.getPile(), 0, 0
         if self.cards:
@@ -92,7 +112,6 @@ class AppachansWaterfall_Foundation(AbstractFoundationStack):
                 or not isSameSuitSequence(pile[-(12 - rank):])):
             return 0
         return cards[0].suit == suit and cards[0].rank == rank
-
 
 
 # ************************************************************************
@@ -166,8 +185,8 @@ class Dashavatara_OpenStack(OpenStack):
 class Dashavatara_AC_RowStack(Dashavatara_OpenStack):
 
     def acceptsCards(self, from_stack, cards):
-        if (not self.basicAcceptsCards(from_stack, cards)
-            or not self.isAlternateColorSequence(cards)):
+        if not self.basicAcceptsCards(from_stack, cards) \
+                or not self.isAlternateColorSequence(cards):
             return 0
         stackcards = self.cards
         if not len(stackcards):
@@ -178,8 +197,8 @@ class Dashavatara_AC_RowStack(Dashavatara_OpenStack):
 class Dashavatara_AF_RowStack(Dashavatara_OpenStack):
 
     def acceptsCards(self, from_stack, cards):
-        if (not self.basicAcceptsCards(from_stack, cards)
-            or not self.isAlternateForceSequence(cards)):
+        if not self.basicAcceptsCards(from_stack, cards) \
+                or not self.isAlternateForceSequence(cards):
             return 0
         stackcards = self.cards
         if not len(stackcards):
@@ -190,8 +209,8 @@ class Dashavatara_AF_RowStack(Dashavatara_OpenStack):
 class Dashavatara_RK_RowStack(Dashavatara_OpenStack):
 
     def acceptsCards(self, from_stack, cards):
-        if (not self.basicAcceptsCards(from_stack, cards)
-            or not self.isRankSequence(cards)):
+        if not self.basicAcceptsCards(from_stack, cards) \
+                or not self.isRankSequence(cards):
             return 0
         stackcards = self.cards
         if not len(stackcards):
@@ -202,8 +221,8 @@ class Dashavatara_RK_RowStack(Dashavatara_OpenStack):
 class Dashavatara_SS_RowStack(Dashavatara_OpenStack):
 
     def acceptsCards(self, from_stack, cards):
-        if (not self.basicAcceptsCards(from_stack, cards)
-            or not self.isSuitSequence(cards)):
+        if not self.basicAcceptsCards(from_stack, cards) \
+                or not self.isSuitSequence(cards):
             return 0
         stackcards = self.cards
         if not len(stackcards):
@@ -215,7 +234,7 @@ class Circles_RowStack(SS_RowStack):
 
     def __init__(self, x, y, game, base_rank):
         SS_RowStack.__init__(self, x, y, game, base_rank=base_rank,
-                                max_accept=1, max_move=1)
+                             max_accept=1, max_move=1)
         self.CARD_YOFFSET = 1
 
 
@@ -223,7 +242,6 @@ class Journey_BraidStack(OpenStack):
 
     def __init__(self, x, y, game, xoffset, yoffset):
         OpenStack.__init__(self, x, y, game)
-        CW = self.game.app.images.CARDW
         self.CARD_YOFFSET = int(self.game.app.images.CARD_YOFFSET * yoffset)
         # use a sine wave for the x offsets
         self.CARD_XOFFSET = []
@@ -275,7 +293,7 @@ class Journey_ReserveStack(ReserveStack):
 class AppachansWaterfall_RowStack(RK_RowStack):
 
     def canDropCards(self, stacks):
-        game, pile, stack, rank = self.game, self.getPile(), stacks[0], 0
+        pile, stack, rank = self.getPile(), stacks[0], 0
         if stack.cards:
             rank = (stack.cards[-1].rank + 1) % 12
         if (not pile or len(pile) <= 11 - rank
@@ -285,7 +303,6 @@ class AppachansWaterfall_RowStack(RK_RowStack):
         return (stack, 1)
 
 
-
 # ************************************************************************
 # * Dashavatara Game Stacks
 # ************************************************************************
@@ -293,7 +310,8 @@ class AppachansWaterfall_RowStack(RK_RowStack):
 class Dashavatara_TableauStack(Dashavatara_OpenStack):
 
     def __init__(self, x, y, game, base_rank, yoffset, **cap):
-        kwdefault(cap, dir=3, max_move=99, max_cards=4, max_accept=1, base_rank=base_rank)
+        kwdefault(cap, dir=3, max_move=99, max_cards=4, max_accept=1,
+                  base_rank=base_rank)
         OpenStack.__init__(self, x, y, game, **cap)
         self.CARD_YOFFSET = yoffset
 
@@ -358,7 +376,7 @@ class AbstractDashavataraGame(Game):
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return (card1.suit == card2.suit
                 and (card1.rank + 1 == card2.rank
-                or card1.rank - 1 == card2.rank))
+                     or card1.rank - 1 == card2.rank))
 
 
 class Journey_Hint(DefaultHint):
@@ -379,7 +397,6 @@ class DashavataraCircles(AbstractDashavataraGame):
 
     def createGame(self):
         l, s = Layout(self), self.s
-        font = self.app.getFont("canvas_default")
 
         # Set window size
         w, h = l.XM + l.XS * 9, l.YM + l.YS * 7
@@ -389,17 +406,21 @@ class DashavataraCircles(AbstractDashavataraGame):
         x = w / 2 - l.CW / 2
         y = h / 2 - l.YS / 2
         x0 = (-.7, .3, .7, -.3,
-            -1.7, -1.5, -.6, .6, 1.5, 1.7, 1.5, .6, -.6, -1.5,
-            -2.7, -2.5, -1.9, -1, 0, 1, 1.9, 2.5, 2.7, 2.5, 1.9, 1, 0, -1, -1.9, -2.5)
+              -1.7, -1.5, -.6, .6, 1.5, 1.7, 1.5, .6, -.6, -1.5,
+              -2.7, -2.5, -1.9, -1, 0, 1, 1.9, 2.5, 2.7, 2.5, 1.9,
+              1, 0, -1, -1.9, -2.5)
         y0 = (-.3, -.45, .3, .45,
-            0, -.8, -1.25, -1.25, -.8, 0, .8, 1.25, 1.25, .8,
-            0, -.9, -1.6, -2, -2.2, -2, -1.6, -.9, 0, .9, 1.6, 2, 2.2, 2, 1.6, .9)
+              0, -.8, -1.25, -1.25, -.8, 0, .8, 1.25, 1.25, .8,
+              0, -.9, -1.6, -2, -2.2, -2, -1.6, -.9, 0, .9, 1.6,
+              2, 2.2, 2, 1.6, .9)
         for i in range(30):
             # FIXME:
             _x, _y = x+l.XS*x0[i], y+l.YS*y0[i]+l.YM*y0[i]*2
-            if _x < 0: _x = 0
-            if _y < 0: _y = 0
-            s.rows.append(Circles_RowStack(_x, _y, self, base_rank = ANY_RANK))
+            if _x < 0:
+                _x = 0
+            if _y < 0:
+                _y = 0
+            s.rows.append(Circles_RowStack(_x, _y, self, base_rank=ANY_RANK))
 
         # Create reserve stacks
         s.reserves.append(ReserveStack(l.XM, h - l.YS, self))
@@ -409,13 +430,14 @@ class DashavataraCircles(AbstractDashavataraGame):
         x, y = l.XM, l.YM
         for j in range(2):
             for i in range(5):
-                s.foundations.append(SS_FoundationStack(x, y, self, i + j * 5, mod=12,
-                                             max_move=0, max_cards=12))
+                s.foundations.append(
+                    SS_FoundationStack(x, y, self, i + j * 5, mod=12,
+                                       max_move=0, max_cards=12))
                 y = y + l.YS
             x, y = w - l.XS, l.YM
-##         from pprint import pprint
-##         pprint(s.rows)
-##         print (l.XM + l.XS, 0, w - l.XS - l.XM, 999999)
+        #        from pprint import pprint
+        #        pprint(s.rows)
+        #        print (l.XM + l.XS, 0, w - l.XS - l.XM, 999999)
         self.setRegion(s.rows, (l.XM + l.XS, 0, w - l.XS - l.XM, 999999))
 
         # Create talon
@@ -437,7 +459,6 @@ class DashavataraCircles(AbstractDashavataraGame):
         self.s.talon.dealCards()
 
 
-
 # ************************************************************************
 #  * Ten Avatars
 #  ***********************************************************************/
@@ -450,7 +471,6 @@ class TenAvatars(AbstractDashavataraGame):
 
     def createGame(self):
         l, s = Layout(self), self.s
-        font = self.app.getFont("canvas_default")
 
         # Set window size
         self.setSize(l.XM * 3 + l.XS * 11, l.YM + l.YS * 6)
@@ -460,7 +480,7 @@ class TenAvatars(AbstractDashavataraGame):
         y = l.YM
         for i in range(10):
             s.rows.append(RK_RowStack(x, y, self, base_rank=11,
-                                        max_move=12, max_cards=99))
+                                      max_move=12, max_cards=99))
             x = x + l.XS
 
         # Create reserve stacks
@@ -503,7 +523,6 @@ class TenAvatars(AbstractDashavataraGame):
         return 1
 
 
-
 # ************************************************************************
 #  * Balarama
 #  ***********************************************************************/
@@ -528,7 +547,7 @@ class Balarama(AbstractDashavataraGame):
         # Create foundations
         for r in l.s.foundations:
             s.foundations.append(self.Foundation_Class(r.x, r.y, self,
-                                    r.suit, mod=12, max_cards=12))
+                                 r.suit, mod=12, max_cards=12))
 
         # Create reserve stacks
         for r in l.s.reserves:
@@ -537,7 +556,8 @@ class Balarama(AbstractDashavataraGame):
         # Create row stacks
         for r in l.s.rows:
             s.rows.append(self.RowStack_Class(r.x, r.y, self, l.YOFFSET,
-                                suit=ANY_SUIT, base_rank=self.BASE_RANK, max_cards=12))
+                          suit=ANY_SUIT, base_rank=self.BASE_RANK,
+                          max_cards=12))
 
         # Create talon
         s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self)
@@ -561,8 +581,7 @@ class Balarama(AbstractDashavataraGame):
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return (card1.color % 2 != card2.color % 2 and
                 (card1.rank + 1 == card2.rank
-                or card2.rank + 1 == card1.rank))
-
+                 or card2.rank + 1 == card1.rank))
 
 
 # ************************************************************************
@@ -588,7 +607,6 @@ class Hayagriva(Balarama):
                 or card2.rank + 1 == card1.rank)
 
 
-
 # ************************************************************************
 #  * Shanka
 #  ***********************************************************************/
@@ -611,10 +629,9 @@ class Shanka(Balarama):
         if stack1 in self.s.foundations:
             return (card1.suit == card2.suit and
                     (card1.rank + 1 == card2.rank
-                    or card2.rank + 1 == card1.rank))
+                     or card2.rank + 1 == card1.rank))
         return (card1.rank + 1 == card2.rank
                 or card2.rank + 1 == card1.rank)
-
 
 
 # ************************************************************************
@@ -646,8 +663,7 @@ class Surukh(Balarama):
             force1 = 1
         return (force0 != force1
                 and (card1.rank + 1 == card2.rank
-                or card2.rank + 1 == card1.rank))
-
+                     or card2.rank + 1 == card1.rank))
 
 
 # ************************************************************************
@@ -673,18 +689,18 @@ class Matsya(AbstractDashavataraGame):
 
         # Create talon
         s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self,
-                            max_rounds=max_rounds, num_deal=num_deal)
+                                   max_rounds=max_rounds, num_deal=num_deal)
         s.waste = WasteStack(l.s.waste.x, l.s.waste.y, self)
 
         # Create foundations
         for r in l.s.foundations:
             s.foundations.append(self.Foundation_Class(r.x, r.y, self,
-                                    r.suit, mod=12, max_cards=12, max_move=0))
+                                 r.suit, mod=12, max_cards=12, max_move=0))
 
         # Create row stacks
         for r in l.s.rows:
             s.rows.append(self.RowStack_Class(r.x, r.y, self,
-                                suit=ANY_SUIT, base_rank=self.BASE_RANK))
+                          suit=ANY_SUIT, base_rank=self.BASE_RANK))
 
         # Define stack groups
         l.defaultAll()
@@ -706,7 +722,6 @@ class Matsya(AbstractDashavataraGame):
                 or card2.rank + 1 == card1.rank)
 
 
-
 # ************************************************************************
 #  * Kurma
 #  ***********************************************************************/
@@ -726,7 +741,6 @@ class Kurma(Matsya):
         Matsya.createGame(self, max_rounds=-1)
 
 
-
 # ************************************************************************
 #  * Varaha
 #  ***********************************************************************/
@@ -744,7 +758,6 @@ class Varaha(Matsya):
 
     def createGame(self, **layout):
         Matsya.createGame(self, max_rounds=-1, num_deal=3)
-
 
 
 # ************************************************************************
@@ -768,8 +781,7 @@ class Narasimha(Matsya):
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return (card1.color % 2 != card2.color % 2
                 and (card1.rank + 1 == card2.rank
-                or card2.rank + 1 == card1.rank))
-
+                     or card2.rank + 1 == card1.rank))
 
 
 # ************************************************************************
@@ -793,8 +805,7 @@ class Vamana(Matsya):
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return (card1.color % 2 != card2.color % 2
                 and (card1.rank + 1 == card2.rank
-                or card2.rank + 1 == card1.rank))
-
+                     or card2.rank + 1 == card1.rank))
 
 
 # ************************************************************************
@@ -820,7 +831,6 @@ class Parashurama(Matsya):
                 or card2.rank + 1 == card1.rank)
 
 
-
 # ************************************************************************
 # * Journey to Cuddapah
 # ************************************************************************
@@ -842,7 +852,8 @@ class Journey(AbstractDashavataraGame):
         # set window
         # (piles up to 20 cards are playable - needed for Braid_BraidStack)
         decks = self.gameinfo.decks
-        h = max(5 * l.YS + 35, 2*l.YM + 2*l.YS + (self.BRAID_CARDS - 1) * l.YOFFSET*self.BRAID_OFFSET)
+        h = max(5 * l.YS + 35, 2*l.YM + 2*l.YS +
+                (self.BRAID_CARDS - 1) * l.YOFFSET*self.BRAID_OFFSET)
         self.setSize(l.XM + l.XS * (7 + decks * 2), l.YM + h)
 
         # extra settings
@@ -855,37 +866,43 @@ class Journey(AbstractDashavataraGame):
         for j in range(5):
             for i in range(decks):
                 s.foundations.append(Journey_Foundation(x + l.XS * i, y, self,
-                                                j, mod=12, max_cards=12))
+                                     j, mod=12, max_cards=12))
             s.rows.append(Journey_StrongStack(x + l.XS * decks, y, self))
-            s.rows.append(Journey_ReserveStack(x + l.XS * (1 + decks), y, self))
+            s.rows.append(
+                Journey_ReserveStack(x + l.XS * (1 + decks), y, self))
             y = y + l.YS
         x, y = x + l.XS * (5 + decks), l.YM
         for j in range(5):
             s.rows.append(Journey_ReserveStack(x, y, self))
             s.rows.append(Journey_WeakStack(x + l.XS, y, self))
             for i in range(decks, 0, -1):
-                s.foundations.append(Journey_Foundation(x + l.XS * (1 + i), y, self,
-                                                j + 5, mod=12, max_cards=12))
+                s.foundations.append(
+                    Journey_Foundation(x + l.XS * (1 + i), y, self,
+                                       j + 5, mod=12, max_cards=12))
             y = y + l.YS
-        self.texts.info = MfxCanvasText(self.canvas,
-                                        self.width / 2, h - l.YM / 2,
-                                        anchor="center",
-                                        font = self.app.getFont("canvas_default"))
+        self.texts.info = MfxCanvasText(
+            self.canvas,
+            self.width / 2, h - l.YM / 2,
+            anchor="center",
+            font=self.app.getFont("canvas_default"))
 
         # Create braids
         x, y = l.XM + l.XS * 2.15 + l.XS * decks, l.YM
-        s.braidstrong = Journey_BraidStack(x, y, self, xoffset=12, yoffset=self.BRAID_OFFSET)
+        s.braidstrong = Journey_BraidStack(
+            x, y, self, xoffset=12, yoffset=self.BRAID_OFFSET)
         x = x + l.XS * 1.7
-        s.braidweak = Journey_BraidStack(x, y, self, xoffset=-12, yoffset=self.BRAID_OFFSET)
+        s.braidweak = Journey_BraidStack(
+            x, y, self, xoffset=-12, yoffset=self.BRAID_OFFSET)
 
         # Create talon
         x, y = l.XM + l.XS * 2 + l.XS * decks, h - l.YS - l.YM
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
         l.createText(s.talon, "s")
-        s.talon.texts.rounds = MfxCanvasText(self.canvas,
-                                             self.width / 2, h - l.YM * 2.5,
-                                             anchor="center",
-                                             font=self.app.getFont("canvas_default"))
+        s.talon.texts.rounds = MfxCanvasText(
+            self.canvas,
+            self.width / 2, h - l.YM * 2.5,
+            anchor="center",
+            font=self.app.getFont("canvas_default"))
         x = x + l.XS * 2
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, "s")
@@ -893,8 +910,8 @@ class Journey(AbstractDashavataraGame):
         # define stack-groups
         self.sg.talonstacks = [s.talon] + [s.waste]
         self.sg.openstacks = s.foundations + s.rows
-        self.sg.dropstacks = [s.braidstrong] + [s.braidweak] + s.rows + [s.waste]
-
+        self.sg.dropstacks = [s.braidstrong] + [s.braidweak] + s.rows \
+            + [s.waste]
 
     #
     # game overrides
@@ -905,13 +922,14 @@ class Journey(AbstractDashavataraGame):
         self.base_card = None
         self.updateText()
         for i in range(self.BRAID_CARDS):
-            self.s.talon.dealRow(rows = [self.s.braidstrong])
+            self.s.talon.dealRow(rows=[self.s.braidstrong])
         for i in range(self.BRAID_CARDS):
-            self.s.talon.dealRow(rows = [self.s.braidweak])
+            self.s.talon.dealRow(rows=[self.s.braidweak])
         self.s.talon.dealRow()
         # deal base_card to foundations, update cap.base_rank
         self.base_card = self.s.talon.getCard()
-        to_stack = self.s.foundations[self.base_card.suit * self.gameinfo.decks]
+        to_stack = self.s.foundations[
+            self.base_card.suit * self.gameinfo.decks]
         self.flipMove(self.s.talon)
         self.moveMove(1, self.s.talon, to_stack)
         self.updateText()
@@ -923,7 +941,7 @@ class Journey(AbstractDashavataraGame):
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return (card1.suit == card2.suit and
                 ((card1.rank + 1) % 12 == card2.rank
-                or (card2.rank + 1) % 12 == card1.rank))
+                 or (card2.rank + 1) % 12 == card1.rank))
 
     def getHighlightPilesStacks(self):
         return ()
@@ -939,7 +957,6 @@ class Journey(AbstractDashavataraGame):
 
     def _saveGameHook(self, p):
         p.dump(self.base_card.id)
-
 
     #
     # game extras
@@ -957,8 +974,7 @@ class Journey(AbstractDashavataraGame):
                 t = t + _(" Ascending")
             elif dir == 11:
                 t = t + _(" Descending")
-        self.texts.info.config(text = t)
-
+        self.texts.info.config(text=t)
 
 
 # ************************************************************************
@@ -969,7 +985,6 @@ class LongJourney(Journey):
 
     BRAID_CARDS = 20
     BRAID_OFFSET = .7
-
 
 
 # ************************************************************************
@@ -984,7 +999,6 @@ class AppachansWaterfall(AbstractDashavataraGame):
 
     def createGame(self):
         l, s = Layout(self), self.s
-        font = self.app.getFont("canvas_default")
 
         # Set window size
         w, h = l.XM + l.XS * 10, l.YM + l.YS * 6
@@ -993,8 +1007,10 @@ class AppachansWaterfall(AbstractDashavataraGame):
         # Create row stacks
         x, y = l.XM, l.YM
         for i in range(10):
-            s.rows.append(AppachansWaterfall_RowStack(x, y, self, base_rank=ANY_RANK,
-                                                        max_move=12, max_cards=99))
+            s.rows.append(AppachansWaterfall_RowStack(x, y, self,
+                                                      base_rank=ANY_RANK,
+                                                      max_move=12,
+                                                      max_cards=99))
             x = x + l.XS
         self.setRegion(s.rows, (-999, -999, 999999, l.YM + l.YS * 5))
 
@@ -1026,7 +1042,6 @@ class AppachansWaterfall(AbstractDashavataraGame):
 
     def isGameWon(self):
         return len(self.s.foundations[0].cards) == 120
-
 
 
 # ************************************************************************
@@ -1074,12 +1089,14 @@ class Hiranyaksha(AbstractDashavataraGame):
         x, y = l.XM + maxrows * l.XS, l.YM
         for i in range(2):
             for suit in range(5):
-                s.foundations.append(SS_FoundationStack(x, y, self, suit=suit + (5 * i)))
+                s.foundations.append(SS_FoundationStack(x, y, self,
+                                                        suit=suit + (5 * i)))
                 y = y + l.YS
             x, y = x + l.XS, l.YM
         self.setRegion(self.s.foundations, (x - l.XS * 2, -999, 999999,
-                        self.height - (l.YS + l.YM)), priority=1)
-        s.talon = InitialDealTalonStack(self.width - 3 * l.XS / 2, self.height - l.YS, self)
+                       self.height - (l.YS + l.YM)), priority=1)
+        s.talon = InitialDealTalonStack(
+            self.width - 3 * l.XS / 2, self.height - l.YS, self)
 
         # define stack-groups
         l.defaultStackGroups()
@@ -1102,7 +1119,8 @@ class Hiranyaksha(AbstractDashavataraGame):
         closest, cdist = None, 999999999
         for stack in stacks:
             if stack.cards and stack is not dragstack:
-                dist = (stack.cards[-1].x - cx)**2 + (stack.cards[-1].y - cy)**2
+                dist = (stack.cards[-1].x - cx)**2 + \
+                    (stack.cards[-1].y - cy)**2
             else:
                 dist = (stack.x - cx)**2 + (stack.y - cy)**2
             if dist < cdist:
@@ -1113,7 +1131,6 @@ class Hiranyaksha(AbstractDashavataraGame):
         row = self.s.rows[0]
         sequence = row.isRankSequence
         return (sequence([card1, card2]) or sequence([card2, card1]))
-
 
 
 # ************************************************************************
@@ -1213,7 +1230,9 @@ class Dashavatara(Game):
         for i in range(3, 0, -1):
             x = l.XM
             for j in range(10):
-                s.tableaux.append(Dashavatara_TableauStack(x, y, self, i - 1, TABLEAU_YOFFSET))
+                s.tableaux.append(
+                    Dashavatara_TableauStack(
+                        x, y, self, i - 1, TABLEAU_YOFFSET))
                 x = x + l.XS
             x = x + l.XM
             s.reserves.append(Dashavatara_ReserveStack(x, y, self))
@@ -1271,22 +1290,34 @@ def r(id, gameclass, name, game_type, decks, redeals, skill_level):
     registerGame(gi)
     return gi
 
+
 r(15406, Matsya, "Matsya", GI.GT_DASHAVATARA_GANJIFA, 1, 0, GI.SL_BALANCED)
 r(15407, Kurma, "Kurma", GI.GT_DASHAVATARA_GANJIFA, 1, -1, GI.SL_BALANCED)
 r(15408, Varaha, "Varaha", GI.GT_DASHAVATARA_GANJIFA, 1, -1, GI.SL_BALANCED)
-r(15409, Narasimha, "Narasimha", GI.GT_DASHAVATARA_GANJIFA, 1, 0, GI.SL_BALANCED)
+r(15409, Narasimha, "Narasimha", GI.GT_DASHAVATARA_GANJIFA, 1, 0,
+  GI.SL_BALANCED)
 r(15410, Vamana, "Vamana", GI.GT_DASHAVATARA_GANJIFA, 1, -1, GI.SL_BALANCED)
-r(15411, Parashurama, "Parashurama", GI.GT_DASHAVATARA_GANJIFA, 1, 1, GI.SL_BALANCED)
-r(15412, TenAvatars, "Ten Avatars", GI.GT_DASHAVATARA_GANJIFA, 1, 0, GI.SL_MOSTLY_SKILL)
-r(15413, DashavataraCircles, "Dashavatara Circles", GI.GT_DASHAVATARA_GANJIFA, 1, 0, GI.SL_MOSTLY_SKILL)
-r(15414, Balarama, "Balarama", GI.GT_DASHAVATARA_GANJIFA, 1, 0, GI.SL_MOSTLY_SKILL)
-r(15415, Hayagriva, "Hayagriva", GI.GT_DASHAVATARA_GANJIFA, 1, 0, GI.SL_MOSTLY_SKILL)
+r(15411, Parashurama, "Parashurama", GI.GT_DASHAVATARA_GANJIFA, 1, 1,
+  GI.SL_BALANCED)
+r(15412, TenAvatars, "Ten Avatars", GI.GT_DASHAVATARA_GANJIFA, 1, 0,
+  GI.SL_MOSTLY_SKILL)
+r(15413, DashavataraCircles, "Dashavatara Circles", GI.GT_DASHAVATARA_GANJIFA,
+  1, 0, GI.SL_MOSTLY_SKILL)
+r(15414, Balarama, "Balarama", GI.GT_DASHAVATARA_GANJIFA, 1, 0,
+  GI.SL_MOSTLY_SKILL)
+r(15415, Hayagriva, "Hayagriva", GI.GT_DASHAVATARA_GANJIFA, 1, 0,
+  GI.SL_MOSTLY_SKILL)
 r(15416, Shanka, "Shanka", GI.GT_DASHAVATARA_GANJIFA, 1, 0, GI.SL_MOSTLY_SKILL)
-r(15417, Journey, "Journey to Cuddapah", GI.GT_DASHAVATARA_GANJIFA, 1, 2, GI.SL_BALANCED)
-r(15418, LongJourney, "Long Journey to Cuddapah", GI.GT_DASHAVATARA_GANJIFA, 2, 2, GI.SL_BALANCED)
+r(15417, Journey, "Journey to Cuddapah", GI.GT_DASHAVATARA_GANJIFA, 1, 2,
+  GI.SL_BALANCED)
+r(15418, LongJourney, "Long Journey to Cuddapah", GI.GT_DASHAVATARA_GANJIFA,
+  2, 2, GI.SL_BALANCED)
 r(15419, Surukh, "Surukh", GI.GT_DASHAVATARA_GANJIFA, 1, 0, GI.SL_BALANCED)
-r(15420, AppachansWaterfall, "Appachan's Waterfall", GI.GT_DASHAVATARA_GANJIFA, 1, 0, GI.SL_MOSTLY_SKILL)
-r(15421, Hiranyaksha, 'Hiranyaksha', GI.GT_DASHAVATARA_GANJIFA, 1, 0, GI.SL_MOSTLY_SKILL)
-r(15422, Dashavatara, 'Dashavatara', GI.GT_DASHAVATARA_GANJIFA, 1, 0, GI.SL_BALANCED)
+r(15420, AppachansWaterfall, "Appachan's Waterfall", GI.GT_DASHAVATARA_GANJIFA,
+  1, 0, GI.SL_MOSTLY_SKILL)
+r(15421, Hiranyaksha, 'Hiranyaksha', GI.GT_DASHAVATARA_GANJIFA, 1, 0,
+  GI.SL_MOSTLY_SKILL)
+r(15422, Dashavatara, 'Dashavatara', GI.GT_DASHAVATARA_GANJIFA, 1, 0,
+  GI.SL_BALANCED)
 
 del r

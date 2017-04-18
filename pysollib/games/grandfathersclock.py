@@ -122,7 +122,7 @@ class GrandfathersClock(Game):
                 clocks.append(c)
                 cards.remove(c)
         # sort clocks reverse by rank
-        clocks.sort(key=lambda x: x.rank)
+        clocks.sort(key=lambda x: -x.rank)
         return clocks + cards
 
     def startGame(self):
@@ -471,7 +471,7 @@ class BigBen(Game):
             if not t:
                 break
         # sort clocks reverse by rank
-        clocks.sort(key=lambda x: x.rank)
+        clocks.sort(key=lambda x: -x.rank)
         return cards+clocks
 
     def startGame(self):

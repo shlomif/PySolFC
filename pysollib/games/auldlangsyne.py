@@ -606,7 +606,7 @@ class Formic(TamOShanter):
                 cards.remove(c)
             if len(suits) == 4:
                 break
-        top_cards.sort(key=lambda x: x.suit)  # sort by suit
+        top_cards.sort(key=lambda x: -x.suit)  # sort by suit
         return cards+top_cards
 
     def startGame(self):

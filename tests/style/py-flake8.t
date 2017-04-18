@@ -27,7 +27,7 @@ my %skip =
 
 # my $cmd = shell_quote( 'flake8', '.' );
 my $cmd = shell_quote( 'flake8',
-    sort { $a cmp $b } grep { not exists $skip{$_} } glob('./*.py ./scripts/*.py ./tests/board_gen/*.py ./pysollib/*.py ./pysollib/*/{*/*.py,*.py}') );
+    sort { $a cmp $b } grep { not exists $skip{$_} } glob('./*.py ./data/*/*/*.py ./scripts/*.py ./tests/board_gen/*.py ./pysollib/*.py ./pysollib/*/{*/*.py,*.py}') );
 
 # diag("<$cmd>");
 

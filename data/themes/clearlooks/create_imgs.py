@@ -2,19 +2,21 @@
 # -*- mode: python; coding: koi8-r; -*-
 
 import os
-import gtk, gobject
+import gtk
 
 imdir = 'images'
 imtype = 'png'
 background = '#efebe7'
 
-#fill_color = 0xff000000                 # red
+# fill_color = 0xff000000                 # red
 fill_color = int('ff000000', 16)
 
 if not os.path.exists(imdir):
     os.mkdir(imdir)
 
 gc = None
+
+
 def draw_rect():
     global gc
     if gc is None:
@@ -24,7 +26,7 @@ def draw_rect():
         color = gtk.gdk.color_parse('red')
         colormap.alloc_color(color)
         gc.set_rgb_fg_color(color)
-    drawing_area.window.draw_rectangle(gc, True, 0,0, 800,800)
+    drawing_area.window.draw_rectangle(gc, True, 0, 0, 800, 800)
 
 
 def save_image(fn, w, h, x=0, y=0):
@@ -32,21 +34,22 @@ def save_image(fn, w, h, x=0, y=0):
     pixbuf.fill(fill_color)
     pb = pixbuf.get_from_drawable(drawing_area.window,
                                   drawing_area.get_colormap(),
-                                  x,y, 0,0, w,h)
+                                  x, y, 0, 0, w, h)
     pb.save(os.path.join(imdir, fn+"."+imtype), imtype)
     drawing_area.window.clear()
     draw_rect()
 
 
 done = False
+
+
 def save_callback(*args):
     global done
 
-
-
-    if done: return
+    if done:
+        return
     done = True
-    print 'create images'
+    print('create images')
 
     style = drawing_area.get_style()
     draw_rect()
@@ -54,12 +57,11 @@ def save_callback(*args):
     # separator
     w = 20
     style.paint_vline(drawing_area.window, gtk.STATE_NORMAL, None,
-                       drawing_area, "frame", 0, w, 0)
+                      drawing_area, "frame", 0, w, 0)
     save_image('sep-v', 2, w)
     style.paint_hline(drawing_area.window, gtk.STATE_NORMAL, None,
                       drawing_area, "frame", 0, w, 0)
     save_image('sep-h', w, 2)
-
 
     # tree
     w, h = 32, 32
@@ -69,20 +71,18 @@ def save_callback(*args):
         ("tree-h", gtk.STATE_PRELIGHT,    gtk.SHADOW_OUT),
         ("tree-p", gtk.STATE_ACTIVE,      gtk.SHADOW_IN),
         ("tree-d", gtk.STATE_INSENSITIVE, gtk.SHADOW_IN),
-        ):
+            ):
         style.paint_box(drawing_area.window, state, shadow,
-                        None, drawing_area, "stepper", 0,0, w,h)
+                        None, drawing_area, "stepper", 0, 0, w, h)
         save_image(fn, w, h)
-
 
     # sizegrip
     w, h = 16, 16
     fn = 'sizegrip'
     style.paint_resize_grip(drawing_area.window, gtk.STATE_NORMAL, None,
                             drawing_area, "statusbar",
-                            gtk.gdk.WINDOW_EDGE_SOUTH_EAST, 0,0, w,h)
+                            gtk.gdk.WINDOW_EDGE_SOUTH_EAST, 0, 0, w, h)
     save_image(fn, w, h)
-
 
     # progress
     w, h = 37+3, 16+3
@@ -90,9 +90,8 @@ def save_callback(*args):
     fn = 'progress-h'
     progress_style.paint_box(drawing_area.window,
                              gtk.STATE_PRELIGHT, gtk.SHADOW_NONE,
-                             None, progress, "bar", 0,0, w,h)
+                             None, progress, "bar", 0, 0, w, h)
     save_image(fn, w, h)
-
 
     # button
     w, h = 32, 32
@@ -102,15 +101,14 @@ def save_callback(*args):
         ("button-a", gtk.STATE_PRELIGHT,    gtk.SHADOW_OUT),
         ("button-p", gtk.STATE_ACTIVE,      gtk.SHADOW_IN),
         ("button-d", gtk.STATE_INSENSITIVE, gtk.SHADOW_OUT),
-        ):
+            ):
         style.paint_box(drawing_area.window, state, shadow,
-                        None, drawing_area, "buttondefault", 0,0, w,h)
+                        None, drawing_area, "buttondefault", 0, 0, w, h)
         save_image(fn, w, h)
 
     style.paint_box(drawing_area.window, gtk.STATE_PRELIGHT, gtk.SHADOW_IN,
-                    None, togglebutton, "buttondefault", 0,0, w,h)
+                    None, togglebutton, "buttondefault", 0, 0, w, h)
     save_image("button-pa", w, h)
-
 
     # toolbar
     w, h = 16, 16
@@ -126,74 +124,72 @@ def save_callback(*args):
         ("toolbutton-a", gtk.STATE_PRELIGHT,    gtk.SHADOW_OUT),
         ("toolbutton-p", gtk.STATE_ACTIVE,      gtk.SHADOW_IN),
         ("toolbutton-d", gtk.STATE_INSENSITIVE, gtk.SHADOW_IN),
-        ):
+            ):
         style.paint_box(drawing_area.window, state, shadow,
-                        None, drawing_area, "buttondefault", 0,0, w,h)
+                        None, drawing_area, "buttondefault", 0, 0, w, h)
         save_image(fn, w, h)
 
     style.paint_box(drawing_area.window, gtk.STATE_PRELIGHT, gtk.SHADOW_IN,
-                    None, togglebutton, "buttondefault", 0,0, w,h)
+                    None, togglebutton, "buttondefault", 0, 0, w, h)
     save_image("toolbutton-pa", w, h)
-
 
     # slider
     msl = hscroll.style_get_property("min_slider_length")
     msl = 20
     sw = hscroll.style_get_property("slider_width")
-    print '>>', msl, sw
+    print('>>', msl, sw)
     for t, w, h, state, orient in (
-        ('hn', msl,sw, gtk.STATE_NORMAL,      gtk.ORIENTATION_HORIZONTAL),
-        ('ha', msl,sw, gtk.STATE_PRELIGHT,    gtk.ORIENTATION_HORIZONTAL),
-        ('hp', msl,sw, gtk.STATE_NORMAL,      gtk.ORIENTATION_HORIZONTAL),
-        ('hd', msl,sw, gtk.STATE_INSENSITIVE, gtk.ORIENTATION_HORIZONTAL),
+        ('hn', msl, sw, gtk.STATE_NORMAL,      gtk.ORIENTATION_HORIZONTAL),
+        ('ha', msl, sw, gtk.STATE_PRELIGHT,    gtk.ORIENTATION_HORIZONTAL),
+        ('hp', msl, sw, gtk.STATE_NORMAL,      gtk.ORIENTATION_HORIZONTAL),
+        ('hd', msl, sw, gtk.STATE_INSENSITIVE, gtk.ORIENTATION_HORIZONTAL),
 
-        ('vn', sw,msl, gtk.STATE_NORMAL,      gtk.ORIENTATION_VERTICAL),
-        ('va', sw,msl, gtk.STATE_PRELIGHT,    gtk.ORIENTATION_VERTICAL),
-        ('vp', sw,msl, gtk.STATE_NORMAL,      gtk.ORIENTATION_VERTICAL),
-        ('vd', sw,msl, gtk.STATE_INSENSITIVE, gtk.ORIENTATION_VERTICAL),
-        ):
+        ('vn', sw, msl, gtk.STATE_NORMAL,      gtk.ORIENTATION_VERTICAL),
+        ('va', sw, msl, gtk.STATE_PRELIGHT,    gtk.ORIENTATION_VERTICAL),
+        ('vp', sw, msl, gtk.STATE_NORMAL,      gtk.ORIENTATION_VERTICAL),
+        ('vd', sw, msl, gtk.STATE_INSENSITIVE, gtk.ORIENTATION_VERTICAL),
+            ):
         fn = 'sbthumb-'+t
         if 0:
             style.paint_slider(drawing_area.window, state, gtk.SHADOW_OUT,
-                               None, drawing_area, "slider", 0,0, w,h, orient)
+                               None, drawing_area, "slider",
+                               0, 0, w, h, orient)
         else:
             if orient == gtk.ORIENTATION_VERTICAL:
                 w, h = h, w
             style.paint_box(drawing_area.window, state, shadow,
-                            None, drawing_area, "stepper", 0,0, w,h)
+                            None, drawing_area, "stepper", 0, 0, w, h)
         save_image(fn, w, h)
-
 
     msl = hscroll.style_get_property("min_slider_length")
     sw = hscroll.style_get_property("slider_width")
     # scale
     for t, w, h, state, orient in (
-        ('hn', msl,sw, gtk.STATE_NORMAL,      gtk.ORIENTATION_HORIZONTAL),
-        ('ha', msl,sw, gtk.STATE_PRELIGHT,    gtk.ORIENTATION_HORIZONTAL),
-        ('hd', msl,sw, gtk.STATE_INSENSITIVE, gtk.ORIENTATION_HORIZONTAL),
-        ('vn', sw,msl, gtk.STATE_NORMAL,      gtk.ORIENTATION_VERTICAL),
-        ('va', sw,msl, gtk.STATE_PRELIGHT,    gtk.ORIENTATION_VERTICAL),
-        ('vd', sw,msl, gtk.STATE_INSENSITIVE, gtk.ORIENTATION_VERTICAL),
-        ):
+        ('hn', msl, sw, gtk.STATE_NORMAL,      gtk.ORIENTATION_HORIZONTAL),
+        ('ha', msl, sw, gtk.STATE_PRELIGHT,    gtk.ORIENTATION_HORIZONTAL),
+        ('hd', msl, sw, gtk.STATE_INSENSITIVE, gtk.ORIENTATION_HORIZONTAL),
+        ('vn', sw, msl, gtk.STATE_NORMAL,      gtk.ORIENTATION_VERTICAL),
+        ('va', sw, msl, gtk.STATE_PRELIGHT,    gtk.ORIENTATION_VERTICAL),
+        ('vd', sw, msl, gtk.STATE_INSENSITIVE, gtk.ORIENTATION_VERTICAL),
+            ):
         fn = 'scale-'+t
         if orient == gtk.ORIENTATION_HORIZONTAL:
             detail = "hscale"
         else:
             detail = "vscale"
         style.paint_slider(drawing_area.window, state, gtk.SHADOW_OUT,
-                           None, drawing_area, detail, 0,0, w+2,h+2, orient)
+                           None, drawing_area, detail, 0, 0, w+2, h+2, orient)
         save_image(fn, w, h, 1, 1)
 
     w, h = msl, sw
     fn = 'scaletrough-h'
     style.paint_box(drawing_area.window, gtk.STATE_ACTIVE, gtk.SHADOW_IN,
-                    None, scale, "trough", 0,0, w,h)
+                    None, scale, "trough", 0, 0, w, h)
     save_image(fn, w, h)
-
 
     # arrow
     w = h = hscroll.style_get_property("stepper_size")
-    #w = h = 15
+    # w = h = 15
     arrow_width = w / 2
     arrow_height = h / 2
     arrow_x = (w - arrow_width) / 2
@@ -231,7 +227,7 @@ def save_callback(*args):
         ("arrowdown-a", 0, y1, sp, gtk.SHADOW_OUT, gtk.ARROW_DOWN, vscroll),
         ("arrowdown-p", 0, y1, sa, gtk.SHADOW_IN,  gtk.ARROW_DOWN, vscroll),
         ("arrowdown-d", 0, y1, si, gtk.SHADOW_OUT, gtk.ARROW_DOWN, vscroll),
-        ):
+            ):
         if 0:
             detail = 'hscrollbar'
             if widget is vscroll:
@@ -241,12 +237,11 @@ def save_callback(*args):
             detail = 'stepper'
             widget = drawing_area
         style.paint_box(drawing_area.window, state, shadow,
-                        None, widget, detail, x,y, w,h)
+                        None, widget, detail, x, y, w, h)
         style.paint_arrow(drawing_area.window, state, shadow,
                           None, widget, detail, arrow_type, True,
                           x+arrow_x, y+arrow_y, arrow_width, arrow_height)
         save_image(fn, w, h, x, y)
-
 
     # combobox
     w, h = w, 24
@@ -264,9 +259,9 @@ def save_callback(*args):
         ("comboarrow-a", gtk.STATE_PRELIGHT,   gtk.SHADOW_OUT, gtk.ARROW_DOWN),
         ("comboarrow-p", gtk.STATE_ACTIVE,      gtk.SHADOW_IN, gtk.ARROW_DOWN),
         ("comboarrow-d", gtk.STATE_INSENSITIVE, gtk.SHADOW_IN, gtk.ARROW_DOWN),
-        ):
+            ):
         style.paint_box(drawing_area.window, state, shadow,
-                        None, widget, detail, x1,0, w,h)
+                        None, widget, detail, x1, 0, w, h)
         style.paint_arrow(drawing_area.window, state, shadow,
                           None, drawing_area, "stepper", arrow_type, True,
                           x1+arrow_x, arrow_y, arrow_width, arrow_height)
@@ -278,29 +273,28 @@ def save_callback(*args):
         ("combo-ra", gtk.STATE_PRELIGHT,    gtk.SHADOW_OUT),
         ("combo-rp", gtk.STATE_ACTIVE,      gtk.SHADOW_IN),
         ("combo-rd", gtk.STATE_INSENSITIVE, gtk.SHADOW_OUT),
-        ):
+            ):
         style.paint_box(drawing_area.window, state, shadow,
-                        None, drawing_area, "button", 0,0, w+2,h)
+                        None, drawing_area, "button", 0, 0, w+2, h)
         save_image(fn, w, h)
 
     style.paint_box(drawing_area.window, gtk.STATE_NORMAL, gtk.SHADOW_OUT,
-                    None, drawing_area, "button", 0,0, w+2,h)
+                    None, drawing_area, "button", 0, 0, w+2, h)
     d = 3
     style.paint_focus(drawing_area.window, gtk.STATE_NORMAL,
-                      None, drawing_area, "button", d,d, w-2*d,h-2*d)
+                      None, drawing_area, "button", d, d, w-2*d, h-2*d)
     save_image('combo-rf', w, h)
 
     style.paint_shadow(drawing_area.window, gtk.STATE_NORMAL, gtk.SHADOW_IN,
-                       None, drawing_area, "entry", 0,0, w+2,h)
+                       None, drawing_area, "entry", 0, 0, w+2, h)
     save_image('combo-n', w, h)
 
-
     # checkbutton
-    #define INDICATOR_SIZE     13
-    #define INDICATOR_SPACING  2
+    # define INDICATOR_SIZE     13
+    # define INDICATOR_SPACING  2
     x, y = 2, 2
     w, h = 13, 13
-    #w = h = checkbutton.style_get_property("indicator_size")
+    # w = h = checkbutton.style_get_property("indicator_size")
     for fn, state, shadow in (
         ("check-nc", gtk.STATE_NORMAL,      gtk.SHADOW_IN),
         ("check-nu", gtk.STATE_NORMAL,      gtk.SHADOW_OUT),
@@ -310,17 +304,16 @@ def save_callback(*args):
         ("check-pu", gtk.STATE_ACTIVE,      gtk.SHADOW_OUT),
         ("check-dc", gtk.STATE_INSENSITIVE, gtk.SHADOW_IN),
         ("check-du", gtk.STATE_INSENSITIVE, gtk.SHADOW_OUT),
-        ):
-##     style.paint_flat_box(drawing_area.window,
-##                          gtk.STATE_PRELIGHT,
-##                          gtk.SHADOW_ETCHED_OUT,
-##                          gtk.gdk.Rectangle(0,0,w,h), drawing_area,
-##                          "checkbutton", 0,0, w,h)
+            ):
+        #   style.paint_flat_box(drawing_area.window,
+        #                   gtk.STATE_PRELIGHT,
+        #                   gtk.SHADOW_ETCHED_OUT,
+        #                   gtk.gdk.Rectangle(0, 0,w, h), drawing_area,
+        #                   "checkbutton", 0, 0, w, h)
 
         style.paint_check(drawing_area.window, state, shadow,
-                          None, drawing_area, "checkbutton", x,y, w,h)
+                          None, drawing_area, "checkbutton", x, y, w, h)
         save_image(fn, w+2*x, h+2*y)
-
 
     # radiobutton
     for fn, state, shadow in (
@@ -332,16 +325,15 @@ def save_callback(*args):
         ("radio-pu", gtk.STATE_ACTIVE,      gtk.SHADOW_OUT),
         ("radio-dc", gtk.STATE_INSENSITIVE, gtk.SHADOW_IN),
         ("radio-du", gtk.STATE_INSENSITIVE, gtk.SHADOW_OUT),
-        ):
-##     style.paint_flat_box(drawing_area.window,
-##                          gtk.STATE_PRELIGHT,
-##                          gtk.SHADOW_ETCHED_OUT,
-##                          gtk.gdk.Rectangle(0,0,w,h), drawing_area,
-##                          "checkbutton", 0,0, w,h)
+            ):
+        #   style.paint_flat_box(drawing_area.window,
+        #                   gtk.STATE_PRELIGHT,
+        #                   gtk.SHADOW_ETCHED_OUT,
+        #                   gtk.gdk.Rectangle(0, 0,w, h), drawing_area,
+        #                   "checkbutton", 0, 0, w, h)
         style.paint_option(drawing_area.window, state, shadow,
-                           None, drawing_area, "radiobutton", x,y, w,h)
+                           None, drawing_area, "radiobutton", x, y, w, h)
         save_image(fn, w+2*x, h+2*y)
-
 
     # notebook
     w, h = 28, 22
@@ -351,20 +343,18 @@ def save_callback(*args):
     for fn, gap_h, state in (
         ("tab-n", 0, gtk.STATE_NORMAL),
         ("tab-a", 2, gtk.STATE_ACTIVE),
-        ):
-##         style.paint_box_gap(drawing_area.window, state, shadow,
-##                             gtk.gdk.Rectangle(0,0,w,gap_h), drawing_area,
-##                             "notebook", 0,0, w,gap_h, gtk.POS_TOP, 0, w)
+            ):
+        #  style.paint_box_gap(drawing_area.window, state, shadow,
+        #                      gtk.gdk.Rectangle(0, 0,w,gap_h), drawing_area,
+        #                      "notebook", 0, 0, w,gap_h, gtk.POS_TOP, 0, w)
         y = gap_h
         hh = h - y
         style.paint_extension(drawing_area.window, state, gtk.SHADOW_OUT,
                               None, drawing_area, "tab",
-                              0,y, w,hh, gtk.POS_BOTTOM)
+                              0, y, w, hh, gtk.POS_BOTTOM)
         save_image(fn, w, h+2)
 
-
-
-    print 'done'
+    print('done')
 
     gtk.main_quit()
 
@@ -375,6 +365,7 @@ def pack(w, row, col):
                  gtk.EXPAND | gtk.FILL,   gtk.EXPAND | gtk.FILL,
                  0,                       0)
 
+
 win = gtk.Window()
 win.connect("destroy", gtk.main_quit)
 
@@ -384,7 +375,7 @@ win.add(table)
 row, col = 0, 0
 
 drawing_area = gtk.DrawingArea()
-#drawing_area.set_size_request(100, 100)
+# drawing_area.set_size_request(100, 100)
 pack(drawing_area, row, col)
 row += 1
 
@@ -431,12 +422,9 @@ row += 1
 
 
 drawing_area.connect("expose-event", save_callback)
-#gobject.timeout_add(2000, save_callback)
+# gobject.timeout_add(2000, save_callback)
 
 win.show_all()
-#drawing_area.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse('red'))
+# drawing_area.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse('red'))
 
 gtk.main()
-
-
-

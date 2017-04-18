@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 #
 # Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
 # Copyright (C) 2003 Mt. Hood Playing Card Co.
@@ -19,7 +19,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 
 __all__ = ['TimeoutsDialog']
 
@@ -27,7 +27,7 @@ __all__ = ['TimeoutsDialog']
 import Tkinter
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.mfxutil import KwStruct
 
 # Toolkit imports
@@ -37,12 +37,13 @@ from tkwidget import MfxDialog
 # *
 # ************************************************************************
 
+
 class TimeoutsDialog(MfxDialog):
     def __init__(self, parent, title, app, **kw):
         kw = self.initKw(kw)
         MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)
-        #self.createBitmaps(top_frame, kw)
+        # self.createBitmaps(top_frame, kw)
 
         frame = Tkinter.Frame(top_frame)
         frame.pack(expand=True, fill='both', padx=5, pady=10)
@@ -59,16 +60,21 @@ class TimeoutsDialog(MfxDialog):
         self.highlight_cards_sleep_var = Tkinter.DoubleVar()
         self.highlight_cards_sleep_var.set(app.opt.timeouts['highlight_cards'])
         self.highlight_samerank_sleep_var = Tkinter.DoubleVar()
-        self.highlight_samerank_sleep_var.set(app.opt.timeouts['highlight_samerank'])
+        self.highlight_samerank_sleep_var.set(
+            app.opt.timeouts['highlight_samerank'])
         #
-        #Tkinter.Label(frame, text='Set delays in seconds').grid(row=0, column=0, columnspan=2)
+        # Tkinter.Label(frame, text='Set delays in seconds').grid(
+        #   row=0, column=0, columnspan=2)
         row = 0
         for title, var in ((_('Demo:'), self.demo_sleep_var),
                            (_('Hint:'), self.hint_sleep_var),
                            (_('Raise card:'), self.raise_card_sleep_var),
-                           (_('Highlight piles:'), self.highlight_piles_sleep_var),
-                           (_('Highlight cards:'), self.highlight_cards_sleep_var),
-                           (_('Highlight same rank:'), self.highlight_samerank_sleep_var),
+                           (_('Highlight piles:'),
+                               self.highlight_piles_sleep_var),
+                           (_('Highlight cards:'),
+                               self.highlight_cards_sleep_var),
+                           (_('Highlight same rank:'),
+                               self.highlight_samerank_sleep_var),
                            ):
             Tkinter.Label(frame, text=title, anchor='w'
                           ).grid(row=row, column=0, sticky='we')
@@ -86,7 +92,8 @@ class TimeoutsDialog(MfxDialog):
         self.raise_card_timeout = self.raise_card_sleep_var.get()
         self.highlight_piles_timeout = self.highlight_piles_sleep_var.get()
         self.highlight_cards_timeout = self.highlight_cards_sleep_var.get()
-        self.highlight_samerank_timeout = self.highlight_samerank_sleep_var.get()
+        self.highlight_samerank_timeout = \
+            self.highlight_samerank_sleep_var.get()
 
     def initKw(self, kw):
         kw = KwStruct(kw,
@@ -94,7 +101,3 @@ class TimeoutsDialog(MfxDialog):
                       padx=10, pady=10,
                       )
         return MfxDialog.initKw(self, kw)
-
-
-
-

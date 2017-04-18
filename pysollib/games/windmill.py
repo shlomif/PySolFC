@@ -24,22 +24,33 @@
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.hint import CautiousDefaultHint
 
 from golf import BlackHole_Foundation
 
+from pysollib.util import ACE, ANY_SUIT, KING, UNLIMITED_CARDS
+
+from pysollib.stack import \
+        AC_RowStack, \
+        RK_FoundationStack, \
+        RK_RowStack, \
+        ReserveStack, \
+        SS_FoundationStack, \
+        Stack, \
+        UD_RK_RowStack, \
+        WasteStack, \
+        WasteTalonStack, \
+        StackWrapper
 
 # ************************************************************************
 # *
 # ************************************************************************
+
 
 class Windmill_Foundation(RK_FoundationStack):
     def getBottomImage(self):
@@ -69,8 +80,9 @@ class Windmill(Game):
         ]
     RowStack_Class = Windmill_RowStack
 
-    FOUNDATIONS_LAYOUT = ((1,0.6), (3,0.6), (1,3.4), (3,3.4))
-    ROWS_LAYOUT = ((2,0), (2,1), (0,2), (1,2), (3,2), (4,2), (2,3), (2,4))
+    FOUNDATIONS_LAYOUT = ((1, 0.6), (3, 0.6), (1, 3.4), (3, 3.4))
+    ROWS_LAYOUT = ((2, 0), (2, 1), (0, 2), (1, 2), (3, 2), (4, 2),
+                   (2, 3), (2, 4))
     FILL_STACK = True
 
     #
@@ -159,8 +171,8 @@ class DutchSolitaire(Windmill):
         ]
     RowStack_Class = DutchSolitaire_RowStack
 
-    FOUNDATIONS_LAYOUT = ((1,1), (3,1), (1,3), (3,3))
-    ROWS_LAYOUT = ((2,0.5), (-0.5,2), (0.5,2), (3.5,2), (4.5,2), (2,3.5))
+    FOUNDATIONS_LAYOUT = ((1, 1), (3, 1), (1, 3), (3, 3))
+    ROWS_LAYOUT = ((2, 0.5), (-0.5, 2), (0.5, 2), (3.5, 2), (4.5, 2), (2, 3.5))
     FILL_STACK = False
 
     def createGame(self):
@@ -216,7 +228,7 @@ class NapoleonsTomb(Game):
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, "s")
         x0, y0 = x + l.XS, y
-        for d in ((0,1), (1,0), (1,2), (2,1)):
+        for d in ((0, 1), (1, 0), (1, 2), (2, 1)):
             x, y = x0 + d[0] * l.XS, y0 + d[1] * l.YS
             s.rows.append(Windmill_RowStack(x, y, self))
         x, y = x0 + l.XS, y0 + l.YS
@@ -229,7 +241,6 @@ class NapoleonsTomb(Game):
 
         # define stack-groups
         l.defaultStackGroups()
-
 
     #
     # game overrides
@@ -266,12 +277,12 @@ class Corners(Game):
         l.createText(s.waste, "se")
         x0, y0 = l.XM, l.YM+l.YS
         i = 0
-        for d in ((0,0), (4,0), (0,2), (4,2)):
+        for d in ((0, 0), (4, 0), (0, 2), (4, 2)):
             x, y = x0+d[0]*l.XS, y0+d[1]*l.YS
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i,
                                                     max_move=0, mod=13))
             i += 1
-        for d in ((2,0), (1,1), (2,1), (3,1), (2,2)):
+        for d in ((2, 0), (1, 1), (2, 1), (3, 1), (2, 2)):
             x, y = x0+d[0]*l.XS, y0+d[1]*l.YS
             stack = self.RowStack_Class(x, y, self)
             s.rows.append(stack)
@@ -280,14 +291,12 @@ class Corners(Game):
         # define stack-groups
         l.defaultStackGroups()
 
-
     def fillStack(self, stack):
         if len(stack.cards) == 0:
             if stack is self.s.waste and self.s.talon.cards:
                 self.s.talon.dealCards()
             elif stack in self.s.rows and self.s.waste.cards:
                 self.s.waste.moveMove(1, stack)
-
 
     def _shuffleHook(self, cards):
         suits = []
@@ -299,9 +308,8 @@ class Corners(Game):
                 top_cards.append(c)
                 if len(suits) == 4:
                     break
-        top_cards.sort(lambda a, b: cmp(b.suit, a.suit))
+        top_cards = sorted(top_cards, key=lambda x: -x.suit)
         return cards+top_cards
-
 
     def startGame(self):
         self.startDealSample()
@@ -363,6 +371,7 @@ class FourSeasons(Czarina):
     def fillStack(self, stack):
         pass
 
+
 class FlorentinePatience(FourSeasons):
     def createGame(self):
         Czarina.createGame(self, max_rounds=2)
@@ -388,7 +397,8 @@ class Simplicity(Game):
                      (l.XM,        l.YM+3*l.YS),
                      (l.XM+7*l.XS, l.YM+3*l.YS),
                      ):
-            s.foundations.append(SS_FoundationStack(x, y, self, suit=i, mod=13))
+            s.foundations.append(
+                SS_FoundationStack(x, y, self, suit=i, mod=13))
             i += 1
         y = l.YM+l.YS
         for i in range(2):
@@ -408,7 +418,6 @@ class Simplicity(Game):
 
         l.defaultStackGroups()
 
-
     def startGame(self):
         self.startDealSample()
         # deal base_card to Foundations, update foundations cap.base_rank
@@ -420,9 +429,7 @@ class Simplicity(Game):
         self.s.talon.dealRow()
         self.s.talon.dealCards()
 
-
     shallHighlightMatch = Game._shallHighlightMatch_ACW
-
 
     def _restoreGameHook(self, game):
         self.base_card = self.cards[game.loadinfo.base_card_id]
@@ -453,9 +460,8 @@ registerGame(GameInfo(483, Czarina, "Czarina",
                       rules_filename='fourseasons.html'))
 registerGame(GameInfo(484, FourSeasons, "Four Seasons",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK,
-                      altnames=('Corner Card', 'Vanishing Cross') ))
+                      altnames=('Corner Card', 'Vanishing Cross')))
 registerGame(GameInfo(561, DutchSolitaire, "Dutch Solitaire",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(696, FlorentinePatience, "Florentine Patience",
                       GI.GT_1DECK_TYPE, 1, 1, GI.SL_MOSTLY_LUCK))
-

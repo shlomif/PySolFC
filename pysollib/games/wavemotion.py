@@ -24,21 +24,26 @@
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.mfxutil import kwdefault
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 
+from pysollib.util import ANY_RANK
+
+from pysollib.stack import \
+        AC_RowStack, \
+        InitialDealTalonStack, \
+        OpenStack, \
+        isAlternateColorSequence, \
+        isSameSuitSequence, \
+        SS_RowStack
 
 # ************************************************************************
 # * Wave Motion
 # ************************************************************************
+
 
 class WaveMotion(Game):
     RowStack_Class = SS_RowStack
@@ -116,9 +121,9 @@ class Flourish(WaveMotion):
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
-
 # register the game
 registerGame(GameInfo(314, WaveMotion, "Wave Motion",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(753, Flourish, "Flourish",
-                      GI.GT_1DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_1DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0,
+                      GI.SL_MOSTLY_SKILL))

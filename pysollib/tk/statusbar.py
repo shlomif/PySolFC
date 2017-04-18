@@ -25,21 +25,22 @@ __all__ = ['PysolStatusbar',
            'HelpStatusbar']
 
 # imports
-import os, sys
+import os
+import sys
 import Tkinter
+from pysollib.mygettext import _
+from tkwidget import MfxTooltip
+from pysollib.settings import WIN_SYSTEM
+
+if sys.version_info > (3,):
+    unicode = str
+
 
 if __name__ == '__main__':
     d = os.path.abspath(os.path.join(sys.path[0], os.pardir, os.pardir))
     sys.path.append(d)
     import gettext
     gettext.install('pysol', d, unicode=True)
-
-# PySol imports
-from pysollib.mygettext import _, n_
-
-# Toolkit imports
-from tkwidget import MfxTooltip
-from pysollib.settings import WIN_SYSTEM
 
 
 # ************************************************************************
@@ -92,7 +93,6 @@ class MfxStatusbar:
             b.setText(tooltip)
         return label
 
-
     #
     # public methods
     #
@@ -137,10 +137,12 @@ class MfxStatusbar:
 
     def destroy(self):
         for w in self._tooltips:
-            if w: w.destroy()
+            if w:
+                w.destroy()
         self._tooltips = []
         for w in self._widgets:
-            if w: w.destroy()
+            if w:
+                w.destroy()
         self._widgets = []
 
 
@@ -154,7 +156,7 @@ class PysolStatusbar(MfxStatusbar):
             ('moves',       _('Moves/Total moves'),       10),
             ('gamenumber',  _('Game number'),             26),
             ('stats',       _('Games played: won/lost'),  12),
-            ):
+                ):
             self._createLabel(n, tooltip=t, width=w)
         #
         l = self._createLabel('info', expand=True)
@@ -170,7 +172,8 @@ class HelpStatusbar(MfxStatusbar):
 
 class HtmlStatusbar(MfxStatusbar):
     def __init__(self, top, row, column, columnspan):
-        MfxStatusbar.__init__(self, top, row=row, column=column, columnspan=columnspan)
+        MfxStatusbar.__init__(
+            self, top, row=row, column=column, columnspan=columnspan)
         l = self._createLabel('url', expand=True)
         l.config(justify='left', anchor='w', padx=8)
 
@@ -187,13 +190,13 @@ class TestStatusbar(PysolStatusbar):
         self.updateText(moves=999, gamenumber='#0123456789ABCDEF0123')
         self.updateText(info='Some info text.')
 
+
 def statusbar_main(args):
     tk = Tkinter.Tk()
-    statusbar = TestStatusbar(tk, args)
+    TestStatusbar(tk, args)
     tk.mainloop()
     return 0
 
+
 if __name__ == '__main__':
     sys.exit(statusbar_main(sys.argv))
-
-

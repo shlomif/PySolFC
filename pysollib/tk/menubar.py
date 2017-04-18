@@ -24,22 +24,20 @@
 __all__ = ['PysolMenubarTk']
 
 # imports
-import Tkinter
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.mfxutil import USE_PIL
 from pysollib.util import CARDSET
 
 # toolkit imports
-from pysollib.ui.tktile.tkconst import EVENT_HANDLED, EVENT_PROPAGATE, CURSOR_WATCH, COMPOUNDS
-from pysollib.ui.tktile.tkutil import bind, after_idle
 from tkwidget import MfxMessageDialog
 from selectgame import SelectGameDialog, SelectGameDialogWithPreview
 from soundoptionsdialog import SoundOptionsDialog
 from selectcardset import SelectCardsetDialogWithPreview
 from selecttile import SelectTileDialogWithPreview
-from pysollib.ui.tktile.findcarddialog import connect_game_find_card_dialog, destroy_find_card_dialog
+from pysollib.ui.tktile.findcarddialog import connect_game_find_card_dialog, \
+        destroy_find_card_dialog
 from solverdialog import connect_game_solver_dialog
 
 from pysollib.ui.tktile.menubar import PysolMenubarTkCommon
@@ -48,6 +46,7 @@ from pysollib.ui.tktile.menubar import PysolMenubarTkCommon
 # * - update menubar
 # * - menu actions
 # ************************************************************************
+
 
 class PysolMenubarTk(PysolMenubarTkCommon):
     def __init__(self, app, top, progress=None):
@@ -88,17 +87,18 @@ class PysolMenubarTk(PysolMenubarTkCommon):
     def createThemesMenu(self, menu):
         return
 
-
     def mSelectCardsetDialog(self, *event):
-        if self._cancelDrag(break_pause=False): return
-        ##strings, default = ("&OK", "&Load", "&Cancel"), 0
+        if self._cancelDrag(break_pause=False):
+            return
+        # strings, default = ("&OK", "&Load", "&Cancel"), 0
         strings, default = (None, _("&Load"), _("&Cancel"),), 1
         strings, default = (None, _("&Load"), _("&Cancel"), _("&Info..."),), 1
         t = CARDSET
         key = self.app.nextgame.cardset.index
-        d = SelectCardsetDialogWithPreview(self.top, title=_("Select ")+t,
-                app=self.app, manager=self.app.cardset_manager, key=key,
-                strings=strings, default=default)
+        d = SelectCardsetDialogWithPreview(
+            self.top, title=_("Select ")+t,
+            app=self.app, manager=self.app.cardset_manager, key=key,
+            strings=strings, default=default)
         cs = self.app.cardset_manager.get(d.key)
         if d.status != 0 or d.button != 1 or cs is None:
             return
@@ -125,13 +125,10 @@ class PysolMenubarTk(PysolMenubarTkCommon):
             self.game.endGame(bookmark=1)
             self.game.quitGame(bookmark=1)
 
-
-
     def setToolbarRelief(self, relief):
-        if self._cancelDrag(break_pause=False): return
+        if self._cancelDrag(break_pause=False):
+            return
         self.app.opt.toolbar_relief = relief
         self.tkopt.toolbar_relief.set(relief)           # update radiobutton
         self.app.toolbar.setRelief(relief)
         self.top.update_idletasks()
-
-

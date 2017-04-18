@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 #
 # Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
 # Copyright (C) 2003 Mt. Hood Playing Card Co.
@@ -19,7 +19,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 
 __all__ = ['MfxDialog',
            'MfxMessageDialog',
@@ -32,13 +32,14 @@ __all__ = ['MfxDialog',
            ]
 
 # imports
+import sys
 import time
 import Tkinter
 import tkFont
 import traceback
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.mfxutil import destruct, kwdefault, KwStruct, openURL
 from pysollib.settings import WIN_SYSTEM
 
@@ -48,14 +49,18 @@ from pysollib.ui.tktile.tkutil import bind, unbind_destroy
 from pysollib.ui.tktile.tkutil import makeToplevel, setTransient
 from pysollib.ui.tktile.tkcanvas import MfxCanvas
 
+if sys.version_info > (3,):
+    unicode = str
 
 # ************************************************************************
 # * abstract base class for the dialogs in this module
 # ************************************************************************
 
-class MfxDialog: # ex. _ToplevelDialog
+
+class MfxDialog:  # ex. _ToplevelDialog
     img = {}
     button_img = {}
+
     def __init__(self, parent, title="", resizable=False, default=-1):
         self.parent = parent
         self.status = 0
@@ -65,14 +70,14 @@ class MfxDialog: # ex. _ToplevelDialog
         self.accel_keys = {}
         self.top = makeToplevel(parent, title=title)
         self.top.wm_resizable(resizable, resizable)
-        ##w, h = self.top.winfo_screenwidth(), self.top.winfo_screenheight()
-        ##self.top.wm_maxsize(w-4, h-32)
+        # w, h = self.top.winfo_screenwidth(), self.top.winfo_screenheight()
+        # self.top.wm_maxsize(w-4, h-32)
         bind(self.top, "WM_DELETE_WINDOW", self.wmDeleteWindow)
         #
 
     def mainloop(self, focus=None, timeout=0, transient=True):
         bind(self.top, "<Escape>", self.mCancel)
-        bind(self.top, '<Alt-Key>', self.altKeyEvent) # for accelerators
+        bind(self.top, '<Alt-Key>', self.altKeyEvent)  # for accelerators
         if focus is not None:
             focus.focus()
         if transient:
@@ -80,11 +85,13 @@ class MfxDialog: # ex. _ToplevelDialog
             try:
                 self.top.grab_set()
             except Tkinter.TclError:
-                if traceback: traceback.print_exc()
+                if traceback:
+                    traceback.print_exc()
                 pass
             if timeout > 0:
                 self.timer = after(self.top, timeout, self.mTimeout)
-            try: self.top.mainloop()
+            try:
+                self.top.mainloop()
             except SystemExit:
                 pass
             self.destroy()
@@ -95,24 +102,27 @@ class MfxDialog: # ex. _ToplevelDialog
         try:
             self.top.wm_withdraw()
         except:
-            if traceback: traceback.print_exc()
+            if traceback:
+                traceback.print_exc()
             pass
         try:
             self.top.destroy()
         except:
-            if traceback: traceback.print_exc()
+            if traceback:
+                traceback.print_exc()
             pass
-        #destruct(self.top)
-        if 1 and self.parent: # ???
+        # destruct(self.top)
+        if 1 and self.parent:  # ???
             try:
-                ##self.parent.update_idletasks()
+                # self.parent.update_idletasks()
                 # FIXME: why do we need this under Windows ?
                 if hasattr(self.parent, "busyUpdate"):
                     self.parent.busyUpdate()
                 else:
                     self.parent.update()
             except:
-                if traceback: traceback.print_exc()
+                if traceback:
+                    traceback.print_exc()
                 pass
         self.top = None
         self.parent = None
@@ -120,7 +130,7 @@ class MfxDialog: # ex. _ToplevelDialog
     def wmDeleteWindow(self, *event):
         self.status = 1
         raise SystemExit
-        ##return EVENT_HANDLED
+        # return EVENT_HANDLED
 
     def mCancel(self, *event):
         self.status = 1
@@ -141,7 +151,6 @@ class MfxDialog: # ex. _ToplevelDialog
         button = self.accel_keys.get(key)
         if button is not None:
             self.mDone(button)
-
 
     def initKw(self, kw):
         kw = KwStruct(kw,
@@ -166,18 +175,20 @@ class MfxDialog: # ex. _ToplevelDialog
         bottom_frame.pack(side='bottom', fill='both', expand=False,
                           ipadx=3, ipady=3)
         if kw.separator:
-            separator = Tkinter.Frame(self.top, relief="sunken",
-                    height=2, width=2, borderwidth=1)
+            separator = Tkinter.Frame(
+                self.top, relief="sunken",
+                height=2, width=2, borderwidth=1)
             separator.pack(side='bottom', fill='x')
         top_frame = Tkinter.Frame(self.top)
         top_frame.pack(side='top', fill='both', expand=True)
         return top_frame, bottom_frame
 
     def createBitmaps(self, frame, kw):
-        if kw.bitmap: ## in ("error", "info", "question", "warning")
+        if kw.bitmap:  # in ("error", "info", "question", "warning")
             img = self.img.get(kw.bitmap)
             b = Tkinter.Label(frame, image=img)
-            b.pack(side=kw.bitmap_side, padx=kw.bitmap_padx, pady=kw.bitmap_pady)
+            b.pack(side=kw.bitmap_side, padx=kw.bitmap_padx,
+                   pady=kw.bitmap_pady)
         elif kw.image:
             b = Tkinter.Label(frame, image=kw.image)
             b.pack(side=kw.image_side, padx=kw.image_padx, pady=kw.image_pady)
@@ -192,16 +203,20 @@ class MfxDialog: # ex. _ToplevelDialog
             if isinstance(s, tuple):
                 s = s[0]
             if s:
-                #if os.name == 'posix':
+                # if os.name == 'posix':
                 #    s = s.replace('...', '.')
                 s = s.replace('&', '')
                 max_len = max(max_len, len(s))
-            ##print s, len(s)
-        if   max_len > 12 and WIN_SYSTEM == 'x11': button_width = max_len
-        elif max_len > 9 : button_width = max_len+1
-        elif max_len > 6 : button_width = max_len+2
-        else             : button_width = 8
-        #print 'button_width =', button_width
+            # print s, len(s)
+        if max_len > 12 and WIN_SYSTEM == 'x11':
+            button_width = max_len
+        elif max_len > 9:
+            button_width = max_len+1
+        elif max_len > 6:
+            button_width = max_len+2
+        else:
+            button_width = 8
+        # print 'button_width =', button_width
         #
         #
         for s in kw.strings:
@@ -218,8 +233,10 @@ class MfxDialog: # ex. _ToplevelDialog
                 b = Tkinter.Button(frame, text=s, state="disabled")
                 button = xbutton
             else:
-                b = Tkinter.Button(frame, text=s, default="normal",
-                                   command=(lambda self=self, button=button: self.mDone(button)))
+                b = Tkinter.Button(
+                    frame, text=s, default="normal",
+                    command=(lambda self=self, button=button:
+                             self.mDone(button)))
                 if button == kw.default:
                     focus = b
                     focus.config(default="active")
@@ -232,14 +249,15 @@ class MfxDialog: # ex. _ToplevelDialog
                 key = s[accel_indx]
                 self.accel_keys[key.lower()] = button
             #
-##             img = None
-##             if self.button_img:
-##                 img = self.button_img.get(s)
-##             b.config(compound='left', image=img)
+            #  img = None
+            #  if self.button_img:
+            #      img = self.button_img.get(s)
+            #  b.config(compound='left', image=img)
             column += 1
             b.grid(column=column, row=0, sticky="ns", padx=padx, pady=pady)
         if focus is not None:
-            l = (lambda event=None, self=self, button=kw.default: self.mDone(button))
+            l = (lambda event=None, self=self, button=kw.default:
+                 self.mDone(button))
             bind(self.top, "<Return>", l)
             bind(self.top, "<KP_Enter>", l)
         frame.columnconfigure(0, weight=1)
@@ -279,7 +297,8 @@ class MfxExceptionDialog(MfxMessageDialog):
             text = text + "\n"
         text = text + "\n"
         if isinstance(ex, EnvironmentError) and ex.filename is not None:
-            t = "[Errno %s] %s:\n%s" % (ex.errno, ex.strerror, repr(ex.filename))
+            t = "[Errno %s] %s:\n%s" % \
+                (ex.errno, ex.strerror, repr(ex.filename))
         else:
             t = str(ex)
         kw.text = text + unicode(t, errors='replace')
@@ -426,10 +445,10 @@ class MfxTooltip:
         self.timer = None
         if self.tooltip or not self.text:
             return
-##         if isinstance(self.widget, (Tkinter.Button, Tkinter.Checkbutton)):
-##             if self.widget["state"] == 'disabled':
-##                 return
-        ##x = self.widget.winfo_rootx()
+        #  if isinstance(self.widget, (Tkinter.Button, Tkinter.Checkbutton)):
+        #      if self.widget["state"] == 'disabled':
+        #          return
+        # x = self.widget.winfo_rootx()
         x = self.widget.winfo_pointerx()
         y = self.widget.winfo_rooty() + self.widget.winfo_height()
         x += self.xoffset
@@ -444,8 +463,9 @@ class MfxTooltip:
         self.label.pack(ipadx=1, ipady=1)
         self.tooltip.wm_geometry("%+d%+d" % (x, y))
         self.tooltip.wm_deiconify()
-        self.cancel_timer = after(self.widget, self.cancel_timeout, self._leave)
-        ##self.tooltip.tkraise()
+        self.cancel_timer = after(
+            self.widget, self.cancel_timeout, self._leave)
+        # self.tooltip.tkraise()
 
 
 # ************************************************************************
@@ -472,7 +492,7 @@ class MfxScrolledCanvas:
         if vbar:
             self.createVbar()
             self.bindVbar()
-        ###self.canvas.focus_set()
+        # self.canvas.focus_set()
 
     #
     #
@@ -497,7 +517,7 @@ class MfxScrolledCanvas:
         tile = app.tabletile_manager.get(i)
         if tile is None or tile.error:
             return False
-        ##print i, tile
+        # print i, tile
         if i == 0:
             assert tile.color
             assert tile.filename is None
@@ -506,20 +526,21 @@ class MfxScrolledCanvas:
             assert tile.filename
             assert tile.basename
         if not force:
-            if (i == app.tabletile_index and
-                tile.color == app.opt.colors['table']):
+            if i == app.tabletile_index and \
+                   tile.color == app.opt.colors['table']:
                 return False
         #
-        if not self.canvas.setTile(tile.filename, tile.stretch, tile.save_aspect):
+        if not self.canvas.setTile(
+                tile.filename, tile.stretch, tile.save_aspect):
             tile.error = True
             return False
 
         if i == 0:
             self.canvas.config(bg=tile.color)
-            ##app.top.config(bg=tile.color)
+            # app.top.config(bg=tile.color)
         else:
             self.canvas.config(bg=app.top_bg)
-            ##app.top.config(bg=app.top_bg)
+            # app.top.config(bg=app.top_bg)
 
         self.canvas.setTextColor(app.opt.colors['text'])
 
@@ -539,6 +560,7 @@ class MfxScrolledCanvas:
         width = kw.get("width")
         height = kw.get("height")
         self.frame = Tkinter.Frame(self.parent, width=width, height=height)
+
     def createCanvas(self, kw):
         bd = kw['bd']
         kw['bd'] = 0
@@ -548,6 +570,7 @@ class MfxScrolledCanvas:
         frame.grid(row=0, column=0, sticky="news")
         self.canvas = MfxCanvas(frame, **kw)
         self.canvas.pack(expand=True, fill='both')
+
     def createHbar(self):
         self.hbar = Tkinter.Scrollbar(self.frame, takefocus=0,
                                       orient="horizontal")
@@ -555,17 +578,20 @@ class MfxScrolledCanvas:
         self.hbar["command"] = self.canvas.xview
         self.hbar.grid(row=1, column=0, sticky="we")
         self.hbar.grid_remove()
+
     def createVbar(self):
         self.vbar = Tkinter.Scrollbar(self.frame, takefocus=0)
         self.canvas["yscrollcommand"] = self._setVbar
         self.vbar["command"] = self.canvas.yview
         self.vbar.grid(row=0, column=1, sticky="ns")
         self.vbar.grid_remove()
+
     def bindHbar(self, w=None):
         if w is None:
             w = self.canvas
         bind(w, "<KeyPress-Left>", self.unit_left)
         bind(w, "<KeyPress-Right>", self.unit_right)
+
     def bindVbar(self, w=None):
         if w is None:
             w = self.canvas
@@ -581,10 +607,10 @@ class MfxScrolledCanvas:
             bind(w, '<4>', self.mouse_wheel_up)
             bind(w, '<5>', self.mouse_wheel_down)
         # don't work on Linux
-        #bind(w, '<MouseWheel>', self.mouse_wheel)
+        # bind(w, '<MouseWheel>', self.mouse_wheel)
 
     def mouse_wheel(self, *args):
-        print 'MfxScrolledCanvas.mouse_wheel', args
+        print('MfxScrolledCanvas.mouse_wheel', args)
 
     def _setHbar(self, first, last):
         if self.canvas.busy:
@@ -598,6 +624,7 @@ class MfxScrolledCanvas:
                 sb.grid()
                 self.hbar_show = True
         sb.set(first, last)
+
     def _setVbar(self, first, last):
         if self.canvas.busy:
             return
@@ -612,34 +639,48 @@ class MfxScrolledCanvas:
         sb.set(first, last)
 
     def _xview(self, *args):
-        if self.hbar_show: self.canvas.xview(*args)
+        if self.hbar_show:
+            self.canvas.xview(*args)
         return 'break'
+
     def _yview(self, *args):
-        if self.vbar_show: self.canvas.yview(*args)
+        if self.vbar_show:
+            self.canvas.yview(*args)
         return 'break'
 
     def page_up(self, *event):
         return self._yview('scroll', -1, 'page')
+
     def page_down(self, *event):
         return self._yview('scroll', 1, 'page')
+
     def unit_up(self, *event):
         return self._yview('scroll', -1, 'unit')
+
     def unit_down(self, *event):
         return self._yview('scroll', 1, 'unit')
+
     def mouse_wheel_up(self, *event):
         return self._yview('scroll', -5, 'unit')
+
     def mouse_wheel_down(self, *event):
         return self._yview('scroll', 5, 'unit')
+
     def page_left(self, *event):
         return self._xview('scroll', -1, 'page')
+
     def page_right(self, *event):
         return self._xview('scroll', 1, 'page')
+
     def unit_left(self, *event):
         return self._xview('scroll', -1, 'unit')
+
     def unit_right(self, *event):
         return self._xview('scroll', 1, 'unit')
+
     def scroll_top(self, *event):
         return self._yview('moveto', 0)
+
     def scroll_bottom(self, *event):
         return self._yview('moveto', 1)
 
@@ -657,7 +698,7 @@ class StackDesc:
         self.bindings = []
 
         font = game.app.getFont('canvas_small')
-        ##print self.app.cardset.CARDW, self.app.images.CARDW
+        # print self.app.cardset.CARDW, self.app.images.CARDW
         cardw = game.app.images.CARDW
         x, y = stack.x+cardw/2, stack.y
         text = stack.getHelp()+'\n'+stack.getBaseCard()
@@ -671,13 +712,14 @@ class StackDesc:
             label.pack()
             self.label = label
             self.id = self.canvas.create_window(x, y, window=frame, anchor='n')
-            self.bindings.append(label.bind('<ButtonPress>', self._buttonPressEvent))
-            ##self.bindings.append(label.bind('<Enter>', self._enterEvent))
+            self.bindings.append(
+                label.bind('<ButtonPress>', self._buttonPressEvent))
+            # self.bindings.append(label.bind('<Enter>', self._enterEvent))
         else:
             self.id = None
 
     def _buttonPressEvent(self, *event):
-        ##self.game.deleteStackDesc()
+        # self.game.deleteStackDesc()
         self.frame.tkraise()
 
     def _enterEvent(self, *event):
@@ -688,4 +730,3 @@ class StackDesc:
             self.canvas.delete(self.id)
             for b in self.bindings:
                 self.label.unbind('<ButtonPress>', b)
-

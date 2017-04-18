@@ -24,10 +24,10 @@
 from mahjongg import r
 
 # test
-#r(5991, "AAA 1", ncards=4, layout="0daa")
-#r(5992, "AAA 2", ncards=8, layout="0daadca")
-#r(5993, "AAA 3", ncards=20, layout="0daaCabdacKbbdcaCcbdcc")
-#r(5994, "AAA 4", ncards=20, layout="0daaDabdacdcaDcbdcc")
+# r(5991, "AAA 1", ncards=4, layout="0daa")
+# r(5992, "AAA 2", ncards=8, layout="0daadca")
+# r(5993, "AAA 3", ncards=20, layout="0daaCabdacKbbdcaCcbdcc")
+# r(5994, "AAA 4", ncards=20, layout="0daaDabdacdcaDcbdcc")
 
 # ************************************************************************
 # * game definitions

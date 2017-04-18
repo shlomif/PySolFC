@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 #
 # Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
 # Copyright (C) 2003 Mt. Hood Playing Card Co.
@@ -19,36 +19,43 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 
 __all__ = []
 
 # Imports
 import sys
-#from tkFont import Font
+# from tkFont import Font
 from gettext import ungettext
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
 from pysollib.mfxutil import kwdefault
-from pysollib.stack import *
-from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.hint import AbstractHint
 from pysollib.pysoltk import MfxCanvasText, MfxCanvasLine
 
 from mahjongg import Mahjongg_RowStack, AbstractMahjonggGame, comp_cardset
 
+from pysollib.util import ANY_SUIT
+
+from pysollib.stack import \
+        AbstractFoundationStack, \
+        InitialDealTalonStack
+
+if sys.version_info > (3,):
+    xrange = range
 
 # ************************************************************************
 # *
 # ************************************************************************
 
+
 class Shisen_Hint(AbstractHint):
     TOP_MATCHING = False
     # FIXME: no intelligence whatsoever is implemented here
+
     def computeHints(self):
         game = self.game
         # get free stacks
@@ -60,7 +67,7 @@ class Shisen_Hint(AbstractHint):
         i = 0
         for r in stacks:
             for t in stacks[i+1:]:
-                #if game.cardsMatch(r.cards[0], t.cards[0]):
+                # if game.cardsMatch(r.cards[0], t.cards[0]):
                 if r.acceptsCards(t, t.cards):
                     # simple scoring...
                     if self.TOP_MATCHING:
@@ -122,7 +129,7 @@ class Shisen_RowStack(Mahjongg_RowStack):
             if nx < 0 or ny < 0 or nx > cols+1 or ny > rows+1:
                 return 0
             if nx in (0, cols+1) or ny in (0, rows+1) \
-                   or not game_cols[nx-1][ny-1].cards:
+                    or not game_cols[nx-1][ny-1].cards:
                 if direct_chng_cnt == 0:
                     return 1
                 elif direct_chng_cnt == 1:
@@ -159,20 +166,21 @@ class Shisen_RowStack(Mahjongg_RowStack):
             return 0
 
         res_path = [None]
+
         def do_accepts(x, y, direct, direct_chng_cnt, path):
-            #if direct_chng_cnt > 3:
+            # if direct_chng_cnt > 3:
             #    return
             if a[x][y] < direct_chng_cnt:
                 return
-            #if res_path[0]:
+            # if res_path[0]:
             #    return
             a[x][y] = direct_chng_cnt
             if x == x2 and y == y2:
                 res_path[0] = path
                 return
 
-            if can_move(x, y, x, y+1, direct, 1, direct_chng_cnt): #### 1
-                #dcc = direct == 1 and direct_chng_cnt or direct_chng_cnt+1
+            if can_move(x, y, x, y+1, direct, 1, direct_chng_cnt):  # 1
+                # dcc = direct == 1 and direct_chng_cnt or direct_chng_cnt+1
                 p = path[:]
                 if direct == 1:
                     dcc = direct_chng_cnt
@@ -180,8 +188,8 @@ class Shisen_RowStack(Mahjongg_RowStack):
                     dcc = direct_chng_cnt+1
                     p.append((x, y))
                 do_accepts(x, y+1, 1, dcc, p)
-            if can_move(x, y, x, y-1, direct, 2, direct_chng_cnt): #### 2
-                #dcc = direct == 2 and direct_chng_cnt or direct_chng_cnt+1
+            if can_move(x, y, x, y-1, direct, 2, direct_chng_cnt):  # 2
+                # dcc = direct == 2 and direct_chng_cnt or direct_chng_cnt+1
                 p = path[:]
                 if direct == 2:
                     dcc = direct_chng_cnt
@@ -189,8 +197,8 @@ class Shisen_RowStack(Mahjongg_RowStack):
                     dcc = direct_chng_cnt+1
                     p.append((x, y))
                 do_accepts(x, y-1, 2, dcc, p)
-            if can_move(x, y, x+1, y, direct, 3, direct_chng_cnt): #### 3
-                #dcc = direct == 3 and direct_chng_cnt or direct_chng_cnt+1
+            if can_move(x, y, x+1, y, direct, 3, direct_chng_cnt):  # 3
+                # dcc = direct == 3 and direct_chng_cnt or direct_chng_cnt+1
                 p = path[:]
                 if direct == 3:
                     dcc = direct_chng_cnt
@@ -198,8 +206,8 @@ class Shisen_RowStack(Mahjongg_RowStack):
                     dcc = direct_chng_cnt+1
                     p.append((x, y))
                 do_accepts(x+1, y, 3, dcc, p)
-            if can_move(x, y, x-1, y, direct, 4, direct_chng_cnt): #### 4
-                #dcc = direct == 4 and direct_chng_cnt or direct_chng_cnt+1
+            if can_move(x, y, x-1, y, direct, 4, direct_chng_cnt):  # 4
+                # dcc = direct == 4 and direct_chng_cnt or direct_chng_cnt+1
                 p = path[:]
                 if direct == 4:
                     dcc = direct_chng_cnt
@@ -209,17 +217,16 @@ class Shisen_RowStack(Mahjongg_RowStack):
                 do_accepts(x-1, y, 4, dcc, p)
 
         do_accepts(x1, y1, 0, 0, [])
-        #from pprint import pprint
-        #pprint(a)
+        # from pprint import pprint
+        # pprint(a)
 
         if a[x2][y2] > 3:
             return None
 
         res_path = res_path[0]
         res_path.append((x2, y2))
-        #print res_path
+        # print res_path
         return res_path
-
 
     def fillStack(self):
         self.game.fillStack(self)
@@ -229,13 +236,14 @@ class Shisen_RowStack(Mahjongg_RowStack):
         if to_stack.cards:
             self._dropPairMove(ncards, to_stack, frames=-1, shadow=shadow)
         else:
-            Mahjongg_RowStack.moveMove(self, ncards, to_stack, frames=frames, shadow=shadow)
+            Mahjongg_RowStack.moveMove(self, ncards, to_stack, frames=frames,
+                                       shadow=shadow)
 
     def _dropPairMove(self, n, other_stack, frames=-1, shadow=-1):
         game = self.game
         old_state = game.enterState(game.S_FILL)
         f = game.s.foundations[0]
-        game.updateStackMove(game.s.talon, 2|16)            # for undo
+        game.updateStackMove(game.s.talon, 2 | 16)            # for undo
         if not game.demo:
             if game.app.opt.shisen_show_hint:
                 self.drawArrow(other_stack, game.app.opt.timeouts['hint'])
@@ -245,23 +253,22 @@ class Shisen_RowStack(Mahjongg_RowStack):
         game.moveMove(n, other_stack, f, frames=frames, shadow=shadow)
         self.fillStack()
         other_stack.fillStack()
-        game.updateStackMove(game.s.talon, 1|16)            # for redo
+        game.updateStackMove(game.s.talon, 1 | 16)            # for redo
         game.leaveState(old_state)
-
 
     def drawArrow(self, other_stack, sleep):
         game = self.game
         images = game.app.images
         cs = game.app.cardset
         path = self.acceptsCards(other_stack, [other_stack.cards[-1]])
-        #print path
+        # print path
         x0, y0 = game.XMARGIN, game.YMARGIN
         cardw, cardh = images.CARDW, images.CARDH
         if cs.version >= 6:
             cardw -= cs.SHADOW_XOFFSET
             cardh -= cs.SHADOW_YOFFSET
         coords = []
-        dx, dy = game._delta_x, game._delta_y
+        dx = game._delta_x
         xf, yf = images._xfactor, images._yfactor
         for x, y in path:
             if x == 0:
@@ -276,17 +283,17 @@ class Shisen_RowStack(Mahjongg_RowStack):
                 coords.append(int(round(yf * (y0+cardh*(y-1)+6))))
             else:
                 coords.append(int(round(yf * (y0+cardh/2+cardh*(y-1)))))
-        #print coords
-        ##s1 = min(cardw/2, cardh/2, 30)
-        ##w = min(s1/3, 7)
-        ##s2 = min(w, 10)
+        # print coords
+        # s1 = min(cardw/2, cardh/2, 30)
+        # w = min(s1/3, 7)
+        # s2 = min(w, 10)
         w = 7
         arrow = MfxCanvasLine(game.canvas,
                               coords,
                               {'width': w,
                                'fill': game.app.opt.colors['hintarrow'],
-                               ##'arrow': 'last',
-                               ##'arrowshape': (s1, s1, s2)
+                               # 'arrow': 'last',
+                               # 'arrowshape': (s1, s1, s2)
                                }
                               )
         game.canvas.update_idletasks()
@@ -297,10 +304,10 @@ class Shisen_RowStack(Mahjongg_RowStack):
 
 
 class AbstractShisenGame(AbstractMahjonggGame):
-    Hint_Class = NotShisen_Hint #Shisen_Hint
+    Hint_Class = NotShisen_Hint  # Shisen_Hint
     RowStack_Class = Shisen_RowStack
 
-    #NCARDS = 144
+    # NCARDS = 144
     GRAVITY = True
 
     def createGame(self):
@@ -309,7 +316,7 @@ class AbstractShisenGame(AbstractMahjonggGame):
 
         # start layout
         l, s = Layout(self), self.s
-        ##dx, dy = 3, -3
+        # dx, dy = 3, -3
 
         cs = self.app.cardset
         if cs.version >= 6:
@@ -328,7 +335,7 @@ class AbstractShisenGame(AbstractMahjonggGame):
         font = self.app.getFont("canvas_default")
 
         # width of self.texts.info
-        #ti_width = Font(self.canvas, font).measure(_('Remaining'))
+        # ti_width = Font(self.canvas, font).measure(_('Remaining'))
         ti_width = 80
 
         # set window size
@@ -358,8 +365,8 @@ class AbstractShisenGame(AbstractMahjonggGame):
                 stack.coln, stack.rown = col, row
                 s.rows.append(stack)
                 self.cols[col].append(stack)
-        #from pprint import pprint
-        #pprint(self.cols)
+        # from pprint import pprint
+        # pprint(self.cols)
 
         # create other stacks
         y = l.YM + dyy
@@ -376,7 +383,8 @@ class AbstractShisenGame(AbstractMahjonggGame):
         l.defaultStackGroups()
 
     def fillStack(self, stack):
-        if not self.GRAVITY: return
+        if not self.GRAVITY:
+            return
         to_stack = stack
         for from_stack in self.cols[stack.coln][stack.rown+1::-1]:
             if not from_stack.cards:
@@ -419,12 +427,10 @@ class AbstractShisenGame(AbstractMahjonggGame):
                        self.NCARDS - t) % (self.NCARDS - t)
 
         t = r1 + r2 + f
-        self.texts.info.config(text = t)
-
+        self.texts.info.config(text=t)
 
     def drawHintArrow(self, from_stack, to_stack, ncards, sleep):
         from_stack.drawArrow(to_stack, sleep)
-
 
     def _shuffleHook(self, cards):
         return cards
@@ -436,22 +442,27 @@ class AbstractShisenGame(AbstractMahjonggGame):
 class Shisen_18x8(AbstractShisenGame):
     L = (18, 8)
 
+
 class Shisen_14x6(AbstractShisenGame):
     L = (14, 6)
     NCARDS = 84
+
 
 class Shisen_24x12(AbstractShisenGame):
     L = (24, 12)
     NCARDS = 288
 
+
 class Shisen_18x8_NoGravity(AbstractShisenGame):
     L = (18, 8)
     GRAVITY = False
+
 
 class Shisen_14x6_NoGravity(AbstractShisenGame):
     L = (14, 6)
     NCARDS = 84
     GRAVITY = False
+
 
 class Shisen_24x12_NoGravity(AbstractShisenGame):
     L = (24, 12)
@@ -479,10 +490,12 @@ class NotShisen_14x6(AbstractShisenGame):
     L = (14, 6)
     NCARDS = 84
 
+
 class NotShisen_18x8(AbstractShisenGame):
     Hint_Class = NotShisen_Hint
     RowStack_Class = NotShisen_RowStack
     L = (18, 8)
+
 
 class NotShisen_24x12(AbstractShisenGame):
     Hint_Class = NotShisen_Hint
@@ -506,6 +519,7 @@ def r(id, gameclass, name, rules_filename="shisensho.html"):
     gi.rules_filename = rules_filename
     registerGame(gi)
     return gi
+
 
 r(11001, Shisen_14x6, "Shisen-Sho 14x6")
 r(11002, Shisen_18x8, "Shisen-Sho 18x8")

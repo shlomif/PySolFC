@@ -1,8 +1,15 @@
 #!/usr/bin/env python
 
+import os
+import pysollib.settings
+import sys
+
+if sys.version_info > (3,):
+    def execfile(fn):
+        return exec(open(fn).read())
+
 prog_name = 'PySol Fan Club edition'
 
-import os
 
 dirs_list = []
 files_list = []
@@ -11,8 +18,7 @@ for root, dirs, files in os.walk('dist'):
         files_list.append(root)
     dirs_list.append(root)
 
-execfile(os.path.join('pysollib', 'settings.py'))
-prog_version = VERSION
+prog_version = pysollib.settings.VERSION
 
 out = open('setup.iss', 'w')
 
@@ -45,5 +51,3 @@ print >> out, 'Source: "*"; DestDir: "{app}"'
 for d in files_list[1:]:
     d = d.replace('dist\\', '')
     print >> out, 'Source: "%s\\*"; DestDir: "{app}\\%s"' % (d, d)
-
-

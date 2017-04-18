@@ -2,10 +2,14 @@
 # -*- mode: python; coding: koi8-r; -*-
 #
 
-import sys, os
+import sys
+import os
 from glob import glob
 from math import sqrt, sin, cos, pi
-from Tkinter import *
+from Tkinter import BOTH, Button, Frame, PhotoImage, NW, Text, Toplevel, X, YES
+from Tkinter import RIGHT, Tk, Listbox, NS, END, Scrollbar, Canvas, NSEW
+from Tkinter import HORIZONTAL, Label, EW, IntVar, StringVar, LEFT, Checkbutton
+from Tkinter import OptionMenu
 try:
     from PIL import Image, ImageTk
 except ImportError:
@@ -25,9 +29,12 @@ cardset_type = {
 
 all_imgs = False
 
+
 class Cardset:
     def __init__(self, dir, name, type, ext, x, y):
-        self.dir, self.name, self.type, self.ext, self.x, self.y = dir, name, type, ext, x, y
+        self.dir, self.name, self.type, self.ext, self.x, self.y = \
+            dir, name, type, ext, x, y
+
 
 def create_cs_list(ls):
     cardsets_list = {}
@@ -38,12 +45,12 @@ def create_cs_list(ls):
         try:
             ext = l0[2]
         except IndexError:
-            ##print f
+            # print f
             ext = '.gif'
         if len(l0) > 3:
             type = cardset_type[l0[3]]
         else:
-            #type = 'Unknown'
+            # type = 'Unknown'
             type = 'French'
         l1 = lines[1].split(';')
         name = l1[1].strip()
@@ -53,8 +60,11 @@ def create_cs_list(ls):
         cardsets_list[name] = cs
     return cardsets_list
 
+
 tk_images = []
 zoom = 0
+
+
 def show_cardset(*args):
     global tk_images
     tk_images = []
@@ -66,10 +76,9 @@ def show_cardset(*args):
         if all_imgs:
             ls += glob(os.path.join(cs.dir, 'bottom*'+cs.ext))
             ls += glob(os.path.join(cs.dir, 'l*'+cs.ext))
-        #ls = glob(os.path.join(cs.dir, '*.gif'))
-        ##if not ls: return
+        # ls = glob(os.path.join(cs.dir, '*.gif'))
+        # if not ls: return
         ls.sort()
-        n = 0
         pf = None
         x, y = 10, 10
         width, height = 0, 0
@@ -77,28 +86,28 @@ def show_cardset(*args):
         for f in ls:
             if Image:
                 filter = {
-                    'NEAREST'  : Image.NEAREST,
-                    'BILINEAR' : Image.BILINEAR,
-                    'BICUBIC'  : Image.BICUBIC,
+                    'NEAREST': Image.NEAREST,
+                    'BILINEAR': Image.BILINEAR,
+                    'BICUBIC': Image.BICUBIC,
                     'ANTIALIAS': Image.ANTIALIAS,
-                    } [filter_var.get()]
-                ##filter = Image.BILINEAR
-                ##filter = Image.BICUBIC
-                ##filter = Image.ANTIALIAS
-                ##print f
+                    }[filter_var.get()]
+                # filter = Image.BILINEAR
+                # filter = Image.BICUBIC
+                # filter = Image.ANTIALIAS
+                # print f
                 im = Image.open(f)
                 if zoom != 0:
                     w, h = im.size
                     im = im.convert('RGBA')        # for save transparency
                     if rotate_var.get():
                         # rotate
-                        #if filter == Image.ANTIALIAS:
+                        # if filter == Image.ANTIALIAS:
                         #    filter = Image.BICUBIC
                         z = zoom*5
                         a = abs(pi/2/90*z)
                         neww = int(w*cos(a)+h*sin(a))
                         newh = int(h*cos(a)+w*sin(a))
-                        ##print w, h, neww, newh
+                        # print w, h, neww, newh
                         d = int(sqrt(w*w+h*h))
                         dx, dy = (d-w)/2, (d-h)/2
                         newim = Image.new('RGBA', (d, d))
@@ -115,10 +124,12 @@ def show_cardset(*args):
                         z = max(0.2, z)
                         if 1:
                             tmp = Image.new('RGBA', (w+2, h+2))
-                            tmp.paste(im, (1,1), im)
-                            im = tmp.resize((int(w*z), int(h*z)), resample=filter)
+                            tmp.paste(im, (1, 1), im)
+                            im = tmp.resize((int(w*z), int(h*z)),
+                                            resample=filter)
                         else:
-                            im = im.resize((int(w*z), int(h*z)), resample=filter)
+                            im = im.resize((int(w*z), int(h*z)),
+                                           resample=filter)
                         t = '%d %%' % int(z*100)
 
                     zoom_label.config(text=t)
@@ -140,31 +151,35 @@ def show_cardset(*args):
             else:
                 x += image.width()+10
             canvas.create_image(x, y, image=image, anchor=NW)
-            ##canvas.create_rectangle(x, y, x+image.width(), y+image.height())
+            # canvas.create_rectangle(x, y, x+image.width(), y+image.height())
             width = max(width, x)
             height = max(height, y)
         width, height = width+image.width()+10, height+image.height()+10
         canvas.config(scrollregion=(0, 0, width, height))
-        ##print image.width(), image.height()
+        # print image.width(), image.height()
         label.config(text='''\
 Name: %s
 Type: %s
 Directory: %s''' % (cs.name, cs.type, cs.dir))
+
 
 def zoom_in(*args):
     global zoom
     zoom += 1
     show_cardset()
 
+
 def zoom_out(*args):
     global zoom
     zoom -= 1
     show_cardset()
 
+
 def zoom_cancel(*args):
     global zoom
     zoom = 0
     show_cardset()
+
 
 def show_info(*args):
     if list_box.curselection():
@@ -179,6 +194,7 @@ def show_info(*args):
         b_frame.pack(fill=X)
         button = Button(b_frame, text='Close', command=top.destroy)
         button.pack(side=RIGHT)
+
 
 def create_widgets():
     global list_box, canvas, label, zoom_label
@@ -253,6 +269,7 @@ def create_widgets():
 
     return root
 
+
 if __name__ == '__main__':
     if '-a' in sys.argv:
         sys.argv.remove('-a')
@@ -260,7 +277,8 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         data_dir = sys.argv[1]
     else:
-        data_dir = os.path.normpath(os.path.join(sys.path[0], os.pardir, 'data'))
+        data_dir = os.path.normpath(
+            os.path.join(sys.path[0], os.pardir, 'data'))
     ls = glob(os.path.join(data_dir, '*', 'config.txt'))
     cardsets_dict = create_cs_list(ls)
     root = create_widgets()

@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
 
-import sys, os, re
+import sys
+import os
 
 alpha = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+
 
 def decode_layout(layout):
     # decode tile positions
@@ -21,10 +23,11 @@ def decode_layout(layout):
     tiles.sort()
     return tiles
 
+
 def encode_layout(layout):
     # encode positions
     s = '0'
-    ##layout.sort()
+    # layout.sort()
     x_max = max([t[1] for t in layout])
     y_max = max([t[2] for t in layout])
     for x in range(x_max+1):
@@ -44,7 +47,6 @@ def encode_layout(layout):
 #     for tl, tx, ty in layout:
 #         s += alpha[tl*7]+alpha[tx]+alpha[ty]
     return s
-
 
 
 def parse_kyodai(filename):
@@ -179,30 +181,29 @@ if __name__ == '__main__':
         layout = parse_func(filename)
         layout = normalize(layout)
 
-        #print filename, len(layout)
+        # print filename, len(layout)
 
         s = encode_layout(layout)
 
         # check
         lt = decode_layout(s)
         if lt != layout:
-            print '*** ERROR ***'
+            print('*** ERROR ***')
         else:
-            ##print s
+            # print s
 
             gamename = os.path.split(filename)[1].split('.')[0]
-            #classname = gamename.replace(' ', '_')
-            #classname = 'Mahjongg_' + re.sub('\W', '', classname)
+            # classname = gamename.replace(' ', '_')
+            # classname = 'Mahjongg_' + re.sub('\W', '', classname)
 
             ncards = len(layout)
 
             if ncards != 144:
-                print '''r(%d, "%s", ncards=%d, layout="%s")
-''' % (gameid, gamename, ncards, s)
+                print('''r(%d, "%s", ncards=%d, layout="%s")
+''' % (gameid, gamename, ncards, s))
 
             else:
-                print '''r(%d, "%s", layout="%s")
-''' % (gameid, gamename, s)
+                print('''r(%d, "%s", layout="%s")
+''' % (gameid, gamename, s))
 
             gameid += 1
-

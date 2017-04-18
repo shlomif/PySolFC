@@ -20,13 +20,14 @@ my %skip =
     ./pysollib/games/special/__init__.py
     ./pysollib/games/ultra/__init__.py
     ./pysollib/pysoltk.py
+    ./scripts/all_games.py
     ./pysollib/tile/ttk.py
     )
 );
 
 # my $cmd = shell_quote( 'flake8', '.' );
 my $cmd = shell_quote( 'flake8',
-    grep { not exists $skip{$_} } glob('*.py ./tests/board_gen/*.py ./pysollib/*.py ./pysollib/[cmgpuw]*/{*/*.py,*.py} ./pysollib/tile/*.py ./pysollib/ui/tktile/*.py') );
+    grep { not exists $skip{$_} } glob('./*.py ./scripts/*.py ./tests/board_gen/*.py ./pysollib/*.py ./pysollib/[cmgpuw]*/{*/*.py,*.py} ./pysollib/tile/*.py ./pysollib/ui/tktile/*.py') );
 
 # TEST
 eq_or_diff( scalar(`$cmd`), '', "flake8 is happy with the code." );

@@ -30,5 +30,6 @@ from pysollib.tk.basetkmfxdialog import BaseTkMfxDialog
 # *
 # ************************************************************************
 
+
 class ColorsDialog(BaseColorsDialog, BaseTkMfxDialog):
     pass

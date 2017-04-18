@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 #
 # Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
 # Copyright (C) 2003 Mt. Hood Playing Card Co.
@@ -19,24 +19,34 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.hint import CautiousDefaultHint
+
+from pysollib.util import ACE, KING, QUEEN
+
+from pysollib.stack import \
+        BasicRowStack, \
+        InitialDealTalonStack, \
+        InvisibleStack, \
+        ReserveStack, \
+        Stack, \
+        getPileFromStacks, \
+        isSameSuitSequence, \
+        SS_FoundationStack
 
 # ************************************************************************
 # *
 # ************************************************************************
+
 
 class SiebenBisAs_Hint(CautiousDefaultHint):
     def computeHints(self):
@@ -47,12 +57,13 @@ class SiebenBisAs_Hint(CautiousDefaultHint):
             if not r.cards:
                 continue
             assert len(r.cards) == 1 and r.cards[-1].face_up
-            c, pile, rpile = r.cards[0], r.cards, []
+            pile, rpile = r.cards, []
             # try if we can drop the card
             t, ncards = r.canDropCards(self.game.s.foundations)
             if t:
                 score, color = 0, None
-                score, color = self._getDropCardScore(score, color, r, t, ncards)
+                score, color = self._getDropCardScore(
+                    score, color, r, t, ncards)
                 self.addHint(score, ncards, r, t, color)
             # try if we can move the card
             for t in freerows:
@@ -62,7 +73,8 @@ class SiebenBisAs_Hint(CautiousDefaultHint):
                     self.addHint(score, 1, r, t)
 
     def shallMovePile(self, from_stack, to_stack, pile, rpile):
-        if from_stack is to_stack or not to_stack.acceptsCards(from_stack, pile):
+        if from_stack is to_stack or \
+                not to_stack.acceptsCards(from_stack, pile):
             return 0
         # now check for loops
         rr = self.ClonedStack(from_stack, stackcards=rpile)
@@ -76,13 +88,14 @@ class SiebenBisAs_Hint(CautiousDefaultHint):
 # * Sieben bis As (Seven to Ace)
 # ************************************************************************
 
+
 class SiebenBisAs_Foundation(SS_FoundationStack):
     def acceptsCards(self, from_stack, cards):
         if not SS_FoundationStack.acceptsCards(self, from_stack, cards):
             return False
         # this stack accepts only a card from a rowstack with an empty
         # left neighbour
-        if not from_stack in self.game.s.rows:
+        if from_stack not in self.game.s.rows:
             return False
         if from_stack.id % 10 == 0:
             return False
@@ -96,17 +109,19 @@ class SiebenBisAs_RowStack(BasicRowStack):
         if self.id % 10 != 0:
             # left neighbour
             s = self.game.s.rows[self.id - 1]
-            if s.cards and s.cards[-1].suit == cards[0].suit and (s.cards[-1].rank + 1) % 13 == cards[0].rank:
+            if s.cards and s.cards[-1].suit == cards[0].suit \
+                    and (s.cards[-1].rank + 1) % 13 == cards[0].rank:
                 return True
         if self.id % 10 != 10 - 1:
             # right neighbour
             s = self.game.s.rows[self.id + 1]
-            if s.cards and s.cards[-1].suit == cards[0].suit and (s.cards[-1].rank - 1) % 13 == cards[0].rank:
+            if s.cards and s.cards[-1].suit == cards[0].suit \
+                    and (s.cards[-1].rank - 1) % 13 == cards[0].rank:
                 return True
         return False
 
     # bottom to get events for an empty stack
-    ###prepareBottom = Stack.prepareInvisibleBottom
+    #  prepareBottom = Stack.prepareInvisibleBottom
 
     getBottomImage = Stack._getReserveBottomImage
 
@@ -129,13 +144,18 @@ class SiebenBisAs(Game):
         for i in range(3):
             for j in range(10):
                 x, y, = l.XM + j*l.XS, l.YM + (i+1)*l.YS
-                s.rows.append(SiebenBisAs_RowStack(x, y, self, max_accept=1, max_cards=1))
+                s.rows.append(
+                    SiebenBisAs_RowStack(
+                        x, y, self, max_accept=1, max_cards=1))
         for i in range(2):
             x, y, = l.XM + (i+4)*l.XS, l.YM
             s.reserves.append(ReserveStack(x, y, self, max_accept=0))
         for i in range(4):
             x, y, = l.XM + (i+3)*l.XS, l.YM + 4*l.YS
-            s.foundations.append(SiebenBisAs_Foundation(x, y, self, i, base_rank=6, mod=13, max_move=0, max_cards=8))
+            s.foundations.append(
+                SiebenBisAs_Foundation(
+                    x, y, self, i, base_rank=6, mod=13,
+                    max_move=0, max_cards=8))
         s.talon = InitialDealTalonStack(l.XM, self.height-l.YS, self)
 
         # define stack-groups
@@ -162,7 +182,8 @@ class SiebenBisAs(Game):
 
 class Maze_Hint(SiebenBisAs_Hint):
     def shallMovePile(self, from_stack, to_stack, pile, rpile):
-        if from_stack is to_stack or not to_stack.acceptsCards(from_stack, pile):
+        if from_stack is to_stack or \
+                not to_stack.acceptsCards(from_stack, pile):
             return False
         # now check for loops
         rr = self.ClonedStack(from_stack, stackcards=rpile)
@@ -180,14 +201,16 @@ class Maze_RowStack(BasicRowStack):
         # left neighbour
         s = self.game.s.rows[(self.id - 1) % 54]
         if s.cards:
-            if s.cards[-1].suit == cards[0].suit and s.cards[-1].rank + 1 == cards[0].rank:
+            if s.cards[-1].suit == cards[0].suit and \
+                    s.cards[-1].rank + 1 == cards[0].rank:
                 return True
             if s.cards[-1].rank == QUEEN and cards[0].rank == ACE:
                 return True
         # right neighbour
         s = self.game.s.rows[(self.id + 1) % 54]
         if s.cards:
-            if s.cards[-1].suit == cards[0].suit and s.cards[-1].rank - 1 == cards[0].rank:
+            if s.cards[-1].suit == cards[0].suit and \
+                    s.cards[-1].rank - 1 == cards[0].rank:
                 return True
         return False
 
@@ -200,7 +223,7 @@ class Maze_RowStack(BasicRowStack):
 class Maze(Game):
     GAME_VERSION = 2
 
-    Hint_Class = Maze_Hint #SiebenBisAs_Hint
+    Hint_Class = Maze_Hint  # SiebenBisAs_Hint
 
     #
     # game layout
@@ -217,9 +240,11 @@ class Maze(Game):
         for i in range(6):
             for j in range(9):
                 x, y, = l.XM + j*l.XS, l.YM + i*l.YS
-                s.rows.append(Maze_RowStack(x, y, self, max_accept=1, max_cards=1))
-        ##s.talon = InitialDealTalonStack(-2*l.XS, l.YM+5*l.YS/2, self)
-        s.talon = InitialDealTalonStack(self.width-l.XS+1, self.height-l.YS, self)
+                s.rows.append(
+                    Maze_RowStack(x, y, self, max_accept=1, max_cards=1))
+        # s.talon = InitialDealTalonStack(-2*l.XS, l.YM+5*l.YS/2, self)
+        s.talon = InitialDealTalonStack(
+            self.width-l.XS+1, self.height-l.YS, self)
         # create an invisble stack to hold the four Kings
         s.internals.append(InvisibleStack(self))
 
@@ -233,7 +258,7 @@ class Maze(Game):
     def startGame(self):
         frames = 0
         for i in range(54):
-##            if i == 8 or i == 17:       # these stay empty
+            #            if i == 8 or i == 17:       # these stay empty
             if i >= 52:                 # these stay empty
                 continue
             c = self.s.talon.cards[-1]
@@ -277,4 +302,3 @@ registerGame(GameInfo(118, SiebenBisAs, "Sieben bis As",
 registerGame(GameInfo(144, Maze, "Maze",
                       GI.GT_MONTANA | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL,
                       si={"ncards": 48}))
-

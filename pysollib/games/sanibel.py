@@ -24,22 +24,24 @@
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.stack import *
-from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint, Yukon_Hint
+from pysollib.hint import Yukon_Hint
 from pysollib.games.gypsy import Gypsy
 
+from pysollib.stack import \
+        Yukon_AC_RowStack, \
+        StackWrapper, \
+        WasteTalonStack, \
+        SS_FoundationStack
 
 # ************************************************************************
 # * Sanibel
 # *   play similar to Yukon
 # ************************************************************************
+
 
 class Sanibel(Gypsy):
     Layout_Method = Layout.klondikeLayout
@@ -65,5 +67,5 @@ class Sanibel(Gypsy):
 
 
 registerGame(GameInfo(201, Sanibel, "Sanibel",
-                      GI.GT_YUKON | GI.GT_CONTRIB | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
-
+                      GI.GT_YUKON | GI.GT_CONTRIB | GI.GT_ORIGINAL, 2, 0,
+                      GI.SL_MOSTLY_SKILL))

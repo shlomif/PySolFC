@@ -24,16 +24,24 @@
 __all__ = []
 
 # imports
-import sys, types
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.mfxutil import kwdefault
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.hint import CautiousDefaultHint
+
+from pysollib.util import ACE, JACK, KING, NO_RANK
+
+from pysollib.stack import \
+        DealRowTalonStack, \
+        InitialDealTalonStack, \
+        RedealTalonStack, \
+        StackWrapper, \
+        TalonStack, \
+        UD_RK_RowStack, \
+        UD_SS_RowStack, \
+        SS_FoundationStack
 
 
 # ************************************************************************
@@ -79,10 +87,10 @@ class StHelena_FoundationStack(SS_FoundationStack):
             return False
         if self.game.s.talon.round == 1:
             if (self.cap.base_rank == KING and
-                from_stack in self.game.s.rows[6:10:]):
+                    from_stack in self.game.s.rows[6:10:]):
                 return False
             if (self.cap.base_rank == ACE and
-                from_stack in self.game.s.rows[:4]):
+                    from_stack in self.game.s.rows[:4]):
                 return False
         return True
 
@@ -146,7 +154,9 @@ class StHelena(Game):
     #
 
     def _shuffleHook(self, cards):
-        return self._shuffleHookMoveToBottom(cards, lambda c: (c.deck == 0 and c.rank in (0, 12), (-c.rank, c.suit)), 8)
+        return self._shuffleHookMoveToBottom(
+            cards, lambda c: (c.deck == 0 and c.rank in (0, 12),
+                              (-c.rank, c.suit)), 8)
 
     def startGame(self):
         for i in range(7):
@@ -161,13 +171,13 @@ class StHelena(Game):
 # * Box Kite
 # ************************************************************************
 
+
 class BoxKite(StHelena):
     Talon_Class = InitialDealTalonStack
     Foundation_Class = SS_FoundationStack
     RowStack_Class = StackWrapper(UD_RK_RowStack, base_rank=NO_RANK, mod=13)
 
     shallHighlightMatch = Game._shallHighlightMatch_RKW
-
 
 
 # ************************************************************************
@@ -223,7 +233,7 @@ class LesQuatreCoins(Game):
         l, s = Layout(self), self.s
         self.setSize(l.XM+7*l.XS, l.YM+5*l.YS)
 
-        for i, j in ((0,0),(5,0),(0,4),(5,4)):
+        for i, j in ((0, 0), (5, 0), (0, 4), (5, 4)):
             x, y = l.XM+l.XS+i*l.XS, l.YM+j*l.YS
             stack = LesQuatreCoins_RowStack(x, y, self,
                                             max_move=1, base_rank=NO_RANK)
@@ -254,7 +264,6 @@ class LesQuatreCoins(Game):
 
         l.defaultStackGroups()
 
-
     def startGame(self):
         self.startDealSample()
         self.s.talon.dealCards()
@@ -281,10 +290,10 @@ class RegalFamily(Game):
         l, s = Layout(self), self.s
         self.setSize(l.XM+8*l.XS, l.YM+5*l.YS)
 
-        for i, j in ((0,0),(1,0),(2,0),(3,0),(4,0),(5,0),(6,0),
-                     (6,1),(6,2),(6,3),
-                     (6,4),(5,4),(4,4),(3,4),(2,4),(1,4),(0,4),
-                     (0,3),(0,2),(0,1)
+        for i, j in ((0, 0), (1, 0), (2, 0), (3, 0), (4, 0), (5, 0), (6, 0),
+                     (6, 1), (6, 2), (6, 3),
+                     (6, 4), (5, 4), (4, 4), (3, 4), (2, 4), (1, 4), (0, 4),
+                     (0, 3), (0, 2), (0, 1)
                      ):
             x, y = l.XM+l.XS+i*l.XS, l.YM+j*l.YS
             stack = RegalFamily_RowStack(x, y, self,
@@ -312,14 +321,11 @@ class RegalFamily(Game):
 
         l.defaultStackGroups()
 
-
     def startGame(self):
         self.startDealSample()
         self.s.talon.dealRow()
 
-
     shallHighlightMatch = Game._shallHighlightMatch_SS
-
 
 
 # register the game
@@ -334,4 +340,3 @@ registerGame(GameInfo(620, LesQuatreCoins, "Les Quatre Coins",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(621, RegalFamily, "Regal Family",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
-

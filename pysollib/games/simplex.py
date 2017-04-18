@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 #
 # Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
 # Copyright (C) 2003 Mt. Hood Playing Card Co.
@@ -19,26 +19,29 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.mfxutil import kwdefault
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 
+from pysollib.util import ANY_RANK, ANY_SUIT
+
+from pysollib.stack import \
+        SequenceRowStack, \
+        WasteStack, \
+        WasteTalonStack, \
+        AbstractFoundationStack
 
 # ************************************************************************
 # * Simplex
 # ************************************************************************
+
 
 def isSameRankSequence(cards):
     c0 = cards[0]
@@ -63,6 +66,7 @@ class Simplex_RowStack(SequenceRowStack):
             if s is not self and s.acceptsCards(self, self.cards):
                 return (s, 4)
         return (None, 0)
+
     def _isSequence(self, cards):
         return isSameRankSequence(cards)
 
@@ -85,8 +89,9 @@ class Simplex(Game):
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, 's')
         x += l.XS
-        stack = Simplex_Foundation(x, y, self,
-                    suit=ANY_SUIT, base_rank=ANY_RANK, max_cards=52)
+        stack = Simplex_Foundation(
+            x, y, self,
+            suit=ANY_SUIT, base_rank=ANY_RANK, max_cards=52)
         xoffset = (self.width-3*l.XS)/51
         stack.CARD_XOFFSET, stack.CARD_YOFFSET = xoffset, 0
         s.foundations.append(stack)
@@ -98,12 +103,10 @@ class Simplex(Game):
         # define stack-groups
         l.defaultStackGroups()
 
-
     def startGame(self):
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealCards()          # deal first card to WasteStack
-
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return card1.rank == card2.rank

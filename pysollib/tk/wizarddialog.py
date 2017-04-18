@@ -25,17 +25,22 @@ __all__ = ['WizardDialog']
 
 
 # imports
+import sys
 import Tkinter
 from tabpage import TabPageSet
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.mfxutil import KwStruct
 from pysollib.wizardutil import WizardWidgets
 from pysollib.wizardpresets import presets
 
 # Toolkit imports
 from tkwidget import MfxDialog
+
+
+if sys.version_info > (3,):
+    basestring = str
 
 
 # ************************************************************************
@@ -58,7 +63,7 @@ class WizardDialog(MfxDialog):
 
         for w in WizardWidgets:
             if isinstance(w, basestring):
-                p = notebook.AddPage(w)
+                notebook.AddPage(w)
                 frame = Tkinter.Frame(notebook.pages[w]['page'])
                 frame.pack(expand=True, fill='both', padx=2, pady=4)
                 frame.columnconfigure(1, weight=1)
@@ -75,7 +80,9 @@ class WizardDialog(MfxDialog):
                 values.remove(default)
                 values.sort()
                 values.insert(0, default)
-                callback = lambda v, w=w: self.presetSelected(v, w)
+
+                def callback(v, w=w):
+                    return self.presetSelected(v, w)
                 om = Tkinter.OptionMenu(frame, w.variable,
                                         command=callback, *values)
                 om.grid(row=row, column=1, sticky='ew', padx=2)
@@ -120,7 +127,6 @@ class WizardDialog(MfxDialog):
         focus = self.createButtons(bottom_frame, kw)
         self.mainloop(focus, kw.timeout)
 
-
     def presetSelected(self, v, w):
         n = w.translation_map[v]
         p = presets[n]
@@ -135,7 +141,6 @@ class WizardDialog(MfxDialog):
                 v = _(v)
             w.variable.set(v)
 
-
     def initKw(self, kw):
         kw = KwStruct(kw,
                       strings=(_('&OK'), _('&Cancel')),
@@ -143,6 +148,3 @@ class WizardDialog(MfxDialog):
                       separator=False,
                       )
         return MfxDialog.initKw(self, kw)
-
-
-

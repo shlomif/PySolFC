@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 #
 # Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
 # Copyright (C) 2003 Mt. Hood Playing Card Co.
@@ -19,22 +19,31 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.mfxutil import kwdefault
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+
+from pysollib.util import ANY_RANK, ANY_SUIT, JACK, KING, QUEEN
+
+from pysollib.stack import \
+        AC_RowStack, \
+        AbstractFoundationStack, \
+        BasicRowStack, \
+        InitialDealTalonStack, \
+        OpenStack, \
+        Stack, \
+        UD_RK_RowStack, \
+        isAlternateColorSequence, \
+        StackWrapper
+
 
 # ************************************************************************
 # * Take Away
@@ -110,6 +119,7 @@ class TakeAway(Game):
 class FourStacks_RowStack(AC_RowStack):
     getBottomImage = Stack._getReserveBottomImage
 
+
 class FourStacks(Game):
     def createGame(self):
         # create layout
@@ -159,7 +169,7 @@ class Striptease_RowStack(UD_RK_RowStack):
             return True
         r1, r2 = self.cards[-1].rank, cards[0].rank
         if ((r1 == JACK and r2 == KING) or
-            (r2 == JACK and r1 == KING)):
+                (r2 == JACK and r1 == KING)):
             return True
         return ((r1+1) % 13 == r2 or (r2+1) % 13 == r1)
 
@@ -224,7 +234,7 @@ class Striptease(TakeAway):
         if r1 == QUEEN or r2 == QUEEN:
             return False
         if ((r1 == JACK and r2 == KING) or
-            (r2 == JACK and r1 == KING)):
+                (r2 == JACK and r1 == KING)):
             return True
         return ((r1+1) % 13 == r2 or (r2+1) % 13 == r1)
 
@@ -236,4 +246,3 @@ registerGame(GameInfo(335, FourStacks, "Four Stacks",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(654, Striptease, "Striptease",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_SKILL))
-

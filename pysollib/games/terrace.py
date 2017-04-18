@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 #
 # Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
 # Copyright (C) 2003 Mt. Hood Playing Card Co.
@@ -19,26 +19,36 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
 from pysollib.mfxutil import kwdefault
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.hint import CautiousDefaultHint
+
+from pysollib.util import KING, NO_RANK
+
+from pysollib.stack import \
+        AC_FoundationStack, \
+        AC_RowStack, \
+        OpenStack, \
+        SS_FoundationStack, \
+        Stack, \
+        StackWrapper, \
+        WasteStack, \
+        WasteTalonStack
 
 # ************************************************************************
 # *
 # ************************************************************************
+
 
 class Terrace_Talon(WasteTalonStack):
     def canDealCards(self):
@@ -102,12 +112,14 @@ class Terrace_RowStack(AC_RowStack):
     def moveMove(self, ncards, to_stack, frames=-1, shadow=-1):
         state = self.game.getState()
         if state > 0:
-            AC_RowStack.moveMove(self, ncards, to_stack, frames=frames, shadow=shadow)
+            AC_RowStack.moveMove(
+                self, ncards, to_stack, frames=frames, shadow=shadow)
             return
         assert to_stack in self.game.s.foundations
         assert ncards == 1
         assert not self.game.s.waste.cards
-        self.game.moveMove(ncards, self, to_stack, frames=frames, shadow=shadow)
+        self.game.moveMove(
+            ncards, self, to_stack, frames=frames, shadow=shadow)
         for s in self.game.s.foundations:
             s.cap.base_rank = to_stack.cards[0].rank
         freerows = [s for s in self.game.s.rows if not s.cards]
@@ -151,7 +163,8 @@ class Terrace(Game):
 
         # create stacks
         x, y = l.XM + w1, l.YM
-        s.talon = self.Talon_Class(x, y, self, max_rounds=max_rounds, num_deal=num_deal)
+        s.talon = self.Talon_Class(
+            x, y, self, max_rounds=max_rounds, num_deal=num_deal)
         l.createText(s.talon, "sw")
         x = x + l.XS
         s.waste = WasteStack(x, y, self)
@@ -227,6 +240,7 @@ class Terrace(Game):
 
 class QueenOfItaly(Terrace):
     Foundation_Class = StackWrapper(Terrace_AC_Foundation, max_move=1)
+
     def fillStack(self, stack):
         pass
 
@@ -277,8 +291,10 @@ class Wood_RowStack(AC_RowStack):
             return from_stack is self.game.s.waste
         return from_stack not in self.game.s.reserves
 
+
 class Wood(BlondesAndBrunettes):
     RowStack_Class = StackWrapper(Wood_RowStack, mod=13, max_move=1)
+
     def fillStack(self, stack):
         pass
 
@@ -298,8 +314,10 @@ class Signora(Terrace):
 
 class Madame(Terrace):
     INITIAL_RESERVE_CARDS = 15
+
     def createGame(self):
         Terrace.createGame(self, rows=10, playcards=20)
+
     def startGame(self):
         Terrace.startGame(self, nrows=10)
 
@@ -336,10 +354,13 @@ class MamySusan(Terrace):
 
     def fillStack(self, stack):
         pass
+
     def _restoreGameHook(self, game):
         pass
+
     def _loadGameHook(self, p):
         pass
+
     def _saveGameHook(self, p):
         pass
 
@@ -372,7 +393,7 @@ class BastilleDay_BastilleStack(Stack):
         return 1
 
     def getHelp(self):
-        return '' # FIXME
+        return ''  # FIXME
 
 
 class BastilleDay(Game):
@@ -399,7 +420,7 @@ class BastilleDay(Game):
 
         x, y = l.XM, l.YM+l.YS+l.TEXT_HEIGHT
         for i in range(8):
-            s.foundations.append(SS_FoundationStack(x, y, self, suit=i%4))
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i % 4))
             x = x + l.XS
         x, y = l.XM, l.YM+2*l.YS+l.TEXT_HEIGHT
         for i in range(8):
@@ -408,17 +429,17 @@ class BastilleDay(Game):
 
         l.defaultStackGroups()
 
-
     def _shuffleHook(self, cards):
         # move Kings to top
-        cards = self._shuffleHookMoveToTop(cards,
-                    lambda c: (c.rank == KING, None))
+        cards = self._shuffleHookMoveToTop(
+            cards,
+            lambda c: (c.rank == KING, None))
         # move any 4 cards to top
         cards = cards[4:]+cards[:4]
         return cards
 
     def startGame(self, nrows=4):
-        for i in range(12): # deal to Bastille
+        for i in range(12):  # deal to Bastille
             self.s.talon.dealRow(flip=0, rows=[self.s.reserves[0]], frames=0)
         for i in range(9):
             self.s.talon.dealRow(rows=[self.s.reserves[-1]], frames=0)
@@ -433,12 +454,11 @@ class BastilleDay(Game):
         if self.demo:
             r = self.s.reserves[0]
             if r.canDealCards():
-                ##self.demo.last_deal = [] # don't check last deal
+                # self.demo.last_deal = [] # don't check last deal
                 return r.dealCards(sound=sound)
         return Game.dealCards(self, sound=sound)
 
     shallHighlightMatch = Game._shallHighlightMatch_AC
-
 
 
 # register the game
@@ -462,4 +482,3 @@ registerGame(GameInfo(582, Wood, "Wood",
                       GI.GT_TERRACE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(637, BastilleDay, "Bastille Day",
                       GI.GT_TERRACE, 2, 0, GI.SL_BALANCED))
-

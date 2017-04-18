@@ -8,9 +8,19 @@ use Test::Differences qw( eq_or_diff );
 
 use String::ShellQuote qw/ shell_quote /;
 
+my %skip =
+(
+    map { $_ => 1 }
+    qw(
+    ./pysollib/games/__init__.py
+    ./pysollib/pysoltk.py
+    ./pysollib/tile/ttk.py
+    )
+);
+
 # my $cmd = shell_quote( 'flake8', '.' );
 my $cmd = shell_quote( 'flake8',
-    grep { not($_ eq './pysollib/pysoltk.py' or $_ eq './pysollib/tile/ttk.py') } glob('./pysollib/*.py ./pysollib/[cmpuw]*/*.py ./pysollib/tile/*.py ./pysollib/ui/tktile/*.py ./pysollib/games/[a-wy-z]*.py') );
+    grep { not exists $skip{$_} } glob('./pysollib/*.py ./pysollib/[cmpuw]*/*.py ./pysollib/tile/*.py ./pysollib/ui/tktile/*.py ./pysollib/games/*.py') );
 
 # TEST
 eq_or_diff( scalar(`$cmd`), '', "flake8 is happy with the code." );

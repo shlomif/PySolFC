@@ -22,7 +22,7 @@
 # ---------------------------------------------------------------------------##
 
 __all__ = [
-    #'SolverDialog',
+    # 'SolverDialog',
     'create_solver_dialog',
     'connect_game_solver_dialog',
     'destroy_solver_dialog',
@@ -30,20 +30,29 @@ __all__ = [
     ]
 
 # imports
+import sys
 import Tkinter
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.mfxutil import KwStruct
 
 # Toolkit imports
 from pysollib.tk.basetkmfxdialog import BaseTkMfxDialog
-from pysollib.ui.tktile.solverdialog import BaseSolverDialog, solver_dialog, connect_game_solver_dialog, destroy_solver_dialog, reset_solver_dialog
+from pysollib.ui.tktile.solverdialog import BaseSolverDialog, solver_dialog, \
+        connect_game_solver_dialog, destroy_solver_dialog, reset_solver_dialog
+
+
+if sys.version_info > (3,):
+    xrange = range
 
 
 # ************************************************************************
 # *
 # ************************************************************************
+
+solver_dialog = solver_dialog
+
 
 class SolverDialog(BaseSolverDialog, BaseTkMfxDialog):
     def _createGamesVar(self, frame, row):
@@ -51,7 +60,7 @@ class SolverDialog(BaseSolverDialog, BaseTkMfxDialog):
         om = Tkinter.OptionMenu(frame, var, command=self.gameSelected,
                                 *(self.gamenames))
         om.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
-        n = len(gamenames)
+        n = len(self.gamenames)
         cb_max = int(self.top.winfo_screenheight()/23)
         cb_max = n / (n/cb_max+1)
         for i in xrange(cb_max, n, cb_max):
@@ -66,11 +75,12 @@ class SolverDialog(BaseSolverDialog, BaseTkMfxDialog):
         return var
 
     def _createShowProgressButton(self, frame):
-        return self._calcToolkit().Checkbutton(frame, variable=self.progress_var,
-                            text=_('Show progress'), anchor='w')
+        return self._calcToolkit().Checkbutton(
+            frame, variable=self.progress_var,
+            text=_('Show progress'), anchor='w')
 
     def initKw(self, kw):
-        strings=[_('&Start'), _('&Play'), _('&New'), _('&Close'),]
+        strings = [_('&Start'), _('&Play'), _('&New'), _('&Close'), ]
         kw = KwStruct(kw,
                       strings=strings,
                       default=0,
@@ -88,13 +98,11 @@ class SolverDialog(BaseSolverDialog, BaseTkMfxDialog):
         self.play_button.config(state='disabled')
 
 
-
 def create_solver_dialog(parent, game):
     global solver_dialog
     try:
         solver_dialog.top.wm_deiconify()
         solver_dialog.top.tkraise()
     except:
-        ##traceback.print_exc()
+        # traceback.print_exc()
         solver_dialog = SolverDialog(parent, game)
-

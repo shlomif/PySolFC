@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 #
 # Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
 # Copyright (C) 2003 Mt. Hood Playing Card Co.
@@ -19,7 +19,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 
 __all__ = ['SingleGame_StatsDialog',
            'AllGames_StatsDialog',
@@ -33,18 +33,19 @@ __all__ = ['SingleGame_StatsDialog',
 # imports
 import os
 import time
-import Tkinter, tkFont
+import Tkinter
+import tkFont
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.mfxutil import kwdefault, KwStruct
 from pysollib.mfxutil import format_time
-##from pysollib.util import *
+# from pysollib.util import *
 from pysollib.stats import PysolStatsFormatter, ProgressionFormatter
 from pysollib.settings import TOP_TITLE
 
 # Toolkit imports
-from pysollib.ui.tktile.tkutil import bind, unbind_destroy, loadImage
+from pysollib.ui.tktile.tkutil import bind, loadImage
 from tkwidget import MfxDialog, MfxMessageDialog
 from tkwidget import MfxScrolledCanvas
 
@@ -69,12 +70,13 @@ class SingleGame_StatsDialog(MfxDialog):
         self.top.wm_minsize(200, 200)
         self.button = kw.default
         #
-        ##createChart = self.create3DBarChart
+        # createChart = self.create3DBarChart
         createChart = self.createPieChart
-        ##createChart = self.createSimpleChart
-##         if parent.winfo_screenwidth() < 800 or parent.winfo_screenheight() < 600:
-##             createChart = self.createPieChart
-##             createChart = self.createSimpleChart
+        # createChart = self.createSimpleChart
+        #  if parent.winfo_screenwidth() < 800 or parent.winfo_screenheight() <
+        #        600:
+        #      createChart = self.createPieChart
+        #      createChart = self.createSimpleChart
         #
         self.font = self.app.getFont("default")
         self.tk_font = tkFont.Font(self.top, self.font)
@@ -104,13 +106,13 @@ class SingleGame_StatsDialog(MfxDialog):
             if len(i) > len(t):
                 t = i
         t1 = font.measure(t)
-##         t1 = max(font.measure(_("Won:")),
-##                  font.measure(_("Lost:")),
-##                  font.measure(_("Total:")))
+        #  t1 = max(font.measure(_("Won:")),
+        #           font.measure(_("Lost:")),
+        #           font.measure(_("Total:")))
         t1 += 10
-        ##t2 = font.measure('99999')+10
+        # t2 = font.measure('99999')+10
         t2 = 45
-        ##t3 = font.measure('100%')+10
+        # t3 = font.measure('100%')+10
         t3 = 45
         tx = (t0, t0+t1+t2, t0+t1+t2+t3)
         #
@@ -134,7 +136,7 @@ class SingleGame_StatsDialog(MfxDialog):
         c = Tkinter.Canvas(self.top_frame, width=w, height=h)
         c.pack(side='top', fill='both', expand=False, padx=20, pady=10)
         self.canvas = c
-        ##self.fg = c.cget("insertbackground")
+        # self.fg = c.cget("insertbackground")
         self.fg = c.option_get('foreground', '') or c.cget("insertbackground")
         #
         c.create_rectangle(2, 7, w, h, fill="", outline="#7f7f7f")
@@ -150,114 +152,131 @@ class SingleGame_StatsDialog(MfxDialog):
         x = tx[0]
         dy = int(self.font_metrics['ascent']) - 10
         dy = dy/2
-        c.create_text(x, ty[0]-dy, text=_("Won:"), anchor="nw", font=tfont, fill=fg)
-        c.create_text(x, ty[1]-dy, text=_("Lost:"), anchor="nw", font=tfont, fill=fg)
-        c.create_text(x, ty[2]-dy, text=_("Total:"), anchor="nw", font=tfont, fill=fg)
+        c.create_text(
+            x, ty[0]-dy, text=_("Won:"), anchor="nw", font=tfont, fill=fg)
+        c.create_text(
+            x, ty[1]-dy, text=_("Lost:"), anchor="nw", font=tfont, fill=fg)
+        c.create_text(
+            x, ty[2]-dy, text=_("Total:"), anchor="nw", font=tfont, fill=fg)
         x = tx[1] - 16
-        c.create_text(x, ty[0]-dy, text="%d" % won, anchor="ne", font=tfont, fill=fg)
-        c.create_text(x, ty[1]-dy, text="%d" % lost, anchor="ne", font=tfont, fill=fg)
-        c.create_text(x, ty[2]-dy, text="%d" % (won + lost), anchor="ne", font=tfont, fill=fg)
+        c.create_text(
+            x, ty[0]-dy, text="%d" % won, anchor="ne", font=tfont, fill=fg)
+        c.create_text(
+            x, ty[1]-dy, text="%d" % lost, anchor="ne", font=tfont, fill=fg)
+        c.create_text(
+            x, ty[2]-dy, text="%d" % (won + lost), anchor="ne", font=tfont,
+            fill=fg)
         y = ty[2] - 11
         c.create_line(tx[0], y, x, y, fill=fg)
         if won + lost > 0:
             x = tx[2]
             pw = int(round(100.0 * pwon))
-            c.create_text(x, ty[0]-dy, text="%d%%" % pw, anchor="ne", font=tfont, fill=fg)
-            c.create_text(x, ty[1]-dy, text="%d%%" % (100-pw), anchor="ne", font=tfont, fill=fg)
+            c.create_text(
+                x, ty[0]-dy, text="%d%%" % pw, anchor="ne",
+                font=tfont, fill=fg)
+            c.create_text(
+                x, ty[1]-dy, text="%d%%" % (100-pw), anchor="ne", font=tfont,
+                fill=fg)
 
 
-##     def _createChart3DBar(self, canvas, perc, x, y, p, col):
-##         if perc < 0.005:
-##             return
-##         # translate and scale
-##         p = list(p[:])
-##         for i in (0, 1, 2, 3):
-##             p[i] = (x + p[i][0], y + p[i][1])
-##             j = i + 4
-##             dx = int(round(p[j][0] * perc))
-##             dy = int(round(p[j][1] * perc))
-##             p[j] = (p[i][0] + dx, p[i][1] + dy)
-##         # draw rects
-##         def draw_rect(a, b, c, d, col, canvas=canvas, p=p):
-##             points = (p[a][0], p[a][1], p[b][0], p[b][1],
-##                       p[c][0], p[c][1], p[d][0], p[d][1])
-##             canvas.create_polygon(points, fill=col)
-##         draw_rect(0, 1, 5, 4, col[0])
-##         draw_rect(1, 2, 6, 5, col[1])
-##         draw_rect(4, 5, 6, 7, col[2])
-##         # draw lines
-##         def draw_line(a, b, canvas=canvas, p=p):
-##             ##print a, b, p[a], p[b]
-##             canvas.create_line(p[a][0], p[a][1], p[b][0], p[b][1])
-##         draw_line(0, 1)
-##         draw_line(1, 2)
-##         draw_line(0, 4)
-##         draw_line(1, 5)
-##         draw_line(2, 6)
-##         ###draw_line(3, 7)     ## test
-##         draw_line(4, 5)
-##         draw_line(5, 6)
-##         draw_line(6, 7)
-##         draw_line(7, 4)
-
+#      def _createChart3DBar(self, canvas, perc, x, y, p, col):
+#          if perc < 0.005:
+#              return
+#          # translate and scale
+#          p = list(p[:])
+#          for i in (0, 1, 2, 3):
+#              p[i] = (x + p[i][0], y + p[i][1])
+#              j = i + 4
+#              dx = int(round(p[j][0] * perc))
+#              dy = int(round(p[j][1] * perc))
+#              p[j] = (p[i][0] + dx, p[i][1] + dy)
+#          # draw rects
+#          def draw_rect(a, b, c, d, col, canvas=canvas, p=p):
+#              points = (p[a][0], p[a][1], p[b][0], p[b][1],
+#                        p[c][0], p[c][1], p[d][0], p[d][1])
+#              canvas.create_polygon(points, fill=col)
+#          draw_rect(0, 1, 5, 4, col[0])
+#          draw_rect(1, 2, 6, 5, col[1])
+#          draw_rect(4, 5, 6, 7, col[2])
+#          # draw lines
+#          def draw_line(a, b, canvas=canvas, p=p):
+#              # print a, b, p[a], p[b]
+#              canvas.create_line(p[a][0], p[a][1], p[b][0], p[b][1])
+#          draw_line(0, 1)
+#          draw_line(1, 2)
+#          draw_line(0, 4)
+#          draw_line(1, 5)
+#          draw_line(2, 6)
+#          #  draw_line(3, 7)     # test
+#          draw_line(4, 5)
+#          draw_line(5, 6)
+#          draw_line(6, 7)
+#          draw_line(7, 4)
 
     #
     # charts
     #
 
-##     def createSimpleChart(self, app, won, lost, text):
-##         #c, tfont, fg = self._createChartInit(frame, 300, 100, text)
-##         self._createChartInit(300, 100, text)
-##         c, tfont, fg = self.canvas, self.font, self.fg
-##         #
-##         tx = (90, 180, 210)
-##         ty = (21, 41, 75)
-##         self._createChartTexts(tx, ty, won, lost)
+#      def createSimpleChart(self, app, won, lost, text):
+#          #c, tfont, fg = self._createChartInit(frame, 300, 100, text)
+#          self._createChartInit(300, 100, text)
+#          c, tfont, fg = self.canvas, self.font, self.fg
+#          #
+#          tx = (90, 180, 210)
+#          ty = (21, 41, 75)
+#          self._createChartTexts(tx, ty, won, lost)
 
-##     def create3DBarChart(self, app, won, lost, text):
-##         image = app.gimages.stats[0]
-##         iw, ih = image.width(), image.height()
-##         #c, tfont, fg = self._createChartInit(frame, iw+160, ih, text)
-##         self._createChartInit(iw+160, ih, text)
-##         c, tfont, fg = self.canvas, self.font, self.fg
-##         pwon, plost = self._getPwon(won, lost)
-##         #
-##         tx = (iw+20, iw+110, iw+140)
-##         yy = ih/2 ## + 7
-##         ty = (yy+21-46, yy+41-46, yy+75-46)
-##         #
-##         c.create_image(0, 7, image=image, anchor="nw")
-##         #
-##         p = ((0, 0), (44, 6), (62, -9), (20, -14),
-##              (-3, -118), (-1, -120), (-1, -114), (-4, -112))
-##         col = ("#00ff00", "#008200", "#00c300")
-##         self._createChart3DBar(c, pwon,  102, 145+7, p, col)
-##         p = ((0, 0), (49, 6), (61, -10), (15, -15),
-##              (1, -123), (3, -126), (4, -120), (1, -118))
-##         col = ("#ff0000", "#860400", "#c70400")
-##         self._createChart3DBar(c, plost, 216, 159+7, p, col)
-##         #
-##         self._createChartTexts(tx, ty, won, lost)
-##         c.create_text(tx[0], ty[0]-48, text=self.player, anchor="nw", font=tfont, fill=fg)
+#      def create3DBarChart(self, app, won, lost, text):
+#          image = app.gimages.stats[0]
+#          iw, ih = image.width(), image.height()
+#          #c, tfont, fg = self._createChartInit(frame, iw+160, ih, text)
+#          self._createChartInit(iw+160, ih, text)
+#          c, tfont, fg = self.canvas, self.font, self.fg
+#          pwon, plost = self._getPwon(won, lost)
+#          #
+#          tx = (iw+20, iw+110, iw+140)
+#          yy = ih/2 # + 7
+#          ty = (yy+21-46, yy+41-46, yy+75-46)
+#          #
+#          c.create_image(0, 7, image=image, anchor="nw")
+#          #
+#          p = ((0, 0), (44, 6), (62, -9), (20, -14),
+#               (-3, -118), (-1, -120), (-1, -114), (-4, -112))
+#          col = ("#00ff00", "#008200", "#00c300")
+#          self._createChart3DBar(c, pwon,  102, 145+7, p, col)
+#          p = ((0, 0), (49, 6), (61, -10), (15, -15),
+#               (1, -123), (3, -126), (4, -120), (1, -118))
+#          col = ("#ff0000", "#860400", "#c70400")
+#          self._createChart3DBar(c, plost, 216, 159+7, p, col)
+#          #
+#          self._createChartTexts(tx, ty, won, lost)
+#          c.create_text(tx[0], ty[0]-48, text=self.player, anchor="nw",
+#          font=tfont, fill=fg)
 
     def createPieChart(self, app, won, lost, text):
-        #c, tfont, fg = self._createChartInit(frame, 300, 100, text)
+        # c, tfont, fg = self._createChartInit(frame, 300, 100, text)
         #
         self._createChartInit(text)
-        c, tfont, fg = self.canvas, self.font, self.fg
+        c, tfont = self.canvas, self.font
         pwon, plost = self._getPwon(won, lost)
         #
-        #tx = (160, 250, 280)
-        #ty = (21, 41, 75)
+        # tx = (160, 250, 280)
+        # ty = (21, 41, 75)
         #
         tx, ty = self.tab_x, self.tab_y
         if won + lost > 0:
-            ##s, ewon, elost = 90.0, -360.0 * pwon, -360.0 * plost
+            # s, ewon, elost = 90.0, -360.0 * pwon, -360.0 * plost
             s, ewon, elost = 0.0, 360.0 * pwon, 360.0 * plost
-            c.create_arc(20, 25+9, 110, 75+9,  fill="#007f00", start=s, extent=ewon)
-            c.create_arc(20, 25+9, 110, 75+9,  fill="#7f0000", start=s+ewon, extent=elost)
-            c.create_arc(20, 25,   110, 75,    fill="#00ff00", start=s, extent=ewon)
-            c.create_arc(20, 25,   110, 75,    fill="#ff0000", start=s+ewon, extent=elost)
+            c.create_arc(
+                20, 25+9, 110, 75+9,  fill="#007f00", start=s, extent=ewon)
+            c.create_arc(
+                20, 25+9, 110, 75+9,  fill="#7f0000", start=s+ewon,
+                extent=elost)
+            c.create_arc(
+                20, 25,   110, 75,    fill="#00ff00", start=s, extent=ewon)
+            c.create_arc(
+                20, 25,   110, 75,    fill="#ff0000", start=s+ewon,
+                extent=elost)
             x, y = tx[0] - 25, ty[0]
             c.create_rectangle(x, y, x+10, y+10, fill="#00ff00")
             y = ty[1]
@@ -265,7 +284,9 @@ class SingleGame_StatsDialog(MfxDialog):
         else:
             c.create_oval(20, 25+10, 110, 75+10, fill="#7f7f7f")
             c.create_oval(20, 25,    110, 75,    fill="#f0f0f0")
-            c.create_text(65, 50, text=_("No games"), anchor="center", font=tfont, fill="#bfbfbf")
+            c.create_text(
+                65, 50, text=_("No games"), anchor="center",
+                font=tfont, fill="#bfbfbf")
         #
         self._createChartTexts(tx, ty, won, lost)
 
@@ -274,13 +295,14 @@ class SingleGame_StatsDialog(MfxDialog):
     #
 
     def initKw(self, kw):
-        kw = KwStruct(kw,
-                      strings=(_("&OK"),
-                               (_("&All games..."), 102),
-                               (TOP_TITLE+"...", 105),
-                               (_("&Reset..."), 302)), default=0,
-                      image=self.app.gimages.logos[5],
-                      padx=10, pady=10,
+        kw = KwStruct(
+            kw,
+            strings=(_("&OK"),
+                     (_("&All games..."), 102),
+                     (TOP_TITLE+"...", 105),
+                     (_("&Reset..."), 302)), default=0,
+            image=self.app.gimages.logos[5],
+            padx=10, pady=10,
         )
         return MfxDialog.initKw(self, kw)
 
@@ -294,12 +316,13 @@ class CanvasFormatter(PysolStatsFormatter):
         self.app = app
         self.canvas = canvas
         self.parent_window = parent_window
-        ##self.fg = canvas.cget("insertbackground")
-        self.fg = canvas.option_get('foreground', '') or canvas.cget("insertbackground")
+        # self.fg = canvas.cget("insertbackground")
+        self.fg = canvas.option_get('foreground', '') or \
+            canvas.cget("insertbackground")
         self.font = font
         self.w = w
         self.h = h
-        #self.x = self.y = 0
+        # self.x = self.y = 0
         self.gameid = None
         self.gamenumber = None
         self.canvas.config(yscrollincrement=h)
@@ -310,7 +333,7 @@ class CanvasFormatter(PysolStatsFormatter):
 
     def _calc_tabs(self, arg):
         tw = 15*self.w
-        ##tw = 160
+        # tw = 160
         self._tabs = [tw]
         font = tkFont.Font(self.canvas, self.font)
         for t in arg[1:]:
@@ -331,10 +354,11 @@ class CanvasFormatter(PysolStatsFormatter):
             ('lost',    t4, 'ne', self._tabs[4]),
             ('time',    t5, 'ne', self._tabs[5]),
             ('moves',   t6, 'ne', self._tabs[6]),
-            ('percent', t7, 'ne', self._tabs[7]), ):
+            ('percent', t7, 'ne', self._tabs[7]),
+                ):
             self.gamenumber = None
             if gameid is None:          # header
-                self.gamenumber=var
+                self.gamenumber = var
             id = self.canvas.create_text(x, y, text=text, anchor=anchor,
                                          font=self.font, fill=self.fg)
             self._addItem(id)
@@ -355,38 +379,41 @@ class CanvasFormatter(PysolStatsFormatter):
             if w > 0:
                 w = max(3, w)
                 w = min(rw - 2, w)
-                id = self.canvas.create_rectangle(rx, ry, rx+w, ry+rh, width=1,
-                                                  fill="#00ff00", outline="#000000")
+                self.canvas.create_rectangle(
+                    rx, ry, rx+w, ry+rh, width=1,
+                    fill="#00ff00", outline="#000000")
             if w < rw:
-                id = self.canvas.create_rectangle(rx+w, ry, rx+rw, ry+rh, width=1,
-                                                  fill="#ff0000", outline="#000000")
+                self.canvas.create_rectangle(
+                    rx+w, ry, rx+rw, ry+rh, width=1,
+                    fill="#ff0000", outline="#000000")
             return
-        ##fill = "#ffffff"
-        ##fill = self.canvas["bg"]
+        # fill = "#ffffff"
+        # fill = self.canvas["bg"]
         fill = None
-        id = self.canvas.create_rectangle(rx, ry, rx+rw, ry+rh, width=1,
-                                          fill=fill, outline="#808080")
+        self.canvas.create_rectangle(rx, ry, rx+rw, ry+rh, width=1,
+                                     fill=fill, outline="#808080")
         if 1:
             rx, rw = rx + 1, rw - 1
             ry, rh = ry + 1, rh - 1
             w = int(round(rw*perc/100.0))
             if w > 0:
-                id = self.canvas.create_rectangle(rx, ry, rx+w, ry+rh, width=0,
-                                                  fill="#00ff00", outline="")
+                self.canvas.create_rectangle(rx, ry, rx+w, ry+rh, width=0,
+                                             fill="#00ff00", outline="")
             if w < rw:
-                id = self.canvas.create_rectangle(rx+w, ry, rx+rw, ry+rh, width=0,
-                                                  fill="#ff0000", outline="")
+                self.canvas.create_rectangle(
+                    rx+w, ry, rx+rw, ry+rh, width=0,
+                    fill="#ff0000", outline="")
             return
         p = 1.0
         ix = rx + 2
         for i in (1, 11, 21, 31, 41, 51, 61, 71, 81, 91):
             if perc < i:
                 break
-            ##c = "#ff8040"
+            # c = "#ff8040"
             r, g, b = 255, 128*p, 64*p
             c = "#%02x%02x%02x" % (int(r), int(g), int(b))
-            id = self.canvas.create_rectangle(ix, ry+2, ix+6, ry+rh-2, width=0,
-                                              fill=c, outline=c)
+            self.canvas.create_rectangle(ix, ry+2, ix+6, ry+rh-2, width=0,
+                                         fill=c, outline=c)
             ix = ix + 8
             p = max(0.0, p - 0.1)
 
@@ -450,7 +477,7 @@ class AllGames_StatsDialog(MfxDialog):
 
     def __init__(self, parent, title, app, player, **kw):
         lines = 25
-        #if parent and parent.winfo_screenheight() < 600:
+        # if parent and parent.winfo_screenheight() < 600:
         #    lines = 20
         #
         self.font = app.getFont(self.FONT_TYPE)
@@ -474,8 +501,8 @@ class AllGames_StatsDialog(MfxDialog):
         self.top.wm_minsize(200, 200)
         self.button = kw.default
         #
-        self.sc = AllGames_StatsDialogScrolledCanvas(top_frame,
-                                       width=kw.width, height=kw.height)
+        self.sc = AllGames_StatsDialogScrolledCanvas(
+            top_frame, width=kw.width, height=kw.height)
         self.sc.pack(fill='both', expand=True, padx=kw.padx, pady=kw.pady)
         #
         self.nodes = {}
@@ -484,10 +511,10 @@ class AllGames_StatsDialog(MfxDialog):
         bind(self.canvas, "<1>", self.singleClick)
         self.fillCanvas(player, title)
         bbox = self.canvas.bbox("all")
-        ##print bbox
-        ##self.canvas.config(scrollregion=bbox)
+        # print bbox
+        # self.canvas.config(scrollregion=bbox)
         dx, dy = 4, 0
-        self.canvas.config(scrollregion=(-dx,-dy,bbox[2]+dx,bbox[3]+dy))
+        self.canvas.config(scrollregion=(-dx, -dy, bbox[2]+dx, bbox[3]+dy))
         self.canvas.xview_moveto(-dx)
         self.canvas.yview_moveto(self.YVIEW)
         #
@@ -495,14 +522,15 @@ class AllGames_StatsDialog(MfxDialog):
         self.mainloop(focus, kw.timeout)
 
     def initKw(self, kw):
-        kw = KwStruct(kw,
-                      strings=(_("&OK"),
-                               (_("&Save to file"), 202),
-                               (_("&Reset all..."), 301),),
-                      default=0,
-                      resizable=True,
-                      padx=10, pady=10,
-                      #width=900,
+        kw = KwStruct(
+            kw,
+            strings=(_("&OK"),
+                     (_("&Save to file"), 202),
+                     (_("&Reset all..."), 301),),
+            default=0,
+            resizable=True,
+            padx=10, pady=10,
+            # width=900,
         )
         return MfxDialog.initKw(self, kw)
 
@@ -514,7 +542,8 @@ class AllGames_StatsDialog(MfxDialog):
         MfxDialog.destroy(self)
 
     def rearrange(self, sort_by):
-        if self.sort_by == sort_by: return
+        if self.sort_by == sort_by:
+            return
         self.sort_by = sort_by
         self.fillCanvas(self.player, self.title)
 
@@ -522,19 +551,20 @@ class AllGames_StatsDialog(MfxDialog):
         id = self.canvas.find_withtag('current')
         if not id:
             return
-        ##print 'singleClick:', id, self.nodes.get(id[0])
+        # print 'singleClick:', id, self.nodes.get(id[0])
         gameid, gamenumber = self.nodes.get(id[0], (None, None))
         if gameid == 'header':
-            if self.sort_by == gamenumber: return
+            if self.sort_by == gamenumber:
+                return
             self.sort_by = gamenumber
             self.fillCanvas(self.player, self.title)
             return
-        ## FIXME / TODO
+        #  FIXME / TODO
         return
         if gameid and gamenumber:
-            print gameid, gamenumber
+            print(gameid, gamenumber)
         elif gameid:
-            print gameid
+            print(gameid)
 
     #
     #
@@ -544,7 +574,7 @@ class AllGames_StatsDialog(MfxDialog):
         self.canvas.delete('all')
         self.nodes = {}
         writer = CanvasFormatter(self.app, self.canvas, self,
-                              self.font, self.CHAR_W, self.CHAR_H)
+                                 self.font, self.CHAR_W, self.CHAR_H)
         writer.writeStats(player, self.sort_by)
 
 
@@ -563,7 +593,8 @@ class FullLog_StatsDialog(AllGames_StatsDialog):
 
     def initKw(self, kw):
         kw = KwStruct(kw,
-                      strings=(_("&OK"), (_("Session &log..."), 104), (_("&Save to file"), 203)), default=0,
+                      strings=(_("&OK"), (_("Session &log..."), 104),
+                               (_("&Save to file"), 203)), default=0,
                       width=76*self.CHAR_W,
                       )
         return AllGames_StatsDialog.initKw(self, kw)
@@ -571,20 +602,23 @@ class FullLog_StatsDialog(AllGames_StatsDialog):
 
 class SessionLog_StatsDialog(FullLog_StatsDialog):
     def fillCanvas(self, player, header):
-        a = PysolStatsFormatter()
+        PysolStatsFormatter()
         writer = CanvasFormatter(self.app, self.canvas, self,
                                  self.font, self.CHAR_W, self.CHAR_H)
         writer.writeSessionLog(player)
 
     def initKw(self, kw):
-        kw = KwStruct(kw,
-                      strings=(_("&OK"), (_("&Full log..."), 103), (_("&Save to file"), 204)), default=0,
-                      )
+        kw = KwStruct(
+            kw,
+            strings=(_("&OK"), (_("&Full log..."), 103),
+                     (_("&Save to file"), 204)),
+            default=0,)
         return FullLog_StatsDialog.initKw(self, kw)
 
 # ************************************************************************
 # *
 # ************************************************************************
+
 
 class Status_StatsDialog(MfxMessageDialog):
     def __init__(self, parent, game):
@@ -595,7 +629,8 @@ class Status_StatsDialog(MfxMessageDialog):
             n = n + len(s.cards)
         w1 = (_("Highlight piles: ") + str(stats.highlight_piles) + "\n" +
               _("Highlight cards: ") + str(stats.highlight_cards) + "\n" +
-              _("Highlight same rank: ") + str(stats.highlight_samerank) + "\n")
+              _("Highlight same rank: ") + str(stats.highlight_samerank)
+              + "\n")
         if game.s.talon:
             if game.gameinfo.redeals != 0:
                 w2 = w2 + _("\nRedeals: ") + str(game.s.talon.round - 1)
@@ -605,32 +640,36 @@ class Status_StatsDialog(MfxMessageDialog):
         if game.s.foundations:
             w2 = w2 + _("\nCards in Foundations: ") + str(n)
         #
-        date = time.strftime("%Y-%m-%d %H:%M", time.localtime(game.gstats.start_time))
-        MfxMessageDialog.__init__(self, parent, title=_("Game status"),
-                                  text=game.getTitleName() + "\n" +
-                                  game.getGameNumber(format=1) + "\n" +
-                                  _("Playing time: ") + game.getTime() + "\n" +
-                                  _("Started at: ") + date + "\n\n"+
-                                  _("Moves: ") + str(game.moves.index) + "\n" +
-                                  _("Undo moves: ") + str(stats.undo_moves) + "\n" +
-                                  _("Bookmark moves: ") + str(gstats.goto_bookmark_moves) + "\n" +
-                                  _("Demo moves: ") + str(stats.demo_moves) + "\n" +
-                                  _("Total player moves: ") + str(stats.player_moves) + "\n" +
-                                  _("Total moves in this game: ") + str(stats.total_moves) + "\n" +
-                                  _("Hints: ") + str(stats.hints) + "\n" +
-                                  "\n" +
-                                  w1 + w2,
-                                  strings=(_("&OK"),
-                                           (_("&Statistics..."), 101),
-                                           (TOP_TITLE+"...", 105), ),
-                                  image=game.app.gimages.logos[3],
-                                  image_side="left", image_padx=20,
-                                  padx=20,
-                                  )
+        date = time.strftime(
+            "%Y-%m-%d %H:%M",
+            time.localtime(game.gstats.start_time))
+        MfxMessageDialog.__init__(
+            self, parent, title=_("Game status"),
+            text=game.getTitleName() + "\n" +
+            game.getGameNumber(format=1) + "\n" +
+            _("Playing time: ") + game.getTime() + "\n" +
+            _("Started at: ") + date + "\n\n" +
+            _("Moves: ") + str(game.moves.index) + "\n" +
+            _("Undo moves: ") + str(stats.undo_moves) + "\n" +
+            _("Bookmark moves: ") + str(gstats.goto_bookmark_moves) + "\n" +
+            _("Demo moves: ") + str(stats.demo_moves) + "\n" +
+            _("Total player moves: ") + str(stats.player_moves) + "\n" +
+            _("Total moves in this game: ") + str(stats.total_moves) + "\n" +
+            _("Hints: ") + str(stats.hints) + "\n" +
+            "\n" +
+            w1 + w2,
+            strings=(_("&OK"),
+                     (_("&Statistics..."), 101),
+                     (TOP_TITLE+"...", 105), ),
+            image=game.app.gimages.logos[3],
+            image_side="left", image_padx=20,
+            padx=20,
+            )
 
 # ************************************************************************
 # *
 # ************************************************************************
+
 
 class _TopDialog(MfxDialog):
     def __init__(self, parent, title, top, **kw):
@@ -671,7 +710,8 @@ class _TopDialog(MfxDialog):
             l = Tkinter.Label(**cnf)
             l.grid(row=row, column=1, sticky='ew')
             # Start time
-            t = time.strftime('%Y-%m-%d %H:%M', time.localtime(i.game_start_time))
+            t = time.strftime(
+                '%Y-%m-%d %H:%M', time.localtime(i.game_start_time))
             cnf['text'] = t
             l = Tkinter.Label(**cnf)
             l.grid(row=row, column=2, sticky='ew')
@@ -689,7 +729,6 @@ class _TopDialog(MfxDialog):
 
         focus = self.createButtons(bottom_frame, kw)
         self.mainloop(focus, kw.timeout)
-
 
     def initKw(self, kw):
         kw = KwStruct(kw, strings=(_('&OK'),), default=0, separator=True)
@@ -710,12 +749,12 @@ class Top_StatsDialog(MfxDialog):
 
         if (player in app.stats.games_stats and
             gameid in app.stats.games_stats[player] and
-            app.stats.games_stats[player][gameid].time_result.top):
+                app.stats.games_stats[player][gameid].time_result.top):
 
             Tkinter.Label(frame, text=_('Minimum')).grid(row=0, column=1)
             Tkinter.Label(frame, text=_('Maximum')).grid(row=0, column=2)
             Tkinter.Label(frame, text=_('Average')).grid(row=0, column=3)
-            ##Tkinter.Label(frame, text=_('Total')).grid(row=0, column=4)
+            # Tkinter.Label(frame, text=_('Total')).grid(row=0, column=4)
 
             s = app.stats.games_stats[player][gameid]
             row = 1
@@ -742,24 +781,24 @@ class Top_StatsDialog(MfxDialog):
                  s.total_moves_result.top,
                  ),
                 ]
-##             if s.score_result.min:
-##                 ll.append(('Score:',
-##                            s.score_result.min,
-##                            s.score_result.max,
-##                            round(s.score_result.average, 2),
-##                            s.score_result.top,
-##                            ))
-##             if s.score_casino_result.min:
-##                 ll.append(('Casino Score:',
-##                            s.score_casino_result.min,
-##                            s.score_casino_result.max,
-##                            round(s.score_casino_result.average, 2), ))
+            #  if s.score_result.min:
+            #      ll.append(('Score:',
+            #                 s.score_result.min,
+            #                 s.score_result.max,
+            #                 round(s.score_result.average, 2),
+            #                 s.score_result.top,
+            #                 ))
+            #  if s.score_casino_result.min:
+            #      ll.append(('Casino Score:',
+            #                 s.score_casino_result.min,
+            #                 s.score_casino_result.max,
+            #                 round(s.score_casino_result.average, 2), ))
             for l, min, max, avr, tot, top in ll:
                 Tkinter.Label(frame, text=l).grid(row=row, column=0)
                 Tkinter.Label(frame, text=str(min)).grid(row=row, column=1)
                 Tkinter.Label(frame, text=str(max)).grid(row=row, column=2)
                 Tkinter.Label(frame, text=str(avr)).grid(row=row, column=3)
-                ##Tkinter.Label(frame, text=str(tot)).grid(row=row, column=4)
+                # Tkinter.Label(frame, text=str(tot)).grid(row=row, column=4)
                 b = Tkinter.Button(frame, text=TOP_TITLE+' ...', width=10,
                                    command=lambda top=top: self.showTop(top))
                 b.grid(row=row, column=5)
@@ -771,8 +810,8 @@ class Top_StatsDialog(MfxDialog):
         self.mainloop(focus, kw.timeout)
 
     def showTop(self, top):
-        #print top
-        d = _TopDialog(self.top, TOP_TITLE, top)
+        # print top
+        _TopDialog(self.top, TOP_TITLE, top)
 
     def initKw(self, kw):
         kw = KwStruct(kw,
@@ -814,7 +853,7 @@ class ProgressionDialog(MfxDialog):
         # constants
         self.canvas_width, self.canvas_height = 600, 250
         if parent.winfo_screenwidth() < 800 or \
-               parent.winfo_screenheight() < 600:
+                parent.winfo_screenheight() < 600:
             self.canvas_width, self.canvas_height = 400, 200
         self.xmargin, self.ymargin = 10, 10
         self.graph_dx, self.graph_dy = 10, 10
@@ -863,18 +902,18 @@ class ProgressionDialog(MfxDialog):
         # caption
         d = self.text_height
         x, y = self.xmargin, self.canvas_height-self.ymargin
-        id = canvas.create_rectangle(x, y, x+d, y-d, outline='black',
-                                     fill=self.played_color)
+        canvas.create_rectangle(x, y, x+d, y-d, outline='black',
+                                fill=self.played_color)
         x += d+5
         canvas.create_text(x, y, anchor='sw', text=_('Played'))
         x += measure(_('Played'))+20
-        id = canvas.create_rectangle(x, y, x+d, y-d, outline='black',
-                                     fill=self.won_color)
+        canvas.create_rectangle(x, y, x+d, y-d, outline='black',
+                                fill=self.won_color)
         x += d+5
         canvas.create_text(x, y, anchor='sw', text=_('Won'))
         x += measure(_('Won'))+20
-        id = canvas.create_rectangle(x, y, x+d, y-d, outline='black',
-                                     fill=self.percent_color)
+        canvas.create_rectangle(x, y, x+d, y-d, outline='black',
+                                fill=self.percent_color)
         x += d+5
         canvas.create_text(x, y, anchor='sw', text=_('% won'))
 
@@ -904,7 +943,7 @@ class ProgressionDialog(MfxDialog):
             ('month', _('Last month')),
             ('year',  _('Last year')),
             ('all',   _('All time')),
-            ):
+                ):
             b = Tkinter.Radiobutton(label_frame, text=t, variable=var, value=v,
                                     command=self.updateGraph,
                                     justify='left', anchor='w'
@@ -942,11 +981,9 @@ class ProgressionDialog(MfxDialog):
         focus = self.createButtons(bottom_frame, kw)
         self.mainloop(focus, kw.timeout)
 
-
     def initKw(self, kw):
         kw = KwStruct(kw, strings=(_('&OK'),), default=0, separator=True)
         return MfxDialog.initKw(self, kw)
-
 
     def updateGraph(self, *args):
         interval = self.variable.get()
@@ -978,8 +1015,8 @@ class ProgressionDialog(MfxDialog):
         xx = -100
         for res in result:
             if res[0] is not None and x > xx+self.text_width+4:
-                ##id = canvas.create_line(x, y0, x, y0-5, width=3)
-                ##self.items.append(id)
+                # id = canvas.create_line(x, y0, x, y0-5, width=3)
+                # self.items.append(id)
                 id = canvas.create_line(x, y0, x, y1, stipple='gray50')
                 self.items.append(id)
                 id = canvas.create_text(x, y0+td, anchor='n', text=res[0])
@@ -1016,15 +1053,15 @@ class ProgressionDialog(MfxDialog):
         for res in result:
             played, won = res[1], res[2]
             y = y0 - int(games_resolution*played)
-            played_coords += [x,y]
+            played_coords += [x, y]
             y = y0 - int(games_resolution*won)
-            won_coords += [x,y]
+            won_coords += [x, y]
             if played > 0:
                 percent = int(100.*won/played)
             else:
                 percent = 0
             y = y0 - int(percent_resolution*percent)
-            percent_coords += [x,y]
+            percent_coords += [x, y]
             x += dx
         if self.played_graph_var.get():
             id = canvas.create_line(fill=self.played_color, width=3,
@@ -1038,4 +1075,3 @@ class ProgressionDialog(MfxDialog):
             id = canvas.create_line(fill=self.percent_color, width=3,
                                     *percent_coords)
             self.items.append(id)
-

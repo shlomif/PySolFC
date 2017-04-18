@@ -28,7 +28,7 @@ import os
 import Tkinter
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.mfxutil import KwStruct, USE_PIL
 from pysollib.util import CARDSET
 from pysollib.resource import CSI
@@ -54,7 +54,8 @@ class SelectCardsetNode(SelectDialogTreeNode):
         contents = []
         for obj in self.tree.data.all_objects:
             if self.select_func(obj):
-                node = SelectCardsetLeaf(self.tree, self, text=obj.name, key=obj.index)
+                node = SelectCardsetLeaf(
+                    self.tree, self, text=obj.name, key=obj.index)
                 contents.append(node)
         return contents or self.tree.data.no_contents
 
@@ -68,59 +69,92 @@ class SelectCardsetData(SelectDialogTreeData):
         SelectDialogTreeData.__init__(self)
         self.all_objects = manager.getAllSortedByName()
         self.all_objects = [obj for obj in self.all_objects if not obj.error]
-        self.no_contents = [ SelectCardsetLeaf(None, None, _("(no cardsets)"), key=None), ]
+        self.no_contents = [SelectCardsetLeaf(
+            None, None, _("(no cardsets)"), key=None), ]
         #
         select_by_type = None
         items = CSI.TYPE.items()
-        items.sort(lambda a, b: cmp(a[1], b[1]))
+        items.sort(key=lambda x: x[1])
         nodes = []
         for key, name in items:
             if manager.registered_types.get(key):
-                nodes.append(SelectCardsetNode(None, name, lambda cs, key=key: key == cs.si.type))
+                nodes.append(
+                    SelectCardsetNode(
+                        None, name, lambda cs, key=key: key == cs.si.type))
         if nodes:
-            select_by_type = SelectCardsetNode(None, _("by Type"), tuple(nodes), expanded=1)
+            select_by_type = SelectCardsetNode(
+                None, _("by Type"), tuple(nodes), expanded=1)
         #
         select_by_style = None
         items = CSI.STYLE.items()
-        items.sort(lambda a, b: cmp(a[1], b[1]))
+        items.sort(key=lambda x: x[1])
         nodes = []
         for key, name in items:
             if manager.registered_styles.get(key):
-                nodes.append(SelectCardsetNode(None, name, lambda cs, key=key: key in cs.si.styles))
+                nodes.append(
+                    SelectCardsetNode(
+                        None, name, lambda cs, key=key: key in cs.si.styles))
         if nodes:
-            nodes.append(SelectCardsetNode(None, _("Uncategorized"), lambda cs: not cs.si.styles))
-            select_by_style = SelectCardsetNode(None, _("by Style"), tuple(nodes))
+            nodes.append(
+                SelectCardsetNode(
+                    None, _("Uncategorized"), lambda cs: not cs.si.styles))
+            select_by_style = SelectCardsetNode(
+                None, _("by Style"), tuple(nodes))
         #
         select_by_nationality = None
         items = CSI.NATIONALITY.items()
-        items.sort(lambda a, b: cmp(a[1], b[1]))
+        items.sort(key=lambda x: x[1])
         nodes = []
         for key, name in items:
             if manager.registered_nationalities.get(key):
-                nodes.append(SelectCardsetNode(None, name, lambda cs, key=key: key in cs.si.nationalities))
+                nodes.append(
+                    SelectCardsetNode(
+                        None, name,
+                        lambda cs, key=key: key in cs.si.nationalities))
         if nodes:
-            nodes.append(SelectCardsetNode(None, _("Uncategorized"), lambda cs: not cs.si.nationalities))
-            select_by_nationality = SelectCardsetNode(None, _("by Nationality"), tuple(nodes))
+            nodes.append(
+                SelectCardsetNode(
+                    None, _("Uncategorized"),
+                    lambda cs: not cs.si.nationalities))
+            select_by_nationality = SelectCardsetNode(
+                None, _("by Nationality"), tuple(nodes))
         #
         select_by_date = None
         items = CSI.DATE.items()
-        items.sort(lambda a, b: cmp(a[1], b[1]))
+        items.sort(key=lambda x: x[1])
         nodes = []
         for key, name in items:
             if manager.registered_dates.get(key):
-                nodes.append(SelectCardsetNode(None, name, lambda cs, key=key: key in cs.si.dates))
+                nodes.append(
+                    SelectCardsetNode(
+                        None, name, lambda cs, key=key: key in cs.si.dates))
         if nodes:
-            nodes.append(SelectCardsetNode(None, _("Uncategorized"), lambda cs: not cs.si.dates))
-            select_by_date = SelectCardsetNode(None, _("by Date"), tuple(nodes))
+            nodes.append(
+                SelectCardsetNode(
+                    None, _("Uncategorized"), lambda cs: not cs.si.dates))
+            select_by_date = SelectCardsetNode(
+                None, _("by Date"), tuple(nodes))
         #
         self.rootnodes = filter(None, (
-            SelectCardsetNode(None, _("All Cardsets"), lambda cs: 1, expanded=len(self.all_objects)<=12),
+            SelectCardsetNode(
+                None, _("All Cardsets"),
+                lambda cs: 1, expanded=len(self.all_objects) <= 12),
             SelectCardsetNode(None, _("by Size"), (
-                SelectCardsetNode(None, _("Tiny cardsets"),   lambda cs: cs.si.size == CSI.SIZE_TINY),
-                SelectCardsetNode(None, _("Small cardsets"),  lambda cs: cs.si.size == CSI.SIZE_SMALL),
-                SelectCardsetNode(None, _("Medium cardsets"), lambda cs: cs.si.size == CSI.SIZE_MEDIUM),
-                SelectCardsetNode(None, _("Large cardsets"),  lambda cs: cs.si.size == CSI.SIZE_LARGE),
-                SelectCardsetNode(None, _("XLarge cardsets"), lambda cs: cs.si.size == CSI.SIZE_XLARGE),
+                SelectCardsetNode(
+                    None, _("Tiny cardsets"),
+                    lambda cs: cs.si.size == CSI.SIZE_TINY),
+                SelectCardsetNode(
+                    None, _("Small cardsets"),
+                    lambda cs: cs.si.size == CSI.SIZE_SMALL),
+                SelectCardsetNode(
+                    None, _("Medium cardsets"),
+                    lambda cs: cs.si.size == CSI.SIZE_MEDIUM),
+                SelectCardsetNode(
+                    None, _("Large cardsets"),
+                    lambda cs: cs.si.size == CSI.SIZE_LARGE),
+                SelectCardsetNode(
+                    None, _("XLarge cardsets"),
+                    lambda cs: cs.si.size == CSI.SIZE_XLARGE),
             ), expanded=1),
             select_by_type,
             select_by_style,
@@ -133,15 +167,18 @@ class SelectCardsetByTypeData(SelectDialogTreeData):
     def __init__(self, manager, key):
         SelectDialogTreeData.__init__(self)
         self.all_objects = manager.getAllSortedByName()
-        self.no_contents = [ SelectCardsetLeaf(None, None, _("(no cardsets)"), key=None), ]
+        self.no_contents = [SelectCardsetLeaf(
+            None, None, _("(no cardsets)"), key=None), ]
         #
         items = CSI.TYPE.items()
-        items.sort(lambda a, b: cmp(a[1], b[1]))
+        items.sort(key=lambda x: x[1])
         nodes = []
         for key, name in items:
             if manager.registered_types.get(key):
-                nodes.append(SelectCardsetNode(None, name, lambda cs, key=key: key == cs.si.type))
-        select_by_type = SelectCardsetNode(None, _("by Type"), tuple(nodes), expanded=1)
+                nodes.append(SelectCardsetNode(
+                    None, name, lambda cs, key=key: key == cs.si.type))
+        select_by_type = SelectCardsetNode(
+            None, _("by Type"), tuple(nodes), expanded=1)
         #
         self.rootnodes = filter(None, (
             select_by_type,
@@ -180,7 +217,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         self.manager = manager
         self.key = key
         self.app = app
-        #padx, pady = kw.padx, kw.pady
+        # padx, pady = kw.padx, kw.pady
         padx, pady = 5, 5
         if self.TreeDataHolder_Class.data is None:
             self.TreeDataHolder_Class.data = self.TreeData_Class(manager, key)
@@ -211,9 +248,10 @@ class SelectCardsetDialogWithPreview(MfxDialog):
                 left_frame, label=_('Scale X:'),
                 from_=0.5, to=4.0, resolution=0.1,
                 orient='horizontal', variable=var,
-                #value=app.opt.scale_x,
+                # value=app.opt.scale_x,
                 command=self._updateScale)
-            self.scale_x.grid(row=1, column=0, sticky='ew', padx=padx, pady=pady)
+            self.scale_x.grid(
+                row=1, column=0, sticky='ew', padx=padx, pady=pady)
             #
             var = Tkinter.DoubleVar()
             var.set(app.opt.scale_y)
@@ -221,9 +259,10 @@ class SelectCardsetDialogWithPreview(MfxDialog):
                 left_frame, label=_('Scale Y:'),
                 from_=0.5, to=4.0, resolution=0.1,
                 orient='horizontal', variable=var,
-                #value=app.opt.scale_y,
+                # value=app.opt.scale_y,
                 command=self._updateScale)
-            self.scale_y.grid(row=2, column=0, sticky='ew', padx=padx, pady=pady)
+            self.scale_y.grid(
+                row=2, column=0, sticky='ew', padx=padx, pady=pady)
             #
             self.auto_scale = Tkinter.BooleanVar()
             self.auto_scale.set(app.opt.auto_scale)
@@ -242,7 +281,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
                 left_frame, text=_('Preserve aspect ratio'),
                 variable=self.preserve_aspect,
                 takefocus=False,
-                #command=self._updateScale
+                # command=self._updateScale
                 )
             self.aspect_check.grid(row=4, column=0, sticky='w',
                                    padx=padx, pady=pady)
@@ -304,9 +343,10 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             cs = self.manager.get(self.tree.selection_key)
             if not cs:
                 return
-            ##title = CARDSET+" "+cs.name
+            # title = CARDSET+" "+cs.name
             title = CARDSET.capitalize()+" "+cs.name
-            CardsetInfoDialog(self.top, title=title, cardset=cs, images=self.preview_images)
+            CardsetInfoDialog(
+                self.top, title=title, cardset=cs, images=self.preview_images)
             return
         MfxDialog.mDone(self, button)
 
@@ -337,7 +377,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             return
         names, columns = cs.getPreviewCardNames()
         try:
-            #???names, columns = cs.getPreviewCardNames()
+            # ???names, columns = cs.getPreviewCardNames()
             for n in names:
                 f = os.path.join(cs.dir, n + cs.ext)
                 self.preview_images.append(loadImage(file=f))
@@ -365,8 +405,8 @@ class SelectCardsetDialogWithPreview(MfxDialog):
                 x = x + dx
         canvas.config(scrollregion=(0, 0, sx+dx, sy+dy),
                       width=sx+dx, height=sy+dy)
-        #canvas.config(xscrollincrement=dx, yscrollincrement=dy)
-        canvas.event_generate('<Configure>') # update bg image
+        # canvas.config(xscrollincrement=dx, yscrollincrement=dy)
+        canvas.event_generate('<Configure>')  # update bg image
         self.preview_key = key
         self.key = key
 
@@ -379,6 +419,7 @@ class SelectCardsetByTypeDialogWithPreview(SelectCardsetDialogWithPreview):
 # ************************************************************************
 # * Cardset Info
 # ************************************************************************
+
 
 class CardsetInfoDialog(MfxDialog):
     def __init__(self, parent, title, cardset, images, **kw):
@@ -403,14 +444,14 @@ class CardsetInfoDialog(MfxDialog):
             year = str(cardset.year)
         row = 0
         for n, t in (
-            ##('Version:', str(cardset.version)),
+            # ('Version:', str(cardset.version)),
             (_('Type:'),          CSI.TYPE[cardset.type]),
             (_('Styles:'),        styles),
             (_('Nationality:'),   nationalities),
             (_('Year:'),          year),
-            ##(_('Number of cards:'), str(cardset.ncards)),
+            # (_('Number of cards:'), str(cardset.ncards)),
             (_('Size:'), '%d x %d' % (cardset.CARDW, cardset.CARDH)),
-            ):
+                ):
             if t is not None:
                 l = Tkinter.Label(info_frame, text=n,
                                   anchor='w', justify='left')
@@ -436,7 +477,7 @@ class CardsetInfoDialog(MfxDialog):
                 info_frame.rowconfigure(row, weight=1)
             except:
                 pass
-        ##bg = top_frame["bg"]
+        # bg = top_frame["bg"]
         bg = 'white'
         text_w = Tkinter.Text(frame, bd=1, relief="sunken", wrap="word",
                               padx=4, width=64, height=16, bg=bg)
@@ -460,7 +501,7 @@ class CardsetInfoDialog(MfxDialog):
         text_w.config(state="disabled")
         #
         focus = self.createButtons(bottom_frame, kw)
-        #focus = text_w
+        # focus = text_w
         self.mainloop(focus, kw.timeout)
 
     def initKw(self, kw):
@@ -473,5 +514,3 @@ class CardsetInfoDialog(MfxDialog):
                       buttonpadx=10, buttonpady=5,
                       )
         return MfxDialog.initKw(self, kw)
-
-

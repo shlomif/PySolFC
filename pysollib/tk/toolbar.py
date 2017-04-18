@@ -29,7 +29,6 @@ import Tkinter
 
 # PySol imports
 from pysollib.mygettext import _, n_
-from pysollib.mfxutil import destruct
 from pysollib.mfxutil import Image, ImageTk
 from pysollib.util import IMAGE_EXTENSIONS
 from pysollib.settings import TITLE
@@ -69,7 +68,8 @@ class AbstractToolbarButton:
                       sticky='nsew')
 
     def hide(self):
-        if not self.visible: return
+        if not self.visible:
+            return
         self.visible = False
         self.grid_forget()
 
@@ -77,13 +77,15 @@ class AbstractToolbarButton:
 class ToolbarCheckbutton(AbstractToolbarButton, Tkinter.Checkbutton):
     def __init__(self, parent, toolbar, toolbar_name, position, **kwargs):
         Tkinter.Checkbutton.__init__(self, parent, kwargs)
-        AbstractToolbarButton.__init__(self, parent, toolbar, toolbar_name, position)
+        AbstractToolbarButton.__init__(
+            self, parent, toolbar, toolbar_name, position)
 
 
 class ToolbarButton(AbstractToolbarButton, Tkinter.Button):
     def __init__(self, parent, toolbar, toolbar_name, position, **kwargs):
         Tkinter.Button.__init__(self, parent, kwargs)
-        AbstractToolbarButton.__init__(self, parent, toolbar, toolbar_name, position)
+        AbstractToolbarButton.__init__(
+            self, parent, toolbar, toolbar_name, position)
 
 
 class ToolbarSeparator(Tkinter.Frame):
@@ -92,6 +94,7 @@ class ToolbarSeparator(Tkinter.Frame):
         self.toolbar = toolbar
         self.position = position
         self.visible = False
+
     def show(self, orient, force=False):
         if self.visible and not force:
             return
@@ -112,13 +115,17 @@ class ToolbarSeparator(Tkinter.Frame):
                       column=0,
                       padx=pady, pady=padx,
                       sticky='ew')
+
     def hide(self):
-        if not self.visible: return
+        if not self.visible:
+            return
         self.visible = False
         self.grid_forget()
 
+
 class ToolbarFlatSeparator(ToolbarSeparator):
     pass
+
 
 class ToolbarLabel(Tkinter.Message):
     def __init__(self, parent, toolbar, toolbar_name, position, **kwargs):
@@ -127,6 +134,7 @@ class ToolbarLabel(Tkinter.Message):
         self.toolbar_name = toolbar_name
         self.position = position
         self.visible = False
+
     def show(self, orient, force=False):
         if self.visible and not force:
             return
@@ -142,8 +150,10 @@ class ToolbarLabel(Tkinter.Message):
                       column=0,
                       padx=padx, pady=pady,
                       sticky='nsew')
+
     def hide(self):
-        if not self.visible: return
+        if not self.visible:
+            return
         self.visible = False
         self.grid_forget()
 
@@ -158,7 +168,7 @@ class PysolToolbarTk:
                  size=0, relief='flat', compound='none'):
         self.top = top
         self.menubar = menubar
-        #self._setRelief(relief)
+        # self._setRelief(relief)
         self.side = -1
         self._tooltips = []
         self._widgets = []
@@ -188,7 +198,7 @@ class PysolToolbarTk:
             (n_("Rules"),    self.mHelpRules, _("Rules for this game")),
             (None,           None,            None),
             (n_("Quit"),     self.mQuit,      _("Quit ")+TITLE),
-            ):
+                ):
             if l is None:
                 sep = self._createSeparator()
                 sep.bind("<1>", self.clickHandler)
@@ -205,8 +215,8 @@ class PysolToolbarTk:
         self._createLabel("player", label=n_('Player'),
                           tooltip=_("Player options"))
         #
-        self.player_label.bind("<1>",self.mOptPlayerOptions)
-        ##self.player_label.bind("<3>",self.mOptPlayerOptions)
+        self.player_label.bind("<1>", self.mOptPlayerOptions)
+        # self.player_label.bind("<3>",self.mOptPlayerOptions)
         self.popup = MfxMenu(master=None, label=n_('Toolbar'), tearoff=0)
         createToolbarMenu(menubar, self.popup)
         self.frame.bind("<1>", self.clickHandler)
@@ -224,7 +234,6 @@ class PysolToolbarTk:
         else:
             # button
             widget = getattr(self, w+'_button')
-            position = widget.position
             if v:
                 widget.show(orient=self.orient)
             else:
@@ -234,7 +243,8 @@ class PysolToolbarTk:
         last_visible = None
         for w in self._widgets:
             if w.__class__ is ToolbarSeparator:
-                if prev_visible is None or prev_visible.__class__ is ToolbarSeparator:
+                if prev_visible is None or \
+                        prev_visible.__class__ is ToolbarSeparator:
                     w.hide()
                 else:
                     w.show(orient=self.orient)
@@ -263,7 +273,7 @@ class PysolToolbarTk:
         return image
 
     def _createSeparator(self):
-        position=len(self._widgets)
+        position = len(self._widgets)
         sep = ToolbarSeparator(self.frame,
                                position=position,
                                toolbar=self,
@@ -277,7 +287,7 @@ class PysolToolbarTk:
         return sep
 
     def _createFlatSeparator(self):
-        position=len(self._widgets)
+        position = len(self._widgets)
         sep = ToolbarFlatSeparator(self.frame,
                                    position=position,
                                    toolbar=self,
@@ -300,17 +310,17 @@ class PysolToolbarTk:
         bd = TkSettings.toolbar_button_borderwidth
         padx, pady = TkSettings.toolbar_button_padding
         kw = {
-            'position'     : position,
-            'toolbar'      : self,
-            'toolbar_name' : name,
-            'command'      : command,
-            'takefocus'    : 0,
-            'text'         : _(label),
-            'bd'           : bd,
-            'relief'       : button_relief,
-            'padx'         : padx,
-            'pady'         : pady,
-            'overrelief'   : 'raised',
+            'position': position,
+            'toolbar': self,
+            'toolbar_name': name,
+            'command': command,
+            'takefocus': 0,
+            'text': _(label),
+            'bd': bd,
+            'relief': button_relief,
+            'padx': padx,
+            'pady': pady,
+            'overrelief': 'raised',
             }
         if image:
             kw['image'] = image
@@ -332,7 +342,7 @@ class PysolToolbarTk:
         return button
 
     def _createLabel(self, name, label=None, tooltip=None):
-        aspect = (400, 300) [self.getSize() != 0]
+        aspect = (400, 300)[self.getSize() != 0]
         position = len(self._widgets)
         label = ToolbarLabel(self.frame,
                              position=position,
@@ -356,7 +366,6 @@ class PysolToolbarTk:
         self.game.stopDemo()
         self.game.interruptSleep()
         return self.game.busy
-
 
     #
     # public methods
@@ -397,10 +406,12 @@ class PysolToolbarTk:
 
     def destroy(self):
         for w in self._tooltips:
-            if w: w.destroy()
+            if w:
+                w.destroy()
         self._tooltips = []
         for w in self._widgets:
-            if w: w.destroy()
+            if w:
+                w.destroy()
         self._widgets = []
 
     def setCursor(self, cursor):
@@ -432,7 +443,7 @@ class PysolToolbarTk:
             self.dir, self.size = old_dir, old_size
             return 0
         l = self.player_label
-        aspect = (400, 300) [size != 0]
+        aspect = (400, 300)[size != 0]
         l.config(aspect=aspect)
         for name, w, image in data:
             w.config(image=image)
@@ -468,18 +479,22 @@ class PysolToolbarTk:
     #
 
     def clickHandler(self, event):
-        if self._busy(): return EVENT_HANDLED
+        if self._busy():
+            return EVENT_HANDLED
         return EVENT_HANDLED
 
     def rightclickHandler(self, event):
-        if self._busy(): return EVENT_HANDLED
+        if self._busy():
+            return EVENT_HANDLED
         if self.popup:
-            ##print event.x, event.y, event.x_root, event.y_root, event.__dict__
+            # print event.x, event.y, event.x_root, \
+            #       event.y_root, event.__dict__
             self.popup.tk_popup(event.x_root, event.y_root)
         return EVENT_HANDLED
 
     def middleclickHandler(self, event):
-        if self._busy(): return EVENT_HANDLED
+        if self._busy():
+            return EVENT_HANDLED
         if 1 <= self.side <= 2:
             self.menubar.setToolbarSide(3 - self.side)
         return EVENT_HANDLED
@@ -490,4 +505,3 @@ class PysolToolbarTk:
         size = self.size
         comp = int(self.compound in ('top', 'bottom'))
         return int((size+comp) != 0)
-

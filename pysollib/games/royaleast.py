@@ -24,19 +24,23 @@
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.hint import CautiousDefaultHint
+
+from pysollib.stack import \
+        RK_RowStack, \
+        WasteStack, \
+        WasteTalonStack, \
+        SS_FoundationStack
 
 # ************************************************************************
 # * Royal East
 # ************************************************************************
+
 
 class RoyalEast(Game):
     Hint_Class = CautiousDefaultHint
@@ -114,4 +118,3 @@ class RoyalEast(Game):
 # register the game
 registerGame(GameInfo(93, RoyalEast, "Royal East",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))
-

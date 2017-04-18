@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 #
 # Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
 # Copyright (C) 2003 Mt. Hood Playing Card Co.
@@ -19,23 +19,43 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.hint import DefaultHint, CautiousDefaultHint
 
 from unionsquare import UnionSquare_Foundation
+
+from pysollib.util import ACE, ANY_RANK, ANY_SUIT, JACK, KING, NO_RANK
+
+from pysollib.stack import \
+        AC_FoundationStack, \
+        AC_RowStack, \
+        AbstractFoundationStack, \
+        BasicRowStack, \
+        DealRowTalonStack, \
+        OpenStack, \
+        OpenTalonStack, \
+        RK_FoundationStack, \
+        RK_RowStack, \
+        ReserveStack, \
+        SS_RowStack, \
+        Stack, \
+        StackWrapper, \
+        UD_RK_RowStack, \
+        UD_SS_RowStack, \
+        WasteStack, \
+        WasteTalonStack, \
+        isSameSuitSequence, \
+        SS_FoundationStack
 
 
 # ************************************************************************
@@ -69,9 +89,12 @@ class RoyalCotillion(Game):
             s.rows.append(BasicRowStack(x, y, self, max_accept=0))
         for i in range(4):
             x, y, = l.XM + 4*l.XS, l.YM + i*l.YS
-            s.foundations.append(self.Foundation_Class(x, y, self, i, dir=2, mod=13))
-            x = x + l.XS
-            s.foundations.append(self.Foundation_Class(x, y, self, i, dir=2, mod=13, base_rank=1))
+            s.foundations.append(
+                self.Foundation_Class(x, y, self, i, dir=2, mod=13))
+            x += l.XS
+            s.foundations.append(
+                self.Foundation_Class(
+                    x, y, self, i, dir=2, mod=13, base_rank=1))
         for i in range(4):
             for j in range(4):
                 x, y, = l.XM + (j+6)*l.XS, l.YM + i*l.YS
@@ -133,14 +156,17 @@ class OddAndEven(RoyalCotillion):
         # create stacks
         x, y, = l.XM, l.YM
         for i in range(4):
-            s.foundations.append(self.Foundation_Class(x, y, self, i, dir=2, mod=13))
+            s.foundations.append(
+                self.Foundation_Class(x, y, self, i, dir=2, mod=13))
             x = x + l.XS
         for i in range(4):
-            s.foundations.append(self.Foundation_Class(x, y, self, i, dir=2, mod=13, base_rank=1))
+            s.foundations.append(
+                self.Foundation_Class(
+                    x, y, self, i, dir=2, mod=13, base_rank=1))
             x = x + l.XS
         for i in range(2):
-            x, y, = l.XM + ((4,3)[i])*l.XS, l.YM + (i+1)*l.YS
-            for j in range((4,5)[i]):
+            x, y, = l.XM + ((4, 3)[i])*l.XS, l.YM + (i+1)*l.YS
+            for j in range((4, 5)[i]):
                 s.reserves.append(ReserveStack(x, y, self, max_accept=0))
                 x = x + l.XS
         x, y = l.XM, self.height - l.YS
@@ -153,7 +179,6 @@ class OddAndEven(RoyalCotillion):
 
         # define stack-groups
         l.defaultStackGroups()
-
 
     #
     # game overrides
@@ -198,14 +223,14 @@ class Kingdom(RoyalCotillion):
         # define stack-groups
         l.defaultStackGroups()
 
-
     #
     # game overrides
     #
 
     def _shuffleHook(self, cards):
         # move one Ace to top of the Talon (i.e. first card to be dealt)
-        return self._shuffleHookMoveToTop(cards, lambda c: (c.rank == 0, c.suit), 1)
+        return self._shuffleHookMoveToTop(
+            cards, lambda c: (c.rank == 0, c.suit), 1)
 
     def startGame(self):
         self.startDealSample()
@@ -228,6 +253,7 @@ class Alhambra_Hint(CautiousDefaultHint):
 
 class Alhambra_RowStack(UD_SS_RowStack):
     getBottomImage = Stack._getReserveBottomImage
+
     def getHelp(self):
         return _('Waste. Build up or down by suit.')
 
@@ -336,8 +362,11 @@ class Alhambra(Game):
     #
 
     def _shuffleHook(self, cards):
-        # move one Aces and Kings of first deck to top of the Talon (i.e. first card to be dealt)
-        return self._shuffleHookMoveToTop(cards, lambda c: (c.deck == 0 and c.rank in (ACE, KING), (c.rank, c.suit)), 8)
+        # move one Aces and Kings of first deck to top of the Talon (i.e. first
+        # card to be dealt)
+        return self._shuffleHookMoveToTop(
+            cards, lambda c: (c.deck == 0 and
+                              c.rank in (ACE, KING), (c.rank, c.suit)), 8)
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
@@ -357,8 +386,10 @@ class Granada(Alhambra):
 
 class Reserves_RowStack(UD_RK_RowStack):
     getBottomImage = Stack._getReserveBottomImage
+
     def getHelp(self):
         return _('Waste. Build up or down regardless of suit.')
+
 
 class Reserves(Alhambra):
     RowStack_Class = StackWrapper(Reserves_RowStack, base_rank=NO_RANK)
@@ -417,7 +448,7 @@ class Carpet(Game):
                 x, y = l.XM + (j+3)*l.XS, l.YM + i*l.YS
                 s.rows.append(ReserveStack(x, y, self))
         for i in range(4):
-            dx, dy = ((2,1), (8,1), (2,2), (8,2))[i]
+            dx, dy = ((2, 1), (8, 1), (2, 2), (8, 2))[i]
             x, y = l.XM + dx*l.XS, l.YM + dy*l.YS
             s.foundations.append(self.Foundation_Class(x, y, self, i))
         x, y = l.XM, l.YM
@@ -436,7 +467,8 @@ class Carpet(Game):
 
     def _shuffleHook(self, cards):
         # move Aces to top of the Talon (i.e. first cards to be dealt)
-        return self._shuffleHookMoveToTop(cards, lambda c: (c.rank == 0, c.suit))
+        return self._shuffleHookMoveToTop(
+            cards, lambda c: (c.rank == 0, c.suit))
 
     def startGame(self):
         self.startDealSample()
@@ -451,27 +483,36 @@ class Carpet(Game):
 
 class BritishConstitution_RowStackMethods:
     def acceptsCards(self, from_stack, cards):
-        if self in self.game.s.rows[:8] and from_stack in self.game.s.rows[8:16]:
+        if self in self.game.s.rows[:8] and \
+                from_stack in self.game.s.rows[8:16]:
             return True
-        if self in self.game.s.rows[8:16] and from_stack in self.game.s.rows[16:24]:
+        if self in self.game.s.rows[8:16] and \
+                from_stack in self.game.s.rows[16:24]:
             return True
-        if self in self.game.s.rows[16:24] and from_stack in self.game.s.rows[24:]:
+        if self in self.game.s.rows[16:24] and \
+                from_stack in self.game.s.rows[24:]:
             return True
         if self in self.game.s.rows[24:] and from_stack is self.game.s.waste:
             return True
         return False
 
-class BritishConstitution_RowStack(BritishConstitution_RowStackMethods, AC_RowStack):
+
+class BritishConstitution_RowStack(BritishConstitution_RowStackMethods,
+                                   AC_RowStack):
     def acceptsCards(self, from_stack, cards):
         if not AC_RowStack.acceptsCards(self, from_stack, cards):
             return False
-        return BritishConstitution_RowStackMethods.acceptsCards(self, from_stack, cards)
+        return BritishConstitution_RowStackMethods.acceptsCards(
+            self, from_stack, cards)
 
-class NewBritishConstitution_RowStack(BritishConstitution_RowStackMethods, RK_RowStack):
+
+class NewBritishConstitution_RowStack(BritishConstitution_RowStackMethods,
+                                      RK_RowStack):
     def acceptsCards(self, from_stack, cards):
         if not RK_RowStack.acceptsCards(self, from_stack, cards):
             return False
-        return BritishConstitution_RowStackMethods.acceptsCards(self, from_stack, cards)
+        return BritishConstitution_RowStackMethods.acceptsCards(
+            self, from_stack, cards)
 
 
 class BritishConstitution_Foundation(SS_FoundationStack):
@@ -528,7 +569,8 @@ class BritishConstitution(Game):
 
     def _shuffleHook(self, cards):
         # move Aces to top of the Talon (i.e. first cards to be dealt)
-        return self._shuffleHookMoveToTop(cards, lambda c: (c.rank == ACE, c.suit))
+        return self._shuffleHookMoveToTop(
+            cards, lambda c: (c.rank == ACE, c.suit))
 
     def fillStack(self, stack):
         if not stack.cards:
@@ -545,7 +587,8 @@ class BritishConstitution(Game):
 
 
 class NewBritishConstitution(BritishConstitution):
-    RowStack_Class = StackWrapper(NewBritishConstitution_RowStack, base_rank=JACK)
+    RowStack_Class = StackWrapper(
+        NewBritishConstitution_RowStack, base_rank=JACK)
 
     shallHighlightMatch = Game._shallHighlightMatch_RK
 
@@ -559,8 +602,10 @@ class Twenty_RowStack(BasicRowStack):
         if not BasicRowStack.acceptsCards(self, from_stack, cards):
             return False
         return len(self.cards) == 0
+
     def getHelp(self):
         return _('Tableau. Empty piles can be filled with any card.')
+
 
 class Twenty(Game):
     def createGame(self):
@@ -593,17 +638,16 @@ class Twenty(Game):
         # define stack-groups
         l.defaultStackGroups()
 
-
     def _shuffleHook(self, cards):
-        return self._shuffleHookMoveToTop(cards,
-                   lambda c: (c.rank in (ACE, KING) and c.deck == 1, (c.rank, c.suit)))
-
+        return self._shuffleHookMoveToTop(
+            cards,
+            lambda c: (c.rank in (ACE, KING) and c.deck == 1,
+                       (c.rank, c.suit)))
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
         self.startDealSample()
         self.s.talon.dealRow()
-
 
     def fillStack(self, stack):
         if not stack.cards and stack in self.s.rows and self.s.talon.cards:
@@ -652,7 +696,7 @@ class ThreePirates(Game):
         s.talon = ThreePirates_Talon(x, y, self)
         l.createText(s.talon, 'n')
         x += l.XS
-        for i in (0,1,2):
+        for i in (0, 1, 2):
             stack = WasteStack(x, y, self)
             s.reserves.append(stack)
             l.createText(stack, 'n')
@@ -661,7 +705,7 @@ class ThreePirates(Game):
         l.defaultStackGroups()
 
     def startGame(self):
-        for i in (0,1,2):
+        for i in (0, 1, 2):
             self.s.talon.dealRow(frames=0)
         self.startDealSample()
         self.s.talon.dealRow()
@@ -708,17 +752,17 @@ class Frames_RowStack(UD_SS_RowStack):
                     isSameSuitSequence(cs, dir=-1)):
                 return False
         if from_stack in self.game.s.reserves:
-            if (hasattr(self.cap, 'column') and
-                self.cap.column != from_stack.cap.column):
+            if hasattr(self.cap, 'column') and \
+                   self.cap.column != from_stack.cap.column:
                 return False
-            if (hasattr(self.cap, 'row') and
-                self.cap.row != from_stack.cap.row):
+            if hasattr(self.cap, 'row') and \
+                    self.cap.row != from_stack.cap.row:
                 return False
         return True
 
 
 class Frames(Game):
-    Hint_Class = Frames_Hint #CautiousDefaultHint
+    Hint_Class = Frames_Hint  # CautiousDefaultHint
 
     def createGame(self):
         l, s = Layout(self), self.s
@@ -728,29 +772,29 @@ class Frames(Game):
         x0, y0 = l.XM+2*l.XS, l.YM
         # foundations (corners)
         suit = 0
-        for i, j in ((0,0),(5,0),(0,4),(5,4)):
+        for i,  j in ((0, 0), (5, 0), (0, 4), (5, 4)):
             x, y = x0+i*l.XS, y0+j*l.YS
             s.foundations.append(Frames_Foundation(x, y, self,
                                  suit=suit, dir=0, max_cards=26))
             suit += 1
         # rows (frame)
-        for i in (1,2,3,4):
-            for j in (0,4):
+        for i in (1, 2, 3, 4):
+            for j in (0, 4):
                 x, y = x0+i*l.XS, y0+j*l.YS
                 stack = Frames_RowStack(x, y, self)
                 s.rows.append(stack)
                 stack.cap.addattr(column=i)
                 stack.CARD_YOFFSET = 0
-        for i in (0,5):
-            for j in (1,2,3):
+        for i in (0, 5):
+            for j in (1, 2, 3):
                 x, y = x0+i*l.XS, y0+j*l.YS
                 stack = Frames_RowStack(x, y, self)
                 s.rows.append(stack)
                 stack.cap.addattr(row=j)
                 stack.CARD_YOFFSET = 0
         # reserves (picture)
-        for j in (1,2,3):
-            for i in (1,2,3,4):
+        for j in (1, 2, 3):
+            for i in (1, 2, 3, 4):
                 x, y = x0+i*l.XS, y0+j*l.YS
                 stack = OpenStack(x, y, self)
                 s.reserves.append(stack)
@@ -797,35 +841,35 @@ class RoyalRendezvous(Game):
         y = l.YM
         # kings
         suit = 0
-        for i in (0,1,6,7):
+        for i in (0, 1, 6, 7):
             x = l.XM+(1.5+i)*l.XS
             s.foundations.append(SS_FoundationStack(x, y, self, suit=suit,
                                  base_rank=KING, max_cards=1))
             suit += 1
         # aces
         suit = 0
-        for i in (2,3,4,5):
+        for i in (2, 3, 4, 5):
             x = l.XM+(1.5+i)*l.XS
             s.foundations.append(SS_FoundationStack(x, y, self, suit=suit))
             suit += 1
         y += l.YS
         # twos
         suit = 0
-        for i in (0,1,6,7):
+        for i in (0, 1, 6, 7):
             x = l.XM+(1.5+i)*l.XS
             s.foundations.append(SS_FoundationStack(x, y, self, suit=suit,
                                  base_rank=1, dir=2, max_cards=6))
             suit += 1
         # aces
         suit = 0
-        for i in (2,3,4,5):
+        for i in (2, 3, 4, 5):
             x = l.XM+(1.5+i)*l.XS
             s.foundations.append(SS_FoundationStack(x, y, self, suit=suit,
                                  dir=2, max_cards=6))
             suit += 1
 
         y += 1.5*l.YS
-        for i in (0,1):
+        for i in (0, 1):
             x = l.XM+1.5*l.XS
             for j in range(8):
                 s.rows.append(OpenStack(x, y, self, max_accept=0))
@@ -841,16 +885,16 @@ class RoyalRendezvous(Game):
 
         l.defaultStackGroups()
 
-
     def _shuffleHook(self, cards):
         # move twos to top
-        cards = self._shuffleHookMoveToTop(cards,
-                   lambda c: (c.rank == 1 and c.deck == 0, c.suit))
+        cards = self._shuffleHookMoveToTop(
+            cards,
+            lambda c: (c.rank == 1 and c.deck == 0, c.suit))
         # move aces to top
-        cards = self._shuffleHookMoveToTop(cards,
-                   lambda c: (c.rank == ACE, (c.deck, c.suit)))
+        cards = self._shuffleHookMoveToTop(
+            cards,
+            lambda c: (c.rank == ACE, (c.deck, c.suit)))
         return cards
-
 
     def startGame(self):
         # deal aces
@@ -862,7 +906,6 @@ class RoyalRendezvous(Game):
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealCards()
-
 
     def fillStack(self, stack):
         if not stack.cards and stack in self.s.rows:
@@ -924,8 +967,10 @@ class ShadyLanes(Game):
         for i in range(8):
             suit = i/2
             color = suit/2
-            s.foundations.append(ShadyLanes_Foundation(x, y, self,
-                          base_suit=suit, suit=ANY_SUIT, color=color))
+            s.foundations.append(
+                ShadyLanes_Foundation(
+                    x, y, self,
+                    base_suit=suit, suit=ANY_SUIT, color=color))
             x += l.XS
         x, y = l.XM, l.YM+l.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=1)
@@ -944,7 +989,6 @@ class ShadyLanes(Game):
             y += l.YS
 
         l.defaultStackGroups()
-
 
     def fillStack(self, stack):
         if not stack.cards and stack in self.s.reserves:
@@ -1026,8 +1070,9 @@ class FourWinds(Game):
 
     def _shuffleHook(self, cards):
         # move Aces to top of the Talon (i.e. first cards to be dealt)
-        return self._shuffleHookMoveToTop(cards,
-                   lambda c: (c.rank == ACE, (c.deck, c.suit)))
+        return self._shuffleHookMoveToTop(
+            cards,
+            lambda c: (c.rank == ACE, (c.deck, c.suit)))
 
 
 class BoxingTheCompass(FourWinds):
@@ -1064,13 +1109,13 @@ class Colonel_RowStack(SS_RowStack):
 
         self_index, self_row = self._getStackIndex(self)
 
-        if self_row in (1,2):
+        if self_row in (1, 2):
             above_stack = self.game.s.rows[self_index-12]
             if not above_stack.cards:
                 return False
 
         below_stack = None
-        if self_row in (0,1):
+        if self_row in (0, 1):
             below_stack = self.game.s.rows[self_index+12]
 
         # from_stack is waste
@@ -1088,7 +1133,7 @@ class Colonel_RowStack(SS_RowStack):
 
     def canMoveCards(self, cards):
         self_index, self_row = self._getStackIndex(self)
-        if self_row in (0,1):
+        if self_row in (0, 1):
             below_stack = self.game.s.rows[self_index+12]
             if below_stack.cards:
                 return False
@@ -1129,7 +1174,6 @@ class Colonel(Game):
 
         l.defaultStackGroups()
 
-
     def startGame(self):
         self.startDealSample()
         self.s.talon.dealRow(frames=4)
@@ -1143,7 +1187,6 @@ class Colonel(Game):
 # ************************************************************************
 
 
-
 class TheRedAndTheBlack_Foundation(AC_FoundationStack):
     def acceptsCards(self, from_stack, cards):
         if not AC_FoundationStack.acceptsCards(self, from_stack, cards):
@@ -1151,6 +1194,7 @@ class TheRedAndTheBlack_Foundation(AC_FoundationStack):
         if from_stack is self.game.s.waste or from_stack in self.game.s.rows:
             return True
         return False
+
 
 class TheRedAndTheBlack_Reserve(ReserveStack):
     def acceptsCards(self, from_stack, cards):
@@ -1204,7 +1248,8 @@ class TheRedAndTheBlack(Game):
 
     def _shuffleHook(self, cards):
         # move Aces to top of the Talon (i.e. first cards to be dealt)
-        return self._shuffleHookMoveToTop(cards, lambda c: (c.rank == ACE, c.suit))
+        return self._shuffleHookMoveToTop(
+            cards, lambda c: (c.rank == ACE, c.suit))
 
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
@@ -1218,7 +1263,7 @@ class TwilightZone_Foundation(AC_FoundationStack):
         if not AC_FoundationStack.acceptsCards(self, from_stack, cards):
             return False
         if from_stack is self.game.s.waste or \
-               from_stack in self.game.s.reserves:
+                from_stack in self.game.s.reserves:
             return False
         return True
 
@@ -1284,7 +1329,6 @@ class TwilightZone(Game):
             s.reserves.append(OpenStack(x, y, self))
             x += l.XS
 
-
         x, y = l.XM, l.YM+l.YS/2
         s.talon = TwilightZone_Talon(x, y, self, max_move=1, max_rounds=2)
         l.createText(s.talon, 's')
@@ -1293,12 +1337,10 @@ class TwilightZone(Game):
         s.waste = TwilightZone_Waste(x, y, self, max_accept=1)
         l.createText(s.waste, 's')
 
-
         # define stack-groups
         l.defaultStackGroups()
         self.sg.dropstacks.append(s.talon)
         self.sg.openstacks.append(s.waste)
-
 
     def startGame(self):
         self.startDealSample()
@@ -1328,7 +1370,6 @@ class TwilightZone(Game):
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
-
 # register the game
 registerGame(GameInfo(54, RoyalCotillion, "Royal Cotillion",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_LUCK))
@@ -1342,11 +1383,11 @@ registerGame(GameInfo(97, Carpet, "Carpet",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(391, BritishConstitution, "British Constitution",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED,
-                      ranks=range(11), # without Queens and Kings
-                      altnames=("Constitution",) ))
+                      ranks=range(11),  # without Queens and Kings
+                      altnames=("Constitution",)))
 registerGame(GameInfo(392, NewBritishConstitution, "New British Constitution",
                       GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 0, GI.SL_BALANCED,
-                      ranks=range(11) # without Queens and Kings
+                      ranks=range(11)  # without Queens and Kings
                       ))
 registerGame(GameInfo(443, Twenty, "Twenty",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
@@ -1374,4 +1415,3 @@ registerGame(GameInfo(748, TwilightZone, "Twilight Zone",
                       GI.GT_2DECK_TYPE, 2, 1, GI.SL_BALANCED))
 registerGame(GameInfo(752, Reserves, "Reserves",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED))
-

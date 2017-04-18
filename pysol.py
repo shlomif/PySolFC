@@ -20,14 +20,13 @@
 #
 # ---------------------------------------------------------------------------##
 
-#import pychecker.checker
-
-from pysollib.init import init
-init()
+# import pychecker.checker
 
 import sys
+from pysollib.init import init
 from pysollib.main import main
-#import profile
-#profile.run("main(sys.argv)")
-sys.exit(main(sys.argv))
+init()
 
+# import profile
+# profile.run("main(sys.argv)")
+sys.exit(main(sys.argv))

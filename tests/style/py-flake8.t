@@ -26,7 +26,7 @@ my %skip =
 
 # my $cmd = shell_quote( 'flake8', '.' );
 my $cmd = shell_quote( 'flake8',
-    grep { not exists $skip{$_} } glob('./pysollib/*.py ./pysollib/[cmpuw]*/*.py ./pysollib/tile/*.py ./pysollib/ui/tktile/*.py ./pysollib/games/*.py ./pysollib/games/*/*.py') );
+    grep { not exists $skip{$_} } glob('pysol.py ./pysollib/*.py ./pysollib/[cmgpuw]*/{*/*.py,*.py} ./pysollib/tile/*.py ./pysollib/ui/tktile/*.py') );
 
 # TEST
 eq_or_diff( scalar(`$cmd`), '', "flake8 is happy with the code." );

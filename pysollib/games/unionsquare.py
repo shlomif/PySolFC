@@ -27,16 +27,27 @@ __all__ = []
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
 from pysollib.mfxutil import kwdefault
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.hint import CautiousDefaultHint
+
+from pysollib.util import ACE, ANY_RANK, NO_RANK
+
+from pysollib.stack import \
+        AbstractFoundationStack, \
+        OpenStack, \
+        Stack, \
+        UD_SS_RowStack, \
+        WasteStack, \
+        WasteTalonStack, \
+        StackWrapper
+
 
 # ************************************************************************
 # *
 # ************************************************************************
+
 
 class UnionSquare_Foundation(AbstractFoundationStack):
     def acceptsCards(self, from_stack, cards):
@@ -54,7 +65,7 @@ class UnionSquare_RowStack(OpenStack):
         kwdefault(cap, mod=8192, dir=0, base_rank=ANY_RANK,
                   max_accept=1, max_move=1)
         OpenStack.__init__(self, x, y, game, **cap)
-        #self.CARD_YOFFSET = 1
+        # self.CARD_YOFFSET = 1
 
     def acceptsCards(self, from_stack, cards):
         if not OpenStack.acceptsCards(self, from_stack, cards):
@@ -67,8 +78,10 @@ class UnionSquare_RowStack(OpenStack):
             card_dir = cards[0].rank - self.cards[-1].rank
             return card_dir == 1 or card_dir == -1
         else:
-            stack_dir = (self.cards[1].rank - self.cards[0].rank) % self.cap.mod
-            return (self.cards[-1].rank + stack_dir) % self.cap.mod == cards[0].rank
+            stack_dir = (self.cards[1].rank - self.cards[0].rank) % \
+                self.cap.mod
+            return (self.cards[-1].rank + stack_dir) % \
+                self.cap.mod == cards[0].rank
 
     getBottomImage = Stack._getReserveBottomImage
 
@@ -119,7 +132,6 @@ class UnionSquare(Game):
         # define stack-groups
         l.defaultStackGroups()
 
-
     #
     # game overrides
     #
@@ -142,12 +154,14 @@ class UnionSquare(Game):
 class SolidSquare(UnionSquare):
     RowStack_Class = StackWrapper(UD_SS_RowStack, base_rank=NO_RANK,
                                   max_accept=1,  max_move=1, mod=13)
+
     def createGame(self):
         UnionSquare.createGame(self, rows=20)
 
     def _shuffleHook(self, cards):
-        return self._shuffleHookMoveToTop(cards,
-                   lambda c: (c.rank == ACE and c.deck == 0, c.suit))
+        return self._shuffleHookMoveToTop(
+            cards,
+            lambda c: (c.rank == ACE and c.deck == 0, c.suit))
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
@@ -181,8 +195,9 @@ class Boomerang_Foundation(AbstractFoundationStack):
             return cards[0].rank == ACE
         elif len(self.cards) < 15:
             return cards[0].rank == 20 - len(self.cards)
-        else: # len(self.cards) == 15
+        else:  # len(self.cards) == 15
             return cards[0].rank == ACE
+
 
 class Boomerang(UnionSquare):
     Foundation_Class = StackWrapper(Boomerang_Foundation,

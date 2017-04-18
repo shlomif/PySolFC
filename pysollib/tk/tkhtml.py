@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 #
 # Copyright (C) 1998-2003 Markus Franz Xaver Johannes Oberhumer
 # Copyright (C) 2003 Mt. Hood Playing Card Co.
@@ -19,20 +19,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# ---------------------------------------------------------------------------##
+# ---------------------------------------------------------------------------
 
 __all__ = ['HTMLViewer']
 
 # imports
-import os, sys
-import formatter
+import os
+import sys
 import Tkinter
-
-if __name__ == '__main__':
-    d = os.path.abspath(os.path.join(sys.path[0], '..', '..'))
-    sys.path.append(d)
-    import gettext
-    gettext.install('pysol', d, unicode=True)
 
 # PySol imports
 from pysollib.mygettext import _
@@ -42,7 +36,14 @@ from pysollib.mfxutil import Struct
 from tkwidget import MfxMessageDialog
 from statusbar import HtmlStatusbar
 
-from pysollib.ui.tktile.tkhtml import Base_HTMLViewer, REMOTE_PROTOCOLS, tkHTMLWriter, tkHTMLParser
+from pysollib.ui.tktile.tkhtml import Base_HTMLViewer
+
+if __name__ == '__main__':
+    d = os.path.abspath(os.path.join(sys.path[0], '..', '..'))
+    sys.path.append(d)
+    import gettext
+    gettext.install('pysol', d, unicode=True)
+
 
 # ************************************************************************
 # *
@@ -61,13 +62,14 @@ class HTMLViewer(Base_HTMLViewer):
         self.home = home
         self.url = None
         self.history = Struct(
-            list = [],
-            index = 0,
+            list=[],
+            index=0,
         )
         self.visited_urls = []
-        self.images = {}    # need to keep a reference because of garbage collection
+        # need to keep a reference because of garbage collection
+        self.images = {}
         self.defcursor = parent["cursor"]
-        ##self.defcursor = 'xterm'
+        # self.defcursor = 'xterm'
         self.handcursor = "hand2"
 
         # create buttons
@@ -135,7 +137,6 @@ def tkhtml_main(args):
     top.mainloop()
     return 0
 
+
 if __name__ == "__main__":
     sys.exit(tkhtml_main(sys.argv))
-
-

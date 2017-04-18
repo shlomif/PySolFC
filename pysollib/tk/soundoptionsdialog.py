@@ -28,7 +28,7 @@ import os
 import Tkinter
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.mfxutil import KwStruct
 from pysollib.settings import TITLE
 from pysollib.pysolaudio import pysolsoundserver
@@ -40,6 +40,7 @@ from tkwidget import MfxDialog, MfxMessageDialog
 # ************************************************************************
 # *
 # ************************************************************************
+
 
 class SoundOptionsDialog(MfxDialog):
 
@@ -106,13 +107,13 @@ class SoundOptionsDialog(MfxDialog):
                                     command=self.mOptSoundDirectX, anchor='w')
             w.grid(row=row, column=0, columnspan=2, sticky='ew')
         #
-        if app.audio.CAN_PLAY_MUSIC: # and app.startup_opt.sound_mode > 0:
+        if app.audio.CAN_PLAY_MUSIC:  # and app.startup_opt.sound_mode > 0:
             row += 1
             w = Tkinter.Label(frame, text=_('Sample volume:'))
             w.grid(row=row, column=0, sticky='w', padx=5)
             w = Tkinter.Scale(frame, from_=0, to=128, resolution=1,
                               orient='horizontal', takefocus=0,
-                              length="3i", #label=_('Sample volume'),
+                              length="3i",  # label=_('Sample volume'),
                               variable=self.sample_volume)
             w.grid(row=row, column=1, sticky='ew', padx=5)
             row += 1
@@ -120,7 +121,7 @@ class SoundOptionsDialog(MfxDialog):
             w.grid(row=row, column=0, sticky='w', padx=5)
             w = Tkinter.Scale(frame, from_=0, to=128, resolution=1,
                               orient='horizontal', takefocus=0,
-                              length="3i", #label=_('Music volume'),
+                              length="3i",  # label=_('Music volume'),
                               variable=self.music_volume)
             w.grid(row=row, column=1, sticky='ew', padx=5)
 
@@ -152,7 +153,7 @@ class SoundOptionsDialog(MfxDialog):
         self.mainloop(focus, kw.timeout)
 
     def initKw(self, kw):
-        strings=[_("&OK"), _("&Apply"), _("&Cancel"),]
+        strings = [_("&OK"), _("&Apply"), _("&Cancel"), ]
         kw = KwStruct(kw,
                       strings=strings,
                       default=0,
@@ -186,11 +187,11 @@ class SoundOptionsDialog(MfxDialog):
         return self.mDone(0)
 
     def mOptSoundDirectX(self, *event):
-        ##print self.sound_mode.get()
-        d = MfxMessageDialog(self.top, title=_("Sound preferences info"),
-                      text=_("""\
+        # print self.sound_mode.get()
+        MfxMessageDialog(
+            self.top, title=_("Sound preferences info"),
+            text=_("""\
 Changing DirectX settings will take effect
 the next time you restart """)+TITLE,
-                      bitmap="warning",
-                      default=0, strings=(_("&OK"),))
-
+            bitmap="warning",
+            default=0, strings=(_("&OK"),))

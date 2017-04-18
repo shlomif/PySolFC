@@ -53,15 +53,12 @@
 
 
 # imports
-import sys, os, re, string, time, types
-
-sys.path.append("./tests/lib")
+import sys
 from TAP.Simple import plan, ok
 
 # So the localpaths will be overrided.
-sys.path.insert(0, ".")
-
-from pysollib.pysolrandom import constructRandom, LCRandom31, random__str2long, random__long2str
+from pysollib.pysolrandom import constructRandom, LCRandom31, \
+    random__str2long, random__long2str
 
 # PySol imports
 
@@ -70,6 +67,7 @@ from pysollib.pysolrandom import constructRandom, LCRandom31, random__str2long, 
 # //
 # // We use a seed of type long in the range [0, MAX_SEED].
 # ************************************************************************/
+
 
 class Card:
 
@@ -97,7 +95,7 @@ class Card:
         return s
 
     def suit_s(self):
-        return "CSHD"[self.suit];
+        return "CSHD"[self.suit]
 
     def to_s(self):
         if self.empty:
@@ -121,6 +119,7 @@ class Card:
     def is_empty(self):
         return self.empty
 
+
 class Columns:
 
     def __init__(self, num):
@@ -143,9 +142,10 @@ class Columns:
             s += column_to_string(column) + "\n"
         return s
 
+
 class Board:
     def __init__(self, num_columns, with_freecells=False,
-            with_talon=False, with_foundations=False):
+                 with_talon=False, with_foundations=False):
         self.with_freecells = with_freecells
         self.with_talon = with_talon
         self.with_foundations = with_foundations
@@ -155,7 +155,7 @@ class Board:
         if (self.with_talon):
             self.talon = []
         if (self.with_foundations):
-            self.foundations = map(lambda s:empty_card(),range(4))
+            self.foundations = map(lambda s: empty_card(), range(4))
 
     def reverse_cols(self):
         return self.columns.rev()
@@ -171,7 +171,7 @@ class Board:
 
     def print_foundations(self):
         cells = []
-        for f in [2,0,3,1]:
+        for f in [2, 0, 3, 1]:
             if not self.foundations[f].is_empty():
                 cells.append(self.foundations[f].found_s())
 
@@ -214,9 +214,10 @@ class Board:
 
 
 def empty_card():
-    ret = Card(0,0,0,1)
+    ret = Card(0, 0, 0, 1)
     ret.empty = True
     return ret
+
 
 def createCards(num_decks, print_ts):
     cards = []
@@ -228,11 +229,14 @@ def createCards(num_decks, print_ts):
                 id = id + 1
     return cards
 
+
 def column_to_list_of_strings(col):
-    return map( lambda c: c.to_s(), col)
+    return map(lambda c: c.to_s(), col)
+
 
 def column_to_string(col):
     return " ".join(column_to_list_of_strings(col))
+
 
 def flip_card(card_str, flip):
     if flip:
@@ -254,26 +258,31 @@ def shuffle(orig_cards, rand):
     rand.shuffle(shuffled_cards)
     return shuffled_cards
 
+
 class Game:
     REVERSE_MAP = \
         {
                 "freecell":
-                [ "freecell", "forecell", "bakers_game",
-        "ko_bakers_game", "kings_only_bakers_game", "relaxed_freecell",
-        "eight_off" ],
+                ["freecell", "forecell", "bakers_game",
+                 "ko_bakers_game", "kings_only_bakers_game",
+                 "relaxed_freecell", "eight_off"],
                 "der_katz":
-                [ "der_katz", "der_katzenschwantz", "die_schlange"],
+                ["der_katz", "der_katzenschwantz", "die_schlange"],
                 "seahaven":
-                [ "seahaven_towers", "seahaven", "relaxed_seahaven", "relaxed_seahaven_towers" ],
-                "bakers_dozen" : None,
-                "gypsy" : None,
-                "klondike" : [ "klondike", "klondike_by_threes", "casino_klondike", "small_harp", "thumb_and_pouch", "vegas_klondike", "whitehead" ],
-                "simple_simon" : None,
-                "yukon" : None,
-                "beleaguered_castle" : [ "beleaguered_castle", "streets_and_alleys", "citadel" ],
-                "fan" : None,
-                "black_hole" : None,
-                "all_in_a_row" : None,
+                ["seahaven_towers", "seahaven", "relaxed_seahaven",
+                 "relaxed_seahaven_towers"],
+                "bakers_dozen": None,
+                "gypsy": None,
+                "klondike": ["klondike", "klondike_by_threes",
+                             "casino_klondike", "small_harp",
+                             "thumb_and_pouch", "vegas_klondike", "whitehead"],
+                "simple_simon": None,
+                "yukon": None,
+                "beleaguered_castle": ["beleaguered_castle",
+                                       "streets_and_alleys", "citadel"],
+                "fan": None,
+                "black_hole": None,
+                "all_in_a_row": None,
         }
 
     def __init__(self, game_id, rand, print_ts):
@@ -302,10 +311,11 @@ class Game:
         return self.board.output()
 
     def lookup(self):
-        return self.games_map[self.game_id];
+        return self.games_map[self.game_id]
 
     def is_two_decks(self):
-        return self.game_id in ("der_katz", "der_katzenschwantz", "die_schlange", "gypsy")
+        return self.game_id in ("der_katz", "der_katzenschwantz",
+                                "die_schlange", "gypsy")
 
     def get_num_decks(self):
         if self.is_two_decks():
@@ -350,15 +360,15 @@ class Game:
 
     def cyclical_deal(game, num_cards, num_cols, flipped=False):
         for i in range(num_cards):
-            game.add(i%num_cols, game.next().flip(flipped=flipped))
+            game.add(i % num_cols, game.next().flip(flipped=flipped))
         return i
 
     def add_all_to_talon(game):
         for card in game:
             game.board.add_talon(card)
 
-    ### These are the games variants:
-    ### Each one is a callback.
+    # These are the games variants:
+    # Each one is a callback.
     def der_katz(game):
         if (game.game_id == "die_schlange"):
             return "Foundations: H-A S-A D-A C-A H-A S-A D-A C-A"
@@ -432,7 +442,7 @@ class Game:
         num_cols = 7
         game.board = Board(num_cols, with_talon=True)
 
-        for r in range(1,num_cols):
+        for r in range(1, num_cols):
             for s in range(num_cols-r):
                 game.add(s, game.next().flip())
 
@@ -495,7 +505,8 @@ class Game:
         game.board = Board(17)
 
         # move Ace to bottom of the Talon (i.e. last cards to be dealt)
-        game.cards = game._shuffleHookMoveToBottom(game.cards, lambda c: (c.id == 13, c.suit), 1)
+        game.cards = game._shuffleHookMoveToBottom(
+            game.cards, lambda c: (c.id == 13, c.suit), 1)
         game.next()
         game.cyclical_deal(52-1, 17)
 
@@ -505,7 +516,8 @@ class Game:
         game.board = Board(13)
 
         # move Ace to bottom of the Talon (i.e. last cards to be dealt)
-        game.cards = game._shuffleHookMoveToTop(game.cards, lambda c: (c.id == 13, c.suit), 1)
+        game.cards = game._shuffleHookMoveToTop(
+            game.cards, lambda c: (c.id == 13, c.suit), 1)
         game.cyclical_deal(52, 13)
         return "Foundations: -"
 
@@ -525,11 +537,11 @@ class Game:
 
             game.new_cards(new_cards)
 
-
         for i in range(6):
             for s in range(8):
                 c = game.next()
-                if (game.game_id == "citadel") and game.board.put_into_founds(c):
+                if (game.game_id == "citadel") and \
+                        game.board.put_into_founds(c):
                     # Already dealt with this card
                     True
                 else:
@@ -549,10 +561,11 @@ class Game:
                 game.add(j, game.next().flip())
 
         for i in range(4):
-            for j in range(1,num_cols):
+            for j in range(1, num_cols):
                 game.add(j, game.next())
 
         game.cyclical_deal(num_cols, num_cols)
+
 
 def shlomif_main(args):
 
@@ -562,7 +575,7 @@ def shlomif_main(args):
     game = Game("freecell", rand, True)
     # TEST
     got_s = game.print_layout()
-    ok (got_s == '''4C 2C 9C 8C QS 4S 2H
+    ok(got_s == '''4C 2C 9C 8C QS 4S 2H
 5H QH 3C AC 3H 4H QD
 QC 9S 6H 9H 3S KS 3D
 5D 2S JC 5C JH 6D AS
@@ -570,15 +583,13 @@ QC 9S 6H 9H 3S KS 3D
 7H JS KH TS KC 7C
 AH 5S 6S AD 8H JD
 7S 6C 7D 4D 8S 9D
-''',
-    'Deal 24',
-);
+''', 'Deal 24')
 
     rand = constructRandom('ms123456')
     game = Game("freecell", rand, True)
     # TEST
     got_s = game.print_layout()
-    ok (got_s == '''QD TC AS KC AH KH 6H
+    ok(got_s == '''QD TC AS KC AH KH 6H
 6D TD 8D TH 7C 2H 9C
 AC AD 5C 5H 8C 9H 9D
 JS 8S 4D 4C 2S 7D 3C
@@ -586,15 +597,13 @@ JS 8S 4D 4C 2S 7D 3C
 5D 3S 3D 3H KD JH
 6C QS 4S 2D KS TS
 JD QH 6S 4H QC 8H
-''',
-    'Microsoft Deal 123456',
-);
+''', 'Microsoft Deal 123456')
 
     rand = constructRandom('123456')
     game = Game("freecell", rand, True)
     # TEST
     got_s = game.print_layout()
-    ok (got_s == '''3D 6C AS TS QC 8D 4D
+    ok(got_s == '''3D 6C AS TS QC 8D 4D
 2D TC 4H JD TD 2H 5C
 2C 8S AH KD KH 5S 7C
 9C 8C QH 3C 5D 9S QD
@@ -602,15 +611,13 @@ AC 9D 7H 6D KS JH
 6H TH 8H QS 7D JC
 4C 2S 3S 6S 5H 3H
 KC JS 9H 4S 7S AD
-''',
-    'PySolFC deal No. 123456',
-);
+''', 'PySolFC deal No. 123456')
 
     rand = constructRandom('ms3000000000')
     game = Game("freecell", rand, True)
     # TEST
     got_s = game.print_layout()
-    ok (got_s == '''8D TS JS TD JH JD JC
+    ok(got_s == '''8D TS JS TD JH JD JC
 4D QS TH AD 4S TC 3C
 9H KH QH 4C 5C KD AS
 9D 5D 8S 4H KS 6S 9S
@@ -618,15 +625,13 @@ KC JS 9H 4S 7S AD
 9C 7C QC 7S QD 7D
 6C 3H 8H AC 6D 3S
 8C AH 2H 5H 2D 5S
-''',
-    'Microsoft Deal #3E9 - long seed.',
-);
+''', 'Microsoft Deal #3E9 - long seed.')
 
     rand = constructRandom('ms6000000000')
     game = Game("freecell", rand, True)
     # TEST
     got_s = game.print_layout()
-    ok (got_s == '''2D 2C QS 8D KD 8C 4C
+    ok(got_s == '''2D 2C QS 8D KD 8C 4C
 3D AH 2H 4H TS 6H QD
 4D JS AD 6S JH JC JD
 KH 3H KS AS TC 5D AC
@@ -634,28 +639,27 @@ TD 7C 9C 7H 3C 3S
 QH 9H 9D 5S 7S 6C
 5C 5H 2S KC 9S 4S
 6D QC 8S TH 7D 8H
-''',
-    'Microsoft Deal #6E9 - extra long seed.',
-);
+''', 'Microsoft Deal #6E9 - extra long seed.')
 
     inp = 'ms12345678'
     got = random__long2str(random__str2long(inp))
 
     # TEST
-    ok (got == inp, 'long2str ms roundtrip.')
+    ok(got == inp, 'long2str ms roundtrip.')
 
     inp = '246007891097'
     got = random__long2str(random__str2long(inp))
 
     # TEST
-    ok (got == inp, 'long2str PySolFC roundtrip.')
+    ok(got == inp, 'long2str PySolFC roundtrip.')
 
     proto_inp = '246007891097'
     inp = random__str2long(proto_inp)
     got = random__str2long(random__long2str(inp))
 
     # TEST
-    ok (got == inp, 'str2long PySolFC roundtrip.')
+    ok(got == inp, 'str2long PySolFC roundtrip.')
+
 
 if __name__ == "__main__":
     sys.exit(shlomif_main(sys.argv))

@@ -66,10 +66,15 @@ pretest:
 	@rm -f tests/individually-importing/*.py # To avoid stray files
 	python scripts/gen_individual_importing_tests.py
 
+TEST_ENV = PYTHONPATH="`pwd`:`pwd`/tests/lib"
 TEST_FILES = tests/style/*.t tests/board_gen/*.py tests/individually-importing/*.py
 
+define RUN_TESTS
+$(TEST_ENV) $1 $(TEST_FILES)
+endef
+
 test: pretest
-	prove $(TEST_FILES)
+	$(call RUN_TESTS,prove)
 
 runtest: pretest
-	runprove $(TEST_FILES)
+	$(call RUN_TESTS,runprove)

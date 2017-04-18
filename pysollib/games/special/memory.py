@@ -24,22 +24,25 @@
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 from pysollib.pysoltk import MfxCanvasText
 
+# from pysollib.util import ANY_SUIT
+
+from pysollib.stack import \
+        InitialDealTalonStack, \
+        InvisibleStack, \
+        OpenStack
 
 # ************************************************************************
 # *
 # ************************************************************************
+
 
 class Memory_RowStack(OpenStack):
     def clickHandler(self, event):
@@ -51,7 +54,8 @@ class Memory_RowStack(OpenStack):
             self.flipMove()
             game.other_stack = self
         else:
-            assert len(game.other_stack.cards) == 1 and game.other_stack.cards[-1].face_up
+            assert len(game.other_stack.cards) == 1 and \
+                game.other_stack.cards[-1].face_up
             c1, c2 = self.cards[-1], game.other_stack.cards[0]
             self.flipMove()
             if self.game.cardsMatch(c1, c2):
@@ -59,7 +63,7 @@ class Memory_RowStack(OpenStack):
             else:
                 game.playSample("flip", priority=5)
                 game.score = game.score - 1
-                game.updateStatus(moves=game.moves.index+1) # update moves now
+                game.updateStatus(moves=game.moves.index+1)  # update moves now
                 game.updateText()
                 game.canvas.update_idletasks()
                 game.sleep(0.5)
@@ -83,6 +87,7 @@ class Memory_RowStack(OpenStack):
 
     def controlclickHandler(self, event):
         return 0
+
     def shiftclickHandler(self, event):
         return 0
 
@@ -115,8 +120,9 @@ class Memory24(Game):
         # create text
         x, y = l.XM, self.ROWS*l.YS
         if self.preview <= 1:
-            self.texts.score = MfxCanvasText(self.canvas, x, y, anchor="sw",
-                                   font=self.app.getFont("canvas_large"))
+            self.texts.score = MfxCanvasText(
+                self.canvas, x, y, anchor="sw",
+                font=self.app.getFont("canvas_large"))
             x = self.texts.score.bbox()[1][0] + 16
 
         # set window
@@ -128,7 +134,7 @@ class Memory24(Game):
             for j in range(self.COLUMNS):
                 x, y = l.XM + w + j*l.XS, l.YM + i*l.YS
                 s.rows.append(Memory_RowStack(x, y, self,
-                               max_move=0, max_accept=0, max_cards=1))
+                              max_move=0, max_accept=0, max_cards=1))
         x, y = l.XM, l.YM
         s.talon = InitialDealTalonStack(x, y, self)
         l.createText(s.talon, anchor="n", text_format="%D")
@@ -280,7 +286,7 @@ class Concentration(Memory24):
             for j in range(self.COLUMNS):
                 x, y = l.XM + j*l.XS, l.YM + i*l.YS
                 s.rows.append(Concentration_RowStack(x, y, self,
-                               max_move=0, max_accept=0, max_cards=1))
+                              max_move=0, max_accept=0, max_cards=1))
         x, y = l.XM + self.COLUMNS*l.XS/2, self.height - l.YS
         s.talon = InitialDealTalonStack(x, y, self)
         l.createText(s.talon, dx=-10, anchor="sw", text_format="%D")
@@ -288,9 +294,10 @@ class Concentration(Memory24):
         # create text
         x, y = l.XM, self.height - l.YM
         if self.preview <= 1:
-            self.texts.score = MfxCanvasText(self.canvas, x, y,
-                                             anchor="sw",
-                                             font=self.app.getFont("canvas_large"))
+            self.texts.score = MfxCanvasText(
+                self.canvas, x, y,
+                anchor="sw",
+                font=self.app.getFont("canvas_large"))
 
         # define stack-groups
         l.defaultStackGroups()
@@ -306,13 +313,12 @@ class Concentration(Memory24):
 # register the game
 registerGame(GameInfo(176, Memory24, "Memory 24",
                       GI.GT_MEMORY | GI.GT_SCORE, 2, 0, GI.SL_SKILL,
-                      suits=(0,2), ranks=(0,8,9,10,11,12)))
+                      suits=(0, 2), ranks=(0, 8, 9, 10, 11, 12)))
 registerGame(GameInfo(219, Memory30, "Memory 30",
                       GI.GT_MEMORY | GI.GT_SCORE, 2, 0, GI.SL_SKILL,
-                      suits=(0,2,3), ranks=(0,9,10,11,12)))
+                      suits=(0, 2, 3), ranks=(0, 9, 10, 11, 12)))
 registerGame(GameInfo(177, Memory40, "Memory 40",
                       GI.GT_MEMORY | GI.GT_SCORE, 2, 0, GI.SL_SKILL,
-                      suits=(0,2), ranks=(0,4,5,6,7,8,9,10,11,12)))
+                      suits=(0, 2), ranks=(0, 4, 5, 6, 7, 8, 9, 10, 11, 12)))
 registerGame(GameInfo(178, Concentration, "Concentration",
                       GI.GT_MEMORY | GI.GT_SCORE, 1, 0, GI.SL_SKILL))
-

@@ -24,19 +24,22 @@
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.hint import CautiousDefaultHint
+
+from pysollib.stack import \
+        InitialDealTalonStack, \
+        isRankSequence, \
+        BasicRowStack
 
 # ************************************************************************
 # * Tower of Hanoy
 # ************************************************************************
+
 
 class TowerOfHanoy_Hint(CautiousDefaultHint):
     # FIXME: demo is completely clueless
@@ -75,7 +78,8 @@ class TowerOfHanoy(Game):
         # create stacks
         for i in range(3):
             x, y, = l.XM + (i+1)*l.XS, l.YM
-            s.rows.append(self.RowStack_Class(x, y, self, max_accept=1, max_move=1))
+            s.rows.append(
+                self.RowStack_Class(x, y, self, max_accept=1, max_move=1))
         s.talon = InitialDealTalonStack(l.XM, self.height-l.YS, self)
 
         # define stack-groups
@@ -149,6 +153,7 @@ class HanoiSequence(TowerOfHanoy):
                 return 1
         return 0
 
+
 # register the game
 registerGame(GameInfo(124, TowerOfHanoy, "Tower of Hanoy",
                       GI.GT_PUZZLE_TYPE, 1, 0, GI.SL_SKILL,
@@ -168,4 +173,3 @@ registerGame(GameInfo(209, HanoiPuzzle6, "Hanoi Puzzle 6",
 registerGame(GameInfo(769, HanoiSequence, "Hanoi Sequence",
                       GI.GT_PUZZLE_TYPE, 1, 0, GI.SL_SKILL,
                       suits=(2,), ranks=range(9)))
-

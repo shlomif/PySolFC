@@ -24,22 +24,25 @@
 __all__ = []
 
 # imports
-import sys
 
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _
 from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import *
-from pysollib.stack import *
 from pysollib.game import Game
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 from pysollib.pysoltk import MfxCanvasText
 
+from pysollib.stack import \
+        InitialDealTalonStack, \
+        InvisibleStack, \
+        OpenTalonStack, \
+        ReserveStack, \
+        StackWrapper
 
 # ************************************************************************
 # * Poker Square
 # ************************************************************************
+
 
 class PokerSquare_RowStack(ReserveStack):
     def clickHandler(self, event):
@@ -95,9 +98,10 @@ One Pair'''))
                               text="100\n75\n50\n25\n20\n15\n10\n5\n2")
             self.texts.list.append(t)
             x = t.bbox()[1][0] + 16
-            self.texts.misc = MfxCanvasText(self.canvas, x, y, anchor="nw",
-                                            font=self.app.getFont("canvas_default"),
-                                            text="0\n"*8+"0")
+            self.texts.misc = MfxCanvasText(
+                self.canvas, x, y, anchor="nw",
+                font=self.app.getFont("canvas_default"),
+                text="0\n"*8+"0")
             x = self.texts.misc.bbox()[1][0] + 32
 
         # set window
@@ -127,8 +131,9 @@ One Pair'''))
                 t = MfxCanvasText(self.canvas, tx, ty, anchor=ta,
                                   font=self.app.getFont("canvas_default"))
                 self.texts.list.append(t)
-            self.texts.score = MfxCanvasText(self.canvas, l.XM, 5*l.YS, anchor="sw",
-                                             font=self.app.getFont("canvas_large"))
+            self.texts.score = MfxCanvasText(
+                self.canvas, l.XM, 5*l.YS, anchor="sw",
+                font=self.app.getFont("canvas_large"))
 
         # define hands for scoring
         r = s.rows
@@ -155,7 +160,8 @@ One Pair'''))
         self.s.talon.fillStack()
 
     def isGameWon(self):
-        return len(self.s.talon.cards) == 0 and self.getGameScore() >= self.WIN_SCORE
+        return len(self.s.talon.cards) == 0 and \
+            self.getGameScore() >= self.WIN_SCORE
 
     def getAutoStacks(self, event=None):
         return ((), (), ())
@@ -260,14 +266,15 @@ class PokerShuffle_RowStack(ReserveStack):
 
 class PokerShuffle(PokerSquare):
     Talon_Class = InitialDealTalonStack
-    RowStack_Class = StackWrapper(PokerShuffle_RowStack, max_accept=1, max_cards=2)
+    RowStack_Class = StackWrapper(
+        PokerShuffle_RowStack, max_accept=1, max_cards=2)
 
     WIN_SCORE = 200
 
     def createGame(self):
-        l = PokerSquare.createGame(self)
+        PokerSquare.createGame(self)
         if self.s.talon.texts.ncards:
-            self.s.talon.texts.ncards.text_format="%D"
+            self.s.talon.texts.ncards.text_format = "%D"
 
     def startGame(self):
         self.moveMove(27, self.s.talon, self.s.internals[0], frames=0)
@@ -283,6 +290,6 @@ registerGame(GameInfo(139, PokerSquare, "Poker Square",
                       GI.GT_POKER_TYPE | GI.GT_SCORE, 1, 0, GI.SL_MOSTLY_SKILL,
                       si={"ncards": 25}))
 registerGame(GameInfo(140, PokerShuffle, "Poker Shuffle",
-                      GI.GT_POKER_TYPE | GI.GT_SCORE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL,
+                      GI.GT_POKER_TYPE | GI.GT_SCORE | GI.GT_OPEN, 1, 0,
+                      GI.SL_MOSTLY_SKILL,
                       si={"ncards": 25}))
-

@@ -17,6 +17,7 @@ my %skip =
     ./pysollib/games/mahjongg/mahjongg1.py
     ./pysollib/games/mahjongg/mahjongg2.py
     ./pysollib/games/mahjongg/mahjongg3.py
+    ./pysollib/games/special/__init__.py
     ./pysollib/games/ultra/__init__.py
     ./pysollib/pysoltk.py
     ./pysollib/tile/ttk.py
@@ -25,7 +26,7 @@ my %skip =
 
 # my $cmd = shell_quote( 'flake8', '.' );
 my $cmd = shell_quote( 'flake8',
-    grep { not exists $skip{$_} } glob('./pysollib/*.py ./pysollib/[cmpuw]*/*.py ./pysollib/tile/*.py ./pysollib/ui/tktile/*.py ./pysollib/games/*.py ./pysollib/games/[mu]*/*.py') );
+    grep { not exists $skip{$_} } glob('./pysollib/*.py ./pysollib/[cmpuw]*/*.py ./pysollib/tile/*.py ./pysollib/ui/tktile/*.py ./pysollib/games/*.py ./pysollib/games/*/*.py') );
 
 # TEST
 eq_or_diff( scalar(`$cmd`), '', "flake8 is happy with the code." );

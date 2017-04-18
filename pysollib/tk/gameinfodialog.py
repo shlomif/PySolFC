@@ -26,5 +26,7 @@ __all__ = ['GameInfoDialog']
 import pysollib.ui.tktile.gameinfodialog
 from pysollib.tk.basetkmfxdialog import BaseTkMfxDialog
 
-class GameInfoDialog(pysollib.ui.tktile.gameinfodialog.BaseGameInfoDialog, BaseTkMfxDialog):
+
+class GameInfoDialog(pysollib.ui.tktile.gameinfodialog.BaseGameInfoDialog,
+                     BaseTkMfxDialog):
     True

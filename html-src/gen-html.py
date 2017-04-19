@@ -1,36 +1,41 @@
 #!/usr/bin/env python
 
-#outdir = '../html'
-pysollib_dir = '../'
-
-import sys, os, re
-from glob import glob
-
+import sys
+import os
+import re
 import __builtin__
-__builtin__._ = lambda x: x
-__builtin__.n_ = lambda x: x
-
-try: os.mkdir('html')
-except: pass
-try: os.mkdir('html/rules')
-except: pass
-
-pysollib_path = os.path.join(sys.path[0], pysollib_dir)
-sys.path[0] = os.path.normpath(pysollib_path)
-#print sys.path
-
 from pysollib.mygettext import fix_gettext
-fix_gettext()
-
-import pysollib.games
-import pysollib.games.special
-import pysollib.games.ultra
-import pysollib.games.mahjongg
 
 from pysollib.gamedb import GAME_DB
 from pysollib.gamedb import GI
 from pysollib.mfxutil import latin1_to_ascii
+# outdir = '../html'
+pysollib_dir = '../'
 
+
+__builtin__._ = lambda x: x
+__builtin__.n_ = lambda x: x
+
+eval('import pysollib.games')
+eval('import pysollib.games.mahjongg')
+eval('import pysollib.games.ultra')
+eval('import pysollib.games.special')
+
+try:
+    os.mkdir('html')
+except:
+    pass
+
+try:
+    os.mkdir('html/rules')
+except:
+    pass
+
+pysollib_path = os.path.join(sys.path[0], pysollib_dir)
+sys.path[0] = os.path.normpath(pysollib_path)
+# print sys.path
+
+fix_gettext()
 
 files = [
     ('credits.html', 'PySol Credits'),
@@ -45,12 +50,12 @@ files = [
     ('intro.html', 'PySol - Introduction'),
     ('license.html', 'PySol Software License'),
     ('news.html', 'PySol - a Solitaire Game Collection'),
-    #('rules_alternate.html', 'PySol - a Solitaire Game Collection'),
-    #('rules.html', 'PySol - a Solitaire Game Collection'),
+    # ('rules_alternate.html', 'PySol - a Solitaire Game Collection'),
+    # ('rules.html', 'PySol - a Solitaire Game Collection'),
     ]
 
 rules_files = [
-    #('hanoipuzzle.html', ),
+    # ('hanoipuzzle.html', ),
     ('mahjongg.html', 'PySol - Rules for Mahjongg'),
     ('matrix.html', 'PySol - Rules for Matrix'),
     ('pegged.html', 'PySol - Rules for Pegged'),
@@ -67,10 +72,11 @@ main_header = '''<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
 <html>
 <head>
 <title>%s</title>
-<meta name="license" content="Distributed under the terms of the GNU General Public License">
+<meta name="license" content="GNU General Public License">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 </head>
-<body text="#000000" bgcolor="#F7F3FF" link="#0000FF" vlink="#660099" alink="#FF0000">
+<body text="#000000" bgcolor="#F7F3FF" link="#0000FF" vlink="#660099"
+alink="#FF0000">
 <img src="images/pysollogo03.gif" alt="">
 <br>
 '''
@@ -85,10 +91,11 @@ rules_header = '''<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
 <html>
 <head>
 <title>%s</title>
-<meta name="license" content="Distributed under the terms of the GNU General Public License">
+<meta name="license" content="GNU General Public License">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 </head>
-<body text="#000000" bgcolor="#F7F3FF" link="#0000FF" vlink="#660099" alink="#FF0000">
+<body text="#000000" bgcolor="#F7F3FF" link="#0000FF" vlink="#660099"
+link="#FF0000">
 <img src="../images/pysollogo03.gif" alt="">
 <br>
 '''
@@ -109,22 +116,25 @@ wikipedia_header = '''<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
 <html>
 <head>
 <title>%s</title>
-<meta name="license" content="Distributed under the terms of the  GNU Free Documentation License">
+<meta name="license" content="GNU General Public License">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 </head>
-<body text="#000000" bgcolor="#F7F3FF" link="#0000FF" vlink="#660099" alink="#FF0000">
+<body text="#000000" bgcolor="#F7F3FF" link="#0000FF" vlink="#660099"
+alink="#FF0000">
 <img src="../images/pysollogo03.gif" alt="">
 <br>
 '''
 
 
 def getGameRulesFilename(n):
-    if n.startswith('Mahjongg'): return 'mahjongg.html'
-    ##n = re.sub(r"[\[\(].*$", "", n)
+    if n.startswith('Mahjongg'):
+        return 'mahjongg.html'
+    # n = re.sub(r"[\[\(].*$", "", n)
     n = latin1_to_ascii(n)
     n = re.sub(r"[^\w]", "", n)
     n = n.lower() + ".html"
     return n
+
 
 def gen_main_html():
     for infile, title in files:
@@ -136,8 +146,9 @@ def gen_main_html():
             s = ''
         print >> outfile, main_footer % s
 
+
 def gen_rules_html():
-    ##ls = glob(os.path.join('rules', '*.html'))
+    # ls = glob(os.path.join('rules', '*.html'))
     rules_ls = os.listdir('rules')
     rules_ls.sort()
     wikipedia_ls = os.listdir('wikipedia')
@@ -176,11 +187,11 @@ def gen_rules_html():
         elif rules_fn in wikipedia_ls:
             rules_dir = 'wikipedia'
         else:
-            print 'missing rules for %s (file: %s)' \
-                  % (gi.name.encode('utf-8'), rules_fn)
+            print('missing rules for %s (file: %s)'
+                  % (gi.name.encode('utf-8'), rules_fn))
             continue
 
-        ##print '>>>', rules_fn
+        # print '>>>', rules_fn
 
         title = 'PySol - Rules for ' + gi.name
         s = ''
@@ -192,18 +203,18 @@ def gen_rules_html():
             s = '<a href="../hexadeck.html">General Hex A Deck rules</a>'
         elif gi.si.game_type == GI.GT_MUGHAL_GANJIFA:
             s = '<a href="../ganjifa.html">About Ganjifa</a>'
-            #print '***', gi.name, '***'
+            # print '***', gi.name, '***'
 
         rules_list.append((rules_dir, rules_fn, title, s))
         files_list.append(rules_fn)
-        #rules_list.append((rules_fn, gi.name))
+        # rules_list.append((rules_fn, gi.name))
         print >> out_rules, '<li><a href="rules/%s">%s</a>' \
-              % (rules_fn, gi.name.encode('utf-8'))
+            % (rules_fn, gi.name.encode('utf-8'))
         for n in gi.altnames:
             altnames.append((n, rules_fn))
 
     print >> out_rules, '</ul>\n' + \
-          main_footer % '<a href="index.html">Back to the index</a>'
+        main_footer % '<a href="index.html">Back to the index</a>'
 
     # create file of altnames
     out_rules_alt = open(os.path.join('html', 'rules_alternate.html'), 'w')
@@ -214,14 +225,14 @@ def gen_rules_html():
         print >> out_rules_alt, '<li> <a href="rules/%s">%s</a>' \
               % (fn, name.encode('utf-8'))
     print >> out_rules_alt, '</ul>\n' + \
-          main_footer % '<a href="index.html">Back to the index</a>'
+        main_footer % '<a href="index.html">Back to the index</a>'
 
     # create rules
     for dir, filename, title, footer in rules_list:
         outfile = open(os.path.join('html', 'rules', filename), 'w')
         if dir == 'rules':
             print >> outfile, (rules_header % title).encode('utf-8')
-        else: # d == 'wikipedia'
+        else:  # d == 'wikipedia'
             print >> outfile, (wikipedia_header % title).encode('utf-8')
         print >> outfile, open(os.path.join(dir, filename)).read()
         print >> outfile, rules_footer % footer
@@ -229,6 +240,3 @@ def gen_rules_html():
 
 gen_main_html()
 gen_rules_html()
-
-
-

@@ -41,11 +41,26 @@ $ python pysol.py
 After following steps similar to these (on
 [Mageia Linux](http://www.mageia.org/) ):
 
+#### Step 1 - install the dependencies
+
+On Mageia you can do:
+
 ```
-$ sudo urpmi git # urpmi is similar to apt-get
+$ sudo urpmi git make pygtk2 pygtk2.0-libglade gnome-python-canvas tkinter
+```
+
+On Debian / Ubuntu / etc. you can do:
+
+```
+$ sudo apt-get install -y ack-grep cpanminus libperl-dev make perl python-glade2 python-gnome2 python-gnome2-dev python-gtk2 python-setuptools python-tk
+
+```
+
+#### Step 2 - build PySol.
+
+```
 $ git clone https://github.com/shlomif/PySolFC.git
 $ cd PySolFC
-$ git checkout shlomif--main-branch--master
 $ sudo urpmi tkinter
 $ sudo urpmi pygtk2
 $ sudo urpmi pygtk2.0-libglade

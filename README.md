@@ -56,7 +56,7 @@ $ ln -s data/images images
 $ tar -xvf PySolFC-Cardsets-2.0.tar.bz2 # Need to be downloaded from sourceforge
 $ mkdir -p ~/.PySolFC
 $ rmdir ~/.PySolFC/cardsets
-$ ln -s ~/.PySolFC/cardsets PySolFC-Cardsets-2.0
+$ ln -s "`pwd`/PySolFC-Cardsets-2.0" ~/.PySolFC/cardsets
 $ python pysol.py
 ```
 

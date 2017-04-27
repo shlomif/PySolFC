@@ -1275,12 +1275,7 @@ Please select a %s type %s.
     #
 
     def loadPlugins(self, dir):
-        if not dir or not os.path.isdir(dir):
-            return
-        names = os.listdir(dir)
-        names = map(os.path.normcase, names)
-        names.sort()
-        for name in names:
+        for name in self._my_list_dir(dir):
             m = re.search(r"^(.+)\.py$", name)
             n = os.path.join(dir, name)
             if m and os.path.isfile(n):
@@ -1528,6 +1523,16 @@ Please select a %s type %s.
             if not manager.getByName(obj.name):
                 manager.register(obj)
 
+    def _my_list_dir(self, dir):
+        """docstring for _my_list_dir"""
+        if dir and os.path.isdir(dir):
+            names = os.listdir(dir)
+            names = list(map(os.path.normcase, names))
+            names.sort()
+            return names
+        else:
+            return []
+
     #
     # init samples / music
     #
@@ -1539,12 +1544,7 @@ Please select a %s type %s.
             if dir:
                 dir = os.path.normpath(dir)
             try:
-                names = []
-                if dir and os.path.isdir(dir):
-                    names = os.listdir(dir)
-                    names = map(os.path.normcase, names)
-                    names.sort()
-                for name in names:
+                for name in self._my_list_dir(dir):
                     if not name or not ext_re.search(name):
                         continue
                     f = os.path.join(dir, name)

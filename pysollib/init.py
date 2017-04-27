@@ -68,7 +68,7 @@ def init():
             pysollib.settings.DEBUG = int(os.environ['PYSOL_DEBUG'])
         except:
             pysollib.settings.DEBUG = 1
-        print('PySol debugging: set DEBUG to', pysollib.settings.DEBUG)
+        print(('PySol debugging: set DEBUG to', pysollib.settings.DEBUG))
 
     # init toolkit
     if '--gtk' in sys.argv:
@@ -83,13 +83,13 @@ def init():
         pysollib.settings.USE_TILE = True
         sys.argv.remove('--tile')
     if pysollib.settings.TOOLKIT == 'tk':
-        import Tkinter
-        root = Tkinter.Tk(className=pysollib.settings.TITLE)
+        from six.moves import tkinter
+        root = tkinter.Tk(className=pysollib.settings.TITLE)
         root.withdraw()
-        if Tkinter.TkVersion < 8.4:
+        if tkinter.TkVersion < 8.4:
             # we need unicode support
             sys.exit("%s needs Tcl/Tk 8.4 or better (you have %s)" %
-                     (pysollib.settings.TITLE, str(Tkinter.TkVersion)))
+                     (pysollib.settings.TITLE, str(tkinter.TkVersion)))
         pysollib.settings.WIN_SYSTEM = root.tk.call('tk', 'windowingsystem')
         if pysollib.settings.WIN_SYSTEM == 'aqua':
             # TkAqua displays the console automatically in application
@@ -102,13 +102,13 @@ def init():
             pysollib.settings.USE_TILE = False
             try:
                 root.tk.eval('package require tile 0.7.8')
-            except Tkinter.TclError:
+            except tkinter.TclError:
                 pass
             else:
                 pysollib.settings.USE_TILE = True
         # "can't invoke event <<ThemeChanged>>: application has been destroyed"
         # root.destroy()
-        Tkinter._default_root = None
+        tkinter._default_root = None
 
     # check FreeCell-Solver
     pysollib.settings.USE_FREECELL_SOLVER = False

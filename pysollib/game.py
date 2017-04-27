@@ -31,7 +31,6 @@ import traceback
 from pysollib.mygettext import _
 
 from gettext import ungettext
-from cStringIO import StringIO
 
 # PySol imports
 from pysollib.mfxutil import Pickler, Unpickler, UnpicklingError
@@ -62,9 +61,12 @@ from pysollib.hint import DefaultHint
 from pysollib.help import help_about
 
 if sys.version_info > (3,):
+    from io import StringIO
     basestring = str
     long = int
     xrange = range
+else:
+    from cStringIO import StringIO
 
 PLAY_TIME_TIMEOUT = 200
 
@@ -825,7 +827,7 @@ class Game:
             else:
                 # new group
                 sg[s] = [s.id]
-        sg = sg.values()
+        sg = list(sg.values())
         self.sn_groups = sg
         # print sg
 

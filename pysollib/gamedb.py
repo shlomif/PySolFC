@@ -449,7 +449,7 @@ class GameInfo(Struct):
                  # keyword arguments:
                  si={}, category=0,
                  short_name=None, altnames=(),
-                 suits=range(4), ranks=range(13), trumps=(),
+                 suits=list(range(4)), ranks=list(range(13)), trumps=(),
                  rules_filename=None,
                  ):
         #
@@ -636,11 +636,11 @@ class GameManager:
 
     def getAllGames(self):
         # return self.__all_games
-        return self.__games.values()
+        return list(self.__games.values())
 
     def getGamesIdSortedById(self):
         if self.__games_by_id is None:
-            l = self.__games.keys()
+            l = list(self.__games.keys())
             l.sort()
             self.__games_by_id = tuple(l)
         return self.__games_by_id

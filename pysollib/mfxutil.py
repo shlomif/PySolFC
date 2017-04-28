@@ -40,17 +40,9 @@ import time
 import types
 import locale
 import webbrowser
+from six import print_
 
-
-try:
-    from cPickle import Pickler, Unpickler, UnpicklingError
-except ImportError:
-    from pickle import Pickler, Unpickler, UnpicklingError
-
-try:
-    import thread
-except:
-    thread = None
+from pickle import Pickler, Unpickler, UnpicklingError
 
 from pysollib.settings import PACKAGE, TOOLKIT
 
@@ -123,7 +115,7 @@ def print_err(s, level=1):
         ss = PACKAGE+': WARNING:'
     elif level == 2:
         ss = PACKAGE+': DEBUG WARNING:'
-    print >> sys.stderr, ss, s.encode(locale.getpreferredencoding())
+    print_(ss, s.encode(locale.getpreferredencoding()), file=sys.stderr)
     sys.stderr.flush()
 
 

@@ -56,7 +56,7 @@ from pysollib.stack import AC_FoundationStack, \
 
 
 from pysollib.layout import Layout
-from wizardpresets import presets
+from pysollib.wizardpresets import presets
 
 from pysollib.mygettext import _, n_
 
@@ -98,7 +98,7 @@ class WizSetting:
 
 
 WizardPresets = WizSetting(
-    values_map=presets.keys(),
+    values_map=list(presets.keys()),
     default='None',
     widget='preset',
     label=_('Initial setting:'),

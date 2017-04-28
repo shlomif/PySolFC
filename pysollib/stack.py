@@ -92,9 +92,6 @@ __all__ = ['cardsFaceUp',
            'ArbitraryStack',
            ]
 
-# imports
-import types
-
 from pysollib.mygettext import _
 # PySol imports
 from pysollib.mfxutil import Struct, kwdefault, SubclassResponsibility
@@ -388,9 +385,9 @@ class Stack:
             self.can_hide_cards = self.is_visible
             if self.cap.max_cards < 3:
                 self.can_hide_cards = 0
-            elif filter(None, self.CARD_XOFFSET):
+            elif [_f for _f in self.CARD_XOFFSET if _f]:
                 self.can_hide_cards = 0
-            elif filter(None, self.CARD_YOFFSET):
+            elif [_f for _f in self.CARD_YOFFSET if _f]:
                 self.can_hide_cards = 0
             elif self.canvas.preview:
                 self.can_hide_cards = 0
@@ -3174,7 +3171,6 @@ class ArbitraryStack(OpenStack):
 # self.cap override any call-time cap
 class StackWrapper:
     def __init__(self, stack_class, **cap):
-        assert isinstance(stack_class, types.ClassType)
         assert issubclass(stack_class, Stack)
         self.stack_class = stack_class
         self.cap = cap

@@ -1,11 +1,13 @@
 # PySol Fan Club edition
 
-This is a collection of Card Solitaire/Patience games written in Python.
-See http://pysolfc.sourceforge.net/ .
+This is an open source and portable (Windows, Linux and Mac OS X) collection
+of Card Solitaire/Patience games written in Python. It is based on
+http://pysolfc.sourceforge.net/ .
 
-This is a maintenance branch of PySol FC by Shlomi Fish and by some other
+This is a maintenance branch of PySol FC by [Shlomi
+Fish](http://www.shlomifish.org/) and by some other
 people, aiming to clean up the code, add features, fix bugs, port to Python
-3, etc.
+3, and implement other enhancements.
 
 [![Build Status](https://travis-ci.org/shlomif/PySolFC.svg?branch=shlomif--main-branch--master)](https://travis-ci.org/shlomif/PySolFC)
 
@@ -27,6 +29,7 @@ people, aiming to clean up the code, add features, fix bugs, port to Python
   - Tile (ttk): http://tktable.sourceforge.net/tile/ (0.8.0 or later)
   - PIL (Python Imaging Library): http://www.pythonware.com/products/pil
   - Freecell Solver: http://fc-solve.shlomifish.org/ .
+  - [Black Hole Solitaire Solver](http://www.shlomifish.org/open-source/projects/black-hole-solitaire-solver/)
 
 ## Installation.
 
@@ -77,13 +80,10 @@ $ python pysol.py
 
 ### Configuring Freecell Solver
 
-If you want to use the Solver, you should configure freecell-solver
+If you want to use the solver, you should configure freecell-solver
 ( http://fc-solve.shlomifish.org/ ) by passing the following options
 to its CMake-based build-system:
--DMAX_NUM_FREECELLS=8
--DMAX_NUM_STACKS=20
--DMAX_NUM_INITIAL_CARDS_IN_A_STACK=60
-(or edit config.h)
+`-DMAX_NUM_FREECELLS=8 -DMAX_NUM_STACKS=20 -DMAX_NUM_INITIAL_CARDS_IN_A_STACK=60`.
 
 ## Install Extras.
 

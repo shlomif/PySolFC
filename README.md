@@ -107,3 +107,7 @@ the <a href="irc://irc.freenode.net/##pysol">##pysol</a> chat room on
 [Freenode](http://freenode.net/) (note the double
 octhothorpe/hash-sign/pound-sign) .  We may set up
 chat rooms on different services in the future.
+
+In addition, we set up a
+[Google Group for discussing open source card games](https://groups.google.com/forum/#!forum/foss-card-games)
+which will also be used for discussing PySol. Feel free to subscribe or post!

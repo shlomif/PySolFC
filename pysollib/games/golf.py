@@ -34,7 +34,7 @@ from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
 from pysollib.hint import BlackHoleSolverWrapper
 from pysollib.pysoltk import MfxCanvasText
-from pileon import FourByFour_Hint
+from pysollib.games.pileon import FourByFour_Hint
 
 from pysollib.util import ACE, ANY_RANK, ANY_SUIT, KING, NO_RANK, RANKS, \
         SUITS, \

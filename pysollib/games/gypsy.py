@@ -32,7 +32,8 @@ from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import KlondikeType_Hint, YukonType_Hint
 
-from spider import Spider_SS_Foundation, Spider_RowStack, Spider_Hint
+from pysollib.games.spider import Spider_SS_Foundation, \
+        Spider_RowStack, Spider_Hint
 
 from pysollib.util import ACE, ANY_SUIT, KING, UNLIMITED_ACCEPTS, \
         UNLIMITED_MOVES

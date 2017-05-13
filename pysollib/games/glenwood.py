@@ -32,7 +32,7 @@ from pysollib.layout import Layout
 from pysollib.hint import CautiousDefaultHint
 from pysollib.pysoltk import MfxCanvasText
 
-from canfield import Canfield_Hint
+from pysollib.games.canfield import Canfield_Hint
 
 from pysollib.util import ANY_RANK, RANKS
 

@@ -16,7 +16,6 @@
 # http://lists.sourceforge.net/lists/listinfo/configobj-develop
 # Comments, suggestions and bug reports welcome.
 
-from __future__ import generators
 
 import sys
 import os
@@ -94,7 +93,7 @@ BOM_SET = {
     }
 
 try:
-    from validate import VdtMissingValue
+    from pysollib.configobj.validate import VdtMissingValue
 except ImportError:
     VdtMissingValue = None
 
@@ -177,7 +176,7 @@ class Builder:
         return m(o)
 
     def build_List(self, o):
-        return map(self.build, o.getChildren())
+        return list(map(self.build, o.getChildren()))
 
     def build_Const(self, o):
         return o.value
@@ -186,7 +185,7 @@ class Builder:
         d = {}
         i = iter(map(self.build, o.getChildren()))
         for el in i:
-            d[el] = i.next()
+            d[el] = next(i)
         return d
 
     def build_Tuple(self, o):
@@ -204,7 +203,7 @@ class Builder:
         raise UnknownType('Undefined Name')
 
     def build_Add(self, o):
-        real, imag = map(self.build_Const, o.getChildren())
+        real, imag = list(map(self.build_Const, o.getChildren()))
         try:
             real = float(real)
         except TypeError:
@@ -681,7 +680,7 @@ class Section(dict):
 
     def items(self):
         """ """
-        return zip((self.scalars + self.sections), self.values())
+        return list(zip((self.scalars + self.sections), list(self.values())))
 
     def keys(self):
         """ """

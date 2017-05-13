@@ -33,7 +33,7 @@ from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, CautiousDefaultHint
 from pysollib.pysoltk import MfxCanvasText
 
-from numerica import Numerica_Hint
+from pysollib.games.numerica import Numerica_Hint
 
 from pysollib.util import ACE, ANY_RANK, ANY_SUIT, JACK, KING, NO_RANK, \
         RANKS, QUEEN, \

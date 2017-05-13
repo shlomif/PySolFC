@@ -31,7 +31,7 @@ from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import CautiousDefaultHint
 
-from gypsy import DieRussische_Foundation
+from pysollib.games.gypsy import DieRussische_Foundation
 
 from pysollib.util import ANY_SUIT, KING
 

@@ -36,7 +36,7 @@ from pysollib.hint import KlondikeType_Hint
 from pysollib.hint import FreeCellSolverWrapper
 from pysollib.pysoltk import MfxCanvasText
 
-from canfield import CanfieldRush_Talon
+from pysollib.games.canfield import CanfieldRush_Talon
 
 from pysollib.util import ACE, ANY_RANK, ANY_SUIT, KING, NO_RANK
 

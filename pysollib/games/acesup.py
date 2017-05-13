@@ -45,7 +45,7 @@ from pysollib.stack import \
 from pysollib.game import Game
 from pysollib.layout import Layout
 
-from montecarlo import MonteCarlo_RowStack
+from pysollib.games.montecarlo import MonteCarlo_RowStack
 
 
 # ************************************************************************

@@ -47,7 +47,7 @@ from pysollib.stack import \
 from pysollib.game import Game
 from pysollib.layout import Layout
 
-from numerica import Numerica_Hint
+from pysollib.games.numerica import Numerica_Hint
 
 
 # ************************************************************************

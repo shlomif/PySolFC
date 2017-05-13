@@ -26,7 +26,8 @@ import traceback
 
 from pysollib.settings import TITLE
 from pysollib.settings import TOOLKIT, USE_TILE
-from common import base_init_root_window, BaseTkSettings, get_font_name
+from pysollib.winsystems.common import base_init_root_window, \
+        BaseTkSettings, get_font_name
 if USE_TILE:
     from pysollib.tile import ttk
 
@@ -68,10 +69,10 @@ def init_root_window(root, app):
             except:
                 traceback.print_exc()
             else:
-                import tkFileDialog
-                tkFileDialog.Open.command = 'ttk::getOpenFile'
-                tkFileDialog.SaveAs.command = 'ttk::getSaveFile'
-                tkFileDialog.Directory.command = 'ttk::chooseDirectory'
+                from six.moves import tkinter_tkfiledialog
+                tkinter_tkfiledialog.Open.command = 'ttk::getOpenFile'
+                tkinter_tkfiledialog.SaveAs.command = 'ttk::getSaveFile'
+                tkinter_tkfiledialog.Directory.command = 'ttk::chooseDirectory'
 
         style = ttk.Style(root)
         color = style.lookup('.', 'background')

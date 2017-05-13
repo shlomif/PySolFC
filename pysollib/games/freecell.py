@@ -33,7 +33,7 @@ from pysollib.layout import Layout
 from pysollib.hint import DefaultHint
 from pysollib.hint import FreeCellType_Hint, FreeCellSolverWrapper
 
-from spider import Spider_AC_Foundation
+from pysollib.games.spider import Spider_AC_Foundation
 
 from pysollib.util import ACE, ANY_SUIT, KING, NO_RANK, UNLIMITED_CARDS
 

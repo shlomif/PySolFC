@@ -31,7 +31,7 @@ from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import DefaultHint, CautiousDefaultHint
 
-from gypsy import DieRussische_Foundation
+from pysollib.games.gypsy import DieRussische_Foundation
 
 from pysollib.util import ACE, ANY_RANK, ANY_SUIT, KING, NO_RANK, \
         UNLIMITED_MOVES, UNLIMITED_REDEALS

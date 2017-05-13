@@ -30,8 +30,8 @@ from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.game import Game
 from pysollib.layout import Layout
 
-from fortythieves import FortyThieves_Hint
-from spider import Spider_Hint
+from pysollib.games.fortythieves import FortyThieves_Hint
+from pysollib.games.spider import Spider_Hint
 
 from pysollib.util import ACE, KING
 

@@ -24,11 +24,11 @@
 from pysollib.settings import WIN_SYSTEM
 
 if WIN_SYSTEM == 'win32':
-    import win32 as gui
+    from pysollib.winsystems import win32 as gui
 elif WIN_SYSTEM == 'aqua':
-    import aqua as gui
+    from pysollib.winsystems import aqua as gui
 else:                                   # 'x11'
-    import x11 as gui
+    from pysollib.winsystems import x11 as gui
 
 init_root_window = gui.init_root_window
 TkSettings = gui.TkSettings

@@ -34,7 +34,7 @@ from pysollib.layout import Layout
 from pysollib.hint import CautiousDefaultHint
 from pysollib.pysoltk import MfxCanvasText
 
-from braid import Braid_Foundation
+from pysollib.games.braid import Braid_Foundation
 
 from pysollib.util import ACE, KING, RANKS, UNLIMITED_CARDS
 

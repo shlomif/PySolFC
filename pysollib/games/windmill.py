@@ -31,7 +31,7 @@ from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.hint import CautiousDefaultHint
 
-from golf import BlackHole_Foundation
+from pysollib.games.golf import BlackHole_Foundation
 
 from pysollib.util import ACE, ANY_SUIT, KING, UNLIMITED_CARDS
 

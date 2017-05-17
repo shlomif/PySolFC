@@ -33,7 +33,7 @@ from pysollib.game import Game
 from pysollib.layout import Layout
 from pysollib.pysoltk import MfxCanvasText
 
-from golf import Golf_Waste, Golf_Hint
+from pysollib.games.golf import Golf_Waste, Golf_Hint
 
 from pysollib.util import ANY_RANK
 

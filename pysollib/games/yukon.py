@@ -48,7 +48,7 @@ from pysollib.layout import Layout
 from pysollib.hint import Yukon_Hint
 from pysollib.pysoltk import MfxCanvasText
 
-from spider import Spider_SS_Foundation
+from pysollib.games.spider import Spider_SS_Foundation
 
 
 # ************************************************************************

@@ -468,10 +468,10 @@ class AbstractMahjonggGame(Game):
             assert tilemap.get((level, tx, ty+1)) is stack
             assert tilemap.get((level, tx+1, ty+1)) is stack
             #
-            above = tuple(filter(None, above.keys()))
-            below = tuple(filter(None, below.keys()))
-            left = tuple(filter(None, left.keys()))
-            right = tuple(filter(None, right.keys()))
+            above = tuple([_f for _f in above.keys() if _f])
+            below = tuple([_f for _f in below.keys() if _f])
+            left = tuple([_f for _f in left.keys() if _f])
+            right = tuple([_f for _f in right.keys() if _f])
             # up = tuple(filter(None, up.keys()))
             # bottom = tuple(filter(None, bottom.keys()))
 
@@ -1020,7 +1020,8 @@ def r(id, short_name, name=None, ncards=144, layout=None):
     gi = GameInfo(id, gameclass, name,
                   GI.GT_MAHJONGG, 4*decks, 0,  # GI.SL_MOSTLY_SKILL,
                   category=GI.GC_MAHJONGG, short_name=short_name,
-                  suits=range(3), ranks=range(ranks), trumps=range(trumps),
+                  suits=list(range(3)), ranks=list(range(ranks)),
+                  trumps=list(range(trumps)),
                   si={"decks": decks, "ncards": ncards})
     gi.ncards = ncards
     gi.rules_filename = "mahjongg.html"

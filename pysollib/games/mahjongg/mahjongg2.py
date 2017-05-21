@@ -25,7 +25,7 @@
 # http://www.kyodai.com/index.en.html
 # http://files.cyna.net/layouts.zip
 
-from mahjongg import r
+from pysollib.games.mahjongg.mahjongg import r
 
 # ************************************************************************
 # * game definitions

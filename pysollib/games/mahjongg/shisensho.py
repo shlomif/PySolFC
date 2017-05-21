@@ -36,7 +36,8 @@ from pysollib.layout import Layout
 from pysollib.hint import AbstractHint
 from pysollib.pysoltk import MfxCanvasText, MfxCanvasLine
 
-from mahjongg import Mahjongg_RowStack, AbstractMahjonggGame, comp_cardset
+from pysollib.games.mahjongg.mahjongg import Mahjongg_RowStack, \
+        AbstractMahjonggGame, comp_cardset
 
 from pysollib.util import ANY_SUIT
 
@@ -513,7 +514,8 @@ def r(id, gameclass, name, rules_filename="shisensho.html"):
     gi = GameInfo(id, gameclass, name,
                   GI.GT_SHISEN_SHO, 4*decks, 0, GI.SL_MOSTLY_SKILL,
                   category=GI.GC_MAHJONGG, short_name=name,
-                  suits=range(3), ranks=range(ranks), trumps=range(trumps),
+                  suits=list(range(3)), ranks=list(range(ranks)),
+                  trumps=list(range(trumps)),
                   si={"decks": decks, "ncards": gameclass.NCARDS})
     gi.ncards = gameclass.NCARDS
     gi.rules_filename = rules_filename

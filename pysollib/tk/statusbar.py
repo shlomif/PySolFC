@@ -29,7 +29,7 @@ import os
 import sys
 from six.moves import tkinter
 from pysollib.mygettext import _
-from tkwidget import MfxTooltip
+from .tkwidget import MfxTooltip
 from pysollib.settings import WIN_SYSTEM
 
 if sys.version_info > (3,):

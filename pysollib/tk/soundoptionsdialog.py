@@ -35,7 +35,7 @@ from pysollib.pysolaudio import pysolsoundserver
 
 # Toolkit imports
 from pysollib.ui.tktile.tkconst import EVENT_HANDLED
-from tkwidget import MfxDialog, MfxMessageDialog
+from .tkwidget import MfxDialog, MfxMessageDialog
 
 # ************************************************************************
 # *

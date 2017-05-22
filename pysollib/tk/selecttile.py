@@ -24,17 +24,16 @@
 
 # imports
 import sys
-from six.moves import tkinter
-import tkColorChooser
+from six.moves import tkinter, tkinter_colorchooser
 
 # PySol imports
 from pysollib.mygettext import _
 from pysollib.mfxutil import KwStruct
 
 # Toolkit imports
-from tkwidget import MfxDialog, MfxScrolledCanvas
-from selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
-from selecttree import SelectDialogTreeData, SelectDialogTreeCanvas
+from .tkwidget import MfxDialog, MfxScrolledCanvas
+from .selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
+from .selecttree import SelectDialogTreeData, SelectDialogTreeCanvas
 
 
 if sys.version_info > (3,):
@@ -174,9 +173,10 @@ class SelectTileDialogWithPreview(MfxDialog):
             self.tree.n_expansions = 1  # save xyview in any case
         if button == 1:        # "Solid color..."
             try:
-                c = tkColorChooser.askcolor(master=self.top,
-                                            initialcolor=self.table_color,
-                                            title=_("Select table color"))
+                c = tkinter_colorchooser.askcolor(
+                    master=self.top,
+                    initialcolor=self.table_color,
+                    title=_("Select table color"))
             except tkinter.TclError:
                 pass
             else:

@@ -27,7 +27,6 @@ __all__ = []
 import sys
 import re
 import time
-# from tkFont import Font
 from gettext import ungettext
 
 # PySol imports

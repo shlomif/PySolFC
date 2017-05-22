@@ -25,7 +25,7 @@ __all__ = ['FontsDialog']
 
 # imports
 from six.moves import tkinter
-import tkFont
+from six.moves import tkinter_font
 
 # PySol imports
 from pysollib.mygettext import _
@@ -110,7 +110,7 @@ class FontChooserDialog(MfxDialog):
         self.size_var.set(self.font_size)
         self.weight_var.set(self.font_weight == 'bold')
         self.slant_var.set(self.font_slant == 'italic')
-        font_families = list(tkFont.families())
+        font_families = list(tkinter_font.families())
         font_families.sort()
         selected = -1
         n = 0

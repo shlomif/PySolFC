@@ -35,7 +35,7 @@ import os
 import time
 from six.moves import tkinter
 import ttk
-import tkFont
+from six.moves import tkinter_font
 
 # PySol imports
 from pysollib.mygettext import _
@@ -64,11 +64,11 @@ class StatsDialog(MfxDialog):
         MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
 
         self.font = app.getFont('default')
-        self.tkfont = tkFont.Font(parent, self.font)
+        self.tkfont = tkinter_font.Font(parent, self.font)
         self.font_metrics = self.tkfont.metrics()
         style = ttk.Style(parent)
         heading_font = style.lookup('Heading', 'font')  # treeview heading
-        self.heading_tkfont = tkFont.Font(parent, heading_font)
+        self.heading_tkfont = tkinter_font.Font(parent, heading_font)
 
         self.selected_game = None
 
@@ -509,10 +509,10 @@ class LogDialog(MfxDialog):
     def __init__(self, parent, title, app, player, **kw):
 
         self.font = app.getFont('default')
-        self.tkfont = tkFont.Font(parent, self.font)
+        self.tkfont = tkinter_font.Font(parent, self.font)
         style = ttk.Style(parent)
         heading_font = style.lookup('Heading', 'font')  # treeview heading
-        self.heading_tkfont = tkFont.Font(parent, heading_font)
+        self.heading_tkfont = tkinter_font.Font(parent, heading_font)
         self.font_metrics = self.tkfont.metrics()
 
         self.CHAR_H = self.font_metrics['linespace']

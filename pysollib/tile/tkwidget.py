@@ -38,7 +38,7 @@ import time
 import locale
 from six.moves import tkinter
 import ttk
-import tkFont
+from six.moves import tkinter_font
 import traceback
 
 # PySol imports
@@ -328,10 +328,10 @@ class PysolAboutDialog(MfxMessageDialog):
         if sys.version_info >= (2, 4):
             # font_name = msg.lookup('TLabel', 'font')
             font_name = 'TkDefaultFont'
-            font = tkFont.Font(parent, name=font_name, exists=True)
+            font = tkinter_font.Font(parent, name=font_name, exists=True)
             font = font.copy()
         else:
-            font = tkFont.Font(parent, app.getFont('default'))
+            font = tkinter_font.Font(parent, app.getFont('default'))
         font.configure(underline=True)
         url_label = ttk.Label(frame, text=kw.url, font=font,
                               foreground='blue', cursor='hand2')

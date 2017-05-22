@@ -26,7 +26,7 @@ __all__ = ['FontsDialog']
 # imports
 from six.moves import tkinter
 import ttk
-import tkFont
+from six.moves import tkinter_font
 
 # PySol imports
 from pysollib.mfxutil import KwStruct
@@ -111,7 +111,7 @@ class FontChooserDialog(MfxDialog):
                         command=self.fontupdate, variable=self.size_var)
         sc.grid(row=4, column=0, columnspan=2, sticky='news')
         #
-        font_families = list(tkFont.families())
+        font_families = list(tkinter_font.families())
         font_families.sort()
         selected = -1
         n = 0

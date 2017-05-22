@@ -25,7 +25,6 @@ __all__ = []
 
 # Imports
 import sys
-# from tkFont import Font
 from gettext import ungettext
 
 # PySol imports

@@ -35,7 +35,7 @@ __all__ = ['MfxDialog',
 import sys
 import time
 from six.moves import tkinter
-import tkFont
+from six.moves import tkinter_font
 import traceback
 
 # PySol imports
@@ -324,7 +324,7 @@ class PysolAboutDialog(MfxMessageDialog):
                             width=kw.width)
         msg.pack(fill='both', expand=True)
 
-        font = tkFont.Font(parent, app.getFont('default'))
+        font = tkinter_font.Font(parent, app.getFont('default'))
         font.configure(underline=True)
         url_label = tkinter.Label(frame, text=kw.url, font=font,
                                   foreground='blue', cursor='hand2')

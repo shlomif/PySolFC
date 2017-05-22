@@ -1,11 +1,11 @@
-import Tkinter
+from six.moves import tkinter
 
-from tkwidget import MfxDialog
+from pysollib.tk.tkwidget import MfxDialog
 
 
 class BaseTkMfxDialog(MfxDialog):
     def _calcToolkit(self):
-        return Tkinter
+        return tkinter
 
     def _calc_MfxDialog(self):
         return MfxDialog

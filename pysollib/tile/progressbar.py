@@ -24,7 +24,7 @@
 __all__ = ['PysolProgressBar']
 
 # imports
-import Tkinter
+from six.moves import tkinter
 import ttk
 
 # Toolkit imports
@@ -122,7 +122,7 @@ class TestProgressBar:
 
 def progressbar_main(args):
     from pysollib.ui.tktile.tkutil import wm_withdraw
-    tk = Tkinter.Tk()
+    tk = tkinter.Tk()
     wm_withdraw(tk)
     TestProgressBar(tk)
     tk.mainloop()

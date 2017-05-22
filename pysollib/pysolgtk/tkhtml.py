@@ -425,7 +425,7 @@ class HTMLViewer:
     def display(self, url, add=1, relpath=1, position=(0, 0)):
         # print 'display:', url, position
         # for some reason we have to stop the PySol demo
-        # (is this a multithread problem with Tkinter ?)
+        # (is this a multithread problem with tkinter ?)
         try:
             # self.app.game.stopDemo()
             # self.app.game._cancelDrag()

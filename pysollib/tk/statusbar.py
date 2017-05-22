@@ -27,7 +27,7 @@ __all__ = ['PysolStatusbar',
 # imports
 import os
 import sys
-import Tkinter
+from six.moves import tkinter
 from pysollib.mygettext import _
 from tkwidget import MfxTooltip
 from pysollib.settings import WIN_SYSTEM
@@ -61,7 +61,7 @@ class MfxStatusbar:
         #
         self.padx = 1
         self.label_relief = 'sunken'
-        self.frame = Tkinter.Frame(self.top, bd=1)
+        self.frame = tkinter.Frame(self.top, bd=1)
         self.frame.grid(row=self._row, column=self._column,
                         columnspan=self._columnspan, sticky='ew',
                         padx=1, pady=1)
@@ -75,7 +75,7 @@ class MfxStatusbar:
 
     # util
     def _createLabel(self, name, expand=False, width=0, tooltip=None):
-        label = Tkinter.Label(self.frame, width=width,
+        label = tkinter.Label(self.frame, width=width,
                               relief=self.label_relief, bd=1,
                               highlightbackground='black'
                               )
@@ -192,7 +192,7 @@ class TestStatusbar(PysolStatusbar):
 
 
 def statusbar_main(args):
-    tk = Tkinter.Tk()
+    tk = tkinter.Tk()
     TestStatusbar(tk, args)
     tk.mainloop()
     return 0

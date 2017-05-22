@@ -24,7 +24,7 @@
 import os
 import htmllib
 import formatter
-import Tkinter
+from six.moves import tkinter
 
 from pysollib.ui.tktile.tkutil import bind, unbind_destroy
 from pysollib.mygettext import _
@@ -289,7 +289,7 @@ class Base_HTMLViewer:
 
     def display(self, url, add=1, relpath=1, xview=0, yview=0):
         # for some reason we have to stop the PySol demo
-        # (is this a multithread problem with Tkinter ?)
+        # (is this a multithread problem with tkinter ?)
         if self.app and self.app.game:
             self.app.game.stopDemo()
             # self.app.game._cancelDrag()
@@ -425,7 +425,7 @@ to open the following URL:
         if fn in self.images:
             return self.images[fn]
         try:
-            img = Tkinter.PhotoImage(master=self.parent, file=fn)
+            img = tkinter.PhotoImage(master=self.parent, file=fn)
         except:
             img = None
         self.images[fn] = img

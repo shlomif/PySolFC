@@ -27,7 +27,7 @@ __all__ = ['WizardDialog']
 # imports
 import sys
 
-import Tkinter
+from six.moves import tkinter
 import ttk
 
 # PySol imports
@@ -74,7 +74,7 @@ class WizardDialog(MfxDialog):
 
             if w.widget == 'preset':
                 if w.variable is None:
-                    w.variable = Tkinter.StringVar()
+                    w.variable = tkinter.StringVar()
                 values = [_(v) for v in w.values]
                 default = _(w.default)
                 values.remove(default)
@@ -91,12 +91,12 @@ class WizardDialog(MfxDialog):
                 cb.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
             elif w.widget == 'entry':
                 if w.variable is None:
-                    w.variable = Tkinter.StringVar()
+                    w.variable = tkinter.StringVar()
                 en = ttk.Entry(frame, textvariable=w.variable)
                 en.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
             elif w.widget == 'menu':
                 if w.variable is None:
-                    w.variable = Tkinter.StringVar()
+                    w.variable = tkinter.StringVar()
                 values = [_(v) for v in w.values]
                 cb = PysolCombo(frame, values=tuple(values),
                                 textvariable=w.variable,
@@ -105,7 +105,7 @@ class WizardDialog(MfxDialog):
                 cb.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
             elif w.widget == 'spin':
                 if w.variable is None:
-                    w.variable = Tkinter.IntVar()
+                    w.variable = tkinter.IntVar()
                 else:
                     # delete all trace callbacks
                     for mod, cbname in w.variable.trace_vinfo():
@@ -119,7 +119,7 @@ class WizardDialog(MfxDialog):
                 s.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
             elif w.widget == 'check':
                 if w.variable is None:
-                    w.variable = Tkinter.BooleanVar()
+                    w.variable = tkinter.BooleanVar()
                 ch = ttk.Checkbutton(frame, variable=w.variable,
                                      takefocus=False)
                 ch.grid(row=row, column=1, sticky='ew', padx=2, pady=2)

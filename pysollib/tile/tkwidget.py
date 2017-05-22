@@ -36,7 +36,7 @@ import sys
 import os
 import time
 import locale
-import Tkinter
+from six.moves import tkinter
 import ttk
 import tkFont
 import traceback
@@ -89,7 +89,7 @@ class MfxDialog:  # ex. _ToplevelDialog
             setTransient(self.top, self.parent)
             try:
                 self.top.grab_set()
-            except Tkinter.TclError:
+            except tkinter.TclError:
                 if traceback:
                     traceback.print_exc()
                 pass
@@ -460,11 +460,11 @@ class MfxTooltip:
         y = self.widget.winfo_rooty() + self.widget.winfo_height()
         x += self.xoffset
         y += self.yoffset
-        self.tooltip = Tkinter.Toplevel()
+        self.tooltip = tkinter.Toplevel()
         self.tooltip.wm_iconify()
         self.tooltip.wm_overrideredirect(1)
         self.tooltip.wm_protocol("WM_DELETE_WINDOW", self.destroy)
-        self.label = Tkinter.Label(self.tooltip, text=self.text,
+        self.label = tkinter.Label(self.tooltip, text=self.text,
                                    relief=self.relief, justify=self.justify,
                                    fg=self.fg, bg=self.bg, bd=1, takefocus=0)
         self.label.pack(ipadx=1, ipady=1)
@@ -573,7 +573,7 @@ class MfxScrolledCanvas:
         kw['bd'] = 0
         relief = kw['relief']
         del kw['relief']
-        frame = Tkinter.Frame(self.frame, bd=bd, relief=relief)
+        frame = tkinter.Frame(self.frame, bd=bd, relief=relief)
         frame.grid(row=0, column=0, sticky="news")
         self.canvas = MfxCanvas(frame, **kw)
         self.canvas.pack(expand=True, fill='both')
@@ -712,9 +712,9 @@ class StackDesc:
         text = stack.getHelp()+'\n'+stack.getBaseCard()
         text = text.strip()
         if text:
-            frame = Tkinter.Frame(self.canvas)
+            frame = tkinter.Frame(self.canvas)
             self.frame = frame
-            label = Tkinter.Message(frame, font=font, text=text,
+            label = tkinter.Message(frame, font=font, text=text,
                                     width=cardw-8, relief='solid',
                                     fg='#000000', bg='#ffffe0', bd=1)
             label.pack()
@@ -839,11 +839,11 @@ class MyPysolScale:
         self.variable.set(v)
 
 
-class TkinterScale(Tkinter.Scale):
+class TkinterScale(tkinter.Scale):
     def __init__(self, parent, **kw):
         if 'value' in kw:
             del kw['value']
-        Tkinter.Scale.__init__(self, parent, **kw)
+        tkinter.Scale.__init__(self, parent, **kw)
 
 
 PysolScale = MyPysolScale

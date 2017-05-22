@@ -24,7 +24,7 @@
 
 # imports
 import os
-import Tkinter
+from six.moves import tkinter
 from UserList import UserList
 
 # PySol imports
@@ -367,10 +367,10 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         # padx, pady = kw.padx, kw.pady
         padx, pady = kw.padx/2, kw.pady/2
         # PanedWindow
-        paned_window = Tkinter.PanedWindow(top_frame)
+        paned_window = tkinter.PanedWindow(top_frame)
         paned_window.pack(expand=True, fill='both')
-        left_frame = Tkinter.Frame(paned_window)
-        right_frame = Tkinter.Frame(paned_window)
+        left_frame = tkinter.Frame(paned_window)
+        right_frame = tkinter.Frame(paned_window)
         paned_window.add(left_frame)
         paned_window.add(right_frame)
         # Tree
@@ -379,8 +379,8 @@ class SelectGameDialogWithPreview(SelectGameDialog):
                                     default=kw.default, font=font, width=w1)
         self.tree.frame.pack(padx=padx, pady=pady, expand=True, fill='both')
         # LabelFrame
-        info_frame = Tkinter.LabelFrame(right_frame, text=_('About game'))
-        stats_frame = Tkinter.LabelFrame(right_frame, text=_('Statistics'))
+        info_frame = tkinter.LabelFrame(right_frame, text=_('About game'))
+        stats_frame = tkinter.LabelFrame(right_frame, text=_('Statistics'))
         info_frame.grid(row=0, column=0, padx=padx, pady=pady,
                         ipadx=padx, ipady=pady, sticky='nws')
         stats_frame.grid(row=0, column=1, padx=padx, pady=pady,
@@ -403,9 +403,9 @@ class SelectGameDialogWithPreview(SelectGameDialog):
             ('moves',       _('Moves:'),            stats_frame,  4),
             ('percent',     _('% won:'),            stats_frame,  5),
                 ):
-            title_label = Tkinter.Label(f, text=t, justify='left', anchor='w')
+            title_label = tkinter.Label(f, text=t, justify='left', anchor='w')
             title_label.grid(row=row, column=0, sticky='nw')
-            text_label = Tkinter.Label(f, justify='left', anchor='w')
+            text_label = tkinter.Label(f, justify='left', anchor='w')
             text_label.grid(row=row, column=1, sticky='nw')
             self.info_labels[n] = (title_label, text_label)
         # info_frame.columnconfigure(1, weight=1)

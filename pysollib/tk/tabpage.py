@@ -24,11 +24,10 @@
 a couple of classes for implementing partial tabbed-page like behaviour
 """
 
-from Tkinter import EW, FALSE, Frame, Radiobutton, RAISED, RIDGE, StringVar
-from Tkinter import BOTH, Button, Entry, Label, LEFT, NSEW, Tk, TRUE
+from six.moves import tkinter
 
-MYRIDGE, MYRAISED = RAISED, RIDGE
-# MYRIDGE, MYRAISED = RIDGE, RAISED
+MYRIDGE, MYRAISED = tkinter.RAISED, tkinter.RIDGE
+# MYRIDGE, MYRAISED = tkinter.RIDGE, tkinter.RAISED
 
 
 class InvalidTabPage(Exception):
@@ -39,20 +38,20 @@ class AlreadyExists(Exception):
     pass
 
 
-class PageTab(Frame):
+class PageTab(tkinter.Frame):
     """
     a 'page tab' like framed button
     """
     def __init__(self, parent):
-        Frame.__init__(self, parent, borderwidth=2, relief=MYRIDGE)
-        self.button = Radiobutton(
+        tkinter.Frame.__init__(self, parent, borderwidth=2, relief=MYRIDGE)
+        self.button = tkinter.Radiobutton(
             self, padx=5, pady=5, takefocus=0,
-            indicatoron=FALSE, highlightthickness=0,
+            indicatoron=tkinter.FALSE, highlightthickness=0,
             borderwidth=0, selectcolor=self.cget('bg'))
         self.button.pack()
 
 
-class TabPageSet(Frame):
+class TabPageSet(tkinter.Frame):
     """
     a set of 'pages' with TabButtons for controlling their display
     """
@@ -63,13 +62,13 @@ class TabPageSet(Frame):
         specified in desired page order. The first page will be the default
         and first active page.
         """
-        Frame.__init__(self, parent, kw)
+        tkinter.Frame.__init__(self, parent, kw)
         self.grid_location(0, 0)
         self.columnconfigure(0, weight=1)
         self.rowconfigure(1, weight=1)
-        self.tabBar = Frame(self)
-        self.tabBar.grid(row=0, column=0, sticky=EW)
-        self.activePage = StringVar(self)
+        self.tabBar = tkinter.Frame(self)
+        self.tabBar.grid(row=0, column=0, sticky=tkinter.EW)
+        self.activePage = tkinter.StringVar(self)
         self.defaultPage = ''
         self.pages = {}
         for name in pageNames:
@@ -96,7 +95,7 @@ class TabPageSet(Frame):
             raise AlreadyExists('TabPage Name Already Exists')
         self.pages[pageName] = {
             'tab': PageTab(self.tabBar),
-            'page': Frame(self, borderwidth=2, relief=RAISED)
+            'page': tkinter.Frame(self, borderwidth=2, relief=tkinter.RAISED)
             }
         self.pages[pageName]['tab'].button.config(
             text=pageName,
@@ -104,8 +103,8 @@ class TabPageSet(Frame):
             variable=self.activePage,
             value=pageName
             )
-        self.pages[pageName]['tab'].pack(side=LEFT)
-        self.pages[pageName]['page'].grid(row=1, column=0, sticky=NSEW)
+        self.pages[pageName]['tab'].pack(side=tkinter.LEFT)
+        self.pages[pageName]['page'].grid(row=1, column=0, sticky=tkinter.NSEW)
         if len(self.pages) == 1:  # adding first page
             self.defaultPage = pageName
             self.activePage.set(self.defaultPage)
@@ -133,20 +132,20 @@ class TabPageSet(Frame):
 
 if __name__ == '__main__':
     # test dialog
-    root = Tk()
+    root = tkinter.Tk()
     tabPage = TabPageSet(root, pageNames=['Foobar', 'Baz'])
-    tabPage.pack(expand=TRUE, fill=BOTH)
-    Label(tabPage.pages['Foobar']['page'], text='Foo', pady=20).pack()
-    Label(tabPage.pages['Foobar']['page'], text='Bar', pady=20).pack()
-    Label(tabPage.pages['Baz']['page'], text='Baz').pack()
-    entryPgName = Entry(root)
-    buttonAdd = Button(
+    tabPage.pack(expand=tkinter.TRUE, fill=tkinter.BOTH)
+    tkinter.Label(tabPage.pages['Foobar']['page'], text='Foo', pady=20).pack()
+    tkinter.Label(tabPage.pages['Foobar']['page'], text='Bar', pady=20).pack()
+    tkinter.Label(tabPage.pages['Baz']['page'], text='Baz').pack()
+    entryPgName = tkinter.Entry(root)
+    buttonAdd = tkinter.Button(
         root, text='Add Page',
         command=lambda: tabPage.AddPage(entryPgName.get()))
-    buttonRemove = Button(
+    buttonRemove = tkinter.Button(
         root, text='Remove Page',
         command=lambda: tabPage.RemovePage(entryPgName.get()))
-    labelPgName = Label(root, text='name of page to add/remove:')
+    labelPgName = tkinter.Label(root, text='name of page to add/remove:')
     buttonAdd.pack(padx=5, pady=5)
     buttonRemove.pack(padx=5, pady=5)
     labelPgName.pack(padx=5)

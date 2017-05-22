@@ -25,7 +25,7 @@ __all__ = ['PysolToolbarTk']
 
 # imports
 import os
-import Tkinter
+from six.moves import tkinter
 
 # PySol imports
 from pysollib.mygettext import _, n_
@@ -74,23 +74,23 @@ class AbstractToolbarButton:
         self.grid_forget()
 
 
-class ToolbarCheckbutton(AbstractToolbarButton, Tkinter.Checkbutton):
+class ToolbarCheckbutton(AbstractToolbarButton, tkinter.Checkbutton):
     def __init__(self, parent, toolbar, toolbar_name, position, **kwargs):
-        Tkinter.Checkbutton.__init__(self, parent, kwargs)
+        tkinter.Checkbutton.__init__(self, parent, kwargs)
         AbstractToolbarButton.__init__(
             self, parent, toolbar, toolbar_name, position)
 
 
-class ToolbarButton(AbstractToolbarButton, Tkinter.Button):
+class ToolbarButton(AbstractToolbarButton, tkinter.Button):
     def __init__(self, parent, toolbar, toolbar_name, position, **kwargs):
-        Tkinter.Button.__init__(self, parent, kwargs)
+        tkinter.Button.__init__(self, parent, kwargs)
         AbstractToolbarButton.__init__(
             self, parent, toolbar, toolbar_name, position)
 
 
-class ToolbarSeparator(Tkinter.Frame):
+class ToolbarSeparator(tkinter.Frame):
     def __init__(self, parent, toolbar, position, **kwargs):
-        Tkinter.Frame.__init__(self, parent, kwargs)
+        tkinter.Frame.__init__(self, parent, kwargs)
         self.toolbar = toolbar
         self.position = position
         self.visible = False
@@ -127,9 +127,9 @@ class ToolbarFlatSeparator(ToolbarSeparator):
     pass
 
 
-class ToolbarLabel(Tkinter.Message):
+class ToolbarLabel(tkinter.Message):
     def __init__(self, parent, toolbar, toolbar_name, position, **kwargs):
-        Tkinter.Message.__init__(self, parent, kwargs)
+        tkinter.Message.__init__(self, parent, kwargs)
         self.toolbar = toolbar
         self.toolbar_name = toolbar_name
         self.position = position
@@ -178,7 +178,7 @@ class PysolToolbarTk:
         self.orient = 'horizontal'
         self.button_pad = 2
         #
-        self.frame = Tkinter.Frame(top, relief=TkSettings.toolbar_relief,
+        self.frame = tkinter.Frame(top, relief=TkSettings.toolbar_relief,
                                    bd=TkSettings.toolbar_borderwidth)
         #
         for l, f, t in (
@@ -268,7 +268,7 @@ class PysolToolbarTk:
                 if Image:
                     image = ImageTk.PhotoImage(Image.open(file))
                 else:
-                    image = Tkinter.PhotoImage(file=file)
+                    image = tkinter.PhotoImage(file=file)
                 break
         return image
 

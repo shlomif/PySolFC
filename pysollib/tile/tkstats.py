@@ -33,7 +33,7 @@ __all__ = ['SingleGame_StatsDialog',
 # imports
 import os
 import time
-import Tkinter
+from six.moves import tkinter
 import ttk
 import tkFont
 
@@ -231,7 +231,7 @@ class SingleGameFrame(ttk.Frame):
         self.fg = fg
         #
         w, h = self.tab_x[-1], max(self.tab_y[-1], self.oval_height+40)
-        c = Tkinter.Canvas(frame, width=w, height=h,
+        c = tkinter.Canvas(frame, width=w, height=h,
                            bg=bg, highlightthickness=0)
         c.pack(fill='both', expand=True)
         self.canvas = c
@@ -880,7 +880,7 @@ class ProgressionFrame(ttk.Frame):
         self.won_color = '#00dc28'
         self.percent_color = 'blue'
         # create canvas
-        self.canvas = canvas = Tkinter.Canvas(frame, bg='#dfe8ff', bd=0,
+        self.canvas = canvas = tkinter.Canvas(frame, bg='#dfe8ff', bd=0,
                                               highlightthickness=1,
                                               highlightbackground='black',
                                               width=self.canvas_width,
@@ -890,7 +890,7 @@ class ProgressionFrame(ttk.Frame):
         # right frame
         right_frame = ttk.Frame(frame)
         right_frame.pack(side='left', fill='x', padx=5)
-        self.all_games_variable = var = Tkinter.StringVar()
+        self.all_games_variable = var = tkinter.StringVar()
         var.set('all')
         b = ttk.Radiobutton(right_frame, text=_('All games'),
                             variable=var, value='all',
@@ -902,7 +902,7 @@ class ProgressionFrame(ttk.Frame):
         b.pack(fill='x', expand=True, padx=3, pady=1)
         label_frame = ttk.LabelFrame(right_frame, text=_('Statistics for'))
         label_frame.pack(side='top', fill='x', pady=10)
-        self.variable = var = Tkinter.StringVar()
+        self.variable = var = tkinter.StringVar()
         var.set('week')
         for v, t in (
             ('week',  _('Last 7 days')),
@@ -915,19 +915,19 @@ class ProgressionFrame(ttk.Frame):
             b.pack(fill='x', expand=True, padx=3, pady=1)
         label_frame = ttk.LabelFrame(right_frame, text=_('Show graphs'))
         label_frame.pack(side='top', fill='x')
-        self.played_graph_var = Tkinter.BooleanVar()
+        self.played_graph_var = tkinter.BooleanVar()
         self.played_graph_var.set(True)
         b = ttk.Checkbutton(label_frame, text=_('Played'),
                             command=self.updateGraph,
                             variable=self.played_graph_var)
         b.pack(fill='x', expand=True, padx=3, pady=1)
-        self.won_graph_var = Tkinter.BooleanVar()
+        self.won_graph_var = tkinter.BooleanVar()
         self.won_graph_var.set(True)
         b = ttk.Checkbutton(label_frame, text=_('Won'),
                             command=self.updateGraph,
                             variable=self.won_graph_var)
         b.pack(fill='x', expand=True, padx=3, pady=1)
-        self.percent_graph_var = Tkinter.BooleanVar()
+        self.percent_graph_var = tkinter.BooleanVar()
         self.percent_graph_var.set(True)
         b = ttk.Checkbutton(label_frame, text=_('% won'),
                             command=self.updateGraph,

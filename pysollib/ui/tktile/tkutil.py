@@ -47,7 +47,7 @@ __all__ = ['wm_withdraw',
 
 # imports
 import re
-import Tkinter
+from six.moves import tkinter
 from tkFont import Font
 
 # PySol imports
@@ -82,7 +82,7 @@ def wm_get_geometry(window):
     g = window.wm_geometry()
     m = __wm_get_geometry_re.search(g)
     if not m:
-        raise Tkinter.TclError("invalid geometry "+str(g))
+        raise tkinter.TclError("invalid geometry "+str(g))
     l = map(int, m.groups())
     if window.wm_state() == "zoomed":
         # workaround as Tk returns the "unzoomed" origin
@@ -120,7 +120,7 @@ def makeToplevel(parent, title=None):
     #
     # This is a shortcut for a Toplevel() instantiation plus calls to
     # set the title and icon name of the window.
-    window = Tkinter.Toplevel(parent)  # , class_=TITLE)
+    window = tkinter.Toplevel(parent)  # , class_=TITLE)
     # window.wm_group(parent)
     # window.wm_command("")
     if WIN_SYSTEM == "x11":
@@ -135,7 +135,7 @@ def makeToplevel(parent, title=None):
 def make_help_toplevel(app, title=None):
     # Create an independent Toplevel window.
     from pysollib.winsystems import init_root_window
-    window = Tkinter.Tk(className=TITLE)
+    window = tkinter.Tk(className=TITLE)
     init_root_window(window, app)
     return window
 
@@ -198,7 +198,7 @@ def __getWidgetXY(widget, parent, relx=None, rely=None,
 
 
 # ************************************************************************
-# * bind wrapper - Tkinter doesn't properly delete all bindings
+# * bind wrapper - tkinter doesn't properly delete all bindings
 # ************************************************************************
 
 __mfx_bindings = {}
@@ -235,7 +235,7 @@ def unbind_destroy(widget):
                     # widget.deletecommand(funcid)
                 else:
                     widget.unbind(sequence, funcid)
-            except Tkinter.TclError:
+            except tkinter.TclError:
                 pass
         del __mfx_bindings[k]
     # for k in __mfx_bindings.keys(): print __mfx_bindings[k]
@@ -243,7 +243,7 @@ def unbind_destroy(widget):
 
 
 # ************************************************************************
-# * timer wrapper - Tkinter doesn't properly delete all commands
+# * timer wrapper - tkinter doesn't properly delete all commands
 # ************************************************************************
 
 def after(widget, ms, func, *args):
@@ -261,7 +261,7 @@ def after_cancel(t):
         t[2].after_cancel(t[0])
         try:
             t[2].deletecommand(t[1])
-        except Tkinter.TclError:
+        except tkinter.TclError:
             pass
 
 
@@ -311,8 +311,8 @@ def makeImage(file=None, data=None, dither=None, alpha=None):
             return im
         # fromstring(mode, size, data, decoder_name='raw', *args)
         else:
-            return Tkinter.PhotoImage(data=data)
-    return Tkinter.PhotoImage(**kw)
+            return tkinter.PhotoImage(data=data)
+    return tkinter.PhotoImage(**kw)
 
 
 loadImage = makeImage
@@ -323,7 +323,7 @@ def copyImage(image, x, y, width, height):
         if isinstance(image, PIL_Image):
             return ImageTk.PhotoImage(
                 image._pil_image.crop((x, y, x+width, y+height)))
-    dest = Tkinter.PhotoImage(width=width, height=height)
+    dest = tkinter.PhotoImage(width=width, height=height)
     assert dest.width() == width
     assert dest.height() == height
     dest.blank()
@@ -366,7 +366,7 @@ def fillImage(image, fill, outline=None):
 
 
 def createImage(width, height, fill, outline=None):
-    image = Tkinter.PhotoImage(width=width, height=height)
+    image = tkinter.PhotoImage(width=width, height=height)
     assert image.width() == width
     assert image.height() == height
     image.blank()

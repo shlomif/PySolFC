@@ -24,7 +24,7 @@
 
 # imports
 import sys
-import Tkinter
+from six.moves import tkinter
 import ttk
 import tkColorChooser
 
@@ -178,7 +178,7 @@ class SelectTileDialogWithPreview(MfxDialog):
                 c = tkColorChooser.askcolor(master=self.top,
                                             initialcolor=self.table_color,
                                             title=_("Select table color"))
-            except Tkinter.TclError:
+            except tkinter.TclError:
                 pass
             else:
                 if c and c[1]:

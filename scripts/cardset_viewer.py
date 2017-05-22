@@ -6,10 +6,7 @@ import sys
 import os
 from glob import glob
 from math import sqrt, sin, cos, pi
-from Tkinter import BOTH, Button, Frame, PhotoImage, NW, Text, Toplevel, X, YES
-from Tkinter import RIGHT, Tk, Listbox, NS, END, Scrollbar, Canvas, NSEW
-from Tkinter import HORIZONTAL, Label, EW, IntVar, StringVar, LEFT, Checkbutton
-from Tkinter import OptionMenu
+from six.moves import tkinter
 try:
     from PIL import Image, ImageTk
 except ImportError:
@@ -136,9 +133,9 @@ def show_cardset(*args):
 
                 else:
                     zoom_label.config(text='')
-                image = ImageTk.PhotoImage(im)
+                image = ImageTk.tkinter.PhotoImage(im)
             else:
-                image = PhotoImage(file=f)
+                image = tkinter.PhotoImage(file=f)
             tk_images.append(image)
             ff = os.path.split(f)[1]
             if pf is None:
@@ -150,7 +147,7 @@ def show_cardset(*args):
                 y += image.height()+10
             else:
                 x += image.width()+10
-            canvas.create_image(x, y, image=image, anchor=NW)
+            canvas.create_image(x, y, image=image, anchor=tkinter.NW)
             # canvas.create_rectangle(x, y, x+image.width(), y+image.height())
             width = max(width, x)
             height = max(height, y)
@@ -186,81 +183,83 @@ def show_info(*args):
         cs_name = list_box.get(list_box.curselection())
         cs = cardsets_dict[cs_name]
         fn = os.path.join(cs.dir, 'COPYRIGHT')
-        top = Toplevel()
-        text = Text(top)
+        top = tkinter.Toplevel()
+        text = tkinter.Text(top)
         text.insert('insert', open(fn).read())
-        text.pack(expand=YES, fill=BOTH)
-        b_frame = Frame(top)
-        b_frame.pack(fill=X)
-        button = Button(b_frame, text='Close', command=top.destroy)
-        button.pack(side=RIGHT)
+        text.pack(expand=tkinter.YES, fill=tkinter.BOTH)
+        b_frame = tkinter.Frame(top)
+        b_frame.pack(fill=tkinter.X)
+        button = tkinter.Button(b_frame, text='Close', command=top.destroy)
+        button.pack(side=tkinter.RIGHT)
 
 
 def create_widgets():
     global list_box, canvas, label, zoom_label
     #
-    root = Tk()
+    root = tkinter.Tk()
     #
-    list_box = Listbox(root, exportselection=False)
-    list_box.grid(row=0, column=0, rowspan=2, sticky=NS)
+    list_box = tkinter.Listbox(root, exportselection=False)
+    list_box.grid(row=0, column=0, rowspan=2, sticky=tkinter.NS)
     cardsets_list = list(cardsets_dict)
     cardsets_list.sort()
     for cs in cardsets_list:
-        list_box.insert(END, cs)
+        list_box.insert(tkinter.END, cs)
     list_box.bind('<<ListboxSelect>>', show_cardset)
     #
-    sb = Scrollbar(root)
-    sb.grid(row=0, column=1, rowspan=2, sticky=NS)
+    sb = tkinter.Scrollbar(root)
+    sb.grid(row=0, column=1, rowspan=2, sticky=tkinter.NS)
     list_box.config(yscrollcommand=sb.set)
     sb.config(command=list_box.yview)
     #
-    canvas = Canvas(root, bg='#5eab6b')
-    canvas.grid(row=0, column=2, sticky=NSEW)
+    canvas = tkinter.Canvas(root, bg='#5eab6b')
+    canvas.grid(row=0, column=2, sticky=tkinter.NSEW)
     canvas.bind('<4>', lambda e: canvas.yview_scroll(-5, 'unit'))
     canvas.bind('<5>', lambda e: canvas.yview_scroll(5, 'unit'))
     #
-    sb = Scrollbar(root)
-    sb.grid(row=0, column=3, sticky=NS)
+    sb = tkinter.Scrollbar(root)
+    sb.grid(row=0, column=3, sticky=tkinter.NS)
     canvas.config(yscrollcommand=sb.set)
     sb.config(command=canvas.yview)
     #
     if True:
-        sb = Scrollbar(root, orient=HORIZONTAL)
-        sb.grid(row=1, column=2, sticky=EW)
+        sb = tkinter.Scrollbar(root, orient=tkinter.HORIZONTAL)
+        sb.grid(row=1, column=2, sticky=tkinter.EW)
         canvas.config(xscrollcommand=sb.set)
         sb.config(command=canvas.xview)
     #
-    label = Label(root)
+    label = tkinter.Label(root)
     label.grid(row=2, column=0, columnspan=4)
     #
-    b_frame = Frame(root)
-    b_frame.grid(row=3, column=0, columnspan=4, sticky=EW)
-    button = Button(b_frame, text='Quit', command=root.quit, width=8)
-    button.pack(side=RIGHT)
-    button = Button(b_frame, text='Info', command=show_info, width=8)
-    button.pack(side=RIGHT)
+    b_frame = tkinter.Frame(root)
+    b_frame.grid(row=3, column=0, columnspan=4, sticky=tkinter.EW)
+    button = tkinter.Button(b_frame, text='Quit', command=root.quit, width=8)
+    button.pack(side=tkinter.RIGHT)
+    button = tkinter.Button(b_frame, text='Info', command=show_info, width=8)
+    button.pack(side=tkinter.RIGHT)
     if Image:
         global rotate_var, filter_var
-        rotate_var = IntVar(root)
-        filter_var = StringVar(root)
-        button = Button(b_frame, text='  +  ', command=zoom_in)
-        button.pack(side=LEFT)
-        button = Button(b_frame, text='  -  ', command=zoom_out)
-        button.pack(side=LEFT)
-        button = Button(b_frame, text='  =  ', command=zoom_cancel)
-        button.pack(side=LEFT)
-        button = Checkbutton(b_frame, text='Rotate', indicatoron=0,
-                             selectcolor=b_frame['bg'], width=8,
-                             variable=rotate_var, command=show_cardset)
-        button.pack(side=LEFT, fill='y')
-        om = OptionMenu(b_frame, filter_var,
-                        'NEAREST', 'BILINEAR', 'BICUBIC', 'ANTIALIAS',
-                        command=show_cardset)
+        rotate_var = tkinter.IntVar(root)
+        filter_var = tkinter.StringVar(root)
+        button = tkinter.Button(b_frame, text='  +  ', command=zoom_in)
+        button.pack(side=tkinter.LEFT)
+        button = tkinter.Button(b_frame, text='  -  ', command=zoom_out)
+        button.pack(side=tkinter.LEFT)
+        button = tkinter.Button(b_frame, text='  =  ', command=zoom_cancel)
+        button.pack(side=tkinter.LEFT)
+        button = tkinter.Checkbutton(
+            b_frame, text='Rotate', indicatoron=0,
+            selectcolor=b_frame['bg'], width=8,
+            variable=rotate_var, command=show_cardset)
+        button.pack(side=tkinter.LEFT, fill='y')
+        om = tkinter.OptionMenu(
+            b_frame, filter_var,
+            'NEAREST', 'BILINEAR', 'BICUBIC', 'ANTIALIAS',
+            command=show_cardset)
         filter_var.set('NEAREST')
-        om.pack(side=LEFT, fill='y')
+        om.pack(side=tkinter.LEFT, fill='y')
 
-        zoom_label = Label(b_frame)
-        zoom_label.pack(side=LEFT)
+        zoom_label = tkinter.Label(b_frame)
+        zoom_label.pack(side=tkinter.LEFT)
     #
     root.columnconfigure(2, weight=1)
     root.rowconfigure(0, weight=1)

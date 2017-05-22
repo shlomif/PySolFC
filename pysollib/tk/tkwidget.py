@@ -34,7 +34,7 @@ __all__ = ['MfxDialog',
 # imports
 import sys
 import time
-import Tkinter
+from six.moves import tkinter
 import tkFont
 import traceback
 
@@ -84,7 +84,7 @@ class MfxDialog:  # ex. _ToplevelDialog
             setTransient(self.top, self.parent)
             try:
                 self.top.grab_set()
-            except Tkinter.TclError:
+            except tkinter.TclError:
                 if traceback:
                     traceback.print_exc()
                 pass
@@ -171,26 +171,26 @@ class MfxDialog:  # ex. _ToplevelDialog
         return kw
 
     def createFrames(self, kw):
-        bottom_frame = Tkinter.Frame(self.top)
+        bottom_frame = tkinter.Frame(self.top)
         bottom_frame.pack(side='bottom', fill='both', expand=False,
                           ipadx=3, ipady=3)
         if kw.separator:
-            separator = Tkinter.Frame(
+            separator = tkinter.Frame(
                 self.top, relief="sunken",
                 height=2, width=2, borderwidth=1)
             separator.pack(side='bottom', fill='x')
-        top_frame = Tkinter.Frame(self.top)
+        top_frame = tkinter.Frame(self.top)
         top_frame.pack(side='top', fill='both', expand=True)
         return top_frame, bottom_frame
 
     def createBitmaps(self, frame, kw):
         if kw.bitmap:  # in ("error", "info", "question", "warning")
             img = self.img.get(kw.bitmap)
-            b = Tkinter.Label(frame, image=img)
+            b = tkinter.Label(frame, image=img)
             b.pack(side=kw.bitmap_side, padx=kw.bitmap_padx,
                    pady=kw.bitmap_pady)
         elif kw.image:
-            b = Tkinter.Label(frame, image=kw.image)
+            b = tkinter.Label(frame, image=kw.image)
             b.pack(side=kw.image_side, padx=kw.image_padx, pady=kw.image_pady)
 
     def createButtons(self, frame, kw):
@@ -230,10 +230,10 @@ class MfxDialog:  # ex. _ToplevelDialog
             accel_indx = s.find('&')
             s = s.replace('&', '')
             if button < 0:
-                b = Tkinter.Button(frame, text=s, state="disabled")
+                b = tkinter.Button(frame, text=s, state="disabled")
                 button = xbutton
             else:
-                b = Tkinter.Button(
+                b = tkinter.Button(
                     frame, text=s, default="normal",
                     command=(lambda self=self, button=button:
                              self.mDone(button)))
@@ -277,7 +277,7 @@ class MfxMessageDialog(MfxDialog):
         self.createBitmaps(top_frame, kw)
         #
         self.button = kw.default
-        msg = Tkinter.Label(top_frame, text=kw.text, justify=kw.justify,
+        msg = tkinter.Label(top_frame, text=kw.text, justify=kw.justify,
                             width=kw.width)
         msg.pack(fill='both', expand=True, padx=kw.padx, pady=kw.pady)
         #
@@ -318,15 +318,15 @@ class PysolAboutDialog(MfxMessageDialog):
         self.createBitmaps(top_frame, kw)
         #
         self.button = kw.default
-        frame = Tkinter.Frame(top_frame)
+        frame = tkinter.Frame(top_frame)
         frame.pack(fill='both', expand=True, padx=kw.padx, pady=kw.pady)
-        msg = Tkinter.Label(frame, text=kw.text, justify=kw.justify,
+        msg = tkinter.Label(frame, text=kw.text, justify=kw.justify,
                             width=kw.width)
         msg.pack(fill='both', expand=True)
 
         font = tkFont.Font(parent, app.getFont('default'))
         font.configure(underline=True)
-        url_label = Tkinter.Label(frame, text=kw.url, font=font,
+        url_label = tkinter.Label(frame, text=kw.url, font=font,
                                   foreground='blue', cursor='hand2')
         url_label.pack()
         url_label.bind('<1>', self._urlClicked)
@@ -351,10 +351,10 @@ class MfxSimpleEntry(MfxDialog):
         #
         self.value = value
         if label:
-            label = Tkinter.Label(top_frame, text=label, takefocus=0)
+            label = tkinter.Label(top_frame, text=label, takefocus=0)
             label.pack(pady=5)
         w = kw.get("e_width", 0)    # width in characters
-        self.var = Tkinter.Entry(top_frame, exportselection=1, width=w)
+        self.var = tkinter.Entry(top_frame, exportselection=1, width=w)
         self.var.insert(0, value)
         self.var.pack(side='top', padx=kw.padx, pady=kw.pady)
         #
@@ -445,7 +445,7 @@ class MfxTooltip:
         self.timer = None
         if self.tooltip or not self.text:
             return
-        #  if isinstance(self.widget, (Tkinter.Button, Tkinter.Checkbutton)):
+        #  if isinstance(self.widget, (tkinter.Button, tkinter.Checkbutton)):
         #      if self.widget["state"] == 'disabled':
         #          return
         # x = self.widget.winfo_rootx()
@@ -453,11 +453,11 @@ class MfxTooltip:
         y = self.widget.winfo_rooty() + self.widget.winfo_height()
         x += self.xoffset
         y += self.yoffset
-        self.tooltip = Tkinter.Toplevel()
+        self.tooltip = tkinter.Toplevel()
         self.tooltip.wm_iconify()
         self.tooltip.wm_overrideredirect(1)
         self.tooltip.wm_protocol("WM_DELETE_WINDOW", self.destroy)
-        self.label = Tkinter.Label(self.tooltip, text=self.text,
+        self.label = tkinter.Label(self.tooltip, text=self.text,
                                    relief=self.relief, justify=self.justify,
                                    fg=self.fg, bg=self.bg, bd=1, takefocus=0)
         self.label.pack(ipadx=1, ipady=1)
@@ -559,20 +559,20 @@ class MfxScrolledCanvas:
     def createFrame(self, kw):
         width = kw.get("width")
         height = kw.get("height")
-        self.frame = Tkinter.Frame(self.parent, width=width, height=height)
+        self.frame = tkinter.Frame(self.parent, width=width, height=height)
 
     def createCanvas(self, kw):
         bd = kw['bd']
         kw['bd'] = 0
         relief = kw['relief']
         del kw['relief']
-        frame = Tkinter.Frame(self.frame, bd=bd, relief=relief)
+        frame = tkinter.Frame(self.frame, bd=bd, relief=relief)
         frame.grid(row=0, column=0, sticky="news")
         self.canvas = MfxCanvas(frame, **kw)
         self.canvas.pack(expand=True, fill='both')
 
     def createHbar(self):
-        self.hbar = Tkinter.Scrollbar(self.frame, takefocus=0,
+        self.hbar = tkinter.Scrollbar(self.frame, takefocus=0,
                                       orient="horizontal")
         self.canvas["xscrollcommand"] = self._setHbar
         self.hbar["command"] = self.canvas.xview
@@ -580,7 +580,7 @@ class MfxScrolledCanvas:
         self.hbar.grid_remove()
 
     def createVbar(self):
-        self.vbar = Tkinter.Scrollbar(self.frame, takefocus=0)
+        self.vbar = tkinter.Scrollbar(self.frame, takefocus=0)
         self.canvas["yscrollcommand"] = self._setVbar
         self.vbar["command"] = self.canvas.yview
         self.vbar.grid(row=0, column=1, sticky="ns")
@@ -704,9 +704,9 @@ class StackDesc:
         text = stack.getHelp()+'\n'+stack.getBaseCard()
         text = text.strip()
         if text:
-            frame = Tkinter.Frame(self.canvas)
+            frame = tkinter.Frame(self.canvas)
             self.frame = frame
-            label = Tkinter.Message(frame, font=font, text=text,
+            label = tkinter.Message(frame, font=font, text=text,
                                     width=cardw-8, relief='solid',
                                     fg='#000000', bg='#ffffe0', bd=1)
             label.pack()

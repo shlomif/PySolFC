@@ -25,7 +25,7 @@ __all__ = ['SelectCardsetDialogWithPreview']
 
 # imports
 import os
-import Tkinter
+from six.moves import tkinter
 import ttk
 
 # PySol imports
@@ -245,7 +245,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
                              padx=padx, pady=pady)
         if USE_PIL:
             #
-            var = Tkinter.DoubleVar()
+            var = tkinter.DoubleVar()
             var.set(app.opt.scale_x)
             self.scale_x = PysolScale(
                 left_frame, label=_('Scale X:'),
@@ -256,7 +256,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             self.scale_x.grid(
                 row=1, column=0, sticky='ew', padx=padx, pady=pady)
             #
-            var = Tkinter.DoubleVar()
+            var = tkinter.DoubleVar()
             var.set(app.opt.scale_y)
             self.scale_y = PysolScale(
                 left_frame, label=_('Scale Y:'),
@@ -267,7 +267,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             self.scale_y.grid(
                 row=2, column=0, sticky='ew', padx=padx, pady=pady)
             #
-            self.auto_scale = Tkinter.BooleanVar()
+            self.auto_scale = tkinter.BooleanVar()
             self.auto_scale.set(app.opt.auto_scale)
             check = ttk.Checkbutton(
                 left_frame, text=_('Auto scaling'),
@@ -278,7 +278,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             check.grid(row=3, column=0, columnspan=2, sticky='ew',
                        padx=padx, pady=pady)
             #
-            self.preserve_aspect = Tkinter.BooleanVar()
+            self.preserve_aspect = tkinter.BooleanVar()
             self.preserve_aspect.set(app.opt.preserve_aspect_ratio)
             self.aspect_check = ttk.Checkbutton(
                 left_frame, text=_('Preserve aspect ratio'),
@@ -492,7 +492,7 @@ class CardsetInfoDialog(MfxDialog):
             settings_frame.grid(row=row, column=0, columnspan=2, sticky='ew',
                                 padx=0, pady=5, ipadx=5, ipady=5)
             row += 1
-            var = Tkinter.IntVar()
+            var = tkinter.IntVar()
             self.x_offset = PysolScale(
                 settings_frame, label=_('X offset:'),
                 from_=5, to=40, resolution=1,
@@ -502,7 +502,7 @@ class CardsetInfoDialog(MfxDialog):
                 )
             self.x_offset.grid(row=0, column=0, sticky='ew',
                                padx=padx, pady=pady)
-            var = Tkinter.IntVar()
+            var = tkinter.IntVar()
             self.y_offset = PysolScale(
                 settings_frame, label=_('Y offset:'),
                 from_=5, to=40, resolution=1,
@@ -516,7 +516,7 @@ class CardsetInfoDialog(MfxDialog):
 
         # bg = top_frame["bg"]
         bg = 'white'
-        text_w = Tkinter.Text(frame, bd=1, relief="sunken", wrap="word",
+        text_w = tkinter.Text(frame, bd=1, relief="sunken", wrap="word",
                               padx=4, width=64, height=16, bg=bg)
         text_w.grid(row=row, column=0, sticky='nsew')
         sb = ttk.Scrollbar(frame)

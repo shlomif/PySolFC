@@ -25,7 +25,7 @@ __all__ = ['PysolToolbarTk']
 
 # imports
 import os
-import Tkinter
+from six.moves import tkinter
 import ttk
 
 # PySol imports
@@ -127,9 +127,9 @@ class ToolbarSeparator(ttk.Separator):
         self.grid_forget()
 
 
-class ToolbarLabel(Tkinter.Message):
+class ToolbarLabel(tkinter.Message):
     def __init__(self, parent, toolbar, toolbar_name, position, **kwargs):
-        Tkinter.Message.__init__(self, parent, **kwargs)
+        tkinter.Message.__init__(self, parent, **kwargs)
         self.toolbar = toolbar
         self.toolbar_name = toolbar_name
         self.position = position

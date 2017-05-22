@@ -26,7 +26,7 @@ __all__ = ['GameInfoDialog']
 
 #  # imports
 #  import os, sys
-#  import Tkinter
+#  from six.moves import tkinter
 
 #  # PySol imports
 #  from pysollib.mfxutil import KwStruct

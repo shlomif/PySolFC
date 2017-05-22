@@ -23,7 +23,7 @@
 
 
 #
-# This files tries to wrap a limited subset of the Tkinter canvas
+# This files tries to wrap a limited subset of the tkinter canvas
 # into GTK / Gnome.
 #
 
@@ -282,7 +282,7 @@ class MfxCanvasText(_CanvasItem):
 class MfxCanvas(gnomecanvas.Canvas):
     def __init__(self, top, bg=None, highlightthickness=0):
         self.preview = 0
-        # Tkinter compat
+        # tkinter compat
         self.items = {}
         self._all_items = []
         self._text_items = []

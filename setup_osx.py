@@ -6,7 +6,7 @@ Usage:
 import os
 import sys
 import shutil
-import Tkinter
+from six.moves import tkinter
 from subprocess import call
 from setuptools import setup
 from pysollib.settings import PACKAGE, VERSION
@@ -28,7 +28,7 @@ call("./scripts/all_games.py > docs/all_games.html", shell=True)
 
 # Use Tile widgets, if they are installed.
 # http://tktable.sourceforge.net/tile/
-root = Tkinter.Tk()
+root = tkinter.Tk()
 root.withdraw()
 try:
     root.tk.call('package', 'require', 'tile', '0.7.8')
@@ -39,7 +39,7 @@ else:
     TCL_EXTENSION_PATH = "/Library/Tcl"
 finally:
     root.destroy()
-    del root, Tkinter
+    del root, tkinter
 
 # Use Freecell Solver, if it is installed.
 # http://fc-solve.berlios.de/

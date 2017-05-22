@@ -33,7 +33,7 @@ __all__ = ['SingleGame_StatsDialog',
 # imports
 import os
 import time
-import Tkinter
+from six.moves import tkinter
 import tkFont
 
 # PySol imports
@@ -133,14 +133,14 @@ class SingleGame_StatsDialog(MfxDialog):
 
     def _createChartInit(self, text):
         w, h = self.tab_x[-1]+20, self.tab_y[-1]+20
-        c = Tkinter.Canvas(self.top_frame, width=w, height=h)
+        c = tkinter.Canvas(self.top_frame, width=w, height=h)
         c.pack(side='top', fill='both', expand=False, padx=20, pady=10)
         self.canvas = c
         # self.fg = c.cget("insertbackground")
         self.fg = c.option_get('foreground', '') or c.cget("insertbackground")
         #
         c.create_rectangle(2, 7, w, h, fill="", outline="#7f7f7f")
-        l = Tkinter.Label(c, text=text, font=self.font, bd=0, padx=3, pady=1)
+        l = tkinter.Label(c, text=text, font=self.font, bd=0, padx=3, pady=1)
         dy = int(self.font_metrics['ascent']) - 10
         dy = dy/2
         c.create_window(20, -dy, window=l, anchor="nw")
@@ -682,38 +682,38 @@ class _TopDialog(MfxDialog):
                'highlightthickness': 1,
                'highlightbackground': 'black',
                }
-        frame = Tkinter.Frame(**cnf)
+        frame = tkinter.Frame(**cnf)
         frame.pack(expand=True, fill='both', padx=10, pady=10)
         frame.columnconfigure(0, weight=1)
         cnf['master'] = frame
         cnf['text'] = _('N')
-        l = Tkinter.Label(**cnf)
+        l = tkinter.Label(**cnf)
         l.grid(row=0, column=0, sticky='ew')
         cnf['text'] = _('Game number')
-        l = Tkinter.Label(**cnf)
+        l = tkinter.Label(**cnf)
         l.grid(row=0, column=1, sticky='ew')
         cnf['text'] = _('Started at')
-        l = Tkinter.Label(**cnf)
+        l = tkinter.Label(**cnf)
         l.grid(row=0, column=2, sticky='ew')
         cnf['text'] = _('Result')
-        l = Tkinter.Label(**cnf)
+        l = tkinter.Label(**cnf)
         l.grid(row=0, column=3, sticky='ew')
 
         row = 1
         for i in top:
             # N
             cnf['text'] = str(row)
-            l = Tkinter.Label(**cnf)
+            l = tkinter.Label(**cnf)
             l.grid(row=row, column=0, sticky='ew')
             # Game number
             cnf['text'] = '#'+str(i.game_number)
-            l = Tkinter.Label(**cnf)
+            l = tkinter.Label(**cnf)
             l.grid(row=row, column=1, sticky='ew')
             # Start time
             t = time.strftime(
                 '%Y-%m-%d %H:%M', time.localtime(i.game_start_time))
             cnf['text'] = t
-            l = Tkinter.Label(**cnf)
+            l = tkinter.Label(**cnf)
             l.grid(row=row, column=2, sticky='ew')
             # Result
             if isinstance(i.value, float):
@@ -723,7 +723,7 @@ class _TopDialog(MfxDialog):
                 # moves
                 s = str(i.value)
             cnf['text'] = s
-            l = Tkinter.Label(**cnf)
+            l = tkinter.Label(**cnf)
             l.grid(row=row, column=3, sticky='ew')
             row += 1
 
@@ -743,7 +743,7 @@ class Top_StatsDialog(MfxDialog):
         top_frame, bottom_frame = self.createFrames(kw)
         self.createBitmaps(top_frame, kw)
 
-        frame = Tkinter.Frame(top_frame)
+        frame = tkinter.Frame(top_frame)
         frame.pack(expand=True, fill='both', padx=10, pady=10)
         frame.columnconfigure(0, weight=1)
 
@@ -751,10 +751,10 @@ class Top_StatsDialog(MfxDialog):
             gameid in app.stats.games_stats[player] and
                 app.stats.games_stats[player][gameid].time_result.top):
 
-            Tkinter.Label(frame, text=_('Minimum')).grid(row=0, column=1)
-            Tkinter.Label(frame, text=_('Maximum')).grid(row=0, column=2)
-            Tkinter.Label(frame, text=_('Average')).grid(row=0, column=3)
-            # Tkinter.Label(frame, text=_('Total')).grid(row=0, column=4)
+            tkinter.Label(frame, text=_('Minimum')).grid(row=0, column=1)
+            tkinter.Label(frame, text=_('Maximum')).grid(row=0, column=2)
+            tkinter.Label(frame, text=_('Average')).grid(row=0, column=3)
+            # tkinter.Label(frame, text=_('Total')).grid(row=0, column=4)
 
             s = app.stats.games_stats[player][gameid]
             row = 1
@@ -794,17 +794,17 @@ class Top_StatsDialog(MfxDialog):
             #                 s.score_casino_result.max,
             #                 round(s.score_casino_result.average, 2), ))
             for l, min, max, avr, tot, top in ll:
-                Tkinter.Label(frame, text=l).grid(row=row, column=0)
-                Tkinter.Label(frame, text=str(min)).grid(row=row, column=1)
-                Tkinter.Label(frame, text=str(max)).grid(row=row, column=2)
-                Tkinter.Label(frame, text=str(avr)).grid(row=row, column=3)
-                # Tkinter.Label(frame, text=str(tot)).grid(row=row, column=4)
-                b = Tkinter.Button(frame, text=TOP_TITLE+' ...', width=10,
+                tkinter.Label(frame, text=l).grid(row=row, column=0)
+                tkinter.Label(frame, text=str(min)).grid(row=row, column=1)
+                tkinter.Label(frame, text=str(max)).grid(row=row, column=2)
+                tkinter.Label(frame, text=str(avr)).grid(row=row, column=3)
+                # tkinter.Label(frame, text=str(tot)).grid(row=row, column=4)
+                b = tkinter.Button(frame, text=TOP_TITLE+' ...', width=10,
                                    command=lambda top=top: self.showTop(top))
                 b.grid(row=row, column=5)
                 row += 1
         else:
-            Tkinter.Label(frame, text=_('No TOP for this game')).pack()
+            tkinter.Label(frame, text=_('No TOP for this game')).pack()
 
         focus = self.createButtons(bottom_frame, kw)
         self.mainloop(focus, kw.timeout)
@@ -846,7 +846,7 @@ class ProgressionDialog(MfxDialog):
         top_frame, bottom_frame = self.createFrames(kw)
         self.createBitmaps(top_frame, kw)
 
-        frame = Tkinter.Frame(top_frame)
+        frame = tkinter.Frame(top_frame)
         frame.pack(expand=True, fill='both', padx=5, pady=10)
         frame.columnconfigure(0, weight=1)
 
@@ -861,7 +861,7 @@ class ProgressionDialog(MfxDialog):
         self.won_color = '#00dc28'
         self.percent_color = 'blue'
         # create canvas
-        self.canvas = canvas = Tkinter.Canvas(frame, bg='#dfe8ff',
+        self.canvas = canvas = tkinter.Canvas(frame, bg='#dfe8ff',
                                               highlightthickness=1,
                                               highlightbackground='black',
                                               width=self.canvas_width,
@@ -918,25 +918,25 @@ class ProgressionDialog(MfxDialog):
         canvas.create_text(x, y, anchor='sw', text=_('% won'))
 
         # right frame
-        right_frame = Tkinter.Frame(frame)
+        right_frame = tkinter.Frame(frame)
         right_frame.pack(side='left', fill='x', padx=5)
-        self.all_games_variable = var = Tkinter.StringVar()
+        self.all_games_variable = var = tkinter.StringVar()
         var.set('all')
-        b = Tkinter.Radiobutton(right_frame, text=_('All games'),
+        b = tkinter.Radiobutton(right_frame, text=_('All games'),
                                 variable=var, value='all',
                                 command=self.updateGraph,
                                 justify='left', anchor='w'
                                 )
         b.pack(fill='x', expand=True, padx=3, pady=1)
-        b = Tkinter.Radiobutton(right_frame, text=_('Current game'),
+        b = tkinter.Radiobutton(right_frame, text=_('Current game'),
                                 variable=var, value='current',
                                 command=self.updateGraph,
                                 justify='left', anchor='w'
                                 )
         b.pack(fill='x', expand=True, padx=3, pady=1)
-        label_frame = Tkinter.LabelFrame(right_frame, text=_('Statistics for'))
+        label_frame = tkinter.LabelFrame(right_frame, text=_('Statistics for'))
         label_frame.pack(side='top', fill='x', pady=10)
-        self.variable = var = Tkinter.StringVar()
+        self.variable = var = tkinter.StringVar()
         var.set('week')
         for v, t in (
             ('week',  _('Last 7 days')),
@@ -944,32 +944,32 @@ class ProgressionDialog(MfxDialog):
             ('year',  _('Last year')),
             ('all',   _('All time')),
                 ):
-            b = Tkinter.Radiobutton(label_frame, text=t, variable=var, value=v,
+            b = tkinter.Radiobutton(label_frame, text=t, variable=var, value=v,
                                     command=self.updateGraph,
                                     justify='left', anchor='w'
                                     )
             b.pack(fill='x', expand=True, padx=3, pady=1)
-        label_frame = Tkinter.LabelFrame(right_frame, text=_('Show graphs'))
+        label_frame = tkinter.LabelFrame(right_frame, text=_('Show graphs'))
         label_frame.pack(side='top', fill='x')
-        self.played_graph_var = Tkinter.BooleanVar()
+        self.played_graph_var = tkinter.BooleanVar()
         self.played_graph_var.set(True)
-        b = Tkinter.Checkbutton(label_frame, text=_('Played'),
+        b = tkinter.Checkbutton(label_frame, text=_('Played'),
                                 command=self.updateGraph,
                                 variable=self.played_graph_var,
                                 justify='left', anchor='w'
                                 )
         b.pack(fill='x', expand=True, padx=3, pady=1)
-        self.won_graph_var = Tkinter.BooleanVar()
+        self.won_graph_var = tkinter.BooleanVar()
         self.won_graph_var.set(True)
-        b = Tkinter.Checkbutton(label_frame, text=_('Won'),
+        b = tkinter.Checkbutton(label_frame, text=_('Won'),
                                 command=self.updateGraph,
                                 variable=self.won_graph_var,
                                 justify='left', anchor='w'
                                 )
         b.pack(fill='x', expand=True, padx=3, pady=1)
-        self.percent_graph_var = Tkinter.BooleanVar()
+        self.percent_graph_var = tkinter.BooleanVar()
         self.percent_graph_var.set(True)
-        b = Tkinter.Checkbutton(label_frame, text=_('% won'),
+        b = tkinter.Checkbutton(label_frame, text=_('% won'),
                                 command=self.updateGraph,
                                 variable=self.percent_graph_var,
                                 justify='left', anchor='w'

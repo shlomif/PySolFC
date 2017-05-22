@@ -24,7 +24,7 @@
 __all__ = ['PlayerOptionsDialog']
 
 # imports
-import Tkinter
+from six.moves import tkinter
 
 # PySol imports
 from pysollib.mygettext import _
@@ -46,9 +46,9 @@ class SelectUserNameDialog(MfxDialog):
         top_frame, bottom_frame = self.createFrames(kw)
         self.createBitmaps(top_frame, kw)
         #
-        listbox = Tkinter.Listbox(top_frame)
+        listbox = tkinter.Listbox(top_frame)
         listbox.pack(side='left', fill='both', expand=True)
-        scrollbar = Tkinter.Scrollbar(top_frame)
+        scrollbar = tkinter.Scrollbar(top_frame)
         scrollbar.pack(side='right', fill='y')
         listbox.configure(yscrollcommand=scrollbar.set)
         scrollbar.configure(command=listbox.yview)
@@ -87,34 +87,34 @@ class PlayerOptionsDialog(MfxDialog):
         self.createBitmaps(top_frame, kw)
         self.app = app
         #
-        self.update_stats_var = Tkinter.BooleanVar()
+        self.update_stats_var = tkinter.BooleanVar()
         self.update_stats_var.set(app.opt.update_player_stats != 0)
-        self.confirm_var = Tkinter.BooleanVar()
+        self.confirm_var = tkinter.BooleanVar()
         self.confirm_var.set(app.opt.confirm != 0)
-        self.win_animation_var = Tkinter.BooleanVar()
+        self.win_animation_var = tkinter.BooleanVar()
         self.win_animation_var.set(app.opt.win_animation != 0)
         #
-        frame = Tkinter.Frame(top_frame)
+        frame = tkinter.Frame(top_frame)
         frame.pack(expand=True, fill='both', padx=5, pady=10)
-        widget = Tkinter.Label(frame, text=_("\nPlease enter your name"),
+        widget = tkinter.Label(frame, text=_("\nPlease enter your name"),
                                # justify='left', anchor='w',
                                takefocus=0)
         widget.grid(row=0, column=0, columnspan=2, sticky='ew', padx=0, pady=5)
         w = kw.get("e_width", 30)    # width in characters
-        self.player_var = Tkinter.Entry(frame, exportselection=1, width=w)
+        self.player_var = tkinter.Entry(frame, exportselection=1, width=w)
         self.player_var.insert(0, app.opt.player)
         self.player_var.grid(row=1, column=0, sticky='ew', padx=0, pady=5)
-        widget = Tkinter.Button(frame, text=_('Choose...'),
+        widget = tkinter.Button(frame, text=_('Choose...'),
                                 command=self.selectUserName)
         widget.grid(row=1, column=1, padx=5, pady=5)
-        widget = Tkinter.Checkbutton(frame, variable=self.confirm_var,
+        widget = tkinter.Checkbutton(frame, variable=self.confirm_var,
                                      anchor='w', text=_("Confirm quit"))
         widget.grid(row=2, column=0, columnspan=2, sticky='ew', padx=0, pady=5)
-        widget = Tkinter.Checkbutton(frame, variable=self.update_stats_var,
+        widget = tkinter.Checkbutton(frame, variable=self.update_stats_var,
                                      anchor='w',
                                      text=_("Update statistics and logs"))
         widget.grid(row=3, column=0, columnspan=2, sticky='ew', padx=0, pady=5)
-        #  widget = Tkinter.Checkbutton(frame, variable=self.win_animation_var,
+        #  widget = tkinter.Checkbutton(frame, variable=self.win_animation_var,
         #                               text="Win animation")
         #  widget.pack(side='top', padx=kw.padx, pady=kw.pady)
         frame.columnconfigure(0, weight=1)
@@ -159,7 +159,7 @@ def playeroptionsdialog_main(args):
     from pysollib.ui.tktile.tkutil import wm_withdraw
     opt = Struct(player="Test", update_player_stats=1)
     app = Struct(opt=opt)
-    tk = Tkinter.Tk()
+    tk = tkinter.Tk()
     wm_withdraw(tk)
     tk.update()
     d = PlayerOptionsDialog(tk, "Player options", app)

@@ -26,7 +26,7 @@ __all__ = ['HTMLViewer']
 # imports
 import os
 import sys
-import Tkinter
+from six.moves import tkinter
 import ttk
 
 # PySol imports
@@ -102,7 +102,7 @@ class HTMLViewer(Base_HTMLViewer):
                         sticky='nsew', padx=1, pady=1)
         vbar = ttk.Scrollbar(text_frame)
         vbar.pack(side='right', fill='y')
-        self.text = Tkinter.Text(text_frame,
+        self.text = tkinter.Text(text_frame,
                                  fg='black', bg='white',
                                  bd=1, relief='sunken',
                                  cursor=self.defcursor,
@@ -134,7 +134,7 @@ def tkhtml_main(args):
         url = args[1]
     except:
         url = os.path.join(os.pardir, os.pardir, "data", "html", "index.html")
-    top = Tkinter.Tk()
+    top = tkinter.Tk()
     top.tk.call("package", "require", "tile")
     top.wm_minsize(400, 200)
     viewer = HTMLViewer(top)

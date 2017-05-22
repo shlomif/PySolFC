@@ -27,7 +27,7 @@ __all__ = ['PysolStatusbar',
 # imports
 import os
 import sys
-import Tkinter
+from six.moves import tkinter
 import ttk
 
 # PySol imports
@@ -199,7 +199,7 @@ class TestStatusbar(PysolStatusbar):
 
 
 def statusbar_main(args):
-    tk = Tkinter.Tk()
+    tk = tkinter.Tk()
     TestStatusbar(tk, args)
     tk.mainloop()
     return 0

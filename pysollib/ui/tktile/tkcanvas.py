@@ -29,7 +29,7 @@ __all__ = ['MfxCanvasGroup',
            'MfxCanvas']
 
 # imports
-import Tkinter
+from six.moves import tkinter
 import Canvas
 
 # PySol imports
@@ -129,9 +129,9 @@ class MfxCanvasText(Canvas.CanvasText):
 # * canvas
 # ************************************************************************
 
-class MfxCanvas(Tkinter.Canvas):
+class MfxCanvas(tkinter.Canvas):
     def __init__(self, *args, **kw):
-        Tkinter.Canvas.__init__(self, *args, **kw)
+        tkinter.Canvas.__init__(self, *args, **kw)
         self.preview = 0
         self.busy = False
         # this is also used by lib-tk/Canvas.py
@@ -219,11 +219,11 @@ class MfxCanvas(Tkinter.Canvas):
     #
 
     def _x_create(self, itemType, *args, **kw):
-        return Tkinter.Canvas._create(self, itemType, args, kw)
+        return tkinter.Canvas._create(self, itemType, args, kw)
 
     def _create(self, itemType, args, kw):
         # print "_create:", itemType, args, kw
-        id = Tkinter.Canvas._create(self, itemType, args, kw)
+        id = tkinter.Canvas._create(self, itemType, args, kw)
         if self.__tops:
             self.tk.call(self._w, "lower", id, self.__tops[0])
         return id
@@ -340,7 +340,7 @@ class MfxCanvas(Tkinter.Canvas):
         try:
             if image and isinstance(image, str):
                 image = loadImage(file=image)
-        except Tkinter.TclError:
+        except tkinter.TclError:
             return 0
         if len(self.__tops) == 1 and image is self.__tops[0]:
             return 1
@@ -391,7 +391,7 @@ class MfxCanvas(Tkinter.Canvas):
         return funcid
 
     def _substitute(self, *args):
-        e = Tkinter.Event()
+        e = tkinter.Event()
         try:
             # Tk changed behavior in 8.4.2, returning "??" rather more often.
             e.x = int(args[0])

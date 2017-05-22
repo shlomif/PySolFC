@@ -24,7 +24,7 @@
 
 # imports
 import sys
-import Tkinter
+from six.moves import tkinter
 import tkColorChooser
 
 # PySol imports
@@ -128,7 +128,7 @@ class SelectTileDialogWithPreview(MfxDialog):
             w1, w2 = 200, 300
         font = app.getFont("default")
         padx, pady = 4, 4
-        frame = Tkinter.Frame(top_frame)
+        frame = tkinter.Frame(top_frame)
         frame.pack(fill='both', expand=True,
                    padx=kw.padx-padx, pady=kw.pady-pady)
         self.tree = self.Tree_Class(self, frame, key=key,
@@ -177,7 +177,7 @@ class SelectTileDialogWithPreview(MfxDialog):
                 c = tkColorChooser.askcolor(master=self.top,
                                             initialcolor=self.table_color,
                                             title=_("Select table color"))
-            except Tkinter.TclError:
+            except tkinter.TclError:
                 pass
             else:
                 if c and c[1]:

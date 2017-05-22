@@ -28,7 +28,7 @@ __all__ = ['create_find_card_dialog',
 
 # imports
 #  import os
-#  import Tkinter
+#  from six.moves import tkinter
 #  import traceback
 
 #  # PySol imports

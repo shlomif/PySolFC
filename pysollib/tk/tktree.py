@@ -23,7 +23,7 @@
 
 # imports
 import os
-import Tkinter
+from six.moves import tkinter
 
 # Toolkit imports
 from pysollib.ui.tktile.tkutil import bind
@@ -106,7 +106,7 @@ class MfxTreeBaseNode:
             try:
                 # _tkinter.TclError: unknown option "-fill" ???
                 canvas.itemconfig(self.textrect_id, fill=bg)
-            except Tkinter.TclError:
+            except tkinter.TclError:
                 pass
         elif self.selected:
             b = canvas.bbox(self.text_id)
@@ -279,7 +279,7 @@ class MfxTreeInCanvas(MfxScrolledCanvas):
             # draw
             try:
                 lx, ly, nx, ny = node.draw(nx, ny, None, None)
-            except Tkinter.TclError:
+            except tkinter.TclError:
                 # FIXME: Tk bug ???
                 raise
         # set scroll region
@@ -401,7 +401,7 @@ class DirectoryBrowser(MfxTreeInCanvas):
 
 
 if __name__ == "__main__":
-    tk = Tkinter.Tk()
+    tk = tkinter.Tk()
     if os.name == "nt":
         app = DirectoryBrowser(tk, ("c:\\", "c:\\windows"))
     else:

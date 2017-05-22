@@ -26,7 +26,7 @@ __all__ = ['HTMLViewer']
 # imports
 import os
 import sys
-import Tkinter
+from six.moves import tkinter
 
 # PySol imports
 from pysollib.mygettext import _
@@ -74,30 +74,30 @@ class HTMLViewer(Base_HTMLViewer):
 
         # create buttons
         button_width = 8
-        self.homeButton = Tkinter.Button(parent, text=_("Index"),
+        self.homeButton = tkinter.Button(parent, text=_("Index"),
                                          width=button_width,
                                          command=self.goHome)
         self.homeButton.grid(row=0, column=0, sticky='w')
-        self.backButton = Tkinter.Button(parent, text=_("Back"),
+        self.backButton = tkinter.Button(parent, text=_("Back"),
                                          width=button_width,
                                          command=self.goBack)
         self.backButton.grid(row=0, column=1, sticky='w')
-        self.forwardButton = Tkinter.Button(parent, text=_("Forward"),
+        self.forwardButton = tkinter.Button(parent, text=_("Forward"),
                                             width=button_width,
                                             command=self.goForward)
         self.forwardButton.grid(row=0, column=2, sticky='w')
-        self.closeButton = Tkinter.Button(parent, text=_("Close"),
+        self.closeButton = tkinter.Button(parent, text=_("Close"),
                                           width=button_width,
                                           command=self.destroy)
         self.closeButton.grid(row=0, column=3, sticky='e')
 
         # create text widget
-        text_frame = Tkinter.Frame(parent)
+        text_frame = tkinter.Frame(parent)
         text_frame.grid(row=1, column=0, columnspan=4, sticky='nsew')
         text_frame.grid_propagate(False)
-        vbar = Tkinter.Scrollbar(text_frame)
+        vbar = tkinter.Scrollbar(text_frame)
         vbar.pack(side='right', fill='y')
-        self.text = Tkinter.Text(text_frame,
+        self.text = tkinter.Text(text_frame,
                                  fg='black', bg='white',
                                  bd=1, relief='sunken',
                                  cursor=self.defcursor,
@@ -129,7 +129,7 @@ def tkhtml_main(args):
         url = args[1]
     except:
         url = os.path.join(os.pardir, os.pardir, "data", "html", "index.html")
-    top = Tkinter.Tk()
+    top = tkinter.Tk()
     top.wm_minsize(400, 200)
     viewer = HTMLViewer(top)
     viewer.app = None

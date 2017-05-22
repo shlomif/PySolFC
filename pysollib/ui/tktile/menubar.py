@@ -3,7 +3,7 @@ import os
 import re
 import sys
 
-import Tkinter
+from six.moves import tkinter
 import tkFileDialog
 
 from pysollib.mfxutil import Struct, kwdefault
@@ -73,14 +73,14 @@ def createToolbarMenu(menubar, menu):
 # *
 # ************************************************************************
 
-class MfxMenubar(Tkinter.Menu):
+class MfxMenubar(tkinter.Menu):
     addPath = None
 
     def __init__(self, master, **kw):
         self.name = kw["name"]
         tearoff = 0
         self.n = kw["tearoff"] = int(kw.get("tearoff", tearoff))
-        Tkinter.Menu.__init__(self, master, **kw)
+        tkinter.Menu.__init__(self, master, **kw)
 
     def labeltoname(self, label):
         # print label, type(label)
@@ -104,7 +104,7 @@ class MfxMenubar(Tkinter.Menu):
             if name and self.addPath:
                 path = str(self._w) + "." + name
                 self.addPath(path, self, self.n, cnf.get("menu"))
-        Tkinter.Menu.add(self, itemType, cnf)
+        tkinter.Menu.add(self, itemType, cnf)
         self.n = self.n + 1
 
 
@@ -152,54 +152,54 @@ class PysolMenubarTkCommon:
     def _createTkOpt(self):
         # structure to convert menu-options to Toolkit variables
         self.tkopt = Struct(
-            gameid=Tkinter.IntVar(),
-            gameid_popular=Tkinter.IntVar(),
-            comment=Tkinter.BooleanVar(),
-            autofaceup=Tkinter.BooleanVar(),
-            autodrop=Tkinter.BooleanVar(),
-            autodeal=Tkinter.BooleanVar(),
-            quickplay=Tkinter.BooleanVar(),
-            undo=Tkinter.BooleanVar(),
-            bookmarks=Tkinter.BooleanVar(),
-            hint=Tkinter.BooleanVar(),
-            shuffle=Tkinter.BooleanVar(),
-            highlight_piles=Tkinter.BooleanVar(),
-            highlight_cards=Tkinter.BooleanVar(),
-            highlight_samerank=Tkinter.BooleanVar(),
-            highlight_not_matching=Tkinter.BooleanVar(),
-            mahjongg_show_removed=Tkinter.BooleanVar(),
-            shisen_show_hint=Tkinter.BooleanVar(),
-            sound=Tkinter.BooleanVar(),
-            auto_scale=Tkinter.BooleanVar(),
-            cardback=Tkinter.IntVar(),
-            tabletile=Tkinter.IntVar(),
-            animations=Tkinter.IntVar(),
-            redeal_animation=Tkinter.BooleanVar(),
-            win_animation=Tkinter.BooleanVar(),
-            shadow=Tkinter.BooleanVar(),
-            shade=Tkinter.BooleanVar(),
-            shade_filled_stacks=Tkinter.BooleanVar(),
-            shrink_face_down=Tkinter.BooleanVar(),
-            toolbar=Tkinter.IntVar(),
-            toolbar_style=Tkinter.StringVar(),
-            toolbar_relief=Tkinter.StringVar(),
-            toolbar_compound=Tkinter.StringVar(),
-            toolbar_size=Tkinter.IntVar(),
-            statusbar=Tkinter.BooleanVar(),
-            num_cards=Tkinter.BooleanVar(),
-            helpbar=Tkinter.BooleanVar(),
-            save_games_geometry=Tkinter.BooleanVar(),
-            splashscreen=Tkinter.BooleanVar(),
-            demo_logo=Tkinter.BooleanVar(),
-            mouse_type=Tkinter.StringVar(),
-            mouse_undo=Tkinter.BooleanVar(),
-            negative_bottom=Tkinter.BooleanVar(),
-            pause=Tkinter.BooleanVar(),
-            theme=Tkinter.StringVar(),
+            gameid=tkinter.IntVar(),
+            gameid_popular=tkinter.IntVar(),
+            comment=tkinter.BooleanVar(),
+            autofaceup=tkinter.BooleanVar(),
+            autodrop=tkinter.BooleanVar(),
+            autodeal=tkinter.BooleanVar(),
+            quickplay=tkinter.BooleanVar(),
+            undo=tkinter.BooleanVar(),
+            bookmarks=tkinter.BooleanVar(),
+            hint=tkinter.BooleanVar(),
+            shuffle=tkinter.BooleanVar(),
+            highlight_piles=tkinter.BooleanVar(),
+            highlight_cards=tkinter.BooleanVar(),
+            highlight_samerank=tkinter.BooleanVar(),
+            highlight_not_matching=tkinter.BooleanVar(),
+            mahjongg_show_removed=tkinter.BooleanVar(),
+            shisen_show_hint=tkinter.BooleanVar(),
+            sound=tkinter.BooleanVar(),
+            auto_scale=tkinter.BooleanVar(),
+            cardback=tkinter.IntVar(),
+            tabletile=tkinter.IntVar(),
+            animations=tkinter.IntVar(),
+            redeal_animation=tkinter.BooleanVar(),
+            win_animation=tkinter.BooleanVar(),
+            shadow=tkinter.BooleanVar(),
+            shade=tkinter.BooleanVar(),
+            shade_filled_stacks=tkinter.BooleanVar(),
+            shrink_face_down=tkinter.BooleanVar(),
+            toolbar=tkinter.IntVar(),
+            toolbar_style=tkinter.StringVar(),
+            toolbar_relief=tkinter.StringVar(),
+            toolbar_compound=tkinter.StringVar(),
+            toolbar_size=tkinter.IntVar(),
+            statusbar=tkinter.BooleanVar(),
+            num_cards=tkinter.BooleanVar(),
+            helpbar=tkinter.BooleanVar(),
+            save_games_geometry=tkinter.BooleanVar(),
+            splashscreen=tkinter.BooleanVar(),
+            demo_logo=tkinter.BooleanVar(),
+            mouse_type=tkinter.StringVar(),
+            mouse_undo=tkinter.BooleanVar(),
+            negative_bottom=tkinter.BooleanVar(),
+            pause=tkinter.BooleanVar(),
+            theme=tkinter.StringVar(),
             toolbar_vars={},
         )
         for w in TOOLBAR_BUTTONS:
-            self.tkopt.toolbar_vars[w] = Tkinter.BooleanVar()
+            self.tkopt.toolbar_vars[w] = tkinter.BooleanVar()
 
     def _setOptions(self):
         tkopt, opt = self.tkopt, self.app.opt

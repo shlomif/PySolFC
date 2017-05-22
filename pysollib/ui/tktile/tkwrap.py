@@ -25,9 +25,9 @@ __all__ = ['TclError',
            'MfxRoot']
 
 # imports
-import Tkinter
+from six.moves import tkinter
 from pysollib.ui.tktile.tkconst import EVENT_PROPAGATE
-TclError = Tkinter.TclError
+TclError = tkinter.TclError
 
 # PySol imports
 
@@ -37,13 +37,13 @@ TclError = Tkinter.TclError
 # * Required so that a Game will get properly destroyed.
 # ************************************************************************
 
-class MfxRoot(Tkinter.Tk):
+class MfxRoot(tkinter.Tk):
     def __init__(self, **kw):
-        Tkinter.Tk.__init__(self, **kw)
+        tkinter.Tk.__init__(self, **kw)
         self.app = None
         self.wm_protocol('WM_DELETE_WINDOW', self.wmDeleteWindow)
         # for interruptible sleep
-        # self.sleep_var = Tkinter.IntVar(self)
+        # self.sleep_var = tkinter.IntVar(self)
         # self.sleep_var.set(0)
         self.sleep_var = 0
         self.after_id = None
@@ -78,7 +78,7 @@ class MfxRoot(Tkinter.Tk):
     def setCursor(self, cursor):
         if 0:
             # FIXME: this causes ugly resizes !
-            Tkinter.Tk.config(self, cursor=cursor)
+            tkinter.Tk.config(self, cursor=cursor)
         elif 0:
             # and this is even worse
             # print self.children
@@ -138,7 +138,7 @@ class MfxRoot(Tkinter.Tk):
     #
 
     def update(self):
-        Tkinter.Tk.update(self)
+        tkinter.Tk.update(self)
 
     def wmDeleteWindow(self):
         if self.app and self.app.menubar:

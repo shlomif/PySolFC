@@ -25,16 +25,16 @@ __all__ = ["Button", "Checkbutton", "Combobox", "Entry", "Frame", "Label",
            # functions
            "tclobjs_to_py"]
 
-import Tkinter
+from six.moves import tkinter
 from pysollib.mygettext import _, n_
 
-_flatten = Tkinter._flatten
+_flatten = tkinter._flatten
 
 # Verify if Tk is new enough to not need Tile checking
-_REQUIRE_TILE = True if Tkinter.TkVersion < 8.5 else False
+_REQUIRE_TILE = True if tkinter.TkVersion < 8.5 else False
 
 def _loadttk(loadtk):
-    # This extends the default Tkinter.Tk._loadtk method so we can be
+    # This extends the default tkinter.Tk._loadtk method so we can be
     # sure that ttk is available for use, or not.
     def _wrapper(self):
         loadtk(self)
@@ -52,7 +52,7 @@ def _loadttk(loadtk):
 
     return _wrapper
 
-Tkinter.Tk._loadtk = _loadttk(Tkinter.Tk._loadtk)
+tkinter.Tk._loadtk = _loadttk(tkinter.Tk._loadtk)
 
 def _format_optdict(optdict, script=False, ignore=None):
     """Formats optdict to a tuple to pass it to tk.call.
@@ -362,10 +362,10 @@ class Style(object):
 
     def __init__(self, master=None):
         if master is None:
-            if Tkinter._support_default_root:
-                master = Tkinter._default_root or Tkinter.Tk()
+            if tkinter._support_default_root:
+                master = tkinter._default_root or tkinter.Tk()
             else:
-                raise RuntimeError("No master specified and Tkinter is "
+                raise RuntimeError("No master specified and tkinter is "
                     "configured to not support default master")
 
         self.master = master
@@ -520,7 +520,7 @@ class Style(object):
         self.tk.call("ttk::setTheme", themename)
 
 
-class Widget(Tkinter.Widget):
+class Widget(tkinter.Widget):
     """Base class for Tk themed widgets."""
 
     def __init__(self, master, widgetname, kw=None):
@@ -543,7 +543,7 @@ class Widget(Tkinter.Widget):
             active, disabled, focus, pressed, selected, background,
             readonly, alternate, invalid
         """
-        Tkinter.Widget.__init__(self, master, widgetname, kw=kw)
+        tkinter.Widget.__init__(self, master, widgetname, kw=kw)
 
 
     def identify(self, x, y):
@@ -634,7 +634,7 @@ class Checkbutton(Widget):
         return self.tk.call(self._w, "invoke")
 
 
-class Entry(Widget, Tkinter.Entry):
+class Entry(Widget, tkinter.Entry):
     """Ttk Entry widget displays a one-line text string and allows that
     string to be edited by the user."""
 
@@ -784,7 +784,7 @@ class Labelframe(Widget):
         """
         Widget.__init__(self, master, "ttk::labelframe", kw)
 
-LabelFrame = Labelframe # Tkinter name compatibility
+LabelFrame = Labelframe # tkinter name compatibility
 
 
 class Menubutton(Widget):
@@ -939,7 +939,7 @@ class Notebook(Widget):
         self.tk.call("ttk::notebook::enableTraversal", self._w)
 
 
-class Panedwindow(Widget, Tkinter.PanedWindow):
+class Panedwindow(Widget, tkinter.PanedWindow):
     """Ttk Panedwindow widget displays a number of subwindows, stacked
     either vertically or horizontally."""
 
@@ -961,7 +961,7 @@ class Panedwindow(Widget, Tkinter.PanedWindow):
         Widget.__init__(self, master, "ttk::panedwindow", kw)
 
 
-    forget = Tkinter.PanedWindow.forget # overrides Pack.forget
+    forget = tkinter.PanedWindow.forget # overrides Pack.forget
 
 
     def insert(self, pos, child, **kw):
@@ -995,7 +995,7 @@ class Panedwindow(Widget, Tkinter.PanedWindow):
         Returns the new position of sash number index."""
         return self.tk.call(self._w, "sashpos", index, newpos)
 
-PanedWindow = Panedwindow # Tkinter name compatibility
+PanedWindow = Panedwindow # tkinter name compatibility
 
 
 class Progressbar(Widget):
@@ -1068,7 +1068,7 @@ class Radiobutton(Widget):
         return self.tk.call(self._w, "invoke")
 
 
-class Scale(Widget, Tkinter.Scale):
+class Scale(Widget, tkinter.Scale):
     """Ttk Scale widget is typically used to control the numeric value of
     a linked variable that varies uniformly over some range."""
 
@@ -1107,7 +1107,7 @@ class Scale(Widget, Tkinter.Scale):
         return self.tk.call(self._w, 'get', x, y)
 
 
-class Scrollbar(Widget, Tkinter.Scrollbar):
+class Scrollbar(Widget, tkinter.Scrollbar):
     """Ttk Scrollbar controls the viewport of a scrollable widget."""
 
     def __init__(self, master=None, **kw):
@@ -1487,7 +1487,7 @@ class LabeledScale(Frame, object):
     def __init__(self, master=None, variable=None, from_=0, to=10, **kw):
         """Construct an horizontal LabeledScale with parent master, a
         variable to be associated with the Ttk Scale widget and its range.
-        If variable is not specified, a Tkinter.IntVar is created.
+        If variable is not specified, a tkinter.IntVar is created.
 
         WIDGET-SPECIFIC OPTIONS
 
@@ -1498,7 +1498,7 @@ class LabeledScale(Frame, object):
         self._label_top = kw.pop('compound', 'top') == 'top'
 
         Frame.__init__(self, master, **kw)
-        self._variable = variable or Tkinter.IntVar(master)
+        self._variable = variable or tkinter.IntVar(master)
         self._variable.set(from_)
         self._last_valid = from_
 
@@ -1567,7 +1567,7 @@ class LabeledScale(Frame, object):
 
 
 class OptionMenu(Menubutton):
-    """Themed OptionMenu, based after Tkinter's OptionMenu, which allows
+    """Themed OptionMenu, based after tkinter's OptionMenu, which allows
     the user to select a value from a menu."""
 
     def __init__(self, master, variable, default=None, *values, **kwargs):
@@ -1588,12 +1588,12 @@ class OptionMenu(Menubutton):
         kw = {'textvariable': variable, 'style': kwargs.pop('style', None),
               'direction': kwargs.pop('direction', None)}
         Menubutton.__init__(self, master, **kw)
-        self['menu'] = Tkinter.Menu(self, tearoff=False)
+        self['menu'] = tkinter.Menu(self, tearoff=False)
 
         self._variable = variable
         self._callback = kwargs.pop('command', None)
         if kwargs:
-            raise Tkinter.TclError('unknown option -%s' % (
+            raise tkinter.TclError('unknown option -%s' % (
                 kwargs.iterkeys().next()))
 
         self.set_menu(default, *values)
@@ -1613,7 +1613,7 @@ class OptionMenu(Menubutton):
         menu.delete(0, 'end')
         for val in values:
             menu.add_radiobutton(label=val,
-                command=Tkinter._setit(self._variable, val, self._callback))
+                command=tkinter._setit(self._variable, val, self._callback))
 
         if default:
             self._variable.set(default)

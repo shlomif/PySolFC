@@ -31,7 +31,7 @@ __all__ = [
 
 # imports
 import sys
-import Tkinter
+from six.moves import tkinter
 
 # PySol imports
 from pysollib.mygettext import _
@@ -56,8 +56,8 @@ solver_dialog = solver_dialog
 
 class SolverDialog(BaseSolverDialog, BaseTkMfxDialog):
     def _createGamesVar(self, frame, row):
-        var = Tkinter.StringVar()
-        om = Tkinter.OptionMenu(frame, var, command=self.gameSelected,
+        var = tkinter.StringVar()
+        om = tkinter.OptionMenu(frame, var, command=self.gameSelected,
                                 *(self.gamenames))
         om.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
         n = len(self.gamenames)
@@ -68,9 +68,9 @@ class SolverDialog(BaseSolverDialog, BaseTkMfxDialog):
         return var
 
     def _createPresetVar(self, frame, row):
-        var = Tkinter.StringVar()
+        var = tkinter.StringVar()
         var.set('none')
-        om = Tkinter.OptionMenu(frame, var, *(self.presets))
+        om = tkinter.OptionMenu(frame, var, *(self.presets))
         om.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
         return var
 

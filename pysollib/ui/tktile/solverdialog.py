@@ -1,4 +1,4 @@
-import Tkinter
+from six.moves import tkinter
 
 from pysollib.mygettext import _
 from pysollib.ui.tktile.tkconst import EVENT_HANDLED
@@ -48,18 +48,18 @@ class BaseSolverDialog:
 
         #
         row += 1
-        self.max_iters_var = Tkinter.IntVar()
+        self.max_iters_var = tkinter.IntVar()
         self.max_iters_var.set(10e4)
         self._calcToolkit().Label(
             frame, text=_('Max iterations:'), anchor='w').grid(
             row=row, column=0, sticky='ew', padx=2, pady=2)
-        spin = Tkinter.Spinbox(frame, bg='white', from_=1000, to=10e6,
+        spin = tkinter.Spinbox(frame, bg='white', from_=1000, to=10e6,
                                increment=1000, textvariable=self.max_iters_var)
         spin.grid(row=row, column=1, sticky='w', padx=2, pady=2)
 
         #
         row += 1
-        self.progress_var = Tkinter.BooleanVar()
+        self.progress_var = tkinter.BooleanVar()
         self.progress_var.set(True)
         w = self._createShowProgressButton(frame)
         w.grid(row=row, column=0, columnspan=2, sticky='ew', padx=2, pady=2)

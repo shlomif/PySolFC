@@ -32,7 +32,7 @@ from pysollib.mygettext import _
 from pysollib.mfxutil import KwStruct
 
 # Toolkit imports
-from tkwidget import MfxDialog
+from pysollib.tk.tkwidget import MfxDialog
 from pysollib.ui.tktile.tkutil import bind
 
 # ************************************************************************

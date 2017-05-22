@@ -46,8 +46,8 @@ from pysollib.settings import TOP_TITLE
 
 # Toolkit imports
 from pysollib.ui.tktile.tkutil import bind, loadImage
-from tkwidget import MfxDialog, MfxMessageDialog
-from tkwidget import MfxScrolledCanvas
+from .tkwidget import MfxDialog, MfxMessageDialog
+from .tkwidget import MfxScrolledCanvas
 
 
 # FIXME - this file a quick hack and needs a rewrite

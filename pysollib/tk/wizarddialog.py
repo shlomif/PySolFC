@@ -27,7 +27,7 @@ __all__ = ['WizardDialog']
 # imports
 import sys
 from six.moves import tkinter
-from tabpage import TabPageSet
+from .tabpage import TabPageSet
 
 # PySol imports
 from pysollib.mygettext import _
@@ -36,7 +36,7 @@ from pysollib.wizardutil import WizardWidgets
 from pysollib.wizardpresets import presets
 
 # Toolkit imports
-from tkwidget import MfxDialog
+from .tkwidget import MfxDialog
 
 
 if sys.version_info > (3,):

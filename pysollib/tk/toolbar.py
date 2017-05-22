@@ -36,7 +36,7 @@ from pysollib.winsystems import TkSettings
 
 # Toolkit imports
 from pysollib.ui.tktile.tkconst import EVENT_HANDLED
-from tkwidget import MfxTooltip
+from .tkwidget import MfxTooltip
 from pysollib.ui.tktile.menubar import createToolbarMenu, MfxMenu
 
 
@@ -420,7 +420,7 @@ class PysolToolbarTk:
             self.frame.update_idletasks()
 
     def updateText(self, **kw):
-        for name in kw.keys():
+        for name in list(kw.keys()):
             label = getattr(self, name + "_label")
             label["text"] = kw[name]
 

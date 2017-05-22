@@ -15,14 +15,6 @@ class BaseSolverDialog:
             self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)
         self.createBitmaps(top_frame, kw)
-        #
-        self.solving_methods = {
-            'A*':                   'a-star',
-            'Breadth-First Search': 'bfs',
-            'Depth-First Search':   'soft-dfs',  # default
-            'A randomized DFS':     'random-dfs',
-            # '"Soft" DFS':           'soft-dfs',
-            }
         self.games = {}                 # key: gamename; value: gameid
 
         #

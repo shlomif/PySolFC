@@ -27,7 +27,7 @@ from six.moves import tkinter
 
 # Toolkit imports
 from pysollib.ui.tktile.tkutil import bind
-from tkwidget import MfxScrolledCanvas
+from .tkwidget import MfxScrolledCanvas
 
 
 # ************************************************************************

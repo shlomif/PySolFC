@@ -34,7 +34,7 @@ __all__ = ['SingleGame_StatsDialog',
 import os
 import time
 from six.moves import tkinter
-import ttk
+from . import ttk
 from six.moves import tkinter_font
 
 # PySol imports
@@ -47,7 +47,7 @@ from pysollib.settings import TOP_TITLE
 
 # Toolkit imports
 from pysollib.ui.tktile.tkutil import bind, loadImage
-from tkwidget import MfxDialog, MfxMessageDialog
+from .tkwidget import MfxDialog, MfxMessageDialog
 
 
 # ************************************************************************

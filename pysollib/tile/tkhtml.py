@@ -27,15 +27,15 @@ __all__ = ['HTMLViewer']
 import os
 import sys
 from six.moves import tkinter
-import ttk
+from . import ttk
 
 # PySol imports
 from pysollib.mygettext import _
 from pysollib.mfxutil import Struct
 
 # Toolkit imports
-from tkwidget import MfxMessageDialog
-from statusbar import HtmlStatusbar
+from .tkwidget import MfxMessageDialog
+from .statusbar import HtmlStatusbar
 
 from pysollib.ui.tktile.tkhtml import Base_HTMLViewer
 

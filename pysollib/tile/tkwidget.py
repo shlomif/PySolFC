@@ -37,7 +37,7 @@ import os
 import time
 import locale
 from six.moves import tkinter
-import ttk
+from . import ttk
 from six.moves import tkinter_font
 import traceback
 

@@ -25,6 +25,7 @@ __all__ = ["Button", "Checkbutton", "Combobox", "Entry", "Frame", "Label",
            # functions
            "tclobjs_to_py"]
 
+import sys
 from six.moves import tkinter
 from pysollib.mygettext import _, n_
 
@@ -32,6 +33,10 @@ _flatten = tkinter._flatten
 
 # Verify if Tk is new enough to not need Tile checking
 _REQUIRE_TILE = True if tkinter.TkVersion < 8.5 else False
+
+if sys.version_info > (3,):
+    basestring = str
+    unicode = str
 
 def _loadttk(loadtk):
     # This extends the default tkinter.Tk._loadtk method so we can be
@@ -63,7 +68,7 @@ def _format_optdict(optdict, script=False, ignore=None):
     format = "%s" if not script else "{%s}"
 
     opts = []
-    for opt, value in optdict.iteritems():
+    for opt, value in optdict.items():
         if ignore and opt in ignore:
             continue
 
@@ -102,7 +107,7 @@ def _format_mapdict(mapdict, script=False):
     format = "%s" if not script else "{%s}"
 
     opts = []
-    for opt, value in mapdict.iteritems():
+    for opt, value in mapdict.items():
 
         opt_val = []
         # each value in mapdict is expected to be a sequence, where each item
@@ -219,7 +224,7 @@ def _script_from_settings(settings):
     script = []
     # a script will be generated according to settings passed, which
     # will then be evaluated by Tcl
-    for name, opts in settings.iteritems():
+    for name, opts in settings.items():
         # will format specific keys according to Tcl code
         if opts.get('configure'): # format 'configure'
             s = ' '.join(map(unicode, _format_optdict(opts['configure'], True)))
@@ -340,12 +345,12 @@ def _convert_stringval(value):
 def tclobjs_to_py(adict):
     """Returns adict with its values converted from Tcl objects to Python
     objects."""
-    for opt, val in adict.iteritems():
+    for opt, val in adict.items():
         if val and hasattr(val, '__len__') and not isinstance(val, basestring):
             if getattr(val[0], 'typename', None) == 'StateSpec':
                 val = _list_from_statespec(val)
             else:
-                val = map(_convert_stringval, val)
+                val = list(map(_convert_stringval, val))
 
         elif hasattr(val, 'typename'): # some other (single) Tcl object
             val = _convert_stringval(val)
@@ -1594,7 +1599,7 @@ class OptionMenu(Menubutton):
         self._callback = kwargs.pop('command', None)
         if kwargs:
             raise tkinter.TclError('unknown option -%s' % (
-                kwargs.iterkeys().next()))
+                next(iter(kwargs.keys()))))
 
         self.set_menu(default, *values)
 

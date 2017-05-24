@@ -24,7 +24,7 @@
 __all__ = ['SelectDialogTreeData']
 
 # Toolkit imports
-from tktree import MfxTreeLeaf, MfxTreeNode, MfxTreeInCanvas
+from .tktree import MfxTreeLeaf, MfxTreeNode, MfxTreeInCanvas
 
 from pysollib.ui.tktile.selecttree import BaseSelectDialogTreeLeaf, \
         BaseSelectDialogTreeNode, SelectDialogTreeData, \

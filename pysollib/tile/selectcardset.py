@@ -26,7 +26,7 @@ __all__ = ['SelectCardsetDialogWithPreview']
 # imports
 import os
 from six.moves import tkinter
-import ttk
+from . import ttk
 
 # PySol imports
 from pysollib.mygettext import _
@@ -36,10 +36,10 @@ from pysollib.resource import CSI
 
 # Toolkit imports
 from pysollib.ui.tktile.tkutil import loadImage
-from tkwidget import MfxDialog, MfxScrolledCanvas, PysolScale
+from .tkwidget import MfxDialog, MfxScrolledCanvas, PysolScale
 from pysollib.ui.tktile.tkcanvas import MfxCanvasImage
-from selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
-from selecttree import SelectDialogTreeData, SelectDialogTreeCanvas
+from .selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
+from .selecttree import SelectDialogTreeData, SelectDialogTreeCanvas
 
 
 # ************************************************************************
@@ -74,7 +74,7 @@ class SelectCardsetData(SelectDialogTreeData):
             None, None, _("(no cardsets)"), key=None), ]
         #
         select_by_type = None
-        items = CSI.TYPE.items()
+        items = list(CSI.TYPE.items())
         items.sort(key=lambda x: x[1])
         nodes = []
         for key, name in items:
@@ -87,7 +87,7 @@ class SelectCardsetData(SelectDialogTreeData):
                 None, _("by Type"), tuple(nodes), expanded=1)
         #
         select_by_style = None
-        items = CSI.STYLE.items()
+        items = list(CSI.STYLE.items())
         items.sort(key=lambda x: x[1])
         nodes = []
         for key, name in items:
@@ -103,7 +103,7 @@ class SelectCardsetData(SelectDialogTreeData):
                 None, _("by Style"), tuple(nodes))
         #
         select_by_nationality = None
-        items = CSI.NATIONALITY.items()
+        items = list(CSI.NATIONALITY.items())
         items.sort(key=lambda x: x[1])
         nodes = []
         for key, name in items:
@@ -121,7 +121,7 @@ class SelectCardsetData(SelectDialogTreeData):
                 None, _("by Nationality"), tuple(nodes))
         #
         select_by_date = None
-        items = CSI.DATE.items()
+        items = list(CSI.DATE.items())
         items.sort(key=lambda x: x[1])
         nodes = []
         for key, name in items:
@@ -136,7 +136,7 @@ class SelectCardsetData(SelectDialogTreeData):
             select_by_date = SelectCardsetNode(
                 None, _("by Date"), tuple(nodes))
         #
-        self.rootnodes = filter(None, (
+        self.rootnodes = [_f for _f in (
             SelectCardsetNode(
                 None, _("All Cardsets"),
                 lambda cs: 1, expanded=len(self.all_objects) <= 12),
@@ -162,7 +162,7 @@ class SelectCardsetData(SelectDialogTreeData):
             select_by_style,
             select_by_date,
             select_by_nationality,
-        ))
+        ) if _f]
 
 
 class SelectCardsetByTypeData(SelectDialogTreeData):
@@ -172,7 +172,7 @@ class SelectCardsetByTypeData(SelectDialogTreeData):
         self.no_contents = [SelectCardsetLeaf(None, None, _("(no cardsets)"),
                             key=None), ]
         #
-        items = CSI.TYPE.items()
+        items = list(CSI.TYPE.items())
         items.sort(key=lambda x: x[1])
         nodes = []
         for key, name in items:
@@ -183,9 +183,9 @@ class SelectCardsetByTypeData(SelectDialogTreeData):
         select_by_type = SelectCardsetNode(
             None, _("by Type"), tuple(nodes), expanded=1)
         #
-        self.rootnodes = filter(None, (
+        self.rootnodes = [_f for _f in (
             select_by_type,
-        ))
+        ) if _f]
 
 
 # ************************************************************************

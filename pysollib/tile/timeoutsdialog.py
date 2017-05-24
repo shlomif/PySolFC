@@ -25,14 +25,14 @@ __all__ = ['TimeoutsDialog']
 
 # imports
 from six.moves import tkinter
-import ttk
+from . import ttk
 
 # PySol imports
 from pysollib.mygettext import _
 from pysollib.mfxutil import KwStruct
 
 # Toolkit imports
-from tkwidget import MfxDialog, PysolScale
+from .tkwidget import MfxDialog, PysolScale
 
 
 # ************************************************************************

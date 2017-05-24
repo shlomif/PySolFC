@@ -28,7 +28,7 @@ __all__ = ['WizardDialog']
 import sys
 
 from six.moves import tkinter
-import ttk
+from . import ttk
 
 # PySol imports
 from pysollib.mygettext import _
@@ -37,8 +37,8 @@ from pysollib.wizardutil import WizardWidgets
 from pysollib.wizardpresets import presets
 
 # Toolkit imports
-from tkwidget import MfxDialog
-from tkwidget import PysolScale, PysolCombo
+from .tkwidget import MfxDialog
+from .tkwidget import PysolScale, PysolCombo
 
 if sys.version_info > (3,):
     basestring = str

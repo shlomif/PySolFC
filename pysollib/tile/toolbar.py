@@ -26,7 +26,7 @@ __all__ = ['PysolToolbarTk']
 # imports
 import os
 from six.moves import tkinter
-import ttk
+from . import ttk
 
 # PySol imports
 from pysollib.mygettext import _, n_
@@ -37,7 +37,7 @@ from pysollib.winsystems import TkSettings
 
 # Toolkit imports
 from pysollib.ui.tktile.tkconst import EVENT_HANDLED
-from tkwidget import MfxTooltip
+from .tkwidget import MfxTooltip
 from pysollib.ui.tktile.menubar import createToolbarMenu, MfxMenu
 from pysollib.ui.tktile.tkutil import loadImage
 

@@ -25,7 +25,7 @@ __all__ = ['PysolProgressBar']
 
 # imports
 from six.moves import tkinter
-import ttk
+from . import ttk
 
 # Toolkit imports
 from pysollib.ui.tktile.tkconst import EVENT_HANDLED

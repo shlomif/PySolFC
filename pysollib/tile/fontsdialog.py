@@ -25,7 +25,7 @@ __all__ = ['FontsDialog']
 
 # imports
 from six.moves import tkinter
-import ttk
+from . import ttk
 from six.moves import tkinter_font
 
 # PySol imports
@@ -33,9 +33,9 @@ from pysollib.mfxutil import KwStruct
 from pysollib.mygettext import _
 
 # Toolkit imports
-from tkwidget import MfxDialog
+from .tkwidget import MfxDialog
 from pysollib.ui.tktile.tkutil import bind
-from tkwidget import PysolScale
+from .tkwidget import PysolScale
 
 
 # ************************************************************************

@@ -25,14 +25,14 @@ __all__ = ['PlayerOptionsDialog']
 
 # imports
 from six.moves import tkinter
-import ttk
+from . import ttk
 
 # PySol imports
 from pysollib.mygettext import _
 from pysollib.mfxutil import KwStruct
 
 # Toolkit imports
-from tkwidget import MfxDialog
+from .tkwidget import MfxDialog
 
 
 # ************************************************************************

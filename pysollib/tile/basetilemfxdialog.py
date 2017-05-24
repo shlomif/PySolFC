@@ -1,6 +1,6 @@
-import ttk
+from . import ttk
 
-from tkwidget import MfxDialog
+from .tkwidget import MfxDialog
 
 
 class BaseTileMfxDialog(MfxDialog):

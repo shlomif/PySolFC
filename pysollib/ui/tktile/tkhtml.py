@@ -255,8 +255,10 @@ class Base_HTMLViewer:
         if baseurl is None:
             baseurl = self.url
         if 0:
-            import urllib
-            url = urllib.pathname2url(url)
+            import urllib.request
+            import urllib.parse
+            import urllib.error
+            url = urllib.request.pathname2url(url)
             if relpath and self.url:
                 url = urllib.basejoin(baseurl, url)
         else:
@@ -316,8 +318,10 @@ to open the following URL:
         try:
             file = None
             if 0:
-                import urllib
-                file = urllib.urlopen(url)
+                import urllib.request
+                import urllib.parse
+                import urllib.error
+                file = urllib.request.urlopen(url)
             else:
                 file, url = self.openfile(url)
             data = file.read()

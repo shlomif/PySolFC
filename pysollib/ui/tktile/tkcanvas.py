@@ -264,7 +264,7 @@ class MfxCanvas(tkinter.Canvas):
     # delete all CanvasItems, but keep the background and top tiles
     def deleteAllItems(self):
         self._text_items = []
-        for id in self.items.keys():
+        for id in list(self.items.keys()):
             assert id not in self.__tiles   # because the tile is created by id
             unbind_destroy(self.items[id])
             self.items[id].delete()
@@ -372,11 +372,11 @@ class MfxCanvas(tkinter.Canvas):
     #
 
     def hideAllItems(self):
-        for item in self.items.values():
+        for item in list(self.items.values()):
             item.config(state='hidden')
 
     def showAllItems(self):
-        for item in self.items.values():
+        for item in list(self.items.values()):
             item.config(state='normal')
 
     #

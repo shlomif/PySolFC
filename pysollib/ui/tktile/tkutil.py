@@ -83,7 +83,7 @@ def wm_get_geometry(window):
     m = __wm_get_geometry_re.search(g)
     if not m:
         raise tkinter.TclError("invalid geometry "+str(g))
-    l = map(int, m.groups())
+    l = list(map(int, m.groups()))
     if window.wm_state() == "zoomed":
         # workaround as Tk returns the "unzoomed" origin
         l[2] = l[3] = 0

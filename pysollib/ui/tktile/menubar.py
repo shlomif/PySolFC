@@ -4,7 +4,7 @@ import re
 import sys
 
 from six.moves import tkinter
-import tkFileDialog
+from six.moves import tkinter_filedialog
 
 from pysollib.mfxutil import Struct, kwdefault
 from pysollib.mfxutil import Image, USE_PIL
@@ -782,7 +782,8 @@ class PysolMenubarTkCommon:
     def _addSelectGameMenu(self, menu):
         # games = map(self.app.gdb.get,
         #   self.app.gdb.getGamesIdSortedByShortName())
-        games = map(self.app.gdb.get, self.app.gdb.getGamesIdSortedByName())
+        games = list(map(
+            self.app.gdb.get, self.app.gdb.getGamesIdSortedByName()))
         # games = tuple(games)
         # menu = MfxMenu(menu, label="Select &game")
         m = "Ctrl-"
@@ -823,7 +824,7 @@ class PysolMenubarTkCommon:
             if label is None:
                 need_sep = 1
                 continue
-            g = filter(select_func, games)
+            g = list(filter(select_func, games))
             if not g:
                 continue
             if need_sep:
@@ -835,13 +836,13 @@ class PysolMenubarTkCommon:
     def _getNumGames(self, games, select_data):
         ngames = 0
         for label, select_func in select_data:
-            ngames += len(filter(select_func, games))
+            ngames += len(list(filter(select_func, games)))
         return ngames
 
     def _addSelectMahjonggGameSubMenu(self, games, menu, command, variable):
         def select_func(gi):
             return gi.si.game_type == GI.GT_MAHJONGG
-        mahjongg_games = filter(select_func, games)
+        mahjongg_games = list(filter(select_func, games))
         if len(mahjongg_games) == 0:
             return
         #
@@ -865,7 +866,7 @@ class PysolMenubarTkCommon:
                 games[c].append(gi)
             else:
                 games[c] = [gi]
-        games = games.items()
+        games = list(games.items())
         games.sort()
         g0 = []
         c0 = c1 = games[0][0]
@@ -882,7 +883,7 @@ class PysolMenubarTkCommon:
     def _addSelectPopularGameSubMenu(self, games, menu, command, variable):
         def select_func(gi):
             return gi.si.game_flags & GI.GT_POPULAR
-        if len(filter(select_func, games)) == 0:
+        if len(list(filter(select_func, games))) == 0:
             return
         data = (n_("&Popular games"), select_func)
         self._addSelectGameSubMenu(games, menu, (data, ),
@@ -917,7 +918,7 @@ class PysolMenubarTkCommon:
 
         def select_func(gi):
             return gi.si.game_type == GI.GT_CUSTOM
-        games = filter(select_func, games)
+        games = list(filter(select_func, games))
         self.updateGamesMenu(submenu, games)
 
     def _addSelectAllGameSubMenu(self, games, menu, command, variable):
@@ -1151,7 +1152,7 @@ class PysolMenubarTkCommon:
             idir, ifile = "", ""
         if not idir:
             idir = self.app.dn.savegames
-        d = tkFileDialog.Open()
+        d = tkinter_filedialog.Open()
         filename = d.show(filetypes=self.FILETYPES,
                           defaultextension=self.DEFAULTEXTENSION,
                           initialdir=idir, initialfile=ifile)
@@ -1188,7 +1189,7 @@ Unsupported game for export.
         if not idir:
             idir = self.app.dn.savegames
         # print self.game.filename, ifile
-        d = tkFileDialog.SaveAs()
+        d = tkinter_filedialog.SaveAs()
         filename = d.show(filetypes=self.FILETYPES,
                           defaultextension=self.DEFAULTEXTENSION,
                           initialdir=idir, initialfile=ifile)
@@ -1219,7 +1220,7 @@ Unsupported game for export.
         if not idir:
             idir = self.app.dn.savegames
         # print self.game.filename, ifile
-        d = tkFileDialog.SaveAs()
+        d = tkinter_filedialog.SaveAs()
         filename = d.show(filetypes=self.FILETYPES,
                           defaultextension=self.DEFAULTEXTENSION,
                           initialdir=idir, initialfile=ifile)
@@ -1633,9 +1634,9 @@ Error while saving game.
 
                 def select_func(gi):
                     return gi.si.game_type == GI.GT_CUSTOM
-                games = map(self.app.gdb.get,
-                            self.app.gdb.getGamesIdSortedByName())
-                games = filter(select_func, games)
+                games = list(map(self.app.gdb.get,
+                                 self.app.gdb.getGamesIdSortedByName()))
+                games = list(filter(select_func, games))
                 self.updateGamesMenu(menu, games)
 
             self.tkopt.gameid.set(gameid)

@@ -23,7 +23,7 @@
 
 # imports
 from six.moves import tkinter
-from tkColorChooser import askcolor
+from six.moves.tkinter_colorchooser import askcolor
 
 # PySol imports
 from pysollib.mygettext import _

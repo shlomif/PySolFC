@@ -146,7 +146,7 @@ class BaseGameInfoDialog:
                     fs[cn] += 1
                 else:
                     fs[cn] = 1
-            t = '\n'.join(['%s (%d)' % (i[0], i[1]) for i in fs.items()])
+            t = '\n'.join(['%s (%d)' % (i[0], i[1]) for i in list(fs.items())])
         else:
             t = stacks.__class__.__name__
         self._calcToolkit().Label(

@@ -37,7 +37,7 @@ from pysollib.mfxutil import KwStruct
 
 # Toolkit imports
 from pysollib.tile.basetilemfxdialog import BaseTileMfxDialog
-from tkwidget import PysolCombo
+from .tkwidget import PysolCombo
 from pysollib.ui.tktile.solverdialog import BaseSolverDialog, \
         connect_game_solver_dialog, destroy_solver_dialog, solver_dialog, \
         reset_solver_dialog

@@ -26,7 +26,7 @@ __all__ = ['SoundOptionsDialog']
 # imports
 import os
 from six.moves import tkinter
-import ttk
+from . import ttk
 
 # PySol imports
 from pysollib.mygettext import _
@@ -36,8 +36,8 @@ from pysollib.pysolaudio import pysolsoundserver
 
 # Toolkit imports
 from pysollib.ui.tktile.tkconst import EVENT_HANDLED
-from tkwidget import MfxDialog, MfxMessageDialog
-from tkwidget import PysolScale
+from .tkwidget import MfxDialog, MfxMessageDialog
+from .tkwidget import PysolScale
 
 
 # ************************************************************************

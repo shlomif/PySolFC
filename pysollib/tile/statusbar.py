@@ -28,13 +28,13 @@ __all__ = ['PysolStatusbar',
 import os
 import sys
 from six.moves import tkinter
-import ttk
+from . import ttk
 
 # PySol imports
 from pysollib.mygettext import _
 
 # Toolkit imports
-from tkwidget import MfxTooltip
+from .tkwidget import MfxTooltip
 
 if __name__ == '__main__':
     d = os.path.abspath(os.path.join(sys.path[0], os.pardir, os.pardir))

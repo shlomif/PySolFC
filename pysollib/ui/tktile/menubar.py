@@ -4,7 +4,7 @@ import re
 import sys
 
 from six.moves import tkinter
-from six.moves import tkinter_filedialog
+from six.moves import tkinter_tkfiledialog
 
 from pysollib.mfxutil import Struct, kwdefault
 from pysollib.mfxutil import Image, USE_PIL
@@ -1152,7 +1152,7 @@ class PysolMenubarTkCommon:
             idir, ifile = "", ""
         if not idir:
             idir = self.app.dn.savegames
-        d = tkinter_filedialog.Open()
+        d = tkinter_tkfiledialog.Open()
         filename = d.show(filetypes=self.FILETYPES,
                           defaultextension=self.DEFAULTEXTENSION,
                           initialdir=idir, initialfile=ifile)
@@ -1189,7 +1189,7 @@ Unsupported game for export.
         if not idir:
             idir = self.app.dn.savegames
         # print self.game.filename, ifile
-        d = tkinter_filedialog.SaveAs()
+        d = tkinter_tkfiledialog.SaveAs()
         filename = d.show(filetypes=self.FILETYPES,
                           defaultextension=self.DEFAULTEXTENSION,
                           initialdir=idir, initialfile=ifile)
@@ -1220,7 +1220,7 @@ Unsupported game for export.
         if not idir:
             idir = self.app.dn.savegames
         # print self.game.filename, ifile
-        d = tkinter_filedialog.SaveAs()
+        d = tkinter_tkfiledialog.SaveAs()
         filename = d.show(filetypes=self.FILETYPES,
                           defaultextension=self.DEFAULTEXTENSION,
                           initialdir=idir, initialfile=ifile)

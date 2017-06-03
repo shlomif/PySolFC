@@ -79,8 +79,8 @@ class Klondike(Game):
         # create layout
         l, s = Layout(self), self.s
         kwdefault(layout, rows=7, waste=1, texts=1, playcards=16)
-        self.__class__.__dict__['Layout_Method'](l, **layout)
         # self.Layout_Method.__get__(l, l.__class__)(**layout)
+        self.__class__.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
         # create stacks
         s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self,

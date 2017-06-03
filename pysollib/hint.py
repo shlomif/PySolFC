@@ -1062,7 +1062,10 @@ class BlackHoleSolver_Hint(Base_Solver_Hint):
             kw['close_fds'] = True
         p = subprocess.Popen(command, **kw)
         pin, pout, perr = p.stdin, p.stdout, p.stderr
-        pin.write(board)
+        bytes_board = board
+        if sys.version_info > (3,):
+            bytes_board = bytes(board, 'utf-8')
+        pin.write(bytes_board)
         pin.close()
         #
         if DEBUG:
@@ -1074,7 +1077,8 @@ class BlackHoleSolver_Hint(Base_Solver_Hint):
         depth = 0
         states = 0
 
-        for s in pout:
+        for sbytes in pout:
+            s = unicode(sbytes, encoding='utf-8')
             if DEBUG >= 5:
                 print(s)
 
@@ -1094,7 +1098,8 @@ class BlackHoleSolver_Hint(Base_Solver_Hint):
         self.solver_state = 'solved'
 
         hints = []
-        for s in pout:
+        for sbytes in pout:
+            s = unicode(sbytes, encoding='utf-8')
             if DEBUG:
                 print(s)
             m = re.match('Total number of states checked is (\d+)\.', s)

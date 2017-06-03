@@ -186,7 +186,7 @@ class tkHTMLWriter(formatter.NullWriter):
 class tkHTMLParser:
     def anchor_bgn(self, href, name, type):
         self.formatter.flush_softspace()
-        htmllib.HTMLParser.anchor_bgn(self, href, name, type)
+        # htmllib.HTMLParser.anchor_bgn(self, href, name, type)
         self.formatter.writer.anchor_bgn(href, name, type)
 
     def anchor_end(self):

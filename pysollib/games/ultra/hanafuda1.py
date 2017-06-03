@@ -66,7 +66,7 @@ from pysollib.stack import \
 
 
 class Paulownia(AbstractFlowerGame):
-    Layout_Method = Layout.klondikeLayout
+    Layout_Method = staticmethod(Layout.klondikeLayout)
     Talon_Class = WasteTalonStack
     Foundation_Class = Hanafuda_SS_FoundationStack
     RowStack_Class = Hanafuda_SequenceStack

@@ -228,7 +228,7 @@ class Gaji(AbstractFlowerGame):
 #  ***********************************************************************/
 
 class Oonsoo(AbstractFlowerGame):
-    Layout_Method = Layout.oonsooLayout
+    Layout_Method = staticmethod(Layout.oonsooLayout)
     Talon_Class = DealRowTalonStack
     RowStack_Class = Oonsoo_SequenceStack
     Rows = 12
@@ -654,7 +654,7 @@ class FourWinds(AbstractFlowerGame):
 # ************************************************************************
 
 class Sumo(AbstractFlowerGame):
-    Layout_Method = Layout.sumoLayout
+    Layout_Method = staticmethod(Layout.sumoLayout)
     Talon_Class = InitialDealTalonStack
     Foundation_Class = Hanafuda_SS_FoundationStack
     RowStack_Class = Hanafuda_SequenceStack
@@ -702,7 +702,7 @@ class Sumo(AbstractFlowerGame):
 # ************************************************************************
 
 class BigSumo(AbstractFlowerGame):
-    Layout_Method = Layout.sumoLayout
+    Layout_Method = staticmethod(Layout.sumoLayout)
     Talon_Class = InitialDealTalonStack
     Foundation_Class = Hanafuda_SS_FoundationStack
     RowStack_Class = Hanafuda_SequenceStack
@@ -748,7 +748,7 @@ class BigSumo(AbstractFlowerGame):
 # ************************************************************************
 
 class Samuri(AbstractFlowerGame):
-    Layout_Method = Layout.samuriLayout
+    Layout_Method = staticmethod(Layout.samuriLayout)
     Talon_Class = WasteTalonStack
     Foundation_Class = Hanafuda_SS_FoundationStack
     RowStack_Class = Hanafuda_SequenceStack
@@ -826,7 +826,7 @@ class SuperSamuri(DoubleSamuri):
 # ************************************************************************
 
 class LittleEasy(AbstractFlowerGame):
-    Layout_Method = Layout.easyLayout
+    Layout_Method = staticmethod(Layout.easyLayout)
     Talon_Class = WasteTalonStack
     Foundation_Class = FourWinds_Foundation
     RowStack_Class = Hanafuda_SequenceStack
@@ -913,7 +913,7 @@ class EasySupreme(LittleEasy):
 # ************************************************************************
 
 class JustForFun(AbstractFlowerGame):
-    Layout_Method = Layout.funLayout
+    Layout_Method = staticmethod(Layout.funLayout)
     Talon_Class = InitialDealTalonStack
     Foundation_Class = FourWinds_Foundation
     RowStack_Class = Hanafuda_SequenceStack
@@ -990,7 +990,7 @@ class CherryBomb(Firecracker):
 # ************************************************************************
 
 class Paulownia(AbstractFlowerGame):
-    Layout_Method = Layout.klondikeLayout
+    Layout_Method = staticmethod(Layout.klondikeLayout)
     Talon_Class = WasteTalonStack
     Foundation_Class = Hanafuda_SS_FoundationStack
     RowStack_Class = Hanafuda_SequenceStack

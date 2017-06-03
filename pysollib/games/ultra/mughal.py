@@ -443,7 +443,7 @@ class EightLegions(AbstractMughalGame):
 #  ***********************************************************************/
 
 class Shamsher(AbstractMughalGame):
-    Layout_Method = Layout.ghulamLayout
+    Layout_Method = staticmethod(Layout.ghulamLayout)
     Talon_Class = InitialDealTalonStack
     Foundation_Class = SS_FoundationStack
     RowStack_Class = RK_RowStack
@@ -501,7 +501,7 @@ class Shamsher(AbstractMughalGame):
 #  ***********************************************************************/
 
 class Ashrafi(Shamsher):
-    Layout_Method = Layout.ghulamLayout
+    Layout_Method = staticmethod(Layout.ghulamLayout)
     Talon_Class = InitialDealTalonStack
     Foundation_Class = SS_FoundationStack
     RowStack_Class = RK_RowStack
@@ -520,7 +520,7 @@ class Ashrafi(Shamsher):
 #  ***********************************************************************/
 
 class Ghulam(Shamsher):
-    Layout_Method = Layout.ghulamLayout
+    Layout_Method = staticmethod(Layout.ghulamLayout)
     Talon_Class = InitialDealTalonStack
     Foundation_Class = SS_FoundationStack
     RowStack_Class = SS_RowStack
@@ -544,7 +544,7 @@ class Ghulam(Shamsher):
 #  ***********************************************************************/
 
 class Tipati(AbstractMughalGame):
-    Layout_Method = Layout.klondikeLayout
+    Layout_Method = staticmethod(Layout.klondikeLayout)
     Talon_Class = WasteTalonStack
     Foundation_Class = SS_FoundationStack
     RowStack_Class = RK_RowStack

@@ -528,7 +528,7 @@ class TenAvatars(AbstractDashavataraGame):
 #  ***********************************************************************/
 
 class Balarama(AbstractDashavataraGame):
-    Layout_Method = Layout.ghulamLayout
+    Layout_Method = staticmethod(Layout.ghulamLayout)
     Talon_Class = InitialDealTalonStack
     Foundation_Class = SS_FoundationStack
     RowStack_Class = Dashavatara_AC_RowStack
@@ -589,7 +589,7 @@ class Balarama(AbstractDashavataraGame):
 #  ***********************************************************************/
 
 class Hayagriva(Balarama):
-    Layout_Method = Layout.ghulamLayout
+    Layout_Method = staticmethod(Layout.ghulamLayout)
     Talon_Class = InitialDealTalonStack
     Foundation_Class = SS_FoundationStack
     RowStack_Class = Dashavatara_RK_RowStack
@@ -612,7 +612,7 @@ class Hayagriva(Balarama):
 #  ***********************************************************************/
 
 class Shanka(Balarama):
-    Layout_Method = Layout.ghulamLayout
+    Layout_Method = staticmethod(Layout.ghulamLayout)
     Talon_Class = InitialDealTalonStack
     Foundation_Class = SS_FoundationStack
     RowStack_Class = Dashavatara_RK_RowStack
@@ -639,7 +639,7 @@ class Shanka(Balarama):
 #  ***********************************************************************/
 
 class Surukh(Balarama):
-    Layout_Method = Layout.ghulamLayout
+    Layout_Method = staticmethod(Layout.ghulamLayout)
     Talon_Class = InitialDealTalonStack
     Foundation_Class = SS_FoundationStack
     RowStack_Class = Dashavatara_AF_RowStack
@@ -671,7 +671,7 @@ class Surukh(Balarama):
 #  ***********************************************************************/
 
 class Matsya(AbstractDashavataraGame):
-    Layout_Method = Layout.klondikeLayout
+    Layout_Method = staticmethod(Layout.klondikeLayout)
     Talon_Class = WasteTalonStack
     Foundation_Class = SS_FoundationStack
     RowStack_Class = RK_RowStack
@@ -727,7 +727,7 @@ class Matsya(AbstractDashavataraGame):
 #  ***********************************************************************/
 
 class Kurma(Matsya):
-    Layout_Method = Layout.klondikeLayout
+    Layout_Method = staticmethod(Layout.klondikeLayout)
     Talon_Class = WasteTalonStack
     Foundation_Class = SS_FoundationStack
     RowStack_Class = SS_RowStack
@@ -746,7 +746,7 @@ class Kurma(Matsya):
 #  ***********************************************************************/
 
 class Varaha(Matsya):
-    Layout_Method = Layout.klondikeLayout
+    Layout_Method = staticmethod(Layout.klondikeLayout)
     Talon_Class = WasteTalonStack
     Foundation_Class = SS_FoundationStack
     RowStack_Class = SS_RowStack
@@ -765,7 +765,7 @@ class Varaha(Matsya):
 #  ***********************************************************************/
 
 class Narasimha(Matsya):
-    Layout_Method = Layout.klondikeLayout
+    Layout_Method = staticmethod(Layout.klondikeLayout)
     Talon_Class = WasteTalonStack
     Foundation_Class = SS_FoundationStack
     RowStack_Class = AC_RowStack
@@ -789,7 +789,7 @@ class Narasimha(Matsya):
 #  ***********************************************************************/
 
 class Vamana(Matsya):
-    Layout_Method = Layout.klondikeLayout
+    Layout_Method = staticmethod(Layout.klondikeLayout)
     Talon_Class = WasteTalonStack
     Foundation_Class = SS_FoundationStack
     RowStack_Class = AC_RowStack
@@ -813,7 +813,7 @@ class Vamana(Matsya):
 #  ***********************************************************************/
 
 class Parashurama(Matsya):
-    Layout_Method = Layout.klondikeLayout
+    Layout_Method = staticmethod(Layout.klondikeLayout)
     Talon_Class = WasteTalonStack
     Foundation_Class = SS_FoundationStack
     RowStack_Class = RK_RowStack

@@ -51,7 +51,7 @@ from pysollib.hint import FreeCellSolverWrapper
 # ************************************************************************
 
 class CastlesInSpain(Game):
-    Layout_Method = Layout.bakersDozenLayout
+    Layout_Method = staticmethod(Layout.bakersDozenLayout)
     Talon_Class = InitialDealTalonStack
     Foundation_Class = SS_FoundationStack
     RowStack_Class = SuperMoveAC_RowStack

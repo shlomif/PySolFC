@@ -410,7 +410,7 @@ class BitsNBytes(Game):
 
 class HexAKlon(Game):
     Hint_Class = CautiousDefaultHint
-    Layout_Method = Layout.klondikeLayout
+    Layout_Method = staticmethod(Layout.klondikeLayout)
     Talon_Class = WasteTalonStack
     Foundation_Class = SS_FoundationStack
     RowStack_Class = HexAKlon_RowStack
@@ -476,7 +476,7 @@ class HexAKlon(Game):
 
 class HexAKlonByThrees(Game):
     Hint_Class = CautiousDefaultHint
-    Layout_Method = Layout.klondikeLayout
+    Layout_Method = staticmethod(Layout.klondikeLayout)
     Talon_Class = WasteTalonStack
     Foundation_Class = SS_FoundationStack
     RowStack_Class = HexAKlon_RowStack
@@ -542,7 +542,7 @@ class HexAKlonByThrees(Game):
 
 class KingOnlyHexAKlon(Game):
     Hint_Class = CautiousDefaultHint
-    Layout_Method = Layout.klondikeLayout
+    Layout_Method = staticmethod(Layout.klondikeLayout)
     Talon_Class = WasteTalonStack
     Foundation_Class = SS_FoundationStack
     RowStack_Class = HexAKlon_RowStack
@@ -616,7 +616,7 @@ class KingOnlyHexAKlon(Game):
 
 class KlondikePlus16(Game):
     Hint_Class = CautiousDefaultHint
-    Layout_Method = Layout.klondikeLayout
+    Layout_Method = staticmethod(Layout.klondikeLayout)
     Talon_Class = WasteTalonStack
     Foundation_Class = SS_FoundationStack
     RowStack_Class = HexAKlon_RowStack
@@ -674,7 +674,7 @@ class KlondikePlus16(Game):
 
 class TheFamiliar(Game):
     Hint_Class = CautiousDefaultHint
-    Layout_Method = Layout.klondikeLayout
+    Layout_Method = staticmethod(Layout.klondikeLayout)
     Talon_Class = WasteTalonStack
     Foundation_Class = SS_FoundationStack
     RowStack_Class = AC_RowStack
@@ -739,7 +739,7 @@ class TheFamiliar(Game):
 
 class TwoFamiliars(Game):
     Hint_Class = CautiousDefaultHint
-    Layout_Method = Layout.klondikeLayout
+    Layout_Method = staticmethod(Layout.klondikeLayout)
     Talon_Class = WasteTalonStack
     Foundation_Class = SS_FoundationStack
     RowStack_Class = AC_RowStack
@@ -804,7 +804,7 @@ class TwoFamiliars(Game):
 
 class TenByEight(Game):
     Hint_Class = CautiousDefaultHint
-    Layout_Method = Layout.gypsyLayout
+    Layout_Method = staticmethod(Layout.gypsyLayout)
     Talon_Class = WasteTalonStack
     Foundation_Class = SS_FoundationStack
     RowStack_Class = AC_RowStack
@@ -865,7 +865,7 @@ class TenByEight(Game):
 
 class Drawbridge(Game):
     Hint_Class = CautiousDefaultHint
-    Layout_Method = Layout.harpLayout
+    Layout_Method = staticmethod(Layout.harpLayout)
     Talon_Class = WasteTalonStack
     Foundation_Class = SS_FoundationStack
     RowStack_Class = AC_RowStack
@@ -924,7 +924,7 @@ class Drawbridge(Game):
 
 class DoubleDrawbridge(Game):
     Hint_Class = CautiousDefaultHint
-    Layout_Method = Layout.harpLayout
+    Layout_Method = staticmethod(Layout.harpLayout)
     Talon_Class = WasteTalonStack
     Foundation_Class = SS_FoundationStack
     RowStack_Class = AC_RowStack
@@ -984,7 +984,7 @@ class DoubleDrawbridge(Game):
 
 class HiddenPassages(Game):
     Hint_Class = CautiousDefaultHint
-    Layout_Method = Layout.klondikeLayout
+    Layout_Method = staticmethod(Layout.klondikeLayout)
     Talon_Class = WasteTalonStack
     Foundation_Class = SS_FoundationStack
     RowStack_Class = AC_RowStack
@@ -1058,7 +1058,7 @@ class HiddenPassages(Game):
 
 class CluitjarsLair(Game):
     Hint_Class = CautiousDefaultHint
-    Layout_Method = Layout.klondikeLayout
+    Layout_Method = staticmethod(Layout.klondikeLayout)
     Talon_Class = WasteTalonStack
     Foundation_Class = SS_FoundationStack
     RowStack_Class = HexADeck_ACRowStack
@@ -1276,7 +1276,7 @@ class MerlinsMeander(AbstractHexADeckGame):
 
 class MagesGame(Game):
     Hint_Class = CautiousDefaultHint
-    Layout_Method = Layout.gypsyLayout
+    Layout_Method = staticmethod(Layout.gypsyLayout)
     Talon_Class = InitialDealTalonStack
     Foundation_Class = SS_FoundationStack
     RowStack_Class = AC_RowStack

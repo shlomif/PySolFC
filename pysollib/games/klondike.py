@@ -69,7 +69,7 @@ from pysollib.stack import \
 
 
 class Klondike(Game):
-    Layout_Method = Layout.klondikeLayout
+    Layout_Method = staticmethod(Layout.klondikeLayout)
     Talon_Class = WasteTalonStack
     Foundation_Class = SS_FoundationStack
     RowStack_Class = KingAC_RowStack
@@ -79,8 +79,8 @@ class Klondike(Game):
         # create layout
         l, s = Layout(self), self.s
         kwdefault(layout, rows=7, waste=1, texts=1, playcards=16)
-        # self.Layout_Method.__get__(l, l.__class__)(**layout)
-        self.__class__.Layout_Method(l, **layout)
+        self.Layout_Method.__get__(l, l.__class__)(**layout)
+        # self.__class__.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
         # create stacks
         s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self,
@@ -213,7 +213,7 @@ class Whitehead(Klondike):
 # ************************************************************************
 
 class SmallHarp(Klondike):
-    Layout_Method = Layout.gypsyLayout
+    Layout_Method = staticmethod(Layout.gypsyLayout)
 
     def startGame(self):
         for i in range(len(self.s.rows)):
@@ -421,7 +421,7 @@ class AgnesSorel(Klondike):
 # ************************************************************************
 
 class EightTimesEight(Klondike):
-    Layout_Method = Layout.gypsyLayout
+    Layout_Method = staticmethod(Layout.gypsyLayout)
     RowStack_Class = AC_RowStack
 
     def createGame(self):
@@ -451,7 +451,7 @@ class EightByEight_RowStack(RK_RowStack):
 
 
 class EightByEight(EightTimesEight):
-    Layout_Method = Layout.klondikeLayout  # gypsyLayout
+    Layout_Method = staticmethod(Layout.klondikeLayout)  # gypsyLayout
     Talon_Class = CanfieldRush_Talon
     RowStack_Class = EightByEight_RowStack
 

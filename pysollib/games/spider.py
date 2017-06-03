@@ -130,7 +130,7 @@ class SuperMoveSpider_RowStack(SuperMoveStack_StackMethods, Spider_RowStack):
 # ************************************************************************
 
 class RelaxedSpider(Game):
-    Layout_Method = Layout.klondikeLayout
+    Layout_Method = staticmethod(Layout.klondikeLayout)
     Talon_Class = DealRowTalonStack
     Foundation_Class = Spider_SS_Foundation
     RowStack_Class = Spider_RowStack
@@ -140,9 +140,9 @@ class RelaxedSpider(Game):
         # create layout
         l, s = Layout(self), self.s
         kwdefault(layout, rows=10, waste=0, texts=1, playcards=23)
-        # self.Layout_Method(l, **layout)
+        self.Layout_Method(l, **layout)
         # self.__class__.__dict__['Layout_Method'](l, **layout)
-        self.__class__.Layout_Method(l, **layout)
+        # self.__class__.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
         # create stacks
         s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self)
@@ -227,7 +227,7 @@ class GroundsForADivorce_Talon(TalonStack):
 
 
 class GroundsForADivorce(RelaxedSpider):
-    Layout_Method = Layout.harpLayout
+    Layout_Method = staticmethod(Layout.harpLayout)
     Talon_Class = GroundsForADivorce_Talon
     Foundation_Class = StackWrapper(
         Spider_SS_Foundation, base_rank=ANY_RANK, mod=13)
@@ -250,7 +250,7 @@ class GroundsForADivorce(RelaxedSpider):
 # ************************************************************************
 
 class GrandmothersGame(RelaxedSpider):
-    Layout_Method = Layout.harpLayout
+    Layout_Method = staticmethod(Layout.harpLayout)
 
     def createGame(self):
         RelaxedSpider.createGame(self, playcards=22)
@@ -494,7 +494,7 @@ class RougeEtNoir_RowStack(KingAC_RowStack):
 
 
 class RougeEtNoir(Game):
-    Layout_Method = Layout.klondikeLayout
+    Layout_Method = staticmethod(Layout.klondikeLayout)
     Talon_Class = DealRowTalonStack
     RowStack_Class = RougeEtNoir_RowStack
 
@@ -755,7 +755,7 @@ class Chelicera(Game):
 
 class ScorpionHead(Scorpion):
 
-    Layout_Method = Layout.freeCellLayout
+    Layout_Method = staticmethod(Layout.freeCellLayout)
 
     def createGame(self, **layout):
 

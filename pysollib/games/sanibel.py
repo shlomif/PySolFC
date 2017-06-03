@@ -44,7 +44,7 @@ from pysollib.stack import \
 
 
 class Sanibel(Gypsy):
-    Layout_Method = Layout.klondikeLayout
+    Layout_Method = staticmethod(Layout.klondikeLayout)
     Talon_Class = StackWrapper(WasteTalonStack, max_rounds=1)
     Foundation_Class = StackWrapper(SS_FoundationStack, max_move=0)
     RowStack_Class = Yukon_AC_RowStack

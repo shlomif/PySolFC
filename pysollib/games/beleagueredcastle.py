@@ -200,7 +200,7 @@ class ExiledKings(Citadel):
 # ************************************************************************
 
 class Fortress(Game):
-    Layout_Method = Layout.klondikeLayout
+    Layout_Method = staticmethod(Layout.klondikeLayout)
     Talon_Class = InitialDealTalonStack
     Foundation_Class = SS_FoundationStack
     RowStack_Class = UD_SS_RowStack
@@ -250,7 +250,7 @@ class Fortress(Game):
 # ************************************************************************
 
 class Bastion(Game):
-    Layout_Method = Layout.freeCellLayout
+    Layout_Method = staticmethod(Layout.freeCellLayout)
     Talon_Class = InitialDealTalonStack
     Foundation_Class = SS_FoundationStack
     RowStack_Class = UD_SS_RowStack

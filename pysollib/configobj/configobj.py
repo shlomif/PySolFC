@@ -1149,7 +1149,6 @@ class ConfigObj(Section):
 
         ``ConfigObj(infile=None, options=None, **kwargs)``
         """
-        print('pink infile = ',infile)
         if infile is None:
             infile = []
         if options is None:
@@ -1237,7 +1236,6 @@ class ConfigObj(Section):
                             ' file like object, or list of lines.')
         #
         if infile:
-            print('infile flyt = ',infile)
             # don't do it for the empty ConfigObj
             infile = self._handle_bom(infile)
             # infile is now *always* a list
@@ -1439,7 +1437,6 @@ class ConfigObj(Section):
 
     def _parse(self, infile):
         """Actually parse the config file."""
-        print('aolk', infile)
         temp_list_values = self.list_values
         if self.unrepr:
             self.list_values = False

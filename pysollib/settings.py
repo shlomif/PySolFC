@@ -79,5 +79,5 @@ SELECT_GAME_MENU = True
 TRANSLATE_GAME_NAMES = True
 
 # debug
-DEBUG = 121                               # must be integer
+DEBUG = 0                               # must be integer
 CHECK_GAMES = False                     # check duplicated names and classes

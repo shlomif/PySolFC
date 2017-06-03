@@ -27,11 +27,15 @@ import os
 import time
 import subprocess
 import re
+import sys
 
 # PySol imports
 from pysollib.settings import DEBUG, FCS_COMMAND
 from pysollib.mfxutil import destruct
 from pysollib.util import KING
+
+if sys.version_info > (3,):
+    unicode = str
 
 # ************************************************************************
 # * HintInterface is an abstract class that defines the public
@@ -884,7 +888,10 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
             kw['close_fds'] = True
         p = subprocess.Popen(command, **kw)
         pin, pout, perr = p.stdin, p.stdout, p.stderr
-        pin.write(bytes(board, 'utf-8'))
+        bytes_board = board
+        if sys.version_info > (3,):
+            bytes_board = bytes(board, 'utf-8')
+        pin.write(bytes_board)
         pin.close()
         #
         stack_types = {
@@ -901,7 +908,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
             states = 0
 
             for sbytes in pout:
-                s = str(sbytes, encoding='utf-8')
+                s = unicode(sbytes, encoding='utf-8')
                 if DEBUG >= 5:
                     print(s)
 
@@ -922,7 +929,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
 
         hints = []
         for sbytes in pout:
-            s = str(sbytes, encoding='utf-8')
+            s = unicode(sbytes, encoding='utf-8')
             if DEBUG:
                 print(s)
             if self._determineIfSolverState(s):

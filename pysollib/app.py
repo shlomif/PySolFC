@@ -524,7 +524,6 @@ class Application:
                 id_, random = self.nextgame.id, self.nextgame.random
                 self.nextgame.id, self.nextgame.random = 0, None
                 try:
-                    print("fopako id_", id_)
                     self.runGame(id_, random)
                 except Exception:
                     # try Klondike if current game fails

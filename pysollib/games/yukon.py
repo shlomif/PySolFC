@@ -56,7 +56,7 @@ from pysollib.games.spider import Spider_SS_Foundation
 # ************************************************************************
 
 class Yukon(Game):
-    Layout_Method = Layout.yukonLayout
+    Layout_Method = staticmethod(Layout.yukonLayout)
     Talon_Class = InitialDealTalonStack
     Foundation_Class = SS_FoundationStack
     RowStack_Class = StackWrapper(Yukon_AC_RowStack, base_rank=KING)
@@ -221,7 +221,7 @@ class Roslin(Yukon):
 # ************************************************************************
 
 class ChineseDiscipline(Yukon):
-    Layout_Method = Layout.klondikeLayout
+    Layout_Method = staticmethod(Layout.klondikeLayout)
     Talon_Class = DealRowTalonStack
 
     def createGame(self):
@@ -244,7 +244,7 @@ class ChineseSolitaire(ChineseDiscipline):
 # ************************************************************************
 
 class Queenie(Yukon):
-    Layout_Method = Layout.klondikeLayout
+    Layout_Method = staticmethod(Layout.klondikeLayout)
     Talon_Class = DealRowTalonStack
 
     def createGame(self):
@@ -263,7 +263,7 @@ class Queenie(Yukon):
 # ************************************************************************
 
 class Rushdike(RussianSolitaire):
-    Layout_Method = Layout.klondikeLayout
+    Layout_Method = staticmethod(Layout.klondikeLayout)
     Talon_Class = DealRowTalonStack
 
     def createGame(self):
@@ -399,7 +399,7 @@ class TenAcross(Yukon):
 
     Foundation_Class = Spider_SS_Foundation
     RowStack_Class = StackWrapper(Yukon_SS_RowStack, base_rank=KING)
-    Layout_Method = Layout.freeCellLayout
+    Layout_Method = staticmethod(Layout.freeCellLayout)
 
     #
     # game layout
@@ -520,7 +520,7 @@ class BimBom(AustralianPatience):
 # ************************************************************************
 
 class Geoffrey(Yukon):
-    Layout_Method = Layout.klondikeLayout
+    Layout_Method = staticmethod(Layout.klondikeLayout)
     RowStack_Class = StackWrapper(Yukon_SS_RowStack, base_rank=KING)
 
     def createGame(self):
@@ -542,7 +542,7 @@ class Geoffrey(Yukon):
 # ************************************************************************
 
 class Queensland(Yukon):
-    Layout_Method = Layout.klondikeLayout
+    Layout_Method = staticmethod(Layout.klondikeLayout)
     RowStack_Class = Yukon_SS_RowStack
 
     def createGame(self):

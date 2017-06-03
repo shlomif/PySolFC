@@ -841,7 +841,7 @@ class Ponytail(Tarock_GameMethods, Braid):
 # ************************************************************************
 
 class Cavalier(AbstractTarockGame):
-    Layout_Method = Layout.bakersDozenLayout
+    Layout_Method = staticmethod(Layout.bakersDozenLayout)
     Talon_Class = InitialDealTalonStack
     Foundation_Class = SS_FoundationStack
     RowStack_Class = Cavalier_RowStack

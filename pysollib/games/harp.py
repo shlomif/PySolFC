@@ -55,7 +55,7 @@ from pysollib.stack import \
 
 
 class DoubleKlondike(Game):
-    Layout_Method = Layout.harpLayout
+    Layout_Method = staticmethod(Layout.harpLayout)
     Foundation_Class = SS_FoundationStack
     RowStack_Class = KingAC_RowStack
     Hint_Class = KlondikeType_Hint
@@ -301,7 +301,7 @@ class DoubleKingsley(DoubleKlondike):
 # ************************************************************************
 
 class ThievesOfEgypt(DoubleKlondike):
-    Layout_Method = Layout.klondikeLayout
+    Layout_Method = staticmethod(Layout.klondikeLayout)
 
     def createGame(self):
         DoubleKlondike.createGame(self, rows=10, max_rounds=2)
@@ -323,7 +323,7 @@ class ThievesOfEgypt(DoubleKlondike):
 # ************************************************************************
 
 class Brush(DoubleKlondike):
-    Layout_Method = Layout.klondikeLayout
+    Layout_Method = staticmethod(Layout.klondikeLayout)
     Foundation_Class = Spider_SS_Foundation
     RowStack_Class = Spider_RowStack
     Hint_Class = Spider_Hint

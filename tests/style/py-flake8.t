@@ -12,7 +12,6 @@ use String::ShellQuote qw/ shell_quote /;
 my %skip = (
     map { $_ => 1 }
         qw(
-        ./Canvas.py
         pysollib/games/__init__.py
         pysollib/games/mahjongg/__init__.py
         pysollib/games/mahjongg/mahjongg1.py
@@ -21,8 +20,9 @@ my %skip = (
         pysollib/games/special/__init__.py
         pysollib/games/ultra/__init__.py
         pysollib/pysoltk.py
-        scripts/all_games.py
         pysollib/tile/ttk.py
+        pysollib/ui/tktile/Canvas2.py
+        scripts/all_games.py
         )
 );
 

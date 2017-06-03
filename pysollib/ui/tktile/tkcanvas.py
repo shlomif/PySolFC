@@ -30,7 +30,8 @@ __all__ = ['MfxCanvasGroup',
 
 # imports
 from six.moves import tkinter
-import Canvas
+from pysollib.ui.tktile.Canvas2 import CanvasText, Group, Line, Rectangle
+from pysollib.ui.tktile.Canvas2 import ImageItem as ImageItem2
 
 # PySol imports
 from pysollib.mfxutil import Image, ImageTk
@@ -43,9 +44,9 @@ from pysollib.ui.tktile.tkutil import unbind_destroy, loadImage
 # * canvas items
 # ************************************************************************
 
-class MfxCanvasGroup(Canvas.Group):
+class MfxCanvasGroup(Group):
     def __init__(self, canvas, tag=None):
-        Canvas.Group.__init__(self, canvas=canvas, tag=tag)
+        Group.__init__(self, canvas=canvas, tag=tag)
         # register ourself so that we can unbind from the canvas
         assert self.id not in self.canvas.items
         self.canvas.items[self.id] = self
@@ -55,13 +56,13 @@ class MfxCanvasGroup(Canvas.Group):
 
     def delete(self):
         del self.canvas.items[self.id]
-        Canvas.Group.delete(self)
+        Group.delete(self)
 
     def gettags(self):
         return self.canvas.tk.splitlist(self._do("gettags"))
 
 
-class MfxCanvasImage(Canvas.ImageItem):
+class MfxCanvasImage(ImageItem2):
     def __init__(self, canvas, x, y, **kwargs):
         self.init_coord = x, y
         group = None
@@ -70,7 +71,7 @@ class MfxCanvasImage(Canvas.ImageItem):
             del kwargs['group']
         if 'image' in kwargs:
             self._image = kwargs['image']
-        Canvas.ImageItem.__init__(self, canvas, x, y, **kwargs)
+        ImageItem2.__init__(self, canvas, x, y, **kwargs)
         if group:
             self.addtag(group)
 
@@ -85,21 +86,21 @@ class MfxCanvasImage(Canvas.ImageItem):
         self.config(state='hidden')
 
 
-MfxCanvasLine = Canvas.Line
+MfxCanvasLine = Line
 
 
-class MfxCanvasRectangle(Canvas.Rectangle):
+class MfxCanvasRectangle(Rectangle):
     def __init__(self, canvas, *args, **kwargs):
         group = None
         if 'group' in kwargs:
             group = kwargs['group']
             del kwargs['group']
-        Canvas.Rectangle.__init__(self, canvas, *args, **kwargs)
+        Rectangle.__init__(self, canvas, *args, **kwargs)
         if group:
             self.addtag(group)
 
 
-class MfxCanvasText(Canvas.CanvasText):
+class MfxCanvasText(CanvasText):
     def __init__(self, canvas, x, y, preview=-1, **kwargs):
         self.init_coord = x, y
         self.x, self.y = x, y
@@ -113,7 +114,7 @@ class MfxCanvasText(Canvas.CanvasText):
         if 'group' in kwargs:
             group = kwargs['group']
             del kwargs['group']
-        Canvas.CanvasText.__init__(self, canvas, x, y, **kwargs)
+        CanvasText.__init__(self, canvas, x, y, **kwargs)
         self.text_format = None
         canvas._text_items.append(self)
         if group:
@@ -271,7 +272,7 @@ class MfxCanvas(tkinter.Canvas):
         assert self.items == {}
 
     def findCard(self, stack, event):
-        if isinstance(stack.cards[0].item, Canvas.Group):
+        if isinstance(stack.cards[0].item, Group):
             current = self.gettags("current")           # get tags
             for i in range(len(stack.cards)):
                 if stack.cards[i].item.tag in current:

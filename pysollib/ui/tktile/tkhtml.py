@@ -22,7 +22,7 @@
 # ---------------------------------------------------------------------------
 
 import os
-import htmllib
+# import htmllib
 import formatter
 from six.moves import tkinter
 
@@ -182,7 +182,8 @@ class tkHTMLWriter(formatter.NullWriter):
 # *
 # ************************************************************************
 
-class tkHTMLParser(htmllib.HTMLParser):
+# class tkHTMLParser(htmllib.HTMLParser):
+class tkHTMLParser:
     def anchor_bgn(self, href, name, type):
         self.formatter.flush_softspace()
         htmllib.HTMLParser.anchor_bgn(self, href, name, type)

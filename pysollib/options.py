@@ -487,7 +487,8 @@ class Options:
         for key, t in self.GENERAL_OPTIONS:
             val = getattr(self, key)
             if isinstance(val, str):
-                val = unicode(val, 'utf-8')
+                if sys.version_info < (3,):
+                    val = unicode(val, 'utf-8')
             config['general'][key] = val
 
         config['general']['recent_gameid'] = self.recent_gameid
@@ -563,10 +564,12 @@ class Options:
 
         # create ConfigObj instance
         try:
+            print(filename)
             config = configobj.ConfigObj(filename,
                                          configspec=configspec,
                                          encoding=self._config_encoding)
         except configobj.ParseError:
+            raise BaseException('foo')
             traceback.print_exc()
             config = configobj.ConfigObj(configspec=configspec,
                                          encoding=self._config_encoding)

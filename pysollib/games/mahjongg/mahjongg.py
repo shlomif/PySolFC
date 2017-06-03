@@ -47,8 +47,6 @@ from pysollib.stack import \
         InitialDealTalonStack, \
         OpenStack
 
-from new import classobj
-
 if sys.version_info > (3,):
     xrange = range
 
@@ -987,11 +985,11 @@ def comp_cardset(ncards):
     assert ncards % 4 == 0
     assert 0 < ncards <= 288  # ???
     decks = 1
-    cards = ncards/4
+    cards = ncards//4
     if ncards > 144:
         assert ncards % 8 == 0
         decks = 2
-        cards = cards/2
+        cards = cards//2
     ranks, trumps = divmod(cards, 3)
     if ranks > 10:
         trumps += (ranks-10)*3
@@ -1012,7 +1010,7 @@ def r(id, short_name, name=None, ncards=144, layout=None):
         name = "Mahjongg " + short_name
     classname = re.sub('\W', '', name)
     # create class
-    gameclass = classobj(classname, (AbstractMahjonggGame,), {})
+    gameclass = type(classname, (AbstractMahjonggGame,), {})
     gameclass.L = layout
     gameclass.NCARDS = ncards
     decks, ranks, trumps = comp_cardset(ncards)

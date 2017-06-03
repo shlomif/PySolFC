@@ -77,7 +77,8 @@ class FreeCell(Game):
         # create layout
         l, s = Layout(self), self.s
         kwdefault(layout, rows=8, reserves=4, texts=0)
-        self.Layout_Method(l, **layout)
+        # self.Layout_Method(l, **layout)
+        self.__class__.__dict__['Layout_Method'](l, **layout)
         self.setSize(l.size[0], l.size[1])
         # create stacks
         s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self)

@@ -521,13 +521,14 @@ class Application:
             # this is the mainloop
             while 1:
                 assert self.cardset is not None
-                id, random = self.nextgame.id, self.nextgame.random
+                id_, random = self.nextgame.id, self.nextgame.random
                 self.nextgame.id, self.nextgame.random = 0, None
                 try:
-                    self.runGame(id, random)
+                    print("fopako id_", id_)
+                    self.runGame(id_, random)
                 except Exception:
                     # try Klondike if current game fails
-                    if id == 2:
+                    if id_ == 2:
                         raise           # internal error?
                     if DEBUG:
                         raise
@@ -569,7 +570,7 @@ class Application:
             destroy_find_card_dialog()
             destroy_solver_dialog()
             # update options
-            self.opt.last_gameid = id
+            self.opt.last_gameid = id_
             # save options
             try:
                 self.saveOptions()
@@ -595,22 +596,22 @@ class Application:
                 traceback.print_exc()
                 pass
 
-    def runGame(self, id, random=None):
+    def runGame(self, id_, random=None):
         self.top.connectApp(self)
         # create game instance
-        g = self.getGameClass(id)
+        g = self.getGameClass(id_)
         if g is None:
-            id = 2          # start Klondike as default game
+            id_ = 2          # start Klondike as default game
             random = None
-            g = self.getGameClass(id)
+            g = self.getGameClass(id_)
             if g is None:
                 # start first available game
-                id = self.gdb.getGamesIdSortedByName()[0]
-                g = self.getGameClass(id)
-        gi = self.getGameInfo(id)
-        assert gi is not None and gi.id == id
-        self.game = self.constructGame(id)
-        self.gdb.setSelected(id)
+                id_ = self.gdb.getGamesIdSortedByName()[0]
+                g = self.getGameClass(id_)
+        gi = self.getGameInfo(id_)
+        assert gi is not None and gi.id == id_
+        self.game = self.constructGame(id_)
+        self.gdb.setSelected(id_)
         self.game.busy = 1
         # create stacks and layout
         self.game.create(self)
@@ -620,9 +621,9 @@ class Application:
             self.toolbar.connectGame(self.game)
         self.game.updateStatus(player=self.opt.player)
         # update "Recent games" menubar entry
-        if id in self.opt.recent_gameid:
-            self.opt.recent_gameid.remove(id)
-        self.opt.recent_gameid.insert(0, id)
+        if id_ in self.opt.recent_gameid:
+            self.opt.recent_gameid.remove(id_)
+        self.opt.recent_gameid.insert(0, id_)
         del self.opt.recent_gameid[self.opt.num_recent_games:]
         self.menubar.updateRecentGamesMenu(self.opt.recent_gameid)
         self.menubar.updateFavoriteGamesMenu()

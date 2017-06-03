@@ -884,7 +884,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
             kw['close_fds'] = True
         p = subprocess.Popen(command, **kw)
         pin, pout, perr = p.stdin, p.stdout, p.stderr
-        pin.write(board)
+        pin.write(bytes(board, 'utf-8'))
         pin.close()
         #
         stack_types = {
@@ -896,39 +896,41 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
             start_time = time.time()
         if progress:
             # iteration output
-            iter = 0
+            iter_ = 0
             depth = 0
             states = 0
 
-            for s in pout:
+            for sbytes in pout:
+                s = str(sbytes, encoding='utf-8')
                 if DEBUG >= 5:
                     print(s)
 
                 if self.colonPrefixMatch('Iteration', s):
-                    iter = self._v
+                    iter_ = self._v
                 elif self.colonPrefixMatch('Depth', s):
                     depth = self._v
                 elif self.colonPrefixMatch('Stored-States', s):
                     states = self._v
-                    if iter % 100 == 0:
-                        self.dialog.setText(iter=iter, depth=depth,
+                    if iter_ % 100 == 0:
+                        self.dialog.setText(iter=iter_, depth=depth,
                                             states=states)
                 elif re.search('^(?:-=-=)', s):
                     break
                 elif self._determineIfSolverState(s):
                     break
-            self.dialog.setText(iter=iter, depth=depth, states=states)
+            self.dialog.setText(iter=iter_, depth=depth, states=states)
 
         hints = []
-        for s in pout:
+        for sbytes in pout:
+            s = str(sbytes, encoding='utf-8')
             if DEBUG:
                 print(s)
             if self._determineIfSolverState(s):
                 next
             m = re.match('Total number of states checked is (\d+)\.', s)
             if m:
-                iter = int(m.group(1))
-                self.dialog.setText(iter=iter)
+                iter_ = int(m.group(1))
+                self.dialog.setText(iter=iter_)
 
             m = re.match('This scan generated (\d+) states\.', s)
 
@@ -1061,7 +1063,7 @@ class BlackHoleSolver_Hint(Base_Solver_Hint):
 
         result = ''
         # iteration output
-        iter = 0
+        iter_ = 0
         depth = 0
         states = 0
 
@@ -1073,7 +1075,7 @@ class BlackHoleSolver_Hint(Base_Solver_Hint):
             if m:
                 result = m.group(1)
                 break
-        self.dialog.setText(iter=iter, depth=depth, states=states)
+        self.dialog.setText(iter=iter_, depth=depth, states=states)
 
         if (result == 'Intractable!'):
             self.solver_state = 'intractable'
@@ -1090,8 +1092,8 @@ class BlackHoleSolver_Hint(Base_Solver_Hint):
                 print(s)
             m = re.match('Total number of states checked is (\d+)\.', s)
             if m:
-                iter = int(m.group(1))
-                self.dialog.setText(iter=iter)
+                iter_ = int(m.group(1))
+                self.dialog.setText(iter=iter_)
                 continue
 
             m = re.match('This scan generated (\d+) states\.', s)

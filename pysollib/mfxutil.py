@@ -37,7 +37,6 @@ __all__ = [
 import sys
 import os
 import time
-import types
 import locale
 import webbrowser
 from six import print_
@@ -87,6 +86,8 @@ class SubclassResponsibility(Exception):
 
 
 def latin1_to_ascii(n):
+    if sys.version_info > (3,):
+        return n
     # return n
     n = n.encode('iso8859-1', 'replace')
     # FIXME: rewrite this for better speed
@@ -183,7 +184,6 @@ def win32_getprefdir(package):
 def destruct(obj):
     # assist in breaking circular references
     if obj is not None:
-        assert isinstance(obj, types.InstanceType)
         for k in obj.__dict__.keys():
             obj.__dict__[k] = None
             # del obj.__dict__[k]

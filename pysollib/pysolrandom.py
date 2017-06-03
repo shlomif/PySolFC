@@ -116,19 +116,19 @@ class MTRandom(BasicRandom, random.Random):
 # * uses the standard python module `random'
 # ************************************************************************
 
-class WHRandom(BasicRandom, random.WichmannHill):
-
-    def __init__(self, seed=None):
-        if seed is None:
-            seed = self._getRandomSeed()
-        BasicRandom.__init__(self)
-        random.WichmannHill.__init__(self, seed)
-        self.initial_seed = seed
-        self.initial_state = self.getstate()
-        self.origin = self.ORIGIN_UNKNOWN
-
-    def reset(self):
-        self.setstate(self.initial_state)
+# class WHRandom(BasicRandom, random.WichmannHill):
+#
+#     def __init__(self, seed=None):
+#         if seed is None:
+#             seed = self._getRandomSeed()
+#         BasicRandom.__init__(self)
+#         random.WichmannHill.__init__(self, seed)
+#         self.initial_seed = seed
+#         self.initial_state = self.getstate()
+#         self.origin = self.ORIGIN_UNKNOWN
+#
+#     def reset(self):
+#         self.setstate(self.initial_state)
 
 # ************************************************************************
 # * Abstract class for LC Random number generators.

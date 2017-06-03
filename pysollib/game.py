@@ -80,7 +80,7 @@ PLAY_TIME_TIMEOUT = 200
 # ************************************************************************
 
 
-class Game:
+class Game(object):
     # for self.gstats.updated
     U_PLAY = 0
     U_WON = -2

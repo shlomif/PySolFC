@@ -21,7 +21,7 @@ import sys
 import os
 import re
 
-from types import StringTypes
+from six import string_types
 from warnings import warn
 INTP_VER = sys.version_info[:2]
 if INTP_VER < (2, 2):
@@ -544,7 +544,7 @@ class Section(dict):
     def __getitem__(self, key):
         """Fetch the item and do string interpolation."""
         val = dict.__getitem__(self, key)
-        if self.main.interpolation and isinstance(val, StringTypes):
+        if self.main.interpolation and isinstance(val, string_types):
             return self._interpolate(key, val)
         return val
 
@@ -562,7 +562,7 @@ class Section(dict):
         `unrepr`` must be set when setting a value to a dictionary, without
         creating a new sub-section.
         """
-        if not isinstance(key, StringTypes):
+        if not isinstance(key, string_types):
             raise ValueError('The key "%s" is not a string.' % key)
         # add the comment
         if key not in self.comments:
@@ -595,11 +595,11 @@ class Section(dict):
             if key not in self:
                 self.scalars.append(key)
             if not self.main.stringify:
-                if isinstance(value, StringTypes):
+                if isinstance(value, string_types):
                     pass
                 elif isinstance(value, (list, tuple)):
                     for entry in value:
-                        if not isinstance(entry, StringTypes):
+                        if not isinstance(entry, string_types):
                             raise TypeError(
                                 'Value is not a string "%s".' % entry)
                 else:
@@ -641,7 +641,7 @@ class Section(dict):
             del self.comments[key]
             del self.inline_comments[key]
             self.sections.remove(key)
-        if self.main.interpolation and isinstance(val, StringTypes):
+        if self.main.interpolation and isinstance(val, string_types):
             return self._interpolate(key, val)
         return val
 
@@ -990,7 +990,7 @@ class Section(dict):
             return False
         else:
             try:
-                if not isinstance(val, StringTypes):
+                if not isinstance(val, string_types):
                     raise KeyError
                 else:
                     return self.main._bools[val.lower()]
@@ -1149,6 +1149,7 @@ class ConfigObj(Section):
 
         ``ConfigObj(infile=None, options=None, **kwargs)``
         """
+        print('pink infile = ',infile)
         if infile is None:
             infile = []
         if options is None:
@@ -1191,10 +1192,13 @@ class ConfigObj(Section):
         #
         self._terminated = False
         #
-        if isinstance(infile, StringTypes):
+        if isinstance(infile, string_types):
             self.filename = infile
             if os.path.isfile(infile):
-                infile = open(infile).read() or []
+                if sys.version_info > (3,):
+                    infile = unicode(open(infile).read()) or []
+                else:
+                    infile = open(infile).read() or []
             elif self.file_error:
                 # raise an error if the file doesn't exist
                 raise IOError('Config file not found: "%s".' % self.filename)
@@ -1233,6 +1237,7 @@ class ConfigObj(Section):
                             ' file like object, or list of lines.')
         #
         if infile:
+            print('infile flyt = ',infile)
             # don't do it for the empty ConfigObj
             infile = self._handle_bom(infile)
             # infile is now *always* a list
@@ -1256,6 +1261,7 @@ class ConfigObj(Section):
         if self._errors:
             info = "at line %s." % self._errors[0].line_number
             if len(self._errors) > 1:
+                raise self._errors[0]
                 msg = ("Parsing failed with several errors.\nFirst error %s" %
                        info)
                 error = ConfigObjError(msg)
@@ -1302,6 +1308,10 @@ class ConfigObj(Section):
         ``infile`` must always be returned as a list of lines, but may be
         passed in as a single string.
         """
+        if sys.version_info > (3,):
+            if isinstance(infile, list):
+                return infile
+            return infile.splitlines(True)
         if ((self.encoding is not None) and
                 (self.encoding.lower() not in BOM_LIST)):
             # No need to check for a BOM
@@ -1367,7 +1377,7 @@ class ConfigObj(Section):
                     else:
                         infile = newline
                     # UTF8 - don't decode
-                    if isinstance(infile, StringTypes):
+                    if isinstance(infile, string_types):
                         return infile.splitlines(True)
                     else:
                         return infile
@@ -1375,7 +1385,7 @@ class ConfigObj(Section):
                 return self._decode(infile, encoding)
         #
         # No BOM discovered and no encoding specified, just return
-        if isinstance(infile, StringTypes):
+        if isinstance(infile, string_types):
             # infile read from a file will be a single string
             return infile.splitlines(True)
         else:
@@ -1383,6 +1393,8 @@ class ConfigObj(Section):
 
     def _a_to_u(self, aString):
         """Decode ASCII strings to unicode if a self.encoding is specified."""
+        if sys.version_info > (3,):
+            return str(aString)
         if self.encoding:
             return aString.decode('ascii')
         else:
@@ -1394,7 +1406,7 @@ class ConfigObj(Section):
 
         if is a string, it also needs converting to a list.
         """
-        if isinstance(infile, StringTypes):
+        if isinstance(infile, string_types):
             # can't be unicode
             # NOTE: Could raise a ``UnicodeDecodeError``
             return infile.decode(encoding).splitlines(True)
@@ -1420,13 +1432,14 @@ class ConfigObj(Section):
         Used by ``stringify`` within validate, to turn non-string values
         into strings.
         """
-        if not isinstance(value, StringTypes):
+        if not isinstance(value, string_types):
             return str(value)
         else:
             return value
 
     def _parse(self, infile):
         """Actually parse the config file."""
+        print('aolk', infile)
         temp_list_values = self.list_values
         if self.unrepr:
             self.list_values = False
@@ -1671,7 +1684,7 @@ class ConfigObj(Section):
                 return self._quote(value[0], multiline=False) + ','
             return ', '.join([self._quote(val, multiline=False)
                              for val in value])
-        if not isinstance(value, StringTypes):
+        if not isinstance(value, string_types):
             if self.stringify:
                 value = str(value)
             else:

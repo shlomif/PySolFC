@@ -22,7 +22,7 @@
 # ---------------------------------------------------------------------------
 
 import os
-# import htmllib
+import pysollib.htmllib2 as htmllib
 import formatter
 from six.moves import tkinter
 
@@ -182,11 +182,10 @@ class tkHTMLWriter(formatter.NullWriter):
 # *
 # ************************************************************************
 
-# class tkHTMLParser(htmllib.HTMLParser):
-class tkHTMLParser:
+class tkHTMLParser(htmllib.HTMLParser):
     def anchor_bgn(self, href, name, type):
         self.formatter.flush_softspace()
-        # htmllib.HTMLParser.anchor_bgn(self, href, name, type)
+        htmllib.HTMLParser.anchor_bgn(self, href, name, type)
         self.formatter.writer.anchor_bgn(href, name, type)
 
     def anchor_end(self):
@@ -325,7 +324,7 @@ to open the following URL:
                 file = urllib.request.urlopen(url)
             else:
                 file, url = self.openfile(url)
-            data = file.read()
+            data = str(file.read())
             file.close()
             file = None
         except Exception as ex:

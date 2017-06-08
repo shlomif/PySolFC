@@ -22,6 +22,7 @@
 # ---------------------------------------------------------------------------
 
 import os
+import sys
 import pysollib.htmllib2 as htmllib
 import formatter
 from six.moves import tkinter
@@ -89,7 +90,7 @@ class tkHTMLWriter(formatter.NullWriter):
         return Functor(self.viewer, href)
 
     def write(self, data):
-        self.text.insert("insert", data)
+        self.text.insert("insert", str(data))
 
     def anchor_bgn(self, href, name, type):
         if href:
@@ -161,10 +162,10 @@ class tkHTMLWriter(formatter.NullWriter):
         self.write(' ')
 
     def send_paragraph(self, blankline):
-        self.write('\n' * blankline)
+        self.write("\n" * blankline)
 
     def send_line_break(self):
-        self.write('\n')
+        self.write("\n")
 
     def send_hor_rule(self, *args):
         width = int(int(self.text["width"]) * 0.9)
@@ -287,7 +288,14 @@ class Base_HTMLViewer:
         if url[-1:] == "/" or os.path.isdir(url):
             url = os.path.join(url, "index.html")
         url = os.path.normpath(url)
-        return open(url, "rb"), url
+
+        def my_open(url):
+            if sys.version_info > (3,):
+                import codecs
+                return codecs.open(url, encoding='utf-8')
+            else:
+                return open(url, "rb")
+        return my_open(url), url
 
     def display(self, url, add=1, relpath=1, xview=0, yview=0):
         # for some reason we have to stop the PySol demo
@@ -324,7 +332,7 @@ to open the following URL:
                 file = urllib.request.urlopen(url)
             else:
                 file, url = self.openfile(url)
-            data = str(file.read())
+            data = file.read()
             file.close()
             file = None
         except Exception as ex:

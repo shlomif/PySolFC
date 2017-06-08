@@ -7,6 +7,7 @@ before_install:
 install:
     - sudo cpanm Test::Differences Test::TrailingSpace
     - "`which python3` -m pip install --user flake8"
+    - "`which python3` -m pip install --user sgmllib3k"
     - "`which python3` -m pip install --user six"
     - "`which python` -m pip install --user six"
     - which python

@@ -198,7 +198,9 @@ for module_name in \
          'pysollib.wizardpresets',
          'pysollib.wizardutil',
         ]:
-    open(os.path.join(".", "tests", "individually-importing", "import_" + module_name + ".py"), 'w').write('''#!/usr/bin/env python
+    for ver in [2, 3]:
+        if ver == 2 or "gtk" not in module_name:
+            open(os.path.join(".", "tests", "individually-importing", "import_v" + str(ver) + "_" + module_name + ".py"), 'w').write('''#!/usr/bin/env python%(ver)d
 import sys
 sys.path.append("./tests/lib")
 from TAP.Simple import plan, ok
@@ -207,4 +209,4 @@ plan(1)
 sys.path.insert(0, ".")
 import %(module_name)s
 ok(1, "imported")
-''' % {'module_name': module_name})
+''' % {'module_name': module_name, 'ver': ver})

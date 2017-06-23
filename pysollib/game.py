@@ -31,6 +31,7 @@ import traceback
 from pysollib.mygettext import _
 
 from gettext import ungettext
+from six import BytesIO
 
 # PySol imports
 from pysollib.mfxutil import Pickler, Unpickler, UnpicklingError
@@ -61,12 +62,9 @@ from pysollib.hint import DefaultHint
 from pysollib.help import help_about
 
 if sys.version_info > (3,):
-    from io import StringIO
     basestring = str
     long = int
     xrange = range
-else:
-    from cStringIO import StringIO
 
 PLAY_TIME_TIMEOUT = 200
 
@@ -614,7 +612,7 @@ class Game(object):
     # restore a bookmarked game (e.g. after changing the cardset)
     def restoreGameFromBookmark(self, bookmark):
         old_busy, self.busy = self.busy, 1
-        file = StringIO(bookmark)
+        file = BytesIO(bookmark)
         p = Unpickler(file)
         game = self._undumpGame(p, self.app)
         assert game.id == self.id
@@ -657,7 +655,7 @@ class Game(object):
         self.updateTime()
         if bookmark:
             id, random = self.id, self.random
-            file = StringIO()
+            file = BytesIO()
             p = Pickler(file, 1)
             self._dumpGame(p, bookmark=1)
             self.app.nextgame.bookmark = file.getvalue()
@@ -3019,7 +3017,7 @@ Congratulations, you did it !
                     _("Set bookmark"),
                     _("Replace existing bookmark %d ?") % (n+1)):
                 return 0
-        file = StringIO()
+        file = BytesIO()
         p = Pickler(file, 1)
         try:
             self._dumpGame(p, bookmark=2)
@@ -3045,7 +3043,7 @@ Congratulations, you did it !
         try:
             s, moves_index = bm
             self.setCursor(cursor=CURSOR_WATCH)
-            file = StringIO(s)
+            file = BytesIO(s)
             p = Unpickler(file)
             game = self._undumpGame(p, self.app)
             assert game.id == self.id

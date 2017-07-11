@@ -365,8 +365,8 @@ class Images:
             return
         r = self.reduced
         if r > 1:
-            self.CARD_XOFFSET = max(10/r, cs.CARD_XOFFSET)
-            self.CARD_YOFFSET = max(10/r, cs.CARD_YOFFSET)
+            self.CARD_XOFFSET = max(10//r, cs.CARD_XOFFSET)
+            self.CARD_YOFFSET = max(10//r, cs.CARD_YOFFSET)
         else:
             self.CARD_XOFFSET = cs.CARD_XOFFSET
             self.CARD_YOFFSET = cs.CARD_YOFFSET

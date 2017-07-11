@@ -708,7 +708,7 @@ class StackDesc:
         font = game.app.getFont('canvas_small')
         # print self.app.cardset.CARDW, self.app.images.CARDW
         cardw = game.app.images.getSize()[0]
-        x, y = stack.x+cardw/2, stack.y
+        x, y = stack.x+cardw//2, stack.y
         text = stack.getHelp()+'\n'+stack.getBaseCard()
         text = text.strip()
         if text:
@@ -752,9 +752,9 @@ class MyPysolScale:
         else:
             self.resolution = 1
         if 'from_' in kw:
-            kw['from_'] = kw['from_']/self.resolution
+            kw['from_'] //= self.resolution
         if 'to' in kw:
-            kw['to'] = kw['to']/self.resolution
+            kw['to'] //= self.resolution
         if 'variable' in kw:
             self.variable = kw['variable']
             del kw['variable']

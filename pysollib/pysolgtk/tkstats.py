@@ -295,9 +295,9 @@ class Game_StatsDialog:
         width, height = alloc.width, alloc.height
         w, h = 90, 50
         # x, y = 10, 10
-        x, y = (width-w)/2, (height-h)/2
+        x, y = (width-w)//2, (height-h)//2
         dy = 9
-        y = y-dy/2
+        y -= dy//2
 
         if won+lost > 0:
             gc.set_foreground(colormap.alloc_color('#008000'))
@@ -328,8 +328,8 @@ class Game_StatsDialog:
             gc.set_foreground(colormap.alloc_color('#a0a0a0'))
             pangolayout = drawing.create_pango_layout(_('No games'))
             ext = pangolayout.get_extents()
-            tw, th = ext[1][2]/pango.SCALE, ext[1][3]/pango.SCALE
-            win.draw_layout(gc, x+w/2-tw/2, y+h/2-th/2, pangolayout)
+            tw, th = ext[1][2]//pango.SCALE, ext[1][3]//pango.SCALE
+            win.draw_layout(gc, x+w//2-tw//2, y+h//2-th//2, pangolayout)
 
     def _createTop(self):
         for n in ('top_10_time_treeview',

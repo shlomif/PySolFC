@@ -109,7 +109,7 @@ class PysolProgressBar:
     def update(self, percent=None, step=1):
         # self.steps_sum += step
         # print self.steps_sum, self.norm
-        step = step/self.norm
+        step /= self.norm
         if percent is None:
             self.percent += step
         elif percent > self.percent:

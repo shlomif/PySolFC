@@ -298,7 +298,7 @@ class MfxCanvas(gnomecanvas.Canvas):
         #
         gnomecanvas.Canvas.__init__(self)
         c = top.style.bg[gtk.STATE_NORMAL]
-        c = '#%02x%02x%02x' % (c.red/256, c.green/256, c.blue/256)
+        c = '#%02x%02x%02x' % (c.red//256, c.green//256, c.blue//256)
         self.top_bg = c
         if bg is not None:
             self.modify_bg(gtk.STATE_NORMAL, gdk.color_parse(bg))
@@ -520,7 +520,7 @@ class MfxCanvas(gnomecanvas.Canvas):
             pixbuf = image.pixbuf
         w, h = self.get_size()
         iw, ih = pixbuf.get_width(), pixbuf.get_height()
-        x, y = (w-iw)/2, (h-ih)/2
+        x, y = (w-iw)//2, (h-ih)//2
         dx, dy = self.world_to_window(0, 0)
         dx, dy = int(dx), int(dy)
         self.__topimage = self.root().add(gnomecanvas.CanvasPixbuf,

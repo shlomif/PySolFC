@@ -168,7 +168,7 @@ class SelectTileDialogWithPreview(MfxDialog):
 
     def _colorselOkClicked(self, w, d):
         c = d.colorsel.get_current_color()
-        c = '#%02x%02x%02x' % (c.red/256, c.green/256, c.blue/256)
+        c = '#%02x%02x%02x' % (c.red//256, c.green//256, c.blue//256)
         d.destroy()
         self.updatePreview(c)
         self.treeview.unselectAll()

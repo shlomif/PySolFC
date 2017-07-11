@@ -71,7 +71,7 @@ class TamOShanter(Game):
 
         # create stacks
         if texts:
-            x, y, = l.XM, l.YM+l.YS/2
+            x, y, = l.XM, l.YM+l.YS//2
         else:
             x, y, = l.XM, l.YM
         s.talon = self.Talon_Class(x, y, self)
@@ -277,7 +277,7 @@ class Interregnum(Game):
             s.foundations.append(
                 Interregnum_Foundation(x, y, self, mod=13, max_move=0))
         for i in range(rows):
-            x, y, = l.XM + (2*i+8-rows)*l.XS/2, l.YM + 2*l.YS
+            x, y, = l.XM + (2*i+8-rows)*l.XS//2, l.YM + 2*l.YS
             s.rows.append(self.RowStack_Class(x, y, self))
         s.talon = self.Talon_Class(self.width-l.XS, self.height-l.YS, self)
         if texts:

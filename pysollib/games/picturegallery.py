@@ -215,18 +215,18 @@ class PictureGallery(Game):
         rows = len(self.TableauStack_Classes)
         # create layout
         l, s = Layout(self), self.s
-        TABLEAU_YOFFSET = min(9, max(3, l.YOFFSET / 3))
+        TABLEAU_YOFFSET = min(9, max(3, l.YOFFSET // 3))
 
         # set window
-        th = l.YS + (12/rows-1) * TABLEAU_YOFFSET
+        th = l.YS + (12//rows-1) * TABLEAU_YOFFSET
         # (set piles so that at least 2/3 of a card is visible with 10 cards)
-        h = (10-1)*l.YOFFSET + l.CH*2/3
+        h = (10-1)*l.YOFFSET + l.CH*2//3
         self.setSize(10*l.XS+l.XM, l.YM + 3*th + l.YM + h)
 
         # create stacks
         s.addattr(tableaux=[])     # register extra stack variable
-        x = l.XM + 8 * l.XS + l.XS / 2
-        y = l.YM + l.CH / 2
+        x = l.XM + 8 * l.XS + l.XS // 2
+        y = l.YM + l.CH // 2
         s.foundations.append(self.Foundation_Class(x, y, self))
         y = l.YM
         for cl in self.TableauStack_Classes:
@@ -239,8 +239,8 @@ class PictureGallery(Game):
         for i in range(8):
             s.rows.append(self.RowStack_Class(x, y, self))
             x = x + l.XS
-        # self.setRegion(s.rows, (-999, -999, x - l.CW / 2, 999999))
-        x = l.XM + 8 * l.XS + l.XS / 2
+        # self.setRegion(s.rows, (-999, -999, x - l.CW // 2, 999999))
+        x = l.XM + 8 * l.XS + l.XS // 2
         y = self.height - l.YS
         s.talon = self.Talon_Class(x, y, self)
         l.createText(s.talon, "se")
@@ -248,7 +248,7 @@ class PictureGallery(Game):
             y -= l.YS
             s.waste = WasteStack(x, y, self)
             l.createText(s.waste, "se")
-        self.setRegion(s.foundations, (x - l.CW / 2, -999, 999999, y - l.CH))
+        self.setRegion(s.foundations, (x - l.CW // 2, -999, 999999, y - l.CH))
 
         # define stack-groups
         if waste:
@@ -406,14 +406,14 @@ class MountOlympus(Game):
             s.foundations.append(
                 MountOlympus_Foundation(
                     x, y, self,
-                    suit=i/2, base_rank=ACE, dir=2, max_move=0, max_cards=7))
+                    suit=i//2, base_rank=ACE, dir=2, max_move=0, max_cards=7))
             x += l.XS
         x, y = l.XM+l.XS, l.YM+l.YS
         for i in range(8):
             s.foundations.append(
                 MountOlympus_Foundation(
                     x, y, self,
-                    suit=i/2, base_rank=1, dir=2, max_move=0, max_cards=6))
+                    suit=i//2, base_rank=1, dir=2, max_move=0, max_cards=6))
             x += l.XS
         x, y = l.XM, l.YM+2*l.YS
         for i in range(9):

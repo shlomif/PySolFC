@@ -62,7 +62,7 @@ class DieBoeseSieben_Talon(DieKoenigsbergerin_Talon):
         # redeal
         game.nextRoundMove(self)
         n = len(game.s.rows)
-        flip = (num_cards / n) & 1
+        flip = (num_cards // n) & 1
         while self.cards:
             if len(self.cards) <= n:
                 flip = 1
@@ -91,9 +91,9 @@ class DieBoeseSieben(Game):
             x, y, = l.XM + i*l.XS, l.YM
             s.foundations.append(
                 DieRussische_Foundation(
-                    x, y, self, i/2, max_move=0, max_cards=8))
+                    x, y, self, i//2, max_move=0, max_cards=8))
         for i in range(rows):
-            x, y, = l.XM + (2*i+8-rows)*l.XS/2, l.YM + l.YS
+            x, y, = l.XM + (2*i+8-rows)*l.XS//2, l.YM + l.YS
             s.rows.append(AC_RowStack(x, y, self))
         s.talon = DieBoeseSieben_Talon(
             l.XM, self.height-l.YS, self, max_rounds=2)

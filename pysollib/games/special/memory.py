@@ -287,7 +287,7 @@ class Concentration(Memory24):
                 x, y = l.XM + j*l.XS, l.YM + i*l.YS
                 s.rows.append(Concentration_RowStack(x, y, self,
                               max_move=0, max_accept=0, max_cards=1))
-        x, y = l.XM + self.COLUMNS*l.XS/2, self.height - l.YS
+        x, y = l.XM + self.COLUMNS*l.XS//2, self.height - l.YS
         s.talon = InitialDealTalonStack(x, y, self)
         l.createText(s.talon, dx=-10, anchor="sw", text_format="%D")
 

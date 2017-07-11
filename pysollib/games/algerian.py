@@ -82,20 +82,20 @@ class Carthage(Game):
         self.setSize(w, h)
 
         # create stacks
-        x, y = l.XM+l.XS+(max_rows-foundations)*l.XS/2, l.YM
+        x, y = l.XM+l.XS+(max_rows-foundations)*l.XS//2, l.YM
         for fclass in self.Foundation_Classes:
             for i in range(4):
                 s.foundations.append(fclass(x, y, self, suit=i))
                 x += l.XS
 
-        x, y = l.XM+l.XS+(max_rows-rows)*l.XS/2, l.YM+l.YS
+        x, y = l.XM+l.XS+(max_rows-rows)*l.XS//2, l.YM+l.YS
         for i in range(rows):
             s.rows.append(self.RowStack_Class(x, y, self,
                                               max_move=1, max_accept=1))
             x += l.XS
-        self.setRegion(s.rows, (-999, y-l.CH/2, 999999, h-l.YS-l.CH/2))
+        self.setRegion(s.rows, (-999, y-l.CH//2, 999999, h-l.YS-l.CH//2))
 
-        d = (w-reserves*l.XS)/reserves
+        d = (w-reserves*l.XS)//reserves
         x, y = l.XM, h-l.YS
         for i in range(reserves):
             stack = ReserveStack(x, y, self)

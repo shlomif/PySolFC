@@ -105,13 +105,13 @@ class GrandDuchess(Game):
             s.foundations.append(SS_FoundationStack(x, y, self,
                                  suit=i, base_rank=KING, dir=-1))
             x += l.XS
-        x, y = l.XM+(max_rows-rows)*l.XS/2, l.YM+l.YS
+        x, y = l.XM+(max_rows-rows)*l.XS//2, l.YM+l.YS
         for i in range(rows):
             stack = BasicRowStack(x, y, self, max_move=1, max_accept=0)
             stack.CARD_YOFFSET = l.YOFFSET
             s.rows.append(stack)
             x += l.XS
-        dx = (max_rows-rows)*l.XS/4-l.XS/2
+        dx = (max_rows-rows)*l.XS//4-l.XS//2
         x, y = l.XM+dx, l.YM+l.YS
         s.reserves.append(GrandDuchess_Reserve(x, y, self))
         x, y = self.width-dx-l.XS, l.YM+l.YS

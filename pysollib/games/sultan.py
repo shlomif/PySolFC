@@ -94,12 +94,12 @@ class Sultan(Game):
             s.foundations.append(stack)
 
         x, y = l.XM, l.YM
-        for i in range(reserves/2):
+        for i in range(reserves//2):
             s.rows.append(ReserveStack(x, y, self))
             y += l.YS
 
         x, y = 3*l.XM+4*l.XS, l.YM
-        for i in range(reserves/2):
+        for i in range(reserves//2):
             s.rows.append(ReserveStack(x, y, self))
             y += l.YS
 
@@ -216,7 +216,7 @@ class CaptiveQueens(Game):
         l, s = Layout(self), self.s
         self.setSize(l.XM+5.5*l.XS, l.YM+3*l.YS)
 
-        x, y = l.XM, l.YM+l.YS/2
+        x, y = l.XM, l.YM+l.YS//2
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
         l.createText(s.talon, "se")
         l.createRoundText(s.talon, 'nn')
@@ -265,12 +265,12 @@ class Contradance(Game):
 
         x, y = l.XM, l.YM
         for i in range(8):
-            s.foundations.append(SS_FoundationStack(x, y, self, suit=i/2,
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i//2,
                                  base_rank=4, dir=-1, mod=13, max_cards=6))
             x += l.XS
         x, y = l.XM, l.YM+l.YS
         for i in range(8):
-            s.foundations.append(SS_FoundationStack(x, y, self, suit=i/2,
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i//2,
                                  base_rank=5, max_cards=7))
             x += l.XS
 
@@ -550,7 +550,7 @@ class PicturePatience(Game):
                                             max_cards=1, max_accept=1))
                 x += l.XS
             y += l.YS
-        x, y = 2*l.XM+l.XS+l.XS/2, l.YM+3*l.YS
+        x, y = 2*l.XM+l.XS+l.XS//2, l.YM+3*l.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=max_rounds)
         x += l.XS
         s.waste = WasteStack(x, y, self)
@@ -671,14 +671,14 @@ class TwoRings(Game):
         x0, y0 = l.XM+l.XS, l.YM
         for xx, yy in lay:
             x, y = x0+xx*l.XS, y0+yy*l.YS
-            s.foundations.append(SS_FoundationStack(x, y, self, suit=suit/2,
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=suit//2,
                                  base_rank=6, max_cards=7))
             suit += 1
         suit = 0
         x0, y0 = l.XM+5*l.XS, l.YM
         for xx, yy in lay:
             x, y = x0+xx*l.XS, y0+yy*l.YS
-            s.foundations.append(SS_FoundationStack(x, y, self, suit=suit/2,
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=suit//2,
                                  base_rank=5, dir=-1, max_cards=6))
             suit += 1
 
@@ -734,7 +734,7 @@ class CornerSuite(Game):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=suit))
             suit += 1
 
-        x, y = l.XM+3*l.XS/2, l.YM
+        x, y = l.XM+3*l.XS//2, l.YM
         s.talon = WasteTalonStack(x, y, self, max_rounds=1)
         l.createText(s.talon, 'nw')
         x += l.XS
@@ -787,12 +787,12 @@ class Marshal(Game):
             s.foundations.append(SS_FoundationStack(x, y, self,
                                  suit=i, base_rank=KING, dir=-1))
             y += l.YS
-        x, y = (self.width-l.XS)/2, self.height-l.YS
+        x, y = (self.width-l.XS)//2, self.height-l.YS
         s.talon = DealRowTalonStack(x, y, self)
         l.createText(s.talon, 'se')
         y = l.YM
         for i in range(4):
-            x = l.XM+l.XS*3/2
+            x = l.XM+l.XS*3//2
             for j in range(6):
                 stack = UD_SS_RowStack(x, y, self, base_rank=NO_RANK)
                 s.rows.append(stack)
@@ -965,7 +965,7 @@ class Adela(Game):
         x, y = l.XM, l.YM+l.YS
         s.talon = DealRowTalonStack(x, y, self)
         l.createText(s.talon, 'n')
-        x, y = l.XM+l.XS/2, l.YM+3*l.YS
+        x, y = l.XM+l.XS//2, l.YM+3*l.YS
         for i in range(9):
             stack = SS_RowStack(x, y, self, max_move=1, dir=1)
             s.rows.append(stack)
@@ -1101,7 +1101,7 @@ class Phalanx(Game):
 
         y = l.YM
         for i in range(5):
-            x = l.XM+(8-i)*l.XS/2
+            x = l.XM+(8-i)*l.XS//2
             for j in range(i+1):
                 s.rows.append(ReserveStack(x, y, self))
                 x += l.XS
@@ -1149,11 +1149,11 @@ class Grandee(Game):
 
         # set window
         decks = self.gameinfo.decks
-        w = max(decks*4, rows/2)
+        w = max(decks*4, rows//2)
         self.setSize(l.XM+w*l.XS, l.YM+5*l.YS)
 
         # create stacks
-        x, y = l.XM + (w-decks*4)*l.XS/2, l.YM
+        x, y = l.XM + (w-decks*4)*l.XS//2, l.YM
         for i in range(4):
             for j in range(decks):
                 s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
@@ -1161,8 +1161,8 @@ class Grandee(Game):
 
         y = l.YM+1.5*l.YS
         for i in range(2):
-            x = l.XM + (w-rows/2)*l.XS/2
-            for j in range(rows/2):
+            x = l.XM + (w-rows//2)*l.XS//2
+            for j in range(rows//2):
                 stack = self.RowStack_Class(x, y, self, max_move=1)
                 stack.CARD_YOFFSET = 0
                 s.rows.append(stack)
@@ -1248,7 +1248,7 @@ class DesertIsland(Game):
         x, y = l.XM, l.YM
         for i in range(8):
             s.foundations.append(SS_FoundationStack(x, y, self,
-                                                    suit=i/2, max_cards=10))
+                                                    suit=i//2, max_cards=10))
             x += l.XS
 
         y = l.YM+l.YS

@@ -90,7 +90,7 @@ class Pegged_RowStack(ReserveStack):
             from_stack.pos[1] - self.pos[1]
         if not self.game.STEP_MAP.get((dx, dy)):
             return None
-        s = self.game.map.get((self.pos[0] + dx/2, self.pos[1] + dy/2))
+        s = self.game.map.get((self.pos[0] + dx//2, self.pos[1] + dy//2))
         if not s or not s.cards:
             return None
         return s
@@ -133,7 +133,7 @@ class Pegged(Game):
             r = self.ROWS[i]
             for j in range(r):
                 d = m - r + 2*j
-                x, y = l.XM + d*l.XS/2, l.YM + i*l.YS
+                x, y = l.XM + d*l.XS//2, l.YM + i*l.YS
                 stack = Pegged_RowStack(x, y, self)
                 stack.pos = (d, 2*i)
                 # print stack.id, stack.pos
@@ -154,7 +154,7 @@ class Pegged(Game):
         for step in self.STEPS:
             self.STEP_MAP[step] = 1
         if self.EMPTY_STACK_ID < 0:
-            self.EMPTY_STACK_ID = len(s.rows) / 2
+            self.EMPTY_STACK_ID = len(s.rows) // 2
 
         # Define stack groups
         l.defaultStackGroups()
@@ -210,7 +210,7 @@ class Pegged(Game):
             for dx, dy in self.STEPS:
                 s = self.map.get((rx + dx, ry + dy))
                 if s and not s.cards:
-                    m = self.map.get((rx + dx/2, ry + dy/2))
+                    m = self.map.get((rx + dx//2, ry + dy//2))
                     if m and m.cards:
                         rows.append(r)
         return ((rows, 1),)

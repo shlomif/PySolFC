@@ -71,18 +71,18 @@ class Doublets(Game):
 
         # create stacks
         for dx, dy in ((0, 0), (1, 0), (2, 0), (0, 1), (2, 1), (0, 2), (2, 2)):
-            x, y = l.XM + (2*dx+5)*l.XS/2, l.YM + (2*dy+1)*l.YS/2
+            x, y = l.XM + (2*dx+5)*l.XS//2, l.YM + (2*dy+1)*l.YS//2
             s.rows.append(ReserveStack(x, y, self))
         dx, dy = 1, 2
-        x, y = l.XM + (2*dx+5)*l.XS/2, l.YM + (2*dy+1)*l.YS/2
+        x, y = l.XM + (2*dx+5)*l.XS//2, l.YM + (2*dy+1)*l.YS//2
         s.foundations.append(Doublets_Foundation(x, y, self, ANY_SUIT,
                                                  dir=0, mod=13,
                                                  max_move=0, max_cards=48))
         l.createText(s.foundations[0], "s")
 #         help = "A, 2, 4, 8, 3, 6, Q, J, 9, 5, 10, 7, A, ..."
 #         self.texts.help = MfxCanvasText(
-#             self.canvas, x + l.CW/2, y + l.YS + l.YM, anchor="n", text=help)
-        x, y = l.XM, l.YM + 3*l.YS/2
+#             self.canvas, x + l.CW//2, y + l.YS + l.YM, anchor="n", text=help)
+        x, y = l.XM, l.YM + 3*l.YS//2
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
         l.createText(s.talon, "s")
         x = x + l.XS

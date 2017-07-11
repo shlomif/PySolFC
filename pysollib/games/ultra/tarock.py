@@ -174,7 +174,7 @@ class Corkscrew(AbstractTarockGame):
         self.setSize(l.XM + (maxrows + 2) * l.XS, l.YM + 6 * l.YS)
 
         #
-        playcards = 4 * l.YS / l.YOFFSET
+        playcards = 4 * l.YS // l.YOFFSET
         xoffset, yoffset = [], []
         for i in range(playcards):
             xoffset.append(0)
@@ -184,12 +184,12 @@ class Corkscrew(AbstractTarockGame):
             yoffset.append(0)
 
         # create stacks
-        x, y = l.XM + (maxrows - reserves) * l.XS / 2, l.YM
+        x, y = l.XM + (maxrows - reserves) * l.XS // 2, l.YM
         for i in range(reserves):
             s.reserves.append(ReserveStack(x, y, self))
             x = x + l.XS
-        x, y = l.XM + (maxrows - rows) * l.XS / 2, l.YM + l.YS
-        self.setRegion(s.reserves, (-999, -999, 999999, y - l.YM / 2))
+        x, y = l.XM + (maxrows - rows) * l.XS // 2, l.YM + l.YS
+        self.setRegion(s.reserves, (-999, -999, 999999, y - l.YM // 2))
         for i in range(rows):
             stack = self.RowStack_Class(x, y, self, yoffset=l.YOFFSET)
             stack.CARD_XOFFSET = xoffset
@@ -210,7 +210,7 @@ class Corkscrew(AbstractTarockGame):
             (x - l.XS * 2, -999, 999999,
              self.height - (l.YS + l.YM)), priority=1)
         s.talon = InitialDealTalonStack(
-            self.width - 3 * l.XS / 2, self.height - l.YS, self)
+            self.width - 3 * l.XS // 2, self.height - l.YS, self)
 
         # define stack-groups
         l.defaultStackGroups()

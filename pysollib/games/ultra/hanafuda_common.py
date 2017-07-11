@@ -200,7 +200,7 @@ class MatsuKiri_Foundation(Flower_FoundationStack):
     def __init__(self, x, y, game, suit, **cap):
         kwdefault(cap, max_move=0, max_cards=48, max_accept=4, min_accept=4)
         AbstractFoundationStack.__init__(self, x, y, game, suit, **cap)
-        self.CARD_YOFFSET = self.game.app.images.CARDH / 10
+        self.CARD_YOFFSET = self.game.app.images.CARDH // 10
 
     def acceptsCards(self, from_stack, cards):
         if not self.basicAcceptsCards(from_stack, cards):
@@ -221,7 +221,7 @@ class GreatWall_FoundationStack(Flower_FoundationStack):
     def __init__(self, x, y, game, suit, **cap):
         kwdefault(cap, max_cards=48, max_move=1, min_accept=1, max_accept=1)
         Flower_FoundationStack.__init__(self, x, y, game, suit, **cap)
-        self.CARD_YOFFSET = self.game.app.images.CARDH / 20
+        self.CARD_YOFFSET = self.game.app.images.CARDH // 20
 
     def acceptsCards(self, from_stack, cards):
         if not self.basicAcceptsCards(from_stack, cards):

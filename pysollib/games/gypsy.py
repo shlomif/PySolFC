@@ -256,7 +256,7 @@ class MissMilligan(Gypsy):
             x = x + l.XS
             s.foundations.append(self.Foundation_Class(x, y, self, suit=i/2))
         x, y = l.XM, y + l.YS
-        rx, ry = x + l.XS - l.CW/2, y - l.CH/2
+        rx, ry = x + l.XS - l.CW//2, y - l.CH//2
         for i in range(reserves):
             s.reserves.append(
                 self.ReserveStack_Class(x, y+l.TEXT_HEIGHT, self))
@@ -266,7 +266,7 @@ class MissMilligan(Gypsy):
             self.setRegion(s.reserves, (-999, ry+l.TEXT_HEIGHT, rx-1, 999999))
         else:
             rx = -999
-        x, y = l.XM + (8-rows)*l.XS/2, l.YM + l.YS
+        x, y = l.XM + (8-rows)*l.XS//2, l.YM + l.YS
         for i in range(rows):
             x = x + l.XS
             s.rows.append(self.RowStack_Class(x, y, self))
@@ -501,12 +501,12 @@ class Surprise(Gypsy):
         l.createText(s.talon, 's')
         x += l.XS
         stack = Surprise_ReserveStack(x, y, self, max_cards=3)
-        xoffset = min(l.XOFFSET, l.XS/3)
+        xoffset = min(l.XOFFSET, l.XS//3)
         stack.CARD_XOFFSET = xoffset
         s.reserves.append(stack)
         x += 2*l.XS
         for i in range(8):
-            s.foundations.append(SS_FoundationStack(x, y, self, suit=i/2))
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i//2))
             x += l.XS
         x, y = l.XM, l.YM+l.YS+l.TEXT_HEIGHT
         for i in range(11):
@@ -799,7 +799,7 @@ class Leprechaun(Game):
 
         x, y = l.XM+1.5*l.XS, l.YS+l.TEXT_HEIGHT
         for i in range(8):
-            s.foundations.append(SS_FoundationStack(x, y, self, suit=i/2))
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i//2))
             x += l.XS
 
         x, y = l.XM+1.5*l.XS, 2*l.YS+l.TEXT_HEIGHT
@@ -963,7 +963,7 @@ class Thirty(Game):
                                                          suit=i, max_cards=8))
             x += l.XS
 
-        x, y = l.XM+l.XS/2, l.YM+l.YS
+        x, y = l.XM+l.XS//2, l.YM+l.YS
         for i in range(6):
             s.rows.append(Thirty_RowStack(x, y, self,
                           max_move=UNLIMITED_MOVES,

@@ -49,7 +49,7 @@ class PasDeDeux_Hint(AbstractHint):
         d = 0
         if card.rank != stack.id % 13:
             d = d + 1
-        if card.suit != stack.id / 13:
+        if card.suit != stack.id // 13:
             d = d + 1
         return d
 
@@ -63,7 +63,7 @@ class PasDeDeux_Hint(AbstractHint):
         # for each stack
         for r in rows:
             r1_d = self.getDistance(r, r.cards[-1])
-            column, row = r.id % 13, r.id / 13
+            column, row = r.id % 13, r.id // 13
             stack_ids = list(range(column, 52, 13)) + \
                 list(range(13*row, 13*row+13))
             for i in stack_ids:
@@ -134,7 +134,7 @@ class PasDeDeux_RowStack(ReserveStack):
         game.leaveState(old_state)
 
     def getBottomImage(self):
-        suit = self.id / 13
+        suit = self.id // 13
         return self.game.app.images.getSuitBottom(suit)
 
     def quickPlayHandler(self, event, from_stacks=None, to_stacks=None):
@@ -200,7 +200,7 @@ class PasDeDeux(Game):
             if len(r.cards) != 1:
                 return False
             c = r.cards[-1]
-            if c.suit != r.id / 13 or c.rank != r.id % 13:
+            if c.suit != r.id // 13 or c.rank != r.id % 13:
                 return False
         return True
 
@@ -209,8 +209,8 @@ class PasDeDeux(Game):
     #
 
     def isNeighbour(self, stack1, stack2):
-        column1, row1 = stack1.id % 13, stack1.id / 13
-        column2, row2 = stack2.id % 13, stack2.id / 13
+        column1, row1 = stack1.id % 13, stack1.id // 13
+        column2, row2 = stack2.id % 13, stack2.id // 13
         return column1 == column2 or row1 == row2
 
     def getHighlightPilesStacks(self):

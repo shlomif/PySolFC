@@ -448,7 +448,7 @@ class Glacier(Game):
         l, s = Layout(self), self.s
         self.setSize(l.XM+rows*l.XS, l.YM+2*l.YS+l.TEXT_HEIGHT+20*l.YOFFSET)
 
-        x, y = l.XM+(rows-4)/2*l.XS, l.YM
+        x, y = l.XM+(rows-4)//2*l.XS, l.YM
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i,
                                  mod=13, max_cards=26))

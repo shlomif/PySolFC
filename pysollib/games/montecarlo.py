@@ -284,11 +284,11 @@ class SimplePairs(MonteCarlo):
         # create stacks
         for i in range(3):
             for j in range(3):
-                x, y = l.XM + (2*j+3)*l.XS/2, l.YM + (2*i+1)*l.YS/2
+                x, y = l.XM + (2*j+3)*l.XS//2, l.YM + (2*i+1)*l.YS//2
                 s.rows.append(self.RowStack_Class(x, y, self,
                                                   max_accept=1, max_cards=2,
                                                   dir=0, base_rank=NO_RANK))
-        x, y = l.XM, l.YM + 3*l.YS/2
+        x, y = l.XM, l.YM + 3*l.YS//2
         s.talon = TalonStack(x, y, self, max_rounds=1)
         l.createText(s.talon, "s")
         x = x + 5*l.XS

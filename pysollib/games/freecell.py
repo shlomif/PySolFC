@@ -640,7 +640,7 @@ class Limpopo(Game):
         self.setSize(l.XM+10.5*l.XS, l.YM+2*l.YS+20*l.YOFFSET)
 
         # create stacks
-        x, y = l.XM, l.YM+l.YS/2
+        x, y = l.XM, l.YM+l.YS//2
         for i in (0, 1):
             stack = ReserveStack(x, y, self, max_cards=4)
             s.reserves.append(stack)
@@ -650,7 +650,7 @@ class Limpopo(Game):
 
         x, y = l.XM+2.5*l.XS, l.YM
         for i in range(8):
-            s.foundations.append(SS_FoundationStack(x, y, self, suit=i/2))
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i//2))
             x += l.XS
 
         x, y = l.XM+2.5*l.XS, l.YM+l.YS

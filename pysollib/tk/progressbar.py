@@ -94,7 +94,7 @@ class PysolProgressBar:
     def update(self, percent=None, step=1):
         self.steps_sum += step
         # print self.steps_sum
-        step /= self.norm
+        step //= self.norm
         if self.top is None:        # already destroyed
             return
         if percent is None:
@@ -109,7 +109,7 @@ class PysolProgressBar:
         c.coords(self.scale, -10, -10,
                  (self.percent * width) / 100.0, height)
         if self.text >= 0:
-            c.coords(self.text, width/2, height/2)
+            c.coords(self.text, width//2, height//2)
             c.itemconfig(self.text, text="%d %%" % int(round(self.percent)))
         c.update()
 

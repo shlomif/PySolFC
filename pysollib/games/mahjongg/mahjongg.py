@@ -368,7 +368,7 @@ class AbstractMahjonggGame(Game):
             d_y = cs.SHADOW_YOFFSET
             if self.preview:
                 # Fixme
-                dx, dy, d_x, d_y = dx/2, dy/2, d_x/2, d_y/2
+                dx, dy, d_x, d_y = dx//2, dy//2, d_x//2, d_y//2
             self._delta_x, self._delta_y = dx, -dy
         else:
             dx = 3
@@ -398,10 +398,10 @@ class AbstractMahjonggGame(Game):
             left_margin = l.XM + 4*cardw+fdxx+d_x + l.XM
         else:
             left_margin = l.XM
-        tableau_width = (max_tx+2)*cardw/2+dxx+d_x
+        tableau_width = (max_tx+2)*cardw//2+dxx+d_x
         right_margin = l.XM+ti_width+l.XM
         w = left_margin + tableau_width + right_margin
-        h = l.YM + dyy + (max_ty + 2) * cardh / 2 + d_y + l.YM
+        h = l.YM + dyy + (max_ty + 2) * cardh // 2 + d_y + l.YM
         if show_removed:
             h = max(h, l.YM+fdyy+cardh*9+d_y+l.YM)
         self.setSize(w, h)
@@ -418,8 +418,8 @@ class AbstractMahjonggGame(Game):
         y0 = l.YM + dyy
         for level, tx, ty in tiles:
             # print level, tx, ty
-            x = x0 + (tx * cardw) / 2 + level * dx
-            y = y0 + (ty * cardh) / 2 + level * dy
+            x = x0 + (tx * cardw) // 2 + level * dx
+            y = y0 + (ty * cardh) // 2 + level * dy
             stack = self.RowStack_Class(x, y, self)
             # stack.G = (level, tx, ty)
             stack.CARD_XOFFSET = dx
@@ -599,7 +599,7 @@ class AbstractMahjonggGame(Game):
             if len(free_stacks) < 2:
                 return None             # try another way
             #
-            i = factorial(len(free_stacks))/2/factorial(len(free_stacks)-2)
+            i = factorial(len(free_stacks))//2//factorial(len(free_stacks)-2)
             old_pairs = []
             for j in xrange(i):
                 nc = new_cards[:]
@@ -699,8 +699,8 @@ class AbstractMahjonggGame(Game):
                                if nc[r.id] is None and is_suitable(r, nc)]
 
             old_pairs = []
-            i = factorial(len(suitable_stacks))/2 \
-                / factorial(len(suitable_stacks)-2)
+            i = factorial(len(suitable_stacks))//2 \
+                // factorial(len(suitable_stacks)-2)
             for j in xrange(i):
                 if iters[0] > max_iters:
                     return None

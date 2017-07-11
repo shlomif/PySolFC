@@ -166,7 +166,7 @@ class TwelveSleepingMaids(Game):
 
         x, y = l.XM+2*l.XS, l.YM+l.YS+3*l.YOFFSET
         for i in range(8):
-            s.foundations.append(SS_FoundationStack(x, y, self, suit=i/2,
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i//2,
                                                     base_rank=KING, mod=13))
             x += l.XS
 

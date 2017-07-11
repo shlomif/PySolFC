@@ -259,7 +259,8 @@ class WheelOfFortune(AbstractTarockGame):
         for i in range(21):
             x0 = x + xoffset[i] * l.XS
             y0 = y + yoffset[i] * l.YS
-            s.rows.append(WheelOfFortune_RowStack(x0, y0, self, yoffset=l.CH/4,
+            s.rows.append(WheelOfFortune_RowStack(x0, y0, self,
+                          yoffset=l.CH//4,
                           max_cards=2, max_move=1, max_accept=1))
         self.setRegion(s.rows, (-999, -999, l.XS * 9, 999999))
 
@@ -676,7 +677,7 @@ class Grasshopper(AbstractTarockGame):
         # Set window size
         decks = self.gameinfo.decks
         self.setSize(2*l.XM + (2 + 5*decks)*l.XS, 3*l.YM + 5*l.YS)
-        yoffset = min(l.YOFFSET, max(10, l.YOFFSET / 2))
+        yoffset = min(l.YOFFSET, max(10, l.YOFFSET // 2))
 
         # Create talon
         x = l.XM
@@ -792,7 +793,7 @@ class Ponytail(Tarock_GameMethods, Braid):
             s.rows.append(Ponytail_ReserveStack(x, y + 2 * l.YS, self))
             s.rows.append(Ponytail_ReserveStack(x + l.XS, y + 2 * l.YS, self))
             x = x + 4 * l.XS
-        x = l.XM + 5*l.XS/2
+        x = l.XM + 5*l.XS//2
         y = l.YM
         s.braid = Ponytail_PonytailStack(x, y, self, sine=1)
         x = l.XM + 7 * l.XS
@@ -801,7 +802,7 @@ class Ponytail(Tarock_GameMethods, Braid):
         l.createText(s.talon, "s")
         s.talon.texts.rounds = MfxCanvasText(
             self.canvas,
-            x + l.CW / 2, y - l.YM,
+            x + l.CW // 2, y - l.YM,
             anchor="s",
             font=self.app.getFont("canvas_default"))
         x = x - l.XS
@@ -823,7 +824,7 @@ class Ponytail(Tarock_GameMethods, Braid):
         # ???
         self.texts.info = MfxCanvasText(
             self.canvas,
-            x + l.CW + l.XM / 2, y + l.YS,
+            x + l.CW + l.XM // 2, y + l.YS,
             anchor="n",
             font=self.app.getFont("canvas_default"))
 

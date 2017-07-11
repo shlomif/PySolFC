@@ -904,7 +904,7 @@ class Game(object):
     def shuffleSeparateDecks(self):
         cards = []
         self.random.reset()
-        n = self.gameinfo.ncards / self.gameinfo.decks
+        n = self.gameinfo.ncards // self.gameinfo.decks
         for deck in range(self.gameinfo.decks):
             i = deck * n
             deck_cards = list(self.cards)[i:i+n]
@@ -1242,7 +1242,7 @@ class Game(object):
             # this is used internally in game preview to speed up
             # the initial dealing
             if self.moves.state == self.S_INIT and frames > 4:
-                frames = frames / 2
+                frames //= 2
         if shadow < 0:
             shadow = self.app.opt.shadow
         shadows = ()
@@ -1606,7 +1606,7 @@ class Game(object):
             # animation
             if c in acards or len(cards) <= 2:
                 self.animatedMoveTo(
-                    s, None, [c], w/2, h/2, tkraise=0, shadow=0)
+                    s, None, [c], w//2, h//2, tkraise=0, shadow=0)
                 self.animatedMoveTo(s, None, [c], sx, sy, tkraise=0, shadow=0)
             else:
                 c.moveTo(sx, sy)
@@ -2200,8 +2200,8 @@ Congratulations, you did it !
         if self.preview:
             width = 4
             xmargin, ymargin = 0, 0
-        x0, y0 = x+width/2-xmargin, y+width/2-ymargin
-        x1, y1 = x+w-width/2-xmargin, y+h-width/2-ymargin
+        x0, y0 = x+width//2-xmargin, y+width//2-ymargin
+        x1, y1 = x+w-width//2-xmargin, y+h-width//2-ymargin
         r = MfxCanvasRectangle(self.canvas, x0, y0, x1, y1,
                                width=width, fill=None, outline=color)
         self.canvas.update_idletasks()
@@ -2425,16 +2425,16 @@ Congratulations, you did it !
         x1, y1 = x1 + dx, y1 + dy
         x2, y2 = x2 + dx, y2 + dy
         if ncards == 1:
-            x1 += cw / 2
-            y1 += ch / 2
+            x1 += cw // 2
+            y1 += ch // 2
         elif from_stack.CARD_XOFFSET[0]:
-            x1 += from_stack.CARD_XOFFSET[0] / 2
-            y1 += ch / 2
+            x1 += from_stack.CARD_XOFFSET[0] // 2
+            y1 += ch // 2
         else:
-            x1 += cw / 2
-            y1 += from_stack.CARD_YOFFSET[0] / 2
-        x2 += cw / 2
-        y2 += ch / 2
+            x1 += cw // 2
+            y1 += from_stack.CARD_YOFFSET[0] // 2
+        x2 += cw // 2
+        y2 += ch // 2
         # draw the hint
         arrow = MfxCanvasLine(self.canvas, x1, y1, x2, y2, width=7,
                               fill=self.app.opt.colors['hintarrow'],
@@ -2690,8 +2690,8 @@ Congratulations, you did it !
     def __checkFreeSpaceForDemoInfoText(self, items):
         CW, CH = self.app.images.CARDW, self.app.images.CARDH
         # note: these are translated by (-CW/2, -CH/2)
-        x1, x2 = 3*CW/2, self.width - 5*CW/2
-        y1, y2 = CH/2, self.height - 3*CH/2
+        x1, x2 = 3*CW//2, self.width - 5*CW//2
+        y1, y2 = CH//2, self.height - 3*CH//2
         #
         m = [1, 1, 1, 1]
         for c in items:

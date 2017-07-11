@@ -142,7 +142,7 @@ class SingleGame_StatsDialog(MfxDialog):
         c.create_rectangle(2, 7, w, h, fill="", outline="#7f7f7f")
         l = tkinter.Label(c, text=text, font=self.font, bd=0, padx=3, pady=1)
         dy = int(self.font_metrics['ascent']) - 10
-        dy = dy/2
+        dy //= 2
         c.create_window(20, -dy, window=l, anchor="nw")
 
     def _createChartTexts(self, tx, ty, won, lost):
@@ -151,7 +151,7 @@ class SingleGame_StatsDialog(MfxDialog):
         #
         x = tx[0]
         dy = int(self.font_metrics['ascent']) - 10
-        dy = dy/2
+        dy //= 2
         c.create_text(
             x, ty[0]-dy, text=_("Won:"), anchor="nw", font=tfont, fill=fg)
         c.create_text(
@@ -235,7 +235,7 @@ class SingleGame_StatsDialog(MfxDialog):
 #          pwon, plost = self._getPwon(won, lost)
 #          #
 #          tx = (iw+20, iw+110, iw+140)
-#          yy = ih/2 # + 7
+#          yy = ih//2 # + 7
 #          ty = (yy+21-46, yy+41-46, yy+75-46)
 #          #
 #          c.create_image(0, 7, image=image, anchor="nw")
@@ -879,8 +879,8 @@ class ProgressionDialog(MfxDialog):
         tw = max(measure(_('Games/day')),
                  measure(_('Games/week')),
                  measure(_('% won')))
-        self.left_margin = self.xmargin+tw/2
-        self.right_margin = self.xmargin+tw/2
+        self.left_margin = self.xmargin+tw//2
+        self.right_margin = self.xmargin+tw//2
         self.top_margin = 15+self.text_height
         self.bottom_margin = 15+self.text_height+10+self.text_height
         #
@@ -1003,12 +1003,12 @@ class ProgressionDialog(MfxDialog):
 
         graph_width = self.canvas_width-self.left_margin-self.right_margin
         graph_height = self.canvas_height-self.top_margin-self.bottom_margin
-        dx = (graph_width-2*self.graph_dx)/(len(result)-1)
-        graph_dx = (graph_width-(len(result)-1)*dx)/2
-        dy = (graph_height-self.graph_dy)/5
+        dx = (graph_width-2*self.graph_dx)//(len(result)-1)
+        graph_dx = (graph_width-(len(result)-1)*dx)//2
+        dy = (graph_height-self.graph_dy)//5
         x0, y0 = self.left_margin, self.canvas_height-self.bottom_margin
         x1, y1 = self.canvas_width-self.right_margin, self.top_margin
-        td = self.text_height/2
+        td = self.text_height//2
 
         # vertical scale
         x = x0+graph_dx
@@ -1029,7 +1029,7 @@ class ProgressionDialog(MfxDialog):
 
         # horizontal scale
         max_games = max([i[1] for i in result])
-        games_delta = max_games/5+1
+        games_delta = max_games//5+1
         percent = 0
         games = 0
         for y in range(y0, y1, -dy):

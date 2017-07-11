@@ -134,12 +134,12 @@ class DoubleBisley(Bisley):
             for i in range(4):
                 x = l.XM+8*l.XS
                 s.foundations.append(SS_FoundationStack(x, y, self,
-                                     suit=j*2+i/2, max_move=0))
+                                     suit=j*2+i//2, max_move=0))
                 x += l.XS
                 s.foundations.append(
                     SS_FoundationStack(
                         x, y, self,
-                        suit=j*2+i/2, base_rank=KING, max_move=0, dir=-1))
+                        suit=j*2+i//2, base_rank=KING, max_move=0, dir=-1))
                 y += l.YS
 
         s.talon = InitialDealTalonStack(l.XM, h-l.YS, self)
@@ -176,10 +176,10 @@ class Gloria(Game):
             for i in range(4):
                 y = l.YM
                 s.foundations.append(
-                    SS_FoundationStack(x, y, self, suit=j*2+i/2))
+                    SS_FoundationStack(x, y, self, suit=j*2+i//2))
                 y += l.YS
                 s.foundations.append(SS_FoundationStack(x, y, self,
-                                     suit=j*2+i/2, base_rank=KING, dir=-1))
+                                     suit=j*2+i//2, base_rank=KING, dir=-1))
                 x += l.XS
 
         s.reserves.append(ReserveStack(l.XM, l.YM, self))
@@ -384,7 +384,7 @@ class Cringle(Game):
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
             x += l.XS
-        x += l.XS/2
+        x += l.XS//2
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i,
                                                     base_rank=KING, dir=-1))
@@ -394,7 +394,7 @@ class Cringle(Game):
         for j in range(4):
             s.rows.append(AC_RowStack(x, y, self))
             x += l.XS
-        x += l.XS/2
+        x += l.XS//2
         for j in range(4):
             s.rows.append(AC_RowStack(x, y, self, dir=1))
             x += l.XS

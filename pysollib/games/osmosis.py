@@ -266,7 +266,7 @@ class Genesis(Game):
         self.setSize(w, h)
 
         # create stacks
-        x, y, = l.XM+(rows-4)*l.XS/2, l.YM
+        x, y, = l.XM+(rows-4)*l.XS//2, l.YM
         for i in range(4):
             stack = Osmosis_Foundation(
                 x, y, self, i, base_rank=ANY_RANK, max_move=0)

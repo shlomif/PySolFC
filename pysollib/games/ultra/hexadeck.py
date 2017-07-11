@@ -188,7 +188,7 @@ class Bits_RowStack(ReserveStack):
         stackcards = self.cards
         if stackcards or cards[0].suit == 4:
             return 0
-        i = int(self.id / 4)
+        i = int(self.id // 4)
         for r in self.game.s.rows[i * 4:self.id]:
             if not r.cards:
                 return 0
@@ -204,7 +204,7 @@ class Bytes_RowStack(ReserveStack):
         if stackcards or cards[0].suit == 4:
             return 0
         id = self.id - 16
-        i = int(id / 2)
+        i = int(id // 2)
         for r in self.game.s.rows[16 + i * 2:self.id]:
             if not r.cards:
                 return 0
@@ -315,7 +315,7 @@ class BitsNBytes(Game):
                                       base_suit=j, max_move=0)
                 s.rows.append(stack)
                 stack.texts.misc = MfxCanvasText(self.canvas,
-                                                 x + l.CW / 2, y + l.CH / 2,
+                                                 x + l.CW // 2, y + l.CH // 2,
                                                  anchor="center", font=font)
                 x = x - l.XS
             y = y + l.YS
@@ -369,7 +369,7 @@ class BitsNBytes(Game):
             for i in range(4):
                 stack = self.s.rows[i + j * 4]
                 stack.texts.misc.config(text=str(s % 2))
-                s = int(s / 2)
+                s = int(s // 2)
 
     def _shuffleHook(self, cards):
         topcards, ranks = [None] * 4, [None] * 4
@@ -1166,7 +1166,7 @@ class MerlinsMeander(AbstractHexADeckGame):
         l.createText(s.talon, "s")
         s.talon.texts.rounds = MfxCanvasText(
             self.canvas,
-            x + l.CW / 2, y - l.YM,
+            x + l.CW // 2, y - l.YM,
             anchor="s",
             font=self.app.getFont("canvas_default"))
         x -= l.XS
@@ -1187,7 +1187,7 @@ class MerlinsMeander(AbstractHexADeckGame):
             y = y + l.YS
         self.texts.info = MfxCanvasText(
             self.canvas,
-            x + l.CW + l.XM / 2, y,
+            x + l.CW + l.XM // 2, y,
             anchor="n",
             font=self.app.getFont("canvas_default"))
 
@@ -1349,7 +1349,7 @@ class Convolution(AbstractHexADeckGame):
         self.setSize(l.XM + (maxrows + 2) * l.XS, l.YM + 6 * l.YS)
 
         #
-        playcards = 4 * l.YS / l.YOFFSET
+        playcards = 4 * l.YS // l.YOFFSET
         xoffset, yoffset = [], []
         for i in range(playcards):
             xoffset.append(0)
@@ -1359,12 +1359,12 @@ class Convolution(AbstractHexADeckGame):
             yoffset.append(0)
 
         # create stacks
-        x, y = l.XM + (maxrows - reserves) * l.XS / 2, l.YM
+        x, y = l.XM + (maxrows - reserves) * l.XS // 2, l.YM
         for i in range(reserves):
             s.reserves.append(ReserveStack(x, y, self))
             x = x + l.XS
-        x, y = l.XM + (maxrows - rows) * l.XS / 2, l.YM + l.YS
-        self.setRegion(s.reserves, (-999, -999, 999999, y - l.YM / 2))
+        x, y = l.XM + (maxrows - rows) * l.XS // 2, l.YM + l.YS
+        self.setRegion(s.reserves, (-999, -999, 999999, y - l.YM // 2))
         for i in range(rows):
             stack = self.RowStack_Class(x, y, self, yoffset=yoffset)
             stack.CARD_XOFFSET = xoffset
@@ -1381,7 +1381,7 @@ class Convolution(AbstractHexADeckGame):
         self.setRegion(self.s.foundations, (x - l.XS * 2, -999, 999999,
                        self.height - (l.YS + l.YM)), priority=1)
         s.talon = InitialDealTalonStack(
-            self.width - 3 * l.XS / 2, self.height - l.YS, self)
+            self.width - 3 * l.XS // 2, self.height - l.YS, self)
 
         # define stack-groups
         l.defaultStackGroups()

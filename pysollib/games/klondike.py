@@ -489,7 +489,7 @@ class Batsford(Klondike):
         x, y = l.XM, self.height - l.YS
         s.reserves.append(Batsford_ReserveStack(x, y, self, max_cards=3))
         self.setRegion(
-            s.reserves, (-999, y - l.YM - l.CH/2, x + l.XS - l.CW/2, 999999),
+            s.reserves, (-999, y - l.YM - l.CH//2, x + l.XS - l.CW//2, 999999),
             priority=1)
         l.createText(s.reserves[0], "se")
         if round_text:
@@ -697,11 +697,11 @@ class Jane(Klondike):
         for i in range(reserves):
             x = x0 + ((i+1) & 1) * l.XS
             stack = OpenStack(x, y, self, max_accept=0)
-            stack.CARD_YOFFSET = l.YM / 3
+            stack.CARD_YOFFSET = l.YM // 3
             s.reserves.append(stack)
-            y = y + l.YS / 2
+            y = y + l.YS // 2
         # not needed, as no cards may be placed on the reserves
-        # self.setRegion(s.reserves, (x0-l.XM/2, -999, 999999, 999999),
+        # self.setRegion(s.reserves, (x0-l.XM//2, -999, 999999, 999999),
         #   priority=1)
         l.defaultStackGroups()
         self.sg.dropstacks.append(s.talon)
@@ -759,7 +759,7 @@ class Senate(Jane):
             x += l.XS
 
         for y in l.YM, l.YM+l.YS+playcards*l.YOFFSET:
-            x = l.XM+rows*l.XS+l.XS/2
+            x = l.XM+rows*l.XS+l.XS//2
             for i in range(4):
                 stack = OpenStack(x, y, self, max_accept=0)
                 stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, l.YOFFSET
@@ -1051,9 +1051,9 @@ class SevenDevils(Klondike):
 
         x, y = l.XM, l.YM
         for i in range(8):
-            s.foundations.append(SS_FoundationStack(x, y, self, suit=i/2))
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i//2))
             x += l.XS
-        x, y = l.XM+l.XS/2, l.YM+l.YS
+        x, y = l.XM+l.XS//2, l.YM+l.YS
         for i in range(7):
             s.rows.append(self.RowStack_Class(x, y, self))
             x += l.XS
@@ -1061,7 +1061,7 @@ class SevenDevils(Klondike):
         for i in range(7):
             x = x0 + ((i+1) & 1) * l.XS
             s.reserves.append(OpenStack(x, y, self, max_accept=0))
-            y = y + l.YS / 2
+            y += l.YS // 2
         x, y = l.XM, self.height-l.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=1)
         l.createText(s.talon, 'n')
@@ -1260,7 +1260,7 @@ class LuckyThirteen(Game):
             stack.CARD_XOFFSET = xoffset
             stack.CARD_YOFFSET = 0
             x += w0
-        x, y = (self.width-4*l.XS)/2, l.YM
+        x, y = (self.width-4*l.XS)//2, l.YM
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
             x += l.XS

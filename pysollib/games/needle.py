@@ -71,14 +71,14 @@ class Needle(Game):
         stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
         s.reserves.append(stack)
         self.setRegion(
-            s.reserves, (-999, -999, w-4*l.XS-l.CW/2, l.YM+l.YS-l.CH/2))
+            s.reserves, (-999, -999, w-4*l.XS-l.CW//2, l.YM+l.YS-l.CH//2))
 
         x = w-4*l.XS
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
             x += l.XS
 
-        x, y = l.XM+(w-(l.XM+9*l.XS))/2, l.YM+l.YS
+        x, y = l.XM+(w-(l.XM+9*l.XS))//2, l.YM+l.YS
         for i in range(9):
             s.rows.append(AC_RowStack(x, y, self, max_move=1))
             x += l.XS

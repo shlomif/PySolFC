@@ -97,11 +97,11 @@ class AcesUp(Game):
             l.createText(s.talon, "ne")
         else:
             l.createText(s.talon, "s")
-        x = x + 3*l.XS/2
+        x = x + 3*l.XS//2
         for i in range(rows):
             s.rows.append(self.RowStack_Class(x, y, self))
             x = x + l.XS
-        x = x + l.XS/2
+        x = x + l.XS//2
         stack = self.Foundation_Class(x, y, self, suit=ANY_SUIT, max_move=0,
                                       dir=0, base_rank=ANY_RANK, max_cards=48)
         l.createText(stack, "s")
@@ -232,7 +232,7 @@ class PerpetualMotion(Game):
         x, y, = l.XM, l.YM
         s.talon = PerpetualMotion_Talon(x, y, self, max_rounds=-1)
         l.createText(s.talon, "s")
-        x = x + 3*l.XS/2
+        x = x + 3*l.XS//2
         for i in range(4):
             s.rows.append(
                 PerpetualMotion_RowStack(x, y, self, dir=0, base_rank=NO_RANK))
@@ -388,13 +388,13 @@ class TabbyCat(Game):
             s.rows.append(stack)
             stack.canDropCards = stack.spiderCanDropCards
             x += l.XS
-        x += l.XS/2
+        x += l.XS//2
         s.reserves.append(self.ReserveStack_Class(x, y, self))
         x += 1.5*l.XS
         s.talon = self.Talon_Class(x, y, self)
         l.createText(s.talon, "s")
 
-        self.setRegion(s.foundations, (-999, -999, l.YS*decks-l.CH/2, 999999))
+        self.setRegion(s.foundations, (-999, -999, l.YS*decks-l.CH//2, 999999))
 
         # define stack-groups
         l.defaultStackGroups()

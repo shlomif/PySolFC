@@ -62,13 +62,13 @@ class WaveMotion(Game):
         self.setSize(w, h)
 
         # create stacks
-        x, y = l.XM + (max_rows-rows)*l.XS/2, l.YM
+        x, y = l.XM + (max_rows-rows)*l.XS//2, l.YM
         for i in range(rows):
             stack = self.RowStack_Class(x, y, self, base_rank=ANY_RANK)
             stack.getBottomImage = stack._getReserveBottomImage
             s.rows.append(stack)
             x += l.XS
-        x, y = l.XM + (max_rows-reserves)*l.XS/2, l.YM+l.YS+12*l.YOFFSET
+        x, y = l.XM + (max_rows-reserves)*l.XS//2, l.YM+l.YS+12*l.YOFFSET
         for i in range(reserves):
             stack = OpenStack(x, y, self, max_accept=0)
             s.reserves.append(stack)

@@ -298,11 +298,11 @@ class LadiesBattle(Game):
             s.rows.append(LadiesBattle_RowStack(x, y, self,
                                                 max_move=1, mod=13))
             x = x + l.XS
-        x, y = l.XM, l.YM+l.YS/2
+        x, y = l.XM, l.YM+l.YS//2
         for i in range(4):
             s.reserves.append(OpenStack(x, y, self, max_accept=0))
             y += l.YS
-        x, y = self.width-l.XS, l.YM+l.YS/2
+        x, y = self.width-l.XS, l.YM+l.YS//2
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i,
                                                     base_rank=QUEEN, mod=13))

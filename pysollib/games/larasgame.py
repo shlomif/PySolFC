@@ -281,7 +281,7 @@ class LarasGame(Game):
                     max_accept=1, max_cards=self.Reserve_Cards))
         self.sg.openstacks = self.sg.openstacks + s.reserves[19:]
         self.sg.dropstacks = self.sg.dropstacks + s.reserves[19:]
-        self.setRegion(s.reserves[19:], (x - l.XM / 2, 0, 99999, 99999))
+        self.setRegion(s.reserves[19:], (x - l.XM // 2, 0, 99999, 99999))
 
     #
     # Game extras
@@ -315,7 +315,7 @@ class LarasGame(Game):
         for i in range(8):
             if not self.s.talon.cards:
                 break
-            if i == 4 or len(self.s.talon.cards) <= ncards / 2:
+            if i == 4 or len(self.s.talon.cards) <= ncards // 2:
                 self.startDealSample()
                 frames = 4
             self.s.talon.dealRow(

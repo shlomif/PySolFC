@@ -89,7 +89,7 @@ class DerKatzenschwanz(Game):
         self.setSize(l.XM + (maxrows+2)*l.XS, l.YM + 6*l.YS)
 
         #
-        playcards = 4*l.YS / l.YOFFSET
+        playcards = 4*l.YS // l.YOFFSET
         xoffset, yoffset = [], []
         for i in range(playcards):
             xoffset.append(0)
@@ -99,12 +99,12 @@ class DerKatzenschwanz(Game):
             yoffset.append(0)
 
         # create stacks
-        x, y = l.XM + (maxrows-reserves)*l.XS/2, l.YM
+        x, y = l.XM + (maxrows-reserves)*l.XS//2, l.YM
         for i in range(reserves):
             s.reserves.append(ReserveStack(x, y, self))
             x = x + l.XS
-        x, y = l.XM + (maxrows-rows)*l.XS/2, l.YM + l.YS
-        self.setRegion(s.reserves, (-999, -999, 999999, y - l.CH / 2))
+        x, y = l.XM + (maxrows-rows)*l.XS//2, l.YM + l.YS
+        self.setRegion(s.reserves, (-999, -999, 999999, y - l.CH // 2))
         for i in range(rows):
             stack = self.RowStack_Class(x, y, self)
             stack.CARD_XOFFSET = xoffset
@@ -118,9 +118,9 @@ class DerKatzenschwanz(Game):
                     SS_FoundationStack(x+i*l.XS, y, self, suit=suit))
             y = y + l.YS
         self.setRegion(
-            self.s.foundations, (x - l.CW / 2, -999, 999999, y), priority=1)
+            self.s.foundations, (x - l.CW // 2, -999, 999999, y), priority=1)
         s.talon = InitialDealTalonStack(
-            self.width-3*l.XS/2, self.height-l.YS, self)
+            self.width-3*l.XS//2, self.height-l.YS, self)
 
         # define stack-groups
         l.defaultStackGroups()
@@ -319,7 +319,7 @@ class SalicLaw(DerKatzenschwanz):
         self.setSize(l.XM+10*l.XS, l.YM+(5+len(self.Foundation_Classes))*l.YS)
 
         #
-        playcards = 4*l.YS / l.YOFFSET
+        playcards = 4*l.YS // l.YOFFSET
         xoffset, yoffset = [], []
         for i in range(playcards):
             xoffset.append(0)
@@ -339,7 +339,7 @@ class SalicLaw(DerKatzenschwanz):
             y += l.YS
 
         x, y = l.XM, l.YM+l.YS*len(self.Foundation_Classes)
-        self.setRegion(s.foundations, (-999, -999, 999999, y - l.XM / 2))
+        self.setRegion(s.foundations, (-999, -999, 999999, y - l.XM // 2))
         for i in range(8):
             stack = self.RowStack_Class(x, y, self, max_move=1)
             stack.CARD_XOFFSET = xoffset
@@ -657,7 +657,7 @@ class Kentish(Kings):
         self.setSize(l.XM + (rows+2)*l.XS, l.YM + 5*l.YS)
 
         #
-        playcards = 4*l.YS / l.YOFFSET
+        playcards = 4*l.YS // l.YOFFSET
         xoffset, yoffset = [], []
         for i in range(playcards):
             xoffset.append(0)
@@ -681,8 +681,8 @@ class Kentish(Kings):
                                                         suit=suit))
             y += l.YS
         self.setRegion(self.s.foundations,
-                       (x - l.CW / 2, -999, 999999, y), priority=1)
-        x, y = self.width-3*l.XS/2, self.height-l.YS
+                       (x - l.CW // 2, -999, 999999, y), priority=1)
+        x, y = self.width-3*l.XS//2, self.height-l.YS
         s.talon = InitialDealTalonStack(x, y, self)
 
         # define stack-groups

@@ -194,7 +194,7 @@ class Montana(Game):
                                   max_accept=1, max_cards=1))
                     x += l.XS
         if round_text:
-            x, y = l.XM + (self.RSTEP-1)*l.XS/2, self.height-l.YS
+            x, y = l.XM + (self.RSTEP-1)*l.XS//2, self.height-l.YS
             s.talon = self.Talon_Class(x, y, self)
             l.createRoundText(s.talon, 'se')
         else:
@@ -555,7 +555,7 @@ class Spoilt(Game):
                 s.rows.append(Spoilt_RowStack(x, y, self,
                               max_accept=1, max_cards=2, min_cards=1))
                 x += l.XS
-        x, y = self.width/2 - l.XS, self.height-l.YS
+        x, y = self.width//2 - l.XS, self.height-l.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=1)
         l.createText(s.talon, 'n')
         x += l.XS

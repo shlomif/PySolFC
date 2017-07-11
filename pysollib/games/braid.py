@@ -159,9 +159,9 @@ class Braid(Game):
             s.rows.append(Braid_ReserveStack(x, y + l.YS, self))
             s.rows.append(Braid_ReserveStack(x + l.XS, y + l.YS, self))
             x = x + 4 * l.XS
-        x, y = l.XM + l.XS * 5/2, l.YM
+        x, y = l.XM + l.XS * 5//2, l.YM
         s.braid = Braid_BraidStack(x, y, self)
-        x, y = l.XM + 7 * l.XS, l.YM + l.YS * 3/2
+        x, y = l.XM + 7 * l.XS, l.YM + l.YS * 3//2
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
         l.createText(s.talon, "s")
         l.createRoundText(s.talon, 'nn')
@@ -175,7 +175,7 @@ class Braid(Game):
                 s.foundations.append(cl(x, y, self, suit=i))
                 x += l.XS
             y = y + l.YS
-        x = l.XM+8*l.XS+decks*l.XS/2
+        x = l.XM+8*l.XS+decks*l.XS//2
         self.texts.info = MfxCanvasText(self.canvas,
                                         x, y, anchor="n", font=font)
 
@@ -321,28 +321,28 @@ class Backbone(Game):
         # create stacks
         y = l.YM
         for i in range(4):
-            x = l.XM+(rows-8)*l.XS/2 + i*l.XS
+            x = l.XM+(rows-8)*l.XS//2 + i*l.XS
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
-            x = l.XM+(rows/2+2)*l.XS + i*l.XS
+            x = l.XM+(rows//2+2)*l.XS + i*l.XS
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
 
-        x, y = l.XM+rows*l.XS/2, l.YM
+        x, y = l.XM+rows*l.XS//2, l.YM
         s.reserves.append(Backbone_BraidStack(x, y, self, max_accept=0))
         x += l.XS
         s.reserves.append(Backbone_BraidStack(x, y, self, max_accept=0))
-        x, y = l.XM+(rows+1)*l.XS/2, l.YM+11*l.YOFFSET
+        x, y = l.XM+(rows+1)*l.XS//2, l.YM+11*l.YOFFSET
         s.reserves.append(BasicRowStack(x, y, self, max_accept=0))
 
         x, y = l.XM, l.YM+l.YS
-        for i in range(rows/2):
+        for i in range(rows//2):
             s.rows.append(SS_RowStack(x, y, self, max_move=1))
             x += l.XS
-        x, y = l.XM+(rows/2+2)*l.XS, l.YM+l.YS
-        for i in range(rows/2):
+        x, y = l.XM+(rows//2+2)*l.XS, l.YM+l.YS
+        for i in range(rows//2):
             s.rows.append(SS_RowStack(x, y, self, max_move=1))
             x += l.XS
 
-        x, y = l.XM+rows*l.XS/2, h-l.YS
+        x, y = l.XM+rows*l.XS//2, h-l.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=1)
         l.createText(s.talon, "n")
         x += l.XS

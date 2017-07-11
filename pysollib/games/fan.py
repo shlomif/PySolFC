@@ -103,10 +103,10 @@ class Fan(Game):
             for r in range(reserves):
                 s.reserves.append(self.ReserveStack_Class(x, y, self))
                 x += l.XS
-            x = (self.width - decks*4*l.XS)  # - 2*l.XS) / 2
+            x = (self.width - decks*4*l.XS)  # - 2*l.XS) // 2
             dx = l.XS
         else:
-            dx = (self.width - decks*4*l.XS)/(decks*4+1)
+            dx = (self.width - decks*4*l.XS)//(decks*4+1)
             x, y = l.XM + dx, l.YM
             dx += l.XS
         for fnd_cls in self.Foundation_Classes:
@@ -243,7 +243,7 @@ class LaBelleLucie_Talon(TalonStack):
         to_stacks = self.game.s.rows
         n = min(len(self.cards), 3*len(to_stacks))
         for i in range(3):
-            j = (n/3, (n+1)/3, (n+2)/3)[i]
+            j = (n//3, (n+1)//3, (n+2)//3)[i]
             frames = (0, 0, 4)[i]
             for r in to_stacks[:j]:
                 if self.cards[-1].face_up != face_up:
@@ -332,7 +332,7 @@ class ThreeShufflesAndADraw_ReserveStack(ReserveStack):
         if not self.is_visible or self.game.preview > 1:
             return
         images = self.game.app.images
-        x, y = self.x + images.CARDW/2, self.y + images.CARDH/2
+        x, y = self.x + images.CARDW//2, self.y + images.CARDH//2
         self.texts.misc = MfxCanvasText(
             self.game.canvas, x, y,
             anchor="center",
@@ -707,7 +707,7 @@ class FascinationFan(Fan):
         self.s.talon.dealRow()
 
     def redealCards(self):
-        r0 = r1 = len(self.s.talon.cards)/3
+        r0 = r1 = len(self.s.talon.cards)//3
         m = len(self.s.talon.cards) % 3
         if m >= 1:
             r1 += 1

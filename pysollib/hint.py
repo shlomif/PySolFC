@@ -142,7 +142,7 @@ class AbstractHint(HintInterface):
         self.max_score = max(self.max_score, score)
         # add an atomic hint
         if self.score_flatten_value > 0:
-            score = (score / self.score_flatten_value) * \
+            score = (score // self.score_flatten_value) * \
                     self.score_flatten_value
         if text_color is None:
             text_color = self.BLACK
@@ -417,7 +417,7 @@ class DefaultHint(AbstractHint):
             d = len(t.cards)
         else:
             d = (c.rank - t.cap.base_rank) % t.cap.mod
-            if d > t.cap.mod / 2:
+            if d > t.cap.mod // 2:
                 d = d - t.cap.mod
         if abs(d) <= 1:
             # drop Ace and 2 immediately
@@ -696,7 +696,7 @@ class Yukon_Hint(YukonType_Hint):
                 rr = self.ClonedStack(r, stackcards=[cr])
                 for ct in tpile:
                     if rr.acceptsCards(t, [ct]):
-                        d = bonus / 1000
+                        d = bonus // 1000
                         bonus = (d * 1000) + bonus % 100
                         break
         return score + bonus, color

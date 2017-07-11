@@ -92,7 +92,7 @@ class Simplex(Game):
         stack = Simplex_Foundation(
             x, y, self,
             suit=ANY_SUIT, base_rank=ANY_RANK, max_cards=52)
-        xoffset = (self.width-3*l.XS)/51
+        xoffset = (self.width-3*l.XS)//51
         stack.CARD_XOFFSET, stack.CARD_YOFFSET = xoffset, 0
         s.foundations.append(stack)
         x, y = l.XM, l.YM+l.YS+l.TEXT_HEIGHT

@@ -257,7 +257,7 @@ class BigDeal(DoubleKlondike):
         l.createText(s.waste, 'n')
         if max_rounds > 1:
             l.createRoundText(s.talon, 'nnn')
-        self.setRegion(s.rows, (-999, -999, l.XM+rows*l.XS-l.CW/2, 999999),
+        self.setRegion(s.rows, (-999, -999, l.XM+rows*l.XS-l.CW//2, 999999),
                        priority=1)
         l.defaultStackGroups()
 
@@ -271,7 +271,7 @@ class Delivery(BigDeal):
     RowStack_Class = StackWrapper(SS_RowStack, max_move=1)
 
     def createGame(self):
-        dx = self.app.images.CARDW/10
+        dx = self.app.images.CARDW//10
         BigDeal.createGame(self, rows=12, max_rounds=1, XOFFSET=dx)
 
     shallHighlightMatch = Game._shallHighlightMatch_SS

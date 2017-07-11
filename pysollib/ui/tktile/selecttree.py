@@ -99,7 +99,7 @@ class BaseSelectDialogTreeCanvas:
                 height = 25 * disty
             if parent and parent.winfo_screenheight() >= 800:
                 height = 30 * disty
-        self.lines = height / disty
+        self.lines = height // disty
         self._calc_MfxTreeInCanvas().__init__(
                 self, parent, self.data.rootnodes,
                 width=width, height=height,

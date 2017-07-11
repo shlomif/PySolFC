@@ -61,8 +61,8 @@ class SolverDialog(BaseSolverDialog, BaseTkMfxDialog):
                                 *(self.gamenames))
         om.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
         n = len(self.gamenames)
-        cb_max = int(self.top.winfo_screenheight()/23)
-        cb_max = n / (n/cb_max+1)
+        cb_max = int(self.top.winfo_screenheight()//23)
+        cb_max = n // (n//cb_max+1)
         for i in xrange(cb_max, n, cb_max):
             om['menu'].entryconfig(i, columnbreak=True)
         return var

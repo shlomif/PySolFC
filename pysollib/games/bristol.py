@@ -100,9 +100,9 @@ class Bristol(Game):
             s.foundations.append(RK_FoundationStack(x, y, self, max_move=0))
             x += l.XS
         for i in range(2):
-            y = l.YM + (i*2+3)*l.YS/2
+            y = l.YM + (i*2+3)*l.YS//2
             for j in range(4):
-                x = l.XM + (j*5)*l.XS/2
+                x = l.XM + (j*5)*l.XS//2
                 stack = RK_RowStack(x, y, self,  base_rank=NO_RANK, max_move=1)
                 stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
                 s.rows.append(stack)
@@ -208,7 +208,7 @@ class Dover(Bristol):
 
         # set window
         max_rows = max(rows, self.gameinfo.decks*4)
-        w, h = 2*l.XM+l.XS+max_rows*l.XS+l.XS/2, l.YM+l.TEXT_HEIGHT+5*l.YS
+        w, h = 2*l.XM+l.XS+max_rows*l.XS+l.XS//2, l.YM+l.TEXT_HEIGHT+5*l.YS
         self.setSize(w, h)
 
         # create stacks
@@ -453,7 +453,7 @@ class Interment(Game):
         l.createText(s.talon, 'ne')
         x += 1.5*l.XS
         for i in range(8):
-            s.foundations.append(SS_FoundationStack(x, y, self, suit=i/2))
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i//2))
             x += l.XS
         x, y = l.XM, l.YM+l.YS
         for i in range(3):

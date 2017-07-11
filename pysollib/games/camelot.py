@@ -402,7 +402,7 @@ class PrincessPatience_RowStack(SS_RowStack):
         # index = list(self.game.s.rows).index(self)
         index = self.id
         col = index % 4
-        row = index / 4
+        row = index // 4
         if index < 16:  # left
             for i in range(col+1, 4):
                 r = self.game.s.rows[row*4+i]

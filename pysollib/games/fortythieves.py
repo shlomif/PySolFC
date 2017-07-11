@@ -106,16 +106,16 @@ class FortyThieves(Game):
 
         # create stacks
         # foundations
-        x = l.XM + (maxrows - 4*decks) * l.XS / 2
+        x = l.XM + (maxrows - 4*decks) * l.XS // 2
         y = l.YM
         for i in range(4*decks):
             s.foundations.append(
                 self.Foundation_Class(
                     x, y, self,
-                    suit=i/decks, max_move=self.FOUNDATION_MAX_MOVE))
+                    suit=i//decks, max_move=self.FOUNDATION_MAX_MOVE))
             x = x + l.XS
         # rows
-        x = l.XM + (maxrows - rows) * l.XS / 2
+        x = l.XM + (maxrows - rows) * l.XS // 2
         y = l.YM + l.YS
         for i in range(rows):
             s.rows.append(self.RowStack_Class(x, y, self,
@@ -584,13 +584,13 @@ class Octave(Game):
         self.setSize(w, h)
 
         # create stacks
-        x, y = l.XM+l.XS/2, l.YM
+        x, y = l.XM+l.XS2, l.YM
         for i in range(8):
             s.foundations.append(SS_FoundationStack(x, y, self,
-                                 suit=int(i/2), max_cards=10))
+                                 suit=int(i//2), max_cards=10))
             x += l.XS
 
-        x, y = l.XM+l.XS/2, l.YM+l.YS
+        x, y = l.XM+l.XS//2, l.YM+l.YS
         for i in range(8):
             s.rows.append(AC_RowStack(x, y, self,
                                       base_rank=ANY_RANK, max_move=1))
@@ -734,10 +734,10 @@ class Octagon(Game):
         i = 0
         for x, y in ((l.XM+w1,                    l.YM),
                      (l.XM+w1+l.XS,               l.YM),
-                     (l.XM+w1-2*l.XS-l.XS/2-l.XM, l.YM+1.5*l.YS),
-                     (l.XM+w1-l.XS-l.XS/2-l.XM,   l.YM+1.5*l.YS),
-                     (l.XM+w1+2*l.XS+l.XS/2+l.XM, l.YM+1.5*l.YS),
-                     (l.XM+w1+3*l.XS+l.XS/2+l.XM, l.YM+1.5*l.YS),
+                     (l.XM+w1-2*l.XS-l.XS//2-l.XM, l.YM+1.5*l.YS),
+                     (l.XM+w1-l.XS-l.XS//2-l.XM,   l.YM+1.5*l.YS),
+                     (l.XM+w1+2*l.XS+l.XS//2+l.XM, l.YM+1.5*l.YS),
+                     (l.XM+w1+3*l.XS+l.XS//2+l.XM, l.YM+1.5*l.YS),
                      (l.XM+w1,                    l.YM+3*l.YS),
                      (l.XM+w1+l.XS,               l.YM+3*l.YS),):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i % 4))
@@ -793,9 +793,9 @@ class Squadron(FortyThieves):
         l.createText(s.waste, 's')
         x += 2*l.XS
         for i in range(8):
-            s.foundations.append(SS_FoundationStack(x, y, self, suit=i/2))
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i//2))
             x += l.XS
-        x, y = l.XM, l.YM+l.YS*3/2
+        x, y = l.XM, l.YM+l.YS*3//2
         for i in range(3):
             s.reserves.append(ReserveStack(x, y, self))
             y += l.YS
@@ -867,7 +867,7 @@ class Junction(Game):
                 x += l.XS
             y += l.YS
 
-        x, y = l.XM+(10-rows)*l.XS/2, l.YM+2*l.YS
+        x, y = l.XM+(10-rows)*l.XS//2, l.YM+2*l.YS
         for i in range(rows):
             s.rows.append(AC_RowStack(x, y, self))
             x += l.XS
@@ -940,7 +940,7 @@ class TheSpark(Game):
         x, y = l.XM, l.YM
         for i in range(8):
             s.foundations.append(SS_FoundationStack(x, y, self,
-                                 suit=i/2, base_rank=KING, mod=13))
+                                 suit=i//2, base_rank=KING, mod=13))
             x += l.XS
         x, y = l.XM, l.YM+l.YS
         s.talon = TheSpark_Talon(x, y, self, max_rounds=1, num_deal=3)
@@ -951,7 +951,7 @@ class TheSpark(Game):
             s.reserves.append(stack)
             l.createText(stack, 'se')
             y += l.YS
-        y = l.YM+l.YS*3/2
+        y = l.YM+l.YS*3//2
         for i in range(2):
             x = l.XM+2*l.XS
             for j in range(6):

@@ -598,8 +598,8 @@ class Cicely(Game):
             x += l.XS
         s.talon = Cicely_Talon(l.XM, l.YM, self)
         l.createText(s.talon, "ne")
-        l.setRegion(s.rows, (l.XM+1.5*l.XS-l.CW/2, l.YM+l.YS-l.CH/2,
-                             w-1.5*l.XS-l.CW/2, 999999))
+        l.setRegion(s.rows, (l.XM+1.5*l.XS-l.CW//2, l.YM+l.YS-l.CH//2,
+                             w-1.5*l.XS-l.CW//2, 999999))
 
         # define stack-groups
         l.defaultStackGroups()
@@ -639,7 +639,7 @@ class Trillium(Game):
             s.rows.append(self.RowStack_Class(x, y, self))
             x += l.XS
 
-        s.talon = DealRowTalonStack(l.XM+(rows-1)*l.XS/2, h-l.YS, self)
+        s.talon = DealRowTalonStack(l.XM+(rows-1)*l.XS//2, h-l.YS, self)
         l.createText(s.talon, "se")
 
         # define stack-groups
@@ -957,7 +957,7 @@ class Spider4Decks(BigSpider):
         for i in range(rows):
             s.rows.append(self.RowStack_Class(x, y, self))
             x += l.XS
-        l.setRegion(s.rows, (-999, -999, l.XM+rows*l.XS-l.CW/2, 999999))
+        l.setRegion(s.rows, (-999, -999, l.XM+rows*l.XS-l.CW//2, 999999))
         x = l.XM+rows*l.XS
         for i in range(2):
             y = l.YM
@@ -1263,7 +1263,7 @@ class Bebop(Game):
 
         x, y = l.XM+2*l.XS, l.YM
         for i in range(8):
-            s.foundations.append(SS_FoundationStack(x, y, self, suit=i/2))
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i//2))
             x += l.XS
         x, y = l.XM+l.XS, l.YM+l.YS
         for i in range(8):

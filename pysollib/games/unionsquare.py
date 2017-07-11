@@ -104,7 +104,7 @@ class UnionSquare(Game):
         l, s = Layout(self, card_y_space=20), self.s
 
         # set window
-        self.setSize(l.XM + (5+rows/4)*l.XS, l.YM + 4*l.YS)
+        self.setSize(l.XM + (5+rows//4)*l.XS, l.YM + 4*l.YS)
 
         # create stacks
         x, y, = l.XM, l.YM
@@ -115,7 +115,7 @@ class UnionSquare(Game):
         l.createText(s.waste, "s")
         for i in range(4):
             x = 3*l.XS
-            for j in range(rows/4):
+            for j in range(rows//4):
                 stack = self.RowStack_Class(x, y, self)
                 stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, 1
                 s.rows.append(stack)

@@ -153,11 +153,11 @@ class Parallels(Game):
                 n += 1
                 x += l.XS
             y += l.YS
-        x, y = l.XM, l.YM+l.YS+l.YS/2
+        x, y = l.XM, l.YM+l.YS+l.YS//2
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
             y += l.YS
-        x, y = l.XM+11*l.XS, l.YM+l.YS+l.YS/2
+        x, y = l.XM+11*l.XS, l.YM+l.YS+l.YS//2
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i,
                                                     base_rank=KING, dir=-1))

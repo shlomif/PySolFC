@@ -199,8 +199,8 @@ class Pyramid(Game):
         rows = []
         # create stacks
         for i in range(size):
-            x = x0 + (size-1-i) * l.XS / 2
-            y = y0 + i * l.YS / self.PYRAMID_Y_FACTOR
+            x = x0 + (size-1-i) * l.XS // 2
+            y = y0 + i * l.YS // self.PYRAMID_Y_FACTOR
             for j in range(i+1):
                 stack = self.RowStack_Class(x, y, self)
                 rows.append(stack)
@@ -218,8 +218,8 @@ class Pyramid(Game):
         rows = []
         # create stacks
         for i in range(size):
-            x = x0 + i * l.XS / 2
-            y = y0 + i * l.YS / self.PYRAMID_Y_FACTOR
+            x = x0 + i * l.XS // 2
+            y = y0 + i * l.YS // self.PYRAMID_Y_FACTOR
             for j in range(size-i):
                 stack = self.RowStack_Class(x, y, self)
                 rows.append(stack)
@@ -245,7 +245,7 @@ class Pyramid(Game):
         # set window
         max_rows = max(pyramid_len+2, reserves)
         w = l.XM + max_rows*l.XS
-        h = l.YM + l.YS + (pyramid_len-1)*l.YS/self.PYRAMID_Y_FACTOR
+        h = l.YM + l.YS + (pyramid_len-1)*l.YS//self.PYRAMID_Y_FACTOR
         if reserves:
             h += l.YS+2*l.YOFFSET
         self.setSize(w, h)
@@ -272,7 +272,7 @@ class Pyramid(Game):
                              max_move=0, max_cards=52*decks))
         l.createText(s.foundations[0], 's')
         if reserves:
-            x, y = l.XM+(max_rows-reserves)*l.XS/2, l.YM+4*l.YS
+            x, y = l.XM+(max_rows-reserves)*l.XS//2, l.YM+4*l.YS
             for i in range(reserves):
                 stack = self.Reserve_Class(x, y, self)
                 s.reserves.append(stack)
@@ -358,8 +358,8 @@ class Thirteen(Pyramid):
 
         # create stacks
         for i in range(7):
-            x = l.XM + (6-i) * l.XS / 2
-            y = l.YM + l.YS + i * l.YS / 2
+            x = l.XM + (6-i) * l.XS // 2
+            y = l.YM + l.YS + i * l.YS // 2
             for j in range(i+1):
                 s.rows.append(Pyramid_RowStack(x, y, self))
                 x = x + l.XS
@@ -1130,7 +1130,7 @@ class KingTut(RelaxedPyramid):
         h = l.YM + 5.5*l.YS
         self.setSize(w, h)
 
-        x, y = l.XM+(w-7*l.XS)/2, l.YM
+        x, y = l.XM+(w-7*l.XS)//2, l.YM
         s.rows = self._createPyramid(l, x, y, 7)
 
         x, y = l.XM, self.height-l.YS
@@ -1216,7 +1216,7 @@ class UpAndDown(Pyramid):
         self.setSize(w, h)
 
         # create stacks
-        x, y = l.XM+l.XS/2, l.YM
+        x, y = l.XM+l.XS//2, l.YM
         s.rows = self._createPyramid(l, x, y, 7)
         x += 5.5*l.XS
         s.rows += self._createInvertedPyramid(l, x, y, 7)
@@ -1296,7 +1296,7 @@ class Hurricane(Pyramid):
         l, s = Layout(self), self.s
 
         # set window
-        ww = l.XS + max(2*l.XOFFSET, l.XS/2)
+        ww = l.XS + max(2*l.XOFFSET, l.XS//2)
         w = l.XM + 1.5*l.XS + 4*ww
         h = l.YM + 3*l.YS
         self.setSize(w, h)
@@ -1312,7 +1312,7 @@ class Hurricane(Pyramid):
             s.reserves.append(stack)
 
         d = 3*ww - 4*l.XS - 2*l.XOFFSET
-        x = l.XM + 1.5*l.XS + l.XS+2*l.XOFFSET + d/2
+        x = l.XM + 1.5*l.XS + l.XS+2*l.XOFFSET + d//2
         y = l.YM+l.YS
         for i in range(3):
             stack = Hurricane_RowStack(x, y, self, max_accept=1)

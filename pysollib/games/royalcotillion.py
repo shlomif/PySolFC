@@ -326,13 +326,13 @@ class Alhambra(Game):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i,
                                  max_move=0, base_rank=KING, dir=-1))
             x = x + l.XS
-        x, y, = l.XM+(8-reserves)*l.XS/2, y+l.YS
+        x, y, = l.XM+(8-reserves)*l.XS//2, y+l.YS
         for i in range(reserves):
             stack = OpenStack(x, y, self, max_accept=0)
             stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, l.YOFFSET
             s.reserves.append(stack)
             x = x + l.XS
-        x, y = l.XM+(8-1-rows)*l.XS/2, self.height-l.YS
+        x, y = l.XM+(8-1-rows)*l.XS//2, self.height-l.YS
         s.talon = Alhambra_Talon(x, y, self, max_rounds=3)
         if rows == 1:
             l.createText(s.talon, 'sw')
@@ -538,7 +538,7 @@ class BritishConstitution(Game):
         x, y = l.XM+l.XS, l.YM
         for i in range(8):
             s.foundations.append(BritishConstitution_Foundation(x, y, self,
-                                 suit=int(i/2), max_cards=11))
+                                 suit=int(i//2), max_cards=11))
             x += l.XS
 
         y = l.YM+l.YS
@@ -684,7 +684,7 @@ class ThreePirates(Game):
 
         x, y, = l.XM+l.XS, l.YM
         for i in range(8):
-            s.foundations.append(SS_FoundationStack(x, y, self, suit=i/2))
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i//2))
             x = x + l.XS
 
         x, y, = l.XM, l.YM+l.YS
@@ -965,8 +965,8 @@ class ShadyLanes(Game):
 
         x, y = l.XM, l.YM
         for i in range(8):
-            suit = i/2
-            color = suit/2
+            suit = i//2
+            color = suit//2
             s.foundations.append(
                 ShadyLanes_Foundation(
                     x, y, self,
@@ -1151,7 +1151,7 @@ class Colonel(Game):
 
         x, y = l.XM+2*l.XS, l.YM
         for i in range(8):
-            s.foundations.append(SS_FoundationStack(x, y, self, suit=i/2,
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i//2,
                                                     max_move=0))
             x += l.XS
 
@@ -1216,7 +1216,7 @@ class TheRedAndTheBlack(Game):
         x, y = l.XM, l.YM
         for i in range(8):
             s.foundations.append(TheRedAndTheBlack_Foundation(x, y, self,
-                                                              suit=i/2))
+                                                              suit=i//2))
             x += l.XS
         x, y = l.XM+2*l.XS, l.YM+l.YS
         for i in range(4):
@@ -1329,7 +1329,7 @@ class TwilightZone(Game):
             s.reserves.append(OpenStack(x, y, self))
             x += l.XS
 
-        x, y = l.XM, l.YM+l.YS/2
+        x, y = l.XM, l.YM+l.YS//2
         s.talon = TwilightZone_Talon(x, y, self, max_move=1, max_rounds=2)
         l.createText(s.talon, 's')
         l.createRoundText(s.talon, 'nn')

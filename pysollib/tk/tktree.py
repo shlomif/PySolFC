@@ -63,7 +63,7 @@ class MfxTreeBaseNode:
     def draw(self, x, y, lastx=None, lasty=None):
         canvas, style = self.tree.canvas, self.tree.style
         topleftx = x + style.distx
-        toplefty = y - style.height / 2  # +++
+        toplefty = y - style.height // 2  # +++
         # draw the horizontal line
         if lastx is not None:
             canvas.create_line(
@@ -175,8 +175,8 @@ class MfxTreeNode(MfxTreeBaseNode):
         # draw the vertical line
         if self.subnodes:
             style = self.tree.style
-            dy = (style.disty-style.width)/2
-            y = y-style.disty/2-dy
+            dy = (style.disty-style.width)//2
+            y = y-style.disty//2-dy
             self.tree.canvas.create_line(x, y, nx, ly,
                                          stipple=style.linestyle,
                                          fill=style.linecolor)
@@ -187,10 +187,10 @@ class MfxTreeNode(MfxTreeBaseNode):
         lx, ly, nx, ny = MfxTreeBaseNode.draw(self, x, y, ilastx, ilasty)
         if self.expanded:
             style = self.tree.style
-            childx = nx + style.distx + style.width / 2
+            childx = nx + style.distx + style.width // 2
             childy = ny
-            clastx = nx + style.distx + style.width / 2
-            clasty = ly + style.height / 2
+            clastx = nx + style.distx + style.width // 2
+            clasty = ly + style.height // 2
             ny = self.drawChildren(childx, childy, clastx, clasty)
         return lx, ly, x, ny
 
@@ -272,7 +272,7 @@ class MfxTreeInCanvas(MfxScrolledCanvas):
         # We do this so that our bounding box always starts at (0,0)
         # and the yscrollincrement works nicely.
         nx = nx - self.style.distx
-        ny = ny + self.style.height / 2
+        ny = ny + self.style.height // 2
         for node in self.rootnodes:
             # update tree
             node.tree = self

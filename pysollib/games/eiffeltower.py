@@ -78,7 +78,7 @@ class EiffelTower(Game):
                 x = x + l.XS
             y = y + l.YS
         x = l.XM + 6 * l.XS
-        y = l.YM + 5 * l.YS / 2
+        y = l.YM + 5 * l.YS // 2
         s.waste = self.Waste_Class(x, y, self)
         l.createText(s.waste, "s")
         x = x + l.XS

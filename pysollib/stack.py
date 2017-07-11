@@ -409,9 +409,9 @@ class Stack:
                 isinstance(oy, (int, float))):
             # no shrink if xoffset/yoffset too small
             f = self.SHRINK_FACTOR
-            if ((ox == 0 and oy >= self.game.app.images.CARD_YOFFSET/f) or
+            if ((ox == 0 and oy >= self.game.app.images.CARD_YOFFSET//f) or
                     (oy == 0 and
-                     ox >= self.game.app.images.CARD_XOFFSET/f)):
+                     ox >= self.game.app.images.CARD_XOFFSET//f)):
                 self.shrink_face_down = f
         # bottom image
         if self.is_visible:
@@ -576,7 +576,7 @@ class Stack:
         if len(cards) < 2:
             return 0
         dir = (cards[-1].rank - cards[-2].rank) % self.cap.mod
-        if dir > self.cap.mod / 2:
+        if dir > self.cap.mod // 2:
             return dir - self.cap.mod
         return dir
 
@@ -761,8 +761,8 @@ class Stack:
                 x += self.CARD_XOFFSET[ix]
                 y += self.CARD_YOFFSET[iy]
             else:
-                x += self.CARD_XOFFSET[ix]/d
-                y += self.CARD_YOFFSET[iy]/d
+                x += self.CARD_XOFFSET[ix]//d
+                y += self.CARD_YOFFSET[iy]//d
             ix = (ix + 1) % lx
             iy = (iy + 1) % ly
         return int(x), int(y)
@@ -781,8 +781,8 @@ class Stack:
                 x += self.CARD_XOFFSET[ix]
                 y += self.CARD_YOFFSET[iy]
             else:
-                x += self.CARD_XOFFSET[ix]/d
-                y += self.CARD_YOFFSET[iy]/d
+                x += self.CARD_XOFFSET[ix]//d
+                y += self.CARD_YOFFSET[iy]//d
             ix = (ix + 1) % lx
             iy = (iy + 1) % ly
         return int(x), int(y)
@@ -881,11 +881,11 @@ class Stack:
             return False
         yoffset = self.CARD_YOFFSET[0]
         # 1/2 of a card is visible
-        cardh = self.game.app.images.getSize()[0] / 2
+        cardh = self.game.app.images.getSize()[0] // 2
         num_face_up = len([c for c in self.cards if c.face_up])
         num_face_down = len(self.cards) - num_face_up
         stack_height = int(self.y +
-                           num_face_down * yoffset / self.shrink_face_down +
+                           num_face_down * yoffset // self.shrink_face_down +
                            num_face_up * yoffset +
                            cardh)
         visible_height = self.canvas.winfo_height()
@@ -899,7 +899,7 @@ class Stack:
         # visible_height, game_height
         if stack_height > height:
             # compact stack
-            n = num_face_down / self.shrink_face_down + num_face_up
+            n = num_face_down // self.shrink_face_down + num_face_up
             dy = float(height - self.y - cardh) / n
             if dy < yoffset:
                 # print 'compact:', dy
@@ -909,7 +909,7 @@ class Stack:
             # expande stack
             if self.CARD_YOFFSET == self.INIT_CARD_YOFFSET:
                 return False
-            n = num_face_down / self.shrink_face_down + num_face_up
+            n = num_face_down // self.shrink_face_down + num_face_up
             dy = float(height - self.y - cardh) / n
             dy = min(dy, self.INIT_CARD_YOFFSET[0])
             # print 'expande:', dy
@@ -1973,7 +1973,7 @@ class TalonStack(Stack,
                 return
         images = self.game.app.images
         self.init_redeal.top_bottom = self.top_bottom
-        cx, cy = self.x + images.CARDW/2, self.y + images.CARDH/2
+        cx, cy = self.x + images.CARDW//2, self.y + images.CARDH//2
         ty = self.y + images.CARDH - 4
         self.init_redeal.img_coord = cx, cy
         self.init_redeal.txt_coord = cx, ty

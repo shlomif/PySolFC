@@ -130,9 +130,9 @@ class Numerica(Game):
         self.setSize(l.XM+(1.5+max_rows)*l.XS+l.XM, l.YM + l.YS + h)
 
         # create stacks
-        x0 = l.XM + l.XS * 3 / 2
+        x0 = l.XM + l.XS * 3 // 2
         if decks == 1:
-            x = x0 + (rows-4)*l.XS/2
+            x = x0 + (rows-4)*l.XS//2
         else:
             x = x0
         y = l.YM
@@ -143,8 +143,8 @@ class Numerica(Game):
         for i in range(rows):
             s.rows.append(self.RowStack_Class(x, y, self))
             x = x + l.XS
-        self.setRegion(s.rows, (x0-l.XS/2, y-l.CH/2, 999999, 999999))
-        x, y = l.XM, l.YM+l.YS+l.YS/2*int(reserve)
+        self.setRegion(s.rows, (x0-l.XS//2, y-l.CH//2, 999999, 999999))
+        x, y = l.XM, l.YM+l.YS+l.YS//2*int(reserve)
         s.talon = WasteTalonStack(x, y, self, max_rounds=max_rounds)
         if reserve or waste_max_cards > 1:
             l.createText(s.talon, 'ne')
@@ -359,7 +359,7 @@ class Frog(Game):
             if self.Foundation_Class is RK_FoundationStack:
                 suit = ANY_SUIT
             else:
-                suit = int(i/2)
+                suit = int(i//2)
             s.foundations.append(self.Foundation_Class(x, y, self,
                                  suit=suit, max_move=0))
             x += l.XS
@@ -462,7 +462,7 @@ class Gnat(Game):
             x += l.XS
         x = l.XM+6*l.XS
         for i in range(2):
-            y = l.YM + l.YS/2
+            y = l.YM + l.YS//2
             for j in range(3):
                 s.reserves.append(OpenStack(x, y, self, max_accept=0))
                 y += l.YS
@@ -523,12 +523,12 @@ class Gloaming(Game):
         l, s = Layout(self), self.s
 
         # set window
-        n = 52/reserves+1
+        n = 52//reserves+1
         w, h = l.XM + (reserves+rows+1)*l.XS, l.YM + 2*l.YS+n*l.YOFFSET
         self.setSize(w, h)
 
         # create stacks
-        x, y = l.XM+(reserves+rows+1-4)*l.XS/2, l.YM
+        x, y = l.XM+(reserves+rows+1-4)*l.XS//2, l.YM
         for i in range(4):
             if self.Foundation_Class is RK_FoundationStack:
                 suit = ANY_SUIT
@@ -557,7 +557,7 @@ class Gloaming(Game):
         l.defaultAll()
 
     def startGame(self):
-        n = 52/len(self.s.reserves)+1
+        n = 52//len(self.s.reserves)+1
         for i in range(n-3):
             self.s.talon.dealRow(rows=self.s.reserves, frames=0)
         self.startDealSample()
@@ -608,14 +608,14 @@ class Toad(Game):
         l.createText(s.talon, "n")
         x, y = l.XM, l.YM
         for i in range(8):
-            s.foundations.append(SS_FoundationStack(x, y, self, suit=i/2))
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i//2))
             x += l.XS
-        x, y = l.XM+3*l.XS/2, l.YM+l.YS
+        x, y = l.XM+3*l.XS//2, l.YM+l.YS
         for i in range(5):
             s.rows.append(
                 Gloaming_RowStack(x, y, self, max_accept=UNLIMITED_ACCEPTS))
             x += l.XS
-        y = l.YM+l.YS/2
+        y = l.YM+l.YS//2
         for i in (3, 3, 3, 3, 1):
             x = l.XM+8*l.XS
             for j in range(i):
@@ -909,12 +909,12 @@ class Amphibian(Game):
                 s.foundations.append(RK_FoundationStack(x, y, self,
                                                         suit=ANY_SUIT))
                 x += l.XS
-        x, y = l.XM+(8-rows)*l.XS/2, l.YM + l.YS
+        x, y = l.XM+(8-rows)*l.XS//2, l.YM + l.YS
         for i in range(rows):
             s.rows.append(Gloaming_RowStack(x, y, self, max_accept=1))
             x += l.XS
 
-        x, y = l.XM+(8-reserves-1)*l.XS/2, self.height-l.YS
+        x, y = l.XM+(8-reserves-1)*l.XS//2, self.height-l.YS
         for i in range(reserves):
             s.reserves.append(OpenStack(x, y, self, max_accept=0))
             x += l.XS

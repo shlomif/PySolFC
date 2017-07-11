@@ -128,7 +128,7 @@ class PysolMenubarTkCommon:
         self._createTkOpt()
         self._setOptions()
         # init columnbreak
-        self.cb_max = int(self.top.winfo_screenheight()/23)
+        self.cb_max = int(self.top.winfo_screenheight()//23)
         #  sh = self.top.winfo_screenheight()
         #  self.cb_max = 22
         #  if sh >= 600: self.cb_max = 27

@@ -158,7 +158,7 @@ class Foursome(Game):
         l, s = Layout(self), self.s
         max_rows = max(8, rows)
         self.setSize(l.XM+max_rows*l.XS, l.YM+2*l.YS+13*l.YOFFSET)
-        x, y = l.XM+l.XS*(max_rows-4)/2, l.YM
+        x, y = l.XM+l.XS*(max_rows-4)//2, l.YM
         for i in range(4):
             s.reserves.append(ReserveStack(x, y, self))
             x += l.XS
@@ -166,7 +166,7 @@ class Foursome(Game):
         s.foundations.append(AbstractFoundationStack(x, y, self,
                              suit=ANY_SUIT, max_cards=52, max_accept=0))
         l.createText(s.foundations[0], 'nw')
-        x, y = l.XM+l.XS*(max_rows-rows)/2, l.YM+l.YS
+        x, y = l.XM+l.XS*(max_rows-rows)//2, l.YM+l.YS
         for i in range(rows):
             s.rows.append(UD_AC_RowStack(x, y, self, mod=13))
             x += l.XS

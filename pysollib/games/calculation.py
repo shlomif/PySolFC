@@ -119,7 +119,7 @@ class Calculation(Game):
         self.setSize(w, l.YM + l.YS + l.TEXT_HEIGHT + h)
 
         # create stacks
-        x0 = l.XM + l.XS * 3 / 2
+        x0 = l.XM + l.XS * 3 // 2
         x, y = x0, l.YM
         for i in range(4):
             stack = self.Foundation_Class(x, y, self,
@@ -131,14 +131,14 @@ class Calculation(Game):
                                              anchor=ta, font=font)
             x = x + l.XS
         self.texts.help = MfxCanvasText(
-            self.canvas, x + l.XM, y + l.CH / 2, text=help,
+            self.canvas, x + l.XM, y + l.CH // 2, text=help,
             anchor="w", font=self.app.getFont("canvas_fixed"))
         x = x0
         y = l.YM + l.YS + l.TEXT_HEIGHT
         for i in range(4):
             s.rows.append(self.RowStack_Class(x, y, self))
             x = x + l.XS
-        self.setRegion(s.rows, (-999, y-l.CH/2, 999999, 999999))
+        self.setRegion(s.rows, (-999, y-l.CH//2, 999999, 999999))
         x = l.XM
         s.talon = WasteTalonStack(x, y, self, max_rounds=1)
         l.createText(s.talon, "n")
@@ -207,7 +207,7 @@ class BetsyRoss(Calculation):
         self.setSize(5.5*l.XS+l.XM+text_width, l.YM+3*l.YS+l.TEXT_HEIGHT)
 
         # create stacks
-        x0 = l.XM + l.XS * 3 / 2
+        x0 = l.XM + l.XS * 3 // 2
         x, y = x0, l.YM
         for i in range(4):
             stack = BetsyRoss_Foundation(x, y, self, base_rank=i,
@@ -226,7 +226,7 @@ class BetsyRoss(Calculation):
                                              anchor=ta, font=font)
             s.foundations.append(stack)
             x += l.XS
-        self.texts.help = MfxCanvasText(self.canvas, x + l.XM, y + l.CH / 2,
+        self.texts.help = MfxCanvasText(self.canvas, x + l.XM, y + l.CH // 2,
                                         text=help, anchor="w",
                                         font=self.app.getFont("canvas_fixed"))
         x = l.XM
@@ -252,7 +252,7 @@ class BetsyRoss(Calculation):
                 topcards[c.rank] = c
                 cards.remove(c)
             elif c.rank in (1, 3, 5, 7):
-                i = 4 + (c.rank - 1) / 2
+                i = 4 + (c.rank - 1) // 2
                 if topcards[i] is None:
                     topcards[i] = c
                     cards.remove(c)
@@ -307,7 +307,7 @@ class One234(Calculation):
                                              anchor=ta, font=font)
             x = x + l.XS
         self.texts.help = MfxCanvasText(
-            self.canvas, x + l.XM, y + l.CH / 2, text=help,
+            self.canvas, x + l.XM, y + l.CH // 2, text=help,
             anchor="w", font=self.app.getFont("canvas_fixed"))
         x, y = l.XM, l.YM+l.YS+l.TEXT_HEIGHT
         for i in range(8):

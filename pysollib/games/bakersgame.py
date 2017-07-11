@@ -88,19 +88,19 @@ class EightOff(KingOnlyBakersGame):
         self.setSize(l.XM + maxrows*l.XS, l.YM + l.YS + h + l.YS)
 
         # create stacks
-        x, y = l.XM + (maxrows-4)*l.XS/2, l.YM
+        x, y = l.XM + (maxrows-4)*l.XS//2, l.YM
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, i))
             x = x + l.XS
-        x, y = l.XM + (maxrows-rows)*l.XS/2, y + l.YS
+        x, y = l.XM + (maxrows-rows)*l.XS//2, y + l.YS
         for i in range(rows):
             s.rows.append(self.RowStack_Class(x, y, self))
             x = x + l.XS
-        x, y = l.XM + (maxrows-reserves)*l.XS/2, self.height - l.YS
+        x, y = l.XM + (maxrows-reserves)*l.XS//2, self.height - l.YS
         for i in range(reserves):
             s.reserves.append(ReserveStack(x, y, self))
             x = x + l.XS
-        self.setRegion(s.reserves, (-999, y - l.CH / 2, 999999, 999999))
+        self.setRegion(s.reserves, (-999, y - l.CH // 2, 999999, 999999))
         s.talon = InitialDealTalonStack(l.XM, l.YM, self)
 
         # define stack-groups
@@ -149,7 +149,7 @@ class SeahavenTowers(KingOnlyBakersGame):
         for i in range(10):
             s.rows.append(self.RowStack_Class(x, y, self))
             x = x + l.XS
-        self.setRegion(s.rows, (-999, y - l.CH / 2, 999999, 999999))
+        self.setRegion(s.rows, (-999, y - l.CH // 2, 999999, 999999))
         s.talon = InitialDealTalonStack(l.XM, self.height-l.YS, self)
 
         # define stack-groups
@@ -213,16 +213,16 @@ class Tuxedo(Game):
         for i in range(4):
             s.foundations.append(self.Foundation_Class(x, y, self, suit=i))
             y = y + l.YS
-        self.setRegion(s.foundations, (x - l.CW/2, -999, 999999, 999999))
-        x, y = l.XM + (maxrows-rows)*l.XS/2, l.YM
+        self.setRegion(s.foundations, (x - l.CW//2, -999, 999999, 999999))
+        x, y = l.XM + (maxrows-rows)*l.XS//2, l.YM
         for i in range(rows):
             s.rows.append(self.RowStack_Class(x, y, self))
             x = x + l.XS
-        x, y = l.XM + (maxrows-reserves)*l.XS/2, self.height - l.YS
+        x, y = l.XM + (maxrows-reserves)*l.XS//2, self.height - l.YS
         for i in range(reserves):
             s.reserves.append(self.ReserveStack_Class(x, y, self))
             x = x + l.XS
-        self.setRegion(s.reserves, (-999, y - l.CH / 2, 999999, 999999))
+        self.setRegion(s.reserves, (-999, y - l.CH // 2, 999999, 999999))
         s.talon = InitialDealTalonStack(l.XM+1, y, self)
 
         # define stack-groups

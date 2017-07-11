@@ -305,7 +305,7 @@ class DoubleFives(Glenwood):
         #
         x += 2*l.XS
         for i in range(8):
-            s.foundations.append(Glenwood_Foundation(x, y, self, suit=i/2,
+            s.foundations.append(Glenwood_Foundation(x, y, self, suit=i//2,
                                  mod=13, base_rank=ANY_RANK, max_move=0))
             x += l.XS
         tx, ty, ta, tf = l.getTextAttr(None, "ss")
@@ -313,7 +313,7 @@ class DoubleFives(Glenwood):
         font = self.app.getFont("canvas_default")
         self.texts.info = MfxCanvasText(self.canvas, tx, ty,
                                         anchor=ta, font=font)
-        x, y = l.XM+l.XS/2, l.YM+l.YS+l.TEXT_HEIGHT
+        x, y = l.XM+l.XS//2, l.YM+l.YS+l.TEXT_HEIGHT
         for i in range(10):
             s.rows.append(DoubleFives_RowStack(x, y, self, mod=13, max_move=1))
             x += l.XS

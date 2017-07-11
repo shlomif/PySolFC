@@ -361,8 +361,8 @@ class MfxCanvas(tkinter.Canvas):
             # ch = max(int(self.cget("height")),  self.winfo_height())
             ch = self.winfo_height()
         # print iw, ih, cw, ch
-        x = (cw-iw)/2-self.xmargin+self.xview()[0]*int(self.cget('width'))
-        y = (ch-ih)/2-self.ymargin+self.yview()[0]*int(self.cget('height'))
+        x = (cw-iw)//2-self.xmargin+self.xview()[0]*int(self.cget('width'))
+        y = (ch-ih)//2-self.ymargin+self.yview()[0]*int(self.cget('height'))
         id = self._x_create("image", x, y, image=image, anchor="nw")
         self.tk.call(self._w, "raise", id)
         self.__tops.append(id)

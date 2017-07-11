@@ -154,7 +154,7 @@ class Terrace(Game):
         # (piles up to 16 cards are playable in default window size)
         decks = self.gameinfo.decks
         maxrows = max(rows, decks*4+1)
-        w1, w2 = (maxrows - decks*4)*l.XS/2, (maxrows - rows)*l.XS/2
+        w1, w2 = (maxrows - decks*4)*l.XS//2, (maxrows - rows)*l.XS//2
         h = max(3*l.YS, playcards*l.YOFFSET)
         self.setSize(l.XM + maxrows*l.XS + l.XM, l.YM + 3*l.YS + h)
 

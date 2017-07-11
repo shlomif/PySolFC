@@ -426,11 +426,11 @@ class Gate(Game):
             stack = OpenStack(x, y, self, max_accept=0)
             stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
             s.reserves.append(stack)
-        x, y = l.XM+(w-4*l.XS)/2, l.YM
+        x, y = l.XM+(w-4*l.XS)//2, l.YM
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
             x += l.XS
-        x, y = l.XM+(w-8*l.XS)/2, l.YM+l.YS
+        x, y = l.XM+(w-8*l.XS)//2, l.YM+l.YS
         for i in range(8):
             s.rows.append(AC_RowStack(x, y, self))
             x += l.XS
@@ -497,7 +497,7 @@ class LittleGate(Gate):
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
             x += l.XS
-        x, y = l.XM+(max_rows-rows)*l.XS/2, l.YM+l.YS+l.TEXT_HEIGHT
+        x, y = l.XM+(max_rows-rows)*l.XS//2, l.YM+l.YS+l.TEXT_HEIGHT
         for i in range(rows):
             s.rows.append(self.RowStack_Class(x, y, self))
             x += l.XS
@@ -746,7 +746,7 @@ class Skippy(Canfield):
         # set window
         playcards = 8
         w0 = l.XS+playcards*l.XOFFSET
-        w = l.XM+l.XS/2+max(10*l.XS, l.XS+4*w0)
+        w = l.XM+l.XS//2+max(10*l.XS, l.XS+4*w0)
         h = l.YM+5*l.YS+l.TEXT_HEIGHT
         self.setSize(w, h)
 
@@ -776,7 +776,7 @@ class Skippy(Canfield):
             y += l.YS
         y = l.YM+l.YS+l.TEXT_HEIGHT
         for i in range(4):
-            x = l.XM+l.XS+l.XS/2
+            x = l.XM+l.XS+l.XS//2
             for j in range(4):
                 stack = RK_RowStack(x, y, self, max_move=1, mod=13)
                 s.rows.append(stack)

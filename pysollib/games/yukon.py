@@ -653,7 +653,7 @@ class Hawaiian(Game):
         l.createText(stack, 'ne')
         x, y = self.width-8*l.XS, l.YM
         for i in range(8):
-            s.foundations.append(SS_FoundationStack(x, y, self, suit=i/2))
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i//2))
             x += l.XS
         x, y = self.width-rows*l.XS, l.YM+l.YS
         for i in range(rows):

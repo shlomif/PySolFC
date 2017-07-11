@@ -67,7 +67,7 @@ class Capricieuse(Game):
         self.setSize(l.XM+rows*l.XS, l.YM+2*l.YS+15*l.YOFFSET)
 
         # create stacks
-        x, y, = l.XM+(rows-8)*l.XS/2, l.YM
+        x, y, = l.XM+(rows-8)*l.XS//2, l.YM
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
             x += l.XS
@@ -149,7 +149,7 @@ class Strata(Game):
         for i in range(8):
             s.rows.append(AC_RowStack(x, y, self, max_move=1, max_accept=1))
             x += l.XS
-        s.talon = RedealTalonStack(l.XM, l.YM+l.YS/2, self, max_rounds=3)
+        s.talon = RedealTalonStack(l.XM, l.YM+l.YS//2, self, max_rounds=3)
         l.createRoundText(s.talon, 'nn')
 
         # define stack-groups
@@ -220,7 +220,7 @@ class Choice(Game):
                      l.YM + 2*l.YS + (playcards+4*decks)*l.YOFFSET)
 
         # create stacks
-        x, y = l.XM + (max_rows-8)*l.XS/2, l.YM
+        x, y = l.XM + (max_rows-8)*l.XS//2, l.YM
         for i in range(8):
             stack = Choice_Foundation(x, y, self, base_rank=(i+5), dir=0,
                                       suit=ANY_SUIT, max_cards=(4*decks))
@@ -228,7 +228,8 @@ class Choice(Game):
             s.foundations.append(stack)
             x += l.XS
 
-        x, y = l.XM + (max_rows-rows)*l.XS/2, l.YM + l.YS + (4*decks)*l.YOFFSET
+        x = l.XM + (max_rows-rows)*l.XS//2
+        y = l.YM + l.YS + (4*decks)*l.YOFFSET
         for i in range(rows):
             s.rows.append(AC_RowStack(x, y, self))
             x += l.XS

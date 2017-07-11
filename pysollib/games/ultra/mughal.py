@@ -302,8 +302,8 @@ class MughalCircles(AbstractMughalGame):
         self.setSize(w, h)
 
         # Create row stacks
-        x = w / 2 - l.CW / 2
-        y = h / 2 - l.YS / 2
+        x = w // 2 - l.CW // 2
+        y = h // 2 - l.YS // 2
         x0 = (-1, -.8, 0, .8, 1, .8, 0, -.8,
               -2, -1.9, -1.5, -.8, 0, .8, 1.5, 1.9, 2, 1.9, 1.5, .8,
               0, -.8, -1.5, -1.9)
@@ -738,7 +738,7 @@ class AkbarsTriumph(AbstractMughalGame):
             y = y + l.YS
         self.texts.info = MfxCanvasText(
             self.canvas,
-            self.width / 2, h - l.YM / 2,
+            self.width // 2, h - l.YM // 2,
             anchor="center",
             font=self.app.getFont("canvas_default"))
 
@@ -756,7 +756,7 @@ class AkbarsTriumph(AbstractMughalGame):
         l.createText(s.talon, "s")
         s.talon.texts.rounds = MfxCanvasText(
             self.canvas,
-            self.width / 2, h - l.YM * 2.5,
+            self.width // 2, h - l.YM * 2.5,
             anchor="center",
             font=self.app.getFont("canvas_default"))
         x += l.XS * 2
@@ -863,7 +863,7 @@ class Vajra(AbstractMughalGame):
         self.setSize(l.XM + (maxrows + 2) * l.XS, l.YM + 6 * l.YS)
 
         #
-        playcards = 4 * l.YS / l.YOFFSET
+        playcards = 4 * l.YS // l.YOFFSET
         xoffset, yoffset = [], []
         for i in range(playcards):
             xoffset.append(0)
@@ -873,12 +873,12 @@ class Vajra(AbstractMughalGame):
             yoffset.append(0)
 
         # create stacks
-        x, y = l.XM + (maxrows - reserves) * l.XS / 2, l.YM
+        x, y = l.XM + (maxrows - reserves) * l.XS // 2, l.YM
         for i in range(reserves):
             s.reserves.append(ReserveStack(x, y, self))
             x = x + l.XS
-        x, y = l.XM + (maxrows - rows) * l.XS / 2, l.YM + l.YS
-        self.setRegion(s.reserves, (-999, -999, 999999, y - l.YM / 2))
+        x, y = l.XM + (maxrows - rows) * l.XS // 2, l.YM + l.YS
+        self.setRegion(s.reserves, (-999, -999, 999999, y - l.YM // 2))
         for i in range(rows):
             stack = self.RowStack_Class(x, y, self, yoffset=l.YOFFSET)
             stack.CARD_XOFFSET = xoffset
@@ -895,7 +895,7 @@ class Vajra(AbstractMughalGame):
         self.setRegion(self.s.foundations, (x - l.XS * 2, -999, 999999,
                        self.height - (l.YS + l.YM)), priority=1)
         s.talon = InitialDealTalonStack(
-            self.width - 3 * l.XS / 2, self.height - l.YS, self)
+            self.width - 3 * l.XS // 2, self.height - l.YS, self)
 
         # define stack-groups
         l.defaultStackGroups()
@@ -1106,17 +1106,17 @@ class AshtaDikapala(Game):
     def createGame(self):
         # create layout
         l, s = Layout(self), self.s
-        TABLEAU_YOFFSET = min(9, max(3, l.YOFFSET / 3))
+        TABLEAU_YOFFSET = min(9, max(3, l.YOFFSET // 3))
 
         # set window
         th = l.YS + 3 * TABLEAU_YOFFSET
         # (set piles so that at least 2/3 of a card is visible with 10 cards)
-        h = 8 * l.YOFFSET + l.CH * 2/3
+        h = 8 * l.YOFFSET + l.CH * 2//3
         self.setSize(9 * l.XS + l.XM * 2, l.YM + 3 * th + l.YM + h)
 
         # create stacks
         s.addattr(tableaux=[])     # register extra stack variable
-        x = l.XM + 8 * l.XS + l.XS / 2
+        x = l.XM + 8 * l.XS + l.XS // 2
         y = l.YM
         for i in range(3, 0, -1):
             x = l.XM

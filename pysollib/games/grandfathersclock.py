@@ -76,7 +76,7 @@ class GrandfathersClock(Game):
 
         # set window
         # (piles up to 9 cards are fully playable in default window size)
-        dh = max(3*l.YS/2+l.CH, l.YS+(9-1)*l.YOFFSET)
+        dh = max(3*l.YS//2+l.CH, l.YS+(9-1)*l.YOFFSET)
         self.setSize(10*l.XS+l.XM, l.YM+2*dh)
 
         # create stacks
@@ -86,9 +86,9 @@ class GrandfathersClock(Game):
                 s.rows.append(
                     RK_RowStack(x, y, self, max_move=1, max_accept=1))
                 x = x + l.XS
-        y = l.YM + dh - l.CH / 2
-        self.setRegion(s.rows[:4], (-999, -999, x - l.XM / 2, y))
-        self.setRegion(s.rows[4:], (-999,    y, x - l.XM / 2, 999999))
+        y = l.YM + dh - l.CH // 2
+        self.setRegion(s.rows[:4], (-999, -999, x - l.XM // 2, y))
+        self.setRegion(s.rows[4:], (-999,    y, x - l.XM // 2, 999999))
         d = [(0, 0), (1, 0.15), (2, 0.5), (2.5, 1.5), (2, 2.5), (1, 2.85)]
         for i in range(len(d)):
             d.append((0 - d[i][0], 3 - d[i][1]))
@@ -312,12 +312,12 @@ class Hemispheres(Game):
         # foundations
         x, y = x0+2*l.XS, y0+1.5*l.YS
         for i in range(4):
-            s.foundations.append(SS_FoundationStack(x, y, self, suit=2+i/2,
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=2+i//2,
                                                     max_move=0))
             x += l.XS
         x, y = x0+2*l.XS, y+l.YS
         for i in range(4):
-            s.foundations.append(SS_FoundationStack(x, y, self, suit=i/2,
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i//2,
                                  max_move=0, base_rank=KING, dir=-1))
             x += l.XS
 

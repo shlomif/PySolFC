@@ -493,7 +493,7 @@ class CardsetManager(ResourceManager):
         for s in cs.si.nationalities:
             self.registered_nationalities[s] = \
                 self.registered_nationalities.get(s, 0) + 1
-        keys = (cs.year / 100,)
+        keys = (cs.year // 100,)
         cs.si.dates = tuple([s for s in keys if s in CSI.DATE])
         for s in cs.si.dates:
             self.registered_dates[s] = self.registered_dates.get(s, 0) + 1

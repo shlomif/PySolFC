@@ -209,7 +209,7 @@ class DerFreieNapoleon(DerKleineNapoleon):
 
         # set window
         # set size so that at least 2/3 of a card is visible with 15 cards
-        h = l.CH*2/3 + (15-1)*l.YOFFSET
+        h = l.CH*2//3 + (15-1)*l.YOFFSET
         h = l.YS + max(h, 3*l.YS)
         max_rows = 8+max(cells, reserves)
         self.setSize(l.XM + 2*l.XM + max_rows*l.XS, l.YM + h)
@@ -223,9 +223,9 @@ class DerFreieNapoleon(DerKleineNapoleon):
         for j in range(reserves):
             x = x1 + j*l.XS
             s.rows.append(self.ReserveStack_Class(x, y, self))
-        self.setRegion(s.rows, (-999, y - l.CH/2, 999999, 999999))
+        self.setRegion(s.rows, (-999, y - l.CH//2, 999999, 999999))
         y = l.YM
-        x = x1+(max(cells, reserves)-cells)*l.XS/2
+        x = x1+(max(cells, reserves)-cells)*l.XS//2
         for i in range(cells):
             s.reserves.append(self.FreeCell_Class(x, y, self))
             x += l.XS
@@ -298,7 +298,7 @@ class TheLittleCorporal(DerFreieNapoleon):
     def createGame(self, rows=10):
         l, s = Layout(self), self.s
         # set size so that at least 2/3 of a card is visible with 15 cards
-        h = l.CH*2/3 + (15-1)*l.YOFFSET
+        h = l.CH*2//3 + (15-1)*l.YOFFSET
         h = l.YS + max(h, 3*l.YS)
         self.setSize(l.XM+rows*l.XS, l.YM + h)
 
@@ -376,7 +376,7 @@ class BusyCards(Game):
         l, s = Layout(self), self.s
         self.setSize(l.XM+rows*l.XS, l.YM + 3*l.YS+16*l.YOFFSET)
 
-        x, y = l.XM+(rows-8)*l.XS/2, l.YM
+        x, y = l.XM+(rows-8)*l.XS//2, l.YM
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
             x += l.XS
@@ -385,8 +385,8 @@ class BusyCards(Game):
                                  base_rank=KING, dir=-1))
             x += l.XS
 
-        x, y = l.XM+l.XS/2, l.YM+l.YS
-        for i in range(rows/2):
+        x, y = l.XM+l.XS//2, l.YM+l.YS
+        for i in range(rows//2):
             s.reserves.append(BusyCards_FreeCell(x, y, self))
             x += 2*l.XS
 

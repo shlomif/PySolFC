@@ -162,7 +162,7 @@ class LesserQueue(AbstractFlowerGame):
         # Create rows, reserves
         s.addattr(braid=None)
         x, x0 = l.XM + l.XS * 2, (decks - 1.5) % 2.5
-        for j in range(decks / 2):
+        for j in range(decks // 2):
             y = l.YM
             for i in range(2):
                 s.rows.append(Queue_RowStack(x + l.XS * (x0 + j), y, self))
@@ -190,7 +190,7 @@ class LesserQueue(AbstractFlowerGame):
         l.createText(s.talon, "n")
         s.talon.texts.rounds = MfxCanvasText(
             self.canvas,
-            self.width/2, h-2*l.TEXT_MARGIN,
+            self.width//2, h-2*l.TEXT_MARGIN,
             anchor="center",
             font=self.app.getFont("canvas_default"))
         x = x + l.XS
@@ -199,7 +199,7 @@ class LesserQueue(AbstractFlowerGame):
 
         # Create foundations
         x = l.XM
-        for j in range(decks / 2):
+        for j in range(decks // 2):
             y = l.YM
             for i in range(4):
                 s.foundations.append(Queue_Foundation(
@@ -214,7 +214,7 @@ class LesserQueue(AbstractFlowerGame):
             x = x + l.XS
         self.texts.info = MfxCanvasText(
             self.canvas,
-            self.width/2, h-l.TEXT_MARGIN,
+            self.width//2, h-l.TEXT_MARGIN,
             anchor="center",
             font=self.app.getFont("canvas_default"))
 
@@ -327,7 +327,7 @@ class JapaneseGarden(AbstractFlowerGame):
         self.setSize(l.XM + l.XS * self.WIDTH, l.YM * 3 + l.YS * self.HEIGHT)
 
         # Create foundations
-        x = self.width / 2 + l.XM / 2 - l.XS * 3
+        x = self.width // 2 + l.XM // 2 - l.XS * 3
         y = l.YM
         for j in range(2):
             for i in range(6):
@@ -336,7 +336,7 @@ class JapaneseGarden(AbstractFlowerGame):
                         x, y, self, i + (j * 6),
                         max_cards=4, max_accept=1, base_rank=3))
                 x = x + l.XS
-            x = self.width / 2 + l.XM / 2 - l.XS * 3
+            x = self.width // 2 + l.XM // 2 - l.XS * 3
             y = y + l.YS
 
         # Create flower beds
@@ -348,21 +348,21 @@ class JapaneseGarden(AbstractFlowerGame):
                     x, y, self, yoffset=0, max_accept=self.MAX_MOVE,
                     max_move=self.MAX_MOVE, max_cards=self.MAX_CARDS,
                     base_rank=0)
-                row.CARD_XOFFSET = l.CW / 2
+                row.CARD_XOFFSET = l.CW // 2
                 s.rows.append(row)
-                x = x + self.width / self.XROWS
+                x = x + self.width // self.XROWS
             x = l.XM
             y = y + l.YS
         self.setRegion(s.rows, (l.XM, l.YS * 2, 999999, y))
 
         # Create pool
-        x = self.width / 2 + l.XM / 2 - (l.XS * self.XRESERVES) / 2
+        x = self.width // 2 + l.XM // 2 - (l.XS * self.XRESERVES) // 2
         for j in range(self.YRESERVES):
             for i in range(self.XRESERVES):
                 s.reserves.append(
                     ReserveStack(x, y, self, max_accept=self.MAX_RESERVE))
                 x = x + l.XS
-            x = self.width / 2 + l.XM / 2 - l.XS * (self.XRESERVES / 2)
+            x = self.width // 2 + l.XM // 2 - l.XS * (self.XRESERVES // 2)
             y = y + l.YS
         if s.reserves:
             self.setRegion(
@@ -500,14 +500,14 @@ class Wisteria(AbstractFlowerGame):
         self.setSize(l.XM + rows * l.XS, l.YM + 6 * l.YS)
 
         # create stacks
-        x, y = self.width / 2 - l.XS * 3, l.YM
+        x, y = self.width // 2 - l.XS * 3, l.YM
         for i in range(2):
             for suit in range(6):
                 s.foundations.append(
                     Hanafuda_SS_FoundationStack(
                         x, y, self, suit=suit + (6 * i)))
                 x = x + l.XS
-            x, y = self.width / 2 - l.XS * 3, y + l.YS
+            x, y = self.width // 2 - l.XS * 3, y + l.YS
         self.setRegion(
             self.s.foundations, (-999, -999, 999999, l.YM + l.YS * 2),
             priority=1)
@@ -516,7 +516,7 @@ class Wisteria(AbstractFlowerGame):
             stack = self.RowStack_Class(x, y, self, yoffset=l.YOFFSET)
             s.rows.append(stack)
             x = x + l.XS
-        s.talon = InitialDealTalonStack(l.XS, l.YS / 2, self)
+        s.talon = InitialDealTalonStack(l.XS, l.YS // 2, self)
 
         # define stack-groups
         l.defaultStackGroups()
@@ -654,17 +654,17 @@ class FlowerArrangement(Game):
     def createGame(self):
         # create layout
         l, s = Layout(self), self.s
-        TABLEAU_YOFFSET = min(9, max(3, l.YOFFSET / 3))
+        TABLEAU_YOFFSET = min(9, max(3, l.YOFFSET // 3))
 
         # set window
         th = l.YS + 3 * TABLEAU_YOFFSET
         # (set piles so that at least 2/3 of a card is visible with 10 cards)
-        h = (10-1)*l.YOFFSET + l.CH*2/3
+        h = (10-1)*l.YOFFSET + l.CH*2//3
         self.setSize(10*l.XS+l.XM, l.YM + 3*th + l.YM + h)
 
         # create stacks
         s.addattr(tableaux=[])     # register extra stack variable
-        x = l.XM + 8 * l.XS + l.XS / 2
+        x = l.XM + 8 * l.XS + l.XS // 2
         y = l.YM
         for i in range(3):
             x = l.XM
@@ -678,7 +678,7 @@ class FlowerArrangement(Game):
         for i in range(8):
             s.rows.append(FlowerArrangement_RowStack(x, y, self, max_accept=1))
             x = x + l.XS
-        x = l.XM + 8 * l.XS + l.XS / 2
+        x = l.XM + 8 * l.XS + l.XS // 2
         y = self.height - l.YS
         s.talon = DealRowTalonStack(x, y, self)
         l.createText(s.talon, "se")

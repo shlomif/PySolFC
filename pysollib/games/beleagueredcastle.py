@@ -119,9 +119,9 @@ class StreetsAndAlleys(Game):
         s.talon = InitialDealTalonStack(x, y, self)
         if reserves:
             l.setRegion(
-                s.rows[:4], (-999, l.YM+l.YS-l.CH/2, x1-l.CW/2, 999999))
+                s.rows[:4], (-999, l.YM+l.YS-l.CH//2, x1-l.CW//2, 999999))
         else:
-            l.setRegion(s.rows[:4], (-999, -999, x1-l.CW/2, 999999))
+            l.setRegion(s.rows[:4], (-999, -999, x1-l.CW//2, 999999))
 
         # default
         l.defaultAll()
@@ -487,7 +487,7 @@ class Zerline(Game):
         # set window
         # (set size so that at least 13 cards are fully playable)
         w = max(3*l.XS, l.XS+playcards*l.XOFFSET)
-        self.setSize(l.XM+2*w+decks*l.XS, l.YM+l.TEXT_HEIGHT+(rows/2+1)*l.YS)
+        self.setSize(l.XM+2*w+decks*l.XS, l.YM+l.TEXT_HEIGHT+(rows//2+1)*l.YS)
 
         # create stacks
         y = l.YM
@@ -515,7 +515,7 @@ class Zerline(Game):
         x = l.XM
         for j in range(2):
             y = l.YM+l.TEXT_HEIGHT+l.YS
-            for i in range(rows/2):
+            for i in range(rows//2):
                 stack = RK_RowStack(
                     x, y, self, max_move=1, max_accept=1, base_rank=QUEEN)
                 stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
@@ -524,8 +524,8 @@ class Zerline(Game):
             x += l.XM+w+decks*l.XS
 
         l.setRegion(
-            s.rows[:4], (-999, l.YM+l.YS+l.TEXT_HEIGHT-l.CH/2,
-                         w-l.CW/2, 999999))
+            s.rows[:4], (-999, l.YM+l.YS+l.TEXT_HEIGHT-l.CH//2,
+                         w-l.CW//2, 999999))
 
         # define stack-groups
         l.defaultStackGroups()
@@ -575,7 +575,7 @@ class Chequers(Fortress):
         x, y = l.XM, l.YM
         s.talon = TalonStack(x, y, self)
         l.createText(s.talon, "se")
-        x = max(l.XS+3*l.XM, (self.width-l.XM-8*l.XS)/2)
+        x = max(l.XS+3*l.XM, (self.width-l.XM-8*l.XS)//2)
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
             x += l.XS
@@ -649,7 +649,7 @@ class CastleOfIndolence(Game):
                 stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
                 s.rows.append(stack)
                 y += l.YS
-        l.setRegion(s.rows[:4], (-999, -999, w-l.CW/2, l.YM+4*l.YS-l.CH/2))
+        l.setRegion(s.rows[:4], (-999, -999, w-l.CW//2, l.YM+4*l.YS-l.CH//2))
 
         # define stack-groups
         l.defaultStackGroups()
@@ -763,13 +763,13 @@ class Lightweight(StreetsAndAlleys):
         max_rows = max(decks*4, rows)
         self.setSize(l.XM+max_rows*l.XS, l.YM+2*l.YS+playcards*l.YOFFSET)
 
-        x, y = l.XM+(max_rows-decks*4)*l.XS/2, l.YM
+        x, y = l.XM+(max_rows-decks*4)*l.XS//2, l.YM
         for i in range(4):
             for j in range(decks):
                 s.foundations.append(SS_FoundationStack(x, y, self, suit=i,
                                                         max_move=0))
                 x += l.XS
-        x, y = l.XM+(max_rows-rows)*l.XS/2, l.YM+l.YS
+        x, y = l.XM+(max_rows-rows)*l.XS//2, l.YM+l.YS
         for i in range(rows):
             s.rows.append(self.RowStack_Class(x, y, self))
             x += l.XS

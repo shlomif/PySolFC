@@ -66,7 +66,7 @@ class AbstractCard:
         self.id = id
         self.deck = deck
         self.suit = suit
-        self.color = suit / 2
+        self.color = suit // 2
         self.rank = rank
         self.game = game
         self.x = x

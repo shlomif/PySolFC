@@ -258,16 +258,16 @@ class TripleFreecell(FreeCell):
         # create stacks
         s.talon = self.Talon_Class(l.XM, h-l.YS, self)
 
-        x, y = l.XM+(max_rows-decks*4)*l.XS/2, l.YM
+        x, y = l.XM+(max_rows-decks*4)*l.XS//2, l.YM
         for j in range(4):
             for i in range(decks):
                 s.foundations.append(self.Foundation_Class(x, y, self, suit=j))
                 x += l.XS
-        x, y = l.XM+(max_rows-reserves)*l.XS/2, l.YM+l.YS
+        x, y = l.XM+(max_rows-reserves)*l.XS//2, l.YM+l.YS
         for i in range(reserves):
             s.reserves.append(ReserveStack(x, y, self))
             x += l.XS
-        x, y = l.XM+(max_rows-rows)*l.XS/2, l.YM+2*l.YS
+        x, y = l.XM+(max_rows-rows)*l.XS//2, l.YM+2*l.YS
         for i in range(rows):
             s.rows.append(self.RowStack_Class(x, y, self))
             x += l.XS
@@ -573,7 +573,7 @@ class Headquarters(Game):
         l, s = Layout(self), self.s
         w, h = l.XM+(rows+reserves+1)*l.XS, l.YM+3*l.YS+16*l.YOFFSET
         self.setSize(w, h)
-        x, y = l.XM+(rows+reserves+1-8)*l.XS/2, l.YM
+        x, y = l.XM+(rows+reserves+1-8)*l.XS//2, l.YM
         for i in range(8):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i % 4))
             x += l.XS

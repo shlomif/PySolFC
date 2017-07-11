@@ -72,7 +72,7 @@ class _MfxToplevel(gtk.Window):
             # return self.get_window().get_cursor(v)
         elif attr in ("background", "bg"):
             c = self.style.bg[gtk.STATE_NORMAL]
-            c = '#%02x%02x%02x' % (c.red/256, c.green/256, c.blue/256)
+            c = '#%02x%02x%02x' % (c.red//256, c.green//256, c.blue//256)
             return c
         print("Toplevel cget:", attr)
         # ~ raise AttributeError, attr

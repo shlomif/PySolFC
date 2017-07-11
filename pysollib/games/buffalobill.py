@@ -56,7 +56,7 @@ class BuffaloBill(Game):
         self.setSize(w, h)
 
         # create stacks
-        x, y = l.XM+(w-l.XM-8*l.XS)/2, l.YM
+        x, y = l.XM+(w-l.XM-8*l.XS)//2, l.YM
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
             x += l.XS
@@ -76,7 +76,7 @@ class BuffaloBill(Game):
                 n += 1
             y += l.YS
 
-        x, y = l.XM+(w-l.XM-8*l.XS)/2, h-l.YS
+        x, y = l.XM+(w-l.XM-8*l.XS)//2, h-l.YS
         for i in range(8):
             s.reserves.append(ReserveStack(x, y, self))
             x += l.XS

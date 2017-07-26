@@ -78,6 +78,15 @@ $ ln -s "`pwd`/PySolFC-Cardsets-2.0" ~/.PySolFC/cardsets
 $ python pysol.py
 ```
 
+<b>Note!</b> If you are using a Debian derivative (e.g: Debian, Ubuntu, or
+Linu Mint) and you are getting an error of "No cardsets were found !!! Main
+data directory is `[insert dir here]` Please check your PySol installation.",
+then you likely installed the cardsets package which has removed some files
+that are needed by pysol from source (without the debian modifications).
+
+Please uninstall that package and use the cardsets archive from sourceforge.net
+per the instructions above.
+
 ### Configuring Freecell Solver
 
 If you want to use the solver, you should configure freecell-solver

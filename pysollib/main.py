@@ -179,7 +179,7 @@ def pysol_init(app, args):
                 pass
 
     # init DataLoader
-    f = os.path.join("html", "license.html")
+    f = os.path.join("html-src", "license.html")
     app.dataloader = DataLoader(args[0], f)
 
     # init toolkit 1)

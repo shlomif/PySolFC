@@ -129,22 +129,25 @@ class DataLoader:
             np = os.path.abspath(p)
             if np and (np not in self.path) and os.path.isdir(np):
                 self.path.append(np)
-        # now try to find all filenames along path
-        for p in self.path:
-            n = 0
-            for filename in filenames:
-                f = os.path.join(p, filename)
-                if os.path.isfile(f):
-                    n = n + 1
-                else:
-                    break
-            if n == len(filenames):
-                self.dir = p
-                break
-        else:
-            raise OSError(str(argv0)+": DataLoader could not find " +
-                          str(filenames))
+        ## now try to find all filenames along path
+        #for p in self.path:
+            #n = 0
+            #for filename in filenames:
+                #f = os.path.join(p, filename)
+                #if os.path.isfile(f):
+                    #n = n + 1
+                #else:
+                    #break
+            #if n == len(filenames):
+                #self.dir = p
+                #break
+        #else:
+            #raise OSError(str(argv0)+": DataLoader could not find " +
+                          #str(filenames))
         # print path, self.path, self.dir
+
+        # disregard the above for now and set
+        self.dir = os.path.abspath(os.path.join(os.getcwd(), 'data'))
 
     def __findFile(self, func, filename, subdirs=None, do_raise=1):
         if subdirs is None:
@@ -169,8 +172,8 @@ class DataLoader:
             f = self.__findFile(os.path.isfile, filename+ext, subdirs, 0)
             if f:
                 return f
-        raise OSError("DataLoader could not find image "+filename +
-                      " in "+self.dir+" "+str(subdirs))
+        raise OSError("DataLoader could not find image "+ filename +
+                      " in " + self.dir + " " + str(subdirs))
 
     def findIcon(self, filename=None, subdirs=None):
         if not filename:

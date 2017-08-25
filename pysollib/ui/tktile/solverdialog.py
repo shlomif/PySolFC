@@ -6,6 +6,9 @@ from pysollib.settings import TITLE
 
 
 class BaseSolverDialog:
+    def _ToggleShowProgressButton(self, *args):
+        self.app.opt.solver_show_progress = self.progress_var.get()
+
     def __init__(self, parent, app, **kw):
         self.parent = parent
         self.app = app
@@ -60,9 +63,10 @@ class BaseSolverDialog:
         #
         row += 1
         self.progress_var = tkinter.BooleanVar()
-        self.progress_var.set(True)
+        self.progress_var.set(self.app.opt.solver_show_progress)
         w = self._createShowProgressButton(frame)
         w.grid(row=row, column=0, columnspan=2, sticky='ew', padx=2, pady=2)
+        w.config(command=self._ToggleShowProgressButton)
 
         #
         label_frame = self._calcToolkit().LabelFrame(
@@ -151,7 +155,7 @@ class BaseSolverDialog:
         game.solver = solver
         preset = self.preset_var.get()
         max_iters = self.max_iters_var.get()
-        progress = self.progress_var.get()
+        progress = self.app.opt.solver_show_progress
         solver.config(preset=preset, max_iters=max_iters, progress=progress)
         solver.computeHints()
         hints_len = len(solver.hints)-1

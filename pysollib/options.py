@@ -111,6 +111,7 @@ favorite_gameid = int_list
 visible_buttons = string_list
 translate_game_names = boolean
 solver_presets = string_list
+solver_show_progress = boolean
 
 [sound_samples]
 move = boolean
@@ -244,6 +245,7 @@ class Options:
         ('tabletile_name', 'str'),
         ('translate_game_names', 'bool'),
         ('solver_presets', 'list'),
+        ('solver_show_progress', 'bool'),
         # ('toolbar_vars', 'list'),
         # ('recent_gameid', 'list'),
         # ('favorite_gameid', 'list'),
@@ -410,6 +412,7 @@ class Options:
             'video-editing',
             'yellow-brick-road',
             ]
+        self.solver_show_progress = True
 
     def setDefaults(self, top=None):
         WIN_SYSTEM = pysollib.settings.WIN_SYSTEM

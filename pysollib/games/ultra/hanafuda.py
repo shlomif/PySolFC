@@ -21,8 +21,6 @@
 #
 # ---------------------------------------------------------------------------##
 
-__all__ = []
-
 # Imports
 
 # PySol imports
@@ -59,7 +57,6 @@ from pysollib.stack import \
         WasteStack, \
         cardsFaceUp, \
         WasteTalonStack
-
 
 # ************************************************************************
 #  * Flower Clock

@@ -21,8 +21,6 @@
 #
 # ---------------------------------------------------------------------------##
 
-__all__ = ['PysolToolbarTk']
-
 # imports
 import os
 from six.moves import tkinter

@@ -21,9 +21,6 @@
 #
 # ---------------------------------------------------------------------------##
 
-__all__ = ['PysolStatusbar',
-           'HelpStatusbar']
-
 # imports
 import os
 import sys

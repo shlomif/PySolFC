@@ -21,13 +21,6 @@
 #
 # ---------------------------------------------------------------------------
 
-__all__ = ['MfxCanvasGroup',
-           'MfxCanvasImage',
-           'MfxCanvasText',
-           'MfxCanvasLine',
-           'MfxCanvasRectangle',
-           'MfxCanvas']
-
 # imports
 from six.moves import tkinter
 from pysollib.ui.tktile.Canvas2 import CanvasText, Group, Line, Rectangle

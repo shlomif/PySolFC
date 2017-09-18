@@ -21,8 +21,6 @@
 #
 # ---------------------------------------------------------------------------##
 
-__all__ = ['ColorsDialog']
-
 # imports
 from pysollib.mygettext import _
 #  import os, sys

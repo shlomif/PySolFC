@@ -21,8 +21,6 @@
 #
 # ---------------------------------------------------------------------------##
 
-__all__ = []
-
 # PySol imports
 from pysollib.mygettext import _
 from pysollib.gamedb import registerGame, GameInfo, GI

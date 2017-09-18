@@ -21,8 +21,6 @@
 #
 # ---------------------------------------------------------------------------##
 
-__all__ = ['TimeoutsDialog']
-
 # imports
 #  import os, sys
 from pysollib.mygettext import _

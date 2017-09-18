@@ -21,8 +21,6 @@
 #
 # ---------------------------------------------------------------------------##
 
-__all__ = ['TimeoutsDialog']
-
 # imports
 from six.moves import tkinter
 from . import ttk

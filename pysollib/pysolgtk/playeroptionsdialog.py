@@ -21,8 +21,6 @@
 #
 # ---------------------------------------------------------------------------##
 
-__all__ = ['PlayerOptionsDialog']
-
 # imports
 import gobject
 import gtk

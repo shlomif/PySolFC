@@ -21,14 +21,6 @@
 #
 # ---------------------------------------------------------------------------##
 
-__all__ = [
-    # 'SolverDialog',
-    'create_solver_dialog',
-    'connect_game_solver_dialog',
-    'destroy_solver_dialog',
-    'reset_solver_dialog',
-    ]
-
 # imports
 import sys
 from six.moves import tkinter

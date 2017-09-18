@@ -21,16 +21,6 @@
 #
 # ---------------------------------------------------------------------------
 
-__all__ = ['MfxDialog',
-           'MfxMessageDialog',
-           'MfxExceptionDialog',
-           'MfxSimpleEntry',
-           'PysolAboutDialog',
-           'MfxTooltip',
-           'MfxScrolledCanvas',
-           'StackDesc',
-           ]
-
 # imports
 import sys
 import os

@@ -21,18 +21,6 @@
 #
 # ---------------------------------------------------------------------------##
 
-__all__ = [
-        'BmpImagePlugin',
-        'GifImagePlugin',
-        'Image',
-        'ImageOps',
-        'ImageTk',
-        'JpegImagePlugin',
-        'PngImagePlugin',
-        'PpmImagePlugin',
-        'UnpicklingError',
-        ]
-
 # imports
 import sys
 import os

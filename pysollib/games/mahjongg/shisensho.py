@@ -21,8 +21,6 @@
 #
 # ---------------------------------------------------------------------------
 
-__all__ = []
-
 # Imports
 import sys
 from gettext import ungettext

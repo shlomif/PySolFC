@@ -22,8 +22,6 @@
 # ---------------------------------------------------------------------------##
 
 
-__all__ = ['GameInfoDialog']
-
 #  # imports
 #  import os, sys
 #  from six.moves import tkinter

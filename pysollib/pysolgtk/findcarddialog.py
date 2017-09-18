@@ -21,11 +21,6 @@
 #
 # ---------------------------------------------------------------------------##
 
-__all__ = ['create_find_card_dialog',
-           'connect_game_find_card_dialog',
-           'destroy_find_card_dialog',
-           ]
-
 # imports
 #  import os
 #  from six.moves import tkinter

@@ -21,30 +21,6 @@
 #
 # ---------------------------------------------------------------------------
 
-__all__ = ['wm_withdraw',
-           'wm_deiconify',
-           'wm_map',
-           'wm_get_geometry',
-           # 'setTransient',
-           # 'makeToplevel',
-           'make_help_toplevel',
-           'bind',
-           'unbind_destroy',
-           'after',
-           'after_idle',
-           'after_cancel',
-           # 'makeImage',
-           'copyImage',
-           'loadImage',
-           # 'fillImage',
-           'createImage',
-           'shadowImage',
-           'markImage',
-           'createBottom',
-           'resizeBottom',
-           'get_text_width',
-           ]
-
 # imports
 import re
 from six.moves import tkinter

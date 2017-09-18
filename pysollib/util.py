@@ -21,30 +21,6 @@
 #
 # ---------------------------------------------------------------------------##
 
-__all__ = ['SUITS',
-           'COLORS',
-           'RANKS',
-           'ACE',
-           'JACK',
-           'QUEEN',
-           'KING',
-           'ANY_SUIT',
-           'ANY_COLOR',
-           'ANY_RANK',
-           'NO_SUIT',
-           'NO_COLOR',
-           'NO_RANK',
-           'UNLIMITED_MOVES',
-           'UNLIMITED_ACCEPTS',
-           'UNLIMITED_CARDS',
-           'NO_REDEAL',
-           'UNLIMITED_REDEALS',
-           'VARIABLE_REDEALS',
-           'CARDSET',
-           'IMAGE_EXTENSIONS',
-           'DataLoader',
-           ]
-
 # imports
 import sys
 import os

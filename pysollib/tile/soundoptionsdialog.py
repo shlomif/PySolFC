@@ -21,8 +21,6 @@
 #
 # ---------------------------------------------------------------------------
 
-__all__ = ['SoundOptionsDialog']
-
 # imports
 import os
 from six.moves import tkinter

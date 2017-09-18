@@ -16,6 +16,14 @@
 # Added very simple support for ngettext
 #
 
+import os
+import imp
+import glob
+import time
+import getopt
+import token
+import tokenize
+import operator
 import sys
 import functools
 
@@ -161,15 +169,6 @@ Options:
 
 If `inputfile' is -, standard input is read.
 """)
-
-import os
-import imp
-import glob
-import time
-import getopt
-import token
-import tokenize
-import operator
 
 if sys.version_info > (3,):
     basestring = str

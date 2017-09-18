@@ -21,8 +21,6 @@
 #
 # ---------------------------------------------------------------------------
 
-__all__ = ['PysolProgressBar']
-
 # imports
 from six.moves import tkinter
 from . import ttk

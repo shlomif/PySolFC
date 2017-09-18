@@ -21,8 +21,6 @@
 #
 # ---------------------------------------------------------------------------##
 
-__all__ = ['SelectCardsetDialogWithPreview']
-
 # imports
 import os
 from six.moves import tkinter

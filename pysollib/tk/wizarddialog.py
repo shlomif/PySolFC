@@ -21,9 +21,6 @@
 #
 # ---------------------------------------------------------------------------##
 
-__all__ = ['WizardDialog']
-
-
 # imports
 import sys
 from six.moves import tkinter

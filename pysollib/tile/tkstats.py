@@ -21,15 +21,6 @@
 #
 # ---------------------------------------------------------------------------##
 
-__all__ = ['SingleGame_StatsDialog',
-           'AllGames_StatsDialog',
-           'FullLog_StatsDialog',
-           'SessionLog_StatsDialog',
-           'Status_StatsDialog',
-           'Top_StatsDialog',
-           'ProgressionDialog',
-           ]
-
 # imports
 import os
 import time

@@ -21,8 +21,6 @@
 #
 # ---------------------------------------------------------------------------##
 
-__all__ = ['PlayerOptionsDialog']
-
 # imports
 from six.moves import tkinter
 from . import ttk

@@ -21,9 +21,6 @@
 #
 # ---------------------------------------------------------------------------
 
-__all__ = ['TclError',
-           'MfxRoot']
-
 # imports
 from six.moves import tkinter
 from pysollib.ui.tktile.tkconst import EVENT_PROPAGATE

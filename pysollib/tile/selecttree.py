@@ -21,8 +21,6 @@
 #
 # ---------------------------------------------------------------------------##
 
-__all__ = ['SelectDialogTreeData']
-
 # Toolkit imports
 from .tktree import MfxTreeLeaf, MfxTreeNode, MfxTreeInCanvas
 

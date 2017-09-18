@@ -21,8 +21,6 @@
 #
 # ---------------------------------------------------------------------------##
 
-__all__ = ['ColorsDialog']
-
 from pysollib.ui.tktile.colorsdialog import BaseColorsDialog
 from pysollib.tile.basetilemfxdialog import BaseTileMfxDialog
 

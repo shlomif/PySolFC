@@ -21,8 +21,6 @@
 #
 # ---------------------------------------------------------------------------##
 
-__all__ = ['GameInfoDialog']
-
 import pysollib.ui.tktile.gameinfodialog
 from pysollib.tk.basetkmfxdialog import BaseTkMfxDialog
 

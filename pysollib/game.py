@@ -2239,9 +2239,9 @@ Congratulations, you did it !
 
     def _shallHighlightMatch_ACW(self, stack1, card1, stack2, card2):
         # by alternate color with wrapping (only for french games)
-        return (card1.color != card2.color
-                and ((card1.rank + 1) % 13 == card2.rank
-                     or (card2.rank + 1) % 13 == card1.rank))
+        return (card1.color != card2.color and
+                ((card1.rank + 1) % 13 == card2.rank or
+                 (card2.rank + 1) % 13 == card1.rank))
 
     def _shallHighlightMatch_SS(self, stack1, card1, stack2, card2):
         # by same suit
@@ -2249,9 +2249,9 @@ Congratulations, you did it !
 
     def _shallHighlightMatch_SSW(self, stack1, card1, stack2, card2):
         # by same suit with wrapping (only for french games)
-        return (card1.suit == card2.suit
-                and ((card1.rank + 1) % 13 == card2.rank
-                     or (card2.rank + 1) % 13 == card1.rank))
+        return (card1.suit == card2.suit and
+                ((card1.rank + 1) % 13 == card2.rank or
+                 (card2.rank + 1) % 13 == card1.rank))
 
     def _shallHighlightMatch_RK(self, stack1, card1, stack2, card2):
         # by rank
@@ -2259,8 +2259,8 @@ Congratulations, you did it !
 
     def _shallHighlightMatch_RKW(self, stack1, card1, stack2, card2):
         # by rank with wrapping (only for french games)
-        return ((card1.rank + 1) % 13 == card2.rank
-                or (card2.rank + 1) % 13 == card1.rank)
+        return ((card1.rank + 1) % 13 == card2.rank or
+                (card2.rank + 1) % 13 == card1.rank)
 
     def _shallHighlightMatch_BO(self, stack1, card1, stack2, card2):
         # by any suit but own
@@ -2268,9 +2268,9 @@ Congratulations, you did it !
 
     def _shallHighlightMatch_BOW(self, stack1, card1, stack2, card2):
         # by any suit but own with wrapping (only for french games)
-        return (card1.suit != card2.suit
-                and ((card1.rank + 1) % 13 == card2.rank
-                     or (card2.rank + 1) % 13 == card1.rank))
+        return (card1.suit != card2.suit and
+                ((card1.rank + 1) % 13 == card2.rank or
+                 (card2.rank + 1) % 13 == card1.rank))
 
     def _shallHighlightMatch_SC(self, stack1, card1, stack2, card2):
         # by same color
@@ -2278,9 +2278,9 @@ Congratulations, you did it !
 
     def _shallHighlightMatch_SCW(self, stack1, card1, stack2, card2):
         # by same color with wrapping (only for french games)
-        return (card1.color == card2.color
-                and ((card1.rank + 1) % 13 == card2.rank
-                     or (card2.rank + 1) % 13 == card1.rank))
+        return (card1.color == card2.color and
+                ((card1.rank + 1) % 13 == card2.rank or
+                 (card2.rank + 1) % 13 == card1.rank))
 
     #
     # quick-play

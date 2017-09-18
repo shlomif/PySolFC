@@ -1460,10 +1460,10 @@ Please select a %s type %s.
                                 print_err('fail _readCardsetConfig: %s %s'
                                           % (d, f1))
                                 pass
-                        except Exception as err:
+                        except Exception:
                             # traceback.print_exc()
                             pass
-            except EnvironmentError as ex:
+            except EnvironmentError:
                 pass
         # register cardsets
         for obj in found:
@@ -1514,7 +1514,7 @@ Please select a %s type %s.
                     if key not in t:
                         t[key] = 1
                         found.append((n, tile))
-            except EnvironmentError as ex:
+            except EnvironmentError:
                 pass
         # register tiles
         found.sort()
@@ -1559,7 +1559,7 @@ Please select a %s type %s.
                     if key not in t:
                         t[key] = 1
                         found.append((n, obj))
-            except EnvironmentError as ex:
+            except EnvironmentError:
                 pass
         # register songs
         found.sort()

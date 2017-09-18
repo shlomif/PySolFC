@@ -31,8 +31,7 @@ from pysollib.mfxutil import KwStruct
 
 # Toolkit imports
 from pysollib.tk.basetkmfxdialog import BaseTkMfxDialog
-from pysollib.ui.tktile.solverdialog import BaseSolverDialog, solver_dialog, \
-        connect_game_solver_dialog, destroy_solver_dialog, reset_solver_dialog
+from pysollib.ui.tktile.solverdialog import BaseSolverDialog, solver_dialog
 
 
 if sys.version_info > (3,):

@@ -106,8 +106,8 @@ class AppachansWaterfall_Foundation(AbstractFoundationStack):
         if self.cards:
             rank = (self.cards[-1].rank + 1) % 12
             suit = self.cards[-1].suit + (rank == 0)
-        if (not pile or len(pile) <= 11 - rank
-                or not isSameSuitSequence(pile[-(12 - rank):])):
+        if (not pile or len(pile) <= 11 - rank or
+                not isSameSuitSequence(pile[-(12 - rank):])):
             return 0
         return cards[0].suit == suit and cards[0].rank == rank
 
@@ -149,8 +149,8 @@ class Dashavatara_OpenStack(OpenStack):
             dir = self.cap.dir
         c1 = cards[0]
         for c2 in cards[1:]:
-            if not ((c1.suit + c2.suit) % 2
-                    and c1.rank + dir == c2.rank):
+            if not ((c1.suit + c2.suit) % 2 and
+                    c1.rank + dir == c2.rank):
                 return 0
             c1 = c2
         return 1
@@ -173,8 +173,7 @@ class Dashavatara_OpenStack(OpenStack):
             dir = self.cap.dir
         c1 = cards[0]
         for c2 in cards[1:]:
-            if not (c1.suit == c2.suit
-                    and c1.rank + dir == c2.rank):
+            if not (c1.suit == c2.suit and c1.rank + dir == c2.rank):
                 return 0
             c1 = c2
         return 1
@@ -294,9 +293,9 @@ class AppachansWaterfall_RowStack(RK_RowStack):
         pile, stack, rank = self.getPile(), stacks[0], 0
         if stack.cards:
             rank = (stack.cards[-1].rank + 1) % 12
-        if (not pile or len(pile) <= 11 - rank
-                or not isSameSuitSequence(pile[-(12 - rank):])
-                or not stack.acceptsCards(self, pile[-1:])):
+        if (not pile or len(pile) <= 11 - rank or
+                not isSameSuitSequence(pile[-(12 - rank):]) or
+                not stack.acceptsCards(self, pile[-1:])):
             return (None, 0)
         return (stack, 1)
 
@@ -335,8 +334,8 @@ class Dashavatara_ReserveStack(ReserveStack):
         OpenStack.__init__(self, x, y, game, **cap)
 
     def acceptsCards(self, from_stack, cards):
-        return (ReserveStack.acceptsCards(self, from_stack, cards)
-                and self.game.s.talon.cards)
+        return (ReserveStack.acceptsCards(self, from_stack, cards) and
+                self.game.s.talon.cards)
 
 
 class Dashavatara_RowStack(BasicRowStack):
@@ -372,9 +371,8 @@ class AbstractDashavataraGame(Game):
         pass
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.suit == card2.suit
-                and (card1.rank + 1 == card2.rank
-                     or card1.rank - 1 == card2.rank))
+        return (card1.suit == card2.suit and
+                (card1.rank + 1 == card2.rank or card1.rank - 1 == card2.rank))
 
 
 class Journey_Hint(DefaultHint):
@@ -578,8 +576,7 @@ class Balarama(AbstractDashavataraGame):
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return (card1.color % 2 != card2.color % 2 and
-                (card1.rank + 1 == card2.rank
-                 or card2.rank + 1 == card1.rank))
+                (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank))
 
 
 # ************************************************************************
@@ -601,8 +598,7 @@ class Hayagriva(Balarama):
         Balarama.createGame(self)
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.rank + 1 == card2.rank
-                or card2.rank + 1 == card1.rank)
+        return (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank)
 
 
 # ************************************************************************
@@ -626,10 +622,9 @@ class Shanka(Balarama):
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         if stack1 in self.s.foundations:
             return (card1.suit == card2.suit and
-                    (card1.rank + 1 == card2.rank
-                     or card2.rank + 1 == card1.rank))
-        return (card1.rank + 1 == card2.rank
-                or card2.rank + 1 == card1.rank)
+                    (card1.rank + 1 == card2.rank or
+                     card2.rank + 1 == card1.rank))
+        return (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank)
 
 
 # ************************************************************************
@@ -659,9 +654,9 @@ class Surukh(Balarama):
             force1 = 0
         else:
             force1 = 1
-        return (force0 != force1
-                and (card1.rank + 1 == card2.rank
-                     or card2.rank + 1 == card1.rank))
+        return (force0 != force1 and
+                (card1.rank + 1 == card2.rank or
+                 card2.rank + 1 == card1.rank))
 
 
 # ************************************************************************
@@ -716,8 +711,7 @@ class Matsya(AbstractDashavataraGame):
         self.s.talon.dealCards()
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.rank + 1 == card2.rank
-                or card2.rank + 1 == card1.rank)
+        return (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank)
 
 
 # ************************************************************************
@@ -777,9 +771,8 @@ class Narasimha(Matsya):
         Matsya.createGame(self, max_rounds=1, num_deal=1)
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.color % 2 != card2.color % 2
-                and (card1.rank + 1 == card2.rank
-                     or card2.rank + 1 == card1.rank))
+        return (card1.color % 2 != card2.color % 2 and
+                (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank))
 
 
 # ************************************************************************
@@ -801,9 +794,8 @@ class Vamana(Matsya):
         Matsya.createGame(self, max_rounds=-1, num_deal=3)
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.color % 2 != card2.color % 2
-                and (card1.rank + 1 == card2.rank
-                     or card2.rank + 1 == card1.rank))
+        return (card1.color % 2 != card2.color % 2 and
+                (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank))
 
 
 # ************************************************************************
@@ -825,8 +817,7 @@ class Parashurama(Matsya):
         Matsya.createGame(self, max_rounds=2, num_deal=3)
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.rank + 1 == card2.rank
-                or card2.rank + 1 == card1.rank)
+        return (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank)
 
 
 # ************************************************************************
@@ -938,8 +929,8 @@ class Journey(AbstractDashavataraGame):
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return (card1.suit == card2.suit and
-                ((card1.rank + 1) % 12 == card2.rank
-                 or (card2.rank + 1) % 12 == card1.rank))
+                ((card1.rank + 1) % 12 == card2.rank or
+                 (card2.rank + 1) % 12 == card1.rank))
 
     def getHighlightPilesStacks(self):
         return ()

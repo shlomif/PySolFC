@@ -167,8 +167,8 @@ class WheelOfFortune_RowStack(Tarock_OpenStack):
             return 0
         if not self.cards:
             return 1
-        return ((cards[0].suit == self.cards[-1].suit)
-                and (cards[0].rank == self.cards[-1].rank - 1))
+        return ((cards[0].suit == self.cards[-1].suit) and
+                (cards[0].rank == self.cards[-1].rank - 1))
 
     def getBottomImage(self):
         return self.game.app.images.getReserveBottom()
@@ -207,8 +207,8 @@ class Nasty_RowStack(SS_RowStack):
         if not self.basicAcceptsCards(from_stack, cards):
             return 0
         if self.cards:
-            return (cards[0].rank == self.cards[-1].rank - 1
-                    and cards[0].suit == self.cards[-1].suit)
+            return (cards[0].rank == self.cards[-1].rank - 1 and
+                    cards[0].suit == self.cards[-1].suit)
         return cards[0].rank == 13 + 8 * (cards[0].suit == 4)
 
 
@@ -431,8 +431,7 @@ class Pagat(AbstractTarockGame):
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return (card1.suit == card2.suit and
-                (card1.rank + 1 == card2.rank
-                 or card2.rank + 1 == card1.rank))
+                (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank))
 
 
 # ************************************************************************
@@ -502,8 +501,7 @@ class Skiz(AbstractTarockGame):
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return (card1.suit == card2.suit and
-                (card1.rank + 1 == card2.rank
-                 or card2.rank + 1 == card1.rank))
+                (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank))
 
 
 # ************************************************************************
@@ -567,8 +565,7 @@ class FifteenPlus(AbstractTarockGame):
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return (card1.suit == card2.suit and
-                (card1.rank + 1 == card2.rank
-                 or card2.rank + 1 == card1.rank))
+                (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank))
 
 
 # ************************************************************************
@@ -652,8 +649,7 @@ class Excuse(AbstractTarockGame):
         self.s.talon.dealRow(rows=self.s.rows[:15])
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.rank + 1 == card2.rank
-                or card1.rank - 1 == card2.rank)
+        return (card1.rank + 1 == card2.rank or card1.rank - 1 == card2.rank)
 
 
 # ************************************************************************
@@ -741,9 +737,9 @@ class Grasshopper(AbstractTarockGame):
             r.flipMove()
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return ((card1.rank + 1 == card2.rank
-                or card1.rank - 1 == card2.rank)
-                and card1.color != card2.color)
+        return ((card1.rank + 1 == card2.rank or
+                card1.rank - 1 == card2.rank) and
+                card1.color != card2.color)
 
 
 class DoubleGrasshopper(Grasshopper):
@@ -889,10 +885,10 @@ class Cavalier(AbstractTarockGame):
             self.s.talon.dealRow(rows=self.s.rows[:6])
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return ((card1.rank + 1 == card2.rank
-                or card1.rank - 1 == card2.rank)
-                and ((card1.suit == 4 or card2.suit == 4)
-                or card1.color != card2.color))
+        return ((card1.rank + 1 == card2.rank or
+                 card1.rank - 1 == card2.rank) and
+                ((card1.suit == 4 or card2.suit == 4) or
+                 card1.color != card2.color))
 
 
 class FiveAces(Cavalier):
@@ -914,9 +910,9 @@ class Wicked(FiveAces):
         Cavalier.startGame(self, flip=(1, 1, 1), foundations=1)
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return ((card1.rank + 1 == card2.rank
-                or card1.rank - 1 == card2.rank)
-                and card1.suit == card2.suit)
+        return ((card1.rank + 1 == card2.rank or
+                 card1.rank - 1 == card2.rank) and
+                card1.suit == card2.suit)
 
 
 class Nasty(Wicked):

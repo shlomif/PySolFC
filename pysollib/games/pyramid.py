@@ -449,8 +449,8 @@ class Elevens_RowStack(Giza_Reserve):
         if from_stack is self or not self.cards or len(cards) != 1:
             return False
         c = self.cards[-1]
-        return (c.face_up and cards[0].face_up
-                and cards[0].rank + c.rank == self.ACCEPTED_SUM)
+        return (c.face_up and cards[0].face_up and
+                cards[0].rank + c.rank == self.ACCEPTED_SUM)
 
     def clickHandler(self, event):
         return OpenStack.clickHandler(self, event)
@@ -651,8 +651,8 @@ class Fifteens(Elevens):
         else:
             reserve_ranks = [c.rank for c in reserve.cards]
             reserve_ranks.sort()
-            if (9 in reserve_ranks or JACK in reserve_ranks
-                    or QUEEN in reserve_ranks or KING in reserve_ranks):
+            if (9 in reserve_ranks or JACK in reserve_ranks or
+                    QUEEN in reserve_ranks or KING in reserve_ranks):
                 if reserve_ranks == [9, JACK, QUEEN, KING]:
                     self._dropReserve()
             else:

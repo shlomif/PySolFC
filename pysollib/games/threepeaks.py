@@ -202,8 +202,8 @@ class ThreePeaks(Game):
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         if stack1 == self.s.waste or stack2 == self.s.waste:
-            return ((card1.rank + 1) % 13 == card2.rank
-                    or (card1.rank - 1) % 13 == card2.rank)
+            return ((card1.rank + 1) % 13 == card2.rank or
+                    (card1.rank - 1) % 13 == card2.rank)
         return False
 
     def getHandScore(self):

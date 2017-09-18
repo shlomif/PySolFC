@@ -165,9 +165,9 @@ class ThumbAndPouch(Klondike):
         Klondike.createGame(self, max_rounds=1)
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.suit != card2.suit
-                and (card1.rank + 1 == card2.rank
-                     or card2.rank + 1 == card1.rank))
+        return (card1.suit != card2.suit and
+                (card1.rank + 1 == card2.rank or
+                 card2.rank + 1 == card1.rank))
 
 
 class Chinaman(ThumbAndPouch):

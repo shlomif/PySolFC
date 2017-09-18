@@ -44,7 +44,7 @@ while ( my $r = $tree->next_obj )
 
 my $cmd = shell_quote( 'flake8', @filenames );
 
-diag("<$cmd>");
+# diag("<$cmd>");
 
 # TEST
 eq_or_diff( scalar(`$cmd`), '', "flake8 is happy with the code." );

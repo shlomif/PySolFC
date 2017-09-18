@@ -337,8 +337,8 @@ class LarasGame(Game):
                 break
             i = i + 1 % self.ROW_LENGTH
         return (card1.suit == card2.suit and
-                ((card1.rank + 1) % self.Mod(i) == card2.rank
-                 or (card1.rank - 1) % self.Mod(i) == card2.rank))
+                ((card1.rank + 1) % self.Mod(i) == card2.rank or
+                 (card1.rank - 1) % self.Mod(i) == card2.rank))
 
     def getHighlightPilesStacks(self):
         return ()

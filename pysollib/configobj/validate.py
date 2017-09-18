@@ -124,6 +124,9 @@
     A badly formatted set of arguments will raise a ``VdtParamError``.
 """
 
+import sys
+import re
+
 __docformat__ = "restructuredtext en"
 
 __version__ = '0.2.3'
@@ -161,8 +164,6 @@ __all__ = (
     '__docformat__',
 )
 
-import sys
-import re
 INTP_VER = sys.version_info[:2]
 if INTP_VER < (2, 2):
     raise RuntimeError("Python v.2.2 or later needed")
@@ -704,7 +705,7 @@ def _is_num_param(names, values, to_float=False):
         elif isinstance(val, (int, long, float, StringTypes)):
             try:
                 out_params.append(fun(val))
-            except ValueError as e:
+            except ValueError:
                 raise VdtParamError(name, val)
         else:
             raise VdtParamError(name, val)

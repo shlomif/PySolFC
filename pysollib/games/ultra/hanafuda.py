@@ -62,6 +62,7 @@ from pysollib.stack import \
 #  * Flower Clock
 #  ***********************************************************************/
 
+
 class FlowerClock(AbstractFlowerGame):
 
     #
@@ -212,13 +213,13 @@ class Gaji(AbstractFlowerGame):
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         if stack1 in self.s.foundations:
-            return (card1.rank == card2.rank
-                    and ((((card1.suit + 1) % 12) == card2.suit)
-                         or (((card1.suit - 1) % 12) == card2.suit)))
+            return (card1.rank == card2.rank and
+                    ((((card1.suit + 1) % 12) == card2.suit) or
+                     (((card1.suit - 1) % 12) == card2.suit)))
         else:
-            return ((card1.suit == card2.suit)
-                    and ((card1.rank + 1 == card2.rank)
-                    or (card1.rank - 1 == card2.rank)))
+            return ((card1.suit == card2.suit) and
+                    ((card1.rank + 1 == card2.rank) or
+                     (card1.rank - 1 == card2.rank)))
 
 
 # ************************************************************************
@@ -270,8 +271,8 @@ class Oonsoo(AbstractFlowerGame):
         if len(self.s.talon.cards):
             return 0
         for s in self.s.rows:
-            if (len(s.cards) != 4 or not cardsFaceUp(s.cards)
-                    or not s.isHanafudaSequence(s.cards, self.Strictness)):
+            if (len(s.cards) != 4 or not cardsFaceUp(s.cards) or
+                    not s.isHanafudaSequence(s.cards, self.Strictness)):
                 return 0
         return 1
 
@@ -557,12 +558,12 @@ class GreatWall(AbstractFlowerGame):
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         if stack1 in self.s.foundations:
-            return (card1.rank == card2.rank
-                    and ((((card1.suit + 1) % 12) == card2.suit)
-                         or (((card1.suit - 1) % 12) == card2.suit)))
+            return (card1.rank == card2.rank and
+                    ((((card1.suit + 1) % 12) == card2.suit) or
+                     (((card1.suit - 1) % 12) == card2.suit)))
         else:
-            return (card1.rank + 1 == card2.rank
-                    or card1.rank - 1 == card2.rank)
+            return (card1.rank + 1 == card2.rank or
+                    card1.rank - 1 == card2.rank)
 
 
 # ************************************************************************

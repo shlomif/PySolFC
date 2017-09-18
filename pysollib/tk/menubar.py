@@ -36,7 +36,7 @@ from .selectcardset import SelectCardsetDialogWithPreview
 from .selecttile import SelectTileDialogWithPreview
 from pysollib.ui.tktile.findcarddialog import connect_game_find_card_dialog, \
         destroy_find_card_dialog
-from .solverdialog import connect_game_solver_dialog
+from pysollib.ui.tktile.solverdialog import connect_game_solver_dialog
 
 from pysollib.ui.tktile.menubar import PysolMenubarTkCommon
 # ************************************************************************

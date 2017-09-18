@@ -2275,8 +2275,8 @@ class SS_FoundationStack(AbstractFoundationStack):
             return False
         if self.cards:
             # check the rank
-            if ((self.cards[-1].rank + self.cap.dir) % self.cap.mod
-                    != cards[0].rank):
+            if ((self.cards[-1].rank + self.cap.dir) % self.cap.mod !=
+                    cards[0].rank):
                 return False
         return True
 
@@ -2603,8 +2603,8 @@ class Yukon_AC_RowStack(BasicRowStack):
         BasicRowStack.__init__(self, x, y, game, **cap)
 
     def _isSequence(self, c1, c2):
-        return ((c1.rank + self.cap.dir) % self.cap.mod == c2.rank
-                and c1.color != c2.color)
+        return ((c1.rank + self.cap.dir) % self.cap.mod == c2.rank and
+                c1.color != c2.color)
 
     def acceptsCards(self, from_stack, cards):
         if not self.basicAcceptsCards(from_stack, cards):
@@ -2633,8 +2633,8 @@ class Yukon_AC_RowStack(BasicRowStack):
 # but can move any face-up cards regardless of sequence.
 class Yukon_SS_RowStack(Yukon_AC_RowStack):
     def _isSequence(self, c1, c2):
-        return ((c1.rank + self.cap.dir) % self.cap.mod == c2.rank
-                and c1.suit == c2.suit)
+        return ((c1.rank + self.cap.dir) % self.cap.mod == c2.rank and
+                c1.suit == c2.suit)
 
     def getHelp(self):
         if self.cap.dir > 0:

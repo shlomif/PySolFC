@@ -27,8 +27,7 @@
 from .tktree import MfxTreeLeaf, MfxTreeNode, MfxTreeInCanvas
 
 from pysollib.ui.tktile.selecttree import BaseSelectDialogTreeLeaf, \
-        BaseSelectDialogTreeNode, SelectDialogTreeData, \
-        BaseSelectDialogTreeCanvas
+        BaseSelectDialogTreeNode, BaseSelectDialogTreeCanvas
 
 # ************************************************************************
 # * Nodes

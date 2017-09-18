@@ -71,8 +71,8 @@ class Tarock_OpenStack(OpenStack):
             dir = self.cap.dir
         c1 = cards[0]
         for c2 in cards[1:]:
-            if (c1.color < 2 and c1.color == c2.color
-                    or not c1.rank + dir == c2.rank):
+            if (c1.color < 2 and c1.color == c2.color or
+                    not c1.rank + dir == c2.rank):
                 return 0
             c1 = c2
         return 1
@@ -82,8 +82,7 @@ class Tarock_OpenStack(OpenStack):
             dir = self.cap.dir
         c1 = cards[0]
         for c2 in cards[1:]:
-            if not (c1.suit == c2.suit
-                    and c1.rank + dir == c2.rank):
+            if not (c1.suit == c2.suit and c1.rank + dir == c2.rank):
                 return 0
             c1 = c2
         return 1
@@ -98,31 +97,29 @@ class Tarock_OpenStack(OpenStack):
 class Tarock_RK_RowStack(Tarock_OpenStack):
 
     def acceptsCards(self, from_stack, cards):
-        if (not self.basicAcceptsCards(from_stack, cards)
-                or not self.isRankSequence(cards)):
+        if (not self.basicAcceptsCards(from_stack, cards) or
+                not self.isRankSequence(cards)):
             return 0
         if not self.cards:
             return self.isHighRankCard(cards[0])
         return self.isRankSequence([self.cards[-1], cards[0]])
 
     def canMoveCards(self, cards):
-        return (self.basicCanMoveCards(cards)
-                and self.isRankSequence(cards))
+        return (self.basicCanMoveCards(cards) and self.isRankSequence(cards))
 
 
 class Tarock_SS_RowStack(Tarock_OpenStack):
 
     def acceptsCards(self, from_stack, cards):
-        if (not self.basicAcceptsCards(from_stack, cards)
-                or not self.isSuitSequence(cards)):
+        if (not self.basicAcceptsCards(from_stack, cards) or
+                not self.isSuitSequence(cards)):
             return 0
         if not self.cards:
             return self.isHighRankCard(cards[0])
         return self.isSuitSequence([self.cards[-1], cards[0]])
 
     def canMoveCards(self, cards):
-        return (self.basicCanMoveCards(cards)
-                and self.isSuitSequence(cards))
+        return (self.basicCanMoveCards(cards) and self.isSuitSequence(cards))
 
 
 class Tarock_AC_RowStack(Tarock_OpenStack):
@@ -136,8 +133,8 @@ class Tarock_AC_RowStack(Tarock_OpenStack):
         return self.isAlternateColorSequence([self.cards[-1], cards[0]])
 
     def canMoveCards(self, cards):
-        return (self.basicCanMoveCards(cards)
-                and self.isAlternateColorSequence(cards))
+        return (self.basicCanMoveCards(cards) and
+                self.isAlternateColorSequence(cards))
 
 # ************************************************************************
 # *

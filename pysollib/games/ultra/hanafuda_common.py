@@ -48,9 +48,9 @@ class AbstractFlowerGame(Game):
              _("Chrysanthemum"), _("Maple"), _("Willow"), _("Paulownia"))
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return ((card1.suit == card2.suit)
-                and ((card1.rank + 1 == card2.rank)
-                or (card1.rank - 1 == card2.rank)))
+        return ((card1.suit == card2.suit) and
+                ((card1.rank + 1 == card2.rank) or
+                 (card1.rank - 1 == card2.rank)))
 
 
 class Queue_Hint(DefaultHint):
@@ -139,8 +139,8 @@ class Gaji_Foundation(Flower_FoundationStack):
         if not self.basicAcceptsCards(from_stack, cards):
             return 0
         stackcards = self.cards
-        return ((((stackcards[-1].suit + 1) % 12) == cards[0].suit)
-                and (stackcards[-1].rank == cards[0].rank))
+        return ((((stackcards[-1].suit + 1) % 12) == cards[0].suit) and
+                (stackcards[-1].rank == cards[0].rank))
 
     def getBottomImage(self):
         return self.game.app.images.getLetter(self.cap.base_rank)
@@ -199,8 +199,8 @@ class GreatWall_FoundationStack(Flower_FoundationStack):
             return 0
         stackcards = self.cards
         if stackcards:
-            return ((stackcards[-1].suit + 1) % 12 == cards[0].suit
-                    and cards[0].rank == self.cap.base_rank)
+            return ((stackcards[-1].suit + 1) % 12 == cards[0].suit and
+                    cards[0].rank == self.cap.base_rank)
         else:
             return cards[0].suit == 0
 
@@ -322,9 +322,9 @@ class Gaji_RowStack(Flower_OpenStack):
         if not self.basicAcceptsCards(from_stack, cards):
             return 0
         stackcards = self.cards
-        if ((not len(stackcards))
-                or ((stackcards[-1].suit == 10) and (stackcards[-1].rank == 3))
-                or ((cards[0].suit == 10) and (cards[0].rank == 3))):
+        if ((not len(stackcards)) or
+                ((stackcards[-1].suit == 10) and (stackcards[-1].rank == 3)) or
+                ((cards[0].suit == 10) and (cards[0].rank == 3))):
             return 1
         elif stackcards[-1].suit != cards[0].suit:
             return 0
@@ -445,8 +445,8 @@ class Queue_ReserveStack(ReserveStack):
 class JapaneseGarden_RowStack(Flower_OpenStack):
 
     def acceptsCards(self, from_stack, cards):
-        if (not self.basicAcceptsCards(from_stack, cards)
-                or from_stack not in self.game.s.rows):
+        if (not self.basicAcceptsCards(from_stack, cards) or
+                from_stack not in self.game.s.rows):
             return 0
         stackcards = self.cards
         if not len(stackcards):
@@ -457,8 +457,8 @@ class JapaneseGarden_RowStack(Flower_OpenStack):
 class HanafudaRK_RowStack(Flower_OpenStack):
 
     def acceptsCards(self, from_stack, cards):
-        if (not self.basicAcceptsCards(from_stack, cards)
-                or not isRankSequence(cards, dir=1)):
+        if (not self.basicAcceptsCards(from_stack, cards) or
+                not isRankSequence(cards, dir=1)):
             return 0
         stackcards = self.cards
         if not len(stackcards):

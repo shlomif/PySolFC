@@ -114,8 +114,8 @@ class HexADeck_OpenStack(OpenStack):
             dir = self.cap.dir
         c1 = cards[0]
         for c2 in cards[1:]:
-            if (c1.color < 2 and c1.color == c2.color
-                    or not c1.rank + dir == c2.rank):
+            if (c1.color < 2 and c1.color == c2.color or
+                    not c1.rank + dir == c2.rank):
                 return 0
             c1 = c2
         return 1
@@ -125,9 +125,8 @@ class HexADeck_OpenStack(OpenStack):
             dir = self.cap.dir
         c1 = cards[0]
         for c2 in cards[1:]:
-            if not ((c1.color == 2 or c2.color == 2
-                    or c1.suit == c2.suit)
-                    and c1.rank + dir == c2.rank):
+            if not ((c1.color == 2 or c2.color == 2 or c1.suit == c2.suit) and
+                    c1.rank + dir == c2.rank):
                 return 0
             c1 = c2
         return 1
@@ -136,46 +135,44 @@ class HexADeck_OpenStack(OpenStack):
 class HexADeck_RK_RowStack(HexADeck_OpenStack):
 
     def acceptsCards(self, from_stack, cards):
-        if (not self.basicAcceptsCards(from_stack, cards)
-                or not self.isRankSequence(cards)):
+        if (not self.basicAcceptsCards(from_stack, cards) or
+                not self.isRankSequence(cards)):
             return 0
         if not self.cards:
             return cards[0].rank == 15 or self.cap.base_rank == ANY_RANK
         return self.isRankSequence([self.cards[-1], cards[0]])
 
     def canMoveCards(self, cards):
-        return (self.basicCanMoveCards(cards)
-                and self.isRankSequence(cards))
+        return (self.basicCanMoveCards(cards) and self.isRankSequence(cards))
 
 
 class HexADeck_AC_RowStack(HexADeck_OpenStack):
 
     def acceptsCards(self, from_stack, cards):
-        if (not self.basicAcceptsCards(from_stack, cards)
-                or not self.isAlternateColorSequence(cards)):
+        if (not self.basicAcceptsCards(from_stack, cards) or
+                not self.isAlternateColorSequence(cards)):
             return 0
         if not self.cards:
             return cards[0].rank == 15 or self.cap.base_rank == ANY_RANK
         return self.isAlternateColorSequence([self.cards[-1], cards[0]])
 
     def canMoveCards(self, cards):
-        return (self.basicCanMoveCards(cards)
-                and self.isAlternateColorSequence(cards))
+        return (self.basicCanMoveCards(cards) and
+                self.isAlternateColorSequence(cards))
 
 
 class HexADeck_SS_RowStack(HexADeck_OpenStack):
 
     def acceptsCards(self, from_stack, cards):
-        if (not self.basicAcceptsCards(from_stack, cards)
-                or not self.isSuitSequence(cards)):
+        if (not self.basicAcceptsCards(from_stack, cards) or
+                not self.isSuitSequence(cards)):
             return 0
         if not self.cards:
             return cards[0].rank == 15 or self.cap.base_rank == ANY_RANK
         return self.isSuitSequence([self.cards[-1], cards[0]])
 
     def canMoveCards(self, cards):
-        return (self.basicCanMoveCards(cards)
-                and self.isSuitSequence(cards))
+        return (self.basicCanMoveCards(cards) and self.isSuitSequence(cards))
 
 
 class Bits_RowStack(ReserveStack):
@@ -190,8 +187,8 @@ class Bits_RowStack(ReserveStack):
         for r in self.game.s.rows[i * 4:self.id]:
             if not r.cards:
                 return 0
-        return ((self.game.s.foundations[i].cards[-1].rank + 1
-                 >> (self.id % 4)) % 2 == (cards[0].rank + 1) % 2)
+        return ((self.game.s.foundations[i].cards[-1].rank + 1 >>
+                 (self.id % 4)) % 2 == (cards[0].rank + 1) % 2)
 
 
 class Bytes_RowStack(ReserveStack):

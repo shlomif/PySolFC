@@ -473,8 +473,7 @@ class HanafudaFourSeasons(AbstractFlowerGame):
             cards = r.cards
             if not len(cards) == 4:
                 return 0
-            if not (cards[0].suit == r.id
-                    and r.isHanafudaSequence(cards)):
+            if not (cards[0].suit == r.id and r.isHanafudaSequence(cards)):
                 return 0
         return 1
 
@@ -617,8 +616,8 @@ class FlowerArrangement_TableauStack(Flower_OpenStack):
             return 0
         # check that the base card is correct
         suits = list(range(self.cap.mod, (self.cap.mod + 4)))
-        if self.cards and (self.cards[0].rank == 3
-                           and self.cards[-1].suit in suits):
+        if self.cards and (self.cards[0].rank == 3 and
+                           self.cards[-1].suit in suits):
             return self.isHanafudaSequence([self.cards[-1], cards[0]])
         return not self.cards and cards[0].rank == 3 and cards[0].suit in suits
 

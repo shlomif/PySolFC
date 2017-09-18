@@ -116,8 +116,7 @@ class Mughal_OpenStack(OpenStack):
             dir = self.cap.dir
         c1 = cards[0]
         for c2 in cards[1:]:
-            if not ((c1.suit + c2.suit) % 2
-                    and c1.rank + dir == c2.rank):
+            if not ((c1.suit + c2.suit) % 2 and c1.rank + dir == c2.rank):
                 return 0
             c1 = c2
         return 1
@@ -127,9 +126,9 @@ class Mughal_OpenStack(OpenStack):
             dir = self.cap.dir
         c1 = cards[0]
         for c2 in cards[1:]:
-            if not ((c1.suit < 4 and c2.suit > 3
-                    or c1.suit > 3 and c2.suit < 4)
-                    and c1.rank + dir == c2.rank):
+            if not ((c1.suit < 4 and c2.suit > 3 or
+                     c1.suit > 3 and c2.suit < 4) and
+                    c1.rank + dir == c2.rank):
                 return 0
             c1 = c2
         return 1
@@ -139,8 +138,7 @@ class Mughal_OpenStack(OpenStack):
             dir = self.cap.dir
         c1 = cards[0]
         for c2 in cards[1:]:
-            if not (c1.suit == c2.suit
-                    and c1.rank + dir == c2.rank):
+            if not (c1.suit == c2.suit and c1.rank + dir == c2.rank):
                 return 0
             c1 = c2
         return 1
@@ -149,8 +147,8 @@ class Mughal_OpenStack(OpenStack):
 class Mughal_AC_RowStack(Mughal_OpenStack):
 
     def acceptsCards(self, from_stack, cards):
-        if (not self.basicAcceptsCards(from_stack, cards)
-                or not self.isAlternateColorSequence(cards)):
+        if (not self.basicAcceptsCards(from_stack, cards) or
+                not self.isAlternateColorSequence(cards)):
             return 0
         stackcards = self.cards
         if not len(stackcards):
@@ -161,8 +159,8 @@ class Mughal_AC_RowStack(Mughal_OpenStack):
 class Mughal_AF_RowStack(Mughal_OpenStack):
 
     def acceptsCards(self, from_stack, cards):
-        if (not self.basicAcceptsCards(from_stack, cards)
-                or not self.isAlternateForceSequence(cards)):
+        if (not self.basicAcceptsCards(from_stack, cards) or
+                not self.isAlternateForceSequence(cards)):
             return 0
         stackcards = self.cards
         if not len(stackcards):
@@ -173,8 +171,8 @@ class Mughal_AF_RowStack(Mughal_OpenStack):
 class Mughal_RK_RowStack(Mughal_OpenStack):
 
     def acceptsCards(self, from_stack, cards):
-        if (not self.basicAcceptsCards(from_stack, cards)
-                or not self.isRankSequence(cards)):
+        if (not self.basicAcceptsCards(from_stack, cards) or
+                not self.isRankSequence(cards)):
             return 0
         stackcards = self.cards
         if not len(stackcards):
@@ -185,8 +183,8 @@ class Mughal_RK_RowStack(Mughal_OpenStack):
 class Mughal_SS_RowStack(Mughal_OpenStack):
 
     def acceptsCards(self, from_stack, cards):
-        if (not self.basicAcceptsCards(from_stack, cards)
-                or not self.isSuitSequence(cards)):
+        if (not self.basicAcceptsCards(from_stack, cards) or
+                not self.isSuitSequence(cards)):
             return 0
         stackcards = self.cards
         if not len(stackcards):
@@ -273,8 +271,7 @@ class AbstractMughalGame(Game):
         pass
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return (card1.rank + 1 == card2.rank
-                or card2.rank + 1 == card1.rank)
+        return (card1.rank + 1 == card2.rank or card2.rank + 1 == card1.rank)
 
 
 class Triumph_Hint(DefaultHint):
@@ -367,9 +364,9 @@ class MughalCircles(AbstractMughalGame):
         self.s.talon.dealCards()
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return ((card1.suit == card2.suit)
-                and ((card1.rank + 1 == card2.rank)
-                or (card1.rank - 1 == card2.rank)))
+        return ((card1.suit == card2.suit) and
+                ((card1.rank + 1 == card2.rank) or
+                 (card1.rank - 1 == card2.rank)))
 
 
 # ************************************************************************
@@ -532,9 +529,9 @@ class Ghulam(Shamsher):
         Shamsher.createGame(self)
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return ((card1.suit == card2.suit)
-                and ((card1.rank + 1 == card2.rank)
-                or (card1.rank - 1 == card2.rank)))
+        return ((card1.suit == card2.suit) and
+                ((card1.rank + 1 == card2.rank) or
+                 (card1.rank - 1 == card2.rank)))
 
 
 # ************************************************************************
@@ -612,9 +609,9 @@ class Ashwapati(Tipati):
         Tipati.createGame(self, max_rounds=-1, num_deal=1)
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return ((card1.suit == card2.suit)
-                and ((card1.rank + 1 == card2.rank)
-                or (card1.rank - 1 == card2.rank)))
+        return ((card1.suit == card2.suit) and
+                ((card1.rank + 1 == card2.rank) or
+                 (card1.rank - 1 == card2.rank)))
 
 
 # ************************************************************************
@@ -634,9 +631,9 @@ class Gajapati(Tipati):
         Tipati.createGame(self, max_rounds=-1, num_deal=3)
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return ((card1.suit == card2.suit)
-                and ((card1.rank + 1 == card2.rank)
-                or (card1.rank - 1 == card2.rank)))
+        return ((card1.suit == card2.suit) and
+                ((card1.rank + 1 == card2.rank) or
+                 (card1.rank - 1 == card2.rank)))
 
 
 # ************************************************************************
@@ -1003,8 +1000,8 @@ class Dikapala_ReserveStack(ReserveStack):
         OpenStack.__init__(self, x, y, game, **cap)
 
     def acceptsCards(self, from_stack, cards):
-        return (ReserveStack.acceptsCards(self, from_stack, cards)
-                and self.game.s.talon.cards)
+        return (ReserveStack.acceptsCards(self, from_stack, cards) and
+                self.game.s.talon.cards)
 
 
 class Dikapala_RowStack(BasicRowStack):

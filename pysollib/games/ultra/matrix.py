@@ -197,8 +197,8 @@ class Matrix3(Game):
         return 1
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
-        return ((card1.rank + 1 == card2.rank)
-                or (card1.rank - 1 == card2.rank))
+        return ((card1.rank + 1 == card2.rank) or
+                (card1.rank - 1 == card2.rank))
 
 
 # ************************************************************************

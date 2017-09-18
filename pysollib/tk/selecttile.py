@@ -33,7 +33,8 @@ from pysollib.mfxutil import KwStruct
 # Toolkit imports
 from .tkwidget import MfxDialog, MfxScrolledCanvas
 from .selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
-from .selecttree import SelectDialogTreeData, SelectDialogTreeCanvas
+from .selecttree import SelectDialogTreeCanvas
+from pysollib.ui.tktile.selecttree import SelectDialogTreeData
 
 
 if sys.version_info > (3,):

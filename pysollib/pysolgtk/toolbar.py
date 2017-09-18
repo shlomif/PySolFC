@@ -53,8 +53,8 @@ class PysolToolbarTk:
     #
 
     def _busy(self):
-        return not (self.side and self.game and not self.game.busy
-                    and self.menubar)
+        return not (self.side and self.game and not self.game.busy and
+                    self.menubar)
 
     def destroy(self):
         self.toolbar.destroy()

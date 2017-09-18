@@ -36,9 +36,10 @@ from pysollib.resource import CSI
 
 # Toolkit imports
 from pysollib.ui.tktile.tkutil import unbind_destroy
+from pysollib.ui.tktile.selecttree import SelectDialogTreeData
 from .tkwidget import MfxDialog, MfxScrolledCanvas
 from .selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
-from .selecttree import SelectDialogTreeData, SelectDialogTreeCanvas
+from .selecttree import SelectDialogTreeCanvas
 
 
 # ************************************************************************

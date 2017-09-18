@@ -126,7 +126,7 @@ class ResourceManager:
                 dir = os.path.normpath(dir)
                 if dir and os.path.isdir(dir) and dir not in result:
                     result.append(dir)
-        except EnvironmentError as ex:
+        except EnvironmentError:
             pass
 
     def getSearchDirs(self, app, search, env=None):
@@ -153,7 +153,7 @@ class ResourceManager:
                             self._addDir(result, d)
                     else:
                         self._addDir(result, os.path.join(dir, s))
-                except EnvironmentError as ex:
+                except EnvironmentError:
                     traceback.print_exc()
                     pass
         if DEBUG >= 6:

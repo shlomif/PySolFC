@@ -52,7 +52,7 @@ from pysollib.pysoltk import after, after_idle, after_cancel
 from pysollib.pysoltk import MfxMessageDialog, MfxExceptionDialog
 from pysollib.pysoltk import MfxCanvasText, MfxCanvasLine, MfxCanvasRectangle
 from pysollib.pysoltk import Card
-from pysollib.pysoltk import reset_solver_dialog
+from pysollib.ui.tktile.solverdialog import reset_solver_dialog
 from pysollib.move import AMoveMove, AFlipMove, AFlipAndMoveMove
 from pysollib.move import ASingleFlipMove, ATurnStackMove
 from pysollib.move import ANextRoundMove, ASaveSeedMove, AShuffleStackMove

@@ -111,10 +111,10 @@ class FontsDialog:
             fd = pango.FontDescription(font)
             family = fd.get_family()
             size = fd.get_size()/pango.SCALE
-            style = (fd.get_style() == pango.STYLE_NORMAL
-                     and 'roman' or 'italic')
-            weight = (fd.get_weight() == pango.WEIGHT_NORMAL
-                      and 'normal' or 'bold')
+            style = ('roman' if fd.get_style() == pango.STYLE_NORMAL
+                     else 'italic')
+            weight = ('normal' if fd.get_weight() == pango.WEIGHT_NORMAL
+                      else 'bold')
             font = (family, size, style, weight)
             self._setFont(name, font)
 

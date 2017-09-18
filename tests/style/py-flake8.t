@@ -20,6 +20,7 @@ my %skip = (
         pysollib/games/special/__init__.py
         pysollib/games/ultra/__init__.py
         pysollib/htmllib2.py
+        pysollib/mfxutil.py
         pysollib/pysoltk.py
         pysollib/tile/ttk.py
         pysollib/ui/tktile/Canvas2.py

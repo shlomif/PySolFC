@@ -36,8 +36,9 @@ from pysollib.resource import CSI
 from pysollib.ui.tktile.tkutil import loadImage
 from .tkwidget import MfxDialog, MfxScrolledCanvas, PysolScale
 from pysollib.ui.tktile.tkcanvas import MfxCanvasImage
+from pysollib.ui.tktile.selecttree import SelectDialogTreeData
 from .selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
-from .selecttree import SelectDialogTreeData, SelectDialogTreeCanvas
+from .selecttree import SelectDialogTreeCanvas
 
 
 # ************************************************************************

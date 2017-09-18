@@ -58,7 +58,7 @@ from pysollib.pysoltk import SelectCardsetDialogWithPreview
 from pysollib.pysoltk import SelectDialogTreeData
 from pysollib.pysoltk import HTMLViewer
 from pysollib.pysoltk import destroy_find_card_dialog
-from pysollib.pysoltk import destroy_solver_dialog
+from pysollib.ui.tktile.solverdialog import destroy_solver_dialog
 
 from pysollib.actions import PysolMenubar
 from pysollib.actions import PysolToolbar

@@ -9,7 +9,7 @@ Fish](http://www.shlomifish.org/) and by some other
 people, aiming to clean up the code, add features, fix bugs, port to Python
 3, and implement other enhancements.
 
-[![Build Status](https://travis-ci.org/shlomif/PySolFC.svg?branch=shlomif--main-branch--master)](https://travis-ci.org/shlomif/PySolFC)
+[![Build Status](https://travis-ci.org/shlomif/PySolFC.svg)](https://travis-ci.org/shlomif/PySolFC)
 
 # Screenshots
 

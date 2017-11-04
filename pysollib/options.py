@@ -112,6 +112,7 @@ visible_buttons = string_list
 translate_game_names = boolean
 solver_presets = string_list
 solver_show_progress = boolean
+solver_max_iterations = integer
 
 [sound_samples]
 move = boolean
@@ -246,6 +247,7 @@ class Options:
         ('translate_game_names', 'bool'),
         ('solver_presets', 'list'),
         ('solver_show_progress', 'bool'),
+        ('solver_max_iterations', 'int'),
         # ('toolbar_vars', 'list'),
         # ('recent_gameid', 'list'),
         # ('favorite_gameid', 'list'),
@@ -413,6 +415,7 @@ class Options:
             'yellow-brick-road',
             ]
         self.solver_show_progress = True
+        self.solver_max_iterations = 100000
 
     def setDefaults(self, top=None):
         WIN_SYSTEM = pysollib.settings.WIN_SYSTEM

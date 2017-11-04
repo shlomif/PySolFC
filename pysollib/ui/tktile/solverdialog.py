@@ -9,6 +9,9 @@ class BaseSolverDialog:
     def _ToggleShowProgressButton(self, *args):
         self.app.opt.solver_show_progress = self.progress_var.get()
 
+    def _OnAssignToMaxIters(self, *args):
+        self.app.opt.solver_max_iterations = self.max_iters_var.get()
+
     def __init__(self, parent, app, **kw):
         self.parent = parent
         self.app = app
@@ -52,12 +55,13 @@ class BaseSolverDialog:
         #
         row += 1
         self.max_iters_var = tkinter.IntVar()
-        self.max_iters_var.set(10e4)
+        self.max_iters_var.set(self.app.opt.solver_max_iterations)
         self._calcToolkit().Label(
             frame, text=_('Max iterations:'), anchor='w').grid(
             row=row, column=0, sticky='ew', padx=2, pady=2)
         spin = tkinter.Spinbox(frame, bg='white', from_=1000, to=10e6,
                                increment=1000, textvariable=self.max_iters_var)
+        self.max_iters_var.trace('w', self._OnAssignToMaxIters)
         spin.grid(row=row, column=1, sticky='w', padx=2, pady=2)
 
         #

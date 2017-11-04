@@ -235,9 +235,9 @@ class ATurnStackMove(AtomicMove):
         to_stack = game.allstacks[self.to_stack_id]
         assert len(from_stack.cards) > 0
         assert len(to_stack.cards) == 0
-        l = len(from_stack.cards)
-        for i in range(l):
-            # unhide = (i >= l - 2)
+        mylen = len(from_stack.cards)
+        for i in range(mylen):
+            # unhide = (i >= mylen - 2)
             unhide = 1
             # print 1, unhide, from_stack.getCard().__dict__
             card = from_stack.removeCard(unhide=unhide, update=0)
@@ -254,9 +254,9 @@ class ATurnStackMove(AtomicMove):
         to_stack = game.allstacks[self.from_stack_id]
         assert len(from_stack.cards) > 0
         assert len(to_stack.cards) == 0
-        l = len(from_stack.cards)
-        for i in range(l):
-            # unhide = (i >= l - 2)
+        mylen = len(from_stack.cards)
+        for i in range(mylen):
+            # unhide = (i >= mylen - 2)
             unhide = 1
             card = from_stack.removeCard(unhide=unhide, update=0)
             assert not card.face_up

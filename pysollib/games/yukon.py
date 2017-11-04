@@ -153,8 +153,8 @@ class Grandfather(RussianSolitaire):
     Talon_Class = StackWrapper(Grandfather_Talon, max_rounds=3)
 
     def createGame(self):
-        l = Yukon.createGame(self)
-        l.createRoundText(self.s.talon, 'nn')
+        layout = Yukon.createGame(self)
+        layout.createRoundText(self.s.talon, 'nn')
 
     def startGame(self):
         frames = 0
@@ -309,14 +309,15 @@ class Abacus(Rushdike):
     RowStack_Class = Abacus_RowStack
 
     def createGame(self):
-        l = Rushdike.createGame(self)
+        layout = Rushdike.createGame(self)
         help = (_('''\
 Club:    A 2 3 4 5 6 7 8 9 T J Q K
 Spade:   2 4 6 8 T Q A 3 5 7 9 J K
 Heart:   3 6 9 Q 2 5 8 J A 4 7 T K
 Diamond: 4 8 Q 3 7 J 2 6 T A 5 9 K'''))
         self.texts.help = MfxCanvasText(self.canvas,
-                                        l.XM, self.height - l.YM, text=help,
+                                        layout.XM, self.height - layout.YM,
+                                        text=help,
                                         anchor="sw",
                                         font=self.app.getFont("canvas_fixed"))
 
@@ -405,21 +406,21 @@ class TenAcross(Yukon):
 
     def createGame(self, **layout):
         # create layout
-        l, s = Layout(self), self.s
+        lay, s = Layout(self), self.s
         kwdefault(layout, rows=10, reserves=2, texts=0)
-        self.Layout_Method(l, **layout)
-        self.setSize(l.size[0], l.size[1])
+        self.Layout_Method(lay, **layout)
+        self.setSize(lay.size[0], lay.size[1])
         # create stacks
-        s.talon = InitialDealTalonStack(l.s.talon.x, l.s.talon.y, self)
-        for r in l.s.foundations:
+        s.talon = InitialDealTalonStack(lay.s.talon.x, lay.s.talon.y, self)
+        for r in lay.s.foundations:
             self.s.foundations.append(
                 self.Foundation_Class(r.x, r.y, self, suit=r.suit))
-        for r in l.s.rows:
+        for r in lay.s.rows:
             s.rows.append(self.RowStack_Class(r.x, r.y, self))
-        for r in l.s.reserves:
+        for r in lay.s.reserves:
             self.s.reserves.append(ReserveStack(r.x, r.y, self))
         # default
-        l.defaultAll()
+        lay.defaultAll()
 
     #
     # game overrides

@@ -70,7 +70,7 @@ class AbstractAudioClient:
             try:
                 if self._connectServer():
                     self.connected = 1
-            except:
+            except Exception:
                 if traceback:
                     traceback.print_exc()
                 self.destroy()
@@ -102,7 +102,7 @@ class AbstractAudioClient:
                 self.sample_priority = priority
                 self.sample_loop = loop
                 return 1
-        except:
+        except Exception:
             if traceback:
                 traceback.print_exc()
         return 0
@@ -112,7 +112,7 @@ class AbstractAudioClient:
             return
         try:
             self._stopSamples()
-        except:
+        except Exception:
             if traceback:
                 traceback.print_exc()
         self.sample_priority = -1
@@ -123,7 +123,7 @@ class AbstractAudioClient:
             return
         try:
             self._stopSamplesLoop()
-        except:
+        except Exception:
             if traceback:
                 traceback.print_exc()
         self.sample_priority = -1
@@ -184,7 +184,7 @@ class PysolSoundServerModuleClient(AbstractAudioClient):
             self.audiodev = pysolsoundserver
             self.audiodev.init()
             self.server = 1
-        except:
+        except Exception:
             if traceback:
                 traceback.print_exc()
             self.server = None
@@ -236,7 +236,7 @@ class PysolSoundServerModuleClient(AbstractAudioClient):
                              % (music.absname, music.index, 0, loop,
                                 music.volume))
             self.cmd("startqueue")
-        except:
+        except Exception:
             if traceback:
                 traceback.print_exc()
 
@@ -253,7 +253,7 @@ class PysolSoundServerModuleClient(AbstractAudioClient):
         try:
             self.cmd("setwavvol %d" % s)
             self.cmd("setmusvol %d" % m)
-        except:
+        except Exception:
             if traceback:
                 traceback.print_exc()
 
@@ -286,7 +286,7 @@ class Win32AudioClient(AbstractAudioClient):
         try:
             a.PlaySound(filename, flags)
             return 1
-        except:
+        except Exception:
             pass
         return 0
 
@@ -352,7 +352,7 @@ class OSSAudioServer:
             # audiodev.close()
             # self.audiodev = ossaudiodev.open('w')
             return 1
-        except:
+        except Exception:
             if traceback:
                 traceback.print_exc()
             return 0
@@ -373,7 +373,7 @@ class OSSAudioServer:
             self.sound_priority = priority
             self._busy = False
             return 1
-        except:
+        except Exception:
             if traceback:
                 traceback.print_exc()
             self._busy = False
@@ -469,7 +469,7 @@ class PyGameAudioClient(AbstractAudioClient):
             self.sound = self.mixer.Sound(filename)
             self.sound.set_volume(vol)
             self.sound_channel = self.sound.play(loop)
-        except:
+        except Exception:
             if traceback:
                 traceback.print_exc()
             pass
@@ -501,7 +501,7 @@ class PyGameAudioClient(AbstractAudioClient):
                     while self.music and self.music.get_busy():
                         self._wait(200)
                     self._wait(300)
-                except:
+                except Exception:
                     # if traceback: traceback.print_exc()
                     self._wait(1000)
 

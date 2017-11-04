@@ -131,10 +131,11 @@ class SingleGame_StatsDialog(MfxDialog):
         self.fg = c.option_get('foreground', '') or c.cget("insertbackground")
         #
         c.create_rectangle(2, 7, w, h, fill="", outline="#7f7f7f")
-        l = tkinter.Label(c, text=text, font=self.font, bd=0, padx=3, pady=1)
+        label = tkinter.Label(c, text=text, font=self.font, bd=0, padx=3,
+                              pady=1)
         dy = int(self.font_metrics['ascent']) - 10
         dy //= 2
-        c.create_window(20, -dy, window=l, anchor="nw")
+        c.create_window(20, -dy, window=label, anchor="nw")
 
     def _createChartTexts(self, tx, ty, won, lost):
         c, tfont, fg = self.canvas, self.font, self.fg
@@ -678,34 +679,34 @@ class _TopDialog(MfxDialog):
         frame.columnconfigure(0, weight=1)
         cnf['master'] = frame
         cnf['text'] = _('N')
-        l = tkinter.Label(**cnf)
-        l.grid(row=0, column=0, sticky='ew')
+        label = tkinter.Label(**cnf)
+        label.grid(row=0, column=0, sticky='ew')
         cnf['text'] = _('Game number')
-        l = tkinter.Label(**cnf)
-        l.grid(row=0, column=1, sticky='ew')
+        label = tkinter.Label(**cnf)
+        label.grid(row=0, column=1, sticky='ew')
         cnf['text'] = _('Started at')
-        l = tkinter.Label(**cnf)
-        l.grid(row=0, column=2, sticky='ew')
+        label = tkinter.Label(**cnf)
+        label.grid(row=0, column=2, sticky='ew')
         cnf['text'] = _('Result')
-        l = tkinter.Label(**cnf)
-        l.grid(row=0, column=3, sticky='ew')
+        label = tkinter.Label(**cnf)
+        label.grid(row=0, column=3, sticky='ew')
 
         row = 1
         for i in top:
             # N
             cnf['text'] = str(row)
-            l = tkinter.Label(**cnf)
-            l.grid(row=row, column=0, sticky='ew')
+            label = tkinter.Label(**cnf)
+            label.grid(row=row, column=0, sticky='ew')
             # Game number
             cnf['text'] = '#'+str(i.game_number)
-            l = tkinter.Label(**cnf)
-            l.grid(row=row, column=1, sticky='ew')
+            label = tkinter.Label(**cnf)
+            label.grid(row=row, column=1, sticky='ew')
             # Start time
             t = time.strftime(
                 '%Y-%m-%d %H:%M', time.localtime(i.game_start_time))
             cnf['text'] = t
-            l = tkinter.Label(**cnf)
-            l.grid(row=row, column=2, sticky='ew')
+            label = tkinter.Label(**cnf)
+            label.grid(row=row, column=2, sticky='ew')
             # Result
             if isinstance(i.value, float):
                 # time
@@ -714,8 +715,8 @@ class _TopDialog(MfxDialog):
                 # moves
                 s = str(i.value)
             cnf['text'] = s
-            l = tkinter.Label(**cnf)
-            l.grid(row=row, column=3, sticky='ew')
+            label = tkinter.Label(**cnf)
+            label.grid(row=row, column=3, sticky='ew')
             row += 1
 
         focus = self.createButtons(bottom_frame, kw)
@@ -864,7 +865,7 @@ class ProgressionDialog(MfxDialog):
             fn = app.dataloader.findImage('progression', dir)
             self.bg_image = loadImage(fn)
             canvas.create_image(0, 0, image=self.bg_image, anchor='nw')
-        except:
+        except Exception:
             pass
         #
         tw = max(measure(_('Games/day')),

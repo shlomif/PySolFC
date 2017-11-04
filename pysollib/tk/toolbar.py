@@ -179,7 +179,7 @@ class PysolToolbarTk:
         self.frame = tkinter.Frame(top, relief=TkSettings.toolbar_relief,
                                    bd=TkSettings.toolbar_borderwidth)
         #
-        for l, f, t in (
+        for label, f, t in (
             (n_("New"),      self.mNewGame,   _("New game")),
             (n_("Restart"),  self.mRestart,   _("Restart the\ncurrent game")),
             (None,           None,            None),
@@ -197,14 +197,14 @@ class PysolToolbarTk:
             (None,           None,            None),
             (n_("Quit"),     self.mQuit,      _("Quit ")+TITLE),
                 ):
-            if l is None:
+            if label is None:
                 sep = self._createSeparator()
                 sep.bind("<1>", self.clickHandler)
                 sep.bind("<3>", self.rightclickHandler)
-            elif l == 'Pause':
-                self._createButton(l, f, check=True, tooltip=t)
+            elif label == 'Pause':
+                self._createButton(label, f, check=True, tooltip=t)
             else:
-                self._createButton(l, f, tooltip=t)
+                self._createButton(label, f, tooltip=t)
         self.pause_button.config(variable=menubar.tkopt.pause)
 
         sep = self._createFlatSeparator()
@@ -437,12 +437,12 @@ class PysolToolbarTk:
                 name = w.toolbar_name
                 image = self._loadImage(name)
                 data.append((name, w, image))
-        except:
+        except Exception:
             self.dir, self.size = old_dir, old_size
             return 0
-        l = self.player_label
+        label = self.player_label
         aspect = (400, 300)[size != 0]
-        l.config(aspect=aspect)
+        label.config(aspect=aspect)
         for name, w, image in data:
             w.config(image=image)
             setattr(self, name + "_image", image)

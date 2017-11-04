@@ -91,13 +91,13 @@ class MfxDialog:  # ex. _ToplevelDialog
         unbind_destroy(self.top)
         try:
             self.top.wm_withdraw()
-        except:
+        except Exception:
             if traceback:
                 traceback.print_exc()
             pass
         try:
             self.top.destroy()
-        except:
+        except Exception:
             if traceback:
                 traceback.print_exc()
             pass
@@ -110,7 +110,7 @@ class MfxDialog:  # ex. _ToplevelDialog
                     self.parent.busyUpdate()
                 else:
                     self.parent.update()
-            except:
+            except Exception:
                 if traceback:
                     traceback.print_exc()
                 pass
@@ -246,10 +246,10 @@ class MfxDialog:  # ex. _ToplevelDialog
             column += 1
             b.grid(column=column, row=0, sticky="ns", padx=padx, pady=pady)
         if focus is not None:
-            l = (lambda event=None, self=self, button=kw.default:
-                 self.mDone(button))
-            bind(self.top, "<Return>", l)
-            bind(self.top, "<KP_Enter>", l)
+            cb = (lambda event=None, self=self, button=kw.default:
+                  self.mDone(button))
+            bind(self.top, "<Return>", cb)
+            bind(self.top, "<KP_Enter>", cb)
         frame.columnconfigure(0, weight=1)
         frame.columnconfigure(99, weight=1)
         return focus

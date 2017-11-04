@@ -313,12 +313,12 @@ class MfxCanvas(tkinter.Canvas):
             if Image:
                 try:
                     self._bg_img = Image.open(image)
-                except:
+                except Exception:
                     return 0
             else:
                 try:
                     self._bg_img = loadImage(file=image, dither=1)
-                except:
+                except Exception:
                     return 0
             self._stretch_bg_image = stretch
             self._save_aspect_bg_image = save_aspect

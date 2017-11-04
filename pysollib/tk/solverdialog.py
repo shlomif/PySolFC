@@ -94,6 +94,6 @@ def create_solver_dialog(parent, game):
     try:
         solver_dialog.top.wm_deiconify()
         solver_dialog.top.tkraise()
-    except:
+    except Exception:
         # traceback.print_exc()
         solver_dialog = SolverDialog(parent, game)

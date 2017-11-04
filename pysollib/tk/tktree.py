@@ -50,9 +50,9 @@ class MfxTreeBaseNode:
 
     def registerKey(self):
         if self.key is not None:
-            l = self.tree.keys.get(self.key, [])
-            l.append(self)
-            self.tree.keys[self.key] = l
+            lst = self.tree.keys.get(self.key, [])
+            lst.append(self)
+            self.tree.keys[self.key] = lst
 
     def whoami(self):
         if self.parent_node is None:

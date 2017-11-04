@@ -528,13 +528,14 @@ class GreatWall(AbstractFlowerGame):
             return
         for i in range(4):
             stack = self.s.foundations[i]
-            l = len(stack.cards) // 12
-            if l == 0:
+            mylen = len(stack.cards) // 12
+            if mylen == 0:
                 text = ""
-            elif l == 4:
+            elif mylen == 4:
                 text = _("Filled")
             else:
-                text = str(l) + (_("st"), _("nd"), _("rd"), _("th"))[l - 1] \
+                text = str(mylen) + \
+                    (_("st"), _("nd"), _("rd"), _("th"))[mylen - 1] \
                     + _(" Deck")
             stack.texts.misc.config(text=text)
 

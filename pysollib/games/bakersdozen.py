@@ -283,8 +283,8 @@ class RoyalFamily(Cruel):
     RowStack_Class = UD_AC_RowStack
 
     def createGame(self):
-        l = Cruel.createGame(self)
-        l.createRoundText(self.s.talon, 'sw')
+        lay = Cruel.createGame(self)
+        lay.createRoundText(self.s.talon, 'sw')
 
     def _shuffleHook(self, cards):
         # move Kings to bottom of the Talon (i.e. last cards to be dealt)
@@ -300,8 +300,8 @@ class Indefatigable(Cruel):
     RowStack_Class = UD_SS_RowStack
 
     def createGame(self):
-        l = Cruel.createGame(self)
-        l.createRoundText(self.s.talon, 'sw')
+        lay = Cruel.createGame(self)
+        lay.createRoundText(self.s.talon, 'sw')
 
     def _shuffleHook(self, cards):
         # move Aces to bottom of the Talon (i.e. last cards to be dealt)
@@ -323,8 +323,8 @@ class Perseverance(Cruel, BakersDozen):
     Solver_Class = None
 
     def createGame(self):
-        l = Cruel.createGame(self)
-        l.createRoundText(self.s.talon, 'sw')
+        lay = Cruel.createGame(self)
+        lay.createRoundText(self.s.talon, 'sw')
 
     def _shuffleHook(self, cards):
         # move Kings to bottom of each stack (???)

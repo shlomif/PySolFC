@@ -111,9 +111,9 @@ class ResourceManager:
 
     def getAllSortedByName(self):
         if self._objects_by_name is None:
-            l = [(obj.getSortKey(), obj) for obj in self._objects]
-            l.sort()
-            self._objects_by_name = tuple([item[1] for item in l])
+            lst = [(obj.getSortKey(), obj) for obj in self._objects]
+            lst.sort()
+            self._objects_by_name = tuple([item[1] for item in lst])
         return self._objects_by_name
 
     #

@@ -759,7 +759,7 @@ class AnnoDomini(Numerica):
     RowStack_Class = StackWrapper(AC_RowStack, mod=13)
 
     def createGame(self):
-        l = Numerica.createGame(
+        lay = Numerica.createGame(
             self, max_rounds=3, waste_max_cards=UNLIMITED_CARDS)
         year = str(time.localtime()[0])
         i = 0
@@ -772,7 +772,7 @@ class AnnoDomini(Numerica):
                 d = JACK
             s.cap.base_rank = d
             i += 1
-        l.createRoundText(self.s.talon, 'nn')
+        lay.createRoundText(self.s.talon, 'nn')
 
     def startGame(self):
         self.startDealSample()

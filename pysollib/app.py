@@ -425,13 +425,13 @@ class Application:
         # try to load statistics
         try:
             self.loadStatistics()
-        except:
+        except Exception:
             traceback.print_exc()
             pass
         # try to load comments
         try:
             self.loadComments()
-        except:
+        except Exception:
             traceback.print_exc()
             pass
         # startup information
@@ -444,7 +444,7 @@ class Application:
             game = None
             try:
                 game = tmpgame._loadGame(self.fn.holdgame, self)
-            except:
+            except Exception:
                 traceback.print_exc()
                 game = None
             if game:
@@ -463,7 +463,7 @@ class Application:
                     self.nextgame.loadedgame = tmpgame._loadGame(
                         self.commandline.loadgame, self)
                     self.nextgame.loadedgame.gstats.holded = 0
-                except:
+                except Exception:
                     traceback.print_exc()
                     self.nextgame.loadedgame = None
             elif self.commandline.game is not None:
@@ -541,7 +541,7 @@ class Application:
                         self.game.gstats.holded = 1
                         self.game._saveGame(self.fn.holdgame)
                         self.opt.game_holded = self.game.id
-                    except:
+                    except Exception:
                         traceback.print_exc()
                         pass
                 self.wm_save_state()
@@ -573,25 +573,25 @@ class Application:
             # save options
             try:
                 self.saveOptions()
-            except:
+            except Exception:
                 traceback.print_exc()
                 pass
             # save statistics
             try:
                 self.saveStatistics()
-            except:
+            except Exception:
                 traceback.print_exc()
                 pass
             # save comments
             try:
                 self.saveComments()
-            except:
+            except Exception:
                 traceback.print_exc()
                 pass
             # shut down audio
             try:
                 self.audio.destroy()
-            except:
+            except Exception:
                 traceback.print_exc()
                 pass
 
@@ -1074,7 +1074,7 @@ Please select a %s type %s.
                 self.opt.__dict__.update(opt.__dict__)
             try:
                 os.remove(self.fn.opt)
-            except:
+            except Exception:
                 pass
         self.opt.load(self.fn.opt_cfg)
         self.opt.setConstants()

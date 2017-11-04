@@ -145,7 +145,7 @@ def win32_getusername():
     user = os.environ.get('USERNAME', '').strip()
     try:
         user = unicode(user, locale.getpreferredencoding())
-    except:
+    except Exception:
         user = ''
     return user
 
@@ -304,6 +304,6 @@ def openURL(url):
         webbrowser.open(url)
     except OSError:                  # raised on windows if link is unreadable
         pass
-    except:
+    except Exception:
         return 0
     return 1

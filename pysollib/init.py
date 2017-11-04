@@ -38,9 +38,9 @@ def init():
 
     if os.name == 'nt' and 'LANG' not in os.environ:
         try:
-            l = locale.getdefaultlocale()
-            os.environ['LANG'] = l[0]
-        except:
+            loc = locale.getdefaultlocale()
+            os.environ['LANG'] = loc[0]
+        except Exception:
             pass
     # locale.setlocale(locale.LC_ALL, '')
 
@@ -66,7 +66,7 @@ def init():
     if 'PYSOL_DEBUG' in os.environ:
         try:
             pysollib.settings.DEBUG = int(os.environ['PYSOL_DEBUG'])
-        except:
+        except Exception:
             pysollib.settings.DEBUG = 1
         print(('PySol debugging: set DEBUG to', pysollib.settings.DEBUG))
 
@@ -135,7 +135,7 @@ def init():
                 pysollib.settings.USE_FREECELL_SOLVER = True
             if os.name == 'posix':
                 os.wait()               # kill zombi
-        except:
+        except Exception:
             # traceback.print_exc()
             pass
     os.environ['FREECELL_SOLVER_QUIET'] = '1'

@@ -189,11 +189,11 @@ class Matrix3(Game):
         if self.busy:
             return 0
         s = self.s.rows
-        l = len(s) - 1
-        for r in s[:l]:
+        mylen = len(s) - 1
+        for r in s[:mylen]:
             if not r.cards or not r.cards[0].rank == r.id:
                 return 0
-        self.s.talon.dealRow(rows=s[l:], frames=0)
+        self.s.talon.dealRow(rows=s[mylen:], frames=0)
         return 1
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):

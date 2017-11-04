@@ -387,7 +387,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             for n in names:
                 f = os.path.join(cs.dir, n + cs.ext)
                 self.preview_images.append(loadImage(file=f))
-        except:
+        except Exception:
             self.preview_key = -1
             self.preview_images = []
             return
@@ -461,12 +461,12 @@ class CardsetInfoDialog(MfxDialog):
             (_('Size:'), '%d x %d' % (cardset.CARDW, cardset.CARDH)),
                 ):
             if t is not None:
-                l = ttk.Label(info_frame, text=n,
-                              anchor='w', justify='left')
-                l.grid(row=frow, column=0, sticky='nw', padx=4)
-                l = ttk.Label(info_frame, text=t,
-                              anchor='w', justify='left')
-                l.grid(row=frow, column=1, sticky='nw', padx=4)
+                label = ttk.Label(info_frame, text=n,
+                                  anchor='w', justify='left')
+                label.grid(row=frow, column=0, sticky='nw', padx=4)
+                label = ttk.Label(info_frame, text=t,
+                                  anchor='w', justify='left')
+                label.grid(row=frow, column=1, sticky='nw', padx=4)
                 frow += 1
         if images:
             try:
@@ -474,15 +474,15 @@ class CardsetInfoDialog(MfxDialog):
                 im = choice(images)
                 f = os.path.join(cardset.dir, cardset.backname)
                 self.back_image = loadImage(file=f)  # store the image
-                l = ttk.Label(info_frame, image=im, padding=5)
-                l.grid(row=0, column=2, rowspan=frow+1, sticky='ne')
-                l = ttk.Label(info_frame, image=self.back_image,
-                              padding=(0, 5, 5, 5))  # left margin = 0
-                l.grid(row=0, column=3, rowspan=frow+1, sticky='ne')
+                label = ttk.Label(info_frame, image=im, padding=5)
+                label.grid(row=0, column=2, rowspan=frow+1, sticky='ne')
+                label = ttk.Label(info_frame, image=self.back_image,
+                                  padding=(0, 5, 5, 5))  # left margin = 0
+                label.grid(row=0, column=3, rowspan=frow+1, sticky='ne')
 
                 info_frame.columnconfigure(2, weight=1)
                 info_frame.rowconfigure(frow, weight=1)
-            except:
+            except Exception:
                 pass
         if USE_PIL:
             padx = 4
@@ -529,7 +529,7 @@ class CardsetInfoDialog(MfxDialog):
         f = os.path.join(cardset.dir, "COPYRIGHT")
         try:
             text = open(f).read()
-        except:
+        except Exception:
             pass
         if text:
             text_w.config(state="normal")

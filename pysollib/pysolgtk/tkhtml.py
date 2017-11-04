@@ -331,7 +331,7 @@ class HTMLViewer:
         try:  # if app
             default_font = self.app.getFont('sans')
             fixed_font = self.app.getFont('fixed')
-        except:
+        except Exception:
             traceback.print_exc()
             default_font = ('times new roman', 12)
             fixed_font = ('courier', 12)
@@ -428,7 +428,7 @@ class HTMLViewer:
             # self.app.game.stopDemo()
             # self.app.game._cancelDrag()
             pass
-        except:
+        except Exception:
             pass
 
         # ftp: and http: would work if we use urllib, but this widget is
@@ -465,7 +465,7 @@ to open the following URL:
             self.errorDialog(
                 _('Unable to service request:\n') + url + '\n\n' + str(ex))
             return
-        except:
+        except Exception:
             if file:
                 file.close()
             self.errorDialog(_('Unable to service request:\n') + url)
@@ -548,7 +548,7 @@ to open the following URL:
             return self.images[fn]
         try:
             img = gdk.pixbuf_new_from_file(fn)
-        except:
+        except Exception:
             img = None
         self.images[fn] = img
         return img
@@ -569,7 +569,7 @@ to open the following URL:
 def tkhtml_main(args):
     try:
         url = args[1]
-    except:
+    except Exception:
         url = os.path.join(os.pardir, os.pardir, 'data', 'html', 'index.html')
     top = gtk.Window()
     table = gtk.Table()

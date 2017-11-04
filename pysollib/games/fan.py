@@ -342,13 +342,13 @@ class ThreeShufflesAndADraw(LaBelleLucie):
         ThreeShufflesAndADraw_RowStack, base_rank=NO_RANK)
 
     def createGame(self):
-        l = LaBelleLucie.createGame(self)
+        lay = LaBelleLucie.createGame(self)
         s = self.s
         # add a reserve stack
         x, y = s.rows[3].x, s.rows[-1].y
         s.reserves.append(ThreeShufflesAndADraw_ReserveStack(x, y, self))
         # redefine the stack-groups
-        l.defaultStackGroups()
+        lay.defaultStackGroups()
         # extra settings
         self.draw_done = 0
 
@@ -450,18 +450,18 @@ class Intelligence(Fan):
     RowStack_Class = StackWrapper(Intelligence_RowStack, base_rank=NO_RANK)
 
     def createGame(self, rows=(5, 5, 5, 3)):
-        l = Fan.createGame(self, rows)
+        lay = Fan.createGame(self, rows)
         s = self.s
         # add a reserve stack
-        x, y = s.talon.x - l.XS, s.talon.y
+        x, y = s.talon.x - lay.XS, s.talon.y
         s.reserves.append(
             Intelligence_ReserveStack(
                 x, y, self, max_move=0, max_accept=0,
                 max_cards=UNLIMITED_CARDS))
-        l.createText(s.reserves[0], "sw")
-        l.createRoundText(s.talon, 'nn')
+        lay.createText(s.reserves[0], "sw")
+        lay.createRoundText(s.talon, 'nn')
         # redefine the stack-groups
-        l.defaultStackGroups()
+        lay.defaultStackGroups()
 
     def startGame(self):
         talon = self.s.talon

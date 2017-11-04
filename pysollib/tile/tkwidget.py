@@ -127,7 +127,7 @@ class MfxDialog:  # ex. _ToplevelDialog
                     key = unicode(key, locale.getpreferredencoding())
                 else:
                     key = unicode(key, 'utf-8')
-            except:
+            except Exception:
                 pass
             else:
                 key = key.lower()
@@ -247,10 +247,10 @@ class MfxDialog:  # ex. _ToplevelDialog
             widget.grid(
                 column=column, row=0, sticky="nse", padx=padx, pady=pady)
         if focus is not None:
-            def l(event=None, w=focus):
+            def cb(event=None, w=focus):
                 return w.event_generate('<<Invoke>>')
-            bind(self.top, "<Return>", l)
-            bind(self.top, "<KP_Enter>", l)
+            bind(self.top, "<Return>", cb)
+            bind(self.top, "<KP_Enter>", cb)
         # right justify
         frame.columnconfigure(sep_column, weight=1)
         return focus

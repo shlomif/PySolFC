@@ -23,12 +23,12 @@ eval('import pysollib.games.special')
 
 try:
     os.mkdir('html')
-except:
+except Exception:
     pass
 
 try:
     os.mkdir('html/rules')
-except:
+except Exception:
     pass
 
 pysollib_path = os.path.join(sys.path[0], pysollib_dir)

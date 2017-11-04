@@ -207,7 +207,7 @@ def create_find_card_dialog(parent, game, dir):
     try:
         find_card_dialog.wm_deiconify()
         find_card_dialog.tkraise()
-    except:
+    except Exception:
         # traceback.print_exc()
         find_card_dialog = FindCardDialog(parent, game, dir)
 
@@ -215,7 +215,7 @@ def create_find_card_dialog(parent, game, dir):
 def connect_game_find_card_dialog(game):
     try:
         find_card_dialog.connectGame(game)
-    except:
+    except Exception:
         pass
 
 
@@ -223,7 +223,7 @@ def destroy_find_card_dialog():
     global find_card_dialog
     try:
         find_card_dialog.destroy()
-    except:
+    except Exception:
         # traceback.print_exc()
         pass
     find_card_dialog = None

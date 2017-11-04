@@ -86,12 +86,12 @@ class BaseColorsDialog:
             self._calcLabel()(
                 frame, text=title, anchor='w',).grid(
                 row=row, column=0, sticky='we')
-            l = tkinter.Label(frame, width=10, height=2,
-                              bg=var.get(), textvariable=var)
-            l.grid(row=row, column=1, padx=5)
+            label = tkinter.Label(frame, width=10, height=2,
+                                  bg=var.get(), textvariable=var)
+            label.grid(row=row, column=1, padx=5)
             b = self._calcButton()(
                 frame, text=_('Change...'), width=10,
-                command=lambda l=l: self.selectColor(l))
+                command=lambda label=label: self.selectColor(label))
             b.grid(row=row, column=2)
             row += 1
         #
@@ -111,7 +111,7 @@ class BaseColorsDialog:
         try:
             c = askcolor(parent=self.top, initialcolor=label.cget('bg'),
                          title=_("Select color"))
-        except:
+        except Exception:
             pass
         else:
             if c and c[1]:

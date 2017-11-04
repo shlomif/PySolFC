@@ -523,11 +523,12 @@ class Stack:
         if from_stack is self or self.basicIsBlocked():
             return False
         cap = self.cap
-        l = len(cards)
-        if l < cap.min_accept or l > cap.max_accept:
+        mylen = len(cards)
+        if mylen < cap.min_accept or mylen > cap.max_accept:
             return False
-        l = l + len(self.cards)
-        if l > cap.max_cards:       # note: we don't check cap.min_cards here
+        mylen = mylen + len(self.cards)
+        # note: we don't check cap.min_cards here
+        if mylen > cap.max_cards:
             return False
         for c in cards:
             if not c.face_up:
@@ -557,11 +558,12 @@ class Stack:
         if self.basicIsBlocked():
             return False
         cap = self.cap
-        l = len(cards)
-        if l < cap.min_move or l > cap.max_move:
+        mylen = len(cards)
+        if mylen < cap.min_move or mylen > cap.max_move:
             return False
-        l = len(self.cards) - l
-        if l < cap.min_cards:       # note: we don't check cap.max_cards here
+        mylen = len(self.cards) - mylen
+        # note: we don't check cap.max_cards here
+        if mylen < cap.min_cards:
             return False
         return cardsFaceUp(cards)
 
@@ -1325,8 +1327,8 @@ class Stack:
     def createShadows(self, cards, dx=0, dy=0):
         if not self.game.app.opt.shadow or self.canvas.preview > 1:
             return ()
-        l = len(cards)
-        if l == 0 or l > self.max_shadow_cards:
+        mylen = len(cards)
+        if mylen == 0 or mylen > self.max_shadow_cards:
             return ()
         images = self.game.app.images
         cx, cy = cards[0].x, cards[0].y
@@ -1350,7 +1352,7 @@ class Stack:
                 if c.x != cx or abs(c.y - cy) != images.CARD_YOFFSET:
                     return ()
                 cy = c.y
-            img0, img1 = images.getShadow(0), images.getShadow(l)
+            img0, img1 = images.getShadow(0), images.getShadow(mylen)
             c0 = cards[-1]
             if self.CARD_YOFFSET[0] < 0:
                 c0 = cards[0]
@@ -1359,7 +1361,7 @@ class Stack:
                 if c.y != cy or abs(c.x - cx) != images.CARD_XOFFSET:
                     return ()
                 cx = c.x
-            img0, img1 = images.getShadow(-l), images.getShadow(1)
+            img0, img1 = images.getShadow(-mylen), images.getShadow(1)
             c0 = cards[-1]
             if self.CARD_XOFFSET[0] < 0:
                 c0 = cards[0]
@@ -1496,12 +1498,12 @@ class Stack:
                                    fill="", outline=color, width=4,
                                    group=self.group)
             drag.shadows.append(r)
-            #  l = MfxCanvasLine(self.canvas, xx0, yy0, xx0+w, yy0+h,
+            #  mylen = MfxCanvasLine(self.canvas, xx0, yy0, xx0+w, yy0+h,
             #                    fill=color, width=4)
-            #  drag.shadows.append(l)
-            #  l = MfxCanvasLine(self.canvas, xx0, yy0+h, xx0+w, yy0,
+            #  drag.shadows.append(mylen)
+            #  mylen = MfxCanvasLine(self.canvas, xx0, yy0+h, xx0+w, yy0,
             #                    fill=color, width=4)
-            #  drag.shadows.append(l)
+            #  drag.shadows.append(mylen)
             return
         #
         shade = Image.new('RGBA', (w, h))

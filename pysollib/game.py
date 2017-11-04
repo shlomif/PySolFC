@@ -2904,9 +2904,9 @@ Congratulations, you did it !
         # try to detect a redo move in order to keep our history
         redo = 0
         if moves.index + 1 < len(moves.history):
-            l, m = len(current), moves.history[moves.index]
-            if l == len(m):
-                for i in range(l):
+            mylen, m = len(current), moves.history[moves.index]
+            if mylen == len(m):
+                for i in range(mylen):
                     a1 = current[i]
                     a2 = m[i]
                     if a1.__class__ is not a2.__class__ or \
@@ -3022,7 +3022,7 @@ Congratulations, you did it !
         try:
             self._dumpGame(p, bookmark=2)
             bm = (file.getvalue(), self.moves.index)
-        except:
+        except Exception:
             pass
         else:
             self.gsaveinfo.bookmarks[n] = bm
@@ -3049,7 +3049,7 @@ Congratulations, you did it !
             assert game.id == self.id
             # save state for undoGotoBookmark
             self.setBookmark(-1, confirm=0)
-        except:
+        except Exception:
             del self.gsaveinfo.bookmarks[n]
             self.setCursor(cursor=self.app.top_cursor)
         else:
@@ -3093,7 +3093,7 @@ but this could also be a bug you might want to report."""))
             self.setCursor(cursor=self.app.top_cursor)
             MfxExceptionDialog(self.top, ex, title=_("Load game error"),
                                text=_("Error while loading game"))
-        except:
+        except Exception:
             self.updateMenus()
             self.setCursor(cursor=self.app.top_cursor)
             MfxMessageDialog(self.top, title=_("Load game error"),

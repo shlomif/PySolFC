@@ -52,21 +52,21 @@ def init_root_window(root, app):
         if os.path.exists(f):
             try:
                 root.tk.evalfile(f)
-            except:
+            except Exception:
                 traceback.print_exc()
         f = 'clrpick8.5.tcl'
         f = os.path.join(app.dataloader.dir, 'tcl', f)
         if os.path.exists(f):
             try:
                 root.tk.evalfile(f)
-            except:
+            except Exception:
                 traceback.print_exc()
         f = 'fsdialog8.5.tcl'
         f = os.path.join(app.dataloader.dir, 'tcl', f)
         if os.path.exists(f):
             try:
                 root.tk.evalfile(f)
-            except:
+            except Exception:
                 traceback.print_exc()
             else:
                 from six.moves import tkinter_tkfiledialog

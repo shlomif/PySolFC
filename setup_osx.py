@@ -32,7 +32,7 @@ root = tkinter.Tk()
 root.withdraw()
 try:
     root.tk.call('package', 'require', 'tile', '0.7.8')
-except:
+except Exception:
     TILE = None
 else:
     TILE = "tile0.7.8"

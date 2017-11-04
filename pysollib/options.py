@@ -560,7 +560,7 @@ class Options:
                 val = config[section][key]
         except KeyError:
             val = None
-        except:
+        except Exception:
             print_err('load option error: %s: %s' % (section, key))
             traceback.print_exc()
             val = None
@@ -627,14 +627,14 @@ class Options:
         if recent_gameid is not None:
             try:
                 self.recent_gameid = [int(i) for i in recent_gameid]
-            except:
+            except Exception:
                 traceback.print_exc()
 
         favorite_gameid = self._getOption('general', 'favorite_gameid', 'list')
         if favorite_gameid is not None:
             try:
                 self.favorite_gameid = [int(i) for i in favorite_gameid]
-            except:
+            except Exception:
                 traceback.print_exc()
 
         visible_buttons = self._getOption('general', 'visible_buttons', 'list')
@@ -663,7 +663,7 @@ class Options:
             if val is not None:
                 try:
                     val[1] = int(val[1])
-                except:
+                except Exception:
                     traceback.print_exc()
                 else:
                     val = tuple(val)
@@ -687,7 +687,7 @@ class Options:
             if val is not None:
                 try:
                     self.cardset[int(key)] = val
-                except:
+                except Exception:
                     traceback.print_exc()
         for key, t in (('scale_cards', 'bool'),
                        ('scale_x', 'float'),
@@ -704,13 +704,13 @@ class Options:
                 val = [int(i) for i in val]
                 assert len(val) == 2
                 self.games_geometry[int(key)] = val
-            except:
+            except Exception:
                 traceback.print_exc()
         game_geometry = self._getOption('general', 'game_geometry', 'list')
         if game_geometry is not None:
             try:
                 self.game_geometry = tuple(int(i) for i in game_geometry)
-            except:
+            except Exception:
                 traceback.print_exc()
 
         # cards offsets
@@ -719,5 +719,5 @@ class Options:
                 val = [int(i) for i in val]
                 assert len(val) == 2
                 self.offsets[key] = val
-            except:
+            except Exception:
                 traceback.print_exc()

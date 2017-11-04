@@ -44,7 +44,7 @@ def init_tile(app, top):
                 try:
                     top.tk.eval('package require ttk::theme::'+t)
                     # print 'load theme:', t
-                except:
+                except Exception:
                     traceback.print_exc()
                     pass
 
@@ -54,7 +54,7 @@ def set_theme(app, top, theme):
     style = ttk.Style(top)
     try:
         style.theme_use(theme)
-    except:
+    except Exception:
         print_err(_('invalid theme name: ') + theme)
         style.theme_use(app.opt.default_tile_theme)
 
@@ -66,7 +66,7 @@ def get_font_name(font):
     font_name = None
     try:
         f = Font(font=font)
-    except:
+    except Exception:
         print_err(_('invalid font name: ') + font)
         if DEBUG:
             traceback.print_exc()

@@ -86,7 +86,7 @@ class Images:
             return None
         try:
             img = loadImage(file=f)
-        except:
+        except Exception:
             return None
         w, h = img.width(), img.height()
         if self.CARDW < 0:
@@ -103,7 +103,7 @@ class Images:
         d = os.path.join('images', 'cards', 'bottoms')
         try:
             imagedir = self.d.findDir(cs_type, d)
-        except:
+        except Exception:
             pass
         if not USE_PIL or imagedir is None:
             # load image
@@ -117,7 +117,7 @@ class Images:
         d = os.path.join('images', 'cards', 'bottoms', cs_type)
         try:
             fn = self.d.findImage(filename, d)
-        except:
+        except Exception:
             fn = None
         img = createBottom(self._card[0], color, fn)
         return img

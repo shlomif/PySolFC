@@ -174,7 +174,7 @@ def pysol_init(app, args):
         if not os.path.exists(d):
             try:
                 os.makedirs(d)
-            except:
+            except Exception:
                 traceback.print_exc()
                 pass
 
@@ -191,7 +191,7 @@ def pysol_init(app, args):
     # load options
     try:
         app.loadOptions()
-    except:
+    except Exception:
         traceback.print_exc()
         pass
 
@@ -232,7 +232,7 @@ def pysol_init(app, args):
                     app.dn.plugins):
             try:
                 app.loadPlugins(dir)
-            except:
+            except Exception:
                 pass
     GAME_DB.setCallback(None)
 
@@ -257,7 +257,7 @@ def pysol_init(app, args):
                 app.audio = c()
                 app.audio.startServer()
                 app.audio.connectServer(app)
-            except:
+            except Exception:
                 pass
             else:
                 # success

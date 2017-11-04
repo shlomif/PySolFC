@@ -206,7 +206,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             for n in names:
                 f = os.path.join(cs.dir, n + cs.ext)
                 self.preview_images.append(loadImage(file=f))
-        except:
+        except Exception:
             self.preview_key = -1
             self.preview_images = []
             return

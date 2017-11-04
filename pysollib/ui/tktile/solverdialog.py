@@ -203,7 +203,7 @@ solver_dialog = None
 def connect_game_solver_dialog(game):
     try:
         solver_dialog.connectGame(game)
-    except:
+    except Exception:
         pass
 
 
@@ -211,7 +211,7 @@ def destroy_solver_dialog():
     global solver_dialog
     try:
         solver_dialog.destroy()
-    except:
+    except Exception:
         # traceback.print_exc()
         pass
     solver_dialog = None
@@ -221,6 +221,6 @@ def reset_solver_dialog():
     if solver_dialog:
         try:
             solver_dialog.reset()
-        except:
+        except Exception:
             # traceback.print_exc()
             pass

@@ -346,9 +346,9 @@ class CastlesEnd(Bastion):
     ReserveStack_Class = CastlesEnd_Reserve
 
     def createGame(self):
-        l = Bastion.createGame(self)
+        lay = Bastion.createGame(self)
         self.base_rank = None
-        tx, ty, ta, tf = l.getTextAttr(self.s.foundations[-1], 'se')
+        tx, ty, ta, tf = lay.getTextAttr(self.s.foundations[-1], 'se')
         font = self.app.getFont('canvas_default')
         self.texts.info = MfxCanvasText(self.canvas, tx, ty,
                                         anchor=ta, font=font)
@@ -423,11 +423,11 @@ class Chessboard(Fortress):
     RowStack_Class = StackWrapper(Chessboard_RowStack, mod=13)
 
     def createGame(self):
-        l = Fortress.createGame(self)
-        tx, ty, ta, tf = l.getTextAttr(self.s.foundations[-1], "e")
+        lay = Fortress.createGame(self)
+        tx, ty, ta, tf = lay.getTextAttr(self.s.foundations[-1], "e")
         font = self.app.getFont("canvas_default")
         self.texts.info = MfxCanvasText(
-            self.canvas, tx + l.XM, ty, anchor=ta, font=font)
+            self.canvas, tx + lay.XM, ty, anchor=ta, font=font)
 
     def updateText(self):
         if self.preview > 1:

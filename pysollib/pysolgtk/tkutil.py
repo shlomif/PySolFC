@@ -276,9 +276,9 @@ def bind(widget, sequence, func, add=None):
     if k in __bindings:
         __bindings[k].append((wrap, func))
     else:
-        l = [(wrap, func)]
-        widget.connect(signal, _wrap_event, l)
-        __bindings[k] = l
+        lst = [(wrap, func)]
+        widget.connect(signal, _wrap_event, lst)
+        __bindings[k] = lst
 
 
 def unbind_destroy(widget):

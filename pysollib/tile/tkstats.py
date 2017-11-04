@@ -671,45 +671,45 @@ class _TopDialog(MfxDialog):
         frame.columnconfigure(0, weight=1)
         cnf['master'] = frame
         cnf['text'] = _('N')
-        l = ttk.Label(**cnf)
-        l.grid(row=0, column=0, sticky='ew')
+        label = ttk.Label(**cnf)
+        label.grid(row=0, column=0, sticky='ew')
         if gameid == 'all':
             cnf['text'] = _('Game')
-            l = ttk.Label(**cnf)
-            l.grid(row=0, column=1, sticky='ew')
+            label = ttk.Label(**cnf)
+            label.grid(row=0, column=1, sticky='ew')
         cnf['text'] = _('Game number')
-        l = ttk.Label(**cnf)
-        l.grid(row=0, column=2, sticky='ew')
+        label = ttk.Label(**cnf)
+        label.grid(row=0, column=2, sticky='ew')
         cnf['text'] = _('Started at')
-        l = ttk.Label(**cnf)
-        l.grid(row=0, column=3, sticky='ew')
+        label = ttk.Label(**cnf)
+        label.grid(row=0, column=3, sticky='ew')
         cnf['text'] = _('Result')
-        l = ttk.Label(**cnf)
-        l.grid(row=0, column=4, sticky='ew')
+        label = ttk.Label(**cnf)
+        label.grid(row=0, column=4, sticky='ew')
 
         row = 1
         for i in top:
             # N
             cnf['text'] = str(row)
-            l = ttk.Label(**cnf)
-            l.grid(row=row, column=0, sticky='ew')
+            label = ttk.Label(**cnf)
+            label.grid(row=row, column=0, sticky='ew')
             if gameid == 'all':
                 name = app.getGameTitleName(i.gameid)
                 if name is None:
                     name = _("** UNKNOWN %d **") % i.gameid
                 cnf['text'] = name
-                l = ttk.Label(**cnf)
-                l.grid(row=row, column=1, sticky='ew')
+                label = ttk.Label(**cnf)
+                label.grid(row=row, column=1, sticky='ew')
             # Game number
             cnf['text'] = '#'+str(i.game_number)
-            l = ttk.Label(**cnf)
-            l.grid(row=row, column=2, sticky='ew')
+            label = ttk.Label(**cnf)
+            label.grid(row=row, column=2, sticky='ew')
             # Start time
             t = time.strftime(
                 '%Y-%m-%d %H:%M', time.localtime(i.game_start_time))
             cnf['text'] = t
-            l = ttk.Label(**cnf)
-            l.grid(row=row, column=3, sticky='ew')
+            label = ttk.Label(**cnf)
+            label.grid(row=row, column=3, sticky='ew')
             # Result
             if isinstance(i.value, float):
                 # time
@@ -718,8 +718,8 @@ class _TopDialog(MfxDialog):
                 # moves
                 s = str(i.value)
             cnf['text'] = s
-            l = ttk.Label(**cnf)
-            l.grid(row=row, column=4, sticky='ew')
+            label = ttk.Label(**cnf)
+            label.grid(row=row, column=4, sticky='ew')
             row += 1
 
         focus = self.createButtons(bottom_frame, kw)
@@ -945,7 +945,7 @@ class ProgressionFrame(ttk.Frame):
             fn = self.app.dataloader.findImage('progression', dir)
             self.bg_image = loadImage(fn)
             canvas.create_image(0, 0, image=self.bg_image, anchor='nw')
-        except:
+        except Exception:
             pass
         #
         tw = max(measure(_('Games/day')),

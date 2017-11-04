@@ -185,11 +185,11 @@ class FontsDialog(MfxDialog):
                 title = self._font2title(font)
             elif font is None:
                 title = 'Default'
-            l = tkinter.Label(frame, font=font, text=title)
-            l.grid(row=row, column=1)
+            label = tkinter.Label(frame, font=font, text=title)
+            label.grid(row=row, column=1)
             b = tkinter.Button(frame, text=_('Change...'), width=10,
-                               command=lambda l=l,
-                               fn=fn: self.selectFont(l, fn))
+                               command=lambda label=label,
+                               fn=fn: self.selectFont(label, fn))
             b.grid(row=row, column=2)
             row += 1
         #

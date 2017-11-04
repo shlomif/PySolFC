@@ -380,7 +380,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             for n in names:
                 f = os.path.join(cs.dir, n + cs.ext)
                 self.preview_images.append(loadImage(file=f))
-        except:
+        except Exception:
             self.preview_key = -1
             self.preview_images = []
             return
@@ -452,12 +452,12 @@ class CardsetInfoDialog(MfxDialog):
             (_('Size:'), '%d x %d' % (cardset.CARDW, cardset.CARDH)),
                 ):
             if t is not None:
-                l = tkinter.Label(info_frame, text=n,
-                                  anchor='w', justify='left')
-                l.grid(row=row, column=0, sticky='nw')
-                l = tkinter.Label(info_frame, text=t,
-                                  anchor='w', justify='left')
-                l.grid(row=row, column=1, sticky='nw')
+                label = tkinter.Label(info_frame, text=n,
+                                      anchor='w', justify='left')
+                label.grid(row=row, column=0, sticky='nw')
+                label = tkinter.Label(info_frame, text=t,
+                                      anchor='w', justify='left')
+                label.grid(row=row, column=1, sticky='nw')
                 row += 1
         if images:
             try:
@@ -474,7 +474,7 @@ class CardsetInfoDialog(MfxDialog):
                 canvas.grid(row=0, column=2, rowspan=row+1, sticky='ne')
                 info_frame.columnconfigure(2, weight=1)
                 info_frame.rowconfigure(row, weight=1)
-            except:
+            except Exception:
                 pass
         # bg = top_frame["bg"]
         bg = 'white'
@@ -492,7 +492,7 @@ class CardsetInfoDialog(MfxDialog):
         f = os.path.join(cardset.dir, "COPYRIGHT")
         try:
             text = open(f).read()
-        except:
+        except Exception:
             pass
         if text:
             text_w.config(state="normal")

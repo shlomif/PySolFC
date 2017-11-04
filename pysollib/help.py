@@ -132,7 +132,7 @@ def help_html(app, document, dir_, top=None):
         #    viewer = None
         viewer.updateHistoryXYView()
         viewer.display(doc, relpath=0)
-    except:
+    except Exception:
         # traceback.print_exc()
         top = make_help_toplevel(app, title=TITLE+_(" Help"))
         if top.winfo_screenwidth() < 800 or top.winfo_screenheight() < 600:
@@ -153,5 +153,5 @@ def help_html(app, document, dir_, top=None):
 def destroy_help_html():
     try:
         help_html_viewer.destroy()
-    except:
+    except Exception:
         pass

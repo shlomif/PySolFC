@@ -59,11 +59,11 @@ def wm_get_geometry(window):
     m = __wm_get_geometry_re.search(g)
     if not m:
         raise tkinter.TclError("invalid geometry "+str(g))
-    l = list(map(int, m.groups()))
+    lst = list(map(int, m.groups()))
     if window.wm_state() == "zoomed":
         # workaround as Tk returns the "unzoomed" origin
-        l[2] = l[3] = 0
-    return l
+        lst[2] = lst[3] = 0
+    return lst
 
 
 # ************************************************************************
@@ -135,7 +135,7 @@ def __getWidgetXY(widget, parent, relx=None, rely=None,
         if WIN_SYSTEM == "win32":
             try:
                 m_width, m_height, m_x, m_y = wm_get_geometry(parent)
-            except:
+            except Exception:
                 pass
         if m_x is None:
             m_x = parent.winfo_x()
@@ -324,11 +324,11 @@ def fillImage(image, fill, outline=None):
         assert len(f) == height
         image.put(f)
     elif not fill:
-        l = ((outline,) * width,)
+        l1 = ((outline,) * width,)
         for y in range(0, ow):
-            image.put(l, (0, y))
+            image.put(l1, (0, y))
         for y in range(height-ow, height):
-            image.put(l, (0, y))
+            image.put(l1, (0, y))
         p = ((outline,) * ow,)
         for y in range(ow, height-ow):
             image.put(p, (0, y))

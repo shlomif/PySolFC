@@ -75,24 +75,24 @@ class Klondike(Game):
 
     def createGame(self, max_rounds=-1, num_deal=1, **layout):
         # create layout
-        l, s = Layout(self), self.s
+        lay, s = Layout(self), self.s
         kwdefault(layout, rows=7, waste=1, texts=1, playcards=16)
-        self.Layout_Method.__get__(l, l.__class__)(**layout)
-        # self.__class__.Layout_Method(l, **layout)
-        self.setSize(l.size[0], l.size[1])
+        self.Layout_Method.__get__(lay, lay.__class__)(**layout)
+        # self.__class__.Layout_Method(lay, **layout)
+        self.setSize(lay.size[0], lay.size[1])
         # create stacks
-        s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self,
+        s.talon = self.Talon_Class(lay.s.talon.x, lay.s.talon.y, self,
                                    max_rounds=max_rounds, num_deal=num_deal)
-        if l.s.waste:
-            s.waste = WasteStack(l.s.waste.x, l.s.waste.y, self)
-        for r in l.s.foundations:
+        if lay.s.waste:
+            s.waste = WasteStack(lay.s.waste.x, lay.s.waste.y, self)
+        for r in lay.s.foundations:
             s.foundations.append(
                 self.Foundation_Class(r.x, r.y, self, suit=r.suit))
-        for r in l.s.rows:
+        for r in lay.s.rows:
             s.rows.append(self.RowStack_Class(r.x, r.y, self))
         # default
-        l.defaultAll()
-        return l
+        lay.defaultAll()
+        return lay
 
     def startGame(self, flip=0, reverse=1):
         for i in range(1, len(self.s.rows)):
@@ -115,11 +115,11 @@ class VegasKlondike(Klondike):
     getGameBalance = Game.getGameScoreCasino
 
     def createGame(self, max_rounds=1):
-        l = Klondike.createGame(self, max_rounds=max_rounds)
+        lay = Klondike.createGame(self, max_rounds=max_rounds)
         self.texts.score = MfxCanvasText(self.canvas,
                                          8, self.height - 8, anchor="sw",
                                          font=self.app.getFont("canvas_large"))
-        return l
+        return lay
 
     def updateText(self):
         if self.preview > 1:
@@ -140,8 +140,8 @@ class VegasKlondike(Klondike):
 
 class CasinoKlondike(VegasKlondike):
     def createGame(self):
-        l = VegasKlondike.createGame(self, max_rounds=3)
-        l.createRoundText(self.s.talon, 'ne', dx=l.XS)
+        lay = VegasKlondike.createGame(self, max_rounds=3)
+        lay.createRoundText(self.s.talon, 'ne', dx=lay.XS)
 
 
 # ************************************************************************
@@ -174,9 +174,9 @@ class Chinaman(ThumbAndPouch):
     RowStack_Class = StackWrapper(BO_RowStack, base_rank=KING)
 
     def createGame(self):
-        l = Klondike.createGame(self, num_deal=3,
-                                max_rounds=2, round_text=True)
-        l.createRoundText(self.s.talon, 'ne', dx=l.XS)
+        lay = Klondike.createGame(self, num_deal=3,
+                                  max_rounds=2, round_text=True)
+        lay.createRoundText(self.s.talon, 'ne', dx=lay.XS)
 
 
 # ************************************************************************
@@ -297,8 +297,8 @@ class PasSeul(Eastcliff):
 
 class BlindAlleys(Eastcliff):
     def createGame(self):
-        l = Klondike.createGame(self, max_rounds=2, rows=6, round_text=True)
-        l.createRoundText(self.s.talon, 'ne', dx=l.XS)
+        lay = Klondike.createGame(self, max_rounds=2, rows=6, round_text=True)
+        lay.createRoundText(self.s.talon, 'ne', dx=lay.XS)
 
     def _shuffleHook(self, cards):
         # move Aces to top of the Talon (i.e. first cards to be dealt)
@@ -345,9 +345,9 @@ class Usk(Somerset):
     Solver_Class = None
 
     def createGame(self):
-        l = Klondike.createGame(self, max_rounds=2, rows=10,
-                                waste=False, texts=False, round_text=True)
-        l.createRoundText(self.s.talon, 'ne')
+        lay = Klondike.createGame(self, max_rounds=2, rows=10,
+                                  waste=False, texts=False, round_text=True)
+        lay.createRoundText(self.s.talon, 'ne')
 
     def redealCards(self):
         n = 0
@@ -435,8 +435,8 @@ class EightTimesEight(Klondike):
 
 class AchtmalAcht(EightTimesEight):
     def createGame(self):
-        l = Klondike.createGame(self, rows=8, max_rounds=3, round_text=True)
-        l.createRoundText(self.s.talon, 'sw', dx=-l.XS)
+        lay = Klondike.createGame(self, rows=8, max_rounds=3, round_text=True)
+        lay.createRoundText(self.s.talon, 'sw', dx=-lay.XS)
 
 
 class EightByEight_RowStack(RK_RowStack):
@@ -454,9 +454,9 @@ class EightByEight(EightTimesEight):
     RowStack_Class = EightByEight_RowStack
 
     def createGame(self):
-        l = Klondike.createGame(self, rows=8, playcards=20,
-                                max_rounds=3, round_text=True)
-        l.createRoundText(self.s.talon, 'ne', dx=l.XS)
+        lay = Klondike.createGame(self, rows=8, playcards=20,
+                                  max_rounds=3, round_text=True)
+        lay.createRoundText(self.s.talon, 'ne', dx=lay.XS)
 
     shallHighlightMatch = Game._shallHighlightMatch_RK
 
@@ -482,17 +482,18 @@ class Batsford(Klondike):
         kwdefault(layout, rows=10, max_rounds=1, playcards=22)
         round_text = (layout['max_rounds'] > 1)
         layout['round_text'] = round_text
-        l = Klondike.createGame(self, **layout)
+        lay = Klondike.createGame(self, **layout)
         s = self.s
-        x, y = l.XM, self.height - l.YS
+        x, y = lay.XM, self.height - lay.YS
         s.reserves.append(Batsford_ReserveStack(x, y, self, max_cards=3))
         self.setRegion(
-            s.reserves, (-999, y - l.YM - l.CH//2, x + l.XS - l.CW//2, 999999),
+            s.reserves, (-999, y - lay.YM - lay.CH//2,
+                         x + lay.XS - lay.CW//2, 999999),
             priority=1)
-        l.createText(s.reserves[0], "se")
+        lay.createText(s.reserves[0], "se")
         if round_text:
-            l.createRoundText(self.s.talon, 'ne', dx=l.XS)
-        l.defaultStackGroups()
+            lay.createRoundText(self.s.talon, 'ne', dx=lay.XS)
+        lay.defaultStackGroups()
 
 
 class BatsfordAgain(Batsford):
@@ -506,8 +507,8 @@ class BatsfordAgain(Batsford):
 
 class Jumbo(Klondike):
     def createGame(self):
-        l = Klondike.createGame(self, rows=9, max_rounds=2, round_text=True)
-        l.createRoundText(self.s.talon, 'ne', dx=l.XS)
+        lay = Klondike.createGame(self, rows=9, max_rounds=2, round_text=True)
+        lay.createRoundText(self.s.talon, 'ne', dx=lay.XS)
 
     def startGame(self, flip=0):
         for i in range(9):
@@ -534,15 +535,15 @@ class Stonewall(Klondike):
     DEAL = (0, 1, 0, 1, -1, 0, 1)
 
     def createGame(self):
-        l = Klondike.createGame(self, rows=6, waste=0, max_rounds=1, texts=0)
+        lay = Klondike.createGame(self, rows=6, waste=0, max_rounds=1, texts=0)
         s = self.s
-        h = max(self.height, l.YM+4*l.YS)
-        self.setSize(self.width + l.XM+4*l.XS, h)
+        h = max(self.height, lay.YM+4*lay.YS)
+        self.setSize(self.width + lay.XM+4*lay.XS, h)
         for i in range(4):
             for j in range(4):
-                x, y = self.width + (j-4)*l.XS, l.YM + i*l.YS
+                x, y = self.width + (j-4)*lay.XS, lay.YM + i*lay.YS
                 s.reserves.append(OpenStack(x, y, self, max_accept=0))
-        l.defaultStackGroups()
+        lay.defaultStackGroups()
 
     def startGame(self):
         frames = 0
@@ -580,17 +581,17 @@ class KingAlbert(Klondike):
     RESERVES = (2, 2, 2, 1)
 
     def createGame(self):
-        l = Klondike.createGame(
+        lay = Klondike.createGame(
             self, max_rounds=1, rows=self.ROWS, waste=0, texts=0)
         s = self.s
         rw, rh = max(self.RESERVES), len(self.RESERVES)
-        h = max(self.height, l.YM+rh*l.YS)
-        self.setSize(self.width + 2*l.XM+rw*l.XS, h)
+        h = max(self.height, lay.YM+rh*lay.YS)
+        self.setSize(self.width + 2*lay.XM+rw*lay.XS, h)
         for i in range(rh):
             for j in range(self.RESERVES[i]):
-                x, y = self.width + (j-rw)*l.XS, l.YM + i*l.YS
+                x, y = self.width + (j-rw)*lay.XS, lay.YM + i*lay.YS
                 s.reserves.append(OpenStack(x, y, self, max_accept=0))
-        l.defaultStackGroups()
+        lay.defaultStackGroups()
 
     def startGame(self):
         Klondike.startGame(self, flip=1, reverse=0)
@@ -669,39 +670,40 @@ class Jane(Klondike):
     RowStack_Class = StackWrapper(AC_RowStack, mod=13, base_rank=NO_RANK)
 
     def createGame(self, max_rounds=1, rows=7, reserves=7, playcards=16):
-        l, s = Layout(self), self.s
+        lay, s = Layout(self), self.s
         maxrows = max(rows, 7)
-        w = l.XM+maxrows*l.XS+l.XM+2*l.XS
-        h = max(l.YM+2*l.YS+playcards*l.YOFFSET+l.TEXT_HEIGHT, l.YM+4*l.YS)
+        w = lay.XM+maxrows*lay.XS+lay.XM+2*lay.XS
+        h = max(lay.YM+2*lay.YS+playcards*lay.YOFFSET+lay.TEXT_HEIGHT,
+                lay.YM+4*lay.YS)
         self.setSize(w, h)
 
-        x, y = l.XM, l.YM
+        x, y = lay.XM, lay.YM
         s.talon = self.Talon_Class(x, y, self, max_rounds=max_rounds)
-        l.createText(s.talon, 's')
-        x += l.XS
+        lay.createText(s.talon, 's')
+        x += lay.XS
         s.waste = WasteStack(x, y, self)
 
-        x += 2*l.XS
+        x += 2*lay.XS
         for i in range(4):
             s.foundations.append(self.Foundation_Class(x, y, self, suit=i))
-            x += l.XS
+            x += lay.XS
 
-        x, y = l.XM, l.YM+l.YS+l.TEXT_HEIGHT
+        x, y = lay.XM, lay.YM+lay.YS+lay.TEXT_HEIGHT
         for i in range(rows):
             s.rows.append(self.RowStack_Class(x, y, self))
-            x += l.XS
+            x += lay.XS
 
-        x0, y = self.width - 2*l.XS, l.YM
+        x0, y = self.width - 2*lay.XS, lay.YM
         for i in range(reserves):
-            x = x0 + ((i+1) & 1) * l.XS
+            x = x0 + ((i+1) & 1) * lay.XS
             stack = OpenStack(x, y, self, max_accept=0)
-            stack.CARD_YOFFSET = l.YM // 3
+            stack.CARD_YOFFSET = lay.YM // 3
             s.reserves.append(stack)
-            y = y + l.YS // 2
+            y = y + lay.YS // 2
         # not needed, as no cards may be placed on the reserves
-        # self.setRegion(s.reserves, (x0-l.XM//2, -999, 999999, 999999),
+        # self.setRegion(s.reserves, (x0-lay.XM//2, -999, 999999, 999999),
         #   priority=1)
-        l.defaultStackGroups()
+        lay.defaultStackGroups()
         self.sg.dropstacks.append(s.talon)
 
     def startGame(self, flip=0, reverse=1):
@@ -748,33 +750,34 @@ class Senate(Jane):
 
         playcards = 10
 
-        l, s = Layout(self), self.s
-        self.setSize(l.XM+(rows+7)*l.XS, l.YM+2*(l.YS+playcards*l.YOFFSET))
+        lay, s = Layout(self), self.s
+        self.setSize(lay.XM+(rows+7)*lay.XS,
+                     lay.YM+2*(lay.YS+playcards*lay.YOFFSET))
 
-        x, y = l.XM, l.YM
+        x, y = lay.XM, lay.YM
         for i in range(rows):
             s.rows.append(SS_RowStack(x, y, self))
-            x += l.XS
+            x += lay.XS
 
-        for y in l.YM, l.YM+l.YS+playcards*l.YOFFSET:
-            x = l.XM+rows*l.XS+l.XS//2
+        for y in lay.YM, lay.YM+lay.YS+playcards*lay.YOFFSET:
+            x = lay.XM+rows*lay.XS+lay.XS//2
             for i in range(4):
                 stack = OpenStack(x, y, self, max_accept=0)
-                stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, l.YOFFSET
+                stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, lay.YOFFSET
                 s.reserves.append(stack)
-                x += l.XS
-        x = l.XM+(rows+5)*l.XS
+                x += lay.XS
+        x = lay.XM+(rows+5)*lay.XS
         for i in range(2):
-            y = l.YM+l.YS
+            y = lay.YM+lay.YS
             for j in range(4):
                 s.foundations.append(SS_FoundationStack(x, y, self, suit=j))
-                y += l.YS
-            x += l.XS
-        x, y = self.width-l.XS, l.YM
+                y += lay.YS
+            x += lay.XS
+        x, y = self.width-lay.XS, lay.YM
         s.talon = AgnesBernauer_Talon(x, y, self)
-        l.createText(s.talon, 'nw')
+        lay.createText(s.talon, 'nw')
 
-        l.defaultStackGroups()
+        lay.defaultStackGroups()
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
@@ -808,29 +811,29 @@ class Phoenix(Klondike):
 
     def createGame(self):
 
-        l, s = Layout(self), self.s
-        self.setSize(l.XM + 10*l.XS, l.YM + 4*(l.YS+l.YM))
+        lay, s = Layout(self), self.s
+        self.setSize(lay.XM + 10*lay.XS, lay.YM + 4*(lay.YS+lay.YM))
 
         for i in range(2):
-            x = l.XM + i*l.XS
+            x = lay.XM + i*lay.XS
             for j in range(4):
-                y = l.YM + j*(l.YS+l.YM)
+                y = lay.YM + j*(lay.YS+lay.YM)
                 s.reserves.append(OpenStack(x, y, self, max_accept=0))
         for i in range(2):
-            x = l.XM + (8+i)*l.XS
+            x = lay.XM + (8+i)*lay.XS
             for j in range(4):
-                y = l.YM + j*(l.YS+l.YM)
+                y = lay.YM + j*(lay.YS+lay.YM)
                 s.reserves.append(OpenStack(x, y, self, max_accept=0))
         for i in range(4):
             s.foundations.append(
-                SS_FoundationStack(l.XM+(3+i)*l.XS, l.YM, self, i))
+                SS_FoundationStack(lay.XM+(3+i)*lay.XS, lay.YM, self, i))
         for i in range(6):
             s.rows.append(
-                self.RowStack_Class(l.XM+(2+i)*l.XS, l.YM+l.YS, self))
+                self.RowStack_Class(lay.XM+(2+i)*lay.XS, lay.YM+lay.YS, self))
         s.talon = InitialDealTalonStack(
-            l.XM+int(4.5*l.XS), l.YM+3*(l.YS+l.YM), self)
+            lay.XM+int(4.5*lay.XS), lay.YM+3*(lay.YS+lay.YM), self)
 
-        l.defaultStackGroups()
+        lay.defaultStackGroups()
 
     def startGame(self):
         for i in range(6):
@@ -856,8 +859,8 @@ class Lanes(Klondike):
     RowStack_Class = StackWrapper(AC_RowStack, base_rank=ANY_RANK, max_move=1)
 
     def createGame(self):
-        l = Klondike.createGame(self, rows=6, max_rounds=2, round_text=True)
-        l.createRoundText(self.s.talon, 'ne', dx=l.XS)
+        lay = Klondike.createGame(self, rows=6, max_rounds=2, round_text=True)
+        lay.createRoundText(self.s.talon, 'ne', dx=lay.XS)
 
     def _shuffleHook(self, cards):
         # move Aces to top of the Talon (i.e. first cards to be dealt)
@@ -918,8 +921,8 @@ class Q_C_(Klondike):
     RowStack_Class = StackWrapper(SS_RowStack, base_rank=ANY_RANK, max_move=1)
 
     def createGame(self):
-        l = Klondike.createGame(self, rows=6, max_rounds=2)
-        l.createRoundText(self.s.talon, 'sss')
+        lay = Klondike.createGame(self, rows=6, max_rounds=2)
+        lay.createRoundText(self.s.talon, 'sss')
 
     def startGame(self):
         for i in range(3):
@@ -1044,30 +1047,30 @@ class SevenDevils(Klondike):
 
     def createGame(self):
 
-        l, s = Layout(self), self.s
-        self.setSize(l.XM + 10*l.XS, l.YM+3*l.YS+12*l.YOFFSET)
+        lay, s = Layout(self), self.s
+        self.setSize(lay.XM + 10*lay.XS, lay.YM+3*lay.YS+12*lay.YOFFSET)
 
-        x, y = l.XM, l.YM
+        x, y = lay.XM, lay.YM
         for i in range(8):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i//2))
-            x += l.XS
-        x, y = l.XM+l.XS//2, l.YM+l.YS
+            x += lay.XS
+        x, y = lay.XM+lay.XS//2, lay.YM+lay.YS
         for i in range(7):
             s.rows.append(self.RowStack_Class(x, y, self))
-            x += l.XS
-        x0, y = self.width - 2*l.XS, l.YM
+            x += lay.XS
+        x0, y = self.width - 2*lay.XS, lay.YM
         for i in range(7):
-            x = x0 + ((i+1) & 1) * l.XS
+            x = x0 + ((i+1) & 1) * lay.XS
             s.reserves.append(OpenStack(x, y, self, max_accept=0))
-            y += l.YS // 2
-        x, y = l.XM, self.height-l.YS
+            y += lay.YS // 2
+        x, y = lay.XM, self.height-lay.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=1)
-        l.createText(s.talon, 'n')
-        x += l.XS
+        lay.createText(s.talon, 'n')
+        x += lay.XS
         s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, 'n')
+        lay.createText(s.waste, 'n')
 
-        l.defaultStackGroups()
+        lay.defaultStackGroups()
 
     def startGame(self, flip=0, reverse=1):
         Klondike.startGame(self)
@@ -1099,9 +1102,9 @@ class MovingLeft(Klondike):
 
 class Souter(MovingLeft):
     def createGame(self):
-        l = Klondike.createGame(self, max_rounds=2, rows=10,
-                                playcards=24, round_text=True)
-        l.createRoundText(self.s.talon, 'ne', dx=l.XS)
+        lay = Klondike.createGame(self, max_rounds=2, rows=10,
+                                  playcards=24, round_text=True)
+        lay.createRoundText(self.s.talon, 'ne', dx=lay.XS)
 
 
 # ************************************************************************
@@ -1186,8 +1189,8 @@ class Whitehorse(Klondike):
 
 class Boost(Klondike):
     def createGame(self):
-        l = Klondike.createGame(self, rows=4, max_rounds=3, round_text=True)
-        l.createRoundText(self.s.talon, 'ne', dx=l.XS)
+        lay = Klondike.createGame(self, rows=4, max_rounds=3, round_text=True)
+        lay.createRoundText(self.s.talon, 'ne', dx=lay.XS)
 
 
 # ************************************************************************
@@ -1198,8 +1201,8 @@ class GoldRush(Klondike):
     Talon_Class = CanfieldRush_Talon
 
     def createGame(self):
-        l = Klondike.createGame(self, max_rounds=3, round_text=True)
-        l.createRoundText(self.s.talon, 'ne', dx=l.XS)
+        lay = Klondike.createGame(self, max_rounds=3, round_text=True)
+        lay.createRoundText(self.s.talon, 'ne', dx=lay.XS)
 
 
 # ************************************************************************
@@ -1231,41 +1234,41 @@ class LuckyThirteen(Game):
     RowStack_Class = StackWrapper(RK_RowStack, base_rank=NO_RANK)
 
     def createGame(self, xoffset=0, playcards=0):
-        l, s = Layout(self), self.s
+        lay, s = Layout(self), self.s
         if xoffset:
-            xoffset = l.XOFFSET
-        w0 = l.XS+playcards*l.XOFFSET
-        self.setSize(l.XM + 5*w0, l.YM+4*l.YS)
+            xoffset = lay.XOFFSET
+        w0 = lay.XS+playcards*lay.XOFFSET
+        self.setSize(lay.XM + 5*w0, lay.YM+4*lay.YS)
 
-        x, y = l.XM, l.YM+l.YS
+        x, y = lay.XM, lay.YM+lay.YS
         for i in range(5):
             stack = self.RowStack_Class(x, y, self, max_move=1)
             s.rows.append(stack)
             stack.CARD_XOFFSET = xoffset
             stack.CARD_YOFFSET = 0
             x += w0
-        x, y = l.XM+w0, l.YM+2*l.YS
+        x, y = lay.XM+w0, lay.YM+2*lay.YS
         for i in range(3):
             stack = self.RowStack_Class(x, y, self, max_move=1)
             s.rows.append(stack)
             stack.CARD_XOFFSET = xoffset
             stack.CARD_YOFFSET = 0
             x += w0
-        x, y = l.XM, l.YM+3*l.YS
+        x, y = lay.XM, lay.YM+3*lay.YS
         for i in range(5):
             stack = self.RowStack_Class(x, y, self, max_move=1)
             s.rows.append(stack)
             stack.CARD_XOFFSET = xoffset
             stack.CARD_YOFFSET = 0
             x += w0
-        x, y = (self.width-4*l.XS)//2, l.YM
+        x, y = (self.width-4*lay.XS)//2, lay.YM
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
-            x += l.XS
-        x, y = l.XM, self.height-l.YS
+            x += lay.XS
+        x, y = lay.XM, self.height-lay.YS
         s.talon = InitialDealTalonStack(x, y, self, max_rounds=1)
 
-        l.defaultStackGroups()
+        lay.defaultStackGroups()
 
     def startGame(self):
         self.s.talon.dealRow(frames=0)
@@ -1311,32 +1314,32 @@ class Legion(Klondike):
 class BigBertha(Game):
 
     def createGame(self):
-        l, s = Layout(self), self.s
-        self.setSize(l.XM+15*l.XS, l.YM+3*l.YS+15*l.YOFFSET)
+        lay, s = Layout(self), self.s
+        self.setSize(lay.XM+15*lay.XS, lay.YM+3*lay.YS+15*lay.YOFFSET)
 
-        x, y = l.XM, l.YM
+        x, y = lay.XM, lay.YM
         s.talon = InitialDealTalonStack(x, y, self)
 
-        x, y = l.XM+3.5*l.XS, l.YM
+        x, y = lay.XM+3.5*lay.XS, lay.YM
         for i in range(8):
             s.foundations.append(SS_FoundationStack(x, y, self,
                                  suit=i % 4, max_cards=12))
-            x += l.XS
+            x += lay.XS
 
-        x, y = l.XM, l.YM+l.YS
+        x, y = lay.XM, lay.YM+lay.YS
         for i in range(15):
             s.rows.append(AC_RowStack(x, y, self))
-            x += l.XS
+            x += lay.XS
 
-        x, y = l.XM, self.height-l.YS
+        x, y = lay.XM, self.height-lay.YS
         for i in range(14):
             s.reserves.append(OpenStack(x, y, self, max_accept=0))
-            x += l.XS
+            x += lay.XS
 
         s.foundations.append(RK_FoundationStack(x, y, self, suit=ANY_SUIT,
                              base_rank=KING, dir=0, max_cards=8))
 
-        l.defaultStackGroups()
+        lay.defaultStackGroups()
 
     def startGame(self):
         for i in range(5):
@@ -1406,9 +1409,9 @@ class EightSages(Klondike):
     RowStack_Class = EightSages_Row
 
     def createGame(self):
-        l = Klondike.createGame(self, max_rounds=2, rows=8,
-                                playcards=12, round_text=True)
-        l.createRoundText(self.s.talon, 'ne', dx=l.XS)
+        lay = Klondike.createGame(self, max_rounds=2, rows=8,
+                                  playcards=12, round_text=True)
+        lay.createRoundText(self.s.talon, 'ne', dx=lay.XS)
 
     def startGame(self):
         self.startDealSample()

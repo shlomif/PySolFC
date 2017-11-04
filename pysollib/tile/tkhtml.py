@@ -130,7 +130,7 @@ class HTMLViewer(Base_HTMLViewer):
 def tkhtml_main(args):
     try:
         url = args[1]
-    except:
+    except Exception:
         url = os.path.join(os.pardir, os.pardir, "data", "html", "index.html")
     top = tkinter.Tk()
     top.tk.call("package", "require", "tile")

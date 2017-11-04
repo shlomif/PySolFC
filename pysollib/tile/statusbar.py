@@ -161,24 +161,24 @@ class PysolStatusbar(MfxStatusbar):
                 ):
             self._createLabel(n, tooltip=t, width=w)
         #
-        l = self._createLabel('info', expand=True)
-        l.config(padding=(8, 0))
+        label = self._createLabel('info', expand=True)
+        label.config(padding=(8, 0))
         self._createSizegrip()
 
 
 class HelpStatusbar(MfxStatusbar):
     def __init__(self, top):
         MfxStatusbar.__init__(self, top, row=3, column=0, columnspan=3)
-        l = self._createLabel('info', expand=True)
-        l.config(justify='left', anchor='w', padding=(8, 0))
+        label = self._createLabel('info', expand=True)
+        label.config(justify='left', anchor='w', padding=(8, 0))
 
 
 class HtmlStatusbar(MfxStatusbar):
     def __init__(self, top, row, column, columnspan):
         MfxStatusbar.__init__(self, top, row=row, column=column,
                               columnspan=columnspan)
-        l = self._createLabel('url', expand=True)
-        l.config(justify='left', anchor='w', padding=(8, 0))
+        label = self._createLabel('url', expand=True)
+        label.config(justify='left', anchor='w', padding=(8, 0))
         self._createSizegrip()
 
 

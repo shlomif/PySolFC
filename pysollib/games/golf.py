@@ -235,8 +235,8 @@ class Elevator_RowStack(Golf_RowStack):
 
     def basicIsBlocked(self):
         r, step = self.game.s.rows, self.STEP
-        i, n, l = self.id, 1, len(step)
-        while i < l:
+        i, n, mylen = self.id, 1, len(step)
+        while i < mylen:
             i = i + step[i]
             n = n + 1
             for j in range(i, i+n):

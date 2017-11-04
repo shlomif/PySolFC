@@ -221,11 +221,11 @@ class Base_HTMLViewer:
         unbind_destroy(self.parent)
         try:
             self.parent.wm_withdraw()
-        except:
+        except Exception:
             pass
         try:
             self.parent.destroy()
-        except:
+        except Exception:
             pass
         self.parent = None
 
@@ -341,7 +341,7 @@ to open the following URL:
             self.errorDialog(_("Unable to service request:\n") + url +
                              "\n\n" + str(ex))
             return
-        except:
+        except Exception:
             if file:
                 file.close()
             self.errorDialog(_("Unable to service request:\n") + url)
@@ -438,7 +438,7 @@ to open the following URL:
             return self.images[fn]
         try:
             img = tkinter.PhotoImage(master=self.parent, file=fn)
-        except:
+        except Exception:
             img = None
         self.images[fn] = img
         return img

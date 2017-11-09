@@ -235,8 +235,7 @@ class GroundsForADivorce(RelaxedSpider):
         RelaxedSpider.createGame(self, playcards=22)
 
     def startGame(self):
-        for i in range(4):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(4)
         self.startDealSample()
         self.s.talon.dealRow()
 
@@ -254,8 +253,7 @@ class GrandmothersGame(RelaxedSpider):
         RelaxedSpider.createGame(self, playcards=22)
 
     def startGame(self):
-        for i in range(5):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(5)
         self.startDealSample()
         self.s.talon.dealRow()
 
@@ -542,8 +540,7 @@ class MrsMop(RelaxedSpider):
         RelaxedSpider.createGame(self, rows=13, playcards=24, texts=0)
 
     def startGame(self):
-        for i in range(7):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(7)
         self.startDealSample()
         self.s.talon.dealRow()
 
@@ -604,8 +601,7 @@ class Cicely(Game):
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.reserves, frames=0)
-        for i in range(3):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(3)
         self.startDealSample()
         self.s.talon.dealRow()
 
@@ -728,8 +724,7 @@ class Chelicera(Game):
         l.defaultStackGroups()
 
     def startGame(self):
-        for i in range(4):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(4)
         self.startDealSample()
         for i in range(3):
             self.s.talon.dealRow(rows=self.s.rows[4:])
@@ -820,8 +815,7 @@ class SpiderWeb(RelaxedSpider):
         l.defaultStackGroups()
 
     def startGame(self):
-        self.s.talon.dealRow(frames=0)
-        self.s.talon.dealRow(frames=0)
+        self._dealNumRows(2)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.rows[:3])
@@ -1012,8 +1006,7 @@ class York(RelaxedSpider):
         RelaxedSpider.createGame(self, rows=12, playcards=26, texts=0)
 
     def startGame(self):
-        for i in range(8):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(8)
         self.startDealSample()
         self.s.talon.dealRow(rows=self.s.rows[2:-2])
 
@@ -1026,8 +1019,7 @@ class BigYork(York):
         RelaxedSpider.createGame(self, rows=14, playcards=26, texts=0)
 
     def startGame(self):
-        for i in range(10):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(10)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=[self.s.rows[0], self.s.rows[-1]])
@@ -1067,8 +1059,7 @@ class FredsSpider(Spidike):
         Spidike.createGame(self, rows=10, playcards=23)
 
     def startGame(self):
-        for i in range(4):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(4)
         self.startDealSample()
         self.s.talon.dealRow()
 
@@ -1145,8 +1136,7 @@ class Incompatibility(Spidike):
         Spidike.createGame(self, rows=10)
 
     def startGame(self):
-        for i in range(4):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(4)
         self.startDealSample()
         self.s.talon.dealRow()
 
@@ -1397,8 +1387,7 @@ class TheJollyRoger(Game):
         l.defaultStackGroups()
 
     def startGame(self):
-        for i in range(2):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(2)
         self.startDealSample()
         self.s.talon.dealRow()
 

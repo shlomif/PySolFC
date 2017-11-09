@@ -131,8 +131,7 @@ class StreetsAndAlleys(Game):
     #
 
     def startGame(self):
-        for i in range(4):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(4)
         self.startDealSample()
         for i in range(3):
             self.s.talon.dealRowAvail()
@@ -151,8 +150,7 @@ class BeleagueredCastle(StreetsAndAlleys):
             cards, lambda c: (c.rank == 0, c.suit))
 
     def startGame(self):
-        for i in range(4):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(4)
         self.startDealSample()
         for i in range(2):
             self.s.talon.dealRow()
@@ -234,8 +232,7 @@ class Fortress(Game):
     #
 
     def startGame(self):
-        for i in range(3):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(3)
         self.startDealSample()
         for i in range(3):
             self.s.talon.dealRowAvail()
@@ -285,8 +282,7 @@ class Bastion(Game):
     #
 
     def startGame(self):
-        for i in range(3):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(3)
         self.startDealSample()
         for i in range(2):
             self.s.talon.dealRow()
@@ -300,8 +296,7 @@ class TenByOne(Bastion):
         Bastion.createGame(self, reserves=1)
 
     def startGame(self):
-        for i in range(3):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(3)
         self.startDealSample()
         for i in range(3):
             self.s.talon.dealRowAvail()
@@ -537,8 +532,7 @@ class Zerline(Game):
     #
 
     def startGame(self):
-        for i in range(4):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(4)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealCards()
@@ -597,8 +591,7 @@ class Chequers(Fortress):
         l.defaultStackGroups()
 
     def startGame(self):
-        for i in range(3):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(3)
         self.startDealSample()
         self.s.talon.dealRow()
 
@@ -659,8 +652,7 @@ class CastleOfIndolence(Game):
     def startGame(self):
         for i in range(13):
             self.s.talon.dealRow(rows=self.s.reserves, frames=0)
-        for i in range(4):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(4)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealRow()
@@ -785,8 +777,7 @@ class Lightweight(StreetsAndAlleys):
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
-        for i in range(self.DEAL[0]):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(self.DEAL[0])
         self.startDealSample()
         for i in range(self.DEAL[1]):
             self.s.talon.dealRowAvail()
@@ -869,8 +860,7 @@ class Soother(Game):
         l.defaultStackGroups()
 
     def startGame(self):
-        for i in range(4):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(4)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealCards()

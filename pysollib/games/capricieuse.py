@@ -90,8 +90,7 @@ class Capricieuse(Game):
     #
 
     def startGame(self):
-        for i in range(7):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(7)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealRow(self.s.foundations)
@@ -154,8 +153,7 @@ class Strata(Game):
         l.defaultStackGroups()
 
     def startGame(self):
-        for i in range(7):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(7)
         self.startDealSample()
         self.s.talon.dealRow()
 
@@ -177,8 +175,7 @@ class Fifteen(Capricieuse):
         Capricieuse.createGame(self, rows=15, round_text=False)
 
     def startGame(self):
-        for i in range(6):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(6)
         self.startDealSample()
         self.s.talon.dealRowAvail()
 

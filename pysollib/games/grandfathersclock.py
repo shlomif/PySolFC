@@ -125,8 +125,7 @@ class GrandfathersClock(Game):
 
     def startGame(self):
         self.playSample("grandfathersclock", loop=1)
-        for i in range(4):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(4)
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.foundations)
 

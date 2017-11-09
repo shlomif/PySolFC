@@ -371,8 +371,7 @@ class AmericanCanister(Klondike):
         Klondike.createGame(self, max_rounds=1, rows=8, waste=0, texts=0)
 
     def startGame(self):
-        for i in range(5):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(5)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.rows[2:6])
@@ -426,8 +425,7 @@ class EightTimesEight(Klondike):
         Klondike.createGame(self, rows=8)
 
     def startGame(self):
-        for i in range(7):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(7)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealCards()          # deal first card to WasteStack

@@ -90,8 +90,7 @@ class BuffaloBill(Game):
     #
 
     def startGame(self):
-        for i in range(3):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(3)
         self.startDealSample()
         self.s.talon.dealRow()
 

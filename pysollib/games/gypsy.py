@@ -208,8 +208,7 @@ class DieRussische(Gypsy):
             cards, lambda c: (c.rank == 0, c.suit), 1)
 
     def startGame(self):
-        for i in range(6):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(6)
         self.startDealSample()
         for i in range(3):
             self.s.talon.dealRow()
@@ -292,8 +291,7 @@ class Nomad(MissMilligan):
     ReserveStack_Class = ReserveStack
 
     def startGame(self):
-        for i in range(3):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(3)
         self.startDealSample()
         self.s.talon.dealRow()
 
@@ -407,8 +405,7 @@ class PhantomBlockade(Gypsy):
         Gypsy.createGame(self, rows=13, playcards=24)
 
     def startGame(self):
-        self.s.talon.dealRow(frames=0)
-        self.s.talon.dealRow(frames=0)
+        self._dealNumRows(2)
         self.startDealSample()
         self.s.talon.dealRow()
 
@@ -720,8 +717,7 @@ class Flamenco(Gypsy):
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
-        for i in range(2):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(2)
         self.startDealSample()
         self.s.talon.dealRow()
 
@@ -738,9 +734,7 @@ class Eclipse(Gypsy):
         Gypsy.createGame(self, rows=13)
 
     def startGame(self):
-        self.s.talon.dealRow(frames=0)
-        self.s.talon.dealRow(frames=0)
-        self.s.talon.dealRow(frames=0)
+        self._dealNumRows(3)
         self.startDealSample()
         self.s.talon.dealRow()
 
@@ -888,8 +882,7 @@ class LockedCards(Game):
 
     def startGame(self, rows=5):
         self.s.talon.dealRow(rows=self.s.reserves, flip=0, frames=0)
-        for i in range(rows-1):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(rows-1)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealCards()
@@ -974,8 +967,7 @@ class Thirty(Game):
         l.defaultAll()
 
     def startGame(self):
-        for i in range(4):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(4)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.reserves)

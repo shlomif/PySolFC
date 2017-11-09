@@ -189,8 +189,7 @@ class DutchSolitaire(Windmill):
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
-        for i in range(8):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(8)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealRow()

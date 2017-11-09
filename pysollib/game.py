@@ -3404,3 +3404,7 @@ in the current implementation.''') % version)
     def _startDealNumRows(self, n):
         self._dealNumRows(n)
         self.startDealSample()
+
+    def _startDealNumRowsAndDealSingleRow(self, n):
+        self._startDealNumRows(n)
+        self.s.talon.dealRow()

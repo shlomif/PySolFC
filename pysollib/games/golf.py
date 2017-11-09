@@ -447,8 +447,7 @@ class FourLeafClovers(Game):
         l.defaultStackGroups()
 
     def startGame(self):
-        self._startDealNumRows(3)
-        self.s.talon.dealRow()
+        self._startDealNumRowsAndDealSingleRow(3)
 
     shallHighlightMatch = Game._shallHighlightMatch_RKW
 
@@ -495,8 +494,7 @@ class AllInARow(BlackHole):
         l.defaultStackGroups()
 
     def startGame(self):
-        self._startDealNumRows(3)
-        self.s.talon.dealRow()
+        self._startDealNumRowsAndDealSingleRow(3)
 
 
 # ************************************************************************
@@ -691,8 +689,7 @@ class Waterfall(Game):
         l.defaultStackGroups()
 
     def startGame(self):
-        self._startDealNumRows(3)
-        self.s.talon.dealRow()
+        self._startDealNumRowsAndDealSingleRow(3)
 
     def updateText(self):
         if self.preview > 1:
@@ -1080,8 +1077,7 @@ class Flake2Decks(Flake):
         Flake.createGame(self, rows=8, playcards=22)
 
     def startGame(self):
-        self._startDealNumRows(12)
-        self.s.talon.dealRow()
+        self._startDealNumRowsAndDealSingleRow(12)
 
 
 # ************************************************************************
@@ -1118,8 +1114,7 @@ class Beacon(Game):
         l.defaultStackGroups()
 
     def startGame(self):
-        self._startDealNumRows(3)
-        self.s.talon.dealRow()
+        self._startDealNumRowsAndDealSingleRow(3)
 
     def fillStack(self, stack):
         if stack in self.s.rows and not stack.cards:

@@ -90,8 +90,7 @@ class BuffaloBill(Game):
     #
 
     def startGame(self):
-        self._startDealNumRows(3)
-        self.s.talon.dealRow()
+        self._startDealNumRowsAndDealSingleRow(3)
 
 
 class LittleBillie(BuffaloBill):

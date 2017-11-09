@@ -258,8 +258,7 @@ class Penguin(Tuxedo):
             self.flipMove(self.s.talon)
             self.moveMove(1, self.s.talon, to_stack, frames=0)
         # deal rows
-        self._startDealNumRows(6)
-        self.s.talon.dealRow()
+        self._startDealNumRowsAndDealSingleRow(6)
 
     def _restoreGameHook(self, game):
         self.base_card = self.cards[game.loadinfo.base_card_id]

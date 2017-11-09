@@ -270,8 +270,7 @@ class TripleFreecell(FreeCell):
     #
 
     def startGame(self):
-        self._startDealNumRows(11)
-        self.s.talon.dealRow()
+        self._startDealNumRowsAndDealSingleRow(11)
 
 
 class Cell11(TripleFreecell):
@@ -291,8 +290,7 @@ class BigCell(TripleFreecell):
         TripleFreecell.createGame(self, rows=13, reserves=4)
 
     def startGame(self):
-        self._startDealNumRows(11)
-        self.s.talon.dealRow()
+        self._startDealNumRowsAndDealSingleRow(11)
 
 
 # ************************************************************************
@@ -572,8 +570,7 @@ class Headquarters(Game):
         l.defaultStackGroups()
 
     def startGame(self):
-        self._startDealNumRows(12)
-        self.s.talon.dealRow()
+        self._startDealNumRowsAndDealSingleRow(12)
 
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
@@ -637,8 +634,7 @@ class Limpopo(Game):
         l.defaultStackGroups()
 
     def startGame(self):
-        self._startDealNumRows(12)
-        self.s.talon.dealRow()
+        self._startDealNumRowsAndDealSingleRow(12)
 
     shallHighlightMatch = Game._shallHighlightMatch_AC
 

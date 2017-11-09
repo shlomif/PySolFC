@@ -235,8 +235,7 @@ class GroundsForADivorce(RelaxedSpider):
         RelaxedSpider.createGame(self, playcards=22)
 
     def startGame(self):
-        self._startDealNumRows(4)
-        self.s.talon.dealRow()
+        self._startDealNumRowsAndDealSingleRow(4)
 
     shallHighlightMatch = Game._shallHighlightMatch_RKW
 
@@ -252,8 +251,7 @@ class GrandmothersGame(RelaxedSpider):
         RelaxedSpider.createGame(self, playcards=22)
 
     def startGame(self):
-        self._startDealNumRows(5)
-        self.s.talon.dealRow()
+        self._startDealNumRowsAndDealSingleRow(5)
 
 
 # ************************************************************************
@@ -538,8 +536,7 @@ class MrsMop(RelaxedSpider):
         RelaxedSpider.createGame(self, rows=13, playcards=24, texts=0)
 
     def startGame(self):
-        self._startDealNumRows(7)
-        self.s.talon.dealRow()
+        self._startDealNumRowsAndDealSingleRow(7)
 
 
 # ************************************************************************
@@ -598,8 +595,7 @@ class Cicely(Game):
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.reserves, frames=0)
-        self._startDealNumRows(3)
-        self.s.talon.dealRow()
+        self._startDealNumRowsAndDealSingleRow(3)
 
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
@@ -1051,8 +1047,7 @@ class FredsSpider(Spidike):
         Spidike.createGame(self, rows=10, playcards=23)
 
     def startGame(self):
-        self._startDealNumRows(4)
-        self.s.talon.dealRow()
+        self._startDealNumRowsAndDealSingleRow(4)
 
 
 class FredsSpider3Decks(FredsSpider):
@@ -1127,8 +1122,7 @@ class Incompatibility(Spidike):
         Spidike.createGame(self, rows=10)
 
     def startGame(self):
-        self._startDealNumRows(4)
-        self.s.talon.dealRow()
+        self._startDealNumRowsAndDealSingleRow(4)
 
 
 # ************************************************************************
@@ -1377,8 +1371,7 @@ class TheJollyRoger(Game):
         l.defaultStackGroups()
 
     def startGame(self):
-        self._startDealNumRows(2)
-        self.s.talon.dealRow()
+        self._startDealNumRowsAndDealSingleRow(2)
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         if card1.rank != ACE and card2.rank != ACE:

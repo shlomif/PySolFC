@@ -152,8 +152,7 @@ class Strata(Game):
         l.defaultStackGroups()
 
     def startGame(self):
-        self._startDealNumRows(7)
-        self.s.talon.dealRow()
+        self._startDealNumRowsAndDealSingleRow(7)
 
     def redealCards(self):
         while self.s.talon.cards:

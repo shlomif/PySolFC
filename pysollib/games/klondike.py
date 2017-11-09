@@ -1256,8 +1256,7 @@ class LuckyThirteen(Game):
         lay.defaultStackGroups()
 
     def startGame(self):
-        self._startDealNumRows(3)
-        self.s.talon.dealRow()
+        self._startDealNumRowsAndDealSingleRow(3)
 
     shallHighlightMatch = Game._shallHighlightMatch_RK
 

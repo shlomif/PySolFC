@@ -115,8 +115,7 @@ class CurdsAndWhey(Game):
     #
 
     def startGame(self):
-        self._startDealNumRows(3)
-        self.s.talon.dealRow()
+        self._startDealNumRowsAndDealSingleRow(3)
 
     def isGameWon(self):
         for s in self.s.rows:

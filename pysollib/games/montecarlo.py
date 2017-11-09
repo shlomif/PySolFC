@@ -633,8 +633,7 @@ class TheWishOpen(TheWish):
         pass
 
     def startGame(self):
-        self._startDealNumRows(3)
-        self.s.talon.dealRow()
+        self._startDealNumRowsAndDealSingleRow(3)
 
 # ************************************************************************
 # * Der letzte Monarch (The last Monarch)

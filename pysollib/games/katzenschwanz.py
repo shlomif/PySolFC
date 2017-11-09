@@ -388,8 +388,7 @@ class Deep(DerKatzenschwanz):
         return DerKatzenschwanz.createGame(self, rows=8, reserves=8)
 
     def startGame(self):
-        self._startDealNumRows(12)
-        self.s.talon.dealRow()
+        self._startDealNumRowsAndDealSingleRow(12)
 
 
 # ************************************************************************

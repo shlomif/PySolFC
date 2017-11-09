@@ -585,8 +585,7 @@ class Chequers(Fortress):
         l.defaultStackGroups()
 
     def startGame(self):
-        self._startDealNumRows(3)
-        self.s.talon.dealRow()
+        self._startDealNumRowsAndDealSingleRow(3)
 
     def fillStack(self, stack):
         if self.s.talon.cards and stack in self.s.rows and not stack.cards:

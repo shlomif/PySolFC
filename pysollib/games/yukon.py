@@ -657,8 +657,7 @@ class Hawaiian(Game):
     def startGame(self):
         for i in range(104-5*10):
             self.s.talon.dealRow(rows=self.s.reserves, frames=0)
-        self._startDealNumRows(4)
-        self.s.talon.dealRow()
+        self._startDealNumRowsAndDealSingleRow(4)
 
     def getHighlightPilesStacks(self):
         return ()

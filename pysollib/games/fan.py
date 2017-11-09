@@ -781,8 +781,7 @@ class Crescent(Game):
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
-        self._startDealNumRows(5)
-        self.s.talon.dealRow()
+        self._startDealNumRowsAndDealSingleRow(5)
 
     shallHighlightMatch = Game._shallHighlightMatch_SSW
 
@@ -930,8 +929,7 @@ class ForestGlade(Game):
         l.defaultStackGroups()
 
     def startGame(self):
-        self._startDealNumRows(2)
-        self.s.talon.dealRow()
+        self._startDealNumRowsAndDealSingleRow(2)
 
     shallHighlightMatch = Game._shallHighlightMatch_SS
 

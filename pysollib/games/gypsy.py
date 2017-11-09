@@ -290,8 +290,7 @@ class Nomad(MissMilligan):
     ReserveStack_Class = ReserveStack
 
     def startGame(self):
-        self._startDealNumRows(3)
-        self.s.talon.dealRow()
+        self._startDealNumRowsAndDealSingleRow(3)
 
 
 # ************************************************************************
@@ -403,8 +402,7 @@ class PhantomBlockade(Gypsy):
         Gypsy.createGame(self, rows=13, playcards=24)
 
     def startGame(self):
-        self._startDealNumRows(2)
-        self.s.talon.dealRow()
+        self._startDealNumRowsAndDealSingleRow(2)
 
 
 # ************************************************************************
@@ -714,8 +712,7 @@ class Flamenco(Gypsy):
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
-        self._startDealNumRows(2)
-        self.s.talon.dealRow()
+        self._startDealNumRowsAndDealSingleRow(2)
 
 
 # ************************************************************************
@@ -730,8 +727,7 @@ class Eclipse(Gypsy):
         Gypsy.createGame(self, rows=13)
 
     def startGame(self):
-        self._startDealNumRows(3)
-        self.s.talon.dealRow()
+        self._startDealNumRowsAndDealSingleRow(3)
 
     shallHighlightMatch = Game._shallHighlightMatch_SS
 

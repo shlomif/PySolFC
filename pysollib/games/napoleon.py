@@ -404,8 +404,7 @@ class BusyCards(Game):
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
-        self._startDealNumRows(7)
-        self.s.talon.dealRow()
+        self._startDealNumRowsAndDealSingleRow(7)
 
     shallHighlightMatch = Game._shallHighlightMatch_SS
 

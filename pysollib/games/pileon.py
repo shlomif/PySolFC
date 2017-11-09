@@ -202,8 +202,7 @@ class Quartets(Foursome):
         Foursome.createGame(self, rows=8, texts=False)
 
     def startGame(self):
-        for i in range(5):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(5)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealRowAvail()
@@ -368,8 +367,7 @@ class Footling(FourByFour):
         l.defaultStackGroups()
 
     def startGame(self):
-        for i in range(5):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(5)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealRowAvail()
@@ -382,8 +380,7 @@ class DoubleFootling(Footling):
         Footling.createGame(self, rows=10, reserves=5, playcards=18)
 
     def startGame(self):
-        for i in range(9):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(9)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealRowAvail()

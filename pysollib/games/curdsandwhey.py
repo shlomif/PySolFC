@@ -115,8 +115,7 @@ class CurdsAndWhey(Game):
     #
 
     def startGame(self):
-        for i in range(3):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(3)
         self.startDealSample()
         self.s.talon.dealRow()
 
@@ -138,8 +137,7 @@ class MissMuffet(CurdsAndWhey):
         CurdsAndWhey.createGame(self, rows=10)
 
     def startGame(self):
-        for i in range(4):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(4)
         self.s.talon.dealRow(rows=[self.s.rows[0], self.s.rows[-1]], frames=0)
         self.startDealSample()
         self.s.talon.dealRow()

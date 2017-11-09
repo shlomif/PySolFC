@@ -132,8 +132,7 @@ class Odessa(RussianSolitaire):
     def startGame(self):
         for i in range(3):
             self.s.talon.dealRow(flip=0, frames=0)
-        for i in range(2):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(2)
         for i in range(2):
             self.s.talon.dealRow(rows=self.s.rows[1:6], frames=0)
         self.startDealSample()
@@ -489,8 +488,7 @@ class AustralianPatience(RussianSolitaire):
         l.defaultAll()
 
     def startGame(self):
-        for i in range(3):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(3)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealCards()
@@ -507,8 +505,7 @@ class BimBom(AustralianPatience):
         AustralianPatience.createGame(self, rows=8)
 
     def startGame(self):
-        for i in range(4):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(4)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealCards()
@@ -550,8 +547,7 @@ class Queensland(Yukon):
     def startGame(self):
         for i in range(1, len(self.s.rows)):
             self.s.talon.dealRow(rows=self.s.rows[i:], flip=0, frames=0)
-        for i in range(3):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(3)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealRowAvail()
@@ -623,8 +619,7 @@ class Brisbane(Yukon):
     def startGame(self):
         for i in range(1, len(self.s.rows)):
             self.s.talon.dealRow(rows=self.s.rows[i:], flip=0, frames=0)
-        for i in range(3):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(3)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealRowAvail()
@@ -666,8 +661,7 @@ class Hawaiian(Game):
     def startGame(self):
         for i in range(104-5*10):
             self.s.talon.dealRow(rows=self.s.reserves, frames=0)
-        for i in range(4):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(4)
         self.startDealSample()
         self.s.talon.dealRow()
 

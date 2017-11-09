@@ -323,8 +323,7 @@ class One234(Calculation):
         return cards
 
     def startGame(self):
-        for i in range(4):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(4)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealRow()
@@ -411,8 +410,7 @@ class SeniorWrangler(Game):
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations[:8], frames=0)
-        for i in range(11):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(11)
         self.startDealSample()
         self.s.talon.dealRow()
 

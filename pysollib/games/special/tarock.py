@@ -424,8 +424,7 @@ class Pagat(AbstractTarockGame):
 
     def startGame(self):
         assert len(self.s.talon.cards) == 78
-        for i in range(6):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(6)
         self.startDealSample()
         self.s.talon.dealRow(rows=self.s.rows[3:9])
 
@@ -494,8 +493,7 @@ class Skiz(AbstractTarockGame):
 
     def startGame(self):
         assert len(self.s.talon.cards) == 78
-        for i in range(6):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(6)
         self.startDealSample()
         self.s.talon.dealRow(rows=self.s.rows[3:9])
 
@@ -642,8 +640,7 @@ class Excuse(AbstractTarockGame):
 
     def startGame(self):
         assert len(self.s.talon.cards) == 78
-        for i in range(3):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(3)
         self.s.talon.dealRow(rows=self.s.rows[:15], frames=0)
         self.startDealSample()
         self.s.talon.dealRow(rows=self.s.rows[:15])

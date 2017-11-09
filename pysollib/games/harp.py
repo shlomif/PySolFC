@@ -275,8 +275,7 @@ class Delivery(BigDeal):
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
     def startGame(self):
-        for i in range(2):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(2)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealCards()          # deal first card to WasteStack
@@ -330,8 +329,7 @@ class Brush(DoubleKlondike):
         DoubleKlondike.createGame(self, rows=10, max_rounds=1)
 
     def startGame(self):
-        for i in range(3):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(3)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealCards()        # deal first card to WasteStack

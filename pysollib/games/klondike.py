@@ -620,8 +620,7 @@ class Brigade(Raglan):
     RESERVES = (4, 4, 4, 1)
 
     def startGame(self):
-        for i in range(4):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(4)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.reserves)
@@ -834,8 +833,7 @@ class Phoenix(Klondike):
         lay.defaultStackGroups()
 
     def startGame(self):
-        for i in range(6):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(6)
         self.startDealSample()
         self.s.talon.dealRow(rows=self.s.reserves)
 
@@ -867,8 +865,7 @@ class Lanes(Klondike):
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
-        for i in range(2):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(2)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealCards()          # deal first card to WasteStack
@@ -923,8 +920,7 @@ class Q_C_(Klondike):
         lay.createRoundText(self.s.talon, 'sss')
 
     def startGame(self):
-        for i in range(3):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(3)
         self.startDealSample()
         self.s.talon.dealRow()
         while self.s.talon.cards:
@@ -1340,8 +1336,7 @@ class BigBertha(Game):
         lay.defaultStackGroups()
 
     def startGame(self):
-        for i in range(5):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(5)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.reserves)

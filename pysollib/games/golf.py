@@ -180,8 +180,7 @@ class Golf(Game):
     #
 
     def startGame(self):
-        for i in range(4):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(4)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealCards()          # deal first card to WasteStack
@@ -379,8 +378,7 @@ class BlackHole(Game):
             cards, lambda c: (c.id == 13, c.suit), 1)
 
     def startGame(self):
-        for i in range(2):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(2)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.foundations)
@@ -451,8 +449,7 @@ class FourLeafClovers(Game):
         l.defaultStackGroups()
 
     def startGame(self):
-        for i in range(3):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(3)
         self.startDealSample()
         self.s.talon.dealRow()
 
@@ -501,8 +498,7 @@ class AllInARow(BlackHole):
         l.defaultStackGroups()
 
     def startGame(self):
-        for i in range(3):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(3)
         self.startDealSample()
         self.s.talon.dealRow()
 
@@ -636,8 +632,7 @@ class Dolphin(Game):
         l.defaultAll()
 
     def startGame(self):
-        for i in range(5):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(5)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealRowAvail()
@@ -649,8 +644,7 @@ class DoubleDolphin(Dolphin):
         Dolphin.createGame(self, rows=10, reserves=5, playcards=10)
 
     def startGame(self):
-        for i in range(9):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(9)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealRowAvail()
@@ -703,8 +697,7 @@ class Waterfall(Game):
         l.defaultStackGroups()
 
     def startGame(self):
-        for i in range(3):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(3)
         self.startDealSample()
         self.s.talon.dealRow()
 
@@ -1028,8 +1021,7 @@ class NapoleonTakesMoscow(Game, FirTree_GameMethods):
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.reserves, frames=0)
-        for i in range(3):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(3)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealCards()
@@ -1043,8 +1035,7 @@ class NapoleonLeavesMoscow(NapoleonTakesMoscow):
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.reserves, frames=0)
-        for i in range(4):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(4)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealCards()
@@ -1086,8 +1077,7 @@ class Flake(Game):
         l.defaultStackGroups()
 
     def startGame(self):
-        for i in range(7):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(7)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealRowAvail()
@@ -1100,8 +1090,7 @@ class Flake2Decks(Flake):
         Flake.createGame(self, rows=8, playcards=22)
 
     def startGame(self):
-        for i in range(12):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(12)
         self.startDealSample()
         self.s.talon.dealRow()
 
@@ -1140,8 +1129,7 @@ class Beacon(Game):
         l.defaultStackGroups()
 
     def startGame(self):
-        for i in range(3):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(3)
         self.startDealSample()
         self.s.talon.dealRow()
 

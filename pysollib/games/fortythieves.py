@@ -616,8 +616,7 @@ class Octave(Game):
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
-        for i in range(2):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(2)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealCards()          # deal first card to WasteStack
@@ -806,8 +805,7 @@ class Squadron(FortyThieves):
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.reserves, frames=0)
-        for i in range(3):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(3)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealCards()          # deal first card to WasteStack
@@ -1048,8 +1046,7 @@ class FortyNine(Interchange):
     RowStack_Class = FortyNine_RowStack
 
     def startGame(self):
-        for i in range(6):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(6)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealCards()
@@ -1149,8 +1146,7 @@ class Floradora(Game):
         l.defaultStackGroups()
 
     def startGame(self):
-        for i in range(5):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(5)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealCards()

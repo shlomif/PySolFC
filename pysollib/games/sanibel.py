@@ -54,8 +54,7 @@ class Sanibel(Gypsy):
     def startGame(self):
         for i in range(3):
             self.s.talon.dealRow(flip=0, frames=0)
-        for i in range(6):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(6)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealCards()          # deal first card to WasteStack

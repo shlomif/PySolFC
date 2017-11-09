@@ -368,8 +368,7 @@ class Primrose(Interregnum):
         Interregnum.createGame(self, playcards=16, texts=True)
 
     def startGame(self):
-        for i in range(11):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(11)
         Interregnum.startGame(self)
 
 

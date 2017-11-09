@@ -342,8 +342,7 @@ class MamySusan(Terrace):
         for i in range(6):
             self.s.talon.dealRow(rows=self.s.reserves, flip=0, frames=0)
         self.flipMove(self.s.reserves[0])
-        for i in range(3):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(3)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealCards()

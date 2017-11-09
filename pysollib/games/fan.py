@@ -384,8 +384,7 @@ class Trefoil(LaBelleLucie):
             cards, lambda c: (c.rank == 0, c.suit))
 
     def startGame(self):
-        for i in range(2):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(2)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.foundations)
@@ -568,8 +567,7 @@ class CloverLeaf(Game):
     #
 
     def startGame(self):
-        for i in range(2):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(2)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.foundations)
@@ -609,8 +607,7 @@ class BoxFan(Fan):
         Fan.createGame(self, rows=(4, 4, 4, 4))
 
     def startGame(self):
-        for i in range(2):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(2)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.foundations)
@@ -789,8 +786,7 @@ class Crescent(Game):
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
-        for i in range(5):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(5)
         self.startDealSample()
         self.s.talon.dealRow()
 
@@ -810,8 +806,7 @@ class School(Fan):
         Fan.createGame(self, rows=(4, 4, 4, 4), playcards=10, texts=True)
 
     def startGame(self):
-        for i in range(2):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(2)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.foundations)
@@ -942,8 +937,7 @@ class ForestGlade(Game):
         l.defaultStackGroups()
 
     def startGame(self):
-        for i in range(2):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(2)
         self.startDealSample()
         self.s.talon.dealRow()
 

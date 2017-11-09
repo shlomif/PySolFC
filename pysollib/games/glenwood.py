@@ -325,8 +325,7 @@ class DoubleFives(Glenwood):
 
     def startGame(self):
         self.base_rank = None
-        for i in range(4):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(4)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.reserves[-2:])

@@ -343,8 +343,7 @@ class Bonaparte(TheLittleCorporal):
         TheLittleCorporal.createGame(self, rows=8)
 
     def startGame(self):
-        for i in range(5):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(5)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealBaseCards(ncards=4)
@@ -406,8 +405,7 @@ class BusyCards(Game):
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
-        for i in range(7):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(7)
         self.startDealSample()
         self.s.talon.dealRow()
 

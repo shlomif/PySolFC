@@ -357,8 +357,7 @@ class MughalCircles(AbstractMughalGame):
 
     def startGame(self):
         assert len(self.s.talon.cards) == 96
-        for i in range(3):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(3)
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealCards()
@@ -419,8 +418,7 @@ class EightLegions(AbstractMughalGame):
 
     def startGame(self):
         assert len(self.s.talon.cards) == 96
-        for i in range(4):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(4)
         self.startDealSample()
         self.s.talon.dealCards()
 
@@ -484,8 +482,7 @@ class Shamsher(AbstractMughalGame):
 
     def startGame(self):
         assert len(self.s.talon.cards) == 96
-        for i in range(6):
-            self.s.talon.dealRow(frames=0)
+        self._dealNumRows(6)
         self.startDealSample()
         self.s.talon.dealRow(rows=self.s.rows[:12])
         self.s.talon.dealCards()

@@ -229,8 +229,7 @@ class RoyalMarriage(PushPin):
 
 class Queens(PushPin):
     def startGame(self):
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
 
 # ************************************************************************

@@ -117,8 +117,7 @@ class AcesUp(Game):
     #
 
     def startGame(self):
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
     def isGameWon(self):
         if len(self.s.foundations[0].cards) != 48:
@@ -251,8 +250,7 @@ class PerpetualMotion(Game):
     #
 
     def startGame(self):
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return card1.rank == card2.rank
@@ -398,8 +396,7 @@ class TabbyCat(Game):
         l.defaultStackGroups()
 
     def startGame(self):
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
     shallHighlightMatch = Game._shallHighlightMatch_RKW
 

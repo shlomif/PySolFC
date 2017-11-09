@@ -644,8 +644,7 @@ class Twenty(Game):
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
     def fillStack(self, stack):
         if not stack.cards and stack in self.s.rows and self.s.talon.cards:

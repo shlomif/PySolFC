@@ -137,8 +137,7 @@ class MissMuffet(CurdsAndWhey):
     def startGame(self):
         self._dealNumRows(4)
         self.s.talon.dealRow(rows=[self.s.rows[0], self.s.rows[-1]], frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
 
 class Nordic(MissMuffet):
@@ -273,8 +272,7 @@ class Arachnida(CurdsAndWhey):
         for i in range(4):
             self.s.talon.dealRow(flip=0, frames=0)
         self.s.talon.dealRow(rows=self.s.rows[:4], flip=0, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
     def canDealCards(self):
         if not CurdsAndWhey.canDealCards(self):
@@ -390,8 +388,7 @@ class TrustyTwelve(Game):
         l.defaultStackGroups()
 
     def startGame(self):
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
     def fillStack(self, stack):
         if not stack.cards and stack in self.s.rows:

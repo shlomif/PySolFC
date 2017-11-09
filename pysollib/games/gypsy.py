@@ -88,8 +88,7 @@ class Gypsy(Game):
     def startGame(self):
         for i in range(2):
             self.s.talon.dealRow(flip=0, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
@@ -110,8 +109,7 @@ class Giant(Gypsy):
     Foundation_Class = Giant_Foundation
 
     def startGame(self):
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
 
 # ************************************************************************
@@ -144,8 +142,7 @@ class Irmgard(Gypsy):
         r = self.s.rows
         for i in range(1, 5):
             self.s.talon.dealRow(rows=r[i:len(r)-i], flip=0, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
 
 # ************************************************************************
@@ -272,8 +269,7 @@ class MissMilligan(Gypsy):
         l.defaultStackGroups()
 
     def startGame(self):
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
 
 class ImperialGuards(MissMilligan):
@@ -304,8 +300,7 @@ class MilliganCell(MissMilligan):
         MissMilligan.createGame(self, reserves=4)
 
     def startGame(self):
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
 
 # ************************************************************************
@@ -320,8 +315,7 @@ class MilliganHarp(Gypsy):
     def startGame(self, flip=0):
         for i in range(len(self.s.rows)):
             self.s.talon.dealRow(rows=self.s.rows[i+1:], flip=flip, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
 
 class Carlton(MilliganHarp):
@@ -381,8 +375,7 @@ class Blockade(Gypsy):
         Gypsy.createGame(self, rows=12)
 
     def startGame(self):
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
     def fillStack(self, stack):
         if stack in self.s.rows and not stack.cards and self.s.talon.cards:
@@ -509,8 +502,7 @@ class Surprise(Gypsy):
     def startGame(self):
         for i in range(1, 6):
             self.s.talon.dealRow(rows=self.s.rows[i:-i], flip=0, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
 
 # ************************************************************************
@@ -527,8 +519,7 @@ class Elba(Gypsy):
     def startGame(self):
         for i in range(4):
             self.s.talon.dealRow(flip=0, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
 
 # ************************************************************************
@@ -542,8 +533,7 @@ class Millie(Gypsy):
         Gypsy.createGame(self, playcards=24)
 
     def startGame(self):
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
 
 # ************************************************************************
@@ -562,8 +552,7 @@ class Hypotenuse(Gypsy):
     def startGame(self, flip=0, reverse=1):
         for i in range(1, 10):
             self.s.talon.dealRow(rows=self.s.rows[:i], flip=0, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
 
 class EternalTriangle(Hypotenuse):
@@ -571,8 +560,7 @@ class EternalTriangle(Hypotenuse):
     def startGame(self, flip=0, reverse=1):
         for i in range(1, 10):
             self.s.talon.dealRow(rows=self.s.rows[i:], frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
 
 class RightTriangle_Talon(OpenStack, DealRowTalonStack):
@@ -746,8 +734,7 @@ class BrazilianPatience(Gypsy):
     def startGame(self, flip=0, reverse=1):
         for i in range(1, 10):
             self.s.talon.dealRow(rows=self.s.rows[i:], flip=0, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
 
 # ************************************************************************
@@ -801,8 +788,7 @@ class Leprechaun(Game):
             self.s.talon.dealRow(rows=self.s.reserves, flip=0, frames=0)
         self.s.talon.dealRow(flip=0, frames=0)
         self.s.talon.dealRow(flip=0, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
     shallHighlightMatch = Game._shallHighlightMatch_AC
 

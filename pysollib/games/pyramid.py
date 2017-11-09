@@ -423,8 +423,7 @@ class Thirteens(Pyramid):
         l.defaultStackGroups()
 
     def startGame(self):
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
     def fillStack(self, stack):
         if stack in self.s.rows:
@@ -522,8 +521,7 @@ class Elevens(Pyramid):
         l.defaultStackGroups()
 
     def startGame(self):
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
     def fillStack(self, stack):
         old_state = self.enterState(self.S_FILL)
@@ -851,8 +849,7 @@ class Baroness(Pyramid):
         l.defaultStackGroups()
 
     def startGame(self):
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
 
 # ************************************************************************

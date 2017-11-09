@@ -135,8 +135,7 @@ class Fan(Game):
     def startGame(self):
         for i in range(2):
             self.s.talon.dealRow(rows=self.s.rows[:17], frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
@@ -693,8 +692,7 @@ class FascinationFan(Fan):
     def startGame(self):
         for i in range(2):
             self.s.talon.dealRow(rows=self.s.rows[:17], flip=0, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
     def redealCards(self):
         r0 = r1 = len(self.s.talon.cards)//3

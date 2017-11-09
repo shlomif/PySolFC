@@ -1137,8 +1137,7 @@ class AshtaDikapala(Game):
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.tableaux, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
     def isGameWon(self):
         for stack in self.s.tableaux:

@@ -82,8 +82,7 @@ class CastlesInSpain(Game):
     def startGame(self, flip=(0, 0, 0)):
         for f in flip:
             self.s.talon.dealRow(flip=f, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
     shallHighlightMatch = Game._shallHighlightMatch_AC
 

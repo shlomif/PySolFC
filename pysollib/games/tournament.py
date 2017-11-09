@@ -318,8 +318,7 @@ class LadiesBattle(Game):
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.reserves, frames=0)
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
     def fillStack(self, stack):
         if stack in self.s.rows and not stack.cards:

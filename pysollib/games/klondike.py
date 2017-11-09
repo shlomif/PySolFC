@@ -1008,8 +1008,7 @@ class DoubleDot(Klondike):
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
     # def shallHighlightMatch(self, stack1, card1, stack2, card2):
     #     return abs(card1.rank-card2.rank) == 2

@@ -96,8 +96,7 @@ class TamOShanter(Game):
     #
 
     def startGame(self):
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
     def getAutoStacks(self, event=None):
         return ((), (), self.sg.dropstacks)
@@ -115,8 +114,7 @@ class AuldLangSyne(TamOShanter):
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
 # ************************************************************************
 # * Strategy
@@ -506,8 +504,7 @@ class Amazons(AuldLangSyne):
         return cards
 
     def startGame(self):
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
 
 # ************************************************************************
@@ -608,8 +605,7 @@ class Formic(TamOShanter):
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
 
 # register the game

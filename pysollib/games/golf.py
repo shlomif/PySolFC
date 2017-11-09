@@ -579,8 +579,7 @@ class DiamondMine(Game):
     def startGame(self):
         for i in range(3):
             self.s.talon.dealRow(flip=0, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
     def isGameWon(self):
         if len(self.s.foundations[0].cards) != 13:
@@ -782,8 +781,7 @@ class ThirtyTwoCards(Vague):
         Vague.createGame(self, rows=4, columns=8)
 
     def startGame(self):
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
 
 # ************************************************************************

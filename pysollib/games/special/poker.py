@@ -276,8 +276,7 @@ class PokerShuffle(PokerSquare):
 
     def startGame(self):
         self.moveMove(27, self.s.talon, self.s.internals[0], frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
     def checkForWin(self):
         return 0

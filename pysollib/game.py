@@ -3408,3 +3408,6 @@ in the current implementation.''') % version)
     def _startDealNumRowsAndDealSingleRow(self, n):
         self._startDealNumRows(n)
         self.s.talon.dealRow()
+
+    def _startAndDealRow(self):
+        self._startDealNumRowsAndDealSingleRow(0)

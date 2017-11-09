@@ -153,8 +153,7 @@ class MonteCarlo(Game):
     #
 
     def startGame(self):
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
     def getAutoStacks(self, event=None):
         return ((), (), self.sg.dropstacks)
@@ -614,8 +613,7 @@ class TheWish(Game):
     def startGame(self):
         for i in range(3):
             self.s.talon.dealRow(flip=0, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
     def fillStack(self, stack):
         if stack.cards:
@@ -832,8 +830,7 @@ class DoubletsII(Game):
     def startGame(self):
         for i in range(3):
             self.s.talon.dealRow(frames=0, flip=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
     def fillStack(self, stack):
         if stack in self.s.rows:
@@ -892,8 +889,7 @@ class RightAndLeft(Game):
         l.defaultStackGroups()
 
     def startGame(self):
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
 
 # register the game

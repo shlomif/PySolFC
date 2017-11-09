@@ -542,8 +542,7 @@ class GreatWall(AbstractFlowerGame):
         self.updateText()
         for i in range(15):
             self.s.talon.dealRow(flip=0, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
         assert len(self.s.talon.cards) == 0
 
     def fillStack(self, stack):

@@ -160,8 +160,7 @@ class RelaxedSpider(Game):
         r = self.s.rows
         rows = (r[0], r[3], r[6], r[9])
         self.s.talon.dealRow(rows=rows, flip=flip, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
     shallHighlightMatch = Game._shallHighlightMatch_RK
     getQuickPlayScore = Game._getSpiderQuickPlayScore
@@ -265,8 +264,7 @@ class Spiderette(Spider):
     def startGame(self):
         for i in range(1, len(self.s.rows)):
             self.s.talon.dealRow(rows=self.s.rows[i:], flip=0, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
 
 # ************************************************************************
@@ -285,8 +283,7 @@ class WillOTheWisp(Spiderette):
     def startGame(self):
         for i in range(2):
             self.s.talon.dealRow(flip=0, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
 
 # ************************************************************************
@@ -304,8 +301,7 @@ class SimpleSimon(Spider):
     def startGame(self):
         for i in (9, 8, 7, 6, 5, 4, 3):
             self.s.talon.dealRow(rows=self.s.rows[:i], frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
 
 class SimpleSimonII(SimpleSimon):
@@ -353,8 +349,7 @@ class Scorpion(RelaxedSpider):
         for i in (4, 4, 4, 0, 0, 0):
             self.s.talon.dealRow(rows=self.s.rows[:i], flip=0, frames=0)
             self.s.talon.dealRow(rows=self.s.rows[i:], flip=1, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
@@ -398,8 +393,7 @@ class TripleScorpion(Scorpion):
         for i in (5, 5, 5, 5, 5, 0, 0, 0, 0, 0, 0):
             self.s.talon.dealRow(rows=self.s.rows[:i], flip=0, frames=0)
             self.s.talon.dealRow(rows=self.s.rows[i:], flip=1, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
 
 # ************************************************************************
@@ -413,8 +407,7 @@ class Wasp(Scorpion):
         for i in (3, 3, 3, 0, 0, 0):
             self.s.talon.dealRow(rows=self.s.rows[:i], flip=0, frames=0)
             self.s.talon.dealRow(rows=self.s.rows[i:], flip=1, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
 
 # ************************************************************************
@@ -635,8 +628,7 @@ class Trillium(Game):
         self.s.talon.dealRow(frames=0, flip=0)
         self.s.talon.dealRow(frames=0)
         self.s.talon.dealRow(frames=0, flip=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
@@ -896,8 +888,7 @@ class BigSpider(Spider):
     def startGame(self):
         for i in range(5):
             self.s.talon.dealRow(frames=0, flip=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
 
 class BigSpider1Suit(BigSpider):
@@ -912,8 +903,7 @@ class Spider3x3(BigSpider):
     def startGame(self):
         for i in range(4):
             self.s.talon.dealRow(frames=0, flip=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
 
 class GroundsForADivorce3Decks(BigSpider):
@@ -977,8 +967,7 @@ class ChineseSpider(Spider):
     def startGame(self):
         for i in range(5):
             self.s.talon.dealRow(frames=0, flip=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
 
 # ************************************************************************
@@ -1036,8 +1025,7 @@ class Spidike(RelaxedSpider):
     def startGame(self):
         for i in range(1, len(self.s.rows)):
             self.s.talon.dealRow(rows=self.s.rows[i:], frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
 
 class FredsSpider(Spidike):
@@ -1135,8 +1123,7 @@ class ScorpionII(Scorpion):
         for i in (3, 3, 3, 0, 0, 0):
             self.s.talon.dealRow(rows=self.s.rows[:i], flip=0, frames=0)
             self.s.talon.dealRow(rows=self.s.rows[i:], flip=1, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
 
 # ************************************************************************
@@ -1217,8 +1204,7 @@ class FechtersGame(RelaxedSpider):
         self.s.talon.dealRow(flip=0, frames=0)
         self.s.talon.dealRow(flip=1, frames=0)
         self.s.talon.dealRow(flip=0, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
@@ -1250,8 +1236,7 @@ class Bebop(Game):
     def startGame(self):
         for i in range(len(self.s.rows)-1):
             self.s.talon.dealRow(frames=0, flip=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
     def fillStack(self, stack):
         if stack in self.s.rows:

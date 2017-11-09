@@ -83,8 +83,7 @@ class Yukon(Game):
             self.s.talon.dealRow(rows=self.s.rows[i:], flip=0, frames=0)
         for i in range(4):
             self.s.talon.dealRow(rows=self.s.rows[1:], flip=1, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
     def getHighlightPilesStacks(self):
         return ()
@@ -135,8 +134,7 @@ class Odessa(RussianSolitaire):
         self._dealNumRows(2)
         for i in range(2):
             self.s.talon.dealRow(rows=self.s.rows[1:6], frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
 
 # ************************************************************************
@@ -228,8 +226,7 @@ class ChineseDiscipline(Yukon):
         for i in (3, 3, 3, 4, 5, 6):
             self.s.talon.dealRow(rows=self.s.rows[:i], flip=1, frames=0)
             self.s.talon.dealRow(rows=self.s.rows[i:], flip=0, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
 
 class ChineseSolitaire(ChineseDiscipline):
@@ -283,8 +280,7 @@ class RussianPoint(Rushdike):
         r = self.s.rows
         for i in (1, 1, 2, 2, 3, 3):
             self.s.talon.dealRow(rows=r[i:len(r)-i], flip=0, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
 
 # ************************************************************************
@@ -355,8 +351,7 @@ class DoubleYukon(Yukon):
         # self.s.talon.dealRow(rows=self.s.rows, flip=0, frames=0)
         for i in range(5):
             self.s.talon.dealRow(flip=1, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
 
 class DoubleRussianSolitaire(DoubleYukon):
@@ -379,8 +374,7 @@ class TripleYukon(Yukon):
             self.s.talon.dealRow(rows=self.s.rows[i:], flip=0, frames=0)
         for i in range(5):
             self.s.talon.dealRow(rows=self.s.rows, flip=1, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
 
 class TripleRussianSolitaire(TripleYukon):
@@ -698,8 +692,7 @@ class Wave(Game):
     def startGame(self):
         self.s.talon.dealRow(frames=0)
         self.s.talon.dealRow(frames=0, flip=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
     shallHighlightMatch = Game._shallHighlightMatch_AC
 

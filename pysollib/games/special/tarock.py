@@ -556,8 +556,7 @@ class FifteenPlus(AbstractTarockGame):
             self.s.talon.dealRow(flip=0, frames=0)
         for i in range(2):
             self.s.talon.dealRow(rows=self.s.rows[:15], flip=0, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return (card1.suit == card2.suit and

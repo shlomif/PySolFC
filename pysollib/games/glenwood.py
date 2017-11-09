@@ -157,8 +157,7 @@ class Glenwood(Game):
         self.base_rank = None
         for i in range(3):
             self.s.talon.dealRow(rows=self.s.reserves, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
+        self._startAndDealRow()
 
     #
     # game extras

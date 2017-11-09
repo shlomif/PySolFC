@@ -3396,3 +3396,7 @@ in the current implementation.''') % version)
 
     def _saveGameHook(self, p):
         pass
+
+    def _dealNumRows(self, n):
+        for i in range(n):
+            self.s.talon.dealRow(frames=0)

@@ -90,8 +90,7 @@ class Capricieuse(Game):
     #
 
     def startGame(self):
-        self._dealNumRows(7)
-        self.startDealSample()
+        self._startDealNumRows(7)
         self.s.talon.dealRow()
         self.s.talon.dealRow(self.s.foundations)
 
@@ -153,8 +152,7 @@ class Strata(Game):
         l.defaultStackGroups()
 
     def startGame(self):
-        self._dealNumRows(7)
-        self.startDealSample()
+        self._startDealNumRows(7)
         self.s.talon.dealRow()
 
     def redealCards(self):
@@ -175,8 +173,7 @@ class Fifteen(Capricieuse):
         Capricieuse.createGame(self, rows=15, round_text=False)
 
     def startGame(self):
-        self._dealNumRows(6)
-        self.startDealSample()
+        self._startDealNumRows(6)
         self.s.talon.dealRowAvail()
 
     def _shuffleHook(self, cards):

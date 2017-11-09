@@ -703,9 +703,7 @@ class ThreePirates(Game):
         l.defaultStackGroups()
 
     def startGame(self):
-        for i in (0, 1, 2):
-            self.s.talon.dealRow(frames=0)
-        self.startDealSample()
+        self._startDealNumRows(3)
         self.s.talon.dealRow()
         self.s.talon.dealCards()
 

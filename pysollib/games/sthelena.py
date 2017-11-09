@@ -157,8 +157,7 @@ class StHelena(Game):
                               (-c.rank, c.suit)), 8)
 
     def startGame(self):
-        self._dealNumRows(7)
-        self.startDealSample()
+        self._startDealNumRows(7)
         self.s.talon.dealRow()
         self.s.talon.dealRow(self.s.foundations)
 

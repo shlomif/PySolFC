@@ -243,8 +243,7 @@ class OpenPeek(Game):
     #
 
     def startGame(self):
-        self._dealNumRows(5)
-        self.startDealSample()
+        self._startDealNumRows(5)
         self.s.talon.dealRow(rows=self.s.reserves)
 
 

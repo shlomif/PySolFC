@@ -724,9 +724,7 @@ class TripleAlliance(Game):
         l.defaultStackGroups()
 
     def startGame(self):
-        self.s.talon.dealRow(frames=0)
-        self.s.talon.dealRow(frames=0)
-        self.startDealSample()
+        self._startDealNumRows(3)
         self.s.talon.dealRowAvail()
 
     def fillStack(self, stack):

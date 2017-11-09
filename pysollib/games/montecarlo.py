@@ -425,8 +425,7 @@ class Fourteen(Game):
     #
 
     def startGame(self):
-        self._dealNumRows(3)
-        self.startDealSample()
+        self._startDealNumRows(3)
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.rows[:4])
 
@@ -634,8 +633,7 @@ class TheWishOpen(TheWish):
         pass
 
     def startGame(self):
-        self._dealNumRows(3)
-        self.startDealSample()
+        self._startDealNumRows(3)
         self.s.talon.dealRow()
 
 # ************************************************************************

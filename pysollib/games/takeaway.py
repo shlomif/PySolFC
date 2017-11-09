@@ -103,8 +103,7 @@ class TakeAway(Game):
     #
 
     def startGame(self):
-        self._dealNumRows(10)
-        self.startDealSample()
+        self._startDealNumRows(10)
         for i in range(3):
             self.s.talon.dealRow()
 

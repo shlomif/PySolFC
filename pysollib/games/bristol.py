@@ -388,8 +388,7 @@ class Gotham(NewYork):
     RowStack_Class = StackWrapper(Gotham_RowStack, base_rank=ANY_RANK, mod=13)
 
     def startGame(self):
-        self.s.talon.dealRow(frames=0)
-        self.s.talon.dealRow(frames=0)
+        self._dealNumRows(2)
         NewYork.startGame(self)
 
     shallHighlightMatch = Game._shallHighlightMatch_RKW

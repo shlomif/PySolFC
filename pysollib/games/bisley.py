@@ -90,8 +90,7 @@ class Bisley(Game):
     #
 
     def startGame(self):
-        self._dealNumRows(3)
-        self.startDealSample()
+        self._startDealNumRows(3)
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.foundations[::2])
 
@@ -190,8 +189,7 @@ class Gloria(Game):
         l.defaultAll()
 
     def startGame(self):
-        self._dealNumRows(3)
-        self.startDealSample()
+        self._startDealNumRows(3)
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.foundations[1::2])
 
@@ -238,8 +236,7 @@ class Realm(Game):
         l.defaultAll()
 
     def startGame(self):
-        self._dealNumRows(5)
-        self.startDealSample()
+        self._startDealNumRows(5)
         self.s.talon.dealRow()
         self.s.talon.dealRowAvail()
 
@@ -342,8 +339,7 @@ class BoardPatience(Game):
         self.flipMove(self.s.talon)
         self.moveMove(1, self.s.talon, self.s.foundations[n], frames=0)
         # deal to rows
-        self._dealNumRows(4)
-        self.startDealSample()
+        self._startDealNumRows(4)
         self.s.talon.dealRow()
         self.s.talon.dealRowAvail()
 
@@ -406,8 +402,7 @@ class Cringle(Game):
         l.defaultStackGroups()
 
     def startGame(self):
-        self._dealNumRows(4)
-        self.startDealSample()
+        self._startDealNumRows(4)
         self.s.talon.dealRow()
         self.s.talon.dealCards()
 

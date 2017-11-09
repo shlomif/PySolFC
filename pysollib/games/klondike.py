@@ -371,8 +371,7 @@ class AmericanCanister(Klondike):
         Klondike.createGame(self, max_rounds=1, rows=8, waste=0, texts=0)
 
     def startGame(self):
-        self._dealNumRows(5)
-        self.startDealSample()
+        self._startDealNumRows(5)
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.rows[2:6])
 
@@ -425,8 +424,7 @@ class EightTimesEight(Klondike):
         Klondike.createGame(self, rows=8)
 
     def startGame(self):
-        self._dealNumRows(7)
-        self.startDealSample()
+        self._startDealNumRows(7)
         self.s.talon.dealRow()
         self.s.talon.dealCards()          # deal first card to WasteStack
 
@@ -620,8 +618,7 @@ class Brigade(Raglan):
     RESERVES = (4, 4, 4, 1)
 
     def startGame(self):
-        self._dealNumRows(4)
-        self.startDealSample()
+        self._startDealNumRows(4)
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.reserves)
         self.s.talon.dealRow(rows=self.s.foundations)
@@ -833,8 +830,7 @@ class Phoenix(Klondike):
         lay.defaultStackGroups()
 
     def startGame(self):
-        self._dealNumRows(6)
-        self.startDealSample()
+        self._startDealNumRows(6)
         self.s.talon.dealRow(rows=self.s.reserves)
 
 
@@ -865,8 +861,7 @@ class Lanes(Klondike):
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
-        self._dealNumRows(2)
-        self.startDealSample()
+        self._startDealNumRows(2)
         self.s.talon.dealRow()
         self.s.talon.dealCards()          # deal first card to WasteStack
 
@@ -920,8 +915,7 @@ class Q_C_(Klondike):
         lay.createRoundText(self.s.talon, 'sss')
 
     def startGame(self):
-        self._dealNumRows(3)
-        self.startDealSample()
+        self._startDealNumRows(3)
         self.s.talon.dealRow()
         while self.s.talon.cards:
             self.s.talon.dealCards()    # deal first card to WasteStack
@@ -1114,10 +1108,7 @@ class BigForty(Klondike):
         Klondike.createGame(self, rows=10)
 
     def startGame(self):
-        self.s.talon.dealRow(frames=0)
-        self.s.talon.dealRow(frames=0)
-        self.s.talon.dealRow(frames=0)
-        self.startDealSample()
+        self._startDealNumRows(3)
         self.s.talon.dealRow()
         self.s.talon.dealCards()
 
@@ -1265,10 +1256,7 @@ class LuckyThirteen(Game):
         lay.defaultStackGroups()
 
     def startGame(self):
-        self.s.talon.dealRow(frames=0)
-        self.s.talon.dealRow(frames=0)
-        self.s.talon.dealRow(frames=0)
-        self.startDealSample()
+        self._startDealNumRows(3)
         self.s.talon.dealRow()
 
     shallHighlightMatch = Game._shallHighlightMatch_RK
@@ -1336,8 +1324,7 @@ class BigBertha(Game):
         lay.defaultStackGroups()
 
     def startGame(self):
-        self._dealNumRows(5)
-        self.startDealSample()
+        self._startDealNumRows(5)
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.reserves)
 

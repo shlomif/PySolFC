@@ -109,8 +109,7 @@ class EightOff(KingOnlyBakersGame):
     #
 
     def startGame(self):
-        self._dealNumRows(5)
-        self.startDealSample()
+        self._startDealNumRows(5)
         self.s.talon.dealRow()
         r = self.s.reserves
         self.s.talon.dealRow(rows=[r[0], r[2], r[4], r[6]])
@@ -160,8 +159,7 @@ class SeahavenTowers(KingOnlyBakersGame):
     #
 
     def startGame(self):
-        self._dealNumRows(4)
-        self.startDealSample()
+        self._startDealNumRows(4)
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=(self.s.reserves[1:3]))
 
@@ -225,8 +223,7 @@ class Tuxedo(Game):
         l.defaultStackGroups()
 
     def startGame(self):
-        self._dealNumRows(6)
-        self.startDealSample()
+        self._startDealNumRows(6)
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.rows[::3])
 
@@ -261,8 +258,7 @@ class Penguin(Tuxedo):
             self.flipMove(self.s.talon)
             self.moveMove(1, self.s.talon, to_stack, frames=0)
         # deal rows
-        self._dealNumRows(6)
-        self.startDealSample()
+        self._startDealNumRows(6)
         self.s.talon.dealRow()
 
     def _restoreGameHook(self, game):

@@ -3400,3 +3400,7 @@ in the current implementation.''') % version)
     def _dealNumRows(self, n):
         for i in range(n):
             self.s.talon.dealRow(frames=0)
+
+    def _startDealNumRows(self, n):
+        self._dealNumRows(n)
+        self.startDealSample()

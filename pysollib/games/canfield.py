@@ -805,8 +805,7 @@ class Skippy(Canfield):
         for s in self.s.rows:
             s.cap.base_rank = row_base_rank
         #
-        self._dealNumRows(3)
-        self.startDealSample()
+        self._startDealNumRows(3)
         self.s.talon.dealRow()
         self.s.talon.dealCards()
 

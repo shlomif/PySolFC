@@ -384,8 +384,7 @@ class Trefoil(LaBelleLucie):
             cards, lambda c: (c.rank == 0, c.suit))
 
     def startGame(self):
-        self._dealNumRows(2)
-        self.startDealSample()
+        self._startDealNumRows(2)
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.foundations)
 
@@ -464,9 +463,7 @@ class Intelligence(Fan):
 
     def startGame(self):
         talon = self.s.talon
-        for i in range(2):
-            talon.dealRow(frames=0)
-        self.startDealSample()
+        self._startDealNumRows(2)
         talon.dealRow()
         # move all remaining cards to the reserve
         self.moveMove(len(talon.cards), talon, self.s.reserves[0], frames=0)
@@ -567,8 +564,7 @@ class CloverLeaf(Game):
     #
 
     def startGame(self):
-        self._dealNumRows(2)
-        self.startDealSample()
+        self._startDealNumRows(2)
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.foundations)
 
@@ -607,8 +603,7 @@ class BoxFan(Fan):
         Fan.createGame(self, rows=(4, 4, 4, 4))
 
     def startGame(self):
-        self._dealNumRows(2)
-        self.startDealSample()
+        self._startDealNumRows(2)
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.foundations)
 
@@ -786,8 +781,7 @@ class Crescent(Game):
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
-        self._dealNumRows(5)
-        self.startDealSample()
+        self._startDealNumRows(5)
         self.s.talon.dealRow()
 
     shallHighlightMatch = Game._shallHighlightMatch_SSW
@@ -806,8 +800,7 @@ class School(Fan):
         Fan.createGame(self, rows=(4, 4, 4, 4), playcards=10, texts=True)
 
     def startGame(self):
-        self._dealNumRows(2)
-        self.startDealSample()
+        self._startDealNumRows(2)
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.foundations)
 
@@ -937,8 +930,7 @@ class ForestGlade(Game):
         l.defaultStackGroups()
 
     def startGame(self):
-        self._dealNumRows(2)
-        self.startDealSample()
+        self._startDealNumRows(2)
         self.s.talon.dealRow()
 
     shallHighlightMatch = Game._shallHighlightMatch_SS

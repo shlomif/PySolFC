@@ -96,8 +96,7 @@ class FreeCell(Game):
     #
 
     def startGame(self):
-        self._dealNumRows(5)
-        self.startDealSample()
+        self._startDealNumRows(5)
         self.s.talon.dealRow()
         r = self.s.rows
         # self.s.talon.dealRow(rows=(r[0], r[2], r[4], r[6]))
@@ -124,8 +123,7 @@ class ForeCell(FreeCell):
     Solver_Class = FreeCellSolverWrapper(esf='kings')
 
     def startGame(self):
-        self._dealNumRows(5)
-        self.startDealSample()
+        self._startDealNumRows(5)
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.reserves)
 
@@ -161,8 +159,7 @@ class Stalactites(FreeCell):
         FreeCell.createGame(self, reserves=2)
 
     def startGame(self):
-        self._dealNumRows(5)
-        self.startDealSample()
+        self._startDealNumRows(5)
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.foundations)
         self._restoreGameHook(None)
@@ -221,8 +218,7 @@ class DoubleFreecell(FreeCell):
             cards, lambda c: (c.rank == ACE and c.deck == 0, c.suit))
 
     def startGame(self):
-        self._dealNumRows(9)
-        self.startDealSample()
+        self._startDealNumRows(9)
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.foundations)
 
@@ -274,8 +270,7 @@ class TripleFreecell(FreeCell):
     #
 
     def startGame(self):
-        self._dealNumRows(11)
-        self.startDealSample()
+        self._startDealNumRows(11)
         self.s.talon.dealRow()
 
 
@@ -284,8 +279,7 @@ class Cell11(TripleFreecell):
         TripleFreecell.createGame(self, rows=12, reserves=11)
 
     def startGame(self):
-        self._dealNumRows(12)
-        self.startDealSample()
+        self._startDealNumRows(12)
         self.s.talon.dealRow(rows=self.s.rows[1:-1])
         self.s.talon.dealRow(rows=[self.s.reserves[0], self.s.reserves[-1]])
 
@@ -297,8 +291,7 @@ class BigCell(TripleFreecell):
         TripleFreecell.createGame(self, rows=13, reserves=4)
 
     def startGame(self):
-        self._dealNumRows(11)
-        self.startDealSample()
+        self._startDealNumRows(11)
         self.s.talon.dealRow()
 
 
@@ -358,8 +351,7 @@ class SevenByFour(FreeCell):
         FreeCell.createGame(self, rows=7)
 
     def startGame(self):
-        self._dealNumRows(6)
-        self.startDealSample()
+        self._startDealNumRows(6)
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.rows[:3])
 
@@ -415,8 +407,7 @@ class Clink(FreeCell):
         l.defaultAll()
 
     def startGame(self):
-        self._dealNumRows(4)
-        self.startDealSample()
+        self._startDealNumRows(4)
         self.s.talon.dealRow()
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.reserves)
@@ -441,8 +432,7 @@ class Repair(FreeCell):
         FreeCell.createGame(self, rows=10, reserves=4, playcards=26)
 
     def startGame(self):
-        self._dealNumRows(9)
-        self.startDealSample()
+        self._startDealNumRows(9)
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.reserves)
 
@@ -523,8 +513,7 @@ class OceanTowers(TripleFreecell):
         TripleFreecell.createGame(self, rows=14, reserves=8, playcards=20)
 
     def startGame(self):
-        self._dealNumRows(6)
-        self.startDealSample()
+        self._startDealNumRows(6)
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.reserves[1:-1])
 
@@ -583,8 +572,7 @@ class Headquarters(Game):
         l.defaultStackGroups()
 
     def startGame(self):
-        self._dealNumRows(12)
-        self.startDealSample()
+        self._startDealNumRows(12)
         self.s.talon.dealRow()
 
     shallHighlightMatch = Game._shallHighlightMatch_AC
@@ -604,8 +592,7 @@ class CanCan(FreeCell):
         FreeCell.createGame(self, rows=13, reserves=3)
 
     def startGame(self):
-        self._dealNumRows(3)
-        self.startDealSample()
+        self._startDealNumRows(3)
         self.s.talon.dealRow(rows=self.s.reserves)
         self.s.talon.dealRowAvail()
 
@@ -650,8 +637,7 @@ class Limpopo(Game):
         l.defaultStackGroups()
 
     def startGame(self):
-        self._dealNumRows(12)
-        self.startDealSample()
+        self._startDealNumRows(12)
         self.s.talon.dealRow()
 
     shallHighlightMatch = Game._shallHighlightMatch_AC

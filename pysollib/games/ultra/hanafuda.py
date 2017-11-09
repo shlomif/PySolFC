@@ -114,8 +114,7 @@ class FlowerClock(AbstractFlowerGame):
 
     def startGame(self):
         assert len(self.s.talon.cards) == 48
-        self._dealNumRows(5)
-        self.startDealSample()
+        self._startDealNumRows(5)
         self.s.talon.dealRow()
         assert len(self.s.talon.cards) == 0
 
@@ -194,8 +193,7 @@ class Gaji(AbstractFlowerGame):
 
     def startGame(self):
         assert len(self.s.talon.cards) == 48
-        self._dealNumRows(4)
-        self.startDealSample()
+        self._startDealNumRows(4)
         r = self.s.rows
         self.s.talon.dealRow(rows=(r[0], r[1], r[2], r[5], r[6], r[7]))
         self.s.talon.dealRow(rows=(r[0], r[1], r[6], r[7]))
@@ -454,8 +452,7 @@ class MatsuKiri(AbstractFlowerGame):
 
     def startGame(self):
         assert len(self.s.talon.cards) == 48
-        self._dealNumRows(5)
-        self.startDealSample()
+        self._startDealNumRows(5)
         self.s.talon.dealRow()
         assert len(self.s.talon.cards) == 0
 
@@ -687,8 +684,7 @@ class Sumo(AbstractFlowerGame):
 
     def startGame(self):
         assert len(self.s.talon.cards) == 48
-        self._dealNumRows(5)
-        self.startDealSample()
+        self._startDealNumRows(5)
         self.s.talon.dealRow()
         self.s.talon.dealCards()
 
@@ -732,8 +728,7 @@ class BigSumo(AbstractFlowerGame):
 
     def startGame(self):
         assert len(self.s.talon.cards) == 48 * 2
-        self._dealNumRows(9)
-        self.startDealSample()
+        self._startDealNumRows(9)
         self.s.talon.dealRow(rows=self.s.rows[2:8])
         self.s.talon.dealCards()
 

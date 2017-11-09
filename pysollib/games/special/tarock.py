@@ -424,8 +424,7 @@ class Pagat(AbstractTarockGame):
 
     def startGame(self):
         assert len(self.s.talon.cards) == 78
-        self._dealNumRows(6)
-        self.startDealSample()
+        self._startDealNumRows(6)
         self.s.talon.dealRow(rows=self.s.rows[3:9])
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
@@ -493,8 +492,7 @@ class Skiz(AbstractTarockGame):
 
     def startGame(self):
         assert len(self.s.talon.cards) == 78
-        self._dealNumRows(6)
-        self.startDealSample()
+        self._startDealNumRows(6)
         self.s.talon.dealRow(rows=self.s.rows[3:9])
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):

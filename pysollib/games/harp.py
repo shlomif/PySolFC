@@ -86,9 +86,7 @@ class DoubleKlondike(Game):
     def startGame(self, flip=0):
         for i in range(len(self.s.rows)):
             self.s.talon.dealRow(rows=self.s.rows[i+1:], flip=flip, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
-        self.s.talon.dealCards()          # deal first card to WasteStack
+        self._startAndDealRowAndCards()
 
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
@@ -138,9 +136,7 @@ class BigHarp(DoubleKlondike):
     def startGame(self):
         for i in range(len(self.s.rows)):
             self.s.talon.dealRow(rows=self.s.rows[:i], flip=0, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
-        self.s.talon.dealCards()          # deal first card to WasteStack
+        self._startAndDealRowAndCards()
 
 
 # ************************************************************************
@@ -309,9 +305,7 @@ class ThievesOfEgypt(DoubleKlondike):
             for j in range(i):
                 self.s.talon.dealRow(rows=[self.s.rows[row]], frames=0)
             row += 1
-        self.startDealSample()
-        self.s.talon.dealRow()
-        self.s.talon.dealCards()          # deal first card to WasteStack
+        self._startAndDealRowAndCards()
 
 
 # ************************************************************************

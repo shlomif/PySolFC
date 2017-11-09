@@ -91,9 +91,7 @@ class EiffelTower(Game):
     #
 
     def startGame(self):
-        self.startDealSample()
-        self.s.talon.dealRow()
-        self.s.talon.dealCards()          # deal first card to WasteStack
+        self._startAndDealRowAndCards()
 
     def isGameWon(self):
         return len(self.s.talon.cards) == 0 and len(self.s.waste.cards) == 0

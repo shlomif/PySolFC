@@ -243,9 +243,7 @@ class LittleNapoleon(Diplomat):
     def startGame(self):
         for i in range(3):
             self.s.talon.dealRow(frames=0, flip=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
-        self.s.talon.dealCards()          # deal first card to WasteStack
+        self._startAndDealRowAndCards()
 
     getQuickPlayScore = Game._getSpiderQuickPlayScore
 

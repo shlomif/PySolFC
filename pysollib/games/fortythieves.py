@@ -144,9 +144,7 @@ class FortyThieves(Game):
             self.s.talon.dealRow(flip=0, frames=0)
         for i in range(self.DEAL[1] - 1):
             self.s.talon.dealRow(frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
-        self.s.talon.dealCards()          # deal first card to WasteStack
+        self._startAndDealRowAndCards()
 
     def fillStack(self, stack):
         if self.FILL_EMPTY_ROWS and stack in self.s.rows and not stack.cards:
@@ -691,9 +689,7 @@ class FortunesFavor(Game):
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
-        self.s.talon.dealCards()          # deal first card to WasteStack
+        self._startAndDealRowAndCards()
 
     def fillStack(self, stack):
         if len(stack.cards) == 0:
@@ -964,9 +960,7 @@ class TheSpark(Game):
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
-        self.s.talon.dealCards()          # deal first card to WasteStack
+        self._startAndDealRowAndCards()
 
     shallHighlightMatch = Game._shallHighlightMatch_SS
 

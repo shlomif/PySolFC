@@ -3411,3 +3411,7 @@ in the current implementation.''') % version)
 
     def _startAndDealRow(self):
         self._startDealNumRowsAndDealSingleRow(0)
+
+    def _startAndDealRowAndCards(self):
+        self._startAndDealRow()
+        self.s.talon.dealCards()

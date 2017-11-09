@@ -216,9 +216,7 @@ class SmallHarp(Klondike):
     def startGame(self):
         for i in range(len(self.s.rows)):
             self.s.talon.dealRow(rows=self.s.rows[:i], flip=0, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
-        self.s.talon.dealCards()          # deal first card to WasteStack
+        self._startAndDealRowAndCards()
 
 
 # ************************************************************************
@@ -286,9 +284,7 @@ class PasSeul(Eastcliff):
         Klondike.createGame(self, max_rounds=1, rows=6)
 
     def startGame(self):
-        self.startDealSample()
-        self.s.talon.dealRow()
-        self.s.talon.dealCards()          # deal first card to WasteStack
+        self._startAndDealRowAndCards()
 
 
 # ************************************************************************
@@ -509,9 +505,7 @@ class Jumbo(Klondike):
     def startGame(self, flip=0):
         for i in range(9):
             self.s.talon.dealRow(rows=self.s.rows[:i], flip=flip, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
-        self.s.talon.dealCards()          # deal first card to WasteStack
+        self._startAndDealRowAndCards()
 
 
 class OpenJumbo(Jumbo):

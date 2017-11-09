@@ -290,9 +290,7 @@ class Elevator(RelaxedGolf):
 
 class Escalator(Elevator):
     def startGame(self):
-        self.startDealSample()
-        self.s.talon.dealRow()
-        self.s.talon.dealCards()          # deal first card to WasteStack
+        self._startAndDealRowAndCards()
 
 
 # ************************************************************************

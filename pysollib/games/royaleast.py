@@ -94,9 +94,7 @@ class RoyalEast(Game):
         self.flipMove(self.s.talon)
         self.moveMove(1, self.s.talon, to_stack, frames=0)
         # deal rows
-        self.startDealSample()
-        self.s.talon.dealRow()
-        self.s.talon.dealCards()          # deal first card to WasteStack
+        self._startAndDealRowAndCards()
 
     def _restoreGameHook(self, game):
         self.base_card = self.cards[game.loadinfo.base_card_id]

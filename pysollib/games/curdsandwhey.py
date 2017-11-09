@@ -458,9 +458,7 @@ class Glacier(Game):
         l.defaultStackGroups()
 
     def startGame(self):
-        self.startDealSample()
-        self.s.talon.dealRow()
-        self.s.talon.dealCards()          # deal first card to WasteStack
+        self._startAndDealRowAndCards()
 
     shallHighlightMatch = Game._shallHighlightMatch_RKW
 

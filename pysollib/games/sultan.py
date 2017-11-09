@@ -127,9 +127,7 @@ class Sultan(Game):
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
-        self.s.talon.dealCards()          # deal first card to WasteStack
+        self._startAndDealRowAndCards()
 
     def getAutoStacks(self, event=None):
         return (self.sg.dropstacks, (), self.sg.dropstacks)
@@ -1340,9 +1338,7 @@ class CatherineTheGreat(Game):
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
-        self.s.talon.dealCards()        # deal first card to WasteStack
+        self._startAndDealRowAndCards()
 
     def fillStack(self, stack):
         if stack in self.s.rows and not stack.cards:

@@ -323,9 +323,7 @@ class Rachel(RelaxedSpider):
         RelaxedSpider.createGame(self, waste=1, rows=6, texts=1)
 
     def startGame(self):
-        self.startDealSample()
-        self.s.talon.dealRow()
-        self.s.talon.dealCards()          # deal first card to WasteStack
+        self._startAndDealRowAndCards()
 
 
 # ************************************************************************

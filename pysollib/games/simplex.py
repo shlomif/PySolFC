@@ -102,9 +102,7 @@ class Simplex(Game):
         l.defaultStackGroups()
 
     def startGame(self):
-        self.startDealSample()
-        self.s.talon.dealRow()
-        self.s.talon.dealCards()          # deal first card to WasteStack
+        self._startAndDealRowAndCards()
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return card1.rank == card2.rank

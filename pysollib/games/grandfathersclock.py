@@ -347,9 +347,7 @@ class Hemispheres(Game):
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
-        self.startDealSample()
-        self.s.talon.dealRow()
-        self.s.talon.dealCards()       # deal first card to WasteStack
+        self._startAndDealRowAndCards()
 
     def fillStack(self, stack):
         if stack in self.s.rows[4:] and not stack.cards:

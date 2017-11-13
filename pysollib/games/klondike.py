@@ -28,6 +28,7 @@ from pysollib.mygettext import _
 from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.mfxutil import kwdefault, Struct
 from pysollib.game import Game
+import pysollib.game
 from pysollib.layout import Layout
 from pysollib.hint import CautiousDefaultHint
 from pysollib.hint import KlondikeType_Hint
@@ -279,12 +280,9 @@ class Westhaven(Westcliff):
 # * Pas Seul
 # ************************************************************************
 
-class PasSeul(Eastcliff):
+class PasSeul(pysollib.game.StartDealRowAndCards, Eastcliff):
     def createGame(self):
         Klondike.createGame(self, max_rounds=1, rows=6)
-
-    def startGame(self):
-        self._startAndDealRowAndCards()
 
 
 # ************************************************************************

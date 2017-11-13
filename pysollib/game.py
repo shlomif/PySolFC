@@ -3415,3 +3415,8 @@ in the current implementation.''') % version)
     def _startAndDealRowAndCards(self):
         self._startAndDealRow()
         self.s.talon.dealCards()
+
+
+class StartDealRowAndCards(object):
+    def startGame(self):
+        self._startAndDealRowAndCards()

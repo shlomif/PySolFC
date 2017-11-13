@@ -26,6 +26,7 @@
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.game import Game
+import pysollib.game
 from pysollib.layout import Layout
 
 from pysollib.util import ANY_RANK, ANY_SUIT
@@ -69,7 +70,7 @@ class Simplex_RowStack(SequenceRowStack):
         return isSameRankSequence(cards)
 
 
-class Simplex(Game):
+class Simplex(pysollib.game.StartDealRowAndCards, Game):
 
     def createGame(self, reserves=6):
         # create layout
@@ -100,9 +101,6 @@ class Simplex(Game):
 
         # define stack-groups
         l.defaultStackGroups()
-
-    def startGame(self):
-        self._startAndDealRowAndCards()
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return card1.rank == card2.rank

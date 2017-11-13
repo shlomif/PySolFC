@@ -28,6 +28,7 @@ from pysollib.mygettext import _
 from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.mfxutil import kwdefault
 from pysollib.game import Game
+import pysollib.game
 from pysollib.layout import Layout
 from pysollib.hint import AbstractHint, CautiousDefaultHint
 
@@ -433,7 +434,7 @@ class SweetSixteen(TrustyTwelve):
 # * Glacier
 # ************************************************************************
 
-class Glacier(Game):
+class Glacier(pysollib.game.StartDealRowAndCards, Game):
 
     def createGame(self, rows=12):
         l, s = Layout(self), self.s
@@ -456,9 +457,6 @@ class Glacier(Game):
         s.waste.CARD_XOFFSET = l.XOFFSET
 
         l.defaultStackGroups()
-
-    def startGame(self):
-        self._startAndDealRowAndCards()
 
     shallHighlightMatch = Game._shallHighlightMatch_RKW
 

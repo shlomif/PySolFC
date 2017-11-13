@@ -28,6 +28,7 @@ from pysollib.mygettext import _
 from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.mfxutil import kwdefault
 from pysollib.game import Game
+import pysollib.game
 from pysollib.layout import Layout
 from pysollib.hint import CautiousDefaultHint
 from pysollib.hint import SpiderType_Hint, YukonType_Hint
@@ -315,15 +316,12 @@ class SimpleSimonII(SimpleSimon):
 # * Rachel
 # ************************************************************************
 
-class Rachel(RelaxedSpider):
+class Rachel(pysollib.game.StartDealRowAndCards, RelaxedSpider):
     Talon_Class = StackWrapper(WasteTalonStack, max_rounds=1)
     RowStack_Class = BlackWidow_RowStack
 
     def createGame(self):
         RelaxedSpider.createGame(self, waste=1, rows=6, texts=1)
-
-    def startGame(self):
-        self._startAndDealRowAndCards()
 
 
 # ************************************************************************

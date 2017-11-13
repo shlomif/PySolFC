@@ -26,6 +26,7 @@
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.game import Game
+import pysollib.game
 from pysollib.layout import Layout
 
 # from pysollib.util import ACE
@@ -52,7 +53,7 @@ class EiffelTower_RowStack(OpenStack):
         return self.cards[-1].rank + cards[0].rank == 12
 
 
-class EiffelTower(Game):
+class EiffelTower(pysollib.game.StartDealRowAndCards, Game):
     Talon_Class = WasteTalonStack
     Waste_Class = WasteStack
 
@@ -89,9 +90,6 @@ class EiffelTower(Game):
     #
     # game overrides
     #
-
-    def startGame(self):
-        self._startAndDealRowAndCards()
 
     def isGameWon(self):
         return len(self.s.talon.cards) == 0 and len(self.s.waste.cards) == 0

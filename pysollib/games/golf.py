@@ -26,6 +26,7 @@
 # PySol imports
 from pysollib.mygettext import _
 from pysollib.gamedb import registerGame, GameInfo, GI
+import pysollib.game
 from pysollib.mfxutil import kwdefault
 from pysollib.game import Game
 from pysollib.layout import Layout
@@ -288,9 +289,8 @@ class Elevator(RelaxedGolf):
         self.s.talon.dealCards()          # deal first card to WasteStack
 
 
-class Escalator(Elevator):
-    def startGame(self):
-        self._startAndDealRowAndCards()
+class Escalator(pysollib.game.StartDealRowAndCards, Elevator):
+    pass
 
 
 # ************************************************************************

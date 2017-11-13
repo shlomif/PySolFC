@@ -26,6 +26,7 @@
 # PySol imports
 from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.game import Game
+import pysollib.game
 from pysollib.layout import Layout
 from pysollib.hint import CautiousDefaultHint
 
@@ -202,7 +203,7 @@ class DutchSolitaire(Windmill):
 # * Napoleon's Tomb
 # ************************************************************************
 
-class NapoleonsTomb(Game):
+class NapoleonsTomb(pysollib.game.StartDealRowAndCards, Game):
 
     #
     # game layout
@@ -237,13 +238,6 @@ class NapoleonsTomb(Game):
 
         # define stack-groups
         l.defaultStackGroups()
-
-    #
-    # game overrides
-    #
-
-    def startGame(self):
-        self._startAndDealRowAndCards()
 
 
 # ************************************************************************

@@ -27,6 +27,7 @@
 from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.mfxutil import kwdefault
 from pysollib.game import Game
+import pysollib.game
 from pysollib.layout import Layout
 from pysollib.hint import CautiousDefaultHint
 
@@ -88,7 +89,7 @@ class UnionSquare_RowStack(OpenStack):
 # *
 # ************************************************************************
 
-class UnionSquare(Game):
+class UnionSquare(pysollib.game.StartDealRowAndCards, Game):
     Hint_Class = CautiousDefaultHint
     Foundation_Class = StackWrapper(UnionSquare_Foundation, max_cards=26)
     RowStack_Class = UnionSquare_RowStack
@@ -133,9 +134,6 @@ class UnionSquare(Game):
     #
     # game overrides
     #
-
-    def startGame(self):
-        self._startAndDealRowAndCards()
 
     shallHighlightMatch = Game._shallHighlightMatch_SS
 

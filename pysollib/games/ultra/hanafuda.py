@@ -683,9 +683,7 @@ class Sumo(AbstractFlowerGame):
 
     def startGame(self):
         assert len(self.s.talon.cards) == 48
-        self._startDealNumRows(5)
-        self.s.talon.dealRow()
-        self.s.talon.dealCards()
+        self._startDealNumRowsAndDealRowAndCards(5)
 
 
 # ************************************************************************

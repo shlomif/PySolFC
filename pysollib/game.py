@@ -3412,6 +3412,10 @@ in the current implementation.''') % version)
     def _startAndDealRow(self):
         self._startDealNumRowsAndDealSingleRow(0)
 
+    def _startDealNumRowsAndDealRowAndCards(self, n):
+        self._startDealNumRowsAndDealSingleRow(n)
+        self.s.talon.dealCards()
+
     def _startAndDealRowAndCards(self):
         self._startAndDealRow()
         self.s.talon.dealCards()

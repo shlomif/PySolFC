@@ -700,9 +700,7 @@ class ThreePirates(Game):
         l.defaultStackGroups()
 
     def startGame(self):
-        self._startDealNumRows(3)
-        self.s.talon.dealRow()
-        self.s.talon.dealCards()
+        self._startDealNumRowsAndDealRowAndCards(3)
 
     shallHighlightMatch = Game._shallHighlightMatch_SS
 

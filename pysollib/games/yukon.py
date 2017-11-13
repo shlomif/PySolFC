@@ -482,9 +482,7 @@ class AustralianPatience(RussianSolitaire):
         l.defaultAll()
 
     def startGame(self):
-        self._startDealNumRows(3)
-        self.s.talon.dealRow()
-        self.s.talon.dealCards()
+        self._startDealNumRowsAndDealRowAndCards(3)
 
 
 class RawPrawn(AustralianPatience):
@@ -498,9 +496,7 @@ class BimBom(AustralianPatience):
         AustralianPatience.createGame(self, rows=8)
 
     def startGame(self):
-        self._startDealNumRows(4)
-        self.s.talon.dealRow()
-        self.s.talon.dealCards()
+        self._startDealNumRowsAndDealRowAndCards(4)
 
 
 # ************************************************************************

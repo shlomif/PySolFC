@@ -342,9 +342,7 @@ class MamySusan(Terrace):
         for i in range(6):
             self.s.talon.dealRow(rows=self.s.reserves, flip=0, frames=0)
         self.flipMove(self.s.reserves[0])
-        self._startDealNumRows(3)
-        self.s.talon.dealRow()
-        self.s.talon.dealCards()
+        self._startDealNumRowsAndDealRowAndCards(3)
 
     def fillStack(self, stack):
         pass

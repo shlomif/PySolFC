@@ -859,9 +859,7 @@ class LockedCards(Game):
 
     def startGame(self, rows=5):
         self.s.talon.dealRow(rows=self.s.reserves, flip=0, frames=0)
-        self._startDealNumRows(rows-1)
-        self.s.talon.dealRow()
-        self.s.talon.dealCards()
+        self._startDealNumRowsAndDealRowAndCards(rows-1)
 
     shallHighlightMatch = Game._shallHighlightMatch_AC
 

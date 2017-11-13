@@ -357,9 +357,7 @@ class MughalCircles(AbstractMughalGame):
 
     def startGame(self):
         assert len(self.s.talon.cards) == 96
-        self._startDealNumRows(3)
-        self.s.talon.dealRow()
-        self.s.talon.dealCards()
+        self._startDealNumRowsAndDealRowAndCards(3)
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return ((card1.suit == card2.suit) and

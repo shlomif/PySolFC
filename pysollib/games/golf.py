@@ -1007,9 +1007,7 @@ class NapoleonTakesMoscow(Game, FirTree_GameMethods):
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.reserves, frames=0)
-        self._startDealNumRows(3)
-        self.s.talon.dealRow()
-        self.s.talon.dealCards()
+        self._startDealNumRowsAndDealRowAndCards(3)
 
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
@@ -1020,9 +1018,7 @@ class NapoleonLeavesMoscow(NapoleonTakesMoscow):
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.reserves, frames=0)
-        self._startDealNumRows(4)
-        self.s.talon.dealRow()
-        self.s.talon.dealCards()
+        self._startDealNumRowsAndDealRowAndCards(4)
 
 
 # ************************************************************************

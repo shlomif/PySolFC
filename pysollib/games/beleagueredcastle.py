@@ -527,9 +527,7 @@ class Zerline(Game):
     #
 
     def startGame(self):
-        self._startDealNumRows(4)
-        self.s.talon.dealRow()
-        self.s.talon.dealCards()
+        self._startDealNumRowsAndDealRowAndCards(4)
 
     shallHighlightMatch = Game._shallHighlightMatch_RK
 
@@ -850,9 +848,7 @@ class Soother(Game):
         l.defaultStackGroups()
 
     def startGame(self):
-        self._startDealNumRows(4)
-        self.s.talon.dealRow()
-        self.s.talon.dealCards()
+        self._startDealNumRowsAndDealRowAndCards(4)
 
     shallHighlightMatch = Game._shallHighlightMatch_RK
 

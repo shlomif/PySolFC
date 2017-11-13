@@ -1038,9 +1038,7 @@ class FortyNine(Interchange):
     RowStack_Class = FortyNine_RowStack
 
     def startGame(self):
-        self._startDealNumRows(6)
-        self.s.talon.dealRow()
-        self.s.talon.dealCards()
+        self._startDealNumRowsAndDealRowAndCards(6)
 
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
@@ -1137,9 +1135,7 @@ class Floradora(Game):
         l.defaultStackGroups()
 
     def startGame(self):
-        self._startDealNumRows(5)
-        self.s.talon.dealRow()
-        self.s.talon.dealCards()
+        self._startDealNumRowsAndDealRowAndCards(5)
 
     shallHighlightMatch = Game._shallHighlightMatch_RK
 

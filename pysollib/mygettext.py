@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-# -*- mode: python; coding: utf-8; -*-
-
 import gettext
 import sys
 

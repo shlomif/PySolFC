@@ -22,17 +22,17 @@ rpm: all_games_html rules mo
 	python setup.py bdist_rpm
 
 all_games_html:
-	./scripts/all_games.py > docs/all_games.html
+	PYTHONPATH=`pwd` ./scripts/all_games.py > docs/all_games.html
 
 rules:
-	(cd html-src && ./gen-html.py)
+	export PYTHONPATH=`pwd`; (cd html-src && ./gen-html.py)
 	cp -r html-src/images html-src/html
 	rm -rf data/html
 	mv html-src/html data
 
 pot:
-	./scripts/all_games.py gettext > po/games.pot
-	./scripts/pygettext.py -k n_ --ngettext-keyword ungettext -o po/pysol-1.pot $(PYSOLLIB_FILES)
+	PYTHONPATH=`pwd` ./scripts/all_games.py gettext > po/games.pot
+	PYTHONPATH=`pwd` ./scripts/pygettext.py -k n_ --ngettext-keyword ungettext -o po/pysol-1.pot $(PYSOLLIB_FILES)
 	xgettext -L C --keyword=N_ -o po/pysol-2.pot data/glade-translations
 	msgcat po/pysol-1.pot po/pysol-2.pot > po/pysol.pot
 	rm -f po/pysol-1.pot po/pysol-2.pot

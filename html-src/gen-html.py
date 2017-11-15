@@ -16,10 +16,10 @@ pysollib_dir = '../'
 __builtin__._ = lambda x: x
 __builtin__.n_ = lambda x: x
 
-eval('import pysollib.games')
-eval('import pysollib.games.mahjongg')
-eval('import pysollib.games.ultra')
-eval('import pysollib.games.special')
+import pysollib.games
+import pysollib.games.mahjongg
+import pysollib.games.ultra
+import pysollib.games.special
 
 try:
     os.mkdir('html')

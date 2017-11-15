@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 # -*- mode: python; coding: koi8-r; -*-
 #
 

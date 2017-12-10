@@ -623,8 +623,7 @@ KC JS 9H 4S 7S AD
     rand = constructRandom('ms3000000000')
     game = Game("freecell", rand, True)
     # TEST
-    got_s = game.print_layout()
-    ok(got_s == '''8D TS JS TD JH JD JC
+    _cmp_board(game.print_layout(), '''8D TS JS TD JH JD JC
 4D QS TH AD 4S TC 3C
 9H KH QH 4C 5C KD AS
 9D 5D 8S 4H KS 6S 9S

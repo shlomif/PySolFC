@@ -168,7 +168,7 @@ sub myglob
 
     if ($IS_WIN)
     {
-        @tests = grep {!/pysolgtk/i} @tests;
+        @tests = grep {not (/pysolgtk/i or /import_v2/i)} @tests;
     }
 
     # print "tests = @tests \n";

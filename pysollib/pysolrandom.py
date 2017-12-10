@@ -26,7 +26,7 @@
 import sys
 import re
 import time
-import random
+import random2
 from pysollib.mfxutil import SubclassResponsibility
 
 
@@ -96,13 +96,13 @@ class BasicRandom:
 # * uses the standard python module `random'
 # ************************************************************************
 
-class MTRandom(BasicRandom, random.Random):
+class MTRandom(BasicRandom, random2.Random):
 
     def __init__(self, seed=None):
         if seed is None:
             seed = self._getRandomSeed()
         BasicRandom.__init__(self)
-        random.Random.__init__(self, seed)
+        random2.Random.__init__(self, seed)
         self.initial_seed = seed
         self.initial_state = self.getstate()
         self.origin = self.ORIGIN_UNKNOWN

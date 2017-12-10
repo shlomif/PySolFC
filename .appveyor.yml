@@ -18,6 +18,7 @@ install:
     - SET PERL_MB_OPT=--install_base C:/_P5
     - SET PERL_MM_OPT=INSTALL_BASE=C:/_P5
     - perl -v
+    - cpanm --notest File::Find::Object Task::FreecellSolver::Testing Test::TrailingSpace
     - echo %PATH%
 build: off
 test_script:
@@ -29,7 +30,8 @@ test_script:
     - set PATH=C:\libtap\bin;%PATH%
     - set HARNESS_BREAK=1
     - set FCS_USE_TEST_RUN=1
-    - gmake test
+    - gmake pretest
+    - perl run-tests.pl
 cache:
     - C:\libtap -> .appveyor.yml
     - C:\_P5 -> .appveyor.yml

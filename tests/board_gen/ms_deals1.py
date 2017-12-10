@@ -54,7 +54,7 @@
 
 # imports
 import sys
-from TAP.Simple import plan, ok
+from TAP.Simple import diag, plan, ok
 
 # So the localpaths will be overrided.
 from pysollib.pysolrandom import constructRandom, LCRandom31, \
@@ -567,6 +567,14 @@ class Game:
         game.cyclical_deal(num_cols, num_cols)
 
 
+def _cmp_board(got_s, expected_s, blurb):
+    if not ok(got_s == expected_s, blurb):
+        diag("got_s=<<%s>> expected_s=<<%s>> blurb=<<%s>>"
+             % (got_s, expected_s, blurb))
+        return False
+    return True
+
+
 def shlomif_main(args):
 
     plan(8)
@@ -602,8 +610,7 @@ JD QH 6S 4H QC 8H
     rand = constructRandom('123456')
     game = Game("freecell", rand, True)
     # TEST
-    got_s = game.print_layout()
-    ok(got_s == '''3D 6C AS TS QC 8D 4D
+    _cmp_board(game.print_layout(), '''3D 6C AS TS QC 8D 4D
 2D TC 4H JD TD 2H 5C
 2C 8S AH KD KH 5S 7C
 9C 8C QH 3C 5D 9S QD

@@ -166,6 +166,11 @@ sub myglob
             ( myglob("$abs_bindir/tests/*") )
         );
 
+    if ($IS_WIN)
+    {
+        @tests = grep {!/pysolgtk/i} @tests;
+    }
+
     # print "tests = @tests \n";
     if ( defined($exclude_re_s) )
     {

@@ -7,8 +7,10 @@ before_install:
 install:
     - sudo cpanm Test::Differences Test::TrailingSpace
     - "`which python3` -m pip install --user flake8"
+    - "sudo /usr/bin/python3 -m pip install random2"
     - "sudo /usr/bin/python3 -m pip install sgmllib3k"
     - "sudo /usr/bin/python3 -m pip install --upgrade six"
+    - "`which python` -m pip install --upgrade --user random2"
     - "`which python` -m pip install --upgrade --user six"
     - which python
 script: "sh -x scripts/travis-ci-build"

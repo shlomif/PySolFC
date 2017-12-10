@@ -155,38 +155,21 @@ sub myglob
         }
     }
 
-    # Put the valgrind tests last, because they take a long time.
     my @tests =
-        sort {
-        ( ( ( $a =~ /valgrind/ ) <=> ( $b =~ /valgrind/ ) ) *
-                ( _is_parallized() ? -1 : 1 ) )
-            || ( basename($a) cmp basename($b) )
-            || ( $a cmp $b )
-        } (
-            ( myglob("$abs_bindir/tests/*") )
-        );
+        sort { ( basename($a) cmp basename($b) ) || ( $a cmp $b ) }
+            ( myglob("$abs_bindir/tests/*") );
 
     if ($IS_WIN)
     {
         @tests = grep {not (/pysolgtk/i or /import_v2/i)} @tests;
     }
 
-    # print "tests = @tests \n";
     if ( defined($exclude_re_s) )
     {
         my $re = qr/$exclude_re_s/ms;
         @tests = grep { basename($_) !~ $re } @tests;
     }
 
-    if ( !$ENV{FCS_TEST_BUILD} )
-    {
-        @tests = grep { !/build-process/ } @tests;
-    }
-
-    if ( $ENV{FCS_TEST_WITHOUT_VALGRIND} )
-    {
-        @tests = grep { !/valgrind/ } @tests;
-    }
     local $ENV{FCS_TEST_TAGS} = $ENV{FCS_TEST_TAGS} // '';
     print STDERR "FCS_PATH = $ENV{FCS_PATH}\n";
     print STDERR "FCS_SRC_PATH = $ENV{FCS_SRC_PATH}\n";

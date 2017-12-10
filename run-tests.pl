@@ -43,9 +43,25 @@ sub run_tests
         print "Running [@cmd]\n";
     }
 
-    # Workaround for Windows spawning-SNAFU.
-    my $exit_code = system(@cmd);
-    exit( $exit_success ? 0 : $exit_code ? (-1) : 0 );
+    if ($use_prove)
+    {
+        # Workaround for Windows spawning-SNAFU.
+        my $exit_code = system(@cmd);
+        exit( $exit_success ? 0 : $exit_code ? (-1) : 0 );
+    }
+    else
+    {
+        require Test::Run::CmdLine::Prove;
+
+        my $p =
+        Test::Run::CmdLine::Prove->create(
+            {
+                'args' => [@$tests],
+                'env_switches' => $ENV{'PROVE_SWITCHES'},
+            }
+        );
+        exit(! $p->run());
+    }
 }
 
 my $tests_glob = "*.{t.exe,py,t}";

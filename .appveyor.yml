@@ -1,0 +1,37 @@
+---
+# Shamelessly taken from https://github.com/plicease/Dist-Zilla-PluginBundle-Author-Plicease/blob/master/.appveyor.yml
+# Thanks!
+install:
+    - choco install ag
+    - choco install strawberryperl
+    - copy c:\Python35-x64\python.exe c:\Python35-x64\python3.exe
+    - SET PATH=C:\Python35-x64;C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%
+    - python3 -mpip install flake8
+    - python3 -mpip install random2
+    - python3 -mpip install sgmllib3k
+    - python3 -mpip install six
+    - perl -v
+    - copy C:\msys64\mingw64\bin\mingw32-make.exe C:\msys64\mingw64\bin\make.exe
+    - SET PATH=C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%
+    - SET PERL5LIB=C:/_P5/lib/perl5
+    - SET PERL_LOCAL_LIB_ROOT=C:/_P5
+    - SET PERL_MB_OPT=--install_base C:/_P5
+    - SET PERL_MM_OPT=INSTALL_BASE=C:/_P5
+    - perl -v
+    - echo %PATH%
+build: off
+test_script:
+    - set CMAKE_MAKE_PROGRAM=C:\strawberry\c\bin\gmake.exe
+    - set LIBRARY_PATH=C:\libtap\lib
+    - set CMAKE_LIBRARY_PATH=C:\libtap\lib
+    - set LD_LIBRARY_PATH=C:\libtap\lib
+    - set CPATH=C:\libtap\include
+    - set PATH=C:\libtap\bin;%PATH%
+    - set HARNESS_BREAK=1
+    - set FCS_USE_TEST_RUN=1
+    - gmake test
+cache:
+    - C:\libtap -> .appveyor.yml
+    - C:\_P5 -> .appveyor.yml
+    - C:\strawberry -> .appveyor.yml
+shallow_clone: true

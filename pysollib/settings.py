@@ -32,7 +32,7 @@ PACKAGE = 'PySolFC'
 TITLE = 'PySol'
 PACKAGE_URL = 'http://pysolfc.sourceforge.net/'
 
-VERSION = '2.1.1'
+VERSION = '2.1.2'
 VERSION_TUPLE = (3, 0, 0)
 
 # Tk windowing system (auto set up in init.py)

@@ -401,6 +401,7 @@ class Options:
             'abra-kadabra',
             'blue-yonder',
             'conspiracy-theory',
+            'cookie-monster',
             'cool-jives',
             'crooked-nose',
             'fools-gold',

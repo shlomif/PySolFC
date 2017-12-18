@@ -287,9 +287,12 @@ def constructRandom(s):
 
 
 MS_LONG_BIT = (long(1) << 1000)
+CUSTOM_BIT = (long(1) << 999)
 
 
 def random__str2long(s):
+    if s == 'Custom':
+        return CUSTOM_BIT | MS_LONG_BIT
     m = _match_ms(s)
     if m:
         return (long(m.group(1)) | MS_LONG_BIT)
@@ -299,6 +302,8 @@ def random__str2long(s):
 
 def random__long2str(l):
     if ((l & MS_LONG_BIT) != 0):
+        if ((l & CUSTOM_BIT) != 0):
+            return 'Custom'
         return "ms" + str(l & (~ MS_LONG_BIT))
     else:
         return str(l)

@@ -814,31 +814,30 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
             self._addBoardLine(prefix + b)
         return
 
-    def _getNextId(self):
-        self._id += 1
-        return self._id
-
     def importFile(solver, fh, s_game, self):
-        solver._id = 1000
         s_game.endGame()
         s_game.newGame(
             shuffle=True,
-            dealer=lambda: solver.importFileHelper(fh, s_game, self))
+            dealer=lambda: solver.importFileHelper(fh, s_game))
 
-    def importFileHelper(solver, fh, s_game, self):
+    def importFileHelper(solver, fh, s_game):
         game = s_game.s
         stack_idx = 0
 
-        def crCard(target, suit, rank):
+        def put(target, suit, rank):
             ret = [i for i, c in enumerate(game.talon.cards)
                    if c.suit == suit and c.rank == rank]
             assert len(ret) == 1
             ret = ret[0]
             game.talon.cards = \
-                game.talon.cards[0:ret] + game.talon.cards[ret:] +\
+                game.talon.cards[0:ret] + game.talon.cards[(ret+1):] +\
                 [game.talon.cards[ret]]
             s_game.flipMove(game.talon)
             s_game.moveMove(1, game.talon, target, frames=0)
+
+        def put_str(target, str_):
+            put(target, "CSHD".index(str_[1]), "A23456789TJQK".index(str_[0]))
+
         for line_p in fh:
             line = line_p.rstrip('\r\n')
             m = re.match(r'^(?:Foundations:|Founds?:)\s*(.*)', line)
@@ -849,7 +848,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                         suit = foundat.cap.suit
                         if "CSHD"[suit] == gm[0]:
                             for r in range("0A23456789TJQK".index(gm[1])):
-                                crCard(foundat, suit, r)
+                                put(foundat, suit, r)
                             break
                 continue
             m = re.match(r'^(?:FC:|Freecells:)\s*(.*)', line)
@@ -861,15 +860,14 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                 for i, gm in enumerate(g):
                     str_ = gm
                     if str_ != '-':
-                        crCard(game.reserves[i], "CSHD".index(str_[1]),
-                               "A23456789TJQK".index(str_[0]))
+                        put_str(game.reserves[i], str_)
                 continue
             g = re.findall(r'\b((?:[A23456789TJQK][HCDS]))\b', line)
             for str_ in g:
-                crCard(game.rows[stack_idx], "CSHD".index(str_[1]),
-                       "A23456789TJQK".index(str_[0]))
+                put_str(game.rows[stack_idx], str_)
 
             stack_idx += 1
+        return
 
     def calcBoardString(self):
         game = self.game

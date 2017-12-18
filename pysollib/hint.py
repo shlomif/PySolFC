@@ -814,6 +814,59 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
             self._addBoardLine(prefix + b)
         return
 
+    def _getNextId(self):
+        self._id += 1
+        return self._id
+
+    def importFile(solver, fh, s_game, self):
+        game = s_game.s
+        solver._id = 1000
+        stack_idx = 0
+
+        def crCard(id, deck, suit, rank):
+            return s_game._createCard(id, deck, suit, rank, 0, 0)
+        for line_p in fh:
+            line = line_p.rstrip('\r\n')
+            m = re.match(r'^(?:Foundations:|Founds?:)\s*(.*)', line)
+            if m:
+                g = re.findall(r'\b([HCDS])-([0A23456789TJQK])\b', m.group(1))
+                for gm in g:
+                    for foundat in game.foundations:
+                        suit = foundat.cap.suit
+                        if "CSHD"[suit] == gm[0]:
+                            foundat.cards = [crCard(
+                                solver._getNextId(), 0, suit, r
+                            ) for r in range(
+                                "A23456789TJQK".index(gm[1]))
+                            ]
+                            break
+                continue
+            m = re.match(r'^(?:FC:|Freecells:)\s*(.*)', line)
+            if m:
+                g = re.findall(
+                    r'\b((?:[A23456789TJQK][HCDS])|\-)\b', m.group(1))
+                while len(g) < len(game.reserves):
+                    g.append(('-'))
+                for i, gm in enumerate(g):
+                    str_ = gm
+                    if str_ == '-':
+                        game.reserves[i].cards = []
+                    else:
+                        print(str_)
+                        game.reserves[i].cards = [crCard(
+                            solver._getNextId(), 0, "CSHD".index(str_[1]),
+                            "A23456789TJQK".index(str_[0]))]
+                continue
+            g = re.findall(r'\b((?:[A23456789TJQK][HCDS]))\b', line)
+            game.rows[stack_idx].cards = [
+                crCard(solver._getNextId(), 0, "CSHD".index(str_[1]),
+                       "A23456789TJQK".index(str_[0]))
+                for str_ in g
+                ]
+            stack_idx += 1
+            s_game.endGame()
+            s_game.newGame(shuffle=False, s_game=game)
+
     def calcBoardString(self):
         game = self.game
         self.board = ''

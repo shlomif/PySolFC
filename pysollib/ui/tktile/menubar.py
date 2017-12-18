@@ -334,6 +334,9 @@ class PysolMenubarTkCommon:
         menu.add_command(
             label=n_("E&xport current layout..."),
             command=self.mExportCurrentLayout)
+        menu.add_command(
+            label=n_("I&mport starting layout..."),
+            command=self.mImportStartingLayout)
         menu.add_separator()
         menu.add_command(
             label=n_("&Hold and quit"),
@@ -1200,6 +1203,38 @@ Unsupported game for export.
                 game = self.game
                 fh.write(game.Solver_Class(game, self).calcBoardString())
             self.updateMenus()
+
+    def mImportStartingLayout(self, *event):
+        if self._cancelDrag(break_pause=False):
+            return
+        game = self.game
+        if not game.Solver_Class:
+            d = self._calc_MfxMessageDialog()(
+                self.top, title=_('Import game error'),
+                text=_('''
+Unsupported game for import.
+'''),
+                bitmap='error')
+            return
+
+        filename = self.game.filename
+        if filename:
+            idir, ifile = os.path.split(os.path.normpath(filename))
+        else:
+            idir, ifile = "", ""
+        if not idir:
+            idir = self.app.dn.savegames
+        d = tkinter_tkfiledialog.Open()
+        filename = d.show(filetypes=self.FILETYPES,
+                          defaultextension=self.DEFAULTEXTENSION,
+                          initialdir=idir, initialfile=ifile)
+        if filename:
+            filename = os.path.normpath(filename)
+            # filename = os.path.normcase(filename)
+            if os.path.isfile(filename):
+                with open(filename, 'r') as fh:
+                    game = self.game
+                    game.Solver_Class(game, self).importFile(fh, game, self)
 
     def mSaveAs(self, *event):
         if self._cancelDrag(break_pause=False):

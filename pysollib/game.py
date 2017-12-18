@@ -484,20 +484,25 @@ class Game(object):
     #
 
     # start a new name
-    def newGame(self, random=None, restart=0, autoplay=1):
+    def newGame(self, random=None, restart=0, autoplay=1, shuffle=True,
+                s_game=0):
         # print 'Game.newGame'
         self.finished = False
         old_busy, self.busy = self.busy, 1
         self.setCursor(cursor=CURSOR_WATCH)
         self.stopWinAnimation()
         self.disableMenus()
-        self.redealAnimation()
+        if shuffle:
+            self.redealAnimation()
         self.reset(restart=restart)
         self.resetGame()
         self.createRandom(random)
         # print self.random, self.random.__dict__
-        self.shuffle()
-        assert len(self.s.talon.cards) == self.gameinfo.ncards
+        if shuffle:
+            self.shuffle()
+            assert len(self.s.talon.cards) == self.gameinfo.ncards
+        else:
+            self.s = s_game
         for stack in self.allstacks:
             stack.updateText()
         self.updateText()

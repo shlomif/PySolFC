@@ -485,7 +485,7 @@ class Game(object):
 
     # start a new name
     def newGame(self, random=None, restart=0, autoplay=1, shuffle=True,
-                s_game=0):
+                dealer=None):
         # print 'Game.newGame'
         self.finished = False
         old_busy, self.busy = self.busy, 1
@@ -501,8 +501,6 @@ class Game(object):
         if shuffle:
             self.shuffle()
             assert len(self.s.talon.cards) == self.gameinfo.ncards
-        else:
-            self.s = s_game
         for stack in self.allstacks:
             stack.updateText()
         self.updateText()
@@ -528,7 +526,10 @@ class Game(object):
         self.stopSamples()
         # let's go
         self.moves.state = self.S_INIT
-        self.startGame()
+        if dealer:
+            dealer()
+        else:
+            self.startGame()
         self.startMoves()
         for stack in self.allstacks:
             stack.updateText()

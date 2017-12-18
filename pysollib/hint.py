@@ -819,12 +819,26 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
         return self._id
 
     def importFile(solver, fh, s_game, self):
-        game = s_game.s
         solver._id = 1000
+        s_game.endGame()
+        s_game.newGame(
+            shuffle=True,
+            dealer=lambda: solver.importFileHelper(fh, s_game, self))
+
+    def importFileHelper(solver, fh, s_game, self):
+        game = s_game.s
         stack_idx = 0
 
-        def crCard(id, deck, suit, rank):
-            return s_game._createCard(id, deck, suit, rank, 0, 0)
+        def crCard(suit, rank):
+            print(suit, rank)
+            ret = [i for i, c in enumerate(game.talon.cards)
+                   if c.suit == suit and c.rank == rank]
+            assert len(ret) == 1
+            ret = ret[0]
+            game.talon.cards = \
+                game.talon.cards[0:ret] + game.talon.cards[ret:] +\
+                [game.talon.cards[ret]]
+            s_game.flipMove(game.talon)
         for line_p in fh:
             line = line_p.rstrip('\r\n')
             m = re.match(r'^(?:Foundations:|Founds?:)\s*(.*)', line)
@@ -834,11 +848,10 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                     for foundat in game.foundations:
                         suit = foundat.cap.suit
                         if "CSHD"[suit] == gm[0]:
-                            foundat.cards = [crCard(
-                                solver._getNextId(), 0, suit, r
-                            ) for r in range(
-                                "A23456789TJQK".index(gm[1]))
-                            ]
+                            for r in range("0A23456789TJQK".index(gm[1])):
+                                crCard(suit, r)
+                                s_game.moveMove(1, game.talon, foundat,
+                                                frames=0)
                             break
                 continue
             m = re.match(r'^(?:FC:|Freecells:)\s*(.*)', line)
@@ -846,26 +859,22 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                 g = re.findall(
                     r'\b((?:[A23456789TJQK][HCDS])|\-)\b', m.group(1))
                 while len(g) < len(game.reserves):
-                    g.append(('-'))
+                    g.append('-')
                 for i, gm in enumerate(g):
                     str_ = gm
-                    if str_ == '-':
-                        game.reserves[i].cards = []
-                    else:
+                    if str_ != '-':
                         print(str_)
-                        game.reserves[i].cards = [crCard(
-                            solver._getNextId(), 0, "CSHD".index(str_[1]),
-                            "A23456789TJQK".index(str_[0]))]
+                        crCard("CSHD".index(str_[1]),
+                               "A23456789TJQK".index(str_[0]))
+                        s_game.moveMove(
+                            1, game.talon, game.reserves[i], frames=0)
                 continue
             g = re.findall(r'\b((?:[A23456789TJQK][HCDS]))\b', line)
-            game.rows[stack_idx].cards = [
-                crCard(solver._getNextId(), 0, "CSHD".index(str_[1]),
-                       "A23456789TJQK".index(str_[0]))
-                for str_ in g
-                ]
+            for str_ in g:
+                crCard("CSHD".index(str_[1]), "A23456789TJQK".index(str_[0]))
+                s_game.moveMove(1, game.talon, game.rows[stack_idx], frames=0)
+
             stack_idx += 1
-            s_game.endGame()
-            s_game.newGame(shuffle=False, s_game=game)
 
     def calcBoardString(self):
         game = self.game

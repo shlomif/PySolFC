@@ -1216,6 +1216,12 @@ Unsupported game for import.
 '''),
                 bitmap='error')
             return
+        if True:
+            filename = '/tmp/f.board'
+            with open(filename, 'r') as fh:
+                game = self.game
+                game.Solver_Class(game, self).importFile(fh, game, self)
+            return
 
         filename = self.game.filename
         if filename:

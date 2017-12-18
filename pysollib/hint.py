@@ -829,8 +829,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
         game = s_game.s
         stack_idx = 0
 
-        def crCard(suit, rank):
-            print(suit, rank)
+        def crCard(target, suit, rank):
             ret = [i for i, c in enumerate(game.talon.cards)
                    if c.suit == suit and c.rank == rank]
             assert len(ret) == 1
@@ -839,6 +838,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                 game.talon.cards[0:ret] + game.talon.cards[ret:] +\
                 [game.talon.cards[ret]]
             s_game.flipMove(game.talon)
+            s_game.moveMove(1, game.talon, target, frames=0)
         for line_p in fh:
             line = line_p.rstrip('\r\n')
             m = re.match(r'^(?:Foundations:|Founds?:)\s*(.*)', line)
@@ -849,9 +849,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                         suit = foundat.cap.suit
                         if "CSHD"[suit] == gm[0]:
                             for r in range("0A23456789TJQK".index(gm[1])):
-                                crCard(suit, r)
-                                s_game.moveMove(1, game.talon, foundat,
-                                                frames=0)
+                                crCard(foundat, suit, r)
                             break
                 continue
             m = re.match(r'^(?:FC:|Freecells:)\s*(.*)', line)
@@ -863,16 +861,13 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                 for i, gm in enumerate(g):
                     str_ = gm
                     if str_ != '-':
-                        print(str_)
-                        crCard("CSHD".index(str_[1]),
+                        crCard(game.reserves[i], "CSHD".index(str_[1]),
                                "A23456789TJQK".index(str_[0]))
-                        s_game.moveMove(
-                            1, game.talon, game.reserves[i], frames=0)
                 continue
             g = re.findall(r'\b((?:[A23456789TJQK][HCDS]))\b', line)
             for str_ in g:
-                crCard("CSHD".index(str_[1]), "A23456789TJQK".index(str_[0]))
-                s_game.moveMove(1, game.talon, game.rows[stack_idx], frames=0)
+                crCard(game.rows[stack_idx], "CSHD".index(str_[1]),
+                       "A23456789TJQK".index(str_[0]))
 
             stack_idx += 1
 

@@ -335,7 +335,7 @@ class PysolMenubarTkCommon:
             label=n_("E&xport current layout..."),
             command=self.mExportCurrentLayout)
         menu.add_command(
-            label=n_("I&mport starting layout..."),
+            label=n_("&Import starting layout..."),
             command=self.mImportStartingLayout)
         menu.add_separator()
         menu.add_command(

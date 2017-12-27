@@ -743,15 +743,18 @@ class Base_Solver_Hint:
     def config(self, **kw):
         self.options.update(kw)
 
-    def card2str1(self, card):
+    def _card2str_format(self, fmt, card):
         # row and reserves
         rank = (card.rank-self.base_rank) % 13
-        return "A23456789TJQK"[rank] + "CSHD"[card.suit]
+        return fmt % {'R': "A23456789TJQK"[rank], 'S': "CSHD"[card.suit]}
+
+    def card2str1(self, card):
+        # row and reserves
+        return self._card2str_format('%(R)s%(S)s', card)
 
     def card2str2(self, card):
         # foundations
-        rank = (card.rank-self.base_rank) % 13
-        return "CSHD"[card.suit] + "-" + "A23456789TJQK"[rank]
+        return self._card2str_format('%(S)-s%(R)s', card)
 
 # hard solvable: Freecell #47038300998351211829 (65539 iters)
 

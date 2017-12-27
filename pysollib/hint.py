@@ -850,16 +850,18 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
         def put_str(target, str_):
             put(target, SUITS_S.index(str_[1]), RANKS_S.index(str_[0]))
 
+        def my_find_re(RE, m):
+            s = m.group(1)
+            assert re.match(r'^\s*(?:' + RE + r')?(?:\s+'
+                            + RE + r')*\s*$', s)
+            return re.findall(r'\b' + RE + r'\b', s)
+
         for line_p in fh:
             line = line_p.rstrip('\r\n')
             m = re.match(r'^(?:Foundations:|Founds?:)\s*(.*)', line)
             if m:
-                RE = r'(' + SUITS_RE + r')-([' + RANKS0_S + r'])'
-                s = m.group(1)
-                assert re.match(r'^\s*(?:' + RE + r')?(?:\s+'
-                                + RE + r')*\s*$', s)
-                g = re.findall(r'\b' + RE + r'\b', s)
-                for gm in g:
+                for gm in my_find_re(
+                        r'(' + SUITS_RE + r')-([' + RANKS0_S + r'])', m):
                     for foundat in game.foundations:
                         suit = foundat.cap.suit
                         if SUITS_S[suit] == gm[0]:
@@ -869,11 +871,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                 continue
             m = re.match(r'^(?:FC:|Freecells:)\s*(.*)', line)
             if m:
-                RE = r'(' + CARD_RE + r'|\-)'
-                s = m.group(1)
-                assert re.match(r'^\s*(?:' + RE + r')?(?:\s+'
-                                + RE + r')*\s*$', s)
-                g = re.findall(r'\b' + RE + r'\b', s)
+                g = my_find_re(r'(' + CARD_RE + r'|\-)', m)
                 while len(g) < len(game.reserves):
                     g.append('-')
                 for i, gm in enumerate(g):

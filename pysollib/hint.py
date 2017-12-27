@@ -824,14 +824,16 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
         game = s_game.s
         stack_idx = 0
 
+        def cards():
+            return game.talon.cards
+
         def put(target, suit, rank):
-            ret = [i for i, c in enumerate(game.talon.cards)
+            ret = [i for i, c in enumerate(cards())
                    if c.suit == suit and c.rank == rank]
             assert len(ret) == 1
             ret = ret[0]
             game.talon.cards = \
-                game.talon.cards[0:ret] + game.talon.cards[(ret+1):] +\
-                [game.talon.cards[ret]]
+                cards()[0:ret] + cards()[(ret+1):] + [cards()[ret]]
             s_game.flipMove(game.talon)
             s_game.moveMove(1, game.talon, target, frames=0)
 
@@ -867,7 +869,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                 put_str(game.rows[stack_idx], str_)
 
             stack_idx += 1
-        return
+        assert len(cards()) == 0
 
     def calcBoardString(self):
         game = self.game

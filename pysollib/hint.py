@@ -879,8 +879,9 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                     if str_ != '-':
                         put_str(game.reserves[i], str_)
                 continue
-            g = re.findall(r'\b(' + CARD_RE + r')\b', line)
-            for str_ in g:
+            m = re.match(r'^:?\s*(.*)', line)
+            assert m
+            for str_ in my_find_re(r'(' + CARD_RE + r')', m):
                 put_str(game.rows[stack_idx], str_)
 
             stack_idx += 1

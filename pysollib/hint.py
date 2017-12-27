@@ -824,6 +824,10 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
         game = s_game.s
         stack_idx = 0
 
+        RANKS_S = "A23456789TJQK"
+        RANKS_RE = '[' + RANKS_S + ']'
+        CARD_RE = RANKS_RE + '[CSHD]'
+
         def cards():
             return game.talon.cards
 
@@ -838,25 +842,26 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
             s_game.moveMove(1, game.talon, target, frames=0)
 
         def put_str(target, str_):
-            put(target, "CSHD".index(str_[1]), "A23456789TJQK".index(str_[0]))
+            put(target, "CSHD".index(str_[1]), RANKS_S.index(str_[0]))
 
         for line_p in fh:
             line = line_p.rstrip('\r\n')
             m = re.match(r'^(?:Foundations:|Founds?:)\s*(.*)', line)
             if m:
-                g = re.findall(r'\b([HCDS])-([0A23456789TJQK])\b', m.group(1))
+                g = re.findall(r'\b([HCDS])-([0' + RANKS_S + r'])\b',
+                               m.group(1))
                 for gm in g:
                     for foundat in game.foundations:
                         suit = foundat.cap.suit
                         if "CSHD"[suit] == gm[0]:
-                            for r in range("0A23456789TJQK".index(gm[1])):
+                            for r in range(("0" + RANKS_S).index(gm[1])):
                                 put(foundat, suit, r)
                             break
                 continue
             m = re.match(r'^(?:FC:|Freecells:)\s*(.*)', line)
             if m:
                 g = re.findall(
-                    r'\b((?:[A23456789TJQK][HCDS])|\-)\b', m.group(1))
+                    r'\b((?:' + CARD_RE + r')|\-)\b', m.group(1))
                 while len(g) < len(game.reserves):
                     g.append('-')
                 for i, gm in enumerate(g):
@@ -864,7 +869,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                     if str_ != '-':
                         put_str(game.reserves[i], str_)
                 continue
-            g = re.findall(r'\b((?:[A23456789TJQK][HCDS]))\b', line)
+            g = re.findall(r'\b((?:' + CARD_RE + r'))\b', line)
             for str_ in g:
                 put_str(game.rows[stack_idx], str_)
 

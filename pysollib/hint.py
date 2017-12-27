@@ -869,8 +869,11 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                 continue
             m = re.match(r'^(?:FC:|Freecells:)\s*(.*)', line)
             if m:
-                g = re.findall(
-                    r'\b(' + CARD_RE + r'|\-)\b', m.group(1))
+                RE = r'(' + CARD_RE + r'|\-)'
+                s = m.group(1)
+                assert re.match(r'^\s*(?:' + RE + r')?(?:\s+'
+                                + RE + r')*\s*$', s)
+                g = re.findall(r'\b' + RE + r'\b', s)
                 while len(g) < len(game.reserves):
                     g.append('-')
                 for i, gm in enumerate(g):

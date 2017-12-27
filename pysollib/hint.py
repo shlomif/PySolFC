@@ -825,6 +825,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
         stack_idx = 0
 
         RANKS_S = "A23456789TJQK"
+        RANKS0_S = '0' + RANKS_S
         RANKS_RE = '[' + RANKS_S + ']'
         CARD_RE = RANKS_RE + '[CSHD]'
 
@@ -848,13 +849,13 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
             line = line_p.rstrip('\r\n')
             m = re.match(r'^(?:Foundations:|Founds?:)\s*(.*)', line)
             if m:
-                g = re.findall(r'\b([HCDS])-([0' + RANKS_S + r'])\b',
+                g = re.findall(r'\b([HCDS])-([' + RANKS0_S + r'])\b',
                                m.group(1))
                 for gm in g:
                     for foundat in game.foundations:
                         suit = foundat.cap.suit
                         if "CSHD"[suit] == gm[0]:
-                            for r in range(("0" + RANKS_S).index(gm[1])):
+                            for r in range(RANKS0_S.index(gm[1])):
                                 put(foundat, suit, r)
                             break
                 continue

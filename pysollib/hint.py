@@ -829,7 +829,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
         RANKS_RE = '[' + RANKS_S + ']'
         SUITS_S = "CSHD"
         SUITS_RE = '[' + SUITS_S + ']'
-        CARD_RE = RANKS_RE + SUITS_RE
+        CARD_RE = r'(?:' + RANKS_RE + SUITS_RE + ')'
 
         def cards():
             return game.talon.cards
@@ -857,7 +857,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                 for gm in g:
                     for foundat in game.foundations:
                         suit = foundat.cap.suit
-                        if "CSHD"[suit] == gm[0]:
+                        if SUITS_S[suit] == gm[0]:
                             for r in range(RANKS0_S.index(gm[1])):
                                 put(foundat, suit, r)
                             break
@@ -865,7 +865,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
             m = re.match(r'^(?:FC:|Freecells:)\s*(.*)', line)
             if m:
                 g = re.findall(
-                    r'\b((?:' + CARD_RE + r')|\-)\b', m.group(1))
+                    r'\b(' + CARD_RE + r'|\-)\b', m.group(1))
                 while len(g) < len(game.reserves):
                     g.append('-')
                 for i, gm in enumerate(g):
@@ -873,7 +873,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                     if str_ != '-':
                         put_str(game.reserves[i], str_)
                 continue
-            g = re.findall(r'\b((?:' + CARD_RE + r'))\b', line)
+            g = re.findall(r'\b(' + CARD_RE + r')\b', line)
             for str_ in g:
                 put_str(game.rows[stack_idx], str_)
 

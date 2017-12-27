@@ -854,9 +854,11 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
             line = line_p.rstrip('\r\n')
             m = re.match(r'^(?:Foundations:|Founds?:)\s*(.*)', line)
             if m:
-                g = re.findall(
-                    r'\b(' + SUITS_RE + r')-([' + RANKS0_S + r'])\b',
-                    m.group(1))
+                RE = r'(' + SUITS_RE + r')-([' + RANKS0_S + r'])'
+                s = m.group(1)
+                assert re.match(r'^\s*(?:' + RE + r')?(?:\s+'
+                                + RE + r')*\s*$', s)
+                g = re.findall(r'\b' + RE + r'\b', s)
                 for gm in g:
                     for foundat in game.foundations:
                         suit = foundat.cap.suit

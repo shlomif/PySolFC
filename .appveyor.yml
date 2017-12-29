@@ -32,6 +32,10 @@ test_script:
     - gmake pretest
     - perl run-tests.pl
     - python3 setup.py py2exe
+    - 7z a -r pysol_win_dist.7z dist\
+artifacts:
+    - path: pysol_win_dist.7z
+      name: pysol_win_dist
 cache:
     - C:\_P5 -> .appveyor.yml
     - C:\strawberry -> .appveyor.yml

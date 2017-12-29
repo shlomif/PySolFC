@@ -28,7 +28,7 @@ test_script:
     - set FCS_USE_TEST_RUN=1
     - gmake pretest
     - perl run-tests.pl
-    - python setup.py py2exe
+    - python3 setup.py py2exe
 cache:
     - C:\_P5 -> .appveyor.yml
     - C:\strawberry -> .appveyor.yml

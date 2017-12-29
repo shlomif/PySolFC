@@ -1,10 +1,13 @@
 ---
+environment:
+    matrix:
+        - PYTHON: "C:\\PYTHON36"
 # Shamelessly taken from https://github.com/plicease/Dist-Zilla-PluginBundle-Author-Plicease/blob/master/.appveyor.yml
 # Thanks!
 install:
     - choco install strawberryperl
-    - copy c:\Python35-x64\python.exe c:\Python35-x64\python3.exe
-    - SET PATH=C:\Python35-x64;C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%
+    - copy %PYTHON%\python.exe %PYTHON%\python3.exe
+    - SET PATH=%PYTHON%;C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%
     - python3 -mpip install flake8
     - python3 -mpip install random2
     - python3 -mpip install py2exe

@@ -8,6 +8,7 @@ install:
     - SET PATH=C:\Python35-x64;C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%
     - python3 -mpip install flake8
     - python3 -mpip install random2
+    - python3 -mpip install py2exe
     - python3 -mpip install sgmllib3k
     - python3 -mpip install six
     - perl -v
@@ -28,6 +29,7 @@ test_script:
     - set FCS_USE_TEST_RUN=1
     - gmake pretest
     - perl run-tests.pl
+    - python setup.py py2exe
 cache:
     - C:\_P5 -> .appveyor.yml
     - C:\strawberry -> .appveyor.yml

@@ -23,18 +23,12 @@ install:
 build: off
 test_script:
     - set CMAKE_MAKE_PROGRAM=C:\strawberry\c\bin\gmake.exe
-    - set LIBRARY_PATH=C:\libtap\lib
-    - set CMAKE_LIBRARY_PATH=C:\libtap\lib
-    - set LD_LIBRARY_PATH=C:\libtap\lib
-    - set CPATH=C:\libtap\include
-    - set PATH=C:\libtap\bin;%PATH%
     - set HARNESS_BREAK=1
     - set HARNESS_VERBOSE=1
     - set FCS_USE_TEST_RUN=1
     - gmake pretest
     - perl run-tests.pl
 cache:
-    - C:\libtap -> .appveyor.yml
     - C:\_P5 -> .appveyor.yml
     - C:\strawberry -> .appveyor.yml
 shallow_clone: true

@@ -1,7 +1,7 @@
 ---
 environment:
     matrix:
-        - PYTHON: "C:\\PYTHON36"
+        - PYTHON: "C:\\PYTHON34"
 # Shamelessly taken from https://github.com/plicease/Dist-Zilla-PluginBundle-Author-Plicease/blob/master/.appveyor.yml
 # Thanks!
 install:

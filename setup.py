@@ -6,7 +6,7 @@ from distutils.core import setup
 from pysollib.settings import VERSION
 from pysollib.settings import PACKAGE_URL
 if os.name == 'nt':
-    eval('import py2exe')
+    import py2exe
 
 if os.name == 'posix':
     data_dir = 'share/PySolFC'

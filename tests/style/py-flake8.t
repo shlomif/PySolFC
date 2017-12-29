@@ -26,6 +26,7 @@ my %skip = (
         pysollib/tile/ttk.py
         pysollib/ui/tktile/Canvas2.py
         scripts/all_games.py
+        ./setup.py
         )
 );
 

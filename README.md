@@ -1,13 +1,13 @@
 # PySol Fan Club edition
 
 This is an open source and portable (Windows, Linux and Mac OS X) collection
-of Card Solitaire/Patience games written in Python. It is based on
+of Card Solitaire/Patience games written in Python. Its homepage is
 http://pysolfc.sourceforge.net/ .
 
-This is a maintenance branch of PySol FC by [Shlomi
+The maintenance branch of PySol FC on GitHub by [Shlomi
 Fish](http://www.shlomifish.org/) and by some other
-people, aiming to clean up the code, add features, fix bugs, port to Python
-3, and implement other enhancements.
+people, has gained official status, and ported the code to Python 3
+and implement some other enhancements.
 
 [![Build Status](https://travis-ci.org/shlomif/PySolFC.svg)](https://travis-ci.org/shlomif/PySolFC)
 

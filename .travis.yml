@@ -6,11 +6,8 @@ before_install:
     - sudo dpkg-divert --local --divert /usr/bin/ack --rename --add /usr/bin/ack-grep
 install:
     - sudo cpanm Test::Differences Test::TrailingSpace
-    - "`which python3` -m pip install --user flake8"
-    - "sudo /usr/bin/python3 -m pip install random2"
-    - "sudo /usr/bin/python3 -m pip install sgmllib3k"
-    - "sudo /usr/bin/python3 -m pip install --upgrade six"
-    - "`which python` -m pip install --upgrade --user random2"
-    - "`which python` -m pip install --upgrade --user six"
+    - "`which python3` -m pip install --upgrade --user flake8 random2 six"
+    - "sudo /usr/bin/python3 -m pip install --upgrade random2 sgmllib3k six"
+    - "`which python` -m pip install --upgrade --user random2 six"
     - which python
 script: "sh -x scripts/travis-ci-build"

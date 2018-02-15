@@ -130,20 +130,14 @@ def getNumberOfFreeStacks(stacks):
 
 
 # collect the top cards of several stacks into a pile
-def getPileFromStacks(stacks, reverse=0):
+def getPileFromStacks(stacks, reverse=False):
     cards = []
     for s in stacks:
         if not s.cards or not s.cards[-1].face_up:
             return None
         cards.append(s.cards[-1])
-    if reverse:
-        cards.reverse()
-    return cards
+    return (reversed(cards) if reverse else cards)
 
-
-# ************************************************************************
-# *
-# ************************************************************************
 
 class Stack:
     # A generic stack of cards.

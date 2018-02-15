@@ -2956,11 +2956,8 @@ Congratulations, you did it !
         if self.moves.index == 0:
             return
         self.moves.index -= 1
-        m = self.moves.history[self.moves.index]
-        m = m[:]
-        m.reverse()
         self.moves.state = self.S_UNDO
-        for atomic_move in m:
+        for atomic_move in reversed(self.moves.history[self.moves.index]):
             atomic_move.undo(self)
         self.moves.state = self.S_PLAY
         self.stats.undo_moves += 1

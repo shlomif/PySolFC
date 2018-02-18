@@ -64,6 +64,25 @@ class HTMLParser(htmllib.HTMLParser):
             else:
                 self.formatter.add_flowing_data(data)
 
+    def handle_starttag(self, tag, attrs):
+        try:
+            method = getattr(self, 'start_' + tag)
+        except AttributeError:
+            try:
+                method = getattr(self, 'do_' + tag)
+            except AttributeError:
+                self.unknown_starttag(tag, attrs)
+                return
+        method(attrs)
+
+    def handle_endtag(self, tag):
+        try:
+            method = getattr(self, 'end_' + tag)
+        except AttributeError:
+            self.unknown_endtag(tag)
+            return
+        method()
+
     # --- Hooks to save data; shouldn't need to be overridden
 
     def save_bgn(self):

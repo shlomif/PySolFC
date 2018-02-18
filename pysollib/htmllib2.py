@@ -26,7 +26,7 @@ class HTMLParser(htmllib.HTMLParser):
 
     from six.moves.html_entities import entitydefs
 
-    def __init__(self, formatter, verbose=0):
+    def __init__(self, formatter):
         """Creates an instance of the HTMLParser class.
 
         The formatter parameter is the formatter instance associated with

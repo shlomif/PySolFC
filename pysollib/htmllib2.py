@@ -4,18 +4,18 @@ See the HTML 2.0 specification:
 http://www.w3.org/hypertext/WWW/MarkUp/html-spec/html-spec_toc.html
 """
 
-import sgmllib
+import html.parser as htmllib
 
 from formatter import AS_IS
 
 __all__ = ["HTMLParser", "HTMLParseError"]
 
 
-class HTMLParseError(sgmllib.SGMLParseError):
+class HTMLParseError(RuntimeError):
     """Error raised when an HTML document can't be parsed."""
 
 
-class HTMLParser(sgmllib.SGMLParser):
+class HTMLParser(htmllib.HTMLParser):
     """This is the basic HTML parser class.
 
     It supports all entity names required by the XHTML 1.0 Recommendation.
@@ -33,14 +33,14 @@ class HTMLParser(sgmllib.SGMLParser):
         the parser.
 
         """
-        sgmllib.SGMLParser.__init__(self, verbose)
+        htmllib.HTMLParser.__init__(self)
         self.formatter = formatter
 
     def error(self, message):
         raise HTMLParseError(message)
 
     def reset(self):
-        sgmllib.SGMLParser.reset(self)
+        htmllib.HTMLParser.reset(self)
         self.savedata = None
         self.isindex = 0
         self.title = None

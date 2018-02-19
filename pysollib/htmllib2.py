@@ -4,12 +4,7 @@ See the HTML 2.0 specification:
 http://www.w3.org/hypertext/WWW/MarkUp/html-spec/html-spec_toc.html
 """
 
-try:
-    import html.parser as htmllib
-except ImportError:
-    # For Python 2 tests compatibility
-    import HTMLParser as htmllib
-
+from six.moves import html_parser
 from formatter import AS_IS
 
 __all__ = ["HTMLParser", "HTMLParseError"]
@@ -19,7 +14,7 @@ class HTMLParseError(RuntimeError):
     """Error raised when an HTML document can't be parsed."""
 
 
-class HTMLParser(htmllib.HTMLParser):
+class HTMLParser(html_parser.HTMLParser):
     """This is the basic HTML parser class.
 
     It supports all entity names required by the XHTML 1.0 Recommendation.
@@ -37,14 +32,14 @@ class HTMLParser(htmllib.HTMLParser):
         the parser.
 
         """
-        htmllib.HTMLParser.__init__(self)
+        html_parser.HTMLParser.__init__(self)
         self.formatter = formatter
 
     def error(self, message):
         raise HTMLParseError(message)
 
     def reset(self):
-        htmllib.HTMLParser.reset(self)
+        html_parser.HTMLParser.reset(self)
         self.savedata = None
         self.isindex = 0
         self.title = None

@@ -22,8 +22,8 @@
 # ---------------------------------------------------------------------------
 
 # Imports
-import sys
 from gettext import ungettext
+from six.moves import range
 
 # PySol imports
 from pysollib.mygettext import _
@@ -41,9 +41,6 @@ from pysollib.util import ANY_SUIT
 from pysollib.stack import \
         AbstractFoundationStack, \
         InitialDealTalonStack
-
-if sys.version_info > (3,):
-    xrange = range
 
 # ************************************************************************
 # *
@@ -118,7 +115,7 @@ class Shisen_RowStack(Mahjongg_RowStack):
         dx, dy = x2 - x1, y2 - y1
 
         a = []
-        for i in xrange(cols+2):
+        for i in range(cols+2):
             a.append([5]*(rows+2))
 
         def can_move(x, y, nx, ny, direct, d, direct_chng_cnt):
@@ -349,12 +346,12 @@ class AbstractShisenGame(AbstractMahjonggGame):
         self.check_dist = l.CW*l.CW + l.CH*l.CH     # see _getClosestStack()
 
         #
-        self.cols = [[] for i in xrange(cols)]
+        self.cols = [[] for i in range(cols)]
         cl = range(cols)
         if dx > 0:
             cl.reverse()
         for col in cl:
-            for row in xrange(rows):
+            for row in range(rows):
                 x = l.XM + dxx + col * cardw
                 y = l.YM + dyy + row * cardh
                 stack = self.RowStack_Class(x, y, self)

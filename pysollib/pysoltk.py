@@ -90,4 +90,3 @@ else: # gtk
     from pysollib.pysolgtk.menubar import *
     from pysollib.pysolgtk.card import *
     from pysollib.pysolgtk.selectcardset import *
-

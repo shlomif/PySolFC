@@ -1,9 +1,9 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import sys
 import os
 import re
-import __builtin__
+import builtins
 from pysollib.mygettext import fix_gettext
 
 from pysollib.gamedb import GAME_DB
@@ -13,8 +13,8 @@ from pysollib.mfxutil import latin1_to_ascii
 pysollib_dir = '../'
 
 
-__builtin__._ = lambda x: x
-__builtin__.n_ = lambda x: x
+builtins._ = lambda x: x
+builtins.n_ = lambda x: x
 
 import pysollib.games
 import pysollib.games.mahjongg
@@ -139,12 +139,14 @@ def getGameRulesFilename(n):
 def gen_main_html():
     for infile, title in files:
         outfile = open(os.path.join('html', infile), 'w')
-        print >> outfile, main_header % title
-        print >> outfile, open(infile).read()
+        print(main_header % title, file=outfile)
+        with open(infile, 'r') as file:
+            print(file.read(), file=outfile)
         s = '<a href="index.html">Back to the index</a>'
         if infile == 'index.html':
             s = ''
-        print >> outfile, main_footer % s
+        print(main_footer % s, file=outfile)
+        outfile.close()
 
 
 def gen_rules_html():
@@ -167,8 +169,9 @@ def gen_rules_html():
 
     # open file of list of all rules
     out_rules = open(os.path.join('html', 'rules.html'), 'w')
-    print >> out_rules, main_header % 'PySol - a Solitaire Game Collection'
-    print >> out_rules, open('rules.html').read()
+    print(main_header % 'PySol - a Solitaire Game Collection', file=out_rules)
+    with open('rules.html', 'r') as file:
+        print(file.read(), file=out_rules)
 
     for id in games:
         # create list of rules
@@ -188,7 +191,7 @@ def gen_rules_html():
             rules_dir = 'wikipedia'
         else:
             print('missing rules for %s (file: %s)'
-                  % (gi.name.encode('utf-8'), rules_fn))
+                  % (gi.name, rules_fn))
             continue
 
         # print '>>>', rules_fn
@@ -208,34 +211,41 @@ def gen_rules_html():
         rules_list.append((rules_dir, rules_fn, title, s))
         files_list.append(rules_fn)
         # rules_list.append((rules_fn, gi.name))
-        print >> out_rules, '<li><a href="rules/%s">%s</a>' \
-            % (rules_fn, gi.name.encode('utf-8'))
+        print('<li><a href="rules/%s">%s</a>' \
+            % (rules_fn, gi.name), file=out_rules)
         for n in gi.altnames:
             altnames.append((n, rules_fn))
 
-    print >> out_rules, '</ul>\n' + \
-        main_footer % '<a href="index.html">Back to the index</a>'
+    print('</ul>\n' + main_footer % \
+        '<a href="index.html">Back to the index</a>', file=out_rules)
+
+    out_rules.close()
 
     # create file of altnames
     out_rules_alt = open(os.path.join('html', 'rules_alternate.html'), 'w')
-    print >> out_rules_alt, main_header % 'PySol - a Solitaire Game Collection'
-    print >> out_rules_alt, open('rules_alternate.html').read()
+    print(main_header % 'PySol - a Solitaire Game Collection',
+          file=out_rules_alt)
+    with open('rules_alternate.html', 'r') as file:
+        print(file.read(), file=out_rules_alt)
     altnames.sort()
     for name, fn in altnames:
-        print >> out_rules_alt, '<li> <a href="rules/%s">%s</a>' \
-              % (fn, name.encode('utf-8'))
-    print >> out_rules_alt, '</ul>\n' + \
-        main_footer % '<a href="index.html">Back to the index</a>'
+        print('<li> <a href="rules/%s">%s</a>' \
+              % (fn, name), file=out_rules_alt)
+    print('</ul>\n' + main_footer % \
+        '<a href="index.html">Back to the index</a>', file=out_rules_alt)
+    out_rules_alt.close()
 
     # create rules
     for dir, filename, title, footer in rules_list:
-        outfile = open(os.path.join('html', 'rules', filename), 'w')
+        outfile = open(os.path.join('html', 'rules', filename), 'w', encoding='utf-8')
         if dir == 'rules':
-            print >> outfile, (rules_header % title).encode('utf-8')
+            print(rules_header % title, file=outfile)
         else:  # d == 'wikipedia'
-            print >> outfile, (wikipedia_header % title).encode('utf-8')
-        print >> outfile, open(os.path.join(dir, filename)).read()
-        print >> outfile, rules_footer % footer
+            print(wikipedia_header % title, file=outfile)
+        with open(os.path.join(dir, filename), 'r', encoding='utf-8') as file:
+            print(file.read(), file=outfile)
+        print(rules_footer % footer, file=outfile)
+        outfile.close()
 
 
 gen_main_html()

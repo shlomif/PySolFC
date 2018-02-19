@@ -26,64 +26,896 @@ from pysollib.games.mahjongg.mahjongg import r
 # test
 # r(5991, "AAA 1", ncards=4, layout="0daa")
 # r(5992, "AAA 2", ncards=8, layout="0daadca")
-# r(5993, "AAA 3", ncards=20, layout="0daaCabdacKbbdcaCcbdcc")
-# r(5994, "AAA 4", ncards=20, layout="0daaDabdacdcaDcbdcc")
+# r(5993, "AAA 3", ncards=20, layout="0daaCabdacKbbdca" +
+#    "Ccbdcc")
+# r(5994, "AAA 4", ncards=20, layout="0daaDabdacdcaDcb" +
+#    "dcc")
 
 # ************************************************************************
 # * game definitions
 # ************************************************************************
 
-r(5401, "Taipei", layout="0aagabbabdabjablhccacfachhckadbaddhdehdghdiadjadlhecaefoegaehhekafcifehfgvfgifiafkagahgcageaggoggagihgkagmhhaahcohehhfvhfhhhvhhohiahkhhmaiahidaieaigoigCigaiihijaimhjbajcojehjfvjfJjghjhvjhojiajkhjlakahkdakeakgokgCkgQkgakihkjakmhlbalcolehlfvlfJlghlhvlholialkhllamahmdameamgomgCmgamihmjammhnaanconehnfvnfhnhvnhoniankhnmaoahocaoeaogoogaoihokaomapcipehpgvpgipiapkhqcaqfoqgaqhhqkarbardhrehrghriarjarlhscasfashhskatbatdatjatlaug")
-r(5402, "Hare", layout="0aacaamacabccaceackbcmacobeacecbeebekcembeoofavfcofeofkvfmofobgacgcbgebgkcgmbgoaiabicbiebikbimaioakcakebkhakkakmamebmgbmiamkbogoohboicqfcqhcqjasejsfasgjshasijsjaskCtgCtibuddufduhdujbulovdCvgCviovlbwddwfdwhdwjbwlcyfcyhcyjbAhbCh")
-r(5403, "Horse", layout="0bafbahbajbcdbchbclaedbefbehbejaelagfaghagjaifhigaihhiiaijakfhkgakhhkiakjbmecmgcmibmkcodcofcohcojcolcqdcqfvqgcqhvqicqjcqlbsbcsfvsgcshvsicsjbsnotbotnbubcudcufvugcuhvuicujculbunbwbcwdcwfcwhcwjcwlbwnbycayfbyhayjbymaAbaAnaCaaCo")
-r(5404, "Rat", layout="0aaabacoadbaeaagbcacccccebcgvddodgbeacecceebegagabgcbggagmbicbieaigaimckeckgckiakmblcblkcmevmfcmgvmhcmibmmamobncCngbnkhnocoevofcogvohcoibomaoobpcbpkcqecqgcqiaqmbscbseasgasmauabucbugaumbwacwccwebwgvxdoxgbyacyccyebygaAabAcoAdbAeaAg")
-r(5405, "Tiger", layout="0baabacbambaobcabccbcmbcobebaeghehaeibenbgbbggbgibgnaibbidcifcihdijbilainakdhkeakfokfhkgakhpkhhkiakjokjhkkaklbmepmfbmgomhbmiomjbmkboeoofbogoohboipojbokbqeoqfbqgpqhbqioqjbqkbsddsfcshcsjbslbubbudbuhbulbunbwbbwibwnbybbygbynbAbbAibAnbCbbCgbCn")
-r(5406, "Ram", layout="0aacaaeaagaaihbehbghbibccaceoceacgaciociackadaodchdehdihdkheabecaeepeeaeioeiaekafaofchfehfihfkhgabgcageogeaggagiogiagkahahhehhghhibicaieaigaiibkcblgbmcbmeamionehniankanmcocboevoebogaoiooihokhombooopehpiapkapmbqcbqeaqibrgbscbucaueaugauiavahvehvghvihwabwcaweoweawgawiowiawkaxaoxchxehxihxkhyabycayepyeayioyiaykazaozchzehzihzkbAcaAeoAeaAgaAioAiaAkhBehBghBiaCcaCeaCgaCi")
-r(5407, "Wedges", layout="0aagbaicakdamacaacibckccmbeaaecaekbemcgabgcageagmdiacicbieaigekadkcckebkgakiakohlofmaemcdmecmgbmiamkammamoomohnoeoaeocdoecogaoiaoodqadqccqeaqgcsacscaseasmbuaaucaukbumawaawibwkcwmaygbyicykdym")
-r(5408, "Monkey", layout="0aaahabaacoachadaaeaakbcaaceackhclacmocmhcnacoodabeabeoofoagahgbagcaghbgobicbigbiiaimhinaioojgbkcdkebkgvkgdkibkkbkmolgdmebmgvmgdmiongdoebogvogdoiaokholaomaooopghpobqcdqebqgvqgdqiaqooqoorghroasahsbascbsgasmasoauaaughuhauiawihwjawkowkhwlawmbymaAchAdaAeoAehAfvAfaAgoAgCAghAhvAhaAioAiCAihAjvAjaAkoAkhAlaAmaCahCbaCc")
-r(5409, "Rooster", layout="0aaaaagabchcccceccgadcvdfadiceecegaeohfoageagoogohhoaiehifaigaimaiohjmbkeokfbkgokhbkiakkakmamccmevmfcmgvmhcmiamkanahncCnghoaaocooccoevofcogvohcoiapaopahpchqaaqcoqcbqeoqfbqgvqgoqhbqiaqkaqmaraorahrchrmhsaascbsgoshbsiaskasmasoataotahtohuaaufhugauhauoavabweowfbwgowhbwivxgayabycoydbyeoyfbygoyhbyihzaaAaaAeaAjhAkaAlhBaaCaaCehCfaCgaCl")
-r(5410, "Dog", layout="0aaeaaghbehbgaccaceoceacgocgaciackhdchdehdghdihdkaecoecaeeaegaeiaekhfcagcaichidaieoiehifaigvjebkackcckeckgbkibkkvlcoliolkbmacmccmgbmibmkamoonavnconkboacoccoecogbokaomaooopavpcopkbqacqccqgbqibqkvrcoriorkbsacsccsecsgbsibskvteauchudaueouehufaugawchxcaycoycayeaygayiaykhzchzehzghzihzkaAcaAeoAeaAgoAgaAiaAkhBehBgaCeaCg")
-r(5411, "Snake", layout="0bagbaiobhbcgbcibdebecbegbfebgcbhabicbiicikcimbjavjlbkcbkebkgbkickkckmakooleolgolivllhlobmcbmebmgbmicmkcmmamoomovnlhnocokcomaooooovplhpobqcbqebqgbqicqkcqmaqooreorgorivrlbscbsebsgbsicskcsmbtabucbvabwcbwebwgbwibwkbycbyebygbyibykbAjaCj")
-r(5412, "Boar", layout="0aacaaehafaagoaghahaaiaakhbchbkaccoccaciackockacmhdchdkhdmaecaeeaekoekaemoemhfkhfmagiagkogkagmhhkaiiaikakcbkgbkiakmolgolibmcbmebmgbmibmkbmmonconepngpnionkonmanoaoabocvocboevoebogboibokvokbomvomhooopcopeppgppiopkopmapobqcbqebqgbqibqkbqmorgoriascbsgbsiasmauiaukhvkawiawkowkawmhxkhxmaycayeaykoykaymoymhzchzkhzmaAcoAcaAiaAkoAkaAmhBchBkaCcaCehCfaCgoCghChaCiaCk")
-r(5413, "Ox", layout="0aahabeabkbcgochbciaeaaecbegbeiaemaeohfbhfnagaagcagebggbgiagkagmagoaicbiebigbiibikaimakcbkeckgckibkkakmbmecmgcmibmkaodioeaofjogaohjoiaojiokaolcqedqgdqicqkcsedsgdsicskaucbuecugcuibukaumawcbwecwgcwibwkawmayaaycayebygbyiaykaymayohzbhznaAaaAcaAhaAmaAo")
-r(5414, "Bridge 2", layout="0daadacdaedagdaidakdamdaoccccceccgccicckccmbeebegbeibekaggagiaihhjhakhokhhlhvlhamfamhomhCmhhnhvnhJnhanjaofaohoohCohhphvphaqhoqhhrhashaugauibwebwgbwibwkcyccyecygcyicykcymdAadAcdAedAgdAidAkdAmdAo")
+r(5401, "Taipei", layout="0aagabbabdabjabl" +
+    "hccacfachhckadba" +
+    "ddhdehdghdiadjad" +
+    "lhecaefoegaehhek" +
+    "afcifehfgvfgifia" +
+    "fkagahgcageaggog" +
+    "gagihgkagmhhaahc" +
+    "ohehhfvhfhhhvhho" +
+    "hiahkhhmaiahidai" +
+    "eaigoigCigaiihij" +
+    "aimhjbajcojehjfv" +
+    "jfJjghjhvjhojiaj" +
+    "khjlakahkdakeakg" +
+    "okgCkgQkgakihkja" +
+    "kmhlbalcolehlfvl" +
+    "fJlghlhvlholialk" +
+    "hllamahmdameamgo" +
+    "mgCmgamihmjammhn" +
+    "aanconehnfvnfhnh" +
+    "vnhoniankhnmaoah" +
+    "ocaoeaogoogaoiho" +
+    "kaomapcipehpgvpg" +
+    "ipiapkhqcaqfoqga" +
+    "qhhqkarbardhrehr" +
+    "ghriarjarlhscasf" +
+    "ashhskatbatdatja" +
+    "tlaug")
+r(5402, "Hare", layout="0aacaamacabccace" +
+    "ackbcmacobeacecb" +
+    "eebekcembeoofavf" +
+    "cofeofkvfmofobga" +
+    "cgcbgebgkcgmbgoa" +
+    "iabicbiebikbimai" +
+    "oakcakebkhakkakm" +
+    "amebmgbmiamkbogo" +
+    "ohboicqfcqhcqjas" +
+    "ejsfasgjshasijsj" +
+    "askCtgCtibuddufd" +
+    "uhdujbulovdCvgCv" +
+    "iovlbwddwfdwhdwj" +
+    "bwlcyfcyhcyjbAhb" +
+    "Ch")
+r(5403, "Horse", layout="0bafbahbajbcdbch" +
+    "bclaedbefbehbeja" +
+    "elagfaghagjaifhi" +
+    "gaihhiiaijakfhkg" +
+    "akhhkiakjbmecmgc" +
+    "mibmkcodcofcohco" +
+    "jcolcqdcqfvqgcqh" +
+    "vqicqjcqlbsbcsfv" +
+    "sgcshvsicsjbsnot" +
+    "botnbubcudcufvug" +
+    "cuhvuicujculbunb" +
+    "wbcwdcwfcwhcwjcw" +
+    "lbwnbycayfbyhayj" +
+    "bymaAbaAnaCaaCo")
+r(5404, "Rat", layout="0aaabacoadbaeaag" +
+    "bcacccccebcgvddo" +
+    "dgbeacecceebegag" +
+    "abgcbggagmbicbie" +
+    "aigaimckeckgckia" +
+    "kmblcblkcmevmfcm" +
+    "gvmhcmibmmamobnc" +
+    "Cngbnkhnocoevofc" +
+    "ogvohcoibomaoobp" +
+    "cbpkcqecqgcqiaqm" +
+    "bscbseasgasmauab" +
+    "ucbugaumbwacwccw" +
+    "ebwgvxdoxgbyacyc" +
+    "cyebygaAabAcoAdb" +
+    "AeaAg")
+r(5405, "Tiger", layout="0baabacbambaobca" +
+    "bccbcmbcobebaegh" +
+    "ehaeibenbgbbggbg" +
+    "ibgnaibbidcifcih" +
+    "dijbilainakdhkea" +
+    "kfokfhkgakhpkhhk" +
+    "iakjokjhkkaklbme" +
+    "pmfbmgomhbmiomjb" +
+    "mkboeoofbogoohbo" +
+    "ipojbokbqeoqfbqg" +
+    "pqhbqioqjbqkbsdd" +
+    "sfcshcsjbslbubbu" +
+    "dbuhbulbunbwbbwi" +
+    "bwnbybbygbynbAbb" +
+    "AibAnbCbbCgbCn")
+r(5406, "Ram", layout="0aacaaeaagaaihbe" +
+    "hbghbibccaceocea" +
+    "cgaciociackadaod" +
+    "chdehdihdkheabec" +
+    "aeepeeaeioeiaeka" +
+    "faofchfehfihfkhg" +
+    "abgcageogeaggagi" +
+    "ogiagkahahhehhgh" +
+    "hibicaieaigaiibk" +
+    "cblgbmcbmeamione" +
+    "hniankanmcocboev" +
+    "oebogaoiooihokho" +
+    "mbooopehpiapkapm" +
+    "bqcbqeaqibrgbscb" +
+    "ucaueaugauiavahv" +
+    "ehvghvihwabwcawe" +
+    "oweawgawiowiawka" +
+    "xaoxchxehxihxkhy" +
+    "abycayepyeayioyi" +
+    "aykazaozchzehzih" +
+    "zkbAcaAeoAeaAgaA" +
+    "ioAiaAkhBehBghBi" +
+    "aCcaCeaCgaCi")
+r(5407, "Wedges", layout="0aagbaicakdamaca" +
+    "acibckccmbeaaeca" +
+    "ekbemcgabgcageag" +
+    "mdiacicbieaigeka" +
+    "dkcckebkgakiakoh" +
+    "lofmaemcdmecmgbm" +
+    "iamkammamoomohno" +
+    "eoaeocdoecogaoia" +
+    "oodqadqccqeaqgcs" +
+    "acscaseasmbuaauc" +
+    "aukbumawaawibwkc" +
+    "wmaygbyicykdym")
+r(5408, "Monkey", layout="0aaahabaacoachad" +
+    "aaeaakbcaaceackh" +
+    "clacmocmhcnacood" +
+    "abeabeoofoagahgb" +
+    "agcaghbgobicbigb" +
+    "iiaimhinaioojgbk" +
+    "cdkebkgvkgdkibkk" +
+    "bkmolgdmebmgvmgd" +
+    "miongdoebogvogdo" +
+    "iaokholaomaooopg" +
+    "hpobqcdqebqgvqgd" +
+    "qiaqooqoorghroas" +
+    "ahsbascbsgasmaso" +
+    "auaaughuhauiawih" +
+    "wjawkowkhwlawmby" +
+    "maAchAdaAeoAehAf" +
+    "vAfaAgoAgCAghAhv" +
+    "AhaAioAiCAihAjvA" +
+    "jaAkoAkhAlaAmaCa" +
+    "hCbaCc")
+r(5409, "Rooster", layout="0aaaaagabchcccce" +
+    "ccgadcvdfadiceec" +
+    "egaeohfoageagoog" +
+    "ohhoaiehifaigaim" +
+    "aiohjmbkeokfbkgo" +
+    "khbkiakkakmamccm" +
+    "evmfcmgvmhcmiamk" +
+    "anahncCnghoaaoco" +
+    "occoevofcogvohco" +
+    "iapaopahpchqaaqc" +
+    "oqcbqeoqfbqgvqgo" +
+    "qhbqiaqkaqmaraor" +
+    "ahrchrmhsaascbsg" +
+    "oshbsiaskasmasoa" +
+    "taotahtohuaaufhu" +
+    "gauhauoavabweowf" +
+    "bwgowhbwivxgayab" +
+    "ycoydbyeoyfbygoy" +
+    "hbyihzaaAaaAeaAj" +
+    "hAkaAlhBaaCaaCeh" +
+    "CfaCgaCl")
+r(5410, "Dog", layout="0aaeaaghbehbgacc" +
+    "aceoceacgocgacia" +
+    "ckhdchdehdghdihd" +
+    "kaecoecaeeaegaei" +
+    "aekhfcagcaichida" +
+    "ieoiehifaigvjebk" +
+    "ackcckeckgbkibkk" +
+    "vlcoliolkbmacmcc" +
+    "mgbmibmkamoonavn" +
+    "conkboacoccoecog" +
+    "bokaomaooopavpco" +
+    "pkbqacqccqgbqibq" +
+    "kvrcoriorkbsacsc" +
+    "csecsgbsibskvtea" +
+    "uchudaueouehufau" +
+    "gawchxcaycoycaye" +
+    "aygayiaykhzchzeh" +
+    "zghzihzkaAcaAeoA" +
+    "eaAgoAgaAiaAkhBe" +
+    "hBgaCeaCg")
+r(5411, "Snake", layout="0bagbaiobhbcgbci" +
+    "bdebecbegbfebgcb" +
+    "habicbiicikcimbj" +
+    "avjlbkcbkebkgbki" +
+    "ckkckmakooleolgo" +
+    "livllhlobmcbmebm" +
+    "gbmicmkcmmamoomo" +
+    "vnlhnocokcomaooo" +
+    "oovplhpobqcbqebq" +
+    "gbqicqkcqmaqoore" +
+    "orgorivrlbscbseb" +
+    "sgbsicskcsmbtabu" +
+    "cbvabwcbwebwgbwi" +
+    "bwkbycbyebygbyib" +
+    "ykbAjaCj")
+r(5412, "Boar", layout="0aacaaehafaagoag" +
+    "hahaaiaakhbchbka" +
+    "ccoccaciackockac" +
+    "mhdchdkhdmaecaee" +
+    "aekoekaemoemhfkh" +
+    "fmagiagkogkagmhh" +
+    "kaiiaikakcbkgbki" +
+    "akmolgolibmcbmeb" +
+    "mgbmibmkbmmoncon" +
+    "epngpnionkonmano" +
+    "aoabocvocboevoeb" +
+    "ogboibokvokbomvo" +
+    "mhooopcopeppgppi" +
+    "opkopmapobqcbqeb" +
+    "qgbqibqkbqmorgor" +
+    "iascbsgbsiasmaui" +
+    "aukhvkawiawkowka" +
+    "wmhxkhxmaycayeay" +
+    "koykaymoymhzchzk" +
+    "hzmaAcoAcaAiaAko" +
+    "AkaAmhBchBkaCcaC" +
+    "ehCfaCgoCghChaCi" +
+    "aCk")
+r(5413, "Ox", layout="0aahabeabkbcgoch" +
+    "bciaeaaecbegbeia" +
+    "emaeohfbhfnagaag" +
+    "cagebggbgiagkagm" +
+    "agoaicbiebigbiib" +
+    "ikaimakcbkeckgck" +
+    "ibkkakmbmecmgcmi" +
+    "bmkaodioeaofjoga" +
+    "ohjoiaojiokaolcq" +
+    "edqgdqicqkcsedsg" +
+    "dsicskaucbuecugc" +
+    "uibukaumawcbwecw" +
+    "gcwibwkawmayaayc" +
+    "ayebygbyiaykayma" +
+    "yohzbhznaAaaAcaA" +
+    "haAmaAo")
+r(5414, "Bridge 2", layout="0daadacdaedagdai" +
+    "dakdamdaocccccec" +
+    "cgccicckccmbeebe" +
+    "gbeibekaggagiaih" +
+    "hjhakhokhhlhvlha" +
+    "mfamhomhCmhhnhvn" +
+    "hJnhanjaofaohooh" +
+    "Cohhphvphaqhoqhh" +
+    "rhashaugauibwebw" +
+    "gbwibwkcyccyecyg" +
+    "cyicykcymdAadAcd" +
+    "AedAgdAidAkdAmdA" +
+    "o")
 
-##----------------------------------------------------------------------
+# r(5501, "Big X", layout="0aacaamhbchbmacb" +
+#    "occacdaclocmacnh" +
+#    "dbhddhdlhdnaeaae" +
+#    "coedaeeaekoelaem" +
+#    "aeohfchfehfkhfma" +
+#    "gbagdogeagfagjog" +
+#    "kaglagnhhdhhfhhj" +
+#    "hhlaicaieoifaiga" +
+#    "iioijaikaimhjehj" +
+#    "ghjihjkakdakfokg" +
+#    "akhokiakjaklhlfh" +
+#    "lhhljameamgomgam" +
+#    "iomiamkhnfhnhhnj" +
+#    "aofoofaohoohaojo" +
+#    "ojhpfhphhpjaqeaq" +
+#    "goqgaqioqiaqkhrf" +
+#    "hrhhrjasdasfosga" +
+#    "shosiasjaslhteht" +
+#    "ghtihtkaucaueouf" +
+#    "augauioujaukaumh" +
+#    "vdhvfhvjhvlawbaw" +
+#    "doweawfawjowkawl" +
+#    "awnhxchxehxkhxma" +
+#    "yaaycoydayeaykoy" +
+#    "laymayohzbhzdhzl" +
+#    "hznaAboAcaAdaAlo" +
+#    "AmaAnhBchBmaCcaC" +
+#    "m")
+# r(5502, "Axis", layout="0bafcahbajbbdvbh" +
+#    "bblcchCchbdcvdhb" +
+#    "dmcehCehbfbvfhbf" +
+#    "ncghahaahohiahio" +
+#    "ajabjhajohkabkfb" +
+#    "kjhkoalabldbllal" +
+#    "ohmacmhhmoanaanc" +
+#    "vnhanmanoiobcohi" +
+#    "onapbwphapniqbcq" +
+#    "hiqnaraarcvrharm" +
+#    "arohsacshhsoatab" +
+#    "tdbtlatohuabufbu" +
+#    "jhuoavabvhavohwa" +
+#    "hwoaxaaxocyhbzbv" +
+#    "zhbzncAhCAhbBcvB" +
+#    "hbBmcChCChbDdvDh" +
+#    "bDlbEfcEhbEj")
+# r(5503, "Cobweb", layout="0aacaafhagaahoah" +
+#    "haiaajaamacbhcca" +
+#    "cdaclhcmacnadfhd" +
+#    "gadhodhhdiadjaea" +
+#    "aeohfaafcafeafha" +
+#    "fkafmhfoagaogaag" +
+#    "oogohhaahcahhahm" +
+#    "hhoaiaoiaaiooioh" +
+#    "jaajdajhajlhjoak" +
+#    "aakoalealhalkama" +
+#    "amoancanfhnganhh" +
+#    "nianjanmaoahoboo" +
+#    "gooihonaooopbapc" +
+#    "bpgvpgbpivpiapmo" +
+#    "pnaqahqboqgoqihq" +
+#    "naqoarcarfhrgarh" +
+#    "hriarjarmasaasoa" +
+#    "teathatkauaauohv" +
+#    "aavdavhavlhvoawa" +
+#    "owaawoowohxaaxca" +
+#    "xhaxmhxoayaoyaay" +
+#    "ooyohzaazcazeazh" +
+#    "azkazmhzoaAaaAoa" +
+#    "BfhBgaBhoBhhBiaB" +
+#    "jaCbhCcaCdaClhCm" +
+#    "aCnaEcaEfhEgaEho" +
+#    "EhhEiaEjaEm")
+# r(5504, "Pyramids", layout="0aaaaacaakaamhbb" +
+#    "abeabgabihblacaa" +
+#    "ccackacmhdbadead" +
+#    "gadihdlaeaaecaek" +
+#    "aemaffhfgafhahba" +
+#    "heahiahlhibhiehi" +
+#    "ihilajbojbajdoje" +
+#    "ajfajhojiajjajlo" +
+#    "jlhkbvkbhkevkehk" +
+#    "ghkivkihklvklalb" +
+#    "olbClbaldoleClea" +
+#    "lfolgalholiClial" +
+#    "jallollCllhmbvmb" +
+#    "hmevmehmgvmghmiv" +
+#    "mihmlvmlanbonbCn" +
+#    "bandoneCneanfong" +
+#    "anhoniCnianjanlo" +
+#    "nlCnlhobvobhoevo" +
+#    "ehoghoivoiholvol" +
+#    "apbopbapdopeapfa" +
+#    "phopiapjaploplhq" +
+#    "bhqehqihqlarbare" +
+#    "ariarlatfhtgatha" +
+#    "uaaucaukaumhvbav" +
+#    "eavgavihvlawaawc" +
+#    "awkawmhxbaxeaxga" +
+#    "xihxlayaaycaykay" +
+#    "m")
+# r(5505, "Wicker", layout="0bafbakbbcbbhbbm" +
+#    "bcebcjbdbbdgbdlb" +
+#    "edbeibenbfabffbf" +
+#    "kbgcbghbgmbhebhj" +
+#    "bibbigbilbjdbjib" +
+#    "jnbkabkfbkkblcbl" +
+#    "hblmbmebmjbnbbng" +
+#    "bnlbodboibonbpab" +
+#    "pfbpkbqcbqhbqmbr" +
+#    "ebrjbsbbsgbslbtd" +
+#    "btibtnbuabufbukb" +
+#    "vcbvhbvmbwebwjbx" +
+#    "bbxgbxlbydbyibyn" +
+#    "bzfbzkbAh")
 
-#r(5501, "Big X", layout="0aacaamhbchbmacboccacdaclocmacnhdbhddhdlhdnaeaaecoedaeeaekoelaemaeohfchfehfkhfmagbagdogeagfagjogkaglagnhhdhhfhhjhhlaicaieoifaigaiioijaikaimhjehjghjihjkakdakfokgakhokiakjaklhlfhlhhljameamgomgamiomiamkhnfhnhhnjaofoofaohoohaojoojhpfhphhpjaqeaqgoqgaqioqiaqkhrfhrhhrjasdasfosgashosiasjaslhtehtghtihtkaucaueoufaugauioujaukaumhvdhvfhvjhvlawbawdoweawfawjowkawlawnhxchxehxkhxmayaaycoydayeaykoylaymayohzbhzdhzlhznaAboAcaAdaAloAmaAnhBchBmaCcaCm")
-#r(5502, "Axis", layout="0bafcahbajbbdvbhbblcchCchbdcvdhbdmcehCehbfbvfhbfncghahaahohiahioajabjhajohkabkfbkjhkoalabldbllalohmacmhhmoanaancvnhanmanoiobcohionapbwphapniqbcqhiqnaraarcvrharmarohsacshhsoatabtdbtlatohuabufbujhuoavabvhavohwahwoaxaaxocyhbzbvzhbzncAhCAhbBcvBhbBmcChCChbDdvDhbDlbEfcEhbEj")
-#r(5503, "Cobweb", layout="0aacaafhagaahoahhaiaajaamacbhccacdaclhcmacnadfhdgadhodhhdiadjaeaaeohfaafcafeafhafkafmhfoagaogaagoogohhaahcahhahmhhoaiaoiaaiooiohjaajdajhajlhjoakaakoalealhalkamaamoancanfhnganhhnianjanmaoahoboogooihonaooopbapcbpgvpgbpivpiapmopnaqahqboqgoqihqnaqoarcarfhrgarhhriarjarmasaasoateathatkauaauohvaavdavhavlhvoawaowaawoowohxaaxcaxhaxmhxoayaoyaayooyohzaazcazeazhazkazmhzoaAaaAoaBfhBgaBhoBhhBiaBjaCbhCcaCdaClhCmaCnaEcaEfhEgaEhoEhhEiaEjaEm")
-#r(5504, "Pyramids", layout="0aaaaacaakaamhbbabeabgabihblacaaccackacmhdbadeadgadihdlaeaaecaekaemaffhfgafhahbaheahiahlhibhiehiihilajbojbajdojeajfajhojiajjajlojlhkbvkbhkevkehkghkivkihklvklalbolbClbaldoleClealfolgalholiClialjallollCllhmbvmbhmevmehmgvmghmivmihmlvmlanbonbCnbandoneCneanfonganhoniCnianjanlonlCnlhobvobhoevoehoghoivoiholvolapbopbapdopeapfaphopiapjaploplhqbhqehqihqlarbareariarlatfhtgathauaaucaukaumhvbaveavgavihvlawaawcawkawmhxbaxeaxgaxihxlayaaycaykaym")
-#r(5505, "Wicker", layout="0bafbakbbcbbhbbmbcebcjbdbbdgbdlbedbeibenbfabffbfkbgcbghbgmbhebhjbibbigbilbjdbjibjnbkabkfbkkblcblhblmbmebmjbnbbngbnlbodboibonbpabpfbpkbqcbqhbqmbrebrjbsbbsgbslbtdbtibtnbuabufbukbvcbvhbvmbwebwjbxbbxgbxlbydbyibynbzfbzkbAh")
+r(5801, "Faro", name="Double Mahjongg Faro", ncards=288, layout="0aaaha" +
+    "baachadaae" +
+    "oaehafaagiahaaih" +
+    "ajaakoakhalaamha" +
+    "naaoobcvbhobmacb" +
+    "hccvccacdacgichC" +
+    "chaciaclhcmvcmac" +
+    "nodcCdcvdhodmCdm" +
+    "aebhecvecaedheea" +
+    "efcehCehaejhekae" +
+    "lhemvemaenofcvfh" +
+    "ofmbgcagfhggagho" +
+    "ghhgiagjbgmahaah" +
+    "ohiahioajapjaajc" +
+    "cjebjhcjkajmajop" +
+    "johkahkcokhhkmhk" +
+    "oalaalcqlcalfhlg" +
+    "alhvlhhlialjalmq" +
+    "lmalohmcomhCmhhm" +
+    "manbqncandhneanf" +
+    "bnhvnhanjhnkanlq" +
+    "nmannhocooeoohoo" +
+    "khomapcppcCpdbpe" +
+    "vpebphwphbpkvpkC" +
+    "plapmppmhqcoqeoq" +
+    "hoqkhqmarbqrcard" +
+    "hrearfbrhvrharjh" +
+    "rkarlqrmarnhscos" +
+    "hCshhsmataatcqtc" +
+    "atfhtgathvthhtia" +
+    "tjatmqtmatohuahu" +
+    "couhhumhuoavapva" +
+    "avccvebvhcvkavma" +
+    "vopvohwahwoaxaax" +
+    "obycayfhygayhoyh" +
+    "hyiayjbymozcvzho" +
+    "zmaAbhAcvAcaAdhA" +
+    "eaAfcAhCAhaAjhAk" +
+    "aAlhAmvAmaAnoBcC" +
+    "BcvBhoBmCBmaCbhC" +
+    "cvCcaCdaCgiChCCh" +
+    "aCiaClhCmvCmaCno" +
+    "DcvDhoDmaEahEbaE" +
+    "chEdaEeoEehEfaEg" +
+    "iEhaEihEjaEkoEkh" +
+    "ElaEmhEnaEo")
+# r(5802, "Big Square", name="Double Mahjongg Big Square", ncards=288,
+# layout="0daadacdaedagdai" +
+#    "dakdcadccdcedcgd" +
+#    "cidckdeadecdeede" +
+#    "gdeidekdgadgcdge" +
+#    "dggdgidgkdiadicd" +
+#    "iedigdiidikdkadk" +
+#    "cdkedkgdkidkkdma" +
+#    "dmcdmedmgdmidmkd" +
+#    "oadocdoedogdoido" +
+#    "kdqadqcdqedqgdqi" +
+#    "dqkdsadscdsedsgd" +
+#    "sidskduaducduedu" +
+#    "gduidukdwadwcdwe" +
+#    "dwgdwidwk")
+r(5803, "Two Squares", name="Double Mahjongg Two Squares", ncards=288,
+        layout="0daadacdaedagdai" +
+    "dakdcadccdcedcgd" +
+    "cidckdeadecdeede" +
+    "gdeidekdgadgcdge" +
+    "dggdgidgkdiadicd" +
+    "iedigdiidikdkadk" +
+    "cdkedkgdkidkkdoa" +
+    "docdoedogdoidokd" +
+    "qadqcdqedqgdqidq" +
+    "kdsadscdsedsgdsi" +
+    "dskduaducduedugd" +
+    "uidukdwadwcdwedw" +
+    "gdwidwkdyadycdye" +
+    "dygdyidyk")
+# r(5804, "Rows", name="Double Mahjongg Rows", ncards=288,
+# layout="0daadacCaddaeCaf" +
+#    "dagCahdaidakdcad" +
+#    "ckeeadeceeeeegde" +
+#    "ieekegaegkeiadic" +
+#    "eieeigdiieikekae" +
+#    "kkemadmcemeemgdm" +
+#    "iemkeoaeokeqadqc" +
+#    "eqeeqgdqieqkesae" +
+#    "skeuaduceueeugdu" +
+#    "ieukewaewkeyadyc" +
+#    "eyeeygdyieykdAad" +
+#    "AkdCadCcCCddCeCC" +
+#    "fdCgCChdCidCk")
+r(5805, "Twin Picks", name="Double Mahjongg Twin Picks", ncards=288,
+        layout="0aacaaeaagaaiaak" +
+    "aamhbdhbfhbhhbjh" +
+    "blacaaccaceoceac" +
+    "gocgaciociackock" +
+    "acmacohdbhddhdfv" +
+    "dfhdhvdhhdjvdjhd" +
+    "lhdnaeaaecoecaee" +
+    "oeeaegoegCegaeio" +
+    "eiCeiaekoekaemoe" +
+    "maeohfbhfdvfdhff" +
+    "vffhfhvfhhfjvfjh" +
+    "flvflhfnagaagcog" +
+    "cageogeCgeaggogg" +
+    "CggagiogiCgiagko" +
+    "gkCgkagmogmagohh" +
+    "bhhdvhdhhfvhfhhh" +
+    "vhhhhjvhjhhlvhlh" +
+    "hnaiaaicoicaieoi" +
+    "eaigoigCigaiioii" +
+    "Ciiaikoikaimoima" +
+    "iohjbhjdhjfvjfhj" +
+    "hvjhhjjvjjhjlhjn" +
+    "akaakcakeokeakgo" +
+    "kgakiokiakkokkak" +
+    "makohldhlfhlhhlj" +
+    "hllamcameamgamia" +
+    "mkammapaapcapeap" +
+    "gapiapkapmapoasc" +
+    "aseasgasiaskasmh" +
+    "tdhtfhthhtjhtlau" +
+    "aaucaueoueaugoug" +
+    "auiouiaukoukauma" +
+    "uohvbhvdhvfvvfhv" +
+    "hvvhhvjvvjhvlhvn" +
+    "awaawcowcaweowea" +
+    "wgowgCwgawiowiCw" +
+    "iawkowkawmowmawo" +
+    "hxbhxdvxdhxfvxfh" +
+    "xhvxhhxjvxjhxlvx" +
+    "lhxnayaaycoycaye" +
+    "oyeCyeaygoygCyga" +
+    "yioyiCyiaykoykCy" +
+    "kaymoymayohzbhzd" +
+    "vzdhzfvzfhzhvzhh" +
+    "zjvzjhzlvzlhznaA" +
+    "aaAcoAcaAeoAeaAg" +
+    "oAgCAgaAioAiCAia" +
+    "AkoAkaAmoAmaAohB" +
+    "bhBdhBfvBfhBhvBh" +
+    "hBjvBjhBlhBnaCaa" +
+    "CcaCeoCeaCgoCgaC" +
+    "ioCiaCkoCkaCmaCo" +
+    "hDdhDfhDhhDjhDla" +
+    "EcaEeaEgaEiaEkaE" +
+    "m")
+r(5806, "Roost", name="Double Mahjongg Roost", ncards=288,
+        layout="0aaahabaacoachad" +
+    "vadaaeoaehafvafa" +
+    "agoaghahvahaaioa" +
+    "ihajaakaamaaoCbf" +
+    "hblhbnacbhccacdo" +
+    "cdhcevceacfocfhc" +
+    "gvcgachochhciacj" +
+    "aclocmacnhdkhdma" +
+    "eiaekoelaemaeoaf" +
+    "aafcafehfjhflvfl" +
+    "hfnhgchgeaghagjo" +
+    "gkaglCglogmagnah" +
+    "bohcahdoheahfhhi" +
+    "hhkvhlhhmhibhidv" +
+    "iehifaiioijaikoi" +
+    "laimajaajcojdaje" +
+    "Cjeojfajghjjvjkh" +
+    "jlajohkcvkdhkevk" +
+    "fhkgakjokkaklalb" +
+    "olcaldolealfClfo" +
+    "lgalhhlkblnhmbhm" +
+    "dvmehmfvmghmhamk" +
+    "omnanaancondaneo" +
+    "nfangCngonhanian" +
+    "mhnnanohochoevof" +
+    "hogvohhoiapbapdo" +
+    "peapfopgaphCphop" +
+    "iapjhpkaploplhpm" +
+    "apnhqchqevqfhqgv" +
+    "qhhqiaraarcordar" +
+    "eorfargCrgorhari" +
+    "armhrnarohsbhsdv" +
+    "sehsfvsghshaskos" +
+    "natbotcatdoteatf" +
+    "Ctfotgathhtkbtnh" +
+    "ucvudhuevufhugau" +
+    "joukaulavaavcovd" +
+    "aveCveovfavghvjv" +
+    "vkhvlavohwbhwdvw" +
+    "ehwfawiowjawkowl" +
+    "awmaxboxcaxdoxea" +
+    "xfhxihxkvxlhxmhy" +
+    "chyeayhayjoykayl" +
+    "Cyloymaynazaazca" +
+    "zehzjhzlvzlhznaA" +
+    "iaAkoAlaAmaAohBk" +
+    "hBmaCbhCcaCdoCdh" +
+    "CevCeaCfoCfhCgvC" +
+    "gaChoChhCiaCjaCl" +
+    "oCmaCnCDfhDlhDna" +
+    "EahEbaEcoEchEdvE" +
+    "daEeoEehEfvEfaEg" +
+    "oEghEhvEhaEioEih" +
+    "EjaEkaEmaEo")
+r(5807, "Castle", name="Double Mahjongg Big Castle", ncards=288,
+        layout="0eaadacdaeeageai" +
+    "dakdameaodcadcoc" +
+    "ddvdecdfvdgcdhCd" +
+    "hvdicdjvdkcdldea" +
+    "deoafdaflcgacgoa" +
+    "hdahlciacioajdaj" +
+    "lckahkdhklckoald" +
+    "elfblheljallcmah" +
+    "mdhmlcmoandbnfbn" +
+    "janleoahodoofooj" +
+    "holeooapdbpfvpfb" +
+    "pjvpjapleqahqdoq" +
+    "foqjhqleqoardbrf" +
+    "brjarlcsahsdhslc" +
+    "soatdetfbthetjat" +
+    "lcuahudhulcuoavd" +
+    "avlcwacwoaxdaxlc" +
+    "yacyoazdazldAadA" +
+    "ocBdvBecBfvBgcBh" +
+    "CBhvBicBjvBkcBld" +
+    "CadCoeEadEcdEeeE" +
+    "geEidEkdEmeEo")
+r(5808, "Eight Squares", name="Double Mahjongg Eight Squares", ncards=288,
+        layout="0daadacdaedahdaj" +
+    "daldcadccdcedchd" +
+    "cjdcldeadecdeede" +
+    "hdejdeldhadhcdhe" +
+    "dhhdhjdhldjadjcd" +
+    "jedjhdjjdjldladl" +
+    "cdledlhdljdlldoa" +
+    "docdoedohdojdold" +
+    "qadqcdqedqhdqjdq" +
+    "ldsadscdsedshdsj" +
+    "dsldvadvcdvedvhd" +
+    "vjdvldxadxcdxedx" +
+    "hdxjdxldzadzcdze" +
+    "dzhdzjdzl")
+r(5809, "Big Flying Dragon", name="Double Mahjongg Big Flying Dragon",
+        ncards=288, layout="0aajacaaciackacs" +
+    "aeaaegaeihejaeka" +
+    "emaesagaageaggbg" +
+    "ibgkagmagoagsaia" +
+    "aicaiebigbiibikb" +
+    "imaioaiqaisakabk" +
+    "cbkebkgbkibkkbkm" +
+    "bkobkqaksbmabmcc" +
+    "mecmgcmicmkcmmcm" +
+    "obmqbmsboaboccoe" +
+    "dogdoidokdomcoob" +
+    "oqbosbqabqccqedq" +
+    "geqieqkdqmcqobqq" +
+    "bqsJrjbsabsccsed" +
+    "sgesieskdsmcsobs" +
+    "qbssbuabuccuedug" +
+    "duidukdumcuobuqb" +
+    "usbwabwccwecwgcw" +
+    "icwkcwmcwobwqbws" +
+    "ayabycbyebygbyib" +
+    "ykbymbyobyqaysaA" +
+    "aaAcaAebAgbAibAk" +
+    "bAmaAoaAqaAsaCaa" +
+    "CeaCgbCibCkaCmaC" +
+    "oaCsaEaaEgaEihEj" +
+    "aEkaEmaEsaGaaGia" +
+    "GkaGsaIaaIjaIsaK" +
+    "j")
+r(5810, "Sphere", name="Double Mahjongg Sphere", ncards=288,
+        layout="0aajaalaanabhhbk" +
+    "hbmabpacfhciacjo" +
+    "ckaclocmacnhcoac" +
+    "raddhdgadhodivdk" +
+    "hdlvdmodoadphdqa" +
+    "dtaefoegveihejae" +
+    "koekaemoemhenveo" +
+    "oeqaerafchfdhffh" +
+    "fhafiafohfphfrhf" +
+    "tafuageogeaggpgg" +
+    "pgihgjpgkbglpgmh" +
+    "gnpgoagqpgqagsog" +
+    "sahbhhchhfhhhahj" +
+    "ahnhhphhrhhuahva" +
+    "idoidvieaifoigai" +
+    "hoiihijoikbiloim" +
+    "hinoioaipoiqairv" +
+    "isaitoitajahjbhj" +
+    "dhjfhjhvjlhjphjr" +
+    "hjthjvajwakcokcv" +
+    "kdakeokeakgokgak" +
+    "iokiakkokkakmokm" +
+    "akookoakqokqakso" +
+    "ksvktakuokualahl" +
+    "bhldhlfvlfhlhvlh" +
+    "hljvljhllvllhlnv" +
+    "lnhlpvlphlrvlrhl" +
+    "thlvalwamcomcvmd" +
+    "ameomeamgomgamio" +
+    "miamkomkammommam" +
+    "oomoamqomqamsoms" +
+    "vmtamuomuanahnbh" +
+    "ndhnfhnhvnlhnphn" +
+    "rhnthnvanwaodood" +
+    "voeaofoogaohooih" +
+    "ojookboloomhonoo" +
+    "oaopooqaorvosaot" +
+    "ootapbhpchpfhpha" +
+    "pjapnhpphprhpuap" +
+    "vaqeoqeaqgpqgpqi" +
+    "hqjpqkbqlpqmhqnp" +
+    "qoaqqpqqaqsoqsar" +
+    "chrdhrfhrhariaro" +
+    "hrphrrhrtaruasfo" +
+    "sgvsihsjaskoskas" +
+    "mosmhsnvsoosqasr" +
+    "atdhtgathotivtkh" +
+    "tlvtmotoatphtqat" +
+    "taufhuiaujoukaul" +
+    "oumaunhuoauravhh" +
+    "vkhvmavpawjawlaw" +
+    "n")
 
-##----------------------------------------------------------------------
+# ----------------------------------------------------------------------
 
-r(5801, "Faro", name="Double Mahjongg Faro", ncards=288, layout="0aaahabaachadaaeoaehafaagiahaaihajaakoakhalaamhanaaoobcvbhobmacbhccvccacdacgichCchaciaclhcmvcmacnodcCdcvdhodmCdmaebhecvecaedheeaefcehCehaejhekaelhemvemaenofcvfhofmbgcagfhggaghoghhgiagjbgmahaahohiahioajapjaajccjebjhcjkajmajopjohkahkcokhhkmhkoalaalcqlcalfhlgalhvlhhlialjalmqlmalohmcomhCmhhmmanbqncandhneanfbnhvnhanjhnkanlqnmannhocooeoohookhomapcppcCpdbpevpebphwphbpkvpkCplapmppmhqcoqeoqhoqkhqmarbqrcardhrearfbrhvrharjhrkarlqrmarnhscoshCshhsmataatcqtcatfhtgathvthhtiatjatmqtmatohuahucouhhumhuoavapvaavccvebvhcvkavmavopvohwahwoaxaaxobycayfhygayhoyhhyiayjbymozcvzhozmaAbhAcvAcaAdhAeaAfcAhCAhaAjhAkaAlhAmvAmaAnoBcCBcvBhoBmCBmaCbhCcvCcaCdaCgiChCChaCiaClhCmvCmaCnoDcvDhoDmaEahEbaEchEdaEeoEehEfaEgiEhaEihEjaEkoEkhElaEmhEnaEo")
-#r(5802, "Big Square", name="Double Mahjongg Big Square", ncards=288, layout="0daadacdaedagdaidakdcadccdcedcgdcidckdeadecdeedegdeidekdgadgcdgedggdgidgkdiadicdiedigdiidikdkadkcdkedkgdkidkkdmadmcdmedmgdmidmkdoadocdoedogdoidokdqadqcdqedqgdqidqkdsadscdsedsgdsidskduaducduedugduidukdwadwcdwedwgdwidwk")
-r(5803, "Two Squares", name="Double Mahjongg Two Squares", ncards=288, layout="0daadacdaedagdaidakdcadccdcedcgdcidckdeadecdeedegdeidekdgadgcdgedggdgidgkdiadicdiedigdiidikdkadkcdkedkgdkidkkdoadocdoedogdoidokdqadqcdqedqgdqidqkdsadscdsedsgdsidskduaducduedugduidukdwadwcdwedwgdwidwkdyadycdyedygdyidyk")
-#r(5804, "Rows", name="Double Mahjongg Rows", ncards=288, layout="0daadacCaddaeCafdagCahdaidakdcadckeeadeceeeeegdeieekegaegkeiadiceieeigdiieikekaekkemadmcemeemgdmiemkeoaeokeqadqceqeeqgdqieqkesaeskeuaduceueeugduieukewaewkeyadyceyeeygdyieykdAadAkdCadCcCCddCeCCfdCgCChdCidCk")
-r(5805, "Twin Picks", name="Double Mahjongg Twin Picks", ncards=288, layout="0aacaaeaagaaiaakaamhbdhbfhbhhbjhblacaaccaceoceacgocgaciociackockacmacohdbhddhdfvdfhdhvdhhdjvdjhdlhdnaeaaecoecaeeoeeaegoegCegaeioeiCeiaekoekaemoemaeohfbhfdvfdhffvffhfhvfhhfjvfjhflvflhfnagaagcogcageogeCgeaggoggCggagiogiCgiagkogkCgkagmogmagohhbhhdvhdhhfvhfhhhvhhhhjvhjhhlvhlhhnaiaaicoicaieoieaigoigCigaiioiiCiiaikoikaimoimaiohjbhjdhjfvjfhjhvjhhjjvjjhjlhjnakaakcakeokeakgokgakiokiakkokkakmakohldhlfhlhhljhllamcameamgamiamkammapaapcapeapgapiapkapmapoascaseasgasiaskasmhtdhtfhthhtjhtlauaaucaueoueaugougauiouiaukoukaumauohvbhvdhvfvvfhvhvvhhvjvvjhvlhvnawaawcowcaweoweawgowgCwgawiowiCwiawkowkawmowmawohxbhxdvxdhxfvxfhxhvxhhxjvxjhxlvxlhxnayaaycoycayeoyeCyeaygoygCygayioyiCyiaykoykCykaymoymayohzbhzdvzdhzfvzfhzhvzhhzjvzjhzlvzlhznaAaaAcoAcaAeoAeaAgoAgCAgaAioAiCAiaAkoAkaAmoAmaAohBbhBdhBfvBfhBhvBhhBjvBjhBlhBnaCaaCcaCeoCeaCgoCgaCioCiaCkoCkaCmaCohDdhDfhDhhDjhDlaEcaEeaEgaEiaEkaEm")
-r(5806, "Roost", name="Double Mahjongg Roost", ncards=288, layout="0aaahabaacoachadvadaaeoaehafvafaagoaghahvahaaioaihajaakaamaaoCbfhblhbnacbhccacdocdhcevceacfocfhcgvcgachochhciacjaclocmacnhdkhdmaeiaekoelaemaeoafaafcafehfjhflvflhfnhgchgeaghagjogkaglCglogmagnahbohcahdoheahfhhihhkvhlhhmhibhidviehifaiioijaikoilaimajaajcojdajeCjeojfajghjjvjkhjlajohkcvkdhkevkfhkgakjokkaklalbolcaldolealfClfolgalhhlkblnhmbhmdvmehmfvmghmhamkomnanaancondaneonfangCngonhanianmhnnanohochoevofhogvohhoiapbapdopeapfopgaphCphopiapjhpkaploplhpmapnhqchqevqfhqgvqhhqiaraarcordareorfargCrgorhariarmhrnarohsbhsdvsehsfvsghshaskosnatbotcatdoteatfCtfotgathhtkbtnhucvudhuevufhugaujoukaulavaavcovdaveCveovfavghvjvvkhvlavohwbhwdvwehwfawiowjawkowlawmaxboxcaxdoxeaxfhxihxkvxlhxmhychyeayhayjoykaylCyloymaynazaazcazehzjhzlvzlhznaAiaAkoAlaAmaAohBkhBmaCbhCcaCdoCdhCevCeaCfoCfhCgvCgaChoChhCiaCjaCloCmaCnCDfhDlhDnaEahEbaEcoEchEdvEdaEeoEehEfvEfaEgoEghEhvEhaEioEihEjaEkaEmaEo")
-r(5807, "Castle", name="Double Mahjongg Big Castle", ncards=288, layout="0eaadacdaeeageaidakdameaodcadcocddvdecdfvdgcdhCdhvdicdjvdkcdldeadeoafdaflcgacgoahdahlciacioajdajlckahkdhklckoaldelfblheljallcmahmdhmlcmoandbnfbnjanleoahodoofoojholeooapdbpfvpfbpjvpjapleqahqdoqfoqjhqleqoardbrfbrjarlcsahsdhslcsoatdetfbthetjatlcuahudhulcuoavdavlcwacwoaxdaxlcyacyoazdazldAadAocBdvBecBfvBgcBhCBhvBicBjvBkcBldCadCoeEadEcdEeeEgeEidEkdEmeEo")
-r(5808, "Eight Squares", name="Double Mahjongg Eight Squares", ncards=288, layout="0daadacdaedahdajdaldcadccdcedchdcjdcldeadecdeedehdejdeldhadhcdhedhhdhjdhldjadjcdjedjhdjjdjldladlcdledlhdljdlldoadocdoedohdojdoldqadqcdqedqhdqjdqldsadscdsedshdsjdsldvadvcdvedvhdvjdvldxadxcdxedxhdxjdxldzadzcdzedzhdzjdzl")
-r(5809, "Big Flying Dragon", name="Double Mahjongg Big Flying Dragon", ncards=288, layout="0aajacaaciackacsaeaaegaeihejaekaemaesagaageaggbgibgkagmagoagsaiaaicaiebigbiibikbimaioaiqaisakabkcbkebkgbkibkkbkmbkobkqaksbmabmccmecmgcmicmkcmmcmobmqbmsboaboccoedogdoidokdomcooboqbosbqabqccqedqgeqieqkdqmcqobqqbqsJrjbsabsccsedsgesieskdsmcsobsqbssbuabuccuedugduidukdumcuobuqbusbwabwccwecwgcwicwkcwmcwobwqbwsayabycbyebygbyibykbymbyobyqaysaAaaAcaAebAgbAibAkbAmaAoaAqaAsaCaaCeaCgbCibCkaCmaCoaCsaEaaEgaEihEjaEkaEmaEsaGaaGiaGkaGsaIaaIjaIsaKj")
-r(5810, "Sphere", name="Double Mahjongg Sphere", ncards=288, layout="0aajaalaanabhhbkhbmabpacfhciacjockaclocmacnhcoacraddhdgadhodivdkhdlvdmodoadphdqadtaefoegveihejaekoekaemoemhenveooeqaerafchfdhffhfhafiafohfphfrhftafuageogeaggpggpgihgjpgkbglpgmhgnpgoagqpgqagsogsahbhhchhfhhhahjahnhhphhrhhuahvaidoidvieaifoigaihoiihijoikbiloimhinoioaipoiqairvisaitoitajahjbhjdhjfhjhvjlhjphjrhjthjvajwakcokcvkdakeokeakgokgakiokiakkokkakmokmakookoakqokqaksoksvktakuokualahlbhldhlfvlfhlhvlhhljvljhllvllhlnvlnhlpvlphlrvlrhlthlvalwamcomcvmdameomeamgomgamiomiamkomkammommamoomoamqomqamsomsvmtamuomuanahnbhndhnfhnhvnlhnphnrhnthnvanwaodoodvoeaofoogaohooihojookboloomhonoooaopooqaorvosaotootapbhpchpfhphapjapnhpphprhpuapvaqeoqeaqgpqgpqihqjpqkbqlpqmhqnpqoaqqpqqaqsoqsarchrdhrfhrhariarohrphrrhrtaruasfosgvsihsjaskoskasmosmhsnvsoosqasratdhtgathotivtkhtlvtmotoatphtqattaufhuiaujoukauloumaunhuoauravhhvkhvmavpawjawlawn")
+r(5901, "Happy New Year", name="Half Mahjongg Happy New Year", ncards=72,
+        layout="0aafaajaanaceaci" +
+    "acmbedbehaelofdo" +
+    "fhhflbgdbghagloh" +
+    "dohhaibbidaighih" +
+    "aiiailhimainojma" +
+    "kaakeckhakjbkmbk" +
+    "oolmambbmdamghmh" +
+    "amiamlhmmamnondo" +
+    "nhbodbohaolopdop" +
+    "hhplbqdbqhaqlase" +
+    "asiasmaufaujaun")
+# r(5902, "K 2", name="Half Mahjongg K 2", ncards=72,
+# layout="0aagabcabehbfobg" +
+#    "hbhabiabkacgvcga" +
+#    "dbidgadlaegvegbf" +
+#    "aifgbfmaggbhaihg" +
+#    "bhmaigbjahjgbjma" +
+#    "kgokgblahlgblmam" +
+#    "gbnaingbnmaogbpa" +
+#    "ipgbpmaqgvqgarbi" +
+#    "rgarlasgvsgatcat" +
+#    "ehtfotghthatiatk" +
+#    "aug")
+# r(5903, "Abstract", name="Half Mahjongg Abstract", ncards=72,
+# layout="0aaaaagabcabebdd" +
+#    "adgadioedhehafch" +
+#    "fdafeafhagahhaah" +
+#    "dahgaiahjaojbbjc" +
+#    "ajfakaalcamfamha" +
+#    "nbhncandhngaogbo" +
+#    "iapdhqdaqiarcord" +
+#    "arehrihsdasgasia" +
+#    "tdauaaufhvbavcav" +
+#    "iawaawehxeaxiayc" +
+#    "ayebyghzdaAdaAha" +
+#    "BbaBfhCfaCiaDcaD" +
+#    "eaDghDhaEaaEi")
+r(5904, "Smile", name="Half Mahjongg Smile", ncards=72,
+        layout="0bagoahbaibbebbk" +
+    "bccbcmbebbenaffb" +
+    "fjbgahgfbgoahfbh" +
+    "kbiabiobjlbkabko" +
+    "bllbmabmoanfbnkb" +
+    "oahofbooapfbpjbq" +
+    "bbqnbscbsmbtebtk" +
+    "bugouhbui")
+r(5905, "Wall", name="Half Mahjongg Wall", ncards=72,
+        layout="0eaabacbaebagbai" +
+    "bakbameaoacaacoa" +
+    "eaaeoagaagoaiaai" +
+    "oakaakoamaamoaoa" +
+    "aooaqaaqoasaasoa" +
+    "uaauoawaawoayaay" +
+    "oaAaaAoaCaaCoeEa" +
+    "bEcbEebEgbEibEkb" +
+    "EmeEo")
 
-##----------------------------------------------------------------------
+# ----------------------------------------------------------------------
 
-r(5901, "Happy New Year", name="Half Mahjongg Happy New Year", ncards=72, layout="0aafaajaanaceaciacmbedbehaelofdofhhflbgdbghaglohdohhaibbidaighihaiiailhimainojmakaakeckhakjbkmbkoolmambbmdamghmhamiamlhmmamnondonhbodbohaolopdophhplbqdbqhaqlaseasiasmaufaujaun")
-#r(5902, "K 2", name="Half Mahjongg K 2", ncards=72, layout="0aagabcabehbfobghbhabiabkacgvcgadbidgadlaegvegbfaifgbfmaggbhaihgbhmaigbjahjgbjmakgokgblahlgblmamgbnaingbnmaogbpaipgbpmaqgvqgarbirgarlasgvsgatcatehtfotghthatiatkaug")
-#r(5903, "Abstract", name="Half Mahjongg Abstract", ncards=72, layout="0aaaaagabcabebddadgadioedhehafchfdafeafhagahhaahdahgaiahjaojbbjcajfakaalcamfamhanbhncandhngaogboiapdhqdaqiarcordarehrihsdasgasiatdauaaufhvbavcaviawaawehxeaxiaycayebyghzdaAdaAhaBbaBfhCfaCiaDcaDeaDghDhaEaaEi")
-r(5904, "Smile", name="Half Mahjongg Smile", ncards=72, layout="0bagoahbaibbebbkbccbcmbebbenaffbfjbgahgfbgoahfbhkbiabiobjlbkabkobllbmabmoanfbnkboahofbooapfbpjbqbbqnbscbsmbtebtkbugouhbui")
-r(5905, "Wall", name="Half Mahjongg Wall", ncards=72, layout="0eaabacbaebagbaibakbameaoacaacoaeaaeoagaagoaiaaioakaakoamaamoaoaaooaqaaqoasaasoauaauoawaawoayaayoaAaaAoaCaaCoeEabEcbEebEgbEibEkbEmeEo")
-
-##----------------------------------------------------------------------
-
-#r(5601, "Skomoroh 1", ncards=28, layout="0aacaaeaaghbdhbfacaacdoceacfacihddhdfaebaeeoeeaehhfdhffagaagdogeagfagihhdhhfaicaieaig")
-#r(5602, "Skomoroh 2", ncards=116, layout="0aaeaaghahaaiaakabaaboacfbchacjadaadoaeghehaeiafaafocghahaahcahfvhhahjahmahohidcihhilajaajdajfwjhajjajlajohkdhkgakhokhhkihklalaalcalewlhalkalmalohmfamgimhamihmjanaancanewnhankanmanohodhogaohoohhoiholapaapdapfwphapjaplapohqdcqhhqlaraarcarfvrharjarmarocshataatoaughuhauiavaavoawfbwhawjaxaaxoayeayghyhayiayk")
-#r(5603, "Skomoroh 3", ncards=132, layout="0aachadaaeoaeXaehafyafaagoagXaghahaaiabaabkhcahckadaadeadgadkheahefhekafaafeafgafkhgahgfhgkahaaheahgahkhiahifhikajaajeajgajkhkahkfhkkalaalealgalkhmahmfhmkanaaneonfangankhofXofapbapdapfspfaphapjhqfXqfaraareorfargarkhsahsfhskataateatgatkhuahufhukavaaveavgavkhwahwfhwkaxaaxeaxgaxkhyahyfhykazaazeazgazkhAahAfhAkaBaaBeaBgaBkhCahCkaDaaDkaEchEdaEeoEeXEehEfyEfaEgoEgXEghEhaEi")
-#r(5604, "Skomoroh 4", ncards=52, layout="0aajaalaanabhabpacfacnacraddadladtaejafcafuagiahbbhoahvaiiajaajwakjalaalwamkammanaanwaonapaapwaqoarbbriarvasoatcatuaunavdavlavtawfawjawraxhaxpayjaylayn")
-#r(5605, "Skomoroh 5", ncards=208, layout="0aahaajaalaanaaphbihbkoblhbmhboaccaceacgaciackacmacoacqacsacuaecaeuagdagjaglagnagthhkhhmaieaijailoilainaishjkhjmakfakjakloklaknakrhlkhlmameamgamjamlomlamnamqamsanchndhnkhnmhntanuaoeaohaojaoloolaonaopaosapchpdhpkhpmhptapuaqeaqhaqjaqlaqnaqpaqsaraarchrdhrtaruarwaseasgasiaskasmasoasqassatahtbatchtdhtfithitjitlitnitphtrhttatuhtvatwaueaugauiaukaumauoauqausavaavchvdhvtavuavwaweawhawjawlawnawpawsaxchxdhxkhxmhxtaxuayeayhayjayloylaynaypaysazchzdhzkhzmhztazuaAeaAgaAjaAloAlaAnaAqaAshBkhBmaCfaCjaCloClaCnaCrhDkhDmaEeaEjaEloElaEnaEshFkhFmaGdaGjaGlaGnaGtaIcaIuaKcaKeaKgaKiaKkaKmaKoaKqaKsaKuhLihLkoLlhLmhLoaMhaMjaMlaMnaMp")
-#r(5606, "Skomoroh 6", layout="0aadaafaahaajaalaanaapadaaddadfadhadjadladnadpadsheehegheihekhemheoafaafdaffoffafhofhafjofjafloflafnofnafpafshgehggvgghgivgihgkvgkhgmvgmhgoahaChhChjChlahsaidaifoifaihoihJiiaijoijJikailoilainoinaipajahjehjgvjgCjhhjivjihjkvjkCjlhjmvjmhjoajsakdakfokfakhokhJkiakjokjJkkakloklaknoknakpalaClhCljCllalshmehmgvmghmivmihmkvmkhmmvmmhmoanaandanfonfanhonhanjonjanlonlannonnanpanshoehoghoihokhomhooapaapdapfaphapjaplapnappapsasdasfashasjaslasnasp")
-#r(5607, "Skomoroh 7", ncards=56, layout="0aabaadaafaahaajaapaaraatablabwadaadmadwafaafnafwahaahnahwajfajhajmajwakdakjalbdllalvamnamtanaankanpanrapaapjapwaraarjarwataatkatwavaavlawdawfawhawnawpawrawtawv")
-
+# r(5601, "Skomoroh 1", ncards=28, layout="0aacaaeaaghbdhbf" +
+#    "acaacdoceacfacih" +
+#    "ddhdfaebaeeoeeae" +
+#    "hhfdhffagaagdoge" +
+#    "agfagihhdhhfaica" +
+#    "ieaig")
+# r(5602, "Skomoroh 2", ncards=116, layout="0aaeaaghahaaiaak" +
+#    "abaaboacfbchacja" +
+#    "daadoaeghehaeiaf" +
+#    "aafocghahaahcahf" +
+#    "vhhahjahmahohidc" +
+#    "ihhilajaajdajfwj" +
+#    "hajjajlajohkdhkg" +
+#    "akhokhhkihklalaa" +
+#    "lcalewlhalkalmal" +
+#    "ohmfamgimhamihmj" +
+#    "anaancanewnhanka" +
+#    "nmanohodhogaohoo" +
+#    "hhoiholapaapdapf" +
+#    "wphapjaplapohqdc" +
+#    "qhhqlaraarcarfvr" +
+#    "harjarmarocshata" +
+#    "atoaughuhauiavaa" +
+#    "voawfbwhawjaxaax" +
+#    "oayeayghyhayiayk")
+# r(5603, "Skomoroh 3", ncards=132, layout="0aachadaaeoaeXae" +
+#    "hafyafaagoagXagh" +
+#    "ahaaiabaabkhcahc" +
+#    "kadaadeadgadkhea" +
+#    "hefhekafaafeafga" +
+#    "fkhgahgfhgkahaah" +
+#    "eahgahkhiahifhik" +
+#    "ajaajeajgajkhkah" +
+#    "kfhkkalaalealgal" +
+#    "khmahmfhmkanaane" +
+#    "onfangankhofXofa" +
+#    "pbapdapfspfaphap" +
+#    "jhqfXqfaraareorf" +
+#    "argarkhsahsfhska" +
+#    "taateatgatkhuahu" +
+#    "fhukavaaveavgavk" +
+#    "hwahwfhwkaxaaxea" +
+#    "xgaxkhyahyfhykaz" +
+#    "aazeazgazkhAahAf" +
+#    "hAkaBaaBeaBgaBkh" +
+#    "CahCkaDaaDkaEchE" +
+#    "daEeoEeXEehEfyEf" +
+#    "aEgoEgXEghEhaEi")
+# r(5604, "Skomoroh 4", ncards=52, layout="0aajaalaanabhabp" +
+#    "acfacnacraddadla" +
+#    "dtaejafcafuagiah" +
+#    "bbhoahvaiiajaajw" +
+#    "akjalaalwamkamma" +
+#    "naanwaonapaapwaq" +
+#    "oarbbriarvasoatc" +
+#    "atuaunavdavlavta" +
+#    "wfawjawraxhaxpay" +
+#    "jaylayn")
+# r(5605, "Skomoroh 5", ncards=208, layout="0aahaajaalaanaap" +
+#    "hbihbkoblhbmhboa" +
+#    "ccaceacgaciackac" +
+#    "macoacqacsacuaec" +
+#    "aeuagdagjaglagna" +
+#    "gthhkhhmaieaijai" +
+#    "loilainaishjkhjm" +
+#    "akfakjakloklakna" +
+#    "krhlkhlmameamgam" +
+#    "jamlomlamnamqams" +
+#    "anchndhnkhnmhnta" +
+#    "nuaoeaohaojaoloo" +
+#    "laonaopaosapchpd" +
+#    "hpkhpmhptapuaqea" +
+#    "qhaqjaqlaqnaqpaq" +
+#    "saraarchrdhrtaru" +
+#    "arwaseasgasiaska" +
+#    "smasoasqassataht" +
+#    "batchtdhtfithitj" +
+#    "itlitnitphtrhtta" +
+#    "tuhtvatwaueaugau" +
+#    "iaukaumauoauqaus" +
+#    "avaavchvdhvtavua" +
+#    "vwaweawhawjawlaw" +
+#    "nawpawsaxchxdhxk" +
+#    "hxmhxtaxuayeayha" +
+#    "yjayloylaynaypay" +
+#    "sazchzdhzkhzmhzt" +
+#    "azuaAeaAgaAjaAlo" +
+#    "AlaAnaAqaAshBkhB" +
+#    "maCfaCjaCloClaCn" +
+#    "aCrhDkhDmaEeaEja" +
+#    "EloElaEnaEshFkhF" +
+#    "maGdaGjaGlaGnaGt" +
+#    "aIcaIuaKcaKeaKga" +
+#    "KiaKkaKmaKoaKqaK" +
+#    "saKuhLihLkoLlhLm" +
+#    "hLoaMhaMjaMlaMna" +
+#    "Mp")
+# r(5606, "Skomoroh 6", layout="0aadaafaahaajaal" +
+#    "aanaapadaaddadfa" +
+#    "dhadjadladnadpad" +
+#    "sheehegheihekhem" +
+#    "heoafaafdaffoffa" +
+#    "fhofhafjofjaflof" +
+#    "lafnofnafpafshge" +
+#    "hggvgghgivgihgkv" +
+#    "gkhgmvgmhgoahaCh" +
+#    "hChjChlahsaidaif" +
+#    "oifaihoihJiiaijo" +
+#    "ijJikailoilainoi" +
+#    "naipajahjehjgvjg" +
+#    "CjhhjivjihjkvjkC" +
+#    "jlhjmvjmhjoajsak" +
+#    "dakfokfakhokhJki" +
+#    "akjokjJkkaklokla" +
+#    "knoknakpalaClhCl" +
+#    "jCllalshmehmgvmg" +
+#    "hmivmihmkvmkhmmv" +
+#    "mmhmoanaandanfon" +
+#    "fanhonhanjonjanl" +
+#    "onlannonnanpansh" +
+#    "oehoghoihokhomho" +
+#    "oapaapdapfaphapj" +
+#    "aplapnappapsasda" +
+#    "sfashasjaslasnas" +
+#    "p")
+# r(5607, "Skomoroh 7", ncards=56, layout="0aabaadaafaahaaj" +
+#    "aapaaraatablabwa" +
+#    "daadmadwafaafnaf" +
+#    "wahaahnahwajfajh" +
+#    "ajmajwakdakjalbd" +
+#    "llalvamnamtanaan" +
+#    "kanpanrapaapjapw" +
+#    "araarjarwataatka" +
+#    "twavaavlawdawfaw" +
+#    "hawnawpawrawtawv")

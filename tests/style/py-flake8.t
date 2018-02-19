@@ -15,9 +15,6 @@ my %skip = (
         html-src/gen-html.py
         pysollib/games/__init__.py
         pysollib/games/mahjongg/__init__.py
-        pysollib/games/mahjongg/mahjongg1.py
-        pysollib/games/mahjongg/mahjongg2.py
-        pysollib/games/mahjongg/mahjongg3.py
         pysollib/games/special/__init__.py
         pysollib/games/ultra/__init__.py
         pysollib/htmllib2.py

@@ -29,9 +29,9 @@ import math
 import traceback
 
 from pysollib.mygettext import _
-
 from gettext import ungettext
 from six import BytesIO
+from six.moves import range
 
 # PySol imports
 from pysollib.mfxutil import Pickler, Unpickler, UnpicklingError
@@ -64,7 +64,6 @@ from pysollib.help import help_about
 if sys.version_info > (3,):
     basestring = str
     long = int
-    xrange = range
 
 PLAY_TIME_TIMEOUT = 200
 
@@ -1555,7 +1554,7 @@ class Game(object):
         cards = self.cards[:]
         scards = []
         ncards = min(10, len(cards))
-        for i in xrange(ncards):
+        for i in range(ncards):
             c = self.app.miscrandom.choice(cards)
             scards.append(c)
             cards.remove(c)

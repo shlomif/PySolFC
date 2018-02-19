@@ -22,7 +22,7 @@
 # ---------------------------------------------------------------------------
 
 # Imports
-import sys
+from six.moves import range
 import re
 import time
 from gettext import ungettext
@@ -45,15 +45,12 @@ from pysollib.stack import \
         InitialDealTalonStack, \
         OpenStack
 
-if sys.version_info > (3,):
-    xrange = range
-
 
 def factorial(x):
     if x <= 1:
         return 1
     a = 1
-    for i in xrange(x):
+    for i in range(x):
         a *= (i+1)
     return a
 
@@ -584,7 +581,7 @@ class AbstractMahjonggGame(Game):
             c1 = cards[0]
             del cards[0]
             c2 = None
-            for i in xrange(len(cards)):
+            for i in range(len(cards)):
                 if self.cardsMatch(c1, cards[i]):
                     c2 = cards[i]
                     del cards[i]
@@ -599,7 +596,7 @@ class AbstractMahjonggGame(Game):
             #
             i = factorial(len(free_stacks))//2//factorial(len(free_stacks)-2)
             old_pairs = []
-            for j in xrange(i):
+            for j in range(i):
                 nc = new_cards[:]
                 while True:
                     # create uniq pair
@@ -682,7 +679,7 @@ class AbstractMahjonggGame(Game):
             c1 = cards[0]
             del cards[0]
             c2 = None
-            for i in xrange(len(cards)):
+            for i in range(len(cards)):
                 if self.cardsMatch(c1, cards[i]):
                     c2 = cards[i]
                     del cards[i]
@@ -699,7 +696,7 @@ class AbstractMahjonggGame(Game):
             old_pairs = []
             i = factorial(len(suitable_stacks))//2 \
                 // factorial(len(suitable_stacks)-2)
-            for j in xrange(i):
+            for j in range(i):
                 if iters[0] > max_iters:
                     return None
                 if time.time() - start_time > max_time:

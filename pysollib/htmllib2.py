@@ -4,7 +4,11 @@ See the HTML 2.0 specification:
 http://www.w3.org/hypertext/WWW/MarkUp/html-spec/html-spec_toc.html
 """
 
-import html.parser as htmllib
+try:
+    import html.parser as htmllib
+except ImportError:
+    # For Python 2 tests compatibility
+    import HTMLParser as htmllib
 
 from formatter import AS_IS
 

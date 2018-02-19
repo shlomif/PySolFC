@@ -21,19 +21,14 @@
 #
 # ---------------------------------------------------------------------------##
 
-
 # imports
-import sys
+from six.moves import range
 import time
 
 # PySol imports
 from pysollib.mfxutil import format_time
 from pysollib.gamedb import GI
 from pysollib.mygettext import _
-
-
-if sys.version_info > (3,):
-    xrange = range
 
 # ************************************************************************
 # *
@@ -317,7 +312,7 @@ class ProgressionFormatter:
             t[0] -= 1
             lt = self.norm_time(t)
             marks = [lt[:3], tt[:3]]
-            for i in xrange(5):
+            for i in range(5):
                 tt[1] -= 2
                 marks.append(self.norm_time(tt)[:3])
             delta = 7
@@ -355,7 +350,7 @@ class ProgressionFormatter:
             played = 0
             won = 0
             text = None
-            for i in xrange(delta):
+            for i in range(delta):
                 if marks:
                     if ct[:3] in marks:
                         text = time.strftime(format, ct)

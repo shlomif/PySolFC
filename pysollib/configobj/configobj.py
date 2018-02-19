@@ -1393,10 +1393,7 @@ class ConfigObj(Section):
         """Decode ASCII strings to unicode if a self.encoding is specified."""
         if sys.version_info > (3,):
             return str(aString)
-        if self.encoding:
-            return aString.decode('ascii')
-        else:
-            return aString
+        return aString.decode('ascii') if self.encoding else aString
 
     def _decode(self, infile, encoding):
         """

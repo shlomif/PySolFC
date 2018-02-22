@@ -26,7 +26,7 @@ import sys
 import os
 
 # PySol imports
-from pysollib.settings import DATA_DIRS
+from pysollib.settings import DATA_DIRS, TOOLKIT
 from pysollib.mfxutil import Image
 
 from pysollib.mygettext import _
@@ -64,7 +64,7 @@ VARIABLE_REDEALS = -2
 
 CARDSET = _("cardset")
 
-IMAGE_EXTENSIONS = (".gif", ".ppm",)
+IMAGE_EXTENSIONS = (".gif", ".ppm", ".png")
 if 1 and os.name == "nt":
     IMAGE_EXTENSIONS = (".png", ".gif", ".ppm", ".jpg",)
     pass
@@ -72,10 +72,13 @@ if 1 and os.name == "nt":
 if Image:
     IMAGE_EXTENSIONS = (".png", ".gif", ".jpg", ".ppm", ".bmp")
 
+if TOOLKIT == 'kivy':
+    IMAGE_EXTENSIONS = (".png", ".bmp", ".ppm", ".jpg", ".tiff")
 
 # ************************************************************************
 # * DataLoader
 # ************************************************************************
+
 
 class DataLoader:
     def __init__(self, argv0, filenames, path=[]):
@@ -120,7 +123,6 @@ class DataLoader:
         else:
             raise OSError(str(argv0)+": DataLoader could not find " +
                           str(filenames))
-        # print path, self.path, self.dir
 
     def __findFile(self, func, filename, subdirs=None, do_raise=1):
         if subdirs is None:

@@ -28,8 +28,9 @@ from pysollib.settings import TITLE
 from pysollib.settings import TOOLKIT, USE_TILE
 from pysollib.winsystems.common import base_init_root_window, \
         BaseTkSettings, get_font_name
-if USE_TILE:
-    from pysollib.tile import ttk
+if TOOLKIT == 'tk':
+    if USE_TILE:
+        from pysollib.tile import ttk
 
 
 # ************************************************************************
@@ -46,6 +47,8 @@ def init_root_window(root, app):
 
     # root.self.wm_maxsize(9999, 9999) # unlimited
     if TOOLKIT == 'gtk':
+        pass
+    elif TOOLKIT == 'kivy':
         pass
     elif USE_TILE:
         f = os.path.join(app.dataloader.dir, 'tcl', 'menu8.4.tcl')

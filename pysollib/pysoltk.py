@@ -67,6 +67,31 @@ if TOOLKIT == 'tk':
         from pysollib.tk.selectcardset import *
         from pysollib.tk.selecttree import *
 
+elif TOOLKIT=='kivy':
+     from pysollib.kivy.tkconst import *
+     from pysollib.kivy.tkutil import *
+     from pysollib.kivy.card import *
+     from pysollib.kivy.tkcanvas import *
+     from pysollib.kivy.tkwrap import *
+     from pysollib.kivy.findcarddialog import *
+     from pysollib.kivy.tkwidget import *
+     from pysollib.kivy.tkhtml import *
+     from pysollib.kivy.edittextdialog import *
+     from pysollib.kivy.tkstats import *
+     from pysollib.kivy.playeroptionsdialog import *
+     #from pysollib.kivy.soundoptionsdialog import *
+     from pysollib.kivy.timeoutsdialog import *
+     from pysollib.kivy.colorsdialog import *
+     from pysollib.kivy.fontsdialog import *
+     from pysollib.kivy.solverdialog import *
+     from pysollib.kivy.gameinfodialog import *
+     from pysollib.kivy.toolbar import *
+     from pysollib.kivy.statusbar import *
+     from pysollib.kivy.progressbar import *
+     from pysollib.kivy.menubar import *
+     from pysollib.kivy.selectcardset import *
+     from pysollib.kivy.selecttree import *
+
 else: # gtk
     from pysollib.pysolgtk.tkconst import *
     from pysollib.pysolgtk.tkutil import *

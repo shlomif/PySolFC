@@ -1,0 +1,48 @@
+
+Introduction
+------------
+
+This is a (inofficial) Fork of the PysolFC-2.0 open source project
+(http://pysolfc.sourceforge.net)
+
+Early investigations of the code showed, that it would not be
+a too big effort to replace or add a new user interface (UI).
+
+The new UI using kivy has been designed to meet requirments
+of tablet and smartphone devices. Most of the functionality
+of the original version has been maintained
+
+The new UI is selected via a new commandline option '--kivy'.
+Original user interfaces will continue to work. To run the
+kivy version call:
+
+$ python pysol.py --kivy
+
+
+Images
+------
+
+Original images supplied by the collection are of type
+gif. In kivy that image type loads very slow. Also many
+cards cannot be loaded, because of decoding errors.
+To prevent from these problems, the kivy version was
+modified to not read any gif images.
+
+Some cardsets have been translated to png, a format
+that is processed by both the tcl and the kivy version.
+
+Some others, for which transparency information is not
+processed correctly even from png images, have been translated
+to the bmp image format (while keeping their gif variant for
+the tcl version). bmp format is only processed by the
+kivy version.
+
+Additional cardsets are available from the SourceForge
+project. To use them with kivy, they need to be converted to
+bmp format. A shell script 'cardsetsgiftobmp' has been added
+to the scripts directory (needs bash and ImageMagick).
+
+For all gif-images in directories data/images and data/tiles
+a duplicate image in png format has been added too.
+
+LB170321.

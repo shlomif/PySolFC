@@ -52,14 +52,19 @@ from pysollib.pysoltk import after, after_idle, after_cancel
 from pysollib.pysoltk import MfxMessageDialog, MfxExceptionDialog
 from pysollib.pysoltk import MfxCanvasText, MfxCanvasLine, MfxCanvasRectangle
 from pysollib.pysoltk import Card
-from pysollib.ui.tktile.solverdialog import reset_solver_dialog
-from pysollib.move import AMoveMove, AFlipMove, AFlipAndMoveMove
-from pysollib.move import ASingleFlipMove, ATurnStackMove
-from pysollib.move import ANextRoundMove, ASaveSeedMove, AShuffleStackMove
-from pysollib.move import AUpdateStackMove, AFlipAllMove, ASaveStateMove
-from pysollib.move import ASingleCardMove
-from pysollib.hint import DefaultHint
-from pysollib.help import help_about
+if TOOLKIT == 'tk':
+    from pysollib.ui.tktile.solverdialog import reset_solver_dialog
+else:
+    from pysollib.pysoltk import reset_solver_dialog
+
+if True:  # This prevents from travis 'error' E402.
+    from pysollib.move import AMoveMove, AFlipMove, AFlipAndMoveMove
+    from pysollib.move import ASingleFlipMove, ATurnStackMove
+    from pysollib.move import ANextRoundMove, ASaveSeedMove, AShuffleStackMove
+    from pysollib.move import AUpdateStackMove, AFlipAllMove, ASaveStateMove
+    from pysollib.move import ASingleCardMove
+    from pysollib.hint import DefaultHint
+    from pysollib.help import help_about
 
 if sys.version_info > (3,):
     basestring = str
@@ -1190,6 +1195,10 @@ class Game(object):
     #
 
     def areYouSure(self, title=None, text=None, confirm=-1, default=0):
+
+        if TOOLKIT == 'kivy':
+            return True
+
         if self.preview:
             return True
         if confirm < 0:
@@ -1252,6 +1261,15 @@ class Game(object):
             shadow = self.app.opt.shadow
         shadows = ()
         # start animation
+        if TOOLKIT == 'kivy':
+            c0 = cards[0]
+            dx, dy = (x - c0.x), (y - c0.y)
+            for card in cards:
+                base = float(self.app.opt.animations)
+                duration = base*0.1
+                card.animatedMove(dx, dy, duration)
+            return
+
         if tkraise:
             for card in cards:
                 card.tkraise()
@@ -1890,6 +1908,11 @@ You have reached
             return 1
         if self.demo:
             return status
+        if TOOLKIT == 'kivy':
+            if not self.app.opt.display_win_message:
+                return 1
+            from kivy.LApp import LAnimationManager
+            self.top.waitCondition(LAnimationManager.checkRunning)
         if status == 2:
             top_msg = self.updateStats()
             time = self.getTime()
@@ -1944,6 +1967,8 @@ Congratulations, you did it !
                 text=_("\nGame finished, but not without my help...\n"),
                 strings=(_("&New game"), _("&Restart"), _("&Cancel")))
         self.updateMenus()
+        if TOOLKIT == 'kivy':
+            return 1
         if d.status == 0 and d.button == 0:
             # new game
             self.endGame()
@@ -2166,6 +2191,11 @@ Congratulations, you did it !
                                        width=4, fill=None, outline=color)
                 if tkraise:
                     r.tkraise(c2.item)
+            elif TOOLKIT == 'kivy':
+                r = MfxCanvasRectangle(self.canvas, x1, y1, x2, y2,
+                                       width=4, fill=None, outline=color)
+                if tkraise:
+                    r.tkraise(c2.item)
             elif TOOLKIT == 'gtk':
                 r = MfxCanvasRectangle(self.canvas, x1, y1, x2, y2,
                                        width=4, fill=None, outline=color,
@@ -2209,6 +2239,12 @@ Congratulations, you did it !
         x1, y1 = x+w-width//2-xmargin, y+h-width//2-ymargin
         r = MfxCanvasRectangle(self.canvas, x0, y0, x1, y1,
                                width=width, fill=None, outline=color)
+
+        if TOOLKIT == "kivy":
+            r.canvas.canvas.ask_update()
+            r.delete_deferred(self.app.opt.timeouts['highlight_cards'])
+            return
+
         self.canvas.update_idletasks()
         self.sleep(self.app.opt.timeouts['highlight_cards'])
         r.delete()
@@ -2445,6 +2481,10 @@ Congratulations, you did it !
                               fill=self.app.opt.colors['hintarrow'],
                               arrow="last", arrowshape=(30, 30, 10))
         self.canvas.update_idletasks()
+        # wait
+        if TOOLKIT == "kivy":
+            arrow.delete_deferred(sleep)
+            return
         # wait
         self.sleep(sleep)
         # delete the hint

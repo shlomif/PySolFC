@@ -30,8 +30,10 @@ from pysollib.settings import VERSION
 from pysollib.settings import TOOLKIT, USE_TILE
 from pysollib.settings import DEBUG
 from pysollib.mfxutil import print_err
-if USE_TILE:
-    from pysollib.tile import ttk
+
+if TOOLKIT == 'tk':
+    if USE_TILE:
+        from pysollib.tile import ttk
 
 
 def init_tile(app, top):
@@ -62,6 +64,10 @@ def set_theme(app, top, theme):
 def get_font_name(font):
     # create font name
     # i.e. "helvetica 12" -> ("helvetica", 12, "roman", "normal")
+
+    if (TOOLKIT == 'kivy'):
+        return "helvetica 12"
+
     from six.moves.tkinter_font import Font
     font_name = None
     try:
@@ -91,6 +97,8 @@ def base_init_root_window(root, app):
         root.wm_minsize(520, 360)
 
     if TOOLKIT == 'gtk':
+        pass
+    if TOOLKIT == 'kivy':
         pass
     elif USE_TILE:
         theme = app.opt.tile_theme

@@ -21,12 +21,22 @@
 # ---------------------------------------------------------------------------##
 
 # import pychecker.checker
-
 import sys
+
+# Initialise basics and read command line and settings.
 from pysollib.init import init
-from pysollib.main import main
 init()
 
+# Setup and Load the main process modules.
+# IMPORTANT: The set of modules to load depends on the settings
+# and command line options. Therfore import of pysollib.main
+# HAS TO BE after call to init().
+# See docs/README.SOURCE.
+# Flake8 test would complain here E402, so disabled
+
+from pysollib.main import main  # noqa: E402
+
+# Execute it.
 # import profile
 # profile.run("main(sys.argv)")
 sys.exit(main(sys.argv))

@@ -211,6 +211,15 @@ class Mahjongg_RowStack(OpenStack):
             if rows:
                 self.group.lower(rows[0].group)
                 return
+        elif TOOLKIT == 'kivy':
+            rows = [s for s in self.game.s.rows[:self.id] if s.cards]
+            if rows:
+                # self.group.tkraise(rows[-1].group)
+                return
+            rows = [s for s in self.game.s.rows[self.id+1:] if s.cards]
+            if rows:
+                # self.group.lower(rows[0].group)
+                return
         elif TOOLKIT == 'gtk':
             # FIXME (this is very slow)
             for s in self.game.s.rows[self.id+1:]:
@@ -270,6 +279,12 @@ class Mahjongg_RowStack(OpenStack):
                 self._stopDrag()
                 # this code actually moves the tiles
                 from_stack.playMoveMove(1, self, frames=0, sound=True)
+                if TOOLKIT == 'kivy':
+                    if drag.shade_img:
+                        # drag.shade_img.dtag(drag.shade_stack.group)
+                        drag.shade_img.delete()
+                        # game.canvas.delete(drag.shade_img)
+                        drag.shade_img = None
                 return 1
         drag.stack = self
         self.game.playSample("startdrag")
@@ -513,6 +528,9 @@ class AbstractMahjonggGame(Game):
                 else:
                     if TOOLKIT == 'tk':
                         x = -l.XS-self.canvas.xmargin
+                        y = l.YM+dyy
+                    elif TOOLKIT == 'kivy':
+                        x = -1000
                         y = l.YM+dyy
                     elif TOOLKIT == 'gtk':
                         # FIXME
@@ -782,11 +800,13 @@ class AbstractMahjonggGame(Game):
 
         new_cards = self._shuffleHook2(rows, cards)
         if new_cards is None:
-            MfxMessageDialog(self.top, title=_('Warning'),
-                             text=_('''\
+            if TOOLKIT != 'kivy':
+                MfxMessageDialog(self.top, title=_('Warning'),
+                                 text=_('''\
 Sorry, I can\'t find
 a solvable configuration.'''),
-                             bitmap='warning')
+                                 bitmap='warning')
+
             self.leaveState(old_state)
             # self.finishMove()
             # hack
@@ -859,7 +879,7 @@ a solvable configuration.'''),
             f = ungettext('%d Free\nMatching\nPair',
                           '%d Free\nMatching\nPairs',
                           f) % f
-        t = sum([len(i.cards) for i in self.s.foundations])
+        t = sum([len(ii.cards) for ii in self.s.foundations])
         r1 = ungettext('%d\nTile\nRemoved\n\n',
                        '%d\nTiles\nRemoved\n\n',
                        t) % t

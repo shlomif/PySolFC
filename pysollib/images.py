@@ -25,6 +25,9 @@
 # imports
 import os
 
+# settings
+from pysollib.settings import TOOLKIT
+
 # PySol imports
 from pysollib.resource import CSI
 from pysollib.mfxutil import Image, ImageTk, USE_PIL
@@ -88,7 +91,13 @@ class Images:
             img = loadImage(file=f)
         except Exception:
             return None
-        w, h = img.width(), img.height()
+
+        if TOOLKIT == 'kivy':
+            w = img.texture.size[0]
+            h = img.texture.size[1]
+        else:
+            w, h = img.width(), img.height()
+
         if self.CARDW < 0:
             self.CARDW, self.CARDH = w, h
         else:

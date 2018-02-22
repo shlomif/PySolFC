@@ -4,7 +4,7 @@
 ## code
 ##
 include pysol.py setup.py setup_osx.py setup.cfg MANIFEST.in Makefile
-include COPYING README.md AUTHORS
+include COPYING README.md AUTHORS README.android README.kivy
 #recursive-include pysollib *.py
 include pysollib/*.py pysollib/macosx/*.py pysollib/configobj/*.py
 include pysollib/winsystems/*.py
@@ -18,6 +18,9 @@ graft data/themes
 recursive-exclude data/themes *.py
 include scripts/build.bat scripts/create_iss.py scripts/mahjongg_utils.py
 include scripts/pygettext.py scripts/all_games.py scripts/cardset_viewer.py
+include android/*.py
+include android/mk* 
+include android/debian/*
 #graft data/plugins
 ##
 ## data - docs

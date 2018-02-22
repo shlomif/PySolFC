@@ -872,8 +872,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
 
         def my_find_re(RE, m):
             s = m.group(1)
-            assert re.match(r'^\s*(?:' + RE + r')?(?:\s+'
-                            + RE + r')*\s*$', s)
+            assert re.match(r'^\s*(?:' + RE + r')?(?:\s+' + RE + r')*\s*$', s)
             return re.findall(r'\b' + RE + r'\b', s)
 
         for line_p in fh:

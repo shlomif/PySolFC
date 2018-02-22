@@ -21,7 +21,6 @@
 #
 # ---------------------------------------------------------------------------##
 
-
 # imports
 import os
 import sys
@@ -38,8 +37,8 @@ from pysollib.gamedb import GAME_DB
 from pysollib.pysolaudio import AbstractAudioClient, \
         PysolSoundServerModuleClient
 from pysollib.pysolaudio import Win32AudioClient, OSSAudioClient, \
-        PyGameAudioClient
-from pysollib.settings import TITLE, SOUND_MOD
+        PyGameAudioClient, KivyAudioClient
+from pysollib.settings import TITLE, SOUND_MOD, TOOLKIT
 from pysollib.winsystems import init_root_window
 
 # Toolkit imports
@@ -48,15 +47,30 @@ from pysollib.pysoltk import MfxMessageDialog
 from pysollib.pysoltk import MfxRoot
 from pysollib.pysoltk import PysolProgressBar
 
-
 # ************************************************************************
 # *
 # ************************************************************************
 
-def fatal_no_cardsets(app):
-    app.wm_withdraw()
-    MfxMessageDialog(app.top, title=_("%s installation error") % TITLE,
-                     text=_('''No cardsets were found !!!
+if TOOLKIT == 'kivy':
+    from pysollib.mfxutil import getprefdir
+    from pysollib.settings import PACKAGE
+
+    def fatal_no_cardsets(app):
+        app.wm_withdraw()
+        MfxMessageDialog(app.top, title=_("%s installation error") % TITLE,
+                         text=_('''No cardsets were found !!!
+
+Cardsets should be installed into:
+%s/cardsets/
+
+Please check your %s installation.
+''') % (getprefdir(PACKAGE), TITLE),
+            bitmap="error", strings=(_("&Quit"),))
+else:
+    def fatal_no_cardsets(app):
+        app.wm_withdraw()
+        MfxMessageDialog(app.top, title=_("%s installation error") % TITLE,
+                         text=_('''No cardsets were found !!!
 
 Main data directory is:
 %s
@@ -242,17 +256,23 @@ def pysol_init(app, args):
               'pygame':  PyGameAudioClient,
               'oss':     OSSAudioClient,
               'win':     Win32AudioClient}
+    if TOOLKIT == 'kivy':
+        sounds['kivy'] = KivyAudioClient
     if opts["nosound"] or SOUND_MOD == 'none':
         app.audio = AbstractAudioClient()
     elif opts['sound-mod']:
         c = sounds[opts['sound-mod']]
         app.audio = c()
     elif SOUND_MOD == 'auto':
-        for c in (PyGameAudioClient,
-                  PysolSoundServerModuleClient,
-                  OSSAudioClient,
-                  Win32AudioClient,
-                  AbstractAudioClient):
+        snd = []
+        snd.append(PyGameAudioClient)
+        if TOOLKIT == 'kivy':
+            snd.append(KivyAudioClient)
+        snd.append(PysolSoundServerModuleClient)
+        snd.append(OSSAudioClient)
+        snd.append(Win32AudioClient)
+        snd.append(AbstractAudioClient)
+        for c in snd:
             try:
                 app.audio = c()
                 app.audio.startServer()
@@ -363,11 +383,37 @@ Please check your %s installation.
 # * main
 # ************************************************************************
 
-def main(args=None):
-    # create the application
-    app = Application()
-    r = pysol_init(app, args)
-    if r != 0:
-        return r
-    # let's go - enter the mainloop
-    app.mainloop()
+
+if TOOLKIT == 'kivy':
+        from pysollib.kivy.LApp import LApp
+        import logging
+
+        class KivyApp(LApp):
+            def __init__(self, args):
+                super(KivyApp, self).__init__()
+                self.args = args
+
+            def build(self):
+                logging.info("KivyApp: build")
+
+                self.app = app = Application()
+                app.top = self.mainWindow
+                self.startCode = pysol_init(app, self.args)
+
+                logging.info('Main: App Initialised - starting main loop')
+                return self.mainWindow
+
+        def main(args=None):
+            logging.basicConfig(level=logging.INFO)
+            KivyApp(args).run()
+
+else:
+
+    def main(args=None):
+        # create the application
+        app = Application()
+        r = pysol_init(app, args)
+        if r != 0:
+            return r
+        # let's go - enter the mainloop
+        app.mainloop()

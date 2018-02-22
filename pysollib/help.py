@@ -82,6 +82,8 @@ def help_credits(app, timeout=0, sound=True):
         t = "pyKDE"
     elif TOOLKIT == "wx":
         t = "wxPython"
+    elif TOOLKIT == "kivy":
+        t = "kivy"
     d = MfxMessageDialog(
         app.top, title=_("Credits"), timeout=timeout,
         text=TITLE+_(''' credits go to:

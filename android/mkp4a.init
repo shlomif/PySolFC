@@ -1,0 +1,44 @@
+#!/bin/bash
+
+echo '### prepare sdk'
+
+./initsdk.py $1 $2 $3
+
+echo '### install p4a'
+
+#p4aversion='0.5.3p'
+# Downloded file "https://github.com/kivy/python-for-android/archive/0.5.3.zip"
+# Note: Minor fixes had to be added to version 0.5.3 in order to
+# cooperate with fdroid.
+#python3 -m  pip install -q --user "./p4a/${p4aversion}.zip"
+
+p4aversion='0.5.3'
+python3 -m  pip install -q --user "https://github.com/kivy/python-for-android/archive/${p4aversion}.zip"
+
+echo '### prepare recipes'
+
+if [ -d ./packages ]
+then
+  echo '### copying recipes'
+  mkdir -p ${HOME}/.local/share/python-for-android
+  cp -a packages ${HOME}/.local/share/python-for-android/
+fi
+
+echo '### prepare source'
+
+mkdir -p tmp
+rm -rf tmp/src
+
+# Easiest variant. But rsync may not be installed.
+# rsync -a .. tmp/src --exclude android/tmp
+# so:
+
+mkdir -p ${HOME}/.local/tmp/src
+cp -a .. ${HOME}/.local/tmp/src
+mv ${HOME}/.local/tmp/src tmp/src
+
+rm -rf tmp/src/android
+rm -rf tmp/src/src
+cp -a main.py tmp/src/main.py
+
+echo '### end init'

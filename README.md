@@ -44,6 +44,19 @@ $ python pysol.py
 After following steps similar to these (on
 [Mageia Linux](http://www.mageia.org/) ):
 
+## Alternate toolkit.
+
+- Python2 (2.7 or later)
+- Kivy (10.0 or later)
+
+- Features:
+  - Sound support integrated.
+  - Android apk build support.
+
+- Running from source without installation:
+
+$ python2 pysol.py --kivy
+
 #### Step 1 - install the dependencies
 
 On Mageia you can do:

@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# converts cardset images and config files in current
+# directory from input-format to output-format.
+#
+# example to convert from gif format to png:
+#
+# $> cardconv gif png
+#
+# needs package 'ImageMagick' beeing installed.
+
+ifo=''
+if [ $1 ]
+then
+  ifo=$1
+else
+  echo 'use: cardconv <input-format> <output-format>'
+  exit
+fi
+
+ofo=''
+if [ $2 ]
+then
+  ofo=$2
+else
+  echo 'use: cardconv <input-format> <output-format>'
+  exit
+fi
+
+# alle images.
+for i in *.${ifo}; do convert $i `basename $i .${ifo}`.${ofo}; rm -f $i; done
+
+# config.txt
+if [ -f config.txt ]
+then
+  cp -a config.txt tmp.txt
+  cat tmp.txt | sed "s/.${ifo}/.${ofo}/g" >config.txt
+  rm -f tmp.txt
+fi

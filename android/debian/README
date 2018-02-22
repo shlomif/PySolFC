@@ -1,0 +1,19 @@
+Actions to take upon a freshly installed Debian stretch/xfce (virtualbox).
+
+Do something like:
+
+user$ su
+- enter root password.
+
+root$ ./apt-install.sh
+- .... some output.
+
+root$ exit
+
+user$ ./pip-install.sh
+- .....some output.
+
+Now all required packages are installed to proceed with the
+android build.
+
+LB170709.

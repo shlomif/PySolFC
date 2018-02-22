@@ -1,0 +1,89 @@
+
+Prerequisites (needs root):
+
+  On a 'freshly installed' Ubuntu 16.04 (32bit), the following
+  additional packages had to be installed:
+  
+  - python-setuptools
+  - javasdk          (ubuntu: default jdk)
+  - cython           (ubuntu: cython)
+  - pip              (ubuntu: python-pip)
+  - pexpect          (ubuntu: python-pexpect)
+  - zlib headers     (ubuntu: zlib1g-dev)
+  - virtualenv       (python-virtualenv)
+  - zip,unzip
+
+  On a freshly installed debian stretch/xfce:
+
+  -> consult script files in directory android/debian.
+
+  On a 'simple' gentoo installation the following packages had to be
+  installed in addition:
+
+  - dev-python/pip
+  - dev-python/virtualenv
+  - dev-python/cython
+  - dev-media-libs/libsdl2
+  - dev-media-libs/sdl2-image
+  - dev-media-libs/sdl2-mixer
+  - dev-media-libs/sdl2-ttf
+  - dev-media-libs/gstreamer
+  - dev-vcs/git
+  - dev-java/ant 
+
+  and python modules:
+
+  - python3 -m pip install requests --user.
+  - python3 -m pip install clint --user.
+
+  NOTES:
+  1) This information is supplied to give you a hint, when running into
+     problems.
+  2) All builds need an working (fairly fast) internet connection and
+     6 GB of free disk space.
+
+
+Build with 'python-for-android' (as user):
+
+  go to the android directory, then
+
+  $ ./mkp4a.init [<sdkdir>] [<ndkdir>]        # prepare sdk and p4a installation
+  $ ./mkkeystore                              # if you want to build a release version.
+
+  $ ./mkp4a.debug                             # build debug apk
+  $ ./mkp4a.release  <passwd1>  [<passwd2>]   # build release apk
+  $ ./mkp4a.unsigned                          # build an unsigned release apk
+
+  The build system will download all required additional
+  packages (such as the android sdk and more). Do the first build will
+  take a while. All in all you will need up to 6 GB of free disk space.
+
+  If you have Android Studio installed, you may call mkp4a.init
+  with optional parameter <sdk-dir> and ev. in addition as
+  second parameter <ndk-dir> (if not default) to prevent them
+  from downloading a new. (Note that currently android ndk version
+  should be less 14, otherwise the build will fail).
+
+  Resulted apks will appear in directory android.
+
+Cardsets:
+
+Cardsets should be installed in ${HOME}/.PySolFC/cardsets/. On an
+android device this is equivalent to /sdcard/.PySolFC/cardsets/.
+Cardsets must use the bmp image format. Use scripts/cardsetsgiftobmp
+(on a linux system) to convert them, before copying to the device.
+
+Possible known build issues:
+
+2) for android ndk: needs a Version <=13 (because needs ant support).
+
+3) python-for-android, on downloading recipes:
+
+  ('CA CERTIFICATE VALIDATION FAILED' when downloading python.2.7 or
+   some 'recipes')
+
+  Solution:
+    Try the download address with firefox. if it works, view the
+    site certificate and download (export) it from the browser.
+    Copy the resulting *.crt to /usr/local/ca-certificates and
+    run update-ca-certificates.

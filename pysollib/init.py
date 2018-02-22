@@ -82,6 +82,12 @@ def init():
         pysollib.settings.TOOLKIT = 'tk'
         pysollib.settings.USE_TILE = True
         sys.argv.remove('--tile')
+    elif '--kivy' in sys.argv:
+        pysollib.settings.TOOLKIT = 'kivy'
+        pysollib.settings.USE_TILE = False
+        pysollib.settings.SELECT_GAME_MENU = False
+        sys.argv.remove('--kivy')
+
     if pysollib.settings.TOOLKIT == 'tk':
         from six.moves import tkinter
         root = tkinter.Tk(className=pysollib.settings.TITLE)

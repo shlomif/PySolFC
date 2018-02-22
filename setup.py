@@ -80,6 +80,7 @@ kw = {
                  'pysollib.pysolgtk',
                  'pysollib.ui',
                  'pysollib.ui.tktile',
+                 'pysollib.kivy',
                  'pysollib.games',
                  'pysollib.games.special',
                  'pysollib.games.ultra',

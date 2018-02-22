@@ -1,0 +1,8 @@
+#!/bin/bash
+# convert gif to png - dir recursive
+
+# scharf !!!!
+#for i in `find . -iname '*.gif'`; do bn=.$(echo $i | cut -f2 -d'.'); convert $bn.gif $bn.png; rm $bn.gif; done
+
+# test:
+#for i in `find . -iname '*.gif'`; do bn=.$(echo $i | cut -f2 -d'.'); echo $bn; done

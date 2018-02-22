@@ -1,0 +1,77 @@
+#!/bin/bash
+
+# creates a bmp copy off all gif cardsets in the current dir.
+# uses package 'ImageMagick'
+
+ifo='gif'
+if [ $1 ]
+then
+  ifo=$1
+fi
+
+ofo='bmp'
+if [ $2 ]
+then
+  ofo=$2
+fi
+
+function chkdir()
+{
+  # convert all images
+  cd $1
+  if [ -f config.txt ]
+  then
+    g=`grep -i ".${ifo}" config.txt`
+    #echo $g
+    if [[ $g == "" ]]
+    then
+      cd ..
+      return 1
+    else
+      cd ..
+      return 0
+    fi
+  fi
+  cd ..
+  return 0
+}
+
+function convdir()
+{
+  # convert all images
+  for i in *.${ifo}; do convert $i `basename $i .${ifo}`.${ofo}; rm -f $i; done
+
+  # convert config.txt
+  if [ -f config.txt ]
+  then
+    cp -a config.txt tmp.txt
+    cat tmp.txt | sed "s/.${ifo}/.${ofo}/g" >config.txt
+    rm -f tmp.txt
+  fi
+}
+
+# check all cardsets.
+
+for k in cardset-*
+do
+  x=${k%-bmp}
+  y=$x-${ofo}
+
+  if chkdir $k
+  then
+    if [ $k != $y ]
+    then
+      if [ -a $y ]
+      then
+    	  echo "$y exists already - skipped"
+      else
+    	  echo "$y processing ..."
+        cp -a $k $y
+        cd $y
+        convdir
+        cd ..
+    	  echo "$y created"
+      fi
+    fi
+  fi
+done

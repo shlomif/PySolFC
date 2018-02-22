@@ -223,6 +223,11 @@ class Stack:
         view.INIT_CARD_OFFSETS = (0, 0)
         view.INIT_CARD_YOFFSET = 0      # for reallocateCards
         view.group = MfxCanvasGroup(view.canvas)
+
+        if (TOOLKIT == 'kivy'):
+            if hasattr(view.group, 'stack'):
+                view.group.stack = self
+
         view.shrink_face_down = 1
         # image items
         view.images = Struct(
@@ -1117,6 +1122,10 @@ class Stack:
             handler(event)
         return EVENT_HANDLED
 
+    if (TOOLKIT == 'kivy'):
+        def _motionEventHandler(self, event):
+            return self.__motionEventHandler(event)
+
     def __clickEventHandler(self, event):
         if self.game.app.opt.mouse_type == 'drag-n-drop':
             cancel_drag = 1
@@ -1185,6 +1194,14 @@ class Stack:
         if self.game.busy:
             return EVENT_HANDLED
         if self.game.app.opt.mouse_type == 'drag-n-drop':
+
+            if TOOLKIT == 'kivy':
+                drag = self.game.drag
+                if drag and drag.stack:
+                    drag.stack.keepDrag(event)
+                    drag.stack.finishDrag(event)
+                return EVENT_HANDLED
+
             self.keepDrag(event)
             self.finishDrag(event)
         return EVENT_HANDLED
@@ -1363,7 +1380,13 @@ class Stack:
             return ()
         if img0 and img1:
             cx, cy = c0.x + cw + dx, c0.y + ch + dy
-            s1 = MfxCanvasImage(self.canvas, cx, cy - img0.height(),
+
+            if TOOLKIT == 'kivy':
+                height0 = img0.getHeight()
+            else:
+                height0 = img0.height()
+
+            s1 = MfxCanvasImage(self.game.canvas, cx, cy - height0,
                                 image=img1, anchor=ANCHOR_SE)
             s2 = MfxCanvasImage(self.canvas, cx, cy,
                                 image=img0, anchor=ANCHOR_SE)
@@ -1859,6 +1882,8 @@ class TalonStack(Stack,
                                                     group=self.group)
                 if TOOLKIT == 'tk':
                     self.images.redeal.tkraise(self.top_bottom)
+                elif TOOLKIT == 'kivy':
+                    self.images.redeal.tkraise(self.top_bottom)
                 elif TOOLKIT == 'gtk':
                     # FIXME
                     pass
@@ -1882,6 +1907,8 @@ class TalonStack(Stack,
                                                   group=self.group)
                 if TOOLKIT == 'tk':
                     self.texts.redeal.tkraise(self.top_bottom)
+                elif TOOLKIT == 'kivy':
+                    self.texts.redeal.tkraise(self.top_bottom)
                 elif TOOLKIT == 'gtk':
                     # FIXME
                     pass
@@ -1902,6 +1929,10 @@ class TalonStack(Stack,
         ty = self.y + images.CARDH - 4
         self.init_redeal.img_coord = cx, cy
         self.init_redeal.txt_coord = cx, ty
+
+        # At least display a redealImage at start, if USE_PIL is not set.
+        if USE_PIL is False:
+            self._addRedealImage()
 
     getBottomImage = Stack._getTalonBottomImage
 

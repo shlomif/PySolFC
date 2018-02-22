@@ -777,6 +777,12 @@ class PysolMenubar(PysolMenubarTk):
     # Help menu
     #
 
+    def mHelpHtml(self, *args):
+        print('mHelpHtml: %s' % str(args))
+        if self._cancelDrag(break_pause=False):
+            return
+        help_html(self.app, args[0], "html")
+
     def mHelp(self, *args):
         if self._cancelDrag(break_pause=False):
             return

@@ -23,7 +23,7 @@ class HTMLParser(html_parser.HTMLParser):
 
     """
 
-    from six.moves.html_entities import entitydefs
+    # from six.moves.html_entities import entitydefs
 
     def __init__(self, formatter):
         """Creates an instance of the HTMLParser class.

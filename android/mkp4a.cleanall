@@ -1,0 +1,9 @@
+#!/bin/bash
+
+rm -rf tmp/*
+rm -f *.apk
+rm -rf ~/.local/share/python-for-android/packages
+rm -rf ~/.local/share/python-for-android/build
+rm -rf ~/.local/share/python-for-android/dists
+python3 -m pip uninstall python-for-android -y
+exit 0

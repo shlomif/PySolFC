@@ -1,0 +1,23 @@
+#!/bin/bash
+
+version=`./version.py`
+
+python3 -m pythonforandroid.toolchain apk \
+  --sdk-dir ${HOME}/.cache/sdk-for-p4a \
+  --ndk-dir ${HOME}/.cache/sdk-for-p4a/ndk-bundle \
+  --android-api 19 \
+  --ndk-version r12b \
+  --arch armeabi-v7a \
+  --dist-name pysolfc \
+  --name pysolfc \
+  --bootstrap=sdl2 \
+  --requirements kivy,hostpython2,random2 \
+  --minsdk 14 \
+  --private tmp/src \
+  --package org.lufebe16.gh.pysolfc \
+  --version ${version} \
+  --orientation sensor \
+  --color=always \
+  --icon tmp/src/data/images/misc/pysol01.png \
+  --presplash tmp/src/data/images/misc/pysol06.png \
+  --copy-libs

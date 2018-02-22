@@ -58,11 +58,16 @@ from pysollib.pysoltk import SelectCardsetDialogWithPreview
 from pysollib.pysoltk import SelectDialogTreeData
 from pysollib.pysoltk import HTMLViewer
 from pysollib.pysoltk import destroy_find_card_dialog
-from pysollib.ui.tktile.solverdialog import destroy_solver_dialog
-
-from pysollib.actions import PysolMenubar
-from pysollib.actions import PysolToolbar
-from pysollib.help import help_about, destroy_help_html
+if TOOLKIT == 'tk':
+    from pysollib.ui.tktile.solverdialog import destroy_solver_dialog
+else:
+    from pysollib.pysoltk import destroy_solver_dialog
+if TOOLKIT == 'kivy':
+    import logging
+if True:  # This prevents from travis 'error' E402.
+    from pysollib.actions import PysolMenubar
+    from pysollib.actions import PysolToolbar
+    from pysollib.help import help_about, destroy_help_html
 
 # ************************************************************************
 # * Statistics
@@ -420,6 +425,20 @@ class Application:
 
     # the PySol mainloop
     def mainloop(self):
+        try:
+            approc = self.mainproc()  # setup process
+            approc.send(None)				# and go
+        except Exception:
+            pass
+
+    def gameproc(self):
+        while True:
+            logging.info('App: gameproc waiting for game to start')
+            (id, random) = yield
+            logging.info('App: game started %s,%s' % (str(id), str(random)))
+            self.runGame(id, random)
+
+    def mainproc(self):
         # copy startup options
         self.startup_opt = self.opt.copy()
         # try to load statistics
@@ -517,6 +536,11 @@ class Application:
         if self.intro.progress:
             self.intro.progress.update(step=1)
         #
+
+        if TOOLKIT == 'kivy':
+            self.gproc = self.gameproc()
+            self.gproc.send(None)
+
         try:
             # this is the mainloop
             while 1:
@@ -524,7 +548,13 @@ class Application:
                 id_, random = self.nextgame.id, self.nextgame.random
                 self.nextgame.id, self.nextgame.random = 0, None
                 try:
-                    self.runGame(id_, random)
+                    if TOOLKIT == 'kivy':
+                        self.gproc.send((id_, random))
+                        logging.info('App: sent for game to start')
+                        yield
+                        logging.info('App: game proc stopped')
+                    else:
+                        self.runGame(id_, random)
                 except Exception:
                     # try Klondike if current game fails
                     if id_ == 2:
@@ -561,6 +591,11 @@ class Application:
                         update=7+256)
                 else:
                     self.requestCompatibleCardsetType(self.nextgame.id)
+
+        except Exception:
+            traceback.print_exc()
+            pass
+
         finally:
             # hide main window
             self.wm_withdraw()
@@ -594,6 +629,11 @@ class Application:
             except Exception:
                 traceback.print_exc()
                 pass
+            if TOOLKIT == 'kivy':
+                self.top.quit()
+                while True:
+                    logging.info('App: mainloop end position')
+                    yield
 
     def runGame(self, id_, random=None):
         self.top.connectApp(self)
@@ -1425,6 +1465,7 @@ Please select a %s type %s.
             dirs = dirs + manager.getSearchDirs(self, "cardsets-*")
         # print dirs
         found, t = [], {}
+        fnames = {}  # (to check for duplicates)
         for dir in dirs:
             dir = dir.strip()
             try:
@@ -1452,10 +1493,12 @@ Please select a %s type %s.
                                 f1 = os.path.join(d, back)
                                 f2 = os.path.join(d, "shade" + cs.ext)
                                 if (cs.ext in IMAGE_EXTENSIONS and
+                                        cs.name not in fnames and
                                         os.path.isfile(f1) and
                                         os.path.isfile(f2)):
                                     found.append(cs)
                                     # print '+', cs.name
+                                    fnames[cs.name] = 1
                             else:
                                 print_err('fail _readCardsetConfig: %s %s'
                                           % (d, f1))

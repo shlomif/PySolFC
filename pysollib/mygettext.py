@@ -20,7 +20,11 @@ def fix_gettext():
                                     gettext._localedirs.get(domain, None))
         except IOError:
             return message
-        return t.ugettext(message)
+        if sys.version_info >= (3, 0):
+            return t.gettext(message)
+        else:
+            return t.ugettext(message)
+
     gettext.ugettext = ugettext
 
     def ungettext(msgid1, msgid2, n):
@@ -38,7 +42,10 @@ def fix_gettext():
                 return msgid1
             else:
                 return msgid2
-        return t.ungettext(msgid1, msgid2, n)
+        if sys.version_info >= (3, 0):
+            return t.ngettext(msgid1, msgid2, n)
+        else:
+            return t.ungettext(msgid1, msgid2, n)
     gettext.ungettext = ungettext
 
 

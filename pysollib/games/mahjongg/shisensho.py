@@ -25,6 +25,8 @@
 from gettext import ungettext
 from six.moves import range
 
+from pysollib.settings import TOOLKIT
+
 # PySol imports
 from pysollib.mygettext import _
 from pysollib.gamedb import registerGame, GameInfo, GI
@@ -292,6 +294,9 @@ class Shisen_RowStack(Mahjongg_RowStack):
                                }
                               )
         game.canvas.update_idletasks()
+        if TOOLKIT == "kivy":
+            arrow.delete_deferred(sleep)
+            return
         game.sleep(sleep)
         if arrow is not None:
             arrow.delete()
@@ -365,8 +370,10 @@ class AbstractShisenGame(AbstractMahjonggGame):
 
         # create other stacks
         y = l.YM + dyy
-        s.foundations.append(Shisen_Foundation(-l.XS-self.canvas.xmargin,
-                                               y, self))
+        ivx = -l.XS-self.canvas.xmargin
+        if TOOLKIT == 'kivy':
+            ivx = -1000
+        s.foundations.append(Shisen_Foundation(ivx, y, self))
         self.texts.info = MfxCanvasText(self.canvas,
                                         self.width - l.XM - ti_width, y,
                                         anchor="nw", font=font)

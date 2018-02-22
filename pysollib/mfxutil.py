@@ -104,7 +104,10 @@ def print_err(s, level=1):
         ss = PACKAGE+': WARNING:'
     elif level == 2:
         ss = PACKAGE+': DEBUG WARNING:'
-    print_(ss, s.encode(locale.getpreferredencoding()), file=sys.stderr)
+    try:
+        print_(ss, s.encode(locale.getpreferredencoding()), file=sys.stderr)
+    except Exception:
+        print_(ss, s, file=sys.stderr)
     sys.stderr.flush()
 
 
@@ -122,6 +125,13 @@ def getusername():
 
 
 def getprefdir(package):
+
+    if (TOOLKIT == 'kivy'):
+      from kivy.LApp import get_platform
+      plat = get_platform()
+      if plat == 'android':
+         os.environ['HOME'] = '/sdcard'
+
     if os.name == "nt":
         return win32_getprefdir(package)
     home = os.environ.get("HOME", "").strip()
@@ -170,6 +180,8 @@ def win32_getprefdir(package):
 # ************************************************************************
 
 def destruct(obj):
+    if TOOLKIT=='kivy': return
+
     # assist in breaking circular references
     if obj is not None:
         for k in obj.__dict__.keys():

@@ -28,6 +28,7 @@ import time
 import subprocess
 import re
 import sys
+from io import BytesIO
 
 # PySol imports
 from pysollib.settings import DEBUG, FCS_COMMAND
@@ -801,18 +802,14 @@ class Base_Solver_Hint:
         if os.name != 'nt':
             kw['close_fds'] = True
         p = subprocess.Popen(command, **kw)
-        pin, pout, perr = p.stdin, p.stdout, p.stderr
         bytes_board = board
         if sys.version_info > (3,):
             bytes_board = bytes(board, 'utf-8')
-        pin.write(bytes_board)
-        pin.close()
-        if os.name == 'posix':
-            p.wait()
+        pout, perr = p.communicate(bytes_board)
         if p.returncode in (127, 1):
             # Linux and Windows return codes for "command not found" error
             raise RuntimeError('Solver exited with {}'.format(p.returncode))
-        return pout, perr
+        return BytesIO(pout), BytesIO(perr)
 
 
 class FreeCellSolver_Hint(Base_Solver_Hint):
@@ -1091,8 +1088,6 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
 
         pout.close()
         perr.close()
-        if os.name == 'posix':
-            os.wait()
 
 
 class BlackHoleSolver_Hint(Base_Solver_Hint):

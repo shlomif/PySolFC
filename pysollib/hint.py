@@ -1150,7 +1150,7 @@ class BlackHoleSolver_Hint(Base_Solver_Hint):
             if DEBUG >= 5:
                 print(s)
 
-            m = re.search('^(Intractable!|Unsolved!|Solved!)\n', s)
+            m = re.search('^(Intractable!|Unsolved!|Solved!)', s.rstrip())
             if m:
                 result = m.group(1)
                 break

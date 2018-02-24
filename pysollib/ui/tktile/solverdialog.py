@@ -161,7 +161,12 @@ class BaseSolverDialog:
         max_iters = self.max_iters_var.get()
         progress = self.app.opt.solver_show_progress
         solver.config(preset=preset, max_iters=max_iters, progress=progress)
-        solver.computeHints()
+        try:
+            solver.computeHints()
+        except RuntimeError:
+            self.result_label['text'] = \
+                    _('Solver not found in the PATH')
+            return
         hints_len = len(solver.hints)-1
         if hints_len > 0:
             t = ungettext('This game is solveable in %d move.',

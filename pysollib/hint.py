@@ -791,7 +791,7 @@ class Base_Solver_Hint:
             self._v = None
             return False
 
-    def start_solver(self, command, board):
+    def run_solver(self, command, board):
         if DEBUG:
             print(command)
         kw = {'shell': True,
@@ -807,6 +807,11 @@ class Base_Solver_Hint:
             bytes_board = bytes(board, 'utf-8')
         pin.write(bytes_board)
         pin.close()
+        if os.name == 'posix':
+            p.wait()
+        if p.returncode in (127, 1):
+            # Linux and Windows return codes for "command not found" error
+            raise RuntimeError('Solver exited with {}'.format(p.returncode))
         return pout, perr
 
 
@@ -969,7 +974,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
             args += ['--empty-stacks-filled-by', game_type['esf']]
 
         command = FCS_COMMAND+' '+' '.join([str(i) for i in args])
-        pout, perr = self.start_solver(command, board)
+        pout, perr = self.run_solver(command, board)
         #
         stack_types = {
             'the': game.s.foundations,
@@ -1129,7 +1134,7 @@ class BlackHoleSolver_Hint(Base_Solver_Hint):
 
         command = self.BLACK_HOLE_SOLVER_COMMAND + ' ' + \
             ' '.join([str(i) for i in args])
-        pout, perr = self.start_solver(command, board)
+        pout, perr = self.run_solver(command, board)
         #
         if DEBUG:
             start_time = time.time()
@@ -1205,8 +1210,6 @@ class BlackHoleSolver_Hint(Base_Solver_Hint):
 
         pout.close()
         perr.close()
-        if os.name == 'posix':
-            os.wait()
 
 
 class FreeCellSolverWrapper:

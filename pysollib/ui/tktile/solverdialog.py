@@ -164,8 +164,7 @@ class BaseSolverDialog:
         try:
             solver.computeHints()
         except RuntimeError:
-            self.result_label['text'] = \
-                    _('Solver not found in the PATH')
+            self.result_label['text'] = _('Solver not found in the PATH')
             return
         hints_len = len(solver.hints)-1
         if hints_len > 0:

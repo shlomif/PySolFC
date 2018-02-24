@@ -791,6 +791,24 @@ class Base_Solver_Hint:
             self._v = None
             return False
 
+    def start_solver(self, command, board):
+        if DEBUG:
+            print(command)
+        kw = {'shell': True,
+              'stdin': subprocess.PIPE,
+              'stdout': subprocess.PIPE,
+              'stderr': subprocess.PIPE}
+        if os.name != 'nt':
+            kw['close_fds'] = True
+        p = subprocess.Popen(command, **kw)
+        pin, pout, perr = p.stdin, p.stdout, p.stderr
+        bytes_board = board
+        if sys.version_info > (3,):
+            bytes_board = bytes(board, 'utf-8')
+        pin.write(bytes_board)
+        pin.close()
+        return pout, perr
+
 
 class FreeCellSolver_Hint(Base_Solver_Hint):
     def _determineIfSolverState(self, line):
@@ -951,21 +969,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
             args += ['--empty-stacks-filled-by', game_type['esf']]
 
         command = FCS_COMMAND+' '+' '.join([str(i) for i in args])
-        if DEBUG:
-            print(command)
-        kw = {'shell': True,
-              'stdin': subprocess.PIPE,
-              'stdout': subprocess.PIPE,
-              'stderr': subprocess.PIPE}
-        if os.name != 'nt':
-            kw['close_fds'] = True
-        p = subprocess.Popen(command, **kw)
-        pin, pout, perr = p.stdin, p.stdout, p.stderr
-        bytes_board = board
-        if sys.version_info > (3,):
-            bytes_board = bytes(board, 'utf-8')
-        pin.write(bytes_board)
-        pin.close()
+        pout, perr = self.start_solver(command, board)
         #
         stack_types = {
             'the': game.s.foundations,
@@ -1125,21 +1129,7 @@ class BlackHoleSolver_Hint(Base_Solver_Hint):
 
         command = self.BLACK_HOLE_SOLVER_COMMAND + ' ' + \
             ' '.join([str(i) for i in args])
-        if DEBUG:
-            print(command)
-        kw = {'shell': True,
-              'stdin': subprocess.PIPE,
-              'stdout': subprocess.PIPE,
-              'stderr': subprocess.PIPE}
-        if os.name != 'nt':
-            kw['close_fds'] = True
-        p = subprocess.Popen(command, **kw)
-        pin, pout, perr = p.stdin, p.stdout, p.stderr
-        bytes_board = board
-        if sys.version_info > (3,):
-            bytes_board = bytes(board, 'utf-8')
-        pin.write(bytes_board)
-        pin.close()
+        pout, perr = self.start_solver(command, board)
         #
         if DEBUG:
             start_time = time.time()

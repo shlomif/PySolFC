@@ -2417,7 +2417,7 @@ Congratulations, you did it !
             info = 0
         self.drawHintArrow(from_stack, to_stack, ncards, sleep)
         if info:
-            self.app.statusbar.configLabel("info", text="", fg="# 000000")
+            self.app.statusbar.configLabel("info", text="", fg="#000000")
         return h
 
     def drawHintArrow(self, from_stack, to_stack, ncards, sleep):

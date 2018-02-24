@@ -349,7 +349,7 @@ class AbstractShisenGame(AbstractMahjonggGame):
         self.cols = [[] for i in range(cols)]
         cl = range(cols)
         if dx > 0:
-            cl.reverse()
+            cl = reversed(cl)
         for col in cl:
             for row in range(rows):
                 x = l.XM + dxx + col * cardw

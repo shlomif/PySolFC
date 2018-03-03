@@ -63,15 +63,13 @@ class PysolStatsFormatter:
         t_won, tlost, tgames, ttime, tmoves = 0, 0, 0, 0, 0
         for id in g:
             won, lost, time, moves = app.stats.getFullStats(player, id)
-            if won > 0 or lost > 0 or id == app.game.id:
+            tot = won + lost
+            if tot > 0 or id == app.game.id:
                 # yield only played games
                 name = app.getGameTitleName(id)
                 t_won, tlost = t_won + won, tlost + lost
                 ttime, tmoves = ttime+time, tmoves+moves
-                if won + lost > 0:
-                    perc = "%.1f" % (100.0 * won / (won + lost))
-                else:
-                    perc = "0.0"
+                perc = "%.1f" % (100.0 * won / tot) if tot > 0 else '0.0'
                 t = format_time(time)
                 m = str(round(moves, 1))
                 yield [name, won+lost, won, lost, t, m, perc, id]
@@ -351,10 +349,7 @@ class ProgressionFormatter:
             won = 0
             text = None
             for i in range(delta):
-                if marks:
-                    if ct[:3] in marks:
-                        text = time.strftime(format, tuple(ct))
-                else:
+                if (not marks) or ct[:3] in marks:
                     text = time.strftime(format, tuple(ct))
                 t = tuple(ct[:3])
                 if t in results:

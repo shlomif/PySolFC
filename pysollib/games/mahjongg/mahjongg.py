@@ -328,7 +328,7 @@ class AbstractMahjonggGame(Game):
         t = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
         for i in range(1, len(L), 3):
             n = t.find(L[i])
-            level, height = n / 7, n % 7 + 1
+            level, height = n // 7, n % 7 + 1
             tx = t.find(L[i+1])
             ty = t.find(L[i+2])
             assert n >= 0 and tx >= 0 and ty >= 0

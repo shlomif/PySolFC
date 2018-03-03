@@ -282,7 +282,7 @@ class ProgressionFormatter:
     def norm_time(self, t):
         if len(t) == 3:
             t = list(t)+[0, 0, 0, -1, -1, -1]
-        return list(time.localtime(time.mktime((t))))
+        return list(time.localtime(time.mktime(tuple(t))))
 
     def getResults(self, interval, all_games=True):
         if all_games:
@@ -326,7 +326,7 @@ class ProgressionFormatter:
                 lt = min(lt, tt)        # min 1 month
             else:
                 lt = tt
-            dt = time.time()-time.mktime(lt)
+            dt = time.time()-time.mktime(tuple(lt))
             if dt > 63072000:           # 2 years
                 d = 6
             elif dt > 31536000:         # 1 year
@@ -353,9 +353,9 @@ class ProgressionFormatter:
             for i in range(delta):
                 if marks:
                     if ct[:3] in marks:
-                        text = time.strftime(format, ct)
+                        text = time.strftime(format, tuple(ct))
                 else:
-                    text = time.strftime(format, ct)
+                    text = time.strftime(format, tuple(ct))
                 t = tuple(ct[:3])
                 if t in results:
                     played += results[t][0]

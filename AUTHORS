@@ -8,8 +8,14 @@ T. Kirk
 Skomoroh <skomoroh@users.sourceforge.net>
     author of PySolFC
 Brian Lenihan <brianl@users.sourceforge.net>
-    OSX package maintainer
-
+    macOS package maintainer
+Shlomi Fish ( http://www.shlomifish.org/ )
+    Continued PySolFC maintenance, port to python 3, test suite
+    (Note: he places all his changes under the MIT/Expat licence).
+https://github.com/lufebe16
+    Added the Kivy toolkit
+Roderik Ploszek ( https://github.com/Programator2 )
+    Fixes and enhancements
 
 Games contributors
 ==================

@@ -17,7 +17,7 @@ install:
 	python setup.py install
 
 dist: all_games_html rules mo
-	python setup.py sdist
+	python3 setup.py sdist
 
 rpm: all_games_html rules mo
 	python setup.py bdist_rpm

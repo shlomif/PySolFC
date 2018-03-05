@@ -6,8 +6,8 @@ http://pysolfc.sourceforge.net/ .
 
 The maintenance branch of PySol FC on GitHub by [Shlomi
 Fish](http://www.shlomifish.org/) and by some other
-people, has gained official status, and ported the code to Python 3
-and implement some other enhancements.
+people, has gained official status, ported the code to Python 3,
+and implemented some other enhancements.
 
 [![Build Status](https://travis-ci.org/shlomif/PySolFC.svg)](https://travis-ci.org/shlomif/PySolFC)
 

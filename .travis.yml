@@ -5,7 +5,7 @@ before_install:
     - sudo apt-get install -y ack-grep cpanminus libperl-dev make perl python-glade2 python-gnome2 python-gnome2-dev python-gtk2 python-setuptools python-tk python3 python3-pip python3-setuptools python3-tk
     - sudo dpkg-divert --local --divert /usr/bin/ack --rename --add /usr/bin/ack-grep
 install:
-    - sudo cpanm Test::Differences Test::TrailingSpace
+    - sudo cpanm Perl::Tidy Test::Code::TidyAll Test::Differences Test::TrailingSpace
     - "`which python3` -m pip install --upgrade --user flake8 random2 six"
     - "sudo /usr/bin/python3 -m pip install --upgrade random2 six"
     - "`which python` -m pip install --upgrade --user random2 six"

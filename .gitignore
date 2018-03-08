@@ -1,4 +1,5 @@
 *.pyc
+.tidyall.d/
 MANIFEST
 build/*
 data/cardsets/*

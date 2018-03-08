@@ -53,14 +53,13 @@ sub run_tests
     {
         require Test::Run::CmdLine::Prove;
 
-        my $p =
-        Test::Run::CmdLine::Prove->create(
+        my $p = Test::Run::CmdLine::Prove->create(
             {
-                'args' => [@$tests],
+                'args'         => [@$tests],
                 'env_switches' => $ENV{'PROVE_SWITCHES'},
             }
         );
-        exit(! $p->run());
+        exit( !$p->run() );
     }
 }
 
@@ -87,7 +86,7 @@ sub myglob
     local $ENV{FCS_PATH}     = $fcs_path;
     local $ENV{FCS_SRC_PATH} = $abs_bindir;
 
-    local $ENV{FREECELL_SOLVER_QUIET}    = 1;
+    local $ENV{FREECELL_SOLVER_QUIET} = 1;
     Env::Path->PATH->Prepend(
         File::Spec->catdir( Cwd::getcwd(), "board_gen" ),
         File::Spec->catdir( $abs_bindir, "t", "scripts" ),
@@ -157,11 +156,11 @@ sub myglob
 
     my @tests =
         sort { ( basename($a) cmp basename($b) ) || ( $a cmp $b ) }
-            ( myglob("$abs_bindir/tests/*") );
+        ( myglob("$abs_bindir/tests/*") );
 
     if ($IS_WIN)
     {
-        @tests = grep {not (/pysolgtk/i or /import_v2/i)} @tests;
+        @tests = grep { not( /pysolgtk/i or /import_v2/i ) } @tests;
     }
 
     if ( defined($exclude_re_s) )

@@ -3,11 +3,20 @@
 use strict;
 use warnings;
 
-use Test::More tests => 1;
+use Test::More;
 use Test::Differences qw( eq_or_diff );
 
 use File::Find::Object ();
 use String::ShellQuote qw/ shell_quote /;
+
+if ($^O =~ /\AMSWin/)
+{
+    plan skip_all => "command line exceeded on ms windows.";
+}
+else
+{
+    plan tests => 1;
+}
 
 my %skip = (
     map { $_ => 1 }

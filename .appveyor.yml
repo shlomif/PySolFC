@@ -30,6 +30,7 @@ test_script:
     - set FCS_USE_TEST_RUN=1
     - gmake pretest
     - perl run-tests.pl
+    - gmake rules
     - python3 setup.py py2exe
     - 7z a -r pysol_win_dist.7z dist\
 artifacts:

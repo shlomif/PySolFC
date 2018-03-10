@@ -12,6 +12,7 @@ install:
     - python3 -mpip install random2
     - python3 -mpip install py2exe
     - python3 -mpip install six
+    - python3 -mpip install Pillow
     - perl -v
     - copy C:\msys64\mingw64\bin\mingw32-make.exe C:\msys64\mingw64\bin\make.exe
     - SET PATH=C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%

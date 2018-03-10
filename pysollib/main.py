@@ -38,6 +38,7 @@ from pysollib.pysolaudio import AbstractAudioClient, \
         PysolSoundServerModuleClient
 from pysollib.pysolaudio import Win32AudioClient, OSSAudioClient, \
         PyGameAudioClient, KivyAudioClient
+from pysollib.pysolaudio import pysolsoundserver
 from pysollib.settings import TITLE, SOUND_MOD, TOOLKIT
 from pysollib.winsystems import init_root_window
 
@@ -268,7 +269,8 @@ def pysol_init(app, args):
         snd.append(PyGameAudioClient)
         if TOOLKIT == 'kivy':
             snd.append(KivyAudioClient)
-        snd.append(PysolSoundServerModuleClient)
+        if pysolsoundserver:
+            snd.append(PysolSoundServerModuleClient)
         snd.append(OSSAudioClient)
         snd.append(Win32AudioClient)
         snd.append(AbstractAudioClient)

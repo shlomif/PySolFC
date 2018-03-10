@@ -385,13 +385,13 @@ class OSSAudioServer:
     def mainLoop(self):
         while True:
             s = os.read(self.pipe, 256)
-            ss = s.split('\0')
+            ss = s.split(b'\0')
             if not ss[0]:
                 os._exit(0)
-            if ss[0] == 'break':
+            if ss[0] == b'break':
                 self._play_loop = False
                 continue
-            filename, priority, loop = ss[0], int(ss[1]), int(ss[2])
+            filename, priority, loop = ss[0].decode(), int(ss[1]), int(ss[2])
             if loop:
                 self._play_loop = True
                 th = Thread(target=self.playLoop, args=(filename,))
@@ -461,6 +461,8 @@ class OSSAudioClient(AbstractAudioClient):
     def __init__(self):
         AbstractAudioClient.__init__(self)
         import ossaudiodev
+        if not os.path.exists('/dev/dsp'):
+            raise RuntimeError('OSS interface not available')
         self.audiodev = ossaudiodev
 
     def startServer(self):
@@ -473,14 +475,17 @@ class OSSAudioClient(AbstractAudioClient):
 
     def _playSample(self, filename, priority, loop, volume):
         # print '_playSample:', filename, loop
-        os.write(self.pout, '%s\0%s\0%s\0' % (filename, priority, loop))
+        os.write(self.pout, b'%s\0%s\0%s\0' %
+                 (filename.encode(),
+                  str(priority).encode(),
+                  str(loop).encode()))
         return 1
 
     def _stopSamples(self):
-        os.write(self.pout, 'break\0\0\0')
+        os.write(self.pout, b'break\0\0\0')
 
     def _destroy(self):
-        os.write(self.pout, '\0\0\0')
+        os.write(self.pout, b'\0\0\0')
 
 
 # ************************************************************************

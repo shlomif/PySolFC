@@ -442,7 +442,8 @@ class MfxCanvasText(object):
 class MfxCanvas(Widget):
 
     def __init__(self, wmain, *args, **kw):
-        super(MfxCanvas, self).__init__(**kw)
+        # super(MfxCanvas, self).__init__(**kw)
+        super(MfxCanvas, self).__init__()
 
         # self.tags = {}   # bei basisklasse widget (ev. nur vorläufig)
 

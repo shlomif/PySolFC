@@ -21,11 +21,7 @@
 
 from __future__ import division
 
-# import os
-# print ('KIVY_HOME: '+os.environ['KIVY_HOME'])
-
 import logging
-# import time
 import math
 import traceback
 
@@ -34,15 +30,10 @@ from kivy.graphics import Rectangle
 from kivy.graphics import Line
 from kivy.graphics import Triangle
 
-# from kivy.uix.treeview import TreeView
-# from kivy.uix.actionbar import ActionBar
 from kivy.utils import platform
-# from kivy.event import EventDispatcher
-
 from kivy.properties import StringProperty
 
 from kivy.base import EventLoop
-# from kivy.base import EventLoopBase
 from kivy.base import stopTouchApp
 from kivy.app import App
 from kivy.animation import Animation
@@ -50,13 +41,11 @@ from kivy.core.audio import SoundLoader
 from kivy.clock import Clock
 
 from kivy.uix.image import Image as KivyImage
-# from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.widget import Widget
 from kivy.uix.button import Button
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.label import Label
-# from kivy.uix.relativelayout import RelativeLayout
 from kivy.uix.scrollview import ScrollView
 
 from kivy.uix.actionbar import ActionView
@@ -294,6 +283,7 @@ class LText(Widget):
 
     def __init__(self, canvas, x, y, **kwargs):
         super(LText, self).__init__(**kwargs)
+        # super(LText, self).__init__()
 
         if 'text' not in kwargs:
             kwargs['text'] = 'X'
@@ -317,6 +307,7 @@ class LText(Widget):
         # print('LText: text = %s' % (self.text))
 
         self.label = Label(font=font, font_size=fontsize, **kwargs)
+        # self.label = Label(font=font, font_size=fontsize)
         self.label.texture_update()
         self.coreSize = self.label.texture_size
         self.corePos = (x, y)
@@ -1082,6 +1073,7 @@ class LMenuBar(BoxLayout):
 
 class LMenu(ActionView):
     def __init__(self, prev, **kw):
+        print('prev = %s, kw = %s' % (prev, kw))
         super(LMenu, self).__init__(**kw)
         self.ap = ap = ActionPrevious(
             with_previous=prev, size_hint=(.01, 1), **kw)
@@ -1143,6 +1135,7 @@ class LMenuItem(ActionButton):
 
     def __init__(self, menu, **kw):
         super(LMenuItem, self).__init__(**kw)
+        # super(LMenuItem, self).__init__()
         self.bar = None
         self.submenu = None
         self.menu = menu
@@ -1422,13 +1415,8 @@ class LMainWindow(BoxLayout, LTkBase):
             background_normal='atlas:'
                               '//data/images/defaulttheme/action_item',
             border=(0, 0, 0, 0))
-        self.topLine1 = Label(
-            size_hint=(1.0, 0.01),
-            background_down='atlas:'
-                            '//data/images/defaulttheme/action_item_down',
-            background_normal='atlas:'
-                              '//data/images/defaulttheme/action_item',
-            border=(0, 0, 0, 0))
+        self.topLine1 = Label(size_hint=(1.0, 0.01))
+
         self.add_widget(self.topLine)
         self.add_widget(self.menuArea)
         self.add_widget(self.topLine1)

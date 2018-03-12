@@ -23,42 +23,28 @@
 
 # imports
 # import os
-from UserList import UserList
+from six.moves import UserList
 
 # PySol imports
-# from pysollib.mygettext import _, n_
 from pysollib.mygettext import _
-# from pysollib.mfxutil import destruct, Struct, KwStruct
-# from pysollib.mfxutil import format_time
 from pysollib.gamedb import GI
-# from pysollib.help import help_html
-# from pysollib.resource import CSI
 
 # Toolkit imports
-# from tkutil import unbind_destroy
-# from tkwidget import MfxDialog, MfxScrolledCanvas
-from selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
-from selecttree import SelectDialogTreeData  # , SelectDialogTreeCanvas
+from pysollib.kivy.selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
+from pysollib.kivy.selecttree import SelectDialogTreeData
+from pysollib.kivy.LApp import LScrollView
+from pysollib.kivy.LApp import LTopLevel
+from pysollib.kivy.LApp import LTreeNode
+from pysollib.kivy.LApp import LTreeRoot
 
 # Kivy imports
-# from kivy.uix.treeview import TreeView
-# from kivy.uix.treeview import TreeViewLabel
-# from kivy.uix.treeview import TreeViewNode
-# from kivy.uix.label import Label
-# from kivy.uix.button import Button
-# from kivy.uix.behaviors import ButtonBehavior
-# from kivy.uix.scrollview import ScrollView
 from kivy.clock import Clock
-
-from LApp import LScrollView
-from LApp import LTopLevel
-from LApp import LTreeNode
-from LApp import LTreeRoot
 
 
 # ************************************************************************
 # * Nodes
 # ************************************************************************
+
 
 class SelectGameLeaf(SelectDialogTreeLeaf):
     pass

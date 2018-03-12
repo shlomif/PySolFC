@@ -31,21 +31,12 @@ import re
 # import traceback
 
 # PySol imports
-# from pysollib.mygettext import _, n_
 from pysollib.mygettext import _
-# from pysollib.mfxutil import Struct, kwdefault
 from pysollib.mfxutil import Struct
-# from pysollib.mfxutil import Image
 from pysollib.util import CARDSET
-# from pysollib.settings import TITLE, WIN_SYSTEM
 from pysollib.settings import TITLE
-# from pysollib.settings import TOP_TITLE
 from pysollib.settings import SELECT_GAME_MENU
-# from pysollib.settings import USE_FREECELL_SOLVER
-# from pysollib.settings import DEBUG
 from pysollib.gamedb import GI
-# from pysollib.pysoltk import MfxMenu
-# from pysollib.pysoltk import SelectCardsetDialogWithPreview
 
 # toolkit imports
 from pysollib.kivy.tkconst import EVENT_HANDLED, EVENT_PROPAGATE, CURSOR_WATCH
@@ -53,35 +44,26 @@ from pysollib.kivy.tkutil import bind
 from pysollib.kivy.tkutil import after_idle
 from pysollib.kivy.selectcardset import SelectCardsetDialogWithPreview
 
-from selectgame import SelectGameDialog
-from findcarddialog import connect_game_find_card_dialog
-from findcarddialog import destroy_find_card_dialog
-from solverdialog import connect_game_solver_dialog
-from tkconst import TOOLBAR_BUTTONS
+from pysollib.kivy.selectgame import SelectGameDialog
+from pysollib.pysoltk import connect_game_find_card_dialog
+
+from pysollib.kivy.findcarddialog import destroy_find_card_dialog
+from pysollib.kivy.solverdialog import connect_game_solver_dialog
+from pysollib.kivy.tkconst import TOOLBAR_BUTTONS
 
 # Kivy
-
-# from kivy.uix.treeview import TreeView
-# from kivy.uix.treeview import TreeViewLabel
-# from kivy.uix.treeview import TreeViewNode
-# from kivy.uix.label import Label
-# from kivy.uix.button import Button
-# from kivy.uix.behaviors import ButtonBehavior
-# from kivy.uix.scrollview import ScrollView
-
-# from kivy.clock import Clock
 from kivy.properties import BooleanProperty
 from kivy.properties import NumericProperty
 from kivy.properties import StringProperty
 
 from kivy.event import EventDispatcher
 
-from LApp import LMenu
-from LApp import LTreeNode
-from LApp import LMenuItem
-from LApp import LTopLevel
-from LApp import LScrollView
-from LApp import LTreeRoot
+from pysollib.kivy.LApp import LMenu
+from pysollib.kivy.LApp import LTreeNode
+from pysollib.kivy.LApp import LMenuItem
+from pysollib.kivy.LApp import LTopLevel
+from pysollib.kivy.LApp import LScrollView
+from pysollib.kivy.LApp import LTreeRoot
 
 
 __all__ = ['PysolMenubarTk']
@@ -1112,9 +1094,6 @@ class EmulTkMenu(object):
 
     def __init__(self, master, **kw):
 
-        # tearoff = 0
-        # self.n = kw["tearoff"] = int(kw.get("tearoff", tearoff))
-
         self.name = kw["name"]
         self.n = 0
         self._w = None
@@ -1126,10 +1105,7 @@ class EmulTkMenu(object):
         else:
             self.name = "<>"
 
-        # print('self._w = %s' % self._w)
-
     def labeltoname(self, label):
-        # print label, type(label)
         name = re.sub(r"[^0-9a-zA-Z]", "", label).lower()
         label = _(label)
         underline = label.find('&')
@@ -1138,28 +1114,20 @@ class EmulTkMenu(object):
         return name, label, underline
 
     def add_cascade(self, cnf={}, **kw):
-        # print('add_cascade: %s, %s' % (cnf, kw))
         self.add('cascade', cnf or kw)
         pass
 
     def add(self, itemType, cnf={}):
         label = cnf.get("label")
-        # print('add: label=%s' % label)
         if label:
             name = cnf.get('name')
             if name:
-                # LB ?????
-                #   del cnf['name'] # TclError: unknown option "-name"
-                # else:
                 name, label, underline = self.labeltoname(label)
                 cnf["underline"] = cnf.get("underline", underline)
                 cnf["label"] = label
                 if name and self.addPath:
                     path = str(self._w) + "." + name
                     self.addPath(path, self, self.n, cnf.get("menu"))
-
-        # Tkinter.Menu.add(self, itemType, cnf)
-        # self.n = self.n + 1
 
     def cget(self, key):
         return key

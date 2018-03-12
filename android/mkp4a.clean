@@ -1,6 +1,8 @@
 #!/bin/bash
 
-rm -rf tmp/*
+rm -rf tmp
 python3 -m pythonforandroid.toolchain clean_dists
 python3 -m pythonforandroid.toolchain clean_builds
 rm -f *.apk
+rm -rf PySolFC-Cardsets-2.0
+

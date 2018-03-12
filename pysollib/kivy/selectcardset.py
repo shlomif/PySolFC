@@ -27,13 +27,10 @@
 
 # PySol imports
 from pysollib.mygettext import _
-# from pysollib.resource import CSI
 from pysollib.mfxutil import kwdefault
 
 # Toolkit imports
-from tkwidget import MfxDialog
-# from tkcanvas import MfxCanvas, MfxCanvasImage
-# from tkutil import loadImage
+from pysollib.pysoltk import MfxDialog
 
 # ************************************************************************
 # * Dialog

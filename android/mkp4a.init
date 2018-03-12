@@ -13,9 +13,18 @@ echo '### install p4a'
 #python3 -m  pip install -q --user "./p4a/${p4aversion}.zip"
 
 p4aversion='0.5.3'
-python3 -m  pip install -q --user "https://github.com/kivy/python-for-android/archive/${p4aversion}.zip"
+if [ ! -f ./${p4aversion}.zip ]
+then
+  wget "https://github.com/kivy/python-for-android/archive/${p4aversion}.zip"
+fi
+if [ -f ./${p4aversion}.zip ]
+then
+  python3 -m  pip install -q --user "./${p4aversion}.zip"
+else
+  echo "### download of ${p4aversion}.zip failed"
+fi
 
-echo '### prepare recipes'
+echo '### load prepared recipes if available'
 
 if [ -d ./packages ]
 then
@@ -40,5 +49,18 @@ mv ${HOME}/.local/tmp/src tmp/src
 rm -rf tmp/src/android
 rm -rf tmp/src/src
 cp -a main.py tmp/src/main.py
+mkdir -p tmp/src/data/images/cards/bottoms/trumps-only
+echo "" > tmp/src/data/images/cards/bottoms/trumps-only/.keep
+
+if [ ! -d ./PySolFC-Cardsets-2.0 ]
+then
+  ./mkcards
+fi
+
+if [ -d ./PySolFC-Cardsets-2.0 ]
+then
+  echo '### copying cardsets'
+  cp -a ./PySolFC-Cardsets-2.0/* ./tmp/src/data
+fi
 
 echo '### end init'

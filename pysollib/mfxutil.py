@@ -131,7 +131,7 @@ def getusername():
 def getprefdir(package):
 
     if (TOOLKIT == 'kivy'):
-      from kivy.LApp import get_platform
+      from pysollib.kivy.LApp import get_platform
       plat = get_platform()
       if plat == 'android':
          os.environ['HOME'] = '/sdcard'

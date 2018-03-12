@@ -26,7 +26,6 @@
 # emulated.
 
 from __future__ import division
-
 '''
 __all__ = ['wm_withdraw',
            'wm_map',
@@ -51,18 +50,19 @@ __all__ = ['wm_withdraw',
 '''
 
 # imports
+import os
 import logging
 from array import array
 
-# PySol imports
-# from pysollib.mfxutil import Image
+# Toolkit imports
 from pysollib.kivy.LApp import LTopLevel0
 from pysollib.kivy.LApp import LImage
 
 # Kivy imports
 from kivy.core.text import Label as CoreLabel
-from kivy.clock import Clock
+from kivy.core.image import Image as CoreImage
 from kivy.graphics.texture import Texture
+from kivy.clock import Clock
 
 # ************************************************************************
 # * window manager util
@@ -75,6 +75,7 @@ def wm_withdraw(window):
 
 def wm_map(window, maximized=0):
     return
+
 
 # ************************************************************************
 # * window util
@@ -112,10 +113,10 @@ def make_help_toplevel(app, title=None):
     # init_root_window(window, app)
     return window
 
+
 # ************************************************************************
 # * bind wrapper - Tkinter doesn't properly delete all bindings
 # ************************************************************************
-
 
 __mfx_bindings = {}
 __mfx_wm_protocols = ("WM_DELETE_WINDOW", "WM_TAKE_FOCUS", "WM_SAVE_YOURSELF")
@@ -196,6 +197,7 @@ def unbind_destroy(widget):
     widget.bindings = []
     pass
 
+
 # ************************************************************************
 # * timer wrapper - Tkinter doesn't properly delete all commands
 # ************************************************************************
@@ -241,7 +243,6 @@ def makeImage(file=None, data=None, dither=None, alpha=None):
         kw["texture"] = data
         # ob das geht ?? - kommt das vor ?
         # yy = self.yy
-
     '''
     if 'source' in kw:
         logging.info ("makeImage: " + kw["source"])
@@ -264,8 +265,8 @@ def copyImage(image, x, y, width, height):
 
 def fillTexture(texture, fill, outline=None, owidth=1):
 
-    logging.info("fillImage: t=%s, f=%s o=%s, w=%s" %
-                 (texture, fill, outline, owidth))
+    # logging.info("fillImage: t=%s, f=%s o=%s, w=%s" %
+    #              (texture, fill, outline, owidth))
     # O.K. Kivy
 
     if not fill and not outline:
@@ -275,7 +276,7 @@ def fillTexture(texture, fill, outline=None, owidth=1):
     height = texture.height
 
     ox = round(owidth)
-    ow = int(ox)    # muss int sein!
+    ow = int(ox)  # muss int sein!
     if width <= 2 * ow or height <= 2 * ow:
         fill = fill or outline
         outline = None
@@ -315,7 +316,12 @@ def fillTexture(texture, fill, outline=None, owidth=1):
         if len(outline) >= 8:
             ou3 = int(outline[6:8], 16)
 
-        l1 = (ou0, ou1, ou2, ou3, ) * width
+        l1 = (
+            ou0,
+            ou1,
+            ou2,
+            ou3,
+        ) * width
         l2 = (ou0, ou1, ou2, ou3, ) * ow + (fi0, fi1, fi2, fi3, ) * \
             (width - 2 * ow) + (ou0, ou1, ou2, ou3, ) * ow
         f = (l1, ) * ow + (l2, ) * (height - 2 * ow) + (l1, ) * ow
@@ -324,8 +330,6 @@ def fillTexture(texture, fill, outline=None, owidth=1):
         assert len(f) == height * width * 4
         arr = array('B', f)
         texture.blit_buffer(arr, colorfmt='rgba', bufferfmt='ubyte')
-
-    logging.info("fillImage: filled")
 
 
 def createImage(width, height, fill, outline=None, outwidth=1):
@@ -338,14 +342,15 @@ def createImage(width, height, fill, outline=None, outwidth=1):
     #   fill = '#00cc00'
     # if (outline==None):
     #   outline = '#ff00ff'
-    if (fill is None and (outline is None or outline == '')):
-        outline = '#fff000'
-        outwidth = 1
+
+    # if (fill is None and (outline is None or outline == '')):
+    #     outline = '#fff000'
+    #     outwidth = 1
 
     texture = Texture.create(size=(width, height), colorfmt='rgba')
     fillTexture(texture, fill, outline, outwidth)
     image = LImage(texture=texture)
-    logging.info("createImage: LImage create %s" % image)
+    # logging.info("createImage: LImage create %s" % image)
     return image
 
 
@@ -364,17 +369,142 @@ def markImage(image):
     return None
 
 
+def _createImageMask(texture, color):
+
+    col = 0
+    if (color is 'black'):
+        col = 0
+    if (color is 'white'):
+        col = 255
+
+    g = texture.pixels
+    arr = array('B', g)
+
+    for mx in range(int(len(arr) / 4)):
+        m = 4 * mx
+        if arr[m + 3] < 128:
+            arr[m + 3] = 0
+            arr[m] = arr[m + 1] = arr[m + 2] = 0
+        else:
+            arr[m + 3] = 32
+            arr[m] = arr[m + 1] = arr[m + 2] = col
+
+    mask = Texture.create(size=texture.size, colorfmt='rgba')
+    mask.blit_buffer(arr, colorfmt='rgba', bufferfmt='ubyte')
+    return mask
+
+
+def _scaleTextureToSize(texture, size):
+
+    width = size[0]
+    height = size[1]
+
+    g = texture.pixels
+    ag = array('B', g)
+    gw, gh = texture.size
+
+    # print('size:',width,height)
+    # print('texture size:',gw,gh)
+
+    bb = array('B', [0 for x in range(width * height * 4)])
+    # print ('bb length: ',len(bb))
+    # print ('gg length: ',gw*gh*4)
+
+    scalex = width / gw
+    scaley = height / gh
+
+    # scale, x und y offset bestimmen.
+
+    scale = scaley
+    if (scalex < scaley):
+        scale = scalex
+
+    offx = (width - gw * scale) / 2
+    offy = (height - gh * scale) / 2
+
+    # print ('scale: ',scalex,'/',scaley,' -> ',scale)
+    # print ('offs: ',offx,'/',offy)
+
+    for bi in range(height):
+        bline = bi * width
+        if (bi >= offy) and (bi < (height - offy)):
+            # transfer
+            ai = gh - int((bi - offy) / scale) - 1
+            aline = ai * gw
+            for bk in range(width):
+                bpos = (bline + bk) * 4
+                if (bk >= offx) and (bk < (width - offx)):
+                    # transfer
+                    ak = gw - int((bk - offx) / scale) - 1
+                    apos = (aline + ak) * 4
+                    bb[bpos] = ag[apos]
+                    bb[bpos + 1] = ag[apos + 1]
+                    bb[bpos + 2] = ag[apos + 2]
+                    bb[bpos + 3] = ag[apos + 3]
+                else:
+                    # transparent
+                    bb[bpos + 3] = 0
+        else:
+            # transparent
+            for bk in range(width):
+                bb[(bline + bk) * 4 + 3] = 0
+
+    stext = Texture.create(size=(width, height), colorfmt='rgba')
+    stext.blit_buffer(bb, colorfmt='rgba', bufferfmt='ubyte')
+    return stext
+
+
+def _pasteTextureTo(texture, totexture):
+
+    g = texture.pixels
+    ag = array('B', g)
+    gw, gh = texture.size
+
+    t = totexture.pixels
+    at = array('B', t)
+    tw, th = totexture.size
+
+    if (tw != gw) or (th != gh):
+        return
+
+    for i in range(int(len(ag) / 4)):
+        i4 = i * 4
+        if ag[i4 + 3] > 128:
+            at[i4] = ag[i4]
+            at[i4 + 1] = ag[i4 + 1]
+            at[i4 + 2] = ag[i4 + 2]
+            at[i4 + 3] = ag[i4 + 3]
+
+    stext = Texture.create(size=(tw, th), colorfmt='rgba')
+    stext.blit_buffer(at, colorfmt='rgba', bufferfmt='ubyte')
+    return stext
+
+
 def createBottom(image, color='white', backfile=None):
 
-    logging.info("createBottom: ")
-    # TBD.
-    # y = self.yy
+    backfilebase = None
+    if backfile is not None:
+        backfilebase = os.path.basename(backfile)
 
-    if not hasattr(image, '_pil_image'):
-        return None
+    logging.info("createBottom: %s | %s" % (color, backfilebase))
+    # print('createBottom:',image)
 
-    # obviously not used.
-    return None
+    # th = 1                              # thickness
+    # size = (w - th * 2, h - th * 2)
+    # original: zeichnet noch eine outline um die karte - können wir nicht.
+
+    tmp0 = _createImageMask(image.texture, color)
+    if backfile:
+        tmp1 = CoreImage(backfile)
+        txtre = _scaleTextureToSize(tmp1.texture, image.texture.size)
+        tmp = _pasteTextureTo(txtre, tmp0)
+    else:
+        tmp = tmp0
+
+    img = LImage(texture=tmp)
+    img.size[0] = image.getWidth()
+    img.size[1] = image.getHeight()
+    return img
     '''
     im = image._pil_image
     th = 1                              # thickness
@@ -398,6 +528,7 @@ def createBottom(image, color='white', backfile=None):
         out.paste(back, (x, y), back)
     return PIL_Image(image=out)
     '''
+
 
 # ************************************************************************
 # * font utils

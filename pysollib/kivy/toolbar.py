@@ -71,7 +71,7 @@ class AbstractToolbarButton:
 
 
 if E402Fix:
-    from LApp import LImage
+    from pysollib.kivy.LApp import LImage
     # from LApp import LMainWindow
     from kivy.uix.boxlayout import BoxLayout
     # from kivy.uix.button import Button
@@ -85,6 +85,7 @@ if E402Fix:
 class MyButton(ButtonBehavior, KivyImage):
     def __init__(self, **kwargs):
         super(MyButton, self).__init__(**kwargs)
+        # super(MyButton, self).__init__()
         self.src = None
         if ('image' in kwargs):
             self.src = kwargs['image'].source
@@ -106,6 +107,7 @@ class MyButton(ButtonBehavior, KivyImage):
 class MyCheckButton(ButtonBehavior, KivyImage):
     def __init__(self, **kwargs):
         super(MyCheckButton, self).__init__(**kwargs)
+        # super(MyCheckButton, self).__init__()
         self.src = None
         if ('image' in kwargs):
             self.src = kwargs['image'].source

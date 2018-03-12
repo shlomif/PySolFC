@@ -23,7 +23,8 @@
 
 # imports
 import os
-import htmllib
+# import htmllib
+import pysollib.htmllib2 as htmllib
 import formatter
 
 # PySol imports
@@ -38,9 +39,6 @@ from pysollib.pysoltk import MfxMessageDialog
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.button import Button
-# from kivy.uix.behaviors import ButtonBehavior
-# from kivy.uix.scrollview import ScrollView
-# from kivy.clock import Clock
 
 REMOTE_PROTOCOLS = ("ftp:", "gopher:", "http:", "mailto:", "news:", "telnet:")
 

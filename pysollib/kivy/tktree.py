@@ -25,13 +25,13 @@
 # import os
 
 # Toolkit imports
-# from tkutil import bind
-from tkwidget import MfxScrolledCanvas
+from pysollib.pysoltk import MfxScrolledCanvas
 
 
 # ************************************************************************
 # *
 # ************************************************************************
+
 
 class MfxTreeBaseNode:
     def __init__(self, tree, parent_node, text, key):

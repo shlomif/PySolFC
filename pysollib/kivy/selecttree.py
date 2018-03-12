@@ -25,8 +25,7 @@
 # import tkFont
 
 # Toolkit imports
-# from pysollib.mygettext import _, n_
-from tktree import MfxTreeLeaf, MfxTreeNode, MfxTreeInCanvas
+from pysollib.kivy.tktree import MfxTreeLeaf, MfxTreeNode, MfxTreeInCanvas
 
 __all__ = ['SelectDialogTreeData']
 

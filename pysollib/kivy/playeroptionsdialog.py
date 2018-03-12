@@ -22,7 +22,7 @@
 # ---------------------------------------------------------------------------#
 
 # Toolkit imports
-from tkwidget import MfxDialog
+from pysollib.pysoltk import MfxDialog
 
 __all__ = ['PlayerOptionsDialog']
 

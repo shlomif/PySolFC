@@ -1277,18 +1277,11 @@ Please select a %s type %s.
     def getGameSaveName(self, id):
         if os.path.supports_unicode_filenames:  # new in python 2.3
             return self.getGameTitleName(id)
-        gi = self.gdb.get(id)
-        n = gi.en_name                  # english name
+        n = self.gdb.get(id).en_name                  # english name
         if not n:
             return None
-        #         m = re.search(r"^(.*)([\[\(](\w+).*[\]\)])\s*$", n)
-        #          if m:
-        #              n = m.group(1) + "_" + m.group(2).lower()
-        n = latin1_to_ascii(n)
-        n = n.lower()
-        n = re.sub(r"[\s]", "_", n)
-        n = re.sub(r"[^\w]", "", n)
-        return n
+        return re.sub(r"[^\w]", "", re.sub(r"[\s]", "_",
+                      latin1_to_ascii(n).lower()))
 
     def getRandomGameId(self, games=None):
         if games is None:

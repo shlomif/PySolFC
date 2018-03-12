@@ -4,7 +4,6 @@
 
 import sys
 import os
-import re
 import time
 # from pprint import pprint
 import __builtin__
@@ -34,11 +33,7 @@ fix_gettext()
 def getGameRulesFilename(n):
     if n.startswith('Mahjongg'):
         return 'mahjongg.html'
-    # n = re.sub(r"[\[\(].*$", "", n)
-    n = latin1_to_ascii(n)
-    n = re.sub(r"[^\w]", "", n)
-    n = n.lower() + ".html"
-    return n
+    return latin1_normalize(n) + '.html'
 
 
 GAME_BY_TYPE = {

@@ -58,7 +58,6 @@ class Resource(Struct):
 
     def getSortKey(self):
         return self.name.lower()
-        # return latin1_to_ascii(self.name).lower()
 
 
 class ResourceManager:

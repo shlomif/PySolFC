@@ -2,13 +2,12 @@
 
 import sys
 import os
-import re
 import builtins
 from pysollib.mygettext import fix_gettext
 
 from pysollib.gamedb import GAME_DB
 from pysollib.gamedb import GI
-from pysollib.mfxutil import latin1_to_ascii
+from pysollib.mfxutil import latin1_normalize
 # outdir = '../html'
 pysollib_dir = '../'
 
@@ -129,11 +128,7 @@ alink="#FF0000">
 def getGameRulesFilename(n):
     if n.startswith('Mahjongg'):
         return 'mahjongg.html'
-    # n = re.sub(r"[\[\(].*$", "", n)
-    n = latin1_to_ascii(n)
-    n = re.sub(r"[^\w]", "", n)
-    n = n.lower() + ".html"
-    return n
+    return latin1_normalize(n) + '.html'
 
 
 def gen_main_html():

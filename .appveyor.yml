@@ -11,6 +11,7 @@ install:
     - python3 -mpip install flake8
     - python3 -mpip install random2
     - python3 -mpip install py2exe
+    - python3 -mpip install pycotap
     - python3 -mpip install six
     - python3 -mpip install Pillow
     - perl -v

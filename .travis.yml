@@ -6,8 +6,8 @@ before_install:
     - sudo dpkg-divert --local --divert /usr/bin/ack --rename --add /usr/bin/ack-grep
 install:
     - sudo cpanm Perl::Tidy Test::Code::TidyAll Test::Differences Test::TrailingSpace
-    - "`which python3` -m pip install --upgrade --user flake8 random2 six"
-    - "sudo /usr/bin/python3 -m pip install --upgrade random2 six"
-    - "`which python` -m pip install --upgrade --user random2 six"
+    - "`which python3` -m pip install --upgrade --user flake8 pycotap random2 six"
+    - "sudo /usr/bin/python3 -m pip install --upgrade pycotap random2 six"
+    - "`which python` -m pip install --upgrade --user pycotap random2 six"
     - which python
 script: "sh -x scripts/travis-ci-build"

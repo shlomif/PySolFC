@@ -1257,17 +1257,16 @@ Please select a %s type %s.
             return None
         return gi.short_name
 
+    def _calcGameFn(self, n):
+        return re.sub(r"[^\w]", "", latin1_to_ascii(n).lower())
+
     def getGameRulesFilename(self, id):
         gi = self.gdb.get(id)
         if gi is None:
             return None
         if gi.rules_filename is not None:
             return gi.rules_filename
-        n = gi.en_name                  # english name
-        # n = re.sub(r"[\[\(].*$", "", n)
-        n = latin1_to_ascii(n)
-        n = re.sub(r"[^\w]", "", n)
-        n = n.lower() + ".html"
+        n = self._calcGameFn(gi.en_name) + '.html'        # english name
         f = os.path.join(self.dataloader.dir, "html", "rules", n)
         if not os.path.exists(f):
             n = ''
@@ -1280,8 +1279,7 @@ Please select a %s type %s.
         n = self.gdb.get(id).en_name                  # english name
         if not n:
             return None
-        return re.sub(r"[^\w]", "", re.sub(r"[\s]", "_",
-                      latin1_to_ascii(n).lower()))
+        return re.sub(r"[\s]", "_", self._calcGameFn(n))
 
     def getRandomGameId(self, games=None):
         if games is None:

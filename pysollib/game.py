@@ -648,14 +648,13 @@ class Game(object):
     def nextGameFlags(self, id, random=None):
         f = 0
         if id != self.id:
-            f = f | 1
+            f |= 1
         if self.app.nextgame.cardset is not self.app.cardset:
-            f = f | 2
+            f |= 2
         if random is not None:
-            if random.__class__ is not self.random.__class__:
-                f = f | 16
-            elif random.initial_seed != self.random.initial_seed:
-                f = f | 16
+            if ((random.__class__ is not self.random.__class__) or
+                    random.initial_seed != self.random.initial_seed):
+                f |= 16
         return f
 
     # quit to outer mainloop in class App, possibly restarting
@@ -665,10 +664,9 @@ class Game(object):
         self.updateTime()
         if bookmark:
             id, random = self.id, self.random
-            file = BytesIO()
-            p = Pickler(file, 1)
-            self._dumpGame(p, bookmark=1)
-            self.app.nextgame.bookmark = file.getvalue()
+            f = BytesIO()
+            self._dumpGame(Pickler(f, 1), bookmark=1)
+            self.app.nextgame.bookmark = f.getvalue()
         if id > 0:
             self.setCursor(cursor=CURSOR_WATCH)
         self.app.nextgame.id = id
@@ -3059,11 +3057,10 @@ Congratulations, you did it !
                     _("Set bookmark"),
                     _("Replace existing bookmark %d ?") % (n+1)):
                 return 0
-        file = BytesIO()
-        p = Pickler(file, 1)
+        f = BytesIO()
         try:
-            self._dumpGame(p, bookmark=2)
-            bm = (file.getvalue(), self.moves.index)
+            self._dumpGame(Pickler(f, 1), bookmark=2)
+            bm = (f.getvalue(), self.moves.index)
         except Exception:
             pass
         else:
@@ -3182,8 +3179,7 @@ Please report this bug."""))
         f = None
         try:
             f = open(filename, "rb")
-            p = Unpickler(f)
-            game = self._undumpGame(p, app)
+            game = self._undumpGame(Unpickler(f), app)
             game.gstats.loaded = game.gstats.loaded + 1
         finally:
             if f:
@@ -3289,8 +3285,7 @@ in the current implementation.''') % version)
             if not self.canSaveGame():
                 raise Exception("Cannot save this game.")
             f = open(filename, "wb")
-            p = Pickler(f, protocol)
-            self._dumpGame(p)
+            self._dumpGame(Pickler(f, protocol))
         finally:
             if f:
                 f.close()

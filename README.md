@@ -39,37 +39,26 @@ See: http://www.python.org/doc/current/inst/
 
 You can run from the source directory:
 
-$ python pysol.py
+```
+python pysol.py
+```
 
 After following steps similar to these (on
 [Mageia Linux](http://www.mageia.org/) ):
 
-## Alternate toolkit.
-
-- Python2 (2.7 or later)
-- Kivy (10.0 or later)
-
-- Features:
-  - Sound support integrated.
-  - Android apk build support.
-
-- Running from source without installation:
-
-$ python2 pysol.py --kivy
 
 #### Step 1 - install the dependencies
 
 On Mageia you can do:
 
 ```
-$ sudo urpmi git make pygtk2 pygtk2.0-libglade gnome-python-canvas tkinter
+sudo urpmi git make pygtk2 pygtk2.0-libglade gnome-python-canvas tkinter
 ```
 
 On Debian / Ubuntu / etc. you can do:
 
 ```
-$ sudo apt-get install -y ack-grep cpanminus libperl-dev make perl python-glade2 python-gnome2 python-gnome2-dev python-gtk2 python-setuptools python-tk
-
+sudo apt-get install -y ack-grep cpanminus libperl-dev make perl python-glade2 python-gnome2 python-gnome2-dev python-gtk2 python-setuptools python-tk
 ```
 
 #### Step 2 - build PySol.
@@ -99,6 +88,21 @@ that are needed by pysol from source (without the debian modifications).
 
 Please uninstall that package and use the cardsets archive from sourceforge.net
 per the instructions above.
+
+## Alternate toolkit.
+
+- Python2 (2.7 or later)
+- Kivy (10.0 or later)
+
+- Features:
+  - Sound support integrated.
+  - Android apk build support.
+
+- Running from source without installation:
+
+```
+python2 pysol.py --kivy
+```
 
 ### Configuring Freecell Solver
 

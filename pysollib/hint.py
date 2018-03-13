@@ -1144,18 +1144,13 @@ class BlackHoleSolver_Hint(Base_Solver_Hint):
             if DEBUG >= 5:
                 print(s)
 
-            m = re.search('^(Intractable!|Unsolved!|Solved!)', s.rstrip())
+            m = re.search('^(Intractable|Unsolved|Solved)!', s.rstrip())
             if m:
                 result = m.group(1)
                 break
-        self.dialog.setText(iter=iter_, depth=depth, states=states)
 
-        if result == 'Intractable!':
-            self.solver_state = 'intractable'
-        elif result == 'Unsolved!':
-            self.solver_state = 'unsolved'
-        else:
-            self.solver_state = 'solved'
+        self.dialog.setText(iter=iter_, depth=depth, states=states)
+        self.solver_state = result.lower()
 
         hints = []
         for sbytes in pout:

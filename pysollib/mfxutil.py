@@ -285,8 +285,7 @@ def pickle(obj, filename, protocol=0):
     f = None
     try:
         f = open(filename, "wb")
-        p = Pickler(f, protocol)
-        p.dump(obj)
+        Pickler(f, protocol).dump(obj)
         f.close()
         f = None
         # print "Pickled", filename
@@ -299,8 +298,7 @@ def unpickle(filename):
     f, obj = None, None
     try:
         f = open(filename, "rb")
-        p = Unpickler(f)
-        x = p.load()
+        x = Unpickler(f).load()
         f.close()
         f = None
         obj = x

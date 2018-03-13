@@ -26,10 +26,11 @@
 import os
 import re
 import traceback
+from pickle import UnpicklingError
 
 # PySol imports
 from pysollib.mfxutil import destruct, Struct
-from pysollib.mfxutil import pickle, unpickle, UnpicklingError
+from pysollib.mfxutil import pickle, unpickle
 from pysollib.mfxutil import getusername, getprefdir
 from pysollib.mfxutil import latin1_normalize, print_err
 from pysollib.mfxutil import USE_PIL

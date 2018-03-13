@@ -32,9 +32,9 @@ from pysollib.mygettext import _
 from gettext import ungettext
 from six import BytesIO
 from six.moves import range
+from pickle import Pickler, Unpickler, UnpicklingError
 
 # PySol imports
-from pysollib.mfxutil import Pickler, Unpickler, UnpicklingError
 from pysollib.mfxutil import Image, ImageTk, USE_PIL
 from pysollib.mfxutil import destruct, Struct, SubclassResponsibility
 from pysollib.mfxutil import uclock, usleep

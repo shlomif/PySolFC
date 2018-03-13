@@ -30,7 +30,7 @@ import locale
 import webbrowser
 from six import print_
 
-from pickle import Pickler, Unpickler, UnpicklingError
+from pickle import Pickler, Unpickler
 
 from pysollib.settings import PACKAGE, TOOLKIT
 

@@ -321,5 +321,5 @@ def openURL(url):
     except OSError:                  # raised on windows if link is unreadable
         pass
     except Exception:
-        return 0
-    return 1
+        return False
+    return True

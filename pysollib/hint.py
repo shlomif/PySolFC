@@ -1150,14 +1150,12 @@ class BlackHoleSolver_Hint(Base_Solver_Hint):
                 break
         self.dialog.setText(iter=iter_, depth=depth, states=states)
 
-        if (result == 'Intractable!'):
+        if result == 'Intractable!':
             self.solver_state = 'intractable'
-            return
-        if (result == 'Unsolved!'):
+        elif result == 'Unsolved!':
             self.solver_state = 'unsolved'
-            return
-
-        self.solver_state = 'solved'
+        else:
+            self.solver_state = 'solved'
 
         hints = []
         for sbytes in pout:

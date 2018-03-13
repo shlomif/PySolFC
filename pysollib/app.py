@@ -1451,7 +1451,7 @@ Please select a %s type %s.
         # find all available cardsets
         dirs = manager.getSearchDirs(self, ("cardsets", ""), "PYSOL_CARDSETS")
         if DEBUG:
-            dirs = dirs + manager.getSearchDirs(self, "cardsets-*")
+            dirs += manager.getSearchDirs(self, "cardsets-*")
         # print dirs
         found, t = [], {}
         fnames = {}  # (to check for duplicates)

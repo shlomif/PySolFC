@@ -110,14 +110,7 @@ class DataLoader:
                 self.path.append(np)
         # now try to find all filenames along path
         for p in self.path:
-            n = 0
-            for filename in filenames:
-                f = os.path.join(p, filename)
-                if os.path.isfile(f):
-                    n = n + 1
-                else:
-                    break
-            if n == len(filenames):
+            if all(os.path.isfile(os.path.join(p, fn)) for fn in filenames):
                 self.dir = p
                 break
         else:

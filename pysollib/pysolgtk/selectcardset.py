@@ -214,11 +214,11 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         for image in self.preview_images:
             MfxCanvasImage(canvas, x, y, anchor="nw", image=image)
             sx, sy = max(x, sx), max(y, sy)
-            i = i + 1
+            i += 1
             if i % columns == 0:
                 x, y = 10, y + dy
             else:
-                x = x + dx
+                x += dx
         canvas.config(width=sx+dx, height=sy+dy)
         canvas.set_scroll_region(0, 0, sx+dx, sy+dy)
         self.preview_key = key

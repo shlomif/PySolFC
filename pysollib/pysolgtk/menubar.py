@@ -609,13 +609,11 @@ class PysolMenubarTk:
         filename = self.game.filename
         if not filename:
             filename = self.app.getGameSaveName(self.game.id)
-            if os.name == 'posix':
-                filename = filename + '-' + self.game.getGameNumber(format=0)
-            elif os.path.supports_unicode_filenames:  # new in python 2.3
-                filename = filename + '-' + self.game.getGameNumber(format=0)
+            if os.name == 'posix' or os.path.supports_unicode_filenames:
+                filename += '-' + self.game.getGameNumber(format=0)
             else:
-                filename = filename + '-01'
-            filename = filename + '.pso'
+                filename += '-01'
+            filename += '.pso'
         idir, ifile = os.path.split(os.path.normpath(filename))
         if not idir:
             idir = self.app.dn.savegames

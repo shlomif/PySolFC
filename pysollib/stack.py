@@ -1681,7 +1681,7 @@ class DealRow_StackMethods:
         for r in stacks:
             assert r is not self
             while self.cards:
-                n = n + 1
+                n += 1
                 if flip:
                     self.game.flipMove(self)
                 if flip and self.cards[-1].rank == rank:
@@ -1728,7 +1728,7 @@ class DealBaseCard_StackMethods:
             if not c.face_up:
                 self.game.flipMove(self)
             self.game.moveMove(1, self, s, frames=frames)
-            ncards = ncards - 1
+            ncards -= 1
 
 
 class RedealCards_StackMethods:
@@ -2781,9 +2781,8 @@ class SuperMoveStack_StackMethods:
             return max_move
         n = getNumberOfFreeStacks(self.game.s.rows)
         if to_stack_ncards == 0:
-            n = n - 1
-        max_move = max_move * (2 ** n)
-        return max_move
+            n -= 1
+        return max_move << max(n, 0)
 
     def _getNumSSSeq(self, cards):
         # num of same-suit sequences (for SuperMoveSpider_RowStack)

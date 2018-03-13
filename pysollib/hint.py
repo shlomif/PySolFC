@@ -419,7 +419,7 @@ class DefaultHint(AbstractHint):
         else:
             d = (c.rank - t.cap.base_rank) % t.cap.mod
             if d > t.cap.mod // 2:
-                d = d - t.cap.mod
+                d -= t.cap.mod
         if abs(d) <= 1:
             # drop Ace and 2 immediately
             score = 92000
@@ -551,7 +551,7 @@ class DefaultHint(AbstractHint):
                     if stack and stack is not r:
                         assert ncards == 1
                         drop_info.append((c, stack, ncards, i))
-                    i = i + 1
+                    i += 1
                 # now try to make a move so that the drop-card will get free
                 for di in drop_info:
                     c = di[0]
@@ -565,7 +565,7 @@ class DefaultHint(AbstractHint):
                             continue
                         # print "drop move", r, t, sub_pile
                         score = 40000
-                        score = score + 1000 + (self.K - r.getCard().rank)
+                        score += 1000 + (self.K - r.getCard().rank)
                         # force the drop (to avoid loops)
                         force = (999999, 0, di[2], r, di[1], self.BLUE, None)
                         self.addHint(

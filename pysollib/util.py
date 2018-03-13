@@ -143,16 +143,10 @@ class DataLoader:
         raise OSError("DataLoader could not find image "+filename +
                       " in "+self.dir+" "+str(subdirs))
 
-    def findIcon(self, filename=None, subdirs=None):
-        if not filename:
-            # filename = PACKAGE.lower()
-            filename = 'pysol'
+    def findIcon(self, filename='pysol', subdirs=None):
         root, ext = os.path.splitext(filename)
         if not ext:
-            if os.name == 'nt':
-                filename = filename + ".ico"
-            else:
-                filename = filename + ".xbm"
+            filename += ('.ico' if os.name == 'nt' else '.xbm')
         return self.findFile(filename, subdirs)
 
     def findDir(self, filename, subdirs=None):

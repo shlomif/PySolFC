@@ -100,7 +100,7 @@ class RoyalCotillion(Game):
         x, y = l.XM + l.XS, self.height - l.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=1)
         l.createText(s.talon, "sw")
-        x = x + l.XS
+        x += l.XS
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, "se")
 
@@ -156,22 +156,22 @@ class OddAndEven(RoyalCotillion):
         for i in range(4):
             s.foundations.append(
                 self.Foundation_Class(x, y, self, i, dir=2, mod=13))
-            x = x + l.XS
+            x += l.XS
         for i in range(4):
             s.foundations.append(
                 self.Foundation_Class(
                     x, y, self, i, dir=2, mod=13, base_rank=1))
-            x = x + l.XS
+            x += l.XS
         for i in range(2):
             x, y, = l.XM + ((4, 3)[i])*l.XS, l.YM + (i+1)*l.YS
             for j in range((4, 5)[i]):
                 s.reserves.append(ReserveStack(x, y, self, max_accept=0))
-                x = x + l.XS
+                x += l.XS
         x, y = l.XM, self.height - l.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=2)
         l.createText(s.talon, "n")
         l.createRoundText(s.talon, 'nnn')
-        x = x + l.XS
+        x += l.XS
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, "n")
 
@@ -319,17 +319,17 @@ class Alhambra(Game):
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i,
                                                     max_move=0))
-            x = x + l.XS
+            x += l.XS
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i,
                                  max_move=0, base_rank=KING, dir=-1))
-            x = x + l.XS
+            x += l.XS
         x, y, = l.XM+(8-reserves)*l.XS//2, y+l.YS
         for i in range(reserves):
             stack = OpenStack(x, y, self, max_accept=0)
             stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, l.YOFFSET
             s.reserves.append(stack)
-            x = x + l.XS
+            x += l.XS
         x, y = l.XM+(8-1-rows)*l.XS//2, self.height-l.YS
         s.talon = Alhambra_Talon(x, y, self, max_rounds=3)
         if rows == 1:
@@ -680,7 +680,7 @@ class ThreePirates(Game):
         x, y, = l.XM+l.XS, l.YM
         for i in range(8):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i//2))
-            x = x + l.XS
+            x += l.XS
 
         x, y, = l.XM, l.YM+l.YS
         for i in range(10):

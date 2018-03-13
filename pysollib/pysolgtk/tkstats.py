@@ -523,21 +523,19 @@ class Status_StatsDialog(MfxMessageDialog):  # MfxDialog
     def __init__(self, parent, game):
         stats, gstats = game.stats, game.gstats
         w1 = w2 = ''
-        n = 0
-        for s in game.s.foundations:
-            n = n + len(s.cards)
+        n = sum([len(s.cards) for s in game.s.foundations])
         w1 = (_('Highlight piles: ') + str(stats.highlight_piles) + '\n' +
               _('Highlight cards: ') + str(stats.highlight_cards) + '\n' +
               _('Highlight same rank: ') +
               str(stats.highlight_samerank) + '\n')
         if game.s.talon:
             if game.gameinfo.redeals != 0:
-                w2 = w2 + _('\nRedeals: ') + str(game.s.talon.round - 1)
-            w2 = w2 + _('\nCards in Talon: ') + str(len(game.s.talon.cards))
+                w2 += _('\nRedeals: ') + str(game.s.talon.round - 1)
+            w2 += _('\nCards in Talon: ') + str(len(game.s.talon.cards))
         if game.s.waste and game.s.waste not in game.s.foundations:
-            w2 = w2 + _('\nCards in Waste: ') + str(len(game.s.waste.cards))
+            w2 += _('\nCards in Waste: ') + str(len(game.s.waste.cards))
         if game.s.foundations:
-            w2 = w2 + _('\nCards in Foundations: ') + str(n)
+            w2 += _('\nCards in Foundations: ') + str(n)
         #
         date = time.strftime('%Y-%m-%d %H:%M',
                              time.localtime(game.gstats.start_time))

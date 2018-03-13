@@ -814,9 +814,9 @@ class OptionsMenuDialog(LMenuDialog):
                             self.menubar.tkopt.cardbacks[i], bi,
                             self.make_vars_command(
                                 self.menubar.mOptSetCardback, i))
-                        bi = bi + 1
+                        bi += 1
 
-                i = i + 1
+                i += 1
 
         # -------------------------------------------
         # Table background settings
@@ -866,7 +866,7 @@ class OptionsMenuDialog(LMenuDialog):
                 tm = self.app.tabletile_manager
                 # cnt = tm.len()
                 i = 1
-                while 1:
+                while True:
                     ti = tm.get(i)
                     if ti is None:
                         break
@@ -874,7 +874,7 @@ class OptionsMenuDialog(LMenuDialog):
                                       ti.name,
                                       self.menubar.tkopt.tabletile, i,
                                       self.menubar.mOptTileSet)
-                    i = i + 1
+                    i += 1
 
         # -------------------------------------------
         # Card view options

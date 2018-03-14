@@ -1233,14 +1233,14 @@ class Game(object):
             frames = 8
         assert frames >= 2
         if self.app.opt.animations == 3:        # medium
-            frames = frames * 3
-            SPF = SPF / 2
+            frames *= 3
+            SPF /= 2
         elif self.app.opt.animations == 4:      # slow
-            frames = frames * 8
-            SPF = SPF / 2
+            frames *= 8
+            SPF /= 2
         elif self.app.opt.animations == 5:      # very slow
-            frames = frames * 16
-            SPF = SPF / 2
+            frames *= 16
+            SPF /= 2
         elif self.app.opt.animations == 10:
             # this is used internally in game preview to speed up
             # the initial dealing
@@ -1490,12 +1490,8 @@ class Game(object):
             xpos = x0 + int(xmid + r * math.cos(ang) - iw / 2.0)
             ypos = y0 + int(ymid + r * math.sin(ang) - ih / 2.0)
 
-            if img_index & 1:
-                k = math.sin(f * 2.0 * math.pi)
-            else:
-                k = math.cos(f * 2.0 * math.pi)
-            k = k * k
-            k = max(0.4, k)
+            k = (math.sin if img_index & 1 else math.cos)(f * 2.0 * math.pi)
+            k = max(0.4, k ** 2)
             round_k = int(round(k*100))
             if img_index not in saved_images:
                 saved_images[img_index] = {}

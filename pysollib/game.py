@@ -932,22 +932,19 @@ class Game(object):
         cards, scards = self._shuffleHookMoveSorter(cards, func, ncards)
         return scards + cards
 
-    def _shuffleHookMoveSorter(self, cards, func, ncards):
-        # note that we reverse the cards, so that smaller sort_orders
-        # will be nearer to the top of the Talon
-        sitems, i = [], len(cards)
-        for c in cards[:]:
-            select, sort_order = func(c)
+    def _shuffleHookMoveSorter(self, cards, cb, ncards):
+        extracted, i, new = [], len(cards), []
+        for c in cards:
+            select, ord_ = cb(c)
             if select:
-                cards.remove(c)
-                sitems.append((sort_order, i, c))
-                if len(sitems) >= ncards:
+                extracted.append((ord_, i, c))
+                if len(extracted) >= ncards:
+                    new += cards[(len(cards)-i+1):]
                     break
-            i = i - 1
-        sitems.sort()
-        sitems.reverse()
-        scards = [item[2] for item in sitems]
-        return cards, scards
+            else:
+                new.append(c)
+            i -= 1
+        return new, [x[2] for x in reversed(sorted(extracted))]
 
     #
     # menu support

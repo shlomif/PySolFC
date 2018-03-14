@@ -857,27 +857,21 @@ class Game(object):
         if progress:
             pstep = (100.0 - progress.percent) / gi.ncards
         cards = []
-        id = 0
+        id = [0]
         x, y = self.s.talon.x, self.s.talon.y
         for deck in range(gi.decks):
-            for suit in gi.suits:
-                for rank in gi.ranks:
-                    card = self._createCard(id, deck, suit, rank, x=x, y=y)
+            def _iter_ranks(ranks, suit):
+                for rank in ranks:
+                    card = self._createCard(id[0], deck, suit, rank, x=x, y=y)
                     if card is None:
                         continue
                     cards.append(card)
-                    id = id + 1
+                    id[0] += 1
                     if progress:
                         progress.update(step=pstep)
-            trump_suit = len(gi.suits)
-            for rank in gi.trumps:
-                card = self._createCard(id, deck, trump_suit, rank, x=x, y=y)
-                if card is None:
-                    continue
-                cards.append(card)
-                id = id + 1
-                if progress:
-                    progress.update(step=pstep)
+            for suit in gi.suits:
+                _iter_ranks(gi.ranks, suit)
+            _iter_ranks(gi.trumps, len(gi.suits))
         if progress:
             progress.update(percent=100)
         assert len(cards) == gi.ncards

@@ -26,8 +26,13 @@
 import sys
 import re
 import time
-import random2
 from pysollib.mfxutil import SubclassResponsibility
+try:
+    import random2
+except ImportError:
+    raise ImportError(
+        "You need to install " +
+        "https://pypi.python.org/pypi/random2 using pip or similar.")
 
 
 if sys.version_info > (3,):

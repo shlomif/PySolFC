@@ -113,27 +113,6 @@ __revision__ = '$Id: configobj.py 156 2006-01-31 14:57:08Z fuzzyman $'
 
 __docformat__ = "restructuredtext en"
 
-__all__ = (
-    '__version__',
-    'DEFAULT_INDENT_TYPE',
-    'DEFAULT_INTERPOLATION',
-    'ConfigObjError',
-    'NestingError',
-    'ParseError',
-    'DuplicateError',
-    'ConfigspecError',
-    'ConfigObj',
-    'SimpleVal',
-    'InterpolationError',
-    'InterpolationLoopError',
-    'MissingInterpolationOption',
-    'RepeatSectionError',
-    'UnreprError',
-    'UnknownType',
-    '__docformat__',
-    'flatten_errors',
-)
-
 DEFAULT_INTERPOLATION = 'configparser'
 DEFAULT_INDENT_TYPE = '    '
 MAX_INTERPOL_DEPTH = 10

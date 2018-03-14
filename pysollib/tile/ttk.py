@@ -16,18 +16,8 @@ __version__ = "0.3"
 
 __author__ = "Guilherme Polo <ggpolo@gmail.com>"
 
-__all__ = ["Button", "Checkbutton", "Combobox", "Entry", "Frame", "Label",
-           "Labelframe", "LabelFrame", "Menubutton", "Notebook", "Panedwindow",
-           "PanedWindow", "Progressbar", "Radiobutton", "Scale", "Scrollbar",
-           "Separator", "Sizegrip", "Style", "Treeview",
-           # Extensions
-           "LabeledScale", "OptionMenu",
-           # functions
-           "tclobjs_to_py"]
-
 import sys
 from six.moves import tkinter
-from pysollib.mygettext import _, n_
 
 _flatten = tkinter._flatten
 
@@ -37,6 +27,7 @@ _REQUIRE_TILE = True if tkinter.TkVersion < 8.5 else False
 if sys.version_info > (3,):
     basestring = str
     unicode = str
+
 
 def _loadttk(loadtk):
     # This extends the default tkinter.Tk._loadtk method so we can be
@@ -53,11 +44,13 @@ def _loadttk(loadtk):
                 # command
                 self.tk.eval('global auto_path; '
                              'lappend auto_path {%s}' % tilelib)
-            self.tk.eval('package require tile') # TclError may be raised here
+            self.tk.eval('package require tile')  # TclError may be raised here
 
     return _wrapper
 
+
 tkinter.Tk._loadtk = _loadttk(tkinter.Tk._loadtk)
+
 
 def _format_optdict(optdict, script=False, ignore=None):
     """Formats optdict to a tuple to pass it to tk.call.
@@ -86,12 +79,13 @@ def _format_optdict(optdict, script=False, ignore=None):
                 ('{%s}' if ' ' in val else '%s') % val for val in v)
 
         if script and value == '':
-            value = '{}' # empty string in Python is equivalent to {} in Tcl
+            value = '{}'  # empty string in Python is equivalent to {} in Tcl
 
         opts.append(("-%s" % opt, value))
 
     # Remember: _flatten skips over None
     return _flatten(opts)
+
 
 def _format_mapdict(mapdict, script=False):
     """Formats mapdict to pass it to tk.call.
@@ -115,14 +109,14 @@ def _format_mapdict(mapdict, script=False):
         for statespec in value:
             state, val = statespec[:-1], statespec[-1]
 
-            if len(state) > 1: # group multiple states
+            if len(state) > 1:  # group multiple states
                 state = "{%s}" % ' '.join(state)
-            else: # single state
+            else:  # single state
                 # if it is empty (something that evaluates to False), then
                 # format it to Tcl code to denote the "normal" state
                 state = state[0] or '{}'
 
-            if isinstance(val, (list, tuple)): # val needs to be grouped
+            if isinstance(val, (list, tuple)):  # val needs to be grouped
                 val = "{%s}" % ' '.join(map(str, val))
 
             opt_val.append("%s %s" % (state, val))
@@ -131,12 +125,13 @@ def _format_mapdict(mapdict, script=False):
 
     return _flatten(opts)
 
+
 def _format_elemcreate(etype, script=False, *args, **kw):
     """Formats args and kw according to the given element factory etype."""
     spec = None
     opts = ()
     if etype in ("image", "vsapi"):
-        if etype == "image": # define an element based on an image
+        if etype == "image":  # define an element based on an image
             # first arg should be the default image name
             iname = args[0]
             # next args, if any, are statespec/value pairs which is almost
@@ -155,11 +150,11 @@ def _format_elemcreate(etype, script=False, *args, **kw):
 
         opts = _format_optdict(kw, script)
 
-    elif etype == "from": # clone an element
+    elif etype == "from":  # clone an element
         # it expects a themename and optionally an element to clone from,
         # otherwise it will clone {} (empty element)
-        spec = args[0] # theme name
-        if len(args) > 1: # elementfrom specified
+        spec = args[0]  # theme name
+        if len(args) > 1:  # elementfrom specified
             opts = (args[1], )
 
     if script:
@@ -167,6 +162,7 @@ def _format_elemcreate(etype, script=False, *args, **kw):
         opts = ' '.join(map(str, opts))
 
     return spec, opts
+
 
 def _format_layoutlist(layout, indent=0, indent_size=2):
     """Formats a layout list so we can pass the result to ttk::style
@@ -202,13 +198,14 @@ def _format_layoutlist(layout, indent=0, indent_size=2):
         elem, opts = layout_elem
         opts = opts or {}
         fopts = ' '.join(map(str, _format_optdict(opts, True, "children")))
-        head = "%s%s%s" % (' ' * indent, elem, (" %s" % fopts) if fopts else '')
+        head = "%s%s%s" % (' ' * indent, elem,
+                           (" %s" % fopts) if fopts else '')
 
         if "children" in opts:
             script.append(head + " -children {")
             indent += indent_size
             newscript, indent = _format_layoutlist(opts['children'], indent,
-                indent_size)
+                                                   indent_size)
             script.append(newscript)
             indent -= indent_size
             script.append('%s}' % (' ' * indent))
@@ -216,6 +213,7 @@ def _format_layoutlist(layout, indent=0, indent_size=2):
             script.append(head)
 
     return '\n'.join(script), indent
+
 
 def _script_from_settings(settings):
     """Returns an appropriate script, based on settings, according to
@@ -226,27 +224,28 @@ def _script_from_settings(settings):
     # will then be evaluated by Tcl
     for name, opts in settings.items():
         # will format specific keys according to Tcl code
-        if opts.get('configure'): # format 'configure'
-            s = ' '.join(map(unicode, _format_optdict(opts['configure'], True)))
+        if opts.get('configure'):  # format 'configure'
+            s = ' '.join(
+                map(unicode, _format_optdict(opts['configure'], True)))
             script.append("ttk::style configure %s %s;" % (name, s))
 
-        if opts.get('map'): # format 'map'
+        if opts.get('map'):  # format 'map'
             s = ' '.join(map(unicode, _format_mapdict(opts['map'], True)))
             script.append("ttk::style map %s %s;" % (name, s))
 
-        if 'layout' in opts: # format 'layout' which may be empty
+        if 'layout' in opts:  # format 'layout' which may be empty
             if not opts['layout']:
-                s = 'null' # could be any other word, but this one makes sense
+                s = 'null'  # could be any other word, but this one makes sense
             else:
                 s, _ = _format_layoutlist(opts['layout'])
             script.append("ttk::style layout %s {\n%s\n}" % (name, s))
 
-        if opts.get('element create'): # format 'element create'
+        if opts.get('element create'):  # format 'element create'
             eopts = opts['element create']
             etype = eopts[0]
 
             # find where args end, and where kwargs start
-            argc = 1 # etype was the first one
+            argc = 1  # etype was the first one
             while argc < len(eopts) and not hasattr(eopts[argc], 'iteritems'):
                 argc += 1
 
@@ -258,6 +257,7 @@ def _script_from_settings(settings):
                 name, etype, spec, opts))
 
     return '\n'.join(script)
+
 
 def _dict_from_tcltuple(ttuple, cut_minus=True):
     """Break tuple in pairs, format it properly, then build the return

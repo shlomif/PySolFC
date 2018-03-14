@@ -7,8 +7,6 @@ http://www.w3.org/hypertext/WWW/MarkUp/html-spec/html-spec_toc.html
 from six.moves import html_parser
 from formatter import AS_IS
 
-__all__ = ["HTMLParser", "HTMLParseError"]
-
 
 class HTMLParseError(RuntimeError):
     """Error raised when an HTML document can't be parsed."""

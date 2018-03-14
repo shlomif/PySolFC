@@ -133,37 +133,6 @@ __version__ = '0.2.3'
 
 __revision__ = '$Id: validate.py 123 2005-09-08 08:54:28Z fuzzyman $'
 
-__all__ = (
-    '__version__',
-    'dottedQuadToNum',
-    'numToDottedQuad',
-    'ValidateError',
-    'VdtUnknownCheckError',
-    'VdtParamError',
-    'VdtTypeError',
-    'VdtValueError',
-    'VdtValueTooSmallError',
-    'VdtValueTooBigError',
-    'VdtValueTooShortError',
-    'VdtValueTooLongError',
-    'VdtMissingValue',
-    'Validator',
-    'is_integer',
-    'is_float',
-    'is_boolean',
-    'is_list',
-    'is_ip_addr',
-    'is_string',
-    'is_int_list',
-    'is_bool_list',
-    'is_float_list',
-    'is_string_list',
-    'is_ip_addr_list',
-    'is_mixed_list',
-    'is_option',
-    '__docformat__',
-)
-
 INTP_VER = sys.version_info[:2]
 if INTP_VER < (2, 2):
     raise RuntimeError("Python v.2.2 or later needed")
@@ -1411,7 +1380,7 @@ if __name__ == '__main__':
 
     By Michael Foord
 
-    Added __version__, __all__, and __docformat__
+    Added __version__, all__, and __docformat__
 
     Replaced ``basestring`` with ``types.StringTypes``
 

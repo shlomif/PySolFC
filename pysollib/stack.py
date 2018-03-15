@@ -530,19 +530,19 @@ class Stack:
         if mylen > cap.max_cards:
             return False
 
-        def _check(c):
-            return ((cap.suit >= 0 and c.suit != cap.suit) or
-                    (cap.color >= 0 and c.color != cap.color) or
-                    (cap.rank >= 0 and c.rank != cap.rank))
+        def _check(c, suit, color, rank):
+            return ((suit >= 0 and c.suit != suit) or
+                    (color >= 0 and c.color != color) or
+                    (rank >= 0 and c.rank != rank))
         for c in cards:
-            if not c.face_up or _check(c):
+            if not c.face_up or _check(c, cap.suit, cap.color, cap.rank):
                 return False
         if self.cards:
             # top card of our stack must be face up
             return self.cards[-1].face_up
-        else:
-            # check required base
-            return not _check(cards[0])
+        # check required base
+        return not _check(cards[0], cap.base_suit, cap.base_color,
+                          cap.base_rank)
 
     def basicCanMoveCards(self, cards):
         # Check that the limits are ok and the cards are face up

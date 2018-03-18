@@ -3,7 +3,7 @@ Prerequisites (needs root):
 
   On a 'freshly installed' Ubuntu 16.04 (32bit), the following
   additional packages had to be installed:
-  
+
   - python-setuptools
   - javasdk          (ubuntu: default jdk)
   - cython           (ubuntu: cython)
@@ -29,7 +29,7 @@ Prerequisites (needs root):
   - dev-media-libs/sdl2-ttf
   - dev-media-libs/gstreamer
   - dev-vcs/git
-  - dev-java/ant 
+  - dev-java/ant
 
   and python modules:
 

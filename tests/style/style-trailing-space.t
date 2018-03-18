@@ -19,7 +19,7 @@ my $finder = Test::TrailingSpace->new(
     {
         root => '.',
         filename_regex =>
-qr/(?:(?:\.(?:t|pm|pl|PL|yml|json|arc|vim|py|tcl))|README(?:\.md)?|Changes|LICENSE|MANIFEST(?:\.in)?|AUTHORS|COPYING)\z/,
+qr/(?:(?:\.(?:t|pm|pl|PL|yml|json|arc|vim|py|tcl))|README(?:[\.\w]*)|Changes|LICENSE|MANIFEST(?:\.in)?|AUTHORS|COPYING)\z/,
     },
 );
 

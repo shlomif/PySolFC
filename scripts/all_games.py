@@ -11,7 +11,7 @@ from pysollib.mygettext import fix_gettext
 import pysollib.games
 import pysollib.games.special
 import pysollib.games.ultra
-import pysollib.games.mahjongg
+import pysollib.games.mahjongg  # noqa: F401
 
 from pysollib.gamedb import GAME_DB
 from pysollib.gamedb import GI

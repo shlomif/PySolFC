@@ -7,9 +7,9 @@ before_install:
 install:
     - sudo cpanm Perl::Tidy Test::Code::TidyAll Test::Differences Test::TrailingSpace
     - export PY_MODS='pycotap random2 six'
-    - "`which python3` -m pip install --upgrade --user flake8 $PY_MODS"
+    - "`which python3` -m pip install --upgrade flake8 $PY_MODS"
     - "sudo /usr/bin/python3 -m pip install --upgrade $PY_MODS"
-    - "`which python` -m pip install --upgrade --user $PY_MODS"
+    - "`which python` -m pip install --upgrade $PY_MODS"
     - which python
 language: python
 python:

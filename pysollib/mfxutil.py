@@ -38,17 +38,17 @@ Image = ImageTk = ImageOps = None
 if TOOLKIT == 'tk':
     try:  # PIL
         from PIL import Image
-        from PIL import ImageTk
-        from PIL import ImageOps
+        from PIL import ImageTk  # noqa: F401
+        from PIL import ImageOps  # noqa: F401
     except ImportError:
         Image = None
     else:
         # for py2exe
-        from PIL import GifImagePlugin
-        from PIL import PngImagePlugin
-        from PIL import JpegImagePlugin
-        from PIL import BmpImagePlugin
-        from PIL import PpmImagePlugin
+        from PIL import GifImagePlugin  # noqa: F401
+        from PIL import PngImagePlugin  # noqa: F401
+        from PIL import JpegImagePlugin  # noqa: F401
+        from PIL import BmpImagePlugin  # noqa: F401
+        from PIL import PpmImagePlugin  # noqa: F401
         Image._initialized = 2
 USE_PIL = False
 if TOOLKIT == 'tk' and Image and Image.VERSION >= '1.1.7':
@@ -81,11 +81,11 @@ def latin1_to_ascii(n):
     n = n.encode('iso8859-1', 'replace')
     # FIXME: rewrite this for better speed
     return (n.replace("\xc4", "Ae")
-         .replace("\xd6", "Oe")
-         .replace("\xdc", "Ue")
-         .replace("\xe4", "ae")
-         .replace("\xf6", "oe")
-         .replace("\xfc", "ue"))
+             .replace("\xd6", "Oe")
+             .replace("\xdc", "Ue")
+             .replace("\xe4", "ae")
+             .replace("\xf6", "oe")
+             .replace("\xfc", "ue"))
 
 
 def latin1_normalize(n):
@@ -131,10 +131,10 @@ def getusername():
 def getprefdir(package):
 
     if (TOOLKIT == 'kivy'):
-      from pysollib.kivy.LApp import get_platform
-      plat = get_platform()
-      if plat == 'android':
-         os.environ['HOME'] = '/sdcard'
+        from pysollib.kivy.LApp import get_platform
+        plat = get_platform()
+        if plat == 'android':
+            os.environ['HOME'] = '/sdcard'
 
     if os.name == "nt":
         return win32_getprefdir(package)
@@ -184,7 +184,8 @@ def win32_getprefdir(package):
 # ************************************************************************
 
 def destruct(obj):
-    if TOOLKIT=='kivy': return
+    if TOOLKIT == 'kivy':
+        return
 
     # assist in breaking circular references
     if obj is not None:

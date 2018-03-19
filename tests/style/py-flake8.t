@@ -21,12 +21,10 @@ else
 my %skip = (
     map { $_ => 1 }
         qw(
-        html-src/gen-html.py
         pysollib/games/__init__.py
         pysollib/games/mahjongg/__init__.py
         pysollib/games/special/__init__.py
         pysollib/games/ultra/__init__.py
-        ./setup.py
         )
 );
 

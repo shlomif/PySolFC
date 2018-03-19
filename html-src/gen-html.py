@@ -15,10 +15,10 @@ pysollib_dir = '../'
 builtins._ = lambda x: x
 builtins.n_ = lambda x: x
 
-import pysollib.games
-import pysollib.games.mahjongg
-import pysollib.games.ultra
-import pysollib.games.special
+import pysollib.games  # noqa: F402
+import pysollib.games.mahjongg  # noqa: F402
+import pysollib.games.ultra  # noqa: F402
+import pysollib.games.special  # noqa: F401,F402
 
 try:
     os.mkdir('html')
@@ -206,13 +206,13 @@ def gen_rules_html():
         rules_list.append((rules_dir, rules_fn, title, s))
         files_list.append(rules_fn)
         # rules_list.append((rules_fn, gi.name))
-        print('<li><a href="rules/%s">%s</a>' \
-            % (rules_fn, gi.name), file=out_rules)
+        print('<li><a href="rules/%s">%s</a>'
+              % (rules_fn, gi.name), file=out_rules)
         for n in gi.altnames:
             altnames.append((n, rules_fn))
 
-    print('</ul>\n' + main_footer % \
-        '<a href="index.html">Back to the index</a>', file=out_rules)
+    print('</ul>\n' + main_footer %
+          '<a href="index.html">Back to the index</a>', file=out_rules)
 
     out_rules.close()
 
@@ -224,15 +224,16 @@ def gen_rules_html():
         print(file.read(), file=out_rules_alt)
     altnames.sort()
     for name, fn in altnames:
-        print('<li> <a href="rules/%s">%s</a>' \
+        print('<li> <a href="rules/%s">%s</a>'
               % (fn, name), file=out_rules_alt)
-    print('</ul>\n' + main_footer % \
-        '<a href="index.html">Back to the index</a>', file=out_rules_alt)
+    print('</ul>\n' + main_footer %
+          '<a href="index.html">Back to the index</a>', file=out_rules_alt)
     out_rules_alt.close()
 
     # create rules
     for dir, filename, title, footer in rules_list:
-        outfile = open(os.path.join('html', 'rules', filename), 'w', encoding='utf-8')
+        outfile = open(
+            os.path.join('html', 'rules', filename), 'w', encoding='utf-8')
         if dir == 'rules':
             print(rules_header % title, file=outfile)
         else:  # d == 'wikipedia'

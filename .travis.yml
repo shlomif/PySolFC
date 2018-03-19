@@ -6,9 +6,11 @@ before_install:
     - sudo dpkg-divert --local --divert /usr/bin/ack --rename --add /usr/bin/ack-grep
 install:
     - sudo cpanm Perl::Tidy Test::Code::TidyAll Test::Differences Test::TrailingSpace
-    - export PY_MODS='distutils pycotap random2 six setuptools'
+    - export PY_MODS='pycotap random2 six'
     - "`which python3` -m pip install --upgrade --user flake8 $PY_MODS"
     - "sudo /usr/bin/python3 -m pip install --upgrade $PY_MODS"
     - "`which python` -m pip install --upgrade --user $PY_MODS"
     - which python
+python:
+    - "3.6"
 script: "sh -x scripts/travis-ci-build"

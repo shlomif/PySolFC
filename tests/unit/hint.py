@@ -11,7 +11,7 @@ from pysollib.hint import Base_Solver_Hint
 
 def shlomif_main(args):
 
-    plan(1)
+    plan(2)
 
     card = AbstractCard(1001, 0, 3, 7, 3001)
     h = Base_Solver_Hint(None, None, base_rank=0)
@@ -19,6 +19,11 @@ def shlomif_main(args):
     got = h.card2str2(card)
     # TEST
     if not ok(got == 'D-8', 'card2str2 works'):
+        diag('got == ' + got)
+
+    got = h.card2str1(card)
+    # TEST
+    if not ok(got == '8D', 'card2str1 works'):
         diag('got == ' + got)
 
 

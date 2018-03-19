@@ -18,20 +18,14 @@
 #
 # ---------------------------------------------------------------------------#
 
-__all__ = ['PysolToolbarTk']
+# imports
+import os
 
-E402Fix = True
-
-if E402Fix:
-    # imports
-    import os
-
-    # PySol imports
-    # from pysollib.mfxutil import destruct
-    from pysollib.util import IMAGE_EXTENSIONS
-    from pysollib.settings import TITLE
-    from pysollib.winsystems import TkSettings
-    from pysollib.mygettext import _, n_
+# PySol imports
+from pysollib.util import IMAGE_EXTENSIONS
+from pysollib.settings import TITLE
+from pysollib.winsystems import TkSettings
+from pysollib.mygettext import _, n_
 
 # ************************************************************************
 # *
@@ -70,7 +64,7 @@ class AbstractToolbarButton:
 # ************************************************************************
 
 
-if E402Fix:
+if True:
     from pysollib.kivy.LApp import LImage
     # from LApp import LMainWindow
     from kivy.uix.boxlayout import BoxLayout

@@ -36,10 +36,6 @@ if __name__ == '__main__':
 # Toolkit imports
 # from pysollib.settings import WIN_SYSTEM
 
-
-__all__ = ['PysolStatusbar',
-           'HelpStatusbar']
-
 # ************************************************************************
 # *
 # ************************************************************************

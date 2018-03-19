@@ -27,8 +27,6 @@
 # Toolkit imports
 from pysollib.kivy.tktree import MfxTreeLeaf, MfxTreeNode, MfxTreeInCanvas
 
-__all__ = ['SelectDialogTreeData']
-
 # ************************************************************************
 # * Nodes
 # ************************************************************************

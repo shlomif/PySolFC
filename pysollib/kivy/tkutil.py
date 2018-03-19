@@ -26,28 +26,6 @@
 # emulated.
 
 from __future__ import division
-'''
-__all__ = ['wm_withdraw',
-           'wm_map',
-           'setTransient',
-           'makeToplevel',
-           'make_help_toplevel',
-           'bind',
-           'unbind_destroy',
-           'after',
-           'after_idle',
-           'after_cancel',
-           # 'makeImage',
-           'copyImage',
-           'loadImage',
-           # 'fillImage',
-           'createImage',
-           'shadowImage',
-           'markImage',
-           'createBottom',
-           'get_text_width',
-           ]
-'''
 
 # imports
 import os

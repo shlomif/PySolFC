@@ -31,14 +31,6 @@
 # from tkconst import EVENT_HANDLED
 # from tkwidget import MfxDialog
 
-__all__ = [
-    # 'SolverDialog',
-    'create_solver_dialog',
-    'connect_game_solver_dialog',
-    'destroy_solver_dialog',
-    'reset_solver_dialog',
-]
-
 # ************************************************************************
 # *
 # ************************************************************************

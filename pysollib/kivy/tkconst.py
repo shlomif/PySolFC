@@ -19,25 +19,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# ---------------------------------------------------------------------------#
-
-__all__ = ['EVENT_HANDLED',
-           'EVENT_PROPAGATE',
-           'CURSOR_DRAG',
-           'CURSOR_WATCH',
-           'CURSOR_DOWN_ARROW',
-           'ANCHOR_CENTER',
-           'ANCHOR_N',
-           'ANCHOR_NW',
-           'ANCHOR_NE',
-           'ANCHOR_S',
-           'ANCHOR_SW',
-           'ANCHOR_SE',
-           'ANCHOR_W',
-           'ANCHOR_E',
-           'TOOLBAR_BUTTONS',
-           ]
-
 # ************************************************************************
 # * constants
 # ************************************************************************

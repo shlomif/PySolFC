@@ -21,13 +21,8 @@
 #
 # ---------------------------------------------------------------------------#
 
-__all__ = ['TclError',
-           'MfxRoot']
-
-E402Fix = True
-if E402Fix:
-    import logging
-    from kivy.cache import Cache
+import logging
+from kivy.cache import Cache
 
 TclError = 0
 

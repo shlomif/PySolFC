@@ -25,10 +25,7 @@
 # imports
 import math
 import os
-# import sys
 import re
-# import logging
-# import traceback
 
 # PySol imports
 from pysollib.mygettext import _
@@ -65,8 +62,6 @@ from pysollib.kivy.LApp import LTopLevel
 from pysollib.kivy.LApp import LScrollView
 from pysollib.kivy.LApp import LTreeRoot
 
-
-__all__ = ['PysolMenubarTk']
 
 # ************************************************************************
 # * tk emuls:

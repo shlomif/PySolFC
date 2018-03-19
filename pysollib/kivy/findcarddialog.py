@@ -35,11 +35,6 @@
 
 # from pysollib.settings import TITLE
 
-__all__ = ['create_find_card_dialog',
-           'connect_game_find_card_dialog',
-           'destroy_find_card_dialog',
-           ]
-
 # ************************************************************************
 # *
 # ************************************************************************

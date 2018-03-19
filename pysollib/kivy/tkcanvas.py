@@ -43,14 +43,6 @@ from kivy.clock import Clock
 from kivy.graphics import Color
 from kivy.graphics import Rectangle
 
-'''
-__all__ = ['MfxCanvasGroup',
-           'MfxCanvasImage',
-           'MfxCanvasText',
-           'MfxCanvasLine',
-           'MfxCanvasRectangle',
-           'MfxCanvas']
-'''
 # ************************************************************************
 # * canvas items helpers
 # ************************************************************************

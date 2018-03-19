@@ -20,16 +20,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 # ---------------------------------------------------------------------------#
-'''
-__all__ = ['SingleGame_StatsDialog',
-           'AllGames_StatsDialog',
-           'FullLog_StatsDialog',
-           'SessionLog_StatsDialog',
-           'Status_StatsDialog',
-           'Top_StatsDialog',
-           'ProgressionDialog',
-           ]
-'''
 # imports
 # import os
 # import time

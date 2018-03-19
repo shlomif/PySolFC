@@ -31,8 +31,6 @@ from pysollib.kivy.tkcanvas import MfxCanvasGroup, MfxCanvasImage
 from pysollib.kivy.LApp import LImageItem
 from pysollib.kivy.LApp import LImage
 
-__all__ = ['Card']
-
 # ************************************************************************
 # *
 # ************************************************************************

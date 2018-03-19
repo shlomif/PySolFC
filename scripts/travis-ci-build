@@ -1,2 +1,2 @@
 #!/bin/bash
-PATH="$(perl -lE 'my @p = split/:/,$ENV{PATH}; print join q#:#, grep { ! m#\A/opt/python# } @p;')" make test || exit -1
+PATH="$(perl -lE 'my @p = split/:/,$ENV{PATH}; print join q#:#, grep { ! m#\A/opt/python# } @p;')" make test || make dist || exit -1

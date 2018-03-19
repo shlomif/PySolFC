@@ -15,7 +15,7 @@ import pysollib.games.mahjongg
 
 from pysollib.gamedb import GAME_DB
 from pysollib.gamedb import GI
-from pysollib.mfxutil import latin1_to_ascii
+from pysollib.mfxutil import latin1_normalize
 from pysollib.resource import CSI
 os.environ['LANG'] = 'C'
 __builtin__.__dict__['_'] = lambda x: x

@@ -34,6 +34,9 @@ SolidCompression=yes
 SourceDir=dist
 OutputDir=.
 OutputBaseFilename=PySolFC_%(prog_version)s_setup
+DisableWelcomePage=no
+DisableDirPage=no
+DisableProgramGroupPage=no
 
 [Icons]
 Name: "{group}\\%(prog_name)s"; Filename: "{app}\\pysol.exe"

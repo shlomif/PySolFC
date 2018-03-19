@@ -11,6 +11,7 @@ install:
     - "sudo /usr/bin/python3 -m pip install --upgrade $PY_MODS"
     - "`which python` -m pip install --upgrade --user $PY_MODS"
     - which python
+language: python
 python:
     - "3.6"
 script: "sh -x scripts/travis-ci-build"

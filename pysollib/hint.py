@@ -755,7 +755,7 @@ class Base_Solver_Hint:
 
     def card2str2(self, card):
         # foundations
-        return self._card2str_format('%(S)-s%(R)s', card)
+        return self._card2str_format('%(S)s-%(R)s', card)
 
 # hard solvable: Freecell #47038300998351211829 (65539 iters)
 

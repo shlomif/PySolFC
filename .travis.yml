@@ -9,8 +9,9 @@ install:
     - export PY_MODS='pycotap random2 six'
     - "`which python3` -m pip install --upgrade flake8 $PY_MODS"
     - "sudo /usr/bin/python3 -m pip install --upgrade $PY_MODS"
-    - "`which python` -m pip install --upgrade $PY_MODS"
+    - "sudo `which python2` -m pip install --upgrade $PY_MODS"
     - which python
+    - which python2
 language: python
 python:
     - "3.6"

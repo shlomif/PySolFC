@@ -51,8 +51,7 @@
 
 
 # imports
-import sys
-from TAP.Simple import diag, plan, ok
+import unittest
 
 # So the localpaths will be overrided.
 from pysollib.pysolrandom import constructRandom, LCRandom31, \
@@ -565,23 +564,19 @@ class Game:
         game.cyclical_deal(num_cols, num_cols)
 
 
-def _cmp_board(got_s, expected_s, blurb):
-    if not ok(got_s == expected_s, blurb):
-        diag("got_s=<<%s>> expected_s=<<%s>> blurb=<<%s>>"
-             % (got_s, expected_s, blurb))
-        return False
-    return True
+class MyTests(unittest.TestCase):
+    def _cmp_board(self, got_s, expected_s, blurb):
+        if not self.assertEqual(got_s, expected_s, blurb):
+            return False
+        return True
 
+    def test_main(self):
 
-def shlomif_main(args):
-
-    plan(8)
-
-    rand = constructRandom('24')
-    game = Game("freecell", rand, True)
-    # TEST
-    got_s = game.print_layout()
-    ok(got_s == '''4C 2C 9C 8C QS 4S 2H
+        rand = constructRandom('24')
+        game = Game("freecell", rand, True)
+        # TEST
+        got_s = game.print_layout()
+        self.assertEqual(got_s, '''4C 2C 9C 8C QS 4S 2H
 5H QH 3C AC 3H 4H QD
 QC 9S 6H 9H 3S KS 3D
 5D 2S JC 5C JH 6D AS
@@ -591,11 +586,11 @@ AH 5S 6S AD 8H JD
 7S 6C 7D 4D 8S 9D
 ''', 'Deal 24')
 
-    rand = constructRandom('ms123456')
-    game = Game("freecell", rand, True)
-    # TEST
-    got_s = game.print_layout()
-    ok(got_s == '''QD TC AS KC AH KH 6H
+        rand = constructRandom('ms123456')
+        game = Game("freecell", rand, True)
+        # TEST
+        got_s = game.print_layout()
+        self.assertEqual(got_s, '''QD TC AS KC AH KH 6H
 6D TD 8D TH 7C 2H 9C
 AC AD 5C 5H 8C 9H 9D
 JS 8S 4D 4C 2S 7D 3C
@@ -605,10 +600,10 @@ JS 8S 4D 4C 2S 7D 3C
 JD QH 6S 4H QC 8H
 ''', 'Microsoft Deal 123456')
 
-    rand = constructRandom('123456')
-    game = Game("freecell", rand, True)
-    # TEST
-    _cmp_board(game.print_layout(), '''3D 6C AS TS QC 8D 4D
+        rand = constructRandom('123456')
+        game = Game("freecell", rand, True)
+        # TEST
+        self._cmp_board(game.print_layout(), '''3D 6C AS TS QC 8D 4D
 2D TC 4H JD TD 2H 5C
 2C 8S AH KD KH 5S 7C
 9C 8C QH 3C 5D 9S QD
@@ -618,10 +613,10 @@ AC 9D 7H 6D KS JH
 KC JS 9H 4S 7S AD
 ''', 'PySolFC deal No. 123456')
 
-    rand = constructRandom('ms3000000000')
-    game = Game("freecell", rand, True)
-    # TEST
-    _cmp_board(game.print_layout(), '''8D TS JS TD JH JD JC
+        rand = constructRandom('ms3000000000')
+        game = Game("freecell", rand, True)
+        # TEST
+        self._cmp_board(game.print_layout(), '''8D TS JS TD JH JD JC
 4D QS TH AD 4S TC 3C
 9H KH QH 4C 5C KD AS
 9D 5D 8S 4H KS 6S 9S
@@ -631,11 +626,11 @@ KC JS 9H 4S 7S AD
 8C AH 2H 5H 2D 5S
 ''', 'Microsoft Deal #3E9 - long seed.')
 
-    rand = constructRandom('ms6000000000')
-    game = Game("freecell", rand, True)
-    # TEST
-    got_s = game.print_layout()
-    ok(got_s == '''2D 2C QS 8D KD 8C 4C
+        rand = constructRandom('ms6000000000')
+        game = Game("freecell", rand, True)
+        # TEST
+        got_s = game.print_layout()
+        self.assertEqual(got_s, '''2D 2C QS 8D KD 8C 4C
 3D AH 2H 4H TS 6H QD
 4D JS AD 6S JH JC JD
 KH 3H KS AS TC 5D AC
@@ -645,25 +640,27 @@ QH 9H 9D 5S 7S 6C
 6D QC 8S TH 7D 8H
 ''', 'Microsoft Deal #6E9 - extra long seed.')
 
-    inp = 'ms12345678'
-    got = random__long2str(random__str2long(inp))
+        inp = 'ms12345678'
+        got = random__long2str(random__str2long(inp))
 
-    # TEST
-    ok(got == inp, 'long2str ms roundtrip.')
+        # TEST
+        self.assertEqual(got, inp, 'long2str ms roundtrip.')
 
-    inp = '246007891097'
-    got = random__long2str(random__str2long(inp))
+        inp = '246007891097'
+        got = random__long2str(random__str2long(inp))
 
-    # TEST
-    ok(got == inp, 'long2str PySolFC roundtrip.')
+        # TEST
+        self.assertEqual(got, inp, 'long2str PySolFC roundtrip.')
 
-    proto_inp = '246007891097'
-    inp = random__str2long(proto_inp)
-    got = random__str2long(random__long2str(inp))
+        proto_inp = '246007891097'
+        inp = random__str2long(proto_inp)
+        got = random__str2long(random__long2str(inp))
 
-    # TEST
-    ok(got == inp, 'str2long PySolFC roundtrip.')
+        # TEST
+        self.assertEqual(got, inp, 'str2long PySolFC roundtrip.')
 
 
 def mymain():
-    sys.exit(shlomif_main(sys.argv))
+    from pycotap import TAPTestRunner
+    suite = unittest.TestLoader().loadTestsFromTestCase(MyTests)
+    TAPTestRunner().run(suite)

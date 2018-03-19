@@ -20,11 +20,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 # ---------------------------------------------------------------------------##
-from . import dashavatara
-from . import hanafuda
-from . import hanafuda1
-from . import hexadeck
-from . import larasgame
-from . import matrix
-from . import mughal
-from . import tarock
+from . import dashavatara  # noqa: F401
+from . import hanafuda  # noqa: F401
+from . import hanafuda1  # noqa: F401
+from . import hexadeck  # noqa: F401
+from . import larasgame  # noqa: F401
+from . import matrix  # noqa: F401
+from . import mughal  # noqa: F401
+from . import tarock  # noqa: F401

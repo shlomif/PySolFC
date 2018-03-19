@@ -20,67 +20,67 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 # ---------------------------------------------------------------------------##
-from . import acesup
-from . import algerian
-from . import auldlangsyne
-from . import bakersdozen
-from . import bakersgame
-from . import beleagueredcastle
-from . import bisley
-from . import braid
-from . import bristol
-from . import buffalobill
-from . import calculation
-from . import camelot
-from . import canfield
-from . import capricieuse
-from . import curdsandwhey
-from . import daddylonglegs
-from . import dieboesesieben
-from . import diplomat
-from . import doublets
-from . import eiffeltower
-from . import fan
-from . import fortythieves
-from . import freecell
-from . import glenwood
-from . import golf
-from . import grandduchess
-from . import grandfathersclock
-from . import gypsy
-from . import harp
-from . import headsandtails
-from . import katzenschwanz
-from . import klondike
-from . import labyrinth
-from . import larasgame
-from . import matriarchy
-from . import montana
-from . import montecarlo
-from . import napoleon
-from . import needle
-from . import numerica
-from . import osmosis
-from . import parallels
-from . import pasdedeux
-from . import picturegallery
-from . import pileon
-from . import pushpin
-from . import pyramid
-from . import royalcotillion
-from . import royaleast
-from . import sanibel
-from . import siebenbisas
-from . import simplex
-from . import spider
-from . import sthelena
-from . import sultan
-from . import takeaway
-from . import terrace
-from . import threepeaks
-from . import tournament
-from . import unionsquare
-from . import wavemotion
-from . import windmill
-from . import yukon
-from . import zodiac
+from . import acesup  # noqa: F401
+from . import algerian  # noqa: F401
+from . import auldlangsyne  # noqa: F401
+from . import bakersdozen  # noqa: F401
+from . import bakersgame  # noqa: F401
+from . import beleagueredcastle  # noqa: F401
+from . import bisley  # noqa: F401
+from . import braid  # noqa: F401
+from . import bristol  # noqa: F401
+from . import buffalobill  # noqa: F401
+from . import calculation  # noqa: F401
+from . import camelot  # noqa: F401
+from . import canfield  # noqa: F401
+from . import capricieuse  # noqa: F401
+from . import curdsandwhey  # noqa: F401
+from . import daddylonglegs  # noqa: F401
+from . import dieboesesieben  # noqa: F401
+from . import diplomat  # noqa: F401
+from . import doublets  # noqa: F401
+from . import eiffeltower  # noqa: F401
+from . import fan  # noqa: F401
+from . import fortythieves  # noqa: F401
+from . import freecell  # noqa: F401
+from . import glenwood  # noqa: F401
+from . import golf  # noqa: F401
+from . import grandduchess  # noqa: F401
+from . import grandfathersclock  # noqa: F401
+from . import gypsy  # noqa: F401
+from . import harp  # noqa: F401
+from . import headsandtails  # noqa: F401
+from . import katzenschwanz  # noqa: F401
+from . import klondike  # noqa: F401
+from . import labyrinth  # noqa: F401
+from . import larasgame  # noqa: F401
+from . import matriarchy  # noqa: F401
+from . import montana  # noqa: F401
+from . import montecarlo  # noqa: F401
+from . import napoleon  # noqa: F401
+from . import needle  # noqa: F401
+from . import numerica  # noqa: F401
+from . import osmosis  # noqa: F401
+from . import parallels  # noqa: F401
+from . import pasdedeux  # noqa: F401
+from . import picturegallery  # noqa: F401
+from . import pileon  # noqa: F401
+from . import pushpin  # noqa: F401
+from . import pyramid  # noqa: F401
+from . import royalcotillion  # noqa: F401
+from . import royaleast  # noqa: F401
+from . import sanibel  # noqa: F401
+from . import siebenbisas  # noqa: F401
+from . import simplex  # noqa: F401
+from . import spider  # noqa: F401
+from . import sthelena  # noqa: F401
+from . import sultan  # noqa: F401
+from . import takeaway  # noqa: F401
+from . import terrace  # noqa: F401
+from . import threepeaks  # noqa: F401
+from . import tournament  # noqa: F401
+from . import unionsquare  # noqa: F401
+from . import wavemotion  # noqa: F401
+from . import windmill  # noqa: F401
+from . import yukon  # noqa: F401
+from . import zodiac  # noqa: F401

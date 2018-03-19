@@ -20,11 +20,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 # ---------------------------------------------------------------------------##
-from . import hanoi
-from . import memory
-from . import pegged
-from . import poker
-from . import tarock
+from . import hanoi  # noqa: F401
+from . import memory  # noqa: F401
+from . import pegged  # noqa: F401
+from . import poker  # noqa: F401
+from . import tarock  # noqa: F401
+
 
 def no_use():
     pass

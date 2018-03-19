@@ -20,7 +20,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 # ---------------------------------------------------------------------------##
-from . import mahjongg1
-from . import mahjongg2
-from . import mahjongg3
-from . import shisensho
+from . import mahjongg1  # noqa: F401
+from . import mahjongg2  # noqa: F401
+from . import mahjongg3  # noqa: F401
+from . import shisensho  # noqa: F401

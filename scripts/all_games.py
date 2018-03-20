@@ -6,7 +6,7 @@ import sys
 import os
 import time
 # from pprint import pprint
-import builtins
+from six.moves import builtins
 from pysollib.mygettext import fix_gettext
 import pysollib.games
 import pysollib.games.special

@@ -17,13 +17,12 @@ and implemented some other enhancements.
 
 ## Requirements.
 
-- Python (2.4 or later) (NB: CPython 2.6.0 has a bug, use 2.6.1 instead)
+- Python (2.7 or 3.x)
 - Tkinter (Tcl/Tk 8.4 or later)
 
 - For sound support (optional)
-  - PySol-Sound-Server: http://www.pysol.org/ (mp3, wav, tracker music)
-  or
-  - PyGame: http://www.pygame.org/ (mp3, ogg, wav, midi, tracker music)
+  - PySol-Sound-Server fork: https://github.com/shlomif/pysol-sound-server (mp3, wav, tracker music)
+  - (or: ) PyGame: http://www.pygame.org/ (mp3, ogg, wav, midi, tracker music)
 
 - Other packages (optional):
   - Tile (ttk): http://tktable.sourceforge.net/tile/ (0.8.0 or later)
@@ -131,7 +130,7 @@ To facilitate coordination about contributing to PySol, please join us for a
 real time Internet chat on
 the <a href="irc://irc.freenode.net/##pysol">##pysol</a> chat room on
 [Freenode](http://freenode.net/) (note the double
-octhothorpe/hash-sign/pound-sign) .  We may set up
+octothorpe/hash-sign/pound-sign) .  We may set up
 chat rooms on different services in the future.
 
 In addition, we set up a

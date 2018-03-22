@@ -10,6 +10,7 @@ people, has gained official status, ported the code to Python 3,
 and implemented some other enhancements.
 
 [![Build Status](https://travis-ci.org/shlomif/PySolFC.svg)](https://travis-ci.org/shlomif/PySolFC)
+[![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/04re7umgl3yuukmh?svg=true)](https://ci.appveyor.com/project/shlomif/pysolfc)
 
 # Screenshots
 

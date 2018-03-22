@@ -1355,6 +1355,9 @@ class LTkBase:
             self.in_loop = False
         logging.info('LTkBase: wait condition end')
 
+    def waitAnimation(self):
+        self.waitCondition(LAnimationManager.checkRunning)
+
     def tkraise(self):
         pass
 

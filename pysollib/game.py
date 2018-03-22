@@ -1896,8 +1896,7 @@ You have reached
         if TOOLKIT == 'kivy':
             if not self.app.opt.display_win_message:
                 return 1
-            from kivy.LApp import LAnimationManager
-            self.top.waitCondition(LAnimationManager.checkRunning)
+            self.top.waitAnimation()
         if status == 2:
             top_msg = self.updateStats()
             time = self.getTime()

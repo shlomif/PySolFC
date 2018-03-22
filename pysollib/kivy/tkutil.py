@@ -413,7 +413,7 @@ def _scaleTextureToSize(texture, size):
                 bpos = (bline + bk) * 4
                 if (bk >= offx) and (bk < (width - offx)):
                     # transfer
-                    ak = gw - int((bk - offx) / scale) - 1
+                    ak = int((bk - offx) / scale)
                     apos = (aline + ak) * 4
                     bb[bpos] = ag[apos]
                     bb[bpos + 1] = ag[apos + 1]

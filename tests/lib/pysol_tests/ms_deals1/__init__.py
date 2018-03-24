@@ -574,7 +574,7 @@ class MyTests(unittest.TestCase):
 
         rand = constructRandom('24')
 
-        def test_24():
+        def test_24(blurb):
             game = Game("freecell", rand, True)
             got_s = game.print_layout()
             self.assertEqual(got_s, '''4C 2C 9C 8C QS 4S 2H
@@ -585,13 +585,13 @@ QC 9S 6H 9H 3S KS 3D
 7H JS KH TS KC 7C
 AH 5S 6S AD 8H JD
 7S 6C 7D 4D 8S 9D
-''', 'Deal 24')
+''', blurb)
 
         # TEST
-        test_24()
+        test_24('Deal 24')
         rand.reset()
         # TEST
-        test_24()
+        test_24('MS deal after reset.')
 
         rand = constructRandom('ms123456')
         game = Game("freecell", rand, True)

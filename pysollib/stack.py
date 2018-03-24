@@ -2795,28 +2795,24 @@ class SuperMoveSS_RowStack(SuperMoveStack_StackMethods, SS_RowStack):
     def canMoveCards(self, cards):
         if not SS_RowStack.canMoveCards(self, cards):
             return False
-        max_move = self._getMaxMove(1)
-        return len(cards) <= max_move
+        return len(cards) <= self._getMaxMove(1)
 
     def acceptsCards(self, from_stack, cards):
         if not SS_RowStack.acceptsCards(self, from_stack, cards):
             return False
-        max_move = self._getMaxMove(len(self.cards))
-        return len(cards) <= max_move
+        return len(cards) <= self._getMaxMove(len(self.cards))
 
 
 class SuperMoveAC_RowStack(SuperMoveStack_StackMethods, AC_RowStack):
     def canMoveCards(self, cards):
         if not AC_RowStack.canMoveCards(self, cards):
             return False
-        max_move = self._getMaxMove(1)
-        return len(cards) <= max_move
+        return len(cards) <= self._getMaxMove(1)
 
     def acceptsCards(self, from_stack, cards):
         if not AC_RowStack.acceptsCards(self, from_stack, cards):
             return False
-        max_move = self._getMaxMove(len(self.cards))
-        return len(cards) <= max_move
+        return len(cards) <= self._getMaxMove(len(self.cards))
 
 
 class SuperMoveRK_RowStack(SuperMoveStack_StackMethods, RK_RowStack):
@@ -2847,14 +2843,12 @@ class SuperMoveBO_RowStack(SuperMoveStack_StackMethods, BO_RowStack):
     def canMoveCards(self, cards):
         if not BO_RowStack.canMoveCards(self, cards):
             return False
-        max_move = self._getMaxMove(1)
-        return len(cards) <= max_move
+        return len(cards) <= self._getMaxMove(1)
 
     def acceptsCards(self, from_stack, cards):
         if not BO_RowStack.acceptsCards(self, from_stack, cards):
             return False
-        max_move = self._getMaxMove(len(self.cards))
-        return len(cards) <= max_move
+        return len(cards) <= self._getMaxMove(len(self.cards))
 
 
 # ************************************************************************

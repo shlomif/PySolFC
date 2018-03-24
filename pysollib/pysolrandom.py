@@ -253,6 +253,9 @@ class LCRandom31(MFXRandom):
             seq[n], seq[j] = seq[j], seq[n]
             n -= 1
 
+    def reset(self):
+        self.setSeed(self.seed)
+
 
 # select
 # PysolRandom = LCRandom64

@@ -55,4 +55,26 @@ for d in files_list[1:]:
     d = d.replace('dist\\', '')
     print('Source: "%s\\*"; DestDir: "{app}\\%s"' % (d, d), file=out)
 
+print('Source: "..\\vcredist_x86.exe"; DestDir: {tmp}; \
+Flags: deleteafterinstall', file=out)
+print('[Run]\n\
+Filename: {tmp}\\vcredist_x86.exe; \
+Parameters: "/passive /promptrestart /showfinalerror"; \
+StatusMsg: "Installing MS Visual C++ 2010 SP1 Redistributable Package (x86)"; \
+Check: not isVCInstalled', file=out)
+print('''
+[Code]
+function isVCInstalled: Boolean;
+var
+  find: TFindRec;
+begin
+  if FindFirst(ExpandConstant('{sys}\\msvcr100.dll'), find) then begin
+    Result := True;
+    FindClose(find);
+  end else begin
+    Result := False;
+  end;
+ end;
+''', file=out)
+
 out.close()

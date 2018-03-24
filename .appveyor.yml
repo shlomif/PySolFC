@@ -42,6 +42,7 @@ test_script:
     - 7z a -r pysol_win_dist.7z dist\
     - SET PYTHONPATH=%cd%
     - python3 scripts\create_iss.py
+    - appveyor DownloadFile https://www.microsoft.com/en-us/download/confirmation.aspx?id=8328 -FileName vcredist_x86.exe
     - SET PATH=%PATH%;"C:\\Program Files (x86)\\Inno Setup 5"
     - ISCC /Q setup.iss
 artifacts:

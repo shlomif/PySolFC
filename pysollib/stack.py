@@ -2823,28 +2823,24 @@ class SuperMoveRK_RowStack(SuperMoveStack_StackMethods, RK_RowStack):
     def canMoveCards(self, cards):
         if not RK_RowStack.canMoveCards(self, cards):
             return False
-        max_move = self._getMaxMove(1)
-        return len(cards) <= max_move
+        return len(cards) <= self._getMaxMove(1)
 
     def acceptsCards(self, from_stack, cards):
         if not RK_RowStack.acceptsCards(self, from_stack, cards):
             return False
-        max_move = self._getMaxMove(len(self.cards))
-        return len(cards) <= max_move
+        return len(cards) <= self._getMaxMove(len(self.cards))
 
 
 class SuperMoveSC_RowStack(SuperMoveStack_StackMethods, SC_RowStack):
     def canMoveCards(self, cards):
         if not SC_RowStack.canMoveCards(self, cards):
             return False
-        max_move = self._getMaxMove(1)
-        return len(cards) <= max_move
+        return len(cards) <= self._getMaxMove(1)
 
     def acceptsCards(self, from_stack, cards):
         if not SC_RowStack.acceptsCards(self, from_stack, cards):
             return False
-        max_move = self._getMaxMove(len(self.cards))
-        return len(cards) <= max_move
+        return len(cards) <= self._getMaxMove(len(self.cards))
 
 
 class SuperMoveBO_RowStack(SuperMoveStack_StackMethods, BO_RowStack):

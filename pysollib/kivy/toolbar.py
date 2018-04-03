@@ -66,6 +66,7 @@ class AbstractToolbarButton:
 
 if True:
     from pysollib.kivy.LApp import LImage
+    from pysollib.kivy.LApp import LBase
     # from LApp import LMainWindow
     from kivy.uix.boxlayout import BoxLayout
     # from kivy.uix.button import Button
@@ -76,7 +77,7 @@ if True:
 # ************************************************************************
 
 
-class MyButton(ButtonBehavior, KivyImage):
+class MyButton(ButtonBehavior, KivyImage, LBase):
     def __init__(self, **kwargs):
         super(MyButton, self).__init__(**kwargs)
         # super(MyButton, self).__init__()
@@ -98,7 +99,7 @@ class MyButton(ButtonBehavior, KivyImage):
             self.command()
 
 
-class MyCheckButton(ButtonBehavior, KivyImage):
+class MyCheckButton(ButtonBehavior, KivyImage, LBase):
     def __init__(self, **kwargs):
         super(MyCheckButton, self).__init__(**kwargs)
         # super(MyCheckButton, self).__init__()
@@ -277,7 +278,6 @@ class PysolToolbarTk(BoxLayout):
         bd = TkSettings.toolbar_button_borderwidth
         padx, pady = TkSettings.toolbar_button_padding
         kw = {
-            # 'position'     : position,
             'toolbar': self,
             'toolbar_name': name,
             'command': command,

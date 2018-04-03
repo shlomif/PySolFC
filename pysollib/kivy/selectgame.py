@@ -60,7 +60,6 @@ class SelectGameNode(SelectDialogTreeNode):
                     node = SelectGameLeaf(self.tree, self, name, key=id)
                     contents.append(node)
         else:
-            # for gi in self.tree.data.all_games_gi:
             for gi in self.tree.all_games_gi:
                 if gi and self.select_func is None:
                     # All games
@@ -72,7 +71,7 @@ class SelectGameNode(SelectDialogTreeNode):
                     name = gi.name
                     node = SelectGameLeaf(self.tree, self, name, key=gi.id)
                     contents.append(node)
-        return contents or self.tree.data.no_games
+        return contents or self.tree.no_games
 
 
 # ************************************************************************
@@ -84,7 +83,8 @@ class SelectGameData(SelectDialogTreeData):
         SelectDialogTreeData.__init__(self)
 
         # originale.
-        self.all_games_gi = map(app.gdb.get, app.gdb.getGamesIdSortedByName())
+        self.all_games_gi = list(
+            map(app.gdb.get, app.gdb.getGamesIdSortedByName()))
         self.no_games = [SelectGameLeaf(None, None, _("(no games)"), None), ]
         #
         s_by_type = s_oriental = s_special = None
@@ -191,7 +191,7 @@ class SelectGameData(SelectDialogTreeData):
         ul_alternate_names = UserList(
             list(app.gdb.getGamesTuplesSortedByAlternateName()))
         #
-        self.rootnodes = filter(None, (
+        self.rootnodes = [_f for _f in (
             # SelectGameNode(None, _("All Games"), None),
             SelectGameNode(None, _("Popular Games"),
                            lambda gi: gi.si.game_flags & GI.GT_POPULAR),
@@ -280,7 +280,7 @@ class SelectGameData(SelectDialogTreeData):
             )),
             s_original,
             s_contrib,
-        ))
+        ) if _f]
 
 
 # ************************************************************************

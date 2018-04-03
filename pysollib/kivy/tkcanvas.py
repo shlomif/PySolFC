@@ -209,7 +209,7 @@ class MfxCanvasImage(object):
             self.addtag(group)
 
     def __del__(self):
-        print('MfxCanvasImage: __del__()')
+        print('MfxCanvasImage: __del__(%s)' % self.image)
         self.canvas.clear_widgets([self.image])
 
     def config(self, **kw):

@@ -940,12 +940,12 @@ class OptionsMenuDialog(LMenuDialog):
         if rg:
             self.addRadioNode(tv, rg,
                               'Drag-and-Drop',
-                              self.menubar.tkopt.mouse_type, u'drag-n-drop',
+                              self.menubar.tkopt.mouse_type, 'drag-n-drop',
                               self.menubar.mOptMouseType)
 
             self.addRadioNode(tv, rg,
                               'Point-and-Click',
-                              self.menubar.tkopt.mouse_type, u'point-n-click',
+                              self.menubar.tkopt.mouse_type, 'point-n-click',
                               self.menubar.mOptMouseType)
 
             # sinnlos mit touch-device:

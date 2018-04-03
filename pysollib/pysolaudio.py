@@ -269,7 +269,7 @@ class KivyAudioClient(AbstractAudioClient):
 
     def __init__(self):
         AbstractAudioClient.__init__(self)
-        from kivy.LApp import LSoundLoader
+        from pysollib.kivy.LApp import LSoundLoader
         self.audiodev = LSoundLoader
         self.sound = None
         self.queue = []

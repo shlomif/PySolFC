@@ -66,6 +66,20 @@ def get_platform():
     return platform
 
 # =============================================================================
+# kivy EventDispatcher passes keywords, that to not correspond to properties
+# to the base classes. Finally they will reach 'object'. With python3 (but not
+# python2) 'object' throws an exception 'takes no parameters' in that a
+# situation. We therefore underlay a base class (right outside), which
+# swallows up remaining keywords. Thus the keywords do not reach 'object' any
+# more.
+
+
+class LBase(object):
+    def __init__(self, **kw):
+        super(LBase, self).__init__()
+
+
+# =============================================================================
 
 
 class LAnimationMgr(object):
@@ -146,7 +160,7 @@ LSoundLoader = SoundLoader
 # =============================================================================
 
 
-class LBoxLayout(BoxLayout):
+class LBoxLayout(BoxLayout, LBase):
     def __init__(self, **kw):
         super(LBoxLayout, self).__init__(**kw)
 
@@ -159,7 +173,7 @@ class LBoxLayout(BoxLayout):
 # =============================================================================
 
 
-class LImage(KivyImage):
+class LImage(KivyImage, LBase):
 
     def __init__(self, **kwargs):
         super(LImage, self).__init__(**kwargs)
@@ -278,7 +292,7 @@ def LColorToKivy(outline):
 # =============================================================================
 
 
-class LText(Widget):
+class LText(Widget, LBase):
     text = StringProperty('')
 
     def __init__(self, canvas, x, y, **kwargs):
@@ -306,8 +320,13 @@ class LText(Widget):
         # print('LText: font = %s, font_size = %s' % (font, fontsize))
         # print('LText: text = %s' % (self.text))
 
-        self.label = Label(font=font, font_size=fontsize, **kwargs)
-        # self.label = Label(font=font, font_size=fontsize)
+        kwargs['font'] = font
+        kwargs['font_size'] = fontsize
+
+        class MyLabel(Label, LBase):
+            pass
+
+        self.label = MyLabel(**kwargs)
         self.label.texture_update()
         self.coreSize = self.label.texture_size
         self.corePos = (x, y)
@@ -354,7 +373,7 @@ class LEvent(object):
 # =============================================================================
 
 
-class LLine(Widget):
+class LLine(Widget, LBase):
     def __init__(self, canvas, args, **kw):
         super(LLine, self).__init__(**kw)
 
@@ -527,7 +546,7 @@ class LLine(Widget):
 # =============================================================================
 
 
-class LRectangle(Widget):
+class LRectangle(Widget, LBase):
     def __init__(self, prnt, args, **kw):
         super(LRectangle, self).__init__(**kw)
         self.prnt = prnt
@@ -638,7 +657,7 @@ class LRectangle(Widget):
 # =============================================================================
 
 
-class LImageItem(BoxLayout):
+class LImageItem(BoxLayout, LBase):
     def __init__(self, **kw):
         super(LImageItem, self).__init__(**kw)
         self.game = None
@@ -780,13 +799,13 @@ class LImageItem(BoxLayout):
 # Treeview
 
 
-class LTreeRoot(TreeView):
+class LTreeRoot(TreeView, LBase):
     def __init__(self, **kw):
         super(LTreeRoot, self).__init__(**kw)
         self.kw = kw
 
 
-class LTreeNode(ButtonBehavior, TreeViewLabel):
+class LTreeNode(ButtonBehavior, TreeViewLabel, LBase):
 
     # def __init__(self, gameview, **kw):
     def __init__(self, **kw):
@@ -941,7 +960,7 @@ class LTreeNode(ButtonBehavior, TreeViewLabel):
 # =============================================================================
 
 
-class LTopLevelContent(BoxLayout):
+class LTopLevelContent(BoxLayout, LBase):
     def __init__(self, **kw):
         super(LTopLevelContent, self).__init__(**kw)
 
@@ -962,7 +981,7 @@ class LTopLevelContent(BoxLayout):
 # =============================================================================
 
 
-class LTopLine(ButtonBehavior, Label):
+class LTopLine(ButtonBehavior, Label, LBase):
 
     def __init__(self, **kw):
         super(LTopLine, self).__init__(**kw)
@@ -985,10 +1004,11 @@ class LTopLine(ButtonBehavior, Label):
 # =============================================================================
 
 
-class LTopLevel0(BoxLayout):
+class LTopLevel0(BoxLayout, LBase):
     def __init__(self, top, title=None, **kw):
         self.main = top
-        super(LTopLevel0, self).__init__(orientation="vertical", **kw)
+        super(LTopLevel0, self).__init__(
+            orientation="vertical", **kw)
 
         # self.canvas.add(Color(0, 1, 0, 0.4))
         # self.canvas.add(Rectangle(pos=(100, 100), size=(100, 100)))
@@ -1024,10 +1044,11 @@ class LTopLevel0(BoxLayout):
 # =============================================================================
 
 
-class LTopLevel(BoxLayout):
+class LTopLevel(BoxLayout, LBase):
     def __init__(self, parent, title=None, **kw):
         self.mainwindow = parent
-        super(LTopLevel, self).__init__(orientation="vertical", **kw)
+        super(LTopLevel, self).__init__(
+            orientation="vertical", **kw)
 
         if ('size_hint' not in kw):
             self.size_hint = (0.5, 1.0)
@@ -1044,7 +1065,7 @@ class LTopLevel(BoxLayout):
 # class LMenuBar(ActionBar):
 
 
-class LMenuBar(BoxLayout):
+class LMenuBar(BoxLayout, LBase):
     def __init__(self, **kw):
         super(LMenuBar, self).__init__(**kw)
         self.menu = None
@@ -1071,14 +1092,18 @@ class LMenuBar(BoxLayout):
 # =============================================================================
 
 
-class LMenu(ActionView):
+class LMenu(ActionView, LBase):
     def __init__(self, prev, **kw):
-        print('prev = %s, kw = %s' % (prev, kw))
         super(LMenu, self).__init__(**kw)
-        self.ap = ap = ActionPrevious(
-            with_previous=prev, size_hint=(.01, 1), **kw)
-        ap.app_icon = 'data/images/misc/pysol01.png'
-        self.add_widget(ap)
+
+        class MyActionPrev(ActionPrevious, LBase):
+            pass
+
+        kw['app_icon'] = 'data/images/misc/pysol01.png'
+        kw['with_previous'] = prev
+        kw['size_hint'] = (.01, 1)
+        self.ap = MyActionPrev(**kw)
+        self.add_widget(self.ap)
         self.bar = None
         self.uppermenu = None
 
@@ -1131,7 +1156,7 @@ class LMenu(ActionView):
 # =============================================================================
 
 
-class LMenuItem(ActionButton):
+class LMenuItem(ActionButton, LBase):
 
     def __init__(self, menu, **kw):
         super(LMenuItem, self).__init__(**kw)
@@ -1175,7 +1200,7 @@ class LMenuItem(ActionButton):
 # =============================================================================
 
 
-class LScrollView(ScrollView):
+class LScrollView(ScrollView, LBase):
     def __init__(self, **kw):
         super(LScrollView, self).__init__(**kw)
         self.delayDown = False

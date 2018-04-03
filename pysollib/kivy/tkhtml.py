@@ -594,7 +594,7 @@ class HTMLViewer:
         writer = tkHTMLWriter(self.text, self, self.app)
         fmt = formatter.AbstractFormatter(writer)
         parser = tkHTMLParser(fmt)
-        parser.feed(data)
+        parser.feed(str(data))
         parser.close()
         self.text.config(state="disabled")
         if 0.0 <= xview <= 1.0:

@@ -28,13 +28,13 @@ python3 -m pythonforandroid.toolchain apk \
   --ndk-version r12b \
   --arch armeabi-v7a \
   --dist-name pysolfc \
-  --name pysolfc \
+  --name PySolFC \
   --bootstrap=sdl2 \
   --requirements kivy,hostpython2,random2 \
   --release \
   --minsdk 14 \
   --private tmp/src \
-  --package org.lufebe16.gh.pysolfc \
+  --package org.lufebe16.pysolfc \
   --version ${version} \
   --orientation sensor \
   --color=always \

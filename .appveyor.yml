@@ -55,7 +55,6 @@ test_script:
 artifacts:
     - path: pysol_win_dist.7z
       name: pysol_win_dist
-
     - path: dist\PySolFC_*_setup.exe
       name: pysol_win_installer
 cache:

@@ -168,8 +168,8 @@ class BaseSolverDialog:
             return
         hints_len = len(solver.hints)-1
         if hints_len > 0:
-            t = ungettext('This game is solveable in %d move.',
-                          'This game is solveable in %d moves.',
+            t = ungettext('This game is solvable in %d move.',
+                          'This game is solvable in %d moves.',
                           hints_len) % hints_len
             self.result_label['text'] = t
             self.play_button.config(state='normal')

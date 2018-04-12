@@ -9,8 +9,15 @@ class BaseSolverDialog:
     def _ToggleShowProgressButton(self, *args):
         self.app.opt.solver_show_progress = self.progress_var.get()
 
+    def _getMaxIters(self):
+        try:
+            i = self.max_iters_var.get()
+        except Exception:
+            i = 100000
+        return i
+
     def _OnAssignToMaxIters(self, *args):
-        self.app.opt.solver_max_iterations = self.max_iters_var.get()
+        self.app.opt.solver_max_iterations = self._getMaxIters()
 
     def __init__(self, parent, app, **kw):
         self.parent = parent
@@ -158,7 +165,7 @@ class BaseSolverDialog:
         solver = game.Solver_Class(game, self)  # create solver instance
         game.solver = solver
         preset = self.preset_var.get()
-        max_iters = self.max_iters_var.get()
+        max_iters = self._getMaxIters()
         progress = self.app.opt.solver_show_progress
         solver.config(preset=preset, max_iters=max_iters, progress=progress)
         try:

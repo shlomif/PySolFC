@@ -422,6 +422,7 @@ class Options:
             'good-intentions',
             'hello-world',
             'john-galt-line',
+            'looking-glass',
             'one-big-family',
             'rin-tin-tin',
             'slick-rock',

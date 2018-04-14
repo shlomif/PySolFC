@@ -29,6 +29,7 @@ import locale
 from six.moves import tkinter
 from . import ttk
 from six.moves import tkinter_font
+from six import PY2
 import traceback
 
 # PySol imports
@@ -292,7 +293,9 @@ class MfxExceptionDialog(MfxMessageDialog):
                 (ex.errno, ex.strerror, repr(ex.filename))
         else:
             t = str(ex)
-        kw.text = text + unicode(t, errors='replace')
+        if PY2:
+            t = unicode(t, errors='replace')
+        kw.text = text + t
         MfxMessageDialog.__init__(self, parent, title, **kw.getKw())
 
 

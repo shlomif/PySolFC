@@ -70,7 +70,7 @@ class Diplomat(Game):
         # create stacks
         x, y = l.XM, l.YM
         for i in range(8):
-            s.foundations.append(self.Foundation_Class(x, y, self, suit=i/2))
+            s.foundations.append(self.Foundation_Class(x, y, self, suit=i//2))
             x = x + l.XS
         x, y = l.XM, y + l.YS
         for i in range(8):

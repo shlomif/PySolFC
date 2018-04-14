@@ -247,7 +247,7 @@ class MissMilligan(Gypsy):
         s.talon = self.Talon_Class(x, y, self)
         for i in range(8):
             x = x + l.XS
-            s.foundations.append(self.Foundation_Class(x, y, self, suit=i/2))
+            s.foundations.append(self.Foundation_Class(x, y, self, suit=i//2))
         x, y = l.XM, y + l.YS
         rx, ry = x + l.XS - l.CW//2, y - l.CH//2
         for i in range(reserves):

@@ -264,7 +264,8 @@ class DoubleFives_Stock(WasteStack):
     def updateText(self):
         if self.cards:
             WasteStack.updateText(self)
-        else:
+        elif self.texts.ncards is not None:
+            # self.texts.ncards is None in playable preview
             self.texts.ncards.config(text='')
 
 

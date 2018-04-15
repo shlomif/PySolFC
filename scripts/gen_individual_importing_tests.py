@@ -200,10 +200,12 @@ for module_name in \
         ]:
     for ver in [2, 3]:
         if ver == 2 or "gtk" not in module_name:
-            open(os.path.join(".", "tests", "individually-importing", "import_v" + str(ver) + "_" + module_name + ".py"), 'w').write('''#!/usr/bin/env python%(ver)d
+            def fmt(s):
+                return s % {'module_name': module_name, 'ver': ver}
+            open(os.path.join(".", "tests", "individually-importing", fmt("import_v%(ver)d_%(module_name)s.py")), 'w').write(fmt('''#!/usr/bin/env python%(ver)d
 import sys
 print('1..1')
 sys.path.insert(0, ".")
 import %(module_name)s
 print('ok 1 - imported')
-''' % {'module_name': module_name, 'ver': ver})
+'''))

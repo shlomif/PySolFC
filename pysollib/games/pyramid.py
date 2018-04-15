@@ -722,7 +722,7 @@ class TripleAlliance(Game):
         l.defaultStackGroups()
 
     def startGame(self):
-        self._startDealNumRows(3)
+        self._startDealNumRows(2)
         self.s.talon.dealRowAvail()
 
     def fillStack(self, stack):

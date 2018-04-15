@@ -682,6 +682,7 @@ class PysolMenubarTkCommon:
         self._bindKey(ctrl, "s", self.mSave)
         self._bindKey(ctrl, "x", self.mHoldAndQuit)
         self._bindKey(ctrl, "q", self.mQuit)
+        self._bindKey(ctrl, "z", self.mUndo)
         self._bindKey("",   "z", self.mUndo)
         self._bindKey("",   "BackSpace", self.mUndo)    # undocumented
         self._bindKey("",   "KP_Enter", self.mUndo)     # undocumented

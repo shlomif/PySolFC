@@ -580,7 +580,7 @@ class Octave(Game):
         self.setSize(w, h)
 
         # create stacks
-        x, y = l.XM+l.XS2, l.YM
+        x, y = l.XM+l.XS//2, l.YM
         for i in range(8):
             s.foundations.append(SS_FoundationStack(x, y, self,
                                  suit=int(i//2), max_cards=10))

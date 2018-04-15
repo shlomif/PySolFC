@@ -589,6 +589,10 @@ class RightTriangle_Talon(OpenStack, DealRowTalonStack):
 
     getBottomImage = Stack._getReserveBottomImage
 
+    prepareView = Stack.prepareView
+
+    resize = Stack.resize
+
     def getHelp(self):
         return DealRowTalonStack.getHelp(self)
 

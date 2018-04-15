@@ -148,11 +148,11 @@ class Images:
         # bottoms / letters
         bottom = None
         neg_bottom = None
-        while len(self._bottom_positive) < self.cs.nbottoms:
+        while len(self._bottom_positive) < max(7, self.cs.nbottoms):
             if bottom is None:
                 bottom = createImage(cw, ch, fill=None, outline="#000000")
             self._bottom_positive.append(bottom)
-        while len(self._bottom_negative) < self.cs.nbottoms:
+        while len(self._bottom_negative) < max(7, self.cs.nbottoms):
             if neg_bottom is None:
                 neg_bottom = createImage(cw, ch, fill=None, outline="#ffffff")
             self._bottom_negative.append(neg_bottom)

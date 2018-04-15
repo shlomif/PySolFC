@@ -644,11 +644,18 @@ class PairFcFreeCell(FreeCell):
         FreeCell.createGame(self, reserves=2)
 
 
+class ZeroFcFreeCell(FreeCell):
+    def createGame(self):
+        FreeCell.createGame(self, reserves=0)
+
+
 # register the game
 registerGame(GameInfo(5, RelaxedFreeCell, "Relaxed FreeCell",
                       GI.GT_FREECELL | GI.GT_RELAXED | GI.GT_OPEN, 1, 0,
                       GI.SL_SKILL))
 registerGame(GameInfo(8, FreeCell, "FreeCell",
+                      GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_SKILL))
+registerGame(GameInfo(1901, ZeroFcFreeCell, "FreeCell with Zero Reserves",
                       GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_SKILL))
 registerGame(GameInfo(1900, PairFcFreeCell, "FreeCell with Two Reserves",
                       GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_SKILL))

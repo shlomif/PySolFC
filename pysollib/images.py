@@ -117,7 +117,7 @@ class Images:
         if (not USE_PIL and TOOLKIT is not 'kivy') or imagedir is None:
             # load image
             img = self.__loadCard(filename+self.cs.ext, check_w, check_h)
-            if USE_PIL:
+            if USE_PIL and img is not None:
                 # we have no bottom images
                 # (data/images/cards/bottoms/<cs_type>)
                 img = img.resize(self._xfactor, self._yfactor)
@@ -148,11 +148,11 @@ class Images:
         # bottoms / letters
         bottom = None
         neg_bottom = None
-        while len(self._bottom_positive) < 7:
+        while len(self._bottom_positive) < self.cs.nbottoms:
             if bottom is None:
                 bottom = createImage(cw, ch, fill=None, outline="#000000")
             self._bottom_positive.append(bottom)
-        while len(self._bottom_negative) < 7:
+        while len(self._bottom_negative) < self.cs.nbottoms:
             if neg_bottom is None:
                 neg_bottom = createImage(cw, ch, fill=None, outline="#ffffff")
             self._bottom_negative.append(neg_bottom)
@@ -191,14 +191,16 @@ class Images:
         # load bottoms
         for i in range(self.cs.nbottoms):
             name = "bottom%02d" % (i + 1)
-            self._bottom_positive.append(
-                self.__loadBottom(name, color='black'))
+            bottom = self.__loadBottom(name, color='black')
+            if bottom is not None:
+                self._bottom_positive.append(bottom)
             if progress:
                 progress.update(step=pstep)
             # load negative bottoms
             name = "bottom%02d-n" % (i + 1)
-            self._bottom_negative.append(
-                self.__loadBottom(name, color='white'))
+            bottom = self.__loadBottom(name, color='white')
+            if bottom is not None:
+                self._bottom_negative.append(bottom)
             if progress:
                 progress.update(step=pstep)
         # load letters
@@ -435,11 +437,13 @@ class Images:
         self._bottom_positive = []
         for i in range(self.cs.nbottoms):
             name = "bottom%02d" % (i + 1)
-            self._bottom_positive.append(
-                self.__loadBottom(name, color='black'))
+            bottom = self.__loadBottom(name, color='black')
+            if bottom is not None:
+                self._bottom_positive.append(bottom)
             name = "bottom%02d-n" % (i + 1)
-            self._bottom_negative.append(
-                self.__loadBottom(name, color='white'))
+            bottom = self.__loadBottom(name, color='white')
+            if bottom is not None:
+                self._bottom_negative.append(bottom)
         # letters
         self._letter_positive = []
         self._letter_negative = []

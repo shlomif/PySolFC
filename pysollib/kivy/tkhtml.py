@@ -23,6 +23,7 @@
 
 # imports
 import os
+import sys
 # import htmllib
 import pysollib.htmllib2 as htmllib
 import formatter
@@ -93,6 +94,7 @@ class tkHTMLWriter(formatter.NullWriter):
         self.indent = ""
         self.text.label.bind(on_ref_press=self.refpress)
 
+    '''
     def createCallback(self, href):
         class Functor:
             def __init__(self, viewer, arg):
@@ -103,6 +105,7 @@ class tkHTMLWriter(formatter.NullWriter):
                 self.viewer.updateHistoryXYView()
                 return self.viewer.display(self.arg)
         return Functor(self.viewer, href)
+    '''
 
     def write(self, data):
         print('writer: write %s' % data)
@@ -333,9 +336,18 @@ class HTMLViewer:
 
     def make_pop_command(self, parent, title):
         def pop_command(event):
-            print('event = %s' % event)
+            if self.history.index > 1:
+                self.goBack(event)
+                return None
+            self.history.list = None
+            self.history.index = 0
             parent.popWork(title)
         return pop_command
+
+    def refpress(self, instance, value):
+        # print('writer: refpress %s, %s' % (instance, value))
+        self.updateHistoryXYView()
+        return self.display(value)
 
     def __init__(self, parent, app=None, home=None):
         self.parent = parent
@@ -414,8 +426,7 @@ class HTMLViewer:
         # create text widget
 
         self.text = HTMLText(text="hallo", size_hint=(1.0, 1.0))
-        # textouter = BoxLayout(size_hint=(1.0, 1.0))
-        # textouter.add_widget(self.text)
+        self.text.label.bind(on_ref_press=self.refpress)
         content.add_widget(self.text)
         '''
         text_frame = Tkinter.Frame(parent)
@@ -529,6 +540,9 @@ class HTMLViewer:
         if url[-1:] == "/" or os.path.isdir(url):
             url = os.path.join(url, "index.html")
         url = os.path.normpath(url)
+        if sys.version_info > (3,):
+            import codecs
+            return codecs.open(url, encoding='utf-8'), url
         return open(url, "rb"), url
 
     def display(self, url, add=1, relpath=1, xview=0, yview=0):
@@ -563,7 +577,9 @@ class HTMLViewer:
         except Exception:
             if file:
                 file.close()
+            '''
             self.errorDialog(_("Unable to service request:\n") + url)
+            '''
             return
 
         self.url = url
@@ -591,10 +607,11 @@ class HTMLViewer:
         self.text.config(state="normal")
         self.text.delete("1.0", "end")
         # self.images = {}
+        self.text.textbuffer = ''
         writer = tkHTMLWriter(self.text, self, self.app)
         fmt = formatter.AbstractFormatter(writer)
         parser = tkHTMLParser(fmt)
-        parser.feed(str(data))
+        parser.feed(data)
         parser.close()
         self.text.config(state="disabled")
         if 0.0 <= xview <= 1.0:
@@ -623,8 +640,6 @@ class HTMLViewer:
     def updateHistoryXYView(self):
         if self.history.index > 0:
             url, xview, yview = self.history.list[self.history.index - 1]
-            xview = self.text.xview()[0]
-            yview = self.text.yview()[0]
             self.history.list[self.history.index - 1] = (url, xview, yview)
 
     def goBack(self, *event):

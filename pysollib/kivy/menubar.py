@@ -1046,30 +1046,43 @@ class OptionsMenuDialog(LMenuDialog):
                           self.menubar.tkopt.display_win_message,
                           self.menubar.mWinDialog)
 
+
 # ************************************************************************
 
 
 class HelpMenuDialog(LMenuDialog):
-
     def __init__(self, menubar, parent, title, app, **kw):
         kw['size_hint'] = (0.3, 1)
         kw['persist'] = True
-        super(HelpMenuDialog, self).__init__(
-            menubar, parent, title, app, **kw)
+        super(HelpMenuDialog, self).__init__(menubar, parent, title, app, **kw)
+
+    def make_help_command(self, command):
+        def help_command():
+            command()
+            self.closeWindow(0)
+        return help_command
 
     def buildTree(self, tv, node):
-        tv.add_node(LTreeNode(
-            text='Contents', command=self.menubar.mHelp))
-
-        tv.add_node(LTreeNode(
-            text='How to play', command=self.menubar.mHelpHowToPlay))
-        tv.add_node(LTreeNode(
-            text='Rules for this game', command=self.menubar.mHelpRules))
-        tv.add_node(LTreeNode(
-            text='License terms', command=self.menubar.mHelpLicense))
-
-        tv.add_node(LTreeNode(
-            text='About' + TITLE + '...', command=self.menubar.mHelpAbout))
+        tv.add_node(
+            LTreeNode(
+                text='Contents',
+                command=self.make_help_command(self.menubar.mHelp)))
+        tv.add_node(
+            LTreeNode(
+                text='How to play',
+                command=self.make_help_command(self.menubar.mHelpHowToPlay)))
+        tv.add_node(
+            LTreeNode(
+                text='Rules for this game',
+                command=self.make_help_command(self.menubar.mHelpRules)))
+        tv.add_node(
+            LTreeNode(
+                text='License terms',
+                command=self.make_help_command(self.menubar.mHelpLicense)))
+        tv.add_node(
+            LTreeNode(
+                text='About' + TITLE + '...',
+                command=self.make_help_command(self.menubar.mHelpAbout)))
 
         # tv.add_node(LTreeNode(
         #   text='AboutKivy ...',
@@ -1078,7 +1091,9 @@ class HelpMenuDialog(LMenuDialog):
     def makeHtmlCommand(self, bar, htmlfile):
         def htmlCommand():
             bar.mHelpHtml(htmlfile)
+
         return htmlCommand
+
 
 # ************************************************************************
 # *

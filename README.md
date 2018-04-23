@@ -9,7 +9,7 @@ Fish](http://www.shlomifish.org/) and by some other
 people, has gained official status, ported the code to Python 3,
 and implemented some other enhancements.
 
-[![Build Status](https://travis-ci.org/shlomif/PySolFC.svg)](https://travis-ci.org/shlomif/PySolFC)
+- [![Build Status](https://travis-ci.org/shlomif/PySolFC.svg)](https://travis-ci.org/shlomif/PySolFC)
 [![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/04re7umgl3yuukmh?svg=true)](https://ci.appveyor.com/project/shlomif/pysolfc)
 
 # Screenshots
@@ -124,6 +124,24 @@ to its CMake-based build-system:
 
  - Additional cardsets can be downloaded from the PySolFC project page:
    http://sourceforge.net/project/showfiles.php?group_id=150718
+
+## Related repositories and links
+
+- [PySol-Sound-Server fork](https://github.com/shlomif/pysol-sound-server)
+- [Sources for the PySolFC web site](https://github.com/shlomif/pysolfc-website)
+- [PySolFC Announcements Drafts](https://github.com/shlomif/pysolfc-announcements)
+- [Extra mahjongg cardsets for PySolFC - originally for flowersol](https://github.com/shlomif/PySol-Extra-Mahjongg-Cardsets)
+
+Related:
+
+- [Freecell Solver](https://github.com/shlomif/fc-solve)
+- [Black Hole Solver](https://github.com/shlomif/black-hole-solitaire)
+
+Other open source solitaires:
+
+- [solitaire.gg](https://github.com/KyleU/solitaire.gg) - web-based and written in Scala
+- [Solitairey](https://github.com/shlomif/Solitairey/branches) - web-based written in JavaScript
+- [KPat](https://games.kde.org/game.php?game=kpat) - desktop-based for KDE.
 
 ## Chat
 

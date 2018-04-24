@@ -142,6 +142,7 @@ Other open source solitaires:
 - [solitaire.gg](https://github.com/KyleU/solitaire.gg) - web-based and written in Scala
 - [Solitairey](https://github.com/shlomif/Solitairey/branches) - web-based written in JavaScript
 - [KPat](https://games.kde.org/game.php?game=kpat) - desktop-based for KDE.
+- [Aisleriot](https://wiki.gnome.org/Apps/Aisleriot) - desktop-based by the GNOME project with relatively limited functionality.
 
 ## Chat
 

@@ -144,6 +144,11 @@ Other open source solitaires:
 - [KPat](https://games.kde.org/game.php?game=kpat) - desktop-based for KDE.
 - [Aisleriot](https://wiki.gnome.org/Apps/Aisleriot) - desktop-based by the GNOME project with relatively limited functionality.
 
+Screencasts:
+
+- [Black Hole solving](https://github.com/shlomif/pysolfc-black-hole-solver--screencast)
+- [Freecell solving using the qualified-seed-improved preset](https://bitbucket.org/shlomif/pysolfc-qualified-seed-improved-screencast)
+
 ## Chat
 
 To facilitate coordination about contributing to PySol, please join us for a

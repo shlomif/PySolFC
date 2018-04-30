@@ -849,7 +849,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
 
         RANKS_S = "A23456789TJQK"
         RANKS0_S = '0' + RANKS_S
-        RANKS_RE = '[' + RANKS_S + ']'
+        RANKS_RE = '(?:' + '[' + RANKS_S + ']' + '|10)'
         SUITS_S = "CSHD"
         SUITS_RE = '[' + SUITS_S + ']'
         CARD_RE = r'(?:' + RANKS_RE + SUITS_RE + ')'
@@ -868,7 +868,8 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
             s_game.moveMove(1, game.talon, target, frames=0)
 
         def put_str(target, str_):
-            put(target, SUITS_S.index(str_[1]), RANKS_S.index(str_[0]))
+            put(target, SUITS_S.index(str_[-1]),
+                (RANKS_S.index(str_[0]) if len(str_) == 2 else 9))
 
         def my_find_re(RE, m):
             s = m.group(1)
@@ -896,7 +897,12 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                     for foundat in game.foundations:
                         suit = foundat.cap.suit
                         if SUITS_S[suit] == gm[0]:
-                            for r in range(RANKS0_S.index(gm[1])):
+                            rank = gm[1]
+                            if len(rank) == 1:
+                                lim = RANKS0_S.index(rank)
+                            else:
+                                lim = 10
+                            for r in range(lim):
                                 put(foundat, suit, r)
                             break
                 continue

@@ -875,7 +875,19 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
             assert re.match(r'^\s*(?:' + RE + r')?(?:\s+' + RE + r')*\s*$', s)
             return re.findall(r'\b' + RE + r'\b', s)
 
-        for line_p in fh:
+        # Based on https://stackoverflow.com/questions/8898294 - thanks!
+        def mydecode(s):
+            if sys.version_info < (3,):
+                return s
+            for encoding in "utf-8-sig", "utf-8":
+                try:
+                    return s.decode(encoding)
+                except UnicodeDecodeError:
+                    continue
+            return s.decode("latin-1")  # will always work
+
+        mytext = mydecode(fh.read())
+        for line_p in mytext.splitlines():
             line = line_p.rstrip('\r\n')
             m = re.match(r'^(?:Foundations:|Founds?:)\s*(.*)', line)
             if m:

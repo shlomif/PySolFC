@@ -1226,14 +1226,17 @@ Unsupported game for import.
         if not idir:
             idir = self.app.dn.savegames
         d = tkinter_tkfiledialog.Open()
-        filename = d.show(filetypes=self.FILETYPES,
-                          defaultextension=self.DEFAULTEXTENSION,
-                          initialdir=idir, initialfile=ifile)
+        if True:
+            filename = d.show(filetypes=self.FILETYPES,
+                              defaultextension=self.DEFAULTEXTENSION,
+                              initialdir=idir, initialfile=ifile)
+        else:
+            filename = '/home/shlomif/m2.txt'
         if filename:
             filename = os.path.normpath(filename)
             # filename = os.path.normcase(filename)
             if os.path.isfile(filename):
-                with open(filename, 'r') as fh:
+                with open(filename, 'r+b') as fh:
                     game = self.game
                     game.Solver_Class(game, self).importFile(fh, game, self)
 

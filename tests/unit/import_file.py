@@ -59,6 +59,8 @@ class MockGame:
         self.foundations = [
             pysollib.stack.SS_FoundationStack(0, 0, self, s) for s in range(4)]
         self.rows = [pysollib.stack.AC_RowStack(0, 0, self) for s in range(8)]
+        self.reserves = [
+            pysollib.stack.AC_RowStack(0, 0, self) for s in range(4)]
         self.preview = 0
 
 
@@ -77,7 +79,9 @@ class Mock_S_Game:
         pass
 
     def moveMove(self, cnt, frm, to, frames=0):
-        to.addCard(frm.cards.pop())
+        c = frm.cards.pop()
+        c.face_up = True
+        to.addCard(c)
         pass
 
 
@@ -87,6 +91,16 @@ class MyTests(unittest.TestCase):
         h = FreeCellSolver_Hint(s_game, None)
         fh = open('tests/unit/data/with-10-for-rank.txt', 'r+b')
         h.importFileHelper(fh, s_game)
+        self.assertEqual(h.calcBoardString(), '''FC: - - - -
+4C 2C 9C 8C QS 4S 2H
+5H QH 3C AC 3H 4H QD
+QC 9S 6H 9H 3S KS 3D
+5D 2S JC 5C JH 6D AS
+2D KD TH TC TD 8D
+7H JS KH TS KC 7C
+AH 5S 6S AD 8H JD
+7S 6C 7D 4D 8S 9D
+''', 'game is sane')
 
     def test_output(self):
         # TEST

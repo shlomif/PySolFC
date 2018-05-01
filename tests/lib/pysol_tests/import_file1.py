@@ -9,7 +9,7 @@ import pysollib.stack
 
 class MockItem:
     def __init__(self):
-        self.xmargin = self.ymargin = 50
+        pass
 
     def tkraise(self):
         return

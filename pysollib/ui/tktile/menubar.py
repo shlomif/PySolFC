@@ -1226,12 +1226,13 @@ Unsupported game for import.
         if not idir:
             idir = self.app.dn.savegames
         d = tkinter_tkfiledialog.Open()
-        if 'PYSOL_DEBUG_IMPORT' not in os.environ:
+        key = 'PYSOL_DEBUG_IMPORT'
+        if key not in os.environ:
             filename = d.show(filetypes=self.FILETYPES,
                               defaultextension=self.DEFAULTEXTENSION,
                               initialdir=idir, initialfile=ifile)
         else:
-            filename = '/home/shlomif/m2.txt'
+            filename = os.environ[key]
         if filename:
             filename = os.path.normpath(filename)
             # filename = os.path.normcase(filename)

@@ -102,6 +102,22 @@ AH 5S 6S AD 8H JD
 7S 6C 7D 4D 8S 9D
 ''', 'game is sane')
 
+    def test_import_2(self):
+        s_game = Mock_S_Game()
+        h = FreeCellSolver_Hint(s_game, None)
+        fh = open('tests/unit/data/624.board', 'r+b')
+        h.importFileHelper(fh, s_game)
+        self.assertEqual(h.calcBoardString(), '''FC: - - - -
+KC 6H 4C QS 2D 4S AS
+4H TH 2S JH 2H 9S AH
+3S 6C 9H AD KH QD 7C
+3C JS 5H KS TC 9C 8C
+4D 9D 7S JC 5D TS
+KD QC 5C QH 6S 3D
+5S JD 8D 6D TD 8H
+8S 7H 3H 2C AC 7D
+''', 'import worked with Ts')
+
     def test_output(self):
         # TEST
         self.assertEqual(1, 1, 'card2str2 works')

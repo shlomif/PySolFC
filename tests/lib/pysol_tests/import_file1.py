@@ -64,11 +64,11 @@ class MockGame:
         self.preview = 0
 
 
-def m1(*args):
-    return 1
+def _empty_override(*args):
+    return True
 
 
-pysollib.stack.MfxCanvasGroup = m1
+pysollib.stack.MfxCanvasGroup = _empty_override
 
 
 class Mock_S_Game:

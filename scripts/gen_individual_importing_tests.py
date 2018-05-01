@@ -216,6 +216,7 @@ for ver in [2, 3]:
     for mod in [
             'pysol_tests.acard_unit',
             'pysol_tests.import_file1',
+            'pysol_tests.latin1_conv_unit',
             'pysol_tests.ms_deals1',
             ]:
         open(os.path.join(".", "tests", "unit-generated",

@@ -14,3 +14,4 @@
 /po/pl.po
 /po/ru.po
 /tests/individually-importing/*.py
+/tests/unit-generated/*.py

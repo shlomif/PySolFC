@@ -123,7 +123,7 @@ KD QC 5C QH 6S 3D
         self.assertEqual(1, 1, 'card2str2 works')
 
 
-if __name__ == '__main__':
+def mymain():
     from pycotap import TAPTestRunner
     suite = unittest.TestLoader().loadTestsFromTestCase(MyTests)
     TAPTestRunner().run(suite)

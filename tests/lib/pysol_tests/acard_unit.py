@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # Written by Shlomi Fish, under the MIT Expat License.
 
 import unittest
@@ -22,7 +21,7 @@ class MyTests(unittest.TestCase):
         self.assertEqual(card2.rank, 7, 'card2.rank')
 
 
-if __name__ == '__main__':
+def mymain():
     from pycotap import TAPTestRunner
     suite = unittest.TestLoader().loadTestsFromTestCase(MyTests)
     TAPTestRunner().run(suite)

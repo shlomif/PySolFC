@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+# Written by Shlomi Fish, under the MIT Expat License.
+
 import os.path
 for module_name in \
         [
@@ -212,6 +214,7 @@ print('ok 1 - imported')
 
 for ver in [2, 3]:
     for mod in [
+            'pysol_tests.acard_unit',
             'pysol_tests.import_file1',
             'pysol_tests.ms_deals1',
             ]:

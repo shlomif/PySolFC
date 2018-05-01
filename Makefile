@@ -68,7 +68,7 @@ pretest:
 	python scripts/gen_individual_importing_tests.py
 
 TEST_ENV = PYTHONPATH="`pwd`:`pwd`/tests/lib"
-TEST_FILES = tests/style/*.t tests/unit/*.py tests/individually-importing/*.py
+TEST_FILES = tests/style/*.t tests/unit/*.py tests/unit-generated/*.py tests/individually-importing/*.py
 
 define RUN_TESTS
 $(TEST_ENV) $1 $(TEST_FILES)

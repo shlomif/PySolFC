@@ -209,3 +209,16 @@ sys.path.insert(0, ".")
 import %(module_name)s
 print('ok 1 - imported')
 '''))
+
+for ver in [2, 3]:
+    for mod in [
+            'pysol_tests.import_file1',
+            'pysol_tests.ms_deals1',
+            ]:
+        open(os.path.join(".", "tests", "unit-generated",
+                          'test__%s__v%d.py' % (mod, ver)
+                          ), 'w').write('''#!/usr/bin/env python%(ver)d
+from %(mod)s import mymain
+
+mymain()
+''' % {'mod': mod, 'ver': ver})

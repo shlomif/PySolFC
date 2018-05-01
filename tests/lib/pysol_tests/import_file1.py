@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # Written by Shlomi Fish, under the MIT Expat License.
 
 import unittest
@@ -86,12 +85,16 @@ class Mock_S_Game:
 
 
 class MyTests(unittest.TestCase):
-    def test_import(self):
+    def _successful_import(self, fn, want_s, blurb):
         s_game = Mock_S_Game()
         h = FreeCellSolver_Hint(s_game, None)
-        fh = open('tests/unit/data/with-10-for-rank.txt', 'r+b')
+        fh = open(fn, 'r+b')
         h.importFileHelper(fh, s_game)
-        self.assertEqual(h.calcBoardString(), '''FC: - - - -
+        self.assertEqual(h.calcBoardString(), want_s, blurb)
+
+    def test_import(self):
+        return self._successful_import('tests/unit/data/with-10-for-rank.txt',
+                                       '''FC: - - - -
 4C 2C 9C 8C QS 4S 2H
 5H QH 3C AC 3H 4H QD
 QC 9S 6H 9H 3S KS 3D
@@ -100,14 +103,11 @@ QC 9S 6H 9H 3S KS 3D
 7H JS KH TS KC 7C
 AH 5S 6S AD 8H JD
 7S 6C 7D 4D 8S 9D
-''', 'game is sane')
+''', 'import worked with "10"s as ranks')
 
     def test_import_2(self):
-        s_game = Mock_S_Game()
-        h = FreeCellSolver_Hint(s_game, None)
-        fh = open('tests/unit/data/624.board', 'r+b')
-        h.importFileHelper(fh, s_game)
-        self.assertEqual(h.calcBoardString(), '''FC: - - - -
+        return self._successful_import('tests/unit/data/624.board',
+                                       '''FC: - - - -
 KC 6H 4C QS 2D 4S AS
 4H TH 2S JH 2H 9S AH
 3S 6C 9H AD KH QD 7C
@@ -117,10 +117,6 @@ KD QC 5C QH 6S 3D
 5S JD 8D 6D TD 8H
 8S 7H 3H 2C AC 7D
 ''', 'import worked with Ts')
-
-    def test_output(self):
-        # TEST
-        self.assertEqual(1, 1, 'card2str2 works')
 
 
 def mymain():

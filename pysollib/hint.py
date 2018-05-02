@@ -879,7 +879,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
         # Based on https://stackoverflow.com/questions/8898294 - thanks!
         def mydecode(s):
             if sys.version_info < (3,):
-                return s
+                pass  # return s
             for encoding in "utf-8-sig", "utf-8":
                 try:
                     return s.decode(encoding)

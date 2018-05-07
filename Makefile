@@ -67,7 +67,8 @@ pretest:
 	@rm -f tests/individually-importing/*.py # To avoid stray files
 	python scripts/gen_individual_importing_tests.py
 
-TEST_ENV = PYTHONPATH="`pwd`:`pwd`/tests/lib"
+TEST_ENV_PATH = "`pwd`:`pwd`/tests/lib"
+TEST_ENV = PYTHONPATH=$(TEST_ENV_PATH) PERL5LIB=$(TEST_ENV_PATH)
 TEST_FILES = tests/style/*.t tests/unit-generated/*.py tests/individually-importing/*.py
 
 define RUN_TESTS

@@ -1250,6 +1250,8 @@ Unsupported game for import.
                             text=err.format(),
                             bitmap='error'
                         )
+                        game.endGame()
+                        game.newGame()
 
     def mSaveAs(self, *event):
         if self._cancelDrag(break_pause=False):

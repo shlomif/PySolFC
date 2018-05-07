@@ -1250,6 +1250,7 @@ Unsupported game for import.
                             text=err.format(),
                             bitmap='error'
                         )
+                        game.busy = False
                         game.endGame()
                         game.newGame()
 

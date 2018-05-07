@@ -13,6 +13,7 @@ from pysollib.settings import TITLE, WIN_SYSTEM
 from pysollib.settings import SELECT_GAME_MENU
 from pysollib.gamedb import GI
 from pysollib.settings import USE_FREECELL_SOLVER
+from pysollib.hint import PySolHintLayoutImportError
 
 from pysollib.ui.tktile.tkconst import EVENT_HANDLED, EVENT_PROPAGATE, \
         CURSOR_WATCH, COMPOUNDS
@@ -1239,7 +1240,16 @@ Unsupported game for import.
             if os.path.isfile(filename):
                 with open(filename, 'r+b') as fh:
                     game = self.game
-                    game.Solver_Class(game, self).importFile(fh, game, self)
+                    try:
+                        game.Solver_Class(game, self).importFile(
+                            fh, game, self)
+                    except PySolHintLayoutImportError as err:
+                        self._calc_MfxMessageDialog()(
+                            self.top,
+                            title=_('Import game error'),
+                            text=err.format(),
+                            bitmap='error'
+                        )
 
     def mSaveAs(self, *event):
         if self._cancelDrag(break_pause=False):

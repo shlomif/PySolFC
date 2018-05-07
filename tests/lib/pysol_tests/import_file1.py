@@ -2,7 +2,7 @@
 
 import unittest
 from pysollib.acard import AbstractCard
-from pysollib.hint import FreeCellSolver_Hint
+from pysollib.hint import FreeCellSolver_Hint, PySolHintLayoutImportError
 import pysollib.stack
 
 
@@ -131,6 +131,20 @@ KD QC 5C QH 6S 3D
 5S JD 8D 6D TD 8H
 8S 7H 3H 2C AC 7D
 ''', 'import worked with utf-8 bom')
+
+    def test_throw_error_on_duplicate_card(self):
+        s_game = Mock_S_Game()
+        h = FreeCellSolver_Hint(s_game, None)
+        fh = open('tests/unit/data/624-with-dup-card.board', 'r+b')
+        try:
+            h.importFileHelper(fh, s_game)
+        except PySolHintLayoutImportError as err:
+            self.assertEqual(err.msg, "Duplicate cards in input")
+            self.assertEqual(err.cards, ["KC"])
+            self.assertEqual(err.line_num, 1)
+            self.assertEqual(err.format(), "Duplicate cards in input:\n\nKC")
+            return
+        self.fail("No exception thrown.")
 
 
 def mymain():

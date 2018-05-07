@@ -716,6 +716,18 @@ class SpiderType_Hint(DefaultHint):
     pass
 
 
+class PySolHintLayoutImportError(Exception):
+
+    def __init__(self, msg, cards, line_num):
+        """docstring for __init__"""
+        self.msg = msg
+        self.cards = cards
+        self.line_num = line_num
+
+    def format(self):
+        return self.msg + ":\n\n" + ', '.join(self.cards)
+
+
 # ************************************************************************
 # * FreeCell-Solver
 # ************************************************************************
@@ -744,18 +756,21 @@ class Base_Solver_Hint:
     def config(self, **kw):
         self.options.update(kw)
 
-    def _card2str_format(self, fmt, card):
+    def _card2str_format(self, fmt, rank, suit):
         # row and reserves
-        rank = (card.rank-self.base_rank) % 13
-        return fmt % {'R': "A23456789TJQK"[rank], 'S': "CSHD"[card.suit]}
+        rank = (rank-self.base_rank) % 13
+        return fmt % {'R': "A23456789TJQK"[rank], 'S': "CSHD"[suit]}
+
+    def card2str1_(self, rank, suit):
+        # row and reserves
+        return self._card2str_format('%(R)s%(S)s', rank, suit)
 
     def card2str1(self, card):
-        # row and reserves
-        return self._card2str_format('%(R)s%(S)s', card)
+        return self.card2str1_(card.rank, card.suit)
 
     def card2str2(self, card):
         # foundations
-        return self._card2str_format('%(S)s-%(R)s', card)
+        return self._card2str_format('%(S)s-%(R)s', card.rank, card.suit)
 
 # hard solvable: Freecell #47038300998351211829 (65539 iters)
 
@@ -853,6 +868,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
         SUITS_S = "CSHD"
         SUITS_RE = '[' + SUITS_S + ']'
         CARD_RE = r'(?:' + RANKS_RE + SUITS_RE + ')'
+        line_num = 0
 
         def cards():
             return game.talon.cards
@@ -860,7 +876,13 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
         def put(target, suit, rank):
             ret = [i for i, c in enumerate(cards())
                    if c.suit == suit and c.rank == rank]
-            assert len(ret) == 1
+            if len(ret) < 1:
+                raise PySolHintLayoutImportError(
+                    "Duplicate cards in input",
+                    [solver.card2str1_(rank, suit)],
+                    line_num
+                )
+
             ret = ret[0]
             game.talon.cards = \
                 cards()[0:ret] + cards()[(ret+1):] + [cards()[ret]]
@@ -889,6 +911,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
 
         mytext = mydecode(fh.read())
         for line_p in mytext.splitlines():
+            line_num += 1
             line = line_p.rstrip('\r\n')
             m = re.match(r'^(?:Foundations:|Founds?:)\s*(.*)', line)
             if m:

@@ -66,10 +66,7 @@ sudo apt-get install -y ack-grep cpanminus libperl-dev make perl python-glade2 p
 ```
 $ git clone https://github.com/shlomif/PySolFC.git
 $ cd PySolFC
-$ sudo urpmi tkinter
-$ sudo urpmi pygtk2
-$ sudo urpmi pygtk2.0-libglade
-$ sudo urpmi gnome-python-canvas
+$ # Now make sure you have installed the dependencies.
 $ gmake test
 $ gmake rules
 $ ln -s data/images images

@@ -183,6 +183,7 @@ sub myglob
     }
     else
     {
+        local @INC = ( Env::Path->PERL5LIB->List, @INC );
         run_tests( \@tests );
     }
 }

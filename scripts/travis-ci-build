@@ -6,3 +6,5 @@ proc_path()
 }
 make test || exit -1
 make dist || exit -1
+tar -xvf dist/PySolFC-*.tar.xz || exit -1
+(cd PySolFC-*/ && make test) || exit -1

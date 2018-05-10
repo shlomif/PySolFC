@@ -22,7 +22,7 @@ install:
     - SET PERL_MB_OPT=--install_base C:/_P5
     - SET PERL_MM_OPT=INSTALL_BASE=C:/_P5
     - perl -v
-    - cpanm --notest File::Find::Object Perl::Tidy Task::FreecellSolver::Testing  Test::Code::TidyAll Test::TrailingSpace
+    - cpanm --notest Code::TidyAll::Plugin::Flake8 File::Find::Object Perl::Tidy Task::FreecellSolver::Testing  Test::Code::TidyAll Test::TrailingSpace
     - echo %PATH%
 build: off
 test_script:

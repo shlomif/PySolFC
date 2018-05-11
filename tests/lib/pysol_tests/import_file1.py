@@ -85,12 +85,16 @@ class Mock_S_Game:
 
 
 class MyTests(unittest.TestCase):
-    def _successful_import(self, fn, want_s, blurb):
+    def _calc_hint(self, fn):
+        """docstring for _calc_hint"""
         s_game = Mock_S_Game()
         h = FreeCellSolver_Hint(s_game, None)
         fh = open(fn, 'r+b')
         h.importFileHelper(fh, s_game)
-        self.assertEqual(h.calcBoardString(), want_s, blurb)
+        return h
+
+    def _successful_import(self, fn, want_s, blurb):
+        self.assertEqual(self._calc_hint(fn).calcBoardString(), want_s, blurb)
 
     def test_import(self):
         return self._successful_import('tests/unit/data/with-10-for-rank.txt',
@@ -133,11 +137,8 @@ KD QC 5C QH 6S 3D
 ''', 'import worked with utf-8 bom')
 
     def test_throw_error_on_duplicate_card(self):
-        s_game = Mock_S_Game()
-        h = FreeCellSolver_Hint(s_game, None)
-        fh = open('tests/unit/data/624-with-dup-card.board', 'r+b')
         try:
-            h.importFileHelper(fh, s_game)
+            self._calc_hint('tests/unit/data/624-with-dup-card.board')
         except PySolHintLayoutImportError as err:
             self.assertEqual(err.msg, "Duplicate cards in input")
             self.assertEqual(err.cards, ["KC"])
@@ -147,11 +148,9 @@ KD QC 5C QH 6S 3D
         self.fail("No exception thrown.")
 
     def test_throw_error_on_invalid_foundations_line(self):
-        s_game = Mock_S_Game()
-        h = FreeCellSolver_Hint(s_game, None)
-        fh = open('tests/unit/data/624-invalid-foundations-line.board', 'r+b')
         try:
-            h.importFileHelper(fh, s_game)
+            self._calc_hint(
+                'tests/unit/data/624-invalid-foundations-line.board')
         except PySolHintLayoutImportError as err:
             self.assertEqual(err.msg, "Invalid Foundations line")
             self.assertEqual(err.cards, [])

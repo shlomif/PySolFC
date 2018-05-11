@@ -158,6 +158,15 @@ KD QC 5C QH 6S 3D
             return
         self.fail("No exception thrown.")
 
+    def test_throw_error_on_missing_cards(self):
+        try:
+            self._calc_hint('tests/unit/data/624-missing-cards.board')
+        except PySolHintLayoutImportError as err:
+            self.assertEqual(err.msg, "Missing cards in input")
+            self.assertEqual(err.cards, ["5H"])
+            return
+        self.fail("No exception thrown.")
+
 
 def mymain():
     from pycotap import TAPTestRunner

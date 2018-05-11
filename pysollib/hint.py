@@ -947,13 +947,17 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                         put_str(game.reserves[i], str_)
                 continue
             m = re.match(r'^:?\s*(.*)', line)
-            assert m
             for str_ in my_find_re(r'(' + CARD_RE + r')', m,
                                    "Invalid column text"):
                 put_str(game.rows[stack_idx], str_)
 
             stack_idx += 1
-        assert len(cards()) == 0
+        if len(cards()) > 0:
+            raise PySolHintLayoutImportError(
+                "Missing cards in input",
+                [solver.card2str1(c) for c in cards()],
+                -1
+            )
 
     def calcBoardString(self):
         game = self.game

@@ -146,6 +146,19 @@ KD QC 5C QH 6S 3D
             return
         self.fail("No exception thrown.")
 
+    def test_throw_error_on_invalid_foundations_line(self):
+        s_game = Mock_S_Game()
+        h = FreeCellSolver_Hint(s_game, None)
+        fh = open('tests/unit/data/624-invalid-foundations-line.board', 'r+b')
+        try:
+            h.importFileHelper(fh, s_game)
+        except PySolHintLayoutImportError as err:
+            self.assertEqual(err.msg, "Invalid Foundations line")
+            self.assertEqual(err.cards, [])
+            self.assertEqual(err.line_num, 1)
+            return
+        self.fail("No exception thrown.")
+
 
 def mymain():
     from pycotap import TAPTestRunner

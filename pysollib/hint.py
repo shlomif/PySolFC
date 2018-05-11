@@ -893,9 +893,14 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
             put(target, SUITS_S.index(str_[-1]),
                 (RANKS_S.index(str_[0]) if len(str_) == 2 else 9))
 
-        def my_find_re(RE, m):
+        def my_find_re(RE, m, msg):
             s = m.group(1)
-            assert re.match(r'^\s*(?:' + RE + r')?(?:\s+' + RE + r')*\s*$', s)
+            if not re.match(r'^\s*(?:' + RE + r')?(?:\s+' + RE + r')*\s*$', s):
+                raise PySolHintLayoutImportError(
+                    msg,
+                    [],
+                    line_num
+                )
             return re.findall(r'\b' + RE + r'\b', s)
 
         # Based on https://stackoverflow.com/questions/8898294 - thanks!
@@ -916,7 +921,8 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
             m = re.match(r'^(?:Foundations:|Founds?:)\s*(.*)', line)
             if m:
                 for gm in my_find_re(
-                        r'(' + SUITS_RE + r')-([' + RANKS0_S + r'])', m):
+                        r'(' + SUITS_RE + r')-([' + RANKS0_S + r'])', m,
+                        "Invalid Foundations line"):
                     for foundat in game.foundations:
                         suit = foundat.cap.suit
                         if SUITS_S[suit] == gm[0]:
@@ -931,7 +937,8 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                 continue
             m = re.match(r'^(?:FC:|Freecells:)\s*(.*)', line)
             if m:
-                g = my_find_re(r'(' + CARD_RE + r'|\-)', m)
+                g = my_find_re(r'(' + CARD_RE + r'|\-)', m,
+                               "Invalid Freecells line")
                 while len(g) < len(game.reserves):
                     g.append('-')
                 for i, gm in enumerate(g):
@@ -941,7 +948,8 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                 continue
             m = re.match(r'^:?\s*(.*)', line)
             assert m
-            for str_ in my_find_re(r'(' + CARD_RE + r')', m):
+            for str_ in my_find_re(r'(' + CARD_RE + r')', m,
+                                   "Invalid column text"):
                 put_str(game.rows[stack_idx], str_)
 
             stack_idx += 1

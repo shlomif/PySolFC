@@ -7,9 +7,3 @@ from pysollib.mfxutil import latin1_normalize
 class MyTests(unittest.TestCase):
     def test_output(self):
         self.assertEqual(latin1_normalize('HELLO%%good'), 'hellogood')
-
-
-def mymain():
-    from pycotap import TAPTestRunner
-    suite = unittest.TestLoader().loadTestsFromTestCase(MyTests)
-    TAPTestRunner().run(suite)

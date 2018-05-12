@@ -19,9 +19,3 @@ class MyTests(unittest.TestCase):
         # TEST
         self.assertEqual(got, '8D', 'card2str2 works')
         # diag('got == ' + got)
-
-
-def mymain():
-    from pycotap import TAPTestRunner
-    suite = unittest.TestLoader().loadTestsFromTestCase(MyTests)
-    TAPTestRunner().run(suite)

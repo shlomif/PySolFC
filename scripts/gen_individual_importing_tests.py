@@ -223,7 +223,9 @@ for ver in [2, 3]:
         open(os.path.join(".", "tests", "unit-generated",
                           'test__%s__v%d.py' % (mod, ver)
                           ), 'w').write('''#!/usr/bin/env python%(ver)d
-from %(mod)s import mymain
-
-mymain()
+import unittest
+from %(mod)s import MyTests
+from pycotap import TAPTestRunner
+suite = unittest.TestLoader().loadTestsFromTestCase(MyTests)
+TAPTestRunner().run(suite)
 ''' % {'mod': mod, 'ver': ver})

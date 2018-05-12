@@ -166,9 +166,3 @@ KD QC 5C QH 6S 3D
             self.assertEqual(err.cards, ["5H"])
             return
         self.fail("No exception thrown.")
-
-
-def mymain():
-    from pycotap import TAPTestRunner
-    suite = unittest.TestLoader().loadTestsFromTestCase(MyTests)
-    TAPTestRunner().run(suite)

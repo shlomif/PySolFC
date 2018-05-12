@@ -19,9 +19,3 @@ class MyTests(unittest.TestCase):
 
         # TEST
         self.assertEqual(card2.rank, 7, 'card2.rank')
-
-
-def mymain():
-    from pycotap import TAPTestRunner
-    suite = unittest.TestLoader().loadTestsFromTestCase(MyTests)
-    TAPTestRunner().run(suite)

@@ -205,11 +205,34 @@ class LCRandom64(MFXRandom):
         return ((self.seed >> 21) & 0x7fffffff) / 2147483648.0
 
 
+MS_LONG_BIT = (long(1) << 1000)
+CUSTOM_BIT = (long(1) << 999)
+
+
+class CustomRandom(BasicRandom):
+    def __init__(self):
+        self.initial_seed = self.seed = MS_LONG_BIT | CUSTOM_BIT
+        self.origin = self.ORIGIN_UNKNOWN
+        self.setSeedAsStr('Custom')
+
+    def reset(self):
+        pass
+
+    def shuffle(self, seq):
+        pass
+
+    def getstate(self):
+        return self.seed
+
+    def setstate(self, state):
+        self.seed = state
+
 # ************************************************************************
 # * Linear Congruential random generator
 # * In PySol this is only used for 0 <= seed <= 32000
 # * for Windows FreeCell compatibility
 # ************************************************************************
+
 
 class LCRandom31(MFXRandom):
     MAX_SEED = long('0x1ffffffff', 0)          # 33 bits
@@ -274,6 +297,8 @@ def _match_ms(s):
 
 # construct Random from seed string
 def constructRandom(s):
+    if s == 'Custom':
+        return CustomRandom()
     m = _match_ms(s)
     if m:
         seed = long(m.group(1))
@@ -292,10 +317,6 @@ def constructRandom(s):
     if 0 <= seed < 32000:
         return LCRandom31(seed)
     return PysolRandom(seed)
-
-
-MS_LONG_BIT = (long(1) << 1000)
-CUSTOM_BIT = (long(1) << 999)
 
 
 def random__str2long(s):

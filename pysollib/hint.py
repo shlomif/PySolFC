@@ -32,6 +32,7 @@ from io import BytesIO
 
 # PySol imports
 from pysollib.settings import DEBUG, FCS_COMMAND
+from pysollib.pysolrandom import constructRandom
 from pysollib.mfxutil import destruct
 from pysollib.util import KING
 
@@ -854,9 +855,12 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
 
     def importFile(solver, fh, s_game, self):
         s_game.endGame()
+        s_game.random = constructRandom('Custom')
         s_game.newGame(
             shuffle=True,
+            random=constructRandom('Custom'),
             dealer=lambda: solver.importFileHelper(fh, s_game))
+        s_game.random = constructRandom('Custom')
 
     def importFileHelper(solver, fh, s_game):
         game = s_game.s

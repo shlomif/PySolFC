@@ -1004,7 +1004,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
         #
         args = []
         # args += ['-sam', '-p', '-opt', '--display-10-as-t']
-        args += ['-m', '-p', '-opt', '-sel']
+        args += ['-m', '-p', '-opt', '-sel', '-hoi']
         if progress:
             args += ['--iter-output']
             if DEBUG:

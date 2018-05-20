@@ -86,6 +86,7 @@ class Images:
         # print '__loadCard:', filename
         f = os.path.join(self.cs.dir, filename)
         if not os.path.exists(f):
+            print('card image path %s does not exist' % (f))
             return None
         try:
             img = loadImage(file=f)

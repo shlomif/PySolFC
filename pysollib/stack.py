@@ -1658,6 +1658,8 @@ class DealRow_StackMethods:
                 self.game.flipMove(self)
             self.game.moveMove(1, self, r, frames=frames)
         self.game.leaveState(old_state)
+        if TOOLKIT is 'kivy':
+            self.game.top.waitAnimation()
         return len(stacks)
 
     # all Aces go to the Foundations
@@ -1688,6 +1690,8 @@ class DealRow_StackMethods:
                     self.game.moveMove(1, self, r, frames=frames)
                     break
         self.game.leaveState(old_state)
+        if TOOLKIT is 'kivy':
+            self.game.top.waitAnimation()
         return n
 
 
@@ -2900,9 +2904,9 @@ class WasteTalonStack(TalonStack):
                         self.game.moveMove(1, self, waste, frames=4, shadow=0)
                 else:
                     self.game.moveMove(1, self, waste, frames=4, shadow=0)
+                self.fillStack()
                 if TOOLKIT is 'kivy':
                     self.game.top.waitAnimation()
-                self.fillStack()
         elif waste.cards and self.round != self.max_rounds:
             if sound:
                 self.game.playSample("turnwaste", priority=20)

@@ -20,6 +20,7 @@ fi
 echo '### run toolchain'
 
 version=`./version.py`
+tmpdir=${HOME}/.cache/tmp-for-p4a/pysolfc/src
 
 python3 -m pythonforandroid.toolchain apk \
   --sdk-dir ${sdkdir} \
@@ -33,13 +34,13 @@ python3 -m pythonforandroid.toolchain apk \
   --requirements kivy,hostpython2,random2 \
   --release \
   --minsdk 14 \
-  --private tmp/src \
+  --private ${tmpdir} \
   --package org.lufebe16.pysolfc \
   --version ${version} \
   --orientation sensor \
   --color=always \
-  --icon tmp/src/data/images/misc/pysol01.png \
-  --presplash tmp/src/data/images/misc/pysol06.png \
+  --icon ${tmpdir}/data/images/misc/pysol01.png \
+  --presplash ${tmpdir}/data/images/misc/pysol06.png \
   --copy-libs
 
 # python3 -m pythonforandroid.toolchain apk

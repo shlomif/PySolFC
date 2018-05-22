@@ -6,61 +6,51 @@ echo '### prepare sdk'
 
 echo '### install p4a'
 
-#p4aversion='0.5.3p'
-# Downloded file "https://github.com/kivy/python-for-android/archive/0.5.3.zip"
-# Note: Minor fixes had to be added to version 0.5.3 in order to
-# cooperate with fdroid.
-#python3 -m  pip install -q --user "./p4a/${p4aversion}.zip"
+p4adir=${HOME}/.cache/tmp-for-p4a
+mkdir -p ${p4adir}
 
 p4aversion='0.5.3'
-if [ ! -f ./${p4aversion}.zip ]
+if [ ! -f ${p4adir}/${p4aversion}.zip ]
 then
   wget "https://github.com/kivy/python-for-android/archive/${p4aversion}.zip"
+  cp -a ./${p4aversion}.zip ${p4adir}/${p4aversion}.zip
+  rm -f ./${p4aversion}.zip
 fi
-if [ -f ./${p4aversion}.zip ]
+if [ -f ${p4adir}/${p4aversion}.zip ]
 then
-  python3 -m  pip install -q --user "./${p4aversion}.zip"
+  python3 -m  pip install -q --user "${p4adir}/${p4aversion}.zip"
 else
   echo "### download of ${p4aversion}.zip failed"
 fi
 
-echo '### load prepared recipes if available'
-
-if [ -d ./packages ]
-then
-  echo '### copying recipes'
-  mkdir -p ${HOME}/.local/share/python-for-android
-  cp -a packages ${HOME}/.local/share/python-for-android/
-fi
-
 echo '### prepare source'
 
-mkdir -p tmp
-rm -rf tmp/src
+srcdir=${HOME}/.cache/tmp-for-p4a/pysolfc/src
 
-# Easiest variant. But rsync may not be installed.
-# rsync -a .. tmp/src --exclude android/tmp
-# so:
+mkdir -p ${srcdir}
+rm -rf ${srcdir}
+cp -a .. ${srcdir}
+rm -rf ${srcdir}/android
+rm -rf ${srcdir}/src
+cp -a main.py ${srcdir}/main.py
+mkdir -p ${srcdir}/data/images/cards/bottoms/trumps-only
+echo "" > ${srcdir}/data/images/cards/bottoms/trumps-only/.keep
 
-mkdir -p ${HOME}/.local/tmp/src
-cp -a .. ${HOME}/.local/tmp/src
-mv ${HOME}/.local/tmp/src tmp/src
+echo '### prepare cardsets'
 
-rm -rf tmp/src/android
-rm -rf tmp/src/src
-cp -a main.py tmp/src/main.py
-mkdir -p tmp/src/data/images/cards/bottoms/trumps-only
-echo "" > tmp/src/data/images/cards/bottoms/trumps-only/.keep
+cardsdir=${HOME}/.cache/tmp-for-p4a/pysolfc
 
-if [ ! -d ./PySolFC-Cardsets-2.0 ]
+if [ ! -d ${cardsdir}/PySolFC-Cardsets-2.0 ]
 then
   ./mkcards
+  mv PySolFC-Cardsets-2.0 ${cardsdir}/
+  rm -f PySolFC-Cardsets-2.0.tar.bz2
 fi
 
-if [ -d ./PySolFC-Cardsets-2.0 ]
+if [ -d ${cardsdir}/PySolFC-Cardsets-2.0 ]
 then
   echo '### copying cardsets'
-  cp -a ./PySolFC-Cardsets-2.0/* ./tmp/src/data
+  cp -a ${cardsdir}/PySolFC-Cardsets-2.0/* ${srcdir}/data
 fi
 
 echo '### end init'

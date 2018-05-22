@@ -499,6 +499,14 @@ class MfxCanvas(Widget):
         if self.r_height is None:
             return self.scale
 
+        # TBD (idee).
+        # Hier ev. einen 2ten Modus zulassen, welche das Spielfeld
+        # knapp auf die vorhandenen Karten/Anzeigeelemente bemisst.
+        # Zur Optimierung der Sichtbarkeit auf kleinen Geräten.
+        # Könnte z.B. über Doppelklick umgeschaltet werden. (Die
+        # Skalierung müsste dann allerding nach jedem Zug dem ev.
+        # veränderten Feld angepasst werden.)
+
         scfx = self.size[0] / self.r_width
         scfy = self.size[1] / self.r_height
 
@@ -684,21 +692,6 @@ class MfxCanvas(Widget):
         # self.size[0] = width
         # self.size[1] = height
         return
-
-        # print 'setInitialSize:', width, height
-        if self.preview:
-            self.config(width=width, height=height,
-                        scrollregion=(0, 0, width, height))
-        else:
-            # add margins
-            # dx, dy = 40, 40
-            dx, dy = self.xmargin, self.ymargin
-            self.config(width=dx + width + dx, height=dy + height + dy,
-                        scrollregion=(-dx, -dy, width + dx, height + dy))
-
-    #
-    #
-    #
 
     # delete all CanvasItems, but keep the background and top tiles
     def deleteAllItems(self):

@@ -1,6 +1,15 @@
 #!/bin/bash
 
+package='org.lufebe16.pysolfc'
 version=`./version.py`
+name='PySolFC'
+tmpdir=${HOME}/.cache/tmp-for-p4a/pysolfc/src
+
+if [ "$1" ]
+then
+  package=${package}.dbg
+  name=${name}dbg
+fi
 
 python3 -m pythonforandroid.toolchain apk \
   --sdk-dir ${HOME}/.cache/sdk-for-p4a \
@@ -9,15 +18,15 @@ python3 -m pythonforandroid.toolchain apk \
   --ndk-version r12b \
   --arch armeabi-v7a \
   --dist-name pysolfc \
-  --name PySolFC \
+  --name ${name} \
   --bootstrap=sdl2 \
   --requirements kivy,hostpython2,random2 \
   --minsdk 14 \
-  --private tmp/src \
-  --package org.lufebe16.pysolfc \
+  --private ${tmpdir} \
+  --package ${package} \
   --version ${version} \
   --orientation sensor \
   --color=always \
-  --icon tmp/src/data/images/misc/pysol01.png \
-  --presplash tmp/src/data/images/misc/pysol06.png \
+  --icon ${tmpdir}/data/images/misc/pysol01.png \
+  --presplash ${tmpdir}/data/images/misc/pysol06.png \
   --copy-libs

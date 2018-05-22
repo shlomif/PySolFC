@@ -1455,6 +1455,8 @@ class LMainWindow(BoxLayout, LTkBase):
         self.workStack = LStack()
         self.app = None
 
+        # self.touches = []
+
         # beispiel zu canvas (hintergrund)
         # with self.canvas.before:
         #   Color(0, 1, 0.7, 0.5)
@@ -1466,11 +1468,37 @@ class LMainWindow(BoxLayout, LTkBase):
     #   self.rect.pos = self.pos
     #   self.rect.size = self.size
 
+    def on_motion(self, m):
+        print('on_motion', m)
+        pass
+
     # Events.
 
     def on_touch_down(self, touch):
         ret = False
 
+        # print(dir(touch))
+
+        # multitouch detection
+        '''
+        #print("MainWindow touch_down",touch.ox,touch.oy)
+        #print("MainWindow touch_down",touch.sx,touch.sy)
+        #print("MainWindow touch_down",touch.px,touch.py)
+        self.touches.append(touch)
+        print("touches cnt = ",len(self.touches))
+        '''
+        # multiclick detection
+        '''
+        if touch.is_double_tap:
+            print('Touch is a double tap !')
+            print(' - interval is', touch.double_tap_time)
+            print(' - distance between previous is', touch.double_tap_distance)
+
+        if touch.is_triple_tap:
+            print('Touch is a triple tap !')
+            print(' - interval is', touch.triple_tap_time)
+            print(' - distance between previous is', touch.triple_tap_distance)
+        '''
         # (Eventloop reentrancy check)
         if self.in_loop:
             return ret
@@ -1499,6 +1527,12 @@ class LMainWindow(BoxLayout, LTkBase):
             ret = c.on_touch_up(touch)
             if ret:
                 break
+
+        # multitouch support
+        '''
+        self.touches = [xx for xx in self.touches if xx != touch]
+        print("touches cnt = ",len(self.touches))
+        '''
         return ret
 
     # Menubar:
@@ -1572,6 +1606,9 @@ class LApp(App):
 
     def __init__(self):
         super(LApp, self).__init__()
+
+        # Config.set('input', 'multitouchscreen1', 'tuio,0.0.0.0:3333')
+
         self.mainWindow = LMainWindow()
         logging.info('top = %s' % str(self.mainWindow))
         Cache.register('LAppCache', limit=10)

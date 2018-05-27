@@ -128,6 +128,7 @@ to its CMake-based build-system:
 - [Sources for the PySolFC web site](https://github.com/shlomif/pysolfc-website)
 - [PySolFC Announcements Drafts](https://github.com/shlomif/pysolfc-announcements)
 - [Extra mahjongg cardsets for PySolFC - originally for flowersol](https://github.com/shlomif/PySol-Extra-Mahjongg-Cardsets)
+- [The old "pysol-music" distribution](https://github.com/shlomif/pysol-music)
 
 Related:
 

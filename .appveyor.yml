@@ -40,6 +40,9 @@ test_script:
     - appveyor DownloadFile https://sourceforge.net/projects/pysolfc/files/PySolFC-Cardsets/PySolFC-Cardsets-2.0/PySolFC-Cardsets-2.0.tar.bz2/download -FileName cardsets.tar.bz2
     - tar xf cardsets.tar.bz2
     - xargs -ta scripts\cardsets_to_bundle -I file cp -rt dist\data\ PySolFC-Cardsets-2.0\file
+    - appveyor DownloadFile https://sourceforge.net/projects/pysolfc/files/PySol-Music/PySol-Music-4.40/pysol-music-4.40.tar.gz/download -FileName music.tar.gz
+    - tar xf music.tar.gz
+    - move pysol-music-4.40\data\music dist\data\music
     - ps: |
         $apiUrl = 'https://ci.appveyor.com/api'
         $project = Invoke-RestMethod -Method Get -Uri "$apiUrl/projects/shlomif/fc-solve"

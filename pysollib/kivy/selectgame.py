@@ -47,7 +47,8 @@ from kivy.clock import Clock
 
 
 class SelectGameLeaf(SelectDialogTreeLeaf):
-    pass
+    def getContents(self):
+        return None
 
 
 class SelectGameNode(SelectDialogTreeNode):

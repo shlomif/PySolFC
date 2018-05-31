@@ -58,7 +58,6 @@ from kivy.uix.treeview import TreeViewLabel
 from kivy.core.window import Window
 from kivy.cache import Cache
 
-
 # =============================================================================
 
 
@@ -78,6 +77,19 @@ class LBase(object):
     def __init__(self, **kw):
         super(LBase, self).__init__()
 
+# =============================================================================
+
+
+class LPopCommander(LBase):
+    def __init__(self, **kw):
+        super(LPopCommander, self).__init__()
+        self.pop_command = kw['pop_command']
+
+    def pop(self):
+        if self.pop_command is not None:
+            self.pop_command(0)
+            return True
+        return False
 
 # =============================================================================
 
@@ -804,6 +816,21 @@ class LTreeRoot(TreeView, LBase):
         super(LTreeRoot, self).__init__(**kw)
         self.kw = kw
 
+    def closeLastNode(self):
+        ret = False
+        lastopen = None
+        for ti in reversed(self.children):
+            if isinstance(ti, LTreeNode):
+                if ti.is_open:
+                    lastopen = ti
+
+        if lastopen is not None:
+            self.toggle_node(lastopen)
+            self.select_node(lastopen)
+            ret = True
+
+        return ret
+
 
 class LTreeNode(ButtonBehavior, TreeViewLabel, LBase):
 
@@ -1060,9 +1087,28 @@ class LTopLevel(BoxLayout, LBase):
         self.add_widget(self.titleline)
         self.add_widget(self.content)
 
-# =============================================================================
+    def processAndroidBack(self):
+        ret = False
+        # try to collapse the last open tree node
+        # the treeview will be located inside of a scrollview
+        # (-> menubar.py)
+        for c in self.content.children:
+            print("childitem: %s" % str(c))
+            if isinstance(c, LScrollView):
+                for t in reversed(c.children):
+                    # print("  childitem: %s" % str(t))
+                    if isinstance(t, LTreeRoot):
+                        ret = t.closeLastNode()
+            if isinstance(c, BoxLayout):
+                for t in reversed(c.children):
+                    # print("  childitem: %s" % str(t))
+                    if isinstance(t, LPopCommander):
+                        ret = t.pop()
+                    pass
+        return ret
 
-# class LMenuBar(ActionBar):
+
+# =============================================================================
 
 
 class LMenuBar(BoxLayout, LBase):
@@ -1490,10 +1536,15 @@ class LMainWindow(BoxLayout, LTkBase):
         # multiclick detection
         '''
         if touch.is_double_tap:
-            print('Touch is a double tap !')
-            print(' - interval is', touch.double_tap_time)
-            print(' - distance between previous is', touch.double_tap_distance)
-
+            # print('Touch is a double tap !')
+            # print(' - interval is', touch.double_tap_time)
+            # print(' - distance betw. previous is', touch.double_tap_distance)
+            # test the functions of Android back key
+            ret = self.processAndroidBack()
+            if (ret):
+                return ret
+        '''
+        '''
         if touch.is_triple_tap:
             print('Touch is a triple tap !')
             print(' - interval is', touch.triple_tap_time)
@@ -1584,6 +1635,27 @@ class LMainWindow(BoxLayout, LTkBase):
     def getWork(self, key):
         return self.workStack.peek(key)
 
+    def processAndroidBack(self):
+        ret = False
+        # try to close currently open popup windows, one by one
+        r = range(len(self.workStack.items))
+        rr = reversed(r)
+        for i in rr:
+            t = self.workStack.items[i]
+            print("stackkey:  %s" % str(t[0]))
+            print("stackitem: %s" % str(t[1]))
+            if t[0] is 'playground':
+                pass
+            else:
+                if isinstance(t[1], LTopLevel):
+                    ret = t[1].processAndroidBack()
+                if not ret:
+                    self.popWork(t[0])
+                    ret = True
+            if ret:
+                break
+        return ret
+
 # =============================================================================
 
 
@@ -1597,6 +1669,10 @@ class LApp(App):
             app = lapp.app
             if app is None:
                 return False  # delegate
+
+            # redirect to mainwindow to close popups and tree nodes
+            if (self.mainWindow.processAndroidBack()):
+                return True
 
             # redirect to game undo last step
             app.menubar.mUndo()

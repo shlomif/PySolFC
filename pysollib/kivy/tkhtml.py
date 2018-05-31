@@ -30,11 +30,12 @@ import formatter
 
 # PySol imports
 from pysollib.mygettext import _
-from pysollib.pysoltk import bind, unbind_destroy
 from pysollib.mfxutil import Struct, openURL
 from pysollib.settings import TITLE
 from pysollib.kivy.LApp import LTopLevel
 from pysollib.kivy.LApp import LScrollView
+from pysollib.kivy.LApp import LPopCommander
+from pysollib.kivy.LApp import get_platform
 from pysollib.pysoltk import MfxMessageDialog
 
 from kivy.uix.boxlayout import BoxLayout
@@ -108,11 +109,11 @@ class tkHTMLWriter(formatter.NullWriter):
     '''
 
     def write(self, data):
-        print('writer: write %s' % data)
+        # print('writer: write %s' % data)
         self.text.insert("insert", data)
 
     def anchor_bgn(self, href, name, type):
-        print('writer: anchor_bgn %s - %s' % (href, name))
+        # print('writer: anchor_bgn %s - %s' % (href, name))
         if href:
             # self.text.update_idletasks()   # update display during parsing
             self.anchor = (href, name, type)
@@ -128,10 +129,11 @@ class tkHTMLWriter(formatter.NullWriter):
             # self.text.tag_config(tag, foreground=fg, underline=1)
 
     def refpress(self, instance, value):
-        print('writer: refpress %s, %s' % (instance, value))
+        # print('writer: refpress %s, %s' % (instance, value))
+        pass
 
     def anchor_end(self):
-        print('writer: anchor_end')
+        # print('writer: anchor_end')
         if self.anchor:
 
             self.anchor = None
@@ -148,7 +150,7 @@ class tkHTMLWriter(formatter.NullWriter):
         self.text.config(cursor=self.viewer.defcursor)
 
     def new_font(self, font):
-        print('writer: new_font %s' % str(font))
+        # print('writer: new_font %s' % str(font))
         # end the current font
         if self.font:
             # print "end_font(%s)" % `self.font`
@@ -170,11 +172,11 @@ class tkHTMLWriter(formatter.NullWriter):
                 self.font = None
 
     def new_margin(self, margin, level):
-        print('writer: new_margin %s, %s' % (margin, level))
+        # print('writer: new_margin %s, %s' % (margin, level))
         self.indent = "    " * level
 
     def send_label_data(self, data):
-        print('writer: send_label_data %s' % (data))
+        # print('writer: send_label_data %s' % (data))
         # self.write(self.indent + data + " ")
         self.write(self.indent)
         if data == '*':  # <li>
@@ -189,33 +191,34 @@ class tkHTMLWriter(formatter.NullWriter):
         self.write(' ')
 
     def send_paragraph(self, blankline):
-        print('writer: send_paragraph %s' % (blankline))
+        # print('writer: send_paragraph %s' % (blankline))
         self.write('\n' * blankline)
 
     def send_line_break(self):
-        print('writer: send_break')
+        # print('writer: send_break')
         self.write('\n')
 
     def send_hor_rule(self, *args):
         if (args):
-            print('writer: send_hor_rule %s' % (args))
+            pass
+            # print('writer: send_hor_rule %s' % (args))
         # width = int(int(self.text["width"]) * 0.9)
         width = 20
         self.write("_" * width)
         self.write("\n")
 
     def send_literal_data(self, data):
-        print('writer: send_literal_data %s' % (data))
+        # print('writer: send_literal_data %s' % (data))
         self.write(data)
 
     def send_flowing_data(self, data):
-        print('writer: send_flowing_data %s' % (data))
+        # print('writer: send_flowing_data %s' % (data))
         self.write(data)
-
 
 # ************************************************************************
 # *
 # ************************************************************************
+
 
 class tkHTMLParser(htmllib.HTMLParser):
     def anchor_bgn(self, href, name, type):
@@ -224,13 +227,13 @@ class tkHTMLParser(htmllib.HTMLParser):
         self.formatter.writer.anchor_bgn(href, name, type)
 
     def close(self):
-        print('tkHTMLParser1: close()')
+        # print('tkHTMLParser1: close()')
         self.formatter.writer.text.applyBuffer()
-        label = self.formatter.writer.text.label
-        print('tkHTMLParser: label.refs %s' % str(label.refs))
+        # label = self.formatter.writer.text.label
+        # print('tkHTMLParser: label.refs %s' % str(label.refs))
         # print ('tkHTMLParser: label.refs %s' % str(Label.refs))
 
-        print('tkHTMLParser2: close()')
+        # print('tkHTMLParser2: close()')
         htmllib.HTMLParser.close(self)
 
     def anchor_end(self):
@@ -274,7 +277,7 @@ class HTMLLabel(Label):
         self.height = self.texture_size[1]
 
 
-class HTMLText(LScrollView):
+class HTMLText(LScrollView, LPopCommander):
     def __init__(self, **kw):
         super(HTMLText, self).__init__(**kw)
 
@@ -284,11 +287,11 @@ class HTMLText(LScrollView):
         self.add_widget(self.label)
 
     def applyBuffer(self):
-        print('applybuffer:')
+        # print('applybuffer:')
         self.label.text = self.textbuffer
 
     def config(self, **kw):
-        print('config: %s' % kw)
+        # print('config: %s' % kw)
         pass
 
     def update_idletasks(self):
@@ -304,16 +307,16 @@ class HTMLText(LScrollView):
         pass
 
     def index(self, cmd):
-        print('index: %s' % cmd)
+        # print('index: %s' % cmd)
         # was sollen wir hier zuruckgeben ?
         return 0
 
     def tag_add(self, font, fontmark, cmd):
-        print('tag_add: %s, %s, %s' % (font, fontmark, cmd))
+        # print('tag_add: %s, %s, %s' % (font, fontmark, cmd))
         pass
 
     def tag_config(self, tag, **kw):
-        print('tag_config: %s, %s' % (tag, kw))
+        # print('tag_config: %s, %s' % (tag, kw))
         # self.tags[tag] = kw
 
         # for t, k in self.tags:
@@ -322,11 +325,11 @@ class HTMLText(LScrollView):
         pass
 
     def xview_moveto(self, xview):
-        print('xview_moveto: %s' % xview)
+        # print('xview_moveto: %s' % xview)
         pass
 
     def yview_moveto(self, yview):
-        print('yview_moveto: %s' % yview)
+        # print('yview_moveto: %s' % yview)
         pass
 
 
@@ -339,10 +342,17 @@ class HTMLViewer:
             if self.history.index > 1:
                 self.goBack(event)
                 return None
-            self.history.list = None
+            del self.history.list
             self.history.index = 0
             parent.popWork(title)
         return pop_command
+
+    def make_close_command(self, parent, title):
+        def close_command(event):
+            del self.history.list
+            self.history.index = 0
+            parent.popWork(title)
+        return close_command
 
     def refpress(self, instance, value):
         # print('writer: refpress %s, %s' % (instance, value))
@@ -376,11 +386,12 @@ class HTMLViewer:
             parent.popWork(self.title)
 
         pc = self.make_pop_command(parent, self.title)
+        cc = self.make_close_command(parent, self.title)
 
         # neuen Dialog aufbauen.
 
         window = LTopLevel(app.top, self.title, size_hint=(1.8, 1.0))
-        window.titleline.bind(on_press=pc)
+        window.titleline.bind(on_press=cc)
         self.parent.pushWork(self.title, window)
         self.window = window
         self.running = True
@@ -425,7 +436,8 @@ class HTMLViewer:
 
         # create text widget
 
-        self.text = HTMLText(text="hallo", size_hint=(1.0, 1.0))
+        self.text = HTMLText(
+            pop_command=pc, text="hallo", size_hint=(1.0, 1.0))
         self.text.label.bind(on_ref_press=self.refpress)
         content.add_widget(self.text)
         '''
@@ -455,33 +467,6 @@ class HTMLViewer:
         # load images
         for name, fn in self.symbols_fn.items():
             self.symbols_img[name] = self.getImage(fn)
-
-        # self.initBindings()
-
-    def initBindings(self):
-        w = self.parent
-        bind(w, "WM_DELETE_WINDOW", self.destroy)
-        bind(w, "<Escape>", self.destroy)
-        bind(w, "<KeyPress-Prior>", self.page_up)
-        bind(w, "<KeyPress-Next>", self.page_down)
-        bind(w, "<KeyPress-Up>", self.unit_up)
-        bind(w, "<KeyPress-Down>", self.unit_down)
-        bind(w, "<KeyPress-Begin>", self.scroll_top)
-        bind(w, "<KeyPress-Home>", self.scroll_top)
-        bind(w, "<KeyPress-End>", self.scroll_bottom)
-        bind(w, "<KeyPress-BackSpace>", self.goBack)
-
-    def destroy(self, *event):
-        unbind_destroy(self.parent)
-        try:
-            self.parent.wm_withdraw()
-        except Exception:
-            pass
-        try:
-            self.parent.destroy()
-        except Exception:
-            pass
-        self.parent = None
 
     def _yview(self, *args):
         self.text.yview(*args)
@@ -557,7 +542,15 @@ class HTMLViewer:
         # far too limited to display anything but our documentation...
         for p in REMOTE_PROTOCOLS:
             if url.startswith(p):
-                if not openURL(url):
+                plat = get_platform()
+                if plat == 'android':
+                    pass
+                    print("Open url: %s (TBD)" % url)
+                    # import android
+                    # tbd.
+                    # start android webbrowser. with url
+                    # ???
+                elif not openURL(url):
                     return
 
         # locate the file relative to the current url
@@ -575,8 +568,10 @@ class HTMLViewer:
             file.close()
             file = None
         except Exception:
+            print("Open url(1) - Exception: %s" % url)
             if file:
                 file.close()
+
             '''
             self.errorDialog(_("Unable to service request:\n") + url)
             '''
@@ -673,14 +668,6 @@ class HTMLViewer:
             return self.images[fn]
         else:
             return None
-        '''
-        try:
-            img = Tkinter.PhotoImage(master=self.parent, file=fn)
-        except:
-            img = None
-        self.images[fn] = img
-        return img
-        '''
 
     def showImage(self, src, alt, ismap, align, width, height):
         url = self.basejoin(src)
@@ -689,26 +676,8 @@ class HTMLViewer:
             self.text.image_create(index="insert", image=img, padx=0, pady=0)
 
 
-''
-
 # ************************************************************************
 # *
 # ************************************************************************
 
-'''
-def tkhtml_main(args):
-    try:
-        url = args[1]
-    except:
-        url = os.path.join(os.pardir, os.pardir, "data", "html", "index.html")
-    top = Tkinter.Tk()
-    top.wm_minsize(400, 200)
-    viewer = HTMLViewer(top)
-    viewer.app = None
-    viewer.display(url)
-    top.mainloop()
-    return 0
-
-if __name__ == "__main__":
-    sys.exit(tkhtml_main(sys.argv))
-'''
+''

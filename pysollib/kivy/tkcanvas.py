@@ -462,8 +462,8 @@ class MfxCanvas(Widget):
         self.r_height = None
 
         self.bindings = {}
-        self.bind(pos=self.update_widget)
-        self.bind(size=self.update_widget)
+        self.bind(pos=self.pos_update_widget)
+        self.bind(size=self.size_update_widget)
 
     def KivyToCoreP(self, pos, size, scale):
         cpos = pos
@@ -487,7 +487,7 @@ class MfxCanvas(Widget):
         return self.CoreToKivyP(cpos, csize, self.scale)
 
     def move(self, itm, dx, dy):
-            # print ('MfxCanvas: move %s %s %s' % (itm, dx, dy))
+        # print ('MfxCanvas: move %s %s %s' % (itm, dx, dy))
         scale = self.scale
         dx = scale * dx
         dy = scale * dy
@@ -507,8 +507,10 @@ class MfxCanvas(Widget):
         # Skalierung müsste dann allerding nach jedem Zug dem ev.
         # veränderten Feld angepasst werden.)
 
-        scfx = self.size[0] / self.r_width
-        scfy = self.size[1] / self.r_height
+        wid = self.size[0]
+        hei = self.size[1]
+        scfx = wid / self.r_width
+        scfy = hei / self.r_height
 
         scf = scfx
         if (scfx < scfy):
@@ -520,10 +522,20 @@ class MfxCanvas(Widget):
 
         return scf
 
+    def pos_update_widget(self, posorobj, size):
+        # print('MfxCanvas: pos_update_widget size=(%s, %s)' %
+        #       (self.size[0], self.size[1]))
+        self.update_widget(posorobj, size)
+
+    def size_update_widget(self, posorobj, size):
+        # print('MfxCanvas: size_update_widget size=(%s, %s)' %
+        #       (self.size[0], self.size[1]))
+        self.update_widget(posorobj, size)
+
     def update_widget(self, posorobj, size):
 
-        print('MfxCanvas: update_widget size=(%s, %s)' %
-              (self.size[0], self.size[1]))
+        # print('MfxCanvas: update_widget size=(%s, %s)' %
+        #       (self.size[0], self.size[1]))
 
         # Update Skalierungsparameter
 

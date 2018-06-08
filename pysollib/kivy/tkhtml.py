@@ -49,6 +49,39 @@ REMOTE_PROTOCOLS = ("ftp:", "gopher:", "http:", "mailto:", "news:", "telnet:")
 # ************************************************************************
 
 
+if get_platform() == 'android':
+    from jnius import autoclass
+    from jnius import cast
+
+    def startAndroidBrowser(www):
+        # init java classes
+        PythonActivity = autoclass('org.kivy.android.PythonActivity')
+        Intent = autoclass('android.content.Intent')
+        Uri = autoclass('android.net.Uri')
+        # String = autoclass('java.lang.String') # get the Java object
+
+        # prepare activity
+        # PythonActivity.mActivity is the instance of the current Activity
+        # BUT, startActivity is a method from the Activity class, not from our
+        # PythonActivity.
+        # We need to cast our class into an activity and use it
+        currentActivity = cast(
+            'android.app.Activity', PythonActivity.mActivity)
+
+        # create the intent
+        intent = Intent()
+        intent.setAction(Intent.ACTION_VIEW)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        intent.setDataAndType(Uri.parse(www), "application/xhtml+xml")
+
+        # start activity
+        currentActivity.startActivity(intent)
+
+# ************************************************************************
+# *
+# ************************************************************************
+
+
 def cmp2(a, b):
     """python 3 replacement for python 2 cmp function"""
     return (a > b) - (a < b)
@@ -544,12 +577,8 @@ class HTMLViewer:
             if url.startswith(p):
                 plat = get_platform()
                 if plat == 'android':
-                    pass
                     print("Open url: %s (TBD)" % url)
-                    # import android
-                    # tbd.
-                    # start android webbrowser. with url
-                    # ???
+                    startAndroidBrowser(url)
                 elif not openURL(url):
                     return
 

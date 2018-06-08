@@ -65,6 +65,35 @@ def get_platform():
     return platform
 
 # =============================================================================
+
+
+def get_screen_ori():
+    if get_platform() == 'android':
+        from jnius import autoclass
+        from jnius import cast
+    else:
+        logging.info("LApp: ori = unknown")
+        return None
+
+    PythonActivity = autoclass('org.kivy.android.PythonActivity')
+    currentActivity = cast('android.app.Activity', PythonActivity.mActivity)
+
+    # Display = autoclass('android.view.Display')
+    # WindowManager = autoclass('android.view.WindowManager')
+
+    wm = currentActivity.getWindowManager()
+    d = wm.getDefaultDisplay()
+
+    so = None
+    if d.getWidth() > d.getHeight():
+        so = 'landscape'
+    else:
+        so = 'portrait'
+
+    logging.info("LApp: ori = %s" % so)
+    return so
+
+# =============================================================================
 # kivy EventDispatcher passes keywords, that to not correspond to properties
 # to the base classes. Finally they will reach 'object'. With python3 (but not
 # python2) 'object' throws an exception 'takes no parameters' in that a
@@ -1093,7 +1122,7 @@ class LTopLevel(BoxLayout, LBase):
         # the treeview will be located inside of a scrollview
         # (-> menubar.py)
         for c in self.content.children:
-            print("childitem: %s" % str(c))
+            # print("childitem: %s" % str(c))
             if isinstance(c, LScrollView):
                 for t in reversed(c.children):
                     # print("  childitem: %s" % str(t))
@@ -1308,6 +1337,7 @@ class LTkBase:
         logging.info("LTkBase: __init__()")
         self.sleeping = False
         self.in_loop = False
+        self.screenSize = (1000, 1000)
 
     def cget(self, strg):
         return False
@@ -1322,6 +1352,22 @@ class LTkBase:
     def wm_iconname(self, strg):
         self.icontitle = strg
         logging.info("LTkBase: wm_iconname %s" % strg)
+
+    def eval_screen_dim(self, size):
+        self.screenSize = size
+        if get_platform() == 'android':
+            from jnius import autoclass
+            from jnius import cast
+        else:
+            return
+
+        PythonActivity = autoclass('org.kivy.android.PythonActivity')
+        currentActivity = cast(
+            'android.app.Activity', PythonActivity.mActivity)
+        wm = currentActivity.getWindowManager()
+        d = wm.getDefaultDisplay()
+
+        self.screenSize = (d.getWidth(), d.getHeight())
 
     def winfo_screenwidth(self):
         logging.info("LTkBase: winfo_screenwidth %s" % str(self.size[0]))
@@ -1604,18 +1650,22 @@ class LMainWindow(BoxLayout, LTkBase):
 
     # Workarea:
 
-    def rebuildContainer(self):
+    def removeContainer(self):
         self.workContainer.clear_widgets()
         self.workContainerO.clear_widgets()
 
+    def buildContainer(self):
         if self.toolBar is not None and self.toolBarPos == 3:
             self.workContainerO.add_widget(self.toolBar)
         self.workContainerO.add_widget(self.workContainer)
         if self.toolBar is not None and self.toolBarPos == 4:
             self.workContainerO.add_widget(self.toolBar)
-
         for w in self.workStack.items:
             self.workContainer.add_widget(w[1])
+
+    def rebuildContainer(self):
+        self.removeContainer()
+        self.buildContainer()
 
     def pushWork(self, key, widget):
         if (widget):
@@ -1642,8 +1692,8 @@ class LMainWindow(BoxLayout, LTkBase):
         rr = reversed(r)
         for i in rr:
             t = self.workStack.items[i]
-            print("stackkey:  %s" % str(t[0]))
-            print("stackitem: %s" % str(t[1]))
+            # print("stackkey:  %s" % str(t[0]))
+            # print("stackitem: %s" % str(t[1]))
             if t[0] is 'playground':
                 pass
             else:
@@ -1670,11 +1720,12 @@ class LApp(App):
             if app is None:
                 return False  # delegate
 
-            # redirect to mainwindow to close popups and tree nodes
+            # redirect to mainwindow to close popups, tree nodes
+            # and html pages.
             if (self.mainWindow.processAndroidBack()):
-                return True
+                return True  # consumed
 
-            # redirect to game undo last step
+            # redirect to game to undo last step
             app.menubar.mUndo()
             return True     # consumed
         else:
@@ -1700,11 +1751,7 @@ class LApp(App):
     # es nötig wäre).
     # Update:
     # Nachdem im Manifest nun steht 'configChange=...|screenSize' bekommen
-    # wir auch nach dem on_resume ein Signal. Zum Update rufen wir
-    # rebuildContainer verzögert auf. Aus unerfindlichen Gründen ist es
-    # jedoch notwendig die Verzögerung 2-stufig zu organisieren. Der erste
-    # Delay wird offensichtlich unter gegebenen Umständen ignoriert.
-    # LB170517.
+    # wir auch nach dem on_resume ein Signal.
 
     def delayedRebuild(self, dt):
         logging.info("LApp: delayedRebuild")
@@ -1712,7 +1759,8 @@ class LApp(App):
 
     def makeDelayedRebuild(self):
         def delayedRebuild(dt):
-            Clock.schedule_once(self.delayedRebuild, 0.01)
+            # Clock.schedule_once(self.delayedRebuild, 0.01)
+            Clock.schedule_once(self.delayedRebuild, 0.5)
         return delayedRebuild
 
     def doSize(self, obj, val):
@@ -1720,6 +1768,7 @@ class LApp(App):
         logging.info("LApp: size changed %s - %s (%s)" % (obj, val, mval))
         # Clock.schedule_once(self.delayedRebuild, 0.01)
         Clock.schedule_once(self.makeDelayedRebuild(), 0.01)
+        # self.mainWindow.rebuildContainer()
         pass
 
     def on_start(self):
@@ -1809,14 +1858,19 @@ class LApp(App):
         if app is None:
             return
 
+        so = get_screen_ori()
+        go = so  # flake8: F841 nonsense!
+        so = go
         logging.info("LApp: on_resume, Window.size=%s" % str(Window.size))
         # ANM:
-        # Nicht einmal das Basiswindow wird hier über eine
-        # Orientierungsänderung informiert, die während der Pause eintrat.
-        # Eine korrekte Darstellung kann daher nicht garantiert werden.
-        # Wenn die sensoren ev. später für eine korrektur sorgen, erfolgt
-        # ebenfalls kein update, weil sich die parameter am Basiswindow ja
-        # zum alten bekannten Wert hin ändern (also gar nicht).
+        # kivy.core.window.Window hat hier u.U. eine falsche dimension
+        # und unterscheidet sich vom display (-> in get_screen_ori).
+        # Eine korrektur der Parameter von Window kann hier wie skizziert
+        # durchgeführt werden und führt auch zu den korrekten 'on_size'
+        # Notifikationen. Allerdings wird später (nach diesem Aufruf)
+        # eine weitere Notifikation erhalten, welche das Fenster u.U.
+        # wieder falsch aufstellt. (woher kommt die und warum ist sie
+        # oft falsch ?)
 
         if app.game.pause:
             Clock.schedule_once(self.makeEndPauseCmd(app), 3.0)

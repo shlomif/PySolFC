@@ -41,7 +41,7 @@ test_script:
     - tar xf cardsets.tar.bz2
     - xargs -ta scripts\cardsets_to_bundle -I file cp -rt dist\data\ PySolFC-Cardsets-2.0\file
     - appveyor DownloadFile https://sourceforge.net/projects/pysolfc/files/PySol-Music/PySol-Music-4.50/pysol-music-4.50.tar.xz/download -FileName music.tar.xz
-    - tar xf music.tar.xz
+    - 7z x music.tar.xz -so | 7z x -si -ttar
     - move pysol-music-4.50\data\music dist\data\music
     - ps: |
         $apiUrl = 'https://ci.appveyor.com/api'

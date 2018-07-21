@@ -82,7 +82,7 @@ alink="#FF0000">
 main_footer = '''
 <p>
 <br>
-%s
+%(back_to_index_link)s
 </body>
 </html>'''
 
@@ -140,7 +140,7 @@ def gen_main_html():
         s = '<a href="index.html">Back to the index</a>'
         if infile == 'index.html':
             s = ''
-        print(main_footer % s, file=outfile)
+        print(main_footer % {'back_to_index_link': s}, file=outfile)
         outfile.close()
 
 
@@ -213,7 +213,8 @@ def gen_rules_html():
             altnames.append((n, rules_fn))
 
     print('</ul>\n' + main_footer %
-          '<a href="index.html">Back to the index</a>', file=out_rules)
+          {'back_to_index_link': '<a href="index.html">Back to the index</a>'},
+          file=out_rules)
 
     out_rules.close()
 
@@ -228,7 +229,8 @@ def gen_rules_html():
         print('<li> <a href="rules/%s">%s</a>'
               % (fn, name), file=out_rules_alt)
     print('</ul>\n' + main_footer %
-          '<a href="index.html">Back to the index</a>', file=out_rules_alt)
+          {'back_to_index_link': '<a href="index.html">Back to the index</a>'},
+          file=out_rules_alt)
     out_rules_alt.close()
 
     # create rules

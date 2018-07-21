@@ -70,7 +70,7 @@ wikipedia_files = [
 main_header = '''<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
 <html>
 <head>
-<title>%s</title>
+<title>%(title)s</title>
 <meta name="license" content="GNU General Public License">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 </head>
@@ -134,7 +134,7 @@ def getGameRulesFilename(n):
 def gen_main_html():
     for infile, title in files:
         outfile = open(os.path.join('html', infile), 'w')
-        print(main_header % title, file=outfile)
+        print(main_header % {'title': title}, file=outfile)
         with open(infile, 'r') as file:
             print(file.read(), file=outfile)
         s = '<a href="index.html">Back to the index</a>'
@@ -164,7 +164,8 @@ def gen_rules_html():
 
     # open file of list of all rules
     out_rules = open(os.path.join('html', 'rules.html'), 'w')
-    print(main_header % 'PySol - a Solitaire Game Collection', file=out_rules)
+    print(main_header % {'title': 'PySol - a Solitaire Game Collection'},
+          file=out_rules)
     with open('rules.html', 'r') as file:
         print(file.read(), file=out_rules)
 
@@ -218,7 +219,7 @@ def gen_rules_html():
 
     # create file of altnames
     out_rules_alt = open(os.path.join('html', 'rules_alternate.html'), 'w')
-    print(main_header % 'PySol - a Solitaire Game Collection',
+    print(main_header % {'title': 'PySol - a Solitaire Game Collection'},
           file=out_rules_alt)
     with open('rules_alternate.html', 'r') as file:
         print(file.read(), file=out_rules_alt)

@@ -100,7 +100,7 @@ link="#FF0000">
 '''
 rules_footer = '''
 <p>
-%s
+%(footer)s
 <br>
 <a href="../glossary.html">Glossary</a>
 <br>
@@ -243,7 +243,7 @@ def gen_rules_html():
             print(wikipedia_header % title, file=outfile)
         with open(os.path.join(dir, filename), 'r', encoding='utf-8') as file:
             print(file.read(), file=outfile)
-        print(rules_footer % footer, file=outfile)
+        print(rules_footer % {'footer': footer}, file=outfile)
         outfile.close()
 
 

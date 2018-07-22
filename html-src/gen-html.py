@@ -114,7 +114,7 @@ rules_footer = '''
 wikipedia_header = '''<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
 <html>
 <head>
-<title>%s</title>
+<title>%(title)s</title>
 <meta name="license" content="GNU General Public License">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 </head>
@@ -240,7 +240,7 @@ def gen_rules_html():
         if dir == 'rules':
             print(rules_header % {'title': title}, file=outfile)
         else:  # d == 'wikipedia'
-            print(wikipedia_header % title, file=outfile)
+            print(wikipedia_header % {'title': title}, file=outfile)
         with open(os.path.join(dir, filename), 'r', encoding='utf-8') as file:
             print(file.read(), file=outfile)
         print(rules_footer % {'footer': footer}, file=outfile)

@@ -665,9 +665,3 @@ QH 9H 9D 5S 7S 6C
 
         # TEST
         self.assertEqual(got, inp, 'str2long PySolFC roundtrip.')
-
-
-def mymain():
-    from pycotap import TAPTestRunner
-    suite = unittest.TestLoader().loadTestsFromTestCase(MyTests)
-    TAPTestRunner().run(suite)

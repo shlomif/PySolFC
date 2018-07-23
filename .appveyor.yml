@@ -14,7 +14,7 @@ install:
     - python3 -mpip install pycotap
     - python3 -mpip install six
     - python3 -mpip install Pillow
-    - python3 -mpip install pygame
+    - python3 -mpip install pygame==1.9.3
     - perl -v
     - copy C:\msys64\mingw64\bin\mingw32-make.exe C:\msys64\mingw64\bin\make.exe
     - SET PATH=C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%

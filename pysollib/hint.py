@@ -36,6 +36,7 @@ from pysollib.pysolrandom import constructRandom
 from pysollib.mfxutil import destruct
 from pysollib.util import KING
 
+FCS_VERSION = None
 if sys.version_info > (3,):
     unicode = str
 
@@ -995,6 +996,17 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
     def computeHints(self):
         game = self.game
         game_type = self.game_type
+        global FCS_VERSION
+        if FCS_VERSION is None:
+            pout, _ = self.run_solver(FCS_COMMAND + ' --version', '')
+            s = unicode(pout.read(), encoding='utf-8')
+            m = re.search(r'version ([0-9]+)\.([0-9]+)\.([0-9]+)', s)
+            if m:
+                FCS_VERSION = (int(m.group(1)), int(m.group(2)),
+                               int(m.group(3)))
+            else:
+                FCS_VERSION = (0, 0, 0)
+
         progress = self.options['progress']
 
         board = self.calcBoardString()
@@ -1004,9 +1016,16 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
         #
         args = []
         # args += ['-sam', '-p', '-opt', '--display-10-as-t']
-        args += ['-m', '-p', '-opt', '-sel', '-hoi']
+        args += ['-m', '-p', '-opt', '-sel']
+        if FCS_VERSION >= (4, 20, 0):
+            args += ['-hoi']
         if progress:
             args += ['--iter-output']
+            fcs_iter_output_step = None
+            if FCS_VERSION >= (4, 20, 0):
+                # fcs_iter_output_step = 10000
+                fcs_iter_output_step = 100
+                args += ['--iter-output-step', str(fcs_iter_output_step)]
             if DEBUG:
                 args += ['-s']
         if self.options['preset'] and self.options['preset'] != 'none':
@@ -1053,7 +1072,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                     depth = self._v
                 elif self.colonPrefixMatch('Stored-States', s):
                     states = self._v
-                    if iter_ % 100 == 0:
+                    if iter_ % 100 == 0 or fcs_iter_output_step:
                         self.dialog.setText(iter=iter_, depth=depth,
                                             states=states)
                 elif re.search('^(?:-=-=)', s):

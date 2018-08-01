@@ -113,6 +113,7 @@ translate_game_names = boolean
 solver_presets = string_list
 solver_show_progress = boolean
 solver_max_iterations = integer
+solver_iterations_output_step = integer
 display_win_message = boolean
 
 [sound_samples]
@@ -249,6 +250,7 @@ class Options:
         ('solver_presets', 'list'),
         ('solver_show_progress', 'bool'),
         ('solver_max_iterations', 'int'),
+        ('solver_iterations_output_step', 'int'),
         # ('toolbar_vars', 'list'),
         # ('recent_gameid', 'list'),
         # ('favorite_gameid', 'list'),
@@ -432,6 +434,7 @@ class Options:
             ]
         self.solver_show_progress = True
         self.solver_max_iterations = 100000
+        self.solver_iterations_output_step = 100
 
     def setDefaults(self, top=None):
         WIN_SYSTEM = pysollib.settings.WIN_SYSTEM

@@ -740,6 +740,7 @@ class Base_Solver_Hint:
         self.dialog = dialog
         self.game_type = game_type
         self.options = {
+            'iters_step': 100,
             'max_iters': 10000,
             'progress': False,
             'preset': None,
@@ -1024,7 +1025,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
             fcs_iter_output_step = None
             if FCS_VERSION >= (4, 20, 0):
                 # fcs_iter_output_step = 10000
-                fcs_iter_output_step = 100
+                fcs_iter_output_step = self.options['iters_step']
                 args += ['--iter-output-step', str(fcs_iter_output_step)]
             if DEBUG:
                 args += ['-s']

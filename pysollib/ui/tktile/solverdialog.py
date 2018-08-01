@@ -167,7 +167,9 @@ class BaseSolverDialog:
         preset = self.preset_var.get()
         max_iters = self._getMaxIters()
         progress = self.app.opt.solver_show_progress
-        solver.config(preset=preset, max_iters=max_iters, progress=progress)
+        iters_step = self.app.opt.solver_iterations_output_step
+        solver.config(preset=preset, max_iters=max_iters, progress=progress,
+                      iters_step=iters_step)
         try:
             solver.computeHints()
         except RuntimeError:

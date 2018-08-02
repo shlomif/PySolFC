@@ -27,12 +27,7 @@ import sys
 import re
 import time
 from pysollib.mfxutil import SubclassResponsibility
-try:
-    import random2
-except ImportError:
-    raise ImportError(
-        "You need to install " +
-        "https://pypi.python.org/pypi/random2 using pip or similar.")
+import random
 
 
 if sys.version_info > (3,):
@@ -101,13 +96,15 @@ class BasicRandom:
 # * uses the standard python module `random'
 # ************************************************************************
 
-class MTRandom(BasicRandom, random2.Random):
+class MTRandom(BasicRandom, random.Random):
 
     def __init__(self, seed=None):
         if seed is None:
             seed = self._getRandomSeed()
         BasicRandom.__init__(self)
-        random2.Random.__init__(self, seed)
+        random.Random.__init__(self, seed)
+        if sys.version_info > (3,):
+            self.seed(a=seed, version=1)
         self.initial_seed = seed
         self.initial_state = self.getstate()
         self.origin = self.ORIGIN_UNKNOWN

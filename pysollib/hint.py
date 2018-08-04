@@ -1048,6 +1048,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
 
         command = FCS_COMMAND+' '+' '.join([str(i) for i in args])
         pout, perr = self.run_solver(command, board)
+        self.solver_state = 'unknown'
         #
         stack_types = {
             'the': game.s.foundations,
@@ -1157,7 +1158,8 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
 
         self.hints = hints
         if len(hints) > 0:
-            self.solver_state = 'solved'
+            if self.solver_state != 'intractable':
+                self.solver_state = 'solved'
         self.hints.append(None)         # XXX
 
         # print self.hints

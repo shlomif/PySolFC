@@ -19,6 +19,9 @@ class BaseSolverDialog:
     def _OnAssignToMaxIters(self, *args):
         self.app.opt.solver_max_iterations = self._getMaxIters()
 
+    def _OnAssignToPreset(self, *args):
+        self.app.opt.solver_preset = self.preset_var.get()
+
     def __init__(self, parent, app, **kw):
         self.parent = parent
         self.app = app
@@ -58,6 +61,7 @@ class BaseSolverDialog:
         presets = app.opt.solver_presets
         self.presets = presets
         self.preset_var = self._createPresetVar(frame, row)
+        self.preset_var.set(self.app.opt.solver_preset)
 
         #
         row += 1

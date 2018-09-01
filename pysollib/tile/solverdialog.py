@@ -47,7 +47,8 @@ class SolverDialog(BaseSolverDialog, BaseTileMfxDialog):
         return cb
 
     def _createPresetVar(self, frame, row):
-        cb = PysolCombo(frame, values=tuple(self.presets), state='readonly')
+        cb = PysolCombo(frame, values=tuple(self.presets), state='readonly',
+                        selectcommand=self._OnAssignToPreset)
         cb.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
         cb.current(0)
         return cb

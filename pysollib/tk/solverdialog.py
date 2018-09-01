@@ -57,6 +57,7 @@ class SolverDialog(BaseSolverDialog, BaseTkMfxDialog):
         var.set('none')
         om = tkinter.OptionMenu(frame, var, *(self.presets))
         om.grid(row=row, column=1, sticky='ew', padx=2, pady=2)
+        var.trace('w', self._OnAssignToPreset)
         return var
 
     def _createShowProgressButton(self, frame):

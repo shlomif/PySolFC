@@ -151,12 +151,20 @@ def all_games(sort_by='id'):
         altnames = '<br>'.join(gi.altnames)
         fn = os.path.join(rules_dir, rules_fn)
         if 1 and os.path.exists(fn):
-            print('''<tr><td>%s</td><td>
-<a href="%s" title="Rules for this game">%s</a>
-</td><td>%s</td><td>%s</td></tr>
+            print('''<tr>
+<td>%s</td>
+<td> <a href="%s" title="Rules for this game">%s</a> </td>
+<td>%s</td>
+<td>%s</td>
+</tr>
 ''' % (id, fn, name, altnames, gt))
         else:
-            print('''<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>
+            print('''<tr>
+<td>%s</td>
+<td>%s</td>
+<td>%s</td>
+<td>%s</td>
+</tr>
 ''' % (id, name, altnames, gt))
     print('</tbody></table>')
 

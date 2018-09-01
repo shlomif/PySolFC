@@ -68,7 +68,6 @@ if True:  # This prevents from travis 'error' E402.
 
 if sys.version_info > (3,):
     basestring = str
-    long = int
 
 PLAY_TIME_TIMEOUT = 200
 
@@ -787,7 +786,7 @@ class Game(object):
                 self.app.gamerandom.setstate(state)
             # we want at least 17 digits
             seed = self.app.gamerandom.randrange(
-                long('10000000000000000'),
+                int('10000000000000000'),
                 PysolRandom.MAX_SEED
             )
             self.random = PysolRandom(seed)
@@ -3217,7 +3216,7 @@ in the current implementation.''') % version)
         game.version = version
         game.version_tuple = version_tuple
         #
-        initial_seed = random__long2str(pload(long))
+        initial_seed = random__long2str(pload(int))
         game.random = constructRandom(initial_seed)
         state = pload()
         game.random.setstate(state)

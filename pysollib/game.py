@@ -23,10 +23,10 @@
 
 
 # imports
-import sys
 import time
 import math
 import traceback
+import six
 
 from pysollib.mygettext import _
 from gettext import ungettext
@@ -65,9 +65,6 @@ if True:  # This prevents from travis 'error' E402.
     from pysollib.move import ASingleCardMove
     from pysollib.hint import DefaultHint
     from pysollib.help import help_about
-
-if sys.version_info > (3,):
-    basestring = str
 
 PLAY_TIME_TIMEOUT = 200
 
@@ -1039,7 +1036,7 @@ class Game(object):
                     # self.top.wm_title("%s - %s"
                     # % (TITLE, self.getTitleName()))
                     continue
-                if isinstance(v, basestring):
+                if isinstance(v, six.string_types):
                     if sb:
                         sb.updateText(gamenumber=v)
                     # self.top.wm_title("%s - %s %s" % (TITLE,
@@ -1081,7 +1078,7 @@ class Game(object):
                     if tb:
                         tb.updateText(player=_("Player\n"))
                     continue
-                if isinstance(v, basestring):
+                if isinstance(v, six.string_types):
                     if tb:
                         # if self.app.opt.toolbar_size:
                         if self.app.toolbar.getSize():
@@ -1103,7 +1100,7 @@ class Game(object):
                 if v is None:
                     if sb:
                         sb.updateText(time='')
-                if isinstance(v, basestring):
+                if isinstance(v, six.string_types):
                     if sb:
                         sb.updateText(time=v)
                 continue

@@ -24,6 +24,7 @@
 # imports
 import os
 import sys
+import six
 from six.moves import tkinter
 from . import ttk
 
@@ -38,9 +39,6 @@ if __name__ == '__main__':
     sys.path.append(d)
     import gettext
     gettext.install('pysol', d, unicode=True)
-
-if sys.version_info > (3,):
-    unicode = str
 
 # ************************************************************************
 # *
@@ -99,7 +97,7 @@ class MfxStatusbar:
     def updateText(self, **kw):
         for k, v in kw.items():
             label = getattr(self, k + '_label')
-            text = unicode(v)
+            text = six.text_type(v)
             width = label['width']
             if width and len(text) > width:
                 label['width'] = len(text)

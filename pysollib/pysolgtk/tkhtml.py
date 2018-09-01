@@ -24,6 +24,7 @@
 # imports
 import os
 import sys
+import six
 import htmllib
 import formatter
 import traceback
@@ -47,9 +48,6 @@ if __name__ == '__main__':
     import gettext
     gettext.install('pysol', d, unicode=True)
 
-if sys.version_info > (3,):
-    unicode = str
-
 REMOTE_PROTOCOLS = ('ftp:', 'gopher:', 'http:', 'mailto:', 'news:', 'telnet:')
 
 
@@ -72,7 +70,7 @@ class tkHTMLWriter(formatter.NullWriter):
         self.indent = ''
 
     def write(self, data):
-        data = unicode(data)
+        data = six.text_type(data)
         self.text.insert(self.text.get_end_iter(), data, len(data))
 
     def anchor_bgn(self, href, name, type):

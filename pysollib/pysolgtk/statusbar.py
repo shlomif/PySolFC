@@ -23,15 +23,12 @@
 
 
 # imports
-import sys
 import gtk
+import six
 
 # PySol imports
 from pysollib.mygettext import _
 
-
-if sys.version_info > (3,):
-    unicode = str
 # ************************************************************************
 # *
 # ************************************************************************
@@ -69,7 +66,7 @@ class BasicStatusbar:
         for k, v in kw.items():
             label = getattr(self, k + "_label")
             label.pop(0)
-            label.push(0, unicode(v))
+            label.push(0, six.text_type(v))
 
     def config(self, name, show):
         # FIXME
@@ -79,7 +76,7 @@ class BasicStatusbar:
         label = getattr(self, name + "_label")
         # FIXME kw['fg']
         label.pop(0)
-        label.push(0, unicode(kw['text']))
+        label.push(0, six.text_type(kw['text']))
 
     def show(self, show=True, resize=False):
         if show:

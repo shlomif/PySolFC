@@ -20,15 +20,13 @@
 import sys
 import os
 import re
+import six
 
 from six import string_types
 from warnings import warn
 INTP_VER = sys.version_info[:2]
 if INTP_VER < (2, 2):
     raise RuntimeError("Python v.2.2 or later needed")
-
-if sys.version_info > (3,):
-    unicode = str
 
 compiler = None
 try:
@@ -860,7 +858,8 @@ class Section(dict):
 
     def decode(self, encoding):
         """
-        Decode all strings and values to unicode, using the specified encoding.
+        Decode all strings and values to unicode, using the specified
+        encoding.
 
         Works with subsections and list values.
 
@@ -871,12 +870,12 @@ class Section(dict):
         >>> m.decode('ascii')
         >>> def testuni(val):
         ...     for entry in val:
-        ...         if not isinstance(entry, unicode):
+        ...         if not isinstance(entry, six.text_type):
         ...             print >> sys.stderr, type(entry)
         ...             raise AssertionError, 'decode failed.'
         ...         if isinstance(val[entry], dict):
         ...             testuni(val[entry])
-        ...         elif not isinstance(val[entry], unicode):
+        ...         elif not isinstance(val[entry], six.text_type):
         ...             raise AssertionError, 'decode failed.'
         >>> testuni(m)
         >>> m.encode('ascii')
@@ -904,7 +903,7 @@ class Section(dict):
 
     def encode(self, encoding):
         """
-        Encode all strings and values from unicode,
+        Encode all strings and values from six.text_type,
         using the specified encoding.
 
         Works with subsections and list values.
@@ -1174,7 +1173,7 @@ class ConfigObj(Section):
             self.filename = infile
             if os.path.isfile(infile):
                 if sys.version_info > (3,):
-                    infile = unicode(open(infile).read()) or []
+                    infile = six.text_type(open(infile).read()) or []
                 else:
                     infile = open(infile).read() or []
             elif self.file_error:
@@ -1275,7 +1274,7 @@ class ConfigObj(Section):
 
         If an encoding is not specified, UTF8 or UTF16 BOM will be detected and
         removed. The BOM attribute will be set. UTF16 will be decoded to
-        unicode.
+        six.text_type.
 
         NOTE: This method must not be called with an empty ``infile``.
 
@@ -1376,25 +1375,25 @@ class ConfigObj(Section):
 
     def _decode(self, infile, encoding):
         """
-        Decode infile to unicode. Using the specified encoding.
+        Decode infile to six.text_type. Using the specified encoding.
 
         if is a string, it also needs converting to a list.
         """
         if isinstance(infile, string_types):
-            # can't be unicode
+            # can't be six.text_type
             # NOTE: Could raise a ``UnicodeDecodeError``
             return infile.decode(encoding).splitlines(True)
         for i, line in enumerate(infile):
-            if not isinstance(line, unicode):
+            if not isinstance(line, six.text_type):
                 # NOTE: The isinstance test here handles mixed
-                #             lists of unicode/string
+                #             lists of six.text_type/string
                 # NOTE: But the decode will break on any non-string values
                 # NOTE: Or could raise a ``UnicodeDecodeError``
                 infile[i] = line.decode(encoding)
         return infile
 
     def _decode_element(self, line):
-        """Decode element to unicode if necessary."""
+        """Decode element to six.text_type if necessary."""
         if not self.encoding:
             return line
         if isinstance(line, str) and self.default_encoding:

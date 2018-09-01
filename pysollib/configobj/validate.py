@@ -125,6 +125,7 @@
 """
 
 import sys
+import six
 import re
 
 __docformat__ = "restructuredtext en"
@@ -137,10 +138,7 @@ INTP_VER = sys.version_info[:2]
 if INTP_VER < (2, 2):
     raise RuntimeError("Python v.2.2 or later needed")
 
-if sys.version_info > (3,):
-    unicode = str
-
-StringTypes = (str, unicode)
+StringTypes = six.string_types
 
 
 _list_arg = re.compile(r'''

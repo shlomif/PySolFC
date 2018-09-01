@@ -28,6 +28,7 @@ import time
 import subprocess
 import re
 import sys
+import six
 from io import BytesIO
 
 # PySol imports
@@ -37,8 +38,6 @@ from pysollib.mfxutil import destruct
 from pysollib.util import KING
 
 FCS_VERSION = None
-if sys.version_info > (3,):
-    unicode = str
 
 # ************************************************************************
 # * HintInterface is an abstract class that defines the public
@@ -1000,7 +999,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
         global FCS_VERSION
         if FCS_VERSION is None:
             pout, _ = self.run_solver(FCS_COMMAND + ' --version', '')
-            s = unicode(pout.read(), encoding='utf-8')
+            s = six.text_type(pout.read(), encoding='utf-8')
             m = re.search(r'version ([0-9]+)\.([0-9]+)\.([0-9]+)', s)
             if m:
                 FCS_VERSION = (int(m.group(1)), int(m.group(2)),
@@ -1064,7 +1063,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
             states = 0
 
             for sbytes in pout:
-                s = unicode(sbytes, encoding='utf-8')
+                s = six.text_type(sbytes, encoding='utf-8')
                 if DEBUG >= 5:
                     print(s)
 
@@ -1085,7 +1084,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
 
         hints = []
         for sbytes in pout:
-            s = unicode(sbytes, encoding='utf-8')
+            s = six.text_type(sbytes, encoding='utf-8')
             if DEBUG:
                 print(s)
             if self._determineIfSolverState(s):
@@ -1219,7 +1218,7 @@ class BlackHoleSolver_Hint(Base_Solver_Hint):
         states = 0
 
         for sbytes in pout:
-            s = unicode(sbytes, encoding='utf-8')
+            s = six.text_type(sbytes, encoding='utf-8')
             if DEBUG >= 5:
                 print(s)
 
@@ -1233,7 +1232,7 @@ class BlackHoleSolver_Hint(Base_Solver_Hint):
 
         hints = []
         for sbytes in pout:
-            s = unicode(sbytes, encoding='utf-8')
+            s = six.text_type(sbytes, encoding='utf-8')
             if DEBUG:
                 print(s)
             m = re.match('Total number of states checked is (\d+)\.', s)

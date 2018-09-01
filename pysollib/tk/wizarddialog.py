@@ -22,7 +22,7 @@
 # ---------------------------------------------------------------------------##
 
 # imports
-import sys
+import six
 from six.moves import tkinter
 from .tabpage import TabPageSet
 
@@ -34,10 +34,6 @@ from pysollib.wizardpresets import presets
 
 # Toolkit imports
 from .tkwidget import MfxDialog
-
-
-if sys.version_info > (3,):
-    basestring = str
 
 
 # ************************************************************************
@@ -59,7 +55,7 @@ class WizardDialog(MfxDialog):
         notebook.pack(expand=True, fill='both')
 
         for w in WizardWidgets:
-            if isinstance(w, basestring):
+            if isinstance(w, six.string_types):
                 notebook.AddPage(w)
                 frame = tkinter.Frame(notebook.pages[w]['page'])
                 frame.pack(expand=True, fill='both', padx=2, pady=4)
@@ -128,7 +124,7 @@ class WizardDialog(MfxDialog):
         n = w.translation_map[v]
         p = presets[n]
         for w in WizardWidgets:
-            if isinstance(w, basestring):
+            if isinstance(w, six.string_types):
                 continue
             if w.var_name in p:
                 v = p[w.var_name]

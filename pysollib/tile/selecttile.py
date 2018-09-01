@@ -23,7 +23,7 @@
 
 
 # imports
-import sys
+import six
 from six.moves import tkinter
 from six.moves import tkinter_colorchooser
 from . import ttk
@@ -37,10 +37,6 @@ from pysollib.ui.tktile.selecttree import SelectDialogTreeData
 from .tkwidget import MfxDialog, MfxScrolledCanvas
 from .selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
 from .selecttree import SelectDialogTreeCanvas
-
-
-if sys.version_info > (3,):
-    basestring = str
 
 
 # ************************************************************************
@@ -169,7 +165,7 @@ class SelectTileDialogWithPreview(MfxDialog):
 
     def mDone(self, button):
         if button == 0:        # "OK" or double click
-            if isinstance(self.tree.selection_key, basestring):
+            if isinstance(self.tree.selection_key, six.string_types):
                 self.key = str(self.tree.selection_key)
             else:
                 self.key = self.tree.selection_key
@@ -197,7 +193,7 @@ class SelectTileDialogWithPreview(MfxDialog):
             return
         canvas = self.preview.canvas
         canvas.deleteAllItems()
-        if isinstance(key, basestring):
+        if isinstance(key, six.string_types):
             # solid color
             canvas.config(bg=key)
             canvas.setTile(None)

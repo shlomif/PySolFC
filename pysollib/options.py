@@ -23,6 +23,7 @@
 
 # imports
 import sys
+import six
 import os
 import traceback
 
@@ -36,9 +37,6 @@ import pysollib.settings
 from pysollib.pysoltk import TOOLBAR_BUTTONS, TOOLKIT
 
 from pysollib.mygettext import _
-
-if sys.version_info > (3,):
-    unicode = str
 
 # ************************************************************************
 # * Options
@@ -516,7 +514,7 @@ class Options:
             val = getattr(self, key)
             if isinstance(val, str):
                 if sys.version_info < (3,):
-                    val = unicode(val, 'utf-8')
+                    val = six.text_type(val, 'utf-8')
             config['general'][key] = val
 
         config['general']['recent_gameid'] = self.recent_gameid

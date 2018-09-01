@@ -16,17 +16,13 @@ __version__ = "0.3"
 
 __author__ = "Guilherme Polo <ggpolo@gmail.com>"
 
-import sys
 from six.moves import tkinter
+import six
 
 _flatten = tkinter._flatten
 
 # Verify if Tk is new enough to not need Tile checking
 _REQUIRE_TILE = True if tkinter.TkVersion < 8.5 else False
-
-if sys.version_info > (3,):
-    basestring = str
-    unicode = str
 
 
 def _loadttk(loadtk):
@@ -68,8 +64,8 @@ def _format_optdict(optdict, script=False, ignore=None):
         if isinstance(value, (list, tuple)):
             v = []
             for val in value:
-                if isinstance(val, basestring):
-                    v.append(unicode(val) if val else '{}')
+                if isinstance(val, six.string_types):
+                    v.append(six.text_type(val) if val else '{}')
                 else:
                     v.append(str(val))
 
@@ -226,11 +222,12 @@ def _script_from_settings(settings):
         # will format specific keys according to Tcl code
         if opts.get('configure'):  # format 'configure'
             s = ' '.join(
-                map(unicode, _format_optdict(opts['configure'], True)))
+                map(six.text_type, _format_optdict(opts['configure'], True)))
             script.append("ttk::style configure %s %s;" % (name, s))
 
         if opts.get('map'):  # format 'map'
-            s = ' '.join(map(unicode, _format_mapdict(opts['map'], True)))
+            s = ' '.join(map(six.text_type,
+                             _format_mapdict(opts['map'], True)))
             script.append("ttk::style map %s %s;" % (name, s))
 
         if 'layout' in opts:  # format 'layout' which may be empty
@@ -338,7 +335,7 @@ def _val_or_dict(options, func, *args):
 
 def _convert_stringval(value):
     """Converts a value to, hopefully, a more appropriate Python object."""
-    value = unicode(value)
+    value = six.text_type(value)
     try:
         value = int(value)
     except (ValueError, TypeError):
@@ -351,7 +348,8 @@ def tclobjs_to_py(adict):
     """Returns adict with its values converted from Tcl objects to Python
     objects."""
     for opt, val in adict.items():
-        if val and hasattr(val, '__len__') and not isinstance(val, basestring):
+        if val and hasattr(val, '__len__') and \
+                not isinstance(val, six.string_types):
             if getattr(val[0], 'typename', None) == 'StateSpec':
                 val = _list_from_statespec(val)
             else:
@@ -1234,7 +1232,7 @@ class Treeview(Widget):
 
         To configure the tree column heading, call this with column = "#0" """
         cmd = kw.get('command')
-        if cmd and not isinstance(cmd, basestring):
+        if cmd and not isinstance(cmd, six.string_types):
             # callback not registered yet, do it now
             kw['command'] = self.master.register(cmd, self._substitute)
 

@@ -21,8 +21,8 @@
 #
 # ---------------------------------------------------------------------------
 
-import sys
 import os
+import six
 
 from pysollib.gamedb import GI, loadGame
 from pysollib.util import ACE, ANY_RANK, KING, NO_RANK, UNLIMITED_MOVES
@@ -59,10 +59,6 @@ from pysollib.layout import Layout
 from pysollib.wizardpresets import presets
 
 from pysollib.mygettext import _, n_
-
-if sys.version_info > (3,):
-    basestring = str
-    unicode = str
 
 # ************************************************************************
 # *
@@ -420,7 +416,7 @@ class MyCustomGame(CustomGame):
 ''')
 
     for w in WizardWidgets:
-        if isinstance(w, basestring):
+        if isinstance(w, six.string_types):
             continue
         v = w.variable.get()
         if w.widget in ('menu', 'preset'):
@@ -435,7 +431,7 @@ class MyCustomGame(CustomGame):
                 # escape
                 v = v.replace('\\', '\\\\')
                 v = v.replace("'", "\\'")
-                if isinstance(v, unicode):
+                if isinstance(v, six.text_type):
                     v = v.encode('utf-8')
                 if not v:
                     v = 'Invalid Game Name'
@@ -456,7 +452,7 @@ registerCustomGame(MyCustomGame)
 
 def reset_wizard(game):
     for w in WizardWidgets:
-        if isinstance(w, basestring):
+        if isinstance(w, six.string_types):
             continue
         if game is None:
             # set to default

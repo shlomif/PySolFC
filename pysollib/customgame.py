@@ -21,7 +21,7 @@
 #
 # ---------------------------------------------------------------------------##
 
-import sys
+import six
 from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.util import ACE, ANY_RANK, ANY_SUIT, \
     KING, \
@@ -68,14 +68,11 @@ from pysollib.wizardutil import WizardWidgets
 # *
 # ************************************************************************
 
-if sys.version_info > (3,):
-    basestring = str
-
 
 def get_settings(ss):
     s = {}
     for w in WizardWidgets:
-        if isinstance(w, basestring):
+        if isinstance(w, six.string_types):
             continue
         if w.var_name in ss:
             v = ss[w.var_name]

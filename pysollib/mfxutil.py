@@ -24,6 +24,7 @@
 # imports
 import re
 import sys
+import six
 import os
 import time
 import locale
@@ -54,8 +55,6 @@ USE_PIL = False
 if TOOLKIT == 'tk' and Image and Image.VERSION >= '1.1.7':
     USE_PIL = True
 
-if sys.version_info > (3,):
-    unicode = str
 # debug
 # Image = None
 # USE_PIL = False
@@ -158,7 +157,7 @@ if os.name == "posix":
 def win32_getusername():
     user = os.environ.get('USERNAME', '').strip()
     try:
-        user = unicode(user, locale.getpreferredencoding())
+        user = six.text_type(user, locale.getpreferredencoding())
     except Exception:
         user = ''
     return user

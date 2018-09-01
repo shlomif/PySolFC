@@ -23,7 +23,7 @@
 
 
 # imports
-import sys
+import six
 import imp
 
 # PySol imports
@@ -32,10 +32,6 @@ from pysollib.resource import CSI
 import pysollib.settings
 
 from pysollib.mygettext import _, n_
-
-if sys.version_info > (3,):
-    basestring = str
-    unicode = str
 
 # ************************************************************************
 # * constants
@@ -454,13 +450,13 @@ class GameInfo(Struct):
                  ):
         #
         def to_unicode(s):
-            if isinstance(s, unicode):
+            if isinstance(s, six.text_type):
                 return s
             try:
-                s = unicode(s, 'utf-8')
+                s = six.text_type(s, 'utf-8')
             except UnicodeDecodeError as err:
                 print_err(err)
-                s = unicode(s, 'utf-8', 'ignore')
+                s = six.text_type(s, 'utf-8', 'ignore')
             return s
         ncards = decks * (len(suits) * len(ranks) + len(trumps))
         game_flags = game_type & ~1023
@@ -475,7 +471,7 @@ class GameInfo(Struct):
             short_name = to_unicode(short_name)
             if pysollib.settings.TRANSLATE_GAME_NAMES:
                 short_name = _(short_name)
-        if isinstance(altnames, basestring):
+        if isinstance(altnames, six.string_types):
             altnames = (altnames,)
         altnames = [to_unicode(n) for n in altnames]
         if pysollib.settings.TRANSLATE_GAME_NAMES:

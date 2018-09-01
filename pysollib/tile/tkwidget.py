@@ -22,7 +22,6 @@
 # ---------------------------------------------------------------------------
 
 # imports
-import sys
 import os
 import time
 import locale
@@ -30,6 +29,7 @@ from six.moves import tkinter
 from . import ttk
 from six.moves import tkinter_font
 from six import PY2
+import six
 import traceback
 
 # PySol imports
@@ -42,9 +42,6 @@ from pysollib.ui.tktile.tkutil import after, after_cancel
 from pysollib.ui.tktile.tkutil import bind, unbind_destroy
 from pysollib.ui.tktile.tkutil import makeToplevel, setTransient
 from pysollib.ui.tktile.tkcanvas import MfxCanvas
-
-if sys.version_info > (3,):
-    unicode = str
 
 # ************************************************************************
 # * abstract base class for the dialogs in this module
@@ -125,9 +122,9 @@ class MfxDialog:  # ex. _ToplevelDialog
             key = event.char
             try:
                 if os.name == 'nt':
-                    key = unicode(key, locale.getpreferredencoding())
+                    key = six.text_type(key, locale.getpreferredencoding())
                 else:
-                    key = unicode(key, 'utf-8')
+                    key = six.text_type(key, 'utf-8')
             except Exception:
                 pass
             else:
@@ -294,7 +291,7 @@ class MfxExceptionDialog(MfxMessageDialog):
         else:
             t = str(ex)
         if PY2:
-            t = unicode(t, errors='replace')
+            t = six.text_type(t, errors='replace')
         kw.text = text + t
         MfxMessageDialog.__init__(self, parent, title, **kw.getKw())
 
@@ -318,13 +315,10 @@ class PysolAboutDialog(MfxMessageDialog):
                         width=kw.width)
         msg.pack(fill='both', expand=True)
 
-        if sys.version_info >= (2, 4):
-            # font_name = msg.lookup('TLabel', 'font')
-            font_name = 'TkDefaultFont'
-            font = tkinter_font.Font(parent, name=font_name, exists=True)
-            font = font.copy()
-        else:
-            font = tkinter_font.Font(parent, app.getFont('default'))
+        # font_name = msg.lookup('TLabel', 'font')
+        font_name = 'TkDefaultFont'
+        font = tkinter_font.Font(parent, name=font_name, exists=True)
+        font = font.copy()
         font.configure(underline=True)
         url_label = ttk.Label(frame, text=kw.url, font=font,
                               foreground='blue', cursor='hand2')

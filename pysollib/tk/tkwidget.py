@@ -22,7 +22,7 @@
 # ---------------------------------------------------------------------------
 
 # imports
-import sys
+import six
 import time
 from six.moves import tkinter
 from six.moves import tkinter_font
@@ -38,9 +38,6 @@ from pysollib.ui.tktile.tkutil import after, after_cancel
 from pysollib.ui.tktile.tkutil import bind, unbind_destroy
 from pysollib.ui.tktile.tkutil import makeToplevel, setTransient
 from pysollib.ui.tktile.tkcanvas import MfxCanvas
-
-if sys.version_info > (3,):
-    unicode = str
 
 # ************************************************************************
 # * abstract base class for the dialogs in this module
@@ -136,7 +133,7 @@ class MfxDialog:  # ex. _ToplevelDialog
 
     def altKeyEvent(self, event):
         key = event.char
-        key = unicode(key, 'utf-8')
+        key = six.text_type(key, 'utf-8')
         key = key.lower()
         button = self.accel_keys.get(key)
         if button is not None:
@@ -291,7 +288,7 @@ class MfxExceptionDialog(MfxMessageDialog):
                 (ex.errno, ex.strerror, repr(ex.filename))
         else:
             t = str(ex)
-        kw.text = text + unicode(t, errors='replace')
+        kw.text = text + six.text_type(t, errors='replace')
         MfxMessageDialog.__init__(self, parent, title, **kw.getKw())
 
 

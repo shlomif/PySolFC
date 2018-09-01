@@ -22,8 +22,8 @@
 # ---------------------------------------------------------------------------
 
 # imports
-import sys
 
+import six
 from six.moves import tkinter
 from . import ttk
 
@@ -36,9 +36,6 @@ from pysollib.wizardpresets import presets
 # Toolkit imports
 from .tkwidget import MfxDialog
 from .tkwidget import PysolScale, PysolCombo
-
-if sys.version_info > (3,):
-    basestring = str
 
 # ************************************************************************
 # *
@@ -60,7 +57,7 @@ class WizardDialog(MfxDialog):
         notebook.pack(expand=True, fill='both')
 
         for w in WizardWidgets:
-            if isinstance(w, basestring):
+            if isinstance(w, six.string_types):
                 frame = ttk.Frame(notebook)
                 notebook.add(frame, text=w, sticky='nsew', padding=5)
                 frame.columnconfigure(1, weight=1)
@@ -139,7 +136,7 @@ class WizardDialog(MfxDialog):
         n = w.translation_map[n]
         p = presets[n]
         for w in WizardWidgets:
-            if isinstance(w, basestring):
+            if isinstance(w, six.string_types):
                 continue
             if w.var_name in p:
                 v = p[w.var_name]

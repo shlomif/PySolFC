@@ -127,8 +127,10 @@ def by_type():
 
 def all_games(sort_by='id'):
     # rules_dir = 'rules'
-    print('''<table border="2">
+    print('''<table><thead>
 <tr><th>ID</th><th>Name</th><th>Alternate names</th><th>Type</th></tr>
+</thead>
+<tbody>
 ''')
 
     if sort_by == 'id':
@@ -156,24 +158,32 @@ def all_games(sort_by='id'):
         else:
             print('''<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>
 ''' % (id, name, altnames, gt))
-    print('</table>')
+    print('</tbody></table>')
 
 
 def create_html(sort_by):
-    print('''<html>
+    print('''<!DOCTYPE html><html lang="en-US">
 <head>
   <title>PySolFC - List of solitaire games</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 </head>
 <body>
 ''')
-    print('<b>Total games: %d</b>' % len(GAME_DB.getGamesIdSortedById()))
+    print('<strong>Total games: %d</strong>' %
+          len(GAME_DB.getGamesIdSortedById()))
+    print('<section>')
     print('<h2>Categories</h2>')
     by_category()
+    print('</section>')
+    print('<section>')
     print('<h2>Types</h2>')
     by_type()
+    print('</section>')
     # print '<h2>All games</h2>'
+    print('<section>')
+    print('<h2>The games</h2>')
     all_games(sort_by)
+    print('</section>')
     print('</body></html>')
 
 

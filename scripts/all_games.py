@@ -26,6 +26,7 @@ sys.path[0] = os.path.normpath(pysollib_path)
 rules_dir = os.path.normpath(os.path.join(pysollib_path, 'data/html/rules'))
 # pprint(sys.path)
 # print rules_dir
+html_mode = None
 
 fix_gettext()
 
@@ -170,7 +171,8 @@ def all_games(sort_by='id'):
 
 
 def create_html(sort_by):
-    print('''<!DOCTYPE html><html lang="en-US">
+    if html_mode != 'bare':
+        print('''<!DOCTYPE html><html lang="en-US">
 <head>
   <title>PySolFC - List of solitaire games</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -192,7 +194,8 @@ def create_html(sort_by):
     print('<h2>The games</h2>')
     all_games(sort_by)
     print('</section>')
-    print('</body></html>')
+    if html_mode != 'bare':
+        print('</body></html>')
 
 
 def get_text():
@@ -272,6 +275,8 @@ if len(sys.argv) < 2 or sys.argv[1] == 'html':
         sort_by = sys.argv[2]
     if len(sys.argv) > 3:
         rules_dir = sys.argv[3]
+    if len(sys.argv) > 4:
+        html_mode = sys.argv[4]
     create_html(sort_by)
 elif sys.argv[1] == 'gettext':
     get_text()

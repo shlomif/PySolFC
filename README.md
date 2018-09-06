@@ -33,7 +33,10 @@ and implemented some other enhancements.
 
 ## Installation.
 
-See: http://www.python.org/doc/current/inst/
+We provide an [installer for Windows](https://sourceforge.net/projects/pysolfc/files/PySolFC/)
+as well as an Android package on F-droid.
+
+For installation from source, see: http://www.python.org/doc/current/inst/
 
 ### Running from source without installation.
 
@@ -64,17 +67,17 @@ sudo apt-get install -y ack-grep cpanminus libperl-dev make perl python-glade2 p
 #### Step 2 - build PySol.
 
 ```
-$ git clone https://github.com/shlomif/PySolFC.git
-$ cd PySolFC
-$ # Now make sure you have installed the dependencies.
-$ gmake test
-$ gmake rules
-$ ln -s data/images images
-$ tar -xvf PySolFC-Cardsets-2.0.tar.bz2 # Need to be downloaded from sourceforge
-$ mkdir -p ~/.PySolFC
-$ rmdir ~/.PySolFC/cardsets
-$ ln -s "`pwd`/PySolFC-Cardsets-2.0" ~/.PySolFC/cardsets
-$ python pysol.py
+git clone https://github.com/shlomif/PySolFC.git
+cd PySolFC
+# Now make sure you have installed the dependencies.
+gmake test
+gmake rules
+ln -s data/images images
+tar -xvf PySolFC-Cardsets-2.0.tar.bz2 # Need to be downloaded from sourceforge
+mkdir -p ~/.PySolFC
+rmdir ~/.PySolFC/cardsets
+ln -s "`pwd`/PySolFC-Cardsets-2.0" ~/.PySolFC/cardsets
+python pysol.py
 ```
 
 <b>Note!</b> If you are using a Debian derivative (e.g: Debian, Ubuntu, or
@@ -111,16 +114,16 @@ to its CMake-based build-system:
 ## Install Extras.
 
 - Music
- - Copy some music files (mp3 for example) to ~/.PySolFC/music/
+ - Copy some music files (in mp3 format for example) to ~/.PySolFC/music/
 
  - Original PySol music can be downloaded from:
-   ftp://ibiblio.org/pub/linux/games/solitaires/pysol-music-4.40.tar.gz
+     https://sourceforge.net/projects/pysolfc/files/PySol-Music/
 
 - Cardsets
  - Copy cardsets to ~/.PySolFC/cardsets
 
  - Additional cardsets can be downloaded from the PySolFC project page:
-   http://sourceforge.net/project/showfiles.php?group_id=150718
+     https://sourceforge.net/projects/pysolfc/files/
 
 ## Related repositories and links
 

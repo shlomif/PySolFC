@@ -16,6 +16,19 @@ for general guidelines for contributing to open source.
 - Try to fix bugs.
 - Add new games.
 - Improve the documentation / online help
-- Refactor the code.
+- [Refactor](https://en.wikipedia.org/wiki/Code_refactoring) the code.
 - Add new features.
 - Contribute graphics
+- Improve the site
+- Make a monetary donation.
+
+## Adding new games
+
+First of all there is the "Solitaire Wizard" which may be used to generate many
+custom variants. It lives in the Edit menu.
+
+Otherwise, the games' sources live under
+[the pysollib/games/](pysollib/games/) directory in the repository, and are
+written in Python 2.7/3.x and you can try inheriting from an existing
+variant [class](https://en.wikipedia.org/wiki/Class_%28computer_programming%29).
+

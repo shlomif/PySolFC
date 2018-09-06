@@ -21,6 +21,7 @@ for general guidelines for contributing to open source.
 - Contribute graphics
 - Improve the site
 - Make a monetary donation.
+- [Star](https://help.github.com/articles/about-stars/) or [Watch](https://help.github.com/articles/watching-and-unwatching-repositories/) the repository on GitHub
 
 ## Adding new games
 

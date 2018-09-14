@@ -27,7 +27,6 @@ import os
 import time
 import subprocess
 import re
-import sys
 import six
 from io import BytesIO
 
@@ -819,9 +818,7 @@ class Base_Solver_Hint:
         if os.name != 'nt':
             kw['close_fds'] = True
         p = subprocess.Popen(command, **kw)
-        bytes_board = board
-        if sys.version_info > (3,):
-            bytes_board = bytes(board, 'utf-8')
+        bytes_board = six.binary_type(board, 'utf-8')
         pout, perr = p.communicate(bytes_board)
         if p.returncode in (127, 1):
             # Linux and Windows return codes for "command not found" error
@@ -910,8 +907,6 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
 
         # Based on https://stackoverflow.com/questions/8898294 - thanks!
         def mydecode(s):
-            if sys.version_info < (3,):
-                pass  # return s
             for encoding in "utf-8-sig", "utf-8":
                 try:
                     return s.decode(encoding)

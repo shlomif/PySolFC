@@ -1172,10 +1172,7 @@ class ConfigObj(Section):
         if isinstance(infile, string_types):
             self.filename = infile
             if os.path.isfile(infile):
-                if sys.version_info > (3,):
-                    infile = six.text_type(open(infile).read()) or []
-                else:
-                    infile = open(infile).read() or []
+                infile = six.text_type(open(infile).read()) or []
             elif self.file_error:
                 # raise an error if the file doesn't exist
                 raise IOError('Config file not found: "%s".' % self.filename)

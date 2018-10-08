@@ -219,6 +219,7 @@ for ver in [2, 3]:
             'pysol_tests.import_file1',
             'pysol_tests.latin1_conv_unit',
             'pysol_tests.ms_deals1',
+            'pysol_tests.scorpion_canMove',
             ]:
         open(os.path.join(".", "tests", "unit-generated",
                           'test__%s__v%d.py' % (mod, ver)

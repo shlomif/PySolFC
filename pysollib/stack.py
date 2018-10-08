@@ -2423,6 +2423,7 @@ class SequenceStack_StackMethods:
         return self._isSequence(cards)
 
     def _isMoveableSequence(self, cards):
+        # import pdb; pdb.set_trace()
         return self._isSequence(cards)
 
     def acceptsCards(self, from_stack, cards):

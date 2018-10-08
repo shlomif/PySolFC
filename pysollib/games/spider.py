@@ -329,7 +329,7 @@ class Rachel(pysollib.game.StartDealRowAndCards, RelaxedSpider):
 # * Scorpion Tail - building down by alternate color
 # ************************************************************************
 
-class Scorpion_RowStack(Yukon_SS_RowStack, Spider_RowStack):
+class Scorpion_RowStack(Spider_RowStack, Yukon_SS_RowStack):
     canDropCards = Spider_RowStack.canDropCards
 
 

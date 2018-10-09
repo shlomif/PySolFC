@@ -4,47 +4,7 @@ import unittest
 from pysollib.acard import AbstractCard
 import pysollib.stack
 from pysollib.games.spider import Scorpion_RowStack
-
-
-class MockItem:
-    def __init__(self):
-        pass
-
-    def tkraise(self):
-        return
-
-    def addtag(self, nouse):
-        return
-
-
-class MockCanvas:
-    def __init__(self):
-        self.xmargin = self.ymargin = 50
-
-
-class MockImages:
-    def __init__(self):
-        self.CARDW = self.CARDH = self.CARD_YOFFSET = 50
-
-
-class MockOpt:
-    def __init__(self):
-        self.randomize_place = False
-
-
-class MockApp:
-    def __init__(self):
-        self.images = MockImages()
-        self.opt = MockOpt()
-
-
-class MockTalon:
-    def __init__(self, g):
-        self.cards = [
-            AbstractCard(1000+r*100+s*10, 0, s, r, g)
-            for s in range(4) for r in range(13)]
-        for c in self.cards:
-            c.item = MockItem()
+from pysol_tests.common_mocks1 import MockApp, MockCanvas, MockItem, MockTalon
 
 
 class MockGame:
@@ -62,13 +22,6 @@ class MockGame:
         self.reserves = [
             pysollib.stack.Yukon_SS_RowStack(0, 0, self) for s in range(4)]
         self.preview = 0
-
-
-def _empty_override(*args):
-    return True
-
-
-pysollib.stack.MfxCanvasGroup = _empty_override
 
 
 class Mock_S_Game:

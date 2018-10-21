@@ -24,6 +24,7 @@
 # imports
 import sys
 import os
+import site
 
 # PySol imports
 from pysollib.settings import DATA_DIRS, TOOLKIT
@@ -100,6 +101,11 @@ class DataLoader:
         path.append(os.path.join(sys.path[0], "pysollib", "data"))
         # from settings.py
         path.extend(DATA_DIRS)
+        # itz 2018-10-21 in case of venv installation
+        # (or even homedir installation), path[0] will be quite wrong.
+        # Just directly use the location where setup.py puts the data.
+        if site.PREFIXES:
+            path.append(os.path.join(site.PREFIXES[0], 'share', 'PySolFC'))
         # check path for valid directories
         self.path = []
         for p in path:

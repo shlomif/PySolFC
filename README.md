@@ -89,6 +89,56 @@ that are needed by pysol from source (without the debian modifications).
 Please uninstall that package and use the cardsets archive from sourceforge.net
 per the instructions above.
 
+### Installing from source and running in a python venv (virtual environment)
+
+At the moment, this only works on POSIX (Linux, FreeBSD and similar) systems.
+Windows and Mac users - you'll need to chip in with a script for your system.
+
+#### 1 - Install build prerequisites: six and random2
+
+This is kind of stupid and maybe it can be fixed in the future, but for now:
+
+```
+pip install six
+pip install random2
+```
+
+You may want to use your OS distribution package system instead, for example:
+
+```
+sudo apt-get install python-six
+sudo apt-get install python-random2
+```
+
+#### 2 - Clone the source from version control
+
+```
+git clone git://github.com/shlomif/PySolFC.git
+cd PySolFC
+```
+
+#### 3 - Create your virtual environment.
+
+```
+PKGDIR=/usr/local/packages/PySolFC # or whatever
+export PKGDIR
+mkdir -p $PKGDIR
+( cd $PKGDIR && python -m venv ./env )
+```
+
+#### 4 - Run the install script
+
+```
+./contrib/install-pysolfc.sh
+```
+
+#### 5 - Put cardsets into place as above.
+
+#### 6 - Enjoy playing
+
+$PKGDIR/env/bin/pysol.py
+
+
 ## Alternate toolkit.
 
 - Python2 (2.7 or later)

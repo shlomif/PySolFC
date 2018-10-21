@@ -104,8 +104,8 @@ class DataLoader:
         # itz 2018-10-21 in case of venv installation
         # (or even homedir installation), path[0] will be quite wrong.
         # Just directly use the location where setup.py puts the data.
-        if site.PREFIXES:
-            path.append(os.path.join(site.PREFIXES[0], 'share', 'PySolFC'))
+        for pref in site.PREFIXES:
+            path.append(os.path.join(pref, 'share', 'PySolFC'))
         # check path for valid directories
         self.path = []
         for p in path:

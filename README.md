@@ -122,8 +122,8 @@ cd PySolFC
 ```
 PKGDIR=/usr/local/packages/PySolFC # or whatever
 export PKGDIR
-mkdir -p $PKGDIR
-( cd $PKGDIR && python -m venv ./env )
+mkdir -p "$PKGDIR"
+( cd "$PKGDIR" && python -m venv ./env )
 ```
 
 #### 4 - Run the install script
@@ -136,8 +136,9 @@ mkdir -p $PKGDIR
 
 #### 6 - Enjoy playing
 
-$PKGDIR/env/bin/pysol.py
-
+```
+"$PKGDIR"/env/bin/pysol.py
+```
 
 ## Alternate toolkit.
 

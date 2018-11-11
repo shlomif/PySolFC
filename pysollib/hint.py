@@ -800,7 +800,7 @@ class Base_Solver_Hint:
         return [hint]
 
     def colonPrefixMatch(self, prefix, s):
-        m = re.match(prefix + ': (\d+)', s)
+        m = re.match(prefix + ': ([0-9]+)', s)
         if m:
             self._v = int(m.group(1))
             return True
@@ -1084,12 +1084,12 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                 print(s)
             if self._determineIfSolverState(s):
                 next
-            m = re.match('Total number of states checked is (\d+)\.', s)
+            m = re.match('Total number of states checked is ([0-9]+)\\.', s)
             if m:
                 iter_ = int(m.group(1))
                 self.dialog.setText(iter=iter_)
 
-            m = re.match('This scan generated (\d+) states\.', s)
+            m = re.match('This scan generated ([0-9]+) states\\.', s)
 
             if m:
                 states = int(m.group(1))
@@ -1102,7 +1102,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
             move_s = m.group(1)
 
             m = re.match(
-                'the sequence on top of Stack (\d+) to the foundations',
+                'the sequence on top of Stack ([0-9]+) to the foundations',
                 move_s)
 
             if m:
@@ -1113,11 +1113,11 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                 dest = None
             else:
                 m = re.match(
-                    '(?P<ncards>a card|(?P<count>\d+) cards) '
+                    '(?P<ncards>a card|(?P<count>[0-9]+) cards) '
                     'from (?P<source_type>stack|freecell) '
-                    '(?P<source_idx>\d+) to '
+                    '(?P<source_idx>[0-9]+) to '
                     '(?P<dest>the foundations|(?P<dest_type>freecell|stack) '
-                    '(?P<dest_idx>\d+))\s*', move_s)
+                    '(?P<dest_idx>[0-9]+))\\s*', move_s)
 
                 if not m:
                     continue
@@ -1230,13 +1230,13 @@ class BlackHoleSolver_Hint(Base_Solver_Hint):
             s = six.text_type(sbytes, encoding='utf-8')
             if DEBUG:
                 print(s)
-            m = re.match('Total number of states checked is (\d+)\.', s)
+            m = re.match('Total number of states checked is ([0-9]+)\\.', s)
             if m:
                 iter_ = int(m.group(1))
                 self.dialog.setText(iter=iter_)
                 continue
 
-            m = re.match('This scan generated (\d+) states\.', s)
+            m = re.match('This scan generated ([0-9]+) states\\.', s)
 
             if m:
                 states = int(m.group(1))

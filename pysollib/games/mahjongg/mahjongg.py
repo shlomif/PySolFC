@@ -1023,7 +1023,7 @@ def r(id, short_name, name=None, ncards=144, layout=None):
     assert layout
     if not name:
         name = "Mahjongg " + short_name
-    classname = re.sub('\W', '', name)
+    classname = re.sub('\\W', '', name)
     # create class
     gameclass = type(classname, (AbstractMahjonggGame,), {})
     gameclass.L = layout

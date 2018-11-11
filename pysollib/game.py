@@ -3098,7 +3098,7 @@ Congratulations, you did it !
         try:
             game = self._loadGame(filename, self.app)
             game.gstats.holded = 0
-        except AssertionError as ex:
+        except AssertionError:
             self.updateMenus()
             self.setCursor(cursor=self.app.top_cursor)
             MfxMessageDialog(

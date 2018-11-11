@@ -170,7 +170,6 @@ class SingleGame_StatsDialog(MfxDialog):
                 x, ty[1]-dy, text="%d%%" % (100-pw), anchor="ne", font=tfont,
                 fill=fg)
 
-
 #      def _createChart3DBar(self, canvas, perc, x, y, p, col):
 #          if perc < 0.005:
 #              return
@@ -204,11 +203,6 @@ class SingleGame_StatsDialog(MfxDialog):
 #          draw_line(5, 6)
 #          draw_line(6, 7)
 #          draw_line(7, 4)
-
-    #
-    # charts
-    #
-
 #      def createSimpleChart(self, app, won, lost, text):
 #          #c, tfont, fg = self._createChartInit(frame, 300, 100, text)
 #          self._createChartInit(300, 100, text)
@@ -217,7 +211,6 @@ class SingleGame_StatsDialog(MfxDialog):
 #          tx = (90, 180, 210)
 #          ty = (21, 41, 75)
 #          self._createChartTexts(tx, ty, won, lost)
-
 #      def create3DBarChart(self, app, won, lost, text):
 #          image = app.gimages.stats[0]
 #          iw, ih = image.width(), image.height()

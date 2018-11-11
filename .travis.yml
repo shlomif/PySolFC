@@ -14,7 +14,7 @@ install:
     - sudo cpanm Code::TidyAll::Plugin::Flake8 Perl::Tidy Test::Code::TidyAll Test::Differences Test::TrailingSpace
     - export PY_MODS='pycotap random2 six'
     - "`which python3` -m pip install --upgrade flake8 $PY_MODS"
-    - "sudo /usr/bin/python3 -m pip install --upgrade $PY_MODS"
+    - "sudo /usr/bin/python3 -m pip install --upgrade $PY_MODS || true"
     - "sudo `which python2` -m pip install --upgrade $PY_MODS"
     - which python
     - which python2

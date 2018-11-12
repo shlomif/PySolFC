@@ -30,7 +30,7 @@ matrix:
           env: TOXENV=py35
 script:
     - "sh -x scripts/travis-ci-build"
-    - if test "$TRAVIS_OS_NAME" = "osx" ; then python3 setup_osx.py py2app ; fi
+    - if test "$TRAVIS_OS_NAME" = "osx" ; then PYTHONPATH="`pwd`" python3 setup_osx.py py2app ; fi
 deploy:
     provider: releases
     api_key:

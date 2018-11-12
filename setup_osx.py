@@ -6,7 +6,6 @@ Usage:
 import os
 import sys
 import shutil
-from six.moves import tkinter
 from subprocess import call
 from setuptools import setup
 from pysollib.settings import PACKAGE, VERSION
@@ -25,21 +24,6 @@ if not os.path.exists('data/html'):
 
 # build the HTML list of games
 call("./scripts/all_games.py > docs/all_games.html", shell=True)
-
-# Use Tile widgets, if they are installed.
-# http://tktable.sourceforge.net/tile/
-root = tkinter.Tk()
-root.withdraw()
-try:
-    root.tk.call('package', 'require', 'tile', '0.7.8')
-except Exception:
-    TILE = None
-else:
-    TILE = "tile0.7.8"
-    TCL_EXTENSION_PATH = "/Library/Tcl"
-finally:
-    root.destroy()
-    del root, tkinter
 
 # Use Freecell Solver, if it is installed.
 # http://fc-solve.berlios.de/
@@ -66,7 +50,7 @@ PLIST = dict(
 APP = ['pysol.py']
 ICON_FILE = 'data/PySol.icns'
 DATA_FILES = ['docs', 'data', 'scripts', 'COPYING', 'README.md'] + SOLVER
-RESOURCES = [os.path.join(TCL_EXTENSION_PATH, TILE)] if TILE else []
+RESOURCES = []
 FRAMEWORKS = [SOLVER_LIB_PATH] if SOLVER_LIB_PATH else []
 OPTIONS = dict(argv_emulation=True,
                plist=PLIST,
@@ -85,15 +69,6 @@ setup(
 
 #
 top = os.getcwd()
-# FIXME: a hack to get Tcl extensions working
-# from inside the app bundle
-if TILE and "py2app" in sys.argv:
-    os.chdir('dist/%s.app/Contents/Frameworks' % PACKAGE)
-    try:
-        os.symlink('../Resources/%s' % TILE, TILE)
-    except OSError:
-        pass
-    os.chdir(top)
 # Modify the fc-solve binary with install_name_tool to use the dependent
 # libfreecell-solver dynamic library in the app bundle.
 if SOLVER and "py2app" in sys.argv:

@@ -2,6 +2,9 @@
 # Written by Shlomi Fish, under the MIT Expat License.
 
 import os.path
+from sys import platform
+
+IS_MAC = (platform == "darwin")
 for module_name in \
         [
          'pysollib.acard',
@@ -200,8 +203,9 @@ for module_name in \
          'pysollib.wizardpresets',
          'pysollib.wizardutil',
         ]:
+    is_gtk = ("gtk" in module_name)
     for ver in [2, 3]:
-        if ver == 2 or "gtk" not in module_name:
+        if ((not is_gtk) or (ver == 2 and (not IS_MAC))):
             def fmt(s):
                 return s % {'module_name': module_name, 'ver': ver}
             open(os.path.join(".", "tests", "individually-importing", fmt("import_v%(ver)d_%(module_name)s.py")), 'w').write(fmt('''#!/usr/bin/env python%(ver)d

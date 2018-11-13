@@ -40,3 +40,4 @@ deploy:
     on:
         repo: shlomif/PySolFC
         tags: true
+    skip_cleanup: true

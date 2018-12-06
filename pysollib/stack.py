@@ -2474,6 +2474,8 @@ class BasicRowStack(OpenStack):
 
 # Abstract class.
 class SequenceRowStack(SequenceStack_StackMethods, BasicRowStack):
+    canMoveCards = OpenStack.canMoveCards
+
     def __init__(self, x, y, game, **cap):
         kwdefault(cap, max_move=999999, max_accept=999999)
         BasicRowStack.__init__(self, x, y, game, **cap)

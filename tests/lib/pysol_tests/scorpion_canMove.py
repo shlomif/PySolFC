@@ -39,7 +39,7 @@ class Mock_S_Game:
 
 
 class MyTests(unittest.TestCase):
-    def test_import(self):
+    def test_canMoveCards(self):
         g = MockGame()
         stack = Scorpion_RowStack(0, 0, g)
         cards = [
@@ -52,4 +52,19 @@ class MyTests(unittest.TestCase):
             c.item = MockItem()
             stack.addCard(c)
         stack.canMoveCards(stack.cards[6:])
+        self.assertTrue(stack)
+
+    def test_canMoveCards_non_top(self):
+        g = MockGame()
+        stack = Scorpion_RowStack(0, 0, g)
+        cards = [
+            AbstractCard(1000+r*100+s*10, 0, s, r, g)
+            for s, r in [(2, 5), (3, 7), (2, 7), (2, 0),
+                         (2, 3), (2, 4), (1, 4)]
+            ]
+        for c in cards:
+            c.face_up = True
+            c.item = MockItem()
+            stack.addCard(c)
+        self.assertTrue(stack.canMoveCards(stack.cards[4:]))
         self.assertTrue(stack)

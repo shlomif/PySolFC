@@ -1,14 +1,28 @@
 dist: trusty
-os:
-    - linux
-    - osx
+addons:
+  apt:
+    packages:
+      - ack-grep
+      - cpanminus
+      - libperl-dev
+      - make
+      - perl
+      - python-glade2
+      - python-gnome2
+      - python-gnome2-dev
+      - python-gtk2
+      - python-setuptools
+      - python-tk
+      - python3
+      - python3-pip
+      - python3-setuptools
+      - python3-tk
+  homebrew:
+    update: true
+    brewfile: true
 before_install:
-    - if test "$TRAVIS_OS_NAME" = "linux" ; then sudo apt-get update -qq ; sudo apt-get install -y ack-grep cpanminus libperl-dev make perl python-glade2 python-gnome2 python-gnome2-dev python-gtk2 python-setuptools python-tk python3 python3-pip python3-setuptools python3-tk ; sudo dpkg-divert --local --divert /usr/bin/ack --rename --add /usr/bin/ack-grep ; fi
-    - if test "$TRAVIS_OS_NAME" = "osx" ; then brew update; fi
-    - if test "$TRAVIS_OS_NAME" = "osx" ; then brew list python &>/dev/null || brew install python; fi
-    - if test "$TRAVIS_OS_NAME" = "osx" ; then brew list python3 &>/dev/null || brew install python3; fi
-    - if test "$TRAVIS_OS_NAME" = "osx" ; then brew install pyenv-virtualenv; fi
-    - if test "$TRAVIS_OS_NAME" = "osx" ; then brew bundle ; brew link gettext --force ; export PATH="$PATH:/usr/local/bin" ; export DYLD_LIBRARY_PATH="/usr/local/opt/curl/lib:/usr/local/opt/openssl/lib:${DYLD_LIBRARY_PATH}" ; export PATH="/usr/local/opt/openssl/bin:$PATH" ; export LDFLAGS="$LDFLAGS -L/usr/local/opt/openssl/lib" ; export CPPFLAGS="$CPPFLAGS -I/usr/local/opt/openssl/include" ; export CPPFLAGS="$CPPFLAGS -I$(brew --prefix openssl)/include" PKG_CONFIG_PATH="$(brew --prefix openssl)/lib/pkgconfig:$PKG_CONFIG_PATH" LDFLAGS="$LDFLAGS -L$(brew --prefix openssl)/lib" ;fi
+    - if test "$TRAVIS_OS_NAME" = "linux" ; then sudo dpkg-divert --local --divert /usr/bin/ack --rename --add /usr/bin/ack-grep ; fi
+    - if test "$TRAVIS_OS_NAME" = "osx" ; then export CPPFLAGS="$CPPFLAGS -I$(brew --prefix openssl)/include" PKG_CONFIG_PATH="$(brew --prefix openssl)/lib/pkgconfig:$PKG_CONFIG_PATH" LDFLAGS="$LDFLAGS -L$(brew --prefix openssl)/lib" ;fi
 install:
     - sudo cpanm Code::TidyAll::Plugin::Flake8 Perl::Tidy Test::Code::TidyAll Test::Differences Test::TrailingSpace
     - export PY_MODS='pycotap random2 six'
@@ -18,16 +32,18 @@ install:
     - which python
     - which python2
 language: python
-python:
-    - "3.6"
+python: "3.6"
 matrix:
-    exclude:
-        - os: osx
-          python: "3.6"
     include:
+        - os: linux
         - os: osx
           language: generic
-          env: TOXENV=py35
+          env:
+            - TOXENV=py35
+            - PATH="/usr/local/opt/openssl/bin:$PATH:/usr/local/bin"
+            - DYLD_LIBRARY_PATH="/usr/local/opt/curl/lib:/usr/local/opt/openssl/lib:${DYLD_LIBRARY_PATH}"
+            - LDFLAGS="$LDFLAGS -L/usr/local/opt/openssl/lib"
+            - CPPFLAGS="$CPPFLAGS -I/usr/local/opt/openssl/include"
 script:
     - "sh -x scripts/travis-ci-build"
     - if test "$TRAVIS_OS_NAME" = "osx" ; then PYTHONPATH="`pwd`" python3 setup_osx.py py2app ; fi

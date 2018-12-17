@@ -61,7 +61,7 @@ sudo urpmi git make pygtk2 pygtk2.0-libglade gnome-python-canvas tkinter
 On Debian / Ubuntu / etc. you can do:
 
 ```
-sudo apt-get install -y ack-grep cpanminus libperl-dev make perl python-glade2 python-gnome2 python-gnome2-dev python-gtk2 python-setuptools python-tk
+sudo apt-get install -y cpanminus libperl-dev make perl python-glade2 python-gnome2 python-gnome2-dev python-gtk2 python-setuptools python-tk
 ```
 
 #### Step 2 - build PySol.

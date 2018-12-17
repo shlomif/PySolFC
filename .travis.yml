@@ -2,7 +2,6 @@ dist: trusty
 addons:
   apt:
     packages:
-      - ack-grep
       - cpanminus
       - libperl-dev
       - make
@@ -21,7 +20,6 @@ addons:
     update: true
     brewfile: true
 before_install:
-    - if test "$TRAVIS_OS_NAME" = "linux" ; then sudo dpkg-divert --local --divert /usr/bin/ack --rename --add /usr/bin/ack-grep ; fi
     - if test "$TRAVIS_OS_NAME" = "osx" ; then export CPPFLAGS="$CPPFLAGS -I$(brew --prefix openssl)/include" PKG_CONFIG_PATH="$(brew --prefix openssl)/lib/pkgconfig:$PKG_CONFIG_PATH" LDFLAGS="$LDFLAGS -L$(brew --prefix openssl)/lib" ;fi
 install:
     - sudo cpanm Code::TidyAll::Plugin::Flake8 Perl::Tidy Test::Code::TidyAll Test::Differences Test::TrailingSpace

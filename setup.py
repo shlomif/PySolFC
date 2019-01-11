@@ -3,8 +3,9 @@
 
 import os
 from distutils.core import setup
-from pysollib.settings import VERSION
+
 from pysollib.settings import PACKAGE_URL
+from pysollib.settings import VERSION
 if os.name == 'nt':
     import py2exe  # noqa: F401
 

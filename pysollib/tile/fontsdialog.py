@@ -21,18 +21,15 @@
 #
 # ---------------------------------------------------------------------------
 
-# imports
-from six.moves import tkinter
-from . import ttk
-from six.moves import tkinter_font
-
-# PySol imports
 from pysollib.mfxutil import KwStruct
 from pysollib.mygettext import _
-
-# Toolkit imports
-from .tkwidget import MfxDialog
 from pysollib.ui.tktile.tkutil import bind
+
+from six.moves import tkinter
+from six.moves import tkinter_font
+
+from . import ttk
+from .tkwidget import MfxDialog
 from .tkwidget import PysolScale
 
 

@@ -6,8 +6,8 @@
 #
 # Distributed under terms of the MIT license.
 
-from pysollib.acard import AbstractCard
 import pysollib.stack
+from pysollib.acard import AbstractCard
 
 """
 

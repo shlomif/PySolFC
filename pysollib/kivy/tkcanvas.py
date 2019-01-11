@@ -23,25 +23,23 @@
 # ---------------------------------------------------------------------------#
 
 from __future__ import division
+
 import logging
 
-# PySol imports
-# from pysollib.mfxutil import Image, ImageTk
-from pysollib.kivy.LApp import LImage
-from pysollib.kivy.LApp import LImage as Image
-from pysollib.kivy.LApp import LImageItem
-from pysollib.kivy.LApp import LColorToKivy
-from pysollib.kivy.LApp import LText
-from pysollib.kivy.LApp import LRectangle
-from pysollib.kivy.LApp import LLine
-from pysollib.kivy.LApp import LAnimationManager
-
-# kivy imports
-from kivy.uix.widget import Widget
-from kivy.uix.anchorlayout import AnchorLayout
 from kivy.clock import Clock
 from kivy.graphics import Color
 from kivy.graphics import Rectangle
+from kivy.uix.anchorlayout import AnchorLayout
+from kivy.uix.widget import Widget
+
+from pysollib.kivy.LApp import LAnimationManager
+from pysollib.kivy.LApp import LColorToKivy
+from pysollib.kivy.LApp import LImage
+from pysollib.kivy.LApp import LImage as Image
+from pysollib.kivy.LApp import LImageItem
+from pysollib.kivy.LApp import LLine
+from pysollib.kivy.LApp import LRectangle
+from pysollib.kivy.LApp import LText
 
 # ************************************************************************
 # * canvas items helpers

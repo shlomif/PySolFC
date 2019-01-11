@@ -124,9 +124,10 @@
     A badly formatted set of arguments will raise a ``VdtParamError``.
 """
 
-import sys
-import six
 import re
+import sys
+
+import six
 
 __docformat__ = "restructuredtext en"
 

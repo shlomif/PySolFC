@@ -21,18 +21,16 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
 import os
+
+from pysollib.mfxutil import KwStruct
+from pysollib.mygettext import _
+from pysollib.pysolaudio import pysolsoundserver
+from pysollib.settings import TITLE
+from pysollib.ui.tktile.tkconst import EVENT_HANDLED
+
 from six.moves import tkinter
 
-# PySol imports
-from pysollib.mygettext import _
-from pysollib.mfxutil import KwStruct
-from pysollib.settings import TITLE
-from pysollib.pysolaudio import pysolsoundserver
-
-# Toolkit imports
-from pysollib.ui.tktile.tkconst import EVENT_HANDLED
 from .tkwidget import MfxDialog, MfxMessageDialog
 
 # ************************************************************************

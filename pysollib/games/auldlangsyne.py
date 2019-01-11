@@ -21,31 +21,26 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-
-# PySol imports
+from pysollib.game import Game
+from pysollib.gamedb import GI, GameInfo, registerGame
+from pysollib.games.numerica import Numerica_Hint
+from pysollib.layout import Layout
 from pysollib.mygettext import _
-from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import ACE, ANY_RANK, ANY_SUIT, KING, QUEEN
 from pysollib.stack import \
         AbstractFoundationStack, \
         BasicRowStack, \
         DealRowTalonStack, \
         OpenStack, \
         OpenTalonStack, \
+        RK_FoundationStack, \
         RedealTalonStack, \
         ReserveStack, \
-        RK_FoundationStack, \
         SS_FoundationStack, \
         Stack, \
         StackWrapper, \
         WasteStack, \
         WasteTalonStack
-
-from pysollib.game import Game
-from pysollib.layout import Layout
-
-from pysollib.games.numerica import Numerica_Hint
+from pysollib.util import ACE, ANY_RANK, ANY_SUIT, KING, QUEEN
 
 
 # ************************************************************************

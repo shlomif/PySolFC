@@ -21,15 +21,13 @@
 #
 # ---------------------------------------------------------------------------
 
-# imports
-#  import os, sys
-#  import types
 import gtk
-import pango
 import gtk.glade
 
-# PySol imports
+import pango
+
 from pysollib.mygettext import _
+
 from tkutil import create_pango_font_desc
 
 

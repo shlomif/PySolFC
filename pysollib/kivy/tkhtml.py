@@ -21,26 +21,23 @@
 #
 # ---------------------------------------------------------------------------#
 
-# imports
+import formatter
 import os
 import sys
-# import htmllib
-import pysollib.htmllib2 as htmllib
-import formatter
-
-# PySol imports
-from pysollib.mygettext import _
-from pysollib.mfxutil import Struct, openURL
-from pysollib.settings import TITLE
-from pysollib.kivy.LApp import LTopLevel
-from pysollib.kivy.LApp import LScrollView
-from pysollib.kivy.LApp import LPopCommander
-from pysollib.kivy.LApp import get_platform
-from pysollib.pysoltk import MfxMessageDialog
 
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.label import Label
 from kivy.uix.button import Button
+from kivy.uix.label import Label
+
+import pysollib.htmllib2 as htmllib
+from pysollib.kivy.LApp import LPopCommander
+from pysollib.kivy.LApp import LScrollView
+from pysollib.kivy.LApp import LTopLevel
+from pysollib.kivy.LApp import get_platform
+from pysollib.mfxutil import Struct, openURL
+from pysollib.mygettext import _
+from pysollib.pysoltk import MfxMessageDialog
+from pysollib.settings import TITLE
 
 REMOTE_PROTOCOLS = ("ftp:", "gopher:", "http:", "mailto:", "news:", "telnet:")
 

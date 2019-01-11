@@ -21,25 +21,16 @@
 #
 # ---------------------------------------------------------------------------
 
-# Imports
 import math
 import time
 
-
-# PySol imports
-from pysollib.mygettext import _
-from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.mfxutil import kwdefault
 from pysollib.game import Game
+from pysollib.gamedb import GI, GameInfo, registerGame
+from pysollib.hint import AbstractHint, CautiousDefaultHint, DefaultHint
 from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
+from pysollib.mfxutil import kwdefault
+from pysollib.mygettext import _
 from pysollib.pysoltk import MfxCanvasText
-
-from pysollib.util import ANY_RANK, ANY_SUIT, NO_RANK, \
-        UNLIMITED_ACCEPTS, \
-        UNLIMITED_CARDS, \
-        UNLIMITED_MOVES
-
 from pysollib.stack import \
         AC_RowStack, \
         AbstractFoundationStack, \
@@ -53,8 +44,12 @@ from pysollib.stack import \
         SS_RowStack, \
         StackWrapper, \
         WasteStack, \
-        isSameSuitSequence, \
-        WasteTalonStack
+        WasteTalonStack, \
+        isSameSuitSequence
+from pysollib.util import ANY_RANK, ANY_SUIT, NO_RANK, \
+        UNLIMITED_ACCEPTS, \
+        UNLIMITED_CARDS, \
+        UNLIMITED_MOVES
 
 # ************************************************************************
 #  * Dashavatara Foundation Stacks

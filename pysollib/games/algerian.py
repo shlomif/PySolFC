@@ -21,26 +21,23 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-
-# PySol imports
-from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import ACE, KING
+from pysollib.game import Game
+from pysollib.gamedb import GI, GameInfo, registerGame
+from pysollib.hint import CautiousDefaultHint
+from pysollib.layout import Layout
 from pysollib.stack import \
         DealRowTalonStack, \
         ReserveStack, \
         SS_FoundationStack, \
         SS_RowStack, \
-        UD_SS_RowStack, \
-        StackWrapper
-from pysollib.game import Game
-from pysollib.layout import Layout
-from pysollib.hint import CautiousDefaultHint
-
+        StackWrapper, \
+        UD_SS_RowStack
+from pysollib.util import ACE, KING
 
 # ************************************************************************
 # * Carthage
 # ************************************************************************
+
 
 class Carthage_Talon(DealRowTalonStack):
     def dealCards(self, sound=False):

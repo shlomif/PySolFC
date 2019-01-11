@@ -4,11 +4,14 @@ Usage:
 """
 
 import os
-import sys
 import shutil
+import sys
 from subprocess import call
-from setuptools import setup
+
 from pysollib.settings import PACKAGE, VERSION
+
+from setuptools import setup
+
 
 # build the rule pages
 if not os.path.exists('data/html'):

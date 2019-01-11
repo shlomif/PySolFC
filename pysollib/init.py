@@ -21,12 +21,12 @@
 #
 # ---------------------------------------------------------------------------##
 
-import sys
-import os
-import locale
-import subprocess
-
 import gettext
+import locale
+import os
+import subprocess
+import sys
+
 import pysollib.settings
 
 # ************************************************************************

@@ -2,6 +2,7 @@
 # -*- mode: python; coding: koi8-r; -*-
 
 import os
+
 import gtk
 
 imdir = 'images'

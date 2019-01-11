@@ -1,6 +1,7 @@
 # Written by Shlomi Fish, under the MIT Expat License.
 
 import unittest
+
 from pysollib.acard import AbstractCard
 from pysollib.hint import Base_Solver_Hint
 

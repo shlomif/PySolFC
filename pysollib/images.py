@@ -22,19 +22,13 @@
 # ---------------------------------------------------------------------------##
 
 
-# imports
 import os
 
-# settings
-from pysollib.settings import TOOLKIT
-
-# PySol imports
-from pysollib.resource import CSI
 from pysollib.mfxutil import Image, ImageTk, USE_PIL
-
-# Toolkit imports
-from pysollib.pysoltk import loadImage, copyImage, createImage, \
-        shadowImage, createBottom
+from pysollib.pysoltk import copyImage, createBottom, createImage, loadImage
+from pysollib.pysoltk import shadowImage
+from pysollib.resource import CSI
+from pysollib.settings import TOOLKIT
 
 # ************************************************************************
 # * Images

@@ -25,7 +25,7 @@
 # import tkFont
 
 # Toolkit imports
-from pysollib.kivy.tktree import MfxTreeLeaf, MfxTreeNode, MfxTreeInCanvas
+from pysollib.kivy.tktree import MfxTreeInCanvas, MfxTreeLeaf, MfxTreeNode
 
 # ************************************************************************
 # * Nodes

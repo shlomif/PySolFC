@@ -21,26 +21,20 @@
 #
 # ---------------------------------------------------------------------------
 
-# imports
 import os
-from six.moves import tkinter
-from . import ttk
 
-# PySol imports
-from pysollib.mygettext import _
 from pysollib.mfxutil import KwStruct
-from pysollib.settings import TITLE
+from pysollib.mygettext import _
 from pysollib.pysolaudio import pysolsoundserver
-
-# Toolkit imports
+from pysollib.settings import TITLE
 from pysollib.ui.tktile.tkconst import EVENT_HANDLED
+
+from six.moves import tkinter
+
+from . import ttk
 from .tkwidget import MfxDialog, MfxMessageDialog
 from .tkwidget import PysolScale
 
-
-# ************************************************************************
-# *
-# ************************************************************************
 
 class SoundOptionsDialog(MfxDialog):
 

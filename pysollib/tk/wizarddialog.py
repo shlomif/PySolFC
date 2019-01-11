@@ -21,24 +21,17 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
+from pysollib.mfxutil import KwStruct
+from pysollib.mygettext import _
+from pysollib.wizardpresets import presets
+from pysollib.wizardutil import WizardWidgets
+
 import six
 from six.moves import tkinter
+
 from .tabpage import TabPageSet
-
-# PySol imports
-from pysollib.mygettext import _
-from pysollib.mfxutil import KwStruct
-from pysollib.wizardutil import WizardWidgets
-from pysollib.wizardpresets import presets
-
-# Toolkit imports
 from .tkwidget import MfxDialog
 
-
-# ************************************************************************
-# *
-# ************************************************************************
 
 class WizardDialog(MfxDialog):
     def __init__(self, parent, title, app, **kw):

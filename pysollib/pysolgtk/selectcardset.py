@@ -21,22 +21,23 @@
 #
 # ---------------------------------------------------------------------------##
 
-
-# imports
 import os
-import gtk
+
 import gobject
 
-# PySol imports
+import gtk
+
+from pysollib.mfxutil import kwdefault
 from pysollib.mygettext import _
 from pysollib.resource import CSI
-from pysollib.mfxutil import kwdefault
 
-# Toolkit imports
-from tkwidget import MfxDialog
 from pysoltree import PysolTreeView
+
 from tkcanvas import MfxCanvas, MfxCanvasImage
+
 from tkutil import loadImage
+
+from tkwidget import MfxDialog
 
 
 # ************************************************************************

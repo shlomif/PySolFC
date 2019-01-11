@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
 
-import sys
 import os
+import sys
 
 alpha = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 

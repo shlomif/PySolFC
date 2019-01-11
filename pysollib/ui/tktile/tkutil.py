@@ -21,14 +21,13 @@
 #
 # ---------------------------------------------------------------------------
 
-# imports
 import re
+
+from pysollib.mfxutil import Image, ImageOps, ImageTk
+from pysollib.settings import TITLE, WIN_SYSTEM
+
 from six.moves import tkinter
 from six.moves import tkinter_font
-
-# PySol imports
-from pysollib.mfxutil import Image, ImageTk, ImageOps
-from pysollib.settings import TITLE, WIN_SYSTEM
 
 
 # ************************************************************************

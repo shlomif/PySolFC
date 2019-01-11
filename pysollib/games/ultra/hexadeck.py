@@ -24,33 +24,30 @@
 # Imports
 import math
 
-# PySol imports
-from pysollib.mygettext import _
-from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.mfxutil import kwdefault
 from pysollib.game import Game
+from pysollib.gamedb import GI, GameInfo, registerGame
+from pysollib.hint import CautiousDefaultHint, DefaultHint
 from pysollib.layout import Layout
-from pysollib.hint import DefaultHint, CautiousDefaultHint
+from pysollib.mfxutil import kwdefault
+from pysollib.mygettext import _
 from pysollib.pysoltk import MfxCanvasText
-
-from pysollib.util import ANY_RANK, ANY_SUIT, NO_RANK, UNLIMITED_ACCEPTS, \
-        UNLIMITED_MOVES
-
 from pysollib.stack import \
         AC_RowStack, \
         AbstractFoundationStack, \
         InitialDealTalonStack, \
+        OpenStack, \
         ReserveStack, \
         SS_FoundationStack, \
         StackWrapper, \
         WasteStack, \
-        WasteTalonStack, \
-        OpenStack
-
+        WasteTalonStack
+from pysollib.util import ANY_RANK, ANY_SUIT, NO_RANK, UNLIMITED_ACCEPTS, \
+        UNLIMITED_MOVES
 
 # ************************************************************************
 # * Hex A Deck Foundation Stacks
 # ************************************************************************
+
 
 class HexADeck_FoundationStack(SS_FoundationStack):
     def __init__(self, x, y, game, suit, **cap):

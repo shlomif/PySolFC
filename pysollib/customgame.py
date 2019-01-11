@@ -21,28 +21,28 @@
 #
 # ---------------------------------------------------------------------------##
 
-import six
-from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import ACE, ANY_RANK, ANY_SUIT, \
-    KING, \
-    UNLIMITED_MOVES
-from pysollib.stack import Spider_AC_Foundation, \
+from pysollib.game import Game
+from pysollib.gamedb import GI, GameInfo, registerGame
+from pysollib.hint import Yukon_Hint
+from pysollib.layout import Layout
+from pysollib.stack import \
         AC_RowStack, \
         BO_RowStack, \
         DealReserveRedealTalonStack, \
         DealRowRedealTalonStack, \
-        RK_RowStack, \
         GroundsForADivorceTalonStack, \
         InitialDealTalonStack, \
         OpenStack, \
+        RK_RowStack, \
         ReserveStack, \
+        SC_RowStack, \
+        SS_RowStack, \
+        SpiderTalonStack, \
+        Spider_AC_Foundation, \
         Spider_AC_RowStack, \
         Spider_RK_Foundation, \
         Spider_SS_Foundation, \
         Spider_SS_RowStack, \
-        SpiderTalonStack, \
-        SC_RowStack, \
-        SS_RowStack, \
         StackWrapper, \
         SuperMoveAC_RowStack, \
         SuperMoveBO_RowStack, \
@@ -56,13 +56,14 @@ from pysollib.stack import Spider_AC_Foundation, \
         WasteStack, \
         WasteTalonStack, \
         Yukon_AC_RowStack, \
-        Yukon_SS_RowStack, \
-        Yukon_RK_RowStack
-from pysollib.game import Game
-from pysollib.layout import Layout
-from pysollib.hint import Yukon_Hint
-
+        Yukon_RK_RowStack, \
+        Yukon_SS_RowStack
+from pysollib.util import ACE, ANY_RANK, ANY_SUIT, \
+    KING, \
+    UNLIMITED_MOVES
 from pysollib.wizardutil import WizardWidgets
+
+import six
 
 # ************************************************************************
 # *

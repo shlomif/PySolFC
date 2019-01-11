@@ -21,26 +21,21 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-
-# PySol imports
-from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.mfxutil import kwdefault
-from pysollib.game import Game
 import pysollib.game
-from pysollib.layout import Layout
+from pysollib.game import Game
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.hint import CautiousDefaultHint
-
-from pysollib.util import ACE, ANY_RANK, NO_RANK
-
+from pysollib.layout import Layout
+from pysollib.mfxutil import kwdefault
 from pysollib.stack import \
         AbstractFoundationStack, \
         OpenStack, \
         Stack, \
+        StackWrapper, \
         UD_SS_RowStack, \
         WasteStack, \
-        WasteTalonStack, \
-        StackWrapper
+        WasteTalonStack
+from pysollib.util import ACE, ANY_RANK, NO_RANK
 
 
 # ************************************************************************

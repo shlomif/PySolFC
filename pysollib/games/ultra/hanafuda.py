@@ -21,17 +21,9 @@
 #
 # ---------------------------------------------------------------------------##
 
-# Imports
-
-# PySol imports
-from pysollib.mygettext import _
-from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.mfxutil import kwdefault
-from pysollib.layout import Layout
-from pysollib.hint import FreeCellType_Hint
-from pysollib.pysoltk import MfxCanvasText
-
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.games.ultra.hanafuda_common import \
+        AbstractFlowerGame, \
         FlowerClock_Foundation, \
         FlowerClock_RowStack, \
         FourWinds_Foundation, \
@@ -45,18 +37,20 @@ from pysollib.games.ultra.hanafuda_common import \
         MatsuKiri_Foundation, \
         Matsukiri_RowStack, \
         Oonsoo_SequenceStack, \
-        Pagoda_Foundation, \
-        AbstractFlowerGame
-
-from pysollib.util import ANY_RANK, ANY_SUIT
-
+        Pagoda_Foundation
+from pysollib.hint import FreeCellType_Hint
+from pysollib.layout import Layout
+from pysollib.mfxutil import kwdefault
+from pysollib.mygettext import _
+from pysollib.pysoltk import MfxCanvasText
 from pysollib.stack import \
         DealRowTalonStack, \
         InitialDealTalonStack, \
         ReserveStack, \
         WasteStack, \
-        cardsFaceUp, \
-        WasteTalonStack
+        WasteTalonStack, \
+        cardsFaceUp
+from pysollib.util import ANY_RANK, ANY_SUIT
 
 # ************************************************************************
 #  * Flower Clock

@@ -21,26 +21,20 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-
-# PySol imports
-from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.game import Game
-from pysollib.layout import Layout
-from pysollib.hint import CautiousDefaultHint
-
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.games.gypsy import DieRussische_Foundation
-
-from pysollib.util import ANY_SUIT, KING
-
+from pysollib.hint import CautiousDefaultHint
+from pysollib.layout import Layout
 from pysollib.stack import \
         AC_RowStack, \
         InitialDealTalonStack, \
-        RedealTalonStack, \
         RK_FoundationStack, \
+        RedealTalonStack, \
         SS_FoundationStack, \
-        UD_SS_RowStack, \
-        StackWrapper
+        StackWrapper, \
+        UD_SS_RowStack
+from pysollib.util import ANY_SUIT, KING
 
 
 # ************************************************************************

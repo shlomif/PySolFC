@@ -54,8 +54,8 @@
 import unittest
 
 # So the localpaths will be overrided.
-from pysollib.pysolrandom import constructRandom, LCRandom31, \
-    random__str2long, random__long2str
+from pysollib.pysolrandom import LCRandom31, constructRandom, \
+        random__long2str, random__str2long
 
 # PySol imports
 

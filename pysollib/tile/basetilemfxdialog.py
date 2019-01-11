@@ -1,5 +1,4 @@
 from . import ttk
-
 from .tkwidget import MfxDialog
 
 

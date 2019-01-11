@@ -21,19 +21,10 @@
 #
 # ---------------------------------------------------------------------------#
 
-# PySol imports
 from pysollib.acard import AbstractCard
-
-# Toolkit imports
-from pysollib.kivy.tkcanvas import MfxCanvasGroup, MfxCanvasImage
-
-# from tkutil import Image
-from pysollib.kivy.LApp import LImageItem
 from pysollib.kivy.LApp import LImage
-
-# ************************************************************************
-# *
-# ************************************************************************
+from pysollib.kivy.LApp import LImageItem
+from pysollib.kivy.tkcanvas import MfxCanvasGroup, MfxCanvasImage
 
 
 class _HideableCard(AbstractCard):

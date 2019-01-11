@@ -21,16 +21,12 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-from six.moves import range, tkinter
-
-# PySol imports
-from pysollib.mygettext import _
 from pysollib.mfxutil import KwStruct
-
-# Toolkit imports
+from pysollib.mygettext import _
 from pysollib.tk.basetkmfxdialog import BaseTkMfxDialog
 from pysollib.ui.tktile.solverdialog import BaseSolverDialog, solver_dialog
+
+from six.moves import range, tkinter
 
 # ************************************************************************
 # *

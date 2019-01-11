@@ -21,22 +21,17 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-
-# PySol imports
-from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.game import Game
-from pysollib.layout import Layout
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.hint import CautiousDefaultHint
-
-from pysollib.util import KING
-
+from pysollib.layout import Layout
 from pysollib.stack import \
         AC_RowStack, \
         InitialDealTalonStack, \
         OpenStack, \
         SS_FoundationStack, \
         SS_RowStack
+from pysollib.util import KING
 
 # ************************************************************************
 # * Heads and Tails

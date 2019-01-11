@@ -21,21 +21,17 @@
 #
 # ---------------------------------------------------------------------------##
 
-# Imports
 import math
 
-# PySol imports
-from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.mfxutil import kwdefault
 from pysollib.game import Game
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.layout import Layout
+from pysollib.mfxutil import kwdefault
 from pysollib.pysoltk import bind
-
-from pysollib.util import ANY_RANK
-
 from pysollib.stack import \
         InitialDealTalonStack, \
         OpenStack
+from pysollib.util import ANY_RANK
 
 # ************************************************************************
 # * Matrix Row Stack

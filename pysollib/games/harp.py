@@ -21,31 +21,25 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-
-# PySol imports
-from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.mfxutil import kwdefault
 from pysollib.game import Game
-from pysollib.layout import Layout
+from pysollib.gamedb import GI, GameInfo, registerGame
+from pysollib.games.spider import Spider_Hint
+from pysollib.games.spider import Spider_RowStack, Spider_SS_Foundation
 from pysollib.hint import CautiousDefaultHint
 from pysollib.hint import KlondikeType_Hint
-
-from pysollib.games.spider import Spider_RowStack, Spider_SS_Foundation, \
-        Spider_Hint
-
-from pysollib.util import ACE, KING
-
+from pysollib.layout import Layout
+from pysollib.mfxutil import kwdefault
 from pysollib.stack import \
         AC_RowStack, \
         BO_RowStack, \
         KingAC_RowStack, \
         SS_FoundationStack, \
+        SS_RowStack, \
         Spider_SS_RowStack, \
         StackWrapper, \
         WasteStack, \
-        WasteTalonStack, \
-        SS_RowStack
+        WasteTalonStack
+from pysollib.util import ACE, KING
 
 # ************************************************************************
 # * Double Klondike (Klondike with 2 decks and 9 rows)

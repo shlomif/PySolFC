@@ -16,18 +16,18 @@
 # Added very simple support for ngettext
 #
 
-import os
-import imp
-import glob
-import time
+import functools
 import getopt
+import glob
+import imp
+import operator
+import os
+import sys
+import time
 import token
 import tokenize
-import operator
-import sys
-import functools
-from six import print_, PY2
 
+from six import PY2, print_
 # for selftesting
 try:
     import fintl

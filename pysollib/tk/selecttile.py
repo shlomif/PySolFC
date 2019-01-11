@@ -22,19 +22,16 @@
 # ---------------------------------------------------------------------------##
 
 
-# imports
+from pysollib.mfxutil import KwStruct
+from pysollib.mygettext import _
+from pysollib.ui.tktile.selecttree import SelectDialogTreeData
+
 import six
 from six.moves import tkinter, tkinter_colorchooser
 
-# PySol imports
-from pysollib.mygettext import _
-from pysollib.mfxutil import KwStruct
-
-# Toolkit imports
-from .tkwidget import MfxDialog, MfxScrolledCanvas
-from .selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
 from .selecttree import SelectDialogTreeCanvas
-from pysollib.ui.tktile.selecttree import SelectDialogTreeData
+from .selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
+from .tkwidget import MfxDialog, MfxScrolledCanvas
 
 
 # ************************************************************************

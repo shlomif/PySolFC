@@ -21,21 +21,14 @@
 #
 # ---------------------------------------------------------------------------
 
-# imports
 import time
 
-# PySol imports
-from pysollib.mygettext import _
-from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.game import Game
+from pysollib.gamedb import GI, GameInfo, registerGame
+from pysollib.hint import CautiousDefaultHint, DefaultHint
 from pysollib.layout import Layout
-from pysollib.hint import DefaultHint, CautiousDefaultHint
 from pysollib.mfxutil import kwdefault
-
-from pysollib.util import ACE, ANY_RANK, ANY_SUIT, JACK, KING, NO_RANK, \
-        UNLIMITED_ACCEPTS, \
-        UNLIMITED_CARDS
-
+from pysollib.mygettext import _
 from pysollib.stack import \
         AC_RowStack, \
         BasicRowStack, \
@@ -52,10 +45,9 @@ from pysollib.stack import \
         TalonStack, \
         WasteStack, \
         WasteTalonStack
-
-# ************************************************************************
-# *
-# ************************************************************************
+from pysollib.util import ACE, ANY_RANK, ANY_SUIT, JACK, KING, NO_RANK, \
+        UNLIMITED_ACCEPTS, \
+        UNLIMITED_CARDS
 
 
 class Numerica_Hint(DefaultHint):

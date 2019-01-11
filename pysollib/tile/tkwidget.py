@@ -21,27 +21,25 @@
 #
 # ---------------------------------------------------------------------------
 
-# imports
+import locale
 import os
 import time
-import locale
-from six.moves import tkinter
-from . import ttk
-from six.moves import tkinter_font
-from six import PY2
-import six
 import traceback
 
-# PySol imports
+from pysollib.mfxutil import KwStruct, destruct, kwdefault, openURL
 from pysollib.mygettext import _
-from pysollib.mfxutil import destruct, kwdefault, KwStruct, openURL
 from pysollib.settings import WIN_SYSTEM
-
-# Toolkit imports
+from pysollib.ui.tktile.tkcanvas import MfxCanvas
 from pysollib.ui.tktile.tkutil import after, after_cancel
 from pysollib.ui.tktile.tkutil import bind, unbind_destroy
 from pysollib.ui.tktile.tkutil import makeToplevel, setTransient
-from pysollib.ui.tktile.tkcanvas import MfxCanvas
+
+import six
+from six import PY2
+from six.moves import tkinter
+from six.moves import tkinter_font
+
+from . import ttk
 
 # ************************************************************************
 # * abstract base class for the dialogs in this module

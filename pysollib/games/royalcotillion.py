@@ -21,19 +21,12 @@
 #
 # ---------------------------------------------------------------------------
 
-# imports
-
-# PySol imports
-from pysollib.mygettext import _
-from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.game import Game
-from pysollib.layout import Layout
-from pysollib.hint import DefaultHint, CautiousDefaultHint
-
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.games.unionsquare import UnionSquare_Foundation
-
-from pysollib.util import ACE, ANY_RANK, ANY_SUIT, JACK, KING, NO_RANK
-
+from pysollib.hint import CautiousDefaultHint, DefaultHint
+from pysollib.layout import Layout
+from pysollib.mygettext import _
 from pysollib.stack import \
         AC_FoundationStack, \
         AC_RowStack, \
@@ -45,6 +38,7 @@ from pysollib.stack import \
         RK_FoundationStack, \
         RK_RowStack, \
         ReserveStack, \
+        SS_FoundationStack, \
         SS_RowStack, \
         Stack, \
         StackWrapper, \
@@ -52,13 +46,13 @@ from pysollib.stack import \
         UD_SS_RowStack, \
         WasteStack, \
         WasteTalonStack, \
-        isSameSuitSequence, \
-        SS_FoundationStack
-
+        isSameSuitSequence
+from pysollib.util import ACE, ANY_RANK, ANY_SUIT, JACK, KING, NO_RANK
 
 # ************************************************************************
 # * Royal Cotillion
 # ************************************************************************
+
 
 class RoyalCotillion_Foundation(SS_FoundationStack):
     def getBottomImage(self):

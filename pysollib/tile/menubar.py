@@ -21,24 +21,20 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-from . import ttk
-
-# PySol imports
 from pysollib.mygettext import _, n_
-from pysollib.util import CARDSET
 from pysollib.settings import TITLE
-
-# toolkit imports
-from .tkwidget import MfxMessageDialog
-from .selectgame import SelectGameDialog, SelectGameDialogWithPreview
-from .soundoptionsdialog import SoundOptionsDialog
-from .selecttile import SelectTileDialogWithPreview
-from pysollib.ui.tktile.findcarddialog import connect_game_find_card_dialog, \
-        destroy_find_card_dialog
-from pysollib.ui.tktile.solverdialog import connect_game_solver_dialog
-
+from pysollib.ui.tktile.findcarddialog import connect_game_find_card_dialog
+from pysollib.ui.tktile.findcarddialog import destroy_find_card_dialog
 from pysollib.ui.tktile.menubar import MfxMenu, PysolMenubarTkCommon
+from pysollib.ui.tktile.solverdialog import connect_game_solver_dialog
+from pysollib.util import CARDSET
+
+from . import ttk
+from .selectgame import SelectGameDialog, SelectGameDialogWithPreview
+from .selecttile import SelectTileDialogWithPreview
+from .soundoptionsdialog import SoundOptionsDialog
+from .tkwidget import MfxMessageDialog
+
 # ************************************************************************
 # * - create menubar
 # * - update menubar

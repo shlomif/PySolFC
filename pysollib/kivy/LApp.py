@@ -25,38 +25,32 @@ import logging
 import math
 import traceback
 
-from kivy.graphics import Color
-from kivy.graphics import Rectangle
-from kivy.graphics import Line
-from kivy.graphics import Triangle
-
-from kivy.utils import platform
-from kivy.properties import StringProperty
-
+from kivy.animation import Animation
+from kivy.app import App
 from kivy.base import EventLoop
 from kivy.base import stopTouchApp
-from kivy.app import App
-from kivy.animation import Animation
-from kivy.core.audio import SoundLoader
+from kivy.cache import Cache
 from kivy.clock import Clock
-
-from kivy.uix.image import Image as KivyImage
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.widget import Widget
-from kivy.uix.button import Button
+from kivy.core.audio import SoundLoader
+from kivy.core.window import Window
+from kivy.graphics import Color
+from kivy.graphics import Line
+from kivy.graphics import Rectangle
+from kivy.graphics import Triangle
+from kivy.properties import StringProperty
+from kivy.uix.actionbar import ActionButton
+from kivy.uix.actionbar import ActionPrevious
+from kivy.uix.actionbar import ActionView
 from kivy.uix.behaviors import ButtonBehavior
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.button import Button
+from kivy.uix.image import Image as KivyImage
 from kivy.uix.label import Label
 from kivy.uix.scrollview import ScrollView
-
-from kivy.uix.actionbar import ActionView
-from kivy.uix.actionbar import ActionPrevious
-from kivy.uix.actionbar import ActionButton
-
 from kivy.uix.treeview import TreeView
 from kivy.uix.treeview import TreeViewLabel
-
-from kivy.core.window import Window
-from kivy.cache import Cache
+from kivy.uix.widget import Widget
+from kivy.utils import platform
 
 # =============================================================================
 

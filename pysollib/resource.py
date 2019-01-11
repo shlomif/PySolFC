@@ -21,18 +21,15 @@
 #
 # ---------------------------------------------------------------------------##
 
-
-# imports
-import os
 import glob
+import os
 import traceback
-import six
 
-# PySol imports
-from pysollib.mfxutil import Struct, KwStruct
+from pysollib.mfxutil import KwStruct, Struct
+from pysollib.mygettext import _
 from pysollib.settings import DEBUG
 
-from pysollib.mygettext import _
+import six
 
 # ************************************************************************
 # * Abstract

@@ -21,27 +21,22 @@
 #
 # ---------------------------------------------------------------------------##
 
-# Imports
 import math
 
-# PySol imports
-from pysollib.mygettext import _
-from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.mfxutil import kwdefault
 from pysollib.game import Game
-from pysollib.layout import Layout
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.hint import AbstractHint, DefaultHint
+from pysollib.layout import Layout
+from pysollib.mfxutil import kwdefault
+from pysollib.mygettext import _
 from pysollib.pysoltk import MfxCanvasText
-
-from pysollib.util import ANY_RANK, ANY_SUIT, NO_RANK, UNLIMITED_ACCEPTS, \
-        UNLIMITED_CARDS,  UNLIMITED_MOVES
-
 from pysollib.stack import \
         AC_RowStack, \
         AbstractFoundationStack, \
         BasicRowStack, \
         DealRowTalonStack, \
         InitialDealTalonStack, \
+        OpenStack, \
         RK_RowStack, \
         ReserveStack, \
         SS_FoundationStack, \
@@ -49,8 +44,10 @@ from pysollib.stack import \
         StackWrapper, \
         WasteStack, \
         WasteTalonStack, \
-        isSameSuitSequence, \
-        OpenStack
+        isSameSuitSequence
+from pysollib.util import ANY_RANK, ANY_SUIT, NO_RANK, UNLIMITED_ACCEPTS, \
+        UNLIMITED_CARDS,  UNLIMITED_MOVES
+
 
 # ************************************************************************
 #  * Mughal Foundation Stacks

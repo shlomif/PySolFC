@@ -27,29 +27,25 @@
 #
 # Kivy Implementation used: MfxScrolledCanvas, MfxDialog (partly)
 
-# imports
 from __future__ import division
+
 import logging
 
-# PySol imports
-from pysollib.mfxutil import kwdefault, KwStruct
-from pysollib.settings import WIN_SYSTEM
-from pysollib.mygettext import _
+from kivy.clock import Clock
+from kivy.uix.anchorlayout import AnchorLayout
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.label import Label
 
-# Toolkit imports
+from pysollib.kivy.LApp import LBoxLayout
+from pysollib.kivy.LApp import LImage
+from pysollib.kivy.LApp import LScrollView
+from pysollib.kivy.LApp import LTopLevel
+from pysollib.kivy.tkcanvas import MfxCanvas
 from pysollib.kivy.tkutil import bind, unbind_destroy
 from pysollib.kivy.tkutil import makeToplevel
-from pysollib.kivy.tkcanvas import MfxCanvas
-from pysollib.kivy.LApp import LImage
-from pysollib.kivy.LApp import LTopLevel
-from pysollib.kivy.LApp import LBoxLayout
-from pysollib.kivy.LApp import LScrollView
-
-# kivy
-from kivy.uix.boxlayout import BoxLayout
-from kivy.clock import Clock
-from kivy.uix.label import Label
-from kivy.uix.anchorlayout import AnchorLayout
+from pysollib.mfxutil import KwStruct, kwdefault
+from pysollib.mygettext import _
+from pysollib.settings import WIN_SYSTEM
 
 # ************************************************************************
 # * abstract base class for the dialogs in this module

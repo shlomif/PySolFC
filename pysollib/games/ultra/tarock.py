@@ -21,28 +21,18 @@
 #
 # ---------------------------------------------------------------------------##
 
-# Imports
-
-# Ultrasol imports
-from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.mfxutil import kwdefault
-from pysollib.layout import Layout
-
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.games.special.tarock import AbstractTarockGame, Grasshopper
 from pysollib.games.threepeaks import ThreePeaksNoScore
-
-from pysollib.util import ANY_RANK, NO_RANK, UNLIMITED_ACCEPTS, UNLIMITED_MOVES
-
+from pysollib.layout import Layout
+from pysollib.mfxutil import kwdefault
 from pysollib.stack import \
         InitialDealTalonStack, \
+        OpenStack, \
         ReserveStack, \
         SS_FoundationStack, \
-        StackWrapper, \
-        OpenStack
-
-# ************************************************************************
-# *
-# ************************************************************************
+        StackWrapper
+from pysollib.util import ANY_RANK, NO_RANK, UNLIMITED_ACCEPTS, UNLIMITED_MOVES
 
 
 class Tarock_OpenStack(OpenStack):

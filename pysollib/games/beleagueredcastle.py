@@ -21,38 +21,31 @@
 #
 # ---------------------------------------------------------------------------
 
-# imports
-
-# PySol imports
-from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import ACE, ANY_RANK, NO_RANK, KING, QUEEN, RANKS
+from pysollib.game import Game
+from pysollib.gamedb import GI, GameInfo, registerGame
+from pysollib.hint import CautiousDefaultHint, FreeCellType_Hint
+from pysollib.hint import FreeCellSolverWrapper
+from pysollib.layout import Layout
+from pysollib.mfxutil import kwdefault
+from pysollib.pysoltk import MfxCanvasText
 from pysollib.stack import \
         InitialDealTalonStack, \
         OpenStack, \
-        ReserveStack, \
         RK_FoundationStack, \
         RK_RowStack, \
-        Spider_SS_RowStack, \
+        ReserveStack, \
         SS_FoundationStack, \
+        Spider_SS_RowStack, \
+        StackWrapper, \
         SuperMoveRK_RowStack, \
         TalonStack, \
         UD_AC_RowStack, \
         UD_RK_RowStack, \
         UD_SS_RowStack, \
         WasteStack, \
-        WasteTalonStack, \
-        StackWrapper
-from pysollib.mfxutil import kwdefault
-from pysollib.game import Game
-from pysollib.layout import Layout
-from pysollib.hint import CautiousDefaultHint, FreeCellType_Hint
-from pysollib.hint import FreeCellSolverWrapper
-from pysollib.pysoltk import MfxCanvasText
+        WasteTalonStack
+from pysollib.util import ACE, ANY_RANK, KING, NO_RANK, QUEEN, RANKS
 
-
-# ************************************************************************
-# *
-# ************************************************************************
 
 class BeleagueredCastleType_Hint(CautiousDefaultHint):
     # FIXME: demo is not too clever in this game

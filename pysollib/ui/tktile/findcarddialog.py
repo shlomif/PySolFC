@@ -21,25 +21,17 @@
 #
 # ---------------------------------------------------------------------------
 
-# imports
 import os
+
+from pysollib.mygettext import _
+from pysollib.settings import TITLE
+from pysollib.ui.tktile.tkcanvas import MfxCanvas, MfxCanvasGroup
+from pysollib.ui.tktile.tkcanvas import MfxCanvasImage, MfxCanvasRectangle
+from pysollib.ui.tktile.tkutil import after, after_cancel
+from pysollib.ui.tktile.tkutil import bind, makeImage, unbind_destroy
+
 from six.moves import tkinter
 
-# PySol imports
-from pysollib.mygettext import _
-
-# Toolkit imports
-from pysollib.ui.tktile.tkutil import after, after_cancel
-from pysollib.ui.tktile.tkutil import bind, unbind_destroy, makeImage
-from pysollib.ui.tktile.tkcanvas import MfxCanvas, MfxCanvasGroup, \
-        MfxCanvasImage, MfxCanvasRectangle
-
-from pysollib.settings import TITLE
-
-
-# ************************************************************************
-# *
-# ************************************************************************
 
 LARGE_EMBLEMS_SIZE = (38, 34)
 SMALL_EMBLEMS_SIZE = (31, 21)

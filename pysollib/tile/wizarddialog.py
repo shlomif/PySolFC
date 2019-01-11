@@ -21,25 +21,17 @@
 #
 # ---------------------------------------------------------------------------
 
-# imports
+from pysollib.mfxutil import KwStruct
+from pysollib.mygettext import _
+from pysollib.wizardpresets import presets
+from pysollib.wizardutil import WizardWidgets
 
 import six
 from six.moves import tkinter
+
 from . import ttk
-
-# PySol imports
-from pysollib.mygettext import _
-from pysollib.mfxutil import KwStruct
-from pysollib.wizardutil import WizardWidgets
-from pysollib.wizardpresets import presets
-
-# Toolkit imports
 from .tkwidget import MfxDialog
-from .tkwidget import PysolScale, PysolCombo
-
-# ************************************************************************
-# *
-# ************************************************************************
+from .tkwidget import PysolCombo, PysolScale
 
 
 class WizardDialog(MfxDialog):

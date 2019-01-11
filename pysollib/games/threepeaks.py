@@ -21,24 +21,15 @@
 #
 # ---------------------------------------------------------------------------##
 
-# Imports
-
-# PySol imports
-from pysollib.mygettext import _
-from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.mfxutil import kwdefault
 from pysollib.game import Game
+from pysollib.gamedb import GI, GameInfo, registerGame
+from pysollib.games.golf import Golf_Hint, Golf_Waste
 from pysollib.layout import Layout
+from pysollib.mfxutil import kwdefault
+from pysollib.mygettext import _
 from pysollib.pysoltk import MfxCanvasText
-
-from pysollib.games.golf import Golf_Waste, Golf_Hint
-
+from pysollib.stack import OpenStack, StackWrapper, WasteTalonStack
 from pysollib.util import ANY_RANK
-
-from pysollib.stack import \
-        OpenStack, \
-        StackWrapper, \
-        WasteTalonStack
 
 # ************************************************************************
 # * Three Peaks Row Stack

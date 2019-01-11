@@ -22,15 +22,14 @@
 # ---------------------------------------------------------------------------##
 
 # imports
-import sys
 import os
 import site
+import sys
 
 # PySol imports
-from pysollib.settings import DATA_DIRS, TOOLKIT
 from pysollib.mfxutil import Image
-
 from pysollib.mygettext import _
+from pysollib.settings import DATA_DIRS, TOOLKIT
 
 # ************************************************************************
 # * constants

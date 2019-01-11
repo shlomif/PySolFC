@@ -21,25 +21,20 @@
 #
 # ---------------------------------------------------------------------------
 
-# imports
-
-# PySol imports
-from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.game import Game
-from pysollib.layout import Layout
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.hint import CautiousDefaultHint
-
-from pysollib.util import ACE, KING, QUEEN
-
+from pysollib.layout import Layout
 from pysollib.stack import \
         BasicRowStack, \
         InitialDealTalonStack, \
         InvisibleStack, \
         ReserveStack, \
+        SS_FoundationStack, \
         Stack, \
         getPileFromStacks, \
-        isSameSuitSequence, \
-        SS_FoundationStack
+        isSameSuitSequence
+from pysollib.util import ACE, KING, QUEEN
 
 # ************************************************************************
 # *

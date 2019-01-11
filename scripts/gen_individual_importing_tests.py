@@ -229,8 +229,11 @@ for ver in [2, 3]:
                           'test__%s__v%d.py' % (mod, ver)
                           ), 'w').write('''#!/usr/bin/env python%(ver)d
 import unittest
-from %(mod)s import MyTests
+
 from pycotap import TAPTestRunner
+
+from %(mod)s import MyTests
+
 suite = unittest.TestLoader().loadTestsFromTestCase(MyTests)
 TAPTestRunner().run(suite)
 ''' % {'mod': mod, 'ver': ver})

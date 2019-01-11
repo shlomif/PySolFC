@@ -22,23 +22,22 @@
 # ---------------------------------------------------------------------------##
 
 
-# imports
 import sys
 import time
-import gtk
+
 import gobject
-import pango
+
+import gtk
 import gtk.glade
 
-# PySol imports
-from pysollib.mygettext import _
+import pango
+
 from pysollib.mfxutil import format_time
+from pysollib.mygettext import _
 from pysollib.settings import TITLE
 from pysollib.stats import PysolStatsFormatter
 
-# Toolkit imports
 from tkwidget import MfxMessageDialog
-
 
 if sys.version_info > (3,):
     def cmp(a, b):

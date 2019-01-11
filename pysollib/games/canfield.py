@@ -1,12 +1,9 @@
-from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.game import Game
-from pysollib.mygettext import _
-from pysollib.layout import Layout
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.hint import CautiousDefaultHint
+from pysollib.layout import Layout
+from pysollib.mygettext import _
 from pysollib.pysoltk import MfxCanvasText
-
-from pysollib.util import KING, RANKS, QUEEN, UNLIMITED_REDEALS
-
 from pysollib.stack import \
         AC_RowStack, \
         KingAC_RowStack, \
@@ -15,12 +12,10 @@ from pysollib.stack import \
         ReserveStack, \
         SS_FoundationStack, \
         SS_RowStack, \
+        StackWrapper, \
         WasteStack, \
-        WasteTalonStack, \
-        StackWrapper
-# ************************************************************************
-# *
-# ************************************************************************
+        WasteTalonStack
+from pysollib.util import KING, QUEEN, RANKS, UNLIMITED_REDEALS
 
 
 class Canfield_Hint(CautiousDefaultHint):

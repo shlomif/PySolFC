@@ -2,11 +2,13 @@
 # -*- mode: python; coding: koi8-r; -*-
 #
 
-import sys
 import os
+import sys
 from glob import glob
-from math import sqrt, sin, cos, pi
+from math import cos, pi, sin, sqrt
+
 from six.moves import tkinter
+
 try:
     from PIL import Image, ImageTk
 except ImportError:

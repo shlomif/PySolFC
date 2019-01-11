@@ -21,16 +21,15 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-#  import os, sys
-from pysollib.mygettext import _
 import gtk
 import gtk.glade
 
+from pysollib.mygettext import _
 
 # ************************************************************************
 # *
 # ************************************************************************
+
 
 class TimeoutsDialog:
 

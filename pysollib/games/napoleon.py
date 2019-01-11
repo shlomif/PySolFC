@@ -21,29 +21,24 @@
 #
 # ---------------------------------------------------------------------------
 
-# imports
-
-# PySol imports
-from pysollib.mygettext import _
-from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.mfxutil import kwdefault
 from pysollib.game import Game
-from pysollib.layout import Layout
-from pysollib.hint import CautiousDefaultHint
-from pysollib.pysoltk import MfxCanvasText
-
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.games.braid import Braid_Foundation
-
-from pysollib.util import ACE, KING, RANKS, UNLIMITED_CARDS
-
+from pysollib.hint import CautiousDefaultHint
+from pysollib.layout import Layout
+from pysollib.mfxutil import kwdefault
+from pysollib.mygettext import _
+from pysollib.pysoltk import MfxCanvasText
 from pysollib.stack import \
         BasicRowStack, \
         InitialDealTalonStack, \
         ReserveStack, \
         SS_FoundationStack, \
         Stack, \
-        UD_SS_RowStack, \
-        StackWrapper
+        StackWrapper, \
+        UD_SS_RowStack
+from pysollib.util import ACE, KING, RANKS, UNLIMITED_CARDS
+
 
 # ************************************************************************
 # * stacks

@@ -21,15 +21,8 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-
-# PySol imports
-# from pysollib.gamedb import registerGame, GameInfo
 from pysollib.game import Game
 from pysollib.layout import Layout
-
-# from pysollib.util import
-
 from pysollib.stack import \
         BasicRowStack, \
         DealRowTalonStack, \

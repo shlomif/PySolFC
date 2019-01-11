@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 
-import sys
-import os
 import builtins
-from pysollib.mygettext import fix_gettext
+import os
+import sys
 
 from pysollib.gamedb import GAME_DB
 from pysollib.gamedb import GI
 from pysollib.mfxutil import latin1_normalize
+from pysollib.mygettext import fix_gettext
 # outdir = '../html'
 pysollib_dir = '../'
 
@@ -15,10 +15,10 @@ pysollib_dir = '../'
 builtins._ = lambda x: x
 builtins.n_ = lambda x: x
 
-import pysollib.games  # noqa: F402
+import pysollib.games  # noqa: F402,I100,I202
 import pysollib.games.mahjongg  # noqa: F402
-import pysollib.games.ultra  # noqa: F402
 import pysollib.games.special  # noqa: F401,F402
+import pysollib.games.ultra  # noqa: F401,F402
 
 try:
     os.mkdir('html')

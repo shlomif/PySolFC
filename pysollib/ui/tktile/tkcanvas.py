@@ -21,16 +21,12 @@
 #
 # ---------------------------------------------------------------------------
 
-# imports
-from six.moves import tkinter
+from pysollib.mfxutil import Image, ImageTk
 from pysollib.ui.tktile.Canvas2 import CanvasText, Group, Line, Rectangle
 from pysollib.ui.tktile.Canvas2 import ImageItem as ImageItem2
+from pysollib.ui.tktile.tkutil import loadImage, unbind_destroy
 
-# PySol imports
-from pysollib.mfxutil import Image, ImageTk
-
-# Toolkit imports
-from pysollib.ui.tktile.tkutil import unbind_destroy, loadImage
+from six.moves import tkinter
 
 
 # ************************************************************************

@@ -21,18 +21,12 @@
 #
 # ---------------------------------------------------------------------------##
 
-# PySol imports
-from pysollib.mygettext import _
-from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.mfxutil import kwdefault
 from pysollib.game import Game
-from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, CautiousDefaultHint
-from pysollib.pysoltk import MfxCanvasText
-
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.games.ultra.hanafuda_common import \
-        Flower_OpenStack, \
+        AbstractFlowerGame, \
         FlowerClock_RowStack, \
+        Flower_OpenStack, \
         HanafudaRK_RowStack, \
         Hanafuda_SS_FoundationStack, \
         Hanafuda_SequenceStack, \
@@ -42,11 +36,12 @@ from pysollib.games.ultra.hanafuda_common import \
         Queue_Hint, \
         Queue_ReserveStack, \
         Queue_RowStack, \
-        Samuri_RowStack, \
-        AbstractFlowerGame
-
-from pysollib.util import ANY_RANK, ANY_SUIT, NO_RANK
-
+        Samuri_RowStack
+from pysollib.hint import AbstractHint, CautiousDefaultHint
+from pysollib.layout import Layout
+from pysollib.mfxutil import kwdefault
+from pysollib.mygettext import _
+from pysollib.pysoltk import MfxCanvasText
 from pysollib.stack import \
         BasicRowStack, \
         DealRowTalonStack, \
@@ -56,6 +51,7 @@ from pysollib.stack import \
         StackWrapper, \
         WasteStack, \
         WasteTalonStack
+from pysollib.util import ANY_RANK, ANY_SUIT, NO_RANK
 
 
 # ************************************************************************

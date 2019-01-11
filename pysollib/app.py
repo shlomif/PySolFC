@@ -28,37 +28,34 @@ import re
 import traceback
 from pickle import UnpicklingError
 
-# PySol imports
-from pysollib.mfxutil import destruct, Struct
-from pysollib.mfxutil import pickle, unpickle
-from pysollib.mfxutil import getusername, getprefdir
-from pysollib.mfxutil import latin1_normalize, print_err
-from pysollib.mfxutil import USE_PIL
-from pysollib.util import CARDSET, IMAGE_EXTENSIONS
-from pysollib.settings import PACKAGE, VERSION_TUPLE, WIN_SYSTEM
-from pysollib.resource import CSI, CardsetConfig, Cardset, CardsetManager
-from pysollib.resource import Tile, TileManager
-from pysollib.resource import Sample, SampleManager
-from pysollib.resource import Music, MusicManager
+from pysollib.gamedb import GAME_DB, GI, loadGame
 from pysollib.images import Images, SubsampledImages
-from pysollib.pysolrandom import PysolRandom
-from pysollib.gamedb import GI, GAME_DB, loadGame
-from pysollib.options import Options
-from pysollib.settings import TOP_SIZE, TOOLKIT
-from pysollib.settings import DEBUG
-from pysollib.winsystems import TkSettings
-
-# Toolkit imports
+from pysollib.mfxutil import Struct, destruct
+from pysollib.mfxutil import USE_PIL
+from pysollib.mfxutil import getprefdir, getusername
+from pysollib.mfxutil import latin1_normalize, print_err
+from pysollib.mfxutil import pickle, unpickle
 from pysollib.mygettext import _
-from pysollib.pysoltk import wm_withdraw, loadImage
-from pysollib.pysoltk import MfxDialog, MfxMessageDialog, MfxExceptionDialog
-from pysollib.pysoltk import TclError, MfxScrolledCanvas
+from pysollib.options import Options
+from pysollib.pysolrandom import PysolRandom
+from pysollib.pysoltk import HTMLViewer
+from pysollib.pysoltk import HelpStatusbar, PysolStatusbar
+from pysollib.pysoltk import MfxDialog, MfxExceptionDialog, MfxMessageDialog
+from pysollib.pysoltk import MfxScrolledCanvas, TclError
 from pysollib.pysoltk import PysolProgressBar
-from pysollib.pysoltk import PysolStatusbar, HelpStatusbar
 from pysollib.pysoltk import SelectCardsetDialogWithPreview
 from pysollib.pysoltk import SelectDialogTreeData
-from pysollib.pysoltk import HTMLViewer
 from pysollib.pysoltk import destroy_find_card_dialog
+from pysollib.pysoltk import loadImage, wm_withdraw
+from pysollib.resource import CSI, Cardset, CardsetConfig, CardsetManager
+from pysollib.resource import Music, MusicManager
+from pysollib.resource import Sample, SampleManager
+from pysollib.resource import Tile, TileManager
+from pysollib.settings import DEBUG
+from pysollib.settings import PACKAGE, VERSION_TUPLE, WIN_SYSTEM
+from pysollib.settings import TOOLKIT, TOP_SIZE
+from pysollib.util import CARDSET, IMAGE_EXTENSIONS
+from pysollib.winsystems import TkSettings
 if TOOLKIT == 'tk':
     from pysollib.ui.tktile.solverdialog import destroy_solver_dialog
 else:

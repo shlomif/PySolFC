@@ -21,17 +21,16 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-from pysollib.mygettext import _
-#  import os, sys
 import gtk
 import gtk.glade
 from gtk import gdk
 
+from pysollib.mygettext import _
 
 # ************************************************************************
 # *
 # ************************************************************************
+
 
 class ColorsDialog:
 

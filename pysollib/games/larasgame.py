@@ -21,27 +21,16 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-
-# PySol imports
-from pysollib.mygettext import _
-from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.game import Game
-from pysollib.layout import Layout
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.hint import CautiousDefaultHint
-
-
-# from pysollib.util import
-
+from pysollib.layout import Layout
+from pysollib.mygettext import _
 from pysollib.stack import \
         OpenStack, \
         SS_FoundationStack, \
         Stack, \
         WasteTalonStack
-
-# ************************************************************************
-# *
-# ************************************************************************
 
 
 class LarasGame_Hint(CautiousDefaultHint):

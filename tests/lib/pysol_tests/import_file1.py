@@ -1,9 +1,11 @@
 # Written by Shlomi Fish, under the MIT Expat License.
 
 import unittest
-from pysollib.hint import FreeCellSolver_Hint, PySolHintLayoutImportError
-import pysollib.stack
+
 from pysol_tests.common_mocks1 import MockApp, MockCanvas, MockTalon
+
+import pysollib.stack
+from pysollib.hint import FreeCellSolver_Hint, PySolHintLayoutImportError
 
 
 class MockGame:

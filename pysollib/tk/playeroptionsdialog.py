@@ -21,21 +21,14 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-from six.moves import tkinter
-
-# PySol imports
-from pysollib.mygettext import _
 from pysollib.mfxutil import KwStruct, Struct
-
-# Toolkit imports
-from .tkwidget import MfxDialog
+from pysollib.mygettext import _
 from pysollib.ui.tktile.tkutil import bind
 
+from six.moves import tkinter
 
-# ************************************************************************
-# *
-# ************************************************************************
+from .tkwidget import MfxDialog
+
 
 class SelectUserNameDialog(MfxDialog):
     def __init__(self, parent, title, usernames=[], **kw):

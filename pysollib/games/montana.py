@@ -21,16 +21,10 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-
-# PySol imports
-from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.game import Game
-from pysollib.layout import Layout
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.hint import DefaultHint
-
-from pysollib.util import ACE, NO_SUIT
-
+from pysollib.layout import Layout
 from pysollib.stack import \
         BasicRowStack, \
         InitialDealTalonStack, \
@@ -40,6 +34,7 @@ from pysollib.stack import \
         TalonStack, \
         WasteStack, \
         WasteTalonStack
+from pysollib.util import ACE, NO_SUIT
 
 # ************************************************************************
 # *

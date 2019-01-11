@@ -21,16 +21,10 @@
 #
 # ---------------------------------------------------------------------------
 
-# imports
-
-# PySol imports
-from pysollib.mygettext import _
-from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.game import Game
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.layout import Layout
-
-from pysollib.util import ANY_RANK, ANY_SUIT, JACK, KING, QUEEN
-
+from pysollib.mygettext import _
 from pysollib.stack import \
         AC_RowStack, \
         AbstractFoundationStack, \
@@ -38,14 +32,15 @@ from pysollib.stack import \
         InitialDealTalonStack, \
         OpenStack, \
         Stack, \
+        StackWrapper, \
         UD_RK_RowStack, \
-        isAlternateColorSequence, \
-        StackWrapper
-
+        isAlternateColorSequence
+from pysollib.util import ANY_RANK, ANY_SUIT, JACK, KING, QUEEN
 
 # ************************************************************************
 # * Take Away
 # ************************************************************************
+
 
 class TakeAway_Foundation(AbstractFoundationStack):
 

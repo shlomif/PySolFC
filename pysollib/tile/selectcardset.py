@@ -21,24 +21,22 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
 import os
-from six.moves import tkinter
-from . import ttk
 
-# PySol imports
-from pysollib.mygettext import _
 from pysollib.mfxutil import KwStruct, USE_PIL
-from pysollib.util import CARDSET
+from pysollib.mygettext import _
 from pysollib.resource import CSI
-
-# Toolkit imports
-from pysollib.ui.tktile.tkutil import loadImage
-from .tkwidget import MfxDialog, MfxScrolledCanvas, PysolScale
-from pysollib.ui.tktile.tkcanvas import MfxCanvasImage
 from pysollib.ui.tktile.selecttree import SelectDialogTreeData
-from .selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
+from pysollib.ui.tktile.tkcanvas import MfxCanvasImage
+from pysollib.ui.tktile.tkutil import loadImage
+from pysollib.util import CARDSET
+
+from six.moves import tkinter
+
+from . import ttk
 from .selecttree import SelectDialogTreeCanvas
+from .selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
+from .tkwidget import MfxDialog, MfxScrolledCanvas, PysolScale
 
 
 # ************************************************************************

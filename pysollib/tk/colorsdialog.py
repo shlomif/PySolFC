@@ -21,12 +21,8 @@
 #
 # ---------------------------------------------------------------------------##
 
-from pysollib.ui.tktile.colorsdialog import BaseColorsDialog
 from pysollib.tk.basetkmfxdialog import BaseTkMfxDialog
-
-# ************************************************************************
-# *
-# ************************************************************************
+from pysollib.ui.tktile.colorsdialog import BaseColorsDialog
 
 
 class ColorsDialog(BaseColorsDialog, BaseTkMfxDialog):

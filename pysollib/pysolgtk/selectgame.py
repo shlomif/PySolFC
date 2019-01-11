@@ -21,28 +21,28 @@
 #
 # ---------------------------------------------------------------------------##
 
-
 # imports
 import os
-import gtk
+
 import gobject
 
-# from UserList import UserList
+import gtk
 
-# PySol imports
-from pysollib.mygettext import _
-from pysollib.mfxutil import destruct, Struct
-from pysollib.mfxutil import kwdefault
-from pysollib.mfxutil import format_time
 from pysollib.gamedb import GI
 from pysollib.help import help_html
+from pysollib.mfxutil import Struct, destruct
+from pysollib.mfxutil import format_time
+from pysollib.mfxutil import kwdefault
+from pysollib.mygettext import _
 from pysollib.resource import CSI
 
-# Toolkit imports
-from tkutil import unbind_destroy
-from tkwidget import MfxDialog
-from tkcanvas import MfxCanvas
 from pysoltree import PysolTreeView
+
+from tkcanvas import MfxCanvas
+
+from tkutil import unbind_destroy
+
+from tkwidget import MfxDialog
 
 
 # ************************************************************************

@@ -21,24 +21,16 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-
-# PySol imports
-from pysollib.mygettext import _
-from pysollib.gamedb import registerGame, GameInfo, GI
 import pysollib.game
-from pysollib.mfxutil import kwdefault
 from pysollib.game import Game
-from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, DefaultHint, CautiousDefaultHint
-from pysollib.hint import BlackHoleSolverWrapper
-from pysollib.pysoltk import MfxCanvasText
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.games.pileon import FourByFour_Hint
-
-from pysollib.util import ACE, ANY_RANK, ANY_SUIT, KING, NO_RANK, RANKS, \
-        SUITS, \
-        UNLIMITED_REDEALS
-
+from pysollib.hint import AbstractHint, CautiousDefaultHint, DefaultHint
+from pysollib.hint import BlackHoleSolverWrapper
+from pysollib.layout import Layout
+from pysollib.mfxutil import kwdefault
+from pysollib.mygettext import _
+from pysollib.pysoltk import MfxCanvasText
 from pysollib.stack import \
         AbstractFoundationStack, \
         BasicRowStack, \
@@ -51,16 +43,15 @@ from pysollib.stack import \
         SS_FoundationStack, \
         SS_RowStack, \
         Stack, \
+        StackWrapper, \
         TalonStack, \
         UD_RK_RowStack, \
         WasteStack, \
         WasteTalonStack, \
-        isSameSuitSequence, \
-        StackWrapper
-
-# ************************************************************************
-# *
-# ************************************************************************
+        isSameSuitSequence
+from pysollib.util import ACE, ANY_RANK, ANY_SUIT, KING, NO_RANK, RANKS, \
+        SUITS, \
+        UNLIMITED_REDEALS
 
 
 class Golf_Hint(AbstractHint):

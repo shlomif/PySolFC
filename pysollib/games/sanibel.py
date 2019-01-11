@@ -21,19 +21,15 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-
-# PySol imports
-from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.layout import Layout
-from pysollib.hint import Yukon_Hint
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.games.gypsy import Gypsy
-
+from pysollib.hint import Yukon_Hint
+from pysollib.layout import Layout
 from pysollib.stack import \
-        Yukon_AC_RowStack, \
+        SS_FoundationStack, \
         StackWrapper, \
         WasteTalonStack, \
-        SS_FoundationStack
+        Yukon_AC_RowStack
 
 # ************************************************************************
 # * Sanibel

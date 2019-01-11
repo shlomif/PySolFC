@@ -21,16 +21,15 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
 import gobject
+
 import gtk
 
-# PySol imports
+from pysollib.mfxutil import kwdefault
 from pysollib.mygettext import _
 
 # Toolkit imports
 from tkwidget import MfxDialog
-from pysollib.mfxutil import kwdefault
 
 
 # ************************************************************************

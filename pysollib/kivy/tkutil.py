@@ -27,20 +27,17 @@
 
 from __future__ import division
 
-# imports
-import os
 import logging
+import os
 from array import array
 
-# Toolkit imports
-from pysollib.kivy.LApp import LTopLevel0
-from pysollib.kivy.LApp import LImage
-
-# Kivy imports
-from kivy.core.text import Label as CoreLabel
-from kivy.core.image import Image as CoreImage
-from kivy.graphics.texture import Texture
 from kivy.clock import Clock
+from kivy.core.image import Image as CoreImage
+from kivy.core.text import Label as CoreLabel
+from kivy.graphics.texture import Texture
+
+from pysollib.kivy.LApp import LImage
+from pysollib.kivy.LApp import LTopLevel0
 
 # ************************************************************************
 # * window manager util

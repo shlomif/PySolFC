@@ -21,21 +21,19 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
 import os
-from six.moves import tkinter
 
-# PySol imports
-from pysollib.mygettext import _, n_
 from pysollib.mfxutil import Image, ImageTk
-from pysollib.util import IMAGE_EXTENSIONS
+from pysollib.mygettext import _, n_
 from pysollib.settings import TITLE
+from pysollib.ui.tktile.menubar import MfxMenu, createToolbarMenu
+from pysollib.ui.tktile.tkconst import EVENT_HANDLED
+from pysollib.util import IMAGE_EXTENSIONS
 from pysollib.winsystems import TkSettings
 
-# Toolkit imports
-from pysollib.ui.tktile.tkconst import EVENT_HANDLED
+from six.moves import tkinter
+
 from .tkwidget import MfxTooltip
-from pysollib.ui.tktile.menubar import createToolbarMenu, MfxMenu
 
 
 # ************************************************************************

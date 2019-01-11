@@ -21,28 +21,22 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
 import os
-from six.moves import tkinter
-from . import ttk
 
-# PySol imports
+from pysollib.mfxutil import Image, ImageOps, ImageTk
 from pysollib.mygettext import _, n_
-from pysollib.mfxutil import Image, ImageTk, ImageOps
-from pysollib.util import IMAGE_EXTENSIONS
 from pysollib.settings import TITLE
+from pysollib.ui.tktile.menubar import MfxMenu, createToolbarMenu
+from pysollib.ui.tktile.tkconst import EVENT_HANDLED
+from pysollib.ui.tktile.tkutil import loadImage
+from pysollib.util import IMAGE_EXTENSIONS
 from pysollib.winsystems import TkSettings
 
-# Toolkit imports
-from pysollib.ui.tktile.tkconst import EVENT_HANDLED
+from six.moves import tkinter
+
+from . import ttk
 from .tkwidget import MfxTooltip
-from pysollib.ui.tktile.menubar import createToolbarMenu, MfxMenu
-from pysollib.ui.tktile.tkutil import loadImage
 
-
-# ************************************************************************
-# *
-# ************************************************************************
 
 class AbstractToolbarButton:
     def __init__(self, parent, toolbar, toolbar_name, position):

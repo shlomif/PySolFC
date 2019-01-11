@@ -22,10 +22,10 @@
 # ---------------------------------------------------------------------------
 
 import os
-import six
 
 from pysollib.gamedb import GI, loadGame
-from pysollib.util import ACE, ANY_RANK, KING, NO_RANK, UNLIMITED_MOVES
+from pysollib.layout import Layout
+from pysollib.mygettext import _, n_
 from pysollib.stack import AC_FoundationStack, \
         AC_RowStack, \
         BO_RowStack, \
@@ -35,16 +35,16 @@ from pysollib.stack import AC_FoundationStack, \
         InitialDealTalonStack, \
         RK_FoundationStack, \
         RK_RowStack, \
+        SC_FoundationStack, \
+        SC_RowStack, \
+        SS_FoundationStack, \
+        SS_RowStack, \
+        SpiderTalonStack, \
         Spider_AC_Foundation, \
         Spider_AC_RowStack, \
         Spider_RK_Foundation, \
         Spider_SS_Foundation, \
         Spider_SS_RowStack, \
-        SpiderTalonStack, \
-        SC_FoundationStack, \
-        SC_RowStack, \
-        SS_FoundationStack, \
-        SS_RowStack, \
         UD_AC_RowStack, \
         UD_RK_RowStack, \
         UD_SC_RowStack, \
@@ -53,12 +53,10 @@ from pysollib.stack import AC_FoundationStack, \
         Yukon_AC_RowStack, \
         Yukon_RK_RowStack, \
         Yukon_SS_RowStack
-
-
-from pysollib.layout import Layout
+from pysollib.util import ACE, ANY_RANK, KING, NO_RANK, UNLIMITED_MOVES
 from pysollib.wizardpresets import presets
 
-from pysollib.mygettext import _, n_
+import six
 
 # ************************************************************************
 # *

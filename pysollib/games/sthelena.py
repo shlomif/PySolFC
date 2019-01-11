@@ -21,30 +21,21 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-
-# PySol imports
-from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.game import Game
-from pysollib.layout import Layout
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.hint import CautiousDefaultHint
-
-from pysollib.util import ACE, JACK, KING, NO_RANK
-
+from pysollib.layout import Layout
 from pysollib.stack import \
         DealRowTalonStack, \
         InitialDealTalonStack, \
         RedealTalonStack, \
+        SS_FoundationStack, \
         StackWrapper, \
         TalonStack, \
         UD_RK_RowStack, \
-        UD_SS_RowStack, \
-        SS_FoundationStack
+        UD_SS_RowStack
+from pysollib.util import ACE, JACK, KING, NO_RANK
 
-
-# ************************************************************************
-# *
-# ************************************************************************
 
 class StHelena_Talon(TalonStack):
 

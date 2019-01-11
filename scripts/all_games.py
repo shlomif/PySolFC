@@ -2,21 +2,22 @@
 # -*- mode: python; coding: koi8-r; -*-
 #
 
-import sys
 import os
+import sys
 import time
-# from pprint import pprint
-from six.moves import builtins
-from pysollib.mygettext import fix_gettext
-import pysollib.games
-import pysollib.games.special
-import pysollib.games.ultra
-import pysollib.games.mahjongg  # noqa: F401
 
+# from pprint import pprint
+import pysollib.games
+import pysollib.games.mahjongg  # noqa: F401
+import pysollib.games.special
+import pysollib.games.ultra  # noqa: F401
 from pysollib.gamedb import GAME_DB
 from pysollib.gamedb import GI
 from pysollib.mfxutil import latin1_normalize
+from pysollib.mygettext import fix_gettext
 from pysollib.resource import CSI
+
+from six.moves import builtins
 os.environ['LANG'] = 'C'
 builtins.__dict__['_'] = lambda x: x
 builtins.__dict__['n_'] = lambda x: x

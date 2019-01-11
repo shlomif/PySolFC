@@ -22,45 +22,36 @@
 #
 # ---------------------------------------------------------------------------#
 
-# imports
 import math
 import os
 import re
 
-# PySol imports
-from pysollib.mygettext import _
-from pysollib.mfxutil import Struct
-from pysollib.util import CARDSET
-from pysollib.settings import TITLE
-from pysollib.settings import SELECT_GAME_MENU
-from pysollib.gamedb import GI
-
-# toolkit imports
-from pysollib.kivy.tkconst import EVENT_HANDLED, EVENT_PROPAGATE, CURSOR_WATCH
-from pysollib.kivy.tkutil import bind
-from pysollib.kivy.tkutil import after_idle
-from pysollib.kivy.selectcardset import SelectCardsetDialogWithPreview
-
-from pysollib.kivy.selectgame import SelectGameDialog
-from pysollib.pysoltk import connect_game_find_card_dialog
-
-from pysollib.kivy.findcarddialog import destroy_find_card_dialog
-from pysollib.kivy.solverdialog import connect_game_solver_dialog
-from pysollib.kivy.tkconst import TOOLBAR_BUTTONS
-
-# Kivy
+from kivy.event import EventDispatcher
 from kivy.properties import BooleanProperty
 from kivy.properties import NumericProperty
 from kivy.properties import StringProperty
 
-from kivy.event import EventDispatcher
-
+from pysollib.gamedb import GI
 from pysollib.kivy.LApp import LMenu
-from pysollib.kivy.LApp import LTreeNode
 from pysollib.kivy.LApp import LMenuItem
-from pysollib.kivy.LApp import LTopLevel
 from pysollib.kivy.LApp import LScrollView
+from pysollib.kivy.LApp import LTopLevel
+from pysollib.kivy.LApp import LTreeNode
 from pysollib.kivy.LApp import LTreeRoot
+from pysollib.kivy.findcarddialog import destroy_find_card_dialog
+from pysollib.kivy.selectcardset import SelectCardsetDialogWithPreview
+from pysollib.kivy.selectgame import SelectGameDialog
+from pysollib.kivy.solverdialog import connect_game_solver_dialog
+from pysollib.kivy.tkconst import CURSOR_WATCH, EVENT_HANDLED, EVENT_PROPAGATE
+from pysollib.kivy.tkconst import TOOLBAR_BUTTONS
+from pysollib.kivy.tkutil import after_idle
+from pysollib.kivy.tkutil import bind
+from pysollib.mfxutil import Struct
+from pysollib.mygettext import _
+from pysollib.pysoltk import connect_game_find_card_dialog
+from pysollib.settings import SELECT_GAME_MENU
+from pysollib.settings import TITLE
+from pysollib.util import CARDSET
 
 
 # ************************************************************************

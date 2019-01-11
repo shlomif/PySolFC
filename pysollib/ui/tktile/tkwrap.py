@@ -21,12 +21,10 @@
 #
 # ---------------------------------------------------------------------------
 
-# imports
-from six.moves import tkinter
 from pysollib.ui.tktile.tkconst import EVENT_PROPAGATE
-TclError = tkinter.TclError
 
-# PySol imports
+from six.moves import tkinter
+TclError = tkinter.TclError
 
 
 # ************************************************************************

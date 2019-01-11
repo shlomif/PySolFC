@@ -21,31 +21,24 @@
 #
 # ---------------------------------------------------------------------------
 
-# imports
 import os
 import time
+
+from pysollib.mfxutil import KwStruct, kwdefault
+from pysollib.mfxutil import format_time
+from pysollib.mygettext import _
+from pysollib.settings import TOP_TITLE
+from pysollib.stats import ProgressionFormatter, PysolStatsFormatter
+from pysollib.ui.tktile.tkutil import bind, loadImage
+
 from six.moves import tkinter
 from six.moves import tkinter_font
 
-# PySol imports
-from pysollib.mygettext import _
-from pysollib.mfxutil import kwdefault, KwStruct
-from pysollib.mfxutil import format_time
-# from pysollib.util import *
-from pysollib.stats import PysolStatsFormatter, ProgressionFormatter
-from pysollib.settings import TOP_TITLE
-
-# Toolkit imports
-from pysollib.ui.tktile.tkutil import bind, loadImage
 from .tkwidget import MfxDialog, MfxMessageDialog
 from .tkwidget import MfxScrolledCanvas
 
+# FIXME - this file is a quick hack and needs a rewrite
 
-# FIXME - this file a quick hack and needs a rewrite
-
-# ************************************************************************
-# *
-# ************************************************************************
 
 class SingleGame_StatsDialog(MfxDialog):
     def __init__(self, parent, title, app, player, gameid, **kw):

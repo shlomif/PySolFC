@@ -21,21 +21,13 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-
-# PySol imports
-from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.mfxutil import kwdefault
 from pysollib.game import Game
-from pysollib.layout import Layout
+from pysollib.gamedb import GI, GameInfo, registerGame
+from pysollib.games.spider import Spider_Hint, Spider_RowStack, \
+        Spider_SS_Foundation
 from pysollib.hint import KlondikeType_Hint, YukonType_Hint
-
-from pysollib.games.spider import Spider_SS_Foundation, \
-        Spider_RowStack, Spider_Hint
-
-from pysollib.util import ACE, ANY_SUIT, KING, UNLIMITED_ACCEPTS, \
-        UNLIMITED_MOVES
-
+from pysollib.layout import Layout
+from pysollib.mfxutil import kwdefault
 from pysollib.stack import \
         AC_RowStack, \
         AbstractFoundationStack, \
@@ -49,16 +41,18 @@ from pysollib.stack import \
         SS_RowStack, \
         Spider_SS_RowStack, \
         Stack, \
+        StackWrapper, \
         TalonStack, \
         WasteStack, \
         WasteTalonStack, \
-        Yukon_AC_RowStack, \
-        StackWrapper
-
+        Yukon_AC_RowStack
+from pysollib.util import ACE, ANY_SUIT, KING, UNLIMITED_ACCEPTS, \
+        UNLIMITED_MOVES
 
 # ************************************************************************
 # * Gypsy
 # ************************************************************************
+
 
 class Gypsy(Game):
     Layout_Method = staticmethod(Layout.gypsyLayout)

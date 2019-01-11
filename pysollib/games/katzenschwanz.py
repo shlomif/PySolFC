@@ -21,21 +21,12 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-
-# PySol imports
-from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.game import Game
-from pysollib.layout import Layout
-from pysollib.hint import FreeCellType_Hint, CautiousDefaultHint
+from pysollib.gamedb import GI, GameInfo, registerGame
+from pysollib.hint import CautiousDefaultHint, FreeCellType_Hint
 from pysollib.hint import FreeCellSolverWrapper
+from pysollib.layout import Layout
 from pysollib.pysoltk import MfxCanvasText
-
-
-from pysollib.util import ACE, ANY_RANK, ANY_SUIT, KING, NO_RANK, RANKS, \
-        QUEEN, \
-        UNLIMITED_ACCEPTS
-
 from pysollib.stack import \
         AC_RowStack, \
         AbstractFoundationStack, \
@@ -50,10 +41,8 @@ from pysollib.stack import \
         TalonStack, \
         WasteStack, \
         WasteTalonStack
-
-# ************************************************************************
-# *
-# ************************************************************************
+from pysollib.util import ACE, ANY_RANK, ANY_SUIT, KING, NO_RANK, \
+        QUEEN, RANKS, UNLIMITED_ACCEPTS
 
 
 class DerKatzenschwanz_Hint(FreeCellType_Hint):

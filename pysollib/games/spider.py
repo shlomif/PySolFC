@@ -21,22 +21,15 @@
 #
 # ---------------------------------------------------------------------------
 
-# imports
-
-# PySol imports
-from pysollib.mygettext import _
-from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.mfxutil import kwdefault
-from pysollib.game import Game
 import pysollib.game
-from pysollib.layout import Layout
+from pysollib.game import Game
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.hint import CautiousDefaultHint
-from pysollib.hint import SpiderType_Hint, YukonType_Hint
 from pysollib.hint import FreeCellSolverWrapper
-
-from pysollib.util import ACE, ANY_RANK, ANY_SUIT, KING, \
-        UNLIMITED_ACCEPTS, UNLIMITED_CARDS, UNLIMITED_MOVES
-
+from pysollib.hint import SpiderType_Hint, YukonType_Hint
+from pysollib.layout import Layout
+from pysollib.mfxutil import kwdefault
+from pysollib.mygettext import _
 from pysollib.stack import \
         AC_FoundationStack, \
         AC_RowStack, \
@@ -48,6 +41,7 @@ from pysollib.stack import \
         OpenStack, \
         RK_RowStack, \
         ReserveStack, \
+        SS_FoundationStack, \
         Spider_AC_Foundation, \
         Spider_SS_Foundation, \
         Spider_SS_RowStack, \
@@ -62,8 +56,9 @@ from pysollib.stack import \
         isAlternateColorSequence, \
         isRankSequence, \
         isSameColorSequence, \
-        isSameSuitSequence, \
-        SS_FoundationStack
+        isSameSuitSequence
+from pysollib.util import ACE, ANY_RANK, ANY_SUIT, KING, \
+        UNLIMITED_ACCEPTS, UNLIMITED_CARDS, UNLIMITED_MOVES
 
 
 # ************************************************************************

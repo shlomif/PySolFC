@@ -21,11 +21,9 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-
-# PySol imports
-from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import KING, NO_RANK, UNLIMITED_REDEALS
+from pysollib.game import Game
+from pysollib.gamedb import GI, GameInfo, registerGame
+from pysollib.layout import Layout
 from pysollib.stack import \
         OpenStack, \
         ReserveStack, \
@@ -34,8 +32,7 @@ from pysollib.stack import \
         UD_SS_RowStack, \
         WasteStack, \
         WasteTalonStack
-from pysollib.game import Game
-from pysollib.layout import Layout
+from pysollib.util import KING, NO_RANK, UNLIMITED_REDEALS
 
 
 # ************************************************************************

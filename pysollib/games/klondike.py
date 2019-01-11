@@ -21,24 +21,17 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-
-# PySol imports
-from pysollib.mygettext import _
-from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.mfxutil import kwdefault, Struct
-from pysollib.game import Game
 import pysollib.game
-from pysollib.layout import Layout
-from pysollib.hint import CautiousDefaultHint
-from pysollib.hint import KlondikeType_Hint
-from pysollib.hint import FreeCellSolverWrapper
-from pysollib.pysoltk import MfxCanvasText
-
+from pysollib.game import Game
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.games.canfield import CanfieldRush_Talon
-
-from pysollib.util import ACE, ANY_RANK, ANY_SUIT, KING, NO_RANK
-
+from pysollib.hint import CautiousDefaultHint
+from pysollib.hint import FreeCellSolverWrapper
+from pysollib.hint import KlondikeType_Hint
+from pysollib.layout import Layout
+from pysollib.mfxutil import Struct, kwdefault
+from pysollib.mygettext import _
+from pysollib.pysoltk import MfxCanvasText
 from pysollib.stack import \
         AC_RowStack, \
         BO_RowStack, \
@@ -53,14 +46,15 @@ from pysollib.stack import \
         ReserveStack, \
         SC_RowStack, \
         SS_FoundationStack, \
+        SS_RowStack, \
         Stack, \
         StackWrapper, \
         SuperMoveAC_RowStack, \
         UD_SS_RowStack, \
         WasteStack, \
         WasteTalonStack, \
-        isSameColorSequence, \
-        SS_RowStack
+        isSameColorSequence
+from pysollib.util import ACE, ANY_RANK, ANY_SUIT, KING, NO_RANK
 
 # ************************************************************************
 # * Klondike

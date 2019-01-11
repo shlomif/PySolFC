@@ -21,36 +21,32 @@
 #
 # ---------------------------------------------------------------------------
 
-# imports
-
-# PySol imports
-from pysollib.mygettext import _
-from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.mfxutil import kwdefault
-from pysollib.game import Game
 import pysollib.game
-from pysollib.layout import Layout
+from pysollib.game import Game
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.hint import AbstractHint, CautiousDefaultHint
-
-from pysollib.util import ACE, ANY_RANK, ANY_SUIT, KING, UNLIMITED_ACCEPTS, \
-        UNLIMITED_MOVES
+from pysollib.layout import Layout
+from pysollib.mfxutil import kwdefault
+from pysollib.mygettext import _
 from pysollib.stack import \
-        AbstractFoundationStack, \
         AC_RowStack, \
+        AbstractFoundationStack, \
         BasicRowStack, \
         DealRowTalonStack, \
         InitialDealTalonStack, \
-        isRankSequence, \
-        isSameSuitSequence, \
         OpenStack, \
         OpenTalonStack, \
         RK_RowStack, \
         SS_FoundationStack, \
         SS_RowStack, \
+        StackWrapper, \
         TalonStack, \
         WasteStack, \
         WasteTalonStack, \
-        StackWrapper
+        isRankSequence, \
+        isSameSuitSequence
+from pysollib.util import ACE, ANY_RANK, ANY_SUIT, KING, UNLIMITED_ACCEPTS, \
+        UNLIMITED_MOVES
 
 # ************************************************************************
 # * Curds and Whey

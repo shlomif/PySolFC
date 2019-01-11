@@ -21,24 +21,18 @@
 #
 # ---------------------------------------------------------------------------#
 
-# imports
-# import os
-from six.moves import UserList
+from kivy.clock import Clock
 
-# PySol imports
-from pysollib.mygettext import _
 from pysollib.gamedb import GI
-
-# Toolkit imports
-from pysollib.kivy.selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
-from pysollib.kivy.selecttree import SelectDialogTreeData
 from pysollib.kivy.LApp import LScrollView
 from pysollib.kivy.LApp import LTopLevel
 from pysollib.kivy.LApp import LTreeNode
 from pysollib.kivy.LApp import LTreeRoot
+from pysollib.kivy.selecttree import SelectDialogTreeData
+from pysollib.kivy.selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
+from pysollib.mygettext import _
 
-# Kivy imports
-from kivy.clock import Clock
+from six.moves import UserList
 
 
 # ************************************************************************

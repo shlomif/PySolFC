@@ -21,25 +21,16 @@
 #
 # ---------------------------------------------------------------------------
 
-# Imports
-
-# PySol imports
-from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.game import Game
-from pysollib.layout import Layout
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.hint import AbstractHint
-
-from pysollib.util import ANY_SUIT
-
+from pysollib.layout import Layout
 from pysollib.stack import \
         AbstractFoundationStack, \
         InitialDealTalonStack, \
         InvisibleStack, \
         ReserveStack
-
-# ************************************************************************
-# *
-# ************************************************************************
+from pysollib.util import ANY_SUIT
 
 
 class Pegged_Hint(AbstractHint):

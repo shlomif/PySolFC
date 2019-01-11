@@ -21,32 +21,23 @@
 #
 # ---------------------------------------------------------------------------
 
-# Imports
-from gettext import ungettext
-from six.moves import range
-
-from pysollib.settings import TOOLKIT
-
-# PySol imports
-from pysollib.mygettext import _
-from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.mfxutil import kwdefault
-from pysollib.layout import Layout
+from pysollib.gamedb import GI, GameInfo, registerGame
+from pysollib.games.mahjongg.mahjongg import AbstractMahjonggGame, \
+        Mahjongg_RowStack, \
+        comp_cardset
 from pysollib.hint import AbstractHint
-from pysollib.pysoltk import MfxCanvasText, MfxCanvasLine
-
-from pysollib.games.mahjongg.mahjongg import Mahjongg_RowStack, \
-        AbstractMahjonggGame, comp_cardset
-
-from pysollib.util import ANY_SUIT
-
+from pysollib.layout import Layout
+from pysollib.mfxutil import kwdefault
+from pysollib.mygettext import _
+from pysollib.mygettext import ungettext
+from pysollib.pysoltk import MfxCanvasLine, MfxCanvasText
+from pysollib.settings import TOOLKIT
 from pysollib.stack import \
         AbstractFoundationStack, \
         InitialDealTalonStack
+from pysollib.util import ANY_SUIT
 
-# ************************************************************************
-# *
-# ************************************************************************
+from six.moves import range
 
 
 class Shisen_Hint(AbstractHint):

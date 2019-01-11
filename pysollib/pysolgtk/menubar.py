@@ -26,21 +26,23 @@
 import os
 import re
 
+from findcarddialog import connect_game_find_card_dialog, \
+        destroy_find_card_dialog
+
 import gtk
 from gtk import gdk
 
-# PySol imports
-from pysollib.mygettext import _
 from pysollib.gamedb import GI
+from pysollib.mygettext import _
 from pysollib.settings import TITLE
 
-# toolkit imports
-from soundoptionsdialog import SoundOptionsDialog
 from selectcardset import SelectCardsetDialogWithPreview
-from selecttile import SelectTileDialogWithPreview
+
 from selectgame import SelectGameDialogWithPreview
-from findcarddialog import connect_game_find_card_dialog, \
-        destroy_find_card_dialog
+
+from selecttile import SelectTileDialogWithPreview
+
+from soundoptionsdialog import SoundOptionsDialog
 
 
 def ltk2gtk(s):

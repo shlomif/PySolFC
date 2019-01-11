@@ -21,12 +21,7 @@
 #
 # ---------------------------------------------------------------------------
 
-# imports
-
-# PySol imports
 from pysollib.acard import AbstractCard
-
-# Toolkit imports
 from pysollib.ui.tktile.tkcanvas import MfxCanvasGroup, MfxCanvasImage
 
 

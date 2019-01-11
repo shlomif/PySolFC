@@ -25,7 +25,6 @@
 # imports
 import os
 import traceback
-
 from threading import Thread
 
 try:

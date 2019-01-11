@@ -1,14 +1,17 @@
 #! /usr/bin/env python3
 # -*- coding: iso-8859-1 -*-
 
-import sys
-import os
-import requests
-import logging
-import hashlib
 import glob
+import hashlib
+import logging
+import os
+import sys
 from zipfile import ZipFile, ZipInfo
+
 from clint.textui import progress
+
+import requests
+
 
 cachefiles = [
   ('https://dl.google.com/android/repository/platform-tools-latest-linux.zip',

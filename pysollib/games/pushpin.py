@@ -21,25 +21,16 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-
-# PySol imports
-from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.game import Game
-from pysollib.layout import Layout
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.hint import AbstractHint
-
-from pysollib.util import ANY_RANK, ANY_SUIT
-
+from pysollib.layout import Layout
 from pysollib.stack import \
         AbstractFoundationStack, \
         DealRowTalonStack, \
-        Stack, \
-        ReserveStack
-
-# ************************************************************************
-# *
-# ************************************************************************
+        ReserveStack, \
+        Stack
+from pysollib.util import ANY_RANK, ANY_SUIT
 
 
 class PushPin_Hint(AbstractHint):

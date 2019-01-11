@@ -21,23 +21,22 @@
 #
 # ---------------------------------------------------------------------------
 
-from pysollib.mygettext import _
-# PySol imports
-from pysollib.mfxutil import Struct, kwdefault, SubclassResponsibility
 from pysollib.mfxutil import Image, ImageTk, USE_PIL
-from pysollib.util import ACE, KING
-from pysollib.util import ANY_SUIT, ANY_RANK, NO_RANK
-from pysollib.pysoltk import EVENT_HANDLED, EVENT_PROPAGATE
-from pysollib.pysoltk import CURSOR_DRAG, CURSOR_DOWN_ARROW
+from pysollib.mfxutil import Struct, SubclassResponsibility, kwdefault
+from pysollib.mygettext import _
 from pysollib.pysoltk import ANCHOR_NW, ANCHOR_SE
+from pysollib.pysoltk import CURSOR_DOWN_ARROW, CURSOR_DRAG
+from pysollib.pysoltk import EVENT_HANDLED, EVENT_PROPAGATE
+from pysollib.pysoltk import MfxCanvasGroup, MfxCanvasImage
+from pysollib.pysoltk import MfxCanvasRectangle, MfxCanvasText
+from pysollib.pysoltk import after_cancel, after_idle
 from pysollib.pysoltk import bind, unbind_destroy
-from pysollib.pysoltk import after_idle, after_cancel
-from pysollib.pysoltk import MfxCanvasGroup, MfxCanvasImage, \
-        MfxCanvasRectangle, MfxCanvasText
 from pysollib.pysoltk import get_text_width
 from pysollib.pysoltk import markImage
-from pysollib.settings import TOOLKIT
 from pysollib.settings import DEBUG
+from pysollib.settings import TOOLKIT
+from pysollib.util import ACE, KING
+from pysollib.util import ANY_RANK, ANY_SUIT, NO_RANK
 
 # ************************************************************************
 # * Let's start with some test methods for cards.
@@ -1605,7 +1604,7 @@ class Stack:
         return s
 
     def getNumCards(self):
-        from gettext import ungettext
+        from pysollib.mygettext import ungettext
         n = len(self.cards)
         if n == 0:
             return _('No cards')
@@ -1939,7 +1938,7 @@ class TalonStack(Stack,
         return self.game.app.gimages.redeal
 
     def getHelp(self):
-        from gettext import ungettext
+        from pysollib.mygettext import ungettext
         if self.max_rounds == -2:
             nredeals = _('Variable redeals.')
         elif self.max_rounds == -1:

@@ -21,11 +21,11 @@
 #
 # ---------------------------------------------------------------------------##
 
-# Toolkit imports
-from .tktree import MfxTreeLeaf, MfxTreeNode, MfxTreeInCanvas
+from pysollib.ui.tktile.selecttree import BaseSelectDialogTreeCanvas
+from pysollib.ui.tktile.selecttree import BaseSelectDialogTreeLeaf
+from pysollib.ui.tktile.selecttree import BaseSelectDialogTreeNode
 
-from pysollib.ui.tktile.selecttree import BaseSelectDialogTreeLeaf, \
-        BaseSelectDialogTreeNode, BaseSelectDialogTreeCanvas
+from .tktree import MfxTreeInCanvas, MfxTreeLeaf, MfxTreeNode
 
 # ************************************************************************
 # * Nodes

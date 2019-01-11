@@ -21,19 +21,14 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-
-# PySol imports
-from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.game import Game
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.layout import Layout
-
-from pysollib.util import ACE, KING
-
 from pysollib.stack import \
         BasicRowStack, \
         DealRowTalonStack, \
         SS_FoundationStack
+from pysollib.util import ACE, KING
 
 # ************************************************************************
 # * Parallels

@@ -21,21 +21,15 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-
-# PySol imports
-from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.game import Game
 import pysollib.game
+from pysollib.game import Game
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.layout import Layout
-
-# from pysollib.util import ACE
-
 from pysollib.stack import \
         OpenStack, \
+        StackWrapper, \
         WasteStack, \
-        WasteTalonStack, \
-        StackWrapper
+        WasteTalonStack
 
 # ************************************************************************
 # * Eiffel Tower

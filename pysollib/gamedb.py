@@ -22,16 +22,14 @@
 # ---------------------------------------------------------------------------##
 
 
-# imports
-import six
 import imp
 
-# PySol imports
-from pysollib.mfxutil import Struct, print_err
-from pysollib.resource import CSI
 import pysollib.settings
-
+from pysollib.mfxutil import Struct, print_err
 from pysollib.mygettext import _, n_
+from pysollib.resource import CSI
+
+import six
 
 # ************************************************************************
 # * constants

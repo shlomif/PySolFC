@@ -21,23 +21,20 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
 import os
 import time
-from six.moves import tkinter
-from . import ttk
-from six.moves import tkinter_font
 
-# PySol imports
-from pysollib.mygettext import _
 from pysollib.mfxutil import KwStruct
 from pysollib.mfxutil import format_time
-# from pysollib.util import *
-from pysollib.stats import PysolStatsFormatter, ProgressionFormatter
+from pysollib.mygettext import _
 from pysollib.settings import TOP_TITLE
-
-# Toolkit imports
+from pysollib.stats import ProgressionFormatter, PysolStatsFormatter
 from pysollib.ui.tktile.tkutil import bind, loadImage
+
+from six.moves import tkinter
+from six.moves import tkinter_font
+
+from . import ttk
 from .tkwidget import MfxDialog, MfxMessageDialog
 
 

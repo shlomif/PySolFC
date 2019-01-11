@@ -1,7 +1,7 @@
-from six.moves import tkinter
-
-from pysollib.mygettext import _
 from pysollib.mfxutil import KwStruct
+from pysollib.mygettext import _
+
+from six.moves import tkinter
 
 
 class BaseEditTextDialog:

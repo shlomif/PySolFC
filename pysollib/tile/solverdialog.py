@@ -21,17 +21,12 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-
-# PySol imports
-from pysollib.mygettext import _
 from pysollib.mfxutil import KwStruct
-
-# Toolkit imports
+from pysollib.mygettext import _
 from pysollib.tile.basetilemfxdialog import BaseTileMfxDialog
+from pysollib.ui.tktile.solverdialog import BaseSolverDialog, solver_dialog
+
 from .tkwidget import PysolCombo
-from pysollib.ui.tktile.solverdialog import BaseSolverDialog, \
-        solver_dialog
 
 
 # ************************************************************************

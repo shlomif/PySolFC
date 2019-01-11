@@ -21,18 +21,15 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-
-# PySol imports
-from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import KING
+from pysollib.game import Game
+from pysollib.gamedb import GI, GameInfo, registerGame
+from pysollib.layout import Layout
 from pysollib.stack import \
         BasicRowStack, \
         InitialDealTalonStack, \
-        SS_FoundationStack, \
-        ReserveStack
-from pysollib.game import Game
-from pysollib.layout import Layout
+        ReserveStack, \
+        SS_FoundationStack
+from pysollib.util import KING
 
 # ************************************************************************
 # * Buffalo Bill

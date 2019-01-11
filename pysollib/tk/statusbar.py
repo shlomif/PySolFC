@@ -21,14 +21,16 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
 import os
 import sys
+
+from pysollib.mygettext import _
+from pysollib.settings import WIN_SYSTEM
+
 import six
 from six.moves import tkinter
-from pysollib.mygettext import _
+
 from .tkwidget import MfxTooltip
-from pysollib.settings import WIN_SYSTEM
 
 if __name__ == '__main__':
     d = os.path.abspath(os.path.join(sys.path[0], os.pardir, os.pardir))

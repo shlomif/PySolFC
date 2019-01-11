@@ -21,19 +21,11 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-
-# PySol imports
-from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.game import Game
-from pysollib.layout import Layout
-from pysollib.hint import DefaultHint, CautiousDefaultHint
-
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.games.gypsy import DieRussische_Foundation
-
-from pysollib.util import ACE, ANY_RANK, ANY_SUIT, KING, NO_RANK, \
-        UNLIMITED_MOVES, UNLIMITED_REDEALS
-
+from pysollib.hint import CautiousDefaultHint, DefaultHint
+from pysollib.layout import Layout
 from pysollib.stack import \
         AC_FoundationStack, \
         AC_RowStack, \
@@ -45,16 +37,14 @@ from pysollib.stack import \
         SS_RowStack, \
         Spider_SS_RowStack, \
         Stack, \
+        StackWrapper, \
         TalonStack, \
         UD_AC_RowStack, \
         WasteStack, \
-        WasteTalonStack, \
-        StackWrapper
+        WasteTalonStack
+from pysollib.util import ACE, ANY_RANK, ANY_SUIT, KING, NO_RANK, \
+        UNLIMITED_MOVES, UNLIMITED_REDEALS
 
-
-# ************************************************************************
-# *
-# ************************************************************************
 
 class FortyThieves_Hint(CautiousDefaultHint):
     # FIXME: demo is not too clever in this game

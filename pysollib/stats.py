@@ -21,14 +21,13 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-from six.moves import range
 import time
 
-# PySol imports
-from pysollib.mfxutil import format_time
 from pysollib.gamedb import GI
+from pysollib.mfxutil import format_time
 from pysollib.mygettext import _
+
+from six.moves import range
 
 # ************************************************************************
 # *

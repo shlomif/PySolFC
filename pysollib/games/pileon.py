@@ -21,32 +21,27 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-
-# PySol imports
-from pysollib.mygettext import _
-from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.game import Game
+from pysollib.gamedb import GI, GameInfo, registerGame
+from pysollib.hint import CautiousDefaultHint, DefaultHint
 from pysollib.layout import Layout
-from pysollib.hint import DefaultHint, CautiousDefaultHint
+from pysollib.mygettext import _
 from pysollib.pysoltk import MfxCanvasText
-
-from pysollib.util import ACE, ANY_RANK, ANY_SUIT, RANKS
-
 from pysollib.stack import \
         AC_RowStack, \
         AbstractFoundationStack, \
         DealRowTalonStack, \
         InitialDealTalonStack, \
         RK_RowStack, \
+        ReserveStack, \
         Stack, \
         UD_AC_RowStack, \
         UD_RK_RowStack, \
         WasteStack, \
         WasteTalonStack, \
         cardsFaceDown, \
-        isRankSequence, \
-        ReserveStack
+        isRankSequence
+from pysollib.util import ACE, ANY_RANK, ANY_SUIT, RANKS
 
 # ************************************************************************
 # * PileOn

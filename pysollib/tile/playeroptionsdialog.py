@@ -21,21 +21,14 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-from six.moves import tkinter
-from . import ttk
-
-# PySol imports
-from pysollib.mygettext import _
 from pysollib.mfxutil import KwStruct
+from pysollib.mygettext import _
 
-# Toolkit imports
+from six.moves import tkinter
+
+from . import ttk
 from .tkwidget import MfxDialog
 
-
-# ************************************************************************
-# *
-# ************************************************************************
 
 class PlayerOptionsDialog(MfxDialog):
     def __init__(self, parent, title, app, **kw):

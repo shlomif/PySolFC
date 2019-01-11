@@ -23,35 +23,35 @@
 
 
 # imports
-import time
 import math
+import time
 import traceback
-import six
-
-from pysollib.mygettext import _
-from gettext import ungettext
-from six import BytesIO
-from six.moves import range
 from pickle import Pickler, Unpickler, UnpicklingError
 
-# PySol imports
+from pysollib.gamedb import GI
 from pysollib.mfxutil import Image, ImageTk, USE_PIL
-from pysollib.mfxutil import destruct, Struct, SubclassResponsibility
-from pysollib.mfxutil import uclock, usleep
+from pysollib.mfxutil import Struct, SubclassResponsibility, destruct
 from pysollib.mfxutil import format_time, print_err
+from pysollib.mfxutil import uclock, usleep
+from pysollib.mygettext import _
+from pysollib.mygettext import ungettext
+from pysollib.pysolrandom import LCRandom31, PysolRandom, constructRandom, \
+        random__long2str, random__str2long
+from pysollib.pysoltk import CURSOR_WATCH
+from pysollib.pysoltk import Card
+from pysollib.pysoltk import EVENT_HANDLED, EVENT_PROPAGATE
+from pysollib.pysoltk import MfxCanvasLine, MfxCanvasRectangle, MfxCanvasText
+from pysollib.pysoltk import MfxExceptionDialog, MfxMessageDialog
+from pysollib.pysoltk import after, after_cancel, after_idle
+from pysollib.pysoltk import bind, wm_map
+from pysollib.settings import DEBUG
 from pysollib.settings import PACKAGE, TITLE, TOOLKIT, TOP_TITLE
 from pysollib.settings import VERSION, VERSION_TUPLE
-from pysollib.settings import DEBUG
-from pysollib.gamedb import GI
-from pysollib.pysolrandom import PysolRandom, LCRandom31, constructRandom, \
-        random__long2str, random__str2long
-from pysollib.pysoltk import EVENT_HANDLED, EVENT_PROPAGATE
-from pysollib.pysoltk import CURSOR_WATCH
-from pysollib.pysoltk import bind, wm_map
-from pysollib.pysoltk import after, after_idle, after_cancel
-from pysollib.pysoltk import MfxMessageDialog, MfxExceptionDialog
-from pysollib.pysoltk import MfxCanvasText, MfxCanvasLine, MfxCanvasRectangle
-from pysollib.pysoltk import Card
+
+import six
+from six import BytesIO
+from six.moves import range
+
 if TOOLKIT == 'tk':
     from pysollib.ui.tktile.solverdialog import reset_solver_dialog
 else:

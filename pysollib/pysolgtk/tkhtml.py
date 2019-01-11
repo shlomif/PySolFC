@@ -21,25 +21,25 @@
 #
 # ---------------------------------------------------------------------------
 
-# imports
+import formatter
+import htmllib
 import os
 import sys
-import six
-import htmllib
-import formatter
 import traceback
-from pysollib.mygettext import _
+
+import gobject
 
 import gtk
-import pango
-import gobject
 from gtk import gdk
 
-# PySol imports
+import pango
+
 from pysollib.mfxutil import Struct, openURL
+from pysollib.mygettext import _
 from pysollib.settings import TITLE
 
-# Toolkit imports
+import six
+
 from tkwidget import MfxMessageDialog
 
 if __name__ == '__main__':

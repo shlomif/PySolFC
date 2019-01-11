@@ -23,23 +23,17 @@
 
 import math
 
-from pysollib.mygettext import _
-from pysollib.mfxutil import kwdefault
 from pysollib.game import Game
 from pysollib.hint import DefaultHint
-
-from pysollib.util import ANY_RANK, ANY_SUIT
-
+from pysollib.mfxutil import kwdefault
+from pysollib.mygettext import _
 from pysollib.stack import \
         AbstractFoundationStack, \
         OpenStack, \
         ReserveStack, \
-        isRankSequence, \
-        cardsFaceUp
-
-# ************************************************************************
-#  *
-#  ***********************************************************************/
+        cardsFaceUp, \
+        isRankSequence
+from pysollib.util import ANY_RANK, ANY_SUIT
 
 
 class AbstractFlowerGame(Game):

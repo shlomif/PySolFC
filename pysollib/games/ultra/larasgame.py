@@ -21,19 +21,10 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-
-# PySol imports
-from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.games.larasgame import LarasGame_Talon, LarasGame, \
-        LarasGame_Reserve
-
-from pysollib.stack import \
-        OpenStack
-
-# ************************************************************************
-# *
-# ************************************************************************
+from pysollib.gamedb import GI, GameInfo, registerGame
+from pysollib.games.larasgame import LarasGame, LarasGame_Reserve
+from pysollib.games.larasgame import LarasGame_Talon
+from pysollib.stack import OpenStack
 
 
 class DojoujisGame_Talon(LarasGame_Talon):

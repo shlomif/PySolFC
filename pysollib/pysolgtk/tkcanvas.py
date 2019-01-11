@@ -39,11 +39,10 @@
 #     around.
 #
 
-
-# imports
-
 import gobject
+
 import gtk
+
 try:
     import gnomecanvas
 except ImportError:

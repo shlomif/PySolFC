@@ -21,19 +21,12 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-
-# PySol imports
-from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.game import Game
 import pysollib.game
-from pysollib.layout import Layout
-from pysollib.hint import CautiousDefaultHint
-
+from pysollib.game import Game
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.games.golf import BlackHole_Foundation
-
-from pysollib.util import ACE, ANY_SUIT, KING, UNLIMITED_CARDS
-
+from pysollib.hint import CautiousDefaultHint
+from pysollib.layout import Layout
 from pysollib.stack import \
         AC_RowStack, \
         RK_FoundationStack, \
@@ -41,10 +34,11 @@ from pysollib.stack import \
         ReserveStack, \
         SS_FoundationStack, \
         Stack, \
+        StackWrapper, \
         UD_RK_RowStack, \
         WasteStack, \
-        WasteTalonStack, \
-        StackWrapper
+        WasteTalonStack
+from pysollib.util import ACE, ANY_SUIT, KING, UNLIMITED_CARDS
 
 # ************************************************************************
 # *

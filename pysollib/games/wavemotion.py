@@ -21,22 +21,17 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-
-# PySol imports
-from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.game import Game
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.layout import Layout
-
-from pysollib.util import ANY_RANK
-
 from pysollib.stack import \
         AC_RowStack, \
         InitialDealTalonStack, \
         OpenStack, \
+        SS_RowStack, \
         isAlternateColorSequence, \
-        isSameSuitSequence, \
-        SS_RowStack
+        isSameSuitSequence
+from pysollib.util import ANY_RANK
 
 # ************************************************************************
 # * Wave Motion

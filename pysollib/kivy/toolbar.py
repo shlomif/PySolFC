@@ -22,10 +22,10 @@
 import os
 
 # PySol imports
-from pysollib.util import IMAGE_EXTENSIONS
-from pysollib.settings import TITLE
-from pysollib.winsystems import TkSettings
 from pysollib.mygettext import _, n_
+from pysollib.settings import TITLE
+from pysollib.util import IMAGE_EXTENSIONS
+from pysollib.winsystems import TkSettings
 
 # ************************************************************************
 # *

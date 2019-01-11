@@ -21,20 +21,10 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-
-# PySol imports
-from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.game import Game
+from pysollib.gamedb import GI, GameInfo, registerGame
+from pysollib.hint import CautiousDefaultHint, DefaultHint
 from pysollib.layout import Layout
-from pysollib.hint import DefaultHint, CautiousDefaultHint
-
-# ************************************************************************
-# *
-# ************************************************************************
-
-from pysollib.util import ACE, ANY_SUIT, JACK, KING, QUEEN
-
 from pysollib.stack import \
         AC_FoundationStack, \
         BasicRowStack, \
@@ -47,6 +37,7 @@ from pysollib.stack import \
         SS_RowStack, \
         WasteStack, \
         WasteTalonStack
+from pysollib.util import ACE, ANY_SUIT, JACK, KING, QUEEN
 
 
 class GrandfathersClock_Hint(CautiousDefaultHint):

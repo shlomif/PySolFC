@@ -24,14 +24,13 @@
 # imports
 import os
 import sys
-import six
-from six.moves import tkinter
-from . import ttk
 
-# PySol imports
 from pysollib.mygettext import _
 
-# Toolkit imports
+import six
+from six.moves import tkinter
+
+from . import ttk
 from .tkwidget import MfxTooltip
 
 if __name__ == '__main__':

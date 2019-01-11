@@ -21,22 +21,13 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-
-# PySol imports
-from pysollib.mygettext import _
-from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.game import Game
-from pysollib.layout import Layout
-from pysollib.hint import AbstractHint, CautiousDefaultHint
-from pysollib.pysoltk import MfxCanvasText
-
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.games.numerica import Numerica_Hint
-
-from pysollib.util import ACE, ANY_RANK, ANY_SUIT, JACK, KING, NO_RANK, \
-        RANKS, QUEEN, \
-        UNLIMITED_CARDS
-
+from pysollib.hint import AbstractHint, CautiousDefaultHint
+from pysollib.layout import Layout
+from pysollib.mygettext import _
+from pysollib.pysoltk import MfxCanvasText
 from pysollib.stack import \
         AbstractFoundationStack, \
         BasicRowStack, \
@@ -45,10 +36,12 @@ from pysollib.stack import \
         ReserveStack, \
         SS_FoundationStack, \
         SS_RowStack, \
+        StackWrapper, \
         WasteStack, \
-        WasteTalonStack, \
-        StackWrapper
-
+        WasteTalonStack
+from pysollib.util import ACE, ANY_RANK, ANY_SUIT, JACK, KING, NO_RANK, \
+        QUEEN, RANKS, \
+        UNLIMITED_CARDS
 # ************************************************************************
 # * Camelot
 # ************************************************************************

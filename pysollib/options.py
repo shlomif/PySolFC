@@ -21,22 +21,19 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-import sys
-import six
 import os
+import sys
 import traceback
 
-# PySol imports
-from pysollib.mfxutil import print_err
-from pysollib.resource import CSI
-from pysollib.configobj import configobj, validate
+
 import pysollib.settings
-
-# Toolkit imports
-from pysollib.pysoltk import TOOLBAR_BUTTONS, TOOLKIT
-
+from pysollib.configobj import configobj, validate
+from pysollib.mfxutil import print_err
 from pysollib.mygettext import _
+from pysollib.pysoltk import TOOLBAR_BUTTONS, TOOLKIT
+from pysollib.resource import CSI
+
+import six
 
 # ************************************************************************
 # * Options

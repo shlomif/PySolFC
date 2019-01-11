@@ -16,8 +16,8 @@ __version__ = "0.3"
 
 __author__ = "Guilherme Polo <ggpolo@gmail.com>"
 
-from six.moves import tkinter
 import six
+from six.moves import tkinter
 
 _flatten = tkinter._flatten
 

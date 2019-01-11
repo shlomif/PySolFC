@@ -21,27 +21,24 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-
-# PySol imports
-from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import ACE, NO_RANK, KING, RANKS, UNLIMITED_REDEALS
+from pysollib.game import Game
+from pysollib.gamedb import GI, GameInfo, registerGame
+from pysollib.hint import CautiousDefaultHint
+from pysollib.layout import Layout
+from pysollib.pysoltk import MfxCanvasText
 from pysollib.stack import \
         AC_RowStack, \
         BasicRowStack, \
         InitialDealTalonStack, \
         ReserveStack, \
         SS_FoundationStack, \
+        StackWrapper, \
         UD_AC_RowStack, \
         UD_RK_RowStack, \
         UD_SS_RowStack, \
         WasteStack, \
-        WasteTalonStack, \
-        StackWrapper
-from pysollib.game import Game
-from pysollib.layout import Layout
-from pysollib.hint import CautiousDefaultHint
-from pysollib.pysoltk import MfxCanvasText
+        WasteTalonStack
+from pysollib.util import ACE, KING, NO_RANK, RANKS, UNLIMITED_REDEALS
 
 
 # ************************************************************************

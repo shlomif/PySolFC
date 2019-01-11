@@ -21,16 +21,17 @@
 #
 # ---------------------------------------------------------------------------
 
+import formatter
 import os
 import sys
-import pysollib.htmllib2 as htmllib
-import formatter
-from six.moves import tkinter
 
-from pysollib.ui.tktile.tkutil import bind, unbind_destroy
+import pysollib.htmllib2 as htmllib
+from pysollib.mfxutil import openURL
 from pysollib.mygettext import _
 from pysollib.settings import TITLE
-from pysollib.mfxutil import openURL
+from pysollib.ui.tktile.tkutil import bind, unbind_destroy
+
+from six.moves import tkinter
 
 REMOTE_PROTOCOLS = ("ftp:", "gopher:", "http:", "mailto:", "news:", "telnet:")
 

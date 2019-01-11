@@ -22,29 +22,27 @@
 # ---------------------------------------------------------------------------
 
 
-# imports
 import os
-from . import ttk
+
+from pysollib.gamedb import GI
+from pysollib.mfxutil import KwStruct, Struct, destruct
+from pysollib.mfxutil import format_time
+from pysollib.mygettext import _
+from pysollib.resource import CSI
+from pysollib.ui.tktile.selecttree import SelectDialogTreeData
+from pysollib.ui.tktile.tkutil import unbind_destroy
+
 from six.moves import UserList
 
-# PySol imports
-from pysollib.mygettext import _
-from pysollib.mfxutil import destruct, Struct, KwStruct
-from pysollib.mfxutil import format_time
-from pysollib.gamedb import GI
-from pysollib.resource import CSI
-
-# Toolkit imports
-from pysollib.ui.tktile.tkutil import unbind_destroy
-from pysollib.ui.tktile.selecttree import SelectDialogTreeData
-from .tkwidget import MfxDialog, MfxScrolledCanvas
-from .selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
+from . import ttk
 from .selecttree import SelectDialogTreeCanvas
-
+from .selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
+from .tkwidget import MfxDialog, MfxScrolledCanvas
 
 # ************************************************************************
 # * Nodes
 # ************************************************************************
+
 
 class SelectGameLeaf(SelectDialogTreeLeaf):
     pass

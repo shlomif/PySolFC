@@ -21,14 +21,14 @@
 #
 # ---------------------------------------------------------------------------
 
-
-# imports
 import string
 
 import gobject
+
 import gtk
-import pango
 from gtk import gdk
+
+import pango
 
 
 # ************************************************************************

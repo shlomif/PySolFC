@@ -21,19 +21,13 @@
 #
 # ---------------------------------------------------------------------------
 
-# imports
+
+from pysollib.mfxutil import KwStruct
+from pysollib.mygettext import _
+
 from six.moves import tkinter
 
-# PySol imports
-from pysollib.mygettext import _
-from pysollib.mfxutil import KwStruct
-
-# Toolkit imports
 from .tkwidget import MfxDialog
-
-# ************************************************************************
-# *
-# ************************************************************************
 
 
 class TimeoutsDialog(MfxDialog):

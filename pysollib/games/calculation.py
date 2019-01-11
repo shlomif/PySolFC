@@ -1,26 +1,19 @@
-from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.game import Game
-from pysollib.layout import Layout
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.hint import DefaultHint
-from pysollib.pysoltk import MfxCanvasText, get_text_width
+from pysollib.layout import Layout
 from pysollib.mygettext import _
-
-from pysollib.util import ANY_SUIT, KING, \
-        RANKS
-
+from pysollib.pysoltk import MfxCanvasText, get_text_width
 from pysollib.stack import \
         BasicRowStack, \
         DealRowTalonStack, \
         InitialDealTalonStack, \
         RK_FoundationStack, \
         Stack, \
+        StackWrapper, \
         WasteStack, \
-        WasteTalonStack, \
-        StackWrapper
-
-# ************************************************************************
-# *
-# ************************************************************************
+        WasteTalonStack
+from pysollib.util import ANY_SUIT, KING, RANKS
 
 
 class Calculation_Hint(DefaultHint):

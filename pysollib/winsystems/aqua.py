@@ -21,11 +21,12 @@
 #
 # ---------------------------------------------------------------------------##
 
+from pysollib.macosx.appSupport import hideTkConsole
+from pysollib.settings import TOOLKIT, USE_TILE
+from pysollib.winsystems.common import BaseTkSettings, base_init_root_window
+
 from six.moves import tkinter
 
-from pysollib.settings import TOOLKIT, USE_TILE
-from pysollib.macosx.appSupport import hideTkConsole
-from pysollib.winsystems.common import base_init_root_window, BaseTkSettings
 if USE_TILE:
     from pysollib.tile import ttk
 

@@ -21,19 +21,12 @@
 #
 # ---------------------------------------------------------------------------
 
-
-# imports
-
 import gtk
 
-# PySol imports
+from pysollib.mfxutil import KwStruct, kwdefault, openURL
 from pysollib.mygettext import _
 
-# Toolkit imports
 from tkutil import setTransient
-
-from pysollib.mfxutil import kwdefault, KwStruct, openURL
-
 
 gdk = gtk.gdk
 # ************************************************************************

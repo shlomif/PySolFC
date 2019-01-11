@@ -21,33 +21,27 @@
 #
 # ---------------------------------------------------------------------------##
 
-# Imports
-
-# PySol imports
-from pysollib.mygettext import _
-from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.mfxutil import kwdefault
 from pysollib.game import Game
-from pysollib.layout import Layout
-from pysollib.hint import CautiousDefaultHint
-from pysollib.pysoltk import MfxCanvasText
-
-from pysollib.games.braid import Braid_Foundation, Braid_BraidStack, \
-     Braid_RowStack, Braid_ReserveStack, Braid
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.games.bakersdozen import Cruel_Talon
-
-from pysollib.util import ANY_RANK, NO_RANK, UNLIMITED_ACCEPTS, UNLIMITED_MOVES
-
+from pysollib.games.braid import Braid, Braid_ReserveStack, Braid_RowStack
+from pysollib.games.braid import Braid_BraidStack, Braid_Foundation
+from pysollib.hint import CautiousDefaultHint
+from pysollib.layout import Layout
+from pysollib.mfxutil import kwdefault
+from pysollib.mygettext import _
+from pysollib.pysoltk import MfxCanvasText
 from pysollib.stack import \
         InitialDealTalonStack, \
         OpenStack, \
         RK_RowStack, \
         ReserveStack, \
         SS_FoundationStack, \
+        SS_RowStack, \
         StackWrapper, \
         WasteStack, \
-        WasteTalonStack, \
-        SS_RowStack
+        WasteTalonStack
+from pysollib.util import ANY_RANK, NO_RANK, UNLIMITED_ACCEPTS, UNLIMITED_MOVES
 
 # ************************************************************************
 # * Tarock Talon Stacks

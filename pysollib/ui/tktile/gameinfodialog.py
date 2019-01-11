@@ -21,15 +21,9 @@
 #
 # ---------------------------------------------------------------------------
 
-
-# PySol imports
-from pysollib.mygettext import _
-from pysollib.mfxutil import KwStruct
 from pysollib.gamedb import GI
-
-# ************************************************************************
-# *
-# ************************************************************************
+from pysollib.mfxutil import KwStruct
+from pysollib.mygettext import _
 
 
 class BaseGameInfoDialog:

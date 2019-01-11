@@ -1,10 +1,12 @@
 # Written by Shlomi Fish, under the MIT Expat License.
 
 import unittest
-from pysollib.acard import AbstractCard
-import pysollib.stack
-from pysollib.games.spider import Scorpion_RowStack
+
 from pysol_tests.common_mocks1 import MockApp, MockCanvas, MockItem, MockTalon
+
+import pysollib.stack
+from pysollib.acard import AbstractCard
+from pysollib.games.spider import Scorpion_RowStack
 
 
 class MockGame:

@@ -21,27 +21,21 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-
-# PySol imports
-from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.game import Game
-from pysollib.layout import Layout
-
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.games.fortythieves import FortyThieves_Hint
 from pysollib.games.spider import Spider_Hint
-
-from pysollib.util import ACE, KING
-
+from pysollib.layout import Layout
 from pysollib.stack import \
         RK_RowStack, \
         SS_FoundationStack, \
         SS_RowStack, \
         Spider_SS_RowStack, \
+        StackWrapper, \
         UD_SS_RowStack, \
         WasteStack, \
-        WasteTalonStack, \
-        StackWrapper
+        WasteTalonStack
+from pysollib.util import ACE, KING
 
 # ************************************************************************
 # * Diplomat

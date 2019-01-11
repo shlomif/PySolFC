@@ -21,18 +21,14 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
 import os
+
+from pysollib.ui.tktile.tkutil import bind
+
 from six.moves import tkinter
 
-# Toolkit imports
-from pysollib.ui.tktile.tkutil import bind
 from .tkwidget import MfxScrolledCanvas
 
-
-# ************************************************************************
-# *
-# ************************************************************************
 
 class MfxTreeBaseNode:
     def __init__(self, tree, parent_node, text, key):

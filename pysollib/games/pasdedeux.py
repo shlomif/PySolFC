@@ -21,23 +21,15 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-
-# PySol imports
-from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.game import Game
-from pysollib.layout import Layout
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.hint import AbstractHint
-
+from pysollib.layout import Layout
 from pysollib.stack import \
         InvisibleStack, \
         ReserveStack, \
         WasteStack, \
         WasteTalonStack
-
-# ************************************************************************
-# *
-# ************************************************************************
 
 
 class PasDeDeux_Hint(AbstractHint):

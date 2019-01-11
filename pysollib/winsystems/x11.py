@@ -26,8 +26,11 @@ import traceback
 
 from pysollib.settings import TITLE
 from pysollib.settings import TOOLKIT, USE_TILE
-from pysollib.winsystems.common import base_init_root_window, \
-        BaseTkSettings, get_font_name
+from pysollib.winsystems.common import \
+        BaseTkSettings, \
+        base_init_root_window, \
+        get_font_name
+
 if TOOLKIT == 'tk':
     if USE_TILE:
         from pysollib.tile import ttk

@@ -22,6 +22,7 @@
 # ---------------------------------------------------------------------------#
 
 import logging
+
 from kivy.cache import Cache
 
 TclError = 0

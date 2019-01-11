@@ -26,11 +26,11 @@
 
 # PySol imports
 from pysollib.mygettext import _
-from pysollib.settings import TITLE, PACKAGE_URL, TOOLKIT, VERSION
-from pysollib.pysoltk import make_help_toplevel
+from pysollib.pysoltk import HTMLViewer
 from pysollib.pysoltk import MfxMessageDialog
 from pysollib.pysoltk import PysolAboutDialog
-from pysollib.pysoltk import HTMLViewer
+from pysollib.pysoltk import make_help_toplevel
+from pysollib.settings import PACKAGE_URL, TITLE, TOOLKIT, VERSION
 
 
 # ************************************************************************

@@ -21,41 +21,34 @@
 #
 # ---------------------------------------------------------------------------##
 
-
-# imports
-import os
 import locale
+import os
 
-# PySol imports
+from pysollib.gamedb import GI
+from pysollib.help import help_about, help_html
 from pysollib.mfxutil import Struct, openURL
 from pysollib.mfxutil import print_err
-from pysollib.pysolrandom import constructRandom
-from pysollib.settings import TITLE, PACKAGE_URL
-from pysollib.settings import TOP_TITLE
-from pysollib.settings import DEBUG
-from pysollib.gamedb import GI
-
-# stats imports
-from pysollib.stats import FileStatsFormatter
-from pysollib.pysoltk import SingleGame_StatsDialog, AllGames_StatsDialog
-from pysollib.pysoltk import FullLog_StatsDialog, SessionLog_StatsDialog
-from pysollib.pysoltk import Status_StatsDialog, Top_StatsDialog
-from pysollib.pysoltk import ProgressionDialog
-from pysollib.pysoltk import GameInfoDialog
-
-# toolkit imports
 from pysollib.mygettext import _
-from pysollib.pysoltk import MfxMessageDialog, MfxSimpleEntry
-from pysollib.pysoltk import MfxExceptionDialog
-from pysollib.pysoltk import PlayerOptionsDialog
-from pysollib.pysoltk import TimeoutsDialog
+from pysollib.pysolrandom import constructRandom
+from pysollib.pysoltk import AllGames_StatsDialog, SingleGame_StatsDialog
 from pysollib.pysoltk import ColorsDialog
-from pysollib.pysoltk import FontsDialog
 from pysollib.pysoltk import EditTextDialog
+from pysollib.pysoltk import FontsDialog
+from pysollib.pysoltk import FullLog_StatsDialog, SessionLog_StatsDialog
+from pysollib.pysoltk import GameInfoDialog
+from pysollib.pysoltk import MfxExceptionDialog
+from pysollib.pysoltk import MfxMessageDialog, MfxSimpleEntry
+from pysollib.pysoltk import PlayerOptionsDialog
+from pysollib.pysoltk import ProgressionDialog
+from pysollib.pysoltk import PysolMenubarTk, PysolToolbarTk
+from pysollib.pysoltk import Status_StatsDialog, Top_StatsDialog
+from pysollib.pysoltk import TimeoutsDialog
 from pysollib.pysoltk import create_find_card_dialog
 from pysollib.pysoltk import create_solver_dialog
-from pysollib.pysoltk import PysolMenubarTk, PysolToolbarTk
-from pysollib.help import help_about, help_html
+from pysollib.settings import DEBUG
+from pysollib.settings import PACKAGE_URL, TITLE
+from pysollib.settings import TOP_TITLE
+from pysollib.stats import FileStatsFormatter
 
 
 # ************************************************************************

@@ -21,19 +21,18 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
+import locale
+import os
 import re
 import sys
-import six
-import os
 import time
-import locale
 import webbrowser
-from six import print_
-
 from pickle import Pickler, Unpickler
 
 from pysollib.settings import PACKAGE, TOOLKIT
+
+import six
+from six import print_
 
 Image = ImageTk = ImageOps = None
 if TOOLKIT == 'tk':

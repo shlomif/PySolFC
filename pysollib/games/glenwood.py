@@ -21,19 +21,12 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-
-# PySol imports
-from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.game import Game
-from pysollib.layout import Layout
-from pysollib.hint import CautiousDefaultHint
-from pysollib.pysoltk import MfxCanvasText
-
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.games.canfield import Canfield_Hint
-
-from pysollib.util import ANY_RANK, RANKS
-
+from pysollib.hint import CautiousDefaultHint
+from pysollib.layout import Layout
+from pysollib.pysoltk import MfxCanvasText
 from pysollib.stack import \
         AC_RowStack, \
         AbstractFoundationStack, \
@@ -42,6 +35,7 @@ from pysollib.stack import \
         SS_RowStack, \
         WasteStack, \
         WasteTalonStack
+from pysollib.util import ANY_RANK, RANKS
 
 # ************************************************************************
 # * Glenwood

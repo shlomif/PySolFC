@@ -3,22 +3,21 @@ import os
 import re
 import sys
 
+from pysollib.gamedb import GI
+from pysollib.hint import PySolHintLayoutImportError
+from pysollib.mfxutil import Image, USE_PIL
+from pysollib.mfxutil import Struct, kwdefault
+from pysollib.mygettext import _, n_
+from pysollib.settings import SELECT_GAME_MENU
+from pysollib.settings import TITLE, WIN_SYSTEM
+from pysollib.settings import USE_FREECELL_SOLVER
+from pysollib.ui.tktile.tkconst import COMPOUNDS, CURSOR_WATCH, EVENT_HANDLED
+from pysollib.ui.tktile.tkconst import EVENT_PROPAGATE
+from pysollib.ui.tktile.tkconst import TOOLBAR_BUTTONS
+from pysollib.ui.tktile.tkutil import after_idle, bind
+
 from six.moves import tkinter
 from six.moves import tkinter_tkfiledialog
-
-from pysollib.mfxutil import Struct, kwdefault
-from pysollib.mfxutil import Image, USE_PIL
-from pysollib.mygettext import _, n_
-from pysollib.settings import TITLE, WIN_SYSTEM
-from pysollib.settings import SELECT_GAME_MENU
-from pysollib.gamedb import GI
-from pysollib.settings import USE_FREECELL_SOLVER
-from pysollib.hint import PySolHintLayoutImportError
-
-from pysollib.ui.tktile.tkconst import EVENT_HANDLED, EVENT_PROPAGATE, \
-        CURSOR_WATCH, COMPOUNDS
-from pysollib.ui.tktile.tkconst import TOOLBAR_BUTTONS
-from pysollib.ui.tktile.tkutil import bind, after_idle
 
 
 def createToolbarMenu(menubar, menu):

@@ -21,21 +21,13 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-from six.moves import tkinter
-from six.moves import tkinter_font
-
-# PySol imports
-from pysollib.mygettext import _
 from pysollib.mfxutil import KwStruct
-
-# Toolkit imports
+from pysollib.mygettext import _
 from pysollib.tk.tkwidget import MfxDialog
 from pysollib.ui.tktile.tkutil import bind
 
-# ************************************************************************
-# *
-# ************************************************************************
+from six.moves import tkinter
+from six.moves import tkinter_font
 
 
 class FontChooserDialog(MfxDialog):

@@ -1,8 +1,8 @@
-from six.moves import tkinter
-
 from pysollib.mygettext import _
-from pysollib.ui.tktile.tkconst import EVENT_HANDLED
 from pysollib.settings import TITLE
+from pysollib.ui.tktile.tkconst import EVENT_HANDLED
+
+from six.moves import tkinter
 
 
 class BaseSolverDialog:
@@ -162,7 +162,7 @@ class BaseSolverDialog:
         self.play_button.config(state='disabled')
 
     def startSolving(self):
-        from gettext import ungettext
+        from pysollib.mygettext import ungettext
 
         self._reset()
         game = self.app.game

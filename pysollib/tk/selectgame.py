@@ -21,26 +21,23 @@
 #
 # ---------------------------------------------------------------------------
 
-
-# imports
 import os
-from six.moves import tkinter
-from six.moves import UserList
 
-# PySol imports
-from pysollib.mygettext import _
-from pysollib.mfxutil import destruct, Struct, KwStruct
-from pysollib.mfxutil import format_time
 from pysollib.gamedb import GI
 from pysollib.help import help_html
+from pysollib.mfxutil import KwStruct, Struct, destruct
+from pysollib.mfxutil import format_time
+from pysollib.mygettext import _
 from pysollib.resource import CSI
-
-# Toolkit imports
-from pysollib.ui.tktile.tkutil import unbind_destroy
-from .tkwidget import MfxDialog, MfxScrolledCanvas
-from .selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
-from .selecttree import SelectDialogTreeCanvas
 from pysollib.ui.tktile.selecttree import SelectDialogTreeData
+from pysollib.ui.tktile.tkutil import unbind_destroy
+
+from six.moves import UserList
+from six.moves import tkinter
+
+from .selecttree import SelectDialogTreeCanvas
+from .selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
+from .tkwidget import MfxDialog, MfxScrolledCanvas
 
 
 # ************************************************************************

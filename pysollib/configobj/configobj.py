@@ -17,13 +17,14 @@
 # Comments, suggestions and bug reports welcome.
 
 
-import sys
 import os
 import re
-import six
-
-from six import string_types
+import sys
 from warnings import warn
+
+import six
+from six import string_types
+
 INTP_VER = sys.version_info[:2]
 if INTP_VER < (2, 2):
     raise RuntimeError("Python v.2.2 or later needed")

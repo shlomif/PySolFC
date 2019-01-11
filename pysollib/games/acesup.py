@@ -20,30 +20,25 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 # ---------------------------------------------------------------------------
-
-# imports
-
-# PySol imports
-from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import ACE, ANY_RANK, ANY_SUIT, NO_RANK, \
-        UNLIMITED_ACCEPTS, \
-        UNLIMITED_MOVES
+from pysollib.game import Game
+from pysollib.gamedb import GI, GameInfo, registerGame
+from pysollib.games.montecarlo import MonteCarlo_RowStack
+from pysollib.layout import Layout
 from pysollib.stack import \
         AbstractFoundationStack, \
         BasicRowStack, \
         DealRowTalonStack, \
-        isRankSequence, \
         OpenStack, \
-        ReserveStack, \
         RK_RowStack, \
-        TalonStack, \
+        ReserveStack, \
         Spider_RK_Foundation, \
         Stack, \
-        StackWrapper
-from pysollib.game import Game
-from pysollib.layout import Layout
-
-from pysollib.games.montecarlo import MonteCarlo_RowStack
+        StackWrapper, \
+        TalonStack, \
+        isRankSequence
+from pysollib.util import ACE, ANY_RANK, ANY_SUIT, NO_RANK, \
+        UNLIMITED_ACCEPTS, \
+        UNLIMITED_MOVES
 
 
 # ************************************************************************

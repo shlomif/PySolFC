@@ -21,18 +21,17 @@
 #
 # ---------------------------------------------------------------------------
 
-# imports
-from six.moves import tkinter
-from . import ttk
-
-# Toolkit imports
 from pysollib.ui.tktile.tkconst import EVENT_HANDLED
 from pysollib.ui.tktile.tkutil import makeToplevel, setTransient
 
+from six.moves import tkinter
+
+from . import ttk
 
 # ************************************************************************
 # * a simple progress bar
 # ************************************************************************
+
 
 class PysolProgressBar:
     def __init__(self, app, parent, title=None, images=None, color="blue",

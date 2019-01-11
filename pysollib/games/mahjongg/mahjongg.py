@@ -21,29 +21,26 @@
 #
 # ---------------------------------------------------------------------------
 
-# Imports
-from six.moves import range
 import re
 import time
-from gettext import ungettext
 
-# PySol imports
-from pysollib.mygettext import _
-from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.mfxutil import kwdefault, Struct, Image
 from pysollib.game import Game
-from pysollib.layout import Layout
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.hint import AbstractHint
-from pysollib.settings import TOOLKIT, DEBUG
-from pysollib.pysoltk import MfxCanvasText, MfxCanvasImage
-from pysollib.pysoltk import bind, EVENT_HANDLED, ANCHOR_NW
+from pysollib.layout import Layout
+from pysollib.mfxutil import Image, Struct, kwdefault
+from pysollib.mygettext import _
+from pysollib.mygettext import ungettext
+from pysollib.pysoltk import ANCHOR_NW, EVENT_HANDLED, bind
+from pysollib.pysoltk import MfxCanvasImage, MfxCanvasText
 from pysollib.pysoltk import MfxMessageDialog
-
-from pysollib.util import ANY_SUIT, NO_RANK
-
+from pysollib.settings import DEBUG, TOOLKIT
 from pysollib.stack import \
         InitialDealTalonStack, \
         OpenStack
+from pysollib.util import ANY_SUIT, NO_RANK
+
+from six.moves import range
 
 
 def factorial(x):

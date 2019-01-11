@@ -21,15 +21,8 @@
 #
 # ---------------------------------------------------------------------------#
 
-
-# imports
-# import os
-
-# PySol imports
-from pysollib.mygettext import _
 from pysollib.mfxutil import kwdefault
-
-# Toolkit imports
+from pysollib.mygettext import _
 from pysollib.pysoltk import MfxDialog
 
 # ************************************************************************

@@ -21,17 +21,11 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-
-# PySol imports
-from pysollib.mygettext import _
-from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.game import Game
-from pysollib.layout import Layout
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.hint import CautiousDefaultHint
-
-from pysollib.util import ACE, JACK, KING, QUEEN
-
+from pysollib.layout import Layout
+from pysollib.mygettext import _
 from pysollib.stack import \
         AC_RowStack, \
         BasicRowStack, \
@@ -39,9 +33,10 @@ from pysollib.stack import \
         DealRowTalonStack, \
         OpenStack, \
         ReserveStack, \
+        SS_FoundationStack, \
         SS_RowStack, \
-        Stack, \
-        SS_FoundationStack
+        Stack
+from pysollib.util import ACE, JACK, KING, QUEEN
 
 # ************************************************************************
 # * Tournament

@@ -21,23 +21,18 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-
-# PySol imports
-from pysollib.mygettext import _
-from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.game import Game
-from pysollib.layout import Layout
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.hint import CautiousDefaultHint
+from pysollib.layout import Layout
+from pysollib.mygettext import _
 from pysollib.pysoltk import MfxCanvasText
-
-from pysollib.util import KING, QUEEN, VARIABLE_REDEALS
-
 from pysollib.stack import \
+        SS_RowStack, \
         Stack, \
         WasteStack, \
-        WasteTalonStack, \
-        SS_RowStack
+        WasteTalonStack
+from pysollib.util import KING, QUEEN, VARIABLE_REDEALS
 
 # ************************************************************************
 # * Talon

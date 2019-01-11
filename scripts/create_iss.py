@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
 import os
-import pysollib.settings
 import sys
+
+import pysollib.settings
 
 if sys.version_info > (3,):
     def execfile(fn):

@@ -24,12 +24,12 @@
 import os
 import traceback
 
-from pysollib.mygettext import _
-from pysollib.settings import TITLE
-from pysollib.settings import VERSION
-from pysollib.settings import TOOLKIT, USE_TILE
-from pysollib.settings import DEBUG
 from pysollib.mfxutil import print_err
+from pysollib.mygettext import _
+from pysollib.settings import DEBUG
+from pysollib.settings import TITLE
+from pysollib.settings import TOOLKIT, USE_TILE
+from pysollib.settings import VERSION
 
 if TOOLKIT == 'tk':
     if USE_TILE:

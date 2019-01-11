@@ -21,18 +21,11 @@
 #
 # ---------------------------------------------------------------------------
 
-# imports
-
-# PySol imports
-from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.game import Game
-from pysollib.layout import Layout
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.hint import DefaultHint
+from pysollib.layout import Layout
 from pysollib.pysoltk import MfxCanvasText
-
-from pysollib.util import ANY_RANK, ANY_SUIT, JACK, KING, NO_RANK, QUEEN, \
-        UNLIMITED_CARDS, UNLIMITED_REDEALS
-
 from pysollib.stack import \
         AbstractFoundationStack, \
         BasicRowStack, \
@@ -41,13 +34,15 @@ from pysollib.stack import \
         FaceUpWasteTalonStack, \
         InitialDealTalonStack, \
         OpenStack, \
+        ReserveStack, \
         Stack, \
         StackWrapper, \
         TalonStack, \
         WasteStack, \
         WasteTalonStack, \
-        getNumberOfFreeStacks, \
-        ReserveStack
+        getNumberOfFreeStacks
+from pysollib.util import ANY_RANK, ANY_SUIT, JACK, KING, NO_RANK, QUEEN, \
+        UNLIMITED_CARDS, UNLIMITED_REDEALS
 
 
 # ************************************************************************

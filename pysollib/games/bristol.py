@@ -21,32 +21,25 @@
 #
 # ---------------------------------------------------------------------------
 
-# imports
-
-# PySol imports
-from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import ACE, ANY_RANK, NO_RANK, KING, RANKS, UNLIMITED_CARDS
+from pysollib.game import Game
+from pysollib.gamedb import GI, GameInfo, registerGame
+from pysollib.hint import CautiousDefaultHint
+from pysollib.layout import Layout
+from pysollib.pysoltk import MfxCanvasText
 from pysollib.stack import \
         AC_RowStack, \
         KingAC_RowStack, \
         OpenStack, \
         OpenTalonStack, \
-        ReserveStack, \
         RK_FoundationStack, \
         RK_RowStack, \
+        ReserveStack, \
         SS_FoundationStack, \
         SS_RowStack, \
+        StackWrapper, \
         TalonStack, \
-        WasteStack, \
-        StackWrapper
-from pysollib.game import Game
-from pysollib.layout import Layout
-from pysollib.hint import CautiousDefaultHint
-from pysollib.pysoltk import MfxCanvasText
-
-# ************************************************************************
-# *
-# ************************************************************************
+        WasteStack
+from pysollib.util import ACE, ANY_RANK, KING, NO_RANK, RANKS, UNLIMITED_CARDS
 
 
 class Bristol_Hint(CautiousDefaultHint):

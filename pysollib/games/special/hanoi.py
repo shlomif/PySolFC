@@ -21,18 +21,14 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-
-# PySol imports
-from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.game import Game
-from pysollib.layout import Layout
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.hint import CautiousDefaultHint
-
+from pysollib.layout import Layout
 from pysollib.stack import \
+        BasicRowStack, \
         InitialDealTalonStack, \
-        isRankSequence, \
-        BasicRowStack
+        isRankSequence
 
 # ************************************************************************
 # * Tower of Hanoy

@@ -24,17 +24,18 @@
 
 # imports
 import os
-import time
-import subprocess
 import re
-import six
+import subprocess
+import time
 from io import BytesIO
 
 # PySol imports
-from pysollib.settings import DEBUG, FCS_COMMAND
-from pysollib.pysolrandom import constructRandom
 from pysollib.mfxutil import destruct
+from pysollib.pysolrandom import constructRandom
+from pysollib.settings import DEBUG, FCS_COMMAND
 from pysollib.util import KING
+
+import six
 
 FCS_VERSION = None
 

@@ -21,13 +21,15 @@
 #
 # ---------------------------------------------------------------------------
 
-# imports
 import math
 
-# PySol imports
+from pysollib.game import Game
+from pysollib.gamedb import GI, GameInfo, registerGame
+from pysollib.hint import CautiousDefaultHint, DefaultHint
+from pysollib.layout import Layout
+from pysollib.mfxutil import kwdefault
 from pysollib.mygettext import _
-from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import ACE, NO_RANK, KING, RANKS, UNLIMITED_CARDS
+from pysollib.pysoltk import MfxCanvasText
 from pysollib.stack import \
         AbstractFoundationStack, \
         BasicRowStack, \
@@ -36,19 +38,11 @@ from pysollib.stack import \
         ReserveStack, \
         SS_FoundationStack, \
         SS_RowStack, \
-        WasteStack, \
-        WasteTalonStack, \
         Stack, \
-        StackWrapper
-from pysollib.mfxutil import kwdefault
-from pysollib.game import Game
-from pysollib.layout import Layout
-from pysollib.hint import DefaultHint, CautiousDefaultHint
-from pysollib.pysoltk import MfxCanvasText
-
-# ************************************************************************
-# *
-# ************************************************************************
+        StackWrapper, \
+        WasteStack, \
+        WasteTalonStack
+from pysollib.util import ACE, KING, NO_RANK, RANKS, UNLIMITED_CARDS
 
 
 class Braid_Hint(DefaultHint):

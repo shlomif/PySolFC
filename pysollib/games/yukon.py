@@ -21,13 +21,14 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-
-# PySol imports
-from pysollib.mygettext import _
-from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.util import ANY_SUIT, KING
+from pysollib.game import Game
+from pysollib.gamedb import GI, GameInfo, registerGame
+from pysollib.games.spider import Spider_SS_Foundation
+from pysollib.hint import Yukon_Hint
+from pysollib.layout import Layout
 from pysollib.mfxutil import kwdefault
+from pysollib.mygettext import _
+from pysollib.pysoltk import MfxCanvasText
 from pysollib.stack import \
     DealRowTalonStack, \
     InitialDealTalonStack, \
@@ -36,17 +37,11 @@ from pysollib.stack import \
     ReserveStack, \
     SS_FoundationStack, \
     StackWrapper, \
-    Yukon_AC_RowStack, \
-    Yukon_SS_RowStack, \
     WasteStack, \
-    WasteTalonStack
-
-from pysollib.game import Game
-from pysollib.layout import Layout
-from pysollib.hint import Yukon_Hint
-from pysollib.pysoltk import MfxCanvasText
-
-from pysollib.games.spider import Spider_SS_Foundation
+    WasteTalonStack, \
+    Yukon_AC_RowStack, \
+    Yukon_SS_RowStack
+from pysollib.util import ANY_SUIT, KING
 
 
 # ************************************************************************

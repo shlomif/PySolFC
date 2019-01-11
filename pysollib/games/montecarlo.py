@@ -21,16 +21,10 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-
-# PySol imports
-from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.game import Game
-from pysollib.layout import Layout
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.hint import DefaultHint
-
-from pysollib.util import ANY_RANK, ANY_SUIT, KING, NO_RANK, UNLIMITED_REDEALS
-
+from pysollib.layout import Layout
 from pysollib.stack import \
         AbstractFoundationStack, \
         BasicRowStack, \
@@ -38,9 +32,10 @@ from pysollib.stack import \
         InitialDealTalonStack, \
         OpenStack, \
         ReserveStack, \
+        SS_FoundationStack, \
         StackWrapper, \
-        TalonStack, \
-        SS_FoundationStack
+        TalonStack
+from pysollib.util import ANY_RANK, ANY_SUIT, KING, NO_RANK, UNLIMITED_REDEALS
 
 # ************************************************************************
 # *

@@ -21,12 +21,12 @@
 #
 # ---------------------------------------------------------------------------##
 
-# imports
-
-# PySol imports
-from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.game import Game
-from pysollib.util import KING
+from pysollib.gamedb import GI, GameInfo, registerGame
+from pysollib.games.freecell import FreeCell
+from pysollib.hint import DefaultHint
+from pysollib.hint import FreeCellSolverWrapper, FreeCellType_Hint
+from pysollib.layout import Layout
 from pysollib.stack import \
         AC_RowStack, \
         FreeCell_SS_RowStack, \
@@ -36,13 +36,9 @@ from pysollib.stack import \
         ReserveStack, \
         SS_FoundationStack, \
         SS_RowStack, \
-        SuperMoveSS_RowStack, \
-        StackWrapper
-from pysollib.layout import Layout
-from pysollib.hint import DefaultHint
-from pysollib.hint import FreeCellType_Hint, FreeCellSolverWrapper
-
-from pysollib.games.freecell import FreeCell
+        StackWrapper, \
+        SuperMoveSS_RowStack
+from pysollib.util import KING
 
 # ************************************************************************
 # * Baker's Game

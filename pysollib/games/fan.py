@@ -21,19 +21,13 @@
 #
 # ---------------------------------------------------------------------------
 
-# imports
-
-# PySol imports
-from pysollib.mygettext import _
-from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.game import Game
-from pysollib.layout import Layout
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.hint import CautiousDefaultHint
 from pysollib.hint import FreeCellSolverWrapper
+from pysollib.layout import Layout
+from pysollib.mygettext import _
 from pysollib.pysoltk import MfxCanvasText
-
-from pysollib.util import ACE, KING, NO_RANK, UNLIMITED_CARDS
-
 from pysollib.stack import \
         AC_FoundationStack, \
         AC_RowStack, \
@@ -50,16 +44,13 @@ from pysollib.stack import \
         SS_FoundationStack, \
         SS_RowStack, \
         Stack, \
+        StackWrapper, \
         SuperMoveSS_RowStack, \
         TalonStack, \
         UD_RK_RowStack, \
-        UD_SS_RowStack, \
-        StackWrapper
+        UD_SS_RowStack
+from pysollib.util import ACE, KING, NO_RANK, UNLIMITED_CARDS
 
-
-# ************************************************************************
-# *
-# ************************************************************************
 
 class Fan_Hint(CautiousDefaultHint):
     # FIXME: demo is not too clever in this game

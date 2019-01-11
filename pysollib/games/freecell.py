@@ -21,20 +21,13 @@
 #
 # ---------------------------------------------------------------------------
 
-# imports
-
-# PySol imports
-from pysollib.gamedb import registerGame, GameInfo, GI
-from pysollib.mfxutil import kwdefault
 from pysollib.game import Game
-from pysollib.layout import Layout
-from pysollib.hint import DefaultHint
-from pysollib.hint import FreeCellType_Hint, FreeCellSolverWrapper
-
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.games.spider import Spider_AC_Foundation
-
-from pysollib.util import ACE, ANY_SUIT, KING, NO_RANK, UNLIMITED_CARDS
-
+from pysollib.hint import DefaultHint
+from pysollib.hint import FreeCellSolverWrapper, FreeCellType_Hint
+from pysollib.layout import Layout
+from pysollib.mfxutil import kwdefault
 from pysollib.stack import \
         AC_FoundationStack, \
         AC_RowStack, \
@@ -48,10 +41,11 @@ from pysollib.stack import \
         ReserveStack, \
         SS_FoundationStack, \
         Stack, \
+        StackWrapper, \
         SuperMoveAC_RowStack, \
         SuperMoveRK_RowStack, \
-        isAlternateColorSequence, \
-        StackWrapper
+        isAlternateColorSequence
+from pysollib.util import ACE, ANY_SUIT, KING, NO_RANK, UNLIMITED_CARDS
 
 # ************************************************************************
 # * FreeCell

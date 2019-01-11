@@ -24,28 +24,27 @@
 # import os
 # import time
 
-# PySol imports
-# from pysollib.mygettext import _, n_
-from pysollib.mygettext import _
-# from pysollib.mfxutil import kwdefault, KwStruct
-from pysollib.mfxutil import KwStruct
-# from pysollib.mfxutil import format_time
-# from pysollib.util import *
-# from pysollib.stats import PysolStatsFormatter, ProgressionFormatter
-from pysollib.settings import TOP_TITLE
-from pysollib.kivy.LApp import LImage
-
-# Toolkit imports
-# from tkutil import bind, unbind_destroy, loadImage
-from pysollib.pysoltk import MfxDialog, MfxMessageDialog
-# from pysollib.pysoltk import MfxScrolledCanvas
-
 # Kivy
 # from LApp import *
-from kivy.uix.label import Label
-from kivy.uix.widget import Widget
 from kivy.graphics import Color
 from kivy.graphics import Line
+from kivy.uix.label import Label
+from kivy.uix.widget import Widget
+
+# PySol imports
+# Toolkit imports
+# from pysollib.mfxutil import format_time
+# from pysollib.mfxutil import kwdefault, KwStruct
+# from pysollib.mygettext import _, n_
+# from pysollib.pysoltk import MfxScrolledCanvas
+# from pysollib.stats import PysolStatsFormatter, ProgressionFormatter
+# from pysollib.util import *
+# from tkutil import bind, unbind_destroy, loadImage
+from pysollib.kivy.LApp import LImage
+from pysollib.mfxutil import KwStruct
+from pysollib.mygettext import _
+from pysollib.pysoltk import MfxDialog, MfxMessageDialog
+from pysollib.settings import TOP_TITLE
 
 # FIXME - this file a quick hack and needs a rewrite
 

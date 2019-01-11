@@ -22,24 +22,21 @@
 # ---------------------------------------------------------------------------##
 
 
-# imports
-
-#  import os, string, sys, types
 import gobject
+
 import gtk
 from gtk import gdk
 
-# PySol imports
-#  from pysollib.mfxutil import destruct, Struct, KwStruct
-from pysollib.mygettext import _
 from pysollib.mfxutil import kwdefault
+from pysollib.mygettext import _
 
-# Toolkit imports
-#  from tkutil import loadImage
-from tkwidget import MfxDialog
-from tkcanvas import MfxCanvas
-from tkutil import setTransient
 from pysoltree import PysolTreeView
+
+from tkcanvas import MfxCanvas
+
+from tkutil import setTransient
+
+from tkwidget import MfxDialog
 
 
 class SelectTileDialogWithPreview(MfxDialog):

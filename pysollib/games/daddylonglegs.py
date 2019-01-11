@@ -1,21 +1,15 @@
 # vim:ts=4:et:nowrap:fileencoding=utf-8
 #
 
-# imports
-
-# PySol imports
-from pysollib.gamedb import registerGame, GameInfo, GI
 from pysollib.game import Game
+from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.layout import Layout
-
-
-from pysollib.util import ACE
-
 from pysollib.stack import \
         DealRowTalonStack, \
+        StackWrapper, \
         Yukon_SS_RowStack, \
-        isSameSuitSequence, \
-        StackWrapper
+        isSameSuitSequence
+from pysollib.util import ACE
 
 # ***********************************************************************
 # Daddy Longlegs (by Jim Sizelove)

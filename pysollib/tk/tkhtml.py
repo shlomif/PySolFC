@@ -21,20 +21,17 @@
 #
 # ---------------------------------------------------------------------------
 
-# imports
 import os
 import sys
+
+from pysollib.mfxutil import Struct
+from pysollib.mygettext import _
+from pysollib.ui.tktile.tkhtml import Base_HTMLViewer
+
 from six.moves import tkinter
 
-# PySol imports
-from pysollib.mygettext import _
-from pysollib.mfxutil import Struct
-
-# Toolkit imports
-from .tkwidget import MfxMessageDialog
 from .statusbar import HtmlStatusbar
-
-from pysollib.ui.tktile.tkhtml import Base_HTMLViewer
+from .tkwidget import MfxMessageDialog
 
 if __name__ == '__main__':
     d = os.path.abspath(os.path.join(sys.path[0], '..', '..'))

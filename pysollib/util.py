@@ -23,7 +23,13 @@
 
 # imports
 import os
-import site
+try:
+    import site
+except Exception:
+    class Dummy:
+        def __init__(self):
+            self.PREFIXES = []
+    site = Dummy()
 import sys
 
 # PySol imports

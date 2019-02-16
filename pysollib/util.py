@@ -100,10 +100,17 @@ class DataLoader:
         path.append(os.path.join(sys.path[0], "pysollib", "data"))
         # from settings.py
         path.extend(DATA_DIRS)
+        # py2app compatibility, see
+        # https://github.com/shlomif/PySolFC/issues/100
+        _prefixes = []
+        try:
+            _prefixes = site.PREFIXES
+        except Exception:
+            _prefixes = []
         # itz 2018-10-21 in case of venv installation
         # (or even homedir installation), path[0] will be quite wrong.
         # Just directly use the location where setup.py puts the data.
-        for pref in site.PREFIXES:
+        for pref in _prefixes:
             path.append(os.path.join(pref, 'share', 'PySolFC'))
         # check path for valid directories
         self.path = []

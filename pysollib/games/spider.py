@@ -326,6 +326,7 @@ class Rachel(pysollib.game.StartDealRowAndCards, RelaxedSpider):
 
 class Scorpion_RowStack(Yukon_SS_RowStack, Spider_RowStack):
     canDropCards = Spider_RowStack.canDropCards
+    canMoveCards = OpenStack.canMoveCards
 
 
 class Scorpion(RelaxedSpider):

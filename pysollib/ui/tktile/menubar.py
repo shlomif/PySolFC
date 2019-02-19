@@ -1670,7 +1670,7 @@ Unsupported game for import.
                     gameid = write_game(self.app)
             except Exception as err:
                 # if False:
-                    # traceback.print_exc()
+                #    traceback.print_exc()
                 self._calc_MfxMessageDialog()(
                     self.top, title=_('Save game error'),
                     text=_('''

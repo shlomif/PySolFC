@@ -347,9 +347,9 @@ def markImage(image):
 def _createImageMask(texture, color):
 
     col = 0
-    if (color is 'black'):
+    if (color == 'black'):
         col = 0
-    if (color is 'white'):
+    if (color == 'white'):
         col = 255
 
     g = texture.pixels

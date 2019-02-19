@@ -54,7 +54,7 @@ class Numerica_Hint(DefaultHint):
     # FIXME: demo is clueless
 
     # def _getDropCardScore(self, score, color, r, t, ncards):
-        # FIXME: implement this method
+    # FIXME: implement this method
 
     def _getMoveWasteScore(self, score, color, r, t, pile, rpile):
         assert r in (self.game.s.waste, self.game.s.talon) and len(pile) == 1

@@ -109,7 +109,7 @@ class Images:
             imagedir = self.d.findDir(cs_type, d)
         except Exception:
             pass
-        if (not USE_PIL and TOOLKIT is not 'kivy') or imagedir is None:
+        if (not USE_PIL and TOOLKIT != 'kivy') or imagedir is None:
             # load image
             img = self.__loadCard(filename+self.cs.ext, check_w, check_h)
             if USE_PIL and img is not None:
@@ -257,7 +257,7 @@ class Images:
         return self._bottom[0]
 
     def getBlankBottom(self):
-        if TOOLKIT is 'kivy':
+        if TOOLKIT == 'kivy':
             return self._bottom[0]
         return self._blank_bottom
 

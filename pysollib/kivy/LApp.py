@@ -762,7 +762,7 @@ class LImageItem(BoxLayout, LBase):
 
     def on_touch_up(self, touch):
         if touch.grab_current is self:
-                # release my grabbed touch!
+            # release my grabbed touch!
             print('ungrab')
             touch.ungrab(self)
             return True
@@ -1212,7 +1212,7 @@ class LMenu(ActionView, LBase):
                 pass
 
         for c in items:
-                # print ('LMenu: delete child %s' % c)
+            # print ('LMenu: delete child %s' % c)
             self.clear_widgets([c])
         for c in menues:
             # print ('LMenu: delete child %s' % c)
@@ -1688,7 +1688,7 @@ class LMainWindow(BoxLayout, LTkBase):
             t = self.workStack.items[i]
             # print("stackkey:  %s" % str(t[0]))
             # print("stackitem: %s" % str(t[1]))
-            if t[0] is 'playground':
+            if t[0] == 'playground':
                 pass
             else:
                 if isinstance(t[1], LTopLevel):

@@ -1476,7 +1476,7 @@ class Stack:
         if img is None:
             return
         # self.canvas.update_idletasks()
-        if TOOLKIT is 'kivy':
+        if TOOLKIT == 'kivy':
             self.game.top.waitAnimation()
         item = MfxCanvasImage(self.canvas, card.x, card.y,
                               image=img, anchor=ANCHOR_NW, group=self.group)
@@ -1657,7 +1657,7 @@ class DealRow_StackMethods:
                 self.game.flipMove(self)
             self.game.moveMove(1, self, r, frames=frames)
         self.game.leaveState(old_state)
-        if TOOLKIT is 'kivy':
+        if TOOLKIT == 'kivy':
             self.game.top.waitAnimation()
         return len(stacks)
 
@@ -1689,7 +1689,7 @@ class DealRow_StackMethods:
                     self.game.moveMove(1, self, r, frames=frames)
                     break
         self.game.leaveState(old_state)
-        if TOOLKIT is 'kivy':
+        if TOOLKIT == 'kivy':
             self.game.top.waitAnimation()
         return n
 
@@ -2907,7 +2907,7 @@ class WasteTalonStack(TalonStack):
                 else:
                     self.game.moveMove(1, self, waste, frames=4, shadow=0)
                 self.fillStack()
-                if TOOLKIT is 'kivy':
+                if TOOLKIT == 'kivy':
                     self.game.top.waitAnimation()
         elif waste.cards and self.round != self.max_rounds:
             if sound:

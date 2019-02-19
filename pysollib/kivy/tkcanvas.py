@@ -841,14 +841,14 @@ class MfxCanvas(Widget):
         pass
 
     def addtag(self, tag, b, c):
-            # print ('Canvas: addtag %s %s %s' % (tag, b, c))
-            # self.tags[c] = tag
-            # self.tags.append(tag)
+        # print ('Canvas: addtag %s %s %s' % (tag, b, c))
+        # self.tags[c] = tag
+        # self.tags.append(tag)
         pass
 
     def delete(self, tag):
-            # print ('MfxCanvas: delete tag=%s' % tag)
-            # y = self.yy
+        # print ('MfxCanvas: delete tag=%s' % tag)
+        # y = self.yy
         pass
 
     def update_idletasks(self):

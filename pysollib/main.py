@@ -384,27 +384,27 @@ Please check your %s installation.
 
 
 if TOOLKIT == 'kivy':
-        from pysollib.kivy.LApp import LApp
-        import logging
+    from pysollib.kivy.LApp import LApp
+    import logging
 
-        class KivyApp(LApp):
-            def __init__(self, args):
-                super(KivyApp, self).__init__()
-                self.args = args
+    class KivyApp(LApp):
+        def __init__(self, args):
+            super(KivyApp, self).__init__()
+            self.args = args
 
-            def build(self):
-                logging.info("KivyApp: build")
+        def build(self):
+            logging.info("KivyApp: build")
 
-                self.app = app = Application()
-                app.top = self.mainWindow
-                self.startCode = pysol_init(app, self.args)
+            self.app = app = Application()
+            app.top = self.mainWindow
+            self.startCode = pysol_init(app, self.args)
 
-                logging.info('Main: App Initialised - starting main loop')
-                return self.mainWindow
+            logging.info('Main: App Initialised - starting main loop')
+            return self.mainWindow
 
-        def main(args=None):
-            logging.basicConfig(level=logging.INFO)
-            KivyApp(args).run()
+    def main(args=None):
+        logging.basicConfig(level=logging.INFO)
+        KivyApp(args).run()
 
 else:
 

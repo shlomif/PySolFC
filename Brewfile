@@ -1,3 +1,4 @@
+brew "perl"
 brew "cpanminus"
 brew "gettext", link: true
 brew "gnutls"

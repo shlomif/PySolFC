@@ -15,3 +15,10 @@
 /po/ru.po
 /tests/individually-importing/*.py
 /tests/unit-generated/*.py
+
+# output of min card actions
+# mask out folder/archives
+PySolFC-Cardsets--Minimal-2.0/
+PySolFC-Cardsets--Minimal-2.0.*
+PySolFC-Cardsets-2.0/
+PySolFC-Cardsets-2.0.*

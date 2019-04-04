@@ -202,13 +202,13 @@ class Game(object):
         # update display properties
         self.canvas.busy = True
         # geometry
-        mycond = (not USE_PIL and self.app.opt.save_games_geometry and
+        mycond = (self.app.opt.save_games_geometry and
                   self.id in self.app.opt.games_geometry)
         if mycond:
             # restore game geometry
             w, h = self.app.opt.games_geometry[self.id]
             self.canvas.config(width=w, height=h)
-        if USE_PIL:
+        if True and USE_PIL:
             if self.app.opt.auto_scale:
                 w, h = self.app.opt.game_geometry
                 self.canvas.setInitialSize(w, h, margins=False,
@@ -219,7 +219,7 @@ class Game(object):
             else:
                 w = int(round(self.width * self.app.opt.scale_x))
                 h = int(round(self.height * self.app.opt.scale_y))
-                self.canvas.setInitialSize(w, h)
+                # self.canvas.setInitialSize(w, h)
                 self.top.wm_geometry("")    # cancel user-specified geometry
             # preserve texts positions
             for t in ('info', 'help', 'misc', 'score', 'base_rank'):
@@ -1124,7 +1124,7 @@ class Game(object):
 
     def _configureHandler(self, event=None):
         # print 'configureHandler'
-        if not USE_PIL:
+        if False:  # if not USE_PIL:
             return
         if not self.app:
             return

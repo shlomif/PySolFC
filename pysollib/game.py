@@ -217,9 +217,10 @@ class Game(object):
                 # dx, dy = self.canvas.xmargin, self.canvas.ymargin
                 # self.canvas.config(scrollregion=(-dx, -dy, dx, dy))
             else:
-                w = int(round(self.width * self.app.opt.scale_x))
-                h = int(round(self.height * self.app.opt.scale_y))
-                # self.canvas.setInitialSize(w, h)
+                if not mycond:
+                    w = int(round(self.width * self.app.opt.scale_x))
+                    h = int(round(self.height * self.app.opt.scale_y))
+                    self.canvas.setInitialSize(w, h)
                 self.top.wm_geometry("")    # cancel user-specified geometry
             # preserve texts positions
             for t in ('info', 'help', 'misc', 'score', 'base_rank'):

@@ -1,0 +1,105 @@
+[[news]]
+=== News
+
+* _4 March, 2019:_ There is a new stable release
+https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-2.6.2/[PySolFC
+v2.6.2]. New in this release:
+** Fixes for the Windows and macOS packages.
+** Forbid illegal moves in Spider and some other variants.
+* _14 February, 2019:_ There is a new stable release
+https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-2.6.0/[PySolFC
+v2.6.0]. New in this release:
+** Support for solving
+https://en.wikipedia.org/wiki/Golf_(patience)[Golf] using
+https://github.com/shlomif/black-hole-solitaire[a solver]
+** An untested macOS package (we need testers)
+** A https://sourceforge.net/p/pysolfc/bugs/31/[bug] fix
+** Ability to run the test suite without python 2.x and/or pygtk
+** Code cleanups.
+* _23 June, 2018:_ There is a new stable release
+https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-2.4.0/[PySolFC
+v2.4.0]. New in this release:
+** The Windows installer now includes the revitalised PySol-music
+package. For more info, see
+https://github.com/shlomif/PySolFC/issues/82[this bug].
+** Many improvements to the test suite and the board import
+functionality.
+** Some bug fixes.
+* _16 April, 2018:_ There is a new stable release
+https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-2.2.0/[PySolFC
+v2.2.0]. New in this release:
+** The Microsoft Windows binary installer now contains and supports the
+solver for Freecell and other games.
+** Many bug fixes.
+* _31 March, 2018:_ There is a new beta release
+https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-2.1/[PySolFC
+v2.1.4]. New in this release:
+** We now provide a Microsoft Windows binary installer again, thanks to
+the great work of https://github.com/Programator2[Roderik Ploszek]. Note
+that the solvers (for FreeCell/etc.) are not installed as part of it
+yet, but they are available separately.
+** https://github.com/shlomif/pysol-sound-server[pysol-sound-server] was
+updated to support Python 3.x.
+** Fixes for the board export / solver input, and for redealing upon
+restart of the "ms*" deals.
+** Various cleanups.
+* _5 March, 2018:_ There is a new beta source release
+https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-2.1/[PySolFC
+v2.1.3]. New in this release:
+** Support for the https://kivy.org/[kivy] toolkit for running under
+Android-based devices (currently python 2.7-only)
+** Fixed the help system and removed the need for the sgmllib module.
+** Other fixes and cleanups.
+** Currently there is no Microsoft Windows binary package. Help or
+insights will be appreciated.
+* _19 November, 2017:_ There is a new beta source release
+https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-2.1/[PySolFC
+v2.1.0], the first one in almost 8 years. New in this release:
+** The code is now compatible with both Python 2.7.x and Python 3.x
+** One can deal all
+https://fc-solve.shlomifish.org/faq.html#what_are_ms_deals[MS
+FreeCell/FC-pro deals] by specifying e.g: "ms100000" as the seed.
+** Support for Black Hole and All in a Row solver was added.
+** Test suite and CI were added to the repository.
+** The code now passes flake8 validation.
+** Some improvements to the solver dialog.
+* _15 November, 2017:_ Development of the Python sources has recently
+resumed using a https://github.com/shlomif/PySolFC[a GitHub project] and
+other resources and Shlomi Fish (@shlomif) has received an admin status
+on the SourceForge project and this site. A new source release which
+adds compatibility with Python version 3.x and some other improvements
+is expected soon.
+* _04 December, 2009:_
+https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-2.0/[PySolFC
+v.2.0] (1061 games) and
+https://sourceforge.net/projects/pysolfc/files/PySolFC-Cardsets/PySolFC-Cardsets-2.0/[PySolFC-Cardsets
+v.2.0] (153 cardsets)
+** The license was changed to the GPLv3 or newer.
+** 13 new games.
+** Migration to new
+https://code.google.com/archive/p/python-ttk/[python-ttk] module.
+** Improved the look of the deck (required
+http://effbot.org/downloads/#pil[python-imaging v.1.1.7]).
+** Fixed Hanafuda games
+(https://sourceforge.net/p/pysolfc/bugs/9/[ticket]).
+** New config-file option: sound_sample_buffer_size
+(https://sourceforge.net/p/pysolfc/bugs/10/[ticket]).
+** Portable version for windows
+(https://sourceforge.net/p/pysolfc/patches/3/[ticket]).
+** Many other bugfixes.
+* _06 September, 2007:_
+https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-1.1/[PySolFC
+v.1.1] (1048 games)
+** 48 new games (one game was removed)
+** Solitaire Wizard
+** improved Mahjongg games
+** human readable config file (options.cfg)
+** stack becomes compact when a card goes off screen
+** Clearlooks theme for Tile widget set
+** a huge number of other improvements
+* _30 August, 2007:_
+https://sourceforge.net/projects/pysolfc/files/PySolFC-Cardsets/PySolFC-Cardsets-1.1/[PySolFC-Cardsets
+v.1.1] (152 cardsets)
+* _21 February, 2007:_
+https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-1.0/[PySolFC
+v.1.0] (1001 games)

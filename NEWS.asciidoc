@@ -1,6 +1,12 @@
 [[news]]
 === News
 
+* _7 April, 2019:_ There is a new stable release
+https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-2.6.3/[PySolFC
+v2.6.3]. New in this release:
+** Compatibility with Pillow 6.x - https://github.com/shlomif/PySolFC/issues/108
+** Restore the "Save games geometry" feature - https://github.com/shlomif/PySolFC/issues/84
+** Added a NEWS.asciidoc file.
 * _4 March, 2019:_ There is a new stable release
 https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-2.6.2/[PySolFC
 v2.6.2]. New in this release:

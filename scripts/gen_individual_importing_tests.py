@@ -38,6 +38,7 @@ for ver in PY_VERS:
             'pysol_tests.acard_unit',
             'pysol_tests.hint',
             'pysol_tests.import_file1',
+            'pysol_tests.kpat_load_save',
             'pysol_tests.latin1_conv_unit',
             'pysol_tests.ms_deals1',
             'pysol_tests.scorpion_canMove',

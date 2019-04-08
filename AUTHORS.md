@@ -29,6 +29,12 @@ Games contributors
 * David Svoboda <svoboda@users.sourceforge.net>
 
 
+Enhancements
+============
+
+* [ghostofiht](https://github.com/ghostofiht) - Contributed a new logo design.
+* [Trueno font](https://fontlibrary.org/en/font/trueno) under the [OFL](https://en.wikipedia.org/wiki/SIL_Open_Font_License) by [Julieta Ulanovsky](http://www.zkysky.com.ar/) - used in the logo.
+
 Translations
 ============
 

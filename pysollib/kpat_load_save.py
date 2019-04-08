@@ -11,8 +11,8 @@
 """
 
 
-class KpatEmitter:
-    """docstring for KpatEmitter"""
+class KpatXmlEmitter:
+    """docstring for KpatXmlEmitter"""
     def _ind_out(self, text):
         """docstring for _out"""
         self._out("\t" * self._indent)

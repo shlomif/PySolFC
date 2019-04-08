@@ -30,6 +30,13 @@ try:
 except Exception:
     pass
 
+
+def merge_dicts(x, y):
+    ret = x.copy()
+    ret.update(y)
+    return ret
+
+
 pysollib_path = os.path.join(sys.path[0], pysollib_dir)
 sys.path[0] = os.path.normpath(pysollib_path)
 # print sys.path
@@ -67,6 +74,12 @@ wikipedia_files = [
     ('fourseasons.html', 'PySol - Rules for Four Seasons'),
     ]
 
+
+def _fmt(fmt, params):
+    return fmt % merge_dicts(params, {'logo_url': "images/pysollogo03.png",
+                                      'logo_alt': "PySol FC Logo"})
+
+
 main_header = '''<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
 <html>
 <head>
@@ -76,7 +89,7 @@ main_header = '''<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
 </head>
 <body text="#000000" bgcolor="#F7F3FF" link="#0000FF" vlink="#660099"
 alink="#FF0000">
-<img src="images/pysollogo03.gif" alt="">
+<img src="%(logo_url)s" alt="%(logo_alt)s">
 <br>
 '''
 main_footer = '''
@@ -95,7 +108,7 @@ rules_header = '''<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
 </head>
 <body text="#000000" bgcolor="#F7F3FF" link="#0000FF" vlink="#660099"
 link="#FF0000">
-<img src="../images/pysollogo03.gif" alt="">
+<img src="../%(logo_url)s" alt="%(logo_alt)s">
 <br>
 '''
 rules_footer = '''
@@ -120,7 +133,7 @@ wikipedia_header = '''<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
 </head>
 <body text="#000000" bgcolor="#F7F3FF" link="#0000FF" vlink="#660099"
 alink="#FF0000">
-<img src="../images/pysollogo03.gif" alt="">
+<img src="../%(logo_url)s" alt="%(logo_alt)s">
 <br>
 '''
 
@@ -134,13 +147,13 @@ def getGameRulesFilename(n):
 def gen_main_html():
     for infile, title in files:
         outfile = open(os.path.join('html', infile), 'w')
-        print(main_header % {'title': title}, file=outfile)
+        print(_fmt(main_header, {'title': title}), file=outfile)
         with open(infile, 'r') as file:
             print(file.read(), file=outfile)
         s = '<a href="index.html">Back to the index</a>'
         if infile == 'index.html':
             s = ''
-        print(main_footer % {'back_to_index_link': s}, file=outfile)
+        print(_fmt(main_footer, {'back_to_index_link': s}), file=outfile)
         outfile.close()
 
 
@@ -164,7 +177,7 @@ def gen_rules_html():
 
     # open file of list of all rules
     out_rules = open(os.path.join('html', 'rules.html'), 'w')
-    print(main_header % {'title': 'PySol - a Solitaire Game Collection'},
+    print(_fmt(main_header, {'title': 'PySol - a Solitaire Game Collection'}),
           file=out_rules)
     with open('rules.html', 'r') as file:
         print(file.read(), file=out_rules)
@@ -212,15 +225,16 @@ def gen_rules_html():
         for n in gi.altnames:
             altnames.append((n, rules_fn))
 
-    print('</ul>\n' + main_footer %
-          {'back_to_index_link': '<a href="index.html">Back to the index</a>'},
+    print('</ul>\n' + _fmt(main_footer,
+          {'back_to_index_link':
+           '<a href="index.html">Back to the index</a>'}),
           file=out_rules)
 
     out_rules.close()
 
     # create file of altnames
     out_rules_alt = open(os.path.join('html', 'rules_alternate.html'), 'w')
-    print(main_header % {'title': 'PySol - a Solitaire Game Collection'},
+    print(_fmt(main_header, {'title': 'PySol - a Solitaire Game Collection'}),
           file=out_rules_alt)
     with open('rules_alternate.html', 'r') as file:
         print(file.read(), file=out_rules_alt)
@@ -228,8 +242,9 @@ def gen_rules_html():
     for name, fn in altnames:
         print('<li> <a href="rules/%s">%s</a>'
               % (fn, name), file=out_rules_alt)
-    print('</ul>\n' + main_footer %
-          {'back_to_index_link': '<a href="index.html">Back to the index</a>'},
+    print('</ul>\n' + _fmt(main_footer,
+          {'back_to_index_link':
+           '<a href="index.html">Back to the index</a>'}),
           file=out_rules_alt)
     out_rules_alt.close()
 
@@ -238,12 +253,12 @@ def gen_rules_html():
         outfile = open(
             os.path.join('html', 'rules', filename), 'w', encoding='utf-8')
         if dir == 'rules':
-            print(rules_header % {'title': title}, file=outfile)
+            print(_fmt(rules_header, {'title': title}), file=outfile)
         else:  # d == 'wikipedia'
-            print(wikipedia_header % {'title': title}, file=outfile)
+            print(_fmt(wikipedia_header, {'title': title}), file=outfile)
         with open(os.path.join(dir, filename), 'r', encoding='utf-8') as file:
             print(file.read(), file=outfile)
-        print(rules_footer % {'footer': footer}, file=outfile)
+        print(_fmt(rules_footer, {'footer': footer}), file=outfile)
         outfile.close()
 
 

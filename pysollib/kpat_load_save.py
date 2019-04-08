@@ -13,5 +13,15 @@
 
 class KpatEmitter:
     """docstring for KpatEmitter"""
+    def _out(self, text):
+        """docstring for _out"""
+        self.f.write(text)
+
     def __init__(self, f):
         self.f = f
+        self._out("""<?xml version="1.0" encoding="UTF-8"?>\n""")
+
+    def writeEmptyTag(self, name, attrs):
+        self._out(
+            "<" + name + "".join([" "+x[0]+"=\""+x[1]+"\"" for x in attrs])
+            + "/>\n")

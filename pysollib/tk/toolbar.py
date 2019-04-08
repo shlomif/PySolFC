@@ -36,10 +36,6 @@ from six.moves import tkinter
 from .tkwidget import MfxTooltip
 
 
-# ************************************************************************
-# *
-# ************************************************************************
-
 class AbstractToolbarButton:
     def __init__(self, parent, toolbar, toolbar_name, position):
         self.toolbar = toolbar
@@ -125,7 +121,7 @@ class ToolbarFlatSeparator(ToolbarSeparator):
 
 class ToolbarLabel(tkinter.Message):
     def __init__(self, parent, toolbar, toolbar_name, position, **kwargs):
-        tkinter.Message.__init__(self, parent, kwargs)
+        tkinter.Message.__init__(self, parent, **kwargs)
         self.toolbar = toolbar
         self.toolbar_name = toolbar_name
         self.position = position
@@ -164,7 +160,6 @@ class PysolToolbarTk:
                  size=0, relief='flat', compound='none'):
         self.top = top
         self.menubar = menubar
-        # self._setRelief(relief)
         self.side = -1
         self._tooltips = []
         self._widgets = []
@@ -238,14 +233,14 @@ class PysolToolbarTk:
         prev_visible = None
         last_visible = None
         for w in self._widgets:
-            if w.__class__ is ToolbarSeparator:
-                if prev_visible is None or \
-                        prev_visible.__class__ is ToolbarSeparator:
+            if isinstance(w, ToolbarSeparator):
+                if prev_visible is None or isinstance(prev_visible,
+                                                      ToolbarSeparator):
                     w.hide()
                 else:
                     w.show(orient=self.orient)
-            elif w.__class__ is ToolbarFlatSeparator:
-                if prev_visible.__class__ is ToolbarSeparator:
+            elif isinstance(w, ToolbarFlatSeparator):
+                if isinstance(prev_visible, ToolbarSeparator):
                     prev_visible.hide()
             if w.visible:
                 prev_visible = w
@@ -416,7 +411,7 @@ class PysolToolbarTk:
             self.frame.update_idletasks()
 
     def updateText(self, **kw):
-        for name in list(kw.keys()):
+        for name in kw.keys():
             label = getattr(self, name + "_label")
             label["text"] = kw[name]
 
@@ -483,8 +478,6 @@ class PysolToolbarTk:
         if self._busy():
             return EVENT_HANDLED
         if self.popup:
-            # print event.x, event.y, event.x_root, \
-            #       event.y_root, event.__dict__
             self.popup.tk_popup(event.x_root, event.y_root)
         return EVENT_HANDLED
 

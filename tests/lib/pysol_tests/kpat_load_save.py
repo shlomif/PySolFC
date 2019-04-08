@@ -16,3 +16,15 @@ class MyTests(unittest.TestCase):
             f.getvalue(),
             "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
             + "<foo one=\"val1\" two=\"val2\"/>\n")
+        f = cStringIO()
+        e = KpatEmitter(f)
+        self.assertTrue(e)
+        e.writeStartTag("foo", [("one", "val1"), ("two", "val2")])
+        e.writeEmptyTag("flutter", [])
+        e.endTag()
+        self.assertEqual(
+            f.getvalue(),
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+            + "<foo one=\"val1\" two=\"val2\">\n"
+            + "\t<flutter/>\n"
+            + "</foo>\n")

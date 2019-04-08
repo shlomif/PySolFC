@@ -1,3 +1,5 @@
+<p align="center"><img src="html-src/images/high_res/logo_horizontal.png" alt="StretchView" height="180px"></p>
+
 # PySol Fan Club edition
 
 This is an open source and portable (Windows, Linux and Mac OS X) collection

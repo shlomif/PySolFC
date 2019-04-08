@@ -28,15 +28,16 @@ class KpatXmlEmitter:
         self._tags = []
         self._indent = 0
 
-    def writeEmptyTag(self, name, attrs):
+    def _genericTag(self, suf, name, attrs):
         self._ind_out(
             "<" + name + "".join([" "+x[0]+"=\""+x[1]+"\"" for x in attrs])
-            + "/>\n")
+            + suf + ">\n")
+
+    def writeEmptyTag(self, name, attrs):
+        self._genericTag("/", name, attrs)
 
     def writeStartTag(self, name, attrs):
-        self._ind_out(
-            "<" + name + "".join([" "+x[0]+"=\""+x[1]+"\"" for x in attrs])
-            + ">\n")
+        self._genericTag("", name, attrs)
         self._tags.append({'name': name})
         self._indent += 1
 

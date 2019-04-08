@@ -30,7 +30,7 @@ class KpatXmlEmitter:
 
     def _genericTag(self, suf, name, attrs):
         self._ind_out(
-            "<" + name + "".join([" "+x[0]+"=\""+x[1]+"\"" for x in attrs])
+            "<" + name + "".join([" "+k+"=\""+v+"\"" for k, v in attrs])
             + suf + ">\n")
 
     def writeEmptyTag(self, name, attrs):

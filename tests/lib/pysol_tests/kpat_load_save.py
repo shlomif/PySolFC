@@ -3,6 +3,7 @@ import unittest
 
 from pysollib.acard import AbstractCard
 from pysollib.kpat_load_save import KpatXmlEmitter
+from pysollib.kpat_load_save import KpatEmitter
 
 from six.moves import cStringIO
 
@@ -83,3 +84,5 @@ class MyTests(unittest.TestCase):
             + "<card id=\"1004\" suit=\"hearts\" " +
             "rank=\"queen\" turn=\"face-up\"/>\n"
         )
+        e = KpatEmitter(f)
+        self.assertTrue(e)

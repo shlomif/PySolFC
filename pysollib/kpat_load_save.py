@@ -66,3 +66,8 @@ class KpatXmlEmitter:
 
     def writeInitialLayout(self, state, turn_cb):
         assert False  # unimpl
+
+class KpatEmitter:
+    """docstring for KpatEmitter"""
+    def __init__(self, f):
+        self.f = f

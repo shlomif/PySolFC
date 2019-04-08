@@ -16,6 +16,7 @@ class MyTests(unittest.TestCase):
             f.getvalue(),
             "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
             + "<foo one=\"val1\" two=\"val2\"/>\n")
+
         f = cStringIO()
         e = KpatXmlEmitter(f)
         self.assertTrue(e)
@@ -27,4 +28,21 @@ class MyTests(unittest.TestCase):
             "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
             + "<foo one=\"val1\" two=\"val2\">\n"
             + "\t<flutter/>\n"
+            + "</foo>\n")
+
+        f = cStringIO()
+        e = KpatXmlEmitter(f)
+        self.assertTrue(e)
+        e.writeStartTag("foo", [("one", "val1"), ("two", "val2")])
+        e.writeStartTag("rar", [("z", "zval"), ("a", "aval")])
+        e.writeEmptyTag("flutter", [])
+        e.endTag()
+        e.endTag()
+        self.assertEqual(
+            f.getvalue(),
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+            + "<foo one=\"val1\" two=\"val2\">\n"
+            + "\t<rar z=\"zval\" a=\"aval\">\n"
+            + "\t\t<flutter/>\n"
+            + "\t</rar>\n"
             + "</foo>\n")

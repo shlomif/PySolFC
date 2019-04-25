@@ -33,3 +33,18 @@ Otherwise, the games' sources live under
 written in Python 2.7/3.x and you can try inheriting from an existing
 variant [class](https://en.wikipedia.org/wiki/Class_%28computer_programming%29).
 
+# The Release Process
+
+In order to publish a new version, follow these steps:
+
+1. Update `NEWS.asciidoc`.
+2. Update the `VERSION_TUPLE =` line in `pysollib/settings.py`.
+3. Test using `gmake test` .
+4. `git commit` the changes .
+5. `git tag pysolfc-2.6.5` (or equivalent version).
+6. `git push` and `git push --tags` to https://github.com/shlomif/PySolFC .
+7. Wait for the AppVeyor build for the tag to complete and scan the .exe using https://www.virustotal.com/ .
+8. Run `gmake dist`.
+9. Use [rexz9](https://github.com/shlomif/shlomif-computer-settings/blob/567b6ab3f4272ad66bf331536dc80bf58bfff3af/shlomif-settings/bash-aliases/user_aliases.bash#L57) on `dist/PySol*.tar.xz`.
+10. Go to https://sourceforge.net/projects/pysolfc/files/PySolFC/ and add a folder called PySolFC-2.6.5 (note the capitalisation).
+11. Add the tar.xz and the .exe there and mark them as defaults for the right OSes.

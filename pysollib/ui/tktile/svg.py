@@ -5,22 +5,30 @@
 # https://stackoverflow.com/questions/22583035
 # Thanks!
 
+import Image
 
-def svgPhotoImage(file_path_name):
-    import Image
-    import ImageTk
-    import rsvg
-    import cairo
-    "Returns a ImageTk.PhotoImage object represeting the svg file"
-    # Based on pygame.org/wiki/CairoPygame and http://bit.ly/1hnpYZY
-    svg = rsvg.Handle(file=file_path_name)
-    width, height = svg.get_dimension_data()[:2]
-    surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, int(width), int(height))
-    context = cairo.Context(surface)
-    # context.set_antialias(cairo.ANTIALIAS_SUBPIXEL)
-    svg.render_cairo(context)
-    tk_image = ImageTk.PhotoImage('RGBA')
-    image = Image.frombuffer('RGBA', (width, height), surface.get_data(),
-                             'raw', 'BGRA', 0, 1)
-    tk_image.paste(image)
-    return tk_image
+import ImageTk
+
+import cairo
+
+import rsvg
+
+
+class SVGManager:
+    """docstring for SVGManager"""
+    def __init__(self, filename):
+        self.filename = filename
+        self.svg = rsvg.Handle(filename)
+
+    def render_fragment(self, id_):
+        """docstring for render_"""
+        width, height = self.svg.get_sub_dimension_data(id_)[:2]
+        surface = cairo.ImageSurface(cairo.FORMAT_ARGB32,
+                                     int(width), int(height))
+        context = cairo.Context(surface)
+        self.svg.render_cairo_sub(context, id_)
+        tk_image = ImageTk.PhotoImage('RGBA')
+        image = Image.frombuffer('RGBA', (width, height), surface.get_data(),
+                                 'raw', 'BGRA', 0, 1)
+        tk_image.paste(image)
+        return tk_image

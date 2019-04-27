@@ -25,10 +25,12 @@
 import os
 
 from pysollib.mfxutil import Image, ImageTk, USE_PIL
+from pysollib.pysoltk import PIL_Image
 from pysollib.pysoltk import copyImage, createBottom, createImage, loadImage
 from pysollib.pysoltk import shadowImage
 from pysollib.resource import CSI
 from pysollib.settings import TOOLKIT
+from pysollib.ui.tktile.svg import SVGManager
 
 # ************************************************************************
 # * Images
@@ -76,16 +78,22 @@ class Images:
     def destruct(self):
         pass
 
-    def __loadCard(self, filename, check_w=1, check_h=1):
+    def __loadCard(self, filename, check_w=1, check_h=1, rec=None):
         # print '__loadCard:', filename
         f = os.path.join(self.cs.dir, filename)
-        if not os.path.exists(f):
-            print('card image path %s does not exist' % (f))
-            return None
-        try:
-            img = loadImage(file=f)
-        except Exception:
-            return None
+        if rec and 'suit' in rec:
+            # img = PIL_Image(image=self.svg.render_fragment("6_heart"))
+            img = self.svg.render_fragment(
+                id_="6_heart", width=self.CARDW, height=self.CARDH)
+            img = PIL_Image(image=img)
+        else:
+            if not os.path.exists(f):
+                print('card image path %s does not exist' % (f))
+                return None
+            try:
+                img = loadImage(file=f)
+            except Exception:
+                return None
 
         if TOOLKIT == 'kivy':
             w = img.texture.size[0]
@@ -170,8 +178,12 @@ class Images:
             pstep += self.cs.nshadows + 1  # shadows & shade
             pstep = max(0, (80.0 - progress.percent) / pstep)
         # load face cards
-        for n in self.cs.getFaceCardNames():
-            self._card.append(self.__loadCard(n + self.cs.ext))
+        self.svg = SVGManager(
+            '/usr/share/carddecks/' +
+            'svg-ancient-egyptians/Ancient_Egyptians.svgz')
+        for n, rec in self.cs.getFaceCardNames():
+            print(n)
+            self._card.append(self.__loadCard(n + self.cs.ext, rec=rec))
             self._card[-1].filename = n
             if progress:
                 progress.update(step=pstep)

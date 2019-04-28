@@ -160,18 +160,20 @@ set(${bindings_library}_sources ${generated_sources})
 add_library(${bindings_library} MODULE ${${bindings_library}_sources})
 
 foreach (_lib ${bindings_library} ${sample_library})
-    target_include_directories(${_lib} PRIVATE ${python_include_dir})
-    target_include_directories(${_lib} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../kpat/libkcardgame")
-    target_include_directories(${_lib} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../build-kpat/")
-    target_include_directories(${_lib} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../build-kpat/libkcardgame")
-    target_include_directories(${_lib} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../kpat/libkcardgame/include")
-    target_include_directories(${_lib} PRIVATE ${PYSIDE2_DIR}/include/)
-    target_include_directories(${_lib} PRIVATE "/usr/include/PySide2")
-    target_include_directories(${_lib} PRIVATE "/usr/include/PySide2/QtCore/")
-    target_include_directories(${_lib} PRIVATE "/usr/include/PySide2/QtGui/")
-    target_include_directories(${_lib} PRIVATE ${PYSIDE2_DIR}/include/QtCore)
-    target_include_directories(${_lib} PRIVATE ${shiboken_include_dir})
-    target_include_directories(${_lib} PRIVATE ${CMAKE_SOURCE_DIR})
+    target_include_directories(${_lib} PRIVATE
+        ${python_include_dir}
+        "${CMAKE_CURRENT_SOURCE_DIR}/../kpat/libkcardgame"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../build-kpat/"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../build-kpat/libkcardgame"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../kpat/libkcardgame/include"
+        ${PYSIDE2_DIR}/include/
+        "/usr/include/PySide2"
+        "/usr/include/PySide2/QtCore/"
+        "/usr/include/PySide2/QtGui/"
+        ${PYSIDE2_DIR}/include/QtCore
+        ${shiboken_include_dir}
+        ${CMAKE_SOURCE_DIR}
+     )
 endforeach()
 
 target_link_libraries(${bindings_library} PRIVATE ${shiboken_shared_libraries})

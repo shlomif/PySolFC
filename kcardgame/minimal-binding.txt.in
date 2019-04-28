@@ -1,0 +1,15 @@
+[generator-project]
+
+generator-set = shiboken
+
+header-file = @CMAKE_CURRENT_SOURCE_DIR@/global.h
+typesystem-file = @minimal_TYPESYSTEM@
+
+output-directory = @CMAKE_CURRENT_BINARY_DIR@
+
+include-path = @libminimal_SOURCE_DIR@
+
+typesystem-path = @CMAKE_CURRENT_SOURCE_DIR@
+
+enable-parent-ctor-heuristic
+use-isnull-as-nb_nonzero

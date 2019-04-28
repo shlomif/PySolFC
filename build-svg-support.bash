@@ -8,6 +8,12 @@
 
 (
     set -e -x
+    build_type="Release"
+    build_args="cmake -DCMAKE_BUILD_TYPE=$build_type"
+    build()
+    {
+        $build_args "$@"
+    }
     a="`pwd`"
     cd kcardgame
     # git clone git://anongit.kde.org/kpat
@@ -15,12 +21,12 @@
     mkdir build-kpat/
     k="`pwd`"
     cd build-kpat
-    cmake -DCMAKE_BUILD_TYPE=Debug ../kpat
+    build ../kpat
     make
     cd ..
     mkdir b
     cd b
-    cmake -DCMAKE_BUILD_TYPE=Debug ../binding-example/
+    build ../binding-example/
     make
 ) || true
 dir="`pwd`/kcardgame/b"

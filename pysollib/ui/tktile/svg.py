@@ -25,7 +25,7 @@ class SVGManager:
     def __init__(self, filename):
         self.filename = filename
         # self.svg = Rsvg.Handle().new_from_file(filename)
-        self.d = MyKCardDeck()
+        self.d = MyKCardDeck("svg-jolly-royal")
 
     # Taken from https://stackoverflow.com/questions/44471795
     # Under MIT License - thanks.

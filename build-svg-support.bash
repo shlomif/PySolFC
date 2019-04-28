@@ -10,7 +10,8 @@
     set -e -x
     a="`pwd`"
     cd kcardgame
-    git clone git://anongit.kde.org/kpat
+    # git clone git://anongit.kde.org/kpat
+    git clone https://github.com/KDE/kpat
     mkdir build-kpat/
     k="`pwd`"
     cd build-kpat

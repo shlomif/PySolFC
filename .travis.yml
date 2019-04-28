@@ -43,7 +43,7 @@ before_install:
 install:
     - sudo cpanm --notest Capture::Tiny
     - sudo cpanm Code::TidyAll::Plugin::Flake8 Perl::Tidy Test::Code::TidyAll Test::Differences Test::TrailingSpace
-    - export PY_MODS='pycotap pysol-cards random2 six'
+    - export PY_MODS='pillow pycotap pysol-cards random2 six'
     - "`which python3` -m pip install --upgrade flake8 flake8-import-order $PY_MODS"
     - "sudo /usr/bin/python3 -m pip install --upgrade $PY_MODS || true"
     - "sudo `which python2` -m pip install --upgrade $PY_MODS"

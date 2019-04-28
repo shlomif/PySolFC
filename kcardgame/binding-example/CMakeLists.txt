@@ -58,6 +58,8 @@ pyside2_config(--shiboken2-generator-include-path shiboken_include_dir 1)
 pyside2_config(--shiboken2-module-shared-libraries-cmake shiboken_shared_libraries 0)
 pyside2_config(--pyside2-shared-libraries-cmake pyside2_link 0)
 endif()
+set(shiboken_include_dir "/usr/include/shiboken2")
+set(python_include_dir "/usr/include/python3.7m")
 set(shiboken_path "/usr/bin/shiboken2${CMAKE_EXECUTABLE_SUFFIX}")
 if(NOT EXISTS ${shiboken_path})
     message(FATAL_ERROR "Shiboken executable not found at path: ${shiboken_path}")
@@ -84,6 +86,7 @@ set(shiboken_options --generator-set=shiboken --enable-parent-ctor-heuristic
     --enable-return-value-heuristic --use-isnull-as-nb_nonzero
     --avoid-protected-hack
     --enable-pyside-extensions
+    -T/usr/share/PySide2/typesystems/
     ${lib_includes}
     -I${CMAKE_SOURCE_DIR}
     -T${CMAKE_SOURCE_DIR}
@@ -107,6 +110,8 @@ add_library(${bindings_library} MODULE ${${bindings_library}_sources})
 
 target_include_directories(${bindings_library} PRIVATE ${python_include_dir})
 target_include_directories(${bindings_library} PRIVATE ${PYSIDE2_DIR}/include/)
+target_include_directories(${bindings_library} PRIVATE "/usr/include/PySide2")
+target_include_directories(${bindings_library} PRIVATE "/usr/include/PySide2/QtCore/")
 target_include_directories(${bindings_library} PRIVATE ${PYSIDE2_DIR}/include/QtCore)
 target_include_directories(${bindings_library} PRIVATE ${shiboken_include_dir})
 target_include_directories(${bindings_library} PRIVATE ${CMAKE_SOURCE_DIR})

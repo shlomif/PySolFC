@@ -12,7 +12,7 @@ except BaseException:
     def MyKCardDeck():
         return None
 
-import cairo
+# import cairo
 # from gi import require_version
 # require_version('Rsvg', '2.0')
 # from gi.repository import Rsvg  # noqa: E402
@@ -54,6 +54,7 @@ class SVGManager:
             width_, height_ = dims.width, dims.height
             pix = self.svg.get_pixbuf_sub(id__)
             if False:
+                import cairo
                 surface = cairo.ImageSurface(cairo.FORMAT_ARGB32,
                                              int(width_), int(height_))
                 context = cairo.Context(surface)

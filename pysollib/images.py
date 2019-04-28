@@ -82,13 +82,15 @@ class Images:
     def __loadCard(self, filename, check_w=1, check_h=1, rec=None):
         # print '__loadCard:', filename
         f = os.path.join(self.cs.dir, filename)
+        img = None
         if rec and 'suit' in rec:
             # img = PIL_Image(image=self.svg.render_fragment("6_heart"))
             img = self.svg.render_fragment(
                 rank=rec['rank'], suit=rec['suit'],
                 width=self.CARDW, height=self.CARDH)
-            img = PIL_Image(image=img)
-        else:
+            if img:
+                img = PIL_Image(image=img)
+        if not img:
             if not os.path.exists(f):
                 print('card image path %s does not exist' % (f))
                 return None

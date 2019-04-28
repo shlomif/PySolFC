@@ -25,6 +25,7 @@ class SVGManager:
 
     # Taken from https://stackoverflow.com/questions/44471795
     # Under MIT License - thanks.
+    @pysnooper.snoop()
     def pixbuf2image(self, pxb):
         """ Convert GdkPixbuf.Pixbuf to PIL image """
         data = pxb.get_pixels()
@@ -37,7 +38,6 @@ class SVGManager:
         img = Image.frombytes(mode, (w, h), data, "raw", mode, stride)
         return img
 
-    @pysnooper.snoop()
     def render_fragment(self, id_, width, height):
         id__ = '#' + id_
         """docstring for render_"""

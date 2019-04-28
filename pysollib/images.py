@@ -186,7 +186,6 @@ class Images:
             '/usr/share/carddecks/' +
             'svg-ancient-egyptians/Ancient_Egyptians.svgz')
         for n, rec in self.cs.getFaceCardNames():
-            print(n)
             self._card.append(self.__loadCard(n + self.cs.ext, rec=rec))
             self._card[-1].filename = n
             if progress:

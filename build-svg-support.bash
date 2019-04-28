@@ -19,7 +19,8 @@
     cd ..
     mkdir b
     cd b
-    cmake ../binding-example/
+    cmake -DCMAKE_BUILD_TYPE=Debug ../binding-example/
     make
 ) || true
-export PYTHONPATH="`pwd`/kcardgame/b"
+dir="`pwd`/kcardgame/b"
+export PYTHONPATH="$dir" LD_LIBRARY_PATH="$dir"

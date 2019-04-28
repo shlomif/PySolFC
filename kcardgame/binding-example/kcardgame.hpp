@@ -1,18 +1,16 @@
 #pragma once
 #include <QPixmap>
+#include <QObject>
+#include <QGuiApplication>
 #include "KCardDeck"
 #include "KCardTheme"
-class KCardDeck_wrapper
+class Q_DECL_EXPORT MyKCardDeck: public QObject
 {
+    Q_OBJECT
     public:
+        QGuiApplication* app;
     KCardDeck * d;
-    KCardDeck_wrapper()
-    {
-    d = new KCardDeck( KCardTheme(), nullptr);
-    }
-QPixmap *get_card_pixmap(int i)
-{
-    auto ret = new QPixmap(d->cardPixmap(i, true));
-    return ret;
-}
+    explicit MyKCardDeck();
+public slots:
+Q_DECL_EXPORT QPixmap *get_card_pixmap(int i);
 };

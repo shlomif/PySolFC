@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<typesystem package="Shiboken2QtExample">
+    <load-typesystem name="typesystem_core.xml" generate="no"/>
+    <object-type name="QObjectWithEnum">
+        <enum-type name="MyEnum" />
+    </object-type>
+</typesystem>

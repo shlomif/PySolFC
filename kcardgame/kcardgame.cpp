@@ -3,6 +3,8 @@
 #include "Python.h"
 #include "arrayobject.h"
 #include "kcardgame.hpp"
+#include <QPixmap>
+#include "QtGui/pyside2_qtgui_python.h"
 #include <math.h>
 
 /* #### Globals #################################### */
@@ -59,6 +61,18 @@ static PyObject *np_kcardgame(PyObject *self, PyObject *args)
 {
     auto ret = new KCardDeck( KCardTheme(), nullptr);
 	return PyCapsule_New(ret, "KCardDeck", del_kcardgame);
+}
+static PyObject *get_card_pixmap(PyObject *self, PyObject *args)
+{
+    PyObject * kcard;
+    int i;
+    if (! PyArg_ParseTuple(args, "Oi", &kcard, &i))
+    {
+        return NULL;
+    }
+    auto deck = (KCardDeck *)PyCapsule_GetPointer(kcard, "KCardDeck");
+    auto ret = new QPixmap(deck->cardPixmap(i, true));
+    return PyType_GenericNew(Shiboken::SbkType<QPixmap>, ret, NULL);
 }
 
 /* ==== Square vector components & multiply by a float =========================

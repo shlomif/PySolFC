@@ -5,6 +5,9 @@
 # https://stackoverflow.com/questions/22583035
 # Thanks!
 
+import os
+import os.path
+
 try:
     from PySide2.QtGui import QPixmap  # noqa: F401
     from PySolFC_KCard import MyKCardDeck
@@ -25,7 +28,8 @@ class SVGManager:
     def __init__(self, filename):
         self.filename = filename
         # self.svg = Rsvg.Handle().new_from_file(filename)
-        self.d = MyKCardDeck("svg-jolly-royal")
+        self.d = MyKCardDeck(
+            os.path.basename(os.getenv("PYSOL_SVG_THEME", "svg-jolly-royal")))
 
     # Taken from https://stackoverflow.com/questions/44471795
     # Under MIT License - thanks.

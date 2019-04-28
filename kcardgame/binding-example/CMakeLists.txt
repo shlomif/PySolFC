@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.12)
 cmake_policy(VERSION 3.12)
 
 find_package(ECM 5 REQUIRED CONFIG)
-find_package(Qt5 COMPONENTS Core REQUIRED)
+find_package(Qt5 COMPONENTS Core Gui REQUIRED)
 
 get_target_property(QtCore_location Qt5::Core LOCATION)
 get_filename_component(QtCore_libdir ${QtCore_location} DIRECTORY)
@@ -18,7 +18,7 @@ set(bindings_library "Shiboken2QtExample")
 set(wrapped_header ${CMAKE_SOURCE_DIR}/bindings.h)
 set(typesystem_file ${CMAKE_SOURCE_DIR}/bindings.xml)
 set(generated_sources
-    ${CMAKE_CURRENT_BINARY_DIR}/${bindings_library}/qobjectwithenum_wrapper.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/${bindings_library}/kcarddeck_wrapper_wrapper.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/${bindings_library}/shiboken2qtexample_module_wrapper.cpp)
 
 find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
@@ -72,12 +72,15 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 set(${sample_library}_sources qobjectwithenum.cpp)
 add_library(${sample_library} SHARED ${${sample_library}_sources})
-target_link_libraries(${sample_library} Qt5::Core)
+target_link_libraries(${sample_library} Qt5::Core Qt5::Gui)
 set_property(TARGET ${sample_library} PROPERTY PREFIX "")
 
+get_target_property(qtgui_lib_includes Qt5::Gui INTERFACE_INCLUDE_DIRECTORIES)
+list(JOIN qtgui_lib_includes ";-I" lib2_includes)
 get_target_property(qtcore_lib_includes Qt5::Core INTERFACE_INCLUDE_DIRECTORIES)
 list(JOIN qtcore_lib_includes ";-I" lib_includes)
-set(lib_includes "-I${lib_includes}")
+set(lib_includes "-I${lib_includes}" "-I${lib2_includes}")
+
 
 target_compile_definitions(${sample_library} PRIVATE BINDINGS_BUILD)
 
@@ -87,6 +90,9 @@ set(shiboken_options --generator-set=shiboken --enable-parent-ctor-heuristic
     --avoid-protected-hack
     --enable-pyside-extensions
     -T/usr/share/PySide2/typesystems/
+    -I"${CMAKE_CURRENT_SOURCE_DIR}/../build-kpat/libkcardgame"
+    -I"${CMAKE_CURRENT_SOURCE_DIR}/../kpat/libkcardgame"
+-I"${CMAKE_CURRENT_SOURCE_DIR}/../kpat/libkcardgame/include"
     ${lib_includes}
     -I${CMAKE_SOURCE_DIR}
     -T${CMAKE_SOURCE_DIR}
@@ -109,9 +115,13 @@ set(${bindings_library}_sources ${generated_sources})
 add_library(${bindings_library} MODULE ${${bindings_library}_sources})
 
 target_include_directories(${bindings_library} PRIVATE ${python_include_dir})
+target_include_directories(${bindings_library} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../kpat/libkcardgame")
+target_include_directories(${bindings_library} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../build-kpat/libkcardgame")
+target_include_directories(${bindings_library} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../kpat/libkcardgame/include")
 target_include_directories(${bindings_library} PRIVATE ${PYSIDE2_DIR}/include/)
 target_include_directories(${bindings_library} PRIVATE "/usr/include/PySide2")
 target_include_directories(${bindings_library} PRIVATE "/usr/include/PySide2/QtCore/")
+target_include_directories(${bindings_library} PRIVATE "/usr/include/PySide2/QtGui/")
 target_include_directories(${bindings_library} PRIVATE ${PYSIDE2_DIR}/include/QtCore)
 target_include_directories(${bindings_library} PRIVATE ${shiboken_include_dir})
 target_include_directories(${bindings_library} PRIVATE ${CMAKE_SOURCE_DIR})

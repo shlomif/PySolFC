@@ -42,21 +42,24 @@ class SVGManager:
         img = Image.frombytes(mode, (w, h), data, "raw", mode, stride)
         return img
 
-    def render_fragment(self, id_, width, height):
-        return Image.fromqpixmap(self.d.get_card_pixmap(6))
-        id__ = '#' + id_
-        """docstring for render_"""
-        dims = self.svg.get_dimensions_sub(id__)[1]
-        width_, height_ = dims.width, dims.height
-        pix = self.svg.get_pixbuf_sub(id__)
-        if False:
-            surface = cairo.ImageSurface(cairo.FORMAT_ARGB32,
-                                         int(width_), int(height_))
-            context = cairo.Context(surface)
-            # context.scale(width_, height_)
-            assert self.svg.render_cairo_sub(context, id__)
-            buf = bytes(surface.get_data())
-            image = Image.frombuffer('RGBA', (width_, height_), buf,
-                                     'raw', 'BGRA', 0, 1)
-        image = self.pixbuf2image(pix)
+    def render_fragment(self, rank, suit, width, height):
+        image = Image.fromqpixmap(
+            self.d.get_card_pixmap(
+                rank + 1 + {'c': 0, 'd': 1, 'h': 2, 's': 3}[suit]*0x100))
+        if 0:
+            id__ = '#' + "queen_heart"
+            """docstring for render_"""
+            dims = self.svg.get_dimensions_sub(id__)[1]
+            width_, height_ = dims.width, dims.height
+            pix = self.svg.get_pixbuf_sub(id__)
+            if False:
+                surface = cairo.ImageSurface(cairo.FORMAT_ARGB32,
+                                             int(width_), int(height_))
+                context = cairo.Context(surface)
+                # context.scale(width_, height_)
+                assert self.svg.render_cairo_sub(context, id__)
+                buf = bytes(surface.get_data())
+                image = Image.frombuffer('RGBA', (width_, height_), buf,
+                                         'raw', 'BGRA', 0, 1)
+            image = self.pixbuf2image(pix)
         return image.resize((width, height))

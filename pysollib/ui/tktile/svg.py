@@ -5,11 +5,14 @@
 # https://stackoverflow.com/questions/22583035
 # Thanks!
 
-import cairo
+from PySide2.QtGui import QPixmap  # noqa: F401
 
-from gi import require_version
-require_version('Rsvg', '2.0')
-from gi.repository import Rsvg  # noqa: E402
+from Shiboken2QtExample import MyKCardDeck
+
+import cairo
+# from gi import require_version
+# require_version('Rsvg', '2.0')
+# from gi.repository import Rsvg  # noqa: E402
 
 import pysnooper  # noqa: E402
 
@@ -21,7 +24,8 @@ class SVGManager:
     """docstring for SVGManager"""
     def __init__(self, filename):
         self.filename = filename
-        self.svg = Rsvg.Handle().new_from_file(filename)
+        # self.svg = Rsvg.Handle().new_from_file(filename)
+        self.d = MyKCardDeck()
 
     # Taken from https://stackoverflow.com/questions/44471795
     # Under MIT License - thanks.
@@ -39,6 +43,7 @@ class SVGManager:
         return img
 
     def render_fragment(self, id_, width, height):
+        return Image.fromqpixmap(self.d.get_card_pixmap(6))
         id__ = '#' + id_
         """docstring for render_"""
         dims = self.svg.get_dimensions_sub(id__)[1]

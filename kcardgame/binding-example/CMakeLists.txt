@@ -3,7 +3,34 @@ cmake_minimum_required(VERSION 3.12)
 cmake_policy(VERSION 3.12)
 
 find_package(ECM 5 REQUIRED CONFIG)
-find_package(Qt5 COMPONENTS Core Gui REQUIRED)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR})
+find_package(Qt5 COMPONENTS Core Gui Svg REQUIRED)
+find_package(KF5 "5.0.0" REQUIRED COMPONENTS
+    Completion
+    Config
+    ConfigWidgets
+    CoreAddons
+    Crash
+    DBusAddons
+    DocTools
+    GuiAddons
+    I18n
+    KIO
+    NewStuff
+    WidgetsAddons
+    XmlGui
+)
+find_package(Shiboken2 "2.0.0" REQUIRED)
+find_package(PySide2 "2.0.0" REQUIRED)
+find_package(KF5KDEGames 4.9.0 REQUIRED)
+include(FeatureSummary)
+include(ECMAddAppIcon)
+include(ECMInstallIcons)
+include(KDEInstallDirs)
+include(KDECompilerSettings NO_POLICY_SCOPE)
+include(KDECMakeSettings)
+include(ECMQtDeclareLoggingCategory)
+include(GenerateExportHeader)
 
 get_target_property(QtCore_location Qt5::Core LOCATION)
 get_filename_component(QtCore_libdir ${QtCore_location} DIRECTORY)
@@ -18,7 +45,7 @@ set(bindings_library "Shiboken2QtExample")
 set(wrapped_header ${CMAKE_SOURCE_DIR}/bindings.h)
 set(typesystem_file ${CMAKE_SOURCE_DIR}/bindings.xml)
 set(generated_sources
-    ${CMAKE_CURRENT_BINARY_DIR}/${bindings_library}/kcarddeck_wrapper_wrapper.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/${bindings_library}/mykcarddeck_wrapper.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/${bindings_library}/shiboken2qtexample_module_wrapper.cpp)
 
 find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
@@ -70,9 +97,27 @@ set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 set(CMAKE_INSTALL_RPATH ${shiboken2_module_path} ${CMAKE_CURRENT_SOURCE_DIR} ${QtCore_libdir})
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
-set(${sample_library}_sources qobjectwithenum.cpp)
+set(${sample_library}_sources kcardgame.cpp
+    "${CMAKE_CURRENT_SOURCE_DIR}/../kpat/libkcardgame/kabstractcarddeck.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../kpat/libkcardgame/kcard.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../build-kpat/libkcardgame/libkcardgame_debug.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../kpat/libkcardgame/kcarddeck.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../kpat/libkcardgame/kcardtheme.cpp"
+
+    )
 add_library(${sample_library} SHARED ${${sample_library}_sources})
 target_link_libraries(${sample_library} Qt5::Core Qt5::Gui)
+target_link_libraries(${sample_library}
+    KF5::Crash
+    KF5::DBusAddons
+    KF5::I18n
+    KF5::KIOCore
+    KF5KDEGames
+)
+target_link_libraries( ${sample_library} KF5::NewStuff KF5::GuiAddons Qt5::Svg KF5::Completion KF5::I18n)
+
+target_link_libraries(${sample_library} Shiboken2::libshiboken)
+target_link_libraries(${sample_library} PySide2::pyside2)
 set_property(TARGET ${sample_library} PROPERTY PREFIX "")
 
 get_target_property(qtgui_lib_includes Qt5::Gui INTERFACE_INCLUDE_DIRECTORIES)
@@ -116,6 +161,7 @@ add_library(${bindings_library} MODULE ${${bindings_library}_sources})
 
 target_include_directories(${bindings_library} PRIVATE ${python_include_dir})
 target_include_directories(${bindings_library} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../kpat/libkcardgame")
+target_include_directories(${bindings_library} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../build-kpat/")
 target_include_directories(${bindings_library} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../build-kpat/libkcardgame")
 target_include_directories(${bindings_library} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../kpat/libkcardgame/include")
 target_include_directories(${bindings_library} PRIVATE ${PYSIDE2_DIR}/include/)
@@ -125,6 +171,18 @@ target_include_directories(${bindings_library} PRIVATE "/usr/include/PySide2/QtG
 target_include_directories(${bindings_library} PRIVATE ${PYSIDE2_DIR}/include/QtCore)
 target_include_directories(${bindings_library} PRIVATE ${shiboken_include_dir})
 target_include_directories(${bindings_library} PRIVATE ${CMAKE_SOURCE_DIR})
+target_include_directories(${sample_library} PRIVATE ${python_include_dir})
+target_include_directories(${sample_library} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../kpat/libkcardgame")
+target_include_directories(${sample_library} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../build-kpat/")
+target_include_directories(${sample_library} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../build-kpat/libkcardgame")
+target_include_directories(${sample_library} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../kpat/libkcardgame/include")
+target_include_directories(${sample_library} PRIVATE ${PYSIDE2_DIR}/include/)
+target_include_directories(${sample_library} PRIVATE "/usr/include/PySide2")
+target_include_directories(${sample_library} PRIVATE "/usr/include/PySide2/QtCore/")
+target_include_directories(${sample_library} PRIVATE "/usr/include/PySide2/QtGui/")
+target_include_directories(${sample_library} PRIVATE ${PYSIDE2_DIR}/include/QtCore)
+target_include_directories(${sample_library} PRIVATE ${shiboken_include_dir})
+target_include_directories(${sample_library} PRIVATE ${CMAKE_SOURCE_DIR})
 
 target_link_libraries(${bindings_library} PRIVATE ${shiboken_shared_libraries})
 target_link_libraries(${bindings_library} PRIVATE ${sample_library})
@@ -134,6 +192,7 @@ set_property(TARGET ${bindings_library} PROPERTY PREFIX "")
 set_property(TARGET ${bindings_library} PROPERTY OUTPUT_NAME
              "${bindings_library}${PYTHON_EXTENSION_SUFFIX}")
 
+generate_export_header(${sample_library} BASE_NAME libkcardgame)
 install(TARGETS ${bindings_library} ${sample_library}
         LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}
         RUNTIME DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}

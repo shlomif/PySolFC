@@ -7,7 +7,7 @@
 
 try:
     from PySide2.QtGui import QPixmap  # noqa: F401
-    from Shiboken2QtExample import MyKCardDeck
+    from PySolFC_KCard import MyKCardDeck
 except BaseException:
     def MyKCardDeck():
         return None

@@ -37,16 +37,14 @@ get_filename_component(QtCore_libdir ${QtCore_location} DIRECTORY)
 
 set(CMAKE_AUTOMOC ON)
 
-project(Shiboken2-Qt-Example)
-
 set(CMAKE_CXX_STANDARD 11)
-set(sample_library "libexamplebinding")
-set(bindings_library "Shiboken2QtExample")
+set(bindings_library "PySolFC_KCard")
+set(sample_library "lib_${bindings_library}_binding")
 set(wrapped_header ${CMAKE_SOURCE_DIR}/bindings.h)
 set(typesystem_file ${CMAKE_SOURCE_DIR}/bindings.xml)
 set(generated_sources
     ${CMAKE_CURRENT_BINARY_DIR}/${bindings_library}/mykcarddeck_wrapper.cpp
-    ${CMAKE_CURRENT_BINARY_DIR}/${bindings_library}/shiboken2qtexample_module_wrapper.cpp)
+    ${CMAKE_CURRENT_BINARY_DIR}/${bindings_library}/pysolfc_kcard_module_wrapper.cpp)
 
 find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
 

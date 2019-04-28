@@ -84,7 +84,7 @@ class Images:
         if rec and 'suit' in rec:
             # img = PIL_Image(image=self.svg.render_fragment("6_heart"))
             img = self.svg.render_fragment(
-                id_="6_heart", width=self.CARDW, height=self.CARDH)
+                id_="queen_heart", width=self.CARDW, height=self.CARDH)
             img = PIL_Image(image=img)
         else:
             if not os.path.exists(f):

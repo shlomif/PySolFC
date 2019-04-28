@@ -176,9 +176,11 @@ foreach (_lib ${bindings_library} ${sample_library})
      )
 endforeach()
 
-target_link_libraries(${bindings_library} PRIVATE ${shiboken_shared_libraries})
-target_link_libraries(${bindings_library} PRIVATE ${sample_library})
-target_link_libraries(${bindings_library} PRIVATE ${pyside2_link})
+target_link_libraries(${bindings_library} PRIVATE
+    ${shiboken_shared_libraries}
+    ${sample_library}
+    ${pyside2_link}
+)
 
 set_property(TARGET ${bindings_library} PROPERTY PREFIX "")
 set_property(TARGET ${bindings_library} PROPERTY OUTPUT_NAME

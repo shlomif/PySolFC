@@ -5,17 +5,17 @@
 # https://stackoverflow.com/questions/22583035
 # Thanks!
 
-from PySide2.QtGui import QPixmap  # noqa: F401
-
-from Shiboken2QtExample import MyKCardDeck
+try:
+    from PySide2.QtGui import QPixmap  # noqa: F401
+    from Shiboken2QtExample import MyKCardDeck
+except BaseException:
+    def MyKCardDeck():
+        return None
 
 import cairo
 # from gi import require_version
 # require_version('Rsvg', '2.0')
 # from gi.repository import Rsvg  # noqa: E402
-
-import pysnooper  # noqa: E402
-
 
 from pysollib.mfxutil import Image  # noqa: E402
 
@@ -29,7 +29,6 @@ class SVGManager:
 
     # Taken from https://stackoverflow.com/questions/44471795
     # Under MIT License - thanks.
-    @pysnooper.snoop()
     def pixbuf2image(self, pxb):
         """ Convert GdkPixbuf.Pixbuf to PIL image """
         data = pxb.get_pixels()
@@ -43,6 +42,8 @@ class SVGManager:
         return img
 
     def render_fragment(self, rank, suit, width, height):
+        if not self.d:
+            return None
         image = Image.fromqpixmap(
             self.d.get_card_pixmap(
                 rank + 1 + {'c': 0, 'd': 1, 'h': 2, 's': 3}[suit]*0x100))

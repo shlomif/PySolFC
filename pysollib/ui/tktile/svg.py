@@ -12,7 +12,7 @@ try:
     from PySide2.QtGui import QPixmap  # noqa: F401
     from PySolFC_KCard import MyKCardDeck
 except BaseException:
-    def MyKCardDeck():
+    def MyKCardDeck(theme):
         return None
 
 # import cairo

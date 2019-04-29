@@ -25,6 +25,7 @@
 # imports
 import os
 import re
+import sys
 import traceback
 from pickle import UnpicklingError
 
@@ -487,6 +488,7 @@ class Application:
                 gameid = self.gdb.getGameByName(self.commandline.game)
                 if gameid is None:
                     print_err(_("can't find game: ") + self.commandline.game)
+                    sys.exit(-1)
                 else:
                     self.nextgame.id, self.nextgame.random = gameid, None
             elif self.commandline.gameid is not None:

@@ -86,7 +86,7 @@ def parse_option(argv):
     prog_name = argv[0]
     try:
         optlist, args = getopt.getopt(argv[1:], "g:i:hD:",
-                                      ["game=", "gameid=",
+                                      ["deal=", "game=", "gameid=",
                                        "french-only",
                                        "noplugins",
                                        "nosound",
@@ -97,6 +97,7 @@ def parse_option(argv):
                   (err, prog_name), 0)
         return None
     opts = {"help": False,
+            "deal": None,
             "game": None,
             "gameid": None,
             "french-only": False,
@@ -107,6 +108,8 @@ def parse_option(argv):
     for i in optlist:
         if i[0] in ("-h", "--help"):
             opts["help"] = True
+        elif i[0] in ("--deal"):
+            opts["deal"] = i[1]
         elif i[0] in ("-g", "--game"):
             opts["game"] = i[1]
         elif i[0] in ("-i", "--gameid"):
@@ -164,6 +167,7 @@ def pysol_init(app, args):
     opts, filename = opts
     if filename:
         app.commandline.loadgame = filename
+    app.commandline.deal = opts['deal']
     app.commandline.game = opts['game']
     if opts['gameid'] is not None:
         try:

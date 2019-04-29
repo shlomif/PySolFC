@@ -38,7 +38,7 @@ from pysollib.mfxutil import latin1_normalize, print_err
 from pysollib.mfxutil import pickle, unpickle
 from pysollib.mygettext import _
 from pysollib.options import Options
-from pysollib.pysolrandom import PysolRandom
+from pysollib.pysolrandom import PysolRandom, constructRandom
 from pysollib.pysoltk import HTMLViewer
 from pysollib.pysoltk import HelpStatusbar, PysolStatusbar
 from pysollib.pysoltk import MfxDialog, MfxExceptionDialog, MfxMessageDialog
@@ -419,6 +419,7 @@ class Application:
             loadgame=None,            # load a game ?
             game=None,
             gameid=None,
+            deal=None,
         )
         self.demo_counter = 0
 
@@ -490,7 +491,10 @@ class Application:
                     print_err(_("can't find game: ") + self.commandline.game)
                     sys.exit(-1)
                 else:
-                    self.nextgame.id, self.nextgame.random = gameid, None
+                    self.nextgame.id = gameid
+                    deal = self.commandline.deal
+                    self.nextgame.random = \
+                        None if deal is None else constructRandom(deal)
             elif self.commandline.gameid is not None:
                 self.nextgame.id, self.nextgame.random = \
                     self.commandline.gameid, None

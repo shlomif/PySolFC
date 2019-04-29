@@ -29,6 +29,7 @@ import sys
 import traceback
 from pickle import UnpicklingError
 
+from pysollib.app_stat import GameStat
 from pysollib.app_stat_result import GameStatResult
 from pysollib.gamedb import GAME_DB, GI, loadGame
 from pysollib.images import Images, SubsampledImages
@@ -73,69 +74,6 @@ if True:  # This prevents from travis 'error' E402.
 # * Statistics
 # ************************************************************************
 _GameStatResult = GameStatResult
-
-
-class GameStat:
-    def __init__(self, id):
-        self.gameid = id
-        #
-        self.num_total = 0
-        # self.num_not_won = 0
-        self.num_lost = 0
-        self.num_won = 0
-        self.num_perfect = 0
-        #
-        self.time_result = GameStatResult()
-        self.moves_result = GameStatResult()
-        self.total_moves_result = GameStatResult()
-        self.score_result = GameStatResult()
-        self.score_casino_result = GameStatResult()
-
-    def update(self, game, status):
-        #
-        game_number = game.getGameNumber(format=0)
-        game_start_time = game.gstats.start_time
-        # update number of games
-        # status:
-        # -1 - NOT WON (not played)
-        # 0 - LOST
-        # 1 - WON
-        # 2 - PERFECT
-        self.num_total += 1
-        assert status in (0, 1, 2)
-        if status == 0:
-            self.num_lost += 1
-            return
-        elif status == 1:
-            self.num_won += 1
-        else:  # status == 2
-            self.num_perfect += 1
-
-        score = game.getGameScore()
-        # print 'GameScore:', score
-        score_p = None
-        if score is not None:
-            score_p = self.score_result.update(
-                game.id, score, game_number, game_start_time)
-        score = game.getGameScoreCasino()
-        # print 'GameScoreCasino:', score
-        score_casino_p = None
-        if score is not None:
-            score_casino_p = self.score_casino_result.update(
-                game.id, score, game_number, game_start_time)
-
-        if status == 0:
-            return
-
-        game.updateTime()
-        time_p = self.time_result.update(
-            game.id, game.stats.elapsed_time, game_number, game_start_time)
-        moves_p = self.moves_result.update(
-            game.id, game.moves.index, game_number, game_start_time)
-        total_moves_p = self.total_moves_result.update(
-            game.id, game.stats.total_moves, game_number, game_start_time)
-
-        return time_p, moves_p, total_moves_p, score_p, score_casino_p
 
 
 class Statistics:

@@ -29,6 +29,7 @@ import sys
 import traceback
 from pickle import UnpicklingError
 
+from pysollib.app_stat_result import GameStatResult
 from pysollib.gamedb import GAME_DB, GI, loadGame
 from pysollib.images import Images, SubsampledImages
 from pysollib.mfxutil import Struct, destruct
@@ -54,7 +55,7 @@ from pysollib.resource import Sample, SampleManager
 from pysollib.resource import Tile, TileManager
 from pysollib.settings import DEBUG
 from pysollib.settings import PACKAGE, VERSION_TUPLE, WIN_SYSTEM
-from pysollib.settings import TOOLKIT, TOP_SIZE
+from pysollib.settings import TOOLKIT
 from pysollib.util import CARDSET, IMAGE_EXTENSIONS
 from pysollib.winsystems import TkSettings
 if TOOLKIT == 'tk':
@@ -71,49 +72,7 @@ if True:  # This prevents from travis 'error' E402.
 # ************************************************************************
 # * Statistics
 # ************************************************************************
-
-
-class _GameStatResult:
-    def __init__(self):
-        self.min = 0
-        self.max = 0
-        self.top = []
-        self.num = 0
-        self.total = 0  # sum of all values
-        self.average = 0
-
-    def update(self, gameid, value, game_number, game_start_time):
-        # update min & max
-        if not self.min or value < self.min:
-            self.min = value
-        if not self.max or value > self.max:
-            self.max = value
-        # calculate position & update top
-        position = None
-        n = 0
-        for i in self.top:
-            if value < i.value:
-                position = n+1
-                v = Struct(gameid=gameid,
-                           value=value,
-                           game_number=game_number,
-                           game_start_time=game_start_time)
-                self.top.insert(n, v)
-                del self.top[TOP_SIZE:]
-                break
-            n += 1
-        if not position and len(self.top) < TOP_SIZE:
-            v = Struct(gameid=gameid,
-                       value=value,
-                       game_number=game_number,
-                       game_start_time=game_start_time)
-            self.top.append(v)
-            position = len(self.top)
-        # update average
-        self.total += value
-        self.num += 1
-        self.average = float(self.total)/self.num
-        return position
+_GameStatResult = GameStatResult
 
 
 class GameStat:
@@ -126,11 +85,11 @@ class GameStat:
         self.num_won = 0
         self.num_perfect = 0
         #
-        self.time_result = _GameStatResult()
-        self.moves_result = _GameStatResult()
-        self.total_moves_result = _GameStatResult()
-        self.score_result = _GameStatResult()
-        self.score_casino_result = _GameStatResult()
+        self.time_result = GameStatResult()
+        self.moves_result = GameStatResult()
+        self.total_moves_result = GameStatResult()
+        self.score_result = GameStatResult()
+        self.score_casino_result = GameStatResult()
 
     def update(self, game, status):
         #

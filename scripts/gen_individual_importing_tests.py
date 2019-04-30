@@ -16,6 +16,7 @@ for module_name in \
          'pysollib.app',
          'pysollib.app_stat',
          'pysollib.app_stat_result',
+         'pysollib.app_statistics',
          'pysollib.configobj.configobj',
          'pysollib.configobj.validate',
          'pysollib.customgame',

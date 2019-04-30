@@ -80,9 +80,6 @@ class Comments:
         #
         self.comments = {}
 
-    def new(self):
-        return Comments()
-
     def setGameComment(self, gameid, text):
         player = None
         key = (1, gameid, player)

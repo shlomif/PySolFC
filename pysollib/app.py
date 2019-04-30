@@ -22,16 +22,18 @@
 # ---------------------------------------------------------------------------##
 
 
-# imports
 import os
 import re
 import sys
 import traceback
 from pickle import UnpicklingError
 
+from pysollib.actions import PysolMenubar
+from pysollib.actions import PysolToolbar
 from pysollib.app_stat_result import GameStatResult
 from pysollib.app_statistics import Statistics
 from pysollib.gamedb import GAME_DB, GI, loadGame
+from pysollib.help import destroy_help_html, help_about
 from pysollib.images import Images, SubsampledImages
 from pysollib.mfxutil import Struct, destruct
 from pysollib.mfxutil import USE_PIL
@@ -65,10 +67,6 @@ else:
     from pysollib.pysoltk import destroy_solver_dialog
 if TOOLKIT == 'kivy':
     import logging
-if True:  # This prevents from travis 'error' E402.
-    from pysollib.actions import PysolMenubar
-    from pysollib.actions import PysolToolbar
-    from pysollib.help import help_about, destroy_help_html
 
 _GameStatResult = GameStatResult
 

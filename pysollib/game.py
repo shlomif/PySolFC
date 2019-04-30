@@ -29,10 +29,24 @@ import traceback
 from pickle import Pickler, Unpickler, UnpicklingError
 
 from pysollib.gamedb import GI
+from pysollib.help import help_about
+from pysollib.hint import DefaultHint
 from pysollib.mfxutil import Image, ImageTk, USE_PIL
 from pysollib.mfxutil import Struct, SubclassResponsibility, destruct
 from pysollib.mfxutil import format_time, print_err
 from pysollib.mfxutil import uclock, usleep
+from pysollib.move import AFlipAllMove
+from pysollib.move import AFlipAndMoveMove
+from pysollib.move import AFlipMove
+from pysollib.move import AMoveMove
+from pysollib.move import ANextRoundMove
+from pysollib.move import ASaveSeedMove
+from pysollib.move import ASaveStateMove
+from pysollib.move import AShuffleStackMove
+from pysollib.move import ASingleCardMove
+from pysollib.move import ASingleFlipMove
+from pysollib.move import ATurnStackMove
+from pysollib.move import AUpdateStackMove
 from pysollib.mygettext import _
 from pysollib.mygettext import ungettext
 from pysollib.pysolrandom import LCRandom31, PysolRandom, constructRandom, \
@@ -57,14 +71,6 @@ if TOOLKIT == 'tk':
 else:
     from pysollib.pysoltk import reset_solver_dialog
 
-if True:  # This prevents from travis 'error' E402.
-    from pysollib.move import AMoveMove, AFlipMove, AFlipAndMoveMove
-    from pysollib.move import ASingleFlipMove, ATurnStackMove
-    from pysollib.move import ANextRoundMove, ASaveSeedMove, AShuffleStackMove
-    from pysollib.move import AUpdateStackMove, AFlipAllMove, ASaveStateMove
-    from pysollib.move import ASingleCardMove
-    from pysollib.hint import DefaultHint
-    from pysollib.help import help_about
 
 PLAY_TIME_TIMEOUT = 200
 

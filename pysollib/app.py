@@ -73,24 +73,6 @@ if True:  # This prevents from travis 'error' E402.
 _GameStatResult = GameStatResult
 
 
-class Comments:
-    def __init__(self):
-        self.version_tuple = VERSION_TUPLE
-        self.saved = 0
-        #
-        self.comments = {}
-
-    def setGameComment(self, gameid, text):
-        player = None
-        key = (1, gameid, player)
-        self.comments[key] = str(text)
-
-    def getGameComment(self, gameid):
-        player = None
-        key = (1, gameid, player)
-        return self.comments.get(key, "")
-
-
 # ************************************************************************
 # * Application
 # * This is the glue between the toplevel window and a Game.
@@ -103,7 +85,6 @@ class Application:
         self.opt = Options()
         self.startup_opt = self.opt.copy()
         self.stats = Statistics()
-        self.comments = Comments()
         self.splashscreen = 1
         # visual components
         self.top = None                 # the root toplevel window
@@ -213,12 +194,6 @@ class Application:
         # try to load statistics
         try:
             self.loadStatistics()
-        except Exception:
-            traceback.print_exc()
-            pass
-        # try to load comments
-        try:
-            self.loadComments()
         except Exception:
             traceback.print_exc()
             pass
@@ -387,12 +362,6 @@ class Application:
             # save statistics
             try:
                 self.saveStatistics()
-            except Exception:
-                traceback.print_exc()
-                pass
-            # save comments
-            try:
-                self.saveComments()
             except Exception:
                 traceback.print_exc()
                 pass
@@ -878,7 +847,7 @@ Please select a %s type %s.
         return cs
 
     #
-    # load & save options, statistics and comments
+    # load & save options, and statistics
     #
 
     def loadOptions(self):
@@ -907,14 +876,6 @@ Please select a %s type %s.
         self.stats.session_balance = {}
         self.stats.gameid_balance = 0
 
-    def loadComments(self):
-        if not os.path.exists(self.fn.comments):
-            return
-        comments = unpickle(self.fn.comments)
-        if comments:
-            # print "loaded:", comments.__dict__
-            self.comments.__dict__.update(comments.__dict__)
-
     def __saveObject(self, obj, fn):
         obj.version_tuple = VERSION_TUPLE
         obj.saved += 1
@@ -925,9 +886,6 @@ Please select a %s type %s.
 
     def saveStatistics(self):
         self.__saveObject(self.stats, self.fn.stats)
-
-    def saveComments(self):
-        self.__saveObject(self.comments, self.fn.comments)
 
     #
     # access games database

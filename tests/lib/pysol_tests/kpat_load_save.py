@@ -71,3 +71,15 @@ class MyTests(unittest.TestCase):
             + "<card id=\"1002\" suit=\"spades\" " +
             "rank=\"two\" turn=\"face-up\"/>\n"
         )
+
+    def test_write_card3(self):
+        f = cStringIO()
+        e = KpatXmlEmitter(f)
+        self.assertTrue(e)
+        e.writeCard(card=AbstractCard(1004, 0, 2, 11, 3001), turn="face-up")
+        self.assertEqual(
+            f.getvalue(),
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+            + "<card id=\"1004\" suit=\"hearts\" " +
+            "rank=\"queen\" turn=\"face-up\"/>\n"
+        )

@@ -4,7 +4,6 @@
 import os
 import os.path
 import re
-import string
 from sys import platform
 
 IS_MAC = (platform == "darwin")
@@ -15,8 +14,7 @@ for d, _, files in os.walk("pysollib"):
     for f in files:
         if re.search("\\.py$", f):
             module_names.append(
-                string.replace(d + "/" +
-                               re.sub("\\.py$", "", f), "/", "."))
+                (d + "/" + re.sub("\\.py$", "", f)).replace("/", "."))
 
 module_names.sort()
 for module_name in module_names:

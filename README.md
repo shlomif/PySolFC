@@ -183,6 +183,7 @@ to its CMake-based build-system:
 - [PySol-Sound-Server fork](https://github.com/shlomif/pysol-sound-server)
 - [Sources for the PySolFC web site](https://github.com/shlomif/pysolfc-website)
 - [PySolFC Announcements Drafts](https://github.com/shlomif/pysolfc-announcements)
+- [PySolFC-Cardsets tarballs sources repo](https://github.com/shlomif/PySolFC-Cardsets)
 - [Extra mahjongg cardsets for PySolFC - originally for flowersol](https://github.com/shlomif/PySol-Extra-Mahjongg-Cardsets)
 - [The old "pysol-music" distribution](https://github.com/shlomif/pysol-music)
 

@@ -46,9 +46,20 @@ class KpatXmlEmitter:
         self._indent -= 1
         self._ind_out("</{}>\n".format(self._tags.pop()['name']))
 
+    def _calcSuit(self, suit):
+        """docstring for _calcSuit"""
+        return ["clubs", "spades", "hearts", "diamonds"][suit]
+
+    def _calcRank(self, rank):
+        """docstring for _calcRank"""
+        return ["ace", "two", "three", "four", "five", "six",
+                "seven", "eight", "nine", "ten", "jack", "queen", "king"][rank]
+
     def writeCard(self, card, turn=None):
         """docstring for writeCard"""
         self.writeEmptyTag(
             "card",
-            [("id", str(card.id)), ("suit", "clubs"), ("rank", "ace")] +
+            [("id", str(card.id)),
+             ("suit", self._calcSuit(card.suit)),
+             ("rank", self._calcRank(card.rank))] +
             ([("turn", turn)] if turn else []))

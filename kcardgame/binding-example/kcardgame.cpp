@@ -15,6 +15,14 @@ MyKCardDeck::MyKCardDeck(QString theme_name)
     d->setDeckContents(ids);
     d->setCardWidth(150);
 }
+int MyKCardDeck::get_card_height()
+{
+    return d->cardHeight();
+}
+int MyKCardDeck::get_card_width()
+{
+    return d->cardWidth();
+}
 void MyKCardDeck::set_card_height(int i)
 {
     d->setCardHeight(i);

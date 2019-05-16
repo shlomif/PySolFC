@@ -49,13 +49,13 @@ class SVGManager:
         if not self.d:
             return None
         d = self.d
-        # d.set_card_width(width)
-        d.set_card_width(150)
+        d.set_card_width(width)
+        print("wh", d.get_card_width(), width, d.get_card_height(), height)
         # d.set_card_height(height)
         image = Image.fromqpixmap(
             d.get_card_pixmap(
                 rank + 1 + {'c': 0, 'd': 1, 'h': 2, 's': 3}[suit]*0x100))
-        return image.resize((width, height), Image.LANCZOS)
+        # return image.resize((width, height), Image.LANCZOS)
         return image
         if 0:
             id__ = '#' + "queen_heart"

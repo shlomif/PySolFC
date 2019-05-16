@@ -13,6 +13,8 @@ class Q_DECL_EXPORT MyKCardDeck : public QObject
     explicit MyKCardDeck(QString);
   public slots:
     Q_DECL_EXPORT QPixmap *get_card_pixmap(int i);
+    Q_DECL_EXPORT int get_card_height();
+    Q_DECL_EXPORT int get_card_width();
     Q_DECL_EXPORT void set_card_height(int i);
     Q_DECL_EXPORT void set_card_width(int i);
 };

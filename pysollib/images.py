@@ -57,6 +57,9 @@ class Images:
         if cs is None:
             return
         self._setSize()
+        self.CARDW = 100
+        self.CARDH = -1
+        cs.backnames = []
         self._card = []
         self._back = []
         # bottom of stack (link to _bottom_negative/_bottom_positive)
@@ -107,6 +110,8 @@ class Images:
         if self.CARDW < 0:
             self.CARDW, self.CARDH = w, h
         else:
+            if self.CARDH < 0:
+                self.CARDH = h
             if ((check_w and w != self.CARDW) or
                     (check_h and h != self.CARDH)):
                 raise ValueError("Invalid size %dx%d of image %s" % (w, h, f))

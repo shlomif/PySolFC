@@ -50,7 +50,7 @@ class SVGManager:
             return None
         d = self.d
         d.set_card_width(width)
-        print("wh", d.get_card_width(), width, d.get_card_height(), height)
+        # print("wh", d.get_card_width(), width, d.get_card_height(), height)
         # d.set_card_height(height)
         image = Image.fromqpixmap(
             d.get_card_pixmap(

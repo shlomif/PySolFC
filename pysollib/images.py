@@ -147,7 +147,6 @@ class Images:
         r = max(self.CARDW / 40.0, self.CARDH / 60.0)
         r = max(2, int(round(r)))
         # im2 = PIL_Image(image=im1.subsample(r))
-        print(type(im1))
         im1 = PIL_Image(image=im1)
         im2 = im1.subsample(r)
         self._back.append(ImagesCardback(len(self._back), name, im1, im2))

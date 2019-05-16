@@ -261,7 +261,6 @@ if Image:
             if isinstance(image, type(self)):
                 assert 0
                 image = image._pil_image
-            print(type(image))
             # if not isinstance(image, ImageTk.PhotoImage):
             ImageTk.PhotoImage.__init__(self, image=image)
             self._pil_image = image

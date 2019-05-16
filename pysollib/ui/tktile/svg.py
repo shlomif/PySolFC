@@ -48,9 +48,15 @@ class SVGManager:
     def render_fragment(self, rank, suit, width, height):
         if not self.d:
             return None
+        d = self.d
+        # d.set_card_width(width)
+        d.set_card_width(150)
+        # d.set_card_height(height)
         image = Image.fromqpixmap(
-            self.d.get_card_pixmap(
+            d.get_card_pixmap(
                 rank + 1 + {'c': 0, 'd': 1, 'h': 2, 's': 3}[suit]*0x100))
+        return image.resize((width, height), Image.LANCZOS)
+        return image
         if 0:
             id__ = '#' + "queen_heart"
             """docstring for render_"""
@@ -68,4 +74,3 @@ class SVGManager:
                 image = Image.frombuffer('RGBA', (width_, height_), buf,
                                          'raw', 'BGRA', 0, 1)
             image = self.pixbuf2image(pix)
-        return image.resize((width, height))

@@ -15,6 +15,15 @@ MyKCardDeck::MyKCardDeck(QString theme_name)
     d->setDeckContents(ids);
     d->setCardWidth(150);
 }
+void MyKCardDeck::set_card_height(int i)
+{
+    d->setCardHeight(i);
+}
+void MyKCardDeck::set_card_width(int i)
+{
+    d->setCardWidth(i);
+}
+
 QPixmap *MyKCardDeck::get_card_pixmap(int i)
 {
     auto ret = new QPixmap(d->cardPixmap(i, true));

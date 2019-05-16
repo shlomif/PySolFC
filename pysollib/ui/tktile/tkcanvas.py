@@ -59,7 +59,10 @@ class MfxCanvasImage(ImageItem2):
             group = kwargs['group']
             del kwargs['group']
         if 'image' in kwargs:
-            self._image = kwargs['image']
+            im = kwargs['image']
+            from pysollib.ui.tktile.tkutil import get_image_tk
+            im = get_image_tk(im)
+            kwargs['image'] = self._image = im
         ImageItem2.__init__(self, canvas, x, y, **kwargs)
         if group:
             self.addtag(group)

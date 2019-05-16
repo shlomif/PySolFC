@@ -180,6 +180,9 @@ class Application:
 
     # the PySol mainloop
     def mainloop(self):
+        approc = self.mainproc()  # setup process
+        approc.send(None)				# and go
+        return
         try:
             approc = self.mainproc()  # setup process
             approc.send(None)				# and go
@@ -202,6 +205,7 @@ class Application:
             except Exception:
                 traceback.print_exc()
                 game = None
+                sys.exit()
             if game:
                 if game.id == self.opt.game_holded and game.gstats.holded:
                     game.gstats.loaded = game.gstats.loaded - 1
@@ -237,6 +241,7 @@ class Application:
                     traceback.print_exc()
                     self.nextgame.id = 2
                     self.freeGame()
+                    sys.exit()
                     continue
                 if self.nextgame.holdgame:
                     assert self.nextgame.id <= 0
@@ -267,9 +272,11 @@ class Application:
 
         except Exception:
             traceback.print_exc()
+            sys.exit()
             pass
 
         finally:
+            sys.exit()
             # hide main window
             self.wm_withdraw()
             #
@@ -326,6 +333,7 @@ class Application:
                 except Exception:
                     traceback.print_exc()
                     self.nextgame.loadedgame = None
+                    sys.exit()
             elif self.commandline.game is not None:
                 gameid = self.gdb.getGameByName(self.commandline.game)
                 if gameid is None:
@@ -702,6 +710,7 @@ class Application:
             r = 1
         except (Exception, TclError, UnpicklingError) as ex:
             traceback.print_exc()
+            sys.exit()
             cs.error = 1
             # restore settings
             self.nextgame.cardset = self.cardset

@@ -115,6 +115,7 @@ class Images:
             if ((check_w and w != self.CARDW) or
                     (check_h and h != self.CARDH)):
                 raise ValueError("Invalid size %dx%d of image %s" % (w, h, f))
+        assert img
         return img
 
     def __loadBottom(self, filename, check_w=1, check_h=1, color='white'):
@@ -145,6 +146,9 @@ class Images:
     def __addBack(self, im1, name):
         r = max(self.CARDW / 40.0, self.CARDH / 60.0)
         r = max(2, int(round(r)))
+        # im2 = PIL_Image(image=im1.subsample(r))
+        print(type(im1))
+        im1 = PIL_Image(image=im1)
         im2 = im1.subsample(r)
         self._back.append(ImagesCardback(len(self._back), name, im1, im2))
 

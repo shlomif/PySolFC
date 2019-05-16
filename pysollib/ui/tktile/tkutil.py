@@ -42,6 +42,15 @@ def wm_deiconify(window):
     window.wm_deiconify()
 
 
+def get_image_tk(self):
+    try:
+        return self.getTk()
+    except Exception:
+        if isinstance(self, ImageTk.PhotoImage):
+            return self
+        return ImageTk.PhotoImage(self)
+
+
 def wm_map(window, maximized=0):
     if window.wm_state() != "iconic":
         if maximized and WIN_SYSTEM == "win32":
@@ -249,12 +258,20 @@ if Image:
         def __init__(self, file=None, image=None, pil_image_orig=None):
             if file:
                 image = Image.open(file).convert('RGBA')
-            ImageTk.PhotoImage.__init__(self, image)
+            if isinstance(image, type(self)):
+                assert 0
+                image = image._pil_image
+            print(type(image))
+            # if not isinstance(image, ImageTk.PhotoImage):
+            ImageTk.PhotoImage.__init__(self, image=image)
             self._pil_image = image
             if pil_image_orig:
                 self._pil_image_orig = pil_image_orig
             else:
                 self._pil_image_orig = image
+
+        def getTk(self):
+            return ImageTk.PhotoImage(self._pil_image)
 
         def subsample(self, r):
             im = self._pil_image
@@ -341,9 +358,16 @@ def fillImage(image, fill, outline=None):
 
 
 def createImage(width, height, fill, outline=None):
-    image = tkinter.PhotoImage(width=width, height=height)
-    assert image.width() == width
-    assert image.height() == height
+    image = ImageTk.PhotoImage(size=(width, height), image='RGBA')
+    image = Image.new('RGBA', (width, height), fill)
+    # image = tkinter.PhotoImage(width=width, height=height)
+    assert image.width == width
+    assert image.height == height
+    from PIL import ImageDraw
+    idraw = ImageDraw.Draw(image)
+    idraw.rectangle((0, 0, width, height), fill=fill)
+    # return ImageTk.PhotoImage(image=image)
+    return image
     image.blank()
     fillImage(image, fill, outline)
     return image

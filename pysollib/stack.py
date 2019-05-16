@@ -862,6 +862,12 @@ class Stack:
         # bottom and shade
         if self.images.bottom:
             img = self.getBottomImage()
+            img2 = img
+            try:
+                from pysollib.pysoltk import get_image_tk
+                img = get_image_tk(img)
+            except Exception:
+                img = img2
             self.images.bottom['image'] = img
             self.images.bottom.moveTo(x, y)
         if self.items.bottom:

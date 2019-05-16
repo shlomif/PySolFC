@@ -28,6 +28,7 @@ import sys
 import traceback
 from pickle import UnpicklingError
 
+import pysollib.app_stat
 from pysollib.actions import PysolMenubar
 from pysollib.actions import PysolToolbar
 from pysollib.app_stat_result import GameStatResult
@@ -69,6 +70,7 @@ if TOOLKIT == 'kivy':
     import logging
 
 _GameStatResult = GameStatResult
+GameStat = pysollib.app_stat.GameStat
 
 
 # ************************************************************************

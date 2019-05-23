@@ -34,6 +34,8 @@ except ImportError:
         "You need to install " +
         "https://pypi.python.org/pypi/random2 using pip or similar.")
 
+from pysol_cards.random import RandomBase  # noqa: I100
+
 
 # ************************************************************************
 # * Abstract class for PySol Random number generator.
@@ -42,7 +44,7 @@ except ImportError:
 # ************************************************************************
 
 
-class BasicRandom:
+class BasicRandom(RandomBase):
     # MAX_SEED = 0L
     # MAX_SEED = 0xffffffffffffffffL  # 64 bits
     MAX_SEED = int('100000000000000000000')  # 20 digits
@@ -172,19 +174,8 @@ class MFXRandom(BasicRandom):
     def choice(self, seq):
         return seq[int(self.random() * len(seq))]
 
-    # Get a random integer in the range [a, b] including both end points.
-    def randint(self, a, b):
-        return a + int(self.random() * (b+1-a))
-
     def randrange(self, a, b):
         return self.randint(a, b-1)
-
-    def shuffle(self, seq):
-        n = len(seq) - 1
-        while n > 0:
-            j = self.randint(0, n)
-            seq[n], seq[j] = seq[j], seq[n]
-            n -= 1
 
 
 # ************************************************************************
@@ -265,13 +256,6 @@ class LCRandom31(MFXRandom):
             ret = self._randp() + 1
 
         return a + (ret % (b+1-a))
-
-    def shuffle(self, seq):
-        n = len(seq) - 1
-        while n > 0:
-            j = self.randint(0, n)
-            seq[n], seq[j] = seq[j], seq[n]
-            n -= 1
 
     def reset(self):
         self.setSeed(self.seed)

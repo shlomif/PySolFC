@@ -63,3 +63,6 @@ class KpatXmlEmitter:
              ("suit", self._calcSuit(card.suit)),
              ("rank", self._calcRank(card.rank))] +
             ([("turn", turn)] if turn else []))
+
+    def writeInitialLayout(self, state, turn_cb):
+        assert False  # unimpl

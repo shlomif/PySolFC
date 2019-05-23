@@ -225,11 +225,15 @@ class CustomRandom(BasicRandom):
 class LCRandom31(MFXRandom):
     MAX_SEED = int('0x1ffffffff', 0)          # 33 bits
 
+    def increaseSeed(self, seed):
+        ret = super(LCRandom31, self).increaseSeed(seed)
+        return "ms{}".format(ret)
+
     def getSeedStr(self):
         return "ms" + str(self.initial_seed)
 
     def str(self, seed):
-        return "%05d" % int(seed)
+        return "%05d" % int(seed) if not _match_ms(seed) else seed
 
     def setSeed(self, seed):
         seed = int(seed)

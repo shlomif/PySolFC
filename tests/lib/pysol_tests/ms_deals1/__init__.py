@@ -665,3 +665,21 @@ QH 9H 9D 5S 7S 6C
 
         # TEST
         self.assertEqual(got, inp, 'str2long PySolFC roundtrip.')
+
+        rand = constructRandom('ms100000')
+        seed = rand.increaseSeed(rand.initial_seed)
+        seed = rand.str(seed)
+        # TEST
+        self.assertEqual(seed, 'ms100001', 'increaseSeed for ms deals')
+        rand = constructRandom(seed)
+        game = Game("freecell", rand, True)
+        # TEST
+        self._cmp_board(game.print_layout(), '''5S AH 4H TD 4S JD JS
+3C 8C 4C AC JC AS QS
+7C QH 2D QD 8S 9D AD
+KS 7S 5H 3H TS 3S 5D
+9S 7H KC TH 8D 6S
+5C KD 9H 2H 2S 6D
+9C JH 8H 3D 4D QC
+KH 6H 6C TC 2C 7D
+''', 'ms100001')

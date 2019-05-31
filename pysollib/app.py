@@ -276,8 +276,8 @@ class Application:
         self.top.grid_rowconfigure(1, weight=1)
         self.setTile(self.tabletile_index, force=True)
         # create the toolbar
-        dir = self.getToolbarImagesDir()
-        self.toolbar = PysolToolbar(self.top, self.menubar, dir=dir,
+        dirname = self.getToolbarImagesDir()
+        self.toolbar = PysolToolbar(self.top, self.menubar, dir=dirname,
                                     size=self.opt.toolbar_size,
                                     relief=self.opt.toolbar_relief,
                                     compound=self.opt.toolbar_compound)
@@ -494,63 +494,63 @@ class Application:
 
     def loadImages1(self):
         # load dialog images
-        dir = os.path.join("images", "logos")
+        dirname = os.path.join("images", "logos")
         for f in ("joker07_40_774",
                   "joker08_40_774",
                   "joker07_50_774",
                   "joker08_50_774",
                   "joker11_100_774",
                   "joker10_100",):
-            self.gimages.logos.append(self.dataloader.findImage(f, dir))
+            self.gimages.logos.append(self.dataloader.findImage(f, dirname))
         if WIN_SYSTEM == 'win32':
-            dir = os.path.join('images', 'dialog', 'default')
+            dirname = os.path.join('images', 'dialog', 'default')
         else:
-            dir = os.path.join('images', 'dialog', 'bluecurve')
+            dirname = os.path.join('images', 'dialog', 'bluecurve')
         for f in ('error', 'info', 'question', 'warning'):
-            fn = self.dataloader.findImage(f, dir)
+            fn = self.dataloader.findImage(f, dirname)
             im = loadImage(fn)
             MfxMessageDialog.img[f] = im
 
         # load button images
         if 0 and TOOLKIT == 'tk':
-            dir = os.path.join('images', 'buttons', 'bluecurve')
+            dirname = os.path.join('images', 'buttons', 'bluecurve')
             for n, f in (
                 (_('&OK'), 'ok'),
                 (_('&Cancel'), 'cancel'),
                 (_('&New game'), 'new'),
             ):
-                fn = self.dataloader.findImage(f, dir)
+                fn = self.dataloader.findImage(f, dirname)
                 im = loadImage(fn)
                 MfxDialog.button_img[n] = im
 
     def loadImages2(self):
         # load canvas images
-        dir = "images"
+        dirname = "images"
         # for f in ("noredeal", "redeal",):
         for f in ("stopsign", "redeal",):
-            self.gimages.redeal.append(self.dataloader.findImage(f, dir))
-        dir = os.path.join("images", "demo")
+            self.gimages.redeal.append(self.dataloader.findImage(f, dirname))
+        dirname = os.path.join("images", "demo")
         for f in ("demo01", "demo02", "demo03", "demo04", "demo05",):
-            self.gimages.demo.append(self.dataloader.findImage(f, dir))
-        dir = os.path.join("images", "pause")
+            self.gimages.demo.append(self.dataloader.findImage(f, dirname))
+        dirname = os.path.join("images", "pause")
         for f in ("pause01", "pause02", "pause03",):
-            self.gimages.pause.append(self.dataloader.findImage(f, dir))
-        # dir = os.path.join("images", "stats")
+            self.gimages.pause.append(self.dataloader.findImage(f, dirname))
+        # dirname = os.path.join("images", "stats")
         # for f in ("barchart",):
-        #     self.gimages.stats.append(self.dataloader.findImage(f, dir))
+        #     self.gimages.stats.append(self.dataloader.findImage(f, dirname))
 
     def loadImages3(self):
         # load treeview images
         SelectDialogTreeData.img = []
-        dir = os.path.join('images', 'tree')
+        dirname = os.path.join('images', 'tree')
         for f in ('folder', 'openfolder', 'node', 'emptynode'):
-            fn = self.dataloader.findImage(f, dir)
+            fn = self.dataloader.findImage(f, dirname)
             im = loadImage(fn)
             SelectDialogTreeData.img.append(im)
 
         # load htmlviewer images
-        dir = os.path.join('images', 'htmlviewer')
-        fn = self.dataloader.findImage('disk', dir)
+        dirname = os.path.join('images', 'htmlviewer')
+        fn = self.dataloader.findImage('disk', dirname)
         HTMLViewer.symbols_fn['disk'] = fn
 
     def loadImages4(self):
@@ -1041,10 +1041,10 @@ Please select a %s type %s.
     # plugins
     #
 
-    def loadPlugins(self, dir):
-        for name in self._my_list_dir(dir):
+    def loadPlugins(self, dirname):
+        for name in self._my_list_dir(dirname):
             m = re.search(r"^(.+)\.py$", name)
-            n = os.path.join(dir, name)
+            n = os.path.join(dirname, name)
             if m and os.path.isfile(n):
                 try:
                     loadGame(m.group(1), n)
@@ -1058,7 +1058,7 @@ Please select a %s type %s.
     #
 
     # read & parse a cardset config.txt file - see class Cardset in resource.py
-    def _readCardsetConfig(self, dir, filename):
+    def _readCardsetConfig(self, dirname, filename):
         f = None
         try:
             f = open(filename, "r")
@@ -1076,7 +1076,7 @@ Please select a %s type %s.
         if config.CARDD > self.top.winfo_screendepth():
             return None
         cs = Cardset()
-        cs.dir = dir
+        cs.dir = dirname
         cs.update(config.__dict__)
         return cs
 
@@ -1193,18 +1193,18 @@ Please select a %s type %s.
         # print dirs
         found, t = [], {}
         fnames = {}  # (to check for duplicates)
-        for dir in dirs:
-            dir = dir.strip()
+        for dirname in dirs:
+            dirname = dirname.strip()
             try:
                 names = []
-                if dir and os.path.isdir(dir) and dir not in t:
-                    t[dir] = 1
-                    names = os.listdir(dir)
+                if dirname and os.path.isdir(dirname) and dirname not in t:
+                    t[dirname] = 1
+                    names = os.listdir(dirname)
                     names.sort()
                 for name in names:
                     if not name.startswith('cardset-'):
                         continue
-                    d = os.path.join(dir, name)
+                    d = os.path.join(dirname, name)
                     if not os.path.isdir(d):
                         continue
                     f1 = os.path.join(d, "config.txt")
@@ -1294,10 +1294,10 @@ Please select a %s type %s.
             if not manager.getByName(obj.name):
                 manager.register(obj)
 
-    def _my_list_dir(self, dir):
+    def _my_list_dir(self, dirname):
         """docstring for _my_list_dir"""
-        if dir and os.path.isdir(dir):
-            names = os.listdir(dir)
+        if dirname and os.path.isdir(dirname):
+            names = os.listdir(dirname)
             names = list(map(os.path.normcase, names))
             names.sort()
             return names
@@ -1310,15 +1310,15 @@ Please select a %s type %s.
 
     def initResource(self, manager, dirs, ext_re, Resource_Class):
         found, t = [], {}
-        for dir in dirs:
-            dir = dir.strip()
-            if dir:
-                dir = os.path.normpath(dir)
+        for dirname in dirs:
+            dirname = dirname.strip()
+            if dirname:
+                dirname = os.path.normpath(dirname)
             try:
-                for name in self._my_list_dir(dir):
+                for name in self._my_list_dir(dirname):
                     if not name or not ext_re.search(name):
                         continue
-                    f = os.path.join(dir, name)
+                    f = os.path.join(dirname, name)
                     f = os.path.normpath(f)
                     if not os.path.isfile(f):
                         continue

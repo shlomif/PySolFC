@@ -189,25 +189,12 @@ class Application:
     def gameproc(self):
         while True:
             logging.info('App: gameproc waiting for game to start')
-            (id, random) = yield
-            logging.info('App: game started %s,%s' % (str(id), str(random)))
-            self.runGame(id, random)
+            (id_, random) = yield
+            logging.info('App: game started {},{}'.format(id_, random))
+            self.runGame(id_, random)
 
-    def mainproc(self):
-        # copy startup options
-        self.startup_opt = self.opt.copy()
-        # try to load statistics
-        try:
-            self.loadStatistics()
-        except Exception:
-            traceback.print_exc()
-            pass
-        # startup information
-        if self.getGameClass(self.opt.last_gameid):
-            self.nextgame.id = self.opt.last_gameid
-        # load a holded or saved game
-        id = self.gdb.getGamesIdSortedByName()[0]
-        tmpgame = self.constructGame(id)
+    def _load_held_or_saved_game(self, tmpgame):
+        """docstring for _load_held_or_saved_game"""
         if self.opt.game_holded > 0 and not self.nextgame.loadedgame:
             game = None
             try:
@@ -224,76 +211,9 @@ class Application:
                     # not a holded game
                     game.destruct()
                     destruct(game)
-            game = None
-        if not self.nextgame.loadedgame:
-            if self.commandline.loadgame:
-                try:
-                    self.nextgame.loadedgame = tmpgame._loadGame(
-                        self.commandline.loadgame, self)
-                    self.nextgame.loadedgame.gstats.holded = 0
-                except Exception:
-                    traceback.print_exc()
-                    self.nextgame.loadedgame = None
-            elif self.commandline.game is not None:
-                gameid = self.gdb.getGameByName(self.commandline.game)
-                if gameid is None:
-                    print_err(_("can't find game: ") + self.commandline.game)
-                    sys.exit(-1)
-                else:
-                    self.nextgame.id = gameid
-                    deal = self.commandline.deal
-                    self.nextgame.random = \
-                        None if deal is None else constructRandom(deal)
-            elif self.commandline.gameid is not None:
-                self.nextgame.id, self.nextgame.random = \
-                    self.commandline.gameid, None
-        self.opt.game_holded = 0
-        tmpgame.destruct()
-        destruct(tmpgame)
-        tmpgame = None
-        #
-        # widgets
-        #
-        # create the menubar
-        if self.intro.progress:
-            self.intro.progress.update(step=1)
-        self.menubar = PysolMenubar(self, self.top,
-                                    progress=self.intro.progress)
-        # create the statusbar(s)
-        self.statusbar = PysolStatusbar(self.top)
-        self.statusbar.show(self.opt.statusbar)
-        self.statusbar.config('gamenumber', self.opt.statusbar_game_number)
-        self.statusbar.config('stuck', self.opt.statusbar_stuck)
-        self.helpbar = HelpStatusbar(self.top)
-        self.helpbar.show(self.opt.helpbar)
-        # create the canvas
-        self.scrolled_canvas = MfxScrolledCanvas(self.top, propagate=True)
-        self.canvas = self.scrolled_canvas.canvas
-        padx, pady = TkSettings.canvas_padding
-        self.scrolled_canvas.grid(row=1, column=1, sticky='nsew',
-                                  padx=padx, pady=pady)
-        self.top.grid_columnconfigure(1, weight=1)
-        self.top.grid_rowconfigure(1, weight=1)
-        self.setTile(self.tabletile_index, force=True)
-        # create the toolbar
-        dirname = self.getToolbarImagesDir()
-        self.toolbar = PysolToolbar(self.top, self.menubar, dir=dirname,
-                                    size=self.opt.toolbar_size,
-                                    relief=self.opt.toolbar_relief,
-                                    compound=self.opt.toolbar_compound)
-        self.toolbar.show(self.opt.toolbar)
-        if TOOLKIT == 'tk':
-            for w, v in self.opt.toolbar_vars.items():
-                self.toolbar.config(w, v)
-        #
-        if self.intro.progress:
-            self.intro.progress.update(step=1)
-        #
 
-        if TOOLKIT == 'kivy':
-            self.gproc = self.gameproc()
-            self.gproc.send(None)
-
+    def _main_loop(self):
+        """docstring for _main_loop"""
         try:
             # this is the mainloop
             while 1:
@@ -381,6 +301,91 @@ class Application:
                 while True:
                     logging.info('App: mainloop end position')
                     yield
+
+    def mainproc(self):
+        # copy startup options
+        self.startup_opt = self.opt.copy()
+        # try to load statistics
+        try:
+            self.loadStatistics()
+        except Exception:
+            traceback.print_exc()
+            pass
+        # startup information
+        if self.getGameClass(self.opt.last_gameid):
+            self.nextgame.id = self.opt.last_gameid
+        # load a holded or saved game
+        tmpgame = self.constructGame(self.gdb.getGamesIdSortedByName()[0])
+        self._load_held_or_saved_game(tmpgame)
+        if not self.nextgame.loadedgame:
+            if self.commandline.loadgame:
+                try:
+                    self.nextgame.loadedgame = tmpgame._loadGame(
+                        self.commandline.loadgame, self)
+                    self.nextgame.loadedgame.gstats.holded = 0
+                except Exception:
+                    traceback.print_exc()
+                    self.nextgame.loadedgame = None
+            elif self.commandline.game is not None:
+                gameid = self.gdb.getGameByName(self.commandline.game)
+                if gameid is None:
+                    print_err(_("can't find game: ") + self.commandline.game)
+                    sys.exit(-1)
+                else:
+                    self.nextgame.id = gameid
+                    deal = self.commandline.deal
+                    self.nextgame.random = \
+                        None if deal is None else constructRandom(deal)
+            elif self.commandline.gameid is not None:
+                self.nextgame.id, self.nextgame.random = \
+                    self.commandline.gameid, None
+        self.opt.game_holded = 0
+        tmpgame.destruct()
+        destruct(tmpgame)
+        tmpgame = None
+        #
+        # widgets
+        #
+        # create the menubar
+        if self.intro.progress:
+            self.intro.progress.update(step=1)
+        self.menubar = PysolMenubar(self, self.top,
+                                    progress=self.intro.progress)
+        # create the statusbar(s)
+        self.statusbar = PysolStatusbar(self.top)
+        self.statusbar.show(self.opt.statusbar)
+        self.statusbar.config('gamenumber', self.opt.statusbar_game_number)
+        self.statusbar.config('stuck', self.opt.statusbar_stuck)
+        self.helpbar = HelpStatusbar(self.top)
+        self.helpbar.show(self.opt.helpbar)
+        # create the canvas
+        self.scrolled_canvas = MfxScrolledCanvas(self.top, propagate=True)
+        self.canvas = self.scrolled_canvas.canvas
+        padx, pady = TkSettings.canvas_padding
+        self.scrolled_canvas.grid(row=1, column=1, sticky='nsew',
+                                  padx=padx, pady=pady)
+        self.top.grid_columnconfigure(1, weight=1)
+        self.top.grid_rowconfigure(1, weight=1)
+        self.setTile(self.tabletile_index, force=True)
+        # create the toolbar
+        dirname = self.getToolbarImagesDir()
+        self.toolbar = PysolToolbar(self.top, self.menubar, dir=dirname,
+                                    size=self.opt.toolbar_size,
+                                    relief=self.opt.toolbar_relief,
+                                    compound=self.opt.toolbar_compound)
+        self.toolbar.show(self.opt.toolbar)
+        if TOOLKIT == 'tk':
+            for w, v in self.opt.toolbar_vars.items():
+                self.toolbar.config(w, v)
+        #
+        if self.intro.progress:
+            self.intro.progress.update(step=1)
+        #
+
+        if TOOLKIT == 'kivy':
+            self.gproc = self.gameproc()
+            self.gproc.send(None)
+        return self._main_loop()
 
     def runGame(self, id_, random=None):
         self.top.connectApp(self)
@@ -1010,7 +1015,7 @@ Please select a %s type %s.
         return n
 
     def getGameSaveName(self, id):
-        if os.path.supports_unicode_filenames:  # new in python 2.3
+        if os.path.supports_unicode_filenames:
             return self.getGameTitleName(id)
         n = self.gdb.get(id).en_name                  # english name
         if not n:

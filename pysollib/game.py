@@ -84,6 +84,89 @@ PLAY_TIME_TIMEOUT = 200
 # ************************************************************************
 
 
+def _updateStatus_process_key_val(tb, sb, k, v):
+    if k == "gamenumber":
+        if v is None:
+            if sb:
+                sb.updateText(gamenumber="")
+            # self.top.wm_title("%s - %s"
+            # % (TITLE, self.getTitleName()))
+            return
+        if isinstance(v, six.string_types):
+            if sb:
+                sb.updateText(gamenumber=v)
+            # self.top.wm_title("%s - %s %s" % (TITLE,
+            # self.getTitleName(), v))
+            return
+    if k == "info":
+        # print 'updateStatus info:', v
+        if v is None:
+            if sb:
+                sb.updateText(info="")
+            return
+        if isinstance(v, str):
+            if sb:
+                sb.updateText(info=v)
+            return
+    if k == "moves":
+        if v is None:
+            # if tb: tb.updateText(moves="Moves\n")
+            if sb:
+                sb.updateText(moves="")
+            return
+        if isinstance(v, tuple):
+            # if tb: tb.updateText(moves="Moves\n%d/%d" % v)
+            if sb:
+                sb.updateText(moves="%d/%d" % v)
+            return
+        if isinstance(v, int):
+            # if tb: tb.updateText(moves="Moves\n%d" % v)
+            if sb:
+                sb.updateText(moves="%d" % v)
+            return
+        if isinstance(v, str):
+            # if tb: tb.updateText(moves=v)
+            if sb:
+                sb.updateText(moves=v)
+            return
+    if k == "player":
+        if v is None:
+            if tb:
+                tb.updateText(player=_("Player\n"))
+            return
+        if isinstance(v, six.string_types):
+            if tb:
+                # if self.app.opt.toolbar_size:
+                if tb.getSize():
+                    tb.updateText(player=_("Player\n") + v)
+                else:
+                    tb.updateText(player=v)
+            return
+    if k == "stats":
+        if v is None:
+            if sb:
+                sb.updateText(stats="")
+            return
+        if isinstance(v, tuple):
+            t = "%d: %d/%d" % (v[0]+v[1], v[0], v[1])
+            if sb:
+                sb.updateText(stats=t)
+            return
+    if k == "time":
+        if v is None:
+            if sb:
+                sb.updateText(time='')
+        if isinstance(v, six.string_types):
+            if sb:
+                sb.updateText(time=v)
+        return
+    if k == 'stuck':
+        if sb:
+            sb.updateText(stuck=v)
+        return
+    raise AttributeError(k)
+
+
 class Game(object):
     # for self.gstats.updated
     U_PLAY = 0
@@ -1036,86 +1119,7 @@ class Game(object):
             return
         tb, sb = self.app.toolbar, self.app.statusbar
         for k, v in kw.items():
-            if k == "gamenumber":
-                if v is None:
-                    if sb:
-                        sb.updateText(gamenumber="")
-                    # self.top.wm_title("%s - %s"
-                    # % (TITLE, self.getTitleName()))
-                    continue
-                if isinstance(v, six.string_types):
-                    if sb:
-                        sb.updateText(gamenumber=v)
-                    # self.top.wm_title("%s - %s %s" % (TITLE,
-                    # self.getTitleName(), v))
-                    continue
-            if k == "info":
-                # print 'updateStatus info:', v
-                if v is None:
-                    if sb:
-                        sb.updateText(info="")
-                    continue
-                if isinstance(v, str):
-                    if sb:
-                        sb.updateText(info=v)
-                    continue
-            if k == "moves":
-                if v is None:
-                    # if tb: tb.updateText(moves="Moves\n")
-                    if sb:
-                        sb.updateText(moves="")
-                    continue
-                if isinstance(v, tuple):
-                    # if tb: tb.updateText(moves="Moves\n%d/%d" % v)
-                    if sb:
-                        sb.updateText(moves="%d/%d" % v)
-                    continue
-                if isinstance(v, int):
-                    # if tb: tb.updateText(moves="Moves\n%d" % v)
-                    if sb:
-                        sb.updateText(moves="%d" % v)
-                    continue
-                if isinstance(v, str):
-                    # if tb: tb.updateText(moves=v)
-                    if sb:
-                        sb.updateText(moves=v)
-                    continue
-            if k == "player":
-                if v is None:
-                    if tb:
-                        tb.updateText(player=_("Player\n"))
-                    continue
-                if isinstance(v, six.string_types):
-                    if tb:
-                        # if self.app.opt.toolbar_size:
-                        if self.app.toolbar.getSize():
-                            tb.updateText(player=_("Player\n") + v)
-                        else:
-                            tb.updateText(player=v)
-                    continue
-            if k == "stats":
-                if v is None:
-                    if sb:
-                        sb.updateText(stats="")
-                    continue
-                if isinstance(v, tuple):
-                    t = "%d: %d/%d" % (v[0]+v[1], v[0], v[1])
-                    if sb:
-                        sb.updateText(stats=t)
-                    continue
-            if k == "time":
-                if v is None:
-                    if sb:
-                        sb.updateText(time='')
-                if isinstance(v, six.string_types):
-                    if sb:
-                        sb.updateText(time=v)
-                continue
-            if k == 'stuck':
-                if sb:
-                    sb.updateText(stuck=v)
-                continue
-            raise AttributeError(k)
+            _updateStatus_process_key_val(tb, sb, k, v)
 
     def _unmapHandler(self, event):
         # pause game if root window has been iconified

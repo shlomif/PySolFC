@@ -1017,10 +1017,14 @@ Please select a %s type %s.
             return None
         return re.sub(r"[\s]", "_", latin1_normalize(n))
 
-    def getRandomGameId(self, games=None):
-        if games is None:
-            return self.miscrandom.choice(self.gdb.getGamesIdSortedById())
-        return self.miscrandom.choice(games)
+    def _choice(self, lst):
+        return self.miscrandom.choice(lst)
+
+    def chooseRandomOutOfGames(self, games):
+        return self._choice(games)
+
+    def getRandomGameId(self):
+        return self._choice(self.gdb.getGamesIdSortedById())
 
     def getAllUserNames(self):
         names = []

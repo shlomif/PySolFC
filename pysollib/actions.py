@@ -330,7 +330,7 @@ class PysolMenubar(PysolMenubarTk):
             elif type == 'not played' and won+lost == 0:
                 games.append(gi.id)
         if games:
-            game_id = self.app.getRandomGameId(games)
+            game_id = self.app.chooseRandomOutOfGames(games)
         if game_id and game_id != self.game.id:
             self.game.endGame()
             self.game.quitGame(game_id)

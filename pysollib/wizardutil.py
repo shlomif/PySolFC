@@ -399,11 +399,11 @@ def write_game(app, game=None):
         check_game = False
 
     # print '===>', fn
-    fd = open(fn, 'w')
+    with open(fn, 'w') as fd:
 
-    fd.write('''\
+        fd.write('''\
 ## -*- coding: utf-8 -*-
-## THIS FILE WAS GENERATED AUTOMATICALLY BY SOLITAIRE WIZARD
+## THIS FILE WAS GENERATED AUTOMATICALLY BY THE SOLITAIRE WIZARD
 ## DO NOT EDIT
 
 from pysollib.customgame import CustomGame, registerCustomGame
@@ -413,35 +413,34 @@ class MyCustomGame(CustomGame):
     SETTINGS = {
 ''')
 
-    for w in WizardWidgets:
-        if isinstance(w, six.string_types):
-            continue
-        v = w.variable.get()
-        if w.widget in ('menu', 'preset'):
-            v = w.translation_map[v]
-        if v == w.default:
-            # save only unique values
-            continue
-        if isinstance(v, int):
-            fd.write("        '%s': %i,\n" % (w.var_name, v))
-        else:
-            if w.var_name == 'name':
-                # escape
-                v = v.replace('\\', '\\\\')
-                v = v.replace("'", "\\'")
-                if isinstance(v, six.text_type):
-                    v = v.encode('utf-8')
-                if not v:
-                    v = 'Invalid Game Name'
-            fd.write("        '%s': '%s',\n" % (w.var_name, v))
-    fd.write("        'gameid': %i,\n" % gameid)
+        for w in WizardWidgets:
+            if isinstance(w, six.string_types):
+                continue
+            v = w.variable.get()
+            if w.widget in ('menu', 'preset'):
+                v = w.translation_map[v]
+            if v == w.default:
+                # save only unique values
+                continue
+            if isinstance(v, int):
+                fd.write("        '%s': %i,\n" % (w.var_name, v))
+            else:
+                if w.var_name == 'name':
+                    # escape
+                    v = v.replace('\\', '\\\\')
+                    v = v.replace("'", "\\'")
+                    if isinstance(v, six.text_type):
+                        v = v.encode('utf-8')
+                    if not v:
+                        v = 'Invalid Game Name'
+                fd.write("        '%s': '%s',\n" % (w.var_name, v))
+        fd.write("        'gameid': %i,\n" % gameid)
 
-    fd.write('''\
-        }
+        fd.write('''\
+            }
 
 registerCustomGame(MyCustomGame)
 ''')
-    fd.close()
 
     loadGame(mn, fn, check_game=check_game)
 

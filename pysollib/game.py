@@ -3165,14 +3165,9 @@ Please report this bug."""))
 
     def _loadGame(self, filename, app):
         game = None
-        f = None
-        try:
-            f = open(filename, "rb")
+        with open(filename, "rb") as f:
             game = self._undumpGame(Unpickler(f), app)
             game.gstats.loaded = game.gstats.loaded + 1
-        finally:
-            if f:
-                f.close()
         return game
 
     def _undumpGame(self, p, app):
@@ -3269,15 +3264,9 @@ in the current implementation.''') % version)
         return game
 
     def _saveGame(self, filename, protocol=-1):
-        f = None
-        try:
-            if not self.canSaveGame():
-                raise Exception("Cannot save this game.")
-            f = open(filename, "wb")
-            self._dumpGame(Pickler(f, protocol))
-        finally:
-            if f:
-                f.close()
+        if self.canSaveGame():
+            with open(filename, "wb") as f:
+                self._dumpGame(Pickler(f, protocol))
 
     def _dumpGame(self, p, bookmark=0):
         self.updateTime()

@@ -518,15 +518,12 @@ class PysolMenubar(PysolMenubarTk):
                     text += os.linesep
                 enc = locale.getpreferredencoding()
                 try:
-                    fd = open(fn, 'a')
-                    fd.write(text.encode(enc, 'replace'))
+                    open(fn, 'a').write(text.encode(enc, 'replace'))
                 except Exception as err:
                     d = MfxExceptionDialog(
                         self.top, err,
                         text=_("Error while writing to file"))
                 else:
-                    if fd:
-                        fd.close()
                     d = MfxMessageDialog(
                         self.top, title=TITLE+_(" Info"), bitmap="info",
                         text=_("Comments were appended to\n\n") + fn)
@@ -537,7 +534,6 @@ class PysolMenubar(PysolMenubarTk):
     #
 
     def _mStatsSave(self, player, filename, write_method):
-        file = None
         if player is None:
             text = _("Demo statistics")
             filename = filename + "_demo"
@@ -546,17 +542,12 @@ class PysolMenubar(PysolMenubarTk):
         filename = os.path.join(self.app.dn.config, filename + ".txt")
         filename = os.path.normpath(filename)
         try:
-            file = open(filename, "a")
-            a = FileStatsFormatter(self.app, file)
+            a = FileStatsFormatter(self.app, open(filename, "a"))
             write_method(a, player)
         except EnvironmentError as ex:
-            if file:
-                file.close()
             MfxExceptionDialog(self.top, ex,
                                text=_("Error while writing to file"))
         else:
-            if file:
-                file.close()
             MfxMessageDialog(
                 self.top, title=TITLE+_(" Info"), bitmap="info",
                 text=text + _(" were appended to\n\n") + filename)

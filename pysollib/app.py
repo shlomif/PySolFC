@@ -1059,13 +1059,8 @@ Please select a %s type %s.
 
     # read & parse a cardset config.txt file - see class Cardset in resource.py
     def _readCardsetConfig(self, dirname, filename):
-        f = None
-        try:
-            f = open(filename, "r")
+        with open(filename, "r") as f:
             lines = f.readlines()
-        finally:
-            if f:
-                f.close()
         lines = [l.strip() for l in lines]
         if not lines[0].startswith("PySol"):
             return None
@@ -1309,7 +1304,7 @@ Please select a %s type %s.
     #
 
     def initResource(self, manager, dirs, ext_re, Resource_Class):
-        found, t = [], {}
+        found, t = [], set()
         for dirname in dirs:
             dirname = dirname.strip()
             if dirname:
@@ -1328,7 +1323,7 @@ Please select a %s type %s.
                     obj.name = n
                     key = n.lower()
                     if key not in t:
-                        t[key] = 1
+                        t.add(key)
                         found.append((n, obj))
             except EnvironmentError:
                 pass

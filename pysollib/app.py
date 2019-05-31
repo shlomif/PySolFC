@@ -79,6 +79,11 @@ GameStat = pysollib.app_stat.GameStat
 # * Also handles all global resources.
 # ************************************************************************
 
+image_ext_re_str = "(" + "|".join(
+    ["(?:\\" + e + ")" for e in IMAGE_EXTENSIONS]) + ")$"
+image_ext_re = re.compile(image_ext_re_str, re.I | re.U)
+
+
 class Application:
     def __init__(self):
         self.gdb = GAME_DB
@@ -1239,20 +1244,20 @@ Please select a %s type %s.
     #
     # init tiles
     #
-    def _init_tiles_process_dir(self, ext_re, dirname, found, t):
+    def _init_tiles_process_dir(self, dirname, found, t):
         """docstring for _init_tiles_process_die"""
         names = []
         if dirname and os.path.isdir(dirname):
             names = os.listdir(dirname)
         for name in names:
-            if not name or not ext_re.search(name):
+            if not name or not image_ext_re.search(name):
                 continue
             f = os.path.join(dirname, name)
             if not os.path.isfile(f):
                 continue
             tile = Tile()
             tile.filename = f
-            n = ext_re.sub("", name)
+            n = image_ext_re.sub("", name)
             if os.path.split(dirname)[-1] == 'stretch':
                 tile.stretch = 1
             if os.path.split(dirname)[-1] == 'save-aspect':
@@ -1276,12 +1281,10 @@ Please select a %s type %s.
                 os.path.join("tiles", "save-aspect")),
             "PYSOL_TILES")
         # print dirs
-        s = "((\\" + ")|(\\".join(IMAGE_EXTENSIONS) + "))$"
-        ext_re = re.compile(s, re.I | re.U)
         found, t = [], set()
         for dirname in dirs:
             try:
-                self._init_tiles_process_dir(ext_re, dirname, found, t)
+                self._init_tiles_process_dir(dirname, found, t)
             except EnvironmentError:
                 pass
         # register tiles

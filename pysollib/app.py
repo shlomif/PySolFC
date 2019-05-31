@@ -1239,6 +1239,32 @@ Please select a %s type %s.
     #
     # init tiles
     #
+    def _init_tiles_process_dir(self, ext_re, dirname, found, t):
+        """docstring for _init_tiles_process_die"""
+        names = []
+        if dirname and os.path.isdir(dirname):
+            names = os.listdir(dirname)
+        for name in names:
+            if not name or not ext_re.search(name):
+                continue
+            f = os.path.join(dirname, name)
+            if not os.path.isfile(f):
+                continue
+            tile = Tile()
+            tile.filename = f
+            n = ext_re.sub("", name)
+            if os.path.split(dirname)[-1] == 'stretch':
+                tile.stretch = 1
+            if os.path.split(dirname)[-1] == 'save-aspect':
+                tile.stretch = 1
+                tile.save_aspect = 1
+            # n = re.sub("[-_]", " ", n)
+            n = n.replace('_', ' ')
+            tile.name = n
+            key = n.lower()
+            if key not in t:
+                t.add(key)
+                found.append((n, tile))
 
     def initTiles(self):
         manager = self.tabletile_manager
@@ -1252,33 +1278,10 @@ Please select a %s type %s.
         # print dirs
         s = "((\\" + ")|(\\".join(IMAGE_EXTENSIONS) + "))$"
         ext_re = re.compile(s, re.I | re.U)
-        found, t = [], {}
-        for dir in dirs:
+        found, t = [], set()
+        for dirname in dirs:
             try:
-                names = []
-                if dir and os.path.isdir(dir):
-                    names = os.listdir(dir)
-                for name in names:
-                    if not name or not ext_re.search(name):
-                        continue
-                    f = os.path.join(dir, name)
-                    if not os.path.isfile(f):
-                        continue
-                    tile = Tile()
-                    tile.filename = f
-                    n = ext_re.sub("", name)
-                    if os.path.split(dir)[-1] == 'stretch':
-                        tile.stretch = 1
-                    if os.path.split(dir)[-1] == 'save-aspect':
-                        tile.stretch = 1
-                        tile.save_aspect = 1
-                    # n = re.sub("[-_]", " ", n)
-                    n = n.replace('_', ' ')
-                    tile.name = n
-                    key = n.lower()
-                    if key not in t:
-                        t[key] = 1
-                        found.append((n, tile))
+                self._init_tiles_process_dir(ext_re, dirname, found, t)
             except EnvironmentError:
                 pass
         # register tiles

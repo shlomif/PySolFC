@@ -1118,7 +1118,7 @@ class Game(object):
         if self.preview:
             return
         tb, sb = self.app.toolbar, self.app.statusbar
-        for k, v in kw.items():
+        for k, v in six.iteritems(kw):
             _updateStatus_process_key_val(tb, sb, k, v)
 
     def _unmapHandler(self, event):

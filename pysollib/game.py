@@ -167,6 +167,16 @@ def _updateStatus_process_key_val(tb, sb, k, v):
     raise AttributeError(k)
 
 
+def _stats__is_perfect(stats):
+    """docstring for _stats__is_perfect"""
+    return (stats.undo_moves == 0 and
+            stats.goto_bookmark_moves == 0 and
+            # stats.quickplay_moves == 0 and
+            stats.highlight_piles == 0 and
+            stats.highlight_cards == 0 and
+            stats.shuffle_moves == 0)
+
+
 class Game(object):
     # for self.gstats.updated
     U_PLAY = 0
@@ -1813,7 +1823,7 @@ class Game(object):
     #
 
     # game changed - i.e. should we ask the player to discard the game
-    def changed(self, restart=0):
+    def changed(self, restart=False):
         if self.gstats.updated < 0:
             return 0                    # already won or lost
         if self.gstats.loaded > 0:
@@ -1832,13 +1842,7 @@ class Game(object):
         if not won or self.stats.hints > 0 or self.stats.demo_moves > 0:
             # sorry, you lose
             return won, 0, self.U_LOST
-        if (self.stats.undo_moves == 0 and
-            self.stats.goto_bookmark_moves == 0 and
-            # self.stats.quickplay_moves == 0 and
-            self.stats.highlight_piles == 0 and
-            self.stats.highlight_cards == 0 and
-                self.stats.shuffle_moves == 0):
-            # perfect !
+        if _stats__is_perfect(self.stats):
             return won, 2, self.U_PERFECT
         return won, 1, self.U_WON
 

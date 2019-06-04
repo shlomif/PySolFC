@@ -42,7 +42,7 @@ except ImportError:
 # ************************************************************************
 
 
-class BasicRandom:
+class BasicRandom(object):
     # MAX_SEED = 0L
     # MAX_SEED = 0xffffffffffffffffL  # 64 bits
     MAX_SEED = int('100000000000000000000')  # 20 digits

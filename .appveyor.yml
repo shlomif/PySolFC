@@ -14,7 +14,6 @@ install:
     - python3 -mpip install py2exe
     - python3 -mpip install pycotap
     - python3 -mpip install pygame
-    - python3 -mpip install pysol-cards
     - python3 -mpip install random2
     - python3 -mpip install six
     - perl -v

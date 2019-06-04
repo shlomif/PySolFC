@@ -34,7 +34,7 @@ except ImportError:
         "You need to install " +
         "https://pypi.python.org/pypi/random2 using pip or similar.")
 
-from pysol_cards.random import RandomBase  # noqa: I100
+from pysol_cards.random_base import RandomBase  # noqa: I100
 
 
 # ************************************************************************

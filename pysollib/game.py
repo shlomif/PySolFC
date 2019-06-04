@@ -177,6 +177,83 @@ def _stats__is_perfect(stats):
             stats.shuffle_moves == 0)
 
 
+def _highlightCards__calc_item(canvas, delta, cw, ch, s, c1, c2, color):
+    assert c1 in s.cards and c2 in s.cards
+    tkraise = False
+    if c1 is c2:
+        # highlight single card
+        sx0, sy0 = s.getOffsetFor(c1)
+        x1, y1 = s.getPositionFor(c1)
+        x2, y2 = x1, y1
+        if c1 is s.cards[-1]:
+            # last card in the stack (for Pyramid-like games)
+            tkraise = True
+    else:
+        # highlight pile
+        if len(s.CARD_XOFFSET) > 1:
+            sx0 = 0
+        else:
+            sx0 = s.CARD_XOFFSET[0]
+        if len(s.CARD_YOFFSET) > 1:
+            sy0 = 0
+        else:
+            sy0 = s.CARD_YOFFSET[0]
+        x1, y1 = s.getPositionFor(c1)
+        x2, y2 = s.getPositionFor(c2)
+    if sx0 != 0 and sy0 == 0:
+        # horizontal stack
+        y2 += ch
+        if c2 is s.cards[-1]:  # top card
+            x2 += cw
+        else:
+            if sx0 > 0:
+                # left to right
+                x2 += sx0
+            else:
+                # right to left
+                x1 += cw
+                x2 += cw + sx0
+    elif sx0 == 0 and sy0 != 0:
+        # vertical stack
+        x2 += cw
+        if c2 is s.cards[-1]:  # top card
+            y2 += ch
+        else:
+            if sy0 > 0:
+                # up to down
+                y2 = y2 + sy0
+            else:
+                # down to up
+                y1 += ch
+                y2 += ch + sy0
+    else:
+        x2 += cw
+        y2 += ch
+        tkraise = True
+    # print c1, c2, x1, y1, x2, y2
+    x1, x2 = x1-delta[0], x2+delta[1]
+    y1, y2 = y1-delta[2], y2+delta[3]
+    if TOOLKIT == 'tk':
+        r = MfxCanvasRectangle(canvas, x1, y1, x2, y2,
+                               width=4, fill=None, outline=color)
+        if tkraise:
+            r.tkraise(c2.item)
+    elif TOOLKIT == 'kivy':
+        r = MfxCanvasRectangle(canvas, x1, y1, x2, y2,
+                               width=4, fill=None, outline=color)
+        if tkraise:
+            r.tkraise(c2.item)
+    elif TOOLKIT == 'gtk':
+        r = MfxCanvasRectangle(canvas, x1, y1, x2, y2,
+                               width=4, fill=None, outline=color,
+                               group=s.group)
+        if tkraise:
+            i = s.cards.index(c2)
+            for c in s.cards[i+1:]:
+                c.tkraise(1)
+    return r
+
+
 class Game(object):
     # for self.gstats.updated
     U_PLAY = 0
@@ -1993,9 +2070,7 @@ Congratulations, you did it !
         return self.stats.player_moves
 
     def updateTime(self):
-        if self.finished:
-            return
-        if self.pause:
+        if self.finished or self.pause:
             return
         t = time.time()
         d = t - self.stats.update_time
@@ -2120,80 +2195,9 @@ Congratulations, you did it !
         cw, ch = self.app.images.getSize()
         items = []
         for s, c1, c2, color in info:
-            assert c1 in s.cards and c2 in s.cards
-            tkraise = False
-            if c1 is c2:
-                # highlight single card
-                sx0, sy0 = s.getOffsetFor(c1)
-                x1, y1 = s.getPositionFor(c1)
-                x2, y2 = x1, y1
-                if c1 is s.cards[-1]:
-                    # last card in the stack (for Pyramid-like games)
-                    tkraise = True
-            else:
-                # highlight pile
-                if len(s.CARD_XOFFSET) > 1:
-                    sx0 = 0
-                else:
-                    sx0 = s.CARD_XOFFSET[0]
-                if len(s.CARD_YOFFSET) > 1:
-                    sy0 = 0
-                else:
-                    sy0 = s.CARD_YOFFSET[0]
-                x1, y1 = s.getPositionFor(c1)
-                x2, y2 = s.getPositionFor(c2)
-            if sx0 != 0 and sy0 == 0:
-                # horizontal stack
-                y2 += ch
-                if c2 is s.cards[-1]:  # top card
-                    x2 += cw
-                else:
-                    if sx0 > 0:
-                        # left to right
-                        x2 += sx0
-                    else:
-                        # right to left
-                        x1 += cw
-                        x2 += cw + sx0
-            elif sx0 == 0 and sy0 != 0:
-                # vertical stack
-                x2 += cw
-                if c2 is s.cards[-1]:  # top card
-                    y2 += ch
-                else:
-                    if sy0 > 0:
-                        # up to down
-                        y2 = y2 + sy0
-                    else:
-                        # down to up
-                        y1 += ch
-                        y2 += ch + sy0
-            else:
-                x2 += cw
-                y2 += ch
-                tkraise = True
-            # print c1, c2, x1, y1, x2, y2
-            x1, x2 = x1-delta[0], x2+delta[1]
-            y1, y2 = y1-delta[2], y2+delta[3]
-            if TOOLKIT == 'tk':
-                r = MfxCanvasRectangle(self.canvas, x1, y1, x2, y2,
-                                       width=4, fill=None, outline=color)
-                if tkraise:
-                    r.tkraise(c2.item)
-            elif TOOLKIT == 'kivy':
-                r = MfxCanvasRectangle(self.canvas, x1, y1, x2, y2,
-                                       width=4, fill=None, outline=color)
-                if tkraise:
-                    r.tkraise(c2.item)
-            elif TOOLKIT == 'gtk':
-                r = MfxCanvasRectangle(self.canvas, x1, y1, x2, y2,
-                                       width=4, fill=None, outline=color,
-                                       group=s.group)
-                if tkraise:
-                    i = s.cards.index(c2)
-                    for c in s.cards[i+1:]:
-                        c.tkraise(1)
-            items.append(r)
+            items.append(
+                _highlightCards__calc_item(
+                    self.canvas, delta, cw, ch, s, c1, c2, color))
         if not items:
             return 0
         self.canvas.update_idletasks()

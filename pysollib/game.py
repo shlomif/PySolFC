@@ -1896,17 +1896,17 @@ You have reached
     def checkForWin(self):
         won, status, updated = self.getWinStatus()
         if not won:
-            return 0
+            return False
         self.finishMove()       # just in case
         if self.preview:
-            return 1
+            return True
         if self.finished:
-            return 1
+            return True
         if self.demo:
             return status
         if TOOLKIT == 'kivy':
             if not self.app.opt.display_win_message:
-                return 1
+                return True
             self.top.waitAnimation()
         if status == 2:
             top_msg = self.updateStats()
@@ -1963,7 +1963,7 @@ Congratulations, you did it !
                 strings=(_("&New game"), _("&Restart"), _("&Cancel")))
         self.updateMenus()
         if TOOLKIT == 'kivy':
-            return 1
+            return True
         if d.status == 0 and d.button == 0:
             # new game
             self.endGame()
@@ -1971,7 +1971,7 @@ Congratulations, you did it !
         elif d.status == 0 and d.button == 1:
             # restart game
             self.restartGame()
-        return 1
+        return True
 
     #
     # Game - subclass overridable methods (but usually not)
@@ -1981,7 +1981,7 @@ Congratulations, you did it !
         # default: all Foundations must be filled
         c = 0
         for s in self.s.foundations:
-            c = c + len(s.cards)
+            c += len(s.cards)
         return c == len(self.cards)
 
     def getFoundationDir(self):
@@ -1992,11 +1992,7 @@ Congratulations, you did it !
 
     # determine the real number of player_moves
     def getPlayerMoves(self):
-        player_moves = self.stats.player_moves
-        # if self.moves.index > 0 and
-        # self.stats.demo_moves == self.moves.index:
-        # player_moves = 0
-        return player_moves
+        return self.stats.player_moves
 
     def updateTime(self):
         if self.finished:

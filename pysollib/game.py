@@ -1979,10 +1979,8 @@ Congratulations, you did it !
 
     def isGameWon(self):
         # default: all Foundations must be filled
-        c = 0
-        for s in self.s.foundations:
-            c += len(s.cards)
-        return c == len(self.cards)
+        return sum([len(s.cards) for s in self.s.foundations]) == \
+            len(self.cards)
 
     def getFoundationDir(self):
         for s in self.s.foundations:

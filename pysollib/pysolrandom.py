@@ -277,7 +277,7 @@ PysolRandom = MTRandom
 
 def _match_ms(s):
     """match an ms based seed string."""
-    return re.match(r"ms([0-9]+)\n?\Z", s)
+    return re.match(r"ms([0-9]+)\n?\Z", str(s))
 
 
 # construct Random from seed string

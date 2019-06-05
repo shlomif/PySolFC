@@ -22,11 +22,12 @@
 # ---------------------------------------------------------------------------
 
 
-# imports
 import math
 import time
 import traceback
 from pickle import Pickler, Unpickler, UnpicklingError
+
+from pysol_cards.cards import ms_rearrange
 
 from pysollib.gamedb import GI
 from pysollib.help import help_about
@@ -1058,13 +1059,8 @@ class Game(object):
         # get a fresh copy of the original game-cards
         cards = list(self.cards)
         # init random generator
-        if isinstance(self.random, LCRandom31) and len(cards) == 52:
-            # FreeCell mode
-            fcards = []
-            for i in range(13):
-                for j in (0, 39, 26, 13):
-                    fcards.append(cards[i + j])
-            cards = fcards
+        if isinstance(self.random, LCRandom31):
+            cards = ms_rearrange(cards)
         self.random.reset()         # reset to initial seed
         # shuffle
         self.random.shuffle(cards)

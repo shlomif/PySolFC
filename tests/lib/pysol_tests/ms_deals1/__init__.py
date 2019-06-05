@@ -53,6 +53,8 @@
 # imports
 import unittest
 
+from pysol_cards.cards import ms_rearrange
+
 # So the localpaths will be overrided.
 from pysollib.pysolrandom import LCRandom31, constructRandom, \
         random__long2str, random__str2long
@@ -244,13 +246,8 @@ def flip_card(card_str, flip):
 
 def shuffle(orig_cards, rand):
     shuffled_cards = list(orig_cards)
-    if isinstance(rand, LCRandom31) and len(shuffled_cards) == 52:
-        # FreeCell mode
-        fcards = []
-        for i in range(13):
-            for j in (0, 39, 26, 13):
-                fcards.append(shuffled_cards[i + j])
-        shuffled_cards = fcards
+    if isinstance(rand, LCRandom31):
+        shuffled_cards = ms_rearrange(shuffled_cards)
     # rand.shuffle works in place
     rand.shuffle(shuffled_cards)
     return shuffled_cards

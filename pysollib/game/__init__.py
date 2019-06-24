@@ -29,6 +29,7 @@ from pickle import Pickler, Unpickler, UnpicklingError
 
 from pysol_cards.cards import ms_rearrange
 
+from pysollib.game.dump import pysolDumpGame
 from pysollib.gamedb import GI
 from pysollib.help import help_about
 from pysollib.hint import DefaultHint
@@ -51,7 +52,7 @@ from pysollib.move import AUpdateStackMove
 from pysollib.mygettext import _
 from pysollib.mygettext import ungettext
 from pysollib.pysolrandom import LCRandom31, PysolRandom, constructRandom, \
-        random__long2str, random__str2long
+        random__long2str
 from pysollib.pysoltk import CURSOR_WATCH
 from pysollib.pysoltk import Card
 from pysollib.pysoltk import EVENT_HANDLED, EVENT_PROPAGATE
@@ -3271,38 +3272,7 @@ in the current implementation.''') % version)
                 self._dumpGame(Pickler(f, protocol))
 
     def _dumpGame(self, p, bookmark=0):
-        self.updateTime()
-        assert 0 <= bookmark <= 2
-        p.dump(PACKAGE)
-        p.dump(VERSION)
-        p.dump(VERSION_TUPLE)
-        p.dump(bookmark)
-        p.dump(self.GAME_VERSION)
-        p.dump(self.id)
-        #
-        p.dump(random__str2long(self.random.getSeedStr()))
-        p.dump(self.random.getstate())
-        #
-        p.dump(len(self.allstacks))
-        for stack in self.allstacks:
-            p.dump(len(stack.cards))
-            for card in stack.cards:
-                p.dump(card.id)
-                p.dump(card.face_up)
-        p.dump(self.s.talon.round)
-        p.dump(self.finished)
-        if 0 <= bookmark <= 1:
-            p.dump(self.saveinfo)
-            p.dump(self.gsaveinfo)
-        p.dump(self.moves)
-        p.dump(self.snapshots)
-        if 0 <= bookmark <= 1:
-            if bookmark == 0:
-                self.gstats.saved = self.gstats.saved + 1
-            p.dump(self.gstats)
-            p.dump(self.stats)
-        self._saveGameHook(p)
-        p.dump("EOF")
+        return pysolDumpGame(self, p, bookmark)
 
     #
     # Playing time

@@ -14,7 +14,8 @@ for d, _, files in os.walk("pysollib"):
     for f in files:
         if re.search("\\.py$", f):
             module_names.append(
-                (d + "/" + re.sub("\\.py$", "", f)).replace("/", "."))
+                (d + "/" + re.sub("\\.py$", "", f))
+                .replace("/", ".").replace(os.sep, "."))
 
 module_names.sort()
 for module_name in module_names:

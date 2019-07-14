@@ -3,6 +3,7 @@
 
 import os
 from distutils.core import setup
+from glob import glob
 
 from pysollib.settings import PACKAGE_URL
 from pysollib.settings import VERSION
@@ -45,9 +46,8 @@ if os.name == 'posix':
     data_files.append(('share/icons',
                        ['data/images/misc/pysol01.png',
                         'data/images/misc/pysol02.png', ]))
-    for l in ('ru', 'ru_RU'):
-        data_files.append(('share/locale/%s/LC_MESSAGES' % l,
-                           ['locale/%s/LC_MESSAGES/pysol.mo' % l]))
+    for mofile in glob('locale/*/*/*.mo'):
+        data_files.append(('share/' + os.path.dirname(mofile), [mofile]))
     data_files.append((data_dir, ['data/pysolfc.glade']))
     data_files.append(('share/applications', ['data/pysol.desktop']))
 

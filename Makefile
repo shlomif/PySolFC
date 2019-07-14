@@ -47,7 +47,7 @@ pot:
 	done
 
 mo:
-	for loc in ru ru_RU de de_AT de_BE de_DE de_LU de_CH pl pl_PL it it_IT; do \
+	for loc in ru de pl it; do \
 		test -d locale/$${loc}/LC_MESSAGES || mkdir -p locale/$${loc}/LC_MESSAGES; \
 	done
 	for lang in ru pl it; do \
@@ -56,12 +56,6 @@ mo:
 	for lang in ru de pl it; do \
 		msgfmt -o locale/$${lang}/LC_MESSAGES/pysol.mo po/$${lang}.po; \
 	done
-	cp -f locale/ru/LC_MESSAGES/pysol.mo locale/ru_RU/LC_MESSAGES/pysol.mo
-	for dir in de_AT de_BE de_DE de_LU de_CH; do \
-		cp -f locale/de/LC_MESSAGES/pysol.mo locale/$${dir}/LC_MESSAGES/pysol.mo; \
-	done
-	cp -f locale/pl/LC_MESSAGES/pysol.mo locale/pl_PL/LC_MESSAGES/pysol.mo
-	cp -f locale/it/LC_MESSAGES/pysol.mo locale/it_IT/LC_MESSAGES/pysol.mo
 
 pretest:
 	@rm -f tests/individually-importing/*.py # To avoid stray files

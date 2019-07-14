@@ -27,6 +27,8 @@ import time
 import traceback
 from pickle import Pickler, Unpickler, UnpicklingError
 
+import attr
+
 from pysol_cards.cards import ms_rearrange
 
 from pysollib.game.dump import pysolDumpGame
@@ -256,6 +258,27 @@ def _highlightCards__calc_item(canvas, delta, cw, ch, s, c1, c2, color):
     return r
 
 
+@attr.s
+class StackGroups(object):
+    dropstacks = attr.ib(default=list)
+    hp_stacks = attr.ib(default=list)  # for getHightlightPilesStacks()
+    openstacks = attr.ib(default=list)
+    reservestacks = attr.ib(default=list)
+    talonstacks = attr.ib(default=list)
+
+    def to_tuples(self):
+        """docstring for to_tuples"""
+        self.openstacks = [s for s in self.openstacks
+                           if s.cap.max_accept >= s.cap.min_accept]
+        self.hp_stacks = [s for s in self.dropstacks
+                          if s.cap.max_move >= 2]
+        self.openstacks = tuple(self.openstacks)
+        self.talonstacks = tuple(self.talonstacks)
+        self.dropstacks = tuple(self.dropstacks)
+        self.reservestacks = tuple(self.reservestacks)
+        self.hp_stacks = tuple(self.hp_stacks)
+
+
 class Game(object):
     # for self.gstats.updated
     U_PLAY = 0
@@ -305,15 +328,7 @@ class Game(object):
             reserves=[],
             internals=[],
         )
-        self.sg = Struct(               # stack-groups
-            openstacks=[],            # for getClosestStack(): only on
-            # these stacks the player can place a card
-            talonstacks=[],           # for Hint
-            dropstacks=[],            # for Hint & getAutoStacks()
-            reservestacks=[],         # for Hint
-            # hint=Struct(),            # extra info for class Hint
-            hp_stacks=[],             # for getHightlightPilesStacks()
-        )
+        self.sg = StackGroups()
         self.regions = Struct(          # for getClosestStack()
             # set by optimizeRegions():
             info=[],                  # list of tuples(stacks, rect)
@@ -340,10 +355,6 @@ class Game(object):
             self.app.intro.progress.update(step=1)
         self.createGame()
         # set some defaults
-        self.sg.openstacks = [s for s in self.sg.openstacks
-                              if s.cap.max_accept >= s.cap.min_accept]
-        self.sg.hp_stacks = [s for s in self.sg.dropstacks
-                             if s.cap.max_move >= 2]
         self.createSnGroups()
         # convert stackgroups to tuples (speed)
         self.allstacks = tuple(self.allstacks)
@@ -351,11 +362,7 @@ class Game(object):
         self.s.rows = tuple(self.s.rows)
         self.s.reserves = tuple(self.s.reserves)
         self.s.internals = tuple(self.s.internals)
-        self.sg.openstacks = tuple(self.sg.openstacks)
-        self.sg.talonstacks = tuple(self.sg.talonstacks)
-        self.sg.dropstacks = tuple(self.sg.dropstacks)
-        self.sg.reservestacks = tuple(self.sg.reservestacks)
-        self.sg.hp_stacks = tuple(self.sg.hp_stacks)
+        self.sg.to_tuples()
         # init the stack view
         for stack in self.allstacks:
             stack.prepareStack()

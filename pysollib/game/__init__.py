@@ -260,11 +260,11 @@ def _highlightCards__calc_item(canvas, delta, cw, ch, s, c1, c2, color):
 
 @attr.s
 class StackGroups(object):
-    dropstacks = attr.ib(default=list)
-    hp_stacks = attr.ib(default=list)  # for getHightlightPilesStacks()
-    openstacks = attr.ib(default=list)
-    reservestacks = attr.ib(default=list)
-    talonstacks = attr.ib(default=list)
+    dropstacks = attr.ib(factory=list)
+    hp_stacks = attr.ib(factory=list)  # for getHightlightPilesStacks()
+    openstacks = attr.ib(factory=list)
+    reservestacks = attr.ib(factory=list)
+    talonstacks = attr.ib(factory=list)
 
     def to_tuples(self):
         """docstring for to_tuples"""
@@ -277,6 +277,26 @@ class StackGroups(object):
         self.dropstacks = tuple(self.dropstacks)
         self.reservestacks = tuple(self.reservestacks)
         self.hp_stacks = tuple(self.hp_stacks)
+
+
+@attr.s
+class StackRegions(object):
+    # list of tuples(stacks, rect)
+    info = attr.ib(factory=list)
+    # list of stacks in no region
+    remaining = attr.ib(factory=list)
+    data = attr.ib(factory=list)
+    # init info (at the start)
+    init_info = attr.ib(factory=list)
+
+    def calc_info(self, xf, yf):
+        """docstring for calc_info"""
+        info = []
+        for stacks, rect in self.init_info:
+            newrect = (int(round(rect[0]*xf)), int(round(rect[1]*yf)),
+                       int(round(rect[2]*xf)), int(round(rect[3]*yf)))
+            info.append((stacks, newrect))
+        self.info = tuple(info)
 
 
 class Game(object):
@@ -329,14 +349,7 @@ class Game(object):
             internals=[],
         )
         self.sg = StackGroups()
-        self.regions = Struct(          # for getClosestStack()
-            # set by optimizeRegions():
-            info=[],                  # list of tuples(stacks, rect)
-            remaining=[],             # list of stacks in no region
-            #
-            data=[],                  # raw data
-            init_info=[],             # init info (at the start)
-        )
+        self.regions = StackRegions()
         self.init_size = (0, 0)
         self.event_handled = False      # if click event handled by Stack (???)
         self.reset()
@@ -912,12 +925,7 @@ class Game(object):
             x, y = int(round(x0*xf)), int(round(y0*yf))
             stack.resize(xf, yf)
             stack.updatePositions()
-        info = []
-        for stacks, rect in self.regions.init_info:
-            rect = (int(round(rect[0]*xf)), int(round(rect[1]*yf)),
-                    int(round(rect[2]*xf)), int(round(rect[3]*yf)))
-            info.append((stacks, rect))
-        self.regions.info = tuple(info)
+        self.regions.calc_info(xf, yf)
         # texts
         for t in ('info', 'help', 'misc', 'score', 'base_rank'):
             init_coord = getattr(self.init_texts, t)

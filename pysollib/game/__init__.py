@@ -298,6 +298,24 @@ class StackRegions(object):
             info.append((stacks, newrect))
         self.info = tuple(info)
 
+    def optimize(self, remaining):
+        """docstring for optimize"""
+        # sort data by priority
+        self.data.sort()
+        self.data.reverse()
+        # copy (stacks, rect) to info
+        self.info = []
+        for d in self.data:
+            self.info.append((d[2], d[3]))
+        self.info = tuple(self.info)
+        # determine remaining stacks
+        for stacks, rect in self.info:
+            for stack in stacks:
+                while stack in remaining:
+                    remaining.remove(stack)
+        self.remaining = tuple(remaining)
+        self.init_info = self.info
+
 
 class Game(object):
     # for self.gstats.updated
@@ -385,7 +403,6 @@ class Game(object):
             assert hasattr(self.s.talon, "max_rounds")
         if DEBUG:
             self._checkGame()
-        # optimize regions
         self.optimizeRegions()
         # create cards
         if not self.cards:
@@ -561,7 +578,6 @@ class Game(object):
         for stack in self.allstacks:
             stack.prepareStack()
             stack.assertStack()
-        # optimize regions
         self.optimizeRegions()
         # create cards
         self.cards = self.createCards()
@@ -1734,22 +1750,7 @@ class Game(object):
     # as getClosestStack() is called within the mouse motion handler
     # event it is worth optimizing a little bit
     def optimizeRegions(self):
-        # sort regions.data by priority
-        self.regions.data.sort()
-        self.regions.data.reverse()
-        # copy (stacks, rect) to regions.info
-        self.regions.info = []
-        for d in self.regions.data:
-            self.regions.info.append((d[2], d[3]))
-        self.regions.info = tuple(self.regions.info)
-        # determine remaining stacks
-        remaining = list(self.sg.openstacks)
-        for stacks, rect in self.regions.info:
-            for stack in stacks:
-                while stack in remaining:
-                    remaining.remove(stack)
-        self.regions.remaining = tuple(remaining)
-        self.regions.init_info = self.regions.info
+        return self.regions.optimize(list(self.sg.openstacks))
 
     def getInvisibleCoords(self):
         # for InvisibleStack, etc
@@ -1876,18 +1877,20 @@ class Game(object):
                 top_msg = ''
                 if ret:
                     if ret[0] and ret[1]:
-                        top_msg = _('''
-You have reached
-# %d in the %s of playing time
-and # %d in the %s of moves.''') % (ret[0], TOP_TITLE, ret[1], TOP_TITLE)
+                        top_msg = _(
+                            '''\nYou have reached\n''' +
+                            '# %d in the %s of playing time' +
+                            '\nand # %d in the %s of moves.') % \
+                            (ret[0], TOP_TITLE, ret[1], TOP_TITLE)
                     elif ret[0]:        # playing time
-                        top_msg = _('''
-You have reached
-# %d in the %s of playing time.''') % (ret[0], TOP_TITLE)
+                        top_msg = _(
+                            '''\nYou have reached\n''' +
+                            '''# %d in the %s of playing time.''') \
+                            % (ret[0], TOP_TITLE)
                     elif ret[1]:        # moves
-                        top_msg = _('''
-You have reached
-# %d in the %s of moves.''') % (ret[1], TOP_TITLE)
+                        top_msg = _(
+                            '''\nYou have reached\n''' +
+                            '# %d in the %s of moves.') % (ret[1], TOP_TITLE)
                 return top_msg
         elif not demo:
             # only update the session log
@@ -1923,16 +1926,12 @@ You have reached
                              '''Your playing time is %s\nfor %d moves.''',
                              self.moves.index)
             text = text % (time, self.moves.index)
-            d = MfxMessageDialog(self.top, title=_("Game won"),
-                                 text=_('''
-Congratulations, this
-was a truly perfect game !
-
-%s
-%s
-''') % (text, top_msg),
-                                 strings=(_("&New game"), None, _("&Cancel")),
-                                 image=self.app.gimages.logos[5])
+            d = MfxMessageDialog(
+                self.top, title=_("Game won"),
+                text=_('\nCongratulations, this\nwas a truly perfect game !' +
+                       '\n\n%s\n%s\n') % (text, top_msg),
+                strings=(_("&New game"), None, _("&Cancel")),
+                image=self.app.gimages.logos[5])
         elif status == 1:
             top_msg = self.updateStats()
             time = self.getTime()
@@ -1943,15 +1942,14 @@ was a truly perfect game !
                              '''Your playing time is %s\nfor %d moves.''',
                              self.moves.index)
             text = text % (time, self.moves.index)
-            d = MfxMessageDialog(self.top, title=_("Game won"),
-                                 text=_('''
-Congratulations, you did it !
-
-%s
-%s
-''') % (text, top_msg),
-                                 strings=(_("&New game"), None, _("&Cancel")),
-                                 image=self.app.gimages.logos[4])
+            d = MfxMessageDialog(
+                self.top, title=_("Game won"),
+                text=(
+                    _('\nCongratulations, you did it !\n\n%s\n%s\n') %
+                    (text, top_msg)
+                ),
+                strings=(_("&New game"), None, _("&Cancel")),
+                image=self.app.gimages.logos[4])
         elif self.gstats.updated < 0:
             self.finished = True
             self.playSample("gamefinished", priority=1000)
@@ -3022,11 +3020,10 @@ Congratulations, you did it !
             self.setCursor(cursor=self.app.top_cursor)
             MfxMessageDialog(
                 self.top, title=_("Load game error"), bitmap="error",
-                text=_("""\
-Error while loading game.
-
-Probably the game file is damaged,
-but this could also be a bug you might want to report."""))
+                text=_(
+                    "Error while loading game.\n\n" +
+                    "Probably the game file is damaged,\n" +
+                    "but this could also be a bug you might want to report."))
             traceback.print_exc()
         except UnpicklingError as ex:
             self.updateMenus()
@@ -3036,11 +3033,11 @@ but this could also be a bug you might want to report."""))
         except Exception:
             self.updateMenus()
             self.setCursor(cursor=self.app.top_cursor)
-            MfxMessageDialog(self.top, title=_("Load game error"),
-                             bitmap="error", text=_("""\
-Internal error while loading game.
-
-Please report this bug."""))
+            MfxMessageDialog(
+                self.top, title=_("Load game error"),
+                bitmap="error", text=_(
+                    """Internal error while loading game.\n\n""" +
+                    "Please report this bug."))
             traceback.print_exc()
         else:
             if self.pause:
@@ -3103,9 +3100,11 @@ Please report this bug."""))
         version = pload(str)
         # validate(isinstance(version, str) and len(version) <= 20, err_txt)
         version_tuple = pload(tuple)
-        validate(version_tuple >= (1, 0), _('''\
-Cannot load games saved with
-%s version %s''') % (PACKAGE, version))
+        validate(
+            version_tuple >= (1, 0),
+            _('''Cannot load games saved with\n%s version %s''') % (
+                PACKAGE,
+                version))
         game_version = 1
         bookmark = pload(int)
         validate(0 <= bookmark <= 2, err_txt)
@@ -3120,10 +3119,11 @@ Cannot load games saved with
                 if not game.canLoadGame(version_tuple, game_version):
                     destruct(game)
                     game = None
-        validate(game is not None, _('''\
-Cannot load this game from version %s
-as the game rules have changed
-in the current implementation.''') % version)
+        validate(
+            game is not None,
+            _('Cannot load this game from version %s\n' +
+              'as the game rules have changed\n' +
+              'in the current implementation.') % version)
         game.version = version
         game.version_tuple = version_tuple
         #

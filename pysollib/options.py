@@ -25,15 +25,17 @@ import os
 import sys
 import traceback
 
+import configobj
 
 import pysollib.settings
-from pysollib.configobj import configobj, validate
 from pysollib.mfxutil import print_err
 from pysollib.mygettext import _
 from pysollib.pysoltk import TOOLBAR_BUTTONS, TOOLKIT
 from pysollib.resource import CSI
 
 import six
+
+import validate
 
 # ************************************************************************
 # * Options

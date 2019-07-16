@@ -8,7 +8,7 @@ install:
     - choco install strawberryperl
     - copy %PYTHON%\python.exe %PYTHON%\python3.exe
     - SET PATH=%PYTHON%;C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%
-    - python3 -mpip install Pillow attrs configobj flake8 flake8-import-order py2exe pycotap pygame pysol-cards random2 six
+    - python3 -mpip install Pillow attrs configobj flake8 flake8-import-order py2exe pycotap pygame pysol-cards random2 setuptools six
     - perl -v
     - copy C:\msys64\mingw64\bin\mingw32-make.exe C:\msys64\mingw64\bin\make.exe
     - SET PATH=C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%

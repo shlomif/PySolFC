@@ -2,11 +2,13 @@
 # -*- mode: python; -*-
 
 import os
-from distutils.core import setup
 from glob import glob
 
 from pysollib.settings import PACKAGE_URL
 from pysollib.settings import VERSION
+
+from setuptools import setup
+
 if os.name == 'nt':
     import py2exe  # noqa: F401
 
@@ -69,6 +71,14 @@ kw = {
     'author': 'Skomoroh',
     'author_email': 'skomoroh@gmail.com',
     'description': 'a Python solitaire game collection',
+    'install_requires': [
+        'attrs',
+        'configobj',
+        'pycotap',
+        'pysol_cards',
+        'random2',
+        'six',
+    ],
     'long_description': long_description,
     'license': 'GPL',
     'scripts': ['pysol.py'],

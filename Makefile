@@ -40,7 +40,7 @@ mo:
 	for lang in ru de pl it; do \
 		mkdir -p locale/$${lang}/LC_MESSAGES; \
 		msgcat --use-first po/$${lang}_games.po po/$${lang}_pysol.po > po/$${lang}.po; \
-		msgfmt -o locale/$${lang}/LC_MESSAGES/pysol.mo po/$${lang}.po; \
+		msgfmt --check -o locale/$${lang}/LC_MESSAGES/pysol.mo po/$${lang}.po; \
 	done
 
 pretest:

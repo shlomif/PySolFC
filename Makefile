@@ -1,6 +1,11 @@
 # Makefile for PySolFC
 
-export PYTHONPATH := $(PYTHONPATH):$(CURDIR)
+ifeq ($(OS),Windows_NT)
+	path_sep = ;
+else
+	path_sep = :
+endif
+export PYTHONPATH := $(PYTHONPATH)$(path_sep)$(CURDIR)
 
 .PHONY: all install dist rpm all_games_html rules pot mo pretest test runtest
 
@@ -47,11 +52,11 @@ pretest:
 	rm -f tests/individually-importing/*.py # To avoid stray files
 	python3 scripts/gen_individual_importing_tests.py
 
-TEST_ENV_PATH = $(CURDIR):$(CURDIR)/tests/lib
+TEST_ENV_PATH = $(CURDIR)$(path_sep)$(CURDIR)/tests/lib
 TEST_FILES = tests/style/*.t tests/unit-generated/*.py tests/individually-importing/*.py
 
-test runtest: export PYTHONPATH := $(PYTHONPATH):$(TEST_ENV_PATH)
-test runtest: export PERL5LIB := $(PERL5LIB):$(TEST_ENV_PATH)
+test runtest: export PYTHONPATH := $(PYTHONPATH)$(path_sep)$(TEST_ENV_PATH)
+test runtest: export PERL5LIB := $(PERL5LIB)$(path_sep)$(TEST_ENV_PATH)
 
 test: pretest
 	prove $(TEST_FILES)

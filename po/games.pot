@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Mon Mar  7 21:38:07 2011\n"
+"POT-Creation-Date: Thu Jul 18 19:36:14 2019\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -702,6 +702,9 @@ msgstr ""
 msgid "Czarina"
 msgstr ""
 
+msgid "Daddy Longlegs"
+msgstr ""
+
 msgid "Danda"
 msgstr ""
 
@@ -1270,6 +1273,12 @@ msgid "Free Napoleon"
 msgstr ""
 
 msgid "FreeCell"
+msgstr ""
+
+msgid "FreeCell with Two Reserves"
+msgstr ""
+
+msgid "FreeCell with Zero Reserves"
 msgstr ""
 
 msgid "Frog"

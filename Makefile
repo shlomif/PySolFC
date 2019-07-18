@@ -2,11 +2,6 @@
 
 export PYTHONPATH := $(PYTHONPATH):$(CURDIR)
 
-PYSOLLIB_FILES = pysollib/tk/*.py pysollib/tile/*.py pysollib/*.py \
-	pysollib/games/*.py pysollib/games/special/*.py \
-	pysollib/games/ultra/*.py pysollib/games/mahjongg/*.py \
-	pysollib/kivy/*.py
-
 .PHONY: all install dist rpm all_games_html rules pot mo pretest test runtest
 
 all:
@@ -32,10 +27,8 @@ rules:
 
 pot:
 	./scripts/all_games.py gettext > po/games.pot
-	./scripts/pygettext.py -k n_ --ngettext-keyword ungettext -o po/pysol-1.pot $(PYSOLLIB_FILES)
-	xgettext -L C --keyword=N_ -o po/pysol-2.pot data/glade-translations
-	msgcat po/pysol-1.pot po/pysol-2.pot > po/pysol.pot
-	rm -f po/pysol-1.pot po/pysol-2.pot
+	xgettext --keyword=n_ -o po/pysol.pot \
+		pysollib/*.py pysollib/*/*.py pysollib/*/*/*.py data/pysolfc.glade
 	set -e; \
 	for lng in ru de pl it; do \
 		msgmerge --update --quiet --backup=none po/$${lng}_pysol.po po/pysol.pot; \

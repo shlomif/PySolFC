@@ -37,23 +37,16 @@ pot:
 	msgcat po/pysol-1.pot po/pysol-2.pot > po/pysol.pot
 	rm -f po/pysol-1.pot po/pysol-2.pot
 	set -e; \
-	for lng in ru pl; do \
-		mv -f po/$${lng}_pysol.po po/$${lng}_pysol.old.po; \
-		msgmerge po/$${lng}_pysol.old.po po/pysol.pot > po/$${lng}_pysol.po; \
-		rm -f po/$${lng}_pysol.old.po; \
-		mv -f po/$${lng}_games.po po/$${lng}_games.old.po; \
-		msgmerge po/$${lng}_games.old.po po/games.pot > po/$${lng}_games.po; \
-		rm -f po/$${lng}_games.old.po; \
+	for lng in ru de pl it; do \
+		msgmerge --update --quiet --backup=none po/$${lng}_pysol.po po/pysol.pot; \
+		msgmerge --update --quiet --backup=none po/$${lng}_games.po po/games.pot; \
 	done
 
 mo:
 	set -e; \
-	for lang in ru pl it; do \
-		msgcat --use-first po/$${lang}_games.po po/$${lang}_pysol.po > po/$${lang}.po 2>/dev/null; \
-	done
-	set -e; \
 	for lang in ru de pl it; do \
 		mkdir -p locale/$${lang}/LC_MESSAGES; \
+		msgcat --use-first po/$${lang}_games.po po/$${lang}_pysol.po > po/$${lang}.po; \
 		msgfmt -o locale/$${lang}/LC_MESSAGES/pysol.mo po/$${lang}.po; \
 	done
 

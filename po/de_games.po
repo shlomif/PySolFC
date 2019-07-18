@@ -1,207 +1,20 @@
 msgid ""
 msgstr ""
-"#-#-#-#-#  de_games.po (PySol 0.0.1)  #-#-#-#-#\n"
-"Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Mon Nov 15 15:06:46 2007\n"
-"PO-Revision-Date: 2007-09-05 17:43+0400\n"
-"Last-Translator: H. Schaekel <Holger.Schaekel@web.de>\n"
-"Language-Team: German\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: utf-8\n"
-"Generated-By: Holger Schaekel\n"
-"#-#-#-#-#  de_pysol.po (PACKAGE VERSION)  #-#-#-#-#\n"
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: Mon Nov 15 15:06:46 2007\n"
+"POT-Creation-Date: Thu Jul 18 18:25:19 2019\n"
 "PO-Revision-Date: 2007-09-05 17:43+0400\n"
 "Last-Translator: H. Schaekel <Holger.Schaekel@web.de>\n"
 "Language-Team: German\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"#-#-#-#-#  de_games.po (PySol 0.0.1)  #-#-#-#-#\n"
 "Generated-By: Holger Schaekel\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
-"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-
-msgid "\tThis game:  "
-msgstr "        Dieses Spiel:  "
-
-msgid ""
-"\n"
-"\n"
-"Enter new game number"
-msgstr ""
-"\n"
-"\n"
-"Neue Spielnummer eingeben"
-
-msgid ""
-"\n"
-"Cards in Foundations: "
-msgstr ""
-"\n"
-"Karten in Endablage: "
-
-msgid ""
-"\n"
-"Cards in Talon: "
-msgstr ""
-"\n"
-"Karten im Talon: "
-
-msgid ""
-"\n"
-"Cards in Waste: "
-msgstr ""
-"\n"
-"Karten auf Zwischentalon: "
-
-msgid ""
-"\n"
-"Congratulations, this\n"
-"was a truly perfect game !\n"
-"\n"
-"%s\n"
-"%s\n"
-msgstr ""
-"\n"
-"Glückwunsch!\n"
-"Das war ein wirklich\n"
-"perfektes Spiel!\n"
-"\n"
-"%s\n"
-"%s\n"
-
-msgid ""
-"\n"
-"Congratulations, you did it !\n"
-"\n"
-"%s\n"
-"%s\n"
-msgstr ""
-"\n"
-"Glückwunsch!\n"
-"Sie haben es geschafft!\n"
-"\n"
-"%s\n"
-"%s\n"
-
-msgid ""
-"\n"
-"Error while saving game.\n"
-"\n"
-"%s\n"
-msgstr ""
-"\n"
-"Fehler beim Speichern des Spiels\n"
-"\n"
-"%s\n"
-
-msgid ""
-"\n"
-"Game finished\n"
-msgstr ""
-"\n"
-"Spiel beendet\n"
-
-msgid ""
-"\n"
-"Game finished, but not without my help...\n"
-msgstr ""
-"\n"
-"Spiel beendet, aber nicht ohne meine Hilfe...\n"
-
-msgid ""
-"\n"
-"Game solved in %d move.\n"
-msgid_plural ""
-"\n"
-"Game solved in %d moves.\n"
-msgstr[0] ""
-"\n"
-"Spiel gelöst in %d Zug.\n"
-msgstr[1] ""
-"\n"
-"Spiel gelöst in %d Zügen.\n"
-msgstr[2] ""
-"\n"
-"Spiel gelöst in %d Zügen.\n"
-
-msgid ""
-"\n"
-"No games were found !!!\n"
-"\n"
-"Main data directory is:\n"
-"%s\n"
-"\n"
-"Please check your %s installation.\n"
-msgstr ""
-"\n"
-"Keine Spiele gefunden!!!\n"
-"\n"
-"Hauptdatenverzeichnis ist:\n"
-"%s\n"
-"\n"
-"Überprüfen Sie Ihre Installation %s.\n"
-
-msgid ""
-"\n"
-"Please enter your name"
-msgstr ""
-"\n"
-"Bitte geben Sie Ihren Namen ein"
-
-msgid ""
-"\n"
-"Redeals: "
-msgstr ""
-"\n"
-"Neu gemischt: "
-
-msgid ""
-"\n"
-"This won't come out...\n"
-msgstr ""
-"\n"
-"Das wird nicht passen...\n"
-
-msgid ""
-"\n"
-"You have reached\n"
-"#%d in the %s of moves."
-msgstr ""
-"\n"
-"Sie haben\n"
-"Platz %d in %s Zügen erreicht."
-
-msgid ""
-"\n"
-"You have reached\n"
-"#%d in the %s of playing time\n"
-"and #%d in the %s of moves."
-msgstr ""
-"\n"
-"Sie haben\n"
-"Platz %d in %s Spielzeit erreicht\n"
-"und  Platz %d in %s Zügen."
-
-msgid ""
-"\n"
-"You have reached\n"
-"#%d in the %s of playing time."
-msgstr ""
-"\n"
-"Sie haben\n"
-"Platz %d in %s der Spielzeit erreicht."
-
-msgid ""
-"\n"
-"You have reached\n"
-"#%d in the Top 10 moves"
-msgstr ""
-"\n"
-"Sie haben\n"
-"Platz %d in den Top 10 erreicht."
+"#-#-#-#-#  de_pysol.po (PACKAGE VERSION)  #-#-#-#-#\n"
+"Generated-By: Holger Schaekel\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 msgid " 3x3 Matrix"
 msgstr "3x3 Matrix"
@@ -224,529 +37,23 @@ msgstr "8x8 Matrix"
 msgid " 9x9 Matrix"
 msgstr "9x9 Matrix"
 
-msgid " Ascending"
-msgstr " Aufsteigend"
-
-msgid " Autopilot"
-msgstr " Autopilot"
-
-msgid " Deck"
-msgstr " Deck"
-
-msgid " Demo"
-msgstr " Demo"
-
-msgid " Demo "
-msgstr " Demo "
-
-msgid " Descending"
-msgstr " Absteigend"
-
-msgid " HTML Problem"
-msgstr " HTML Problem"
-
-msgid " Help"
-msgstr " Hilfe"
-
-msgid " Info"
-msgstr " Info"
-
 msgid " Pyramid's Stones"
 msgstr "Pyramidensteine"
-
-msgid " for "
-msgstr " für "
-
-msgid " load error"
-msgstr " Ladefehler"
-
-msgid ""
-" were appended to\n"
-"\n"
-msgstr ""
-" wird angehängt an\n"
-"\n"
-
-msgid "# of cards dealt to the reserve:"
-msgstr "Anzahl der Karten in der Reserve:"
-
-msgid "# of cards dealt to the waste:"
-msgstr "Anzahl der Karten in der Zwischentalon :"
-
-msgid "# of face-down cards dealt to the tableau pile:"
-msgstr "Anzahl verdeckter Karten auf dem Stapel:"
-
-msgid "# of face-up cards dealt to the tableau pile:"
-msgstr "Anzahl aufgedeckter Karten auf dem Stapel:"
-
-msgid "% won"
-msgstr "% gewonnen"
-
-msgid "% won:"
-msgstr "% gewonnen:"
-
-msgid ""
-"%d\n"
-"Tile\n"
-"Remaining\n"
-"\n"
-msgid_plural ""
-"%d\n"
-"Tiles\n"
-"Remaining\n"
-"\n"
-msgstr[0] ""
-"%d\n"
-"Stein\n"
-"verbleibend\n"
-"\n"
-msgstr[1] ""
-"%d\n"
-"Steine\n"
-"verbleibend\n"
-"\n"
-msgstr[2] ""
-"%d\n"
-"Steine\n"
-"verbleibend\n"
-"\n"
-
-msgid ""
-"%d\n"
-"Tile\n"
-"Removed\n"
-"\n"
-msgid_plural ""
-"%d\n"
-"Tiles\n"
-"Removed\n"
-"\n"
-msgstr[0] ""
-"%d\n"
-"Stein\n"
-"entfernt\n"
-"\n"
-msgstr[1] ""
-"%d\n"
-"Steine\n"
-"entfernt\n"
-"\n"
-msgstr[2] ""
-"%d\n"
-"Steine\n"
-"entfernt\n"
-"\n"
-
-msgid ""
-"%d Free\n"
-"Matching\n"
-"Pair"
-msgid_plural ""
-"%d Free\n"
-"Matching\n"
-"Pairs"
-msgstr[0] ""
-"%d frei\n"
-"passendes\n"
-"Paar"
-msgstr[1] ""
-"%d frei\n"
-"passende\n"
-"Paare"
-msgstr[2] ""
-"%d frei\n"
-"passende\n"
-"Paare"
-
-msgid "%d card"
-msgid_plural "%d cards"
-msgstr[0] "%d Karte"
-msgstr[1] "%d Karten"
-msgstr[2] "%d Karten"
-
-msgid "%d readeal"
-msgid_plural "%d redeals"
-msgstr[0] "%d Wiederholung"
-msgstr[1] "%d Wiederholungen"
-msgstr[2] "%d Wiederholungen"
-
-msgid ""
-"%s\n"
-"try %s --help for more information"
-msgstr ""
-"%s\n"
-"Versuchen Sie %s --help für mehr Informationen"
-
-msgid "%s installation error"
-msgstr "%s Installationsfehler"
-
-msgid "&About "
-msgstr "Über "
-
-msgid "&All games"
-msgstr "Alle Spiele"
-
-msgid "&All games by name"
-msgstr "Alle Spiele nach Namen"
-
-msgid "&All games..."
-msgstr "Alle Spiele..."
-
-msgid "&Apply"
-msgstr "Anwenden"
-
-msgid "&Assist"
-msgstr "Hinweise"
-
-msgid "&Auto drop"
-msgstr "Auto Aufdecken"
-
-msgid "&Automatic play"
-msgstr "Automatisches Spiel"
-
-msgid "&Cancel"
-msgstr "Abbruch"
-
-msgid "&Clear bookmarks"
-msgstr "Lesezeichen löschen"
-
-msgid "&Close"
-msgstr "Schließen"
-
-msgid "&Colors..."
-msgstr "Farben..."
-
-msgid "&Comments..."
-msgstr "Kommentare..."
-
-msgid "&Contents"
-msgstr "Inhalte"
-
-msgid "&Cool"
-msgstr "Ausgezeichnet"
-
-msgid "&Credits..."
-msgstr "Danksagung..."
-
-msgid "&Custom games"
-msgstr "Benutzerdefinierte Spiele"
-
-msgid "&Deal cards"
-msgstr "Karten legen"
-
-msgid "&Demo"
-msgstr "Demo"
-
-msgid "&Demo logo"
-msgstr "Demo Logo"
-
-msgid "&Edit"
-msgstr "Bearbeiten"
-
-msgid "&Edit current game"
-msgstr "Aktives Spiel bearbeiten"
-
-msgid "&Enjoy"
-msgstr "Genießen"
-
-msgid "&Fast"
-msgstr "Schnell"
-
-msgid "&File"
-msgstr "Datei"
-
-msgid "&Find card"
-msgstr "Karte finden"
-
-msgid "&Fonts..."
-msgstr "Schriften..."
-
-msgid "&French games"
-msgstr "Französische Spiele"
-
-msgid "&Full log..."
-msgstr "Volles Protokoll"
-
-msgid "&Game"
-msgstr "Spiel"
-
-msgid "&Great"
-msgstr "Großartig"
-
-msgid "&Help"
-msgstr "Hilfe"
-
-msgid "&Hint"
-msgstr "Hinweis"
-
-msgid "&Hmm"
-msgstr "Hmm"
-
-msgid "&Hold and quit"
-msgstr "Halten und beenden"
-
-msgid "&How to play"
-msgstr "Spielanleitung"
-
-msgid "&Info..."
-msgstr "Info..."
-
-msgid "&License terms"
-msgstr "Lizenzbedingungen"
-
-msgid "&Load"
-msgstr "Laden"
-
-msgid "&Mahjongg games"
-msgstr "Mahjongg Spiele"
-
-msgid "&Medium"
-msgstr "Mittel"
-
-msgid "&Mouse"
-msgstr "Touch"
-
-msgid "&Negative cards bottom"
-msgstr "Negative Kartenkonturen"
-
-msgid "&New"
-msgstr "Neu"
-
-msgid "&New game"
-msgstr "Neues Spiel"
-
-msgid "&Next number"
-msgstr "Nächste Nummer"
-
-msgid "&Nice"
-msgstr "Nett"
-
-msgid "&None"
-msgstr "Nein"
-
-msgid "&OK"
-msgstr "ОК"
-
-msgid "&Oh well"
-msgstr "Oh gut"
-
-msgid "&Open..."
-msgstr "Öffnen..."
-
-msgid "&Options"
-msgstr "Optionen"
-
-msgid "&Oriental games"
-msgstr "Orientalische Spiele"
-
-msgid "&Pause"
-msgstr "Pause"
-
-msgid "&Piles description"
-msgstr "Spielfeldbeschreibung"
-
-msgid "&Play"
-msgstr "Spielen"
-
-msgid "&Play this game"
-msgstr "Spiel beginnen"
-
-msgid "&Player options..."
-msgstr "Spieler Optionen..."
-
-msgid "&Popular games"
-msgstr "Populäre Spiele"
-
-msgid "&Quick play"
-msgstr "Schnelles Spiel"
-
-msgid "&Quit"
-msgstr "Beenden"
-
-msgid "&Redeal animation"
-msgstr "Neu Mischen Animation"
-
-msgid "&Redo"
-msgstr "Vorwärts"
-
-msgid "&Reset all..."
-msgstr "Alles zurücksetzen..."
-
-msgid "&Reset..."
-msgstr "Reset..."
-
-msgid "&Restart"
-msgstr "Neustart"
-
-msgid "&Rules"
-msgstr "Regeln"
-
-msgid "&Rules for this game"
-msgstr "Regeln dieses Spiels"
-
-msgid "&Save"
-msgstr "Speichern"
-
-msgid "&Save to file"
-msgstr "In Datei speichern"
-
-msgid "&Select"
-msgstr "Auswählen"
-
-msgid "&Set bookmark"
-msgstr "Lesezeichen setzen"
-
-msgid "&Show removed tiles (in Mahjongg games)"
-msgstr "Entnommene Steine anzeigen (in Mahjongg)"
-
-msgid "&Slow"
-msgstr "Langsam"
-
-msgid "&Solid color..."
-msgstr "Einfarbig..."
-
-msgid "&Sound..."
-msgstr "Sound..."
-
-msgid "&Special games"
-msgstr "Spezialspiele"
-
-msgid "&Start"
-msgstr "Start"
-
-msgid "&Statistics"
-msgstr "Statistiken"
-
-msgid "&Statistics..."
-msgstr "Statistiken..."
-
-msgid "&Sticky mouse"
-msgstr "Sticky Touch"
-
-msgid "&That's life"
-msgstr "So ist das Leben"
-
-msgid "&Toolbar"
-msgstr "Werkzeugleiste"
-
-msgid "&Undo"
-msgstr "Zurück"
-
-msgid "&Very fast"
-msgstr "Sehr schnell"
-
-msgid "&Winning animation"
-msgstr "Gewinnanimation"
-
-msgid "&Wow"
-msgstr "Toll"
-
-msgid "&Yeah"
-msgstr "Super"
-
-msgid "(no cardsets)"
-msgstr "(keine Kartensets)"
-
-msgid "(no games)"
-msgstr "(keine Spiele)"
-
-msgid "(no tiles)"
-msgstr "(keine Steine)"
-
-msgid "1 deck games"
-msgstr "1 Deck Spiele"
-
-msgid "1 redeal"
-msgstr "1 neues Deck"
 
 msgid "10 x 8"
 msgstr "10 x 8"
 
-msgid "104 cards"
-msgstr "104 Karten"
-
 msgid "10x10 Matrix"
 msgstr "10x10 Matrix"
-
-msgid "144 cards"
-msgstr "144 Karten"
-
-msgid ""
-"1: 2 3 4 5 6 7 8 9 T J Q K\n"
-"2: 4 6 8 T Q A 3 5 7 9 J K\n"
-"3: 6 9 Q 2 5 8 J A 4 7 T K\n"
-"4: 8 Q 3 7 J 2 6 T A 5 9 K"
-msgstr ""
-"1: 2 3 4 5 6 7 8 9 T J Q K\n"
-"2: 4 6 8 T Q A 3 5 7 9 J K\n"
-"3: 6 9 Q 2 5 8 J A 4 7 T K\n"
-"4: 8 Q 3 7 J 2 6 T A 5 9 K"
-
-msgid "2 deck games"
-msgstr "2 Deck Spiele"
-
-msgid "2 redeals"
-msgstr "2 Neu Mischen"
-
-msgid "3 deck games"
-msgstr "3 Deck Spiele"
-
-msgid "3 redeals"
-msgstr "3 Neu Mischen"
-
-msgid "32 cards"
-msgstr "32 Karten"
-
-msgid "4 deck games"
-msgstr "4 Deck Spiele"
-
-msgid "48 cards"
-msgstr "48 Karten"
-
-msgid "52 cards"
-msgstr "52 Karten"
-
-msgid "64 cards"
-msgstr "64 Karten"
-
-msgid "78 cards"
-msgstr "78 Karten"
 
 msgid "8 x 8"
 msgstr "8 x 8"
 
-msgid "A Python Solitaire Game Collection\n"
-msgstr "Eine Python Spielesammlung\n"
-
-msgid "A World Domination Project\n"
-msgstr "Ein \"World Domination\" Projekt\n"
-
-msgid "A&dd to favorites"
-msgstr "Favoriten hinzufügen"
-
-msgid "A&nimations"
-msgstr "Animationen"
-
-msgid "A&uto drop"
-msgstr "Auto Aufdecken"
-
 msgid "Abacus"
 msgstr "Abakus"
 
-msgid "About "
-msgstr "Über "
-
-msgid "About cardset"
-msgstr "Über Kartensets"
-
-msgid "About game"
-msgstr "Über das Spiel "
-
 msgid "Accordion"
 msgstr "Akkordion"
-
-msgid "Ace"
-msgstr "Ass"
 
 msgid "Aces High"
 msgstr "Aces High"
@@ -769,14 +76,20 @@ msgstr "Bekanntschaft"
 msgid "Adela"
 msgstr "Аdela"
 
-msgid "Adult"
-msgstr "Erwachsene"
+msgid "Aglet"
+msgstr ""
 
 msgid "Agnes Bernauer"
 msgstr "Agnes Bernauer"
 
 msgid "Agnes Sorel"
 msgstr "Agnes Sorel"
+
+msgid "Akbar's Conquest"
+msgstr ""
+
+msgid "Akbar's Triumph"
+msgstr ""
 
 msgid "Alaska"
 msgstr "Аlaska"
@@ -793,41 +106,11 @@ msgstr "Аlhambra"
 msgid "Ali Baba"
 msgstr "Ali Baba"
 
-msgid "All &games..."
-msgstr "Alle Spiele..."
-
-msgid "All Backgrounds"
-msgstr "Alle Hintergründe"
-
-msgid "All Cardsets"
-msgstr "Alle Kartensets"
-
-msgid "All Games"
-msgstr "Alle Spiele"
-
-msgid "All games"
-msgstr "Alle Spiele"
-
-msgid "All games..."
-msgstr "Alle Spiele..."
-
 msgid "All in a Row"
 msgstr "Alles in einer Reihe"
 
-msgid "All time"
-msgstr "Jederzeit"
-
 msgid "Altar"
 msgstr "Altar"
-
-msgid "Alternate Names"
-msgstr "Alternative Namen"
-
-msgid "Alternate color"
-msgstr "Alternative Farben"
-
-msgid "Alternate names:"
-msgstr "Alternative Namen:"
 
 msgid "Alternation"
 msgstr "Wechsel"
@@ -844,35 +127,29 @@ msgstr "Amerikanische Kröte"
 msgid "Amphibian"
 msgstr "Amphibien"
 
-msgid "Animals"
-msgstr "Tiere"
-
-msgid "Anime"
-msgstr "Anime"
-
 msgid "Anno Domini"
 msgstr "Anno Domini"
 
 msgid "Another Round"
 msgstr "Noch eine Runde"
 
-msgid "Any"
-msgstr "Jeder"
-
-msgid "Any suit but the same"
-msgstr "Jeder Anzug ist gleich"
+msgid "Apophis"
+msgstr ""
 
 msgid "Appachan's Waterfall"
 msgstr "Apachen Wasserfall"
+
+msgid "Applegate"
+msgstr ""
+
+msgid "Aqab's"
+msgstr ""
 
 msgid "Arabella"
 msgstr "Arabella"
 
 msgid "Arachnida"
 msgstr "Arachnida"
-
-msgid "Are You Sure"
-msgstr "Sind Sie sicher?"
 
 msgid "Arena"
 msgstr "Аrena"
@@ -886,20 +163,25 @@ msgstr "Аrizona"
 msgid "Arrow"
 msgstr "Pfeil"
 
-msgid "Art"
-msgstr "Kunst"
-
 msgid "Art Moderne"
 msgstr "Moderne Kunst"
+
+#, fuzzy
+msgid "Artic Garden"
+msgstr "Garten"
 
 msgid "Ashrafi"
 msgstr "Ashrafi"
 
+msgid "Ashta Dikapala"
+msgstr ""
+
+#, fuzzy
+msgid "Ashwapati"
+msgstr "Dhanpati"
+
 msgid "Assembly"
 msgstr "Assembler"
-
-msgid "Assist &level"
-msgstr "Level Tipps"
 
 msgid "Athena"
 msgstr "Athena"
@@ -910,50 +192,11 @@ msgstr "Gute alte Zeiten"
 msgid "Aunt Mary"
 msgstr "Tante Marie"
 
-msgid "Australia"
-msgstr "Australien"
-
 msgid "Australian Patience"
 msgstr "Australische Patience"
 
-msgid "Austria"
-msgstr "Österreich"
-
-msgid "Auto &deal"
-msgstr "Automatisch nehmen"
-
-msgid "Auto &face up"
-msgstr "Automatisch drehen"
-
-msgid "Auto drop"
-msgstr "Auto Aufdecken"
-
-msgid "Auto drop cards"
-msgstr "Karten Auto Aufdecken"
-
-msgid "Auto flip"
-msgstr "Auto-Flip"
-
-msgid "Autodrop"
-msgstr "Auto Aufdecken"
-
-msgid "Autopilot lost"
-msgstr "Autopilot verliert"
-
-msgid "Autopilot won"
-msgstr "Autopilot gewinnt"
-
-msgid "Average"
-msgstr "Durchschnitt"
-
-msgid "Axe"
-msgstr "Axt"
-
 msgid "Baby Spiderette"
 msgstr "Baby Spiderette"
-
-msgid "Back"
-msgstr "Zurück"
 
 msgid "Backbone"
 msgstr "Rückrad"
@@ -967,17 +210,12 @@ msgstr "Schlechte Sieben"
 msgid "Baker's Dozen"
 msgstr "Bäcker's Dutzend"
 
-msgid "Baker's Dozen type"
-msgstr "Bäckers Dutzend"
+#, fuzzy
+msgid "Baker's Game"
+msgstr "Lara's Spiel"
 
 msgid "Balance"
 msgstr "Gleichgewicht"
-
-msgid "Balance $%d"
-msgstr "Gleichgewicht $%d"
-
-msgid "Balanced"
-msgstr "Ausgewogen"
 
 msgid "Balarama"
 msgstr "Balarama"
@@ -990,15 +228,6 @@ msgstr "Baroness"
 
 msgid "Barrier"
 msgstr "Schranke"
-
-msgid "Base card - %s."
-msgstr "Basiskarte - %s."
-
-msgid "Base card - Ace or King."
-msgstr "Basiskarte - Ass oder König."
-
-msgid "Base card:"
-msgstr "Basiskarte:"
 
 msgid "Bastille Day"
 msgstr "Tag der Bastille"
@@ -1021,6 +250,12 @@ msgstr "Batsford Wiederholung"
 msgid "Bavarian Patience"
 msgstr "Bayerische Patience"
 
+msgid "Bayan"
+msgstr ""
+
+msgid "Beacon"
+msgstr ""
+
 msgid "Beak and Flipper"
 msgstr "Schnabbel und Flipper"
 
@@ -1035,12 +270,6 @@ msgstr "Beetle"
 
 msgid "Beleaguered Castle"
 msgstr "Belagerte Burg"
-
-msgid "Beleaguered Castle type"
-msgstr "Belagerte Burg"
-
-msgid "Belgium"
-msgstr "Belgien"
 
 msgid "Belvedere"
 msgstr "Belvedere"
@@ -1117,9 +346,6 @@ msgstr "Bits und Bytes"
 msgid "Bizarre"
 msgstr "Bizarr"
 
-msgid "Black"
-msgstr "Schwarz"
-
 msgid "Black Hole"
 msgstr "Schwarzes Loch"
 
@@ -1138,9 +364,6 @@ msgstr "Blockade"
 msgid "Blondes and Brunettes"
 msgstr "Blonde und Brünette"
 
-msgid "Blue"
-msgstr "Blau"
-
 msgid "Blue Moon"
 msgstr "Blauer Mond"
 
@@ -1153,26 +376,14 @@ msgstr "Bord Patience"
 msgid "Boat"
 msgstr "Boot"
 
-msgid "Bold"
-msgstr "Fett"
-
 msgid "Bonaparte"
 msgstr "Bonaparte"
-
-msgid "Bookmark %d"
-msgstr "Lesezeichen %d"
-
-msgid "Bookmark moves: "
-msgstr "Lesezeichen nach: "
 
 msgid "Boomerang"
 msgstr "Boomerang"
 
 msgid "Boost"
 msgstr "Auftrieb"
-
-msgid "Bottom"
-msgstr "Boden"
 
 msgid "Boudoir"
 msgstr "Boudoir"
@@ -1231,9 +442,6 @@ msgstr "Britische Verfassung"
 msgid "British Square"
 msgstr "Britisches Quadrat"
 
-msgid "Brown"
-msgstr "Braun"
-
 msgid "Brunswick"
 msgstr "Brunswick"
 
@@ -1245,9 +453,6 @@ msgstr "Buffalo Bill"
 
 msgid "Bug"
 msgstr "Käfer"
-
-msgid "Bush Clover"
-msgstr "Buschklee"
 
 msgid "Busy Aces"
 msgstr "Beschäftige Asse"
@@ -1270,41 +475,20 @@ msgstr "Camelot"
 msgid "Can Can"
 msgstr "Can Can"
 
-msgid "Canada"
-msgstr "Kanada"
-
 msgid "Canfield"
 msgstr "Canfield"
 
 msgid "Canfield Rush"
 msgstr "Canfield Rush"
 
-msgid "Canfield type"
-msgstr "Canfield"
-
 msgid "Canister"
 msgstr "Kanister"
-
-msgid "Cannot find help document\n"
-msgstr "Kann kein Hilfedokument finden\n"
 
 msgid "Capricieuse"
 msgstr "Capricieuse"
 
 msgid "Captive Queens"
 msgstr "Gefangene Königin"
-
-msgid "Card &background"
-msgstr "Kartenhintergrund"
-
-msgid "Card &view"
-msgstr "Kartenansicht"
-
-msgid "Card shado&w"
-msgstr "Kartenschatten"
-
-msgid "Cards&et..."
-msgstr "Kartensatz..."
 
 msgid "Carlton"
 msgstr "Carlton"
@@ -1321,14 +505,14 @@ msgstr "Carre Napoleon"
 msgid "Carthage"
 msgstr "Karthago"
 
-msgid "Cartoons"
-msgstr "Cartoons"
-
 msgid "Casino Klondike"
 msgstr "Kasino Klondike"
 
 msgid "Casket"
 msgstr "Schatulle"
+
+msgid "Cassim"
+msgstr ""
 
 msgid "Castle"
 msgstr "Burg"
@@ -1351,8 +535,8 @@ msgstr "Katz und Maus"
 msgid "Cat's Tail"
 msgstr "Schwanz der Katze"
 
-msgid "Category:"
-msgstr "Kategorie:"
+msgid "Catherine the Great"
+msgstr ""
 
 msgid "Cavalier"
 msgstr "Kavalier"
@@ -1372,19 +556,6 @@ msgstr "Chamberlain"
 msgid "Chameleon"
 msgstr "Chameleon"
 
-msgid "Change theme"
-msgstr "Thema ändern"
-
-msgid "Change..."
-msgstr "Ändern..."
-
-msgid ""
-"Changing DirectX settings will take effect\n"
-"the next time you restart "
-msgstr ""
-"Die Änderungen an DirectX werden erst\n"
-"beim nächsten Neustart aktiv "
-
 msgid "Checkered"
 msgstr "Kariert"
 
@@ -1397,20 +568,15 @@ msgstr "Cheops"
 msgid "Chequers"
 msgstr "Chequers"
 
-msgid "Cherry"
-msgstr "Kirsche"
-
 msgid "Cherry Bomb"
 msgstr "Kirschbombe"
 
+#, fuzzy
+msgid "ChessMania"
+msgstr "Mahjongg SchachMania"
+
 msgid "Chessboard"
 msgstr "Schachbrett"
-
-msgid "Children"
-msgstr "Kinder"
-
-msgid "China"
-msgstr "China"
 
 msgid "Chinaman"
 msgstr "Chinamann"
@@ -1433,12 +599,6 @@ msgstr "Chip"
 msgid "Choice"
 msgstr "Wahl"
 
-msgid "Choose..."
-msgstr "Wählen..."
-
-msgid "Chrysanthemum"
-msgstr "Chrysantheme"
-
 msgid "Cicely"
 msgstr "Cicely"
 
@@ -1451,49 +611,20 @@ msgstr "Zirkel 9"
 msgid "Citadel"
 msgstr "Zitadelle"
 
-msgid "Classic look"
-msgstr "Klassisches Aussehen"
-
-msgid "Clear all bookmarks ?"
-msgstr "Alle Lesezeichen löschen?"
-
-msgid "Clear bookmarks"
-msgstr "Lesezeichen löschen"
-
 msgid "Clink"
 msgstr "Klirren"
 
 msgid "Clock"
 msgstr "Uhr"
 
-msgid "Close"
-msgstr "Schließen"
-
 msgid "Clover Leaf"
 msgstr "Clover Leaf"
 
-msgid "Club"
-msgstr "Klub"
-
-msgid ""
-"Club:    A 2 3 4 5 6 7 8 9 T J Q K\n"
-"Spade:   2 4 6 8 T Q A 3 5 7 9 J K\n"
-"Heart:   3 6 9 Q 2 5 8 J A 4 7 T K\n"
-"Diamond: 4 8 Q 3 7 J 2 6 T A 5 9 K"
+msgid "Cluitjar's Lair"
 msgstr ""
-"Klub:    A 2 3 4 5 6 7 8 9 T J Q K\n"
-"Spaten:  2 4 6 8 T Q A 3 5 7 9 J K\n"
-"Herz:    3 6 9 Q 2 5 8 J A 4 7 T K\n"
-"Diamand: 4 8 Q 3 7 J 2 6 T A 5 9 K"
 
 msgid "Cockroach"
 msgstr "Küchenschabe"
-
-msgid "Coin"
-msgstr "Münze"
-
-msgid "Collectors"
-msgstr "Kollektoren"
 
 msgid "Colonel"
 msgstr "Oberst"
@@ -1504,37 +635,11 @@ msgstr "Colorado"
 msgid "Columns"
 msgstr "Spalten"
 
-msgid "Comments for "
-msgstr "Kommentare für "
-
-msgid ""
-"Comments for %s:\n"
-"\n"
-msgstr ""
-"Kommentare für %s:\n"
-"\n"
-
-msgid ""
-"Comments were appended to\n"
-"\n"
-msgstr ""
-"Kommentare wurden angehängt an\n"
-"\n"
-
-msgid "Compound"
-msgstr "Anzeigen"
-
-msgid "Computers"
-msgstr "Computer"
-
 msgid "Concentration"
 msgstr "Konzentration"
 
 msgid "Cone"
 msgstr "Kegel"
-
-msgid "Confirm quit"
-msgstr "Abbruch bestätigen"
 
 msgid "Congress"
 msgstr "Kongress"
@@ -1572,14 +677,8 @@ msgstr "Courtyard"
 msgid "Cover"
 msgstr "Cover"
 
-msgid "Credits"
-msgstr "Danksagung"
-
 msgid "Crescent"
 msgstr "Halbmond"
-
-msgid "Crimson"
-msgstr "Purpur"
 
 msgid "Cringle"
 msgstr "Cringle"
@@ -1596,9 +695,6 @@ msgstr "Krone"
 msgid "Cruel"
 msgstr "Grausam"
 
-msgid "Cup"
-msgstr "Tasse"
-
 msgid "Cupido's Heart"
 msgstr "Cupido's Herz"
 
@@ -1608,26 +704,15 @@ msgstr "Cupola"
 msgid "Curds and Whey"
 msgstr "Quark und Molke"
 
-msgid "Current game"
-msgstr "Aktuelles Spiel"
-
-msgid "Current game..."
-msgstr "Aktuelles Spiel..."
-
-msgid "Current session"
-msgstr "Aktuelle Sitzung"
-
-msgid "Custom Games"
-msgstr "Benutzerdef. Spiel"
-
 msgid "Czarina"
 msgstr "Czarina"
 
-msgid "Czech Republic"
-msgstr "Tschechische Republik"
+#, fuzzy
+msgid "Daddy Longlegs"
+msgstr "Schattenlinien"
 
-msgid "D&emo statistics"
-msgstr "Demo Statistiken"
+msgid "Danda"
+msgstr ""
 
 msgid "Dashavatara"
 msgstr "Dashavatara"
@@ -1635,47 +720,11 @@ msgstr "Dashavatara"
 msgid "Dashavatara Circles"
 msgstr "Dashavatara Kreise"
 
-msgid "Dashavatara Ganjifa"
-msgstr "Dashavatara Ganjifa"
-
-msgid "Dashavatara Ganjifa type"
-msgstr "Dashavatara Ganjifa"
-
-msgid "Dashavatara Ganjifa type (120 cards)"
-msgstr "Dashavatara Ganjifa (120 Karten)"
-
 msgid "Dead King Golf"
 msgstr "Toten Königs Golf"
 
-msgid "Deal"
-msgstr "Aufnahmen"
-
-msgid "Aufnahmen %d"
-msgstr "Aufnahmen %d"
-
-msgid "Deal all cards at the beginning"
-msgstr "Nehme alle Karten am Anfang auf"
-
-msgid "Deal first cards to the foundations:"
-msgstr "Gebe erste Karten zu der Endablage:"
-
-msgid "Deal to reserves"
-msgstr "Lege in die Reserve"
-
-msgid "Deal to tableau"
-msgstr "Lege auf das Tableau"
-
-msgid "Deal to waste"
-msgstr "Ablegen in Zwischentalon"
-
-msgid "Deal waste"
-msgstr "Zwischentalon aufheben"
-
 msgid "Deck"
 msgstr "Deck"
-
-msgid "Decks:"
-msgstr "Decks:"
 
 msgid "Deep"
 msgstr "Tiefe"
@@ -1686,35 +735,11 @@ msgstr "Tiefbrunnen"
 msgid "Delivery"
 msgstr "Lieferung"
 
-msgid "Demo"
-msgstr "Demo"
-
-msgid "Demo (&all games)"
-msgstr "Demo (alle Spiele)"
-
-msgid "Demo games"
-msgstr "Spieledemo"
-
-msgid "Demo moves: "
-msgstr "Demozüge: "
-
-msgid "Demo statistics"
-msgstr "Demo Statistiken"
-
-msgid "Demo:"
-msgstr "Demo:"
-
 msgid "Demon"
 msgstr "Dämon"
 
 msgid "Demon Fan"
 msgstr "Dämonen Fan"
-
-msgid "Denmark"
-msgstr "Dänemark"
-
-msgid "Depth:"
-msgstr "Tiefe:"
 
 msgid "Der Katzenschwanz"
 msgstr "Der Katzenschwanz"
@@ -1758,7 +783,8 @@ msgstr "Diamantenmine"
 msgid "Die Bildgallerie"
 msgstr "Die Bildgallerie"
 
-msgid "Die Königsbergerin"
+#, fuzzy
+msgid "Die Koenigsbergerin"
 msgstr "Die Königsbergerin"
 
 msgid "Die Russische"
@@ -1779,17 +805,16 @@ msgstr "Dieppe"
 msgid "Diplomat"
 msgstr "Diplomat"
 
-msgid "Direction:"
-msgstr "Richtung:"
-
-msgid "Discard current game ?"
-msgstr "Aktuelles Spiel verwerfen?"
-
-msgid "Document"
-msgstr "Dokument"
-
 msgid "Dog"
 msgstr "Hund"
+
+#, fuzzy
+msgid "Dojouji's Game"
+msgstr "Kali's Spiel"
+
+#, fuzzy
+msgid "Dojouji's Game Doubled"
+msgstr "Kali's Spiel doppelt"
 
 msgid "Dolphin"
 msgstr "Delfin"
@@ -1802,6 +827,10 @@ msgstr "Doppelte Bekanntschaft"
 
 msgid "Double Bisley"
 msgstr "Doppelt Bisley"
+
+#, fuzzy
+msgid "Double Blue Moon"
+msgstr "Blauer Mond"
 
 msgid "Double Canfield"
 msgstr "Doppelt Canfield"
@@ -1818,6 +847,10 @@ msgstr "Doppelter Punkt"
 msgid "Double Drawbridge"
 msgstr "Doppelte Zugbrücke"
 
+#, fuzzy
+msgid "Double Easthaven"
+msgstr "Doppelte Maßnahme "
+
 msgid "Double Fives"
 msgstr "Doppelt 5"
 
@@ -1832,6 +865,10 @@ msgstr "Doppelte Goldmine"
 
 msgid "Double Grasshopper"
 msgstr "Doppelter Grashüpfer"
+
+#, fuzzy
+msgid "Double Kingsley"
+msgstr "Doppelt Bisley"
 
 msgid "Double Klondike"
 msgstr "Doppelt Klondike"
@@ -1869,11 +906,19 @@ msgstr "Doppelt Mahjongg 2 Quadrate"
 msgid "Double Measure"
 msgstr "Doppelte Maßnahme "
 
+#, fuzzy
+msgid "Double Montana"
+msgstr "Doppelter Punkt"
+
 msgid "Double Pyramid"
 msgstr "Doppelte Pyramide"
 
 msgid "Double Rail"
 msgstr "Doppelte Schiene"
+
+#, fuzzy
+msgid "Double Red Moon"
+msgstr "Doppelte Goldmine"
 
 msgid "Double Russian Solitaire"
 msgstr "Doppelt russisch Solitär"
@@ -1905,17 +950,11 @@ msgstr "Doublets II"
 msgid "Dover"
 msgstr "Dover"
 
-msgid "Down"
-msgstr "Unten"
-
 msgid "Dragon"
 msgstr "Drache"
 
 msgid "Dragon 2"
 msgstr "Drache 2"
-
-msgid "Draw"
-msgstr "Zeichnen"
 
 msgid "Drawbridge"
 msgstr "Zugbrücke"
@@ -1926,12 +965,6 @@ msgstr "Modenschau"
 msgid "Drivel"
 msgstr "Gefasel"
 
-msgid "Drop"
-msgstr "Fallen lassen"
-
-msgid "Drop pair"
-msgstr "Paar fallen lassen"
-
 msgid "Duchess"
 msgstr "Herzogin"
 
@@ -1941,17 +974,32 @@ msgstr "Dude"
 msgid "Duke"
 msgstr "Herzog"
 
+msgid "Dumfries"
+msgstr ""
+
 msgid "Dutch Solitaire"
 msgstr "Schottisch Solitär"
 
-msgid "Dwarf"
-msgstr "Zwerg"
+#, fuzzy
+msgid "Dutchess"
+msgstr "Herzogin"
 
 msgid "Eagle Wing"
 msgstr "Adlerschwinge"
 
-msgid "East"
+#, fuzzy
+msgid "Eastcliff"
 msgstr "Osten"
+
+#, fuzzy
+msgid "Easthaven"
+msgstr "Osten"
+
+msgid "Easy Supreme"
+msgstr ""
+
+msgid "Easy x One"
+msgstr ""
 
 msgid "Eclipse"
 msgstr "Eclipse"
@@ -1967,6 +1015,10 @@ msgstr "Acht Legionen"
 
 msgid "Eight Off"
 msgstr "Acht aus"
+
+#, fuzzy
+msgid "Eight Packs"
+msgstr "Acht Sagen"
 
 msgid "Eight Sages"
 msgstr "Acht Sagen"
@@ -1998,67 +1050,8 @@ msgstr "Kaiser"
 msgid "Empty Pyramids"
 msgstr "Leere Pyramiden"
 
-msgid "Empty row cannot be filled."
-msgstr "Leere Spalte kann nicht gefüllt werden."
-
-msgid "Enable &bookmarks"
-msgstr "Lesezeichen aktivieren"
-
-msgid "Enable &hint"
-msgstr "Hinweise aktivieren"
-
-msgid "Enable &undo"
-msgstr "Zurück-Funktion aktivieren"
-
-msgid "Enable highlight &cards"
-msgstr "Hervorhebung Karten aktivieren"
-
-msgid "Enable highlight p&iles"
-msgstr "Hervorhebung Spielfeldkarten aktivieren"
-
-msgid "Enable highlight same &rank"
-msgstr "Hervorhebung gleicher Rang aktivieren"
-
-msgid "Enable samles"
-msgstr "Sound aktivieren"
-
-msgid "Enable samples"
-msgstr "Sound aktivieren"
-
-msgid "Enable shu&ffle"
-msgstr "Mischen aktivieren"
-
-msgid "Engines"
-msgstr "Maschinen"
-
-msgid "England"
-msgstr "England"
-
 msgid "Enterprise"
 msgstr "Enterprise"
-
-msgid "Error while loading "
-msgstr "Fehler während des Ladens"
-
-msgid "Error while loading game"
-msgstr "Fehler beim Laden des Spiels"
-
-msgid ""
-"Error while loading game.\n"
-"\n"
-"Probably the game file is damaged,\n"
-"but this could also be a bug you might want to report."
-msgstr ""
-"Fehler beim Laden des Spiels.\n"
-"\n"
-"Möglicherweise ist die Spieldatei defekt.\n"
-"Es könnte auch ein Programmfehler vorliegen. Bitte melden"
-
-msgid "Error while saving game"
-msgstr "Fehler während des Speicherns des Spielstandes"
-
-msgid "Error while writing to file"
-msgstr "Fehler beim Schreiben in die Datei"
 
 msgid "Escalator"
 msgstr "Eskalator"
@@ -2087,14 +1080,14 @@ msgstr "Auge"
 msgid "F-15 Eagle"
 msgstr "F-15 Eagle"
 
-msgid "Fa&vorite games"
-msgstr "Spielefavoriten"
-
 msgid "Faerie Queen"
 msgstr "Feenkönigin"
 
 msgid "Fair Lucy"
 msgstr "Fair Lucy"
+
+msgid "Fairest"
+msgstr ""
 
 msgid "Falling Star"
 msgstr "Fallender Stern"
@@ -2105,14 +1098,8 @@ msgstr "Grandiose 50"
 msgid "Fan"
 msgstr "Fan"
 
-msgid "Fan type"
-msgstr "Fan"
-
 msgid "Fanny"
 msgstr "Fanny"
-
-msgid "Fantasy"
-msgstr "Fantasie"
 
 msgid "Farandole"
 msgstr "Farandole"
@@ -2141,6 +1128,10 @@ msgstr "Fechter's Spiel"
 msgid "Fifteen"
 msgstr "Fünfzehn"
 
+#, fuzzy
+msgid "Fifteen Puzzle"
+msgstr "Fünfzehn Plus"
+
 msgid "Fifteen plus"
 msgstr "Fünfzehn Plus"
 
@@ -2150,9 +1141,6 @@ msgstr "Fünf Teens"
 msgid "Final Battle"
 msgstr "Finale Schlacht"
 
-msgid "Find card"
-msgstr "Karten finden"
-
 msgid "Firecracker"
 msgstr "Knallkörper"
 
@@ -2161,9 +1149,6 @@ msgstr "Erschießungskommando"
 
 msgid "First Law"
 msgstr "Erstes Gesetz"
-
-msgid "First card sets base cards:"
-msgstr "Erste Karte legt Basiskarten:"
 
 msgid "Fish"
 msgstr "Fisch"
@@ -2180,9 +1165,6 @@ msgstr "Fünf Felder"
 msgid "Five Pyramids"
 msgstr "Fünf Pyramiden"
 
-msgid "Fixed: "
-msgstr "Fixiert: "
-
 msgid "Flake"
 msgstr "Flocke"
 
@@ -2191,9 +1173,6 @@ msgstr "Flocke (2 Decks)"
 
 msgid "Flamenco"
 msgstr "Flamenco"
-
-msgid "Flip"
-msgstr "Flip"
 
 msgid "Flipper"
 msgstr "Flipper"
@@ -2228,8 +1207,16 @@ msgstr "Fliegen"
 msgid "Flying Dragon"
 msgstr "Fliegender Drache"
 
+#, fuzzy
+msgid "Foothold"
+msgstr "Albern"
+
 msgid "Footling"
 msgstr "Albern"
+
+#, fuzzy
+msgid "ForeCell"
+msgstr "FreeCell"
 
 msgid "Forest Glade"
 msgstr "Waldwiese"
@@ -2258,56 +1245,8 @@ msgstr "Neunundvierzig"
 msgid "Forty Thieves"
 msgstr "Vierzig Diebe"
 
-msgid "Forty Thieves type"
-msgstr "Vierzig Diebe"
-
 msgid "Forty and Eight"
 msgstr "Vierzig und Acht"
-
-msgid "Forward"
-msgstr "Vorwärts"
-
-msgid "Foundation."
-msgstr "Endablage"
-
-msgid "Foundation. Build by same rank."
-msgstr "Endablage. Den gleichen Rang erstellen."
-
-msgid "Foundation. Build down by alternate color."
-msgstr "Endablage. Abwärts mit alternativen Farben setzen."
-
-msgid "Foundation. Build down by color."
-msgstr "Endablage. Abwärts setzen nach Farbe."
-
-msgid "Foundation. Build down by suit."
-msgstr "Endablage. Abwärts setzen nach Kartenwert"
-
-msgid "Foundation. Build down regardless of suit."
-msgstr "Endablage. Abwärts setzen unabhängig der Farbe."
-
-msgid "Foundation. Build in suit regardless of rank."
-msgstr "Endablage. Abwärts setzen unabhängig vom Rang"
-
-msgid "Foundation. Build up by alternate color."
-msgstr "Endablage. Aufwärts setzen mit alternativen Farben."
-
-msgid "Foundation. Build up by color."
-msgstr "Endablage. Aufwärts setzen nach Farbe"
-
-msgid "Foundation. Build up by suit."
-msgstr "Endablage. Aufwärts setzen nach Kartenwert"
-
-msgid "Foundation. Build up or down regardless of suit."
-msgstr "Endablage. Aufwärts oder abwärts unabhängig der Farbe."
-
-msgid "Foundation. Build up regardless of suit."
-msgstr "Endablage. Aufwärts setzen unabhängig vom Rang"
-
-msgid "Foundations"
-msgstr "Endablage"
-
-msgid "Four"
-msgstr "Vier"
 
 msgid "Four Colours"
 msgstr "Vier Farben"
@@ -2333,9 +1272,6 @@ msgstr "Vier Winde"
 msgid "Four by Four"
 msgstr "Vier mal Vier"
 
-msgid "Four-Deck games"
-msgstr "4 Deck Spiele"
-
 msgid "Foursome"
 msgstr "Vierer"
 
@@ -2344,9 +1280,6 @@ msgstr "Vierzehn"
 
 msgid "Frames"
 msgstr "Rahmen"
-
-msgid "France"
-msgstr "Frankreich"
 
 msgid "Fred's Spider"
 msgstr "Fred's Spinne"
@@ -2360,26 +1293,16 @@ msgstr "Free Fan"
 msgid "Free Napoleon"
 msgstr "Freier Napoleon"
 
-msgid "Free cell."
-msgstr "Free Cell."
-
 msgid "FreeCell"
 msgstr "FreeCell"
 
-msgid "FreeCell type"
-msgstr "FreeCell"
+#, fuzzy
+msgid "FreeCell with Two Reserves"
+msgstr "Lege in die Reserve"
 
-msgid "French"
-msgstr "Französisch"
-
-msgid "French games"
-msgstr "Französische Spiele"
-
-msgid "French type"
-msgstr "Französisch"
-
-msgid "French type (52 cards)"
-msgstr "Französisch (52 Karten)"
+#, fuzzy
+msgid "FreeCell with Zero Reserves"
+msgstr "Lege in die Reserve"
 
 msgid "Frog"
 msgstr "Frosch"
@@ -2389,15 +1312,6 @@ msgstr "Vollvision"
 
 msgid "Full Vision 2"
 msgstr "Vollvision 2"
-
-msgid "Full log"
-msgstr "Volles Protokoll"
-
-msgid "Full log for "
-msgstr "Voll für Dich "
-
-msgid "Full log..."
-msgstr "Volles Protokoll..."
 
 msgid "Future"
 msgstr "Zukunft"
@@ -2414,66 +1328,6 @@ msgstr "Galary"
 msgid "Galloway"
 msgstr "Galloway"
 
-msgid "Game"
-msgstr "Spiel"
-
-msgid "Game Info"
-msgstr "Spiel Info"
-
-msgid "Game Statistics"
-msgstr "Spiel Statistiken"
-
-msgid "Game finished"
-msgstr "Spiel beendet"
-
-msgid "Game lost"
-msgstr "Spiel verloren"
-
-msgid "Game number"
-msgstr "Spielenummer"
-
-msgid "Game status"
-msgstr "Spielstatus"
-
-msgid "Game won"
-msgstr "Spiel gewonnen"
-
-msgid "Game:"
-msgstr "Spiel:"
-
-msgid "Games for Children (very easy)"
-msgstr "Spiele für Kinder (sehr einfach)"
-
-msgid "Games not &played"
-msgstr "Nicht gespielt"
-
-msgid "Games played and &not won"
-msgstr "Gespielt und nicht gewonnen"
-
-msgid "Games played and &won"
-msgstr "Gewonnene"
-
-msgid "Games played: won/lost"
-msgstr "Gespielt: gewonnen/verloren"
-
-msgid "Games with Scoring"
-msgstr "Spiele mit Punkte"
-
-msgid "Games with Separate Decks"
-msgstr "Spiele mit separaten Decks"
-
-msgid "Games/day"
-msgstr "Spiele/Tag"
-
-msgid "Games/week"
-msgstr "Spiele/Woche"
-
-msgid "Ganjifa"
-msgstr "Ganjifa"
-
-msgid "Ganjifa type"
-msgstr "Ganjifa"
-
 msgid "Gaps"
 msgstr "Gaps"
 
@@ -2489,8 +1343,9 @@ msgstr "Garhpati"
 msgid "Gate"
 msgstr "Tor"
 
-msgid "General"
-msgstr "General"
+#, fuzzy
+msgid "Gayle's"
+msgstr "Mahjongg Gayle's"
 
 msgid "General's Patience"
 msgstr "Patience des Generals"
@@ -2510,9 +1365,6 @@ msgstr "Deutsches Freecell"
 msgid "German Patience"
 msgstr "Deutsche Patience"
 
-msgid "Germany"
-msgstr "Deutschland"
-
 msgid "Ghulam"
 msgstr "Ghulam"
 
@@ -2528,6 +1380,10 @@ msgstr "Gletscher"
 msgid "Glade"
 msgstr "Lichtung"
 
+#, fuzzy
+msgid "Glencoe"
+msgstr "Flamenco"
+
 msgid "Glenwood"
 msgstr "Glenwood"
 
@@ -2540,12 +1396,6 @@ msgstr "Gloria"
 msgid "Gnat"
 msgstr "Mücke"
 
-msgid "Go&to bookmark"
-msgstr "Zum Lesezeichen"
-
-msgid "Gold"
-msgstr "Gold"
-
 msgid "Gold Mine"
 msgstr "Goldmine"
 
@@ -2555,20 +1405,11 @@ msgstr "Goldrausch"
 msgid "Golf"
 msgstr "Golf"
 
-msgid "Golf type"
-msgstr "Golf"
-
 msgid "Good Measure"
 msgstr "Gutes Maß"
 
 msgid "Gotham"
 msgstr "Gotham"
-
-msgid "Goto bookmark"
-msgstr "Zum Lesezeichen"
-
-msgid "Goto bookmark %d ?"
-msgstr "Zum Lesezeichen %d ?"
 
 msgid "Grampus"
 msgstr "Grampus"
@@ -2603,9 +1444,6 @@ msgstr "Grant's Verstärkung"
 msgid "Grasshopper"
 msgstr "Grashüpfer"
 
-msgid "Great Britain"
-msgstr "Großbritannien"
-
 msgid "Great Wall"
 msgstr "Große Mauer"
 
@@ -2614,12 +1452,6 @@ msgstr "Großes Rad"
 
 msgid "Greater Queue"
 msgstr "Große Queue"
-
-msgid "Green"
-msgstr "Grün"
-
-msgid "Grey"
-msgstr "Grau"
 
 msgid "Griffon"
 msgstr "Greif"
@@ -2630,26 +1462,9 @@ msgstr "Gründe für eine Scheidung"
 msgid "Gypsy"
 msgstr "Zigeuner"
 
-msgid "Gypsy type"
-msgstr "Zigeuner"
-
-msgid ""
-"HTML limitation:\n"
-"The %s protocol is not supported yet.\n"
-"\n"
-"Please use your standard web browser\n"
-"to open the following URL:\n"
-"%s\n"
-msgstr ""
-"HTML Begrenzung:\n"
-"Das Protokoll %s ist noch nicht unterstützt.\n"
-"\n"
-"Bitte benutzen Sie Ihren Standard Internet Browser\n"
-"um die URL: %s\n"
-"zu öffnen\n"
-
-msgid "HTML: "
-msgstr "HTML: "
+#, fuzzy
+msgid "H for Haga"
+msgstr "Mahjongg H für Haga"
 
 msgid "Half Mahjongg Happy New Year"
 msgstr "Halb Mahjongg frohes neues Jahr"
@@ -2660,20 +1475,11 @@ msgstr "Halb Mahjongg lacht"
 msgid "Half Mahjongg Wall"
 msgstr "Halb Mahjongg Wand"
 
-msgid "Hanafuda"
-msgstr "Hanafuda"
-
 msgid "Hanafuda Four Seasons"
 msgstr "Hanafuda vier Jahreszeiten"
 
 msgid "Hanafuda Four Winds"
 msgstr "Hanafuda vier Winde"
-
-msgid "Hanafuda type"
-msgstr "Hanafuda"
-
-msgid "Hanafuda type (48 cards)"
-msgstr "Hanafuda (48 Karten)"
 
 msgid "Hanoi Puzzle 4"
 msgstr "Hanoi Puzzle 4"
@@ -2684,20 +1490,24 @@ msgstr "Hanoi Puzzle 5"
 msgid "Hanoi Puzzle 6"
 msgstr "Hanoi Puzzle 6"
 
+#, fuzzy
+msgid "Hanoi Sequence"
+msgstr "Sequenz"
+
 msgid "Happy New Year"
 msgstr "Frohes neues Jahr"
 
 msgid "Hare"
 msgstr "Hare"
 
-msgid "Harp"
-msgstr "Harfe"
-
 msgid "Harvestman"
 msgstr "Harvestman"
 
 msgid "Hawaiian"
 msgstr "Hawaiianer"
+
+msgid "Hayagriva"
+msgstr ""
 
 msgid "Haystack"
 msgstr "Heuhaufen"
@@ -2708,23 +1518,11 @@ msgstr "Hauptquartier"
 msgid "Heads and Tails"
 msgstr "Köpfe und Schwänze"
 
-msgid "Heart"
-msgstr "Herz"
-
 msgid "Helios"
 msgstr "Helios"
 
 msgid "Hemispheres"
 msgstr "Hemissphäre"
-
-msgid "Hex A Deck"
-msgstr "Hex A Deck"
-
-msgid "Hex A Deck type"
-msgstr "Hex A Deck"
-
-msgid "Hex A Deck type (68 cards)"
-msgstr "Hex A Deck (68 Karten)"
 
 msgid "Hex A Klon"
 msgstr "Hex A Klon"
@@ -2741,65 +1539,11 @@ msgstr "Versteckte Passagen"
 msgid "Hidden Words"
 msgstr "Versteckte Worte"
 
-msgid "Hide"
-msgstr "Verstecken"
-
 msgid "High and Low"
 msgstr "Hoch und Tief"
 
-msgid "Highlight &no matching"
-msgstr "Keine passenden hervorheben"
-
-msgid "Highlight cards 1:"
-msgstr "Hervorhebung Karten 1:"
-
-msgid "Highlight cards 2:"
-msgstr "Hervorhebung Karten 2:"
-
-msgid "Highlight cards:"
-msgstr "Hervorhebung Karten:"
-
-msgid "Highlight cards: "
-msgstr "Hervorhebung Karten: "
-
-msgid "Highlight not matching:"
-msgstr "Keine passenden hervorheben:"
-
-msgid "Highlight p&iles"
-msgstr "Spielfeldstapel hervorheben"
-
-msgid "Highlight piles:"
-msgstr "Spielfeldstapel hervorheben:"
-
-msgid "Highlight piles: "
-msgstr "Spielfeldstapel hervorheben: "
-
-msgid "Highlight same rank 1:"
-msgstr "Hervorhebung gleicher Rang 1:"
-
-msgid "Highlight same rank 2:"
-msgstr "Hervorhebung gleicher Rang 2:"
-
-msgid "Highlight same rank:"
-msgstr "Gleichen Rang hervorheben:"
-
-msgid "Highlight same rank: "
-msgstr "Gleichen Rang hervorheben: "
-
-msgid "Hint arrow:"
-msgstr "Hinweispfeil:"
-
-msgid "Hint:"
-msgstr "Hinweis:"
-
-msgid "Hints: "
-msgstr "Hinweise: "
-
 msgid "Hiranyaksha"
 msgstr "Hiranyaksha"
-
-msgid "Holiday"
-msgstr "Ferien"
 
 msgid "Hopscotch"
 msgstr "Hopscotch"
@@ -2822,9 +1566,6 @@ msgstr "Luftkissenfahrzeug"
 msgid "How They Run"
 msgstr "Wie sie rennen"
 
-msgid "Hungary"
-msgstr "Ungarn"
-
 msgid "Hurdles"
 msgstr "Hürdenlauf"
 
@@ -2833,12 +1574,6 @@ msgstr "Hurrikan"
 
 msgid "Hypotenuse"
 msgstr "Hypotenuse"
-
-msgid "I could not solve this game."
-msgstr "Ich kann das Spiel nicht auflösen."
-
-msgid "Icons only"
-msgstr "Nur Ikonen"
 
 msgid "Idiot's Delight"
 msgstr "Trottels Freude"
@@ -2858,32 +1593,24 @@ msgstr "Kaiserliche Garde"
 msgid "Imperial Trumps"
 msgstr "Kaiserliches Quartett"
 
+#, fuzzy
+msgid "Inazuma"
+msgstr "Mahjongg Inazuma"
+
 msgid "Inca"
 msgstr "Inka"
 
 msgid "Incompatibility"
 msgstr "Inkompatibilität"
 
-msgid "Incompatible "
-msgstr "Inkompatibel "
-
 msgid "Indefatigable"
 msgstr "Unermüdlich"
-
-msgid "Index"
-msgstr "Index"
-
-msgid "India"
-msgstr "Indien"
 
 msgid "Indian"
 msgstr "Inder"
 
 msgid "Indian Patience"
 msgstr "Indische Patience"
-
-msgid "Initial setting:"
-msgstr "Initiale Einstellung:"
 
 msgid "Inner Circle"
 msgstr "Innerer Kreis"
@@ -2903,41 +1630,20 @@ msgstr "Austausch"
 msgid "Interment"
 msgstr "Bestattung"
 
-msgid ""
-"Internal error while loading game.\n"
-"\n"
-"Please report this bug."
-msgstr ""
-"Interner Fehler beim Laden des Spiels.\n"
-"\n"
-"Bitte benachrichtigen Sie uns über den Fehler."
-
 msgid "Interregnum"
 msgstr "Interregnum"
 
 msgid "Intrigue"
 msgstr "Intrige"
 
-msgid "Invalid game number"
-msgstr "Ungültige Spielenummer"
-
-msgid "Invalid game number\n"
-msgstr "Ungültige Spielenummer\n"
-
 msgid "Iris"
 msgstr "Iris"
 
-msgid "Italic"
-msgstr "Italic"
+msgid "Irmgard"
+msgstr ""
 
-msgid "Italy"
-msgstr "Italien"
-
-msgid "Iteration:"
-msgstr "Iteration:"
-
-msgid "Jack"
-msgstr "Jack"
+msgid "JPs"
+msgstr ""
 
 msgid "Jamestown"
 msgstr "Jamestown"
@@ -2978,6 +1684,10 @@ msgstr "Dschungel"
 msgid "Just For Fun"
 msgstr "Nur zum Spaß"
 
+#, fuzzy
+msgid "K for Kyodai"
+msgstr "Mahjongg K for Kyodai"
+
 msgid "Kali's Game"
 msgstr "Kali's Spiel"
 
@@ -2999,17 +1709,21 @@ msgstr "Katrina's Spiel doppelt"
 msgid "Katrina's Game Relaxed"
 msgstr "Katrina's Spiel entspannt"
 
+msgid "Kentish"
+msgstr ""
+
 msgid "Khadga"
 msgstr "Khadga"
 
 msgid "Khedive"
 msgstr "Khedive"
 
-msgid "King"
-msgstr "König"
-
 msgid "King Albert"
 msgstr "König Albert"
+
+#, fuzzy
+msgid "King Only Baker's Game"
+msgstr "Katrina's Spiel"
 
 msgid "King Only Hex A Klon"
 msgstr "Hex A Klon nur am König"
@@ -3026,6 +1740,13 @@ msgstr "Königreich"
 msgid "Kings"
 msgstr "Könige"
 
+msgid "Kingsdown Eights"
+msgstr ""
+
+#, fuzzy
+msgid "Kingsley"
+msgstr "Könige"
+
 msgid "Klondike"
 msgstr "Klondike"
 
@@ -3035,14 +1756,23 @@ msgstr "Klondike Plus 16"
 msgid "Klondike by Threes"
 msgstr "Klondike durch drei"
 
-msgid "Klondike type"
-msgstr "Klondike"
+msgid "Km"
+msgstr ""
 
 msgid "Knotty Nines"
 msgstr "Ausgefeilte Neun"
 
 msgid "Krebs"
 msgstr "Krebs"
+
+msgid "Kujaku"
+msgstr ""
+
+msgid "Kumo"
+msgstr ""
+
+msgid "Kurma"
+msgstr ""
 
 msgid "Kyodai 14"
 msgstr "Kyodai 14"
@@ -3095,6 +1825,10 @@ msgstr "La Parisienne"
 msgid "Labyrinth"
 msgstr "Labyrinth"
 
+#, fuzzy
+msgid "Ladies Battle"
+msgstr "Finale Schlacht"
+
 msgid "Lady Betty"
 msgstr "Lady Betty"
 
@@ -3125,35 +1859,17 @@ msgstr "Lara's Spiel Doppelt"
 msgid "Lara's Game Relaxed"
 msgstr "Lara's Spiel entspannt"
 
-msgid "Large cardsets"
-msgstr "Große Kartensets"
-
-msgid "Last 7 days"
-msgstr "Letzte 7 Tage"
-
 msgid "Last Chance"
 msgstr "Letzte Chance"
 
-msgid "Last month"
-msgstr "Letzter Monat"
-
-msgid "Last year"
-msgstr "Letztes Jahr"
-
 msgid "Lattice"
 msgstr "Gitter"
-
-msgid "Layout:"
-msgstr "Layout:"
 
 msgid "Le Cadran"
 msgstr "Le Cadran"
 
 msgid "Le Grande Teton"
 msgstr "Le Grande Teton"
-
-msgid "Left"
-msgstr "Links"
 
 msgid "Legion"
 msgstr "Legion"
@@ -3200,26 +1916,11 @@ msgstr "Kleines Tor"
 msgid "Little Napoleon"
 msgstr "Kleiner Napoleon"
 
-msgid "Load game error"
-msgstr "Spiel Ladefehler"
-
-msgid "Loaded"
-msgstr "Geladen"
-
-msgid "Loading %s %s..."
-msgstr "Lade %s %s..."
-
 msgid "Lobachevsky"
 msgstr "Lobachevsky"
 
 msgid "Locked Cards"
 msgstr "Gesperrte Karten"
-
-msgid "Log"
-msgstr "Protokoll"
-
-msgid "Log..."
-msgstr "Protokoll..."
 
 msgid "Long Braid"
 msgstr "Langer Zopf"
@@ -3236,23 +1937,11 @@ msgstr "Lange Reise"
 msgid "Loose Ends"
 msgstr "Verlorene Enden"
 
-msgid "Lost"
-msgstr "Verloren"
-
 msgid "Lost "
 msgstr "Verloren"
 
-msgid "Lost:"
-msgstr "Verloren:"
-
-msgid "Lotus"
-msgstr "Lotus"
-
 msgid "Lucas"
 msgstr "Lucas"
-
-msgid "Luck only"
-msgstr "Nur Glück"
 
 msgid "Lucky Piles"
 msgstr "Glückliche Felder"
@@ -3265,9 +1954,6 @@ msgstr "Madame"
 
 msgid "Mage's Game"
 msgstr "Mage's Spiel"
-
-msgid "Mahjongg"
-msgstr "Mahjongg"
 
 msgid "Mahjongg Altar"
 msgstr "Mahjongg Altar"
@@ -3424,9 +2110,6 @@ msgstr "Mahjongg volle Version 2"
 
 msgid "Mahjongg Future"
 msgstr "Mahjongg Zukunft"
-
-msgid "Mahjongg Games"
-msgstr "Mahjongg Spiele"
 
 msgid "Mahjongg Garden"
 msgstr "Mahjongg Garten"
@@ -3704,7 +2387,8 @@ msgstr "Mahjongg Sternenschiff"
 msgid "Mahjongg Stargate"
 msgstr "Mahjongg Sternentor"
 
-msgid "Mahjongg Step Pyramid"
+#, fuzzy
+msgid "Mahjongg Steps Pyramid"
 msgstr "Mahjongg Pyramidenschritt"
 
 msgid "Mahjongg Stonehenge"
@@ -3812,8 +2496,11 @@ msgstr "Mahjongg X-Shape"
 msgid "Mahjongg Yummy"
 msgstr "Mahjongg Lecker"
 
-msgid "Mahjongg type (42 tiles)"
-msgstr "Mahjongg (42 Steine)"
+msgid "Maine Coon"
+msgstr ""
+
+msgid "Makara"
+msgstr ""
 
 msgid "Mamy Susan"
 msgstr "Mammi Susanne"
@@ -3823,9 +2510,6 @@ msgstr "Mancunian"
 
 msgid "Manx"
 msgstr "Manx"
-
-msgid "Maple"
-msgstr "Ahorn"
 
 msgid "Maria"
 msgstr "Maria"
@@ -3851,12 +2535,6 @@ msgstr "Matriarchat"
 msgid "Matrimony"
 msgstr "Ehestand"
 
-msgid "Matrix"
-msgstr "Matrix"
-
-msgid "Matrix type"
-msgstr "Matrix"
-
 msgid "MatsuKiri"
 msgstr "MatsuKiri"
 
@@ -3865,21 +2543,6 @@ msgstr "Matsukiri Strikt"
 
 msgid "Matsya"
 msgstr "Matsya"
-
-msgid "Max # of accepted cards:"
-msgstr "Max. Anzahl akzeptierter Karten:"
-
-msgid "Max # of dealt cards:"
-msgstr "Max. Anzahl von aufgenommenen Karten :"
-
-msgid "Max depth:"
-msgstr "Max. Tiefe:"
-
-msgid "Max iterations:"
-msgstr "Max. Iterationen:"
-
-msgid "Maximum"
-msgstr "Maximum"
 
 msgid "Maya"
 msgstr "Maya"
@@ -3890,9 +2553,6 @@ msgstr "Irrgarten"
 msgid "Measure"
 msgstr "Maßnahme"
 
-msgid "Medium cardsets"
-msgstr "Medium Kartensets"
-
 msgid "Memory 24"
 msgstr "Memory 24"
 
@@ -3902,14 +2562,17 @@ msgstr "Memory 30"
 msgid "Memory 40"
 msgstr "Memory 40"
 
-msgid "Memory type"
-msgstr "Memory"
-
 msgid "Merlin's Meander"
 msgstr "Merlin's Meander"
 
 msgid "Mesh"
 msgstr "Mesh"
+
+msgid "Methuselah"
+msgstr ""
+
+msgid "Midnight Oil"
+msgstr ""
 
 msgid "Midshipman"
 msgstr "Leutnant zur See"
@@ -3926,11 +2589,12 @@ msgstr "Milligan Harfe"
 msgid "Minerva"
 msgstr "Minerva"
 
+#, fuzzy
+msgid "Mini Traditional"
+msgstr "Mahjongg Mini traditionell"
+
 msgid "Mini-Layout"
 msgstr "Mini Layout"
-
-msgid "Minimum"
-msgstr "Minimum"
 
 msgid "Miss Milligan"
 msgstr "Frau Milligan"
@@ -3953,9 +2617,6 @@ msgstr "Affe"
 msgid "Montana"
 msgstr "Montana"
 
-msgid "Montana type"
-msgstr "Montana"
-
 msgid "Monte Carlo"
 msgstr "Monte Carlo"
 
@@ -3965,38 +2626,17 @@ msgstr "Monte Carlo (2 Decks)"
 msgid "Moonlight"
 msgstr "Mondlicht"
 
-msgid "Mostly luck"
-msgstr "Meist glücklich"
+msgid "Moosehide"
+msgstr ""
 
-msgid "Mostly skill"
-msgstr "viel Geschicklichkeit"
+msgid "Morehead"
+msgstr ""
 
 msgid "Moth"
 msgstr "Motte"
 
 msgid "Mount Olympus"
 msgstr "Berg Olympus"
-
-msgid "Move"
-msgstr "Bewegung"
-
-msgid "Move:"
-msgstr "Bewegung:"
-
-msgid "Moves"
-msgstr "Bewegungen"
-
-msgid "Moves/Total moves"
-msgstr "Bewegungen/total"
-
-msgid "Moves:"
-msgstr "Bewegungen:"
-
-msgid "Moves: "
-msgstr "Bewegungen: "
-
-msgid "Movies"
-msgstr "Filme"
 
 msgid "Moving Left"
 msgstr "Links bewegen"
@@ -4007,65 +2647,25 @@ msgstr "Frau Mop"
 msgid "Mughal Circles"
 msgstr "Mughal Kreise"
 
-msgid "Mughal Ganjifa"
-msgstr "Mughal Ganjifa"
-
-msgid "Mughal Ganjifa type"
-msgstr "Mughal Ganjifa"
-
-msgid "Mughal Ganjifa type (96 cards)"
-msgstr "Mughal Ganjifa (96 Karten)"
+#, fuzzy
+msgid "Multi X"
+msgstr "Mahjongg Multi X"
 
 msgid "Mumbai"
 msgstr "Mumbai"
 
-msgid "Music"
-msgstr "Musik"
-
-msgid "Music volume:"
-msgstr "Musik Lautstärke:"
+msgid "Munger"
+msgstr ""
 
 msgid "Musical Patience"
 msgstr "Musikalische Patience"
 
-msgid "My Double Klondike"
-msgstr "Mein doppeltes Klondike"
-
-msgid "My FreeCell"
-msgstr "Mein Freecell"
-
-msgid "My Game"
-msgstr "Mein Spiel"
-
-msgid "My Grounds for a Divorce"
-msgstr "Meine Gründe für eine Scheidung"
-
-msgid "My Gypsy"
-msgstr "Mein Zigeuner"
-
-msgid "My Klondike"
-msgstr "Mein Klondike"
-
-msgid "My Simple Simon"
-msgstr "Mein einfacher Simon"
-
-msgid "My Spider"
-msgstr "Meine Spinne"
-
 msgid "Mystique"
 msgstr "Mystik"
 
-msgid "N"
-msgstr "N"
-
-msgid "NE"
-msgstr "NE"
-
-msgid "NW"
-msgstr "NW"
-
-msgid "Name:"
-msgstr "Name:"
+#, fuzzy
+msgid "N for Namida"
+msgstr "Mahjongg N for Namida"
 
 msgid "Napoleon"
 msgstr "Napoleon"
@@ -4078,9 +2678,6 @@ msgstr "Napoleon nimmt Moskau ein"
 
 msgid "Napoleon at St.Helena"
 msgstr "Napoleon auf St. Helena"
-
-msgid "Napoleon type"
-msgstr "Napoleon"
 
 msgid "Napoleon's Exile"
 msgstr "Napoleon's Exil"
@@ -4100,29 +2697,15 @@ msgstr "Napoleon's Gewölbe"
 msgid "Narasimha"
 msgstr "Narasimha"
 
+#, fuzzy
+msgid "Narpati"
+msgstr "Garhpati"
+
 msgid "Nasty"
 msgstr "Böse"
 
 msgid "Nationale"
 msgstr "National"
-
-msgid "Nationality:"
-msgstr "Nationalität:"
-
-msgid "Nature"
-msgstr "Wesensart"
-
-msgid "Navagraha Ganjifa"
-msgstr "Navagraha Ganjifa"
-
-msgid "Navagraha Ganjifa type"
-msgstr "Navagraha Ganjifa"
-
-msgid "Navagraha Ganjifa type (108 cards)"
-msgstr "Navagraha Ganjifa (108 Karten)"
-
-msgid "Navy"
-msgstr "Marine"
 
 msgid "Needle"
 msgstr "Nadel"
@@ -4133,12 +2716,6 @@ msgstr "Nachbar"
 msgid "Nestor"
 msgstr "Nestor"
 
-msgid "Netherlands"
-msgstr "Niederlande"
-
-msgid "New"
-msgstr "Neu"
-
 msgid "New British Constitution"
 msgstr "Neue britische Verfassung"
 
@@ -4148,74 +2725,26 @@ msgstr "Neues Layout"
 msgid "New York"
 msgstr "New York"
 
-msgid "New game"
-msgstr "Neues Spiel"
-
-msgid "New games in v. "
-msgstr "Neue Spiele in v. "
-
-msgid ""
-"No Free\n"
-"Matching\n"
-"Pairs"
-msgstr ""
-"Keine\n"
-"passenden\n"
-"Paare"
-
-msgid "No TOP for all games"
-msgstr "Keine TOP für alle Spiele"
-
-msgid "No TOP for this game"
-msgstr "Keine TOP für dieses Spiel"
-
-msgid "No cards"
-msgstr "Keine Karten"
-
-msgid ""
-"No cardsets were found !!!\n"
-"\n"
-"Main data directory is:\n"
-"%s\n"
-"\n"
-"Please check your %s installation.\n"
-msgstr ""
-"Keine Kartensets gefunden!!!\n"
-"\n"
-"Hauptverzeichnis ist:\n"
-"%s\n"
-"\n"
-"Biite überprüfen Sie Ihre %s Installation.\n"
-
-msgid "No games"
-msgstr "Keine Spiele"
-
-msgid "No move"
-msgstr "Kein Zug"
-
-msgid "No redeal"
-msgstr "Kein neues Aufheben"
-
-msgid "No redeals"
-msgstr "Keine neuen Karten"
-
 msgid "Nomad"
 msgstr "Nomade"
-
-msgid "None"
-msgstr "Nein"
 
 msgid "Nordic"
 msgstr "Nordisch"
 
-msgid "North"
-msgstr "Norden"
-
 msgid "Northwest Territory"
 msgstr "Nordwest Territorium"
 
-msgid "Not won"
-msgstr "Nicht gewonnen"
+#, fuzzy
+msgid "Not Shisen-Sho 14x6"
+msgstr "Shisen-Sho"
+
+#, fuzzy
+msgid "Not Shisen-Sho 18x8"
+msgstr "Shisen-Sho"
+
+#, fuzzy
+msgid "Not Shisen-Sho 24x12"
+msgstr "Shisen-Sho"
 
 msgid "Number Ten"
 msgstr "Nummer Zehn"
@@ -4223,26 +2752,11 @@ msgstr "Nummer Zehn"
 msgid "Number Twelve"
 msgstr "Nummer zwölf"
 
-msgid "Number of decks:"
-msgstr "Nummer der Decks:"
-
-msgid "Number of redeals:"
-msgstr "Anzahl neuer Kartenaufnahmen:"
-
-msgid "Number of reserves:"
-msgstr "Anzahl der Reserve"
-
-msgid "Number of tableau piles:"
-msgstr "Anzahl der Tableaufelder:"
-
 msgid "Numerica"
 msgstr "Numerica"
 
 msgid "Numerica (2 decks)"
 msgstr "Numerica (2 Decks)"
-
-msgid "Numerica type"
-msgstr "Numerica"
 
 msgid "Ocean Towers"
 msgstr "Ozeanische Türme"
@@ -4259,29 +2773,30 @@ msgstr "Ungerade und Gerade"
 msgid "Odessa"
 msgstr "Odessa"
 
+#, fuzzy
+msgid "Okie's Nitemare"
+msgstr "Mahjongg Okie's Alptraum"
+
 msgid "Old Mole"
 msgstr "Alte Mole"
-
-msgid "Olive"
-msgstr "Olive"
-
-msgid "One"
-msgstr "Eins"
-
-msgid "One redeal"
-msgstr "Ein neues Aufheben"
-
-msgid "One-Deck games"
-msgstr "1 Deck Spiele"
 
 msgid "One234"
 msgstr "Eins234"
 
-msgid "Open"
-msgstr "Öffnen"
+msgid "Oonsoo"
+msgstr ""
 
-msgid "Open Games (all cards visible)"
-msgstr "Öffne Spiele (alle Karten sichtbar)"
+msgid "Oonsoo Open"
+msgstr ""
+
+msgid "Oonsoo Strict"
+msgstr ""
+
+msgid "Oonsoo Times Two"
+msgstr ""
+
+msgid "Oonsoo Too"
+msgstr ""
 
 msgid "Open Jumbo"
 msgstr "Öffne Jumbo"
@@ -4295,27 +2810,8 @@ msgstr "Öffne schlauer Fuchs"
 msgid "Open Spider"
 msgstr "Öffne Spinne"
 
-msgid ""
-"Open a\n"
-"saved game"
-msgstr ""
-"Öffnet ein\n"
-"gespeichertes Spiel"
-
-msgid "Open game"
-msgstr "Öffne Spiel"
-
-msgid "Opening deal"
-msgstr "Eröffnungskauf"
-
-msgid "Operating Systems"
-msgstr "Betriebssysteme"
-
 msgid "Opus"
 msgstr "Opus"
-
-msgid "Orange"
-msgstr "Orange"
 
 msgid "Orbital"
 msgstr "Orbital"
@@ -4323,23 +2819,8 @@ msgstr "Orbital"
 msgid "Order"
 msgstr "Reihenfolge"
 
-msgid "Oriental Games"
-msgstr "Orientalische Spiele"
-
-msgid "Original Games"
-msgstr "Originale Spiele"
-
 msgid "Osmosis"
 msgstr "Osmose"
-
-msgid "Other Categories"
-msgstr "Andere Kategorien"
-
-msgid "Other number"
-msgstr "Andere Nummer"
-
-msgid "Other number of redeals"
-msgstr "Andere Nummer von Neukarten"
 
 msgid "Outback Patience"
 msgstr "Outback Patience"
@@ -4353,14 +2834,12 @@ msgstr "0x"
 msgid "Paganini"
 msgstr "Paganini"
 
-msgid "Page"
-msgstr "Seite"
+#, fuzzy
+msgid "Pagat"
+msgstr "Paganini"
 
 msgid "Pagoda"
 msgstr "Pagode"
-
-msgid "Pairing type"
-msgstr "Paartypen"
 
 msgid "Panopticon"
 msgstr "Panoptikum"
@@ -4377,8 +2856,16 @@ msgstr "Papillion"
 msgid "Parallels"
 msgstr "Parallelen"
 
+#, fuzzy
+msgid "Parashurama"
+msgstr "Balarama"
+
 msgid "Parisian"
 msgstr "Pariser"
+
+#, fuzzy
+msgid "Parisienne"
+msgstr "La Parisienne"
 
 msgid "Parliament"
 msgstr "Parlament"
@@ -4401,17 +2888,34 @@ msgstr "Muster"
 msgid "Paulownia"
 msgstr "Paulownia"
 
-msgid "Pause"
-msgstr "Pause"
-
-msgid "Pause game"
-msgstr "Spiel pausieren"
-
 msgid "Peek"
 msgstr "Spähen"
 
 msgid "Peek II"
 msgstr "Spähen II"
+
+msgid "Pegged"
+msgstr ""
+
+msgid "Pegged 6x6"
+msgstr ""
+
+msgid "Pegged 7x7"
+msgstr ""
+
+msgid "Pegged Cross 1"
+msgstr ""
+
+msgid "Pegged Cross 2"
+msgstr ""
+
+#, fuzzy
+msgid "Pegged Triangle 1"
+msgstr "Rechtes Dreieck"
+
+#, fuzzy
+msgid "Pegged Triangle 2"
+msgstr "Rechtes Dreieck"
 
 msgid "Penelope's Web"
 msgstr "Penelope's Netz"
@@ -4421,15 +2925,6 @@ msgstr "Pinguin"
 
 msgid "Peony"
 msgstr "Pfingstrose"
-
-msgid "People"
-msgstr "Menschen"
-
-msgid "Perfect"
-msgstr "Perfekt"
-
-msgid "Perfect game"
-msgstr "Perfektes Spiel"
 
 msgid "Perpetual Motion"
 msgstr "Fortwährende Bewegung"
@@ -4461,65 +2956,20 @@ msgstr "Bilder Patience"
 msgid "Pigtail"
 msgstr "Schweineschwanz"
 
+msgid "PileOn"
+msgstr ""
+
 msgid "Pine"
 msgstr "Kiefer"
 
 msgid "Pitchfork"
 msgstr "Heugabel"
 
-msgid "Places"
-msgstr "Plätze"
-
-msgid "Plain"
-msgstr "Ebene"
-
 msgid "Plait"
 msgstr "Zopf"
 
-msgid "Play demo"
-msgstr "Demo spielen"
-
-msgid "Playable Preview - "
-msgstr "Spielbare Vorschau - "
-
-msgid "Playable pre&view..."
-msgstr "Spielbare Vorschau..."
-
-msgid "Played"
-msgstr "Gespielt"
-
-msgid "Played:"
-msgstr "Gespielt:"
-
-msgid "Player"
-msgstr "Spieler"
-
-msgid "Player\n"
-msgstr "Spieler\n"
-
-msgid "Player options"
-msgstr "Spieler Optionen"
-
-msgid "Playing time"
-msgstr "Spielzeit"
-
-msgid "Playing time:"
-msgstr "Spielzeit:"
-
-msgid "Playing time: "
-msgstr "Spielzeit: "
-
-msgid "Please select a %s type %s"
-msgstr "Bitte wählen Sie ein %s als Typ %s"
-
-msgid "Plow"
-msgstr "Pflug"
-
-msgid "Plum"
-msgstr "Pflaume"
-
-msgid "Points: %d"
-msgstr "Punkte: %d"
+msgid "Plus Belle"
+msgstr ""
 
 msgid "Poker Shuffle"
 msgstr "Poker Shuffle"
@@ -4527,14 +2977,8 @@ msgstr "Poker Shuffle"
 msgid "Poker Square"
 msgstr "Poker Quadrat"
 
-msgid "Poker type"
-msgstr "Poker"
-
 msgid "Ponytail"
 msgstr "Ponyschwanz"
-
-msgid "Popular Games"
-msgstr "Populäre Spiele"
 
 msgid "Portal"
 msgstr "Portal"
@@ -4542,26 +2986,14 @@ msgstr "Portal"
 msgid "Portuguese Solitaire"
 msgstr "Portugiesisches Solitär"
 
-msgid "Pradhan"
-msgstr "Pradhan"
-
 msgid "Primrose"
 msgstr "Primel"
 
 msgid "Princess Patience"
 msgstr "Prinzessinnen Patience"
 
-msgid "Products"
-msgstr "Produkte"
-
-msgid "Progress"
-msgstr "Verarbeitung"
-
 msgid "Progression"
 msgstr "Progression"
-
-msgid "Progression..."
-msgstr "Progression..."
 
 msgid "Provisions"
 msgstr "Provisionen"
@@ -4572,8 +3004,8 @@ msgstr "Push Pin"
 msgid "Puss in the Corner"
 msgstr "Mieze in der Ecke"
 
-msgid "Puzzle type"
-msgstr "Puzzle"
+msgid "Putt Putt"
+msgstr ""
 
 msgid "Pyramid"
 msgstr "Pyramide"
@@ -4596,17 +3028,22 @@ msgstr "Quad"
 msgid "Quadrangle"
 msgstr "Viereck"
 
+#, fuzzy
+msgid "Quadrille"
+msgstr "Viereck"
+
 msgid "Quadruple Alliance"
 msgstr "Vervierfachte Allianz"
 
 msgid "Quads"
 msgstr "Quads"
 
+#, fuzzy
+msgid "Quads +"
+msgstr "Quads"
+
 msgid "Quartets"
 msgstr "Quartette"
-
-msgid "Queen"
-msgstr "Königin"
 
 msgid "Queen Victoria"
 msgstr "Königin Victoria"
@@ -4614,17 +3051,16 @@ msgstr "Königin Victoria"
 msgid "Queen of Italy"
 msgstr "Königin von Italien"
 
+#, fuzzy
+msgid "Queenie"
+msgstr "Königin"
+
+#, fuzzy
+msgid "Queensland"
+msgstr "Königin"
+
 msgid "Quilt"
 msgstr "Steppdecke"
-
-msgid "Quit"
-msgstr "Beenden"
-
-msgid "Quit "
-msgstr "Beenden "
-
-msgid "R&ecent games"
-msgstr "Letzte Spiele"
 
 msgid "Rachel"
 msgstr "Rachel"
@@ -4632,20 +3068,11 @@ msgstr "Rachel"
 msgid "Raglan"
 msgstr "Raglan"
 
-msgid "Raglan type"
-msgstr "Raglan"
-
 msgid "Rainbow"
 msgstr "Regenbogen"
 
 msgid "Rainfall"
 msgstr "Niederschlag"
-
-msgid "Raise card:"
-msgstr "Karte aufnehmen:"
-
-msgid "Raja"
-msgstr "Raja"
 
 msgid "Ram"
 msgstr "Rammen"
@@ -4656,14 +3083,14 @@ msgstr "Wandern"
 msgid "Rangoon"
 msgstr "Rangun"
 
-msgid "Rank"
-msgstr "Rank"
-
 msgid "Rank and File"
 msgstr "Rank und Datei"
 
 msgid "Rat"
 msgstr "Ratte"
+
+msgid "Raw Prawn"
+msgstr ""
 
 msgid "Realm"
 msgstr "Gefilde"
@@ -4671,29 +3098,11 @@ msgstr "Gefilde"
 msgid "Rectangle"
 msgstr "Rechteck"
 
-msgid "Red"
-msgstr "Rot"
-
 msgid "Red Moon"
 msgstr "Roter Mond"
 
 msgid "Red and Black"
 msgstr "Rot und Schwarz"
-
-msgid "Redeal"
-msgstr "Neue Karten"
-
-msgid "Redeals:"
-msgstr "Neue Karten:"
-
-msgid "Redo"
-msgstr "Vorwärts"
-
-msgid "Redo &all"
-msgstr "Vorwärts alle"
-
-msgid "Redo last move"
-msgstr "Vorwärts letzter Zug"
 
 msgid "Regal Family"
 msgstr "Königliche Familie"
@@ -4703,6 +3112,10 @@ msgstr "Rentierь"
 
 msgid "Relax"
 msgstr "Entspannen"
+
+#, fuzzy
+msgid "Relaxed Accordion"
+msgstr "Akkordion"
 
 msgid "Relaxed FreeCell"
 msgstr "Entspanntes Freecell"
@@ -4719,78 +3132,18 @@ msgstr "Entspannte Hafentürme"
 msgid "Relaxed Spider"
 msgstr "Entspannte Spinne"
 
-msgid "Relaxed Variants"
-msgstr "Entspannte Varianten"
-
-msgid "Remove &from favorites"
-msgstr "Von den Favoriten entfernen"
+#, fuzzy
+msgid "Relaxed Three Fir-trees"
+msgstr "Three Fir-trees"
 
 msgid "Repair"
 msgstr "Reparatur"
 
-msgid "Replace existing bookmark %d ?"
-msgstr "Existierende Lesezeichen %d ersetzen?"
-
-msgid "Reserve. Build down by suit."
-msgstr "Reserve. Aufgebaut nach Farbe."
-
-msgid "Reserve. No building."
-msgstr "Reserve. Nicht aufgebaut."
-
-msgid "Reserve. Only Kings are acceptable."
-msgstr "Reserve. Nur Könige sind erlaubt."
-
 msgid "Reserves"
 msgstr "Reserven"
 
-msgid ""
-"Reset ALL statistics and logs for player\n"
-"%s ?"
-msgstr ""
-"Rest aller Statistiken und Protokolle für Spieler\n"
-"%s?"
-
-msgid "Reset all statistics"
-msgstr "Rest aller Statisken"
-
-msgid "Reset game statistics"
-msgstr "Reset Spielstatistiken"
-
-msgid ""
-"Reset statistics and logs for player\n"
-"%s\n"
-"and game\n"
-"%s ?"
-msgstr ""
-"Rest der Statistiken und Protokolle für Spieler\n"
-"%s\n"
-"und Spiel\n"
-"%s?"
-
-msgid "Restart"
-msgstr "Neustart"
-
-msgid "Restart game"
-msgstr "Spiel Neustart"
-
-msgid ""
-"Restart the\n"
-"current game"
-msgstr ""
-"Neustart des\n"
-"aktuellen Spiels"
-
-msgid "Restart this game ?"
-msgstr "Dieses Spiel neustarten?"
-
-msgid "Result"
-msgstr "Ergebnis"
-
 msgid "Retinue"
 msgstr "Begleitung"
-
-msgid "Right"
-msgstr "Rechts"
 
 msgid "Right Triangle"
 msgstr "Rechtes Dreieck"
@@ -4803,9 +3156,6 @@ msgstr "Ringe"
 
 msgid "Ripple Fan"
 msgstr "Wellen Fan"
-
-msgid "Rising"
-msgstr "Anstieg"
 
 msgid "Rittenhouse"
 msgstr "Rittenhausс"
@@ -4834,17 +3184,11 @@ msgstr "Stange"
 msgid "Rooster"
 msgstr "Hahn"
 
+msgid "Roslin"
+msgstr ""
+
 msgid "Rouge et Noir"
 msgstr "Rouge et Noir"
-
-msgid "Round %d"
-msgstr "Runde %d"
-
-msgid "Round %d/%d"
-msgstr "Runde %d/%d"
-
-msgid "Round cardsets"
-msgstr "Runde Kartensets"
 
 msgid "Rows of Four"
 msgstr "Rechts und Links"
@@ -4861,27 +3205,6 @@ msgstr "Königlicher Osten"
 msgid "Royal Family"
 msgstr "Königliche Familie"
 
-msgid ""
-"Royal Flush\n"
-"Straight Flush\n"
-"Four of a Kind\n"
-"Full House\n"
-"Flush\n"
-"Straight\n"
-"Three of a Kind\n"
-"Two Pair\n"
-"One Pair"
-msgstr ""
-"Royal Flush\n"
-"Straight Flush\n"
-"Four of a Kind\n"
-"Full House\n"
-"Flush\n"
-"Straight\n"
-"Three of a Kind\n"
-"Two Pair\n"
-"One Pair"
-
 msgid "Royal Marriage"
 msgstr "Königliche Hochzeit"
 
@@ -4894,14 +3217,8 @@ msgstr "Königliches Rendevous"
 msgid "Rugby"
 msgstr "Rugbyи"
 
-msgid "Rules"
-msgstr "Regeln"
-
-msgid "Rules for this game"
-msgstr "Regeln dieses Spiels"
-
-msgid "Russia"
-msgstr "Russisch"
+msgid "Rushdike"
+msgstr ""
 
 msgid "Russian Aces"
 msgstr "Russische Asse"
@@ -4921,29 +3238,8 @@ msgstr "Russisch Spinne"
 msgid "S Patience"
 msgstr "S Patience"
 
-msgid "S&tatus..."
-msgstr "Status"
-
-msgid "SE"
-msgstr "SE"
-
-msgid "SW"
-msgstr "SW"
-
-msgid "Saber"
-msgstr "Säbel"
-
 msgid "Salic Law"
 msgstr "Salisches Gesetz"
-
-msgid "Same color"
-msgstr "Gleiche Farbe"
-
-msgid "Same suit"
-msgstr "Gleiches Set"
-
-msgid "Sample volume:"
-msgstr "Tonlautstärke:"
 
 msgid "Samuri"
 msgstr "Samurai"
@@ -4956,21 +3252,6 @@ msgstr "Sanibel"
 
 msgid "Saratoga"
 msgstr "Saratoga"
-
-msgid "Save"
-msgstr "Speichern"
-
-msgid "Save &as..."
-msgstr "Speichern unter..."
-
-msgid "Save game"
-msgstr "Spiel speichern"
-
-msgid "Save game error"
-msgstr "Spielfehler speichern"
-
-msgid "Save games &geometry"
-msgstr "Spiel Geometrie speichern"
 
 msgid "Saxony"
 msgstr "Sachsen"
@@ -4986,15 +3267,6 @@ msgstr "Scheidungsgrund"
 
 msgid "School"
 msgstr "Schule"
-
-msgid "Science Fiction"
-msgstr "Science Fiction"
-
-msgid "Score %6d"
-msgstr "Punkte %6d"
-
-msgid "Score:\tThis hand:  "
-msgstr "Punkte:\tDiese Hand:  "
 
 msgid "Scorpion"
 msgstr "Skorpion"
@@ -5023,45 +3295,6 @@ msgstr "Seetürme"
 msgid "Seahaven Towers"
 msgstr "Hafentürme"
 
-msgid "Select "
-msgstr "Auswählen "
-
-msgid "Select &random game"
-msgstr "Zufallsspiel auswählen"
-
-msgid "Select color"
-msgstr "Auswahl Farbe"
-
-msgid "Select font"
-msgstr "Schriftauswahl"
-
-msgid "Select game"
-msgstr "Spiel auswählen"
-
-msgid "Select game by nu&mber..."
-msgstr "Spiel nach Nummer wählen..."
-
-msgid "Select name"
-msgstr "Name wählen"
-
-msgid "Select new game number"
-msgstr "Neue Spielnummer auswählen"
-
-msgid "Select next game"
-msgstr "Nächstes Spiel auswählen"
-
-msgid "Select next game number"
-msgstr "Nächste Spielnummer wählen"
-
-msgid "Select random game"
-msgstr "Zufallsspiel auswählen"
-
-msgid "Select table background"
-msgstr "Spielhintergrund auswählen"
-
-msgid "Select table color"
-msgstr "Hintergrundfarbe wählen"
-
 msgid "Selective Castle"
 msgstr "Selektive Burg"
 
@@ -5074,53 +3307,8 @@ msgstr "Senat +"
 msgid "Senior Wrangler"
 msgstr "Senior Wrangler"
 
-msgid "Sequence"
-msgstr "Sequenz"
-
 msgid "Serpent"
 msgstr "Natter"
-
-msgid "Servant"
-msgstr "Diener"
-
-msgid "Session &log..."
-msgstr "Sitzungsprotokoll..."
-
-msgid "Session log"
-msgstr "Sitzungsprotokoll"
-
-msgid "Session log for "
-msgstr "Sitzungsprotokoll für "
-
-msgid "Session log..."
-msgstr "Sitzungsprotokoll..."
-
-msgid "Set bookmark"
-msgstr "Lesezeichen setzen"
-
-msgid "Set colors"
-msgstr "Farben setzen"
-
-msgid "Set delays in seconds"
-msgstr "Verzögerung in Sekunden einstellen"
-
-msgid "Set font"
-msgstr "Schrift einstellen"
-
-msgid "Set fonts"
-msgstr "Schriften einstellen"
-
-msgid "Set player options"
-msgstr "Spieleroptionen setzen"
-
-msgid "Set t&heme"
-msgstr "Thema auswählen"
-
-msgid "Set timeouts"
-msgstr "Zeitablauf setzen"
-
-msgid "Setting"
-msgstr "Enstellung"
 
 msgid "Seven"
 msgstr "Sieben"
@@ -5137,12 +3325,6 @@ msgstr "Sieben zu Fünf"
 msgid "Seven by Four"
 msgstr "Sieben zu Vier"
 
-msgid "Shade &filled stacks"
-msgstr "Schatten am Stapel"
-
-msgid "Shade &legal moves"
-msgstr "Schatten beim Bewegen"
-
 msgid "Shady Lanes"
 msgstr "Schattenlinien"
 
@@ -5152,50 +3334,45 @@ msgstr "Kleeblätter"
 msgid "Shamrocks II"
 msgstr "Kleeblätter II"
 
+msgid "Shamsher"
+msgstr ""
+
+msgid "Shanka"
+msgstr ""
+
+#, fuzzy
+msgid "Shapeshifter"
+msgstr "Mahjongg Formschichter"
+
 msgid "Shield"
 msgstr "Schild"
 
 msgid "Shifting"
 msgstr "Verschiebung"
 
-msgid "Shisen-Sho"
+msgid "Shisen-Sho (No Gravity) 14x6"
+msgstr ""
+
+msgid "Shisen-Sho (No Gravity) 18x8"
+msgstr ""
+
+msgid "Shisen-Sho (No Gravity) 24x12"
+msgstr ""
+
+#, fuzzy
+msgid "Shisen-Sho 14x6"
+msgstr "Shisen-Sho"
+
+#, fuzzy
+msgid "Shisen-Sho 18x8"
+msgstr "Shisen-Sho"
+
+#, fuzzy
+msgid "Shisen-Sho 24x12"
 msgstr "Shisen-Sho"
 
 msgid "Short Tail"
 msgstr "Kurzer Schweif"
-
-msgid "Show &help bar"
-msgstr "Anzeige Hilfeleiste"
-
-msgid "Show &number of cards"
-msgstr "Anzeige Kartennummern"
-
-msgid "Show &statusbar"
-msgstr "Statuszeile anzeigen"
-
-msgid "Show graphs"
-msgstr "Graphen anzeigen"
-
-msgid "Show hint &arrow (in Shisen-Sho games)"
-msgstr "Anzeige Hinweispfeil (in Shisen-Sho)"
-
-msgid "Show progress"
-msgstr "Fortschritt anzeigen"
-
-msgid "Verdeckte Karten verkleinern"
-msgstr ""
-
-msgid "Shu&ffle tiles"
-msgstr "Steine mischen"
-
-msgid "Shuffle"
-msgstr "Mischen"
-
-msgid "Shuffle during redeal:"
-msgstr "Mischen während Neudecks:"
-
-msgid "Shuffle tiles"
-msgstr "Steine Mischen"
 
 msgid "Siam"
 msgstr "Siam"
@@ -5205,9 +3382,6 @@ msgstr "Sieben bis As"
 
 msgid "Signora"
 msgstr "Signora"
-
-msgid "Silver"
-msgstr "Silber"
 
 msgid "Simon Jester"
 msgstr "Simon Jester"
@@ -5221,17 +3395,15 @@ msgstr "Simple Paare"
 msgid "Simple Simon"
 msgstr "Simple Simon"
 
-msgid "Simple games"
-msgstr "Simple Paare"
-
 msgid "Simplex"
 msgstr "Simplex"
 
 msgid "Simplicity"
 msgstr "Einfachheit"
 
-msgid "Einzelschiene"
-msgstr ""
+#, fuzzy
+msgid "Single Rail"
+msgstr "Doppelte Schiene"
 
 msgid "Sir Tommy"
 msgstr "Sir Tommy"
@@ -5239,20 +3411,18 @@ msgstr "Sir Tommy"
 msgid "Six Sages"
 msgstr "Sechs Waise"
 
+#, fuzzy
+msgid "Six Tengus"
+msgstr "Sechs Waise"
+
 msgid "Sixes and Sevens"
 msgstr "Sechsen und Siebenen"
 
-msgid "Size:"
-msgstr "Größe:"
-
-msgid "Skill level:"
-msgstr "Schwierigkeitsgrad:"
-
-msgid "Skill only"
-msgstr "Nur Geschicklichkeit"
-
 msgid "Skippy"
 msgstr "Skippy"
+
+msgid "Skiz"
+msgstr ""
 
 msgid "Sly Fox"
 msgstr "Schlitzohr"
@@ -5260,10 +3430,8 @@ msgstr "Schlitzohr"
 msgid "Small Harp"
 msgstr "Schmale Harfe"
 
-msgid "Small cardsets"
-msgstr "Schmale Kartensets"
-
-msgid "Small: "
+#, fuzzy
+msgid "Small PileOn"
 msgstr "Schmal: "
 
 msgid "Smile"
@@ -5272,23 +3440,15 @@ msgstr "Lächeln"
 msgid "Snake"
 msgstr "Schlange"
 
-msgid "Solid Colors"
-msgstr "Einfache Farben"
+#, fuzzy
+msgid "Snakestone"
+msgstr "Schlange"
 
 msgid "Solid Square"
 msgstr "Einfaches Quadrat"
 
-msgid "Solitaire &Wizard"
-msgstr "Solitär Assistent"
-
-msgid "Solitaire Wizard"
-msgstr "Solitär Assistent"
-
 msgid "Solstice"
 msgstr "Sonnenwende"
-
-msgid "Solving method:"
-msgstr "Lösungsmethode:"
 
 msgid "Somerset"
 msgstr "Somerset"
@@ -5296,23 +3456,8 @@ msgstr "Somerset"
 msgid "Soother"
 msgstr "Schnuller"
 
-msgid ""
-"Sorry, I can't find\n"
-"a solvable configuration."
-msgstr ""
-"Entschuldigung, ich kann\n"
-"keine Lösungsmöglichkeit finden."
-
-msgid "Sound enabled"
-msgstr "Ton aktiviert"
-
-msgid "Sound preferences info"
-msgstr "Ton Präferenzen Info"
-
-msgid "Sound settings"
-msgstr "Ton Einstellungen"
-
-msgid "South"
+#, fuzzy
+msgid "Souter"
 msgstr "Süden"
 
 msgid "Space Bridge"
@@ -5327,20 +3472,11 @@ msgstr "Räume"
 msgid "Spaces and Aces"
 msgstr "Räume und Asse"
 
-msgid "Spade"
-msgstr "Spaten"
-
-msgid "Spain"
-msgstr "Spanien"
-
 msgid "Spanish Patience"
 msgstr "Spanische Patience"
 
 msgid "Spanish Patience II"
 msgstr "Spanische Patienc II"
-
-msgid "Special Games"
-msgstr "Spezialspiele"
 
 msgid "Sphere"
 msgstr "Sphäre"
@@ -5363,18 +3499,6 @@ msgstr "Spinne 3x3"
 msgid "Spider Web"
 msgstr "Spinnennetz"
 
-msgid "Spider alternate color"
-msgstr "Spinne alternative Farbe"
-
-msgid "Spider rank"
-msgstr "Spinne Rang"
-
-msgid "Spider same suit"
-msgstr "Spinne gleiche Farbe"
-
-msgid "Spider type"
-msgstr "Spinne"
-
 msgid "Spidercells"
 msgstr "Spidercells"
 
@@ -5387,8 +3511,8 @@ msgstr "Spidike"
 msgid "Spike"
 msgstr "Dorn"
 
-msgid "Sports"
-msgstr "Sport"
+msgid "Spoilt"
+msgstr ""
 
 msgid "Squadron"
 msgstr "Schwadron"
@@ -5404,6 +3528,14 @@ msgstr "Quadrieren"
 
 msgid "St. Helena"
 msgstr "St. Helena"
+
+#, fuzzy
+msgid "Stage 1"
+msgstr "Mahjongg Stufe 1"
+
+#, fuzzy
+msgid "Stage 2"
+msgstr "Mahjongg Stufe 2"
 
 msgid "Stairs"
 msgstr "Stufen"
@@ -5423,38 +3555,16 @@ msgstr "Sternenschiff"
 msgid "Stargate"
 msgstr "Sternentor"
 
-msgid "Start drag"
-msgstr "Start ziehen"
-
-msgid "Started at"
-msgstr "Gestartet bei"
-
-msgid "Started at: "
-msgstr "Gestartet bei: "
-
-msgid "Startup splash sc&reen"
-msgstr "Anfangsbildschirm"
-
-msgid "Stat&usbar"
-msgstr "Statuszeile"
-
-msgid "Statistics"
-msgstr "Statistiken"
-
-msgid "Statistics for"
-msgstr "Statistiken für"
-
-msgid "Statistics for "
-msgstr "Statistiken für "
-
-msgid "Statistics progression"
-msgstr "Progessive Statistiken"
-
-msgid "Status"
-msgstr "Status"
+#, fuzzy
+msgid "Step-Up"
+msgstr "Schritte"
 
 msgid "Steps"
 msgstr "Schritte"
+
+#, fuzzy
+msgid "Steps Pyramid"
+msgstr "Sieben Pyramiden"
 
 msgid "Steve"
 msgstr "Steve"
@@ -5465,23 +3575,18 @@ msgstr "Stonehenge"
 msgid "Stonewall"
 msgstr "Stonewall"
 
-msgid "Stop"
-msgstr "Stop"
-
-msgid "Stored-States:"
-msgstr "Gespeicherte Stati: "
-
 msgid "Storehouse"
 msgstr "Lagerhaus"
-
-msgid "Stores"
-msgstr "Stores"
 
 msgid "Straight Up"
 msgstr "Gerade nach oben"
 
 msgid "Strata"
 msgstr "Strata"
+
+#, fuzzy
+msgid "Strategerie"
+msgstr "Strategie"
 
 msgid "Strategy"
 msgstr "Strategie"
@@ -5498,17 +3603,14 @@ msgstr "Straßen und Gassen"
 msgid "Striptease"
 msgstr "Striptease"
 
-msgid "Strong"
-msgstr "Stark"
-
 msgid "Stronghold"
 msgstr "Hochburg"
 
-msgid "Styles:"
-msgstr "Stile:"
-
 msgid "Suit Elevens"
 msgstr "Anzug elf"
+
+msgid "Sukis"
+msgstr ""
 
 msgid "Sultan"
 msgstr "Sultan"
@@ -5519,17 +3621,15 @@ msgstr "Sultan +"
 msgid "Sultan of Turkey"
 msgstr "Türkischer Sultan"
 
-msgid "Summary"
-msgstr "Zusammenfassung"
-
 msgid "Sumo"
 msgstr "Sumo"
 
 msgid "SunMoon"
 msgstr "Sonnenmond"
 
-msgid "Herausforderung Freecell"
-msgstr ""
+#, fuzzy
+msgid "Super Challenge FreeCell"
+msgstr "Herausforderung Free Cell"
 
 msgid "Super Flower Garden"
 msgstr "Super Blumengarten"
@@ -5543,209 +3643,14 @@ msgstr "Superior Canfield"
 msgid "Surprise"
 msgstr "Überraschung"
 
-msgid "Sweden"
-msgstr "Schweden"
+msgid "Surukh"
+msgstr ""
 
 msgid "Sweet Sixteen"
 msgstr "Süsse Sechzehn"
 
-msgid "Switzerland"
-msgstr "Schweiz"
-
-msgid "Sword"
-msgstr "Schwert"
-
 msgid "Tabby Cat"
 msgstr "Tabby Cat"
-
-msgid "Table t&ile..."
-msgstr "Spielfeldhintergrund..."
-
-msgid "Tableau"
-msgstr "Tableau"
-
-msgid "Tableau default: "
-msgstr "Tableau Standard: "
-
-msgid "Tableau fixed: "
-msgstr "Tableau fixiert: "
-
-msgid "Tableau large: "
-msgstr "Tableau groß: "
-
-msgid "Tableau small: "
-msgstr "Tableau schmal: "
-
-msgid ""
-"Tableau. Build by same rank, can move any face-up cards regardless of "
-"sequence."
-msgstr ""
-"Tableau. Erstellt von demselben Rang, kann jede aufgedeckte Karte unabhängig von "
-"der Sequenz bewegt werden."
-
-msgid "Tableau. Build by same rank."
-msgstr "Tableauл. Aufgebaut von denselben Rang."
-
-msgid ""
-"Tableau. Build down by alternate color, can move any face-up cards "
-"regardless of sequence."
-msgstr ""
-"Tableau. Erstellt nach unten in alternativer Farbe, kann jede aufgedeckte Karte "
-"unabhängig der Sequenz bewegt werden"
-
-msgid "Tableau. Build down by alternate color."
-msgstr "Tableau. Erstellt nach unten in alternativer Farbe."
-
-msgid "Tableau. Build down by color."
-msgstr "Tableau. Erstellt nach unten nach Farbe."
-
-msgid ""
-"Tableau. Build down by color. Sequences of cards in the same suit can be "
-"moved as a unit."
-msgstr ""
-"Tableau. Aufgebaut nach Farbe. Sequenzen von Karten in der gleichen Farbe "
-"können als eine Einheit bewegt werden."
-
-msgid "Tableau. Build down by suit or of the same rank."
-msgstr ""
-"Tableau. Erstellt nach unten nach Farbe oder denselben Rang."
-
-msgid ""
-"Tableau. Build down by suit, can move any face-up cards regardless of "
-"sequence."
-msgstr ""
-"Tableau. Erstellt nach unten nach Farbe. Es kann jede aufgedeckte Karte "
-"unabhängig der Sequenz bewegt werden."
-
-msgid "Tableau. Build down by suit."
-msgstr "Tableau. Erstellt nach unten nach Farbe."
-
-msgid ""
-"Tableau. Build down in any suit but the same, can move any face-up cards "
-"regardless of sequence."
-msgstr ""
-"Tableau. Aufgebaut in jeder gleichen Farbe. Es kann jede aufgedeckte Karte "
-"unabhängig der Sequenz bewegt werden."
-
-msgid "Tableau. Build down in any suit but the same."
-msgstr "Tableau. Aufgebaut in jeder gleichen Farbe."
-
-msgid ""
-"Tableau. Build down regardless of suit, can move any face-up cards "
-"regardless of sequence."
-msgstr ""
-"Tableau. Aufgebaut unabhängig von der Farbe, kann jede aufgedeckte "
-"Karte unabhängig der Sequenz bewegt werden."
-
-msgid "Tableau. Build down regardless of suit."
-msgstr "Tableau. Aufgebaut unabhängig von der Farbe."
-
-msgid ""
-"Tableau. Build down regardless of suit. Sequences of cards in alternate "
-"color can be moved as a unit."
-msgstr ""
-"Tableau. Aufgebaut unabhängig von der Farbe. Sequenzen von Karten in einer "
-"anderen Farbe können als Einheit verschoben werden."
-
-msgid ""
-"Tableau. Build down regardless of suit. Sequences of cards in the same color "
-"can be moved as a unit."
-msgstr ""
-"Tableau. Aufgebaut unabhängig von der Farbe. Sequenzen von Karten in der "
-"gleichen Farbe können als eine Einheit bewegt werden."
-
-msgid ""
-"Tableau. Build down regardless of suit. Sequences of cards in the same suit "
-"can be moved as a unit."
-msgstr ""
-"Tableau. Aufgebaut unabhängig von der Farbe. Sequenzen von Karten in der "
-"gleichen Farbe können als eine Einheit bewegt werden."
-
-msgid "Tableau. Build regardless of rank and suit."
-msgstr "Tableau. Aufgebaut unabhängig von Rang und Farbe."
-
-msgid ""
-"Tableau. Build up by alternate color, can move any face-up cards regardless "
-"of sequence."
-msgstr ""
-"Tableau. Aufbau mit wechselnder Farbe. Es kann jede aufgedeckte Karte "
-"unabhängig der Sequenz bewegt werden."
-
-msgid "Tableau. Build up by alternate color."
-msgstr "Tableau. Aufbau nach wechselnder Farbe."
-
-msgid "Tableau. Build up by color."
-msgstr "Tableau. Aufbau nach Farbe."
-
-msgid ""
-"Tableau. Build up by suit, can move any face-up cards regardless of sequence."
-msgstr ""
-"Tableau. Aufbau nach Rang, kann jede aufgedeckte Karte unabhängig der "
-"Sequenz bewegt werden."
-
-msgid "Tableau. Build up by suit."
-msgstr "Tableau. Aufbau nach Rang."
-
-msgid "Tableau. Build up in any suit but the same."
-msgstr "Tableau. Aufbau in jeden gleichen Rang."
-
-msgid ""
-"Tableau. Build up or down by alternate color, can move any face-up cards "
-"regardless of sequence."
-msgstr ""
-"Tableau. Aufbau nach oben oder unten bei wechselnder Farbe. Es kann jede "
-"aufgedeckte Karte unabhängig der Sequenz bewegt werden."
-
-msgid "Tableau. Build up or down by alternate color."
-msgstr "Tableau. Aufbau nach oben oder unten bei wechselnder Farbe."
-
-msgid "Tableau. Build up or down by color."
-msgstr "Tableau. Aufbau nach oben oder unten nach Farbe."
-
-msgid ""
-"Tableau. Build up or down by suit, can move any face-up cards regardless of "
-"sequence."
-msgstr ""
-"Tableau. Aufbau nach oben oder unten im Rang. Es kann jeder der offen ausliegenden "
-"Karten unabhängig der Sequenz bewegt werden."
-
-msgid "Tableau. Build up or down by suit."
-msgstr ""
-"Tableau. Aufbau nach oben oder unten im Rang."
-
-msgid "Tableau. Build up or down regardless of suit."
-msgstr ""
-"Tableau. Aufbau nach oben oder unten unabhängig von der Farbe."
-
-msgid ""
-"Tableau. Build up regardless of suit, can move any face-up cards regardless "
-"of sequence."
-msgstr ""
-"Tableau. Bauen Sie unabhängig von der Farbe. Es kann jede aufgedeckte Karte "
-"unabhängig von Sequenz bewegt werden."
-
-msgid "Tableau. Build up regardless of suit."
-msgstr "Tableau. Bauen Sie unabhängig von der Farbe."
-
-msgid ""
-"Tableau. Build up regardless of suit. Sequences of cards in alternate color "
-"can be moved as a unit."
-msgstr ""
-"Tableau. Bauen Sie unabhängig von der Farbe. Sequenzen von Karten in einer anderen "
-"Farbe können als Einheit verschoben werden."
-
-msgid ""
-"Tableau. Build up regardless of suit. Sequences of cards in the same suit "
-"can be moved as a unit."
-msgstr ""
-"Tableau. Bauen Sie unabhängig von der Farbe. Sequenzen von Karten in der gleichen "
-"Farbe können als eine Einheit bewegt werden."
-
-msgid "Tableau. Empty piles can be filled with any card."
-msgstr "Tableau. Leere Felder können mit beliebigen Karten aufgefüllt werden."
-
-msgid "Tableau. No building."
-msgstr "Tableau. Keine Erstellung."
 
 msgid "Taipei"
 msgstr "Taipei"
@@ -5753,29 +3658,11 @@ msgstr "Taipei"
 msgid "Take Away"
 msgstr "Nimms weg"
 
-msgid "Talon"
-msgstr "Talon"
-
-msgid "Talon."
-msgstr "Talon."
-
 msgid "Tam O'Shanter"
 msgstr "Tam O'Shanter"
 
 msgid "Tarantula"
 msgstr "Tarantula"
-
-msgid "Tarock"
-msgstr "Tarot"
-
-msgid "Tarock type"
-msgstr "Tarot"
-
-msgid "Tarock type (78 cards)"
-msgstr "Tarot (78 Karten)"
-
-msgid "Teal"
-msgstr "Krickente"
 
 msgid "Temple"
 msgstr "Tempel"
@@ -5797,21 +3684,6 @@ msgstr "Zehn durch einsу"
 
 msgid "Terrace"
 msgstr "Terasse"
-
-msgid "Terrace type"
-msgstr "Terasse"
-
-msgid "Text below icons"
-msgstr "Text unter Ikonen"
-
-msgid "Text beside icons"
-msgstr "Text neben Ikonen"
-
-msgid "Text foreground:"
-msgstr "Text Vordergrund:"
-
-msgid "Text only"
-msgstr "Nur Text"
 
 msgid "The Bouquet"
 msgstr "Der Blumemstrauß"
@@ -5855,24 +3727,15 @@ msgstr "Der Wunsch"
 msgid "The Wish (open)"
 msgstr "Der offene Wunsch"
 
-msgid ""
-"The currently selected %s %s\n"
-"is not compatible with the game\n"
-"%s\n"
-"\n"
-"Please select a %s type %s.\n"
-msgstr ""
-"Die aktuell gewählte %s %s\n"
-"ist mit dem Spiel nicht kompatibel\n"
-"%s\n"
-"\n"
-"Bitte als %s Typ %s.\n"
-
 msgid "Theater"
 msgstr "Theater"
 
 msgid "Thieves of Egypt"
 msgstr "Diebe von Ägypten"
+
+#, fuzzy
+msgid "Thirteen Packs"
+msgstr "Dreizehn"
 
 msgid "Thirteen Up"
 msgstr "Dreizehn hoch"
@@ -5889,22 +3752,6 @@ msgstr "Sechsunddreißig"
 msgid "Thirty Two Cards"
 msgstr "32 Karten"
 
-msgid "This game is solveable in %d move."
-msgid_plural "This game is solveable in %d moves."
-msgstr[0] "Das Spiel ist in %d Zug lösbar."
-msgstr[1] "Das Spiel ist in %d Züge lösbar."
-msgstr[2] "Das Spiel ist in %d Züge lösbar."
-
-msgid ""
-"This settings will take effect\n"
-"the next time you restart "
-msgstr ""
-"Die Einstellungen werden erst nach\n"
-"Neustart des Programms aktiv "
-
-msgid "Three"
-msgstr "Drei"
-
 msgid "Three Blind Mice"
 msgstr "Drei blinde Mäuse"
 
@@ -5920,20 +3767,29 @@ msgstr "Drei Spitzen ohne Zählung"
 msgid "Three Pirates"
 msgstr "Drei Piraten"
 
-msgid "Three redeals"
-msgstr "Drei neue Decks"
+msgid "Three Shuffles and a Draw"
+msgstr ""
 
-msgid "Three-Deck games"
-msgstr "Drei Deckspiele"
+msgid "Thumb and Pouch"
+msgstr ""
 
 msgid "Tiger"
 msgstr "Tiger"
 
-msgid "Time&outs..."
-msgstr "Zeitabläufe..."
+#, fuzzy
+msgid "Tile Fighter"
+msgstr "Mahjongg Spielkämpfer"
 
-msgid "Tiny cardsets"
-msgstr "Kleine Kartensets"
+#, fuzzy
+msgid "Tilepiles"
+msgstr "Mahjongg Spielfelder"
+
+#, fuzzy
+msgid "Time Tunnel"
+msgstr "Mahjongg Zeittunnel"
+
+msgid "Tipati"
+msgstr ""
 
 msgid "Toad"
 msgstr "Kröte"
@@ -5941,17 +3797,8 @@ msgstr "Kröte"
 msgid "Tomb"
 msgstr "Gewölbe"
 
-msgid "Toolbar"
-msgstr "Toolbar"
-
-msgid "Top"
-msgstr "Top"
-
-msgid "Top 10"
-msgstr "Top 10"
-
-msgid "Top card"
-msgstr "Top Karten"
+msgid "Toni"
+msgstr ""
 
 msgid "Topsy-Turvy Queens"
 msgstr "Verkehrte Königinnen"
@@ -5959,32 +3806,9 @@ msgstr "Verkehrte Königinnen"
 msgid "Tornado"
 msgstr "Tornado"
 
-msgid "Tortoise"
-msgstr "Tortoise"
-
-msgid "Total"
-msgstr "Total"
-
-msgid "Total (%d out of %d games)"
-msgstr "Total (%d aus %d Spielen)"
-
-msgid "Total moves"
-msgstr "Züge total"
-
-msgid "Total moves in this game: "
-msgstr "Totale Züge in diesem Spiel: "
-
-msgid "Total moves:"
-msgstr "Alle Züge:"
-
-msgid "Total player moves: "
-msgstr "Totale Spielerzüge:"
-
-msgid "Total:"
-msgstr "Total:"
-
-msgid "Total: %d"
-msgstr "Total: %d"
+#, fuzzy
+msgid "Totally Random-Made"
+msgstr "Mahjongg total zufallserstellt"
 
 msgid "Tournament"
 msgstr "Тournament"
@@ -5997,6 +3821,10 @@ msgstr "Türme von Hanoi"
 
 msgid "Towers"
 msgstr "Türme"
+
+#, fuzzy
+msgid "Traditional Reviewed"
+msgstr "Mahjongg traditionell überprüft"
 
 msgid "Trapdoor"
 msgstr "Falltür"
@@ -6016,8 +3844,15 @@ msgstr "Baum des Lebens"
 msgid "Trefoil"
 msgstr "Klee"
 
+#, fuzzy
+msgid "Tri Peaks"
+msgstr "Drei Spitzen"
+
 msgid "Triangle"
 msgstr "Triangel"
+
+msgid "Trika"
+msgstr ""
 
 msgid "Trillium"
 msgstr "Trillium"
@@ -6027,6 +3862,10 @@ msgstr "Dreifache Allianz"
 
 msgid "Triple Canfield"
 msgstr "Dreifach Canfield"
+
+#, fuzzy
+msgid "Triple Easthaven"
+msgstr "Dreifacher Austausch"
 
 msgid "Triple FreeCell"
 msgstr "Dreifach FreeCell"
@@ -6055,20 +3894,8 @@ msgstr "Dreifach Yukon"
 msgid "Troika"
 msgstr "Troika"
 
-msgid "Trump"
-msgstr "Trumpf"
-
-msgid "Trumps only"
-msgstr "Nur Trumpf"
-
-msgid "Trumps only type (variable cards)"
-msgstr "Trumpf nur Typ (variable Karten)"
-
 msgid "Trusty Twelve"
 msgstr "Treue Zwölf"
-
-msgid "Turn waste"
-msgstr "Zwischentalon umlegen"
 
 msgid "Turncoats"
 msgstr "Turncoasts"
@@ -6097,8 +3924,9 @@ msgstr "Zwillings Königinnen"
 msgid "Twin Temples"
 msgstr "Zwillings Tempel"
 
-msgid "Two"
-msgstr "Zwei"
+#, fuzzy
+msgid "Two Domes"
+msgstr "Mahjongg zwei Gewölbe"
 
 msgid "Two Familiars"
 msgstr "Zwei Vertraute"
@@ -6112,120 +3940,39 @@ msgstr "Zwei Ringe"
 msgid "Two Squares"
 msgstr "Zwei Quadrate"
 
-msgid "Two redeals"
-msgstr "Zwei Neudecks"
-
-msgid "Two-Deck games"
-msgstr "Zwei Deck Spiele"
-
-msgid "Type:"
-msgstr "Typ:"
-
-msgid "USA"
-msgstr "USA"
-
 msgid "Ukrainian Solitaire"
 msgstr "Ukrainisches Solitär"
-
-msgid "Unable to service request:\n"
-msgstr "Kann den Service nicht bearbeiten:\n"
-
-msgid "Uncategorized"
-msgstr "Unkategorisiert"
-
-msgid "Undo"
-msgstr "Zurück"
-
-msgid "Undo last move"
-msgstr "Zurück letzter Zug"
-
-msgid "Undo moves: "
-msgstr "Züge zurück: "
 
 msgid "Union Square"
 msgstr "Unionsquadrat"
 
-msgid "Unknown"
-msgstr "Unbekannt"
-
 msgid "Unlimited"
 msgstr "Unlimitiert"
-
-msgid "Unlimited redeals"
-msgstr "Unlimitierte Neudecks"
-
-msgid "Unlimited redeals."
-msgstr "Unlimitierte Neudecks."
-
-msgid "Up"
-msgstr "Hoch"
 
 msgid "Up and Down"
 msgstr "Hoch und Runter"
 
-msgid "Up or down by alternate color"
-msgstr "Oben oder unten bei alternativer Farbe"
-
-msgid "Up or down by rank"
-msgstr "Oben oder unten nach Rang"
-
-msgid "Up or down by same color"
-msgstr "Oben oder unten nach gleicher Farbe"
-
-msgid "Up or down by same suit"
-msgstr "Oben oder unten nach gleichem Deck"
-
-msgid "Update statistics and logs"
-msgstr "Erneuert Statistiken und Protokolle"
-
-msgid ""
-"Usage: %s [OPTIONS] [FILE]\n"
-"  -g    --game=GAMENAME        start game GAMENAME\n"
-"  -i    --gameid=GAMEID\n"
-"        --french-only\n"
-"        --sound-mod=MOD\n"
-"        --nosound              disable sound support\n"
-"        --noplugins            disable load plugins\n"
-"  -h    --help                 display this help and exit\n"
-"\n"
-"  FILE - file name of a saved game\n"
-"  MOD - one of following: pss(default), pygame, oss, win\n"
+msgid "Usk"
 msgstr ""
-"Benutzung: %s [OPTIONEN] [DATEI]\n"
-"  -g    --game=SPIELNAME       startet Spiel SPIELNAME\n"
-"  -i    --gameid=SPIELID\n"
-"        --french-only\n"
-"        --sound-mod=MOD\n"
-"        --nosound              Sound ausschalten\n"
-"        --noplugins            Lade Plugins ausschalten\n"
-"  -h    --help                 Zeigt diese Hilfe an und endet dann\n"
-"\n"
-"  DATEI - Dateiname des gespeicherten Spiels\n"
-"  MOD - eines der folgenden: pss(Standard), pygame, oss, win\n"
 
-msgid "Use \"Super Move\" feature:"
-msgstr "Benutzt \"Super Move\" Merkmal"
-
-msgid "Use DirectX for sound playing"
-msgstr "Benutzt DirectX für Tonausgabe"
-
-msgid "Use mouse for undo/redo"
-msgstr "Benutzt Maus für Zurück/Vorwärts"
-
-msgid "V&ery slow"
-msgstr "Sehr langsam"
+#, fuzzy
+msgid "Vague"
+msgstr "Vagues"
 
 msgid "Vagues"
 msgstr "Vagues"
 
-msgid "Valet"
-msgstr "Kammerdiener"
+msgid "Vajra"
+msgstr ""
+
+msgid "Vamana"
+msgstr ""
 
 msgid "Vanishing Cross"
 msgstr "Verschwundenes Kreuz"
 
-msgid "Variable redeals."
-msgstr "Variable Neudecks."
+msgid "Varaha"
+msgstr ""
 
 msgid "Variegated Canfield"
 msgstr "Canfield Variationen"
@@ -6236,66 +3983,47 @@ msgstr "Vassal"
 msgid "Vegas Klondike"
 msgstr "Vegas Klondike"
 
-msgid "Vehicels"
-msgstr "Vehikel"
-
-msgid "Version %s"
-msgstr "Version %s"
-
 msgid "Vertical"
 msgstr "Vertikal"
 
 msgid "Very Big Divorce"
 msgstr "Sehr große Scheidung"
 
-msgid "Video Games"
-msgstr "Video Spiele"
+msgid "Vi"
+msgstr ""
 
-msgid "View statistics"
-msgstr "Statistiken anzeigen"
+#, fuzzy
+msgid "Victory Arrow"
+msgstr "Mahjongg Siegespfeil"
 
 msgid "Virginia Reel"
 msgstr "Virginia Reel"
 
-msgid "Visible buttons"
-msgstr "Sichtbare Schalter"
-
 msgid "Voracious"
 msgstr "Gefräßig"
 
-msgid ""
-"WON\n"
-"\n"
-msgstr ""
-"Gewonnen\n"
-"\n"
+#, fuzzy
+msgid "Wake-Robin"
+msgstr "Robin"
+
+#, fuzzy
+msgid "Wake-Robin (3 decks)"
+msgstr "Zerline (3 Decks)"
 
 msgid "Wall"
 msgstr "Mauer"
 
-msgid "Wand"
-msgstr "Wand"
-
 msgid "Waning Moon"
 msgstr "Abnehmender Mond"
 
-msgid "Warning"
-msgstr "Warnung"
+msgid "Wasatch"
+msgstr ""
 
 msgid "Washington's Favorite"
 msgstr "Washington's Favoriten"
 
 msgid "Wasp"
 msgstr "Wespe"
-
-msgid "Waste."
-msgstr "Zwischentalon."
-
-msgid "Waste. Build up or down by suit."
-msgstr "Zwischentalon. Hoch oder Runter je nach Farbe zu erstellen."
-
-msgid "Waste. Build up or down regardless of suit."
-msgstr "Zwischentalon. Hoch oder Runter unabhängig der Farbe zu erstelle."
 
 msgid "Waterfall"
 msgstr "Wasserfall"
@@ -6312,32 +4040,35 @@ msgstr "Wellenbewegung"
 msgid "Wavelets"
 msgstr "Wavelets"
 
-msgid "Weak"
-msgstr "Schwach"
-
 msgid "Weddings"
 msgstr "Hochzeiten"
 
 msgid "Wedges"
 msgstr "Keile"
 
-msgid "Welcome to %s"
-msgstr "Willkommen zu %s"
-
 msgid "Well"
 msgstr "Gut"
 
-msgid "West"
+#, fuzzy
+msgid "Well2"
+msgstr "Gut"
+
+#, fuzzy
+msgid "Westcliff"
+msgstr "Westen"
+
+#, fuzzy
+msgid "Westhaven"
 msgstr "Westen"
 
 msgid "Whatever"
 msgstr "Wasimmer"
 
+msgid "Wheatsheaf"
+msgstr ""
+
 msgid "Wheel of Fortune"
 msgstr "Rad der Zukunft"
-
-msgid "White"
-msgstr "Weiß"
 
 msgid "Whitehead"
 msgstr "Weißkopf"
@@ -6348,8 +4079,12 @@ msgstr "Weißpferd"
 msgid "Wicked"
 msgstr "Boshaft"
 
-msgid "Willow"
-msgstr "Weide"
+msgid "Will o' the Wisp"
+msgstr ""
+
+#, fuzzy
+msgid "Win"
+msgstr "Gewonnen"
 
 msgid "Windmill"
 msgstr "Windmühle"
@@ -6357,65 +4092,21 @@ msgstr "Windmühle"
 msgid "Wisteria"
 msgstr "Glyzinien"
 
-msgid "Won"
-msgstr "Gewonnen"
-
-msgid "Won:"
-msgstr "Gewonnen:"
-
 msgid "Wood"
 msgstr "Holz"
 
-msgid "Wrapping:"
-msgstr "Verpackung:"
+#, fuzzy
+msgid "X-Files"
+msgstr "Datei"
 
-msgid "X"
-msgstr "Х"
-
-msgid "XLarge cardsets"
-msgstr "Extra große Karten"
-
-msgid "Year:"
-msgstr "Jahr:"
-
-msgid "Yellow"
-msgstr "Gelb"
+#, fuzzy
+msgid "X-Shape"
+msgstr "Mahjongg X-Shape"
 
 msgid "York"
 msgstr "York"
 
-msgid ""
-"Your playing time is %s\n"
-"for %d move."
-msgid_plural ""
-"Your playing time is %s\n"
-"for %d moves."
-msgstr[0] ""
-"Ihre Spielzeit ist: %s\n"
-"für %s Zug"
-msgstr[1] ""
-"Ihre Spielzeit ist: %s\n"
-"für %s Züge"
-msgstr[2] ""
-"Ihre Spielzeit ist: %s\n"
-"für %s Züge"
-
-msgid "Your statistics"
-msgstr "Ihre Statistiken"
-
 msgid "Yukon"
-msgstr "Yukon"
-
-msgid "Yukon alternate color"
-msgstr "Yukon alternative Farben"
-
-msgid "Yukon rank"
-msgstr "Yukon Rang"
-
-msgid "Yukon same suit"
-msgstr "Yukon gleiche Farbe"
-
-msgid "Yukon type"
 msgstr "Yukon"
 
 msgid "Yummy"
@@ -6438,89 +4129,3 @@ msgstr "Zickzackkurs"
 
 msgid "Zodiac"
 msgstr "Zodiac"
-
-msgid "abcdefghABCDEFGH"
-msgstr "abcdefghABCDEFGH"
-
-msgid "any card"
-msgstr "jede Karte"
-
-msgid "black"
-msgstr "schwarz"
-
-msgid "by Compatibility"
-msgstr "nach Kompatibilität"
-
-msgid "by Date"
-msgstr "nach Tag"
-
-msgid "by Game Feature"
-msgstr "nach Spielmerkmal"
-
-msgid "by Inventors"
-msgstr "nach Investoren"
-
-msgid "by Nationality"
-msgstr "nach Nationalität"
-
-msgid "by Number of Cards"
-msgstr "nach Nummer der Karten"
-
-msgid "by Number of Decks"
-msgstr "nach Nummern der Decks"
-
-msgid "by Number of Redeals"
-msgstr "nach Anzahl der Neudecks"
-
-msgid "by PySol version"
-msgstr "nach PySol Version"
-
-msgid "by Size"
-msgstr "nach Größe"
-
-msgid "by Skill Level"
-msgstr "nach Schwierigkeitsgrad"
-
-msgid "by Style"
-msgstr "nach Stil"
-
-msgid "by Type"
-msgstr "nach Typ"
-
-msgid "cardset"
-msgstr "Kartenset"
-
-msgid ""
-"invalid file name\n"
-"try %s --help for more information"
-msgstr ""
-"ungültiger Dateiname\n"
-"versuchen Sie %s --help für weitere Informationen"
-
-msgid "invalid game id: "
-msgstr "ungültige SpielID: "
-
-msgid "red"
-msgstr "rot"
-
-msgid ""
-"too many files\n"
-"try %s --help for more information"
-msgstr ""
-"zu viele Dateien\n"
-"versuchen Sie %s --help für weitere Informationen"
-
-msgid "unlimited"
-msgstr "unlimitiert"
-
-msgid "variable"
-msgstr "variabel"
-
-msgid "&About PySol..."
-msgstr "Über PySol..."
-
-msgid "&Solver"
-msgstr "FreeCell autom. Lösung"
-
-msgid " - FreeCell Solver"
-msgstr " - FreeCell autom. Lösung"

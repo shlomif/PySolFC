@@ -45,9 +45,9 @@ for d in ddirs:
 
 if os.name == 'posix':
     data_files.append(('share/pixmaps', ['data/pysol.xbm', 'data/pysol.xpm']))
-    data_files.append(('share/icons',
-                       ['data/images/misc/pysol01.png',
-                        'data/images/misc/pysol02.png', ]))
+    for size in os.listdir('data/images/icons'):
+        data_files.append(('share/icons/hicolor/%s/apps' % size,
+                           ['data/images/icons/%s/pysol.png' % size]))
     for mofile in glob('locale/*/*/*.mo'):
         data_files.append(('share/' + os.path.dirname(mofile), [mofile]))
     data_files.append((data_dir, ['data/pysolfc.glade']))

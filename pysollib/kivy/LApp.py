@@ -1168,7 +1168,7 @@ class LMenu(ActionView, LBase):
         class MyActionPrev(ActionPrevious, LBase):
             pass
 
-        kw['app_icon'] = 'data/images/misc/pysol01.png'
+        kw['app_icon'] = 'data/images/icons/48x48/pysol.png'
         kw['with_previous'] = prev
         kw['size_hint'] = (.01, 1)
         self.ap = MyActionPrev(**kw)

@@ -27,6 +27,6 @@ python3 -m pythonforandroid.toolchain apk \
   --version ${version} \
   --orientation sensor \
   --color=always \
-  --icon ${tmpdir}/data/images/misc/pysol01.png \
-  --presplash ${tmpdir}/data/images/misc/pysol06.png \
+  --icon ${tmpdir}/data/images/icons/48x48/pysol.png \
+  --presplash ${tmpdir}/data/images/icons/1024x1024/pysol.png \
   --copy-libs

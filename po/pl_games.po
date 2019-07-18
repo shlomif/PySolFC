@@ -4,10 +4,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Mon Mar  7 21:38:07 2011\n"
+"POT-Creation-Date: Thu Jul 18 18:43:59 2019\n"
 "PO-Revision-Date: 2010-12-16 23:56+0100\n"
 "Last-Translator: Jerzy Trzeciak <artusek@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
+"Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -705,6 +706,9 @@ msgstr ""
 msgid "Czarina"
 msgstr "Czarina"
 
+msgid "Daddy Longlegs"
+msgstr ""
+
 msgid "Danda"
 msgstr "Danda"
 
@@ -1276,6 +1280,12 @@ msgstr "Free Napoleon"
 
 msgid "FreeCell"
 msgstr "FreeCell"
+
+msgid "FreeCell with Two Reserves"
+msgstr ""
+
+msgid "FreeCell with Zero Reserves"
+msgstr ""
 
 msgid "Frog"
 msgstr "Żaba"

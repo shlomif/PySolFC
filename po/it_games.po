@@ -5,10 +5,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: it_games\n"
-"POT-Creation-Date: Thu Sep  6 15:06:46 2007\n"
+"POT-Creation-Date: Thu Jul 18 18:43:59 2019\n"
 "PO-Revision-Date: 2011-05-12 18:46+0200\n"
 "Last-Translator: Giuliano Colla <giuliano.colla@gmail.com>\n"
 "Language-Team: Italiano <it@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -74,6 +75,9 @@ msgstr "Conoscenti"
 
 msgid "Adela"
 msgstr "Adelina"
+
+msgid "Aglet"
+msgstr ""
 
 msgid "Agnes Bernauer"
 msgstr "Agnese Bernauer"
@@ -241,6 +245,12 @@ msgid "Batsford Again"
 msgstr ""
 
 msgid "Bavarian Patience"
+msgstr ""
+
+msgid "Bayan"
+msgstr ""
+
+msgid "Beacon"
 msgstr ""
 
 msgid "Beak and Flipper"
@@ -522,6 +532,9 @@ msgstr ""
 msgid "Cat's Tail"
 msgstr ""
 
+msgid "Catherine the Great"
+msgstr ""
+
 msgid "Cavalier"
 msgstr ""
 
@@ -690,6 +703,9 @@ msgstr ""
 msgid "Czarina"
 msgstr ""
 
+msgid "Daddy Longlegs"
+msgstr ""
+
 msgid "Danda"
 msgstr ""
 
@@ -804,6 +820,9 @@ msgstr ""
 msgid "Double Bisley"
 msgstr ""
 
+msgid "Double Blue Moon"
+msgstr ""
+
 msgid "Double Canfield"
 msgstr ""
 
@@ -876,10 +895,16 @@ msgstr ""
 msgid "Double Measure"
 msgstr ""
 
+msgid "Double Montana"
+msgstr ""
+
 msgid "Double Pyramid"
 msgstr ""
 
 msgid "Double Rail"
+msgstr ""
+
+msgid "Double Red Moon"
 msgstr ""
 
 msgid "Double Russian Solitaire"
@@ -942,6 +967,9 @@ msgstr ""
 msgid "Dutch Solitaire"
 msgstr ""
 
+msgid "Dutchess"
+msgstr ""
+
 msgid "Eagle Wing"
 msgstr ""
 
@@ -970,6 +998,9 @@ msgid "Eight Legions"
 msgstr ""
 
 msgid "Eight Off"
+msgstr ""
+
+msgid "Eight Packs"
 msgstr ""
 
 msgid "Eight Sages"
@@ -1158,6 +1189,9 @@ msgstr ""
 msgid "Flying Dragon"
 msgstr ""
 
+msgid "Foothold"
+msgstr ""
+
 msgid "Footling"
 msgstr ""
 
@@ -1240,6 +1274,12 @@ msgid "Free Napoleon"
 msgstr ""
 
 msgid "FreeCell"
+msgstr ""
+
+msgid "FreeCell with Two Reserves"
+msgstr ""
+
+msgid "FreeCell with Zero Reserves"
 msgstr ""
 
 msgid "Frog"
@@ -1423,6 +1463,9 @@ msgid "Hanoi Puzzle 5"
 msgstr ""
 
 msgid "Hanoi Puzzle 6"
+msgstr ""
+
+msgid "Hanoi Sequence"
 msgstr ""
 
 msgid "Happy New Year"
@@ -1636,6 +1679,9 @@ msgid "Katrina's Game Doubled"
 msgstr ""
 
 msgid "Katrina's Game Relaxed"
+msgstr ""
+
+msgid "Kentish"
 msgstr ""
 
 msgid "Khadga"
@@ -2310,7 +2356,7 @@ msgstr ""
 msgid "Mahjongg Stargate"
 msgstr ""
 
-msgid "Mahjongg Step Pyramid"
+msgid "Mahjongg Steps Pyramid"
 msgstr ""
 
 msgid "Mahjongg Stonehenge"
@@ -2652,6 +2698,15 @@ msgstr ""
 msgid "Northwest Territory"
 msgstr ""
 
+msgid "Not Shisen-Sho 14x6"
+msgstr ""
+
+msgid "Not Shisen-Sho 18x8"
+msgstr ""
+
+msgid "Not Shisen-Sho 24x12"
+msgstr ""
+
 msgid "Number Ten"
 msgstr ""
 
@@ -2904,6 +2959,9 @@ msgstr ""
 msgid "Puss in the Corner"
 msgstr ""
 
+msgid "Putt Putt"
+msgstr ""
+
 msgid "Pyramid"
 msgstr ""
 
@@ -2925,10 +2983,16 @@ msgstr ""
 msgid "Quadrangle"
 msgstr ""
 
+msgid "Quadrille"
+msgstr ""
+
 msgid "Quadruple Alliance"
 msgstr ""
 
 msgid "Quads"
+msgstr ""
+
+msgid "Quads +"
 msgstr ""
 
 msgid "Quartets"
@@ -3000,6 +3064,10 @@ msgstr ""
 msgid "Relax"
 msgstr ""
 
+#, fuzzy
+msgid "Relaxed Accordion"
+msgstr "Fisarmonica"
+
 msgid "Relaxed FreeCell"
 msgstr ""
 
@@ -3013,6 +3081,9 @@ msgid "Relaxed Seahaven Towers"
 msgstr ""
 
 msgid "Relaxed Spider"
+msgstr ""
+
+msgid "Relaxed Three Fir-trees"
 msgstr ""
 
 msgid "Repair"
@@ -3228,13 +3299,13 @@ msgstr ""
 msgid "Shifting"
 msgstr ""
 
-msgid "Shisen-Sho (No Gra) 14x6"
+msgid "Shisen-Sho (No Gravity) 14x6"
 msgstr ""
 
-msgid "Shisen-Sho (No Gra) 18x8"
+msgid "Shisen-Sho (No Gravity) 18x8"
 msgstr ""
 
-msgid "Shisen-Sho (No Gra) 24x12"
+msgid "Shisen-Sho (No Gravity) 24x12"
 msgstr ""
 
 msgid "Shisen-Sho 14x6"
@@ -3423,13 +3494,13 @@ msgstr ""
 msgid "Stargate"
 msgstr ""
 
-msgid "Step Pyramid"
-msgstr ""
-
 msgid "Step-Up"
 msgstr ""
 
 msgid "Steps"
+msgstr ""
+
+msgid "Steps Pyramid"
 msgstr ""
 
 msgid "Steve"
@@ -3595,6 +3666,9 @@ msgid "Theater"
 msgstr ""
 
 msgid "Thieves of Egypt"
+msgstr ""
+
+msgid "Thirteen Packs"
 msgstr ""
 
 msgid "Thirteen Up"
@@ -3864,6 +3938,9 @@ msgstr ""
 msgid "Waning Moon"
 msgstr ""
 
+msgid "Wasatch"
+msgstr ""
+
 msgid "Washington's Favorite"
 msgstr ""
 
@@ -3968,4 +4045,3 @@ msgstr ""
 
 msgid "Zodiac"
 msgstr ""
-

@@ -317,6 +317,22 @@ class StackRegions(object):
         self.init_info = self.info
 
 
+@attr.s
+class GameStacks(object):
+    talon = attr.ib(default=None)
+    waste = attr.ib(default=None)
+    foundations = attr.ib(factory=list)
+    rows = attr.ib(factory=list)  # for getHightlightPilesStacks()
+    reserves = attr.ib(factory=list)
+    internals = attr.ib(factory=list)
+
+    def to_tuples(self):
+        self.foundations = tuple(self.foundations)
+        self.rows = tuple(self.rows)
+        self.reserves = tuple(self.reserves)
+        self.internals = tuple(self.internals)
+
+
 class Game(object):
     # for self.gstats.updated
     U_PLAY = 0
@@ -358,14 +374,7 @@ class Game(object):
         self.stackdesc_list = []
         self.demo_logo = None
         self.pause_logo = None
-        self.s = Struct(                # stacks
-            talon=None,
-            waste=None,
-            foundations=[],
-            rows=[],
-            reserves=[],
-            internals=[],
-        )
+        self.s = GameStacks()
         self.sg = StackGroups()
         self.regions = StackRegions()
         self.init_size = (0, 0)
@@ -389,11 +398,8 @@ class Game(object):
         self.createSnGroups()
         # convert stackgroups to tuples (speed)
         self.allstacks = tuple(self.allstacks)
-        self.s.foundations = tuple(self.s.foundations)
-        self.s.rows = tuple(self.s.rows)
-        self.s.reserves = tuple(self.s.reserves)
-        self.s.internals = tuple(self.s.internals)
         self.sg.to_tuples()
+        self.s.to_tuples()
         # init the stack view
         for stack in self.allstacks:
             stack.prepareStack()

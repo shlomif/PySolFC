@@ -22,8 +22,10 @@ dist: all_games_html rules mo
 rpm: all_games_html rules mo
 	python setup.py bdist_rpm
 
-all_games_html:
-	PYTHONPATH=`pwd` ./scripts/all_games.py html id doc/rules bare > docs/all_games.html
+all_games_html: rules
+	export PYTHONPATH="$(PYTHONPATH):$(CURDIR)" \
+		&& cd data/html \
+		&& $(CURDIR)/scripts/all_games.py html id rules > all_games.html
 
 rules:
 	export PYTHONPATH=`pwd`; (cd html-src && ./gen-html.py)

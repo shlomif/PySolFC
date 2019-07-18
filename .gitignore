@@ -10,6 +10,7 @@
 /html-src/html/*
 /images
 /locale/*
+/po/de.po
 /po/it.po
 /po/pl.po
 /po/ru.po

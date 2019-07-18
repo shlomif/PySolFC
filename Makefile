@@ -1,44 +1,42 @@
 # Makefile for PySolFC
 
-override LANG=C
-override PYSOL_DEBUG=1
+export PYTHONPATH := $(PYTHONPATH):$(CURDIR)
 
-PYSOLLIB_FILES=pysollib/tk/*.py pysollib/tile/*.py pysollib/*.py \
+PYSOLLIB_FILES = pysollib/tk/*.py pysollib/tile/*.py pysollib/*.py \
 	pysollib/games/*.py pysollib/games/special/*.py \
 	pysollib/games/ultra/*.py pysollib/games/mahjongg/*.py \
 	pysollib/kivy/*.py
 
-.PHONY : all install dist all_games_html rules pot mo
+.PHONY: all install dist rpm all_games_html rules pot mo pretest test runtest
 
 all:
 	@echo "No default target"
 
 install:
-	python setup.py install
+	python3 setup.py install
 
 dist: all_games_html rules mo
 	python3 setup.py sdist
 
 rpm: all_games_html rules mo
-	python setup.py bdist_rpm
+	python3 setup.py bdist_rpm
 
 all_games_html: rules
-	export PYTHONPATH="$(PYTHONPATH):$(CURDIR)" \
-		&& cd data/html \
-		&& $(CURDIR)/scripts/all_games.py html id rules > all_games.html
+	cd data/html && $(CURDIR)/scripts/all_games.py html id rules > all_games.html
 
 rules:
-	export PYTHONPATH=`pwd`; (cd html-src && ./gen-html.py)
+	cd html-src && ./gen-html.py
 	cp -r html-src/images html-src/html
 	rm -rf data/html
 	mv html-src/html data
 
 pot:
-	PYTHONPATH=`pwd` ./scripts/all_games.py gettext > po/games.pot
-	PYTHONPATH=`pwd` ./scripts/pygettext.py -k n_ --ngettext-keyword ungettext -o po/pysol-1.pot $(PYSOLLIB_FILES)
+	./scripts/all_games.py gettext > po/games.pot
+	./scripts/pygettext.py -k n_ --ngettext-keyword ungettext -o po/pysol-1.pot $(PYSOLLIB_FILES)
 	xgettext -L C --keyword=N_ -o po/pysol-2.pot data/glade-translations
 	msgcat po/pysol-1.pot po/pysol-2.pot > po/pysol.pot
 	rm -f po/pysol-1.pot po/pysol-2.pot
+	set -e; \
 	for lng in ru pl; do \
 		mv -f po/$${lng}_pysol.po po/$${lng}_pysol.old.po; \
 		msgmerge po/$${lng}_pysol.old.po po/pysol.pot > po/$${lng}_pysol.po; \
@@ -49,30 +47,28 @@ pot:
 	done
 
 mo:
-	for loc in ru de pl it; do \
-		test -d locale/$${loc}/LC_MESSAGES || mkdir -p locale/$${loc}/LC_MESSAGES; \
-	done
+	set -e; \
 	for lang in ru pl it; do \
 		msgcat --use-first po/$${lang}_games.po po/$${lang}_pysol.po > po/$${lang}.po 2>/dev/null; \
 	done
+	set -e; \
 	for lang in ru de pl it; do \
+		mkdir -p locale/$${lang}/LC_MESSAGES; \
 		msgfmt -o locale/$${lang}/LC_MESSAGES/pysol.mo po/$${lang}.po; \
 	done
 
 pretest:
-	@rm -f tests/individually-importing/*.py # To avoid stray files
+	rm -f tests/individually-importing/*.py # To avoid stray files
 	python3 scripts/gen_individual_importing_tests.py
 
-TEST_ENV_PATH = "`pwd`:`pwd`/tests/lib"
-TEST_ENV = PYTHONPATH="$$PYTHONPATH:"$(TEST_ENV_PATH) PERL5LIB="$$PERL5LIB:"$(TEST_ENV_PATH)
+TEST_ENV_PATH = $(CURDIR):$(CURDIR)/tests/lib
 TEST_FILES = tests/style/*.t tests/unit-generated/*.py tests/individually-importing/*.py
 
-define RUN_TESTS
-$(TEST_ENV) $1 $(TEST_FILES)
-endef
+test runtest: export PYTHONPATH := $(PYTHONPATH):$(TEST_ENV_PATH)
+test runtest: export PERL5LIB := $(PERL5LIB):$(TEST_ENV_PATH)
 
 test: pretest
-	$(call RUN_TESTS,prove)
+	prove $(TEST_FILES)
 
 runtest: pretest
-	$(call RUN_TESTS,runprove)
+	runprove $(TEST_FILES)

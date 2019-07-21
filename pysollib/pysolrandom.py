@@ -35,6 +35,7 @@ except ImportError:
         "https://pypi.python.org/pypi/random2 using pip or similar.")
 
 from pysol_cards.random_base import RandomBase  # noqa: I100
+from pysol_cards.random import match_ms_deal_prefix  # noqa: I100
 
 
 # ************************************************************************
@@ -221,7 +222,9 @@ class LCRandom31(MFXRandom):
         return "ms" + str(self.initial_seed)
 
     def str(self, seed):
-        return "%05d" % int(seed) if not _match_ms(seed) else seed
+        if match_ms_deal_prefix(seed) is None:
+            return "%05d" % int(seed)
+        return seed
 
     def setSeed(self, seed):
         seed = int(seed)
@@ -263,18 +266,14 @@ PysolRandom = MTRandom
 # * PySol support code
 # ************************************************************************
 
-def _match_ms(s):
-    """match an ms based seed string."""
-    return re.match(r"ms([0-9]+)\n?\Z", str(s))
-
 
 # construct Random from seed string
 def constructRandom(s):
     if s == 'Custom':
         return CustomRandom()
-    m = _match_ms(s)
-    if m:
-        seed = int(m.group(1))
+    m = match_ms_deal_prefix(s)
+    if m is not None:
+        seed = m
         if 0 <= seed <= LCRandom31.MAX_SEED:
             ret = LCRandom31(seed)
             ret.setSeedAsStr(s)
@@ -295,9 +294,9 @@ def constructRandom(s):
 def random__str2long(s):
     if s == 'Custom':
         return CUSTOM_BIT | MS_LONG_BIT
-    m = _match_ms(s)
-    if m:
-        return (int(m.group(1)) | MS_LONG_BIT)
+    m = match_ms_deal_prefix(s)
+    if m is not None:
+        return (m | MS_LONG_BIT)
     else:
         return int(s)
 

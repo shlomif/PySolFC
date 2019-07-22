@@ -65,6 +65,7 @@ from pysollib.pysoltk import bind, wm_map
 from pysollib.settings import DEBUG
 from pysollib.settings import PACKAGE, TITLE, TOOLKIT, TOP_TITLE
 from pysollib.settings import VERSION, VERSION_TUPLE
+from pysollib.struct_new import NewStruct
 
 import six
 from six import BytesIO
@@ -259,7 +260,7 @@ def _highlightCards__calc_item(canvas, delta, cw, ch, s, c1, c2, color):
 
 
 @attr.s
-class StackGroups(object):
+class StackGroups(NewStruct):
     dropstacks = attr.ib(factory=list)
     hp_stacks = attr.ib(factory=list)  # for getHightlightPilesStacks()
     openstacks = attr.ib(factory=list)
@@ -280,7 +281,7 @@ class StackGroups(object):
 
 
 @attr.s
-class StackRegions(object):
+class StackRegions(NewStruct):
     # list of tuples(stacks, rect)
     info = attr.ib(factory=list)
     # list of stacks in no region
@@ -318,7 +319,7 @@ class StackRegions(object):
 
 
 @attr.s
-class GameStacks(object):
+class GameStacks(NewStruct):
     talon = attr.ib(default=None)
     waste = attr.ib(default=None)
     foundations = attr.ib(factory=list)
@@ -331,6 +332,21 @@ class GameStacks(object):
         self.rows = tuple(self.rows)
         self.reserves = tuple(self.reserves)
         self.internals = tuple(self.internals)
+
+
+@attr.s
+class GameDrag(NewStruct):
+    event = attr.ib(default=None)
+    timer = attr.ib(default=None)
+    start_x = attr.ib(default=0)
+    start_y = attr.ib(default=0)
+    index = attr.ib(default=-1)
+    stack = attr.ib(default=None)
+    shade_stack = attr.ib(default=None)
+    shade_img = attr.ib(default=None)
+    cards = attr.ib(factory=list)
+    canshade_stacks = attr.ib(factory=list)
+    noshade_stacks = attr.ib(factory=list)
 
 
 class Game(object):
@@ -534,20 +550,7 @@ class Game(object):
         self.top = app.top
         self.canvas = app.canvas
         self.filename = ""
-        self.drag = Struct(
-            event=None,               # current event
-            timer=None,               # current event timer
-            start_x=0,                # X coord of initial drag event
-            start_y=0,                # Y coord of initial drag event
-            stack=None,               #
-            cards=[],                 #
-            index=-1,                 #
-            shadows=[],               # list of canvas images
-            shade_stack=None,         # stack currently shaded
-            shade_img=None,           # canvas image
-            canshade_stacks=[],       # list of stacks already tested
-            noshade_stacks=[],        # for this drag
-        )
+        self.drag = GameDrag()
         if self.gstats.start_player is None:
             self.gstats.start_player = self.app.opt.player
         # optional MfxCanvasText items

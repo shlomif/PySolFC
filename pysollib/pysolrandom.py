@@ -56,15 +56,6 @@ class BasicRandom(RandomBase):
     ORIGIN_SELECTED = 3         # manually entered
     ORIGIN_NEXT_GAME = 4        # "Next game number"
 
-    def getSeedStr(self):
-        return str(self.initial_seed)
-
-    def __str__(self):
-        return self.str(self.initial_seed)
-
-    def str(self, seed):
-        return '%020d' % seed
-
     def reset(self):
         raise SubclassResponsibility
 

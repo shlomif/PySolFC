@@ -91,6 +91,7 @@ kw = {
                  'pysollib.ui',
                  'pysollib.ui.tktile',
                  'pysollib.kivy',
+                 'pysollib.game',
                  'pysollib.games',
                  'pysollib.games.special',
                  'pysollib.games.ultra',

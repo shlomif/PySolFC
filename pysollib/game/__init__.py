@@ -347,6 +347,7 @@ class GameDrag(NewStruct):
     cards = attr.ib(factory=list)
     canshade_stacks = attr.ib(factory=list)
     noshade_stacks = attr.ib(factory=list)
+    shadows = attr.ib(factory=list)
 
 
 class Game(object):

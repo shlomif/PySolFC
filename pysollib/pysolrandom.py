@@ -26,6 +26,8 @@
 import re
 import time
 
+import pysol_cards
+
 from pysollib.mfxutil import SubclassResponsibility
 try:
     import random2
@@ -34,6 +36,8 @@ except ImportError:
         "You need to install " +
         "https://pypi.python.org/pypi/random2 using pip or similar.")
 
+assert ((pysol_cards.VERSION if 'VERSION' in pysol_cards.__dict__
+         else (0, 0, 0)) >= (0, 8, 2))
 from pysol_cards.random_base import RandomBase  # noqa: I100
 from pysol_cards.random import match_ms_deal_prefix  # noqa: I100
 

@@ -350,6 +350,16 @@ class GameDrag(NewStruct):
     shadows = attr.ib(factory=list)
 
 
+@attr.s
+class GameTexts(NewStruct):
+    info = attr.ib(default=None)
+    help = attr.ib(default=None)
+    misc = attr.ib(default=None)
+    score = attr.ib(default=None)
+    base_rank = attr.ib(default=None)
+    list = attr.ib(factory=list)
+
+
 class Game(object):
     # for self.gstats.updated
     U_PLAY = 0
@@ -555,14 +565,7 @@ class Game(object):
         if self.gstats.start_player is None:
             self.gstats.start_player = self.app.opt.player
         # optional MfxCanvasText items
-        self.texts = Struct(
-            info=None,                # misc info text
-            help=None,                # a static help text
-            misc=None,                #
-            score=None,               # for displaying the score
-            base_rank=None,           # for displaying the base_rank
-            list=[],                  # list of texts (if we use many text)
-        )
+        self.texts = GameTexts()
         # initial position of the texts
         self.init_texts = Struct(
             info=None,                # misc info text

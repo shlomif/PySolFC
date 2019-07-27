@@ -63,8 +63,8 @@ if os.name == 'posix':
     DATA_DIRS = [
         '/usr/share/PySolFC',
         '/usr/local/share/PySolFC',
-        '/usr/games/PySolFC',
-        '/usr/local/games/PySolFC',
+        '/usr/share/games/PySolFC',
+        '/usr/local/share/games/PySolFC',
         ]
 if os.name == 'nt':
     pass

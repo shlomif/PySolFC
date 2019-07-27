@@ -1,20 +1,4 @@
 addons:
-    apt:
-        packages:
-            - cpanminus
-            - libperl-dev
-            - make
-            - perl
-            - python-glade2
-            - python-gnome2
-            - python-gnome2-dev
-            - python-gtk2
-            - python-setuptools
-            - python-tk
-            - python3
-            - python3-pip
-            - python3-setuptools
-            - python3-tk
     homebrew:
         update: true
         brewfile: true
@@ -32,33 +16,22 @@ deploy:
         repo: shlomif/PySolFC
         tags: true
     skip_cleanup: true
-dist: trusty
+dist: bionic
 before_install:
-    - if test "$TRAVIS_OS_NAME" = "osx" ; then export CPPFLAGS="$CPPFLAGS -I$(brew --prefix openssl)/include" PKG_CONFIG_PATH="$(brew --prefix openssl)/lib/pkgconfig:$PKG_CONFIG_PATH" LDFLAGS="$LDFLAGS -L$(brew --prefix openssl)/lib" ;fi
+    - if test "$TRAVIS_OS_NAME" = "linux" ; then sudo apt-get install -y cpanminus python-pip python3-pip ; fi
     - if test "$TRAVIS_OS_NAME" = "osx" ; then wget --content-disposition https://sourceforge.net/projects/pysolfc/files/PySolFC-Cardsets/minimal/PySolFC-Cardsets--Minimal-2.0.tar.xz/download && tar xJf PySolFC-Cardsets--Minimal-2.0.tar.xz && mv PySolFC-Cardsets--Minimal-2.0/cardset-* data ; fi
 install:
     # Tests are failing for them sometimes
     - sudo cpanm --notest Capture::Tiny IPC::System::Simple
     - sudo cpanm Code::TidyAll::Plugin::Flake8 Perl::Tidy Test::Code::TidyAll Test::Differences Test::TrailingSpace
     - export PY_MODS='attrs configobj pycotap pysol-cards random2 setuptools six'
-    - "`which python3` -m pip install --upgrade flake8 flake8-import-order $PY_MODS"
-    - "sudo /usr/bin/python3 -m pip install --upgrade $PY_MODS || true"
-    - "sudo `which python2` -m pip install --upgrade $PY_MODS"
-    - which python
-    - which python2
-language: python
-python: "3.6"
+    - pip3 install --upgrade $PY_MODS flake8 flake8-import-order
+    - pip2 install --upgrade $PY_MODS
+language: generic
 matrix:
     include:
         - os: linux
         - os: osx
-          language: generic
-          env:
-            - TOXENV=py35
-            - PATH="/usr/local/opt/openssl/bin:$PATH:/usr/local/bin"
-            - DYLD_LIBRARY_PATH="/usr/local/opt/curl/lib:/usr/local/opt/openssl/lib:${DYLD_LIBRARY_PATH}"
-            - LDFLAGS="$LDFLAGS -L/usr/local/opt/openssl/lib"
-            - CPPFLAGS="$CPPFLAGS -I/usr/local/opt/openssl/include"
 script:
     - export TIDYALL_DATA_DIR="$HOME/tidyall_d"
     - bash -x scripts/travis-ci-build

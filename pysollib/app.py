@@ -1211,11 +1211,10 @@ Please select a %s type %s.
                     d = os.path.join(dirname, name)
                     if not os.path.isdir(d):
                         continue
-                    f1 = os.path.join(d, "config.txt")
-                    f2 = os.path.join(d, "COPYRIGHT")
-                    if os.path.isfile(f1) and os.path.isfile(f2):
+                    f = os.path.join(d, "config.txt")
+                    if os.path.isfile(f):
                         try:
-                            cs = self._readCardsetConfig(d, f1)
+                            cs = self._readCardsetConfig(d, f)
                             if cs:
                                 # from pprint import pprint
                                 # print cs.name
@@ -1232,7 +1231,7 @@ Please select a %s type %s.
                                     fnames[cs.name] = 1
                             else:
                                 print_err('fail _readCardsetConfig: %s %s'
-                                          % (d, f1))
+                                          % (d, f))
                                 pass
                         except Exception:
                             # traceback.print_exc()

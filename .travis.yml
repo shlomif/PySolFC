@@ -24,11 +24,8 @@ install:
     - sudo cpanm --notest Capture::Tiny IPC::System::Simple
     - sudo cpanm Code::TidyAll::Plugin::Flake8 Perl::Tidy Test::Code::TidyAll Test::Differences Test::TrailingSpace
     - export PY_MODS='attrs configobj pycotap pysol-cards random2 setuptools six'
-    - "`which python3` -m pip install --upgrade flake8 flake8-import-order $PY_MODS"
-    - "sudo /usr/bin/python3 -m pip install --upgrade $PY_MODS || true"
-    - "sudo `which python2` -m pip install --upgrade $PY_MODS"
-    - which python
-    - which python2
+    - sudo pip3 install --upgrade $PY_MODS flake8 flake8-import-order
+    - sudo pip2 install --upgrade $PY_MODS
 language: generic
 matrix:
     include:

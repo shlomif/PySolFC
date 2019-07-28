@@ -302,7 +302,8 @@ class Oonsoo_SequenceStack(Flower_OpenStack):
         return self.isHanafudaSequence([stackcards[-1], cards[0]], 0)
 
     def canMoveCards(self, cards):
-        return self.basicCanMoveCards(cards) and self.isHanafudaSequence(cards, 0)
+        return (self.basicCanMoveCards(cards) and
+                self.isHanafudaSequence(cards, 0))
 
 
 class FlowerClock_RowStack(Flower_OpenStack):

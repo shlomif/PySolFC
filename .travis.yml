@@ -34,7 +34,6 @@ deploy:
     skip_cleanup: true
 dist: bionic
 before_install:
-    - if test "$TRAVIS_OS_NAME" = "osx" ; then export CPPFLAGS="$CPPFLAGS -I$(brew --prefix openssl)/include" PKG_CONFIG_PATH="$(brew --prefix openssl)/lib/pkgconfig:$PKG_CONFIG_PATH" LDFLAGS="$LDFLAGS -L$(brew --prefix openssl)/lib" ;fi
     - if test "$TRAVIS_OS_NAME" = "osx" ; then wget --content-disposition https://sourceforge.net/projects/pysolfc/files/PySolFC-Cardsets/minimal/PySolFC-Cardsets--Minimal-2.0.tar.xz/download && tar xJf PySolFC-Cardsets--Minimal-2.0.tar.xz && mv PySolFC-Cardsets--Minimal-2.0/cardset-* data ; fi
 install:
     # Tests are failing for them sometimes
@@ -53,12 +52,6 @@ matrix:
         - os: linux
         - os: osx
           language: generic
-          env:
-            - TOXENV=py35
-            - PATH="/usr/local/opt/openssl/bin:$PATH:/usr/local/bin"
-            - DYLD_LIBRARY_PATH="/usr/local/opt/curl/lib:/usr/local/opt/openssl/lib:${DYLD_LIBRARY_PATH}"
-            - LDFLAGS="$LDFLAGS -L/usr/local/opt/openssl/lib"
-            - CPPFLAGS="$CPPFLAGS -I/usr/local/opt/openssl/include"
 script:
     - export TIDYALL_DATA_DIR="$HOME/tidyall_d"
     - bash -x scripts/travis-ci-build

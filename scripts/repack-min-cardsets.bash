@@ -10,9 +10,9 @@ set -e -x
 
 src_base="PySolFC-Cardsets"
 dest_base="$src_base--Minimal"
-ver="2.0"
+ver="2.0.1"
 src_vbase="$src_base-2.0"
-dest_vbase="$dest_base-2.0"
+dest_vbase="$dest_base-2.0.1"
 src_arc="$src_vbase.tar.bz2"
 
 if ! test -f "$src_arc"
@@ -21,6 +21,7 @@ then
 fi
 
 tar -xvf "$src_arc"
+rm -rf "$dest_vbase"
 mkdir -p "$dest_vbase"
 cat scripts/cardsets_to_bundle | (while read b
 do

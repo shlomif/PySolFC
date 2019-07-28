@@ -24,7 +24,6 @@
 import os
 
 from pysollib.gamedb import GI
-from pysollib.help import help_html
 from pysollib.mfxutil import KwStruct, Struct, destruct
 from pysollib.mfxutil import format_time
 from pysollib.mygettext import _
@@ -39,10 +38,10 @@ from .selecttree import SelectDialogTreeCanvas
 from .selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
 from .tkwidget import MfxDialog, MfxScrolledCanvas
 
-
 # ************************************************************************
 # * Nodes
 # ************************************************************************
+
 
 class SelectGameLeaf(SelectDialogTreeLeaf):
     pass
@@ -137,7 +136,6 @@ class SelectGameData(SelectDialogTreeData):
         if 1 and gg:
             s_by_compatibility = SelectGameNode(None, _("by Compatibility"),
                                                 tuple(gg))
-            pass
         #
         s_by_pysol_version, gg = None, []
         for name, games in GI.GAMES_BY_PYSOL_VERSION:
@@ -308,8 +306,8 @@ class SelectGameDialog(MfxDialog):
     def initKw(self, kw):
         kw = KwStruct(kw,
                       strings=(None, None, _("&Cancel"),), default=0,
-                      separator=True,
                       resizable=True,
+                      separator=True,
                       padx=10, pady=10,
                       buttonpadx=10, buttonpady=5,
                       )
@@ -322,14 +320,15 @@ class SelectGameDialog(MfxDialog):
         MfxDialog.destroy(self)
 
     def mDone(self, button):
-        if button == 0:                    # Ok or double click
+        if button == 0:                 # Ok or double click
             self.gameid = self.tree.selection_key
             self.tree.n_expansions = 1  # save xyview in any case
-        if button == 1:                    # Rules
+        if button == 1:                # Rules
             doc = self.app.getGameRulesFilename(self.tree.selection_key)
             if not doc:
                 return
             dir = os.path.join("html", "rules")
+            from pysollib.help import help_html
             help_html(self.app, doc, dir, self.top)
             return
         MfxDialog.mDone(self, button)

@@ -21,7 +21,6 @@
 #
 # ---------------------------------------------------------------------------
 
-
 import os
 
 from pysollib.gamedb import GI
@@ -80,7 +79,8 @@ class SelectGameData(SelectDialogTreeData):
     def __init__(self, app):
         SelectDialogTreeData.__init__(self)
         self.all_games_gi = list(map(
-            app.gdb.get, app.gdb.getGamesIdSortedByName()))
+            app.gdb.get,
+            app.gdb.getGamesIdSortedByName()))
         self.no_games = [SelectGameLeaf(None, None, _("(no games)"), None), ]
         #
         s_by_type = s_oriental = s_special = s_original = s_contrib = \
@@ -321,7 +321,7 @@ class SelectGameDialog(MfxDialog):
         if button == 0:                 # Ok or double click
             self.gameid = self.tree.selection_key
             self.tree.n_expansions = 1  # save xyview in any case
-        if button == 10:                # Rules
+        if button == 1:                # Rules
             doc = self.app.getGameRulesFilename(self.tree.selection_key)
             if not doc:
                 return

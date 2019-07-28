@@ -29,8 +29,7 @@ install:
     - "sudo `which python2` -m pip install --upgrade $PY_MODS"
     - which python
     - which python2
-language: python
-python: "3.6"
+language: generic
 matrix:
     include:
         - os: linux
@@ -48,7 +47,6 @@ matrix:
                 python3-setuptools
                 python3-tk
         - os: osx
-          language: generic
 script:
     - export TIDYALL_DATA_DIR="$HOME/tidyall_d"
     - bash -x scripts/travis-ci-build

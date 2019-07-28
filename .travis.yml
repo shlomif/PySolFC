@@ -32,7 +32,7 @@ deploy:
         repo: shlomif/PySolFC
         tags: true
     skip_cleanup: true
-dist: trusty
+dist: bionic
 before_install:
     - if test "$TRAVIS_OS_NAME" = "osx" ; then export CPPFLAGS="$CPPFLAGS -I$(brew --prefix openssl)/include" PKG_CONFIG_PATH="$(brew --prefix openssl)/lib/pkgconfig:$PKG_CONFIG_PATH" LDFLAGS="$LDFLAGS -L$(brew --prefix openssl)/lib" ;fi
     - if test "$TRAVIS_OS_NAME" = "osx" ; then wget --content-disposition https://sourceforge.net/projects/pysolfc/files/PySolFC-Cardsets/minimal/PySolFC-Cardsets--Minimal-2.0.tar.xz/download && tar xJf PySolFC-Cardsets--Minimal-2.0.tar.xz && mv PySolFC-Cardsets--Minimal-2.0/cardset-* data ; fi

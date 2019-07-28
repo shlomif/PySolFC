@@ -1,20 +1,4 @@
 addons:
-    apt:
-        packages:
-            - cpanminus
-            - libperl-dev
-            - make
-            - perl
-            - python-glade2
-            - python-gnome2
-            - python-gnome2-dev
-            - python-gtk2
-            - python-setuptools
-            - python-tk
-            - python3
-            - python3-pip
-            - python3-setuptools
-            - python3-tk
     homebrew:
         update: true
         brewfile: true
@@ -50,6 +34,19 @@ python: "3.6"
 matrix:
     include:
         - os: linux
+          before_install:
+            - sudo apt-get install -y
+                cpanminus
+                python-glade2
+                python-gnome2
+                python-gnome2-dev
+                python-gtk2
+                python-pip
+                python-setuptools
+                python-tk
+                python3-pip
+                python3-setuptools
+                python3-tk
         - os: osx
           language: generic
 script:

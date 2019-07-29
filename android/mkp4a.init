@@ -6,22 +6,7 @@ echo '### prepare sdk'
 
 echo '### install p4a'
 
-p4adir=${HOME}/.cache/tmp-for-p4a
-mkdir -p ${p4adir}
-
-p4aversion='0.5.3'
-if [ ! -f ${p4adir}/${p4aversion}.zip ]
-then
-  wget "https://github.com/kivy/python-for-android/archive/${p4aversion}.zip"
-  cp -a ./${p4aversion}.zip ${p4adir}/${p4aversion}.zip
-  rm -f ./${p4aversion}.zip
-fi
-if [ -f ${p4adir}/${p4aversion}.zip ]
-then
-  python3 -m  pip install -q --user "${p4adir}/${p4aversion}.zip"
-else
-  echo "### download of ${p4aversion}.zip failed"
-fi
+python3 -m pip install -q --user python-for-android
 
 echo '### prepare source'
 

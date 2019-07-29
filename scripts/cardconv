@@ -1,39 +1,55 @@
 #!/bin/bash
+set -eu
 
-# converts cardset images and config files in current
-# directory from input-format to output-format.
+# Converts cardset images and config files in subdirs of the current
+# directory from input-format to output-format (default: gif to bmp).
 #
-# example to convert from gif format to png:
+# Example to convert from gif format to png:
 #
 # $> cardconv gif png
 #
-# needs package 'ImageMagick' beeing installed.
+# Needs package 'ImageMagick' being installed.
 
-ifo=''
-if [ $1 ]
-then
+ifo='gif'
+ofo='bmp'
+
+if [ $# -eq 2 ]; then
   ifo=$1
-else
-  echo 'use: cardconv <input-format> <output-format>'
-  exit
-fi
-
-ofo=''
-if [ $2 ]
-then
   ofo=$2
-else
-  echo 'use: cardconv <input-format> <output-format>'
-  exit
+elif [ $# -ne 0 ]; then
+  echo "Usage: cardconv [INPUTFORMAT OUTPUTFORMAT]"
+  echo "If formats are not specified, converts $ifo to $ofo."
+  exit 1
 fi
 
-# alle images.
-for i in *.${ifo}; do convert $i `basename $i .${ifo}`.${ofo}; rm -f $i; done
+# Returns true if $1/config.txt exists and contains a mention of the input format
+# file extension.
+chkdir() {
+  grep -qi "\.${ifo}" "${1}/config".txt
+  return $?
+}
 
-# config.txt
-if [ -f config.txt ]
-then
-  cp -a config.txt tmp.txt
-  cat tmp.txt | sed "s/.${ifo}/.${ofo}/g" >config.txt
-  rm -f tmp.txt
-fi
+# Usage: convdir in_dir out_dir
+convdir() {
+  mkdir -p "$2"
+
+  # Convert all images
+  for i in $1/*.$ifo; do
+    convert "$i" "$2/$(basename $i .$ifo).$ofo"
+  done
+
+  # Convert config.txt
+  if [ -f $1/config.txt ]; then
+    sed "s/\.${ifo}/.${ofo}/g" $1/config.txt > $2/config.txt
+  fi
+}
+
+# Check all cardsets.
+for in_dir in cardset-*; do
+  out_dir=${in_dir}-${ofo}
+
+  if [[ ! $in_dir =~ -$ofo$ ]] && [ ! -d $out_dir ] && chkdir $in_dir; then
+    convdir $in_dir $out_dir
+    echo "$out_dir created"
+  fi
+done

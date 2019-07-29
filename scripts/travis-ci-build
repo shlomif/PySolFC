@@ -1,10 +1,12 @@
 #!/bin/bash
+set -e
+
 # Functioned-out - may be useful later.
 proc_path()
 {
     PATH="$(perl -lE 'my @p = split/:/,$ENV{PATH}; print join q#:#, grep { ! m#\A/opt/python# } @p;')" "$@"
 }
-make test || exit -1
-make dist || exit -1
-tar -xvf dist/PySolFC-*.tar.xz || exit -1
-(cd PySolFC-*/ && make test) || exit -1
+make test
+make dist
+tar -xvf dist/PySolFC-*.tar.xz
+(cd PySolFC-*/ && make test)

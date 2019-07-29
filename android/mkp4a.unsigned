@@ -1,47 +1,11 @@
 #!/bin/bash
+set -eux
 
-echo '### p4a started'
-
-# sdk-dir and nkd-dir from command line (fdroid mode)
-
-sdkdir="${HOME}/.cache/sdk-for-p4a"
-ndkdir="${HOME}/.cache/sdk-for-p4a/ndk-bundle"
-if [ $1 ]
-then
-  echo "set sdk to: $1"
-  sdkdir="$1"
-fi
-if [ $2 ]
-then
-  echo "set ndk to: $2"
-  ndkdir="$2"
-fi
-
-echo '### run toolchain'
-
-version=`./version.py`
-tmpdir=${HOME}/.cache/tmp-for-p4a/pysolfc/src
+. mkp4a.common
 
 python3 -m pythonforandroid.toolchain apk \
-  --sdk-dir ${sdkdir} \
-  --ndk-dir ${ndkdir} \
-  --android-api 19 \
-  --ndk-version r12b \
-  --arch armeabi-v7a \
-  --dist-name pysolfc \
-  --name PySolFC \
-  --bootstrap=sdl2 \
-  --requirements kivy,hostpython2,random2 \
-  --release \
-  --minsdk 14 \
-  --private ${tmpdir} \
-  --package org.lufebe16.pysolfc \
-  --version ${version} \
-  --orientation sensor \
-  --color=always \
-  --icon ${tmpdir}/data/images/icons/48x48/pysol.png \
-  --presplash ${tmpdir}/data/images/icons/1024x1024/pysol.png \
-  --copy-libs
+  ${p4a_options} \
+  --release
 
 # python3 -m pythonforandroid.toolchain apk
 # ...
@@ -53,5 +17,3 @@ python3 -m pythonforandroid.toolchain apk \
 # ohne:    -> debug version
 # 1:       -> release unsigned
 # 1 und 2: -> release version.
-
-echo '### p4a finished'

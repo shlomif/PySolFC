@@ -144,7 +144,6 @@ mkdir -p "$PKGDIR"
 
 ## Alternate toolkit.
 
-- Python2 (2.7 or later)
 - Kivy (10.0 or later)
 
 - Features:
@@ -154,7 +153,7 @@ mkdir -p "$PKGDIR"
 - Running from source without installation:
 
 ```
-python2 pysol.py --kivy
+python pysol.py --kivy
 ```
 
 ### Configuring Freecell Solver

@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 from_dir=images
 to_dir=clearlooks

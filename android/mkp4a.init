@@ -1,56 +1,33 @@
 #!/bin/bash
+set -eux
+
+. mkp4a.common
 
 echo '### prepare sdk'
 
-./initsdk.py $1 $2 $3
+./initsdk
 
 echo '### install p4a'
 
-p4adir=${HOME}/.cache/tmp-for-p4a
-mkdir -p ${p4adir}
-
-p4aversion='0.5.3'
-if [ ! -f ${p4adir}/${p4aversion}.zip ]
-then
-  wget "https://github.com/kivy/python-for-android/archive/${p4aversion}.zip"
-  cp -a ./${p4aversion}.zip ${p4adir}/${p4aversion}.zip
-  rm -f ./${p4aversion}.zip
-fi
-if [ -f ${p4adir}/${p4aversion}.zip ]
-then
-  python3 -m  pip install -q --user "${p4adir}/${p4aversion}.zip"
-else
-  echo "### download of ${p4aversion}.zip failed"
-fi
+python3 -m pip install -q --user python-for-android
 
 echo '### prepare source'
 
-srcdir=${HOME}/.cache/tmp-for-p4a/pysolfc/src
+(cd .. && make rules)
 
-mkdir -p ${srcdir}
-rm -rf ${srcdir}
-cp -a .. ${srcdir}
-rm -rf ${srcdir}/android
-rm -rf ${srcdir}/src
-cp -a main.py ${srcdir}/main.py
-mkdir -p ${srcdir}/data/images/cards/bottoms/trumps-only
-echo "" > ${srcdir}/data/images/cards/bottoms/trumps-only/.keep
+mkdir -p ${tmpdir}
+rm -rf ${tmpdir}
+cp -a .. ${tmpdir}
+rm -rf ${tmpdir}/android
+rm -rf ${tmpdir}/src
+cp -a main.py ${tmpdir}
+mkdir -p ${tmpdir}/data/images/cards/bottoms/trumps-only
+echo "" > ${tmpdir}/data/images/cards/bottoms/trumps-only/.keep
 
 echo '### prepare cardsets'
 
-cardsdir=${HOME}/.cache/tmp-for-p4a/pysolfc
+./mkcards
 
-if [ ! -d ${cardsdir}/PySolFC-Cardsets-2.0 ]
-then
-  ./mkcards
-  mv PySolFC-Cardsets-2.0 ${cardsdir}/
-  rm -f PySolFC-Cardsets-2.0.tar.bz2
-fi
-
-if [ -d ${cardsdir}/PySolFC-Cardsets-2.0 ]
-then
-  echo '### copying cardsets'
-  cp -a ${cardsdir}/PySolFC-Cardsets-2.0/* ${srcdir}/data
-fi
+cp -a ${cardsets_dir}/* ${tmpdir}/data
 
 echo '### end init'

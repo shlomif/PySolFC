@@ -1,46 +1,27 @@
 #!/bin/bash
+set -eux
+
+. mkp4a.common
 
 echo '### prepare cardsets'
 
-if [ ! -f ./PySolFC-Cardsets-2.0.tar.bz2 ]
-then
-  echo '### downloading cardets'
-  # wget http://downloads.sourceforge.net/pysolfc/PySolFC-Cardsets-2.0.tar.bz2
-  wget https://netix.dl.sourceforge.net/project/pysolfc/PySolFC-Cardsets/PySolFC-Cardsets-2.0/PySolFC-Cardsets-2.0.tar.bz2
+if [ ! -f ${cardsets_file} ]; then
+  echo '### downloading cardsets'
+  wget https://netix.dl.sourceforge.net/project/pysolfc/PySolFC-Cardsets/minimal/${cardsets_file}
 fi
 
-if [ -f ./PySolFC-Cardsets-2.0.tar.bz2 ]
-then
-  if [ ! -d ./PySolFC-Cardsets-2.0 ]
-  then
-    echo '### extracting selected cardets'
-    tar -xjvf PySolFC-Cardsets-2.0.tar.bz2 \
-PySolFC-Cardsets-2.0/cardset-crystal-mahjongg \
-PySolFC-Cardsets-2.0/cardset-dashavatara-ganjifa \
-PySolFC-Cardsets-2.0/cardset-dondorf \
-PySolFC-Cardsets-2.0/cardset-hexadeck \
-PySolFC-Cardsets-2.0/cardset-kintengu \
-PySolFC-Cardsets-2.0/cardset-matrix \
-PySolFC-Cardsets-2.0/cardset-mughal-ganjifa \
-PySolFC-Cardsets-2.0/cardset-oxymoron \
-PySolFC-Cardsets-2.0/cardset-standard \
-PySolFC-Cardsets-2.0/cardset-vienna-2k \
-PySolFC-Cardsets-2.0/cardset-greywyvern
-  fi
-
-  if [ -d ./PySolFC-Cardsets-2.0 ]
-  then
-    echo '### processing cardets'
-    cd PySolFC-Cardsets-2.0
-    ../../scripts/cardsetsgiftobmp
-    for i in cardset-*-bmp
-    do
-      rm -rf `basename $i -bmp`
-    done
-    cd ..
-  fi
-else
-  echo '### error downloading cardsets'
+if [ ! -d ${cardsets_dir} ]; then
+  echo '### extracting cardsets'
+  tar -xf ${cardsets_file}
 fi
+
+echo '### processing cardsets'
+(
+  cd ${cardsets_dir}
+  ../../scripts/cardconv
+  for i in cardset-*-bmp; do
+    rm -rf `basename $i -bmp`
+  done
+)
 
 echo '### end cardsets'

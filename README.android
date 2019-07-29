@@ -70,7 +70,7 @@ Cardsets:
 
 Cardsets should be installed in ${HOME}/.PySolFC/cardsets/. On an
 android device this is equivalent to /sdcard/.PySolFC/cardsets/.
-Cardsets must use the bmp image format. Use scripts/cardsetsgiftobmp
+Cardsets must use the bmp image format. Use scripts/cardconv
 (on a linux system) to convert them, before copying to the device.
 
 Possible known build issues:

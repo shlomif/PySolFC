@@ -1,12 +1,20 @@
-#!/bin/bash
-# als root ausführen!
+#!/bin/sh
+set -e
 
-apt-get install -y mercurial git default-jdk
-apt-get install -y cython cython3
-apt-get install -y python3-pip
-apt-get install -y python3-yaml
-apt-get install -y virtualenv
-apt-get install -y pkg-config
-apt-get install -y automake autoconf libtool
-apt-get install -y zlib1g-dev
-apt-get install -y libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev
+# install as root
+
+apt-get install -y \
+  git \
+  openjdk-8-jdk \
+  cython3 \
+  python3-pip \
+  python3-yaml \
+  virtualenv \
+  pkg-config \
+  automake autoconf libtool \
+  zlib1g-dev \
+  libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev \
+  libtinfo5 \
+  lld
+
+update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java

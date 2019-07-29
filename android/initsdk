@@ -1,0 +1,26 @@
+#!/bin/bash
+set -eux
+# This script mimics the instructions laid out in the p4a documentation:
+# https://python-for-android.readthedocs.io/en/latest/quickstart/
+
+. mkp4a.common
+
+if [[ -d $sdkdir && -d $ndkdir ]]; then
+  echo "Skipping SDK and NDK installation: SDK and NDK directories already exist."
+  exit
+fi
+
+urlbase=https://dl.google.com/android/repository/
+tools_zip=sdk-tools-linux-4333796.zip
+ndk_zip=android-ndk-r17c-linux-x86_64.zip
+
+mkdir -p $sdkdir $ndkdir
+
+[ -a $ndk_zip ] || wget $urlbase/$ndk_zip
+unzip -d $(dirname $ndkdir) $ndk_zip
+
+[ -a $tools_zip ] || wget $urlbase/$tools_zip
+unzip -d $sdkdir $tools_zip
+
+$sdkdir/tools/bin/sdkmanager 'platforms;android-27'
+$sdkdir/tools/bin/sdkmanager 'build-tools;29.0.1'

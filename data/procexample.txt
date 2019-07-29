@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e
+
 # convert gif to png - dir recursive
 
 # scharf !!!!

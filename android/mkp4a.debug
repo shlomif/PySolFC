@@ -1,32 +1,11 @@
 #!/bin/bash
+set -eux
 
-package='org.lufebe16.pysolfc'
-version=`./version.py`
-name='PySolFC'
-tmpdir=${HOME}/.cache/tmp-for-p4a/pysolfc/src
+. mkp4a.common
 
-if [ "$1" ]
-then
-  package=${package}.dbg
-  name=${name}dbg
-fi
+new_options=${p4a_options}
+new_options=${new_options/PySolFC/PySolFCdbg}
+new_options=${new_options/org.lubefe16.pysolfc/org.lubefe16.pysolfc.dbg}
 
 python3 -m pythonforandroid.toolchain apk \
-  --sdk-dir ${HOME}/.cache/sdk-for-p4a \
-  --ndk-dir ${HOME}/.cache/sdk-for-p4a/ndk-bundle \
-  --android-api 19 \
-  --ndk-version r12b \
-  --arch armeabi-v7a \
-  --dist-name pysolfc \
-  --name ${name} \
-  --bootstrap=sdl2 \
-  --requirements kivy,hostpython2,random2 \
-  --minsdk 14 \
-  --private ${tmpdir} \
-  --package ${package} \
-  --version ${version} \
-  --orientation sensor \
-  --color=always \
-  --icon ${tmpdir}/data/images/icons/48x48/pysol.png \
-  --presplash ${tmpdir}/data/images/icons/1024x1024/pysol.png \
-  --copy-libs
+  ${new_options}

@@ -1,0 +1,28 @@
+# Common constants for various scripts in this directory.
+
+version=$(PYTHONPATH=.. python3 -c \
+  'from pysollib.settings import VERSION; print(VERSION)')
+
+tmpdir=${HOME}/.cache/tmp-for-p4a/pysolfc/src
+
+cardsets_dir='PySolFC-Cardsets--Minimal-2.0.1'
+cardsets_file="${cardsets_dir}.tar.xz"
+
+sdkdir="${HOME}/.cache/sdk-for-p4a/sdk"
+ndkdir="${HOME}/.cache/sdk-for-p4a/android-ndk-r17c"
+
+p4a_options="\
+  --sdk-dir ${sdkdir} \
+  --ndk-dir ${ndkdir} \
+  --dist-name pysolfc \
+  --name PySolFC \
+  --package org.lufebe16.pysolfc \
+  --version ${version} \
+  --bootstrap sdl2 \
+  --requirements python3,attrs,configobj,kivy,pysol-cards,random2,six \
+  --private ${tmpdir} \
+  --orientation sensor \
+  --icon ${tmpdir}/data/images/icons/48x48/pysol.png \
+  --presplash ${tmpdir}/data/images/icons/1024x1024/pysol.png \
+  --copy-libs \
+  --color always"

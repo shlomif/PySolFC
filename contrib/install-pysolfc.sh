@@ -1,4 +1,5 @@
-#! /bin/sh -Cefu
+#!/bin/sh
+set -Cefu
 
 : ${PKGTREE:=/usr/local/packages/PySolFC}
 PIP="$(printf '%s/env/bin/pip install --no-binary :all: ' "$PKGTREE")"

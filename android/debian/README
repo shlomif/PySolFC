@@ -10,9 +10,6 @@ root$ ./apt-install.sh
 
 root$ exit
 
-user$ ./pip-install.sh
-- .....some output.
-
 Now all required packages are installed to proceed with the
 android build.
 

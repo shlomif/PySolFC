@@ -1,11 +1,13 @@
 #!/bin/bash
+set -e
+
+. mkp4a.common
 
 pass1=""
 pass2=""
 keyalias="python"
 keystore="${PWD}/bin/keystore"
-if [ $1 ]
-then
+if [ $1 ]; then
   pass1=$1
   pass2=$1
 else
@@ -13,16 +15,13 @@ else
   echo "        (use ./mkkeystore to create one in default location)"
   exit
 fi
-if [ $2 ]
-then
+if [ $2 ]; then
   pass2=$2
 fi
-if [ $3 ]
-then
+if [ $3 ]; then
   keyalias=$3
 fi
-if [ $4 ]
-then
+if [ $4 ]; then
   keystore=$4
 fi
 
@@ -31,30 +30,10 @@ export P4A_RELEASE_KEYSTORE_PASSWD="$pass1"
 export P4A_RELEASE_KEYALIAS_PASSWD="$pass2"
 export P4A_RELEASE_KEYALIAS="$keyalias"
 
-version=`./version.py`
-tmpdir=${HOME}/.cache/tmp-for-p4a/pysolfc/src
-
 python3 -m pythonforandroid.toolchain apk \
-  --sdk-dir ${HOME}/.cache/sdk-for-p4a \
-  --ndk-dir ${HOME}/.cache/sdk-for-p4a/ndk-bundle \
-  --android-api 19 \
-  --ndk-version r12b \
-  --arch armeabi-v7a \
-  --dist-name pysolfc \
-  --name PySolFC \
-  --bootstrap=sdl2 \
-  --requirements kivy,hostpython2,random2 \
+  ${p4a_options} \
   --release \
-  --sign \
-  --minsdk 14 \
-  --private ${tmpdir} \
-  --package org.lufebe16.pysolfc \
-  --version ${version} \
-  --orientation sensor \
-  --color=always \
-  --icon ${tmpdir}/data/images/icons/48x48/pysol.png \
-  --presplash ${tmpdir}/data/images/icons/1024x1024/pysol.png \
-  --copy-libs
+  --sign
 
 # keystore options (instead environment vars):
 #

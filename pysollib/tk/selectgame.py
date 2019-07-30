@@ -165,16 +165,16 @@ class SelectGameData(SelectDialogTreeData):
             list(app.gdb.getGamesTuplesSortedByAlternateName()))
         #
         self.rootnodes = [_f for _f in (
-            SelectGameNode(None, _("All Games"), None),
+            SelectGameNode(None, _("All Games"), None, expanded=0),
             SelectGameNode(None, _("Alternate Names"), ul_alternate_names),
             SelectGameNode(None, _("Popular Games"),
                            lambda gi: gi.si.game_flags & GI.GT_POPULAR),
+            s_by_type,
             s_mahjongg,
             s_oriental,
             s_special,
             SelectGameNode(None, _("Custom Games"),
                            lambda gi: gi.si.game_type == GI.GT_CUSTOM),
-            s_by_type,
             SelectGameNode(None, _('by Skill Level'), (
                 SelectGameNode(None, _('Luck only'),
                                lambda gi: gi.skill_level == GI.SL_LUCK),
@@ -230,8 +230,6 @@ class SelectGameData(SelectDialogTreeData):
                                    lambda gi: gi.si.redeals == 3),
                     SelectGameNode(None, _("Unlimited redeals"),
                                    lambda gi: gi.si.redeals == -1),
-                    SelectGameNode(None, "Variable redeals",
-                                   lambda gi: gi.si.redeals == -2),
                     SelectGameNode(
                         None, _("Other number of redeals"),
                         lambda gi: gi.si.redeals not in (-1, 0, 1, 2, 3)),
@@ -435,7 +433,8 @@ class SelectGameDialogWithPreview(SelectGameDialog):
 
     def initKw(self, kw):
         kw = KwStruct(kw,
-                      strings=(_("&Select"), _("&Rules"), _("&Cancel"),),
+                      strings=((_("&Rules"), 10), 'sep',
+                               _("&Select"), _("&Cancel"),),
                       default=0,
                       )
         return SelectGameDialog.initKw(self, kw)
@@ -544,7 +543,7 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         #
         self.updateInfo(gameid)
         #
-        rules_button = self.buttons[1]
+        rules_button = self.buttons[0]
         if self.app.getGameRulesFilename(gameid):
             rules_button.config(state="normal")
         else:

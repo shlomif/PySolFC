@@ -18,7 +18,7 @@ fi
 echo '### processing cardsets'
 (
   cd ${cardsets_dir}
-  ../../scripts/cardsetsgiftobmp
+  ../../scripts/cardconv
   for i in cardset-*-bmp; do
     rm -rf `basename $i -bmp`
   done

@@ -39,7 +39,7 @@ kivy version.
 
 Additional cardsets are available from the SourceForge
 project. To use them with kivy, they need to be converted to
-the BMP format. A shell script, 'cardsetsgiftobmp' , has been added
+the BMP format. A shell script, 'cardconv' , has been added
 to the scripts directory (it requires Bash and ImageMagick).
 
 For all GIF images in the directories data/images and data/tiles ,

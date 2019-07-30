@@ -13,6 +13,8 @@ python3 -m pip install -q --user python-for-android
 
 echo '### prepare source'
 
+(cd .. && make rules)
+
 mkdir -p ${tmpdir}
 rm -rf ${tmpdir}
 cp -a .. ${tmpdir}

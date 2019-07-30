@@ -17,7 +17,7 @@ ndk_zip=android-ndk-r17c-linux-x86_64.zip
 mkdir -p $sdkdir $ndkdir
 
 [ -a $ndk_zip ] || wget $urlbase/$ndk_zip
-unzip -d $(basename $ndkdir) $ndk_zip
+unzip -d $(dirname $ndkdir) $ndk_zip
 
 [ -a $tools_zip ] || wget $urlbase/$tools_zip
 unzip -d $sdkdir $tools_zip

@@ -5,7 +5,7 @@ set -eux
 
 echo '### prepare sdk'
 
-./initsdk.sh
+./initsdk
 
 echo '### install p4a'
 
@@ -13,19 +13,19 @@ python3 -m pip install -q --user python-for-android
 
 echo '### prepare source'
 
-mkdir -p ${srcdir}
-rm -rf ${srcdir}
-cp -a .. ${srcdir}
-rm -rf ${srcdir}/android
-rm -rf ${srcdir}/src
-cp -a main.py ${srcdir}
-mkdir -p ${srcdir}/data/images/cards/bottoms/trumps-only
-echo "" > ${srcdir}/data/images/cards/bottoms/trumps-only/.keep
+mkdir -p ${tmpdir}
+rm -rf ${tmpdir}
+cp -a .. ${tmpdir}
+rm -rf ${tmpdir}/android
+rm -rf ${tmpdir}/src
+cp -a main.py ${tmpdir}
+mkdir -p ${tmpdir}/data/images/cards/bottoms/trumps-only
+echo "" > ${tmpdir}/data/images/cards/bottoms/trumps-only/.keep
 
 echo '### prepare cardsets'
 
 ./mkcards
 
-cp -a ${cardsets_dir}/* ${srcdir}/data
+cp -a ${cardsets_dir}/* ${tmpdir}/data
 
 echo '### end init'

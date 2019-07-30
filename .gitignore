@@ -23,3 +23,6 @@ PySolFC-Cardsets--Minimal-2.0/
 PySolFC-Cardsets--Minimal-2.0.*
 PySolFC-Cardsets-2.0/
 PySolFC-Cardsets-2.0.*
+
+android/*.zip
+android/*.apk

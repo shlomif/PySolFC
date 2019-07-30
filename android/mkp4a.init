@@ -1,9 +1,11 @@
 #!/bin/bash
-set -e
+set -eux
+
+. mkp4a.common
 
 echo '### prepare sdk'
 
-./initsdk.py $1 $2 $3
+./initsdk.sh
 
 echo '### install p4a'
 
@@ -11,32 +13,19 @@ python3 -m pip install -q --user python-for-android
 
 echo '### prepare source'
 
-srcdir=${HOME}/.cache/tmp-for-p4a/pysolfc/src
-
 mkdir -p ${srcdir}
 rm -rf ${srcdir}
 cp -a .. ${srcdir}
 rm -rf ${srcdir}/android
 rm -rf ${srcdir}/src
-cp -a main.py ${srcdir}/main.py
+cp -a main.py ${srcdir}
 mkdir -p ${srcdir}/data/images/cards/bottoms/trumps-only
 echo "" > ${srcdir}/data/images/cards/bottoms/trumps-only/.keep
 
 echo '### prepare cardsets'
 
-cardsdir=${HOME}/.cache/tmp-for-p4a/pysolfc
+./mkcards
 
-if [ ! -d ${cardsdir}/PySolFC-Cardsets-2.0 ]
-then
-  ./mkcards
-  mv PySolFC-Cardsets-2.0 ${cardsdir}/
-  rm -f PySolFC-Cardsets-2.0.tar.bz2
-fi
-
-if [ -d ${cardsdir}/PySolFC-Cardsets-2.0 ]
-then
-  echo '### copying cardsets'
-  cp -a ${cardsdir}/PySolFC-Cardsets-2.0/* ${srcdir}/data
-fi
+cp -a ${cardsets_dir}/* ${srcdir}/data
 
 echo '### end init'

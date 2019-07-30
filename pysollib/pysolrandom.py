@@ -37,7 +37,7 @@ except ImportError:
         "https://pypi.python.org/pypi/random2 using pip or similar.")
 
 assert ((pysol_cards.VERSION if 'VERSION' in pysol_cards.__dict__
-         else (0, 0, 0)) >= (0, 8, 2))
+         else (0, 0, 0)) >= (0, 8, 4))
 from pysol_cards.random_base import RandomBase  # noqa: I100
 from pysol_cards.random import match_ms_deal_prefix  # noqa: I100
 
@@ -50,16 +50,6 @@ from pysol_cards.random import match_ms_deal_prefix  # noqa: I100
 
 
 class BasicRandom(RandomBase):
-    # MAX_SEED = 0L
-    # MAX_SEED = 0xffffffffffffffffL  # 64 bits
-    MAX_SEED = int('100000000000000000000')  # 20 digits
-
-    ORIGIN_UNKNOWN = 0
-    ORIGIN_RANDOM = 1
-    ORIGIN_PREVIEW = 2         # random from preview
-    ORIGIN_SELECTED = 3         # manually entered
-    ORIGIN_NEXT_GAME = 4        # "Next game number"
-
     def reset(self):
         raise SubclassResponsibility
 
@@ -217,7 +207,7 @@ class LCRandom31(MFXRandom):
         return "ms" + str(self.initial_seed)
 
     def str(self, seed):
-        if match_ms_deal_prefix(seed) is None:
+        if match_ms_deal_prefix("{}".format(seed)) is None:
             return "%05d" % int(seed)
         return seed
 

@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/bin/sh
+set -e
+
 # als root ausführen!
 
 apt-get install -y mercurial git default-jdk

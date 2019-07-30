@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 package='org.lufebe16.pysolfc'
 version=`./version.py`

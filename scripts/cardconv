@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # converts cardset images and config files in current
 # directory from input-format to output-format.

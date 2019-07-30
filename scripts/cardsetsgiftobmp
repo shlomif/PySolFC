@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # creates a bmp copy off all gif cardsets in the current dir.
 # uses package 'ImageMagick'

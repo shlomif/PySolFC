@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 rm -rf tmp
 python3 -m pythonforandroid.toolchain clean_dists

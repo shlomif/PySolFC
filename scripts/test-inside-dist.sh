@@ -1,4 +1,6 @@
 #! /bin/sh
+set -e
+
 #
 # y.sh
 # Copyright (C) 2018 shlomif <shlomif@cpan.org>

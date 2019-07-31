@@ -567,14 +567,7 @@ class Game(object):
         # optional MfxCanvasText items
         self.texts = GameTexts()
         # initial position of the texts
-        self.init_texts = Struct(
-            info=None,                # misc info text
-            help=None,                # a static help text
-            misc=None,                #
-            score=None,               # for displaying the score
-            base_rank=None,           # for displaying the base_rank
-            list=[],
-        )
+        self.init_texts = GameTexts()
 
     def createPreview(self, app):
         old_busy = self.busy

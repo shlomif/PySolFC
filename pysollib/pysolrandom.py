@@ -37,7 +37,7 @@ except ImportError:
         "https://pypi.python.org/pypi/random2 using pip or similar.")
 
 assert ((pysol_cards.VERSION if 'VERSION' in pysol_cards.__dict__
-         else (0, 0, 0)) >= (0, 8, 4))
+         else (0, 0, 0)) >= (0, 8, 5))
 from pysol_cards.random_base import RandomBase  # noqa: I100
 from pysol_cards.random import match_ms_deal_prefix  # noqa: I100
 
@@ -52,16 +52,6 @@ from pysol_cards.random import match_ms_deal_prefix  # noqa: I100
 class BasicRandom(RandomBase):
     def reset(self):
         raise SubclassResponsibility
-
-    def copy(self):
-        random = self.__class__(0)
-        random.__dict__.update(self.__dict__)
-        return random
-
-    def increaseSeed(self, seed):
-        if seed < self.MAX_SEED:
-            return seed + 1
-        return 0
 
     def _getRandomSeed(self):
         t = int(time.time() * 256.0)

@@ -36,8 +36,8 @@ except ImportError:
         "You need to install " +
         "https://pypi.python.org/pypi/random2 using pip or similar.")
 
-assert ((pysol_cards.VERSION if 'VERSION' in pysol_cards.__dict__
-         else (0, 0, 0)) >= (0, 8, 5))
+assert getattr(pysol_cards, 'VERSION', (0, 0, 0)) >= (0, 8, 5), (
+    "Newer version of https://pypi.org/project/pysol-cards is required.")
 from pysol_cards.random_base import RandomBase  # noqa: I100
 from pysol_cards.random import match_ms_deal_prefix  # noqa: I100
 

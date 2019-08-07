@@ -17,3 +17,9 @@ class NewStruct(object):
         ret = self.__class__()
         ret.__dict__.update(self.__dict__)
         return ret
+
+    def addattr(self, **kw):
+        for k in kw.keys():
+            if k in self.__dict__:
+                raise AttributeError(k)
+        self.__dict__.update(kw)

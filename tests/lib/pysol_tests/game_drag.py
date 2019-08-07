@@ -2,7 +2,7 @@
 
 import unittest
 
-from pysollib.game import GameDrag
+from pysollib.game import GameDrag, GameStacks
 
 
 class MyTests(unittest.TestCase):
@@ -10,3 +10,9 @@ class MyTests(unittest.TestCase):
         d = GameDrag()
         d.shadows.append("test")
         self.assertTrue(len(d.shadows))
+
+    def test_addattr(self):
+        s = GameStacks()
+        s.addattr(tableaux=[])
+        s.tableaux.append("myval")
+        self.assertEqual(s.tableaux, ["myval"])

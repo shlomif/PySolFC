@@ -24,11 +24,7 @@
 
 # imports
 import re
-import time
 
-import pysol_cards
-
-from pysollib.mfxutil import SubclassResponsibility
 try:
     import random2
 except ImportError:
@@ -36,40 +32,24 @@ except ImportError:
         "You need to install " +
         "https://pypi.python.org/pypi/random2 using pip or similar.")
 
-assert getattr(pysol_cards, 'VERSION', (0, 0, 0)) >= (0, 8, 5), (
+import pysol_cards
+assert getattr(pysol_cards, 'VERSION', (0, 0, 0)) >= (0, 8, 6), (
     "Newer version of https://pypi.org/project/pysol-cards is required.")
 from pysol_cards.random_base import RandomBase  # noqa: I100
 from pysol_cards.random import match_ms_deal_prefix  # noqa: I100
-
-
-# ************************************************************************
-# * Abstract class for PySol Random number generator.
-# *
-# * We use a seed of type int in the range [0, MAX_SEED].
-# ************************************************************************
-
-
-class BasicRandom(RandomBase):
-    def reset(self):
-        raise SubclassResponsibility
-
-    def _getRandomSeed(self):
-        t = int(time.time() * 256.0)
-        t = (t ^ (t >> 24)) % (self.MAX_SEED + 1)
-        return t
-
 
 # ************************************************************************
 # * Mersenne Twister random number generator
 # * uses the standard python module `random'
 # ************************************************************************
 
-class MTRandom(BasicRandom, random2.Random):
+
+class MTRandom(RandomBase, random2.Random):
 
     def __init__(self, seed=None):
         if seed is None:
             seed = self._getRandomSeed()
-        BasicRandom.__init__(self)
+        RandomBase.__init__(self)
         random2.Random.__init__(self, seed)
         self.initial_seed = seed
         self.initial_state = self.getstate()
@@ -84,12 +64,12 @@ class MTRandom(BasicRandom, random2.Random):
 # * uses the standard python module `random'
 # ************************************************************************
 
-# class WHRandom(BasicRandom, random.WichmannHill):
+# class WHRandom(RandomBase, random.WichmannHill):
 #
 #     def __init__(self, seed=None):
 #         if seed is None:
 #             seed = self._getRandomSeed()
-#         BasicRandom.__init__(self)
+#         RandomBase.__init__(self)
 #         random.WichmannHill.__init__(self, seed)
 #         self.initial_seed = seed
 #         self.initial_state = self.getstate()
@@ -103,10 +83,10 @@ class MTRandom(BasicRandom, random2.Random):
 # ************************************************************************
 
 
-class MFXRandom(BasicRandom):
+class MFXRandom(RandomBase):
 
     def __init__(self, seed=None):
-        BasicRandom.__init__(self)
+        RandomBase.__init__(self)
         if seed is None:
             seed = self._getRandomSeed()
         self.initial_seed = self.setSeed(seed)
@@ -161,7 +141,7 @@ MS_LONG_BIT = (1 << 1000)
 CUSTOM_BIT = (1 << 999)
 
 
-class CustomRandom(BasicRandom):
+class CustomRandom(RandomBase):
     def __init__(self):
         self.initial_seed = self.seed = MS_LONG_BIT | CUSTOM_BIT
         self.origin = self.ORIGIN_UNKNOWN

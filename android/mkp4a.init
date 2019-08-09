@@ -20,6 +20,21 @@ rm -rf ${tmpdir}
 cp -a .. ${tmpdir}
 rm -rf ${tmpdir}/android
 rm -rf ${tmpdir}/src
+
+# remove useless load from the app
+rm -rf ${tmpdir}/.git
+rm -rf ${tmpdir}/.gitignore
+rm -rf ${tmpdir}/Screenshots
+rm -rf ${tmpdir}/build
+rm -rf ${tmpdir}/contrib
+rm -rf ${tmpdir}/dist
+rm -rf ${tmpdir}/runtests.pl
+rm -rf ${tmpdir}/tests
+rm -rf ${tmpdir}/Brewfile
+rm -rf ${tmpdir}/.appveyor.yml
+rm -rf ${tmpdir}/.perltidyrc
+rm -rf ${tmpdir}/.travis.yml
+
 cp -a main.py ${tmpdir}
 mkdir -p ${tmpdir}/data/images/cards/bottoms/trumps-only
 echo "" > ${tmpdir}/data/images/cards/bottoms/trumps-only/.keep

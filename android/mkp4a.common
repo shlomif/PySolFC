@@ -11,6 +11,9 @@ cardsets_file="${cardsets_dir}.tar.xz"
 sdkdir="${HOME}/.cache/sdk-for-p4a/sdk"
 ndkdir="${HOME}/.cache/sdk-for-p4a/android-ndk-r17c"
 
+# gradle may need this.
+export TERM="xterm"
+
 p4a_options="\
   --sdk-dir ${sdkdir} \
   --ndk-dir ${ndkdir} \

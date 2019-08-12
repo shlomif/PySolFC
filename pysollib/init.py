@@ -27,6 +27,11 @@ import os
 import subprocess
 import sys
 
+try:
+    import jnius
+except ImportError:
+    jnius = None
+
 import pysollib.settings
 
 # ************************************************************************
@@ -36,13 +41,14 @@ import pysollib.settings
 
 def init():
 
-    if os.name == 'nt' and 'LANG' not in os.environ:
-        try:
-            loc = locale.getdefaultlocale()
-            os.environ['LANG'] = loc[0]
-        except Exception:
-            pass
-    # locale.setlocale(locale.LC_ALL, '')
+    if 'LANG' not in os.environ:
+        if os.name == 'nt':
+            lang, enc = locale.getdefaultlocale()
+            os.environ['LANG'] = lang
+        elif jnius:  # android
+            Locale = jnius.autoclass('java.util.Locale')
+            os.environ['LANG'] = Locale.getDefault().getLanguage()
+    locale.setlocale(locale.LC_ALL, '')
 
     # install gettext
     # locale_dir = 'locale'

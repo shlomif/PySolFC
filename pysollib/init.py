@@ -51,18 +51,21 @@ def init():
     locale.setlocale(locale.LC_ALL, '')
 
     # install gettext
-    # locale_dir = 'locale'
-    locale_dir = None
-    if os.path.isdir(sys.path[0]):
-        d = os.path.join(sys.path[0], 'locale')
-    else:
-        # i.e. library.zip
-        d = os.path.join(os.path.dirname(sys.path[0]), 'locale')
-    if os.path.exists(d) and os.path.isdir(d):
-        locale_dir = d
-    # if locale_dir: locale_dir = os.path.normpath(locale_dir)
-    # gettext.install('pysol', locale_dir, unicode=True) # ngettext don't work
-    gettext.bindtextdomain('pysol', locale_dir)
+    locale_locations = (
+        # locale/ next to the pysol.py script
+        sys.path[0],
+        # locale/ next to library.zip (py2exe)
+        os.path.dirname(sys.path[0]),
+        # locale/ in curdir (works for e.g. py2app)
+        os.curdir)
+    # leaving the domain unbound means sys.prefix+'/share/locale'
+
+    for par in locale_locations:
+        locale_dir = os.path.join(par, 'locale')
+        if os.path.isdir(locale_dir):
+            gettext.bindtextdomain('pysol', locale_dir)
+            break
+
     gettext.textdomain('pysol')
 
     # debug

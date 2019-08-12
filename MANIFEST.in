@@ -30,6 +30,7 @@ include tests/unit-generated/PLACEHOLDER
 include .tidyallrc
 include android/*.py
 include android/mk*
+include android/initsdk
 include android/debian/*
 #graft data/plugins
 ##

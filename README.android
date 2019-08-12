@@ -45,6 +45,11 @@ Prerequisites (needs root):
 
 Build with 'python-for-android' (as user):
 
+  Use the repo or an unpacked distribution tarball.
+
+  $ python setup.py install
+  $ make dist  (if using the repo)
+
   go to the android directory, then
 
   $ ./mkp4a.init [<sdkdir>] [<ndkdir>]        # prepare sdk and p4a installation
@@ -52,7 +57,6 @@ Build with 'python-for-android' (as user):
 
   $ ./mkp4a.debug                             # build debug apk
   $ ./mkp4a.release  <passwd1>  [<passwd2>]   # build release apk
-  $ ./mkp4a.unsigned                          # build an unsigned release apk
 
   The build system will download all required additional
   packages (such as the android sdk and more). Do the first build will
@@ -68,10 +72,21 @@ Build with 'python-for-android' (as user):
 
 Cardsets:
 
-Cardsets should be installed in ${HOME}/.PySolFC/cardsets/. On an
-android device this is equivalent to /sdcard/.PySolFC/cardsets/.
+The Apk includes a minimal set of cards for playing.
+
+Additional cardsets can be installed in ${HOME}/.PySolFC/cardsets/.
+On an android device this is equivalent to /sdcard/.PySolFC/cardsets/.
 Cardsets must use the bmp image format. Use scripts/cardconv
 (on a linux system) to convert them, before copying to the device.
+
+Important Notice on python3/kivy 1.11.x (pysol verson 2.6.4 ff):
+In kivy, using python3, the support for bmp images depends on OpenGL.
+On fairly up to date Android OpenGL ES 3.x is available. ES (Embedded
+System) release is a subset of the full OpenGL. Due to this, bmp image
+support will be broken on android, but not on up to date workstations.
+
+As gif images are still slow and error prone, the best we can do is to
+use png images instead of bmp (as noted above).
 
 Possible known build issues:
 

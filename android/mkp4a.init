@@ -35,6 +35,10 @@ rm -rf ${tmpdir}/.appveyor.yml
 rm -rf ${tmpdir}/.perltidyrc
 rm -rf ${tmpdir}/.travis.yml
 
+rm -rf ${tmpdir}/setup.py
+rm -rf ${tmpdir}/setup_osx.py
+rm -rf ${tmpdir}/setup.cfg
+
 cp -a main.py ${tmpdir}
 mkdir -p ${tmpdir}/data/images/cards/bottoms/trumps-only
 echo "" > ${tmpdir}/data/images/cards/bottoms/trumps-only/.keep

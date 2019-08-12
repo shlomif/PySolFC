@@ -1541,6 +1541,12 @@ class LMainWindow(BoxLayout, LTkBase):
         self.workStack = LStack()
         self.app = None
 
+        '''
+        from kivy.graphics import opengl_utils
+        print('OPENGL support:')
+        print(opengl_utils.gl_get_extensions())
+        '''
+
         # self.touches = []
 
         # beispiel zu canvas (hintergrund)

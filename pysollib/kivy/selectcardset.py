@@ -35,17 +35,13 @@ class SelectCardsetDialogWithPreview(MfxDialog):
     _cardset_store = None
 
     def __init__(self, parent, title, app, manager, key=None, **kw):
-        kw = self.initKw(kw)
-        MfxDialog.__init__(self, parent, title, **kw)
-        #
         if key is None:
-            key = manager.getSelected()
+            key = 1
+        self.status = -1
+        self.key = key
         self.app = app
         self.manager = manager
-        self.key = key
-        self.preview_key = -1
-        self.all_keys = []
-        self.status = -1
+        return
 
     def getSelected(self):
         return None

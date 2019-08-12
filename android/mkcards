@@ -18,9 +18,9 @@ fi
 echo '### processing cardsets'
 (
   cd ${cardsets_dir}
-  ../../scripts/cardconv
-  for i in cardset-*-bmp; do
-    rm -rf `basename $i -bmp`
+  ../../scripts/cardconv gif png
+  for i in cardset-*-png; do
+    rm -rf `basename $i -png`
   done
 )
 

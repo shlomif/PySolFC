@@ -34,9 +34,15 @@ convdir() {
   mkdir -p "$2"
 
   # Convert all images
-  for i in $1/*.$ifo; do
-    convert "$i" "$2/$(basename $i .$ifo).$ofo"
-  done
+  if [ $ofo == 'png' ]; then
+    for i in $1/*.$ifo; do
+      convert "$i" "-matte" "-quality" "95" "png32:$2/$(basename $i .$ifo).$ofo"
+    done
+  else
+    for i in $1/*.$ifo; do
+      convert "$i" "$2/$(basename $i .$ifo).$ofo"
+    done
+  fi
 
   # Convert config.txt
   if [ -f $1/config.txt ]; then

@@ -360,6 +360,13 @@ class GameTexts(NewStruct):
     list = attr.ib(factory=list)
 
 
+@attr.s
+class GameHints(NewStruct):
+    list = attr.ib(default=None)
+    index = attr.ib(default=-1)
+    level = attr.ib(default=-1)
+
+
 class Game(object):
     # for self.gstats.updated
     U_PLAY = 0
@@ -604,11 +611,7 @@ class Game(object):
         self.filename = ""
         self.demo = None
         self.solver = None
-        self.hints = Struct(
-            list=None,                # list of hints for the current move
-            index=-1,
-            level=-1,
-        )
+        self.hints = GameHints()
         self.saveinfo = Struct(         # needed for saving a game
             stack_caps=[],
         )

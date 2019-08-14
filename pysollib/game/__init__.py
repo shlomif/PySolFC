@@ -397,9 +397,32 @@ class GameStatsStruct(NewStruct):
     pause_start_time = attr.ib(default=0.0)
 
 
+_GLOBAL_U_PLAY = 0
+
+
+@attr.s
+class GameGlobalStatsStruct(NewStruct):
+    holded = attr.ib(default=0)                 # is this a holded game
+    # number of times this game was loaded
+    loaded = attr.ib(default=0)
+    # number of times this game was saved
+    saved = attr.ib(default=0)
+    # number of times this game was restarted
+    restarted = attr.ib(default=0)
+    goto_bookmark_moves = attr.ib(default=0)    # number of goto bookmark
+    # did this game already update the player stats ?
+    updated = attr.ib(default=_GLOBAL_U_PLAY)
+    start_time = attr.ib()
+    @start_time.default
+    def _foofoo(self):
+        return time.time()  # for updateTime()
+    total_elapsed_time = attr.ib(default=0.0)
+    start_player = attr.ib(default=None)
+
+
 class Game(object):
     # for self.gstats.updated
-    U_PLAY = 0
+    U_PLAY = _GLOBAL_U_PLAY
     U_WON = -2
     U_LOST = -3
     U_PERFECT = -4
@@ -658,18 +681,7 @@ class Game(object):
         if restart:
             return
         # global statistics survive a game restart
-        self.gstats = Struct(
-            holded=0,                 # is this a holded game
-            loaded=0,                 # number of times this game was loaded
-            saved=0,                  # number of times this game was saved
-            restarted=0,              # number of times this game was restarted
-            goto_bookmark_moves=0,    # number of goto bookmark
-            # did this game already update the player stats ?
-            updated=self.U_PLAY,
-            start_time=time.time(),   # game start time
-            total_elapsed_time=0.0,
-            start_player=None,
-        )
+        self.gstats = GameGlobalStatsStruct()
         # global saveinfo survives a game restart
         self.gsaveinfo = Struct(
             bookmarks={},
@@ -900,7 +912,7 @@ class Game(object):
             return
         if restart:
             if self.moves.index > 0 and self.getPlayerMoves() > 0:
-                self.gstats.restarted = self.gstats.restarted + 1
+                self.gstats.restarted += 1
             return
         self.updateStats()
         stats = self.app.stats
@@ -3095,7 +3107,7 @@ class Game(object):
         game = None
         with open(filename, "rb") as f:
             game = self._undumpGame(Unpickler(f), app)
-            game.gstats.loaded = game.gstats.loaded + 1
+            game.gstats.loaded += 1
         return game
 
     def _undumpGame(self, p, app):

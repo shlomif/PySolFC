@@ -367,6 +367,36 @@ class GameHints(NewStruct):
     level = attr.ib(default=-1)
 
 
+@attr.s
+class GameStatsStruct(NewStruct):
+    hints = attr.ib(default=0)                  # number of hints consumed
+    # number of highlight piles consumed
+    highlight_piles = attr.ib(default=0)
+    # number of highlight matching cards consumed
+    highlight_cards = attr.ib(default=0)
+    # number of highlight same rank consumed
+    highlight_samerank = attr.ib(default=0)
+    undo_moves = attr.ib(default=0)             # number of undos
+    redo_moves = attr.ib(default=0)             # number of redos
+    # number of total moves in this game
+    total_moves = attr.ib(default=0)
+    player_moves = attr.ib(default=0)           # number of moves
+    # number of moves while in demo mode
+    demo_moves = attr.ib(default=0)
+    autoplay_moves = attr.ib(default=0)         # number of moves
+    quickplay_moves = attr.ib(default=0)        # number of quickplay moves
+    goto_bookmark_moves = attr.ib(default=0)    # number of goto bookmark
+    shuffle_moves = attr.ib(default=0)          # number of shuffles (Mahjongg)
+    # did this game already update the demo stats ?
+    demo_updated = attr.ib(default=0)
+    update_time = attr.ib()
+    @update_time.default
+    def _foofoo(self):
+        return time.time()  # for updateTime()
+    elapsed_time = attr.ib(default=0.0)
+    pause_start_time = attr.ib(default=0.0)
+
+
 class Game(object):
     # for self.gstats.updated
     U_PLAY = 0
@@ -623,27 +653,7 @@ class Game(object):
         self.snapshots = []
         self.failed_snapshots = []
         # local statistics are reset on each game restart
-        self.stats = Struct(
-            hints=0,                  # number of hints consumed
-            highlight_piles=0,        # number of highlight piles consumed
-            # number of highlight matching cards consumed
-            highlight_cards=0,
-            highlight_samerank=0,     # number of highlight same rank consumed
-            undo_moves=0,             # number of undos
-            redo_moves=0,             # number of redos
-            total_moves=0,            # number of total moves in this game
-            player_moves=0,           # number of moves
-            demo_moves=0,             # number of moves while in demo mode
-            autoplay_moves=0,         # number of moves
-            quickplay_moves=0,        # number of quickplay moves
-            goto_bookmark_moves=0,    # number of goto bookmark
-            shuffle_moves=0,          # number of shuffles (Mahjongg)
-            # did this game already update the demo stats ?
-            demo_updated=0,
-            update_time=time.time(),  # for updateTime()
-            elapsed_time=0.0,
-            pause_start_time=0.0,
-        )
+        self.stats = GameStatsStruct()
         self.startMoves()
         if restart:
             return

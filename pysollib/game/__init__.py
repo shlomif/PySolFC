@@ -396,6 +396,16 @@ class GameStatsStruct(NewStruct):
     elapsed_time = attr.ib(default=0.0)
     pause_start_time = attr.ib(default=0.0)
 
+    def _reset_statistics(self):
+        """docstring for _reset_stats"""
+        self.undo_moves = 0
+        self.redo_moves = 0
+        self.player_moves = 0
+        self.demo_moves = 0
+        self.total_moves = 0
+        self.quickplay_moves = 0
+        self.goto_bookmark_moves = 0
+
 
 _GLOBAL_U_PLAY = 0
 
@@ -2756,14 +2766,7 @@ class Game(object):
             index=0,
             current=[],        # atomic moves for the current move
         )
-        # reset statistics
-        self.stats.undo_moves = 0
-        self.stats.redo_moves = 0
-        self.stats.player_moves = 0
-        self.stats.demo_moves = 0
-        self.stats.total_moves = 0
-        self.stats.quickplay_moves = 0
-        self.stats.goto_bookmark_moves = 0
+        self.stats._reset_statistics()
 
     def __storeMove(self, am):
         if self.S_DEAL <= self.moves.state <= self.S_PLAY:

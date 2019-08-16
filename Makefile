@@ -21,13 +21,16 @@ dist: all_games_html rules mo
 rpm: all_games_html rules mo
 	python3 setup.py bdist_rpm
 
+DOCS_DIR = docs
 HTML_DIR = data/html
 ALL_GAMES_HTML_BASE = all_games.html
 ALL_GAMES_HTML = $(HTML_DIR)/$(ALL_GAMES_HTML_BASE)
+ALL_GAMES_HTML__FOR_WEBSITE = $(DOCS_DIR)/$(ALL_GAMES_HTML_BASE)
 all_games_html: $(ALL_GAMES_HTML)
 
-$(ALL_GAMES_HTML): rules
+$(ALL_GAMES_HTML) $(ALL_GAMES_HTML__FOR_WEBSITE): rules
 	cd $(HTML_DIR) && $(CURDIR)/scripts/all_games.py html id rules > $(ALL_GAMES_HTML_BASE)
+	./scripts/all_games.py html id doc/rules bare > $(ALL_GAMES_HTML__FOR_WEBSITE)
 
 rules:
 	cd html-src && ./gen-html.py

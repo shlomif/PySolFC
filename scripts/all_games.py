@@ -150,7 +150,7 @@ def all_games(sort_by='id'):
         if gt == 'French':
             gt = 'French (%s)' % GAME_BY_TYPE[gi.si.game_type]
         name = gi.name
-        altnames = '<br>'.join(gi.altnames)
+        altnames = '<br/>'.join(gi.altnames)
         fn = os.path.join(rules_dir, rules_fn)
         if 1 and os.path.exists(fn):
             print('''<tr>

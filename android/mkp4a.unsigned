@@ -3,8 +3,18 @@ set -eux
 
 . mkp4a.common
 
+# NOTE: $1 and $2 (sdk and ndk) used with fdroid build only.
+
+if [[ $# == 2 ]]
+then
+  sdkdir=$1
+  ndkdir=$2
+fi
+
 python3 -m pythonforandroid.toolchain apk \
   ${p4a_options} \
+  --sdk-dir ${sdkdir} \
+  --ndk-dir ${ndkdir} \
   --release
 
 # python3 -m pythonforandroid.toolchain apk

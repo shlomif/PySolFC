@@ -3,17 +3,25 @@ set -eux
 
 . mkp4a.common
 
+# NOTE: $1 will be set with fdroid builds only.
+
 echo '### prepare sdk'
 
-./initsdk
+if [[ $# == 0 ]]
+then
+  ./initsdk
+fi
 
 echo '### install p4a'
 
-python3 -m pip install -q --user python-for-android
+if [[ $# == 0 ]]
+then
+  python3 -m pip install -q --user python-for-android
+fi
 
 echo '### prepare source'
 
-(cd .. && make rules)
+(cd .. && make rules && make all_games_html && make mo)
 
 mkdir -p ${tmpdir}
 rm -rf ${tmpdir}

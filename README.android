@@ -45,14 +45,11 @@ Prerequisites (needs root):
 
 Build with 'python-for-android' (as user):
 
-  Use the repo or an unpacked distribution tarball.
-
-  $ python setup.py install
-  $ make dist  (if using the repo)
+  Use the cloned repo or an unpacked distribution tarball.
 
   go to the android directory, then
 
-  $ ./mkp4a.init [<sdkdir>] [<ndkdir>]        # prepare sdk and p4a installation
+  $ ./mkp4a.init                              # prepare sdk and p4a installation
   $ ./mkkeystore                              # if you want to build a release version.
 
   $ ./mkp4a.debug                             # build debug apk

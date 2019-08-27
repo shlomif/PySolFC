@@ -430,6 +430,18 @@ class GameGlobalStatsStruct(NewStruct):
     start_player = attr.ib(default=None)
 
 
+@attr.s
+class GameWinAnimation(NewStruct):
+    timer = attr.ib(default=None)
+    images = attr.ib(factory=list)
+    tk_images = attr.ib(factory=list)             # saved tk images
+    saved_images = attr.ib(factory=dict)          # saved resampled images
+    canvas_images = attr.ib(factory=list)         # ids of canvas images
+    frame_num = attr.ib(default=0)              # number of the current frame
+    width = attr.ib(default=0)
+    height = attr.ib(default=0)
+
+
 class Game(object):
     # for self.gstats.updated
     U_PLAY = _GLOBAL_U_PLAY
@@ -698,16 +710,7 @@ class Game(object):
             comment="",
         )
         # some vars for win animation
-        self.win_animation = Struct(
-            timer=None,
-            images=[],
-            tk_images=[],             # saved tk images
-            saved_images={},          # saved resampled images
-            canvas_images=[],         # ids of canvas images
-            frame_num=0,              # number of the current frame
-            width=0,
-            height=0,
-            )
+        self.win_animation = GameWinAnimation()
 
     def getTitleName(self):
         return self.app.getGameTitleName(self.id)

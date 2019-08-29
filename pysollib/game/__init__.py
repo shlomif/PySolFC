@@ -78,6 +78,7 @@ else:
 
 
 PLAY_TIME_TIMEOUT = 200
+S_PLAY = 0x40
 
 # ************************************************************************
 # * Base class for all solitaire games
@@ -442,6 +443,14 @@ class GameWinAnimation(NewStruct):
     height = attr.ib(default=0)
 
 
+@attr.s
+class GameMoves(NewStruct):
+    current = attr.ib(factory=list)
+    history = attr.ib(factory=list)
+    index = attr.ib(default=0)
+    state = attr.ib(default=S_PLAY)
+
+
 class Game(object):
     # for self.gstats.updated
     U_PLAY = _GLOBAL_U_PLAY
@@ -454,8 +463,8 @@ class Game(object):
     S_DEAL = 0x10
     S_FILL = 0x20
     S_RESTORE = 0x30
-    S_PLAY = 0x40
     S_UNDO = 0x50
+    S_PLAY = S_PLAY
     S_REDO = 0x60
 
     # for loading and saving - subclasses should override if
@@ -2763,12 +2772,7 @@ class Game(object):
     #
 
     def startMoves(self):
-        self.moves = Struct(
-            state=self.S_PLAY,
-            history=[],        # list of lists of atomic moves
-            index=0,
-            current=[],        # atomic moves for the current move
-        )
+        self.moves = GameMoves()
         self.stats._reset_statistics()
 
     def __storeMove(self, am):

@@ -12,6 +12,7 @@ for general guidelines for contributing to open source.
 # How you can contribute
 
 - Translate PySol to a human language you know.
+- Test the "master" branch version of the version control repository or other prereleases.
 - Try to reproduce [open issues](https://github.com/shlomif/PySolFC/issues)
 - Try to fix bugs.
 - Add new games.
@@ -20,6 +21,7 @@ for general guidelines for contributing to open source.
 - Add new features.
 - Contribute graphics
 - Improve the site
+- Package PySol for a new package repository or OS, or update existing packages.
 - Make a monetary donation.
 - [Star](https://help.github.com/articles/about-stars/) or [Watch](https://help.github.com/articles/watching-and-unwatching-repositories/) the repository on GitHub
 

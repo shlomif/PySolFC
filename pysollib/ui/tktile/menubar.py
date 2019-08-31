@@ -293,7 +293,7 @@ class PysolMenubarTkCommon:
         if WIN_SYSTEM == "aqua":
             applemenu = MfxMenu(self.menubar, "apple")
             applemenu.add_command(
-                label=_("&About ")+TITLE, command=self.mHelpAbout)
+                label=_("&About %s") % TITLE, command=self.mHelpAbout)
 
         menu = MfxMenu(self.menubar, n_("&File"))
         menu.add_command(
@@ -663,7 +663,7 @@ class PysolMenubarTkCommon:
         if WIN_SYSTEM != "aqua":
             menu.add_separator()
             menu.add_command(
-                label=n_("&About ")+TITLE+"...",
+                label=_("&About %s...") % TITLE,
                 command=self.mHelpAbout)
 
         MfxMenubar.addPath = None
@@ -968,7 +968,8 @@ class PysolMenubarTkCommon:
     def updateGamesMenu(self, menu, games):
         menu.delete(0, 'last')
         if len(games) == 0:
-            menu.add_radiobutton(label='<none>', name=None, state='disabled')
+            menu.add_radiobutton(label=_('<none>'), name=None,
+                                 state='disabled')
         elif len(games) > self.cb_max*4:
             games.sort(key=lambda x: x.name)
             self._addSelectAllGameSubMenu(games, menu,
@@ -1132,7 +1133,8 @@ class PysolMenubarTkCommon:
     #
 
     DEFAULTEXTENSION = ".pso"
-    FILETYPES = ((TITLE+" files", "*"+DEFAULTEXTENSION), ("All files", "*"))
+    FILETYPES = ((_("%s files") % TITLE, "*" + DEFAULTEXTENSION),
+                 (_("All files"), "*"))
 
     def mAddFavor(self, *event):
         gameid = self.app.game.id

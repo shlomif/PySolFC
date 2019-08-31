@@ -47,7 +47,7 @@ from pysollib.pysoltk import create_find_card_dialog
 from pysollib.pysoltk import create_solver_dialog
 from pysollib.settings import DEBUG
 from pysollib.settings import PACKAGE_URL, TITLE
-from pysollib.settings import TOP_TITLE
+from pysollib.settings import TOP_SIZE
 from pysollib.stats import FileStatsFormatter
 
 
@@ -381,7 +381,7 @@ class PysolMenubar(PysolMenubarTk):
         if self._cancelDrag():
             return
         if self.changed():
-            if not self.game.areYouSure(_("Quit ") + TITLE):
+            if not self.game.areYouSure(_("Quit %s") % TITLE):
                 return
         self.game.endGame()
         self.game.quitGame()
@@ -445,7 +445,7 @@ class PysolMenubar(PysolMenubarTk):
         if not self.game.gsaveinfo.bookmarks:
             return
         if not self.game.areYouSure(_("Clear bookmarks"),
-                                    _("Clear all bookmarks ?")):
+                                    _("Clear all bookmarks?")):
             return
         self.game.gsaveinfo.bookmarks = {}
         self.game.updateMenus()
@@ -457,7 +457,7 @@ class PysolMenubar(PysolMenubarTk):
             return
         if self.changed(restart=1):
             if not self.game.areYouSure(_("Restart game"),
-                                        _("Restart this game ?")):
+                                        _("Restart this game?")):
                 return
         self.game.restartGame()
 
@@ -501,10 +501,11 @@ class PysolMenubar(PysolMenubarTk):
         if self._cancelDrag(break_pause=False):
             return
         game, gi = self.game, self.game.gameinfo
-        t = " " + game.getGameNumber(format=1)
-        cc = _("Comments for %s:\n\n") % (gi.name + t)
+        kw = {'game': gi.name,
+              'id': game.getGameNumber(format=1)}
+        cc = _("Comments for %(game)s %(id)s:\n\n") % kw
         c = game.gsaveinfo.comment or cc
-        d = EditTextDialog(game.top, _("Comments for ")+t, text=c)
+        d = EditTextDialog(game.top, _("Comments for %(id)s") % kw, text=c)
         if d.status == 0 and d.button == 0:
             text = d.text
             if text.strip() == cc.strip():
@@ -525,8 +526,9 @@ class PysolMenubar(PysolMenubarTk):
                         text=_("Error while writing to file"))
                 else:
                     d = MfxMessageDialog(
-                        self.top, title=TITLE+_(" Info"), bitmap="info",
-                        text=_("Comments were appended to\n\n") + fn)
+                        self.top, title=_("%s Info") % TITLE, bitmap="info",
+                        text=_("Comments were appended to\n\n%(filename)s")
+                        % {'filename': fn})
         self._setCommentMenu(bool(game.gsaveinfo.comment))
 
     #
@@ -535,10 +537,10 @@ class PysolMenubar(PysolMenubarTk):
 
     def _mStatsSave(self, player, filename, write_method):
         if player is None:
-            text = _("Demo statistics")
+            text = _("Demo statistics were appended to\n\n%(filename)s")
             filename = filename + "_demo"
         else:
-            text = _("Your statistics")
+            text = _("Your statistics were appended to\n\n%(filename)s")
         filename = os.path.join(self.app.dn.config, filename + ".txt")
         filename = os.path.normpath(filename)
         try:
@@ -549,8 +551,8 @@ class PysolMenubar(PysolMenubarTk):
                                text=_("Error while writing to file"))
         else:
             MfxMessageDialog(
-                self.top, title=TITLE+_(" Info"), bitmap="info",
-                text=text + _(" were appended to\n\n") + filename)
+                self.top, title=_("%s Info") % TITLE, bitmap="info",
+                text=text % {'filename': filename})
 
     def mPlayerStats(self, *args, **kw):
         mode = kw.get("mode", 101)
@@ -564,31 +566,40 @@ class PysolMenubar(PysolMenubarTk):
             d = Struct(status=-1, button=-1)
             if demo:
                 player = None
-                p0, p1, p2 = TITLE+_(" Demo"), TITLE+_(" Demo "), ""
             else:
                 player = self.app.opt.player
-                p0, p1, p2 = player, "", _(" for ") + player
             n = self.game.gameinfo.name
+            # translation keywords
+            transkw = {'app': TITLE,
+                       'player': player,
+                       'game': n,
+                       'tops': TOP_SIZE}
             #
             if mode == 100:
                 d = Status_StatsDialog(self.top, game=self.game)
             elif mode == 101:
-                header = p1 + _("Statistics for ") + n
+                header = (_("%(app)s Demo Statistics for %(game)s") if demo
+                          else _("Statistics for %(game)s")) % transkw
                 d = SingleGame_StatsDialog(
                    self.top, header, self.app, player, gameid=self.game.id)
                 gameid = d.selected_game
             elif mode == 102:
-                header = p1 + _("Statistics") + p2
+                header = (_("%(app)s Demo Statistics") if demo
+                          else _("Statistics for %(player)s")) % transkw
                 d = AllGames_StatsDialog(self.top, header, self.app, player)
                 gameid = d.selected_game
             elif mode == 103:
-                header = p1 + _("Full log") + p2
+                header = (_("%(app)s Demo Full log") if demo
+                          else _("Full log for %(player)s")) % transkw
                 d = FullLog_StatsDialog(self.top, header, self.app, player)
             elif mode == 104:
-                header = p1 + _("Session log") + p2
+                header = (_("%(app)s Demo Session log") if demo
+                          else _("Session log for %(player)s")) % transkw
                 d = SessionLog_StatsDialog(self.top, header, self.app, player)
             elif mode == 105:
-                header = p1 + TOP_TITLE + _(" for ") + n
+                # TRANSLATORS: eg. top 10 or top 5 results for a certain game
+                header = (_("%(app)s Demo Top %(tops)d for %(game)s") if demo
+                          else _("Top %(tops)d for %(game)s")) % transkw
                 d = Top_StatsDialog(
                     self.top, header, self.app, player, gameid=self.game.id)
             elif mode == 106:
@@ -614,7 +625,8 @@ class PysolMenubar(PysolMenubarTk):
                 # reset all player stats
                 if self.game.areYouSure(
                     _("Reset all statistics"),
-                    _("Reset ALL statistics and logs for player\n%s ?") % p0,
+                    _("Reset ALL statistics and logs for player\n" +
+                      "%(player)s?") % transkw,
                     confirm=1, default=1
                 ):
                     self.app.stats.resetStats(player, 0)
@@ -624,8 +636,8 @@ class PysolMenubar(PysolMenubarTk):
                 # reset player stats for current game
                 if self.game.areYouSure(
                     _("Reset game statistics"),
-                    _('Reset statistics and logs ' +
-                        'for player\n%s\nand game\n%s ?') % (p0, n),
+                    _('Reset statistics and logs for player\n%(player)s\n'
+                      'and game\n%(game)s?') % transkw,
                     confirm=1, default=1
                 ):
                     self.app.stats.resetStats(player, self.game.id)

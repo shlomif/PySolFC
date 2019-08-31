@@ -120,7 +120,8 @@ class Matriarchy_Talon(WasteTalonStack):
             return
         WasteTalonStack.updateText(self, update_rounds=0)
         # t = "Round %d" % self.round
-        t = _("Round %d/%d") % (self.round, self.max_rounds)
+        t = _("Round %(round)d/%(max_rounds)d") % {
+            'round': self.round, 'max_rounds': self.max_rounds}
         self.texts.rounds.config(text=t)
         t = _("Deal %d") % self.DEAL[self.round-1]
         self.texts.misc.config(text=t)

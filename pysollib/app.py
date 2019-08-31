@@ -60,7 +60,7 @@ from pysollib.resource import Tile, TileManager
 from pysollib.settings import DEBUG
 from pysollib.settings import PACKAGE, VERSION_TUPLE, WIN_SYSTEM
 from pysollib.settings import TOOLKIT
-from pysollib.util import CARDSET, IMAGE_EXTENSIONS
+from pysollib.util import IMAGE_EXTENSIONS
 from pysollib.winsystems import TkSettings
 if TOOLKIT == 'tk':
     from pysollib.ui.tktile.solverdialog import destroy_solver_dialog
@@ -329,7 +329,8 @@ class Application:
             elif self.commandline.game is not None:
                 gameid = self.gdb.getGameByName(self.commandline.game)
                 if gameid is None:
-                    print_err(_("can't find game: ") + self.commandline.game)
+                    print_err(_("can't find game: %(game)s") % {
+                        'game': self.commandline.game})
                     sys.exit(-1)
                 else:
                     self.nextgame.id = gameid
@@ -668,7 +669,7 @@ class Application:
         if progress is None:
             self.wm_save_state()
             self.wm_withdraw()
-            title = _("Loading %s %s...") % (CARDSET, cs.name)
+            title = _("Loading cardset %s...") % cs.name
             color = self.opt.colors['table']
             if self.tabletile_index > 0:
                 color = "#008200"
@@ -678,7 +679,7 @@ class Application:
         images = Images(self.dataloader, cs)
         try:
             if not images.load(app=self, progress=progress):
-                raise Exception("Invalid or damaged "+CARDSET)
+                raise Exception("Invalid or damaged cardset")
             simages = SubsampledImages(images)
             if self.opt.save_cardsets:
                 c = self.cardsets_cache.get(cs.type)
@@ -710,8 +711,8 @@ class Application:
             # images.destruct()
             destruct(images)
             MfxExceptionDialog(
-                self.top, ex, title=CARDSET+_(" load error"),
-                text=_("Error while loading ")+CARDSET)
+                self.top, ex, title=_("Cardset load error"),
+                text=_("Error while loading cardset"))
         self.intro.progress = progress
         if r and self.menubar is not None:
             self.menubar.updateBackgroundImagesMenu()
@@ -806,14 +807,14 @@ class Application:
         #
         t = self.checkCompatibleCardsetType(gi, self.cardset)
         MfxMessageDialog(
-            self.top, title=_("Incompatible ")+CARDSET,
+            self.top, title=_("Incompatible cardset"),
             bitmap="warning",
-            text=_('''The currently selected %s %s
+            text=_('''The currently selected cardset %(cardset)s
 is not compatible with the game
-%s
+%(game)s
 
-Please select a %s type %s.
-''') % (CARDSET, self.cardset.name, gi.name, t[0], CARDSET),
+Please select a %(correct_type)s type cardset.
+''') % {'cardset': self.cardset.name, 'game': gi.name, 'correct_type': t[0]},
             strings=(_("&OK"),), default=0)
         cs = self.__selectCardsetDialog(t)
         if cs is None:
@@ -852,7 +853,7 @@ Please select a %s type %s.
 
     def __selectCardsetDialog(self, t):
         cs = self.selectCardset(
-            _("Please select a %s type %s") % (t[0], CARDSET),
+            _("Please select a %s type cardset") % t[0],
             self.cardset.index)
         return cs
 
@@ -1060,7 +1061,8 @@ Please select a %s type %s.
                 except Exception as ex:
                     if DEBUG:
                         traceback.print_exc()
-                    print_err(_("error loading plugin %s: %s") % (n, ex))
+                    print_err(_("error loading plugin %(file)s: %(err)s") %
+                              {'file': n, 'err': ex})
 
     #
     # init cardsets

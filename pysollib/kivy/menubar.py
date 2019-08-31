@@ -51,7 +51,6 @@ from pysollib.mygettext import _
 from pysollib.pysoltk import connect_game_find_card_dialog
 from pysollib.settings import SELECT_GAME_MENU
 from pysollib.settings import TITLE
-from pysollib.util import CARDSET
 
 
 # ************************************************************************
@@ -177,34 +176,34 @@ class MainMenuDialog(LMenuDialog):
     def buildTree(self, tv, node):
         rg = tv.add_node(
             LTreeNode(
-                text="File",
+                text=_("File"),
                 command=self.make_game_command(self.menubar.mFileMenuDialog)))
         rg = tv.add_node(
             LTreeNode(
-                text="Games",
+                text=_("Games"),
                 command=self.make_game_command(
                     self.menubar.mSelectGameDialog)))
         rg = tv.add_node(
             LTreeNode(
-                text="Tools",
+                text=_("Tools"),
                 command=self.make_game_command(self.menubar.mEditMenuDialog)))
         rg = tv.add_node(
             LTreeNode(
-                text="Statistics",
+                text=_("Statistics"),
                 command=self.make_game_command(self.menubar.mGameMenuDialog)))
         rg = tv.add_node(
             LTreeNode(
-                text="Assist",
+                text=_("Assist"),
                 command=self.make_game_command(
                     self.menubar.mAssistMenuDialog)))
         rg = tv.add_node(
             LTreeNode(
-                text="Options",
+                text=_("Options"),
                 command=self.make_game_command(
                     self.menubar.mOptionsMenuDialog)))
         rg = tv.add_node(
             LTreeNode(
-                text="Help",
+                text=_("Help"),
                 command=self.make_game_command(self.menubar.mHelpMenuDialog)))
         del rg
 
@@ -225,7 +224,7 @@ class FileMenuDialog(LMenuDialog):
 
     def buildTree(self, tv, node):
         rg = tv.add_node(
-            LTreeNode(text='Recent games'))
+            LTreeNode(text=_('Recent games')))
         # Recent Liste
         recids = self.app.opt.recent_gameid
         # recgames = []
@@ -238,12 +237,12 @@ class FileMenuDialog(LMenuDialog):
                     LTreeNode(text=gi.name, command=command), rg)
 
         rg = tv.add_node(
-            LTreeNode(text='Favorite games'))
+            LTreeNode(text=_('Favorite games')))
         if rg:
             tv.add_node(LTreeNode(
-                text='<Add>', command=self.menubar.mAddFavor), rg)
+                text=_('<Add>'), command=self.menubar.mAddFavor), rg)
             tv.add_node(LTreeNode(
-                text='<Remove>', command=self.menubar.mDelFavor), rg)
+                text=_('<Remove>'), command=self.menubar.mDelFavor), rg)
 
             # Recent Liste
             favids = self.app.opt.favorite_gameid
@@ -289,36 +288,36 @@ class EditMenuDialog(LMenuDialog):  # Tools
 
     def buildTree(self, tv, node):
         tv.add_node(LTreeNode(
-            text='New game', command=self.menubar.mNewGame))
+            text=_('New game'), command=self.menubar.mNewGame))
         tv.add_node(LTreeNode(
-            text='Restart game', command=self.menubar.mRestart))
+            text=_('Restart game'), command=self.menubar.mRestart))
 
         tv.add_node(LTreeNode(
-            text='Undo', command=self.menubar.mUndo))
+            text=_('Undo'), command=self.menubar.mUndo))
         tv.add_node(LTreeNode(
-            text='Redo', command=self.menubar.mRedo))
+            text=_('Redo'), command=self.menubar.mRedo))
         tv.add_node(LTreeNode(
-            text='Redo all', command=self.menubar.mRedoAll))
+            text=_('Redo all'), command=self.menubar.mRedoAll))
 
         tv.add_node(LTreeNode(
-            text='Auto drop', command=self.menubar.mDrop))
+            text=_('Auto drop'), command=self.menubar.mDrop))
         tv.add_node(LTreeNode(
-            text='Shuffle tiles', command=self.menubar.mShuffle))
+            text=_('Shuffle tiles'), command=self.menubar.mShuffle))
         tv.add_node(LTreeNode(
-            text='Deal cards', command=self.menubar.mDeal))
+            text=_('Deal cards'), command=self.menubar.mDeal))
 
         self.addCheckNode(tv, None,
-                          'Pause',
+                          _('Pause'),
                           self.menubar.tkopt.pause,
                           self.menubar.mPause)
 
         tv.add_node(LTreeNode(
-            text='Load game', command=self.menubar.mOpen))
+            text=_('Load game'), command=self.menubar.mOpen))
         tv.add_node(LTreeNode(
-            text='Save game', command=self.menubar.mSaveAs))
+            text=_('Save game'), command=self.menubar.mSaveAs))
 
         tv.add_node(LTreeNode(
-            text='Help', command=self.menubar.mHelpRules))
+            text=_('Help'), command=self.menubar.mHelpRules))
 
         # -------------------------------------------
         # TBD ?
@@ -369,7 +368,7 @@ class GameMenuDialog(LMenuDialog):
 
     def buildTree(self, tv, node):
         tv.add_node(LTreeNode(
-            text='Current game ...',
+            text=_('Current game...'),
             command=self.make_command(101, self.menubar.mPlayerStats)), None)
 
         # tv.add_node(LTreeNode(
@@ -432,16 +431,16 @@ class AssistMenuDialog(LMenuDialog):
 
     def buildTree(self, tv, node):
         tv.add_node(LTreeNode(
-            text='Hint', command=self.menubar.mHint))
+            text=_('Hint'), command=self.menubar.mHint))
 
         tv.add_node(LTreeNode(
-            text='Highlight piles', command=self.menubar.mHighlightPiles))
+            text=_('Highlight piles'), command=self.menubar.mHighlightPiles))
 
         # tv.add_node(LTreeNode(
         #   text='Find Card', command=self.menubar.mFindCard))
 
         tv.add_node(LTreeNode(
-            text='Demo', command=self.menubar.mDemo))
+            text=_('Demo'), command=self.menubar.mDemo))
 
         # -------------------------------------------
         # TBD. How ?
@@ -507,27 +506,27 @@ class OptionsMenuDialog(LMenuDialog):
         # Automatic play settings
 
         rg = tv.add_node(
-            LTreeNode(text='Automatic play'))
+            LTreeNode(text=_('Automatic play')))
         if rg:
             self.addCheckNode(tv, rg,
-                              'Auto face up',
+                              _('Auto face up'),
                               self.menubar.tkopt.autofaceup,
                               self.menubar.mOptAutoFaceUp)
 
             self.addCheckNode(tv, rg,
-                              'Auto drop',
+                              _('Auto drop'),
                               self.menubar.tkopt.autodrop,
                               self.menubar.mOptAutoDrop)
 
             self.addCheckNode(tv, rg,
-                              'Auto deal',
+                              _('Auto deal'),
                               self.menubar.tkopt.autodeal,
                               self.menubar.mOptAutoDeal)
 
             # submenu.add_separator()
 
             self.addCheckNode(tv, rg,
-                              'Quick play',
+                              _('Quick play'),
                               self.menubar.tkopt.quickplay,
                               self.menubar.mOptQuickPlay)
 
@@ -535,57 +534,57 @@ class OptionsMenuDialog(LMenuDialog):
         # Player assistance
 
         rg = tv.add_node(
-            LTreeNode(text='Assist level'))
+            LTreeNode(text=_('Assist level')))
         if rg:
             self.addCheckNode(tv, rg,
-                              'Enable undo',
+                              _('Enable undo'),
                               self.menubar.tkopt.undo,
                               self.menubar.mOptEnableUndo)
 
             self.addCheckNode(tv, rg,
-                              'Enable bookmarks',
+                              _('Enable bookmarks'),
                               self.menubar.tkopt.bookmarks,
                               self.menubar.mOptEnableBookmarks)
 
             self.addCheckNode(tv, rg,
-                              'Enable hint',
+                              _('Enable hint'),
                               self.menubar.tkopt.hint,
                               self.menubar.mOptEnableHint)
 
             self.addCheckNode(tv, rg,
-                              'Enable shuffle',
+                              _('Enable shuffle'),
                               self.menubar.tkopt.shuffle,
                               self.menubar.mOptEnableShuffle)
 
             self.addCheckNode(tv, rg,
-                              'Enable highlight piles',
+                              _('Enable highlight piles'),
                               self.menubar.tkopt.highlight_piles,
                               self.menubar.mOptEnableHighlightPiles)
 
             self.addCheckNode(tv, rg,
-                              'Enable highlight cards',
+                              _('Enable highlight cards'),
                               self.menubar.tkopt.highlight_cards,
                               self.menubar.mOptEnableHighlightCards)
 
             self.addCheckNode(tv, rg,
-                              'Enable highlight same rank',
+                              _('Enable highlight same rank'),
                               self.menubar.tkopt.highlight_samerank,
                               self.menubar.mOptEnableHighlightSameRank)
 
             self.addCheckNode(tv, rg,
-                              'Highlight no matching',
+                              _('Highlight no matching'),
                               self.menubar.tkopt.highlight_not_matching,
                               self.menubar.mOptEnableHighlightNotMatching)
 
             # submenu.add_separator()
 
             self.addCheckNode(tv, rg,
-                              'Show removed tiles (in Mahjongg games)',
+                              _('Show removed tiles (in Mahjongg games)'),
                               self.menubar.tkopt.mahjongg_show_removed,
                               self.menubar.mOptMahjonggShowRemoved)
 
             self.addCheckNode(tv, rg,
-                              'Show hint arrow (in Shisen-Sho games)',
+                              _('Show hint arrow (in Shisen-Sho games)'),
                               self.menubar.tkopt.shisen_show_hint,
                               self.menubar.mOptShisenShowHint)
 
@@ -595,154 +594,154 @@ class OptionsMenuDialog(LMenuDialog):
         # Sound options
 
         rg = tv.add_node(
-            LTreeNode(text='Sound'))
+            LTreeNode(text=_('Sound')))
         if rg:
             self.addCheckNode(tv, rg,
-                              'Enable',
+                              _('Enable'),
                               self.menubar.tkopt.sound,
                               self.menubar.mOptSoundDialog)
 
             rg1 = tv.add_node(
-                LTreeNode(text='Volume'), rg)
+                LTreeNode(text=_('Volume')), rg)
             if rg1:
                 self.addRadioNode(tv, rg1,
-                                  '100%',
+                                  _('100%'),
                                   self.menubar.tkopt.sound_sample_volume, 100,
                                   self.menubar.mOptSoundSampleVol)
                 self.addRadioNode(tv, rg1,
-                                  '75%',
+                                  _('75%'),
                                   self.menubar.tkopt.sound_sample_volume, 75,
                                   self.menubar.mOptSoundSampleVol)
                 self.addRadioNode(tv, rg1,
-                                  '50%',
+                                  _('50%'),
                                   self.menubar.tkopt.sound_sample_volume, 50,
                                   self.menubar.mOptSoundSampleVol)
                 self.addRadioNode(tv, rg1,
-                                  '25%',
+                                  _('25%'),
                                   self.menubar.tkopt.sound_sample_volume, 25,
                                   self.menubar.mOptSoundSampleVol)
 
             rg1 = tv.add_node(
-                LTreeNode(text='Samples'), rg)
+                LTreeNode(text=_('Samples')), rg)
             if rg1:
                 key = 'areyousure'
                 self.addCheckNode(
                     tv, rg1,
-                    'are you sure',
+                    _('are you sure'),
                     self.menubar.tkopt.sound_sample_vars[key],
                     self.make_vars_command(self.menubar.mOptSoundSample, key))
                 key = 'autodrop'
                 self.addCheckNode(
                     tv, rg1,
-                    'auto drop',
+                    _('auto drop'),
                     self.menubar.tkopt.sound_sample_vars[key],
                     self.make_vars_command(self.menubar.mOptSoundSample, key))
                 key = 'autoflip'
                 self.addCheckNode(
                     tv, rg1,
-                    'auto flip',
+                    _('auto flip'),
                     self.menubar.tkopt.sound_sample_vars[key],
                     self.make_vars_command(self.menubar.mOptSoundSample, key))
                 key = 'autopilotlost'
                 self.addCheckNode(
                     tv, rg1,
-                    'auto pilot lost',
+                    _('auto pilot lost'),
                     self.menubar.tkopt.sound_sample_vars[key],
                     self.make_vars_command(self.menubar.mOptSoundSample, key))
                 key = 'autopilotwon'
                 self.addCheckNode(
                     tv, rg1,
-                    'auto pilot won',
+                    _('auto pilot won'),
                     self.menubar.tkopt.sound_sample_vars[key],
                     self.make_vars_command(self.menubar.mOptSoundSample, key))
                 key = 'deal'
                 self.addCheckNode(
                     tv, rg1,
-                    'deal',
+                    _('deal'),
                     self.menubar.tkopt.sound_sample_vars[key],
                     self.make_vars_command(self.menubar.mOptSoundSample, key))
                 key = 'dealwaste'
                 self.addCheckNode(
                     tv, rg1,
-                    'deal waste',
+                    _('deal waste'),
                     self.menubar.tkopt.sound_sample_vars[key],
                     self.make_vars_command(self.menubar.mOptSoundSample, key))
                 key = 'droppair'
                 self.addCheckNode(
                     tv, rg1,
-                    'drop pair',
+                    _('drop pair'),
                     self.menubar.tkopt.sound_sample_vars[key],
                     self.make_vars_command(self.menubar.mOptSoundSample, key))
                 key = 'drop'
                 self.addCheckNode(
                     tv, rg1,
-                    'drop',
+                    _('drop'),
                     self.menubar.tkopt.sound_sample_vars[key],
                     self.make_vars_command(self.menubar.mOptSoundSample, key))
                 key = 'flip'
                 self.addCheckNode(
                     tv, rg1,
-                    'flip',
+                    _('flip'),
                     self.menubar.tkopt.sound_sample_vars[key],
                     self.make_vars_command(self.menubar.mOptSoundSample, key))
                 key = 'move'
                 self.addCheckNode(
                     tv, rg1,
-                    'move',
+                    _('move'),
                     self.menubar.tkopt.sound_sample_vars[key],
                     self.make_vars_command(self.menubar.mOptSoundSample, key))
                 key = 'nomove'
                 self.addCheckNode(
                     tv, rg1,
-                    'no move',
+                    _('no move'),
                     self.menubar.tkopt.sound_sample_vars[key],
                     self.make_vars_command(self.menubar.mOptSoundSample, key))
                 key = 'redo'
                 self.addCheckNode(
                     tv, rg1,
-                    'redo',
+                    _('redo'),
                     self.menubar.tkopt.sound_sample_vars[key],
                     self.make_vars_command(self.menubar.mOptSoundSample, key))
                 key = 'startdrag'
                 self.addCheckNode(
                     tv, rg1,
-                    'start drag',
+                    _('start drag'),
                     self.menubar.tkopt.sound_sample_vars[key],
                     self.make_vars_command(self.menubar.mOptSoundSample, key))
                 key = 'turnwaste'
                 self.addCheckNode(
                     tv, rg1,
-                    'turn waste',
+                    _('turn waste'),
                     self.menubar.tkopt.sound_sample_vars[key],
                     self.make_vars_command(self.menubar.mOptSoundSample, key))
                 key = 'undo'
                 self.addCheckNode(
                     tv, rg1,
-                    'undo',
+                    _('undo'),
                     self.menubar.tkopt.sound_sample_vars[key],
                     self.make_vars_command(self.menubar.mOptSoundSample, key))
                 key = 'gamefinished'
                 self.addCheckNode(
                     tv, rg1,
-                    'game finished',
+                    _('game finished'),
                     self.menubar.tkopt.sound_sample_vars[key],
                     self.make_vars_command(self.menubar.mOptSoundSample, key))
                 key = 'gamelost'
                 self.addCheckNode(
                     tv, rg1,
-                    'game lost',
+                    _('game lost'),
                     self.menubar.tkopt.sound_sample_vars[key],
                     self.make_vars_command(self.menubar.mOptSoundSample, key))
                 key = 'gameperfect'
                 self.addCheckNode(
                     tv, rg1,
-                    'game perfect',
+                    _('game perfect'),
                     self.menubar.tkopt.sound_sample_vars[key],
                     self.make_vars_command(self.menubar.mOptSoundSample, key))
                 key = 'gamewon'
                 self.addCheckNode(
                     tv, rg1,
-                    'game won',
+                    _('game won'),
                     self.menubar.tkopt.sound_sample_vars[key],
                     self.make_vars_command(self.menubar.mOptSoundSample, key))
 
@@ -750,7 +749,7 @@ class OptionsMenuDialog(LMenuDialog):
         # Cardsets and card backside options
 
         rg = tv.add_node(
-            LTreeNode(text='Cardsets'))
+            LTreeNode(text=_('Cardsets')))
         if rg:
             self.menubar.tkopt.cardset.set(self.app.cardset.index)
 
@@ -790,45 +789,45 @@ class OptionsMenuDialog(LMenuDialog):
         # Table background settings
 
         rg = tv.add_node(
-            LTreeNode(text='Table'))
+            LTreeNode(text=_('Table')))
         if rg:
             rg1 = tv.add_node(
-                LTreeNode(text='Solid colors'), rg)
+                LTreeNode(text=_('Solid colors')), rg)
             if rg1:
                 key = 'table'
                 self.addRadioNode(
                     tv, rg1,
-                    'Blue',
+                    _('Blue'),
                     self.menubar.tkopt.color_vars[key], '#0082df',
                     self.menubar.mOptTableColor)
                 self.addRadioNode(
                     tv, rg1,
-                    'Green',
+                    _('Green'),
                     self.menubar.tkopt.color_vars[key], '#008200',
                     self.menubar.mOptTableColor)
                 self.addRadioNode(
                     tv, rg1,
-                    'Navy',
+                    _('Navy'),
                     self.menubar.tkopt.color_vars[key], '#000086',
                     self.menubar.mOptTableColor)
                 self.addRadioNode(
                     tv, rg1,
-                    'Olive',
+                    _('Olive'),
                     self.menubar.tkopt.color_vars[key], '#868200',
                     self.menubar.mOptTableColor)
                 self.addRadioNode(
                     tv, rg1,
-                    'Orange',
+                    _('Orange'),
                     self.menubar.tkopt.color_vars[key], '#f79600',
                     self.menubar.mOptTableColor)
                 self.addRadioNode(
                     tv, rg1,
-                    'Teal',
+                    _('Teal'),
                     self.menubar.tkopt.color_vars[key], '#008286',
                     self.menubar.mOptTableColor)
 
             rg1 = tv.add_node(
-                LTreeNode(text='Tiles and Images'), rg)
+                LTreeNode(text=_('Tiles and Images')), rg)
 
             if rg1:
                 tm = self.app.tabletile_manager
@@ -848,30 +847,30 @@ class OptionsMenuDialog(LMenuDialog):
         # Card view options
 
         rg = tv.add_node(
-            LTreeNode(text='Card view'))
+            LTreeNode(text=_('Card view')))
         if rg:
             self.addCheckNode(tv, rg,
-                              'Card shadow',
+                              _('Card shadow'),
                               self.menubar.tkopt.shadow,
                               self.menubar.mOptShadow)
 
             self.addCheckNode(tv, rg,
-                              'Shade legal moves',
+                              _('Shade legal moves'),
                               self.menubar.tkopt.shade,
                               self.menubar.mOptShade)
 
             self.addCheckNode(tv, rg,
-                              'Negative cards bottom',
+                              _('Negative cards bottom'),
                               self.menubar.tkopt.negative_bottom,
                               self.menubar.mOptNegativeBottom)
 
             self.addCheckNode(tv, rg,
-                              'Shrink face-down cards',
+                              _('Shrink face-down cards'),
                               self.menubar.tkopt.shrink_face_down,
                               self.menubar.mOptShrinkFaceDown)
 
             self.addCheckNode(tv, rg,
-                              'Shade filled stacks',
+                              _('Shade filled stacks'),
                               self.menubar.tkopt.shade_filled_stacks,
                               self.menubar.mOptShadeFilledStacks)
 
@@ -879,47 +878,47 @@ class OptionsMenuDialog(LMenuDialog):
         # Animation settins
 
         rg = tv.add_node(
-            LTreeNode(text='Animations'))
+            LTreeNode(text=_('Animations')))
         if rg:
             self.addRadioNode(tv, rg,
-                              'None',
+                              _('None'),
                               self.menubar.tkopt.animations, 0,
                               self.menubar.mOptAnimations)
 
             self.addRadioNode(tv, rg,
-                              'Very fast',
+                              _('Very fast'),
                               self.menubar.tkopt.animations, 1,
                               self.menubar.mOptAnimations)
 
             self.addRadioNode(tv, rg,
-                              'Fast',
+                              _('Fast'),
                               self.menubar.tkopt.animations, 2,
                               self.menubar.mOptAnimations)
 
             self.addRadioNode(tv, rg,
-                              'Medium',
+                              _('Medium'),
                               self.menubar.tkopt.animations, 3,
                               self.menubar.mOptAnimations)
 
             self.addRadioNode(tv, rg,
-                              'Slow',
+                              _('Slow'),
                               self.menubar.tkopt.animations, 4,
                               self.menubar.mOptAnimations)
 
             self.addRadioNode(tv, rg,
-                              'Very slow',
+                              _('Very slow'),
                               self.menubar.tkopt.animations, 5,
                               self.menubar.mOptAnimations)
 
             # submenu.add_separator()
 
             self.addCheckNode(tv, rg,
-                              'Redeal animation',
+                              _('Redeal animation'),
                               self.menubar.tkopt.redeal_animation,
                               self.menubar.mRedealAnimation)
 
             self.addCheckNode(tv, rg,
-                              'Winning animation',
+                              _('Winning animation'),
                               self.menubar.tkopt.win_animation,
                               self.menubar.mWinAnimation)
 
@@ -927,15 +926,15 @@ class OptionsMenuDialog(LMenuDialog):
         # Touch mode settings
 
         rg = tv.add_node(
-            LTreeNode(text='Touch mode'))
+            LTreeNode(text=_('Touch mode')))
         if rg:
             self.addRadioNode(tv, rg,
-                              'Drag-and-Drop',
+                              _('Drag-and-Drop'),
                               self.menubar.tkopt.mouse_type, 'drag-n-drop',
                               self.menubar.mOptMouseType)
 
             self.addRadioNode(tv, rg,
-                              'Point-and-Click',
+                              _('Point-and-Click'),
                               self.menubar.tkopt.mouse_type, 'point-n-click',
                               self.menubar.mOptMouseType)
 
@@ -969,10 +968,10 @@ class OptionsMenuDialog(LMenuDialog):
         # Toolbar options
 
         rg = tv.add_node(
-            LTreeNode(text='Toolbar'))
+            LTreeNode(text=_('Toolbar')))
         if rg:
             self.addRadioNode(tv, rg,
-                              'Hide',
+                              _('Hide'),
                               self.menubar.tkopt.toolbar, 0,
                               self.menubar.mOptToolbar)
 
@@ -987,11 +986,11 @@ class OptionsMenuDialog(LMenuDialog):
             #   self.menubar.mOptToolbar)
 
             self.addRadioNode(tv, rg,
-                              'Left',
+                              _('Left'),
                               self.menubar.tkopt.toolbar, 3,
                               self.menubar.mOptToolbar)
             self.addRadioNode(tv, rg,
-                              'Right',
+                              _('Right'),
                               self.menubar.tkopt.toolbar, 4,
                               self.menubar.mOptToolbar)
 
@@ -1028,12 +1027,12 @@ class OptionsMenuDialog(LMenuDialog):
         #   self.menubar.mOptDemoLogo)
 
         self.addCheckNode(tv, None,
-                          'Startup splash screen',
+                          _('Startup splash screen'),
                           self.menubar.tkopt.splashscreen,
                           self.menubar.mOptSplashscreen)
 
         self.addCheckNode(tv, None,
-                          'Winning splash',
+                          _('Winning splash'),
                           self.menubar.tkopt.display_win_message,
                           self.menubar.mWinDialog)
 
@@ -1056,23 +1055,23 @@ class HelpMenuDialog(LMenuDialog):
     def buildTree(self, tv, node):
         tv.add_node(
             LTreeNode(
-                text='Contents',
+                text=_('Contents'),
                 command=self.make_help_command(self.menubar.mHelp)))
         tv.add_node(
             LTreeNode(
-                text='How to play',
+                text=_('How to play'),
                 command=self.make_help_command(self.menubar.mHelpHowToPlay)))
         tv.add_node(
             LTreeNode(
-                text='Rules for this game',
+                text=_('Rules for this game'),
                 command=self.make_help_command(self.menubar.mHelpRules)))
         tv.add_node(
             LTreeNode(
-                text='License terms',
+                text=_('License terms'),
                 command=self.make_help_command(self.menubar.mHelpLicense)))
         tv.add_node(
             LTreeNode(
-                text='About' + TITLE + '...',
+                text=_('About %s...') % TITLE,
                 command=self.make_help_command(self.menubar.mHelpAbout)))
 
         # tv.add_node(LTreeNode(
@@ -1346,7 +1345,7 @@ class PysolMenubarTk:
 
         # LMainMenuDialog()
         LMenuItem(self.__menubar.menu,
-                  text="Menu", command=self.mMainMenuDialog)
+                  text=_("Menu"), command=self.mMainMenuDialog)
 
         MfxMenubar.addPath = None
 
@@ -1574,7 +1573,8 @@ class PysolMenubarTk:
         menu.delete(0, 'last')
 
         if len(games) == 0:
-            menu.add_radiobutton(label='<none>', name=None, state='disabled')
+            menu.add_radiobutton(label=_('<none>'), name=None,
+                                 state='disabled')
         elif len(games) > self.__cb_max * 4:
             games.sort(lambda a, b: cmp2(a.name, b.name))
             self._addSelectAllGameSubMenu(games, menu,
@@ -1791,8 +1791,9 @@ class PysolMenubarTk:
     #
 
     DEFAULTEXTENSION = ".pso"
-    FILETYPES = ((TITLE + " files", "*" + DEFAULTEXTENSION),
-                 ("All files", "*"))
+    # TRANSLATORS: Usually, 'PySol files'
+    FILETYPES = ((_("%s files") % TITLE, "*" + DEFAULTEXTENSION),
+                 (_("All files"), "*"))
 
     def mAddFavor(self, *event):
         gameid = self.app.game.id
@@ -2066,10 +2067,9 @@ class PysolMenubarTk:
         # if os.name == "posix":
         strings, default = (None, _("&Load"), _(
             "&Cancel"), _("&Info..."), ), 1
-        t = CARDSET
         key = self.app.nextgame.cardset.index
         d = SelectCardsetDialogWithPreview(
-                self.top, title=_("Select ") + t,
+                self.top, title=_("Select cardset"),
                 app=self.app, manager=self.app.cardset_manager, key=key,
                 strings=strings, default=default)
 

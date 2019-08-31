@@ -25,7 +25,7 @@ class BaseSolverDialog:
     def __init__(self, parent, app, **kw):
         self.parent = parent
         self.app = app
-        title = TITLE+' - FreeCell Solver'
+        title = _('%(app)s - FreeCell Solver') % {'app': TITLE}
         kw = self.initKw(kw)
         self._calc_MfxDialog().__init__(
             self, parent, title, kw.resizable, kw.default)

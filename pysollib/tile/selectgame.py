@@ -144,7 +144,7 @@ class SelectGameData(SelectDialogTreeData):
             if name is None or not list(filter(
                     select_func, self.all_games_gi)):
                 continue
-            name = _("New games in v. ") + name
+            name = _("New games in v. %(version)s") % {'version': name}
             gg.append(SelectGameNode(None, name, select_func))
         if 1 and gg:
             s_by_pysol_version = SelectGameNode(None, _("by PySol version"),
@@ -513,7 +513,7 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         # self.top.wm_title("Select Game - " +
         #   self.app.getGameTitleName(gameid))
         title = self.app.getGameTitleName(gameid)
-        self.top.wm_title(_("Playable Preview - ") + title)
+        self.top.wm_title(_("Playable Preview - %(game)s") % {'game': title})
         #
         self.preview_game = gi.gameclass(gi)
         self.preview_game.createPreview(self.preview_app)

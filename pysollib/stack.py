@@ -1945,7 +1945,7 @@ class TalonStack(Stack,
             nredeals = _('Unlimited redeals.')
         else:
             n = self.max_rounds-1
-            nredeals = ungettext('%d readeal', '%d redeals', n) % n
+            nredeals = ungettext('%d redeal', '%d redeals', n) % n
         # round = _('Round #%d.') % self.round
         return _('Talon.')+' '+nredeals  # +' '+round
 

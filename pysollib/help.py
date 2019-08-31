@@ -40,17 +40,18 @@ from pysollib.settings import PACKAGE_URL, TITLE, TOOLKIT, VERSION
 def help_about(app, timeout=0, sound=True):
     if sound:
         app.audio.playSample("about")
-    t = _("A Python Solitaire Game Collection\n")
+    t = _("A Python Solitaire Game Collection")
     if app.miscrandom.random() < 0.8:
-        t = _("A World Domination Project\n")
+        t = _("A World Domination Project")
     strings = (_("&Nice"), _("&Credits..."))
     if timeout:
         strings = (_("&Enjoy"),)
     version = _("Version %s") % VERSION
-    d = PysolAboutDialog(app, app.top, title=_("About ") + TITLE,
+    d = PysolAboutDialog(app, app.top, title=_("About %s") % TITLE,
                          timeout=timeout,
                          text=_('''PySol Fan Club edition
-%s%s
+%(description)s
+%(versioninfo)s
 
 Copyright (C) 1998 - 2003 Markus F.X.J. Oberhumer.
 Copyright (C) 2003 Mt. Hood Playing Card Co.
@@ -60,7 +61,8 @@ All Rights Reserved.
 PySol is free software distributed under the terms
 of the GNU General Public License.
 
-For more information about this application visit''') % (t, version),
+For more information about this application visit''') %
+                         {'description': t, 'versioninfo': version},
                          url=PACKAGE_URL,
                          image=app.gimages.logos[2],
                          strings=strings, default=0,
@@ -86,7 +88,7 @@ def help_credits(app, timeout=0, sound=True):
         t = "kivy"
     d = MfxMessageDialog(
         app.top, title=_("Credits"), timeout=timeout,
-        text=TITLE+_(''' credits go to:
+        text=_('''%(app)s credits go to:
 
 Volker Weidner for getting me into Solitaire
 Guido van Rossum for the initial example program
@@ -95,8 +97,8 @@ Carl Larsson for the background music
 The Gnome AisleRiot team for parts of the documentation
 Natascha
 
-The Python, %s, SDL & Linux crews
-for making this program possible''') % t,
+The Python, %(gui_library)s, SDL & Linux crews
+for making this program possible''') % {'app': TITLE, 'gui_library': t},
         image=app.gimages.logos[3], image_side="right",
         separator=True)
     return d.status
@@ -122,8 +124,8 @@ def help_html(app, document, dir_, top=None):
             document, dir_ = "index.html", "html"
             help_html_index = app.dataloader.findFile(document, dir_)
     except EnvironmentError:
-        MfxMessageDialog(app.top, title=TITLE + _(" HTML Problem"),
-                         text=_("Cannot find help document\n") + document,
+        MfxMessageDialog(app.top, title=_("%s HTML Problem") % TITLE,
+                         text=_("Cannot find help document\n%s") % document,
                          bitmap="warning")
         return None
     # print doc, help_html_index
@@ -136,7 +138,7 @@ def help_html(app, document, dir_, top=None):
         viewer.display(doc, relpath=0)
     except Exception:
         # traceback.print_exc()
-        top = make_help_toplevel(app, title=TITLE+_(" Help"))
+        top = make_help_toplevel(app, title=_("%s Help") % TITLE)
         if top.winfo_screenwidth() < 800 or top.winfo_screenheight() < 600:
             # maximized = 1
             top.wm_minsize(300, 150)

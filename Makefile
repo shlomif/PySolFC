@@ -40,7 +40,7 @@ rules:
 
 pot:
 	./scripts/all_games.py gettext > po/games.pot
-	xgettext --keyword=n_ -o po/pysol.pot \
+	xgettext --keyword=n_ --add-comments=TRANSLATORS: -o po/pysol.pot \
 		pysollib/*.py pysollib/*/*.py pysollib/*/*/*.py data/pysolfc.glade
 	set -e; \
 	for lng in ru de pl it; do \

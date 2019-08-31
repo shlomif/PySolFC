@@ -410,7 +410,8 @@ class CanvasFormatter(PysolStatsFormatter):
         #
         y += self.h
         total, played, won, lost, time_, moves, perc = self.getStatSummary()
-        s = _("Total (%d out of %d games)") % (played, total)
+        s = _("Total (%(played)d out of %(total)d games)") % {
+            'played': played, 'total': total}
         self.pstats(y, (s, won+lost, won, lost, time_, moves, perc))
 
     def writeLog(self, player, prev_games):

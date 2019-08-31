@@ -67,7 +67,8 @@ class StatsFormatter(PysolStatsFormatter):
                            6, result[6],
                            7, result[7])
         total, played, won, lost, time, moves, perc = self.getStatSummary()
-        text = _("Total (%d out of %d games)") % (played, total)
+        text = _("Total (%(played)d out of %(total)d games)") % {
+            'played': played, 'total': total}
         iter = self.store.append(None)
         self.store.set(iter,
                        0, text,

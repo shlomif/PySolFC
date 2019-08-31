@@ -105,8 +105,8 @@ class PysolMenubarTk(PysolMenubarTkCommon):
         self._calc_MfxMessageDialog()(
             self.top, title=_("Change theme"),
             text=_("""\
-This settings will take effect
-the next time you restart """)+TITLE,
+These settings will take effect
+the next time you restart %(app)s""") % {'app': TITLE},
             bitmap="warning",
             default=0, strings=(_("&OK"),))
 

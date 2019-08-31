@@ -203,7 +203,7 @@ class PysolToolbarTk(BoxLayout):
             # (n_("Statistics"), self.mPlayerStats, _("View statistics")),
             (n_("Rules"),    self.mHelpRules, _("Rules for this game")),
             (None,           None,            None),
-            (n_("Quit"),     self.mHoldAndQuit,      _("Quit ") + TITLE),
+            (n_("Quit"),     self.mHoldAndQuit,      _("Quit %s") % TITLE),
         ):
             if label is None:
                 # sep = self._createSeparator()

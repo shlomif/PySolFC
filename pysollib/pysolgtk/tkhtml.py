@@ -434,13 +434,13 @@ class HTMLViewer:
         for p in REMOTE_PROTOCOLS:
             if url.startswith(p):
                 if not openURL(url):
-                    self.errorDialog(TITLE + _('''HTML limitation:
-The %s protocol is not supported yet.
+                    self.errorDialog(_('''%(app)s HTML limitation:
+The %(protocol)s protocol is not supported yet.
 
 Please use your standard web browser
 to open the following URL:
-%s
-''') % (p, url))
+%(url)s
+''') % {'app': TITLE, 'protocol': p, 'url': url})
                 return
 
         # locate the file relative to the current url

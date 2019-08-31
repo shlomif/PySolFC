@@ -368,7 +368,8 @@ class TreeFormatter(PysolStatsFormatter):
             self.parent_window.games[id] = t8
 
         total, played, won, lost, time_, moves, perc = self.getStatSummary()
-        text = _("Total (%d out of %d games)") % (played, total)
+        text = _("Total (%(played)d out of %(total)d games)") % {
+            'played': played, 'total': total}
         id = self.tree.insert("", "end", text=text,
                               values=(won+lost, won, lost, time_, moves, perc))
         self.parent_window.tree_items.append(id)

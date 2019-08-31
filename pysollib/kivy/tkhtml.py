@@ -406,7 +406,7 @@ class HTMLViewer:
         # self.defcursor = 'xterm'
         self.handcursor = "hand2"
 
-        self.title = "Browser"
+        self.title = _("Browser")
         self.window = None
         self.running = False
 
@@ -431,11 +431,11 @@ class HTMLViewer:
         #   BoxLayout(orientation='horizontal', size_hint=(1.0, 0.1))
 
         # create buttons
-        self.homeButton = HTMLButton(text="Index", on_release=self.goHome)
-        self.backButton = HTMLButton(text="Back", on_release=self.goBack)
+        self.homeButton = HTMLButton(text=_("Index"), on_release=self.goHome)
+        self.backButton = HTMLButton(text=_("Back"), on_release=self.goBack)
         self.forwardButton = HTMLButton(
-            text="Forward", on_release=self.goForward)
-        self.closeButton = HTMLButton(text="Close", on_release=self.goHome)
+            text=_("Forward"), on_release=self.goForward)
+        self.closeButton = HTMLButton(text=_("Close"), on_release=self.goHome)
 
         '''
         buttonline.add_widget(self.homeButton)
@@ -683,7 +683,8 @@ class HTMLViewer:
             self.display(self.home, relpath=0)
 
     def errorDialog(self, msg):
-        MfxMessageDialog(self.parent, title=TITLE + " HTML Problem",
+        MfxMessageDialog(self.parent,
+                         title=_("%s HTML Problem") % TITLE,
                          text=msg,
                          # bitmap="warning"
                          # FIXME: this interp don't have images

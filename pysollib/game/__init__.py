@@ -63,7 +63,7 @@ from pysollib.pysoltk import MfxExceptionDialog, MfxMessageDialog
 from pysollib.pysoltk import after, after_cancel, after_idle
 from pysollib.pysoltk import bind, wm_map
 from pysollib.settings import DEBUG
-from pysollib.settings import PACKAGE, TITLE, TOOLKIT, TOP_TITLE
+from pysollib.settings import PACKAGE, TITLE, TOOLKIT, TOP_SIZE
 from pysollib.settings import VERSION, VERSION_TUPLE
 from pysollib.struct_new import NewStruct
 
@@ -1310,7 +1310,7 @@ class Game(object):
             if not title:
                 title = TITLE
             if not text:
-                text = _("Discard current game ?")
+                text = _("Discard current game?")
             self.playSample("areyousure")
             d = MfxMessageDialog(self.top, title=title, text=text,
                                  bitmap="question",
@@ -1931,19 +1931,24 @@ class Game(object):
                 if ret:
                     if ret[0] and ret[1]:
                         top_msg = _(
-                            '''\nYou have reached\n''' +
-                            '# %d in the %s of playing time' +
-                            '\nand # %d in the %s of moves.') % \
-                            (ret[0], TOP_TITLE, ret[1], TOP_TITLE)
+                            '\nYou have reached\n# %(timerank)d in the top ' +
+                            '%(tops)d of playing time\nand # %(movesrank)d ' +
+                            'in the top %(tops)d of moves.') % {
+                                'timerank': ret[0],
+                                'movesrank': ret[1],
+                                'tops': TOP_SIZE}
                     elif ret[0]:        # playing time
                         top_msg = _(
-                            '''\nYou have reached\n''' +
-                            '''# %d in the %s of playing time.''') \
-                            % (ret[0], TOP_TITLE)
+                            '\nYou have reached\n# %(timerank)d in the top ' +
+                            '%(tops)d of playing time.') % {
+                                'timerank': ret[0],
+                                'tops': TOP_SIZE}
                     elif ret[1]:        # moves
                         top_msg = _(
-                            '''\nYou have reached\n''' +
-                            '# %d in the %s of moves.') % (ret[1], TOP_TITLE)
+                            '\nYou have reached\n# %(movesrank)d in the top ' +
+                            '%(tops)s of moves.') % {
+                                'movesrank': ret[1],
+                                'tops': TOP_SIZE}
                 return top_msg
         elif not demo:
             # only update the session log
@@ -1975,14 +1980,14 @@ class Game(object):
             self.finished = True
             self.playSample("gameperfect", priority=1000)
             self.winAnimation(perfect=1)
-            text = ungettext('''Your playing time is %s\nfor %d move.''',
-                             '''Your playing time is %s\nfor %d moves.''',
+            text = ungettext('Your playing time is %(time)s\nfor %(n)d move.',
+                             'Your playing time is %(time)s\nfor %(n)d moves.',
                              self.moves.index)
-            text = text % (time, self.moves.index)
+            text = text % {'time': time, 'n': self.moves.index}
+            congrats = _('Congratulations, this\nwas a truly perfect game!')
             d = MfxMessageDialog(
                 self.top, title=_("Game won"),
-                text=_('\nCongratulations, this\nwas a truly perfect game !' +
-                       '\n\n%s\n%s\n') % (text, top_msg),
+                text='\n' + congrats + '\n\n' + text + '\n' + top_msg + '\n',
                 strings=(_("&New game"), None, _("&Cancel")),
                 image=self.app.gimages.logos[5])
         elif status == 1:
@@ -1991,16 +1996,14 @@ class Game(object):
             self.finished = True
             self.playSample("gamewon", priority=1000)
             self.winAnimation()
-            text = ungettext('''Your playing time is %s\nfor %d move.''',
-                             '''Your playing time is %s\nfor %d moves.''',
+            text = ungettext('Your playing time is %(time)s\nfor %(n)d move.',
+                             'Your playing time is %(time)s\nfor %(n)d moves.',
                              self.moves.index)
-            text = text % (time, self.moves.index)
+            text = text % {'time': time, 'n': self.moves.index}
+            congrats = _('Congratulations, you did it!')
             d = MfxMessageDialog(
                 self.top, title=_("Game won"),
-                text=(
-                    _('\nCongratulations, you did it !\n\n%s\n%s\n') %
-                    (text, top_msg)
-                ),
+                text='\n' + congrats + '\n\n' + text + '\n' + top_msg + '\n',
                 strings=(_("&New game"), None, _("&Cancel")),
                 image=self.app.gimages.logos[4])
         elif self.gstats.updated < 0:
@@ -2522,7 +2525,8 @@ class Game(object):
                                  '\nGame solved in %d moves.\n',
                                  self.moves.index)
                 text = text % self.moves.index
-                d = MfxMessageDialog(self.top, title=TITLE+_(" Autopilot"),
+                d = MfxMessageDialog(self.top,
+                                     title=_("%s Autopilot") % TITLE,
                                      text=text,
                                      image=self.app.gimages.logos[4],
                                      strings=(s,),
@@ -2536,7 +2540,8 @@ class Game(object):
                 if DEBUG:
                     text += "\nplayer_moves: %d\ndemo_moves: %d\n" % \
                         (self.stats.player_moves, self.stats.demo_moves)
-                d = MfxMessageDialog(self.top, title=TITLE+_(" Autopilot"),
+                d = MfxMessageDialog(self.top,
+                                     title=_("%s Autopilot") % TITLE,
                                      text=text, bitmap=bitmap, strings=(s,),
                                      padx=30, timeout=timeout)
                 status = d.status
@@ -2550,7 +2555,8 @@ class Game(object):
                 s = self.app.miscrandom.choice(
                         (_("&Oh well"), _("&That's life"), _("&Hmm")))
                 # ??? accelerators
-                d = MfxMessageDialog(self.top, title=TITLE+_(" Autopilot"),
+                d = MfxMessageDialog(self.top,
+                                     title=_("%s Autopilot") % TITLE,
                                      text=_("\nThis won't come out...\n"),
                                      bitmap=bitmap, strings=(s,),
                                      padx=30, timeout=timeout)
@@ -2999,7 +3005,7 @@ class Game(object):
         if confirm and self.gsaveinfo.bookmarks.get(n):
             if not self.areYouSure(
                     _("Set bookmark"),
-                    _("Replace existing bookmark %d ?") % (n+1)):
+                    _("Replace existing bookmark %d?") % (n+1)):
                 return 0
         f = BytesIO()
         try:
@@ -3021,7 +3027,7 @@ class Game(object):
             confirm = self.app.opt.confirm
         if confirm:
             if not self.areYouSure(_("Goto bookmark"),
-                                   _("Goto bookmark %d ?") % (n+1)):
+                                   _("Goto bookmark %d?") % (n+1)):
                 return
         try:
             s, moves_index = bm
@@ -3143,9 +3149,9 @@ class Game(object):
         version_tuple = pload(tuple)
         validate(
             version_tuple >= (1, 0),
-            _('''Cannot load games saved with\n%s version %s''') % (
-                PACKAGE,
-                version))
+            _('Cannot load games saved with\n%(app)s version %(ver)s') % {
+                'app': PACKAGE,
+                'ver': version})
         game_version = 1
         bookmark = pload(int)
         validate(0 <= bookmark <= 2, err_txt)

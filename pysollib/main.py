@@ -56,25 +56,25 @@ if TOOLKIT == 'kivy':
     def fatal_no_cardsets(app):
         app.wm_withdraw()
         MfxMessageDialog(app.top, title=_("%s installation error") % TITLE,
-                         text=_('''No cardsets were found !!!
+                         text=_('''No cardsets were found!!!
 
 Cardsets should be installed into:
-%s/cardsets/
+%(dir)s
 
-Please check your %s installation.
-''') % (getprefdir(PACKAGE), TITLE),
+Please check your %(app)s installation.
+''') % {'dir': getprefdir(PACKAGE) + '/cardsets/', 'app': TITLE},
             bitmap="error", strings=(_("&Quit"),))
 else:
     def fatal_no_cardsets(app):
         app.wm_withdraw()
         MfxMessageDialog(app.top, title=_("%s installation error") % TITLE,
-                         text=_('''No cardsets were found !!!
+                         text=_('''No cardsets were found!!!
 
 Main data directory is:
-%s
+%(dir)s
 
-Please check your %s installation.
-''') % (app.dataloader.dir, TITLE),
+Please check your %(app)s installation.
+''') % {'dir': app.dataloader.dir, 'app': TITLE},
                      bitmap="error", strings=(_("&Quit"),))
 
 
@@ -93,8 +93,8 @@ def parse_option(argv):
                                        "sound-mod=",
                                        "help"])
     except getopt.GetoptError as err:
-        print_err(_("%s\ntry %s --help for more information") %
-                  (err, prog_name), 0)
+        print_err(err + "\n" + _("try %s --help for more information") %
+                  prog_name, 0)
         return None
     opts = {"help": False,
             "deal": None,
@@ -303,13 +303,14 @@ def pysol_init(app, args):
         app.intro.progress.destroy()
         d = MfxMessageDialog(top, title=_("%s installation error") % TITLE,
                              text=_('''
-No games were found !!!
+No games were found!!!
 
 Main data directory is:
-%s
+%(dir)s
 
-Please check your %s installation.
-''') % (app.dataloader.dir, TITLE), bitmap="error", strings=(_("&Quit"),))
+Please check your %(app)s installation.
+''') % {'dir': app.dataloader.dir, 'app': TITLE},
+                             bitmap="error", strings=(_("&Quit"),))
         return 1
 
     # init cardsets

@@ -199,7 +199,7 @@ class FileStatsFormatter(PysolStatsFormatter):
     def writeStats(self, player, sort_by='name'):
         if player is None:
             player = _('Demo')
-        header = _("Statistics for ") + player
+        header = _("Statistics for %(player)s") % {'player': player}
         self.writeHeader(header, 62)
         header = self.getStatHeader()
         self.pstats(*header)
@@ -209,7 +209,8 @@ class FileStatsFormatter(PysolStatsFormatter):
             self.pstats(gameid=gameid, *result)
         self.nl()
         total, played, won, lost, time, moves, perc = self.getStatSummary()
-        self.pstats(_("Total (%d out of %d games)") % (played, total),
+        self.pstats(_("Total (%(played)d out of %(total)d games)") %
+                    {'played': played, 'total': total},
                     won+lost, won, lost, time, moves, perc)
         self.nl(2)
         return played
@@ -231,14 +232,14 @@ class FileStatsFormatter(PysolStatsFormatter):
     def writeFullLog(self, player):
         if player is None:
             player = _('Demo')
-        header = _("Full log for ") + player
+        header = _("Full log for %(player)s") % {'player': player}
         prev_games = self.app.stats.prev_games.get(player)
         return self.writeLog(player, header, prev_games)
 
     def writeSessionLog(self, player):
         if player is None:
             player = _('Demo')
-        header = _("Session log for ") + player
+        header = _("Session log for %(player)s") % {'player': player}
         prev_games = self.app.stats.session_games.get(player)
         return self.writeLog(player, header, prev_games)
 

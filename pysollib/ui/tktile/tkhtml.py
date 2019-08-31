@@ -311,13 +311,13 @@ class Base_HTMLViewer:
         for p in REMOTE_PROTOCOLS:
             if url.startswith(p):
                 if not openURL(url):
-                    self.errorDialog(TITLE + _('''HTML limitation:
-The %s protocol is not supported yet.
+                    self.errorDialog(_('''%(app)s HTML limitation:
+The %(protocol)s protocol is not supported yet.
 
 Please use your standard web browser
 to open the following URL:
-%s
-''') % (p, url))
+%(url)s
+''') % {'app': TITLE, 'protocol': p, 'url': url})
                 return
 
         # locate the file relative to the current url
@@ -429,7 +429,7 @@ to open the following URL:
 
     def errorDialog(self, msg):
         self._calc_MfxMessageDialog()(
-            self.parent, title=TITLE+" HTML Problem",
+            self.parent, title="%(app)s HTML Problem" % {'app': TITLE},
             text=msg,
             # bitmap="warning", # FIXME: this interp don't have images
             strings=(_("&OK"),), default=0)

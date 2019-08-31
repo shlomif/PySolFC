@@ -167,10 +167,10 @@ class MfxMessageDialog(MfxDialog):
 
         # LB
         # nicht automatisch ein neues spiel laden.
-        if (title == "Game won"):
+        if (title == _("Game won")):
             self.status = 1
             # self.button = 0
-        if (title == "Game finished"):
+        if (title == _("Game finished")):
             self.status = 1
             # self.button =
 
@@ -180,7 +180,7 @@ class MfxMessageDialog(MfxDialog):
 
 
 class MfxExceptionDialog(MfxMessageDialog):
-    def __init__(self, parent, ex, title="Error", **kw):
+    def __init__(self, parent, ex, title=_("Error"), **kw):
         kw = KwStruct(kw, bitmap="error")
         text = kw.get("text", "")
         if not text.endswith("\n"):

@@ -23,5 +23,8 @@ fi
 
 mkdir -p ${packagedir}
 cd ${packagedir}
-wget -nv ${packageurl}/${packagename}
-touch ${packagemark}
+if [ ! -f ${packagemark} ]
+then
+  wget -nv ${packageurl}/${packagename}
+  touch ${packagemark}
+fi

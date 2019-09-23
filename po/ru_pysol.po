@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-31 00:20+0300\n"
+"POT-Creation-Date: 2019-09-23 14:11+0200\n"
 "PO-Revision-Date: 2007-09-06 15:09+0400\n"
 "Last-Translator: Skomoroh <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -57,7 +57,7 @@ msgstr ""
 "Введите номер новой игры"
 
 #: pysollib/actions.py:293 pysollib/app.py:524 pysollib/app.py:818
-#: pysollib/game/__init__.py:1305 pysollib/game/__init__.py:2526
+#: pysollib/game/__init__.py:1317 pysollib/game/__init__.py:2538
 #: pysollib/kivy/tkhtml.py:691 pysollib/kivy/tkstats.py:254
 #: pysollib/kivy/tkwidget.py:97 pysollib/pysolgtk/playeroptionsdialog.py:79
 #: pysollib/pysolgtk/selecttile.py:158 pysollib/pysolgtk/tkhtml.py:542
@@ -91,9 +91,9 @@ msgstr "&ОК"
 msgid "&Next number"
 msgstr "&Следующий номер"
 
-#: pysollib/actions.py:293 pysollib/app.py:525 pysollib/game/__init__.py:1305
-#: pysollib/game/__init__.py:1979 pysollib/game/__init__.py:1995
-#: pysollib/game/__init__.py:2003 pysollib/game/__init__.py:2010
+#: pysollib/actions.py:293 pysollib/app.py:525 pysollib/game/__init__.py:1317
+#: pysollib/game/__init__.py:1991 pysollib/game/__init__.py:2007
+#: pysollib/game/__init__.py:2015 pysollib/game/__init__.py:2022
 #: pysollib/kivy/menubar.py:2066 pysollib/kivy/menubar.py:2069
 #: pysollib/kivy/selectcardset.py:57
 #: pysollib/pysolgtk/playeroptionsdialog.py:79
@@ -316,9 +316,9 @@ msgstr "Настроить таймауты"
 msgid "can't find game: %(game)s"
 msgstr ""
 
-#: pysollib/app.py:526 pysollib/game/__init__.py:1979
-#: pysollib/game/__init__.py:1995 pysollib/game/__init__.py:2003
-#: pysollib/game/__init__.py:2010 pysollib/ui/tktile/menubar.py:300
+#: pysollib/app.py:526 pysollib/game/__init__.py:1991
+#: pysollib/game/__init__.py:2007 pysollib/game/__init__.py:2015
+#: pysollib/game/__init__.py:2022 pysollib/ui/tktile/menubar.py:300
 msgid "&New game"
 msgstr "&Новая игра"
 
@@ -723,8 +723,7 @@ msgstr ""
 #: pysollib/main.py:96
 #, python-format
 msgid "try %s --help for more information"
-msgstr ""
-"попробуйте %s --help для получения более подробной информации"
+msgstr "попробуйте %s --help для получения более подробной информации"
 
 #: pysollib/main.py:128
 #, python-format
@@ -1826,16 +1825,16 @@ msgstr "Резервные ячейки"
 msgid "Opening deal"
 msgstr "Начальная раздача"
 
-#: pysollib/game/__init__.py:140 pysollib/game/__init__.py:146
+#: pysollib/game/__init__.py:141 pysollib/game/__init__.py:147
 msgid "Player\n"
 msgstr "Игрок\n"
 
-#: pysollib/game/__init__.py:1301
+#: pysollib/game/__init__.py:1313
 #, fuzzy
 msgid "Discard current game?"
 msgstr "Завершить текущую игру?"
 
-#: pysollib/game/__init__.py:1922
+#: pysollib/game/__init__.py:1934
 #, fuzzy, python-format
 msgid ""
 "\n"
@@ -1848,7 +1847,7 @@ msgstr ""
 "#%d в %s игрового времени\n"
 "и #%d в %s количества ходов."
 
-#: pysollib/game/__init__.py:1930
+#: pysollib/game/__init__.py:1942
 #, fuzzy, python-format
 msgid ""
 "\n"
@@ -1859,7 +1858,7 @@ msgstr ""
 "Вы достигли\n"
 "#%d в %s игрового времени."
 
-#: pysollib/game/__init__.py:1936
+#: pysollib/game/__init__.py:1948
 #, fuzzy, python-format
 msgid ""
 "\n"
@@ -1870,7 +1869,7 @@ msgstr ""
 "Вы достигли\n"
 "#%d в %s количества ходов."
 
-#: pysollib/game/__init__.py:1971 pysollib/game/__init__.py:1987
+#: pysollib/game/__init__.py:1983 pysollib/game/__init__.py:1999
 #, fuzzy, python-format
 msgid ""
 "Your playing time is %(time)s\n"
@@ -1888,7 +1887,7 @@ msgstr[2] ""
 "Ваше игровое время: %s\n"
 "Количество ходов: %s"
 
-#: pysollib/game/__init__.py:1975
+#: pysollib/game/__init__.py:1987
 msgid ""
 "Congratulations, this\n"
 "was a truly perfect game!"
@@ -1897,25 +1896,25 @@ msgstr ""
 "Это была действительно\n"
 "великолепная игра!"
 
-#: pysollib/game/__init__.py:1977 pysollib/game/__init__.py:1993
+#: pysollib/game/__init__.py:1989 pysollib/game/__init__.py:2005
 #: pysollib/kivy/tkwidget.py:170 pysollib/pysolgtk/soundoptionsdialog.py:71
 #: pysollib/tile/soundoptionsdialog.py:83 pysollib/tk/soundoptionsdialog.py:85
 msgid "Game won"
 msgstr "Игра выиграна"
 
-#: pysollib/game/__init__.py:1991
+#: pysollib/game/__init__.py:2003
 msgid "Congratulations, you did it!"
 msgstr ""
 "Поздравляем!\n"
 "Вы сделали это!"
 
-#: pysollib/game/__init__.py:2001 pysollib/game/__init__.py:2008
+#: pysollib/game/__init__.py:2013 pysollib/game/__init__.py:2020
 #: pysollib/kivy/tkwidget.py:173 pysollib/pysolgtk/soundoptionsdialog.py:69
 #: pysollib/tile/soundoptionsdialog.py:81 pysollib/tk/soundoptionsdialog.py:83
 msgid "Game finished"
 msgstr "Игра закончена"
 
-#: pysollib/game/__init__.py:2002 pysollib/game/__init__.py:2527
+#: pysollib/game/__init__.py:2014 pysollib/game/__init__.py:2539
 msgid ""
 "\n"
 "Game finished\n"
@@ -1923,7 +1922,7 @@ msgstr ""
 "\n"
 "Игра закончена\n"
 
-#: pysollib/game/__init__.py:2009
+#: pysollib/game/__init__.py:2021
 msgid ""
 "\n"
 "Game finished, but not without my help...\n"
@@ -1931,32 +1930,32 @@ msgstr ""
 "\n"
 "Игра закончена, но не без моей помощи...\n"
 
-#: pysollib/game/__init__.py:2010
+#: pysollib/game/__init__.py:2022
 msgid "&Restart"
 msgstr "&Начало"
 
-#: pysollib/game/__init__.py:2406
+#: pysollib/game/__init__.py:2418
 #, python-format
 msgid "Score %6d"
 msgstr "Счёт %6d"
 
-#: pysollib/game/__init__.py:2510
+#: pysollib/game/__init__.py:2522
 msgid "&Great"
 msgstr "&Здорово"
 
-#: pysollib/game/__init__.py:2510
+#: pysollib/game/__init__.py:2522
 msgid "&Cool"
 msgstr "&Отлично"
 
-#: pysollib/game/__init__.py:2511
+#: pysollib/game/__init__.py:2523
 msgid "&Yeah"
 msgstr "&Ага"
 
-#: pysollib/game/__init__.py:2511
+#: pysollib/game/__init__.py:2523
 msgid "&Wow"
 msgstr "&Ура"
 
-#: pysollib/game/__init__.py:2512
+#: pysollib/game/__init__.py:2524
 #, python-format
 msgid ""
 "\n"
@@ -1974,25 +1973,25 @@ msgstr[2] ""
 "\n"
 "Игра решена за %d ходов\n"
 
-#: pysollib/game/__init__.py:2517 pysollib/game/__init__.py:2532
-#: pysollib/game/__init__.py:2547
+#: pysollib/game/__init__.py:2529 pysollib/game/__init__.py:2544
+#: pysollib/game/__init__.py:2559
 #, python-format
 msgid "%s Autopilot"
 msgstr "%s Автопилот"
 
-#: pysollib/game/__init__.py:2544
+#: pysollib/game/__init__.py:2556
 msgid "&Oh well"
 msgstr "&Ох"
 
-#: pysollib/game/__init__.py:2544
+#: pysollib/game/__init__.py:2556
 msgid "&That's life"
 msgstr "&Такова жизнь"
 
-#: pysollib/game/__init__.py:2544
+#: pysollib/game/__init__.py:2556
 msgid "&Hmm"
 msgstr "&Хмм"
 
-#: pysollib/game/__init__.py:2548
+#: pysollib/game/__init__.py:2560
 msgid ""
 "\n"
 "This won't come out...\n"
@@ -2000,34 +1999,34 @@ msgstr ""
 "\n"
 "Не удалось...\n"
 
-#: pysollib/game/__init__.py:3000
+#: pysollib/game/__init__.py:3007
 msgid "Set bookmark"
 msgstr "Установить закладку"
 
-#: pysollib/game/__init__.py:3001
+#: pysollib/game/__init__.py:3008
 #, fuzzy, python-format
 msgid "Replace existing bookmark %d?"
 msgstr "Заменить существующую закладку %d ?"
 
-#: pysollib/game/__init__.py:3022
+#: pysollib/game/__init__.py:3029
 msgid "Goto bookmark"
 msgstr "Перейти к закладке"
 
-#: pysollib/game/__init__.py:3023
+#: pysollib/game/__init__.py:3030
 #, fuzzy, python-format
 msgid "Goto bookmark %d?"
 msgstr "Перейти к закладке %d ?"
 
-#: pysollib/game/__init__.py:3049
+#: pysollib/game/__init__.py:3056
 msgid "Open game"
 msgstr "Открыть игру"
 
-#: pysollib/game/__init__.py:3062 pysollib/game/__init__.py:3071
-#: pysollib/game/__init__.py:3077
+#: pysollib/game/__init__.py:3069 pysollib/game/__init__.py:3078
+#: pysollib/game/__init__.py:3084
 msgid "Load game error"
 msgstr "Ошибка при загрузке игры"
 
-#: pysollib/game/__init__.py:3064
+#: pysollib/game/__init__.py:3071
 msgid ""
 "Error while loading game.\n"
 "\n"
@@ -2039,11 +2038,11 @@ msgstr ""
 "Возможно повреждён файл,\n"
 "или ошибка в программе."
 
-#: pysollib/game/__init__.py:3072
+#: pysollib/game/__init__.py:3079
 msgid "Error while loading game"
 msgstr "Ошибка при загрузке игры"
 
-#: pysollib/game/__init__.py:3079
+#: pysollib/game/__init__.py:3086
 msgid ""
 "Internal error while loading game.\n"
 "\n"
@@ -2053,27 +2052,27 @@ msgstr ""
 "\n"
 "Пожалуйста сообщите об этой ошибке."
 
-#: pysollib/game/__init__.py:3105 pysollib/ui/tktile/menubar.py:1677
+#: pysollib/game/__init__.py:3112 pysollib/ui/tktile/menubar.py:1677
 msgid "Save game error"
 msgstr "Ошибка при сохранении игры"
 
-#: pysollib/game/__init__.py:3106
+#: pysollib/game/__init__.py:3113
 msgid "Error while saving game"
 msgstr "Ошибка при сохранении игры"
 
-#: pysollib/game/__init__.py:3125
+#: pysollib/game/__init__.py:3132
 #, python-format
 msgid "Invalid or damaged %s save file"
 msgstr ""
 
-#: pysollib/game/__init__.py:3145
+#: pysollib/game/__init__.py:3152
 #, python-format
 msgid ""
 "Cannot load games saved with\n"
 "%(app)s version %(ver)s"
 msgstr ""
 
-#: pysollib/game/__init__.py:3164
+#: pysollib/game/__init__.py:3171
 #, python-format
 msgid ""
 "Cannot load this game from version %s\n"
@@ -2297,6 +2296,21 @@ msgstr ""
 #: pysollib/kivy/menubar.py:245
 msgid "<Remove>"
 msgstr ""
+
+#: pysollib/kivy/menubar.py:259
+#, fuzzy
+msgid "Load"
+msgstr "&Загрузить"
+
+#: pysollib/kivy/menubar.py:261 pysollib/tile/toolbar.py:180
+#: pysollib/tk/toolbar.py:180
+msgid "Save"
+msgstr "Сохранить"
+
+#: pysollib/kivy/menubar.py:264 pysollib/kivy/toolbar.py:206
+#: pysollib/tile/toolbar.py:191 pysollib/tk/toolbar.py:191
+msgid "Quit"
+msgstr "Выйти"
 
 #: pysollib/kivy/menubar.py:296 pysollib/kivy/toolbar.py:197
 #: pysollib/pysolgtk/soundoptionsdialog.py:63
@@ -3145,11 +3159,6 @@ msgstr "Приостановить игру"
 msgid "Rules"
 msgstr "Правила"
 
-#: pysollib/kivy/toolbar.py:206 pysollib/tile/toolbar.py:191
-#: pysollib/tk/toolbar.py:191
-msgid "Quit"
-msgstr "Выйти"
-
 #: pysollib/pysolgtk/colorsdialog.py:87 pysollib/pysolgtk/fontsdialog.py:92
 #: pysollib/ui/tktile/colorsdialog.py:107
 msgid "Select color"
@@ -3987,10 +3996,6 @@ msgid ""
 msgstr ""
 "Открыть\n"
 "сохранённую игру"
-
-#: pysollib/tile/toolbar.py:180 pysollib/tk/toolbar.py:180
-msgid "Save"
-msgstr "Сохранить"
 
 #: pysollib/tile/toolbar.py:188 pysollib/tk/toolbar.py:188
 msgid "View statistics"

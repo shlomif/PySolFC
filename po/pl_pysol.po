@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-31 00:20+0300\n"
+"POT-Creation-Date: 2019-09-23 14:11+0200\n"
 "PO-Revision-Date: 2010-12-12 15:43+0100\n"
 "Last-Translator: Jerzy Trzeciak <artusek@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -58,7 +58,7 @@ msgstr ""
 "Podaj nowy numer gry"
 
 #: pysollib/actions.py:293 pysollib/app.py:524 pysollib/app.py:818
-#: pysollib/game/__init__.py:1305 pysollib/game/__init__.py:2526
+#: pysollib/game/__init__.py:1317 pysollib/game/__init__.py:2538
 #: pysollib/kivy/tkhtml.py:691 pysollib/kivy/tkstats.py:254
 #: pysollib/kivy/tkwidget.py:97 pysollib/pysolgtk/playeroptionsdialog.py:79
 #: pysollib/pysolgtk/selecttile.py:158 pysollib/pysolgtk/tkhtml.py:542
@@ -92,9 +92,9 @@ msgstr "&OK"
 msgid "&Next number"
 msgstr "&Następny numer"
 
-#: pysollib/actions.py:293 pysollib/app.py:525 pysollib/game/__init__.py:1305
-#: pysollib/game/__init__.py:1979 pysollib/game/__init__.py:1995
-#: pysollib/game/__init__.py:2003 pysollib/game/__init__.py:2010
+#: pysollib/actions.py:293 pysollib/app.py:525 pysollib/game/__init__.py:1317
+#: pysollib/game/__init__.py:1991 pysollib/game/__init__.py:2007
+#: pysollib/game/__init__.py:2015 pysollib/game/__init__.py:2022
 #: pysollib/kivy/menubar.py:2066 pysollib/kivy/menubar.py:2069
 #: pysollib/kivy/selectcardset.py:57
 #: pysollib/pysolgtk/playeroptionsdialog.py:79
@@ -315,9 +315,9 @@ msgstr "Ustaw limity czasu"
 msgid "can't find game: %(game)s"
 msgstr "nie można odnaleźć gry: %(game)s"
 
-#: pysollib/app.py:526 pysollib/game/__init__.py:1979
-#: pysollib/game/__init__.py:1995 pysollib/game/__init__.py:2003
-#: pysollib/game/__init__.py:2010 pysollib/ui/tktile/menubar.py:300
+#: pysollib/app.py:526 pysollib/game/__init__.py:1991
+#: pysollib/game/__init__.py:2007 pysollib/game/__init__.py:2015
+#: pysollib/game/__init__.py:2022 pysollib/ui/tktile/menubar.py:300
 msgid "&New game"
 msgstr "&Nowa gra"
 
@@ -1832,16 +1832,16 @@ msgstr "Stos rezerwowy"
 msgid "Opening deal"
 msgstr "Rozdanie początkowe"
 
-#: pysollib/game/__init__.py:140 pysollib/game/__init__.py:146
+#: pysollib/game/__init__.py:141 pysollib/game/__init__.py:147
 msgid "Player\n"
 msgstr "Gracz\n"
 
-#: pysollib/game/__init__.py:1301
+#: pysollib/game/__init__.py:1313
 #, fuzzy
 msgid "Discard current game?"
 msgstr "Zakończyć bieżącą grę?"
 
-#: pysollib/game/__init__.py:1922
+#: pysollib/game/__init__.py:1934
 #, fuzzy, python-format
 msgid ""
 "\n"
@@ -1854,7 +1854,7 @@ msgstr ""
 "#%d w %s w czasie gry\n"
 "i #%d w %s w ilości ruchów."
 
-#: pysollib/game/__init__.py:1930
+#: pysollib/game/__init__.py:1942
 #, fuzzy, python-format
 msgid ""
 "\n"
@@ -1865,7 +1865,7 @@ msgstr ""
 "Jesteś na miejscu\n"
 "#%d w %s w czasie gry."
 
-#: pysollib/game/__init__.py:1936
+#: pysollib/game/__init__.py:1948
 #, fuzzy, python-format
 msgid ""
 "\n"
@@ -1876,7 +1876,7 @@ msgstr ""
 "Jesteś na miejscu\n"
 "#d w %s w ilości ruchów."
 
-#: pysollib/game/__init__.py:1971 pysollib/game/__init__.py:1987
+#: pysollib/game/__init__.py:1983 pysollib/game/__init__.py:1999
 #, fuzzy, python-format
 msgid ""
 "Your playing time is %(time)s\n"
@@ -1894,7 +1894,7 @@ msgstr[2] ""
 "Twój czas gry wynosi %s\n"
 "wykonanych zostało %d ruchów."
 
-#: pysollib/game/__init__.py:1975
+#: pysollib/game/__init__.py:1987
 #, fuzzy
 msgid ""
 "Congratulations, this\n"
@@ -1907,13 +1907,13 @@ msgstr ""
 "%s\n"
 "%s\n"
 
-#: pysollib/game/__init__.py:1977 pysollib/game/__init__.py:1993
+#: pysollib/game/__init__.py:1989 pysollib/game/__init__.py:2005
 #: pysollib/kivy/tkwidget.py:170 pysollib/pysolgtk/soundoptionsdialog.py:71
 #: pysollib/tile/soundoptionsdialog.py:83 pysollib/tk/soundoptionsdialog.py:85
 msgid "Game won"
 msgstr "Wygrana"
 
-#: pysollib/game/__init__.py:1991
+#: pysollib/game/__init__.py:2003
 #, fuzzy
 msgid "Congratulations, you did it!"
 msgstr ""
@@ -1923,13 +1923,13 @@ msgstr ""
 "%s\n"
 "%s\n"
 
-#: pysollib/game/__init__.py:2001 pysollib/game/__init__.py:2008
+#: pysollib/game/__init__.py:2013 pysollib/game/__init__.py:2020
 #: pysollib/kivy/tkwidget.py:173 pysollib/pysolgtk/soundoptionsdialog.py:69
 #: pysollib/tile/soundoptionsdialog.py:81 pysollib/tk/soundoptionsdialog.py:83
 msgid "Game finished"
 msgstr "Gra zakończona"
 
-#: pysollib/game/__init__.py:2002 pysollib/game/__init__.py:2527
+#: pysollib/game/__init__.py:2014 pysollib/game/__init__.py:2539
 msgid ""
 "\n"
 "Game finished\n"
@@ -1937,7 +1937,7 @@ msgstr ""
 "\n"
 "Gra zakończona\n"
 
-#: pysollib/game/__init__.py:2009
+#: pysollib/game/__init__.py:2021
 msgid ""
 "\n"
 "Game finished, but not without my help...\n"
@@ -1945,36 +1945,36 @@ msgstr ""
 "\n"
 "Gra zakończona, ale nie bez mojej pomocy...\n"
 
-#: pysollib/game/__init__.py:2010
+#: pysollib/game/__init__.py:2022
 msgid "&Restart"
 msgstr "U&ruchom ponownie"
 
-#: pysollib/game/__init__.py:2406
+#: pysollib/game/__init__.py:2418
 #, python-format
 msgid "Score %6d"
 msgstr "Wynik %6d"
 
-#: pysollib/game/__init__.py:2510
+#: pysollib/game/__init__.py:2522
 #, fuzzy
 msgid "&Great"
 msgstr "&Great"
 
-#: pysollib/game/__init__.py:2510
+#: pysollib/game/__init__.py:2522
 #, fuzzy
 msgid "&Cool"
 msgstr "&Cool"
 
-#: pysollib/game/__init__.py:2511
+#: pysollib/game/__init__.py:2523
 #, fuzzy
 msgid "&Yeah"
 msgstr "&Yeah"
 
-#: pysollib/game/__init__.py:2511
+#: pysollib/game/__init__.py:2523
 #, fuzzy
 msgid "&Wow"
 msgstr "&Wow"
 
-#: pysollib/game/__init__.py:2512
+#: pysollib/game/__init__.py:2524
 #, python-format
 msgid ""
 "\n"
@@ -1992,25 +1992,25 @@ msgstr[2] ""
 "\n"
 "Gra rozwiązana w %d ruchach.\n"
 
-#: pysollib/game/__init__.py:2517 pysollib/game/__init__.py:2532
-#: pysollib/game/__init__.py:2547
+#: pysollib/game/__init__.py:2529 pysollib/game/__init__.py:2544
+#: pysollib/game/__init__.py:2559
 #, fuzzy, python-format
 msgid "%s Autopilot"
 msgstr " Autopilot"
 
-#: pysollib/game/__init__.py:2544
+#: pysollib/game/__init__.py:2556
 msgid "&Oh well"
 msgstr "&O tak"
 
-#: pysollib/game/__init__.py:2544
+#: pysollib/game/__init__.py:2556
 msgid "&That's life"
 msgstr "&Samo życie"
 
-#: pysollib/game/__init__.py:2544
+#: pysollib/game/__init__.py:2556
 msgid "&Hmm"
 msgstr "&Hmm"
 
-#: pysollib/game/__init__.py:2548
+#: pysollib/game/__init__.py:2560
 msgid ""
 "\n"
 "This won't come out...\n"
@@ -2018,34 +2018,34 @@ msgstr ""
 "\n"
 "To się nie uda...\n"
 
-#: pysollib/game/__init__.py:3000
+#: pysollib/game/__init__.py:3007
 msgid "Set bookmark"
 msgstr "Ustaw zakładkę"
 
-#: pysollib/game/__init__.py:3001
+#: pysollib/game/__init__.py:3008
 #, fuzzy, python-format
 msgid "Replace existing bookmark %d?"
 msgstr "Zastąpić istniejącą zakładkę %d ?"
 
-#: pysollib/game/__init__.py:3022
+#: pysollib/game/__init__.py:3029
 msgid "Goto bookmark"
 msgstr "Idź do zakładki"
 
-#: pysollib/game/__init__.py:3023
+#: pysollib/game/__init__.py:3030
 #, fuzzy, python-format
 msgid "Goto bookmark %d?"
 msgstr "Przejść do zakładki %d ?"
 
-#: pysollib/game/__init__.py:3049
+#: pysollib/game/__init__.py:3056
 msgid "Open game"
 msgstr "Otwórz grę"
 
-#: pysollib/game/__init__.py:3062 pysollib/game/__init__.py:3071
-#: pysollib/game/__init__.py:3077
+#: pysollib/game/__init__.py:3069 pysollib/game/__init__.py:3078
+#: pysollib/game/__init__.py:3084
 msgid "Load game error"
 msgstr "Błąd wczytywania gry"
 
-#: pysollib/game/__init__.py:3064
+#: pysollib/game/__init__.py:3071
 msgid ""
 "Error while loading game.\n"
 "\n"
@@ -2056,11 +2056,11 @@ msgstr ""
 "Prawdopodobnie gra jest uszkodzona,\n"
 "lecz może to być również błąd, który warto zgłosić."
 
-#: pysollib/game/__init__.py:3072
+#: pysollib/game/__init__.py:3079
 msgid "Error while loading game"
 msgstr "Błąd podczaas wczytywania gry"
 
-#: pysollib/game/__init__.py:3079
+#: pysollib/game/__init__.py:3086
 msgid ""
 "Internal error while loading game.\n"
 "\n"
@@ -2070,20 +2070,20 @@ msgstr ""
 "\n"
 "Proszę wysłać raport o błędzie."
 
-#: pysollib/game/__init__.py:3105 pysollib/ui/tktile/menubar.py:1677
+#: pysollib/game/__init__.py:3112 pysollib/ui/tktile/menubar.py:1677
 msgid "Save game error"
 msgstr "Błąd zapisywania gry"
 
-#: pysollib/game/__init__.py:3106
+#: pysollib/game/__init__.py:3113
 msgid "Error while saving game"
 msgstr "Błąd podczas zapisywania gry"
 
-#: pysollib/game/__init__.py:3125
+#: pysollib/game/__init__.py:3132
 #, python-format
 msgid "Invalid or damaged %s save file"
 msgstr "Nieprawidłowy lub uszkodzony pik zapisanej gry %s"
 
-#: pysollib/game/__init__.py:3145
+#: pysollib/game/__init__.py:3152
 #, fuzzy, python-format
 msgid ""
 "Cannot load games saved with\n"
@@ -2092,7 +2092,7 @@ msgstr ""
 "Nie można wczytać gier zapisanych\n"
 "%s w wersji %s"
 
-#: pysollib/game/__init__.py:3164
+#: pysollib/game/__init__.py:3171
 #, python-format
 msgid ""
 "Cannot load this game from version %s\n"
@@ -2320,6 +2320,21 @@ msgstr ""
 #: pysollib/kivy/menubar.py:245
 msgid "<Remove>"
 msgstr ""
+
+#: pysollib/kivy/menubar.py:259
+#, fuzzy
+msgid "Load"
+msgstr "Wczytaj"
+
+#: pysollib/kivy/menubar.py:261 pysollib/tile/toolbar.py:180
+#: pysollib/tk/toolbar.py:180
+msgid "Save"
+msgstr "Zapisz"
+
+#: pysollib/kivy/menubar.py:264 pysollib/kivy/toolbar.py:206
+#: pysollib/tile/toolbar.py:191 pysollib/tk/toolbar.py:191
+msgid "Quit"
+msgstr "Zakończ"
 
 #: pysollib/kivy/menubar.py:296 pysollib/kivy/toolbar.py:197
 #: pysollib/pysolgtk/soundoptionsdialog.py:63
@@ -3174,11 +3189,6 @@ msgstr "Pauzuj grę"
 msgid "Rules"
 msgstr "Zasady"
 
-#: pysollib/kivy/toolbar.py:206 pysollib/tile/toolbar.py:191
-#: pysollib/tk/toolbar.py:191
-msgid "Quit"
-msgstr "Zakończ"
-
 #: pysollib/pysolgtk/colorsdialog.py:87 pysollib/pysolgtk/fontsdialog.py:92
 #: pysollib/ui/tktile/colorsdialog.py:107
 msgid "Select color"
@@ -4019,10 +4029,6 @@ msgid ""
 msgstr ""
 "Otwórz\n"
 "zapisaną grę"
-
-#: pysollib/tile/toolbar.py:180 pysollib/tk/toolbar.py:180
-msgid "Save"
-msgstr "Zapisz"
 
 #: pysollib/tile/toolbar.py:188 pysollib/tk/toolbar.py:188
 msgid "View statistics"

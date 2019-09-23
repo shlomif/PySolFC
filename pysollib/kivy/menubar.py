@@ -256,12 +256,12 @@ class FileMenuDialog(LMenuDialog):
                         LTreeNode(text=gi.name, command=command), rg)
 
         tv.add_node(LTreeNode(
-            text='Load', command=self.menubar.mOpen))
+            text=_('Load'), command=self.menubar.mOpen))
         tv.add_node(LTreeNode(
-            text='Save', command=self.menubar.mSaveAs))
+            text=_('Save'), command=self.menubar.mSaveAs))
 
         tv.add_node(LTreeNode(
-            text='Quit', command=self.menubar.mHoldAndQuit))
+            text=_('Quit'), command=self.menubar.mHoldAndQuit))
 
 # ************************************************************************
 

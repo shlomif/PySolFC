@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it_pysol\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-23 14:11+0200\n"
+"POT-Creation-Date: 2019-09-25 11:41+0200\n"
 "PO-Revision-Date: 2011-07-23 14:48+0200\n"
 "Last-Translator: Giuliano Colla <giuliano.colla@gmail.com>\n"
 "Language-Team: Italiano <it@li.org>\n"
@@ -23,13 +23,13 @@ msgstr ""
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: pysollib/actions.py:232 pysollib/kivy/menubar.py:291
+#: pysollib/actions.py:232 pysollib/kivy/menubar.py:292
 #: pysollib/kivy/toolbar.py:191 pysollib/tile/toolbar.py:176
 #: pysollib/tk/toolbar.py:176
 msgid "New game"
 msgstr "Nuovo gioco"
 
-#: pysollib/actions.py:247 pysollib/kivy/menubar.py:1667
+#: pysollib/actions.py:247 pysollib/kivy/menubar.py:1701
 #: pysollib/pysolgtk/menubar.py:648 pysollib/ui/tktile/menubar.py:1015
 #: pysollib/ui/tktile/menubar.py:1031
 msgid "Select game"
@@ -99,7 +99,7 @@ msgstr "&Numero successivo"
 #: pysollib/actions.py:293 pysollib/app.py:525 pysollib/game/__init__.py:1317
 #: pysollib/game/__init__.py:1991 pysollib/game/__init__.py:2007
 #: pysollib/game/__init__.py:2015 pysollib/game/__init__.py:2022
-#: pysollib/kivy/menubar.py:2066 pysollib/kivy/menubar.py:2069
+#: pysollib/kivy/menubar.py:2110 pysollib/kivy/menubar.py:2113
 #: pysollib/kivy/selectcardset.py:57
 #: pysollib/pysolgtk/playeroptionsdialog.py:79
 #: pysollib/pysolgtk/selectcardset.py:229 pysollib/pysolgtk/selectgame.py:324
@@ -143,7 +143,7 @@ msgstr "Pulisci segnalibri"
 msgid "Clear all bookmarks?"
 msgstr "Ripulire tutti i segnalibri?"
 
-#: pysollib/actions.py:459 pysollib/kivy/menubar.py:293
+#: pysollib/actions.py:459 pysollib/kivy/menubar.py:294
 msgid "Restart game"
 msgstr "Ricomincia il gioco"
 
@@ -812,7 +812,7 @@ msgstr ""
 "\n"
 "Verificare l'installazione di %(app)s.\n"
 
-#: pysollib/options.py:266
+#: pysollib/options.py:270
 msgid "Unknown"
 msgstr "Sconosciuto"
 
@@ -1445,7 +1445,7 @@ msgid "Perfect"
 msgstr "Perfetto"
 
 #: pysollib/stats.py:201 pysollib/stats.py:234 pysollib/stats.py:241
-#: pysollib/kivy/menubar.py:443
+#: pysollib/kivy/menubar.py:444
 msgid "Demo"
 msgstr "Demo"
 
@@ -1709,7 +1709,7 @@ msgid "Direction:"
 msgstr "Direzione:"
 
 #: pysollib/wizardutil.py:204 pysollib/wizardutil.py:250
-#: pysollib/kivy/menubar.py:884
+#: pysollib/kivy/menubar.py:916
 msgid "None"
 msgstr "Nessuna"
 
@@ -2245,20 +2245,20 @@ msgstr ""
 "Tableau. Decrescente di qualsiasi seme. Si pòssono spostare le carte "
 "visibili anche non in sequenza."
 
-#: pysollib/kivy/menubar.py:179
+#: pysollib/kivy/menubar.py:180
 msgid "File"
 msgstr ""
 
-#: pysollib/kivy/menubar.py:183
+#: pysollib/kivy/menubar.py:184
 msgid "Games"
 msgstr "Giochi"
 
-#: pysollib/kivy/menubar.py:188 pysollib/kivy/menubar.py:1605
+#: pysollib/kivy/menubar.py:189 pysollib/kivy/menubar.py:1639
 #, fuzzy
 msgid "Tools"
 msgstr "Barra strumenti"
 
-#: pysollib/kivy/menubar.py:192 pysollib/kivy/menubar.py:1613
+#: pysollib/kivy/menubar.py:193 pysollib/kivy/menubar.py:1647
 #: pysollib/pysolgtk/selectgame.py:100 pysollib/pysolgtk/tkstats.py:177
 #: pysollib/tile/selectgame.py:385 pysollib/tile/tkstats.py:51
 #: pysollib/tile/toolbar.py:188 pysollib/tk/selectgame.py:384
@@ -2266,547 +2266,591 @@ msgstr "Barra strumenti"
 msgid "Statistics"
 msgstr "Statistiche"
 
-#: pysollib/kivy/menubar.py:196
+#: pysollib/kivy/menubar.py:197
 #, fuzzy
 msgid "Assist"
 msgstr "&Assistente"
 
-#: pysollib/kivy/menubar.py:201 pysollib/kivy/menubar.py:1629
+#: pysollib/kivy/menubar.py:202 pysollib/kivy/menubar.py:1663
 msgid "Options"
 msgstr "Opzioni"
 
-#: pysollib/kivy/menubar.py:206 pysollib/kivy/menubar.py:320
-#: pysollib/kivy/menubar.py:1637
+#: pysollib/kivy/menubar.py:207 pysollib/kivy/menubar.py:321
+#: pysollib/kivy/menubar.py:1671
 msgid "Help"
 msgstr "Aiuto"
 
-#: pysollib/kivy/menubar.py:227
+#: pysollib/kivy/menubar.py:228
 msgid "Recent games"
 msgstr "Giochi recenti"
 
-#: pysollib/kivy/menubar.py:240
+#: pysollib/kivy/menubar.py:241
 msgid "Favorite games"
 msgstr "Giochi preferiti"
 
-#: pysollib/kivy/menubar.py:243
+#: pysollib/kivy/menubar.py:244
 msgid "<Add>"
 msgstr ""
 
-#: pysollib/kivy/menubar.py:245
+#: pysollib/kivy/menubar.py:246
 msgid "<Remove>"
 msgstr ""
 
-#: pysollib/kivy/menubar.py:259
+#: pysollib/kivy/menubar.py:260
 #, fuzzy
 msgid "Load"
 msgstr "&Carica"
 
-#: pysollib/kivy/menubar.py:261 pysollib/tile/toolbar.py:180
+#: pysollib/kivy/menubar.py:262 pysollib/tile/toolbar.py:180
 #: pysollib/tk/toolbar.py:180
 msgid "Save"
 msgstr "Salva"
 
-#: pysollib/kivy/menubar.py:264 pysollib/kivy/toolbar.py:206
+#: pysollib/kivy/menubar.py:265 pysollib/kivy/toolbar.py:206
 #: pysollib/tile/toolbar.py:191 pysollib/tk/toolbar.py:191
 msgid "Quit"
 msgstr "Abbandona"
 
-#: pysollib/kivy/menubar.py:296 pysollib/kivy/toolbar.py:197
+#: pysollib/kivy/menubar.py:297 pysollib/kivy/toolbar.py:197
 #: pysollib/pysolgtk/soundoptionsdialog.py:63
 #: pysollib/tile/soundoptionsdialog.py:75 pysollib/tile/toolbar.py:182
 #: pysollib/tk/soundoptionsdialog.py:77 pysollib/tk/toolbar.py:182
 msgid "Undo"
 msgstr "Annulla"
 
-#: pysollib/kivy/menubar.py:298 pysollib/kivy/toolbar.py:198
+#: pysollib/kivy/menubar.py:299 pysollib/kivy/toolbar.py:198
 #: pysollib/pysolgtk/soundoptionsdialog.py:64
 #: pysollib/tile/soundoptionsdialog.py:76 pysollib/tile/toolbar.py:183
 #: pysollib/tk/soundoptionsdialog.py:78 pysollib/tk/toolbar.py:183
 msgid "Redo"
 msgstr "Ripristina"
 
-#: pysollib/kivy/menubar.py:300
+#: pysollib/kivy/menubar.py:301
 msgid "Redo all"
 msgstr "Ripristina tutto"
 
-#: pysollib/kivy/menubar.py:303 pysollib/kivy/menubar.py:517
+#: pysollib/kivy/menubar.py:304 pysollib/kivy/menubar.py:518
 #: pysollib/pysolgtk/soundoptionsdialog.py:56
 #: pysollib/tile/soundoptionsdialog.py:68 pysollib/tk/soundoptionsdialog.py:70
 msgid "Auto drop"
 msgstr "Auto rilascio"
 
-#: pysollib/kivy/menubar.py:305 pysollib/kivy/toolbar.py:200
+#: pysollib/kivy/menubar.py:306 pysollib/kivy/toolbar.py:200
 #: pysollib/tile/toolbar.py:185 pysollib/tk/toolbar.py:185
 msgid "Shuffle tiles"
 msgstr "Mescola le tessere"
 
-#: pysollib/kivy/menubar.py:307
+#: pysollib/kivy/menubar.py:308
 msgid "Deal cards"
 msgstr "Distribuisci le carte"
 
-#: pysollib/kivy/menubar.py:310 pysollib/kivy/toolbar.py:201
+#: pysollib/kivy/menubar.py:311 pysollib/kivy/toolbar.py:201
 #: pysollib/tile/toolbar.py:186 pysollib/tk/toolbar.py:186
 msgid "Pause"
 msgstr "Pausa"
 
-#: pysollib/kivy/menubar.py:315
+#: pysollib/kivy/menubar.py:316
 #, fuzzy
 msgid "Load game"
 msgstr "Errore nel caricare il gioco"
 
-#: pysollib/kivy/menubar.py:317 pysollib/tile/toolbar.py:180
+#: pysollib/kivy/menubar.py:318 pysollib/tile/toolbar.py:180
 #: pysollib/tk/toolbar.py:180
 msgid "Save game"
 msgstr "Salva il gioco"
 
-#: pysollib/kivy/menubar.py:371
+#: pysollib/kivy/menubar.py:372
 msgid "Current game..."
 msgstr "Gioco corrente..."
 
-#: pysollib/kivy/menubar.py:434
+#: pysollib/kivy/menubar.py:435
 msgid "Hint"
 msgstr "Suggerimenti"
 
-#: pysollib/kivy/menubar.py:437
+#: pysollib/kivy/menubar.py:438
 #, fuzzy
 msgid "Highlight piles"
 msgstr "Evidenzia le pile:"
 
-#: pysollib/kivy/menubar.py:509
+#: pysollib/kivy/menubar.py:510
 msgid "Automatic play"
 msgstr "Gioco automatico"
 
-#: pysollib/kivy/menubar.py:512
+#: pysollib/kivy/menubar.py:513
 #, fuzzy
 msgid "Auto face up"
 msgstr "Auto &scopri"
 
-#: pysollib/kivy/menubar.py:522
+#: pysollib/kivy/menubar.py:523
 msgid "Auto deal"
 msgstr "Auto distrib."
 
-#: pysollib/kivy/menubar.py:529
+#: pysollib/kivy/menubar.py:530
 msgid "Quick play"
 msgstr "Gioco veloce"
 
-#: pysollib/kivy/menubar.py:537
+#: pysollib/kivy/menubar.py:538
 msgid "Assist level"
 msgstr "Livello assistenza"
 
-#: pysollib/kivy/menubar.py:540
+#: pysollib/kivy/menubar.py:541
 msgid "Enable undo"
 msgstr "Abilita annulla"
 
-#: pysollib/kivy/menubar.py:545
+#: pysollib/kivy/menubar.py:546
 msgid "Enable bookmarks"
 msgstr "Abilita segnalibri"
 
-#: pysollib/kivy/menubar.py:550
+#: pysollib/kivy/menubar.py:551
 msgid "Enable hint"
 msgstr "Abilita suggerimenti"
 
-#: pysollib/kivy/menubar.py:555
+#: pysollib/kivy/menubar.py:556
 msgid "Enable shuffle"
 msgstr "Abilita mescola"
 
-#: pysollib/kivy/menubar.py:560
+#: pysollib/kivy/menubar.py:561
 #, fuzzy
 msgid "Enable highlight piles"
 msgstr "Abilita evidenzia p&ile"
 
-#: pysollib/kivy/menubar.py:565
+#: pysollib/kivy/menubar.py:566
 #, fuzzy
 msgid "Enable highlight cards"
 msgstr "Abilita evidenzia &carte"
 
-#: pysollib/kivy/menubar.py:570
+#: pysollib/kivy/menubar.py:571
 #, fuzzy
 msgid "Enable highlight same rank"
 msgstr "Abilita evidenzia stesso valo&re"
 
-#: pysollib/kivy/menubar.py:575
+#: pysollib/kivy/menubar.py:576
 #, fuzzy
 msgid "Highlight no matching"
 msgstr "Abilita non corrispondenti"
 
-#: pysollib/kivy/menubar.py:582
+#: pysollib/kivy/menubar.py:583
 #, fuzzy
 msgid "Show removed tiles (in Mahjongg games)"
 msgstr "Mo&stra tessere tolte (in Mahjongg)"
 
-#: pysollib/kivy/menubar.py:587
+#: pysollib/kivy/menubar.py:588
 #, fuzzy
 msgid "Show hint arrow (in Shisen-Sho games)"
 msgstr "Mostra suggerimenti e frecci&a (Shisen-Sho)"
 
-#: pysollib/kivy/menubar.py:597
+#: pysollib/kivy/menubar.py:598
+msgid "Language"
+msgstr ""
+
+#: pysollib/kivy/menubar.py:601 pysollib/tile/menubar.py:119
+msgid "Default"
+msgstr "Default"
+
+#: pysollib/kivy/menubar.py:605
+msgid "English"
+msgstr ""
+
+#: pysollib/kivy/menubar.py:609
+#, fuzzy
+msgid "German"
+msgstr "Germania"
+
+#: pysollib/kivy/menubar.py:613
+#, fuzzy
+msgid "Italian"
+msgstr "Corsivo"
+
+#: pysollib/kivy/menubar.py:617
+msgid "Polish"
+msgstr ""
+
+#: pysollib/kivy/menubar.py:621
+#, fuzzy
+msgid "Russian"
+msgstr "Russia"
+
+#: pysollib/kivy/menubar.py:629
 #, fuzzy
 msgid "Sound"
 msgstr "&Suono"
 
-#: pysollib/kivy/menubar.py:600
+#: pysollib/kivy/menubar.py:632
 #, fuzzy
 msgid "Enable"
 msgstr "Abilita ann&ulla"
 
-#: pysollib/kivy/menubar.py:605
+#: pysollib/kivy/menubar.py:637
 msgid "Volume"
 msgstr ""
 
-#: pysollib/kivy/menubar.py:608
+#: pysollib/kivy/menubar.py:640
 msgid "100%"
 msgstr ""
 
-#: pysollib/kivy/menubar.py:612
+#: pysollib/kivy/menubar.py:644
 msgid "75%"
 msgstr ""
 
-#: pysollib/kivy/menubar.py:616
+#: pysollib/kivy/menubar.py:648
 msgid "50%"
 msgstr ""
 
-#: pysollib/kivy/menubar.py:620
+#: pysollib/kivy/menubar.py:652
 msgid "25%"
 msgstr ""
 
-#: pysollib/kivy/menubar.py:625
+#: pysollib/kivy/menubar.py:657
 #, fuzzy
 msgid "Samples"
 msgstr "Giochi facili"
 
-#: pysollib/kivy/menubar.py:630
+#: pysollib/kivy/menubar.py:662
 msgid "are you sure"
 msgstr ""
 
-#: pysollib/kivy/menubar.py:636
+#: pysollib/kivy/menubar.py:668
 #, fuzzy
 msgid "auto drop"
 msgstr "Auto rilascio"
 
-#: pysollib/kivy/menubar.py:642
+#: pysollib/kivy/menubar.py:674
 #, fuzzy
 msgid "auto flip"
 msgstr "Gira automatico"
 
-#: pysollib/kivy/menubar.py:648
+#: pysollib/kivy/menubar.py:680
 #, fuzzy
 msgid "auto pilot lost"
 msgstr "Autopilota perduto"
 
-#: pysollib/kivy/menubar.py:654
+#: pysollib/kivy/menubar.py:686
 #, fuzzy
 msgid "auto pilot won"
 msgstr "Vincita autopilota"
 
-#: pysollib/kivy/menubar.py:660
+#: pysollib/kivy/menubar.py:692
 #, fuzzy
 msgid "deal"
 msgstr "Ridistribuzione"
 
-#: pysollib/kivy/menubar.py:666
+#: pysollib/kivy/menubar.py:698
 #, fuzzy
 msgid "deal waste"
 msgstr "Distribuzione del pozzo"
 
-#: pysollib/kivy/menubar.py:672
+#: pysollib/kivy/menubar.py:704
 #, fuzzy
 msgid "drop pair"
 msgstr "Rilascio coppia"
 
-#: pysollib/kivy/menubar.py:678
+#: pysollib/kivy/menubar.py:710
 #, fuzzy
 msgid "drop"
 msgstr "Autoserve"
 
-#: pysollib/kivy/menubar.py:684
+#: pysollib/kivy/menubar.py:716
 #, fuzzy
 msgid "flip"
 msgstr "Gira automatico"
 
-#: pysollib/kivy/menubar.py:690
+#: pysollib/kivy/menubar.py:722
 #, fuzzy
 msgid "move"
 msgstr "Nessuna mossa"
 
-#: pysollib/kivy/menubar.py:696
+#: pysollib/kivy/menubar.py:728
 #, fuzzy
 msgid "no move"
 msgstr "Nessuna mossa"
 
-#: pysollib/kivy/menubar.py:702
+#: pysollib/kivy/menubar.py:734
 msgid "redo"
 msgstr ""
 
-#: pysollib/kivy/menubar.py:708
+#: pysollib/kivy/menubar.py:740
 #, fuzzy
 msgid "start drag"
 msgstr "Trascinamento"
 
-#: pysollib/kivy/menubar.py:714
+#: pysollib/kivy/menubar.py:746
 #, fuzzy
 msgid "turn waste"
 msgstr "Girare il pozzo"
 
-#: pysollib/kivy/menubar.py:720
+#: pysollib/kivy/menubar.py:752
 msgid "undo"
 msgstr ""
 
-#: pysollib/kivy/menubar.py:726
+#: pysollib/kivy/menubar.py:758
 #, fuzzy
 msgid "game finished"
 msgstr "Gioco terminato"
 
-#: pysollib/kivy/menubar.py:732
+#: pysollib/kivy/menubar.py:764
 #, fuzzy
 msgid "game lost"
 msgstr "Gioco perduto"
 
-#: pysollib/kivy/menubar.py:738
+#: pysollib/kivy/menubar.py:770
 #, fuzzy
 msgid "game perfect"
 msgstr "Perfetto"
 
-#: pysollib/kivy/menubar.py:744
+#: pysollib/kivy/menubar.py:776
 #, fuzzy
 msgid "game won"
 msgstr "Gioco vinto"
 
-#: pysollib/kivy/menubar.py:752
+#: pysollib/kivy/menubar.py:784
 #, fuzzy
 msgid "Cardsets"
 msgstr "Tutti i tipi"
 
-#: pysollib/kivy/menubar.py:792
+#: pysollib/kivy/menubar.py:824
 #, fuzzy
 msgid "Table"
 msgstr "Tableau"
 
-#: pysollib/kivy/menubar.py:795
+#: pysollib/kivy/menubar.py:827
 msgid "Solid colors"
 msgstr "Colori pieni"
 
-#: pysollib/kivy/menubar.py:800 pysollib/pysolgtk/selecttile.py:105
+#: pysollib/kivy/menubar.py:832 pysollib/pysolgtk/selecttile.py:105
 #: pysollib/tile/selecttile.py:74 pysollib/tk/selecttile.py:73
 msgid "Blue"
 msgstr "Azzurro"
 
-#: pysollib/kivy/menubar.py:805 pysollib/pysolgtk/selecttile.py:106
+#: pysollib/kivy/menubar.py:837 pysollib/pysolgtk/selecttile.py:106
 #: pysollib/tile/selecttile.py:75 pysollib/tk/selecttile.py:74
 #: pysollib/games/ultra/dashavatara.py:361 pysollib/games/ultra/mughal.py:264
 msgid "Green"
 msgstr "Verde"
 
-#: pysollib/kivy/menubar.py:810 pysollib/pysolgtk/selecttile.py:107
+#: pysollib/kivy/menubar.py:842 pysollib/pysolgtk/selecttile.py:107
 #: pysollib/tile/selecttile.py:76 pysollib/tk/selecttile.py:75
 msgid "Navy"
 msgstr "Blu marino"
 
-#: pysollib/kivy/menubar.py:815 pysollib/pysolgtk/selecttile.py:108
+#: pysollib/kivy/menubar.py:847 pysollib/pysolgtk/selecttile.py:108
 #: pysollib/tile/selecttile.py:77 pysollib/tk/selecttile.py:76
 #: pysollib/games/ultra/dashavatara.py:362
 msgid "Olive"
 msgstr "Oliva"
 
-#: pysollib/kivy/menubar.py:820 pysollib/pysolgtk/selecttile.py:109
+#: pysollib/kivy/menubar.py:852 pysollib/pysolgtk/selecttile.py:109
 #: pysollib/tile/selecttile.py:78 pysollib/tk/selecttile.py:77
 #: pysollib/games/ultra/dashavatara.py:362 pysollib/games/ultra/mughal.py:264
 msgid "Orange"
 msgstr "Arancione"
 
-#: pysollib/kivy/menubar.py:825 pysollib/pysolgtk/selecttile.py:110
+#: pysollib/kivy/menubar.py:857 pysollib/pysolgtk/selecttile.py:110
 #: pysollib/tile/selecttile.py:79 pysollib/tk/selecttile.py:78
 msgid "Teal"
 msgstr "Verde acqua"
 
-#: pysollib/kivy/menubar.py:830
+#: pysollib/kivy/menubar.py:862
 msgid "Tiles and Images"
 msgstr ""
 
-#: pysollib/kivy/menubar.py:850
+#: pysollib/kivy/menubar.py:882
 #, fuzzy
 msgid "Card view"
 msgstr "&Vista carte"
 
-#: pysollib/kivy/menubar.py:853
+#: pysollib/kivy/menubar.py:885
 #, fuzzy
 msgid "Card shadow"
 msgstr "Om&breggia carte"
 
-#: pysollib/kivy/menubar.py:858
+#: pysollib/kivy/menubar.py:890
 #, fuzzy
 msgid "Shade legal moves"
 msgstr "Ombreggia mosse consentite"
 
-#: pysollib/kivy/menubar.py:863
+#: pysollib/kivy/menubar.py:895
 #, fuzzy
 msgid "Negative cards bottom"
 msgstr "Fondo carte in negativo"
 
-#: pysollib/kivy/menubar.py:868 pysollib/ui/tktile/menubar.py:559
+#: pysollib/kivy/menubar.py:900 pysollib/ui/tktile/menubar.py:559
 msgid "Shrink face-down cards"
 msgstr "Restringi carte nascoste"
 
-#: pysollib/kivy/menubar.py:873
+#: pysollib/kivy/menubar.py:905
 #, fuzzy
 msgid "Shade filled stacks"
 msgstr "Ombreggia pile piene"
 
-#: pysollib/kivy/menubar.py:881
+#: pysollib/kivy/menubar.py:913
 #, fuzzy
 msgid "Animations"
 msgstr "A&nimazioni"
 
-#: pysollib/kivy/menubar.py:889
+#: pysollib/kivy/menubar.py:921
 #, fuzzy
 msgid "Very fast"
 msgstr "Mol&to veloce"
 
-#: pysollib/kivy/menubar.py:894
+#: pysollib/kivy/menubar.py:926
 #, fuzzy
 msgid "Fast"
 msgstr "&Veloce"
 
-#: pysollib/kivy/menubar.py:899
+#: pysollib/kivy/menubar.py:931
 #, fuzzy
 msgid "Medium"
 msgstr "&Media"
 
-#: pysollib/kivy/menubar.py:904
+#: pysollib/kivy/menubar.py:936
 #, fuzzy
 msgid "Slow"
 msgstr "&Lenta"
 
-#: pysollib/kivy/menubar.py:909
+#: pysollib/kivy/menubar.py:941
 #, fuzzy
 msgid "Very slow"
 msgstr "Molto le&nta"
 
-#: pysollib/kivy/menubar.py:916
+#: pysollib/kivy/menubar.py:948
 #, fuzzy
 msgid "Redeal animation"
 msgstr "Animazione &ridistribuzione"
 
-#: pysollib/kivy/menubar.py:921
+#: pysollib/kivy/menubar.py:953
 #, fuzzy
 msgid "Winning animation"
 msgstr "Animazione vi&ttoria"
 
-#: pysollib/kivy/menubar.py:929
+#: pysollib/kivy/menubar.py:961
 msgid "Touch mode"
 msgstr ""
 
-#: pysollib/kivy/menubar.py:932
+#: pysollib/kivy/menubar.py:964
 #, fuzzy
 msgid "Drag-and-Drop"
 msgstr "&Trascina e rilascia"
 
-#: pysollib/kivy/menubar.py:937
+#: pysollib/kivy/menubar.py:969
 #, fuzzy
 msgid "Point-and-Click"
 msgstr "&Punta e clicca"
 
-#: pysollib/kivy/menubar.py:971 pysollib/tile/toolbar.py:202
+#: pysollib/kivy/menubar.py:1003 pysollib/tile/toolbar.py:202
 #: pysollib/tk/toolbar.py:211
 msgid "Toolbar"
 msgstr "Barra strumenti"
 
-#: pysollib/kivy/menubar.py:974 pysollib/ui/tktile/menubar.py:41
+#: pysollib/kivy/menubar.py:1006 pysollib/ui/tktile/menubar.py:41
 msgid "Hide"
 msgstr "Nascondi"
 
-#: pysollib/kivy/menubar.py:989 pysollib/ui/tktile/menubar.py:50
+#: pysollib/kivy/menubar.py:1021 pysollib/ui/tktile/menubar.py:50
 msgid "Left"
 msgstr "Sinistra"
 
-#: pysollib/kivy/menubar.py:993 pysollib/ui/tktile/menubar.py:53
+#: pysollib/kivy/menubar.py:1025 pysollib/ui/tktile/menubar.py:53
 msgid "Right"
 msgstr "Destra"
 
-#: pysollib/kivy/menubar.py:1030
+#: pysollib/kivy/menubar.py:1062
 #, fuzzy
 msgid "Startup splash screen"
 msgstr "Splash sc&reen all'avvio"
 
-#: pysollib/kivy/menubar.py:1035
+#: pysollib/kivy/menubar.py:1067
 msgid "Winning splash"
 msgstr ""
 
-#: pysollib/kivy/menubar.py:1058
+#: pysollib/kivy/menubar.py:1090
 #, fuzzy
 msgid "Contents"
 msgstr "&Contenuti"
 
-#: pysollib/kivy/menubar.py:1062
+#: pysollib/kivy/menubar.py:1094
 #, fuzzy
 msgid "How to play"
 msgstr "Co&me giocare"
 
-#: pysollib/kivy/menubar.py:1066 pysollib/kivy/toolbar.py:204
+#: pysollib/kivy/menubar.py:1098 pysollib/kivy/toolbar.py:204
 #: pysollib/tile/toolbar.py:189 pysollib/tk/toolbar.py:189
 msgid "Rules for this game"
 msgstr "Regole di questo gioco"
 
-#: pysollib/kivy/menubar.py:1070
+#: pysollib/kivy/menubar.py:1102
 #, fuzzy
 msgid "License terms"
 msgstr "Termini della &licenza"
 
-#: pysollib/kivy/menubar.py:1074
+#: pysollib/kivy/menubar.py:1106
 #, fuzzy, python-format
 msgid "About %s..."
 msgstr "Informazioni "
 
-#: pysollib/kivy/menubar.py:1348
+#: pysollib/kivy/menubar.py:1382
 msgid "Menu"
 msgstr ""
 
-#: pysollib/kivy/menubar.py:1576 pysollib/ui/tktile/menubar.py:971
+#: pysollib/kivy/menubar.py:1610 pysollib/ui/tktile/menubar.py:971
 msgid "<none>"
 msgstr ""
 
-#: pysollib/kivy/menubar.py:1589
+#: pysollib/kivy/menubar.py:1623
 msgid "Main Menu"
 msgstr ""
 
-#: pysollib/kivy/menubar.py:1597
+#: pysollib/kivy/menubar.py:1631
 msgid "File Menu"
 msgstr ""
 
-#: pysollib/kivy/menubar.py:1621
+#: pysollib/kivy/menubar.py:1655
 #, fuzzy
 msgid "Assists"
 msgstr "&Assistente"
 
 #. TRANSLATORS: Usually, 'PySol files'
-#: pysollib/kivy/menubar.py:1795 pysollib/ui/tktile/menubar.py:1136
+#: pysollib/kivy/menubar.py:1829 pysollib/ui/tktile/menubar.py:1136
 #, fuzzy, python-format
 msgid "%s files"
 msgstr "Tutti i tempi"
 
-#: pysollib/kivy/menubar.py:1796 pysollib/ui/tktile/menubar.py:1137
+#: pysollib/kivy/menubar.py:1830 pysollib/ui/tktile/menubar.py:1137
 #, fuzzy
 msgid "All files"
 msgstr "Tutti i tempi"
 
-#: pysollib/kivy/menubar.py:2066 pysollib/kivy/menubar.py:2068
+#: pysollib/kivy/menubar.py:1913
+msgid "Note"
+msgstr ""
+
+#: pysollib/kivy/menubar.py:1914
+#, fuzzy, python-format
+msgid ""
+"These settings will take effect\n"
+"the next time you restart the %(app)s"
+msgstr ""
+"L'impostazione avrà effetto\n"
+"al prossimo avvio %(app)s"
+
+#: pysollib/kivy/menubar.py:2110 pysollib/kivy/menubar.py:2112
 #: pysollib/kivy/selectcardset.py:57 pysollib/pysolgtk/selectcardset.py:229
 #: pysollib/tk/menubar.py:89 pysollib/tk/menubar.py:90
 #: pysollib/tk/selectcardset.py:313
 msgid "&Load"
 msgstr "&Carica"
 
-#: pysollib/kivy/menubar.py:2069 pysollib/kivy/selectcardset.py:57
+#: pysollib/kivy/menubar.py:2113 pysollib/kivy/selectcardset.py:57
 #: pysollib/pysolgtk/selectcardset.py:229 pysollib/tile/selectcardset.py:318
 #: pysollib/tk/menubar.py:90
 msgid "&Info..."
 msgstr "&Informazioni..."
 
-#: pysollib/kivy/menubar.py:2072 pysollib/pysolgtk/menubar.py:696
+#: pysollib/kivy/menubar.py:2116 pysollib/pysolgtk/menubar.py:696
 #, fuzzy
 msgid "Select cardset"
 msgstr "Scelta nome"
 
-#: pysollib/kivy/menubar.py:2285 pysollib/ui/tktile/menubar.py:1666
+#: pysollib/kivy/menubar.py:2329 pysollib/ui/tktile/menubar.py:1666
 msgid "Solitaire Wizard"
 msgstr "Costruzione guidata"
 
@@ -3665,10 +3709,6 @@ msgstr ""
 #: pysollib/tile/menubar.py:114
 msgid "Set t&heme"
 msgstr "Scelta t&ema"
-
-#: pysollib/tile/menubar.py:119
-msgid "Default"
-msgstr "Default"
 
 #: pysollib/tile/menubar.py:120
 msgid "Classic"
@@ -5063,6 +5103,12 @@ msgstr "Mosse totali"
 #: data/pysolfc.glade:3145
 msgid "Set font"
 msgstr "Scegli carattere"
+
+#, fuzzy
+#~ msgid "This will take effect after the next restart of the app"
+#~ msgstr ""
+#~ "L'impostazione avrà effetto\n"
+#~ "al prossimo avvio %(app)s"
 
 #~ msgid "Statistics for "
 #~ msgstr "Statistiche per "

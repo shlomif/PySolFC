@@ -52,7 +52,6 @@ from pysollib.pysoltk import connect_game_find_card_dialog
 from pysollib.settings import SELECT_GAME_MENU
 from pysollib.settings import TITLE
 
-
 # ************************************************************************
 # * tk emuls:
 # ************************************************************************
@@ -589,6 +588,39 @@ class OptionsMenuDialog(LMenuDialog):
                               self.menubar.mOptShisenShowHint)
 
             # submenu.add_separator()
+
+        '''
+        # -------------------------------------------
+        # Language options
+
+        rg = tv.add_node(
+            LTreeNode(text=_('Language')))
+        if rg:
+            self.addRadioNode(tv, rg,
+                              _('default'),
+                              self.menubar.tkopt.language, '',
+                              self.menubar.mOptLanguage)
+            self.addRadioNode(tv, rg,
+                              _('English'),
+                              self.menubar.tkopt.language, 'en',
+                              self.menubar.mOptLanguage)
+            self.addRadioNode(tv, rg,
+                              _('German'),
+                              self.menubar.tkopt.language, 'de',
+                              self.menubar.mOptLanguage)
+            self.addRadioNode(tv, rg,
+                              _('Italian'),
+                              self.menubar.tkopt.language, 'it',
+                              self.menubar.mOptLanguage)
+            self.addRadioNode(tv, rg,
+                              _('Polish'),
+                              self.menubar.tkopt.language, 'pl',
+                              self.menubar.mOptLanguage)
+            self.addRadioNode(tv, rg,
+                              _('Russian'),
+                              self.menubar.tkopt.language, 'ru',
+                              self.menubar.mOptLanguage)
+        '''
 
         # -------------------------------------------
         # Sound options
@@ -1233,6 +1265,7 @@ class PysolMenubarTk:
             toolbar_vars={},
             sound_sample_vars={},
             color_vars={},
+            # language=StringVar(),
         )
         for w in TOOLBAR_BUTTONS:
             self.tkopt.toolbar_vars[w] = BooleanVar()
@@ -1287,6 +1320,7 @@ class PysolMenubarTk:
         tkopt.negative_bottom.set(opt.negative_bottom)
         tkopt.display_win_message.set(opt.display_win_message)
         tkopt.cardset.set(self.app.cardset_manager.getSelected())
+        # tkopt.language.set(opt.language)
 
         for w in TOOLBAR_BUTTONS:
             tkopt.toolbar_vars[w].set(opt.toolbar_vars.get(w, False))
@@ -1870,6 +1904,13 @@ class PysolMenubarTk:
                 return
         self.game.doPause()
         self.tkopt.pause.set(self.game.pause)
+
+    '''
+    def mOptLanguage(self, *args):
+        if self._cancelDrag(break_pause=False):
+            return
+        self.app.opt.language = self.tkopt.language.get()
+    '''
 
     def mOptSoundDialog(self, *args):
         if self._cancelDrag(break_pause=False):

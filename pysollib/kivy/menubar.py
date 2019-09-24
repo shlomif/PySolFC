@@ -52,6 +52,8 @@ from pysollib.pysoltk import connect_game_find_card_dialog
 from pysollib.settings import SELECT_GAME_MENU
 from pysollib.settings import TITLE
 
+from pysollib.pysoltk import MfxMessageDialog
+
 # ************************************************************************
 # * tk emuls:
 # ************************************************************************
@@ -589,7 +591,6 @@ class OptionsMenuDialog(LMenuDialog):
 
             # submenu.add_separator()
 
-        '''
         # -------------------------------------------
         # Language options
 
@@ -597,7 +598,7 @@ class OptionsMenuDialog(LMenuDialog):
             LTreeNode(text=_('Language')))
         if rg:
             self.addRadioNode(tv, rg,
-                              _('default'),
+                              _('Default'),
                               self.menubar.tkopt.language, '',
                               self.menubar.mOptLanguage)
             self.addRadioNode(tv, rg,
@@ -620,7 +621,6 @@ class OptionsMenuDialog(LMenuDialog):
                               _('Russian'),
                               self.menubar.tkopt.language, 'ru',
                               self.menubar.mOptLanguage)
-        '''
 
         # -------------------------------------------
         # Sound options
@@ -1265,7 +1265,7 @@ class PysolMenubarTk:
             toolbar_vars={},
             sound_sample_vars={},
             color_vars={},
-            # language=StringVar(),
+            language=StringVar(),
         )
         for w in TOOLBAR_BUTTONS:
             self.tkopt.toolbar_vars[w] = BooleanVar()
@@ -1320,7 +1320,7 @@ class PysolMenubarTk:
         tkopt.negative_bottom.set(opt.negative_bottom)
         tkopt.display_win_message.set(opt.display_win_message)
         tkopt.cardset.set(self.app.cardset_manager.getSelected())
-        # tkopt.language.set(opt.language)
+        tkopt.language.set(opt.language)
 
         for w in TOOLBAR_BUTTONS:
             tkopt.toolbar_vars[w].set(opt.toolbar_vars.get(w, False))
@@ -1905,12 +1905,15 @@ class PysolMenubarTk:
         self.game.doPause()
         self.tkopt.pause.set(self.game.pause)
 
-    '''
     def mOptLanguage(self, *args):
         if self._cancelDrag(break_pause=False):
             return
         self.app.opt.language = self.tkopt.language.get()
-    '''
+        d = MfxMessageDialog(
+           self.app.top, title=_("Note"),
+           text=_("""\
+These settings will take effect
+the next time you restart the %(app)s""") % {'app': TITLE})
 
     def mOptSoundDialog(self, *args):
         if self._cancelDrag(break_pause=False):

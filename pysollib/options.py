@@ -33,6 +33,8 @@ from pysollib.mygettext import _
 from pysollib.pysoltk import TOOLBAR_BUTTONS, TOOLKIT
 from pysollib.resource import CSI
 
+from pysollib.mygettext import myGettext
+
 import six
 
 import validate
@@ -113,6 +115,7 @@ solver_max_iterations = integer
 solver_iterations_output_step = integer
 solver_preset = string
 display_win_message = boolean
+language = string
 
 [sound_samples]
 move = boolean
@@ -254,6 +257,7 @@ class Options:
         # ('recent_gameid', 'list'),
         # ('favorite_gameid', 'list'),
         ('display_win_message', 'bool'),
+        ('language', 'str'),
         ]
 
     def __init__(self):
@@ -321,6 +325,7 @@ class Options:
         self.negative_bottom = True
         self.translate_game_names = True
         self.display_win_message = True
+        self.language = ''
         # sound
         self.sound = True
         self.sound_mode = 1
@@ -664,6 +669,8 @@ class Options:
         if visible_buttons is not None:
             for key in TOOLBAR_BUTTONS:
                 self.toolbar_vars[key] = (key in visible_buttons)
+
+        myGettext.language = self.language
 
         # solver
         solver_presets = self._getOption('general', 'solver_presets', 'list')

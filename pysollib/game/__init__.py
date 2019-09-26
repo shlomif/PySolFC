@@ -3202,14 +3202,14 @@ class Game(object):
             game.saveinfo.__dict__.update(saveinfo.__dict__)
             gsaveinfo = pload(Struct)
             game.gsaveinfo.__dict__.update(gsaveinfo.__dict__)
-        moves = pload(Struct)
+        moves = pload(GameMoves)
         game.moves.__dict__.update(moves.__dict__)
         snapshots = pload(list)
         game.snapshots = snapshots
         if 0 <= bookmark <= 1:
-            gstats = pload(Struct)
+            gstats = pload(GameGlobalStatsStruct)
             game.gstats.__dict__.update(gstats.__dict__)
-            stats = pload(Struct)
+            stats = pload(GameStatsStruct)
             game.stats.__dict__.update(stats.__dict__)
         game._loadGameHook(p)
         dummy = pload(str)

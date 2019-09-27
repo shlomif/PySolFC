@@ -3135,7 +3135,14 @@ class Game(object):
         def pload(t=None, p=p):
             obj = p.load()
             if isinstance(t, type):
-                assert isinstance(obj, t), err_txt
+                if not isinstance(obj, t):
+                    # accept old storage format in case:
+                    if (t == GameMoves
+                            or t == GameGlobalStatsStruct
+                            or t == GameStatsStruct):
+                        assert isinstance(obj, Struct), err_txt
+                    else:
+                        assert False, err_txt
             return obj
 
         def validate(v, txt):

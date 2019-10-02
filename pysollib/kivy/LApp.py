@@ -671,7 +671,10 @@ class LRectangle(Widget, LBase):
                     event = LEvent()
                     event.x = ppos[0]
                     event.y = ppos[1]
-                    self.group.bindings['<1>'](event)
+                    if touch.is_double_tap:
+                        self.group.bindings['<Double-1>'](event)
+                    else:
+                        self.group.bindings['<1>'](event)
                     return True
         return False
 
@@ -711,6 +714,9 @@ class LImageItem(BoxLayout, LBase):
     def send_event_pressed_1(self, event):
         if self.group and '<1>' in self.group.bindings:
             self.group.bindings['<1>'](event)
+    def send_event_pressed_double_1(self, event):
+        if self.group and '<Double-1>' in self.group.bindings:
+            self.group.bindings['<Double-1>'](event)
 
     def on_touch_down(self, touch):
 
@@ -734,7 +740,10 @@ class LImageItem(BoxLayout, LBase):
                                 event.y = ppos[1]
                                 self.dragstart = touch.pos
                                 event.cardid = i
-                                self.send_event_pressed_1(event)
+                                if touch.is_double_tap:
+                                    self.send_event_pressed_double_1(event)
+                                else:
+                                    self.send_event_pressed_1(event)
                                 return True
 
             if self.group is not None:

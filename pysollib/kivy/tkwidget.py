@@ -221,7 +221,7 @@ class PysolAboutDialog(object):
         logging.info('PysolAboutDialog: txt=%s' % text)
 
         text = text + '\n\n' + 'Adaptation to Kivy/Android\n' + \
-            ' Copyright (C) (2016-17) LB'
+            ' Copyright (C) (2016-19) LB'
 
         self.parent = parent
         self.app = app
@@ -261,13 +261,6 @@ class PysolAboutDialog(object):
         label = FText(text=text, halign='center', size_hint=(1, 1))
         window.content.add_widget(label)
 
-        '''
-        label = LLabel(text=text)
-        label.texture_update()
-        label.size = label.texture_size
-        image = LImage(texture=label.texture)
-        window.content.add_widget(image)
-        '''
 
 # ************************************************************************
 # * a simple tooltip
@@ -637,53 +630,9 @@ class MfxScrolledCanvas(object):
     def scroll_bottom(self, *event):
         return self._yview('moveto', 1)
 
+
 # ************************************************************************
 # *
 # ************************************************************************
 # not used witch kivy. would not nun as it refers TkInter.
 
-
-'''
-class StackDesc:
-
-    def __init__(self, game, stack):
-        self.game = game
-        self.stack = stack
-        self.canvas = game.canvas
-        self.bindings = []
-
-        font = game.app.getFont('canvas_small')
-        # print self.app.cardset.CARDW, self.app.images.CARDW
-        cardw = game.app.images.CARDW
-        x, y = stack.x + cardw / 2, stack.y
-        text = stack.getHelp() + '\n' + stack.getBaseCard()
-        text = text.strip()
-        if text:
-            frame = Tkinter.Frame(self.canvas)
-            self.frame = frame
-            label = Tkinter.Message(frame, font=font, text=text,
-                                    width=cardw - 8, relief='solid',
-                                    fg='#000000', bg='#ffffe0', bd=1)
-            label.pack()
-            self.label = label
-            self.id = self.canvas.create_window(
-                x, y, window=frame, anchor='n')
-            self.bindings.append(label.bind(
-                '<ButtonPress>', self._buttonPressEvent))
-            # self.bindings.append(label.bind('<Enter>', self._enterEvent))
-        else:
-            self.id = None
-
-    def _buttonPressEvent(self, *event):
-        # self.game.deleteStackDesc()
-        self.frame.tkraise()
-
-    def _enterEvent(self, *event):
-        self.frame.tkraise()
-
-    def delete(self):
-        if self.id:
-            self.canvas.delete(self.id)
-            for b in self.bindings:
-                self.label.unbind('<ButtonPress>', b)
-'''

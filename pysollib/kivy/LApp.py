@@ -52,6 +52,8 @@ from kivy.uix.treeview import TreeViewLabel
 from kivy.uix.widget import Widget
 from kivy.utils import platform
 
+from pysollib.kivy.androidperms import requestStoragePerm
+
 # =============================================================================
 
 
@@ -1794,6 +1796,8 @@ class LApp(App):
         self.mainloop = self.app.mainproc()  # Einrichten
         self.mainloop.send(None)                # Spielprozess starten
         logging.info("LApp: on_start processed")
+        # Android: Request missing android permissions.
+        requestStoragePerm()
 
     def on_stop(self):
         # Achtung wird u.U. 2 mal aufgerufen !!!
@@ -1844,12 +1848,6 @@ class LApp(App):
         # save statistics
         try:
             app.saveStatistics()
-        except Exception:
-            traceback.print_exc()
-            pass
-        # save comments
-        try:
-            app.saveComments()
         except Exception:
             traceback.print_exc()
             pass

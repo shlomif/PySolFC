@@ -10,6 +10,7 @@ cardsets_file="${cardsets_dir}.tar.xz"
 
 sdkdir="${HOME}/.cache/sdk-for-p4a/sdk"
 ndkdir="${HOME}/.cache/sdk-for-p4a/android-ndk-r17c"
+libdir="${HOME}/.cache/sdk-for-p4a/libs"
 
 # gradle may need this.
 export TERM="xterm"
@@ -28,4 +29,5 @@ p4a_options="\
   --icon ${tmpdir}/data/images/icons/48x48/pysol.png \
   --presplash ${tmpdir}/data/images/icons/1024x1024/pysol.png \
   --copy-libs \
+  --add-jar ${tmpdir}/support-v4-24.1.1.aar \
   --color always"

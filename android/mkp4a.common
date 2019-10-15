@@ -10,7 +10,7 @@ cardsets_file="${cardsets_dir}.tar.xz"
 
 sdkdir="${HOME}/.cache/sdk-for-p4a/sdk"
 ndkdir="${HOME}/.cache/sdk-for-p4a/android-ndk-r17c"
-libdir="${HOME}/.cache/sdk-for-p4a/libs"
+pkgdir="${HOME}/.local/share/python-for-android/packages"
 
 # gradle may need this.
 export TERM="xterm"

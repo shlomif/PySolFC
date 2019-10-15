@@ -7,11 +7,4 @@ set -eux
 liburl="https://maven.google.com/com/android/support/support-v4/24.1.1"
 libname="support-v4-24.1.1.aar"
 
-if [[ ! -f ${libdir}/${libname} ]]; then
-  mkdir -p ${libdir}
-  pushd ${libdir}
-  wget ${liburl}/${libname}
-  popd
-else
-  echo "Skipping supportlib download as already present."
-fi
+. mkp4a.preload supportlib ${liburl} ${libname}

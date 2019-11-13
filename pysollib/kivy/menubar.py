@@ -48,11 +48,11 @@ from pysollib.kivy.tkutil import after_idle
 from pysollib.kivy.tkutil import bind
 from pysollib.mfxutil import Struct
 from pysollib.mygettext import _
+from pysollib.pysoltk import MfxMessageDialog
 from pysollib.pysoltk import connect_game_find_card_dialog
 from pysollib.settings import SELECT_GAME_MENU
 from pysollib.settings import TITLE
 
-from pysollib.pysoltk import MfxMessageDialog
 
 # ************************************************************************
 # * tk emuls:
@@ -1909,7 +1909,7 @@ class PysolMenubarTk:
         if self._cancelDrag(break_pause=False):
             return
         self.app.opt.language = self.tkopt.language.get()
-        d = MfxMessageDialog(
+        MfxMessageDialog(
            self.app.top, title=_("Note"),
            text=_("""\
 These settings will take effect

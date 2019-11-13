@@ -1,6 +1,8 @@
 import gettext
 import sys
+
 import six
+
 
 class myLocalGettext(object):
     def __init__(self, lang):
@@ -12,7 +14,8 @@ class myLocalGettext(object):
         if self.language == "":
             t = gettext.translation(domain, localedir)
         else:
-            t = gettext.translation(domain, localedir, languages=[self.language])
+            t = gettext.translation(
+                domain, localedir, languages=[self.language])
         return t
 
     def maketext(self, msg):
@@ -20,7 +23,7 @@ class myLocalGettext(object):
             return six.text_type(msg, 'utf-8')
         return msg
 
-    def ungettext(self,msgid1, msgid2, n):
+    def ungettext(self, msgid1, msgid2, n):
         # unicoded ngettext
         msgid1 = self.maketext(msgid1)
         msgid2 = self.maketext(msgid2)
@@ -36,7 +39,7 @@ class myLocalGettext(object):
         else:
             return t.ungettext(msgid1, msgid2, n)
 
-    def ugettext(self,message):
+    def ugettext(self, message):
         # unicoded gettext
         message = self.maketext(message)
         try:
@@ -48,14 +51,18 @@ class myLocalGettext(object):
         else:
             return t.ugettext(message)
 
+
 myGettext = myLocalGettext('')
+
 
 def n_(x):
     return x
 
+
 def fix_gettext():
     gettext.ugettext = myGettext.ugettext
     gettext.ungettext = myGettext.ungettext
+
 
 fix_gettext()
 

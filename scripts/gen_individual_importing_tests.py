@@ -7,8 +7,15 @@ import re
 from sys import platform
 
 IS_MAC = (platform == "darwin")
-PY_VERS = ([] if re.search("\\bSKIP_PY2\\b",
-                           os.getenv('TEST_TAGS', '')) else [2])+[3]
+TEST_TAGS = os.getenv('TEST_TAGS', '')
+
+
+def _has_tag(tag):
+    return re.search("\\b{}\\b".format(tag), TEST_TAGS)
+
+
+PY_VERS = ([] if _has_tag('SKIP_PY2') else [2])+[3]
+SKIP_GTK = _has_tag('SKIP_GTK')
 module_names = []
 for d, _, files in os.walk("pysollib"):
     for f in files:
@@ -23,7 +30,7 @@ for module_name in module_names:
         continue
     is_gtk = ("gtk" in module_name)
     for ver in PY_VERS:
-        if ((not is_gtk) or (ver == 2 and (not IS_MAC))):
+        if ((not is_gtk) or (ver == 2 and (not IS_MAC) and (not SKIP_GTK))):
             def fmt(s):
                 return s % {'module_name': module_name, 'ver': ver}
             open(os.path.join(".", "tests", "individually-importing", fmt("import_v%(ver)d_%(module_name)s.py")), 'w').write(fmt('''#!/usr/bin/env python%(ver)d

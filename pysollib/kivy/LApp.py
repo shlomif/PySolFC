@@ -716,6 +716,7 @@ class LImageItem(BoxLayout, LBase):
     def send_event_pressed_1(self, event):
         if self.group and '<1>' in self.group.bindings:
             self.group.bindings['<1>'](event)
+
     def send_event_pressed_double_1(self, event):
         if self.group and '<Double-1>' in self.group.bindings:
             self.group.bindings['<Double-1>'](event)

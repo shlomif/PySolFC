@@ -30,10 +30,10 @@ import configobj
 import pysollib.settings
 from pysollib.mfxutil import print_err
 from pysollib.mygettext import _
+from pysollib.mygettext import myGettext
 from pysollib.pysoltk import TOOLBAR_BUTTONS, TOOLKIT
 from pysollib.resource import CSI
 
-from pysollib.mygettext import myGettext
 
 import six
 

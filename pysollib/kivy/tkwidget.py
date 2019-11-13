@@ -635,4 +635,3 @@ class MfxScrolledCanvas(object):
 # *
 # ************************************************************************
 # not used witch kivy. would not nun as it refers TkInter.
-

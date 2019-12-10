@@ -25,38 +25,11 @@
 # imports
 import re
 
-try:
-    import random2
-except ImportError:
-    raise ImportError(
-        "You need to install " +
-        "https://pypi.python.org/pypi/random2 using pip or similar.")
-
 import pysol_cards
-assert getattr(pysol_cards, 'VERSION', (0, 0, 0)) >= (0, 8, 6), (
+assert getattr(pysol_cards, 'VERSION', (0, 0, 0)) >= (0, 8, 7), (
     "Newer version of https://pypi.org/project/pysol-cards is required.")
 from pysol_cards.random_base import RandomBase  # noqa: I100
-from pysol_cards.random import match_ms_deal_prefix  # noqa: I100
-
-# ************************************************************************
-# * Mersenne Twister random number generator
-# * uses the standard python module `random'
-# ************************************************************************
-
-
-class MTRandom(RandomBase, random2.Random):
-
-    def __init__(self, seed=None):
-        if seed is None:
-            seed = self._getRandomSeed()
-        RandomBase.__init__(self)
-        random2.Random.__init__(self, seed)
-        self.initial_seed = seed
-        self.initial_state = self.getstate()
-        self.origin = self.ORIGIN_UNKNOWN
-
-    def reset(self):
-        self.setstate(self.initial_state)
+from pysol_cards.random import MTRandom, match_ms_deal_prefix  # noqa: I100
 
 
 # ************************************************************************

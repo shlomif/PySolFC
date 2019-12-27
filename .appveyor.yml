@@ -56,6 +56,6 @@ artifacts:
     - path: dist\PySolFC_*_setup.exe
       name: pysol_win_installer
 cache:
-    - C:\_P5 -> .appveyor.yml
-    - C:\strawberry -> .appveyor.yml
+    # - C:\_P5 -> .appveyor.yml
+    # - C:\strawberry -> .appveyor.yml
 shallow_clone: true

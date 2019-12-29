@@ -57,7 +57,7 @@ mo:
 	done
 
 pretest:
-	rm -f tests/individually-importing/*.py # To avoid stray files
+	rm -f tests/individually-importing/*.py tests/unit-generated/*.py # To avoid stray files
 	python3 scripts/gen_individual_importing_tests.py
 
 TEST_ENV_PATH = $(CURDIR)$(path_sep)$(CURDIR)/tests/lib

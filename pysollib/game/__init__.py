@@ -458,6 +458,13 @@ class GameLoadInfo(NewStruct):
     talon_round = attr.ib(default=1)
 
 
+# global saveinfo survives a game restart
+@attr.s
+class GameGlobalSaveInfo(NewStruct):
+    bookmarks = attr.ib(factory=dict)
+    comment = attr.ib(default="")
+
+
 class Game(object):
     # for self.gstats.updated
     U_PLAY = _GLOBAL_U_PLAY
@@ -716,11 +723,7 @@ class Game(object):
             return
         # global statistics survive a game restart
         self.gstats = GameGlobalStatsStruct()
-        # global saveinfo survives a game restart
-        self.gsaveinfo = Struct(
-            bookmarks={},
-            comment="",
-        )
+        self.gsaveinfo = GameGlobalSaveInfo()
         # some vars for win animation
         self.win_animation = GameWinAnimation()
 

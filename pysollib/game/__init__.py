@@ -450,6 +450,13 @@ class GameMoves(NewStruct):
     index = attr.ib(default=0)
     state = attr.ib(default=S_PLAY)
 
+# used when loading a game
+@attr.s
+class GameLoadInfo(NewStruct):
+    ncards = attr.ib(default=0)
+    stacks = attr.ib(factory=list)
+    talon_round = attr.ib(default=1)
+
 
 class Game(object):
     # for self.gstats.updated
@@ -699,11 +706,7 @@ class Game(object):
         self.saveinfo = Struct(         # needed for saving a game
             stack_caps=[],
         )
-        self.loadinfo = Struct(         # used when loading a game
-            stacks=None,
-            talon_round=1,
-            ncards=0,
-        )
+        self.loadinfo = GameLoadInfo()
         self.snapshots = []
         self.failed_snapshots = []
         # local statistics are reset on each game restart

@@ -465,6 +465,12 @@ class GameGlobalSaveInfo(NewStruct):
     comment = attr.ib(default="")
 
 
+# Needed for saving a game
+@attr.s
+class GameSaveInfo(NewStruct):
+    stack_caps = attr.ib(factory=list)
+
+
 class Game(object):
     # for self.gstats.updated
     U_PLAY = _GLOBAL_U_PLAY
@@ -710,9 +716,7 @@ class Game(object):
         self.demo = None
         self.solver = None
         self.hints = GameHints()
-        self.saveinfo = Struct(         # needed for saving a game
-            stack_caps=[],
-        )
+        self.saveinfo = GameSaveInfo()
         self.loadinfo = GameLoadInfo()
         self.snapshots = []
         self.failed_snapshots = []

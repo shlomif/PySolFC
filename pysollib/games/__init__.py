@@ -27,6 +27,7 @@ from . import bakersdozen  # noqa: F401
 from . import bakersgame  # noqa: F401
 from . import beleagueredcastle  # noqa: F401
 from . import bisley  # noqa: F401
+from . import bisley13  # noqa: F401
 from . import braid  # noqa: F401
 from . import bristol  # noqa: F401
 from . import buffalobill  # noqa: F401

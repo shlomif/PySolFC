@@ -96,13 +96,14 @@ per the instructions above.
 At the moment, this only works on POSIX (Linux, FreeBSD and similar) systems.
 Windows and Mac users - you'll need to chip in with a script for your system.
 
-#### 1 - Install build prerequisites: six and random2
+#### 1 - Install build prerequisites: six, random2 and pysol-cards
 
 This is kind of stupid and maybe it can be fixed in the future, but for now:
 
 ```
 pip install six
 pip install random2
+pip install pysol-cards
 ```
 
 You may want to use your OS distribution package system instead, for example:
@@ -110,6 +111,12 @@ You may want to use your OS distribution package system instead, for example:
 ```
 sudo apt-get install python-six
 sudo apt-get install python-random2
+```
+
+For Pillow compilation, libjpeg headers and libraries need to be available:
+
+```
+sudo apt-get install libjpeg-dev
 ```
 
 #### 2 - Clone the source from version control
@@ -122,10 +129,10 @@ cd PySolFC
 #### 3 - Create your virtual environment.
 
 ```
-PKGDIR=/usr/local/packages/PySolFC # or whatever
-export PKGDIR
-mkdir -p "$PKGDIR"
-( cd "$PKGDIR" && python -m venv ./env )
+PKGTREE=/usr/local/packages/PySolFC # or whatever
+export PKGTREE
+mkdir -p "$PKGTREE"
+( cd "$PKGTREE" && python -m venv ./env )
 ```
 
 #### 4 - Run the install script
@@ -139,7 +146,7 @@ mkdir -p "$PKGDIR"
 #### 6 - Enjoy playing
 
 ```
-"$PKGDIR"/env/bin/pysol.py
+"$PKGTREE"/env/bin/pysol.py
 ```
 
 ## Alternate toolkit.

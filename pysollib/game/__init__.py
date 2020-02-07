@@ -471,6 +471,10 @@ class GameSaveInfo(NewStruct):
     stack_caps = attr.ib(factory=list)
 
 
+_Game_LOAD_CLASSES = [GameGlobalSaveInfo, GameGlobalStatsStruct, GameMoves,
+                      GameSaveInfo, GameStatsStruct, ]
+
+
 class Game(object):
     # for self.gstats.updated
     U_PLAY = _GLOBAL_U_PLAY
@@ -3147,11 +3151,7 @@ class Game(object):
             if isinstance(t, type):
                 if not isinstance(obj, t):
                     # accept old storage format in case:
-                    if (t == GameMoves
-                            or t == GameGlobalStatsStruct
-                            or t == GameStatsStruct
-                            or t == GameSaveInfo
-                            or t == GameGlobalSaveInfo):
+                    if t in _Game_LOAD_CLASSES:
                         assert isinstance(obj, Struct), err_txt
                     else:
                         assert False, err_txt

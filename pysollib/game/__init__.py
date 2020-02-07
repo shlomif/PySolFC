@@ -3149,7 +3149,9 @@ class Game(object):
                     # accept old storage format in case:
                     if (t == GameMoves
                             or t == GameGlobalStatsStruct
-                            or t == GameStatsStruct):
+                            or t == GameStatsStruct
+                            or t == GameSaveInfo
+                            or t == GameGlobalSaveInfo):
                         assert isinstance(obj, Struct), err_txt
                     else:
                         assert False, err_txt
@@ -3215,9 +3217,9 @@ class Game(object):
         game.loadinfo.talon_round = pload()
         game.finished = pload()
         if 0 <= bookmark <= 1:
-            saveinfo = pload(Struct)
+            saveinfo = pload(GameSaveInfo)
             game.saveinfo.__dict__.update(saveinfo.__dict__)
-            gsaveinfo = pload(Struct)
+            gsaveinfo = pload(GameGlobalSaveInfo)
             game.gsaveinfo.__dict__.update(gsaveinfo.__dict__)
         moves = pload(GameMoves)
         game.moves.__dict__.update(moves.__dict__)

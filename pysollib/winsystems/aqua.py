@@ -25,11 +25,6 @@ from pysollib.macosx.appSupport import hideTkConsole
 from pysollib.settings import TOOLKIT, USE_TILE
 from pysollib.winsystems.common import BaseTkSettings, base_init_root_window
 
-from six.moves import tkinter
-
-if USE_TILE:
-    from pysollib.tile import ttk
-
 
 def init_root_window(root, app):
     base_init_root_window(root, app)
@@ -38,15 +33,7 @@ def init_root_window(root, app):
     if TOOLKIT == 'gtk':
         pass
     elif USE_TILE:
-        style = ttk.Style(root)
-        color = style.lookup('.', 'background')
-        if color:
-            root.tk_setPalette(color)   # for non-ttk widgets
-
-        if app.opt.tile_theme == 'aqua':
-            # standard Tk scrollbars work on OS X, but ttk ones look weird
-            ttk.Scrollbar = tkinter.Scrollbar
-
+        pass
     else:                               # pure Tk
         # root.option_add(...)
         pass

@@ -156,7 +156,7 @@ class PysolStatusbar(MfxStatusbar):
             self._createLabel(n, tooltip=t, width=w)
         #
         label = self._createLabel('info', expand=True)
-        label.config(padding=(8, 0))
+        label.config(padx=8)
 
 
 class HelpStatusbar(MfxStatusbar):

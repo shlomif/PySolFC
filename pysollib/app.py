@@ -183,7 +183,7 @@ class Application:
         try:
             approc = self.mainproc()  # setup process
             approc.send(None)				# and go
-        except Exception:
+        except StopIteration:
             pass
 
     def gameproc(self):

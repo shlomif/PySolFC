@@ -67,6 +67,8 @@ from pysollib.settings import PACKAGE, TITLE, TOOLKIT, TOP_SIZE
 from pysollib.settings import VERSION, VERSION_TUPLE
 from pysollib.struct_new import NewStruct
 
+import random2
+
 import six
 from six import BytesIO
 from six.moves import range
@@ -3196,7 +3198,9 @@ class Game(object):
         initial_seed = random__long2str(pload(int))
         game.random = constructRandom(initial_seed)
         state = pload()
-        game.random.setstate(state)
+        if not (isinstance(game.random, random2.Random) and
+                isinstance(state, int)):
+            game.random.setstate(state)
         # if not hasattr(game.random, "origin"):
         # game.random.origin = game.random.ORIGIN_UNKNOWN
         game.loadinfo.stacks = []

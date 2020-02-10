@@ -2935,9 +2935,10 @@ class FaceUpWasteTalonStack(WasteTalonStack):
         self.game.fillStack(self)
 
     def dealCards(self, sound=False):
-        WasteTalonStack.dealCards(self, sound=sound)
+        retval = WasteTalonStack.dealCards(self, sound=sound)
         if self.canFlipCard():
             self.flipMove()
+        return retval
 
 
 class OpenTalonStack(TalonStack, OpenStack):

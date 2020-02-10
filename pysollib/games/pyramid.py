@@ -82,8 +82,10 @@ class Pyramid_StackMethods:
     def _dropPairMove(self, n, other_stack, frames=-1, shadow=-1):
         if not self.game.demo:
             self.game.playSample("droppair", priority=200)
-        assert n == 1 and self.acceptsCards(
-            other_stack, [other_stack.cards[-1]])
+        if not (n == 1
+              and other_stack.cards
+              and self.acceptsCards(other_stack, [other_stack.cards[-1]])):
+           return
         old_state = self.game.enterState(self.game.S_FILL)
         f = self.game.s.foundations[0]
         self.game.moveMove(n, self, f, frames=frames, shadow=shadow)

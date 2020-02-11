@@ -25,8 +25,7 @@ from pysollib.ui.tktile.tkconst import EVENT_HANDLED
 from pysollib.ui.tktile.tkutil import makeToplevel, setTransient
 
 from six.moves import tkinter
-
-from . import ttk
+from six.moves import tkinter_ttk as ttk
 
 # ************************************************************************
 # * a simple progress bar

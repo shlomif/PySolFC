@@ -29,8 +29,8 @@ from pysollib.mygettext import _
 from pysollib.ui.tktile.tkhtml import Base_HTMLViewer
 
 from six.moves import tkinter
+from six.moves import tkinter_ttk as ttk
 
-from . import ttk
 from .statusbar import HtmlStatusbar
 from .tkwidget import MfxMessageDialog
 

@@ -32,8 +32,8 @@ from pysollib.ui.tktile.selecttree import SelectDialogTreeData
 from pysollib.ui.tktile.tkutil import unbind_destroy
 
 from six.moves import UserList
+from six.moves import tkinter_ttk as ttk
 
-from . import ttk
 from .selecttree import SelectDialogTreeCanvas
 from .selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
 from .tkwidget import MfxDialog, MfxScrolledCanvas

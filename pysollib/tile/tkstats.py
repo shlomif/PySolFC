@@ -33,8 +33,8 @@ from pysollib.ui.tktile.tkutil import bind, loadImage
 
 from six.moves import tkinter
 from six.moves import tkinter_font
+from six.moves import tkinter_ttk as ttk
 
-from . import ttk
 from .tkwidget import MfxDialog, MfxMessageDialog
 
 

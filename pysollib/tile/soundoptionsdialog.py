@@ -30,8 +30,8 @@ from pysollib.settings import TITLE
 from pysollib.ui.tktile.tkconst import EVENT_HANDLED
 
 from six.moves import tkinter
+from six.moves import tkinter_ttk as ttk
 
-from . import ttk
 from .tkwidget import MfxDialog, MfxMessageDialog
 from .tkwidget import PysolScale
 

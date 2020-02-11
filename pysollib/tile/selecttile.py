@@ -28,8 +28,8 @@ from pysollib.ui.tktile.selecttree import SelectDialogTreeData
 import six
 from six.moves import tkinter
 from six.moves import tkinter_colorchooser
+from six.moves import tkinter_ttk as ttk
 
-from . import ttk
 from .selecttree import SelectDialogTreeCanvas
 from .selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
 from .tkwidget import MfxDialog, MfxScrolledCanvas

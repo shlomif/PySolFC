@@ -29,8 +29,8 @@ from pysollib.mygettext import _
 
 import six
 from six.moves import tkinter
+from six.moves import tkinter_ttk as ttk
 
-from . import ttk
 from .tkwidget import MfxTooltip
 
 if __name__ == '__main__':

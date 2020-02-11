@@ -33,7 +33,7 @@ from pysollib.settings import VERSION
 
 if TOOLKIT == 'tk':
     if USE_TILE:
-        from pysollib.tile import ttk
+        from six.moves import tkinter_ttk as ttk
 
 
 def init_tile(app, top):

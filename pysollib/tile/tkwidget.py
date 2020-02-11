@@ -38,8 +38,7 @@ import six
 from six import PY2
 from six.moves import tkinter
 from six.moves import tkinter_font
-
-from . import ttk
+from six.moves import tkinter_ttk as ttk
 
 # ************************************************************************
 # * abstract base class for the dialogs in this module

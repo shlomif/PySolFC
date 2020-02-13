@@ -167,5 +167,11 @@ class DataLoader:
             filename += ('.ico' if os.name == 'nt' else '.xbm')
         return self.findFile(filename, subdirs)
 
+    def findAllIconSizes(self, filename='pysol.png'):
+        icondir = self.findDir(os.path.join('images', 'icons'))
+        icons = [os.path.join(icondir, subdir, filename) for subdir in
+                 os.listdir(icondir)]
+        return filter(os.path.isfile, icons)
+
     def findDir(self, filename, subdirs=None):
         return self.__findFile(os.path.isdir, filename, subdirs)

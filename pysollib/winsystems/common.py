@@ -32,6 +32,7 @@ from pysollib.settings import TOOLKIT, USE_TILE
 from pysollib.settings import VERSION
 
 if TOOLKIT == 'tk':
+    from pysollib.ui.tktile.tkutil import loadImage
     if USE_TILE:
         from six.moves import tkinter_ttk as ttk
 
@@ -89,6 +90,11 @@ def base_init_root_window(root, app):
     # root.wm_group(root)
     root.wm_title(TITLE + ' ' + VERSION)
     root.wm_iconname(TITLE + ' ' + VERSION)
+
+    if TOOLKIT == 'tk':
+        icons = [loadImage(img) for img in app.dataloader.findAllIconSizes()]
+        root.wm_iconphoto(True, *icons)
+
     # set minsize
     sw, sh = (root.winfo_screenwidth(), root.winfo_screenheight())
     if sw < 640 or sh < 480:

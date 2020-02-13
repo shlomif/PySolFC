@@ -30,7 +30,7 @@ p4a_options="\
   --private ${tmpdir} \
   --orientation sensor \
   --icon ${tmpdir}/data/images/icons/48x48/pysol.png \
-  --presplash ${tmpdir}/data/images/icons/1024x1024/pysol.png \
+  --presplash ${tmpdir}/data/images/logo-with-margin-1024.png \
   --copy-libs \
   --add-jar ${tmpdir}/support-v4-24.1.1.aar \
   --color always"

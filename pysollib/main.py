@@ -355,7 +355,10 @@ Please check your %(app)s installation.
         if music:
             app.music_playlist = list(music)[:]
             app.miscrandom.shuffle(app.music_playlist)
-            if 1:
+            # Cancelling because otherwise people complain
+            # that the music order is not random.
+            SHOULD_PUT_bye_for_now_FIRST = False
+            if SHOULD_PUT_bye_for_now_FIRST:
                 for m in app.music_playlist:
                     if m.name.lower() == "bye_for_now":
                         app.music_playlist.remove(m)

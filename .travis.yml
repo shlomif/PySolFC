@@ -25,6 +25,12 @@ install:
     # Tests are failing for them sometimes
     - sudo cpanm --notest Capture::Tiny IPC::System::Simple
     - sudo cpanm Code::TidyAll::Plugin::Flake8 Perl::Tidy Test::Code::TidyAll Test::Differences Test::TrailingSpace
+
+    # Taken from https://github.com/mesa3d/mesa/blob/4d57a2750485e51b34e0bc413100e4e2787a4e84/.travis.yml
+    # thanks!
+    # Set PATH for homebrew pip3 installs
+    - PYTHON_VERSION=$(python3 -V | awk '{print $2}' | cut -d. -f1-2)
+    - PATH="$HOME/Library/Python/$PYTHON_VERSION/bin:${PATH}"
     - export PY_MODS='attrs configobj pycotap pysol-cards random2 setuptools six'
     - sudo pip3 install --upgrade $PY_MODS flake8 flake8-import-order
     - sudo pip2 install --upgrade $PY_MODS

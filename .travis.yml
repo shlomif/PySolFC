@@ -1,7 +1,9 @@
 addons:
     homebrew:
-        update: true
         brewfile: true
+        packages:
+            - python3
+        update: true
 cache:
     directories:
         - $HOME/perl_modules

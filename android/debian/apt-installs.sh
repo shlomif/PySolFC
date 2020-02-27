@@ -18,3 +18,17 @@ apt-get install -y \
   lld
 
 update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
+
+apt-get install -y --no-install-recommends \
+  imagemagick \
+  python3-tk \
+  ccache \
+  libltdl-dev
+ 
+# set python3 as default.
+# make python alternatives selectable.
+# (debian stretch, adapt for different versions)
+
+update-alternatives --install /usr/bin/python python /usr/bin/python2.7 1
+update-alternatives --install /usr/bin/python python /usr/bin/python3.5 2
+

@@ -1,6 +1,9 @@
 
 Prerequisites (needs root):
 
+  (For updated information on these subjects please consult the scripts in
+  android/debian).
+
   On a 'freshly installed' Ubuntu 16.04 (32bit), the following
   additional packages had to be installed:
 

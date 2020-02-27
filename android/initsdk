@@ -12,7 +12,7 @@ fi
 
 urlbase=https://dl.google.com/android/repository/
 tools_zip=sdk-tools-linux-4333796.zip
-ndk_zip=android-ndk-r17c-linux-x86_64.zip
+ndk_zip=android-ndk-${ndkver}-linux-x86_64.zip
 
 mkdir -p $sdkdir $ndkdir
 

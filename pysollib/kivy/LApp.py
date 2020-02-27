@@ -31,6 +31,7 @@ from kivy.base import EventLoop
 from kivy.base import stopTouchApp
 from kivy.cache import Cache
 from kivy.clock import Clock
+from kivy.config import Config
 from kivy.core.audio import SoundLoader
 from kivy.core.window import Window
 from kivy.graphics import Color
@@ -54,9 +55,8 @@ from kivy.utils import platform
 
 from pysollib.kivy.androidperms import requestStoragePerm
 
-from kivy.config import Config
-if platform is not 'android':
-	  Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
+if platform != 'android':
+    Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
 
 # =============================================================================
 
@@ -724,19 +724,19 @@ class LImageItem(BoxLayout, LBase):
     def send_event_pressed(self, touch, event):
 
         if touch.is_double_tap:
-            self.send_event_pressed_n(event,'<Double-1>')
+            self.send_event_pressed_n(event, '<Double-1>')
         else:
             button = 'left'
             if 'button' in touch.profile:
                 button = touch.button
-            if button is 'left':
-                self.send_event_pressed_n(event,'<1>')
+            if button == 'left':
+                self.send_event_pressed_n(event, '<1>')
                 return
-            if button is 'middle':
-                self.send_event_pressed_n(event,'<2>')
+            if button == 'middle':
+                self.send_event_pressed_n(event, '<2>')
                 return
-            if button is 'right':
-                self.send_event_pressed_n(event,'<3>')
+            if button == 'right':
+                self.send_event_pressed_n(event, '<3>')
                 return
 
     def on_touch_down(self, touch):
@@ -761,7 +761,7 @@ class LImageItem(BoxLayout, LBase):
                                 event.y = ppos[1]
                                 self.dragstart = touch.pos
                                 event.cardid = i
-                                self.send_event_pressed(touch,event)
+                                self.send_event_pressed(touch, event)
                                 return True
 
             if self.group is not None:
@@ -1792,7 +1792,7 @@ class LApp(App):
 
     def doSize(self, obj, val):
         mval = self.mainWindow.size
-        if (val[0]!=mval[0] and val[1]!=mval[1]):
+        if (val[0] != mval[0] and val[1] != mval[1]):
             logging.info("LApp: size changed %s - %s (%s)" % (obj, val, mval))
             Clock.schedule_once(self.makeDelayedRebuild(), 0.01)
         pass

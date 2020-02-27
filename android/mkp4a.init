@@ -17,7 +17,16 @@ echo '### install p4a'
 
 if [[ $# == 0 ]]
 then
-  python3 -m pip install -q --user python-for-android
+    if not python3 -m pip install -q --user python-for-android
+    then
+        echo "obviously inside a virtualenv, so omit --user"
+        if python3 -m pip install -q python-for-android
+        then
+            echo "done"
+        fi
+    else
+        echo "done"
+    fi
 fi
 
 echo '### prepare source'

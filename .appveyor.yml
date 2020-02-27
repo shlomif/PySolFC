@@ -37,11 +37,16 @@ test_script:
     - appveyor DownloadFile https://sourceforge.net/projects/pysolfc/files/PySol-Music/PySol-Music-4.50/pysol-music-4.50.tar.xz/download -FileName music.tar.xz
     - 7z x music.tar.xz -so | 7z x -si -ttar
     - move pysol-music-4.50\data\music dist\data\music
-    - ps: |
-        $apiUrl = 'https://ci.appveyor.com/api'
-        $project = Invoke-RestMethod -Method Get -Uri "$apiUrl/projects/shlomif/fc-solve"
-        $jobId = $project.build.jobs[0].jobId
-        Invoke-RestMethod -Method Get -Uri "$apiUrl/buildjobs/$jobId/artifacts/fc-solve/pkg-build/fc-solve-for-pysol.zip" -OutFile fc-solve.zip
+    # - ps: |
+    #    $apiUrl = 'https://ci.appveyor.com/api'
+    #    $project = Invoke-RestMethod -Method Get -Uri "$apiUrl/projects/shlomif/fc-solve"
+    #    $jobId = $project.build.jobs[0].jobId
+    #    Invoke-RestMethod -Method Get -Uri "$apiUrl/buildjobs/$jobId/artifacts/fc-solve/pkg-build/fc-solve-for-pysol.zip" -OutFile fc-solve.zip
+    #
+    # For reproducible builds:
+    # See:  https://reproducible-builds.org/ .
+    - SET FC_SOLVE_VER=5.20.0
+    - appveyor DownloadFile https://netix.dl.sourceforge.net/project/fc-solve/fc-solve/DO-NOT-USE--fc-solve-for-pysol/fc-solve-for-pysol--v%FC_SOLVE_VER%.zip fc-solve.zip
     - 7z x fc-solve.zip
     - move fcs-pysol dist\freecell-solver
     - 7z a -r pysol_win_dist.7z dist\

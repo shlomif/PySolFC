@@ -1,6 +1,14 @@
 [[news]]
 === News
 
+* _TODO, 2020:_ There is a new stable release
+https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-2.8.0/[PySolFC
+v2.8.0]. New in this release:
+** Better kivy/Android support
+** Using ttk and configobj as shipped in the python dist (instead of forked versions)
+** Requiring https://pypi.org/project/attrs/[attrs] and https://pypi.org/project/pysol-cards/[pysol-cards] from PyPI
+** Added tests, bug fixes and refactorings.
+** Add the +-g+ and +--deal+ command line options.
 * _25 April, 2019:_ There is a new stable release
 https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-2.6.4/[PySolFC
 v2.6.4]. New in this release:

@@ -93,7 +93,8 @@ def base_init_root_window(root, app):
 
     if TOOLKIT == 'tk':
         icons = [loadImage(img) for img in app.dataloader.findAllIconSizes()]
-        root.wm_iconphoto(True, *icons)
+        if icons:
+            root.wm_iconphoto(True, *icons)
 
     # set minsize
     sw, sh = (root.winfo_screenwidth(), root.winfo_screenheight())

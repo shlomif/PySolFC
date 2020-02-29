@@ -168,9 +168,20 @@ class DataLoader:
         return self.findFile(filename, subdirs)
 
     def findAllIconSizes(self, filename='pysol.png'):
-        icondir = self.findDir(os.path.join('images', 'icons'))
-        icons = [os.path.join(icondir, subdir, filename) for subdir in
-                 os.listdir(icondir)]
+        try:
+            icondir = self.findDir(os.path.join('images', 'icons'))
+            icons = [os.path.join(icondir, subdir, filename) for subdir in
+                     os.listdir(icondir)]
+        except OSError:
+            try:
+                # pysol06.png is known to have transparent borders around it
+                # which is unsuitable for a window icon
+                icon_blacklist = ('pysol06.png',)
+                miscdir = self.findDir(os.path.join('images', 'misc'))
+                icons = [os.path.join(miscdir, f) for f in os.listdir(miscdir)
+                         if f not in icon_blacklist]
+            except OSError:
+                icons = []
         return filter(os.path.isfile, icons)
 
     def findDir(self, filename, subdirs=None):

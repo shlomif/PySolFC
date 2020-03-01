@@ -93,7 +93,7 @@ def parse_option(argv):
                                        "sound-mod=",
                                        "help"])
     except getopt.GetoptError as err:
-        print_err(err + "\n" + _("try %s --help for more information") %
+        print_err(str(err) + "\n" + _("try %s --help for more information") %
                   prog_name, 0)
         return None
     opts = {"help": False,

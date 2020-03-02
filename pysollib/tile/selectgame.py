@@ -326,6 +326,7 @@ class SelectGameDialog(MfxDialog):
             dir = os.path.join("html", "rules")
             from pysollib.help import help_html
             help_html(self.app, doc, dir, self.top)
+            self.top.grab_release()  # Don't want the help window appear frozen
             return
         MfxDialog.mDone(self, button)
 

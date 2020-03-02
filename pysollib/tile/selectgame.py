@@ -483,7 +483,6 @@ class SelectGameDialogWithPreview(SelectGameDialog):
                 audio=self.app.audio,
                 canvas=canvas,
                 cardset=self.app.cardset.copy(),
-                comments=self.app.comments.new(),
                 gamerandom=self.app.gamerandom,
                 gdb=self.app.gdb,
                 gimages=self.app.gimages,

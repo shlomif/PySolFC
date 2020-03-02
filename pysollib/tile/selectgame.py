@@ -319,7 +319,7 @@ class SelectGameDialog(MfxDialog):
         if button == 0:                 # Ok or double click
             self.gameid = self.tree.selection_key
             self.tree.n_expansions = 1  # save xyview in any case
-        if button == 1:                # Rules
+        if button == 10:                # Rules
             doc = self.app.getGameRulesFilename(self.tree.selection_key)
             if not doc:
                 return

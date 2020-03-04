@@ -161,12 +161,6 @@ class DataLoader:
         raise OSError("DataLoader could not find image "+filename +
                       " in "+self.dir+" "+str(subdirs))
 
-    def findIcon(self, filename='pysol', subdirs=None):
-        root, ext = os.path.splitext(filename)
-        if not ext:
-            filename += ('.ico' if os.name == 'nt' else '.xbm')
-        return self.findFile(filename, subdirs)
-
     def findAllIconSizes(self, filename='pysol.png'):
         try:
             icondir = self.findDir(os.path.join('images', 'icons'))

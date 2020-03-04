@@ -50,7 +50,6 @@ for d in ddirs:
 data_files += get_data_files('locale', locale_dir)
 
 if os.name == 'posix':
-    data_files.append(('share/pixmaps', ['data/pysol.xbm', 'data/pysol.xpm']))
     for size in os.listdir('data/images/icons'):
         data_files.append(('share/icons/hicolor/%s/apps' % size,
                            ['data/images/icons/%s/pysol.png' % size]))

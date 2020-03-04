@@ -46,7 +46,7 @@ graft html-src
 #graft data/images
 recursive-include data/images *.gif *.png *.jpg
 graft data/tiles
-include data/pysol.xbm data/pysol.xpm data/pysol.ico data/PySol.icns
+include data/pysol.ico data/PySol.icns
 ##
 ## data - sound
 ##

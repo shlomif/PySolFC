@@ -87,14 +87,7 @@ class PysolProgressBar:
             im.show()
             im.set_property('xpad', 10)
             im.set_property('ypad', 5)
-        # set icon
-        #  if app:
-        #      try:
-        #          name = app.dataloader.findFile('pysol.xpm')
-        #          bg = self.top.get_style().bg[gtk.STATE_NORMAL]
-        #          pixmap, mask = create_pixmap_from_xpm(self.top, bg, name)
-        #          self.top.set_icon(pixmap, mask)
-        #      except: pass
+
         setTransient(self.top, parent)
         self.top.show()
         self.top.window.set_cursor(gdk.Cursor(gdk.WATCH))

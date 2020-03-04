@@ -165,12 +165,7 @@ class _MfxToplevel(gtk.Window):
         pass
 
     def wm_iconbitmap(self, name):
-        print('wm_iconbitmap:', name)
-        if name and name[0] == '@' and name[-4:] == '.xbm':
-            name = name[1:-4] + '.xpm'
-            # bg = self.get_style().bg[gtk.STATE_NORMAL]
-            # pixmap, mask = create_pixmap_from_xpm(self, bg, name)
-            # self.set_icon(pixmap, mask)
+        pass
 
     def wm_iconname(self, name):
         pass

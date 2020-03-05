@@ -1,7 +1,7 @@
 [[news]]
 === News
 
-* _TODO, 2020:_ There is a new stable release
+* _5 March, 2020:_ There is a new stable release
 https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-2.8.0/[PySolFC
 v2.8.0]. New in this release:
 ** Better kivy/Android support

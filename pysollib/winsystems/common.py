@@ -106,16 +106,10 @@ def base_init_root_window(root, app):
     else:
         root.wm_minsize(520, 360)
 
-    if TOOLKIT == 'gtk':
-        pass
-    if TOOLKIT == 'kivy':
-        pass
-    elif USE_TILE:
+    if TOOLKIT == 'tk' and USE_TILE:
         theme = app.opt.tile_theme
         init_tile(app, root)
         set_theme(app, root, theme)
-    else:
-        pass
 
 
 class BaseTkSettings:

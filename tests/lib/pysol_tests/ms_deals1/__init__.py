@@ -53,12 +53,12 @@
 # imports
 import unittest
 
-from pysol_cards.cards import Card, CardRenderer, ms_rearrange
-from pysol_cards.deal_game import Columns, Game
+from pysol_cards.cards import CardRenderer
+from pysol_cards.deal_game import Game
 from pysol_cards.random_base import RandomBase
 
 # So the localpaths will be overrided.
-from pysollib.pysolrandom import LCRandom31, constructRandom, \
+from pysollib.pysolrandom import constructRandom, \
         random__long2str, random__str2long
 
 # PySol imports
@@ -70,119 +70,7 @@ from pysollib.pysolrandom import LCRandom31, constructRandom, \
 # ************************************************************************/
 
 
-class Board:
-    def __init__(self, num_columns, with_freecells=False,
-                 with_talon=False, with_foundations=False):
-        self.with_freecells = with_freecells
-        self.with_talon = with_talon
-        self.with_foundations = with_foundations
-        self.columns = Columns(num_columns)
-        if (self.with_freecells):
-            self.freecells = []
-        if (self.with_talon):
-            self.talon = []
-        if (self.with_foundations):
-            self.foundations = map(lambda s: empty_card(), range(4))
-
-    def reverse_cols(self):
-        return self.columns.rev()
-
-    def add(self, idx, card):
-        return self.columns.add(idx, card)
-
-    def print_freecells(self):
-        return "FC: " + column_to_string(self.freecells)
-
-    def print_talon(self):
-        return "Talon: " + column_to_string(self.talon)
-
-    def print_foundations(self):
-        cells = []
-        for f in [2, 0, 3, 1]:
-            if not self.foundations[f].is_empty():
-                cells.append(self.foundations[f].found_s())
-
-        if len(cells):
-            return "Foundations:" + ("".join(map(lambda s: " "+s, cells)))
-
-    def output(self):
-        s = ''
-        if (self.with_talon):
-            s += self.print_talon() + "\n"
-        if (self.with_foundations):
-            s += self.print_foundations() + "\n"
-        if (self.with_freecells):
-            s += self.print_freecells() + "\n"
-        for c in self.columns.cols:
-            s += ren.l_concat(c) + "\n"
-
-        return s
-
-    def add_freecell(self, card):
-        if not self.with_freecells:
-            raise AttributeError("Layout does not have freecells!")
-        self.freecells.append(card)
-
-    def add_talon(self, card):
-        if not self.with_talon:
-            raise AttributeError("Layout does not have a talon!")
-
-        self.talon.append(card)
-
-    def put_into_founds(self, card):
-        if not self.with_foundations:
-            raise AttributeError("Layout does not have foundations!")
-
-        if ((self.foundations[card.suit].rank+1) == card.rank):
-            self.foundations[card.suit] = card
-            return True
-        else:
-            return False
-        self.talon.append(card)
-
-
-def empty_card():
-    ret = Card(0, 0, 0, 1)
-    ret.empty = True
-    return ret
-
-
-def createCards(num_decks):
-    cards = []
-    for deck in range(num_decks):
-        id = 0
-        for suit in range(4):
-            for rank in range(13):
-                cards.append(Card(id, rank+1, suit))
-                id = id + 1
-    return cards
-
-
 ren = CardRenderer(True)
-
-
-def column_to_list_of_strings(col):
-    return map(lambda c: ren.to_s(c), col)
-
-
-def column_to_string(col):
-    return " ".join(column_to_list_of_strings(col))
-
-
-def flip_card(card_str, flip):
-    if flip:
-        return "<" + card_str + ">"
-    else:
-        return card_str
-
-
-def shuffle(orig_cards, rand):
-    shuffled_cards = list(orig_cards)
-    if isinstance(rand, LCRandom31):
-        shuffled_cards = ms_rearrange(shuffled_cards)
-    # rand.shuffle works in place
-    rand.shuffle(shuffled_cards)
-    return shuffled_cards
 
 
 class MyTests(unittest.TestCase):

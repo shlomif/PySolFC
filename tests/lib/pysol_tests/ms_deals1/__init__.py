@@ -53,7 +53,7 @@
 # imports
 import unittest
 
-from pysol_cards.cards import ms_rearrange
+from pysol_cards.cards import Card, CardRenderer, ms_rearrange
 
 # So the localpaths will be overrided.
 from pysollib.pysolrandom import LCRandom31, constructRandom, \
@@ -66,57 +66,6 @@ from pysollib.pysolrandom import LCRandom31, constructRandom, \
 # //
 # // We use a seed of type long in the range [0, MAX_SEED].
 # ************************************************************************/
-
-
-class Card:
-
-    ACE = 1
-    KING = 13
-
-    def __init__(self, id, rank, suit, print_ts):
-        self.id = id
-        self.rank = rank
-        self.suit = suit
-        self.flipped = False
-        self.print_ts = print_ts
-        self.empty = False
-
-    def is_king(self):
-        return self.rank == self.KING
-
-    def is_ace(self):
-        return self.rank == self.ACE
-
-    def rank_s(self):
-        s = "0A23456789TJQK"[self.rank]
-        if (not self.print_ts) and s == "T":
-            s = "10"
-        return s
-
-    def suit_s(self):
-        return "CSHD"[self.suit]
-
-    def to_s(self):
-        if self.empty:
-            return "-"
-        ret = ""
-        ret = ret + self.rank_s()
-        ret = ret + self.suit_s()
-        if self.flipped:
-            ret = "<" + ret + ">"
-
-        return ret
-
-    def found_s(self):
-        return self.suit_s() + "-" + self.rank_s()
-
-    def flip(self, flipped=True):
-        new_card = Card(self.id, self.rank, self.suit, self.print_ts)
-        new_card.flipped = flipped
-        return new_card
-
-    def is_empty(self):
-        return self.empty
 
 
 class Columns:
@@ -218,19 +167,22 @@ def empty_card():
     return ret
 
 
-def createCards(num_decks, print_ts):
+def createCards(num_decks):
     cards = []
     for deck in range(num_decks):
         id = 0
         for suit in range(4):
             for rank in range(13):
-                cards.append(Card(id, rank+1, suit, print_ts))
+                cards.append(Card(id, rank+1, suit))
                 id = id + 1
     return cards
 
 
+ren = CardRenderer(True)
+
+
 def column_to_list_of_strings(col):
-    return map(lambda c: c.to_s(), col)
+    return map(lambda c: ren.to_s(c), col)
 
 
 def column_to_string(col):
@@ -318,7 +270,7 @@ class Game:
             return 1
 
     def deal(self):
-        orig_cards = createCards(self.get_num_decks(), self.print_ts)
+        orig_cards = createCards(self.get_num_decks())
 
         orig_cards = shuffle(orig_cards, self.rand)
 

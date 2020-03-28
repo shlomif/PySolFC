@@ -54,6 +54,7 @@
 import unittest
 
 from pysol_cards.cards import Card, CardRenderer, ms_rearrange
+from pysol_cards.deal_game import Columns
 
 # So the localpaths will be overrided.
 from pysollib.pysolrandom import LCRandom31, constructRandom, \
@@ -66,29 +67,6 @@ from pysollib.pysolrandom import LCRandom31, constructRandom, \
 # //
 # // We use a seed of type long in the range [0, MAX_SEED].
 # ************************************************************************/
-
-
-class Columns:
-
-    def __init__(self, num):
-        self.num = num
-        cols = []
-        for i in range(num):
-            cols.append([])
-
-        self.cols = cols
-
-    def add(self, idx, card):
-        self.cols[idx].append(card)
-
-    def rev(self):
-        self.cols.reverse()
-
-    def output(self):
-        s = ''
-        for column in self.cols:
-            s += column_to_string(column) + "\n"
-        return s
 
 
 class Board:
@@ -134,7 +112,8 @@ class Board:
             s += self.print_foundations() + "\n"
         if (self.with_freecells):
             s += self.print_freecells() + "\n"
-        s += self.columns.output()
+        for c in self.columns.cols:
+            s += ren.l_concat(c) + "\n"
 
         return s
 

@@ -81,8 +81,6 @@ class MyTests(unittest.TestCase):
 
     def test_main(self):
 
-        rand = constructRandom('24')
-
         def test_24(blurb):
             game = Game("freecell", 24, RandomBase.DEALS_PYSOLFC)
             got_s = game.calc_layout_string(ren)
@@ -98,9 +96,6 @@ AH 5S 6S AD 8H JD
 
         # TEST
         test_24('Deal 24')
-        rand.reset()
-        # TEST
-        test_24('MS deal after reset.')
 
         game = Game("freecell", 123456, RandomBase.DEALS_MS)
         # TEST

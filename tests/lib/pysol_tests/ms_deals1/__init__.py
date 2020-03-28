@@ -84,7 +84,7 @@ class MyTests(unittest.TestCase):
         rand = constructRandom('24')
 
         def test_24(blurb):
-            game = Game("freecell", 24, True)
+            game = Game("freecell", 24, RandomBase.DEALS_PYSOLFC)
             got_s = game.calc_layout_string(ren)
             self.assertEqual(got_s, '''4C 2C 9C 8C QS 4S 2H
 5H QH 3C AC 3H 4H QD

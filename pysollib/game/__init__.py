@@ -78,6 +78,11 @@ if TOOLKIT == 'tk':
 else:
     from pysollib.pysoltk import reset_solver_dialog
 
+# See: https://github.com/shlomif/PySolFC/issues/159 .
+# 'factory=' is absent from older versions.
+assert getattr(attr, '__version_info__', (0, 0, 0)) >= (18, 2, 0), (
+        "Newer version of https://pypi.org/project/attrs/ is required.")
+
 
 PLAY_TIME_TIMEOUT = 200
 S_PLAY = 0x40

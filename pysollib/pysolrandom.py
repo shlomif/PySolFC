@@ -26,10 +26,12 @@
 import re
 
 import pysol_cards
-assert getattr(pysol_cards, 'VERSION', (0, 0, 0)) >= (0, 8, 7), (
+import pysol_cards.random
+assert getattr(pysol_cards, 'VERSION', (0, 0, 0)) >= (0, 8, 11), (
     "Newer version of https://pypi.org/project/pysol-cards is required.")
 from pysol_cards.random_base import RandomBase  # noqa: I100
-from pysol_cards.random import MTRandom, match_ms_deal_prefix  # noqa: I100
+from pysol_cards.random import \
+    MTRandom, match_ms_deal_prefix  # noqa: I100
 
 
 # ************************************************************************
@@ -56,27 +58,13 @@ from pysol_cards.random import MTRandom, match_ms_deal_prefix  # noqa: I100
 # ************************************************************************
 
 
-class MFXRandom(RandomBase):
-
-    def __init__(self, seed=None):
-        RandomBase.__init__(self)
-        if seed is None:
-            seed = self._getRandomSeed()
-        self.initial_seed = self.setSeed(seed)
-        self.origin = self.ORIGIN_UNKNOWN
+class MFXRandom(pysol_cards.random.PysolRandom):
 
     def reset(self):
         self.seed = self.initial_seed
 
     def getSeed(self):
         return self.seed
-
-    def setSeed(self, seed):
-        seed = int(seed)
-        if not (0 <= seed <= self.MAX_SEED):
-            raise ValueError("seed out of range")
-        self.seed = seed
-        return seed
 
     def getstate(self):
         return self.seed
@@ -103,7 +91,7 @@ class MFXRandom(RandomBase):
 # * p. 106 (line 26) & p. 108
 # ************************************************************************
 
-class LCRandom64(MFXRandom):
+class LCRandom64(MFXRandom, pysol_cards.random.LCRandom64):
 
     def random(self):
         self.seed = (self.seed*int('6364136223846793005') + 1) & self.MAX_SEED
@@ -115,7 +103,7 @@ CUSTOM_BIT = (1 << 999)
 
 
 class CustomRandom(RandomBase):
-    def __init__(self):
+    def __init__(self, seed=None):
         self.initial_seed = self.seed = MS_LONG_BIT | CUSTOM_BIT
         self.origin = self.ORIGIN_UNKNOWN
         self.setSeedAsStr('Custom')
@@ -139,7 +127,7 @@ class CustomRandom(RandomBase):
 # ************************************************************************
 
 
-class LCRandom31(MFXRandom):
+class LCRandom31(pysol_cards.random.LCRandom31, MFXRandom):
     MAX_SEED = int('0x1ffffffff', 0)          # 33 bits
 
     def increaseSeed(self, seed):
@@ -153,35 +141,6 @@ class LCRandom31(MFXRandom):
         if match_ms_deal_prefix("{}".format(seed)) is None:
             return "%05d" % int(seed)
         return seed
-
-    def setSeed(self, seed):
-        seed = int(seed)
-        self.seed = seed
-        if not (0 <= seed <= self.MAX_SEED):
-            raise ValueError("seed out of range")
-        self.seedx = (seed if (seed < int('0x100000000', 0)) else
-                      (seed - int('0x100000000', 0)))
-        return seed
-
-    def _rando(self):
-        self.seedx = (self.seedx*214013 + 2531011) & self.MAX_SEED
-        return ((self.seedx >> 16) & 0x7fff)
-
-    def _randp(self):
-        self.seedx = (self.seedx*214013 + 2531011) & self.MAX_SEED
-        return ((self.seedx >> 16) & 0xffff)
-
-    def randint(self, a, b):
-        if self.seed < 0x100000000:
-            ret = self._rando()
-            ret = (ret if (self.seed < 0x80000000) else (ret | 0x8000))
-        else:
-            ret = self._randp() + 1
-
-        return a + (ret % (b+1-a))
-
-    def reset(self):
-        self.setSeed(self.seed)
 
 
 # select
@@ -204,7 +163,10 @@ def constructRandom(s):
         seed = m
         if 0 <= seed <= LCRandom31.MAX_SEED:
             ret = LCRandom31(seed)
-            ret.setSeedAsStr(s)
+            assert ret.seed
+            assert ret.seedx
+            assert ret.initial_seed
+            # ret.setSeedAsStr(s)
             return ret
         else:
             raise ValueError("ms seed out of range")
@@ -216,7 +178,7 @@ def constructRandom(s):
     seed = int(s)
     if 0 <= seed < 32000:
         return LCRandom31(seed)
-    return PysolRandom(seed)
+    return MTRandom(seed)
 
 
 def random__str2long(s):

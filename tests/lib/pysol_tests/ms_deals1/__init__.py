@@ -123,6 +123,7 @@ KC JS 9H 4S 7S AD
 ''', 'PySolFC deal No. 123456')
 
         rand = constructRandom('ms3000000000')
+        self.assertEqual(rand.getSeedAsStr(), 'ms3000000000')
         game = Game("freecell", 3000000000, RandomBase.DEALS_MS)
         # TEST
         self._cmp_board(game.calc_layout_string(ren), '''8D TS JS TD JH JD JC

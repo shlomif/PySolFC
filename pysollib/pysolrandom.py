@@ -33,15 +33,6 @@ import pysol_cards.random_base  # noqa: I100
 from pysol_cards.random import LCRandom31, match_ms_deal_prefix  # noqa: I100
 
 
-# ************************************************************************
-# * Linear Congruential random generator
-# *
-# * Knuth, Donald.E., "The Art of Computer Programming,", Vol 2,
-# * Seminumerical Algorithms, Third Edition, Addison-Wesley, 1998,
-# * p. 106 (line 26) & p. 108
-# ************************************************************************
-
-
 MS_LONG_BIT = (1 << 1000)
 CUSTOM_BIT = (1 << 999)
 

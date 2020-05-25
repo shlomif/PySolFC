@@ -42,13 +42,6 @@ from pysol_cards.random import match_ms_deal_prefix  # noqa: I100
 # ************************************************************************
 
 
-class LCRandom64(pysol_cards.random.LCRandom64):
-
-    def random(self):
-        self.seed = (self.seed*int('6364136223846793005') + 1) & self.MAX_SEED
-        return ((self.seed >> 21) & 0x7fffffff) / 2147483648.0
-
-
 MS_LONG_BIT = (1 << 1000)
 CUSTOM_BIT = (1 << 999)
 
@@ -83,9 +76,6 @@ class LCRandom31(pysol_cards.random.LCRandom31):
         return seed
 
 
-# select
-# PysolRandom = LCRandom64
-# PysolRandom = WHRandom
 PysolRandom = pysol_cards.random.MTRandom
 
 

@@ -26,7 +26,7 @@
 import re
 
 import pysol_cards
-assert getattr(pysol_cards, 'VERSION', (0, 0, 0)) >= (0, 8, 12), (
+assert getattr(pysol_cards, 'VERSION', (0, 0, 0)) >= (0, 8, 13), (
     "Newer version of https://pypi.org/project/pysol-cards is required.")
 import pysol_cards.random  # noqa: I100
 import pysol_cards.random_base  # noqa: I100
@@ -39,16 +39,6 @@ from pysol_cards.random import match_ms_deal_prefix  # noqa: I100
 
 
 class MFXRandom(pysol_cards.random.PysolRandom):
-
-    def reset(self):
-        self.seed = self.initial_seed
-
-    def getSeed(self):
-        return self.seed
-
-    def getstate(self):
-        return self.seed
-
     def setstate(self, state):
         self.seed = state
 
@@ -84,9 +74,6 @@ class CustomRandom(pysol_cards.random_base.RandomBase):
     def shuffle(self, seq):
         pass
 
-    def getstate(self):
-        return self.seed
-
     def setstate(self, state):
         self.seed = state
 
@@ -98,10 +85,6 @@ class CustomRandom(pysol_cards.random_base.RandomBase):
 
 
 class LCRandom31(pysol_cards.random.LCRandom31, MFXRandom):
-    def increaseSeed(self, seed):
-        ret = super(LCRandom31, self).increaseSeed(seed)
-        return "ms{}".format(ret)
-
     def getSeedStr(self):
         return "ms" + str(self.initial_seed)
 

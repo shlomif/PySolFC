@@ -67,9 +67,6 @@ class CustomRandom(pysol_cards.random_base.RandomBase):
 
 
 class LCRandom31(pysol_cards.random.LCRandom31):
-    def getSeedStr(self):
-        return "ms" + str(self.initial_seed)
-
     def str(self, seed):
         if match_ms_deal_prefix("{}".format(seed)) is None:
             return "%05d" % int(seed)

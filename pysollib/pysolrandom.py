@@ -26,21 +26,11 @@
 import re
 
 import pysol_cards
-assert getattr(pysol_cards, 'VERSION', (0, 0, 0)) >= (0, 8, 13), (
+assert getattr(pysol_cards, 'VERSION', (0, 0, 0)) >= (0, 8, 14), (
     "Newer version of https://pypi.org/project/pysol-cards is required.")
 import pysol_cards.random  # noqa: I100
 import pysol_cards.random_base  # noqa: I100
 from pysol_cards.random import match_ms_deal_prefix  # noqa: I100
-
-
-# ************************************************************************
-# * Abstract class for LC Random number generators.
-# ************************************************************************
-
-
-class MFXRandom(pysol_cards.random.PysolRandom):
-    def setstate(self, state):
-        self.seed = state
 
 
 # ************************************************************************
@@ -51,7 +41,8 @@ class MFXRandom(pysol_cards.random.PysolRandom):
 # * p. 106 (line 26) & p. 108
 # ************************************************************************
 
-class LCRandom64(MFXRandom, pysol_cards.random.LCRandom64):
+
+class LCRandom64(pysol_cards.random.LCRandom64):
 
     def random(self):
         self.seed = (self.seed*int('6364136223846793005') + 1) & self.MAX_SEED
@@ -74,8 +65,6 @@ class CustomRandom(pysol_cards.random_base.RandomBase):
     def shuffle(self, seq):
         pass
 
-    def setstate(self, state):
-        self.seed = state
 
 # ************************************************************************
 # * Linear Congruential random generator
@@ -84,7 +73,7 @@ class CustomRandom(pysol_cards.random_base.RandomBase):
 # ************************************************************************
 
 
-class LCRandom31(pysol_cards.random.LCRandom31, MFXRandom):
+class LCRandom31(pysol_cards.random.LCRandom31):
     def getSeedStr(self):
         return "ms" + str(self.initial_seed)
 

@@ -108,8 +108,6 @@ class CustomRandom(pysol_cards.random_base.RandomBase):
 
 
 class LCRandom31(pysol_cards.random.LCRandom31, MFXRandom):
-    MAX_SEED = int('0x1ffffffff', 0)          # 33 bits
-
     def increaseSeed(self, seed):
         ret = super(LCRandom31, self).increaseSeed(seed)
         return "ms{}".format(ret)

@@ -26,12 +26,11 @@
 import re
 
 import pysol_cards
-import pysol_cards.random
 assert getattr(pysol_cards, 'VERSION', (0, 0, 0)) >= (0, 8, 11), (
     "Newer version of https://pypi.org/project/pysol-cards is required.")
+import pysol_cards.random  # noqa: I100
 import pysol_cards.random_base  # noqa: I100
-from pysol_cards.random import \
-    MTRandom, match_ms_deal_prefix  # noqa: I100
+from pysol_cards.random import match_ms_deal_prefix  # noqa: I100
 
 
 # ************************************************************************
@@ -127,7 +126,7 @@ class LCRandom31(pysol_cards.random.LCRandom31, MFXRandom):
 # select
 # PysolRandom = LCRandom64
 # PysolRandom = WHRandom
-PysolRandom = MTRandom
+PysolRandom = pysol_cards.random.MTRandom
 
 
 # ************************************************************************
@@ -159,7 +158,7 @@ def constructRandom(s):
     seed = int(s)
     if 0 <= seed < 32000:
         return LCRandom31(seed)
-    return MTRandom(seed)
+    return pysol_cards.random.MTRandom(seed)
 
 
 def random__str2long(s):

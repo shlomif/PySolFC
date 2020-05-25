@@ -76,6 +76,26 @@ begin
     Result := False;
   end;
  end;
-''', file=out)
+
+function InitializeSetup(): Boolean;
+var
+  Version: TWindowsVersion;
+begin
+  GetWindowsVersionEx(Version);
+
+  // Windows XP SP3 and higher
+  if  ((Version.Major = 5) and ((Version.Minor = 1) and
+       (Version.ServicePackMajor >= 3) or (Version.Minor > 1)) or
+       (Version.Major > 5)) then
+    Result := True
+  else begin
+    MsgBox(
+      'This version of Windows is not supported. PySolFC %(prog_version)s \
+requires Windows XP SP3 or higher.',
+      mbCriticalError, MB_OK);
+    Result := False;
+  end;
+end;
+''' % vars(), file=out)
 
 out.close()

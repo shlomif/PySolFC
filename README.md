@@ -35,7 +35,7 @@ and implemented some other enhancements.
 
 ## Installation.
 
-We provide an [installer for Windows](https://sourceforge.net/projects/pysolfc/files/PySolFC/)
+We provide an [installer for Windows](https://sourceforge.net/projects/pysolfc/files/PySolFC/) (requires Windows XP SP3 or higher)
 as well as an Android package on F-droid.
 
 For installation from source, see: http://www.python.org/doc/current/inst/

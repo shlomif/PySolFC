@@ -59,7 +59,7 @@ from pysol_cards.random_base import RandomBase
 
 # So the localpaths will be overrided.
 from pysollib.pysolrandom import constructRandom, \
-        random__long2str, random__str2long
+        random__int2str, random__str2int
 
 # PySol imports
 
@@ -151,20 +151,20 @@ QH 9H 9D 5S 7S 6C
 ''', 'Microsoft Deal #6E9 - extra long seed.')
 
         inp = 'ms12345678'
-        got = random__long2str(random__str2long(inp))
+        got = random__int2str(random__str2int(inp))
 
         # TEST
         self.assertEqual(got, inp, 'long2str ms roundtrip.')
 
         inp = '246007891097'
-        got = random__long2str(random__str2long(inp))
+        got = random__int2str(random__str2int(inp))
 
         # TEST
         self.assertEqual(got, inp, 'long2str PySolFC roundtrip.')
 
         proto_inp = '246007891097'
-        inp = random__str2long(proto_inp)
-        got = random__str2long(random__long2str(inp))
+        inp = random__str2int(proto_inp)
+        got = random__str2int(random__int2str(inp))
 
         # TEST
         self.assertEqual(got, inp, 'str2long PySolFC roundtrip.')

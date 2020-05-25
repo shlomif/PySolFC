@@ -111,7 +111,7 @@ def constructRandom(s):
     return pysol_cards.random.MTRandom(seed)
 
 
-def random__str2long(s):
+def random__str2int(s):
     if s == 'Custom':
         return CUSTOM_BIT | MS_LONG_BIT
     m = match_ms_deal_prefix(s)
@@ -121,7 +121,7 @@ def random__str2long(s):
         return int(s)
 
 
-def random__long2str(l):
+def random__int2str(l):
     if ((l & MS_LONG_BIT) != 0):
         if ((l & CUSTOM_BIT) != 0):
             return 'Custom'

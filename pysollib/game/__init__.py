@@ -54,7 +54,7 @@ from pysollib.move import AUpdateStackMove
 from pysollib.mygettext import _
 from pysollib.mygettext import ungettext
 from pysollib.pysolrandom import LCRandom31, PysolRandom, constructRandom, \
-        random__long2str
+        random__int2str
 from pysollib.pysoltk import CURSOR_WATCH
 from pysollib.pysoltk import Card
 from pysollib.pysoltk import EVENT_HANDLED, EVENT_PROPAGATE
@@ -3200,7 +3200,7 @@ class Game(object):
         game.version = version
         game.version_tuple = version_tuple
         #
-        initial_seed = random__long2str(pload(int))
+        initial_seed = random__int2str(pload(int))
         game.random = constructRandom(initial_seed)
         state = pload()
         if not (isinstance(game.random, random2.Random) and

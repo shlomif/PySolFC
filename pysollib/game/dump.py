@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-from pysollib.pysolrandom import random__str2long
+from pysollib.pysolrandom import random__str2int
 from pysollib.settings import PACKAGE
 from pysollib.settings import VERSION, VERSION_TUPLE
 
@@ -30,7 +30,7 @@ def pysolDumpGame(game_, p, bookmark=0):
     p.dump(game_.GAME_VERSION)
     p.dump(game_.id)
     #
-    p.dump(random__str2long(game_.random.getSeedStr()))
+    p.dump(random__str2int(game_.random.getSeedStr()))
     p.dump(game_.random.getstate())
     #
     p.dump(len(game_.allstacks))

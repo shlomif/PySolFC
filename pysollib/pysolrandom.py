@@ -30,7 +30,7 @@ assert getattr(pysol_cards, 'VERSION', (0, 0, 0)) >= (0, 8, 14), (
     "Newer version of https://pypi.org/project/pysol-cards is required.")
 import pysol_cards.random  # noqa: I100
 import pysol_cards.random_base  # noqa: I100
-from pysol_cards.random import match_ms_deal_prefix  # noqa: I100
+from pysol_cards.random import LCRandom31, match_ms_deal_prefix  # noqa: I100
 
 
 # ************************************************************************
@@ -57,20 +57,6 @@ class CustomRandom(pysol_cards.random_base.RandomBase):
 
     def shuffle(self, seq):
         pass
-
-
-# ************************************************************************
-# * Linear Congruential random generator
-# * In PySol this is only used for 0 <= seed <= 32000
-# * for Windows FreeCell compatibility
-# ************************************************************************
-
-
-class LCRandom31(pysol_cards.random.LCRandom31):
-    def str(self, seed):
-        if match_ms_deal_prefix("{}".format(seed)) is None:
-            return "%05d" % int(seed)
-        return seed
 
 
 PysolRandom = pysol_cards.random.MTRandom

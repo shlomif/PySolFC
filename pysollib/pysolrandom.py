@@ -26,7 +26,7 @@
 import re
 
 import pysol_cards
-assert getattr(pysol_cards, 'VERSION', (0, 0, 0)) >= (0, 8, 14), (
+assert getattr(pysol_cards, 'VERSION', (0, 0, 0)) >= (0, 8, 15), (
     "Newer version of https://pypi.org/project/pysol-cards is required.")
 import pysol_cards.random  # noqa: I100
 import pysol_cards.random_base  # noqa: I100

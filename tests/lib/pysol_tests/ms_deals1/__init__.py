@@ -56,10 +56,10 @@ import unittest
 from pysol_cards.cards import CardRenderer
 from pysol_cards.deal_game import Game
 from pysol_cards.random_base import RandomBase
+from pysol_cards.random import random__int2str, random__str2int
 
 # So the localpaths will be overrided.
-from pysollib.pysolrandom import constructRandom, \
-        random__int2str, random__str2int
+from pysollib.pysolrandom import constructRandom
 
 # PySol imports
 

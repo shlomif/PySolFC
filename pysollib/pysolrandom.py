@@ -26,15 +26,12 @@
 import re
 
 import pysol_cards
-assert getattr(pysol_cards, 'VERSION', (0, 0, 0)) >= (0, 8, 15), (
+assert getattr(pysol_cards, 'VERSION', (0, 0, 0)) >= (0, 8, 16), (
     "Newer version of https://pypi.org/project/pysol-cards is required.")
 import pysol_cards.random  # noqa: I100
 import pysol_cards.random_base  # noqa: I100
 from pysol_cards.random import LCRandom31, match_ms_deal_prefix  # noqa: I100
-
-
-MS_LONG_BIT = (1 << 1000)
-CUSTOM_BIT = (1 << 999)
+from pysol_cards.random import CUSTOM_BIT, MS_LONG_BIT  # noqa: I100
 
 
 class CustomRandom(pysol_cards.random_base.RandomBase):
@@ -83,25 +80,6 @@ def constructRandom(s):
     if 0 <= seed < 32000:
         return LCRandom31(seed)
     return pysol_cards.random.MTRandom(seed)
-
-
-def random__str2int(s):
-    if s == 'Custom':
-        return CUSTOM_BIT | MS_LONG_BIT
-    m = match_ms_deal_prefix(s)
-    if m is not None:
-        return (m | MS_LONG_BIT)
-    else:
-        return int(s)
-
-
-def random__int2str(l):
-    if ((l & MS_LONG_BIT) != 0):
-        if ((l & CUSTOM_BIT) != 0):
-            return 'Custom'
-        return "ms" + str(l & (~ MS_LONG_BIT))
-    else:
-        return str(l)
 
 
 # test

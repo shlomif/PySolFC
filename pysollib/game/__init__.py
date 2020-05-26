@@ -30,6 +30,7 @@ from pickle import Pickler, Unpickler, UnpicklingError
 import attr
 
 from pysol_cards.cards import ms_rearrange
+from pysol_cards.random import random__int2str
 
 from pysollib.game.dump import pysolDumpGame
 from pysollib.gamedb import GI
@@ -53,8 +54,7 @@ from pysollib.move import ATurnStackMove
 from pysollib.move import AUpdateStackMove
 from pysollib.mygettext import _
 from pysollib.mygettext import ungettext
-from pysollib.pysolrandom import LCRandom31, PysolRandom, constructRandom, \
-        random__int2str
+from pysollib.pysolrandom import LCRandom31, PysolRandom, constructRandom
 from pysollib.pysoltk import CURSOR_WATCH
 from pysollib.pysoltk import Card
 from pysollib.pysoltk import EVENT_HANDLED, EVENT_PROPAGATE

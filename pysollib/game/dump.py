@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-from pysollib.pysolrandom import random__str2int
+from pysol_cards.random import random__str2int
 from pysollib.settings import PACKAGE
 from pysollib.settings import VERSION, VERSION_TUPLE
 

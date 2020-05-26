@@ -555,7 +555,10 @@ class PysolMenubar(PysolMenubarTk):
                 text=text % {'filename': filename})
 
     def mPlayerStats(self, *args, **kw):
-        self.game.doPause()
+        wasPaused = False
+        if not self.game.pause:
+            self.game.doPause()
+            wasPaused = True
         mode = kw.get("mode", 101)
         demo = 0
         gameid = None
@@ -659,7 +662,9 @@ class PysolMenubar(PysolMenubarTk):
             if d.status != 0:
                 break
             mode = d.button
-        self.game.doPause()
+        if self.game.pause:
+            if wasPaused:
+                self.game.doPause()
 
     #
     # Assist menu

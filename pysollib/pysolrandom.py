@@ -79,7 +79,19 @@ def constructRandom(s):
     seed = int(s)
     if 0 <= seed < 32000:
         return LCRandom31(seed)
-    return pysol_cards.random.MTRandom(seed)
+    # print("MTRandom", seed)
+    ret = pysol_cards.random.MTRandom(seed)
+    init_state = ret.getstate()
+    ret.initial_seed = initial_seed = seed
+
+    def _reset(self=ret):
+        # print("called reset")
+        ret.setSeed(initial_seed)
+        return
+        ret.seed = ret.initial_seed
+        ret.setstate(init_state)
+    ret.reset = _reset
+    return ret
 
 
 # test

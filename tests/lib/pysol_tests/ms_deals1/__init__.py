@@ -186,3 +186,16 @@ KS 7S 5H 3H TS 3S 5D
 9C JH 8H 3D 4D QC
 KH 6H 6C TC 2C 7D
 ''', 'ms100001')
+
+        seed = 24000024
+        rand = constructRandom(str(seed))
+        expected0 = rand.randint(0, 100)
+        expected1 = rand.randint(0, 100)
+        rand.reset()
+        got0 = rand.randint(0, 100)
+        got1 = rand.randint(0, 100)
+        # TEST
+        self.assertEqual(
+            [got0, got1, ],
+            [expected0, expected1, ],
+            "same results after reset()",)

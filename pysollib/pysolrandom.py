@@ -26,7 +26,7 @@
 import re
 
 import pysol_cards
-assert getattr(pysol_cards, 'VERSION', (0, 0, 0)) >= (0, 8, 16), (
+assert getattr(pysol_cards, 'VERSION', (0, 0, 0)) >= (0, 8, 17), (
     "Newer version of https://pypi.org/project/pysol-cards is required.")
 import pysol_cards.random  # noqa: I100
 import pysol_cards.random_base  # noqa: I100
@@ -81,16 +81,6 @@ def constructRandom(s):
         return LCRandom31(seed)
     # print("MTRandom", seed)
     ret = pysol_cards.random.MTRandom(seed)
-    init_state = ret.getstate()
-    ret.initial_seed = initial_seed = seed
-
-    def _reset(self=ret):
-        # print("called reset")
-        ret.setSeed(initial_seed)
-        return
-        ret.seed = ret.initial_seed
-        ret.setstate(init_state)
-    ret.reset = _reset
     return ret
 
 

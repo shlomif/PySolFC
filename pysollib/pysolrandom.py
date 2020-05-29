@@ -64,9 +64,6 @@ def constructRandom(s):
         seed = m
         if 0 <= seed <= LCRandom31.MAX_SEED:
             ret = LCRandom31(seed)
-            assert ret.seed
-            assert ret.seedx
-            assert ret.initial_seed
             # ret.setSeedAsStr(s)
             return ret
         else:

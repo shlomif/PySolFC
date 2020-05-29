@@ -82,11 +82,3 @@ def constructRandom(s):
     # print("MTRandom", seed)
     ret = pysol_cards.random.MTRandom(seed)
     return ret
-
-
-# test
-if __name__ == '__main__':
-    r = constructRandom('12345')
-    print(r.randint(0, 100))
-    print(r.random())
-    print(type(r))

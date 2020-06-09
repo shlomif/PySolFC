@@ -2629,7 +2629,7 @@ class Yukon_AC_RowStack(BasicRowStack):
         kwdefault(cap, max_move=999999, max_accept=999999)
         BasicRowStack.__init__(self, x, y, game, **cap)
 
-    def _isSequence(self, c1, c2):
+    def _isYukonSequence(self, c1, c2):
         return ((c1.rank + self.cap.dir) % self.cap.mod == c2.rank and
                 c1.color != c2.color)
 
@@ -2637,7 +2637,7 @@ class Yukon_AC_RowStack(BasicRowStack):
         if not self.basicAcceptsCards(from_stack, cards):
             return False
         # [topcard + card[0]] must be acceptable
-        if self.cards and not self._isSequence(self.cards[-1], cards[0]):
+        if self.cards and not self._isYukonSequence(self.cards[-1], cards[0]):
             return False
         return True
 
@@ -2659,7 +2659,7 @@ class Yukon_AC_RowStack(BasicRowStack):
 # A Yukon_SameSuit_RowStack builds down by rank and suit,
 # but can move any face-up cards regardless of sequence.
 class Yukon_SS_RowStack(Yukon_AC_RowStack):
-    def _isSequence(self, c1, c2):
+    def _isYukonSequence(self, c1, c2):
         return ((c1.rank + self.cap.dir) % self.cap.mod == c2.rank and
                 c1.suit == c2.suit)
 
@@ -2678,7 +2678,7 @@ class Yukon_SS_RowStack(Yukon_AC_RowStack):
 # A Yukon_Rank_RowStack builds down by rank
 # but can move any face-up cards regardless of sequence.
 class Yukon_RK_RowStack(Yukon_AC_RowStack):
-    def _isSequence(self, c1, c2):
+    def _isYukonSequence(self, c1, c2):
         return (c1.rank + self.cap.dir) % self.cap.mod == c2.rank
 
     def getHelp(self):

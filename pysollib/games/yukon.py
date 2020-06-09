@@ -101,7 +101,7 @@ class RussianSolitaire(Yukon):
 # ************************************************************************
 
 class Moosehide_RowStack(Yukon_AC_RowStack):
-    def _isSequence(self, c1, c2):
+    def _isYukonSequence(self, c1, c2):
         return (c1.suit != c2.suit and c1.rank == c2.rank+1)
 
     def getHelp(self):
@@ -172,7 +172,7 @@ class Grandfather(RussianSolitaire):
 # ************************************************************************
 
 class Alaska_RowStack(Yukon_SS_RowStack):
-    def _isSequence(self, c1, c2):
+    def _isYukonSequence(self, c1, c2):
         return (c1.suit == c2.suit and
                 ((c1.rank + self.cap.dir) % self.cap.mod == c2.rank or
                  (c2.rank + self.cap.dir) % self.cap.mod == c1.rank))
@@ -191,7 +191,7 @@ class Alaska(RussianSolitaire):
 # ************************************************************************
 
 class Roslin_RowStack(Yukon_AC_RowStack):
-    def _isSequence(self, c1, c2):
+    def _isYukonSequence(self, c1, c2):
         return (c1.color != c2.color and
                 ((c1.rank + self.cap.dir) % self.cap.mod == c2.rank or
                  (c2.rank + self.cap.dir) % self.cap.mod == c1.rank))
@@ -289,7 +289,7 @@ class Abacus_Foundation(SS_FoundationStack):
 
 
 class Abacus_RowStack(Yukon_SS_RowStack):
-    def _isSequence(self, c1, c2):
+    def _isYukonSequence(self, c1, c2):
         dir, mod = -(c1.suit + 1), 13
         return c1.suit == c2.suit and (c1.rank + dir) % mod == c2.rank
 
@@ -587,7 +587,7 @@ class DoubleRussianSpider(RussianSpider, DoubleRussianSolitaire):
 # ************************************************************************
 
 class Brisbane_RowStack(Yukon_AC_RowStack):
-    def _isSequence(self, c1, c2):
+    def _isYukonSequence(self, c1, c2):
         return (c1.rank + self.cap.dir) % self.cap.mod == c2.rank
 
     def getHelp(self):

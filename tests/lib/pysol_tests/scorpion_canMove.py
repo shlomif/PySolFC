@@ -44,9 +44,9 @@ class Mock_S_Game:
 class MyTests(unittest.TestCase):
     def _calc_Scorpion_stack(self, isScorpionTail):
         g = MockGame()
-        stack = (ScorpionTail_RowStack(0, 0, g)
+        stack = (ScorpionTail_RowStack
                  if isScorpionTail
-                 else Scorpion_RowStack(0, 0, g))
+                 else Scorpion_RowStack)(0, 0, g)
         for s, r in [(2, 5), (3, 7), (2, 7), (2, 0), (2, 3), (2, 4), (1, 4)]:
             c = AbstractCard(1000+r*100+s*10, 0, s, r, g)
             c.face_up = True

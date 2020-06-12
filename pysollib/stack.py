@@ -1249,6 +1249,8 @@ class Stack:
     def startDrag(self, event, sound=True):
         # print event.x, event.y
         assert self.game.drag.stack is None
+        # import pdb
+        # pdb.set_trace()
         i = self._findCard(event)
         if i < 0 or not self.canMoveCards(self.cards[i:]):
             return
@@ -2075,6 +2077,9 @@ class OpenStack(Stack):
         return self.basicAcceptsCards(from_stack, cards)
 
     def canMoveCards(self, cards):
+        # import pdb
+        # pdb.set_trace()
+        # print('OpenStack.canMoveCards()', cards)
         # default for OpenStack: we can move the top card
         # (max_move defaults to 1)
         return self.basicCanMoveCards(cards)
@@ -2458,6 +2463,7 @@ class BasicRowStack(OpenStack):
     #    return self._getBaseCard()
 
     def spiderCanDropCards(self, stacks):
+        # print('spiderCanDropCards()', stacks)
         # drop whole sequence
         if len(self.cards) < 13:
             return (None, 0)
@@ -2630,10 +2636,12 @@ class Yukon_AC_RowStack(BasicRowStack):
         BasicRowStack.__init__(self, x, y, game, **cap)
 
     def _isYukonSequence(self, c1, c2):
+        # print('Yukon_AC_RowStack._isYukonSequence()', c1, c2)
         return ((c1.rank + self.cap.dir) % self.cap.mod == c2.rank and
                 c1.color != c2.color)
 
     def acceptsCards(self, from_stack, cards):
+        # print('Yukon_AC_RowStack.acceptsCards()', from_stack, cards)
         if not self.basicAcceptsCards(from_stack, cards):
             return False
         # [topcard + card[0]] must be acceptable
@@ -3126,6 +3134,8 @@ class StackWrapper:
     # return a new stack (an instance of the stack class)
     def __call__(self, x, y, game, **cap):
         # must preserve self.cap, so create a shallow copy
+        # import pdb
+        # pdb.set_trace()
         c = self.cap.copy()
         kwdefault(c, **cap)
         return self.stack_class(x, y, game, **c)

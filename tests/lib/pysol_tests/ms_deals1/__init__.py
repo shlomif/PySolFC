@@ -55,8 +55,8 @@ import unittest
 
 from pysol_cards.cards import CardRenderer
 from pysol_cards.deal_game import Game
-from pysol_cards.random_base import RandomBase
 from pysol_cards.random import random__int2str, random__str2int
+from pysol_cards.random_base import RandomBase
 
 # So the localpaths will be overrided.
 from pysollib.pysolrandom import constructRandom

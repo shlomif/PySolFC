@@ -16,6 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 from pysol_cards.random import random__str2int
+
 from pysollib.settings import PACKAGE
 from pysollib.settings import VERSION, VERSION_TUPLE
 

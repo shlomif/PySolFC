@@ -1052,8 +1052,18 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
         if 'esf' in game_type:
             args += ['--empty-stacks-filled-by', game_type['esf']]
 
-        command = FCS_COMMAND+' '+' '.join([str(i) for i in args])
-        pout, perr = self.run_solver(command, board)
+        use_lib = True
+        if use_lib:
+            import freecell_solver
+            obj = freecell_solver.FreecellSolver()
+            print(args)
+            obj.input_cmd_line([str(s) for s in args])
+            status = obj.solve_board(board)
+            if status != 0:
+                assert 0
+        else:
+            command = FCS_COMMAND+' '+' '.join([str(i) for i in args])
+            pout, perr = self.run_solver(command, board)
         self.solver_state = 'unknown'
         #
         stack_types = {
@@ -1090,71 +1100,89 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
             self.dialog.setText(iter=iter_, depth=depth, states=states)
 
         hints = []
-        for sbytes in pout:
-            s = six.text_type(sbytes, encoding='utf-8')
-            if DEBUG:
-                print(s)
-            if self._determineIfSolverState(s):
-                next
-            m = re.match('Total number of states checked is ([0-9]+)\\.', s)
-            if m:
-                iter_ = int(m.group(1))
-                self.dialog.setText(iter=iter_)
+        if use_lib:
+            m = obj.get_next_move()
+            while m:
+                type_ = ord(m.s[0])
+                src = ord(m.s[1])
+                dest = ord(m.s[2])
+                hints.append([
+                    1,  # ord(m.s[3]),
+                    (game.s.rows if (type_ in [0, 1, 4])
+                     else game.s.reserves)[src],
+                    (game.s.rows[dest] if (type_ in [0, 2])
+                     else (game.s.reserves[dest]
+                           if (type_ in [1, 3]) else None))])
 
-            m = re.match('This scan generated ([0-9]+) states\\.', s)
-
-            if m:
-                states = int(m.group(1))
-                self.dialog.setText(states=states)
-
-            m = re.match('Move (.*)', s)
-            if not m:
-                continue
-
-            move_s = m.group(1)
-
-            m = re.match(
-                'the sequence on top of Stack ([0-9]+) to the foundations',
-                move_s)
-
-            if m:
-                ncards = 13
-                st = stack_types['stack']
-                sn = int(m.group(1))
-                src = st[sn]
-                dest = None
-            else:
+                m = obj.get_next_move()
+        else:
+            for sbytes in pout:
+                s = six.text_type(sbytes, encoding='utf-8')
+                if DEBUG:
+                    print(s)
+                if self._determineIfSolverState(s):
+                    next
                 m = re.match(
-                    '(?P<ncards>a card|(?P<count>[0-9]+) cards) '
-                    'from (?P<source_type>stack|freecell) '
-                    '(?P<source_idx>[0-9]+) to '
-                    '(?P<dest>the foundations|(?P<dest_type>freecell|stack) '
-                    '(?P<dest_idx>[0-9]+))\\s*', move_s)
+                    'Total number of states checked is ([0-9]+)\\.', s)
+                if m:
+                    iter_ = int(m.group(1))
+                    self.dialog.setText(iter=iter_)
 
+                m = re.match('This scan generated ([0-9]+) states\\.', s)
+
+                if m:
+                    states = int(m.group(1))
+                    self.dialog.setText(states=states)
+
+                m = re.match('Move (.*)', s)
                 if not m:
                     continue
 
-                ncards = m.group('ncards')
-                if ncards == 'a card':
-                    ncards = 1
-                else:
-                    ncards = int(m.group('count'))
+                move_s = m.group(1)
 
-                st = stack_types[m.group('source_type')]
-                sn = int(m.group('source_idx'))
-                src = st[sn]            # source stack
+                m = re.match(
+                    'the sequence on top of Stack ([0-9]+) to the foundations',
+                    move_s)
 
-                dest_s = m.group('dest')
-                if dest_s == 'the foundations':
-                    # to foundation
+                if m:
+                    ncards = 13
+                    st = stack_types['stack']
+                    sn = int(m.group(1))
+                    src = st[sn]
                     dest = None
                 else:
-                    # to rows or reserves
-                    dt = stack_types[m.group('dest_type')]
-                    dn = int(m.group('dest_idx'))
-                    dest = dt[dn]
+                    m = re.match(
+                        '(?P<ncards>a card|(?P<count>[0-9]+) cards) '
+                        'from (?P<source_type>stack|freecell) '
+                        '(?P<source_idx>[0-9]+) to '
+                        '(?P<dest>the foundations|'
+                        '(?P<dest_type>freecell|stack) '
+                        '(?P<dest_idx>[0-9]+))\\s*', move_s)
 
-            hints.append([ncards, src, dest])
+                    if not m:
+                        continue
+
+                    ncards = m.group('ncards')
+                    if ncards == 'a card':
+                        ncards = 1
+                    else:
+                        ncards = int(m.group('count'))
+
+                    st = stack_types[m.group('source_type')]
+                    sn = int(m.group('source_idx'))
+                    src = st[sn]            # source stack
+
+                    dest_s = m.group('dest')
+                    if dest_s == 'the foundations':
+                        # to foundation
+                        dest = None
+                    else:
+                        # to rows or reserves
+                        dt = stack_types[m.group('dest_type')]
+                        dn = int(m.group('dest_idx'))
+                        dest = dt[dn]
+
+                hints.append([ncards, src, dest])
             # print src, dest, ncards
 
         #
@@ -1170,8 +1198,9 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
 
         # print self.hints
 
-        pout.close()
-        perr.close()
+        if not use_lib:
+            pout.close()
+            perr.close()
 
 
 class BlackHoleSolver_Hint(Base_Solver_Hint):

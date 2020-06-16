@@ -1022,11 +1022,15 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
             print('--------------------\n', board, '--------------------')
         #
         args = []
+        use_lib = True
         # args += ['-sam', '-p', '-opt', '--display-10-as-t']
-        args += ['-m', '-p', '-opt', '-sel']
-        if FCS_VERSION >= (4, 20, 0):
-            args += ['-hoi']
-        if progress:
+        if use_lib:
+            args += ['-opt', ]
+        else:
+            args += ['-m', '-p', '-opt', '-sel']
+            if FCS_VERSION >= (4, 20, 0):
+                args += ['-hoi']
+        if (not use_lib) and progress:
             args += ['--iter-output']
             fcs_iter_output_step = None
             if FCS_VERSION >= (4, 20, 0):
@@ -1052,7 +1056,6 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
         if 'esf' in game_type:
             args += ['--empty-stacks-filled-by', game_type['esf']]
 
-        use_lib = True
         if use_lib:
             import freecell_solver
             obj = freecell_solver.FreecellSolver()

@@ -1107,7 +1107,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                 src = ord(m.s[1])
                 dest = ord(m.s[2])
                 hints.append([
-                    1,  # ord(m.s[3]),
+                    (ord(m.s[3]) if type_ == 0 else 1),
                     (game.s.rows if (type_ in [0, 1, 4])
                      else game.s.reserves)[src],
                     (game.s.rows[dest] if (type_ in [0, 2])

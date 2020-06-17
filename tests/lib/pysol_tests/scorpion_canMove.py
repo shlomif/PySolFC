@@ -6,8 +6,9 @@ from pysol_tests.common_mocks1 import MockApp, MockCanvas, MockItem, MockTalon
 
 import pysollib.stack
 from pysollib.acard import AbstractCard
-from pysollib.games.spider import Scorpion_RowStack, Spider_RowStack
 from pysollib.games.spider import ScorpionTail_RowStack
+from pysollib.games.spider import Scorpion_RowStack
+from pysollib.games.spider import Spider_RowStack
 
 
 class MockGame:

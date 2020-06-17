@@ -844,7 +844,7 @@ try:
     import freecell_solver
     fc_solve_lib_obj = freecell_solver.FreecellSolver()
     use_fc_solve_lib = True
-finally:
+except BaseException:
     pass
 
 

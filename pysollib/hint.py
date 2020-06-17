@@ -1132,18 +1132,16 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                 if DEBUG:
                     print(s)
                 if self._determineIfSolverState(s):
-                    next
+                    break
                 m = re.match(
                     'Total number of states checked is ([0-9]+)\\.', s)
                 if m:
-                    iter_ = int(m.group(1))
-                    self.dialog.setText(iter=iter_)
+                    self.dialog.setText(iter=int(m.group(1)))
 
                 m = re.match('This scan generated ([0-9]+) states\\.', s)
 
                 if m:
-                    states = int(m.group(1))
-                    self.dialog.setText(states=states)
+                    self.dialog.setText(states=int(m.group(1)))
 
                 m = re.match('Move (.*)', s)
                 if not m:
@@ -1173,8 +1171,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                     if not m:
                         continue
 
-                    ncards = m.group('ncards')
-                    if ncards == 'a card':
+                    if m.group('ncards') == 'a card':
                         ncards = 1
                     else:
                         ncards = int(m.group('count'))
@@ -1253,15 +1250,14 @@ class BlackHoleSolver_Hint(Base_Solver_Hint):
         args = []
         # args += ['-sam', '-p', '-opt', '--display-10-as-t']
         args += ['--game', game_type['preset'], '--rank-reach-prune']
-        args += ['--max-iters', self.options['max_iters']]
+        args += ['--max-iters', str(self.options['max_iters'])]
         if 'queens_on_kings' in game_type:
             args += ['--queens-on-kings']
         if 'wrap_ranks' in game_type:
             args += ['--wrap-ranks']
         #
 
-        command = self.BLACK_HOLE_SOLVER_COMMAND + ' ' + \
-            ' '.join([str(i) for i in args])
+        command = self.BLACK_HOLE_SOLVER_COMMAND + ' ' + ' '.join(args)
         pout, perr = self.run_solver(command, board)
         #
         if DEBUG:
@@ -1298,15 +1294,13 @@ class BlackHoleSolver_Hint(Base_Solver_Hint):
 
             m = re.match('Total number of states checked is ([0-9]+)\\.', s)
             if m:
-                iter_ = int(m.group(1))
-                self.dialog.setText(iter=iter_)
+                self.dialog.setText(iter=int(m.group(1)))
                 continue
 
             m = re.match('This scan generated ([0-9]+) states\\.', s)
 
             if m:
-                states = int(m.group(1))
-                self.dialog.setText(states=states)
+                self.dialog.setText(states=int(m.group(1)))
                 continue
 
             m = re.match(
@@ -1315,24 +1309,15 @@ class BlackHoleSolver_Hint(Base_Solver_Hint):
                 continue
 
             found_stack_idx = int(m.group(1))
-            ncards = 1
-            st = game.s.rows
-            sn = found_stack_idx
-            src = st[sn]            # source stack
-            dest = None
+            src = game.s.rows[found_stack_idx]
 
-            hints.append([ncards, src, dest])
-            # print src, dest, ncards
+            hints.append([1, src, None])
 
-        #
         if DEBUG:
             print('time:', time.time()-start_time)
-        # print perr.read(),
 
+        hints.append(None)
         self.hints = hints
-        self.hints.append(None)         # XXX
-
-        # print self.hints
 
         pout.close()
         perr.close()

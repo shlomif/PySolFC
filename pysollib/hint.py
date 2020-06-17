@@ -1041,10 +1041,10 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                 args += ['-s']
         if self.options['preset'] and self.options['preset'] != 'none':
             args += ['--load-config', self.options['preset']]
-        args += ['--max-iters', self.options['max_iters'],
-                 '--decks-num', game.gameinfo.decks,
-                 '--stacks-num', len(game.s.rows),
-                 '--freecells-num', len(game.s.reserves),
+        args += ['--max-iters', str(self.options['max_iters']),
+                 '--decks-num', str(game.gameinfo.decks),
+                 '--stacks-num', str(len(game.s.rows)),
+                 '--freecells-num', str(len(game.s.reserves)),
                  ]
         #
         if 'preset' in game_type:
@@ -1060,12 +1060,12 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
             import freecell_solver
             obj = freecell_solver.FreecellSolver()
             print(args)
-            obj.input_cmd_line([str(s) for s in args])
+            obj.input_cmd_line(args)
             status = obj.solve_board(board)
             if status != 0:
                 assert 0
         else:
-            command = FCS_COMMAND+' '+' '.join([str(i) for i in args])
+            command = FCS_COMMAND+' '+' '.join(args)
             pout, perr = self.run_solver(command, board)
         self.solver_state = 'unknown'
         #

@@ -842,7 +842,7 @@ use_fc_solve_lib = False
 
 try:
     import freecell_solver
-    lib_freecell_solver_obj = freecell_solver.FreecellSolver()
+    fc_solve_lib_obj = freecell_solver.FreecellSolver()
     use_fc_solve_lib = True
 finally:
     pass
@@ -1067,8 +1067,8 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
 
         if use_fc_solve_lib:
             # print(args)
-            lib_freecell_solver_obj.input_cmd_line(args)
-            status = lib_freecell_solver_obj.solve_board(board)
+            fc_solve_lib_obj.input_cmd_line(args)
+            status = fc_solve_lib_obj.solve_board(board)
         else:
             command = FCS_COMMAND+' '+' '.join(args)
             pout, perr = self.run_solver(command, board)
@@ -1109,7 +1109,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
 
         hints = []
         if use_fc_solve_lib and status == 0:
-            m = lib_freecell_solver_obj.get_next_move()
+            m = fc_solve_lib_obj.get_next_move()
             while m:
                 type_ = ord(m.s[0])
                 src = ord(m.s[1])
@@ -1123,7 +1123,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                      else (game.s.reserves[dest]
                            if (type_ in [1, 3]) else None))])
 
-                m = lib_freecell_solver_obj.get_next_move()
+                m = fc_solve_lib_obj.get_next_move()
         elif use_fc_solve_lib:
             self.solver_state = 'unsolved'
         else:

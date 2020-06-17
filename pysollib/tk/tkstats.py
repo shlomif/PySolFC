@@ -772,8 +772,8 @@ class Top_StatsDialog(MfxDialog):
             #                 s.score_casino_result.min,
             #                 s.score_casino_result.max,
             #                 round(s.score_casino_result.average, 2), ))
-            for l, min, max, avr, tot, top in ll:
-                tkinter.Label(frame, text=l).grid(row=row, column=0)
+            for label, min, max, avr, tot, top in ll:
+                tkinter.Label(frame, text=label).grid(row=row, column=0)
                 tkinter.Label(frame, text=str(min)).grid(row=row, column=1)
                 tkinter.Label(frame, text=str(max)).grid(row=row, column=2)
                 tkinter.Label(frame, text=str(avr)).grid(row=row, column=3)

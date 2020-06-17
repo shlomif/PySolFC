@@ -864,8 +864,8 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
         return ('preset' in game_type and
                 game_type['preset'] == 'simple_simon')
 
-    def _addBoardLine(self, l):
-        self.board += l + '\n'
+    def _addBoardLine(self, line):
+        self.board += line + '\n'
         return
 
     def _addPrefixLine(self, prefix, b):

@@ -178,8 +178,8 @@ class FindCardDialog(tkinter.Toplevel):
                 item.config(state=state)
 
     def destroy(self, *args):
-        for l in self.groups:
-            unbind_destroy(l)
+        for group in self.groups:
+            unbind_destroy(group)
         unbind_destroy(self)
         if self.timer:
             after_cancel(self.timer)

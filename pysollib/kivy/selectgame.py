@@ -444,10 +444,10 @@ class SelectGameDialog(object):
                 nodes = n.getContents()
                 if type(nodes) is list:
                     # Blaetter
-                    for l in nodes:
-                        # print ('**game=%s' % l.text)
+                    for node in nodes:
+                        # print ('**game=%s' % node.text)
                         yield LGameNode(
-                            l, v, text=l.text,
+                            node, v, text=node.text,
                             is_leaf=True,
                             command=self.selectCmd)
 

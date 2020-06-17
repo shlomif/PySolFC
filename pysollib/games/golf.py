@@ -142,27 +142,30 @@ class Golf(Game):
 
     def createGame(self):
         # create layout
-        l, s = Layout(self), self.s
+        layout, s = Layout(self), self.s
 
         # set window
         playcards = 5
-        w1, w2 = 8*l.XS+l.XM, 2*l.XS
-        if w2 + 52*l.XOFFSET > w1:
-            l.XOFFSET = int((w1 - w2) / 52)
-        self.setSize(w1, l.YM+3*l.YS+(playcards-1)*l.YOFFSET+l.TEXT_HEIGHT)
+        w1, w2 = 8*layout.XS+layout.XM, 2*layout.XS
+        if w2 + 52*layout.XOFFSET > w1:
+            layout.XOFFSET = int((w1 - w2) / 52)
+        self.setSize(
+            w1,
+            layout.YM+3*layout.YS +
+            (playcards-1)*layout.YOFFSET+layout.TEXT_HEIGHT)
 
         # create stacks
-        x, y = l.XM + l.XS // 2, l.YM
+        x, y = layout.XM + layout.XS // 2, layout.YM
         for i in range(7):
             s.rows.append(Golf_RowStack(x, y, self))
-            x = x + l.XS
-        x, y = l.XM, self.height - l.YS
+            x = x + layout.XS
+        x, y = layout.XM, self.height - layout.YS
         s.talon = Golf_Talon(x, y, self, max_rounds=1)
-        l.createText(s.talon, "n")
-        x = x + l.XS
+        layout.createText(s.talon, "n")
+        x = x + layout.XS
         s.waste = self.Waste_Class(x, y, self)
-        s.waste.CARD_XOFFSET = l.XOFFSET
-        l.createText(s.waste, "n")
+        s.waste.CARD_XOFFSET = layout.XOFFSET
+        layout.createText(s.waste, "n")
         # the Waste is also our only Foundation in this game
         s.foundations.append(s.waste)
 
@@ -251,24 +254,24 @@ class Elevator(RelaxedGolf):
 
     def createGame(self):
         # create layout
-        l, s = Layout(self), self.s
+        layout, s = Layout(self), self.s
 
         # set window
-        self.setSize(9*l.XS+l.XM, 4*l.YS+l.YM)
+        self.setSize(9*layout.XS+layout.XM, 4*layout.YS+layout.YM)
 
         # create stacks
         for i in range(7):
-            x = l.XM + (8-i) * l.XS // 2
-            y = l.YM + i * l.YS // 2
+            x = layout.XM + (8-i) * layout.XS // 2
+            y = layout.YM + i * layout.YS // 2
             for j in range(i+1):
                 s.rows.append(Elevator_RowStack(x, y, self))
-                x = x + l.XS
-        x, y = l.XM, l.YM
+                x = x + layout.XS
+        x, y = layout.XM, layout.YM
         s.talon = Golf_Talon(x, y, self, max_rounds=1)
-        l.createText(s.talon, "s")
-        x = x + l.XS
+        layout.createText(s.talon, "s")
+        x = x + layout.XS
         s.waste = self.Waste_Class(x, y, self)
-        l.createText(s.waste, "s")
+        layout.createText(s.waste, "s")
         # the Waste is also our only Foundation in this game
         s.foundations.append(s.waste)
 
@@ -331,38 +334,38 @@ class BlackHole(Game):
 
     def createGame(self, playcards=5):
         # create layout
-        l, s = Layout(self), self.s
+        layout, s = Layout(self), self.s
 
         # set window
-        w = max(2*l.XS, l.XS+(playcards-1)*l.XOFFSET)
-        self.setSize(l.XM + 5*w, l.YM + 4*l.YS)
+        w = max(2*layout.XS, layout.XS+(playcards-1)*layout.XOFFSET)
+        self.setSize(layout.XM + 5*w, layout.YM + 4*layout.YS)
 
         # create stacks
-        y = l.YM
+        y = layout.YM
         for i in range(5):
-            x = l.XM + i*w
+            x = layout.XM + i*w
             s.rows.append(self.RowStack_Class(x, y, self))
         for i in range(2):
-            y = y + l.YS
+            y = y + layout.YS
             for j in (0, 1, 3, 4):
-                x = l.XM + j*w
+                x = layout.XM + j*w
                 s.rows.append(self.RowStack_Class(x, y, self))
-        y = y + l.YS
+        y = y + layout.YS
         for i in range(4):
-            x = l.XM + i*w
+            x = layout.XM + i*w
             s.rows.append(self.RowStack_Class(x, y, self))
         for r in s.rows:
-            r.CARD_XOFFSET = l.XOFFSET
+            r.CARD_XOFFSET = layout.XOFFSET
             r.CARD_YOFFSET = 0
-        x, y = l.XM + 2*w, l.YM + 3*l.YS//2
+        x, y = layout.XM + 2*w, layout.YM + 3*layout.YS//2
         s.foundations.append(BlackHole_Foundation(x, y, self, suit=ANY_SUIT,
                              dir=0, mod=13, max_move=0, max_cards=52))
-        l.createText(s.foundations[0], "s")
-        x, y = l.XM + 4*w, self.height - l.YS
+        layout.createText(s.foundations[0], "s")
+        x, y = layout.XM + 4*w, self.height - layout.YS
         s.talon = InitialDealTalonStack(x, y, self)
 
         # define stack-groups
-        l.defaultStackGroups()
+        layout.defaultStackGroups()
 
     #
     # game overrides
@@ -415,33 +418,34 @@ class FourLeafClovers(Game):
 
     def createGame(self):
         # create layout
-        l, s = Layout(self), self.s
+        layout, s = Layout(self), self.s
 
         # set window
-        h = l.YS + 6*l.YOFFSET
-        self.setSize(l.XM + 7*l.XS, l.YM + 2*h)
+        h = layout.YS + 6*layout.YOFFSET
+        self.setSize(layout.XM + 7*layout.XS, layout.YM + 2*h)
 
         # create stacks
-        y = l.YM
+        y = layout.YM
         for i in range(7):
-            x = l.XM + i*l.XS
+            x = layout.XM + i*layout.XS
             s.rows.append(
                 UD_RK_RowStack(x, y, self, mod=13, base_rank=NO_RANK))
-        y = l.YM+h
+        y = layout.YM+h
         for i in range(6):
-            x = l.XM + i*l.XS
+            x = layout.XM + i*layout.XS
             s.rows.append(
                 UD_RK_RowStack(x, y, self, mod=13, base_rank=NO_RANK))
-        stack = FourLeafClovers_Foundation(l.XM+6*l.XS, self.height-l.YS, self,
-                                           suit=ANY_SUIT, dir=0, mod=13,
-                                           max_move=0, max_cards=52)
+        stack = FourLeafClovers_Foundation(
+            layout.XM+6*layout.XS, self.height-layout.YS, self,
+            suit=ANY_SUIT, dir=0, mod=13,
+            max_move=0, max_cards=52)
         s.foundations.append(stack)
-        l.createText(stack, 'n')
-        x, y = l.XM + 7*l.XS, self.height - l.YS
+        layout.createText(stack, 'n')
+        x, y = layout.XM + 7*layout.XS, self.height - layout.YS
         s.talon = InitialDealTalonStack(x, y, self)
 
         # define stack-groups
-        l.defaultStackGroups()
+        layout.defaultStackGroups()
 
     def startGame(self):
         self._startDealNumRowsAndDealSingleRow(3)
@@ -459,36 +463,36 @@ class AllInARow(BlackHole):
 
     def createGame(self):
         # create layout
-        l, s = Layout(self), self.s
+        layout, s = Layout(self), self.s
 
         # set window
-        h = l.YM+l.YS+4*l.YOFFSET
-        self.setSize(l.XM+7*l.XS, 3*l.YM+2*h+l.YS)
+        h = layout.YM+layout.YS+4*layout.YOFFSET
+        self.setSize(layout.XM+7*layout.XS, 3*layout.YM+2*h+layout.YS)
 
         # create stacks
-        x, y = l.XM, l.YM
+        x, y = layout.XM, layout.YM
         for i in range(7):
             s.rows.append(self.RowStack_Class(x, y, self))
-            x += l.XS
-        x, y = l.XM, l.YM+h
+            x += layout.XS
+        x, y = layout.XM, layout.YM+h
         for i in range(6):
             s.rows.append(self.RowStack_Class(x, y, self))
-            x += l.XS
+            x += layout.XS
         for r in s.rows:
-            r.CARD_XOFFSET, r.CARD_YOFFSET = 0, l.YOFFSET
+            r.CARD_XOFFSET, r.CARD_YOFFSET = 0, layout.YOFFSET
 
-        x, y = l.XM, self.height-l.YS
+        x, y = layout.XM, self.height-layout.YS
         stack = BlackHole_Foundation(
             x, y, self, ANY_SUIT, dir=0, mod=13, max_move=0, max_cards=52,
             base_rank=ANY_RANK)
         s.foundations.append(stack)
-        stack.CARD_XOFFSET, stack.CARD_YOFFSET = (self.width-l.XS)//51, 0
-        l.createText(stack, 'n')
-        x = self.width-l.XS
+        stack.CARD_XOFFSET, stack.CARD_YOFFSET = (self.width-layout.XS)//51, 0
+        layout.createText(stack, 'n')
+        x = self.width-layout.XS
         s.talon = InitialDealTalonStack(x, y, self)
 
         # define stack-groups
-        l.defaultStackGroups()
+        layout.defaultStackGroups()
 
     def startGame(self):
         self._startDealNumRowsAndDealSingleRow(3)
@@ -502,25 +506,25 @@ class AllInARow(BlackHole):
 class Robert(Game):
 
     def createGame(self, max_rounds=3, num_deal=1):
-        l, s = Layout(self), self.s
-        self.setSize(l.XM+4*l.XS, l.YM+2*l.YS)
-        x, y = l.XM+3*l.XS//2, l.YM
+        layout, s = Layout(self), self.s
+        self.setSize(layout.XM+4*layout.XS, layout.YM+2*layout.YS)
+        x, y = layout.XM+3*layout.XS//2, layout.YM
         stack = BlackHole_Foundation(x, y, self, ANY_SUIT,
                                      dir=0, mod=13, max_move=0, max_cards=52)
         s.foundations.append(stack)
-        l.createText(stack, 'ne')
-        x, y = l.XM+l.XS, l.YM+l.YS
+        layout.createText(stack, 'ne')
+        x, y = layout.XM+layout.XS, layout.YM+layout.YS
         s.talon = WasteTalonStack(x, y, self,
                                   max_rounds=max_rounds, num_deal=num_deal)
-        l.createText(s.talon, 'nw')
+        layout.createText(s.talon, 'nw')
         if max_rounds > 0:
-            l.createRoundText(self.s.talon, 'se', dx=l.XS)
-        x += l.XS
+            layout.createRoundText(self.s.talon, 'se', dx=layout.XS)
+        x += layout.XS
         s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, 'ne')
+        layout.createText(s.waste, 'ne')
 
         # define stack-groups
-        l.defaultStackGroups()
+        layout.defaultStackGroups()
 
     def startGame(self):
         self.startDealSample()
@@ -559,19 +563,21 @@ class DiamondMine_RowStack(RK_RowStack):
 class DiamondMine(Game):
 
     def createGame(self):
-        l, s = Layout(self), self.s
-        self.setSize(l.XM+13*l.XS, l.YM+2*l.YS+15*l.YOFFSET)
+        layout, s = Layout(self), self.s
+        self.setSize(
+            layout.XM+13*layout.XS,
+            layout.YM+2*layout.YS+15*layout.YOFFSET)
 
-        x, y = l.XM+6*l.XS, l.YM
+        x, y = layout.XM+6*layout.XS, layout.YM
         s.foundations.append(SS_FoundationStack(x, y, self,
                              base_rank=ANY_RANK, suit=DIAMOND, mod=13))
-        x, y = l.XM, l.YM+l.YS
+        x, y = layout.XM, layout.YM+layout.YS
         for i in range(13):
             s.rows.append(DiamondMine_RowStack(x, y, self))
-            x += l.XS
-        s.talon = InitialDealTalonStack(l.XM, self.height-l.YS, self)
+            x += layout.XS
+        s.talon = InitialDealTalonStack(layout.XM, self.height-layout.YS, self)
 
-        l.defaultAll()
+        layout.defaultAll()
 
     def startGame(self):
         for i in range(3):
@@ -600,26 +606,28 @@ class DiamondMine(Game):
 class Dolphin(Game):
 
     def createGame(self, rows=8, reserves=4, playcards=6):
-        l, s = Layout(self), self.s
-        self.setSize(l.XM+rows*l.XS, l.YM+3*l.YS+playcards*l.YOFFSET)
+        layout, s = Layout(self), self.s
+        self.setSize(
+            layout.XM+rows*layout.XS,
+            layout.YM+3*layout.YS+playcards*layout.YOFFSET)
 
-        dx = (self.width-l.XM-(reserves+1)*l.XS)//3
-        x, y = l.XM+dx, l.YM
+        dx = (self.width-layout.XM-(reserves+1)*layout.XS)//3
+        x, y = layout.XM+dx, layout.YM
         for i in range(reserves):
             s.reserves.append(ReserveStack(x, y, self))
-            x += l.XS
+            x += layout.XS
         x += dx
         max_cards = 52*self.gameinfo.decks
         s.foundations.append(RK_FoundationStack(x, y, self,
                              base_rank=ANY_RANK, mod=13, max_cards=max_cards))
-        l.createText(s.foundations[0], 'ne')
-        x, y = l.XM, l.YM+l.YS
+        layout.createText(s.foundations[0], 'ne')
+        x, y = layout.XM, layout.YM+layout.YS
         for i in range(rows):
             s.rows.append(BasicRowStack(x, y, self))
-            x += l.XS
-        s.talon = InitialDealTalonStack(l.XM, self.height-l.YS, self)
+            x += layout.XS
+        s.talon = InitialDealTalonStack(layout.XM, self.height-layout.YS, self)
 
-        l.defaultAll()
+        layout.defaultAll()
 
     def startGame(self):
         self._startDealNumRows(5)
@@ -663,26 +671,27 @@ class Waterfall(Game):
 
     def createGame(self):
         rows = 8
-        l, s = Layout(self), self.s
-        self.setSize(l.XM+rows*l.XS, l.YM+2*l.YS+20*l.YOFFSET)
+        layout, s = Layout(self), self.s
+        self.setSize(
+            layout.XM+rows*layout.XS, layout.YM+2*layout.YS+20*layout.YOFFSET)
 
-        x, y = l.XM, l.YM
+        x, y = layout.XM, layout.YM
         for i in range(rows):
             s.rows.append(RK_RowStack(x, y, self))
-            x += l.XS
-        x, y = l.XM+(rows-1)*l.XS//2, self.height-l.YS
+            x += layout.XS
+        x, y = layout.XM+(rows-1)*layout.XS//2, self.height-layout.YS
         s.foundations.append(Waterfall_Foundation(x, y, self, suit=ANY_SUIT,
                                                   max_cards=104))
         stack = s.foundations[0]
-        tx, ty, ta, tf = l.getTextAttr(stack, 'se')
+        tx, ty, ta, tf = layout.getTextAttr(stack, 'se')
         font = self.app.getFont('canvas_default')
         stack.texts.misc = MfxCanvasText(self.canvas, tx, ty,
                                          anchor=ta, font=font)
-        x, y = self.width-l.XS, self.height-l.YS
+        x, y = self.width-layout.XS, self.height-layout.YS
         s.talon = DealRowTalonStack(x, y, self)
-        l.createText(s.talon, 'sw')
+        layout.createText(s.talon, 'sw')
 
-        l.defaultStackGroups()
+        layout.defaultStackGroups()
 
     def startGame(self):
         self._startDealNumRowsAndDealSingleRow(3)
@@ -721,30 +730,30 @@ class Vague(Game):
                                        base_rank=ANY_RANK, mod=13)]
 
     def createGame(self, rows=3, columns=6):
-        l, s = Layout(self), self.s
+        layout, s = Layout(self), self.s
         decks = self.gameinfo.decks
         maxrows = max(columns, 2+decks*4)
-        self.setSize(l.XM+maxrows*l.XS, l.YM+(rows+1)*l.YS)
+        self.setSize(layout.XM+maxrows*layout.XS, layout.YM+(rows+1)*layout.YS)
 
-        x, y = l.XM, l.YM
+        x, y = layout.XM, layout.YM
         s.talon = TalonStack(x, y, self)
-        l.createText(s.talon, 'ne')
+        layout.createText(s.talon, 'ne')
 
-        x, y = l.XM+2*l.XS, l.YM
+        x, y = layout.XM+2*layout.XS, layout.YM
         for found in self.Foundation_Classes:
             for i in range(4):
                 s.foundations.append(found(x, y, self, suit=i))
-                x += l.XS
+                x += layout.XS
 
-        y = l.YM+l.YS
+        y = layout.YM+layout.YS
         for i in range(rows):
-            x = l.XM + (maxrows-columns)*l.XS//2
+            x = layout.XM + (maxrows-columns)*layout.XS//2
             for j in range(columns):
                 s.rows.append(Vague_RowStack(x, y, self))
-                x += l.XS
-            y += l.YS
+                x += layout.XS
+            y += layout.YS
 
-        l.defaultStackGroups()
+        layout.defaultStackGroups()
 
     def startGame(self):
         self.startDealSample()
@@ -804,49 +813,51 @@ class DevilsSolitaire_WasteStack(WasteStack):
 class DevilsSolitaire(Game):
 
     def createGame(self):
-        l, s = Layout(self), self.s
-        self.setSize(l.XM+9*l.XS, l.YM+3*l.YS+7*l.YOFFSET+2*l.TEXT_HEIGHT)
+        layout, s = Layout(self), self.s
+        self.setSize(
+            layout.XM+9*layout.XS,
+            layout.YM+3*layout.YS+7*layout.YOFFSET+2*layout.TEXT_HEIGHT)
 
-        x, y = l.XM+4*l.XS, l.YM
+        x, y = layout.XM+4*layout.XS, layout.YM
         stack = DevilsSolitaire_Foundation(
             x, y, self, suit=ANY_SUIT, base_rank=ANY_RANK, mod=13)
-        tx, ty, ta, tf = l.getTextAttr(stack, 'nw')
+        tx, ty, ta, tf = layout.getTextAttr(stack, 'nw')
         font = self.app.getFont('canvas_default')
         stack.texts.misc = MfxCanvasText(self.canvas, tx, ty,
                                          anchor=ta, font=font)
         s.foundations.append(stack)
 
-        x, y = self.width-l.XS, l.YM
+        x, y = self.width-layout.XS, layout.YM
         stack = AbstractFoundationStack(
             x, y, self,
             suit=ANY_SUIT, max_move=0, max_cards=104,
             max_accept=0, base_rank=ANY_RANK)
-        l.createText(stack, 'nw')
+        layout.createText(stack, 'nw')
         s.foundations.append(stack)
 
-        x, y = l.XM, l.YM+l.YS
+        x, y = layout.XM, layout.YM+layout.YS
         for i in range(4):
             s.rows.append(Vague_RowStack(x, y, self))
-            x += l.XS
-        x += l.XS
+            x += layout.XS
+        x += layout.XS
         for i in range(4):
             s.rows.append(Vague_RowStack(x, y, self))
-            x += l.XS
+            x += layout.XS
 
-        x, y = l.XM+4*l.XS, l.YM+l.YS
+        x, y = layout.XM+4*layout.XS, layout.YM+layout.YS
         stack = OpenStack(x, y, self)
-        stack.CARD_YOFFSET = l.YOFFSET
+        stack.CARD_YOFFSET = layout.YOFFSET
         s.reserves.append(stack)
 
-        x, y = l.XM+4.5*l.XS, self.height-l.YS
+        x, y = layout.XM+4.5*layout.XS, self.height-layout.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
-        l.createText(s.talon, 'n')
-        l.createRoundText(s.talon, 'nnn')
-        x -= l.XS
+        layout.createText(s.talon, 'n')
+        layout.createRoundText(s.talon, 'nnn')
+        x -= layout.XS
         s.waste = DevilsSolitaire_WasteStack(x, y, self)
-        l.createText(s.waste, 'n')
+        layout.createText(s.waste, 'n')
 
-        l.defaultStackGroups()
+        layout.defaultStackGroups()
 
     def startGame(self):
         for i in range(8):
@@ -903,15 +914,15 @@ class ThreeFirTrees_RowStack(Golf_RowStack):
 
 
 class FirTree_GameMethods:
-    def _createFirTree(self, l, x0, y0):
+    def _createFirTree(self, layout, x0, y0):
         rows = []
         # create stacks
         for i in range(11):
-            x = x0 + ((i+1) % 2) * l.XS // 2
-            y = y0 + i * l.YS // 4
+            x = x0 + ((i+1) % 2) * layout.XS // 2
+            y = y0 + i * layout.YS // 4
             for j in range((i % 2) + 1):
                 rows.append(ThreeFirTrees_RowStack(x, y, self))
-                x += l.XS
+                x += layout.XS
         # compute blocking
         n = 0
         for i in range(10):
@@ -931,21 +942,23 @@ class ThreeFirTrees(Golf, FirTree_GameMethods):
 
     def createGame(self):
 
-        l, s = Layout(self), self.s
-        self.setSize(l.XM+max(7*l.XS, 2*l.XS+26*l.XOFFSET), l.YM+5*l.YS)
+        layout, s = Layout(self), self.s
+        self.setSize(
+            layout.XM+max(7*layout.XS, 2*layout.XS+26*layout.XOFFSET),
+            layout.YM+5*layout.YS)
 
-        x0, y0 = (self.width-7*l.XS)//2, l.YM
+        x0, y0 = (self.width-7*layout.XS)//2, layout.YM
         for i in range(3):
-            s.rows += self._createFirTree(l, x0, y0)
-            x0 += 2.5*l.XS
+            s.rows += self._createFirTree(layout, x0, y0)
+            x0 += 2.5*layout.XS
 
-        x, y = l.XM, self.height - l.YS
+        x, y = layout.XM, self.height - layout.YS
         s.talon = Golf_Talon(x, y, self, max_rounds=1)
-        l.createText(s.talon, 'n')
-        x += l.XS
+        layout.createText(s.talon, 'n')
+        x += layout.XS
         s.waste = self.Waste_Class(x, y, self)
-        s.waste.CARD_XOFFSET = l.XOFFSET//4
-        l.createText(s.waste, 'n')
+        s.waste.CARD_XOFFSET = layout.XOFFSET//4
+        layout.createText(s.waste, 'n')
         # the Waste is also our only Foundation in this game
         s.foundations.append(s.waste)
 
@@ -975,34 +988,35 @@ class NapoleonTakesMoscow(Game, FirTree_GameMethods):
 
     def createGame(self):
 
-        l, s = Layout(self), self.s
-        self.setSize(l.XM+10*l.XS, l.YM+3*l.YS+15*l.YOFFSET)
+        layout, s = Layout(self), self.s
+        self.setSize(
+            layout.XM+10*layout.XS, layout.YM+3*layout.YS+15*layout.YOFFSET)
 
-        x, y = l.XM+l.XS, l.YM
+        x, y = layout.XM+layout.XS, layout.YM
         for i in range(8):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i//2))
-            x += l.XS
+            x += layout.XS
 
-        x, y = l.XM, l.YM+l.YS
+        x, y = layout.XM, layout.YM+layout.YS
         for i in range(2):
             for j in range(4):
                 s.rows.append(self.RowStack_Class(x, y, self))
-                x += l.XS
-            x += 2*l.XS
+                x += layout.XS
+            x += 2*layout.XS
 
-        x, y = l.XM+4*l.XS, l.YM+l.YS
-        s.reserves += self._createFirTree(l, x, y)
+        x, y = layout.XM+4*layout.XS, layout.YM+layout.YS
+        s.reserves += self._createFirTree(layout, x, y)
 
-        x, y = l.XM, self.height-l.YS
+        x, y = layout.XM, self.height-layout.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
-        l.createText(s.talon, 'n')
-        l.createRoundText(s.talon, 'nnn')
-        x += l.XS
+        layout.createText(s.talon, 'n')
+        layout.createRoundText(s.talon, 'nnn')
+        x += layout.XS
         s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, 'n')
+        layout.createText(s.waste, 'n')
 
         # define stack-groups
-        l.defaultStackGroups()
+        layout.defaultStackGroups()
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.reserves, frames=0)
@@ -1031,29 +1045,31 @@ class Flake(Game):
 
     def createGame(self, rows=6, playcards=18):
         # create layout
-        l, s = Layout(self), self.s
+        layout, s = Layout(self), self.s
 
         # set window
-        self.setSize(l.XM + rows*l.XS, l.YM + 2*l.YS + playcards*l.XOFFSET)
+        self.setSize(
+            layout.XM + rows*layout.XS,
+            layout.YM + 2*layout.YS + playcards*layout.XOFFSET)
 
         # create stacks
-        x, y, = l.XM, l.YM+l.YS
+        x, y, = layout.XM, layout.YM+layout.YS
         for i in range(rows):
             s.rows.append(UD_RK_RowStack(x, y, self, mod=13))
-            x += l.XS
+            x += layout.XS
 
-        x, y = l.XM + (rows-1)*l.XS//2, l.YM
+        x, y = layout.XM + (rows-1)*layout.XS//2, layout.YM
         stack = BlackHole_Foundation(x, y, self, max_move=0, suit=ANY_SUIT,
                                      base_rank=ANY_RANK, dir=0, mod=13,
                                      max_cards=52*self.gameinfo.decks)
         s.foundations.append(stack)
-        l.createText(stack, 'ne')
+        layout.createText(stack, 'ne')
 
-        x, y = l.XM, self.height-l.YS
+        x, y = layout.XM, self.height-layout.YS
         s.talon = InitialDealTalonStack(x, y, self)
 
         # define stack-groups
-        l.defaultStackGroups()
+        layout.defaultStackGroups()
 
     def startGame(self):
         self._startDealNumRows(7)
@@ -1079,30 +1095,32 @@ class Beacon(Game):
 
     def createGame(self, rows=8):
         # create layout
-        l, s = Layout(self), self.s
+        layout, s = Layout(self), self.s
 
         # set window
         playcards = 12
-        self.setSize(l.XM+rows*l.XS, l.YM+3*l.YS+playcards*l.YOFFSET)
+        self.setSize(
+            layout.XM+rows*layout.XS,
+            layout.YM+3*layout.YS+playcards*layout.YOFFSET)
 
         # create stacks
-        x, y = l.XM + (rows-1)*l.XS//2, l.YM
+        x, y = layout.XM + (rows-1)*layout.XS//2, layout.YM
         stack = RK_FoundationStack(x, y, self, base_rank=ANY_RANK,
                                    max_cards=52, mod=13)
         s.foundations.append(stack)
-        l.createText(stack, 'ne')
+        layout.createText(stack, 'ne')
 
-        x, y = l.XM, l.YM+l.YS
+        x, y = layout.XM, layout.YM+layout.YS
         for i in range(rows):
             s.rows.append(RK_RowStack(x, y, self, base_rank=NO_RANK, mod=13))
-            x += l.XS
+            x += layout.XS
 
-        x, y = l.XM, self.height-l.YS
+        x, y = layout.XM, self.height-layout.YS
         s.talon = TalonStack(x, y, self)
-        l.createText(s.talon, 'se')
+        layout.createText(s.talon, 'se')
 
         # define stack-groups
-        l.defaultStackGroups()
+        layout.defaultStackGroups()
 
     def startGame(self):
         self._startDealNumRowsAndDealSingleRow(3)

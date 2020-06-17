@@ -809,8 +809,8 @@ class TopFrame(ttk.Frame):
         #                 s.score_casino_result.min,
         #                 s.score_casino_result.max,
         #                 round(s.score_casino_result.average, 2), ))
-        for l, min, max, avr, tot, top in ll:
-            ttk.Label(frame, text=l
+        for label, min, max, avr, tot, top in ll:
+            ttk.Label(frame, text=label
                       ).grid(row=row, column=0, padx=5, pady=5)
             ttk.Label(frame, text=str(min)
                       ).grid(row=row, column=1, padx=5, pady=5)

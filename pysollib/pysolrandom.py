@@ -28,10 +28,11 @@ import re
 import pysol_cards
 assert getattr(pysol_cards, 'VERSION', (0, 0, 0)) >= (0, 8, 17), (
     "Newer version of https://pypi.org/project/pysol-cards is required.")
-import pysol_cards.random  # noqa: I100
-import pysol_cards.random_base  # noqa: I100
-from pysol_cards.random import LCRandom31, match_ms_deal_prefix  # noqa: I100
-from pysol_cards.random import CUSTOM_BIT, MS_LONG_BIT  # noqa: I100
+import pysol_cards.random  # noqa: E402,I100
+import pysol_cards.random_base  # noqa: E402,I100
+from pysol_cards.random import LCRandom31  # noqa: E402,I100
+from pysol_cards.random import match_ms_deal_prefix  # noqa: E402,I100
+from pysol_cards.random import CUSTOM_BIT, MS_LONG_BIT  # noqa: E402,I100
 
 
 class CustomRandom(pysol_cards.random_base.RandomBase):

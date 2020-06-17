@@ -398,6 +398,7 @@ class GameStatsStruct(NewStruct):
     # did this game already update the demo stats ?
     demo_updated = attr.ib(default=0)
     update_time = attr.ib()
+
     @update_time.default
     def _foofoo(self):
         return time.time()  # for updateTime()
@@ -431,6 +432,7 @@ class GameGlobalStatsStruct(NewStruct):
     # did this game already update the player stats ?
     updated = attr.ib(default=_GLOBAL_U_PLAY)
     start_time = attr.ib()
+
     @start_time.default
     def _foofoo(self):
         return time.time()  # for updateTime()
@@ -456,6 +458,7 @@ class GameMoves(NewStruct):
     history = attr.ib(factory=list)
     index = attr.ib(default=0)
     state = attr.ib(default=S_PLAY)
+
 
 # used when loading a game
 @attr.s

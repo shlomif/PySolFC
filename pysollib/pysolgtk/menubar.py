@@ -458,12 +458,12 @@ class PysolMenubarTk:
     def _createSelectMenu(self, games, menu):
         assert isinstance(menu, gtk.Menu)
         self._addPopularGamesMenu(games, menu)
-        for l, d in (
+        for label, d in (
             (ltk2gtk('&French games'),   GI.SELECT_GAME_BY_TYPE),
             (ltk2gtk('&Oriental games'), GI.SELECT_ORIENTAL_GAME_BY_TYPE),
             (ltk2gtk('&Special games'),  GI.SELECT_SPECIAL_GAME_BY_TYPE),
                 ):
-            self._addGamesByType(games, menu, l, d)
+            self._addGamesByType(games, menu, label, d)
         self._addMahjonggGamesMenu(games, menu)
         sep = gtk.SeparatorMenuItem()
         menu.add(sep)

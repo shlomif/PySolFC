@@ -494,9 +494,9 @@ class SubsampledImages(Images):
     def getShadow(self, ncards):
         return None
 
-    def _subsample(self, l, r):
+    def _subsample(self, images_list, r):
         s = []
-        for im in l:
+        for im in images_list:
             if im is None or r == 1:
                 s.append(im)
             else:

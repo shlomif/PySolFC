@@ -257,8 +257,8 @@ _wrap_handlers = {
 __bindings = {}
 
 
-def _wrap_event(widget, event, l):
-    for wrap, func in l:
+def _wrap_event(widget, event, funcs_list):
+    for wrap, func in funcs_list:
         if wrap(event):
             # print "event:", wrap, func, event
             return func(event)

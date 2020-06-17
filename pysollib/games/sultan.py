@@ -313,7 +313,7 @@ class IdleAces(Game):
         l.createText(s.waste, 's')
         x0, y0 = l.XM+2*l.XS, l.YM
         k = 0
-        for i, j in((2, 0), (0, 1.5), (4, 1.5), (2, 3)):
+        for i, j in ((2, 0), (0, 1.5), (4, 1.5), (2, 3)):
             x, y = x0+i*l.XS, y0+j*l.YS
             s.foundations.append(
                 RK_FoundationStack(
@@ -322,7 +322,7 @@ class IdleAces(Game):
                     base_rank=KING, dir=-1, max_move=0))
             k += 1
         k = 0
-        for i, j in((2, 1), (1, 1.5), (3, 1.5), (2, 2)):
+        for i, j in ((2, 1), (1, 1.5), (3, 1.5), (2, 2)):
             x, y = x0+i*l.XS, y0+j*l.YS
             s.foundations.append(
                 RK_FoundationStack(
@@ -331,7 +331,7 @@ class IdleAces(Game):
                     base_rank=1, max_move=0, max_cards=12))
             k += 1
         k = 0
-        for i, j in((1, 0.2), (3, 0.2), (1, 2.8), (3, 2.8)):
+        for i, j in ((1, 0.2), (3, 0.2), (1, 2.8), (3, 2.8)):
             x, y = x0+i*l.XS, y0+j*l.YS
             s.foundations.append(IdleAces_AceFoundation(x, y, self,
                                  suit=k, max_cards=1, max_move=0))

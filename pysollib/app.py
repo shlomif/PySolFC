@@ -1072,7 +1072,7 @@ Please select a %(correct_type)s type cardset.
     def _readCardsetConfig(self, dirname, filename):
         with open(filename, "r") as f:
             lines = f.readlines()
-        lines = [l.strip() for l in lines]
+        lines = [line.strip() for line in lines]
         if not lines[0].startswith("PySol"):
             return None
         config = CardsetConfig()

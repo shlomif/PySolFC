@@ -1059,7 +1059,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
         if use_lib:
             import freecell_solver
             obj = freecell_solver.FreecellSolver()
-            print(args)
+            # print(args)
             obj.input_cmd_line(args)
             status = obj.solve_board(board)
             if status != 0:

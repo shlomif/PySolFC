@@ -1069,8 +1069,6 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
             # print(args)
             lib_freecell_solver_obj.input_cmd_line(args)
             status = lib_freecell_solver_obj.solve_board(board)
-            if status != 0:
-                assert 0
         else:
             command = FCS_COMMAND+' '+' '.join(args)
             pout, perr = self.run_solver(command, board)
@@ -1110,21 +1108,24 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
             self.dialog.setText(iter=iter_, depth=depth, states=states)
 
         hints = []
-        if use_fc_solve_lib:
+        if use_fc_solve_lib and status == 0:
             m = lib_freecell_solver_obj.get_next_move()
             while m:
                 type_ = ord(m.s[0])
                 src = ord(m.s[1])
                 dest = ord(m.s[2])
                 hints.append([
-                    (ord(m.s[3]) if type_ == 0 else 1),
-                    (game.s.rows if (type_ in [0, 1, 4])
+                    (ord(m.s[3]) if type_ == 0
+                     else (13 if type_ == 11 else 1)),
+                    (game.s.rows if (type_ in [0, 1, 4, 11, ])
                      else game.s.reserves)[src],
                     (game.s.rows[dest] if (type_ in [0, 2])
                      else (game.s.reserves[dest]
                            if (type_ in [1, 3]) else None))])
 
                 m = lib_freecell_solver_obj.get_next_move()
+        elif use_fc_solve_lib:
+            self.solver_state = 'unsolved'
         else:
             for sbytes in pout:
                 s = six.text_type(sbytes, encoding='utf-8')

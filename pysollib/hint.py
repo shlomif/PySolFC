@@ -1265,9 +1265,6 @@ class BlackHoleSolver_Hint(Base_Solver_Hint):
 
         result = ''
         # iteration output
-        iter_ = 0
-        depth = 0
-        states = 0
 
         for sbytes in pout:
             s = six.text_type(sbytes, encoding='utf-8')
@@ -1279,7 +1276,7 @@ class BlackHoleSolver_Hint(Base_Solver_Hint):
                 result = m.group(1)
                 break
 
-        self.dialog.setText(iter=iter_, depth=depth, states=states)
+        self.dialog.setText(iter=0, depth=0, states=0)
         self.solver_state = result.lower()
 
         hints = []

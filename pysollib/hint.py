@@ -838,6 +838,16 @@ class Base_Solver_Hint:
         return BytesIO(pout), BytesIO(perr)
 
 
+use_fc_solve_lib = False
+
+try:
+    import freecell_solver
+    lib_freecell_solver_obj = freecell_solver.FreecellSolver()
+    use_fc_solve_lib = True
+finally:
+    pass
+
+
 class FreeCellSolver_Hint(Base_Solver_Hint):
     def _determineIfSolverState(self, line):
         if re.search('^(?:Iterations count exceeded)', line):
@@ -1022,15 +1032,14 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
             print('--------------------\n', board, '--------------------')
         #
         args = []
-        use_lib = True
         # args += ['-sam', '-p', '-opt', '--display-10-as-t']
-        if use_lib:
-            args += ['-opt', ]
+        if use_fc_solve_lib:
+            args += ['--reset', '-opt', ]
         else:
             args += ['-m', '-p', '-opt', '-sel']
             if FCS_VERSION >= (4, 20, 0):
                 args += ['-hoi']
-        if (not use_lib) and progress:
+        if (not use_fc_solve_lib) and progress:
             args += ['--iter-output']
             fcs_iter_output_step = None
             if FCS_VERSION >= (4, 20, 0):
@@ -1056,12 +1065,10 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
         if 'esf' in game_type:
             args += ['--empty-stacks-filled-by', game_type['esf']]
 
-        if use_lib:
-            import freecell_solver
-            obj = freecell_solver.FreecellSolver()
+        if use_fc_solve_lib:
             # print(args)
-            obj.input_cmd_line(args)
-            status = obj.solve_board(board)
+            lib_freecell_solver_obj.input_cmd_line(args)
+            status = lib_freecell_solver_obj.solve_board(board)
             if status != 0:
                 assert 0
         else:
@@ -1076,7 +1083,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
             }
         if DEBUG:
             start_time = time.time()
-        if not(use_lib) and progress:
+        if not(use_fc_solve_lib) and progress:
             # iteration output
             iter_ = 0
             depth = 0
@@ -1103,8 +1110,8 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
             self.dialog.setText(iter=iter_, depth=depth, states=states)
 
         hints = []
-        if use_lib:
-            m = obj.get_next_move()
+        if use_fc_solve_lib:
+            m = lib_freecell_solver_obj.get_next_move()
             while m:
                 type_ = ord(m.s[0])
                 src = ord(m.s[1])
@@ -1117,7 +1124,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                      else (game.s.reserves[dest]
                            if (type_ in [1, 3]) else None))])
 
-                m = obj.get_next_move()
+                m = lib_freecell_solver_obj.get_next_move()
         else:
             for sbytes in pout:
                 s = six.text_type(sbytes, encoding='utf-8')
@@ -1201,7 +1208,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
 
         # print self.hints
 
-        if not use_lib:
+        if not use_fc_solve_lib:
             pout.close()
             perr.close()
 

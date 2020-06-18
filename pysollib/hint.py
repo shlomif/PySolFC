@@ -755,6 +755,9 @@ class Base_Solver_Hint:
         # print 'game_type:', game_type
         # print 'base_rank:', self.base_rank
 
+    def _setText(self, **kw):
+        return self.dialog.setText(**kw)
+
     def config(self, **kw):
         self.options.update(kw)
 
@@ -1099,17 +1102,16 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                 elif self.colonPrefixMatch('Stored-States', s):
                     states = self._v
                     if iter_ % 100 == 0 or fcs_iter_output_step:
-                        self.dialog.setText(iter=iter_, depth=depth,
-                                            states=states)
+                        self._setText(iter=iter_, depth=depth, states=states)
                 elif re.search('^(?:-=-=)', s):
                     break
                 elif self._determineIfSolverState(s):
                     break
-            self.dialog.setText(iter=iter_, depth=depth, states=states)
+            self._setText(iter=iter_, depth=depth, states=states)
 
         hints = []
         if use_fc_solve_lib:
-            self.dialog.setText(
+            self._setText(
                 iter=fc_solve_lib_obj.get_num_times(),
                 depth=0,
                 states=fc_solve_lib_obj.get_num_states_in_collection(),
@@ -1142,12 +1144,12 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                 m = re.match(
                     'Total number of states checked is ([0-9]+)\\.', s)
                 if m:
-                    self.dialog.setText(iter=int(m.group(1)))
+                    self._setText(iter=int(m.group(1)))
 
                 m = re.match('This scan generated ([0-9]+) states\\.', s)
 
                 if m:
-                    self.dialog.setText(states=int(m.group(1)))
+                    self._setText(states=int(m.group(1)))
 
                 m = re.match('Move (.*)', s)
                 if not m:
@@ -1282,7 +1284,7 @@ class BlackHoleSolver_Hint(Base_Solver_Hint):
                 result = m.group(1)
                 break
 
-        self.dialog.setText(iter=0, depth=0, states=0)
+        self._setText(iter=0, depth=0, states=0)
         self.solver_state = result.lower()
 
         hints = []
@@ -1297,13 +1299,13 @@ class BlackHoleSolver_Hint(Base_Solver_Hint):
 
             m = re.match('Total number of states checked is ([0-9]+)\\.', s)
             if m:
-                self.dialog.setText(iter=int(m.group(1)))
+                self._setText(iter=int(m.group(1)))
                 continue
 
             m = re.match('This scan generated ([0-9]+) states\\.', s)
 
             if m:
-                self.dialog.setText(states=int(m.group(1)))
+                self._setText(states=int(m.group(1)))
                 continue
 
             m = re.match(

@@ -1108,24 +1108,30 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
             self.dialog.setText(iter=iter_, depth=depth, states=states)
 
         hints = []
-        if use_fc_solve_lib and status == 0:
-            m = fc_solve_lib_obj.get_next_move()
-            while m:
-                type_ = ord(m.s[0])
-                src = ord(m.s[1])
-                dest = ord(m.s[2])
-                hints.append([
-                    (ord(m.s[3]) if type_ == 0
-                     else (13 if type_ == 11 else 1)),
-                    (game.s.rows if (type_ in [0, 1, 4, 11, ])
-                     else game.s.reserves)[src],
-                    (game.s.rows[dest] if (type_ in [0, 2])
-                     else (game.s.reserves[dest]
-                           if (type_ in [1, 3]) else None))])
-
+        if use_fc_solve_lib:
+            self.dialog.setText(
+                iter=fc_solve_lib_obj.get_num_times(),
+                depth=0,
+                states=fc_solve_lib_obj.get_num_states_in_collection(),
+            )
+            if status == 0:
                 m = fc_solve_lib_obj.get_next_move()
-        elif use_fc_solve_lib:
-            self.solver_state = 'unsolved'
+                while m:
+                    type_ = ord(m.s[0])
+                    src = ord(m.s[1])
+                    dest = ord(m.s[2])
+                    hints.append([
+                        (ord(m.s[3]) if type_ == 0
+                         else (13 if type_ == 11 else 1)),
+                        (game.s.rows if (type_ in [0, 1, 4, 11, ])
+                         else game.s.reserves)[src],
+                        (game.s.rows[dest] if (type_ in [0, 2])
+                         else (game.s.reserves[dest]
+                               if (type_ in [1, 3]) else None))])
+
+                    m = fc_solve_lib_obj.get_next_move()
+            else:
+                self.solver_state = 'unsolved'
         else:
             for sbytes in pout:
                 s = six.text_type(sbytes, encoding='utf-8')

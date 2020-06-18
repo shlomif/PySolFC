@@ -22,14 +22,12 @@
 # ---------------------------------------------------------------------------##
 
 
-# imports
 import os
 import re
 import subprocess
 import time
 from io import BytesIO
 
-# PySol imports
 from pysollib.mfxutil import destruct
 from pysollib.pysolrandom import constructRandom
 from pysollib.settings import DEBUG, FCS_COMMAND
@@ -704,7 +702,6 @@ class Yukon_Hint(YukonType_Hint):
         return score + bonus, color
 
 
-# FIXME
 class FreeCellType_Hint(CautiousDefaultHint):
     pass
 
@@ -729,10 +726,6 @@ class PySolHintLayoutImportError(Exception):
         return self.msg + ":\n\n" + ', '.join(self.cards)
 
 
-# ************************************************************************
-# * FreeCell-Solver
-# ************************************************************************
-
 class Base_Solver_Hint:
     def __init__(self, game, dialog, **game_type):
         self.game = game
@@ -752,8 +745,6 @@ class Base_Solver_Hint:
             self.base_rank = game_type['base_rank']
         else:
             self.base_rank = game.s.foundations[0].cap.base_rank
-        # print 'game_type:', game_type
-        # print 'base_rank:', self.base_rank
 
     def _setText(self, **kw):
         return self.dialog.setText(**kw)
@@ -783,7 +774,6 @@ class Base_Solver_Hint:
         if taken_hint and taken_hint[6]:
             return [taken_hint[6]]
         h = self.hints[self.hints_index]
-        # print 'getHints', taken_hint, h
         if h is None:
             return None
         ncards, src, dest = h
@@ -796,10 +786,7 @@ class Base_Solver_Hint:
             if src is self.game.s.talon:
                 if not src.cards[-1].face_up:
                     self.game.flipMove(src)
-                # src.prepareStack()
-                # src.dealCards()
                 dest = self.game.s.foundations[0]
-                # skip = True
             else:
                 cards = src.cards[-ncards:]
                 for f in self.game.s.foundations:
@@ -811,7 +798,6 @@ class Base_Solver_Hint:
         if skip:
             return []
         hint = (999999, 0, ncards, src, dest, None, thint)
-        # print hint
         return [hint]
 
     def colonPrefixMatch(self, prefix, s):
@@ -988,8 +974,6 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
         game = self.game
         self.board = ''
         is_simple_simon = self._isSimpleSimon()
-        #
-        #
         b = ''
         for s in game.s.foundations:
             if s.cards:
@@ -1030,12 +1014,9 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
         progress = self.options['progress']
 
         board = self.calcBoardString()
-        #
         if DEBUG:
             print('--------------------\n', board, '--------------------')
-        #
         args = []
-        # args += ['-sam', '-p', '-opt', '--display-10-as-t']
         if use_fc_solve_lib:
             args += ['--reset', '-opt', ]
         else:
@@ -1046,7 +1027,6 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
             args += ['--iter-output']
             fcs_iter_output_step = None
             if FCS_VERSION >= (4, 20, 0):
-                # fcs_iter_output_step = 10000
                 fcs_iter_output_step = self.options['iters_step']
                 args += ['--iter-output-step', str(fcs_iter_output_step)]
             if DEBUG:
@@ -1058,7 +1038,6 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                  '--stacks-num', str(len(game.s.rows)),
                  '--freecells-num', str(len(game.s.reserves)),
                  ]
-        #
         if 'preset' in game_type:
             args += ['--preset', game_type['preset']]
         if 'sbb' in game_type:
@@ -1069,14 +1048,12 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
             args += ['--empty-stacks-filled-by', game_type['esf']]
 
         if use_fc_solve_lib:
-            # print(args)
             fc_solve_lib_obj.input_cmd_line(args)
             status = fc_solve_lib_obj.solve_board(board)
         else:
             command = FCS_COMMAND+' '+' '.join(args)
             pout, perr = self.run_solver(command, board)
         self.solver_state = 'unknown'
-        #
         stack_types = {
             'the': game.s.foundations,
             'stack': game.s.rows,
@@ -1085,7 +1062,6 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
         if DEBUG:
             start_time = time.time()
         if not(use_fc_solve_lib) and progress:
-            # iteration output
             iter_ = 0
             depth = 0
             states = 0
@@ -1186,33 +1162,25 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
 
                     st = stack_types[m.group('source_type')]
                     sn = int(m.group('source_idx'))
-                    src = st[sn]            # source stack
+                    src = st[sn]
 
                     dest_s = m.group('dest')
                     if dest_s == 'the foundations':
-                        # to foundation
                         dest = None
                     else:
-                        # to rows or reserves
                         dt = stack_types[m.group('dest_type')]
-                        dn = int(m.group('dest_idx'))
-                        dest = dt[dn]
+                        dest = dt[int(m.group('dest_idx'))]
 
                 hints.append([ncards, src, dest])
-            # print src, dest, ncards
 
-        #
         if DEBUG:
             print('time:', time.time()-start_time)
-        # print perr.read(),
 
         self.hints = hints
         if len(hints) > 0:
             if self.solver_state != 'intractable':
                 self.solver_state = 'solved'
-        self.hints.append(None)         # XXX
-
-        # print self.hints
+        self.hints.append(None)
 
         if not use_fc_solve_lib:
             pout.close()
@@ -1251,28 +1219,23 @@ class BlackHoleSolver_Hint(Base_Solver_Hint):
         game_type = self.game_type
 
         board = self.calcBoardString()
-        #
         if DEBUG:
             print('--------------------\n', board, '--------------------')
-        #
         args = []
-        # args += ['-sam', '-p', '-opt', '--display-10-as-t']
         args += ['--game', game_type['preset'], '--rank-reach-prune']
         args += ['--max-iters', str(self.options['max_iters'])]
         if 'queens_on_kings' in game_type:
             args += ['--queens-on-kings']
         if 'wrap_ranks' in game_type:
             args += ['--wrap-ranks']
-        #
 
         command = self.BLACK_HOLE_SOLVER_COMMAND + ' ' + ' '.join(args)
         pout, perr = self.run_solver(command, board)
-        #
+
         if DEBUG:
             start_time = time.time()
 
         result = ''
-        # iteration output
 
         for sbytes in pout:
             s = six.text_type(sbytes, encoding='utf-8')

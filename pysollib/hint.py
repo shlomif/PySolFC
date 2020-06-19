@@ -836,6 +836,15 @@ try:
 except BaseException:
     pass
 
+use_bh_solve_lib = False
+
+try:
+    import black_hole_solver
+    bh_solve_lib_obj = black_hole_solver.BlackHoleSolver()
+    use_bh_solve_lib = True
+except BaseException:
+    pass
+
 
 class FreeCellSolver_Hint(Base_Solver_Hint):
     def _determineIfSolverState(self, line):
@@ -1221,74 +1230,113 @@ class BlackHoleSolver_Hint(Base_Solver_Hint):
         board = self.calcBoardString()
         if DEBUG:
             print('--------------------\n', board, '--------------------')
-        args = []
-        args += ['--game', game_type['preset'], '--rank-reach-prune']
-        args += ['--max-iters', str(self.options['max_iters'])]
-        if 'queens_on_kings' in game_type:
-            args += ['--queens-on-kings']
-        if 'wrap_ranks' in game_type:
-            args += ['--wrap-ranks']
+        if use_bh_solve_lib:
+            global bh_solve_lib_obj
+            bh_solve_lib_obj = bh_solve_lib_obj.new_bhs_user_handle()
+            bh_solve_lib_obj.read_board(
+                board=board,
+                game_type=game_type['preset'],
+                place_queens_on_kings=(
+                    game_type['queens_on_kings']
+                    if ('queens_on_kings' in game_type) else True),
+                wrap_ranks=(
+                    game_type['wrap_ranks']
+                    if ('wrap_ranks' in game_type) else True),
+            )
+            bh_solve_lib_obj.limit_iterations(self.options['max_iters'])
+        else:
+            args = []
+            args += ['--game', game_type['preset'], '--rank-reach-prune']
+            args += ['--max-iters', str(self.options['max_iters'])]
+            if 'queens_on_kings' in game_type:
+                args += ['--queens-on-kings']
+            if 'wrap_ranks' in game_type:
+                args += ['--wrap-ranks']
 
-        command = self.BLACK_HOLE_SOLVER_COMMAND + ' ' + ' '.join(args)
-        pout, perr = self.run_solver(command, board)
+            command = self.BLACK_HOLE_SOLVER_COMMAND + ' ' + ' '.join(args)
 
         if DEBUG:
             start_time = time.time()
 
         result = ''
 
-        for sbytes in pout:
-            s = six.text_type(sbytes, encoding='utf-8')
-            if DEBUG >= 5:
-                print(s)
+        if use_bh_solve_lib:
+            ret_code = bh_solve_lib_obj.resume_solution()
+        else:
+            pout, perr = self.run_solver(command, board)
 
-            m = re.search('^(Intractable|Unsolved|Solved)!', s.rstrip())
-            if m:
-                result = m.group(1)
-                break
+            for sbytes in pout:
+                s = six.text_type(sbytes, encoding='utf-8')
+                if DEBUG >= 5:
+                    print(s)
+
+                m = re.search('^(Intractable|Unsolved|Solved)!', s.rstrip())
+                if m:
+                    result = m.group(1)
+                    break
 
         self._setText(iter=0, depth=0, states=0)
-        self.solver_state = result.lower()
-
         hints = []
-        for sbytes in pout:
-            s = six.text_type(sbytes, encoding='utf-8')
-            if DEBUG:
-                print(s)
+        if use_bh_solve_lib:
+            self.solver_state = (
+                'solved' if ret_code == 0 else
+                ('intractable'
+                 if bh_solve_lib_obj.ret_code_is_suspend(ret_code)
+                 else 'unsolved'))
+            self._setText(iter=bh_solve_lib_obj.get_num_times())
+            self._setText(
+                states=bh_solve_lib_obj.get_num_states_in_collection())
+            if self.solver_state == 'solved':
+                m = bh_solve_lib_obj.get_next_move()
+                while m:
+                    found_stack_idx = m.get_column_idx()
+                    if len(game.s.rows) > found_stack_idx >= 0:
+                        src = game.s.rows[found_stack_idx]
 
-            if s.strip() == 'Deal talon':
-                hints.append([1, game.s.talon, None])
-                continue
+                        hints.append([1, src, None])
+                    else:
+                        hints.append([1, game.s.talon, None])
+                    m = bh_solve_lib_obj.get_next_move()
+        else:
+            self.solver_state = result.lower()
+            for sbytes in pout:
+                s = six.text_type(sbytes, encoding='utf-8')
+                if DEBUG:
+                    print(s)
 
-            m = re.match('Total number of states checked is ([0-9]+)\\.', s)
-            if m:
-                self._setText(iter=int(m.group(1)))
-                continue
+                if s.strip() == 'Deal talon':
+                    hints.append([1, game.s.talon, None])
+                    continue
 
-            m = re.match('This scan generated ([0-9]+) states\\.', s)
+                m = re.match(
+                    'Total number of states checked is ([0-9]+)\\.', s)
+                if m:
+                    self._setText(iter=int(m.group(1)))
+                    continue
 
-            if m:
-                self._setText(states=int(m.group(1)))
-                continue
+                m = re.match('This scan generated ([0-9]+) states\\.', s)
 
-            m = re.match(
-                'Move a card from stack ([0-9]+) to the foundations', s)
-            if not m:
-                continue
+                if m:
+                    self._setText(states=int(m.group(1)))
+                    continue
 
-            found_stack_idx = int(m.group(1))
-            src = game.s.rows[found_stack_idx]
+                m = re.match(
+                    'Move a card from stack ([0-9]+) to the foundations', s)
+                if not m:
+                    continue
 
-            hints.append([1, src, None])
+                found_stack_idx = int(m.group(1))
+                src = game.s.rows[found_stack_idx]
+
+                hints.append([1, src, None])
+            pout.close()
+            perr.close()
 
         if DEBUG:
             print('time:', time.time()-start_time)
 
         hints.append(None)
         self.hints = hints
-
-        pout.close()
-        perr.close()
 
 
 class FreeCellSolverWrapper:

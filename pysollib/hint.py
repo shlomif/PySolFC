@@ -1231,8 +1231,9 @@ class BlackHoleSolver_Hint(Base_Solver_Hint):
         if DEBUG:
             print('--------------------\n', board, '--------------------')
         if use_bh_solve_lib:
-            global bh_solve_lib_obj
-            bh_solve_lib_obj = bh_solve_lib_obj.new_bhs_user_handle()
+            # global bh_solve_lib_obj
+            # bh_solve_lib_obj = bh_solve_lib_obj.new_bhs_user_handle()
+            bh_solve_lib_obj.recycle()
             bh_solve_lib_obj.read_board(
                 board=board,
                 game_type=game_type['preset'],

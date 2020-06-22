@@ -1,6 +1,14 @@
 [[news]]
 === News
 
+* _22 June, 2020:_ There is a new stable release
+https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-2.10.0/[PySolFC
+v2.10.0]. New in this release:
+** Fix moving cards in the Scorpion Tail game.
+** Make use of https://pypi.org/project/pysol-cards/[the pysol-cards PyPI module]
+** One can optionally load the Freecell Solver and the Black Hole Solver using their DLLs.
+** Test Windows Version in the installer: https://github.com/shlomif/PySolFC/issues/161
+** Pause when showing statistics: https://github.com/shlomif/PySolFC/pull/162
 * _5 March, 2020:_ There is a new stable release
 https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-2.8.0/[PySolFC
 v2.8.0]. New in this release:

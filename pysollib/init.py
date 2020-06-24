@@ -138,21 +138,30 @@ def init():
             os.environ['FREECELL_SOLVER_PRESETRC'] = f
     if os.name in ('posix', 'nt'):
         try:
-            kw = {'shell': True,
-                  'stdout': subprocess.PIPE,
-                  'stderr': subprocess.PIPE,
-                  'stdin': subprocess.PIPE, }
-            if os.name != 'nt':
-                kw['close_fds'] = True
-            p = subprocess.Popen(pysollib.settings.FCS_COMMAND+' --help', **kw)
-            p.stdin.close()
-            line = p.stdout.readline()
-            if sys.version_info >= (3,):
-                line = line.decode("utf-8")
-            if line.startswith('fc-solve'):
+            try:
+                import freecell_solver
+                fc_solve_lib_obj = freecell_solver.FreecellSolver()
+                assert fc_solve_lib_obj
                 pysollib.settings.USE_FREECELL_SOLVER = True
-            if os.name == 'posix':
-                os.wait()               # kill zombi
+            except Exception:
+                pass
+            if not pysollib.settings.USE_FREECELL_SOLVER:
+                kw = {'shell': True,
+                      'stdout': subprocess.PIPE,
+                      'stderr': subprocess.PIPE,
+                      'stdin': subprocess.PIPE, }
+                if os.name != 'nt':
+                    kw['close_fds'] = True
+                p = subprocess.Popen(
+                    pysollib.settings.FCS_COMMAND+' --help', **kw)
+                p.stdin.close()
+                line = p.stdout.readline()
+                if sys.version_info >= (3,):
+                    line = line.decode("utf-8")
+                if line.startswith('fc-solve'):
+                    pysollib.settings.USE_FREECELL_SOLVER = True
+                if os.name == 'posix':
+                    os.wait()               # kill zombi
         except Exception:
             # traceback.print_exc()
             pass

@@ -1011,14 +1011,17 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
         game_type = self.game_type
         global FCS_VERSION
         if FCS_VERSION is None:
-            pout, _ = self.run_solver(FCS_COMMAND + ' --version', '')
-            s = six.text_type(pout.read(), encoding='utf-8')
-            m = re.search(r'version ([0-9]+)\.([0-9]+)\.([0-9]+)', s)
-            if m:
-                FCS_VERSION = (int(m.group(1)), int(m.group(2)),
-                               int(m.group(3)))
+            if use_fc_solve_lib:
+                FCS_VERSION = (5, 0, 0)
             else:
-                FCS_VERSION = (0, 0, 0)
+                pout, _ = self.run_solver(FCS_COMMAND + ' --version', '')
+                s = six.text_type(pout.read(), encoding='utf-8')
+                m = re.search(r'version ([0-9]+)\.([0-9]+)\.([0-9]+)', s)
+                if m:
+                    FCS_VERSION = (int(m.group(1)), int(m.group(2)),
+                                   int(m.group(3)))
+                else:
+                    FCS_VERSION = (0, 0, 0)
 
         progress = self.options['progress']
 

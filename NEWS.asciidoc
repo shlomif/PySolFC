@@ -1,6 +1,10 @@
 [[news]]
 === News
 
+* _3 July, 2020:_ There is a new stable release
+https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-2.10.1/[PySolFC
+v2.10.1]. New in this release:
+** Bug fix: allow to use the freecell_solver.py Python bindings without needing to have the "fc-solve" executable in the path
 * _22 June, 2020:_ There is a new stable release
 https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-2.10.0/[PySolFC
 v2.10.0]. New in this release:

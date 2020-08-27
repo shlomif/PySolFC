@@ -25,7 +25,15 @@
 # imports
 import re
 
-import pysol_cards
+try:
+    import pysol_cards
+except ImportError:
+    import sys
+    sys.stderr.write(
+        "Please install pysol_cards.py from \"PyPI\"\r\n" +
+        "(e.g: using \"python3 -m pip install " +
+        "--user --upgrade pysol_cards\"\r\n")
+    sys.exit(1)
 assert getattr(pysol_cards, 'VERSION', (0, 0, 0)) >= (0, 8, 17), (
     "Newer version of https://pypi.org/project/pysol-cards is required.")
 import pysol_cards.random  # noqa: E402,I100

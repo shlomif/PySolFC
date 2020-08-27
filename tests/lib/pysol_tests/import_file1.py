@@ -24,14 +24,14 @@ class MockGame:
         self.preview = 0
 
 
-class Mock_S_Game:
+class Mock_S_Game:  # noqa: N801
     def __init__(self):
         self.s = MockGame()
 
-    def flipMove(self, foo):
+    def flipMove(self, foo):  # noqa: N802
         pass
 
-    def moveMove(self, cnt, frm, to, frames=0):
+    def moveMove(self, cnt, frm, to, frames=0):  # noqa: N802
         c = frm.cards.pop()
         c.face_up = True
         to.addCard(c)

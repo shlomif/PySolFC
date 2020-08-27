@@ -28,14 +28,14 @@ class MockGame:
         self.preview = 0
 
 
-class Mock_S_Game:
+class Mock_S_Game:  # noqa: N801
     def __init__(self):
         self.s = MockGame()
 
-    def flipMove(self, foo):
+    def flipMove(self, foo):  # noqa: N802
         pass
 
-    def moveMove(self, cnt, frm, to, frames=0):
+    def moveMove(self, cnt, frm, to, frames=0):  # noqa: N802
         c = frm.cards.pop()
         c.face_up = True
         to.addCard(c)
@@ -43,10 +43,10 @@ class Mock_S_Game:
 
 
 class MyTests(unittest.TestCase):
-    def _calc_Scorpion_stack(self, isScorpionTail):
+    def _calc_scorpion_stack(self, is_scorpion_tail):
         g = MockGame()
         stack = (ScorpionTail_RowStack
-                 if isScorpionTail
+                 if is_scorpion_tail
                  else Scorpion_RowStack)(0, 0, g)
         for s, r in [(2, 5), (3, 7), (2, 7), (2, 0), (2, 3), (2, 4), (1, 4)]:
             c = AbstractCard(1000+r*100+s*10, 0, s, r, g)
@@ -55,19 +55,19 @@ class MyTests(unittest.TestCase):
             stack.addCard(c)
         return stack
 
-    def test_canMoveCards(self):
-        for isScorpionTail in [False, True]:
-            stack = self._calc_Scorpion_stack(isScorpionTail)
+    def test_canMoveCards(self):  # noqa: N802
+        for is_scorpion_tail in [False, True]:
+            stack = self._calc_scorpion_stack(is_scorpion_tail)
             stack.canMoveCards(stack.cards[6:])
             self.assertTrue(stack)
 
-    def test_canMoveCards_non_top(self):
-        for isScorpionTail in [False, True]:
-            stack = self._calc_Scorpion_stack(isScorpionTail)
+    def test_canMoveCards_non_top(self):  # noqa: N802
+        for is_scorpion_tail in [False, True]:
+            stack = self._calc_scorpion_stack(is_scorpion_tail)
             self.assertTrue(stack.canMoveCards(stack.cards[4:]))
             self.assertTrue(stack)
 
-    def _calc_Spider_stack(self):
+    def _calc_spider_stack(self):
         g = MockGame()
         stack = Spider_RowStack(0, 0, g)
         for s, r in [(2, 5), (3, 7), (2, 7), (2, 0), (2, 3), (2, 5), (1, 4)]:
@@ -77,7 +77,7 @@ class MyTests(unittest.TestCase):
             stack.addCard(c)
         return stack
 
-    def test_Spider_canMoveCards_non_top(self):
-        stack = self._calc_Spider_stack()
+    def test_Spider_canMoveCards_non_top(self):  # noqa: N802
+        stack = self._calc_spider_stack()
         self.assertFalse(stack.canMoveCards(stack.cards[5:]))
         self.assertTrue(stack)

@@ -138,7 +138,7 @@ alink="#FF0000">
 '''
 
 
-def getGameRulesFilename(n):
+def _get_game_rules_filename(n):
     if n.startswith('Mahjongg'):
         return 'mahjongg.html'
     return latin1_normalize(n) + '.html'
@@ -189,7 +189,7 @@ def gen_rules_html():
 
         rules_fn = gi.rules_filename
         if not rules_fn:
-            rules_fn = getGameRulesFilename(gi.name)
+            rules_fn = _get_game_rules_filename(gi.name)
 
         if rules_fn in files_list:
             continue

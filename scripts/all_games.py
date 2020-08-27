@@ -32,7 +32,7 @@ html_mode = None
 fix_gettext()
 
 
-def getGameRulesFilename(n):
+def _get_game_rules_filename(n):
     if n.startswith('Mahjongg'):
         return 'mahjongg.html'
     return latin1_normalize(n) + '.html'
@@ -143,7 +143,7 @@ def all_games(sort_by='id'):
     for id in get_games_func():
         gi = GAME_DB.get(id)
         if not gi.rules_filename:
-            rules_fn = getGameRulesFilename(gi.name)
+            rules_fn = _get_game_rules_filename(gi.name)
         else:
             rules_fn = gi.rules_filename
         gt = CSI.TYPE_NAME[gi.category]

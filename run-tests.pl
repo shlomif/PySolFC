@@ -89,7 +89,7 @@ sub myglob
     local $ENV{FREECELL_SOLVER_QUIET} = 1;
     Env::Path->PATH->Prepend(
         File::Spec->catdir( Cwd::getcwd(), "board_gen" ),
-        File::Spec->catdir( $abs_bindir, "t", "scripts" ),
+        File::Spec->catdir( $abs_bindir,   "t", "scripts" ),
     );
 
     my $IS_WIN = ( $^O eq "MSWin32" );

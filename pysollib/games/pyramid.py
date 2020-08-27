@@ -190,16 +190,16 @@ class Pyramid(Game):
     # game layout
     #
 
-    def _createPyramid(self, l, x0, y0, size):
+    def _createPyramid(self, layout, x0, y0, size):
         rows = []
         # create stacks
         for i in range(size):
-            x = x0 + (size-1-i) * l.XS // 2
-            y = y0 + i * l.YS // self.PYRAMID_Y_FACTOR
+            x = x0 + (size-1-i) * layout.XS // 2
+            y = y0 + i * layout.YS // self.PYRAMID_Y_FACTOR
             for j in range(i+1):
                 stack = self.RowStack_Class(x, y, self)
                 rows.append(stack)
-                x = x + l.XS
+                x = x + layout.XS
         # compute blocking
         n = 0
         for i in range(size-1):
@@ -209,16 +209,16 @@ class Pyramid(Game):
                 n += 1
         return rows
 
-    def _createInvertedPyramid(self, l, x0, y0, size):
+    def _createInvertedPyramid(self, layout, x0, y0, size):
         rows = []
         # create stacks
         for i in range(size):
-            x = x0 + i * l.XS // 2
-            y = y0 + i * l.YS // self.PYRAMID_Y_FACTOR
+            x = x0 + i * layout.XS // 2
+            y = y0 + i * layout.YS // self.PYRAMID_Y_FACTOR
             for j in range(size-i):
                 stack = self.RowStack_Class(x, y, self)
                 rows.append(stack)
-                x = x + l.XS
+                x = x + layout.XS
         # compute blocking
         n = 0
         for i in range(size-1):
@@ -235,47 +235,49 @@ class Pyramid(Game):
 
     def createGame(self, pyramid_len=7, reserves=0, waste=True, texts=True):
         # create layout
-        l, s = Layout(self), self.s
+        layout, s = Layout(self), self.s
 
         # set window
         max_rows = max(pyramid_len+2, reserves)
-        w = l.XM + max_rows*l.XS
-        h = l.YM + l.YS + (pyramid_len-1)*l.YS//self.PYRAMID_Y_FACTOR
+        w = layout.XM + max_rows*layout.XS
+        h = layout.YM + layout.YS + \
+            (pyramid_len-1)*layout.YS//self.PYRAMID_Y_FACTOR
         if reserves:
-            h += l.YS+2*l.YOFFSET
+            h += layout.YS+2*layout.YOFFSET
         self.setSize(w, h)
 
         # create stacks
         decks = self.gameinfo.decks
 
-        x, y = l.XM+l.XS, l.YM
-        s.rows = self._createPyramid(l, x, y, pyramid_len)
+        x, y = layout.XM+layout.XS, layout.YM
+        s.rows = self._createPyramid(layout, x, y, pyramid_len)
 
-        x, y = l.XM, l.YM
+        x, y = layout.XM, layout.YM
         s.talon = self.Talon_Class(x, y, self)
         if texts:
-            l.createText(s.talon, "se")
+            layout.createText(s.talon, "se")
             if s.talon.max_rounds > 1:
-                l.createRoundText(s.talon, 'ne')
+                layout.createRoundText(s.talon, 'ne')
         if waste:
-            y = y + l.YS
+            y = y + layout.YS
             s.waste = self.WasteStack_Class(x, y, self, max_accept=1)
-            l.createText(s.waste, "se")
-        x, y = self.width - l.XS, l.YM
+            layout.createText(s.waste, "se")
+        x, y = self.width - layout.XS, layout.YM
         s.foundations.append(self.Foundation_Class(x, y, self,
                              suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
                              max_move=0, max_cards=52*decks))
-        l.createText(s.foundations[0], 's')
+        layout.createText(s.foundations[0], 's')
         if reserves:
-            x, y = l.XM+(max_rows-reserves)*l.XS//2, l.YM+4*l.YS
+            x = layout.XM+(max_rows-reserves)*layout.XS//2
+            y = layout.YM+4*layout.YS
             for i in range(reserves):
                 stack = self.Reserve_Class(x, y, self)
                 s.reserves.append(stack)
-                stack.CARD_YOFFSET = l.YOFFSET
-                x += l.XS
+                stack.CARD_YOFFSET = layout.YOFFSET
+                x += layout.XS
 
         # define stack-groups
-        l.defaultStackGroups()
+        layout.defaultStackGroups()
         self.sg.openstacks.append(s.talon)
         self.sg.dropstacks.append(s.talon)
         if s.waste:
@@ -346,26 +348,26 @@ class Thirteen(Pyramid):
 
     def createGame(self):
         # create layout
-        l, s = Layout(self), self.s
+        layout, s = Layout(self), self.s
 
         # set window
-        self.setSize(7*l.XS+l.XM, 5*l.YS+l.YM)
+        self.setSize(7*layout.XS+layout.XM, 5*layout.YS+layout.YM)
 
         # create stacks
         for i in range(7):
-            x = l.XM + (6-i) * l.XS // 2
-            y = l.YM + l.YS + i * l.YS // 2
+            x = layout.XM + (6-i) * layout.XS // 2
+            y = layout.YM + layout.YS + i * layout.YS // 2
             for j in range(i+1):
                 s.rows.append(Pyramid_RowStack(x, y, self))
-                x = x + l.XS
-        x, y = l.XM, l.YM
+                x = x + layout.XS
+        x, y = layout.XM, layout.YM
         s.talon = WasteTalonStack(x, y, self, max_rounds=1)
-        l.createText(s.talon, "s")
-        x = x + l.XS
+        layout.createText(s.talon, "s")
+        x = x + layout.XS
         s.waste = Pyramid_Waste(x, y, self, max_accept=1)
-        l.createText(s.waste, "s")
+        layout.createText(s.waste, "s")
         s.waste.CARD_XOFFSET = 14
-        x, y = self.width - l.XS, l.YM
+        x, y = self.width - layout.XS, layout.YM
         s.foundations.append(Pyramid_Foundation(x, y, self,
                              suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
                              max_move=0, max_cards=52))
@@ -394,30 +396,30 @@ class Thirteens(Pyramid):
 
     def createGame(self):
         # create layout
-        l, s = Layout(self), self.s
+        layout, s = Layout(self), self.s
 
         # set window
-        self.setSize(l.XM+5*l.XS, l.YM+4*l.YS)
+        self.setSize(layout.XM+5*layout.XS, layout.YM+4*layout.YS)
 
         # create stacks
-        x, y = l.XM, l.YM
+        x, y = layout.XM, layout.YM
         for i in range(2):
-            x = l.XM
+            x = layout.XM
             for j in range(5):
                 s.rows.append(Giza_Reserve(x, y, self, max_accept=1))
-                x += l.XS
-            y += l.YS
-        x, y = l.XM, self.height-l.YS
+                x += layout.XS
+            y += layout.YS
+        x, y = layout.XM, self.height-layout.YS
         s.talon = TalonStack(x, y, self)
-        l.createText(s.talon, 'n')
-        x, y = self.width-l.XS, self.height-l.YS
+        layout.createText(s.talon, 'n')
+        x, y = self.width-layout.XS, self.height-layout.YS
         s.foundations.append(Pyramid_Foundation(x, y, self,
                              suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
                              max_move=0, max_cards=52))
-        l.createText(s.foundations[0], 'n')
+        layout.createText(s.foundations[0], 'n')
 
         # define stack-groups
-        l.defaultStackGroups()
+        layout.defaultStackGroups()
 
     def startGame(self):
         self._startAndDealRow()
@@ -482,40 +484,42 @@ class Elevens(Pyramid):
 
     def createGame(self, rows=3, cols=3, reserves=3, texts=False):
 
-        l, s = Layout(self), self.s
+        layout, s = Layout(self), self.s
 
-        self.setSize(l.XM+(cols+2)*l.XS, l.YM+(rows+1.5)*l.YS)
+        self.setSize(
+            layout.XM+(cols+2)*layout.XS,
+            layout.YM+(rows+1.5)*layout.YS)
 
-        x, y = self.width-l.XS, l.YM
+        x, y = self.width-layout.XS, layout.YM
         s.talon = TalonStack(x, y, self)
-        l.createText(s.talon, 's')
-        x, y = self.width-l.XS, self.height-l.YS
+        layout.createText(s.talon, 's')
+        x, y = self.width-layout.XS, self.height-layout.YS
         s.foundations.append(AbstractFoundationStack(x, y, self,
                              suit=ANY_SUIT, max_accept=0,
                              max_move=0, max_cards=52))
-        l.createText(s.foundations[0], 'n')
-        y = l.YM
+        layout.createText(s.foundations[0], 'n')
+        y = layout.YM
         for i in range(rows):
-            x = l.XM
+            x = layout.XM
             for j in range(cols):
                 s.rows.append(self.RowStack_Class(x, y, self, max_accept=1))
-                x += l.XS
-            y += l.YS
-        x, y = l.XM, self.height-l.YS
+                x += layout.XS
+            y += layout.YS
+        x, y = layout.XM, self.height-layout.YS
         for i in range(reserves):
             stack = self.Reserve_Class(x, y, self)
             s.reserves.append(stack)
-            stack.CARD_XOFFSET = l.XOFFSET  # for fifteens
-            x += l.XS
+            stack.CARD_XOFFSET = layout.XOFFSET  # for fifteens
+            x += layout.XS
 
         if texts:
             stack = s.reserves[0]
-            tx, ty, ta, tf = l.getTextAttr(stack, "n")
+            tx, ty, ta, tf = layout.getTextAttr(stack, "n")
             font = self.app.getFont("canvas_default")
             stack.texts.misc = MfxCanvasText(self.canvas, tx, ty,
                                              anchor=ta, font=font)
 
-        l.defaultStackGroups()
+        layout.defaultStackGroups()
 
     def startGame(self):
         self._startAndDealRow()
@@ -687,36 +691,36 @@ class TripleAlliance(Game):
 
     def createGame(self):
 
-        l, s = Layout(self), self.s
-        w0 = l.XS+5*l.XOFFSET
-        self.setSize(l.XM+5*w0, l.YM+5*l.YS)
+        layout, s = Layout(self), self.s
+        w0 = layout.XS+5*layout.XOFFSET
+        self.setSize(layout.XM+5*w0, layout.YM+5*layout.YS)
 
-        x, y = l.XM, l.YM
+        x, y = layout.XM, layout.YM
         for i in range(3):
             s.reserves.append(TripleAlliance_Reserve(x, y, self))
-            x += l.XS
-        x, y = self.width-l.XS, l.YM
+            x += layout.XS
+        x, y = self.width-layout.XS, layout.YM
         s.foundations.append(AbstractFoundationStack(x, y, self, suit=ANY_SUIT,
                              max_move=0, max_accept=0, max_cards=52))
-        l.createText(s.foundations[0], 'nw')
-        y = l.YM+l.YS
+        layout.createText(s.foundations[0], 'nw')
+        y = layout.YM+layout.YS
         nstacks = 0
         for i in range(4):
-            x = l.XM
+            x = layout.XM
             for j in range(5):
                 stack = BasicRowStack(x, y, self, max_accept=0)
                 s.rows.append(stack)
-                stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
+                stack.CARD_XOFFSET, stack.CARD_YOFFSET = layout.XOFFSET, 0
                 x += w0
                 nstacks += 1
                 if nstacks >= 18:
                     break
-            y += l.YS
+            y += layout.YS
 
-        x, y = self.width-l.XS, self.height-l.YS
+        x, y = self.width-layout.XS, self.height-layout.YS
         s.talon = InitialDealTalonStack(x, y, self)
 
-        l.defaultStackGroups()
+        layout.defaultStackGroups()
 
     def startGame(self):
         self._startDealNumRows(2)
@@ -750,31 +754,31 @@ class Pharaohs(Pyramid):
 
     def createGame(self):
         # create layout
-        l, s = Layout(self), self.s
+        layout, s = Layout(self), self.s
 
         # set window
-        w = l.XM + 9*l.XS
-        h = l.YM + 5.67*l.YS
+        w = layout.XM + 9*layout.XS
+        h = layout.YM + 5.67*layout.YS
         self.setSize(w, h)
 
         # create stacks
-        x, y = l.XM, l.YM
-        s.rows += self._createPyramid(l, x, y, 2)
-        x, y = l.XM+2*l.XS, l.YM
-        s.rows += self._createPyramid(l, x, y, 7)
-        x, y = l.XM+2.5*l.XS, l.YM+3*l.YS
-        s.rows += self._createPyramid(l, x, y, 6)
+        x, y = layout.XM, layout.YM
+        s.rows += self._createPyramid(layout, x, y, 2)
+        x, y = layout.XM+2*layout.XS, layout.YM
+        s.rows += self._createPyramid(layout, x, y, 7)
+        x, y = layout.XM+2.5*layout.XS, layout.YM+3*layout.YS
+        s.rows += self._createPyramid(layout, x, y, 6)
 
-        x, y = l.XM, self.height-l.YS
+        x, y = layout.XM, self.height-layout.YS
         s.talon = self.Talon_Class(x, y, self)
-        x, y = self.width - l.XS, l.YM
+        x, y = self.width - layout.XS, layout.YM
         s.foundations.append(Pyramid_Foundation(x, y, self,
                              suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
                              max_move=0, max_cards=52))
-        l.createText(s.foundations[0], 's')
+        layout.createText(s.foundations[0], 's')
 
         # define stack-groups
-        l.defaultStackGroups()
+        layout.defaultStackGroups()
 
     def startGame(self):
         self.startDealSample()
@@ -816,34 +820,37 @@ class Baroness(Pyramid):
 
     def createGame(self):
         # create layout
-        l, s = Layout(self), self.s
+        layout, s = Layout(self), self.s
 
         # set window
-        self.setSize(l.XM+9*l.XS, l.YM+max(3.5*l.YS, l.YS+12*l.YOFFSET))
+        self.setSize(
+            layout.XM+9*layout.XS,
+            layout.YM+max(3.5*layout.YS, layout.YS+12*layout.YOFFSET)
+        )
 
         # create stacks
-        x, y = l.XM, l.YM
+        x, y = layout.XM, layout.YM
         s.talon = Baroness_Talon(x, y, self)
-        l.createText(s.talon, 's')
+        layout.createText(s.talon, 's')
 
-        x += 2*l.XS
+        x += 2*layout.XS
         for i in range(5):
             stack = Baroness_RowStack(x, y, self, max_accept=1)
             s.rows.append(stack)
-            stack.CARD_YOFFSET = l.YOFFSET
-            x += l.XS
-        x += l.XS
+            stack.CARD_YOFFSET = layout.YOFFSET
+            x += layout.XS
+        x += layout.XS
         s.foundations.append(Pyramid_Foundation(x, y, self,
                              suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
                              max_move=0, max_cards=52))
-        l.createText(s.foundations[0], 's')
-        x, y = l.XM, self.height-l.YS
+        layout.createText(s.foundations[0], 's')
+        x, y = layout.XM, self.height-layout.YS
         s.reserves.append(Giza_Reserve(x, y, self, max_accept=1))
-        y -= l.YS
+        y -= layout.YS
         s.reserves.append(Giza_Reserve(x, y, self, max_accept=1))
 
         # define stack-groups
-        l.defaultStackGroups()
+        layout.defaultStackGroups()
 
     def startGame(self):
         self._startAndDealRow()
@@ -885,36 +892,36 @@ class Apophis(Pharaohs):
 
     def createGame(self):
         # create layout
-        l, s = Layout(self), self.s
+        layout, s = Layout(self), self.s
 
         # set window
-        w = l.XM + 9*l.XS
-        h = l.YM + 4*l.YS
+        w = layout.XM + 9*layout.XS
+        h = layout.YM + 4*layout.YS
         self.setSize(w, h)
 
         # create stacks
-        x, y = l.XM+1.5*l.XS, l.YM
-        s.rows = self._createPyramid(l, x, y, 7)
+        x, y = layout.XM+1.5*layout.XS, layout.YM
+        s.rows = self._createPyramid(layout, x, y, 7)
 
-        x, y = l.XM, l.YM
+        x, y = layout.XM, layout.YM
         s.talon = DealReserveRedealTalonStack(x, y, self, max_rounds=3)
-        l.createText(s.talon, 'se')
-        l.createRoundText(s.talon, 'ne')
+        layout.createText(s.talon, 'se')
+        layout.createRoundText(s.talon, 'ne')
 
-        y += l.YS
+        y += layout.YS
         for i in range(3):
             stack = Pyramid_Waste(x, y, self, max_accept=1)
             s.reserves.append(stack)
-            l.createText(stack, 'se')
-            y += l.YS
-        x, y = self.width - l.XS, l.YM
+            layout.createText(stack, 'se')
+            y += layout.YS
+        x, y = self.width - layout.XS, layout.YM
         s.foundations.append(Pyramid_Foundation(x, y, self,
                              suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
                              max_move=0, max_cards=52))
-        l.createText(s.foundations[0], 'nw')
+        layout.createText(s.foundations[0], 'nw')
 
         # define stack-groups
-        l.defaultStackGroups()
+        layout.defaultStackGroups()
 
     def startGame(self):
         self.startDealSample()
@@ -989,37 +996,37 @@ class Exit_RowStack(Elevens_RowStack):
 class Exit(Game):
     def createGame(self):
         # create layout
-        l, s = Layout(self), self.s
+        layout, s = Layout(self), self.s
 
         # set window
-        h1 = l.YS+5*l.YOFFSET
-        self.setSize(l.XM+7*l.XS, l.YM+2*h1+l.YS)
+        h1 = layout.YS+5*layout.YOFFSET
+        self.setSize(layout.XM+7*layout.XS, layout.YM+2*h1+layout.YS)
 
         # create stacks
-        y = l.YM
+        y = layout.YM
         for i in (0, 1):
-            x = l.XM
+            x = layout.XM
             for j in range(5):
                 stack = Exit_RowStack(x, y, self, base_rank=NO_RANK,
                                       max_move=1, max_accept=1, dir=0)
                 s.rows.append(stack)
-                stack.CARD_YOFFSET = l.YOFFSET
-                x += l.XS
+                stack.CARD_YOFFSET = layout.YOFFSET
+                x += layout.XS
             y += h1
-        x, y = self.width-l.XS, l.YM
+        x, y = self.width-layout.XS, layout.YM
         stack = Exit_RowStack(x, y, self, base_rank=NO_RANK,
                               max_move=1, max_accept=1, dir=0)
         s.reserves.append(stack)
-        stack.CARD_YOFFSET = l.YOFFSET
-        x, y = self.width-l.XS, self.height-l.YS
+        stack.CARD_YOFFSET = layout.YOFFSET
+        x, y = self.width-layout.XS, self.height-layout.YS
         s.foundations.append(AbstractFoundationStack(x, y, self, suit=ANY_SUIT,
                              max_accept=0, max_move=0, max_cards=52))
-        l.createText(s.foundations[0], "n")
-        x, y = l.XM, self.height-l.YS
+        layout.createText(s.foundations[0], "n")
+        x, y = layout.XM, self.height-layout.YS
         s.talon = InitialDealTalonStack(x, y, self)
 
         # define stack-groups
-        l.defaultStackGroups()
+        layout.defaultStackGroups()
 
     def _checkPair(self, c1, c2):
         if c1.rank + c2.rank == 9:      # A-10, 2-9, 3-8, 4-7, 5-6
@@ -1074,34 +1081,34 @@ class TwoPyramids(Pyramid):
 
     def createGame(self):
         # create layout
-        l, s = Layout(self), self.s
+        layout, s = Layout(self), self.s
 
         # set window
-        w = l.XM + 14*l.XS
-        h = l.YM + 5*l.YS
+        w = layout.XM + 14*layout.XS
+        h = layout.YM + 5*layout.YS
         self.setSize(w, h)
 
         # create stacks
-        x, y = l.XM, l.YM+l.YS
-        s.rows = self._createPyramid(l, x, y, 7)
-        x += 7*l.XS
-        s.rows += self._createPyramid(l, x, y, 7)
+        x, y = layout.XM, layout.YM+layout.YS
+        s.rows = self._createPyramid(layout, x, y, 7)
+        x += 7*layout.XS
+        s.rows += self._createPyramid(layout, x, y, 7)
 
-        x, y = l.XM, l.YM
+        x, y = layout.XM, layout.YM
         s.talon = self.Talon_Class(x, y, self)
-        l.createText(s.talon, "se")
-        l.createRoundText(s.talon, 'ne')
+        layout.createText(s.talon, "se")
+        layout.createRoundText(s.talon, 'ne')
 
-        y += l.YS
+        y += layout.YS
         s.waste = self.WasteStack_Class(x, y, self, max_accept=1)
-        l.createText(s.waste, "se")
-        x, y = self.width-l.XS, l.YM
+        layout.createText(s.waste, "se")
+        x, y = self.width-layout.XS, layout.YM
         s.foundations.append(self.Foundation_Class(x, y, self,
                              suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
                              max_move=0, max_cards=104))
-        l.createText(s.foundations[0], 'nw')
+        layout.createText(s.foundations[0], 'nw')
         # define stack-groups
-        l.defaultStackGroups()
+        layout.defaultStackGroups()
         self.sg.openstacks.append(s.talon)
         self.sg.dropstacks.append(s.talon)
         self.sg.openstacks.append(s.waste)
@@ -1114,31 +1121,31 @@ class TwoPyramids(Pyramid):
 class KingTut(RelaxedPyramid):
 
     def createGame(self):
-        l, s = Layout(self), self.s
+        layout, s = Layout(self), self.s
 
-        w = l.XM + max(7*l.XS, 2*l.XS+23*l.XOFFSET)
-        h = l.YM + 5.5*l.YS
+        w = layout.XM + max(7*layout.XS, 2*layout.XS+23*layout.XOFFSET)
+        h = layout.YM + 5.5*layout.YS
         self.setSize(w, h)
 
-        x, y = l.XM+(w-7*l.XS)//2, l.YM
-        s.rows = self._createPyramid(l, x, y, 7)
+        x, y = layout.XM+(w-7*layout.XS)//2, layout.YM
+        s.rows = self._createPyramid(layout, x, y, 7)
 
-        x, y = l.XM, self.height-l.YS
+        x, y = layout.XM, self.height-layout.YS
         s.talon = WasteTalonStack(
             x, y, self, max_rounds=UNLIMITED_REDEALS, num_deal=3)
-        l.createText(s.talon, "n")
-        x += l.XS
+        layout.createText(s.talon, "n")
+        x += layout.XS
         s.waste = Pyramid_Waste(x, y, self, max_accept=1)
-        s.waste.CARD_XOFFSET = l.XOFFSET
-        l.createText(s.waste, "n")
+        s.waste.CARD_XOFFSET = layout.XOFFSET
+        layout.createText(s.waste, "n")
 
-        x, y = self.width - l.XS, l.YM
+        x, y = self.width - layout.XS, layout.YM
         s.foundations.append(self.Foundation_Class(x, y, self,
                              suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
                              max_move=0, max_cards=52))
-        l.createText(s.foundations[0], 'nw')
+        layout.createText(s.foundations[0], 'nw')
 
-        l.defaultStackGroups()
+        layout.defaultStackGroups()
         self.sg.openstacks.append(s.waste)
 
 
@@ -1159,32 +1166,32 @@ class Triangle(Pyramid):
 
     def createGame(self):
         # create layout
-        l, s = Layout(self), self.s
+        layout, s = Layout(self), self.s
 
         # set window
-        w = l.XM + 10.5*l.XS
-        h = l.YM + 4*l.YS
+        w = layout.XM + 10.5*layout.XS
+        h = layout.YM + 4*layout.YS
         self.setSize(w, h)
 
         # create stacks
-        x, y = l.XM+2*l.XS, l.YM
-        s.rows = self._createInvertedPyramid(l, x, y, 7)
+        x, y = layout.XM+2*layout.XS, layout.YM
+        s.rows = self._createInvertedPyramid(layout, x, y, 7)
 
-        x, y = l.XM, l.YM
+        x, y = layout.XM, layout.YM
         s.talon = self.Talon_Class(x, y, self)
-        l.createText(s.talon, "se")
-        l.createRoundText(s.talon, 'ne')
+        layout.createText(s.talon, "se")
+        layout.createRoundText(s.talon, 'ne')
 
-        y += l.YS
+        y += layout.YS
         s.waste = self.WasteStack_Class(x, y, self, max_accept=1)
-        l.createText(s.waste, "se")
-        x, y = self.width - l.XS, l.YM
+        layout.createText(s.waste, "se")
+        x, y = self.width - layout.XS, layout.YM
         s.foundations.append(self.Foundation_Class(x, y, self,
                              suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
                              max_move=0, max_cards=52))
 
         # define stack-groups
-        l.defaultStackGroups()
+        layout.defaultStackGroups()
         self.sg.openstacks.append(s.talon)
         self.sg.dropstacks.append(s.talon)
         self.sg.openstacks.append(s.waste)
@@ -1198,35 +1205,35 @@ class UpAndDown(Pyramid):
 
     def createGame(self, pyramid_len=7, reserves=0, waste=True, texts=True):
         # create layout
-        l, s = Layout(self), self.s
+        layout, s = Layout(self), self.s
 
         # set window
-        w = l.XM + 13*l.XS
-        h = l.YM + 4*l.YS
+        w = layout.XM + 13*layout.XS
+        h = layout.YM + 4*layout.YS
         self.setSize(w, h)
 
         # create stacks
-        x, y = l.XM+l.XS//2, l.YM
-        s.rows = self._createPyramid(l, x, y, 7)
-        x += 5.5*l.XS
-        s.rows += self._createInvertedPyramid(l, x, y, 7)
+        x, y = layout.XM+layout.XS//2, layout.YM
+        s.rows = self._createPyramid(layout, x, y, 7)
+        x += 5.5*layout.XS
+        s.rows += self._createInvertedPyramid(layout, x, y, 7)
 
-        x, y = l.XM, l.YM
+        x, y = layout.XM, layout.YM
         s.talon = self.Talon_Class(x, y, self)
-        l.createText(s.talon, "se")
-        l.createRoundText(s.talon, 'ne')
+        layout.createText(s.talon, "se")
+        layout.createRoundText(s.talon, 'ne')
 
-        y += l.YS
+        y += layout.YS
         s.waste = self.WasteStack_Class(x, y, self, max_accept=1)
-        l.createText(s.waste, "se")
-        x, y = self.width - l.XS, self.height-l.YS
+        layout.createText(s.waste, "se")
+        x, y = self.width - layout.XS, self.height-layout.YS
         s.foundations.append(self.Foundation_Class(x, y, self,
                              suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
                              max_move=0, max_cards=104))
-        l.createText(s.foundations[0], 'sw')
+        layout.createText(s.foundations[0], 'sw')
 
         # define stack-groups
-        l.defaultStackGroups()
+        layout.defaultStackGroups()
         self.sg.openstacks.append(s.talon)
         self.sg.dropstacks.append(s.talon)
         self.sg.openstacks.append(s.waste)
@@ -1283,12 +1290,12 @@ class Hurricane(Pyramid):
 
     def createGame(self):
         # create layout
-        l, s = Layout(self), self.s
+        layout, s = Layout(self), self.s
 
         # set window
-        ww = l.XS + max(2*l.XOFFSET, l.XS//2)
-        w = l.XM + 1.5*l.XS + 4*ww
-        h = l.YM + 3*l.YS
+        ww = layout.XS + max(2*layout.XOFFSET, layout.XS//2)
+        w = layout.XM + 1.5*layout.XS + 4*ww
+        h = layout.YM + 3*layout.YS
         self.setSize(w, h)
 
         # create stacks
@@ -1296,30 +1303,30 @@ class Hurricane(Pyramid):
                         (0, 1),             (3, 1),
                         (0, 2), (1, 2), (2, 2), (3, 2),
                         ):
-            x, y = l.XM + 1.5*l.XS + ww*xx, l.YM + l.YS*yy
+            x, y = layout.XM + 1.5*layout.XS + ww*xx, layout.YM + layout.YS*yy
             stack = Hurricane_Reserve(x, y, self, max_accept=1)
-            stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
+            stack.CARD_XOFFSET, stack.CARD_YOFFSET = layout.XOFFSET, 0
             s.reserves.append(stack)
 
-        d = 3*ww - 4*l.XS - 2*l.XOFFSET
-        x = l.XM + 1.5*l.XS + l.XS+2*l.XOFFSET + d//2
-        y = l.YM+l.YS
+        d = 3*ww - 4*layout.XS - 2*layout.XOFFSET
+        x = layout.XM + 1.5*layout.XS + layout.XS+2*layout.XOFFSET + d//2
+        y = layout.YM+layout.YS
         for i in range(3):
             stack = Hurricane_RowStack(x, y, self, max_accept=1)
             s.rows.append(stack)
-            x += l.XS
+            x += layout.XS
 
-        x, y = l.XM, l.YM
+        x, y = layout.XM, layout.YM
         s.talon = TalonStack(x, y, self)
-        l.createText(s.talon, 'ne')
-        y += 2*l.YS
+        layout.createText(s.talon, 'ne')
+        y += 2*layout.YS
         s.foundations.append(AbstractFoundationStack(x, y, self,
                              suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
                              max_accept=0, max_move=0, max_cards=52))
-        l.createText(s.foundations[0], 'ne')
+        layout.createText(s.foundations[0], 'ne')
 
         # define stack-groups
-        l.defaultStackGroups()
+        layout.defaultStackGroups()
 
     def startGame(self):
         for i in range(2):

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Thu Jul 18 18:25:19 2019\n"
+"POT-Creation-Date: Mon Sep  7 17:14:01 2020\n"
 "PO-Revision-Date: 2007-09-05 17:43+0400\n"
 "Last-Translator: H. Schaekel <Holger.Schaekel@web.de>\n"
 "Language-Team: German\n"
@@ -333,6 +333,10 @@ msgid "Bim Bom"
 msgstr "Bim-Bom"
 
 msgid "Bisley"
+msgstr "Bisley"
+
+#, fuzzy
+msgid "Bisley 13"
 msgstr "Bisley"
 
 msgid "Bits n Bytes"

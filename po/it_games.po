@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: it_games\n"
-"POT-Creation-Date: Thu Jul 18 18:43:59 2019\n"
+"POT-Creation-Date: Mon Sep  7 17:14:30 2020\n"
 "PO-Revision-Date: 2011-05-12 18:46+0200\n"
 "Last-Translator: Giuliano Colla <giuliano.colla@gmail.com>\n"
 "Language-Team: Italiano <it@li.org>\n"
@@ -336,6 +336,9 @@ msgid "Bim Bom"
 msgstr ""
 
 msgid "Bisley"
+msgstr ""
+
+msgid "Bisley 13"
 msgstr ""
 
 msgid "Bits n Bytes"

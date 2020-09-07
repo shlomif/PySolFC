@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Thu Jul 18 18:43:59 2019\n"
+"POT-Creation-Date: Mon Sep  7 17:14:30 2020\n"
 "PO-Revision-Date: 2007-09-05 17:43+0400\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -341,6 +341,10 @@ msgid "Bim Bom"
 msgstr "Бим-Бом"
 
 msgid "Bisley"
+msgstr "Бисли"
+
+#, fuzzy
+msgid "Bisley 13"
 msgstr "Бисли"
 
 msgid "Bits n Bytes"

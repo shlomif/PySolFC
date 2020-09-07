@@ -65,7 +65,7 @@ PysolRandom = pysol_cards.random.MTRandom
 
 
 # construct Random from seed string
-def constructRandom(s):
+def construct_random(s):
     if s == 'Custom':
         return CustomRandom()
     m = match_ms_deal_prefix(s)

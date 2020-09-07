@@ -43,7 +43,7 @@ from pysollib.mfxutil import latin1_normalize, print_err
 from pysollib.mfxutil import pickle, unpickle
 from pysollib.mygettext import _
 from pysollib.options import Options
-from pysollib.pysolrandom import PysolRandom, constructRandom
+from pysollib.pysolrandom import PysolRandom, construct_random
 from pysollib.pysoltk import HTMLViewer
 from pysollib.pysoltk import HelpStatusbar, PysolStatusbar
 from pysollib.pysoltk import MfxDialog, MfxExceptionDialog, MfxMessageDialog
@@ -336,7 +336,7 @@ class Application:
                     self.nextgame.id = gameid
                     deal = self.commandline.deal
                     self.nextgame.random = \
-                        None if deal is None else constructRandom(deal)
+                        None if deal is None else construct_random(deal)
             elif self.commandline.gameid is not None:
                 self.nextgame.id, self.nextgame.random = \
                     self.commandline.gameid, None

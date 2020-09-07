@@ -29,7 +29,7 @@ from pysollib.help import help_about, help_html
 from pysollib.mfxutil import Struct, openURL
 from pysollib.mfxutil import print_err
 from pysollib.mygettext import _
-from pysollib.pysolrandom import constructRandom
+from pysollib.pysolrandom import construct_random
 from pysollib.pysoltk import AllGames_StatsDialog, SingleGame_StatsDialog
 from pysollib.pysoltk import ColorsDialog
 from pysollib.pysoltk import EditTextDialog
@@ -251,7 +251,7 @@ class PysolMenubar(PysolMenubarTk):
 
     def _mNewGameBySeed(self, seed, origin):
         try:
-            random = constructRandom(seed)
+            random = construct_random(seed)
             if random is None:
                 return
             id = self.game.id

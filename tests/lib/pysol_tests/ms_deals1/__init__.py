@@ -59,7 +59,7 @@ from pysol_cards.random import random__int2str, random__str2int
 from pysol_cards.random_base import RandomBase
 
 # So the localpaths will be overrided.
-from pysollib.pysolrandom import constructRandom
+from pysollib.pysolrandom import construct_random
 
 # PySol imports
 
@@ -122,7 +122,7 @@ AC 9D 7H 6D KS JH
 KC JS 9H 4S 7S AD
 ''', 'PySolFC deal No. 123456')
 
-        rand = constructRandom('ms3000000000')
+        rand = construct_random('ms3000000000')
         self.assertEqual(rand.getSeedAsStr(), 'ms3000000000')
         game = Game("freecell", 3000000000, RandomBase.DEALS_MS)
         # TEST
@@ -136,7 +136,7 @@ KC JS 9H 4S 7S AD
 8C AH 2H 5H 2D 5S
 ''', 'Microsoft Deal #3E9 - long seed.')
 
-        rand = constructRandom('ms6000000000')
+        rand = construct_random('ms6000000000')
         game = Game("freecell", 6000000000, RandomBase.DEALS_MS)
         # TEST
         got_s = game.calc_layout_string(ren)
@@ -169,12 +169,12 @@ QH 9H 9D 5S 7S 6C
         # TEST
         self.assertEqual(got, inp, 'str2long PySolFC roundtrip.')
 
-        rand = constructRandom('ms100000')
+        rand = construct_random('ms100000')
         seed = rand.increaseSeed(rand.initial_seed)
         seed = rand.str(seed)
         # TEST
         self.assertEqual(seed, 'ms100001', 'increaseSeed for ms deals')
-        rand = constructRandom(seed)
+        rand = construct_random(seed)
         game = Game("freecell", int(seed[2:]), RandomBase.DEALS_MS)
         # TEST
         self._cmp_board(game.calc_layout_string(ren), '''5S AH 4H TD 4S JD JS
@@ -188,7 +188,7 @@ KH 6H 6C TC 2C 7D
 ''', 'ms100001')
 
         seed = 24000024
-        rand = constructRandom(str(seed))
+        rand = construct_random(str(seed))
         expected0 = rand.randint(0, 100)
         expected1 = rand.randint(0, 100)
         rand.reset()

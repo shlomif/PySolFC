@@ -1,0 +1,114 @@
+<h1>Comment jouer à PySol</h1>
+
+<h2>Utilisation de la souris</h2>
+<p>
+Bouton Gauche:
+<ul type="disc">
+<li> Déplacer les cartes
+</li><li> Cliquez sur le talon pour distribuer de nouvelles cartes.
+</li></ul>
+<p>
+Bouton Droit (ou double-clic Gauche)
+<ul type="disc">
+<li> Déplacer les cartes vers les fondations
+</li><li> Jeu rapide (si activé)
+</li></ul>
+<p>
+Bouton du Milieu (ou Ctrl+clic Droit):
+<ul type="disc">
+<li> Voir les cartes partiellement cachées
+</li></ul>
+<p>
+Ctrl+Clic Gauche:
+<ul type="disc">
+<li> Affiche en surbrillance toutes les cartes correspondantes.
+</li></ul>
+<p>
+Maj+Clic Gauche:
+<ul type="disc">
+<li> Affiche en surbrillance toutes les cartes de même valeur.
+</li></ul>
+
+
+<h2>Jeu à deux mains</h2>
+<p>
+Placer trois doigts sur '<i>A</i>' (déplacer auto), '<i>S</i>' (annuler) et '<i>D</i>' (distribuer). Vous pouvez ainsi atteindre '<i>R</i>' (répéter).
+<p>
+Les gauchers préféreront '<i>L</i>' (déplacer auto), '<i>K</i>' (annuler) et '<i>J</i>' (distribuer).
+
+<!--
+<h2>Point-and-Click play</h2>
+<p>
+If you prefer Point-and-Click over Drag-and-Drop you can enable
+<i>Quick play</i> and use the right mouse button. See below.
+-->
+
+<h2>Jeu automatique</h2>
+<p>
+Notez que le jeu automatique peut gâcher le jeu. Evitez de l'activer. Ou n'utilisez que le <i>retournement automatique</i>. Certains jeu désactivent automatiquement cette fonctionnalité, sinon ils n'ont plus aucun intérêt.
+<p>
+Retourner automatiquement
+<ul type="disc">
+<li> Retourne automatiquement toutes les cartes.
+</li></ul>
+Déplacement automatiquement
+<ul type="disc">
+<li> Déplace automatiquement les cartes vers les fondations.
+</li></ul>
+Distribuer automatiquement
+<ul type="disc">
+<li> Distribue automatiquement les cartes à la défausse si elle est vide.
+</li></ul>
+Jeu rapide
+<ul type="disc">
+<li> Utilisez le bouton droit de la souris pour déplacer rapidement les piles de cartes. Ce système n'est pas très intuitif, il n'utilise pas le système d'indice.
+</li></ul>
+
+
+<h2>L'animation est trop lente...</h2>
+<p>
+Malheureusement, il manque un concept de sprite à Tcl/Tk toolkit, ce qui provoque (double-buffer  invisible), beaucoup de répétition de dessin lors du déplacement des cartes.
+<p>
+Désactiver l'<i>ombre des cartes</i>, l'<i>ombrage des mouvements possibles</i>, la mosaïque d'arrière-plan de table et les sons améliorera l'affichage.
+
+
+<h2>Les arrière-plans de table sont de mauvaise qualité</h2>
+<p>
+Ils ne doivent être activés qu'en mode couleurs vraies - sinon la qualité sera mauvaise en raison du tramage.
+<p>
+Vous pouvez ajouter vos propres mosaïques d'arrière-plan. Pour ce faire, copiez les images dans le répertoire <i>data/tiles</i> ou dans <i>~/.PySolFC/tiles</i> de votre répertoire personnel.
+<!-- They must be in GIF or PPM format. -->
+
+
+<h2>Notes à propos du système de score</h2>
+<p>
+<ul type="disc">
+<li> La prise en compte des scores commence après le premier mouvement. Même si vous annulez tous les mouvements, les scores ne sera pas annulé.
+</li><li> Vous perdrez la partie si vous utilisez un indice ou si vous démarrer la démo.
+</li><li> Vous pouvez recommencer à tout moment pour avoir une chance supplémentaire de gagner.
+</li><li> Si vous ne voulez pas enregistrer le score d'un jeu perdu, vous pouvez temporairement modifiez les paramètres du joueur.
+</li><li> Les parties chargées ne comptent pas.
+</li><li> Si vous gagnez une partie sans utiliser <i>Annuler</i>, <i>Jeu rapide</i> ni aucune des autres fonctions d'assistance, vous recevrez une récompense spéciale.
+<!--
+<li> There are no score values in PySol - you win a game, or you lose it.
+     And don't even think about asking me to implement this nonsense - get
+     a nice pinball game if you're a highscore freak...
+-->
+</li><li> Enfin, gardez toujours à l'esprit que ceci est un jeu de <b>Patience</b>. Détendez-vos et amusez-vous.
+</li></ul>
+
+
+<h2>Raccourcis clavier non-documentés</h2>
+<ul type="disc">
+<li> <i>Space</i> - Distribuer
+</li><li> <i>S</i> - Annuler
+</li><li> <i>Retour arrière</i> - Annuler
+</li><li>
+<i>Ctrl-A</i> - Déplacement + Retournement automatique
+</li><li> <i>Ctrl-B</i> - Changer l'arrière-plan des cartes
+</li><li> <i>Ctrl-H</i> - Afficher le classement interne en donnant un indice
+</li><li> <i>Ctrl-I</i> - Changer de mosaïque de table
+</li><li> <i>Ctrl-N</i> - Débuter une nouvelle partie avec le numéro de jeu suivant
+</li><li> <i>Ctrl-P</i> - Modifier le nom du joueur
+</li><li> <i>Ctrl-U</i> - Jouer la musique suivante
+</li></ul>

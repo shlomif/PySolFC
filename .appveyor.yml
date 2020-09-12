@@ -1,14 +1,14 @@
 ---
 environment:
     matrix:
-        - PYTHON: "C:\\Python38"
+        - PYTHON: "C:\\Python37"
 # Shamelessly taken from https://github.com/plicease/Dist-Zilla-PluginBundle-Author-Plicease/blob/master/.appveyor.yml
 # Thanks!
 install:
     - choco install strawberryperl
     - copy %PYTHON%\python.exe %PYTHON%\python3.exe
     - SET PATH=%PYTHON%;C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%
-    - python3 -mpip install Pillow attrs configobj flake8 flake8-import-order py2exe pycotap pygame pysol-cards random2 setuptools six
+    - python3 -mpip install Pillow attrs configobj flake8 flake8-import-order pycotap pygame pyinstaller pyinstaller-setuptools pysol-cards random2 setuptools six
     - perl -v
     - copy C:\msys64\mingw64\bin\mingw32-make.exe C:\msys64\mingw64\bin\make.exe
     - SET PATH=C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%
@@ -30,7 +30,9 @@ test_script:
     - gmake rules
     - gmake pot
     - gmake mo
-    - python3 setup.py py2exe
+    - python3 setup.py build
+    - python3 setup.py install
+    - python3 setup.py pyinstaller
     - appveyor DownloadFile https://sourceforge.net/projects/pysolfc/files/PySolFC-Cardsets/PySolFC-Cardsets-2.0/PySolFC-Cardsets-2.0.tar.bz2/download -FileName cardsets.tar.bz2
     - tar xf cardsets.tar.bz2
     - xargs -ta scripts\cardsets_to_bundle -I file cp -rt dist\data\ PySolFC-Cardsets-2.0\file

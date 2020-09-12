@@ -6,10 +6,11 @@ import os
 from pysollib.settings import PACKAGE_URL
 from pysollib.settings import VERSION
 
-from setuptools import setup
-
 if os.name == 'nt':
-    import py2exe  # noqa: F401
+    # import py2exe  # noqa: F401
+    from pyinstaller_setuptools import setup
+else:
+    from setuptools import setup
 
 
 def get_data_files(source, destination):

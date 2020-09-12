@@ -107,5 +107,8 @@ if os.name == 'nt':
     kw['windows'] = [{'script': 'pysol.py',
                       'icon_resources': [(1, 'data/pysol.ico')], }]
     kw['packages'].remove('pysollib.pysolgtk')
+    # See:
+    # https://pypi.org/project/pyinstaller-setuptools/
+    kw['entry_points'] = {'console_sripts': ['entry=module.func', ], }
 
 setup(**kw)

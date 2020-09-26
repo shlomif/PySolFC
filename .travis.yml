@@ -13,7 +13,7 @@ deploy:
     # file: dist/PySolFC.app
     file: PySolFC.app.tar.xz
     on:
-        repo: Neelix57/PySolFC
+        repo: shlomif/PySolFC
         tags: true
     skip_cleanup: true
 dist: bionic
@@ -63,3 +63,4 @@ script:
     - if test "$TRAVIS_OS_NAME" = "osx" ; then PYTHONPATH="." python3 setup_osx.py py2app ; fi
     - if test "$TRAVIS_OS_NAME" = "osx" ; then find . -iname '*.app' ; fi
     - if test "$TRAVIS_OS_NAME" = "osx" ; then (cd dist && tar -cvf ../PySolFC.app.tar PySolFC.app/) && xz PySolFC.app.tar ; fi
+

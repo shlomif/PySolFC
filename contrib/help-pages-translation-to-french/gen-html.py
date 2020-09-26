@@ -177,8 +177,10 @@ def gen_rules_html():
 
     # open file of list of all rules
     out_rules = open(os.path.join('html', 'rules.html'), 'w')
-    print(_fmt(main_header, {'title': 'PySol - une collection de jeux de solitaire'}),
-          file=out_rules)
+    print(_fmt(
+        main_header,
+        {'title': 'PySol - une collection de jeux de solitaire'}),
+        file=out_rules)
     with open('rules.html', 'r') as file:
         print(file.read(), file=out_rules)
 
@@ -208,11 +210,13 @@ def gen_rules_html():
         title = 'PySol - Règles pour ' + gi.name
         s = ''
         if gi.si.game_type == GI.GT_HANAFUDA:
-            s = '<a href="../hanafuda.html">Règles générales des jeux de cartes à fleurs</a>'
+            s = '<a href="../hanafuda.html">' + \
+                'Règles générales des jeux de cartes à fleurs</a>'
         elif gi.si.game_type == GI.GT_DASHAVATARA_GANJIFA:
             s = '<a href="../ganjifa.html">A-propos du Ganjifa</a>'
         elif gi.si.game_type == GI.GT_HEXADECK:
-            s = '<a href="../hexadeck.html">Règles générales du jeu Hex A Deck</a>'
+            s = '<a href="../hexadeck.html">' + \
+                'Règles générales du jeu Hex A Deck</a>'
         elif gi.si.game_type == GI.GT_MUGHAL_GANJIFA:
             s = '<a href="../ganjifa.html">A-propos du Ganjifa</a>'
             # print '***', gi.name, '***'
@@ -234,8 +238,9 @@ def gen_rules_html():
 
     # create file of altnames
     out_rules_alt = open(os.path.join('html', 'rules_alternate.html'), 'w')
-    print(_fmt(main_header, {'title': 'PySol - une collection de jeux de solitaire'}),
-          file=out_rules_alt)
+    print(_fmt(
+        main_header, {'title': 'PySol - une collection de jeux de solitaire'}),
+        file=out_rules_alt)
     with open('rules_alternate.html', 'r') as file:
         print(file.read(), file=out_rules_alt)
     altnames.sort()

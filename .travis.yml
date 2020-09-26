@@ -13,7 +13,7 @@ deploy:
     # file: dist/PySolFC.app
     file: PySolFC.app.tar.xz
     on:
-        repo: shlomif/PySolFC
+        repo: Neelix57/PySolFC
         tags: true
     skip_cleanup: true
 dist: bionic

@@ -24,7 +24,7 @@ apt-get install -y --no-install-recommends \
   python3-tk \
   ccache \
   libltdl-dev
- 
+
 # set python3 as default.
 # make python alternatives selectable.
 # (debian stretch, adapt for different versions)

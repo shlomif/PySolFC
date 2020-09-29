@@ -63,3 +63,4 @@ script:
     - if test "$TRAVIS_OS_NAME" = "osx" ; then PYTHONPATH="." python3 setup_osx.py py2app ; fi
     - if test "$TRAVIS_OS_NAME" = "osx" ; then find . -iname '*.app' ; fi
     - if test "$TRAVIS_OS_NAME" = "osx" ; then (cd dist && tar -cvf ../PySolFC.app.tar PySolFC.app/) && xz PySolFC.app.tar ; fi
+

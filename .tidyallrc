@@ -3,6 +3,6 @@ ignore = tests/individually-importing/*
 select = **/*.py
 
 [PerlTidy]
-argv = -ci=4 -bl -cti=0
+argv = -ci=4 -bl -cti=0 --character-encoding=none
 ignore = **/{cmpdigest,valgrind,verify}--*.t
 select = **/*.{pl,pm,t}

@@ -1,0 +1,156 @@
+CARDSET CUSTOMIZATION TUTORIAL
+==============================
+:Author: Eric Rausch
+:Email: <neelix570@gmail.com>
+
+
+CONFIG.TXT TEMPLATE
+-------------------
+
+PySolFC solitaire cardset;$A;$FTM;$B;$C;$D,$E;$F +
+<internal_name>;<cardset_name> +
+X Y D +
+XOFF YOFF SXOFF SYOFF +
+back01.ext +
+back01.ext;back02.ext;back03.ext
+
+
+LINE 1
+------
+
+*$A:* The number of fields in first line (e.g. .gif;1;78;8,1016 -> $A=4) +
+*TIP:* $D and $E are comma separated and count for one field
+
+*$FMT:* The format of the images used; e.g. .gif, .png, .jpg (which types could exactly be used ?) +
+*$B:* The type of the cardset (see types below)
+
+Cardsets Types:
+~~~~~~~~~~~~~~~
+
+* French = 1
+* Hanafuda = 2
+* Tarock = 3
+* Mahjongg = 4
+* Hex A Deck = 5
+* Mughal Ganjifa = 6
+* Navagraha Ganjiga = 7
+* Dashavatara Ganjifa = 8
+* Trumps Only = 9
+
+*$C:* The number of cards in the cardset, generally 42, 48, 52, 68, 78, 96 or 120 +
+*$D:* The Style of de cardset (this field can hold one or more comma separated values)
+
+Cardsets Styles:
+~~~~~~~~~~~~~~~~
+
+* Adult = 1
+* Animals = 2
+* Anime = 3
+* Art = 4
+* Cartoons = 5
+* Children = 6
+* Classic look = 7
+* Collectors = 8
+* Computers = 9
+* Engines = 10
+* Fantasy = 11
+* Ganjifa= 30
+* Hanafuda = 12
+* Hex A Deck = 29
+* Holiday = 13
+* Mahjongg = 28
+* Movies = 14
+* Matrix = 31
+* Music = 15
+* Nature = 16
+* Operating Systems = 17
+* People = 19
+* Places = 20
+* Plain = 21
+* Products = 22
+* Round cardsets = 18
+* Science Fiction = 23
+* Sports = 24
+* Tarock = 27
+* Vehicles = 25
+* Video Games = 26
+
+*$E:* The origin (country) of the cardset
+
+Cardsets Origins:
+~~~~~~~~~~~~~~~~~
+
+* Australia = 1021
+* Austria = 1001
+* Belgium = 1019
+* Canada = 1010
+* China = 1011
+* Czech Republic = 1012
+* Denmark = 1013
+* England = 1003
+* France = 1004
+* Germany = 1006
+* Great Britain = 1014
+* Hungary = 1015
+* India = 1020
+* Italy = 1005
+* Japan = 1016
+* Netherlands = 1002
+* Russia = 1007
+* Spain = 1008
+* Sweden = 1017
+* Switzerland = 1009
+* USA = 1018
+
+*$F:* The Year the cardset was created (in the range 1000 to 2299)
+
+
+LINE 2
+------
+
+<internal_name>: A name for PySolFC to identify your cardset (without spaces) +
+*TIP:* You could add a number prefix (e.g. 123-cardset-name)
+
+<cardset_name>: Your cardset name as it should appear in the cardset manager
+
+
+LINE 3
+------
+
+*X:* The cards width (the card image width) +
+*Y:* The cards height (the card image height) +
+*D:* The color depth (mostly 8)
+
+
+LINE 4
+------
+
+*XOFF:* The horizontal offset of the cards +
+*YOFF:* The vertical offset of the cards +
+*SXOFF:* The offset of the horizontal shadow (mostly 7) +
+*SYOFF:* The offset of the vertical shadow (mostly 7)
+
+
+LINE 5
+------
+
+back01.ext: The name of the default back image (where ext means the file extension)
+
+
+LINE 6
+------
+
+back01.ext;back02.ext;back03.ext;...: The name of the other back images, including the default one
+
+
+*NOTE:*
+This tutorial may be incomplete. It is given as is, without any warranty,
+to help players customizing their own cardsets.
+You are welcome to send any suggestions or recommendations at: mailto:neelix570@gmail.com[]
+
+*LICENSE:* This tutorial was created under the terms of the GNU General Public License
+version 3 or later. You can redistribute it as is and/or modify it.
+
+
+
+

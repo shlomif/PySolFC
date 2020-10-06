@@ -498,18 +498,14 @@ def test(args=None):
         fn = 'test.html'
 
     if fn == '-':
-        f = sys.stdin
+        data = sys.stdin.read()
     else:
         try:
-            f = open(fn, 'r')
+            with open(fn, 'rt') as fh:
+                data = fh.read()
         except IOError as msg:
             print(fn, ":", msg)
             sys.exit(1)
-
-    data = f.read()
-
-    if f is not sys.stdin:
-        f.close()
 
     if silent:
         f = formatter.NullFormatter()

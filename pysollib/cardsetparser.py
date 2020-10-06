@@ -32,7 +32,7 @@ def read_cardset_config(dirname, filename):
 
     This function returns None if any errors occurred.
     """
-    with open(filename, "r") as f:
+    with open(filename, "rt") as f:
         lines = f.readlines()
     lines = [line.strip() for line in lines]
     if not lines[0].startswith("PySol"):

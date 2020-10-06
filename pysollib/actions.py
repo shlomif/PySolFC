@@ -519,7 +519,8 @@ class PysolMenubar(PysolMenubarTk):
                     text += os.linesep
                 enc = locale.getpreferredencoding()
                 try:
-                    open(fn, 'a').write(text.encode(enc, 'replace'))
+                    with open(fn, 'at') as fh:
+                        fh.write(text.encode(enc, 'replace'))
                 except Exception as err:
                     d = MfxExceptionDialog(
                         self.top, err,

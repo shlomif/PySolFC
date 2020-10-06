@@ -285,30 +285,23 @@ class KwStruct:
 # ************************************************************************
 
 def pickle(obj, filename, protocol=0):
-    f = None
     try:
-        f = open(filename, "wb")
-        Pickler(f, protocol).dump(obj)
-        f.close()
-        f = None
+        with open(filename, "wb") as fh:
+            Pickler(fh, protocol).dump(obj)
         # print "Pickled", filename
     finally:
-        if f:
-            f.close()
+        pass
 
 
 def unpickle(filename):
-    f, obj = None, None
+    obj = None
     try:
-        f = open(filename, "rb")
-        x = Unpickler(f).load()
-        f.close()
-        f = None
+        with open(filename, "rb") as fh:
+            x = Unpickler(fh).load()
         obj = x
         # print "Unpickled", filename
     finally:
-        if f:
-            f.close()
+        pass
     return obj
 
 

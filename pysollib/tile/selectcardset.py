@@ -524,9 +524,10 @@ class CardsetInfoDialog(MfxDialog):
         frame.rowconfigure(1, weight=1)
         #
         text = ''
-        f = os.path.join(cardset.dir, "COPYRIGHT")
+        fn = os.path.join(cardset.dir, "COPYRIGHT")
         try:
-            text = open(f).read()
+            with open(fn, "rt") as fh:
+                text = fh.read()
         except Exception:
             pass
         if text:

@@ -33,6 +33,7 @@ from pysollib.actions import PysolMenubar
 from pysollib.actions import PysolToolbar
 from pysollib.app_stat_result import GameStatResult
 from pysollib.app_statistics import Statistics
+from pysollib.cardsetparser import read_cardset_config
 from pysollib.gamedb import GAME_DB, GI, loadGame
 from pysollib.help import destroy_help_html, help_about
 from pysollib.images import Images, SubsampledImages
@@ -53,7 +54,7 @@ from pysollib.pysoltk import SelectCardsetDialogWithPreview
 from pysollib.pysoltk import SelectDialogTreeData
 from pysollib.pysoltk import destroy_find_card_dialog
 from pysollib.pysoltk import loadImage, wm_withdraw
-from pysollib.resource import CSI, Cardset, CardsetConfig, CardsetManager
+from pysollib.resource import CSI, CardsetManager
 from pysollib.resource import Music, MusicManager
 from pysollib.resource import Sample, SampleManager
 from pysollib.resource import Tile, TileManager
@@ -1070,125 +1071,14 @@ Please select a %(correct_type)s type cardset.
 
     # read & parse a cardset config.txt file - see class Cardset in resource.py
     def _readCardsetConfig(self, dirname, filename):
-        with open(filename, "r") as f:
-            lines = f.readlines()
-        lines = [line.strip() for line in lines]
-        if not lines[0].startswith("PySol"):
-            return None
-        config = CardsetConfig()
-        if not self._parseCardsetConfig(config, lines):
-            # print filename, 'invalid config'
-            return None
-        if config.CARDD > self.top.winfo_screendepth():
-            return None
-        cs = Cardset()
-        cs.dir = dirname
-        cs.update(config.__dict__)
-        return cs
-
-    def _parseCardsetConfig(self, cs, line):
-        def perr(line, field=None, msg=''):
-            if not DEBUG:
-                return
-            if field:
-                print_err('_parseCardsetConfig error: line #%d, field #%d %s'
-                          % (line, field, msg))
-            else:
-                print_err('_parseCardsetConfig error: line #%d: %s'
-                          % (line, msg))
-        if len(line) < 6:
-            perr(1, msg='number of lines')
-            return 0
-        # line[0]: magic identifier, possible version information
-        fields = [f.strip() for f in line[0].split(';')]
-        if len(fields) >= 2:
-            m = re.search(r"^(\d+)$", fields[1])
-            if m:
-                cs.version = int(m.group(1))
-        if cs.version >= 3:
-            if len(fields) < 5:
-                perr(1, msg='number of fields')
-                return 0
-            cs.ext = fields[2]
-            m = re.search(r"^(\d+)$", fields[3])
-            if not m:
-                perr(1, 3, 'not integer')
-                return 0
-            cs.type = int(m.group(1))
-            m = re.search(r"^(\d+)$", fields[4])
-            if not m:
-                perr(1, 4, 'not integer')
-                return 0
-            cs.ncards = int(m.group(1))
-        if cs.version >= 4:
-            if len(fields) < 6:
-                perr(1, msg='number of fields')
-                return 0
-            styles = fields[5].split(",")
-            for s in styles:
-                m = re.search(r"^\s*(\d+)\s*$", s)
-                if not m:
-                    perr(1, 5, 'not integer')
-                    return 0
-                s = int(m.group(1))
-                if s not in cs.styles:
-                    cs.styles.append(s)
-        if cs.version >= 5:
-            if len(fields) < 7:
-                perr(1, msg='number of fields')
-                return 0
-            m = re.search(r"^(\d+)$", fields[6])
-            if not m:
-                perr(1, 6, 'not integer')
-                return 0
-            cs.year = int(m.group(1))
-        if len(cs.ext) < 2 or cs.ext[0] != ".":
-            perr(1, msg='invalid extention')
-            return 0
-        # line[1]: identifier/name
-        if not line[1]:
-            perr(2, msg='empty line')
-            return 0
-        cs.ident = line[1]
-        m = re.search(r"^(.*;)?([^;]+)$", cs.ident)
-        if not m:
-            perr(2, msg='invalid format')
-            return 0
-        cs.name = m.group(2).strip()
-        # line[2]: CARDW, CARDH, CARDD
-        m = re.search(r"^(\d+)\s+(\d+)\s+(\d+)", line[2])
-        if not m:
-            perr(3, msg='invalid format')
-            return 0
-        cs.CARDW, cs.CARDH, cs.CARDD = \
-            int(m.group(1)), int(m.group(2)), int(m.group(3))
-        # line[3]: CARD_UP_YOFFSET, CARD_DOWN_YOFFSET,
-        # SHADOW_XOFFSET, SHADOW_YOFFSET
-        m = re.search(r"^(\d+)\s+(\d+)\s+(\d+)\s+(\d+)", line[3])
-        if not m:
-            perr(4, msg='invalid format')
-            return 0
-        cs.CARD_XOFFSET = int(m.group(1))
-        cs.CARD_YOFFSET = int(m.group(2))
-        cs.SHADOW_XOFFSET = int(m.group(3))
-        cs.SHADOW_YOFFSET = int(m.group(4))
-        # line[4]: default background
-        back = line[4]
-        if not back:
-            perr(5, msg='empty line')
-            return 0
-        # line[5]: all available backgrounds
-        cs.backnames = [f.strip() for f in line[5].split(';')]
-        if back in cs.backnames:
-            cs.backindex = cs.backnames.index(back)
-        else:
-            cs.backnames.insert(0, back)
-            cs.backindex = 0
+        cs = read_cardset_config(dirname, filename)
         # set offsets from options.cfg
         if cs.ident in self.opt.offsets:
             cs.CARD_XOFFSET, cs.CARD_YOFFSET = self.opt.offsets[cs.ident]
-        # if cs.type != 1: print cs.type, cs.name
-        return 1
+
+        if cs.CARDD > self.top.winfo_screendepth():
+            return None
+        return cs
 
     def initCardsets(self):
         manager = self.cardset_manager
@@ -1232,9 +1122,8 @@ Please select a %(correct_type)s type cardset.
                                     # print '+', cs.name
                                     fnames[cs.name] = 1
                             else:
-                                print_err('fail _readCardsetConfig: %s %s'
-                                          % (d, f))
-                                pass
+                                print_err('failed to parse cardset file: %s'
+                                          % f)
                         except Exception:
                             # traceback.print_exc()
                             pass

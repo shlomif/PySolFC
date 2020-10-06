@@ -44,6 +44,7 @@ print('ok 1 - imported')
 for ver in PY_VERS:
     for mod in [
             'pysol_tests.acard_unit',
+            'pysol_tests.cardsetparser',
             'pysol_tests.game_drag',
             'pysol_tests.hint',
             'pysol_tests.import_file1',

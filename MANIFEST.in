@@ -18,7 +18,7 @@ include data/pysol.desktop
 include data/pysolfc.glade
 graft data/themes
 recursive-exclude data/themes *.py
-include scripts/build.bat scripts/create_iss.py scripts/mahjongg_utils.py
+include scripts/create_iss.py scripts/mahjongg_utils.py
 include scripts/all_games.py scripts/cardset_viewer.py
 include scripts/cardconv
 include scripts/gen_individual_importing_tests.py

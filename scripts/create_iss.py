@@ -14,7 +14,7 @@ prog_name = 'PySol Fan Club edition'
 
 dirs_list = []
 files_list = []
-for root, dirs, files in os.walk('dist'):
+for root, dirs, files in os.walk(os.path.join('dist', 'pysol')):
     if files:
         files_list.append(root)
     dirs_list.append(root)
@@ -32,7 +32,7 @@ DefaultGroupName=%(prog_name)s
 UninstallDisplayIcon={app}\\pysol.exe
 Compression=lzma
 SolidCompression=yes
-SourceDir=dist
+SourceDir=dist\\pysol
 OutputDir=.
 OutputBaseFilename=PySolFC_%(prog_version)s_setup
 DisableWelcomePage=no
@@ -47,16 +47,17 @@ Name: "{userdesktop}\\%(prog_name)s"; Filename: "{app}\\pysol.exe"
 
 print('[Dirs]', file=out)
 for d in dirs_list[1:]:
-    print('Name: "{app}%s"' % d.replace('dist', ''), file=out)
+    print('Name: "{app}%s"' % d.replace(os.path.join('dist', 'pysol'), ''),
+          file=out)
 
 print(file=out)
 print('[Files]', file=out)
 print('Source: "*"; DestDir: "{app}"', file=out)
 for d in files_list[1:]:
-    d = d.replace('dist\\', '')
+    d = d.replace(os.path.join('dist', 'pysol', ''), '')
     print('Source: "%s\\*"; DestDir: "{app}\\%s"' % (d, d), file=out)
 
-print('Source: "..\\vcredist_x86.exe"; DestDir: {tmp}; \
+print('Source: "..\\..\\vcredist_x86.exe"; DestDir: {tmp}; \
 Flags: deleteafterinstall', file=out)
 print('[Run]\n\
 Filename: {tmp}\\vcredist_x86.exe; \

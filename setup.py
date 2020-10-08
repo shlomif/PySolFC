@@ -8,9 +8,6 @@ from pysollib.settings import VERSION
 
 from setuptools import setup
 
-if os.name == 'nt':
-    import py2exe  # noqa: F401
-
 
 def get_data_files(source, destination):
     """Iterates over all files under the given tree, to install them to the
@@ -103,8 +100,6 @@ kw = {
     }
 
 if os.name == 'nt':
-    kw['windows'] = [{'script': 'pysol.py',
-                      'icon_resources': [(1, 'data/pysol.ico')], }]
     kw['packages'].remove('pysollib.pysolgtk')
 
 setup(**kw)

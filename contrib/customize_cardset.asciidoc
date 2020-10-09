@@ -21,6 +21,8 @@ Line 1
 
 *$A:* The number of fields in first line (e.g. `.gif;1;78;8,1016` -> `$A=4`)
 
+( *WARNING:* For Mahjongg, $A must always be 6 and $F must be set; $F could also be defined to 0 at your convenience )
+
 ( *NOTE:* $D and $E are comma separated and count for one field )
 
 *$FMT:* The format of the images used; e.g. .gif, .png, .jpg (which types could exactly be used ?)
@@ -162,3 +164,12 @@ version 3 or later. You can redistribute it as is and/or modify it.
 
 Shlomi Fish, hereby puts his modifications to this document under
 https://github.com/shlomif/shlomif-computer-settings/blob/master/shlomif-settings/git/commit-messages/cc0-copyright-disclaimer.txt[CC0 / Public Domain / MIT License / GPL terms]
+
+Credits:
+~~~~~~~~
+
+Credits go to:
+
+mailto:andsa@web.de[Andreas Sauer] for clarifying certain points +
+
+mailto:shlomif@shlomifish.org[Shlomi Fish] for making some improvements to this tutorial

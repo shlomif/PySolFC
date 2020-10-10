@@ -24,7 +24,7 @@
 
 import os
 
-from pysollib.mfxutil import Image, ImageTk, USE_PIL
+from pysollib.mfxutil import Image, ImageTk, USE_PIL, print_err
 from pysollib.pysoltk import copyImage, createBottom, createImage, loadImage
 from pysollib.pysoltk import shadowImage
 from pysollib.resource import CSI
@@ -80,7 +80,7 @@ class Images:
         # print '__loadCard:', filename
         f = os.path.join(self.cs.dir, filename)
         if not os.path.exists(f):
-            print('card image path %s does not exist' % (f))
+            print_err('card image path %s does not exist' % f)
             return None
         try:
             img = loadImage(file=f)
@@ -180,7 +180,12 @@ class Images:
         for name in self.cs.backnames:
             if name:
                 im = self.__loadCard(name)
-                self.__addBack(im, name)
+                if im:
+                    self.__addBack(im, name)
+                else:
+                    print_err('in {cs_dir}/config.txt: card back "{fname}" '
+                              'does not exist'.format(
+                                  cs_dir=self.cs.dir, fname=name))
         if progress:
             progress.update(step=1)
         # load bottoms

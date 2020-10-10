@@ -19,7 +19,7 @@ back01.ext;back02.ext;back03.ext
 Line 1
 ------
 
-*$A:* The number of fields in first line (e.g. `.gif;1;78;8,1016` -> `$A=4`)
+*$A:* The cardset version number that belongs to the number of fields divided through ";" on the first line (e.g. `.gif;1;78;8,1016` -> `$A=4`)
 
 ( *WARNING:* For Mahjongg, $A must always be 6 and $F must be set; $F could also be defined to 0 at your convenience )
 
@@ -155,6 +155,9 @@ to help players customize their own cardsets.
 You are welcome to send any suggestions to: mailto:neelix570@gmail.com[the Author's E-mail],
 https://github.com/shlomif/PySolFC/issues[PySol FC's GitHub issue tracker] or
 https://sourceforge.net/p/pysolfc/_list/tickets[PySol FC's Sourceforge issue tracker].
+
+*NOTE 2:*
+It is a second file called `COPYRIGHT`, containing the text that can be accessed via `Info/Settings`.
 
 License:
 ~~~~~~~~

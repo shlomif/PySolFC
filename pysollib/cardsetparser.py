@@ -33,11 +33,11 @@ def read_cardset_config(dirname, filename):
     This function returns None if any errors occurred.
     """
     with open(filename, "rt") as f:
-        lines = f.readlines()
-    lines = [line.strip() for line in lines]
-    if not lines[0].startswith("PySol"):
+        lines_list = f.readlines()
+    lines_list = [line.strip() for line in lines_list]
+    if not lines_list[0].startswith("PySol"):
         return None
-    config = parse_cardset_config(lines)
+    config = parse_cardset_config(lines_list)
     if not config:
         print_err('invalid cardset: %s' % filename)
         return None
@@ -47,7 +47,7 @@ def read_cardset_config(dirname, filename):
     return cs
 
 
-def parse_cardset_config(line):
+def parse_cardset_config(lines_list):
     def perr(line_no, field=None, msg=''):
         if field:
             print_err('cannot parse cardset config: line #%d, field #%d: %s'
@@ -57,11 +57,11 @@ def parse_cardset_config(line):
                       % (line_no, msg))
 
     cs = CardsetConfig()
-    if len(line) < 6:
+    if len(lines_list) < 6:
         perr(1, msg='not enough lines in file')
         return None
-    # line[0]: magic identifier, possible version information
-    fields = [f.strip() for f in line[0].split(';')]
+    # lines_list[0]: magic identifier, possible version information
+    fields = [f.strip() for f in lines_list[0].split(';')]
     if len(fields) >= 2:
         m = re.search(r"^(\d+)$", fields[1])
         if m:
@@ -106,26 +106,26 @@ def parse_cardset_config(line):
     if len(cs.ext) < 2 or cs.ext[0] != ".":
         perr(1, msg='specifies an invalid file extension')
         return None
-    # line[1]: identifier/name
-    if not line[1]:
+    # lines_list[1]: identifier/name
+    if not lines_list[1]:
         perr(2, msg='unexpected empty line')
         return None
-    cs.ident = line[1]
+    cs.ident = lines_list[1]
     m = re.search(r"^(.*;)?([^;]+)$", cs.ident)
     if not m:
         perr(2, msg='invalid format')
         return None
     cs.name = m.group(2).strip()
-    # line[2]: CARDW, CARDH, CARDD
-    m = re.search(r"^(\d+)\s+(\d+)\s+(\d+)", line[2])
+    # lines_list[2]: CARDW, CARDH, CARDD
+    m = re.search(r"^(\d+)\s+(\d+)\s+(\d+)", lines_list[2])
     if not m:
         perr(3, msg='invalid format')
         return None
     cs.CARDW, cs.CARDH, cs.CARDD = \
         int(m.group(1)), int(m.group(2)), int(m.group(3))
-    # line[3]: CARD_UP_YOFFSET, CARD_DOWN_YOFFSET,
+    # lines_list[3]: CARD_UP_YOFFSET, CARD_DOWN_YOFFSET,
     # SHADOW_XOFFSET, SHADOW_YOFFSET
-    m = re.search(r"^(\d+)\s+(\d+)\s+(\d+)\s+(\d+)", line[3])
+    m = re.search(r"^(\d+)\s+(\d+)\s+(\d+)\s+(\d+)", lines_list[3])
     if not m:
         perr(4, msg='invalid format')
         return None
@@ -133,13 +133,13 @@ def parse_cardset_config(line):
     cs.CARD_YOFFSET = int(m.group(2))
     cs.SHADOW_XOFFSET = int(m.group(3))
     cs.SHADOW_YOFFSET = int(m.group(4))
-    # line[4]: default background
-    back = line[4]
+    # lines_list[4]: default background
+    back = lines_list[4]
     if not back:
         perr(5, msg='unexpected empty line')
         return None
-    # line[5]: all available backgrounds
-    cs.backnames = [f.strip() for f in line[5].split(';')]
+    # lines_list[5]: all available backgrounds
+    cs.backnames = [f.strip() for f in lines_list[5].split(';')]
     if back in cs.backnames:
         cs.backindex = cs.backnames.index(back)
     else:

@@ -157,7 +157,8 @@ https://github.com/shlomif/PySolFC/issues[PySol FC's GitHub issue tracker] or
 https://sourceforge.net/p/pysolfc/_list/tickets[PySol FC's Sourceforge issue tracker].
 
 *NOTE 2:*
-It is a second file called `COPYRIGHT`, containing the text that can be accessed via `Info/Settings`.
+You should also place a file called `COPYRIGHT` in the same directory as `config.txt`,
+containing the text that can be accessed via `Info/Settings`.
 
 License:
 ~~~~~~~~

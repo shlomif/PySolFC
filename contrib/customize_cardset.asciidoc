@@ -175,4 +175,4 @@ Credits go to:
 
 mailto:andsa@web.de[Andreas Sauer] for clarifying certain points +
 
-mailto:shlomif@shlomifish.org[Shlomi Fish] for making some improvements to this tutorial
+https://www.shlomifish.org/[Shlomi Fish] for making some improvements to this tutorial

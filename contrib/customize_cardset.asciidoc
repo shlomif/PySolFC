@@ -21,7 +21,7 @@ Line 1
 
 *$A:* The cardset version number that belongs to the number of fields divided through ";" on the first line (e.g. `.gif;1;78;8,1016` -> `$A=4`)
 
-( *WARNING:* For Mahjongg, $A must always be 6 and $F must be set; $F could also be defined to 0 at your convenience )
+( *WARNING:* For Mahjongg, $A must always be 6 and the $F field must be included in the line; however, you can put `0` in `$F` if you wish, in that case. )
 
 ( *NOTE:* $D and $E are comma separated and count for one field )
 

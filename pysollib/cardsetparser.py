@@ -21,10 +21,16 @@
 #
 # ---------------------------------------------------------------------------##
 
-import re
-
 from pysollib.mfxutil import print_err
 from pysollib.resource import Cardset, CardsetConfig
+
+
+def _perr(line_no, field=None, msg=''):
+    if field:
+        print_err('cannot parse cardset config: line #%d, field #%d: %s'
+                  % (line_no, field, msg))
+    else:
+        print_err('cannot parse cardset config: line #%d: %s' % (line_no, msg))
 
 
 def read_cardset_config(dirname, filename):
@@ -48,95 +54,87 @@ def read_cardset_config(dirname, filename):
 
 
 def parse_cardset_config(lines_list):
-    def perr(line_no, field=None, msg=''):
-        if field:
-            print_err('cannot parse cardset config: line #%d, field #%d: %s'
-                      % (line_no, field, msg))
-        else:
-            print_err('cannot parse cardset config: line #%d: %s'
-                      % (line_no, msg))
-
     cs = CardsetConfig()
     if len(lines_list) < 6:
-        perr(1, msg='not enough lines in file')
+        _perr(1, msg='not enough lines in file')
         return None
     # lines_list[0]: magic identifier, possible version information
     fields = [f.strip() for f in lines_list[0].split(';')]
     if len(fields) >= 2:
-        m = re.search(r"^(\d+)$", fields[1])
-        if m:
-            cs.version = int(m.group(1))
+        try:
+            cs.version = int(fields[1])
+        except ValueError:
+            # version 1 is implied
+            cs.version = 1
     if cs.version >= 3:
         if len(fields) < 5:
-            perr(1, msg='not enough fields')
+            _perr(1, msg='not enough fields')
             return None
         cs.ext = fields[2]
-        m = re.search(r"^(\d+)$", fields[3])
-        if not m:
-            perr(1, 3, 'not integer')
+        try:
+            cs.type = int(fields[3])
+        except ValueError:
+            _perr(1, 3, 'not integer')
             return None
-        cs.type = int(m.group(1))
-        m = re.search(r"^(\d+)$", fields[4])
-        if not m:
-            perr(1, 4, 'not integer')
+        try:
+            cs.ncards = int(fields[4])
+        except ValueError:
+            _perr(1, 4, 'not integer')
             return None
-        cs.ncards = int(m.group(1))
     if cs.version >= 4:
         if len(fields) < 6:
-            perr(1, msg='not enough fields')
+            _perr(1, msg='not enough fields')
             return None
-        styles = fields[5].split(",")
-        for s in styles:
-            m = re.search(r"^\s*(\d+)\s*$", s)
-            if not m:
-                perr(1, 5, 'not integer')
-                return None
-            s = int(m.group(1))
-            if s not in cs.styles:
-                cs.styles.append(s)
+        try:
+            styles = (int(s.strip()) for s in fields[5].split(","))
+            cs.styles = list(set(styles))
+        except ValueError:
+            _perr(1, 5, 'not integer')
+            return None
     if cs.version >= 5:
         if len(fields) < 7:
-            perr(1, msg='not enough fields')
+            _perr(1, msg='not enough fields')
             return None
-        m = re.search(r"^(\d+)$", fields[6])
-        if not m:
-            perr(1, 6, 'not integer')
+        try:
+            cs.year = int(fields[6])
+        except ValueError:
+            _perr(1, 6, 'not integer')
             return None
-        cs.year = int(m.group(1))
     if len(cs.ext) < 2 or cs.ext[0] != ".":
-        perr(1, msg='specifies an invalid file extension')
+        _perr(1, msg='specifies an invalid file extension')
         return None
     # lines_list[1]: identifier/name
     if not lines_list[1]:
-        perr(2, msg='unexpected empty line')
+        _perr(2, msg='unexpected empty line')
         return None
     cs.ident = lines_list[1]
-    m = re.search(r"^(.*;)?([^;]+)$", cs.ident)
-    if not m:
-        perr(2, msg='invalid format')
+    split_ident = cs.ident.split(';')
+    if len(split_ident) == 1:
+        cs.name = cs.ident
+    elif len(split_ident) == 2:
+        cs.name = split_ident[1].strip()
+    else:
+        _perr(2, msg='invalid format')
         return None
-    cs.name = m.group(2).strip()
     # lines_list[2]: CARDW, CARDH, CARDD
-    m = re.search(r"^(\d+)\s+(\d+)\s+(\d+)", lines_list[2])
-    if not m:
-        perr(3, msg='invalid format')
+    try:
+        cs.CARDW, cs.CARDH, cs.CARDD = (int(x) for x in lines_list[2].split())
+    except ValueError:
+        _perr(3, msg='invalid format')
         return None
-    cs.CARDW, cs.CARDH, cs.CARDD = \
-        int(m.group(1)), int(m.group(2)), int(m.group(3))
     # lines_list[3]: CARD_UP_YOFFSET, CARD_DOWN_YOFFSET,
     # SHADOW_XOFFSET, SHADOW_YOFFSET
-    m = re.search(r"^(\d+)\s+(\d+)\s+(\d+)\s+(\d+)", lines_list[3])
-    if not m:
-        perr(4, msg='invalid format')
+    try:
+        (cs.CARD_XOFFSET, cs.CARD_YOFFSET,
+         cs.SHADOW_XOFFSET, cs.SHADOW_YOFFSET) = \
+             (int(x) for x in lines_list[3].split())
+    except ValueError:
+        _perr(4, msg='invalid format')
         return None
-    cs.CARD_XOFFSET = int(m.group(1))
-    cs.CARD_YOFFSET = int(m.group(2))
-    cs.SHADOW_XOFFSET = int(m.group(3))
-    cs.SHADOW_YOFFSET = int(m.group(4))
     # lines_list[4]: default background
     back = lines_list[4]
     if not back:
-        perr(5, msg='unexpected empty line')
+        _perr(5, msg='unexpected empty line')
         return None
     # lines_list[5]: all available backgrounds
     cs.backnames = [f.strip() for f in lines_list[5].split(';')]

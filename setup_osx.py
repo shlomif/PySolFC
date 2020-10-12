@@ -56,7 +56,8 @@ DATA_FILES = ['docs', 'data', 'locale', 'scripts', 'COPYING', 'README.md',
               ] + SOLVER
 RESOURCES = []
 FRAMEWORKS = [SOLVER_LIB_PATH] if SOLVER_LIB_PATH else []
-OPTIONS = dict(argv_emulation=True,
+# with argv_emulation=True, the app window is not shown when launched
+OPTIONS = dict(argv_emulation=False,
                plist=PLIST,
                iconfile=ICON_FILE,
                resources=RESOURCES,

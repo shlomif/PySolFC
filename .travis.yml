@@ -11,7 +11,7 @@ deploy:
     api_key:
         secure: SrKnXigL/oUHNbqpbGx0DB1o+LAEkfPA2QTBllXxg4V+1vGAHBT9FRecp8Do+no/zSPRttH+sPDEPBXMMAV0BWVKKw5Mxas/S5ulVkNdfxpTq1bKjI3EjZbVsS1zZlHe0P77TDFDAj8zyeiYecBM08suhd9OvScieiPlpFPE1UYp9vvNKaBgc66IRNnIDRBdktW4YLsgvkrpXnxGPy8gGwylsTeOzNs5/r5dzHswGdksJl46kqCIbV+s4/Xcx+BEnfibWzEFZmLQoGKhoukbSis3YXGIlERcgiVU6v7S2D4wbwUXSAKOj/Io7z/88Co2P3Qbm538kf/pjeR9+DaM1HsHQQcL0detCjjLog+ekKr2fM00QI1yRmqOiZtuXxTMpneYX73EBmPt4la4rjKmnlhS+NTxrynHcPZD8QopCPvoZ3sUD6dQCrbi8kcGxe13srfdJ3KjuWZXdedLIOgNELbj5o6GNivsanWna59yoJzChC5/H5Jjllncvzbp56TZfEkM1NJkE84jjSS8Sn2KLXjD0woHIsuUSkRNExrCt/6QmIub/QxZPUhwQ2J0xCv1IJPdd0XvO3gCqasG3UA2Q0OlP172x92ocOV/wm1/4wfoG6v/mn+bX5ZwvrsMmm+r3FKKlM8L3T33yFjMzgG/YMoRN8w7pXUIkdtZK8EEDVg=
     # file: dist/PySolFC.app
-    file: PySolFC.app.tar.xz
+    file: PySolFC.dmg
     on:
         repo: shlomif/PySolFC
         tags: true
@@ -61,6 +61,11 @@ script:
     - export TIDYALL_DATA_DIR="$HOME/tidyall_d"
     - bash -x scripts/travis-ci-build
     - if test "$TRAVIS_OS_NAME" = "osx" ; then PYTHONPATH="." python3 setup_osx.py py2app ; fi
-    - if test "$TRAVIS_OS_NAME" = "osx" ; then find . -iname '*.app' ; fi
-    - if test "$TRAVIS_OS_NAME" = "osx" ; then (cd dist && tar -cvf ../PySolFC.app.tar PySolFC.app/) && xz PySolFC.app.tar ; fi
-
+    - if test "$TRAVIS_OS_NAME" = "osx" ; then
+        create-dmg --volname "Install PySolFC"
+        --volicon data/PySol.icns
+        --background html-src/images/pysollogo01.png
+        --window-size 800 400
+        --icon PySolFC.app 200 185
+        --app-drop-link 600 185
+        PySolFC.dmg dist ; fi

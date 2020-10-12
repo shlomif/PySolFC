@@ -1,5 +1,6 @@
 brew "perl"
 brew "cpanminus"
+brew "create-dmg"
 brew "gettext", link: true
 brew "gnutls"
 brew "jpeg"

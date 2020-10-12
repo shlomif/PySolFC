@@ -21,22 +21,11 @@
 #
 # ---------------------------------------------------------------------------##
 
-from pysollib.macosx.appSupport import hideTkConsole
-from pysollib.settings import TOOLKIT, USE_TILE
 from pysollib.winsystems.common import BaseTkSettings, base_init_root_window
 
 
 def init_root_window(root, app):
     base_init_root_window(root, app)
-    if TOOLKIT == 'tk':
-        hideTkConsole(root)
-    if TOOLKIT == 'gtk':
-        pass
-    elif USE_TILE:
-        pass
-    else:                               # pure Tk
-        # root.option_add(...)
-        pass
 
 
 class TkSettings(BaseTkSettings):

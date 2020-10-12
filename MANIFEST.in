@@ -7,7 +7,7 @@ include pysol.py setup.py setup_osx.py setup.cfg MANIFEST.in Makefile
 include COPYING README.md AUTHORS.md README.android README.kivy
 include NEWS.asciidoc
 #recursive-include pysollib *.py
-include pysollib/*.py pysollib/macosx/*.py
+include pysollib/*.py
 include pysollib/winsystems/*.py
 include pysollib/tk/*.py pysollib/tile/*.py pysollib/pysolgtk/*.py
 include pysollib/game/*.py

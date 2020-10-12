@@ -106,11 +106,6 @@ def init():
             sys.exit("%s needs Tcl/Tk 8.4 or better (you have %s)" %
                      (pysollib.settings.TITLE, str(tkinter.TkVersion)))
         pysollib.settings.WIN_SYSTEM = root.tk.call('tk', 'windowingsystem')
-        if pysollib.settings.WIN_SYSTEM == 'aqua':
-            # TkAqua displays the console automatically in application
-            # bundles, so we hide it here.
-            from pysollib.macosx.appSupport import hideTkConsole
-            hideTkConsole(root)
         #
         if pysollib.settings.USE_TILE == 'auto':
             # check Tile

@@ -24,8 +24,8 @@ before_install:
         mv PySolFC-Cardsets--Minimal-2.0/cardset-* data ;
         fi
     - if test "$TRAVIS_OS_NAME" = "osx" ; then
-        PYVER=3.8.2 &&
-        PYVER_SHORT=3.8 &&
+        PYVER=3.9.0 &&
+        PYVER_SHORT=3.9 &&
         wget -O python.pkg "https://www.python.org/ftp/python/${PYVER}/python-${PYVER}-macosx10.9.pkg" &&
         sudo installer -pkg python.pkg -target / &&
         export PATH="/Library/Frameworks/Python.framework/Versions/${PYVER_SHORT}/bin:${PATH}" ;

@@ -222,6 +222,9 @@ class Mahjongg_RowStack(OpenStack):
             for s in self.game.s.rows[self.id+1:]:
                 s.group.tkraise()
 
+    def _calcMouseBind(self, binding_format):
+        return self.game.app.opt.calcCustomMouseButtonsBinding(binding_format)
+
     # In Mahjongg games type there are a lot of stacks, so we optimize
     # and don't create bindings that are not used anyway.
     def initBindings(self):
@@ -231,9 +234,21 @@ class Mahjongg_RowStack(OpenStack):
         # bind(group, "<3>", self._Stack__controlclickEventHandler)
         # bind(group, "<Control-1>", self._Stack__controlclickEventHandler)
         #
-        bind(group, "<1>", self.__clickEventHandler)
-        bind(group, "<3>", self.__controlclickEventHandler)
-        bind(group, "<Control-1>", self.__controlclickEventHandler)
+        bind(
+            group,
+            self._calcMouseBind("<{mouse_button1}>"),
+            self.__clickEventHandler
+        )
+        bind(
+            group,
+            self._calcMouseBind("<{mouse_button3}>"),
+            self.__controlclickEventHandler
+        )
+        bind(
+            group,
+            self._calcMouseBind("<Control-{mouse_button1}>"),
+            self.__controlclickEventHandler
+        )
         # bind(group, "<Enter>", self._Stack__enterEventHandler)
         # bind(group, "<Leave>", self._Stack__leaveEventHandler)
 

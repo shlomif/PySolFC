@@ -269,22 +269,35 @@ class Stack:
         if self.is_visible:
             self.initBindings()
 
+    def _calcMouseBind(self, binding_format):
+        return self.game.app.opt.calcCustomMouseButtonsBinding(binding_format)
+
     # bindings {view widgets bind to controller}
     def initBindings(self):
         group = self.group
-        bind(group, "<1>", self.__clickEventHandler)
+        bind(group, self._calcMouseBind("<{mouse_button1}>"),
+             self.__clickEventHandler)
         # bind(group, "<B1-Motion>", self.__motionEventHandler)
         bind(group, "<Motion>", self.__motionEventHandler)
-        bind(group, "<ButtonRelease-1>", self.__releaseEventHandler)
-        bind(group, "<Control-1>", self.__controlclickEventHandler)
-        bind(group, "<Shift-1>", self.__shiftclickEventHandler)
-        bind(group, "<Double-1>", self.__doubleclickEventHandler)
-        bind(group, "<3>", self.__rightclickEventHandler)
-        bind(group, "<2>", self.__middleclickEventHandler)
-        bind(group, "<Control-3>", self.__middleclickEventHandler)
-        # bind(group, "<Control-2>", self.__controlmiddleclickEventHandler)
-        # bind(group, "<Shift-3>", self.__shiftrightclickEventHandler)
-        # bind(group, "<Double-2>", "")
+        bind(group, self._calcMouseBind("<ButtonRelease-{mouse_button1}>"),
+             self.__releaseEventHandler)
+        bind(group, self._calcMouseBind("<Control-{mouse_button1}>"),
+             self.__controlclickEventHandler)
+        bind(group, self._calcMouseBind("<Shift-{mouse_button1}>"),
+             self.__shiftclickEventHandler)
+        bind(group, self._calcMouseBind("<Double-{mouse_button1}>"),
+             self.__doubleclickEventHandler)
+        bind(group, self._calcMouseBind("<{mouse_button3}>"),
+             self.__rightclickEventHandler)
+        bind(group, self._calcMouseBind("<{mouse_button2}>"),
+             self.__middleclickEventHandler)
+        bind(group, self._calcMouseBind("<Control-{mouse_button3}>"),
+             self.__middleclickEventHandler)
+        # bind(group, self._calcMouseBind(
+        # "<Control-{mouse_button2}>"), self.__controlmiddleclickEventHandler)
+        # bind(group, self._calcMouseBind("<Shift-{mouse_button3}>"),
+        # self.__shiftrightclickEventHandler)
+        # bind(group, self._calcMouseBind("<Double-{mouse_button2}>"), "")
         bind(group, "<Enter>", self.__enterEventHandler)
         bind(group, "<Leave>", self.__leaveEventHandler)
 

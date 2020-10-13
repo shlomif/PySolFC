@@ -60,9 +60,20 @@ class Matrix_RowStack(OpenStack):
         # the tile (from Tk's stacking view)
         return len(self.cards) - 1
 
+    def _calcMouseBind(self, binding_format):
+        return self.game.app.opt.calcCustomMouseButtonsBinding(binding_format)
+
     def initBindings(self):
-        bind(self.group, "<1>", self._Stack__clickEventHandler)
-        bind(self.group, "<Control-1>", self._Stack__controlclickEventHandler)
+        bind(
+            self.group,
+            self._calcMouseBind("<{mouse_button1}>"),
+            self._Stack__clickEventHandler
+        )
+        bind(
+            self.group,
+            self._calcMouseBind("<Control-{mouse_button1}>"),
+            self._Stack__controlclickEventHandler,
+        )
 
     def getBottomImage(self):
         return self.game.app.images.getBlankBottom()

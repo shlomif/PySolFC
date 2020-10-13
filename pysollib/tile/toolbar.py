@@ -158,6 +158,7 @@ class PysolToolbarTk:
 
     def __init__(self, top, menubar, dir,
                  size=0, relief='flat', compound='none'):
+        from pysollib.options import calcCustomMouseButtonsBinding
         self.top = top
         self.menubar = menubar
         self.side = -1
@@ -192,7 +193,10 @@ class PysolToolbarTk:
                 ):
             if label is None:
                 sep = self._createSeparator()
-                sep.bind("<3>", self.rightclickHandler)
+                sep.bind(
+                    calcCustomMouseButtonsBinding("<{mouse_button3}>"),
+                    self.rightclickHandler
+                )
             elif label == 'Pause':
                 self._createButton(label, f, check=True, tooltip=t)
             else:
@@ -209,8 +213,14 @@ class PysolToolbarTk:
         self._createLabel("player", label=n_('Player'),
                           tooltip=_("Player options"))
         #
-        self.player_label.bind("<1>", self.mOptPlayerOptions)
-        self.frame.bind("<3>", self.rightclickHandler)
+        self.player_label.bind(
+            calcCustomMouseButtonsBinding("<{mouse_button1}>"),
+            self.mOptPlayerOptions
+        )
+        self.frame.bind(
+            calcCustomMouseButtonsBinding("<{mouse_button3}>"),
+            self.rightclickHandler
+        )
         #
         self.setCompound(compound, force=True)
 

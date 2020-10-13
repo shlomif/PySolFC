@@ -171,7 +171,17 @@ class PysolToolbarTk:
         #
         self.frame = tkinter.Frame(top, relief=TkSettings.toolbar_relief,
                                    bd=TkSettings.toolbar_borderwidth)
-        #
+
+        from pysollib.options import calcCustomMouseButtonsBinding
+
+        def _bind2sep(sep):
+            sep.bind(
+                calcCustomMouseButtonsBinding("<{mouse_button1}>"),
+                self.clickHandler)
+            sep.bind(
+                calcCustomMouseButtonsBinding("<{mouse_button3}>"),
+                self.rightclickHandler)
+
         for label, f, t in (
             (n_("New"),      self.mNewGame,   _("New game")),
             (n_("Restart"),  self.mRestart,   _("Restart the\ncurrent game")),
@@ -192,8 +202,7 @@ class PysolToolbarTk:
                 ):
             if label is None:
                 sep = self._createSeparator()
-                sep.bind("<1>", self.clickHandler)
-                sep.bind("<3>", self.rightclickHandler)
+                _bind2sep(sep)
             elif label == 'Pause':
                 self._createButton(label, f, check=True, tooltip=t)
             else:
@@ -201,17 +210,17 @@ class PysolToolbarTk:
         self.pause_button.config(variable=menubar.tkopt.pause)
 
         sep = self._createFlatSeparator()
-        sep.bind("<1>", self.clickHandler)
-        sep.bind("<3>", self.rightclickHandler)
+        _bind2sep(sep)
         self._createLabel("player", label=n_('Player'),
                           tooltip=_("Player options"))
         #
-        self.player_label.bind("<1>", self.mOptPlayerOptions)
+        self.player_label.bind(
+            calcCustomMouseButtonsBinding("<{mouse_button1}>"),
+            self.mOptPlayerOptions)
         # self.player_label.bind("<3>",self.mOptPlayerOptions)
         self.popup = MfxMenu(master=None, label=n_('Toolbar'), tearoff=0)
         createToolbarMenu(menubar, self.popup)
-        self.frame.bind("<1>", self.clickHandler)
-        self.frame.bind("<3>", self.rightclickHandler)
+        _bind2sep(self.frame)
         #
         self.setCompound(compound, force=True)
 

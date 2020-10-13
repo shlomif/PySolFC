@@ -320,7 +320,11 @@ class PysolAboutDialog(MfxMessageDialog):
         url_label = ttk.Label(frame, text=kw.url, font=font,
                               foreground='blue', cursor='hand2')
         url_label.pack()
-        url_label.bind('<1>', self._urlClicked)
+        from pysollib.options import calcCustomMouseButtonsBinding
+        url_label.bind(
+            calcCustomMouseButtonsBinding('<{mouse_button1}>'),
+            self._urlClicked
+        )
         #
         focus = self.createButtons(bottom_frame, kw)
         self.mainloop(focus, kw.timeout)

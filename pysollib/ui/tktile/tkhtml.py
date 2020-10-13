@@ -104,7 +104,11 @@ class tkHTMLWriter(formatter.NullWriter):
             url = self.anchor[0]
             tag = "href_" + url
             self.text.tag_add(tag, self.anchor_mark, "insert")
-            self.text.tag_bind(tag, "<1>", self.createCallback(url))
+            from pysollib.options import calcCustomMouseButtonsBinding
+            self.text.tag_bind(
+                tag,
+                calcCustomMouseButtonsBinding("<{mouse_button1}>"),
+                self.createCallback(url))
             self.text.tag_bind(
                 tag, "<Enter>", lambda e: self.anchor_enter(url))
             self.text.tag_bind(tag, "<Leave>", self.anchor_leave)

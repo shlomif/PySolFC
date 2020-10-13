@@ -671,12 +671,19 @@ class Game(object):
             print_err('max_rounds <= 1, but talon.texts.rounds is not None: '
                       '%s' % class_name, 2)
 
+    def _calcMouseBind(self, binding_format):
+        """docstring for _calcMouseBind"""
+        return self.app.opt.calcCustomMouseButtonsBinding(binding_format)
+
     def initBindings(self):
         # note: a Game is only allowed to bind self.canvas and not to self.top
         # bind(self.canvas, "<Double-1>", self.undoHandler)
-        bind(self.canvas, "<1>", self.undoHandler)
-        bind(self.canvas, "<2>", self.dropHandler)
-        bind(self.canvas, "<3>", self.redoHandler)
+        bind(self.canvas,
+             self._calcMouseBind("<{mouse_button1}>"), self.undoHandler)
+        bind(self.canvas,
+             self._calcMouseBind("<{mouse_button2}>"), self.dropHandler)
+        bind(self.canvas,
+             self._calcMouseBind("<{mouse_button3}>"), self.redoHandler)
         bind(self.canvas, '<Unmap>', self._unmapHandler)
         bind(self.canvas, '<Configure>', self._configureHandler, add=True)
 

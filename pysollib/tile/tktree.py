@@ -244,9 +244,20 @@ class MfxTreeInCanvas(MfxScrolledCanvas):
         # self.style.text_normal_bg = self.canvas.option_get(
         #   'background', self.canvas.cget("background"))
         #
-        bind(self.canvas, "<ButtonPress-1>", self.singleClick)
-        bind(self.canvas, "<Double-Button-1>", self.doubleClick)
-        # bind(self.canvas, "<ButtonRelease-1>", xxx)
+        from pysollib.options import calcCustomMouseButtonsBinding
+        bind(
+            self.canvas,
+            calcCustomMouseButtonsBinding("<ButtonPress-{mouse_button1}>"),
+            self.singleClick
+        )
+        bind(
+            self.canvas,
+            calcCustomMouseButtonsBinding("<Double-Button-{mouse_button1}>"),
+            self.doubleClick
+        )
+        # bind(self.canvas,
+        # calcCustomMouseButtonsBinding(
+        # "<ButtonRelease-{mouse_button1}>"), xxx)
         self.pack(fill='both', expand=True)
 
     def destroy(self):

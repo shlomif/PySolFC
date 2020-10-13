@@ -43,6 +43,17 @@ import validate
 # * Options
 # ************************************************************************
 
+_global_settings = {}
+
+
+def calcCustomMouseButtonsBinding(binding_format):
+    assert _global_settings['mouse_button1']
+    return binding_format.format(
+        mouse_button1=_global_settings['mouse_button1'],
+        mouse_button2=_global_settings['mouse_button2'],
+        mouse_button3=_global_settings['mouse_button3'],
+    )
+
 
 configspec = '''
 [general]
@@ -253,6 +264,9 @@ class Options:
         ('solver_max_iterations', 'int'),
         ('solver_iterations_output_step', 'int'),
         ('solver_preset', 'string'),
+        ('mouse_button1', 'int'),
+        ('mouse_button2', 'int'),
+        ('mouse_button3', 'int'),
         # ('toolbar_vars', 'list'),
         # ('recent_gameid', 'list'),
         # ('favorite_gameid', 'list'),
@@ -320,6 +334,9 @@ class Options:
         self.num_cards = False
         self.helpbar = False
         self.splashscreen = True
+        self.mouse_button1 = 1
+        self.mouse_button2 = 2
+        self.mouse_button3 = 3
         self.mouse_type = 'drag-n-drop'  # or 'sticky-mouse' or 'point-n-click'
         self.mouse_undo = False         # use mouse for undo/redo
         self.negative_bottom = True
@@ -751,3 +768,20 @@ class Options:
                 self.offsets[key] = val
             except Exception:
                 traceback.print_exc()
+
+        # mouse buttons swap
+        def _positive(button):
+            return max([button, 1])
+        _global_settings['mouse_button1'] = _positive(self.mouse_button1)
+        _global_settings['mouse_button2'] = _positive(self.mouse_button2)
+        _global_settings['mouse_button3'] = _positive(self.mouse_button3)
+
+    def calcCustomMouseButtonsBinding(self, binding_format):
+        """docstring for calcCustomMouseButtonsBinding"""
+        def _positive(button):
+            return max([button, 1])
+        return binding_format.format(
+            mouse_button1=_positive(self.mouse_button1),
+            mouse_button2=_positive(self.mouse_button2),
+            mouse_button3=_positive(self.mouse_button3),
+        )

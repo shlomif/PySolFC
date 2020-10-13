@@ -487,7 +487,12 @@ class AllGames_StatsDialog(MfxDialog):
         self.nodes = {}
         self.canvas = self.sc.canvas
         self.canvas.dialog = self
-        bind(self.canvas, "<1>", self.singleClick)
+        from pysollib.options import calcCustomMouseButtonsBinding
+        bind(
+            self.canvas,
+            calcCustomMouseButtonsBinding("<{mouse_button1}>"),
+            self.singleClick
+        )
         self.fillCanvas(player, title)
         bbox = self.canvas.bbox("all")
         # print bbox

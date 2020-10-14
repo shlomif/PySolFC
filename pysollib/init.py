@@ -117,7 +117,7 @@ def init():
             else:
                 pysollib.settings.USE_TILE = True
         # "can't invoke event <<ThemeChanged>>: application has been destroyed"
-        # root.destroy()
+        root.destroy()
         tkinter._default_root = None
 
     # check FreeCell-Solver

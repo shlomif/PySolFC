@@ -112,6 +112,7 @@ def make_help_toplevel(app, title=None):
     from pysollib.winsystems import init_root_window
     window = tkinter.Toplevel(class_=TITLE)
     init_root_window(window, app)
+    window.tkraise()
     return window
 
 

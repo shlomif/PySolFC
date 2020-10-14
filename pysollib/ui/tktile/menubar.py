@@ -646,10 +646,16 @@ class PysolMenubarTkCommon:
         if self.progress:
             self.progress.update(step=1)
 
+        # macOS: tk creates the menu item "Help->PySolFC Help", therefore
+        # we will not create a duplicate "Help->Contents" item.
+        # The tk-provided menu item expects this callback.
+        self.top.createcommand('tk::mac::ShowHelp', self.mHelp)
+
         menu = MfxMenu(self.menubar, label=n_("&Help"))
-        menu.add_command(
-            label=n_("&Contents"),
-            command=self.mHelp, accelerator=m+"F1")
+        if WIN_SYSTEM != "aqua":
+            menu.add_command(
+                label=n_("&Contents"),
+                command=self.mHelp, accelerator=m+"F1")
         menu.add_command(
             label=n_("&How to play"),
             command=self.mHelpHowToPlay)

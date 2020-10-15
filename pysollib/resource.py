@@ -123,6 +123,8 @@ class ResourceManager:
             pass
 
     def getSearchDirs(self, app, search, env=None):
+        """Get a list of normalized directory paths. The returned list has no
+        duplicates."""
         if isinstance(search, str):
             search = (search,)
         result = []

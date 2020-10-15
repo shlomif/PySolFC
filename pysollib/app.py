@@ -1075,60 +1075,52 @@ Please select a %(correct_type)s type cardset.
         # set offsets from options.cfg
         if cs.ident in self.opt.offsets:
             cs.CARD_XOFFSET, cs.CARD_YOFFSET = self.opt.offsets[cs.ident]
-
-        if cs.CARDD > self.top.winfo_screendepth():
-            return None
         return cs
 
     def initCardsets(self):
+        """Load all valid cardset config.txt files and ignore invalid ones.
+        """
+        screendepth = self.top.winfo_screendepth()
         manager = self.cardset_manager
         # find all available cardsets
         dirs = manager.getSearchDirs(self, ("cardsets", ""), "PYSOL_CARDSETS")
         if DEBUG:
             dirs += manager.getSearchDirs(self, "cardsets-*")
-        # print dirs
-        found, t = [], {}
-        fnames = {}  # (to check for duplicates)
+        found = []
+        found_names = []  # (to check for duplicates)
         for dirname in dirs:
-            dirname = dirname.strip()
             try:
-                names = []
-                if dirname and os.path.isdir(dirname) and dirname not in t:
-                    t[dirname] = 1
-                    names = os.listdir(dirname)
-                    names.sort()
-                for name in names:
-                    if not name.startswith('cardset-'):
-                        continue
-                    d = os.path.join(dirname, name)
-                    if not os.path.isdir(d):
-                        continue
-                    f = os.path.join(d, "config.txt")
-                    if os.path.isfile(f):
-                        try:
-                            cs = self._readCardsetConfig(d, f)
-                            if cs:
-                                # from pprint import pprint
-                                # print cs.name
-                                # pprint(cs.__dict__)
-                                back = cs.backnames[cs.backindex]
-                                f1 = os.path.join(d, back)
-                                f2 = os.path.join(d, "shade" + cs.ext)
-                                if (cs.ext in IMAGE_EXTENSIONS and
-                                        cs.name not in fnames and
-                                        os.path.isfile(f1) and
-                                        os.path.isfile(f2)):
-                                    found.append(cs)
-                                    # print '+', cs.name
-                                    fnames[cs.name] = 1
-                            else:
-                                print_err('failed to parse cardset file: %s'
-                                          % f)
-                        except Exception:
-                            # traceback.print_exc()
-                            pass
+                subdirs = [os.path.join(dirname, subdir)
+                           for subdir in os.listdir(dirname)
+                           if subdir.startswith('cardset-')]
             except EnvironmentError:
-                pass
+                traceback.print_exc()
+                continue
+            subdirs.sort()
+            for d in subdirs:
+                config_txt_path = os.path.join(d, "config.txt")
+                if not os.path.isfile(config_txt_path):
+                    continue
+                try:
+                    cs = self._readCardsetConfig(d, config_txt_path)
+                except Exception:
+                    traceback.print_exc()
+                    cs = None
+                if not cs:
+                    print_err('failed to parse cardset file: %s'
+                              % config_txt_path)
+                    continue
+                back = cs.backnames[cs.backindex]
+                back_im_path = os.path.join(d, back)
+                shade_im_path = os.path.join(d, "shade" + cs.ext)
+                if (cs.name not in found_names and
+                        cs.ext in IMAGE_EXTENSIONS and
+                        cs.CARDD <= screendepth and
+                        os.path.isfile(back_im_path) and
+                        os.path.isfile(shade_im_path)):
+                    found.append(cs)
+                    found_names.append(cs.name)
+
         # register cardsets
         for obj in found:
             if not manager.getByName(obj.name):

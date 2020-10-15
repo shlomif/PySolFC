@@ -1,6 +1,6 @@
 """
-Usage:
-    python setup.py py2app
+Command to create a macOS app bundle:
+    PYTHONPATH=. python3 setup_osx.py py2app
 """
 
 import os

@@ -350,7 +350,11 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             title = CARDSET.capitalize()+" "+cs.name
             d = CardsetInfoDialog(self.top, title=title, cardset=cs,
                                   images=self.preview_images)
-            self.cardset_values = d.cardset_values
+            try:
+                self.cardset_values = d.cardset_values
+            except:
+                self.cardset_values = None
+                
             return
         MfxDialog.mDone(self, button)
 
@@ -492,7 +496,7 @@ class CardsetInfoDialog(MfxDialog):
             var = tkinter.IntVar()
             self.x_offset = PysolScale(
                 settings_frame, label=_('X offset:'),
-                from_=5, to=40, resolution=1,
+                from_=5, to=100, resolution=1,
                 orient='horizontal', variable=var,
                 value=cardset.CARD_XOFFSET,
                 # command=self._updateScale
@@ -502,7 +506,7 @@ class CardsetInfoDialog(MfxDialog):
             var = tkinter.IntVar()
             self.y_offset = PysolScale(
                 settings_frame, label=_('Y offset:'),
-                from_=5, to=40, resolution=1,
+                from_=5, to=100, resolution=1,
                 orient='horizontal', variable=var,
                 value=cardset.CARD_YOFFSET,
                 # command=self._updateScale
@@ -514,7 +518,7 @@ class CardsetInfoDialog(MfxDialog):
         # bg = top_frame["bg"]
         bg = 'white'
         text_w = tkinter.Text(frame, bd=1, relief="sunken", wrap="word",
-                              padx=4, width=64, height=16, bg=bg)
+                              padx=4, width=64, height=8, bg=bg)
         text_w.grid(row=row, column=0, sticky='nsew')
         sb = ttk.Scrollbar(frame)
         sb.grid(row=row, column=1, sticky='ns')

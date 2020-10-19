@@ -336,10 +336,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         MfxDialog.destroy(self)
 
     def initKw(self, kw):
-        if USE_PIL:
-            s = (_("&Info..."), 10)
-        else:
-            s = (_("&Info..."), 10)
+        s = (_("&Info..."), 10)
         kw = KwStruct(kw,
                       strings=(s, 'sep',
                                _("&OK"), _("&Cancel"),),
@@ -353,7 +350,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             self.key = self.tree.selection_key
             self.tree.n_expansions = 1  # save xyview in any case
 
-# save the values
+            # save the values
             try:
                 self.cardset_values = self.x_offset.get(), self.y_offset.get()
             except Exception:
@@ -364,7 +361,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
                 if button == 1:
                     self.app.menubar.tkopt.auto_scale.set(auto_scale)
 
-# no changes
+                    # no changes
                     self.cardset_values = None
 
                 if auto_scale:
@@ -420,7 +417,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             return
         names, columns = cs.getPreviewCardNames()
 
-# if cardset has changed, set default values
+        # if cardset has changed, set default values
         if key != self.preview_key:
             self.x_offset.config(value=cs.CARD_XOFFSET)
             self.x_offset.set(cs.CARD_XOFFSET)
@@ -531,8 +528,6 @@ class CardsetInfoDialog(MfxDialog):
             except Exception:
                 pass
 
-# cut out sliders
-
             row += 1
 
         # bg = top_frame["bg"]
@@ -562,5 +557,3 @@ class CardsetInfoDialog(MfxDialog):
         focus = self.createButtons(bottom_frame, kw)
         # focus = text_w
         self.mainloop(focus, kw.timeout)
-
-# cut out buttons

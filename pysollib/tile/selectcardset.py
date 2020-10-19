@@ -264,6 +264,30 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             self.scale_y.grid(
                 row=2, column=0, sticky='ew', padx=padx, pady=pady)
             #
+            # sliders at new position
+            cs = self.manager.get(self.tree.selection_key)
+
+            var = tkinter.IntVar()
+            self.x_offset = PysolScale(
+                left_frame, label=_('X offset:'),
+                from_=5, to=100, resolution=1,
+                orient='horizontal', variable=var,
+                value=cs.CARD_XOFFSET
+                )
+
+            self.x_offset.grid(row=3, column=0, sticky='ew',
+                               padx=padx, pady=pady)
+
+            var = tkinter.IntVar()
+            self.y_offset = PysolScale(
+                left_frame, label=_('Y offset:'),
+                from_=5, to=100, resolution=1,
+                orient='horizontal', variable=var,
+                value=cs.CARD_YOFFSET
+                )
+            self.y_offset.grid(row=4, column=0, sticky='ew',
+                               padx=padx, pady=pady)
+
             self.auto_scale = tkinter.BooleanVar()
             self.auto_scale.set(app.opt.auto_scale)
             check = ttk.Checkbutton(
@@ -272,7 +296,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
                 takefocus=False,
                 command=self._updateAutoScale
                 )
-            check.grid(row=3, column=0, columnspan=2, sticky='ew',
+            check.grid(row=5, column=0, columnspan=2, sticky='ew',
                        padx=padx, pady=pady)
             #
             self.preserve_aspect = tkinter.BooleanVar()
@@ -283,7 +307,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
                 takefocus=False,
                 # command=self._updateScale
                 )
-            self.aspect_check.grid(row=4, column=0, sticky='ew',
+            self.aspect_check.grid(row=6, column=0, sticky='ew',
                                    padx=padx, pady=pady)
             self._updateAutoScale()
         #
@@ -313,7 +337,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
 
     def initKw(self, kw):
         if USE_PIL:
-            s = (_("&Info / Settings..."), 10)
+            s = (_("&Info..."), 10)
         else:
             s = (_("&Info..."), 10)
         kw = KwStruct(kw,
@@ -328,10 +352,21 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         if button in (0, 1):            # Load/Cancel
             self.key = self.tree.selection_key
             self.tree.n_expansions = 1  # save xyview in any case
+
+# save the values
+            try:
+                self.cardset_values = self.x_offset.get(), self.y_offset.get()
+            except Exception:
+                pass
+
             if USE_PIL:
                 auto_scale = bool(self.auto_scale.get())
                 if button == 1:
                     self.app.menubar.tkopt.auto_scale.set(auto_scale)
+
+# no changes
+                    self.cardset_values = None
+
                 if auto_scale:
                     self.scale_values = (self.app.opt.scale_x,
                                          self.app.opt.scale_y,
@@ -350,7 +385,11 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             title = CARDSET.capitalize()+" "+cs.name
             d = CardsetInfoDialog(self.top, title=title, cardset=cs,
                                   images=self.preview_images)
-            self.cardset_values = d.cardset_values
+            try:
+                self.cardset_values = d.cardset_values
+            except Exception:
+                self.cardset_values = None
+
             return
         MfxDialog.mDone(self, button)
 
@@ -380,6 +419,15 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             self.preview_key = -1
             return
         names, columns = cs.getPreviewCardNames()
+
+# if cardset has changed, set default values
+        if key != self.preview_key:
+            self.x_offset.config(value=cs.CARD_XOFFSET)
+            self.x_offset.set(cs.CARD_XOFFSET)
+
+            self.y_offset.config(value=cs.CARD_YOFFSET)
+            self.y_offset.set(cs.CARD_YOFFSET)
+
         try:
             # ???names, columns = cs.getPreviewCardNames()
             for n in names:
@@ -482,39 +530,15 @@ class CardsetInfoDialog(MfxDialog):
                 info_frame.rowconfigure(frow, weight=1)
             except Exception:
                 pass
-        if USE_PIL:
-            padx = 4
-            pady = 0
-            settings_frame = ttk.LabelFrame(frame, text=_('Settings'))
-            settings_frame.grid(row=row, column=0, columnspan=2, sticky='ew',
-                                padx=0, pady=5, ipadx=5, ipady=5)
-            row += 1
-            var = tkinter.IntVar()
-            self.x_offset = PysolScale(
-                settings_frame, label=_('X offset:'),
-                from_=5, to=40, resolution=1,
-                orient='horizontal', variable=var,
-                value=cardset.CARD_XOFFSET,
-                # command=self._updateScale
-                )
-            self.x_offset.grid(row=0, column=0, sticky='ew',
-                               padx=padx, pady=pady)
-            var = tkinter.IntVar()
-            self.y_offset = PysolScale(
-                settings_frame, label=_('Y offset:'),
-                from_=5, to=40, resolution=1,
-                orient='horizontal', variable=var,
-                value=cardset.CARD_YOFFSET,
-                # command=self._updateScale
-                )
-            self.y_offset.grid(row=1, column=0, sticky='ew',
-                               padx=padx, pady=pady)
+
+# cut out sliders
+
             row += 1
 
         # bg = top_frame["bg"]
         bg = 'white'
         text_w = tkinter.Text(frame, bd=1, relief="sunken", wrap="word",
-                              padx=4, width=64, height=16, bg=bg)
+                              padx=4, width=64, height=8, bg=bg)
         text_w.grid(row=row, column=0, sticky='nsew')
         sb = ttk.Scrollbar(frame)
         sb.grid(row=row, column=1, sticky='ns')
@@ -539,22 +563,4 @@ class CardsetInfoDialog(MfxDialog):
         # focus = text_w
         self.mainloop(focus, kw.timeout)
 
-    def initKw(self, kw):
-        if USE_PIL:
-            strings = (_("&Save"), _("&Cancel"))
-        else:
-            strings = (_("&OK"),)
-        kw = KwStruct(kw,
-                      strings=strings,
-                      default=0,
-                      resizable=True,
-                      separator=True,
-                      )
-        return MfxDialog.initKw(self, kw)
-
-    def mDone(self, button):
-        if USE_PIL and button == 0:
-            self.cardset_values = self.x_offset.get(), self.y_offset.get()
-        else:
-            self.cardset_values = None
-        MfxDialog.mDone(self, button)
+# cut out buttons

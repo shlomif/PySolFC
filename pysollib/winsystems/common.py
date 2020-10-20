@@ -93,6 +93,7 @@ def base_init_root_window(root, app):
 
     if TOOLKIT == 'tk':
         icons = [loadImage(img) for img in app.dataloader.findAllIconSizes()]
+        icons.sort(reverse=True, key=lambda img: img.width())
         if icons:
             try:
                 root.wm_iconphoto(True, *icons)

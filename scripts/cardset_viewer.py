@@ -240,7 +240,8 @@ def create_widgets():
     button = tkinter.Button(b_frame, text='Info', command=show_info, width=8)
     button.pack(side=tkinter.RIGHT)
 
-    button = tkinter.Button(b_frame, text='Config', command=show_config, width=8)
+    button = tkinter.Button(b_frame, text='Config',
+                            command=show_config, width=8)
     button.pack(side=tkinter.RIGHT)
 
     button = tkinter.Button(b_frame, text='Select Directory',

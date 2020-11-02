@@ -74,6 +74,12 @@ sudo apt-get install cpanminus make perl python3-setuptools python3-tk
 
 #### Step 2 - build PySol.
 
+You can try running:
+
+```
+python3 scripts/linux-install.py
+```
+
 ```
 git clone https://github.com/shlomif/PySolFC.git
 cd PySolFC

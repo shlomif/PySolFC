@@ -54,6 +54,12 @@ After following steps similar to these (on
 
 #### Step 1 - install the dependencies
 
+On Fedora you can do:
+
+```
+sudo dnf builddep PySolFC
+```
+
 On Mageia you can do:
 
 ```
@@ -75,7 +81,7 @@ cd PySolFC
 gmake test
 gmake rules
 ln -s data/images images
-tar -xvf PySolFC-Cardsets-2.0.tar.bz2 # Need to be downloaded from sourceforge
+tar -xvf PySolFC-Cardsets-2.0.tar.bz2 # Needs to be downloaded from sourceforge
 mkdir -p ~/.PySolFC
 rmdir ~/.PySolFC/cardsets
 ln -s "`pwd`/PySolFC-Cardsets-2.0" ~/.PySolFC/cardsets

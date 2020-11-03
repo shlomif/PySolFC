@@ -86,7 +86,7 @@ def create_cs_list(ls):
     return cardsets_list
 
 
-def show_cardset(args):
+def show_cardset(*args):
 
     global photoliste
     photoliste = []

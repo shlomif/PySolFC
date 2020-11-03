@@ -387,6 +387,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
                                   images=self.preview_images)
             try:
                 self.cardset_values = d.cardset_values
+
             except Exception:
                 self.cardset_values = None
 
@@ -530,8 +531,6 @@ class CardsetInfoDialog(MfxDialog):
                 info_frame.rowconfigure(frow, weight=1)
             except Exception:
                 pass
-
-# cut out sliders
 
             row += 1
 

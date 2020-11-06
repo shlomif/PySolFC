@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-# -*- mode: python; coding: utf-8; -*-
-
+# -*- coding: utf-8 -*-
 #
 # Usage:
 # Load Directory: Look for folders that has cardsets in
@@ -11,11 +10,11 @@
 import os
 from glob import glob
 
-from tkinter import filedialog
-from tkinter import messagebox
-from six.moves import tkinter
-
 from PIL import Image, ImageTk
+
+from six.moves import tkinter
+from six.moves import tkinter_tkfiledialog as filedialog  # messagebox
+
 
 cardset_type = {
     '1': 'French',
@@ -29,25 +28,17 @@ cardset_type = {
     '9': 'Trump only',
 }
 
-# Never show bottom cards
 ALL_IMGS = False
 
 
-photoliste = []
-cardsets_dict = None
-list_box = None
-canvas = None
-data_dir = None
-
-
 class Cardset:
-    def __init__(self, cs_dir, name, cs_type, ext, card_x, card_y):
+    def __init__(self, cs_dir, cs_name, cs_type, ext, card_w, card_h):
         self.cs_dir = cs_dir
-        self.name = name
+        self.cs_name = cs_name
         self.cs_type = cs_type
         self.ext = ext
-        self.card_x = card_x
-        self.card_y = card_y
+        self.card_w = card_w
+        self.card_h = card_h
 
 
 def create_cs_list(ls):
@@ -72,81 +63,77 @@ def create_cs_list(ls):
             if len(line_1) > 1:
                 name = line_1[1].strip()
             else:
-                print("\n Error: invalid config in ", cs_dir, "\n")
+                print("\n Error: invalid config.txt in ", cs_dir, "\n")
                 name = line_1[0]
 
             line_2 = lines[2].split()
-            card_x, card_y = int(line_2[0]), int(line_2[1])
-            cs = Cardset(cs_dir, name, cs_type, ext, card_x, card_y)
-            cardsets_list[name] = cs
-
+            card_w, card_h = int(line_2[0]), int(line_2[1])
+            card_set = Cardset(cs_dir, name, cs_type, ext, card_w, card_h)
+            cardsets_list[name] = card_set
         except RuntimeError:
-            fehlermeldung = "Error: invalid config in " + str(cs_dir)
-            messagebox.showerror(title=None, message=fehlermeldung)
+            fehlermeldung = "Error: invalid config.txt in " + str(cs_dir)
+            tkinter.messagebox.showerror(title=None, message=fehlermeldung)
     return cardsets_list
 
 
 def show_cardset(*args):
-
-    global photoliste
-    photoliste = []
+    global photolist
 
     if list_box.curselection():
 
         cs_name = list_box.get(list_box.curselection())
-        cs = cardsets_dict[cs_name]
+        card_set = cardsets_dict[cs_name]
 
-        ls = glob(os.path.join(cs.cs_dir, '[0-9][0-9][a-z]' + cs.ext))
-        ls += glob(os.path.join(cs.cs_dir, 'back*' + cs.ext))
+        ls = glob(os.path.join(card_set.cs_dir,
+                               '[0-9][0-9][a-z]' + card_set.ext))
+        ls += glob(os.path.join(card_set.cs_dir,
+                                'back*' + card_set.ext))
 
-        if ALL_IMGS:  # Bottom cards will not be shown
-            ls += glob(os.path.join(cs.cs_dir, 'bottom*' + cs.ext))
-            ls += glob(os.path.join(cs.cs_dir, 'l*' + cs.ext))
+        if ALL_IMGS:  # dnf because showing bottom cards ist OFF
+            ls += glob(os.path.join(card_set.cs_dir, 'bottom*' + card_set.ext))
+            ls += glob(os.path.join(card_set.cs_dir, 'l*' + card_set.ext))
 
         ls.sort()
 
         canvas.delete("all")
 
-        width, height, x_pos, y_pos, number = 0, 0, 0, 0, 0
+        x_pos, y_pos, number = 0, 0, 0
 
-        for cs_file in ls:
+        photolist = []
 
-            image = Image.open(cs_file)
-            # bilderliste.append(im)
+        for file in ls:
+
+            image = Image.open(file)
             photo = ImageTk.PhotoImage(image, master=root)
-            photoliste.append(photo)
+            photolist.append(photo)
 
-            im_width = photo.width()
-            im_height = photo.height()
+            image_width = photo.width()
+            image_height = photo.height()
 
-            x_pos = (10 + im_width) * (number % 4) + 10
-            y_pos = (10 + im_height) * (int(number / 4)) + 10
+            x_pos = (10 + image_width) * (number % 4) + 10
+            y_pos = (10 + image_height) * (int(number / 4)) + 10
 
             canvas.create_image(x_pos, y_pos, image=photo, anchor='nw')
 
-            width = max(width, x_pos)
-            height = max(height, y_pos)
-
             number = number + 1
 
-        width = 4 * (im_width + 10) + 10
-        height = (1 + int((number - 1) / 4)) * (im_height + 10) + 10
+        width = 4 * (image_width + 10) + 10
+        height = (1 + int((number - 1) / 4)) * (image_height + 10) + 10
 
         canvas.config(scrollregion=(0, 0, width, height))
         root.geometry("%dx%d" % (width + 220, root.winfo_height()))
 
 
 def show_info():
-
     if list_box.curselection():
         cs_name = list_box.get(list_box.curselection())
-        cs = cardsets_dict[cs_name]
+        card_set = cardsets_dict[cs_name]
 
-        file = os.path.join(cs.cs_dir, 'COPYRIGHT')
+        file_name = os.path.join(card_set.cs_dir, 'COPYRIGHT')
 
         top = tkinter.Toplevel()
         text = tkinter.Text(top)
-        text.insert('insert', open(file).read())
+        text.insert('insert', open(file_name).read())
         text.pack(expand=tkinter.YES, fill=tkinter.BOTH)
 
         b_frame = tkinter.Frame(top)
@@ -156,16 +143,15 @@ def show_info():
 
 
 def show_config():
-
     if list_box.curselection():
         cs_name = list_box.get(list_box.curselection())
-        cs = cardsets_dict[cs_name]
+        card_set = cardsets_dict[cs_name]
 
-        file = os.path.join(cs.cs_dir, 'Config.txt')
+        file_name = os.path.join(card_set.cs_dir, 'config.txt')
 
         top = tkinter.Toplevel()
         text = tkinter.Text(top)
-        text.insert('insert', open(file).read())
+        text.insert('insert', open(file_name).read())
         text.pack(expand=tkinter.YES, fill=tkinter.BOTH)
 
         b_frame = tkinter.Frame(top)
@@ -175,7 +161,6 @@ def show_config():
 
 
 def on_mousewheel(event):
-
     shift = (event.state & 0x1) != 0
     scroll = -1 if event.delta > 0 else 1
     if shift:
@@ -185,7 +170,6 @@ def on_mousewheel(event):
 
 
 def select_dir():
-
     global data_dir
 
     dialog = filedialog.Directory(root)
@@ -196,7 +180,6 @@ def select_dir():
 
 
 def read_into_listbox():
-
     global cardsets_dict
 
     ls = glob(os.path.join(data_dir, '*', 'config.txt'))
@@ -209,12 +192,11 @@ def read_into_listbox():
 
         list_box.delete(0, tkinter.END)
 
-        for cs in cardsets_list:
-            list_box.insert(tkinter.END, cs)
+        for card_set in cardsets_list:
+            list_box.insert(tkinter.END, card_set)
 
 
 def create_widgets():
-
     global list_box, canvas
 
     list_box = tkinter.Listbox(root, exportselection=False)
@@ -222,10 +204,10 @@ def create_widgets():
 
     list_box.bind('<<ListboxSelect>>', show_cardset)
 
-    sb = tkinter.Scrollbar(root)
-    sb.grid(row=0, column=1, rowspan=2, sticky=tkinter.NS)
-    list_box.config(yscrollcommand=sb.set)
-    sb.config(command=list_box.yview)
+    scroll_bar = tkinter.Scrollbar(root)
+    scroll_bar.grid(row=0, column=1, rowspan=2, sticky=tkinter.NS)
+    list_box.config(yscrollcommand=scroll_bar.set)
+    scroll_bar.config(command=list_box.yview)
 
     # create Canvas
     canvas = tkinter.Canvas(root, width=600, height=600, bg='#5eab6b')
@@ -234,16 +216,15 @@ def create_widgets():
     canvas.bind('<5>', lambda e: canvas.yview_scroll(5, 'unit'))
     canvas.bind_all("<MouseWheel>", on_mousewheel)
 
-    sb = tkinter.Scrollbar(root)
-    sb.grid(row=0, column=3, sticky=tkinter.NS)
-    canvas.config(yscrollcommand=sb.set)
-    sb.config(command=canvas.yview)
+    scroll_bar = tkinter.Scrollbar(root)
+    scroll_bar.grid(row=0, column=3, sticky=tkinter.NS)
+    canvas.config(yscrollcommand=scroll_bar.set)
+    scroll_bar.config(command=canvas.yview)
 
-    # if True:
-    sb = tkinter.Scrollbar(root, orient=tkinter.HORIZONTAL)
-    sb.grid(row=1, column=2, sticky=tkinter.EW)
-    canvas.config(xscrollcommand=sb.set)
-    sb.config(command=canvas.xview)
+    scroll_bar = tkinter.Scrollbar(root, orient=tkinter.HORIZONTAL)
+    scroll_bar.grid(row=1, column=2, sticky=tkinter.EW)
+    canvas.config(xscrollcommand=scroll_bar.set)
+    scroll_bar.config(command=canvas.xview)
 
     # create buttons
     b_frame = tkinter.Frame(root)
@@ -276,9 +257,6 @@ if __name__ == '__main__':
 
     current_working_directory = os.getcwd()
     data_dir = current_working_directory
-
-    # print("\n current_working_directory")
-    # print(data_dir)  # TEST
 
     root = tkinter.Tk()
     root = create_widgets()

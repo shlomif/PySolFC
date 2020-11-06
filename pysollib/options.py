@@ -648,7 +648,7 @@ class Options:
         vdt = validate.Validator()
         res = config.validate(vdt)
         # from pprint import pprint; pprint(res)
-        if res is not True:
+        if isinstance(res, dict):
             for section, data in res.items():
                 if data is True:
                     continue

@@ -17,12 +17,12 @@ else
 
 my $finder = Test::TrailingSpace->new(
     {
-        root           => '.',
-        filename_regex =>
+        abs_path_prune_re => qr# kcardgame[/\\](?:b|build-kpat)(?:\z|/|\\) #msx,
+        root              => '.',
+        filename_regex    =>
 qr/(?:(?:\.(?:bash|sh|t|pm|pl|PL|yml|json|arc|vim|html|py|tcl|xhtml))|README(?:[\.\w]*)|Changes|LICENSE|MANIFEST(?:\.in)?|AUTHORS|COPYING)\z/,
     },
 );
 
 # TEST
 $finder->no_trailing_space("No trailing space was found.");
-

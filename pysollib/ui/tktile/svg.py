@@ -29,7 +29,13 @@ class SVGManager:
         self.filename = filename
         # self.svg = Rsvg.Handle().new_from_file(filename)
         self.d = MyKCardDeck(
-            os.path.basename(os.getenv("PYSOL_SVG_THEME", "svg-jolly-royal")))
+            os.path.basename(
+                os.getenv(
+                    "PYSOL_SVG_THEME",
+                    "svg-jolly-royal"
+                )
+            )
+        )
 
     # Taken from https://stackoverflow.com/questions/44471795
     # Under MIT License - thanks.

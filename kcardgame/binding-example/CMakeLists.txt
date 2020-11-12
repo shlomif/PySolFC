@@ -174,7 +174,15 @@ foreach (_lib ${bindings_library} ${sample_library})
      )
 endforeach()
 
+set(python3_sys_libs)
+if (EXISTS "/etc/fedora-release")
+    list(APPEND python3_sys_libs
+        "/usr/lib64/libpython3.9.so"
+    )
+endif()
+
 target_link_libraries(${bindings_library} PRIVATE
+    ${python3_sys_libs}
     ${shiboken_shared_libraries}
     ${sample_library}
     ${pyside2_link}

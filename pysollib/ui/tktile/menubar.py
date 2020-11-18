@@ -1462,8 +1462,8 @@ Unsupported game for import.
             self.app.opt.scale_y += 0.1
         else:
             return
-        self.app.opt.auto_scale = False
-        self.tkopt.auto_scale.set(False)
+        # self.app.opt.auto_scale = False
+        # self.tkopt.auto_scale.set(False)
         self._updateCardSize()
 
     def mDecreaseCardset(self, *event):
@@ -1477,8 +1477,8 @@ Unsupported game for import.
             self.app.opt.scale_y -= 0.1
         else:
             return
-        self.app.opt.auto_scale = False
-        self.tkopt.auto_scale.set(False)
+        # self.app.opt.auto_scale = False
+        # self.tkopt.auto_scale.set(False)
         self._updateCardSize()
 
     def mOptAutoScale(self, *event):

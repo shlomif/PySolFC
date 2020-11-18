@@ -1443,7 +1443,8 @@ Unsupported game for import.
         if self.app.opt.auto_scale:
             w, h = self.app.opt.game_geometry
             self.app.canvas.setInitialSize(w, h, scrollregion=False)
-            self.app.game.resizeGame(card_size_manually=False) # Resize a second time to auto scale
+            # Resize a second time to auto scale
+            self.app.game.resizeGame(card_size_manually=False)
         else:
             w = int(round(self.app.game.width * self.app.opt.scale_x))
             h = int(round(self.app.game.height * self.app.opt.scale_y))

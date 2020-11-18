@@ -1024,9 +1024,14 @@ class Game(object):
             x0, y0 = stack.init_coord
             x, y = int(round(x0*xf)), int(round(y0*yf))
 
-            # Do not move Talons (because one would need to reposition 'empty cross' and 'redeal' figures)
-            # But in that case, games with talon not placed top-left corner will get it misplaced when auto_scale
-            # e.g. Suit Elevens => player can fix that issue by setting auto_scale false
+            # Do not move Talons
+            # (because one would need to reposition
+            # 'empty cross' and 'redeal' figures)
+            # But in that case,
+            # games with talon not placed top-left corner
+            # will get it misplaced when auto_scale
+            # e.g. Suit Elevens
+            # => player can fix that issue by setting auto_scale false
             if stack is self.s.talon:
                 # stack.init_coord=(x, y)
                 if card_size_manually:

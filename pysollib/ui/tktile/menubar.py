@@ -1439,10 +1439,12 @@ Unsupported game for import.
         geom = (self.app.canvas.winfo_width(),
                 self.app.canvas.winfo_height())
         self.app.opt.game_geometry = geom
-        self.app.game.resizeGame()
+        self.app.game.resizeGame(card_size_manually=True)
         if self.app.opt.auto_scale:
             w, h = self.app.opt.game_geometry
             self.app.canvas.setInitialSize(w, h, scrollregion=False)
+            # Resize a second time to auto scale
+            self.app.game.resizeGame(card_size_manually=False)
         else:
             w = int(round(self.app.game.width * self.app.opt.scale_x))
             h = int(round(self.app.game.height * self.app.opt.scale_y))
@@ -1461,8 +1463,8 @@ Unsupported game for import.
             self.app.opt.scale_y += 0.1
         else:
             return
-        self.app.opt.auto_scale = False
-        self.tkopt.auto_scale.set(False)
+        # self.app.opt.auto_scale = False
+        # self.tkopt.auto_scale.set(False)
         self._updateCardSize()
 
     def mDecreaseCardset(self, *event):
@@ -1476,8 +1478,8 @@ Unsupported game for import.
             self.app.opt.scale_y -= 0.1
         else:
             return
-        self.app.opt.auto_scale = False
-        self.tkopt.auto_scale.set(False)
+        # self.app.opt.auto_scale = False
+        # self.tkopt.auto_scale.set(False)
         self._updateCardSize()
 
     def mOptAutoScale(self, *event):

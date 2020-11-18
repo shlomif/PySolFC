@@ -1439,10 +1439,11 @@ Unsupported game for import.
         geom = (self.app.canvas.winfo_width(),
                 self.app.canvas.winfo_height())
         self.app.opt.game_geometry = geom
-        self.app.game.resizeGame()
+        self.app.game.resizeGame(card_size_manually=True)
         if self.app.opt.auto_scale:
             w, h = self.app.opt.game_geometry
             self.app.canvas.setInitialSize(w, h, scrollregion=False)
+            self.app.game.resizeGame(card_size_manually=False) # Resize a second time to auto scale
         else:
             w = int(round(self.app.game.width * self.app.opt.scale_x))
             h = int(round(self.app.game.height * self.app.opt.scale_y))

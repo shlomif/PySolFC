@@ -982,9 +982,9 @@ class Game(object):
         self.endGame(restart=1)
         self.newGame(restart=1, random=self.random)
 
-    def resizeImages(self):
+    def resizeImages(self, manually=False):
         # resizing images and cards
-        if self.app.opt.auto_scale:
+        if self.app.opt.auto_scale and not manually:
             if self.canvas.winfo_ismapped():
                 # apparent size of canvas
                 vw = self.canvas.winfo_width()
@@ -1006,24 +1006,35 @@ class Game(object):
                 xf = yf = min(xf, yf)
         else:
             xf, yf = self.app.opt.scale_x, self.app.opt.scale_y
-        # images
-        self.app.images.resize(xf, yf)
+            # images
+            self.app.images.resize(xf, yf)
         # cards
         for card in self.cards:
             card.update(card.id, card.deck, card.suit, card.rank, self)
-        return xf, yf
+        return xf, yf, self.app.images._xfactor, self.app.images._yfactor
 
-    def resizeGame(self):
+    def resizeGame(self, card_size_manually=False):
         # if self.busy:
         # return
         if not USE_PIL:
             return
         self.deleteStackDesc()
-        xf, yf = self.resizeImages()
+        xf, yf, xf0, yf0 = self.resizeImages(manually=card_size_manually)
         for stack in self.allstacks:
             x0, y0 = stack.init_coord
             x, y = int(round(x0*xf)), int(round(y0*yf))
-            stack.resize(xf, yf)
+
+            # Do not move Talons (because one would need to reposition 'empty cross' and 'redeal' figures)
+            # But in that case, games with talon not placed top-left corner will get it misplaced when auto_scale
+            # e.g. Suit Elevens => player can fix that issue by setting auto_scale false
+            if stack is self.s.talon:
+                # stack.init_coord=(x, y)
+                if card_size_manually:
+                    stack.resize(xf, yf0)
+                else:
+                    stack.resize(xf0, yf0)
+            else:
+                stack.resize(xf, yf0)
             stack.updatePositions()
         self.regions.calc_info(xf, yf)
         # texts

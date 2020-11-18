@@ -373,6 +373,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
                                          auto_scale,
                                          self.app.opt.preserve_aspect_ratio)
                     self.app.game.resizeGame(card_size_manually=True)
+                    self.app.game.resizeGame(card_size_manually=False)
 
         if button == 10:                # Info
             cs = self.manager.get(self.tree.selection_key)

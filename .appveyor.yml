@@ -65,5 +65,7 @@ artifacts:
       name: pysol_win_installer
 cache:
     # - C:\_P5 -> .appveyor.yml
-    # - C:\strawberry -> .appveyor.yml
+    # https://www.appveyor.com/docs/build-cache/
+    # the next time the build is run the cache item will be invalidated/deleted in the beginning of the build.    
+    - C:\strawberry -> .appveyor.yml
 shallow_clone: true

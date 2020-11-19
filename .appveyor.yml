@@ -5,8 +5,7 @@ environment:
 # Shamelessly taken from https://github.com/plicease/Dist-Zilla-PluginBundle-Author-Plicease/blob/master/.appveyor.yml
 # Thanks!
 install:
-    - choco install strawberryperl --version 5.30.0.1
-    # - choco install strawberryperl --version 5.32.0.1
+    - choco install strawberryperl
     - copy %PYTHON%\python.exe %PYTHON%\python3.exe
     - SET PATH=%PYTHON%;%PYTHON%\Scripts;C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%
     - python3 -mpip install Pillow attrs configobj flake8 flake8-import-order

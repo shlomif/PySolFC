@@ -5,7 +5,7 @@ environment:
 # Shamelessly taken from https://github.com/plicease/Dist-Zilla-PluginBundle-Author-Plicease/blob/master/.appveyor.yml
 # Thanks!
 install:
-    - choco install strawberryperl
+    - choco install strawberryperl --version 5.32.0.1
     - copy %PYTHON%\python.exe %PYTHON%\python3.exe
     - SET PATH=%PYTHON%;%PYTHON%\Scripts;C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%
     - python3 -mpip install Pillow attrs configobj flake8 flake8-import-order
@@ -65,7 +65,5 @@ artifacts:
       name: pysol_win_installer
 cache:
     # - C:\_P5 -> .appveyor.yml
-    # https://www.appveyor.com/docs/build-cache/
-    # the next time the build is run the cache item will be invalidated/deleted in the beginning of the build.    
-    - C:\strawberry -> .appveyor.yml
+    # - C:\strawberry -> .appveyor.yml
 shallow_clone: true

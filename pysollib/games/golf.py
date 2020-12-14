@@ -140,23 +140,23 @@ class Golf(Game):
     # game layout
     #
 
-    def createGame(self):
+    def createGame(self, columns=7):
         # create layout
         layout, s = Layout(self), self.s
 
         # set window
         playcards = 5
-        w1, w2 = 8*layout.XS+layout.XM, 2*layout.XS
-        if w2 + 52*layout.XOFFSET > w1:
-            layout.XOFFSET = int((w1 - w2) / 52)
-        self.setSize(
-            w1,
-            layout.YM+3*layout.YS +
-            (playcards-1)*layout.YOFFSET+layout.TEXT_HEIGHT)
+        w1, w2 = (columns + 1) * layout.XS + layout.XM, 2 * layout.XS
+
+        totalcards = 52 * self.gameinfo.decks
+        if w2 + totalcards * layout.XOFFSET > w1:
+            layout.XOFFSET = int((w1 - w2) / totalcards)
+        self.setSize(w1, layout.YM + 3 * layout.YS +
+                     (playcards - 1) * layout.YOFFSET + layout.TEXT_HEIGHT)
 
         # create stacks
         x, y = layout.XM + layout.XS // 2, layout.YM
-        for i in range(7):
+        for i in range(columns):
             s.rows.append(Golf_RowStack(x, y, self))
             x = x + layout.XS
         x, y = layout.XM, self.height - layout.YS
@@ -178,8 +178,8 @@ class Golf(Game):
     # game overrides
     #
 
-    def startGame(self):
-        self._startDealNumRows(4)
+    def startGame(self, num_rows=5):
+        self._startDealNumRows(num_rows - 1)
         self.s.talon.dealRow()
         self.s.talon.dealCards()          # deal first card to WasteStack
 
@@ -201,6 +201,19 @@ class Golf(Game):
         else:
             # rightclickHandler
             return (self.sg.dropstacks, self.sg.dropstacks, ())
+
+
+# ************************************************************************
+# * Double Golf
+# ************************************************************************
+
+class DoubleGolf(Golf):
+
+    def createGame(self):
+        Golf.createGame(self, 9)
+
+    def startGame(self):
+        Golf.startGame(self, 7)
 
 
 # ************************************************************************
@@ -1192,4 +1205,6 @@ registerGame(GameInfo(764, Beacon, "Beacon",
                       GI.GT_1DECK_TYPE | GI.GT_ORIGINAL, 1, 0,
                       GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(768, RelaxedThreeFirTrees, "Relaxed Three Fir-trees",
+                      GI.GT_GOLF, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(777, DoubleGolf, "Double Golf",
                       GI.GT_GOLF, 2, 0, GI.SL_BALANCED))

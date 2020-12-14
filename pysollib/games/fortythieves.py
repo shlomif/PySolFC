@@ -162,6 +162,8 @@ class FortyThieves(Game):
 # * Big Courtyard
 # * San Juan Hill
 # * Famous Fifty
+# * Sixty Thieves
+# * Eighty Thieves
 # *   rows build down by suit
 # ************************************************************************
 
@@ -268,6 +270,20 @@ class SanJuanHill(FortyThieves):
 
 class FamousFifty(FortyThieves):
     DEAL = (0, 5)
+
+
+class SixtyThieves(FortyThieves):
+    DEAL = (0, 5)
+
+    def createGame(self):
+        FortyThieves.createGame(self, rows=12, playcards=16, XCARDS=96)
+
+
+class EightyThieves(FortyThieves):
+    DEAL = (0, 8)
+
+    def createGame(self):
+        FortyThieves.createGame(self, rows=10, playcards=16, XCARDS=128)
 
 
 # ************************************************************************
@@ -1349,3 +1365,7 @@ registerGame(GameInfo(751, BlindPatience, "Blind Patience",
 registerGame(GameInfo(765, Foothold, "Foothold",
                       GI.GT_FORTY_THIEVES | GI.GT_ORIGINAL, 2, 0,
                       GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(775, SixtyThieves, "Sixty Thieves",
+                      GI.GT_FORTY_THIEVES, 3, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(776, EightyThieves, "Eighty Thieves",
+                      GI.GT_FORTY_THIEVES, 4, 0, GI.SL_MOSTLY_SKILL))

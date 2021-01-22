@@ -129,7 +129,7 @@ sub myglob
         ' ', qw(
             BreakOnFailure ColorSummary ColorFileVerdicts AlternateInterpreters
             TrimDisplayedFilenames
-            )
+        )
     );
 
     my $is_ninja = ( -e "build.ninja" );

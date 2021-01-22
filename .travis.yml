@@ -71,4 +71,5 @@ script:
         --window-size 800 400
         --icon PySolFC.app 200 185
         --app-drop-link 600 185
+        --skip-jenkins
         PySolFC.dmg dist ; fi

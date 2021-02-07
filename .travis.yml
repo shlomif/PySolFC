@@ -7,13 +7,6 @@ osx_image: xcode12.2
 addons:
     apt:
         - cpanminus
-        - python-glade2
-        - python-gnome2
-        - python-gnome2-dev
-        - python-gtk2
-        - python-pip
-        - python-setuptools
-        - python-tk
         - python3-pip
         - python3-setuptools
         - python3-tk
@@ -57,9 +50,6 @@ install:
     - if test "$TRAVIS_OS_NAME" = "osx" ; then export PY_MODS="--no-binary=Pillow Pillow $PY_MODS" ; fi
     - sudo -H pip3 install --upgrade wheel
     - sudo -H pip3 install --upgrade $PY_MODS flake8 flake8-import-order
-    - if test "$TRAVIS_OS_NAME" = "linux" ; then
-        sudo -H pip2 install --upgrade wheel &&
-        sudo -H pip2 install --upgrade $PY_MODS ; fi
 script:
     - export TIDYALL_DATA_DIR="$HOME/tidyall_d"
     - bash -x scripts/travis-ci-build

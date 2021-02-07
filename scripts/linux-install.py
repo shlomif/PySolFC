@@ -17,7 +17,6 @@ from subprocess import check_call
 
 
 def main():
-    os.environ['TEST_TAGS'] = " SKIP_GTK SKIP_PY2 "
     try:
         subprocess.check_call(["gmake", "test", "rules"])
     except subprocess.CalledProcessError:

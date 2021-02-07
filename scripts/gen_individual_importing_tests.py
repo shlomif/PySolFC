@@ -14,7 +14,7 @@ def _has_tag(tag):
     return re.search("\\b{}\\b".format(tag), TEST_TAGS)
 
 
-PY_VERS = ([] if _has_tag('SKIP_PY2') else [2])+[3]
+PY_VERS = ([2] if _has_tag('WITH_PY2') else [])+[3]
 SKIP_GTK = _has_tag('SKIP_GTK')
 module_names = []
 for d, _, files in os.walk("pysollib"):

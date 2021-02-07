@@ -156,7 +156,9 @@ sub myglob
 
     my @tests =
         sort { ( basename($a) cmp basename($b) ) || ( $a cmp $b ) }
-        ( myglob("$abs_bindir/tests/*") );
+        ( myglob("$abs_bindir/tests/{style,individually-importing}") );
+
+    push @tests, "$abs_bindir/tests/tap_unittests.py";
 
     if ($IS_WIN)
     {

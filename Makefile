@@ -61,9 +61,8 @@ pretest:
 	python3 scripts/gen_individual_importing_tests.py
 
 TEST_ENV_PATH = $(CURDIR)$(path_sep)$(CURDIR)/tests/lib
-TEST_FILES = tests/style/*.t tests/unit-generated/*.py tests/individually-importing/*.py
+TEST_FILES = tests/tap_unittests.py tests/style/*.t tests/individually-importing/*.py
 
-test runtest: export PYTHONPATH := $(PYTHONPATH)$(path_sep)$(TEST_ENV_PATH)
 test runtest: export PERL5LIB := $(PERL5LIB)$(path_sep)$(TEST_ENV_PATH)
 
 test: pretest

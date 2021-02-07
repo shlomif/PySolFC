@@ -2,10 +2,10 @@
 
 import unittest
 
-from pysol_tests.common_mocks1 import MockApp, MockCanvas, MockTalon
-
 import pysollib.stack
 from pysollib.hint import FreeCellSolver_Hint, PySolHintLayoutImportError
+
+from .common_mocks1 import MockApp, MockCanvas, MockTalon
 
 
 class MockGame:

@@ -6,7 +6,7 @@ from pysollib.cardsetparser import parse_cardset_config
 from pysollib.resource import CSI, CardsetConfig
 
 
-class MyTests(unittest.TestCase):
+class CardsetParserTests(unittest.TestCase):
 
     def _assertCcEqual(self, a, b, msg=None):
         """Assert that CardsetConfig objects a and b have equal attributes."""

@@ -40,27 +40,3 @@ sys.path.insert(0, ".")
 import %(module_name)s
 print('ok 1 - imported')
 '''))
-
-for ver in PY_VERS:
-    for mod in [
-            'pysol_tests.acard_unit',
-            'pysol_tests.cardsetparser',
-            'pysol_tests.game_drag',
-            'pysol_tests.hint',
-            'pysol_tests.import_file1',
-            'pysol_tests.latin1_conv_unit',
-            'pysol_tests.ms_deals1',
-            'pysol_tests.scorpion_canMove',
-            ]:
-        open(os.path.join(".", "tests", "unit-generated",
-                          'test__%s__v%d.py' % (mod, ver)
-                          ), 'w').write('''#!/usr/bin/env python%(ver)d
-import unittest
-
-from pycotap import TAPTestRunner
-
-from %(mod)s import MyTests
-
-suite = unittest.TestLoader().loadTestsFromTestCase(MyTests)
-TAPTestRunner().run(suite)
-''' % {'mod': mod, 'ver': ver})

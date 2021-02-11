@@ -5,6 +5,6 @@ import unittest
 from pysollib.mfxutil import latin1_normalize
 
 
-class MyTests(unittest.TestCase):
+class Latin1Tests(unittest.TestCase):
     def test_output(self):
         self.assertEqual(latin1_normalize('HELLO%%good'), 'hellogood')

@@ -6,7 +6,7 @@ from pysollib.acard import AbstractCard
 from pysollib.hint import Base_Solver_Hint
 
 
-class MyTests(unittest.TestCase):
+class HintTests(unittest.TestCase):
     def test_output(self):
         card = AbstractCard(1001, 0, 3, 7, 3001)
         h = Base_Solver_Hint(None, None, base_rank=0)

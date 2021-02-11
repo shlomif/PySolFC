@@ -63,8 +63,8 @@ sub run_tests
     }
 }
 
-my $tests_glob = "*.{t.exe,py,t}";
-my $exclude_re_s;
+my $tests_glob   = "*.{t.exe,py,t}";
+my $exclude_re_s = "__init__";
 
 my @execute;
 GetOptions(

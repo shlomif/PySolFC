@@ -5,7 +5,7 @@ import unittest
 from pysollib.game import GameDrag, GameStacks
 
 
-class MyTests(unittest.TestCase):
+class GameDragTests(unittest.TestCase):
     def test_shadows(self):
         d = GameDrag()
         d.shadows.append("test")

@@ -2,13 +2,13 @@
 
 import unittest
 
-from pysol_tests.common_mocks1 import MockApp, MockCanvas, MockItem, MockTalon
-
 import pysollib.stack
 from pysollib.acard import AbstractCard
 from pysollib.games.spider import ScorpionTail_RowStack
 from pysollib.games.spider import Scorpion_RowStack
 from pysollib.games.spider import Spider_RowStack
+
+from .common_mocks import MockApp, MockCanvas, MockItem, MockTalon
 
 
 class MockGame:
@@ -42,7 +42,7 @@ class Mock_S_Game:  # noqa: N801
         pass
 
 
-class MyTests(unittest.TestCase):
+class ScorpionTests(unittest.TestCase):
     def _calc_scorpion_stack(self, is_scorpion_tail):
         g = MockGame()
         stack = (ScorpionTail_RowStack

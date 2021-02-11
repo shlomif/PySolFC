@@ -73,7 +73,7 @@ from pysollib.pysolrandom import construct_random
 ren = CardRenderer(True)
 
 
-class MyTests(unittest.TestCase):
+class MsDealsTests(unittest.TestCase):
     def _cmp_board(self, got_s, expected_s, blurb):
         if not self.assertEqual(got_s, expected_s, blurb):
             return False

@@ -2,10 +2,10 @@
 
 import unittest
 
-from pysol_tests.common_mocks1 import MockApp, MockCanvas, MockTalon
-
 import pysollib.stack
 from pysollib.hint import FreeCellSolver_Hint, PySolHintLayoutImportError
+
+from .common_mocks import MockApp, MockCanvas, MockTalon
 
 
 class MockGame:
@@ -38,7 +38,7 @@ class Mock_S_Game:  # noqa: N801
         pass
 
 
-class MyTests(unittest.TestCase):
+class ImportFileTests(unittest.TestCase):
     def _calc_hint(self, fn):
         """docstring for _calc_hint"""
         s_game = Mock_S_Game()

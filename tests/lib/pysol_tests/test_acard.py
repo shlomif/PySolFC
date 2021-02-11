@@ -5,7 +5,7 @@ import unittest
 from pysollib.acard import AbstractCard
 
 
-class MyTests(unittest.TestCase):
+class AbstractCardTests(unittest.TestCase):
     def test_cards(self):
         card1 = AbstractCard(1001, 0, 1, 2, 3001)
         # TEST

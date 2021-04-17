@@ -14,6 +14,17 @@ and implemented some other enhancements.
 - [![Build Status](https://travis-ci.org/shlomif/PySolFC.svg)](https://travis-ci.org/shlomif/PySolFC)
 [![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/04re7umgl3yuukmh?svg=true)](https://ci.appveyor.com/project/shlomif/pysolfc)
 
+## Call for Contributors
+
+[Shlomi Fish](https://github.com/shlomif), who adopted PySol FC, and maintained
+it for several years, has stepped down as its primary maintainer
+due to the fact he no longer plays PySol, or other computer card games too
+much and that it has been a time sink for him. (Also see
+[this Twitter discussion](https://twitter.com/bagder/status/1336793880709238786)
+). We are looking for other contributors and there are still
+[some large-scale features](https://github.com/shlomif/PySolFC/issues) that
+can be implemented.
+
 # Screenshots
 
 ![Image](<http://i.imgur.com/jQkTGwf.jpg>)

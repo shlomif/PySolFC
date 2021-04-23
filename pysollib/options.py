@@ -43,7 +43,11 @@ import validate
 # * Options
 # ************************************************************************
 
-_global_settings = {}
+_global_settings = {
+    'mouse_button1': 1,
+    'mouse_button2': 2,
+    'mouse_button3': 3,
+}
 
 
 def calcCustomMouseButtonsBinding(binding_format):

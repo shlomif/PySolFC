@@ -246,7 +246,7 @@ def r(id, gameclass, name):
         ncards += n
     ncards -= 1
     gi = GameInfo(id, gameclass, name,
-                  GI.GT_PUZZLE_TYPE, 1, 0, GI.SL_SKILL,
+                  GI.GT_PEGGED, 1, 0, GI.SL_SKILL,
                   category=GI.GC_TRUMP_ONLY,
                   suits=(), ranks=(), trumps=list(range(ncards)),
                   si={"decks": 1, "ncards": ncards},

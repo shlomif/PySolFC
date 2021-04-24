@@ -136,6 +136,18 @@ class HanoiPuzzle6(HanoiPuzzle4):
     pass
 
 
+class HanoiPuzzle3(HanoiPuzzle4):
+    pass
+
+
+class HanoiPuzzle7(HanoiPuzzle4):
+    pass
+
+
+class HanoiPuzzle8(HanoiPuzzle4):
+    pass
+
+
 # ************************************************************************
 # * Hanoi Sequence
 # ************************************************************************
@@ -150,20 +162,32 @@ class HanoiSequence(TowerOfHanoy):
 
 # register the game
 registerGame(GameInfo(124, TowerOfHanoy, "Tower of Hanoy",
-                      GI.GT_PUZZLE_TYPE, 1, 0, GI.SL_SKILL,
+                      GI.GT_HANOI, 1, 0, GI.SL_SKILL,
                       suits=(2,), ranks=list(range(9))))
 registerGame(GameInfo(207, HanoiPuzzle4, "Hanoi Puzzle 4",
-                      GI.GT_PUZZLE_TYPE, 1, 0, GI.SL_SKILL,
+                      GI.GT_HANOI, 1, 0, GI.SL_SKILL,
                       suits=(2,), ranks=list(range(4)),
                       rules_filename="hanoipuzzle.html"))
 registerGame(GameInfo(208, HanoiPuzzle5, "Hanoi Puzzle 5",
-                      GI.GT_PUZZLE_TYPE, 1, 0, GI.SL_SKILL,
+                      GI.GT_HANOI, 1, 0, GI.SL_SKILL,
                       suits=(2,), ranks=list(range(5)),
                       rules_filename="hanoipuzzle.html"))
 registerGame(GameInfo(209, HanoiPuzzle6, "Hanoi Puzzle 6",
-                      GI.GT_PUZZLE_TYPE, 1, 0, GI.SL_SKILL,
+                      GI.GT_HANOI, 1, 0, GI.SL_SKILL,
                       suits=(2,), ranks=list(range(6)),
                       rules_filename="hanoipuzzle.html"))
+registerGame(GameInfo(779, HanoiPuzzle3, "Hanoi Puzzle 3",
+                      GI.GT_HANOI, 1, 0, GI.SL_SKILL,
+                      suits=(2,), ranks=list(range(3)),
+                      rules_filename="hanoipuzzle.html"))
+registerGame(GameInfo(780, HanoiPuzzle7, "Hanoi Puzzle 7",
+                      GI.GT_HANOI, 1, 0, GI.SL_SKILL,
+                      suits=(2,), ranks=list(range(7)),
+                      rules_filename="hanoipuzzle.html"))
+registerGame(GameInfo(781, HanoiPuzzle8, "Hanoi Puzzle 8",
+                      GI.GT_HANOI, 1, 0, GI.SL_SKILL,
+                      suits=(2,), ranks=list(range(8)),
+                      rules_filename="hanoipuzzle.html"))
 registerGame(GameInfo(769, HanoiSequence, "Hanoi Sequence",
-                      GI.GT_PUZZLE_TYPE, 1, 0, GI.SL_SKILL,
+                      GI.GT_HANOI, 1, 0, GI.SL_SKILL,
                       suits=(2,), ranks=list(range(9))))

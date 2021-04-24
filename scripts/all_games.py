@@ -73,6 +73,8 @@ GAME_BY_TYPE = {
     GI.GT_MAHJONGG: "Mahjongg",
     GI.GT_MUGHAL_GANJIFA: "Mughal Ganjifa",
     GI.GT_SHISEN_SHO: "Shisen-Sho",
+    GI.GT_HANOI: "Tower of Hanoi",
+    GI.GT_PEGGED: "Pegged",
 
 }
 

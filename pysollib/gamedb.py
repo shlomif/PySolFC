@@ -85,6 +85,8 @@ class GI:
     GT_TERRACE = 32
     GT_YUKON = 33
     GT_SHISEN_SHO = 34
+    GT_HANOI = 35
+    GT_PEGGED = 36
     GT_CUSTOM = 40
     # extra flags
     GT_BETA = 1 << 12      # beta version of game driver
@@ -228,15 +230,19 @@ class GI:
     )
 
     SELECT_SPECIAL_GAME_BY_TYPE = (
-        (n_("Shisen-Sho"), lambda gi, gt=GT_SHISEN_SHO: gi.si.game_type == gt),
         (n_("Hex A Deck type"),
             lambda gi, gt=GT_HEXADECK: gi.si.game_type == gt),
         (n_("Matrix type"), lambda gi, gt=GT_MATRIX: gi.si.game_type == gt),
         (n_("Memory type"), lambda gi, gt=GT_MEMORY: gi.si.game_type == gt),
+        (n_("Pegged type"), lambda gi, gt=GT_PEGGED: gi.si.game_type == gt),
         (n_("Poker type"), lambda gi, gt=GT_POKER_TYPE: gi.si.game_type == gt),
         (n_("Puzzle type"),
             lambda gi, gt=GT_PUZZLE_TYPE: gi.si.game_type == gt),
+        (n_("Shisen-Sho type"),
+            lambda gi, gt=GT_SHISEN_SHO: gi.si.game_type == gt),
         (n_("Tarock type"), lambda gi, gt=GT_TAROCK: gi.si.game_type == gt),
+        (n_("Tower of Hanoi type"),
+            lambda gi, gt=GT_HANOI: gi.si.game_type == gt),
     )
 
     # These obsolete gameids have been used in previous versions of

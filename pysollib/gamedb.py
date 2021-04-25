@@ -140,43 +140,37 @@ class GI:
     #              (name, lambda gi, gt=gt: gi.si.game_type == gt))
     #      SELECT_GAME_BY_TYPE = tuple(SELECT_GAME_BY_TYPE)
 
+    def _gen_select(title, game_type):
+        def _callback(gi, gt=game_type):
+            return gi.si.game_type == gt
+        return (title, _callback)
+
     SELECT_GAME_BY_TYPE = (
-        (n_("Baker's Dozen type"), lambda gi,
-            gt=GT_BAKERS_DOZEN: gi.si.game_type == gt),
-        (n_("Beleaguered Castle type"),
-            lambda gi, gt=GT_BELEAGUERED_CASTLE: gi.si.game_type == gt),
-        (n_("Canfield type"),
-            lambda gi, gt=GT_CANFIELD: gi.si.game_type == gt),
-        (n_("Fan type"), lambda gi, gt=GT_FAN_TYPE: gi.si.game_type == gt),
-        (n_("Forty Thieves type"),
-            lambda gi, gt=GT_FORTY_THIEVES: gi.si.game_type == gt),
-        (n_("FreeCell type"),
-            lambda gi, gt=GT_FREECELL: gi.si.game_type == gt),
-        (n_("Golf type"), lambda gi, gt=GT_GOLF: gi.si.game_type == gt),
-        (n_("Gypsy type"), lambda gi, gt=GT_GYPSY: gi.si.game_type == gt),
-        (n_("Klondike type"),
-            lambda gi, gt=GT_KLONDIKE: gi.si.game_type == gt),
-        (n_("Montana type"), lambda gi, gt=GT_MONTANA: gi.si.game_type == gt),
-        (n_("Napoleon type"),
-            lambda gi, gt=GT_NAPOLEON: gi.si.game_type == gt),
-        (n_("Numerica type"),
-            lambda gi, gt=GT_NUMERICA: gi.si.game_type == gt),
-        (n_("Pairing type"),
-            lambda gi, gt=GT_PAIRING_TYPE: gi.si.game_type == gt),
-        (n_("Raglan type"), lambda gi, gt=GT_RAGLAN: gi.si.game_type == gt),
-        (n_("Simple games"),
-            lambda gi, gt=GT_SIMPLE_TYPE: gi.si.game_type == gt),
-        (n_("Spider type"), lambda gi, gt=GT_SPIDER: gi.si.game_type == gt),
-        (n_("Terrace type"), lambda gi, gt=GT_TERRACE: gi.si.game_type == gt),
-        (n_("Yukon type"), lambda gi, gt=GT_YUKON: gi.si.game_type == gt),
-        (n_("One-Deck games"),
-            lambda gi, gt=GT_1DECK_TYPE: gi.si.game_type == gt),
-        (n_("Two-Deck games"),
-            lambda gi, gt=GT_2DECK_TYPE: gi.si.game_type == gt),
-        (n_("Three-Deck games"),
-            lambda gi, gt=GT_3DECK_TYPE: gi.si.game_type == gt),
-        (n_("Four-Deck games"),
-            lambda gi, gt=GT_4DECK_TYPE: gi.si.game_type == gt),
+        _gen_select(title=n_("Baker's Dozen type"), game_type=GT_BAKERS_DOZEN),
+        _gen_select(
+            title=n_("Beleaguered Castle type"),
+            game_type=GT_BELEAGUERED_CASTLE),
+        _gen_select(title=n_("Canfield type"), game_type=GT_CANFIELD),
+        _gen_select(title=n_("Fan type"), game_type=GT_FAN_TYPE),
+        _gen_select(
+            title=n_("Forty Thieves type"), game_type=GT_FORTY_THIEVES),
+        _gen_select(title=n_("FreeCell type"), game_type=GT_FREECELL),
+        _gen_select(title=n_("Golf type"), game_type=GT_GOLF),
+        _gen_select(title=n_("Gypsy type"), game_type=GT_GYPSY),
+        _gen_select(title=n_("Klondike type"), game_type=GT_KLONDIKE),
+        _gen_select(title=n_("Montana type"), game_type=GT_MONTANA),
+        _gen_select(title=n_("Napoleon type"), game_type=GT_NAPOLEON),
+        _gen_select(title=n_("Numerica type"), game_type=GT_NUMERICA),
+        _gen_select(title=n_("Pairing type"), game_type=GT_PAIRING_TYPE),
+        _gen_select(title=n_("Raglan type"), game_type=GT_RAGLAN),
+        _gen_select(title=n_("Simple games"), game_type=GT_SIMPLE_TYPE),
+        _gen_select(title=n_("Spider type"), game_type=GT_SPIDER),
+        _gen_select(title=n_("Terrace type"), game_type=GT_TERRACE),
+        _gen_select(title=n_("Yukon type"), game_type=GT_YUKON),
+        _gen_select(title=n_("One-Deck games"), game_type=GT_1DECK_TYPE),
+        _gen_select(title=n_("Two-Deck games"), game_type=GT_2DECK_TYPE),
+        _gen_select(title=n_("Three-Deck games"), game_type=GT_3DECK_TYPE),
+        _gen_select(title=n_("Four-Deck games"), game_type=GT_4DECK_TYPE),
     )
 
     SELECT_ORIGINAL_GAME_BY_TYPE = (

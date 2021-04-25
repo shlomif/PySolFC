@@ -984,7 +984,8 @@ class Game(object):
 
     def resizeImages(self, manually=False):
         # resizing images and cards
-        if self.app.opt.auto_scale and not manually:
+        if (self.app.opt.auto_scale or
+                (self.app.opt.spread_stacks and not manually)):
             if self.canvas.winfo_ismapped():
                 # apparent size of canvas
                 vw = self.canvas.winfo_width()
@@ -1002,10 +1003,12 @@ class Game(object):
             # calculate factor of resizing
             xf = float(vw)/iw
             yf = float(vh)/ih
-            if self.app.opt.preserve_aspect_ratio:
+            if (self.app.opt.preserve_aspect_ratio
+                    and not self.app.opt.spread_stacks):
                 xf = yf = min(xf, yf)
         else:
             xf, yf = self.app.opt.scale_x, self.app.opt.scale_y
+        if (not self.app.opt.spread_stacks or manually):
             # images
             self.app.images.resize(xf, yf)
         # cards
@@ -1024,20 +1027,23 @@ class Game(object):
             x0, y0 = stack.init_coord
             x, y = int(round(x0*xf)), int(round(y0*yf))
 
-            # Do not move Talons
-            # (because one would need to reposition
-            # 'empty cross' and 'redeal' figures)
-            # But in that case,
-            # games with talon not placed top-left corner
-            # will get it misplaced when auto_scale
-            # e.g. Suit Elevens
-            # => player can fix that issue by setting auto_scale false
-            if stack is self.s.talon:
-                # stack.init_coord=(x, y)
-                if card_size_manually:
-                    stack.resize(xf, yf0)
+            if (self.app.opt.spread_stacks):
+                # Do not move Talons
+                # (because one would need to reposition
+                # 'empty cross' and 'redeal' figures)
+                # But in that case,
+                # games with talon not placed top-left corner
+                # will get it misplaced when auto_scale
+                # e.g. Suit Elevens
+                # => player can fix that issue by setting auto_scale false
+                if stack is self.s.talon:
+                    # stack.init_coord=(x, y)
+                    if card_size_manually:
+                        stack.resize(xf, yf0)
+                    else:
+                        stack.resize(xf0, yf0)
                 else:
-                    stack.resize(xf0, yf0)
+                    stack.resize(xf, yf0)
             else:
                 stack.resize(xf, yf0)
             stack.updatePositions()

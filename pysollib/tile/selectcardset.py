@@ -309,6 +309,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
                 )
             self.aspect_check.grid(row=6, column=0, sticky='ew',
                                    padx=padx, pady=pady)
+
             self._updateAutoScale()
         #
         left_frame.rowconfigure(0, weight=1)
@@ -358,24 +359,27 @@ class SelectCardsetDialogWithPreview(MfxDialog):
 
             if USE_PIL:
                 auto_scale = bool(self.auto_scale.get())
-                if button == 1:  # Cancel
+                if button == 1:
                     # no changes
                     self.cardset_values = None
-                elif button == 0:  # OK
+
+                elif button == 0:
                     self.app.menubar.tkopt.auto_scale.set(auto_scale)
 
-                    self.app.opt.scale_x = self.scale_x.get()
-                    self.app.opt.scale_y = self.scale_y.get()
-                    self.app.opt.preserve_aspect_ratio = \
-                        self.preserve_aspect.get()
-
-                    self.scale_values = (self.app.opt.scale_x,
-                                         self.app.opt.scale_y,
-                                         auto_scale,
-                                         self.app.opt.preserve_aspect_ratio)
-                    self.app.game.resizeGame(card_size_manually=True)
-                    self.app.game.resizeGame(card_size_manually=False)
-
+                    if auto_scale:
+                        self.app.menubar.tkopt.spread_stacks.set(False)
+                        self.scale_values = (self.app.opt.scale_x,
+                                             self.app.opt.scale_y,
+                                             auto_scale,
+                                             False,
+                                             bool(self.preserve_aspect.get()))
+                    else:
+                        self.scale_values = (self.scale_x.get(),
+                                             self.scale_y.get(),
+                                             auto_scale,
+                                             self.app.opt.spread_stacks,
+                                             self.app.opt.
+                                             preserve_aspect_ratio)
         if button == 10:                # Info
             cs = self.manager.get(self.tree.selection_key)
             if not cs:

@@ -115,10 +115,9 @@ class HitOrMiss(Game):
         x += layout.XS * 1.1
         y = layout.YM + 1.4 * layout.YS
         if self.preview <= 1:
-            self.texts.rank = \
+            self.texts.base_rank = \
                 MfxCanvasText(self.canvas, x, y, anchor="nw",
-                              font=self.app.getFont("canvas_default"),
-                              text=_(""))
+                              font=self.app.getFont("canvas_large"))
 
         # define stack-groups
         layout.defaultStackGroups()
@@ -133,7 +132,7 @@ class HitOrMiss(Game):
     def updateText(self):
         if self.preview > 1:
             return
-        self.texts.rank.config(text=RANKS[self.rank])
+        self.texts.base_rank.config(text=RANKS[self.rank])
 
     def _restoreGameHook(self, game):
         self.rank = game.loadinfo.dval.get('Rank')

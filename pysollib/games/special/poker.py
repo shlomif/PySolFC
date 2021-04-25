@@ -72,16 +72,16 @@ class PokerSquare(Game):
                               text=_('''\
 Royal Flush
 Straight Flush
-Four of a Kind
+4 of a Kind
 Full House
 Flush
 Straight
-Three of a Kind
+3 of a Kind
 Two Pair
 One Pair'''))
             self.texts.list.append(t)
             bb = t.bbox()
-            x = bb[1][0] + 16
+            x = bb[1][0] + l.CW * 1.3
             h = bb[1][1] - bb[0][1]
             if h >= 2*l.YS:
                 ta = "e"
@@ -91,7 +91,7 @@ One Pair'''))
                               font=self.app.getFont("canvas_default"),
                               text="100\n75\n50\n25\n20\n15\n10\n5\n2")
             self.texts.list.append(t)
-            x = t.bbox()[1][0] + 16
+            x = t.bbox()[1][0] + l.CW * .6
             self.texts.misc = MfxCanvasText(
                 self.canvas, x, y, anchor="nw",
                 font=self.app.getFont("canvas_default"),

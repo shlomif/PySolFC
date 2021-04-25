@@ -27,7 +27,6 @@
 # PySol imports
 from pysollib.mfxutil import Struct
 from pysollib.pysoltk import MfxCanvasText
-from pysollib.resource import CSI
 
 
 # ************************************************************************
@@ -68,22 +67,11 @@ class Layout:
         self.regions = []
         # set visual constants
         images = self.game.app.images
-        cardset_size = images.cs.si.size
-        if cardset_size in (CSI.SIZE_TINY, CSI.SIZE_SMALL):
-            layout_x_margin = 6
-            layout_y_margin = 6
-            layout_card_x_space = 6
-            layout_card_y_space = 10
-        elif cardset_size in (CSI.SIZE_MEDIUM,):
-            layout_x_margin = 8
-            layout_y_margin = 8
-            layout_card_x_space = 8
-            layout_card_y_space = 12
-        else:  # CSI.SIZE_LARGE, CSI.SIZE_XLARGE
-            layout_x_margin = 10
-            layout_y_margin = 10
-            layout_card_x_space = 10
-            layout_card_y_space = 14
+
+        layout_x_margin = images.CARDW // 9
+        layout_y_margin = layout_x_margin
+        layout_card_x_space = images.CARDW // 9
+        layout_card_y_space = images.CARDH // 8
 
         self.CW = images.CARDW
         self.CH = images.CARDH

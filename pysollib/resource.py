@@ -168,6 +168,7 @@ class CSI:
     SIZE_MEDIUM = 3
     SIZE_LARGE = 4
     SIZE_XLARGE = 5
+    SIZE_HIRES = 6
 
     # cardset types
     TYPE_FRENCH = 1
@@ -477,8 +478,10 @@ class CardsetManager(ResourceManager):
                 cs.si.size = CSI.SIZE_MEDIUM
             elif CW <= 90 and CH <= 125:
                 cs.si.size = CSI.SIZE_LARGE
-            else:
+            elif CW <= 150 and CH <= 210:
                 cs.si.size = CSI.SIZE_XLARGE
+            else:
+                cs.si.size = CSI.SIZE_HIRES
         #
         keys = cs.styles[:]
         cs.si.styles = tuple([s for s in keys if s in CSI.STYLE])

@@ -161,7 +161,9 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             (_("Small cardsets"), lambda cs: cs.si.size == CSI.SIZE_SMALL),
             (_("Medium cardsets"), lambda cs: cs.si.size == CSI.SIZE_MEDIUM),
             (_("Large cardsets"), lambda cs: cs.si.size == CSI.SIZE_LARGE),
-            (_("XLarge cardsets"), lambda cs: cs.si.size == CSI.SIZE_XLARGE),
+            (_("Extra Large cardsets"),
+                lambda cs: cs.si.size == CSI.SIZE_XLARGE),
+            (_("Hi-Res cardsets"), lambda cs: cs.si.size == CSI.SIZE_HIRES),
                 ):
             cs = self._selectCardset(all_cardsets, selecter)
             if cs:

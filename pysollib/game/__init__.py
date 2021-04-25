@@ -997,7 +997,7 @@ class Game(object):
                 vw, vh = self.app.opt.game_geometry
                 if not vw:
                     # first run of the game
-                    return 1, 1
+                    return 1, 1, 1, 1
             # requested size of canvas (createGame -> setSize)
             iw, ih = self.init_size
             # calculate factor of resizing
@@ -1045,7 +1045,7 @@ class Game(object):
                 else:
                     stack.resize(xf, yf0)
             else:
-                stack.resize(xf, yf0)
+                stack.resize(xf, yf)
             stack.updatePositions()
         self.regions.calc_info(xf, yf)
         # texts
@@ -1862,7 +1862,10 @@ class Game(object):
         # for InvisibleStack, etc
         # x, y = -500, -500 - len(game.allstacks)
         cardw, cardh = self.app.images.CARDW, self.app.images.CARDH
-        x, y = cardw + self.canvas.xmargin, cardh + self.canvas.ymargin
+        xoffset = self.app.images.CARD_XOFFSET
+        yoffset = self.app.images.CARD_YOFFSET
+        x = cardw + xoffset + self.canvas.xmargin
+        y = cardh + yoffset + self.canvas.ymargin
         return -x-10, -y-10
 
     #

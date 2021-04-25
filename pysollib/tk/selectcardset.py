@@ -150,8 +150,11 @@ class SelectCardsetData(SelectDialogTreeData):
                     None, _("Large cardsets"),
                     lambda cs: cs.si.size == CSI.SIZE_LARGE),
                 SelectCardsetNode(
-                    None, _("XLarge cardsets"),
+                    None, _("Extra Large cardsets"),
                     lambda cs: cs.si.size == CSI.SIZE_XLARGE),
+                SelectCardsetNode(
+                    None, _("Hi-Res cardsets"),
+                    lambda cs: cs.si.size == CSI.SIZE_HIRES),
             ), expanded=1),
             select_by_type,
             select_by_style,

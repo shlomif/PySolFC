@@ -833,7 +833,8 @@ Please select a %(correct_type)s type cardset.
         changed = False
         if USE_PIL:
             if (self.opt.scale_x, self.opt.scale_y,
-                self.opt.auto_scale, self.opt.preserve_aspect_ratio) != \
+                self.opt.auto_scale, self.opt.spread_stacks,
+                self.opt.preserve_aspect_ratio) != \
                 d.scale_values or \
                     (cs.CARD_XOFFSET, cs.CARD_YOFFSET) != d.cardset_values:
                 changed = True
@@ -843,6 +844,7 @@ Please select a %(correct_type)s type cardset.
             (self.opt.scale_x,
              self.opt.scale_y,
              self.opt.auto_scale,
+             self.opt.spread_stacks,
              self.opt.preserve_aspect_ratio) = d.scale_values
             if not self.opt.auto_scale:
                 self.images.resize(self.opt.scale_x, self.opt.scale_y)

@@ -101,6 +101,7 @@ class PysolMenubarTk(PysolMenubarTkCommon):
             changed = (self.app.opt.scale_x,
                        self.app.opt.scale_y,
                        self.app.opt.auto_scale,
+                       self.app.opt.spread_stacks,
                        self.app.opt.preserve_aspect_ratio) != d.scale_values
         else:
             changed = False

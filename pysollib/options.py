@@ -435,6 +435,7 @@ class Options:
         self.scale_x = 1.0
         self.scale_y = 1.0
         self.auto_scale = False
+        self.spread_stacks = False
         self.preserve_aspect_ratio = True
         # solver
         self.solver_presets = [
@@ -574,7 +575,8 @@ class Options:
         for key, val in self.cardset.items():
             config['cardsets'][str(key)] = val
         for key in ('scale_cards', 'scale_x', 'scale_y',
-                    'auto_scale', 'preserve_aspect_ratio'):
+                    'auto_scale', 'spread_stacks',
+                    'preserve_aspect_ratio'):
             config['cardsets'][key] = getattr(self, key)
 
         # games_geometry
@@ -744,6 +746,7 @@ class Options:
                        ('scale_x', 'float'),
                        ('scale_y', 'float'),
                        ('auto_scale', 'bool'),
+                       ('spread_stacks', 'bool'),
                        ('preserve_aspect_ratio', 'bool')):
             val = self._getOption('cardsets', key, t)
             if val is not None:

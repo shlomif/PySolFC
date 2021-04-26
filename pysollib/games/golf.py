@@ -551,7 +551,68 @@ class Wasatch(Robert):
         Robert.createGame(self, max_rounds=UNLIMITED_REDEALS, num_deal=3)
 
     def startGame(self):
+        Robert.startGame(self)
+
+# ************************************************************************
+# * Uintah
+# ************************************************************************
+
+
+class Uintah_Foundation(AbstractFoundationStack):
+    def acceptsCards(self, from_stack, cards):
+        if not AbstractFoundationStack.acceptsCards(self, from_stack, cards):
+            return False
+        if (self.cards[-1].color != cards[0].color):
+            return False
+        # check the rank
+        if self.cards:
+            r1, r2 = self.cards[-1].rank, cards[0].rank
+            return (r1 + 1) % self.cap.mod == r2 or \
+                (r2 + 1) % self.cap.mod == r1
+        return True
+
+    def getHelp(self):
+        return _('Foundation. Build up or down by same color.')
+
+
+class Uintah(Game):
+
+    def createGame(self):
+        layout, s = Layout(self), self.s
+        self.setSize(layout.XM + 4 * layout.XS, layout.YM + 2 * layout.YS)
+        x, y = layout.XM, layout.YM
+        for i in range(4):
+            s.foundations.append(Uintah_Foundation(x, y, self,
+                                 suit=ANY_SUIT, dir=0, mod=13,
+                                 max_cards=52, max_move=0))
+            x += layout.XS
+        x, y = layout.XM + layout.XS, layout.YM + layout.YS
+        s.talon = WasteTalonStack(x, y, self,
+                                  max_rounds=UNLIMITED_REDEALS, num_deal=3)
+        layout.createText(s.talon, 'nw')
+        x += layout.XS
+        s.waste = WasteStack(x, y, self)
+        layout.createText(s.waste, 'ne')
+
+        # define stack-groups
+        layout.defaultStackGroups()
+
+    def _shuffleHook(self, cards):
+        suits = []
+        top_cards = []
+        for c in cards[:]:
+            if c.suit not in suits:
+                suits.append(c.suit)
+                top_cards.append(c)
+                cards.remove(c)
+            if len(suits) == 4:
+                break
+        top_cards.sort(key=lambda x: -x.suit)  # sort by suit
+        return cards + top_cards
+
+    def startGame(self):
         self.startDealSample()
+        self.s.talon.dealRow(rows=self.s.foundations)
         self.s.talon.dealCards()
 
 
@@ -1199,7 +1260,7 @@ registerGame(GameInfo(750, Flake2Decks, "Flake (2 decks)",
                       GI.GT_GOLF | GI.GT_OPEN | GI.GT_ORIGINAL,
                       2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(763, Wasatch, "Wasatch",
-                      GI.GT_1DECK_TYPE, 1, UNLIMITED_REDEALS,
+                      GI.GT_GOLF, 1, UNLIMITED_REDEALS,
                       GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(764, Beacon, "Beacon",
                       GI.GT_1DECK_TYPE | GI.GT_ORIGINAL, 1, 0,
@@ -1208,3 +1269,6 @@ registerGame(GameInfo(768, RelaxedThreeFirTrees, "Relaxed Three Fir-trees",
                       GI.GT_GOLF, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(777, DoubleGolf, "Double Golf",
                       GI.GT_GOLF, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(783, Uintah, "Uintah",
+                      GI.GT_GOLF, 1, UNLIMITED_REDEALS,
+                      GI.SL_MOSTLY_LUCK))

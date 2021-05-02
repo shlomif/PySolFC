@@ -244,6 +244,34 @@ class GeneralsPatience(Terrace):
 
 
 # ************************************************************************
+# * Big Terrace
+# * Empress of Italy
+# * Admiral's Patience
+# ************************************************************************
+
+class BigTerrace(Terrace):
+    INITIAL_RESERVE_CARDS = 19
+
+    def createGame(self):
+        Terrace.createGame(self, rows=11)
+
+    def startGame(self):
+        Terrace.startGame(self, nrows=5)
+
+
+class EmpressOfItaly(BigTerrace):
+    Foundation_Class = StackWrapper(Terrace_AC_Foundation, max_move=1)
+
+    def fillStack(self, stack):
+        pass
+
+
+class AdmiralsPatience(BigTerrace):
+    Foundation_Class = Terrace_SS_Foundation
+    INITIAL_RESERVE_CARDS = 13
+
+
+# ************************************************************************
 # * Blondes and Brunettes
 # * Falling Star
 # * Wood
@@ -467,3 +495,9 @@ registerGame(GameInfo(582, Wood, "Wood",
                       GI.GT_TERRACE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(637, BastilleDay, "Bastille Day",
                       GI.GT_TERRACE, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(785, BigTerrace, "Big Terrace",
+                      GI.GT_TERRACE, 4, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(786, EmpressOfItaly, "Empress of Italy",
+                      GI.GT_TERRACE, 4, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(787, AdmiralsPatience, "Admiral's Patience",
+                      GI.GT_TERRACE, 4, 0, GI.SL_MOSTLY_SKILL))

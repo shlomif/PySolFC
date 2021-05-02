@@ -72,7 +72,7 @@ class TakeAway(Game):
         l, s = Layout(self), self.s
 
         # set window
-        w, h = 2*l.XM+10*l.XS, l.YM+l.YS+16*l.YOFFSET
+        w, h = 2 * l.XM + (4 + reserves) * l.XS, l.YM + l.YS + 16 * l.YOFFSET
         self.setSize(w, h)
 
         # create stacks
@@ -82,7 +82,7 @@ class TakeAway(Game):
                                               max_move=1, max_accept=0))
             x += l.XS
         x += l.XM
-        for i in range(6):
+        for i in range(reserves):
             stack = self.Foundation_Class(x, y, self, suit=ANY_SUIT,
                                           base_rank=ANY_RANK)
             stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, l.YOFFSET
@@ -230,10 +230,23 @@ class Striptease(TakeAway):
         return ((r1+1) % 13 == r2 or (r2+1) % 13 == r1)
 
 
+# ************************************************************************
+# * Take Away 8
+# ************************************************************************
+
+
+class TakeAway8(TakeAway):
+    def createGame(self):
+        TakeAway.createGame(self, reserves=8)
+
+
 # register the game
 registerGame(GameInfo(334, TakeAway, "Take Away",
-                      GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL,
+                      altnames=("Eliminator")))
 registerGame(GameInfo(335, FourStacks, "Four Stacks",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(654, Striptease, "Striptease",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(784, TakeAway8, "Take Away 8",
+                      GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))

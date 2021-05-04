@@ -52,6 +52,8 @@ class SoundOptionsDialog(MfxDialog):
         self.sound_mode.set(app.opt.sound_mode != 0)
         self.sample_volume = tkinter.IntVar()
         self.sample_volume.set(app.opt.sound_sample_volume)
+        self.music = tkinter.BooleanVar()
+        self.music.set(app.opt.music != 0)
         self.music_volume = tkinter.IntVar()
         self.music_volume.set(app.opt.sound_music_volume)
         self.samples = [
@@ -111,6 +113,11 @@ class SoundOptionsDialog(MfxDialog):
                            variable=self.sample_volume)
             w.grid(row=row, column=1, sticky='w', padx=5)
             row += 1
+            w = ttk.Checkbutton(frame, variable=self.music,
+                                text=_("Music enabled"))
+            w.grid(row=row, column=0, columnspan=2, sticky='ew')
+
+            row += 1
             ttk.Label(frame, text=_('Music volume:'), anchor='w'
                       ).grid(row=row, column=0, sticky='ew')
             w = PysolScale(frame, from_=0, to=128, resolution=1,
@@ -159,6 +166,7 @@ class SoundOptionsDialog(MfxDialog):
             self.app.opt.sound_mode = int(self.sound_mode.get())
             self.app.opt.sound_sample_volume = self.sample_volume.get()
             self.app.opt.sound_music_volume = self.music_volume.get()
+            self.app.opt.music = self.music.get()
             for n, t, v in self.samples:
                 self.app.opt.sound_samples[n] = v.get()
         elif button == 2:

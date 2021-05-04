@@ -516,14 +516,8 @@ class PysolMenubarTkCommon:
             command=self.mOptShisenShowHint)
         menu.add_separator()
         label = n_("&Sound...")
-        if not self.app.audio.CAN_PLAY_SOUND:
-            menu.add_checkbutton(
-                label=label, variable=self.tkopt.sound,
-                command=self.mOptSoundDialog, state='disabled')
-        else:
-            menu.add_checkbutton(
-                label=label, variable=self.tkopt.sound,
-                command=self.mOptSoundDialog)
+        menu.add_command(
+            label=label, command=self.mOptSoundDialog)
         # cardsets
         if USE_PIL:
             submenu = MfxMenu(menu, label=n_("Card si&ze"))

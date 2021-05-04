@@ -119,6 +119,7 @@ sound = boolean
 sound_mode = integer(0, 1)
 sound_sample_volume = integer(0, 128)
 sound_sample_buffer_size = integer(1, 4)
+music = boolean
 tabletile_name = string
 recent_gameid = int_list
 favorite_gameid = int_list
@@ -261,6 +262,7 @@ class Options:
         ('sound_sample_volume', 'int'),
         ('sound_music_volume', 'int'),
         ('sound_sample_buffer_size', 'int'),
+        ('music', 'bool'),
         ('tabletile_name', 'str'),
         ('translate_game_names', 'bool'),
         ('solver_presets', 'list'),
@@ -353,6 +355,7 @@ class Options:
         self.sound_sample_volume = 75
         self.sound_music_volume = 100
         self.sound_sample_buffer_size = 1  # 1 - 4 (1024 - 4096 bytes)
+        self.music = True
         self.sound_samples = {
             'areyousure': True,
             'autodrop': True,

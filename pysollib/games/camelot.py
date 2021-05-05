@@ -164,10 +164,26 @@ class Camelot(Game):
         w = l.XS
         self.setSize(l.XM + w + 4*l.XS + w + l.XS, l.YM + 4*l.YS)
         # create stacks
+        stackNum = 0
+        font = self.app.getFont("canvas_default")
         for i in range(4):
             for j in range(4):
                 x, y = l.XM + w + j*l.XS, l.YM + i*l.YS
-                s.rows.append(self.RowStack_Class(x, y, self))
+                stack = self.RowStack_Class(x, y, self)
+                if self.preview <= 1:
+                    stack.texts.misc = MfxCanvasText(self.canvas,
+                                                     x + l.CW // 2,
+                                                     y + l.CH // 2,
+                                                     anchor="center",
+                                                     font=font)
+                    if stackNum in (0, 3, 12, 15):
+                        stack.texts.misc.config(text="K")
+                    elif stackNum in (1, 2, 13, 14):
+                        stack.texts.misc.config(text="Q")
+                    elif stackNum in (4, 7, 8, 11):
+                        stack.texts.misc.config(text="J")
+                s.rows.append(stack)
+                stackNum += 1
         x, y = l.XM, l.YM
         s.talon = self.Talon_Class(x, y, self)
         l.createText(s.talon, 's')
@@ -195,6 +211,8 @@ class Camelot(Game):
         return len(self.s.talon.cards) == 0
 
     def isRowsFill(self):
+        if len(self.s.talon.cards) == 0:
+            return True
         for i in range(16):
             if len(self.s.rows[i].cards) == 0:
                 return False
@@ -649,7 +667,8 @@ class DoubleLine(Game):
 
 # register the game
 registerGame(GameInfo(280, Camelot, "Camelot",
-                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED,
+                      altnames=("Kings in the Corners")))
 registerGame(GameInfo(610, SlyFox, "Sly Fox",
                       GI.GT_NUMERICA, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(614, OpenSlyFox, "Open Sly Fox",

@@ -317,6 +317,7 @@ class GI:
         ("Fred Lunde", (459,)),
         ("Albert Morehead and Geoffrey Mott-Smith", (25, 42, 48, 173, 282,
                                                      303, 362, 547, 738)),
+        ("Toby Ord", (788,)),
         ("David Parlett", (64, 98, 294, 338, 654, 674,)),
         ("Randy Rasa", (187, 190, 191, 192,)),
         ("Captain Jeffrey T. Spaulding", (400,)),

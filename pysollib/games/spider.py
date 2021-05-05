@@ -1360,6 +1360,57 @@ class TheJollyRoger(Game):
     getQuickPlayScore = Game._getSpiderQuickPlayScore
 
 
+# ************************************************************************
+# * Autumn Leaves
+# ************************************************************************
+
+class AutumnLeaves_RowStack(Spider_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not BasicRowStack.acceptsCards(self, from_stack, cards):
+            return 0
+        if not self.cards:
+            return 1
+        return (self.cards[-1].rank > cards[0].rank
+                and self.cards[-1].suit == cards[0].suit)
+
+
+class AutumnLeaves(Game):
+    Layout_Method = staticmethod(Layout.klondikeLayout)
+    Talon_Class = DealRowTalonStack
+    RowStack_Class = AutumnLeaves_RowStack
+    Hint_Class = Spider_Hint
+
+    def createGame(self, **layout):
+        # create layout
+        l, s = Layout(self), self.s
+        kwdefault(layout, rows=6, waste=0, texts=1, playcards=22)
+        self.Layout_Method(l, **layout)
+        self.setSize(l.size[0], l.size[1])
+        # create stacks
+        s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self)
+        if l.s.waste:
+            s.waste = WasteStack(l.s.waste.x, l.s.waste.y, self)
+        for r in l.s.rows:
+            s.rows.append(self.RowStack_Class(r.x, r.y, self))
+        # default
+        l.defaultAll()
+
+    def startGame(self):
+        for i in range(2):
+            self.s.talon.dealRow(flip=0, frames=0)
+        r = self.s.rows
+        rows = (r[0], r[1], r[4], r[5])
+        self.s.talon.dealRow(rows=rows, flip=0, frames=0)
+        self._startAndDealRow()
+
+    def isGameWon(self):
+        for s in self.s.rows:
+            if s.cards:
+                if len(s.cards) != 13 or not isSameSuitSequence(s.cards):
+                    return False
+        return True
+
+
 # register the game
 registerGame(GameInfo(10, RelaxedSpider, "Relaxed Spider",
                       GI.GT_SPIDER | GI.GT_RELAXED, 2, 0, GI.SL_MOSTLY_SKILL))
@@ -1489,3 +1540,5 @@ registerGame(GameInfo(710, Bebop, "Bebop",
 #                      GI.GT_SPIDER | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(711, TheJollyRoger, "The Jolly Roger",
                       GI.GT_SPIDER | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(788, AutumnLeaves, "Autumn Leaves",
+                      GI.GT_SPIDER, 1, 0, GI.SL_MOSTLY_SKILL))

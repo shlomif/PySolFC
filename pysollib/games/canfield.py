@@ -6,6 +6,7 @@ from pysollib.mygettext import _
 from pysollib.pysoltk import MfxCanvasText
 from pysollib.stack import \
         AC_RowStack, \
+        AbstractFoundationStack, \
         KingAC_RowStack, \
         OpenStack, \
         RK_RowStack, \
@@ -14,7 +15,8 @@ from pysollib.stack import \
         SS_RowStack, \
         StackWrapper, \
         WasteStack, \
-        WasteTalonStack
+        WasteTalonStack, \
+        isRankSequence
 from pysollib.util import KING, QUEEN, RANKS, UNLIMITED_REDEALS
 
 
@@ -72,13 +74,14 @@ class Canfield(Game):
     INITIAL_RESERVE_CARDS = 13
     INITIAL_RESERVE_FACEUP = 0
     FILL_EMPTY_ROWS = 1
+    SEPARATE_FOUNDATIONS = True
 
     #
     # game layout
     #
 
     def createGame(self, rows=4, max_rounds=-1, num_deal=3,
-                   text=True, round_text=False):
+                   text=True, round_text=False, dir=-1):
         # create layout
         lay, s = Layout(self), self.s
         decks = self.gameinfo.decks
@@ -113,11 +116,17 @@ class Canfield(Game):
         lay.createText(s.waste, "s")
         x += lay.XM
         y = lay.YM
-        for i in range(4):
-            for j in range(decks):
-                x += lay.XS
-                s.foundations.append(self.Foundation_Class(x, y, self, i,
-                                                           mod=13, max_move=0))
+        if (self.SEPARATE_FOUNDATIONS):
+            for i in range(4):
+                for j in range(decks):
+                    x += lay.XS
+                    s.foundations.append(self.Foundation_Class(x, y,
+                                                               self, i,
+                                                               mod=13,
+                                                               max_move=0))
+        else:
+            x += (lay.XS * rows)
+            s.foundations.append(self.Foundation_Class(x, y, self, -1))
         if text:
             if rows > 4 * decks:
                 tx, ty, ta, tf = lay.getTextAttr(None, "se")
@@ -137,7 +146,7 @@ class Canfield(Game):
         if text:
             y += lay.TEXT_HEIGHT
         for i in range(rows):
-            s.rows.append(self.RowStack_Class(x, y, self))
+            s.rows.append(self.RowStack_Class(x, y, self, dir=dir))
             x += lay.XS
 
         # define stack-groups
@@ -166,17 +175,18 @@ class Canfield(Game):
         self.startDealSample()
         self.base_card = None
         self.updateText()
-        # deal base_card to Foundations, update foundations cap.base_rank
-        self.base_card = self.s.talon.getCard()
-        for s in self.s.foundations:
-            s.cap.base_rank = self.base_card.rank
-        n = self.base_card.suit * self.gameinfo.decks
-        if self.s.foundations[n].cards:
-            assert self.gameinfo.decks > 1
-            n = n + 1
-        self.flipMove(self.s.talon)
-        self.moveMove(1, self.s.talon, self.s.foundations[n])
-        self.updateText()
+        if (self.SEPARATE_FOUNDATIONS):
+            # deal base_card to Foundations, update foundations cap.base_rank
+            self.base_card = self.s.talon.getCard()
+            for s in self.s.foundations:
+                s.cap.base_rank = self.base_card.rank
+            n = self.base_card.suit * self.gameinfo.decks
+            if self.s.foundations[n].cards:
+                assert self.gameinfo.decks > 1
+                n = n + 1
+            self.flipMove(self.s.talon)
+            self.moveMove(1, self.s.talon, self.s.foundations[n])
+            self.updateText()
         # fill the Reserve
         for i in range(self.INITIAL_RESERVE_CARDS):
             if self.INITIAL_RESERVE_FACEUP:
@@ -856,6 +866,36 @@ class Lafayette(Game):
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
+# ************************************************************************
+# * Beehive
+# ************************************************************************
+
+class Beehive_Foundation(AbstractFoundationStack):
+    def acceptsCards(self, from_stack, cards):
+        if len(cards) < 4:
+            return False
+        return isRankSequence(cards, dir=0)
+
+
+class Beehive(Canfield):
+    Foundation_Class = Beehive_Foundation
+    RowStack_Class = StackWrapper(RK_RowStack)
+
+    SEPARATE_FOUNDATIONS = False
+
+    def createGame(self):
+        Canfield.createGame(self, rows=6, dir=0)
+
+    def _restoreGameHook(self, game):
+        pass
+
+    def _loadGameHook(self, p):
+        pass
+
+    def _saveGameHook(self, p):
+        pass
+
+
 # register the game
 registerGame(GameInfo(105, Canfield, "Canfield",                # was: 262
                       GI.GT_CANFIELD | GI.GT_CONTRIB, 1, -1, GI.SL_BALANCED))
@@ -905,4 +945,6 @@ registerGame(GameInfo(527, Doorway, "Doorway",
 registerGame(GameInfo(605, Skippy, "Skippy",
                       GI.GT_FAN_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(642, Lafayette, "Lafayette",
+                      GI.GT_CANFIELD, 1, -1, GI.SL_BALANCED))
+registerGame(GameInfo(789, Beehive, "Beehive",
                       GI.GT_CANFIELD, 1, -1, GI.SL_BALANCED))

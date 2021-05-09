@@ -173,13 +173,13 @@ class ThreePeaks(Game):
     # Game over rides
     #
 
-    def startGame(self):
+    def startGame(self, flip=0):
         assert len(self.s.talon.cards) == self.gameinfo.ncards
         self.game_score = self.game_score + self.hand_score
         self.hand_score = -52
         self.peaks = [0] * 3
         self.startDealSample()
-        self.s.talon.dealRow(rows=self.s.rows[:18], flip=0, frames=4)
+        self.s.talon.dealRow(rows=self.s.rows[:18], flip=flip, frames=4)
         self.s.talon.dealRow(rows=self.s.rows[18:], flip=1, frames=4)
         self.s.talon.dealCards()
 
@@ -261,9 +261,38 @@ class ThreePeaksNoScore(ThreePeaks):
         return True
 
 
-registerGame(GameInfo(22216, ThreePeaks, "Three Peaks",
-                      GI.GT_PAIRING_TYPE | GI.GT_SCORE, 1, 0, GI.SL_BALANCED,
-                      altnames=("Tri Peaks",)
-                      ))
-registerGame(GameInfo(22231, ThreePeaksNoScore, "Three Peaks Non-scoring",
-                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_BALANCED))
+# ************************************************************************
+# * Three Peaks Game Open
+# ************************************************************************
+
+class ThreePeaksOpen(ThreePeaks):
+    SCORING = 0
+
+    def canUndo(self):
+        return True
+
+    def startGame(self):
+        ThreePeaks.startGame(self, flip=1)
+
+
+# ************************************************************************
+# * Three Peaks Game Open with scoring
+# ************************************************************************
+
+class ThreePeaksOpenScored(ThreePeaks):
+    def startGame(self):
+        ThreePeaks.startGame(self, flip=1)
+
+
+registerGame(GameInfo(22216, ThreePeaks, "Three Peaks (Scored)",
+                      GI.GT_GOLF | GI.GT_SCORE, 1, 0, GI.SL_BALANCED,
+                      rules_filename="threepeaks.html"))
+registerGame(GameInfo(22217, ThreePeaksOpen, "Three Peaks (Open)",
+                      GI.GT_GOLF | GI.GT_OPEN, 1, 0, GI.SL_BALANCED,
+                      rules_filename="threepeaks.html"))
+registerGame(GameInfo(22218, ThreePeaksOpenScored, "Three Peaks (Scored/Open)",
+                      GI.GT_GOLF | GI.GT_OPEN | GI.GT_SCORE, 1, 0,
+                      GI.SL_BALANCED, rules_filename="threepeaks.html"))
+registerGame(GameInfo(22231, ThreePeaksNoScore, "Three Peaks",
+                      GI.GT_GOLF, 1, 0, GI.SL_BALANCED,
+                      altnames=("Tri Peaks",)))

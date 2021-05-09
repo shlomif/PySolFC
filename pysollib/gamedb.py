@@ -311,7 +311,7 @@ class GI:
         ("Gordon Bower", (763, 783,)),
         ("Art Cabral", (9,)),
         ("Robert Harbin", (381,)),
-        ("Robert Hogue", (22216,)),
+        ("Robert Hogue", (22216, 22217, 22218, 22231,)),
         ("Charles Jewell", (220, 309,)),
         ("Michael Keller", (592,)),
         ("Fred Lunde", (459,)),

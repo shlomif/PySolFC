@@ -439,6 +439,7 @@ class Options:
         self.scale_y = 1.0
         self.auto_scale = False
         self.spread_stacks = False
+        self.center_layout = True
         self.preserve_aspect_ratio = True
         # solver
         self.solver_presets = [

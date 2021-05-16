@@ -298,12 +298,14 @@ class StackRegions(NewStruct):
     # init info (at the start)
     init_info = attr.ib(factory=list)
 
-    def calc_info(self, xf, yf):
+    def calc_info(self, xf, yf, widthpad=0, heightpad=0):
         """docstring for calc_info"""
         info = []
         for stacks, rect in self.init_info:
-            newrect = (int(round(rect[0]*xf)), int(round(rect[1]*yf)),
-                       int(round(rect[2]*xf)), int(round(rect[3]*yf)))
+            newrect = (int(round((rect[0] + widthpad) * xf)),
+                       int(round((rect[1] + heightpad) * yf)),
+                       int(round((rect[2] + widthpad) * xf)),
+                       int(round((rect[3] + heightpad) * yf)))
             info.append((stacks, newrect))
         self.info = tuple(info)
 
@@ -815,6 +817,7 @@ class Game(object):
         if dealer:
             dealer()
         else:
+            self.resizeGame()
             self.startGame()
         self.startMoves()
         for stack in self.allstacks:
@@ -983,23 +986,24 @@ class Game(object):
         self.newGame(restart=1, random=self.random)
 
     def resizeImages(self, manually=False):
+        if self.canvas.winfo_ismapped():
+            # apparent size of canvas
+            vw = self.canvas.winfo_width()
+            vh = self.canvas.winfo_height()
+        else:
+            # we have no a real size of canvas
+            # (winfo_width / winfo_reqwidth)
+            # so we use a saved size
+            vw, vh = self.app.opt.game_geometry
+            if not vw:
+                # first run of the game
+                return 1, 1, 1, 1, 0, 0
+        # requested size of canvas (createGame -> setSize)
+        iw, ih = self.init_size
+
         # resizing images and cards
         if (self.app.opt.auto_scale or
                 (self.app.opt.spread_stacks and not manually)):
-            if self.canvas.winfo_ismapped():
-                # apparent size of canvas
-                vw = self.canvas.winfo_width()
-                vh = self.canvas.winfo_height()
-            else:
-                # we have no a real size of canvas
-                # (winfo_width / winfo_reqwidth)
-                # so we use a saved size
-                vw, vh = self.app.opt.game_geometry
-                if not vw:
-                    # first run of the game
-                    return 1, 1, 1, 1
-            # requested size of canvas (createGame -> setSize)
-            iw, ih = self.init_size
             # calculate factor of resizing
             xf = float(vw)/iw
             yf = float(vh)/ih
@@ -1008,13 +1012,29 @@ class Game(object):
                 xf = yf = min(xf, yf)
         else:
             xf, yf = self.app.opt.scale_x, self.app.opt.scale_y
+        cw, ch = self.getCenterOffset(vw, vh, iw, ih, xf, yf)
         if (not self.app.opt.spread_stacks or manually):
             # images
             self.app.images.resize(xf, yf)
         # cards
         for card in self.cards:
             card.update(card.id, card.deck, card.suit, card.rank, self)
-        return xf, yf, self.app.images._xfactor, self.app.images._yfactor
+        return xf, yf, self.app.images._xfactor, self.app.images._yfactor, \
+            cw, ch
+
+    def getCenterOffset(self, vw, vh, iw, ih, xf, yf):
+        if (not self.app.opt.center_layout or self.app.opt.spread_stacks or
+                (self.app.opt.auto_scale and not
+                 self.app.opt.preserve_aspect_ratio)):
+            return 0, 0
+        if ((vw > iw and vh > ih) or self.app.opt.auto_scale):
+            return (vw / xf - iw) / 2, (vh / yf - ih) / 2
+        elif (vw >= iw and vh < ih):
+            return (vw / xf - iw) / 2, 0
+        elif (vw < iw and vh >= ih):
+            return 0, (vh / yf - ih) / 2
+        else:
+            return 0, 0
 
     def resizeGame(self, card_size_manually=False):
         # if self.busy:
@@ -1022,10 +1042,11 @@ class Game(object):
         if not USE_PIL:
             return
         self.deleteStackDesc()
-        xf, yf, xf0, yf0 = self.resizeImages(manually=card_size_manually)
+        xf, yf, xf0, yf0, cw, ch = \
+            self.resizeImages(manually=card_size_manually)
         for stack in self.allstacks:
             x0, y0 = stack.init_coord
-            x, y = int(round(x0*xf)), int(round(y0*yf))
+            x, y = int(round(x0 * xf) + cw), int(round(y0 * yf) + ch)
 
             if (self.app.opt.spread_stacks):
                 # Do not move Talons
@@ -1039,27 +1060,28 @@ class Game(object):
                 if stack is self.s.talon:
                     # stack.init_coord=(x, y)
                     if card_size_manually:
-                        stack.resize(xf, yf0)
+                        stack.resize(xf, yf0, widthpad=cw, heightpad=ch)
                     else:
-                        stack.resize(xf0, yf0)
+                        stack.resize(xf0, yf0, widthpad=cw, heightpad=ch)
                 else:
-                    stack.resize(xf, yf0)
+                    stack.resize(xf, yf0, widthpad=cw, heightpad=ch)
             else:
-                stack.resize(xf, yf)
+                stack.resize(xf, yf, widthpad=cw, heightpad=ch)
             stack.updatePositions()
-        self.regions.calc_info(xf, yf)
+        self.regions.calc_info(xf, yf, widthpad=cw, heightpad=ch)
         # texts
         for t in ('info', 'help', 'misc', 'score', 'base_rank'):
             init_coord = getattr(self.init_texts, t)
             if init_coord:
                 item = getattr(self.texts, t)
-                x, y = int(round(init_coord[0]*xf)), \
-                    int(round(init_coord[1]*yf))
+                x, y = int(round((init_coord[0] + cw) * xf)), \
+                    int(round((init_coord[1] + ch) * yf))
                 self.canvas.coords(item, x, y)
         for i in range(len(self.texts.list)):
             init_coord = self.init_texts.list[i]
             item = self.texts.list[i]
-            x, y = int(round(init_coord[0]*xf)), int(round(init_coord[1]*yf))
+            x, y = int(round((init_coord[0] + cw) * xf)), \
+                int(round((init_coord[1] + ch) * yf))
             self.canvas.coords(item, x, y)
 
     def createRandom(self, random):
@@ -1312,7 +1334,9 @@ class Game(object):
             return
         if not self.canvas:
             return
-        if not self.app.opt.auto_scale:
+        if (not self.app.opt.auto_scale and
+                not self.app.opt.spread_stacks and
+                not self.app.opt.center_layout):
             return
         if self.preview:
             return

@@ -172,6 +172,7 @@ class PysolMenubarTkCommon:
             sound=tkinter.BooleanVar(),
             auto_scale=tkinter.BooleanVar(),
             spread_stacks=tkinter.BooleanVar(),
+            center_layout=tkinter.BooleanVar(),
             cardback=tkinter.IntVar(),
             tabletile=tkinter.IntVar(),
             animations=tkinter.IntVar(),
@@ -224,6 +225,7 @@ class PysolMenubarTkCommon:
         tkopt.sound.set(opt.sound)
         tkopt.auto_scale.set(opt.auto_scale)
         tkopt.spread_stacks.set(opt.spread_stacks)
+        tkopt.center_layout.set(opt.center_layout)
         tkopt.cardback.set(self.app.cardset.backindex)
         tkopt.tabletile.set(self.app.tabletile_index)
         tkopt.animations.set(opt.animations)
@@ -530,9 +532,13 @@ class PysolMenubarTkCommon:
             submenu.add_checkbutton(
                 label=n_("&Auto scaling"), variable=self.tkopt.auto_scale,
                 command=self.mOptAutoScale, accelerator=m+'0')
+            submenu = MfxMenu(menu, label=n_("Card la&yout"))
             submenu.add_checkbutton(
                 label=n_("&Spread stacks"), variable=self.tkopt.spread_stacks,
                 command=self.mOptSpreadStacks)
+            submenu.add_checkbutton(
+                label=n_("&Center layout"), variable=self.tkopt.center_layout,
+                command=self.mOptCenterLayout)
         # manager = self.app.cardset_manager
         # n = manager.len()
         menu.add_command(
@@ -1507,6 +1513,12 @@ Unsupported game for import.
 
         self.app.opt.spread_stacks = spread_stacks
         self.tkopt.spread_stacks.set(spread_stacks)
+        self._updateCardSize()
+
+    def mOptCenterLayout(self, *event):
+        if self._cancelDrag(break_pause=True):
+            return
+        self.app.opt.center_layout = not self.app.opt.center_layout
         self._updateCardSize()
 
     def _mOptCardback(self, index):

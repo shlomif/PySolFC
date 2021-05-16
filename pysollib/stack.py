@@ -851,11 +851,15 @@ class Stack:
             return True
         return False
 
-    def resize(self, xf, yf):
+    def resize(self, xf, yf, widthpad=0, heightpad=0):
         # resize and move stack
         # xf, yf - a multiplicative factor (from the original values)
         # print 'Stack.resize:', self, self.is_visible, xf, yf
         x0, y0 = self.init_coord
+        if (x0 > 0):
+            x0 += widthpad
+        if (y0 > 0):
+            y0 += heightpad
         x, y = int(round(x0*xf)), int(round(y0*yf))
         self.x, self.y = x, y
         # offsets
@@ -893,8 +897,8 @@ class Stack:
         # move the items
         def move(item):
             ix, iy = item.init_coord
-            x = int(round(ix*xf))
-            y = int(round(iy*yf))
+            x = int(round((ix + widthpad) * xf))
+            y = int(round((iy + heightpad) * yf))
             item.moveTo(x, y)
         # images
         if self.images.redeal:
@@ -1967,9 +1971,9 @@ class TalonStack(Stack,
     # def getBaseCard(self):
     #    return self._getBaseCard()
 
-    def resize(self, xf, yf):
+    def resize(self, xf, yf, widthpad=0, heightpad=0):
         self._addRedealImage()
-        Stack.resize(self, xf, yf)
+        Stack.resize(self, xf, yf, widthpad=widthpad, heightpad=heightpad)
 
 
 # A single click deals one card to each of the RowStacks.

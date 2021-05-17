@@ -817,7 +817,8 @@ class Game(object):
         if dealer:
             dealer()
         else:
-            self.resizeGame()
+            if not self.preview:
+                self.resizeGame()
             self.startGame()
         self.startMoves()
         for stack in self.allstacks:

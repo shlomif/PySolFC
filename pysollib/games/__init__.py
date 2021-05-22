@@ -68,6 +68,7 @@ from . import parallels  # noqa: F401
 from . import pasdedeux  # noqa: F401
 from . import picturegallery  # noqa: F401
 from . import pileon  # noqa: F401
+from . import precedence  # noqa: F401
 from . import pushpin  # noqa: F401
 from . import pyramid  # noqa: F401
 from . import royalcotillion  # noqa: F401

@@ -433,10 +433,8 @@ class MyCustomGame(CustomGame):
                     v = v.replace("\r", "\\r")
                     v = v.replace("\t", "\\t")
                     # See: https://github.com/shlomif/PySolFC/issues/177
-                    DISABLE_DUE_TO_GH177 = False
-                    if DISABLE_DUE_TO_GH177:
-                        if isinstance(v, six.text_type):
-                            v = v.encode('utf-8')
+                    # if isinstance(v, six.text_type):
+                    #     v = v.encode('utf-8')
                     if not v:
                         v = 'Invalid Game Name'
                 fd.write("        '{}': '{}',\n".format(w.var_name, v))

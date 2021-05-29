@@ -109,7 +109,7 @@ class SelectGameData(SelectDialogTreeData):
                                 select_mahjongg_game)
         g.append(gg)
         if g[0]:
-            s_by_type = SelectGameNode(None, _("French games"),
+            s_by_type = SelectGameNode(None, _("French Games"),
                                        tuple(g[0]), expanded=1)
         if g[1]:
             s_oriental = SelectGameNode(None, _("Oriental Games"),

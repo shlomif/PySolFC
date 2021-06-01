@@ -1966,8 +1966,8 @@ class Game(object):
     def changed(self, restart=False):
         if self.gstats.updated < 0:
             return 0                    # already won or lost
-        if self.gstats.loaded > 0:
-            return 0                    # loaded games account for no stats
+        # if self.gstats.loaded > 0:
+        #     return 0                    # loaded games account for no stats
         if not restart:
             if self.gstats.restarted > 0:
                 return 1                # game was restarted - always ask
@@ -3263,7 +3263,8 @@ class Game(object):
         initial_seed = random__int2str(pload(int))
         game.random = construct_random(initial_seed)
         state = pload()
-        if not (isinstance(game.random, random2.Random) and
+        if (game.random is not None and
+                not isinstance(game.random, random2.Random) and
                 isinstance(state, int)):
             game.random.setstate(state)
         # if not hasattr(game.random, "origin"):

@@ -66,6 +66,7 @@ class PileOn(Game):
     TWIDTH = 4
     NSTACKS = 15
     PLAYCARDS = 4
+    EXTRACELL = False
 
     #
     # game layout
@@ -80,12 +81,21 @@ class PileOn(Game):
         # w = max(2*l.XS, l.XS+(self.PLAYCARDS-1)*l.XOFFSET+2*l.XM)
         w = l.XS+(self.PLAYCARDS-1)*l.XOFFSET+3*l.XOFFSET
         twidth, theight = self.TWIDTH, int((self.NSTACKS-1)/self.TWIDTH+1)
-        self.setSize(l.XM+twidth*w, l.YM+theight*l.YS)
+        exw = 0
+        if self.EXTRACELL:
+            exw = l.XS + l.XM
+        self.setSize((l.XM + twidth * w) + exw, l.YM + theight * l.YS)
 
         # create stacks
         y = l.YM
+
+        if self.EXTRACELL:
+            ex, ey = l.XM, ((l.YM + theight * l.YS) / 2) - (l.YS / 2)
+            s.reserves.append(ReserveStack(ex, ey, self))
         for i in range(theight):
             x = l.XM
+            if (self.EXTRACELL):
+                x += exw
             for j in range(twidth):
                 if i*twidth+j >= self.NSTACKS:
                     break
@@ -99,9 +109,9 @@ class PileOn(Game):
         s.talon = InitialDealTalonStack(x, y, self)
 
         # define stack-groups
-        self.sg.openstacks = s.rows
+        self.sg.openstacks = s.rows + s.reserves
         self.sg.talonstacks = [s.talon]
-        self.sg.dropstacks = s.rows
+        self.sg.dropstacks = s.rows + s.reserves
 
     #
     # game overrides
@@ -128,6 +138,10 @@ class SmallPileOn(PileOn):
     TWIDTH = 3
     NSTACKS = 11
     PLAYCARDS = 4
+
+
+class RelaxedPileOn(PileOn):
+    EXTRACELL = True
 
 
 #  class PileOn2Decks(PileOn):
@@ -399,4 +413,7 @@ registerGame(GameInfo(740, Footling, "Footling",
                       GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(741, DoubleFootling, "Double Footling",
                       GI.GT_FREECELL | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0,
+                      GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(793, RelaxedPileOn, "Relaxed PileOn",
+                      GI.GT_1DECK_TYPE | GI.GT_OPEN | GI.GT_RELAXED, 1, 0,
                       GI.SL_MOSTLY_SKILL))

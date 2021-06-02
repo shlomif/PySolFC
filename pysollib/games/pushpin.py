@@ -334,4 +334,4 @@ registerGame(GameInfo(772, Accordion2, "Accordion",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED,
                       altnames=('Idle Year', 'Methuselah', 'Tower of Babel')))
 registerGame(GameInfo(773, RelaxedAccordion, "Relaxed Accordion",
-                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))
+                      GI.GT_1DECK_TYPE | GI.GT_RELAXED, 1, 0, GI.SL_BALANCED))

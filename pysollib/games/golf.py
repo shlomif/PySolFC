@@ -1266,7 +1266,7 @@ registerGame(GameInfo(764, Beacon, "Beacon",
                       GI.GT_1DECK_TYPE | GI.GT_ORIGINAL, 1, 0,
                       GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(768, RelaxedThreeFirTrees, "Relaxed Three Fir-trees",
-                      GI.GT_GOLF, 2, 0, GI.SL_BALANCED))
+                      GI.GT_GOLF | GI.GT_RELAXED, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(777, DoubleGolf, "Double Golf",
                       GI.GT_GOLF, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(783, Uintah, "Uintah",

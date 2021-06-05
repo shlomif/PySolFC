@@ -207,12 +207,13 @@ class Montana(Game):
 
     def startGame(self):
         frames = 0
-        for i in range(52):
+        toprows = len(self.s.talon.cards) * .75
+        for i in range(len(self.s.talon.cards)):
             c = self.s.talon.cards[-1]
             if c.rank == ACE:
                 self.s.talon.dealRow(rows=self.s.internals, frames=0)
             else:
-                if frames == 0 and i >= 39:
+                if frames == 0 and i >= toprows:
                     self.startDealSample()
                     frames = 4
                 self.s.talon.dealRow(rows=(self.s.rows[i],), frames=frames)
@@ -624,13 +625,35 @@ class DoubleRedMoon(DoubleMontana, RedMoon):
     startGame = RedMoon.startGame
 
 
+# ************************************************************************
+# * House of Commons
+# * Pretzel
+# ************************************************************************
+
+
+class HouseOfCommons(Montana):
+    Talon_Class = StackWrapper(Montana_Talon, max_rounds=2)
+    RLEN, RSTEP, RBASE = 40, 10, 1
+
+    def createGame(self):
+        Montana.createGame(self, round_text=True)
+
+
+class Pretzel(Montana):
+    Talon_Class = InitialDealTalonStack
+    RLEN, RSTEP, RBASE = 20, 5, 1
+
+    def createGame(self):
+        Montana.createGame(self, round_text=False)
+
+
 # register the game
 registerGame(GameInfo(53, Montana, "Montana",
                       GI.GT_MONTANA | GI.GT_OPEN, 1, 2, GI.SL_MOSTLY_SKILL,
                       si={"ncards": 48}, altnames="Gaps"))
 registerGame(GameInfo(116, Spaces, "Spaces",
                       GI.GT_MONTANA | GI.GT_OPEN, 1, 2, GI.SL_MOSTLY_SKILL,
-                      si={"ncards": 48}))
+                      si={"ncards": 48}, altnames="Addiction"))
 registerGame(GameInfo(63, BlueMoon, "Blue Moon",
                       GI.GT_MONTANA | GI.GT_OPEN, 1, 2, GI.SL_MOSTLY_SKILL,
                       altnames=("Rangoon",)))
@@ -653,11 +676,16 @@ registerGame(GameInfo(706, Paganini, "Paganini",
                       altnames=('Long Trip',)))
 registerGame(GameInfo(736, Spoilt, "Spoilt",
                       GI.GT_MONTANA, 1, 0, GI.SL_MOSTLY_LUCK,
-                      ranks=(0, 6, 7, 8, 9, 10, 11, 12),
-                      ))
+                      ranks=(0, 6, 7, 8, 9, 10, 11, 12)))
 registerGame(GameInfo(759, DoubleMontana, "Double Montana",
                       GI.GT_MONTANA | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(770, DoubleBlueMoon, "Double Blue Moon",
                       GI.GT_MONTANA | GI.GT_OPEN, 2, 2, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(771, DoubleRedMoon, "Double Red Moon",
                       GI.GT_MONTANA | GI.GT_OPEN, 2, 2, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(794, HouseOfCommons, "House of Commons",
+                      GI.GT_MONTANA | GI.GT_OPEN, 1, 1, GI.SL_MOSTLY_SKILL,
+                      ranks=(0, 1, 2, 3, 4, 5, 6, 7, 8, 9), si={"ncards": 36}))
+registerGame(GameInfo(795, Pretzel, "Pretzel",
+                      GI.GT_MONTANA | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL,
+                      ranks=(0, 1, 2, 3, 4), si={"ncards": 16}))

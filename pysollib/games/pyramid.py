@@ -975,6 +975,7 @@ class Cheops(Pyramid):
 
 # ************************************************************************
 # * Exit
+# * Relaxed Exit
 # ************************************************************************
 
 class Exit_RowStack(Elevens_RowStack):
@@ -1033,7 +1034,7 @@ class Exit(Game):
             return True
         if c1.rank == JACK and c2.rank == JACK:
             return True
-        if c1.rank + c2.rank == 23:     # Q-K
+        if c1.rank + c2.rank == 23 and c1.suit != c2.suit:   # Q-K
             return True
         return False
 
@@ -1071,6 +1072,17 @@ class Exit(Game):
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return self._checkPair(card1, card2)
+
+
+class RelaxedExit(Exit):
+    def _checkPair(self, c1, c2):
+        if c1.rank + c2.rank == 9:      # A-10, 2-9, 3-8, 4-7, 5-6
+            return True
+        if c1.rank == JACK and c2.rank == JACK:
+            return True
+        if c1.rank + c2.rank == 23:     # Q-K
+            return True
+        return False
 
 
 # ************************************************************************
@@ -1375,8 +1387,9 @@ registerGame(GameInfo(658, Apophis, "Apophis",
                       GI.GT_PAIRING_TYPE, 1, 2, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(659, Cheops, "Cheops",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_SKILL))
-registerGame(GameInfo(674, Exit, "Exit",
-                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(674, RelaxedExit, "Relaxed Exit",
+                      GI.GT_PAIRING_TYPE | GI.GT_OPEN | GI.GT_RELAXED,
+                      1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(677, TwoPyramids, "Two Pyramids",
                       GI.GT_PAIRING_TYPE | GI.GT_ORIGINAL, 2, 2,
                       GI.SL_MOSTLY_LUCK))
@@ -1391,3 +1404,6 @@ registerGame(GameInfo(701, UpAndDown, "Up and Down",
                       GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(735, Hurricane, "Hurricane",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
+registerGame(GameInfo(796, Exit, "Exit",
+                      GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0,
+                      GI.SL_MOSTLY_SKILL, altnames=('Gay Gordons',)))

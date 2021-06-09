@@ -422,7 +422,7 @@ class SelectGameDialogWithPreview(MfxDialog):
         # self.top.wm_title(
         #   "Select Game - " + self.app.getGameTitleName(gameid))
         title = self.app.getGameTitleName(gameid)
-        self.set_title(_("Playable Preview - %(game)s") % {'game': title})
+        self.set_title(_("Select Game - %(game)s") % {'game': title})
         #
         self.preview_game = gi.gameclass(gi)
         self.preview_game.createPreview(self.preview_app)

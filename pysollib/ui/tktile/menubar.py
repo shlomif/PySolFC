@@ -804,9 +804,7 @@ class PysolMenubarTkCommon:
         m = "Ctrl-"
         if sys.platform == "darwin":
             m = "Cmd-"
-        menu.add_command(label=n_("All &games..."), accelerator=m+"W",
-                         command=self.mSelectGameDialog)
-        menu.add_command(label=n_("Playable pre&view..."), accelerator=m+"V",
+        menu.add_command(label=n_("All &games..."), accelerator=m+"V",
                          command=self.mSelectGameDialogWithPreview)
         if not SELECT_GAME_MENU:
             return

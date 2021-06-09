@@ -1435,8 +1435,9 @@ class Game(object):
         elif self.app.opt.animations == 10:
             # this is used internally in game preview to speed up
             # the initial dealing
-            if self.moves.state == self.S_INIT and frames > 4:
-                frames //= 2
+            # if self.moves.state == self.S_INIT and frames > 4:
+            #     frames //= 2
+            return
         if shadow < 0:
             shadow = self.app.opt.shadow
         shadows = ()

@@ -54,6 +54,8 @@ class PokerSquare(Game):
     Hint_Class = None
 
     WIN_SCORE = 100
+    NUM_RESERVE = 0
+    RESERVE_STACK = StackWrapper(ReserveStack, max_cards=5)
 
     #
     # game layout
@@ -99,7 +101,7 @@ One Pair'''))
             x = self.texts.misc.bbox()[1][0] + 32
 
         # set window
-        w = max(2*l.XS, x)
+        w = max(2*l.XS, x, ((self.NUM_RESERVE + 1) * l.XS) + (4 * l.XM))
         self.setSize(l.XM + w + 5*l.XS + 50, l.YM + 5*l.YS + 30)
 
         # create stacks
@@ -111,6 +113,10 @@ One Pair'''))
         s.talon = self.Talon_Class(x, y, self)
         l.createText(s.talon, anchor=ta)
         s.internals.append(InvisibleStack(self))    # for _swapPairMove()
+
+        for i in range(self.NUM_RESERVE):
+            x, y = ((i + 1) * l.XS) + (2 * l.XM), l.YM
+            s.reserves.append(self.RESERVE_STACK(x, y, self))
 
         # create texts 2)
         if self.preview <= 1:
@@ -150,12 +156,15 @@ One Pair'''))
     #
 
     def startGame(self):
-        self.moveMove(27, self.s.talon, self.s.internals[0], frames=0)
+        self.moveMove(27 - (5 * self.NUM_RESERVE), self.s.talon,
+                      self.s.internals[0], frames=0)
         self.s.talon.fillStack()
 
     def isGameWon(self):
-        return len(self.s.talon.cards) == 0 and \
-            self.getGameScore() >= self.WIN_SCORE
+        for i in range(25):
+            if len(self.s.rows[i].cards) == 0:
+                return False
+        return self.getGameScore() >= self.WIN_SCORE
 
     def getAutoStacks(self, event=None):
         return ((), (), ())
@@ -277,6 +286,25 @@ class PokerShuffle(PokerSquare):
     def checkForWin(self):
         return 0
 
+# ************************************************************************
+# * Poker Square (Waste)
+# * Poker Square (1 Reserve)
+# * Poker Square (2 Reserves)
+# ************************************************************************
+
+
+class PokerSquareWaste(PokerSquare):
+    NUM_RESERVE = 1
+    RESERVE_STACK = StackWrapper(ReserveStack, max_cards=5, max_move=0)
+
+
+class PokerSquare1Reserve(PokerSquare):
+    NUM_RESERVE = 1
+
+
+class PokerSquare2Reserves(PokerSquare):
+    NUM_RESERVE = 2
+
 
 # register the game
 registerGame(GameInfo(139, PokerSquare, "Poker Square",
@@ -286,3 +314,12 @@ registerGame(GameInfo(140, PokerShuffle, "Poker Shuffle",
                       GI.GT_POKER_TYPE | GI.GT_SCORE | GI.GT_OPEN, 1, 0,
                       GI.SL_MOSTLY_SKILL,
                       si={"ncards": 25}))
+registerGame(GameInfo(797, PokerSquareWaste, "Poker Square (Waste)",
+                      GI.GT_POKER_TYPE | GI.GT_SCORE, 1, 0, GI.SL_MOSTLY_SKILL,
+                      si={"ncards": 30}, rules_filename="pokersquare.html"))
+registerGame(GameInfo(798, PokerSquare1Reserve, "Poker Square (1 Reserve)",
+                      GI.GT_POKER_TYPE | GI.GT_SCORE, 1, 0, GI.SL_MOSTLY_SKILL,
+                      si={"ncards": 30}, rules_filename="pokersquare.html"))
+registerGame(GameInfo(799, PokerSquare2Reserves, "Poker Square (2 Reserves)",
+                      GI.GT_POKER_TYPE | GI.GT_SCORE, 1, 0, GI.SL_MOSTLY_SKILL,
+                      si={"ncards": 35}, rules_filename="pokersquare.html"))

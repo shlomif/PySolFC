@@ -648,10 +648,11 @@ registerGame(GameInfo(5, RelaxedFreeCell, "Relaxed FreeCell",
                       GI.GT_FREECELL | GI.GT_RELAXED | GI.GT_OPEN, 1, 0,
                       GI.SL_SKILL))
 registerGame(GameInfo(8, FreeCell, "FreeCell",
+                      GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_SKILL,
+                      altnames=("Four Free")))
+registerGame(GameInfo(1901, ZeroFcFreeCell, "FreeCell (No Reserve)",
                       GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_SKILL))
-registerGame(GameInfo(1901, ZeroFcFreeCell, "FreeCell with Zero Reserves",
-                      GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_SKILL))
-registerGame(GameInfo(1900, PairFcFreeCell, "FreeCell with Two Reserves",
+registerGame(GameInfo(1900, PairFcFreeCell, "FreeCell (2 Reserves)",
                       GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_SKILL))
 registerGame(GameInfo(46, ForeCell, "ForeCell",
                       GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
@@ -663,8 +664,7 @@ registerGame(GameInfo(264, DoubleFreecell, "Double FreeCell",
 registerGame(GameInfo(265, TripleFreecell, "Triple FreeCell",
                       GI.GT_FREECELL | GI.GT_OPEN, 3, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(336, ChallengeFreeCell, "Challenge FreeCell",
-                      GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_SKILL,
-                      rules_filename='freecell.html'))
+                      GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_SKILL))
 registerGame(GameInfo(337, SuperChallengeFreeCell, "Super Challenge FreeCell",
                       GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_SKILL))
 registerGame(GameInfo(363, Spidercells, "Spidercells",

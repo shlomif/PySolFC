@@ -354,6 +354,19 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             self.key = self.tree.selection_key
             self.tree.n_expansions = 1  # save xyview in any case
 
+            if button == 0:
+                cardset = self.app.cardset_manager.get(self.key)
+                if self.app.game is not None:
+                    gi = self.app.getGameInfo(self.app.game.id)
+                else:
+                    gi = self.app.getGameInfo(self.app.nextgame.id)
+                cs, cs_update_flag, t = \
+                    self.app.getCompatibleCardset(gi, cardset, trychange=False)
+
+                if cs is None:
+                    self.app.requestCompatibleCardsetTypeDialog(cardset, gi, t)
+                    return
+
             # save the values
             try:
                 self.cardset_values = self.x_offset.get(), self.y_offset.get()

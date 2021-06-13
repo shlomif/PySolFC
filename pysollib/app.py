@@ -773,55 +773,59 @@ class Application:
             t0 = t1 = "Unknown"
         return t0, t1
 
-    def getCompatibleCardset(self, gi, cs):
+    def getCompatibleCardset(self, gi, cs, trychange=True):
         if gi is None:
-            return cs, 1
+            return cs, 1, None
+        t = self.checkCompatibleCardsetType(gi, cs)
         # try current
         if cs:
-            t = self.checkCompatibleCardsetType(gi, cs)
             if not t[1]:
-                return cs, 1
-        # try by gameid / category
-        for key, flag in (((1, gi.id), 8), (gi.category, 4)):
-            c = self.opt.cardset.get(key)
-            if not c or len(c) != 2:
-                continue
-            cs = self.cardset_manager.getByName(c[0])
-            if not cs:
-                continue
-            t = self.checkCompatibleCardsetType(gi, cs)
-            if not t[1]:
-                cs.updateCardback(backname=c[1])
-                return cs, flag
+                return cs, 1, t
+        if trychange:
+            # try by gameid / category
+            for key, flag in (((1, gi.id), 8), (gi.category, 4)):
+                c = self.opt.cardset.get(key)
+                if not c or len(c) != 2:
+                    continue
+                cs = self.cardset_manager.getByName(c[0])
+                if not cs:
+                    continue
+                t = self.checkCompatibleCardsetType(gi, cs)
+                if not t[1]:
+                    cs.updateCardback(backname=c[1])
+                    return cs, flag, t
         # ask
-        return None, 0
+        return None, 0, t
 
     def requestCompatibleCardsetType(self, id):
         gi = self.getGameInfo(id)
         #
-        cs, cs_update_flag = self.getCompatibleCardset(gi, self.cardset)
+        cs, cs_update_flag, t = self.getCompatibleCardset(gi, self.cardset)
         if cs is self.cardset:
             return 0
         if cs is not None:
             self.loadCardset(cs, update=1)
             return 1
-        #
-        t = self.checkCompatibleCardsetType(gi, self.cardset)
-        MfxMessageDialog(
-            self.top, title=_("Incompatible cardset"),
-            bitmap="warning",
-            text=_('''The currently selected cardset %(cardset)s
-is not compatible with the game
-%(game)s
 
-Please select a %(correct_type)s type cardset.
-''') % {'cardset': self.cardset.name, 'game': gi.name, 'correct_type': t[0]},
-            strings=(_("&OK"),), default=0)
+        self.requestCompatibleCardsetTypeDialog(self.cardset, gi, t)
+
         cs = self.__selectCardsetDialog(t)
         if cs is None:
             return -1
         self.loadCardset(cs, id=id)
         return 1
+
+    def requestCompatibleCardsetTypeDialog(self, cardset, gi, t):
+        MfxMessageDialog(
+            self.top, title=_("Incompatible cardset"),
+            bitmap="warning",
+            text=_('''The currently selected cardset %(cardset)s
+        is not compatible with the game
+        %(game)s
+
+        Please select a %(correct_type)s type cardset.
+        ''') % {'cardset': cardset.name, 'game': gi.name,
+                'correct_type': t[0]}, strings=(_("&OK"),), default=0)
 
     def selectCardset(self, title, key):
         d = SelectCardsetDialogWithPreview(

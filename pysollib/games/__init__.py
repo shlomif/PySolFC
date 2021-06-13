@@ -20,6 +20,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 # ---------------------------------------------------------------------------##
+from . import acesandkings  # noqa: F401
 from . import acesup  # noqa: F401
 from . import algerian  # noqa: F401
 from . import auldlangsyne  # noqa: F401

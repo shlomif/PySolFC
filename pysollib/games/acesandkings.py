@@ -30,7 +30,7 @@ from pysollib.stack import \
     RK_FoundationStack, \
     WasteStack, \
     WasteTalonStack
-from pysollib.util import KING, ACE
+from pysollib.util import ACE, KING
 
 
 # ************************************************************************

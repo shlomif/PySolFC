@@ -432,6 +432,7 @@ class Fourteen(Game):
 
 # ************************************************************************
 # * Nestor
+# * Double Nestor
 # ************************************************************************
 
 class Nestor_RowStack(MonteCarlo_RowStack):
@@ -448,6 +449,9 @@ class Nestor(Game):
 
     FILL_STACKS_AFTER_DROP = False
 
+    COLS = 8
+    COLCARDS = 6
+
     #
     # game layout
     #
@@ -457,16 +461,17 @@ class Nestor(Game):
         l, s = Layout(self), self.s
 
         # set window
-        self.setSize(l.XM+8*l.XS, l.YM+2*l.YS+12*l.YOFFSET)
+        self.setSize(l.XM + self.COLS * l.XS,
+                     l.YM + 2 * l.YS + (self.COLCARDS + 6) * l.YOFFSET)
 
         # create stacks
         x, y = l.XM, l.YM
-        for i in range(8):
+        for i in range(self.COLS):
             s.rows.append(self.RowStack_Class(x, y, self,
                                               max_move=1, max_accept=1,
                                               dir=0, base_rank=NO_RANK))
             x += l.XS
-        x, y = l.XM+2*l.XS, self.height-l.YS
+        x, y = l.XM + ((self.COLS / 2) - 2) * l.XS, self.height-l.YS
         for i in range(4):
             s.rows.append(self.RowStack_Class(x, y, self,
                                               max_move=1, max_accept=1,
@@ -474,7 +479,8 @@ class Nestor(Game):
             x += l.XS
         x, y = self.width-l.XS, self.height-l.YS
         s.foundations.append(self.Foundation_Class(x, y, self, suit=ANY_SUIT,
-                             max_move=0, max_cards=52, base_rank=ANY_RANK))
+                             max_move=0, max_cards=(52 * self.gameinfo.decks),
+                                                   base_rank=ANY_RANK))
         l.createText(s.foundations[0], "n")
         x, y = l.XM, self.height - l.YS
         s.talon = InitialDealTalonStack(x, y, self)
@@ -495,29 +501,36 @@ class Nestor(Game):
 
     def _shuffleHook(self, cards):
         # no row will have two cards of the same rank
-        for i in range(8):
+        for i in range(self.COLS):
             for t in range(1000):  # just in case
-                j = self._checkRow(cards[i*6:(i+1)*6])
+                j = self._checkRow(cards[i * self.COLCARDS:(i + 1)
+                                   * self.COLCARDS])
                 if j < 0:
                     break
-                j += i*6
-                k = self.random.choice(list(range((i+1)*6, 52)))
+                j += i * self.COLCARDS
+                k = self.random.choice(list(range((i+1) * self.COLCARDS,
+                                                  (52 * self.gameinfo.decks))))
                 cards[j], cards[k] = cards[k], cards[j]
         cards.reverse()
         return cards
 
     def startGame(self):
-        for r in self.s.rows[:8]:
-            for j in range(6):
+        for r in self.s.rows[:self.COLS]:
+            for j in range(self.COLCARDS):
                 self.s.talon.dealRow(rows=[r], frames=0)
         self.startDealSample()
-        self.s.talon.dealRow(rows=self.s.rows[8:])
+        self.s.talon.dealRow(rows=self.s.rows[self.COLS:])
 
     def getAutoStacks(self, event=None):
         return ((), (), self.sg.dropstacks)
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return card1.rank == card2.rank
+
+
+class DoubleNestor(Nestor):
+    COLS = 10
+    COLCARDS = 10
 
 
 # ************************************************************************
@@ -928,3 +941,6 @@ registerGame(GameInfo(663, TheLastMonarchII, "The Last Monarch II",
                       GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(727, RightAndLeft, "Right and Left",
                       GI.GT_PAIRING_TYPE, 2, -1, GI.SL_LUCK))
+registerGame(GameInfo(801, DoubleNestor, "Double Nestor",
+                      GI.GT_PAIRING_TYPE | GI.GT_OPEN, 2, 0,
+                      GI.SL_MOSTLY_LUCK))

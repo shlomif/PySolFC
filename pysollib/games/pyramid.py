@@ -688,11 +688,13 @@ class TripleAlliance_Reserve(ReserveStack):
 
 
 class TripleAlliance(Game):
+    CARDS_PER_PILE = 3
+    CARDS_PER_SMALL_PILE = 2
 
     def createGame(self):
 
         layout, s = Layout(self), self.s
-        w0 = layout.XS+5*layout.XOFFSET
+        w0 = layout.XS + (2 + self.CARDS_PER_PILE) * layout.XOFFSET
         self.setSize(layout.XM+5*w0, layout.YM+5*layout.YS)
 
         x, y = layout.XM, layout.YM
@@ -723,8 +725,10 @@ class TripleAlliance(Game):
         layout.defaultStackGroups()
 
     def startGame(self):
-        self._startDealNumRows(2)
-        self.s.talon.dealRowAvail()
+        self._startDealNumRows(self.CARDS_PER_SMALL_PILE)
+        for i in range(self.CARDS_PER_PILE - self.CARDS_PER_SMALL_PILE - 1):
+            self.s.talon.dealRowAvail(self.s.rows[:16], frames=0)
+        self.s.talon.dealRowAvail(self.s.rows[:16])
 
     def fillStack(self, stack):
         for r in self.s.reserves:
@@ -738,7 +742,12 @@ class TripleAlliance(Game):
         self.leaveState(old_state)
 
     def isGameWon(self):
-        return len(self.s.foundations[0].cards) == 51
+        return len(self.s.foundations[0].cards) == 51 * self.gameinfo.decks
+
+
+class TripleAlliance2Decks(TripleAlliance):
+    CARDS_PER_PILE = 6
+    CARDS_PER_SMALL_PILE = 4
 
 
 # ************************************************************************
@@ -1377,7 +1386,8 @@ registerGame(GameInfo(596, SuitElevens, "Suit Elevens",
 registerGame(GameInfo(597, Fifteens, "Fifteens",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(619, TripleAlliance, "Triple Alliance",
-                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0,
+                      GI.SL_MOSTLY_SKILL, altnames=('Triplets',)))
 registerGame(GameInfo(655, Pharaohs, "Pharaohs",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(657, Baroness, "Baroness",
@@ -1407,3 +1417,6 @@ registerGame(GameInfo(735, Hurricane, "Hurricane",
 registerGame(GameInfo(796, Exit, "Exit",
                       GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0,
                       GI.SL_MOSTLY_SKILL, altnames=('Gay Gordons',)))
+registerGame(GameInfo(802, TripleAlliance2Decks, "Triple Alliance (2 decks)",
+                      GI.GT_2DECK_TYPE | GI.GT_OPEN, 2, 0,
+                      GI.SL_MOSTLY_SKILL))

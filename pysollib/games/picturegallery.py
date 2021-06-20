@@ -468,6 +468,7 @@ class Zeus(MountOlympus):
 
 # ************************************************************************
 # * Royal Parade
+# * Big Parade
 # ************************************************************************
 
 
@@ -517,18 +518,25 @@ class RoyalParade(PictureGallery):
         ]
     RowStack_Class = StackWrapper(BasicRowStack, max_accept=0)
 
-    def createGame(self):
-        PictureGallery.createGame(self)
+    def createGame(self, numstacks=8):
+        PictureGallery.createGame(self, numstacks=numstacks)
         self.s.internals.append(InvisibleStack(self))
 
     def startGame(self):
         self.startDealSample()
-        self.s.talon.dealRow(rows=self.s.tableaux)
+        self.s.talon.dealRow(rows=self.s.tableaux, frames=0)
         self.s.talon.dealRow()
+
+
+class BigParade(RoyalParade):
+
+    def createGame(self):
+        RoyalParade.createGame(self, numstacks=12)
 
 
 # ************************************************************************
 # * Virginia Reel
+# * Three Up
 # ************************************************************************
 
 class VirginiaReel_Talon(DealRowTalonStack):
@@ -559,15 +567,22 @@ class VirginiaReel(RoyalParade):
         return cards+bottom_cards
 
     def startGame(self):
-        self.s.talon.dealRow(rows=self.s.tableaux[0::8], frames=0)
+        numdeal = (4 * self.gameinfo.decks)
+        self.s.talon.dealRow(rows=self.s.tableaux[0::numdeal], frames=0)
         self.startDealSample()
         for i in range(3):
-            rows = self.s.tableaux[i*8+1:i*8+8]
-            self.s.talon.dealRow(rows=rows)
+            rows = self.s.tableaux[i*numdeal+1:i*numdeal+numdeal]
+            self.s.talon.dealRow(rows=rows, frames=0)
         self.s.talon.dealRow()
 
     def fillStack(self, stack):
         pass
+
+
+class ThreeUp(VirginiaReel):
+
+    def createGame(self):
+        VirginiaReel.createGame(self, numstacks=12)
 
 
 # register the game
@@ -583,11 +598,14 @@ registerGame(GameInfo(398, MountOlympus, "Mount Olympus",
 registerGame(GameInfo(399, Zeus, "Zeus",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(546, RoyalParade, "Royal Parade",
-                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL,
-                      rules_filename='virginiareel.html'))
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(547, VirginiaReel, "Virginia Reel",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(782, GreaterWheel, "Greater Wheel",
                       GI.GT_4DECK_TYPE, 4, 0, GI.SL_BALANCED,
                       ranks=list(range(12))  # without Kings
                       ))
+registerGame(GameInfo(803, BigParade, "Big Parade",
+                      GI.GT_3DECK_TYPE, 3, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(804, ThreeUp, "Three Up",
+                      GI.GT_3DECK_TYPE, 3, 0, GI.SL_MOSTLY_SKILL))

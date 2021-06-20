@@ -378,8 +378,8 @@ class Images:
             return
         r = self.reduced
         if r > 1:
-            self.CARD_XOFFSET = max(10//r, cs.CARD_XOFFSET)
-            self.CARD_YOFFSET = max(10//r, cs.CARD_YOFFSET)
+            self.CARD_XOFFSET = max(10, cs.CARD_XOFFSET // r)
+            self.CARD_YOFFSET = max(10, cs.CARD_YOFFSET // r)
         else:
             self.CARD_XOFFSET = cs.CARD_XOFFSET
             self.CARD_YOFFSET = cs.CARD_YOFFSET
@@ -474,6 +474,10 @@ class Images:
 
 class SubsampledImages(Images):
     def __init__(self, images, r=2):
+        size_cap = 100
+        if images.CARDW / r > size_cap or images.CARDH / r > size_cap:
+            r = max(images.CARDW, images.CARDH) / size_cap
+
         Images.__init__(self, None, images.cs, r=r)
         self._card = self._subsample(images._card, r)
         self._bottom_positive = self._subsample(images._bottom_positive, r)
@@ -482,6 +486,7 @@ class SubsampledImages(Images):
         self._letter_negative = self._subsample(images._letter_negative, r)
         self._bottom = self._bottom_positive
         self._letter = self._letter_positive
+
         #
         for _back in images._back:
             if _back is None:

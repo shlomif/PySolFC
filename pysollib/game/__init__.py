@@ -1046,8 +1046,6 @@ class Game(object):
         xf, yf, xf0, yf0, cw, ch = \
             self.resizeImages(manually=card_size_manually)
         for stack in self.allstacks:
-            x0, y0 = stack.init_coord
-            x, y = int(round(x0 * xf) + cw), int(round(y0 * yf) + ch)
 
             if (self.app.opt.spread_stacks):
                 # Do not move Talons

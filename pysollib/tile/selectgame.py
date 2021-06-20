@@ -353,16 +353,13 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         #
         self.top.wm_minsize(400, 200)
         sw = self.top.winfo_screenwidth()
-        if sw >= 1100:
-            w1, w2 = 250, 600
-        elif sw >= 900:
-            w1, w2 = 250, 500
-        elif sw >= 800:
-            w1, w2 = 220, 480
-        else:
-            w1, w2 = 200, 300
+        sh = self.top.winfo_screenheight()
+
+        h = sh * .8
+        w1, w2 = min(250, sw / 4), max(sw / 2 + ((sw / 4) - 250), sw / 2)
+
         # print sw, w1, w2
-        w2 = max(200, min(w2, 10 + 12*(app.subsampled_images.CARDW+10)))
+        w2 = max(200, min(w2, 10 + 12 * (app.subsampled_images.CARDW + 10)))
         # print sw, w1, w2
         # padx, pady = kw.padx, kw.pady
         # padx, pady = kw.padx/2, kw.pady/2
@@ -377,7 +374,8 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         # Tree
         font = app.getFont("default")
         self.tree = self.Tree_Class(self, left_frame, key=gameid,
-                                    default=kw.default, font=font, width=w1)
+                                    default=kw.default, font=font, width=w1,
+                                    height=h)
         self.tree.frame.pack(padx=padx, pady=pady, expand=True, fill='both')
         # LabelFrame
         info_frame = ttk.LabelFrame(right_frame, text=_('About game'))
@@ -566,9 +564,9 @@ class SelectGameDialogWithPreview(SelectGameDialog):
             }
         skill_level = sl.get(gi.skill_level)
         if gi.redeals == -2:
-            redeals = _('variable')
+            redeals = _('Variable')
         elif gi.redeals == -1:
-            redeals = _('unlimited')
+            redeals = _('Unlimited')
         else:
             redeals = str(gi.redeals)
         # stats

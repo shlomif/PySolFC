@@ -40,7 +40,8 @@ from pysollib.stack import \
         SS_FoundationStack, \
         StackWrapper, \
         WasteStack, \
-        WasteTalonStack
+        WasteTalonStack, \
+        Yukon_AC_RowStack
 from pysollib.util import ANY_RANK, ANY_SUIT, NO_RANK, UNLIMITED_ACCEPTS, \
         UNLIMITED_MOVES
 
@@ -1438,6 +1439,69 @@ class Snakestone(Convolution):
 # *
 # ************************************************************************
 
+
+class HexYukon_RowStack(Yukon_AC_RowStack):
+
+    def canMoveCards(self, cards):
+        if len(cards) > 1:
+            for card in cards:
+                if card.suit == 4:
+                    return False
+        return Yukon_AC_RowStack.canMoveCards(self, cards)
+
+    def acceptsCards(self, from_stack, cards):
+        if not self.basicAcceptsCards(from_stack, cards):
+            return 0
+        stackcards = self.cards
+        if stackcards:
+            if (stackcards[-1].suit == 4 or cards[0].suit == 4):
+                return 1
+        return Yukon_AC_RowStack.acceptsCards(self, from_stack, cards)
+
+
+class HexYukon(Game):
+    Layout_Method = staticmethod(Layout.yukonLayout)
+    Talon_Class = InitialDealTalonStack
+    Foundation_Class = HexADeck_FoundationStack
+    RowStack_Class = StackWrapper(HexYukon_RowStack, base_rank=15)
+
+    def createGame(self, **layout):
+        # create layout
+        l, s = Layout(self), self.s
+        kwdefault(layout, rows=8, texts=0, playcards=25)
+        self.Layout_Method(l, **layout)
+        self.setSize(l.size[0], l.size[1])
+        # create stacks
+        s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self)
+        for r in l.s.foundations:
+            s.foundations.append(
+                self.Foundation_Class(
+                    r.x, r.y, self,
+                    r.suit, mod=16, max_cards=16, max_move=1))
+        for r in l.s.rows:
+            s.rows.append(self.RowStack_Class(r.x, r.y, self))
+        # default
+        l.defaultAll()
+        return l
+
+    def startGame(self):
+        for i in range(1, len(self.s.rows)):
+            self.s.talon.dealRow(rows=self.s.rows[i:], flip=0, frames=0)
+        for i in range(4):
+            self.s.talon.dealRow(rows=self.s.rows[0:], flip=1, frames=0)
+        self._startAndDealRow()
+
+    def getHighlightPilesStacks(self):
+        return ()
+
+    shallHighlightMatch = Game._shallHighlightMatch_AC
+
+
+# ************************************************************************
+# *
+# ************************************************************************
+
+
 def r(id, gameclass, name, game_type, decks, redeals, skill_level):
     game_type = game_type | GI.GT_HEXADECK
     gi = GameInfo(id, gameclass, name, game_type, decks, redeals, skill_level,
@@ -1471,5 +1535,6 @@ r(16677, MagesGame, 'Mage\'s Game', GI.GT_HEXADECK, 1, 0, GI.SL_BALANCED)
 r(16678, Convolution, 'Convolution', GI.GT_HEXADECK, 2, 0, GI.SL_MOSTLY_SKILL)
 r(16679, Labyrinth, 'Hex Labyrinth', GI.GT_HEXADECK, 2, 0, GI.SL_MOSTLY_SKILL)
 r(16680, Snakestone, 'Snakestone', GI.GT_HEXADECK, 2, 0, GI.SL_MOSTLY_SKILL)
+r(16681, HexYukon, 'Hex Yukon', GI.GT_HEXADECK, 1, 0, GI.SL_BALANCED)
 
 del r

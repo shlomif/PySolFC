@@ -475,8 +475,8 @@ class Images:
 class SubsampledImages(Images):
     def __init__(self, images, r=2):
         size_cap = 100
-        if images.CARDW / r > size_cap or images.CARDH / r > size_cap:
-            r = max(images.CARDW, images.CARDH) / size_cap
+        if images.CARDW // r > size_cap or images.CARDH // r > size_cap:
+            r = max(images.CARDW, images.CARDH) // size_cap
 
         Images.__init__(self, None, images.cs, r=r)
         self._card = self._subsample(images._card, r)

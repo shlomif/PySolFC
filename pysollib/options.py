@@ -154,6 +154,7 @@ gamewon = boolean
 droppair = boolean
 redo = boolean
 dealwaste = boolean
+extra = boolean
 
 [fonts]
 sans = list
@@ -366,7 +367,7 @@ class Options:
             'dealwaste': True,
             'droppair': True,
             'drop': True,
-            # 'extra': True,
+            'extra': True,
             'flip': True,
             'move': True,
             'nomove': True,

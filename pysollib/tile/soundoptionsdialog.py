@@ -84,6 +84,8 @@ class SoundOptionsDialog(MfxDialog):
             ('gamelost',      _('Game lost'),      tkinter.BooleanVar()),
             ('gamewon',       _('Game won'),       tkinter.BooleanVar()),
             ('gameperfect',   _('Perfect game'),   tkinter.BooleanVar()),
+
+            ('extra',         _('Other'),          tkinter.BooleanVar()),
             ]
 
         #

@@ -1344,8 +1344,16 @@ class Game(object):
         self._resizeHandlerID = self.canvas.after(250, self._resizeHandler)
 
     def playSample(self, name, priority=0, loop=0):
-        if name in self.app.opt.sound_samples and \
-               not self.app.opt.sound_samples[name]:
+
+        if name.startswith('deal'):
+            sampleopt = 'deal'
+        elif name not in self.app.opt.sound_samples:
+            sampleopt = 'extra'
+        else:
+            sampleopt = name
+
+        if sampleopt in self.app.opt.sound_samples and \
+           not self.app.opt.sound_samples[sampleopt]:
             return 0
         if self.app.audio:
             return self.app.audio.playSample(
@@ -1366,8 +1374,7 @@ class Game(object):
         a = self.app.opt.animations
         if a and not self.preview:
             self.canvas.update_idletasks()
-        if self.app.audio and self.app.opt.sound \
-                and self.app.opt.sound_samples['deal']:
+        if self.app.audio and self.app.opt.sound:
             if a in (1, 2, 3, 10):
                 self.playSample("deal01", priority=100, loop=loop)
             elif a == 4:

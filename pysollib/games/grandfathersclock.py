@@ -115,7 +115,8 @@ class GrandfathersClock(Game):
         return clocks + cards
 
     def startGame(self):
-        self.playSample("grandfathersclock", loop=1)
+        self.startDealSample()
+        self.playSample("grandfathersclock", loop=1, priority=200)
         self._dealNumRows(4)
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.foundations)

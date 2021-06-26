@@ -70,6 +70,8 @@ class SoundOptionsDialog:
             ('gamelost',      _('Game lost')),
             ('gamewon',       _('Game won')),
             ('gameperfect',   _('Perfect game')),
+
+            ('extra',         _('Other')),
             ]
 
         table = self.widgets_tree.get_widget('samples_table')

@@ -776,6 +776,12 @@ class OptionsMenuDialog(LMenuDialog):
                     _('game won'),
                     self.menubar.tkopt.sound_sample_vars[key],
                     self.make_vars_command(self.menubar.mOptSoundSample, key))
+                key = 'extra'
+                self.addCheckNode(
+                    tv, rg1,
+                    _('Other'),
+                    self.menubar.tkopt.sound_sample_vars[key],
+                    self.make_vars_command(self.menubar.mOptSoundSample, key))
 
         # -------------------------------------------
         # Cardsets and card backside options

@@ -101,8 +101,8 @@ One Pair'''))
             x = self.texts.misc.bbox()[1][0] + 32
 
         # set window
-        w = max(2*l.XS, x, ((self.NUM_RESERVE + 1) * l.XS) + (4 * l.XM))
-        self.setSize(l.XM + w + 5*l.XS + 50, l.YM + 5*l.YS + 30)
+        w = max(2 * l.XS, x, ((self.NUM_RESERVE + 1) * l.XS) + (4 * l.XM))
+        self.setSize(l.XM + w + 5 * l.XS + 50, l.YM + 5 * l.YS + 30)
 
         # create stacks
         for i in range(5):
@@ -160,11 +160,17 @@ One Pair'''))
                       self.s.internals[0], frames=0)
         self.s.talon.fillStack()
 
-    def isGameWon(self):
+    def isBoardFull(self):
         for i in range(25):
             if len(self.s.rows[i].cards) == 0:
                 return False
-        return self.getGameScore() >= self.WIN_SCORE
+        return True
+
+    def isGameWon(self):
+        if self.isBoardFull():
+            return self.getGameScore() >= self.WIN_SCORE
+
+        return False
 
     def getAutoStacks(self, event=None):
         return ((), (), ())
@@ -181,19 +187,19 @@ One Pair'''))
         for i in range(10):
             type, value = self.getHandScore(self.poker_hands[i])
             if 0 <= type <= 8:
-                count[type] = count[type] + 1
+                count[type] += 1
             self.texts.list[i+2].config(text=str(value))
-            score = score + value
+            score += value
         t = '\n'.join(map(str, count))
         self.texts.misc.config(text=t)
         #
         t = ""
         if score >= self.WIN_SCORE:
             t = _("WON\n\n")
-        if self.s.talon.cards:
-            t = t + _("Points: %d") % score
+        if not self.isBoardFull():
+            t += _("Points: %d") % score
         else:
-            t = t + _("Total: %d") % score
+            t += _("Total: %d") % score
         self.texts.score.config(text=t)
 
     def getGameScore(self):

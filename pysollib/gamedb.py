@@ -87,6 +87,7 @@ class GI:
     GT_SHISEN_SHO = 34
     GT_HANOI = 35
     GT_PEGGED = 36
+    GT_CRIBBAGE_TYPE = 37
     GT_CUSTOM = 40
     # extra flags
     GT_BETA = 1 << 12      # beta version of game driver
@@ -224,6 +225,8 @@ class GI:
     )
 
     SELECT_SPECIAL_GAME_BY_TYPE = (
+        (n_("Cribbage type"),
+            lambda gi, gt=GT_CRIBBAGE_TYPE: gi.si.game_type == gt),
         (n_("Hex A Deck type"),
             lambda gi, gt=GT_HEXADECK: gi.si.game_type == gt),
         (n_("Matrix type"), lambda gi, gt=GT_MATRIX: gi.si.game_type == gt),

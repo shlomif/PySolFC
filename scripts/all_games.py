@@ -75,7 +75,7 @@ GAME_BY_TYPE = {
     GI.GT_SHISEN_SHO: "Shisen-Sho",
     GI.GT_HANOI: "Tower of Hanoi",
     GI.GT_PEGGED: "Pegged",
-
+    GI.GT_CRIBBAGE_TYPE: "Cribbage",
 }
 
 

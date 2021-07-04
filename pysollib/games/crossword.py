@@ -28,12 +28,13 @@ from pysollib.stack import \
         OpenTalonStack, \
         ReserveStack, \
         Stack, \
-        StackWrapper
-
+        StackWrapper, \
+        cardsFaceDown
 
 # ************************************************************************
 # * Crossword
 # ************************************************************************
+
 
 class Crossword_RowStack(ReserveStack):
     def clickHandler(self, event):
@@ -54,7 +55,7 @@ class Crossword_RowStack(ReserveStack):
         return False
 
     def closeStack(self):
-        if (self.cards[0].rank >= 10):
+        if self.cards[0].rank >= 10 and not cardsFaceDown(self.cards):
             self.flipMove()
         if len(self.game.s.talon.cards) == 4:
             self.game.s.talon.flipMove()

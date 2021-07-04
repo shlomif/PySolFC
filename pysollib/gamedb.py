@@ -313,6 +313,7 @@ class GI:
         ("David Bernazzani", (314,)),
         ("Gordon Bower", (763, 783,)),
         ("Art Cabral", (9,)),
+        ("Richard A. Canfield", (105,)),
         ("Robert Harbin", (381,)),
         ("Robert Hogue", (22216, 22217, 22218, 22231,)),
         ("Charles Jewell", (220, 309,)),
@@ -323,14 +324,15 @@ class GI:
         ("Toby Ord", (788,)),
         ("David Parlett", (64, 98, 294, 338, 654, 796,)),
         ("Randy Rasa", (187, 190, 191, 192,)),
-        ("Captain Jeffrey T. Spaulding", (400,)),
         ("Adam Selene", (366,)),
+        ("Jim Sizelove", (555001,)),
+        ("Captain Jeffrey T. Spaulding", (400,)),
         ("John Stoneham", (201,)),
         ("Bryan Stout", (655,)),
         ("Bill Taylor", (349,)),
         ("Thomas Warfield", (189, 264, 300, 320, 336, 337, 359,
                              415, 427, 458, 495, 496, 497, 508,
-                             786, 787, 800)),
+                             800)),
         )
 
     GAMES_BY_PYSOL_VERSION = (
@@ -401,6 +403,10 @@ class GI:
         ('fc-1.0',   tuple(range(671, 711))),
         ('fc-1.1',   tuple(range(711, 759))),
         ('fc-2.0',   tuple(range(11011, 11014)) + tuple(range(759, 767))),
+        ('fc-2.1',   tuple(range(767, 774))),
+        ('fc-2.8',   (343001,)),
+        ('fc-2.12',   tuple(range(774, 810)) + (16681,) +
+         tuple(range(22217, 22219)))
     )
 
     # deprecated - the correct way is to or a GI.GT_XXX flag

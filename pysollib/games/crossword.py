@@ -139,7 +139,8 @@ class Crossword(Game):
 
     def startGame(self):
         self.moveMove(1, self.s.talon, self.s.rows[24], frames=0)
-        self.s.rows[24].flipMove()
+        if self.s.rows[24].cards[0].rank < 10:
+            self.s.rows[24].flipMove()
         self.s.talon.fillStack()
 
     def isGameWon(self):

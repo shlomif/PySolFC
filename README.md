@@ -4,14 +4,14 @@
 
 This is an open source and portable (Windows, Linux and Mac OS X) collection
 of Card Solitaire/Patience games written in Python. Its homepage is
-http://pysolfc.sourceforge.net/ .
+https://pysolfc.sourceforge.io/.
 
 The maintenance branch of PySol FC on GitHub by [Shlomi
 Fish](http://www.shlomifish.org/) and by some other
 people, has gained official status, ported the code to Python 3,
 and implemented some other enhancements.
 
-- [![Build Status](https://travis-ci.org/shlomif/PySolFC.svg)](https://travis-ci.org/shlomif/PySolFC)
+- [![CI tests at GitHub](https://github.com/shlomif/PySolFC/actions/workflows/ci.yml/badge.svg)](https://github.com/shlomif/PySolFC/actions/workflows/ci.yml)
 [![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/04re7umgl3yuukmh?svg=true)](https://ci.appveyor.com/project/shlomif/pysolfc)
 
 ## Call for Contributors

@@ -43,8 +43,8 @@ class ImportFileTests(unittest.TestCase):
         """docstring for _calc_hint"""
         s_game = Mock_S_Game()
         h = FreeCellSolver_Hint(s_game, None)
-        fh = open(fn, 'r+b')
-        h.importFileHelper(fh, s_game)
+        with open(fn, 'r+b') as fh:
+            h.importFileHelper(fh, s_game)
         return h
 
     def _successful_import(self, fn, want_s, blurb):

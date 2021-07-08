@@ -759,15 +759,6 @@ class PysolMenubarTkCommon:
     #
 
     def _bindKey(self, modifier, key, func):
-        #  if 0 and not modifier and len(key) == 1:
-        #      self.keybindings[key.lower()] = func
-        #      self.keybindings[key.upper()] = func
-        #      return
-        if not modifier and len(key) == 1:
-            # ignore Ctrl/Shift/Alt
-            # but don't ignore NumLock (state == 16)
-            def func(e, f2=func):
-                return e.state in (0, 16) and f2(e)
         sequence = "<" + modifier + "KeyPress-" + key + ">"
         bind(self.top, sequence, func)
         if len(key) == 1 and key != key.upper():

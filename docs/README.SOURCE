@@ -22,7 +22,7 @@ compatibility with saved games of older PySol versions (<= 3.00).
 Prerequisites
 -------------
 First of all you will need the Python development environment, which
-is freely available from http://www.python.org
+is freely available from https://www.python.org.
 
 
 Source code introduction
@@ -119,10 +119,17 @@ The toolkit layer
   of a runtime option.
 
   The preferred toolkit is Tcl/Tk using the Tkinter bindings which
-  ship with every Python installation, but a very experimental version
-  for Gnome (using the pygnome and pygtk bindings) exists as well.
+  ship with every Python installation.
 
-  A more exciting idea is to use JPython to make PySol run under a
+  The Kivy UI adapts PySol for mobile devices and is mainly used for
+  PySolFC's Android port. See README.kivy for more details.
+
+  A very experimental version for GTK+ 2 (using the pygnome and pygtk
+  bindings) did exist as well. Due to pygnome and pygtk being obsoleted,
+  a rewrite against GObject Introspection Python API would be needed
+  to make the abandoned code work with GTK+ 3 or 4.
+
+  Another exciting idea is to use JPython to make PySol run under a
   Java VM using Swing as the toolkit.
 
   Because Tkinter is the "main" interface other toolkit layers have
@@ -223,7 +230,7 @@ Contributing
 ------------
 Apart from contributing new games you can also help by improving the
 interface - e.g. some fancy statistics dialogs would be very nice.
-See the main README.md for more ideas.
+See the main README.md and CONTIRBUTING.md for more ideas.
 
 
 Have fun,

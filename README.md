@@ -1,4 +1,4 @@
-<p align="center"><img src="html-src/images/high_res/logo_horizontal.png" alt="StretchView" height="180px"></p>
+<p align="center"><img src="html-src/images/high_res/logo_horizontal.png" alt="PySol FC logo" height="180px"></p>
 
 # PySol Fan Club edition
 
@@ -7,7 +7,7 @@ of Card Solitaire/Patience games written in Python. Its homepage is
 https://pysolfc.sourceforge.io/.
 
 The maintenance branch of PySol FC on GitHub by [Shlomi
-Fish](http://www.shlomifish.org/) and by some other
+Fish](https://www.shlomifish.org/) and by some other
 people, has gained official status, ported the code to Python 3,
 and implemented some other enhancements.
 
@@ -27,7 +27,7 @@ can be implemented.
 
 # Screenshots
 
-![Image](<http://i.imgur.com/jQkTGwf.jpg>)
+![Screenshot of PySol FC](https://i.imgur.com/jQkTGwf.jpg)
 
 ## Requirements.
 
@@ -36,20 +36,18 @@ can be implemented.
 
 - For sound support (optional)
   - PySol-Sound-Server fork: https://github.com/shlomif/pysol-sound-server (mp3, wav, tracker music)
-  - (or: ) PyGame: http://www.pygame.org/ (mp3, ogg, wav, midi, tracker music)
+  - (or: ) PyGame: https://www.pygame.org/ (mp3, ogg, wav, midi, tracker music)
 
 - Other packages (optional):
-  - Tile (ttk): http://tktable.sourceforge.net/tile/ (0.8.0 or later)
-  - PIL (Python Imaging Library): http://www.pythonware.com/products/pil
-  - Freecell Solver: http://fc-solve.shlomifish.org/ .
-  - [Black Hole Solitaire Solver](http://www.shlomifish.org/open-source/projects/black-hole-solitaire-solver/)
+  - Pillow (Python Imaging Library): https://pillow.readthedocs.io/
+  - Freecell Solver: https://fc-solve.shlomifish.org/
+  - [Black Hole Solitaire Solver](https://www.shlomifish.org/open-source/projects/black-hole-solitaire-solver/)
 
 ## Installation.
 
-We provide an [installer for Windows](https://sourceforge.net/projects/pysolfc/files/PySolFC/) (requires Windows XP SP3 or higher)
-as well as an Android package on F-droid.
-
-For installation from source, see: http://www.python.org/doc/current/inst/
+We provide an [installer for Windows](https://sourceforge.net/projects/pysolfc/files/PySolFC/)
+(requires Windows XP SP3 or higher) as well as an
+[Android package on F-droid](https://f-droid.org/packages/org.lufebe16.pysolfc/).
 
 ### Running from source without installation.
 
@@ -189,7 +187,7 @@ python pysol.py --kivy
 ### Configuring Freecell Solver
 
 If you want to use the solver, you should configure freecell-solver
-( http://fc-solve.shlomifish.org/ ) by passing the following options
+( https://fc-solve.shlomifish.org/ ) by passing the following options
 to its CMake-based build-system:
 `-DMAX_NUM_FREECELLS=8 -DMAX_NUM_STACKS=20 -DMAX_NUM_INITIAL_CARDS_IN_A_STACK=60`.
 
@@ -239,7 +237,7 @@ To facilitate coordination about contributing to PySol, please join us for a
 real time Internet chat on
 the <a href="irc://irc.freenode.net/##pysol">##pysol</a> chat room on
 [Freenode](http://freenode.net/) (note the double
-octothorpe/hash-sign/pound-sign) .  We may set up
+octothorpe/hash-sign/pound-sign).  We may set up
 chat rooms on different services in the future.
 
 In addition, we set up a

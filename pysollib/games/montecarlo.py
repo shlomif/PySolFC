@@ -112,6 +112,7 @@ class MonteCarlo(Game):
     Hint_Class = MonteCarlo_Hint
 
     FILL_STACKS_AFTER_DROP = False
+    FILL_STACKS_BEFORE_SHIFT = False
 
     #
     # game layout
@@ -173,15 +174,10 @@ class MonteCarlo(Game):
             return diff in (-6, -5, -4, -1, 1, 4, 5, 6)
 
     def fillEmptyStacks(self):
-        free, n = 0, 0
+        n = 0
         self.startDealSample()
-        for r in self.s.rows:
-            assert len(r.cards) <= 1
-            if not r.cards:
-                free += 1
-            elif free > 0:
-                to_stack = self.allstacks[r.id - free]
-                self.moveMove(1, r, to_stack, frames=4, shadow=0)
+        free = self.shiftCards()
+        remcards = free > len(self.s.talon.cards) > 0
         if free > 0:
             for r in self.s.rows:
                 if not r.cards:
@@ -190,8 +186,22 @@ class MonteCarlo(Game):
                     self.flipMove(self.s.talon)
                     self.moveMove(1, self.s.talon, r)
                     n += 1
+        if remcards and self.FILL_STACKS_BEFORE_SHIFT:
+            self.shiftCards()
         self.stopSamples()
         return n + free
+
+    def shiftCards(self):
+        free = 0
+        for r in self.s.rows:
+            assert len(r.cards) <= 1
+            if not r.cards:
+                free += 1
+            elif free > 0 and (not self.FILL_STACKS_BEFORE_SHIFT
+                               or not self.s.talon.cards):
+                to_stack = self.allstacks[r.id - free]
+                self.moveMove(1, r, to_stack, frames=4, shadow=0)
+        return free
 
 
 class MonteCarlo2Decks(MonteCarlo):
@@ -259,6 +269,31 @@ class SimpleCarlo(MonteCarlo):
 
     def isNeighbour(self, stack1, stack2):
         return 0 <= stack1.id <= 24 and 0 <= stack2.id <= 24
+
+
+# ************************************************************************
+# * Quatorze
+# ************************************************************************
+
+class Quatorze_RowStack(MonteCarlo_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not OpenStack.acceptsCards(self, from_stack, cards):
+            return False
+        # check the rank
+        if self.cards[-1].rank + cards[0].rank != 12:
+            return False
+        # now look if the stacks are neighbours
+        return self.game.isNeighbour(from_stack, self)
+
+
+class Quatorze(MonteCarlo):
+    RowStack_Class = Quatorze_RowStack
+    FILL_STACKS_AFTER_DROP = True
+    FILL_STACKS_BEFORE_SHIFT = True
+
+    def isNeighbour(self, stack1, stack2):
+        return (stack1.id // 5 == stack2.id // 5 or
+                stack1.id % 5 == stack2.id % 5)
 
 
 # ************************************************************************
@@ -944,3 +979,5 @@ registerGame(GameInfo(727, RightAndLeft, "Right and Left",
 registerGame(GameInfo(801, DoubleNestor, "Double Nestor",
                       GI.GT_PAIRING_TYPE | GI.GT_OPEN, 2, 0,
                       GI.SL_MOSTLY_LUCK))
+registerGame(GameInfo(810, Quatorze, "Quatorze",
+                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))

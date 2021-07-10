@@ -279,15 +279,14 @@ class GI:
         # )),
         # Gnome AisleRiot 2.2.0 (we have 62 out of 70 games)
         #   still missing:
-        #         Helsinki,
-        #         Isabel, Labyrinth, Quatorze, Thieves,
-        #         Treize, Valentine, Yeld.
+        #         Helsinki, Isabel, Labyrinth, Thieves,
+        #         Treize, Valentine, Yield.
         ("Gnome AisleRiot", (
             1, 2, 8, 9, 11, 12, 19, 24, 27, 29, 31, 33, 34, 35, 36, 40,
             41, 42, 43, 45, 48, 58, 59, 67, 89, 91, 92, 93, 94, 95, 96,
             100, 105, 111, 112, 113, 130, 139, 144, 146, 147, 148, 200,
             201, 206, 224, 225, 229, 230, 233, 257, 258, 280, 281, 282,
-            283, 284, 551, 552, 553, 674, 737,
+            283, 284, 551, 552, 553, 674, 737, 810,
         )),
 
         #  KDE Patience 0.7.3 from KDE 1.1.2 (we have 6 out of 9 games)
@@ -405,7 +404,7 @@ class GI:
         ('fc-2.0',   tuple(range(11011, 11014)) + tuple(range(759, 767))),
         ('fc-2.1',   tuple(range(767, 774))),
         ('fc-2.8',   (343001,)),
-        ('fc-2.12',   tuple(range(774, 810)) + (16681,) +
+        ('fc-2.12',   tuple(range(774, 811)) + (16681,) +
          tuple(range(22217, 22219)))
     )
 

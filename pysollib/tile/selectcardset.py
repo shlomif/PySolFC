@@ -440,7 +440,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         names, columns = cs.getPreviewCardNames()
 
         # if cardset has changed, set default values
-        if key != self.preview_key:
+        if key != self.preview_key and USE_PIL:
             self.x_offset.config(value=cs.CARD_XOFFSET)
             self.x_offset.set(cs.CARD_XOFFSET)
 

@@ -5,7 +5,7 @@ for general guidelines for contributing to open source.
 
 # Contribution constraints
 
-- The [Travis-CI build](https://travis-ci.org/shlomif/PySolFC) and [AppVeyor build](https://ci.appveyor.com/project/shlomif/pysolfc) (which also run the test suite) should pass on each commit.
+- The [GitHub Actions CI build](https://github.com/shlomif/PySolFC/actions) and [AppVeyor build](https://ci.appveyor.com/project/shlomif/pysolfc) (which also run the test suite) should pass on each commit.
 - Your contributions should be under [GPLv3+](https://en.wikipedia.org/wiki/GNU_General_Public_License#Version_3) or a [compatible free software licence](https://www.gnu.org/licenses/license-list.html#GPLCompatibleLicenses), but please don't put them under the [AGPL](https://en.wikipedia.org/wiki/Affero_General_Public_License), which adds additional restrictions.
 - The code should be compatible with both Python 2.7.x and Python 3.4.x-and-above.
 
@@ -53,7 +53,8 @@ In order to publish a new version, follow these steps:
 5. `git tag pysolfc-2.6.5` (or equivalent version).
 6. `git push` and `git push --tags` to https://github.com/shlomif/PySolFC .
 7. Wait for the AppVeyor build for the tag to complete and scan the .exe using https://www.virustotal.com/ .
-8. Run `gmake dist`.
-9. Use [rexz9](https://github.com/shlomif/shlomif-computer-settings/blob/567b6ab3f4272ad66bf331536dc80bf58bfff3af/shlomif-settings/bash-aliases/user_aliases.bash#L57) on `dist/PySol*.tar.xz`.
-10. Go to https://sourceforge.net/projects/pysolfc/files/PySolFC/ and add a folder called PySolFC-2.6.5 (note the capitalisation).
-11. Add the tar.xz and the .exe there and mark them as defaults for the right OSes.
+8. Grab the macOS installer (.dmg) from [GitHub Actions](https://github.com/shlomif/PySolFC/actions/workflows/macos-package.yml) (look for an artifact called `pysolfc-dmg`).
+9. Run `gmake dist`.
+10. Use [rexz9](https://github.com/shlomif/shlomif-computer-settings/blob/567b6ab3f4272ad66bf331536dc80bf58bfff3af/shlomif-settings/bash-aliases/user_aliases.bash#L57) on `dist/PySol*.tar.xz`.
+11. Go to https://sourceforge.net/projects/pysolfc/files/PySolFC/ and add a folder called PySolFC-2.6.5 (note the capitalisation).
+12. Add the tar.xz, the .exe and the .dmg there and mark them as defaults for the right OSes.

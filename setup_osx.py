@@ -58,6 +58,7 @@ RESOURCES = []
 FRAMEWORKS = [SOLVER_LIB_PATH] if SOLVER_LIB_PATH else []
 # with argv_emulation=True, the app window is not shown when launched
 OPTIONS = dict(argv_emulation=False,
+               emulate_shell_environment=True,
                plist=PLIST,
                iconfile=ICON_FILE,
                resources=RESOURCES,

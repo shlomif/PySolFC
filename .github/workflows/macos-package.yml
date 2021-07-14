@@ -1,0 +1,57 @@
+name: macOS package
+
+on:
+  push:
+#    tags: [ '**' ]
+    branches: [ '**' ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-10.15
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install --no-binary=Pillow \
+          Pillow attrs configobj py2app pycotap pysol-cards random2 setuptools six
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        brew install create-dmg
+    - name: Get cardsets
+      run: |
+        wget --content-disposition https://downloads.sourceforge.net/project/pysolfc/PySolFC-Cardsets/minimal/PySolFC-Cardsets--Minimal-2.0.2.tar.xz
+        tar xJf PySolFC-Cardsets--Minimal-2.0.2.tar.xz
+        mv PySolFC-Cardsets--Minimal-2.0.2/cardset-* data
+    - name: Prepare game rules (process the HTML) and translations
+      run: |
+        make rules mo
+    - name: Create the executable .app
+      run: |
+        PYTHONPATH="." python setup_osx.py py2app
+        zip -q -r -X PySolFC-app.zip dist
+    - name: Make the .dmg for easy installation
+      run:
+        create-dmg --volname "Install PySolFC"
+        --volicon data/PySol.icns
+        --background html-src/images/pysollogo01.png
+        --window-size 800 400
+        --icon PySolFC.app 200 185
+        --app-drop-link 600 185
+        --skip-jenkins
+        PySolFC.dmg dist
+    - name: Upload zipped app
+      uses: actions/upload-artifact@v2
+      with:
+        name: pysolfc-app
+        path: PySolFC-app.zip
+    - name: Upload dmg
+      uses: actions/upload-artifact@v2
+      with:
+        name: pysolfc-dmg
+        path: PySolFC.dmg

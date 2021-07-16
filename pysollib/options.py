@@ -121,6 +121,7 @@ sound_sample_volume = integer(0, 128)
 sound_sample_buffer_size = integer(1, 4)
 music = boolean
 tabletile_name = string
+center_layout = boolean
 recent_gameid = int_list
 favorite_gameid = int_list
 visible_buttons = string_list
@@ -199,6 +200,7 @@ scale_cards = boolean
 scale_x = float
 scale_y = float
 auto_scale = boolean
+spread_stacks = boolean
 preserve_aspect_ratio = boolean
 '''.splitlines()
 
@@ -265,6 +267,7 @@ class Options:
         ('sound_sample_buffer_size', 'int'),
         ('music', 'bool'),
         ('tabletile_name', 'str'),
+        ('center_layout', 'bool'),
         ('translate_game_names', 'bool'),
         ('solver_presets', 'list'),
         ('solver_show_progress', 'bool'),

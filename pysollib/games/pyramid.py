@@ -1376,7 +1376,8 @@ registerGame(GameInfo(193, RelaxedPyramid, "Relaxed Pyramid",
 registerGame(GameInfo(592, Giza, "Giza",
                       GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(593, Thirteens, "Thirteens",
-                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_LUCK))
+                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_LUCK,
+                      altnames=('Helsinki',)))
 registerGame(GameInfo(594, Elevens, "Elevens",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_LUCK))
 registerGame(GameInfo(595, ElevensToo, "Elevens Too",
@@ -1408,7 +1409,8 @@ registerGame(GameInfo(681, KingTut, "King Tut",
 registerGame(GameInfo(699, DoublePyramid, "Double Pyramid",
                       GI.GT_PAIRING_TYPE, 2, 2, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(700, Triangle, "Triangle",
-                      GI.GT_PAIRING_TYPE, 1, 2, GI.SL_MOSTLY_LUCK))
+                      GI.GT_PAIRING_TYPE, 1, 2, GI.SL_MOSTLY_LUCK,
+                      altnames=('Yield',)))
 registerGame(GameInfo(701, UpAndDown, "Up and Down",
                       GI.GT_PAIRING_TYPE | GI.GT_ORIGINAL, 2, 2,
                       GI.SL_MOSTLY_LUCK))

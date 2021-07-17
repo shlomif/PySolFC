@@ -43,6 +43,7 @@ from pysollib.settings import DATA_DIRS, TOOLKIT
 
 # Suits values are 0-3. This maps to colors 0-1.
 SUITS = (_("Club"), _("Spade"), _("Heart"), _("Diamond"))
+SUITS_PL = (_("Clubs"), _("Spades"), _("Hearts"), _("Diamonds"))
 COLORS = (_("black"), _("red"))
 
 # Card ranks are 0-12.  We also define symbolic names for the picture cards.

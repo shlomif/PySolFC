@@ -226,6 +226,7 @@ class Options:
         ('mahjongg_create_solvable', 'int'),
         ('shisen_show_hint', 'bool'),
         ('shisen_show_matching', 'bool'),
+        ('accordion_deal_all', 'bool'),
         ('animations', 'int'),
         ('redeal_animation', 'bool'),
         ('win_animation', 'bool'),
@@ -308,6 +309,7 @@ class Options:
         self.highlight_not_matching = True
         self.mahjongg_show_removed = False
         self.mahjongg_create_solvable = 2  # 0 - none, 1 - easy, 2 - hard
+        self.accordion_deal_all = True
         if TOOLKIT == 'kivy':
             self.mahjongg_create_solvable = 1  # 0 - none, 1 - easy, 2 - hard
         self.shisen_show_hint = True

@@ -25,12 +25,13 @@ from pysollib.game import Game
 from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.hint import AbstractHint
 from pysollib.layout import Layout
+from pysollib.pysoltk import MfxCanvasText
 from pysollib.stack import \
         AbstractFoundationStack, \
         DealRowTalonStack, \
         ReserveStack, \
         Stack
-from pysollib.util import ANY_RANK, ANY_SUIT
+from pysollib.util import ANY_RANK, ANY_SUIT, RANKS, SUITS_PL
 
 
 class PushPin_Hint(AbstractHint):
@@ -125,6 +126,8 @@ class PushPin(Game):
     Hint_Class = PushPin_Hint
     RowStack_Class = PushPin_RowStack
 
+    Comment = False
+
     #
     # game layout
     #
@@ -133,9 +136,13 @@ class PushPin(Game):
         # create layout
         l, s = Layout(self), self.s
 
+        pad = 1
+        if self.Comment:
+            pad = 5
+
         # set window
         xx, yy = 9, 6
-        w, h = l.XM+xx*l.XS, l.YM+yy*l.YS
+        w, h = l.XM + xx * l.XS, (l.YM * pad) + yy * l.YS
         self.setSize(w, h)
 
         # create stacks
@@ -149,9 +156,13 @@ class PushPin(Game):
                 k = j
                 if i % 2:
                     k = xx-j-1
-                x, y = l.XM + k*l.XS, l.YM + i*l.YS
+                x, y = l.XM + k*l.XS, (l.YM * pad) + i * l.YS
                 s.rows.append(self.RowStack_Class(x, y, self))
-        s.talon = PushPin_Talon(l.XM, l.YM, self)
+        s.talon = PushPin_Talon(l.XM, l.YM * pad, self)
+        if self.Comment:
+            self.texts.base_rank = \
+                MfxCanvasText(self.canvas, l.XM, l.YM, anchor="nw",
+                              font=self.app.getFont("canvas_default"))
         s.foundations.append(PushPin_Foundation(l.XM, h-l.YS, self,
                              suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
                              max_accept=0, max_move=0, max_cards=52))
@@ -162,7 +173,11 @@ class PushPin(Game):
 
     def startGame(self):
         self.startDealSample()
-        self.s.talon.dealRow(rows=self.s.rows[:3])
+        if self.app.opt.accordion_deal_all:
+            self.s.talon.dealRow(rows=self.s.rows[:47], frames=0)
+            self.s.talon.dealRow(rows=self.s.rows[47:52])
+        else:
+            self.s.talon.dealRow(rows=self.s.rows[:3])
 
     def isGameWon(self):
         return len(self.s.foundations[0].cards) == 50
@@ -270,10 +285,6 @@ class Accordion(PushPin):
     Hint_Class = Accordion_Hint
     RowStack_Class = Accordion_RowStack
 
-    def startGame(self):
-        self.startDealSample()
-        self.s.talon.dealRow(rows=self.s.rows[:2])
-
     def isGameWon(self):
         return len(self.s.foundations[0].cards) == 52
 
@@ -321,6 +332,60 @@ class RelaxedAccordion_RowStack(Accordion2_RowStack):
 class RelaxedAccordion(Accordion2):
     RowStack_Class = RelaxedAccordion_RowStack
 
+# ************************************************************************
+# * Accordion's Revenge
+# ************************************************************************
+
+
+class AccordionsRevenge(Accordion2):
+    Comment = True
+
+    def createGame(self):
+        self.finalrank = -1
+        self.finalsuit = -1
+
+        Accordion2.createGame(self)
+
+    def startGame(self):
+        self.finalrank = -1
+        self.finalsuit = -1
+        self.updateText()
+
+        Accordion2.startGame(self)
+
+        while (self.finalrank == -1 or self.finalsuit == -1 or
+               (self.finalrank == self.s.rows[0].cards[0].rank and
+                self.finalsuit == self.s.rows[0].cards[0].suit) or
+               (self.finalrank == self.s.rows[1].cards[0].rank and
+                self.finalsuit == self.s.rows[1].cards[0].suit)):
+            self.finalsuit = self.random.choice(self.gameinfo.suits)
+            self.finalrank = self.random.choice(self.gameinfo.ranks)
+
+    def isGameWon(self):
+        return (len(self.s.foundations[0].cards) == 51 and
+                self.s.rows[0].cards[0].rank == self.finalrank and
+                self.s.rows[0].cards[0].suit == self.finalsuit)
+
+    def _restoreGameHook(self, game):
+        self.finalrank = game.loadinfo.dval.get('Rank')
+        self.finalsuit = game.loadinfo.dval.get('Suit')
+
+    def _loadGameHook(self, p):
+        self.loadinfo.addattr(dval=p.load())
+
+    def _saveGameHook(self, p):
+        dval = {'Rank': self.finalrank, 'Suit': self.finalsuit}
+        p.dump(dval)
+
+    def updateText(self):
+        if self.preview > 1:
+            return
+        if self.finalrank == -1 and self.finalsuit == -1:
+            self.texts.base_rank.config('')
+        else:
+            self.texts.base_rank.config(text=RANKS[self.finalrank]
+                                        + ' - ' + SUITS_PL[self.finalsuit])
+
 
 registerGame(GameInfo(287, PushPin, "Push Pin",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
@@ -334,4 +399,6 @@ registerGame(GameInfo(772, Accordion2, "Accordion",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED,
                       altnames=('Idle Year', 'Methuselah', 'Tower of Babel')))
 registerGame(GameInfo(773, RelaxedAccordion, "Relaxed Accordion",
+                      GI.GT_1DECK_TYPE | GI.GT_RELAXED, 1, 0, GI.SL_BALANCED))
+registerGame(GameInfo(811, AccordionsRevenge, "Accordion's Revenge",
                       GI.GT_1DECK_TYPE | GI.GT_RELAXED, 1, 0, GI.SL_BALANCED))

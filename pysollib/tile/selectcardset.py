@@ -227,10 +227,11 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             self.TreeDataHolder_Class.data = self.TreeData_Class(manager, key)
         #
         self.top.wm_minsize(400, 200)
-        if self.top.winfo_screenwidth() >= 800:
-            w1, w2 = 240, 400
-        else:
-            w1, w2 = 200, 300
+        sw = self.top.winfo_screenwidth()
+        sh = self.top.winfo_screenheight()
+
+        h = sh * .8
+        w1, w2 = min(300, sw / 4), max(sw / 2 + ((sw / 4) - 300), sw / 2)
         paned_window = ttk.PanedWindow(top_frame, orient='horizontal')
         paned_window.pack(expand=True, fill='both')
         left_frame = ttk.Frame(paned_window)
@@ -318,7 +319,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         left_frame.rowconfigure(0, weight=1)
         left_frame.columnconfigure(0, weight=1)
         #
-        self.preview = MfxScrolledCanvas(right_frame, width=w2)
+        self.preview = MfxScrolledCanvas(right_frame, width=w2, height=h)
         self.preview.setTile(app, app.tabletile_index, force=True)
         self.preview.pack(fill='both', expand=True, padx=padx, pady=pady)
         self.preview.canvas.preview = 1

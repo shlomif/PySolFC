@@ -321,7 +321,7 @@ class GI:
         ("Albert Morehead and Geoffrey Mott-Smith", (25, 42, 48, 173, 282,
                                                      303, 362, 547, 738)),
         ("Toby Ord", (788,)),
-        ("David Parlett", (64, 98, 294, 338, 654, 796,)),
+        ("David Parlett", (64, 98, 294, 338, 654, 796, 812)),
         ("Randy Rasa", (187, 190, 191, 192,)),
         ("Adam Selene", (366,)),
         ("Jim Sizelove", (555001,)),
@@ -406,7 +406,7 @@ class GI:
         ('fc-2.8',   (343001,)),
         ('fc-2.12',   tuple(range(774, 811)) + (16681,) +
          tuple(range(22217, 22219))),
-        ('fc-2.14', tuple(range(811, 812)))
+        ('fc-2.14', tuple(range(811, 813)))
     )
 
     # deprecated - the correct way is to or a GI.GT_XXX flag

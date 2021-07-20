@@ -803,6 +803,9 @@ class Vague(Game):
     Foundation_Classes = [StackWrapper(SS_FoundationStack,
                                        base_rank=ANY_RANK, mod=13)]
 
+    SEPARATE_FOUNDATIONS = True
+    SPREAD_FOUNDATION = False
+
     def createGame(self, rows=3, columns=6):
         layout, s = Layout(self), self.s
         decks = self.gameinfo.decks
@@ -815,9 +818,19 @@ class Vague(Game):
 
         x, y = layout.XM+2*layout.XS, layout.YM
         for found in self.Foundation_Classes:
-            for i in range(4):
-                s.foundations.append(found(x, y, self, suit=i))
-                x += layout.XS
+            if self.SEPARATE_FOUNDATIONS:
+                for i in range(4):
+                    s.foundations.append(found(x, y, self, suit=i))
+                    x += layout.XS
+            else:
+                s.foundations.append(found(x, y, self, suit=ANY_SUIT))
+                if self.SPREAD_FOUNDATION:
+                    w1, w2 = 6 * layout.XS + layout.XM, 2 * layout.XS
+
+                    totalcards = self.gameinfo.ncards
+                    if w2 + totalcards * layout.XOFFSET > w1:
+                        layout.XOFFSET = int((w1 - w2) / totalcards)
+                    s.foundations[0].CARD_XOFFSET = layout.XOFFSET
 
         y = layout.YM+layout.YS
         for i in range(rows):
@@ -862,6 +875,48 @@ class ThirtyTwoCards(Vague):
 
     def startGame(self):
         self._startAndDealRow()
+
+
+# ************************************************************************
+# * Sticko
+# ************************************************************************
+
+class Sticko_Foundation(AbstractFoundationStack):
+    def acceptsCards(self, from_stack, cards):
+        r1, r2 = self.cards[-1].rank, cards[0].rank
+        s1, s2 = self.cards[-1].suit, cards[0].suit
+        c1, c2 = self.cards[-1].color, cards[0].color
+
+        # Increase rank, same suit
+        if ((r2 == r1 + 1 or (r2 == ACE and r1 == KING)
+             or (r2 == 6 and r1 == ACE)) and s1 == s2):
+            return True
+
+        # Decrease rank, different suit but same color
+        if ((r1 == r2 + 1 or (r1 == ACE and r2 == KING)
+             or (r1 == 6 and r2 == ACE)) and s1 != s2 and c1 == c2):
+            return True
+
+        # Same rank, different color
+        if r1 == r2 and c1 != c2:
+            return True
+
+        return False
+
+
+class Sticko(Vague):
+    Foundation_Classes = [StackWrapper(Sticko_Foundation,
+                                       max_cards=32, )]
+    SEPARATE_FOUNDATIONS = False
+    SPREAD_FOUNDATION = True
+
+    def createGame(self):
+        Vague.createGame(self, rows=2, columns=8)
+
+    def startGame(self):
+        self._startAndDealRow()
+        self.s.talon.flipMove()
+        self.s.talon.moveMove(1, self.s.foundations[0])
 
 
 # ************************************************************************
@@ -1272,3 +1327,6 @@ registerGame(GameInfo(777, DoubleGolf, "Double Golf",
 registerGame(GameInfo(783, Uintah, "Uintah",
                       GI.GT_GOLF, 1, UNLIMITED_REDEALS,
                       GI.SL_MOSTLY_LUCK))
+registerGame(GameInfo(812, Sticko, "Sticko",
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED,
+                      ranks=(0, 6, 7, 8, 9, 10, 11, 12)))

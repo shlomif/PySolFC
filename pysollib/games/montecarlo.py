@@ -964,8 +964,8 @@ registerGame(GameInfo(328, TheWish, "The Wish",
                       ranks=(0, 6, 7, 8, 9, 10, 11, 12)))
 registerGame(GameInfo(329, TheWishOpen, "The Wish (open)",
                       GI.GT_PAIRING_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0,
-                      GI.SL_MOSTLY_SKILL,
-                      ranks=(0, 6, 7, 8, 9, 10, 11, 12)))
+                      GI.SL_MOSTLY_SKILL, ranks=(0, 6, 7, 8, 9, 10, 11, 12),
+                      rules_filename="thewish.html"))
 registerGame(GameInfo(368, Vertical, "Vertical",
                       GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0,
                       GI.SL_MOSTLY_LUCK))

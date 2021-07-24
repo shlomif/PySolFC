@@ -402,7 +402,7 @@ class GI:
         ('fc-1.0',   tuple(range(671, 711))),
         ('fc-1.1',   tuple(range(711, 759))),
         ('fc-2.0',   tuple(range(11011, 11014)) + tuple(range(759, 767))),
-        ('fc-2.1',   tuple(range(767, 774))),
+        ('fc-2.1',   tuple(range(767, 774)) + (555001,)),
         ('fc-2.8',   (343001,)),
         ('fc-2.12',   tuple(range(774, 811)) + (16681,) +
          tuple(range(22217, 22219))),

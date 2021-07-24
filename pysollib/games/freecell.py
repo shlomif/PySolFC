@@ -267,6 +267,17 @@ class TripleFreecell(FreeCell):
         self._startDealNumRowsAndDealSingleRow(11)
 
 
+class DoubleFreecellTd(TripleFreecell):
+    def createGame(self):
+        TripleFreecell.createGame(self, reserves=8, rows=10, playcards=20)
+
+    def startGame(self):
+        self._startDealNumRows(9)
+        self.s.talon.dealRow()
+        r = self.s.rows
+        self.s.talon.dealRow(rows=r[:4])
+
+
 class Cell11(TripleFreecell):
     def createGame(self):
         TripleFreecell.createGame(self, rows=12, reserves=11)
@@ -702,3 +713,5 @@ registerGame(GameInfo(698, CanCan, "Can Can",
 registerGame(GameInfo(746, Limpopo, "Limpopo",
                       GI.GT_FREECELL | GI.GT_ORIGINAL, 2, 0,
                       GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(813, DoubleFreecellTd, "Double FreeCell (Traditional)",
+                      GI.GT_FREECELL | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL))

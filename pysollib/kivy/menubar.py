@@ -589,6 +589,11 @@ class OptionsMenuDialog(LMenuDialog):
                               self.menubar.tkopt.shisen_show_hint,
                               self.menubar.mOptShisenShowHint)
 
+            self.addCheckNode(tv, rg,
+                              _('Deal all cards (in Accordion type games)'),
+                              self.menubar.tkopt.accordion_deal_all,
+                              self.menubar.mOptAccordionDealAll)
+
             # submenu.add_separator()
 
         # -------------------------------------------
@@ -1238,6 +1243,7 @@ class PysolMenubarTk:
             highlight_not_matching=BooleanVar(),
             mahjongg_show_removed=BooleanVar(),
             shisen_show_hint=BooleanVar(),
+            accordion_deal_all=BooleanVar(),
             sound=BooleanVar(),
             sound_sample_volume=IntVar(),
             sound_music_volume=IntVar(),
@@ -1299,6 +1305,7 @@ class PysolMenubarTk:
         tkopt.shade_filled_stacks.set(opt.shade_filled_stacks)
         tkopt.mahjongg_show_removed.set(opt.mahjongg_show_removed)
         tkopt.shisen_show_hint.set(opt.shisen_show_hint)
+        tkopt.accordion_deal_all.set(opt.accordion_deal_all)
         tkopt.sound.set(opt.sound)
         tkopt.sound_sample_volume.set(opt.sound_sample_volume)
         tkopt.sound_music_volume.set(opt.sound_music_volume)
@@ -2094,6 +2101,12 @@ the next time you restart the %(app)s""") % {'app': TITLE})
         if self._cancelDrag(break_pause=False):
             return
         self.app.opt.shisen_show_hint = self.tkopt.shisen_show_hint.get()
+        # self.game.updateMenus()
+
+    def mOptAccordionDealAll(self, *args):
+        if self._cancelDrag(break_pause=False):
+            return
+        self.app.opt.accordion_deal_all = self.tkopt.accordion_deal_all.get()
         # self.game.updateMenus()
 
     def mOptCardset(self, *event):

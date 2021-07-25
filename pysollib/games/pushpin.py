@@ -380,9 +380,7 @@ class AccordionsRevenge(Accordion2):
     def updateText(self):
         if self.preview > 1:
             return
-        if self.finalrank == -1 and self.finalsuit == -1:
-            self.texts.base_rank.config('')
-        else:
+        if self.finalrank != -1 and self.finalsuit != -1:
             self.texts.base_rank.config(text=RANKS[self.finalrank]
                                         + ' - ' + SUITS_PL[self.finalsuit])
 

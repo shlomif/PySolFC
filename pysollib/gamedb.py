@@ -331,7 +331,7 @@ class GI:
         ("Bill Taylor", (349,)),
         ("Thomas Warfield", (189, 264, 300, 320, 336, 337, 359,
                              415, 427, 458, 495, 496, 497, 508,
-                             800)),
+                             800, 814)),
         )
 
     GAMES_BY_PYSOL_VERSION = (
@@ -406,7 +406,7 @@ class GI:
         ('fc-2.8',   (343001,)),
         ('fc-2.12',   tuple(range(774, 811)) + (16681,) +
          tuple(range(22217, 22219))),
-        ('fc-2.14', tuple(range(811, 814)))
+        ('fc-2.14', tuple(range(811, 815)))
     )
 
     # deprecated - the correct way is to or a GI.GT_XXX flag

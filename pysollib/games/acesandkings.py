@@ -55,6 +55,11 @@ class AcesAndKings(Game):
 
         # create stacks
         x, y = l.XM, l.YM
+
+        w1, w2 = 4 * l.XS + l.XM, 2 * l.XS
+        if w2 + 13 * l.XOFFSET > w1:
+            l.XOFFSET = int((w1 - w2) / 13)
+
         for i in range(2):
             stack = OpenStack(x, y, self)
             stack.CARD_XOFFSET = l.XOFFSET
@@ -99,6 +104,24 @@ class AcesAndKings(Game):
             self.s.talon.moveMove(1, stack)
 
 
+# ************************************************************************
+# * Acey and Kingsley
+# ************************************************************************
+
+class AceyAndKingsley(AcesAndKings):
+    def _shuffleHook(self, cards):
+        return self._shuffleHookMoveToTop(
+            cards,
+            lambda c: (c.rank in (ACE, KING) and c.deck == 0,
+                       (c.rank, c.suit)))
+
+    def startGame(self):
+        self.s.talon.dealRow(rows=self.s.foundations, frames=0)
+        AcesAndKings.startGame(self)
+
+
 # register the game
 registerGame(GameInfo(800, AcesAndKings, "Aces and Kings",
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(814, AceyAndKingsley, "Acey and Kingsley",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))

@@ -23,7 +23,7 @@
 
 import os
 
-from pysollib.gamedb import GI, loadGame, hideGame
+from pysollib.gamedb import GI, hideGame, loadGame
 from pysollib.layout import Layout
 from pysollib.mygettext import _, n_
 from pysollib.stack import AC_FoundationStack, \

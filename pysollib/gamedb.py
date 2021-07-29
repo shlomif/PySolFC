@@ -705,6 +705,11 @@ def registerGame(gameinfo):
     return gameinfo
 
 
+def hideGame(game):
+    game.gameinfo.si.game_type = GI.GT_HIDDEN
+    registerGame(game.gameinfo)
+
+
 def loadGame(modname, filename, check_game=False):
     # print "load game", modname, filename
     GAME_DB.check_game = check_game

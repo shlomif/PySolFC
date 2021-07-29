@@ -398,6 +398,9 @@ class PysolMenubarTkCommon:
         menu.add_command(
             label=n_("&Edit current game"),
             command=self.mWizardEdit)
+        menu.add_command(
+            label=n_("&Delete current game"),
+            command=self.mWizardDelete)
 
         menu = MfxMenu(self.menubar, label=n_("&Game"))
         menu.add_command(
@@ -932,7 +935,8 @@ class PysolMenubarTkCommon:
         self.updateGamesMenu(submenu, games)
 
     def _addSelectAllGameSubMenu(self, games, menu, command, variable):
-        menu = MfxMenu(menu, label=n_("&All games by name"))
+        if menu.name != "allgamesbyname":
+            menu = MfxMenu(menu, label=n_("&All games by name"))
         n, d = 0, self.cb_max
         i = 0
         while True:
@@ -1068,6 +1072,24 @@ class PysolMenubarTkCommon:
             if gi:
                 games.append(gi)
         self.updateGamesMenu(submenu, games)
+
+    def updateCustomGamesMenu(self):
+        menu = self.menupath[".menubar.select.customgames"][2]
+        menu2 = self.menupath[".menubar.select.allgamesbyname"][2]
+
+        def select_func_visible(gi):
+            return gi.si.game_type != GI.GT_HIDDEN
+
+        def select_func_custom(gi):
+            return gi.si.game_type == GI.GT_CUSTOM
+
+        games = list(map(self.app.gdb.get,
+                         self.app.gdb.getGamesIdSortedByName()))
+        games = list(filter(select_func_visible, games))
+        self.progress = False
+        self.updateGamesMenu(menu2, games)
+        games = list(filter(select_func_custom, games))
+        self.updateGamesMenu(menu, games)
 
     def updateBookmarkMenuState(self):
         state = self._getEnabledState
@@ -1724,14 +1746,7 @@ Error while saving game.
                 return
 
             if SELECT_GAME_MENU:
-                menu = self.menupath[".menubar.select.customgames"][2]
-
-                def select_func(gi):
-                    return gi.si.game_type == GI.GT_CUSTOM
-                games = list(map(self.app.gdb.get,
-                                 self.app.gdb.getGamesIdSortedByName()))
-                games = list(filter(select_func, games))
-                self.updateGamesMenu(menu, games)
+                self.updateCustomGamesMenu()
 
             self.tkopt.gameid.set(gameid)
             self._mSelectGame(gameid, force=True)
@@ -1745,6 +1760,21 @@ Error while saving game.
         if self._cancelDrag(break_pause=False):
             return
         self.wizardDialog(edit=True)
+
+    def mWizardDelete(self, *event):
+        if self._cancelDrag(break_pause=False):
+            return
+        if not self.game.areYouSure(_("Delete game"),
+                                    _("Delete the game "
+                                      + self.game.gameinfo.name + "?")):
+            return
+        from pysollib.wizardutil import delete_game
+        delete_game(self.game)
+        self.game.endGame()
+        self.game.quitGame(2)
+
+        if SELECT_GAME_MENU:
+            self.updateCustomGamesMenu()
 
     def toolbarConfig(self, w, v):
         if self._cancelDrag(break_pause=False):

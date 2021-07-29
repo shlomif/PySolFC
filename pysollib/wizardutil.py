@@ -23,7 +23,7 @@
 
 import os
 
-from pysollib.gamedb import GI, loadGame
+from pysollib.gamedb import GI, loadGame, hideGame
 from pysollib.layout import Layout
 from pysollib.mygettext import _, n_
 from pysollib.stack import AC_FoundationStack, \
@@ -449,6 +449,12 @@ registerCustomGame(MyCustomGame)
     loadGame(mn, fn, check_game=check_game)
 
     return gameid
+
+
+def delete_game(game):
+    hideGame(game)
+    fn = game.MODULE_FILENAME
+    os.remove(fn)
 
 
 def reset_wizard(game):

@@ -179,6 +179,7 @@ class PysolMenubar(PysolMenubarTk):
         self.updateBookmarkMenuState()
         self.setMenuState(ms.restart, "edit.restart")
         self.setMenuState(ms.custom_game, "edit.editcurrentgame")
+        self.setMenuState(ms.custom_game, "edit.deletecurrentgame")
         # Game menu
         self.setMenuState(ms.deal, "game.dealcards")
         self.setMenuState(ms.autodrop, "game.autodrop")

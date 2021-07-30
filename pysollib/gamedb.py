@@ -131,6 +131,23 @@ class GI:
         GT_2DECK_TYPE:          n_("Two-Deck games"),
         GT_3DECK_TYPE:          n_("Three-Deck games"),
         GT_4DECK_TYPE:          n_("Four-Deck games"),
+
+        GT_MAHJONGG:            n_("Mahjongg"),
+        GT_HANAFUDA:            n_("Hanafuda"),
+        GT_MUGHAL_GANJIFA:      n_("Mughal Ganjifa"),
+        GT_DASHAVATARA_GANJIFA: n_("Dashavatara Ganjifa"),
+
+        GT_CRIBBAGE_TYPE:       n_("Cribbage"),
+        GT_HEXADECK:            n_("Hex A Deck"),
+        GT_MATRIX:              n_("Matrix"),
+        GT_MEMORY:              n_("Memory"),
+        GT_PEGGED:              n_("Pegged"),
+        GT_POKER_TYPE:          n_("Poker"),
+        GT_SHISEN_SHO:          n_("Shisen-Sho"),
+        GT_TAROCK:              n_("Tarock"),
+        GT_HANOI:               n_("Tower of Hanoi"),
+
+        GT_CUSTOM:              n_("Custom"),
     }
 
     #      SELECT_GAME_BY_TYPE = []

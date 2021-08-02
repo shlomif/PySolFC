@@ -49,8 +49,8 @@ from pysollib.stack import \
         WasteStack, \
         WasteTalonStack, \
         isSameSuitSequence
-from pysollib.util import ACE, ANY_RANK, ANY_SUIT, KING, NO_RANK, RANKS, \
-        SUITS, \
+from pysollib.util import ACE, ANY_RANK, ANY_SUIT, DIAMOND, KING, NO_RANK,\
+        RANKS, SUITS, \
         UNLIMITED_REDEALS
 
 
@@ -619,9 +619,6 @@ class Uintah(Game):
 # ************************************************************************
 # * Diamond Mine
 # ************************************************************************
-
-DIAMOND = 3
-
 
 class DiamondMine_RowStack(RK_RowStack):
     def acceptsCards(self, from_stack, cards):

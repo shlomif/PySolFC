@@ -42,8 +42,8 @@ from pysollib.stack import \
         UD_AC_RowStack, \
         WasteStack, \
         WasteTalonStack
-from pysollib.util import ACE, ANY_RANK, ANY_SUIT, KING, NO_RANK, \
-        UNLIMITED_MOVES, UNLIMITED_REDEALS
+from pysollib.util import ACE, ANY_RANK, ANY_SUIT, CLUB, DIAMOND,\
+        HEART, KING, NO_RANK, SPADE, UNLIMITED_MOVES, UNLIMITED_REDEALS
 
 
 class FortyThieves_Hint(CautiousDefaultHint):
@@ -1236,10 +1236,51 @@ class Foothold(FortyThieves):
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
+# ************************************************************************
+# * Following
+# ************************************************************************
+
+class Following_RowStack(RK_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if self.cards and not self.game.inSuitSequence(self.cards[-1],
+                                                       cards[0]):
+            return False
+        return RK_RowStack.acceptsCards(self, from_stack, cards)
+
+
+class Following_Foundation(AC_FoundationStack):
+    def acceptsCards(self, from_stack, cards):
+        if self.cards and not self.game.inSuitSequence(self.cards[-1],
+                                                       cards[0]):
+            return False
+        return AC_FoundationStack.acceptsCards(self, from_stack, cards)
+
+
+class Following(FortyThieves):
+    RowStack_Class = Following_RowStack
+    Foundation_Class = Following_Foundation
+    DEAL = (0, 1)
+    ROW_MAX_MOVE = UNLIMITED_MOVES
+
+    def createGame(self):
+        FortyThieves.createGame(self, max_rounds=2, rows=6, XCARDS=1)
+
+    def inSuitSequence(self, card1, card2):
+        if card1.suit == SPADE and card2.suit == HEART:
+            return True
+        if card1.suit == HEART and card2.suit == CLUB:
+            return True
+        if card1.suit == CLUB and card2.suit == DIAMOND:
+            return True
+        if card1.suit == DIAMOND and card2.suit == SPADE:
+            return True
+        return False
+
+
 # register the game
 registerGame(GameInfo(13, FortyThieves, "Forty Thieves",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL,
-                      altnames=("Napoleon at St.Helena",
+                      altnames=("Napoleon at St. Helena",
                                 "Le Cadran")))
 registerGame(GameInfo(80, BusyAces, "Busy Aces",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
@@ -1369,3 +1410,5 @@ registerGame(GameInfo(775, SixtyThieves, "Sixty Thieves",
                       GI.GT_FORTY_THIEVES, 3, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(776, EightyThieves, "Eighty Thieves",
                       GI.GT_FORTY_THIEVES, 4, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(815, Following, "Following",
+                      GI.GT_FORTY_THIEVES, 1, 1, GI.SL_BALANCED))

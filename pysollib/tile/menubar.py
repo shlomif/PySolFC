@@ -95,6 +95,7 @@ class PysolMenubarTk(PysolMenubarTkCommon):
         self._cancelDrag()
         self.game.endGame(bookmark=1)
         self.game.quitGame(bookmark=1)
+        self.updateMenus()
 
     #
     # Tile (ttk)

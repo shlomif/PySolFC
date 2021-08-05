@@ -77,6 +77,7 @@ class PysolMenubar(PysolMenubarTk):
             quickplay=0,
             demo=0,
             highlight_piles=0,
+            autoscale=0,
             find_card=0,
             rules=0,
             pause=0,
@@ -151,6 +152,8 @@ class PysolMenubar(PysolMenubarTk):
             ms.quickplay = 1
         if opt.highlight_piles and game.getHighlightPilesStacks():
             ms.highlight_piles = 1
+        if opt.auto_scale:
+            ms.autoscale = 1
         if game.canFindCard():
             ms.find_card = 1
         if game.app.getGameRulesFilename(game.id):  # note: this may return ""
@@ -196,6 +199,7 @@ class PysolMenubar(PysolMenubarTk):
         self.setMenuState(ms.autodrop, "options.automaticplay.autodrop")
         self.setMenuState(ms.autodeal, "options.automaticplay.autodeal")
         self.setMenuState(ms.quickplay, "options.automaticplay.quickplay")
+        self.setMenuState(ms.autoscale, "options.cardsize.preserveaspectratio")
         # Help menu
         self.setMenuState(ms.rules, "help.rulesforthisgame")
         # Toolbar

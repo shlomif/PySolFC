@@ -172,6 +172,7 @@ class PysolMenubarTkCommon:
             accordion_deal_all=tkinter.BooleanVar(),
             sound=tkinter.BooleanVar(),
             auto_scale=tkinter.BooleanVar(),
+            preserve_aspect_ratio=tkinter.BooleanVar(),
             spread_stacks=tkinter.BooleanVar(),
             center_layout=tkinter.BooleanVar(),
             cardback=tkinter.IntVar(),
@@ -226,6 +227,7 @@ class PysolMenubarTkCommon:
         tkopt.accordion_deal_all.set(opt.accordion_deal_all)
         tkopt.sound.set(opt.sound)
         tkopt.auto_scale.set(opt.auto_scale)
+        tkopt.preserve_aspect_ratio.set(opt.preserve_aspect_ratio)
         tkopt.spread_stacks.set(opt.spread_stacks)
         tkopt.center_layout.set(opt.center_layout)
         tkopt.cardback.set(self.app.cardset.backindex)
@@ -522,7 +524,7 @@ class PysolMenubarTkCommon:
             variable=self.tkopt.shisen_show_hint,
             command=self.mOptShisenShowHint)
         submenu.add_checkbutton(
-            label=n_("Deal all cards (in Accordion type games)"),
+            label=n_("&Deal all cards (in Accordion type games)"),
             variable=self.tkopt.accordion_deal_all,
             command=self.mOptAccordionDealAll)
         menu.add_separator()
@@ -541,6 +543,10 @@ class PysolMenubarTkCommon:
             submenu.add_checkbutton(
                 label=n_("&Auto scaling"), variable=self.tkopt.auto_scale,
                 command=self.mOptAutoScale, accelerator=m+'0')
+            submenu.add_checkbutton(
+                label=n_("&Preserve aspect ratio"),
+                variable=self.tkopt.preserve_aspect_ratio,
+                command=self.mOptPreserveAspectRatio)
             submenu = MfxMenu(menu, label=n_("Card la&yout"))
             submenu.add_checkbutton(
                 label=n_("&Spread stacks"), variable=self.tkopt.spread_stacks,
@@ -1479,6 +1485,7 @@ Unsupported game for import.
             self.app.canvas.setInitialSize(w, h)
             self.app.top.wm_geometry("")    # cancel user-specified geometry
         # self.app.top.update_idletasks()
+        self.updateMenus()
 
     def mIncreaseCardset(self, *event):
         if self._cancelDrag(break_pause=True):
@@ -1522,6 +1529,15 @@ Unsupported game for import.
 
         self.app.opt.auto_scale = auto_scale
         self.tkopt.auto_scale.set(auto_scale)
+        self._updateCardSize()
+
+    def mOptPreserveAspectRatio(self, *event):
+        if self._cancelDrag(break_pause=True):
+            return
+        preserve_aspect_ratio = not self.app.opt.preserve_aspect_ratio
+
+        self.app.opt.preserve_aspect_ratio = preserve_aspect_ratio
+        self.tkopt.preserve_aspect_ratio.set(preserve_aspect_ratio)
         self._updateCardSize()
 
     def mOptSpreadStacks(self, *event):

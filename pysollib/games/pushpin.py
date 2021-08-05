@@ -384,6 +384,53 @@ class AccordionsRevenge(Accordion2):
             self.texts.base_rank.config(text=RANKS[self.finalrank]
                                         + ' - ' + SUITS_PL[self.finalsuit])
 
+# ************************************************************************
+# * Decade
+# ************************************************************************
+
+
+class Decade_RowStack(PushPin_RowStack):
+
+    def acceptsCards(self, from_stack, cards):
+        if not self.cards:
+            return False
+        firstcard = min(self.id, from_stack.id)
+        lastcard = max(self.id, from_stack.id) + 1
+
+        total = 0
+        for x in range(firstcard, lastcard):
+            total += min(self.game.s.rows[x].cards[0].rank + 1, 10)
+
+        return total in [10, 20, 30]
+
+    def _dropPairMove(self, n, other_stack, frames=-1, shadow=-1):
+        game = self.game
+        old_state = game.enterState(game.S_FILL)
+        f = game.s.foundations[0]
+        game.updateStackMove(game.s.talon, 2 | 16)  # for undo
+        if not game.demo:
+            game.playSample("droppair", priority=200)
+
+        firstcard = min(self.id, other_stack.id)
+        lastcard = max(self.id, other_stack.id) + 1
+
+        for x in range(firstcard, lastcard):
+            game.moveMove(n, self.game.s.rows[x], f,
+                          frames=frames, shadow=shadow)
+
+        self.fillStack()
+        game.updateStackMove(game.s.talon, 1 | 16)  # for redo
+        game.leaveState(old_state)
+
+    clickHandler = ReserveStack.clickHandler
+
+
+class Decade(PushPin):
+    RowStack_Class = Decade_RowStack
+
+    def isGameWon(self):
+        return len(self.s.foundations[0].cards) == 52
+
 
 registerGame(GameInfo(287, PushPin, "Push Pin",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
@@ -400,3 +447,6 @@ registerGame(GameInfo(773, RelaxedAccordion, "Relaxed Accordion",
                       GI.GT_1DECK_TYPE | GI.GT_RELAXED, 1, 0, GI.SL_SKILL))
 registerGame(GameInfo(811, AccordionsRevenge, "Accordion's Revenge",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_SKILL))
+registerGame(GameInfo(816, Decade, "Decade",
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_SKILL,
+                      altnames=('Ten Twenty Thirty')))

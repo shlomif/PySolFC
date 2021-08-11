@@ -21,7 +21,6 @@
 #
 # ---------------------------------------------------------------------------#
 
-import formatter
 import os
 import sys
 
@@ -29,6 +28,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 
+import pysollib.formatter
 import pysollib.htmllib2 as htmllib
 from pysollib.kivy.LApp import LPopCommander
 from pysollib.kivy.LApp import LScrollView
@@ -84,9 +84,9 @@ def cmp2(a, b):
     return (a > b) - (a < b)
 
 
-class tkHTMLWriter(formatter.NullWriter):
+class tkHTMLWriter(pysollib.formatter.NullWriter):
     def __init__(self, text, viewer, app):
-        formatter.NullWriter.__init__(self)
+        pysollib.formatter.NullWriter.__init__(self)
 
         self.text = text
         self.viewer = viewer
@@ -630,7 +630,7 @@ class HTMLViewer:
         # self.images = {}
         self.text.textbuffer = ''
         writer = tkHTMLWriter(self.text, self, self.app)
-        fmt = formatter.AbstractFormatter(writer)
+        fmt = pysollib.formatter.AbstractFormatter(writer)
         parser = tkHTMLParser(fmt)
         parser.feed(data)
         parser.close()

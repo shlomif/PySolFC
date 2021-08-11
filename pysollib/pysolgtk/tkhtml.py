@@ -21,7 +21,6 @@
 #
 # ---------------------------------------------------------------------------
 
-import formatter
 import htmllib
 import os
 import sys
@@ -34,6 +33,7 @@ from gtk import gdk
 
 import pango
 
+import pysollib.formatter
 from pysollib.mfxutil import Struct, openURL
 from pysollib.mygettext import _
 from pysollib.settings import TITLE
@@ -55,9 +55,9 @@ REMOTE_PROTOCOLS = ('ftp:', 'gopher:', 'http:', 'mailto:', 'news:', 'telnet:')
 # *
 # ************************************************************************
 
-class tkHTMLWriter(formatter.NullWriter):
+class tkHTMLWriter(pysollib.formatter.NullWriter):
     def __init__(self, text, viewer, app):
-        formatter.NullWriter.__init__(self)
+        pysollib.formatter.NullWriter.__init__(self)
 
         self.text = text      # gtk.TextBuffer
         self.viewer = viewer  # HTMLViewer
@@ -489,7 +489,7 @@ to open the following URL:
         self.textbuffer.delete(start, end)
 
         writer = tkHTMLWriter(self.textbuffer, self, self.app)
-        fmt = formatter.AbstractFormatter(writer)
+        fmt = pysollib.formatter.AbstractFormatter(writer)
         parser = tkHTMLParser(fmt)
         parser.feed(data)
         parser.close()

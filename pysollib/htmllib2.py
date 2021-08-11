@@ -4,7 +4,7 @@ See the HTML 2.0 specification:
 http://www.w3.org/hypertext/WWW/MarkUp/html-spec/html-spec_toc.html
 """
 
-from formatter import AS_IS
+from pysollib.formatter import AS_IS
 
 from six.moves import html_parser
 
@@ -483,7 +483,7 @@ class HTMLParser(html_parser.HTMLParser):
 
 def test(args=None):
     import sys
-    import formatter
+    import pysollib.formatter
 
     if not args:
         args = sys.argv[1:]
@@ -508,9 +508,11 @@ def test(args=None):
             sys.exit(1)
 
     if silent:
-        f = formatter.NullFormatter()
+        f = pysollib.formatter.NullFormatter()
     else:
-        f = formatter.AbstractFormatter(formatter.DumbWriter())
+        f = pysollib.formatter.AbstractFormatter(
+            pysollib.formatter.DumbWriter()
+        )
 
     p = HTMLParser(f)
     p.feed(data)

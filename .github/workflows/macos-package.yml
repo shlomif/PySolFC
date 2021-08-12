@@ -11,10 +11,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
+    - name: Set up python
+      env:
+        PYVER: '3.9.6'
+        PYVER_SHORT: '3.9'
+      run: |
+        wget -O python.pkg "https://www.python.org/ftp/python/${PYVER}/python-${PYVER}-macosx10.9.pkg"
+        sudo installer -pkg python.pkg -target /
+        echo "/Library/Frameworks/Python.framework/Versions/${PYVER_SHORT}/bin" >> $GITHUB_PATH
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip

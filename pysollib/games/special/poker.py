@@ -56,6 +56,7 @@ class PokerSquare(Game):
     WIN_SCORE = 100
     NUM_RESERVE = 0
     RESERVE_STACK = StackWrapper(ReserveStack, max_cards=5)
+    UNSCORED = False
 
     #
     # game layout
@@ -68,7 +69,7 @@ class PokerSquare(Game):
         # create texts 1)
         ta = "ss"
         x, y = l.XM, l.YM + 2*l.YS
-        if self.preview <= 1:
+        if self.preview <= 1 and not self.UNSCORED:
             t = MfxCanvasText(self.canvas, x, y, anchor="nw",
                               font=self.app.getFont("canvas_default"),
                               text=_('''\
@@ -101,8 +102,12 @@ One Pair'''))
             x = self.texts.misc.bbox()[1][0] + 32
 
         # set window
-        w = max(2 * l.XS, x, ((self.NUM_RESERVE + 1) * l.XS) + (4 * l.XM))
-        self.setSize(l.XM + w + 5 * l.XS + 50, l.YM + 5 * l.YS + 30)
+        if not self.UNSCORED:
+            w = max(2 * l.XS, x, ((self.NUM_RESERVE + 1) * l.XS) + (4 * l.XM))
+            self.setSize(l.XM + w + 5 * l.XS + 50, l.YM + 5 * l.YS + 30)
+        else:
+            w = l.XM
+            self.setSize(l.XM + w + 5 * l.XS + 100, l.YM + 5 * l.YS)
 
         # create stacks
         for i in range(5):
@@ -110,6 +115,8 @@ One Pair'''))
                 x, y = l.XM + w + j*l.XS, l.YM + i*l.YS
                 s.rows.append(self.RowStack_Class(x, y, self))
         x, y = l.XM, l.YM
+        if self.UNSCORED:
+            x += (4 * l.YS)
         s.talon = self.Talon_Class(x, y, self)
         l.createText(s.talon, anchor=ta)
         s.internals.append(InvisibleStack(self))    # for _swapPairMove()
@@ -292,12 +299,12 @@ class PokerShuffle(PokerSquare):
     def checkForWin(self):
         return 0
 
+
 # ************************************************************************
 # * Poker Square (Waste)
 # * Poker Square (1 Reserve)
 # * Poker Square (2 Reserves)
 # ************************************************************************
-
 
 class PokerSquareWaste(PokerSquare):
     NUM_RESERVE = 1
@@ -310,6 +317,50 @@ class PokerSquare1Reserve(PokerSquare):
 
 class PokerSquare2Reserves(PokerSquare):
     NUM_RESERVE = 2
+
+
+# ************************************************************************
+# * Maverick
+# ************************************************************************
+
+class Maverick(PokerShuffle):
+    UNSCORED = True
+
+    def createGame(self):
+        PokerShuffle.createGame(self)
+        r = self.s.rows
+        self.poker_hands = [r[0:5], r[5:10], r[10:15], r[15:20], r[20:25]]
+
+    def updateText(self):
+        if self.preview > 1:
+            return
+
+        for i in range(5):
+            type, value = self.getHandScore(self.poker_hands[i])
+            self.texts.list[i].config(text=self.getNameByScore(value))
+
+    def getNameByScore(self, score):
+        scores = {0: "Nothing",
+                  2: "One Pair",
+                  5: "Two Pair",
+                  10: "3 of a Kind",
+                  15: "Straight",
+                  20: "Flush",
+                  25: "Full House",
+                  50: "4 of a Kind",
+                  75: "Straight Flush",
+                  100: "Royal Flush"}
+        return scores[score]
+
+    def isGameWon(self):
+        for i in range(5):
+            type, value = self.getHandScore(self.poker_hands[i])
+            if value < 15:
+                return False
+        return True
+
+    def checkForWin(self):
+        return Game.checkForWin(self)
 
 
 # register the game
@@ -329,3 +380,6 @@ registerGame(GameInfo(798, PokerSquare1Reserve, "Poker Square (1 Reserve)",
 registerGame(GameInfo(799, PokerSquare2Reserves, "Poker Square (2 Reserves)",
                       GI.GT_POKER_TYPE | GI.GT_SCORE, 1, 0, GI.SL_MOSTLY_SKILL,
                       si={"ncards": 35}, rules_filename="pokersquare.html"))
+registerGame(GameInfo(817, Maverick, "Maverick",
+                      GI.GT_POKER_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL,
+                      si={"ncards": 25}))

@@ -27,7 +27,7 @@ import os
 from pysollib.gamedb import GI
 from pysollib.help import help_about, help_html
 from pysollib.mfxutil import Struct, openURL
-from pysollib.mfxutil import print_err, USE_PIL
+from pysollib.mfxutil import USE_PIL, print_err
 from pysollib.mygettext import _
 from pysollib.pysolrandom import construct_random
 from pysollib.pysoltk import AllGames_StatsDialog, SingleGame_StatsDialog

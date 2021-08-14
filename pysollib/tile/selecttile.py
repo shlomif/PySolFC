@@ -25,6 +25,7 @@ from pysollib.mfxutil import KwStruct
 from pysollib.mygettext import _
 from pysollib.ui.tktile.selecttree import SelectDialogTreeData
 
+import os
 import six
 from six.moves import tkinter
 from six.moves import tkinter_colorchooser
@@ -67,9 +68,21 @@ class SelectTileData(SelectDialogTreeData):
                             if tile.index > 0 and tile.filename]
         self.no_contents = [SelectTileLeaf(
             None, None, _("(no tiles)"), key=None), ]
-        e1 = isinstance(key, str) or len(self.all_objects) <= 17
-        e2 = 1
+        # e1 = isinstance(key, str) or len(self.all_objects) <= 17
+        # e2 = 0
         self.rootnodes = (
+            SelectTileNode(
+                None, _("All Backgrounds"),
+                lambda tile: 1, expanded=0),
+            SelectTileNode(
+                None, _("Textures"),
+                lambda tile: os.path.basename(
+                    os.path.dirname(tile.filename)) == 'tiles', expanded=0),
+            SelectTileNode(
+                None, _("Images"),
+                lambda tile: (os.path.basename(
+                              os.path.dirname(tile.filename)) in
+                              ('stretch', 'save-aspect')), expanded=0),
             SelectTileNode(None, _("Solid Colors"), (
                 SelectTileLeaf(None, None, _("Blue"), key="#0082df"),
                 SelectTileLeaf(None, None, _("Green"), key="#008200"),
@@ -77,10 +90,7 @@ class SelectTileData(SelectDialogTreeData):
                 SelectTileLeaf(None, None, _("Olive"), key="#868200"),
                 SelectTileLeaf(None, None, _("Orange"), key="#f79600"),
                 SelectTileLeaf(None, None, _("Teal"), key="#008286"),
-            ), expanded=e1),
-            SelectTileNode(
-                None, _("All Backgrounds"),
-                lambda tile: 1, expanded=e2),
+            ), expanded=0),
         )
 
 
@@ -117,10 +127,12 @@ class SelectTileDialogWithPreview(MfxDialog):
             self.TreeDataHolder_Class.data = self.TreeData_Class(manager, key)
         #
         self.top.wm_minsize(400, 200)
-        if self.top.winfo_screenwidth() >= 800:
-            w1, w2 = 200, 400
-        else:
-            w1, w2 = 200, 300
+        sw = self.top.winfo_screenwidth()
+        sh = self.top.winfo_screenheight()
+
+        h = sh * .8
+        w1, w2 = min(250, sw / 4), max(sw / 2 + ((sw / 4) - 250), sw / 2)
+
         font = app.getFont("default")
         padx, pady = 4, 4
         frame = ttk.Frame(top_frame)
@@ -130,7 +142,8 @@ class SelectTileDialogWithPreview(MfxDialog):
                                     font=font, width=w1)
         self.tree.frame.pack(side="left", fill='both', expand=False,
                              padx=padx, pady=pady)
-        self.preview = MfxScrolledCanvas(frame, width=w2, hbar=0, vbar=0)
+        self.preview = MfxScrolledCanvas(frame, width=w2, hbar=0, vbar=0,
+                                         height=h)
         self.preview.pack(side="right", fill='both', expand=True,
                           padx=padx, pady=pady)
         self.preview.canvas.preview = 1

@@ -27,7 +27,7 @@ import os
 from pysollib.gamedb import GI
 from pysollib.help import help_about, help_html
 from pysollib.mfxutil import Struct, openURL
-from pysollib.mfxutil import print_err
+from pysollib.mfxutil import print_err, USE_PIL
 from pysollib.mygettext import _
 from pysollib.pysolrandom import construct_random
 from pysollib.pysoltk import AllGames_StatsDialog, SingleGame_StatsDialog
@@ -199,7 +199,9 @@ class PysolMenubar(PysolMenubarTk):
         self.setMenuState(ms.autodrop, "options.automaticplay.autodrop")
         self.setMenuState(ms.autodeal, "options.automaticplay.autodeal")
         self.setMenuState(ms.quickplay, "options.automaticplay.quickplay")
-        self.setMenuState(ms.autoscale, "options.cardsize.preserveaspectratio")
+        if USE_PIL:
+            self.setMenuState(ms.autoscale,
+                              "options.cardsize.preserveaspectratio")
         # Help menu
         self.setMenuState(ms.rules, "help.rulesforthisgame")
         # Toolbar

@@ -499,6 +499,7 @@ class Mumbai(Indian):
 # * Napoleon's Exile
 # * Double Rail
 # * Single Rail (1 deck)
+# * Triple Rail (3 decks)
 # * Final Battle
 # *   rows build down by rank
 # ************************************************************************
@@ -522,6 +523,11 @@ class DoubleRail(NapoleonsExile):
 class SingleRail(DoubleRail):
     def createGame(self):
         FortyThieves.createGame(self, rows=4, XCARDS=48)
+
+
+class TripleRail(DoubleRail):
+    def createGame(self):
+        FortyThieves.createGame(self, rows=9, XCARDS=147)
 
 
 class FinalBattle(DoubleRail):
@@ -1412,3 +1418,5 @@ registerGame(GameInfo(776, EightyThieves, "Eighty Thieves",
                       GI.GT_FORTY_THIEVES, 4, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(815, Following, "Following",
                       GI.GT_FORTY_THIEVES, 1, 1, GI.SL_BALANCED))
+registerGame(GameInfo(818, TripleRail, "Triple Rail",
+                      GI.GT_FORTY_THIEVES, 3, 0, GI.SL_BALANCED))

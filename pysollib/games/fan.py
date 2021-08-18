@@ -49,7 +49,7 @@ from pysollib.stack import \
         TalonStack, \
         UD_RK_RowStack, \
         UD_SS_RowStack
-from pysollib.util import ACE, KING, NO_RANK, UNLIMITED_CARDS
+from pysollib.util import ACE, ANY_RANK, KING, NO_RANK, RANKS, UNLIMITED_CARDS
 
 
 class Fan_Hint(CautiousDefaultHint):
@@ -922,6 +922,98 @@ class ForestGlade(Game):
 
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
+# ************************************************************************
+# * Bear River
+# ************************************************************************
+
+class BearRiver(Fan):
+
+    def createGame(self):
+        self.base_card = None
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        # (set size so that at least 3 cards are fully playable)
+        w = max(2 * l.XS, l.XS + 3 * l.XOFFSET)
+        w = min(3 * l.XS, w)
+        w = (w + 1) & ~1
+        self.setSize(l.XM + 6 * w, l.YM + 4 * l.YS + l.TEXT_HEIGHT)
+
+        dx = (self.width - 4 * l.XS) // (4 + 1)
+        x, y = l.XM + dx, l.YM
+        dx += l.XS
+        for i in range(4):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i,
+                                                    mod=13))
+            x += dx
+
+        tx, ty, ta, tf = l.getTextAttr(s.foundations[0], "s")
+
+        self.texts.info = \
+            MfxCanvasText(self.canvas, tx, ty, anchor=ta,
+                          font=self.app.getFont("canvas_default"))
+
+        y += l.TEXT_HEIGHT
+        for i in range(3):
+            x, y = l.XM, y + l.YS
+            for j in range(5):
+                stack = UD_SS_RowStack(
+                    x, y, self, max_move=1, max_accept=1, base_rank=NO_RANK,
+                    mod=13, max_cards=3)
+                stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
+                s.rows.append(stack)
+                x += w
+            stack = UD_SS_RowStack(
+                x, y, self, max_move=1, max_accept=1, base_rank=ANY_RANK,
+                mod=13, max_cards=3)
+            stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
+            s.rows.append(stack)
+
+        x, y = self.width - l.XS, self.height - l.YS
+        s.talon = self.Talon_Class(x, y, self)
+
+        # define stack-groups
+        l.defaultStackGroups()
+        return l
+
+    def startGame(self):
+        for i in range(2):
+            self.s.talon.dealRow(rows=self.s.rows[:18], frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow(rows=self.s.rows[:5])
+        self.s.talon.dealRow(rows=self.s.rows[6:11])
+        self.s.talon.dealRow(rows=self.s.rows[12:17])
+
+        self.base_card = self.s.talon.getCard()
+        for s in self.s.foundations:
+            s.cap.base_rank = self.base_card.rank
+        n = self.base_card.suit
+        self.flipMove(self.s.talon)
+        self.moveMove(1, self.s.talon, self.s.foundations[n])
+
+    def updateText(self):
+        if self.preview > 1:
+            return
+        if not self.texts.info:
+            return
+        if not self.base_card:
+            t = ""
+        else:
+            t = RANKS[self.base_card.rank]
+        self.texts.info.config(text=t)
+
+    def _restoreGameHook(self, game):
+        self.base_card = self.cards[game.loadinfo.base_card_id]
+        for s in self.s.foundations:
+            s.cap.base_rank = self.base_card.rank
+
+    def _loadGameHook(self, p):
+        self.loadinfo.addattr(base_card_id=None)    # register extra load var.
+        self.loadinfo.base_card_id = p.load()
+
+    def _saveGameHook(self, p):
+        p.dump(self.base_card.id)
 
 # register the game
 registerGame(GameInfo(56, FanGame, "Fan",
@@ -973,3 +1065,5 @@ registerGame(GameInfo(739, ForestGlade, "Forest Glade",
 registerGame(GameInfo(767, QuadsPlus, "Quads +",
                       GI.GT_FAN_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0,
                       GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(819, BearRiver, "Bear River",
+                      GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))

@@ -922,6 +922,7 @@ class ForestGlade(Game):
 
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
+
 # ************************************************************************
 # * Bear River
 # ************************************************************************
@@ -1014,6 +1015,7 @@ class BearRiver(Fan):
 
     def _saveGameHook(self, p):
         p.dump(self.base_card.id)
+
 
 # register the game
 registerGame(GameInfo(56, FanGame, "Fan",

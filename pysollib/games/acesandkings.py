@@ -24,13 +24,14 @@
 from pysollib.game import Game
 from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.layout import Layout
+from pysollib.pysoltk import MfxCanvasText
 from pysollib.stack import \
     BasicRowStack, \
     OpenStack, \
     RK_FoundationStack, \
     WasteStack, \
     WasteTalonStack
-from pysollib.util import ACE, KING
+from pysollib.util import ACE, KING, RANKS
 
 
 # ************************************************************************
@@ -42,50 +43,82 @@ class AcesAndKings_RowStack(BasicRowStack):
         return len(cards) == 1 and len(self.cards) == 0
 
 
+class AcesAndKings_FoundationStack(RK_FoundationStack):
+    getBottomImage = RK_FoundationStack._getReserveBottomImage
+
+
 class AcesAndKings(Game):
+    NUM_RESERVES = 2
+    NUM_TABLEAU = 4
+    FOUNDATION_SETS = ((ACE, KING),)
+
     #
     # game layout
     #
-    def createGame(self, rows=4, max_rounds=1, num_deal=1):
+    def createGame(self, max_rounds=1, num_deal=1):
         # create layout
         l, s = Layout(self), self.s
 
         # set window
-        self.setSize(l.XM + (8.5 * l.XS), l.YM + (3 * l.YS))
+        self.setSize(l.XM + (8.5 * l.XS), l.YM +
+                     ((2 + len(self.FOUNDATION_SETS)) * l.YS))
 
         # create stacks
-        x, y = l.XM, l.YM
+        x, y = 2 * l.XM, l.YM
 
-        w1, w2 = 4 * l.XS + l.XM, 2 * l.XS
+        w1, w2 = (10 * (l.XS + l.XM)) / self.NUM_RESERVES, 2 * l.XS
         if w2 + 13 * l.XOFFSET > w1:
             l.XOFFSET = int((w1 - w2) / 13)
 
-        for i in range(2):
+        for i in range(self.NUM_RESERVES):
             stack = OpenStack(x, y, self)
             stack.CARD_XOFFSET = l.XOFFSET
             l.createText(stack, "sw")
             s.reserves.append(stack)
-            x += 4.5 * l.XS
+            x += (9 / self.NUM_RESERVES) * l.XS
 
         x, y = l.XM, y + l.YS
-        for i in range(4):
-            s.foundations.append(RK_FoundationStack(x, y, self, suit=i,
-                                                    base_rank=ACE, dir=1))
-            x = x + l.XS
-        x = x + (l.XS / 2)
-        for i in range(4):
-            s.foundations.append(RK_FoundationStack(x, y, self, suit=i,
-                                                    base_rank=KING, dir=-1))
-            x = x + l.XS
-        x, y = l.XM + l.XS, y + l.YS
+
+        font = self.app.getFont("canvas_default")
+
+        for i in self.FOUNDATION_SETS:
+            for j in range(4):
+                stack = AcesAndKings_FoundationStack(x, y, self, suit=j,
+                                                     base_rank=i[0], dir=1,
+                                                     max_cards=(13 - i[0]))
+                stack.texts.misc = MfxCanvasText(self.canvas,
+                                                 x + l.CW // 2,
+                                                 y + l.CH // 2,
+                                                 anchor="center",
+                                                 font=font)
+                stack.texts.misc.config(text=(RANKS[i[0]][0]))
+                s.foundations.append(stack)
+
+                x = x + l.XS
+            x = x + (l.XS / 2)
+            for j in range(4):
+                stack = AcesAndKings_FoundationStack(x, y, self, suit=j,
+                                                     base_rank=i[1], dir=-1,
+                                                     max_cards=(i[1] + 1))
+                stack.texts.misc = MfxCanvasText(self.canvas,
+                                                 x + l.CW // 2,
+                                                 y + l.CH // 2,
+                                                 anchor="center",
+                                                 font=font)
+                stack.texts.misc.config(text=(RANKS[i[1]][0]))
+                s.foundations.append(stack)
+
+                x = x + l.XS
+            x, y = l.XM, y + l.YS
+        x += (2.5 * l.XM)
         s.talon = WasteTalonStack(
             x, y, self, max_rounds=max_rounds, num_deal=num_deal)
         l.createText(s.talon, "sw")
         x = x + l.XS
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, "se", text_format="%D")
-        x += 2.5 * l.XS
-        for i in range(rows):
+        x = ((8.5 - self.NUM_TABLEAU) * l.XS) + l.XM
+        for i in range(self.NUM_TABLEAU):
             s.rows.append(AcesAndKings_RowStack(x, y, self, max_accept=1))
             x = x + l.XS
 
@@ -120,8 +153,20 @@ class AceyAndKingsley(AcesAndKings):
         AcesAndKings.startGame(self)
 
 
+# ************************************************************************
+# * Racing Aces
+# ************************************************************************
+
+class RacingAces(AcesAndKings):
+    NUM_RESERVES = 3
+    NUM_TABLEAU = 6
+    FOUNDATION_SETS = ((ACE, KING), (6, 5))
+
+
 # register the game
 registerGame(GameInfo(800, AcesAndKings, "Aces and Kings",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(814, AceyAndKingsley, "Acey and Kingsley",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(820, RacingAces, "Racing Aces",
+                      GI.GT_3DECK_TYPE, 3, 0, GI.SL_BALANCED))

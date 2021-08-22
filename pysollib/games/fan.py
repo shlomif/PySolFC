@@ -735,11 +735,11 @@ class Crescent(Game):
         l, s = Layout(self), self.s
         playcards = 10
         w0 = l.XS+(playcards-1)*l.XOFFSET
-        w, h = l.XM+max(4*w0, 9*l.XS), l.YM+5*l.YS
+        w, h = l.XM+max(4*w0, 9*l.XS), l.YM + 5 * l.YS + l.TEXT_HEIGHT
         self.setSize(w, h)
         x, y = l.XM, l.YM
         s.talon = Crescent_Talon(x, y, self, max_rounds=4)
-        l.createRoundText(s.talon, 'ne')
+        l.createRoundText(s.talon, 's')
         x, y = w-8*l.XS, l.YM
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
@@ -748,7 +748,7 @@ class Crescent(Game):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i,
                                                     base_rank=KING, dir=-1))
             x += l.XS
-        y = l.YM+l.YS
+        y = l.YM + l.YS + l.TEXT_HEIGHT
         for i in range(4):
             x = l.XM
             for j in range(4):

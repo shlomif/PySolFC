@@ -86,13 +86,14 @@ class AcesAndKings(Game):
                 stack = AcesAndKings_FoundationStack(x, y, self, suit=j,
                                                      base_rank=i[0], dir=1,
                                                      max_cards=(13 - i[0]))
-                stack.texts.misc = MfxCanvasText(self.canvas,
-                                                 x + l.CW // 2,
-                                                 y + l.CH // 2,
-                                                 anchor="center",
-                                                 font=font)
-                stack.texts.misc.config(text=(RANKS[i[0]][0]))
-                s.foundations.append(stack)
+                if self.preview <= 1:
+                    stack.texts.misc = MfxCanvasText(self.canvas,
+                                                     x + l.CW // 2,
+                                                     y + l.CH // 2,
+                                                     anchor="center",
+                                                     font=font)
+                    stack.texts.misc.config(text=(RANKS[i[0]][0]))
+                    s.foundations.append(stack)
 
                 x = x + l.XS
             x = x + (l.XS / 2)
@@ -100,13 +101,14 @@ class AcesAndKings(Game):
                 stack = AcesAndKings_FoundationStack(x, y, self, suit=j,
                                                      base_rank=i[1], dir=-1,
                                                      max_cards=(i[1] + 1))
-                stack.texts.misc = MfxCanvasText(self.canvas,
-                                                 x + l.CW // 2,
-                                                 y + l.CH // 2,
-                                                 anchor="center",
-                                                 font=font)
-                stack.texts.misc.config(text=(RANKS[i[1]][0]))
-                s.foundations.append(stack)
+                if self.preview <= 1:
+                    stack.texts.misc = MfxCanvasText(self.canvas,
+                                                     x + l.CW // 2,
+                                                     y + l.CH // 2,
+                                                     anchor="center",
+                                                     font=font)
+                    stack.texts.misc.config(text=(RANKS[i[1]][0]))
+                    s.foundations.append(stack)
 
                 x = x + l.XS
             x, y = l.XM, y + l.YS

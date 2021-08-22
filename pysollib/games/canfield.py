@@ -132,7 +132,7 @@ class Canfield(Game):
                 tx, ty, ta, tf = lay.getTextAttr(None, "se")
                 tx, ty = x + tx + lay.XM, y + ty
             else:
-                tx, ty, ta, tf = lay.getTextAttr(None, "ss")
+                tx, ty, ta, tf = lay.getTextAttr(None, "s")
                 tx, ty = x + tx, y + ty
             font = self.app.getFont("canvas_default")
             self.texts.info = MfxCanvasText(self.canvas, tx, ty,

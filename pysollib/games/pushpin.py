@@ -138,7 +138,7 @@ class PushPin(Game):
 
         pad = 1
         if self.Comment:
-            pad = 5
+            pad = l.TEXT_HEIGHT
 
         # set window
         xx, yy = 9, 6

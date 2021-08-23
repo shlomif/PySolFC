@@ -296,9 +296,6 @@ class PokerShuffle(PokerSquare):
         self.moveMove(27, self.s.talon, self.s.internals[0], frames=0)
         self._startAndDealRow()
 
-    def checkForWin(self):
-        return 0
-
 
 # ************************************************************************
 # * Poker Square (Waste)
@@ -358,9 +355,6 @@ class Maverick(PokerShuffle):
             if value < 15:
                 return False
         return True
-
-    def checkForWin(self):
-        return Game.checkForWin(self)
 
 
 # register the game

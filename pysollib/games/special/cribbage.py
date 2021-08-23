@@ -310,15 +310,12 @@ class CribbageShuffle(CribbageSquare):
         self._startAndDealRow()
         self.s.talon.flipMove()
 
-    def checkForWin(self):
-        return 0
 
 # ************************************************************************
 # * Cribbage Square (Waste)
 # * Cribbage Square (1 Reserve)
 # * Cribbage Square (2 Reserves)
 # ************************************************************************
-
 
 class CribbageSquareWaste(CribbageSquare):
     NUM_RESERVE = 1

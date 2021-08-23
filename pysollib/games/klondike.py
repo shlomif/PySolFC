@@ -38,6 +38,7 @@ from pysollib.stack import \
         DealRowTalonStack, \
         InitialDealTalonStack, \
         KingAC_RowStack, \
+        KingSS_RowStack, \
         OpenStack, \
         OpenTalonStack, \
         RK_FoundationStack, \
@@ -146,6 +147,14 @@ class CasinoKlondike(VegasKlondike):
 class KlondikeByThrees(Klondike):
     def createGame(self):
         Klondike.createGame(self, num_deal=3)
+
+
+# ************************************************************************
+# * Trigon
+# ************************************************************************
+
+class Trigon(Klondike):
+    RowStack_Class = KingSS_RowStack
 
 
 # ************************************************************************
@@ -1527,3 +1536,5 @@ registerGame(GameInfo(669, Scarp, "Scarp",
                       GI.GT_GYPSY | GI.GT_ORIGINAL, 3, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(726, EightSages, "Eight Sages",
                       GI.GT_KLONDIKE, 2, 1, GI.SL_MOSTLY_LUCK))
+registerGame(GameInfo(821, Trigon, "Trigon",
+                      GI.GT_KLONDIKE, 1, -1, GI.SL_BALANCED))

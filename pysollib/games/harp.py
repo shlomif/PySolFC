@@ -33,6 +33,7 @@ from pysollib.stack import \
         AC_RowStack, \
         BO_RowStack, \
         KingAC_RowStack, \
+        KingSS_RowStack, \
         SS_FoundationStack, \
         SS_RowStack, \
         Spider_SS_RowStack, \
@@ -92,6 +93,14 @@ class DoubleKlondike(Game):
 class DoubleKlondikeByThrees(DoubleKlondike):
     def createGame(self):
         DoubleKlondike.createGame(self, num_deal=3)
+
+
+# ************************************************************************
+# * Double Trigon
+# ************************************************************************
+
+class DoubleTrigon(DoubleKlondike):
+    RowStack_Class = KingSS_RowStack
 
 
 # ************************************************************************
@@ -362,3 +371,5 @@ registerGame(GameInfo(678, ThievesOfEgypt, "Thieves of Egypt",
 registerGame(GameInfo(689, Brush, "Brush",
                       GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 0,
                       GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(822, DoubleTrigon, "Double Trigon",
+                      GI.GT_KLONDIKE, 2, -1, GI.SL_BALANCED))

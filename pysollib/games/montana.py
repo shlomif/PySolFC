@@ -153,10 +153,7 @@ class Montana_RowStack(BasicRowStack):
             return self.quickPlayHandler(event)
         return BasicRowStack.clickHandler(self, event)
 
-    # bottom to get events for an empty stack
-    prepareBottom = Stack.prepareInvisibleBottom
-
-    getBottomImage = Stack._getReserveBottomImage
+    getBottomImage = Stack._getBlankBottomImage
 
 
 class Montana(Game):

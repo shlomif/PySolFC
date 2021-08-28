@@ -196,6 +196,7 @@ class GoodMeasure(BakersDozen):
 
 # ************************************************************************
 # * Cruel
+# * Unusual
 # ************************************************************************
 
 class Cruel_Talon(TalonStack):
@@ -266,6 +267,12 @@ class Cruel(CastlesInSpain):
         self.s.talon.dealRow(rows=self.s.foundations)
 
     shallHighlightMatch = Game._shallHighlightMatch_SS
+
+
+class Unusual(Cruel):
+
+    def createGame(self):
+        return CastlesInSpain.createGame(self, rows=24)
 
 
 # ************************************************************************
@@ -393,3 +400,5 @@ registerGame(GameInfo(515, Indefatigable, "Indefatigable",
 registerGame(GameInfo(664, SpanishPatienceII, "Spanish Patience II",
                       GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 1, 0,
                       GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(823, Unusual, "Unusual",
+                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 2, -1, GI.SL_BALANCED))

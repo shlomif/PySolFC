@@ -452,4 +452,4 @@ registerGame(GameInfo(37, LarasGame, "Lara's Game",
 registerGame(GameInfo(13006, RelaxedLarasGame, "Lara's Game Relaxed",
                       GI.GT_2DECK_TYPE, 2, 1, GI.SL_BALANCED))
 registerGame(GameInfo(13007, DoubleLarasGame, "Lara's Game Doubled",
-                      GI.GT_2DECK_TYPE, 4, 2, GI.SL_BALANCED))
+                      GI.GT_4DECK_TYPE, 4, 2, GI.SL_BALANCED))

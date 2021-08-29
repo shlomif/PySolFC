@@ -255,12 +255,11 @@ def r(id, gameclass, name):
     return gi
 
 
-r(180, Pegged, "Pegged")
+r(180, Pegged, "Pegged Octagon")
 r(181, PeggedCross1, "Pegged Cross 1")
 r(182, PeggedCross2, "Pegged Cross 2")
 r(183, Pegged6x6, "Pegged 6x6")
 r(184, Pegged7x7, "Pegged 7x7")
 r(210, PeggedTriangle1, "Pegged Triangle 1")
 r(211, PeggedTriangle2, "Pegged Triangle 2")
-
 del r

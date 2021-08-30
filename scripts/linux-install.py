@@ -13,7 +13,6 @@
 import os
 import os.path
 import subprocess
-from subprocess import check_call
 
 
 def main():
@@ -36,10 +35,11 @@ def main():
         if not os.path.exists(cardsets_dir):
             arc = cardsets_dir + ".tar.gz"
             if not os.path.exists(arc):
-                check_call([
+                subprocess.check_call([
                     "wget",
                     "https://github.com/shlomif/" +
-                    "PySolFC-Cardsets/archive/2.0/" + arc])
+                    "PySolFC-Cardsets/archive/2.0/" + arc
+                ])
                 subprocess.check_call(["tar", "-xvf", arc])
         os.symlink(os.getcwd() + "/" + cardsets_dir, dot_pysol_cardsets, )
 

@@ -16,10 +16,13 @@ import subprocess
 
 
 def main():
+    def _make_test(make_exe):
+        subprocess.check_call([make_exe, "test", "rules"])
+
     try:
-        subprocess.check_call(["gmake", "test", "rules"])
+        _make_test("gmake")
     except subprocess.CalledProcessError:
-        subprocess.check_call(["make", "test", "rules"])
+        _make_test("make")
 
     if not os.path.exists("./images"):
         os.symlink("./data/images/", "./images")

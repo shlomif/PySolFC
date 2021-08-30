@@ -41,7 +41,7 @@ def main():
                     "https://github.com/shlomif/" +
                     "PySolFC-Cardsets/archive/2.0/" + arc])
                 subprocess.check_call(["tar", "-xvf", arc])
-        os.symlink(dot_pysol_cardsets, os.getcwd() + "/" + cardsets_dir)
+        os.symlink(os.getcwd() + "/" + cardsets_dir, dot_pysol_cardsets, )
 
 
 main()

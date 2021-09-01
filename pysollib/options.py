@@ -111,7 +111,6 @@ mouse_type = string
 mouse_undo = boolean
 negative_bottom = boolean
 randomize_place = boolean
-save_cardsets = boolean
 dragcursor = boolean
 save_games_geometry = boolean
 game_geometry = int_list(min=2, max=2)
@@ -258,7 +257,7 @@ class Options:
         ('mouse_undo', 'bool'),
         ('negative_bottom', 'bool'),
         ('randomize_place', 'bool'),
-        ('save_cardsets', 'bool'),
+        # ('save_cardsets', 'bool'),
         ('dragcursor', 'bool'),
         ('save_games_geometry', 'bool'),
         ('sound', 'bool'),
@@ -437,7 +436,7 @@ class Options:
         self.offsets = {}           # cards offsets
         #
         self.randomize_place = False
-        self.save_cardsets = True
+        # self.save_cardsets = True
         self.dragcursor = True
         #
         self.scale_cards = False

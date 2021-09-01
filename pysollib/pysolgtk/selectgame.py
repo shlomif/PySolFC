@@ -396,7 +396,7 @@ class SelectGameDialogWithPreview(MfxDialog):
                 gamerandom=self.app.gamerandom,
                 gdb=self.app.gdb,
                 gimages=self.app.gimages,
-                images=self.app.subsampled_images,
+                images=None,
                 menubar=None,
                 miscrandom=self.app.miscrandom,
                 opt=self.app.opt.copy(),
@@ -412,6 +412,16 @@ class SelectGameDialogWithPreview(MfxDialog):
             self.preview_app.opt.shadow = 0
             self.preview_app.opt.shade = 0
         #
+
+        c = self.app.cardsets_cache.get(gi.category)
+        if not c:
+            cardset = self.app.cardset_manager.getByName(
+                self.app.opt.cardset[gi.category][0])
+            self.app.loadCardset(cardset, id=gi.category,
+                                 tocache=True, noprogress=True)
+            c = self.app.cardsets_cache.get(gi.category)
+        self.preview_app.images = c[2]
+
         self.preview_app.audio = None    # turn off audio for initial dealing
         if animations >= 0:
             self.preview_app.opt.animations = animations

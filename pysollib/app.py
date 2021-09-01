@@ -646,13 +646,15 @@ class Application:
                     self.opt.cardset[(1, gi.id)] = (cs.name, cs.backname)
         # from pprint import pprint; pprint(self.opt.cardset)
 
-    def loadCardset(self, cs, id=0, update=7, progress=None):
+    def loadCardset(self, cs, id=0, update=7, progress=None,
+                    tocache=False, noprogress=False):
         # print 'loadCardset', cs.ident
         r = 0
         if cs is None or cs.error:
             return 0
         if cs is self.cardset:
-            self.updateCardset(id, update=update)
+            if not tocache:
+                self.updateCardset(id, update=update)
             return 1
         # cache carsets
         # self.cardsets_cache:
@@ -662,12 +664,13 @@ class Application:
         if c and c[0] == cs.ident:
             # print 'load from cache', c
             self.images, self.subsampled_images = c[1], c[2]
-            self.updateCardset(id, update=update)
-            if self.menubar is not None:
-                self.menubar.updateBackgroundImagesMenu()
+            if not tocache:
+                self.updateCardset(id, update=update)
+                if self.menubar is not None:
+                    self.menubar.updateBackgroundImagesMenu()
             return 1
         #
-        if progress is None:
+        if progress is None and not noprogress:
             self.wm_save_state()
             self.wm_withdraw()
             title = _("Loading cardset %s...") % cs.name
@@ -682,25 +685,31 @@ class Application:
             if not images.load(app=self, progress=progress):
                 raise Exception("Invalid or damaged cardset")
             simages = SubsampledImages(images)
-            if self.opt.save_cardsets:
-                c = self.cardsets_cache.get(cs.type)
-                if c:
-                    # c[1].destruct()
-                    destruct(c[1])
-                self.cardsets_cache[cs.type] = (cs.ident, images, simages)
-            elif self.images is not None:
-                # self.images.destruct()
-                destruct(self.images)
-            #
-            if self.cardset:
-                if self.cardset.ident != cs.ident:
-                    if self.cardset.type == cs.type:
-                        # clear saved games geometry
-                        self.opt.games_geometry = {}
-            # update
-            self.images = images
-            self.subsampled_images = simages
-            self.updateCardset(id, update=update)
+            if tocache:
+                simages.setNegative(self.opt.negative_bottom)
+            # The save cardsets option is deprecated, and its existence
+            # directly conflicts with the ability to allow previews of
+            # other cardset types.
+            # if self.opt.save_cardsets:
+            c = self.cardsets_cache.get(cs.type)
+            if c:
+                # c[1].destruct()
+                destruct(c[1])
+            self.cardsets_cache[cs.type] = (cs.ident, images, simages)
+            if not tocache:
+                # elif self.images is not None:
+                #    # self.images.destruct()
+                #    destruct(self.images)
+                #
+                if self.cardset:
+                    if self.cardset.ident != cs.ident:
+                        if self.cardset.type == cs.type:
+                            # clear saved games geometry
+                            self.opt.games_geometry = {}
+                # update
+                self.images = images
+                self.subsampled_images = simages
+                self.updateCardset(id, update=update)
             r = 1
         except (Exception, TclError, UnpicklingError) as ex:
             traceback.print_exc()
@@ -715,7 +724,7 @@ class Application:
                 self.top, ex, title=_("Cardset load error"),
                 text=_("Error while loading cardset"))
         self.intro.progress = progress
-        if r and self.menubar is not None:
+        if r and not tocache and self.menubar is not None:
             self.menubar.updateBackgroundImagesMenu()
         return r
 

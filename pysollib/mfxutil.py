@@ -87,7 +87,13 @@ def latin1_to_ascii(n):
 
 
 def latin1_normalize(n):
-    return re.sub(r"[^\w]", "", latin1_to_ascii(n).lower())
+    normal = re.sub(r"[^\w]", "", latin1_to_ascii(n).lower())
+    # Some game names end in a +, and would have the same normalized
+    # name as their counterpart.  This is a failsafe to avoid duplicate
+    # name conflicts.  Though there is probably a better way to do this.
+    if n.endswith("+"):
+        normal += "plus"
+    return normal
 
 
 def format_time(t):

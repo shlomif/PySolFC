@@ -1304,7 +1304,8 @@ registerGame(GameInfo(731, ThreeFirTrees, "Three Fir-trees",
 registerGame(GameInfo(733, NapoleonTakesMoscow, "Napoleon Takes Moscow",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED))
 registerGame(GameInfo(734, NapoleonLeavesMoscow, "Napoleon Leaves Moscow",
-                      GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED))
+                      GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED,
+                      altnames=("Napoleon at Friedland",)))
 registerGame(GameInfo(749, Flake, "Flake",
                       GI.GT_GOLF | GI.GT_OPEN | GI.GT_ORIGINAL,
                       1, 0, GI.SL_MOSTLY_SKILL))

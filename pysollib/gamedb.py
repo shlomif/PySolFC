@@ -277,6 +277,20 @@ class GI:
          297:  631,              # Alternation/Alternations
     }
 
+    # For games by compatibility, note that missing games may actually
+    # be present under alternate names.  This needs to be verified.
+    # If such a game is found, the alternate name should be added if
+    # possible, and the game recorded in the compatibility section
+    # appropriately.
+    #
+    # Note that there are instances where another program's
+    # implementation of a game uses different rules than PySol, or
+    # has a different game with the same name.  These are marked
+    # as missing.
+    #
+    # If a game is listed as missing from multiple collections below,
+    # adding it should be a priority.
+
     GAMES_BY_COMPATIBILITY = (
         # Atari ST Patience game v2.13 (we have 10 out of 10 games)
         ("Atari ST Patience", (1, 3, 4, 7, 12, 14, 15, 16, 17, 39,)),
@@ -295,15 +309,18 @@ class GI:
         #     100, 105, 111, 112, 113, 130, 200, 201,
         # )),
         # Gnome AisleRiot 2.2.0 (we have 65 out of 70 games)
+        # Gnome AisleRiot 3.22.7
         #   still missing:
-        #         Isabel, Labyrinth, Thieves, Treize, Valentine.
+        #       Block Ten, Hamilton, Isabel, King's Audience, Labyrinth,
+        #       Napoleon's Tomb, Saratoga, Thieves, Treize, Valentine,
+        #       Wall
         ("Gnome AisleRiot", (
-            1, 2, 8, 9, 11, 12, 19, 24, 27, 29, 31, 33, 34, 35, 36, 40,
-            41, 42, 43, 45, 48, 58, 59, 60, 67, 89, 91, 92, 93, 94, 95,
-            96, 100, 104, 105, 111, 112, 113, 130, 135, 139, 144, 146,
-            147, 148, 200, 201, 206, 224, 225, 229, 230, 233, 257, 258,
-            280, 281, 282, 283, 284, 334, 551, 552, 553, 572, 593, 674,
-            700, 737, 772, 810, 819, 824, 22231,
+            1, 2, 8, 9, 11, 12, 13, 19, 24, 27, 29, 31, 33, 34, 35, 36,
+            38, 40, 41, 42, 43, 45, 48, 58, 59, 60, 65, 67, 89, 91, 92,
+            93, 94, 95, 96, 97, 100, 104, 105, 111, 112, 113, 130, 135,
+            139, 144, 146, 147, 148, 200, 201, 206, 224, 225, 229, 230,
+            233, 257, 258, 280, 281, 282, 283, 284, 334, 384, 495, 551,
+            552, 553, 572, 593, 674, 700, 737, 772, 810, 819, 824, 22231,
         )),
 
         #  KDE Patience 0.7.3 from KDE 1.1.2 (we have 6 out of 9 games)
@@ -315,6 +332,45 @@ class GI:
         # KDE Patience 2.0 from KDE 3.1.1 (we have 15 out of 15 games)
         ("KDE Patience", (1, 2, 7, 8, 18, 19, 23, 36, 50,
                           256, 261, 277, 278, 279, 903,)),
+
+        # Microsoft Solitaire (we have all 5 games)
+        ("Microsoft Solitaire Collection", (2, 8, 11, 38, 22231,)),
+
+        # XM Solitaire
+        # still missing:
+        #       Ace of Hearts, Affinity, Agnes Three, Antares, Archway,
+        #       Avenue, Baker's Fan, Baker's Spider, Bedeviled, Binding,
+        #       Black Holes, Black Spider, Block Ten, California,
+        #       Carcassone, Cascade, Club, Color Cell, Cornelius,
+        #       Demons and Thieves, Desert Fox, Deuces and Queens,
+        #       Double Antares, Double Antarctica, Double Arctica,
+        #       Double Baker's Spider, Double Cascade, Double Fourteens,
+        #       Double Line 8, Double Majesty, Double Sea Towers,
+        #       Double Spidercells, Doublet Cell 5, Doubt, Dream Fan,
+        #       Dumfries Cell, Falcon Wing, Fan Nine, Fanny 6,
+        #       Four By Ten, FreeCell AK, Gaps Alter, Gaps Diff,
+        #       George V, Grandmother's Clock, In a Frame, Inverted FreeCell,
+        #       Kings, Klondike FreeCell, La Cabane, La Double Entente,
+        #       Little Gazette, Magic FreeCell, Mini Gaps, Montreal,
+        #       Napoleon at Iena, Napoleon at Waterloo, Napoleon's Guards,
+        #       Nationale, Oasis, Opera, Ordered Suits, Osmotic FreeCell,
+        #       Pair FreeCell, Pairs 2, Petal, Rainbow Fan, Reserved Thirteens,
+        #       Sea Spider, Sept Piles 0, Short Solitaire, Simple Alternations,
+        #       Simple Spark, Step By Step, Strategy 7, Stripped FreeCell,
+        #       Tarantula, Triple Dispute, Trusty Twenty, Two Ways 3,
+        #       Up Or Down, Versailles, Vertical FreeCell, Wasp Baby,
+        #       Yukon FreeCell
+        ("XM Solitaire", (
+            2, 8, 9, 13, 15, 18, 19, 20, 29, 30, 31, 34, 36, 38, 41, 42,
+            45, 46, 50, 53, 54, 56, 57, 59, 64, 77, 78, 86, 96, 97, 98,
+            105, 110, 112, 124, 145, 220, 222, 223, 224, 228, 231, 233,
+            234, 235, 236, 257, 258, 264, 265, 267, 270, 271, 290, 291,
+            292, 303, 309, 314, 318, 320, 322, 324, 325, 336, 338, 341,
+            363, 364, 372, 376, 383, 384, 385, 386, 390, 391, 393, 398,
+            405, 415, 416, 425, 451, 453, 461, 464, 466, 467, 476, 480,
+            484, 511, 512, 516, 561, 610, 625, 629, 631, 638, 641, 647,
+            650, 655, 678, 734, 751, 784, 825, 901,
+        )),
 
         # xpat2 1.06 (we have 14 out of 16 games)
         #   still missing: Michael's Fantasy, modCanfield

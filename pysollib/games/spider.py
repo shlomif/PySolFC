@@ -42,6 +42,7 @@ from pysollib.stack import \
         RK_RowStack, \
         ReserveStack, \
         SS_FoundationStack, \
+        SS_RowStack, \
         Spider_AC_Foundation, \
         Spider_SS_Foundation, \
         Spider_SS_RowStack, \
@@ -1411,6 +1412,61 @@ class AutumnLeaves(Game):
         return True
 
 
+# ************************************************************************
+# * Scorpion Towers
+# ************************************************************************
+
+class ScorpionTowers_RowStack(SS_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not self.cards:
+            basekings = 0
+            for s in self.game.s.rows:
+                if s.cards and s.cards[0].rank == KING:
+                    basekings += 1
+            if basekings >= 4:
+                return 1
+            else:
+                return cards[0].rank == KING
+        return SS_RowStack.acceptsCards(self, from_stack, cards)
+
+
+class ScorpionTowers(Game):
+    Layout_Method = staticmethod(Layout.freeCellLayout)
+    Talon_Class = InitialDealTalonStack
+    RowStack_Class = ScorpionTowers_RowStack
+    Hint_Class = Spider_Hint
+
+    def createGame(self, **layout):
+        # create layout
+        l, s = Layout(self), self.s
+        kwdefault(layout, rows=10, waste=0, texts=0, reserves=4, playcards=22)
+        self.Layout_Method(l, **layout)
+        self.setSize(l.size[0], l.size[1])
+        # create stacks
+        s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self)
+        if l.s.waste:
+            s.waste = WasteStack(l.s.waste.x, l.s.waste.y, self)
+        for r in l.s.rows:
+            s.rows.append(self.RowStack_Class(r.x, r.y, self))
+        for r in l.s.reserves:
+            s.reserves.append(ReserveStack(r.x, r.y, self))
+        # default
+        l.defaultAll()
+
+    def startGame(self):
+        for i in range(4):
+            self.s.talon.dealRow(flip=1, frames=0)
+        self._startAndDealRow()
+        self.s.talon.dealRow(rows=[self.s.reserves[0], self.s.reserves[1]])
+
+    def isGameWon(self):
+        for s in self.s.rows:
+            if s.cards:
+                if len(s.cards) != 13 or not isSameSuitSequence(s.cards):
+                    return False
+        return True
+
+
 # register the game
 registerGame(GameInfo(10, RelaxedSpider, "Relaxed Spider",
                       GI.GT_SPIDER | GI.GT_RELAXED, 2, 0, GI.SL_MOSTLY_SKILL))
@@ -1542,3 +1598,5 @@ registerGame(GameInfo(711, TheJollyRoger, "The Jolly Roger",
                       GI.GT_SPIDER | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(788, AutumnLeaves, "Autumn Leaves",
                       GI.GT_SPIDER, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(825, ScorpionTowers, "Scorpion Towers",
+                      GI.GT_SPIDER, 1, 0, GI.SL_SKILL))

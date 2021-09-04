@@ -1102,7 +1102,7 @@ class HelpMenuDialog(LMenuDialog):
                 command=self.make_help_command(self.menubar.mHelp)))
         tv.add_node(
             LTreeNode(
-                text=_('How to play'),
+                text=_('How to use PySol'),
                 command=self.make_help_command(self.menubar.mHelpHowToPlay)))
         tv.add_node(
             LTreeNode(

@@ -677,7 +677,7 @@ class PysolMenubarTkCommon:
                 label=n_("&Contents"),
                 command=self.mHelp, accelerator=m+"F1")
         menu.add_command(
-            label=n_("&How to play"),
+            label=n_("&How to use PySol"),
             command=self.mHelpHowToPlay)
         menu.add_command(
             label=n_("&Rules for this game"),

@@ -93,7 +93,7 @@ class AcesAndKings(Game):
                                                      anchor="center",
                                                      font=font)
                     stack.texts.misc.config(text=(RANKS[i[0]][0]))
-                    s.foundations.append(stack)
+                s.foundations.append(stack)
 
                 x = x + l.XS
             x = x + (l.XS / 2)
@@ -108,7 +108,7 @@ class AcesAndKings(Game):
                                                      anchor="center",
                                                      font=font)
                     stack.texts.misc.config(text=(RANKS[i[1]][0]))
-                    s.foundations.append(stack)
+                s.foundations.append(stack)
 
                 x = x + l.XS
             x, y = l.XM, y + l.YS

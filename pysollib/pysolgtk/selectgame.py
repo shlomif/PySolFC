@@ -420,7 +420,10 @@ class SelectGameDialogWithPreview(MfxDialog):
             self.app.loadCardset(cardset, id=gi.category,
                                  tocache=True, noprogress=True)
             c = self.app.cardsets_cache.get(gi.category)
-        self.preview_app.images = c[2]
+        if c:
+            self.preview_app.images = c[2]
+        else:
+            self.preview_app.images = self.app.subsampled_images
 
         self.preview_app.audio = None    # turn off audio for initial dealing
         if animations >= 0:

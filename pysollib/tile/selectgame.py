@@ -356,10 +356,10 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         sh = self.top.winfo_screenheight()
 
         h = sh * .8
-        w1, w2 = min(250, sw / 4), max(sw / 2 + ((sw / 4) - 250), sw / 2)
+        w1, w2 = min(250, sw / 3), max(sw / 2 + ((sw / 3) - 250), sw / 2)
 
         # print sw, w1, w2
-        w2 = max(200, min(w2, 10 + 12 * (app.subsampled_images.CARDW + 10)))
+        # w2 = max(200, min(w2, 10 + 12 * (app.subsampled_images.CARDW + 10)))
         # print sw, w1, w2
         # padx, pady = kw.padx, kw.pady
         # padx, pady = kw.padx/2, kw.pady/2
@@ -509,7 +509,10 @@ class SelectGameDialogWithPreview(SelectGameDialog):
             self.app.loadCardset(cardset, id=gi.category,
                                  tocache=True, noprogress=True)
             c = self.app.cardsets_cache.get(gi.category)
-        self.preview_app.images = c[2]
+        if c:
+            self.preview_app.images = c[2]
+        else:
+            self.preview_app.images = self.app.subsampled_images
 
         self.preview_app.audio = None    # turn off audio for initial dealing
         if animations >= 0:

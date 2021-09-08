@@ -13,7 +13,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Set up python
       env:
-        PYVER: '3.9.6'
+        PYVER: '3.9.7'
         PYVER_SHORT: '3.9'
       run: |
         wget -O python.pkg "https://www.python.org/ftp/python/${PYVER}/python-${PYVER}-macosx10.9.pkg"

@@ -400,8 +400,9 @@ class Decade_Hint(AbstractHint):
                 total = 0
                 count = 0
                 for k in range(i, j):
-                    total += min(self.game.s.rows[k].cards[0].rank + 1, 10)
-                    count += 1
+                    if self.game.s.rows[k].cards:
+                        total += min(self.game.s.rows[k].cards[0].rank + 1, 10)
+                        count += 1
                 if total in [10, 20, 30] and count > 1:
                     self.addHint(5000, 1, rows[i], rows[j - 1])
 

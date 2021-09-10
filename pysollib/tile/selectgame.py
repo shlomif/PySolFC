@@ -356,7 +356,7 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         sh = self.top.winfo_screenheight()
 
         h = sh * .8
-        w1, w2 = min(250, sw / 3), max(sw / 2 + ((sw / 3) - 250), sw / 2)
+        w1, w2 = min(250, sw / 2.5), max(sw / 2 + ((sw / 2.5) - 250), sw / 2)
 
         # print sw, w1, w2
         # w2 = max(200, min(w2, 10 + 12 * (app.subsampled_images.CARDW + 10)))

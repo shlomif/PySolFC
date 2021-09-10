@@ -132,7 +132,7 @@ class SelectTileDialogWithPreview(MfxDialog):
         sh = self.top.winfo_screenheight()
 
         h = sh * .8
-        w1, w2 = min(250, sw / 4), max(sw / 2 + ((sw / 4) - 250), sw / 2)
+        w1, w2 = min(250, sw / 2.5), max(sw / 2 + ((sw / 2.5) - 250), sw / 2)
 
         font = app.getFont("default")
         padx, pady = 4, 4

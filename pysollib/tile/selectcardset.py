@@ -231,7 +231,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         sh = self.top.winfo_screenheight()
 
         h = sh * .8
-        w1, w2 = min(300, sw / 4), max(sw / 2 + ((sw / 4) - 300), sw / 2)
+        w1, w2 = min(300, sw / 2.5), max(sw / 2 + ((sw / 2.5) - 300), sw / 2)
         paned_window = ttk.PanedWindow(top_frame, orient='horizontal')
         paned_window.pack(expand=True, fill='both')
         left_frame = ttk.Frame(paned_window)

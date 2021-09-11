@@ -540,6 +540,10 @@ class PysolMenubarTkCommon:
             submenu.add_command(
                 label=n_("&Decrease the card size"),
                 command=self.mDecreaseCardset, accelerator=m+"-")
+            submenu.add_command(
+                label=n_("&Reset the card size"),
+                command=self.mResetCardset)
+            submenu.add_separator()
             submenu.add_checkbutton(
                 label=n_("&Auto scaling"), variable=self.tkopt.auto_scale,
                 command=self.mOptAutoScale, accelerator=m+'0')
@@ -1513,6 +1517,16 @@ Unsupported game for import.
             self.app.opt.scale_y -= 0.1
         else:
             return
+        self.app.opt.auto_scale = False
+        self.tkopt.auto_scale.set(False)
+        self._updateCardSize()
+
+    def mResetCardset(self, *event):
+        if self._cancelDrag(break_pause=True):
+            return
+        self.app.opt.scale_x = 1
+        self.app.opt.scale_y = 1
+
         self.app.opt.auto_scale = False
         self.tkopt.auto_scale.set(False)
         self._updateCardSize()

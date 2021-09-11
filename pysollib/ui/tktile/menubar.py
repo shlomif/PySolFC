@@ -1489,6 +1489,9 @@ Unsupported game for import.
             self.app.canvas.setInitialSize(w, h)
             self.app.top.wm_geometry("")    # cancel user-specified geometry
         # self.app.top.update_idletasks()
+        self.app.setTile(self.app.tabletile_index)
+        self.tkopt.tabletile.set(self.app.tabletile_index)
+
         self.updateMenus()
 
     def mIncreaseCardset(self, *event):

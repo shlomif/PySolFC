@@ -688,6 +688,64 @@ class Wave(Game):
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
+class YukonicPlague(Yukon):
+
+    def createGame(self):
+        # create layout
+        l, s = Layout(self), self.s
+
+        ROWS = 7
+
+        # set size so that at least 2//3 of a card is visible with 20 cards
+        h = l.CH * 2 // 27 * l.YOFFSET
+        h = l.YM + max(h, 5 * l.YS)
+
+        # create rows
+        x, y = l.XM, l.YM
+
+        w1, w2 = (7 * (l.XS + l.XM)), (2 * l.XS)
+        if w2 + 13 * l.XOFFSET > w1:
+            l.XOFFSET = int((w1 - w2) / 13)
+
+        reserve = OpenStack(x * 3, y, self)
+        reserve.CARD_XOFFSET = l.XOFFSET
+        l.createText(reserve, "sw")
+        s.reserves.append(reserve)
+
+        y += l.YS
+        for i in range(ROWS):
+            self.s.rows.append(self.RowStack_Class(x, y, self))
+            x += l.XS
+
+        # Don't know why this is necessary for the Yukon layout.
+        # But we should probably figure out how to get this to work
+        # like other games.
+        self.setRegion(self.s.rows, (-999, -999, x - l.CW // 2, 999999))
+
+        # create foundations
+        y = l.YM
+        for suit in range(4):
+            self.s.foundations.append(self.Foundation_Class(
+                x, y, self, suit=suit, max_move=0))
+            y += l.YS
+
+        x, y = l.XM, h - l.YS
+        self.s.talon = self.Talon_Class(x, y, self)
+
+        # set window
+        self.setSize(l.XM + 8 * l.XS, h)
+        l.defaultAll()
+
+    def startGame(self):
+        for i in range(13):
+            self.s.talon.dealRow(rows=self.s.reserves, frames=0)
+        for i in range(2):
+            self.s.talon.dealRow(rows=self.s.rows[1:7], flip=0, frames=0)
+        for i in range(5):
+            self.s.talon.dealRow(rows=self.s.rows[i + 1:7], flip=1, frames=0)
+        self._startAndDealRow()
+
+
 # register the game
 registerGame(GameInfo(19, Yukon, "Yukon",
                       GI.GT_YUKON, 1, 0, GI.SL_BALANCED))
@@ -746,6 +804,8 @@ registerGame(GameInfo(531, DoubleRussianSpider, "Double Russian Spider",
 registerGame(GameInfo(603, Brisbane, "Brisbane",
                       GI.GT_SPIDER, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(707, Hawaiian, "Hawaiian",
-                      GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 0, GI.SL_BALANCED))
+                      GI.GT_YUKON | GI.GT_ORIGINAL, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(732, Wave, "Wave",
                       GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(826, YukonicPlague, "Yukonic Plague",
+                      GI.GT_YUKON, 1, 0, GI.SL_BALANCED))

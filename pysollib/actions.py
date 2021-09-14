@@ -202,6 +202,12 @@ class PysolMenubar(PysolMenubarTk):
         if USE_PIL:
             self.setMenuState(ms.autoscale,
                               "options.cardsize.preserveaspectratio")
+            self.setMenuState(not ms.autoscale,
+                              "options.cardsize.increasethecardsize")
+            self.setMenuState(not ms.autoscale,
+                              "options.cardsize.decreasethecardsize")
+            self.setMenuState(not ms.autoscale,
+                              "options.cardsize.resetthecardsize")
         # Help menu
         self.setMenuState(ms.rules, "help.rulesforthisgame")
         # Toolbar

@@ -1439,25 +1439,33 @@ class ScorpionTowers(Game):
     def createGame(self, **layout):
         # create layout
         l, s = Layout(self), self.s
-        kwdefault(layout, rows=10, waste=0, texts=0, reserves=4, playcards=22)
-        self.Layout_Method(l, **layout)
-        self.setSize(l.size[0], l.size[1])
+
+        # set window
+        # (piles up to 20 cards are playable in default window size)
+        h = max(3 * l.YS, 20 * l.YOFFSET)
+        self.setSize(l.XM + 10 * l.XS, l.YM + l.YS + h)
+
         # create stacks
-        s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self)
-        if l.s.waste:
-            s.waste = WasteStack(l.s.waste.x, l.s.waste.y, self)
-        for r in l.s.rows:
-            s.rows.append(self.RowStack_Class(r.x, r.y, self))
-        for r in l.s.reserves:
-            s.reserves.append(ReserveStack(r.x, r.y, self))
-        # default
-        l.defaultAll()
+        x, y = l.XM, l.YM
+        for i in range(4):
+            s.reserves.append(ReserveStack(x + (i + 3) * l.XS, y, self))
+        x, y = l.XM, l.YM + l.YS
+        for i in range(10):
+            s.rows.append(self.RowStack_Class(x, y, self))
+            x = x + l.XS
+        s.talon = self.Talon_Class(l.XM, self.height - l.YS, self)
+
+        # define stack-groups
+        self.sg.openstacks = s.foundations + s.rows + s.reserves
+        self.sg.talonstacks = [s.talon]
+        self.sg.dropstacks = s.rows + s.reserves
+        self.sg.reservestacks = s.reserves
 
     def startGame(self):
         for i in range(4):
             self.s.talon.dealRow(flip=1, frames=0)
         self._startAndDealRow()
-        self.s.talon.dealRow(rows=[self.s.reserves[0], self.s.reserves[1]])
+        self.s.talon.dealRow(rows=[self.s.reserves[1], self.s.reserves[2]])
 
     def isGameWon(self):
         for s in self.s.rows:

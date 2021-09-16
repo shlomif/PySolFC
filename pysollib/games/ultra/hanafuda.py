@@ -430,8 +430,6 @@ class MatsuKiri(AbstractFlowerGame):
         # Create foundation
         x = x + l.XM * 2
         s.foundations.append(MatsuKiri_Foundation(x, y, self, ANY_SUIT))
-        self.setRegion(
-            s.foundations, (l.XM + (l.XS * 8) + 10, -999, 999999, 999999))
 
         # Create talon
         s.talon = InitialDealTalonStack(

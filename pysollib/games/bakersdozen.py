@@ -393,7 +393,8 @@ registerGame(GameInfo(308, PortugueseSolitaire, "Portuguese Solitaire",
 registerGame(GameInfo(404, Perseverance, "Perseverance",
                       GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 1, 2, GI.SL_BALANCED))
 registerGame(GameInfo(369, RippleFan, "Ripple Fan",
-                      GI.GT_BAKERS_DOZEN, 1, -1, GI.SL_MOSTLY_SKILL))
+                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 1, -1,
+                      GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(515, Indefatigable, "Indefatigable",
                       GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 1, 2,
                       GI.SL_MOSTLY_SKILL))

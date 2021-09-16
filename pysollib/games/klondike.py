@@ -1499,11 +1499,11 @@ registerGame(GameInfo(491, Whitehorse, "Whitehorse",
 registerGame(GameInfo(518, Boost, "Boost",
                       GI.GT_KLONDIKE | GI.GT_ORIGINAL, 1, 2, GI.SL_BALANCED))
 registerGame(GameInfo(522, ArticGarden, "Artic Garden",
-                      GI.GT_RAGLAN, 1, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_RAGLAN | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(532, GoldRush, "Gold Rush",
                       GI.GT_KLONDIKE, 1, 2, GI.SL_BALANCED))
 registerGame(GameInfo(539, Usk, "Usk",
-                      GI.GT_KLONDIKE, 1, 1, GI.SL_BALANCED))
+                      GI.GT_KLONDIKE | GI.GT_OPEN, 1, 1, GI.SL_BALANCED))
 registerGame(GameInfo(541, BatsfordAgain, "Batsford Again",
                       GI.GT_KLONDIKE, 2, 1, GI.SL_BALANCED))
 registerGame(GameInfo(572, GoldMine, "Gold Mine",
@@ -1511,7 +1511,7 @@ registerGame(GameInfo(572, GoldMine, "Gold Mine",
 registerGame(GameInfo(585, LuckyThirteen, "Lucky Thirteen",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(586, LuckyPiles, "Lucky Piles",
-                      GI.GT_FAN_TYPE, 1, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(601, AmericanCanister, "American Canister",
                       GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0,
                       GI.SL_MOSTLY_SKILL))

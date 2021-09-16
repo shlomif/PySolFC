@@ -1607,4 +1607,4 @@ registerGame(GameInfo(711, TheJollyRoger, "The Jolly Roger",
 registerGame(GameInfo(788, AutumnLeaves, "Autumn Leaves",
                       GI.GT_SPIDER, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(825, ScorpionTowers, "Scorpion Towers",
-                      GI.GT_SPIDER, 1, 0, GI.SL_SKILL))
+                      GI.GT_SPIDER | GI.GT_OPEN, 1, 0, GI.SL_SKILL))

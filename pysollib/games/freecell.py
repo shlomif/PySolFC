@@ -711,7 +711,7 @@ registerGame(GameInfo(648, Headquarters, "Headquarters",
 registerGame(GameInfo(698, CanCan, "Can Can",
                       GI.GT_RAGLAN | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(746, Limpopo, "Limpopo",
-                      GI.GT_FREECELL | GI.GT_ORIGINAL, 2, 0,
+                      GI.GT_FREECELL | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0,
                       GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(813, DoubleFreecellTd, "Double FreeCell (Traditional)",
                       GI.GT_FREECELL | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL))

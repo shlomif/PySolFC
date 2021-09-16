@@ -1286,9 +1286,11 @@ registerGame(GameInfo(432, Robert, "Robert",
 registerGame(GameInfo(551, DiamondMine, "Diamond Mine",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(661, Dolphin, "Dolphin",
-                      GI.GT_GOLF | GI.GT_ORIGINAL, 1, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_GOLF | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0,
+                      GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(662, DoubleDolphin, "Double Dolphin",
-                      GI.GT_GOLF | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_GOLF | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0,
+                      GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(709, Waterfall, "Waterfall",
                       GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 0,
                       GI.SL_MOSTLY_SKILL))

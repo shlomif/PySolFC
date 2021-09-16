@@ -1025,5 +1025,5 @@ registerGame(GameInfo(754, Amphibian, "Amphibian",
                       GI.GT_NUMERICA | GI.GT_ORIGINAL, 2, 0,
                       GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(760, Aglet, "Aglet",
-                      GI.GT_1DECK_TYPE | GI.GT_ORIGINAL, 1, 0,
+                      GI.GT_1DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0,
                       GI.SL_MOSTLY_SKILL))

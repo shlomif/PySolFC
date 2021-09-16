@@ -1390,7 +1390,7 @@ registerGame(GameInfo(619, TripleAlliance, "Triple Alliance",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0,
                       GI.SL_MOSTLY_SKILL, altnames=('Triplets',)))
 registerGame(GameInfo(655, Pharaohs, "Pharaohs",
-                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_BALANCED))
+                      GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(657, Baroness, "Baroness",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_BALANCED,
                       altnames=('Five Piles',)))

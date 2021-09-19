@@ -1,6 +1,15 @@
 [[news]]
 === News
 
+* _19 September, 2021:_ There is a new stable release
+https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-2.14.0/[PySolFC
+v2.14.0]. New in this release:
+** 16 new games
+** Support for Python 3.10 (Minimum requirement is still Python 2.7)
+** A new macOS package.
+** Enhancements to the tree select dialogs for selecting games, cardsets, and table tiles.
+** Further additions/improvements to the documentation.
+** Many bugfixes and cleanups.
 * _11 July, 2021:_ There is a new stable release
 https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-2.12.0/[PySolFC
 v2.12.0]. New in this release:

@@ -58,21 +58,37 @@ class NullFormatter:
         self.writer = writer
 
     def end_paragraph(self, blankline): pass
+
     def add_line_break(self): pass
+
     def add_hor_rule(self, *args, **kw): pass
+
     def add_label_data(self, format, counter, blankline=None): pass
+
     def add_flowing_data(self, data): pass
+
     def add_literal_data(self, data): pass
+
     def flush_softspace(self): pass
+
     def push_alignment(self, align): pass
+
     def pop_alignment(self): pass
+
     def push_font(self, x): pass
+
     def pop_font(self): pass
+
     def push_margin(self, margin): pass
+
     def pop_margin(self): pass
+
     def set_spacing(self, spacing): pass
+
     def push_style(self, *styles): pass
+
     def pop_style(self, n=1): pass
+
     def assert_line_data(self, flag=1): pass
 
 
@@ -324,18 +340,31 @@ class NullWriter:
     which do not need to inherit any implementation methods.
 
     """
+
     def __init__(self): pass
+
     def flush(self): pass
+
     def new_alignment(self, align): pass
+
     def new_font(self, font): pass
+
     def new_margin(self, margin, level): pass
+
     def new_spacing(self, spacing): pass
+
     def new_styles(self, styles): pass
+
     def send_paragraph(self, blankline): pass
+
     def send_line_break(self): pass
+
     def send_hor_rule(self, *args, **kw): pass
+
     def send_label_data(self, data): pass
+
     def send_flowing_data(self, data): pass
+
     def send_literal_data(self, data): pass
 
 

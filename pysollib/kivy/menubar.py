@@ -870,20 +870,29 @@ class OptionsMenuDialog(LMenuDialog):
                     self.menubar.mOptTableColor)
 
             rg1 = tv.add_node(
-                LTreeNode(text=_('Tiles and Images')), rg)
+                LTreeNode(text=_('Textures')), rg)
+            rg2 = tv.add_node(
+                LTreeNode(text=_('Images')), rg)
 
-            if rg1:
+            if rg1 or rg2:
                 tm = self.app.tabletile_manager
                 # cnt = tm.len()
                 i = 1
                 while True:
                     ti = tm.get(i)
+
                     if ti is None:
                         break
-                    self.addRadioNode(tv, rg1,
-                                      ti.name,
-                                      self.menubar.tkopt.tabletile, i,
-                                      self.menubar.mOptTileSet)
+                    if ti.save_aspect == 0 and ti.stretch == 0 and rg1:
+                        self.addRadioNode(tv, rg1,
+                                          ti.name,
+                                          self.menubar.tkopt.tabletile, i,
+                                          self.menubar.mOptTileSet)
+                    if (ti.save_aspect == 1 or ti.stretch == 1) and rg2:
+                        self.addRadioNode(tv, rg2,
+                                          ti.name,
+                                          self.menubar.tkopt.tabletile, i,
+                                          self.menubar.mOptTileSet)
                     i += 1
 
         # -------------------------------------------

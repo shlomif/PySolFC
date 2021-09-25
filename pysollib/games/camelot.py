@@ -105,6 +105,11 @@ class Camelot_RowStack(ReserveStack):
             self.playMoveMove(1, game.s.foundations[0], sound=False)
             self.fillStack()
             return True
+        if not self.cards and game.s.talon.cards and \
+                self.acceptsCards(game.s.talon, [game.s.talon.cards[-1]]):
+            game.s.talon.playMoveMove(1, self)
+            return True
+
         return False
 
     def moveMove(self, ncards, to_stack, frames=-1, shadow=-1):

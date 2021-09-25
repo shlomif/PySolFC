@@ -32,14 +32,17 @@ from pysollib.mfxutil import kwdefault
 from pysollib.stack import \
         AC_RowStack, \
         BO_RowStack, \
+        DealRowTalonStack, \
         KingAC_RowStack, \
         KingSS_RowStack, \
+        OpenStack, \
         SS_FoundationStack, \
         SS_RowStack, \
         Spider_SS_RowStack, \
         StackWrapper, \
         WasteStack, \
-        WasteTalonStack
+        WasteTalonStack, \
+        isAlternateColorSequence
 from pysollib.util import ACE, KING
 
 # ************************************************************************
@@ -333,6 +336,72 @@ class Brush(DoubleKlondike):
     getQuickPlayScore = Game._getSpiderQuickPlayScore
 
 
+# ************************************************************************
+# * Churchill Solitaire
+# ************************************************************************
+# https://boardgames.stackexchange.com/questions/29254/rules-for-churchill-solitaire
+
+class Churchill_DevilStack(OpenStack):
+    def getHelp(self):
+        return "Devil's Six. Must be played directly to Foundations."
+
+
+class Churchill_RowStack(KingAC_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if isinstance(from_stack, Churchill_DevilStack):
+            return False
+        return KingAC_RowStack.acceptsCards(self, from_stack, cards)
+
+
+class Churchill_TalonStack(DealRowTalonStack):
+    def dealCards(self, sound=False):
+        def isKingPile(cards):
+            return len(cards) > 0 and \
+                cards[0].rank == KING and \
+                isAlternateColorSequence(cards)
+        rows = [r for r in self.game.s.rows if not isKingPile(r.cards)]
+        return self.dealRowAvail(rows=rows, sound=sound)
+
+
+class Churchill(Game):
+    Layout_Method = staticmethod(Layout.harpLayout)
+    Talon_Class = Churchill_TalonStack
+    Foundation_Class = SS_FoundationStack
+    RowStack_Class = Churchill_RowStack
+
+    shallHighlightMatch = Game._shallHighlightMatch_AC
+
+    def createGame(self, **layout):
+        # create layout
+        l, s = Layout(self), self.s
+        kwdefault(layout, rows=10, waste=0, texts=1, playcards=30, reserves=1)
+        self.Layout_Method(l, **layout)
+        self.setSize(l.size[0], l.size[1])
+        # create stacks
+        s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self)
+        for r in l.s.foundations:
+            s.foundations.append(
+                self.Foundation_Class(r.x, r.y, self, suit=r.suit, max_move=0))
+        for r in l.s.rows:
+            s.rows.append(self.RowStack_Class(r.x, r.y, self))
+        for r in l.s.reserves:
+            stack = Churchill_DevilStack(r.x, r.y, self)
+            stack.CARD_XOFFSET = l.XOFFSET
+            stack.CARD_YOFFSET = 0
+            s.reserves.append(stack)
+        # default
+        l.defaultAll()
+        return l
+
+    def startGame(self):
+        for i in range(1, 5):
+            self.s.talon.dealRow(rows=self.s.rows[i:-i], flip=0, frames=0)
+        self.startDealSample()
+        for i in range(6):
+            self.s.talon.dealRow(rows=[self.s.reserves[0]])
+        self._startAndDealRow()
+
+
 # register the game
 registerGame(GameInfo(21, DoubleKlondike, "Double Klondike",
                       GI.GT_KLONDIKE, 2, -1, GI.SL_BALANCED))
@@ -373,3 +442,5 @@ registerGame(GameInfo(689, Brush, "Brush",
                       GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(822, DoubleTrigon, "Double Trigon",
                       GI.GT_KLONDIKE, 2, -1, GI.SL_BALANCED))
+registerGame(GameInfo(828, Churchill, "Churchill Solitaire",
+                      GI.GT_GYPSY, 2, 0, GI.SL_BALANCED))

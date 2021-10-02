@@ -67,7 +67,7 @@ class HitOrMiss_Talon(WasteTalonStack):
             game.rank = 0
         game.saveStateMove(1 | 16)  # for redo
         game.leaveState(old_state)
-        return super(HitOrMiss_Talon, self).dealCards(sound)
+        return WasteTalonStack.dealCards(self, sound)
 
     def getHelp(self):
         return _('Talon. Unlimited redeals, until running through the deck '
@@ -83,12 +83,12 @@ class HitOrMiss_Waste(WasteStack):
             game.deadDeals = 0
             game.saveStateMove(1 | 16)  # for redo
             game.leaveState(old_state)
-        super(HitOrMiss_Waste, self).moveMove(ncards, to_stack, frames, shadow)
+        WasteStack.moveMove(ncards, to_stack, frames, shadow)
         game.s.talon.dealCards()
 
 
 # ************************************************************************
-# * HitOrMiss
+# * Hit Or Miss
 # ************************************************************************
 
 class HitOrMiss(Game):

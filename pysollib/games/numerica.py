@@ -115,9 +115,9 @@ class Numerica(Game):
 
         # set window
         # (piles up to 20 cards are playable in default window size)
-        h = max(2*l.YS, 20*l.YOFFSET)
+        h = max(2.5 * l.YS, 20 * l.YOFFSET)
         max_rows = max(rows, foundations)
-        self.setSize(l.XM+(1.5+max_rows)*l.XS+l.XM, l.YM + l.YS + h)
+        self.setSize(l.XM + (1.5 + max_rows) * l.XS + l.XM, l.YM + l.YS + h)
 
         # create stacks
         x0 = l.XM + l.XS * 3 // 2

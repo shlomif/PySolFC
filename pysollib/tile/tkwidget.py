@@ -65,7 +65,7 @@ class MfxDialog:  # ex. _ToplevelDialog
         # self.top.wm_maxsize(w-4, h-32)
         bind(self.top, "WM_DELETE_WINDOW", self.wmDeleteWindow)
 
-    def mainloop(self, focus=None, timeout=0, transient=True):
+    def mainloop(self, focus=None, timeout=0, transient=True, geometry=""):
         bind(self.top, "<Escape>", self.mCancel)
         bind(self.top, '<Alt-Key>', self.altKeyEvent)  # for accelerators
         if focus is not None:
@@ -78,6 +78,8 @@ class MfxDialog:  # ex. _ToplevelDialog
                 if traceback:
                     traceback.print_exc()
                 pass
+            if geometry != "":
+                self.top.geometry(geometry)
             if timeout > 0:
                 self.timer = after(self.top, timeout, self.mTimeout)
             try:

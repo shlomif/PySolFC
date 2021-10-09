@@ -226,12 +226,15 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         if self.TreeDataHolder_Class.data is None:
             self.TreeDataHolder_Class.data = self.TreeData_Class(manager, key)
         #
-        self.top.wm_minsize(400, 200)
         sw = self.top.winfo_screenwidth()
         sh = self.top.winfo_screenheight()
 
         h = sh * .8
-        w1, w2 = min(300, sw / 2.5), max(sw / 2 + ((sw / 2.5) - 300), sw / 2)
+        w = sw * .8
+        w1 = min(275, sw / 2.5)
+        geometry = ("%dx%d+%d+%d" % (w, h, (sw - w) / 2, (sh - h) / 2))
+        self.top.wm_minsize(400, 200)
+
         paned_window = ttk.PanedWindow(top_frame, orient='horizontal')
         paned_window.pack(expand=True, fill='both')
         left_frame = ttk.Frame(paned_window)
@@ -241,7 +244,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         font = app.getFont("default")
         self.tree = self.Tree_Class(self, left_frame, key=key,
                                     default=kw.default,
-                                    font=font, width=w1)
+                                    font=font, width=int(w1))
         self.tree.frame.grid(row=0, column=0, sticky='nsew',
                              padx=padx, pady=pady)
         if USE_PIL:
@@ -319,7 +322,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         left_frame.rowconfigure(0, weight=1)
         left_frame.columnconfigure(0, weight=1)
         #
-        self.preview = MfxScrolledCanvas(right_frame, width=w2, height=h)
+        self.preview = MfxScrolledCanvas(right_frame)
         self.preview.setTile(app, app.tabletile_index, force=True)
         self.preview.pack(fill='both', expand=True, padx=padx, pady=pady)
         self.preview.canvas.preview = 1
@@ -331,7 +334,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         #
         focus = self.createButtons(bottom_frame, kw)
         focus = self.tree.frame
-        self.mainloop(focus, kw.timeout)
+        self.mainloop(focus, kw.timeout, geometry=geometry)
 
     def destroy(self):
         self.tree.updateNodesWithTree(self.tree.rootnodes, None)

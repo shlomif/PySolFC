@@ -351,12 +351,14 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         if self.TreeDataHolder_Class.data is None:
             self.TreeDataHolder_Class.data = self.TreeData_Class(app)
         #
-        self.top.wm_minsize(400, 200)
         sw = self.top.winfo_screenwidth()
         sh = self.top.winfo_screenheight()
 
         h = sh * .8
-        w1, w2 = min(250, sw / 2.5), max(sw / 2 + ((sw / 2.5) - 250), sw / 2)
+        w = sw * .8
+        w1 = min(275, sw / 2.5)
+        geometry = ("%dx%d+%d+%d" % (w, h, (sw - w) / 2, (sh - h) / 2))
+        self.top.wm_minsize(400, 200)
 
         # print sw, w1, w2
         # w2 = max(200, min(w2, 10 + 12 * (app.subsampled_images.CARDW + 10)))
@@ -374,8 +376,8 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         # Tree
         font = app.getFont("default")
         self.tree = self.Tree_Class(self, left_frame, key=gameid,
-                                    default=kw.default, font=font, width=w1,
-                                    height=h)
+                                    default=kw.default, font=font,
+                                    width=int(w1))
         self.tree.frame.pack(padx=padx, pady=pady, expand=True, fill='both')
         # LabelFrame
         info_frame = ttk.LabelFrame(right_frame, text=_('About game'))
@@ -411,7 +413,7 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         info_frame.rowconfigure(6, weight=1)
         stats_frame.rowconfigure(6, weight=1)
         # Canvas
-        self.preview = MfxScrolledCanvas(right_frame, width=w2)
+        self.preview = MfxScrolledCanvas(right_frame)
         self.preview.setTile(app, app.tabletile_index, force=True)
         self.preview.grid(row=1, column=0, columnspan=3,
                           padx=padx, pady=pady, sticky='nsew')
@@ -427,7 +429,7 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         self.preview_app = None
         self.updatePreview(gameid, animations=0)
         # focus = self.tree.frame
-        self.mainloop(focus, kw.timeout)
+        self.mainloop(focus, kw.timeout, geometry=geometry)
 
     def initKw(self, kw):
         kw = KwStruct(kw,

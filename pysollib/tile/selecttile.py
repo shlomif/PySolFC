@@ -127,12 +127,14 @@ class SelectTileDialogWithPreview(MfxDialog):
         if self.TreeDataHolder_Class.data is None:
             self.TreeDataHolder_Class.data = self.TreeData_Class(manager, key)
         #
-        self.top.wm_minsize(400, 200)
         sw = self.top.winfo_screenwidth()
         sh = self.top.winfo_screenheight()
 
         h = sh * .8
-        w1, w2 = min(250, sw // 2.5), max(sw / 2 + ((sw // 2.5) - 250), sw / 2)
+        w = sw * .8
+        w1 = min(250, sw / 2.5)
+        geometry = ("%dx%d+%d+%d" % (w, h, (sw - w) / 2, (sh - h) / 2))
+        self.top.wm_minsize(400, 200)
 
         font = app.getFont("default")
         padx, pady = 4, 4
@@ -143,8 +145,7 @@ class SelectTileDialogWithPreview(MfxDialog):
                                     font=font, width=w1)
         self.tree.frame.pack(side="left", fill='both', expand=False,
                              padx=padx, pady=pady)
-        self.preview = MfxScrolledCanvas(frame, width=w2, hbar=0, vbar=0,
-                                         height=h)
+        self.preview = MfxScrolledCanvas(frame, hbar=0, vbar=0)
         self.preview.pack(side="right", fill='both', expand=True,
                           padx=padx, pady=pady)
         self.preview.canvas.preview = 1
@@ -154,7 +155,8 @@ class SelectTileDialogWithPreview(MfxDialog):
         #
         focus = self.createButtons(bottom_frame, kw)
         focus = self.tree.frame
-        self.mainloop(focus, kw.timeout)
+
+        self.mainloop(focus, kw.timeout, geometry=geometry)
 
     def destroy(self):
         self.tree.updateNodesWithTree(self.tree.rootnodes, None)

@@ -337,6 +337,30 @@ class SimplePairs(MonteCarlo):
 
 
 # ************************************************************************
+# * Block Ten
+# ************************************************************************
+
+class BlockTen_RowStack(MonteCarlo_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not OpenStack.acceptsCards(self, from_stack, cards):
+            return False
+        # check the rank
+        if self.cards[-1].rank + cards[0].rank + 2 == 10:
+            return True
+        if self.cards[-1].rank > 9 and self.cards[-1].rank == cards[0].rank:
+            return True
+
+        return False
+
+
+class BlockTen(SimplePairs):
+    RowStack_Class = BlockTen_RowStack
+
+    def isGameWon(self):
+        return len(self.s.foundations[0].cards) == 48
+
+
+# ************************************************************************
 # * Neighbour
 # ************************************************************************
 
@@ -981,3 +1005,5 @@ registerGame(GameInfo(801, DoubleNestor, "Double Nestor",
                       GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(810, Quatorze, "Quatorze",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
+registerGame(GameInfo(829, BlockTen, "Block Ten",
+                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_LUCK))

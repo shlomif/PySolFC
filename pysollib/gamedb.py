@@ -311,16 +311,16 @@ class GI:
         # Gnome AisleRiot 2.2.0 (we have 65 out of 70 games)
         # Gnome AisleRiot 3.22.7
         #   still missing:
-        #       Block Ten, Hamilton, Isabel, King's Audience, Labyrinth,
-        #       Napoleon's Tomb, Saratoga, Thieves, Treize, Valentine,
-        #       Wall
+        #       Hamilton, Isabel, King's Audience, Labyrinth, Napoleon's Tomb,
+        #       Saratoga, Thieves, Treize, Valentine, Wall
         ("Gnome AisleRiot", (
             1, 2, 8, 9, 11, 12, 13, 19, 24, 27, 29, 31, 33, 34, 35, 36,
             38, 40, 41, 42, 43, 45, 48, 58, 59, 60, 65, 67, 89, 91, 92,
             93, 94, 95, 96, 97, 100, 104, 105, 111, 112, 113, 130, 135,
             139, 144, 146, 147, 148, 200, 201, 206, 224, 225, 229, 230,
             233, 257, 258, 280, 281, 282, 283, 284, 334, 384, 495, 551,
-            552, 553, 572, 593, 674, 700, 737, 772, 810, 819, 824, 22231,
+            552, 553, 572, 593, 674, 700, 737, 772, 810, 819, 824, 829,
+            22231,
         )),
 
         #  KDE Patience 0.7.3 from KDE 1.1.2 (we have 6 out of 9 games)
@@ -340,26 +340,25 @@ class GI:
         # still missing:
         #       Ace of Hearts, Affinity, Agnes Three, Antares, Archway,
         #       Avenue, Baker's Fan, Baker's Spider, Bedeviled, Binding,
-        #       Black Holes, Black Spider, Block Ten, California,
-        #       Carcassone, Cascade, Club, Color Cell, Cornelius,
-        #       Demons and Thieves, Desert Fox, Deuces and Queens,
-        #       Double Antares, Double Antarctica, Double Arctica,
-        #       Double Baker's Spider, Double Cascade, Double Fourteens,
-        #       Double Line 8, Double Majesty, Double Sea Towers,
-        #       Double Spidercells, Doublet Cell 5, Doubt, Dream Fan,
-        #       Dumfries Cell, Falcon Wing, Fan Nine, Fanny 6,
-        #       Four By Ten, FreeCell AK, Gaps Alter, Gaps Diff,
-        #       George V, Grandmother's Clock, In a Frame, Inverted FreeCell,
-        #       Kings, Klondike FreeCell, La Cabane, La Double Entente,
-        #       Little Gazette, Magic FreeCell, Mini Gaps, Montreal,
-        #       Napoleon at Iena, Napoleon at Waterloo, Napoleon's Guards,
-        #       Nationale, Oasis, Opera, Ordered Suits, Osmotic FreeCell,
-        #       Pair FreeCell, Pairs 2, Petal, Rainbow Fan, Reserved Thirteens,
-        #       Sea Spider, Sept Piles 0, Short Solitaire, Simple Alternations,
-        #       Simple Spark, Step By Step, Strategy 7, Stripped FreeCell,
-        #       Tarantula, Triple Dispute, Trusty Twenty, Two Ways 3,
-        #       Up Or Down, Versailles, Vertical FreeCell, Wasp Baby,
-        #       Yukon FreeCell
+        #       Black Holes, Black Spider, California, Carcassone,
+        #       Cascade, Club, Color Cell, Cornelius, Demons and Thieves,
+        #       Desert Fox, Deuces and Queens, Double Antares,
+        #       Double Antarctica, Double Arctica, Double Baker's Spider,
+        #       Double Cascade, Double Fourteens, Double Line 8,
+        #       Double Majesty, Double Sea Towers, Double Spidercells,
+        #       Doublet Cell 5, Doubt, Dream Fan, Dumfries Cell,
+        #       Falcon Wing, Fan Nine, Fanny 6, Four By Ten, FreeCell AK,
+        #       Gaps Alter, Gaps Diff, George V, Grandmother's Clock,
+        #       In a Frame, Inverted FreeCell, Kings, Klondike FreeCell,
+        #       La Cabane, La Double Entente, Little Gazette, Magic FreeCell,
+        #       Mini Gaps, Montreal, Napoleon at Iena, Napoleon at Waterloo,
+        #       Napoleon's Guards, Nationale, Oasis, Opera, Ordered Suits,
+        #       Osmotic FreeCell, Pair FreeCell, Pairs 2, Petal, Rainbow Fan,
+        #       Reserved Thirteens, Sea Spider, Sept Piles 0, Short Solitaire,
+        #       Simple Alternations, Simple Spark, Step By Step, Strategy 7,
+        #       Stripped FreeCell, Tarantula, Triple Dispute, Trusty Twenty,
+        #       Two Ways 3, Up Or Down, Versailles, Vertical FreeCell,
+        #       Wasp Baby, Yukon FreeCell
         ("XM Solitaire", (
             2, 8, 9, 13, 15, 18, 19, 20, 29, 30, 31, 34, 36, 38, 41, 42,
             45, 46, 50, 53, 54, 56, 57, 59, 64, 77, 78, 86, 96, 97, 98,
@@ -369,7 +368,7 @@ class GI:
             363, 364, 372, 376, 383, 384, 385, 386, 390, 391, 393, 398,
             405, 415, 416, 425, 451, 453, 461, 464, 466, 467, 476, 480,
             484, 511, 512, 516, 561, 610, 625, 629, 631, 638, 641, 647,
-            650, 655, 678, 734, 751, 784, 825, 901,
+            650, 655, 678, 734, 751, 784, 825, 829, 901,
         )),
 
         # xpat2 1.06 (we have 14 out of 16 games)
@@ -480,7 +479,7 @@ class GI:
         ('fc-2.12',   tuple(range(774, 811)) + (16681,) +
          tuple(range(22217, 22219))),
         ('fc-2.14', tuple(range(811, 827))),
-        ('fc-2.16', tuple(range(827, 829)))
+        ('fc-2.16', tuple(range(827, 830)))
     )
 
     # deprecated - the correct way is to or a GI.GT_XXX flag

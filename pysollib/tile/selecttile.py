@@ -130,9 +130,9 @@ class SelectTileDialogWithPreview(MfxDialog):
         sw = self.top.winfo_screenwidth()
         sh = self.top.winfo_screenheight()
 
-        h = sh * .8
-        w = sw * .8
-        w1 = min(250, sw / 2.5)
+        h = int(sh * .8)
+        w = int(sw * .8)
+        w1 = int(min(250, sw / 2.5))
         geometry = ("%dx%d+%d+%d" % (w, h, (sw - w) / 2, (sh - h) / 2))
         self.top.wm_minsize(400, 200)
 

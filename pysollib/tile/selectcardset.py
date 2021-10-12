@@ -229,9 +229,9 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         sw = self.top.winfo_screenwidth()
         sh = self.top.winfo_screenheight()
 
-        h = sh * .8
-        w = sw * .8
-        w1 = min(275, sw / 2.5)
+        h = int(sh * .8)
+        w = int(sw * .8)
+        w1 = int(min(275, sw / 2.5))
         geometry = ("%dx%d+%d+%d" % (w, h, (sw - w) / 2, (sh - h) / 2))
         self.top.wm_minsize(400, 200)
 
@@ -244,7 +244,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         font = app.getFont("default")
         self.tree = self.Tree_Class(self, left_frame, key=key,
                                     default=kw.default,
-                                    font=font, width=int(w1))
+                                    font=font, width=w1)
         self.tree.frame.grid(row=0, column=0, sticky='nsew',
                              padx=padx, pady=pady)
         if USE_PIL:

@@ -354,9 +354,9 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         sw = self.top.winfo_screenwidth()
         sh = self.top.winfo_screenheight()
 
-        h = sh * .8
-        w = sw * .8
-        w1 = min(275, sw / 2.5)
+        h = int(sh * .8)
+        w = int(sw * .8)
+        w1 = int(min(275, sw / 2.5))
         geometry = ("%dx%d+%d+%d" % (w, h, (sw - w) / 2, (sh - h) / 2))
         self.top.wm_minsize(400, 200)
 
@@ -377,7 +377,7 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         font = app.getFont("default")
         self.tree = self.Tree_Class(self, left_frame, key=gameid,
                                     default=kw.default, font=font,
-                                    width=int(w1))
+                                    width=w1)
         self.tree.frame.pack(padx=padx, pady=pady, expand=True, fill='both')
         # LabelFrame
         info_frame = ttk.LabelFrame(right_frame, text=_('About game'))

@@ -45,8 +45,8 @@ from pysollib.stack import \
         WasteTalonStack, \
         isRankSequence, \
         isSameSuitSequence
-from pysollib.util import ACE, ANY_RANK, ANY_SUIT, KING, UNLIMITED_ACCEPTS, \
-        UNLIMITED_MOVES
+from pysollib.util import ACE, ANY_RANK, ANY_SUIT, BLACK, KING, RED,\
+        UNLIMITED_ACCEPTS, UNLIMITED_MOVES
 
 # ************************************************************************
 # * Curds and Whey
@@ -528,6 +528,53 @@ class FourPacks(EightPacks):
         return True
 
 
+# ************************************************************************
+# * Fire and Ice
+# ************************************************************************
+
+class FireAndIce(Game):
+    RowStack_Class = RK_RowStack
+
+    def createGame(self, playcards=18):
+        l, s = Layout(self), self.s
+        self.setSize(l.XM + (10.5 * l.XS),
+                     l.YM + l.YS + playcards * l.YOFFSET)
+
+        x, y = l.XM, l.YM
+        for i in range(5):
+            s.rows.append(self.RowStack_Class(x, y, self))
+            x += l.XS
+
+        x += l.XS / 2
+
+        for i in range(5):
+            s.rows.append(self.RowStack_Class(x, y, self))
+            x += l.XS
+
+        x, y = self.width - l.XS, self.height - l.YS
+        s.talon = InitialDealTalonStack(x, y, self)
+
+        l.defaultStackGroups()
+
+    def startGame(self):
+        for i in range(4):
+            self.s.talon.dealRow(frames=0)
+        r = self.s.rows
+        rows = (r[0], r[9])
+        self.s.talon.dealRow(rows=rows, frames=0)
+        self._startAndDealRow()
+
+    def isGameWon(self):
+        for i in self.s.rows[0:5]:
+            for j in i.cards:
+                if j.color != RED:
+                    return False
+        for i in self.s.rows[5:10]:
+            for j in i.cards:
+                if j.color != BLACK:
+                    return False
+
+
 # register the game
 registerGame(GameInfo(294, CurdsAndWhey, "Curds and Whey",
                       GI.GT_SPIDER | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
@@ -564,3 +611,5 @@ registerGame(GameInfo(724, EightPacks, "Eight Packs",
                       GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(762, FourPacks, "Four Packs",
                       GI.GT_2DECK_TYPE, 2, 1, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(830, FireAndIce, "Fire and Ice",
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_SKILL))

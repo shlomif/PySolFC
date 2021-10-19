@@ -40,7 +40,7 @@ from pysollib.stack import \
     StackWrapper, \
     WasteStack, \
     WasteTalonStack
-from pysollib.util import ACE, ANY_SUIT, JACK, KING, QUEEN, RANKS
+from pysollib.util import ACE, ANY_SUIT, BLACK, JACK, KING, QUEEN, RANKS, RED
 
 
 class GrandfathersClock_Hint(CautiousDefaultHint):
@@ -186,9 +186,6 @@ class Dial(Game):
 # ************************************************************************
 # * Hemispheres
 # ************************************************************************
-
-BLACK, RED = 0, 1
-
 
 class Hemispheres_Hint(DefaultHint):
     def shallMovePile(self, from_stack, to_stack, pile, rpile):

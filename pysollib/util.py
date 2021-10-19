@@ -52,6 +52,10 @@ SPADE = 1
 HEART = 2
 DIAMOND = 3
 
+# Specific colors
+BLACK = 0
+RED = 1
+
 # Card ranks are 0-12.  We also define symbolic names for the picture cards.
 RANKS = (_("Ace"), "2", "3", "4", "5", "6", "7", "8", "9", "10",
          _("Jack"), _("Queen"), _("King"))

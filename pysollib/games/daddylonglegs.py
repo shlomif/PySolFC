@@ -40,6 +40,7 @@ class DaddyLonglegs(Game):
         l.defaultStackGroups()
 
     def startGame(self):
+        self.startDealSample()
         self.s.talon.dealRow()
 
     def isGameWon(self):
@@ -53,5 +54,4 @@ class DaddyLonglegs(Game):
 
 # register the game
 registerGame(GameInfo(555001, DaddyLonglegs, "Daddy Longlegs",
-                      GI.GT_SPIDER, 1, 0, GI.SL_MOSTLY_SKILL,
-                      rules_filename="daddylonglegs.html"))
+                      GI.GT_SPIDER, 1, 0, GI.SL_MOSTLY_SKILL))

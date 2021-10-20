@@ -282,7 +282,10 @@ def r(id, gameclass, name, game_type, decks, redeals, skill_level):
 r(13163, Cockroach, 'Cockroach', GI.GT_TAROCK, 1, 0, GI.SL_MOSTLY_SKILL)
 r(13164, DoubleCockroach, 'Double Cockroach', GI.GT_TAROCK, 2, 0,
   GI.SL_MOSTLY_SKILL)
-r(13165, Corkscrew, 'Corkscrew', GI.GT_TAROCK, 2, 0, GI.SL_MOSTLY_SKILL)
-r(13166, Serpent, 'Serpent', GI.GT_TAROCK, 2, 0, GI.SL_MOSTLY_SKILL)
-r(13167, Rambling, 'Rambling', GI.GT_TAROCK, 2, 0, GI.SL_MOSTLY_SKILL)
+r(13165, Corkscrew, 'Corkscrew', GI.GT_TAROCK | GI.GT_OPEN, 2, 0,
+  GI.SL_MOSTLY_SKILL)
+r(13166, Serpent, 'Serpent', GI.GT_TAROCK | GI.GT_OPEN, 2, 0,
+  GI.SL_MOSTLY_SKILL)
+r(13167, Rambling, 'Rambling', GI.GT_TAROCK | GI.GT_OPEN, 2, 0,
+  GI.SL_MOSTLY_SKILL)
 r(22232, LeGrandeTeton, 'Le Grande Teton', GI.GT_TAROCK, 1, 0, GI.SL_BALANCED)

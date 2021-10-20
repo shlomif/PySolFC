@@ -739,7 +739,8 @@ r(12380, Eularia, 'Eularia', GI.GT_HANAFUDA, 1, -1, GI.SL_BALANCED)
 r(12381, Peony, 'Peony', GI.GT_HANAFUDA, 1, -1, GI.SL_BALANCED)
 r(12382, Iris, 'Iris', GI.GT_HANAFUDA, 1, 0, GI.SL_BALANCED)
 r(12383, Pine, 'Pine', GI.GT_HANAFUDA, 1, 0, GI.SL_BALANCED)
-r(12384, Wisteria, 'Wisteria', GI.GT_HANAFUDA, 1, 0, GI.SL_MOSTLY_SKILL)
+r(12384, Wisteria, 'Wisteria', GI.GT_HANAFUDA | GI.GT_OPEN, 1, 0,
+  GI.SL_MOSTLY_SKILL)
 r(12385, FlowerArrangement, 'Flower Arrangement', GI.GT_HANAFUDA, 2, 0,
   GI.SL_BALANCED)
 

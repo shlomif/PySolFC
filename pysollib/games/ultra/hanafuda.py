@@ -1041,20 +1041,24 @@ r(12350, Samuri, "Samuri", GI.GT_HANAFUDA, 1, 0, GI.SL_BALANCED)
 r(12351, GreatWall, "Great Wall", GI.GT_HANAFUDA, 4, 0, GI.SL_MOSTLY_SKILL)
 r(12352, FourWinds, "Hanafuda Four Winds", GI.GT_HANAFUDA, 1, 1,
   GI.SL_MOSTLY_SKILL)
-r(12353, Sumo, "Sumo", GI.GT_HANAFUDA, 1, 0, GI.SL_MOSTLY_SKILL)
-r(12354, BigSumo, "Big Sumo", GI.GT_HANAFUDA, 2, 0, GI.SL_MOSTLY_SKILL)
+r(12353, Sumo, "Sumo", GI.GT_HANAFUDA | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL)
+r(12354, BigSumo, "Big Sumo", GI.GT_HANAFUDA | GI.GT_OPEN, 2, 0,
+  GI.SL_MOSTLY_SKILL)
 r(12355, LittleEasy, "Little Easy", GI.GT_HANAFUDA, 1, -1, GI.SL_BALANCED)
 r(12356, BigEasy, "Big Easy", GI.GT_HANAFUDA, 2, -1, GI.SL_BALANCED)
 r(12357, EasySupreme, "Easy Supreme", GI.GT_HANAFUDA, 4, -1, GI.SL_BALANCED)
-r(12358, JustForFun, "Just For Fun", GI.GT_HANAFUDA, 1, 0, GI.SL_MOSTLY_SKILL)
-r(12359, Firecracker, "Firecracker", GI.GT_HANAFUDA, 1, 0, GI.SL_BALANCED)
+r(12358, JustForFun, "Just For Fun", GI.GT_HANAFUDA | GI.GT_OPEN, 1, 0,
+  GI.SL_MOSTLY_SKILL)
+r(12359, Firecracker, "Firecracker", GI.GT_HANAFUDA | GI.GT_OPEN, 1, 0,
+  GI.SL_BALANCED)
 r(12360, EasyX1, "Easy x One", GI.GT_HANAFUDA, 1, 1, GI.SL_BALANCED)
 r(12361, Relax, "Relax", GI.GT_HANAFUDA, 1, 1, GI.SL_BALANCED)
 r(12362, DoubleSamuri, "Double Samuri", GI.GT_HANAFUDA, 2, 0, GI.SL_BALANCED)
 r(12363, SuperSamuri, "Super Samuri", GI.GT_HANAFUDA, 4, 0, GI.SL_BALANCED)
-r(12364, DoubleYourFun, "Double Your Fun", GI.GT_HANAFUDA, 2, 0,
+r(12364, DoubleYourFun, "Double Your Fun", GI.GT_HANAFUDA | GI.GT_OPEN, 2, 0,
   GI.SL_MOSTLY_SKILL)
-r(12365, CherryBomb, "Cherry Bomb", GI.GT_HANAFUDA, 2, 0, GI.SL_BALANCED)
+r(12365, CherryBomb, "Cherry Bomb", GI.GT_HANAFUDA | GI.GT_OPEN, 2, 0,
+  GI.SL_BALANCED)
 r(12366, OonsooToo, "Oonsoo Too", GI.GT_HANAFUDA, 1, 0, GI.SL_MOSTLY_SKILL)
 r(12367, OonsooStrict, "Oonsoo Strict", GI.GT_HANAFUDA, 1, 0,
   GI.SL_MOSTLY_SKILL)

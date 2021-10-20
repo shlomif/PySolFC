@@ -612,4 +612,4 @@ registerGame(GameInfo(724, EightPacks, "Eight Packs",
 registerGame(GameInfo(762, FourPacks, "Four Packs",
                       GI.GT_2DECK_TYPE, 2, 1, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(830, FireAndIce, "Fire and Ice",
-                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_SKILL))
+                      GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_SKILL))

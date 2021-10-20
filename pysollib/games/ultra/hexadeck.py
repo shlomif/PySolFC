@@ -1531,10 +1531,14 @@ r(16675, CluitjarsLair, 'Cluitjar\'s Lair', GI.GT_HEXADECK, 1, 0,
   GI.SL_BALANCED)
 r(16676, MerlinsMeander, 'Merlin\'s Meander', GI.GT_HEXADECK, 2, 2,
   GI.SL_BALANCED)
-r(16677, MagesGame, 'Mage\'s Game', GI.GT_HEXADECK, 1, 0, GI.SL_BALANCED)
-r(16678, Convolution, 'Convolution', GI.GT_HEXADECK, 2, 0, GI.SL_MOSTLY_SKILL)
-r(16679, Labyrinth, 'Hex Labyrinth', GI.GT_HEXADECK, 2, 0, GI.SL_MOSTLY_SKILL)
-r(16680, Snakestone, 'Snakestone', GI.GT_HEXADECK, 2, 0, GI.SL_MOSTLY_SKILL)
+r(16677, MagesGame, 'Mage\'s Game', GI.GT_HEXADECK | GI.GT_OPEN, 1, 0,
+  GI.SL_BALANCED)
+r(16678, Convolution, 'Convolution', GI.GT_HEXADECK | GI.GT_OPEN, 2, 0,
+  GI.SL_MOSTLY_SKILL)
+r(16679, Labyrinth, 'Hex Labyrinth', GI.GT_HEXADECK | GI.GT_OPEN, 2, 0,
+  GI.SL_MOSTLY_SKILL)
+r(16680, Snakestone, 'Snakestone', GI.GT_HEXADECK | GI.GT_OPEN, 2, 0,
+  GI.SL_MOSTLY_SKILL)
 r(16681, HexYukon, 'Hex Yukon', GI.GT_HEXADECK, 1, 0, GI.SL_BALANCED)
 
 del r

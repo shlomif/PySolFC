@@ -768,7 +768,7 @@ class Layout:
 
         # set size so that at least 2//3 of a card is visible with 20 cards
         h = CH * 2 // 3 + (playcards - 1) * self.YOFFSET
-        h = max(h, 2 * YS)
+        h = max(h, 6 * YS)
 
         # bottom center
         x = (XM + (toprows * XS) // 2) - XS
@@ -832,7 +832,7 @@ class Layout:
 
         # set size so that at least 2//3 of a card is visible with 12 cards
         h = CH * 2 // 3 + (playcards - 1) * self.YOFFSET
-        h = max(h, 2 * YS)
+        h = max(h, 2 * decks * YS)
 
         # create foundations
         x, y = XM, YM
@@ -862,14 +862,14 @@ class Layout:
             y += YS
 
         # create talon
-        x, y = XM, h + YM
+        x, y = XM, h
         self.s.talon = s = S(x, y)
         if texts:
             # place text right of stack
             self._setText(s, 'se')
 
         # set window
-        self.size = (XM + toprows * XS, YM + YS + h)
+        self.size = (XM + toprows * XS, (YM * decks) + YS + h)
 
     #
     # Fun layout

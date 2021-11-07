@@ -25,9 +25,11 @@ from pysollib.game import Game
 from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.layout import Layout
 from pysollib.stack import \
+        ReserveStack, \
         RK_FoundationStack, \
         WasteStack, \
         WasteTalonStack
+from pysollib.util import KING
 
 
 # ************************************************************************
@@ -37,35 +39,55 @@ from pysollib.stack import \
 
 class Precedence_Foundation(RK_FoundationStack):
     def acceptsCards(self, from_stack, cards):
+        if (not self.cards):
+            if (self.id > 0 and not self.game.s
+                    .foundations[self.id - 1].cards):
+                return False
+            if self.id == 0:
+                return cards[0].rank == KING
+            else:
+                return cards[0].rank == (self.game.s
+                                         .foundations[self.id - 1]
+                                         .cards[0].rank - 1) % 13
         if not RK_FoundationStack.acceptsCards(self, from_stack, cards):
-            return False
-        if (self.id > 0 and not self.game.s.foundations[self.id - 1].cards):
             return False
         return True
 
 
 class Precedence(Game):
+    FOUNDATIONS = 8
+    RESERVES = 0
+    NUM_ROUNDS = 3
+
+    TALON_STACK = WasteTalonStack
+    WASTE_STACK = WasteStack
+    RESERVE_STACK = ReserveStack
 
     def createGame(self):
         layout, s = Layout(self), self.s
-        self.setSize(layout.XM + 8 * layout.XS, layout.YM + 2 * layout.YS)
+        self.setSize(layout.XM + self.FOUNDATIONS * layout.XS,
+                     layout.YM + 2 * layout.YS)
         x, y = layout.XM, layout.YM
-        c_rank = 12
-        for i in range(8):
+        for i in range(self.FOUNDATIONS):
+            c_max = (self.gameinfo.decks * 52) / self.FOUNDATIONS
             s.foundations.append(Precedence_Foundation(x, y, self, dir=-1,
                                                        mod=13,
-                                                       base_rank=c_rank,
-                                                       max_move=0))
+                                                       max_move=0,
+                                                       max_cards=c_max))
             x += layout.XS
-            c_rank -= 1
         x, y = layout.XM + (layout.XS * 3), layout.YM + layout.YS
-        s.talon = WasteTalonStack(x, y, self,
-                                  max_rounds=3, num_deal=1)
+        s.talon = self.TALON_STACK(x, y, self,
+                                   max_rounds=self.NUM_ROUNDS, num_deal=1)
         layout.createText(s.talon, 'nw')
         layout.createRoundText(s.talon, 'se', dx=layout.XS)
         x += layout.XS
-        s.waste = WasteStack(x, y, self)
+        s.waste = self.WASTE_STACK(x, y, self)
         layout.createText(s.waste, 'ne')
+
+        x += 2 * layout.XS
+        for i in range(self.RESERVES):
+            s.reserves.append(self.RESERVE_STACK(x, y, self, max_cards=104))
+            x += layout.XS
 
         # define stack-groups
         layout.defaultStackGroups()
@@ -96,9 +118,69 @@ class PrecedenceNoKing(Precedence):
         self.s.talon.dealCards()
 
 
+# ************************************************************************
+# * Display
+# ************************************************************************
+
+class Display_Talon(WasteTalonStack):
+    def _redeal(self):
+        game, num_cards = self.game, len(self.cards)
+        if len(self.waste.cards) > 0:
+            game.moveMove(1, self.waste, game.s.reserves[0], frames=2)
+        rows = list(game.s.reserves)[:]
+        rows.reverse()
+        for r in rows:
+            while r.cards:
+                num_cards = num_cards + 1
+                game.moveMove(1, r, self, frames=2)
+                if self.cards[-1].face_up:
+                    game.flipMove(self)
+        assert len(self.cards) == num_cards
+        self.game.nextRoundMove(self)
+
+    def canDealCards(self):
+        return ((self.round > 1 and len(self.cards) > 0)
+                or (self.round == 1 and len(self.cards) == 0)
+                or (len(self.waste.cards) == 0))
+
+    def dealCards(self, sound=False):
+        if self.cards:
+            return WasteTalonStack.dealCards(self, sound=sound)
+        if sound:
+            self.game.startDealSample()
+        self._redeal()
+        if sound:
+            self.game.stopSamples()
+        return
+
+
+class Display_ReserveStack(ReserveStack):
+    def acceptsCards(self, from_stack, cards):
+        return self.game.s.talon.round == 1 and from_stack == self.game.s.waste
+
+
+class Display(Precedence):
+    FOUNDATIONS = 13
+    RESERVES = 3
+    NUM_ROUNDS = 2
+
+    TALON_STACK = Display_Talon
+    RESERVE_STACK = Display_ReserveStack
+
+    def _shuffleHook(self, cards):
+        return cards
+
+    def _autoDeal(self, sound=True):
+        # only autodeal if there are cards in the talon.
+        if len(self.s.talon.cards) > 0:
+            return Game._autoDeal(self, sound=sound)
+
+
 # register the game
 registerGame(GameInfo(790, Precedence, "Precedence",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_MOSTLY_LUCK,
-                      altnames=("Order of Precedence")))
+                      altnames=("Order of Precedence", "Succession")))
 registerGame(GameInfo(791, PrecedenceNoKing, "Precedence (No King)",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_MOSTLY_LUCK))
+registerGame(GameInfo(832, Display, "Display",
+                      GI.GT_2DECK_TYPE, 2, 1, GI.SL_BALANCED))

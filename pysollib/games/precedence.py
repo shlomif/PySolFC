@@ -25,8 +25,8 @@ from pysollib.game import Game
 from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.layout import Layout
 from pysollib.stack import \
-        ReserveStack, \
         RK_FoundationStack, \
+        ReserveStack, \
         WasteStack, \
         WasteTalonStack
 from pysollib.util import KING

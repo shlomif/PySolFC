@@ -113,8 +113,7 @@ sub myglob
         my $basename = shift;
 
         return File::Spec->rel2abs(
-            File::Spec->catdir( $bindir, "tests", "config", $basename ),
-        );
+            File::Spec->catdir( $bindir, "tests", "config", $basename ), );
     };
 
     local $ENV{HARNESS_ALT_INTRP_FILE} = $get_config_fn->(

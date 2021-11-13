@@ -350,6 +350,7 @@ class BavarianPatience(GermanPatience):
 
 # ************************************************************************
 # * Trusty Twelve
+# * Up and Up
 # * Knotty Nines
 # * Sweet Sixteen
 # ************************************************************************
@@ -372,15 +373,19 @@ class TrustyTwelve_Hint(AbstractHint):
 class TrustyTwelve(Game):
     Hint_Class = TrustyTwelve_Hint
 
+    TALON_CLASS = TalonStack
+    ROWSTACK_CLASS = RK_RowStack
+
     def createGame(self, rows=12):
         l, s = Layout(self), self.s
-        self.setSize(l.XM+(rows+1)*l.XS, l.YM+l.YS+12*l.YOFFSET)
+        self.setSize((2 * l.XM) + (rows + 1) * l.XS,
+                     l.YM + l.YS + 12 * l.YOFFSET)
         x, y = l.XM, l.YM
-        s.talon = TalonStack(x, y, self)
+        s.talon = self.TALON_CLASS(x, y, self)
         l.createText(s.talon, "s")
-        x += l.XS
+        x += (l.XS + l.XM)
         for i in range(rows):
-            s.rows.append(RK_RowStack(x, y, self, max_move=1))
+            s.rows.append(self.ROWSTACK_CLASS(x, y, self, max_move=1))
             x += l.XS
         l.defaultStackGroups()
 
@@ -391,7 +396,8 @@ class TrustyTwelve(Game):
         if not stack.cards and stack in self.s.rows:
             if self.s.talon.cards:
                 old_state = self.enterState(self.S_FILL)
-                self.s.talon.flipMove()
+                if not self.s.talon.cards[-1].face_up:
+                    self.s.talon.flipMove()
                 self.s.talon.moveMove(1, stack)
                 self.leaveState(old_state)
 
@@ -399,6 +405,24 @@ class TrustyTwelve(Game):
         return len(self.s.talon.cards) == 0
 
     shallHighlightMatch = Game._shallHighlightMatch_RK
+
+
+class UpAndUp_TalonStack(OpenTalonStack):
+    rightclickHandler = OpenStack.rightclickHandler
+    doubleclickHandler = OpenStack.doubleclickHandler
+
+
+class UpAndUp(TrustyTwelve):
+    TALON_CLASS = UpAndUp_TalonStack
+    ROWSTACK_CLASS = StackWrapper(RK_RowStack, mod=13, dir=1)
+
+    def createGame(self):
+        TrustyTwelve.createGame(self, rows=10)
+        self.sg.dropstacks.append(self.s.talon)
+
+    def startGame(self):
+        TrustyTwelve.startGame(self)
+        self.s.talon.fillStack()
 
 
 class KnottyNines(TrustyTwelve):
@@ -613,3 +637,5 @@ registerGame(GameInfo(762, FourPacks, "Four Packs",
                       GI.GT_2DECK_TYPE, 2, 1, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(830, FireAndIce, "Fire and Ice",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_SKILL))
+registerGame(GameInfo(833, UpAndUp, "Up and Up",
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))

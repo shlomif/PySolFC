@@ -8,6 +8,7 @@ from pysollib.gamedb import GAME_DB
 from pysollib.gamedb import GI
 from pysollib.mfxutil import latin1_normalize
 from pysollib.mygettext import fix_gettext
+from pysollib.settings import VERSION
 # outdir = '../html'
 pysollib_dir = '../'
 
@@ -97,6 +98,8 @@ main_footer = '''
 <p>
 <br>
 %(back_to_index_link)s
+<hr>
+<i>PySolFC Documentation - version ''' + VERSION + '''</i>
 </body>
 </html>'''
 
@@ -124,6 +127,8 @@ rules_footer = '''
 <a href="../index.html">Back to the index</a>
 <br>
 <a href="../rules.html">Back to individual game rules</a>
+<hr>
+<i>PySolFC Documentation - version ''' + VERSION + '''</i>
 </body>
 </html>'''
 

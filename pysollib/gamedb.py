@@ -337,6 +337,12 @@ class GI:
         ("Microsoft Solitaire Collection", (2, 8, 11, 38, 22231,)),
 
         # XM Solitaire
+        # NOTE: This collection has a lot of games with the same name as
+        # established games but completely different rules, or more obscure
+        # variations with more generic names.  As such rules/names may
+        # conflict with other attempts to add games in the future, games
+        # from XM Solitaire should be researched before being added to PySol.
+        #
         # still missing:
         #       Ace of Hearts, Affinity, Agnes Three, Antares, Archway,
         #       Avenue, Baker's Fan, Baker's Spider, Bedeviled, Binding,
@@ -353,7 +359,7 @@ class GI:
         #       La Cabane, La Double Entente, Little Gazette, Magic FreeCell,
         #       Mini Gaps, Montreal, Napoleon at Iena, Napoleon at Waterloo,
         #       Napoleon's Guards, Nationale, Oasis, Opera, Ordered Suits,
-        #       Osmotic FreeCell, Pair FreeCell, Pairs 2, Petal, Rainbow Fan,
+        #       Osmotic FreeCell, Pair FreeCell, Pairs 2, Petal,
         #       Reserved Thirteens, Sea Spider, Sept Piles 0, Short Solitaire,
         #       Simple Alternations, Simple Spark, Step By Step, Strategy 7,
         #       Stripped FreeCell, Tarantula, Triple Dispute, Trusty Twenty,
@@ -368,7 +374,7 @@ class GI:
             363, 364, 372, 376, 383, 384, 385, 386, 390, 391, 393, 398,
             405, 415, 416, 425, 451, 453, 461, 464, 466, 467, 476, 480,
             484, 511, 512, 516, 561, 610, 625, 629, 631, 638, 641, 647,
-            650, 655, 678, 734, 751, 784, 825, 829, 901,
+            650, 655, 678, 734, 751, 784, 825, 829, 834, 901,
         )),
 
         # xpat2 1.06 (we have 14 out of 16 games)
@@ -479,7 +485,7 @@ class GI:
         ('fc-2.12',   tuple(range(774, 811)) + (16681,) +
          tuple(range(22217, 22219))),
         ('fc-2.14', tuple(range(811, 827))),
-        ('fc-2.16', tuple(range(827, 834)))
+        ('fc-2.16', tuple(range(827, 835)))
     )
 
     # deprecated - the correct way is to or a GI.GT_XXX flag

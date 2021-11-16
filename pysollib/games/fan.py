@@ -699,6 +699,7 @@ class FascinationFan(Fan):
 
 # ************************************************************************
 # * Crescent
+# * Rainbow Fan
 # ************************************************************************
 
 class Crescent_Talon(RedealTalonStack):
@@ -715,12 +716,12 @@ class Crescent_Talon(RedealTalonStack):
             ncards += len(r.cards)
             # move cards to internal stacks
             while len(r.cards) != 1:
-                self.game.moveMove(1, r, intern1, frames=4)
-            self.game.moveMove(1, r, intern2, frames=4)
+                self.game.moveMove(1, r, intern1, frames=2)
+            self.game.moveMove(1, r, intern2, frames=2)
             # move back
             while intern1.cards:
-                self.game.moveMove(1, intern1, r, frames=4)
-            self.game.moveMove(1, intern2, r, frames=4)
+                self.game.moveMove(1, intern1, r, frames=2)
+            self.game.moveMove(1, intern2, r, frames=2)
         self.game.nextRoundMove(self)
         if sound:
             self.game.stopSamples()
@@ -731,14 +732,23 @@ class Crescent_Talon(RedealTalonStack):
 class Crescent(Game):
     Hint_Class = CautiousDefaultHint
 
+    ROWS = 4
+    COLS = 4
+    INIT_CARDS = 6
+
+    SHOW_TALON_COUNT = False
+
     def createGame(self):
         l, s = Layout(self), self.s
         playcards = 10
-        w0 = l.XS+(playcards-1)*l.XOFFSET
-        w, h = l.XM+max(4*w0, 9*l.XS), l.YM + 5 * l.YS + l.TEXT_HEIGHT
+        w0 = l.XS + (playcards - 1) * l.XOFFSET
+        w, h = l.XM + max(self.COLS * w0, 9 * l.XS), \
+            l.YM + (self.ROWS + 1) * l.YS + l.TEXT_HEIGHT
         self.setSize(w, h)
         x, y = l.XM, l.YM
         s.talon = Crescent_Talon(x, y, self, max_rounds=4)
+        if self.SHOW_TALON_COUNT:
+            l.createText(s.talon, 'ne')
         l.createRoundText(s.talon, 's')
         x, y = w-8*l.XS, l.YM
         for i in range(4):
@@ -749,9 +759,9 @@ class Crescent(Game):
                                                     base_rank=KING, dir=-1))
             x += l.XS
         y = l.YM + l.YS + l.TEXT_HEIGHT
-        for i in range(4):
+        for i in range(self.ROWS):
             x = l.XM
-            for j in range(4):
+            for j in range(self.COLS):
                 stack = UD_SS_RowStack(x, y, self, base_rank=NO_RANK, mod=13)
                 s.rows.append(stack)
                 stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
@@ -770,9 +780,25 @@ class Crescent(Game):
 
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
-        self._startDealNumRowsAndDealSingleRow(5)
+        self._startDealNumRowsAndDealSingleRow(self.INIT_CARDS - 1)
 
     shallHighlightMatch = Game._shallHighlightMatch_SSW
+
+
+class RainbowFan(Crescent):
+    ROWS = 4
+    COLS = 5
+    INIT_CARDS = 3
+    SHOW_TALON_COUNT = True
+
+    def fillStack(self, stack):
+        if stack in self.s.rows and len(stack.cards) == 0 \
+                and len(self.s.talon.cards) > 0:
+            old_state = self.enterState(self.S_FILL)
+            for i in range(3):
+                self.s.talon.flipMove(1)
+                self.s.talon.moveMove(1, stack)
+            self.leaveState(old_state)
 
 
 # ************************************************************************
@@ -1069,3 +1095,5 @@ registerGame(GameInfo(767, QuadsPlus, "Quads +",
                       GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(819, BearRiver, "Bear River",
                       GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(834, RainbowFan, "Rainbow Fan",
+                      GI.GT_FAN_TYPE, 2, 3, GI.SL_MOSTLY_SKILL))

@@ -22,21 +22,27 @@ from six.moves import tkinter_tkfiledialog
 
 def createToolbarMenu(menubar, menu):
     tearoff = menu.cget('tearoff')
-#     data_dir = os.path.join(menubar.app.dataloader.dir, 'images', 'toolbar')
-#     submenu = MfxMenu(menu, label=n_('Style'), tearoff=tearoff)
-#     for f in os.listdir(data_dir):
-#         d = os.path.join(data_dir, f)
-#         if os.path.isdir(d) and os.path.exists(os.path.join(d, 'small')):
-#             name = f.replace('_', ' ').capitalize()
-#             submenu.add_radiobutton(
-#               label=name,
-#               variable=menubar.tkopt.toolbar_style,
-#               value=f, command=menubar.mOptToolbarStyle)
+    data_dir = os.path.join(menubar.app.dataloader.dir, 'images', 'toolbar')
+    submenu = MfxMenu(menu, label=n_('Style'), tearoff=tearoff)
+    for f in os.listdir(data_dir):
+        d = os.path.join(data_dir, f)
+        if os.path.isdir(d) and os.path.exists(os.path.join(d, 'small')):
+            name = f.replace('_', ' ').capitalize()
+            submenu.add_radiobutton(
+              label=name,
+              variable=menubar.tkopt.toolbar_style,
+              value=f, command=menubar.mOptToolbarStyle)
     submenu = MfxMenu(menu, label=n_('Compound'), tearoff=tearoff)
     for comp, label in COMPOUNDS:
         submenu.add_radiobutton(
             label=label, variable=menubar.tkopt.toolbar_compound,
             value=comp, command=menubar.mOptToolbarCompound)
+    submenu = MfxMenu(menu, label=n_('Visible buttons'), tearoff=tearoff)
+    for w in TOOLBAR_BUTTONS:
+        submenu.add_checkbutton(
+            label=_(w.capitalize()),
+            variable=menubar.tkopt.toolbar_vars[w],
+            command=lambda m=menubar, w=w: m.mOptToolbarConfig(w))
     menu.add_separator()
     menu.add_radiobutton(label=n_("Hide"),
                          variable=menubar.tkopt.toolbar, value=0,
@@ -60,13 +66,6 @@ def createToolbarMenu(menubar, menu):
     #  menu.add_radiobutton(label=n_("Large icons"),
     #                       variable=menubar.tkopt.toolbar_size, value=1,
     #                       command=menubar.mOptToolbarSize)
-    menu.add_separator()
-    submenu = MfxMenu(menu, label=n_('Visible buttons'), tearoff=tearoff)
-    for w in TOOLBAR_BUTTONS:
-        submenu.add_checkbutton(
-            label=_(w.capitalize()),
-            variable=menubar.tkopt.toolbar_vars[w],
-            command=lambda m=menubar, w=w: m.mOptToolbarConfig(w))
 
 
 # ************************************************************************

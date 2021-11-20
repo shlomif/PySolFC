@@ -349,6 +349,32 @@ class VariegatedCanfield(Canfield):
 
 
 # ************************************************************************
+# * Casino Canfield
+# ************************************************************************
+
+class CasinoCanfield(Canfield):
+    getGameScore = Game.getGameScoreCasino
+    getGameBalance = Game.getGameScoreCasino
+
+    def createGame(self, max_rounds=1, num_deal=1):
+        lay = Canfield.createGame(self, max_rounds=max_rounds,
+                                  num_deal=num_deal)
+        self.texts.score = MfxCanvasText(self.canvas,
+                                         8, self.height - 8, anchor="sw",
+                                         font=self.app.getFont("canvas_large"))
+        return lay
+
+    def updateText(self):
+        if self.preview > 1:
+            return
+        b1, b2 = self.app.stats.gameid_balance, 0
+        if self.shallUpdateBalance():
+            b2 = self.getGameBalance()
+        t = _("Balance $%d") % (b1 + b2)
+        self.texts.score.config(text=t)
+
+
+# ************************************************************************
 # * Eagle Wing
 # ************************************************************************
 
@@ -948,3 +974,5 @@ registerGame(GameInfo(642, Lafayette, "Lafayette",
                       GI.GT_CANFIELD, 1, -1, GI.SL_BALANCED))
 registerGame(GameInfo(789, Beehive, "Beehive",
                       GI.GT_CANFIELD, 1, -1, GI.SL_BALANCED))
+registerGame(GameInfo(835, CasinoCanfield, "Casino Canfield",
+                      GI.GT_CANFIELD | GI.GT_SCORE, 1, 0, GI.SL_BALANCED))

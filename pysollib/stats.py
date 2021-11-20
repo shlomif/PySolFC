@@ -172,7 +172,7 @@ class FileStatsFormatter(PysolStatsFormatter):
         self.file = file
 
     def p(self, s):
-        self.file.write(s.encode('utf-8'))
+        self.file.write(s)
 
     def nl(self, count=1):
         self.p("\n" * count)

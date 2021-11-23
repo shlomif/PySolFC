@@ -29,6 +29,7 @@ from pysollib.hint import CautiousDefaultHint, DefaultHint
 from pysollib.layout import Layout
 from pysollib.mfxutil import kwdefault
 from pysollib.mygettext import _
+from pysollib.pysoltk import MfxCanvasText
 from pysollib.stack import \
         AC_RowStack, \
         BasicRowStack, \
@@ -976,6 +977,163 @@ class Aglet(Game):
         self.s.talon.dealRowAvail()
 
 
+# ************************************************************************
+# * Ladybug
+# ************************************************************************
+
+class Ladybug_RowStack(Numerica_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        return Numerica_RowStack.acceptsCards(self, from_stack, cards) \
+               and self.game.isValidPlay(self.id, cards[0].rank)
+
+
+class Ladybug_Talon(WasteTalonStack):
+    def canDealCards(self):
+        if not self.game.used and len(self.game.s.waste.cards) > 0:
+            return False
+        return WasteTalonStack.canDealCards(self)
+
+    def dealCards(self, sound=False):
+        game = self.game
+        old_state = game.enterState(game.S_FILL)
+        game.saveStateMove(2 | 16)  # for undo
+        game.used = False
+        game.saveStateMove(1 | 16)  # for redo
+        game.leaveState(old_state)
+        return WasteTalonStack.dealCards(self, sound)
+
+
+class Ladybug_Waste(WasteStack):
+    def moveMove(self, ncards, to_stack, frames=-1, shadow=-1):
+        game = self.game
+        if to_stack in game.s.rows:
+            old_state = game.enterState(game.S_FILL)
+            game.saveStateMove(2 | 16)  # for undo
+            game.used = True
+            game.saveStateMove(1 | 16)  # for redo
+            game.leaveState(old_state)
+        WasteStack.moveMove(self, ncards, to_stack, frames, shadow)
+        game.s.talon.updateText(self)
+
+
+class Ladybug(Game):
+    used = False
+
+    def createGame(self, rows=7):
+        self.used = False
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        # (piles up to 4 cards are playable in default window size)
+        h = max(2 * l.YS, (4 * l.YOFFSET) + l.TEXT_HEIGHT)
+        self.setSize(l.XM + (1.5 + rows) * l.XS + l.XM, l.YM + h)
+
+        # create stacks
+        x0 = l.XM + (l.XS * 1.5)
+        x = x0
+        y = l.YM + l.TEXT_HEIGHT
+
+        font = self.app.getFont("canvas_default")
+        for i in range(rows):
+            stack = Ladybug_RowStack(x, y, self, max_cards=4,
+                                     max_accept=1, max_move=0)
+            if self.preview <= 1:
+                tx, ty, ta, tf = l.getTextAttr(stack, anchor="n")
+                stack.texts.misc = MfxCanvasText(self.canvas,
+                                                 tx, ty,
+                                                 anchor=ta,
+                                                 font=font)
+            s.rows.append(stack)
+            x = x + l.XS
+        self.setRegion(s.rows, (x0-l.XS//2, y-l.CH//2, 999999, 999999))
+        x, y = l.XM, l.YM
+        s.talon = Ladybug_Talon(x, y, self, max_rounds=-1, num_deal=3)
+        l.createText(s.talon, 'ne')
+        y = y + l.YS
+        s.waste = Ladybug_Waste(x, y, self)
+        l.createText(s.waste, 'ne')
+
+        # define stack-groups
+        l.defaultStackGroups()
+
+        return l
+
+    def isValidPlay(self, row, playRank):
+        total = self.getTotal(self.s.rows[row], playRank)
+
+        if total > 10:
+            return False
+        if total < 10 and len(self.s.rows[row].cards) == 3:
+            return False
+        return True
+
+    def getTotal(self, row, extraRank=-1):
+        cards = row.cards
+        total = 0
+        hasTen = False
+
+        for card in cards:
+            if card.rank < 9:
+                total += card.rank + 1
+            elif card.rank == 9:
+                hasTen = True
+
+        if extraRank > -1:
+            if extraRank < 9:
+                total += extraRank + 1
+            elif extraRank == 9:
+                hasTen = True
+
+        if hasTen and total < 10:
+            return 10
+
+        return total
+
+    #
+    # game overrides
+    #
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow(rows=self.s.rows)
+        self.s.talon.dealCards()
+
+    shallHighlightMatch = Game._shallHighlightMatch_SS
+
+    def updateText(self):
+        if self.preview > 1:
+            return
+        for row in self.s.rows:
+            row.texts.misc.config(text=self.getTotal(row))
+
+    def isGameWon(self):
+        for row in self.s.rows:
+            if len(row.cards) != 4:
+                return False
+        return True
+
+    def _restoreGameHook(self, game):
+        self.used = game.loadinfo.used
+
+    def _loadGameHook(self, p):
+        self.loadinfo.addattr(used=p.load())
+
+    def _saveGameHook(self, p):
+        p.dump(self.used)
+
+    def getHighlightPilesStacks(self):
+        return ()
+
+    def setState(self, state):
+        # restore saved vars (from undo/redo)
+        self.used = state[0]
+
+    def getState(self):
+        # save vars (for undo/redo)
+        return [self.used]
+
+
 # register the game
 registerGame(GameInfo(257, Numerica, "Numerica",
                       GI.GT_NUMERICA | GI.GT_CONTRIB, 1, 0, GI.SL_BALANCED,
@@ -1027,3 +1185,5 @@ registerGame(GameInfo(754, Amphibian, "Amphibian",
 registerGame(GameInfo(760, Aglet, "Aglet",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0,
                       GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(836, Ladybug, "Ladybug",
+                      GI.GT_1DECK_TYPE, 1, -1, GI.SL_BALANCED))

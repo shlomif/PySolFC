@@ -282,7 +282,7 @@ class ProgressionFormatter:
             t = list(t)+[0, 0, 0, -1, -1, -1]
         return list(time.localtime(time.mktime(tuple(t))))
 
-    def getResults(self, interval, all_games=True):
+    def getResults(self, interval, all_games=True, date_format='%d.%m'):
         if all_games:
             results = self.all_results
         else:
@@ -293,7 +293,7 @@ class ProgressionFormatter:
             lt = self.norm_time(t)
             marks = None
             delta = 1
-            format = '%d.%m'
+            format = date_format
         elif interval == 'month':
             tt = t[:]
             t[1] -= 1
@@ -304,7 +304,7 @@ class ProgressionFormatter:
             tt[2] -= 10
             marks.append(self.norm_time(tt)[:3])
             delta = 1
-            format = '%d.%m'
+            format = date_format
         elif interval == 'year':
             tt = t[:]
             t[0] -= 1
@@ -314,7 +314,7 @@ class ProgressionFormatter:
                 tt[1] -= 2
                 marks.append(self.norm_time(tt)[:3])
             delta = 7
-            format = '%d.%m.%y'
+            format = date_format
         else:                           # all
             tt = t[:]
             tt[1] -= 1
@@ -339,7 +339,7 @@ class ProgressionFormatter:
                 t = self.norm_time(t)
                 marks.append(t[:3])
             delta = 7
-            format = '%d.%m.%y'
+            format = date_format
 
         res = []
         ct = list(time.localtime())

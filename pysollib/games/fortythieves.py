@@ -905,6 +905,7 @@ class Crossroads(Junction):
 
 # ************************************************************************
 # * The Spark
+# * Single Spark
 # ************************************************************************
 
 class TheSpark_Talon(TalonStack):
@@ -932,15 +933,17 @@ class TheSpark_Talon(TalonStack):
 class TheSpark(Game):
     Hint_Class = CautiousDefaultHint
 
+    PER_ROW = 6
+
     def createGame(self):
 
         l, s = Layout(self), self.s
 
-        w, h = l.XM+8*l.XS, l.YM+4*l.YS
+        w, h = l.XM + (self.PER_ROW + 2) * l.XS, l.YM + 4 * l.YS
         self.setSize(w, h)
 
         x, y = l.XM, l.YM
-        for i in range(8):
+        for i in range(self.gameinfo.decks * 4):
             s.foundations.append(SS_FoundationStack(x, y, self,
                                  suit=i//2, base_rank=KING, mod=13))
             x += l.XS
@@ -956,7 +959,7 @@ class TheSpark(Game):
         y = l.YM+l.YS*3//2
         for i in range(2):
             x = l.XM+2*l.XS
-            for j in range(6):
+            for j in range(self.PER_ROW):
                 stack = SS_RowStack(x, y, self, max_move=1)
                 stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, 0
                 s.rows.append(stack)
@@ -975,6 +978,10 @@ class TheSpark(Game):
         self._startAndDealRowAndCards()
 
     shallHighlightMatch = Game._shallHighlightMatch_SS
+
+
+class SingleSpark(TheSpark):
+    PER_ROW = 4
 
 
 # ************************************************************************
@@ -1420,3 +1427,5 @@ registerGame(GameInfo(815, Following, "Following",
                       GI.GT_FORTY_THIEVES, 1, 1, GI.SL_BALANCED))
 registerGame(GameInfo(818, TripleRail, "Triple Rail",
                       GI.GT_FORTY_THIEVES, 3, 0, GI.SL_BALANCED))
+registerGame(GameInfo(837, SingleSpark, "Single Spark",
+                      GI.GT_FORTY_THIEVES, 1, 0, GI.SL_MOSTLY_LUCK))

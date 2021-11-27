@@ -928,14 +928,14 @@ class ProgressionFrame(ttk.Frame):
         label_frame = ttk.LabelFrame(right_frame, text=_('Date format'))
         label_frame.pack(side='top', fill='x', pady=5)
         self.date_format = tkinter.StringVar()
-        self.date_format.set('%m-%d')
+        self.date_format.set(self.app.opt.date_format)
         b = ttk.Radiobutton(label_frame, text=_('MM-DD'),
-                            command=self.updateGraph,
+                            command=self.updateDateFormat,
                             variable=self.date_format,
                             value='%m-%d')
         b.pack(fill='x', expand=True, padx=3, pady=1)
         b = ttk.Radiobutton(label_frame, text=_('DD-MM'),
-                            command=self.updateGraph,
+                            command=self.updateDateFormat,
                             variable=self.date_format,
                             value='%d-%m')
         b.pack(fill='x', expand=True, padx=3, pady=1)
@@ -1004,6 +1004,10 @@ class ProgressionFrame(ttk.Frame):
         x += d+5
         canvas.create_text(x, y, anchor='sw', text=_('% won'))
 
+        self.updateGraph()
+
+    def updateDateFormat(self, *args):
+        self.app.opt.date_format = self.date_format.get()
         self.updateGraph()
 
     def updateGraph(self, *args):

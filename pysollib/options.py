@@ -107,6 +107,7 @@ last_gameid = integer
 game_holded = integer
 wm_maximized = boolean
 splashscreen = boolean
+date_format = string
 mouse_type = string
 mouse_undo = boolean
 negative_bottom = boolean
@@ -253,6 +254,7 @@ class Options:
         ('game_holded', 'int'),
         ('wm_maximized', 'bool'),
         ('splashscreen', 'bool'),
+        ('date_format', 'str'),
         ('mouse_type', 'str'),
         ('mouse_undo', 'bool'),
         ('negative_bottom', 'bool'),
@@ -345,6 +347,7 @@ class Options:
         self.num_cards = False
         self.helpbar = False
         self.splashscreen = True
+        self.date_format = '%m-%d'
         self.mouse_button1 = 1
         self.mouse_button2 = 2
         self.mouse_button3 = 3

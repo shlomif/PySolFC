@@ -1252,9 +1252,9 @@ class Application:
         self.initResource(manager, dirs, ext_re, Sample)
 
     def initMusic(self):
-        manager = self.music_manager
+        music_manager = self.music_manager
         # find all available music songs
-        dirs = manager.getSearchDirs(self, "music-*", "PYSOL_MUSIC")
-        # print dirs
+        dirs = music_manager.getSearchDirs(self, "music-*", "PYSOL_MUSIC")
+        # print('dirs =', dirs)
         ext_re = re.compile(self.audio.EXTENSIONS)
-        self.initResource(manager, dirs, ext_re, Music)
+        self.initResource(music_manager, dirs, ext_re, Music)

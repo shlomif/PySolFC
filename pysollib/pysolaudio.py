@@ -606,8 +606,8 @@ class PyGameAudioClient(AbstractAudioClient):
         th.start()
 
     def updateSettings(self):
-        if (not ((self.app.opt.sound or self.app.opt.music) and
-                 self.app.opt.sound_music_volume > 0)):
+        if (not self.app.opt.sound or not self.app.opt.music or
+                self.app.opt.sound_music_volume == 0):
             if self.music:
                 self.music.stop()
                 self.music = None

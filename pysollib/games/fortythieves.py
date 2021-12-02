@@ -904,6 +904,7 @@ class Crossroads(Junction):
 
 
 # ************************************************************************
+# * Inverse Spark
 # * The Spark
 # * Single Spark
 # ************************************************************************
@@ -930,10 +931,14 @@ class TheSpark_Talon(TalonStack):
         return num_cards
 
 
-class TheSpark(Game):
+# Version of The Spark with incorrect rules from 2.14 and earlier.
+# Renamed Kilowatt to differentiate from the correct version.
+class Kilowatt(Game):
     Hint_Class = CautiousDefaultHint
 
     PER_ROW = 6
+    FOUNDATION_DIR = 1
+    ROW_DIR = -1
 
     def createGame(self):
 
@@ -945,7 +950,8 @@ class TheSpark(Game):
         x, y = l.XM, l.YM
         for i in range(self.gameinfo.decks * 4):
             s.foundations.append(SS_FoundationStack(x, y, self,
-                                 suit=i//2, base_rank=KING, mod=13))
+                                 suit=i//self.gameinfo.decks, base_rank=KING,
+                                 mod=13, dir=self.FOUNDATION_DIR))
             x += l.XS
         x, y = l.XM, l.YM+l.YS
         s.talon = TheSpark_Talon(x, y, self, max_rounds=1, num_deal=3)
@@ -960,7 +966,8 @@ class TheSpark(Game):
         for i in range(2):
             x = l.XM+2*l.XS
             for j in range(self.PER_ROW):
-                stack = SS_RowStack(x, y, self, max_move=1)
+                stack = SS_RowStack(x, y, self, max_move=1,
+                                    dir=self.ROW_DIR)
                 stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, 0
                 s.rows.append(stack)
                 x += l.XS
@@ -969,7 +976,7 @@ class TheSpark(Game):
         l.defaultStackGroups()
 
     def _shuffleHook(self, cards):
-        # move Aces to top of the Talon (i.e. first cards to be dealt)
+        # move Kings to top of the Talon (i.e. first cards to be dealt)
         return self._shuffleHookMoveToTop(cards,
                                           lambda c: (c.rank == KING, c.suit))
 
@@ -978,6 +985,17 @@ class TheSpark(Game):
         self._startAndDealRowAndCards()
 
     shallHighlightMatch = Game._shallHighlightMatch_SS
+
+
+class TheSpark(Kilowatt):
+    FOUNDATION_DIR = -1
+    ROW_DIR = 1
+
+    def _shuffleHook(self, cards):
+        return Game._shuffleHook(self, cards)
+
+    def startGame(self):
+        self._startAndDealRowAndCards()
 
 
 class SingleSpark(TheSpark):
@@ -1387,7 +1405,7 @@ registerGame(GameInfo(540, Waterloo, "Waterloo",
 registerGame(GameInfo(556, Junction, "Junction",
                       GI.GT_FORTY_THIEVES, 4, 0, GI.SL_MOSTLY_SKILL,
                       ranks=(0, 6, 7, 8, 9, 10, 11, 12)))
-registerGame(GameInfo(564, TheSpark, "The Spark",
+registerGame(GameInfo(564, Kilowatt, "Kilowatt",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(573, DoubleGoldMine, "Double Gold Mine",
                       GI.GT_NUMERICA | GI.GT_ORIGINAL, 2, 0,
@@ -1428,4 +1446,7 @@ registerGame(GameInfo(815, Following, "Following",
 registerGame(GameInfo(818, TripleRail, "Triple Rail",
                       GI.GT_FORTY_THIEVES, 3, 0, GI.SL_BALANCED))
 registerGame(GameInfo(837, SingleSpark, "Single Spark",
-                      GI.GT_FORTY_THIEVES, 1, 0, GI.SL_MOSTLY_LUCK))
+                      GI.GT_FORTY_THIEVES, 1, 0, GI.SL_MOSTLY_LUCK,
+                      altnames=("Simple Spark")))
+registerGame(GameInfo(838, TheSpark, "The Spark",
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_LUCK))

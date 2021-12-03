@@ -169,6 +169,7 @@ class PysolMenubarTkCommon:
             mahjongg_show_removed=tkinter.BooleanVar(),
             shisen_show_hint=tkinter.BooleanVar(),
             accordion_deal_all=tkinter.BooleanVar(),
+            pegged_auto_remove=tkinter.BooleanVar(),
             sound=tkinter.BooleanVar(),
             auto_scale=tkinter.BooleanVar(),
             preserve_aspect_ratio=tkinter.BooleanVar(),
@@ -224,6 +225,7 @@ class PysolMenubarTkCommon:
         tkopt.mahjongg_show_removed.set(opt.mahjongg_show_removed)
         tkopt.shisen_show_hint.set(opt.shisen_show_hint)
         tkopt.accordion_deal_all.set(opt.accordion_deal_all)
+        tkopt.pegged_auto_remove.set(opt.pegged_auto_remove)
         tkopt.sound.set(opt.sound)
         tkopt.auto_scale.set(opt.auto_scale)
         tkopt.preserve_aspect_ratio.set(opt.preserve_aspect_ratio)
@@ -526,6 +528,10 @@ class PysolMenubarTkCommon:
             label=n_("&Deal all cards (in Accordion type games)"),
             variable=self.tkopt.accordion_deal_all,
             command=self.mOptAccordionDealAll)
+        submenu.add_checkbutton(
+            label=n_("A&uto-remove first card (in Pegged games)"),
+            variable=self.tkopt.pegged_auto_remove,
+            command=self.mOptPeggedAutoRemove)
         menu.add_separator()
         label = n_("&Sound...")
         menu.add_command(
@@ -1470,6 +1476,12 @@ Unsupported game for import.
         if self._cancelDrag(break_pause=False):
             return
         self.app.opt.accordion_deal_all = self.tkopt.accordion_deal_all.get()
+        # self.game.updateMenus()
+
+    def mOptPeggedAutoRemove(self, *args):
+        if self._cancelDrag(break_pause=False):
+            return
+        self.app.opt.pegged_auto_remove = self.tkopt.pegged_auto_remove.get()
         # self.game.updateMenus()
 
     def _updateCardSize(self):

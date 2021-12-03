@@ -63,7 +63,21 @@ class Pegged_RowStack(ReserveStack):
     def canDropCards(self, stacks):
         return (None, 0)
 
+    def clickHandler(self, event):
+        game = self.game
+        for row in game.s.rows:
+            if len(row.cards) < 1:
+                return ReserveStack.clickHandler(self, event)
+        self.game.emptyStack = self.id
+        self.game.playSample("drop", priority=200)
+        self.playMoveMove(1, self.game.s.foundations[0])
+        return True
+
     def moveMove(self, ncards, to_stack, frames=-1, shadow=-1):
+        if type(to_stack) is Pegged_Foundation:
+            return ReserveStack.moveMove(self, ncards, to_stack, frames=frames,
+                                         shadow=shadow)
+
         other_stack = to_stack._getMiddleStack(self)
         old_state = self.game.enterState(self.game.S_FILL)
         f = self.game.s.foundations[0]
@@ -89,6 +103,16 @@ class Pegged_RowStack(ReserveStack):
         clone.pos = self.pos
 
 
+class Pegged_Foundation(AbstractFoundationStack):
+
+    def acceptsCards(self, from_stack, cards):
+        game = self.game
+        for row in game.s.rows:
+            if len(row.cards) < 1:
+                return False
+        return True
+
+
 # ************************************************************************
 # * Pegged
 # ************************************************************************
@@ -100,19 +124,20 @@ class Pegged(Game):
     ROWS = (3, 5, 7, 7, 7, 5, 3)
     EMPTY_STACK_ID = -1
 
+    GAME_VERSION = 2
+
     #
     # game layout
     #
 
     def createGame(self):
+        self.emptyStack = self.EMPTY_STACK_ID
         # create layout
         l, s = Layout(self), self.s
 
         # set window
-        n = m = max(self.ROWS)
-        if self.ROWS[0] == m or self.ROWS[-1] == m:
-            n = n + 1
-        self.setSize(l.XM + n*l.XS, l.YM + len(self.ROWS)*l.YS)
+        m = max(self.ROWS)
+        self.setSize(l.XM + m * l.XS, l.YM + len(self.ROWS) * l.YS)
 
         # game extras 1)
         self.map = {}
@@ -121,17 +146,17 @@ class Pegged(Game):
         for i in range(len(self.ROWS)):
             r = self.ROWS[i]
             for j in range(r):
-                d = m - r + 2*j
-                x, y = l.XM + d*l.XS//2, l.YM + i*l.YS
+                d = m - r + 2 * j
+                x, y = l.XM + d * l.XS // 2, l.YM + i * l.YS
                 stack = Pegged_RowStack(x, y, self)
-                stack.pos = (d, 2*i)
+                stack.pos = (d, 2 * i)
                 # print stack.id, stack.pos
                 s.rows.append(stack)
                 self.map[stack.pos] = stack
-        x, y = self.width - l.XS, l.YM
+        x, y = self.getInvisibleCoords()
         s.foundations.append(
-            AbstractFoundationStack(
-                x, y, self, ANY_SUIT, max_move=0, max_accept=0,
+            Pegged_Foundation(
+                x, y, self, ANY_SUIT, max_move=0,
                 max_cards=self.gameinfo.ncards))
         l.createText(s.foundations[0], "s")
         y = self.height - l.YS
@@ -160,13 +185,14 @@ class Pegged(Game):
             card.showBack(unhide=0)
 
     def startGame(self):
-        n = len(self.cards) - len(self.s.rows) + 1
-        if n > 0:
-            self.moveMove(n, self.s.talon, self.s.internals[0], frames=0)
         self.startDealSample()
         rows = list(self.s.rows[:])
-        rows.remove(rows[self.EMPTY_STACK_ID])
+        if self.app.opt.pegged_auto_remove:
+            rows.remove(rows[self.EMPTY_STACK_ID])
         self.s.talon.dealRow(rows=rows, frames=4)
+        if len(self.s.talon.cards) > 0:
+            self.moveMove(len(self.s.talon.cards), self.s.talon,
+                          self.s.foundations[0], frames=0)
         assert len(self.s.talon.cards) == 0
 
     def isGameWon(self):
@@ -178,13 +204,23 @@ class Pegged(Game):
     def getAutoStacks(self, event=None):
         return ((), (), ())
 
+    def _restoreGameHook(self, game):
+        self.emptyStack = game.loadinfo.dval.get('EmptyStack')
+
+    def _loadGameHook(self, p):
+        self.loadinfo.addattr(dval=p.load())
+
+    def _saveGameHook(self, p):
+        dval = {'EmptyStack': self.emptyStack}
+        p.dump(dval)
+
     # Pegged special: check for a perfect game
     def getWinStatus(self):
         won, status, updated = Game.getWinStatus(self)
         if status == 2:
             stacks = [r for r in self.s.rows if r.cards]
             assert len(stacks) == 1
-            if stacks[0].id != self.EMPTY_STACK_ID:
+            if stacks[0].id != self.emptyStack:
                 # not perfect
                 return won, 1, self.U_WON
         return won, status, updated
@@ -213,6 +249,19 @@ class PeggedCross2(Pegged):
     ROWS = (3, 3, 3, 9, 9, 9, 3, 3, 3)
 
 
+# The Continental Diamond layout - this one is commented
+# because it's not known to  be possible to have a perfect
+# game, though it is winnable.
+# class PeggedDiamond(Pegged):
+#     EMPTY_STACK_ID = 6
+#     ROWS = (1, 3, 5, 7, 9, 7, 5, 3, 1)
+
+
+class PeggedDiamond(Pegged):
+    EMPTY_STACK_ID = 12
+    ROWS = (1, 3, 5, 7, 7, 5, 3, 1)
+
+
 class Pegged6x6(Pegged):
     EMPTY_STACK_ID = 14
     ROWS = (6, 6, 6, 6, 6, 6)
@@ -236,6 +285,11 @@ class PeggedTriangle2(PeggedTriangle1):
     ROWS = (1, 2, 3, 4, 5, 6)
 
 
+class PeggedStar(PeggedTriangle1):
+    EMPTY_STACK_ID = 0
+    ROWS = (1, 4, 3, 4, 1)
+
+
 # ************************************************************************
 # * register the games
 # ************************************************************************
@@ -244,7 +298,6 @@ def r(id, gameclass, name):
     ncards = 0
     for n in gameclass.ROWS:
         ncards += n
-    ncards -= 1
     gi = GameInfo(id, gameclass, name,
                   GI.GT_PEGGED, 1, 0, GI.SL_SKILL,
                   category=GI.GC_TRUMP_ONLY,
@@ -262,4 +315,6 @@ r(183, Pegged6x6, "Pegged 6x6")
 r(184, Pegged7x7, "Pegged 7x7")
 r(210, PeggedTriangle1, "Pegged Triangle 1")
 r(211, PeggedTriangle2, "Pegged Triangle 2")
+r(839, PeggedDiamond, "Pegged Diamond")
+r(840, PeggedStar, "Pegged Star")
 del r

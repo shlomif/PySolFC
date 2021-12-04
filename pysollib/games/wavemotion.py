@@ -29,6 +29,7 @@ from pysollib.stack import \
         InitialDealTalonStack, \
         OpenStack, \
         SS_RowStack, \
+        StackWrapper, \
         isAlternateColorSequence, \
         isSameSuitSequence
 from pysollib.util import ANY_RANK
@@ -40,6 +41,9 @@ from pysollib.util import ANY_RANK
 
 class WaveMotion(Game):
     RowStack_Class = SS_RowStack
+    Reserve_Class = StackWrapper(OpenStack, max_accept=0)
+
+    CAN_MOVE_RESERVES = False
 
     #
     # game layout
@@ -51,19 +55,19 @@ class WaveMotion(Game):
 
         # set window
         max_rows = max(rows, reserves)
-        w, h = l.XM + max_rows*l.XS, l.YM + 2*l.YS + (12+playcards)*l.YOFFSET
+        w, h = l.XM + max_rows*l.XS, l.YM + 2*l.YS + (14+playcards)*l.YOFFSET
         self.setSize(w, h)
 
         # create stacks
-        x, y = l.XM + (max_rows-rows)*l.XS//2, l.YM
+        x, y = l.XM + (max_rows-rows) * l.XS // 2, l.YM
         for i in range(rows):
             stack = self.RowStack_Class(x, y, self, base_rank=ANY_RANK)
             stack.getBottomImage = stack._getReserveBottomImage
             s.rows.append(stack)
             x += l.XS
-        x, y = l.XM + (max_rows-reserves)*l.XS//2, l.YM+l.YS+12*l.YOFFSET
+        x, y = l.XM + (max_rows-reserves)*l.XS//2, l.YM+l.YS+14*l.YOFFSET
         for i in range(reserves):
-            stack = OpenStack(x, y, self, max_accept=0)
+            stack = self.Reserve_Class(x, y, self)
             s.reserves.append(stack)
             stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, l.YOFFSET
             x += l.XS
@@ -85,10 +89,14 @@ class WaveMotion(Game):
         self.s.talon.dealRow(rows=self.s.reserves[:4])
 
     def isGameWon(self):
+        cardsPlayed = False
         for s in self.s.rows:
             if s.cards:
                 if len(s.cards) != 13 or not isSameSuitSequence(s.cards):
                     return False
+                cardsPlayed = True
+        if not cardsPlayed:
+            return False
         return True
 
     shallHighlightMatch = Game._shallHighlightMatch_SS
@@ -114,9 +122,29 @@ class Flourish(WaveMotion):
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
+# ************************************************************************
+# * Flow
+# ************************************************************************
+
+class Flow_ReserveStack(SS_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if len(self.cards) == 0 and len(cards) > 1:
+            return False
+        return SS_RowStack.acceptsCards(self, from_stack, cards)
+
+
+class Flow(WaveMotion):
+    Reserve_Class = StackWrapper(Flow_ReserveStack, base_rank=ANY_RANK)
+
+    def createGame(self):
+        WaveMotion.createGame(self, rows=8, reserves=8, playcards=14)
+
+
 # register the game
 registerGame(GameInfo(314, WaveMotion, "Wave Motion",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(753, Flourish, "Flourish",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0,
                       GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(841, Flow, "Flow",
+                      GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))

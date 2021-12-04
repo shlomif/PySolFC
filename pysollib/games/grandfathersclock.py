@@ -28,7 +28,6 @@ from pysollib.layout import Layout
 from pysollib.pysoltk import MfxCanvasText
 from pysollib.stack import \
     AC_FoundationStack, \
-    AC_RowStack, \
     BasicRowStack, \
     DealRowTalonStack, \
     InitialDealTalonStack, \
@@ -146,6 +145,8 @@ class Dial(Game):
 
         x0, y0 = l.XM+2*l.XS, l.YM
         rank = 0
+        font = self.app.getFont("canvas_default")
+
         for xx, yy in ((3.5, 0.15),
                        (4.5, 0.5),
                        (5,   1.5),
@@ -162,10 +163,21 @@ class Dial(Game):
                        ):
             x = int(x0 + xx*l.XS)
             y = int(y0 + yy*l.YS)
-            s.foundations.append(
-                AC_FoundationStack(
+            stack = AC_FoundationStack(
                     x, y, self, suit=ANY_SUIT,
-                    dir=0, max_cards=4, base_rank=rank, max_move=0))
+                    dir=0, max_cards=4, base_rank=rank, max_move=0)
+            stack.getBottomImage = stack._getReserveBottomImage
+            s.foundations.append(stack)
+            if self.preview <= 1:
+                label = RANKS[rank][0]
+                if label == "1":
+                    label = "10"
+                stack.texts.misc = MfxCanvasText(self.canvas,
+                                                 x + l.CW // 2,
+                                                 y + l.CH // 2,
+                                                 anchor="center",
+                                                 font=font)
+                stack.texts.misc.config(text=label)
             rank += 1
 
         x, y = l.XM, l.YM
@@ -552,7 +564,7 @@ class Clock(Game):
         dx = l.XS + 3*l.XOFFSET
         w = max(5.25*dx + l.XS, 5.5*dx)
         if self.HAS_WASTE:
-            w += l.XS
+            w += (1.5 * l.XS)
         self.setSize(l.XM + w, l.YM + 4*l.YS)
 
         font = self.app.getFont("canvas_default")
@@ -575,6 +587,8 @@ class Clock(Game):
                 ):
             x = l.XM + xx*dx
             y = l.YM + yy*l.YS
+            if self.HAS_WASTE:
+                x += (2 * l.XS)
             stack = self.RowStack_Class(x, y, self, max_move=0,
                                         base_rank=row_rank)
             stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
@@ -593,6 +607,8 @@ class Clock(Game):
             row_rank += 1
 
         x, y = l.XM + 2.25*dx, l.YM + 1.5*l.YS
+        if self.HAS_WASTE:
+            x += (2 * l.XS)
         stack = self.RowStack_Class(x, y, self, max_move=1, base_rank=row_rank)
         stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
         stack.SHRINK_FACTOR = 1
@@ -606,12 +622,13 @@ class Clock(Game):
             stack.texts.misc.config(text=(RANKS[row_rank][0]))
 
         if self.HAS_WASTE:
-            x, y = self.width - (2 * l.XS), self.height - l.YS
+            x, y = l.XM, l.YM
             s.talon = self.Talon_Class(x, y, self)
-            l.createText(s.talon, 'n')
+            l.createText(s.talon, 's')
+            l.createRoundText(s.talon, 'sss')
             x += l.XS
             s.waste = WasteStack(x, y, self)
-            l.createText(s.waste, 'n')
+            l.createText(s.waste, 's')
         else:
             x, y = self.width - l.XS, self.height - l.YS
             s.talon = self.Talon_Class(x, y, self)
@@ -648,8 +665,8 @@ class Clock(Game):
 # * German Clock
 # ************************************************************************
 
-class GermanClock_RowStack(AC_RowStack):
-    getBottomImage = AC_RowStack._getReserveBottomImage
+class GermanClock_RowStack(AC_FoundationStack):
+    getBottomImage = AC_FoundationStack._getReserveBottomImage
 
     def acceptsCards(self, from_stack, cards):
         num_cards = len(self.cards)
@@ -659,11 +676,12 @@ class GermanClock_RowStack(AC_RowStack):
                 if check_seq[num_cards].suit != cards[0].suit:
                     return False
 
-        return AC_RowStack.acceptsCards(self, from_stack, cards)
+        return AC_FoundationStack.acceptsCards(self, from_stack, cards)
 
 
 class GermanClock(Clock):
-    RowStack_Class = StackWrapper(GermanClock_RowStack, dir=0, max_move=0)
+    RowStack_Class = StackWrapper(GermanClock_RowStack, dir=0, max_move=0,
+                                  suit=ANY_SUIT)
     Talon_Class = StackWrapper(WasteTalonStack, max_rounds=2)
 
     HAS_WASTE = True

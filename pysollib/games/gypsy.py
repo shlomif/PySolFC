@@ -958,6 +958,33 @@ class Thirty(Game):
     getQuickPlayScore = Game._getSpiderQuickPlayScore
 
 
+# ************************************************************************
+# * Swiss Patience
+# ************************************************************************
+
+class SwissPatience_RowStack(AC_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if cards[0].rank == ACE and len(self.cards) > 0:
+            return False
+        return AC_RowStack.acceptsCards(self, from_stack, cards)
+
+
+class SwissPatience(Gypsy):
+    Layout_Method = staticmethod(Layout.klondikeLayout)
+    Foundation_Class = StackWrapper(SS_FoundationStack, base_rank=1, mod=13)
+    RowStack_Class = StackWrapper(SwissPatience_RowStack, base_rank=ACE,
+                                  mod=13)
+
+    def createGame(self):
+        Gypsy.createGame(self, rows=9)
+
+    def startGame(self):
+        self.startDealSample()
+        for i in range(1, 5):
+            self.s.talon.dealRow(rows=self.s.rows[i:-i], flip=0, frames=0)
+        self._startAndDealRow()
+
+
 # register the game
 registerGame(GameInfo(1, Gypsy, "Gypsy",
                       GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
@@ -1034,3 +1061,5 @@ registerGame(GameInfo(725, TopsyTurvyQueens, "Topsy-Turvy Queens",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED))
 registerGame(GameInfo(792, KingsSecrets, "King's Secrets",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED))
+registerGame(GameInfo(842, SwissPatience, "Swiss Patience",
+                      GI.GT_GYPSY, 1, 0, GI.SL_BALANCED))

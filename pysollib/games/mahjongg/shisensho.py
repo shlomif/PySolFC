@@ -250,7 +250,8 @@ class Shisen_RowStack(Mahjongg_RowStack):
         cs = game.app.cardset
         path = self.acceptsCards(other_stack, [other_stack.cards[-1]])
         # print path
-        x0, y0 = game.XMARGIN, game.YMARGIN
+        x0, y0 = (game.XMARGIN + game.center_offset[0],
+                  game.YMARGIN + game.center_offset[1])
         cardw, cardh = images.CARDW, images.CARDH
         if cs.version >= 6:
             cardw -= cs.SHADOW_XOFFSET

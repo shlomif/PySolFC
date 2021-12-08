@@ -532,6 +532,7 @@ class Game(object):
         self.sg = StackGroups()
         self.regions = StackRegions()
         self.init_size = (0, 0)
+        self.center_offset = (0, 0)
         self.event_handled = False      # if click event handled by Stack (???)
         self.reset()
 
@@ -1014,6 +1015,7 @@ class Game(object):
         else:
             xf, yf = self.app.opt.scale_x, self.app.opt.scale_y
         cw, ch = self.getCenterOffset(vw, vh, iw, ih, xf, yf)
+        self.center_offset = (cw, ch)
         if (not self.app.opt.spread_stacks or manually):
             # images
             self.app.images.resize(xf, yf)
@@ -1045,6 +1047,7 @@ class Game(object):
         self.deleteStackDesc()
         xf, yf, xf0, yf0, cw, ch = \
             self.resizeImages(manually=card_size_manually)
+        self.center_offset = (cw, ch)
         for stack in self.allstacks:
 
             if (self.app.opt.spread_stacks):

@@ -1400,7 +1400,7 @@ msgid "Free cell."
 msgstr "Free cell."
 
 msgid ""
-"Talon. Unlimited redeals, until running through the decktwice with no hits."
+"Talon. Unlimited redeals, until running through the deck twice with no hits."
 msgstr ""
 
 msgid "Foundation. Place cards here that match the declared rank."

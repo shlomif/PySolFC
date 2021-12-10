@@ -1809,8 +1809,8 @@ Error while saving game.
         if self._cancelDrag(break_pause=False):
             return
         if not self.game.areYouSure(_("Delete game"),
-                                    _("Delete the game "
-                                      + self.game.gameinfo.name + "?")):
+                                    _("Delete the game %s?")
+                                    % self.game.gameinfo.name):
             return
         from pysollib.wizardutil import delete_game
         delete_game(self.game)

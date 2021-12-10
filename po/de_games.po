@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Mon Sep  7 17:14:01 2020\n"
-"PO-Revision-Date: 2007-09-05 17:43+0400\n"
+"POT-Creation-Date: Thu Dec 09 18:56:01 2021\n"
+"PO-Revision-Date: 2021-12-09 18:57-0500\n"
 "Last-Translator: H. Schaekel <Holger.Schaekel@web.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -10,6 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.0\n"
 
 msgid " 3x3 Matrix"
 msgstr "3x3 Matrix"
@@ -32,9 +33,6 @@ msgstr "8x8 Matrix"
 msgid " 9x9 Matrix"
 msgstr "9x9 Matrix"
 
-msgid " Pyramid's Stones"
-msgstr "Pyramidensteine"
-
 msgid "10 x 8"
 msgstr "10 x 8"
 
@@ -50,6 +48,9 @@ msgstr "Abakus"
 msgid "Accordion"
 msgstr "Akkordion"
 
+msgid "Accordion's Revenge"
+msgstr ""
+
 msgid "Aces High"
 msgstr "Aces High"
 
@@ -58,6 +59,12 @@ msgstr "Aces Up"
 
 msgid "Aces Up 5"
 msgstr "Aces Up 5"
+
+msgid "Aces and Kings"
+msgstr ""
+
+msgid "Acey and Kingsley"
+msgstr ""
 
 msgid "Achtmal Acht"
 msgstr "Achtmal Acht"
@@ -68,8 +75,14 @@ msgstr "Höhepunkt"
 msgid "Acquaintance"
 msgstr "Bekanntschaft"
 
+msgid "Addiction"
+msgstr ""
+
 msgid "Adela"
 msgstr "Аdela"
+
+msgid "Admiral's Patience"
+msgstr ""
 
 msgid "Aglet"
 msgstr ""
@@ -190,6 +203,9 @@ msgstr "Tante Marie"
 msgid "Australian Patience"
 msgstr "Australische Patience"
 
+msgid "Autumn Leaves"
+msgstr ""
+
 msgid "Baby Spiderette"
 msgstr "Baby Spiderette"
 
@@ -254,11 +270,17 @@ msgstr ""
 msgid "Beak and Flipper"
 msgstr "Schnabbel und Flipper"
 
+msgid "Bear River"
+msgstr ""
+
 msgid "Beatle"
 msgstr "Beatle"
 
 msgid "Bebop"
 msgstr "Bebop"
+
+msgid "Beehive"
+msgstr ""
 
 msgid "Beetle"
 msgstr "Beetle"
@@ -311,6 +333,9 @@ msgstr "Großes Loch"
 msgid "Big Mountain"
 msgstr "Hoher Berg"
 
+msgid "Big Parade"
+msgstr ""
+
 msgid "Big Spider"
 msgstr "Große Spinne"
 
@@ -325,6 +350,9 @@ msgstr "Große Straßen"
 
 msgid "Big Sumo"
 msgstr "Dicker Sumo"
+
+msgid "Big Terrace"
+msgstr ""
 
 msgid "Big York"
 msgstr "Big York"
@@ -679,6 +707,21 @@ msgstr "Cover"
 msgid "Crescent"
 msgstr "Halbmond"
 
+msgid "Cribbage Shuffle"
+msgstr ""
+
+msgid "Cribbage Square"
+msgstr ""
+
+msgid "Cribbage Square (1 Reserve)"
+msgstr ""
+
+msgid "Cribbage Square (2 Reserves)"
+msgstr ""
+
+msgid "Cribbage Square (Waste)"
+msgstr ""
+
 msgid "Cringle"
 msgstr "Cringle"
 
@@ -687,6 +730,9 @@ msgstr "Kreuz"
 
 msgid "Crossroads"
 msgstr "Kreuzung"
+
+msgid "Crossword"
+msgstr ""
 
 msgid "Crown"
 msgstr "Krone"
@@ -721,6 +767,9 @@ msgstr "Dashavatara Kreise"
 
 msgid "Dead King Golf"
 msgstr "Toten Königs Golf"
+
+msgid "Decade"
+msgstr ""
 
 msgid "Deck"
 msgstr "Deck"
@@ -859,8 +908,14 @@ msgstr "Doppelt Albern"
 msgid "Double FreeCell"
 msgstr "Doppelt Freecell"
 
+msgid "Double FreeCell (Traditional)"
+msgstr ""
+
 msgid "Double Gold Mine"
 msgstr "Doppelte Goldmine"
+
+msgid "Double Golf"
+msgstr ""
 
 msgid "Double Grasshopper"
 msgstr "Doppelter Grashüpfer"
@@ -909,6 +964,9 @@ msgstr "Doppelte Maßnahme "
 msgid "Double Montana"
 msgstr "Doppelter Punkt"
 
+msgid "Double Nestor"
+msgstr ""
+
 msgid "Double Pyramid"
 msgstr "Doppelte Pyramide"
 
@@ -930,6 +988,9 @@ msgstr "Doppelter Samurai"
 
 msgid "Double Scorpion"
 msgstr "Doppelter Skorpion"
+
+msgid "Double Trigon"
+msgstr ""
 
 msgid "Double Your Fun"
 msgstr "Doppelter Spaß"
@@ -1031,6 +1092,9 @@ msgstr "Acht nach Acht"
 msgid "Eight by Eight"
 msgstr "Acht zu Acht"
 
+msgid "Eighty Thieves"
+msgstr ""
+
 msgid "Elba"
 msgstr "Еlba"
 
@@ -1043,8 +1107,14 @@ msgstr "Elevens"
 msgid "Elevens Too"
 msgstr "Elevens Too"
 
+msgid "Eliminator"
+msgstr ""
+
 msgid "Emperor"
 msgstr "Kaiser"
+
+msgid "Empress of Italy"
+msgstr ""
 
 msgid "Empty Pyramids"
 msgstr "Leere Pyramiden"
@@ -1096,6 +1166,9 @@ msgstr "Grandiose 50"
 
 msgid "Fan"
 msgstr "Fan"
+
+msgid "Fan Fifteen"
+msgstr ""
 
 msgid "Fanny"
 msgstr "Fanny"
@@ -1206,6 +1279,9 @@ msgstr "Fliegen"
 msgid "Flying Dragon"
 msgstr "Fliegender Drache"
 
+msgid "Following"
+msgstr ""
+
 #, fuzzy
 msgid "Foothold"
 msgstr "Albern"
@@ -1250,6 +1326,9 @@ msgstr "Vierzig und Acht"
 msgid "Four Colours"
 msgstr "Vier Farben"
 
+msgid "Four Free"
+msgstr ""
+
 msgid "Four Kings"
 msgstr "Vier Könige"
 
@@ -1277,6 +1356,9 @@ msgstr "Vierer"
 msgid "Fourteen"
 msgstr "Vierzehn"
 
+msgid "Fourteen Out"
+msgstr ""
+
 msgid "Frames"
 msgstr "Rahmen"
 
@@ -1292,16 +1374,17 @@ msgstr "Free Fan"
 msgid "Free Napoleon"
 msgstr "Freier Napoleon"
 
+msgid "Free Parking"
+msgstr ""
+
 msgid "FreeCell"
 msgstr "FreeCell"
 
-#, fuzzy
-msgid "FreeCell with Two Reserves"
-msgstr "Lege in die Reserve"
+msgid "FreeCell (2 Reserves)"
+msgstr ""
 
-#, fuzzy
-msgid "FreeCell with Zero Reserves"
-msgstr "Lege in die Reserve"
+msgid "FreeCell (No Reserve)"
+msgstr ""
 
 msgid "Frog"
 msgstr "Frosch"
@@ -1341,6 +1424,9 @@ msgstr "Garhpati"
 
 msgid "Gate"
 msgstr "Tor"
+
+msgid "Gay Gordons"
+msgstr ""
 
 #, fuzzy
 msgid "Gayle's"
@@ -1452,6 +1538,9 @@ msgstr "Großes Rad"
 msgid "Greater Queue"
 msgstr "Große Queue"
 
+msgid "Greater Wheel"
+msgstr ""
+
 msgid "Griffon"
 msgstr "Greif"
 
@@ -1480,6 +1569,9 @@ msgstr "Hanafuda vier Jahreszeiten"
 msgid "Hanafuda Four Winds"
 msgstr "Hanafuda vier Winde"
 
+msgid "Hanoi Puzzle 3"
+msgstr ""
+
 msgid "Hanoi Puzzle 4"
 msgstr "Hanoi Puzzle 4"
 
@@ -1488,6 +1580,12 @@ msgstr "Hanoi Puzzle 5"
 
 msgid "Hanoi Puzzle 6"
 msgstr "Hanoi Puzzle 6"
+
+msgid "Hanoi Puzzle 7"
+msgstr ""
+
+msgid "Hanoi Puzzle 8"
+msgstr ""
 
 #, fuzzy
 msgid "Hanoi Sequence"
@@ -1520,6 +1618,9 @@ msgstr "Köpfe und Schwänze"
 msgid "Helios"
 msgstr "Helios"
 
+msgid "Helsinki"
+msgstr ""
+
 msgid "Hemispheres"
 msgstr "Hemissphäre"
 
@@ -1531,6 +1632,9 @@ msgstr "Hex A Klon durch drei"
 
 msgid "Hex Labyrinth"
 msgstr "Hex Labyrinth"
+
+msgid "Hex Yukon"
+msgstr ""
 
 msgid "Hidden Passages"
 msgstr "Versteckte Passagen"
@@ -1544,6 +1648,9 @@ msgstr "Hoch und Tief"
 msgid "Hiranyaksha"
 msgstr "Hiranyaksha"
 
+msgid "Hit or Miss"
+msgstr ""
+
 msgid "Hopscotch"
 msgstr "Hopscotch"
 
@@ -1555,6 +1662,9 @@ msgstr "Hospital Patience"
 
 msgid "House in the Wood"
 msgstr "Haus im Wald"
+
+msgid "House of Commons"
+msgstr ""
 
 msgid "House on the Hill"
 msgstr "Haus auf dem Berg"
@@ -1730,6 +1840,9 @@ msgstr "Hex A Klon nur am König"
 msgid "King Tut"
 msgstr "Pharao Tut"
 
+msgid "King's Secrets"
+msgstr ""
+
 msgid "KingCell"
 msgstr "KingCell"
 
@@ -1738,6 +1851,9 @@ msgstr "Königreich"
 
 msgid "Kings"
 msgstr "Könige"
+
+msgid "Kings in the Corners"
+msgstr ""
 
 msgid "Kingsdown Eights"
 msgstr ""
@@ -2477,7 +2593,7 @@ msgstr "Mahjongg Keile"
 msgid "Mahjongg Well"
 msgstr "Mahjongg Parkett"
 
-msgid "Mahjongg Well2"
+msgid "Mahjongg Well 2"
 msgstr "Mahjongg Parkett 2"
 
 msgid "Mahjongg Whatever"
@@ -2542,6 +2658,9 @@ msgstr "Matsukiri Strikt"
 
 msgid "Matsya"
 msgstr "Matsya"
+
+msgid "Maverick"
+msgstr ""
 
 msgid "Maya"
 msgstr "Maya"
@@ -2675,7 +2794,10 @@ msgstr "Napoleon verlässt Moskau"
 msgid "Napoleon Takes Moscow"
 msgstr "Napoleon nimmt Moskau ein"
 
-msgid "Napoleon at St.Helena"
+msgid "Napoleon at Friedland"
+msgstr ""
+
+msgid "Napoleon at St. Helena"
 msgstr "Napoleon auf St. Helena"
 
 msgid "Napoleon's Exile"
@@ -2818,6 +2940,9 @@ msgstr "Orbital"
 msgid "Order"
 msgstr "Reihenfolge"
 
+msgid "Order of Precedence"
+msgstr ""
+
 msgid "Osmosis"
 msgstr "Osmose"
 
@@ -2893,9 +3018,6 @@ msgstr "Spähen"
 msgid "Peek II"
 msgstr "Spähen II"
 
-msgid "Pegged"
-msgstr ""
-
 msgid "Pegged 6x6"
 msgstr ""
 
@@ -2906,6 +3028,9 @@ msgid "Pegged Cross 1"
 msgstr ""
 
 msgid "Pegged Cross 2"
+msgstr ""
+
+msgid "Pegged Octagon"
 msgstr ""
 
 #, fuzzy
@@ -2976,6 +3101,15 @@ msgstr "Poker Shuffle"
 msgid "Poker Square"
 msgstr "Poker Quadrat"
 
+msgid "Poker Square (1 Reserve)"
+msgstr ""
+
+msgid "Poker Square (2 Reserves)"
+msgstr ""
+
+msgid "Poker Square (Waste)"
+msgstr ""
+
 msgid "Ponytail"
 msgstr "Ponyschwanz"
 
@@ -2984,6 +3118,15 @@ msgstr "Portal"
 
 msgid "Portuguese Solitaire"
 msgstr "Portugiesisches Solitär"
+
+msgid "Precedence"
+msgstr ""
+
+msgid "Precedence (No King)"
+msgstr ""
+
+msgid "Pretzel"
+msgstr ""
 
 msgid "Primrose"
 msgstr "Primel"
@@ -3018,6 +3161,9 @@ msgstr "Pyramide 2"
 msgid "Pyramid Golf"
 msgstr "Pyramiden Golf"
 
+msgid "Pyramid's Stones"
+msgstr "Pyramidensteine"
+
 msgid "Q.C."
 msgstr "Q.C."
 
@@ -3044,6 +3190,9 @@ msgstr "Quads"
 msgid "Quartets"
 msgstr "Quartette"
 
+msgid "Quatorze"
+msgstr ""
+
 msgid "Queen Victoria"
 msgstr "Königin Victoria"
 
@@ -3063,6 +3212,9 @@ msgstr "Steppdecke"
 
 msgid "Rachel"
 msgstr "Rachel"
+
+msgid "Racing Aces"
+msgstr ""
 
 msgid "Raglan"
 msgstr "Raglan"
@@ -3116,11 +3268,17 @@ msgstr "Entspannen"
 msgid "Relaxed Accordion"
 msgstr "Akkordion"
 
+msgid "Relaxed Exit"
+msgstr ""
+
 msgid "Relaxed FreeCell"
 msgstr "Entspanntes Freecell"
 
 msgid "Relaxed Golf"
 msgstr "Entspanntes Golf"
+
+msgid "Relaxed PileOn"
+msgstr ""
 
 msgid "Relaxed Pyramid"
 msgstr "Entspannte Pyramide"
@@ -3279,6 +3437,9 @@ msgstr "Skorpion II"
 msgid "Scorpion Tail"
 msgstr "Schwanz des Skorpions"
 
+msgid "Scorpion Towers"
+msgstr ""
+
 msgid "Scotch Patience"
 msgstr "Schottische Patience"
 
@@ -3417,6 +3578,9 @@ msgstr "Sechs Waise"
 msgid "Sixes and Sevens"
 msgstr "Sechsen und Siebenen"
 
+msgid "Sixty Thieves"
+msgstr ""
+
 msgid "Skippy"
 msgstr "Skippy"
 
@@ -3425,6 +3589,9 @@ msgstr ""
 
 msgid "Sly Fox"
 msgstr "Schlitzohr"
+
+msgid "Small Backbone"
+msgstr ""
 
 msgid "Small Harp"
 msgstr "Schmale Harfe"
@@ -3568,6 +3735,9 @@ msgstr "Sieben Pyramiden"
 msgid "Steve"
 msgstr "Steve"
 
+msgid "Sticko"
+msgstr ""
+
 msgid "Stonehenge"
 msgstr "Stonehenge"
 
@@ -3657,6 +3827,9 @@ msgstr "Taipei"
 msgid "Take Away"
 msgstr "Nimms weg"
 
+msgid "Take Away 8"
+msgstr ""
+
 msgid "Tam O'Shanter"
 msgstr "Tam O'Shanter"
 
@@ -3677,6 +3850,9 @@ msgstr "Zehn hinüber"
 
 msgid "Ten Avatars"
 msgstr "Zehn Avatare"
+
+msgid "Ten Twenty Thirty"
+msgstr ""
 
 msgid "Ten by One"
 msgstr "Zehn durch einsу"
@@ -3760,13 +3936,22 @@ msgstr "Three Fir-trees"
 msgid "Three Peaks"
 msgstr "Drei Spitzen"
 
-msgid "Three Peaks Non-scoring"
-msgstr "Drei Spitzen ohne Zählung"
+msgid "Three Peaks (Open)"
+msgstr ""
+
+msgid "Three Peaks (Scored)"
+msgstr ""
+
+msgid "Three Peaks (Scored/Open)"
+msgstr ""
 
 msgid "Three Pirates"
 msgstr "Drei Piraten"
 
 msgid "Three Shuffles and a Draw"
+msgstr ""
+
+msgid "Three Up"
 msgstr ""
 
 msgid "Thumb and Pouch"
@@ -3850,6 +4035,9 @@ msgstr "Drei Spitzen"
 msgid "Triangle"
 msgstr "Triangel"
 
+msgid "Trigon"
+msgstr ""
+
 msgid "Trika"
 msgstr ""
 
@@ -3858,6 +4046,9 @@ msgstr "Trillium"
 
 msgid "Triple Alliance"
 msgstr "Dreifache Allianz"
+
+msgid "Triple Alliance (2 decks)"
+msgstr ""
 
 msgid "Triple Canfield"
 msgstr "Dreifach Canfield"
@@ -3881,6 +4072,9 @@ msgstr "Dreifaches Klondike von Dreier"
 msgid "Triple Line"
 msgstr "Dreierlinie"
 
+msgid "Triple Rail"
+msgstr ""
+
 msgid "Triple Russian Solitaire"
 msgstr "Dreifach russisches Solitär"
 
@@ -3889,6 +4083,9 @@ msgstr "Dreifacher Skorpion"
 
 msgid "Triple Yukon"
 msgstr "Dreifach Yukon"
+
+msgid "Triplets"
+msgstr ""
 
 msgid "Troika"
 msgstr "Troika"
@@ -3939,6 +4136,9 @@ msgstr "Zwei Ringe"
 msgid "Two Squares"
 msgstr "Zwei Quadrate"
 
+msgid "Uintah"
+msgstr ""
+
 msgid "Ukrainian Solitaire"
 msgstr "Ukrainisches Solitär"
 
@@ -3947,6 +4147,9 @@ msgstr "Unionsquadrat"
 
 msgid "Unlimited"
 msgstr "Unlimitiert"
+
+msgid "Unusual"
+msgstr ""
 
 msgid "Up and Down"
 msgstr "Hoch und Runter"
@@ -4049,7 +4252,7 @@ msgid "Well"
 msgstr "Gut"
 
 #, fuzzy
-msgid "Well2"
+msgid "Well 2"
 msgstr "Gut"
 
 #, fuzzy
@@ -4091,6 +4294,9 @@ msgstr "Windmühle"
 msgid "Wisteria"
 msgstr "Glyzinien"
 
+msgid "Wolfpack"
+msgstr ""
+
 msgid "Wood"
 msgstr "Holz"
 
@@ -4102,11 +4308,17 @@ msgstr "Datei"
 msgid "X-Shape"
 msgstr "Mahjongg X-Shape"
 
+msgid "Yield"
+msgstr ""
+
 msgid "York"
 msgstr "York"
 
 msgid "Yukon"
 msgstr "Yukon"
+
+msgid "Yukonic Plague"
+msgstr ""
 
 msgid "Yummy"
 msgstr "Lecker"
@@ -4128,3 +4340,17 @@ msgstr "Zickzackkurs"
 
 msgid "Zodiac"
 msgstr "Zodiac"
+
+#, fuzzy
+#~ msgid "FreeCell with Two Reserves"
+#~ msgstr "Lege in die Reserve"
+
+#, fuzzy
+#~ msgid "FreeCell with Zero Reserves"
+#~ msgstr "Lege in die Reserve"
+
+#~ msgid "Napoleon at St.Helena"
+#~ msgstr "Napoleon auf St. Helena"
+
+#~ msgid "Three Peaks Non-scoring"
+#~ msgstr "Drei Spitzen ohne Zählung"

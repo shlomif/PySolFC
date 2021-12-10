@@ -6,17 +6,17 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-07 17:14+0300\n"
+"POT-Creation-Date: 2021-12-09 18:52-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"X-Generator: Poedit 3.0\n"
 
 #: pysollib/actions.py:232 pysollib/kivy/menubar.py:292
 #: pysollib/kivy/toolbar.py:191 pysollib/tile/toolbar.py:176
@@ -302,6 +302,9 @@ msgstr ""
 msgid "&New game"
 msgstr ""
 
+msgid "&Back to game"
+msgstr ""
+
 #: pysollib/app.py:672
 #, python-format
 msgid "Loading cardset %s..."
@@ -427,6 +430,31 @@ msgstr ""
 msgid "Four-Deck games"
 msgstr ""
 
+msgid "Cribbage"
+msgstr ""
+
+#: pysollib/resource.py:236
+msgid "Matrix"
+msgstr ""
+
+msgid "Memory"
+msgstr ""
+
+msgid "Pegged"
+msgstr ""
+
+msgid "Poker"
+msgstr ""
+
+msgid "Shisen-Sho"
+msgstr ""
+
+msgid "Tower of Hanoi"
+msgstr ""
+
+msgid "Custom"
+msgstr ""
+
 #: pysollib/gamedb.py:142
 msgid "Baker's Dozen type"
 msgstr ""
@@ -528,7 +556,7 @@ msgid "Navagraha Ganjifa type"
 msgstr ""
 
 #: pysollib/gamedb.py:231
-msgid "Shisen-Sho"
+msgid "Shisen-Sho type"
 msgstr ""
 
 #: pysollib/gamedb.py:234
@@ -545,6 +573,15 @@ msgstr ""
 
 #: pysollib/gamedb.py:237
 msgid "Puzzle type"
+msgstr ""
+
+msgid "Cribbage type"
+msgstr ""
+
+msgid "Pegged type"
+msgstr ""
+
+msgid "Tower of Hanoi type"
 msgstr ""
 
 #: pysollib/help.py:43
@@ -850,10 +887,6 @@ msgstr ""
 
 #: pysollib/resource.py:235
 msgid "Movies"
-msgstr ""
-
-#: pysollib/resource.py:236
-msgid "Matrix"
 msgstr ""
 
 #: pysollib/resource.py:237
@@ -1252,6 +1285,13 @@ msgstr ""
 msgid "Free cell."
 msgstr ""
 
+msgid ""
+"Talon. Unlimited redeals, until running through the decktwice with no hits."
+msgstr ""
+
+msgid "Foundation. Place cards here that match the declared rank."
+msgstr ""
+
 #: pysollib/stats.py:40 pysollib/stats.py:108 pysollib/pysolgtk/tkstats.py:422
 #: pysollib/pysolgtk/tkstats.py:459 pysollib/tile/tkstats.py:675
 msgid "Game"
@@ -1357,6 +1397,18 @@ msgstr ""
 
 #: pysollib/util.py:45
 msgid "Diamond"
+msgstr ""
+
+msgid "Clubs"
+msgstr ""
+
+msgid "Spades"
+msgstr ""
+
+msgid "Hearts"
+msgstr ""
+
+msgid "Diamonds"
 msgstr ""
 
 #: pysollib/util.py:46
@@ -2257,6 +2309,9 @@ msgstr ""
 msgid "Show hint arrow (in Shisen-Sho games)"
 msgstr ""
 
+msgid "Deal all cards (in Accordion type games)"
+msgstr ""
+
 #: pysollib/kivy/menubar.py:598
 msgid "Language"
 msgstr ""
@@ -2544,7 +2599,7 @@ msgid "Contents"
 msgstr ""
 
 #: pysollib/kivy/menubar.py:1094
-msgid "How to play"
+msgid "How to use PySol"
 msgstr ""
 
 #: pysollib/kivy/menubar.py:1098 pysollib/kivy/toolbar.py:204
@@ -2635,7 +2690,7 @@ msgstr ""
 
 #: pysollib/kivy/selectgame.py:108 pysollib/pysolgtk/selectgame.py:233
 #: pysollib/tile/selectgame.py:112 pysollib/tk/selectgame.py:112
-msgid "French games"
+msgid "French Games"
 msgstr ""
 
 #: pysollib/kivy/selectgame.py:111 pysollib/pysolgtk/selectgame.py:229
@@ -3040,7 +3095,10 @@ msgstr ""
 
 #: pysollib/pysolgtk/selectcardset.py:164 pysollib/tile/selectcardset.py:155
 #: pysollib/tk/selectcardset.py:153
-msgid "XLarge cardsets"
+msgid "Extra Large cardsets"
+msgstr ""
+
+msgid "Hi-Res cardsets"
 msgstr ""
 
 #: pysollib/pysolgtk/selectcardset.py:170 pysollib/tile/selectcardset.py:84
@@ -3234,6 +3292,9 @@ msgstr ""
 #: pysollib/pysolgtk/soundoptionsdialog.py:72
 #: pysollib/tile/soundoptionsdialog.py:84 pysollib/tk/soundoptionsdialog.py:86
 msgid "Perfect game"
+msgstr ""
+
+msgid "Other"
 msgstr ""
 
 #: pysollib/pysolgtk/statusbar.py:99 pysollib/tile/statusbar.py:155
@@ -3551,6 +3612,12 @@ msgstr ""
 msgid "Solid Colors"
 msgstr ""
 
+msgid "Textures"
+msgstr ""
+
+msgid "Images"
+msgstr ""
+
 #: pysollib/tile/solverdialog.py:54 pysollib/tk/solverdialog.py:62
 msgid "Show progress"
 msgstr ""
@@ -3584,6 +3651,9 @@ msgstr ""
 #: pysollib/tile/soundoptionsdialog.py:106
 #: pysollib/tk/soundoptionsdialog.py:108 data/pysolfc.glade:4233
 msgid "Sample volume:"
+msgstr ""
+
+msgid "Music enabled"
 msgstr ""
 
 #: pysollib/tile/soundoptionsdialog.py:114
@@ -3899,13 +3969,43 @@ msgstr ""
 msgid ""
 "Royal Flush\n"
 "Straight Flush\n"
-"Four of a Kind\n"
+"4 of a Kind\n"
 "Full House\n"
 "Flush\n"
 "Straight\n"
-"Three of a Kind\n"
+"3 of a Kind\n"
 "Two Pair\n"
 "One Pair"
+msgstr ""
+
+msgid "Royal Flush"
+msgstr ""
+
+msgid "Straight Flush"
+msgstr ""
+
+msgid "4 of a Kind"
+msgstr ""
+
+msgid "Full House"
+msgstr ""
+
+msgid "Flush"
+msgstr ""
+
+msgid "Straight"
+msgstr ""
+
+msgid "3 of a Kind"
+msgstr ""
+
+msgid "Two Pair"
+msgstr ""
+
+msgid "Pair"
+msgstr ""
+
+msgid "Nothing"
 msgstr ""
 
 #: pysollib/games/special/tarock.py:214
@@ -4322,6 +4422,15 @@ msgstr ""
 msgid "&Edit current game"
 msgstr ""
 
+msgid "&Delete current game"
+msgstr ""
+
+msgid "Delete game"
+msgstr ""
+
+msgid "Delete the game %s?"
+msgstr ""
+
 #: pysollib/ui/tktile/menubar.py:396
 msgid "&Game"
 msgstr ""
@@ -4462,6 +4571,9 @@ msgstr ""
 msgid "Show hint &arrow (in Shisen-Sho games)"
 msgstr ""
 
+msgid "&Deal all cards (in Accordion type games)"
+msgstr ""
+
 #: pysollib/ui/tktile/menubar.py:516
 msgid "&Sound..."
 msgstr ""
@@ -4478,8 +4590,23 @@ msgstr ""
 msgid "&Decrease the card size"
 msgstr ""
 
+msgid "&Reset the card size"
+msgstr ""
+
 #: pysollib/ui/tktile/menubar.py:535
 msgid "&Auto scaling"
+msgstr ""
+
+msgid "&Preserve aspect ratio"
+msgstr ""
+
+msgid "Card la&yout"
+msgstr ""
+
+msgid "&Spread stacks"
+msgstr ""
+
+msgid "&Center layout"
 msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:540
@@ -4623,7 +4750,7 @@ msgid "&Contents"
 msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:654
-msgid "&How to play"
+msgid "&How to use PySol"
 msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:657

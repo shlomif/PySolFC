@@ -94,7 +94,9 @@ class Memory24(Game):
     COLUMNS = 6
     ROWS = 4
     WIN_SCORE = 40
-    PERFECT_SCORE = 60       # 5 * (6*4)/2
+    PERFECT_SCORE = 60       # 5 * (6*4)/
+
+    RowStack_Class = Memory_RowStack
 
     #
     # game layout
@@ -125,7 +127,7 @@ class Memory24(Game):
         for i in range(self.ROWS):
             for j in range(self.COLUMNS):
                 x, y = l.XM + w + j*l.XS, l.YM + i*l.YS
-                s.rows.append(Memory_RowStack(x, y, self,
+                s.rows.append(self.RowStack_Class(x, y, self,
                               max_move=0, max_accept=0, max_cards=1))
         x, y = l.XM, l.YM
         s.talon = InitialDealTalonStack(x, y, self)
@@ -302,6 +304,80 @@ class Concentration(Memory24):
         return card1.rank == card2.rank
 
 
+# ************************************************************************
+# * Memory Sequence
+# ************************************************************************
+
+class MemorySequence_RowStack(Memory_RowStack):
+    def clickHandler(self, event):
+        game = self.game
+        if len(self.cards) != 1 or self.cards[-1].face_up:
+            return 1
+        game.score += 10
+        game.closed_cards -= 1
+        if game.other_stack is None:
+            game.playSample("flip", priority=5)
+            self.flipMove()
+            game.other_stack = self
+        else:
+            assert len(game.other_stack.cards) == 1 and \
+                game.other_stack.cards[-1].face_up
+            c1, c2 = self.cards[-1], game.other_stack.cards[0]
+            self.flipMove()
+            if self.game.cardsMatch(c1, c2):
+                self._dropPairMove(1, game.other_stack)
+                game.other_stack = self
+            else:
+                game.playSample("flip", priority=5)
+                game.score -= 2
+                game.updateStatus(moves=game.moves.index+1)  # update moves now
+                game.updateText()
+                game.canvas.update_idletasks()
+                game.sleep(0.5)
+                for row in self.game.s.rows:
+                    if row.cards and row.cards[0].face_up:
+                        row.flipMove()
+                        game.sleep(0.2)
+                        game.closed_cards += 1
+                        game.score -= 10
+                        game.canvas.update_idletasks()
+                game.other_stack = None
+        self.game.finishMove()
+        self.game.checkForWin()
+        return 1
+
+    def _dropPairMove(self, n, other_stack, frames=-1, shadow=-1):
+        game = self.game
+        game.playSample("droppair", priority=200)
+
+
+class MemorySequence(Memory24):
+    Hint_Class = None
+
+    COLUMNS = 7
+    ROWS = 2
+    WIN_SCORE = 75
+    PERFECT_SCORE = 130
+
+    RowStack_Class = MemorySequence_RowStack
+
+    def startGame(self):
+        n = (self.COLUMNS * self.ROWS) - 1
+        assert len(self.s.talon.cards) == n
+        self.other_stack = None
+        self.closed_cards = n
+        self.score = 0
+        self.updateText()
+        n = n - self.COLUMNS
+        self.s.talon.dealRow(rows=self.s.rows[:n], flip=0, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow(rows=self.s.rows[n:-1], flip=0)
+        assert len(self.s.talon.cards) == 0
+
+    def cardsMatch(self, card1, card2):
+        return card1.suit == card2.suit and card1.rank == card2.rank + 1
+
+
 # register the game
 registerGame(GameInfo(176, Memory24, "Memory 24",
                       GI.GT_MEMORY | GI.GT_SCORE, 2, 0, GI.SL_SKILL,
@@ -314,3 +390,6 @@ registerGame(GameInfo(177, Memory40, "Memory 40",
                       suits=(0, 2), ranks=(0, 4, 5, 6, 7, 8, 9, 10, 11, 12)))
 registerGame(GameInfo(178, Concentration, "Concentration",
                       GI.GT_MEMORY | GI.GT_SCORE, 1, 0, GI.SL_SKILL))
+registerGame(GameInfo(843, MemorySequence, "Memory Sequence",
+                      GI.GT_MEMORY | GI.GT_SCORE, 1, 0, GI.SL_SKILL,
+                      suits=(1,), altnames=('Ace Through King',)))

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-09 18:52-0500\n"
-"PO-Revision-Date: 2021-12-09 18:54-0500\n"
+"POT-Creation-Date: 2021-12-10 10:19-0500\n"
+"PO-Revision-Date: 2021-12-10 22:22-0500\n"
 "Last-Translator: Skomoroh <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
@@ -1398,6 +1398,9 @@ msgstr ""
 msgid "Foundation. Place cards here that match the declared rank."
 msgstr ""
 
+msgid "Devil's Six. Must be played directly to Foundations."
+msgstr ""
+
 #: pysollib/stats.py:40 pysollib/stats.py:108 pysollib/pysolgtk/tkstats.py:422
 #: pysollib/pysolgtk/tkstats.py:459 pysollib/tile/tkstats.py:675
 msgid "Game"
@@ -2507,6 +2510,9 @@ msgid "Show hint arrow (in Shisen-Sho games)"
 msgstr "Показывать стрелку (в Шисен-Сё)"
 
 msgid "Deal all cards (in Accordion type games)"
+msgstr ""
+
+msgid "Auto-remove first card (in Pegged games)"
 msgstr ""
 
 #: pysollib/kivy/menubar.py:598
@@ -4098,6 +4104,9 @@ msgstr "Игр за день"
 msgid "Games/week"
 msgstr "Игр за неделю"
 
+msgid "Date format"
+msgstr ""
+
 #: pysollib/tile/toolbar.py:179 pysollib/tk/toolbar.py:179
 msgid "Open"
 msgstr "Открыть"
@@ -4630,6 +4639,9 @@ msgstr "Подсветка отсутствия совпадения:"
 msgid "Find card"
 msgstr "Найти карту"
 
+msgid "Icon Style"
+msgstr ""
+
 #: pysollib/ui/tktile/menubar.py:35
 msgid "Compound"
 msgstr "Компоновка"
@@ -4907,6 +4919,9 @@ msgid "Show hint &arrow (in Shisen-Sho games)"
 msgstr "Показывать стрелку (в Шисен-Сё)"
 
 msgid "&Deal all cards (in Accordion type games)"
+msgstr ""
+
+msgid "A&uto-remove first card (in Pegged games)"
 msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:516

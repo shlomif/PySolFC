@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.02\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-09 18:52-0500\n"
-"PO-Revision-Date: 2021-12-09 18:53-0500\n"
+"POT-Creation-Date: 2021-12-10 10:19-0500\n"
+"PO-Revision-Date: 2021-12-10 22:21-0500\n"
 "Last-Translator: Eric Rausch <neelix570@gmail.com>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -1398,6 +1398,9 @@ msgstr ""
 msgid "Foundation. Place cards here that match the declared rank."
 msgstr ""
 
+msgid "Devil's Six. Must be played directly to Foundations."
+msgstr ""
+
 #: pysollib/stats.py:40 pysollib/stats.py:108 pysollib/pysolgtk/tkstats.py:422
 #: pysollib/pysolgtk/tkstats.py:459 pysollib/tile/tkstats.py:675
 msgid "Game"
@@ -2475,6 +2478,9 @@ msgid "Show hint arrow (in Shisen-Sho games)"
 msgstr "Flèche d'indice (jeux de Shisen-Sho)"
 
 msgid "Deal all cards (in Accordion type games)"
+msgstr ""
+
+msgid "Auto-remove first card (in Pegged games)"
 msgstr ""
 
 #: pysollib/kivy/menubar.py:598
@@ -4025,6 +4031,9 @@ msgstr "Jeux/jour"
 msgid "Games/week"
 msgstr "Jeux/semaine"
 
+msgid "Date format"
+msgstr ""
+
 #: pysollib/tile/toolbar.py:179 pysollib/tk/toolbar.py:179
 msgid "Open"
 msgstr "Ouvrir"
@@ -4541,6 +4550,9 @@ msgstr "Sans correspondance:"
 msgid "Find card"
 msgstr "Trouver carte"
 
+msgid "Icon Style"
+msgstr ""
+
 #: pysollib/ui/tktile/menubar.py:35
 msgid "Compound"
 msgstr "Affichage"
@@ -4817,6 +4829,9 @@ msgid "Show hint &arrow (in Shisen-Sho games)"
 msgstr "Flèche d'indice (jeux de Shisen-Sho)"
 
 msgid "&Deal all cards (in Accordion type games)"
+msgstr ""
+
+msgid "A&uto-remove first card (in Pegged games)"
 msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:516

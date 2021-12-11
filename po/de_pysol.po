@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-09 18:52-0500\n"
-"PO-Revision-Date: 2021-12-09 18:53-0500\n"
+"POT-Creation-Date: 2021-12-10 10:19-0500\n"
+"PO-Revision-Date: 2021-12-10 22:21-0500\n"
 "Last-Translator: H. Schaekel <Holger.Schaekel@web.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -1362,10 +1362,13 @@ msgid "Free cell."
 msgstr "Free Cell."
 
 msgid ""
-"Talon. Unlimited redeals, until running through the decktwice with no hits."
+"Talon. Unlimited redeals, until running through the deck twice with no hits."
 msgstr ""
 
 msgid "Foundation. Place cards here that match the declared rank."
+msgstr ""
+
+msgid "Devil's Six. Must be played directly to Foundations."
 msgstr ""
 
 #: pysollib/stats.py:40 pysollib/stats.py:108 pysollib/pysolgtk/tkstats.py:422
@@ -2433,6 +2436,9 @@ msgid "Show hint arrow (in Shisen-Sho games)"
 msgstr "Zeige Passende (in Shisen-Sho)"
 
 msgid "Deal all cards (in Accordion type games)"
+msgstr ""
+
+msgid "Auto-remove first card (in Pegged games)"
 msgstr ""
 
 #: pysollib/kivy/menubar.py:598
@@ -3973,6 +3979,9 @@ msgstr "Spiele/Tag"
 msgid "Games/week"
 msgstr "Spiele/Woche"
 
+msgid "Date format"
+msgstr ""
+
 #: pysollib/tile/toolbar.py:179 pysollib/tk/toolbar.py:179
 msgid "Open"
 msgstr "Öffnen"
@@ -4489,6 +4498,9 @@ msgstr "Keine passenden hervorheben:"
 msgid "Find card"
 msgstr "Karte suchen"
 
+msgid "Icon Style"
+msgstr ""
+
 #: pysollib/ui/tktile/menubar.py:35
 msgid "Compound"
 msgstr ""
@@ -4772,6 +4784,9 @@ msgid "Show hint &arrow (in Shisen-Sho games)"
 msgstr ""
 
 msgid "&Deal all cards (in Accordion type games)"
+msgstr ""
+
+msgid "A&uto-remove first card (in Pegged games)"
 msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:516

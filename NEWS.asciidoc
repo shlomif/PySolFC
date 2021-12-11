@@ -1,6 +1,9 @@
 [[news]]
 === News
-
+* _10 December, 2021:_ There is a new stable release
+https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-2.14.1/[PySolFC
+v2.14.1].  This release fixes a number of bugs, including one that causes
+crashes for some users when opening the select game/cardset/table tile window.
 * _19 September, 2021:_ There is a new stable release
 https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-2.14.0/[PySolFC
 v2.14.0]. New in this release:

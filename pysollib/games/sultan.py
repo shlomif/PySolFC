@@ -367,12 +367,20 @@ class LadyOfTheManor(Game):
     Foundation_Class_1 = RK_FoundationStack
     Foundation_Class_2 = RK_FoundationStack
 
+    ACE_STACK = False
+
     def createGame(self):
 
         l, s = Layout(self), self.s
-        self.setSize(l.XM+8*l.XS, l.YM+max(4*l.YS, 3*l.YS+14*l.YOFFSET))
+        cols = 8
+        if self.ACE_STACK:
+            cols += 1
+        self.setSize(l.XM + cols * l.XS,
+                     l.YM + max(4 * l.YS, 3 * l.YS + 14 * l.YOFFSET))
 
         x, y = l.XM, self.height-l.YS
+        if self.ACE_STACK:
+            x += (l.XS / 2)
         for i in range(4):
             suit = i
             if self.Foundation_Class_1 is RK_FoundationStack:
@@ -387,13 +395,22 @@ class LadyOfTheManor(Game):
             s.foundations.append(
                 self.Foundation_Class_2(x, y, self, suit=suit))
             x += l.XS
-        x, y = l.XM+2*l.XS, l.YM+l.YS
+        x, y = l.XM + 2 * l.XS, l.YM + l.YS
+        if self.ACE_STACK:
+            x += (l.XS / 2)
         for i in range(4):
             s.rows.append(LadyOfTheManor_RowStack(x, y, self, max_accept=0))
             x += l.XS
-        for i, j in ((0, 2), (0, 1), (0, 0),
-                     (1, 0), (2, 0), (3, 0), (4, 0), (5, 0), (6, 0),
-                     (7, 0), (7, 1), (7, 2), ):
+        if self.ACE_STACK:
+            reservelocs = ((0, 2), (0, 1), (0, 0),
+                           (1, 0), (2, 0), (3, 0), (4, 0), (5, 0), (6, 0),
+                           (7, 0), (8, 0), (8, 1), (8, 2), )
+        else:
+            reservelocs = ((0, 2), (0, 1), (0, 0),
+                           (1, 0), (2, 0), (3, 0), (4, 0), (5, 0), (6, 0),
+                           (7, 0), (7, 1), (7, 2),)
+
+        for i, j in reservelocs:
             x, y = l.XM+i*l.XS, l.YM+j*l.YS
             s.reserves.append(LadyOfTheManor_Reserve(x, y, self, max_accept=0))
 
@@ -417,8 +434,27 @@ class LadyOfTheManor(Game):
         while self.s.talon.cards:
             self.flipMove(self.s.talon)
             c = self.s.talon.cards[-1]
-            r = self.s.reserves[c.rank-1]
+            if self.ACE_STACK:
+                r = self.s.reserves[c.rank]
+            else:
+                r = self.s.reserves[c.rank - 1]
             self.moveMove(1, self.s.talon, r, frames=4)
+
+
+class Archway(LadyOfTheManor):
+    Foundation_Class_1 = SS_FoundationStack
+    Foundation_Class_2 = StackWrapper(SS_FoundationStack, dir=-1)
+
+    ACE_STACK = True
+
+    def _shuffleHook(self, cards):
+        return self._shuffleHookMoveToTop(
+            cards,
+            lambda c: (c.rank in (ACE, KING) and c.deck == 0,
+                       (c.rank, c.suit)))
+
+    def startGame(self):
+        LadyOfTheManor.startGame(self, flip=True)
 
 
 # ************************************************************************
@@ -1403,3 +1439,5 @@ registerGame(GameInfo(745, DesertIsland, "Desert Island",
                       GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(761, CatherineTheGreat, "Catherine the Great",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(844, Archway, "Archway",
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_LUCK))

@@ -344,8 +344,8 @@ class GI:
         # from XM Solitaire should be researched before being added to PySol.
         #
         # still missing:
-        #       Ace of Hearts, Affinity, Agnes Three, Antares, Archway,
-        #       Avenue, Baker's Fan, Baker's Spider, Bedeviled, Binding,
+        #       Ace of Hearts, Affinity, Agnes Three, Antares, Avenue,
+        #       Baker's Fan, Baker's Spider, Bedeviled, Binding,
         #       Black Holes, Black Spider, California, Carcassone,
         #       Cascade, Club, Color Cell, Cornelius, Demons and Thieves,
         #       Desert Fox, Deuces and Queens, Double Antares,
@@ -374,7 +374,7 @@ class GI:
             363, 364, 372, 376, 383, 384, 385, 386, 390, 391, 393, 398,
             405, 415, 416, 425, 451, 453, 461, 464, 466, 467, 476, 480,
             484, 511, 512, 516, 561, 610, 625, 629, 631, 638, 641, 647,
-            650, 655, 678, 734, 751, 784, 825, 829, 834, 837, 901,
+            650, 655, 678, 734, 751, 784, 825, 829, 834, 837, 844, 901,
         )),
 
         # xpat2 1.06 (we have 14 out of 16 games)
@@ -485,7 +485,7 @@ class GI:
         ('fc-2.12',   tuple(range(774, 811)) + (16681,) +
          tuple(range(22217, 22219))),
         ('fc-2.14', tuple(range(811, 827))),
-        ('fc-2.16', tuple(range(827, 844)))
+        ('fc-2.16', tuple(range(827, 845)))
     )
 
     # deprecated - the correct way is to or a GI.GT_XXX flag

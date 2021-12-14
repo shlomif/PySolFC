@@ -432,14 +432,11 @@ registerGame(GameInfo(30, Windmill, "Windmill",
 registerGame(GameInfo(277, NapoleonsTomb, "Napoleon's Tomb",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(417, Corners, "Corners",
-                      GI.GT_1DECK_TYPE, 1, 2, GI.SL_MOSTLY_LUCK,
-                      rules_filename='fourseasons.html'))
+                      GI.GT_1DECK_TYPE, 1, 2, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(437, Simplicity, "Simplicity",
-                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK,
-                      rules_filename='fourseasons.html'))
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(483, Czarina, "Czarina",
-                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK,
-                      rules_filename='fourseasons.html'))
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(484, FourSeasons, "Four Seasons",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK,
                       altnames=('Corner Card', 'Vanishing Cross')))

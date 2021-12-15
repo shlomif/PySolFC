@@ -61,6 +61,7 @@ from . import larasgame  # noqa: F401
 from . import matriarchy  # noqa: F401
 from . import montana  # noqa: F401
 from . import montecarlo  # noqa: F401
+from . import moojub  # noqa: F401
 from . import napoleon  # noqa: F401
 from . import needle  # noqa: F401
 from . import numerica  # noqa: F401

@@ -1392,7 +1392,8 @@ class EightSages(Klondike):
 
 # register the game
 registerGame(GameInfo(2, Klondike, "Klondike",
-                      GI.GT_KLONDIKE, 1, -1, GI.SL_BALANCED))
+                      GI.GT_KLONDIKE, 1, -1, GI.SL_BALANCED,
+                      altnames=("Classic Solitaire", "American Patience")))
 registerGame(GameInfo(61, CasinoKlondike, "Casino Klondike",
                       GI.GT_KLONDIKE | GI.GT_SCORE, 1, 2, GI.SL_BALANCED))
 registerGame(GameInfo(129, VegasKlondike, "Vegas Klondike",

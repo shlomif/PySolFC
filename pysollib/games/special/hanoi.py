@@ -163,7 +163,8 @@ class HanoiSequence(TowerOfHanoy):
 # register the game
 registerGame(GameInfo(124, TowerOfHanoy, "Tower of Hanoy",
                       GI.GT_HANOI | GI.GT_OPEN, 1, 0, GI.SL_SKILL,
-                      suits=(2,), ranks=list(range(9))))
+                      suits=(2,), ranks=list(range(9)),
+                      altnames=("Tower of Hanoi")))
 registerGame(GameInfo(207, HanoiPuzzle4, "Hanoi Puzzle 4",
                       GI.GT_HANOI | GI.GT_OPEN, 1, 0, GI.SL_SKILL,
                       suits=(2,), ranks=list(range(4)),

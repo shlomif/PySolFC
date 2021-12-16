@@ -237,7 +237,8 @@ class Choice(Game):
 # register the game
 registerGame(GameInfo(292, Capricieuse, "Capricieuse",
                       GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 2, 2,
-                      GI.SL_MOSTLY_SKILL))
+                      GI.SL_MOSTLY_SKILL,
+                      altnames=('Capricious',)))
 registerGame(GameInfo(293, Nationale, "Nationale",
                       GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 2, 0,
                       GI.SL_MOSTLY_SKILL,

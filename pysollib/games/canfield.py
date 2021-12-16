@@ -944,7 +944,8 @@ registerGame(GameInfo(103, AmericanToad, "American Toad",
 registerGame(GameInfo(102, VariegatedCanfield, "Variegated Canfield",
                       GI.GT_CANFIELD, 2, 2, GI.SL_BALANCED))
 registerGame(GameInfo(112, EagleWing, "Eagle Wing",
-                      GI.GT_CANFIELD, 1, 2, GI.SL_BALANCED))
+                      GI.GT_CANFIELD, 1, 2, GI.SL_BALANCED,
+                      altnames="Thirteen Down"))
 registerGame(GameInfo(315, Gate, "Gate",
                       GI.GT_CANFIELD, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(316, LittleGate, "Little Gate",
@@ -975,4 +976,5 @@ registerGame(GameInfo(642, Lafayette, "Lafayette",
 registerGame(GameInfo(789, Beehive, "Beehive",
                       GI.GT_CANFIELD, 1, -1, GI.SL_BALANCED))
 registerGame(GameInfo(835, CasinoCanfield, "Casino Canfield",
-                      GI.GT_CANFIELD | GI.GT_SCORE, 1, 0, GI.SL_BALANCED))
+                      GI.GT_CANFIELD | GI.GT_SCORE, 1, 0, GI.SL_BALANCED,
+                      altnames="Reno"))

@@ -1386,7 +1386,8 @@ class CatherineTheGreat(Game):
 # register the game
 registerGame(GameInfo(330, Sultan, "Sultan",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_MOSTLY_LUCK,
-                      altnames=("Sultan of Turkey",)))
+                      altnames=("Sultan of Turkey",
+                                "Emperor of Germany")))
 registerGame(GameInfo(331, SultanPlus, "Sultan +",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(354, Boudoir, "Boudoir",

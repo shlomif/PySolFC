@@ -323,6 +323,16 @@ class GI:
             22231,
         )),
 
+        # Hoyle Card Games
+        # still missing:
+        #       Bowling (Schwader version), Euchre, Slide, Arcade games
+        ("Hoyle Card Games", (
+            2, 8, 9, 11, 13, 19, 24, 29, 31, 34, 36, 38, 42, 53, 57, 64,
+            105, 112, 126, 133, 134, 135, 139, 147, 173, 222, 234, 235,
+            256, 258, 296, 330, 398, 484, 619, 657, 737, 784, 800, 805,
+            901, 903,
+        )),
+
         #  KDE Patience 0.7.3 from KDE 1.1.2 (we have 6 out of 9 games)
         # ("KDE Patience 0.7.3", (2, 7, 8, 18, 256, 903,)),
         #  KDE Patience 2.0 from KDE 2.1.2 (we have 11 out of 13 games)
@@ -335,6 +345,26 @@ class GI:
 
         # Microsoft Solitaire (we have all 5 games)
         ("Microsoft Solitaire Collection", (2, 8, 11, 38, 22231,)),
+
+        # Solitaire Royale
+        # still missing: Pairs
+        ("Solitaire Royale", (
+            2, 36, 38, 105, 128, 176, 256, 328, 484, 835
+        )),
+
+        # Solitude for Windows
+        # still missing:
+        #       Bowling (Sackson version), Four Kingdoms, Icicles, Pluto,
+        #       Six By Six
+        ("Solitude for Windows", (
+            2, 8, 11, 13, 19, 24, 25, 29, 30, 31, 33, 34, 36, 38, 42,
+            43, 45, 48, 50, 53, 56, 57, 58, 59, 60, 62, 64, 67, 69, 71,
+            86, 87, 88, 89, 95, 96, 97, 98, 100, 104, 105, 107, 109,
+            112, 125, 128, 133, 134, 135, 139, 146, 147, 171, 172, 173,
+            221, 222, 224, 228, 233, 234, 235, 256, 257, 258, 282, 314,
+            327, 330, 355, 356, 398, 406, 414, 418, 434, 437, 484, 593,
+            737, 751, 805, 830, 845, 901, 903
+        )),
 
         # XM Solitaire
         # NOTE: This collection has a lot of games with the same name as
@@ -390,9 +420,12 @@ class GI:
         ("David Bernazzani", (314, 830,)),
         ("Gordon Bower", (763, 783,)),
         ("Art Cabral", (9,)),
-        ("Richard A. Canfield", (105,)),
+        ("Richard A. Canfield", (105, 835,)),
+        ("Lillian Davies and Christa Baran", (605,)),
         ("Robert Harbin", (381,)),
         ("Robert Hogue", (22216, 22217, 22218, 22231,)),
+        ("Erik den Hollander", (344, 544,)),
+        ("Rick Holzgrafe", (756, 757,)),
         ("Charles Jewell", (220, 309,)),
         ("Michael Keller", (592,)),
         ("Fred Lunde", (459,)),
@@ -400,8 +433,9 @@ class GI:
                                                      303, 362, 547, 738,
                                                      845)),
         ("Toby Ord", (788,)),
-        ("David Parlett", (64, 98, 294, 338, 654, 796, 812)),
+        ("David Parlett", (64, 98, 294, 338, 654, 796, 812, 844)),
         ("Randy Rasa", (187, 190, 191, 192,)),
+        ("Gregg Seelhoff", (347,)),
         ("Adam Selene", (366,)),
         ("Jim Sizelove", (555001,)),
         ("Captain Jeffrey T. Spaulding", (400,)),
@@ -491,7 +525,7 @@ class GI:
 
     # deprecated - the correct way is to or a GI.GT_XXX flag
     # in the registerGame() call
-    _CHILDREN_GAMES = [16, 33, 55, 90, 91, 96, 97, 176, 903, ]
+    _CHILDREN_GAMES = [16, 33, 55, 90, 91, 96, 97, 176, 328, 329, 903, ]
 
     _OPEN_GAMES = []
 

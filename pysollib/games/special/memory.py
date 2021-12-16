@@ -389,7 +389,8 @@ registerGame(GameInfo(177, Memory40, "Memory 40",
                       GI.GT_MEMORY | GI.GT_SCORE, 2, 0, GI.SL_SKILL,
                       suits=(0, 2), ranks=(0, 4, 5, 6, 7, 8, 9, 10, 11, 12)))
 registerGame(GameInfo(178, Concentration, "Concentration",
-                      GI.GT_MEMORY | GI.GT_SCORE, 1, 0, GI.SL_SKILL))
+                      GI.GT_MEMORY | GI.GT_SCORE, 1, 0, GI.SL_SKILL,
+                      altnames=("Pelmanism")))
 registerGame(GameInfo(843, MemorySequence, "Memory Sequence",
                       GI.GT_MEMORY | GI.GT_SCORE, 1, 0, GI.SL_SKILL,
                       suits=(1,), altnames=('Ace Through King',)))

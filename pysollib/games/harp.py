@@ -442,5 +442,6 @@ registerGame(GameInfo(689, Brush, "Brush",
                       GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(822, DoubleTrigon, "Double Trigon",
                       GI.GT_KLONDIKE, 2, -1, GI.SL_BALANCED))
-registerGame(GameInfo(828, Churchill, "Churchill Solitaire",
-                      GI.GT_GYPSY, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(828, Churchill, "Churchill",
+                      GI.GT_GYPSY, 2, 0, GI.SL_BALANCED,
+                      altnames=('Prime Minister')))

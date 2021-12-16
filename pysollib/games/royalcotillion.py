@@ -1357,7 +1357,8 @@ class TwilightZone(Game):
 
 # register the game
 registerGame(GameInfo(54, RoyalCotillion, "Royal Cotillion",
-                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_LUCK))
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_LUCK,
+                      altnames=("Lords and Ladies",)))
 registerGame(GameInfo(55, OddAndEven, "Odd and Even",
                       GI.GT_2DECK_TYPE, 2, 1, GI.SL_LUCK))
 registerGame(GameInfo(143, Kingdom, "Kingdom",

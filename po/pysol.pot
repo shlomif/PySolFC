@@ -4427,7 +4427,7 @@ msgid "&Clear bookmarks"
 msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:391
-msgid "Solitaire &Wizard"
+msgid "Solitaire &Wizard..."
 msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:393
@@ -4476,7 +4476,7 @@ msgid "Log..."
 msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:427
-msgid "D&emo statistics"
+msgid "D&emo statistics..."
 msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:430
@@ -4492,7 +4492,7 @@ msgid "Highlight p&iles"
 msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:438
-msgid "&Find card"
+msgid "&Find card..."
 msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:442
@@ -4504,7 +4504,7 @@ msgid "Demo (&all games)"
 msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:448 pysollib/ui/tktile/menubar.py:450
-msgid "&Solver"
+msgid "&Solver..."
 msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:453

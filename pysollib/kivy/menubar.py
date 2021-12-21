@@ -344,7 +344,7 @@ class EditMenuDialog(LMenuDialog):  # Tools
         # und solitär wizard (-> custom games).
         '''
         tv.add_node(LTreeNode(
-            text='Solitaire &Wizard', command=self.menubar.mWizard))
+            text='Solitaire &Wizard...', command=self.menubar.mWizard))
         tv.add_node(LTreeNode(
                 text='Edit current game', command=self.menubar.mWizardEdit))
         '''
@@ -410,7 +410,7 @@ class GameMenuDialog(LMenuDialog):
         submenu.add_command(
             label=n_("Progression..."),
             command=lambda x: self.mPlayerStats(mode=107))
-        submenu = MfxMenu(menu, label=n_("D&emo statistics"))
+        submenu = MfxMenu(menu, label=n_("D&emo statistics..."))
         submenu.add_command(
             label=n_("Current game..."),
             command=lambda x: self.mPlayerStats(mode=1101))
@@ -450,9 +450,9 @@ class AssistMenuDialog(LMenuDialog):
         menu.add_command(
             label=n_("Demo (&all games)"), command=self.mMixedDemo)
         if USE_FREECELL_SOLVER:
-            menu.add_command(label=n_("&Solver"), command=self.mSolver)
+            menu.add_command(label=n_("&Solver..."), command=self.mSolver)
         else:
-            menu.add_command(label=n_("&Solver"), state='disabled')
+            menu.add_command(label=n_("&Solver..."), state='disabled')
         menu.add_separator()
         menu.add_command(
             label=n_("&Piles description"),

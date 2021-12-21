@@ -397,7 +397,9 @@ class PysolMenubarTkCommon:
             command=self.mRestart, accelerator=m+"G")
 
         menu.add_separator()
-        menu.add_command(label=n_("Solitaire &Wizard"), command=self.mWizard)
+        menu.add_command(
+            label=n_("Solitaire &Wizard..."),
+            command=self.mWizard)
         menu.add_command(
             label=n_("&Edit current game"),
             command=self.mWizardEdit)
@@ -436,7 +438,7 @@ class PysolMenubarTkCommon:
             command=lambda: self.mPlayerStats(mode=103))
         menu.add_separator()
         menu.add_command(
-            label=n_("D&emo statistics"),
+            label=n_("D&emo statistics..."),
             command=lambda: self.mPlayerStats(mode=1101))
 
         menu = MfxMenu(self.menubar, label=n_("&Assist"))
@@ -447,7 +449,7 @@ class PysolMenubarTkCommon:
             label=n_("Highlight p&iles"),
             command=self.mHighlightPiles, accelerator="I")
         menu.add_command(
-            label=n_("&Find card"),
+            label=n_("&Find card..."),
             command=self.mFindCard, accelerator="F3")
         menu.add_separator()
         menu.add_command(
@@ -457,9 +459,9 @@ class PysolMenubarTkCommon:
             label=n_("Demo (&all games)"),
             command=self.mMixedDemo)
         if USE_FREECELL_SOLVER:
-            menu.add_command(label=n_("&Solver"), command=self.mSolver)
+            menu.add_command(label=n_("&Solver..."), command=self.mSolver)
         else:
-            menu.add_command(label=n_("&Solver"), state='disabled')
+            menu.add_command(label=n_("&Solver..."), state='disabled')
         menu.add_separator()
         menu.add_command(
             label=n_("&Piles description"),
@@ -563,6 +565,10 @@ class PysolMenubarTkCommon:
             submenu.add_checkbutton(
                 label=n_("&Center layout"), variable=self.tkopt.center_layout,
                 command=self.mOptCenterLayout)
+            submenu.add_checkbutton(
+                label=n_("Save games &geometry"),
+                variable=self.tkopt.save_games_geometry,
+                command=self.mOptSaveGamesGeometry)
         # manager = self.app.cardset_manager
         # n = manager.len()
         menu.add_command(
@@ -657,11 +663,6 @@ class PysolMenubarTkCommon:
         submenu.add_checkbutton(
             label=n_("Show &help bar"), variable=self.tkopt.helpbar,
             command=self.mOptHelpbar)
-        # if not USE_PIL:
-        menu.add_checkbutton(
-            label=n_("Save games &geometry"),
-            variable=self.tkopt.save_games_geometry,
-            command=self.mOptSaveGamesGeometry)
         menu.add_checkbutton(
             label=n_("&Demo logo"), variable=self.tkopt.demo_logo,
             command=self.mOptDemoLogo)

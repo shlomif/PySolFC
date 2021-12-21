@@ -233,7 +233,8 @@ class Pyramid(Game):
                 n += 1
         return rows
 
-    def createGame(self, pyramid_len=7, reserves=0, waste=True, texts=True):
+    def createGame(self, pyramid_len=7, reserves=0, waste=True,
+                   texts=True, playcards=2):
         # create layout
         layout, s = Layout(self), self.s
 
@@ -243,7 +244,7 @@ class Pyramid(Game):
         h = layout.YM + layout.YS + \
             (pyramid_len-1)*layout.YS//self.PYRAMID_Y_FACTOR
         if reserves:
-            h += layout.YS+2*layout.YOFFSET
+            h += layout.YS + playcards * layout.YOFFSET
         self.setSize(w, h)
 
         # create stacks
@@ -329,6 +330,53 @@ class Giza(Pyramid):
 
     def startGame(self):
         for i in range(3):
+            self.s.talon.dealRow(rows=self.s.reserves, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow(frames=4)
+
+
+# ************************************************************************
+# * Pyramid Dozen
+# ************************************************************************
+
+class PyramidDozen_StackMethods():
+    def acceptsCards(self, from_stack, cards):
+        if self.basicIsBlocked():
+            return False
+        if from_stack is self or not self.cards or len(cards) != 1:
+            return False
+        c = self.cards[-1]
+        return c.face_up and cards[0].face_up and \
+            (cards[0].rank + c.rank == 10 or cards[0].rank + c.rank == 23)
+
+    def _dropKingClickHandler(self, event):
+        return 0
+
+
+class PyramidDozen_RowStack(PyramidDozen_StackMethods, Pyramid_RowStack):
+    pass
+
+
+class PyramidDozen_Reserve(PyramidDozen_StackMethods, Giza_Reserve):
+    pass
+
+
+class PyramidDozen_Foundation(AbstractFoundationStack):
+    def acceptsCards(self, from_stack, cards):
+        return False
+
+
+class PyramidDozen(Giza):
+    RowStack_Class = PyramidDozen_RowStack
+    Reserve_Class = StackWrapper(PyramidDozen_Reserve, max_accept=1)
+    Foundation_Class = PyramidDozen_Foundation
+
+    def createGame(self):
+        Pyramid.createGame(self, reserves=6, waste=False, texts=False,
+                           playcards=3)
+
+    def startGame(self):
+        for i in range(4):
             self.s.talon.dealRow(rows=self.s.reserves, frames=0)
         self.startDealSample()
         self.s.talon.dealRow(frames=4)
@@ -1422,3 +1470,5 @@ registerGame(GameInfo(796, Exit, "Exit",
 registerGame(GameInfo(802, TripleAlliance2Decks, "Triple Alliance (2 decks)",
                       GI.GT_2DECK_TYPE | GI.GT_OPEN, 2, 0,
                       GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(846, PyramidDozen, "Pyramid Dozen",
+                      GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0, GI.SL_BALANCED))

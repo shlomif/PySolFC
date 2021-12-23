@@ -615,6 +615,19 @@ class Application:
         return self.opt.fonts.get(name)
 
     #
+    # search logic
+    #
+
+    def checkSearchString(self, search_string, check_string):
+        terms = search_string.split()
+        if len(terms) == 0:
+            return True
+        for term in terms:
+            if term.upper() not in check_string.upper():
+                return False
+        return True
+
+    #
     # cardset
     #
 

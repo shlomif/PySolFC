@@ -28,7 +28,7 @@ from pysollib.mygettext import _
 from pysollib.resource import CSI
 from pysollib.ui.tktile.selecttree import SelectDialogTreeData
 from pysollib.ui.tktile.tkcanvas import MfxCanvasImage
-from pysollib.ui.tktile.tkutil import loadImage
+from pysollib.ui.tktile.tkutil import bind, loadImage
 from pysollib.util import CARDSET
 
 from six.moves import tkinter
@@ -222,7 +222,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         self.app = app
         self.cardset_values = None
         # padx, pady = kw.padx, kw.pady
-        padx, pady = 5, 5
+        padx, pady = 4, 4
         if self.TreeDataHolder_Class.data is None:
             self.TreeDataHolder_Class.data = self.TreeData_Class(manager, key)
         #
@@ -236,17 +236,53 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         self.top.wm_minsize(400, 200)
 
         paned_window = ttk.PanedWindow(top_frame, orient='horizontal')
-        paned_window.pack(expand=True, fill='both')
+        paned_window.pack(expand=True, fill='both', padx=8, pady=8)
         left_frame = ttk.Frame(paned_window)
         right_frame = ttk.Frame(paned_window)
         paned_window.add(left_frame)
         paned_window.add(right_frame)
+
+        notebook = ttk.Notebook(left_frame)
+        notebook.grid(row=0, column=0, sticky='nsew',
+                      padx=padx, pady=pady)
+        tree_frame = ttk.Frame(notebook)
+        notebook.add(tree_frame, text=_('Tree View'))
+        search_frame = ttk.Frame(notebook)
+        notebook.add(search_frame, text=_('Search'))
+
+        # Tree
         font = app.getFont("default")
-        self.tree = self.Tree_Class(self, left_frame, key=key,
+        self.tree = self.Tree_Class(self, tree_frame, key=key,
                                     default=kw.default,
                                     font=font, width=w1)
-        self.tree.frame.grid(row=0, column=0, sticky='nsew',
-                             padx=padx, pady=pady)
+        self.tree.frame.pack(padx=padx, pady=pady, expand=True, fill='both')
+
+        # Search
+        searchText = tkinter.StringVar()
+        self.list_searchlabel = tkinter.Label(search_frame, text="Search:",
+                                              justify='left', anchor='w')
+        self.list_searchlabel.pack(side="top", fill='both', ipadx=1)
+        self.list_searchtext = tkinter.Entry(search_frame,
+                                             textvariable=searchText)
+        self.list_searchtext.pack(side="top", fill='both',
+                                  padx=padx, pady=pady, ipadx=1)
+        searchText.trace('w', self.performSearch)
+
+        self.list_scrollbar = tkinter.Scrollbar(search_frame)
+        self.list_scrollbar.pack(side="right", fill='both')
+
+        self.createBitmaps(search_frame, kw)
+        self.list = tkinter.Listbox(search_frame, exportselection=False)
+        self.list.pack(padx=padx, pady=pady, expand=True, side='left',
+                       fill='both', ipadx=1)
+        self.updateSearchList("")
+        bind(self.list, '<<ListboxSelect>>', self.selectSearchResult)
+        bind(self.list, '<FocusOut>',
+             lambda e: self.list.selection_clear(0, 'end'))
+
+        self.list.config(yscrollcommand=self.list_scrollbar.set)
+        self.list_scrollbar.config(command=self.list.yview)
+
         if USE_PIL:
             #
             var = tkinter.DoubleVar()
@@ -318,6 +354,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
                                    padx=padx, pady=pady)
 
             self._updateAutoScale()
+
         #
         left_frame.rowconfigure(0, weight=1)
         left_frame.columnconfigure(0, weight=1)
@@ -428,6 +465,35 @@ class SelectCardsetDialogWithPreview(MfxDialog):
 
     def _updateScale(self, v):
         self.updatePreview()
+
+    def performSearch(self, *args):
+        self.updateSearchList(self.list_searchtext.get())
+
+    def updateSearchList(self, searchString):
+        self.list.delete(0, "end")
+        self.list.vbar_show = True
+        cardsets = self.manager.getAllSortedByName()
+
+        results = []
+        for cardset in cardsets:
+            if self.app.checkSearchString(searchString, cardset.name):
+                results.append(cardset.name)
+        results.sort()
+        pos = 0
+        for result in results:
+            self.list.insert(pos, result)
+            pos += 1
+
+    def selectSearchResult(self, event):
+        oldcur = self.list["cursor"]
+        self.list["cursor"] = "watch"
+        sel = self.list.get(self.list.curselection())
+        cardset = self.manager.getByName(sel).index
+        self.list.update_idletasks()
+        self.tree.n_selections += 1
+        self.tree.updateSelection(cardset)
+        self.updatePreview(cardset)
+        self.list["cursor"] = oldcur
 
     def updatePreview(self, key=None):
         if key == self.preview_key:

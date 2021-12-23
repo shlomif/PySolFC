@@ -29,9 +29,10 @@ from pysollib.mfxutil import format_time
 from pysollib.mygettext import _
 from pysollib.resource import CSI
 from pysollib.ui.tktile.selecttree import SelectDialogTreeData
-from pysollib.ui.tktile.tkutil import unbind_destroy
+from pysollib.ui.tktile.tkutil import bind, unbind_destroy
 
 from six.moves import UserList
+from six.moves import tkinter
 from six.moves import tkinter_ttk as ttk
 
 from .selecttree import SelectDialogTreeCanvas
@@ -243,9 +244,9 @@ class SelectGameData(SelectDialogTreeData):
                                lambda gi: gi.si.game_flags & GI.GT_CHILDREN),
                 SelectGameNode(None, _("Games with Scoring"),
                                lambda gi: gi.si.game_flags & GI.GT_SCORE),
-                SelectGameNode(
-                    None, _("Games with Separate Decks"),
-                    lambda gi: gi.si.game_flags & GI.GT_SEPARATE_DECKS),
+                SelectGameNode(None, _("Games with Separate Decks"),
+                               lambda gi: gi.si.game_flags &
+                               GI.GT_SEPARATE_DECKS),
                 SelectGameNode(None, _("Open Games (all cards visible)"),
                                lambda gi: gi.si.game_flags & GI.GT_OPEN),
                 SelectGameNode(None, _("Relaxed Variants"),
@@ -282,6 +283,7 @@ class SelectGameDialog(MfxDialog):
         kw = self.initKw(kw)
         MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)
+
         self.createBitmaps(top_frame, kw)
         #
         self.app = app
@@ -342,6 +344,7 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         kw = self.initKw(kw)
         MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)
+
         self.createBitmaps(top_frame, kw)
         #
         self.app = app
@@ -373,12 +376,47 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         right_frame = ttk.Frame(paned_window)
         paned_window.add(left_frame)
         paned_window.add(right_frame)
+
+        notebook = ttk.Notebook(left_frame)
+        notebook.pack(expand=True, fill='both')
+        tree_frame = ttk.Frame(notebook)
+        notebook.add(tree_frame, text=_('Tree View'))
+        search_frame = ttk.Frame(notebook)
+        notebook.add(search_frame, text=_('Search'))
+
         # Tree
         font = app.getFont("default")
-        self.tree = self.Tree_Class(self, left_frame, key=gameid,
+        self.tree = self.Tree_Class(self, tree_frame, key=gameid,
                                     default=kw.default, font=font,
                                     width=w1)
         self.tree.frame.pack(padx=padx, pady=pady, expand=True, fill='both')
+
+        # Search
+        searchText = tkinter.StringVar()
+        self.list_searchlabel = tkinter.Label(search_frame, text="Search:",
+                                              justify='left', anchor='w')
+        self.list_searchlabel.pack(side="top", fill='both', ipadx=1)
+        self.list_searchtext = tkinter.Entry(search_frame,
+                                             textvariable=searchText)
+        self.list_searchtext.pack(side="top", fill='both',
+                                  padx=padx, pady=pady, ipadx=1)
+        searchText.trace('w', self.performSearch)
+
+        self.list_scrollbar = tkinter.Scrollbar(search_frame)
+        self.list_scrollbar.pack(side="right", fill='both')
+
+        self.createBitmaps(search_frame, kw)
+        self.list = tkinter.Listbox(search_frame, exportselection=False)
+        self.list.pack(padx=padx, pady=pady, expand=True, side='left',
+                       fill='both', ipadx=1)
+        self.updateSearchList("")
+        bind(self.list, '<<ListboxSelect>>', self.selectSearchResult)
+        bind(self.list, '<FocusOut>',
+             lambda e: self.list.selection_clear(0, 'end'))
+
+        self.list.config(yscrollcommand=self.list_scrollbar.set)
+        self.list_scrollbar.config(command=self.list.yview)
+
         # LabelFrame
         info_frame = ttk.LabelFrame(right_frame, text=_('About game'))
         info_frame.grid(row=0, column=0, padx=padx, pady=pady,
@@ -466,6 +504,38 @@ class SelectGameDialogWithPreview(SelectGameDialog):
             if self.preview_app:
                 destruct(self.preview_app)
             self.preview_app = None
+
+    def performSearch(self, *args):
+        self.updateSearchList(self.list_searchtext.get())
+
+    def updateSearchList(self, searchString):
+        self.list.delete(0, "end")
+        self.list.vbar_show = True
+        games = self.app.gdb.getAllGames()
+
+        results = []
+        for game in games:
+            if self.app.checkSearchString(searchString, game.name):
+                results.append(game.name)
+            for altname in game.altnames:
+                if self.app.checkSearchString(searchString, altname):
+                    results.append(altname)
+        results.sort()
+        pos = 0
+        for result in results:
+            self.list.insert(pos, result)
+            pos += 1
+
+    def selectSearchResult(self, event):
+        oldcur = self.list["cursor"]
+        self.list["cursor"] = "watch"
+        sel = self.list.get(self.list.curselection())
+        game = self.app.gdb.getGameByName(sel)
+        self.list.update_idletasks()
+        self.tree.n_selections += 1
+        self.tree.updateSelection(game)
+        self.updatePreview(game)
+        self.list["cursor"] = oldcur
 
     def updatePreview(self, gameid, animations=10):
         if gameid == self.preview_key:

@@ -3061,6 +3061,15 @@ msgstr ""
 msgid "Update statistics and logs"
 msgstr ""
 
+msgid "Tree View"
+msgstr ""
+
+msgid "Search"
+msgstr ""
+
+msgid "Search:"
+msgstr ""
+
 #: pysollib/pysolgtk/selectcardset.py:142 pysollib/tile/selectcardset.py:98
 #: pysollib/tile/selectcardset.py:115 pysollib/tile/selectcardset.py:132
 #: pysollib/tk/selectcardset.py:97 pysollib/tk/selectcardset.py:114

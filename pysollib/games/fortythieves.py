@@ -288,6 +288,7 @@ class EightyThieves(FortyThieves):
 
 # ************************************************************************
 # * Deuces
+# * Pluto
 # ************************************************************************
 
 class Deuces(FortyThieves):
@@ -307,6 +308,18 @@ class Deuces(FortyThieves):
         FortyThieves.startGame(self)
 
     shallHighlightMatch = Game._shallHighlightMatch_SSW
+
+
+class Pluto(Deuces):
+    def createGame(self):
+        FortyThieves.createGame(self, rows=12)
+
+    def _shuffleHook(self, cards):
+        return FortyThieves._shuffleHook(self, cards)
+
+    def startGame(self):
+        self.startDealSample()
+        FortyThieves.startGame(self)
 
 
 # ************************************************************************
@@ -1450,3 +1463,6 @@ registerGame(GameInfo(837, SingleSpark, "Single Spark",
                       altnames=("Simple Spark")))
 registerGame(GameInfo(838, TheSpark, "The Spark",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_LUCK))
+registerGame(GameInfo(847, Pluto, "Pluto",
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL,
+                      altnames=("Square")))

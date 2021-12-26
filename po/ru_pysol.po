@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2021-12-10 22:22-0500\n"
+"PO-Revision-Date: 2021-12-21 22:32-0500\n"
 "Last-Translator: Skomoroh <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
@@ -3306,6 +3306,15 @@ msgstr "Подтверждение выхода"
 #: pysollib/tk/playeroptionsdialog.py:106
 msgid "Update statistics and logs"
 msgstr "Обновлять статистику и лог"
+
+msgid "Tree View"
+msgstr ""
+
+msgid "Search"
+msgstr ""
+
+msgid "Search:"
+msgstr ""
 
 #: pysollib/pysolgtk/selectcardset.py:142 pysollib/tile/selectcardset.py:98
 #: pysollib/tile/selectcardset.py:115 pysollib/tile/selectcardset.py:132

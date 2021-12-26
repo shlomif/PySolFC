@@ -26,6 +26,7 @@ import os
 from pysollib.mfxutil import KwStruct
 from pysollib.mygettext import _
 from pysollib.ui.tktile.selecttree import SelectDialogTreeData
+from pysollib.ui.tktile.tkutil import bind
 
 import six
 from six.moves import tkinter
@@ -136,18 +137,59 @@ class SelectTileDialogWithPreview(MfxDialog):
         geometry = ("%dx%d+%d+%d" % (w, h, (sw - w) / 2, (sh - h) / 2))
         self.top.wm_minsize(400, 200)
 
+        padx, pady = 4, 4
+
+        paned_window = ttk.PanedWindow(top_frame, orient='horizontal')
+        paned_window.pack(expand=True, fill='both', padx=8, pady=8)
+        left_frame = ttk.Frame(paned_window)
+        right_frame = ttk.Frame(paned_window)
+        paned_window.add(left_frame)
+        paned_window.add(right_frame)
+
+        notebook = ttk.Notebook(left_frame)
+        notebook.pack(expand=True, fill='both')
+        tree_frame = ttk.Frame(notebook)
+        notebook.add(tree_frame, text=_('Tree View'))
+        search_frame = ttk.Frame(notebook)
+        notebook.add(search_frame, text=_('Search'))
+
         font = app.getFont("default")
         padx, pady = 4, 4
-        frame = ttk.Frame(top_frame)
-        frame.pack(fill='both', expand=True,
-                   padx=kw.padx-padx, pady=kw.pady-pady)
-        self.tree = self.Tree_Class(self, frame, key=key, default=kw.default,
+        self.tree = self.Tree_Class(self, tree_frame, key=key,
+                                    default=kw.default,
                                     font=font, width=w1)
-        self.tree.frame.pack(side="left", fill='both', expand=False,
-                             padx=padx, pady=pady)
-        self.preview = MfxScrolledCanvas(frame, hbar=0, vbar=0)
+        self.tree.frame.pack(padx=padx, pady=pady, expand=True, fill='both')
+
+        # Search
+        searchText = tkinter.StringVar()
+        self.list_searchlabel = tkinter.Label(search_frame, text="Search:",
+                                              justify='left', anchor='w')
+        self.list_searchlabel.pack(side="top", fill='both', ipadx=1)
+        self.list_searchtext = tkinter.Entry(search_frame,
+                                             textvariable=searchText)
+        self.list_searchtext.pack(side="top", fill='both',
+                                  padx=padx, pady=pady, ipadx=1)
+        searchText.trace('w', self.performSearch)
+
+        self.list_scrollbar = tkinter.Scrollbar(search_frame)
+        self.list_scrollbar.pack(side="right", fill='both')
+
+        self.createBitmaps(search_frame, kw)
+        self.list = tkinter.Listbox(search_frame, exportselection=False)
+        self.list.pack(padx=padx, pady=pady, expand=True, side='left',
+                       fill='both', ipadx=1)
+        self.updateSearchList("")
+        bind(self.list, '<<ListboxSelect>>', self.selectSearchResult)
+        bind(self.list, '<FocusOut>',
+             lambda e: self.list.selection_clear(0, 'end'))
+
+        self.list.config(yscrollcommand=self.list_scrollbar.set)
+        self.list_scrollbar.config(command=self.list.yview)
+
+        self.preview = MfxScrolledCanvas(right_frame, hbar=0, vbar=0)
         self.preview.pack(side="right", fill='both', expand=True,
                           padx=padx, pady=pady)
+
         self.preview.canvas.preview = 1
         # create a preview of the current state
         self.preview_key = -1
@@ -199,6 +241,37 @@ class SelectTileDialogWithPreview(MfxDialog):
                     self.updatePreview(self.key)
             return
         MfxDialog.mDone(self, button)
+
+    def performSearch(self, *args):
+        self.updateSearchList(self.list_searchtext.get())
+
+    def updateSearchList(self, searchString):
+        self.list.delete(0, "end")
+        self.list.vbar_show = True
+        tiles = self.manager.getAllSortedByName()
+
+        results = []
+        for tile in tiles:
+            if tile.name == 'None':
+                continue
+            if self.app.checkSearchString(searchString, tile.name):
+                results.append(tile.name)
+        results.sort()
+        pos = 0
+        for result in results:
+            self.list.insert(pos, result)
+            pos += 1
+
+    def selectSearchResult(self, event):
+        oldcur = self.list["cursor"]
+        self.list["cursor"] = "watch"
+        sel = self.list.get(self.list.curselection())
+        cardset = self.manager.getByName(sel).index
+        self.list.update_idletasks()
+        self.tree.n_selections += 1
+        self.tree.updateSelection(cardset)
+        self.updatePreview(cardset)
+        self.list["cursor"] = oldcur
 
     def updatePreview(self, key):
         if key == self.preview_key:

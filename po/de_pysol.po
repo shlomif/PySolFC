@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2021-12-10 22:21-0500\n"
+"PO-Revision-Date: 2021-12-21 22:33-0500\n"
 "Last-Translator: H. Schaekel <Holger.Schaekel@web.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -3188,6 +3188,15 @@ msgstr "Abbruch bestätigen"
 #: pysollib/tk/playeroptionsdialog.py:106
 msgid "Update statistics and logs"
 msgstr "Erneuert Statistiken und Protokolle"
+
+msgid "Tree View"
+msgstr ""
+
+msgid "Search"
+msgstr ""
+
+msgid "Search:"
+msgstr ""
 
 #: pysollib/pysolgtk/selectcardset.py:142 pysollib/tile/selectcardset.py:98
 #: pysollib/tile/selectcardset.py:115 pysollib/tile/selectcardset.py:132

@@ -33,7 +33,8 @@ from pysollib.ui.tktile.tkutil import bind, unbind_destroy
 
 from six.moves import tkinter
 
-REMOTE_PROTOCOLS = ("ftp:", "gopher:", "http:", "mailto:", "news:", "telnet:")
+REMOTE_PROTOCOLS = ("ftp:", "gopher:", "http:", "https:", "mailto:", "news:",
+                    "telnet:")
 
 # ************************************************************************
 # *

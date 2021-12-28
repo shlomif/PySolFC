@@ -525,7 +525,8 @@ class StepUp_Foundation(SS_FoundationStack):
     def acceptsCards(self, from_stack, cards):
         if not SS_FoundationStack.acceptsCards(self, from_stack, cards):
             return False
-        if from_stack in self.game.s.reserves:
+        if (from_stack in self.game.s.reserves or
+                from_stack == self.game.s.waste):
             return True
         for r in self.game.s.reserves:
             if not r.cards:
@@ -537,10 +538,27 @@ class StepUp_Talon(WasteTalonStack):
     def canDealCards(self):
         if not WasteTalonStack.canDealCards(self):
             return False
+        if self.game.draws_with_open < 3:
+            return True
         for r in self.game.s.reserves:
             if not r.cards:
                 return False
         return True
+
+    def dealCards(self, sound=False, shuffle=False):
+        old_state = self.game.enterState(self.game.S_FILL)
+        self.game.saveStateMove(2 | 16)  # for undo
+        empties = False
+        for r in self.game.s.reserves:
+            if not r.cards:
+                empties = True
+        if empties:
+            self.game.draws_with_open += 1
+        else:
+            self.game.draws_with_open = 0
+        self.game.saveStateMove(1 | 16)  # for redo
+        self.game.leaveState(old_state)
+        WasteTalonStack.dealCards(self, sound, shuffle)
 
 
 class StepUp_RowStack(AC_RowStack):
@@ -555,11 +573,13 @@ class StepUp_RowStack(AC_RowStack):
 
 class StepUp(Game):
     Hint_Class = CautiousDefaultHint
+    GAME_VERSION = 2
 
     def createGame(self):
         l, s = Layout(self), self.s
         self.setSize(l.XM+13*l.XS, l.YM+7*l.YS)
         self.base_rank = ANY_RANK
+        self.draws_with_open = 0
 
         x, y = l.XM+2.5*l.XS, l.YM
         for i in range(8):
@@ -592,6 +612,7 @@ class StepUp(Game):
     def startGame(self):
         c = self.s.talon.cards[-1]
         self.base_rank = c.rank
+        self.draws_with_open = 0
         self.s.talon.flipMove()
         self.s.talon.moveMove(1, self.s.foundations[c.suit], frames=0)
         for s in self.s.foundations:
@@ -612,16 +633,24 @@ class StepUp(Game):
         self.texts.info.config(text=t)
 
     def _restoreGameHook(self, game):
-        self.base_rank = game.loadinfo.base_rank
-        for s in self.s.foundations:
-            s.cap.base_rank = self.base_rank
+        self.base_rank = game.loadinfo.dval.get('BaseRank')
+        self.draws_with_open = game.loadinfo.dval.get('DrawsWithOpen')
 
     def _loadGameHook(self, p):
-        self.loadinfo.addattr(base_rank=None)    # register extra load var.
-        self.loadinfo.base_rank = p.load()
+        self.loadinfo.addattr(dval=p.load())
 
     def _saveGameHook(self, p):
-        p.dump(self.base_rank)
+        dval = {'BaseRank': self.base_rank,
+                'DrawsWithOpen': self.draws_with_open}
+        p.dump(dval)
+
+    def setState(self, state):
+        # restore saved vars (from undo/redo)
+        self.draws_with_open = state[0]
+
+    def getState(self):
+        # save vars (for undo/redo)
+        return [self.draws_with_open]
 
     shallHighlightMatch = Game._shallHighlightMatch_ACW
 

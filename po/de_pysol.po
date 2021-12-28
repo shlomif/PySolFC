@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2021-12-21 22:33-0500\n"
+"PO-Revision-Date: 2021-12-28 13:52-0500\n"
 "Last-Translator: H. Schaekel <Holger.Schaekel@web.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -4982,6 +4982,9 @@ msgstr ""
 #: pysollib/ui/tktile/menubar.py:657
 msgid "&Rules for this game"
 msgstr "&Regeln dieses Spiels"
+
+msgid "What's &new?"
+msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:660
 msgid "&License terms"

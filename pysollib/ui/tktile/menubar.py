@@ -692,10 +692,13 @@ class PysolMenubarTkCommon:
         menu.add_command(
             label=n_("&Rules for this game"),
             command=self.mHelpRules, accelerator="F1")
+        menu.add_separator()
+        menu.add_command(
+            label=n_("What's &new?"),
+            command=self.mHelpNews)
         menu.add_command(
             label=n_("&License terms"),
             command=self.mHelpLicense)
-        # menu.add_command(label=n_("What's &new ?"), command=self.mHelpNews)
         if WIN_SYSTEM != "aqua":
             menu.add_separator()
             menu.add_command(

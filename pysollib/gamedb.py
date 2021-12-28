@@ -445,6 +445,7 @@ class GI:
         ("Thomas Warfield", (189, 264, 300, 320, 336, 337, 359,
                              415, 427, 458, 495, 496, 497, 508,
                              800, 814, 820, 825,)),
+        ("Mary Whitmore Jones", (421, 624,)),
         )
 
     GAMES_BY_PYSOL_VERSION = (

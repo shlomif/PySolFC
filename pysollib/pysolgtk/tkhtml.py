@@ -48,7 +48,8 @@ if __name__ == '__main__':
     import gettext
     gettext.install('pysol', d, unicode=True)
 
-REMOTE_PROTOCOLS = ('ftp:', 'gopher:', 'http:', 'mailto:', 'news:', 'telnet:')
+REMOTE_PROTOCOLS = ('ftp:', 'gopher:', 'http:', 'https:', 'mailto:', 'news:',
+                    'telnet:')
 
 
 # ************************************************************************

@@ -39,7 +39,8 @@ from pysollib.mygettext import _
 from pysollib.pysoltk import MfxMessageDialog
 from pysollib.settings import TITLE
 
-REMOTE_PROTOCOLS = ("ftp:", "gopher:", "http:", "mailto:", "news:", "telnet:")
+REMOTE_PROTOCOLS = ("ftp:", "gopher:", "http:", "https:", "mailto:", "news:",
+                    "telnet:")
 
 # ************************************************************************
 # *

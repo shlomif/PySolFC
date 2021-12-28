@@ -56,7 +56,8 @@ files = [
     ('install.html', 'PySol - Installation'),
     ('intro.html', 'PySol - Introduction'),
     ('license.html', 'PySol Software License'),
-    ('news.html', 'PySol - a Solitaire Game Collection'),
+    ('news.html', 'PySol - What\'s New?'),
+    ('news_old.html', 'PySol - a Solitaire Game Collection'),
     # ('rules_alternate.html', 'PySol - a Solitaire Game Collection'),
     # ('rules.html', 'PySol - a Solitaire Game Collection'),
     ]

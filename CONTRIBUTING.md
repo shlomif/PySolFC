@@ -46,7 +46,7 @@ or Google Drive).
 
 In order to publish a new version, follow these steps:
 
-1. Update `NEWS.asciidoc`.
+1. Update `NEWS.asciidoc`.  The release notes should also be added to `html-src/news.html`, along with `templates/index.html` in the website repo.
 2. Update the `VERSION_TUPLE =` line in `pysollib/settings.py`.
 3. Test using `gmake test` .
 4. `git commit` the changes .

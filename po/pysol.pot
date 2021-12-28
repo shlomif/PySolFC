@@ -4781,6 +4781,9 @@ msgstr ""
 msgid "&Rules for this game"
 msgstr ""
 
+msgid "What's &new?"
+msgstr ""
+
 #: pysollib/ui/tktile/menubar.py:660
 msgid "&License terms"
 msgstr ""

@@ -47,7 +47,7 @@ from pysollib.stack import \
         WasteStack, \
         WasteTalonStack
 from pysollib.util import ACE, ANY_RANK, ANY_SUIT, JACK, KING, NO_RANK, \
-        UNLIMITED_ACCEPTS, \
+        RANKS, UNLIMITED_ACCEPTS, \
         UNLIMITED_CARDS
 
 
@@ -745,25 +745,57 @@ class AnnoDomini_Hint(DefaultHint):
         pass
 
 
+class AnnoDomini_Foundation(RK_FoundationStack):
+    getBottomImage = RK_RowStack._getReserveBottomImage
+
+    def acceptsCards(self, from_stack, cards):
+        if len(cards) > 1:
+            return False
+
+        if len(self.cards) > 0:
+            return (self.cards[-1].suit == cards[0].suit and
+                    RK_FoundationStack.acceptsCards(self, from_stack, cards))
+
+        foundations = self.game.s.foundations
+        for i in range(4):
+            if (foundations[i].cards and
+                    foundations[i].cards[0].suit == cards[0].suit):
+                return False
+        if cards[0].rank != self.cap.base_rank:
+            return False
+        return True
+
+
 class AnnoDomini(Numerica):
     Hint_Class = AnnoDomini_Hint
 
-    Foundation_Class = StackWrapper(SS_FoundationStack, suit=ANY_SUIT, mod=13)
+    Foundation_Class = StackWrapper(AnnoDomini_Foundation,
+                                    suit=ANY_SUIT, mod=13)
     RowStack_Class = StackWrapper(AC_RowStack, mod=13)
+
+    GAME_VERSION = 2
 
     def createGame(self):
         lay = Numerica.createGame(
             self, max_rounds=3, waste_max_cards=UNLIMITED_CARDS)
-        year = str(time.localtime()[0])
+        self.year = str(time.localtime()[0])
         i = 0
+        font = self.app.getFont("canvas_default")
         for s in self.s.foundations:
-            # setup base_rank & base_suit
-            s.cap.suit = i
-            s.cap.base_suit = i
-            d = int(year[i])
+            d = int(self.year[i])
             if d == 0:
                 d = JACK
             s.cap.base_rank = d
+            if self.preview <= 1:
+                label = RANKS[d][0]
+                if label == "1":
+                    label = "10"
+                s.texts.misc = MfxCanvasText(self.canvas,
+                                             s.x + lay.CW // 2,
+                                             s.y + lay.CH // 2,
+                                             anchor="center",
+                                             font=font)
+                s.texts.misc.config(text=label)
             i += 1
         lay.createRoundText(self.s.talon, 'nn')
 
@@ -771,6 +803,28 @@ class AnnoDomini(Numerica):
         self.startDealSample()
         self.s.talon.dealRow()
         self.s.talon.dealCards()
+
+    def _restoreGameHook(self, game):
+        self.year = game.loadinfo.year
+        i = 0
+        for s in self.s.foundations:
+            d = int(self.year[i])
+            if d == 0:
+                d = JACK
+            s.cap.base_rank = i
+            if self.preview <= 1:
+                label = RANKS[d][0]
+                if label == "1":
+                    label = "10"
+                s.texts.misc.config(text=label)
+                i += 1
+
+    def _loadGameHook(self, p):
+        self.loadinfo.addattr(year=None)    # register extra load var.
+        self.loadinfo.year = p.load()
+
+    def _saveGameHook(self, p):
+        p.dump(self.year)
 
     shallHighlightMatch = Game._shallHighlightMatch_ACW
 

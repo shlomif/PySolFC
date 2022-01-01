@@ -159,6 +159,7 @@ class FortyThieves(Game):
 # * Carre Napoleon
 # * Josephine
 # * Marie Rose
+# * Malmaison
 # * Big Courtyard
 # * San Juan Hill
 # * Famous Fifty
@@ -240,6 +241,13 @@ class MarieRose(Josephine):
 
     def createGame(self):
         FortyThieves.createGame(self, rows=12, playcards=16, XCARDS=96)
+
+
+class Malmaison(MarieRose):
+    DEAL = (0, 8)
+
+    def createGame(self):
+        FortyThieves.createGame(self, rows=10, playcards=16, XCARDS=128)
 
 
 class BigCourtyard(Courtyard):
@@ -1466,3 +1474,5 @@ registerGame(GameInfo(838, TheSpark, "The Spark",
 registerGame(GameInfo(847, Pluto, "Pluto",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL,
                       altnames=("Square")))
+registerGame(GameInfo(848, Malmaison, "Malmaison",
+                      GI.GT_FORTY_THIEVES, 4, 0, GI.SL_MOSTLY_SKILL))

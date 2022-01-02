@@ -988,6 +988,7 @@ class Game(object):
         self.newGame(restart=1, random=self.random)
 
     def resizeImages(self, manually=False):
+        self.center_offset = (0, 0)
         if self.canvas.winfo_ismapped():
             # apparent size of canvas
             vw = self.canvas.winfo_width()
@@ -999,7 +1000,7 @@ class Game(object):
             vw, vh = self.app.opt.game_geometry
             if not vw:
                 # first run of the game
-                return 1, 1, 1, 1, 0, 0
+                return 1, 1, 1, 1
         # requested size of canvas (createGame -> setSize)
         iw, ih = self.init_size
 
@@ -1014,16 +1015,14 @@ class Game(object):
                 xf = yf = min(xf, yf)
         else:
             xf, yf = self.app.opt.scale_x, self.app.opt.scale_y
-        cw, ch = self.getCenterOffset(vw, vh, iw, ih, xf, yf)
-        self.center_offset = (cw, ch)
+        self.center_offset = self.getCenterOffset(vw, vh, iw, ih, xf, yf)
         if (not self.app.opt.spread_stacks or manually):
             # images
             self.app.images.resize(xf, yf)
         # cards
         for card in self.cards:
             card.update(card.id, card.deck, card.suit, card.rank, self)
-        return xf, yf, self.app.images._xfactor, self.app.images._yfactor, \
-            cw, ch
+        return xf, yf, self.app.images._xfactor, self.app.images._yfactor
 
     def getCenterOffset(self, vw, vh, iw, ih, xf, yf):
         if (not self.app.opt.center_layout or self.app.opt.spread_stacks or
@@ -1045,9 +1044,9 @@ class Game(object):
         if not USE_PIL:
             return
         self.deleteStackDesc()
-        xf, yf, xf0, yf0, cw, ch = \
+        xf, yf, xf0, yf0 = \
             self.resizeImages(manually=card_size_manually)
-        self.center_offset = (cw, ch)
+        cw, ch = self.center_offset[0], self.center_offset[1]
         for stack in self.allstacks:
 
             if (self.app.opt.spread_stacks):

@@ -57,6 +57,7 @@ class GI:
     GT_BAKERS_DOZEN = 4
     GT_BELEAGUERED_CASTLE = 5
     GT_CANFIELD = 6
+    GT_CRIBBAGE_TYPE = 37
     GT_DASHAVATARA_GANJIFA = 7
     GT_FAN_TYPE = 8
     GT_FORTY_THIEVES = 9
@@ -64,8 +65,10 @@ class GI:
     GT_GOLF = 11
     GT_GYPSY = 12
     GT_HANAFUDA = 13
+    GT_HANOI = 35
     GT_HEXADECK = 14
     GT_KLONDIKE = 15
+    GT_LIGHTS_OUT = 38
     GT_MAHJONGG = 16
     GT_MATRIX = 17
     GT_MEMORY = 18
@@ -75,20 +78,20 @@ class GI:
     GT_NAVAGRAHA_GANJIFA = 22
     GT_NUMERICA = 23
     GT_PAIRING_TYPE = 24
+    GT_PEGGED = 36
     GT_POKER_TYPE = 25
     GT_PUZZLE_TYPE = 26
     GT_RAGLAN = 27
     GT_ROW_TYPE = 28
+    GT_SHISEN_SHO = 34
     GT_SIMPLE_TYPE = 29
     GT_SPIDER = 30
     GT_TAROCK = 31
     GT_TERRACE = 32
     GT_YUKON = 33
-    GT_SHISEN_SHO = 34
-    GT_HANOI = 35
-    GT_PEGGED = 36
-    GT_CRIBBAGE_TYPE = 37
+
     GT_CUSTOM = 40
+
     # extra flags
     GT_BETA = 1 << 12      # beta version of game driver
     GT_CHILDREN = 1 << 13      # *not used*
@@ -139,6 +142,7 @@ class GI:
 
         GT_CRIBBAGE_TYPE:       n_("Cribbage"),
         GT_HEXADECK:            n_("Hex A Deck"),
+        GT_LIGHTS_OUT:          n_("Lights Out"),
         GT_MATRIX:              n_("Matrix"),
         GT_MEMORY:              n_("Memory"),
         GT_PEGGED:              n_("Pegged"),
@@ -246,6 +250,8 @@ class GI:
             lambda gi, gt=GT_CRIBBAGE_TYPE: gi.si.game_type == gt),
         (n_("Hex A Deck type"),
             lambda gi, gt=GT_HEXADECK: gi.si.game_type == gt),
+        (n_("Lights Out type"),
+            lambda gi, gt=GT_LIGHTS_OUT: gi.si.game_type == gt),
         (n_("Matrix type"), lambda gi, gt=GT_MATRIX: gi.si.game_type == gt),
         (n_("Memory type"), lambda gi, gt=GT_MEMORY: gi.si.game_type == gt),
         (n_("Pegged type"), lambda gi, gt=GT_PEGGED: gi.si.game_type == gt),
@@ -521,7 +527,7 @@ class GI:
         ('fc-2.12',   tuple(range(774, 811)) + (16681,) +
          tuple(range(22217, 22219))),
         ('fc-2.14', tuple(range(811, 827))),
-        ('fc-2.16', tuple(range(827, 849)))
+        ('fc-2.16', tuple(range(827, 849)) + tuple(range(22400, 22407)))
     )
 
     # deprecated - the correct way is to or a GI.GT_XXX flag

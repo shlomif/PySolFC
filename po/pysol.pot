@@ -433,6 +433,9 @@ msgstr ""
 msgid "Cribbage"
 msgstr ""
 
+msgid "Lights Out"
+msgstr ""
+
 #: pysollib/resource.py:236
 msgid "Matrix"
 msgstr ""
@@ -576,6 +579,9 @@ msgid "Puzzle type"
 msgstr ""
 
 msgid "Cribbage type"
+msgstr ""
+
+msgid "Lights Out type"
 msgstr ""
 
 msgid "Pegged type"

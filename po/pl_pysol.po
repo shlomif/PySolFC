@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2021-12-28 13:51-0500\n"
+"PO-Revision-Date: 2022-01-01 23:21-0500\n"
 "Last-Translator: Jerzy Trzeciak <artusek@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
@@ -460,6 +460,9 @@ msgstr "Gry czterotaliowe"
 msgid "Cribbage"
 msgstr ""
 
+msgid "Lights Out"
+msgstr ""
+
 #: pysollib/resource.py:236
 msgid "Matrix"
 msgstr "Matrix"
@@ -605,6 +608,9 @@ msgid "Puzzle type"
 msgstr "Gry typu Puzzle"
 
 msgid "Cribbage type"
+msgstr ""
+
+msgid "Lights Out type"
 msgstr ""
 
 msgid "Pegged type"

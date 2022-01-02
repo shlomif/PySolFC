@@ -27,7 +27,7 @@ from pysollib.game import Game
 from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.layout import Layout
 from pysollib.mfxutil import kwdefault
-from pysollib.pysoltk import bind
+from pysollib.settings import TOOLKIT
 from pysollib.stack import \
         InitialDealTalonStack, \
         OpenStack
@@ -38,7 +38,7 @@ from pysollib.util import ANY_RANK
 # ************************************************************************
 
 
-class Matrix_RowStack(OpenStack):
+class LightsOut_RowStack(OpenStack):
 
     def __init__(self, x, y, game, **cap):
         kwdefault(cap, max_move=1, max_accept=1, max_cards=1,
@@ -60,84 +60,68 @@ class Matrix_RowStack(OpenStack):
         # the tile (from Tk's stacking view)
         return len(self.cards) - 1
 
-    def _calcMouseBind(self, binding_format):
-        return self.game.app.opt.calcCustomMouseButtonsBinding(binding_format)
-
-    def initBindings(self):
-        bind(
-            self.group,
-            self._calcMouseBind("<{mouse_button1}>"),
-            self._Stack__clickEventHandler
-        )
-        bind(
-            self.group,
-            self._calcMouseBind("<Control-{mouse_button1}>"),
-            self._Stack__controlclickEventHandler,
-        )
-
-    def getBottomImage(self):
-        return self.game.app.images.getBlankBottom()
-
-    def blockMap(self):
-        ncards = self.game.gameinfo.ncards
-        id, sqrt = self.id, int(math.sqrt(ncards))
-        line, row, column = int(id / sqrt), [], []
-        for r in self.game.s.rows[line * sqrt:sqrt + line * sqrt]:
-            row.append(r.id)
-        while id >= sqrt:
-            id = id - sqrt
-        while id < ncards:
-            column.append(id)
-            id = id + sqrt
-        return [row, column]
-
-    def basicIsBlocked(self):
-        stack_map = self.blockMap()
-        for j in range(2):
-            for i in range(len(stack_map[j])):
-                if not self.game.s.rows[stack_map[j][i]].cards:
-                    return 0
-        return 1
-
     def clickHandler(self, event):
-        game = self.game
-        row = game.s.rows
-        if not self.cards or game.drag.stack is self or self.basicIsBlocked():
-            return 1
-        game.playSample("move", priority=10)
-        stack_map = self.blockMap()
-        for j in range(2):
-            dir = 1
-            for i in range(len(stack_map[j])):
-                to_stack = row[stack_map[j][i]]
-                if to_stack is self:
-                    dir = -1
-                if not to_stack.cards:
-                    self._stopDrag()
-                    step = 1
-                    from_stack = row[stack_map[j][i + dir]]
-                    while from_stack is not self:
-                        from_stack.playMoveMove(
-                            1, to_stack, frames=0, sound=False)
-                        to_stack = from_stack
-                        step = step + 1
-                        from_stack = row[stack_map[j][i + dir * step]]
-                    self.playMoveMove(1, to_stack, frames=0, sound=False)
-                    return 1
-        return 1
+        self.playFlipMove()
+
+    def playFlipMove(self, sound=True, animation=False):
+        rows = int(math.sqrt(self.game.gameinfo.ncards))
+
+        playSpace = self.id
+
+        if playSpace % rows != rows - 1:
+            self.game.s.rows[playSpace + 1].flipMove()
+
+        if playSpace % rows != 0:
+            self.game.s.rows[playSpace - 1].flipMove()
+
+        if playSpace + rows < rows ** 2:
+            self.game.s.rows[playSpace + rows].flipMove()
+
+        if playSpace - rows >= 0:
+            self.game.s.rows[playSpace - rows].flipMove()
+
+        return OpenStack.playFlipMove(self, sound, animation)
+
+
+# Talon that can deal randomly flipped cards.
+class LightsOut_Talon(InitialDealTalonStack):
+
+    def dealToStacks(self, stacks, flip=1, reverse=0, frames=-1):
+        if not self.cards or not stacks:
+            return 0
+        assert len(self.cards) >= len(stacks)
+        old_state = self.game.enterState(self.game.S_DEAL)
+        if reverse:
+            stacks = list(stacks)
+            stacks.reverse()
+        for r in stacks:
+            if self.getCard().face_up:
+                # TODO: This probably needs a refactor.
+                # For some reason, unless I do TWO flipMoves here,
+                # the card will act flipped, but not show as flipped
+                # when dealt.
+                self.game.flipMove(self)
+                self.game.flipMove(self)
+            self.game.moveMove(1, self, r, frames=frames)
+        self.game.leaveState(old_state)
+        if TOOLKIT == 'kivy':
+            self.game.top.waitAnimation()
+        return len(stacks)
 
 
 # ************************************************************************
-# * Matrix Game
+# * Lights Out Game
 # ************************************************************************
 
-class Matrix(Game):
+class LightsOut(Game):
 
     #
     # Game layout
     #
 
     def createGame(self):
+        self.shownCards = tuple()
+
         l, s = Layout(self), self.s
         grid = math.sqrt(self.gameinfo.ncards)
         assert grid == int(grid)
@@ -151,12 +135,12 @@ class Matrix(Game):
         for j in range(grid):
             x, y = l.XM, l.YM + l.CH * j
             for i in range(grid):
-                s.rows.append(Matrix_RowStack(x, y, self))
+                s.rows.append(LightsOut_RowStack(x, y, self))
                 x = x + l.CW
 
         # Create talon
-        x, y = -2*l.XS, 0               # invisible
-        s.talon = InitialDealTalonStack(x, y, self)
+        x, y = -2 * l.XS, 0               # invisible
+        s.talon = LightsOut_Talon(x, y, self)
 
         # Define stack groups
         l.defaultStackGroups()
@@ -166,21 +150,11 @@ class Matrix(Game):
     #
 
     def _shuffleHook(self, cards):
-        # create solved game
-        ncards = len(cards)-1
-        for c in cards:
-            if c.rank == ncards:
-                cards.remove(c)
-                break
-        n = 0
-        for i in range(ncards-1):
-            for j in range(i+1, ncards):
-                if cards[i].rank > cards[j].rank:
-                    n += 1
+        # no shuffling
+        cards = self._shuffleHookMoveToTop(cards, lambda c: (1, -c.id))
+
         cards.reverse()
-        if n % 2:
-            cards[0], cards[1] = cards[1], cards[0]
-        return [c]+cards
+        return cards
 
     #
     # Game over rides
@@ -188,19 +162,39 @@ class Matrix(Game):
 
     def startGame(self):
         assert len(self.s.talon.cards) == self.gameinfo.ncards
+
+        rows = int(math.sqrt(self.gameinfo.ncards))
+
+        n = 0
+        cards = self.s.talon.cards
+        for card in cards:
+            if self.random.randint(0, 1) == 1:
+                card.face_up = not card.face_up
+                if n % rows != rows - 1:
+                    cards[n + 1].face_up = not cards[n + 1].face_up
+
+                if n % rows != 0:
+                    cards[n - 1].face_up = not cards[n - 1].face_up
+
+                if n + rows < rows ** 2:
+                    cards[n + rows].face_up = not cards[n + rows].face_up
+
+                if n - rows >= 0:
+                    cards[n - rows].face_up = not cards[n - rows].face_up
+
+            n += 1
+
         self.startDealSample()
-        self.s.talon.dealRow(rows=self.s.rows[:self.gameinfo.ncards - 1],
-                             frames=3)
+        self.s.talon.dealRow(rows=self.s.rows[:self.gameinfo.ncards],
+                             flip=0, frames=3)
 
     def isGameWon(self):
         if self.busy:
             return 0
         s = self.s.rows
-        mylen = len(s) - 1
-        for r in s[:mylen]:
-            if not r.cards or not r.cards[0].rank == r.id:
+        for r in s:
+            if r.cards[0].face_up:
                 return 0
-        self.s.talon.dealRow(rows=s[mylen:], frames=0)
         return 1
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
@@ -216,25 +210,23 @@ def r(id, short_name, width):
     name = short_name
     ncards = width ** 2
     gi = GameInfo(
-        id, Matrix, name,
-        GI.GT_MATRIX, 1, 0, GI.SL_SKILL,
+        id, LightsOut, name,
+        GI.GT_LIGHTS_OUT, 1, 0, GI.SL_SKILL,
         category=GI.GC_TRUMP_ONLY, short_name=short_name,
         suits=(), ranks=(), trumps=list(range(ncards)),
         si={"decks": 1, "ncards": ncards})
     gi.ncards = ncards
-    gi.rules_filename = "matrix.html"
+    gi.rules_filename = "lightsout.html"
     registerGame(gi)
     return gi
 
 
-r(22223, "Matrix 3x3", 3)
-r(22224, "Matrix 4x4", 4)
-r(22225, "Matrix 5x5", 5)
-r(22226, "Matrix 6x6", 6)
-r(22227, "Matrix 7x7", 7)
-r(22228, "Matrix 8x8", 8)
-r(22229, "Matrix 9x9", 9)
-r(22230, "Matrix 10x10", 10)
-# r(22240, "Matrix 20x20", 20)
+r(22400, "Lights Out 4x4", 4)
+r(22401, "Lights Out 5x5", 5)
+r(22402, "Lights Out 6x6", 6)
+r(22403, "Lights Out 7x7", 7)
+r(22404, "Lights Out 8x8", 8)
+r(22405, "Lights Out 9x9", 9)
+r(22406, "Lights Out 10x10", 10)
 
 del r

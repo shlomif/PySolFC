@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2021-12-28 13:51-0500\n"
+"PO-Revision-Date: 2022-01-01 23:21-0500\n"
 "Last-Translator: Skomoroh <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
@@ -462,6 +462,9 @@ msgstr "Игры с четырьмя колодами"
 msgid "Cribbage"
 msgstr ""
 
+msgid "Lights Out"
+msgstr ""
+
 #: pysollib/resource.py:236
 msgid "Matrix"
 msgstr "Мозаика"
@@ -607,6 +610,9 @@ msgid "Puzzle type"
 msgstr "Пазлы"
 
 msgid "Cribbage type"
+msgstr ""
+
+msgid "Lights Out type"
 msgstr ""
 
 msgid "Pegged type"

@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: it_pysol\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2021-12-28 13:52-0500\n"
+"PO-Revision-Date: 2022-01-01 23:21-0500\n"
 "Last-Translator: Giuliano Colla <giuliano.colla@gmail.com>\n"
 "Language-Team: Italiano <it@li.org>\n"
 "Language: it\n"
@@ -465,6 +465,9 @@ msgstr "Giochi con quattro mazzi"
 msgid "Cribbage"
 msgstr ""
 
+msgid "Lights Out"
+msgstr ""
+
 #: pysollib/resource.py:236
 msgid "Matrix"
 msgstr "Matrice"
@@ -610,6 +613,9 @@ msgid "Puzzle type"
 msgstr "Tipo Puzzle"
 
 msgid "Cribbage type"
+msgstr ""
+
+msgid "Lights Out type"
 msgstr ""
 
 msgid "Pegged type"

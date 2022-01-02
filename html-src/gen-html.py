@@ -71,6 +71,7 @@ rules_files = [
     ('shisensho.html', 'PySol - Rules for Shisen-Sho'),
     ('spider.html', 'PySol - Rules for Spider'),
     ('freecell.html', 'PySol - Rules for FreeCell'),
+    ('lightsout.html', 'PySol - Rules for Lights Out'),
     ]
 wikipedia_files = [
     ('houseinthewood.html', 'PySol - Rules for House in the Woods'),

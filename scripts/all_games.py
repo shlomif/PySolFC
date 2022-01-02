@@ -62,6 +62,7 @@ GAME_BY_TYPE = {
     GI.GT_3DECK_TYPE: "Three-Deck game",
     GI.GT_4DECK_TYPE: "Four-Deck game",
 
+    GI.GT_LIGHTS_OUT: "Lights Out",
     GI.GT_MATRIX: "Matrix",
     GI.GT_MEMORY: "Memory",
     GI.GT_POKER_TYPE: "Poker",

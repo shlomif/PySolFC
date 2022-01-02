@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2021-12-28 13:52-0500\n"
+"PO-Revision-Date: 2022-01-01 23:20-0500\n"
 "Last-Translator: H. Schaekel <Holger.Schaekel@web.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -453,6 +453,9 @@ msgstr "4 Deck Spiele"
 msgid "Cribbage"
 msgstr ""
 
+msgid "Lights Out"
+msgstr ""
+
 #: pysollib/resource.py:236
 msgid "Matrix"
 msgstr "Matrix"
@@ -598,6 +601,9 @@ msgid "Puzzle type"
 msgstr "Puzzle"
 
 msgid "Cribbage type"
+msgstr ""
+
+msgid "Lights Out type"
 msgstr ""
 
 msgid "Pegged type"

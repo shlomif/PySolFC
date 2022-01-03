@@ -560,6 +560,7 @@ class FlowerGarden(Stonewall):
 # * King Albert
 # * Raglan
 # * Brigade
+# * Relaxed Raglan
 # * Queen Victoria
 # ************************************************************************
 
@@ -619,6 +620,10 @@ class Brigade(Raglan):
         self.s.talon.dealRow(rows=self.s.foundations)
 
     shallHighlightMatch = Game._shallHighlightMatch_RK
+
+
+class RelaxedRaglan(Raglan):
+    RowStack_Class = AC_RowStack
 
 
 class QueenVictoria(KingAlbert):
@@ -1539,3 +1544,6 @@ registerGame(GameInfo(726, EightSages, "Eight Sages",
                       GI.GT_KLONDIKE, 2, 1, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(821, Trigon, "Trigon",
                       GI.GT_KLONDIKE, 1, -1, GI.SL_BALANCED))
+registerGame(GameInfo(849, RelaxedRaglan, "Relaxed Raglan",
+                      GI.GT_RAGLAN | GI.GT_RELAXED | GI.GT_OPEN, 1, 0,
+                      GI.SL_MOSTLY_SKILL))

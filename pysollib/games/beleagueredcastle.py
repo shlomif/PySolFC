@@ -873,7 +873,8 @@ registerGame(GameInfo(146, StreetsAndAlleys, "Streets and Alleys",
                       GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(34, BeleagueredCastle, "Beleaguered Castle",
                       GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0,
-                      GI.SL_MOSTLY_SKILL))
+                      GI.SL_MOSTLY_SKILL,
+                      altnames=("Laying Siege", "Sham Battle",)))
 registerGame(GameInfo(145, Citadel, "Citadel",
                       GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0,
                       GI.SL_MOSTLY_SKILL))
@@ -929,5 +930,5 @@ registerGame(GameInfo(665, PenelopesWeb, "Penelope's Web",
                       GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0,
                       GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(831, Siegecraft, "Siegecraft",
-                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN | GI.GT_ORIGINAL,
-                      1, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0,
+                      GI.SL_MOSTLY_SKILL))

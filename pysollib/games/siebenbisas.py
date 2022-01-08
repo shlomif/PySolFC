@@ -290,8 +290,8 @@ class Maze(Game):
 
 # register the game
 registerGame(GameInfo(118, SiebenBisAs, "Sieben bis As",
-                      GI.GT_MONTANA | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL,
-                      ranks=(0, 6, 7, 8, 9, 10, 11, 12)))
+                      GI.GT_MONTANA | GI.GT_OPEN | GI.GT_STRIPPED, 1, 0,
+                      GI.SL_MOSTLY_SKILL, ranks=(0, 6, 7, 8, 9, 10, 11, 12)))
 registerGame(GameInfo(144, Maze, "Maze",
                       GI.GT_MONTANA | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL,
                       si={"ncards": 48}))

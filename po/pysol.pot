@@ -2881,6 +2881,9 @@ msgstr ""
 msgid "Games with Scoring"
 msgstr ""
 
+msgid "Games with Stripped Decks"
+msgstr ""
+
 #: pysollib/kivy/selectgame.py:269 pysollib/pysolgtk/selectgame.py:304
 #: pysollib/tile/selectgame.py:247 pysollib/tk/selectgame.py:247
 msgid "Games with Separate Decks"

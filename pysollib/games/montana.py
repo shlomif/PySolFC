@@ -667,11 +667,11 @@ registerGame(GameInfo(380, Jungle, "Jungle",
 registerGame(GameInfo(381, SpacesAndAces, "Spaces and Aces",
                       GI.GT_MONTANA | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(706, Paganini, "Paganini",
-                      GI.GT_MONTANA | GI.GT_OPEN, 1, 1, GI.SL_MOSTLY_SKILL,
-                      ranks=(0, 5, 6, 7, 8, 9, 10, 11, 12),
+                      GI.GT_MONTANA | GI.GT_OPEN | GI.GT_STRIPPED, 1, 1,
+                      GI.SL_MOSTLY_SKILL, ranks=(0, 5, 6, 7, 8, 9, 10, 11, 12),
                       altnames=('Long Trip',)))
 registerGame(GameInfo(736, Spoilt, "Spoilt",
-                      GI.GT_MONTANA, 1, 0, GI.SL_MOSTLY_LUCK,
+                      GI.GT_MONTANA | GI.GT_STRIPPED, 1, 0, GI.SL_MOSTLY_LUCK,
                       ranks=(0, 6, 7, 8, 9, 10, 11, 12)))
 registerGame(GameInfo(759, DoubleMontana, "Double Montana",
                       GI.GT_MONTANA | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL))
@@ -680,8 +680,10 @@ registerGame(GameInfo(770, DoubleBlueMoon, "Double Blue Moon",
 registerGame(GameInfo(771, DoubleRedMoon, "Double Red Moon",
                       GI.GT_MONTANA | GI.GT_OPEN, 2, 2, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(794, HouseOfCommons, "House of Commons",
-                      GI.GT_MONTANA | GI.GT_OPEN, 1, 1, GI.SL_MOSTLY_SKILL,
-                      ranks=(0, 1, 2, 3, 4, 5, 6, 7, 8, 9), si={"ncards": 36}))
+                      GI.GT_MONTANA | GI.GT_OPEN | GI.GT_STRIPPED, 1, 1,
+                      GI.SL_MOSTLY_SKILL, ranks=(0, 1, 2, 3, 4, 5, 6, 7, 8, 9),
+                      si={"ncards": 36}))
 registerGame(GameInfo(795, Pretzel, "Pretzel",
-                      GI.GT_MONTANA | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL,
-                      ranks=(0, 1, 2, 3, 4), si={"ncards": 16}))
+                      GI.GT_MONTANA | GI.GT_OPEN | GI.GT_STRIPPED, 1, 0,
+                      GI.SL_MOSTLY_SKILL, ranks=(0, 1, 2, 3, 4),
+                      si={"ncards": 16}))

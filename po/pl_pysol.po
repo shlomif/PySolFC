@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2022-01-01 23:21-0500\n"
+"PO-Revision-Date: 2022-01-08 10:27-0500\n"
 "Last-Translator: Jerzy Trzeciak <artusek@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
@@ -3147,6 +3147,9 @@ msgstr "Gry dla dzieci (bardzo łatwe)"
 #: pysollib/tile/selectgame.py:244 pysollib/tk/selectgame.py:244
 msgid "Games with Scoring"
 msgstr "Gry z punktacją"
+
+msgid "Games with Stripped Decks"
+msgstr ""
 
 #: pysollib/kivy/selectgame.py:269 pysollib/pysolgtk/selectgame.py:304
 #: pysollib/tile/selectgame.py:247 pysollib/tk/selectgame.py:247

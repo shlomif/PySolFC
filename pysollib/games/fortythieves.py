@@ -1424,8 +1424,8 @@ registerGame(GameInfo(529, SanJuanHill, "San Juan Hill",
 registerGame(GameInfo(540, Waterloo, "Waterloo",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(556, Junction, "Junction",
-                      GI.GT_FORTY_THIEVES, 4, 0, GI.SL_MOSTLY_SKILL,
-                      ranks=(0, 6, 7, 8, 9, 10, 11, 12)))
+                      GI.GT_FORTY_THIEVES | GI.GT_STRIPPED, 4, 0,
+                      GI.SL_MOSTLY_SKILL, ranks=(0, 6, 7, 8, 9, 10, 11, 12)))
 registerGame(GameInfo(564, Kilowatt, "Kilowatt",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(573, DoubleGoldMine, "Double Gold Mine",

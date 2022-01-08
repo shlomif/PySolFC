@@ -104,6 +104,7 @@ class GI:
     GT_SCORE = 1 << 20      # game has some type of scoring
     GT_SEPARATE_DECKS = 1 << 21
     GT_XORIGINAL = 1 << 22      # original games by other people, not playable
+    GT_STRIPPED = 1 << 23
     # skill level
     SL_LUCK = 1
     SL_MOSTLY_LUCK = 2

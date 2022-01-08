@@ -1328,5 +1328,5 @@ registerGame(GameInfo(783, Uintah, "Uintah",
                       GI.GT_GOLF, 1, UNLIMITED_REDEALS,
                       GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(812, Sticko, "Sticko",
-                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED,
+                      GI.GT_1DECK_TYPE | GI.GT_STRIPPED, 1, 0, GI.SL_BALANCED,
                       ranks=(0, 6, 7, 8, 9, 10, 11, 12)))

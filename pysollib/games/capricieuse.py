@@ -244,7 +244,7 @@ registerGame(GameInfo(293, Nationale, "Nationale",
                       GI.SL_MOSTLY_SKILL,
                       altnames=('Zigzag Course',)))
 registerGame(GameInfo(606, Strata, "Strata",
-                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 2, 2,
+                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN | GI.GT_STRIPPED, 2, 2,
                       GI.SL_MOSTLY_SKILL,
                       ranks=(0, 6, 7, 8, 9, 10, 11, 12),
                       altnames=('Persian Patience',)))
@@ -252,6 +252,6 @@ registerGame(GameInfo(673, Fifteen, "Fifteen",
                       GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 2, 0,
                       GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(755, Choice, "Choice",
-                      GI.GT_3DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 3, 0,
-                      GI.SL_MOSTLY_SKILL,
+                      GI.GT_3DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL |
+                      GI.GT_STRIPPED, 3, 0, GI.SL_MOSTLY_SKILL,
                       ranks=(5, 6, 7, 8, 9, 10, 11, 12)))

@@ -214,6 +214,6 @@ registerGame(GameInfo(35, UnionSquare, "Union Square",
 registerGame(GameInfo(439, SolidSquare, "Solid Square",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(738, Boomerang, "Boomerang",
-                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED,
-                      ranks=(0, 6, 7, 8, 9, 10, 11, 12),
+                      GI.GT_2DECK_TYPE | GI.GT_STRIPPED, 2, 0,
+                      GI.SL_BALANCED, ranks=(0, 6, 7, 8, 9, 10, 11, 12),
                       ))

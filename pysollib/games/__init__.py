@@ -56,6 +56,7 @@ from . import headsandtails  # noqa: F401
 from . import hitormiss  # noqa: F401
 from . import katzenschwanz  # noqa: F401
 from . import klondike  # noqa: F401
+from . import knockout  # noqa: F401
 from . import labyrinth  # noqa: F401
 from . import larasgame  # noqa: F401
 from . import matriarchy  # noqa: F401

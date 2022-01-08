@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2022-01-01 23:20-0500\n"
+"PO-Revision-Date: 2022-01-08 10:29-0500\n"
 "Last-Translator: H. Schaekel <Holger.Schaekel@web.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -3006,6 +3006,9 @@ msgstr "Spiele für Kinder (sehr einfach)"
 #: pysollib/tile/selectgame.py:244 pysollib/tk/selectgame.py:244
 msgid "Games with Scoring"
 msgstr "Spiele mit Punkten"
+
+msgid "Games with Stripped Decks"
+msgstr ""
 
 #: pysollib/kivy/selectgame.py:269 pysollib/pysolgtk/selectgame.py:304
 #: pysollib/tile/selectgame.py:247 pysollib/tk/selectgame.py:247

@@ -110,6 +110,6 @@ class DieBoeseSieben(Game):
 
 # register the game
 registerGame(GameInfo(120, DieBoeseSieben, "Bad Seven",
-                      GI.GT_2DECK_TYPE, 2, 1, GI.SL_MOSTLY_LUCK,
-                      ranks=(0, 6, 7, 8, 9, 10, 11, 12),
+                      GI.GT_2DECK_TYPE | GI.GT_STRIPPED, 2, 1,
+                      GI.SL_MOSTLY_LUCK, ranks=(0, 6, 7, 8, 9, 10, 11, 12),
                       altnames=("Die boese Sieben",)))

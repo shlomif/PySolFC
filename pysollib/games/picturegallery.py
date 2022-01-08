@@ -590,7 +590,7 @@ registerGame(GameInfo(7, PictureGallery, "Picture Gallery",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED,
                       altnames=("Die Bildgallerie", "Mod-3")))
 registerGame(GameInfo(397, GreatWheel, "Great Wheel",
-                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED,
+                      GI.GT_2DECK_TYPE | GI.GT_STRIPPED, 2, 0, GI.SL_BALANCED,
                       ranks=list(range(12))  # without Kings
                       ))
 registerGame(GameInfo(398, MountOlympus, "Mount Olympus",
@@ -602,7 +602,7 @@ registerGame(GameInfo(546, RoyalParade, "Royal Parade",
 registerGame(GameInfo(547, VirginiaReel, "Virginia Reel",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(782, GreaterWheel, "Greater Wheel",
-                      GI.GT_4DECK_TYPE, 4, 0, GI.SL_BALANCED,
+                      GI.GT_4DECK_TYPE | GI.GT_STRIPPED, 4, 0, GI.SL_BALANCED,
                       ranks=list(range(12))  # without Kings
                       ))
 registerGame(GameInfo(803, BigParade, "Big Parade",

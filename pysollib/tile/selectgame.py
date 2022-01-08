@@ -244,6 +244,8 @@ class SelectGameData(SelectDialogTreeData):
                                lambda gi: gi.si.game_flags & GI.GT_CHILDREN),
                 SelectGameNode(None, _("Games with Scoring"),
                                lambda gi: gi.si.game_flags & GI.GT_SCORE),
+                SelectGameNode(None, _("Games with Stripped Decks"),
+                               lambda gi: gi.si.game_flags & GI.GT_STRIPPED),
                 SelectGameNode(None, _("Games with Separate Decks"),
                                lambda gi: gi.si.game_flags &
                                GI.GT_SEPARATE_DECKS),

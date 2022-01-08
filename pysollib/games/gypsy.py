@@ -995,7 +995,8 @@ registerGame(GameInfo(3, Irmgard, "Irmgard",
 registerGame(GameInfo(119, DieKoenigsbergerin, "Die Koenigsbergerin",
                       GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(174, DieRussische, "Russian Patience",
-                      GI.GT_2DECK_TYPE | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL,
+                      GI.GT_2DECK_TYPE | GI.GT_OPEN | GI.GT_STRIPPED,
+                      2, 0, GI.SL_MOSTLY_SKILL,
                       ranks=(0, 6, 7, 8, 9, 10, 11, 12),
                       altnames=("Die Russische",)))
 registerGame(GameInfo(62, MissMilligan, "Miss Milligan",
@@ -1055,8 +1056,8 @@ registerGame(GameInfo(712, Leprechaun, "Leprechaun",
 registerGame(GameInfo(718, LockedCards, "Locked Cards",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED))
 registerGame(GameInfo(721, Thirty, "Thirty",
-                      GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL,
-                      ranks=(0, 6, 7, 8, 9, 10, 11, 12)))
+                      GI.GT_1DECK_TYPE | GI.GT_OPEN | GI.GT_STRIPPED, 1, 0,
+                      GI.SL_MOSTLY_SKILL, ranks=(0, 6, 7, 8, 9, 10, 11, 12)))
 registerGame(GameInfo(725, TopsyTurvyQueens, "Topsy-Turvy Queens",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED))
 registerGame(GameInfo(792, KingsSecrets, "King's Secrets",

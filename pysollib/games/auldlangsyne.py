@@ -616,7 +616,7 @@ registerGame(GameInfo(123, Interregnum, "Interregnum",
 registerGame(GameInfo(296, Colorado, "Colorado",
                       GI.GT_NUMERICA, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(406, Amazons, "Amazons",
-                      GI.GT_NUMERICA, 1, -1, GI.SL_LUCK,
+                      GI.GT_NUMERICA | GI.GT_STRIPPED, 1, -1, GI.SL_LUCK,
                       ranks=(0, 6, 7, 8, 9, 10, 11),
                       ))
 registerGame(GameInfo(490, Acquaintance, "Acquaintance",

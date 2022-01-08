@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2022-01-01 23:21-0500\n"
+"PO-Revision-Date: 2022-01-08 10:24-0500\n"
 "Last-Translator: Skomoroh <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
@@ -3121,6 +3121,9 @@ msgstr "Игры для детей (очень лёгкие)"
 #: pysollib/tile/selectgame.py:244 pysollib/tk/selectgame.py:244
 msgid "Games with Scoring"
 msgstr "Игры со счётом"
+
+msgid "Games with Stripped Decks"
+msgstr ""
 
 #: pysollib/kivy/selectgame.py:269 pysollib/pysolgtk/selectgame.py:304
 #: pysollib/tile/selectgame.py:247 pysollib/tk/selectgame.py:247

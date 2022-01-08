@@ -301,6 +301,8 @@ class SelectGameDialogWithPreview(MfxDialog):
                 lambda gi: gi.si.game_flags & GI.GT_CHILDREN),
             (_("Games with Scoring"),
                 lambda gi: gi.si.game_flags & GI.GT_SCORE),
+            (_("Games with Stripped Decks"),
+                lambda gi: gi.si.game_flags & GI.GT_STRIPPED),
             (_("Games with Separate Decks"),
                 lambda gi: gi.si.game_flags & GI.GT_SEPARATE_DECKS),
             (_("Open Games (all cards visible)"),

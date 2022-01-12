@@ -1395,6 +1395,66 @@ class EightSages(Klondike):
         self.s.talon.dealCards()
 
 
+# ************************************************************************
+# * Guardian
+# ************************************************************************
+
+class Guardian_RowStack(AC_RowStack):
+    STEP = (3, 3, 3, 4, 4, 4, 4)
+
+    def basicIsBlocked(self):
+        r, step = self.game.s.rows, self.STEP
+        i, n, mylen = self.id, 1, len(step)
+        while i < mylen:
+            i = i + step[i]
+            n = n + 1
+            for j in range(i, i + n):
+                if r[j].cards:
+                    return True
+        return False
+
+    def acceptsCards(self, from_stack, cards):
+        if len(self.cards) == 0 and self.id > 2:
+            return False
+        return AC_RowStack.acceptsCards(self, from_stack, cards)
+
+
+class Guardian(Game):
+
+    def createGame(self):
+        lay, s = Layout(self), self.s
+        self.setSize((7 * lay.XS) + lay.XM,
+                     (2.5 * lay.YS) + (13 * lay.YOFFSET) + lay.YM)
+
+        # create stacks
+        for i in range(3):
+            x = lay.XM + (4 - i) * lay.XS // 2
+            y = lay.YM + lay.TEXT_HEIGHT + lay.YS + i * lay.YS // 4
+            for j in range(i + 3):
+                s.rows.append(Guardian_RowStack(x, y, self))
+                x = x + lay.XS
+
+        x, y = lay.XM, lay.YM
+        s.talon = WasteTalonStack(x, y, self,
+                                  max_rounds=-1, num_deal=3)
+        lay.createText(s.talon, "s")
+        x += lay.XS
+        s.waste = WasteStack(x, y, self)
+        lay.createText(s.waste, "s")
+        x += lay.XS
+        for i in range(4):
+            x += lay.XS
+            s.foundations.append(SS_FoundationStack(x, y, self, i,
+                                                    mod=13, max_move=0))
+        lay.defaultStackGroups()
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow(rows=self.s.rows[:7], flip=0)
+        self.s.talon.dealRow(rows=self.s.rows[7:])
+        self.s.talon.dealCards()  # deal first card to WasteStack
+
+
 # register the game
 registerGame(GameInfo(2, Klondike, "Klondike",
                       GI.GT_KLONDIKE, 1, -1, GI.SL_BALANCED,
@@ -1547,3 +1607,5 @@ registerGame(GameInfo(821, Trigon, "Trigon",
 registerGame(GameInfo(849, RelaxedRaglan, "Relaxed Raglan",
                       GI.GT_RAGLAN | GI.GT_RELAXED | GI.GT_OPEN, 1, 0,
                       GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(852, Guardian, "Guardian",
+                      GI.GT_KLONDIKE, 1, -1, GI.SL_BALANCED))

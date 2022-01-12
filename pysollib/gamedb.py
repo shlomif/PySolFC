@@ -425,7 +425,7 @@ class GI:
         ("Paul Alfille", (8,)),
         ("C.L. Baker", (45,)),
         ("David Bernazzani", (314, 830,)),
-        ("Gordon Bower", (763, 783,)),
+        ("Gordon Bower", (763, 783, 852,)),
         ("Art Cabral", (9,)),
         ("Richard A. Canfield", (105, 835,)),
         ("Lillian Davies and Christa Baran", (605,)),
@@ -528,7 +528,7 @@ class GI:
         ('fc-2.12',   tuple(range(774, 811)) + (16681,) +
          tuple(range(22217, 22219))),
         ('fc-2.14', tuple(range(811, 827))),
-        ('fc-2.16', tuple(range(827, 852)) + tuple(range(22400, 22407)))
+        ('fc-2.16', tuple(range(827, 853)) + tuple(range(22400, 22407)))
     )
 
     # deprecated - the correct way is to or a GI.GT_XXX flag

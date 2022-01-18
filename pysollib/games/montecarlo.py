@@ -976,7 +976,9 @@ registerGame(GameInfo(92, Neighbour, "Neighbour",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(96, Fourteen, "Fourteen",
                       GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0,
-                      GI.SL_MOSTLY_LUCK, altnames=("Fourteen Out",)))
+                      GI.SL_MOSTLY_LUCK, altnames=("Fourteen Out",
+                                                   "Fourteen Puzzle",
+                                                   "Take Fourteen")))
 registerGame(GameInfo(235, Nestor, "Nestor",
                       GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0,
                       GI.SL_MOSTLY_LUCK))

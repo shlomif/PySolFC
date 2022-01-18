@@ -1377,7 +1377,7 @@ registerGame(GameInfo(392, NewBritishConstitution, "New British Constitution",
                       ranks=list(range(11))  # without Queens and Kings
                       ))
 registerGame(GameInfo(443, Twenty, "Twenty",
-                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
+                      GI.GT_NUMERICA, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(465, Granada, "Granada",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED))
 registerGame(GameInfo(579, ThreePirates, "Three Pirates",

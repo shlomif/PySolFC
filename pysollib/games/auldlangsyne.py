@@ -386,12 +386,17 @@ class Colorado(Game):
     # game layout
     #
 
-    def createGame(self):
+    def createGame(self, waste_max=1, max_rounds=1, tableau_max=999999):
         # create layout
         l, s = Layout(self), self.s
 
+        roff = 0
         # set window
-        self.setSize(l.XM+10*l.XS, l.YM+4*l.YS+l.TEXT_HEIGHT)
+        if tableau_max < 10:
+            roff = l.YOFFSET * (tableau_max - 1)
+
+        self.setSize(l.XM + 10 * l.XS,
+                     l.YM + 4 * l.YS + l.TEXT_HEIGHT + (2 * roff))
 
         # create stacks
         x, y, = l.XS, l.YM
@@ -399,28 +404,31 @@ class Colorado(Game):
             s.foundations.append(self.Foundation_Class(x, y, self,
                                  suit=i, max_move=0))
             x += l.XS
-        x += 2*l.XM
+        x += 2 * l.XM
         for i in range(4):
             s.foundations.append(self.Foundation_Class(x, y, self,
                                  suit=i, max_move=0, base_rank=KING, dir=-1))
             x += l.XS
 
-        y = l.YM+l.YS
+        y = l.YM + l.YS
         for i in range(2):
             x = l.XM
             for j in range(10):
                 stack = self.RowStack_Class(x, y, self,
-                                            max_move=1, max_accept=1)
-                s.rows.append(stack)
-                stack.CARD_XOFFSET = stack.CARD_YOFFSET = 0
-                x += l.XS
-            y += l.YS
+                                            max_move=1, max_accept=1,
+                                            max_cards=tableau_max)
 
-        x, y = l.XM + 9*l.XS, self.height - l.YS
-        s.talon = WasteTalonStack(x, y, self, max_rounds=1)
+                s.rows.append(stack)
+                x += l.XS
+            y += l.YS + roff
+
+        x, y = l.XM + 9 * l.XS, self.height - l.YS
+        s.talon = WasteTalonStack(x, y, self, max_rounds=max_rounds)
         l.createText(s.talon, "n")
         x -= l.XS
-        s.waste = WasteStack(x, y, self, max_cards=1)
+        s.waste = WasteStack(x, y, self, max_cards=waste_max)
+        if max_rounds > 1:
+            l.createRoundText(s.waste, "s")
 
         # define stack-groups
         l.defaultStackGroups()
@@ -439,6 +447,30 @@ class Colorado(Game):
     def fillStack(self, stack):
         if stack in self.s.rows and not stack.cards and self.s.waste.cards:
             self.s.waste.moveMove(1, stack)
+
+
+class Grandfather_RowStack(BasicRowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not BasicRowStack.acceptsCards(self, from_stack, cards):
+            return False
+        # this stack accepts any one card from the Waste
+        return from_stack is self.game.s.waste and len(cards) == 1
+
+
+class Grandfather(Colorado):
+    RowStack_Class = Grandfather_RowStack
+
+    def createGame(self):
+        Colorado.createGame(self, waste_max=999999, max_rounds=2,
+                            tableau_max=2)
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
+
+    def _shuffleHook(self, cards):
+        return cards
 
 
 # ************************************************************************
@@ -631,3 +663,5 @@ registerGame(GameInfo(636, StrategyPlus, "Strategy +",
                       GI.GT_NUMERICA, 1, 0, GI.SL_SKILL))
 registerGame(GameInfo(688, Formic, "Formic",
                       GI.GT_NUMERICA, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(853, Grandfather, "Grandfather",
+                      GI.GT_NUMERICA, 2, 1, GI.SL_BALANCED))

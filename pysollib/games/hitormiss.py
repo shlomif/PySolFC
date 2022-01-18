@@ -158,4 +158,4 @@ class HitOrMiss(Game):
 # register the game
 registerGame(GameInfo(774, HitOrMiss, "Hit or Miss",
                       GI.GT_1DECK_TYPE, 1, VARIABLE_REDEALS,
-                      GI.SL_LUCK))
+                      GI.SL_LUCK, altnames=("Roll Call",)))

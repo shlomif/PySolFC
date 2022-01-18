@@ -711,6 +711,6 @@ registerGame(GameInfo(697, BigBen, "Big Ben",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(737, Clock, "Clock",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_LUCK,
-                      altnames=("Travellers",)))
+                      altnames=("Travellers", "Sundial")))
 registerGame(GameInfo(827, GermanClock, "German Clock",
                       GI.GT_1DECK_TYPE, 1, 1, GI.SL_MOSTLY_LUCK))

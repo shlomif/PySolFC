@@ -470,7 +470,7 @@ class SPatience(Game):
 # register the game
 registerGame(GameInfo(256, Calculation, "Calculation",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_SKILL,
-                      altnames=("Progression",)))
+                      altnames=("Progression", "Broken Intervals")))
 registerGame(GameInfo(94, Hopscotch, "Hopscotch",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(134, BetsyRoss, "Betsy Ross",

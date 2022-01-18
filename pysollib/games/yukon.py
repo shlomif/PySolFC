@@ -753,7 +753,7 @@ registerGame(GameInfo(20, RussianSolitaire, "Russian Solitaire",
                       GI.GT_YUKON, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(27, Odessa, "Odessa",
                       GI.GT_YUKON, 1, 0, GI.SL_BALANCED))
-registerGame(GameInfo(278, Grandfather, "Grandfather",
+registerGame(GameInfo(278, Grandfather, "Tvete's Grandfather",
                       GI.GT_YUKON, 1, 2, GI.SL_BALANCED))
 registerGame(GameInfo(186, Alaska, "Alaska",
                       GI.GT_YUKON, 1, 0, GI.SL_BALANCED))

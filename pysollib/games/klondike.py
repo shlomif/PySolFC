@@ -1541,7 +1541,7 @@ registerGame(GameInfo(390, Arizona, "Arizona",
 registerGame(GameInfo(407, AuntMary, "Aunt Mary",
                       GI.GT_KLONDIKE, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(420, DoubleDot, "Double Dot",
-                      GI.GT_KLONDIKE, 1, 0, GI.SL_BALANCED))
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(434, SevenDevils, "Seven Devils",
                       GI.GT_RAGLAN, 2, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(452, DoubleEasthaven, "Double Easthaven",

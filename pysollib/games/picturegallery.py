@@ -598,7 +598,8 @@ registerGame(GameInfo(398, MountOlympus, "Mount Olympus",
 registerGame(GameInfo(399, Zeus, "Zeus",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(546, RoyalParade, "Royal Parade",
-                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL,
+                      altnames=("Hussars", "Financier")))
 registerGame(GameInfo(547, VirginiaReel, "Virginia Reel",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(782, GreaterWheel, "Greater Wheel",

@@ -62,6 +62,7 @@ class Knockout_Talon(DealRowTalonStack):
         return False
 
     def redealCards(self):
+        self.game.startDealSample()
         for r in self.game.s.rows:
             if r.cards:
                 while r.cards:

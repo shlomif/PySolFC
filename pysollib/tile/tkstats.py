@@ -858,7 +858,7 @@ class ProgressionFrame(ttk.Frame):
         w = dialog.tkfont.measure('M') * 42
         w = max(w, 500)
         w = min(w, 600)
-        self.canvas_width, self.canvas_height = w, 250
+        self.canvas_width, self.canvas_height = w, 325
         cond = parent.winfo_screenwidth() < 800 or \
             parent.winfo_screenheight() < 600
         if cond:

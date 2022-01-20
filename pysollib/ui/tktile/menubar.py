@@ -175,6 +175,7 @@ class PysolMenubarTkCommon:
             preserve_aspect_ratio=tkinter.BooleanVar(),
             spread_stacks=tkinter.BooleanVar(),
             center_layout=tkinter.BooleanVar(),
+            save_games_geometry=tkinter.BooleanVar(),
             cardback=tkinter.IntVar(),
             tabletile=tkinter.IntVar(),
             animations=tkinter.IntVar(),
@@ -184,6 +185,7 @@ class PysolMenubarTkCommon:
             shade=tkinter.BooleanVar(),
             shade_filled_stacks=tkinter.BooleanVar(),
             shrink_face_down=tkinter.BooleanVar(),
+            randomize_place=tkinter.BooleanVar(),
             toolbar=tkinter.IntVar(),
             toolbar_style=tkinter.StringVar(),
             toolbar_relief=tkinter.StringVar(),
@@ -192,7 +194,6 @@ class PysolMenubarTkCommon:
             statusbar=tkinter.BooleanVar(),
             num_cards=tkinter.BooleanVar(),
             helpbar=tkinter.BooleanVar(),
-            save_games_geometry=tkinter.BooleanVar(),
             splashscreen=tkinter.BooleanVar(),
             demo_logo=tkinter.BooleanVar(),
             mouse_type=tkinter.StringVar(),
@@ -222,6 +223,7 @@ class PysolMenubarTkCommon:
         tkopt.highlight_not_matching.set(opt.highlight_not_matching)
         tkopt.shrink_face_down.set(opt.shrink_face_down)
         tkopt.shade_filled_stacks.set(opt.shade_filled_stacks)
+        tkopt.randomize_place.set(opt.randomize_place)
         tkopt.mahjongg_show_removed.set(opt.mahjongg_show_removed)
         tkopt.shisen_show_hint.set(opt.shisen_show_hint)
         tkopt.accordion_deal_all.set(opt.accordion_deal_all)
@@ -231,6 +233,7 @@ class PysolMenubarTkCommon:
         tkopt.preserve_aspect_ratio.set(opt.preserve_aspect_ratio)
         tkopt.spread_stacks.set(opt.spread_stacks)
         tkopt.center_layout.set(opt.center_layout)
+        tkopt.save_games_geometry.set(opt.save_games_geometry)
         tkopt.cardback.set(self.app.cardset.backindex)
         tkopt.tabletile.set(self.app.tabletile_index)
         tkopt.animations.set(opt.animations)
@@ -247,7 +250,6 @@ class PysolMenubarTkCommon:
         tkopt.statusbar.set(opt.statusbar)
         tkopt.num_cards.set(opt.num_cards)
         tkopt.helpbar.set(opt.helpbar)
-        tkopt.save_games_geometry.set(opt.save_games_geometry)
         tkopt.demo_logo.set(opt.demo_logo)
         tkopt.splashscreen.set(opt.splashscreen)
         tkopt.mouse_type.set(opt.mouse_type)
@@ -598,6 +600,10 @@ class PysolMenubarTkCommon:
             label=n_("Shade &filled stacks"),
             variable=self.tkopt.shade_filled_stacks,
             command=self.mOptShadeFilledStacks)
+        submenu.add_checkbutton(
+            label=n_("&Randomize card placement"),
+            variable=self.tkopt.randomize_place,
+            command=self.mOptRandomizePlace)
         submenu = MfxMenu(menu, label=n_("A&nimations"))
         submenu.add_radiobutton(
             label=n_("&None"), variable=self.tkopt.animations, value=0,
@@ -1592,6 +1598,17 @@ Unsupported game for import.
         self.app.opt.center_layout = not self.app.opt.center_layout
         self._updateCardSize()
 
+    def mOptRandomizePlace(self, *event):
+        if self._cancelDrag(break_pause=False):
+            return
+        self.app.opt.randomize_place = self.tkopt.randomize_place.get()
+        self._updateCardSize()
+
+    def mOptSaveGamesGeometry(self, *event):
+        if self._cancelDrag(break_pause=False):
+            return
+        self.app.opt.save_games_geometry = self.tkopt.save_games_geometry.get()
+
     def _mOptCardback(self, index):
         if self._cancelDrag(break_pause=False):
             return
@@ -1688,11 +1705,6 @@ Unsupported game for import.
         resize = not self.app.opt.save_games_geometry
         if self.app.helpbar.show(show, resize=resize):
             self.top.update_idletasks()
-
-    def mOptSaveGamesGeometry(self, *event):
-        if self._cancelDrag(break_pause=False):
-            return
-        self.app.opt.save_games_geometry = self.tkopt.save_games_geometry.get()
 
     def mOptDemoLogo(self, *event):
         if self._cancelDrag(break_pause=False):

@@ -89,7 +89,7 @@ class AbstractCard:
         # Move the card to absolute position (x, y).
         dx, dy = 0, 0
         if self.game.app.opt.randomize_place:
-            d = 1
+            d = 3
             dx, dy = randint(-d, d), randint(-d, d)
         self.moveBy(x - self.x + dx, y - self.y + dy)
 

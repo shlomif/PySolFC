@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2022-01-08 10:24-0500\n"
+"PO-Revision-Date: 2022-01-20 21:42-0500\n"
 "Last-Translator: Skomoroh <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
@@ -4783,8 +4783,8 @@ msgid "Solitaire &Wizard..."
 msgstr "Конструктор пасьянсов..."
 
 #: pysollib/ui/tktile/menubar.py:393
-msgid "&Edit current game"
-msgstr "Редактировать текущую игру"
+msgid "&Edit current game..."
+msgstr "Редактировать текущую игру..."
 
 msgid "&Delete current game"
 msgstr ""
@@ -5012,6 +5012,9 @@ msgstr "&Негативные контуры карты"
 #: pysollib/ui/tktile/menubar.py:563
 msgid "Shade &filled stacks"
 msgstr "Затемнять заполненные ячейки"
+
+msgid "&Randomize card placement"
+msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:566
 msgid "A&nimations"

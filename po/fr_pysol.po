@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: 1.02\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2022-01-08 10:28-0500\n"
+"PO-Revision-Date: 2022-01-20 21:43-0500\n"
 "Last-Translator: Eric Rausch <neelix570@gmail.com>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -4694,8 +4694,8 @@ msgid "Solitaire &Wizard..."
 msgstr "&Assistant solitaire..."
 
 #: pysollib/ui/tktile/menubar.py:393
-msgid "&Edit current game"
-msgstr "&Éditer jeu actuel"
+msgid "&Edit current game..."
+msgstr "&Éditer jeu actuel..."
 
 msgid "&Delete current game"
 msgstr ""
@@ -4922,6 +4922,9 @@ msgstr "&Dos de cartes négatif"
 #: pysollib/ui/tktile/menubar.py:563
 msgid "Shade &filled stacks"
 msgstr "Ombre des cellules &pleines"
+
+msgid "&Randomize card placement"
+msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:566
 msgid "A&nimations"

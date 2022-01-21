@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: it_pysol\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2022-01-08 10:28-0500\n"
+"PO-Revision-Date: 2022-01-20 21:42-0500\n"
 "Last-Translator: Giuliano Colla <giuliano.colla@gmail.com>\n"
 "Language-Team: Italiano <it@li.org>\n"
 "Language: it\n"
@@ -4759,8 +4759,8 @@ msgid "Solitaire &Wizard..."
 msgstr "Costruzione &guidata..."
 
 #: pysollib/ui/tktile/menubar.py:393
-msgid "&Edit current game"
-msgstr "Modifica il gioco corr&ente"
+msgid "&Edit current game..."
+msgstr "Modifica il gioco corr&ente..."
 
 msgid "&Delete current game"
 msgstr ""
@@ -4986,6 +4986,9 @@ msgstr "Fondo carte in negativo"
 #: pysollib/ui/tktile/menubar.py:563
 msgid "Shade &filled stacks"
 msgstr "Ombreggia pile piene"
+
+msgid "&Randomize card placement"
+msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:566
 msgid "A&nimations"

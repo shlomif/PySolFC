@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2022-01-08 10:27-0500\n"
+"PO-Revision-Date: 2022-01-20 21:42-0500\n"
 "Last-Translator: Jerzy Trzeciak <artusek@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
@@ -4817,8 +4817,8 @@ msgid "Solitaire &Wizard..."
 msgstr "Kreator gier Solitaire..."
 
 #: pysollib/ui/tktile/menubar.py:393
-msgid "&Edit current game"
-msgstr "&Edytuj bieżącą grę"
+msgid "&Edit current game..."
+msgstr "&Edytuj bieżącą grę..."
 
 msgid "&Delete current game"
 msgstr ""
@@ -5046,6 +5046,9 @@ msgstr ""
 #: pysollib/ui/tktile/menubar.py:563
 msgid "Shade &filled stacks"
 msgstr "Cieniuj wypełnione stosy"
+
+msgid "&Randomize card placement"
+msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:566
 msgid "A&nimations"

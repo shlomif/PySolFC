@@ -403,7 +403,7 @@ class PysolMenubarTkCommon:
             label=n_("Solitaire &Wizard..."),
             command=self.mWizard)
         menu.add_command(
-            label=n_("&Edit current game"),
+            label=n_("&Edit current game..."),
             command=self.mWizardEdit)
         menu.add_command(
             label=n_("&Delete current game"),

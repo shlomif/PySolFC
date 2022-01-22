@@ -534,9 +534,13 @@ class Elevens(Pyramid):
 
         layout, s = Layout(self), self.s
 
+        rp = 0
+        if reserves > 0:
+            rp = 1.5
+
         self.setSize(
-            layout.XM+(cols+2)*layout.XS,
-            layout.YM+(rows+1.5)*layout.YS)
+            layout.XM + (cols + 2) * layout.XS,
+            layout.YM + (rows + rp) * layout.YS)
 
         x, y = self.width-layout.XS, layout.YM
         s.talon = TalonStack(x, y, self)
@@ -582,7 +586,8 @@ class Elevens(Pyramid):
         for s in self.s.reserves:
             if s.cards:
                 reserves_ncards += 1
-        if reserves_ncards == len(self.s.reserves):
+        if (reserves_ncards == len(self.s.reserves) and
+                len(self.s.reserves) > 0):
             if not self.demo:
                 self.playSample("droppair", priority=200)
             for s in self.s.reserves:
@@ -707,6 +712,35 @@ class Fifteens(Elevens):
                 if reserve_sum == 15:
                     self._dropReserve()
         self.leaveState(old_state)
+
+
+# ************************************************************************
+# * Neptune
+# ************************************************************************
+
+class Neptune_RowStack(Elevens_RowStack):
+
+    def acceptsCards(self, from_stack, cards):
+        if from_stack is self or not self.cards or len(cards) != 1:
+            return False
+        c = self.cards[-1]
+        return (c.face_up and cards[0].face_up and
+                (cards[0].rank == c.rank - 1 or cards[0].rank == c.rank + 1))
+
+    def moveMove(self, ncards, to_stack, frames=-1, shadow=-1):
+        if to_stack in self.game.s.rows:
+            self._dropPairMove(ncards, to_stack, frames=-1, shadow=shadow)
+        self.fillStack()
+
+
+class Neptune(Elevens):
+    RowStack_Class = Neptune_RowStack
+
+    def createGame(self):
+        Elevens.createGame(self, rows=4, cols=2, reserves=0)
+
+    def isGameWon(self):
+        return len(self.s.talon.cards) == 0
 
 
 # ************************************************************************
@@ -1472,3 +1506,5 @@ registerGame(GameInfo(802, TripleAlliance2Decks, "Triple Alliance (2 decks)",
                       GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(846, PyramidDozen, "Pyramid Dozen",
                       GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0, GI.SL_BALANCED))
+registerGame(GameInfo(854, Neptune, "Neptune",
+                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_BALANCED))

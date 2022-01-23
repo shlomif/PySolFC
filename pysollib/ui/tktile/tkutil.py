@@ -285,7 +285,7 @@ if Image:
 # have problems with it
 def masking(image):
 
-    image = image.convert("RGBA") # make sure it has alphachannel
+    image = image.convert("RGBA") # make sure image has alphachannel
     mask = image.copy()
     # important alpha must be bigger than 0
     mask.putalpha(1)

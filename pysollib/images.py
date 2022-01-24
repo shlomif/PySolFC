@@ -188,34 +188,37 @@ class Images:
                                   cs_dir=self.cs.dir, fname=name))
         if progress:
             progress.update(step=1)
-        # load bottoms
-        for i in range(self.cs.nbottoms):
-            name = "bottom%02d" % (i + 1)
-            bottom = self.__loadBottom(name, color='black')
-            if bottom is not None:
-                self._bottom_positive.append(bottom)
-            if progress:
-                progress.update(step=pstep)
-            # load negative bottoms
-            name = "bottom%02d-n" % (i + 1)
-            bottom = self.__loadBottom(name, color='white')
-            if bottom is not None:
-                self._bottom_negative.append(bottom)
-            if progress:
-                progress.update(step=pstep)
-        # load letters
-        for rank in range(self.cs.nletters):
-            name = "l%02d" % (rank + 1)
-            self._letter_positive.append(
-                self.__loadBottom(name, color='black'))
-            if progress:
-                progress.update(step=pstep)
-            # load negative letters
-            name = "l%02d-n" % (rank + 1)
-            self._letter_negative.append(
-                self.__loadBottom(name, color='white'))
-            if progress:
-                progress.update(step=pstep)
+
+        if not USE_PIL:
+            # load bottoms
+            for i in range(self.cs.nbottoms):
+                name = "bottom%02d" % (i + 1)
+                bottom = self.__loadBottom(name, color='black')
+                if bottom is not None:
+                    self._bottom_positive.append(bottom)
+                if progress:
+                    progress.update(step=pstep)
+                # load negative bottoms
+                name = "bottom%02d-n" % (i + 1)
+                bottom = self.__loadBottom(name, color='white')
+                if bottom is not None:
+                    self._bottom_negative.append(bottom)
+                if progress:
+                    progress.update(step=pstep)
+            # load letters
+            for rank in range(self.cs.nletters):
+                name = "l%02d" % (rank + 1)
+                self._letter_positive.append(
+                    self.__loadBottom(name, color='black'))
+                if progress:
+                    progress.update(step=pstep)
+                # load negative letters
+                name = "l%02d-n" % (rank + 1)
+                self._letter_negative.append(
+                    self.__loadBottom(name, color='white'))
+                if progress:
+                    progress.update(step=pstep)
+
         # shadow
         if not USE_PIL:
             for i in range(self.cs.nshadows):

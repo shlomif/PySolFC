@@ -248,8 +248,13 @@ def after_cancel(t):
 if Image:
     class PIL_Image(ImageTk.PhotoImage):
         def __init__(self, file=None, image=None, pil_image_orig=None):
+
             if file:
                 image = Image.open(file).convert('RGBA')
+
+                # eliminates the 0 in alphachannel
+                image = masking(image)
+
             ImageTk.PhotoImage.__init__(self, image)
             self._pil_image = image
             if pil_image_orig:
@@ -266,10 +271,30 @@ if Image:
             return im
 
         def resize(self, xf, yf):
+
             w, h = self._pil_image_orig.size
             w0, h0 = int(w*xf), int(h*yf)
             im = self._pil_image_orig.resize((w0, h0), Image.ANTIALIAS)
+
+            im = masking(im)
+
             return PIL_Image(image=im, pil_image_orig=self._pil_image_orig)
+
+
+def masking(image):
+
+    # eliminates the 0 in alphachannel
+    # because PhotoImage and Rezising
+    # have problems with it
+
+    image = image.convert("RGBA")  # make sure it has alphachannel
+    mask = image.copy()
+    # important alpha must be bigger than 0
+    mask.putalpha(1)
+    mask.paste(image, (0, 0), image)
+    image = mask.copy()
+
+    return image
 
 
 def makeImage(file=None, data=None, dither=None, alpha=None):
@@ -401,6 +426,7 @@ def createBottom(maskimage, color='white', backfile=None):
         return None
     maskimage = maskimage._pil_image
     out = _createBottomImage(maskimage, color, backfile)
+
     return PIL_Image(image=out)
 
 

@@ -214,12 +214,20 @@ class Cruel_Talon(TalonStack):
         num_cards = 0
         assert len(self.cards) == 0
         rows = list(self.game.s.rows)[:]
-        rows.reverse()
+        # rows.reverse()
         for r in rows:
             for i in range(len(r.cards)):
                 num_cards = num_cards + 1
                 self.game.moveMove(1, r, self, frames=0)
         assert len(self.cards) == num_cards
+
+        temp_cards = []
+        while len(self.cards) > 0:
+            temp = self.cards[:4]
+            temp_cards = temp + temp_cards
+            del self.cards[:4]
+        self.cards = temp_cards.copy()
+
         if num_cards == 0:          # game already finished
             return 0
         # redeal in packs of 4 cards
@@ -250,7 +258,9 @@ class Cruel_Talon(TalonStack):
 
 class Cruel(CastlesInSpain):
     Talon_Class = StackWrapper(Cruel_Talon, max_rounds=-1)
-    RowStack_Class = StackWrapper(SS_RowStack, base_rank=NO_RANK)
+    RowStack_Class = StackWrapper(SS_RowStack,
+                                  max_move=1, max_accept=1, base_rank=NO_RANK)
+
     # Solver_Class = FreeCellSolverWrapper(preset='cruel')
     Solver_Class = None
 

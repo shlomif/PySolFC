@@ -31,6 +31,7 @@ from pysollib.stack import \
         AC_FoundationStack, \
         AC_RowStack, \
         InitialDealTalonStack, \
+        InvisibleStack, \
         RK_RowStack, \
         SS_FoundationStack, \
         SS_RowStack, \
@@ -55,6 +56,8 @@ class CastlesInSpain(Game):
     Hint_Class = CautiousDefaultHint
     Solver_Class = FreeCellSolverWrapper()
 
+    GAME_VERSION = 2
+
     #
     # game layout
     #
@@ -73,6 +76,7 @@ class CastlesInSpain(Game):
         for r in l.s.rows:
             s.rows.append(self.RowStack_Class(r.x, r.y, self))
         # default
+        self.s.internals.append(InvisibleStack(self))
         l.defaultAll()
         return l
 
@@ -218,18 +222,20 @@ class Cruel_Talon(TalonStack):
         for r in rows:
             for i in range(len(r.cards)):
                 num_cards = num_cards + 1
-                self.game.moveMove(1, r, self, frames=0)
-        assert len(self.cards) == num_cards
+                self.game.moveMove(1, r, self.game.s.internals[0], frames=0)
 
-        temp_cards = []
-        while len(self.cards) > 0:
-            temp = self.cards[:4]
-            temp_cards = temp + temp_cards
-            del self.cards[:4]
-        self.cards = temp_cards.copy()
+        if len(self.game.s.internals[0].cards) % 4 != 0:
+            self.game.moveMove(len(self.game.s.internals[0].cards) % 4,
+                               self.game.s.internals[0], self, frames=0)
+
+        while len(self.game.s.internals[0].cards) > 0:
+            self.game.moveMove(4, self.game.s.internals[0], self, frames=0)
+
+        assert len(self.cards) == num_cards
 
         if num_cards == 0:          # game already finished
             return 0
+
         # redeal in packs of 4 cards
         self.game.nextRoundMove(self)
         n, i = num_cards, 0

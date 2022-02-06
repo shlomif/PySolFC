@@ -289,6 +289,18 @@ def masking(image):
 
     image = image.convert("RGBA")  # make sure it has alphachannel
     mask = image.copy()
+
+    # calculate median transparency value
+    # this will determine if the masking will have a significant
+    # effect on performance.
+    transparency = [row[3] for row in image.getdata()]
+    n = len(transparency)
+    s = sorted(transparency)
+    median = (s[n // 2 - 1] / 2.0 + s[n // 2] / 2.0, s[n // 2])[n % 2]
+
+    if median > 0:
+        return image
+
     # important alpha must be bigger than 0
     mask.putalpha(1)
     mask.paste(image, (0, 0), image)

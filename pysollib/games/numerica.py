@@ -1159,7 +1159,7 @@ class Ladybug(Game):
         if self.preview > 1:
             return
         for row in self.s.rows:
-            row.texts.misc.config(text=self.getTotal(row))
+            row.texts.misc.config(text=str(self.getTotal(row)))
 
     def isGameWon(self):
         for row in self.s.rows:

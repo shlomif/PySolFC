@@ -32,6 +32,16 @@ def createToolbarMenu(menubar, menu):
               label=name,
               variable=menubar.tkopt.toolbar_style,
               value=f, command=menubar.mOptToolbarStyle)
+    submenu = MfxMenu(menu, label=n_('Icon Size'), tearoff=tearoff)
+    submenu.add_radiobutton(label=n_("Small icons"),
+                            variable=menubar.tkopt.toolbar_size, value=0,
+                            command=menubar.mOptToolbarSize)
+    submenu.add_radiobutton(label=n_("Large icons"),
+                            variable=menubar.tkopt.toolbar_size, value=1,
+                            command=menubar.mOptToolbarSize)
+    # submenu.add_radiobutton(label=n_("Extra large icons"),
+    #                         variable=menubar.tkopt.toolbar_size, value=2,
+    #                         command=menubar.mOptToolbarSize)
     submenu = MfxMenu(menu, label=n_('Compound'), tearoff=tearoff)
     for comp, label in COMPOUNDS:
         submenu.add_radiobutton(
@@ -59,13 +69,6 @@ def createToolbarMenu(menubar, menu):
     menu.add_radiobutton(label=n_("Right"),
                          variable=menubar.tkopt.toolbar, value=4,
                          command=menubar.mOptToolbar)
-    #  menu.add_separator()
-    #  menu.add_radiobutton(label=n_("Small icons"),
-    #                       variable=menubar.tkopt.toolbar_size, value=0,
-    #                       command=menubar.mOptToolbarSize)
-    #  menu.add_radiobutton(label=n_("Large icons"),
-    #                       variable=menubar.tkopt.toolbar_size, value=1,
-    #                       command=menubar.mOptToolbarSize)
 
 
 # ************************************************************************

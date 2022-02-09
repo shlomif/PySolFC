@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2022-01-20 21:42-0500\n"
+"PO-Revision-Date: 2022-02-08 22:29-0500\n"
 "Last-Translator: Skomoroh <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
@@ -4660,6 +4660,18 @@ msgstr "Найти карту"
 msgid "Icon Style"
 msgstr ""
 
+msgid "Icon Size"
+msgstr ""
+
+msgid "Small icons"
+msgstr "Маленькие пиктограммы"
+
+msgid "Large icons"
+msgstr "Большие пиктограммы"
+
+msgid "Extra large icons"
+msgstr ""
+
 #: pysollib/ui/tktile/menubar.py:35
 msgid "Compound"
 msgstr "Компоновка"
@@ -5384,9 +5396,3 @@ msgstr "Настроить шрифт"
 
 #~ msgid "Style"
 #~ msgstr "Стиль"
-
-#~ msgid "Small icons"
-#~ msgstr "Маленькие пиктограммы"
-
-#~ msgid "Large icons"
-#~ msgstr "Большие пиктограммы"

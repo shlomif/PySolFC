@@ -4391,6 +4391,9 @@ msgstr ""
 msgid "Select game by nu&mber..."
 msgstr ""
 
+msgid "Next game by num&ber"
+msgstr ""
+
 #: pysollib/ui/tktile/menubar.py:321
 msgid "Fa&vorite games"
 msgstr ""

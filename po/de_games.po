@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Thu Dec 09 18:56:01 2021\n"
-"PO-Revision-Date: 2021-12-09 18:57-0500\n"
+"POT-Creation-Date: Sat Feb 12 11:27:46 2022\n"
+"PO-Revision-Date: 2022-02-12 11:36-0500\n"
 "Last-Translator: H. Schaekel <Holger.Schaekel@web.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -12,32 +12,8 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.0\n"
 
-msgid " 3x3 Matrix"
-msgstr "3x3 Matrix"
-
-msgid " 4x4 Matrix"
-msgstr "4x4 Matrix"
-
-msgid " 5x5 Matrix"
-msgstr "5x5 Matrix"
-
-msgid " 6x6 Matrix"
-msgstr "6x6 Matrix"
-
-msgid " 7x7 Matrix"
-msgstr "7x7 Matrix"
-
-msgid " 8x8 Matrix"
-msgstr "8x8 Matrix"
-
-msgid " 9x9 Matrix"
-msgstr "9x9 Matrix"
-
 msgid "10 x 8"
 msgstr "10 x 8"
-
-msgid "10x10 Matrix"
-msgstr "10x10 Matrix"
 
 msgid "8 x 8"
 msgstr "8 x 8"
@@ -49,6 +25,9 @@ msgid "Accordion"
 msgstr "Akkordion"
 
 msgid "Accordion's Revenge"
+msgstr ""
+
+msgid "Ace Through King"
 msgstr ""
 
 msgid "Aces High"
@@ -129,6 +108,9 @@ msgstr "Amazonen"
 msgid "American Canister"
 msgstr "Amerikanisches Kanaster"
 
+msgid "American Patience"
+msgstr ""
+
 msgid "American Toad"
 msgstr "Amerikanische Kröte"
 
@@ -158,6 +140,9 @@ msgstr "Arabella"
 
 msgid "Arachnida"
 msgstr "Arachnida"
+
+msgid "Archway"
+msgstr ""
 
 msgid "Arena"
 msgstr "Аrena"
@@ -385,6 +370,9 @@ msgstr "Sackgassen"
 msgid "Blind Patience"
 msgstr "Blinde Patience"
 
+msgid "Block Ten"
+msgstr ""
+
 msgid "Blockade"
 msgstr "Blockade"
 
@@ -469,6 +457,9 @@ msgstr "Britische Verfassung"
 msgid "British Square"
 msgstr "Britisches Quadrat"
 
+msgid "Broken Intervals"
+msgstr ""
+
 msgid "Brunswick"
 msgstr "Brunswick"
 
@@ -514,6 +505,9 @@ msgstr "Kanister"
 msgid "Capricieuse"
 msgstr "Capricieuse"
 
+msgid "Capricious"
+msgstr ""
+
 msgid "Captive Queens"
 msgstr "Gefangene Königin"
 
@@ -531,6 +525,9 @@ msgstr "Carre Napoleon"
 
 msgid "Carthage"
 msgstr "Karthago"
+
+msgid "Casino Canfield"
+msgstr ""
 
 msgid "Casino Klondike"
 msgstr "Kasino Klondike"
@@ -626,6 +623,9 @@ msgstr "Chip"
 msgid "Choice"
 msgstr "Wahl"
 
+msgid "Churchill"
+msgstr ""
+
 msgid "Cicely"
 msgstr "Cicely"
 
@@ -637,6 +637,9 @@ msgstr "Zirkel 9"
 
 msgid "Citadel"
 msgstr "Zitadelle"
+
+msgid "Classic Solitaire"
+msgstr ""
 
 msgid "Clink"
 msgstr "Klirren"
@@ -853,6 +856,9 @@ msgstr "Dieppe"
 msgid "Diplomat"
 msgstr "Diplomat"
 
+msgid "Display"
+msgstr ""
+
 msgid "Dog"
 msgstr "Hund"
 
@@ -1028,6 +1034,9 @@ msgstr "Gefasel"
 msgid "Duchess"
 msgstr "Herzogin"
 
+msgid "Duchess de Luynes"
+msgstr ""
+
 msgid "Dude"
 msgstr "Dude"
 
@@ -1112,6 +1121,9 @@ msgstr ""
 
 msgid "Emperor"
 msgstr "Kaiser"
+
+msgid "Emperor of Germany"
+msgstr ""
 
 msgid "Empress of Italy"
 msgstr ""
@@ -1213,6 +1225,12 @@ msgstr "Fünf Teens"
 msgid "Final Battle"
 msgstr "Finale Schlacht"
 
+msgid "Financier"
+msgstr ""
+
+msgid "Fire and Ice"
+msgstr ""
+
 msgid "Firecracker"
 msgstr "Knallkörper"
 
@@ -1260,6 +1278,9 @@ msgstr "Florentinische Patience"
 
 msgid "Flourish"
 msgstr "Gedeihen"
+
+msgid "Flow"
+msgstr ""
 
 msgid "Flower Arrangement"
 msgstr "Blumenarrangement"
@@ -1359,6 +1380,9 @@ msgstr "Vierzehn"
 msgid "Fourteen Out"
 msgstr ""
 
+msgid "Fourteen Puzzle"
+msgstr ""
+
 msgid "Frames"
 msgstr "Rahmen"
 
@@ -1443,6 +1467,9 @@ msgstr "Genesis +"
 
 msgid "Geoffrey"
 msgstr "Geoffrey"
+
+msgid "German Clock"
+msgstr ""
 
 msgid "German FreeCell"
 msgstr "Deutsches Freecell"
@@ -1547,6 +1574,9 @@ msgstr "Greif"
 msgid "Grounds for a Divorce"
 msgstr "Gründe für eine Scheidung"
 
+msgid "Guardian"
+msgstr ""
+
 msgid "Gypsy"
 msgstr "Zigeuner"
 
@@ -1624,6 +1654,9 @@ msgstr ""
 msgid "Hemispheres"
 msgstr "Hemissphäre"
 
+msgid "Herz zu Herz"
+msgstr ""
+
 msgid "Hex A Klon"
 msgstr "Hex A Klon"
 
@@ -1649,6 +1682,9 @@ msgid "Hiranyaksha"
 msgstr "Hiranyaksha"
 
 msgid "Hit or Miss"
+msgstr ""
+
+msgid "Hope Deferred"
 msgstr ""
 
 msgid "Hopscotch"
@@ -1680,6 +1716,9 @@ msgstr "Hürdenlauf"
 
 msgid "Hurricane"
 msgstr "Hurrikan"
+
+msgid "Hussars"
+msgstr ""
 
 msgid "Hypotenuse"
 msgstr "Hypotenuse"
@@ -1827,6 +1866,9 @@ msgstr "Khadga"
 msgid "Khedive"
 msgstr "Khedive"
 
+msgid "Kilowatt"
+msgstr ""
+
 msgid "King Albert"
 msgstr "König Albert"
 
@@ -1872,6 +1914,9 @@ msgid "Klondike by Threes"
 msgstr "Klondike durch drei"
 
 msgid "Km"
+msgstr ""
+
+msgid "Knockout"
 msgstr ""
 
 msgid "Knotty Nines"
@@ -1956,6 +2001,9 @@ msgstr "Lady Pelk"
 msgid "Lady of the Manor"
 msgstr "Lady auf dem Gut"
 
+msgid "Ladybug"
+msgstr ""
+
 msgid "Lafayette"
 msgstr "Lafayette"
 
@@ -1980,6 +2028,9 @@ msgstr "Letzte Chance"
 msgid "Lattice"
 msgstr "Gitter"
 
+msgid "Laying Siege"
+msgstr ""
+
 msgid "Le Cadran"
 msgstr "Le Cadran"
 
@@ -1988,6 +2039,9 @@ msgstr "Le Grande Teton"
 
 msgid "Legion"
 msgstr "Legion"
+
+msgid "Leoni's Own"
+msgstr ""
 
 msgid "Leprechaun"
 msgstr "Kobold"
@@ -2000,6 +2054,27 @@ msgstr "Weniger Warteschlange"
 
 msgid "Lexington Harp"
 msgstr "Lexington Harfe"
+
+msgid "Lights Out 10x10"
+msgstr ""
+
+msgid "Lights Out 4x4"
+msgstr ""
+
+msgid "Lights Out 5x5"
+msgstr ""
+
+msgid "Lights Out 6x6"
+msgstr ""
+
+msgid "Lights Out 7x7"
+msgstr ""
+
+msgid "Lights Out 8x8"
+msgstr ""
+
+msgid "Lights Out 9x9"
+msgstr ""
 
 msgid "Lightweight"
 msgstr "Leicht"
@@ -2051,6 +2126,9 @@ msgstr "Lange Reise"
 
 msgid "Loose Ends"
 msgstr "Verlorene Enden"
+
+msgid "Lords and Ladies"
+msgstr ""
 
 msgid "Lost "
 msgstr "Verloren"
@@ -2617,6 +2695,9 @@ msgstr ""
 msgid "Makara"
 msgstr ""
 
+msgid "Malmaison"
+msgstr ""
+
 msgid "Mamy Susan"
 msgstr "Mammi Susanne"
 
@@ -2650,6 +2731,30 @@ msgstr "Matriarchat"
 msgid "Matrimony"
 msgstr "Ehestand"
 
+msgid "Matrix 10x10"
+msgstr ""
+
+msgid "Matrix 3x3"
+msgstr ""
+
+msgid "Matrix 4x4"
+msgstr ""
+
+msgid "Matrix 5x5"
+msgstr ""
+
+msgid "Matrix 6x6"
+msgstr ""
+
+msgid "Matrix 7x7"
+msgstr ""
+
+msgid "Matrix 8x8"
+msgstr ""
+
+msgid "Matrix 9x9"
+msgstr ""
+
 msgid "MatsuKiri"
 msgstr "MatsuKiri"
 
@@ -2679,6 +2784,9 @@ msgstr "Memory 30"
 
 msgid "Memory 40"
 msgstr "Memory 40"
+
+msgid "Memory Sequence"
+msgstr ""
 
 msgid "Merlin's Meander"
 msgstr "Merlin's Meander"
@@ -2740,6 +2848,9 @@ msgstr "Monte Carlo"
 
 msgid "Monte Carlo (2 decks)"
 msgstr "Monte Carlo (2 Decks)"
+
+msgid "Moojub"
+msgstr ""
 
 msgid "Moonlight"
 msgstr "Mondlicht"
@@ -2833,6 +2944,9 @@ msgstr "Nadel"
 
 msgid "Neighbour"
 msgstr "Nachbar"
+
+msgid "Neptune"
+msgstr ""
 
 msgid "Nestor"
 msgstr "Nestor"
@@ -3030,7 +3144,13 @@ msgstr ""
 msgid "Pegged Cross 2"
 msgstr ""
 
+msgid "Pegged Diamond"
+msgstr ""
+
 msgid "Pegged Octagon"
+msgstr ""
+
+msgid "Pegged Star"
 msgstr ""
 
 #, fuzzy
@@ -3040,6 +3160,9 @@ msgstr "Rechtes Dreieck"
 #, fuzzy
 msgid "Pegged Triangle 2"
 msgstr "Rechtes Dreieck"
+
+msgid "Pelmanism"
+msgstr ""
 
 msgid "Penelope's Web"
 msgstr "Penelope's Netz"
@@ -3095,6 +3218,9 @@ msgstr "Zopf"
 msgid "Plus Belle"
 msgstr ""
 
+msgid "Pluto"
+msgstr ""
+
 msgid "Poker Shuffle"
 msgstr "Poker Shuffle"
 
@@ -3128,6 +3254,9 @@ msgstr ""
 msgid "Pretzel"
 msgstr ""
 
+msgid "Prime Minister"
+msgstr ""
+
 msgid "Primrose"
 msgstr "Primel"
 
@@ -3136,6 +3265,9 @@ msgstr "Prinzessinnen Patience"
 
 msgid "Progression"
 msgstr "Progression"
+
+msgid "Propeller"
+msgstr ""
 
 msgid "Provisions"
 msgstr "Provisionen"
@@ -3157,6 +3289,9 @@ msgstr "Pyramide 1"
 
 msgid "Pyramid 2"
 msgstr "Pyramide 2"
+
+msgid "Pyramid Dozen"
+msgstr ""
 
 msgid "Pyramid Golf"
 msgstr "Pyramiden Golf"
@@ -3222,6 +3357,9 @@ msgstr "Raglan"
 msgid "Rainbow"
 msgstr "Regenbogen"
 
+msgid "Rainbow Fan"
+msgstr ""
+
 msgid "Rainfall"
 msgstr "Niederschlag"
 
@@ -3283,6 +3421,9 @@ msgstr ""
 msgid "Relaxed Pyramid"
 msgstr "Entspannte Pyramide"
 
+msgid "Relaxed Raglan"
+msgstr ""
+
 msgid "Relaxed Seahaven Towers"
 msgstr "Entspannte Hafentürme"
 
@@ -3292,6 +3433,9 @@ msgstr "Entspannte Spinne"
 #, fuzzy
 msgid "Relaxed Three Fir-trees"
 msgstr "Three Fir-trees"
+
+msgid "Reno"
+msgstr ""
 
 msgid "Repair"
 msgstr "Reparatur"
@@ -3328,6 +3472,9 @@ msgstr "Robin"
 
 msgid "Rocket"
 msgstr "Rakete"
+
+msgid "Roll Call"
+msgstr ""
 
 msgid "Roman Arena"
 msgstr "Römische Arena"
@@ -3488,6 +3635,9 @@ msgstr "Sieben zu Vier"
 msgid "Shady Lanes"
 msgstr "Schattenlinien"
 
+msgid "Sham Battle"
+msgstr ""
+
 msgid "Shamrocks"
 msgstr "Kleeblätter"
 
@@ -3540,6 +3690,9 @@ msgstr "Siam"
 msgid "Sieben bis As"
 msgstr "Sieben bis As"
 
+msgid "Siegecraft"
+msgstr ""
+
 msgid "Signora"
 msgstr "Signora"
 
@@ -3555,6 +3708,9 @@ msgstr "Simple Paare"
 msgid "Simple Simon"
 msgstr "Simple Simon"
 
+msgid "Simple Spark"
+msgstr ""
+
 msgid "Simplex"
 msgstr "Simplex"
 
@@ -3564,6 +3720,9 @@ msgstr "Einfachheit"
 #, fuzzy
 msgid "Single Rail"
 msgstr "Doppelte Schiene"
+
+msgid "Single Spark"
+msgstr ""
 
 msgid "Sir Tommy"
 msgstr "Sir Tommy"
@@ -3775,6 +3934,9 @@ msgstr "Striptease"
 msgid "Stronghold"
 msgstr "Hochburg"
 
+msgid "Succession"
+msgstr ""
+
 msgid "Suit Elevens"
 msgstr "Anzug elf"
 
@@ -3795,6 +3957,9 @@ msgstr "Sumo"
 
 msgid "SunMoon"
 msgstr "Sonnenmond"
+
+msgid "Sundial"
+msgstr ""
 
 #, fuzzy
 msgid "Super Challenge FreeCell"
@@ -3818,6 +3983,9 @@ msgstr ""
 msgid "Sweet Sixteen"
 msgstr "Süsse Sechzehn"
 
+msgid "Swiss Patience"
+msgstr ""
+
 msgid "Tabby Cat"
 msgstr "Tabby Cat"
 
@@ -3828,6 +3996,9 @@ msgid "Take Away"
 msgstr "Nimms weg"
 
 msgid "Take Away 8"
+msgstr ""
+
+msgid "Take Fourteen"
 msgstr ""
 
 msgid "Tam O'Shanter"
@@ -3907,6 +4078,9 @@ msgstr "Theater"
 
 msgid "Thieves of Egypt"
 msgstr "Diebe von Ägypten"
+
+msgid "Thirteen Down"
+msgstr ""
 
 #, fuzzy
 msgid "Thirteen Packs"
@@ -3999,6 +4173,9 @@ msgstr "Тournament"
 
 msgid "Tower of Babel"
 msgstr "Turm zu Babel"
+
+msgid "Tower of Hanoi"
+msgstr ""
 
 msgid "Tower of Hanoy"
 msgstr "Türme von Hanoi"
@@ -4099,6 +4276,9 @@ msgstr "Turncoasts"
 msgid "Tuxedo"
 msgstr "Smoking"
 
+msgid "Tvete's Grandfather"
+msgstr ""
+
 msgid "Twelve Sleeping Maids"
 msgstr "Zwölf schlafende Dienstmädchen"
 
@@ -4153,6 +4333,9 @@ msgstr ""
 
 msgid "Up and Down"
 msgstr "Hoch und Runter"
+
+msgid "Up and Up"
+msgstr ""
 
 msgid "Usk"
 msgstr ""
@@ -4241,6 +4424,9 @@ msgstr "Wellenbewegung"
 
 msgid "Wavelets"
 msgstr "Wavelets"
+
+msgid "Weavers"
+msgstr ""
 
 msgid "Weddings"
 msgstr "Hochzeiten"

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: 1.02\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2022-02-08 22:31-0500\n"
+"PO-Revision-Date: 2022-02-12 11:34-0500\n"
 "Last-Translator: Eric Rausch <neelix570@gmail.com>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -4635,6 +4635,9 @@ msgstr "Jeux non-&joués"
 #: pysollib/ui/tktile/menubar.py:318
 msgid "Select game by nu&mber..."
 msgstr "Choisir un jeu par nu&méro..."
+
+msgid "Next game by num&ber"
+msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:321
 msgid "Fa&vorite games"

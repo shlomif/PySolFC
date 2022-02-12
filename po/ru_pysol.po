@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2022-02-08 22:29-0500\n"
+"PO-Revision-Date: 2022-02-12 11:34-0500\n"
 "Last-Translator: Skomoroh <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
@@ -4724,6 +4724,9 @@ msgstr "Не&сыгранные игры"
 #: pysollib/ui/tktile/menubar.py:318
 msgid "Select game by nu&mber..."
 msgstr "Выбрать игру по &номеру..."
+
+msgid "Next game by num&ber"
+msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:321
 msgid "Fa&vorite games"

@@ -331,6 +331,9 @@ class PysolMenubarTkCommon:
         menu.add_command(
             label=n_("Select game by nu&mber..."),
             command=self.mSelectGameById, accelerator=m+"M")
+        menu.add_command(
+            label=n_("Next game by num&ber"),
+            command=self.mNewGameWithNextId, accelerator=m+"N")
         menu.add_separator()
         submenu = MfxMenu(menu, label=n_("Fa&vorite games"))
         menu.add_command(label=n_("A&dd to favorites"), command=self.mAddFavor)
@@ -379,6 +382,11 @@ class PysolMenubarTkCommon:
         menu.add_command(label=n_("Redo &all"), command=self.mRedoAll)
 
         menu.add_separator()
+        menu.add_command(
+            label=n_("Restart"),
+            command=self.mRestart, accelerator=m+"G")
+
+        menu.add_separator()
         submenu = MfxMenu(menu, label=n_("&Set bookmark"))
         for i in range(9):
             label = _("Bookmark %d") % (i + 1)
@@ -395,11 +403,6 @@ class PysolMenubarTkCommon:
         menu.add_command(
             label=n_("&Clear bookmarks"),
             command=self.mClearBookmarks)
-        menu.add_separator()
-
-        menu.add_command(
-            label=n_("Restart"),
-            command=self.mRestart, accelerator=m+"G")
 
         menu.add_separator()
         menu.add_command(
@@ -431,20 +434,19 @@ class PysolMenubarTkCommon:
         menu.add_command(
             label=n_("S&tatus..."),
             command=lambda: self.mPlayerStats(mode=100), accelerator=m+"Y")
-        menu.add_checkbutton(
-            label=n_("&Comments..."), variable=self.tkopt.comment,
-            command=self.mEditGameComment)
-        menu.add_separator()
         menu.add_command(
             label=n_("&Statistics..."),
             command=self.mPlayerStats, accelerator=m+"T")
         menu.add_command(
+            label=n_("D&emo statistics..."),
+            command=lambda: self.mPlayerStats(mode=1101))
+        menu.add_command(
             label=n_("Log..."),
             command=lambda: self.mPlayerStats(mode=103))
         menu.add_separator()
-        menu.add_command(
-            label=n_("D&emo statistics..."),
-            command=lambda: self.mPlayerStats(mode=1101))
+        menu.add_checkbutton(
+            label=n_("&Comments..."), variable=self.tkopt.comment,
+            command=self.mEditGameComment)
 
         menu = MfxMenu(self.menubar, label=n_("&Assist"))
         menu.add_command(
@@ -478,7 +480,7 @@ class PysolMenubarTkCommon:
         menu = MfxMenu(self.menubar, label=n_("&Options"))
         menu.add_command(
             label=n_("&Player options..."),
-            command=self.mOptPlayerOptions)
+            command=self.mOptPlayerOptions, accelerator=m+'P')
         submenu = MfxMenu(menu, label=n_("&Automatic play"))
         submenu.add_checkbutton(
             label=n_("Auto &face up"), variable=self.tkopt.autofaceup,

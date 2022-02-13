@@ -112,11 +112,8 @@ class Images:
         if (not USE_PIL and TOOLKIT != 'kivy') or imagedir is None:
             # load image
             img = self.__loadCard(filename+self.cs.ext, check_w, check_h)
-            if USE_PIL and img is not None:
-                # we have no bottom images
-                # (data/images/cards/bottoms/<cs_type>)
-                img = img.resize(self._xfactor, self._yfactor)
             return img
+
         # create image
         d = os.path.join('images', 'cards', 'bottoms', cs_type)
         try:
@@ -189,7 +186,6 @@ class Images:
         if progress:
             progress.update(step=1)
 
-        # todo - fix duplication of loading bottoms
         # load bottoms
         for i in range(self.cs.nbottoms):
             name = "bottom%02d" % (i + 1)
@@ -434,29 +430,33 @@ class Images:
         # back
         for b in self._back:
             b.image = b.image.resize(xf, yf)
+
         # stack bottom image
-        neg = self._bottom is self._bottom_negative
-        self._bottom_negative = []
-        self._bottom_positive = []
-        for i in range(self.cs.nbottoms):
-            name = "bottom%02d" % (i + 1)
-            bottom = self.__loadBottom(name, color='black')
-            if bottom is not None:
-                self._bottom_positive.append(bottom)
-            name = "bottom%02d-n" % (i + 1)
-            bottom = self.__loadBottom(name, color='white')
-            if bottom is not None:
-                self._bottom_negative.append(bottom)
+        neg = self._bottom is self._bottom_negative  # dont know
+
+        bottom_negative = []
+        bottom_positive = []
+        for c in self._bottom_negative:
+            c = c.resize(xf, yf)
+            bottom_negative.append(c)
+        self._bottom_negative = bottom_negative
+        for c in self._bottom_positive:
+            c = c.resize(xf, yf)
+            bottom_positive.append(c)
+        self._bottom_positive = bottom_positive
+
         # letters
-        self._letter_positive = []
-        self._letter_negative = []
-        for rank in range(self.cs.nletters):
-            name = "l%02d" % (rank + 1)
-            self._letter_positive.append(
-                self.__loadBottom(name, color='black'))
-            name = "l%02d-n" % (rank + 1)
-            self._letter_negative.append(
-                self.__loadBottom(name, color='white'))
+        letter_negative = []
+        letter_positive = []
+        for c in self._letter_negative:
+            c = c.resize(xf, yf)
+            letter_negative.append(c)
+        self._letter_negative = letter_negative
+        for c in self._letter_positive:
+            c = c.resize(xf, yf)
+            letter_positive.append(c)
+        self._letter_positive = letter_positive
+
         self._createMissingImages()
         self.setNegative(neg)
         #

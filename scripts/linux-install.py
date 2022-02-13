@@ -19,9 +19,12 @@ def main():
     def _make_test(make_exe):
         subprocess.check_call([make_exe, "test", "rules"])
 
+    if os.getCwd().endswith("scripts"):
+        os.chdir('../')
+
     try:
         _make_test("gmake")
-    except subprocess.CalledProcessError:
+    except (subprocess.CalledProcessError, FileNotFoundError):
         _make_test("make")
 
     if not os.path.exists("./images"):

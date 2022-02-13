@@ -1,0 +1,3 @@
+Human icon set - https://launchpad.net/human-icon-theme/
+
+Some icons modified to fit PySolFC.  Icon set is used under a CC-BY-SA license.

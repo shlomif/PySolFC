@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2022-01-20 21:43-0500\n"
+"PO-Revision-Date: 2022-02-12 11:34-0500\n"
 "Last-Translator: H. Schaekel <Holger.Schaekel@web.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -4519,6 +4519,18 @@ msgstr "Karte suchen"
 msgid "Icon Style"
 msgstr ""
 
+msgid "Icon Size"
+msgstr ""
+
+msgid "Small icons"
+msgstr ""
+
+msgid "Large icons"
+msgstr ""
+
+msgid "Extra large icons"
+msgstr ""
+
 #: pysollib/ui/tktile/menubar.py:35
 msgid "Compound"
 msgstr ""
@@ -4571,6 +4583,9 @@ msgstr "nicht ges&pielte Spiele"
 #: pysollib/ui/tktile/menubar.py:318
 msgid "Select game by nu&mber..."
 msgstr "Neue Spielnu&mmer auswählen"
+
+msgid "Next game by num&ber"
+msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:321
 msgid "Fa&vorite games"

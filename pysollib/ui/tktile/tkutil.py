@@ -21,7 +21,6 @@
 #
 # ---------------------------------------------------------------------------
 
-import os
 import re
 
 from pysollib.mfxutil import Image, ImageOps, ImageTk
@@ -254,11 +253,7 @@ if Image:
                 image = Image.open(file).convert('RGBA')
 
                 # eliminates the 0 in alphachannel
-                findsum = findfile(file)
-
-                if findsum != -3:  # -1 for every check
-                    pass
-                    image = masking(image)
+                image = masking(image)
 
             ImageTk.PhotoImage.__init__(self, image)
             self._pil_image = image
@@ -271,8 +266,6 @@ if Image:
             im = self._pil_image
             w, h = im.size
             w, h = int(float(w)/r), int(float(h)/r)
-
-            # im = masking(im)  # for later optimization
             im = im.resize((w, h))
             im = PIL_Image(image=im)
             return im
@@ -283,7 +276,7 @@ if Image:
             w0, h0 = int(w*xf), int(h*yf)
             im = self._pil_image_orig.resize((w0, h0), Image.ANTIALIAS)
 
-            # im = masking(im)  # for later optimization
+            im = masking(im)
 
             return PIL_Image(image=im, pil_image_orig=self._pil_image_orig)
 
@@ -296,29 +289,24 @@ def masking(image):
 
     image = image.convert("RGBA")  # make sure it has alphachannel
     mask = image.copy()
+
+    # calculate median transparency value
+    # this will determine if the masking will have a significant
+    # effect on performance.
+    transparency = [row[3] for row in image.getdata()]
+    n = len(transparency)
+    s = sorted(transparency)
+    median = (s[n // 2 - 1] / 2.0 + s[n // 2] / 2.0, s[n // 2])[n % 2]
+
+    if median > 0:
+        return image
+
     # important alpha must be bigger than 0
     mask.putalpha(1)
     mask.paste(image, (0, 0), image)
     image = mask.copy()
 
     return image
-
-
-def findfile(file):
-
-    file_path = file
-
-    basename = os.path.basename(file_path)
-    file_name = os.path.splitext(basename)[0]
-
-    find1 = file_name.find("bottom")
-    find2 = file_name.find("shad")
-    find3 = file_name.find("l0")
-    # find4 = file_name.find("back")
-
-    findsum = find1 + find2 + find3
-
-    return findsum
 
 
 def makeImage(file=None, data=None, dither=None, alpha=None):

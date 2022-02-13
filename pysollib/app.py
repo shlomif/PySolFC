@@ -585,7 +585,9 @@ class Application:
         return self._getImagesDir('cards')
 
     def getToolbarImagesDir(self):
-        if self.opt.toolbar_size:
+        if self.opt.toolbar_size == 2:
+            size = 'xlarge'
+        elif self.opt.toolbar_size == 1:
             size = 'large'
         else:
             size = 'small'

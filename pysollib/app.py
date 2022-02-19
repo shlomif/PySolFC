@@ -696,6 +696,7 @@ class Application:
                                         color=color,
                                         images=self.progress_images)
         images = Images(self.dataloader, cs)
+        images.cardset_bottoms = self.opt.use_cardset_bottoms
         try:
             if not images.load(app=self, progress=progress):
                 raise Exception("Invalid or damaged cardset")

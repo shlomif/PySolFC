@@ -73,6 +73,8 @@ class Images:
         self._highlight_index = 0       #
         self._highlighted_images = {}   # key: (suit, rank)
 
+        self.cardset_bottoms = False
+
     def destruct(self):
         pass
 
@@ -109,7 +111,8 @@ class Images:
             imagedir = self.d.findDir(cs_type, d)
         except Exception:
             pass
-        if (not USE_PIL and TOOLKIT != 'kivy') or imagedir is None:
+        if ((not USE_PIL and TOOLKIT != 'kivy') or self.cardset_bottoms
+                or imagedir is None):
             # load image
             img = self.__loadCard(filename+self.cs.ext, check_w, check_h)
             return img

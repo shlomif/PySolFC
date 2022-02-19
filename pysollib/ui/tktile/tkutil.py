@@ -282,7 +282,8 @@ if Image:
                 if findsum != -3:  # -1 for every check
                     im = masking(im)
             except Exception:
-                im = masking(im)
+                pass  # placeholder
+                #  im = masking(im)  # now don't mask images with no name
 
             im = PIL_Image(image=im)
             return im
@@ -299,7 +300,8 @@ if Image:
                 if findsum != -3:  # -1 for every check
                     im = masking(im)
             except Exception:
-                im = masking(im)
+                pass  # placeholder
+                #  im = masking(im)  # now don't mask images with no name
 
             return PIL_Image(image=im, pil_image_orig=self._pil_image_orig)
 

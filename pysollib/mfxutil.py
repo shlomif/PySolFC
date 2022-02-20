@@ -34,7 +34,7 @@ from pysollib.settings import PACKAGE, TOOLKIT
 import six
 from six import print_
 
-Image = ImageTk = ImageOps = None
+Image = ImageTk = ImageOps = ImageDraw = None
 if TOOLKIT == 'tk':
     try:  # PIL
         from PIL import Image

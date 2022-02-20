@@ -53,8 +53,13 @@ def init_tile(app, top):
 
 
 def set_theme(app, top, theme):
-    # set theme
-    style = ttk.Style(top)
+    # set
+    try:
+        from ttkthemes import themed_style
+        style = themed_style.ThemedStyle(top)
+    except ImportError:
+        style = ttk.Style(top)
+
     try:
         style.theme_use(theme)
     except Exception:

@@ -23,7 +23,7 @@ jobs:
       run: |
         python3 -m pip install --upgrade pip
         python3 -m pip install --no-binary=Pillow \
-          Pillow attrs configobj py2app pycotap pysol-cards random2 setuptools six
+          Pillow attrs configobj py2app pycotap pysol-cards random2 setuptools six ttkthemes
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
         brew install create-dmg
     - name: Get cardsets

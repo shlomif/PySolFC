@@ -114,16 +114,29 @@ the next time you restart %(app)s""") % {'app': TITLE},
 
     def createThemesMenu(self, menu):
         submenu = MfxMenu(menu, label=n_("Set t&heme"))
-        all_themes = list(ttk.Style(self.top).theme_names())
+
+        try:
+            from ttkthemes import themed_style
+            style_path = themed_style.ThemedStyle(self.top)
+        except ImportError:
+            style_path = ttk.Style(self.top)
+        all_themes = list(style_path.theme_names())
+
         all_themes.sort()
         #
         tn = {
-            'default':     n_('Default'),
-            'classic':     n_('Classic'),
-            'alt':         n_('Revitalized'),
-            'winnative':   n_('Windows native'),
+            'alt':         n_('Alt/Revitalized'),
+            'itft1':       n_('ITFT1'),
+            'scidblue':    n_('Scid Blue'),
+            'scidgreen':   n_('Scid Green'),
+            'scidgrey':    n_('Scid Grey'),
+            'scidmint':    n_('Scid Mint'),
+            'scidpink':    n_('Scid Pink'),
+            'scidpurple':  n_('Scid Purple'),
+            'scidsand':    n_('Scid Sand'),
+            'winnative':   n_('Windows Native'),
+            'winxpblue':   n_('Windows XP Blue'),
             'xpnative':    n_('XP Native'),
-            'aqua':        n_('Aqua'),
             }
         for t in all_themes:
             try:

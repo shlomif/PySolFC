@@ -25,7 +25,8 @@
 import os
 
 from pysollib.mfxutil import Image, ImageTk, USE_PIL, print_err
-from pysollib.pysoltk import copyImage, createBottom, createImage, loadImage
+from pysollib.pysoltk import copyImage, createBottom, createImage,\
+        createImagePIL, loadImage
 from pysollib.pysoltk import shadowImage
 from pysollib.resource import CSI
 from pysollib.settings import TOOLKIT
@@ -136,7 +137,8 @@ class Images:
         cw, ch = self.getSize()
         # back
         if not self._back:
-            im = createImage(cw, ch, fill="#a0a0a0", outline="#000000")
+            im = self.createMissingImage(cw, ch, fill="#a0a0a0",
+                                         outline="#000000")
             name = ""
             self.__addBack(im, name)
             self.cs.backnames = tuple(self.cs.backnames) + (name,)
@@ -145,21 +147,32 @@ class Images:
         neg_bottom = None
         while len(self._bottom_positive) < max(7, self.cs.nbottoms):
             if bottom is None:
-                bottom = createImage(cw, ch, fill=None, outline="#000000")
+                bottom = self.createMissingImage(cw, ch, fill=None,
+                                                 outline="#000000")
             self._bottom_positive.append(bottom)
         while len(self._bottom_negative) < max(7, self.cs.nbottoms):
             if neg_bottom is None:
-                neg_bottom = createImage(cw, ch, fill=None, outline="#ffffff")
+                neg_bottom = self.createMissingImage(cw, ch, fill=None,
+                                                     outline="#ffffff")
             self._bottom_negative.append(neg_bottom)
         while len(self._letter_positive) < 4:
             if bottom is None:
-                bottom = createImage(cw, ch, fill=None, outline="#000000")
+                bottom = self.createMissingImage(cw, ch, fill=None,
+                                                 outline="#000000")
             self._letter_positive.append(bottom)
         while len(self._letter_negative) < 4:
             if neg_bottom is None:
-                neg_bottom = createImage(cw, ch, fill=None, outline="#ffffff")
+                neg_bottom = self.createMissingImage(cw, ch, fill=None,
+                                                     outline="#ffffff")
             self._letter_negative.append(neg_bottom)
-        self._blank_bottom = createImage(cw, ch, fill=None, outline=None)
+        self._blank_bottom = self.createMissingImage(cw, ch, fill=None,
+                                                     outline=None)
+
+    def createMissingImage(self, width, height, fill, outline=None):
+        if USE_PIL:
+            return createImagePIL(width, height, fill=fill, outline=outline)
+        else:
+            return createImage(width, height, fill=fill, outline=outline)
 
     def load(self, app, progress=None):
         ext = self.cs.ext[1:]

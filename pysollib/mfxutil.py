@@ -40,6 +40,7 @@ if TOOLKIT == 'tk':
         from PIL import Image
         from PIL import ImageTk  # noqa: F401
         from PIL import ImageOps  # noqa: F401
+        from PIL import ImageDraw  # noqa: F401
     except ImportError:
         Image = None
     else:

@@ -24,7 +24,7 @@
 import os
 import re
 
-from pysollib.mfxutil import Image, ImageOps, ImageTk
+from pysollib.mfxutil import Image, ImageDraw, ImageOps, ImageTk
 from pysollib.settings import TITLE, WIN_SYSTEM
 
 from six.moves import tkinter
@@ -410,6 +410,19 @@ def createImage(width, height, fill, outline=None):
     image.blank()
     fillImage(image, fill, outline)
     return image
+
+
+def createImagePIL(width, height, fill, outline=None):
+    if not fill:
+        image = Image.new('RGBA', (width, height))
+    else:
+        image = Image.new('RGBA', (width, height), color=fill)
+    if outline is not None:
+        draw = ImageDraw.Draw(image)
+        draw.rectangle([0, 0, width - 1, height - 1], fill=None,
+                       outline=outline, width=1)
+
+    return PIL_Image(image=image)
 
 
 def shadowImage(image, color='#3896f8', factor=0.3):

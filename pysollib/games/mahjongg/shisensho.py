@@ -323,6 +323,10 @@ class AbstractShisenGame(AbstractMahjonggGame):
             d_x = 0
             d_y = 0
             self._delta_x, self._delta_y = 0, 0
+        # TODO - This should be moved to subsample logic in the future.
+        if self.preview > 1:
+            d_x /= 2
+            d_y /= 2
 
         font = self.app.getFont("canvas_default")
 

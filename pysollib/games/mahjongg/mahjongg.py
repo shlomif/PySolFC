@@ -389,8 +389,13 @@ class AbstractMahjonggGame(Game):
             d_x = cs.SHADOW_XOFFSET
             d_y = cs.SHADOW_YOFFSET
             if self.preview:
+                size_cap, r = 100, 2
+                if l.CW // r > size_cap or l.CH // r > size_cap:
+                    r = max(l.CW, l.CH) // size_cap
+
                 # Fixme
-                dx, dy, d_x, d_y = dx//2, dy//2, d_x//2, d_y//2
+                dx, dy, d_x, d_y = dx // r, dy // r, d_x // r, d_y // r
+
             self._delta_x, self._delta_y = dx, -dy
         else:
             dx = 3

@@ -310,7 +310,7 @@ class AbstractShisenGame(AbstractMahjonggGame):
         l, s = Layout(self), self.s
         # dx, dy = 3, -3
 
-        cs = self.app.cardset
+        cs = self.app.images.cs
         if cs.version >= 6:
             dx = l.XOFFSET
             dy = -l.YOFFSET

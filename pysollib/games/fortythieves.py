@@ -745,8 +745,8 @@ class Octagon(Game):
 
         l, s = Layout(self), self.s
 
-        w1 = l.XS+12*l.XOFFSET
-        w, h = l.XM+2*l.XS+2*w1, l.YM+4*l.YS
+        w1 = max(l.XS + 12 * l.XOFFSET, l.XM + 2 * l.XS + l.XS // 2)
+        w, h = l.XM + 2 * l.XS + 2 * w1, l.YM + 4 * l.YS
         self.setSize(w, h)
 
         for x, y in ((l.XM,                l.YM),

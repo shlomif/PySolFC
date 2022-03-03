@@ -220,14 +220,16 @@ class Images:
         # load letters
         for rank in range(self.cs.nletters):
             name = "l%02d" % (rank + 1)
-            self._letter_positive.append(
-                self.__loadBottom(name, color='black'))
+            bottom = self.__loadBottom(name, color='black')
+            if bottom is not None:
+                self._letter_positive.append(bottom)
             if progress:
                 progress.update(step=pstep)
             # load negative letters
             name = "l%02d-n" % (rank + 1)
-            self._letter_negative.append(
-                self.__loadBottom(name, color='white'))
+            bottom = self.__loadBottom(name, color='white')
+            if bottom is not None:
+                self._letter_negative.append(bottom)
             if progress:
                 progress.update(step=pstep)
 

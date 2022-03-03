@@ -19,8 +19,7 @@ def main():
     def _make_test(make_exe):
         subprocess.check_call([make_exe, "test", "rules"])
 
-    if os.getCwd().endswith("scripts"):
-        os.chdir('../')
+    os.chdir('../')
 
     try:
         _make_test("gmake")

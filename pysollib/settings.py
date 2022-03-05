@@ -30,9 +30,9 @@ def n_(x):                        # for gettext
 
 PACKAGE = 'PySolFC'
 TITLE = 'PySol'
-PACKAGE_URL = 'http://pysolfc.sourceforge.net/'
+PACKAGE_URL = 'http://pysolfc.sourceforge.io/'
 
-VERSION_TUPLE = (2, 14, 1)
+VERSION_TUPLE = (2, 15, 0)
 VERSION = '.'.join(map(str, VERSION_TUPLE))
 
 # Tk windowing system (auto set up in init.py)

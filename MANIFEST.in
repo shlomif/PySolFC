@@ -85,6 +85,14 @@ graft data/cardset-standard
 graft data/cardset-tuxedo
 graft data/cardset-vienna-2k
 graft data/cardset-dondorf
+graft data/cardset-neo
+graft data/cardset-neo-hex
+graft data/cardset-neo-tarock
+graft data/cardset-uni-mahjongg
+graft data/cardset-louie-mantia-hanafuda
+graft data/cardset-mughal-ganjifa-xl
+graft data/cardset-dashavatara-ganjifa-xl
+graft data/cardset-next-matrix
 ##
 ## exclude dirs
 ##

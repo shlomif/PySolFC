@@ -10,9 +10,9 @@ set -e -x
 
 src_base="PySolFC-Cardsets"
 dest_base="$src_base--Minimal"
-ver="2.0.2"
-src_vbase="$src_base-2.0"
-dest_vbase="$dest_base-2.0.2"
+ver="2.1.0"
+src_vbase="$src_base-2.1"
+dest_vbase="$dest_base-2.1.0"
 src_arc="$src_vbase.tar.bz2"
 
 if ! test -f "$src_arc"

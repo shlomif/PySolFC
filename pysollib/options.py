@@ -28,7 +28,7 @@ import traceback
 import configobj
 
 import pysollib.settings
-from pysollib.mfxutil import print_err
+from pysollib.mfxutil import USE_PIL, print_err
 from pysollib.mygettext import _
 from pysollib.mygettext import myGettext
 from pysollib.pysoltk import TOOLBAR_BUTTONS, TOOLKIT
@@ -338,7 +338,7 @@ class Options:
         # self.toolbar_style = 'default'
         if TOOLKIT == 'kivy':
             self.toolbar = 4  # 0 == hide, 1,2,3,4 == top, bottom, lef, right
-        self.toolbar_style = 'bluecurve'
+        self.toolbar_style = 'remix'
         self.toolbar_relief = 'flat'
         self.toolbar_compound = 'none'  # icons only
         self.toolbar_size = 0
@@ -435,7 +435,7 @@ class Options:
                                     11004, 14405, 14410, 15411, 22225]
         self.last_gameid = 0            # last game played
         self.game_holded = 0            # gameid or 0
-        self.wm_maximized = 0
+        self.wm_maximized = 1
         self.save_games_geometry = False
         # saved games geometry (gameid: (width, height))
         self.games_geometry = {}
@@ -450,7 +450,7 @@ class Options:
         self.scale_cards = False
         self.scale_x = 1.0
         self.scale_y = 1.0
-        self.auto_scale = False
+        self.auto_scale = True
         self.spread_stacks = False
         self.center_layout = True
         self.preserve_aspect_ratio = True
@@ -509,7 +509,7 @@ class Options:
                           top.winfo_screendepth())
         # bg
         if sd > 8:
-            self.tabletile_name = "Nostalgy.gif"  # basename
+            self.tabletile_name = "Felt_Green.gif"  # basename
         else:
             self.tabletile_name = None
         # cardsets
@@ -521,20 +521,35 @@ class Options:
 
         # if sw > 1024 and sh > 768:
         #    c = 'Dondorf'
-        self.cardset = {
-            # game_type:        (cardset_name, back_file)
-            0:                  (c, ""),
-            CSI.TYPE_FRENCH:    (c, ""),
-            CSI.TYPE_HANAFUDA:  ("Kintengu", ""),
-            CSI.TYPE_MAHJONGG:  ("Crystal Mahjongg", ""),
-            CSI.TYPE_TAROCK:    ("Vienna 2K", ""),
-            CSI.TYPE_HEXADECK:  ("Hex A Deck", ""),
-            CSI.TYPE_MUGHAL_GANJIFA: ("Mughal Ganjifa", ""),
-            # CSI.TYPE_NAVAGRAHA_GANJIFA: ("Navagraha Ganjifa", ""),
-            CSI.TYPE_NAVAGRAHA_GANJIFA: ("Dashavatara Ganjifa", ""),
-            CSI.TYPE_DASHAVATARA_GANJIFA: ("Dashavatara Ganjifa", ""),
-            CSI.TYPE_TRUMP_ONLY: ("Matrix", ""),
-        }
+        if USE_PIL:
+            self.cardset = {
+                0:                  ("Neo", ""),
+                CSI.TYPE_FRENCH:    ("Neo", ""),
+                CSI.TYPE_HANAFUDA:  ("Louie Mantia Hanafuda", ""),
+                CSI.TYPE_MAHJONGG:  ("Uni Mahjongg", ""),
+                CSI.TYPE_TAROCK:    ("Neo Tarock", ""),
+                CSI.TYPE_HEXADECK:  ("Neo Hex", ""),
+                CSI.TYPE_MUGHAL_GANJIFA: ("Mughal Ganjifa XL", ""),
+                # CSI.TYPE_NAVAGRAHA_GANJIFA: ("Navagraha Ganjifa", ""),
+                CSI.TYPE_NAVAGRAHA_GANJIFA: ("Dashavatara Ganjifa XL", ""),
+                CSI.TYPE_DASHAVATARA_GANJIFA: ("Dashavatara Ganjifa XL", ""),
+                CSI.TYPE_TRUMP_ONLY: ("Next Matrix", ""),
+            }
+        else:
+            self.cardset = {
+                # game_type:        (cardset_name, back_file)
+                0:                  (c, ""),
+                CSI.TYPE_FRENCH:    (c, ""),
+                CSI.TYPE_HANAFUDA:  ("Kintengu", ""),
+                CSI.TYPE_MAHJONGG:  ("Crystal Mahjongg", ""),
+                CSI.TYPE_TAROCK:    ("Vienna 2K", ""),
+                CSI.TYPE_HEXADECK:  ("Hex A Deck", ""),
+                CSI.TYPE_MUGHAL_GANJIFA: ("Mughal Ganjifa", ""),
+                # CSI.TYPE_NAVAGRAHA_GANJIFA: ("Navagraha Ganjifa", ""),
+                CSI.TYPE_NAVAGRAHA_GANJIFA: ("Dashavatara Ganjifa", ""),
+                CSI.TYPE_DASHAVATARA_GANJIFA: ("Dashavatara Ganjifa", ""),
+                CSI.TYPE_TRUMP_ONLY: ("Matrix", ""),
+            }
 
     # not changeable options
     def setConstants(self):

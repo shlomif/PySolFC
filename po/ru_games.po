@@ -296,6 +296,9 @@ msgstr "Большая Берта"
 msgid "Big Braid"
 msgstr "Большая коса"
 
+msgid "Big Castle"
+msgstr "Большой замок"
+
 msgid "Big Cell"
 msgstr "Большая Ячейка"
 

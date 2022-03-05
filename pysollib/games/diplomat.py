@@ -59,7 +59,7 @@ class Diplomat(Game):
         l, s = Layout(self), self.s
 
         # set window
-        self.setSize(l.XM+8*l.XS, l.YM+3*l.YS+12*l.YOFFSET+l.TEXT_HEIGHT)
+        self.setSize(l.XM+8*l.XS, l.YM+3*l.YS+12*l.YOFFSET+(2 * l.TEXT_HEIGHT))
 
         # create stacks
         x, y = l.XM, l.YM
@@ -70,14 +70,14 @@ class Diplomat(Game):
         for i in range(8):
             s.rows.append(self.RowStack_Class(x, y, self))
             x = x + l.XS
-        x, y, = l.XM, self.height - l.YS
+        x, y, = l.XM, self.height - l.YS - l.TEXT_HEIGHT
         s.talon = WasteTalonStack(x, y, self, max_rounds=max_rounds)
-        l.createText(s.talon, "n")
+        l.createText(s.talon, "s")
         if max_rounds > 1:
-            l.createRoundText(self.s.talon, 'nnn')
+            l.createRoundText(self.s.talon, 'n')
         x = x + l.XS
         s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, "n")
+        l.createText(s.waste, "s")
 
         # define stack-groups
         l.defaultStackGroups()

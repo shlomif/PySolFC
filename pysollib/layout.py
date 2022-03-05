@@ -493,7 +493,7 @@ class Layout:
         w += XM
 
         # set size so that at least 19 cards are fully playable
-        h = YS + (playcards-1)*self.YOFFSET
+        h = YS + self.TEXT_HEIGHT + (playcards-1)*self.YOFFSET
         h = max(h, 3*YS)
         if texts:
             h += self.TEXT_HEIGHT
@@ -521,7 +521,7 @@ class Layout:
             x += XS
 
         # bottom
-        x, y = XM, YM + h
+        x, y = XM, YM + h - self.TEXT_HEIGHT
         for suit in range(suits):
             for i in range(decks):
                 self.s.foundations.append(S(x, y, suit=suit))
@@ -537,13 +537,13 @@ class Layout:
             x = w - 2*XS
             self.s.waste = s = S(x, y)
             if texts:
-                # place text above stack
-                self._setText(s, 'n')
+                # place text below stack
+                self._setText(s, 's')
         x = w - XS
         self.s.talon = s = S(x, y)
         if texts:
-            # place text above stack
-            self._setText(s, 'n')
+            # place text below stack
+            self._setText(s, 's')
 
         # set window
         self.size = (w, YM + h + YS)

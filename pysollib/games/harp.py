@@ -75,9 +75,7 @@ class DoubleKlondike(Game):
         l.defaultAll()
         # extra
         if max_rounds > 1:
-            anchor = 'nn'
-            if layout.get("texts"):
-                anchor = 'nnn'
+            anchor = 'n'
             l.createRoundText(s.talon, anchor)
         return l
 
@@ -248,15 +246,15 @@ class BigDeal(DoubleKlondike):
                     SS_FoundationStack(x, y, self, suit=j % 4))
                 y += l.YS
             x += l.XS
-        x, y = l.XM, self.height-l.YS
+        x, y = l.XM, self.height - l.YS - l.TEXT_HEIGHT
         s.talon = WasteTalonStack(x, y, self, max_rounds=max_rounds)
-        l.createText(s.talon, 'n')
+        l.createText(s.talon, 's')
         x += l.XS
         s.waste = WasteStack(x, y, self)
         s.waste.CARD_XOFFSET = XOFFSET
-        l.createText(s.waste, 'n')
+        l.createText(s.waste, 's')
         if max_rounds > 1:
-            l.createRoundText(s.talon, 'nnn')
+            l.createRoundText(s.talon, 'n')
         self.setRegion(s.rows, (-999, -999, l.XM+rows*l.XS-l.CW//2, 999999),
                        priority=1)
         l.defaultStackGroups()

@@ -170,14 +170,14 @@ class TwelveSleepingMaids(Game):
             s.rows.append(SS_RowStack(x, y, self))
             x += l.XS
 
-        x, y = self.width-l.XS, self.height-l.YS
+        x, y = self.width - l.XS, self.height - l.YS - l.TEXT_HEIGHT
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
-        l.createText(s.talon, 'n')
-        l.createRoundText(s.talon, 'nnn')
+        l.createText(s.talon, 's')
+        l.createRoundText(s.talon, 'n')
 
         x -= l.XS
         s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, 'n')
+        l.createText(s.waste, 's')
 
         # define stack-groups
         l.defaultStackGroups()

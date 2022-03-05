@@ -90,7 +90,7 @@ class FortyThieves(Game):
         # (piles up to 12 cards are playable without overlap
         #   in default window size)
         h = max(2*l.YS, l.YS+(playcards-1)*l.YOFFSET)
-        self.setSize(w1, l.YM + l.YS + h + l.YS + l.TEXT_HEIGHT)
+        self.setSize(w1, l.YM + l.YS + h + l.YS + (2 * l.TEXT_HEIGHT))
 
         # create stacks
         # foundations
@@ -111,16 +111,16 @@ class FortyThieves(Game):
             x = x + l.XS
         # talon, waste
         x = self.width - l.XS
-        y = self.height - l.YS
+        y = self.height - l.YS - l.TEXT_HEIGHT
         s.talon = WasteTalonStack(x, y, self,
                                   max_rounds=max_rounds, num_deal=num_deal)
-        l.createText(s.talon, "n")
+        l.createText(s.talon, "s")
         if max_rounds > 1:
-            l.createRoundText(s.talon, 'nnn')
+            l.createRoundText(s.talon, 'n')
         x -= l.XS
         s.waste = WasteStack(x, y, self)
         s.waste.CARD_XOFFSET = -l.XOFFSET
-        l.createText(s.waste, "n")
+        l.createText(s.waste, "s")
 
         # define stack-groups
         l.defaultStackGroups()

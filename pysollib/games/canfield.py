@@ -106,16 +106,20 @@ class Canfield(Game):
 
         # create stacks
         x, y = lay.XM, lay.YM
+        if round_text:
+            y += lay.TEXT_HEIGHT
         s.talon = self.Talon_Class(x, y, self,
                                    max_rounds=max_rounds, num_deal=num_deal)
         lay.createText(s.talon, "s")
         if round_text:
-            lay.createRoundText(s.talon, 'sss')
+            lay.createRoundText(s.talon, 'n')
         x += lay.XS
         s.waste = WasteStack(x, y, self)
         lay.createText(s.waste, "s")
         x += lay.XM
         y = lay.YM
+        if round_text:
+            y += lay.TEXT_HEIGHT
         if (self.SEPARATE_FOUNDATIONS):
             for i in range(4):
                 for j in range(decks):
@@ -143,6 +147,8 @@ class Canfield(Game):
         s.reserves.append(self.ReserveStack_Class(x, y, self))
         s.reserves[0].CARD_YOFFSET = yoffset
         x, y = lay.XM + 2 * lay.XS + lay.XM, lay.YM + lay.YS
+        if round_text:
+            y += lay.TEXT_HEIGHT
         if text:
             y += lay.TEXT_HEIGHT
         for i in range(rows):

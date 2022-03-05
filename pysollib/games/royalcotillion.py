@@ -143,7 +143,7 @@ class OddAndEven(RoyalCotillion):
         l, s = Layout(self), self.s
 
         # set window
-        self.setSize(l.XM + 8*l.XS, l.YM + 4*l.YS)
+        self.setSize(l.XM + 8 * l.XS, l.YM + l.TEXT_HEIGHT + 4 * l.YS)
 
         # create stacks
         x, y, = l.XM, l.YM
@@ -161,13 +161,13 @@ class OddAndEven(RoyalCotillion):
             for j in range((4, 5)[i]):
                 s.reserves.append(ReserveStack(x, y, self, max_accept=0))
                 x += l.XS
-        x, y = l.XM, self.height - l.YS
+        x, y = l.XM, self.height - l.YS - l.TEXT_HEIGHT
         s.talon = WasteTalonStack(x, y, self, max_rounds=2)
-        l.createText(s.talon, "n")
-        l.createRoundText(s.talon, 'nnn')
+        l.createText(s.talon, "s")
+        l.createRoundText(s.talon, 'n')
         x += l.XS
         s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, "n")
+        l.createText(s.waste, "s")
 
         # define stack-groups
         l.defaultStackGroups()
@@ -332,7 +332,7 @@ class Alhambra(Game):
             l.createText(s.talon, 'n')
         anchor = 'nn'
         if rows > 1:
-            anchor = 'nnn'
+            anchor = 'sw'
         l.createRoundText(s.talon, anchor)
 
         x += l.XS

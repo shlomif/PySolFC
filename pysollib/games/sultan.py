@@ -65,7 +65,8 @@ class Sultan(Game):
         l, s = Layout(self), self.s
 
         # set window
-        w, h = 3*l.XM+5*l.XS, l.YM+4*l.YS+l.TEXT_HEIGHT+l.TEXT_MARGIN
+        w, h = 3 * l.XM + 5 * l.XS, l.YM + 4 * l.YS + \
+            (2 * l.TEXT_HEIGHT) + l.TEXT_MARGIN
         self.setSize(w, h)
 
         # create stacks
@@ -96,10 +97,10 @@ class Sultan(Game):
             s.rows.append(ReserveStack(x, y, self))
             y += l.YS
 
-        x, y = 2*l.XM+1.5*l.XS, l.YM+3*l.YS
+        x, y = 2*l.XM+1.5*l.XS, l.YM+3*l.YS + l.TEXT_HEIGHT
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
         l.createText(s.talon, "s")
-        l.createRoundText(self.s.talon, 'sss')
+        l.createRoundText(self.s.talon, 'n')
         x += l.XS
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, "s")
@@ -556,7 +557,7 @@ class PicturePatience(Game):
         l, s = Layout(self), self.s
         w, h = 3*l.XM+5*l.XS, l.YM+4*l.YS
         if max_rounds > 1:
-            h += l.TEXT_HEIGHT+l.TEXT_MARGIN
+            h += (2 * l.TEXT_HEIGHT) + l.TEXT_MARGIN
         self.setSize(w, h)
 
         x, y = l.XM, l.YM
@@ -577,12 +578,14 @@ class PicturePatience(Game):
                 x += l.XS
             y += l.YS
         x, y = 2*l.XM+l.XS+l.XS//2, l.YM+3*l.YS
+        if max_rounds > 1:
+            y += l.TEXT_HEIGHT
         s.talon = WasteTalonStack(x, y, self, max_rounds=max_rounds)
         x += l.XS
         s.waste = WasteStack(x, y, self)
         if max_rounds > 1:
             l.createText(s.talon, 's')
-            l.createRoundText(s.talon, 'sss')
+            l.createRoundText(s.talon, 'n')
             l.createText(s.waste, 's')
         else:
             l.createText(s.talon, 'sw')

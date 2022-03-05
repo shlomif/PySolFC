@@ -183,10 +183,10 @@ class Dial(Game):
         x, y = l.XM, l.YM
         s.talon = WasteTalonStack(x, y, self, max_rounds=2)
         l.createText(s.talon, 's')
-        l.createRoundText(s.talon, 'sss')
         x += l.XS
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, 's')
+        l.createRoundText(s.talon, 'ne', dx=l.XS)
 
         l.defaultStackGroups()
 
@@ -625,10 +625,10 @@ class Clock(Game):
             x, y = l.XM, l.YM
             s.talon = self.Talon_Class(x, y, self)
             l.createText(s.talon, 's')
-            l.createRoundText(s.talon, 'sss')
             x += l.XS
             s.waste = WasteStack(x, y, self)
             l.createText(s.waste, 's')
+            l.createRoundText(s.talon, 'ne', dx=l.XS)
         else:
             x, y = self.width - l.XS, self.height - l.YS
             s.talon = self.Talon_Class(x, y, self)

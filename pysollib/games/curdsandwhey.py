@@ -491,22 +491,23 @@ class EightPacks(Game):
 
     def createGame(self, max_rounds=3, width=10, playcards=14):
         l, s = Layout(self), self.s
-        self.setSize(l.XM+width*l.XS,
-                     l.YM+2*l.YS+l.TEXT_HEIGHT+playcards*l.YOFFSET)
+        self.setSize(l.XM + width * l.XS,
+                     l.YM + 2 * l.YS + (2 * l.TEXT_HEIGHT) +
+                     playcards * l.YOFFSET)
 
         x, y = l.XM, l.YM
         for i in range(10):
             s.rows.append(self.RowStack_Class(x, y, self, dir=1))
             x += l.XS
 
-        x, y = self.width-l.XS, self.height-l.YS
+        x, y = self.width - l.XS, self.height - l.YS - l.TEXT_HEIGHT
         s.talon = WasteTalonStack(x, y, self, max_rounds=max_rounds)
-        l.createText(s.talon, 'n')
-        l.createRoundText(s.talon, 'nnn')
+        l.createText(s.talon, 's')
+        l.createRoundText(s.talon, 'n')
 
         x -= l.XS
         s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, 'n')
+        l.createText(s.waste, 's')
 
         l.defaultStackGroups()
 

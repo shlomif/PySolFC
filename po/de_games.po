@@ -288,6 +288,9 @@ msgstr "Dicke Berta"
 msgid "Big Braid"
 msgstr "Big Braid"
 
+msgid "Big Castle"
+msgstr "Großes Schloß"
+
 msgid "Big Cell"
 msgstr "Große Zelle"
 

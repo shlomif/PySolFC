@@ -601,7 +601,7 @@ r(5806, "Roost", name="Double Mahjongg Roost", ncards=288,
     "daEeoEehEfvEfaEg" +
     "oEghEhvEhaEioEih" +
     "EjaEkaEmaEo")
-r(5807, "Castle", name="Double Mahjongg Big Castle", ncards=288,
+r(5807, "Big Castle", name="Double Mahjongg Big Castle", ncards=288,
         layout="0eaadacdaeeageai" +
     "dakdameaodcadcoc" +
     "ddvdecdfvdgcdhCd" +

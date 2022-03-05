@@ -292,6 +292,9 @@ msgstr "Gruba Berta"
 msgid "Big Braid"
 msgstr "Wielki warkocz"
 
+msgid "Big Castle"
+msgstr ""
+
 msgid "Big Cell"
 msgstr ""
 

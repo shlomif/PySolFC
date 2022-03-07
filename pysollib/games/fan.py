@@ -811,7 +811,7 @@ class School(Fan):
     RowStack_Class = StackWrapper(RK_RowStack, dir=0, base_rank=NO_RANK)
 
     def createGame(self):
-        Fan.createGame(self, rows=(4, 4, 4, 4), playcards=10, texts=True)
+        Fan.createGame(self, rows=(5, 5, 5, 1), playcards=10, texts=True)
 
     def startGame(self):
         self._startDealNumRows(2)

@@ -356,13 +356,18 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         if self.TreeDataHolder_Class.data is None:
             self.TreeDataHolder_Class.data = self.TreeData_Class(app)
         #
+
+        # Title bar height - based on parent window as this window
+        # isn't visible yet.  Less accurate, but looks cleaner.
+        th = int(parent.winfo_rooty() - parent.winfo_y())
+
         sw = self.top.winfo_screenwidth()
         sh = self.top.winfo_screenheight()
 
         h = int(sh * .8)
         w = int(sw * .8)
         w1 = int(min(275, sw / 2.5))
-        geometry = ("%dx%d+%d+%d" % (w, h, (sw - w) / 2, (sh - h) / 2))
+        geometry = ("%dx%d+%d+%d" % (w, h, (sw - w) / 2, ((sh - h) / 2) - th))
         self.top.wm_minsize(400, 200)
 
         # print sw, w1, w2

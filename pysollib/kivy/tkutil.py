@@ -329,6 +329,11 @@ def createImage(width, height, fill, outline=None, outwidth=1):
     return image
 
 
+def createImagePIL(width, height, fill, outline=None, outwidth=1):
+    # Is this needed for Kivy?
+    createImage(width, height, fill, outline=outline, outwidth=outwidth)
+
+
 def shadowImage(image, color='#3896f8', factor=0.3):
 
     logging.info("shadowImage: ")

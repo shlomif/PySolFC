@@ -159,6 +159,11 @@ def createImage(width, height, fill, outline=None):
     return _PysolPixmap(width=width, height=height, fill=fill, outline=outline)
 
 
+def createImagePIL(width, height, fill, outline=None):
+    # Is this needed for GTK?
+    createImage(width, height, fill, outline=outline)
+
+
 def shadowImage(image):
     # FIXME
     return None

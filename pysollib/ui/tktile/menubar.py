@@ -885,9 +885,15 @@ class PysolMenubarTkCommon:
     def _addSelectMahjonggGameSubMenu(self, games, menu, command, variable):
         def select_func(gi):
             return gi.si.game_type == GI.GT_MAHJONGG
+
+        def sort_func(gi):
+            return gi.short_name
+
         mahjongg_games = list(filter(select_func, games))
         if len(mahjongg_games) == 0:
             return
+
+        mahjongg_games.sort(key=sort_func)
         #
         menu = MfxMenu(menu, label=n_("&Mahjongg games"))
 

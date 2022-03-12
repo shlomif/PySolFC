@@ -340,11 +340,11 @@ class Bridesmaids(Game):
 
 
 # register the game
-registerGame(GameInfo(59, Osmosis, "Osmosis",
+registerGame(GameInfo(59, Osmosis, "Osmium",
                       GI.GT_1DECK_TYPE, 1, -1, GI.SL_MOSTLY_LUCK))
-registerGame(GameInfo(60, Peek, "Peek",
+registerGame(GameInfo(60, Peek, "Osmium II",
                       GI.GT_1DECK_TYPE, 1, -1, GI.SL_MOSTLY_LUCK))
-registerGame(GameInfo(298, OpenPeek, "Open Peek",
+registerGame(GameInfo(298, OpenPeek, "Open Osmium",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0,
                       GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(370, Genesis, "Genesis",
@@ -355,8 +355,8 @@ registerGame(GameInfo(371, GenesisPlus, "Genesis +",
                       GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(409, Bridesmaids, "Bridesmaids",
                       GI.GT_1DECK_TYPE, 1, -1, GI.SL_MOSTLY_LUCK))
-registerGame(GameInfo(715, OsmosisII, "Treasure Trove",
-                      GI.GT_1DECK_TYPE, 1, -1, GI.SL_MOSTLY_LUCK))
-registerGame(GameInfo(716, PeekII, "Peek II",
+registerGame(GameInfo(715, OsmosisII, "Osmosis",
                       GI.GT_1DECK_TYPE, 1, -1, GI.SL_MOSTLY_LUCK,
-                      rules_filename='treasuretrove.html'))
+                      altnames=("Treasure Trove",)))
+registerGame(GameInfo(716, PeekII, "Peek",
+                      GI.GT_1DECK_TYPE, 1, -1, GI.SL_MOSTLY_LUCK))

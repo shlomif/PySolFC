@@ -3044,6 +3044,9 @@ msgstr ""
 msgid "Open Jumbo"
 msgstr "Открытый гигант"
 
+msgid "Open Osmium"
+msgstr ""
+
 msgid "Open Peek"
 msgstr "Открытый взгляд"
 
@@ -3063,6 +3066,12 @@ msgid "Order"
 msgstr "Порядок"
 
 msgid "Order of Precedence"
+msgstr ""
+
+msgid "Osmium"
+msgstr ""
+
+msgid "Osmium II"
 msgstr ""
 
 msgid "Osmosis"

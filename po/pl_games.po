@@ -3011,6 +3011,9 @@ msgstr ""
 msgid "Open Jumbo"
 msgstr ""
 
+msgid "Open Osmium"
+msgstr ""
+
 msgid "Open Peek"
 msgstr ""
 
@@ -3030,6 +3033,12 @@ msgid "Order"
 msgstr ""
 
 msgid "Order of Precedence"
+msgstr ""
+
+msgid "Osmium"
+msgstr ""
+
+msgid "Osmium II"
 msgstr ""
 
 msgid "Osmosis"

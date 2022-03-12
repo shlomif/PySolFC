@@ -819,6 +819,11 @@ class PysolMenubar(PysolMenubarTk):
         # FIXME: plugins
         help_html(self.app, self.app.getGameRulesFilename(self.game.id), dir)
 
+    def mHelpReportBug(self, *args):
+        if self._cancelDrag(break_pause=False):
+            return
+        help_html(self.app, "report_bug.html", "html")
+
     def mHelpLicense(self, *args):
         if self._cancelDrag(break_pause=False):
             return

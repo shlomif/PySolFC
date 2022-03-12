@@ -708,6 +708,9 @@ class PysolMenubarTkCommon:
             label=n_("What's &new?"),
             command=self.mHelpNews)
         menu.add_command(
+            label=n_("R&eport a Bug"),
+            command=self.mHelpReportBug)
+        menu.add_command(
             label=n_("&License terms"),
             command=self.mHelpLicense)
         if WIN_SYSTEM != "aqua":

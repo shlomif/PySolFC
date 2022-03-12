@@ -4820,6 +4820,9 @@ msgstr ""
 msgid "What's &new?"
 msgstr ""
 
+msgid "R&eport a Bug"
+msgstr ""
+
 #: pysollib/ui/tktile/menubar.py:660
 msgid "&License terms"
 msgstr ""

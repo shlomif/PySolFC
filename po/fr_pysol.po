@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: 1.02\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2022-03-05 12:11-0500\n"
+"PO-Revision-Date: 2022-03-12 09:02-0500\n"
 "Last-Translator: Eric Rausch <neelix570@gmail.com>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -5069,6 +5069,9 @@ msgid "&Rules for this game"
 msgstr "&Règles de ce jeu"
 
 msgid "What's &new?"
+msgstr ""
+
+msgid "R&eport a Bug"
 msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:660

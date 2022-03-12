@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2022-03-05 12:12-0500\n"
+"PO-Revision-Date: 2022-03-12 09:01-0500\n"
 "Last-Translator: Skomoroh <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
@@ -5159,6 +5159,9 @@ msgid "&Rules for this game"
 msgstr "&Правила текущей игры"
 
 msgid "What's &new?"
+msgstr ""
+
+msgid "R&eport a Bug"
 msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:660

@@ -1,5 +1,27 @@
 [[news]]
 === News
+* _12 March, 2022_ There is a new beta release
+https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-2.15.0/[PySolFC
+v2.15.0].  Additionally, there is a new Cardsets release https://sourceforge.net/projects/pysolfc/files/PySolFC-Cardsets/PySolFC-Cardsets-2.1/[PySolFC-Cardsets v.2.1]
+(required to run 2.15).  This is a pretty sizable release, so this beta version
+is being offered before a stable 2.16 in the next couple months.  Any https://github.com/shlomif/PySolFC/issues[feedback
+and bug reports] are greatly appreciated.  The full list of changes for this release
+is quite long, but here are the highlights:
+** 35 new games, plus enhancements and fixes to many existing games.
+** Many new game rules added to the documentation.
+** New high resolution default display.  This new display uses high resolution
+cardsets and scaling to make the games look impressive on larger monitors.
+*** Note that the new high-resolution options will not override your currently selected
+options for existing users.  If you want to use the new settings, you can delete or
+rename your options.cfg file.
+*** Also note that because of these changes, upgrading your version of PySolFC Cardsets
+is required even if you're using the minimal package.  If you are using the Windows or
+Mac installer, this will be handled automatically, but you'll need to upgrade if you're
+setting it up manually.
+** New feature to search for games, cardsets, and table tiles by name.
+** Many new display options.
+** Bugfixes and cleanup.
+** And more.
 * _10 December, 2021:_ There is a new stable release
 https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-2.14.1/[PySolFC
 v2.14.1].  This release fixes a number of bugs, including one that causes

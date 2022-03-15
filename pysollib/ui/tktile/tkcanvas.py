@@ -157,6 +157,12 @@ class MfxCanvas(tkinter.Canvas):
                     a = min(float(w0)/w, float(h0)/h)
                     w0, h0 = int(w0/a), int(h0/a)
                     im = self._bg_img.resize((w0, h0))
+
+                    # Center the background image.
+                    cpw = (w0 - w) / 2
+                    cph = (h0 - h) / 2
+
+                    im = im.crop([max(0, cpw), max(0, cph), w0, h0])
                 else:
                     im = self._bg_img.resize((w, h))
                 image = ImageTk.PhotoImage(im)
@@ -192,8 +198,12 @@ class MfxCanvas(tkinter.Canvas):
         return 1
 
     def _geometry(self):
-        w = max(self.winfo_width(), int(self.cget('width')))
-        h = max(self.winfo_height(), int(self.cget('height')))
+        w = self.winfo_width()
+        if w == 1:
+            w = int(self.cget('width'))
+        h = self.winfo_height()
+        if h == 1:
+            h = int(self.cget('height'))
         scrollregion = self.cget('scrollregion')
         if not scrollregion:
             return w, h

@@ -74,10 +74,6 @@ rules_files = [
     ('freecell.html', 'PySol - Rules for FreeCell'),
     ('lightsout.html', 'PySol - Rules for Lights Out'),
     ]
-wikipedia_files = [
-    ('houseinthewood.html', 'PySol - Rules for House in the Woods'),
-    ('fourseasons.html', 'PySol - Rules for Four Seasons'),
-    ]
 
 
 def _fmt(fmt, params):
@@ -180,9 +176,6 @@ def gen_rules_html():
     files_list = []
     for fn, tt in rules_files:
         rules_list.append(('rules', fn, tt, ''))
-        files_list.append(fn)
-    for fn, tt in wikipedia_files:
-        rules_list.append(('wikipedia', fn, tt, ''))
         files_list.append(fn)
     altnames = []
 

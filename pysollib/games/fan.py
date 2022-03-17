@@ -1066,8 +1066,7 @@ registerGame(GameInfo(340, IntelligencePlus, "Intelligence +",
 registerGame(GameInfo(268, HouseInTheWood, "House in the Wood",
                       GI.GT_FAN_TYPE | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(317, HouseOnTheHill, "House on the Hill",
-                      GI.GT_FAN_TYPE | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL,
-                      rules_filename='houseinthewood.html'))
+                      GI.GT_FAN_TYPE | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(320, CloverLeaf, "Clover Leaf",
                       GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(347, FreeFan, "Free Fan",

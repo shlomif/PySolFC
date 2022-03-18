@@ -59,7 +59,7 @@ from pysollib.resource import Music, MusicManager
 from pysollib.resource import Sample, SampleManager
 from pysollib.resource import Tile, TileManager
 from pysollib.settings import DEBUG
-from pysollib.settings import PACKAGE, VERSION_TUPLE, WIN_SYSTEM
+from pysollib.settings import PACKAGE, VERSION_TUPLE  # , WIN_SYSTEM
 from pysollib.settings import TOOLKIT
 from pysollib.util import IMAGE_EXTENSIONS
 from pysollib.winsystems import TkSettings
@@ -509,10 +509,11 @@ class Application:
                   "joker11_100_774",
                   "joker10_100",):
             self.gimages.logos.append(self.dataloader.findImage(f, dirname))
-        if WIN_SYSTEM == 'win32':
-            dirname = os.path.join('images', 'dialog', 'default')
-        else:
-            dirname = os.path.join('images', 'dialog', 'bluecurve')
+        # if WIN_SYSTEM == 'win32':
+        #     dirname = os.path.join('images', 'dialog', 'default')
+        # else:
+        #     dirname = os.path.join('images', 'dialog', 'bluecurve')
+        dirname = os.path.join('images', 'dialog', 'remix')
         for f in ('error', 'info', 'question', 'warning'):
             fn = self.dataloader.findImage(f, dirname)
             im = loadImage(fn)

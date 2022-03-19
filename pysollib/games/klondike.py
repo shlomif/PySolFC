@@ -745,8 +745,9 @@ class Senate(Jane):
         playcards = 10
 
         lay, s = Layout(self), self.s
-        self.setSize(lay.XM+(rows+7)*lay.XS,
-                     lay.YM+2*(lay.YS+playcards*lay.YOFFSET))
+        self.setSize(lay.XM + (rows + 7) * lay.XS,
+                     max(lay.YM + 2 * (lay.YS + playcards * lay.YOFFSET),
+                         lay.YS * 5))
 
         x, y = lay.XM, lay.YM
         for i in range(rows):

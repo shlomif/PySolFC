@@ -194,10 +194,10 @@ class BetsyRoss(Calculation):
         # create layout
         l, s = Layout(self), self.s
         help, text_width = self._getHelpText()
-        text_width += 2*l.XM
+        text_width += 2 * l.XM
 
         # set window
-        self.setSize(5.5*l.XS+l.XM+text_width, l.YM+3*l.YS+l.TEXT_HEIGHT)
+        self.setSize(5.5 * l.XS + l.XM + text_width, l.YM + 3 * l.YS)
 
         # create stacks
         x0 = l.XM + l.XS * 3 // 2
@@ -224,11 +224,11 @@ class BetsyRoss(Calculation):
                                         font=self.app.getFont("canvas_fixed"))
         x = l.XM
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
-        l.createText(s.talon, "n")
-        l.createRoundText(s.talon, 'nnn')
+        l.createText(s.talon, "ne")
+        l.createRoundText(s.talon, 'n')
         y += l.YS
         s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, "s")
+        l.createText(s.waste, "se")
 
         # define stack-groups
         l.defaultStackGroups()

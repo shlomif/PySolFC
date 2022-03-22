@@ -1115,8 +1115,9 @@ class NapoleonTakesMoscow(Game, FirTree_GameMethods):
     def createGame(self):
 
         layout, s = Layout(self), self.s
-        self.setSize(
-            layout.XM+10*layout.XS, layout.YM+3*layout.YS+15*layout.YOFFSET)
+        self.setSize(layout.XM + 10 * layout.XS,
+                     layout.YM + 3 * layout.YS + 15 * layout.YOFFSET +
+                     layout.TEXT_HEIGHT)
 
         x, y = layout.XM+layout.XS, layout.YM
         for i in range(8):
@@ -1133,13 +1134,13 @@ class NapoleonTakesMoscow(Game, FirTree_GameMethods):
         x, y = layout.XM+4*layout.XS, layout.YM+layout.YS
         s.reserves += self._createFirTree(layout, x, y)
 
-        x, y = layout.XM, self.height-layout.YS
+        x, y = layout.XM, self.height - layout.YS - layout.TEXT_HEIGHT
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
-        layout.createText(s.talon, 'n')
-        layout.createRoundText(s.talon, 'nnn')
+        layout.createText(s.talon, 's')
+        layout.createRoundText(s.talon, 'n')
         x += layout.XS
         s.waste = WasteStack(x, y, self)
-        layout.createText(s.waste, 'n')
+        layout.createText(s.waste, 's')
 
         # define stack-groups
         layout.defaultStackGroups()

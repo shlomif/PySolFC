@@ -1555,8 +1555,7 @@ registerGame(GameInfo(446, BigSpider2Suits, "Big Spider (2 suits)",
                       rules_filename="bigspider.html"))
 registerGame(GameInfo(449, Spider3x3, "Spider 3x3",
                       GI.GT_SPIDER | GI.GT_ORIGINAL | GI.GT_STRIPPED,
-                      3, 0, GI.SL_MOSTLY_SKILL, suits=(0, 1, 2),
-                      rules_filename="bigspider.html"))
+                      3, 0, GI.SL_MOSTLY_SKILL, suits=(0, 1, 2)))
 registerGame(GameInfo(454, Spider4Decks, "Spider (4 decks)",
                       GI.GT_SPIDER, 4, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(455, GroundsForADivorce4Decks, "Very Big Divorce",

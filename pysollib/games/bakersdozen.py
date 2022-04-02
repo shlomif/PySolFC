@@ -376,6 +376,7 @@ class RippleFan(CastlesInSpain):
         for r in l.s.rows:
             s.rows.append(SS_RowStack(r.x, r.y, self, base_rank=NO_RANK))
         # default
+        self.s.internals.append(InvisibleStack(self))
         l.defaultAll()
 
     def startGame(self):

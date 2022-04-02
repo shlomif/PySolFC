@@ -84,6 +84,8 @@ class FontChooserDialog(MfxDialog):
         self.entry = ttk.Entry(frame)
         self.entry.grid(row=0, column=0, columnspan=2, sticky='news')
         self.entry.insert('end', _('abcdefghABCDEFGH'))
+        self.entry.configure(font=(self.font_family, self.font_size,
+                                   self.font_slant, self.font_weight))
         self.list_box = tkinter.Listbox(frame, width=36, exportselection=False)
         sb = ttk.Scrollbar(frame)
         self.list_box.configure(yscrollcommand=sb.set)

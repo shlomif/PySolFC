@@ -913,7 +913,7 @@ class Q_C_(Klondike):
 
     def createGame(self):
         lay = Klondike.createGame(self, rows=6, max_rounds=2)
-        lay.createRoundText(self.s.talon, 'sss')
+        lay.createRoundText(self.s.talon, 'n')
 
     def startGame(self):
         self._startDealNumRows(3)

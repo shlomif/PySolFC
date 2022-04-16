@@ -743,8 +743,8 @@ class Waterfall(Game):
     def createGame(self):
         rows = 8
         layout, s = Layout(self), self.s
-        self.setSize(
-            layout.XM+rows*layout.XS, layout.YM+2*layout.YS+20*layout.YOFFSET)
+        self.setSize(layout.XM + rows * layout.XS,
+                     layout.YM + 2 * layout.YS + 30 * layout.YOFFSET)
 
         x, y = layout.XM, layout.YM
         for i in range(rows):

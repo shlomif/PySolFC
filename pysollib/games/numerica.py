@@ -1197,8 +1197,7 @@ registerGame(GameInfo(171, LadyBetty, "Lady Betty",
 registerGame(GameInfo(355, Frog, "Frog",
                       GI.GT_NUMERICA, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(356, Fly, "Fly",
-                      GI.GT_NUMERICA, 2, 0, GI.SL_BALANCED,
-                      rules_filename='frog.html'))
+                      GI.GT_NUMERICA, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(357, Gnat, "Gnat",
                       GI.GT_NUMERICA, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(378, Gloaming, "Gloaming",

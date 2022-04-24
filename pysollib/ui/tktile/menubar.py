@@ -974,7 +974,7 @@ class PysolMenubarTkCommon:
         self.updateGamesMenu(submenu, games)
 
     def _addSelectAllGameSubMenu(self, games, menu, command, variable):
-        if menu.name != "allgamesbyname":
+        if menu.name == "select":
             menu = MfxMenu(menu, label=n_("&All games by name"))
         n, d = 0, self.cb_max
         i = 0

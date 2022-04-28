@@ -230,6 +230,7 @@ class PictureGallery(Game):
                 s.tableaux.append(cl(x, y, self, yoffset=TABLEAU_YOFFSET))
                 x = x + l.XS
             y = y + th
+        self.setRegion(s.foundations, (x - l.CW // 2, -999, 999999, y - l.CH))
         x, y = l.XM, y + l.YM
         for i in range(numstacks):
             s.rows.append(self.RowStack_Class(x, y, self))
@@ -243,7 +244,6 @@ class PictureGallery(Game):
             y -= l.YS
             s.waste = WasteStack(x, y, self)
             l.createText(s.waste, "se")
-        self.setRegion(s.foundations, (x - l.CW // 2, -999, 999999, y - l.CH))
 
         # define stack-groups
         if waste:

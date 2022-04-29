@@ -595,7 +595,7 @@ class Application:
         style = self.opt.toolbar_style
         if TOOLKIT == 'kivy':
             size = 'xlarge'
-            style = 'bluecurve'
+            style = 'remix light'
         d = self._getImagesDir('toolbar', style, size)
         if d:
             return d

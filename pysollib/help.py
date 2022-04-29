@@ -145,10 +145,11 @@ def help_html(app, document, dir_, top=None):
 
         h = int(sh * .8)
         w = min(650, int(sw * .8))
-
-        th = int(top.winfo_rooty() - top.winfo_y())
-        top.wm_minsize(w, min(200, h))
-        top.geometry("%dx%d+%d+%d" % (w, h, (sw - w) / 2, ((sh - h) / 2) - th))
+        if TOOLKIT == "tk":
+            th = int(top.winfo_rooty() - top.winfo_y())
+            top.wm_minsize(w, min(200, h))
+            top.geometry("%dx%d+%d+%d" % (w, h, (sw - w) / 2,
+                                          ((sh - h) / 2) - th))
 
         viewer = HTMLViewer(top, app, help_html_index)
         viewer.display(doc)

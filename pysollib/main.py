@@ -321,6 +321,9 @@ Please check your %(app)s installation.
         cardset = app.cardset_manager.getByName(c[0])
         if cardset and c[1]:
             cardset.updateCardback(backname=c[1])
+    if app.cardset_manager.len() == 0:
+        fatal_no_cardsets(app)
+        return 3
     if not cardset:
         MfxMessageDialog(top, title=_("Cardset error"),
                          text=_('''
@@ -333,9 +336,9 @@ Cardsets package is up to date.
         cardset = app.cardset_manager.getByName("Standard")
         if not cardset:
             cardset = app.cardset_manager.get(0)
-    if app.cardset_manager.len() == 0 or not cardset:
-        fatal_no_cardsets(app)
-        return 3
+            if not cardset:
+                fatal_no_cardsets(app)
+                return 3
 
     # init tiles
     manager = app.tabletile_manager

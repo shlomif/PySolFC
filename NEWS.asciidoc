@@ -1,5 +1,11 @@
 [[news]]
 === News
+* _10 May, 2022_ There is a new stable release
+https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-2.16.0/[PySolFC
+v2.16.0]. Anyone upgrading from a version prior to 2.15.0 should read the notes for that version before upgrading. New in this release:
+** Enhancements to many images and graphical displays.
+** More game rules in the documentation.
+** Bugfixes, cleanup, and other enhancements.
 * _12 March, 2022_ There is a new beta release
 https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-2.15.0/[PySolFC
 v2.15.0].  Additionally, there is a new Cardsets release https://sourceforge.net/projects/pysolfc/files/PySolFC-Cardsets/PySolFC-Cardsets-2.1/[PySolFC-Cardsets v.2.1]

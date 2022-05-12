@@ -72,7 +72,7 @@ kw = {
     'author_email': 'skomoroh@gmail.com',
     'description': 'a Python solitaire game collection',
     'install_requires': [
-        'attrs',
+        'attrs>=18.2.0',
         'configobj',
         'pycotap',
         'pysol_cards',

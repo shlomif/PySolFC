@@ -42,7 +42,7 @@ def main():
             if not os.path.exists(arc):
                 subprocess.check_call([
                     "wget",
-                    "https://github.com/joeraz/" +
+                    "https://github.com/shlomif/" +
                     "PySolFC-Cardsets/archive/2.1/" + arc
                 ])
                 subprocess.check_call(["tar", "-xvf", arc])

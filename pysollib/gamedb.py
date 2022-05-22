@@ -268,7 +268,8 @@ class GI:
 
     # These obsolete gameids have been used in previous versions of
     # PySol and are no longer supported because of internal changes
-    # (mainly rule changes). The game has been assigned a new id.
+    # (mainly rule changes or removed duplicate games). The game
+    # has been assigned a new id.
     PROTECTED_GAMES = {
          22:  106,              # Double Canfield
          32:  901,              # La Belle Lucie (Midnight Oil)
@@ -276,12 +277,13 @@ class GI:
          72:  115,              # Little Forty
          75:  126,              # Red and Black
          82:  901,              # La Belle Lucie (Midnight Oil)
-         # 155: 5034,              # Mahjongg - Flying Dragon
-         # 156: 5035,              # Mahjongg - Fortress Towers
-         262:  105,              # Canfield
-         902:   88,              # Trefoil
-         904:   68,              # Lexington Harp
-         297:  631,              # Alternation/Alternations
+         155: 5034,             # Mahjongg - Flying Dragon
+         156: 5035,             # Mahjongg - Fortress Towers
+         262: 105,              # Canfield
+         902: 88,               # Trefoil
+         904: 68,               # Lexington Harp
+         297: 631,              # Alternation/Alternations
+         526: 447,              # Australian/Outback Patience
     }
 
     # For games by compatibility, note that missing games may actually
@@ -484,7 +486,8 @@ class GI:
         ("3.21", (143, 144)),
         ("3.30", (145, 146, 147, 148, 149, 150, 151)),
         ("3.40", (152, 153, 154)),
-        ("4.00", (157, 158, 159, 160, 161, 162, 163, 164)),
+        ("4.00", (5034, 5035, 157, 158, 159, 160, 161, 162, 163, 164)),
+        ('4.10', tuple(range(5001, 5034)) + tuple(range(5036, 5103))),
         ("4.20", (165, 166, 167, 168, 169, 170, 171, 172, 173, 174,
                   175, 176, 177, 178)),
         ("4.30", (179, 180, 181, 182, 183, 184)),
@@ -513,7 +516,9 @@ class GI:
                       16666, 16667, 16668, 16669, 16670, 16671, 16672, 16673,
                       16674, 16675, 16676, 16677, 16678, 16679, 16680, 22216,
                       22223, 22224, 22225, 22226, 22227, 22228, 22229, 22230,
-                      22231, 22232,)),
+                      22231, 22232, ) +
+         tuple(range(5200, 5280)) + tuple(range(5401, 5415)) +
+         tuple(range(5801, 5811)) + tuple(range(5901, 5906))),
         ('fc-0.8.0', tuple(range(263, 323))),  # exclude 297
         ('fc-0.9.0', tuple(range(323, 421))),
         ('fc-0.9.1', tuple(range(421, 441))),
@@ -523,7 +528,7 @@ class GI:
         ('fc-1.0',   tuple(range(671, 711))),
         ('fc-1.1',   tuple(range(711, 759))),
         ('fc-2.0',   tuple(range(11011, 11014)) + tuple(range(759, 767))),
-        ('fc-2.1',   tuple(range(767, 774)) + (555001,)),
+        ('fc-2.1',   tuple(range(767, 774)) + (1900, 1901, 555001,)),
         ('fc-2.8',   (343001,)),
         ('fc-2.12',   tuple(range(774, 811)) + (16681,) +
          tuple(range(22217, 22219))),

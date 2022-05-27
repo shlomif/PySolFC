@@ -2303,6 +2303,9 @@ msgstr ""
 msgid "Enable shuffle"
 msgstr ""
 
+msgid "Free hints"
+msgstr ""
+
 #: pysollib/kivy/menubar.py:561
 msgid "Enable highlight piles"
 msgstr ""
@@ -4599,6 +4602,9 @@ msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:488
 msgid "Enable shu&ffle"
+msgstr ""
+
+msgid "Free hin&ts"
 msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:491

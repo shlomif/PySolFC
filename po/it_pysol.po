@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: it_pysol\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2022-03-12 09:02-0500\n"
+"PO-Revision-Date: 2022-05-26 22:10-0400\n"
 "Last-Translator: Giuliano Colla <giuliano.colla@gmail.com>\n"
 "Language-Team: Italiano <it@li.org>\n"
 "Language: it\n"
@@ -2481,6 +2481,9 @@ msgstr "Abilita suggerimenti"
 msgid "Enable shuffle"
 msgstr "Abilita mescola"
 
+msgid "Free hints"
+msgstr ""
+
 #: pysollib/kivy/menubar.py:561
 #, fuzzy
 msgid "Enable highlight piles"
@@ -4911,6 +4914,9 @@ msgstr "Abilita su&ggerimenti"
 #: pysollib/ui/tktile/menubar.py:488
 msgid "Enable shu&ffle"
 msgstr "Abilita m&escola"
+
+msgid "Free hin&ts"
+msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:491
 msgid "Enable highlight p&iles"

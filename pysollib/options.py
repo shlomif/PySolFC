@@ -72,6 +72,7 @@ shuffle = boolean
 undo = boolean
 bookmarks = boolean
 hint = boolean
+free_hint = boolean
 highlight_piles = boolean
 highlight_cards = boolean
 highlight_samerank = boolean
@@ -219,6 +220,7 @@ class Options:
         ('undo', 'bool'),
         ('bookmarks', 'bool'),
         ('hint', 'bool'),
+        ('free_hint', 'bool'),
         ('highlight_piles', 'bool'),
         ('highlight_cards', 'bool'),
         ('highlight_samerank', 'bool'),
@@ -307,6 +309,7 @@ class Options:
         self.undo = True
         self.bookmarks = True
         self.hint = True
+        self.free_hint = False
         self.highlight_piles = True
         self.highlight_cards = True
         self.highlight_samerank = True

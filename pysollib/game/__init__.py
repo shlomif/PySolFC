@@ -1987,10 +1987,11 @@ class Game(object):
 
     def getWinStatus(self):
         won = self.isGameWon() != 0
-        if not won or self.stats.hints > 0 or self.stats.demo_moves > 0:
+        if (not won or (self.stats.hints > 0 and not self.app.opt.free_hint)
+                or self.stats.demo_moves > 0):
             # sorry, you lose
             return won, 0, self.U_LOST
-        if _stats__is_perfect(self.stats):
+        if _stats__is_perfect(self.stats) and self.stats.hints < 1:
             return won, 2, self.U_PERFECT
         return won, 1, self.U_WON
 

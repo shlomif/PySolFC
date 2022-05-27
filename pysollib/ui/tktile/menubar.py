@@ -164,6 +164,7 @@ class PysolMenubarTkCommon:
             undo=tkinter.BooleanVar(),
             bookmarks=tkinter.BooleanVar(),
             hint=tkinter.BooleanVar(),
+            free_hint=tkinter.BooleanVar(),
             shuffle=tkinter.BooleanVar(),
             highlight_piles=tkinter.BooleanVar(),
             highlight_cards=tkinter.BooleanVar(),
@@ -218,6 +219,7 @@ class PysolMenubarTkCommon:
         tkopt.quickplay.set(opt.quickplay)
         tkopt.undo.set(opt.undo)
         tkopt.hint.set(opt.hint)
+        tkopt.free_hint.set(opt.free_hint)
         tkopt.shuffle.set(opt.shuffle)
         tkopt.bookmarks.set(opt.bookmarks)
         tkopt.highlight_piles.set(opt.highlight_piles)
@@ -508,6 +510,9 @@ class PysolMenubarTkCommon:
         submenu.add_checkbutton(
             label=n_("Enable shu&ffle"), variable=self.tkopt.shuffle,
             command=self.mOptEnableShuffle)
+        submenu.add_checkbutton(
+            label=n_("Free hin&ts"), variable=self.tkopt.free_hint,
+            command=self.mOptFreeHints)
         submenu.add_checkbutton(
             label=n_("Enable highlight p&iles"),
             variable=self.tkopt.highlight_piles,
@@ -1409,6 +1414,12 @@ Unsupported game for import.
         if self._cancelDrag(break_pause=False):
             return
         self.app.opt.hint = self.tkopt.hint.get()
+        self.game.updateMenus()
+
+    def mOptFreeHints(self, *args):
+        if self._cancelDrag(break_pause=False):
+            return
+        self.app.opt.free_hint = self.tkopt.free_hint.get()
         self.game.updateMenus()
 
     def mOptEnableShuffle(self, *args):

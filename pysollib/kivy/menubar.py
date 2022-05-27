@@ -558,6 +558,11 @@ class OptionsMenuDialog(LMenuDialog):
                               self.menubar.mOptEnableShuffle)
 
             self.addCheckNode(tv, rg,
+                              _('Free hints'),
+                              self.menubar.tkopt.free_hint,
+                              self.menubar.mOptFreeHints)
+
+            self.addCheckNode(tv, rg,
                               _('Enable highlight piles'),
                               self.menubar.tkopt.highlight_piles,
                               self.menubar.mOptEnableHighlightPiles)
@@ -1250,6 +1255,7 @@ class PysolMenubarTk:
             undo=BooleanVar(),
             bookmarks=BooleanVar(),
             hint=BooleanVar(),
+            free_hint=BooleanVar(),
             shuffle=BooleanVar(),
             highlight_piles=BooleanVar(),
             highlight_cards=BooleanVar(),
@@ -1310,6 +1316,7 @@ class PysolMenubarTk:
         tkopt.quickplay.set(opt.quickplay)
         tkopt.undo.set(opt.undo)
         tkopt.hint.set(opt.hint)
+        tkopt.free_hint.set(opt.free_hint)
         tkopt.shuffle.set(opt.shuffle)
         tkopt.bookmarks.set(opt.bookmarks)
         tkopt.highlight_piles.set(opt.highlight_piles)
@@ -2027,6 +2034,12 @@ the next time you restart the %(app)s""") % {'app': TITLE})
         if self._cancelDrag(break_pause=False):
             return
         self.app.opt.hint = self.tkopt.hint.get()
+        self.game.updateMenus()
+
+    def mOptFreeHints(self, *args):
+        if self._cancelDrag(break_pause=False):
+            return
+        self.app.opt.free_hint = self.tkopt.free_hint.get()
         self.game.updateMenus()
 
     def mOptEnableShuffle(self, *args):

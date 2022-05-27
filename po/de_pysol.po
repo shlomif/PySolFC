@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2022-03-12 09:02-0500\n"
+"PO-Revision-Date: 2022-05-26 22:09-0400\n"
 "Last-Translator: H. Schaekel <Holger.Schaekel@web.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -2426,6 +2426,9 @@ msgstr "Tips zulassen"
 msgid "Enable shuffle"
 msgstr "Neu mischen zulassen"
 
+msgid "Free hints"
+msgstr ""
+
 #: pysollib/kivy/menubar.py:561
 msgid "Enable highlight piles"
 msgstr "Spielfeldstapel hervorheben"
@@ -4797,6 +4800,9 @@ msgstr ""
 #, fuzzy
 msgid "Enable shu&ffle"
 msgstr "Sound aktivieren"
+
+msgid "Free hin&ts"
+msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:491
 #, fuzzy

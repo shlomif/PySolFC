@@ -184,7 +184,7 @@ class LesserQueue(AbstractFlowerGame):
         l.createText(s.talon, "n")
         s.talon.texts.rounds = MfxCanvasText(
             self.canvas,
-            self.width//2, h-2*l.TEXT_MARGIN,
+            self.width // 2, h - 2.5 * l.TEXT_HEIGHT - l.TEXT_MARGIN,
             anchor="center",
             font=self.app.getFont("canvas_default"))
         x = x + l.XS
@@ -208,7 +208,7 @@ class LesserQueue(AbstractFlowerGame):
             x = x + l.XS
         self.texts.info = MfxCanvasText(
             self.canvas,
-            self.width//2, h-l.TEXT_MARGIN,
+            self.width // 2, h - l.TEXT_MARGIN - l.TEXT_HEIGHT,
             anchor="center",
             font=self.app.getFont("canvas_default"))
 

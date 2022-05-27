@@ -977,11 +977,11 @@ class DevilsSolitaire(Game):
 
         x, y = layout.XM+4.5*layout.XS, self.height-layout.YS
         s.talon = WasteTalonStack(x, y, self, max_rounds=3)
-        layout.createText(s.talon, 'n')
-        layout.createRoundText(s.talon, 'nnn')
+        layout.createText(s.talon, 'se')
+        layout.createRoundText(s.talon, 'n')
         x -= layout.XS
         s.waste = DevilsSolitaire_WasteStack(x, y, self)
-        layout.createText(s.waste, 'n')
+        layout.createText(s.waste, 'sw')
 
         layout.defaultStackGroups()
 

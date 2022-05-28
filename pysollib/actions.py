@@ -941,6 +941,11 @@ class PysolToolbar(PysolToolbarTk):
             self.menubar.mShuffle()
         return 1
 
+    def mHint(self, *args):
+        if not self._busy():
+            self.menubar.mHint()
+        return 1
+
     def mPause(self, *args):
         if not self._busy():
             self.menubar.mPause()

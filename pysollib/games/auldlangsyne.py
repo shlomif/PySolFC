@@ -507,7 +507,7 @@ class Amazons_Foundation(AbstractFoundationStack):
             return False
         if from_stack not in self.game.s.rows:
             return False
-        if cards[0].rank == ACE:
+        if cards[0].rank == ACE and not self.cards:
             return True
         if not self.cards:
             return False
@@ -525,7 +525,8 @@ class Amazons_Foundation(AbstractFoundationStack):
 
 class Amazons(AuldLangSyne):
     Talon_Class = StackWrapper(Amazons_Talon, max_rounds=-1)
-    Foundation_Class = StackWrapper(Amazons_Foundation, max_cards=7)
+    Foundation_Class = StackWrapper(Amazons_Foundation, max_cards=7,
+                                    suit=ANY_SUIT)
 
     def _shuffleHook(self, cards):
         return cards

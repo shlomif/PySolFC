@@ -743,11 +743,9 @@ registerGame(GameInfo(523, Intrigue, "Intrigue",
 registerGame(GameInfo(611, FaerieQueen, "Faerie Queen",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(612, Glencoe, "Glencoe",
-                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED,
-                      rules_filename="intrigue.html"))
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(616, LaggardLady, "Laggard Lady",
-                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED,
-                      rules_filename="intrigue.html"))
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(624, StepUp, "Step-Up",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(766, Kentish, "Kentish",

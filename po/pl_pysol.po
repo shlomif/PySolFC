@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2022-05-26 22:10-0400\n"
+"PO-Revision-Date: 2022-06-04 21:35-0400\n"
 "Last-Translator: Jerzy Trzeciak <artusek@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
@@ -5355,6 +5355,9 @@ msgstr "Tylko ikony"
 #: pysollib/ui/tktile/tkconst.py:54
 msgid "Text below icons"
 msgstr "Tekst poniżej ikon"
+
+msgid "Text above icons"
+msgstr ""
 
 #: pysollib/ui/tktile/tkconst.py:55
 msgid "Text beside icons"

@@ -4971,6 +4971,9 @@ msgstr ""
 msgid "Text below icons"
 msgstr ""
 
+msgid "Text above icons"
+msgstr ""
+
 #: pysollib/ui/tktile/tkconst.py:55
 msgid "Text beside icons"
 msgstr ""

@@ -47,11 +47,11 @@ ANCHOR_W = tkinter.W
 ANCHOR_E = tkinter.E
 
 COMPOUNDS = (
-    # (tkinter.BOTTOM,  'bottom'),
     # (tkinter.CENTER,  'center'),
     # (tkinter.RIGHT,    'right'),
     (tkinter.NONE,   n_('Icons only')),
     (tkinter.TOP,    n_('Text below icons')),
+    (tkinter.BOTTOM, n_('Text above icons')),
     (tkinter.LEFT,   n_('Text beside icons')),
     ('text',         n_('Text only')),
     )

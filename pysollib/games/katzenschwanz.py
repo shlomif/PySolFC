@@ -284,7 +284,7 @@ class SalicLaw(DerKatzenschwanz):
     Hint_Class = SalicLaw_Hint
     Solver_Class = None
 
-    Talon_Class = SalicLaw_Talon_2
+    Talon_Class = SalicLaw_Talon
     Foundation_Classes = [
         StackWrapper(AbstractFoundationStack, max_cards=1, base_rank=QUEEN),
         StackWrapper(SalicLaw_Foundation, max_cards=11, base_rank=ACE),

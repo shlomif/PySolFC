@@ -1419,8 +1419,7 @@ registerGame(GameInfo(559, Marshal, "Marshal",
 registerGame(GameInfo(565, RoyalAids, "Royal Aids",
                       GI.GT_2DECK_TYPE, 2, UNLIMITED_REDEALS, GI.SL_BALANCED))
 registerGame(GameInfo(598, PicturePatience, "Picture Patience",
-                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_LUCK,
-                      rules_filename="patriarchs.html"))
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(635, CircleEight, "Circle Eight",
                       GI.GT_1DECK_TYPE, 1, 1, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(646, Adela, "Adela",

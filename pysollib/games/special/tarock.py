@@ -924,7 +924,7 @@ r(157, WheelOfFortune, "Wheel of Fortune", GI.GT_TAROCK, 1, 0, GI.SL_BALANCED)
 r(158, ImperialTrumps, "Imperial Trumps", GI.GT_TAROCK, 1, -1, GI.SL_BALANCED)
 r(159, Pagat, "Pagat", GI.GT_TAROCK | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL)
 r(160, Skiz, "Skiz", GI.GT_TAROCK | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL)
-r(161, FifteenPlus, "Fifteen plus", GI.GT_TAROCK, 1, 0, GI.SL_BALANCED)
+r(161, FifteenPlus, "Fifteen Plus", GI.GT_TAROCK, 1, 0, GI.SL_BALANCED)
 r(162, Excuse, "Excuse", GI.GT_TAROCK | GI.GT_OPEN, 1, 0, GI.SL_BALANCED)
 r(163, Grasshopper, "Grasshopper", GI.GT_TAROCK, 1, 1, GI.SL_MOSTLY_SKILL)
 r(164, DoubleGrasshopper, "Double Grasshopper", GI.GT_TAROCK, 2, 1,

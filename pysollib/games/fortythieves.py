@@ -520,7 +520,7 @@ class Mumbai(Indian):
 # * Napoleon's Exile
 # * Double Rail
 # * Single Rail (1 deck)
-# * Triple Rail (3 decks)
+# * Triple Rail (3 Decks)
 # * Final Battle
 # *   rows build down by rank
 # ************************************************************************

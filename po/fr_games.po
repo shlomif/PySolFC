@@ -84,7 +84,7 @@ msgstr ""
 msgid "Algerian Patience"
 msgstr ""
 
-msgid "Algerian Patience (3 decks)"
+msgid "Algerian Patience (3 Decks)"
 msgstr ""
 
 msgid "Alhambra"
@@ -324,10 +324,10 @@ msgstr ""
 msgid "Big Spider"
 msgstr ""
 
-msgid "Big Spider (1 suit)"
+msgid "Big Spider (1 Suit)"
 msgstr ""
 
-msgid "Big Spider (2 suits)"
+msgid "Big Spider (2 Suits)"
 msgstr ""
 
 msgid "Big Streets"
@@ -1200,7 +1200,7 @@ msgstr ""
 msgid "Fifteen Puzzle"
 msgstr ""
 
-msgid "Fifteen plus"
+msgid "Fifteen Plus"
 msgstr ""
 
 msgid "Fifteens"
@@ -1242,7 +1242,7 @@ msgstr ""
 msgid "Flake"
 msgstr ""
 
-msgid "Flake (2 decks)"
+msgid "Flake (2 Decks)"
 msgstr ""
 
 msgid "Flamenco"
@@ -1371,7 +1371,7 @@ msgstr ""
 msgid "Fred's Spider"
 msgstr ""
 
-msgid "Fred's Spider (3 decks)"
+msgid "Fred's Spider (3 Decks)"
 msgstr ""
 
 msgid "Free Fan"
@@ -2817,7 +2817,7 @@ msgstr ""
 msgid "Monte Carlo"
 msgstr ""
 
-msgid "Monte Carlo (2 decks)"
+msgid "Monte Carlo (2 Decks)"
 msgstr ""
 
 msgid "Moojub"
@@ -2955,7 +2955,7 @@ msgstr ""
 msgid "Numerica"
 msgstr ""
 
-msgid "Numerica (2 decks)"
+msgid "Numerica (2 Decks)"
 msgstr ""
 
 msgid "Ocean Towers"
@@ -3762,13 +3762,13 @@ msgstr ""
 msgid "Spider"
 msgstr ""
 
-msgid "Spider (1 suit)"
+msgid "Spider (1 Suit)"
 msgstr ""
 
-msgid "Spider (2 suits)"
+msgid "Spider (2 Suits)"
 msgstr ""
 
-msgid "Spider (4 decks)"
+msgid "Spider (4 Decks)"
 msgstr ""
 
 msgid "Spider 3x3"
@@ -4164,7 +4164,7 @@ msgstr ""
 msgid "Triple Alliance"
 msgstr ""
 
-msgid "Triple Alliance (2 decks)"
+msgid "Triple Alliance (2 Decks)"
 msgstr ""
 
 msgid "Triple Canfield"
@@ -4326,7 +4326,7 @@ msgstr ""
 msgid "Wake-Robin"
 msgstr ""
 
-msgid "Wake-Robin (3 decks)"
+msgid "Wake-Robin (3 Decks)"
 msgstr ""
 
 msgid "Wall"
@@ -4443,7 +4443,7 @@ msgstr ""
 msgid "Zerline"
 msgstr ""
 
-msgid "Zerline (3 decks)"
+msgid "Zerline (3 Decks)"
 msgstr ""
 
 msgid "Zeus"

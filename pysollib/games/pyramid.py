@@ -1501,7 +1501,7 @@ registerGame(GameInfo(735, Hurricane, "Hurricane",
 registerGame(GameInfo(796, Exit, "Exit",
                       GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0,
                       GI.SL_MOSTLY_SKILL, altnames=('Gay Gordons',)))
-registerGame(GameInfo(802, TripleAlliance2Decks, "Triple Alliance (2 decks)",
+registerGame(GameInfo(802, TripleAlliance2Decks, "Triple Alliance (2 Decks)",
                       GI.GT_2DECK_TYPE | GI.GT_OPEN, 2, 0,
                       GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(846, PyramidDozen, "Pyramid Dozen",

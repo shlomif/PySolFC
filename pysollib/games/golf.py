@@ -1163,7 +1163,7 @@ class NapoleonLeavesMoscow(NapoleonTakesMoscow):
 
 # ************************************************************************
 # * Flake
-# * Flake (2 decks)
+# * Flake (2 Decks)
 # ************************************************************************
 
 
@@ -1312,7 +1312,7 @@ registerGame(GameInfo(734, NapoleonLeavesMoscow, "Napoleon Leaves Moscow",
 registerGame(GameInfo(749, Flake, "Flake",
                       GI.GT_GOLF | GI.GT_OPEN | GI.GT_ORIGINAL,
                       1, 0, GI.SL_MOSTLY_SKILL))
-registerGame(GameInfo(750, Flake2Decks, "Flake (2 decks)",
+registerGame(GameInfo(750, Flake2Decks, "Flake (2 Decks)",
                       GI.GT_GOLF | GI.GT_OPEN | GI.GT_ORIGINAL,
                       2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(763, Wasatch, "Wasatch",

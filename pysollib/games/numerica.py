@@ -1214,7 +1214,7 @@ registerGame(GameInfo(435, Shifting, "Shifting",
                       GI.GT_NUMERICA, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(472, Strategerie, "Strategerie",
                       GI.GT_NUMERICA, 1, 0, GI.SL_MOSTLY_SKILL))
-registerGame(GameInfo(558, Numerica2Decks, "Numerica (2 decks)",
+registerGame(GameInfo(558, Numerica2Decks, "Numerica (2 Decks)",
                       GI.GT_NUMERICA, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(589, LastChance, "Last Chance",
                       GI.GT_NUMERICA, 1, 0, GI.SL_BALANCED))

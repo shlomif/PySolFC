@@ -870,7 +870,7 @@ class Applegate(Game):
 # * Big Spider
 # * Spider 3x3
 # * Big Divorce
-# * Spider (4 decks)
+# * Spider (4 Decks)
 # * Very Big Divorce
 # * Chinese Spider
 # ************************************************************************
@@ -1505,11 +1505,11 @@ registerGame(GameInfo(185, Wasp, "Wasp",
                       GI.GT_SPIDER, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(220, RougeEtNoir, "Rouge et Noir",
                       GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
-registerGame(GameInfo(269, Spider1Suit, "Spider (1 suit)",
+registerGame(GameInfo(269, Spider1Suit, "Spider (1 Suit)",
                       GI.GT_SPIDER, 2, 0, GI.SL_MOSTLY_SKILL,
                       suits=(0, 0, 0, 0),
                       rules_filename="spider.html"))
-registerGame(GameInfo(270, Spider2Suits, "Spider (2 suits)",
+registerGame(GameInfo(270, Spider2Suits, "Spider (2 Suits)",
                       GI.GT_SPIDER, 2, 0, GI.SL_MOSTLY_SKILL,
                       suits=(0, 0, 2, 2),
                       rules_filename="spider.html"))
@@ -1545,18 +1545,18 @@ registerGame(GameInfo(441, York, "York",
 registerGame(GameInfo(444, BigYork, "Big York",
                       GI.GT_SPIDER | GI.GT_OPEN | GI.GT_ORIGINAL, 3, 0,
                       GI.SL_SKILL))
-registerGame(GameInfo(445, BigSpider1Suit, "Big Spider (1 suit)",
+registerGame(GameInfo(445, BigSpider1Suit, "Big Spider (1 Suit)",
                       GI.GT_SPIDER, 3, 0, GI.SL_MOSTLY_SKILL,
                       suits=(0, 0, 0, 0),
                       rules_filename="bigspider.html"))
-registerGame(GameInfo(446, BigSpider2Suits, "Big Spider (2 suits)",
+registerGame(GameInfo(446, BigSpider2Suits, "Big Spider (2 Suits)",
                       GI.GT_SPIDER, 3, 0, GI.SL_MOSTLY_SKILL,
                       suits=(0, 0, 2, 2),
                       rules_filename="bigspider.html"))
 registerGame(GameInfo(449, Spider3x3, "Spider 3x3",
                       GI.GT_SPIDER | GI.GT_ORIGINAL | GI.GT_STRIPPED,
                       3, 0, GI.SL_MOSTLY_SKILL, suits=(0, 1, 2)))
-registerGame(GameInfo(454, Spider4Decks, "Spider (4 decks)",
+registerGame(GameInfo(454, Spider4Decks, "Spider (4 Decks)",
                       GI.GT_SPIDER, 4, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(455, GroundsForADivorce4Decks, "Very Big Divorce",
                       GI.GT_SPIDER, 4, 0, GI.SL_MOSTLY_SKILL))
@@ -1564,14 +1564,14 @@ registerGame(GameInfo(458, Spidike, "Spidike",
                       GI.GT_SPIDER, 1, 0, GI.SL_BALANCED))  # GT_GYPSY ?
 registerGame(GameInfo(459, FredsSpider, "Fred's Spider",
                       GI.GT_SPIDER, 2, 0, GI.SL_MOSTLY_SKILL))
-registerGame(GameInfo(460, FredsSpider3Decks, "Fred's Spider (3 decks)",
+registerGame(GameInfo(460, FredsSpider3Decks, "Fred's Spider (3 Decks)",
                       GI.GT_SPIDER, 3, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(461, OpenSpider, "Open Spider",
                       GI.GT_SPIDER, 2, 0, GI.SL_MOSTLY_SKILL,
                       altnames=('Beetle',)))
 registerGame(GameInfo(501, WakeRobin, "Wake-Robin",
                       GI.GT_SPIDER | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
-registerGame(GameInfo(502, TripleWakeRobin, "Wake-Robin (3 decks)",
+registerGame(GameInfo(502, TripleWakeRobin, "Wake-Robin (3 Decks)",
                       GI.GT_SPIDER | GI.GT_ORIGINAL, 3, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(511, DoubleScorpion, "Double Scorpion",
                       GI.GT_SPIDER, 2, 0, GI.SL_MOSTLY_SKILL))

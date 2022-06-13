@@ -91,7 +91,7 @@ msgstr "Аляска"
 msgid "Algerian Patience"
 msgstr "Алжирский пасьянс"
 
-msgid "Algerian Patience (3 decks)"
+msgid "Algerian Patience (3 Decks)"
 msgstr "Алжирский пасьянс (3 колоды)"
 
 msgid "Alhambra"
@@ -335,10 +335,10 @@ msgstr ""
 msgid "Big Spider"
 msgstr "Большой Паук"
 
-msgid "Big Spider (1 suit)"
+msgid "Big Spider (1 Suit)"
 msgstr "Большой Паук (1 масть)"
 
-msgid "Big Spider (2 suits)"
+msgid "Big Spider (2 Suits)"
 msgstr "Большой Паук (2 масти)"
 
 msgid "Big Streets"
@@ -1224,7 +1224,7 @@ msgstr "Пятнадцать"
 msgid "Fifteen Puzzle"
 msgstr "Пятнашки"
 
-msgid "Fifteen plus"
+msgid "Fifteen Plus"
 msgstr "Пятнадцать плюс"
 
 msgid "Fifteens"
@@ -1266,7 +1266,7 @@ msgstr "Пять пирамид"
 msgid "Flake"
 msgstr "Хлопья"
 
-msgid "Flake (2 decks)"
+msgid "Flake (2 Decks)"
 msgstr "Хлопья (2 колоды)"
 
 msgid "Flamenco"
@@ -1397,7 +1397,7 @@ msgstr "Рамки"
 msgid "Fred's Spider"
 msgstr "Паук Фреда"
 
-msgid "Fred's Spider (3 decks)"
+msgid "Fred's Spider (3 Decks)"
 msgstr "Паук Фреда (3 колоды)"
 
 msgid "Free Fan"
@@ -2855,7 +2855,7 @@ msgstr "Монтана"
 msgid "Monte Carlo"
 msgstr "Монте-Карло"
 
-msgid "Monte Carlo (2 decks)"
+msgid "Monte Carlo (2 Decks)"
 msgstr "Монте-Карло (2 колоды)"
 
 msgid "Moojub"
@@ -2998,7 +2998,7 @@ msgstr "Номер двенадцать"
 msgid "Numerica"
 msgstr "Числовой"
 
-msgid "Numerica (2 decks)"
+msgid "Numerica (2 Decks)"
 msgstr "Числовой (2 колоды)"
 
 msgid "Ocean Towers"
@@ -3816,13 +3816,13 @@ msgstr "Сфера"
 msgid "Spider"
 msgstr "Паук"
 
-msgid "Spider (1 suit)"
+msgid "Spider (1 Suit)"
 msgstr "Паук (1 масть)"
 
-msgid "Spider (2 suits)"
+msgid "Spider (2 Suits)"
 msgstr "Паук (2 масти)"
 
-msgid "Spider (4 decks)"
+msgid "Spider (4 Decks)"
 msgstr "Паук (4 колоды)"
 
 msgid "Spider 3x3"
@@ -4231,7 +4231,7 @@ msgstr "Триллиум"
 msgid "Triple Alliance"
 msgstr "Тройной альянс"
 
-msgid "Triple Alliance (2 decks)"
+msgid "Triple Alliance (2 Decks)"
 msgstr ""
 
 msgid "Triple Canfield"
@@ -4399,7 +4399,7 @@ msgid "Wake-Robin"
 msgstr "Робин"
 
 #, fuzzy
-msgid "Wake-Robin (3 decks)"
+msgid "Wake-Robin (3 Decks)"
 msgstr "Церлин (3 колоды)"
 
 msgid "Wall"
@@ -4519,7 +4519,7 @@ msgstr "Зебра"
 msgid "Zerline"
 msgstr "Церлин"
 
-msgid "Zerline (3 decks)"
+msgid "Zerline (3 Decks)"
 msgstr "Церлин (3 колоды)"
 
 msgid "Zeus"

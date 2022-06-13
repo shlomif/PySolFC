@@ -49,7 +49,7 @@ class MonteCarlo_Hint(DefaultHint):
 
 # ************************************************************************
 # * Monte Carlo
-# * Monte Carlo (2 decks)
+# * Monte Carlo (2 Decks)
 # ************************************************************************
 
 class MonteCarlo_Talon(TalonStack):
@@ -963,7 +963,7 @@ class RightAndLeft(Game):
 registerGame(GameInfo(89, MonteCarlo, "Monte Carlo",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK,
                       altnames=("Quilt",)))
-registerGame(GameInfo(216, MonteCarlo2Decks, "Monte Carlo (2 decks)",
+registerGame(GameInfo(216, MonteCarlo2Decks, "Monte Carlo (2 Decks)",
                       GI.GT_PAIRING_TYPE, 2, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(212, Weddings, "Weddings",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))

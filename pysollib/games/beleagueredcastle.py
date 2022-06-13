@@ -902,7 +902,7 @@ registerGame(GameInfo(351, Chequers, "Chequers",
                       GI.GT_BELEAGUERED_CASTLE, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(393, CastleOfIndolence, "Castle of Indolence",
                       GI.GT_BELEAGUERED_CASTLE, 2, 0, GI.SL_MOSTLY_SKILL))
-registerGame(GameInfo(395, Zerline3Decks, "Zerline (3 decks)",
+registerGame(GameInfo(395, Zerline3Decks, "Zerline (3 Decks)",
                       GI.GT_BELEAGUERED_CASTLE | GI.GT_ORIGINAL, 3, 0,
                       GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(400, Rittenhouse, "Rittenhouse",

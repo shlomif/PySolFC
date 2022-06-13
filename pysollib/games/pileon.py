@@ -148,7 +148,7 @@ class RelaxedPileOn(PileOn):
 #      TWIDTH = 4
 #      NSTACKS = 15
 #      PLAYCARDS = 8
-#  registerGame(GameInfo(341, PileOn2Decks, "PileOn (2 decks)",
+#  registerGame(GameInfo(341, PileOn2Decks, "PileOn (2 Decks)",
 #                        GI.GT_2DECK_TYPE | GI.GT_OPEN,, 2, 0))
 
 

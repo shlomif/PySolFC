@@ -162,6 +162,6 @@ registerGame(GameInfo(321, Carthage, "Carthage",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(322, AlgerianPatience, "Algerian Patience",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
-registerGame(GameInfo(457, AlgerianPatience3, "Algerian Patience (3 decks)",
+registerGame(GameInfo(457, AlgerianPatience3, "Algerian Patience (3 Decks)",
                       GI.GT_3DECK_TYPE | GI.GT_ORIGINAL, 3, 0,
                       GI.SL_MOSTLY_SKILL))

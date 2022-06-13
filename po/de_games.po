@@ -84,7 +84,7 @@ msgstr "Аlaska"
 msgid "Algerian Patience"
 msgstr "Algerische Patience"
 
-msgid "Algerian Patience (3 decks)"
+msgid "Algerian Patience (3 Decks)"
 msgstr "Algerische Patience (3 Decks)"
 
 msgid "Alhambra"
@@ -327,10 +327,10 @@ msgstr ""
 msgid "Big Spider"
 msgstr "Große Spinne"
 
-msgid "Big Spider (1 suit)"
+msgid "Big Spider (1 Suit)"
 msgstr "Große Spinne (1 Farbe)"
 
-msgid "Big Spider (2 suits)"
+msgid "Big Spider (2 Suits)"
 msgstr "Große Spinne (2 Farben)"
 
 msgid "Big Streets"
@@ -1219,7 +1219,7 @@ msgstr "Fünfzehn"
 msgid "Fifteen Puzzle"
 msgstr "Fünfzehn Plus"
 
-msgid "Fifteen plus"
+msgid "Fifteen Plus"
 msgstr "Fünfzehn Plus"
 
 msgid "Fifteens"
@@ -1261,7 +1261,7 @@ msgstr "Fünf Pyramiden"
 msgid "Flake"
 msgstr "Flocke"
 
-msgid "Flake (2 decks)"
+msgid "Flake (2 Decks)"
 msgstr "Flocke (2 Decks)"
 
 msgid "Flamenco"
@@ -1392,7 +1392,7 @@ msgstr "Rahmen"
 msgid "Fred's Spider"
 msgstr "Fred's Spinne"
 
-msgid "Fred's Spider (3 decks)"
+msgid "Fred's Spider (3 Decks)"
 msgstr "Fred's Spinne (3 Decks)"
 
 msgid "Free Fan"
@@ -2849,7 +2849,7 @@ msgstr "Montana"
 msgid "Monte Carlo"
 msgstr "Monte Carlo"
 
-msgid "Monte Carlo (2 decks)"
+msgid "Monte Carlo (2 Decks)"
 msgstr "Monte Carlo (2 Decks)"
 
 msgid "Moojub"
@@ -2993,7 +2993,7 @@ msgstr "Nummer zwölf"
 msgid "Numerica"
 msgstr "Numerica"
 
-msgid "Numerica (2 decks)"
+msgid "Numerica (2 Decks)"
 msgstr "Numerica (2 Decks)"
 
 msgid "Ocean Towers"
@@ -3821,13 +3821,13 @@ msgstr "Sphäre"
 msgid "Spider"
 msgstr "Spinne"
 
-msgid "Spider (1 suit)"
+msgid "Spider (1 Suit)"
 msgstr "Spinne (1 Deck)"
 
-msgid "Spider (2 suits)"
+msgid "Spider (2 Suits)"
 msgstr "Spinne (2 Decks)"
 
-msgid "Spider (4 decks)"
+msgid "Spider (4 Decks)"
 msgstr "Spinne (4 Decks)"
 
 msgid "Spider 3x3"
@@ -4236,7 +4236,7 @@ msgstr "Trillium"
 msgid "Triple Alliance"
 msgstr "Dreifache Allianz"
 
-msgid "Triple Alliance (2 decks)"
+msgid "Triple Alliance (2 Decks)"
 msgstr ""
 
 msgid "Triple Canfield"
@@ -4404,7 +4404,7 @@ msgid "Wake-Robin"
 msgstr "Robin"
 
 #, fuzzy
-msgid "Wake-Robin (3 decks)"
+msgid "Wake-Robin (3 Decks)"
 msgstr "Zerline (3 Decks)"
 
 msgid "Wall"
@@ -4527,7 +4527,7 @@ msgstr "Zebra"
 msgid "Zerline"
 msgstr "Zerline"
 
-msgid "Zerline (3 decks)"
+msgid "Zerline (3 Decks)"
 msgstr "Zerline (3 Decks)"
 
 msgid "Zeus"

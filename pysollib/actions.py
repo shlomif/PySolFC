@@ -216,6 +216,7 @@ class PysolMenubar(PysolMenubarTk):
         self.setToolbarState(ms.undo, "undo")
         self.setToolbarState(ms.redo, "redo")
         self.setToolbarState(ms.autodrop, "autodrop")
+        self.setToolbarState(ms.hint, "hint")
         self.setToolbarState(ms.shuffle, "shuffle")
         self.setToolbarState(ms.pause, "pause")
         self.setToolbarState(ms.rules, "rules")

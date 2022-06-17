@@ -4,13 +4,13 @@ use strict;
 use warnings;
 use autodie;
 
-use Cwd        ();
-use File::Spec ();
-use File::Copy qw/ copy /;
-use File::Path qw/ mkpath /;
-use Getopt::Long qw/ GetOptions /;
-use Env::Path ();
-use Path::Tiny qw/ path /;
+use Cwd            ();
+use File::Spec     ();
+use File::Copy     qw/ copy /;
+use File::Path     qw/ mkpath /;
+use Getopt::Long   qw/ GetOptions /;
+use Env::Path      ();
+use Path::Tiny     qw/ path /;
 use File::Basename qw/ basename dirname /;
 
 my $bindir     = dirname(__FILE__);

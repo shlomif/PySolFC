@@ -436,7 +436,7 @@ registerGame(GameInfo(668, DoubleKingsley, "Double Kingsley",
 registerGame(GameInfo(678, ThievesOfEgypt, "Thieves of Egypt",
                       GI.GT_KLONDIKE, 2, 1, GI.SL_BALANCED))
 registerGame(GameInfo(689, Brush, "Brush",
-                      GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 0,
+                      GI.GT_SPIDER | GI.GT_ORIGINAL, 2, 0,
                       GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(822, DoubleTrigon, "Double Trigon",
                       GI.GT_KLONDIKE, 2, -1, GI.SL_BALANCED))

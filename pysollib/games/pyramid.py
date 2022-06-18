@@ -1469,7 +1469,7 @@ registerGame(GameInfo(596, SuitElevens, "Suit Elevens",
 registerGame(GameInfo(597, Fifteens, "Fifteens",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(619, TripleAlliance, "Triple Alliance",
-                      GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0,
+                      GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0,
                       GI.SL_MOSTLY_SKILL, altnames=('Triplets',)))
 registerGame(GameInfo(655, Pharaohs, "Pharaohs",
                       GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0, GI.SL_BALANCED))
@@ -1502,7 +1502,7 @@ registerGame(GameInfo(796, Exit, "Exit",
                       GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0,
                       GI.SL_MOSTLY_SKILL, altnames=('Gay Gordons',)))
 registerGame(GameInfo(802, TripleAlliance2Decks, "Triple Alliance (2 Decks)",
-                      GI.GT_2DECK_TYPE | GI.GT_OPEN, 2, 0,
+                      GI.GT_PAIRING_TYPE | GI.GT_OPEN, 2, 0,
                       GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(846, PyramidDozen, "Pyramid Dozen",
                       GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0, GI.SL_BALANCED))

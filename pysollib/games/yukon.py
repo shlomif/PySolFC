@@ -806,6 +806,6 @@ registerGame(GameInfo(603, Brisbane, "Brisbane",
 registerGame(GameInfo(707, Hawaiian, "Hawaiian",
                       GI.GT_YUKON | GI.GT_ORIGINAL, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(732, Wave, "Wave",
-                      GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 0, GI.SL_BALANCED))
+                      GI.GT_YUKON | GI.GT_ORIGINAL, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(826, YukonicPlague, "Yukonic Plague",
                       GI.GT_YUKON, 1, 0, GI.SL_BALANCED))

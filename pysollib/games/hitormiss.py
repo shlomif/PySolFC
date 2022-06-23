@@ -154,6 +154,9 @@ class HitOrMiss(Game):
         # save vars (for undo/redo)
         return [self.rank, self.deadDeals]
 
+    def getAutoStacks(self, event=None):
+        return ((), (), ())
+
 
 # register the game
 registerGame(GameInfo(774, HitOrMiss, "Hit or Miss",

@@ -27,8 +27,8 @@ from pysollib.games.golf import BlackHole_Foundation
 from pysollib.hint import CautiousDefaultHint
 from pysollib.layout import Layout
 from pysollib.stack import \
-        AbstractFoundationStack, \
         AC_RowStack, \
+        AbstractFoundationStack, \
         RK_FoundationStack, \
         RK_RowStack, \
         ReserveStack, \

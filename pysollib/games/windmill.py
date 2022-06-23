@@ -21,13 +21,13 @@
 #
 # ---------------------------------------------------------------------------##
 
-import pysollib.game
 from pysollib.game import Game
 from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.games.golf import BlackHole_Foundation
 from pysollib.hint import CautiousDefaultHint
 from pysollib.layout import Layout
 from pysollib.stack import \
+        AbstractFoundationStack, \
         AC_RowStack, \
         RK_FoundationStack, \
         RK_RowStack, \
@@ -197,7 +197,21 @@ class DutchSolitaire(Windmill):
 # * Napoleon's Tomb
 # ************************************************************************
 
-class NapoleonsTomb(pysollib.game.StartDealRowAndCards, Game):
+class NapoleonsTomb_Foundation(AbstractFoundationStack):
+    def acceptsCards(self, from_stack, cards):
+        if not AbstractFoundationStack.acceptsCards(self, from_stack, cards):
+            return False
+        if self.cards:
+            # check the rank - an ACE equals a seven
+            rank = self.cards[-1].rank
+            if rank == ACE:
+                rank = 6
+            if (rank + self.cap.dir) % self.cap.mod != cards[0].rank:
+                return False
+        return True
+
+
+class NapoleonsTomb(Game):
 
     #
     # game layout
@@ -208,7 +222,7 @@ class NapoleonsTomb(pysollib.game.StartDealRowAndCards, Game):
         l, s = Layout(self, card_x_space=20, card_y_space=20), self.s
 
         # set window
-        self.setSize(5*l.XS+l.XM, 3*l.YS+l.YM+l.YM)
+        self.setSize(int(5.1 * l.XS) + l.XM, int(3.05 * l.YS) + (2 * l.YM))
 
         # create stacks
         x = l.XM
@@ -218,20 +232,24 @@ class NapoleonsTomb(pysollib.game.StartDealRowAndCards, Game):
         x = x + l.XS
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, "s")
-        x0, y0 = x + l.XS, y
+        x0, y0 = x + l.XS + (0.15 * l.XS), y + (0.05 * l.YS)
         for d in ((0, 1), (1, 0), (1, 2), (2, 1)):
             x, y = x0 + d[0] * l.XS, y0 + d[1] * l.YS
             s.rows.append(Windmill_RowStack(x, y, self))
         x, y = x0 + l.XS, y0 + l.YS
-        s.foundations.append(Windmill_Foundation(x, y, self, base_rank=5,
-                             mod=13, max_cards=24, dir=-1))
-        for d in ((0.1, 0.1), (1.9, 0.1), (0.1, 1.9), (1.9, 1.9)):
-            x, y = x0 + d[0] * l.XS, y0 + d[1] * l.YS
+        s.foundations.append(NapoleonsTomb_Foundation(x, y, self, base_rank=5,
+                             mod=13, max_cards=24, dir=-1, suit=ANY_SUIT))
+        for d in ((0.05, 0.05), (-2.05, 0.05), (0.05, -2.05), (-2.05, -2.05)):
+            x, y = x0 - d[0] * l.XS, y0 - d[1] * l.YS
             s.foundations.append(Windmill_Foundation(x, y, self,
                                  max_cards=7, base_rank=6, mod=13))
 
         # define stack-groups
         l.defaultStackGroups()
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealCards()
 
 
 # ************************************************************************

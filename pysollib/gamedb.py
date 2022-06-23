@@ -320,16 +320,16 @@ class GI:
         # Gnome AisleRiot 2.2.0 (we have 65 out of 70 games)
         # Gnome AisleRiot 3.22.7
         #   still missing:
-        #       Hamilton, Isabel, King's Audience, Labyrinth, Napoleon's Tomb,
-        #       Saratoga, Thieves, Treize, Valentine, Wall
+        #       Hamilton, Isabel, King's Audience, Labyrinth, Saratoga,
+        #       Thieves, Treize, Valentine, Wall
         ("Gnome AisleRiot", (
             1, 2, 8, 9, 11, 12, 13, 19, 24, 27, 29, 31, 33, 34, 35, 36,
             38, 40, 41, 42, 43, 45, 48, 58, 65, 67, 89, 91, 92, 93, 94,
             95, 96, 97, 100, 104, 105, 111, 112, 113, 130, 135, 139, 144,
             146, 147, 148, 200, 201, 206, 224, 225, 229, 230, 233, 257,
-            258, 280, 281, 282, 283, 284, 334, 384, 495, 551, 552, 553,
-            572, 593, 674, 700, 715, 716, 737, 772, 810, 819, 824, 829,
-            22231,
+            258, 277, 280, 281, 282, 283, 284, 334, 384, 495, 551, 552,
+            553, 572, 593, 674, 700, 715, 716, 737, 772, 810, 819, 824,
+            829, 22231,
         )),
 
         # Hoyle Card Games

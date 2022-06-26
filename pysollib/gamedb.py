@@ -282,6 +282,7 @@ class GI:
          262: 105,              # Canfield
          902: 88,               # Trefoil
          904: 68,               # Lexington Harp
+         237: 22231,            # Three Peaks
          297: 631,              # Alternation/Alternations
          526: 447,              # Australian/Outback Patience
     }

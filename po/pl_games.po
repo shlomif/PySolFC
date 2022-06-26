@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "POT-Creation-Date: Sat Feb 12 11:27:46 2022\n"
-"PO-Revision-Date: 2022-02-12 11:35-0500\n"
+"PO-Revision-Date: 2022-06-25 21:24-0400\n"
 "Last-Translator: Jerzy Trzeciak <artusek@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
@@ -149,8 +149,8 @@ msgstr "Arachnida"
 msgid "Archway"
 msgstr ""
 
-msgid "Arena"
-msgstr "Arena"
+msgid "Arena 1"
+msgstr "Arena 1"
 
 msgid "Arena 2"
 msgstr "Arena 2"
@@ -431,7 +431,7 @@ msgstr ""
 msgid "Bridesmaids"
 msgstr ""
 
-msgid "Bridge"
+msgid "Bridge 1"
 msgstr "Most"
 
 msgid "Bridge 2"
@@ -485,7 +485,7 @@ msgstr ""
 msgid "Busy Cards"
 msgstr ""
 
-msgid "Butterfly"
+msgid "Butterfly 1"
 msgstr "Motyl"
 
 msgid "Butterfly 2"
@@ -1015,7 +1015,7 @@ msgstr ""
 msgid "Dover"
 msgstr ""
 
-msgid "Dragon"
+msgid "Dragon 1"
 msgstr "Smok"
 
 msgid "Dragon 2"
@@ -1237,7 +1237,7 @@ msgstr ""
 msgid "Fish"
 msgstr "Ryba"
 
-msgid "Fish face"
+msgid "Fish Face"
 msgstr ""
 
 msgid "Five Aces"
@@ -1405,7 +1405,7 @@ msgstr ""
 msgid "Frog"
 msgstr "Żaba"
 
-msgid "Full Vision"
+msgid "Full Vision 1"
 msgstr ""
 
 msgid "Full Vision 2"
@@ -1720,7 +1720,7 @@ msgstr ""
 msgid "Idle Year"
 msgstr ""
 
-msgid "IloveU"
+msgid "I Love U"
 msgstr ""
 
 msgid "Imperial Guards"
@@ -2140,8 +2140,8 @@ msgstr ""
 msgid "Mahjongg Aqab's"
 msgstr "Mahjongg Aqab's"
 
-msgid "Mahjongg Arena"
-msgstr "Mahjongg Arena"
+msgid "Mahjongg Arena 1"
+msgstr "Mahjongg Arena 1"
 
 msgid "Mahjongg Arena 2"
 msgstr "Mahjongg Arena 2"
@@ -2176,8 +2176,8 @@ msgstr "Mahjongg Boar"
 msgid "Mahjongg Boat"
 msgstr "Mahjongg Boat"
 
-msgid "Mahjongg Bridge"
-msgstr "Mahjongg Bridge"
+msgid "Mahjongg Bridge 1"
+msgstr "Mahjongg Bridge 1"
 
 msgid "Mahjongg Bridge 2"
 msgstr "Mahjongg Bridge 2"
@@ -2185,8 +2185,8 @@ msgstr "Mahjongg Bridge 2"
 msgid "Mahjongg Bug"
 msgstr "Mahjongg Bug"
 
-msgid "Mahjongg Butterfly"
-msgstr "Mahjongg Butterfly"
+msgid "Mahjongg Butterfly 1"
+msgstr "Mahjongg Butterfly 1"
 
 msgid "Mahjongg Butterfly 2"
 msgstr "Mahjongg Butterfly 2"
@@ -2233,7 +2233,7 @@ msgstr "Mahjongg Diamond"
 msgid "Mahjongg Dog"
 msgstr "Mahjongg Dog"
 
-msgid "Mahjongg Dragon"
+msgid "Mahjongg Dragon 1"
 msgstr ""
 
 msgid "Mahjongg Dragon 2"
@@ -2260,7 +2260,7 @@ msgstr ""
 msgid "Mahjongg Fish"
 msgstr ""
 
-msgid "Mahjongg Fish face"
+msgid "Mahjongg Fish Face"
 msgstr ""
 
 msgid "Mahjongg Five Pyramids"
@@ -2278,7 +2278,7 @@ msgstr ""
 msgid "Mahjongg Fortress Towers"
 msgstr ""
 
-msgid "Mahjongg Full Vision"
+msgid "Mahjongg Full Vision 1"
 msgstr ""
 
 msgid "Mahjongg Full Vision 2"
@@ -2320,7 +2320,7 @@ msgstr ""
 msgid "Mahjongg Hurdles"
 msgstr ""
 
-msgid "Mahjongg IloveU"
+msgid "Mahjongg I Love U"
 msgstr ""
 
 msgid "Mahjongg Inazuma"
@@ -2548,7 +2548,7 @@ msgstr ""
 msgid "Mahjongg Stage 2"
 msgstr ""
 
-msgid "Mahjongg Stairs"
+msgid "Mahjongg Stairs 1"
 msgstr ""
 
 msgid "Mahjongg Stairs 2"
@@ -2565,7 +2565,7 @@ msgstr ""
 
 #, fuzzy
 msgid "Mahjongg Steps Pyramid"
-msgstr "Mahjongg Bridge"
+msgstr "Mahjongg Bridge 1"
 
 msgid "Mahjongg Stonehenge"
 msgstr ""
@@ -2573,7 +2573,7 @@ msgstr ""
 msgid "Mahjongg Sukis"
 msgstr ""
 
-msgid "Mahjongg SunMoon"
+msgid "Mahjongg Sun and Moon"
 msgstr ""
 
 msgid "Mahjongg Taipei"
@@ -2586,6 +2586,9 @@ msgid "Mahjongg Temple 1"
 msgstr ""
 
 msgid "Mahjongg Temple 2"
+msgstr ""
+
+msgid "Mahjongg Temple 3"
 msgstr ""
 
 msgid "Mahjongg The Door"
@@ -2651,7 +2654,7 @@ msgstr ""
 msgid "Mahjongg Wedges"
 msgstr ""
 
-msgid "Mahjongg Well"
+msgid "Mahjongg Well 1"
 msgstr ""
 
 msgid "Mahjongg Well 2"
@@ -3825,7 +3828,7 @@ msgstr ""
 msgid "Stage 2"
 msgstr ""
 
-msgid "Stairs"
+msgid "Stairs 1"
 msgstr ""
 
 msgid "Stairs 2"
@@ -3916,7 +3919,7 @@ msgstr "Sułtan Turecki"
 msgid "Sumo"
 msgstr ""
 
-msgid "SunMoon"
+msgid "Sun and Moon"
 msgstr ""
 
 msgid "Sundial"
@@ -3976,6 +3979,9 @@ msgstr ""
 msgid "Temple 2"
 msgstr ""
 
+msgid "Temple 3"
+msgstr ""
+
 msgid "Ten Across"
 msgstr ""
 
@@ -4030,7 +4036,7 @@ msgstr ""
 msgid "The Wish"
 msgstr ""
 
-msgid "The Wish (open)"
+msgid "The Wish (Open)"
 msgstr ""
 
 msgid "Theater"
@@ -4382,6 +4388,9 @@ msgid "Wedges"
 msgstr ""
 
 msgid "Well"
+msgstr ""
+
+msgid "Well 1"
 msgstr ""
 
 msgid "Well 2"

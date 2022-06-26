@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "POT-Creation-Date: Sat Feb 12 11:27:46 2022\n"
-"PO-Revision-Date: 2022-02-12 11:35-0500\n"
+"PO-Revision-Date: 2022-06-25 21:27-0400\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
@@ -151,7 +151,7 @@ msgstr "Арахнида"
 msgid "Archway"
 msgstr ""
 
-msgid "Arena"
+msgid "Arena 1"
 msgstr "Арена"
 
 msgid "Arena 2"
@@ -435,7 +435,7 @@ msgstr "Волнолом"
 msgid "Bridesmaids"
 msgstr "Подружки невесты"
 
-msgid "Bridge"
+msgid "Bridge 1"
 msgstr "Мост"
 
 msgid "Bridge 2"
@@ -489,7 +489,7 @@ msgstr "Занятые тузы"
 msgid "Busy Cards"
 msgstr "Занятые карты"
 
-msgid "Butterfly"
+msgid "Butterfly 1"
 msgstr "Бабочка"
 
 msgid "Butterfly 2"
@@ -1025,7 +1025,7 @@ msgstr "Дубликаты II"
 msgid "Dover"
 msgstr "Довер"
 
-msgid "Dragon"
+msgid "Dragon 1"
 msgstr "Дракон"
 
 msgid "Dragon 2"
@@ -1251,7 +1251,7 @@ msgstr "Фундаментальный закон"
 msgid "Fish"
 msgstr "Рыба"
 
-msgid "Fish face"
+msgid "Fish Face"
 msgstr "Рыбья голова"
 
 msgid "Five Aces"
@@ -1421,8 +1421,8 @@ msgstr ""
 msgid "Frog"
 msgstr "Лягушка"
 
-msgid "Full Vision"
-msgstr "Полностью видимый"
+msgid "Full Vision 1"
+msgstr "Полностью видимый 1"
 
 msgid "Full Vision 2"
 msgstr "Полностью видимый 2"
@@ -1739,8 +1739,8 @@ msgstr "Свободные тузы"
 msgid "Idle Year"
 msgstr "Свободный год"
 
-msgid "IloveU"
-msgstr "IloveU"
+msgid "I Love U"
+msgstr "I Love U"
 
 msgid "Imperial Guards"
 msgstr "Императорская гвардия"
@@ -2164,7 +2164,7 @@ msgstr "Маджонг Другой раунд"
 msgid "Mahjongg Aqab's"
 msgstr "Маджонг Aqab's"
 
-msgid "Mahjongg Arena"
+msgid "Mahjongg Arena 1"
 msgstr "Маджонг Арена"
 
 msgid "Mahjongg Arena 2"
@@ -2200,7 +2200,7 @@ msgstr "Маджонг Боров"
 msgid "Mahjongg Boat"
 msgstr "Маджонг Лодка"
 
-msgid "Mahjongg Bridge"
+msgid "Mahjongg Bridge 1"
 msgstr "Маджонг Мост"
 
 msgid "Mahjongg Bridge 2"
@@ -2209,8 +2209,8 @@ msgstr "Маджонг Мост 2"
 msgid "Mahjongg Bug"
 msgstr "Маджонг Клоп"
 
-msgid "Mahjongg Butterfly"
-msgstr "Маджонг Бабочка"
+msgid "Mahjongg Butterfly 1"
+msgstr "Маджонг Бабочка 1"
 
 msgid "Mahjongg Butterfly 2"
 msgstr "Маджонг Бабочка 2"
@@ -2257,8 +2257,8 @@ msgstr "Маджонг Алмаз"
 msgid "Mahjongg Dog"
 msgstr "Маджонг Пёс"
 
-msgid "Mahjongg Dragon"
-msgstr "Маджонг Дракон"
+msgid "Mahjongg Dragon 1"
+msgstr "Маджонг Дракон 1"
 
 msgid "Mahjongg Dragon 2"
 msgstr "Маджонг Дракон 2"
@@ -2284,7 +2284,7 @@ msgstr "Маджонг Фарандола"
 msgid "Mahjongg Fish"
 msgstr "Маджонг Рыба"
 
-msgid "Mahjongg Fish face"
+msgid "Mahjongg Fish Face"
 msgstr "Маджонг Рыбья голова"
 
 msgid "Mahjongg Five Pyramids"
@@ -2302,8 +2302,8 @@ msgstr "Маджонг Летящий Дракон"
 msgid "Mahjongg Fortress Towers"
 msgstr "Маджонг Крепостные башни"
 
-msgid "Mahjongg Full Vision"
-msgstr "Маджонг Полностью видимый"
+msgid "Mahjongg Full Vision 1"
+msgstr "Маджонг Полностью видимый 1"
 
 msgid "Mahjongg Full Vision 2"
 msgstr "Маджонг Полностью видимый 2"
@@ -2344,8 +2344,8 @@ msgstr "Маджонг Ховеркрафт"
 msgid "Mahjongg Hurdles"
 msgstr "Маджонг Барьеры"
 
-msgid "Mahjongg IloveU"
-msgstr "Маджонг IloveU"
+msgid "Mahjongg I Love U"
+msgstr "Маджонг I Love U"
 
 msgid "Mahjongg Inazuma"
 msgstr "Маджонг Inazuma"
@@ -2572,8 +2572,8 @@ msgstr "Маджонг Stage 1"
 msgid "Mahjongg Stage 2"
 msgstr "Маджонг Stage 2"
 
-msgid "Mahjongg Stairs"
-msgstr "Маджонг Ступени"
+msgid "Mahjongg Stairs 1"
+msgstr "Маджонг Ступени 1"
 
 msgid "Mahjongg Stairs 2"
 msgstr "Маджонг Ступени 2"
@@ -2597,8 +2597,8 @@ msgstr "Маджонг Стоунхендж"
 msgid "Mahjongg Sukis"
 msgstr "Маджонг Sukis"
 
-msgid "Mahjongg SunMoon"
-msgstr "Маджонг SunMoon"
+msgid "Mahjongg Sun and Moon"
+msgstr "Маджонг Солнце и Луна"
 
 msgid "Mahjongg Taipei"
 msgstr "Маджонг Тайпей"
@@ -2611,6 +2611,9 @@ msgstr "Маджонг Храм 1"
 
 msgid "Mahjongg Temple 2"
 msgstr "Маджонг Храм 2"
+
+msgid "Mahjongg Temple 3"
+msgstr "Маджонг Храм 3"
 
 msgid "Mahjongg The Door"
 msgstr "Маджонг Дверь"
@@ -2675,7 +2678,7 @@ msgstr "Маджонг Волны"
 msgid "Mahjongg Wedges"
 msgstr "Маджонг Клинья"
 
-msgid "Mahjongg Well"
+msgid "Mahjongg Well 1"
 msgstr "Маджонг Well"
 
 msgid "Mahjongg Well 2"
@@ -3869,8 +3872,8 @@ msgstr "Звёздные врата"
 msgid "Stage 2"
 msgstr "Ступени 2"
 
-msgid "Stairs"
-msgstr "Ступени"
+msgid "Stairs 1"
+msgstr "Ступени 1"
 
 msgid "Stairs 2"
 msgstr "Ступени 2"
@@ -3962,8 +3965,8 @@ msgstr "Турецкий султан"
 msgid "Sumo"
 msgstr "Сумо"
 
-msgid "SunMoon"
-msgstr "СолнцеЛуна"
+msgid "Sun and Moon"
+msgstr "Солнце и Луна"
 
 msgid "Sundial"
 msgstr ""
@@ -4022,6 +4025,9 @@ msgstr "Храм 1"
 msgid "Temple 2"
 msgstr "Храм 2"
 
+msgid "Temple 3"
+msgstr "Храм 3"
+
 msgid "Ten Across"
 msgstr "Десять в ширину"
 
@@ -4076,7 +4082,7 @@ msgstr "Вспышка"
 msgid "The Wish"
 msgstr "Желание"
 
-msgid "The Wish (open)"
+msgid "The Wish (Open)"
 msgstr "Желание (открытое)"
 
 msgid "Theater"
@@ -4443,6 +4449,9 @@ msgstr "Клинья"
 
 msgid "Well"
 msgstr "Колодец"
+
+msgid "Well 1"
+msgstr ""
 
 #, fuzzy
 msgid "Well 2"

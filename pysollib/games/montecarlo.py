@@ -988,7 +988,7 @@ registerGame(GameInfo(152, DerLetzteMonarch, "The Last Monarch",
 registerGame(GameInfo(328, TheWish, "The Wish",
                       GI.GT_PAIRING_TYPE | GI.GT_STRIPPED, 1, 0,
                       GI.SL_MOSTLY_LUCK, ranks=(0, 6, 7, 8, 9, 10, 11, 12)))
-registerGame(GameInfo(329, TheWishOpen, "The Wish (open)",
+registerGame(GameInfo(329, TheWishOpen, "The Wish (Open)",
                       GI.GT_PAIRING_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL |
                       GI.GT_STRIPPED, 1, 0, GI.SL_MOSTLY_SKILL,
                       ranks=(0, 6, 7, 8, 9, 10, 11, 12),

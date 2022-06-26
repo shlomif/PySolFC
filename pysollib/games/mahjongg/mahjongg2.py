@@ -100,7 +100,7 @@ r(5202, "Big Mountain", layout="0aaaaaqaeihfiagh" +
     "yiayjhziaAiaGaaG" +
     "q")
 #
-r(5203, "Bridge", layout="0aaaaacaaeaagaai" +
+r(5203, "Bridge 1", layout="0aaaaacaaeaagaai" +
     "hbahbchbehbghbio" +
     "caoccoceocgociwd" +
     "avdcvdevdgwdioeb" +
@@ -246,7 +246,7 @@ r(5210, "Empty Pyramids", layout="0aaiabghbiabkacc" +
     "aCcaCehCgoCihCka" +
     "CmaCoaDghDiaDkaE" +
     "i")
-r(5211, "Fish face", layout="0bajbciocjbckvdj" +
+r(5211, "Fish Face", layout="0bajbciocjbckvdj" +
     "behoeibejoekbelc" +
     "ggcgmchichkcifci" +
     "ncjhcjlckebkjcko" +
@@ -434,7 +434,7 @@ r(5218, "Tornado", layout="0babaadaambaoabi" +
     "zlbzmoznbAgbAkaD" +
     "ibEbaEdaEmbEo")
 #
-r(5219, "IloveU", layout="0caddafcahdaldan" +
+r(5219, "I Love U", layout="0caddafcahdaldan" +
     "dapdcbcciceacejc" +
     "gacgkdibcilckdck" +
     "mcmecmndngdnpcoe" +
@@ -1344,7 +1344,7 @@ r(5267, "Sukis", layout="0aaaaacaaeaagaai" +
     "GgaGiaGkaGmaGoaG" +
     "q")
 #
-r(5268, "Temple 1", layout="0aaaaaeaaiabchbd" +
+r(5268, "Temple 2", layout="0aaaaaeaaiabchbd" +
     "abghbhacahcbocca" +
     "cehcfocgaciadchd" +
     "dodeadghdhaeaheb" +
@@ -1372,7 +1372,7 @@ r(5268, "Temple 1", layout="0aaaaaeaaiabchbd" +
     "ougauiavchvdavgh" +
     "vhawaaweawi")
 #
-r(5269, "Temple 2", layout="0aacaagaakabahbb" +
+r(5269, "Temple 3", layout="0aacaagaakabahbb" +
     "abehbfabihbjacco" +
     "cchcdacgocghchac" +
     "kadahdbadeodehdf" +

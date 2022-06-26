@@ -46,7 +46,7 @@ r(5001, "Altar", layout="0aaaacaaiaakaama" +
     "vpevrevtevlgwngw" +
     "pgwrgvtgCocCqcCm" +
     "eCoeCqeCse")
-r(5002, "Arena", layout="0eaadcaceabgaaia" +
+r(5002, "Arena 1", layout="0eaadcaceabgaaia" +
     "aqabsacuadwaeyad" +
     "accccbecagcakcbm" +
     "caocascbuccwcdyc" +
@@ -239,7 +239,7 @@ r(5012, "Bug", layout="0bhabnabtaajbapb" +
     "jopjorjotjovjvjh" +
     "vlhvnhvphvrhvthC" +
     "khCmhCohCqhCsh")
-r(5013, "Butterfly", layout="0dmadqaaabaebayb" +
+r(5013, "Butterfly 1", layout="0dmadqaaabaebayb" +
     "aCbagccocawcaada" +
     "edaidaudaydaCdac" +
     "eageakedoeaseawe" +
@@ -416,7 +416,7 @@ r(5022, "Deep Well", layout="0acaaeaagaaiaaka" +
     "amccmcemcgmcimck" +
     "mcmmaomacoaeoago" +
     "aioakoamo")
-r(5023, "Dragon", layout="0bgaaiaegceicdkc" +
+r(5023, "Dragon 1", layout="0bgaaiaegceicdkc" +
     "cmcbocbqcbscbuca" +
     "wcaycaceaeeageai" +
     "eakebmeboeaqease" +
@@ -665,7 +665,7 @@ r(5035, "Fortress Towers", layout="0faaecadeacgabia" +
     "kcmkdokeqkfskhjc" +
     "hjehjghji")
 #
-r(5036, "Full Vision", layout="0aaaaiaamaaoaaqa" +
+r(5036, "Full Vision 1", layout="0aaaaiaamaaoaaqa" +
     "asaawaaEaacbaeba" +
     "gbaybaAbaCbaacai" +
     "camcaocaqcascawc" +
@@ -1512,7 +1512,7 @@ r(5078, "Squaring", layout="0caaacaceaciaaka" +
     "aujayjaCjcalaclc" +
     "elcilaklcmlcqlas" +
     "lculcylaAlcCl")
-r(5079, "Stairs", layout="0aoaaebaybeacdcc" +
+r(5079, "Stairs 1", layout="0aoaaebaybeacdcc" +
     "agcaicakcbmccocb" +
     "qcascaucawcdAceC" +
     "caedayddaeaieaoe" +
@@ -1585,7 +1585,7 @@ r(5082, "Stonehenge", layout="0cdachackacoacra" +
     "hCghCihCkhCmhCoh" +
     "CqhCshCuhCwhCyhC" +
     "Ah")
-r(5083, "SunMoon", layout="0dgaciabkaamabya" +
+r(5083, "Sun and Moon", layout="0dgaciabkaamabya" +
     "debbrbbBbdccbvcc" +
     "addcecheckecnebD" +
     "ecafbtfbAfdcgdjg" +
@@ -1596,7 +1596,7 @@ r(5083, "SunMoon", layout="0dgaciabkaamabya" +
     "enbBndgociobkoam" +
     "obuovaevagvaivak" +
     "Ckh")
-r(5084, "Temple", layout="0baaacaaeaalaana" +
+r(5084, "Temple 1", layout="0baaacaaeaalaana" +
     "apaaraataaAaaCab" +
     "Eaaacaccalcbncbp" +
     "cbrcatcaCcaEcajd" +
@@ -1899,7 +1899,7 @@ r(5099, "Wavelets", layout="0agaaqaaAaagcaqc" +
     "vvivFivgjvqjvAjv" +
     "glvqlvAlvbmvlmvv" +
     "mvFmvgnvqnvAn")
-r(5100, "Well", layout="0aiaakaamaaoaagc" +
+r(5100, "Well 1", layout="0aiaakaamaaoaagc" +
     "aicakcamcaocaqca" +
     "cebeeegeeieekeem" +
     "eeoeeqebseaueaaf" +

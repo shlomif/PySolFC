@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "POT-Creation-Date: Sat Feb 12 11:27:46 2022\n"
-"PO-Revision-Date: 2022-02-12 11:36-0500\n"
+"PO-Revision-Date: 2022-06-25 21:26-0400\n"
 "Last-Translator: H. Schaekel <Holger.Schaekel@web.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -144,7 +144,7 @@ msgstr "Arachnida"
 msgid "Archway"
 msgstr ""
 
-msgid "Arena"
+msgid "Arena 1"
 msgstr "Аrena"
 
 msgid "Arena 2"
@@ -427,7 +427,7 @@ msgstr "Wellenbrecher"
 msgid "Bridesmaids"
 msgstr "Brautjungfer"
 
-msgid "Bridge"
+msgid "Bridge 1"
 msgstr "Braut"
 
 msgid "Bridge 2"
@@ -481,7 +481,7 @@ msgstr "Beschäftige Asse"
 msgid "Busy Cards"
 msgstr "Beschäftige Karten"
 
-msgid "Butterfly"
+msgid "Butterfly 1"
 msgstr "Schmetterling"
 
 msgid "Butterfly 2"
@@ -1019,7 +1019,7 @@ msgstr "Doublets II"
 msgid "Dover"
 msgstr "Dover"
 
-msgid "Dragon"
+msgid "Dragon 1"
 msgstr "Drache"
 
 msgid "Dragon 2"
@@ -1246,7 +1246,7 @@ msgstr "Erstes Gesetz"
 msgid "Fish"
 msgstr "Fisch"
 
-msgid "Fish face"
+msgid "Fish Face"
 msgstr "Fischgesicht"
 
 msgid "Five Aces"
@@ -1416,8 +1416,8 @@ msgstr ""
 msgid "Frog"
 msgstr "Frosch"
 
-msgid "Full Vision"
-msgstr "Vollvision"
+msgid "Full Vision 1"
+msgstr "Vollvision 1"
 
 msgid "Full Vision 2"
 msgstr "Vollvision 2"
@@ -1735,7 +1735,7 @@ msgstr "Leere Asse"
 msgid "Idle Year"
 msgstr "Leeres Jahr"
 
-msgid "IloveU"
+msgid "I Love U"
 msgstr "Ich liebe dich"
 
 msgid "Imperial Guards"
@@ -2160,8 +2160,8 @@ msgstr "Mahjongg noch eine Runde"
 msgid "Mahjongg Aqab's"
 msgstr "Mahjongg Aqab's"
 
-msgid "Mahjongg Arena"
-msgstr "Mahjongg Arena"
+msgid "Mahjongg Arena 1"
+msgstr "Mahjongg Arena 1"
 
 msgid "Mahjongg Arena 2"
 msgstr "Mahjongg Arena 2"
@@ -2196,8 +2196,8 @@ msgstr "Mahjongg Wildschwein"
 msgid "Mahjongg Boat"
 msgstr "Mahjongg Boot"
 
-msgid "Mahjongg Bridge"
-msgstr "Mahjongg Brücke"
+msgid "Mahjongg Bridge 1"
+msgstr "Mahjongg Brücke 1"
 
 msgid "Mahjongg Bridge 2"
 msgstr "Mahjongg Brücke 2"
@@ -2205,8 +2205,8 @@ msgstr "Mahjongg Brücke 2"
 msgid "Mahjongg Bug"
 msgstr "Mahjongg Käfer"
 
-msgid "Mahjongg Butterfly"
-msgstr "Mahjongg Schmetterling"
+msgid "Mahjongg Butterfly 1"
+msgstr "Mahjongg Schmetterling 1"
 
 msgid "Mahjongg Butterfly 2"
 msgstr "Mahjongg Schmetterling 2"
@@ -2253,8 +2253,8 @@ msgstr "Mahjongg Diamant"
 msgid "Mahjongg Dog"
 msgstr "Mahjongg Hund"
 
-msgid "Mahjongg Dragon"
-msgstr "Mahjongg Drache"
+msgid "Mahjongg Dragon 1"
+msgstr "Mahjongg Drache 1"
 
 msgid "Mahjongg Dragon 2"
 msgstr "Mahjongg Drache 2"
@@ -2280,7 +2280,7 @@ msgstr "Mahjongg Farandole"
 msgid "Mahjongg Fish"
 msgstr "Mahjongg Fisch"
 
-msgid "Mahjongg Fish face"
+msgid "Mahjongg Fish Face"
 msgstr "Mahjongg Fischgesicht"
 
 msgid "Mahjongg Five Pyramids"
@@ -2298,8 +2298,8 @@ msgstr "Mahjongg fliegende Drachen"
 msgid "Mahjongg Fortress Towers"
 msgstr "Mahjongg Festungsturm"
 
-msgid "Mahjongg Full Vision"
-msgstr "Mahjongg volle Version"
+msgid "Mahjongg Full Vision 1"
+msgstr "Mahjongg volle Version 1"
 
 msgid "Mahjongg Full Vision 2"
 msgstr "Mahjongg volle Version 2"
@@ -2340,7 +2340,7 @@ msgstr "Mahjongg Luftkissenfahrzeug"
 msgid "Mahjongg Hurdles"
 msgstr "Mahjongg Hürdenlauf"
 
-msgid "Mahjongg IloveU"
+msgid "Mahjongg I Love U"
 msgstr "Mahjongg ich liebe dich"
 
 msgid "Mahjongg Inazuma"
@@ -2568,8 +2568,8 @@ msgstr "Mahjongg Stufe 1"
 msgid "Mahjongg Stage 2"
 msgstr "Mahjongg Stufe 2"
 
-msgid "Mahjongg Stairs"
-msgstr "Mahjongg Stufen"
+msgid "Mahjongg Stairs 1"
+msgstr "Mahjongg Stufen 1"
 
 msgid "Mahjongg Stairs 2"
 msgstr "Mahjongg Stufen 2"
@@ -2593,8 +2593,8 @@ msgstr "Mahjongg Stonehenge"
 msgid "Mahjongg Sukis"
 msgstr "Mahjongg Sukis"
 
-msgid "Mahjongg SunMoon"
-msgstr "Mahjongg SunMoon"
+msgid "Mahjongg Sun and Moon"
+msgstr "Mahjongg Sun and Moon"
 
 msgid "Mahjongg Taipei"
 msgstr "Mahjongg Taipei"
@@ -2607,6 +2607,9 @@ msgstr "Mahjongg Tempel 1"
 
 msgid "Mahjongg Temple 2"
 msgstr "Mahjongg Tempel 2"
+
+msgid "Mahjongg Temple 3"
+msgstr "Mahjongg Tempel 3"
 
 msgid "Mahjongg The Door"
 msgstr "Mahjongg die Tür"
@@ -2671,8 +2674,8 @@ msgstr "Mahjongg Wavelets"
 msgid "Mahjongg Wedges"
 msgstr "Mahjongg Keile"
 
-msgid "Mahjongg Well"
-msgstr "Mahjongg Parkett"
+msgid "Mahjongg Well 1"
+msgstr "Mahjongg Parkett 1"
 
 msgid "Mahjongg Well 2"
 msgstr "Mahjongg Parkett 2"
@@ -3874,8 +3877,8 @@ msgstr "Mahjongg Stufe 1"
 msgid "Stage 2"
 msgstr "Mahjongg Stufe 2"
 
-msgid "Stairs"
-msgstr "Stufen"
+msgid "Stairs 1"
+msgstr "Stufen 1"
 
 msgid "Stairs 2"
 msgstr "Stufen 2"
@@ -3967,7 +3970,7 @@ msgstr "Türkischer Sultan"
 msgid "Sumo"
 msgstr "Sumo"
 
-msgid "SunMoon"
+msgid "Sun and Moon"
 msgstr "Sonnenmond"
 
 msgid "Sundial"
@@ -4028,6 +4031,9 @@ msgstr "Tempel 1"
 msgid "Temple 2"
 msgstr "Tempel 2"
 
+msgid "Temple 3"
+msgstr "Tempel 3"
+
 msgid "Ten Across"
 msgstr "Zehn hinüber"
 
@@ -4082,7 +4088,7 @@ msgstr "Das Fünckchen"
 msgid "The Wish"
 msgstr "Der Wunsch"
 
-msgid "The Wish (open)"
+msgid "The Wish (Open)"
 msgstr "Der offene Wunsch"
 
 msgid "Theater"
@@ -4448,6 +4454,9 @@ msgstr "Keile"
 
 msgid "Well"
 msgstr "Gut"
+
+msgid "Well 1"
+msgstr ""
 
 #, fuzzy
 msgid "Well 2"

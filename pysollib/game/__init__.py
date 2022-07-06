@@ -1018,7 +1018,7 @@ class Game(object):
         self.center_offset = self.getCenterOffset(vw, vh, iw, ih, xf, yf)
         if (not self.app.opt.spread_stacks or manually):
             # images
-            self.app.images.resize(xf, yf)
+            self.app.images.resize(xf, yf, resample=self.app.opt.resampling)
         # cards
         for card in self.cards:
             card.update(card.id, card.deck, card.suit, card.rank, self)

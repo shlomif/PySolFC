@@ -877,7 +877,8 @@ class Application:
              self.opt.spread_stacks,
              self.opt.preserve_aspect_ratio) = d.scale_values
             if not self.opt.auto_scale:
-                self.images.resize(self.opt.scale_x, self.opt.scale_y)
+                self.images.resize(self.opt.scale_x, self.opt.scale_y,
+                                   resample=self.opt.resampling)
             if d.cardset_values:
                 cs.CARD_XOFFSET, cs.CARD_YOFFSET = d.cardset_values
                 self.opt.offsets[cs.ident] = d.cardset_values

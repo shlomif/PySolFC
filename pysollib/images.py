@@ -53,6 +53,7 @@ class Images:
         self.reduced = r
         self._xfactor = 1.0
         self._yfactor = 1.0
+        self._resampling = 0
         if cs is None:
             return
         self._setSize()
@@ -430,24 +431,26 @@ class Images:
         return (int(self.CARD_DX * self._xfactor),
                 int(self.CARD_DY * self._yfactor))
 
-    def resize(self, xf, yf):
+    def resize(self, xf, yf, resample=1):
         # print 'Images.resize:', xf, yf, self._card[0].width(), self.CARDW
-        if self._xfactor == xf and self._yfactor == yf:
+        if (self._xfactor == xf and self._yfactor == yf
+                and self._resampling == resample):
             # print 'no resize'
             return
         self._xfactor = xf
         self._yfactor = yf
+        self._resampling = resample
         # ???self._setSize(xf, yf)
         self.setOffsets()
         # cards
         cards = []
         for c in self._card:
-            c = c.resize(xf, yf)
+            c = c.resize(xf, yf, resample=resample)
             cards.append(c)
         self._card = cards
         # back
         for b in self._back:
-            b.image = b.image.resize(xf, yf)
+            b.image = b.image.resize(xf, yf, resample=resample)
 
         # stack bottom image
         neg = self._bottom is self._bottom_negative  # dont know
@@ -455,11 +458,11 @@ class Images:
         bottom_negative = []
         bottom_positive = []
         for c in self._bottom_negative:
-            c = c.resize(xf, yf)
+            c = c.resize(xf, yf, resample=resample)
             bottom_negative.append(c)
         self._bottom_negative = bottom_negative
         for c in self._bottom_positive:
-            c = c.resize(xf, yf)
+            c = c.resize(xf, yf, resample=resample)
             bottom_positive.append(c)
         self._bottom_positive = bottom_positive
 
@@ -467,11 +470,11 @@ class Images:
         letter_negative = []
         letter_positive = []
         for c in self._letter_negative:
-            c = c.resize(xf, yf)
+            c = c.resize(xf, yf, resample=resample)
             letter_negative.append(c)
         self._letter_negative = letter_negative
         for c in self._letter_positive:
-            c = c.resize(xf, yf)
+            c = c.resize(xf, yf, resample=resample)
             letter_positive.append(c)
         self._letter_positive = letter_positive
 

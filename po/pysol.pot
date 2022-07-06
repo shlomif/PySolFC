@@ -4663,6 +4663,30 @@ msgstr ""
 msgid "&Preserve aspect ratio"
 msgstr ""
 
+msgid "R&esampling"
+msgstr ""
+
+msgid "&Nearest Neighbor"
+msgstr ""
+
+msgid "&Bilinear"
+msgstr ""
+
+msgid "B&icubic"
+msgstr ""
+
+msgid "&Lanczos"
+msgstr ""
+
+msgid "&Antialiasing"
+msgstr ""
+
+msgid "B&ox"
+msgstr ""
+
+msgid "&Hamming"
+msgstr ""
+
 msgid "Card la&yout"
 msgstr ""
 

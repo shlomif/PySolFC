@@ -71,6 +71,46 @@ def createToolbarMenu(menubar, menu):
                          command=menubar.mOptToolbar)
 
 
+def createResamplingMenu(menubar, menu):
+    tearoff = menu.cget('tearoff')
+    submenu = MfxMenu(menu, label=n_('R&esampling'), tearoff=tearoff)
+
+    submenu.add_radiobutton(label=n_("&Nearest Neighbor"),
+                            variable=menubar.tkopt.resampling,
+                            value=int(Image.NEAREST),
+                            command=menubar.mOptResampling)
+    if Image.BILINEAR:
+        submenu.add_radiobutton(label=n_("&Bilinear"),
+                                variable=menubar.tkopt.resampling,
+                                value=int(Image.BILINEAR),
+                                command=menubar.mOptResampling)
+    if Image.BICUBIC:
+        submenu.add_radiobutton(label=n_("B&icubic"),
+                                variable=menubar.tkopt.resampling,
+                                value=int(Image.BICUBIC),
+                                command=menubar.mOptResampling)
+    if Image.LANCZOS:
+        submenu.add_radiobutton(label=n_("&Lanczos"),
+                                variable=menubar.tkopt.resampling,
+                                value=int(Image.LANCZOS),
+                                command=menubar.mOptResampling)
+    elif Image.ANTIALIAS:
+        submenu.add_radiobutton(label=n_("&Antialiasing"),
+                                variable=menubar.tkopt.resampling,
+                                value=int(Image.ANTIALIAS),
+                                command=menubar.mOptResampling)
+    if Image.BOX:
+        submenu.add_radiobutton(label=n_("B&ox"),
+                                variable=menubar.tkopt.resampling,
+                                value=int(Image.BOX),
+                                command=menubar.mOptResampling)
+    if Image.HAMMING:
+        submenu.add_radiobutton(label=n_("&Hamming"),
+                                variable=menubar.tkopt.resampling,
+                                value=int(Image.HAMMING),
+                                command=menubar.mOptResampling)
+
+
 # ************************************************************************
 # *
 # ************************************************************************
@@ -177,6 +217,7 @@ class PysolMenubarTkCommon:
             sound=tkinter.BooleanVar(),
             auto_scale=tkinter.BooleanVar(),
             preserve_aspect_ratio=tkinter.BooleanVar(),
+            resampling=tkinter.IntVar(),
             spread_stacks=tkinter.BooleanVar(),
             center_layout=tkinter.BooleanVar(),
             save_games_geometry=tkinter.BooleanVar(),
@@ -236,6 +277,7 @@ class PysolMenubarTkCommon:
         tkopt.sound.set(opt.sound)
         tkopt.auto_scale.set(opt.auto_scale)
         tkopt.preserve_aspect_ratio.set(opt.preserve_aspect_ratio)
+        tkopt.resampling.set(opt.resampling)
         tkopt.spread_stacks.set(opt.spread_stacks)
         tkopt.center_layout.set(opt.center_layout)
         tkopt.save_games_geometry.set(opt.save_games_geometry)
@@ -570,6 +612,8 @@ class PysolMenubarTkCommon:
                 label=n_("&Preserve aspect ratio"),
                 variable=self.tkopt.preserve_aspect_ratio,
                 command=self.mOptPreserveAspectRatio)
+            submenu.add_separator()
+            createResamplingMenu(self, submenu)
             submenu = MfxMenu(menu, label=n_("Card la&yout"))
             submenu.add_checkbutton(
                 label=n_("&Spread stacks"), variable=self.tkopt.spread_stacks,
@@ -1601,6 +1645,15 @@ Unsupported game for import.
 
         self.app.opt.preserve_aspect_ratio = preserve_aspect_ratio
         self.tkopt.preserve_aspect_ratio.set(preserve_aspect_ratio)
+        self._updateCardSize()
+
+    def mOptResampling(self, *event):
+        if self._cancelDrag(break_pause=False):
+            return
+        resampling = self.tkopt.resampling.get()
+        self.app.opt.resampling = resampling
+        self.tkopt.resampling.set(resampling)  # update radiobutton
+        self.app.opt.resampling = (self.tkopt.resampling.get())
         self._updateCardSize()
 
     def mOptSpreadStacks(self, *event):

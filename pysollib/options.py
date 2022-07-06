@@ -28,7 +28,7 @@ import traceback
 import configobj
 
 import pysollib.settings
-from pysollib.mfxutil import USE_PIL, print_err
+from pysollib.mfxutil import Image, USE_PIL, print_err
 from pysollib.mygettext import _
 from pysollib.mygettext import myGettext
 from pysollib.pysoltk import TOOLBAR_BUTTONS, TOOLKIT
@@ -204,6 +204,7 @@ scale_y = float
 auto_scale = boolean
 spread_stacks = boolean
 preserve_aspect_ratio = boolean
+resampling = integer(0, 10)
 '''.splitlines()
 
 
@@ -457,6 +458,9 @@ class Options:
         self.spread_stacks = False
         self.center_layout = True
         self.preserve_aspect_ratio = True
+        self.resampling = 0
+        if USE_PIL:
+            self.resampling = int(Image.ANTIALIAS)
         # solver
         self.solver_presets = [
             'none',
@@ -611,7 +615,7 @@ class Options:
             config['cardsets'][str(key)] = val
         for key in ('scale_cards', 'scale_x', 'scale_y',
                     'auto_scale', 'spread_stacks',
-                    'preserve_aspect_ratio'):
+                    'preserve_aspect_ratio', 'resampling'):
             config['cardsets'][key] = getattr(self, key)
 
         # games_geometry
@@ -782,7 +786,8 @@ class Options:
                        ('scale_y', 'float'),
                        ('auto_scale', 'bool'),
                        ('spread_stacks', 'bool'),
-                       ('preserve_aspect_ratio', 'bool')):
+                       ('preserve_aspect_ratio', 'bool'),
+                       ('resampling', 'int')):
             val = self._getOption('cardsets', key, t)
             if val is not None:
                 setattr(self, key, val)

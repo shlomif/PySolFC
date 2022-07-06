@@ -288,12 +288,12 @@ if Image:
             im = PIL_Image(image=im)
             return im
 
-        def resize(self, xf, yf):
+        def resize(self, xf, yf, resample=Image.ANTIALIAS):
 
             w, h = self._pil_image_orig.size
             w0, h0 = int(w*xf), int(h*yf)
 
-            im = self._pil_image_orig.resize((w0, h0), Image.ANTIALIAS)
+            im = self._pil_image_orig.resize((w0, h0), resample)
 
             try:
                 findsum = findfile(self._pil_image_orig.filename)

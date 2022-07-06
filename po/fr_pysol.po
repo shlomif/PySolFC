@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: 1.02\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2022-06-04 21:35-0400\n"
+"PO-Revision-Date: 2022-07-06 18:33-0400\n"
 "Last-Translator: Eric Rausch <neelix570@gmail.com>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -4911,6 +4911,30 @@ msgstr "Échelle &automatique"
 #| msgid "Preserve aspect ratio"
 msgid "&Preserve aspect ratio"
 msgstr "Conserver le ratio"
+
+msgid "R&esampling"
+msgstr ""
+
+msgid "&Nearest Neighbor"
+msgstr ""
+
+msgid "&Bilinear"
+msgstr ""
+
+msgid "B&icubic"
+msgstr ""
+
+msgid "&Lanczos"
+msgstr ""
+
+msgid "&Antialiasing"
+msgstr ""
+
+msgid "B&ox"
+msgstr ""
+
+msgid "&Hamming"
+msgstr ""
 
 msgid "Card la&yout"
 msgstr ""

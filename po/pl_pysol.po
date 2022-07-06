@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2022-06-04 21:35-0400\n"
+"PO-Revision-Date: 2022-07-06 18:32-0400\n"
 "Last-Translator: Jerzy Trzeciak <artusek@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
@@ -5034,6 +5034,30 @@ msgid "&Auto scaling"
 msgstr "Przekładaj automatycznie"
 
 msgid "&Preserve aspect ratio"
+msgstr ""
+
+msgid "R&esampling"
+msgstr ""
+
+msgid "&Nearest Neighbor"
+msgstr ""
+
+msgid "&Bilinear"
+msgstr ""
+
+msgid "B&icubic"
+msgstr ""
+
+msgid "&Lanczos"
+msgstr ""
+
+msgid "&Antialiasing"
+msgstr ""
+
+msgid "B&ox"
+msgstr ""
+
+msgid "&Hamming"
 msgstr ""
 
 msgid "Card la&yout"

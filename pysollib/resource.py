@@ -217,6 +217,42 @@ class CSI:
         9: "trumps-only",
     }
 
+    TYPE_SUITS = {
+        1: "cshd",
+        2: "abcdefghijkl",
+        3: "cshd",
+        4: "abc",
+        5: "cshd",
+        6: "abcdefgh",
+        7: "abcdefghi",
+        8: "abcdefghij",
+        9: "",
+    }
+
+    TYPE_RANKS = {
+        1: list(range(13)),
+        2: list(range(4)),
+        3: list(range(14)),
+        4: list(range(10)),
+        5: list(range(16)),
+        6: list(range(12)),
+        7: list(range(12)),
+        8: list(range(12)),
+        9: list(range(0)),
+    }
+
+    TYPE_TRUMPS = {
+        1: (),
+        2: (),
+        3: list(range(22)),
+        4: list(range(12)),
+        5: list(range(4)),
+        6: (),
+        7: (),
+        8: (),
+        9: (),
+    }
+
     # cardset styles
     STYLE = {
         1:  _("Adult"),                #
@@ -408,44 +444,28 @@ class CardsetManager(ResourceManager):
         if s not in CSI.TYPE:
             return 0
         cs.si.type = s
+        cs.suits = CSI.TYPE_SUITS[s]
+        cs.ranks = CSI.TYPE_RANKS[s]
+        cs.trumps = CSI.TYPE_TRUMPS[s]
         if s == CSI.TYPE_FRENCH:
-            cs.ranks = list(range(13))
-            cs.suits = "cshd"
+            pass
         elif s == CSI.TYPE_HANAFUDA:
             cs.nbottoms = 15
-            cs.ranks = list(range(4))
-            cs.suits = "abcdefghijkl"
         elif s == CSI.TYPE_TAROCK:
             cs.nbottoms = 8
-            cs.ranks = list(range(14))
-            cs.suits = "cshd"
-            cs.trumps = list(range(22))
         elif s == CSI.TYPE_MAHJONGG:
-            cs.ranks = list(range(10))
-            cs.suits = "abc"
-            cs.trumps = list(range(12))
-            #
             cs.nbottoms = 0
             cs.nletters = 0
             cs.nshadows = 0
         elif s == CSI.TYPE_HEXADECK:
             cs.nbottoms = 8
-            cs.ranks = list(range(16))
-            cs.suits = "cshd"
-            cs.trumps = list(range(4))
         elif s == CSI.TYPE_MUGHAL_GANJIFA:
             cs.nbottoms = 11
-            cs.ranks = list(range(12))
-            cs.suits = "abcdefgh"
         elif s == CSI.TYPE_NAVAGRAHA_GANJIFA:
             # ???return 0                            ## FIXME
             cs.nbottoms = 12
-            cs.ranks = list(range(12))
-            cs.suits = "abcdefghi"
         elif s == CSI.TYPE_DASHAVATARA_GANJIFA:
             cs.nbottoms = 13
-            cs.ranks = list(range(12))
-            cs.suits = "abcdefghij"
         elif s == CSI.TYPE_TRUMP_ONLY:
             # ???return 0                            ## FIXME
             # cs.nbottoms = 7
@@ -455,8 +475,6 @@ class CardsetManager(ResourceManager):
             cs.nbottoms = 1
             cs.nletters = 0
             cs.nshadows = 0
-            cs.ranks = ()
-            cs.suits = ""
             cs.trumps = list(range(cs.ncards))
 
         else:

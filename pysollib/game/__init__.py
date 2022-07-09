@@ -3415,7 +3415,8 @@ class Game(object):
 
     # for find_card_dialog
     def canFindCard(self):
-        return self.gameinfo.category == GI.GC_FRENCH
+        return (self.gameinfo.category == GI.GC_FRENCH or
+                self.gameinfo.category == GI.GC_HANAFUDA)
 
     #
     # subclass hooks

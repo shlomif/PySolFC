@@ -929,7 +929,7 @@ msgid "Children"
 msgstr "Kinder"
 
 #: pysollib/resource.py:225
-msgid "Classic look"
+msgid "Classic Look"
 msgstr "Klassisches Aussehen"
 
 #: pysollib/resource.py:226
@@ -989,7 +989,7 @@ msgid "Products"
 msgstr "Produkte"
 
 #: pysollib/resource.py:244
-msgid "Round cardsets"
+msgid "Round Cardsets"
 msgstr "Runde Kartensets"
 
 #: pysollib/resource.py:245
@@ -1001,7 +1001,7 @@ msgid "Sports"
 msgstr "Sport"
 
 #: pysollib/resource.py:248
-msgid "Vehicels"
+msgid "Vehicles"
 msgstr "Vehikel"
 
 #: pysollib/resource.py:249

@@ -55,7 +55,7 @@ Cardsets Styles:
 * Art = 4
 * Cartoons = 5
 * Children = 6
-* Classic look = 7
+* Classic Look = 7
 * Collectors = 8
 * Computers = 9
 * Engines = 10
@@ -74,7 +74,7 @@ Cardsets Styles:
 * Places = 20
 * Plain = 21
 * Products = 22
-* Round cardsets = 18
+* Round Cardsets = 18
 * Science Fiction = 23
 * Sports = 24
 * Tarock = 27

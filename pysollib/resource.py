@@ -261,7 +261,7 @@ class CSI:
         4:  _("Art"),                  #
         5:  _("Cartoons"),             #
         6:  _("Children"),             #
-        7:  _("Classic look"),         #
+        7:  _("Classic Look"),         #
         8:  _("Collectors"),           # scanned collectors cardsets
         9:  _("Computers"),            #
         10:  _("Engines"),              #
@@ -280,11 +280,11 @@ class CSI:
         20:  _("Places"),               #
         21:  _("Plain"),                #
         22:  _("Products"),             #
-        18:  _("Round cardsets"),       #
+        18:  _("Round Cardsets"),       #
         23:  _("Science Fiction"),      #
         24:  _("Sports"),               #
         27:  _("Tarock"),               #
-        25:  _("Vehicels"),             #
+        25:  _("Vehicles"),             #
         26:  _("Video Games"),          #
     }
 

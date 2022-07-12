@@ -86,7 +86,11 @@ class FindCardDialog(tkinter.Toplevel):
         im = FindCardDialog.CARD_IMAGES.get((self.cardsettype, rank, suit))
         if im is None:
             r = '%02d' % (rank+1)
-            s = CSI.TYPE_SUITS[self.cardsettype][suit]
+            suitletters = CSI.TYPE_SUITS[self.cardsettype]
+            if suit < len(suitletters):
+                s = suitletters[suit]
+            else:
+                s = "z"
             fn = os.path.join(dir, r+s+'.gif')
             im = makeImage(file=fn)
             FindCardDialog.CARD_IMAGES[(self.cardsettype, rank, suit)] = im
@@ -117,6 +121,7 @@ class FindCardDialog(tkinter.Toplevel):
         self.game = game
         suits = game.gameinfo.suits
         ranks = game.gameinfo.ranks
+        trumps = game.gameinfo.trumps
         dx, dy = self.label_width, self.label_height
         uniq_suits = []
         i = 0
@@ -130,6 +135,19 @@ class FindCardDialog(tkinter.Toplevel):
                 self.createCardLabel(suit=suit, rank=rank, x0=x, y0=y)
                 j += 1
             i += 1
+
+        if len(trumps) > 0:
+            i += .5
+            k = 0
+            for trump in trumps:
+                x, y = dx * k + 2, dy * i + 2
+                self.createCardLabel(suit=len(suits), rank=trump, x0=x, y0=y)
+                k += 1
+                if k >= j:
+                    k = 0
+                    i += 1
+            i += 1
+
         w, h = dx*j+2, dy*i+2
         self.canvas.config(width=w, height=h)
         self.wm_iconname(TITLE + " - " + game.getTitleName())

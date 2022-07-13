@@ -720,19 +720,20 @@ class Eclipse(Gypsy):
 
 # ************************************************************************
 # * Brazilian Patience
+# * (Removed as it's a duplicate of Hypotenuse)
 # ************************************************************************
 
-class BrazilianPatience(Gypsy):
-    Layout_Method = staticmethod(Layout.klondikeLayout)
-    RowStack_Class = KingAC_RowStack
+# class BrazilianPatience(Gypsy):
+#     Layout_Method = staticmethod(Layout.klondikeLayout)
+#     RowStack_Class = KingAC_RowStack
 
-    def createGame(self):
-        Gypsy.createGame(self, rows=10, playcards=22)
+#     def createGame(self):
+#         Gypsy.createGame(self, rows=10, playcards=22)
 
-    def startGame(self, flip=0, reverse=1):
-        for i in range(1, 10):
-            self.s.talon.dealRow(rows=self.s.rows[i:], flip=0, frames=0)
-        self._startAndDealRow()
+#     def startGame(self, flip=0, reverse=1):
+#         for i in range(1, 10):
+#             self.s.talon.dealRow(rows=self.s.rows[i:], flip=0, frames=0)
+#         self._startAndDealRow()
 
 
 # ************************************************************************
@@ -1035,7 +1036,8 @@ registerGame(GameInfo(487, Millie, "Millie",
 registerGame(GameInfo(498, Steve, "Steve",
                       GI.GT_GYPSY, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(566, Hypotenuse, "Hypotenuse",
-                      GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL,
+                      altnames=("Brazilian Patience",)))
 registerGame(GameInfo(567, EternalTriangle, "Eternal Triangle",
                       GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL,
                       altnames=('Lobachevsky',)))
@@ -1047,8 +1049,8 @@ registerGame(GameInfo(581, Flamenco, "Flamenco",
                       GI.GT_GYPSY | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(584, Eclipse, "Eclipse",
                       GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
-registerGame(GameInfo(640, BrazilianPatience, "Brazilian Patience",
-                      GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
+# registerGame(GameInfo(640, BrazilianPatience, "Brazilian Patience",
+#                       GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(666, TrapdoorSpider, "Trapdoor Spider",
                       GI.GT_SPIDER | GI.GT_ORIGINAL, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(712, Leprechaun, "Leprechaun",

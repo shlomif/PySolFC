@@ -285,6 +285,7 @@ class GI:
          237: 22231,            # Three Peaks
          297: 631,              # Alternation/Alternations
          526: 447,              # Australian/Outback Patience
+         640: 566,              # Hypotenuse/Brazilian Patience
     }
 
     # For games by compatibility, note that missing games may actually

@@ -473,7 +473,7 @@ class AShuffleStackMove(AtomicMove):
     def cmpForRedo(self, other):
         return (cmp(self.stack_id, other.stack_id) or
                 cmp(self.card_ids, other.card_ids) or
-                cmp(self.state, other.state))
+                self.state != other.state)
 
 
 # ************************************************************************

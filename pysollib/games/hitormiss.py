@@ -83,7 +83,7 @@ class HitOrMiss_Waste(WasteStack):
             game.deadDeals = 0
             game.saveStateMove(1 | 16)  # for redo
             game.leaveState(old_state)
-        WasteStack.moveMove(ncards, to_stack, frames, shadow)
+        WasteStack.moveMove(self, ncards, to_stack, frames, shadow)
         game.s.talon.dealCards()
 
 
@@ -153,9 +153,6 @@ class HitOrMiss(Game):
     def getState(self):
         # save vars (for undo/redo)
         return [self.rank, self.deadDeals]
-
-    def getAutoStacks(self, event=None):
-        return ((), (), ())
 
 
 # register the game

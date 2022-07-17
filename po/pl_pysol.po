@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2022-07-06 18:32-0400\n"
+"PO-Revision-Date: 2022-07-17 09:19-0400\n"
 "Last-Translator: Jerzy Trzeciak <artusek@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
@@ -3618,6 +3618,12 @@ msgstr "Ruchy/Ruchy ogółem"
 #: pysollib/tk/statusbar.py:154
 msgid "Games played: won/lost"
 msgstr "Gry rozegrane: wygrane/przegrane"
+
+msgid "Number of cards"
+msgstr ""
+
+msgid "Help info"
+msgstr ""
 
 #: pysollib/pysolgtk/tkhtml.py:437 pysollib/ui/tktile/tkhtml.py:314
 #, fuzzy, python-format

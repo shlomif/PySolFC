@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2022-07-06 18:31-0400\n"
+"PO-Revision-Date: 2022-07-17 09:18-0400\n"
 "Last-Translator: Skomoroh <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
@@ -3588,6 +3588,12 @@ msgstr "Ходов/Всего ходов"
 #: pysollib/tk/statusbar.py:154
 msgid "Games played: won/lost"
 msgstr "Игр: выиграно/проиграно"
+
+msgid "Number of cards"
+msgstr ""
+
+msgid "Help info"
+msgstr ""
 
 #: pysollib/pysolgtk/tkhtml.py:437 pysollib/ui/tktile/tkhtml.py:314
 #, python-format

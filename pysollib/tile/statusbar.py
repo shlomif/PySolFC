@@ -155,10 +155,11 @@ class PysolStatusbar(MfxStatusbar):
             ('moves',       _('Moves/Total moves'),       10),
             ('gamenumber',  _('Game number'),             26),
             ('stats',       _('Games played: won/lost'),  12),
+            ('info',        _('Number of cards'),         12),
                 ):
             self._createLabel(n, tooltip=t, width=w)
         #
-        label = self._createLabel('info', expand=True)
+        label = self._createLabel('help', expand=True)
         label.config(padding=(8, 0))
         self._createSizegrip()
 

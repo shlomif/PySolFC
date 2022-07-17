@@ -31,7 +31,7 @@ import pysollib.settings
 from pysollib.mfxutil import Image, USE_PIL, print_err
 from pysollib.mygettext import _
 from pysollib.mygettext import myGettext
-from pysollib.pysoltk import TOOLBAR_BUTTONS, TOOLKIT
+from pysollib.pysoltk import STATUSBAR_ITEMS, TOOLBAR_BUTTONS, TOOLKIT
 from pysollib.resource import CSI
 
 
@@ -127,6 +127,7 @@ center_layout = boolean
 recent_gameid = int_list
 favorite_gameid = int_list
 visible_buttons = string_list
+visible_status = string_list
 translate_game_names = boolean
 solver_presets = string_list
 solver_show_progress = boolean
@@ -250,10 +251,10 @@ class Options:
         ('toolbar_compound', 'str'),
         ('toolbar_size', 'int'),
         ('statusbar', 'bool'),
-        ('statusbar_game_number', 'bool'),
-        ('statusbar_stuck', 'bool'),
-        ('num_cards', 'bool'),
-        ('helpbar', 'bool'),
+        # ('statusbar_game_number', 'bool'),
+        # ('statusbar_stuck', 'bool'),
+        # ('num_cards', 'bool'),
+        # ('helpbar', 'bool'),
         ('num_recent_games', 'int'),
         ('last_gameid', 'int'),
         ('game_holded', 'int'),
@@ -349,11 +350,14 @@ class Options:
         self.toolbar_vars = {}
         for w in TOOLBAR_BUTTONS:
             self.toolbar_vars[w] = True  # show all buttons
+        self.statusbar_vars = {}
+        for w, x in STATUSBAR_ITEMS:
+            self.statusbar_vars[w] = True
         self.statusbar = True
-        self.statusbar_game_number = False  # show game number in statusbar
-        self.statusbar_stuck = False        # show stuck indicator
-        self.num_cards = False
-        self.helpbar = False
+        # self.statusbar_game_number = False  # show game number in statusbar
+        # self.statusbar_stuck = False        # show stuck indicator
+        # self.num_cards = False
+        # self.helpbar = False
         self.splashscreen = True
         self.date_format = '%m-%d'
         self.mouse_button1 = 1
@@ -590,6 +594,9 @@ class Options:
         visible_buttons = [b for b in self.toolbar_vars
                            if self.toolbar_vars[b]]
         config['general']['visible_buttons'] = visible_buttons
+        visible_status = [b for b in self.statusbar_vars
+                          if self.statusbar_vars[b]]
+        config['general']['visible_status'] = visible_status
         if 'none' in config['general']['solver_presets']:
             config['general']['solver_presets'].remove('none')
 
@@ -731,6 +738,10 @@ class Options:
         if visible_buttons is not None:
             for key in TOOLBAR_BUTTONS:
                 self.toolbar_vars[key] = (key in visible_buttons)
+        visible_status = self._getOption('general', 'visible_status', 'list')
+        if visible_status is not None:
+            for key, label in STATUSBAR_ITEMS:
+                self.statusbar_vars[key] = (key in visible_status)
 
         myGettext.language = self.language
 

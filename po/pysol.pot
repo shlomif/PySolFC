@@ -3343,6 +3343,12 @@ msgstr ""
 msgid "Games played: won/lost"
 msgstr ""
 
+msgid "Number of cards"
+msgstr ""
+
+msgid "Help info"
+msgstr ""
+
 #: pysollib/pysolgtk/tkhtml.py:437 pysollib/ui/tktile/tkhtml.py:314
 #, python-format
 msgid ""

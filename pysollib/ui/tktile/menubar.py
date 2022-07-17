@@ -13,7 +13,7 @@ from pysollib.settings import TITLE, WIN_SYSTEM
 from pysollib.settings import USE_FREECELL_SOLVER
 from pysollib.ui.tktile.tkconst import COMPOUNDS, CURSOR_WATCH, EVENT_HANDLED
 from pysollib.ui.tktile.tkconst import EVENT_PROPAGATE
-from pysollib.ui.tktile.tkconst import TOOLBAR_BUTTONS
+from pysollib.ui.tktile.tkconst import STATUSBAR_ITEMS, TOOLBAR_BUTTONS
 from pysollib.ui.tktile.tkutil import after_idle, bind
 
 from six.moves import tkinter
@@ -69,6 +69,18 @@ def createToolbarMenu(menubar, menu):
     menu.add_radiobutton(label=n_("Right"),
                          variable=menubar.tkopt.toolbar, value=4,
                          command=menubar.mOptToolbar)
+
+
+def createStatusbarMenu(menubar, menu):
+    menu.add_checkbutton(
+        label=n_("Show &statusbar"), variable=menubar.tkopt.statusbar,
+        command=menubar.mOptStatusbar)
+    menu.add_separator()
+    for comp, label in STATUSBAR_ITEMS:
+        menu.add_checkbutton(
+            label=label,
+            variable=menubar.tkopt.statusbar_vars[comp],
+            command=lambda m=menubar, w=comp: m.mOptStatusbarConfig(w))
 
 
 def createResamplingMenu(menubar, menu):
@@ -247,9 +259,12 @@ class PysolMenubarTkCommon:
             pause=tkinter.BooleanVar(),
             theme=tkinter.StringVar(),
             toolbar_vars={},
+            statusbar_vars={},
         )
         for w in TOOLBAR_BUTTONS:
             self.tkopt.toolbar_vars[w] = tkinter.BooleanVar()
+        for w, x in STATUSBAR_ITEMS:
+            self.tkopt.statusbar_vars[w] = tkinter.BooleanVar()
 
     def _setOptions(self):
         tkopt, opt = self.tkopt, self.app.opt
@@ -295,8 +310,8 @@ class PysolMenubarTkCommon:
         tkopt.toolbar_size.set(opt.toolbar_size)
         tkopt.toolbar_relief.set(opt.toolbar_relief)
         tkopt.statusbar.set(opt.statusbar)
-        tkopt.num_cards.set(opt.num_cards)
-        tkopt.helpbar.set(opt.helpbar)
+        # tkopt.num_cards.set(opt.num_cards)
+        # tkopt.helpbar.set(opt.helpbar)
         tkopt.demo_logo.set(opt.demo_logo)
         tkopt.splashscreen.set(opt.splashscreen)
         tkopt.mouse_type.set(opt.mouse_type)
@@ -304,6 +319,8 @@ class PysolMenubarTkCommon:
         tkopt.negative_bottom.set(opt.negative_bottom)
         for w in TOOLBAR_BUTTONS:
             tkopt.toolbar_vars[w].set(opt.toolbar_vars.get(w, False))
+        for w, x in STATUSBAR_ITEMS:
+            tkopt.statusbar_vars[w].set(opt.statusbar_vars.get(w, False))
 
     def connectGame(self, game):
         self.game = game
@@ -714,15 +731,7 @@ class PysolMenubarTkCommon:
         submenu = MfxMenu(menu, label=n_("&Toolbar"))
         createToolbarMenu(self, submenu)
         submenu = MfxMenu(menu, label=n_("Stat&usbar"))
-        submenu.add_checkbutton(
-            label=n_("Show &statusbar"), variable=self.tkopt.statusbar,
-            command=self.mOptStatusbar)
-        submenu.add_checkbutton(
-            label=n_("Show &number of cards"), variable=self.tkopt.num_cards,
-            command=self.mOptNumCards)
-        submenu.add_checkbutton(
-            label=n_("Show &help bar"), variable=self.tkopt.helpbar,
-            command=self.mOptHelpbar)
+        createStatusbarMenu(self, submenu)
         menu.add_checkbutton(
             label=n_("&Demo logo"), variable=self.tkopt.demo_logo,
             command=self.mOptDemoLogo)
@@ -1768,6 +1777,9 @@ Unsupported game for import.
         if self.app.statusbar.show(side, resize=resize):
             self.top.update_idletasks()
 
+    def mOptStatusbarConfig(self, w):
+        self.statusbarConfig(w, self.tkopt.statusbar_vars[w].get())
+
     def mOptNumCards(self, *event):
         if self._cancelDrag(break_pause=False):
             return
@@ -1919,6 +1931,13 @@ Error while saving game.
             return
         self.app.opt.toolbar_vars[w] = v
         self.app.toolbar.config(w, v)
+        self.top.update_idletasks()
+
+    def statusbarConfig(self, w, v):
+        if self._cancelDrag(break_pause=False):
+            return
+        self.app.opt.statusbar_vars[w] = v
+        self.app.statusbar.config(w, v)
         self.top.update_idletasks()
 
     #

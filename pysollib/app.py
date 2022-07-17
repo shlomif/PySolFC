@@ -46,7 +46,7 @@ from pysollib.mygettext import _
 from pysollib.options import Options
 from pysollib.pysolrandom import PysolRandom, construct_random
 from pysollib.pysoltk import HTMLViewer
-from pysollib.pysoltk import HelpStatusbar, PysolStatusbar
+from pysollib.pysoltk import PysolStatusbar
 from pysollib.pysoltk import MfxDialog, MfxExceptionDialog, MfxMessageDialog
 from pysollib.pysoltk import MfxScrolledCanvas, TclError
 from pysollib.pysoltk import PysolProgressBar
@@ -356,10 +356,8 @@ class Application:
         # create the statusbar(s)
         self.statusbar = PysolStatusbar(self.top)
         self.statusbar.show(self.opt.statusbar)
-        self.statusbar.config('gamenumber', self.opt.statusbar_game_number)
-        self.statusbar.config('stuck', self.opt.statusbar_stuck)
-        self.helpbar = HelpStatusbar(self.top)
-        self.helpbar.show(self.opt.helpbar)
+        for w, v in self.opt.statusbar_vars.items():
+            self.statusbar.config(w, v)
         # create the canvas
         self.scrolled_canvas = MfxScrolledCanvas(self.top, propagate=True)
         self.canvas = self.scrolled_canvas.canvas

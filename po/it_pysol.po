@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: it_pysol\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2022-07-06 18:32-0400\n"
+"PO-Revision-Date: 2022-07-17 09:19-0400\n"
 "Last-Translator: Giuliano Colla <giuliano.colla@gmail.com>\n"
 "Language-Team: Italiano <it@li.org>\n"
 "Language: it\n"
@@ -3577,6 +3577,12 @@ msgstr "Mosse/Mosse totali"
 #: pysollib/tk/statusbar.py:154
 msgid "Games played: won/lost"
 msgstr "Giocati: vinti/perduti"
+
+msgid "Number of cards"
+msgstr ""
+
+msgid "Help info"
+msgstr ""
 
 #: pysollib/pysolgtk/tkhtml.py:437 pysollib/ui/tktile/tkhtml.py:314
 #, python-format

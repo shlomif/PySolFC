@@ -3382,10 +3382,10 @@ class Game(object):
         kw = dict([(args[i], args[i+1]) for i in range(0, len(args), 2)])
         if not kw:
             kw = {'info': '', 'help': ''}
-        if 'info' in kw and self.app.opt.statusbar and self.app.opt.num_cards:
+        if 'info' in kw and self.app.opt.statusbar:
             self.app.statusbar.updateText(info=kw['info'])
-        if 'help' in kw and self.app.opt.helpbar:
-            self.app.helpbar.updateText(info=kw['help'])
+        if 'help' in kw and self.app.opt.statusbar:
+            self.app.statusbar.updateText(help=kw['help'])
 
     #
     # Piles descriptions

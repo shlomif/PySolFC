@@ -46,10 +46,10 @@ from pysollib.mygettext import _
 from pysollib.options import Options
 from pysollib.pysolrandom import PysolRandom, construct_random
 from pysollib.pysoltk import HTMLViewer
-from pysollib.pysoltk import PysolStatusbar
 from pysollib.pysoltk import MfxDialog, MfxExceptionDialog, MfxMessageDialog
 from pysollib.pysoltk import MfxScrolledCanvas, TclError
 from pysollib.pysoltk import PysolProgressBar
+from pysollib.pysoltk import PysolStatusbar
 from pysollib.pysoltk import SelectCardsetDialogWithPreview
 from pysollib.pysoltk import SelectDialogTreeData
 from pysollib.pysoltk import destroy_find_card_dialog

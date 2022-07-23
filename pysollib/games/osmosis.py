@@ -253,7 +253,7 @@ class Genesis(Game):
         l, s = Layout(self), self.s
 
         # set window
-        w, h = l.XM+rows*l.XS, l.YM+2*l.YS+20*l.YOFFSET
+        w, h = l.XM + rows * l.XS, l.YM + (3 * l.YS) + (15 * l.YOFFSET)
         self.setSize(w, h)
 
         # create stacks

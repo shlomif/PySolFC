@@ -367,6 +367,8 @@ class Primrose(Interregnum):
 
 # ************************************************************************
 # * Colorado
+# * Double Line
+# * Grandfather
 # ************************************************************************
 
 class Colorado_RowStack(OpenStack):
@@ -396,7 +398,7 @@ class Colorado(Game):
             roff = l.YOFFSET * (tableau_max - 1)
 
         self.setSize(l.XM + 10 * l.XS,
-                     l.YM + 4 * l.YS + l.TEXT_HEIGHT + (2 * roff))
+                     l.YM + 4 * l.YS + (2 * l.TEXT_HEIGHT) + (2 * roff))
 
         # create stacks
         x, y, = l.XS, l.YM
@@ -422,13 +424,14 @@ class Colorado(Game):
                 x += l.XS
             y += l.YS + roff
 
-        x, y = l.XM + 9 * l.XS, self.height - l.YS
+        x, y = l.XM + 9 * l.XS, self.height - l.YS - l.TEXT_HEIGHT
         s.talon = WasteTalonStack(x, y, self, max_rounds=max_rounds)
-        l.createText(s.talon, "n")
+        l.createText(s.talon, "s")
         x -= l.XS
         s.waste = WasteStack(x, y, self, max_cards=waste_max)
+        l.createText(s.waste, "s")
         if max_rounds > 1:
-            l.createRoundText(s.waste, "s")
+            l.createRoundText(s.talon, "n")
 
         # define stack-groups
         l.defaultStackGroups()
@@ -460,8 +463,8 @@ class Grandfather_RowStack(BasicRowStack):
 class Grandfather(Colorado):
     RowStack_Class = Grandfather_RowStack
 
-    def createGame(self):
-        Colorado.createGame(self, waste_max=999999, max_rounds=2,
+    def createGame(self, max_rounds=2):
+        Colorado.createGame(self, waste_max=999999, max_rounds=max_rounds,
                             tableau_max=2)
 
     def startGame(self):
@@ -471,6 +474,12 @@ class Grandfather(Colorado):
 
     def _shuffleHook(self, cards):
         return cards
+
+
+class DoubleLine(Grandfather):
+
+    def createGame(self):
+        Grandfather.createGame(self, max_rounds=1)
 
 
 # ************************************************************************
@@ -664,5 +673,7 @@ registerGame(GameInfo(636, StrategyPlus, "Strategy +",
                       GI.GT_NUMERICA, 1, 0, GI.SL_SKILL))
 registerGame(GameInfo(688, Formic, "Formic",
                       GI.GT_NUMERICA, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(702, DoubleLine, "Double Line",
+                      GI.GT_NUMERICA, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(853, Grandfather, "Grandfather",
                       GI.GT_NUMERICA, 2, 1, GI.SL_BALANCED))

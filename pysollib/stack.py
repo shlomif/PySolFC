@@ -1123,7 +1123,7 @@ class Stack:
         if start_drag:
             # this handler may start a drag operation
             r = handler(event)
-            if r <= 0:
+            if r is not None and r <= 0:
                 sound = r == 0
                 self.startDrag(event, sound=sound)
         else:

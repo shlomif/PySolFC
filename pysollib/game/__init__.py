@@ -1110,7 +1110,7 @@ class Game(object):
     def leaveState(self, old_state):
         self.moves.state = old_state
 
-    def getSnapshot(self):
+    def getSnapshotHash(self):
         # generate hash (unique string) of current move
         sn = []
         for stack in self.allstacks:
@@ -1119,8 +1119,11 @@ class Game(object):
                 s.append('%d%03d%d' % (card.suit, card.rank, card.face_up))
             sn.append(''.join(s))
         sn = '-'.join(sn)
+        return sn
+
+    def getSnapshot(self):
         # optimisation
-        sn = hash(sn)
+        sn = hash(self.getSnapshotHash())
         return sn
 
     def createSnGroups(self):

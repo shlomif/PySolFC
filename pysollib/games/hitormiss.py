@@ -154,6 +154,11 @@ class HitOrMiss(Game):
         # save vars (for undo/redo)
         return [self.rank, self.deadDeals]
 
+    def getSnapshotHash(self):
+        # Takes the chosen rank into account when determining
+        # if the game is stuck.
+        return Game.getSnapshotHash(self) + str(self.rank)
+
 
 # register the game
 registerGame(GameInfo(774, HitOrMiss, "Hit or Miss",

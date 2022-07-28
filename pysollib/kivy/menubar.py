@@ -1346,8 +1346,6 @@ class PysolMenubarTk:
         tkopt.toolbar_size.set(opt.toolbar_size)
         tkopt.toolbar_relief.set(opt.toolbar_relief)
         tkopt.statusbar.set(opt.statusbar)
-        tkopt.num_cards.set(opt.num_cards)
-        tkopt.helpbar.set(opt.helpbar)
         tkopt.save_games_geometry.set(opt.save_games_geometry)
         tkopt.demo_logo.set(opt.demo_logo)
         tkopt.splashscreen.set(opt.splashscreen)

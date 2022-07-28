@@ -582,6 +582,11 @@ class OptionsMenuDialog(LMenuDialog):
                               self.menubar.tkopt.highlight_not_matching,
                               self.menubar.mOptEnableHighlightNotMatching)
 
+            self.addCheckNode(tv, rg,
+                              _('Stuck notification'),
+                              self.menubar.tkopt.stuck_notification,
+                              self.menubar.mOptEnableStuckNotification)
+
             # submenu.add_separator()
 
             self.addCheckNode(tv, rg,
@@ -1261,6 +1266,7 @@ class PysolMenubarTk:
             highlight_cards=BooleanVar(),
             highlight_samerank=BooleanVar(),
             highlight_not_matching=BooleanVar(),
+            stuck_notification=BooleanVar(),
             mahjongg_show_removed=BooleanVar(),
             shisen_show_hint=BooleanVar(),
             accordion_deal_all=BooleanVar(),
@@ -1323,6 +1329,7 @@ class PysolMenubarTk:
         tkopt.highlight_cards.set(opt.highlight_cards)
         tkopt.highlight_samerank.set(opt.highlight_samerank)
         tkopt.highlight_not_matching.set(opt.highlight_not_matching)
+        tkopt.stuck_notification.set(opt.stuck_notification)
         tkopt.shrink_face_down.set(opt.shrink_face_down)
         tkopt.shade_filled_stacks.set(opt.shade_filled_stacks)
         tkopt.mahjongg_show_removed.set(opt.mahjongg_show_removed)
@@ -2069,6 +2076,12 @@ the next time you restart the %(app)s""") % {'app': TITLE})
             return
         self.app.opt.highlight_not_matching = \
             self.tkopt.highlight_not_matching.get()
+        # self.game.updateMenus()
+
+    def mOptEnableStuckNotification(self, *args):
+        if self._cancelDrag(break_pause=False):
+            return
+        self.app.opt.stuck_notification = self.tkopt.stuck_notification.get()
         # self.game.updateMenus()
 
     def mOptAnimations(self, *args):

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2022-07-17 09:21-0400\n"
+"PO-Revision-Date: 2022-07-28 18:52-0400\n"
 "Last-Translator: H. Schaekel <Holger.Schaekel@web.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -1964,6 +1964,14 @@ msgid ""
 "Game finished, but not without my help...\n"
 msgstr ""
 
+msgid "You are Stuck"
+msgstr ""
+
+msgid ""
+"\n"
+"There are no moves left...\n"
+msgstr ""
+
 #: pysollib/game/__init__.py:2046
 msgid "&Restart"
 msgstr "Neusta&rt"
@@ -2444,6 +2452,9 @@ msgstr "Gleichen Rang hervorheben"
 #: pysollib/kivy/menubar.py:576
 msgid "Highlight no matching"
 msgstr "Nicht passende hervorheben"
+
+msgid "Stuck notification"
+msgstr ""
 
 #: pysollib/kivy/menubar.py:583
 msgid "Show removed tiles (in Mahjongg games)"
@@ -4828,6 +4839,9 @@ msgstr "Gleichen Rang hervorheben:"
 #, fuzzy
 msgid "Highlight &no matching"
 msgstr "Keine passenden hervorheben:"
+
+msgid "Stuc&k notification"
+msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:508
 msgid "&Show removed tiles (in Mahjongg games)"

@@ -517,6 +517,7 @@ class Game(object):
         self.busy = 0
         self.pause = False
         self.finished = False
+        self.stuck = False
         self.version = VERSION
         self.version_tuple = VERSION_TUPLE
         self.cards = []
@@ -780,6 +781,7 @@ class Game(object):
     def newGame(self, random=None, restart=0, autoplay=1, shuffle=True,
                 dealer=None):
         self.finished = False
+        self.stuck = False
         old_busy, self.busy = self.busy, 1
         self.setCursor(cursor=CURSOR_WATCH)
         self.stopWinAnimation()
@@ -2855,8 +2857,29 @@ class Game(object):
             return
         if self.getStuck():
             text = ''
+            self.stuck = False
         else:
             text = 'x'
+            if (not self.stuck and not self.demo and
+                    self.app.opt.stuck_notification):
+                self.playSample("gamelost", priority=1000)
+                self.updateStatus(stuck='x')
+                d = MfxMessageDialog(
+                    self.top, title=_("You are Stuck"), bitmap="info",
+                    text=_("\nThere are no moves left...\n"),
+                    strings=(_("&New game"), _("&Restart"), None,
+                             _("&Cancel")))
+                if TOOLKIT != 'kivy':
+                    if d.status == 0 and d.button == 0:
+                        # new game
+                        self.endGame()
+                        self.newGame()
+                        return
+                    elif d.status == 0 and d.button == 1:
+                        # restart game
+                        self.restartGame()
+                        return
+            self.stuck = True
             # self.playSample("autopilotlost", priority=1000)
         self.updateStatus(stuck=text)
 

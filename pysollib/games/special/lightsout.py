@@ -114,6 +114,7 @@ class LightsOut_Talon(InitialDealTalonStack):
 # ************************************************************************
 
 class LightsOut(Game):
+    Hint_Class = None
 
     #
     # Game layout

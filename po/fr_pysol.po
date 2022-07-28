@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: 1.02\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2022-07-17 09:19-0400\n"
+"PO-Revision-Date: 2022-07-28 18:52-0400\n"
 "Last-Translator: Eric Rausch <neelix570@gmail.com>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -1996,6 +1996,14 @@ msgstr ""
 "\n"
 "Jeu terminé, mais pas sans mon aide...\n"
 
+msgid "You are Stuck"
+msgstr ""
+
+msgid ""
+"\n"
+"There are no moves left...\n"
+msgstr ""
+
 #: pysollib/game/__init__.py:2046
 msgid "&Restart"
 msgstr "&Redémarrer"
@@ -2486,6 +2494,9 @@ msgstr "Surbrillance des équivalents"
 #: pysollib/kivy/menubar.py:576
 msgid "Highlight no matching"
 msgstr "Surbrillance sans correspondance"
+
+msgid "Stuck notification"
+msgstr ""
 
 #: pysollib/kivy/menubar.py:583
 msgid "Show removed tiles (in Mahjongg games)"
@@ -4873,6 +4884,9 @@ msgstr "Surbrillance des &équivalents"
 #: pysollib/ui/tktile/menubar.py:503
 msgid "Highlight &no matching"
 msgstr "Surbrilla&nce incorrectes"
+
+msgid "Stuc&k notification"
+msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:508
 msgid "&Show removed tiles (in Mahjongg games)"

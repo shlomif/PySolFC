@@ -1870,6 +1870,14 @@ msgid ""
 "Game finished, but not without my help...\n"
 msgstr ""
 
+msgid "You are Stuck"
+msgstr ""
+
+msgid ""
+"\n"
+"There are no moves left...\n"
+msgstr ""
+
 #: pysollib/game/__init__.py:2046
 msgid "&Restart"
 msgstr ""
@@ -2320,6 +2328,9 @@ msgstr ""
 
 #: pysollib/kivy/menubar.py:576
 msgid "Highlight no matching"
+msgstr ""
+
+msgid "Stuck notification"
 msgstr ""
 
 #: pysollib/kivy/menubar.py:583
@@ -4627,6 +4638,9 @@ msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:503
 msgid "Highlight &no matching"
+msgstr ""
+
+msgid "Stuc&k notification"
 msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:508

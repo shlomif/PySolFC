@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2022-07-17 09:18-0400\n"
+"PO-Revision-Date: 2022-07-28 18:53-0400\n"
 "Last-Translator: Skomoroh <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
@@ -2003,6 +2003,14 @@ msgstr ""
 "\n"
 "Игра закончена, но не без моей помощи...\n"
 
+msgid "You are Stuck"
+msgstr ""
+
+msgid ""
+"\n"
+"There are no moves left...\n"
+msgstr ""
+
 #: pysollib/game/__init__.py:2046
 msgid "&Restart"
 msgstr "&Начало"
@@ -2516,6 +2524,9 @@ msgstr "Разрешить показывать карты &одного дос�
 #, fuzzy
 msgid "Highlight no matching"
 msgstr "Подсветка отсутствия &совпадения"
+
+msgid "Stuck notification"
+msgstr ""
 
 #: pysollib/kivy/menubar.py:583
 #, fuzzy
@@ -4963,6 +4974,9 @@ msgstr "Разрешить показывать карты &одного дос�
 #: pysollib/ui/tktile/menubar.py:503
 msgid "Highlight &no matching"
 msgstr "Подсветка отсутствия &совпадения"
+
+msgid "Stuc&k notification"
+msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:508
 msgid "&Show removed tiles (in Mahjongg games)"

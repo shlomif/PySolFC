@@ -222,6 +222,7 @@ class PysolMenubarTkCommon:
             highlight_cards=tkinter.BooleanVar(),
             highlight_samerank=tkinter.BooleanVar(),
             highlight_not_matching=tkinter.BooleanVar(),
+            stuck_notification=tkinter.BooleanVar(),
             mahjongg_show_removed=tkinter.BooleanVar(),
             shisen_show_hint=tkinter.BooleanVar(),
             accordion_deal_all=tkinter.BooleanVar(),
@@ -282,6 +283,7 @@ class PysolMenubarTkCommon:
         tkopt.highlight_cards.set(opt.highlight_cards)
         tkopt.highlight_samerank.set(opt.highlight_samerank)
         tkopt.highlight_not_matching.set(opt.highlight_not_matching)
+        tkopt.stuck_notification.set(opt.stuck_notification)
         tkopt.shrink_face_down.set(opt.shrink_face_down)
         tkopt.shade_filled_stacks.set(opt.shade_filled_stacks)
         tkopt.randomize_place.set(opt.randomize_place)
@@ -588,6 +590,10 @@ class PysolMenubarTkCommon:
             label=n_("Highlight &no matching"),
             variable=self.tkopt.highlight_not_matching,
             command=self.mOptEnableHighlightNotMatching)
+        submenu.add_checkbutton(
+            label=n_("Stuc&k notification"),
+            variable=self.tkopt.stuck_notification,
+            command=self.mOptEnableStuckNotification)
         submenu.add_separator()
         submenu.add_checkbutton(
             label=n_("&Show removed tiles (in Mahjongg games)"),
@@ -1504,6 +1510,12 @@ Unsupported game for import.
             return
         self.app.opt.highlight_not_matching = \
             self.tkopt.highlight_not_matching.get()
+        # self.game.updateMenus()
+
+    def mOptEnableStuckNotification(self, *args):
+        if self._cancelDrag(break_pause=False):
+            return
+        self.app.opt.stuck_notification = self.tkopt.stuck_notification.get()
         # self.game.updateMenus()
 
     def mOptAnimations(self, *args):

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2022-07-17 09:19-0400\n"
+"PO-Revision-Date: 2022-07-28 18:53-0400\n"
 "Last-Translator: Jerzy Trzeciak <artusek@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
@@ -2017,6 +2017,14 @@ msgstr ""
 "\n"
 "Gra zakończona, ale nie bez mojej pomocy...\n"
 
+msgid "You are Stuck"
+msgstr ""
+
+msgid ""
+"\n"
+"There are no moves left...\n"
+msgstr ""
+
 #: pysollib/game/__init__.py:2046
 msgid "&Restart"
 msgstr "U&ruchom ponownie"
@@ -2540,6 +2548,9 @@ msgstr "Podświetlaj karty o jednakowej sile"
 #, fuzzy
 msgid "Highlight no matching"
 msgstr "Podświetlaj brak dopasowa&nia"
+
+msgid "Stuck notification"
+msgstr ""
 
 #: pysollib/kivy/menubar.py:583
 #, fuzzy
@@ -4999,6 +5010,9 @@ msgstr "Podświetlaj karty o jednakowej sile"
 #: pysollib/ui/tktile/menubar.py:503
 msgid "Highlight &no matching"
 msgstr "Podświetlaj brak dopasowa&nia"
+
+msgid "Stuc&k notification"
+msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:508
 msgid "&Show removed tiles (in Mahjongg games)"

@@ -2851,9 +2851,7 @@ class Game(object):
 
     def updateStuck(self):
         # stuck
-        if self.finished:
-            return
-        if self.Stuck_Class is None:
+        if self.finished or self.Stuck_Class is None or self.isGameWon() != 0:
             return
         if self.getStuck():
             text = ''

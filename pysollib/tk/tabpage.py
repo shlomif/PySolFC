@@ -117,7 +117,7 @@ class TabPageSet(tkinter.Frame):
         self.pages[pageName]['page'].grid_forget()
         self.pages[pageName]['tab'].destroy()
         self.pages[pageName]['page'].destroy()
-        del(self.pages[pageName])
+        del (self.pages[pageName])
         # handle removing last remaining, or default, or active page
         if not self.pages:  # removed last remaining page
             self.defaultPage = ''

@@ -1073,7 +1073,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
             }
         if DEBUG:
             start_time = time.time()
-        if not(use_fc_solve_lib) and progress:
+        if not (use_fc_solve_lib) and progress:
             iter_ = 0
             depth = 0
             states = 0

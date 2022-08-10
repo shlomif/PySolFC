@@ -534,6 +534,8 @@ class SelectGameDialogWithPreview(SelectGameDialog):
             pos += 1
 
     def selectSearchResult(self, event):
+        if self.list.size() <= 0:
+            return
         oldcur = self.list["cursor"]
         self.list["cursor"] = "watch"
         sel = self.list.get(self.list.curselection())

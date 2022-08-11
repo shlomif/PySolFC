@@ -698,9 +698,9 @@ registerGame(GameInfo(464, FourColours, "Four Colours",
 registerGame(GameInfo(509, BigCell, "Big Cell",
                       GI.GT_FREECELL | GI.GT_OPEN | GI.GT_ORIGINAL, 3, 0,
                       GI.SL_MOSTLY_SKILL))
-registerGame(GameInfo(513, OceanTowers, "Ocean Towers",
-                      GI.GT_FREECELL | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0,
-                      GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(513, OceanTowers, "Double Seahaven Towers",
+                      GI.GT_FREECELL | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL,
+                      altnames=("Ocean Towers")))
 registerGame(GameInfo(520, GermanFreeCell, "German FreeCell",
                       GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_SKILL))
 registerGame(GameInfo(542, KingCell, "KingCell",

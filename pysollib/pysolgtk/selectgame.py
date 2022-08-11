@@ -271,9 +271,9 @@ class SelectGameDialogWithPreview(MfxDialog):
             (_("2 redeals"), lambda gi: gi.si.redeals == 2),
             (_("3 redeals"), lambda gi: gi.si.redeals == 3),
             (_("Unlimited redeals"), lambda gi: gi.si.redeals == -1),
-            # (_("Variable redeals"), lambda gi: gi.si.redeals == -2),
+            (_("Variable redeals"), lambda gi: gi.si.redeals == -2),
             (_("Other number of redeals"),
-                lambda gi: gi.si.redeals not in (-1, 0, 1, 2, 3)),)
+                lambda gi: gi.si.redeals not in (-2, -1, 0, 1, 2, 3)),)
         self._addGamesFromData(data, store, root_iter,
                                _("by Number of Redeals"), all_games)
 

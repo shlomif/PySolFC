@@ -255,7 +255,7 @@ class SelectGameData(SelectDialogTreeData):
                                lambda gi: gi.si.redeals == -2),
                     SelectGameNode(None, _("Other number of redeals"),
                                lambda gi: gi.si.redeals not in
-                               (-1, 0, 1, 2, 3)),
+                               (-2, -1, 0, 1, 2, 3)),
                 )),
                 s_by_compatibility,
             )),

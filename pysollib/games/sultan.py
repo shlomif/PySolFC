@@ -544,6 +544,11 @@ class Matrimony(Game):
                                    self.s.foundations[7]], frames=0)
         self._startAndDealRow()
 
+    def getSnapshotHash(self):
+        # Takes the round into account - a single card redeal can result
+        # in an identical snapshot.
+        return Game.getSnapshotHash(self) + str(self.s.talon.round)
+
 
 # ************************************************************************
 # * Picture Patience

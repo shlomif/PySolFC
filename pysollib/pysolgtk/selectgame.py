@@ -483,14 +483,7 @@ class SelectGameDialogWithPreview(MfxDialog):
         type = ''
         if gi.si.game_type in GI.TYPE_NAMES:
             type = _(GI.TYPE_NAMES[gi.si.game_type])
-        sl = {
-            GI.SL_LUCK:         _('Luck only'),
-            GI.SL_MOSTLY_LUCK:  _('Mostly luck'),
-            GI.SL_BALANCED:     _('Balanced'),
-            GI.SL_MOSTLY_SKILL: _('Mostly skill'),
-            GI.SL_SKILL:        _('Skill only'),
-            }
-        skill_level = sl.get(gi.skill_level)
+        skill_level = GI.SKILL_LEVELS.get(gi.skill_level)
         if gi.redeals == -2:
             redeals = _('variable')
         elif gi.redeals == -1:

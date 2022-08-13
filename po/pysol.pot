@@ -3194,6 +3194,12 @@ msgstr ""
 msgid "Redeals:"
 msgstr ""
 
+msgid "Compatibility:"
+msgstr ""
+
+msgid "Inventor:"
+msgstr ""
+
 #: pysollib/pysolgtk/selectgame.py:122 pysollib/tile/selectgame.py:400
 #: pysollib/tk/selectgame.py:400
 msgid "Played:"
@@ -3230,6 +3236,30 @@ msgstr ""
 #: pysollib/tk/selectgame.py:516
 #, python-format
 msgid "Playable Preview - %(game)s"
+msgstr ""
+
+msgid "Advanced search"
+msgstr ""
+
+msgid "Check alternate names"
+msgstr ""
+
+msgid "Children's"
+msgstr ""
+
+msgid "Scored"
+msgstr ""
+
+msgid "Stripped Deck"
+msgstr ""
+
+msgid "Separate Decks"
+msgstr ""
+
+msgid "Relaxed"
+msgstr ""
+
+msgid "Original"
 msgstr ""
 
 #: pysollib/pysolgtk/selectgame.py:480 pysollib/tile/selectgame.py:569
@@ -3629,8 +3659,14 @@ msgstr ""
 msgid "About cardset"
 msgstr ""
 
+msgid "Style:"
+msgstr ""
+
 #: pysollib/tile/selectcardset.py:455 pysollib/tk/selectcardset.py:446
 msgid "Styles:"
+msgstr ""
+
+msgid "Date:"
 msgstr ""
 
 #: pysollib/tile/selectcardset.py:456 pysollib/tk/selectcardset.py:447
@@ -3665,7 +3701,7 @@ msgstr ""
 msgid "Solid Colors"
 msgstr ""
 
-msgid "Textures"
+msgid "Tiles"
 msgstr ""
 
 msgid "Images"

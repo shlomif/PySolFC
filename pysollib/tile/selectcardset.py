@@ -36,7 +36,7 @@ from six.moves import tkinter_ttk as ttk
 
 from .selecttree import SelectDialogTreeCanvas
 from .selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
-from .tkwidget import MfxDialog, MfxScrolledCanvas, PysolScale
+from .tkwidget import MfxDialog, MfxScrolledCanvas, PysolCombo, PysolScale
 
 
 # ************************************************************************
@@ -220,6 +220,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         self.manager = manager
         self.key = key
         self.app = app
+        self.criteria = SearchCriteria()
         self.cardset_values = None
         # padx, pady = kw.padx, kw.pady
         padx, pady = 4, 4
@@ -263,15 +264,23 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         self.tree.frame.pack(padx=padx, pady=pady, expand=True, fill='both')
 
         # Search
+        searchbox = ttk.Frame(search_frame)
         searchText = tkinter.StringVar()
-        self.list_searchlabel = tkinter.Label(search_frame, text="Search:",
+        self.list_searchlabel = tkinter.Label(searchbox, text="Search:",
                                               justify='left', anchor='w')
         self.list_searchlabel.pack(side="top", fill='both', ipadx=1)
-        self.list_searchtext = tkinter.Entry(search_frame,
+        self.list_searchtext = tkinter.Entry(searchbox,
                                              textvariable=searchText)
+
+        self.advSearch = tkinter.Button(searchbox, text='...',
+                                        command=self.advancedSearch)
+        self.advSearch.pack(side="right")
+
         self.list_searchtext.pack(side="top", fill='both',
                                   padx=padx, pady=pady, ipadx=1)
-        searchText.trace('w', self.performSearch)
+        searchText.trace('w', self.basicSearch)
+
+        searchbox.pack(side="top", fill="both")
 
         self.list_scrollbar = tkinter.Scrollbar(search_frame)
         self.list_scrollbar.pack(side="right", fill='both')
@@ -471,23 +480,67 @@ class SelectCardsetDialogWithPreview(MfxDialog):
     def _updateScale(self, v):
         self.updatePreview()
 
-    def performSearch(self, *args):
+    def basicSearch(self, *args):
         self.updateSearchList(self.list_searchtext.get())
 
     def updateSearchList(self, searchString):
+        self.criteria.name = searchString
+        self.performSearch()
+
+    def performSearch(self):
         self.list.delete(0, "end")
         self.list.vbar_show = True
         cardsets = self.manager.getAllSortedByName()
 
         results = []
         for cardset in cardsets:
-            if self.app.checkSearchString(searchString, cardset.name):
+            if (self.criteria.size != ""
+                    and self.criteria.sizeOptions[self.criteria.size]
+                    != cardset.si.size):
+                continue
+            if (self.criteria.type != ""
+                    and self.criteria.typeOptions[self.criteria.type]
+                    != cardset.si.type):
+                continue
+
+            if (self.criteria.style != ""
+                    and self.criteria.styleOptions[self.criteria.style]
+                    not in cardset.si.styles):
+                continue
+            if (self.criteria.date != ""
+                    and self.criteria.dateOptions[self.criteria.date]
+                    not in cardset.si.dates):
+                continue
+            if (self.criteria.nationality != ""
+                    and self.criteria.natOptions[self.criteria.nationality]
+                    not in cardset.si.nationalities):
+                continue
+
+            if self.app.checkSearchString(self.criteria.name,
+                                          cardset.name):
                 results.append(cardset.name)
         results.sort()
         pos = 0
         for result in results:
             self.list.insert(pos, result)
             pos += 1
+
+    def advancedSearch(self):
+        d = SelectCardsetAdvancedSearch(self.top, _("Advanced search"),
+                                        self.criteria)
+        if d.status == 0 and d.button == 0:
+            self.criteria.name = d.name.get()
+
+            self.list_searchtext.delete(0, "end")
+            self.list_searchtext.insert(0, d.name.get())
+
+            self.criteria.size = d.size.get()
+            self.criteria.type = d.type.get()
+            self.criteria.style = d.style.get()
+            self.criteria.date = d.date.get()
+            self.criteria.nationality = d.nationality.get()
+
+            self.performSearch()
 
     def selectSearchResult(self, event):
         if self.list.size() <= 0:
@@ -656,3 +709,141 @@ class CardsetInfoDialog(MfxDialog):
         focus = self.createButtons(bottom_frame, kw)
         # focus = text_w
         self.mainloop(focus, kw.timeout)
+
+
+class SearchCriteria:
+    def __init__(self):
+        self.name = ""
+        self.size = ""
+        self.type = ""
+        self.style = ""
+        self.date = ""
+        self.nationality = ""
+
+        self.sizeOptions = {"": -1,
+                            "Tiny cardsets": CSI.SIZE_TINY,
+                            "Small cardsets": CSI.SIZE_SMALL,
+                            "Medium cardsets": CSI.SIZE_MEDIUM,
+                            "Large cardsets": CSI.SIZE_LARGE,
+                            "Extra Large cardsets": CSI.SIZE_XLARGE,
+                            "Hi-Res cardsets": CSI.SIZE_HIRES}
+
+        typeOptions = {-1: ""}
+        typeOptions.update(CSI.TYPE_NAME)
+        del typeOptions[7]  # Navagraha Ganjifa is unused.
+        self.typeOptions = dict((v, k) for k, v in typeOptions.items())
+
+        styleOptions = {-1: ""}
+        styleOptions.update(CSI.STYLE)
+        self.styleOptions = dict((v, k) for k, v in styleOptions.items())
+
+        dateOptions = {-1: ""}
+        dateOptions.update(CSI.DATE)
+        self.dateOptions = dict((v, k) for k, v in dateOptions.items())
+
+        natOptions = {-1: ""}
+        natOptions.update(CSI.NATIONALITY)
+        self.natOptions = dict((v, k) for k, v in natOptions.items())
+
+
+class SelectCardsetAdvancedSearch(MfxDialog):
+    def __init__(self, parent, title, criteria, **kw):
+        kw = self.initKw(kw)
+        MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
+        top_frame, bottom_frame = self.createFrames(kw)
+
+        self.createBitmaps(top_frame, kw)
+        #
+        self.name = tkinter.StringVar()
+        self.name.set(criteria.name)
+        self.size = tkinter.StringVar()
+        self.size.set(criteria.size)
+        self.type = tkinter.StringVar()
+        self.type.set(criteria.type)
+        self.style = tkinter.StringVar()
+        self.style.set(criteria.style)
+        self.date = tkinter.StringVar()
+        self.date.set(criteria.date)
+        self.nationality = tkinter.StringVar()
+        self.nationality.set(criteria.nationality)
+        #
+        row = 0
+
+        labelName = tkinter.Label(top_frame, text="Name:", anchor="w")
+        labelName.grid(row=row, column=0, columnspan=1, sticky='ew',
+                       padx=1, pady=1)
+        textName = tkinter.Entry(top_frame, textvariable=self.name)
+        textName.grid(row=row, column=1, columnspan=4, sticky='ew',
+                      padx=1, pady=1)
+        row += 1
+
+        sizeValues = list(criteria.sizeOptions.keys())
+
+        labelSize = tkinter.Label(top_frame, text="Size:", anchor="w")
+        labelSize.grid(row=row, column=0, columnspan=1, sticky='ew',
+                       padx=1, pady=1)
+        textSize = PysolCombo(top_frame, values=sizeValues,
+                              textvariable=self.size)
+        textSize.grid(row=row, column=1, columnspan=4, sticky='ew',
+                      padx=1, pady=1)
+        row += 1
+
+        typeValues = list(criteria.typeOptions.keys())
+        typeValues.sort()
+
+        labelType = tkinter.Label(top_frame, text="Type:", anchor="w")
+        labelType.grid(row=row, column=0, columnspan=1, sticky='ew',
+                       padx=1, pady=1)
+        textType = PysolCombo(top_frame, values=typeValues,
+                              textvariable=self.type)
+        textType.grid(row=row, column=1, columnspan=4, sticky='ew',
+                      padx=1, pady=1)
+        row += 1
+
+        styleValues = list(criteria.styleOptions.keys())
+        styleValues.sort()
+
+        labelStyle = tkinter.Label(top_frame, text="Style:", anchor="w")
+        labelStyle.grid(row=row, column=0, columnspan=1, sticky='ew',
+                        padx=1, pady=1)
+        textStyle = PysolCombo(top_frame, values=styleValues,
+                               textvariable=self.style)
+        textStyle.grid(row=row, column=1, columnspan=4, sticky='ew',
+                       padx=1, pady=1)
+        row += 1
+
+        dateValues = list(criteria.dateOptions.keys())
+        dateValues.sort()
+
+        labelDate = tkinter.Label(top_frame, text="Date:", anchor="w")
+        labelDate.grid(row=row, column=0, columnspan=1, sticky='ew',
+                       padx=1, pady=1)
+        textDate = PysolCombo(top_frame, values=dateValues,
+                              textvariable=self.date)
+        textDate.grid(row=row, column=1, columnspan=4, sticky='ew',
+                      padx=1, pady=1)
+        row += 1
+
+        natValues = list(criteria.natOptions.keys())
+        natValues.sort()
+
+        labelNationality = tkinter.Label(top_frame, text="Nationality:",
+                                         anchor="w")
+        labelNationality.grid(row=row, column=0, columnspan=1, sticky='ew',
+                              padx=1, pady=1)
+        textNationality = PysolCombo(top_frame, values=natValues,
+                                     textvariable=self.nationality)
+        textNationality.grid(row=row, column=1, columnspan=4, sticky='ew',
+                             padx=1, pady=1)
+        row += 1
+
+        focus = self.createButtons(bottom_frame, kw)
+        # focus = text_w
+        self.mainloop(focus, kw.timeout)
+
+    def initKw(self, kw):
+        kw = KwStruct(kw,
+                      strings=(_("&OK"), _("&Cancel")), default=0,
+                      padx=10, pady=10,
+                      )
+        return MfxDialog.initKw(self, kw)

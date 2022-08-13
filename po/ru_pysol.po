@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2022-07-28 18:53-0400\n"
+"PO-Revision-Date: 2022-08-13 11:47-0400\n"
 "Last-Translator: Skomoroh <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
@@ -3440,6 +3440,12 @@ msgstr "Колод:"
 msgid "Redeals:"
 msgstr "Пересдач:"
 
+msgid "Compatibility:"
+msgstr ""
+
+msgid "Inventor:"
+msgstr ""
+
 #: pysollib/pysolgtk/selectgame.py:122 pysollib/tile/selectgame.py:400
 #: pysollib/tk/selectgame.py:400
 msgid "Played:"
@@ -3477,6 +3483,30 @@ msgstr "&Правила"
 #, python-format
 msgid "Playable Preview - %(game)s"
 msgstr "Играемый предпросмотр - %(game)s"
+
+msgid "Advanced search"
+msgstr ""
+
+msgid "Check alternate names"
+msgstr ""
+
+msgid "Children's"
+msgstr ""
+
+msgid "Scored"
+msgstr ""
+
+msgid "Stripped Deck"
+msgstr ""
+
+msgid "Separate Decks"
+msgstr ""
+
+msgid "Relaxed"
+msgstr ""
+
+msgid "Original"
+msgstr ""
 
 #: pysollib/pysolgtk/selectgame.py:480 pysollib/tile/selectgame.py:569
 #: pysollib/tk/selectgame.py:569
@@ -3893,9 +3923,15 @@ msgstr ""
 msgid "About cardset"
 msgstr "О наборе карт"
 
+msgid "Style:"
+msgstr ""
+
 #: pysollib/tile/selectcardset.py:455 pysollib/tk/selectcardset.py:446
 msgid "Styles:"
 msgstr "Стиль:"
+
+msgid "Date:"
+msgstr ""
 
 #: pysollib/tile/selectcardset.py:456 pysollib/tk/selectcardset.py:447
 msgid "Nationality:"
@@ -3930,7 +3966,7 @@ msgstr "Самодельные игры"
 msgid "Solid Colors"
 msgstr "Монотонный цвет"
 
-msgid "Textures"
+msgid "Tiles"
 msgstr ""
 
 msgid "Images"

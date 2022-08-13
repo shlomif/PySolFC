@@ -885,7 +885,7 @@ class OptionsMenuDialog(LMenuDialog):
                     self.menubar.mOptTableColor)
 
             rg1 = tv.add_node(
-                LTreeNode(text=_('Textures')), rg)
+                LTreeNode(text=_('Tiles')), rg)
             rg2 = tv.add_node(
                 LTreeNode(text=_('Images')), rg)
 

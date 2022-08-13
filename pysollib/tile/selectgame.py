@@ -37,7 +37,7 @@ from six.moves import tkinter_ttk as ttk
 
 from .selecttree import SelectDialogTreeCanvas
 from .selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
-from .tkwidget import MfxDialog, MfxScrolledCanvas
+from .tkwidget import MfxDialog, MfxScrolledCanvas, PysolCombo
 
 # ************************************************************************
 # * Nodes
@@ -354,6 +354,7 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         self.app = app
         self.gameid = gameid
         self.bookmark = bookmark
+        self.criteria = SearchCriteria()
         self.random = None
         if self.TreeDataHolder_Class.data is None:
             self.TreeDataHolder_Class.data = self.TreeData_Class(app)
@@ -401,15 +402,23 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         self.tree.frame.pack(padx=padx, pady=pady, expand=True, fill='both')
 
         # Search
+        searchbox = ttk.Frame(search_frame)
         searchText = tkinter.StringVar()
-        self.list_searchlabel = tkinter.Label(search_frame, text="Search:",
+        self.list_searchlabel = tkinter.Label(searchbox, text="Search:",
                                               justify='left', anchor='w')
         self.list_searchlabel.pack(side="top", fill='both', ipadx=1)
-        self.list_searchtext = tkinter.Entry(search_frame,
+        self.list_searchtext = tkinter.Entry(searchbox,
                                              textvariable=searchText)
+
+        self.advSearch = tkinter.Button(searchbox, text='...',
+                                        command=self.advancedSearch)
+        self.advSearch.pack(side="right")
+
         self.list_searchtext.pack(side="top", fill='both',
                                   padx=padx, pady=pady, ipadx=1)
-        searchText.trace('w', self.performSearch)
+        searchText.trace('w', self.basicSearch)
+
+        searchbox.pack(side="top", fill="both")
 
         self.list_scrollbar = tkinter.Scrollbar(search_frame)
         self.list_scrollbar.pack(side="right", fill='both')
@@ -514,26 +523,124 @@ class SelectGameDialogWithPreview(SelectGameDialog):
                 destruct(self.preview_app)
             self.preview_app = None
 
-    def performSearch(self, *args):
+    def basicSearch(self, *args):
         self.updateSearchList(self.list_searchtext.get())
 
     def updateSearchList(self, searchString):
+        self.criteria.name = searchString
+        self.performSearch()
+
+    def performSearch(self):
         self.list.delete(0, "end")
         self.list.vbar_show = True
         games = self.app.gdb.getAllGames()
 
         results = []
         for game in games:
-            if self.app.checkSearchString(searchString, game.name):
+            if (self.criteria.category != "" and
+                    self.criteria.categoryOptions[self.criteria.category]
+                    != game.category):
+                continue
+            if (self.criteria.type != ""
+                    and self.criteria.typeOptions[self.criteria.type]
+                    != game.si.game_type):
+                continue
+            if (self.criteria.skill != ""
+                    and self.criteria.skillOptions[self.criteria.skill]
+                    != game.skill_level):
+                continue
+            if (self.criteria.decks != ""
+                    and self.criteria.deckOptions[self.criteria.decks]
+                    != game.decks):
+                continue
+            if (self.criteria.redeals != "" and
+                    self.criteria.redeals != "Other number of redeals"
+                    and self.criteria.redealOptions[self.criteria.redeals]
+                    != game.redeals):
+                continue
+            if self.criteria.redeals == "Other number of redeals"\
+                    and game.redeals < 4:
+                continue
+
+            compat_okay = True
+            for name, games in GI.GAMES_BY_COMPATIBILITY:
+                if self.criteria.compat == name:
+                    if game.id not in games:
+                        compat_okay = False
+                        break
+
+            if not compat_okay:
+                continue
+
+            invent_okay = True
+            for name, games in GI.GAMES_BY_INVENTORS:
+                if self.criteria.inventor == name:
+                    if game.id not in games:
+                        invent_okay = False
+                        break
+
+            if not invent_okay:
+                continue
+
+            if (self.criteria.children and
+                    not (game.si.game_flags & GI.GT_CHILDREN)):
+                continue
+            if (self.criteria.scoring and
+                    not (game.si.game_flags & GI.GT_SCORE)):
+                continue
+            if (self.criteria.stripped and
+                    not (game.si.game_flags & GI.GT_STRIPPED)):
+                continue
+            if (self.criteria.separate and
+                    not (game.si.game_flags & GI.GT_SEPARATE_DECKS)):
+                continue
+            if (self.criteria.open and not (game.si.game_flags & GI.GT_OPEN)):
+                continue
+            if (self.criteria.relaxed and
+                    not (game.si.game_flags & GI.GT_RELAXED)):
+                continue
+            if (self.criteria.original and
+                    not (game.si.game_flags & GI.GT_ORIGINAL)):
+                continue
+
+            if self.app.checkSearchString(self.criteria.name, game.name):
                 results.append(game.name)
-            for altname in game.altnames:
-                if self.app.checkSearchString(searchString, altname):
-                    results.append(altname)
+            if self.criteria.usealt:
+                for altname in game.altnames:
+                    if self.app.checkSearchString(self.criteria.name, altname):
+                        results.append(altname)
         results.sort()
         pos = 0
         for result in results:
             self.list.insert(pos, result)
             pos += 1
+
+    def advancedSearch(self):
+        d = SelectGameAdvancedSearch(self.top, _("Advanced search"),
+                                     self.criteria)
+        if d.status == 0 and d.button == 0:
+            self.criteria.name = d.name.get()
+
+            self.list_searchtext.delete(0, "end")
+            self.list_searchtext.insert(0, d.name.get())
+
+            self.criteria.usealt = d.usealt.get()
+            self.criteria.category = d.category.get()
+            self.criteria.type = d.type.get()
+            self.criteria.skill = d.skill.get()
+            self.criteria.decks = d.decks.get()
+            self.criteria.redeals = d.redeals.get()
+            self.criteria.compat = d.compat.get()
+            self.criteria.inventor = d.inventor.get()
+
+            self.criteria.children = d.children.get()
+            self.criteria.scoring = d.scoring.get()
+            self.criteria.stripped = d.stripped.get()
+            self.criteria.separate = d.separate.get()
+            self.criteria.open = d.open.get()
+            self.criteria.relaxed = d.relaxed.get()
+            self.criteria.original = d.original.get()
+            self.performSearch()
 
     def selectSearchResult(self, event):
         if self.list.size() <= 0:
@@ -651,14 +758,7 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         type = ''
         if gi.si.game_type in GI.TYPE_NAMES:
             type = _(GI.TYPE_NAMES[gi.si.game_type])
-        sl = {
-            GI.SL_LUCK:         _('Luck only'),
-            GI.SL_MOSTLY_LUCK:  _('Mostly luck'),
-            GI.SL_BALANCED:     _('Balanced'),
-            GI.SL_MOSTLY_SKILL: _('Mostly skill'),
-            GI.SL_SKILL:        _('Skill only'),
-            }
-        skill_level = sl.get(gi.skill_level)
+        skill_level = GI.SKILL_LEVELS.get(gi.skill_level)
         if gi.redeals == -2:
             redeals = _('Variable')
         elif gi.redeals == -1:
@@ -697,3 +797,254 @@ class SelectGameDialogWithPreview(SelectGameDialog):
                 title_label.grid()
                 text_label.grid()
             text_label.config(text=t)
+
+
+class SearchCriteria:
+    def __init__(self):
+        self.name = ""
+        self.usealt = True
+        self.category = ""
+        self.type = ""
+        self.skill = ""
+        self.decks = ""
+        self.redeals = ""
+        self.compat = ""
+        self.inventor = ""
+
+        self.children = False
+        self.scoring = False
+        self.stripped = False
+        self.separate = False
+        self.open = False
+        self.relaxed = False
+        self.original = False
+
+        categoryOptions = {-1: ""}
+        categoryOptions.update(CSI.TYPE_NAME)
+        del categoryOptions[7]  # Navagraha Ganjifa is unused.
+        self.categoryOptions = dict((v, k) for k, v in categoryOptions.items())
+
+        typeOptions = {-1: ""}
+        typeOptions.update(GI.TYPE_NAMES)
+        del typeOptions[29]  # Simple games type is unused.
+        self.typeOptions = dict((v, k) for k, v in typeOptions.items())
+
+        skillOptions = {-1: ""}
+        skillOptions.update(GI.SKILL_LEVELS)
+        self.skillOptions = dict((v, k) for k, v in skillOptions.items())
+
+        self.deckOptions = {"": 0,
+                            "1 deck games": 1,
+                            "2 deck games": 2,
+                            "3 deck games": 3,
+                            "4 deck games": 4}
+
+        self.redealOptions = {"": -3,
+                              "No redeal": 0,
+                              "1 redeal": 1,
+                              "2 redeals": 2,
+                              "3 redeals": 3,
+                              "Unlimited redeals": -1,
+                              "Variable redeals": -2,
+                              "Other number of redeals": 4}
+
+
+class SelectGameAdvancedSearch(MfxDialog):
+    def __init__(self, parent, title, criteria, **kw):
+        kw = self.initKw(kw)
+        MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
+        top_frame, bottom_frame = self.createFrames(kw)
+
+        self.createBitmaps(top_frame, kw)
+        #
+        self.name = tkinter.StringVar()
+        self.name.set(criteria.name)
+        self.usealt = tkinter.BooleanVar()
+        self.usealt.set(criteria.usealt)
+        self.category = tkinter.StringVar()
+        self.category.set(criteria.category)
+        self.type = tkinter.StringVar()
+        self.type.set(criteria.type)
+        self.skill = tkinter.StringVar()
+        self.skill.set(criteria.skill)
+        self.decks = tkinter.StringVar()
+        self.decks.set(criteria.decks)
+        self.redeals = tkinter.StringVar()
+        self.redeals.set(criteria.redeals)
+        self.compat = tkinter.StringVar()
+        self.compat.set(criteria.compat)
+        self.inventor = tkinter.StringVar()
+        self.inventor.set(criteria.inventor)
+
+        self.children = tkinter.BooleanVar()
+        self.children.set(criteria.children)
+        self.scoring = tkinter.BooleanVar()
+        self.scoring.set(criteria.scoring)
+        self.stripped = tkinter.BooleanVar()
+        self.stripped.set(criteria.stripped)
+        self.separate = tkinter.BooleanVar()
+        self.separate.set(criteria.separate)
+        self.open = tkinter.BooleanVar()
+        self.open.set(criteria.open)
+        self.relaxed = tkinter.BooleanVar()
+        self.relaxed.set(criteria.relaxed)
+        self.original = tkinter.BooleanVar()
+        self.original.set(criteria.original)
+        #
+        row = 0
+
+        labelName = tkinter.Label(top_frame, text="Name:", anchor="w")
+        labelName.grid(row=row, column=0, columnspan=1, sticky='ew',
+                       padx=1, pady=1)
+        textName = tkinter.Entry(top_frame, textvariable=self.name)
+        textName.grid(row=row, column=1, columnspan=4, sticky='ew',
+                      padx=1, pady=1)
+        row += 1
+
+        altCheck = tkinter.Checkbutton(top_frame, variable=self.usealt,
+                                       text=_("Check alternate names"),
+                                       anchor="w")
+        altCheck.grid(row=row, column=1, columnspan=4, sticky='ew',
+                      padx=1, pady=1)
+        row += 1
+
+        categoryValues = list(criteria.categoryOptions.keys())
+        categoryValues.sort()
+
+        labelCategory = tkinter.Label(top_frame, text="Category:", anchor="w")
+        labelCategory.grid(row=row, column=0, columnspan=1, sticky='ew',
+                           padx=1, pady=1)
+        textCategory = PysolCombo(top_frame, values=categoryValues,
+                                  textvariable=self.category)
+        textCategory.grid(row=row, column=1, columnspan=4, sticky='ew',
+                          padx=1, pady=1)
+        row += 1
+
+        typeValues = list(criteria.typeOptions.keys())
+        typeValues.sort()
+
+        labelType = tkinter.Label(top_frame, text="Type:", anchor="w")
+        labelType.grid(row=row, column=0, columnspan=1, sticky='ew',
+                       padx=1, pady=1)
+        textType = PysolCombo(top_frame, values=typeValues,
+                              textvariable=self.type)
+        textType.grid(row=row, column=1, columnspan=4, sticky='ew',
+                      padx=1, pady=1)
+        row += 1
+
+        skillValues = list(criteria.skillOptions.keys())
+
+        labelSkill = tkinter.Label(top_frame, text="Skill level:", anchor="w")
+        labelSkill.grid(row=row, column=0, columnspan=1, sticky='ew',
+                        padx=1, pady=1)
+        textSkill = PysolCombo(top_frame, values=skillValues,
+                               textvariable=self.skill)
+        textSkill.grid(row=row, column=1, columnspan=4, sticky='ew',
+                       padx=1, pady=1)
+        row += 1
+
+        deckValues = list(criteria.deckOptions.keys())
+
+        labelDecks = tkinter.Label(top_frame, text="Decks:", anchor="w")
+        labelDecks.grid(row=row, column=0, columnspan=1, sticky='ew',
+                        padx=1, pady=1)
+        textDecks = PysolCombo(top_frame, values=deckValues,
+                               textvariable=self.decks)
+        textDecks.grid(row=row, column=1, columnspan=4, sticky='ew',
+                       padx=1, pady=1)
+        row += 1
+
+        redealValues = list(criteria.redealOptions.keys())
+
+        labelRedeals = tkinter.Label(top_frame, text="Redeals:", anchor="w")
+        labelRedeals.grid(row=row, column=0, columnspan=1, sticky='ew',
+                          padx=1, pady=1)
+        textRedeals = PysolCombo(top_frame, values=redealValues,
+                                 textvariable=self.redeals)
+        textRedeals.grid(row=row, column=1, columnspan=4, sticky='ew',
+                         padx=1, pady=1)
+        row += 1
+
+        compatValues = list()
+        compatValues.append("")
+        for name, games in GI.GAMES_BY_COMPATIBILITY:
+            compatValues.append(name)
+
+        labelCompat = tkinter.Label(top_frame, text="Compatibility:",
+                                    anchor="w")
+        labelCompat.grid(row=row, column=0, columnspan=1, sticky='ew',
+                         padx=1, pady=1)
+        textCompat = PysolCombo(top_frame, values=compatValues,
+                                textvariable=self.compat)
+        textCompat.grid(row=row, column=1, columnspan=4, sticky='ew',
+                        padx=1, pady=1)
+        row += 1
+
+        inventorValues = list()
+        inventorValues.append("")
+        for name, games in GI.GAMES_BY_INVENTORS:
+            inventorValues.append(name)
+
+        labelInventor = tkinter.Label(top_frame, text="Inventor:", anchor="w")
+        labelInventor.grid(row=row, column=0, columnspan=1, sticky='ew',
+                           padx=1, pady=1)
+        textInventor = PysolCombo(top_frame, values=inventorValues,
+                                  textvariable=self.inventor)
+        textInventor.grid(row=row, column=1, columnspan=4, sticky='ew',
+                          padx=1, pady=1)
+        row += 1
+
+        col = 0
+        childCheck = tkinter.Checkbutton(top_frame, variable=self.children,
+                                         text=_("Children's"), anchor="w")
+        childCheck.grid(row=row, column=col, columnspan=1, sticky='ew',
+                        padx=1, pady=1)
+        col += 1
+
+        scoreCheck = tkinter.Checkbutton(top_frame, variable=self.scoring,
+                                         text=_("Scored"), anchor="w")
+        scoreCheck.grid(row=row, column=col, columnspan=1, sticky='ew',
+                        padx=1, pady=1)
+        col += 1
+
+        stripCheck = tkinter.Checkbutton(top_frame, variable=self.stripped,
+                                         text=_("Stripped Deck"), anchor="w")
+        stripCheck.grid(row=row, column=col, columnspan=1, sticky='ew',
+                        padx=1, pady=1)
+        col += 1
+
+        sepCheck = tkinter.Checkbutton(top_frame, variable=self.separate,
+                                       text=_("Separate Decks"), anchor="w")
+        sepCheck.grid(row=row, column=col, columnspan=1, sticky='ew',
+                      padx=1, pady=1)
+        row += 1
+        col = 0
+
+        openCheck = tkinter.Checkbutton(top_frame, variable=self.open,
+                                        text=_("Open"), anchor="w")
+        openCheck.grid(row=row, column=col, columnspan=1, sticky='ew',
+                       padx=1, pady=1)
+        col += 1
+
+        relaxedCheck = tkinter.Checkbutton(top_frame, variable=self.relaxed,
+                                           text=_("Relaxed"), anchor="w")
+        relaxedCheck.grid(row=row, column=col, columnspan=1, sticky='ew',
+                          padx=1, pady=1)
+        col += 1
+
+        originalCheck = tkinter.Checkbutton(top_frame, variable=self.original,
+                                            text=_("Original"), anchor="w")
+        originalCheck.grid(row=row, column=col, columnspan=1, sticky='ew',
+                           padx=1, pady=1)
+        col += 1
+
+        focus = self.createButtons(bottom_frame, kw)
+        # focus = text_w
+        self.mainloop(focus, kw.timeout)
+
+    def initKw(self, kw):
+        kw = KwStruct(kw,
+                      strings=(_("&OK"), _("&Cancel")), default=0,
+                      padx=10, pady=10,
+                      )
+        return MfxDialog.initKw(self, kw)

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2022-07-28 18:52-0400\n"
+"PO-Revision-Date: 2022-08-13 11:50-0400\n"
 "Last-Translator: H. Schaekel <Holger.Schaekel@web.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -3322,6 +3322,12 @@ msgstr "Decks:"
 msgid "Redeals:"
 msgstr "Neue Karten:"
 
+msgid "Compatibility:"
+msgstr ""
+
+msgid "Inventor:"
+msgstr ""
+
 #: pysollib/pysolgtk/selectgame.py:122 pysollib/tile/selectgame.py:400
 #: pysollib/tk/selectgame.py:400
 msgid "Played:"
@@ -3359,6 +3365,30 @@ msgstr "&Regeln"
 #, python-format
 msgid "Playable Preview - %(game)s"
 msgstr "Spielbare Vorschau - %(game)s"
+
+msgid "Advanced search"
+msgstr ""
+
+msgid "Check alternate names"
+msgstr ""
+
+msgid "Children's"
+msgstr ""
+
+msgid "Scored"
+msgstr ""
+
+msgid "Stripped Deck"
+msgstr ""
+
+msgid "Separate Decks"
+msgstr ""
+
+msgid "Relaxed"
+msgstr ""
+
+msgid "Original"
+msgstr ""
 
 #: pysollib/pysolgtk/selectgame.py:480 pysollib/tile/selectgame.py:569
 #: pysollib/tk/selectgame.py:569
@@ -3769,9 +3799,15 @@ msgstr "&Info / Einstellungen..."
 msgid "About cardset"
 msgstr "Über Kartensets"
 
+msgid "Style:"
+msgstr ""
+
 #: pysollib/tile/selectcardset.py:455 pysollib/tk/selectcardset.py:446
 msgid "Styles:"
 msgstr "Stile:"
+
+msgid "Date:"
+msgstr ""
 
 #: pysollib/tile/selectcardset.py:456 pysollib/tk/selectcardset.py:447
 msgid "Nationality:"
@@ -3805,7 +3841,7 @@ msgstr "Benutzerdef. Spiel"
 msgid "Solid Colors"
 msgstr "Einfache Farben"
 
-msgid "Textures"
+msgid "Tiles"
 msgstr ""
 
 msgid "Images"

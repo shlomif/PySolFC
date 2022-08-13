@@ -35,7 +35,7 @@ from six.moves import tkinter_ttk as ttk
 
 from .selecttree import SelectDialogTreeCanvas
 from .selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
-from .tkwidget import MfxDialog, MfxScrolledCanvas
+from .tkwidget import MfxDialog, MfxScrolledCanvas, PysolCombo
 
 
 # ************************************************************************
@@ -77,13 +77,13 @@ class SelectTileData(SelectDialogTreeData):
                 None, _("All Backgrounds"),
                 lambda tile: 1, expanded=0),
             SelectTileNode(
-                None, _("Textures"),
+                None, _("Tiles"),
                 lambda tile: os.path.basename(
                     os.path.dirname(tile.filename)) == 'tiles', expanded=0),
             SelectTileNode(
                 None, _("Images"),
                 lambda tile: (os.path.basename(
-                              os.path.dirname(tile.filename)) in
+                    os.path.dirname(tile.filename)) in
                               ('stretch', 'save-aspect')), expanded=0),
             SelectTileNode(None, _("Solid Colors"), (
                 SelectTileLeaf(None, None, _("Blue"), key="#0082df"),
@@ -123,6 +123,7 @@ class SelectTileDialogWithPreview(MfxDialog):
             key = manager.getSelected()
         self.app = app
         self.manager = manager
+        self.criteria = SearchCriteria()
         self.key = key
         self.table_color = app.opt.colors['table']
         if self.TreeDataHolder_Class.data is None:
@@ -166,15 +167,23 @@ class SelectTileDialogWithPreview(MfxDialog):
         self.tree.frame.pack(padx=padx, pady=pady, expand=True, fill='both')
 
         # Search
+        searchbox = ttk.Frame(search_frame)
         searchText = tkinter.StringVar()
-        self.list_searchlabel = tkinter.Label(search_frame, text="Search:",
+        self.list_searchlabel = tkinter.Label(searchbox, text="Search:",
                                               justify='left', anchor='w')
         self.list_searchlabel.pack(side="top", fill='both', ipadx=1)
-        self.list_searchtext = tkinter.Entry(search_frame,
+        self.list_searchtext = tkinter.Entry(searchbox,
                                              textvariable=searchText)
+
+        self.advSearch = tkinter.Button(searchbox, text='...',
+                                        command=self.advancedSearch)
+        self.advSearch.pack(side="right")
+
         self.list_searchtext.pack(side="top", fill='both',
                                   padx=padx, pady=pady, ipadx=1)
-        searchText.trace('w', self.performSearch)
+        searchText.trace('w', self.basicSearch)
+
+        searchbox.pack(side="top", fill="both")
 
         self.list_scrollbar = tkinter.Scrollbar(search_frame)
         self.list_scrollbar.pack(side="right", fill='both')
@@ -223,13 +232,13 @@ class SelectTileDialogWithPreview(MfxDialog):
         return MfxDialog.initKw(self, kw)
 
     def mDone(self, button):
-        if button == 0:        # "OK" or double click
+        if button == 0:  # "OK" or double click
             if isinstance(self.tree.selection_key, six.string_types):
                 self.key = str(self.tree.selection_key)
             else:
                 self.key = self.tree.selection_key
             self.tree.n_expansions = 1  # save xyview in any case
-        if button == 10:        # "Solid color..."
+        if button == 10:  # "Solid color..."
             try:
                 c = tkinter_colorchooser.askcolor(
                     master=self.top,
@@ -247,10 +256,14 @@ class SelectTileDialogWithPreview(MfxDialog):
             return
         MfxDialog.mDone(self, button)
 
-    def performSearch(self, *args):
+    def basicSearch(self, *args):
         self.updateSearchList(self.list_searchtext.get())
 
     def updateSearchList(self, searchString):
+        self.criteria.name = searchString
+        self.performSearch()
+
+    def performSearch(self):
         self.list.delete(0, "end")
         self.list.vbar_show = True
         tiles = self.manager.getAllSortedByName()
@@ -259,13 +272,37 @@ class SelectTileDialogWithPreview(MfxDialog):
         for tile in tiles:
             if tile.name == 'None':
                 continue
-            if self.app.checkSearchString(searchString, tile.name):
+
+            if (self.criteria.type == "Images" and os.path.basename(
+                    os.path.dirname(tile.filename)) not in
+                    ('stretch', 'save-aspect')):
+                continue
+
+            if (self.criteria.type == "Tiles" and os.path.basename(
+                    os.path.dirname(tile.filename)) != 'tiles'):
+                continue
+
+            if self.app.checkSearchString(self.criteria.name,
+                                          tile.name):
                 results.append(tile.name)
         results.sort()
         pos = 0
         for result in results:
             self.list.insert(pos, result)
             pos += 1
+
+    def advancedSearch(self):
+        d = SelectTileAdvancedSearch(self.top, _("Advanced search"),
+                                     self.criteria)
+        if d.status == 0 and d.button == 0:
+            self.criteria.name = d.name.get()
+
+            self.list_searchtext.delete(0, "end")
+            self.list_searchtext.insert(0, d.name.get())
+
+            self.criteria.type = d.type.get()
+
+            self.performSearch()
 
     def selectSearchResult(self, event):
         if self.list.size() <= 0:
@@ -299,3 +336,56 @@ class SelectTileDialogWithPreview(MfxDialog):
                 if self.preview.setTile(self.app, key):
                     return
             self.preview_key = -1
+
+
+class SearchCriteria:
+    def __init__(self):
+        self.name = ""
+        self.type = ""
+        self.typeOptions = ("", "Images", "Tiles")
+
+
+class SelectTileAdvancedSearch(MfxDialog):
+    def __init__(self, parent, title, criteria, **kw):
+        kw = self.initKw(kw)
+        MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
+        top_frame, bottom_frame = self.createFrames(kw)
+
+        self.createBitmaps(top_frame, kw)
+        #
+        self.name = tkinter.StringVar()
+        self.name.set(criteria.name)
+        self.type = tkinter.StringVar()
+        self.type.set(criteria.type)
+        #
+        row = 0
+
+        labelName = tkinter.Label(top_frame, text="Name:", anchor="w")
+        labelName.grid(row=row, column=0, columnspan=1, sticky='ew',
+                       padx=1, pady=1)
+        textName = tkinter.Entry(top_frame, textvariable=self.name)
+        textName.grid(row=row, column=1, columnspan=4, sticky='ew',
+                      padx=1, pady=1)
+        row += 1
+
+        typeValues = list(criteria.typeOptions)
+
+        labelType = tkinter.Label(top_frame, text="Type:", anchor="w")
+        labelType.grid(row=row, column=0, columnspan=1, sticky='ew',
+                       padx=1, pady=1)
+        textType = PysolCombo(top_frame, values=typeValues,
+                              textvariable=self.type)
+        textType.grid(row=row, column=1, columnspan=4, sticky='ew',
+                      padx=1, pady=1)
+        row += 1
+
+        focus = self.createButtons(bottom_frame, kw)
+        # focus = text_w
+        self.mainloop(focus, kw.timeout)
+
+    def initKw(self, kw):
+        kw = KwStruct(kw,
+                      strings=(_("&OK"), _("&Cancel")), default=0,
+                      padx=10, pady=10,
+                      )
+        return MfxDialog.initKw(self, kw)

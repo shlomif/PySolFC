@@ -155,6 +155,14 @@ class GI:
         GT_CUSTOM:              n_("Custom"),
     }
 
+    SKILL_LEVELS = {
+        SL_LUCK: _('Luck only'),
+        SL_MOSTLY_LUCK: _('Mostly luck'),
+        SL_BALANCED: _('Balanced'),
+        SL_MOSTLY_SKILL: _('Mostly skill'),
+        SL_SKILL: _('Skill only'),
+    }
+
     #      SELECT_GAME_BY_TYPE = []
     #      for gt, name in TYPE_NAMES.items():
     #          if not name.endswith('games'):

@@ -31,6 +31,7 @@ from pysollib.mygettext import _
 from pysollib.stack import \
         AC_RowStack, \
         AbstractFoundationStack, \
+        AutoDealTalonStack, \
         BasicRowStack, \
         DealRowTalonStack, \
         InitialDealTalonStack, \
@@ -373,7 +374,7 @@ class TrustyTwelve_Hint(AbstractHint):
 class TrustyTwelve(Game):
     Hint_Class = TrustyTwelve_Hint
 
-    TALON_CLASS = TalonStack
+    TALON_CLASS = AutoDealTalonStack
     ROWSTACK_CLASS = RK_RowStack
 
     def createGame(self, rows=12):

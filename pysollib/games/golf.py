@@ -33,6 +33,7 @@ from pysollib.mygettext import _
 from pysollib.pysoltk import MfxCanvasText
 from pysollib.stack import \
         AbstractFoundationStack, \
+        AutoDealTalonStack, \
         BasicRowStack, \
         DealRowTalonStack, \
         InitialDealTalonStack, \
@@ -810,7 +811,7 @@ class Vague(Game):
         self.setSize(layout.XM+maxrows*layout.XS, layout.YM+(rows+1)*layout.YS)
 
         x, y = layout.XM, layout.YM
-        s.talon = TalonStack(x, y, self)
+        s.talon = AutoDealTalonStack(x, y, self)
         layout.createText(s.talon, 'ne')
 
         x, y = layout.XM+2*layout.XS, layout.YM

@@ -28,6 +28,7 @@ from pysollib.layout import Layout
 from pysollib.stack import \
         AC_FoundationStack, \
         AbstractFoundationStack, \
+        AutoDealTalonStack, \
         BasicRowStack, \
         DealRowRedealTalonStack, \
         DealRowTalonStack, \
@@ -41,7 +42,6 @@ from pysollib.stack import \
         SS_RowStack, \
         Stack, \
         StackWrapper, \
-        TalonStack, \
         UD_AC_RowStack, \
         UD_SS_RowStack, \
         WasteStack, \
@@ -1219,7 +1219,7 @@ class Grandee(Game):
 
 
 class Turncoats(Grandee):
-    Talon_Class = TalonStack
+    Talon_Class = AutoDealTalonStack
     RowStack_Class = StackWrapper(UD_AC_RowStack, base_rank=NO_RANK)
 
     def createGame(self):

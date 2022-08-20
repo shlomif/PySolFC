@@ -28,6 +28,7 @@ from pysollib.layout import Layout
 from pysollib.pysoltk import MfxCanvasText
 from pysollib.stack import \
         AbstractFoundationStack, \
+        AutoDealTalonStack, \
         BasicRowStack, \
         DealReserveRedealTalonStack, \
         DealRowTalonStack, \
@@ -37,7 +38,6 @@ from pysollib.stack import \
         ReserveStack, \
         Stack, \
         StackWrapper, \
-        TalonStack, \
         WasteStack, \
         WasteTalonStack, \
         getNumberOfFreeStacks
@@ -458,7 +458,7 @@ class Thirteens(Pyramid):
                 x += layout.XS
             y += layout.YS
         x, y = layout.XM, self.height-layout.YS
-        s.talon = TalonStack(x, y, self)
+        s.talon = AutoDealTalonStack(x, y, self)
         layout.createText(s.talon, 'n')
         x, y = self.width-layout.XS, self.height-layout.YS
         s.foundations.append(Pyramid_Foundation(x, y, self,
@@ -543,7 +543,7 @@ class Elevens(Pyramid):
             layout.YM + (rows + rp) * layout.YS)
 
         x, y = self.width-layout.XS, layout.YM
-        s.talon = TalonStack(x, y, self)
+        s.talon = AutoDealTalonStack(x, y, self)
         layout.createText(s.talon, 's')
         x, y = self.width-layout.XS, self.height-layout.YS
         s.foundations.append(AbstractFoundationStack(x, y, self,
@@ -1420,7 +1420,7 @@ class Hurricane(Pyramid):
             x += layout.XS
 
         x, y = layout.XM, layout.YM
-        s.talon = TalonStack(x, y, self)
+        s.talon = AutoDealTalonStack(x, y, self)
         layout.createText(s.talon, 'ne')
         y += 2*layout.YS
         s.foundations.append(AbstractFoundationStack(x, y, self,

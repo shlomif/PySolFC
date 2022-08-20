@@ -34,6 +34,7 @@ from pysollib.stack import \
         AC_FoundationStack, \
         AC_RowStack, \
         AbstractFoundationStack, \
+        AutoDealTalonStack, \
         BasicRowStack, \
         DealRowTalonStack, \
         InitialDealTalonStack, \
@@ -1222,7 +1223,7 @@ class Bebop(Game):
             s.rows.append(RK_RowStack(x, y, self))
             x += l.XS
         x, y = l.XM, l.YM
-        s.talon = TalonStack(x, y, self)
+        s.talon = AutoDealTalonStack(x, y, self)
         l.createText(s.talon, 'ne')
 
         l.defaultStackGroups()

@@ -26,6 +26,7 @@ from pysollib.games.montecarlo import MonteCarlo_RowStack
 from pysollib.layout import Layout
 from pysollib.stack import \
         AbstractFoundationStack, \
+        AutoDealTalonStack, \
         BasicRowStack, \
         DealRowTalonStack, \
         OpenStack, \
@@ -34,7 +35,6 @@ from pysollib.stack import \
         Spider_RK_Foundation, \
         Stack, \
         StackWrapper, \
-        TalonStack, \
         isRankSequence
 from pysollib.util import ACE, ANY_RANK, ANY_SUIT, NO_RANK, \
         UNLIMITED_ACCEPTS, \
@@ -280,7 +280,7 @@ class Cover_RowStack(MonteCarlo_RowStack):
 
 class Cover(AcesUp):
     Foundation_Class = StackWrapper(AbstractFoundationStack, max_accept=0)
-    Talon_Class = TalonStack
+    Talon_Class = AutoDealTalonStack
     RowStack_Class = StackWrapper(Cover_RowStack, max_accept=1)
 
     FILL_STACKS_AFTER_DROP = 0          # for MonteCarlo_RowStack

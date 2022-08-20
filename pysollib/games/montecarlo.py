@@ -27,6 +27,7 @@ from pysollib.hint import DefaultHint
 from pysollib.layout import Layout
 from pysollib.stack import \
         AbstractFoundationStack, \
+        AutoDealTalonStack, \
         BasicRowStack, \
         DealRowRedealTalonStack, \
         InitialDealTalonStack, \
@@ -316,7 +317,7 @@ class SimplePairs(MonteCarlo):
                                                   max_accept=1, max_cards=2,
                                                   dir=0, base_rank=NO_RANK))
         x, y = l.XM, l.YM + 3*l.YS//2
-        s.talon = TalonStack(x, y, self, max_rounds=1)
+        s.talon = AutoDealTalonStack(x, y, self, max_rounds=1)
         l.createText(s.talon, "s")
         x = x + 5*l.XS
         s.foundations.append(self.Foundation_Class(x, y, self, suit=ANY_SUIT,
@@ -851,7 +852,7 @@ class DerLetzteMonarch(Game):
 
 
 class TheLastMonarchII(DerLetzteMonarch):
-    Talon_Class = TalonStack
+    Talon_Class = AutoDealTalonStack
 
     def createGame(self):
         DerLetzteMonarch.createGame(self, texts=True)
@@ -883,7 +884,7 @@ class DoubletsII(Game):
                                           dir=0, base_rank=NO_RANK))
             x += l.XS
         x, y = l.XM, self.height-l.YS
-        s.talon = TalonStack(x, y, self)
+        s.talon = AutoDealTalonStack(x, y, self)
         l.createText(s.talon, 'n')
 
         x, y = self.width-l.XS, self.height-l.YS

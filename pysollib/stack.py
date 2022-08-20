@@ -1976,6 +1976,12 @@ class TalonStack(Stack,
         Stack.resize(self, xf, yf, widthpad=widthpad, heightpad=heightpad)
 
 
+# Use for games that do not allow manual dealing from the talon.
+class AutoDealTalonStack(TalonStack):
+    def canDealCards(self):
+        return False
+
+
 # A single click deals one card to each of the RowStacks.
 class DealRowTalonStack(TalonStack):
     def dealCards(self, sound=False):

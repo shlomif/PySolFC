@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2022-08-13 11:48-0400\n"
+"PO-Revision-Date: 2022-08-22 17:53-0400\n"
 "Last-Translator: Jerzy Trzeciak <artusek@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
@@ -3516,6 +3516,18 @@ msgid "Advanced search"
 msgstr ""
 
 msgid "Check alternate names"
+msgstr ""
+
+msgid "New in"
+msgstr ""
+
+msgid "Present in"
+msgstr ""
+
+msgid "New since"
+msgstr ""
+
+msgid "Popular"
 msgstr ""
 
 msgid "Children's"

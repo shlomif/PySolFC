@@ -582,6 +582,29 @@ class SelectGameDialogWithPreview(SelectGameDialog):
             if not invent_okay:
                 continue
 
+            if self.criteria.version != "":
+                version_okay = False
+                version_found = False
+                for name, games in GI.GAMES_BY_PYSOL_VERSION:
+                    if self.criteria.version == name:
+                        version_found = True
+                        if game.id in games:
+                            version_okay = True
+                            break
+                    elif ((not version_found and
+                           self.criteria.versioncompare == "Present in")
+                          or (version_found and
+                              self.criteria.versioncompare == "New since")):
+                        if game.id in games:
+                            version_okay = True
+                            break
+
+                if not version_okay:
+                    continue
+
+            if (self.criteria.popular and
+                    not (game.si.game_flags & GI.GT_POPULAR)):
+                continue
             if (self.criteria.children and
                     not (game.si.game_flags & GI.GT_CHILDREN)):
                 continue
@@ -632,7 +655,10 @@ class SelectGameDialogWithPreview(SelectGameDialog):
             self.criteria.redeals = d.redeals.get()
             self.criteria.compat = d.compat.get()
             self.criteria.inventor = d.inventor.get()
+            self.criteria.versioncompare = d.versioncompare.get()
+            self.criteria.version = d.version.get()
 
+            self.criteria.popular = d.popular.get()
             self.criteria.children = d.children.get()
             self.criteria.scoring = d.scoring.get()
             self.criteria.stripped = d.stripped.get()
@@ -810,7 +836,10 @@ class SearchCriteria:
         self.redeals = ""
         self.compat = ""
         self.inventor = ""
+        self.versioncompare = "New in"
+        self.version = ""
 
+        self.popular = False
         self.children = False
         self.scoring = False
         self.stripped = False
@@ -848,6 +877,8 @@ class SearchCriteria:
                               "Variable redeals": -2,
                               "Other number of redeals": 4}
 
+        self.versionCompareOptions = ("New in", "Present in", "New since")
+
 
 class SelectGameAdvancedSearch(MfxDialog):
     def __init__(self, parent, title, criteria, **kw):
@@ -875,7 +906,13 @@ class SelectGameAdvancedSearch(MfxDialog):
         self.compat.set(criteria.compat)
         self.inventor = tkinter.StringVar()
         self.inventor.set(criteria.inventor)
+        self.versioncompare = tkinter.StringVar()
+        self.versioncompare.set(criteria.versioncompare)
+        self.version = tkinter.StringVar()
+        self.version.set(criteria.version)
 
+        self.popular = tkinter.BooleanVar()
+        self.popular.set(criteria.popular)
         self.children = tkinter.BooleanVar()
         self.children.set(criteria.children)
         self.scoring = tkinter.BooleanVar()
@@ -994,7 +1031,33 @@ class SelectGameAdvancedSearch(MfxDialog):
                           padx=1, pady=1)
         row += 1
 
+        versionCompareValues = list(criteria.versionCompareOptions)
+        versionValues = list()
+        versionValues.append("")
+        for name, games in GI.GAMES_BY_PYSOL_VERSION:
+            versionValues.append(name)
+
+        labelVersion = tkinter.Label(top_frame, text="PySol Version:",
+                                     anchor="w")
+        labelVersion.grid(row=row, column=0, columnspan=1, sticky='ew',
+                          padx=1, pady=1)
+        textVersionCompare = PysolCombo(top_frame, values=versionCompareValues,
+                                        textvariable=self.versioncompare)
+        textVersionCompare.grid(row=row, column=1, columnspan=2, sticky='ew',
+                                padx=1, pady=1)
+        textVersion = PysolCombo(top_frame, values=versionValues,
+                                 textvariable=self.version)
+        textVersion.grid(row=row, column=3, columnspan=2, sticky='ew',
+                         padx=1, pady=1)
+        row += 1
+
         col = 0
+        popularCheck = tkinter.Checkbutton(top_frame, variable=self.popular,
+                                           text=_("Popular"), anchor="w")
+        popularCheck.grid(row=row, column=col, columnspan=1, sticky='ew',
+                          padx=1, pady=1)
+        col += 1
+
         childCheck = tkinter.Checkbutton(top_frame, variable=self.children,
                                          text=_("Children's"), anchor="w")
         childCheck.grid(row=row, column=col, columnspan=1, sticky='ew',
@@ -1011,14 +1074,14 @@ class SelectGameAdvancedSearch(MfxDialog):
                                          text=_("Stripped Deck"), anchor="w")
         stripCheck.grid(row=row, column=col, columnspan=1, sticky='ew',
                         padx=1, pady=1)
-        col += 1
+        row += 1
+        col = 0
 
         sepCheck = tkinter.Checkbutton(top_frame, variable=self.separate,
                                        text=_("Separate Decks"), anchor="w")
         sepCheck.grid(row=row, column=col, columnspan=1, sticky='ew',
                       padx=1, pady=1)
-        row += 1
-        col = 0
+        col += 1
 
         openCheck = tkinter.Checkbutton(top_frame, variable=self.open,
                                         text=_("Open"), anchor="w")

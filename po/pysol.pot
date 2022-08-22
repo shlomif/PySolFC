@@ -3244,6 +3244,18 @@ msgstr ""
 msgid "Check alternate names"
 msgstr ""
 
+msgid "New in"
+msgstr ""
+
+msgid "Present in"
+msgstr ""
+
+msgid "New since"
+msgstr ""
+
+msgid "Popular"
+msgstr ""
+
 msgid "Children's"
 msgstr ""
 

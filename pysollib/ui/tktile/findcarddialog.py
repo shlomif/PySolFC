@@ -137,7 +137,10 @@ class FindCardDialog(tkinter.Toplevel):
             i += 1
 
         if len(trumps) > 0:
-            i += .5
+            if len(ranks) == 0:
+                j = min(10, len(trumps))
+            else:
+                i += .5
             k = 0
             for trump in trumps:
                 x, y = dx * k + 2, dy * i + 2
@@ -146,7 +149,8 @@ class FindCardDialog(tkinter.Toplevel):
                 if k >= j:
                     k = 0
                     i += 1
-            i += 1
+            if k > 0:
+                i += 1
 
         w, h = dx*j+2, dy*i+2
         self.canvas.config(width=w, height=h)

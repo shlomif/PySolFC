@@ -72,6 +72,7 @@ class MfxStatusbar:
         if expand:
             self.frame.grid_columnconfigure(self._label_column,
                                             weight=1)
+            frame.pack_propagate(False)
         self._label_column += 1
         setattr(self, name + '_frame', frame)
         self._widgets.append(frame)

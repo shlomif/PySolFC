@@ -406,7 +406,7 @@ class BastilleDay_BastilleStack(Stack):
         return 1
 
     def getHelp(self):
-        return ''  # FIXME
+        return "Bastille. Can be dealt to reserve, once it's empty."
 
 
 class BastilleDay(Game):

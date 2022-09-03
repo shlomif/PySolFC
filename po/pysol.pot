@@ -1310,6 +1310,9 @@ msgstr ""
 msgid "Devil's Six. Must be played directly to Foundations."
 msgstr ""
 
+msgid "Bastille. Can be dealt to reserve, once it's empty."
+msgstr ""
+
 #: pysollib/stats.py:40 pysollib/stats.py:108 pysollib/pysolgtk/tkstats.py:422
 #: pysollib/pysolgtk/tkstats.py:459 pysollib/tile/tkstats.py:675
 msgid "Game"

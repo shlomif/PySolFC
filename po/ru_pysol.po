@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2022-08-22 17:54-0400\n"
+"PO-Revision-Date: 2022-09-02 20:57-0400\n"
 "Last-Translator: Skomoroh <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
@@ -1414,6 +1414,9 @@ msgid "Foundation. Place cards here that match the declared rank."
 msgstr ""
 
 msgid "Devil's Six. Must be played directly to Foundations."
+msgstr ""
+
+msgid "Bastille. Can be dealt to reserve, once it's empty."
 msgstr ""
 
 #: pysollib/stats.py:40 pysollib/stats.py:108 pysollib/pysolgtk/tkstats.py:422

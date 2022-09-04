@@ -23,7 +23,7 @@
 
 from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.games.special.tarock import AbstractTarockGame, Grasshopper
-from pysollib.games.threepeaks import ThreePeaksNoScore
+from pysollib.games.threepeaks import Golf_Waste, ThreePeaksNoScore
 from pysollib.layout import Layout
 from pysollib.mfxutil import kwdefault
 from pysollib.stack import \
@@ -264,7 +264,13 @@ class Rambling(Corkscrew):
 
 
 class LeGrandeTeton(ThreePeaksNoScore):
-    pass
+    Waste_Class = StackWrapper(Golf_Waste, mod=14)
+
+    def shallHighlightMatch(self, stack1, card1, stack2, card2):
+        if stack1 == self.s.waste or stack2 == self.s.waste:
+            return ((card1.rank + 1) % 14 == card2.rank or
+                    (card1.rank - 1) % 14 == card2.rank)
+        return False
 
 
 # ************************************************************************

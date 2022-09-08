@@ -59,7 +59,7 @@ class PlayerOptionsDialog(MfxDialog):
         completion.set_text_column(0)
         self.player_entry.set_text(app.opt.player)
         #
-        self.confirm_quit_check = gtk.CheckButton(_('Confirm quit'))
+        self.confirm_quit_check = gtk.CheckButton(_('Confirm discard game'))
         self.confirm_quit_check.show()
         top_box.pack_start(self.confirm_quit_check)
         self.confirm_quit_check.set_active(app.opt.confirm != 0)

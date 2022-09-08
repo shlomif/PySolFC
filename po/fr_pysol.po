@@ -3261,7 +3261,7 @@ msgstr "Arrière-plan de table"
 #: pysollib/pysolgtk/playeroptionsdialog.py:62
 #: pysollib/tile/playeroptionsdialog.py:61
 #: pysollib/tk/playeroptionsdialog.py:102
-msgid "Confirm quit"
+msgid "Confirm discard game"
 msgstr "Confirmation en sortie"
 
 #: pysollib/pysolgtk/playeroptionsdialog.py:68

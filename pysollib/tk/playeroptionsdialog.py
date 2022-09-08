@@ -99,7 +99,7 @@ class PlayerOptionsDialog(MfxDialog):
                                 command=self.selectUserName)
         widget.grid(row=1, column=1, padx=5, pady=5)
         widget = tkinter.Checkbutton(frame, variable=self.confirm_var,
-                                     anchor='w', text=_("Confirm quit"))
+                                     anchor='w', text=_("Confirm discard game"))
         widget.grid(row=2, column=0, columnspan=2, sticky='ew', padx=0, pady=5)
         widget = tkinter.Checkbutton(frame, variable=self.update_stats_var,
                                      anchor='w',

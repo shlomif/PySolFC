@@ -3361,7 +3361,7 @@ msgstr "Wybierz kolor tła"
 #: pysollib/pysolgtk/playeroptionsdialog.py:62
 #: pysollib/tile/playeroptionsdialog.py:61
 #: pysollib/tk/playeroptionsdialog.py:102
-msgid "Confirm quit"
+msgid "Confirm discard game"
 msgstr "Potwierdź zakończenie"
 
 #: pysollib/pysolgtk/playeroptionsdialog.py:68

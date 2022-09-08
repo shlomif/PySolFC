@@ -3333,7 +3333,7 @@ msgstr "Выбрать фоновое изображение"
 #: pysollib/pysolgtk/playeroptionsdialog.py:62
 #: pysollib/tile/playeroptionsdialog.py:61
 #: pysollib/tk/playeroptionsdialog.py:102
-msgid "Confirm quit"
+msgid "Confirm discard game"
 msgstr "Подтверждение выхода"
 
 #: pysollib/pysolgtk/playeroptionsdialog.py:68

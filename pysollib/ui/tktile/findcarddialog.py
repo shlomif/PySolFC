@@ -46,11 +46,11 @@ class FindCardDialog(tkinter.Toplevel):
         title = TITLE + ' - ' + _('Find card')
         self.title(title)
         self.wm_resizable(False, False)
-        self.cardsettype = game.gameinfo.category
-        cs_type = CSI.TYPE_ID[self.cardsettype]
+        self.cardsettype = ''
+        self.dir = dir
         #
         # self.images_dir = dir
-        self.images_dir = os.path.join(dir, 'finder', cs_type)
+        self.images_dir = ''
         self.label_width, self.label_height = LARGE_EMBLEMS_SIZE
         # if size == 'large':
         #     self.images_dir = os.path.join(dir, 'large', cs_type)
@@ -117,6 +117,11 @@ class FindCardDialog(tkinter.Toplevel):
         self.groups.append(group)
 
     def connectGame(self, game):
+        self.cardsettype = game.gameinfo.category
+        cs_type = CSI.TYPE_ID[self.cardsettype]
+        #
+        # self.images_dir = dir
+        self.images_dir = os.path.join(self.dir, 'finder', cs_type)
         self.canvas.delete('all')
         self.game = game
         suits = game.gameinfo.suits

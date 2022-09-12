@@ -802,7 +802,7 @@ registerGame(GameInfo(530, RussianSpider, "Russian Spider",
 registerGame(GameInfo(531, DoubleRussianSpider, "Double Russian Spider",
                       GI.GT_SPIDER | GI.GT_ORIGINAL, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(603, Brisbane, "Brisbane",
-                      GI.GT_SPIDER, 1, 0, GI.SL_BALANCED))
+                      GI.GT_YUKON, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(707, Hawaiian, "Hawaiian",
                       GI.GT_YUKON | GI.GT_ORIGINAL, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(732, Wave, "Wave",

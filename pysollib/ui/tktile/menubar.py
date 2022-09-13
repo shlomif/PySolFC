@@ -1,5 +1,6 @@
 import math
 import os
+import platform
 import re
 import sys
 
@@ -859,6 +860,9 @@ class PysolMenubarTkCommon:
         self._bindKey(ctrl, "Next", self.mSelectNextGameByName)
         self._bindKey(ctrl, "Up", self.mSelectPrevGameById)
         self._bindKey(ctrl, "Down", self.mSelectNextGameById)
+
+        if os.name == 'posix' and platform.system() != 'Darwin':
+            self._bindKey('Alt-', 'F4', self.mQuit)
 
     #
     # key binding utility

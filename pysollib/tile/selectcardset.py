@@ -782,7 +782,7 @@ class SelectCardsetAdvancedSearch(MfxDialog):
         labelSize.grid(row=row, column=0, columnspan=1, sticky='ew',
                        padx=1, pady=1)
         textSize = PysolCombo(top_frame, values=sizeValues,
-                              textvariable=self.size)
+                              textvariable=self.size, state='readonly')
         textSize.grid(row=row, column=1, columnspan=4, sticky='ew',
                       padx=1, pady=1)
         row += 1
@@ -794,7 +794,7 @@ class SelectCardsetAdvancedSearch(MfxDialog):
         labelType.grid(row=row, column=0, columnspan=1, sticky='ew',
                        padx=1, pady=1)
         textType = PysolCombo(top_frame, values=typeValues,
-                              textvariable=self.type)
+                              textvariable=self.type, state='readonly')
         textType.grid(row=row, column=1, columnspan=4, sticky='ew',
                       padx=1, pady=1)
         row += 1
@@ -806,7 +806,7 @@ class SelectCardsetAdvancedSearch(MfxDialog):
         labelStyle.grid(row=row, column=0, columnspan=1, sticky='ew',
                         padx=1, pady=1)
         textStyle = PysolCombo(top_frame, values=styleValues,
-                               textvariable=self.style)
+                               textvariable=self.style, state='readonly')
         textStyle.grid(row=row, column=1, columnspan=4, sticky='ew',
                        padx=1, pady=1)
         row += 1
@@ -818,7 +818,7 @@ class SelectCardsetAdvancedSearch(MfxDialog):
         labelDate.grid(row=row, column=0, columnspan=1, sticky='ew',
                        padx=1, pady=1)
         textDate = PysolCombo(top_frame, values=dateValues,
-                              textvariable=self.date)
+                              textvariable=self.date, state='readonly')
         textDate.grid(row=row, column=1, columnspan=4, sticky='ew',
                       padx=1, pady=1)
         row += 1
@@ -831,7 +831,8 @@ class SelectCardsetAdvancedSearch(MfxDialog):
         labelNationality.grid(row=row, column=0, columnspan=1, sticky='ew',
                               padx=1, pady=1)
         textNationality = PysolCombo(top_frame, values=natValues,
-                                     textvariable=self.nationality)
+                                     textvariable=self.nationality,
+                                     state='readonly')
         textNationality.grid(row=row, column=1, columnspan=4, sticky='ew',
                              padx=1, pady=1)
         row += 1

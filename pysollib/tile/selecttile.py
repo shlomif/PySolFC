@@ -373,7 +373,7 @@ class SelectTileAdvancedSearch(MfxDialog):
         labelType.grid(row=row, column=0, columnspan=1, sticky='ew',
                        padx=1, pady=1)
         textType = PysolCombo(top_frame, values=typeValues,
-                              textvariable=self.type)
+                              textvariable=self.type, state='readonly')
         textType.grid(row=row, column=1, columnspan=4, sticky='ew',
                       padx=1, pady=1)
         row += 1

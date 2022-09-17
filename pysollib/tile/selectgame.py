@@ -951,7 +951,7 @@ class SelectGameAdvancedSearch(MfxDialog):
         labelCategory.grid(row=row, column=0, columnspan=1, sticky='ew',
                            padx=1, pady=1)
         textCategory = PysolCombo(top_frame, values=categoryValues,
-                                  textvariable=self.category)
+                                  textvariable=self.category, state='readonly')
         textCategory.grid(row=row, column=1, columnspan=4, sticky='ew',
                           padx=1, pady=1)
         row += 1
@@ -963,7 +963,7 @@ class SelectGameAdvancedSearch(MfxDialog):
         labelType.grid(row=row, column=0, columnspan=1, sticky='ew',
                        padx=1, pady=1)
         textType = PysolCombo(top_frame, values=typeValues,
-                              textvariable=self.type)
+                              textvariable=self.type, state='readonly')
         textType.grid(row=row, column=1, columnspan=4, sticky='ew',
                       padx=1, pady=1)
         row += 1
@@ -974,7 +974,7 @@ class SelectGameAdvancedSearch(MfxDialog):
         labelSkill.grid(row=row, column=0, columnspan=1, sticky='ew',
                         padx=1, pady=1)
         textSkill = PysolCombo(top_frame, values=skillValues,
-                               textvariable=self.skill)
+                               textvariable=self.skill, state='readonly')
         textSkill.grid(row=row, column=1, columnspan=4, sticky='ew',
                        padx=1, pady=1)
         row += 1
@@ -985,7 +985,7 @@ class SelectGameAdvancedSearch(MfxDialog):
         labelDecks.grid(row=row, column=0, columnspan=1, sticky='ew',
                         padx=1, pady=1)
         textDecks = PysolCombo(top_frame, values=deckValues,
-                               textvariable=self.decks)
+                               textvariable=self.decks, state='readonly')
         textDecks.grid(row=row, column=1, columnspan=4, sticky='ew',
                        padx=1, pady=1)
         row += 1
@@ -996,7 +996,7 @@ class SelectGameAdvancedSearch(MfxDialog):
         labelRedeals.grid(row=row, column=0, columnspan=1, sticky='ew',
                           padx=1, pady=1)
         textRedeals = PysolCombo(top_frame, values=redealValues,
-                                 textvariable=self.redeals)
+                                 textvariable=self.redeals, state='readonly')
         textRedeals.grid(row=row, column=1, columnspan=4, sticky='ew',
                          padx=1, pady=1)
         row += 1
@@ -1011,7 +1011,7 @@ class SelectGameAdvancedSearch(MfxDialog):
         labelCompat.grid(row=row, column=0, columnspan=1, sticky='ew',
                          padx=1, pady=1)
         textCompat = PysolCombo(top_frame, values=compatValues,
-                                textvariable=self.compat)
+                                textvariable=self.compat, state='readonly')
         textCompat.grid(row=row, column=1, columnspan=4, sticky='ew',
                         padx=1, pady=1)
         row += 1
@@ -1025,7 +1025,7 @@ class SelectGameAdvancedSearch(MfxDialog):
         labelInventor.grid(row=row, column=0, columnspan=1, sticky='ew',
                            padx=1, pady=1)
         textInventor = PysolCombo(top_frame, values=inventorValues,
-                                  textvariable=self.inventor)
+                                  textvariable=self.inventor, state='readonly')
         textInventor.grid(row=row, column=1, columnspan=4, sticky='ew',
                           padx=1, pady=1)
         row += 1
@@ -1041,11 +1041,12 @@ class SelectGameAdvancedSearch(MfxDialog):
         labelVersion.grid(row=row, column=0, columnspan=1, sticky='ew',
                           padx=1, pady=1)
         textVersionCompare = PysolCombo(top_frame, values=versionCompareValues,
-                                        textvariable=self.versioncompare)
+                                        textvariable=self.versioncompare,
+                                        state='readonly')
         textVersionCompare.grid(row=row, column=1, columnspan=2, sticky='ew',
                                 padx=1, pady=1)
         textVersion = PysolCombo(top_frame, values=versionValues,
-                                 textvariable=self.version)
+                                 textvariable=self.version, state='readonly')
         textVersion.grid(row=row, column=3, columnspan=2, sticky='ew',
                          padx=1, pady=1)
         row += 1

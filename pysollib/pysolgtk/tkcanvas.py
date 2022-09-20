@@ -417,7 +417,7 @@ class MfxCanvas(gnomecanvas.Canvas):
                 item._item.set(fill_color=self._text_color)
 
     # PySol extension - set a tiled background image
-    def setTile(self, app, i, force=False):
+    def setTile(self, app, i, scale_method, force=False):
         # print 'setTile:', i
         tile = app.tabletile_manager.get(i)
         if tile is None or tile.error:

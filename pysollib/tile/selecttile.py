@@ -23,7 +23,7 @@
 
 import os
 
-from pysollib.mfxutil import KwStruct
+from pysollib.mfxutil import KwStruct, USE_PIL
 from pysollib.mygettext import _
 from pysollib.ui.tktile.selecttree import SelectDialogTreeData
 from pysollib.ui.tktile.tkutil import bind
@@ -152,7 +152,8 @@ class SelectTileDialogWithPreview(MfxDialog):
         paned_window.add(right_frame)
 
         notebook = ttk.Notebook(left_frame)
-        notebook.pack(expand=True, fill='both')
+        notebook.grid(row=0, column=0, sticky='nsew',
+                      padx=padx, pady=pady, columnspan=2)
         tree_frame = ttk.Frame(notebook)
         notebook.add(tree_frame, text=_('Tree View'))
         search_frame = ttk.Frame(notebook)
@@ -199,6 +200,33 @@ class SelectTileDialogWithPreview(MfxDialog):
         self.list.config(yscrollcommand=self.list_scrollbar.set)
         self.list_scrollbar.config(command=self.list.yview)
 
+        if USE_PIL:
+            self.scaleOptions = {"Default": 0,
+                                 "Tile": 1,
+                                 "Stretch": 2,
+                                 "Preserve Aspect Ratio": 3}
+            scaleValues = list(self.scaleOptions.keys())
+
+            self.scaling = tkinter.StringVar()
+            self.scaling.set(next(key for key, value in
+                                  self.scaleOptions.items()
+                             if value == app.opt.tabletile_scale_method))
+            self.labelScale = tkinter.Label(left_frame, text="Image scaling:",
+                                            anchor="w")
+
+            self.textScale = PysolCombo(left_frame, values=scaleValues,
+                                        state='readonly',
+                                        textvariable=self.scaling,
+                                        selectcommand=self.updateScaling)
+            self.labelScale.grid(row=4, column=0, sticky='ew',
+                                 padx=padx, pady=pady)
+            self.textScale.grid(row=4, column=1, sticky='ew',
+                                padx=padx, pady=pady)
+
+        left_frame.rowconfigure(0, weight=1)
+        left_frame.columnconfigure(0, weight=1)
+        left_frame.columnconfigure(1, weight=1)
+
         self.preview = MfxScrolledCanvas(right_frame, hbar=0, vbar=0)
         self.preview.pack(side="right", fill='both', expand=True,
                           padx=padx, pady=pady)
@@ -206,7 +234,9 @@ class SelectTileDialogWithPreview(MfxDialog):
         self.preview.canvas.preview = 1
         # create a preview of the current state
         self.preview_key = -1
-        self.updatePreview(key)
+        self.preview_scaling = -1
+        self.current_key = -1
+        self.updatePreview(key, app.opt.tabletile_scale_method)
         #
         focus = self.createButtons(bottom_frame, kw)
         focus = self.tree.frame
@@ -257,6 +287,10 @@ class SelectTileDialogWithPreview(MfxDialog):
 
     def basicSearch(self, *args):
         self.updateSearchList(self.list_searchtext.get())
+
+    def updateScaling(self, *args):
+        self.updatePreview(self.preview_key,
+                           self.scaleOptions[self.scaling.get()])
 
     def updateSearchList(self, searchString):
         self.criteria.name = searchString
@@ -316,12 +350,18 @@ class SelectTileDialogWithPreview(MfxDialog):
         self.updatePreview(cardset)
         self.list["cursor"] = oldcur
 
-    def updatePreview(self, key):
-        if key == self.preview_key:
+    def updatePreview(self, key, scaling=-1):
+        if scaling < 0:
+            scaling = self.preview_scaling
+        if key == self.preview_key and scaling == self.preview_scaling:
             return
         canvas = self.preview.canvas
         canvas.deleteAllItems()
+
+        self.preview_scaling = scaling
         if isinstance(key, six.string_types):
+            if USE_PIL:
+                self.textScale['state'] = 'disabled'
             # solid color
             canvas.config(bg=key)
             canvas.setTile(None)
@@ -332,7 +372,13 @@ class SelectTileDialogWithPreview(MfxDialog):
             # image
             tile = self.manager.get(key)
             if tile:
-                if self.preview.setTile(self.app, key):
+                if USE_PIL:
+                    if tile.stretch:
+                        self.textScale['state'] = 'normal'
+                    else:
+                        self.textScale['state'] = 'disabled'
+                if self.preview.setTile(self.app, key, scaling):
+                    self.preview_key = key
                     return
             self.preview_key = -1
 

@@ -1759,9 +1759,12 @@ Unsupported game for import.
                 tile.color = d.key
                 if self.app.setTile(0):
                     self.tkopt.tabletile.set(0)
-            elif d.key > 0 and d.key != self.app.tabletile_index:
-                if self.app.setTile(d.key):
+            elif d.key > 0 and (d.key != self.app.tabletile_index or
+                                d.preview_scaling !=
+                                self.app.opt.tabletile_scale_method):
+                if self.app.setTile(d.key, d.preview_scaling):
                     self.tkopt.tabletile.set(d.key)
+                self.app.opt.tabletile_scale_method = d.preview_scaling
 
     def mOptToolbar(self, *event):
         # if self._cancelDrag(break_pause=False): return

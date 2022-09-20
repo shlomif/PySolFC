@@ -685,8 +685,11 @@ class PysolMenubarTk:
                 tile = self.app.tabletile_manager.get(0)
                 tile.color = d.key
                 self.app.setTile(0)
-            elif d.key > 0 and d.key != self.app.tabletile_index:
-                self.app.setTile(d.key)
+            elif d.key > 0 and (d.key != self.app.tabletile_index or
+                                d.preview_scaling !=
+                                self.app.opt.tabletile_scale_method):
+                self.app.setTile(d.key, scaling=d.preview_scaling)
+            self.app.opt.tabletile_scale_method = d.preview_scaling
 
     def mSelectCardsetDialog(self, *event):
         if self._cancelDrag(break_pause=False):

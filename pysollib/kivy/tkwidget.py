@@ -417,7 +417,7 @@ class MfxScrolledCanvas(object):
     #
     #
 
-    def setTile(self, app, i, force=False):
+    def setTile(self, app, i, scale_method, force=False):
         logging.info('MfxRoot: setTitle app=%s' % app)
 
         tile = app.tabletile_manager.get(i)

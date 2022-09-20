@@ -599,8 +599,10 @@ class Application:
             return d
         return self._getImagesDir('toolbar', 'default', size, check=False)
 
-    def setTile(self, i, force=0):
-        if self.scrolled_canvas.setTile(self, i, force):
+    def setTile(self, i, scaling=-1, force=0):
+        if scaling == -1:
+            scaling = self.opt.tabletile_scale_method
+        if self.scrolled_canvas.setTile(self, i, scaling, force):
             tile = self.tabletile_manager.get(i)
             if i == 0:
                 self.opt.colors['table'] = tile.color

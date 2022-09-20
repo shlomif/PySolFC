@@ -120,6 +120,7 @@ sound_sample_volume = integer(0, 128)
 sound_sample_buffer_size = integer(1, 4)
 music = boolean
 tabletile_name = string
+tabletile_scale_method = integer
 center_layout = boolean
 recent_gameid = int_list
 favorite_gameid = int_list
@@ -274,6 +275,7 @@ class Options:
         ('sound_sample_buffer_size', 'int'),
         ('music', 'bool'),
         ('tabletile_name', 'str'),
+        ('tabletile_scale_method', 'int'),
         ('center_layout', 'bool'),
         ('translate_game_names', 'bool'),
         ('solver_presets', 'list'),
@@ -461,6 +463,7 @@ class Options:
         self.spread_stacks = False
         self.center_layout = True
         self.preserve_aspect_ratio = True
+        self.tabletile_scale_method = 0
         self.resampling = 0
         if USE_PIL:
             self.resampling = int(Image.ANTIALIAS)

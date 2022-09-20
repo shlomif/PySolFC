@@ -510,7 +510,7 @@ class MfxScrolledCanvas:
     #
     #
 
-    def setTile(self, app, i, force=False):
+    def setTile(self, app, i, scale_method, force=False):
         tile = app.tabletile_manager.get(i)
         if tile is None or tile.error:
             return False
@@ -527,8 +527,19 @@ class MfxScrolledCanvas:
                     tile.color == app.opt.colors['table']):
                 return False
         #
-        if not self.canvas.setTile(tile.filename, tile.stretch,
-                                   tile.save_aspect):
+        stretch = tile.stretch
+        save_aspect = tile.save_aspect
+
+        if scale_method < 0 and stretch:
+            scale_method = app.opt.tabletile_scale_method
+        elif not stretch:
+            scale_method = 0
+
+        if scale_method > 0:
+            stretch = scale_method > 1
+            save_aspect = scale_method > 2
+
+        if not self.canvas.setTile(tile.filename, stretch, save_aspect):
             tile.error = True
             return False
 

@@ -373,7 +373,8 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         left_frame.columnconfigure(0, weight=1)
         #
         self.preview = MfxScrolledCanvas(right_frame)
-        self.preview.setTile(app, app.tabletile_index, force=True)
+        self.preview.setTile(app, app.tabletile_index,
+                             app.opt.tabletile_scale_method, force=True)
         self.preview.pack(fill='both', expand=True, padx=padx, pady=pady)
         self.preview.canvas.preview = 1
         # create a preview of the current state

@@ -374,7 +374,7 @@ class SelectTileDialogWithPreview(MfxDialog):
             if tile:
                 if USE_PIL:
                     if tile.stretch:
-                        self.textScale['state'] = 'normal'
+                        self.textScale['state'] = 'readonly'
                     else:
                         self.textScale['state'] = 'disabled'
                 if self.preview.setTile(self.app, key, scaling):

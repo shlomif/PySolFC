@@ -469,7 +469,8 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         stats_frame.rowconfigure(6, weight=1)
         # Canvas
         self.preview = MfxScrolledCanvas(right_frame)
-        self.preview.setTile(app, app.tabletile_index, force=True)
+        self.preview.setTile(app, app.tabletile_index,
+                             app.opt.tabletile_scale_method, force=True)
         self.preview.grid(row=1, column=0, columnspan=3,
                           padx=padx, pady=pady, sticky='nsew')
         right_frame.columnconfigure(1, weight=1)

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "POT-Creation-Date: Sat Feb 12 11:27:46 2022\n"
-"PO-Revision-Date: 2022-06-25 21:24-0400\n"
+"PO-Revision-Date: 2022-09-26 21:01-0400\n"
 "Last-Translator: Jerzy Trzeciak <artusek@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
@@ -992,6 +992,9 @@ msgid "Double Samuri"
 msgstr ""
 
 msgid "Double Scorpion"
+msgstr ""
+
+msgid "Double Seahaven Towers"
 msgstr ""
 
 msgid "Double Trigon"

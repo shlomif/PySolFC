@@ -204,7 +204,7 @@ class SelectTileDialogWithPreview(MfxDialog):
             self.scaleOptions = {"Default": 0,
                                  "Tile": 1,
                                  "Stretch": 2,
-                                 "Preserve Aspect Ratio": 3}
+                                 "Preserve aspect ratio": 3}
             scaleValues = list(self.scaleOptions.keys())
 
             self.scaling = tkinter.StringVar()

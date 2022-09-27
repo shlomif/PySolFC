@@ -987,6 +987,9 @@ msgstr ""
 msgid "Double Scorpion"
 msgstr ""
 
+msgid "Double Seahaven Towers"
+msgstr ""
+
 msgid "Double Trigon"
 msgstr ""
 

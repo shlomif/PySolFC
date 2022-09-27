@@ -1347,6 +1347,12 @@ msgstr ""
 msgid "Moves"
 msgstr ""
 
+msgid "Avg. win time"
+msgstr ""
+
+msgid "Avg. win moves"
+msgstr ""
+
 #: pysollib/stats.py:46 pysollib/pysolgtk/tkstats.py:428
 #: pysollib/tile/tkstats.py:921 pysollib/tile/tkstats.py:951
 #: pysollib/tile/tkstats.py:970 pysollib/tile/tkstats.py:988
@@ -3220,6 +3226,12 @@ msgstr ""
 msgid "Moves:"
 msgstr ""
 
+msgid "Avg. win time:"
+msgstr ""
+
+msgid "Avg. win moves:"
+msgstr ""
+
 #: pysollib/pysolgtk/selectgame.py:127 pysollib/tile/selectgame.py:405
 #: pysollib/tk/selectgame.py:405
 msgid "% won:"
@@ -3299,6 +3311,15 @@ msgstr ""
 #: pysollib/pysolgtk/selecttile.py:130 pysollib/tile/selecttile.py:69
 #: pysollib/tk/selecttile.py:68
 msgid "(no tiles)"
+msgstr ""
+
+msgid "Image scaling:"
+msgstr ""
+
+msgid "Tile"
+msgstr ""
+
+msgid "Stretch"
 msgstr ""
 
 #: pysollib/pysolgtk/selecttile.py:158 pysollib/tile/selecttile.py:153

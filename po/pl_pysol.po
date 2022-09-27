@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2022-09-02 20:58-0400\n"
+"PO-Revision-Date: 2022-09-26 21:00-0400\n"
 "Last-Translator: Jerzy Trzeciak <artusek@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
@@ -1456,6 +1456,12 @@ msgstr "Czas gry"
 #: data/pysolfc.glade:1178
 msgid "Moves"
 msgstr "Ruchy"
+
+msgid "Avg. win time"
+msgstr ""
+
+msgid "Avg. win moves"
+msgstr ""
 
 #: pysollib/stats.py:46 pysollib/pysolgtk/tkstats.py:428
 #: pysollib/tile/tkstats.py:921 pysollib/tile/tkstats.py:951
@@ -3494,6 +3500,12 @@ msgstr "Czas gry:"
 msgid "Moves:"
 msgstr "Ruchy:"
 
+msgid "Avg. win time:"
+msgstr ""
+
+msgid "Avg. win moves:"
+msgstr ""
+
 #: pysollib/pysolgtk/selectgame.py:127 pysollib/tile/selectgame.py:405
 #: pysollib/tk/selectgame.py:405
 msgid "% won:"
@@ -3575,6 +3587,15 @@ msgstr "Wszystkie tła"
 #: pysollib/tk/selecttile.py:68
 msgid "(no tiles)"
 msgstr "(brak klocków)"
+
+msgid "Image scaling:"
+msgstr ""
+
+msgid "Tile"
+msgstr ""
+
+msgid "Stretch"
+msgstr ""
 
 #: pysollib/pysolgtk/selecttile.py:158 pysollib/tile/selecttile.py:153
 #: pysollib/tk/selecttile.py:152

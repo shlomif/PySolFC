@@ -122,8 +122,8 @@ class SelectGameDialogWithPreview(MfxDialog):
             ('played',      _('Played:'),           stats_frame,  0),
             ('won',         _('Won:'),              stats_frame,  1),
             ('lost',        _('Lost:'),             stats_frame,  2),
-            ('time',        _('Playing time:'),     stats_frame,  3),
-            ('moves',       _('Moves:'),            stats_frame,  4),
+            ('time',        _('Avg. win time:'),    stats_frame,  3),
+            ('moves',       _('Avg. win moves:'),   stats_frame,  4),
             ('percent',     _('% won:'),            stats_frame,  5),
                 ):
             title_label = gtk.Label()

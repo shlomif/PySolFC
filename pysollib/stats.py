@@ -41,8 +41,8 @@ class PysolStatsFormatter:
                 _("Played"),
                 _("Won"),
                 _("Lost"),
-                _('Playing time'),
-                _('Moves'),
+                _('Avg. win time'),
+                _('Avg. win moves'),
                 _("% won"))
 
     def getStatResults(self, player, sort_by='name'):

@@ -625,7 +625,9 @@ class MfxScrolledCanvas:
         if self.canvas.busy:
             return
         sb = self.hbar
-        if float(first) <= 0 and float(last) >= 1:
+        # TODO - Setting this to .99 takes the scrollbar size into account.
+        # But there is probably a better way to do it.
+        if float(first) <= 0 and float(last) >= .99:
             sb.grid_remove()
             self.hbar_show = False
         else:
@@ -638,7 +640,8 @@ class MfxScrolledCanvas:
         if self.canvas.busy:
             return
         sb = self.vbar
-        if float(first) <= 0 and float(last) >= 1:
+        # TODO - See _setHbar above.
+        if float(first) <= 0 and float(last) >= .99:
             sb.grid_remove()
             self.vbar_show = False
         else:

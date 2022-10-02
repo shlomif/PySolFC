@@ -123,6 +123,9 @@ msgstr ""
 msgid "Another Round"
 msgstr ""
 
+msgid "Ants"
+msgstr ""
+
 msgid "Apophis"
 msgstr ""
 
@@ -1330,6 +1333,9 @@ msgid "Forty and Eight"
 msgstr ""
 
 msgid "Four Colours"
+msgstr ""
+
+msgid "Four Corners"
 msgstr ""
 
 msgid "Four Free"
@@ -2985,6 +2991,9 @@ msgstr ""
 msgid "Old Mole"
 msgstr ""
 
+msgid "Old Patience"
+msgstr ""
+
 msgid "One234"
 msgstr ""
 
@@ -4056,6 +4065,9 @@ msgstr ""
 msgid "Thirty Two Cards"
 msgstr ""
 
+msgid "Thoughtful"
+msgstr ""
+
 msgid "Three Blind Mice"
 msgstr ""
 
@@ -4219,6 +4231,9 @@ msgid "Trusty Twelve"
 msgstr ""
 
 msgid "Turncoats"
+msgstr ""
+
+msgid "Tut's Tomb"
 msgstr ""
 
 msgid "Tuxedo"

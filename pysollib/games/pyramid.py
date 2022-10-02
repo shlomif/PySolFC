@@ -1487,7 +1487,8 @@ registerGame(GameInfo(677, TwoPyramids, "Two Pyramids",
                       GI.GT_PAIRING_TYPE | GI.GT_ORIGINAL, 2, 2,
                       GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(681, KingTut, "King Tut",
-                      GI.GT_PAIRING_TYPE, 1, -1, GI.SL_MOSTLY_LUCK))
+                      GI.GT_PAIRING_TYPE, 1, -1, GI.SL_MOSTLY_LUCK,
+                      altnames=("Tut's Tomb",)))
 registerGame(GameInfo(699, DoublePyramid, "Double Pyramid",
                       GI.GT_PAIRING_TYPE, 2, 2, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(700, Triangle, "Triangle",

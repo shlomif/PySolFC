@@ -130,6 +130,9 @@ msgstr "Anno Domini"
 msgid "Another Round"
 msgstr "Другой Раунд"
 
+msgid "Ants"
+msgstr ""
+
 msgid "Apophis"
 msgstr ""
 
@@ -1357,6 +1360,9 @@ msgstr "Сорок и восемь"
 
 msgid "Four Colours"
 msgstr "Четыре цвета"
+
+msgid "Four Corners"
+msgstr ""
 
 msgid "Four Free"
 msgstr ""
@@ -3029,6 +3035,9 @@ msgstr "Маджонг Okie's Nitemare"
 msgid "Old Mole"
 msgstr "Старая дамба"
 
+msgid "Old Patience"
+msgstr ""
+
 msgid "One234"
 msgstr "Раз234"
 
@@ -4116,6 +4125,9 @@ msgstr "Тридцать шесть"
 msgid "Thirty Two Cards"
 msgstr "Тридцать две карты"
 
+msgid "Thoughtful"
+msgstr ""
+
 msgid "Three Blind Mice"
 msgstr "Три слепые мышки"
 
@@ -4287,6 +4299,9 @@ msgstr "Верные двенадцать"
 
 msgid "Turncoats"
 msgstr "Перебежчики"
+
+msgid "Tut's Tomb"
+msgstr ""
 
 msgid "Tuxedo"
 msgstr "Смокинг"

@@ -1560,7 +1560,8 @@ registerGame(GameInfo(474, AliBaba, "Ali Baba",
 registerGame(GameInfo(475, Cassim, "Cassim",
                       GI.GT_KLONDIKE, 1, -1, GI.SL_BALANCED))
 registerGame(GameInfo(479, Saratoga, "Saratoga",
-                      GI.GT_KLONDIKE, 1, -1, GI.SL_BALANCED))
+                      GI.GT_KLONDIKE, 1, -1, GI.SL_BALANCED,
+                      altnames=("Thoughtful",)))
 registerGame(GameInfo(491, Whitehorse, "Whitehorse",
                       GI.GT_KLONDIKE, 1, -1, GI.SL_BALANCED))
 registerGame(GameInfo(518, Boost, "Boost",

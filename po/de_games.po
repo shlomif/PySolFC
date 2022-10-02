@@ -123,6 +123,9 @@ msgstr "Anno Domini"
 msgid "Another Round"
 msgstr "Noch eine Runde"
 
+msgid "Ants"
+msgstr ""
+
 msgid "Apophis"
 msgstr ""
 
@@ -1352,6 +1355,9 @@ msgstr "Vierzig und Acht"
 
 msgid "Four Colours"
 msgstr "Vier Farben"
+
+msgid "Four Corners"
+msgstr ""
 
 msgid "Four Free"
 msgstr ""
@@ -3024,6 +3030,9 @@ msgstr "Mahjongg Okie's Alptraum"
 msgid "Old Mole"
 msgstr "Alte Mole"
 
+msgid "Old Patience"
+msgstr ""
+
 msgid "One234"
 msgstr "Eins234"
 
@@ -4122,6 +4131,9 @@ msgstr "Sechsunddreißig"
 msgid "Thirty Two Cards"
 msgstr "32 Karten"
 
+msgid "Thoughtful"
+msgstr ""
+
 msgid "Three Blind Mice"
 msgstr "Drei blinde Mäuse"
 
@@ -4293,6 +4305,9 @@ msgstr "Treue Zwölf"
 
 msgid "Turncoats"
 msgstr "Turncoasts"
+
+msgid "Tut's Tomb"
+msgstr ""
 
 msgid "Tuxedo"
 msgstr "Smoking"

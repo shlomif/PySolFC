@@ -672,7 +672,8 @@ registerGame(GameInfo(569, Primrose, "Primrose",
 registerGame(GameInfo(636, StrategyPlus, "Strategy +",
                       GI.GT_NUMERICA, 1, 0, GI.SL_SKILL))
 registerGame(GameInfo(688, Formic, "Formic",
-                      GI.GT_NUMERICA, 1, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_NUMERICA, 1, 0, GI.SL_MOSTLY_SKILL,
+                      altnames=("Ants",)))
 registerGame(GameInfo(702, DoubleLine, "Double Line",
                       GI.GT_NUMERICA, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(853, Grandfather, "Grandfather",

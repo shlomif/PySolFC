@@ -1191,7 +1191,7 @@ class Ladybug(Game):
 # register the game
 registerGame(GameInfo(257, Numerica, "Numerica",
                       GI.GT_NUMERICA | GI.GT_CONTRIB, 1, 0, GI.SL_BALANCED,
-                      altnames=("Sir Tommy",)))
+                      altnames=("Sir Tommy", "Old Patience",)))
 registerGame(GameInfo(171, LadyBetty, "Lady Betty",
                       GI.GT_NUMERICA, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(355, Frog, "Frog",

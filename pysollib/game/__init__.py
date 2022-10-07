@@ -3029,6 +3029,19 @@ class Game(object):
                         break
                 else:
                     redo = 1
+        # try to detect an undo move for stuck-checking
+        undo = 0
+        if len(moves.history) > 0:
+            mylen, m = len(current), moves.history[moves.index - 1]
+            if mylen == len(m):
+                for i in range(mylen):
+                    a1 = current[i]
+                    a2 = m[i]
+                    if a1.__class__ is not a2.__class__ or \
+                            a1.cmpForUndo(a2) != 0:
+                        break
+                else:
+                    undo = 1
         # add current move to history (which is a list of lists)
         if redo:
             # print "detected redo:", current
@@ -3049,7 +3062,8 @@ class Game(object):
         self.updateStatus(moves=(moves.index, self.stats.total_moves))
         self.updateMenus()
         self.updatePlayTime(do_after=0)
-        self.updateStuck()
+        if not undo:
+            self.updateStuck()
         reset_solver_dialog()
 
         return 1

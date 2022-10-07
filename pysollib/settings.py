@@ -61,6 +61,7 @@ DATA_DIRS = []
 # you can add your extra directories here
 if os.name == 'posix':
     DATA_DIRS = [
+        '/app/share/PySolFC',
         '/usr/share/PySolFC',
         '/usr/local/share/PySolFC',
         '/usr/share/games/PySolFC',

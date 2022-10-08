@@ -1,5 +1,14 @@
 [[news]]
 === News
+* _9 October, 2022:_ There is a new stable release
+https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-2.18.0/[PySolFC
+v2.18.0]. New in this release:
+** Advanced search feature - the ability to search for games, cardsets, or table tiles based on many different criteria.
+** Complete documentation containing rules for all 1,100+ games.
+** Revamped status bar, displaying more info.
+** The Find Card feature now supports all types of games.
+** Many new display and assist options.
+** Bugfixes, code cleanup, etc.
 * _10 May, 2022_ There is a new stable release
 https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-2.16.0/[PySolFC
 v2.16.0]. Anyone upgrading from a version prior to 2.15.0 should read the notes for that version before upgrading. New in this release:

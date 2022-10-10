@@ -606,9 +606,12 @@ class Layout:
                 # center the foundations
                 x = XM + (maxrows - frows) * XS // 2
             for suit in range(suits // foundrows):
+                cursuit = suit
+                if suit < len(self.game.gameinfo.suits):
+                    cursuit = self.game.gameinfo.suits[suit]
                 for i in range(decks):
                     self.s.foundations.append(
-                        S(x, y, suit=suit + (row * (suits // 2))))
+                        S(x, y, suit=cursuit + (row * (suits // 2))))
                     x += XS
             y += YS
 

@@ -69,10 +69,10 @@ class Klondike(Game):
     RowStack_Class = KingAC_RowStack
     Hint_Class = KlondikeType_Hint
 
-    def createGame(self, max_rounds=-1, num_deal=1, **layout):
+    def createGame(self, max_rounds=-1, num_deal=1, rows=7, **layout):
         # create layout
         lay, s = Layout(self), self.s
-        kwdefault(layout, rows=7, waste=1, texts=1, playcards=16)
+        kwdefault(layout, rows=rows, waste=1, texts=1, playcards=16)
         self.Layout_Method.__get__(lay, lay.__class__)(**layout)
         # self.__class__.Layout_Method(lay, **layout)
         self.setSize(lay.size[0], lay.size[1])
@@ -147,6 +147,15 @@ class CasinoKlondike(VegasKlondike):
 class KlondikeByThrees(Klondike):
     def createGame(self):
         Klondike.createGame(self, num_deal=3)
+
+
+# ************************************************************************
+# * Half Klondike
+# ************************************************************************
+
+class HalfKlondike(Klondike):
+    def createGame(self):
+        Klondike.createGame(self, rows=4)
 
 
 # ************************************************************************
@@ -1611,3 +1620,6 @@ registerGame(GameInfo(849, RelaxedRaglan, "Relaxed Raglan",
                       GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(852, Guardian, "Guardian",
                       GI.GT_KLONDIKE, 1, -1, GI.SL_BALANCED))
+registerGame(GameInfo(855, HalfKlondike, "Half Klondike",
+                      GI.GT_KLONDIKE | GI.GT_STRIPPED, 1, -1, GI.SL_BALANCED,
+                      suits=(1, 2)))

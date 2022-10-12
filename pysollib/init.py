@@ -79,6 +79,10 @@ def init():
             pysollib.settings.DEBUG = 1
         print(('PySol debugging: set DEBUG to', pysollib.settings.DEBUG))
 
+    if '--version' in sys.argv:
+        print("PySol FC version {}".format(pysollib.settings.VERSION))
+        sys.exit(0)
+
     # init toolkit
     if '--gtk' in sys.argv:
         pysollib.settings.TOOLKIT = 'gtk'

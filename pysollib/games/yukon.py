@@ -455,6 +455,7 @@ class Panopticon(TenAcross):
 
 # ************************************************************************
 # * Australian Patience
+# * Tasmanian Patience
 # * Raw Prawn
 # * Bim Bom
 # ************************************************************************
@@ -463,11 +464,12 @@ class AustralianPatience(RussianSolitaire):
 
     RowStack_Class = StackWrapper(Yukon_SS_RowStack, base_rank=KING)
 
-    def createGame(self, rows=7):
+    def createGame(self, rows=7, max_rounds=1, num_deal=1):
         l, s = Layout(self), self.s
         Layout.klondikeLayout(l, rows=rows, waste=1)
         self.setSize(l.size[0], l.size[1])
-        s.talon = WasteTalonStack(l.s.talon.x, l.s.talon.y, self, max_rounds=1)
+        s.talon = WasteTalonStack(l.s.talon.x, l.s.talon.y, self,
+                                  max_rounds=max_rounds, num_deal=num_deal)
         s.waste = WasteStack(l.s.waste.x, l.s.waste.y, self)
         for r in l.s.foundations:
             s.foundations.append(
@@ -478,6 +480,11 @@ class AustralianPatience(RussianSolitaire):
 
     def startGame(self):
         self._startDealNumRowsAndDealRowAndCards(3)
+
+
+class TasmanianPatience(AustralianPatience):
+    def createGame(self):
+        AustralianPatience.createGame(self, max_rounds=-1, num_deal=3)
 
 
 class RawPrawn(AustralianPatience):
@@ -809,3 +816,5 @@ registerGame(GameInfo(732, Wave, "Wave",
                       GI.GT_YUKON | GI.GT_ORIGINAL, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(826, YukonicPlague, "Yukonic Plague",
                       GI.GT_YUKON, 1, 0, GI.SL_BALANCED))
+registerGame(GameInfo(857, TasmanianPatience, "Tasmanian Patience",
+                      GI.GT_YUKON, 1, -1, GI.SL_BALANCED))

@@ -93,7 +93,7 @@ class Montana_Talon(TalonStack):
         # move out-of-sequence cards from the Tableau to the Talon
         stacks = []
         gaps = [None] * 4 * decks
-        for g in range(4*decks):
+        for g in range(4 * decks):
             i = g * RSTEP
             r = rows[i]
             if r.cards and r.cards[-1].rank == RBASE:
@@ -263,6 +263,21 @@ class Spaces_Talon(Montana_Talon):
 
 class Spaces(Montana):
     Talon_Class = StackWrapper(Spaces_Talon, max_rounds=3)
+
+
+# ************************************************************************
+# * Station
+# ************************************************************************
+
+class Station_Talon(Montana_Talon):
+    def getRedealSpaces(self, stacks, gaps):
+        # use the last space of each row.
+        return [self.game.s.rows[12], self.game.s.rows[25],
+                self.game.s.rows[38], self.game.s.rows[51]]
+
+
+class Station(Montana):
+    Talon_Class = StackWrapper(Station_Talon, max_rounds=3)
 
 
 # ************************************************************************
@@ -647,7 +662,7 @@ class Pretzel(Montana):
 # register the game
 registerGame(GameInfo(53, Montana, "Montana",
                       GI.GT_MONTANA | GI.GT_OPEN, 1, 2, GI.SL_MOSTLY_SKILL,
-                      si={"ncards": 48}, altnames="Gaps"))
+                      si={"ncards": 48}, altnames=("Gaps", "Vacancies")))
 registerGame(GameInfo(116, Spaces, "Spaces",
                       GI.GT_MONTANA | GI.GT_OPEN, 1, 2, GI.SL_MOSTLY_SKILL,
                       si={"ncards": 48}, altnames="Addiction"))
@@ -687,3 +702,6 @@ registerGame(GameInfo(795, Pretzel, "Pretzel",
                       GI.GT_MONTANA | GI.GT_OPEN | GI.GT_STRIPPED, 1, 0,
                       GI.SL_MOSTLY_SKILL, ranks=(0, 1, 2, 3, 4),
                       si={"ncards": 16}))
+registerGame(GameInfo(858, Station, "Station",
+                      GI.GT_MONTANA | GI.GT_OPEN, 1, 2, GI.SL_MOSTLY_SKILL,
+                      si={"ncards": 48}))

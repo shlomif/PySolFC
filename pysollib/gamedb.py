@@ -743,6 +743,7 @@ class GameManager:
         # if 0 and gi.si.game_flags & GI.GT_XORIGINAL:
         #     return
         # print gi.id, gi.name
+        gi.altnames = sorted(gi.altnames)
         self.__all_games[gi.id] = gi
         self.__all_gamenames[gi.name] = gi
         for n in gi.altnames:

@@ -318,12 +318,12 @@ class RegalFamily(Game):
 registerGame(GameInfo(302, StHelena, "St. Helena",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED,
                       altnames=("Napoleon's Favorite",
-                                "Washington's Favorite")
-                      ))
+                                "Washington's Favorite")))
 registerGame(GameInfo(408, BoxKite, "Box Kite",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(620, LesQuatreCoins, "Les Quatre Coins",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_MOSTLY_SKILL,
-                      altnames=("Four Corners",)))
+                      altnames=("Four Corners", "Cornerstones",
+                                "Corner Patience")))
 registerGame(GameInfo(621, RegalFamily, "Regal Family",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))

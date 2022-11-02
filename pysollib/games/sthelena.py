@@ -26,6 +26,7 @@ from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.hint import CautiousDefaultHint
 from pysollib.layout import Layout
 from pysollib.stack import \
+        BasicRowStack, \
         DealRowTalonStack, \
         InitialDealTalonStack, \
         RedealTalonStack, \
@@ -33,8 +34,10 @@ from pysollib.stack import \
         StackWrapper, \
         TalonStack, \
         UD_RK_RowStack, \
-        UD_SS_RowStack
-from pysollib.util import ACE, JACK, KING, NO_RANK
+        UD_SS_RowStack, \
+        WasteStack, \
+        WasteTalonStack
+from pysollib.util import ACE, JACK, KING, NO_RANK, QUEEN
 
 
 class StHelena_Talon(TalonStack):
@@ -314,6 +317,125 @@ class RegalFamily(Game):
     shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
+# ************************************************************************
+# * King's Audience
+# ************************************************************************
+
+class KingsAudience_RowStack(BasicRowStack):
+    def acceptsCards(self, from_stack, cards):
+        if len(self.cards) == 0:
+            return from_stack == self.game.s.waste
+        c = self.cards[-1]
+        if cards[0].suit != c.suit:
+            return False
+        if ((cards[0].rank == JACK and c.rank == ACE) or
+                (cards[0].rank == ACE and c.rank == JACK)):
+            return True
+        if ((cards[0].rank == QUEEN and c.rank == KING) or
+                (cards[0].rank == KING and c.rank == QUEEN)):
+            return True
+        return False
+
+
+class KingsAudience_Foundation(SS_FoundationStack):
+    def acceptsCards(self, from_stack, cards):
+        if len(self.cards) == 0:
+            return False
+        return SS_FoundationStack.acceptsCards(self, from_stack, cards)
+
+
+class KingsAudience(Game):
+    Hint_Class = CautiousDefaultHint
+
+    def createGame(self):
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        w, h = 3 * l.XM + 6 * l.XS, 3 * l.YM + 6 * l.YS
+        self.setSize(w, h)
+
+        # create stacks
+        lay = (
+            (2, 1, 1, 0),
+            (2, 2, 1, 0),
+            (2, 3, 1, 0),
+            (2, 4, 1, 0),
+            (3, 5, 2, 1),
+            (3, 5, 2, 2),
+            (3, 5, 2, 3),
+            (3, 5, 2, 4),
+            (2, 4, 3, 5),
+            (2, 3, 3, 5),
+            (2, 2, 3, 5),
+            (2, 1, 3, 5),
+            (1, 0, 2, 1),
+            (1, 0, 2, 2),
+            (1, 0, 2, 3),
+            (1, 0, 2, 4),
+        )
+        for xm, xs, ym, ys in lay:
+            x, y = xm * l.XM + xs * l.XS, ym * l.YM + ys * l.YS
+            stack = KingsAudience_RowStack(x, y, self, max_move=1,
+                                           max_accept=1)
+            stack.CARD_XOFFSET = stack.CARD_YOFFSET = 0
+            s.rows.append(stack)
+        x, y = 2 * l.XM + l.XS, 2 * l.YM + l.YS
+        for i in range(4):
+            s.foundations.append(KingsAudience_Foundation(x, y, self, suit=i,
+                                                          max_cards=2))
+            x = x + l.XS
+        x, y = 2 * l.XM + l.XS, 2 * l.YM + 4 * l.YS
+        for i in range(4):
+            s.foundations.append(KingsAudience_Foundation(x, y, self, suit=i,
+                                                          max_cards=11,
+                                                          dir=-1))
+            x = x + l.XS
+
+        tx = (2 * (l.XM + l.XS))
+        ty = (2 * (l.YM + l.YS))
+
+        s.talon = WasteTalonStack(tx, ty, self, max_rounds=1)
+        l.createText(s.talon, "s")
+        s.waste = WasteStack(tx + l.XS, ty, self)
+        l.createText(s.waste, "s")
+
+        # define stack-groups
+        l.defaultStackGroups()
+
+    def fillStack(self, stack):
+        for s in self.s.rows:
+            if len(s.cards) > 1:
+                if not self.demo:
+                    self.playSample("droppair", priority=200)
+                old_state = self.enterState(self.S_FILL)
+                if s.cards[0].rank in (KING, QUEEN):
+                    s.moveMove(2, self.s.foundations[s.cards[0].suit])
+                elif s.cards[0].rank == ACE:
+                    s.moveMove(2, self.s.foundations[s.cards[0].suit + 4])
+                elif s.cards[0].rank == JACK:
+                    s.moveMove(1, self.s.foundations[s.cards[0].suit + 4])
+                    s.moveMove(1, self.s.foundations[s.cards[0].suit + 4])
+                self.leaveState(old_state)
+                if len(s.cards) == 0:
+                    if len(self.s.waste.cards) == 0:
+                        self.s.talon.dealCards()
+                    if len(self.s.waste.cards) > 0:
+                        self.s.waste.moveMove(1, s)
+
+        if len(stack.cards) == 0:
+            if stack is self.s.waste and self.s.talon.cards:
+                self.s.talon.dealCards()
+            elif stack in self.s.rows and self.s.waste.cards:
+                self.s.waste.moveMove(1, stack)
+
+    def startGame(self):
+        self._startAndDealRow()
+        self.s.talon.dealCards()
+
+    shallHighlightMatch = Game._shallHighlightMatch_SS
+
+
 # register the game
 registerGame(GameInfo(302, StHelena, "St. Helena",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED,
@@ -327,3 +449,6 @@ registerGame(GameInfo(620, LesQuatreCoins, "Les Quatre Coins",
                                 "Corner Patience")))
 registerGame(GameInfo(621, RegalFamily, "Regal Family",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(859, KingsAudience, "King's Audience",
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK,
+                      altnames=("Queen's Audience")))

@@ -358,8 +358,10 @@ class GI:
         #  KDE Patience 2.0 from KDE 2.2beta1 (we have 12 out of 14 games)
         # ("KDE Patience", (1, 2, 7, 8, 18, 19, 23, 36, 50, 256, 261, 903,)),
         # KDE Patience 2.0 from KDE 3.1.1 (we have 15 out of 15 games)
-        ("KDE Patience", (1, 2, 7, 8, 18, 19, 23, 36, 50,
-                          256, 261, 277, 278, 279, 903,)),
+        # ("KDE Patience", (1, 2, 7, 8, 18, 19, 23, 36, 50,
+        #                256, 261, 277, 278, 279, 903,)),
+        # Now KPatience - Calculation and Napoleon's Tomb have been removed.
+        ("KPatience", (1, 2, 7, 8, 11, 18, 19, 23, 36, 50, 261, 278, 903,)),
 
         # Microsoft Solitaire (we have all 5 games)
         ("Microsoft Solitaire Collection", (2, 8, 11, 38, 22231,)),

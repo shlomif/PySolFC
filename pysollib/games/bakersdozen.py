@@ -150,6 +150,12 @@ class BakersDozen(CastlesInSpain):
     shallHighlightMatch = Game._shallHighlightMatch_RK
 
 
+class BakersDozen2Decks(BakersDozen):
+
+    def createGame(self):
+        CastlesInSpain.createGame(self, rows=26, playcards=13)
+
+
 # ************************************************************************
 # * Spanish Patience
 # * Portuguese Solitaire
@@ -420,3 +426,6 @@ registerGame(GameInfo(664, SpanishPatienceII, "Spanish Patience II",
                       GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(823, Unusual, "Unusual",
                       GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 2, -1, GI.SL_BALANCED))
+registerGame(GameInfo(860, BakersDozen2Decks, "Baker's Dozen (2 Decks)",
+                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 2, 0,
+                      GI.SL_MOSTLY_SKILL))

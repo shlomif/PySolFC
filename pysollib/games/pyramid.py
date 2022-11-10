@@ -1459,7 +1459,7 @@ registerGame(GameInfo(592, Giza, "Giza",
                       GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(593, Thirteens, "Thirteens",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_LUCK,
-                      altnames=('Helsinki',)))
+                      altnames=('Helsinki', "Good Thirteen")))
 registerGame(GameInfo(594, Elevens, "Elevens",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_LUCK))
 registerGame(GameInfo(595, ElevensToo, "Elevens Too",

@@ -1266,7 +1266,8 @@ class Beacon(Game):
 
 # register the game
 registerGame(GameInfo(36, Golf, "Golf",
-                      GI.GT_GOLF, 1, 0, GI.SL_BALANCED))
+                      GI.GT_GOLF, 1, 0, GI.SL_BALANCED,
+                      altnames=("One Foundation",)))
 registerGame(GameInfo(259, DeadKingGolf, "Dead King Golf",
                       GI.GT_GOLF, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(260, RelaxedGolf, "Relaxed Golf",

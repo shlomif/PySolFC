@@ -415,7 +415,7 @@ registerGame(GameInfo(213, RussianAces, "Russian Aces",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_LUCK))
 registerGame(GameInfo(130, PerpetualMotion, "Perpetual Motion",
                       GI.GT_1DECK_TYPE, 1, -1, GI.SL_MOSTLY_LUCK,
-                      altnames="First Law"))
+                      altnames=("First Law", "Narcotic")))
 registerGame(GameInfo(353, AcesUp5, "Aces Up 5",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_LUCK))
 registerGame(GameInfo(552, Cover, "Cover",

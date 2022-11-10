@@ -48,6 +48,7 @@ from pysollib.stack import \
         SC_RowStack, \
         SS_FoundationStack, \
         SS_RowStack, \
+        Spider_SS_RowStack, \
         Stack, \
         StackWrapper, \
         SuperMoveAC_RowStack, \
@@ -526,6 +527,7 @@ class OpenJumbo(Jumbo):
 # ************************************************************************
 # * Stonewall
 # * Flower Garden
+# * Wildflower
 # ************************************************************************
 
 class Stonewall(Klondike):
@@ -563,6 +565,10 @@ class FlowerGarden(Stonewall):
     DEAL = (1, 1, 1, 1, -1, 1, 1)
 
     shallHighlightMatch = Game._shallHighlightMatch_RK
+
+
+class Wildflower(FlowerGarden):
+    RowStack_Class = Spider_SS_RowStack
 
 
 # ************************************************************************
@@ -1513,7 +1519,7 @@ registerGame(GameInfo(221, Stonewall, "Stonewall",
                       GI.GT_RAGLAN, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(222, FlowerGarden, "Flower Garden",
                       GI.GT_RAGLAN | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL,
-                      altnames=("The Bouquet", "The Garden",)))
+                      altnames=("The Bouquet", "The Garden", "Le Parterre")))
 registerGame(GameInfo(233, KingAlbert, "King Albert",
                       GI.GT_RAGLAN | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL,
                       altnames=("Idiot's Delight",)))
@@ -1623,3 +1629,5 @@ registerGame(GameInfo(852, Guardian, "Guardian",
 registerGame(GameInfo(855, HalfKlondike, "Half Klondike",
                       GI.GT_KLONDIKE | GI.GT_STRIPPED, 1, -1, GI.SL_BALANCED,
                       suits=(1, 2)))
+registerGame(GameInfo(861, Wildflower, "Wildflower",
+                      GI.GT_RAGLAN | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))

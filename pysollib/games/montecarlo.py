@@ -339,6 +339,7 @@ class SimplePairs(MonteCarlo):
 
 # ************************************************************************
 # * Block Ten
+# * Simple Tens
 # ************************************************************************
 
 class BlockTen_RowStack(MonteCarlo_RowStack):
@@ -359,6 +360,11 @@ class BlockTen(SimplePairs):
 
     def isGameWon(self):
         return len(self.s.foundations[0].cards) == 48
+
+
+class SimpleTens(BlockTen):
+    def isGameWon(self):
+        return len(self.s.foundations[0].cards) == 36
 
 
 # ************************************************************************
@@ -1011,3 +1017,7 @@ registerGame(GameInfo(810, Quatorze, "Quatorze",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(829, BlockTen, "Block Ten",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_LUCK))
+registerGame(GameInfo(862, SimpleTens, "Simple Tens",
+                      GI.GT_PAIRING_TYPE | GI.GT_STRIPPED, 1, 0, GI.SL_LUCK,
+                      ranks=(0, 1, 2, 3, 4, 5, 6, 7, 8),
+                      altnames=("Add Up Tens",)))

@@ -35,6 +35,11 @@ Otherwise, the games' sources live under
 written in Python 2.7/3.x and you can try inheriting from an existing
 variant [class](https://en.wikipedia.org/wiki/Class_%28computer_programming%29).
 
+In addition to adding the game's source code, be sure to add the game's metadata.  At minimum, you should:
+- In html-src/rules, create a rules file for the game in question.  Use an existing rules file as a guideline.  Ideally, each set of game rules should be written in such a way that a non-PySol user can read the rules and know how to play the game with their own deck of cards.  For games that are only slightly different from other games, referencing the more common variant's rules is okay.
+- In the pysollib/gamedb.py file, update the GAMES_BY_PYSOL_VERSION dictionary to include the new game's ID for the "dev" key.  If the "dev" entry does not exist, add it.
+- If you know the inventor for the game, update the inventor's entry in the GAMES_BY_INVENTORS dictionary in the same file.
+
 ## Contributing changesets / patches / diffs
 
 One can contribute changesets either by opening [pull-requests](https://docs.github.com/en/desktop/contributing-and-collaborating-using-github-desktop/creating-an-issue-or-pull-request) or merge requests,
@@ -48,13 +53,14 @@ In order to publish a new version, follow these steps:
 
 1. Update `NEWS.asciidoc`.  The release notes should also be added to `html-src/news.html`, along with `templates/index.html` in the website repo.
 2. Update the `VERSION_TUPLE =` line in `pysollib/settings.py`.
-3. Test using `gmake test` .
-4. `git commit` the changes .
-5. `git tag pysolfc-2.6.5` (or equivalent version).
-6. `git push` and `git push --tags` to https://github.com/shlomif/PySolFC .
-7. Wait for the AppVeyor build for the tag to complete and scan the .exe using https://www.virustotal.com/ .
-8. Grab the macOS installer (.dmg) from [GitHub Actions](https://github.com/shlomif/PySolFC/actions/workflows/macos-package.yml) (look for an artifact called `pysolfc-dmg`).
-9. Run `gmake dist`.
-10. Use [rexz9](https://github.com/shlomif/shlomif-computer-settings/blob/567b6ab3f4272ad66bf331536dc80bf58bfff3af/shlomif-settings/bash-aliases/user_aliases.bash#L57) on `dist/PySol*.tar.xz`.
-11. Go to https://sourceforge.net/projects/pysolfc/files/PySolFC/ and add a folder called PySolFC-2.6.5 (note the capitalisation).
-12. Add the tar.xz, the .exe and the .dmg there and mark them as defaults for the right OSes.
+3. Check the `GAMES_BY_PYSOL_VERSION` dictionary in the `pysollib/gamedb.py` file.  If there's a "dev" entry in this dictionary, change that entry's key to be the new version number.  If there isn't a "dev" entry, ignore this step.
+4. Test using `gmake test` .
+5. `git commit` the changes .
+6. `git tag pysolfc-2.6.5` (or equivalent version).
+7. `git push` and `git push --tags` to https://github.com/shlomif/PySolFC .
+8. Wait for the AppVeyor build for the tag to complete and scan the .exe using https://www.virustotal.com/ .
+9. Grab the macOS installer (.dmg) from [GitHub Actions](https://github.com/shlomif/PySolFC/actions/workflows/macos-package.yml) (look for an artifact called `pysolfc-dmg`).
+10. Run `gmake dist`.
+11. Use [rexz9](https://github.com/shlomif/shlomif-computer-settings/blob/567b6ab3f4272ad66bf331536dc80bf58bfff3af/shlomif-settings/bash-aliases/user_aliases.bash#L57) on `dist/PySol*.tar.xz`.
+12. Go to https://sourceforge.net/projects/pysolfc/files/PySolFC/ and add a folder called PySolFC-2.6.5 (note the capitalisation).
+13. Add the tar.xz, the .exe and the .dmg there and mark them as defaults for the right OSes.

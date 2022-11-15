@@ -54,10 +54,6 @@ class BetsyRoss_Foundation(RK_FoundationStack):
                 self.texts.misc.config(text=RANKS[rank])
 
 
-class Calculation_Foundation(BetsyRoss_Foundation):
-    getBottomImage = Stack._getLetterImage
-
-
 class Calculation_RowStack(BasicRowStack):
     def acceptsCards(self, from_stack, cards):
         if not BasicRowStack.acceptsCards(self, from_stack, cards):
@@ -73,11 +69,12 @@ class Calculation_RowStack(BasicRowStack):
 
 # ************************************************************************
 # * Calculation
+# * Imaginary Thirteen
 # ************************************************************************
 
 class Calculation(Game):
     Hint_Class = Calculation_Hint
-    Foundation_Class = Calculation_Foundation
+    Foundation_Class = BetsyRoss_Foundation
     RowStack_Class = StackWrapper(
         Calculation_RowStack, max_move=1, max_accept=1)
 
@@ -86,11 +83,19 @@ class Calculation(Game):
     #
 
     def _getHelpText(self):
+        decks = self.gameinfo.decks
         help = (_('''\
 1: 2 3 4 5 6 7 8 9 T J Q K
 2: 4 6 8 T Q A 3 5 7 9 J K
 3: 6 9 Q 2 5 8 J A 4 7 T K
 4: 8 Q 3 7 J 2 6 T A 5 9 K'''))
+        if decks > 1:
+            help += (_('''\
+
+5: T 2 7 Q 4 9 A 6 J 3 8 K
+6: Q 5 J 4 T 3 9 2 8 A 7 K
+7: A 8 2 9 3 T 4 J 5 Q 6 K
+8: 3 J 6 A 9 4 Q 7 2 T 5 K'''))
         # calculate text_width
         lines = help.split('\n')
         lines.sort(key=len)
@@ -99,22 +104,23 @@ class Calculation(Game):
                                     font=self.app.getFont("canvas_fixed"))
         return help, text_width
 
-    def createGame(self):
+    def createGame(self, playcards=20):
 
+        decks = self.gameinfo.decks
         # create layout
         l, s = Layout(self, TEXT_HEIGHT=40), self.s
         help, text_width = self._getHelpText()
-        text_width += 2*l.XM
+        text_width += 2 * l.XM
 
         # set window
-        w = l.XM+5.5*l.XS+text_width
-        h = max(2*l.YS, 20*l.YOFFSET)
+        w = l.XM + 1.5 + (4 * decks) * l.XS + text_width
+        h = max(2 * l.YS, playcards * l.YOFFSET)
         self.setSize(w, l.YM + l.YS + l.TEXT_HEIGHT + h)
 
         # create stacks
         x0 = l.XM + l.XS * 3 // 2
         x, y = x0, l.YM
-        for i in range(4):
+        for i in range(4 * decks):
             stack = self.Foundation_Class(x, y, self,
                                           mod=13, dir=i+1, base_rank=i)
             s.foundations.append(stack)
@@ -124,8 +130,8 @@ class Calculation(Game):
                                              anchor=ta, font=font)
             x = x + l.XS
         self.texts.help = MfxCanvasText(
-            self.canvas, x + l.XM, y + l.CH // 2, text=help,
-            anchor="w", font=self.app.getFont("canvas_fixed"))
+            self.canvas, x + l.XM, l.YM, text=help,
+            anchor="nw", font=self.app.getFont("canvas_fixed"))
         x = x0
         y = l.YM + l.YS + l.TEXT_HEIGHT
         for i in range(4):
@@ -147,9 +153,10 @@ class Calculation(Game):
 
     def _shuffleHook(self, cards):
         # prepare first cards
-        topcards = [None] * 4
+        decks = self.gameinfo.decks
+        topcards = [None] * (4 * decks)
         for c in cards[:]:
-            if c.rank <= 3 and topcards[c.rank] is None:
+            if c.rank <= ((4 * decks) - 1) and topcards[c.rank] is None:
                 topcards[c.rank] = c
                 cards.remove(c)
         topcards.reverse()
@@ -162,6 +169,11 @@ class Calculation(Game):
 
     def getHighlightPilesStacks(self):
         return ()
+
+
+class ImaginaryThirteen(Calculation):
+    def createGame(self):
+        Calculation.createGame(self, playcards=36)
 
 
 # ************************************************************************
@@ -360,11 +372,13 @@ class SeniorWrangler_RowStack(BasicRowStack):
     pass
 
 
-class SeniorWrangler(Game):
+class SeniorWrangler(Calculation):
 
     def createGame(self):
         l, s = Layout(self), self.s
-        self.setSize(l.XM+9.5*l.XS, l.YM+3*l.YS)
+        help, text_width = self._getHelpText()
+        text_width += 2*l.XM
+        self.setSize((l.XM + 9.75 * l.XS) + text_width, l.YM + 3 * l.YS)
 
         x, y = l.XM+1.5*l.XS, l.YM
         for i in range(8):
@@ -376,6 +390,11 @@ class SeniorWrangler(Game):
                                              anchor=ta, font=font)
             s.foundations.append(stack)
             x = x + l.XS
+
+        self.texts.help = MfxCanvasText(
+            self.canvas, x + l.XM, l.YM, text=help,
+            anchor="nw", font=self.app.getFont("canvas_fixed"))
+
         x, y = l.XM+1.5*l.XS, l.YM+2*l.YS
         for i in range(8):
             stack = SeniorWrangler_RowStack(x, y, self, max_accept=0)
@@ -483,3 +502,5 @@ registerGame(GameInfo(653, SeniorWrangler, "Senior Wrangler",
                       GI.GT_2DECK_TYPE, 2, 8, GI.SL_BALANCED))
 registerGame(GameInfo(704, SPatience, "S Patience",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(863, ImaginaryThirteen, "Imaginary Thirteen",
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))

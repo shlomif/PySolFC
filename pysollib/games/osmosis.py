@@ -344,6 +344,54 @@ class Bridesmaids(Game):
         self.s.talon.dealCards()          # deal first card to WasteStack
 
 
+# ************************************************************************
+# * Dimensions
+# ************************************************************************
+
+class Dimensions_Foundation(AbstractFoundationStack):
+    def acceptsCards(self, from_stack, cards):
+        if not self.cards:
+            return True
+        return cards[0].rank == self.cards[-1].rank or \
+            cards[0].suit == self.cards[-1].suit
+
+
+class Dimensions(Game):
+    def createGame(self):
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        w, h = l.XM + 3 * l.XS + 24 * l.XOFFSET, l.YM + 3 * l.YS
+        self.setSize(w, h)
+
+        # create stacks
+        x, y = l.XM, l.YM
+        s.talon = WasteTalonStack(x, y, self, max_rounds=1)
+        l.createText(s.talon, 'se')
+        y += l.YS
+        s.waste = WasteStack(x, y, self)
+        l.createText(s.waste, 'se')
+
+        x, y = l.XM+2*l.XS, l.YM
+        for i in range(3):
+            stack = Dimensions_Foundation(x, y, self, suit=ANY_SUIT,
+                                          base_rank=ANY_RANK, max_move=0,
+                                          max_cards=52)
+            stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
+            s.foundations.append(stack)
+            y += l.YS
+
+        # define stack-groups
+        l.defaultStackGroups()
+
+    def startGame(self, flip=0):
+        self.s.talon.getCard()
+        self.startDealSample()
+        self.flipMove(self.s.talon)
+        self.s.talon.dealCards()          # deal first card to WasteStack
+
+
 # register the game
 registerGame(GameInfo(59, Osmium, "Osmium",
                       GI.GT_1DECK_TYPE, 1, -1, GI.SL_MOSTLY_LUCK))
@@ -368,3 +416,5 @@ registerGame(GameInfo(716, Peek, "Peek",
 registerGame(GameInfo(856, OpenPeek, "Open Peek",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0,
                       GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(864, Dimensions, "Dimensions",
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))

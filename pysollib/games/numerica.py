@@ -1102,7 +1102,7 @@ class Ladybug(Game):
             x = x + l.XS
         self.setRegion(s.rows, (x0-l.XS//2, y-l.CH//2, 999999, 999999))
         x, y = l.XM, l.YM
-        s.talon = Ladybug_Talon(x, y, self, max_rounds=-1, num_deal=3)
+        s.talon = Ladybug_Talon(x, y, self, max_rounds=-2, num_deal=3)
         l.createText(s.talon, 'ne')
         y = y + l.YS
         s.waste = Ladybug_Waste(x, y, self)
@@ -1239,4 +1239,4 @@ registerGame(GameInfo(760, Aglet, "Aglet",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0,
                       GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(836, Ladybug, "Ladybug",
-                      GI.GT_1DECK_TYPE, 1, -1, GI.SL_BALANCED))
+                      GI.GT_1DECK_TYPE, 1, -2, GI.SL_BALANCED))

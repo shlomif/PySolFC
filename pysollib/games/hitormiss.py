@@ -31,6 +31,7 @@ from pysollib.stack import \
         WasteStack, \
         WasteTalonStack
 from pysollib.util import ANY_SUIT, RANKS, \
+        UNLIMITED_REDEALS, \
         VARIABLE_REDEALS
 
 
@@ -92,12 +93,12 @@ class HitOrMiss_Waste(WasteStack):
 # ************************************************************************
 
 class HitOrMiss(Game):
+    MaxRounds = VARIABLE_REDEALS
 
     def createGame(self):
         layout, s = Layout(self), self.s
         self.rank = -1
         self.deadDeals = 1
-        self.max_rounds = VARIABLE_REDEALS
         self.setSize(layout.XM + 4 * layout.XS, layout.YM + 2 * layout.YS)
         x, y = layout.XM + 3 * layout.XS // 2, layout.YM
         stack = HitOrMiss_Foundation(x, y, self, ANY_SUIT,
@@ -106,7 +107,7 @@ class HitOrMiss(Game):
         layout.createText(stack, 'ne')
         x, y = layout.XM+layout.XS, layout.YM+layout.YS
         s.talon = HitOrMiss_Talon(x, y, self,
-                                  max_rounds=VARIABLE_REDEALS, num_deal=1)
+                                  max_rounds=self.MaxRounds, num_deal=1)
         layout.createText(s.talon, 'nw')
 
         x += layout.XS
@@ -160,7 +161,14 @@ class HitOrMiss(Game):
         return Game.getSnapshotHash(self) + str(self.rank)
 
 
+class HitOrMissUnlimited(HitOrMiss):
+    MaxRounds = UNLIMITED_REDEALS
+
+
 # register the game
 registerGame(GameInfo(774, HitOrMiss, "Hit or Miss",
                       GI.GT_1DECK_TYPE, 1, VARIABLE_REDEALS,
                       GI.SL_LUCK, altnames=("Roll Call",)))
+registerGame(GameInfo(865, HitOrMissUnlimited, "Hit or Miss Unlimited",
+                      GI.GT_1DECK_TYPE, 1, UNLIMITED_REDEALS,
+                      GI.SL_LUCK))

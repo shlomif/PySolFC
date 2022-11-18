@@ -1,0 +1,12 @@
+attrs
+buildozer
+configobj
+Cython
+Kivy
+pep8
+permutation
+pip
+pysol-cards
+python-for-android
+setuptools
+wheel

@@ -1,0 +1,81 @@
+
+MEMO:
+-----
+
+This is a memo on how to proceed to get an android
+app out of the repo.
+
+You should have python and virtualenv installed on
+your system. You might need to add missing
+packages to your system with your os package manager
+and through pip.
+
+Prepare
+-------
+
+First create and enter a virtualenv and load all
+required python modules using pip install.
+
+$> virtualenv ENV
+$> . ENV/bin/activate
+$> pip install -r pipreq.txt
+
+Then prepare the source package. The script
+assembles all necessary files in the
+subdirectory ./tmp/. It also includes a minimal
+set of cards.
+
+$> ./buildozer.init
+
+Up to this point it should work fine.
+
+Make a debug version
+--------------------
+
+Run the buildozer command. Its work is
+defined in the file buildozer.spec. Only
+minimal changes have been made to the default
+setup, to reflect the local situation.
+
+Execution of buildozer needs some time. You
+will have to accept a lizense from google.
+
+$> buildozer android debug
+
+Finally if all worked fine, the apk file is found in
+directory ./bin/.
+
+If it fails, set the log_level in buildozer.spec to 2
+to get better information on what to do.
+
+
+Make a release Version:
+-----------------------
+
+$> buildozer android release
+
+Without signing information the result apk is a
+'release-unsigned' that can be signed afterwards
+with jarsigner.
+
+Alternatively signing information could be supplied
+through Environment vars. See buildozer and
+python-for-android documentatin for further
+instructions.
+
+
+test notes:
+----------
+
+1) on a debian testing desktop developer installation
+   zip archiver was missing. apt install zip solved
+   that.
+
+2) on a gentoo linux recipe pyjnius didnt find
+   javac, the java compiler. Added a link to it
+   in ENV/bin.
+
+3) built apks worked on android 7 and android 8.
+   (no newer devices had been available)
+
+LB221118.

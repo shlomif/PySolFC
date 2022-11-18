@@ -1,0 +1,48 @@
+#!/bin/bash
+set -eux
+
+tmpdir=./tmp
+cardsets_dir=PySolFC-Cardsets--Minimal-2.1.0
+cardsets_file=${cardsets_dir}.tar.xz
+
+# NOTE: $1 will be set with fdroid builds only.
+
+echo '### prepare source'
+
+(cd .. && make rules && make all_games_html && make mo)
+
+mkdir -p ${tmpdir}
+rm -rf ${tmpdir}/*
+
+cp -a ../data ${tmpdir}
+cp -a ../docs ${tmpdir}
+cp -a ../html-src ${tmpdir}
+cp -a ../locale ${tmpdir}
+cp -a ../po ${tmpdir}
+cp -a ../pysollib ${tmpdir}
+cp -a ../scripts ${tmpdir}
+cp -a ../pysol.py ${tmpdir}
+
+if [ ! -f support-v4-24.1.1.aar ]
+then
+  packageurl="https://maven.google.com/com/android/support/support-v4/24.1.1"
+  packagename="support-v4-24.1.1.aar"
+  wget -nv ${packageurl}/${packagename}
+fi
+cp -a support-v4-24.1.1.aar ${tmpdir}
+
+cp -a main.py ${tmpdir}
+mkdir -p ${tmpdir}/data/images/cards/bottoms/trumps-only
+echo "" > ${tmpdir}/data/images/cards/bottoms/trumps-only/.keep
+
+echo '### prepare cardsets'
+
+./mkcards
+
+cp -a ${cardsets_dir}/* ${tmpdir}/data
+
+echo '### eval version'
+
+./version.py > ${tmpdir}/version.txt
+
+echo '### end init'

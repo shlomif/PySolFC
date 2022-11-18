@@ -52,15 +52,16 @@ class TamOShanter(Game):
     Foundation_Class = RK_FoundationStack
     RowStack_Class = StackWrapper(BasicRowStack, max_move=1, max_accept=0)
 
-    def createGame(self, rows=4, texts=False, yoffset=None):
+    def createGame(self, rows=4, playcards=12, texts=False, yoffset=None):
         # create layout
         l, s = Layout(self), self.s
 
         # set window
         if yoffset is None:
             yoffset = l.YOFFSET
-        max_rows = max(rows, 4*self.gameinfo.decks)
-        self.setSize(l.XM+(2+max_rows)*l.XS, l.YM+2*l.YS+12*yoffset)
+        max_rows = max(rows, 4 * self.gameinfo.decks)
+        self.setSize(l.XM + (2 + max_rows) * l.XS,
+                     l.YM + 2 * l.YS + playcards * yoffset)
 
         # create stacks
         if texts:
@@ -99,6 +100,7 @@ class TamOShanter(Game):
 
 # ************************************************************************
 # * Auld Lang Syne
+# * Old Fashioned
 # ************************************************************************
 
 class AuldLangSyne(TamOShanter):
@@ -110,6 +112,12 @@ class AuldLangSyne(TamOShanter):
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations, frames=0)
         self._startAndDealRow()
+
+
+class OldFashioned(AuldLangSyne):
+    def createGame(self):
+        TamOShanter.createGame(self, rows=6, playcards=8)
+
 
 # ************************************************************************
 # * Strategy
@@ -678,3 +686,5 @@ registerGame(GameInfo(702, DoubleLine, "Double Line",
                       GI.GT_NUMERICA, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(853, Grandfather, "Grandfather",
                       GI.GT_NUMERICA, 2, 1, GI.SL_BALANCED))
+registerGame(GameInfo(866, OldFashioned, "Old Fashioned",
+                      GI.GT_NUMERICA, 1, 0, GI.SL_LUCK))

@@ -209,7 +209,7 @@ def gen_rules_html():
             title = 'PySol - Rules for ' + gi.name
             s = ''
             if gi.si.game_type == GI.GT_HANAFUDA:
-                s = '<a href="../hanafuda.html">General Flower Card rules</a>'
+                s = '<a href="../hanafuda.html">General Hanafuda rules</a>'
             elif gi.si.game_type == GI.GT_DASHAVATARA_GANJIFA or \
                     gi.si.game_type == GI.GT_MUGHAL_GANJIFA:
                 s = '<a href="../ganjifa.html">About Ganjifa</a>'

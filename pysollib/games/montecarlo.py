@@ -436,6 +436,7 @@ class Neighbour(MonteCarlo):
 
 # ************************************************************************
 # * Fourteen
+# * Double Fourteen
 # ************************************************************************
 
 class Fourteen_RowStack(MonteCarlo_RowStack):
@@ -456,21 +457,21 @@ class Fourteen(Game):
     # game layout
     #
 
-    def createGame(self):
+    def createGame(self, colsperrow=6):
         # create layout
         l, s = Layout(self), self.s
 
         # set window
-        self.setSize(l.XM + 7*l.XS, l.YM + 5*l.YS)
+        self.setSize(l.XM + (colsperrow + 1) * l.XS, l.YM + 5 * l.YS)
 
         # create stacks
         for i in (0, 2.5):
-            for j in range(6):
+            for j in range(colsperrow):
                 x, y = l.XM + j*l.XS, l.YM + i*l.YS
                 s.rows.append(self.RowStack_Class(x, y, self,
                                                   max_move=1, max_accept=1,
                                                   dir=0, base_rank=NO_RANK))
-        x, y = l.XM + 6*l.XS, l.YM
+        x, y = l.XM + colsperrow * l.XS, l.YM
         s.foundations.append(self.Foundation_Class(x, y, self, suit=ANY_SUIT,
                              max_move=0, max_cards=52, base_rank=ANY_RANK))
         l.createText(s.foundations[0], "s")
@@ -494,6 +495,16 @@ class Fourteen(Game):
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return card1.rank + card2.rank == 12
+
+
+class DoubleFourteen(Fourteen):
+    def createGame(self):
+        Fourteen.createGame(self, colsperrow=9)
+
+    def startGame(self):
+        self._startDealNumRows(4)
+        self.s.talon.dealRow()
+        self.s.talon.dealRow(rows=self.s.rows[:14])
 
 
 # ************************************************************************
@@ -1021,3 +1032,6 @@ registerGame(GameInfo(862, SimpleTens, "Simple Tens",
                       GI.GT_PAIRING_TYPE | GI.GT_STRIPPED, 1, 0, GI.SL_LUCK,
                       ranks=(0, 1, 2, 3, 4, 5, 6, 7, 8),
                       altnames=("Add Up Tens",)))
+registerGame(GameInfo(867, DoubleFourteen, "Double Fourteen",
+                      GI.GT_PAIRING_TYPE | GI.GT_OPEN, 2, 0,
+                      GI.SL_MOSTLY_LUCK))

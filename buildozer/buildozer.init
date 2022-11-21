@@ -23,14 +23,6 @@ cp -a ../pysollib ${tmpdir}
 cp -a ../scripts ${tmpdir}
 cp -a ../pysol.py ${tmpdir}
 
-if [ ! -f support-v4-24.1.1.aar ]
-then
-  packageurl="https://maven.google.com/com/android/support/support-v4/24.1.1"
-  packagename="support-v4-24.1.1.aar"
-  wget -nv ${packageurl}/${packagename}
-fi
-cp -a support-v4-24.1.1.aar ${tmpdir}
-
 cp -a main.py ${tmpdir}
 mkdir -p ${tmpdir}/data/images/cards/bottoms/trumps-only
 echo "" > ${tmpdir}/data/images/cards/bottoms/trumps-only/.keep

@@ -180,7 +180,7 @@ android.api = 32
 #android.add_src =
 
 # (list) Android AAR archives to add
-android.add_aars = %(source.dir)s/support-v4-24.1.1.aar
+#android.add_aars =
 
 # (list) Put these files or directories in the apk assets directory.
 # Either form may be used, and assets need not be in 'source.include_exts'.
@@ -190,11 +190,14 @@ android.add_aars = %(source.dir)s/support-v4-24.1.1.aar
 
 # (list) Gradle dependencies to add
 #android.gradle_dependencies =
+android.gradle_dependencies =
+  androidx.appcompat:appcompat:1.4.2
 
 # (bool) Enable AndroidX support. Enable when 'android.gradle_dependencies'
 # contains an 'androidx' package, or any package from Kotlin source.
 # android.enable_androidx requires android.api >= 28
 #android.enable_androidx = False
+android.enable_androidx = True
 
 # (list) add java compile options
 # this can for example be necessary when importing certain java libraries using the 'android.gradle_dependencies' option

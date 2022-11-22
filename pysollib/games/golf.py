@@ -514,20 +514,32 @@ class AllInARow(BlackHole):
 
 # ************************************************************************
 # * Robert
+# * Bobby
 # * Wasatch
 # ************************************************************************
 
 class Robert(Game):
+    Foundation_Stack = BlackHole_Foundation
 
-    def createGame(self, max_rounds=3, num_deal=1):
+    def createGame(self, max_rounds=3, num_deal=1, num_foundations=1):
         layout, s = Layout(self), self.s
-        self.setSize(layout.XM+4*layout.XS, layout.YM+2*layout.YS)
-        x, y = layout.XM+3*layout.XS//2, layout.YM
-        stack = BlackHole_Foundation(x, y, self, ANY_SUIT,
-                                     dir=0, mod=13, max_move=0, max_cards=52)
-        s.foundations.append(stack)
-        layout.createText(stack, 'ne')
-        x, y = layout.XM+layout.XS, layout.YM+layout.YS
+        self.setSize(layout.XM + 4 * layout.XS,
+                     layout.YM + layout.TEXT_HEIGHT + 2 * layout.YS)
+        x, y = layout.XM, layout.YM
+        if num_foundations == 1:
+            x += 3 * layout.XS // 2
+        elif num_foundations == 2:
+            x += layout.XS
+        for f in range(num_foundations):
+            stack = self.Foundation_Stack(x, y, self, ANY_SUIT,
+                                          dir=0, mod=13, max_move=0,
+                                          max_cards=52,
+                                          base_rank=ANY_RANK)
+            s.foundations.append(stack)
+            layout.createText(stack, 's')
+            x += layout.XS
+
+        x, y = layout.XM+layout.XS, layout.YM + layout.YS + layout.TEXT_HEIGHT
         s.talon = WasteTalonStack(x, y, self,
                                   max_rounds=max_rounds, num_deal=num_deal)
         layout.createText(s.talon, 'nw')
@@ -546,13 +558,22 @@ class Robert(Game):
         self.s.talon.dealCards()
 
 
+class Bobby(Robert):
+
+    def createGame(self):
+        Robert.createGame(self, num_foundations=2)
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow(rows=self.s.foundations[:1])
+        self.s.talon.dealCards()
+
+
 class Wasatch(Robert):
 
     def createGame(self):
         Robert.createGame(self, max_rounds=UNLIMITED_REDEALS, num_deal=3)
 
-    def startGame(self):
-        Robert.startGame(self)
 
 # ************************************************************************
 # * Uintah
@@ -576,27 +597,12 @@ class Uintah_Foundation(AbstractFoundationStack):
         return _('Foundation. Build up or down by same color.')
 
 
-class Uintah(Game):
+class Uintah(Robert):
+    Foundation_Stack = Uintah_Foundation
 
     def createGame(self):
-        layout, s = Layout(self), self.s
-        self.setSize(layout.XM + 4 * layout.XS, layout.YM + 2 * layout.YS)
-        x, y = layout.XM, layout.YM
-        for i in range(4):
-            s.foundations.append(Uintah_Foundation(x, y, self,
-                                 suit=ANY_SUIT, dir=0, mod=13,
-                                 max_cards=52, max_move=0))
-            x += layout.XS
-        x, y = layout.XM + layout.XS, layout.YM + layout.YS
-        s.talon = WasteTalonStack(x, y, self,
-                                  max_rounds=UNLIMITED_REDEALS, num_deal=3)
-        layout.createText(s.talon, 'nw')
-        x += layout.XS
-        s.waste = WasteStack(x, y, self)
-        layout.createText(s.waste, 'ne')
-
-        # define stack-groups
-        layout.defaultStackGroups()
+        Robert.createGame(self, max_rounds=UNLIMITED_REDEALS, num_deal=3,
+                          num_foundations=4)
 
     def _shuffleHook(self, cards):
         suits = []
@@ -610,11 +616,6 @@ class Uintah(Game):
                 break
         top_cards.sort(key=lambda x: -x.suit)  # sort by suit
         return cards + top_cards
-
-    def startGame(self):
-        self.startDealSample()
-        self.s.talon.dealRow(rows=self.s.foundations)
-        self.s.talon.dealCards()
 
 
 # ************************************************************************
@@ -1333,3 +1334,5 @@ registerGame(GameInfo(783, Uintah, "Uintah",
 registerGame(GameInfo(812, Sticko, "Sticko",
                       GI.GT_1DECK_TYPE | GI.GT_STRIPPED, 1, 0, GI.SL_BALANCED,
                       ranks=(0, 6, 7, 8, 9, 10, 11, 12)))
+registerGame(GameInfo(868, Bobby, "Bobby",
+                      GI.GT_GOLF, 1, 2, GI.SL_LUCK))

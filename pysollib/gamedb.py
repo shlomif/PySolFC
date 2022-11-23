@@ -444,6 +444,7 @@ class GI:
         ("Art Cabral", (9,)),
         ("Richard A. Canfield", (105, 835,)),
         ("Lillian Davies and Christa Baran", (605,)),
+        ("Ann Edwards", (869,)),
         ("Robert Harbin", (381,)),
         ("Robert Hogue", (22216, 22217, 22218, 22231,)),
         ("Erik den Hollander", (344, 544,)),
@@ -547,7 +548,7 @@ class GI:
          tuple(range(22217, 22219))),
         ('fc-2.14', tuple(range(811, 827))),
         ('fc-2.15', tuple(range(827, 855)) + tuple(range(22400, 22407))),
-        ('dev', tuple(range(855, 869)))
+        ('dev', tuple(range(855, 870)))
     )
 
     # deprecated - the correct way is to or a GI.GT_XXX flag

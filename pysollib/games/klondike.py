@@ -221,6 +221,18 @@ class Whitehead(Klondike):
 
 
 # ************************************************************************
+# * Smokey
+# ************************************************************************
+
+class Smokey(Klondike):
+    RowStack_Class = StackWrapper(Whitehead_RowStack, base_rank=KING)
+    Hint_Class = CautiousDefaultHint
+
+    def createGame(self):
+        Klondike.createGame(self, max_rounds=3)
+
+
+# ************************************************************************
 # * Small Harp (Klondike in a different layout)
 # ************************************************************************
 
@@ -1633,3 +1645,5 @@ registerGame(GameInfo(855, HalfKlondike, "Half Klondike",
                       suits=(1, 2)))
 registerGame(GameInfo(861, Wildflower, "Wildflower",
                       GI.GT_RAGLAN | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(869, Smokey, "Smokey",
+                      GI.GT_KLONDIKE, 1, 2, GI.SL_BALANCED))

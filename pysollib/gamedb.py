@@ -288,6 +288,7 @@ class GI:
          155: 5034,             # Mahjongg - Flying Dragon
          156: 5035,             # Mahjongg - Fortress Towers
          262: 105,              # Canfield
+         283: 25,               # Gargantua/Jumbo
          902: 88,               # Trefoil
          904: 68,               # Lexington Harp
          237: 22231,            # Three Peaks

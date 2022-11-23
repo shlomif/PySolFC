@@ -506,22 +506,24 @@ class BatsfordAgain(Batsford):
 
 # ************************************************************************
 # * Jumbo
+# * (Removed as it's a duplicate of Gargantua)
 # ************************************************************************
 
-class Jumbo(Klondike):
-    def createGame(self):
-        lay = Klondike.createGame(self, rows=9, max_rounds=2, round_text=True)
-        lay.createRoundText(self.s.talon, 'ne', dx=lay.XS)
-
-    def startGame(self, flip=0):
-        for i in range(9):
-            self.s.talon.dealRow(rows=self.s.rows[:i], flip=flip, frames=0)
-        self._startAndDealRowAndCards()
-
-
-class OpenJumbo(Jumbo):
-    def startGame(self):
-        Jumbo.startGame(self, flip=1)
+# class Jumbo(Klondike):
+#     def createGame(self):
+#         lay = Klondike.createGame(self, rows=9, max_rounds=2,
+#                                   round_text=True)
+#         lay.createRoundText(self.s.talon, 'ne', dx=lay.XS)
+#
+#     def startGame(self, flip=0):
+#         for i in range(9):
+#             self.s.talon.dealRow(rows=self.s.rows[:i], flip=flip, frames=0)
+#         self._startAndDealRowAndCards()
+#
+#
+# class OpenJumbo(Jumbo):
+#     def startGame(self):
+#         Jumbo.startGame(self, flip=1)
 
 
 # ************************************************************************
@@ -1533,10 +1535,10 @@ registerGame(GameInfo(236, AgnesBernauer, "Agnes Bernauer",
                       GI.GT_RAGLAN, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(263, Phoenix, "Phoenix",
                       GI.GT_RAGLAN | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
-registerGame(GameInfo(283, Jumbo, "Jumbo",
-                      GI.GT_KLONDIKE, 2, 1, GI.SL_BALANCED))
-registerGame(GameInfo(333, OpenJumbo, "Open Jumbo",
-                      GI.GT_KLONDIKE, 2, 1, GI.SL_BALANCED))
+# registerGame(GameInfo(283, Jumbo, "Jumbo",
+#                       GI.GT_KLONDIKE, 2, 1, GI.SL_BALANCED))
+# registerGame(GameInfo(333, OpenJumbo, "Open Jumbo",
+#                       GI.GT_KLONDIKE, 2, 1, GI.SL_BALANCED))
 registerGame(GameInfo(326, Lanes, "Lanes",
                       GI.GT_KLONDIKE, 1, 1, GI.SL_BALANCED))
 registerGame(GameInfo(327, ThirtySix, "Thirty Six",

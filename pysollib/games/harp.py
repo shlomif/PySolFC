@@ -114,6 +114,11 @@ class Gargantua(DoubleKlondike):
         DoubleKlondike.createGame(self, max_rounds=2)
 
 
+class OpenGargantua(Gargantua):
+    def startGame(self):
+        DoubleKlondike.startGame(self, flip=1)
+
+
 class Pantagruel(DoubleKlondike):
     RowStack_Class = AC_RowStack
 
@@ -406,7 +411,11 @@ registerGame(GameInfo(21, DoubleKlondike, "Double Klondike",
 registerGame(GameInfo(28, DoubleKlondikeByThrees, "Double Klondike by Threes",
                       GI.GT_KLONDIKE, 2, -1, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(25, Gargantua, "Gargantua",
-                      GI.GT_KLONDIKE, 2, 1, GI.SL_BALANCED))
+                      GI.GT_KLONDIKE, 2, 1, GI.SL_BALANCED,
+                      altnames=("Jumbo",)))
+registerGame(GameInfo(333, OpenGargantua, "Open Gargantua",
+                      GI.GT_KLONDIKE, 2, 1, GI.SL_BALANCED,
+                      altnames=("Open Jumbo",)))
 registerGame(GameInfo(15, BigHarp, "Big Harp",
                       GI.GT_KLONDIKE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(51, Steps, "Steps",

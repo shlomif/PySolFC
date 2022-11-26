@@ -1012,7 +1012,8 @@ registerGame(GameInfo(217, MilliganHarp, "Milligan Harp",
 registerGame(GameInfo(218, Carlton, "Carlton",
                       GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(68, LexingtonHarp, "Lexington Harp",
-                      GI.GT_YUKON, 2, 0, GI.SL_BALANCED))
+                      GI.GT_YUKON, 2, 0, GI.SL_BALANCED,
+                      altnames=("Milligan Yukon",)))
 registerGame(GameInfo(154, Brunswick, "Brunswick",
                       GI.GT_YUKON, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(121, Mississippi, "Mississippi",

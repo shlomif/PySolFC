@@ -265,7 +265,8 @@ registerGame(GameInfo(149, Diplomat, "Diplomat",
 registerGame(GameInfo(151, LadyPalk, "Lady Palk",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(150, Congress, "Congress",
-                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL,
+                      altnames=("President's Cabinet",)))
 registerGame(GameInfo(433, RowsOfFour, "Rows of Four",
                       GI.GT_FORTY_THIEVES, 2, 2, GI.SL_BALANCED))
 registerGame(GameInfo(485, Dieppe, "Dieppe",

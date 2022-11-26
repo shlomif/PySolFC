@@ -417,4 +417,4 @@ registerGame(GameInfo(741, DoubleFootling, "Double Footling",
                       GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(793, RelaxedPileOn, "Relaxed PileOn",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN | GI.GT_RELAXED, 1, 0,
-                      GI.SL_MOSTLY_SKILL))
+                      GI.SL_MOSTLY_SKILL, altnames=("Fifteen Puzzle Cell")))

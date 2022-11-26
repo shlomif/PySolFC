@@ -1332,8 +1332,8 @@ class Following(FortyThieves):
 # register the game
 registerGame(GameInfo(13, FortyThieves, "Forty Thieves",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL,
-                      altnames=("Napoleon at St. Helena",
-                                "Le Cadran")))
+                      altnames=("Napoleon at St. Helena", "Le Cadran",
+                                "Roosevelt at San Juan")))
 registerGame(GameInfo(80, BusyAces, "Busy Aces",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(228, Limited, "Limited",

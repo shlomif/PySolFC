@@ -1385,7 +1385,8 @@ registerGame(GameInfo(579, ThreePirates, "Three Pirates",
 registerGame(GameInfo(608, Frames, "Frames",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(609, GrantsReinforcement, "Grant's Reinforcement",
-                      GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED))
+                      GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED,
+                      altnames=("Reinforcements",)))
 registerGame(GameInfo(638, RoyalRendezvous, "Royal Rendezvous",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(639, ShadyLanes, "Shady Lanes",

@@ -45,6 +45,7 @@ from pysollib.stack import \
         SS_FoundationStack, \
         SS_RowStack, \
         Spider_AC_Foundation, \
+        Spider_AC_RowStack, \
         Spider_SS_Foundation, \
         Spider_SS_RowStack, \
         StackWrapper, \
@@ -280,6 +281,21 @@ class BabySpiderette(Spiderette):
 class WillOTheWisp(Spiderette):
     def startGame(self):
         for i in range(2):
+            self.s.talon.dealRow(flip=0, frames=0)
+        self._startAndDealRow()
+
+
+# ************************************************************************
+# * Fair Maids
+# ************************************************************************
+
+class FairMaids(Spiderette):
+    RowStack_Class = Spider_AC_RowStack
+    Foundation_Class = Spider_AC_Foundation
+    Hint_Class = CautiousDefaultHint
+
+    def startGame(self):
+        for i in range(3):
             self.s.talon.dealRow(flip=0, frames=0)
         self._startAndDealRow()
 
@@ -1608,3 +1624,5 @@ registerGame(GameInfo(788, AutumnLeaves, "Autumn Leaves",
                       GI.GT_SPIDER, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(825, ScorpionTowers, "Scorpion Towers",
                       GI.GT_SPIDER | GI.GT_OPEN, 1, 0, GI.SL_SKILL))
+registerGame(GameInfo(870, FairMaids, "Fair Maids",
+                      GI.GT_SPIDER, 1, 0, GI.SL_BALANCED))

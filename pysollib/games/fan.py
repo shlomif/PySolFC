@@ -138,6 +138,10 @@ class FanGame(Fan):
     Solver_Class = FreeCellSolverWrapper(preset='fan')
 
 
+class CeilingFan(Fan):
+    RowStack_Class = KingAC_RowStack
+
+
 # ************************************************************************
 # * Scotch Patience
 # ************************************************************************
@@ -1097,3 +1101,5 @@ registerGame(GameInfo(819, BearRiver, "Bear River",
                       GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(834, RainbowFan, "Rainbow Fan",
                       GI.GT_FAN_TYPE, 2, 3, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(871, CeilingFan, "Ceiling Fan",
+                      GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))

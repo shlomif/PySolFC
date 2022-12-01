@@ -23,7 +23,7 @@ Games contributors
 
 * Mark Andrews
 * Galen Brooks <galen@nine.com>
-* Andrew Csillag <drew_csillag@geocities.com>
+* Andrew Csillag <drew@thecsillags.com>
 * Michael Foord
 * Matthew Hohlfeld <hohlfeld@cs.ucsd.edu>
 * Nicola Larosa

@@ -31,3 +31,4 @@ buildozer/tmp
 buildozer/support*
 buildozer/ENV
 buildozer/VENV
+venv*

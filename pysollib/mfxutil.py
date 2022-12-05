@@ -139,7 +139,11 @@ def getprefdir(package):
         from pysollib.kivy.LApp import get_platform
         plat = get_platform()
         if plat == 'android':
-            os.environ['HOME'] = '/sdcard'
+            from pysollib.kivy.androidperms import getStoragePerm
+            if getStoragePerm():
+                os.environ['HOME'] = '/sdcard'
+            else:
+                os.environ['HOME'] = '.'
 
     if os.name == "nt":
         return win32_getprefdir(package)

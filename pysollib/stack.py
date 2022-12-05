@@ -1867,6 +1867,7 @@ class TalonStack(Stack,
 
     def _addRedealImage(self):
         # add or remove the redeal image/text
+
         if not self.is_visible or self.images.bottom is None:
             return
         if self.game.preview > 1:
@@ -1892,13 +1893,18 @@ class TalonStack(Stack,
             img = (self.getRedealImages())[self.max_rounds != 1]
             if img is not None:
                 self.images.redeal_img = img
-                self.images.redeal = MfxCanvasImage(self.canvas,
-                                                    cx, cy, image=img,
-                                                    anchor="center",
-                                                    group=self.group)
                 if TOOLKIT == 'tk':
+                    self.images.redeal = MfxCanvasImage(self.canvas,
+                                                        cx, cy, image=img,
+                                                        anchor="center",
+                                                        group=self.group)
                     self.images.redeal.tkraise(self.top_bottom)
                 elif TOOLKIT == 'kivy':
+                    self.images.redeal = MfxCanvasImage(self.canvas,
+                                                        cx, cy, image=img,
+                                                        anchor="center",
+                                                        group=self.group,
+                                                        hint="redeal_image")
                     self.images.redeal.tkraise(self.top_bottom)
                 elif TOOLKIT == 'gtk':
                     # FIXME

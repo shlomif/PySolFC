@@ -25,6 +25,7 @@
 from __future__ import division
 
 import logging
+import math
 
 from kivy.clock import Clock
 from kivy.graphics import Color
@@ -153,6 +154,17 @@ class MfxCanvasGroup():
         return None
 
 
+def cardmagnif(canvas, size):
+
+    def pyth(s):
+        return math.sqrt(s[0]*s[0]+s[1]*s[1])
+
+    cs = canvas.wmain.app.images.getSize()
+    csl = pyth(cs)
+    sl = pyth(size)
+    return csl/sl
+
+
 class MfxCanvasImage(object):
     def __init__(self, canvas, *args, **kwargs):
 
@@ -168,6 +180,9 @@ class MfxCanvasImage(object):
         self._anchor = None
         if 'anchor' in kwargs:
             self._anchor = kwargs['anchor']
+        self.hint = None
+        if 'hint' in kwargs:
+            self.hint = kwargs['hint']
 
         super(MfxCanvasImage, self).__init__()
         self.canvas = canvas
@@ -179,19 +194,17 @@ class MfxCanvasImage(object):
         if type(ed) is LImageItem:
             aimage = ed
         else:
-            if (ed.source is None):
-                image = LImage(texture=ed.texture)
-                image.size = [ed.getWidth(), ed.getHeight()]
-                aimage = LImageItem(size=image.size, group=group)
-                aimage.add_widget(image)
-                size = image.size
+            image = LImage(texture=ed.texture)
+            if self.hint == "redeal_image":
+                cm = cardmagnif(canvas, size)/3.0
+                image.size = [cm*ed.getWidth(), cm*ed.getHeight()]
             else:
-                image = LImage(texture=ed.texture)
-                # image = LImage(source=ed.source)
                 image.size = [ed.getWidth(), ed.getHeight()]
-                aimage = LImageItem(size=ed.size, group=group)
-                aimage.add_widget(image)
-                size = image.size
+
+            aimage = LImageItem(size=ed.size, group=group)
+            aimage.add_widget(image)
+            aimage.size = image.size
+            size = image.size
 
         xy = addAnchorOffset(args, self._anchor, size)
 

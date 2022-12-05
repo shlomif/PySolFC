@@ -44,7 +44,6 @@ from kivy.uix.actionbar import ActionPrevious
 from kivy.uix.actionbar import ActionView
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.button import Button
 from kivy.uix.image import Image as KivyImage
 from kivy.uix.label import Label
 from kivy.uix.scrollview import ScrollView
@@ -54,6 +53,7 @@ from kivy.uix.widget import Widget
 from kivy.utils import platform
 
 from pysollib.kivy.androidperms import requestStoragePerm
+from pysollib.resource import CSI
 
 if platform != 'android':
     Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
@@ -333,6 +333,50 @@ def LColorToKivy(outline):
 # =============================================================================
 
 
+def cardfactor(canvas):
+    # heuristic to find some sort of 'fontsize' out of the cardset.
+    # We take the original small cardsets as reference and calculate
+    # a correction factor.
+
+    def pyth(a, b):
+        return math.sqrt(a*a+b*b)
+
+    cardscale = 1.0
+    try:
+        cs = canvas.wmain.app.images.cs
+        print('Cardset:', cs)
+        print('Cardset:', cs.type)
+
+        cardbase = pyth(73, 97)
+        if cs.type == CSI.TYPE_FRENCH:
+            cardbase = pyth(73, 97)
+        elif cs.type == CSI.TYPE_HANAFUDA:
+            cardbase = pyth(64, 102)
+        elif cs.type == CSI.TYPE_MAHJONGG:
+            cardbase = pyth(38, 54)
+        elif cs.type == CSI.TYPE_TAROCK:
+            cardbase = pyth(80, 80)
+        elif cs.type == CSI.TYPE_HEXADECK:
+            cardbase = pyth(50, 80)
+        elif cs.type == CSI.TYPE_MUGHAL_GANJIFA:
+            cardbase = pyth(80, 80)
+        elif cs.type == CSI.TYPE_NAVAGRAHA_GANJIFA:
+            cardbase = pyth(80, 80)
+        elif cs.type == CSI.TYPE_DASHAVATARA_GANJIFA:
+            cardbase = pyth(80, 80)
+        elif cs.type == CSI.TYPE_TRUMP_ONLY:
+            cardbase = pyth(35, 35)
+
+        si = canvas.wmain.app.images.getSize()
+        cardsize = pyth(si[0], si[1])
+        cardscale = cardsize/cardbase
+    except:	 # noqa: E722
+        pass
+    return cardscale
+
+# =============================================================================
+
+
 class LText(Widget, LBase):
     text = StringProperty('')
 
@@ -362,7 +406,7 @@ class LText(Widget, LBase):
         # print('LText: text = %s' % (self.text))
 
         kwargs['font'] = font
-        kwargs['font_size'] = fontsize
+        kwargs['font_size'] = fontsize * cardfactor(canvas)
 
         class MyLabel(Label, LBase):
             pass
@@ -653,9 +697,10 @@ class LRectangle(Widget, LBase):
                 bpos[0], tpos[1],
                 bpos[0], bpos[1]]
 
+        cf = cardfactor(self.prnt)
         dmy, brd = self.prnt.CoreToKivy(
             (0.0, 0.0), (self.border, self.border))
-        border = brd[1]
+        border = brd[1] * cf
 
         self.canvas.clear()
         with self.canvas:
@@ -1549,21 +1594,10 @@ class LMainWindow(BoxLayout, LTkBase):
         self.toolBarPos = 0
         self.bindings = {}
         self._w = '.'
-        self.topLine = Button(
-            size_hint=(1.0, 0.01),
-            background_down='atlas:'
-                            '//data/images/defaulttheme/action_item_down',
-            background_normal='atlas:'
-                              '//data/images/defaulttheme/action_item',
-            border=(0, 0, 0, 0))
-        self.topLine1 = Label(size_hint=(1.0, 0.01))
 
-        self.add_widget(self.topLine)
         self.add_widget(self.menuArea)
-        self.add_widget(self.topLine1)
         self.add_widget(self.workContainerO)
         self.workContainerO.add_widget(self.workContainer)
-        # self.add_widget(Button(size_hint = (1.0, 0.01)))
 
         self.workStack = LStack()
         self.app = None

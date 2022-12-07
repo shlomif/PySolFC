@@ -34,13 +34,14 @@ from pysollib.util import ANY_RANK, CLUB, HEART
 
 # ************************************************************************
 # * Knockout
+# * Knockout +
 # ************************************************************************
 
 class Knockout_Talon(DealRowTalonStack):
     def dealCards(self, sound=False):
         game = self.game
         if game.cards_dealt == game.DEALS_BEFORE_SHUFFLE:
-            if self.round < self.max_rounds:
+            if self.canDealCards():
                 old_state = game.enterState(game.S_FILL)
                 game.saveStateMove(2 | 16)  # for undo
                 self.game.cards_dealt = 0
@@ -57,6 +58,11 @@ class Knockout_Talon(DealRowTalonStack):
         game.leaveState(old_state)
 
         return DealRowTalonStack.dealCards(self, sound)
+
+    def canDealCards(self):
+        game = self.game
+        return (game.cards_dealt < game.DEALS_BEFORE_SHUFFLE
+                or self.round < self.max_rounds)
 
     def canFlipCard(self):
         return False
@@ -170,6 +176,10 @@ class Knockout(Game):
         return [self.cards_dealt]
 
 
+class KnockoutPlus(Knockout):
+    DEALS_BEFORE_SHUFFLE = 8
+
+
 # ************************************************************************
 # * Herz zu Herz
 # ************************************************************************
@@ -184,8 +194,11 @@ class HerzZuHerz(Knockout):
 # register the game
 registerGame(GameInfo(850, Knockout, "Knockout",
                       GI.GT_1DECK_TYPE | GI.GT_STRIPPED, 1, 2, GI.SL_LUCK,
-                      altnames=("Hope Deferred",),
+                      altnames=("Hope Deferred", "Hope"),
                       ranks=(0, 6, 7, 8, 9, 10, 11, 12)))
 registerGame(GameInfo(851, HerzZuHerz, "Herz zu Herz",
                       GI.GT_1DECK_TYPE | GI.GT_STRIPPED, 1, 2, GI.SL_LUCK,
                       ranks=(0, 6, 7, 8, 9, 10, 11, 12)))
+registerGame(GameInfo(872, KnockoutPlus, "Knockout +",
+                      GI.GT_1DECK_TYPE, 1, 2, GI.SL_LUCK,
+                      altnames=("Abandon Hope",)))

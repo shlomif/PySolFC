@@ -662,6 +662,7 @@ class QueenVictoria(KingAlbert):
 # ************************************************************************
 # * Jane
 # * Agnes Bernauer
+# * Agnes Two
 # ************************************************************************
 
 class Jane_Talon(OpenTalonStack):
@@ -695,9 +696,10 @@ class Jane(Klondike):
     def createGame(self, max_rounds=1, rows=7, reserves=7, playcards=16):
         lay, s = Layout(self), self.s
         maxrows = max(rows, 7)
-        w = lay.XM+maxrows*lay.XS+lay.XM+2*lay.XS
-        h = max(lay.YM+2*lay.YS+playcards*lay.YOFFSET+lay.TEXT_HEIGHT,
-                lay.YM+4*lay.YS)
+        w = lay.XM + maxrows * lay.XS + lay.XM + 2 * lay.XS
+        h = max(lay.YM + 2 * lay.YS + playcards * lay.YOFFSET
+                + lay.TEXT_HEIGHT,
+                lay.YM + ((reserves + 1) / 2) * lay.YS)
         self.setSize(w, h)
 
         x, y = lay.XM, lay.YM
@@ -706,10 +708,11 @@ class Jane(Klondike):
         x += lay.XS
         s.waste = WasteStack(x, y, self)
 
-        x += 2*lay.XS
+        x += (rows - 1 - (4 * self.gameinfo.decks)) * lay.XS
         for i in range(4):
-            s.foundations.append(self.Foundation_Class(x, y, self, suit=i))
-            x += lay.XS
+            for j in range(self.gameinfo.decks):
+                s.foundations.append(self.Foundation_Class(x, y, self, suit=i))
+                x += lay.XS
 
         x, y = lay.XM, lay.YM+lay.YS+lay.TEXT_HEIGHT
         for i in range(rows):
@@ -763,6 +766,11 @@ class AgnesBernauer(Jane):
         Jane.startGame(self, flip=1)
 
 
+class AgnesTwo(AgnesBernauer):
+    def createGame(self):
+        Jane.createGame(self, rows=10, reserves=10, playcards=20)
+
+
 # ************************************************************************
 # * Senate
 # ************************************************************************
@@ -770,7 +778,6 @@ class AgnesBernauer(Jane):
 class Senate(Jane):
 
     def createGame(self, rows=4):
-
         playcards = 10
 
         lay, s = Layout(self), self.s
@@ -1647,3 +1654,5 @@ registerGame(GameInfo(861, Wildflower, "Wildflower",
                       GI.GT_RAGLAN | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(869, Smokey, "Smokey",
                       GI.GT_KLONDIKE, 1, 2, GI.SL_BALANCED))
+registerGame(GameInfo(873, AgnesTwo, "Agnes Two",
+                      GI.GT_RAGLAN, 2, 0, GI.SL_BALANCED))

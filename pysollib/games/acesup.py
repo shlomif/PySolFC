@@ -423,7 +423,8 @@ registerGame(GameInfo(552, Cover, "Cover",
 registerGame(GameInfo(583, FiringSquad, "Firing Squad",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(684, Deck, "Deck",
-                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_LUCK))
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_LUCK,
+                      altnames=('Affinity',)))
 registerGame(GameInfo(756, TabbyCat, "Tabby Cat",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(757, Manx, "Manx",

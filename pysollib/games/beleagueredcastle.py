@@ -888,8 +888,8 @@ registerGame(GameInfo(300, Stronghold, "Stronghold",
                       GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0,
                       GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(301, Fastness, "Fastness",
-                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN | GI.GT_ORIGINAL,
-                      1, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0,
+                      GI.SL_MOSTLY_SKILL, altnames=('Private Lane',)))
 registerGame(GameInfo(306, Zerline, "Zerline",
                       GI.GT_BELEAGUERED_CASTLE, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(324, Bastion, "Bastion",

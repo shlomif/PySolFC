@@ -1508,4 +1508,5 @@ registerGame(GameInfo(802, TripleAlliance2Decks, "Triple Alliance (2 Decks)",
 registerGame(GameInfo(846, PyramidDozen, "Pyramid Dozen",
                       GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(854, Neptune, "Neptune",
-                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_BALANCED))
+                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_BALANCED,
+                      altnames=('Mixtures',)))

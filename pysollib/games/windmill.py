@@ -458,7 +458,8 @@ registerGame(GameInfo(483, Czarina, "Czarina",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(484, FourSeasons, "Four Seasons",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK,
-                      altnames=('Corner Card', 'Vanishing Cross')))
+                      altnames=('Corner Card', 'Vanishing Cross',
+                                'Cross Currents')))
 registerGame(GameInfo(561, DutchSolitaire, "Dutch Solitaire",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(696, FlorentinePatience, "Florentine Patience",

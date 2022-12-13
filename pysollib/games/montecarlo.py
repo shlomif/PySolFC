@@ -21,6 +21,8 @@
 #
 # ---------------------------------------------------------------------------##
 
+import math
+
 from pysollib.game import Game
 from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.hint import DefaultHint
@@ -662,21 +664,26 @@ class Vertical(Nestor):
 class TheWish(Game):
 
     FILL_STACKS_AFTER_DROP = False
+    ROWS = 8
 
     def createGame(self):
         # create layout
         l, s = Layout(self), self.s
 
         # set window
-        self.setSize(l.XM+6*l.XS, 2*l.YM+2*l.YS+6*l.YOFFSET)
+        self.setSize(l.XM + ((self.ROWS / 2) + 2) * l.XS,
+                     2 * l.YM + 2 * l.YS + 6 * l.YOFFSET)
 
+        currentrow = 0
         # create stacks
         for i in range(2):
-            for j in range(4):
-                x, y = l.XM + j*l.XS, l.YM+i*(l.YM+l.YS+3*l.YOFFSET)
-                s.rows.append(Nestor_RowStack(x, y, self,
-                                              max_move=1, max_accept=1,
-                                              dir=0, base_rank=NO_RANK))
+            for j in range(math.ceil(self.ROWS / 2)):
+                if currentrow < self.ROWS:
+                    x, y = l.XM + j*l.XS, l.YM+i*(l.YM+l.YS+3*l.YOFFSET)
+                    s.rows.append(Nestor_RowStack(x, y, self,
+                                                  max_move=1, max_accept=1,
+                                                  dir=0, base_rank=NO_RANK))
+                    currentrow += 1
 
         x, y = self.width - l.XS, l.YM
         s.talon = InitialDealTalonStack(x, y, self)
@@ -717,6 +724,15 @@ class TheWishOpen(TheWish):
 
     def startGame(self):
         self._startDealNumRowsAndDealSingleRow(3)
+
+
+class PatientPairs(TheWish):
+    ROWS = 13
+
+
+class PatientPairsOpen(TheWishOpen):
+    ROWS = 13
+
 
 # ************************************************************************
 # * Der letzte Monarch (The last Monarch)
@@ -1035,3 +1051,9 @@ registerGame(GameInfo(862, SimpleTens, "Simple Tens",
 registerGame(GameInfo(867, DoubleFourteen, "Double Fourteen",
                       GI.GT_PAIRING_TYPE | GI.GT_OPEN, 2, 0,
                       GI.SL_MOSTLY_LUCK))
+registerGame(GameInfo(874, PatientPairs, "Patient Pairs",
+                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK,
+                      altnames=("Isabel",)))
+registerGame(GameInfo(875, PatientPairsOpen, "Patient Pairs (Open)",
+                      GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0,
+                      GI.SL_MOSTLY_SKILL, rules_filename="patientpairs.html"))

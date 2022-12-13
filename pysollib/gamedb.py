@@ -331,7 +331,7 @@ class GI:
         # Gnome AisleRiot 2.2.0 (we have 65 out of 70 games)
         # Gnome AisleRiot 3.22.7
         #   still missing:
-        #       Hamilton, Isabel, Labyrinth, Thieves, Treize, Valentine, Wall
+        #       Hamilton, Labyrinth, Thieves, Treize, Valentine, Wall
         ("Gnome AisleRiot", (
             1, 2, 8, 9, 11, 12, 13, 19, 24, 27, 29, 31, 33, 34, 35, 36,
             38, 40, 41, 42, 43, 45, 48, 58, 65, 67, 89, 91, 92, 93, 94,
@@ -339,7 +339,7 @@ class GI:
             146, 147, 148, 200, 201, 206, 224, 225, 229, 230, 233, 257,
             258, 277, 280, 281, 282, 283, 284, 334, 384, 479, 495, 551,
             552, 553, 572, 593, 674, 700, 715, 716, 737, 772, 810, 819,
-            824, 829, 859, 22231,
+            824, 829, 859, 874, 22231,
         )),
 
         # Hoyle Card Games
@@ -547,7 +547,7 @@ class GI:
          tuple(range(22217, 22219))),
         ('fc-2.14', tuple(range(811, 827))),
         ('fc-2.15', tuple(range(827, 855)) + tuple(range(22400, 22407))),
-        ('dev', tuple(range(855, 874)))
+        ('dev', tuple(range(855, 876)))
     )
 
     # deprecated - the correct way is to or a GI.GT_XXX flag

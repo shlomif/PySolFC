@@ -151,7 +151,7 @@ android.api = 32
 
 # (str) Extra xml to write directly inside the <manifest><application> tag of AndroidManifest.xml
 # use that parameter to provide a filename from where to load your custom XML arguments:
-#android.extra_manifest_application_arguments = ./src/android/extra_manifest_application_arguments.xml
+android.extra_manifest_application_arguments = ./src/manifest/extra_attributes.xml
 
 # (str) Full name including package path of the Java class that implements Python Service
 # use that parameter to set custom Java class instead of PythonService

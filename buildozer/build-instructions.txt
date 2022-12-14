@@ -78,4 +78,10 @@ test notes:
 3) built apks worked on android 7 and android 8.
    (no newer devices had been available)
 
-LB221118.
+4) on fdroid, that provided a light weight build server
+   with debian bullseye the following additional packages had
+   to be installed (apt-get):
+   - ant autoconf build-essential ccache gettext imagemagick
+   - libffi-dev libltdl-dev libssl-dev libtool python3-tk
+   - virtualenv wget zlib1g-dev
+

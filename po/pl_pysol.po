@@ -4844,6 +4844,9 @@ msgstr "Wybie&rz grę losowo"
 msgid "&All games"
 msgstr "Wszystkie gry"
 
+msgid "&Games played"
+msgstr "&Gry rozegrane"
+
 #: pysollib/ui/tktile/menubar.py:309
 msgid "Games played and &won"
 msgstr "Gry rozegrane i &wygrane"

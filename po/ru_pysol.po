@@ -4810,6 +4810,9 @@ msgstr "С&лучайная игра"
 msgid "&All games"
 msgstr "&Все игры"
 
+msgid "&Games played"
+msgstr "&Играли игры"
+
 #: pysollib/ui/tktile/menubar.py:309
 msgid "Games played and &won"
 msgstr "&Выигранные игры"

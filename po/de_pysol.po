@@ -4669,6 +4669,9 @@ msgstr "Zu&fallsspiel auswählen"
 msgid "&All games"
 msgstr "&Alle Spiele"
 
+msgid "&Games played"
+msgstr "&Gespielte Spiele"
+
 #: pysollib/ui/tktile/menubar.py:309
 msgid "Games played and &won"
 msgstr "Gespielt: ge&wonnen/verloren"

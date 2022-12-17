@@ -65,6 +65,10 @@ class PysolMenubar(PysolMenubarTk):
             save=0,
             save_as=0,
             hold_and_quit=0,
+            rndplayed=0,
+            rndwon=0,
+            rndnotwon=0,
+            rndnotplayed=0,
             undo=0,
             redo=0,
             restart=0,
@@ -123,6 +127,10 @@ class PysolMenubar(PysolMenubarTk):
         opt = self.app.opt
         ms = self.menustate
         # 0 = DISABLED, 1 = ENABLED
+        ms.rndplayed = len(self._mGetPossibleRandomGames("played")) > 0
+        ms.rndwon = len(self._mGetPossibleRandomGames("won")) > 0
+        ms.rndnotwon = len(self._mGetPossibleRandomGames("not won")) > 0
+        ms.rndnotplayed = len(self._mGetPossibleRandomGames("not played")) > 0
         ms.save_as = game.canSaveGame()
         ms.hold_and_quit = ms.save_as
         if game.filename and ms.save_as:
@@ -174,6 +182,12 @@ class PysolMenubar(PysolMenubarTk):
         # File menu
         self.setMenuState(ms.save, "file.save")
         self.setMenuState(ms.save_as, "file.saveas")
+        self.setMenuState(ms.rndplayed, "file.selectrandomgame.gamesplayed")
+        self.setMenuState(ms.rndwon, "file.selectrandomgame.gamesplayedandwon")
+        self.setMenuState(ms.rndnotwon,
+                          "file.selectrandomgame.gamesplayedandnotwon")
+        self.setMenuState(ms.rndnotplayed,
+                          "file.selectrandomgame.gamesnotplayed")
         self.setMenuState(ms.hold_and_quit, "file.holdandquit")
         # Edit menu
         self.setMenuState(ms.undo, "edit.undo")
@@ -325,6 +339,14 @@ class PysolMenubar(PysolMenubarTk):
             if not self.game.areYouSure(_("Select random game")):
                 return
         game_id = None
+        games = self._mGetPossibleRandomGames(type)
+        if games:
+            game_id = self.app.chooseRandomOutOfGames(games)
+        if game_id and game_id != self.game.id:
+            self.game.endGame()
+            self.game.quitGame(game_id)
+
+    def _mGetPossibleRandomGames(self, type='all'):
         games = []
         for g in self.app.gdb.getGamesIdSortedById():
             gi = self.app.getGameInfo(g)
@@ -337,17 +359,15 @@ class PysolMenubar(PysolMenubarTk):
             won, lost = self.app.stats.getStats(self.app.opt.player, gi.id)
             if type == 'all':
                 games.append(gi.id)
+            elif type == 'played' and won + lost > 0:
+                games.append(gi.id)
             elif type == 'won' and won > 0:
                 games.append(gi.id)
             elif type == 'not won' and won == 0 and lost > 0:
                 games.append(gi.id)
-            elif type == 'not played' and won+lost == 0:
+            elif type == 'not played' and won + lost == 0:
                 games.append(gi.id)
-        if games:
-            game_id = self.app.chooseRandomOutOfGames(games)
-        if game_id and game_id != self.game.id:
-            self.game.endGame()
-            self.game.quitGame(game_id)
+        return games
 
     def _mSelectNextGameFromList(self, gl, step):
         if self._cancelDrag():
@@ -747,6 +767,7 @@ class PysolMenubar(PysolMenubarTk):
                 self.game.updateStatus(player=self.app.opt.player)
                 self.game.updateStatus(stats=self.app.stats.getStats(
                     self.app.opt.player, self.game.id))
+        self.updateMenus()
 
     def mOptColors(self, *args):
         if self._cancelDrag(break_pause=False):

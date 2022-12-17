@@ -383,6 +383,10 @@ class PysolMenubarTkCommon:
         submenu.add_command(
             label=n_("&All games"), command=lambda:
             self.mSelectRandomGame('all'), accelerator=m+"R")
+        submenu.add_separator()
+        submenu.add_command(
+            label=n_("&Games played"),
+            command=lambda: self.mSelectRandomGame('played'))
         submenu.add_command(
             label=n_("Games played and &won"),
             command=lambda: self.mSelectRandomGame('won'))

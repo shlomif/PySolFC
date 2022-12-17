@@ -4786,6 +4786,9 @@ msgstr "Un gioco a &caso"
 msgid "&All games"
 msgstr "&Tutti i giochi"
 
+msgid "&Games played"
+msgstr "&Giocati"
+
 #: pysollib/ui/tktile/menubar.py:309
 msgid "Games played and &won"
 msgstr "Giocati e &vinti"

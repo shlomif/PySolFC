@@ -4476,6 +4476,9 @@ msgstr ""
 msgid "&All games"
 msgstr ""
 
+msgid "&Games played"
+msgstr ""
+
 #: pysollib/ui/tktile/menubar.py:309
 msgid "Games played and &won"
 msgstr ""

@@ -40,7 +40,8 @@ from pysollib.stack import \
         TalonStack, \
         UD_AC_RowStack, \
         UD_SS_RowStack
-from pysollib.util import ACE, KING, NO_RANK, UNLIMITED_ACCEPTS, \
+from pysollib.util import ACE, ANY_RANK, KING, NO_RANK, \
+        UNLIMITED_ACCEPTS, \
         UNLIMITED_MOVES
 
 
@@ -181,6 +182,7 @@ class SpanishPatienceII(PortugueseSolitaire):
 
 # ************************************************************************
 # * Good Measure
+# * Vineyard
 # ************************************************************************
 
 class GoodMeasure(BakersDozen):
@@ -202,6 +204,18 @@ class GoodMeasure(BakersDozen):
             assert c.rank == ACE
             self.flipMove(self.s.talon)
             self.moveMove(1, self.s.talon, self.s.foundations[c.suit])
+
+
+class Vineyard(CastlesInSpain):
+    RowStack_Class = StackWrapper(AC_RowStack, max_move=1, max_accept=1,
+                                  base_rank=ANY_RANK)
+
+    def createGame(self):
+        CastlesInSpain.createGame(self, rows=10)
+
+    def startGame(self):
+        CastlesInSpain.startGame(self, flip=(1, 1, 1, 1))
+        self.s.talon.dealRow(self.s.rows[0:2])
 
 
 # ************************************************************************
@@ -428,4 +442,7 @@ registerGame(GameInfo(823, Unusual, "Unusual",
                       GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 2, -1, GI.SL_BALANCED))
 registerGame(GameInfo(860, BakersDozen2Decks, "Baker's Dozen (2 Decks)",
                       GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 2, 0,
+                      GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(876, Vineyard, "Vineyard",
+                      GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 1, 0,
                       GI.SL_MOSTLY_SKILL))

@@ -464,6 +464,7 @@ class GI:
         ("John Stoneham", (201,)),
         ("Bryan Stout", (655,)),
         ("Bill Taylor", (349,)),
+        ("Peter Voke", (876,)),
         ("Thomas Warfield", (189, 264, 300, 320, 336, 337, 359,
                              415, 427, 458, 495, 496, 497, 508,
                              800, 814, 820, 825,)),
@@ -547,7 +548,7 @@ class GI:
          tuple(range(22217, 22219))),
         ('fc-2.14', tuple(range(811, 827))),
         ('fc-2.15', tuple(range(827, 855)) + tuple(range(22400, 22407))),
-        ('dev', tuple(range(855, 876)))
+        ('dev', tuple(range(855, 877)))
     )
 
     # deprecated - the correct way is to or a GI.GT_XXX flag

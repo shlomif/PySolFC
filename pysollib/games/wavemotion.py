@@ -124,6 +124,7 @@ class Flourish(WaveMotion):
 
 # ************************************************************************
 # * Flow
+# * Wading Pool
 # ************************************************************************
 
 class Flow_ReserveStack(SS_RowStack):
@@ -140,6 +141,11 @@ class Flow(WaveMotion):
         WaveMotion.createGame(self, rows=8, reserves=8, playcards=14)
 
 
+class WadingPool(Flow):
+    Reserve_Class = StackWrapper(Flow_ReserveStack, base_rank=ANY_RANK,
+                                 max_move=1)
+
+
 # register the game
 registerGame(GameInfo(314, WaveMotion, "Wave Motion",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
@@ -147,4 +153,6 @@ registerGame(GameInfo(753, Flourish, "Flourish",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0,
                       GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(841, Flow, "Flow",
+                      GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(878, WadingPool, "Wading Pool",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))

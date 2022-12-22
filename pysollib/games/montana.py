@@ -597,9 +597,17 @@ class Spoilt(Game):
 
 # ************************************************************************
 # * Double Montana
+# * Paganini II
+# * Double Blue Moon
+# * Double Red Moon
 # ************************************************************************
 
 class DoubleMontana(Montana):
+    Talon_Class = StackWrapper(Montana_Talon, max_rounds=3)
+    RLEN, RSTEP, RBASE = 104, 13, 1
+
+
+class PaganiniII(DoubleMontana):
     Talon_Class = InitialDealTalonStack
     Hint_Class = Galary_Hint
     RLEN, RSTEP, RBASE = 112, 14, 0
@@ -610,7 +618,7 @@ class DoubleMontana(Montana):
     def startGame(self):
         frames = 0
         for i in range(self.RLEN):
-            if i == self.RLEN-self.RSTEP:  # last row
+            if i == self.RLEN - self.RSTEP:  # last row
                 self.startDealSample()
                 frames = -1
             if i % self.RSTEP == 0:     # left column
@@ -618,7 +626,7 @@ class DoubleMontana(Montana):
             self.s.talon.dealRow(rows=(self.s.rows[i],), frames=frames)
 
 
-class DoubleBlueMoon(DoubleMontana, BlueMoon):
+class DoubleBlueMoon(PaganiniII, BlueMoon):
     Talon_Class = StackWrapper(Montana_Talon, max_rounds=3)
     RLEN, RSTEP, RBASE = 112, 14, 0
 
@@ -627,7 +635,7 @@ class DoubleBlueMoon(DoubleMontana, BlueMoon):
     startGame = BlueMoon.startGame
 
 
-class DoubleRedMoon(DoubleMontana, RedMoon):
+class DoubleRedMoon(PaganiniII, RedMoon):
     Talon_Class = StackWrapper(Montana_Talon, max_rounds=3)
     RLEN, RROWS = 112, 8
     _shuffleHook = RedMoon._shuffleHook
@@ -688,7 +696,7 @@ registerGame(GameInfo(706, Paganini, "Paganini",
 registerGame(GameInfo(736, Spoilt, "Spoilt",
                       GI.GT_MONTANA | GI.GT_STRIPPED, 1, 0, GI.SL_MOSTLY_LUCK,
                       ranks=(0, 6, 7, 8, 9, 10, 11, 12)))
-registerGame(GameInfo(759, DoubleMontana, "Double Montana",
+registerGame(GameInfo(759, PaganiniII, "Paganini II",
                       GI.GT_MONTANA | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(770, DoubleBlueMoon, "Double Blue Moon",
                       GI.GT_MONTANA | GI.GT_OPEN, 2, 2, GI.SL_MOSTLY_SKILL))
@@ -705,3 +713,6 @@ registerGame(GameInfo(795, Pretzel, "Pretzel",
 registerGame(GameInfo(858, Station, "Station",
                       GI.GT_MONTANA | GI.GT_OPEN, 1, 2, GI.SL_MOSTLY_SKILL,
                       si={"ncards": 48}))
+registerGame(GameInfo(877, DoubleMontana, "Double Montana",
+                      GI.GT_MONTANA | GI.GT_OPEN, 2, 2, GI.SL_MOSTLY_SKILL,
+                      si={"ncards": 96}))

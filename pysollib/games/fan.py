@@ -611,10 +611,10 @@ class BoxFan(Fan):
 
 # ************************************************************************
 # * Troika
+# * Quads
 # ************************************************************************
 
 class Troika(Fan):
-
     RowStack_Class = StackWrapper(RK_RowStack, dir=0,
                                   base_rank=NO_RANK, max_cards=3)
 
@@ -665,6 +665,42 @@ class QuadsPlus(Quads):
             self.s.talon.dealRow(rows=self.s.rows[:-1], frames=0)
         self.startDealSample()
         self.s.talon.dealRow(rows=self.s.rows[:-1])
+
+
+# ************************************************************************
+# * Roaming Proils
+# ************************************************************************
+
+class RoamingProils_RowStack(RK_RowStack):
+
+    def acceptsCards(self, from_stack, cards):
+        if not RK_RowStack.acceptsCards(self, from_stack, cards):
+            return False
+        rank_sequence = 1
+        for card in reversed(self.cards):
+            if card.rank == cards[0].rank and card.face_up:
+                rank_sequence += 1
+            else:
+                break
+
+        if rank_sequence > 3:
+            return False
+        return True
+
+
+class RoamingProils(Fan):
+    RowStack_Class = StackWrapper(RoamingProils_RowStack, dir=0,
+                                  base_rank=NO_RANK)
+    ReserveStack_Class = StackWrapper(ReserveStack, base_rank=KING)
+
+    def createGame(self):
+        Fan.createGame(self, rows=(5, 5, 5, 2), playcards=5, reserves=1)
+
+    def startGame(self):
+        for i in range(2):
+            self.s.talon.dealRow(rows=self.s.rows[:17], flip=0, frames=0)
+        self._startAndDealRow()
+        self.s.talon.dealRow(rows=self.s.reserves)
 
 
 # ************************************************************************
@@ -1103,3 +1139,5 @@ registerGame(GameInfo(834, RainbowFan, "Rainbow Fan",
                       GI.GT_FAN_TYPE, 2, 3, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(871, CeilingFan, "Ceiling Fan",
                       GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(879, RoamingProils, "Roaming Proils",
+                      GI.GT_FAN_TYPE, 1, 0, GI.SL_BALANCED))

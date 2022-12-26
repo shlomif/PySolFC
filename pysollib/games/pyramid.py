@@ -441,20 +441,22 @@ class Thirteen(Pyramid):
 # ************************************************************************
 
 class Thirteens(Pyramid):
+    RowStack_Class = Giza_Reserve
 
-    def createGame(self):
+    def createGame(self, rows=2, cols=5):
         # create layout
         layout, s = Layout(self), self.s
 
         # set window
-        self.setSize(layout.XM+5*layout.XS, layout.YM+4*layout.YS)
+        self.setSize(layout.XM + cols * layout.XS,
+                     layout.YM + (rows + 2) * layout.YS)
 
         # create stacks
         x, y = layout.XM, layout.YM
-        for i in range(2):
+        for i in range(rows):
             x = layout.XM
-            for j in range(5):
-                s.rows.append(Giza_Reserve(x, y, self, max_accept=1))
+            for j in range(cols):
+                s.rows.append(self.RowStack_Class(x, y, self, max_accept=1))
                 x += layout.XS
             y += layout.YS
         x, y = layout.XM, self.height-layout.YS
@@ -733,11 +735,11 @@ class Neptune_RowStack(Elevens_RowStack):
         self.fillStack()
 
 
-class Neptune(Elevens):
+class Neptune(Thirteens):
     RowStack_Class = Neptune_RowStack
 
     def createGame(self):
-        Elevens.createGame(self, rows=4, cols=2, reserves=0)
+        Thirteens.createGame(self, rows=2, cols=4)
 
     def isGameWon(self):
         return len(self.s.talon.cards) == 0
@@ -1452,7 +1454,7 @@ registerGame(GameInfo(38, Pyramid, "Pyramid",
 registerGame(GameInfo(193, RelaxedPyramid, "Relaxed Pyramid",
                       GI.GT_PAIRING_TYPE | GI.GT_RELAXED, 1, 2,
                       GI.SL_MOSTLY_LUCK,
-                      altnames=("Pyramid's Stones",)))
+                      altnames=("Pyramid's Stones", "Pyramid Clear")))
 # registerGame(GameInfo(44, Thirteen, "Thirteen",
 #                       GI.GT_PAIRING_TYPE, 1, 0))
 registerGame(GameInfo(592, Giza, "Giza",

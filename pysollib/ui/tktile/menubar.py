@@ -743,6 +743,11 @@ class PysolMenubarTkCommon:
         createToolbarMenu(self, submenu)
         submenu = MfxMenu(menu, label=n_("Stat&usbar"))
         createStatusbarMenu(self, submenu)
+        if not USE_PIL:
+            menu.add_checkbutton(
+                label=n_("Save games &geometry"),
+                variable=self.tkopt.save_games_geometry,
+                command=self.mOptSaveGamesGeometry)
         menu.add_checkbutton(
             label=n_("&Demo logo"), variable=self.tkopt.demo_logo,
             command=self.mOptDemoLogo)

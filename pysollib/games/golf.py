@@ -1164,6 +1164,70 @@ class NapoleonLeavesMoscow(NapoleonTakesMoscow):
 
 
 # ************************************************************************
+# * Carcassonne
+# ************************************************************************
+
+class Carcassonne(Game, FirTree_GameMethods):
+
+    def createGame(self):
+
+        layout, s = Layout(self), self.s
+        self.setSize(layout.XM + 10 * layout.XS,
+                     layout.YM + 3 * layout.YS + 15 * layout.YOFFSET +
+                     layout.TEXT_HEIGHT)
+
+        x, y = layout.XM+layout.XS, layout.YM
+        for i in range(4):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
+            x += layout.XS
+        for i in range(4):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i,
+                                                    dir=-1))
+            x += layout.XS
+
+        x, y = layout.XM, layout.YM+layout.YS
+        for i in range(2):
+            for j in range(4):
+                s.rows.append(UD_RK_RowStack(x, y, self, base_rank=NO_RANK))
+                x += layout.XS
+            x += 2*layout.XS
+
+        x, y = layout.XM+4*layout.XS, layout.YM+layout.YS
+        s.reserves += self._createFirTree(layout, x, y)
+
+        x, y = layout.XM, self.height - layout.YS - layout.TEXT_HEIGHT
+        s.talon = InitialDealTalonStack(x, y, self)
+
+        # define stack-groups
+        layout.defaultStackGroups()
+
+    def _shuffleHook(self, cards):
+        return self._shuffleHookMoveToTop(
+            cards,
+            lambda c: (c.rank in (ACE, KING), (c.deck, c.rank, c.suit)))
+
+    def _fillOne(self):
+        for r in self.s.rows:
+            if r.cards:
+                c = r.cards[-1]
+                for f in self.s.foundations:
+                    if f.acceptsCards(r, [c]):
+                        self.moveMove(1, r, f, frames=3, shadow=0)
+                        return 1
+        return 0
+
+    def startGame(self):
+        self.s.talon.dealRow(rows=self.s.foundations, frames=0)
+        self._startDealNumRows(1)
+        self.s.talon.dealRow(rows=self.s.reserves, frames=0)
+        for i in range(9):
+            self.s.talon.dealRow(frames=3)
+            while True:
+                if not self._fillOne():
+                    break
+        self.s.talon.dealCards()
+
+# ************************************************************************
 # * Flake
 # * Flake (2 Decks)
 # ************************************************************************
@@ -1336,3 +1400,5 @@ registerGame(GameInfo(812, Sticko, "Sticko",
                       ranks=(0, 6, 7, 8, 9, 10, 11, 12)))
 registerGame(GameInfo(868, Bobby, "Bobby",
                       GI.GT_GOLF, 1, 2, GI.SL_LUCK))
+registerGame(GameInfo(880, Carcassonne, "Carcassonne",
+                      GI.GT_NAPOLEON | GI.GT_OPEN, 2, 0, GI.SL_BALANCED))

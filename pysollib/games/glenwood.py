@@ -339,4 +339,5 @@ registerGame(GameInfo(282, Glenwood, "Dutchess",
                       GI.GT_CANFIELD, 1, 1, GI.SL_BALANCED,
                       altnames=("Duchess", "Glenwood",)))
 registerGame(GameInfo(587, DoubleFives, "Double Fives",
-                      GI.GT_2DECK_TYPE, 2, 1, GI.SL_BALANCED))
+                      GI.GT_2DECK_TYPE | GI.GT_SEPARATE_DECKS,
+                      2, 1, GI.SL_BALANCED))

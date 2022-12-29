@@ -454,7 +454,8 @@ class Decade(PushPin):
 registerGame(GameInfo(287, PushPin, "Push Pin",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(288, RoyalMarriage, "Royal Marriage",
-                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK,
+                      altnames=('Betrothal')))
 #  registerGame(GameInfo(303, Queens, "Queens",
 #                        GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0))
 registerGame(GameInfo(656, Accordion, "Bayan",
@@ -463,7 +464,8 @@ registerGame(GameInfo(772, Accordion2, "Accordion",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_SKILL,
                       altnames=('Idle Year', 'Methuselah', 'Tower of Babel')))
 registerGame(GameInfo(773, RelaxedAccordion, "Relaxed Accordion",
-                      GI.GT_1DECK_TYPE | GI.GT_RELAXED, 1, 0, GI.SL_SKILL))
+                      GI.GT_1DECK_TYPE | GI.GT_RELAXED, 1, 0, GI.SL_SKILL,
+                      altnames=('Concertina')))
 registerGame(GameInfo(811, AccordionsRevenge, "Accordion's Revenge",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_SKILL))
 registerGame(GameInfo(816, Decade, "Decade",

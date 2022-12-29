@@ -395,7 +395,7 @@ class DoubleFootling(Footling):
 # register the game
 registerGame(GameInfo(41, PileOn, "PileOn",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL,
-                      altnames=("Fifteen Puzzle", "Fan Fifteen", )))
+                      altnames=("Fifteen Puzzle", "Fan Fifteen", "Beeswax")))
 registerGame(GameInfo(289, SmallPileOn, "Small PileOn",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL |
                       GI.GT_STRIPPED, 1, 0,

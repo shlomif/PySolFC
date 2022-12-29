@@ -451,6 +451,7 @@ class GI:
         ("Charles Jewell", (220, 309,)),
         ("Michael Keller", (592,)),
         ("Fred Lunde", (459,)),
+        ("Mark Masten", (811,)),
         ("Albert Morehead and Geoffrey Mott-Smith", (25, 42, 48, 173, 282,
                                                      303, 362, 547, 738,
                                                      845)),

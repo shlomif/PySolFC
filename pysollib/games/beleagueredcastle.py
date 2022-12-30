@@ -44,7 +44,8 @@ from pysollib.stack import \
         UD_SS_RowStack, \
         WasteStack, \
         WasteTalonStack
-from pysollib.util import ACE, ANY_RANK, KING, NO_RANK, QUEEN, RANKS
+from pysollib.util import ACE, ANY_RANK, KING, NO_RANK, QUEEN, RANKS,\
+        UNLIMITED_ACCEPTS, UNLIMITED_MOVES
 
 
 class BeleagueredCastleType_Hint(CautiousDefaultHint):
@@ -374,6 +375,7 @@ class CastlesEnd(Bastion):
 
 # ************************************************************************
 # * Chessboard
+# * Lasker
 # ************************************************************************
 
 class Chessboard_Foundation(SS_FoundationStack):
@@ -421,6 +423,12 @@ class Chessboard(Fortress):
                 t = RANKS[s.cards[0].rank]
                 break
         self.texts.info.config(text=t)
+
+
+class Lasker(Chessboard):
+    RowStack_Class = StackWrapper(Chessboard_RowStack, mod=13,
+                                  max_move=UNLIMITED_MOVES,
+                                  max_accept=UNLIMITED_ACCEPTS)
 
 
 # ************************************************************************
@@ -932,3 +940,6 @@ registerGame(GameInfo(665, PenelopesWeb, "Penelope's Web",
 registerGame(GameInfo(831, Siegecraft, "Siegecraft",
                       GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0,
                       GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(881, Lasker, "Lasker",
+                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0,
+                      GI.SL_SKILL))

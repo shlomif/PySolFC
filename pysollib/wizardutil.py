@@ -28,9 +28,9 @@ from pysollib.layout import Layout
 from pysollib.mygettext import _, n_
 from pysollib.stack import AC_FoundationStack, \
         AC_RowStack, \
-        BasicRowStack, \
         BO_FoundationStack, \
         BO_RowStack, \
+        BasicRowStack, \
         DealReserveRedealTalonStack, \
         DealRowRedealTalonStack, \
         GroundsForADivorceTalonStack, \

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2022-09-26 21:00-0400\n"
+"PO-Revision-Date: 2022-12-30 09:32-0500\n"
 "Last-Translator: Jerzy Trzeciak <artusek@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
@@ -1257,6 +1257,12 @@ msgstr "Stos bazowy. Układaj w górę wg barwy."
 msgid "Foundation. Build down by color."
 msgstr "Stos bazowy. Układaj w dół wg barwy."
 
+msgid "Foundation. Build up in any suit but the same."
+msgstr ""
+
+msgid "Foundation. Build down in any suit but the same."
+msgstr ""
+
 #: pysollib/stack.py:2459 pysollib/games/golf.py:126 pysollib/games/golf.py:322
 msgid "Tableau. No building."
 msgstr "Stół gry. Nie układaj."
@@ -1339,6 +1345,21 @@ msgstr ""
 "Stół gry. Układaj w dół niezależnie od koloru. Sekwens kart tego samego "
 "koloru można przenieść jako całość."
 
+msgid ""
+"Tableau. Build up regardless of suit. Sequences of cards in the same color "
+"can be moved as a unit."
+msgstr ""
+
+msgid ""
+"Tableau. Build up regardless of suit. Sequences of cards in any suit but the "
+"same can be moved as a unit."
+msgstr ""
+
+msgid ""
+"Tableau. Build down regardless of suit. Sequences of cards in any suit but "
+"the same can be moved as a unit."
+msgstr ""
+
 #: pysollib/stack.py:2654
 msgid ""
 "Tableau. Build up by alternate color, can move any face-up cards regardless "
@@ -1378,6 +1399,26 @@ msgstr ""
 "Stół gry. Układaj w dół wg koloru. Można przenosić odkryte karty niezależnie "
 "od sekwensu."
 
+msgid ""
+"Tableau. Build up by color, can move any face-up cards regardless of "
+"sequence."
+msgstr ""
+
+msgid ""
+"Tableau. Build down by color, can move any face-up cards regardless of "
+"sequence."
+msgstr ""
+
+msgid ""
+"Tableau. Build up by any suit but the same, can move any face-up cards "
+"regardless of sequence."
+msgstr ""
+
+msgid ""
+"Tableau. Build down by any suit but the same, can move any face-up cards "
+"regardless of sequence."
+msgstr ""
+
 #: pysollib/stack.py:2694 pysollib/stack.py:2697
 msgid ""
 "Tableau. Build up regardless of suit, can move any face-up cards regardless "
@@ -1401,6 +1442,9 @@ msgstr "Stół gry. Układaj w górę lub w dół wg koloru."
 #: pysollib/stack.py:2780
 msgid "Tableau. Build up or down regardless of suit."
 msgstr "Stół gry. Ukladaj w górę lub w dół niezależnie od koloru."
+
+msgid "Tableau. Build up or down in any suit but the same."
+msgstr ""
 
 #: pysollib/stack.py:2874
 msgid "Waste."
@@ -1732,6 +1776,9 @@ msgstr "Liczba kart przełożonych do zrzutu:"
 msgid "Shuffle during redeal:"
 msgstr "Przetasuj przy ponownym rozdaniu:"
 
+msgid "No building"
+msgstr ""
+
 #: pysollib/wizardutil.py:176 pysollib/wizardutil.py:184
 #: pysollib/wizardutil.py:224
 msgid "Same suit"
@@ -1763,6 +1810,12 @@ msgstr "Pająk kolory naprzemiennie"
 msgid "Spider rank"
 msgstr "Pająk wartość"
 
+msgid "Spider same color"
+msgstr ""
+
+msgid "Spider any suit but the same"
+msgstr ""
+
 #: pysollib/wizardutil.py:191 pysollib/wizardutil.py:249
 #: pysollib/wizardutil.py:252
 msgid "Any"
@@ -1781,6 +1834,9 @@ msgstr "W górę"
 #: pysollib/wizardutil.py:258
 msgid "Down"
 msgstr "W dół"
+
+msgid "Same rank"
+msgstr ""
 
 #: pysollib/wizardutil.py:200 pysollib/wizardutil.py:259
 msgid "Direction:"
@@ -1828,6 +1884,9 @@ msgstr "W górę lub w dół wg wartości"
 msgid "Up or down by same color"
 msgstr "W górę lub w dół ta sama barwa"
 
+msgid "Up or down by any suit but the same"
+msgstr ""
+
 #: pysollib/wizardutil.py:238
 msgid "Yukon same suit"
 msgstr "Yukon jeden kolor"
@@ -1840,6 +1899,12 @@ msgstr "Yukon barwy naprzemiennie"
 #, fuzzy
 msgid "Yukon rank"
 msgstr "Yukon rank"
+
+msgid "Yukon same color"
+msgstr ""
+
+msgid "Yukon any suit but the same"
+msgstr ""
 
 #: pysollib/wizardutil.py:263 pysollib/wizardutil.py:264
 msgid "Sequence"
@@ -1868,6 +1933,9 @@ msgstr "Trójkąt"
 #: pysollib/wizardutil.py:298 pysollib/wizardutil.py:300
 msgid "Rectangle"
 msgstr "Prostokąt"
+
+msgid "Pyramid"
+msgstr ""
 
 #: pysollib/wizardutil.py:308
 msgid "# of face-down cards dealt to the tableau pile:"

@@ -1167,6 +1167,12 @@ msgstr ""
 msgid "Foundation. Build down by color."
 msgstr ""
 
+msgid "Foundation. Build up in any suit but the same."
+msgstr ""
+
+msgid "Foundation. Build down in any suit but the same."
+msgstr ""
+
 #: pysollib/stack.py:2459 pysollib/games/golf.py:126 pysollib/games/golf.py:322
 msgid "Tableau. No building."
 msgstr ""
@@ -1241,6 +1247,21 @@ msgid ""
 "can be moved as a unit."
 msgstr ""
 
+msgid ""
+"Tableau. Build up regardless of suit. Sequences of cards in the same color "
+"can be moved as a unit."
+msgstr ""
+
+msgid ""
+"Tableau. Build up regardless of suit. Sequences of cards in any suit but the same "
+"can be moved as a unit."
+msgstr ""
+
+msgid ""
+"Tableau. Build down regardless of suit. Sequences of cards in any suit but the same "
+"can be moved as a unit."
+msgstr ""
+
 #: pysollib/stack.py:2654
 msgid ""
 "Tableau. Build up by alternate color, can move any face-up cards regardless "
@@ -1270,6 +1291,24 @@ msgid ""
 "sequence."
 msgstr ""
 
+msgid ""
+"Tableau. Build up by color, can move any face-up cards regardless of sequence."
+msgstr ""
+
+msgid ""
+"Tableau. Build down by color, can move any face-up cards regardless of "
+"sequence."
+msgstr ""
+
+msgid ""
+"Tableau. Build up by any suit but the same, can move any face-up cards regardless of sequence."
+msgstr ""
+
+msgid ""
+"Tableau. Build down by any suit but the same, can move any face-up cards regardless of "
+"sequence."
+msgstr ""
+
 #: pysollib/stack.py:2694 pysollib/stack.py:2697
 msgid ""
 "Tableau. Build up regardless of suit, can move any face-up cards regardless "
@@ -1290,6 +1329,9 @@ msgstr ""
 
 #: pysollib/stack.py:2780
 msgid "Tableau. Build up or down regardless of suit."
+msgstr ""
+
+msgid "Tableau. Build up or down in any suit but the same."
 msgstr ""
 
 #: pysollib/stack.py:2874
@@ -1622,6 +1664,9 @@ msgstr ""
 msgid "Shuffle during redeal:"
 msgstr ""
 
+msgid "No building"
+msgstr ""
+
 #: pysollib/wizardutil.py:176 pysollib/wizardutil.py:184
 #: pysollib/wizardutil.py:224
 msgid "Same suit"
@@ -1652,6 +1697,12 @@ msgstr ""
 msgid "Spider rank"
 msgstr ""
 
+msgid "Spider same color"
+msgstr ""
+
+msgid "Spider any suit but the same"
+msgstr ""
+
 #: pysollib/wizardutil.py:191 pysollib/wizardutil.py:249
 #: pysollib/wizardutil.py:252
 msgid "Any"
@@ -1669,6 +1720,9 @@ msgstr ""
 #: pysollib/wizardutil.py:198 pysollib/wizardutil.py:257
 #: pysollib/wizardutil.py:258
 msgid "Down"
+msgstr ""
+
+msgid "Same rank"
 msgstr ""
 
 #: pysollib/wizardutil.py:200 pysollib/wizardutil.py:259
@@ -1717,6 +1771,9 @@ msgstr ""
 msgid "Up or down by same color"
 msgstr ""
 
+msgid "Up or down by any suit but the same"
+msgstr ""
+
 #: pysollib/wizardutil.py:238
 msgid "Yukon same suit"
 msgstr ""
@@ -1727,6 +1784,12 @@ msgstr ""
 
 #: pysollib/wizardutil.py:240
 msgid "Yukon rank"
+msgstr ""
+
+msgid "Yukon same color"
+msgstr ""
+
+msgid "Yukon any suit but the same"
 msgstr ""
 
 #: pysollib/wizardutil.py:263 pysollib/wizardutil.py:264
@@ -1755,6 +1818,9 @@ msgstr ""
 
 #: pysollib/wizardutil.py:298 pysollib/wizardutil.py:300
 msgid "Rectangle"
+msgstr ""
+
+msgid "Pyramid"
 msgstr ""
 
 #: pysollib/wizardutil.py:308

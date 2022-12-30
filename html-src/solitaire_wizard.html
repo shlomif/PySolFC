@@ -1,0 +1,95 @@
+<h1>Solitaire Wizard</h1>
+<p>
+The Solitaire Wizard is a feature in PySol that allows you to create and play
+custom solitaire games.
+<p>
+Also note that the Solitaire Wizard may not be enabled in mobile versions of
+PySol.
+
+Below are the different options you can set when using the Solitaire Wizard:
+
+<h2>General</h2>
+<ul>
+<li><b>Initial Setting</b> - The initial setting automatically configures the
+Solitaire Wizard options to match one of several sample games.</li>
+<li><b>Name</b> - This is the name of the game you wish to create.</li>
+<li><b>Skill Level</b> - Whether the game is more luck or skill.  This doesn't
+affect the actual game, but is used to categorize it in PySol, and to help
+with sorting.</li>
+<li><b>Number of Decks</b> - The number of decks used.</li>
+<li><b>Layout</b> - The physical layout of the card piles.  This is purely
+aesthetic and doesn't affect gameplay.</li>
+</ul>
+
+<h2>Talon</h2>
+<ul>
+<li><b>Type</b> - This determines when and how cards are dealt from the talon.
+Cards can be dealt either all at the beginning, to a waste pile, reserves, or
+foundations, or to the tableau, either in normal style, Spider style (don't allow
+dealing from the talon if there are empty piles), or Grounds for a Divorce style
+(do not deal to empty tableau piles).</li>
+<li><b>Number of Redeals</b> - How many times the player is allowed to redeal.
+In each redeal, the pile(s) where the cards from the talon are dealt are
+combined to form a new talon.</li>
+<li><b># of cards dealt to waste</b> - If dealing cards from the talon to the
+waste, this indicates how many are dealt at once.</li>
+<li><b>Shuffle during Redeal</b> - Whether the deck should be shuffled when
+doing a redeal.</li>
+</ul>
+
+<h2>Foundations</h2>
+<ul>
+<li><b>Type</b> - This determines what cards can be moved to the foundations.
+Foundations can be built by same suit, same color, alternate color,
+any suit but the same, rank regardless of suit, or Spider style
+(move entire sequences to the foundations once complete).</li>
+<li><b>Base Card</b> - Which rank is used to start the foundations - either ace
+or king, or any card.</li>
+<li><b>Direction</b> - Whether the foundation is built up or down.</li>
+<li><b>Move</b> - Whether you're allowed to move the top card from a foundation.</li>
+<li><b>First card sets base cards</b> - If the base card is set to any, this
+indicates whether all four foundations must start with the same rank - once the
+first card is moved to the foundations, all other foundations must start from
+the same base rank.</li>
+</ul>
+
+<h2>Tableau</h2>
+<ul>
+<li><b>Number of tableau piles</b> - How many tableau piles there are.</li>
+<li><b>Type</b> - This determines how foundations are built - by same suit,
+alternate color, same color, rank regardless of suit, any suit but the same,
+up or down, Spider style (can be built regardless of suit, but only sequences
+that match the suit option can be moved as a unit), Yukon style (cards can
+be moved regardless of sequence), or no building on the tableau allowed.</li>
+<li><b>Base Card</b> - What card can fill an empty tableau pile.</li>
+<li><b>Direction</b> - Whether the tableau piles are built up or down.</li>
+<li><b>Move</b> - Whether sequences can be moved together, or cards can only
+be moved singly.</li>
+<li><b>Wrapping</b> - Whether wrapping from king to ace or ace to king is
+allowed.</li>
+<li><b>Use "Super Move" feature</b> - If sequences normally cannot be moved
+together, a "Super Move" allows you to move sequences regardless, if there
+are enough empty stacks/reserves to make the move normally.</li>
+</ul>
+
+<h2>Reserves</h2>
+<ul>
+<li><b>Number of reserves</b> - How many reserves there are.</li>
+<li><b>Max # of accepted cards</b> - How many cards you can move to each
+reserve.</li>
+
+<h2>Opening deal</h2>
+<ul>
+<li><b>Type</b> - How the cards are dealt to the tableau.  Rectangular
+deals have the cards dealt relatively evenly, triangular deals involve
+each pile getting one more card than the previous, and pyramid deals are
+similar, but piles after the center one have one fewer than the previous.</li>
+<li><b># of face-down cards dealt to the tableau pile</b> - How many
+cards are dealt face-down to each pile.  Note that the top card of
+each tableau pile is always face-up.</li>
+<li><b># of cards dealt to the reserve</b> - How many cards are dealt
+face-up to each reserve.</li>
+<li><b>Max # of dealt cards</b> - How many cards can be dealt from the
+talon at the start of the game at most.</li>
+<li><b>Deal first cards to foundations</b> - Whether the first cards are
+dealt to the foundations at the start of the game.</li>

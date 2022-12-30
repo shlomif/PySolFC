@@ -40,7 +40,11 @@ from pysollib.stack import \
         SpiderTalonStack, \
         Spider_AC_Foundation, \
         Spider_AC_RowStack, \
+        Spider_BO_Foundation, \
+        Spider_BO_RowStack, \
         Spider_RK_Foundation, \
+        Spider_SC_Foundation, \
+        Spider_SC_RowStack, \
         Spider_SS_Foundation, \
         Spider_SS_RowStack, \
         StackWrapper, \
@@ -50,13 +54,16 @@ from pysollib.stack import \
         SuperMoveSC_RowStack, \
         SuperMoveSS_RowStack, \
         UD_AC_RowStack, \
+        UD_BO_RowStack, \
         UD_RK_RowStack, \
         UD_SC_RowStack, \
         UD_SS_RowStack, \
         WasteStack, \
         WasteTalonStack, \
         Yukon_AC_RowStack, \
+        Yukon_BO_RowStack, \
         Yukon_RK_RowStack, \
+        Yukon_SC_RowStack, \
         Yukon_SS_RowStack
 from pysollib.util import ACE, ANY_RANK, ANY_SUIT, \
     KING, \
@@ -101,17 +108,23 @@ class CustomGame(Game):
         # max_move
         if s['found_type'] not in (Spider_SS_Foundation,
                                    Spider_AC_Foundation,
-                                   Spider_RK_Foundation,):
+                                   Spider_RK_Foundation,
+                                   Spider_SC_Foundation,
+                                   Spider_BO_Foundation,):
             kw['max_move'] = s['found_max_move']
         # suit
         if s['found_type'] in (Spider_SS_Foundation,
                                Spider_AC_Foundation,
-                               Spider_RK_Foundation,):
+                               Spider_RK_Foundation,
+                               Spider_SC_Foundation,
+                               Spider_BO_Foundation,):
             kw['suit'] = ANY_SUIT
         # fix dir and base_rank for Spider foundations
         if s['found_type'] in (Spider_SS_Foundation,
                                Spider_AC_Foundation,
-                               Spider_RK_Foundation,):
+                               Spider_RK_Foundation,
+                               Spider_SC_Foundation,
+                               Spider_BO_Foundation,):
             kw['dir'] = -kw['dir']
             if s['found_base_card'] == KING:
                 kw['base_rank'] = ACE
@@ -138,7 +151,8 @@ class CustomGame(Game):
         if s['rows_wrap']:
             kw['mod'] = 13
         if s['rows_type'] in (UD_SS_RowStack, UD_AC_RowStack,
-                              UD_RK_RowStack, UD_SC_RowStack):
+                              UD_RK_RowStack, UD_SC_RowStack,
+                              UD_BO_RowStack):
             kw['max_move'] = 1
         # Super Move
         if s['rows_super_move'] and kw['max_move'] == 1:
@@ -205,7 +219,8 @@ class CustomGame(Game):
 
         # shallHighlightMatch
         for c, f in (
-                ((Spider_AC_RowStack, Spider_SS_RowStack),
+                ((Spider_AC_RowStack, Spider_SS_RowStack,
+                  Spider_SC_RowStack, Spider_BO_RowStack),
                  (self._shallHighlightMatch_RK,
                   self._shallHighlightMatch_RKW)),
                 ((AC_RowStack, UD_AC_RowStack,
@@ -220,10 +235,12 @@ class CustomGame(Game):
                   Yukon_RK_RowStack, SuperMoveRK_RowStack),
                  (self._shallHighlightMatch_RK,
                   self._shallHighlightMatch_RKW)),
-                ((SC_RowStack, UD_SC_RowStack, SuperMoveSC_RowStack),
+                ((SC_RowStack, UD_SC_RowStack,
+                  Yukon_SC_RowStack, SuperMoveSC_RowStack),
                  (self._shallHighlightMatch_SC,
                   self._shallHighlightMatch_SCW)),
-                ((BO_RowStack, SuperMoveBO_RowStack),
+                ((BO_RowStack, UD_BO_RowStack,
+                  Yukon_SC_RowStack, SuperMoveBO_RowStack),
                  (self._shallHighlightMatch_BO,
                   self._shallHighlightMatch_BOW)),
                 ):
@@ -236,13 +253,17 @@ class CustomGame(Game):
 
         # getQuickPlayScore
         if s['rows_type'] in (Spider_AC_RowStack,
-                              Spider_SS_RowStack,):
+                              Spider_SS_RowStack,
+                              Spider_BO_RowStack,
+                              Spider_SC_RowStack,):
             self.getQuickPlayScore = self._getSpiderQuickPlayScore
 
         # canDropCards
         if s['found_type'] in (Spider_SS_Foundation,
                                Spider_AC_Foundation,
-                               Spider_RK_Foundation,):
+                               Spider_RK_Foundation,
+                               Spider_SC_Foundation,
+                               Spider_BO_Foundation,):
             for stack in self.s.rows:
                 stack.canDropCards = stack.spiderCanDropCards
 
@@ -261,7 +282,9 @@ class CustomGame(Game):
         # TODO
         if s['rows_type'] in (Yukon_SS_RowStack,
                               Yukon_AC_RowStack,
-                              Yukon_RK_RowStack):
+                              Yukon_RK_RowStack,
+                              Yukon_SC_RowStack,
+                              Yukon_BO_RowStack,):
             self.Hint_Class = Yukon_Hint
 
     def _shuffleHook(self, cards):
@@ -270,7 +293,9 @@ class CustomGame(Game):
             return cards
         if s['found_type'] in (Spider_SS_Foundation,
                                Spider_AC_Foundation,
-                               Spider_RK_Foundation,):
+                               Spider_RK_Foundation,
+                               Spider_SC_Foundation,
+                               Spider_BO_Foundation,):
             return cards
         base_card = s['found_base_card']
         if base_card == ANY_RANK:
@@ -334,7 +359,17 @@ class CustomGame(Game):
                                          flip, frames, max_cards)
                 face_down -= 1
                 max_rows -= 1
-
+        elif s['deal_type'] == 'pyramid':
+            # pyramid
+            for i in range(1, len(self.s.rows)):
+                if max_rows <= 1:
+                    break
+                flip = (face_down <= 0)
+                mc = max_cards - len(self.s.rows)
+                frames, max_cards = deal(self.s.rows[i:min(i+mc, -i)],
+                                         flip, frames, max_cards)
+                face_down -= 1
+                max_rows -= 1
         else:
             # rectangle
             for i in range(max_rows-1):

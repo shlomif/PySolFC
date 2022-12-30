@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: 1.02\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2022-09-26 20:59-0400\n"
+"PO-Revision-Date: 2022-12-30 09:31-0500\n"
 "Last-Translator: Eric Rausch <neelix570@gmail.com>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -1253,6 +1253,12 @@ msgstr "Fondation. Croissant par couleur."
 msgid "Foundation. Build down by color."
 msgstr "Fondation. Décroissant par couleur."
 
+msgid "Foundation. Build up in any suit but the same."
+msgstr ""
+
+msgid "Foundation. Build down in any suit but the same."
+msgstr ""
+
 #: pysollib/stack.py:2459 pysollib/games/golf.py:126 pysollib/games/golf.py:322
 msgid "Tableau. No building."
 msgstr "Tableau. Aucun empilement."
@@ -1335,6 +1341,21 @@ msgstr ""
 "Tableau. Décroissant indépendamment de l'enseigne. Les ensembles de cartes "
 "d'une même enseigne peuvent être déplacés entièrement."
 
+msgid ""
+"Tableau. Build up regardless of suit. Sequences of cards in the same color "
+"can be moved as a unit."
+msgstr ""
+
+msgid ""
+"Tableau. Build up regardless of suit. Sequences of cards in any suit but the "
+"same can be moved as a unit."
+msgstr ""
+
+msgid ""
+"Tableau. Build down regardless of suit. Sequences of cards in any suit but "
+"the same can be moved as a unit."
+msgstr ""
+
 #: pysollib/stack.py:2654
 msgid ""
 "Tableau. Build up by alternate color, can move any face-up cards regardless "
@@ -1374,6 +1395,26 @@ msgstr ""
 "Tableau. Décroissant par enseigne, toutes les cartes ouvertes peuvent être "
 "déplacées sans former de suite."
 
+msgid ""
+"Tableau. Build up by color, can move any face-up cards regardless of "
+"sequence."
+msgstr ""
+
+msgid ""
+"Tableau. Build down by color, can move any face-up cards regardless of "
+"sequence."
+msgstr ""
+
+msgid ""
+"Tableau. Build up by any suit but the same, can move any face-up cards "
+"regardless of sequence."
+msgstr ""
+
+msgid ""
+"Tableau. Build down by any suit but the same, can move any face-up cards "
+"regardless of sequence."
+msgstr ""
+
 #: pysollib/stack.py:2694 pysollib/stack.py:2697
 msgid ""
 "Tableau. Build up regardless of suit, can move any face-up cards regardless "
@@ -1397,6 +1438,9 @@ msgstr "Tableau. Croissant ou décroissant par enseigne."
 #: pysollib/stack.py:2780
 msgid "Tableau. Build up or down regardless of suit."
 msgstr "Tableau. Croissant ou décroissant indépendamment de l'enseigne."
+
+msgid "Tableau. Build up or down in any suit but the same."
+msgstr ""
 
 #: pysollib/stack.py:2874
 msgid "Waste."
@@ -1728,6 +1772,9 @@ msgstr "Nombre de cartes sur la défausse:"
 msgid "Shuffle during redeal:"
 msgstr "Mélanger lors de la donne:"
 
+msgid "No building"
+msgstr ""
+
 #: pysollib/wizardutil.py:176 pysollib/wizardutil.py:184
 #: pysollib/wizardutil.py:224
 msgid "Same suit"
@@ -1758,6 +1805,12 @@ msgstr "Spider - Couleur alternée"
 msgid "Spider rank"
 msgstr "Spider - Valeur"
 
+msgid "Spider same color"
+msgstr ""
+
+msgid "Spider any suit but the same"
+msgstr ""
+
 #: pysollib/wizardutil.py:191 pysollib/wizardutil.py:249
 #: pysollib/wizardutil.py:252
 msgid "Any"
@@ -1776,6 +1829,9 @@ msgstr "Haut"
 #: pysollib/wizardutil.py:258
 msgid "Down"
 msgstr "Bas"
+
+msgid "Same rank"
+msgstr ""
 
 #: pysollib/wizardutil.py:200 pysollib/wizardutil.py:259
 msgid "Direction:"
@@ -1823,6 +1879,9 @@ msgstr "Croissant ou décroissant par valeur"
 msgid "Up or down by same color"
 msgstr "Croissant ou décroissant par couleur"
 
+msgid "Up or down by any suit but the same"
+msgstr ""
+
 #: pysollib/wizardutil.py:238
 msgid "Yukon same suit"
 msgstr "Yukon - Enseigne"
@@ -1834,6 +1893,12 @@ msgstr "Yukon - Couleur alternée"
 #: pysollib/wizardutil.py:240
 msgid "Yukon rank"
 msgstr "Yukon - Valeur"
+
+msgid "Yukon same color"
+msgstr ""
+
+msgid "Yukon any suit but the same"
+msgstr ""
 
 #: pysollib/wizardutil.py:263 pysollib/wizardutil.py:264
 msgid "Sequence"
@@ -1862,6 +1927,9 @@ msgstr "Triangle"
 #: pysollib/wizardutil.py:298 pysollib/wizardutil.py:300
 msgid "Rectangle"
 msgstr "Rectangle"
+
+msgid "Pyramid"
+msgstr ""
 
 #: pysollib/wizardutil.py:308
 msgid "# of face-down cards dealt to the tableau pile:"

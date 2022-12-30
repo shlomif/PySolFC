@@ -29,7 +29,6 @@ from pysollib.hint import FreeCellSolverWrapper
 from pysollib.hint import SpiderType_Hint, YukonType_Hint
 from pysollib.layout import Layout
 from pysollib.mfxutil import kwdefault
-from pysollib.mygettext import _
 from pysollib.stack import \
         AC_FoundationStack, \
         AC_RowStack, \
@@ -46,6 +45,7 @@ from pysollib.stack import \
         SS_RowStack, \
         Spider_AC_Foundation, \
         Spider_AC_RowStack, \
+        Spider_SC_RowStack, \
         Spider_SS_Foundation, \
         Spider_SS_RowStack, \
         StackWrapper, \
@@ -1141,20 +1141,8 @@ class ScorpionII(Scorpion):
 # * Tarantula
 # ************************************************************************
 
-class Tarantula_RowStack(Spider_RowStack):
-    def _isSequence(self, cards):
-        return isSameColorSequence(cards, self.cap.mod, self.cap.dir)
-
-    def _isAcceptableSequence(self, cards):
-        return isRankSequence(cards, self.cap.mod, self.cap.dir)
-
-    def getHelp(self):
-        return _('Tableau. Build down regardless of suit. Sequences of cards '
-                 'in the same color can be moved as a unit.')
-
-
 class Tarantula(Spider):
-    RowStack_Class = Tarantula_RowStack
+    RowStack_Class = Spider_SC_RowStack
 
     def getQuickPlayScore(self, ncards, from_stack, to_stack):
         if to_stack.cards:

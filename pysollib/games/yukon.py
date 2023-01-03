@@ -40,6 +40,7 @@ from pysollib.stack import \
     WasteStack, \
     WasteTalonStack, \
     Yukon_AC_RowStack, \
+    Yukon_BO_RowStack, \
     Yukon_SS_RowStack
 from pysollib.util import ANY_SUIT, KING
 
@@ -100,17 +101,8 @@ class RussianSolitaire(Yukon):
 # * Moosehide (build down in any suit but the same)
 # ************************************************************************
 
-class Moosehide_RowStack(Yukon_AC_RowStack):
-    def _isYukonSequence(self, c1, c2):
-        return (c1.suit != c2.suit and c1.rank == c2.rank+1)
-
-    def getHelp(self):
-        return _('Tableau. Build down in any suit but the same, can move '
-                 'any face-up cards regardless of sequence.')
-
-
 class Moosehide(Yukon):
-    RowStack_Class = StackWrapper(Moosehide_RowStack, base_rank=KING)
+    RowStack_Class = StackWrapper(Yukon_BO_RowStack, base_rank=KING)
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return (card1.suit != card2.suit and

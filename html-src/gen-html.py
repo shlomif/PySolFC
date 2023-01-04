@@ -61,6 +61,7 @@ files = [
     ('report_bug.html', 'PySol - Report a Bug'),
     # ('rules_alternate.html', 'PySol - a Solitaire Game Collection'),
     # ('rules.html', 'PySol - a Solitaire Game Collection'),
+    ('assist_options.html', 'PySol - Assist Options'),
     ('solitaire_wizard.html', 'PySol - Solitaire Wizard'),
     ]
 

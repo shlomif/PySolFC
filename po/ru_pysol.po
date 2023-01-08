@@ -2277,6 +2277,17 @@ msgstr ""
 "3:  6  9  Д  2  5  8  В  Т  4  7 10  К\n"
 "4:  8  Д  3  7  В  2  6 10  Т  5  9  К"
 
+msgid "\n"
+"5: T 2 7 Q 4 9 A 6 J 3 8 K\n"
+"6: Q 5 J 4 T 3 9 2 8 A 7 K\n"
+"7: A 8 2 9 3 T 4 J 5 Q 6 K\n"
+"8: 3 J 6 A 9 4 Q 7 2 T 5 K"
+msgstr "\n"
+"5: 10  2  7  Д  4  9  A  6  В  3  8  K\n"
+"6:  Д  5  В  4 10  3  9  2  8  A  7  K\n"
+"7:  A  8  2  9  3 10  4  В  5  Д  6  K\n"
+"8:  3  В  6  A  9  4  Д  7  2 10  5  K"
+
 #: pysollib/games/curdsandwhey.py:76
 msgid "Tableau. Build down by suit or of the same rank."
 msgstr ""

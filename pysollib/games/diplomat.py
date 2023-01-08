@@ -228,11 +228,11 @@ class Dieppe(Diplomat):
 
 # ************************************************************************
 # * Little Napoleon
+# * McClellan
 # ************************************************************************
 
-class LittleNapoleon(Diplomat):
-    RowStack_Class = Spider_SS_RowStack
-    Hint_Class = Spider_Hint
+class McClellan(Diplomat):
+    RowStack_Class = SS_RowStack
 
     def startGame(self):
         for i in range(3):
@@ -240,6 +240,11 @@ class LittleNapoleon(Diplomat):
         self._startAndDealRowAndCards()
 
     getQuickPlayScore = Game._getSpiderQuickPlayScore
+
+
+class LittleNapoleon(McClellan):
+    RowStack_Class = Spider_SS_RowStack
+    Hint_Class = Spider_Hint
 
 
 # ************************************************************************
@@ -279,3 +284,5 @@ registerGame(GameInfo(549, Wheatsheaf, "Wheatsheaf",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(563, TwinQueens, "Twin Queens",
                       GI.GT_FORTY_THIEVES, 2, 1, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(882, McClellan, "McClellan",
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))

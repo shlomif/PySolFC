@@ -44,7 +44,7 @@ Cardsets Types:
 
 *$C:* The number of cards in the cardset, generally 42, 48, 52, 68, 78, 96 or 120
 
-*$D:* The Style of de cardset (this field can hold one or more comma separated values)
+*$D:* The Style of the cardset (this field can hold one or more comma separated values)
 
 Cardsets Styles:
 ~~~~~~~~~~~~~~~~

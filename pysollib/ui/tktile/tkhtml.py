@@ -68,6 +68,7 @@ class tkHTMLWriter(pysollib.formatter.NullWriter):
             "bold": (font[0], size, "bold"),
             "italic": (font[0], size, "italic"),
             "pre": fixed,
+            "code": fixed,
         }
 
         self.text.config(cursor=self.viewer.defcursor, font=font)

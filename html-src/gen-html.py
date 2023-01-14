@@ -63,6 +63,7 @@ files = [
     # ('rules.html', 'PySol - a Solitaire Game Collection'),
     ('assist_options.html', 'PySol - Assist Options'),
     ('solitaire_wizard.html', 'PySol - Solitaire Wizard'),
+    ('cardset_customization.html', 'PySol - Cardset Customization'),
     ]
 
 rules_files = [

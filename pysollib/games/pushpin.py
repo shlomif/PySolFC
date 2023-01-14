@@ -267,11 +267,12 @@ class Accordion_Hint(AbstractHint):
 
 
 class Accordion_RowStack(PushPin_RowStack):
+    ALLOWED_JUMPS = (1, 3)
 
     def acceptsCards(self, from_stack, cards):
         if not self.cards:
             return False
-        if abs(self.id - from_stack.id) not in (1, 3):
+        if abs(self.id - from_stack.id) not in self.ALLOWED_JUMPS:
             return False
         c1, c2 = self.cards[-1], cards[0]
         if c1.rank == c2.rank:
@@ -331,6 +332,18 @@ class RelaxedAccordion_RowStack(Accordion2_RowStack):
 
 class RelaxedAccordion(Accordion2):
     RowStack_Class = RelaxedAccordion_RowStack
+
+# ************************************************************************
+# * 23 Skidoo
+# ************************************************************************
+
+
+class TwoThreeSkidoo_RowStack(Accordion2_RowStack):
+    ALLOWED_JUMPS = (2, 3)
+
+
+class TwoThreeSkidoo(Accordion2):
+    RowStack_Class = TwoThreeSkidoo_RowStack
 
 # ************************************************************************
 # * Accordion's Revenge
@@ -471,3 +484,5 @@ registerGame(GameInfo(811, AccordionsRevenge, "Accordion's Revenge",
 registerGame(GameInfo(816, Decade, "Decade",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_SKILL,
                       altnames=('Ten Twenty Thirty')))
+registerGame(GameInfo(883, TwoThreeSkidoo, "23 Skidoo",
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_SKILL))

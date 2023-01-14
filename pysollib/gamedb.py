@@ -449,7 +449,7 @@ class GI:
         ("Erik den Hollander", (344, 544,)),
         ("Rick Holzgrafe", (756, 757,)),
         ("Charles Jewell", (220, 309,)),
-        ("Michael Keller", (592,)),
+        ("Michael Keller", (592, 883,)),
         ("Fred Lunde", (459,)),
         ("Mark Masten", (811,)),
         ("Albert Morehead and Geoffrey Mott-Smith", (25, 42, 48, 173, 282,
@@ -549,7 +549,7 @@ class GI:
          tuple(range(22217, 22219))),
         ('fc-2.14', tuple(range(811, 827))),
         ('fc-2.15', tuple(range(827, 855)) + tuple(range(22400, 22407))),
-        ('dev', tuple(range(855, 883)))
+        ('dev', tuple(range(855, 884)))
     )
 
     # deprecated - the correct way is to or a GI.GT_XXX flag

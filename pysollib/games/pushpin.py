@@ -233,22 +233,19 @@ class RoyalMarriage(PushPin):
         return cards
 
 
-class Queens(PushPin):
-    def startGame(self):
-        self._startAndDealRow()
-
-
 # ************************************************************************
 # * Bayan (ex. Accordion)
 # ************************************************************************
 
 class Accordion_Hint(AbstractHint):
+    VAL1 = 1
+    VAL2 = 3
 
     def computeHints(self):
         game = self.game
         rows = game.s.rows
         for i in range(len(rows)-3):
-            r1, r2 = rows[i], rows[i+1]
+            r1, r2 = rows[i], rows[i + self.VAL1]
             if r1.cards and r2.cards:
                 c1, c2 = r1.cards[0], r2.cards[0]
                 if c1.rank == c2.rank or c1.suit == c2.suit:
@@ -256,7 +253,7 @@ class Accordion_Hint(AbstractHint):
                         self.addHint(5000, 1, r1, r2)
                     if r1.acceptsCards(r2, [c2]):
                         self.addHint(5000, 1, r2, r1)
-            r1, r2 = rows[i], rows[i+3]
+            r1, r2 = rows[i], rows[i + self.VAL2]
             if r1.cards and r2.cards:
                 c1, c2 = r1.cards[0], r2.cards[0]
                 if c1.rank == c2.rank or c1.suit == c2.suit:
@@ -338,12 +335,21 @@ class RelaxedAccordion(Accordion2):
 # ************************************************************************
 
 
+class TwoThreeSkidoo_Hint(Accordion_Hint):
+    VAL1 = 2
+    VAL2 = 3
+
+
 class TwoThreeSkidoo_RowStack(Accordion2_RowStack):
     ALLOWED_JUMPS = (2, 3)
 
 
 class TwoThreeSkidoo(Accordion2):
     RowStack_Class = TwoThreeSkidoo_RowStack
+    Hint_Class = TwoThreeSkidoo_Hint
+
+    def isGameWon(self):
+        return len(self.s.foundations[0].cards) == 50
 
 # ************************************************************************
 # * Accordion's Revenge
@@ -465,20 +471,18 @@ class Decade(PushPin):
 
 
 registerGame(GameInfo(287, PushPin, "Push Pin",
-                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK,
+                      altnames=('Queens')))
 registerGame(GameInfo(288, RoyalMarriage, "Royal Marriage",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK,
                       altnames=('Betrothal')))
-#  registerGame(GameInfo(303, Queens, "Queens",
-#                        GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0))
 registerGame(GameInfo(656, Accordion, "Bayan",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_SKILL))
 registerGame(GameInfo(772, Accordion2, "Accordion",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_SKILL,
                       altnames=('Idle Year', 'Methuselah', 'Tower of Babel')))
 registerGame(GameInfo(773, RelaxedAccordion, "Relaxed Accordion",
-                      GI.GT_1DECK_TYPE | GI.GT_RELAXED, 1, 0, GI.SL_SKILL,
-                      altnames=('Concertina')))
+                      GI.GT_1DECK_TYPE | GI.GT_RELAXED, 1, 0, GI.SL_SKILL))
 registerGame(GameInfo(811, AccordionsRevenge, "Accordion's Revenge",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_SKILL))
 registerGame(GameInfo(816, Decade, "Decade",

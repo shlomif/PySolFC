@@ -43,7 +43,8 @@ from pysollib.stack import \
         WasteStack, \
         WasteTalonStack
 from pysollib.util import ACE, ANY_RANK, ANY_SUIT, CLUB, DIAMOND,\
-        HEART, KING, NO_RANK, SPADE, UNLIMITED_MOVES, UNLIMITED_REDEALS
+        HEART, JACK, KING, NO_RANK, SPADE, UNLIMITED_MOVES,\
+        UNLIMITED_REDEALS
 
 
 class FortyThieves_Hint(CautiousDefaultHint):
@@ -839,6 +840,52 @@ class Squadron(FortyThieves):
 
 
 # ************************************************************************
+# * Jacks in the Box
+# ************************************************************************
+
+class JacksInTheBox(FortyThieves):
+
+    def createGame(self):
+        l, s = Layout(self), self.s
+
+        self.setSize(l.XM + 11 * l.XS,
+                     l.YM+max(5.5 * l.YS, 2 * l.YS + 12 * l.YOFFSET))
+
+        x, y = l.XM, l.YM
+        s.talon = WasteTalonStack(x, y, self, max_rounds=1)
+        l.createText(s.talon, 's')
+        x += l.XS
+        s.waste = WasteStack(x, y, self)
+        l.createText(s.waste, 's')
+        x += 2 * l.XS
+        for i in range(8):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i//2,
+                                                    mod=13, base_rank=JACK))
+            x += l.XS
+        x, y = l.XM, l.YM + l.YS * 3 // 2
+        for i in range(4):
+            s.reserves.append(ReserveStack(x, y, self))
+            y += l.YS
+        x, y = l.XM + 4 * l.XS, l.YM + l.YS
+        for i in range(6):
+            s.rows.append(SS_RowStack(x, y, self, max_move=1, mod=13))
+            x += l.XS
+
+        l.defaultStackGroups()
+
+    def _shuffleHook(self, cards):
+        # move Twos to top of the Talon (i.e. first cards to be dealt)
+        return self._shuffleHookMoveToTop(
+            cards, lambda c: (c.rank == JACK, c.suit))
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow(rows=self.s.foundations)
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
+
+
+# ************************************************************************
 # * Waterloo
 # ************************************************************************
 
@@ -1477,3 +1524,5 @@ registerGame(GameInfo(847, Pluto, "Pluto",
                       altnames=("Square")))
 registerGame(GameInfo(848, Malmaison, "Malmaison",
                       GI.GT_FORTY_THIEVES, 4, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(884, JacksInTheBox, "Jacks in the Box",
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL))

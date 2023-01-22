@@ -374,6 +374,8 @@ class Churchill(Game):
 
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
+    DevilCards = 6
+
     def createGame(self, **layout):
         # create layout
         l, s = Layout(self), self.s
@@ -400,9 +402,17 @@ class Churchill(Game):
         for i in range(1, 5):
             self.s.talon.dealRow(rows=self.s.rows[i:-i], flip=0, frames=0)
         self.startDealSample()
-        for i in range(6):
+        for i in range(self.DevilCards):
             self.s.talon.dealRow(rows=[self.s.reserves[0]])
         self._startAndDealRow()
+
+
+# ************************************************************************
+# * Pitt the Younger
+# ************************************************************************
+
+class PittTheYounger(Churchill):
+    DevilCards = 11
 
 
 # register the game
@@ -452,3 +462,5 @@ registerGame(GameInfo(822, DoubleTrigon, "Double Trigon",
 registerGame(GameInfo(828, Churchill, "Churchill",
                       GI.GT_GYPSY, 2, 0, GI.SL_BALANCED,
                       altnames=('Prime Minister')))
+registerGame(GameInfo(885, PittTheYounger, "Pitt the Younger",
+                      GI.GT_GYPSY, 2, 0, GI.SL_BALANCED))

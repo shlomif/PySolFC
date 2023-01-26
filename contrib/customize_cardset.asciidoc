@@ -25,7 +25,7 @@ Line 1
 
 ( *NOTE:* $D and $E are comma separated and count for one field )
 
-*$FMT:* The format of the images used; e.g. .gif, .png, .jpg (which types could exactly be used ?)
+*$FMT:* The format of the images used - .gif, .png, .jpg, .ppm, and .bmp are supported
 
 *$B:* The type of the cardset (see types below)
 

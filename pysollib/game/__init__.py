@@ -2113,9 +2113,12 @@ class Game(object):
         else:
             self.finished = True
             self.playSample("gamelost", priority=1000)
+            text = "Game finished, but not without my help..."
+            hintsused = ("You used %(h)s hint(s) during this game."
+                         % {'h': self.stats.hints})
             d = MfxMessageDialog(
                 self.top, title=_("Game finished"), bitmap="info",
-                text=_("\nGame finished, but not without my help...\n"),
+                text=_(text + '\n\n' + hintsused),
                 strings=(_("&New game"), _("&Restart"), None, _("&Cancel")))
         self.updateMenus()
         if TOOLKIT == 'kivy':

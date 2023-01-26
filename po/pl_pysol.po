@@ -2087,12 +2087,11 @@ msgstr ""
 "Gra zakończona\n"
 
 #: pysollib/game/__init__.py:2045
-msgid ""
-"\n"
-"Game finished, but not without my help...\n"
+msgid Game finished, but not without my help..."
+msgstr "Gra zakończona, ale nie bez mojej pomocy..."
+
+msgid "You used %(h)s hint(s) during this game."
 msgstr ""
-"\n"
-"Gra zakończona, ale nie bez mojej pomocy...\n"
 
 msgid "You are Stuck"
 msgstr ""

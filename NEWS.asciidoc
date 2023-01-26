@@ -1,5 +1,6 @@
 [[news]]
 === News
+* _11 October, 2022:_ Linux users, PySolFC is now available https://flathub.org/apps/details/io.sourceforge.pysolfc.PySolFC[on Flathub].
 * _9 October, 2022:_ There is a new stable release
 https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-2.18.0/[PySolFC
 v2.18.0]. New in this release:

@@ -3456,9 +3456,7 @@ class Game(object):
 
     # for find_card_dialog
     def canFindCard(self):
-        # All games currently support find card, though
-        # this may change later.
-        return True
+        return self.gameinfo.category != GI.GC_MATCHING
 
     #
     # subclass hooks

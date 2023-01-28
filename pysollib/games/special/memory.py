@@ -143,7 +143,6 @@ class Memory24(Game):
 
     def startGame(self):
         n = self.COLUMNS * self.ROWS
-        assert len(self.s.talon.cards) == n
         self.other_stack = None
         self.closed_cards = n
         self.score = 0
@@ -152,7 +151,6 @@ class Memory24(Game):
         self.s.talon.dealRow(rows=self.s.rows[:n], flip=0, frames=0)
         self.startDealSample()
         self.s.talon.dealRow(rows=self.s.rows[n:], flip=0)
-        assert len(self.s.talon.cards) == 0
 
     def isGameWon(self):
         return self.closed_cards == 0 and self.score >= self.WIN_SCORE
@@ -221,6 +219,13 @@ class Memory24(Game):
         p.dump(self.score)
 
 
+class Memory16(Memory24):
+    COLUMNS = 4
+    ROWS = 4
+    WIN_SCORE = 30
+    PERFECT_SCORE = 40     # 5 * (4*4)/2
+
+
 class Memory30(Memory24):
     COLUMNS = 6
     ROWS = 5
@@ -233,6 +238,13 @@ class Memory40(Memory24):
     ROWS = 5
     WIN_SCORE = 50
     PERFECT_SCORE = 100     # 5 * (8*5)/2
+
+
+class Memory52(Memory24):
+    COLUMNS = 13
+    ROWS = 4
+    WIN_SCORE = 50
+    PERFECT_SCORE = 130     # 5 * (13*4)/2
 
 
 # ************************************************************************
@@ -379,15 +391,26 @@ class MemorySequence(Memory24):
 
 
 # register the game
+registerGame(GameInfo(886, Memory16, "Memory 16",
+                      GI.GT_MEMORY | GI.GT_SCORE, 2, 0, GI.SL_SKILL,
+                      category=GI.GC_MATCHING,
+                      suits=(), ranks=(), trumps=list(range(8))))
 registerGame(GameInfo(176, Memory24, "Memory 24",
                       GI.GT_MEMORY | GI.GT_SCORE, 2, 0, GI.SL_SKILL,
-                      suits=(0, 2), ranks=(0, 8, 9, 10, 11, 12)))
+                      category=GI.GC_MATCHING,
+                      suits=(), ranks=(), trumps=list(range(12))))
 registerGame(GameInfo(219, Memory30, "Memory 30",
                       GI.GT_MEMORY | GI.GT_SCORE, 2, 0, GI.SL_SKILL,
-                      suits=(0, 2, 3), ranks=(0, 9, 10, 11, 12)))
+                      category=GI.GC_MATCHING,
+                      suits=(), ranks=(), trumps=list(range(15))))
 registerGame(GameInfo(177, Memory40, "Memory 40",
                       GI.GT_MEMORY | GI.GT_SCORE, 2, 0, GI.SL_SKILL,
-                      suits=(0, 2), ranks=(0, 4, 5, 6, 7, 8, 9, 10, 11, 12)))
+                      category=GI.GC_MATCHING,
+                      suits=(), ranks=(), trumps=list(range(20))))
+registerGame(GameInfo(887, Memory52, "Memory 52",
+                      GI.GT_MEMORY | GI.GT_SCORE, 2, 0, GI.SL_SKILL,
+                      category=GI.GC_MATCHING,
+                      suits=(), ranks=(), trumps=list(range(26))))
 registerGame(GameInfo(178, Concentration, "Concentration",
                       GI.GT_MEMORY | GI.GT_SCORE, 1, 0, GI.SL_SKILL,
                       altnames=("Pelmanism")))

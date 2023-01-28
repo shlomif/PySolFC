@@ -906,6 +906,9 @@ msgstr "Tipo Dashavatara Ganjifa (120 carte)"
 msgid "Trumps only type (variable cards)"
 msgstr "Tipo Trionfi (carte variabili)"
 
+msgid "Matching type (variable cards)"
+msgstr ""
+
 #: pysollib/resource.py:194
 msgid "French"
 msgstr "Francesi"
@@ -941,6 +944,9 @@ msgstr "Dashavatara Ganjifa"
 #: pysollib/resource.py:202
 msgid "Trumps only"
 msgstr "Solo Trionfi"
+
+msgid "Matching"
+msgstr ""
 
 #: pysollib/resource.py:219
 msgid "Adult"

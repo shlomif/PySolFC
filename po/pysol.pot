@@ -812,6 +812,9 @@ msgstr ""
 msgid "Trumps only type (variable cards)"
 msgstr ""
 
+msgid "Matching type (variable cards)"
+msgstr ""
+
 #: pysollib/resource.py:194
 msgid "French"
 msgstr ""
@@ -846,6 +849,9 @@ msgstr ""
 
 #: pysollib/resource.py:202
 msgid "Trumps only"
+msgstr ""
+
+msgid "Matching"
 msgstr ""
 
 #: pysollib/resource.py:219

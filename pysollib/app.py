@@ -794,6 +794,10 @@ class Application:
                 t1 = t0
             elif len(cs.trumps) < gi.ncards:    # not enough cards
                 t1 = t0
+        elif gc == GI.GC_MATCHING:
+            t0 = "Matching"
+            if cs.ncards < (gi.ncards / 2):    # not enough cards
+                t1 = t0
         else:
             # we should not come here
             t0 = t1 = "Unknown"

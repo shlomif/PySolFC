@@ -41,6 +41,7 @@ Cardsets Types:
 * Navagraha Ganjiga = 7
 * Dashavatara Ganjifa = 8
 * Trumps Only = 9
+* Matching = 10
 
 *$C:* The number of cards in the cardset, generally 42, 48, 52, 68, 78, 96 or 120
 
@@ -65,6 +66,7 @@ Cardsets Styles:
 * Hex A Deck = 29
 * Holiday = 13
 * Mahjongg = 28
+* Matching = 32
 * Movies = 14
 * Matrix = 31
 * Music = 15

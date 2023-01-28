@@ -197,6 +197,7 @@ highlight_piles = float(0.2, 9.9)
 7 = string_list(min=2, max=2)
 8 = string_list(min=2, max=2)
 9 = string_list(min=2, max=2)
+10 = string_list(min=2, max=2)
 scale_cards = boolean
 scale_x = float
 scale_y = float
@@ -547,6 +548,7 @@ class Options:
                 CSI.TYPE_NAVAGRAHA_GANJIFA: ("Dashavatara Ganjifa XL", ""),
                 CSI.TYPE_DASHAVATARA_GANJIFA: ("Dashavatara Ganjifa XL", ""),
                 CSI.TYPE_TRUMP_ONLY: ("Next Matrix", ""),
+                CSI.TYPE_MATCHING: ("Neo", "")
             }
         else:
             self.cardset = {
@@ -562,6 +564,7 @@ class Options:
                 CSI.TYPE_NAVAGRAHA_GANJIFA: ("Dashavatara Ganjifa", ""),
                 CSI.TYPE_DASHAVATARA_GANJIFA: ("Dashavatara Ganjifa", ""),
                 CSI.TYPE_TRUMP_ONLY: ("Matrix", ""),
+                CSI.TYPE_MATCHING: (c, ""),
             }
 
     # not changeable options

@@ -899,6 +899,9 @@ msgstr "Typ Dashavatara Ganjifa (120 kart)"
 msgid "Trumps only type (variable cards)"
 msgstr "Typ tylko Atu (różne karty)"
 
+msgid "Matching type (variable cards)"
+msgstr ""
+
 #: pysollib/resource.py:194
 msgid "French"
 msgstr "Francuski"
@@ -934,6 +937,9 @@ msgstr "Dashavatara Ganjifa"
 #: pysollib/resource.py:202
 msgid "Trumps only"
 msgstr "Tylko Atu"
+
+msgid "Matching"
+msgstr ""
 
 #: pysollib/resource.py:219
 msgid "Adult"

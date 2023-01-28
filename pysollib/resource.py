@@ -180,6 +180,7 @@ class CSI:
     TYPE_NAVAGRAHA_GANJIFA = 7
     TYPE_DASHAVATARA_GANJIFA = 8
     TYPE_TRUMP_ONLY = 9
+    TYPE_MATCHING = 10
 
     TYPE = {
         1:  _("French type (52 cards)"),
@@ -191,6 +192,7 @@ class CSI:
         7:  _("Navagraha Ganjifa type (108 cards)"),
         8:  _("Dashavatara Ganjifa type (120 cards)"),
         9:  _("Trumps only type (variable cards)"),
+        10: _("Matching type (variable cards)"),
     }
 
     TYPE_NAME = {
@@ -203,54 +205,59 @@ class CSI:
         7:  _("Navagraha Ganjifa"),
         8:  _("Dashavatara Ganjifa"),
         9:  _("Trumps only"),
+        10: _("Matching"),
     }
 
     TYPE_ID = {
-        1: "french",
-        2: "hanafuda",
-        3: "tarock",
-        4: "mahjongg",
-        5: "hex-a-deck",
-        6: "mughal-ganjifa",
-        7: "navagraha-ganjifa",
-        8: "dashavatara-ganjifa",
-        9: "trumps-only",
+        1:  "french",
+        2:  "hanafuda",
+        3:  "tarock",
+        4:  "mahjongg",
+        5:  "hex-a-deck",
+        6:  "mughal-ganjifa",
+        7:  "navagraha-ganjifa",
+        8:  "dashavatara-ganjifa",
+        9:  "trumps-only",
+        10: "matching"
     }
 
     TYPE_SUITS = {
-        1: "cshd",
-        2: "abcdefghijkl",
-        3: "cshd",
-        4: "abc",
-        5: "cshd",
-        6: "abcdefgh",
-        7: "abcdefghi",
-        8: "abcdefghij",
-        9: "",
+        1:  "cshd",
+        2:  "abcdefghijkl",
+        3:  "cshd",
+        4:  "abc",
+        5:  "cshd",
+        6:  "abcdefgh",
+        7:  "abcdefghi",
+        8:  "abcdefghij",
+        9:  "",
+        10: ""
     }
 
     TYPE_RANKS = {
-        1: list(range(13)),
-        2: list(range(4)),
-        3: list(range(14)),
-        4: list(range(10)),
-        5: list(range(16)),
-        6: list(range(12)),
-        7: list(range(12)),
-        8: list(range(12)),
-        9: list(range(0)),
+        1:  list(range(13)),
+        2:  list(range(4)),
+        3:  list(range(14)),
+        4:  list(range(10)),
+        5:  list(range(16)),
+        6:  list(range(12)),
+        7:  list(range(12)),
+        8:  list(range(12)),
+        9:  list(range(0)),
+        10: list(range(0)),
     }
 
     TYPE_TRUMPS = {
-        1: (),
-        2: (),
-        3: list(range(22)),
-        4: list(range(12)),
-        5: list(range(4)),
-        6: (),
-        7: (),
-        8: (),
-        9: (),
+        1:  (),
+        2:  (),
+        3:  list(range(22)),
+        4:  list(range(12)),
+        5:  list(range(4)),
+        6:  (),
+        7:  (),
+        8:  (),
+        9:  (),
+        10: (),
     }
 
     # cardset styles
@@ -271,6 +278,7 @@ class CSI:
         29:  _("Hex A Deck"),           #
         13:  _("Holiday"),              #
         28:  _("Mahjongg"),             #
+        32:  _("Matching"),             #
         14:  _("Movies"),               #
         31:  _("Matrix"),               #
         15:  _("Music"),                #
@@ -467,6 +475,16 @@ class CardsetManager(ResourceManager):
         elif s == CSI.TYPE_DASHAVATARA_GANJIFA:
             cs.nbottoms = 13
         elif s == CSI.TYPE_TRUMP_ONLY:
+            # ???return 0                            ## FIXME
+            # cs.nbottoms = 7
+            # cs.ranks = ()
+            # cs.suits = ""
+            # cs.trumps = range(cs.ncards)
+            cs.nbottoms = 1
+            cs.nletters = 0
+            cs.nshadows = 0
+            cs.trumps = list(range(cs.ncards))
+        elif s == CSI.TYPE_MATCHING:
             # ???return 0                            ## FIXME
             # cs.nbottoms = 7
             # cs.ranks = ()

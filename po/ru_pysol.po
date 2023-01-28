@@ -893,6 +893,9 @@ msgstr "Дашаватара Ганджифа (120 карт)"
 msgid "Trumps only type (variable cards)"
 msgstr "Без мастей (переменное количество карт)"
 
+msgid "Matching type (variable cards)"
+msgstr ""
+
 #: pysollib/resource.py:194
 msgid "French"
 msgstr "Классические"
@@ -928,6 +931,9 @@ msgstr "Дашаватара Ганджифа"
 #: pysollib/resource.py:202
 msgid "Trumps only"
 msgstr "Без мастей"
+
+msgid "Matching"
+msgstr ""
 
 #: pysollib/resource.py:219
 msgid "Adult"

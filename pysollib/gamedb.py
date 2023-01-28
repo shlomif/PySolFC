@@ -48,6 +48,9 @@ class GI:
     GC_NAVAGRAHA_GANJIFA = CSI.TYPE_NAVAGRAHA_GANJIFA
     GC_DASHAVATARA_GANJIFA = CSI.TYPE_DASHAVATARA_GANJIFA
     GC_TRUMP_ONLY = CSI.TYPE_TRUMP_ONLY
+    GC_MATCHING = CSI.TYPE_MATCHING
+
+    NUM_CATEGORIES = CSI.TYPE_MATCHING
 
     # game type
     GT_1DECK_TYPE = 0
@@ -549,13 +552,13 @@ class GI:
          tuple(range(22217, 22219))),
         ('fc-2.14', tuple(range(811, 827))),
         ('fc-2.15', tuple(range(827, 855)) + tuple(range(22400, 22407))),
-        ('dev', tuple(range(855, 886)))
+        ('dev', tuple(range(855, 888)))
     )
 
     # deprecated - the correct way is to or a GI.GT_XXX flag
     # in the registerGame() call
     _CHILDREN_GAMES = [16, 33, 55, 90, 91, 96, 97, 176, 328, 329, 862, 865,
-                       903, ]
+                       886, 903, ]
 
     _OPEN_GAMES = []
 
@@ -631,7 +634,7 @@ class GameInfo(Struct):
         if pysollib.settings.TRANSLATE_GAME_NAMES:
             altnames = [_(n) for n in altnames]
         #
-        if not (1 <= category <= 9):
+        if not (1 <= category <= GI.NUM_CATEGORIES):
             if game_type == GI.GT_HANAFUDA:
                 category = GI.GC_HANAFUDA
             elif game_type == GI.GT_TAROCK:

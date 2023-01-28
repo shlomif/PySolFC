@@ -35,6 +35,7 @@ from pysollib.pysoltk import MfxCanvasText
 from pysollib.stack import \
         AC_RowStack, \
         BO_RowStack, \
+        DealFirstRowTalonStack, \
         DealRowTalonStack, \
         InitialDealTalonStack, \
         KingAC_RowStack, \
@@ -905,6 +906,7 @@ class Lanes(Klondike):
 
 # ************************************************************************
 # * Thirty Six
+# * Six By Six
 # ************************************************************************
 
 class ThirtySix(Klondike):
@@ -920,7 +922,7 @@ class ThirtySix(Klondike):
             if r.cards:
                 c = r.cards[-1]
                 for f in self.s.foundations:
-                    if f.acceptsCards(r, [c]):
+                    if f.acceptsCards(r, [c]) and c.rank == ACE:
                         self.moveMove(1, r, f, frames=4, shadow=0)
                         return 1
         return 0
@@ -935,6 +937,23 @@ class ThirtySix(Klondike):
         self.s.talon.dealCards()          # deal first card to WasteStack
 
     shallHighlightMatch = Game._shallHighlightMatch_RK
+
+
+class SixBySix(ThirtySix):
+
+    Talon_Class = StackWrapper(DealFirstRowTalonStack, max_move=0)
+    RowStack_Class = StackWrapper(Spider_SS_RowStack, base_rank=ANY_RANK)
+
+    def createGame(self):
+        Klondike.createGame(self, rows=6, max_rounds=1, waste=0)
+
+    def startGame(self):
+        self.startDealSample()
+        for i in range(6):
+            self.s.talon.dealRow()
+            while True:
+                if not self._fillOne():
+                    break
 
 
 # ************************************************************************
@@ -1656,3 +1675,5 @@ registerGame(GameInfo(869, Smokey, "Smokey",
                       GI.GT_KLONDIKE, 1, 2, GI.SL_BALANCED))
 registerGame(GameInfo(873, AgnesTwo, "Agnes Two",
                       GI.GT_RAGLAN, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(888, SixBySix, "Six by Six",
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))

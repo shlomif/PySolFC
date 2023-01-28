@@ -1698,6 +1698,9 @@ msgstr "Ablegen in Zwischentalon"
 msgid "Deal to tableau"
 msgstr "Lege auf das Tableau"
 
+msgid "Deal to first tableau"
+msgstr ""
+
 #: pysollib/wizardutil.py:142
 msgid "Deal to reserves"
 msgstr "Lege in die Reserve"

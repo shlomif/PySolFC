@@ -1728,6 +1728,9 @@ msgstr "Сдавать на сброс"
 msgid "Deal to tableau"
 msgstr "Сдавать на игровой стол"
 
+msgid "Deal to first tableau"
+msgstr ""
+
 #: pysollib/wizardutil.py:142
 msgid "Deal to reserves"
 msgstr "Сдавать на резервные ячейки"

@@ -1728,6 +1728,9 @@ msgstr "Distribuer à la défausse"
 msgid "Deal to tableau"
 msgstr "Distribuer au tableau"
 
+msgid "Deal to first tableau"
+msgstr ""
+
 #: pysollib/wizardutil.py:142
 msgid "Deal to reserves"
 msgstr "Distribuer aux réserves"

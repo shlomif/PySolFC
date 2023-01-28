@@ -1732,6 +1732,9 @@ msgstr "Przełóż do zrzutu"
 msgid "Deal to tableau"
 msgstr "Przełóż na stół gry"
 
+msgid "Deal to first tableau"
+msgstr ""
+
 #: pysollib/wizardutil.py:142
 msgid "Deal to reserves"
 msgstr "Przełóż na stos rezerwowy"

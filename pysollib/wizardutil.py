@@ -31,6 +31,7 @@ from pysollib.stack import AC_FoundationStack, \
         BO_FoundationStack, \
         BO_RowStack, \
         BasicRowStack, \
+        DealFirstRowRedealTalonStack, \
         DealReserveRedealTalonStack, \
         DealRowRedealTalonStack, \
         GroundsForADivorceTalonStack, \
@@ -148,6 +149,7 @@ TalonType = WizSetting(
     values_map=((n_('Deal all cards at the beginning'), InitialDealTalonStack),
                 (n_('Deal to waste'),         WasteTalonStack),
                 (n_('Deal to tableau'),       DealRowRedealTalonStack),
+                (n_('Deal to first tableau'), DealFirstRowRedealTalonStack),
                 (n_('Deal to reserves'),      DealReserveRedealTalonStack),
                 (n_('Spider'),                SpiderTalonStack),
                 (n_('Grounds for a Divorce'), GroundsForADivorceTalonStack),

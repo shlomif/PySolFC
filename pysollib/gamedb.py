@@ -378,8 +378,7 @@ class GI:
 
         # Solitude for Windows
         # still missing:
-        #       Bowling (Sackson version), Four Kingdoms, Icicles,
-        #       Six By Six
+        #       Bowling (Sackson version), Four Kingdoms, Icicles
         ("Solitude for Windows", (
             2, 8, 11, 13, 19, 24, 25, 29, 30, 31, 33, 34, 36, 38, 42,
             43, 45, 48, 50, 53, 56, 57, 58, 62, 64, 67, 69, 71, 86, 87,
@@ -387,7 +386,7 @@ class GI:
             128, 133, 134, 135, 139, 146, 147, 171, 172, 173, 221, 222,
             224, 228, 233, 234, 235, 256, 257, 258, 282, 314, 327, 330,
             355, 356, 398, 406, 414, 418, 434, 437, 484, 593, 715, 716,
-            737, 751, 805, 830, 845, 847, 901, 903
+            737, 751, 805, 830, 845, 847, 888, 901, 903
         )),
 
         # XM Solitaire
@@ -552,7 +551,7 @@ class GI:
          tuple(range(22217, 22219))),
         ('fc-2.14', tuple(range(811, 827))),
         ('fc-2.15', tuple(range(827, 855)) + tuple(range(22400, 22407))),
-        ('dev', tuple(range(855, 888)))
+        ('dev', tuple(range(855, 889)))
     )
 
     # deprecated - the correct way is to or a GI.GT_XXX flag

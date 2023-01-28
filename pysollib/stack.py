@@ -1994,6 +1994,12 @@ class DealRowTalonStack(TalonStack):
         return self.dealRowAvail(sound=sound)
 
 
+# A single click deals one card to each of the RowStacks.
+class DealFirstRowTalonStack(TalonStack):
+    def dealCards(self, sound=False):
+        return self.dealRowAvail(sound=sound, rows=(self.game.s.rows[0],))
+
+
 # For games where the Talon is only used for the initial dealing.
 class InitialDealTalonStack(TalonStack):
     # no bindings
@@ -2046,6 +2052,17 @@ class DealRowRedealTalonStack(TalonStack, RedealCards_StackMethods):
     def shuffleAndDealCards(self, sound=False, rows=None):
         DealRowRedealTalonStack.dealCards(self, sound=sound,
                                           rows=rows, shuffle=True)
+
+
+class DealFirstRowRedealTalonStack(DealRowRedealTalonStack):
+
+    def canDealCards(self, rows=None):
+        return DealRowRedealTalonStack.canDealCards(
+            self, rows=self.game.s.reserves)
+
+    def dealCards(self, sound=False, rows=None):
+        return DealRowRedealTalonStack.dealCards(
+            self, sound=sound, rows=(self.game.s.rows[0],))
 
 
 class DealReserveRedealTalonStack(DealRowRedealTalonStack):

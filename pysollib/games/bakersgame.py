@@ -314,7 +314,7 @@ registerGame(GameInfo(258, EightOff, "Eight Off",
                       GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(9, SeahavenTowers, "Seahaven Towers",
                       GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_SKILL,
-                      altnames=("Sea Towers", "Towers")))
+                      altnames=("Sea Towers", "Towers", "Tours du Alice")))
 registerGame(GameInfo(6, RelaxedSeahavenTowers, "Relaxed Seahaven Towers",
                       GI.GT_FREECELL | GI.GT_RELAXED | GI.GT_OPEN, 1, 0,
                       GI.SL_SKILL))

@@ -459,7 +459,7 @@ class GI:
                                                      845)),
         ("Toby Ord", (788,)),
         ("David Parlett", (64, 98, 294, 338, 654, 796, 812, 844)),
-        ("Randy Rasa", (187, 190, 191, 192,)),
+        ("Randy Rasa", (187, 188, 190, 191, 192,)),
         ("Gregg Seelhoff", (347,)),
         ("Adam Selene", (366,)),
         ("Jim Sizelove", (555001,)),

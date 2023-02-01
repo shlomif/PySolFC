@@ -400,12 +400,12 @@ class GI:
         #       Ace of Hearts, Agnes Three, Antares, Avenue, Baker's Fan,
         #       Baker's Spider, Bedeviled, Binding, Black Holes,
         #       Black Spider, California, Cascade, Club, Color Cell,
-        #       Cornelius, Demons and Thieves, Desert Fox, Deuces and Queens,
-        #       Double Antares, Double Antarctica, Double Arctica,
-        #       Double Baker's Spider, Double Cascade, Double Line 8,
-        #       Double Majesty, Double Spidercells, Doublet Cell 5, Doubt,
-        #       Dream Fan, Dumfries Cell, Falcon Wing, Fan Nine, Fanny 6,
-        #       Four By Ten, FreeCell AK, Gaps Alter, Gaps Diff, George V,
+        #       Cornelius, Desert Fox, Deuces and Queens, Double Antares,
+        #       Double Antarctica, Double Arctica, Double Baker's Spider,
+        #       Double Cascade, Double Line 8, Double Majesty,
+        #       Double Spidercells, Doublet Cell 5, Doubt, Dream Fan,
+        #       Dumfries Cell, Falcon Wing, Fan Nine, Fanny 6, Four By Ten,
+        #       FreeCell AK, Gaps Alter, Gaps Diff, George V,
         #       Grandmother's Clock, In a Frame, Inverted FreeCell, Kings,
         #       Klondike FreeCell, La Cabane, La Double Entente,
         #       Little Gazette, Magic FreeCell, Mini Gaps, Montreal,
@@ -427,7 +427,7 @@ class GI:
             415, 416, 425, 451, 453, 461, 464, 466, 467, 476, 480, 484,
             511, 512, 513, 516, 561, 610, 625, 629, 631, 638, 641, 647,
             650, 655, 678, 684, 734, 751, 784, 825, 829, 834, 837, 844,
-            862, 867, 880, 901,
+            862, 867, 880, 889, 901,
         )),
 
         # xpat2 1.06 (we have 14 out of 16 games)
@@ -470,7 +470,7 @@ class GI:
         ("Peter Voke", (876,)),
         ("Thomas Warfield", (189, 264, 300, 320, 336, 337, 359,
                              415, 427, 458, 495, 496, 497, 508,
-                             800, 814, 820, 825,)),
+                             800, 814, 820, 825, 889,)),
         ("Mary Whitmore Jones", (421, 624,)),
         )
 
@@ -551,7 +551,7 @@ class GI:
          tuple(range(22217, 22219))),
         ('fc-2.14', tuple(range(811, 827))),
         ('fc-2.15', tuple(range(827, 855)) + tuple(range(22400, 22407))),
-        ('dev', tuple(range(855, 889)))
+        ('dev', tuple(range(855, 890)))
     )
 
     # deprecated - the correct way is to or a GI.GT_XXX flag

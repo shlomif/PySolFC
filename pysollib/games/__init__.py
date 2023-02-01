@@ -39,6 +39,7 @@ from . import capricieuse  # noqa: F401
 from . import crossword  # noqa: F401
 from . import curdsandwhey  # noqa: F401
 from . import daddylonglegs  # noqa: F401
+from . import demonsandthieves  # noqa: F401
 from . import dieboesesieben  # noqa: F401
 from . import diplomat  # noqa: F401
 from . import doublets  # noqa: F401

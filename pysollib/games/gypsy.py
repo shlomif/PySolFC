@@ -79,12 +79,21 @@ class Gypsy(Game):
         # default
         l.defaultAll()
 
-    def startGame(self):
+    def startGame(self, flip=0):
         for i in range(2):
-            self.s.talon.dealRow(flip=0, frames=0)
+            self.s.talon.dealRow(flip=flip, frames=0)
         self._startAndDealRow()
 
     shallHighlightMatch = Game._shallHighlightMatch_AC
+
+
+# ************************************************************************
+# * Yeast Dough
+# ************************************************************************
+
+class YeastDough(Gypsy):
+    def startGame(self):
+        Gypsy.startGame(self, flip=1)
 
 
 # ************************************************************************
@@ -1067,3 +1076,5 @@ registerGame(GameInfo(792, KingsSecrets, "King's Secrets",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED))
 registerGame(GameInfo(842, SwissPatience, "Swiss Patience",
                       GI.GT_GYPSY, 1, 0, GI.SL_BALANCED))
+registerGame(GameInfo(890, YeastDough, "Yeast Dough",
+                      GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))

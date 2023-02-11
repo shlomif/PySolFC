@@ -513,6 +513,77 @@ class AllInARow(BlackHole):
 
 
 # ************************************************************************
+# * All in a Row II
+# ************************************************************************
+
+class AllInARowII_Reserve(RK_RowStack):
+    getBottomImage = RK_RowStack._getReserveBottomImage
+
+    def getHelp(self):
+        return _('Reserve. Build down regardless of suit.')
+
+
+class AllInARowII_Foundation(AbstractFoundationStack):
+    def acceptsCards(self, from_stack, cards):
+        if from_stack not in self.game.s.reserves:
+            return False
+        if len(cards) == 1 or len(cards) != len(from_stack.cards):
+            return False
+        return True
+
+
+class AllInARowII(Game):
+
+    def createGame(self):
+        # create layout
+        layout, s = Layout(self), self.s
+
+        # set window
+        h = layout.YM+layout.YS + 4 * layout.YOFFSET
+        self.setSize(layout.XM + 7 * layout.XS,
+                     3 * layout.YM + 3 * h + layout.YS)
+
+        # create stacks
+        x, y = layout.XM, layout.YM
+        for i in range(7):
+            s.rows.append(OpenStack(x, y, self, max_accept=0))
+            x += layout.XS
+        x, y = layout.XM, layout.YM+h
+        for i in range(6):
+            s.rows.append(OpenStack(x, y, self, max_accept=0))
+            x += layout.XS
+        for r in s.rows:
+            r.CARD_XOFFSET, r.CARD_YOFFSET = 0, layout.YOFFSET
+
+        x, y = layout.XM, self.height-layout.YS
+        stack = AllInARowII_Foundation(
+            x, y, self, ANY_SUIT, dir=0, mod=13, max_move=0, max_cards=52,
+            base_rank=ANY_RANK)
+        s.foundations.append(stack)
+        layout.createText(stack, 'se')
+
+        y -= layout.YS
+        stack = AllInARowII_Reserve(
+            x, y, self, dir=1, mod=13, max_cards=52, base_rank=ANY_RANK)
+        s.reserves.append(stack)
+        stack.CARD_XOFFSET, stack.CARD_YOFFSET = ((self.width - layout.XS)
+                                                  // 51, 0)
+        x = self.width-layout.XS
+        s.talon = InitialDealTalonStack(x, y, self)
+
+        # define stack-groups
+        layout.defaultStackGroups()
+
+    def startGame(self):
+        self._startDealNumRowsAndDealSingleRow(3)
+
+    def getStuck(self):
+        if len(self.s.reserves[0].cards) > 1:
+            return True
+        return Game.getStuck(self)
+
+
+# ************************************************************************
 # * Robert
 # * Bobby
 # * Wasatch
@@ -1348,7 +1419,8 @@ registerGame(GameInfo(267, FourLeafClovers, "Four Leaf Clovers",
 registerGame(GameInfo(281, Escalator, "Escalator",
                       GI.GT_GOLF, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(405, AllInARow, "All in a Row",
-                      GI.GT_GOLF | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_GOLF | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL,
+                      altnames=("Quasar",)))
 registerGame(GameInfo(432, Robert, "Robert",
                       GI.GT_GOLF, 1, 2, GI.SL_LUCK))
 registerGame(GameInfo(551, DiamondMine, "Diamond Mine",
@@ -1402,3 +1474,5 @@ registerGame(GameInfo(868, Bobby, "Bobby",
                       GI.GT_GOLF, 1, 2, GI.SL_LUCK))
 registerGame(GameInfo(880, Carcassonne, "Carcassonne",
                       GI.GT_NAPOLEON | GI.GT_OPEN, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(891, AllInARowII, "All in a Row II",
+                      GI.GT_GOLF | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))

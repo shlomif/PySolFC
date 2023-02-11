@@ -43,14 +43,14 @@ pot:
 	xgettext --keyword=n_ --add-comments=TRANSLATORS: -o po/pysol.pot \
 		pysollib/*.py pysollib/*/*.py pysollib/*/*/*.py data/pysolfc.glade
 	set -e; \
-	for lng in de fr pl it ru ; do \
+	for lng in de fr pl it ru pt_BR; do \
 		msgmerge --update --quiet --backup=none po/$${lng}_pysol.po po/pysol.pot; \
 		msgmerge --update --quiet --backup=none po/$${lng}_games.po po/games.pot; \
 	done
 
 mo:
 	set -e; \
-	for lang in ru de pl it; do \
+	for lang in ru de pl it pt_BR; do \
 		mkdir -p locale/$${lang}/LC_MESSAGES; \
 		msgcat --use-first po/$${lang}_games.po po/$${lang}_pysol.po > po/$${lang}.po; \
 		msgfmt --check -o locale/$${lang}/LC_MESSAGES/pysol.mo po/$${lang}.po; \

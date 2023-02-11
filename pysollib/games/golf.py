@@ -241,6 +241,14 @@ class RelaxedGolf(Golf):
     shallHighlightMatch = Game._shallHighlightMatch_RKW
 
 
+class DoublePutt(DoubleGolf):
+    Solver_Class = BlackHoleSolverWrapper(preset='golf', base_rank=0,
+                                          wrap_ranks=True)
+    Waste_Class = StackWrapper(Golf_Waste, mod=13)
+
+    shallHighlightMatch = Game._shallHighlightMatch_RKW
+
+
 # ************************************************************************
 # * Elevator - Relaxed Golf in a Pyramid layout
 # ************************************************************************
@@ -1476,3 +1484,5 @@ registerGame(GameInfo(880, Carcassonne, "Carcassonne",
                       GI.GT_NAPOLEON | GI.GT_OPEN, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(891, AllInARowII, "All in a Row II",
                       GI.GT_GOLF | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(892, DoublePutt, "Double Putt",
+                      GI.GT_GOLF, 2, 0, GI.SL_BALANCED))

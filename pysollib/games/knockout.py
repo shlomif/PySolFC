@@ -105,16 +105,10 @@ class Knockout(Game):
         x = x0
         y = l.YM
 
-        font = self.app.getFont("canvas_default")
         for i in range(rows):
             stack = BasicRowStack(x, y, self, max_cards=5,
                                   max_accept=0, max_move=1)
-            if self.preview <= 1:
-                tx, ty, ta, tf = l.getTextAttr(stack, anchor="n")
-                stack.texts.misc = MfxCanvasText(self.canvas,
-                                                 tx, ty,
-                                                 anchor=ta,
-                                                 font=font)
+
             s.rows.append(stack)
             x = x + l.XS
         self.setRegion(s.rows, (x0-l.XS//2, y-l.CH//2, 999999, 999999))

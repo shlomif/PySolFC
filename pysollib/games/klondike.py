@@ -907,6 +907,7 @@ class Lanes(Klondike):
 # ************************************************************************
 # * Thirty Six
 # * Six By Six
+# * Taking Silk
 # ************************************************************************
 
 class ThirtySix(Klondike):
@@ -954,6 +955,10 @@ class SixBySix(ThirtySix):
             while True:
                 if not self._fillOne():
                     break
+
+
+class TakingSilk(ThirtySix):
+    pass
 
 
 # ************************************************************************
@@ -1677,3 +1682,5 @@ registerGame(GameInfo(873, AgnesTwo, "Agnes Two",
                       GI.GT_RAGLAN, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(888, SixBySix, "Six by Six",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))
+registerGame(GameInfo(893, TakingSilk, "Taking Silk",
+                      GI.GT_KLONDIKE, 2, 0, GI.SL_BALANCED))

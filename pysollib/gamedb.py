@@ -21,15 +21,22 @@
 #
 # ---------------------------------------------------------------------------##
 
-
-import imp
-
 import pysollib.settings
 from pysollib.mfxutil import Struct, print_err
 from pysollib.mygettext import _, n_
 from pysollib.resource import CSI
 
 import six
+
+# Handle import of import library - different libraries are needed
+# for different Python versions.
+imp = None
+util = None
+try:
+    from importlib import util
+except ImportError:
+    util = None
+    import imp
 
 # ************************************************************************
 # * constants
@@ -862,6 +869,12 @@ def loadGame(modname, filename, check_game=False):
     # print "load game", modname, filename
     GAME_DB.check_game = check_game
     GAME_DB.current_filename = filename
-    imp.load_source(modname, filename)
+    if util is not None:
+        spec = util.spec_from_file_location(modname, filename)
+        module = util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+    else:
+        imp.load_source(modname, filename)
+
     # execfile(filename, globals(), globals())
     GAME_DB.current_filename = None

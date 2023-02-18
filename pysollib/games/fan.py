@@ -335,7 +335,7 @@ class ThreeShufflesAndADraw(LaBelleLucie):
     RowStack_Class = StackWrapper(
         ThreeShufflesAndADraw_RowStack, base_rank=NO_RANK)
 
-    def createGame(self):
+    def createGame(self, texts=True):
         lay = LaBelleLucie.createGame(self)
         s = self.s
         # add a reserve stack
@@ -359,6 +359,35 @@ class ThreeShufflesAndADraw(LaBelleLucie):
 
     def _saveGameHook(self, p):
         p.dump(self.draw_done)
+
+
+# ************************************************************************
+# * Cromwell
+# ************************************************************************
+
+class Cromwell(ThreeShufflesAndADraw):
+    Foundation_Classes = [SS_FoundationStack, SS_FoundationStack]
+    Talon_Class = InitialDealTalonStack
+    RowStack_Class = StackWrapper(
+        ThreeShufflesAndADraw_RowStack, base_rank=NO_RANK, max_move=999999)
+
+    def createGame(self, texts=True):
+        lay = Fan.createGame(self, rows=(6, 6, 6, 6, 2))
+        s = self.s
+        # add a reserve stack
+        x, y = s.rows[3].x, s.rows[-1].y
+        s.reserves.append(ThreeShufflesAndADraw_ReserveStack(x, y, self))
+        # redefine the stack-groups
+        lay.defaultStackGroups()
+        # extra settings
+        self.draw_done = 0
+
+    def startGame(self):
+        self.draw_done = 0
+        self.s.reserves[0].updateText()
+        for i in range(3):
+            self.s.talon.dealRow(rows=self.s.rows[:26], frames=0)
+        self._startAndDealRow()
 
 
 # ************************************************************************
@@ -1141,3 +1170,5 @@ registerGame(GameInfo(871, CeilingFan, "Ceiling Fan",
                       GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(879, RoamingProils, "Roaming Proils",
                       GI.GT_FAN_TYPE, 1, 0, GI.SL_BALANCED))
+registerGame(GameInfo(894, Cromwell, "Cromwell",
+                      GI.GT_FAN_TYPE | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL))

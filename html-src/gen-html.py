@@ -64,6 +64,7 @@ files = [
     ('assist_options.html', 'PySol - Assist Options'),
     ('solitaire_wizard.html', 'PySol - Solitaire Wizard'),
     ('cardset_customization.html', 'PySol - Cardset Customization'),
+    ('solver.html', 'PySol - Solver'),
     ('plugins.html', 'PySol - Plugins'),
     ]
 

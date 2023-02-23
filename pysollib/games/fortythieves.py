@@ -686,15 +686,19 @@ class Octave(Game):
 # ************************************************************************
 
 class FortunesFavor(Game):
+    ROWS = 2
+    COLS = 6
 
     def createGame(self):
 
         l, s = Layout(self), self.s
 
-        w, h = l.XM+8*l.XS, 2*l.YM+3*l.YS
+        w, h = l.XM + (2 + self.COLS) * l.XS, 2 * l.YM + (1 + self.ROWS) * l.YS
         self.setSize(w, h)
 
-        x, y = l.XM+3*l.XS, l.YM
+        offset = 2 + ((self.COLS - 4) / 2)
+
+        x, y = l.XM + offset * l.XS, l.YM
         for i in range(4):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
             x += l.XS
@@ -705,9 +709,9 @@ class FortunesFavor(Game):
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, 'se')
         y = 2*l.YM+l.YS
-        for i in range(2):
+        for i in range(self.ROWS):
             x = l.XM+2*l.XS
-            for j in range(6):
+            for j in range(self.COLS):
                 stack = SS_RowStack(x, y, self, max_move=1)
                 stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, 0
                 s.rows.append(stack)
@@ -733,6 +737,15 @@ class FortunesFavor(Game):
                 self.s.waste.moveMove(1, stack)
 
     shallHighlightMatch = Game._shallHighlightMatch_SS
+
+
+# ************************************************************************
+# * Preference
+# ************************************************************************
+
+class Preference(FortunesFavor):
+    ROWS = 2
+    COLS = 4
 
 
 # ************************************************************************
@@ -1526,3 +1539,5 @@ registerGame(GameInfo(848, Malmaison, "Malmaison",
                       GI.GT_FORTY_THIEVES, 4, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(884, JacksInTheBox, "Jacks in the Box",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(895, Preference, "Preference",
+                      GI.GT_FORTY_THIEVES, 1, 0, GI.SL_LUCK))

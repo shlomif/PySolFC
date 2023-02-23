@@ -2377,6 +2377,9 @@ msgstr "\tQuesto gioco:  "
 msgid "Reserve. Build down by suit."
 msgstr "Riserva. Decrescente per seme."
 
+msgid "Reserve. Build up regardless of suit."
+msgstr "Riserva. Crescente indipendentemente dal seme."
+
 #: pysollib/games/yukon.py:108
 msgid ""
 "Tableau. Build down in any suit but the same, can move any face-up cards "

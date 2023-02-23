@@ -2396,6 +2396,9 @@ msgstr "\tTa gra:  "
 msgid "Reserve. Build down by suit."
 msgstr "Stos rezerwowy. Układaj w dół wg koloru."
 
+msgid "Reserve. Build up regardless of suit."
+msgstr "Stos rezerwowy. Układaj w górę niezależnie od koloru."
+
 #: pysollib/games/yukon.py:108
 msgid ""
 "Tableau. Build down in any suit but the same, can move any face-up cards "

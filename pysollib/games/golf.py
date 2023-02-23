@@ -524,11 +524,16 @@ class AllInARow(BlackHole):
 # * All in a Row II
 # ************************************************************************
 
+class AllInARowII_RowStack(BlackHole_RowStack):
+    def clickHandler(self, event):
+        return self.rightclickHandler(event)
+
+
 class AllInARowII_Reserve(RK_RowStack):
     getBottomImage = RK_RowStack._getReserveBottomImage
 
     def getHelp(self):
-        return _('Reserve. Build down regardless of suit.')
+        return _('Reserve. Build up regardless of suit.')
 
 
 class AllInARowII_Foundation(AbstractFoundationStack):
@@ -554,11 +559,11 @@ class AllInARowII(Game):
         # create stacks
         x, y = layout.XM, layout.YM
         for i in range(7):
-            s.rows.append(OpenStack(x, y, self, max_accept=0))
+            s.rows.append(AllInARowII_RowStack(x, y, self, max_accept=0))
             x += layout.XS
         x, y = layout.XM, layout.YM+h
         for i in range(6):
-            s.rows.append(OpenStack(x, y, self, max_accept=0))
+            s.rows.append(AllInARowII_RowStack(x, y, self, max_accept=0))
             x += layout.XS
         for r in s.rows:
             r.CARD_XOFFSET, r.CARD_YOFFSET = 0, layout.YOFFSET

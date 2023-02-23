@@ -2330,6 +2330,9 @@ msgstr "\tDieses Spiel:  "
 msgid "Reserve. Build down by suit."
 msgstr "Reserve. Aufgebaut nach Farbe."
 
+msgid "Reserve. Build up regardless of suit."
+msgstr "Reserve. Bauen Sie unabhängig von der Farbe."
+
 #: pysollib/games/yukon.py:108
 msgid ""
 "Tableau. Build down in any suit but the same, can move any face-up cards "

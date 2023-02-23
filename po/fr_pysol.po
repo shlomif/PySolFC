@@ -2370,6 +2370,9 @@ msgstr "\tCe jeu:  "
 msgid "Reserve. Build down by suit."
 msgstr "Réserve. Décroissant par enseigne."
 
+msgid "Reserve. Build up regardless of suit."
+msgstr "Reserve. Croissant indépendamment de l'enseigne."
+
 #: pysollib/games/yukon.py:108
 msgid ""
 "Tableau. Build down in any suit but the same, can move any face-up cards "

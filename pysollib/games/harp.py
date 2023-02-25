@@ -427,7 +427,8 @@ registerGame(GameInfo(333, OpenGargantua, "Open Gargantua",
                       GI.GT_KLONDIKE, 2, 1, GI.SL_BALANCED,
                       altnames=("Open Jumbo",)))
 registerGame(GameInfo(15, BigHarp, "Big Harp",
-                      GI.GT_KLONDIKE, 2, 0, GI.SL_BALANCED))
+                      GI.GT_KLONDIKE, 2, 0, GI.SL_BALANCED,
+                      altnames=("Die grosse Harfe", "Die Pyramide",)))
 registerGame(GameInfo(51, Steps, "Steps",
                       GI.GT_KLONDIKE, 2, 1, GI.SL_BALANCED))
 registerGame(GameInfo(273, TripleKlondike, "Triple Klondike",

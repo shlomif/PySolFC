@@ -1460,7 +1460,8 @@ registerGame(GameInfo(426, Octagon, "Octagon",
 registerGame(GameInfo(440, Squadron, "Squadron",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(462, Josephine, "Josephine",
-                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL,
+                      altnames=("Forty Bandits")))
 registerGame(GameInfo(493, MarieRose, "Marie Rose",
                       GI.GT_FORTY_THIEVES, 3, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(503, BigStreets, "Big Streets",

@@ -9,6 +9,7 @@ from pysollib.stack import \
         AbstractFoundationStack, \
         KingAC_RowStack, \
         OpenStack, \
+        RK_FoundationStack, \
         RK_RowStack, \
         ReserveStack, \
         SS_FoundationStack, \
@@ -75,6 +76,7 @@ class Canfield(Game):
     INITIAL_RESERVE_FACEUP = 0
     FILL_EMPTY_ROWS = 1
     SEPARATE_FOUNDATIONS = True
+    ALIGN_FOUNDATIONS = True
 
     #
     # game layout
@@ -186,7 +188,10 @@ class Canfield(Game):
             self.base_card = self.s.talon.getCard()
             for s in self.s.foundations:
                 s.cap.base_rank = self.base_card.rank
-            n = self.base_card.suit * self.gameinfo.decks
+            if (self.ALIGN_FOUNDATIONS):
+                n = self.base_card.suit * self.gameinfo.decks
+            else:
+                n = 0
             if self.s.foundations[n].cards:
                 assert self.gameinfo.decks > 1
                 n = n + 1
@@ -928,6 +933,43 @@ class Beehive(Canfield):
         pass
 
 
+# ************************************************************************
+# * The Plot
+# ************************************************************************
+
+class ThePlot_RowStack(RK_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if len(self.cards) == 0:
+            if (len(self.game.s.foundations[0].cards) < 13 and
+                    cards[0].rank != self.game.s.foundations[0].cap.base_rank):
+                return False
+            if from_stack != self.game.s.waste:
+                return False
+        if from_stack in self.game.s.reserves:
+            return False
+        return RK_RowStack.acceptsCards(self, from_stack, cards)
+
+
+class ThePlot_Foundation(RK_FoundationStack):
+    def acceptsCards(self, from_stack, cards):
+        if (len(self.game.s.foundations[0].cards) < 13 and
+                len(self.cards) == 0):
+            return False
+        return RK_FoundationStack.acceptsCards(self, from_stack, cards)
+
+
+class ThePlot(Canfield):
+    Foundation_Class = ThePlot_Foundation
+    RowStack_Class = StackWrapper(ThePlot_RowStack, mod=13, max_move=1)
+
+    FILL_EMPTY_ROWS = 0
+    ALIGN_FOUNDATIONS = False
+
+    def createGame(self):
+        Canfield.createGame(self, rows=12, max_rounds=1, num_deal=1,
+                            round_text=False)
+
+
 # register the game
 registerGame(GameInfo(105, Canfield, "Canfield",                # was: 262
                       GI.GT_CANFIELD | GI.GT_CONTRIB, 1, -1, GI.SL_BALANCED))
@@ -984,3 +1026,5 @@ registerGame(GameInfo(789, Beehive, "Beehive",
 registerGame(GameInfo(835, CasinoCanfield, "Casino Canfield",
                       GI.GT_CANFIELD | GI.GT_SCORE, 1, 0, GI.SL_BALANCED,
                       altnames="Reno"))
+registerGame(GameInfo(896, ThePlot, "The Plot",
+                      GI.GT_CANFIELD, 2, 0, GI.SL_BALANCED))

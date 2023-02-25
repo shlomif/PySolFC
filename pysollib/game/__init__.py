@@ -267,6 +267,26 @@ def _highlightCards__calc_item(canvas, delta, cw, ch, s, c1, c2, color):
     return r
 
 
+class random_dummy:
+    seed = {}
+
+
+# the _alt_unpickler is an unpickler that contains a few hacks
+# to ensure backward compatibility of saves.
+class _alt_unpickler(Unpickler):
+    version = 0
+
+    def set_version(self, version_tuple):
+        if version_tuple < (2, 20, 0):
+            self.version = 1
+
+    def find_class(self, module, name):
+        if self.version == 1 and module == 'pysol_cards.random':
+            return random_dummy
+        else:
+            return super().find_class(module, name)
+
+
 @attr.s
 class StackGroups(NewStruct):
     dropstacks = attr.ib(factory=list)
@@ -906,7 +926,7 @@ class Game(object):
     def restoreGameFromBookmark(self, bookmark):
         old_busy, self.busy = self.busy, 1
         file = BytesIO(bookmark)
-        p = Unpickler(file)
+        p = _alt_unpickler(file)
         game = self._undumpGame(p, self.app)
         assert game.id == self.id
         self.restoreGame(game, reset=0)
@@ -3168,7 +3188,7 @@ class Game(object):
             s, moves_index = bm
             self.setCursor(cursor=CURSOR_WATCH)
             file = BytesIO(s)
-            p = Unpickler(file)
+            p = _alt_unpickler(file)
             game = self._undumpGame(p, self.app)
             assert game.id == self.id
             # save state for undoGotoBookmark
@@ -3257,8 +3277,9 @@ class Game(object):
     def _loadGame(self, filename, app):
         game = None
         with open(filename, "rb") as f:
-            game = self._undumpGame(Unpickler(f), app)
+            game = self._undumpGame(_alt_unpickler(f), app)
             game.gstats.loaded += 1
+
         return game
 
     def _undumpGame(self, p, app):
@@ -3292,6 +3313,7 @@ class Game(object):
             _('Cannot load games saved with\n%(app)s version %(ver)s') % {
                 'app': PACKAGE,
                 'ver': version})
+        p.set_version(version_tuple)
         game_version = 1
         bookmark = pload(int)
         validate(0 <= bookmark <= 2, err_txt)

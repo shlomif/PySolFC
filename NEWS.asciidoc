@@ -1,5 +1,14 @@
 [[news]]
 === News
+* _26 February, 2023:_ There is a new stable release
+https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-2.20.0/[PySolFC
+v2.20.0]. Additionally, there is a new Cardsets release
+https://sourceforge.net/projects/pysolfc/files/PySolFC-Cardsets/PySolFC-Cardsets-2.2/[PySolFC-Cardsets v.2.2]. New in this release:
+** Over 40 new games, bringing the total to 1,200!
+** Memory games can now use any type of cardset, including new Matching type cardsets.
+** New options in the Solitaire Wizard.
+** Additional documentation for a number of PySol's features.
+** Bugfixes and other enhancements.
 * _11 October, 2022:_ Linux users, PySolFC is now available https://flathub.org/apps/details/io.sourceforge.pysolfc.PySolFC[on Flathub].
 * _9 October, 2022:_ There is a new stable release
 https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-2.18.0/[PySolFC

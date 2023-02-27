@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eux
 
-cardsets_dir=PySolFC-Cardsets--Minimal-2.1.0
+cardsets_dir=PySolFC-Cardsets--Minimal-2.2.0
 cardsets_file=${cardsets_dir}.tar.xz
 
 echo '### prepare cardsets'

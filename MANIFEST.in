@@ -93,6 +93,8 @@ graft data/cardset-louie-mantia-hanafuda
 graft data/cardset-mughal-ganjifa-xl
 graft data/cardset-dashavatara-ganjifa-xl
 graft data/cardset-next-matrix
+graft data/cardset-matching
+graft data/cardset-matching-xl
 ##
 ## exclude dirs
 ##

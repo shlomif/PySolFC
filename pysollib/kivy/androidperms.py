@@ -27,6 +27,9 @@ class AndroidPerms(object):
             'androidx.core.content.ContextCompat')
         self.currentActivity = jnius.cast(
             'android.app.Activity', self.PythonActivity.mActivity)
+        self.build = jnius.autoclass("android.os.Build")
+        self.version = jnius.autoclass("android.os.Build$VERSION")
+        self.vcodes = jnius.autoclass("android.os.Build$VERSION_CODES")
 
     def getPerm(self, permission):
         if jnius is None:
@@ -54,12 +57,19 @@ class AndroidPerms(object):
 
 def getStoragePerm():
     ap = AndroidPerms()
+    # print('Android API version: ', ap.version.SDK_INT)
+    logging.info("androidperms: API version %d" % (ap.version.SDK_INT))
+    if ap.version.SDK_INT > 29:
+        return False
     return ap.getPerms(
         ["android.permission.WRITE_EXTERNAL_STORAGE"])
 
 
 def requestStoragePerm():
     ap = AndroidPerms()
+    logging.info("androidperms: API version %d" % (ap.version.SDK_INT))
+    if ap.version.SDK_INT > 29:
+        return
     # ap.requestPerms(
     #    ["android.permission.READ_EXTERNAL_STORAGE","android.permission.WRITE_EXTERNAL_STORAGE"])
     ap.requestPerms(

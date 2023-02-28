@@ -24,7 +24,7 @@ PySolFC-Cardsets-2.0/
 android/*.apk
 android/*.zip
 android/bin/keystore
-buildozer/.buildozer
+buildozer/.buildozer*
 buildozer/PySolFC-Cardsets*
 buildozer/bin
 buildozer/tmp

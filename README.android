@@ -1,10 +1,17 @@
 
 Prerequisites (needs root):
 
-  (For updated information on these subjects please consult the scripts in
-  android/debian).
+  IMPORTANT:
+  Scripts and instruction in directory 'android' are OUTDATED and
+  not maintained any more. Instead refer to directory 'buildozer'.
 
-  On a 'freshly installed' Ubuntu 16.04 (32bit), the following
+  You need a linux workstation (either native or virtual). No graphic
+  desktop is needed, cmdline only is sufficient.
+
+  On freshly installed systems you will need to add about the
+  following packages:
+
+  On a 'freshly installed' Ubuntu or Debain , the following
   additional packages had to be installed:
 
   - python-setuptools
@@ -15,10 +22,6 @@ Prerequisites (needs root):
   - zlib headers     (ubuntu: zlib1g-dev)
   - virtualenv       (python-virtualenv)
   - zip,unzip
-
-  On a freshly installed debian stretch/xfce:
-
-  -> consult script files in directory android/debian.
 
   On a 'simple' gentoo installation the following packages had to be
   installed in addition:
@@ -34,10 +37,7 @@ Prerequisites (needs root):
   - dev-vcs/git
   - dev-java/ant
 
-  and python modules:
-
-  - python3 -m pip install requests --user.
-  - python3 -m pip install clint --user.
+  For further instructions consult buildozer/build-instruction.txt.
 
   NOTES:
   1) This information is supplied to give you a hint, when running into
@@ -45,60 +45,20 @@ Prerequisites (needs root):
   2) All builds need an working (fairly fast) internet connection and
      6 GB of free disk space.
 
-
-Build with 'python-for-android' (as user):
-
-  Use the cloned repo or an unpacked distribution tarball.
-
-  go to the android directory, then
-
-  $ ./mkp4a.init                              # prepare sdk and p4a installation
-  $ ./mkkeystore                              # if you want to build a release version.
-
-  $ ./mkp4a.debug                             # build debug apk
-  $ ./mkp4a.release  <passwd1>  [<passwd2>]   # build release apk
-
-  The build system will download all required additional
-  packages (such as the android sdk and more). Do the first build will
-  take a while. All in all you will need up to 6 GB of free disk space.
-
-  If you have Android Studio installed, you may call mkp4a.init
-  with optional parameter <sdk-dir> and ev. in addition as
-  second parameter <ndk-dir> (if not default) to prevent them
-  from downloading a new. (Note that currently android ndk version
-  should be less 14, otherwise the build will fail).
-
-  Resulted apks will appear in directory android.
-
 Cardsets:
 
-The Apk includes a minimal set of cards for playing.
+  The Apk includes a minimal set of cards for playing.
 
-Additional cardsets can be installed in ${HOME}/.PySolFC/cardsets/.
-On an android device this is equivalent to /sdcard/.PySolFC/cardsets/.
-Cardsets must use the bmp image format. Use scripts/cardconv
-(on a linux system) to convert them, before copying to the device.
+  On Android 9 and lower you can also add additional cardsets:
 
-Important Notice on python3/kivy 1.11.x (pysol verson 2.6.4 ff):
-In kivy, using python3, the support for bmp images depends on OpenGL.
-On fairly up to date Android OpenGL ES 3.x is available. ES (Embedded
-System) release is a subset of the full OpenGL. Due to this, bmp image
-support will be broken on android, but not on up to date workstations.
+  Additional cardsets can be installed in ${HOME}/.PySolFC/cardsets/.
+  On an android device this is equivalent to /sdcard/.PySolFC/cardsets/.
+  Cardsets must use the 'png' image format. Use scripts/cardconv
+  (on a linux system) to convert them, before copying them to the device.
 
-As gif images are still slow and error prone, the best we can do is to
-use png images instead of bmp (as noted above).
+  IMPORTANT: This can only be supported for Android Version 9 and lower.
+  Android as of Version 10 and later restricts access to so called
+  'external-storage' drasitcally. There is currently no way around it
+  with the given application.
 
-Possible known build issues:
-
-2) for android ndk: needs a Version <=13 (because needs ant support).
-
-3) python-for-android, on downloading recipes:
-
-  ('CA CERTIFICATE VALIDATION FAILED' when downloading python.2.7 or
-   some 'recipes')
-
-  Solution:
-    Try the download address with firefox. if it works, view the
-    site certificate and download (export) it from the browser.
-    Copy the resulting *.crt to /usr/local/ca-certificates and
-    run update-ca-certificates.
+LB230301.

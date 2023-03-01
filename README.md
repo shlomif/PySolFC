@@ -105,7 +105,7 @@ python pysol.py
 ```
 
 <b>Note!</b> If you are using a Debian derivative (e.g: Debian, Ubuntu, or
-Linu Mint) and you are getting an error of "No cardsets were found !!! Main
+Linux Mint) and you are getting an error of "No cardsets were found !!! Main
 data directory is `[insert dir here]` Please check your PySol installation.",
 then you likely installed the cardsets package which has removed some files
 that are needed by pysol from source (without the debian modifications).
@@ -171,19 +171,26 @@ mkdir -p "$PKGTREE"
 "$PKGTREE"/env/bin/pysol.py
 ```
 
-## Alternate toolkit.
+### Alternate toolkit.
 
 - Kivy (10.0 or later)
-
 - Features:
   - Sound support integrated.
   - Android apk build support.
-
 - Running from source without installation:
 
 ```
 python pysol.py --kivy
 ```
+
+### Android App
+
+On the basis of Kivy an Android App is also available. You may build
+your own using appropriate build instructions in README.android and
+in Directory buildozer.
+
+Some versions will also be published on F-droid (https://f-droid.org)
+
 
 ### Configuring Freecell Solver
 

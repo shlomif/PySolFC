@@ -29,5 +29,8 @@ sed -r "s:#? ?source\.dir =.*:source.dir = ..:" -i buildozer.spec
 sed -r "s:#? ?source\.exclude_dirs =.*:source.exclude_dirs = Screenshots,android,buildozer,tests:" -i buildozer.spec
 sed -r "s:#? ?source\.exclude_patterns =.*:source.exclude_patterns = README.*,AUTHORS.md,CONTRIBUTING.md,COPYING,MANIFEST.in,Makefile,NEWS.asciidoc,appdata.xml,pysol.py,run-tests.pl,setup.cfg,setup.py,setup_osx.py,local.properties,p4a_env_vars.txt:" -i buildozer.spec
 sed -r "s:#? ?android\.skip_update =.*:android.skip_update = True:" -i buildozer.spec
+sed -r "s:#? ?android\.accept_sdk_license =.*:android.accept_sdk_license = False:" -i buildozer.spec
+sed -r "s:#? ?log_level =.*:log_level = 2:" -i buildozer.spec
+
 
 echo '### end init'

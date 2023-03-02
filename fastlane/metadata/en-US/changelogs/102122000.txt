@@ -1,0 +1,2 @@
+- New Games added.
+- Android build procedures revised.

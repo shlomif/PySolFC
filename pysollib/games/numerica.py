@@ -994,10 +994,11 @@ class Aglet(Game):
 
         decks = self.gameinfo.decks
         l, s = Layout(self), self.s
-        self.setSize(l.XM+(reserves+0.5+rows)*l.XS,
-                     l.YM+max(2*l.YS+7*l.YOFFSET, l.YS+playcards*l.YOFFSET))
+        self.setSize(l.XM + (reserves + 0.5+rows) * l.XS,
+                     l.YM + max(2 * l.YS + 7 * l.YOFFSET,
+                                l.YS + playcards * l.YOFFSET))
 
-        x, y = self.width-l.XS, self.height-l.YS
+        x, y = l.XM, self.height-l.YS
         s.talon = InitialDealTalonStack(x, y, self)
 
         x, y = l.XM, l.YM
@@ -1007,12 +1008,12 @@ class Aglet(Game):
             s.reserves.append(stack)
             x += l.XS
 
-        x, y = l.XM + (reserves+0.5+(rows-decks*4)/2.0)*l.XS, l.YM
+        x, y = l.XM + (reserves + 0.5 + (rows-decks * 4) / 2.0) * l.XS, l.YM
         for i in range(4):
             s.foundations.append(RK_FoundationStack(x, y, self, suit=ANY_SUIT))
             x += l.XS
 
-        x, y = l.XM+(reserves+0.5)*l.XS, l.YM+l.YS
+        x, y = l.XM+(reserves + 0.5) * l.XS, l.YM + l.YS
         for i in range(rows):
             s.rows.append(BasicRowStack(x, y, self, base_rank=NO_RANK))
             x += l.XS

@@ -315,6 +315,8 @@ class Application:
         # startup information
         if self.getGameClass(self.opt.last_gameid):
             self.nextgame.id = self.opt.last_gameid
+        elif self.opt.last_gameid in GI.PROTECTED_GAMES:
+            self.nextgame.id = GI.PROTECTED_GAMES.get(self.opt.last_gameid)
         # load a holded or saved game
         tmpgame = self.constructGame(self.gdb.getGamesIdSortedByName()[0])
         self._load_held_or_saved_game(tmpgame)

@@ -312,6 +312,13 @@ class Application:
         except Exception:
             traceback.print_exc()
             pass
+
+        # Under normal circumstances, this won't trigger.
+        # But if the config has been incorrectly edited or
+        # otherwise corrupted, this can prevent a crash.
+        if 0 < self.opt.game_holded != self.opt.last_gameid:
+            self.opt.last_gameid = self.opt.game_holded
+
         # startup information
         if self.getGameClass(self.opt.last_gameid):
             self.nextgame.id = self.opt.last_gameid
@@ -346,7 +353,6 @@ class Application:
         self.opt.game_holded = 0
         tmpgame.destruct()
         destruct(tmpgame)
-        tmpgame = None
         #
         # widgets
         #

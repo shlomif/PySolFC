@@ -313,9 +313,8 @@ class DoubleFives(Glenwood):
         # define stack-groups
         l.defaultStackGroups()
 
-    def _shuffleHook(self, cards):
-        return self._shuffleHookMoveToTop(cards,
-                                          lambda c: (c.deck == 0, None))
+    def shuffle(self):
+        self.shuffleSeparateDecks()
 
     def startGame(self):
         self.base_rank = None

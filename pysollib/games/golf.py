@@ -1326,8 +1326,8 @@ class Flake(Game):
 
         # set window
         self.setSize(
-            layout.XM + rows*layout.XS,
-            layout.YM + 2*layout.YS + playcards*layout.XOFFSET)
+            layout.XM + rows * layout.XS,
+            layout.YM + 2 * layout.YS + playcards * layout.XOFFSET)
 
         # create stacks
         x, y, = layout.XM, layout.YM+layout.YS
@@ -1335,14 +1335,14 @@ class Flake(Game):
             s.rows.append(UD_RK_RowStack(x, y, self, mod=13))
             x += layout.XS
 
-        x, y = layout.XM + (rows-1)*layout.XS//2, layout.YM
+        x, y = layout.XM + (rows - 1) * layout.XS // 2, layout.YM
         stack = BlackHole_Foundation(x, y, self, max_move=0, suit=ANY_SUIT,
                                      base_rank=ANY_RANK, dir=0, mod=13,
-                                     max_cards=52*self.gameinfo.decks)
+                                     max_cards=52 * self.gameinfo.decks)
         s.foundations.append(stack)
         layout.createText(stack, 'ne')
 
-        x, y = layout.XM, self.height-layout.YS
+        x, y = layout.XM, layout.YM
         s.talon = InitialDealTalonStack(x, y, self)
 
         # define stack-groups
@@ -1378,10 +1378,10 @@ class Beacon(Game):
         playcards = 12
         self.setSize(
             layout.XM+rows*layout.XS,
-            layout.YM+3*layout.YS+playcards*layout.YOFFSET)
+            layout.YM + 3 * layout.YS + playcards * layout.YOFFSET)
 
         # create stacks
-        x, y = layout.XM + (rows-1)*layout.XS//2, layout.YM
+        x, y = layout.XM + (rows - 1) * layout.XS // 2, layout.YM
         stack = RK_FoundationStack(x, y, self, base_rank=ANY_RANK,
                                    max_cards=52, mod=13)
         s.foundations.append(stack)

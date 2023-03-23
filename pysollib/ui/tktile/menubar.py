@@ -25,7 +25,9 @@ def createToolbarMenu(menubar, menu):
     tearoff = menu.cget('tearoff')
     data_dir = os.path.join(menubar.app.dataloader.dir, 'images', 'toolbar')
     submenu = MfxMenu(menu, label=n_('Icon Style'), tearoff=tearoff)
-    for f in os.listdir(data_dir):
+    styledirs = os.listdir(data_dir)
+    styledirs.sort()
+    for f in styledirs:
         d = os.path.join(data_dir, f)
         if os.path.isdir(d) and os.path.exists(os.path.join(d, 'small')):
             name = f.replace('_', ' ').capitalize()

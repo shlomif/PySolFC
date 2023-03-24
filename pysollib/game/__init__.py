@@ -250,12 +250,12 @@ def _highlightCards__calc_item(canvas, delta, cw, ch, s, c1, c2, color):
         r = MfxCanvasRectangle(canvas, x1, y1, x2, y2,
                                width=4, fill=None, outline=color)
         if tkraise:
-            r.tkraise(c2.item)
+            canvas.tkraise(r)
     elif TOOLKIT == 'kivy':
         r = MfxCanvasRectangle(canvas, x1, y1, x2, y2,
                                width=4, fill=None, outline=color)
         if tkraise:
-            r.tkraise(c2.item)
+            canvas.tkraise(r)
     elif TOOLKIT == 'gtk':
         r = MfxCanvasRectangle(canvas, x1, y1, x2, y2,
                                width=4, fill=None, outline=color,

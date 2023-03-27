@@ -60,6 +60,7 @@ def getStoragePerm():
     return ap.getPerms(
         ["android.permission.WRITE_EXTERNAL_STORAGE"])
 
+
 def requestStoragePerm():
     ap = AndroidPerms()
     logging.info("androidperms: API version %d" % (ap.version.SDK_INT))

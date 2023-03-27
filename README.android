@@ -62,3 +62,24 @@ Cardsets:
   with the given application.
 
 LB230301.
+
+	(After new changes as of 27.3.23 - not contained in the last f-droid
+  version):
+
+  Allow external storage access for Android 10 and later.
+
+  - on Android 10 it ist still possible to write to the extenal storage. A
+    user has to manually allow at least access to media files in the
+    settings for the app.
+  - For later Versions the MANAGE_EXTERNAL_STORAGE permission was added
+    to the Android Manifest. If the Android 12 user wants to store
+    and read Files from /sdcard/.PySolFC directory he/she can enable
+    'Allow management of all Files' in the settings.
+    NOTE:
+      This is actually against the policies of Google and such an app
+    would fairliy get published on Play Store - but its the simplest
+    way to get this working again. Only users that need this (e.g. because
+    they want to install additional Cardsets) need to do that. The app will
+    never query you for that. You may do it on your own.
+
+LB230327.

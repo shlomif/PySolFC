@@ -96,7 +96,7 @@ fullscreen = 1
 
 # (list) Permissions
 #android.permissions = INTERNET
-android.permissions = INTERNET, WRITE_EXTERNAL_STORAGE
+android.permissions = WRITE_EXTERNAL_STORAGE, MANAGE_EXTERNAL_STORAGE
 
 # (list) features (adds uses-feature -tags to manifest)
 #android.features = android.hardware.usb.host
@@ -269,6 +269,8 @@ android.enable_androidx = True
 # (list) The Android archs to build for, choices: armeabi-v7a, arm64-v8a, x86, x86_64
 # In past, was `android.arch` as we weren't supporting builds for multiple archs at the same time.
 #android.archs = arm64-v8a, armeabi-v7a
+#android.archs = x86
+#android.archs = x86_64
 android.archs = armeabi-v7a
 
 # (int) overrides automatic versionCode computation (used in build.gradle)
@@ -317,6 +319,7 @@ p4a.commit = v2023.02.10
 
 # (str) python-for-android git clone directory (if empty, it will be automatically cloned from github)
 #p4a.source_dir =
+#p4a.source_dir = /home/lb/SourcePackages/python-for-android/python-for-android
 
 # (str) The directory in which python-for-android should look for your own build recipes (if any)
 #p4a.local_recipes =

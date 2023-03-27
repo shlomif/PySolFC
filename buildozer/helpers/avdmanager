@@ -1,0 +1,5 @@
+#!/bin/sh
+# Fake avdmanager. Runs in the context of a python-for-android build.
+# (maybe useful in f-droid builds, do not use otherwise)
+platforms=$(ls -1 $ANDROIDSDK/platforms
+echo $platforms | sed -e "s/android-/\nAPI level: /g"

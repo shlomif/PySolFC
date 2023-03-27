@@ -1,0 +1,7 @@
+#!/bin/sh
+# produces a fake avdmanager from buildozer settings
+# may be useful with fdroid build scripts (outputs a fake avdmanager script)
+echo "#!/bin/bash"
+cat buildozer.spec | \
+    grep -e "^android[.]api" | \
+    sed -e "s/android.api\(.*\)/echo 'API level:\1'/"

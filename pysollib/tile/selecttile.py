@@ -318,7 +318,7 @@ class SelectTileDialogWithPreview(MfxDialog):
             if self.app.checkSearchString(self.criteria.name,
                                           tile.name):
                 results.append(tile.name)
-        results.sort()
+        results.sort(key=lambda x: x.lower())
         pos = 0
         for result in results:
             self.list.insert(pos, result)

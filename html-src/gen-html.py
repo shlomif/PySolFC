@@ -242,7 +242,7 @@ def gen_rules_html():
           file=out_rules_alt)
     with open('rules_alternate.html', 'r') as file:
         print(file.read(), file=out_rules_alt)
-    altnames.sort()
+    altnames.sort(key=lambda x: x[0].lower())
     for name, fn in altnames:
         print('<li> <a href="rules/%s">%s</a>'
               % (fn, name), file=out_rules_alt)

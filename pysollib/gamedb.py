@@ -809,13 +809,13 @@ class GameManager:
         if self.__games_by_name is None:
             l1, l2, l3 = [], [], []
             for id, gi in self.__games.items():
-                name = gi.name  # .lower()
+                name = gi.name .lower()
                 l1.append((name, id))
                 if gi.name != gi.short_name:
-                    name = gi.short_name  # .lower()
+                    name = gi.short_name.lower()
                 l2.append((name, id))
                 for n in gi.altnames:
-                    name = n  # .lower()
+                    name = n.lower()
                     l3.append((name, id, n))
             l1.sort()
             l2.sort()

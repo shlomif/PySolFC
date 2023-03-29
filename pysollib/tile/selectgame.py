@@ -632,7 +632,7 @@ class SelectGameDialogWithPreview(SelectGameDialog):
                 for altname in game.altnames:
                     if self.app.checkSearchString(self.criteria.name, altname):
                         results.append(altname)
-        results.sort()
+        results.sort(key=lambda x: x.lower())
         pos = 0
         for result in results:
             self.list.insert(pos, result)

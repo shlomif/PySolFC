@@ -519,7 +519,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             if self.app.checkSearchString(self.criteria.name,
                                           cardset.name):
                 results.append(cardset.name)
-        results.sort()
+        results.sort(key=lambda x: x.lower())
         pos = 0
         for result in results:
             self.list.insert(pos, result)

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-03-11 16:02+0100\n"
+"PO-Revision-Date: 2023-03-29 19:40-0400\n"
 "Last-Translator: Jerzy Trzeciak <artusek@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.0\n"
 
 #: pysollib/actions.py:232 pysollib/kivy/menubar.py:292
 #: pysollib/kivy/toolbar.py:191 pysollib/tile/toolbar.py:176
@@ -4039,8 +4039,12 @@ msgstr "Aqua"
 
 #: pysollib/tile/playeroptionsdialog.py:50
 #: pysollib/tk/playeroptionsdialog.py:90
-msgid "Please enter your name"
-msgstr "Podaj swoje imię"
+msgid ""
+"\n"
+"Please enter your name"
+msgstr ""
+"\n"
+"Podaj swoje imię"
 
 #: pysollib/tile/selectcardset.py:138 pysollib/tk/selectcardset.py:137
 msgid "All Cardsets"
@@ -4336,6 +4340,12 @@ msgid "Games/week"
 msgstr "Gry/tydzień"
 
 msgid "Date format"
+msgstr ""
+
+msgid "MM-DD"
+msgstr ""
+
+msgid "DD-MM"
 msgstr ""
 
 #: pysollib/tile/toolbar.py:179 pysollib/tk/toolbar.py:179
@@ -5575,8 +5585,11 @@ msgstr "Ruchy ogółem"
 msgid "Set font"
 msgstr "Ustaw czcionkę"
 
-msgid "Alt/Revitalized"
-msgstr "Odświeżony"
+#~ msgid "Please enter your name"
+#~ msgstr "Podaj swoje imię"
+
+#~ msgid "Alt/Revitalized"
+#~ msgstr "Odświeżony"
 
 #, fuzzy
 #~ msgid "How to play"

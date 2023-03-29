@@ -4045,6 +4045,12 @@ msgstr ""
 msgid "Date format"
 msgstr ""
 
+msgid "MM-DD"
+msgstr ""
+
+msgid "DD-MM"
+msgstr ""
+
 #: pysollib/tile/toolbar.py:179 pysollib/tk/toolbar.py:179
 msgid "Open"
 msgstr ""

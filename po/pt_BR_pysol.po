@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-02-11 12:22-0500\n"
+"PO-Revision-Date: 2023-03-29 19:40-0400\n"
 "Last-Translator: Matheus Knack <mtknack555@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -4266,6 +4266,12 @@ msgid "Games/week"
 msgstr "Jogos/semana"
 
 msgid "Date format"
+msgstr ""
+
+msgid "MM-DD"
+msgstr ""
+
+msgid "DD-MM"
 msgstr ""
 
 #: pysollib/tile/toolbar.py:179 pysollib/tk/toolbar.py:179

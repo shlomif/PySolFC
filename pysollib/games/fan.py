@@ -279,7 +279,7 @@ class ThreeShufflesAndADraw_RowStack(SS_RowStack):
         game.updateStackMove(r, 3 | 64)       # update model
         game.updateStackMove(r, 1 | 16)       # update view for redo
         # 2) second card from self to foundation/row
-        if 1 or not game.demo:
+        if not game.demo:
             game.playSample("drop", priority=200)
         if frames == 0:
             frames = -1

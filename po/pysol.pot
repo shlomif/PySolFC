@@ -3734,16 +3734,46 @@ msgstr ""
 msgid "Revitalized"
 msgstr ""
 
+msgid "Alt/Revitalized"
+msgstr ""
+
 #: pysollib/tile/menubar.py:123
-msgid "Windows native"
+msgid "Windows Native"
 msgstr ""
 
 #: pysollib/tile/menubar.py:124
 msgid "XP Native"
 msgstr ""
 
+msgid "Windows XP Blue"
+msgstr ""
+
 #: pysollib/tile/menubar.py:125
 msgid "Aqua"
+msgstr ""
+
+msgid "ITFT1"
+msgstr ""
+
+msgid "Scid Blue"
+msgstr ""
+
+msgid "Scid Green"
+msgstr ""
+
+msgid "Scid Grey"
+msgstr ""
+
+msgid "Scid Mint"
+msgstr ""
+
+msgid "Scid Pink"
+msgstr ""
+
+msgid "Scid Purple"
+msgstr ""
+
+msgid "Scid Sand"
 msgstr ""
 
 #: pysollib/tile/playeroptionsdialog.py:50

@@ -12,16 +12,16 @@ msgstr ""
 "Project-Id-Version: it_pysol\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-03-29 19:40-0400\n"
+"PO-Revision-Date: 2023-04-05 19:49-0400\n"
 "Last-Translator: Giuliano Colla <giuliano.colla@gmail.com>\n"
 "Language-Team: Italiano <it@li.org>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: pygettext.py 1.6con\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0\n"
+"Generated-By: pygettext.py 1.6con\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #: pysollib/actions.py:232 pysollib/kivy/menubar.py:292
 #: pysollib/kivy/toolbar.py:191 pysollib/tile/toolbar.py:176
@@ -3991,17 +3991,47 @@ msgstr "Classico"
 msgid "Revitalized"
 msgstr "Rivitalizzato"
 
+msgid "Alt/Revitalized"
+msgstr ""
+
 #: pysollib/tile/menubar.py:123
-msgid "Windows native"
-msgstr "Windows native"
+msgid "Windows Native"
+msgstr "Windows Native"
 
 #: pysollib/tile/menubar.py:124
 msgid "XP Native"
 msgstr "XP originale"
 
+msgid "Windows XP Blue"
+msgstr ""
+
 #: pysollib/tile/menubar.py:125
 msgid "Aqua"
 msgstr "Acqua"
+
+msgid "ITFT1"
+msgstr ""
+
+msgid "Scid Blue"
+msgstr ""
+
+msgid "Scid Green"
+msgstr ""
+
+msgid "Scid Grey"
+msgstr ""
+
+msgid "Scid Mint"
+msgstr ""
+
+msgid "Scid Pink"
+msgstr ""
+
+msgid "Scid Purple"
+msgstr ""
+
+msgid "Scid Sand"
+msgstr ""
 
 #: pysollib/tile/playeroptionsdialog.py:50
 #: pysollib/tk/playeroptionsdialog.py:90

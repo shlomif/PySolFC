@@ -1,5 +1,11 @@
 [[news]]
 === News
+* _16 April, 2023:_ There is a new stable release
+https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-2.20.1/[PySolFC
+v2.20.1]. New in this release:
+** The release packages have been updated to use the latest version of Python, and all the dependent libraries.
+** New alternate release packages for Windows and Mac that include the full cardsets library (these are larger and may take longer to download/install).
+** Bugfixes and other enhancements.
 * _26 February, 2023:_ There is a new stable release
 https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-2.20.0/[PySolFC
 v2.20.0]. Additionally, there is a new Cardsets release

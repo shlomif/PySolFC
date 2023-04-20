@@ -245,6 +245,7 @@ class PysolMenubarTkCommon:
             shadow=tkinter.BooleanVar(),
             shade=tkinter.BooleanVar(),
             shade_filled_stacks=tkinter.BooleanVar(),
+            compact_stacks=tkinter.BooleanVar(),
             shrink_face_down=tkinter.BooleanVar(),
             randomize_place=tkinter.BooleanVar(),
             toolbar=tkinter.IntVar(),
@@ -289,6 +290,7 @@ class PysolMenubarTkCommon:
         tkopt.stuck_notification.set(opt.stuck_notification)
         tkopt.shrink_face_down.set(opt.shrink_face_down)
         tkopt.shade_filled_stacks.set(opt.shade_filled_stacks)
+        tkopt.compact_stacks.set(opt.compact_stacks)
         tkopt.randomize_place.set(opt.randomize_place)
         tkopt.mahjongg_show_removed.set(opt.mahjongg_show_removed)
         tkopt.shisen_show_hint.set(opt.shisen_show_hint)
@@ -684,6 +686,10 @@ class PysolMenubarTkCommon:
             label=n_("Shade &filled stacks"),
             variable=self.tkopt.shade_filled_stacks,
             command=self.mOptShadeFilledStacks)
+        submenu.add_checkbutton(
+            label=n_("&Compact long stacks"),
+            variable=self.tkopt.compact_stacks,
+            command=self.mOptCompactStacks)
         submenu.add_checkbutton(
             label=n_("&Randomize card placement"),
             variable=self.tkopt.randomize_place,
@@ -1569,6 +1575,13 @@ Unsupported game for import.
         if self._cancelDrag(break_pause=False):
             return
         self.app.opt.shade_filled_stacks = self.tkopt.shade_filled_stacks.get()
+        self.game.endGame(bookmark=1)
+        self.game.quitGame(bookmark=1)
+
+    def mOptCompactStacks(self, *args):
+        if self._cancelDrag(break_pause=False):
+            return
+        self.app.opt.compact_stacks = self.tkopt.compact_stacks.get()
         self.game.endGame(bookmark=1)
         self.game.quitGame(bookmark=1)
 

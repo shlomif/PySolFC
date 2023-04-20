@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-04-05 19:48-0400\n"
+"PO-Revision-Date: 2023-04-19 22:06-0400\n"
 "Last-Translator: Jerzy Trzeciak <artusek@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
@@ -5311,6 +5311,9 @@ msgstr ""
 #: pysollib/ui/tktile/menubar.py:563
 msgid "Shade &filled stacks"
 msgstr "Cieniuj wypełnione stosy"
+
+msgid "&Compact long stacks"
+msgstr ""
 
 msgid "&Randomize card placement"
 msgstr "Umieść karty w losowych miejscach"

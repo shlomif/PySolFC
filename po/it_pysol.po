@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: it_pysol\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-04-05 19:49-0400\n"
+"PO-Revision-Date: 2023-04-19 22:06-0400\n"
 "Last-Translator: Giuliano Colla <giuliano.colla@gmail.com>\n"
 "Language-Team: Italiano <it@li.org>\n"
 "Language: it\n"
@@ -5263,6 +5263,9 @@ msgstr "Fondo carte in negativo"
 #: pysollib/ui/tktile/menubar.py:563
 msgid "Shade &filled stacks"
 msgstr "Ombreggia pile piene"
+
+msgid "&Compact long stacks"
+msgstr ""
 
 msgid "&Randomize card placement"
 msgstr ""

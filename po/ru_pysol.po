@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-04-05 19:48-0400\n"
+"PO-Revision-Date: 2023-04-19 22:06-0400\n"
 "Last-Translator: Skomoroh <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
@@ -5289,6 +5289,9 @@ msgstr "&Негативные контуры карты"
 #: pysollib/ui/tktile/menubar.py:563
 msgid "Shade &filled stacks"
 msgstr "Затемнять заполненные ячейки"
+
+msgid "&Compact long stacks"
+msgstr ""
 
 msgid "&Randomize card placement"
 msgstr ""

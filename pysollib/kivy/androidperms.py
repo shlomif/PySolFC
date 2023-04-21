@@ -50,6 +50,9 @@ class AndroidPerms(object):
     def requestPerms(self, permissions):
         if jnius is None:
             return True
+        logging.info("androidperms: API version %d" % (self.version.SDK_INT))
+        if self.version.SDK_INT > 29:
+            return
         logging.info("androidperms: invoke permission dialog")
         self.currentActivity.requestPermissions(permissions, 0)
         return
@@ -63,10 +66,5 @@ def getStoragePerm():
 
 def requestStoragePerm():
     ap = AndroidPerms()
-    logging.info("androidperms: API version %d" % (ap.version.SDK_INT))
-    if ap.version.SDK_INT > 29:
-        return
-    # ap.requestPerms(
-    #    ["android.permission.READ_EXTERNAL_STORAGE","android.permission.WRITE_EXTERNAL_STORAGE"])
     ap.requestPerms(
         ["android.permission.WRITE_EXTERNAL_STORAGE"])

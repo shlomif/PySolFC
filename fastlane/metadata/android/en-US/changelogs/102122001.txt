@@ -1,0 +1,7 @@
+Android specific:
+- Android build procedures revised
+- double binary support for armeabi-v7a and arm64-v8a
+- external storage permissions for newer android versions
+Main version::
+- consult NEWS.asscidoc or html-src/news.html on
+  github for change informations.

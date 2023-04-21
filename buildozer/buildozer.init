@@ -37,4 +37,8 @@ echo '### eval version'
 
 ./version.py > ${tmpdir}/version.txt
 
+echo '### add more java heap space for gradle'
+
+# export GRADLE_OPTS="-Xms1724m -Xmx5048m -Dorg.gradle.jvmargs='-Xms1724m -Xmx5048m'"
+
 echo '### end init'

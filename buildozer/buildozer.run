@@ -1,0 +1,19 @@
+#!/bin/bash
+#set -eux
+
+echo '### prepare jvm heap for gradle'
+
+export GRADLE_OPTS="-Xms1724m -Xmx5048m -Dorg.gradle.jvmargs='-Xms1724m -Xmx5048m'"
+
+echo '### run buildozer'
+
+if [ "$1" ]
+then
+	echo '### ... release'
+	buildozer android release
+else
+	echo '### ... debug'
+	buildozer android debug
+fi
+
+echo '### end run'

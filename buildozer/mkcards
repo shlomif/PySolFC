@@ -25,12 +25,4 @@ echo '### processing cardsets'
   done
 )
 
-echo '### remove big cardsets'
-{
-  cd ${cardsets_dir}
-  rm -rf cardset-louie-mantia-hanafuda
-  rm -rf cardset-neo-tarock
-  rm -rf cardset-neo-hex
-}
-
 echo '### end cardsets'

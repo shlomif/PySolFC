@@ -40,7 +40,7 @@ setup, to reflect the local situation.
 Execution of buildozer needs some time. You
 will have to accept a lizense from google.
 
-$> buildozer android debug
+$> ./buildozer.run
 
 Finally if all worked fine, the apk file is found in
 directory ./bin/.
@@ -52,7 +52,7 @@ to get better information on what to do.
 Make a release Version:
 -----------------------
 
-$> buildozer android release
+$> ./buildozer.run release
 
 Without signing information the result apk is a
 'release-unsigned' that can be signed afterwards

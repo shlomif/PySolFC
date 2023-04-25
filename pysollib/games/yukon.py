@@ -56,18 +56,25 @@ class Yukon(Game):
     RowStack_Class = StackWrapper(Yukon_AC_RowStack, base_rank=KING)
     Hint_Class = Yukon_Hint
 
-    def createGame(self, **layout):
+    DIFF_SUITS = True
+
+    def createGame(self, rows=7, **layout):
         # create layout
         l, s = Layout(self), self.s
-        kwdefault(layout, rows=7, texts=0, playcards=25)
+        kwdefault(layout, rows=rows, texts=0, playcards=25)
         self.Layout_Method(l, **layout)
         self.setSize(l.size[0], l.size[1])
         # create stacks
         s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self)
         for r in l.s.foundations:
-            s.foundations.append(
-                self.Foundation_Class(
-                    r.x, r.y, self, suit=r.suit, max_move=0))
+            if self.DIFF_SUITS:
+                s.foundations.append(
+                    self.Foundation_Class(
+                        r.x, r.y, self, suit=r.suit, max_move=0))
+            else:
+                s.foundations.append(
+                    self.Foundation_Class(
+                        r.x, r.y, self, suit=ANY_SUIT, max_move=0))
         for r in l.s.rows:
             s.rows.append(self.RowStack_Class(r.x, r.y, self))
         # default
@@ -539,6 +546,7 @@ class Queensland(Yukon):
 # ************************************************************************
 # * Russian Spider
 # * Double Russian Spider
+# * Kiev
 # ************************************************************************
 
 class RussianSpider_RowStack(Yukon_SS_RowStack):  # Spider_SS_RowStack
@@ -556,29 +564,28 @@ class RussianSpider(RussianSolitaire):
     RowStack_Class = StackWrapper(RussianSpider_RowStack, base_rank=KING)
     Foundation_Class = Spider_SS_Foundation
 
-    def createGame(self, rows=7):
-        # create layout
-        l, s = Layout(self), self.s
-        l.yukonLayout(rows=rows, texts=0, playcards=25)
-        self.setSize(l.size[0], l.size[1])
-        # create stacks
-        s.talon = self.Talon_Class(l.s.talon.x, l.s.talon.y, self)
-        for r in l.s.foundations:
-            s.foundations.append(
-                self.Foundation_Class(
-                    r.x, r.y, self, suit=ANY_SUIT, max_move=0))
-        for r in l.s.rows:
-            s.rows.append(self.RowStack_Class(r.x, r.y, self))
-        # default
-        l.defaultAll()
+    DIFF_SUITS = False
 
 
 class DoubleRussianSpider(RussianSpider, DoubleRussianSolitaire):
     def createGame(self):
-        RussianSpider.createGame(self, rows=10)
+        Yukon.createGame(self, rows=10)
 
     def startGame(self):
         DoubleRussianSolitaire.startGame(self)
+
+
+class Kiev(RussianSpider):
+    Layout_Method = staticmethod(Layout.klondikeLayout)
+    Talon_Class = DealRowTalonStack
+
+    def createGame(self):
+        return Yukon.createGame(self, waste=0, texts=1)
+
+    def startGame(self):
+        for i in range(3):
+            self.s.talon.dealRow(flip=0, frames=0)
+        self._startAndDealRow()
 
 
 # ************************************************************************
@@ -810,3 +817,6 @@ registerGame(GameInfo(826, YukonicPlague, "Yukonic Plague",
                       GI.GT_YUKON, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(857, TasmanianPatience, "Tasmanian Patience",
                       GI.GT_YUKON, 1, -1, GI.SL_BALANCED))
+registerGame(GameInfo(897, Kiev, "Kiev",
+                      GI.GT_SPIDER, 1, 0, GI.SL_BALANCED,
+                      altnames=('Kyiv',)))

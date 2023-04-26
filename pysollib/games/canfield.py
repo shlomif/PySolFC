@@ -908,7 +908,7 @@ class Lafayette(Game):
 # * Beehive
 # ************************************************************************
 
-class Beehive_RowStack(RK_RowStack):  # Spider_SS_RowStack
+class Beehive_RowStack(RK_RowStack):
     def canDropCards(self, stacks):
         if len(self.cards) < 4:
             return (None, 0)

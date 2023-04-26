@@ -132,7 +132,8 @@ class Canfield(Game):
                                                                max_move=0))
         else:
             x += (lay.XS * rows)
-            s.foundations.append(self.Foundation_Class(x, y, self, -1))
+            s.foundations.append(self.Foundation_Class(x, y, self, -1,
+                                                       max_move=0))
         if text:
             if rows > 4 * decks:
                 tx, ty, ta, tf = lay.getTextAttr(None, "se")
@@ -907,6 +908,17 @@ class Lafayette(Game):
 # * Beehive
 # ************************************************************************
 
+class Beehive_RowStack(RK_RowStack):  # Spider_SS_RowStack
+    def canDropCards(self, stacks):
+        if len(self.cards) < 4:
+            return (None, 0)
+        cards = self.cards[-4:]
+        for s in stacks:
+            if s is not self and s.acceptsCards(self, cards):
+                return (s, 4)
+        return (None, 0)
+
+
 class Beehive_Foundation(AbstractFoundationStack):
     def acceptsCards(self, from_stack, cards):
         if len(cards) < 4:
@@ -916,7 +928,7 @@ class Beehive_Foundation(AbstractFoundationStack):
 
 class Beehive(Canfield):
     Foundation_Class = Beehive_Foundation
-    RowStack_Class = StackWrapper(RK_RowStack)
+    RowStack_Class = Beehive_RowStack
 
     SEPARATE_FOUNDATIONS = False
 

@@ -1,0 +1,20 @@
+{
+  "version": 3,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "org.lufebe16.pysolfc",
+  "variantName": "release",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "attributes": [],
+      "versionCode": 102122001,
+      "versionName": "2.20.1",
+      "outputFile": "pysolfc-release.apk"
+    }
+  ],
+  "elementType": "File"
+}

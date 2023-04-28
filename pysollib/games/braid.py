@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- mode: python; coding: utf-8; -*-
 # ---------------------------------------------------------------------------
 #
@@ -545,14 +544,14 @@ class Well(Game):
         l, s = Layout(self), self.s
 
         # set window
-        self.setSize(l.XM+6*l.XS, l.YM+6*l.YS+l.TEXT_HEIGHT)
+        self.setSize(3*l.XM+6*l.XS, l.YM+6*l.YS+3*l.TEXT_HEIGHT)
 
         # register extra stack variables
         s.addattr(wastes=[])
 
         # foundations
         suit = 0
-        x0, y0 = l.XM+1.5*l.XS, l.YM+1.5*l.YS+l.TEXT_HEIGHT
+        x0, y0 = l.XM+1.5*l.XS, l.YM+1.5*l.YS+2*l.TEXT_HEIGHT
         for xx, yy in ((3, 0),
                        (0, 3),
                        (3, 3),
@@ -564,19 +563,20 @@ class Well(Game):
             suit += 1
 
         # rows
-        x0, y0 = l.XM+l.XS, l.YM+l.YS+l.TEXT_HEIGHT
-        for xx, yy in ((0, 2),
-                       (2, 0),
-                       (4, 2),
-                       (2, 4)):
+        x0, y0 = l.XM+l.XS, l.YM+l.YS+2*l.TEXT_HEIGHT
+        for xx, yy, anchor in ((0, 2, 'w'),
+                               (2, 0, 'n'),
+                               (4, 2, 'e'),
+                               (2, 4, 's')):
             x, y = x0+xx*l.XS, y0+yy*l.YS
             stack = SS_RowStack(x, y, self, dir=1, mod=13, max_move=1)
             stack.getBottomImage = stack._getReserveBottomImage
             stack.CARD_YOFFSET = 0
+            l.createText(stack, anchor)
             s.rows.append(stack)
 
         # left stack
-        x, y = l.XM, l.YM+l.YS+l.TEXT_HEIGHT
+        x, y = l.XM, l.YM+l.YS+2*l.TEXT_HEIGHT
         stack = SS_RowStack(
             x, y, self, base_rank=ACE, dir=1, mod=13, max_move=1)
         stack.getBottomImage = stack._getReserveBottomImage
@@ -584,7 +584,7 @@ class Well(Game):
         s.rows.append(stack)
 
         # reserves
-        x0, y0 = l.XM+2*l.XS, l.YM+2*l.YS+l.TEXT_HEIGHT
+        x0, y0 = l.XM+2*l.XS, l.YM+2*l.YS+2*l.TEXT_HEIGHT
         for xx, yy, anchor in ((0, 1, 'e'),
                                (1, 0, 's'),
                                (2, 1, 'w'),

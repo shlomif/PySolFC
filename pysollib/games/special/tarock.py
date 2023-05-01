@@ -26,7 +26,7 @@ from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.games.bakersdozen import Cruel_Talon
 from pysollib.games.braid import Braid, Braid_ReserveStack, Braid_RowStack
 from pysollib.games.braid import Braid_BraidStack, Braid_Foundation
-from pysollib.hint import CautiousDefaultHint
+from pysollib.hint import CautiousDefaultHint, Yukon_Hint
 from pysollib.layout import Layout
 from pysollib.mfxutil import kwdefault
 from pysollib.mygettext import _
@@ -118,6 +118,28 @@ class Pagat_RowStack(RK_RowStack):
 
 
 class TrumpWild_RowStack(Tarock_OpenStack):
+    def acceptsCards(self, from_stack, cards):
+        if not self.basicAcceptsCards(from_stack, cards):
+            return 0
+        if not self.cards:
+            if cards[0].suit == len(self.game.gameinfo.suits):
+                return cards[0].rank == len(self.game.gameinfo.trumps) - 1
+            else:
+                return cards[0].rank == len(self.game.gameinfo.ranks) - 1
+        if cards[0].rank != self.cards[-1].rank - 1:
+            return 0
+        elif cards[0].color == 2 or self.cards[-1].color == 2:
+            return 1
+        else:
+            return cards[0].color != self.cards[-1].color
+
+
+class TrumpWildYukon_RowStack(TrumpWild_RowStack):
+    def _isYukonSequence(self, c1, c2):
+        # print('Yukon_AC_RowStack._isYukonSequence()', c1, c2)
+        return ((c1.rank + self.cap.dir) % self.cap.mod == c2.rank and
+                c1.color != c2.color)
+
     def acceptsCards(self, from_stack, cards):
         if not self.basicAcceptsCards(from_stack, cards):
             return 0
@@ -300,42 +322,50 @@ class WheelOfFortune(AbstractTarockGame):
 
 # ************************************************************************
 # * Imperial Trumps
+# * Imperial Trump Yukon
 # ************************************************************************
 
 class ImperialTrumps(AbstractTarockGame):
+    ROW_STACK = TrumpWild_RowStack
+    FOUNDATION_STACK = ImperialTrump_Foundation
+
+    TALON = True
 
     #
     # Game layout
     #
 
-    def createGame(self):
+    def createGame(self, rows=8):
         l, s = Layout(self), self.s
 
         # Set window size
-        self.setSize(l.XM + l.XS * 8, l.YM + l.YS * 5)
+        self.setSize(l.XM + l.XS * rows, l.YM + l.YS * 5)
 
         # Create foundations
-        x = l.XM + l.XS * 3
+        x = l.XM + l.XS * (rows - 5)
         y = l.YM
         for i in range(4):
             s.foundations.append(
-                ImperialTrump_Foundation(x, y, self, i, max_cards=14))
+                self.FOUNDATION_STACK(x, y, self, i, max_cards=14))
             x = x + l.XS
         s.foundations.append(SS_FoundationStack(x, y, self, 4, max_cards=22))
 
         # Create talon
         x = l.XM
-        s.talon = WasteTalonStack(x, y, self, num_deal=1, max_rounds=-1)
-        l.createText(s.talon, "s")
-        x = x + l.XS
-        s.waste = WasteStack(x, y, self)
-        l.createText(s.waste, "s")
+        if self.TALON:
+            s.talon = WasteTalonStack(x, y, self, num_deal=1, max_rounds=-1)
+            l.createText(s.talon, "s")
+            x = x + l.XS
+            s.waste = WasteStack(x, y, self)
+            l.createText(s.waste, "s")
+        else:
+            s.talon = InitialDealTalonStack(x, y, self)
 
         # Create rows
         x = l.XM
         y = l.YM + l.YS + l.TEXT_HEIGHT
-        for i in range(8):
-            s.rows.append(TrumpWild_RowStack(x, y, self))
+        for i in range(rows):
+            s.rows.append(self.ROW_STACK(x, y, self))
             x = x + l.XS
         self.setRegion(s.rows, (-999, y, 999999, 999999))
 
@@ -356,6 +386,48 @@ class ImperialTrumps(AbstractTarockGame):
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return 0
+
+
+class ImperialTrumpYukon(ImperialTrumps):
+    ROW_STACK = TrumpWildYukon_RowStack
+    TALON = False
+
+    Hint_Class = Yukon_Hint
+
+    def startGame(self):
+        for i in range(1, len(self.s.rows)):
+            self.s.talon.dealRow(rows=self.s.rows[i:], flip=0, frames=0)
+        for i in range(6):
+            self.s.talon.dealRow(rows=self.s.rows[1:], flip=1, frames=0)
+        self._startAndDealRow()
+
+
+# ************************************************************************
+# * Klondike Nouveau
+# * Yukon Nouveau
+# ************************************************************************
+
+class KlondikeNouveau(ImperialTrumps):
+    FOUNDATION_STACK = SS_FoundationStack
+
+    def createGame(self):
+        ImperialTrumps.createGame(self, rows=9)
+
+
+class YukonNouveau(KlondikeNouveau):
+    FOUNDATION_STACK = SS_FoundationStack
+    ROW_STACK = TrumpWildYukon_RowStack
+    TALON = False
+
+    Hint_Class = Yukon_Hint
+
+    def startGame(self):
+        for i in range(1, len(self.s.rows)):
+            self.s.talon.dealRow(rows=self.s.rows[i:], flip=0, frames=0)
+        self.s.talon.dealRow(rows=self.s.rows, flip=1, frames=0)
+        for i in range(3):
+            self.s.talon.dealRow(rows=self.s.rows[1:], flip=1, frames=0)
+        self._startAndDealRow()
 
 
 # ************************************************************************
@@ -934,5 +1006,12 @@ r(202, Cavalier, "Cavalier", GI.GT_TAROCK, 1, 0, GI.SL_MOSTLY_SKILL)
 r(203, FiveAces, "Five Aces", GI.GT_TAROCK, 1, 0, GI.SL_MOSTLY_SKILL)
 r(204, Wicked, "Wicked", GI.GT_TAROCK | GI.GT_OPEN, 1, -1, GI.SL_BALANCED)
 r(205, Nasty, "Nasty", GI.GT_TAROCK | GI.GT_OPEN, 1, -1, GI.SL_BALANCED)
+
+r(13160, ImperialTrumpYukon, "Imperial Trump Yukon", GI.GT_TAROCK, 1, 0,
+  GI.SL_BALANCED)
+r(13161, KlondikeNouveau, "Klondike Nouveau", GI.GT_TAROCK, 1, -1,
+  GI.SL_BALANCED)
+r(13162, YukonNouveau, "Yukon Nouveau", GI.GT_TAROCK, 1, 0,
+  GI.SL_BALANCED)
 
 del r

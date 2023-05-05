@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-04-19 22:06-0400\n"
+"PO-Revision-Date: 2023-05-04 20:13-0400\n"
 "Last-Translator: Skomoroh <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
@@ -5327,6 +5327,9 @@ msgstr "&Очень медленная"
 #: pysollib/ui/tktile/menubar.py:587
 msgid "&Redeal animation"
 msgstr "Анимация пере&сдачи"
+
+msgid "F&lip animation"
+msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:592
 msgid "&Winning animation"

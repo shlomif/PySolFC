@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-04-19 22:05-0400\n"
+"PO-Revision-Date: 2023-05-04 20:15-0400\n"
 "Last-Translator: H. Schaekel <Holger.Schaekel@web.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -5191,6 +5191,9 @@ msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:587
 msgid "&Redeal animation"
+msgstr ""
+
+msgid "F&lip animation"
 msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:592

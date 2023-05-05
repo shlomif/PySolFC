@@ -242,6 +242,7 @@ class PysolMenubarTkCommon:
             animations=tkinter.IntVar(),
             redeal_animation=tkinter.BooleanVar(),
             win_animation=tkinter.BooleanVar(),
+            flip_animation=tkinter.BooleanVar(),
             shadow=tkinter.BooleanVar(),
             shade=tkinter.BooleanVar(),
             shade_filled_stacks=tkinter.BooleanVar(),
@@ -308,6 +309,7 @@ class PysolMenubarTkCommon:
         tkopt.animations.set(opt.animations)
         tkopt.redeal_animation.set(opt.redeal_animation)
         tkopt.win_animation.set(opt.win_animation)
+        tkopt.flip_animation.set(opt.flip_animation)
         tkopt.shadow.set(opt.shadow)
         tkopt.shade.set(opt.shade)
         tkopt.toolbar.set(opt.toolbar)
@@ -718,6 +720,10 @@ class PysolMenubarTkCommon:
             label=n_("&Redeal animation"),
             variable=self.tkopt.redeal_animation,
             command=self.mRedealAnimation)
+        submenu.add_checkbutton(
+            label=n_("F&lip animation"),
+            variable=self.tkopt.flip_animation,
+            command=self.mFlipAnimation)
         if Image:
             submenu.add_checkbutton(
                 label=n_("&Winning animation"),
@@ -1548,6 +1554,11 @@ Unsupported game for import.
         if self._cancelDrag(break_pause=False):
             return
         self.app.opt.redeal_animation = self.tkopt.redeal_animation.get()
+
+    def mFlipAnimation(self, *args):
+        if self._cancelDrag(break_pause=False):
+            return
+        self.app.opt.flip_animation = self.tkopt.flip_animation.get()
 
     def mWinAnimation(self, *args):
         if self._cancelDrag(break_pause=False):

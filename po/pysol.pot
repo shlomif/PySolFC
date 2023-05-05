@@ -4983,6 +4983,9 @@ msgstr ""
 msgid "&Redeal animation"
 msgstr ""
 
+msgid "F&lip animation"
+msgstr ""
+
 #: pysollib/ui/tktile/menubar.py:592
 msgid "&Winning animation"
 msgstr ""

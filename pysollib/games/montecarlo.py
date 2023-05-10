@@ -993,6 +993,42 @@ class RightAndLeft(Game):
         self._startAndDealRow()
 
 
+# ************************************************************************
+# * Aces Square
+# ************************************************************************
+
+class AcesSquare_RowStack(MonteCarlo_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not OpenStack.acceptsCards(self, from_stack, cards):
+            return False
+        if self.cards[-1].rank == 0 or cards[0].rank == 0:
+            return False
+
+        return (self.game.isNeighbour(from_stack, self)
+                and self.cards[-1].suit == cards[0].suit)
+
+
+class AcesSquare(MonteCarlo):
+    Talon_Class = AutoDealTalonStack
+    RowStack_Class = AcesSquare_RowStack
+
+    def createGame(self):
+        MonteCarlo.createGame(self, rows=4, cols=4)
+
+    def isGameWon(self):
+        return len(self.s.foundations[0].cards) == 48
+
+    def fillStack(self, stack):
+        if stack in self.s.rows:
+            if len(stack.cards) == 0 and len(self.s.talon.cards) > 0:
+                self.flipMove(self.s.talon)
+                self.moveMove(1, self.s.talon, stack)
+
+    def isNeighbour(self, stack1, stack2):
+        return (stack1.id // 4 == stack2.id // 4 or
+                stack1.id % 4 == stack2.id % 4)
+
+
 # register the game
 registerGame(GameInfo(89, MonteCarlo, "Monte Carlo",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK,
@@ -1057,3 +1093,5 @@ registerGame(GameInfo(874, PatientPairs, "Patient Pairs",
 registerGame(GameInfo(875, PatientPairsOpen, "Patient Pairs (Open)",
                       GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0,
                       GI.SL_MOSTLY_SKILL, rules_filename="patientpairs.html"))
+registerGame(GameInfo(898, AcesSquare, "Aces Square",
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))

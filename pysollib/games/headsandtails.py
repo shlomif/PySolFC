@@ -203,6 +203,7 @@ class Barrier(Game):
 # register the game
 
 registerGame(GameInfo(307, HeadsAndTails, "Heads and Tails",
-                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED,
+                      altnames=("Regiment",)))
 registerGame(GameInfo(708, Barrier, "Barrier",
                       GI.GT_2DECK_TYPE | GI.GT_ORIGINAL, 2, 0, GI.SL_BALANCED))

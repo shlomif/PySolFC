@@ -786,7 +786,8 @@ registerGame(GameInfo(285, Panopticon, "Panopticon",
 registerGame(GameInfo(339, Moosehide, "Moosehide",
                       GI.GT_YUKON, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(387, Roslin, "Roslin",
-                      GI.GT_YUKON, 1, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_YUKON, 1, 0, GI.SL_MOSTLY_SKILL,
+                      altnames=("Roslyn",)))
 registerGame(GameInfo(447, AustralianPatience, "Australian Patience",
                       GI.GT_YUKON, 1, 0, GI.SL_BALANCED,
                       altnames=('Outback Patience',)))

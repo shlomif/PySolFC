@@ -1133,7 +1133,8 @@ registerGame(GameInfo(227, Intelligence, "Intelligence",
 registerGame(GameInfo(340, IntelligencePlus, "Intelligence +",
                       GI.GT_FAN_TYPE, 2, 2, GI.SL_BALANCED))
 registerGame(GameInfo(268, HouseInTheWood, "House in the Wood",
-                      GI.GT_FAN_TYPE | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_FAN_TYPE | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL,
+                      altnames=("Double Fan",)))
 registerGame(GameInfo(317, HouseOnTheHill, "House on the Hill",
                       GI.GT_FAN_TYPE | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(320, CloverLeaf, "Clover Leaf",

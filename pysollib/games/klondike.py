@@ -1625,7 +1625,8 @@ registerGame(GameInfo(479, Saratoga, "Saratoga",
 registerGame(GameInfo(491, Whitehorse, "Whitehorse",
                       GI.GT_KLONDIKE, 1, -1, GI.SL_BALANCED))
 registerGame(GameInfo(518, Boost, "Boost",
-                      GI.GT_KLONDIKE | GI.GT_ORIGINAL, 1, 2, GI.SL_BALANCED))
+                      GI.GT_KLONDIKE | GI.GT_ORIGINAL, 1, 2, GI.SL_BALANCED,
+                      altnames=("Klondike Mini",)))
 registerGame(GameInfo(522, ArticGarden, "Artic Garden",
                       GI.GT_RAGLAN | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(532, GoldRush, "Gold Rush",

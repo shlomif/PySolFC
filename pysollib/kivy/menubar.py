@@ -855,13 +855,48 @@ class OptionsMenuDialog(LMenuDialog):
                 key = 'table'
                 self.addRadioNode(
                     tv, rg1,
-                    _('Blue'),
+                    _('Azure'),
                     self.menubar.tkopt.color_vars[key], '#0082df',
+                    self.menubar.mOptTableColor)
+                self.addRadioNode(
+                    tv, rg1,
+                    _('Black'),
+                    self.menubar.tkopt.color_vars[key], '#000000',
+                    self.menubar.mOptTableColor)
+                self.addRadioNode(
+                    tv, rg1,
+                    _('Blue'),
+                    self.menubar.tkopt.color_vars[key], '#0000ff',
+                    self.menubar.mOptTableColor)
+                self.addRadioNode(
+                    tv, rg1,
+                    _('Bright Green'),
+                    self.menubar.tkopt.color_vars[key], '#00ff00',
+                    self.menubar.mOptTableColor)
+                self.addRadioNode(
+                    tv, rg1,
+                    _('Brown'),
+                    self.menubar.tkopt.color_vars[key], '#684700',
+                    self.menubar.mOptTableColor)
+                self.addRadioNode(
+                    tv, rg1,
+                    _('Cyan'),
+                    self.menubar.tkopt.color_vars[key], '#00ffff',
+                    self.menubar.mOptTableColor)
+                self.addRadioNode(
+                    tv, rg1,
+                    _('Grey'),
+                    self.menubar.tkopt.color_vars[key], '#888888',
                     self.menubar.mOptTableColor)
                 self.addRadioNode(
                     tv, rg1,
                     _('Green'),
                     self.menubar.tkopt.color_vars[key], '#008200',
+                    self.menubar.mOptTableColor)
+                self.addRadioNode(
+                    tv, rg1,
+                    _('Magenta'),
+                    self.menubar.tkopt.color_vars[key], '#ff00ff',
                     self.menubar.mOptTableColor)
                 self.addRadioNode(
                     tv, rg1,
@@ -880,8 +915,33 @@ class OptionsMenuDialog(LMenuDialog):
                     self.menubar.mOptTableColor)
                 self.addRadioNode(
                     tv, rg1,
+                    _('Pink'),
+                    self.menubar.tkopt.color_vars[key], '#ff92fc',
+                    self.menubar.mOptTableColor)
+                self.addRadioNode(
+                    tv, rg1,
+                    _('Purple'),
+                    self.menubar.tkopt.color_vars[key], '#8300ff',
+                    self.menubar.mOptTableColor)
+                self.addRadioNode(
+                    tv, rg1,
+                    _('Red'),
+                    self.menubar.tkopt.color_vars[key], '#ff0000',
+                    self.menubar.mOptTableColor)
+                self.addRadioNode(
+                    tv, rg1,
                     _('Teal'),
                     self.menubar.tkopt.color_vars[key], '#008286',
+                    self.menubar.mOptTableColor)
+                self.addRadioNode(
+                    tv, rg1,
+                    _('White'),
+                    self.menubar.tkopt.color_vars[key], '#ffffff',
+                    self.menubar.mOptTableColor)
+                self.addRadioNode(
+                    tv, rg1,
+                    _('Yellow'),
+                    self.menubar.tkopt.color_vars[key], '#ffff00',
                     self.menubar.mOptTableColor)
 
             rg1 = tv.add_node(

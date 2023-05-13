@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-05-04 20:14-0400\n"
+"PO-Revision-Date: 2023-05-12 21:41-0400\n"
 "Last-Translator: Matheus Knack <mtknack555@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -2786,16 +2786,28 @@ msgstr "Mesa"
 msgid "Solid colors"
 msgstr "Cores sólidas"
 
+msgid "Azure"
+msgstr ""
+
 #: pysollib/kivy/menubar.py:832 pysollib/pysolgtk/selecttile.py:105
 #: pysollib/tile/selecttile.py:74 pysollib/tk/selecttile.py:73
 msgid "Blue"
 msgstr "Azul"
+
+msgid "Bright Green"
+msgstr ""
+
+msgid "Cyan"
+msgstr ""
 
 #: pysollib/kivy/menubar.py:837 pysollib/pysolgtk/selecttile.py:106
 #: pysollib/tile/selecttile.py:75 pysollib/tk/selecttile.py:74
 #: pysollib/games/ultra/dashavatara.py:361 pysollib/games/ultra/mughal.py:264
 msgid "Green"
 msgstr "Verde"
+
+msgid "Magenta"
+msgstr ""
 
 #: pysollib/kivy/menubar.py:842 pysollib/pysolgtk/selecttile.py:107
 #: pysollib/tile/selecttile.py:76 pysollib/tk/selecttile.py:75
@@ -2813,6 +2825,12 @@ msgstr "Verde Oliva"
 #: pysollib/games/ultra/dashavatara.py:362 pysollib/games/ultra/mughal.py:264
 msgid "Orange"
 msgstr "Laranja"
+
+msgid "Pink"
+msgstr ""
+
+msgid "Purple"
+msgstr ""
 
 #: pysollib/kivy/menubar.py:857 pysollib/pysolgtk/selecttile.py:110
 #: pysollib/tile/selecttile.py:79 pysollib/tk/selecttile.py:78

@@ -2594,15 +2594,27 @@ msgstr ""
 msgid "Solid colors"
 msgstr ""
 
+msgid "Azure"
+msgstr ""
+
 #: pysollib/kivy/menubar.py:832 pysollib/pysolgtk/selecttile.py:105
 #: pysollib/tile/selecttile.py:74 pysollib/tk/selecttile.py:73
 msgid "Blue"
+msgstr ""
+
+msgid "Bright Green"
+msgstr ""
+
+msgid "Cyan"
 msgstr ""
 
 #: pysollib/kivy/menubar.py:837 pysollib/pysolgtk/selecttile.py:106
 #: pysollib/tile/selecttile.py:75 pysollib/tk/selecttile.py:74
 #: pysollib/games/ultra/dashavatara.py:361 pysollib/games/ultra/mughal.py:264
 msgid "Green"
+msgstr ""
+
+msgid "Magenta"
 msgstr ""
 
 #: pysollib/kivy/menubar.py:842 pysollib/pysolgtk/selecttile.py:107
@@ -2620,6 +2632,12 @@ msgstr ""
 #: pysollib/tile/selecttile.py:78 pysollib/tk/selecttile.py:77
 #: pysollib/games/ultra/dashavatara.py:362 pysollib/games/ultra/mughal.py:264
 msgid "Orange"
+msgstr ""
+
+msgid "Pink"
+msgstr ""
+
+msgid "Purple"
 msgstr ""
 
 #: pysollib/kivy/menubar.py:857 pysollib/pysolgtk/selecttile.py:110

@@ -713,4 +713,5 @@ registerGame(GameInfo(737, Clock, "Clock",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_LUCK,
                       altnames=("Travellers", "Sundial")))
 registerGame(GameInfo(827, GermanClock, "German Clock",
-                      GI.GT_1DECK_TYPE, 1, 1, GI.SL_MOSTLY_LUCK))
+                      GI.GT_1DECK_TYPE, 1, 1, GI.SL_MOSTLY_LUCK,
+                      altnames=("Die Uhr",)))

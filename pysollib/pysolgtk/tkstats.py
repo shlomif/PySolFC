@@ -527,7 +527,8 @@ class Status_StatsDialog(MfxMessageDialog):  # MfxDialog
         w1 = (_('Highlight piles: ') + str(stats.highlight_piles) + '\n' +
               _('Highlight cards: ') + str(stats.highlight_cards) + '\n' +
               _('Highlight same rank: ') +
-              str(stats.highlight_samerank) + '\n')
+              str(stats.highlight_samerank) + '\n' +
+              _('Face-down peeks: ') + str(stats.peeks) + '\n')
         if game.s.talon:
             if game.gameinfo.redeals != 0:
                 w2 += _('\nRedeals: ') + str(game.s.talon.round - 1)

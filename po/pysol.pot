@@ -2421,6 +2421,9 @@ msgstr ""
 msgid "Enable highlight same rank"
 msgstr ""
 
+msgid "Enable face-down peek"
+msgstr ""
+
 #: pysollib/kivy/menubar.py:576
 msgid "Highlight no matching"
 msgstr ""
@@ -3574,6 +3577,9 @@ msgstr ""
 #: pysollib/pysolgtk/tkstats.py:529 pysollib/tile/tkstats.py:616
 #: pysollib/tk/tkstats.py:611
 msgid "Highlight same rank: "
+msgstr ""
+
+msgid "Face-down peeks: "
 msgstr ""
 
 #: pysollib/pysolgtk/tkstats.py:533 pysollib/tile/tkstats.py:620
@@ -4849,6 +4855,9 @@ msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:499
 msgid "Enable highlight same &rank"
+msgstr ""
+
+msgid "Enable face-down &peek"
 msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:503

@@ -77,6 +77,7 @@ highlight_piles = boolean
 highlight_cards = boolean
 highlight_samerank = boolean
 highlight_not_matching = boolean
+peek_facedown = boolean
 stuck_notification = boolean
 mahjongg_show_removed = boolean
 mahjongg_create_solvable = integer(0, 2)
@@ -226,6 +227,7 @@ class Options:
         ('highlight_cards', 'bool'),
         ('highlight_samerank', 'bool'),
         ('highlight_not_matching', 'bool'),
+        ('peek_facedown', 'bool'),
         ('stuck_notification', 'bool'),
         ('mahjongg_show_removed', 'bool'),
         ('mahjongg_create_solvable', 'int'),
@@ -317,6 +319,7 @@ class Options:
         self.highlight_cards = True
         self.highlight_samerank = True
         self.highlight_not_matching = True
+        self.peek_facedown = False
         self.stuck_notification = False
         self.mahjongg_show_removed = False
         self.mahjongg_create_solvable = 2  # 0 - none, 1 - easy, 2 - hard

@@ -225,6 +225,7 @@ class PysolMenubarTkCommon:
             highlight_cards=tkinter.BooleanVar(),
             highlight_samerank=tkinter.BooleanVar(),
             highlight_not_matching=tkinter.BooleanVar(),
+            peek_facedown=tkinter.BooleanVar(),
             stuck_notification=tkinter.BooleanVar(),
             mahjongg_show_removed=tkinter.BooleanVar(),
             shisen_show_hint=tkinter.BooleanVar(),
@@ -288,6 +289,7 @@ class PysolMenubarTkCommon:
         tkopt.highlight_cards.set(opt.highlight_cards)
         tkopt.highlight_samerank.set(opt.highlight_samerank)
         tkopt.highlight_not_matching.set(opt.highlight_not_matching)
+        tkopt.peek_facedown.set(opt.peek_facedown)
         tkopt.stuck_notification.set(opt.stuck_notification)
         tkopt.shrink_face_down.set(opt.shrink_face_down)
         tkopt.shade_filled_stacks.set(opt.shade_filled_stacks)
@@ -597,6 +599,10 @@ class PysolMenubarTkCommon:
             label=n_("Enable highlight same &rank"),
             variable=self.tkopt.highlight_samerank,
             command=self.mOptEnableHighlightSameRank)
+        submenu.add_checkbutton(
+            label=n_("Enable face-down &peek"),
+            variable=self.tkopt.peek_facedown,
+            command=self.mOptEnablePeekFacedown)
         submenu.add_checkbutton(
             label=n_("Highlight &no matching"),
             variable=self.tkopt.highlight_not_matching,
@@ -1530,6 +1536,12 @@ Unsupported game for import.
         if self._cancelDrag(break_pause=False):
             return
         self.app.opt.highlight_samerank = self.tkopt.highlight_samerank.get()
+        # self.game.updateMenus()
+
+    def mOptEnablePeekFacedown(self, *args):
+        if self._cancelDrag(break_pause=False):
+            return
+        self.app.opt.peek_facedown = self.tkopt.peek_facedown.get()
         # self.game.updateMenus()
 
     def mOptEnableHighlightNotMatching(self, *args):

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-05-12 21:41-0400\n"
+"PO-Revision-Date: 2023-05-18 18:51-0400\n"
 "Last-Translator: Jerzy Trzeciak <artusek@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
@@ -2642,6 +2642,9 @@ msgstr "Włącz podświetlanie kart"
 msgid "Enable highlight same rank"
 msgstr "Podświetlaj karty o jednakowej sile"
 
+msgid "Enable face-down peek"
+msgstr ""
+
 #: pysollib/kivy/menubar.py:576
 #, fuzzy
 msgid "Highlight no matching"
@@ -3856,6 +3859,9 @@ msgstr "Podświetlenie kart: "
 #: pysollib/tk/tkstats.py:611
 msgid "Highlight same rank: "
 msgstr "Podświetlenie jednakowych wartości: "
+
+msgid "Face-down peeks: "
+msgstr ""
 
 #: pysollib/pysolgtk/tkstats.py:533 pysollib/tile/tkstats.py:620
 #: pysollib/tk/tkstats.py:615
@@ -5215,6 +5221,9 @@ msgstr "Włącz podświetlanie kart"
 #: pysollib/ui/tktile/menubar.py:499
 msgid "Enable highlight same &rank"
 msgstr "Podświetlaj karty o jednakowej sile"
+
+msgid "Enable face-down &peek"
+msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:503
 msgid "Highlight &no matching"

@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: it_pysol\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-05-12 21:40-0400\n"
+"PO-Revision-Date: 2023-05-18 18:51-0400\n"
 "Last-Translator: Giuliano Colla <giuliano.colla@gmail.com>\n"
 "Language-Team: Italiano <it@li.org>\n"
 "Language: it\n"
@@ -2608,6 +2608,9 @@ msgstr "Abilita evidenzia &carte"
 msgid "Enable highlight same rank"
 msgstr "Abilita evidenzia stesso valo&re"
 
+msgid "Enable face-down peek"
+msgstr ""
+
 #: pysollib/kivy/menubar.py:576
 #, fuzzy
 msgid "Highlight no matching"
@@ -3822,6 +3825,9 @@ msgstr "Evidenzia carte: "
 #: pysollib/tk/tkstats.py:611
 msgid "Highlight same rank: "
 msgstr "Evidenzia stesso valore: "
+
+msgid "Face-down peeks: "
+msgstr ""
 
 #: pysollib/pysolgtk/tkstats.py:533 pysollib/tile/tkstats.py:620
 #: pysollib/tk/tkstats.py:615
@@ -5167,6 +5173,9 @@ msgstr "Abilita evidenzia &carte"
 #: pysollib/ui/tktile/menubar.py:499
 msgid "Enable highlight same &rank"
 msgstr "Abilita evidenzia stesso valo&re"
+
+msgid "Enable face-down &peek"
+msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:503
 msgid "Highlight &no matching"

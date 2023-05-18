@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-05-12 21:41-0400\n"
+"PO-Revision-Date: 2023-05-18 18:51-0400\n"
 "Last-Translator: Matheus Knack <mtknack555@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -2613,6 +2613,9 @@ msgstr "Ativar realçamento de cartas"
 msgid "Enable highlight same rank"
 msgstr "Aitvar realçamento de mesmo valor"
 
+msgid "Enable face-down peek"
+msgstr ""
+
 #: pysollib/kivy/menubar.py:576
 msgid "Highlight no matching"
 msgstr "Realçar sem correspondencia"
@@ -3784,6 +3787,9 @@ msgstr "Cartas de destaque: "
 #: pysollib/tk/tkstats.py:611
 msgid "Highlight same rank: "
 msgstr "Destaque a mesma classificação: "
+
+msgid "Face-down peeks: "
+msgstr ""
 
 #: pysollib/pysolgtk/tkstats.py:533 pysollib/tile/tkstats.py:620
 #: pysollib/tk/tkstats.py:615
@@ -5123,6 +5129,9 @@ msgstr "Ativar realce &cartas"
 #: pysollib/ui/tktile/menubar.py:499
 msgid "Enable highlight same &rank"
 msgstr "Ativar o mesmo realce &classificar"
+
+msgid "Enable face-down &peek"
+msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:503
 msgid "Highlight &no matching"

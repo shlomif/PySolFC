@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-05-12 21:40-0400\n"
+"PO-Revision-Date: 2023-05-18 18:49-0400\n"
 "Last-Translator: H. Schaekel <Holger.Schaekel@web.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -2552,6 +2552,9 @@ msgstr "Karten hervorheben"
 msgid "Enable highlight same rank"
 msgstr "Gleichen Rang hervorheben"
 
+msgid "Enable face-down peek"
+msgstr ""
+
 #: pysollib/kivy/menubar.py:576
 msgid "Highlight no matching"
 msgstr "Nicht passende hervorheben"
@@ -3711,6 +3714,9 @@ msgstr "Hervorhebung Karten: "
 #: pysollib/tk/tkstats.py:611
 msgid "Highlight same rank: "
 msgstr "Gleichen Rang hervorheben: "
+
+msgid "Face-down peeks: "
+msgstr ""
 
 #: pysollib/pysolgtk/tkstats.py:533 pysollib/tile/tkstats.py:620
 #: pysollib/tk/tkstats.py:615
@@ -5057,6 +5063,9 @@ msgstr "Hervorhebung Karten:"
 #: pysollib/ui/tktile/menubar.py:499
 msgid "Enable highlight same &rank"
 msgstr "Gleichen Rang hervorheben:"
+
+msgid "Enable face-down &peek"
+msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:503
 #, fuzzy

@@ -1016,17 +1016,31 @@ class Stack:
             return 0
         i = self._findCard(event)
         positions = len(self.cards) - i - 1
-        if i < 0 or positions <= 0 or not self.cards[i].face_up:
+        peeked = False
+        if i < 0:
+            return 0
+        if not self.cards[i].face_up:
+            if not self.game.app.opt.peek_facedown:
+                return 0
+            else:
+                self.game.stats.peeks += 1
+                self.cards[i].showFace()
+                peeked = True
+        elif positions <= 0:
             return 0
         # print self.cards[i]
         self.cards[i].item.tkraise()
         self.canvas.update_idletasks()
         self.game.sleep(self.game.app.opt.timeouts['raise_card'])
-        if TOOLKIT == 'tk':
-            self.cards[i].item.lower(self.cards[i+1].item)
-        elif TOOLKIT == 'gtk':
-            for c in self.cards[i+1:]:
-                c.tkraise()
+        if peeked:
+            self.cards[i].showBack()
+        if positions > 0:
+            if TOOLKIT == 'tk':
+                self.cards[i].item.lower(self.cards[i+1].item)
+            elif TOOLKIT == 'gtk':
+                for c in self.cards[i+1:]:
+                    c.tkraise()
+
         self.canvas.update_idletasks()
         return 1
 

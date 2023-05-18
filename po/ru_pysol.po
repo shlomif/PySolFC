@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-05-12 21:41-0400\n"
+"PO-Revision-Date: 2023-05-18 18:53-0400\n"
 "Last-Translator: Skomoroh <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
@@ -2621,6 +2621,9 @@ msgstr "Разрешить показывать &карты"
 msgid "Enable highlight same rank"
 msgstr "Разрешить показывать карты &одного достоинства"
 
+msgid "Enable face-down peek"
+msgstr ""
+
 #: pysollib/kivy/menubar.py:576
 #, fuzzy
 msgid "Highlight no matching"
@@ -3833,6 +3836,9 @@ msgstr "Подсветка карт: "
 #: pysollib/tk/tkstats.py:611
 msgid "Highlight same rank: "
 msgstr "Подсветка карт одного достоинства: "
+
+msgid "Face-down peeks: "
+msgstr ""
 
 #: pysollib/pysolgtk/tkstats.py:533 pysollib/tile/tkstats.py:620
 #: pysollib/tk/tkstats.py:615
@@ -5191,6 +5197,9 @@ msgstr "Разрешить показывать &карты"
 #: pysollib/ui/tktile/menubar.py:499
 msgid "Enable highlight same &rank"
 msgstr "Разрешить показывать карты &одного достоинства"
+
+msgid "Enable face-down &peek"
+msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:503
 msgid "Highlight &no matching"

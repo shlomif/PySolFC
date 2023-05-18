@@ -187,7 +187,9 @@ def _stats__is_perfect(stats):
             # stats.quickplay_moves == 0 and
             stats.highlight_piles == 0 and
             stats.highlight_cards == 0 and
-            stats.shuffle_moves == 0)
+            stats.shuffle_moves == 0 and
+            stats.hints == 0 and
+            stats.peeks == 0)
 
 
 def _highlightCards__calc_item(canvas, delta, cw, ch, s, c1, c2, color):
@@ -400,6 +402,7 @@ class GameHints(NewStruct):
 @attr.s
 class GameStatsStruct(NewStruct):
     hints = attr.ib(default=0)                  # number of hints consumed
+    peeks = attr.ib(default=0)                  # number of peeks consumed
     # number of highlight piles consumed
     highlight_piles = attr.ib(default=0)
     # number of highlight matching cards consumed

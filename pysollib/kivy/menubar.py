@@ -578,6 +578,11 @@ class OptionsMenuDialog(LMenuDialog):
                               self.menubar.mOptEnableHighlightSameRank)
 
             self.addCheckNode(tv, rg,
+                              _('Enable face-down peek'),
+                              self.menubar.tkopt.peek_facedown,
+                              self.menubar.mOptEnablePeekFacedown)
+
+            self.addCheckNode(tv, rg,
                               _('Highlight no matching'),
                               self.menubar.tkopt.highlight_not_matching,
                               self.menubar.mOptEnableHighlightNotMatching)

@@ -422,18 +422,20 @@ class Fanny(Frog):
 
 # ************************************************************************
 # * Gnat
+# * Housefly
 # ************************************************************************
 
 class Gnat(Game):
 
     Hint_Class = Numerica_Hint
 
-    def createGame(self):
+    def createGame(self, rows=4):
         # create layout
         l, s = Layout(self), self.s
 
         # set window
-        self.setSize(l.XM + 8*l.XS, l.YM + 2*l.YS+16*l.YOFFSET)
+        self.setSize(l.XM + (4 + rows) * l.XS,
+                     l.YM + 2 * l.YS + 16 * l.YOFFSET)
 
         # create stacks
         x, y = l.XM, l.YM
@@ -447,11 +449,11 @@ class Gnat(Game):
             x += l.XS
 
         x, y = l.XM+2*l.XS, l.YM+l.YS
-        for i in range(4):
+        for i in range(rows):
             s.rows.append(
                 Numerica_RowStack(x, y, self, max_accept=UNLIMITED_ACCEPTS))
             x += l.XS
-        x = l.XM+6*l.XS
+        x = l.XM + (2 + rows) * l.XS
         for i in range(2):
             y = l.YM + l.YS//2
             for j in range(3):
@@ -471,6 +473,11 @@ class Gnat(Game):
         self.s.talon.dealRow(rows=self.s.foundations)
         self.s.talon.dealRow(rows=self.s.reserves)
         self.s.talon.dealCards()
+
+
+class Housefly(Gnat):
+    def createGame(self):
+        Gnat.createGame(self, rows=6)
 
 
 # ************************************************************************
@@ -1241,3 +1248,5 @@ registerGame(GameInfo(760, Aglet, "Aglet",
                       GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(836, Ladybug, "Ladybug",
                       GI.GT_1DECK_TYPE, 1, -2, GI.SL_BALANCED))
+registerGame(GameInfo(899, Housefly, "Housefly",
+                      GI.GT_NUMERICA, 1, 0, GI.SL_BALANCED))

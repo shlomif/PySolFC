@@ -993,7 +993,8 @@ registerGame(GameInfo(108, Rainbow, "Rainbow",
                       GI.GT_CANFIELD, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(100, Storehouse, "Storehouse",
                       GI.GT_CANFIELD, 1, 2, GI.SL_BALANCED,
-                      altnames=("Provisions", "Straight Up", "Thirteen Up")))
+                      altnames=("Provisions", "Straight Up", "Thirteen Up",
+                                "The Reserve")))
 registerGame(GameInfo(43, Chameleon, "Chameleon",
                       GI.GT_CANFIELD, 1, 0, GI.SL_BALANCED,
                       altnames="Kansas"))

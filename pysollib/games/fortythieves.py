@@ -1419,7 +1419,7 @@ registerGame(GameInfo(76, Streets, "Streets",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(73, Maria, "Maria",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED,
-                      altnames=("Maria Luisa",)))
+                      altnames=("Maria Luisa", "Thirty Six Card Tableau")))
 registerGame(GameInfo(70, NumberTen, "Number Ten",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(71, RankAndFile, "Rank and File",

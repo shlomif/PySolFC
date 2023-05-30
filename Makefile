@@ -50,7 +50,7 @@ pot:
 
 mo:
 	set -e; \
-	for lang in ru de pl it pt_BR; do \
+	for lang in de fr pl it ru pt_BR; do \
 		mkdir -p locale/$${lang}/LC_MESSAGES; \
 		msgcat --use-first po/$${lang}_games.po po/$${lang}_pysol.po > po/$${lang}.po; \
 		msgfmt --check -o locale/$${lang}/LC_MESSAGES/pysol.mo po/$${lang}.po; \

@@ -1670,12 +1670,12 @@ class Game(object):
         return True
 
     def animatedFlip(self, stack):
-        if not self.app.opt.flip_animation:
+        if self.preview or not self.app.opt.flip_animation:
             return False
         return self.doAnimatedFlipAndMove(stack)
 
     def animatedFlipAndMove(self, from_stack, to_stack, frames=-1):
-        if not self.app.opt.flip_animation:
+        if self.preview or not self.app.opt.flip_animation:
             return False
         return self.doAnimatedFlipAndMove(from_stack, to_stack, frames)
 

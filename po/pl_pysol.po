@@ -3961,12 +3961,8 @@ msgstr "Aqua"
 
 #: pysollib/tile/playeroptionsdialog.py:50
 #: pysollib/tk/playeroptionsdialog.py:90
-msgid ""
-"\n"
-"Please enter your name"
-msgstr ""
-"\n"
-"Podaj swoje imię"
+msgid "Please enter your name"
+msgstr "Podaj swoje imię"
 
 #: pysollib/tile/selectcardset.py:138 pysollib/tk/selectcardset.py:137
 msgid "All Cardsets"

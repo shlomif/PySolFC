@@ -3948,12 +3948,8 @@ msgstr ""
 
 #: pysollib/tile/playeroptionsdialog.py:50
 #: pysollib/tk/playeroptionsdialog.py:90
-msgid ""
-"\n"
-"Please enter your name"
-msgstr ""
-"\n"
-"Bitte geben Sie Ihren Namen ein"
+msgid "Please enter your name"
+msgstr "Bitte geben Sie Ihren Namen ein"
 
 #: pysollib/tile/selectcardset.py:138 pysollib/tk/selectcardset.py:137
 msgid "All Cardsets"

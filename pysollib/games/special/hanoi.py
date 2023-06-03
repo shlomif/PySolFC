@@ -54,7 +54,11 @@ class TowerOfHanoy_RowStack(BasicRowStack):
 
 class TowerOfHanoy(Game):
     RowStack_Class = TowerOfHanoy_RowStack
-    Hint_Class = TowerOfHanoy_Hint
+    # FIXME: Re-enable hints if a good hint class can be built.
+    # But if hints are re-enabled, make sure to disable stuck-checking.
+    # You can't get stuck in Hanoi games.
+    # Hint_Class = TowerOfHanoy_Hint
+    Hint_Class = None
 
     #
     # game layout

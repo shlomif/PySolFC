@@ -93,6 +93,7 @@ class Shisen_Foundation(AbstractFoundationStack):
 
 
 class Shisen_RowStack(Mahjongg_RowStack):
+    allowAdjacent = True
 
     def basicIsBlocked(self):
         return 0
@@ -112,7 +113,9 @@ class Shisen_RowStack(Mahjongg_RowStack):
             a.append([5]*(rows+2))
 
         def can_move(x, y, nx, ny, direct, d, direct_chng_cnt):
-            if nx == x2 and ny == y2:
+            if (nx == x2 and ny == y2 and (self.allowAdjacent or
+                                           (abs(dx) > 1 and abs(dy) > 1)
+                                           or direct_chng_cnt > 0)):
                 return 1
             if nx < 0 or ny < 0 or nx > cols+1 or ny > rows+1:
                 return 0
@@ -503,6 +506,30 @@ class NotShisen_24x12(AbstractShisenGame):
 
 
 # ************************************************************************
+# * Four Rivers
+# ************************************************************************
+class FourRivers_RowStack(Shisen_RowStack):
+    allowAdjacent = False
+
+
+class FourRivers_14x6(AbstractShisenGame):
+    RowStack_Class = FourRivers_RowStack
+    L = (14, 6)
+    NCARDS = 84
+
+
+class FourRivers_18x8(AbstractShisenGame):
+    RowStack_Class = FourRivers_RowStack
+    L = (18, 8)
+
+
+class FourRivers_24x12(AbstractShisenGame):
+    RowStack_Class = FourRivers_RowStack
+    L = (24, 12)
+    NCARDS = 288
+
+
+# ************************************************************************
 # * register a Shisen-Sho type game
 # ************************************************************************
 
@@ -529,6 +556,8 @@ r(11006, Shisen_24x12_NoGravity, "Shisen-Sho (No Gravity) 24x12")
 r(11011, NotShisen_14x6, "Not Shisen-Sho 14x6", "notshisensho.html")
 r(11012, NotShisen_18x8, "Not Shisen-Sho 18x8", "notshisensho.html")
 r(11013, NotShisen_24x12, "Not Shisen-Sho 24x12", "notshisensho.html")
-
+r(11014, FourRivers_14x6, "Four Rivers 14x6", "fourrivers.html")
+r(11015, FourRivers_18x8, "Four Rivers 18x8", "fourrivers.html")
+r(11016, FourRivers_24x12, "Four Rivers 24x12", "fourrivers.html")
 
 del r

@@ -13,10 +13,10 @@ jobs:
     - uses: actions/checkout@v2
     - name: Set up python
       env:
-        PYVER: '3.11.3'
-        PYVER_SHORT: '3.11'
+        PYVER: '3.9.7'
+        PYVER_SHORT: '3.9'
       run: |
-        wget -O python.pkg "https://www.python.org/ftp/python/${PYVER}/python-${PYVER}-macos11.pkg"
+        wget -O python.pkg "https://www.python.org/ftp/python/${PYVER}/python-${PYVER}-macosx10.9.pkg"
         sudo installer -pkg python.pkg -target /
         echo "/Library/Frameworks/Python.framework/Versions/${PYVER_SHORT}/bin" >> $GITHUB_PATH
     - name: Install dependencies

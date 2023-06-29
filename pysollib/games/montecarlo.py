@@ -1041,7 +1041,8 @@ registerGame(GameInfo(90, SimpleCarlo, "Simple Carlo",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(91, SimplePairs, "Simple Pairs",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_LUCK,
-                      altnames=("Jamestown", "Pirate Gold", "Treasure Hunt")))
+                      altnames=("Jamestown", "Pirate Gold", "Treasure Hunt",
+                                "Hunter")))
 registerGame(GameInfo(92, Neighbour, "Neighbour",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(96, Fourteen, "Fourteen",

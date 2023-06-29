@@ -243,7 +243,7 @@ class TakeAway8(TakeAway):
 # register the game
 registerGame(GameInfo(334, TakeAway, "Take Away",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL,
-                      altnames=("Eliminator", "Wolfpack")))
+                      altnames=("Eliminator", "Wolfpack", "Strip")))
 registerGame(GameInfo(335, FourStacks, "Four Stacks",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(654, Striptease, "Striptease",

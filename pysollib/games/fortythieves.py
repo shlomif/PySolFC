@@ -1482,7 +1482,8 @@ registerGame(GameInfo(514, Carnation, "Carnation",
 registerGame(GameInfo(528, FinalBattle, "Final Battle",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(529, SanJuanHill, "San Juan Hill",
-                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED,
+                      altnames=("Kettle Hill")))
 registerGame(GameInfo(540, Waterloo, "Waterloo",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(556, Junction, "Junction",

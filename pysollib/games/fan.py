@@ -1121,7 +1121,8 @@ registerGame(GameInfo(57, Shamrocks, "Shamrocks",
                       GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(901, LaBelleLucie, "La Belle Lucie",      # was: 32, 82
                       GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 2, GI.SL_MOSTLY_SKILL,
-                      altnames=("Fair Lucy", "Midnight Oil", "Lovely Lucy")))
+                      altnames=("Fair Lucy", "Midnight Oil", "Lovely Lucy",
+                                "Beautiful Lutecia")))
 registerGame(GameInfo(132, SuperFlowerGarden, "Super Flower Garden",
                       GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 2, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(128, ThreeShufflesAndADraw, "Three Shuffles and a Draw",

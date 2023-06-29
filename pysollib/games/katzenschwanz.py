@@ -730,7 +730,7 @@ registerGame(GameInfo(142, DieSchlange, "Snake",
                       altnames=("Die Schlange",)))
 registerGame(GameInfo(279, Kings, "Kings",
                       GI.GT_FREECELL | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL,
-                      altnames=("Retinue of Kings",)))
+                      altnames=("Retinue of Kings", "King's Plume")))
 registerGame(GameInfo(286, Retinue, "Retinue",
                       GI.GT_FREECELL | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0,
                       GI.SL_MOSTLY_SKILL))

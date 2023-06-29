@@ -499,8 +499,10 @@ registerGame(GameInfo(134, BetsyRoss, "Betsy Ross",
 registerGame(GameInfo(550, One234, "One234",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(653, SeniorWrangler, "Senior Wrangler",
-                      GI.GT_2DECK_TYPE, 2, 8, GI.SL_BALANCED))
+                      GI.GT_2DECK_TYPE, 2, 8, GI.SL_BALANCED,
+                      altnames=("Mathematics")))
 registerGame(GameInfo(704, SPatience, "S Patience",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(863, ImaginaryThirteen, "Imaginary Thirteen",
-                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL,
+                      altnames=("Pythagor")))

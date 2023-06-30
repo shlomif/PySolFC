@@ -603,8 +603,8 @@ class SelectGameDialogWithPreview(SelectGameDialog):
                     continue
 
             if self.criteria.statistics != '':
-                won, lost = self.app.stats.getStats \
-                    (self.app.opt.player, game.id)
+                won, lost = (self.app.stats.getStats
+                             (self.app.opt.player, game.id))
                 statoption = \
                     self.criteria.statisticsOptions[self.criteria.statistics]
                 if statoption == 'played' and won + lost == 0:

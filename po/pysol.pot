@@ -3316,6 +3316,12 @@ msgstr ""
 msgid "Inventor:"
 msgstr ""
 
+msgid "PySol Version:"
+msgstr ""
+
+msgid "Statistics:"
+msgstr ""
+
 #: pysollib/pysolgtk/selectgame.py:122 pysollib/tile/selectgame.py:400
 #: pysollib/tk/selectgame.py:400
 msgid "Played:"
@@ -3373,6 +3379,18 @@ msgid "Present in"
 msgstr ""
 
 msgid "New since"
+msgstr ""
+
+msgid "Games played"
+msgstr ""
+
+msgid "Games played and won"
+msgstr ""
+
+msgid "Games played and not won"
+msgstr ""
+
+msgid "Games not played"
 msgstr ""
 
 msgid "Popular"

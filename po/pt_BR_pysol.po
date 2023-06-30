@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-05-18 18:51-0400\n"
+"PO-Revision-Date: 2023-06-29 22:23-0400\n"
 "Last-Translator: Matheus Knack <mtknack555@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.3.1\n"
 
 #: pysollib/actions.py:232 pysollib/kivy/menubar.py:292
 #: pysollib/kivy/toolbar.py:191 pysollib/tile/toolbar.py:176
@@ -3519,6 +3519,12 @@ msgstr "Compatibilidade:"
 msgid "Inventor:"
 msgstr "Inventor:"
 
+msgid "PySol Version:"
+msgstr ""
+
+msgid "Statistics:"
+msgstr ""
+
 #: pysollib/pysolgtk/selectgame.py:122 pysollib/tile/selectgame.py:400
 #: pysollib/tk/selectgame.py:400
 msgid "Played:"
@@ -3577,6 +3583,18 @@ msgstr "Presente em"
 
 msgid "New since"
 msgstr "Novo desde"
+
+msgid "Games played"
+msgstr ""
+
+msgid "Games played and won"
+msgstr ""
+
+msgid "Games played and not won"
+msgstr ""
+
+msgid "Games not played"
+msgstr ""
 
 msgid "Popular"
 msgstr "Popular"

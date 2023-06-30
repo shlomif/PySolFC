@@ -602,6 +602,20 @@ class SelectGameDialogWithPreview(SelectGameDialog):
                 if not version_okay:
                     continue
 
+            if self.criteria.statistics != '':
+                won, lost = self.app.stats.getStats \
+                    (self.app.opt.player, game.id)
+                statoption = \
+                    self.criteria.statisticsOptions[self.criteria.statistics]
+                if statoption == 'played' and won + lost == 0:
+                    continue
+                elif statoption == 'won' and won == 0:
+                    continue
+                elif statoption == 'not won' and (won != 0 or lost == 0):
+                    continue
+                elif statoption == 'not played' and won + lost != 0:
+                    continue
+
             if (self.criteria.popular and
                     not (game.si.game_flags & GI.GT_POPULAR)):
                 continue
@@ -657,6 +671,7 @@ class SelectGameDialogWithPreview(SelectGameDialog):
             self.criteria.inventor = d.inventor.get()
             self.criteria.versioncompare = d.versioncompare.get()
             self.criteria.version = d.version.get()
+            self.criteria.statistics = d.statistics.get()
 
             self.criteria.popular = d.popular.get()
             self.criteria.children = d.children.get()
@@ -838,6 +853,7 @@ class SearchCriteria:
         self.inventor = ""
         self.versioncompare = "New in"
         self.version = ""
+        self.statistics = ""
 
         self.popular = False
         self.children = False
@@ -879,6 +895,12 @@ class SearchCriteria:
 
         self.versionCompareOptions = ("New in", "Present in", "New since")
 
+        self.statisticsOptions = {"": "all",
+                                  "Games played": "played",
+                                  "Games played and won": "won",
+                                  "Games played and not won": "not won",
+                                  "Games not played": "not played"}
+
 
 class SelectGameAdvancedSearch(MfxDialog):
     def __init__(self, parent, title, criteria, **kw):
@@ -910,6 +932,8 @@ class SelectGameAdvancedSearch(MfxDialog):
         self.versioncompare.set(criteria.versioncompare)
         self.version = tkinter.StringVar()
         self.version.set(criteria.version)
+        self.statistics = tkinter.StringVar()
+        self.statistics.set(criteria.statistics)
 
         self.popular = tkinter.BooleanVar()
         self.popular.set(criteria.popular)
@@ -1050,6 +1074,17 @@ class SelectGameAdvancedSearch(MfxDialog):
                                  textvariable=self.version, state='readonly')
         textVersion.grid(row=row, column=3, columnspan=2, sticky='ew',
                          padx=1, pady=1)
+        row += 1
+
+        statisticsValues = list(criteria.statisticsOptions.keys())
+
+        labelStats = tkinter.Label(top_frame, text="Statistics:", anchor="w")
+        labelStats.grid(row=row, column=0, columnspan=1, sticky='ew',
+                        padx=1, pady=1)
+        textStats = PysolCombo(top_frame, values=statisticsValues,
+                               textvariable=self.statistics, state='readonly')
+        textStats.grid(row=row, column=1, columnspan=4, sticky='ew',
+                       padx=1, pady=1)
         row += 1
 
         col = 0

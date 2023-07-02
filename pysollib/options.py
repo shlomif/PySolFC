@@ -61,6 +61,7 @@ def calcCustomMouseButtonsBinding(binding_format):
 
 configspec = '''
 [general]
+last_version = list
 player = string
 confirm = boolean
 update_player_stats = boolean
@@ -211,6 +212,7 @@ resampling = integer(0, 10)
 
 class Options:
     GENERAL_OPTIONS = [
+        ('last_version', 'list'),
         ('player', 'str'),
         ('confirm', 'bool'),
         ('update_player_stats', 'bool'),
@@ -302,6 +304,8 @@ class Options:
 
         self.version_tuple = pysollib.settings.VERSION_TUPLE  # XXX
         self.saved = 0                  # XXX
+
+        self.last_version = (2, 20, 1)
         # options menu:
         self.player = _("Unknown")
         self.confirm = True
@@ -588,6 +592,8 @@ class Options:
 
     def save(self, filename):
         config = self._config
+
+        self.last_version = self.version_tuple
 
         # general
         for key, t in self.GENERAL_OPTIONS:

@@ -24,7 +24,8 @@
 import os
 import re
 
-from pysollib.mfxutil import Image, ImageDraw, ImageOps, ImageTk
+from pysollib.mfxutil import Image, ImageDraw, ImageOps, ImageTk, \
+    get_default_resampling
 from pysollib.settings import TITLE, WIN_SYSTEM
 
 from six.moves import tkinter
@@ -288,7 +289,10 @@ if Image:
             im = PIL_Image(image=im)
             return im
 
-        def resize(self, xf, yf, resample=Image.ANTIALIAS):
+        def resize(self, xf, yf, resample=-1):
+
+            if resample == -1:
+                resample = get_default_resampling()
 
             w, h = self._pil_image_orig.size
             w0, h0 = int(w*xf), int(h*yf)
@@ -456,7 +460,10 @@ def _createBottomImage(image, color='white', backfile=None):
     size = (w-th*2, h-th*2)
     tmp = Image.new('RGBA', size, color)
     tmp.putalpha(60)
-    mask = out.resize(size, Image.ANTIALIAS)
+
+    resampling = get_default_resampling()
+
+    mask = out.resize(size, resampling)
     out.paste(tmp, (th, th), mask)
     if backfile:
         back = Image.open(backfile).convert('RGBA')
@@ -465,7 +472,7 @@ def _createBottomImage(image, color='white', backfile=None):
         a = min(float(w1)/w0, float(h1)/h0)
         a = a*0.9
         w0, h0 = int(w0*a), int(h0*a)
-        back = back.resize((w0, h0), Image.ANTIALIAS)
+        back = back.resize((w0, h0), resampling)
         x, y = (w1 - w0) // 2, (h1 - h0) // 2
         out.paste(back, (x, y), back)
     return out

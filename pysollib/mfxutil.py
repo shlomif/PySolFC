@@ -106,6 +106,17 @@ def format_time(t):
     return "%d:%02d:%02d" % (t // 3600, (t % 3600) // 60, t % 60)
 
 
+def get_default_resampling():
+    if not USE_PIL:
+        return 0
+    elif hasattr(Image, "ANTIALIAS"):
+        return Image.ANTIALIAS
+    elif hasattr(Image, "LANCZOS"):
+        return Image.LANCZOS
+    else:
+        return Image.NEAREST
+
+
 def print_err(s, level=1):
     if level == 0:
         ss = PACKAGE+': ERROR:'

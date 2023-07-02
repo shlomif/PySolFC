@@ -28,7 +28,8 @@ import traceback
 import configobj
 
 import pysollib.settings
-from pysollib.mfxutil import Image, USE_PIL, print_err
+from pysollib.mfxutil import USE_PIL,\
+    get_default_resampling, print_err
 from pysollib.mygettext import _
 from pysollib.mygettext import myGettext
 from pysollib.pysoltk import STATUSBAR_ITEMS, TOOLBAR_BUTTONS, TOOLKIT
@@ -474,7 +475,8 @@ class Options:
         self.tabletile_scale_method = 0
         self.resampling = 0
         if USE_PIL:
-            self.resampling = int(Image.ANTIALIAS)
+            self.resampling = int(get_default_resampling())
+
         # solver
         self.solver_presets = [
             'none',

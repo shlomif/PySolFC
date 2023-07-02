@@ -94,32 +94,32 @@ def createResamplingMenu(menubar, menu):
                             variable=menubar.tkopt.resampling,
                             value=int(Image.NEAREST),
                             command=menubar.mOptResampling)
-    if Image.BILINEAR:
+    if hasattr(Image, "BILINEAR"):
         submenu.add_radiobutton(label=n_("&Bilinear"),
                                 variable=menubar.tkopt.resampling,
                                 value=int(Image.BILINEAR),
                                 command=menubar.mOptResampling)
-    if Image.BICUBIC:
+    if hasattr(Image, "BICUBIC"):
         submenu.add_radiobutton(label=n_("B&icubic"),
                                 variable=menubar.tkopt.resampling,
                                 value=int(Image.BICUBIC),
                                 command=menubar.mOptResampling)
-    if Image.LANCZOS:
+    if hasattr(Image, "LANCZOS"):
         submenu.add_radiobutton(label=n_("&Lanczos"),
                                 variable=menubar.tkopt.resampling,
                                 value=int(Image.LANCZOS),
                                 command=menubar.mOptResampling)
-    elif Image.ANTIALIAS:
+    elif hasattr(Image, "ANTIALIAS"):
         submenu.add_radiobutton(label=n_("&Antialiasing"),
                                 variable=menubar.tkopt.resampling,
                                 value=int(Image.ANTIALIAS),
                                 command=menubar.mOptResampling)
-    if Image.BOX:
+    if hasattr(Image, "BOX"):
         submenu.add_radiobutton(label=n_("B&ox"),
                                 variable=menubar.tkopt.resampling,
                                 value=int(Image.BOX),
                                 command=menubar.mOptResampling)
-    if Image.HAMMING:
+    if hasattr(Image, "HAMMING"):
         submenu.add_radiobutton(label=n_("&Hamming"),
                                 variable=menubar.tkopt.resampling,
                                 value=int(Image.HAMMING),

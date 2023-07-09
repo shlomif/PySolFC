@@ -5,14 +5,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Thu Mar  9 21:16:18 2023\n"
+"POT-Creation-Date: Sat Jul  8 21:49:22 2023\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: ENCODING\n"
-"Generated-By: C:/Users/Joe/Documents/Git/PySolFC/scripts/all_games.py 0.1\n"
+"Generated-By: C:\Users\Joe\Documents\Git\PySolFC\scripts\all_games.py 0.1\n"
 
 
 msgid "10 x 8"
@@ -40,6 +40,9 @@ msgid "Ace Through King"
 msgstr ""
 
 msgid "Aces High"
+msgstr ""
+
+msgid "Aces Square"
 msgstr ""
 
 msgid "Aces Up"
@@ -283,6 +286,9 @@ msgid "Bear River"
 msgstr ""
 
 msgid "Beatle"
+msgstr ""
+
+msgid "Beautiful Lutecia"
 msgstr ""
 
 msgid "Bebop"
@@ -723,6 +729,9 @@ msgstr ""
 msgid "Convolution"
 msgstr ""
 
+msgid "Coquette"
+msgstr ""
+
 msgid "Corkscrew"
 msgstr ""
 
@@ -900,6 +909,9 @@ msgstr ""
 msgid "Die Schlange"
 msgstr ""
 
+msgid "Die Uhr"
+msgstr ""
+
 msgid "Die boese Sieben"
 msgstr ""
 
@@ -961,6 +973,9 @@ msgid "Double Drawbridge"
 msgstr ""
 
 msgid "Double Easthaven"
+msgstr ""
+
+msgid "Double Fan"
 msgstr ""
 
 msgid "Double Fives"
@@ -1428,6 +1443,15 @@ msgstr ""
 msgid "Four Packs"
 msgstr ""
 
+msgid "Four Rivers 14x6"
+msgstr ""
+
+msgid "Four Rivers 18x8"
+msgstr ""
+
+msgid "Four Rivers 24x12"
+msgstr ""
+
 msgid "Four Seasons"
 msgstr ""
 
@@ -1782,10 +1806,16 @@ msgstr ""
 msgid "House on the Hill"
 msgstr ""
 
+msgid "Housefly"
+msgstr ""
+
 msgid "Hovercraft"
 msgstr ""
 
 msgid "How They Run"
+msgstr ""
+
+msgid "Hunter"
 msgstr ""
 
 msgid "Hurdles"
@@ -1816,6 +1846,9 @@ msgid "Imaginary Thirteen"
 msgstr ""
 
 msgid "Imperial Guards"
+msgstr ""
+
+msgid "Imperial Trump Yukon"
 msgstr ""
 
 msgid "Imperial Trumps"
@@ -1944,10 +1977,16 @@ msgstr ""
 msgid "Kentish"
 msgstr ""
 
+msgid "Kettle Hill"
+msgstr ""
+
 msgid "Khadga"
 msgstr ""
 
 msgid "Khedive"
+msgstr ""
+
+msgid "Kiev"
 msgstr ""
 
 msgid "Kilowatt"
@@ -1966,6 +2005,9 @@ msgid "King Tut"
 msgstr ""
 
 msgid "King's Audience"
+msgstr ""
+
+msgid "King's Plume"
 msgstr ""
 
 msgid "King's Secrets"
@@ -1990,6 +2032,12 @@ msgid "Kingsley"
 msgstr ""
 
 msgid "Klondike"
+msgstr ""
+
+msgid "Klondike Mini"
+msgstr ""
+
+msgid "Klondike Nouveau"
 msgstr ""
 
 msgid "Klondike Plus 16"
@@ -2020,6 +2068,9 @@ msgid "Kumo"
 msgstr ""
 
 msgid "Kurma"
+msgstr ""
+
+msgid "Kyiv"
 msgstr ""
 
 msgid "Kyodai 14"
@@ -2248,6 +2299,9 @@ msgid "Madame"
 msgstr ""
 
 msgid "Mage's Game"
+msgstr ""
+
+msgid "Magic Montana"
 msgstr ""
 
 msgid "Mahjongg Altar"
@@ -2824,6 +2878,9 @@ msgid "Martha"
 msgstr ""
 
 msgid "Master"
+msgstr ""
+
+msgid "Mathematics"
 msgstr ""
 
 msgid "Matriarchy"
@@ -3453,6 +3510,9 @@ msgstr ""
 msgid "Pyramid's Stones"
 msgstr ""
 
+msgid "Pythagor"
+msgstr ""
+
 msgid "Q.C."
 msgstr ""
 
@@ -3555,6 +3615,9 @@ msgstr ""
 msgid "Regal Family"
 msgstr ""
 
+msgid "Regiment"
+msgstr ""
+
 msgid "Reindeer"
 msgstr ""
 
@@ -3606,6 +3669,9 @@ msgstr ""
 msgid "Retinue"
 msgstr ""
 
+msgid "Retinue of Kings"
+msgstr ""
+
 msgid "Right Triangle"
 msgstr ""
 
@@ -3655,6 +3721,9 @@ msgid "Rooster"
 msgstr ""
 
 msgid "Roslin"
+msgstr ""
+
+msgid "Roslyn"
 msgstr ""
 
 msgid "Rouge et Noir"
@@ -4095,6 +4164,9 @@ msgstr ""
 msgid "Streets and Alleys"
 msgstr ""
 
+msgid "Strip"
+msgstr ""
+
 msgid "Striptease"
 msgstr ""
 
@@ -4105,6 +4177,9 @@ msgid "Succession"
 msgstr ""
 
 msgid "Suit Elevens"
+msgstr ""
+
+msgid "Suits Up"
 msgstr ""
 
 msgid "Sukis"
@@ -4239,6 +4314,9 @@ msgstr ""
 msgid "The Red and the Black"
 msgstr ""
 
+msgid "The Reserve"
+msgstr ""
+
 msgid "The Spark"
 msgstr ""
 
@@ -4270,6 +4348,9 @@ msgid "Thirty"
 msgstr ""
 
 msgid "Thirty Six"
+msgstr ""
+
+msgid "Thirty Six Card Tableau"
 msgstr ""
 
 msgid "Thirty Two Cards"
@@ -4693,6 +4774,9 @@ msgid "York"
 msgstr ""
 
 msgid "Yukon"
+msgstr ""
+
+msgid "Yukon Nouveau"
 msgstr ""
 
 msgid "Yukonic Plague"

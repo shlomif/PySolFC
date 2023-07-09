@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Thu Mar  9 21:16:18 2023\n"
-"PO-Revision-Date: 2023-03-09 21:20-0500\n"
+"POT-Creation-Date: Sat Jul  8 21:49:22 2023\n"
+"PO-Revision-Date: 2023-07-08 21:59-0400\n"
 "Last-Translator: H. Schaekel <Holger.Schaekel@web.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0\n"
+"X-Generator: Poedit 3.3.1\n"
 
 msgid "10 x 8"
 msgstr "10 x 8"
@@ -38,6 +38,9 @@ msgstr ""
 
 msgid "Aces High"
 msgstr "Aces High"
+
+msgid "Aces Square"
+msgstr ""
 
 msgid "Aces Up"
 msgstr "Aces Up"
@@ -284,6 +287,9 @@ msgstr ""
 
 msgid "Beatle"
 msgstr "Beatle"
+
+msgid "Beautiful Lutecia"
+msgstr ""
 
 msgid "Bebop"
 msgstr "Bebop"
@@ -725,6 +731,9 @@ msgstr "Кontratanz"
 msgid "Convolution"
 msgstr "Windung"
 
+msgid "Coquette"
+msgstr ""
+
 msgid "Corkscrew"
 msgstr "Korkenzieher"
 
@@ -904,6 +913,9 @@ msgstr "Die Russische"
 msgid "Die Schlange"
 msgstr "Die Schlange"
 
+msgid "Die Uhr"
+msgstr ""
+
 msgid "Die boese Sieben"
 msgstr "Die boese Sieben"
 
@@ -970,6 +982,9 @@ msgstr "Doppelte Zugbrücke"
 #, fuzzy
 msgid "Double Easthaven"
 msgstr "Doppelte Maßnahme "
+
+msgid "Double Fan"
+msgstr ""
 
 msgid "Double Fives"
 msgstr "Doppelt 5"
@@ -1446,6 +1461,15 @@ msgstr "Vier Kleeblätter"
 msgid "Four Packs"
 msgstr "Vier Pakete"
 
+msgid "Four Rivers 14x6"
+msgstr ""
+
+msgid "Four Rivers 18x8"
+msgstr ""
+
+msgid "Four Rivers 24x12"
+msgstr ""
+
 msgid "Four Seasons"
 msgstr "Vier Jahreszeiten"
 
@@ -1804,11 +1828,17 @@ msgstr ""
 msgid "House on the Hill"
 msgstr "Haus auf dem Berg"
 
+msgid "Housefly"
+msgstr ""
+
 msgid "Hovercraft"
 msgstr "Luftkissenfahrzeug"
 
 msgid "How They Run"
 msgstr "Wie sie rennen"
+
+msgid "Hunter"
+msgstr ""
 
 msgid "Hurdles"
 msgstr "Hürdenlauf"
@@ -1839,6 +1869,9 @@ msgstr ""
 
 msgid "Imperial Guards"
 msgstr "Kaiserliche Garde"
+
+msgid "Imperial Trump Yukon"
+msgstr ""
 
 msgid "Imperial Trumps"
 msgstr "Kaiserliches Quartett"
@@ -1968,11 +2001,17 @@ msgstr "Katrina's Spiel entspannt"
 msgid "Kentish"
 msgstr ""
 
+msgid "Kettle Hill"
+msgstr ""
+
 msgid "Khadga"
 msgstr "Khadga"
 
 msgid "Khedive"
 msgstr "Khedive"
+
+msgid "Kiev"
+msgstr ""
 
 msgid "Kilowatt"
 msgstr ""
@@ -1991,6 +2030,9 @@ msgid "King Tut"
 msgstr "Pharao Tut"
 
 msgid "King's Audience"
+msgstr ""
+
+msgid "King's Plume"
 msgstr ""
 
 msgid "King's Secrets"
@@ -2017,6 +2059,12 @@ msgstr "Könige"
 
 msgid "Klondike"
 msgstr "Klondike"
+
+msgid "Klondike Mini"
+msgstr ""
+
+msgid "Klondike Nouveau"
+msgstr ""
 
 msgid "Klondike Plus 16"
 msgstr "Klondike Plus 16"
@@ -2046,6 +2094,9 @@ msgid "Kumo"
 msgstr ""
 
 msgid "Kurma"
+msgstr ""
+
+msgid "Kyiv"
 msgstr ""
 
 msgid "Kyodai 14"
@@ -2276,6 +2327,9 @@ msgstr "Madame"
 
 msgid "Mage's Game"
 msgstr "Mage's Spiel"
+
+msgid "Magic Montana"
+msgstr ""
 
 msgid "Mahjongg Altar"
 msgstr "Mahjongg Altar"
@@ -2853,6 +2907,9 @@ msgstr "Marta"
 
 msgid "Master"
 msgstr "Meister"
+
+msgid "Mathematics"
+msgstr ""
 
 msgid "Matriarchy"
 msgstr "Matriarchat"
@@ -3494,6 +3551,9 @@ msgstr "Pyramiden Golf"
 msgid "Pyramid's Stones"
 msgstr "Pyramidensteine"
 
+msgid "Pythagor"
+msgstr ""
+
 msgid "Q.C."
 msgstr "Q.C."
 
@@ -3600,6 +3660,9 @@ msgstr "Rot und Schwarz"
 msgid "Regal Family"
 msgstr "Königliche Familie"
 
+msgid "Regiment"
+msgstr ""
+
 msgid "Reindeer"
 msgstr "Rentierь"
 
@@ -3653,6 +3716,9 @@ msgstr "Reserven"
 msgid "Retinue"
 msgstr "Begleitung"
 
+msgid "Retinue of Kings"
+msgstr ""
+
 msgid "Right Triangle"
 msgstr "Rechtes Dreieck"
 
@@ -3702,6 +3768,9 @@ msgid "Rooster"
 msgstr "Hahn"
 
 msgid "Roslin"
+msgstr ""
+
+msgid "Roslyn"
 msgstr ""
 
 msgid "Rouge et Noir"
@@ -4156,6 +4225,9 @@ msgstr "Straßen"
 msgid "Streets and Alleys"
 msgstr "Straßen und Gassen"
 
+msgid "Strip"
+msgstr ""
+
 msgid "Striptease"
 msgstr "Striptease"
 
@@ -4167,6 +4239,9 @@ msgstr ""
 
 msgid "Suit Elevens"
 msgstr "Anzug elf"
+
+msgid "Suits Up"
+msgstr ""
 
 msgid "Sukis"
 msgstr ""
@@ -4301,6 +4376,9 @@ msgstr ""
 msgid "The Red and the Black"
 msgstr "Der Roteu und der Schwarze"
 
+msgid "The Reserve"
+msgstr ""
+
 msgid "The Spark"
 msgstr "Das Fünckchen"
 
@@ -4334,6 +4412,9 @@ msgstr "Vierzig"
 
 msgid "Thirty Six"
 msgstr "Sechsunddreißig"
+
+msgid "Thirty Six Card Tableau"
+msgstr ""
 
 msgid "Thirty Two Cards"
 msgstr "32 Karten"
@@ -4775,6 +4856,9 @@ msgstr "York"
 
 msgid "Yukon"
 msgstr "Yukon"
+
+msgid "Yukon Nouveau"
+msgstr ""
 
 msgid "Yukonic Plague"
 msgstr ""

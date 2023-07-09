@@ -5,18 +5,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Thu Mar  9 21:16:18 2023\n"
-"PO-Revision-Date: 2023-03-09 21:22-0500\n"
+"POT-Creation-Date: Sat Jul  8 21:49:22 2023\n"
+"PO-Revision-Date: 2023-07-08 22:03-0400\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "Generated-By: ./scripts/all_games.py 0.1\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 3.0\n"
+"X-Generator: Poedit 3.3.1\n"
 
 msgid "10 x 8"
 msgstr "10 x 8"
@@ -44,6 +44,9 @@ msgstr ""
 
 msgid "Aces High"
 msgstr "Тузы сверху"
+
+msgid "Aces Square"
+msgstr ""
 
 msgid "Aces Up"
 msgstr "Тузы вверх"
@@ -292,6 +295,9 @@ msgstr ""
 
 msgid "Beatle"
 msgstr "Жук"
+
+msgid "Beautiful Lutecia"
+msgstr ""
 
 msgid "Bebop"
 msgstr "Бибоп"
@@ -733,6 +739,9 @@ msgstr "Контрданс"
 msgid "Convolution"
 msgstr "Виток"
 
+msgid "Coquette"
+msgstr ""
+
 msgid "Corkscrew"
 msgstr "Штопор"
 
@@ -912,6 +921,9 @@ msgstr "Die Russische"
 msgid "Die Schlange"
 msgstr "Die Schlange"
 
+msgid "Die Uhr"
+msgstr ""
+
 msgid "Die boese Sieben"
 msgstr "Die boese Sieben"
 
@@ -976,6 +988,9 @@ msgstr "Двойной разводной мост"
 #, fuzzy
 msgid "Double Easthaven"
 msgstr "Двойной кузнечик"
+
+msgid "Double Fan"
+msgstr ""
 
 msgid "Double Fives"
 msgstr "Двойные пятёрки"
@@ -1451,6 +1466,15 @@ msgstr "Четырёхлистный клевер"
 msgid "Four Packs"
 msgstr "Четыре пакета"
 
+msgid "Four Rivers 14x6"
+msgstr ""
+
+msgid "Four Rivers 18x8"
+msgstr ""
+
+msgid "Four Rivers 24x12"
+msgstr ""
+
 msgid "Four Seasons"
 msgstr "Четыре сезона"
 
@@ -1808,11 +1832,17 @@ msgstr ""
 msgid "House on the Hill"
 msgstr "Дом на холме"
 
+msgid "Housefly"
+msgstr ""
+
 msgid "Hovercraft"
 msgstr "Ховеркрафт"
 
 msgid "How They Run"
 msgstr "Как они бегут"
+
+msgid "Hunter"
+msgstr ""
 
 msgid "Hurdles"
 msgstr "Барьеры"
@@ -1843,6 +1873,9 @@ msgstr ""
 
 msgid "Imperial Guards"
 msgstr "Императорская гвардия"
+
+msgid "Imperial Trump Yukon"
+msgstr ""
 
 msgid "Imperial Trumps"
 msgstr "Имперские козыри"
@@ -1972,11 +2005,17 @@ msgstr "Облегчённый Пасьянс Катрины"
 msgid "Kentish"
 msgstr ""
 
+msgid "Kettle Hill"
+msgstr ""
+
 msgid "Khadga"
 msgstr "Khadga"
 
 msgid "Khedive"
 msgstr "Хедив"
+
+msgid "Kiev"
+msgstr ""
 
 msgid "Kilowatt"
 msgstr ""
@@ -1994,6 +2033,9 @@ msgid "King Tut"
 msgstr "Король Тут"
 
 msgid "King's Audience"
+msgstr ""
+
+msgid "King's Plume"
 msgstr ""
 
 msgid "King's Secrets"
@@ -2020,6 +2062,12 @@ msgstr "Короли"
 
 msgid "Klondike"
 msgstr "Клондайк"
+
+msgid "Klondike Mini"
+msgstr ""
+
+msgid "Klondike Nouveau"
+msgstr ""
 
 msgid "Klondike Plus 16"
 msgstr "Клондайк Плюс 16"
@@ -2050,6 +2098,9 @@ msgid "Kumo"
 msgstr "Гигант"
 
 msgid "Kurma"
+msgstr ""
+
+msgid "Kyiv"
 msgstr ""
 
 msgid "Kyodai 14"
@@ -2280,6 +2331,9 @@ msgstr "Мадам"
 
 msgid "Mage's Game"
 msgstr "Пасьянс Меги"
+
+msgid "Magic Montana"
+msgstr ""
 
 msgid "Mahjongg Altar"
 msgstr "Маджонг Алтарь"
@@ -2859,6 +2913,9 @@ msgstr "Марта"
 
 msgid "Master"
 msgstr "Мастер"
+
+msgid "Mathematics"
+msgstr ""
 
 msgid "Matriarchy"
 msgstr "Матриархат"
@@ -3495,6 +3552,9 @@ msgstr "Пирамидальный Гольф"
 msgid "Pyramid's Stones"
 msgstr "Камни пирамид"
 
+msgid "Pythagor"
+msgstr ""
+
 msgid "Q.C."
 msgstr "Q.C."
 
@@ -3599,6 +3659,9 @@ msgstr "Красное и Чёрное"
 msgid "Regal Family"
 msgstr "Царская семья"
 
+msgid "Regiment"
+msgstr ""
+
 msgid "Reindeer"
 msgstr "Северный олень"
 
@@ -3652,6 +3715,9 @@ msgstr "Резервные ячейки"
 msgid "Retinue"
 msgstr "Свита"
 
+msgid "Retinue of Kings"
+msgstr ""
+
 msgid "Right Triangle"
 msgstr "Правый треугольник"
 
@@ -3703,6 +3769,9 @@ msgstr "Петух"
 #, fuzzy
 msgid "Roslin"
 msgstr "Робин"
+
+msgid "Roslyn"
+msgstr ""
 
 msgid "Rouge et Noir"
 msgstr "Rouge et Noir"
@@ -4151,6 +4220,9 @@ msgstr "Улицы"
 msgid "Streets and Alleys"
 msgstr "Улицы и аллеи"
 
+msgid "Strip"
+msgstr ""
+
 msgid "Striptease"
 msgstr "Стриптиз"
 
@@ -4162,6 +4234,9 @@ msgstr ""
 
 msgid "Suit Elevens"
 msgstr "Одиннадцать в масть"
+
+msgid "Suits Up"
+msgstr ""
 
 msgid "Sukis"
 msgstr ""
@@ -4295,6 +4370,9 @@ msgstr ""
 msgid "The Red and the Black"
 msgstr "Красное и Чёрное II"
 
+msgid "The Reserve"
+msgstr ""
+
 msgid "The Spark"
 msgstr "Вспышка"
 
@@ -4328,6 +4406,9 @@ msgstr "Тридцать"
 
 msgid "Thirty Six"
 msgstr "Тридцать шесть"
+
+msgid "Thirty Six Card Tableau"
+msgstr ""
 
 msgid "Thirty Two Cards"
 msgstr "Тридцать две карты"
@@ -4767,6 +4848,9 @@ msgstr "Йорк"
 
 msgid "Yukon"
 msgstr "Юкон"
+
+msgid "Yukon Nouveau"
+msgstr ""
 
 msgid "Yukonic Plague"
 msgstr ""

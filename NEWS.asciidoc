@@ -1,5 +1,12 @@
 [[news]]
 === News
+* _10 July, 2023:_ There is a new beta release
+https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-2.21.0/[PySolFC
+v2.21.0]. New in this release:
+** Ten new games.
+** Compatibility with Pillow 10.0.
+** Several new display options.
+** Other bugfixes and enhancements.
 * _16 April, 2023:_ There is a new stable release
 https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-2.20.1/[PySolFC
 v2.20.1]. New in this release:

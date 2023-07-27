@@ -182,6 +182,10 @@ class CSI:
     TYPE_TRUMP_ONLY = 9
     TYPE_MATCHING = 10
 
+    # cardset subtypes
+    SUBTYPE_NONE = 0
+    SUBTYPE_JOKER_DECK = 1
+
     TYPE = {
         1:  _("French type (52 cards)"),
         2:  _("Hanafuda type (48 cards)"),
@@ -351,6 +355,8 @@ class CardsetConfig(Struct):
             ncards=-1,
             styles=[],
             year=0,
+            subtype=0,
+            mahjongg3d=False,
             # line[1]
             ident="",
             name="",
@@ -380,7 +386,8 @@ class Cardset(Resource):
         kw = KwStruct(config.__dict__, **kw)
         # si is the SelectionInfo struct that will be queried by
         # the "select cardset" dialogs. It can be freely modified.
-        si = Struct(type=0, size=0, styles=[], nationalities=[], dates=[])
+        si = Struct(type=0, subtype=0, size=0, styles=[],
+                    nationalities=[], dates=[])
         kw = KwStruct(
             kw,
             # essentials
@@ -452,11 +459,13 @@ class CardsetManager(ResourceManager):
         if s not in CSI.TYPE:
             return 0
         cs.si.type = s
+        cs.si.subtype = cs.subtype
         cs.suits = CSI.TYPE_SUITS[s]
         cs.ranks = CSI.TYPE_RANKS[s]
         cs.trumps = CSI.TYPE_TRUMPS[s]
         if s == CSI.TYPE_FRENCH:
-            pass
+            if cs.subtype == 1:
+                cs.trumps = list(range(2))
         elif s == CSI.TYPE_HANAFUDA:
             cs.nbottoms = 15
         elif s == CSI.TYPE_TAROCK:

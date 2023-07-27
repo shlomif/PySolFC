@@ -316,7 +316,7 @@ Please check your %(app)s installation.
     # init cardsets
     app.initCardsets()
     cardset = None
-    c = app.opt.cardset.get(0)
+    c = app.opt.cardset.get(0).get(0)
     if c:
         cardset = app.cardset_manager.getByName(c[0])
         if cardset and c[1]:

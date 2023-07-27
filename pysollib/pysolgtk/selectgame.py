@@ -416,14 +416,19 @@ class SelectGameDialogWithPreview(MfxDialog):
         #
 
         c = self.app.cardsets_cache.get(gi.category)
-        if not c:
+        c2 = None
+        if c:
+            c2 = c.get(gi.subcategory)
+        if not c2:
             cardset = self.app.cardset_manager.getByName(
-                self.app.opt.cardset[gi.category][0])
+                self.app.opt.cardset[gi.category][gi.subcategory][0])
             self.app.loadCardset(cardset, id=gi.category,
                                  tocache=True, noprogress=True)
             c = self.app.cardsets_cache.get(gi.category)
-        if c:
-            self.preview_app.images = c[2]
+            if c:
+                c2 = c.get(gi.subcategory)
+        if c2:
+            self.preview_app.images = c2[2]
         else:
             self.preview_app.images = self.app.subsampled_images
 

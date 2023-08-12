@@ -107,6 +107,9 @@ class Golf_Waste(WasteStack):
             return True
         if not WasteStack.acceptsCards(self, from_stack, cards):
             return False
+        # if there are jokers, they're wild
+        if self.cards[-1].suit == 4 or cards[0].suit == 4:
+            return True
         # check cards
         r1, r2 = self.cards[-1].rank, cards[0].rank
         if self.game.getStrictness() == 1:
@@ -215,6 +218,14 @@ class DoubleGolf(Golf):
 
     def startGame(self):
         Golf.startGame(self, 7)
+
+
+# ************************************************************************
+# * Thieves
+# ************************************************************************
+
+class Thieves(Golf):
+    pass
 
 
 # ************************************************************************
@@ -1491,3 +1502,6 @@ registerGame(GameInfo(891, AllInARowII, "All in a Row II",
                       GI.GT_GOLF | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(892, DoublePutt, "Double Putt",
                       GI.GT_GOLF, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(906, Thieves, "Thieves",
+                      GI.GT_GOLF, 1, 0, GI.SL_BALANCED,
+                      subcategory=GI.GS_JOKER_DECK, trumps=list(range(2))))

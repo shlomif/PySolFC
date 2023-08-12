@@ -192,6 +192,7 @@ highlight_piles = float(0.2, 9.9)
 [cardsets]
 0 = string_list(min=2, max=2)
 1 = string_list(min=2, max=2)
+1_1 = string_list(min=2, max=2)
 2 = string_list(min=2, max=2)
 3 = string_list(min=2, max=2)
 4 = string_list(min=2, max=2)
@@ -546,34 +547,36 @@ class Options:
         #    c = 'Dondorf'
         if USE_PIL:
             self.cardset = {
-                0:                  ("Neo", ""),
-                CSI.TYPE_FRENCH:    ("Neo", ""),
-                CSI.TYPE_HANAFUDA:  ("Louie Mantia Hanafuda", ""),
-                CSI.TYPE_MAHJONGG:  ("Uni Mahjongg", ""),
-                CSI.TYPE_TAROCK:    ("Neo Tarock", ""),
-                CSI.TYPE_HEXADECK:  ("Neo Hex", ""),
-                CSI.TYPE_MUGHAL_GANJIFA: ("Mughal Ganjifa XL", ""),
-                # CSI.TYPE_NAVAGRAHA_GANJIFA: ("Navagraha Ganjifa", ""),
-                CSI.TYPE_NAVAGRAHA_GANJIFA: ("Dashavatara Ganjifa XL", ""),
-                CSI.TYPE_DASHAVATARA_GANJIFA: ("Dashavatara Ganjifa XL", ""),
-                CSI.TYPE_TRUMP_ONLY: ("Next Matrix", ""),
-                CSI.TYPE_MATCHING: ("Neo", "")
+                0:                  {0: ("Neo", "")},
+                CSI.TYPE_FRENCH:    {0: ("Neo", ""), 1: ("Neo", "")},
+                CSI.TYPE_HANAFUDA:  {0: ("Louie Mantia Hanafuda", "")},
+                CSI.TYPE_MAHJONGG:  {0: ("Uni Mahjongg", "")},
+                CSI.TYPE_TAROCK:    {0: ("Neo Tarock", "")},
+                CSI.TYPE_HEXADECK:  {0: ("Neo Hex", "")},
+                CSI.TYPE_MUGHAL_GANJIFA: {0: ("Mughal Ganjifa XL", "")},
+                # CSI.TYPE_NAVAGRAHA_GANJIFA: {0: ("Navagraha Ganjifa", "")},
+                CSI.TYPE_NAVAGRAHA_GANJIFA:
+                    {0: ("Dashavatara Ganjifa XL", "")},
+                CSI.TYPE_DASHAVATARA_GANJIFA:
+                    {0: ("Dashavatara Ganjifa XL", "")},
+                CSI.TYPE_TRUMP_ONLY: {0: ("Next Matrix", "")},
+                CSI.TYPE_MATCHING: {0: ("Neo", "")}
             }
         else:
             self.cardset = {
                 # game_type:        (cardset_name, back_file)
-                0:                  (c, ""),
-                CSI.TYPE_FRENCH:    (c, ""),
-                CSI.TYPE_HANAFUDA:  ("Kintengu", ""),
-                CSI.TYPE_MAHJONGG:  ("Crystal Mahjongg", ""),
-                CSI.TYPE_TAROCK:    ("Vienna 2K", ""),
-                CSI.TYPE_HEXADECK:  ("Hex A Deck", ""),
-                CSI.TYPE_MUGHAL_GANJIFA: ("Mughal Ganjifa", ""),
-                # CSI.TYPE_NAVAGRAHA_GANJIFA: ("Navagraha Ganjifa", ""),
-                CSI.TYPE_NAVAGRAHA_GANJIFA: ("Dashavatara Ganjifa", ""),
-                CSI.TYPE_DASHAVATARA_GANJIFA: ("Dashavatara Ganjifa", ""),
-                CSI.TYPE_TRUMP_ONLY: ("Matrix", ""),
-                CSI.TYPE_MATCHING: (c, ""),
+                0:                  {0: (c, "")},
+                CSI.TYPE_FRENCH:    {0: (c, ""), 1: (c, "")},
+                CSI.TYPE_HANAFUDA:  {0: ("Kintengu", "")},
+                CSI.TYPE_MAHJONGG:  {0: ("Crystal Mahjongg", "")},
+                CSI.TYPE_TAROCK:    {0: ("Vienna 2K", "")},
+                CSI.TYPE_HEXADECK:  {0: ("Hex A Deck", "")},
+                CSI.TYPE_MUGHAL_GANJIFA: {0: ("Mughal Ganjifa", "")},
+                # CSI.TYPE_NAVAGRAHA_GANJIFA: {0: ("Navagraha Ganjifa", "")},
+                CSI.TYPE_NAVAGRAHA_GANJIFA: {0: ("Dashavatara Ganjifa", "")},
+                CSI.TYPE_DASHAVATARA_GANJIFA: {0: ("Dashavatara Ganjifa", "")},
+                CSI.TYPE_TRUMP_ONLY: {0: ("Matrix", "")},
+                CSI.TYPE_MATCHING: {0: (c, "")}
             }
 
     # not changeable options
@@ -635,7 +638,11 @@ class Options:
 
         # cardsets
         for key, val in self.cardset.items():
-            config['cardsets'][str(key)] = val
+            for key2, val2 in val.items():
+                if key2 > 0:
+                    config['cardsets'][str(key) + "_" + str(key2)] = val2
+                else:
+                    config['cardsets'][str(key)] = val2
         for key in ('scale_cards', 'scale_x', 'scale_y',
                     'auto_scale', 'spread_stacks',
                     'preserve_aspect_ratio', 'resampling'):
@@ -802,12 +809,17 @@ class Options:
 
         # cardsets
         for key in self.cardset:
-            val = self._getOption('cardsets', str(key), 'list')
-            if val is not None:
-                try:
-                    self.cardset[int(key)] = val
-                except Exception:
-                    traceback.print_exc()
+            for key2 in self.cardset[key]:
+                if key2 > 0:
+                    val = self._getOption('cardsets',
+                                          str(key) + "_" + str(key2), 'list')
+                else:
+                    val = self._getOption('cardsets', str(key), 'list')
+                if val is not None:
+                    try:
+                        self.cardset[int(key)][int(key2)] = val
+                    except Exception:
+                        traceback.print_exc()
         for key, t in (('scale_cards', 'bool'),
                        ('scale_x', 'float'),
                        ('scale_y', 'float'),

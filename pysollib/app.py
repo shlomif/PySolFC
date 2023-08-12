@@ -652,22 +652,25 @@ class Application:
         self.images.setNegative(self.opt.negative_bottom)
         self.subsampled_images.setNegative(self.opt.negative_bottom)
         if update & 1:
-            self.opt.cardset[0] = (cs.name, cs.backname)
+            self.opt.cardset[0][0] = (cs.name, cs.backname)
         if update & 2:
-            self.opt.cardset[cs.si.type] = (cs.name, cs.backname)
+            self.opt.cardset[cs.si.type][cs.si.subtype] = (cs.name,
+                                                           cs.backname)
         gi = self.getGameInfo(id)
         if gi:
             if update & 256:
                 try:
-                    del self.opt.cardset[(1, gi.id)]
+                    del self.opt.cardset[(1, gi.id)][gi.subcategory]
                 except KeyError:
                     pass
             t = self.checkCompatibleCardsetType(gi, cs)
             if not t[1]:
                 if update & 4:
-                    self.opt.cardset[gi.category] = (cs.name, cs.backname)
+                    self.opt.cardset[gi.category][gi.subcategory] = \
+                        (cs.name, cs.backname)
                 if update & 8:
-                    self.opt.cardset[(1, gi.id)] = (cs.name, cs.backname)
+                    self.opt.cardset[(1, gi.id)][gi.subcategory] = \
+                        (cs.name, cs.backname)
         # from pprint import pprint; pprint(self.opt.cardset)
 
     def loadCardset(self, cs, id=0, update=7, progress=None,
@@ -685,14 +688,16 @@ class Application:
         #   key: Cardset.type
         #   value: (Cardset.ident, Images, SubsampledImages)
         c = self.cardsets_cache.get(cs.type)
-        if c and c[0] == cs.ident:
-            # print 'load from cache', c
-            self.images, self.subsampled_images = c[1], c[2]
-            if not tocache:
-                self.updateCardset(id, update=update)
-                if self.menubar is not None:
-                    self.menubar.updateBackgroundImagesMenu()
-            return 1
+        if c:
+            c2 = c.get(cs.subtype)
+            if c2 and c2[0] == cs.ident:
+                # print 'load from cache', c
+                self.images, self.subsampled_images = c2[1], c2[2]
+                if not tocache:
+                    self.updateCardset(id, update=update)
+                    if self.menubar is not None:
+                        self.menubar.updateBackgroundImagesMenu()
+                return 1
         #
         if progress is None and not noprogress:
             self.wm_save_state()
@@ -718,9 +723,13 @@ class Application:
             # if self.opt.save_cardsets:
             c = self.cardsets_cache.get(cs.type)
             if c:
-                # c[1].destruct()
-                destruct(c[1])
-            self.cardsets_cache[cs.type] = (cs.ident, images, simages)
+                c2 = c.get(cs.subtype)
+                if c2:
+                    # c2[1].destruct()
+                    destruct(c2[1])
+            self.cardsets_cache[cs.type] = {}
+            self.cardsets_cache[cs.type][cs.subtype] = (cs.ident, images,
+                                                        simages)
             if not tocache:
                 # elif self.images is not None:
                 #    # self.images.destruct()
@@ -757,13 +766,18 @@ class Application:
         assert gi is not None
         assert cs is not None
         gc = gi.category
+        gs = gi.subcategory
         cs_type = cs.si.type
+        cs_subtype = cs.si.subtype
         t0, t1 = None, None
         if gc == GI.GC_FRENCH:
             t0 = "French"
             if cs_type not in (CSI.TYPE_FRENCH,
                                # CSI.TYPE_TAROCK,
                                ):
+                t1 = t0
+            if (cs_subtype == CSI.SUBTYPE_NONE
+                    and gs == CSI.SUBTYPE_JOKER_DECK):
                 t1 = t0
         elif gc == GI.GC_HANAFUDA:
             t0 = "Hanafuda"
@@ -823,14 +837,17 @@ class Application:
             # try by gameid / category
             for key, flag in (((1, gi.id), 8), (gi.category, 4)):
                 c = self.opt.cardset.get(key)
-                if not c or len(c) != 2:
+                c2 = None
+                if c:
+                    c2 = c.get(gi.subcategory)
+                if not c2 or len(c2) != 2:
                     continue
-                cs = self.cardset_manager.getByName(c[0])
+                cs = self.cardset_manager.getByName(c2[0])
                 if not cs:
                     continue
                 t = self.checkCompatibleCardsetType(gi, cs)
                 if not t[1]:
-                    cs.updateCardback(backname=c[1])
+                    cs.updateCardback(backname=c2[1])
                     return cs, flag, t
         # ask
         return None, 0, t

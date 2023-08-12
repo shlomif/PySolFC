@@ -100,6 +100,20 @@ def parse_cardset_config(lines_list):
         except ValueError:
             _perr(1, 6, 'not integer')
             return None
+    if cs.version >= 7:
+        if len(fields) < 9:
+            _perr(1, msg='not enough fields')
+            return None
+        try:
+            cs.subtype = int(fields[7])
+        except ValueError:
+            _perr(1, 7, 'not integer')
+            return None
+        try:
+            cs.mahjongg3d = bool(fields[8])
+        except ValueError:
+            _perr(1, 8, 'not boolean')
+            return None
     if len(cs.ext) < 2 or cs.ext[0] != ".":
         _perr(1, msg='specifies an invalid file extension')
         return None

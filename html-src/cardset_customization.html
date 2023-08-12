@@ -1,6 +1,6 @@
     <h1>Cardset Customization Tutorial</h1>
       <h2>config.txt template</h2>
-            <pre>PySolFC solitaire cardset;$A;$FMT;$B;$C;$D,$E;$F
+            <pre>PySolFC solitaire cardset;$A;$FMT;$B;$C;$D,$E;$F;$G;$H
 &lt;internal_name&gt;;&lt;cardset_name&gt;
 X Y D
 XOFF YOFF SXOFF SYOFF
@@ -9,7 +9,7 @@ back01.ext;back02.ext;back03.ext</pre>
       <h2>Line 1</h2>
           <p><b>$A:</b> The cardset version number that belongs to the number
             of fields divided through ";" on the first line (e.g. <code>.gif;1;78;8,1016</code> &#8594; <code>$A=4</code>)</p>
-          <p>(<b>WARNING:</b> For Mahjongg, $A must always be 6 and the $F
+          <p>(<b>WARNING:</b> For Mahjongg, $A must always be 6 or 7 and the $F
             field must be included in the line; however, you can put <code>0</code> in <code>$F</code> if you wish, in that case.)</p>
           <p>(<b>NOTE:</b> $D and $E are comma separated and count for one
             field)</p>
@@ -220,6 +220,11 @@ back01.ext;back02.ext;back03.ext</pre>
             </ul>
             <p><b>$F:</b> The Year the cardset was created (in the range 1000
               to 2299)</p>
+            <p><b>$G:</b> The subtype of the cardset.  Usually 0 - for French type
+              cardsets, a value of 1 is used if there are jokers.</p>
+            <p><b>$H:</b> Whether the cardset is a 3D Mahjongg cardset - 1 if it is, 0
+              if it isn't.  For cardsets with a version less than 7, version 6 cardsets
+              treat this value as 1, and older version cardsets treat it as 0.</p>
       <h2>Line 2</h2>
           <p><code>&lt;internal_name&gt;</code>: A name for PySolFC to identify your
             cardset (without spaces)</p>

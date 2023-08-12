@@ -46,7 +46,7 @@ from pysollib.stack import \
         WasteTalonStack, \
         isRankSequence, \
         isSameSuitSequence
-from pysollib.util import ACE, ANY_RANK, ANY_SUIT, BLACK, KING, RED,\
+from pysollib.util import ACE, ANY_RANK, ANY_SUIT, BLACK, KING, RED, \
         UNLIMITED_ACCEPTS, UNLIMITED_MOVES
 
 # ************************************************************************

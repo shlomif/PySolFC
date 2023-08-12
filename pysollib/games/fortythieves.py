@@ -42,8 +42,8 @@ from pysollib.stack import \
         UD_AC_RowStack, \
         WasteStack, \
         WasteTalonStack
-from pysollib.util import ACE, ANY_RANK, ANY_SUIT, CLUB, DIAMOND,\
-        HEART, JACK, KING, NO_RANK, SPADE, UNLIMITED_MOVES,\
+from pysollib.util import ACE, ANY_RANK, ANY_SUIT, CLUB, DIAMOND, \
+        HEART, JACK, KING, NO_RANK, SPADE, UNLIMITED_MOVES, \
         UNLIMITED_REDEALS
 
 

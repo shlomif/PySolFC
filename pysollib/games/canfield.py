@@ -722,7 +722,7 @@ class Duke(Game):
         for i in range(4):
             s.foundations.append(self.Foundation_Class(x, y, self, suit=i))
             x += lay.XS
-        x0, y0, w = lay.XM, lay.YM+lay.YS+2*lay.TEXT_HEIGHT,\
+        x0, y0, w = lay.XM, lay.YM+lay.YS+2*lay.TEXT_HEIGHT, \
             lay.XS+2*lay.XOFFSET
         for i, j in ((0, 0), (0, 1), (1, 0), (1, 1)):
             x, y = x0+i*w, y0+j*lay.YS

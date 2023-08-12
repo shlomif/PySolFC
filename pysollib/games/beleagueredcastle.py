@@ -44,7 +44,7 @@ from pysollib.stack import \
         UD_SS_RowStack, \
         WasteStack, \
         WasteTalonStack
-from pysollib.util import ACE, ANY_RANK, KING, NO_RANK, QUEEN, RANKS,\
+from pysollib.util import ACE, ANY_RANK, KING, NO_RANK, QUEEN, RANKS, \
         UNLIMITED_ACCEPTS, UNLIMITED_MOVES
 
 

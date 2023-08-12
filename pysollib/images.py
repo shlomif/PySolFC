@@ -25,7 +25,7 @@
 import os
 
 from pysollib.mfxutil import Image, ImageTk, USE_PIL, print_err
-from pysollib.pysoltk import copyImage, createBottom, createImage,\
+from pysollib.pysoltk import copyImage, createBottom, createImage, \
         createImagePIL, loadImage
 from pysollib.pysoltk import shadowImage
 from pysollib.resource import CSI

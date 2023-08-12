@@ -50,9 +50,8 @@ from pysollib.stack import \
         WasteStack, \
         WasteTalonStack, \
         isSameSuitSequence
-from pysollib.util import ACE, ANY_RANK, ANY_SUIT, DIAMOND, KING, NO_RANK,\
-        RANKS, SUITS, \
-        UNLIMITED_REDEALS
+from pysollib.util import ACE, ANY_RANK, ANY_SUIT, DIAMOND, KING, NO_RANK, \
+        RANKS, SUITS, UNLIMITED_REDEALS
 
 
 class Golf_Hint(AbstractHint):

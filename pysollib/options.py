@@ -28,7 +28,7 @@ import traceback
 import configobj
 
 import pysollib.settings
-from pysollib.mfxutil import USE_PIL,\
+from pysollib.mfxutil import USE_PIL, \
     get_default_resampling, print_err
 from pysollib.mygettext import _
 from pysollib.mygettext import myGettext

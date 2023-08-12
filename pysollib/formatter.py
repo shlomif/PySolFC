@@ -1,13 +1,19 @@
 """
 
-This file is derived from /usr/lib/python3.9/formatter.py . All changes
-are placed under CC0.
+This file is derived from /usr/lib/python3.9/formatter.py and is used
+under the Python Software Foundation License (PSFL).
+See https://docs.python.org/3/license.html#psf-license for details.
+All changes are placed under CC0.
 
 See:
 
 * https://github.com/shlomif/PySolFC/issues/217
-
 * https://bugzilla.redhat.com/show_bug.cgi?id=1990043
+
+Changes made:
+
+* Adjusted whitespace.
+* Disabled the deprecation warning.
 
 ----
 

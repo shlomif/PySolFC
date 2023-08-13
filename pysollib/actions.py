@@ -888,7 +888,7 @@ class PysolMenubar(PysolMenubarTk):
     def mPlayNextMusic(self, *args):
         if self._cancelDrag(break_pause=False):
             return
-        if (self.app.audio and self.app.music and
+        if (self.app.audio and self.app.opt.music and
                 self.app.opt.sound_music_volume > 0):
             self.app.audio.playNextMusic()
             if 1 and DEBUG:

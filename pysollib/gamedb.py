@@ -424,21 +424,21 @@ class GI:
         #       Nationale, Oasis, Opera, Ordered Suits, Osmotic FreeCell,
         #       Pair FreeCell, Pairs 2, Petal, Reserved Thirteens,
         #       Sea Spider, Sept Piles 0, Short Solitaire,
-        #       Simple Alternations, Smart Osmosis, Step By Step, Strategy 7,
+        #       Simple Alternations, Smart Osmosis, Step By Step,
         #       Stripped FreeCell, Tarantula, Triple Dispute, Trusty Twenty,
         #       Two Ways 3, Up Or Down, Versailles, Vertical FreeCell,
         #       Wasp Baby, Yukon FreeCell
         ("XM Solitaire", (
             2, 8, 9, 13, 15, 18, 19, 20, 29, 30, 31, 34, 36, 38, 41, 42,
             45, 46, 50, 53, 54, 56, 57, 64, 77, 78, 86, 96, 97, 98, 105,
-            110, 112, 124, 145, 220, 222, 223, 224, 228, 231, 233, 234,
-            235, 236, 257, 258, 264, 265, 267, 270, 271, 290, 291, 292,
-            303, 309, 314, 318, 320, 322, 324, 325, 336, 338, 341, 363,
-            364, 372, 376, 383, 384, 385, 386, 390, 391, 393, 398, 405,
-            415, 416, 425, 451, 453, 461, 464, 466, 467, 476, 480, 484,
-            511, 512, 513, 516, 561, 610, 625, 629, 631, 638, 641, 647,
-            650, 655, 678, 684, 734, 751, 784, 825, 829, 834, 837, 844,
-            862, 867, 880, 889, 901,
+            110, 112, 124, 145, 173, 220, 222, 223, 224, 228, 231, 233,
+            234, 235, 236, 257, 258, 264, 265, 267, 270, 271, 290, 291,
+            292, 303, 309, 314, 318, 320, 322, 324, 325, 336, 338, 341,
+            363, 364, 372, 376, 383, 384, 385, 386, 390, 391, 393, 398,
+            405, 415, 416, 425, 451, 453, 461, 464, 466, 467, 476, 480,
+            484, 511, 512, 513, 516, 561, 610, 625, 629, 631, 638, 641,
+            647, 650, 655, 678, 684, 734, 751, 784, 825, 829, 834, 837,
+            844, 862, 867, 880, 889, 901,
         )),
 
         # xpat2 1.06 (we have 14 out of 16 games)
@@ -565,7 +565,7 @@ class GI:
         ('fc-2.20', tuple(range(855, 897))),
         ('fc-2.21', tuple(range(897, 900)) + tuple(range(11014, 11017)) +
          tuple(range(13160, 13163)) + (16682,)),
-        ('dev', tuple(range(906, 907))),
+        ('dev', tuple(range(906, 908))),
     )
 
     # deprecated - the correct way is to or a GI.GT_XXX flag

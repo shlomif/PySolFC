@@ -91,6 +91,7 @@ class CastlesInSpain(Game):
 
 # ************************************************************************
 # * Martha
+# * Stewart
 # ************************************************************************
 
 class Martha_RowStack(AC_RowStack):
@@ -116,6 +117,10 @@ class Martha(CastlesInSpain):
     def startGame(self):
         CastlesInSpain.startGame(self, flip=(0, 1, 0))
         self.s.talon.dealRow(rows=self.s.foundations)
+
+
+class Stewart(Martha):
+    RowStack_Class = StackWrapper(AC_RowStack, max_move=1, max_accept=1)
 
 
 # ************************************************************************
@@ -446,3 +451,5 @@ registerGame(GameInfo(860, BakersDozen2Decks, "Baker's Dozen (2 Decks)",
 registerGame(GameInfo(876, Vineyard, "Vineyard",
                       GI.GT_BAKERS_DOZEN | GI.GT_OPEN, 1, 0,
                       GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(907, Martha, "Stewart",
+                      GI.GT_BAKERS_DOZEN, 1, 0, GI.SL_BALANCED))

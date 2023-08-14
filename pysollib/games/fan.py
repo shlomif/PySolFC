@@ -725,11 +725,16 @@ class RoamingProils(Fan):
     def createGame(self):
         Fan.createGame(self, rows=(5, 5, 5, 2), playcards=5, reserves=1)
 
-    def startGame(self):
+    def startGame(self, flip=0):
         for i in range(2):
-            self.s.talon.dealRow(rows=self.s.rows[:17], flip=0, frames=0)
+            self.s.talon.dealRow(rows=self.s.rows[:17], flip=flip, frames=0)
         self._startAndDealRow()
         self.s.talon.dealRow(rows=self.s.reserves)
+
+
+class OpenProils(RoamingProils):
+    def startGame(self):
+        RoamingProils.startGame(self, flip=1)
 
 
 # ************************************************************************
@@ -1174,3 +1179,5 @@ registerGame(GameInfo(879, RoamingProils, "Roaming Proils",
                       GI.GT_FAN_TYPE, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(894, Cromwell, "Cromwell",
                       GI.GT_FAN_TYPE | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(908, OpenProils, "Open Proils",
+                      GI.GT_FAN_TYPE, 1, 0, GI.SL_BALANCED))

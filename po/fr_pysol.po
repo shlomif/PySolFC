@@ -863,8 +863,8 @@ msgid "Unknown"
 msgstr "Inconnu"
 
 #: pysollib/resource.py:182
-msgid "French type (52 cards)"
-msgstr "Type français (52 cartes)"
+msgid "French type (52-54 cards)"
+msgstr "Type français (52-54 cartes)"
 
 #: pysollib/resource.py:183
 msgid "Hanafuda type (48 cards)"

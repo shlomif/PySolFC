@@ -187,7 +187,7 @@ class CSI:
     SUBTYPE_JOKER_DECK = 1
 
     TYPE = {
-        1:  _("French type (52 cards)"),
+        1:  _("French type (52-54 cards)"),
         2:  _("Hanafuda type (48 cards)"),
         3:  _("Tarock type (78 cards)"),
         4:  _("Mahjongg type (42 tiles)"),

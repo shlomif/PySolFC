@@ -529,6 +529,26 @@ class FourRivers_24x12(AbstractShisenGame):
     NCARDS = 288
 
 
+class FourRivers_14x6_NoGravity(AbstractShisenGame):
+    RowStack_Class = FourRivers_RowStack
+    L = (14, 6)
+    NCARDS = 84
+    GRAVITY = False
+
+
+class FourRivers_18x8_NoGravity(AbstractShisenGame):
+    RowStack_Class = FourRivers_RowStack
+    L = (18, 8)
+    GRAVITY = False
+
+
+class FourRivers_24x12_NoGravity(AbstractShisenGame):
+    RowStack_Class = FourRivers_RowStack
+    L = (24, 12)
+    NCARDS = 288
+    GRAVITY = False
+
+
 # ************************************************************************
 # * register a Shisen-Sho type game
 # ************************************************************************
@@ -559,5 +579,11 @@ r(11013, NotShisen_24x12, "Not Shisen-Sho 24x12", "notshisensho.html")
 r(11014, FourRivers_14x6, "Four Rivers 14x6", "fourrivers.html")
 r(11015, FourRivers_18x8, "Four Rivers 18x8", "fourrivers.html")
 r(11016, FourRivers_24x12, "Four Rivers 24x12", "fourrivers.html")
+r(11017, FourRivers_14x6_NoGravity, "Four Rivers (No Gravity) 14x6",
+  "fourrivers.html")
+r(11018, FourRivers_18x8_NoGravity, "Four Rivers (No Gravity) 18x8",
+  "fourrivers.html")
+r(11019, FourRivers_24x12_NoGravity, "Four Rivers (No Gravity) 24x12",
+  "fourrivers.html")
 
 del r

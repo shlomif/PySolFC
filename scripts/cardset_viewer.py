@@ -26,6 +26,7 @@ cardset_type = {
     '7': 'Navagraha Ganjifa',
     '8': 'Dashavatara Ganjifa',
     '9': 'Trump only',
+    '10': 'Matching'
 }
 
 ALL_IMGS = False

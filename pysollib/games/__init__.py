@@ -36,6 +36,7 @@ from . import calculation  # noqa: F401
 from . import camelot  # noqa: F401
 from . import canfield  # noqa: F401
 from . import capricieuse  # noqa: F401
+from . import clearthedungeon  # noqa: F401
 from . import crossword  # noqa: F401
 from . import curdsandwhey  # noqa: F401
 from . import daddylonglegs  # noqa: F401

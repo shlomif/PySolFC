@@ -157,6 +157,7 @@ class FortyThieves(Game):
 # * Waning Moon
 # * Lucas
 # * Napoleon's Square
+# * Napoleon's Shoulder
 # * Carre Napoleon
 # * Josephine
 # * Marie Rose
@@ -196,6 +197,20 @@ class Lucas(WaningMoon):
 
 class NapoleonsSquare(FortyThieves):
     ROW_MAX_MOVE = UNLIMITED_MOVES
+
+    def createGame(self):
+        FortyThieves.createGame(self, rows=12)
+
+
+class NapoleonsShoulder_RowStack(RK_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if from_stack is not self.game.s.waste and len(self.cards) == 0:
+            return False
+        return RK_RowStack.acceptsCards(self, from_stack, cards)
+
+
+class NapoleonsShoulder(FortyThieves):
+    RowStack_Class = NapoleonsShoulder_RowStack
 
     def createGame(self):
         FortyThieves.createGame(self, rows=12)
@@ -1543,3 +1558,5 @@ registerGame(GameInfo(884, JacksInTheBox, "Jacks in the Box",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(895, Preference, "Preference",
                       GI.GT_FORTY_THIEVES, 1, 0, GI.SL_LUCK))
+registerGame(GameInfo(910, NapoleonsShoulder, "Napoleon's Shoulder",
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))

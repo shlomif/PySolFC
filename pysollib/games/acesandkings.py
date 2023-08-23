@@ -38,16 +38,9 @@ from pysollib.util import ACE, KING, RANKS
 # * Aces and Kings
 # ************************************************************************
 
-class AcesAndKings_RowStack(BasicRowStack):
-    def acceptsCards(self, from_stack, cards):
-        return len(cards) == 1 and len(self.cards) == 0
-
-
-class AcesAndKings_FoundationStack(RK_FoundationStack):
-    getBottomImage = RK_FoundationStack._getReserveBottomImage
-
-
 class AcesAndKings(Game):
+    RowStack_Class = BasicRowStack
+
     NUM_RESERVES = 2
     NUM_TABLEAU = 4
     FOUNDATION_SETS = ((ACE, KING),)
@@ -83,9 +76,9 @@ class AcesAndKings(Game):
 
         for i in self.FOUNDATION_SETS:
             for j in range(4):
-                stack = AcesAndKings_FoundationStack(x, y, self, suit=j,
-                                                     base_rank=i[0], dir=1,
-                                                     max_cards=(13 - i[0]))
+                stack = RK_FoundationStack(x, y, self, suit=j, base_rank=i[0],
+                                           dir=1, max_cards=(13 - i[0]))
+                stack.getBottomImage = stack._getReserveBottomImage
                 if self.preview <= 1:
                     stack.texts.misc = MfxCanvasText(self.canvas,
                                                      x + l.CW // 2,
@@ -98,9 +91,9 @@ class AcesAndKings(Game):
                 x = x + l.XS
             x = x + (l.XS / 2)
             for j in range(4):
-                stack = AcesAndKings_FoundationStack(x, y, self, suit=j,
-                                                     base_rank=i[1], dir=-1,
-                                                     max_cards=(i[1] + 1))
+                stack = RK_FoundationStack(x, y, self, suit=j, base_rank=i[1],
+                                           dir=-1, max_cards=(i[1] + 1))
+                stack.getBottomImage = stack._getReserveBottomImage
                 if self.preview <= 1:
                     stack.texts.misc = MfxCanvasText(self.canvas,
                                                      x + l.CW // 2,
@@ -121,7 +114,8 @@ class AcesAndKings(Game):
         l.createText(s.waste, "se", text_format="%D")
         x = ((8.5 - self.NUM_TABLEAU) * l.XS) + l.XM
         for i in range(self.NUM_TABLEAU):
-            s.rows.append(AcesAndKings_RowStack(x, y, self, max_accept=1))
+            s.rows.append(self.RowStack_Class(x, y, self, max_accept=1,
+                                              max_cards=1))
             x = x + l.XS
 
         # define stack-groups
@@ -136,7 +130,9 @@ class AcesAndKings(Game):
 
     def fillStack(self, stack):
         if not stack.cards and stack in self.s.rows and self.s.talon.cards:
+            old_state = self.enterState(self.S_FILL)
             self.s.talon.moveMove(1, stack)
+            self.leaveState(old_state)
 
 
 # ************************************************************************

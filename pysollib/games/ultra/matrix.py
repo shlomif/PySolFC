@@ -132,6 +132,10 @@ class Matrix_RowStack(OpenStack):
 # ************************************************************************
 
 class Matrix(Game):
+    # FIXME: Re-enable hints if a good hint class can be built.
+    # But if hints are re-enabled, make sure to disable stuck-checking.
+    # You can't get stuck in Matrix games.
+    Hint_Class = None
 
     #
     # Game layout

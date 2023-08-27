@@ -3481,7 +3481,7 @@ class Game(object):
 
     # for find_card_dialog
     def canFindCard(self):
-        return self.gameinfo.category != GI.GC_MATCHING
+        return self.gameinfo.category not in (GI.GC_MATCHING, GI.GC_PUZZLE)
 
     #
     # subclass hooks

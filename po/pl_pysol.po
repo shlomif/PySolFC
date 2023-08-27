@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PySolFC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-06-29 22:22-0400\n"
+"PO-Revision-Date: 2023-08-27 12:15-0400\n"
 "Last-Translator: Jerzy Trzeciak <artusek@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
@@ -475,6 +475,9 @@ msgstr "Samotnik"
 msgid "Poker"
 msgstr "Poker"
 
+msgid "Puzzle"
+msgstr ""
+
 msgid "Shisen-Sho"
 msgstr ""
 
@@ -904,6 +907,9 @@ msgid "Trumps only type (variable cards)"
 msgstr "Typ tylko Atu (różne karty)"
 
 msgid "Matching type (variable cards)"
+msgstr ""
+
+msgid "Puzzle type (variable pieces)"
 msgstr ""
 
 #: pysollib/resource.py:194

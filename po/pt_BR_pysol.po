@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-06-29 22:23-0400\n"
+"PO-Revision-Date: 2023-08-27 12:16-0400\n"
 "Last-Translator: Matheus Knack <mtknack555@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -474,6 +474,9 @@ msgstr "Resta um"
 msgid "Poker"
 msgstr "Pôquer"
 
+msgid "Puzzle"
+msgstr ""
+
 msgid "Shisen-Sho"
 msgstr "Mahjong Shinsen-Sho"
 
@@ -899,6 +902,9 @@ msgstr "Apenas tipos de trunfos (cartas variáveis)"
 
 msgid "Matching type (variable cards)"
 msgstr "Estilos Combinados (cartas variáveis)"
+
+msgid "Puzzle type (variable pieces)"
+msgstr ""
 
 #: pysollib/resource.py:194
 msgid "French"

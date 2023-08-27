@@ -28,3 +28,4 @@ from . import larasgame  # noqa: F401
 from . import matrix  # noqa: F401
 from . import mughal  # noqa: F401
 from . import tarock  # noqa: F401
+from . import tilepuzzle  # noqa: F401

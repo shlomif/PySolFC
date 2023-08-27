@@ -202,6 +202,14 @@ highlight_piles = float(0.2, 9.9)
 8 = string_list(min=2, max=2)
 9 = string_list(min=2, max=2)
 10 = string_list(min=2, max=2)
+11_3 = string_list(min=2, max=2)
+11_4 = string_list(min=2, max=2)
+11_5 = string_list(min=2, max=2)
+11_6 = string_list(min=2, max=2)
+11_7 = string_list(min=2, max=2)
+11_8 = string_list(min=2, max=2)
+11_9 = string_list(min=2, max=2)
+11_10 = string_list(min=2, max=2)
 scale_cards = boolean
 scale_x = float
 scale_y = float
@@ -560,7 +568,15 @@ class Options:
                 CSI.TYPE_DASHAVATARA_GANJIFA:
                     {0: ("Dashavatara Ganjifa XL", "")},
                 CSI.TYPE_TRUMP_ONLY: {0: ("Next Matrix", "")},
-                CSI.TYPE_MATCHING: {0: ("Neo", "")}
+                CSI.TYPE_MATCHING: {0: ("Neo", "")},
+                CSI.TYPE_PUZZLE: {3: ("Dojouji Ukiyo E (3x3)", ""),
+                                  4: ("Knave of Hearts (4x4)", ""),
+                                  5: ("Victoria Falls (5x5)", ""),
+                                  6: ("Hokusai Ukiyo E (6x6)", ""),
+                                  7: ("Blaren (7x7)", ""),
+                                  8: ("Mid Winter's Eve (8x8)", ""),
+                                  9: ("Hofamterspiel (9x9)", ""),
+                                  10: ("Eternal Dragon (10x10)", "")},
             }
         else:
             self.cardset = {
@@ -576,7 +592,15 @@ class Options:
                 CSI.TYPE_NAVAGRAHA_GANJIFA: {0: ("Dashavatara Ganjifa", "")},
                 CSI.TYPE_DASHAVATARA_GANJIFA: {0: ("Dashavatara Ganjifa", "")},
                 CSI.TYPE_TRUMP_ONLY: {0: ("Matrix", "")},
-                CSI.TYPE_MATCHING: {0: (c, "")}
+                CSI.TYPE_MATCHING: {0: (c, "")},
+                CSI.TYPE_PUZZLE: {3: ("Dojouji Ukiyo E (3x3)", ""),
+                                  4: ("Knave of Hearts (4x4)", ""),
+                                  5: ("Victoria Falls (5x5)", ""),
+                                  6: ("Hokusai Ukiyo E (6x6)", ""),
+                                  7: ("Blaren (7x7)", ""),
+                                  8: ("Mid Winter's Eve (8x8)", ""),
+                                  9: ("Hofamterspiel (9x9)", ""),
+                                  10: ("Eternal Dragon (10x10)", "")},
             }
 
     # not changeable options

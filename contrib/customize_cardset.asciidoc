@@ -42,6 +42,7 @@ Cardsets Types:
 * Dashavatara Ganjifa = 8
 * Trumps Only = 9
 * Matching = 10
+* Puzzle = 11
 
 *$C:* The number of cards in the cardset, generally 42, 48, 52, 68, 78, 96 or 120
 
@@ -76,6 +77,7 @@ Cardsets Styles:
 * Places = 20
 * Plain = 21
 * Products = 22
+* Puzzle = 33
 * Round Cardsets = 18
 * Science Fiction = 23
 * Sports = 24
@@ -112,7 +114,7 @@ Cardsets Origins:
 
 *$F:* The Year the cardset was created (in the range 1000 to 2299)
 
-*$G:*  The subtype of the cardset.  Usually 0 - for French type cardsets, a value of 1 is used if there are jokers.
+*$G:*  The subtype of the cardset.  Usually 0 - for French type cardsets, a value of 1 is used if there are jokers.  For Puzzle type cardsets, it is the number of pieces per row/column.
 
 *$H:* Whether the cardset is a 3D Mahjongg cardset - 1 if it is, 0 if it isn't.  For cardsets with a version less than 7, version 6 cardsets treat this value as 1, and older version cardsets treat it as 0.
 

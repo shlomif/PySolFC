@@ -227,6 +227,22 @@ def r(id, short_name, width):
     return gi
 
 
+def r2(id, short_name, width):
+    name = short_name
+    ncards = width ** 2
+    gi = GameInfo(
+        id, Matrix, name,
+        GI.GT_MATRIX, 1, 0, GI.SL_SKILL,
+        category=GI.GC_PUZZLE, short_name=short_name,
+        subcategory=width,
+        suits=(), ranks=(), trumps=list(range(ncards)),
+        si={"decks": 1, "ncards": ncards})
+    gi.ncards = ncards
+    gi.rules_filename = "matrix.html"
+    registerGame(gi)
+    return gi
+
+
 r(22223, "Matrix 3x3", 3)
 r(22224, "Matrix 4x4", 4)
 r(22225, "Matrix 5x5", 5)
@@ -237,4 +253,14 @@ r(22229, "Matrix 9x9", 9)
 r(22230, "Matrix 10x10", 10)
 # r(22240, "Matrix 20x20", 20)
 
+r2(22303, "Picture Matrix 3x3", 3)
+r2(22304, "Picture Matrix 4x4", 4)
+r2(22305, "Picture Matrix 5x5", 5)
+r2(22306, "Picture Matrix 6x6", 6)
+r2(22307, "Picture Matrix 7x7", 7)
+r2(22308, "Picture Matrix 8x8", 8)
+r2(22309, "Picture Matrix 9x9", 9)
+r2(22310, "Picture Matrix 10x10", 10)
+
 del r
+del r2

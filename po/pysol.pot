@@ -449,6 +449,9 @@ msgstr ""
 msgid "Poker"
 msgstr ""
 
+msgid "Puzzle"
+msgstr ""
+
 msgid "Shisen-Sho"
 msgstr ""
 
@@ -813,6 +816,9 @@ msgid "Trumps only type (variable cards)"
 msgstr ""
 
 msgid "Matching type (variable cards)"
+msgstr ""
+
+msgid "Puzzle type (variable pieces)"
 msgstr ""
 
 #: pysollib/resource.py:194

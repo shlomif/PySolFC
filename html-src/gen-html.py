@@ -79,6 +79,7 @@ rules_files = [
     ('freecell.html', 'PySol - Rules for FreeCell'),
     ('lightsout.html', 'PySol - Rules for Lights Out'),
     ('fourrivers.html', 'PySol - Rules for Four Rivers'),
+    ('tilepuzzle.html', 'PySol - Rules for Tile Puzzle'),
     ]
 
 

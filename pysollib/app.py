@@ -820,6 +820,10 @@ class Application:
             t0 = "Matching"
             if cs.ncards < (gi.ncards / 2):    # not enough cards
                 t1 = t0
+        elif gc == GI.GC_PUZZLE:
+            t0 = "Puzzle"
+            if cs_type not in (CSI.TYPE_PUZZLE,) or cs_subtype != gs:
+                t1 = t0
         else:
             # we should not come here
             t0 = t1 = "Unknown"

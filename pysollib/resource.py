@@ -181,10 +181,19 @@ class CSI:
     TYPE_DASHAVATARA_GANJIFA = 8
     TYPE_TRUMP_ONLY = 9
     TYPE_MATCHING = 10
+    TYPE_PUZZLE = 11
 
     # cardset subtypes
     SUBTYPE_NONE = 0
     SUBTYPE_JOKER_DECK = 1
+    SUBTYPE_3X3 = 3
+    SUBTYPE_4X4 = 4
+    SUBTYPE_5X5 = 5
+    SUBTYPE_6X6 = 6
+    SUBTYPE_7X7 = 7
+    SUBTYPE_8X8 = 8
+    SUBTYPE_9X9 = 9
+    SUBTYPE_10X10 = 10
 
     TYPE = {
         1:  _("French type (52-54 cards)"),
@@ -197,6 +206,7 @@ class CSI:
         8:  _("Dashavatara Ganjifa type (120 cards)"),
         9:  _("Trumps only type (variable cards)"),
         10: _("Matching type (variable cards)"),
+        11: _("Puzzle type (variable pieces)")
     }
 
     TYPE_NAME = {
@@ -210,6 +220,7 @@ class CSI:
         8:  _("Dashavatara Ganjifa"),
         9:  _("Trumps only"),
         10: _("Matching"),
+        11: _("Puzzle")
     }
 
     TYPE_ID = {
@@ -222,7 +233,8 @@ class CSI:
         7:  "navagraha-ganjifa",
         8:  "dashavatara-ganjifa",
         9:  "trumps-only",
-        10: "matching"
+        10: "matching",
+        11: "puzzle"
     }
 
     TYPE_SUITS = {
@@ -235,7 +247,8 @@ class CSI:
         7:  "abcdefghi",
         8:  "abcdefghij",
         9:  "",
-        10: ""
+        10: "",
+        11: ""
     }
 
     TYPE_RANKS = {
@@ -249,6 +262,7 @@ class CSI:
         8:  list(range(12)),
         9:  list(range(0)),
         10: list(range(0)),
+        11: list(range(0)),
     }
 
     TYPE_TRUMPS = {
@@ -262,6 +276,7 @@ class CSI:
         8:  (),
         9:  (),
         10: (),
+        11: (),
     }
 
     # cardset styles
@@ -292,6 +307,7 @@ class CSI:
         20:  _("Places"),               #
         21:  _("Plain"),                #
         22:  _("Products"),             #
+        33:  _("Puzzle"),               #
         18:  _("Round Cardsets"),       #
         23:  _("Science Fiction"),      #
         24:  _("Sports"),               #
@@ -494,6 +510,16 @@ class CardsetManager(ResourceManager):
             cs.nshadows = 0
             cs.trumps = list(range(cs.ncards))
         elif s == CSI.TYPE_MATCHING:
+            # ???return 0                            ## FIXME
+            # cs.nbottoms = 7
+            # cs.ranks = ()
+            # cs.suits = ""
+            # cs.trumps = range(cs.ncards)
+            cs.nbottoms = 1
+            cs.nletters = 0
+            cs.nshadows = 0
+            cs.trumps = list(range(cs.ncards))
+        elif s == CSI.TYPE_PUZZLE:
             # ???return 0                            ## FIXME
             # cs.nbottoms = 7
             # cs.ranks = ()

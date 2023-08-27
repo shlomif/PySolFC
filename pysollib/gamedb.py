@@ -56,12 +56,21 @@ class GI:
     GC_DASHAVATARA_GANJIFA = CSI.TYPE_DASHAVATARA_GANJIFA
     GC_TRUMP_ONLY = CSI.TYPE_TRUMP_ONLY
     GC_MATCHING = CSI.TYPE_MATCHING
+    GC_PUZZLE = CSI.TYPE_PUZZLE
 
-    NUM_CATEGORIES = CSI.TYPE_MATCHING
+    NUM_CATEGORIES = CSI.TYPE_PUZZLE
 
     # game subcategory
     GS_NONE = CSI.SUBTYPE_NONE
     GS_JOKER_DECK = CSI.SUBTYPE_JOKER_DECK
+    GS_3X3 = CSI.SUBTYPE_3X3
+    GS_4X4 = CSI.SUBTYPE_4X4
+    GS_5X5 = CSI.SUBTYPE_5X5
+    GS_6X6 = CSI.SUBTYPE_6X6
+    GS_7X7 = CSI.SUBTYPE_7X7
+    GS_8X8 = CSI.SUBTYPE_8X8
+    GS_9X9 = CSI.SUBTYPE_9X9
+    GS_10X10 = CSI.SUBTYPE_10X10
 
     # game type
     GT_1DECK_TYPE = 0
@@ -162,6 +171,7 @@ class GI:
         GT_MEMORY:              n_("Memory"),
         GT_PEGGED:              n_("Pegged"),
         GT_POKER_TYPE:          n_("Poker"),
+        GT_PUZZLE_TYPE:         n_("Puzzle"),
         GT_SHISEN_SHO:          n_("Shisen-Sho"),
         GT_TAROCK:              n_("Tarock"),
         GT_HANOI:               n_("Tower of Hanoi"),
@@ -565,7 +575,8 @@ class GI:
         ('fc-2.20', tuple(range(855, 897))),
         ('fc-2.21', tuple(range(897, 900)) + tuple(range(11014, 11017)) +
          tuple(range(13160, 13163)) + (16682,)),
-        ('dev', tuple(range(906, 913)) + tuple(range(11017, 11020))),
+        ('dev', tuple(range(906, 913)) + tuple(range(11017, 11020)) +
+         tuple(range(22303, 22311)) + tuple(range(22353, 22361))),
     )
 
     # deprecated - the correct way is to or a GI.GT_XXX flag

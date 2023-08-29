@@ -575,7 +575,7 @@ class GI:
         ('fc-2.20', tuple(range(855, 897))),
         ('fc-2.21', tuple(range(897, 900)) + tuple(range(11014, 11017)) +
          tuple(range(13160, 13163)) + (16682,)),
-        ('dev', tuple(range(906, 913)) + tuple(range(11017, 11020)) +
+        ('dev', tuple(range(906, 914)) + tuple(range(11017, 11020)) +
          tuple(range(22303, 22311)) + tuple(range(22353, 22361))),
     )
 

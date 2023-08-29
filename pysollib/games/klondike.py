@@ -57,7 +57,7 @@ from pysollib.stack import \
         WasteStack, \
         WasteTalonStack, \
         isSameColorSequence
-from pysollib.util import ACE, ANY_RANK, ANY_SUIT, KING, NO_RANK
+from pysollib.util import ACE, ANY_RANK, ANY_SUIT, KING, NO_RANK, RANKS
 
 # ************************************************************************
 # * Klondike
@@ -166,6 +166,99 @@ class HalfKlondike(Klondike):
 
 class Trigon(Klondike):
     RowStack_Class = KingSS_RowStack
+
+
+# ************************************************************************
+# * Nine Across
+# ************************************************************************
+
+class NineAcross_RowStack(AC_RowStack):
+    def __init__(self, x, y, game, **cap):
+        kwdefault(cap, mod=13)
+        AC_RowStack.__init__(self, x, y, game, **cap)
+
+    def acceptsCards(self, from_stack, cards):
+        if not self.cards:
+            if self.game.base_rank == ANY_RANK:
+                return False
+            elif self.game.base_rank == ACE:
+                if cards[0].rank != KING:
+                    return False
+            elif cards[0].rank != self.game.base_rank - 1:
+                return False
+        return AC_RowStack.acceptsCards(self, from_stack, cards)
+
+    def moveMove(self, ncards, to_stack, frames=-1, shadow=-1):
+        self.game.moveMove(
+            ncards, self, to_stack, frames=frames, shadow=shadow)
+        if to_stack in self.game.s.foundations and \
+                self.game.base_rank == ANY_RANK:
+            old_state = self.game.enterState(self.game.S_FILL)
+            self.game.saveStateMove(2 | 16)  # for undo
+            r = to_stack.cards[0].rank
+            for s in self.game.s.foundations:
+                s.cap.base_rank = r
+            self.game.base_rank = r
+            self.game.saveStateMove(1 | 16)  # for redo
+            self.game.leaveState(old_state)
+
+
+class NineAcross(Klondike):
+    Foundation_Class = StackWrapper(SS_FoundationStack, base_rank=ANY_RANK,
+                                    mod=13)
+    RowStack_Class = NineAcross_RowStack
+
+    base_rank = ANY_RANK
+
+    def createGame(self):
+        lay = Klondike.createGame(self, rows=9)
+
+        tx, ty, ta, tf = lay.getTextAttr(self.s.foundations[0], "s")
+
+        self.texts.info = \
+            MfxCanvasText(self.canvas, tx, ty, anchor=ta,
+                          font=self.app.getFont("canvas_default"))
+
+    def startGame(self):
+        self.base_rank = ANY_RANK
+        for s in self.s.foundations:
+            s.cap.base_rank = ANY_RANK
+        self.updateText()
+        Klondike.startGame(self)
+
+    def updateText(self):
+        if self.preview > 1:
+            return
+        if not self.texts.info:
+            return
+        if self.base_rank == ANY_RANK:
+            t = ""
+        else:
+            t = RANKS[self.base_rank]
+        self.texts.info.config(text=t)
+
+    def _restoreGameHook(self, game):
+        self.base_rank = game.loadinfo.base_rank
+        for s in self.s.foundations:
+            s.cap.base_rank = self.base_rank
+
+    def _loadGameHook(self, p):
+        self.loadinfo.addattr(base_rank=p.load())
+
+    def _saveGameHook(self, p):
+        base_rank = self.base_rank
+        p.dump(base_rank)
+
+    def setState(self, state):
+        # restore saved vars (from undo/redo)
+        self.base_rank = state[0]
+        for s in self.s.foundations:
+            s.cap.base_rank = state[0]
+            break
+
+    def getState(self):
+        # save vars (for undo/redo)
+        return [self.base_rank]
 
 
 # ************************************************************************
@@ -1685,3 +1778,5 @@ registerGame(GameInfo(888, SixBySix, "Six by Six",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(893, TakingSilk, "Taking Silk",
                       GI.GT_KLONDIKE, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(913, NineAcross, "Nine Across",
+                      GI.GT_KLONDIKE, 1, -1, GI.SL_BALANCED))

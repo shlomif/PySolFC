@@ -1463,7 +1463,8 @@ registerGame(GameInfo(593, Thirteens, "Thirteens",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_LUCK,
                       altnames=('Helsinki', "Good Thirteen")))
 registerGame(GameInfo(594, Elevens, "Elevens",
-                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_LUCK))
+                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_LUCK,
+                      altnames=('Eleven Away',)))
 registerGame(GameInfo(595, ElevensToo, "Elevens Too",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_LUCK))
 registerGame(GameInfo(596, SuitElevens, "Suit Elevens",

@@ -1461,7 +1461,8 @@ registerGame(GameInfo(199, SingleRail, "Single Rail",
 registerGame(GameInfo(295, NapoleonsSquare, "Napoleon's Square",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(310, Emperor, "Emperor",
-                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED,
+                      altnames=("Deauville")))
 registerGame(GameInfo(323, Octave, "Octave",
                       GI.GT_FORTY_THIEVES, 2, 1, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(332, Mumbai, "Mumbai",

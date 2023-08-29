@@ -885,7 +885,7 @@ registerGame(GameInfo(34, BeleagueredCastle, "Beleaguered Castle",
                       altnames=("Laying Siege", "Sham Battle",)))
 registerGame(GameInfo(145, Citadel, "Citadel",
                       GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0,
-                      GI.SL_MOSTLY_SKILL))
+                      GI.SL_MOSTLY_SKILL, altnames=('Under Siege',)))
 registerGame(GameInfo(147, Fortress, "Fortress",
                       GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0,
                       GI.SL_SKILL))

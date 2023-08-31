@@ -455,6 +455,7 @@ class Panopticon(TenAcross):
 # ************************************************************************
 # * Australian Patience
 # * Tasmanian Patience
+# * Canberra
 # * Raw Prawn
 # * Bim Bom
 # ************************************************************************
@@ -484,6 +485,11 @@ class AustralianPatience(RussianSolitaire):
 class TasmanianPatience(AustralianPatience):
     def createGame(self):
         AustralianPatience.createGame(self, max_rounds=-1, num_deal=3)
+
+
+class Canberra(AustralianPatience):
+    def createGame(self):
+        AustralianPatience.createGame(self, max_rounds=2)
 
 
 class RawPrawn(AustralianPatience):
@@ -821,3 +827,5 @@ registerGame(GameInfo(857, TasmanianPatience, "Tasmanian Patience",
 registerGame(GameInfo(897, Kiev, "Kiev",
                       GI.GT_SPIDER, 1, 0, GI.SL_BALANCED,
                       altnames=('Kyiv',)))
+registerGame(GameInfo(914, Canberra, "Canberra",
+                      GI.GT_YUKON, 1, 1, GI.SL_BALANCED))

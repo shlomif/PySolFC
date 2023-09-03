@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: 1.02\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-08-27 12:14-0400\n"
+"PO-Revision-Date: 2023-09-03 19:06-0400\n"
 "Last-Translator: Eric Rausch <neelix570@gmail.com>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -640,6 +640,9 @@ msgstr "Remer&ciements..."
 #: pysollib/help.py:48
 msgid "&Enjoy"
 msgstr "&Jouer"
+
+msgid "Show this on startup"
+msgstr ""
 
 #: pysollib/help.py:49
 #, python-format

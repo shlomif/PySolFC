@@ -613,6 +613,9 @@ msgstr ""
 msgid "&Enjoy"
 msgstr ""
 
+msgid "Show this on startup"
+msgstr ""
+
 #: pysollib/help.py:49
 #, python-format
 msgid "Version %s"

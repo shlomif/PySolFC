@@ -302,6 +302,7 @@ class MfxExceptionDialog(MfxMessageDialog):
 class PysolAboutDialog(MfxMessageDialog):
     def __init__(self, app, parent, title, **kw):
         self._url = kw['url']
+        self.app = app
         kw = self.initKw(kw)
         MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)
@@ -328,11 +329,25 @@ class PysolAboutDialog(MfxMessageDialog):
             self._urlClicked
         )
         #
+
         focus = self.createButtons(bottom_frame, kw)
+
+        self.splashscreen = tkinter.BooleanVar()
+        self.splashscreen.set(app.opt.splashscreen)
+        show_on_start = ttk.Checkbutton(bottom_frame,
+                                        variable=self.splashscreen,
+                                        command=self._splashUpdate,
+                                        text=_("Show this on startup"))
+        show_on_start.grid(row=0, column=0, sticky='w',
+                           padx=1, pady=1)
+
         self.mainloop(focus, kw.timeout)
 
     def _urlClicked(self, event):
         openURL(self._url)
+
+    def _splashUpdate(self):
+        self.app.opt.splashscreen = self.splashscreen.get()
 
 
 # ************************************************************************

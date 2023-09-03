@@ -771,10 +771,10 @@ class PysolMenubarTkCommon:
         menu.add_checkbutton(
             label=n_("&Demo logo"), variable=self.tkopt.demo_logo,
             command=self.mOptDemoLogo)
-        menu.add_checkbutton(
-            label=n_("Startup splash sc&reen"),
-            variable=self.tkopt.splashscreen,
-            command=self.mOptSplashscreen)
+        # menu.add_checkbutton(
+        #     label=n_("Startup splash sc&reen"),
+        #     variable=self.tkopt.splashscreen,
+        #     command=self.mOptSplashscreen)
         #  menu.add_separator()
         #  menu.add_command(label="Save options", command=self.mOptSave)
 

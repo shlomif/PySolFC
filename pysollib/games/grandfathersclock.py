@@ -25,6 +25,7 @@ from pysollib.game import Game
 from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.hint import CautiousDefaultHint, DefaultHint
 from pysollib.layout import Layout
+from pysollib.mygettext import _
 from pysollib.pysoltk import MfxCanvasText
 from pysollib.stack import \
     AC_FoundationStack, \
@@ -488,6 +489,7 @@ class BigBen(Game):
 
 # ************************************************************************
 # * Clock
+# * Relaxed Clock
 # ************************************************************************
 
 class Clock_RowStack(RK_RowStack):
@@ -500,8 +502,25 @@ class Clock_RowStack(RK_RowStack):
                 ncards += 1
         return ncards
 
+    def clickHandler(self, event):
+        game = self.game
+        if game.s.rows[12].cards[-1].rank == KING \
+                and game.DrawsLeft > 0 and not self.cards[-1].face_up:
+            old_state = game.enterState(game.S_FILL)
+            game.flipMove(self)
+            game.saveStateMove(2 | 16)
+            game.playSample("move", priority=10)
+            game.moveMove(1, self, game.s.rows[12])
+            game.DrawsLeft -= 1
+            game.saveStateMove(1 | 16)
+            game.leaveState(old_state)
+            game.finishMove()
+        else:
+            return RK_RowStack.clickHandler(self, event)
+
     def acceptsCards(self, from_stack, cards):
-        return cards[0].rank == self.id
+        return cards[0].rank == self.id or \
+            (self.cards[-1].face_up and self.cards[-1].rank == KING)
 
     def moveMove(self, ncards, to_stack, frames=-1, shadow=-1):
         self._swapPairMove(ncards, to_stack, frames=-1, shadow=0)
@@ -512,15 +531,17 @@ class Clock_RowStack(RK_RowStack):
         old_state = game.enterState(game.S_FILL)
         swap = game.s.internals[0]
         ncards = other_stack._numFaceDown()
+
         for i in range(ncards):
             game.moveMove(n, other_stack, swap, frames=0)
         game.moveMove(n, self, other_stack, frames=0)
-        for i in range(ncards):
-            game.moveMove(n, swap, other_stack, frames=0)
-        game.flipMove(other_stack)
-        game.moveMove(n, other_stack, self)
-        if is_king:
-            self._moveKingToBottom()
+        if ncards > 0:
+            for i in range(ncards):
+                game.moveMove(n, swap, other_stack, frames=0)
+            game.flipMove(other_stack)
+            game.moveMove(n, other_stack, self)
+            if is_king:
+                self._moveKingToBottom()
         game.leaveState(old_state)
 
     def _moveKingToBottom(self):
@@ -549,12 +570,18 @@ class Clock_RowStack(RK_RowStack):
     def canFlipCard(self):
         return False
 
+    def getHelp(self):
+        return _('Tableau. Build by same rank.')
+
 
 class Clock(Game):
     RowStack_Class = Clock_RowStack
     Talon_Class = InitialDealTalonStack
 
     HAS_WASTE = False
+
+    Draws = 0
+    DrawsLeft = 0
 
     def createGame(self):
         # create layout
@@ -641,6 +668,7 @@ class Clock(Game):
         l.defaultStackGroups()
 
     def startGame(self):
+        self.DrawsLeft = self.Draws
         for i in range(3):
             self.s.talon.dealRow(frames=0, flip=False)
         self.startDealSample()
@@ -650,15 +678,48 @@ class Clock(Game):
 
     def isGameWon(self):
         for r in self.s.rows:
-            if not r.cards[-1].face_up:
+            if len(r.cards) != 4 or not r.cards[-1].face_up:
                 return False
         return True
+
+    def _restoreGameHook(self, game):
+        if self.Draws > 0:
+            self.DrawsLeft = game.loadinfo.DrawsLeft
+
+    def _loadGameHook(self, p):
+        if self.Draws > 0:
+            self.loadinfo.addattr(DrawsLeft=p.load())
+
+    def _saveGameHook(self, p):
+        if self.Draws > 0:
+            DrawsLeft = self.DrawsLeft
+            p.dump(DrawsLeft)
+
+    def setState(self, state):
+        # restore saved vars (from undo/redo)
+        self.DrawsLeft = state[0]
+        for s in self.s.foundations:
+            s.cap.DrawsLeft = state[0]
+            break
+
+    def getState(self):
+        # save vars (for undo/redo)
+        return [self.DrawsLeft]
 
     def getHighlightPilesStacks(self):
         return ()
 
     def getAutoStacks(self, event=None):
         return (), (), ()
+
+    def getStuck(self):
+        if self.DrawsLeft > 0:
+            return True
+        return Game.getStuck(self)
+
+
+class RelaxedClock(Clock):
+    Draws = 1
 
 
 # ************************************************************************
@@ -715,3 +776,6 @@ registerGame(GameInfo(737, Clock, "Clock",
 registerGame(GameInfo(827, GermanClock, "German Clock",
                       GI.GT_1DECK_TYPE, 1, 1, GI.SL_MOSTLY_LUCK,
                       altnames=("Die Uhr",)))
+registerGame(GameInfo(915, RelaxedClock, "Relaxed Clock",
+                      GI.GT_1DECK_TYPE | GI.GT_RELAXED, 1, 0, GI.SL_LUCK,
+                      altnames=("Watch")))

@@ -220,7 +220,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         self.manager = manager
         self.key = key
         self.app = app
-        self.criteria = SearchCriteria()
+        self.criteria = SearchCriteria(manager)
         self.cardset_values = None
         # padx, pady = kw.padx, kw.pady
         padx, pady = 4, 4
@@ -527,7 +527,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
 
     def advancedSearch(self):
         d = SelectCardsetAdvancedSearch(self.top, _("Advanced search"),
-                                        self.criteria)
+                                        self.criteria, self.manager)
         if d.status == 0 and d.button == 0:
             self.criteria.name = d.name.get()
 
@@ -712,7 +712,7 @@ class CardsetInfoDialog(MfxDialog):
 
 
 class SearchCriteria:
-    def __init__(self):
+    def __init__(self, manager):
         self.name = ""
         self.size = ""
         self.type = ""
@@ -729,25 +729,32 @@ class SearchCriteria:
                             "Hi-Res cardsets": CSI.SIZE_HIRES}
 
         typeOptions = {-1: ""}
-        typeOptions.update(CSI.TYPE_NAME)
-        del typeOptions[7]  # Navagraha Ganjifa is unused.
+        for key, name in CSI.TYPE_NAME.items():
+            if manager.registered_types.get(key):
+                typeOptions[key] = name
         self.typeOptions = dict((v, k) for k, v in typeOptions.items())
 
         styleOptions = {-1: ""}
-        styleOptions.update(CSI.STYLE)
+        for key, name in CSI.STYLE.items():
+            if manager.registered_styles.get(key):
+                styleOptions[key] = name
         self.styleOptions = dict((v, k) for k, v in styleOptions.items())
 
         dateOptions = {-1: ""}
-        dateOptions.update(CSI.DATE)
+        for key, name in CSI.DATE.items():
+            if manager.registered_dates.get(key):
+                dateOptions[key] = name
         self.dateOptions = dict((v, k) for k, v in dateOptions.items())
 
         natOptions = {-1: ""}
-        natOptions.update(CSI.NATIONALITY)
+        for key, name in CSI.NATIONALITY.items():
+            if manager.registered_nationalities.get(key):
+                natOptions[key] = name
         self.natOptions = dict((v, k) for k, v in natOptions.items())
 
 
 class SelectCardsetAdvancedSearch(MfxDialog):
-    def __init__(self, parent, title, criteria, **kw):
+    def __init__(self, parent, title, criteria, manager, **kw):
         kw = self.initKw(kw)
         MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)

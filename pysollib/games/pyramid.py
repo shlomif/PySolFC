@@ -484,6 +484,7 @@ class Thirteens(Pyramid):
 
 # ************************************************************************
 # * Elevens
+# * Elevens Too
 # * Suit Elevens
 # ************************************************************************
 
@@ -532,7 +533,7 @@ class Elevens(Pyramid):
     RowStack_Class = Elevens_RowStack
     Reserve_Class = Elevens_Reserve
 
-    def createGame(self, rows=3, cols=3, reserves=3, texts=False):
+    def createGame(self, rows=3, cols=3, reserves=3, maxpiles=-1, texts=False):
 
         layout, s = Layout(self), self.s
 
@@ -553,10 +554,14 @@ class Elevens(Pyramid):
                              max_move=0, max_cards=52))
         layout.createText(s.foundations[0], 'n')
         y = layout.YM
+        piles = 0
         for i in range(rows):
             x = layout.XM
             for j in range(cols):
+                if 0 < maxpiles <= piles:
+                    break
                 s.rows.append(self.RowStack_Class(x, y, self, max_accept=1))
+                piles += 1
                 x += layout.XS
             y += layout.YS
         x, y = layout.XM, self.height-layout.YS
@@ -646,6 +651,37 @@ class SuitElevens(Elevens):
 
     def createGame(self):
         Elevens.createGame(self, rows=3, cols=5)
+
+
+# ************************************************************************
+# * Tens
+# ************************************************************************
+
+class Tens_RowStack(Elevens_RowStack):
+    ACCEPTED_SUM = 8
+
+
+class Tens_Reserve(ReserveStack):
+    ACCEPTED_CARDS = (9, JACK, QUEEN, KING)
+
+    def acceptsCards(self, from_stack, cards):
+        if not ReserveStack.acceptsCards(self, from_stack, cards):
+            return False
+        c = cards[0]
+        if c.rank not in self.ACCEPTED_CARDS:
+            return False
+        for s in self.game.s.reserves:
+            if s.cards and s.cards[0].rank != c.rank:
+                return False
+        return True
+
+
+class Tens(ElevensToo):
+    RowStack_Class = Tens_RowStack
+    Reserve_Class = Tens_Reserve
+
+    def createGame(self):
+        Elevens.createGame(self, rows=2, cols=7, maxpiles=13, reserves=4)
 
 
 # ************************************************************************
@@ -1513,3 +1549,6 @@ registerGame(GameInfo(846, PyramidDozen, "Pyramid Dozen",
 registerGame(GameInfo(854, Neptune, "Neptune",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_BALANCED,
                       altnames=('Mixtures',)))
+registerGame(GameInfo(916, Tens, "Tens",
+                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_LUCK,
+                      altnames=('Take Ten',)))

@@ -1012,7 +1012,7 @@ registerGame(GameInfo(3, Irmgard, "Irmgard",
 registerGame(GameInfo(119, DieKoenigsbergerin, "Die Koenigsbergerin",
                       GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(174, DieRussische, "Russian Patience",
-                      GI.GT_2DECK_TYPE | GI.GT_OPEN | GI.GT_STRIPPED,
+                      GI.GT_KLONDIKE | GI.GT_OPEN | GI.GT_STRIPPED,
                       2, 0, GI.SL_MOSTLY_SKILL,
                       ranks=(0, 6, 7, 8, 9, 10, 11, 12),
                       altnames=("Die Russische",)))

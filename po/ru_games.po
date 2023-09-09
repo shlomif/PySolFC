@@ -1439,7 +1439,7 @@ msgstr "Судьба"
 msgid "Forty Bandits"
 msgstr ""
 
-msgid "Forty Nine"
+msgid "Forty-Nine"
 msgstr "Сорок девять"
 
 msgid "Forty Thieves"
@@ -4404,13 +4404,13 @@ msgstr "По тринадцать"
 msgid "Thirty"
 msgstr "Тридцать"
 
-msgid "Thirty Six"
+msgid "Thirty-Six"
 msgstr "Тридцать шесть"
 
-msgid "Thirty Six Card Tableau"
+msgid "Thirty-Six Card Tableau"
 msgstr ""
 
-msgid "Thirty Two Cards"
+msgid "Thirty-Two Cards"
 msgstr "Тридцать две карты"
 
 msgid "Thoughtful"

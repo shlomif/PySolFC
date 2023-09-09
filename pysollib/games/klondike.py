@@ -998,7 +998,7 @@ class Lanes(Klondike):
 
 
 # ************************************************************************
-# * Thirty Six
+# * Thirty-Six
 # * Six By Six
 # * Taking Silk
 # ************************************************************************
@@ -1677,7 +1677,7 @@ registerGame(GameInfo(263, Phoenix, "Phoenix",
 #                       GI.GT_KLONDIKE, 2, 1, GI.SL_BALANCED))
 registerGame(GameInfo(326, Lanes, "Lanes",
                       GI.GT_KLONDIKE, 1, 1, GI.SL_BALANCED))
-registerGame(GameInfo(327, ThirtySix, "Thirty Six",
+registerGame(GameInfo(327, ThirtySix, "Thirty-Six",
                       GI.GT_KLONDIKE, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(350, Q_C_, "Q.C.",
                       GI.GT_KLONDIKE, 2, 1, GI.SL_BALANCED))

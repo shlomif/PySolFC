@@ -1434,7 +1434,7 @@ msgstr "Glück"
 msgid "Forty Bandits"
 msgstr ""
 
-msgid "Forty Nine"
+msgid "Forty-Nine"
 msgstr "Neunundvierzig"
 
 msgid "Forty Thieves"
@@ -4410,13 +4410,13 @@ msgstr "Dreizehn"
 msgid "Thirty"
 msgstr "Vierzig"
 
-msgid "Thirty Six"
+msgid "Thirty-Six"
 msgstr "Sechsunddreißig"
 
-msgid "Thirty Six Card Tableau"
+msgid "Thirty-Six Card Tableau"
 msgstr ""
 
-msgid "Thirty Two Cards"
+msgid "Thirty-Two Cards"
 msgstr "32 Karten"
 
 msgid "Thoughtful"

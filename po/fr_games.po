@@ -1413,7 +1413,7 @@ msgstr ""
 msgid "Forty Bandits"
 msgstr ""
 
-msgid "Forty Nine"
+msgid "Forty-Nine"
 msgstr ""
 
 msgid "Forty Thieves"
@@ -4344,13 +4344,13 @@ msgstr ""
 msgid "Thirty"
 msgstr ""
 
-msgid "Thirty Six"
+msgid "Thirty-Six"
 msgstr ""
 
-msgid "Thirty Six Card Tableau"
+msgid "Thirty-Six Card Tableau"
 msgstr ""
 
-msgid "Thirty Two Cards"
+msgid "Thirty-Two Cards"
 msgstr ""
 
 msgid "Thoughtful"

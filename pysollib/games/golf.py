@@ -885,7 +885,7 @@ class Waterfall(Game):
 
 # ************************************************************************
 # * Vague
-# * Thirty Two Cards
+# * Thirty-Two Cards
 # ************************************************************************
 
 class Vague_RowStack(BasicRowStack):
@@ -1462,7 +1462,7 @@ registerGame(GameInfo(720, Vague, "Vague",
 registerGame(GameInfo(723, DevilsSolitaire, "Devil's Solitaire",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED,
                       altnames=('Banner',)))
-registerGame(GameInfo(728, ThirtyTwoCards, "Thirty Two Cards",
+registerGame(GameInfo(728, ThirtyTwoCards, "Thirty-Two Cards",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_LUCK))
 registerGame(GameInfo(731, ThreeFirTrees, "Three Fir-trees",
                       GI.GT_GOLF, 2, 0, GI.SL_BALANCED))

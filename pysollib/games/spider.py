@@ -1480,6 +1480,51 @@ class ScorpionTowers(Game):
         return True
 
 
+# ************************************************************************
+# * Astrocyte
+# ************************************************************************
+
+class Astrocyte(Game):
+
+    def createGame(self):
+
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        self.setSize(l.XM + 14 * l.XS, l.YM + 2 * l.YS + 20 * l.YOFFSET)
+
+        # create stacks
+        x, y = l.XM + 1.5 * l.XS, l.YM
+        for i in range(4):
+            stack = ReserveStack(x, y, self, max_cards=1)
+            s.reserves.append(stack)
+            stack.CARD_YOFFSET = l.YOFFSET
+            x += l.XS
+
+        x, y = l.XM + 6 * l.XS, l.YM
+        for i in range(8):
+            s.foundations.append(Spider_SS_Foundation(x, y, self))
+            x += l.XS
+
+        x, y = l.XM + 3 * l.XS, l.YM + l.YS
+        for i in range(8):
+            s.rows.append(Spider_RowStack(x, y, self))
+            x += l.XS
+
+        x, y = l.XM, l.YM
+        s.talon = DealRowTalonStack(x, y, self)
+        l.createText(s.talon, "ne")
+
+        # define stack-groups
+        l.defaultStackGroups()
+
+    def startGame(self):
+        for i in range(7):
+            self.s.talon.dealRow(flip=0, frames=0)
+        self._startAndDealRow()
+
+
 # register the game
 registerGame(GameInfo(10, RelaxedSpider, "Relaxed Spider",
                       GI.GT_SPIDER | GI.GT_RELAXED, 2, 0, GI.SL_MOSTLY_SKILL))
@@ -1614,3 +1659,5 @@ registerGame(GameInfo(825, ScorpionTowers, "Scorpion Towers",
                       GI.GT_SPIDER | GI.GT_OPEN, 1, 0, GI.SL_SKILL))
 registerGame(GameInfo(870, FairMaids, "Fair Maids",
                       GI.GT_SPIDER, 1, 0, GI.SL_BALANCED))
+registerGame(GameInfo(917, Astrocyte, "Astrocyte",
+                      GI.GT_SPIDER, 2, 0, GI.SL_MOSTLY_SKILL))

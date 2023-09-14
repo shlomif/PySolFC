@@ -1331,6 +1331,7 @@ class PysolMenubarTk:
             highlight_cards=BooleanVar(),
             highlight_samerank=BooleanVar(),
             highlight_not_matching=BooleanVar(),
+            peek_facedown=BooleanVar(),
             stuck_notification=BooleanVar(),
             mahjongg_show_removed=BooleanVar(),
             shisen_show_hint=BooleanVar(),
@@ -1393,6 +1394,7 @@ class PysolMenubarTk:
         tkopt.highlight_piles.set(opt.highlight_piles)
         tkopt.highlight_cards.set(opt.highlight_cards)
         tkopt.highlight_samerank.set(opt.highlight_samerank)
+        tkopt.peek_facedown.set(opt.peek_facedown)
         tkopt.highlight_not_matching.set(opt.highlight_not_matching)
         tkopt.stuck_notification.set(opt.stuck_notification)
         tkopt.shrink_face_down.set(opt.shrink_face_down)
@@ -2134,6 +2136,12 @@ the next time you restart the %(app)s""") % {'app': TITLE})
         if self._cancelDrag(break_pause=False):
             return
         self.app.opt.highlight_samerank = self.tkopt.highlight_samerank.get()
+        # self.game.updateMenus()
+
+    def mOptEnablePeekFacedown(self, *args):
+        if self._cancelDrag(break_pause=False):
+            return
+        self.app.opt.peek_facedown = self.tkopt.peek_facedown.get()
         # self.game.updateMenus()
 
     def mOptEnableHighlightNotMatching(self, *args):

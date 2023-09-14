@@ -470,6 +470,68 @@ class Decade(PushPin):
         return len(self.s.foundations[0].cards) == 52
 
 
+# ************************************************************************
+# * Seven Up
+# ************************************************************************
+
+
+# Hint should reveal a valid move, but some intelligence should be added.
+class SevenUp_Hint(AbstractHint):
+
+    def computeHints(self):
+        game = self.game
+        rows = game.s.rows
+        for i in range(len(rows)):
+            if rows[i].cards and rows[i].cards[0].rank == 6:
+                self.addHint(5000, 1, rows[i], self.game.s.foundations[0])
+            for j in range(i + 1, len(rows)):
+                total = 0
+                count = 0
+                for k in range(i, j):
+                    if self.game.s.rows[k].cards:
+                        total += self.game.s.rows[k].cards[0].rank + 1
+                        count += 1
+                if total % 7 == 0 and 1 < count <= 4:
+                    self.addHint(5000, 1, rows[i], rows[j - 1])
+
+
+class SevenUp_RowStack(Decade_RowStack):
+
+    def acceptsCards(self, from_stack, cards):
+        if not self.cards:
+            return False
+        firstcard = min(self.id, from_stack.id)
+        lastcard = max(self.id, from_stack.id) + 1
+
+        total = 0
+        numcards = 0
+        for x in range(firstcard, lastcard):
+            total += self.game.s.rows[x].cards[0].rank + 1
+            numcards += 1
+
+        return numcards <= 4 and total % 7 == 0
+
+    def _dropSevenClickHandler(self, event):
+        if not self.cards:
+            return 0
+        c = self.cards[-1]
+        if c.face_up and c.rank == 6:
+            self.game.playSample("autodrop", priority=20)
+            self.playMoveMove(1, self.game.s.foundations[0], sound=False)
+            return 1
+        return 0
+
+    def clickHandler(self, event):
+        if self._dropSevenClickHandler(event):
+            return 1
+        return Decade_RowStack.clickHandler(self, event)
+
+
+class SevenUp(Decade):
+    Hint_Class = SevenUp_Hint
+    RowStack_Class = SevenUp_RowStack
+
+
 registerGame(GameInfo(287, PushPin, "Push Pin",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_LUCK,
                       altnames=('Queens')))
@@ -491,3 +553,6 @@ registerGame(GameInfo(816, Decade, "Decade",
                       altnames=('Ten Twenty Thirty')))
 registerGame(GameInfo(883, TwoThreeSkidoo, "23 Skidoo",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_SKILL))
+registerGame(GameInfo(918, SevenUp, "Seven Up",
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_SKILL,
+                      altnames=('Seventh Wonder', 'The Magic Seven')))

@@ -51,8 +51,10 @@ from kivy.uix.treeview import TreeView
 from kivy.uix.treeview import TreeViewLabel
 from kivy.uix.widget import Widget
 from kivy.utils import platform
+from kivy.properties import NumericProperty
 
 from pysollib.kivy.androidperms import requestStoragePerm
+from pysollib.kivy.androidrot import AndroidScreenRotation
 from pysollib.resource import CSI
 
 if platform != 'android':
@@ -1583,6 +1585,9 @@ class LStack:
 
 
 class LMainWindow(BoxLayout, LTkBase):
+
+    longPress = NumericProperty(0)
+
     def __init__(self, **kw):
         super(LMainWindow, self).__init__(orientation='vertical')
         LTkBase.__init__(self)
@@ -1680,6 +1685,14 @@ class LMainWindow(BoxLayout, LTkBase):
 
     def on_touch_up(self, touch):
         ret = False
+        # long press only on playground.
+        pgs = self.workStack.peek('playground')
+        if pgs:
+            pg = pgs[1]
+            if pg.collide_point(*touch.pos):
+                if (touch.time_end-touch.time_start) > 4.5:
+                    self.longPress = touch.time_end
+
         # standard notifikation:
         for c in self.children:
             ret = c.on_touch_up(touch)
@@ -1692,6 +1705,10 @@ class LMainWindow(BoxLayout, LTkBase):
         print("touches cnt = ",len(self.touches))
         '''
         return ret
+
+    def on_longPress(self, instance, timestamp):
+        print('longPressed at {time}'.format(time=timestamp))
+        AndroidScreenRotation.toggle()
 
     # Menubar:
 
@@ -1913,6 +1930,8 @@ class LApp(App):
         app = lapp.app
         if app is None:
             return
+
+        AndroidScreenRotation.unlock()
 
         so = get_screen_ori()
         go = so  # flake8: F841 nonsense!

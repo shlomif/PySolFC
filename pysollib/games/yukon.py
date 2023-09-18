@@ -553,6 +553,7 @@ class Queensland(Yukon):
 # * Russian Spider
 # * Double Russian Spider
 # * Kiev
+# * Dnieper
 # ************************************************************************
 
 class RussianSpider_RowStack(Yukon_SS_RowStack):  # Spider_SS_RowStack
@@ -582,6 +583,7 @@ class DoubleRussianSpider(RussianSpider, DoubleRussianSolitaire):
 
 
 class Kiev(RussianSpider):
+    RowStack_Class = RussianSpider_RowStack
     Layout_Method = staticmethod(Layout.klondikeLayout)
     Talon_Class = DealRowTalonStack
 
@@ -592,6 +594,10 @@ class Kiev(RussianSpider):
         for i in range(3):
             self.s.talon.dealRow(flip=0, frames=0)
         self._startAndDealRow()
+
+
+class Dnieper(Kiev):
+    RowStack_Class = StackWrapper(RussianSpider_RowStack, mod=13)
 
 
 # ************************************************************************
@@ -829,3 +835,5 @@ registerGame(GameInfo(897, Kiev, "Kiev",
                       altnames=('Kyiv',)))
 registerGame(GameInfo(914, Canberra, "Canberra",
                       GI.GT_YUKON, 1, 1, GI.SL_BALANCED))
+registerGame(GameInfo(919, Dnieper, "Dnieper",
+                      GI.GT_SPIDER, 1, 0, GI.SL_BALANCED))

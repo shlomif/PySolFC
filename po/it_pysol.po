@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: it_pysol\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-09-03 19:07-0400\n"
+"PO-Revision-Date: 2023-09-17 19:52-0400\n"
 "Last-Translator: Giuliano Colla <giuliano.colla@gmail.com>\n"
 "Language-Team: Italiano <it@li.org>\n"
 "Language: it\n"
@@ -763,6 +763,12 @@ msgstr ""
 "\n"
 "Verificare l'installazione di %s.\n"
 
+msgid "PySol cannot find cardsets of the following types:"
+msgstr ""
+
+msgid "\\"
+msgstr ""
+
 #: pysollib/main.py:66 pysollib/main.py:78 pysollib/main.py:313
 #: pysollib/ui/tktile/menubar.py:346
 msgid "&Quit"
@@ -955,6 +961,39 @@ msgid "Trumps only"
 msgstr "Solo Trionfi"
 
 msgid "Matching"
+msgstr ""
+
+msgid "No Jokers"
+msgstr ""
+
+msgid "Joker Deck"
+msgstr ""
+
+msgid "3x3"
+msgstr ""
+
+msgid "4x4"
+msgstr ""
+
+msgid "5x5"
+msgstr ""
+
+msgid "6x6"
+msgstr ""
+
+msgid "7x7"
+msgstr ""
+
+msgid "8x8"
+msgstr ""
+
+msgid "9x9"
+msgstr ""
+
+msgid "10x10"
+msgstr ""
+
+msgid "With %(cards)d or more cards"
 msgstr ""
 
 #: pysollib/resource.py:219

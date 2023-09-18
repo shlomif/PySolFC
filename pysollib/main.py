@@ -324,6 +324,18 @@ Please check your %(app)s installation.
     if app.cardset_manager.len() == 0:
         fatal_no_cardsets(app)
         return 3
+    missing = app.cardset_manager.identify_missing_cardsets()
+    if len(missing) > 0:
+        error_text = \
+            _('''PySol cannot find cardsets of the following types:''')
+        error_text += "\n\n"
+        for missingtype in missing:
+            error_text += missingtype + "\n"
+        error_text += _('''
+This may make games that use those types of cardsets unplayable. Please
+ensure that your Cardsets package is up to date.''')
+        MfxMessageDialog(top, title=_("Cardset error"), text=error_text,
+                         bitmap="error")
     if not cardset:
         MfxMessageDialog(top, title=_("Cardset error"),
                          text=_('''

@@ -223,6 +223,18 @@ class CSI:
         11: _("Puzzle")
     }
 
+    SUBTYPE_NAME = {
+        1:  {0: _("No Jokers"), 1: _("Joker Deck")},
+        11: {3: _("3x3"),
+             4: _("4x4"),
+             5: _("5x5"),
+             6: _("6x6"),
+             7: _("7x7"),
+             8: _("8x8"),
+             9: _("9x9"),
+             10: _("10x10")}
+    }
+
     TYPE_ID = {
         1:  "french",
         2:  "hanafuda",
@@ -465,6 +477,8 @@ class CardsetManager(ResourceManager):
     def __init__(self):
         ResourceManager.__init__(self)
         self.registered_types = {}
+        self.registered_subtypes = {}
+        self.type_max_cards = {}
         self.registered_sizes = {}
         self.registered_styles = {}
         self.registered_nationalities = {}
@@ -569,10 +583,64 @@ class CardsetManager(ResourceManager):
         #
         s = cs.si.type
         self.registered_types[s] = self.registered_types.get(s, 0) + 1
+        if self.registered_types[s] == 1:
+            self.registered_subtypes[s] = {}
+        ss = cs.si.subtype
+        self.registered_subtypes[s][ss] = \
+            self.registered_subtypes.get(s, 0).get(ss, 0) + 1
+        if s not in self.type_max_cards or self.type_max_cards[s] < cs.ncards:
+            self.type_max_cards[s] = cs.ncards
         s = cs.si.size
         self.registered_sizes[s] = self.registered_sizes.get(s, 0) + 1
         cs.updateCardback()
         ResourceManager.register(self, cs)
+
+    def identify_missing_cardsets(self):
+        missing = []
+        # This object should list the bare minimum cardset requirements
+        # for a PySol install that can play all games.
+        required_types = {
+            CSI.TYPE_FRENCH: {
+                CSI.SUBTYPE_JOKER_DECK
+            },
+            CSI.TYPE_HANAFUDA: {},
+            CSI.TYPE_TAROCK: {},
+            CSI.TYPE_MAHJONGG: {},
+            CSI.TYPE_HEXADECK: {},
+            CSI.TYPE_MUGHAL_GANJIFA: {},
+            CSI.TYPE_DASHAVATARA_GANJIFA: {},
+            CSI.TYPE_TRUMP_ONLY: {},
+            CSI.TYPE_PUZZLE: {
+                CSI.SUBTYPE_3X3,
+                CSI.SUBTYPE_4X4,
+                CSI.SUBTYPE_5X5,
+                CSI.SUBTYPE_6X6,
+                CSI.SUBTYPE_7X7,
+                CSI.SUBTYPE_8X8,
+                CSI.SUBTYPE_9X9,
+                CSI.SUBTYPE_10X10
+            }
+        }
+        required_cards_needed = {
+            CSI.TYPE_TRUMP_ONLY: 100
+        }
+        for t in required_types.keys():
+            if t not in self.registered_types:
+                missing.append(CSI.TYPE_NAME[t])
+            else:
+                if len(required_types[t]) > 0:
+                    for tt in required_types[t]:
+                        if tt not in self.registered_subtypes[t]:
+                            missing.append(CSI.TYPE_NAME[t] + " (" +
+                                           CSI.SUBTYPE_NAME[t][tt] + ")")
+                if t in required_cards_needed:
+                    if self.type_max_cards[t] < required_cards_needed[t]:
+                        missing.append(CSI.TYPE_NAME[t] + " (" +
+                                       _("With %(cards)d or more cards" + ")")
+                                       % {'cards': required_cards_needed[t]})
+
+        missing.sort()
+        return missing
 
 
 # ************************************************************************

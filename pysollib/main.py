@@ -431,11 +431,11 @@ if TOOLKIT == 'kivy':
             logging.info("KivyApp: build")
 
             self.app = app = Application()
-            app.top = self.mainWindow
+            app.top = self.baseWindow
             self.startCode = pysol_init(app, self.args)
 
             logging.info('Main: App Initialised - starting main loop')
-            return self.mainWindow
+            return self.baseWindow
 
     def main(args=None):
         logging.basicConfig(level=logging.INFO)

@@ -20,10 +20,10 @@
 
 # imports
 import os
+from time import time
 
 # PySol imports
 from pysollib.mygettext import _, n_
-from pysollib.settings import TITLE
 from pysollib.util import IMAGE_EXTENSIONS
 from pysollib.winsystems import TkSettings
 
@@ -31,64 +31,36 @@ from pysollib.winsystems import TkSettings
 # *
 # ************************************************************************
 
-
-class AbstractToolbarButton:
-    def __init__(self, parent, toolbar, toolbar_name, position):
-        self.toolbar = toolbar
-        self.toolbar_name = toolbar_name
-        self.position = position
-        self.visible = False
-
-    def show(self, orient, force=False):
-        if self.visible and not force:
-            return
-        self.visible = True
-        padx, pady = 2, 2
-        if orient == 'horizontal':
-            self.grid(row=0,
-                      column=self.position,
-                      ipadx=padx, ipady=pady,
-                      sticky='nsew')
-        else:
-            self.grid(row=self.position,
-                      column=0,
-                      ipadx=padx, ipady=pady,
-                      sticky='nsew')
-
-    def hide(self):
-        if not self.visible:
-            return
-        self.visible = False
-        self.grid_forget()
+from pysollib.kivy.LApp import LImage
+from pysollib.kivy.LApp import LBase
+from pysollib.kivy.toast import Toast
+# from LApp import LMainWindow
+from kivy.uix.boxlayout import BoxLayout
+# from kivy.uix.button import Button
+from kivy.uix.behaviors import ButtonBehavior
+# from kivy.uix.behaviors import ToggleButtonBehavior
+from kivy.uix.image import Image as KivyImage
 
 # ************************************************************************
 
-
-if True:
-    from pysollib.kivy.LApp import LImage
-    from pysollib.kivy.LApp import LBase
-    # from LApp import LMainWindow
-    from kivy.uix.boxlayout import BoxLayout
-    # from kivy.uix.button import Button
-    from kivy.uix.behaviors import ButtonBehavior
-    # from kivy.uix.behaviors import ToggleButtonBehavior
-    from kivy.uix.image import Image as KivyImage
-
-# ************************************************************************
+from kivy.cache import Cache
 
 
 class MyButton(ButtonBehavior, KivyImage, LBase):
     def __init__(self, **kwargs):
         super(MyButton, self).__init__(**kwargs)
-        # super(MyButton, self).__init__()
         self.src = None
         if ('image' in kwargs):
             self.src = kwargs['image'].source
         self.command = None
         if ('command' in kwargs):
             self.command = kwargs['command']
+        self.name = ""
+        if ('name' in kwargs):
+            self.name = kwargs['name']
         self.source = self.src
         self.allow_stretch = True
+        self.shown = True
 
     def on_press(self):
         self.allow_stretch = False
@@ -102,13 +74,15 @@ class MyButton(ButtonBehavior, KivyImage, LBase):
 class MyCheckButton(ButtonBehavior, KivyImage, LBase):
     def __init__(self, **kwargs):
         super(MyCheckButton, self).__init__(**kwargs)
-        # super(MyCheckButton, self).__init__()
         self.src = None
         if ('image' in kwargs):
             self.src = kwargs['image'].source
         self.command = None
         if ('command' in kwargs):
             self.command = kwargs['command']
+        self.name = ""
+        if ('name' in kwargs):
+            self.name = kwargs['name']
         self.variable = None
         if ('variable' in kwargs):
             self.variable = kwargs['variable']
@@ -118,6 +92,7 @@ class MyCheckButton(ButtonBehavior, KivyImage, LBase):
         self.source = self.src
         self.allow_stretch = True
         self.checked = False
+        self.shown = True
 
         # self.variable = self.win.app.menubar.tkopt.pause
         if self.variable:
@@ -163,6 +138,44 @@ class MyCheckButton(ButtonBehavior, KivyImage, LBase):
     def on_release(self):
         pass
 
+
+class MyToastButton(ButtonBehavior, KivyImage, LBase):
+    def __init__(self, **kwargs):
+        super(MyToastButton, self).__init__(**kwargs)
+        self.src = None
+        if ('image' in kwargs):
+            self.src = kwargs['image'].source
+        self.command = None
+        if ('command' in kwargs):
+            self.command = kwargs['command']
+        self.name = ""
+        if ('name' in kwargs):
+            self.name = kwargs['name']
+        self.timeout = 0.0
+        if ('timeout' in kwargs):
+            self.timeout = kwargs['timeout']
+        self.source = self.src
+        self.allow_stretch = True
+        self.shown = True
+        self.start_time = 0.0
+
+    def on_press(self):
+        self.allow_stretch = False
+        self.start_time = time()
+
+    def on_release(self):
+        self.allow_stretch = True
+        delta = time()-self.start_time
+        if (self.command is not None):
+            if delta > self.timeout:
+                self.command()
+            else:
+                mainApp = Cache.get('LAppCache', 'mainApp')
+                toast = Toast(text=_("button released too early"))
+                toast.show(parent=mainApp.baseWindow, duration=2.0)
+                # print('too early released')
+
+
 # ************************************************************************
 # * Note: Applications should call show/hide after constructor.
 # ************************************************************************
@@ -179,15 +192,31 @@ class PysolToolbarTk(BoxLayout):
             compound='none'):
 
         super(PysolToolbarTk, self).__init__(orientation='vertical')
-        self.size_hint = (0.05, 1.0)
+        self.size_hint = (0.06, 1.0)
         # self.size_hint=(None, 1.0)
         # self.width = 50
         self.win = top
         self.menubar = menubar
         self.dir = dir
         self.win.setTool(self, 3)
+        self.buttons = []
 
-        for label, f, t in (
+        # This is called only once after program start. Configurations
+        # have to take place elsewhere.
+
+        bl = []
+        bl.append((n_("New"),      self.mNewGame,   _("New game")))
+        bl.append((n_("Restart"),  self.mRestart,   _("Restart the\ncurrent game")))  # noqa
+        bl.append((n_("Undo"),     self.mUndo,      _("Undo last move")))  # noqa
+        bl.append((n_("Redo"),     self.mRedo,      _("Redo last move")))
+        bl.append((n_("Autodrop"), self.mDrop,      _("Auto drop cards")))
+        bl.append((n_("Shuffle"),  self.mShuffle,   _("Shuffle tiles")))
+        bl.append((n_("Hint"),     self.mHint,      _("Hint")))
+        bl.append((n_("Pause"),    self.mPause,     _("Pause game")))
+        bl.append((n_("Rules"),    self.mHelpRules, _("Rules for this game")))
+
+        '''
+        for label, f, t in [
             (n_("New"),      self.mNewGame,   _("New game")),
             (n_("Restart"),  self.mRestart,   _("Restart the\ncurrent game")),
             (None,           None,            None),
@@ -205,40 +234,27 @@ class PysolToolbarTk(BoxLayout):
             (n_("Rules"),    self.mHelpRules, _("Rules for this game")),
             (None,           None,            None),
             (n_("Quit"),     self.mHoldAndQuit,      _("Quit %s") % TITLE),
-        ):
+        ]:
+        '''
+
+        for label, f, t in bl:
             if label is None:
-                # sep = self._createSeparator()
-                # sep.bind("<1>", self.clickHandler)
-                # sep.bind("<3>", self.rightclickHandler)
+                # We dont have separators in kivy version.
                 pass
             elif label == 'Pause':
-                self._createButton(label, f, check=True, tooltip=t)
+                button = self._createButton(label, f, check=True, tooltip=t)
+                self.buttons.append(button)
+            elif label in ["New", "Restart"]:
+                button = self._createButton(label, f, check=False, tooltip=t, timeout=1.0)  # noqa
+                self.buttons.append(button)
             else:
-                self._createButton(label, f, tooltip=t)
-
-            # hier gibt es noch ein 'player label' mit contextmenu, wo
-            # der spielername gewählt und die spielstatistik etc.
-            # angezeigt werden könnte (TBD):
-            '''
-        sep = self._createFlatSeparator()
-        sep.bind("<1>", self.clickHandler)
-        sep.bind("<3>", self.rightclickHandler)
-        self._createLabel("player", label=n_('Player'),
-                          tooltip=_("Player options"))
-        #
-        self.player_label.bind("<1>", self.mOptPlayerOptions)
-        # self.player_label.bind("<3>", self.mOptPlayerOptions)
-        self.popup = MfxMenu(master=None, label=n_('Toolbar'), tearoff=0)
-        createToolbarMenu(menubar, self.popup)
-        self.frame.bind("<1>", self.clickHandler)
-        self.frame.bind("<3>", self.rightclickHandler)
-        #
-        self.setCompound(compound, force=True)
-            '''
+                button = self._createButton(label, f, check=False, tooltip=t)
+                self.buttons.append(button)
 
     def show(self, on, **kw):
         side = self.menubar.tkopt.toolbar.get()
         self.win.setTool(None, side)
+        print('******** toolbar show', on, side, kw)
         return False
 
     def mHoldAndQuit(self, *args):
@@ -253,9 +269,23 @@ class PysolToolbarTk(BoxLayout):
         pass
 
     def config(self, w, v):
-        print('PysolToolbarTk: config %s, %s' % (w, v))
-        # y = self.yy
-        pass
+        print('********************* PysolToolbarTk: config %s, %s' % (w, v))
+
+        # This is the position, where the toolbar can be configured.
+
+        chgd = False
+        for b in self.buttons:
+            if b.name == w:
+                ov = b.shown
+                if v != ov:
+                    b.shown = v
+                    chgd = True
+
+        if chgd:
+            self.clear_widgets()
+            for b in self.buttons:
+                if b.shown:
+                    self.add_widget(b)
 
     # Lokale.
 
@@ -267,11 +297,10 @@ class PysolToolbarTk(BoxLayout):
             if os.path.isfile(file):
                 image = LImage(source=file)
                 # print('_loadImage: file=%s' % file)
-                # image = Tkinter.PhotoImage(file=file)
                 break
         return image
 
-    def _createButton(self, label, command, check=False, tooltip=None):
+    def _createButton(self, label, command, check=False, tooltip=None, timeout=0.0):  # noqa
         name = label.lower()
         image = self._loadImage(name)
         # position = len(self._widgets)
@@ -289,26 +318,25 @@ class PysolToolbarTk(BoxLayout):
             'padx': padx,
             'pady': pady,
             'overrelief': 'raised',
+            'timeout': timeout
         }
         # print ('toolbar:  print %s' % self.win)
         # print ('toolbar:  print %s' % self.win.app)
         kw['win'] = self.win
         if image:
             kw['image'] = image
+        if name:
+            kw['name'] = name
         if check:
             kw['offrelief'] = button_relief
             kw['indicatoron'] = False
             kw['selectcolor'] = ''
 
             button = MyCheckButton(**kw)
+        elif timeout > 0.0:
+            button = MyToastButton(**kw)
         else:
             button = MyButton(**kw)
-
-        # button.show(orient=self.orient)
-        setattr(self, name + "_image", image)
-        setattr(self, name + "_button", button)
-        # self._widgets.append(button)
-        self.add_widget(button)
 
         # TBD: tooltip ev. auf basis einer statuszeile implementieren
         # if tooltip:

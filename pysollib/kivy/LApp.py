@@ -44,6 +44,7 @@ from kivy.uix.actionbar import ActionPrevious
 from kivy.uix.actionbar import ActionView
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.image import Image as KivyImage
 from kivy.uix.label import Label
 from kivy.uix.scrollview import ScrollView
@@ -1814,7 +1815,9 @@ class LApp(App):
 
         # Config.set('input', 'multitouchscreen1', 'tuio,0.0.0.0:3333')
 
+        self.baseWindow = FloatLayout()  # needed e.g. for toasts
         self.mainWindow = LMainWindow()
+        self.baseWindow.add_widget(self.mainWindow)
         logging.info('top = %s' % str(self.mainWindow))
         Cache.register('LAppCache', limit=10)
         Cache.append('LAppCache', 'mainWindow', self.mainWindow, timeout=0)

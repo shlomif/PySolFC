@@ -430,6 +430,16 @@ class Application:
         self.toolbar.config(
             'shuffle',
             self.opt.toolbar_vars['shuffle'] and self.game.canShuffle())
+        if TOOLKIT == 'kivy':
+            self.toolbar.config(
+                'undo',
+                self.opt.toolbar_vars['undo'] and self.game.canUndo())
+            self.toolbar.config(
+                'undo',
+                self.opt.toolbar_vars['redo'] and self.game.canRedo())
+            self.toolbar.config(
+                'autodrop',
+                self.opt.toolbar_vars['autodrop'] and not self.game.canShuffle())  # noqa
         # delete intro progress bar
         if self.intro.progress:
             self.intro.progress.destroy()

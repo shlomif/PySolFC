@@ -22,33 +22,33 @@
 import os
 from time import time
 
+from kivy.cache import Cache
+from kivy.clock import Clock
+from kivy.properties import BooleanProperty
+from kivy.uix.behaviors import ButtonBehavior
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.image import Image as KivyImage
+
+# PySol kivy imports
+from pysollib.kivy.LApp import LBase
+from pysollib.kivy.LApp import LImage
+from pysollib.kivy.toast import Toast
+
 # PySol imports
-from pysollib.mygettext import _, n_
+from pysollib.mygettext import _, n_  # noqa
 from pysollib.util import IMAGE_EXTENSIONS
 from pysollib.winsystems import TkSettings
 
-# ************************************************************************
-# *
-# ************************************************************************
-
-from pysollib.kivy.LApp import LImage
-from pysollib.kivy.LApp import LBase
-from pysollib.kivy.toast import Toast
-# from LApp import LMainWindow
-from kivy.uix.boxlayout import BoxLayout
-# from kivy.uix.button import Button
-from kivy.uix.behaviors import ButtonBehavior
-# from kivy.uix.behaviors import ToggleButtonBehavior
-from kivy.uix.image import Image as KivyImage
 
 # ************************************************************************
 
-from kivy.cache import Cache
+class MyButtonBase(ButtonBehavior, KivyImage, LBase):
+    shown = BooleanProperty(True)
+    enabled = BooleanProperty(True)
+    config = BooleanProperty(True)
 
-
-class MyButton(ButtonBehavior, KivyImage, LBase):
     def __init__(self, **kwargs):
-        super(MyButton, self).__init__(**kwargs)
+        super(MyButtonBase, self).__init__(**kwargs)
         self.src = None
         if ('image' in kwargs):
             self.src = kwargs['image'].source
@@ -60,7 +60,23 @@ class MyButton(ButtonBehavior, KivyImage, LBase):
             self.name = kwargs['name']
         self.source = self.src
         self.allow_stretch = True
-        self.shown = True
+
+    def set_shown(self, instance, value):
+        # print ('** set shown (',self.name ,') called', value)
+        self.shown = value
+
+    def set_enabled(self, instance, value):
+        # print ('** set enabled (',self.name ,') called', value)
+        self.enabled = value
+
+    def set_config(self, instance, value):
+        # print ('** set config (',self.name ,') called', value)
+        self.config = value
+
+
+class MyButton(MyButtonBase):
+    def __init__(self, **kwargs):
+        super(MyButton, self).__init__(**kwargs)
 
     def on_press(self):
         self.allow_stretch = False
@@ -71,28 +87,16 @@ class MyButton(ButtonBehavior, KivyImage, LBase):
             self.command()
 
 
-class MyCheckButton(ButtonBehavior, KivyImage, LBase):
+class MyCheckButton(MyButtonBase):
     def __init__(self, **kwargs):
         super(MyCheckButton, self).__init__(**kwargs)
-        self.src = None
-        if ('image' in kwargs):
-            self.src = kwargs['image'].source
-        self.command = None
-        if ('command' in kwargs):
-            self.command = kwargs['command']
-        self.name = ""
-        if ('name' in kwargs):
-            self.name = kwargs['name']
         self.variable = None
         if ('variable' in kwargs):
             self.variable = kwargs['variable']
         self.win = None
         if ('win' in kwargs):
             self.win = kwargs['win']
-        self.source = self.src
-        self.allow_stretch = True
         self.checked = False
-        self.shown = True
 
         # self.variable = self.win.app.menubar.tkopt.pause
         if self.variable:
@@ -139,24 +143,12 @@ class MyCheckButton(ButtonBehavior, KivyImage, LBase):
         pass
 
 
-class MyToastButton(ButtonBehavior, KivyImage, LBase):
+class MyToastButton(MyButtonBase):
     def __init__(self, **kwargs):
         super(MyToastButton, self).__init__(**kwargs)
-        self.src = None
-        if ('image' in kwargs):
-            self.src = kwargs['image'].source
-        self.command = None
-        if ('command' in kwargs):
-            self.command = kwargs['command']
-        self.name = ""
-        if ('name' in kwargs):
-            self.name = kwargs['name']
         self.timeout = 0.0
         if ('timeout' in kwargs):
             self.timeout = kwargs['timeout']
-        self.source = self.src
-        self.allow_stretch = True
-        self.shown = True
         self.start_time = 0.0
 
     def on_press(self):
@@ -172,9 +164,45 @@ class MyToastButton(ButtonBehavior, KivyImage, LBase):
             else:
                 mainApp = Cache.get('LAppCache', 'mainApp')
                 toast = Toast(text=_("button released too early"))
+                # toast = Toast(text=_("button released too early"),pos_hint={'top': 0.8})  # noqa
+                # pos hint wirkt nur auf den text, nicht auf die box !!!
                 toast.show(parent=mainApp.baseWindow, duration=2.0)
                 # print('too early released')
 
+
+class MyWaitButton(MyButtonBase):
+    def __init__(self, **kwargs):
+        super(MyWaitButton, self).__init__(**kwargs)
+        self.timeout = 0.0
+        if ('timeout' in kwargs):
+            self.timeout = kwargs['timeout']
+        self.start_time = 0.0
+        self.eventId = None
+        self.wait_toast = None
+
+    def time_out(self, *args):
+        self.wait_toast.stop()
+        self.wait_toast = None
+        self.eventId = None
+        if (self.command is not None):
+            self.command()
+        # print ('timeout')
+
+    def on_press(self):
+        self.allow_stretch = False
+        self.eventId = Clock.schedule_once(self.time_out, 1.0)
+        mainApp = Cache.get('LAppCache', 'mainApp')
+        self.wait_toast = Toast(text=_("hold on ..."))
+        self.wait_toast.start(mainApp.baseWindow)
+
+    def on_release(self):
+        self.allow_stretch = True
+        if self.eventId is not None:
+            Clock.unschedule(self.eventId)
+            # print ('unscheduled')
+        if self.wait_toast is not None:
+            self.wait_toast.stop()
+            self.wait_toast = None
 
 # ************************************************************************
 # * Note: Applications should call show/hide after constructor.
@@ -200,6 +228,7 @@ class PysolToolbarTk(BoxLayout):
         self.dir = dir
         self.win.setTool(self, 3)
         self.buttons = []
+        self.buttond = {}
 
         # This is called only once after program start. Configurations
         # have to take place elsewhere.
@@ -237,8 +266,11 @@ class PysolToolbarTk(BoxLayout):
         ]:
         '''
 
+        # Build all the buttions.
+
         for label, f, t in bl:
             if label is None:
+                button = None
                 # We dont have separators in kivy version.
                 pass
             elif label == 'Pause':
@@ -250,6 +282,23 @@ class PysolToolbarTk(BoxLayout):
             else:
                 button = self._createButton(label, f, check=False, tooltip=t)
                 self.buttons.append(button)
+
+            if button is not None:
+                # print('button name: ', button.name)
+                self.buttond[button.name] = button
+
+        # check buttons if configurated or opted out.
+        # (could ev. be integrated into _createButton)
+
+        toolbar_opt = getattr(self.menubar.tkopt, 'toolbar_vars')
+        for k in toolbar_opt.keys():
+            opt = toolbar_opt[k]
+            if k in self.buttond.keys():
+                b = self.buttond[k]
+                b.config = opt.get()
+                opt.bind(value=b.set_config)
+
+        self.redraw()
 
     def show(self, on, **kw):
         side = self.menubar.tkopt.toolbar.get()
@@ -268,24 +317,22 @@ class PysolToolbarTk(BoxLayout):
     def updateText(self, **kw):
         pass
 
+    def redraw(self):
+        self.clear_widgets()
+        for b in self.buttons:
+            # print(b.name,b.config,b.shown,b.enabled)
+            if b.shown and b.enabled and b.config:
+                self.add_widget(b)
+
+    def changed_state(self, instance, value):
+        self.redraw()
+
     def config(self, w, v):
         print('********************* PysolToolbarTk: config %s, %s' % (w, v))
 
-        # This is the position, where the toolbar can be configured.
-
-        chgd = False
-        for b in self.buttons:
-            if b.name == w:
-                ov = b.shown
-                if v != ov:
-                    b.shown = v
-                    chgd = True
-
-        if chgd:
-            self.clear_widgets()
-            for b in self.buttons:
-                if b.shown:
-                    self.add_widget(b)
+        if w == 'shuffle':
+            self.buttond['shuffle'].shown = v
+            self.buttond['autodrop'].shown = not v
 
     # Lokale.
 
@@ -334,9 +381,35 @@ class PysolToolbarTk(BoxLayout):
 
             button = MyCheckButton(**kw)
         elif timeout > 0.0:
-            button = MyToastButton(**kw)
+            # button = MyToastButton(**kw)
+            button = MyWaitButton(**kw)
         else:
             button = MyButton(**kw)
+
+        try:
+            oname = name
+            # redo is handled same way as undo, there is no separate option.
+            if name == 'redo':
+                oname = 'undo'
+            opt = getattr(self.menubar.tkopt, oname)
+
+            # specialisation (differently used options):
+            # - autodrop button has no own option. option 'autodrop' is used
+            #   for the different effect of fully automatic dropping!
+            # - pause button sets and clears the pause option, not vice versa!
+            #   it is an option that only exists internaly (not saved). (same
+            #   applies also to the tk and tile implementations)
+            if oname not in ['autodrop', 'pause']:
+                button.enabled = opt.get()
+                # print('** ', oname, '(enabled) = ', opt.get())
+                opt.bind(value=button.set_enabled)
+
+            button.bind(enabled=self.changed_state)
+            button.bind(shown=self.changed_state)
+        except:  # noqa
+            pass
+
+        button.bind(config=self.changed_state)
 
         # TBD: tooltip ev. auf basis einer statuszeile implementieren
         # if tooltip:

@@ -17,12 +17,11 @@ class Toast(Label):
 
         self.duration = 4.0
         self.tsize = self.size
-        self.rsize = 20
+        self.rsize = [20,]
         with self.canvas.before:
             Color(0.2, 0.2, 0.2, 0.8)
             self.rect = RoundedRectangle()
         self.bind(size=self._update_rect)
-        self.bind(texture_size=self.eval_size)
 
     def eval_size(self,instance,size):
         width, height = size
@@ -33,14 +32,17 @@ class Toast(Label):
         ads = height * 1.7
         self.tsize = (width + ads, height + ads)
         self.rsize = [(ads+height)/2.0,]
-        #print(self.tsize,self.rsize)
+        # print(self.tsize, self.rsize)
 
     def _update_rect(self, instance, value):
         self.rect.size = self.tsize
-        self.rect.pos = (instance.center_x-self.tsize[0]/2.0,instance.center_y-self.tsize[1]/2.0)
+        # print(self.top)
+        # print(self.pos_hint)
+        self.rect.pos = (self.center_x-self.tsize[0]/2.0,self.center_y-self.tsize[1]/2.0)
         self.rect.radius = self.rsize
 
     def stop(self, *args):
+        self.unbind(texture_size=self.eval_size)
         self.parent.remove_widget(self)
 
     def hide(self, *args):
@@ -54,6 +56,7 @@ class Toast(Label):
             return
         self.duration = duration
         parent.add_widget(self)
+        self.bind(texture_size=self.eval_size)
         anim = Animation(opacity=1, duration=0.4)
         anim.start(self)
         Clock.schedule_once(self.hide,self.duration)
@@ -64,5 +67,6 @@ class Toast(Label):
             return
         self.opacity = 1
         parent.add_widget(self)
+        self.bind(texture_size=self.eval_size)
 
 # ================================================================

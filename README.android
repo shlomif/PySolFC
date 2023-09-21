@@ -63,9 +63,6 @@ Cardsets:
 
 LB230301.
 
-	(After new changes as of 27.3.23 - not contained in the last f-droid
-  version):
-
   Allow external storage access for Android 10 and later.
 
   - on Android 10 it ist still possible to write to the extenal storage. A
@@ -83,3 +80,10 @@ LB230301.
     never query you for that. You may do it on your own.
 
 LB230327.
+
+  Scheduled for the next Android release:
+  - Screen rotation lock.
+  - Toolbar actualised
+  - Protection from accidental reset or redeal.
+
+LB230919.

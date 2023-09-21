@@ -38,6 +38,7 @@ from kivy.graphics import Color
 from kivy.graphics import Line
 from kivy.graphics import Rectangle
 from kivy.graphics import Triangle
+from kivy.properties import NumericProperty
 from kivy.properties import StringProperty
 from kivy.uix.actionbar import ActionButton
 from kivy.uix.actionbar import ActionPrevious
@@ -52,7 +53,6 @@ from kivy.uix.treeview import TreeView
 from kivy.uix.treeview import TreeViewLabel
 from kivy.uix.widget import Widget
 from kivy.utils import platform
-from kivy.properties import NumericProperty
 
 from pysollib.kivy.androidperms import requestStoragePerm
 from pysollib.kivy.androidrot import AndroidScreenRotation

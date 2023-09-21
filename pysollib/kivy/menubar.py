@@ -1112,10 +1112,11 @@ class OptionsMenuDialog(LMenuDialog):
             #   'Top',
             #   self.menubar.tkopt.toolbar, 1,
             #   self.menubar.mOptToolbar)
+
             # self.addRadioNode(tv, rg,
-            #   'Bottom',
-            #   self.menubar.tkopt.toolbar, 2,
-            #   self.menubar.mOptToolbar)
+            #                   _('Bottom'),
+            #                   self.menubar.tkopt.toolbar, 2,
+            #                   self.menubar.mOptToolbar)
 
             self.addRadioNode(tv, rg,
                               _('Left'),
@@ -1125,6 +1126,17 @@ class OptionsMenuDialog(LMenuDialog):
                               _('Right'),
                               self.menubar.tkopt.toolbar, 4,
                               self.menubar.mOptToolbar)
+
+            rg1 = tv.add_node(
+                LTreeNode(text=_('Buttons:')), rg)
+            if rg1:
+                for w in TOOLBAR_BUTTONS:
+                    ww = w
+                    ww[0].upper()
+                    self.addCheckNode(tv, rg,
+                        _(ww),  # noqa
+                        self.menubar.tkopt.toolbar_vars[w],
+                        self.make_vars_command(self.menubar.mOptToolbarConfig, w))  # noqa
 
         # -------------------------------------------
         # Statusbar - not implemented
@@ -2441,7 +2453,6 @@ the next time you restart the %(app)s""") % {'app': TITLE})
         if self._cancelDrag(break_pause=False):
             return
         self.app.opt.toolbar_vars[w] = v
-        self.app.toolbar.config(w, v)
         self.top.update_idletasks()
 
     #

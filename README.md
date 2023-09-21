@@ -173,7 +173,7 @@ mkdir -p "$PKGTREE"
 
 ### Alternate toolkit.
 
-- Kivy (10.0 or later)
+- Kivy
 - Features:
   - Sound support integrated.
   - Android apk build support.
@@ -189,7 +189,11 @@ On the basis of Kivy an Android App is also available. You may build
 your own using appropriate build instructions in README.android and
 in Directory buildozer.
 
-Some versions will also be published on F-droid (https://f-droid.org)
+Some versions will also be published on F-droid.
+
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+     alt="Get it on F-Droid"
+     height="80">](https://f-droid.org/packages/org.lufebe16.pysolfc/)
 
 
 ### Configuring Freecell Solver

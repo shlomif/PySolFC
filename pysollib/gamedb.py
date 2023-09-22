@@ -575,7 +575,7 @@ class GI:
         ('fc-2.20', tuple(range(855, 897))),
         ('fc-2.21', tuple(range(897, 900)) + tuple(range(11014, 11017)) +
          tuple(range(13160, 13163)) + (16682,)),
-        ('dev', tuple(range(906, 920)) + tuple(range(11017, 11020)) +
+        ('dev', tuple(range(906, 923)) + tuple(range(11017, 11020)) +
          tuple(range(22303, 22311)) + tuple(range(22353, 22361))),
     )
 
@@ -603,7 +603,7 @@ class GI:
         105,   # Canfield
         158,   # Imperial Trumps
         279,   # Kings
-        903,   # Ace Up
+        903,   # Aces Up
         5034,  # Mahjongg Flying Dragon
         5401,  # Mahjongg Taipei
         12345,  # Oonsoo

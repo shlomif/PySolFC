@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-09-17 19:53-0400\n"
+"PO-Revision-Date: 2023-09-22 21:52-0400\n"
 "Last-Translator: Matheus Knack <mtknack555@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -1154,6 +1154,9 @@ msgstr "Japão"
 #: pysollib/resource.py:269
 msgid "Netherlands"
 msgstr "Holanda"
+
+msgid "Portugal"
+msgstr ""
 
 #: pysollib/resource.py:270
 msgid "Russia"

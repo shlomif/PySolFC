@@ -346,6 +346,7 @@ class CSI:
         1005:  _("Italy"),             #
         1016:  _("Japan"),             #
         1002:  _("Netherlands"),       #
+        1022:  _("Portugal"),          #
         1007:  _("Russia"),            #
         1008:  _("Spain"),             #
         1017:  _("Sweden"),            #

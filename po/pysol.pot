@@ -1072,6 +1072,9 @@ msgstr ""
 msgid "Netherlands"
 msgstr ""
 
+msgid "Portugal"
+msgstr ""
+
 #: pysollib/resource.py:270
 msgid "Russia"
 msgstr ""

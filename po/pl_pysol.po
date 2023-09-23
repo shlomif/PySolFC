@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PySolFC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-09-17 19:52-0400\n"
+"PO-Revision-Date: 2023-09-22 21:55-0400\n"
 "Last-Translator: Jerzy Trzeciak <artusek@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
@@ -1160,6 +1160,9 @@ msgstr "Japonia"
 #: pysollib/resource.py:269
 msgid "Netherlands"
 msgstr "Holandia"
+
+msgid "Portugal"
+msgstr ""
 
 #: pysollib/resource.py:270
 msgid "Russia"

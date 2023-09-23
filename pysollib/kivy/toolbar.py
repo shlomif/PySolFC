@@ -20,7 +20,6 @@
 
 # imports
 import os
-from time import time
 
 from kivy.cache import Cache
 from kivy.clock import Clock
@@ -146,63 +145,73 @@ class MyCheckButton(MyButtonBase):
 class MyToastButton(MyButtonBase):
     def __init__(self, **kwargs):
         super(MyToastButton, self).__init__(**kwargs)
-        self.timeout = 0.0
+        self.timeout = 2.0
         if ('timeout' in kwargs):
             self.timeout = kwargs['timeout']
-        self.start_time = 0.0
+
+    def exec_command(self):
+        if (self.command is not None):
+            self.command()
 
     def on_press(self):
         self.allow_stretch = False
-        self.start_time = time()
+        text = ""
+        if self.name == "new":
+            text = _("New game")
+        if self.name == "restart":
+            text = _("Restart game")
+        toast = Toast(text=text+" ?")
+        toast.show(parent=Cache.get('LAppCache', 'mainApp').baseWindow,
+                   duration=self.timeout,
+                   hook=self.exec_command)
 
     def on_release(self):
         self.allow_stretch = True
-        delta = time()-self.start_time
-        if (self.command is not None):
-            if delta > self.timeout:
-                self.command()
-            else:
-                mainApp = Cache.get('LAppCache', 'mainApp')
-                toast = Toast(text=_("button released too early"))
-                # toast = Toast(text=_("button released too early"),pos_hint={'top': 0.8})  # noqa
-                # pos hint wirkt nur auf den text, nicht auf die box !!!
-                toast.show(parent=mainApp.baseWindow, duration=2.0)
-                # print('too early released')
 
 
 class MyWaitButton(MyButtonBase):
     def __init__(self, **kwargs):
         super(MyWaitButton, self).__init__(**kwargs)
-        self.timeout = 0.0
+        self.timeout = 1.0
         if ('timeout' in kwargs):
             self.timeout = kwargs['timeout']
-        self.start_time = 0.0
         self.eventId = None
         self.wait_toast = None
+        self.ok = False
 
-    def time_out(self, *args):
-        self.wait_toast.stop()
-        self.wait_toast = None
+    def make_toast(self, text):
+        mainApp = Cache.get('LAppCache', 'mainApp')
+        self.wait_toast = Toast(text=text)
+        self.wait_toast.popup(mainApp.baseWindow, offset=(0,-0.2))  # noqa
+
+    def clear_toast(self):
+        if self.wait_toast is not None:
+            self.wait_toast.stop()
+            self.wait_toast = None
+
+    def okstart(self, *args):
+        self.make_toast(_("ok to release"))
+
+    def holdend(self, *args):
+        self.clear_toast()
         self.eventId = None
-        if (self.command is not None):
-            self.command()
-        # print ('timeout')
+        self.ok = True
+        Clock.schedule_once(self.okstart, 0.1)
 
     def on_press(self):
         self.allow_stretch = False
-        self.eventId = Clock.schedule_once(self.time_out, 1.0)
-        mainApp = Cache.get('LAppCache', 'mainApp')
-        self.wait_toast = Toast(text=_("hold on ..."))
-        self.wait_toast.start(mainApp.baseWindow)
+        self.eventId = Clock.schedule_once(self.holdend, self.timeout)
+        self.make_toast(_("hold on ..."))
 
     def on_release(self):
         self.allow_stretch = True
         if self.eventId is not None:
             Clock.unschedule(self.eventId)
-            # print ('unscheduled')
-        if self.wait_toast is not None:
-            self.wait_toast.stop()
-            self.wait_toast = None
+        self.clear_toast()
+        if self.ok:
+            if (self.command is not None):
+                self.command()
+        self.ok = False
 
 # ************************************************************************
 # * Note: Applications should call show/hide after constructor.
@@ -277,7 +286,7 @@ class PysolToolbarTk(BoxLayout):
                 button = self._createButton(label, f, check=True, tooltip=t)
                 self.buttons.append(button)
             elif label in ["New", "Restart"]:
-                button = self._createButton(label, f, check=False, tooltip=t, timeout=1.0)  # noqa
+                button = self._createButton(label, f, check=False, tooltip=t, timeout=3.0)  # noqa
                 self.buttons.append(button)
             else:
                 button = self._createButton(label, f, check=False, tooltip=t)
@@ -381,8 +390,7 @@ class PysolToolbarTk(BoxLayout):
 
             button = MyCheckButton(**kw)
         elif timeout > 0.0:
-            # button = MyToastButton(**kw)
-            button = MyWaitButton(**kw)
+            button = MyToastButton(**kw)
         else:
             button = MyButton(**kw)
 

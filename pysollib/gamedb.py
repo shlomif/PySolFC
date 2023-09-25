@@ -487,6 +487,7 @@ class GI:
         ("John Stoneham", (201,)),
         ("Bryan Stout", (655,)),
         ("Bill Taylor", (349,)),
+        ("Bram Tebbutt", (924,)),
         ("Peter Voke", (876,)),
         ("Thomas Warfield", (189, 264, 300, 320, 336, 337, 359,
                              415, 427, 458, 495, 496, 497, 508,
@@ -575,7 +576,7 @@ class GI:
         ('fc-2.20', tuple(range(855, 897))),
         ('fc-2.21', tuple(range(897, 900)) + tuple(range(11014, 11017)) +
          tuple(range(13160, 13163)) + (16682,)),
-        ('dev', tuple(range(906, 924)) + tuple(range(11017, 11020)) +
+        ('dev', tuple(range(906, 925)) + tuple(range(11017, 11020)) +
          tuple(range(22303, 22311)) + tuple(range(22353, 22361))),
     )
 

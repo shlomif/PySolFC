@@ -284,6 +284,196 @@ class ThreePeaksOpenScored(ThreePeaks):
         ThreePeaks.startGame(self, flip=1)
 
 
+# ************************************************************************
+# * Ricochet
+# ************************************************************************
+
+class Ricochet_Talon(ThreePeaks_TalonStack):
+    def dealCards(self, sound=False):
+        old_state = self.game.enterState(self.game.S_FILL)
+        self.game.saveStateMove(2 | 16)  # for undo
+        self.game.lastStack = -1
+        self.game.saveStateMove(1 | 16)  # for redo
+        self.game.leaveState(old_state)
+        ThreePeaks_TalonStack.dealCards(self, sound)
+
+
+class Ricochet_Waste(Golf_Waste):
+    def acceptsCards(self, from_stack, cards):
+        for wall in self.game.walls:
+            if self.game.lastStack in wall and from_stack.id in wall:
+                return False
+        return Golf_Waste.acceptsCards(self, from_stack, cards)
+
+
+class Ricochet_RowStack(ThreePeaks_RowStack):
+
+    def basicIsBlocked(self):
+        r = self.game.s.rows
+        step = (8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 12, 12, 12, 12,
+                12, 12, 12, 12, 12, 12)
+        i = self.id
+        while i < 20:
+            i = i + step[i]
+            for j in range(2):
+                d = i + j
+                if d > 31:
+                    d = 20
+                if r[d].cards:
+                    return True
+        return False
+
+    def clickHandler(self, event):
+        result = OpenStack.doubleclickHandler(self, event)
+        return result
+
+    def moveMove(self, ncards, to_stack, frames=-1, shadow=-1):
+        x = OpenStack.moveMove(self, ncards, to_stack, frames, shadow)
+        old_state = self.game.enterState(self.game.S_FILL)
+        self.game.saveStateMove(2 | 16)  # for undo
+        self.game.lastStack = self.id
+        self.game.saveStateMove(1 | 16)  # for redo
+        self.game.leaveState(old_state)
+        return x
+
+
+class Ricochet(Game):
+
+    Waste_Class = StackWrapper(Ricochet_Waste, mod=13)
+    Hint_Class = Golf_Hint
+
+    #
+    # Game layout
+    #
+
+    def createGame(self):
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        # compute best XOFFSET
+        xoffset = int(l.XS * 8 / self.gameinfo.ncards)
+        if xoffset < l.XOFFSET:
+            l.XOFFSET = xoffset
+
+        # Set window size
+        w, h = l.XM + l.XS * 6, l.YM + l.YS * 6
+        self.setSize(w, h)
+        self.lastStack = -1
+        self.walls = ((0, 1, 8, 9, 10, 20, 21, 22, 23),
+                      (2, 3, 11, 12, 13, 23, 24, 25, 26),
+                      (4, 5, 14, 15, 16, 26, 27, 28, 29),
+                      (6, 7, 17, 18, 19, 29, 30, 31, 20))
+
+        # Create rows
+        x, y = l.XM + l.XS * 2, l.YM
+
+        s.rows.append(Ricochet_RowStack(x, y, self))
+        x += l.XS
+        s.rows.append(Ricochet_RowStack(x, y, self))
+        x += l.XS * 2
+        y += l.YS * 2
+        s.rows.append(Ricochet_RowStack(x, y, self))
+        y += l.YS
+        s.rows.append(Ricochet_RowStack(x, y, self))
+        x -= l.XS * 2
+        y += l.YS * 2
+        s.rows.append(Ricochet_RowStack(x, y, self))
+        x -= l.XS
+        s.rows.append(Ricochet_RowStack(x, y, self))
+        x -= l.XS * 2
+        y -= l.YS * 2
+        s.rows.append(Ricochet_RowStack(x, y, self))
+        y -= l.YS
+        s.rows.append(Ricochet_RowStack(x, y, self))
+
+        x, y = l.XM + l.XS * .5, l.YM + l.YS * .5
+        for i in range(3):
+            x += l.XS
+            s.rows.append(Ricochet_RowStack(x, y, self))
+        x += l.XS
+        for i in range(3):
+            y += l.YS
+            s.rows.append(Ricochet_RowStack(x, y, self))
+        y += l.YS
+        for i in range(3):
+            x -= l.XS
+            s.rows.append(Ricochet_RowStack(x, y, self))
+        x -= l.XS
+        for i in range(3):
+            y -= l.YS
+            s.rows.append(Ricochet_RowStack(x, y, self))
+
+        x, y = l.XM, l.YM + l.YS
+        for i in range(4):
+            x += l.XS
+            s.rows.append(Ricochet_RowStack(x, y, self))
+        for i in range(3):
+            y += l.YS
+            s.rows.append(Ricochet_RowStack(x, y, self))
+        for i in range(3):
+            x -= l.XS
+            s.rows.append(Ricochet_RowStack(x, y, self))
+        for i in range(2):
+            y -= l.YS
+            s.rows.append(Ricochet_RowStack(x, y, self))
+
+        # Create talon
+        x, y = l.XM + l.XS * 2, l.YM + l.YS * 2.5
+        s.talon = Ricochet_Talon(x, y, self, num_deal=1, max_rounds=1)
+        l.createText(s.talon, "s")
+        x += l.XS
+        s.waste = self.Waste_Class(x, y, self)
+        s.foundations.append(s.waste)
+        l.createText(s.waste, "s")
+
+        # Create text for scores
+        if self.preview <= 1:
+            self.texts.info = MfxCanvasText(
+                self.canvas,
+                l.XM + l.XS * 3, h - l.YM,
+                anchor="sw",
+                font=self.app.getFont("canvas_default"))
+
+        # Define stack groups
+        l.defaultStackGroups()
+
+    #
+    # Game over rides
+    #
+
+    def startGame(self, flip=0):
+        self.lastStack = -1
+        self.startDealSample()
+        self.s.talon.dealRow(rows=self.s.rows[:20], flip=flip, frames=4)
+        self.s.talon.dealRow(rows=self.s.rows[20:], flip=1, frames=4)
+        self.s.talon.dealCards()
+
+    def isGameWon(self):
+        for r in self.s.rows:
+            if r.cards:
+                return False
+        return True
+
+    def _restoreGameHook(self, game):
+        self.lastStack = game.loadinfo.dval.get('lastStack')
+
+    def _loadGameHook(self, p):
+        self.loadinfo.addattr(dval=p.load())
+
+    def _saveGameHook(self, p):
+        dval = {'lastStack': self.lastStack}
+        p.dump(dval)
+
+    def setState(self, state):
+        # restore saved vars (from undo/redo)
+        self.lastStack = state[0]
+
+    def getState(self):
+        # save vars (for undo/redo)
+        return [self.lastStack]
+
+
 registerGame(GameInfo(22216, ThreePeaks, "Three Peaks (Scored)",
                       GI.GT_GOLF | GI.GT_SCORE, 1, 0, GI.SL_BALANCED,
                       rules_filename="threepeaks.html"))
@@ -296,3 +486,5 @@ registerGame(GameInfo(22218, ThreePeaksOpenScored, "Three Peaks (Scored/Open)",
 registerGame(GameInfo(22231, ThreePeaksNoScore, "Three Peaks",
                       GI.GT_GOLF, 1, 0, GI.SL_BALANCED,
                       altnames=("Tri Peaks",)))
+registerGame(GameInfo(924, Ricochet, "Ricochet",
+                      GI.GT_GOLF, 1, 0, GI.SL_BALANCED))

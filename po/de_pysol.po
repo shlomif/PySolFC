@@ -2905,7 +2905,7 @@ msgstr "Markieren und Ziel klicken"
 #: pysollib/kivy/menubar.py:1003 pysollib/tile/toolbar.py:202
 #: pysollib/tk/toolbar.py:211
 msgid "Toolbar"
-msgstr "Toolbar"
+msgstr "Werkzeugleiste"
 
 #: pysollib/kivy/menubar.py:1006 pysollib/ui/tktile/menubar.py:41
 msgid "Hide"
@@ -4860,15 +4860,15 @@ msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:44
 msgid "Top"
-msgstr ""
+msgstr "Oben"
 
 #: pysollib/ui/tktile/menubar.py:47
 msgid "Bottom"
-msgstr ""
+msgstr "Unten"
 
 #: pysollib/ui/tktile/menubar.py:64
 msgid "Visible buttons"
-msgstr ""
+msgstr "Verfügbare Symbole"
 
 #: pysollib/ui/tktile/menubar.py:296
 #, python-format

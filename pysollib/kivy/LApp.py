@@ -1595,6 +1595,7 @@ class LMainWindow(BoxLayout, LTkBase):
         self.menuArea = LMenuBar()
         self.workContainer = LBoxLayout(orientation='horizontal')
         self.workContainerO = LBoxLayout(orientation='horizontal')
+        self.workContainer1 = LBoxLayout(orientation='vertical')
         self.workArea = None
         self.toolBar = None
         self.toolBarPos = 0
@@ -1732,13 +1733,22 @@ class LMainWindow(BoxLayout, LTkBase):
     def removeContainer(self):
         self.workContainer.clear_widgets()
         self.workContainerO.clear_widgets()
+        self.workContainer1.clear_widgets()
 
     def buildContainer(self):
+        # (hbox)
         if self.toolBar is not None and self.toolBarPos == 3:
             self.workContainerO.add_widget(self.toolBar)
-        self.workContainerO.add_widget(self.workContainer)
+        self.workContainerO.add_widget(self.workContainer1)
         if self.toolBar is not None and self.toolBarPos == 4:
             self.workContainerO.add_widget(self.toolBar)
+        # (vbox)
+        if self.toolBar is not None and self.toolBarPos == 1:
+            self.workContainer1.add_widget(self.toolBar)
+        self.workContainer1.add_widget(self.workContainer)
+        if self.toolBar is not None and self.toolBarPos == 2:
+            self.workContainer1.add_widget(self.toolBar)
+        # (workcontainer)
         for w in self.workStack.items:
             self.workContainer.add_widget(w[1])
 

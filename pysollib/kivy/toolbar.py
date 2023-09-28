@@ -23,6 +23,7 @@ import os
 
 from kivy.cache import Cache
 from kivy.clock import Clock
+from kivy.core.window import Window
 from kivy.properties import BooleanProperty
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.boxlayout import BoxLayout
@@ -308,11 +309,31 @@ class PysolToolbarTk(BoxLayout):
                 opt.bind(value=b.set_config)
 
         self.redraw()
+        Window.bind(size=self.doResize)
+
+    def doResize(self, *args):
+        self.show(True)
 
     def show(self, on, **kw):
         side = self.menubar.tkopt.toolbar.get()
         self.win.setTool(None, side)
         print('******** toolbar show', on, side, kw)
+
+        # size_hint dependent on screen orientation:
+        asp = Window.width/Window.height
+
+        if side in [1, 2]:
+            self.orientation = "horizontal"
+            if asp > 1.0:
+                self.size_hint = (1.0, 0.09)
+            else:
+                self.size_hint = (1.0, 0.06)
+        else:
+            self.orientation = "vertical"
+            if asp > 1.0:
+                self.size_hint = (0.06, 1.0)
+            else:
+                self.size_hint = (0.09, 1.0)
         return False
 
     def mHoldAndQuit(self, *args):

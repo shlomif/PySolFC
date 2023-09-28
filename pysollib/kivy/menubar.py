@@ -1109,17 +1109,14 @@ class OptionsMenuDialog(LMenuDialog):
                               self.menubar.tkopt.toolbar, 0,
                               self.menubar.mOptToolbar)
 
-            # not supported: Top, Bottom
-            # self.addRadioNode(tv, rg,
-            #   'Top',
-            #   self.menubar.tkopt.toolbar, 1,
-            #   self.menubar.mOptToolbar)
-
-            # self.addRadioNode(tv, rg,
-            #                   _('Bottom'),
-            #                   self.menubar.tkopt.toolbar, 2,
-            #                   self.menubar.mOptToolbar)
-
+            self.addRadioNode(tv, rg,
+                              _('Top'),
+                              self.menubar.tkopt.toolbar, 1,
+                              self.menubar.mOptToolbar)
+            self.addRadioNode(tv, rg,
+                              _('Bottom'),
+                              self.menubar.tkopt.toolbar, 2,
+                              self.menubar.mOptToolbar)
             self.addRadioNode(tv, rg,
                               _('Left'),
                               self.menubar.tkopt.toolbar, 3,
@@ -1130,13 +1127,13 @@ class OptionsMenuDialog(LMenuDialog):
                               self.menubar.mOptToolbar)
 
             rg1 = tv.add_node(
-                LTreeNode(text=_('Buttons:')), rg)
+                LTreeNode(text=_('Visible buttons')), rg)
             if rg1:
                 for w in TOOLBAR_BUTTONS:
-                    ww = w
-                    ww[0].upper()
+                    w0 = w[0].upper()
+                    ww = w[1:]
                     self.addCheckNode(tv, rg,
-                        _(ww),  # noqa
+                        _(w0+ww),  # noqa
                         self.menubar.tkopt.toolbar_vars[w],
                         self.make_vars_command(self.menubar.mOptToolbarConfig, w))  # noqa
 

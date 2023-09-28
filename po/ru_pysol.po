@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-09-22 21:52-0400\n"
+"PO-Revision-Date: 2023-09-27 20:02-0400\n"
 "Last-Translator: Skomoroh <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
@@ -4975,6 +4975,9 @@ msgstr "Подсветка отсутствия совпадения:"
 msgid "Find card"
 msgstr "Найти карту"
 
+msgid "Full picture"
+msgstr ""
+
 msgid "Icon Style"
 msgstr ""
 
@@ -5182,6 +5185,9 @@ msgstr "П&оказать группы"
 #: pysollib/ui/tktile/menubar.py:438
 msgid "&Find card..."
 msgstr "&Найти карту..."
+
+msgid "Sh&ow full picture..."
+msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:442
 msgid "&Demo"

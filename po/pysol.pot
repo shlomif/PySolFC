@@ -4639,6 +4639,9 @@ msgstr ""
 msgid "Find card"
 msgstr ""
 
+msgid "Full picture"
+msgstr ""
+
 msgid "Icon Style"
 msgstr ""
 
@@ -4845,6 +4848,9 @@ msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:438
 msgid "&Find card..."
+msgstr ""
+
+msgid "Sh&ow full picture..."
 msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:442

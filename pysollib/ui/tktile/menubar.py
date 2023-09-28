@@ -347,6 +347,10 @@ class PysolMenubarTkCommon:
             self._connect_game_find_card_dialog(game)
         else:
             self._destroy_find_card_dialog()
+        if game.canShowFullPicture():
+            self._connect_game_full_picture_dialog(game)
+        else:
+            self._destroy_full_picture_dialog()
         self._connect_game_solver_dialog(game)
 
     # create a GTK-like path
@@ -534,6 +538,9 @@ class PysolMenubarTkCommon:
         menu.add_command(
             label=n_("&Find card..."),
             command=self.mFindCard, accelerator="F3")
+        menu.add_command(
+            label=n_("Sh&ow full picture..."),
+            command=self.mFullPicture)
         menu.add_separator()
         menu.add_command(
             label=n_("&Demo"),

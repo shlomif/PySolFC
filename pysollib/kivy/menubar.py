@@ -39,6 +39,7 @@ from pysollib.kivy.LApp import LTopLevel
 from pysollib.kivy.LApp import LTreeNode
 from pysollib.kivy.LApp import LTreeRoot
 from pysollib.kivy.findcarddialog import destroy_find_card_dialog
+from pysollib.kivy.fullpicturedialog import destroy_full_picture_dialog
 from pysollib.kivy.selectcardset import SelectCardsetDialogWithPreview
 from pysollib.kivy.selectgame import SelectGameDialog
 from pysollib.kivy.solverdialog import connect_game_solver_dialog
@@ -50,6 +51,7 @@ from pysollib.mfxutil import Struct
 from pysollib.mygettext import _
 from pysollib.pysoltk import MfxMessageDialog
 from pysollib.pysoltk import connect_game_find_card_dialog
+from pysollib.pysoltk import connect_game_full_picture_dialog
 from pysollib.settings import SELECT_GAME_MENU
 from pysollib.settings import TITLE
 
@@ -1465,6 +1467,10 @@ class PysolMenubarTk:
             connect_game_find_card_dialog(game)
         else:
             destroy_find_card_dialog()
+        if game.canShowFullPicture():
+            connect_game_full_picture_dialog(game)
+        else:
+            destroy_full_picture_dialog()
         connect_game_solver_dialog(game)
 
     # create a GTK-like path

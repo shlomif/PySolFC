@@ -30,6 +30,7 @@ if TOOLKIT == 'tk':
     from pysollib.ui.tktile.tkcanvas import *  # noqa: F401,F403
     from pysollib.ui.tktile.tkwrap import *  # noqa: F401,F403
     from pysollib.ui.tktile.findcarddialog import *  # noqa: F401,F403
+    from pysollib.ui.tktile.fullpicturedialog import *  # noqa: F401,F403
     if USE_TILE:
         from pysollib.tile.tkwidget import *  # noqa: F401,F403
         from pysollib.tile.tkhtml import *  # noqa: F401,F403
@@ -74,6 +75,7 @@ elif TOOLKIT == 'kivy':
     from pysollib.kivy.tkcanvas import *  # noqa: F401,F403
     from pysollib.kivy.tkwrap import *  # noqa: F401,F403
     from pysollib.kivy.findcarddialog import *  # noqa: F401,F403
+    from pysollib.kivy.fullpicturedialog import *  # noqa: F401,F403
     from pysollib.kivy.tkwidget import *  # noqa: F401,F403
     from pysollib.kivy.tkhtml import *  # noqa: F401,F403
     from pysollib.kivy.edittextdialog import *  # noqa: F401,F403
@@ -107,6 +109,7 @@ else:  # gtk
     from pysollib.pysolgtk.colorsdialog import *  # noqa: F401,F403
     from pysollib.pysolgtk.fontsdialog import *  # noqa: F401,F403
     from pysollib.pysolgtk.findcarddialog import *  # noqa: F401,F403
+    from pysollib.pysolgtk.fullpicturedialog import *  # noqa: F401,F403
     from pysollib.pysolgtk.solverdialog import *  # noqa: F401,F403
     from pysollib.pysolgtk.gameinfodialog import *  # noqa: F401,F403
     from pysollib.pysolgtk.toolbar import *  # noqa: F401,F403

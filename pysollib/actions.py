@@ -44,6 +44,7 @@ from pysollib.pysoltk import PysolMenubarTk, PysolToolbarTk
 from pysollib.pysoltk import Status_StatsDialog, Top_StatsDialog
 from pysollib.pysoltk import TimeoutsDialog
 from pysollib.pysoltk import create_find_card_dialog
+from pysollib.pysoltk import create_full_picture_dialog
 from pysollib.pysoltk import create_solver_dialog
 from pysollib.settings import DEBUG
 from pysollib.settings import PACKAGE_URL, TITLE
@@ -83,6 +84,7 @@ class PysolMenubar(PysolMenubarTk):
             highlight_piles=0,
             autoscale=0,
             find_card=0,
+            full_picture=0,
             rules=0,
             pause=0,
             custom_game=0,
@@ -164,6 +166,8 @@ class PysolMenubar(PysolMenubarTk):
             ms.autoscale = 1
         if game.canFindCard():
             ms.find_card = 1
+        if game.canShowFullPicture():
+            ms.full_picture = 1
         if game.app.getGameRulesFilename(game.id):  # note: this may return ""
             ms.rules = 1
         if not game.finished:
@@ -206,6 +210,7 @@ class PysolMenubar(PysolMenubarTk):
         self.setMenuState(ms.hint, "assist.hint")
         self.setMenuState(ms.highlight_piles, "assist.highlightpiles")
         self.setMenuState(ms.find_card, "assist.findcard")
+        self.setMenuState(ms.full_picture, "assist.showfullpicture")
         self.setMenuState(ms.demo, "assist.demo")
         self.setMenuState(ms.demo, "assist.demoallgames")
         # Options menu
@@ -527,6 +532,10 @@ class PysolMenubar(PysolMenubarTk):
         if self.game.canFindCard():
             create_find_card_dialog(self.game.top, self.game,
                                     self.app.getFindCardImagesDir())
+
+    def mFullPicture(self, *args):
+        if self.game.canShowFullPicture():
+            create_full_picture_dialog(self.game.top, self.game)
 
     def mSolver(self, *args):
         create_solver_dialog(self.game.top, self.app)

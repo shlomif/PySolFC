@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-09-22 21:52-0400\n"
+"PO-Revision-Date: 2023-09-27 20:02-0400\n"
 "Last-Translator: Matheus Knack <mtknack555@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -4908,6 +4908,9 @@ msgstr "Sem correspondência:"
 msgid "Find card"
 msgstr "Encontrar carta"
 
+msgid "Full picture"
+msgstr ""
+
 msgid "Icon Style"
 msgstr ""
 
@@ -5115,6 +5118,9 @@ msgstr "Surbrillance pilhas"
 #: pysollib/ui/tktile/menubar.py:438
 msgid "&Find card..."
 msgstr "&Encontrar carta..."
+
+msgid "Sh&ow full picture..."
+msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:442
 msgid "&Demo"

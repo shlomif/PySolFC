@@ -28,6 +28,7 @@ import re
 
 from findcarddialog import connect_game_find_card_dialog, \
         destroy_find_card_dialog
+
 from fullpicturedialog import connect_game_full_picture_dialog, \
         destroy_full_picture_dialog
 

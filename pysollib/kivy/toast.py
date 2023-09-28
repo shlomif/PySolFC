@@ -20,7 +20,7 @@ class Toast(Label, LBase):
 
         self.duration = 4.0
         self.tsize = self.size
-        self.rsize = [2,]
+        self.rsize = [2, ]
         self.hook = None
         with self.canvas.before:
             Color(0.2, 0.2, 0.2, 0.85)
@@ -36,7 +36,7 @@ class Toast(Label, LBase):
                 instance.texture_update()
                 width, height = instance.texture_size
         ads = height * 1.7
-        self.rsize = [(ads+height)/2.0,]
+        self.rsize = [(ads+height)/2.0, ]
         self.tsize = (width + ads, height + ads)
         # print('eval_size:',self.tsize,self.rsize)
 

@@ -432,12 +432,22 @@ class AssistMenuDialog(LMenuDialog):
         super(AssistMenuDialog, self).__init__(
             menubar, parent, title, app, **kw)
 
+    def make_auto_close(self, command):
+        def auto_close_command():
+            command()
+            self.closeWindow(0)
+        return auto_close_command
+
     def buildTree(self, tv, node):
         tv.add_node(LTreeNode(
             text=_('Hint'), command=self.menubar.mHint))
 
         tv.add_node(LTreeNode(
             text=_('Highlight piles'), command=self.menubar.mHighlightPiles))
+
+        tv.add_node(LTreeNode(
+            text=_('Show full picture...'),
+            command=self.make_auto_close(self.menubar.mFullPicture)))
 
         # tv.add_node(LTreeNode(
         #   text='Find Card', command=self.menubar.mFindCard))

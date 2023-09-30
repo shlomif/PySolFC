@@ -21,30 +21,79 @@
 #
 # ---------------------------------------------------------------------------#
 
-# imports
-# import os
-# import traceback
+import math
 
-# PySol imports
+from kivy.uix.stacklayout import StackLayout
 
-# Toolkit imports
-# from tkutil import after, after_cancel
-# from tkutil import bind, unbind_destroy, makeImage
-# from tkcanvas import MfxCanvas, MfxCanvasGroup
-# from tkcanvas import MfxCanvasImage, MfxCanvasRectangle
-
-# from pysollib.settings import TITLE
+from pysollib.kivy.LApp import LImage, LTopLevel0
+from pysollib.mygettext import _
 
 # ************************************************************************
 # *
 # ************************************************************************
 
 
-full_picture_dialog = None
+class ImageStacker(StackLayout):
+    def __init__(self, **kw):
+        super().__init__(**kw)
+        self.images = []
+        self.dx = 1
+        self.dy = 1
+        self.asp = 1  # width/height.
+
+    def set_matrix(self, dx, dy):
+        self.dx = dx
+        self.dy = dy
+
+    def set_aspect(self, asp):
+        self.asp = asp  # width/height.
+
+    def add_image(self, image):
+        self.images.append(image)
+        self.add_widget(image)
+
+    def on_size(self, instance, value):
+        hint_x = 1.0 / self.dx
+        hint_y = 1.0 / self.dx
+        vasp = value[0]/value[1]
+        # adjust width or height
+        if vasp < self.asp:
+            hint_y = hint_y * vasp / self.asp
+        else:
+            hint_x = hint_x * self.asp / vasp
+        # apply to all images
+        for i in self.images:
+            i.size_hint = (hint_x, hint_y)
+
+
+class FullPictureDialog(object):
+    def __init__(self, parent, title, game, **kw):
+
+        self.game = game
+        self.top = LTopLevel0(parent, title)
+        self.frame = self.top.content
+
+        self.images = game.app.subsampled_images
+        dx, dy = self.images.CARDW, self.images.CARDH
+        print (self.images)  # noqa
+        print (dx,dy) # noqa
+
+        cards = self.game.gameinfo.trumps
+        cols = int(math.ceil(math.sqrt(len(cards))))
+        print (cols)  # noqa
+
+        self.stp = ImageStacker()
+        self.stp.set_aspect(dx/dy)
+        self.stp.set_matrix(cols, cols)
+        for card in cards:
+            image = LImage(texture=self.images._card[card].texture)
+            self.stp.add_image(image)
+
+        self.frame.add_widget(self.stp)
 
 
 def create_full_picture_dialog(parent, game):
-    pass
+    pd = FullPictureDialog(parent, _("Full picture"), game)  # noqa
     '''
     global full_picture_dialog
     try:

@@ -706,7 +706,16 @@ class Wave(Game):
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
-class YukonicPlague(Yukon):
+# ************************************************************************
+# * Yukon Cells
+# * Yukonic Plague
+# ************************************************************************
+
+class YukonCells(Yukon):
+    Reserve_Stack = ReserveStack
+
+    RESERVES = 2
+    RESERVE_TEXT = False
 
     def createGame(self):
         # create layout
@@ -725,10 +734,14 @@ class YukonicPlague(Yukon):
         if w2 + 13 * l.XOFFSET > w1:
             l.XOFFSET = int((w1 - w2) / 13)
 
-        reserve = OpenStack(x * 3, y, self)
-        reserve.CARD_XOFFSET = l.XOFFSET
-        l.createText(reserve, "sw")
-        s.reserves.append(reserve)
+        x2 = x * 3
+        for i in range(self.RESERVES):
+            reserve = self.Reserve_Stack(x2, y, self)
+            reserve.CARD_XOFFSET = l.XOFFSET
+            if self.RESERVE_TEXT:
+                l.createText(reserve, "sw")
+            s.reserves.append(reserve)
+            x2 += l.XS
 
         y += l.YS
         for i in range(ROWS):
@@ -738,7 +751,8 @@ class YukonicPlague(Yukon):
         # Don't know why this is necessary for the Yukon layout.
         # But we should probably figure out how to get this to work
         # like other games.
-        self.setRegion(self.s.rows, (-999, -999, x - l.CW // 2, 999999))
+        self.setRegion(self.s.rows + self.s.reserves,
+                       (-999, -999, x - l.CW // 2, 999999))
 
         # create foundations
         y = l.YM
@@ -753,6 +767,13 @@ class YukonicPlague(Yukon):
         # set window
         self.setSize(l.XM + 8 * l.XS, h)
         l.defaultAll()
+
+
+class YukonicPlague(YukonCells):
+    Reserve_Stack = OpenStack
+
+    RESERVES = 1
+    RESERVE_TEXT = True
 
     def startGame(self):
         for i in range(13):
@@ -837,3 +858,5 @@ registerGame(GameInfo(914, Canberra, "Canberra",
                       GI.GT_YUKON, 1, 1, GI.SL_BALANCED))
 registerGame(GameInfo(919, Dnieper, "Dnieper",
                       GI.GT_SPIDER, 1, 0, GI.SL_BALANCED))
+registerGame(GameInfo(925, YukonCells, "Yukon Cells",
+                      GI.GT_YUKON, 1, 0, GI.SL_BALANCED))

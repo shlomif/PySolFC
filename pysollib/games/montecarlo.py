@@ -38,7 +38,8 @@ from pysollib.stack import \
         SS_FoundationStack, \
         StackWrapper, \
         TalonStack
-from pysollib.util import ANY_RANK, ANY_SUIT, KING, NO_RANK, UNLIMITED_REDEALS
+from pysollib.util import ANY_RANK, ANY_SUIT, JACK, KING, NO_RANK, \
+    QUEEN, UNLIMITED_REDEALS
 
 # ************************************************************************
 # *
@@ -367,6 +368,72 @@ class BlockTen(SimplePairs):
 class SimpleTens(BlockTen):
     def isGameWon(self):
         return len(self.s.foundations[0].cards) == 36
+
+
+# ************************************************************************
+# * Crispy
+# ************************************************************************
+
+class Crispy_Talon(MonteCarlo_Talon):
+
+    def canDealCards(self):
+        if len(self.cards) == 0:
+            return False
+        return MonteCarlo_Talon.canDealCards(self)
+
+
+class Crispy_RowStack(MonteCarlo_RowStack):
+
+    getBottomImage = BasicRowStack._getReserveBottomImage
+
+    def acceptsCards(self, from_stack, cards):
+        cr = cards[0].rank
+        if len(self.cards) == 0:
+            if cr == KING:
+                return self.id in (1, 2, 13, 14)
+            elif cr == QUEEN:
+                return self.id in (4, 7, 8, 11)
+            elif cr == JACK:
+                return self.id in (0, 3, 12, 15)
+        if cr in (JACK, QUEEN, KING):
+            return False
+        return MonteCarlo_RowStack.acceptsCards(self, from_stack, cards)
+
+
+class Crispy(SimpleCarlo):
+    Talon_Class = Crispy_Talon
+    RowStack_Class = Crispy_RowStack
+    FILL_STACKS_AFTER_DROP = False
+    FILL_STACKS_BEFORE_SHIFT = True
+
+    def createGame(self):
+        MonteCarlo.createGame(self, rows=4, cols=4)
+
+    def isGameWon(self):
+        for i in (1, 2, 13, 14):
+            if len(self.s.rows[i].cards) != 0 and \
+                    self.s.rows[i].cards[0].rank != KING:
+                return False
+        for i in (4, 7, 8, 11):
+            if len(self.s.rows[i].cards) != 0 and \
+                    self.s.rows[i].cards[0].rank != QUEEN:
+                return False
+        for i in (0, 3, 12, 15):
+            if len(self.s.rows[i].cards) != 0 and \
+                    self.s.rows[i].cards[0].rank != JACK:
+                return False
+        for i in (5, 6, 9, 10):
+            if len(self.s.rows[i].cards) != 0:
+                return False
+        return len(self.s.talon.cards) == 0
+
+    def shiftCards(self):
+        free = 0
+        for r in self.s.rows:
+            assert len(r.cards) <= 1
+            if not r.cards:
+                free += 1
+        return free
 
 
 # ************************************************************************
@@ -1095,4 +1162,6 @@ registerGame(GameInfo(875, PatientPairsOpen, "Patient Pairs (Open)",
                       GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0,
                       GI.SL_MOSTLY_SKILL, rules_filename="patientpairs.html"))
 registerGame(GameInfo(898, AcesSquare, "Aces Square",
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))
+registerGame(GameInfo(923, Crispy, "Crispy",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))

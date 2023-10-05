@@ -38,6 +38,7 @@ from kivy.graphics import Color
 from kivy.graphics import Line
 from kivy.graphics import Rectangle
 from kivy.graphics import Triangle
+from kivy.properties import NumericProperty
 from kivy.properties import StringProperty
 from kivy.uix.actionbar import ActionButton
 from kivy.uix.actionbar import ActionPrevious
@@ -52,7 +53,6 @@ from kivy.uix.treeview import TreeView
 from kivy.uix.treeview import TreeViewLabel
 from kivy.uix.widget import Widget
 from kivy.utils import platform
-from kivy.properties import NumericProperty
 
 from pysollib.kivy.androidperms import requestStoragePerm
 from pysollib.kivy.androidrot import AndroidScreenRotation
@@ -1595,6 +1595,7 @@ class LMainWindow(BoxLayout, LTkBase):
         self.menuArea = LMenuBar()
         self.workContainer = LBoxLayout(orientation='horizontal')
         self.workContainerO = LBoxLayout(orientation='horizontal')
+        self.workContainer1 = LBoxLayout(orientation='vertical')
         self.workArea = None
         self.toolBar = None
         self.toolBarPos = 0
@@ -1732,13 +1733,22 @@ class LMainWindow(BoxLayout, LTkBase):
     def removeContainer(self):
         self.workContainer.clear_widgets()
         self.workContainerO.clear_widgets()
+        self.workContainer1.clear_widgets()
 
     def buildContainer(self):
+        # (hbox)
         if self.toolBar is not None and self.toolBarPos == 3:
             self.workContainerO.add_widget(self.toolBar)
-        self.workContainerO.add_widget(self.workContainer)
+        self.workContainerO.add_widget(self.workContainer1)
         if self.toolBar is not None and self.toolBarPos == 4:
             self.workContainerO.add_widget(self.toolBar)
+        # (vbox)
+        if self.toolBar is not None and self.toolBarPos == 1:
+            self.workContainer1.add_widget(self.toolBar)
+        self.workContainer1.add_widget(self.workContainer)
+        if self.toolBar is not None and self.toolBarPos == 2:
+            self.workContainer1.add_widget(self.toolBar)
+        # (workcontainer)
         for w in self.workStack.items:
             self.workContainer.add_widget(w[1])
 

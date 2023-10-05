@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PySolFC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-09-17 19:52-0400\n"
+"PO-Revision-Date: 2023-09-27 20:01-0400\n"
 "Last-Translator: Jerzy Trzeciak <artusek@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
@@ -1160,6 +1160,9 @@ msgstr "Japonia"
 #: pysollib/resource.py:269
 msgid "Netherlands"
 msgstr "Holandia"
+
+msgid "Portugal"
+msgstr ""
 
 #: pysollib/resource.py:270
 msgid "Russia"
@@ -4903,6 +4906,9 @@ msgstr "Podświetlenie niepasujących:"
 msgid "Find card"
 msgstr "Znajdź kartę"
 
+msgid "Full picture"
+msgstr ""
+
 msgid "Icon Style"
 msgstr "Wygląd ikon"
 
@@ -5110,6 +5116,9 @@ msgstr "Podśw&ietl stosy"
 #: pysollib/ui/tktile/menubar.py:438
 msgid "&Find card..."
 msgstr "Znajdź kartę..."
+
+msgid "Sh&ow full picture..."
+msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:442
 msgid "&Demo"

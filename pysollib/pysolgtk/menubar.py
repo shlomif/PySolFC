@@ -29,6 +29,9 @@ import re
 from findcarddialog import connect_game_find_card_dialog, \
         destroy_find_card_dialog
 
+from fullpicturedialog import connect_game_full_picture_dialog, \
+        destroy_full_picture_dialog
+
 import gtk
 from gtk import gdk
 
@@ -81,6 +84,10 @@ class PysolMenubarTk:
             connect_game_find_card_dialog(game)
         else:
             destroy_find_card_dialog()
+        if game.canShowFullPicture():
+            connect_game_full_picture_dialog(game)
+        else:
+            destroy_full_picture_dialog()
 
     #
     # create menubar

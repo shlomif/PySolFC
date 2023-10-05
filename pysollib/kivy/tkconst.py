@@ -53,18 +53,19 @@ COMPOUNDS = (
 TOOLBAR_BUTTONS = (
     "new",
     "restart",
-    "open",
-    "save",
+    # "open",
+    # "save",
     "undo",
     "redo",
     "autodrop",
     "shuffle",
+    "hint",
     "pause",
-    "statistics",
+    # "statistics",
     "rules",
-    "quit",
-    "player",
-)
+    # "quit",
+    # "player",
+    )
 
 STATUSBAR_ITEMS = (
             ('stuck', "'You Are Stuck' indicator"),

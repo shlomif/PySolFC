@@ -808,6 +808,7 @@ class MfxCanvas(Widget):
     def showAllItems(self):
         print('MfxCanvas: showAllItems')
         # TBD
+        # Brauchts darum auch nicht.
         pass
 
     # Erweiterungen fuer Tk Canvas (prüfen was noch nötig!!).

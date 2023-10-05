@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-09-17 19:51-0400\n"
+"PO-Revision-Date: 2023-09-27 20:03-0400\n"
 "Last-Translator: H. Schaekel <Holger.Schaekel@web.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -1125,6 +1125,9 @@ msgstr "Japan"
 #: pysollib/resource.py:269
 msgid "Netherlands"
 msgstr "Niederlande"
+
+msgid "Portugal"
+msgstr ""
 
 #: pysollib/resource.py:270
 msgid "Russia"
@@ -2902,7 +2905,7 @@ msgstr "Markieren und Ziel klicken"
 #: pysollib/kivy/menubar.py:1003 pysollib/tile/toolbar.py:202
 #: pysollib/tk/toolbar.py:211
 msgid "Toolbar"
-msgstr "Toolbar"
+msgstr "Werkzeugleiste"
 
 #: pysollib/kivy/menubar.py:1006 pysollib/ui/tktile/menubar.py:41
 msgid "Hide"
@@ -4833,6 +4836,9 @@ msgstr "Keine passenden hervorheben:"
 msgid "Find card"
 msgstr "Karte suchen"
 
+msgid "Full picture"
+msgstr ""
+
 msgid "Icon Style"
 msgstr ""
 
@@ -4854,15 +4860,15 @@ msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:44
 msgid "Top"
-msgstr ""
+msgstr "Oben"
 
 #: pysollib/ui/tktile/menubar.py:47
 msgid "Bottom"
-msgstr ""
+msgstr "Unten"
 
 #: pysollib/ui/tktile/menubar.py:64
 msgid "Visible buttons"
-msgstr ""
+msgstr "Verfügbare Symbole"
 
 #: pysollib/ui/tktile/menubar.py:296
 #, python-format
@@ -5040,6 +5046,9 @@ msgstr "Sp&ielfeldstapel hervorheben:"
 #: pysollib/ui/tktile/menubar.py:438
 msgid "&Find card..."
 msgstr "Karte suchen (&F)"
+
+msgid "Sh&ow full picture..."
+msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:442
 msgid "&Demo"

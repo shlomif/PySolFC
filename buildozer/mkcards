@@ -4,6 +4,8 @@ set -eux
 cardsets_dir=PySolFC-Cardsets--Minimal-2.2.0
 cardsets_file=${cardsets_dir}.tar.xz
 
+rm -rf cardsets
+
 echo '### prepare cardsets'
 
 if [ ! -f ${cardsets_file} ]; then
@@ -24,5 +26,7 @@ echo '### processing cardsets'
     rm -rf `basename $i -png`
   done
 )
+
+ln -s ${cardsets_dir} cardsets
 
 echo '### end cardsets'

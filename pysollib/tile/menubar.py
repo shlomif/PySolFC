@@ -25,6 +25,9 @@ from pysollib.mygettext import _, n_
 from pysollib.settings import TITLE
 from pysollib.ui.tktile.findcarddialog import connect_game_find_card_dialog
 from pysollib.ui.tktile.findcarddialog import destroy_find_card_dialog
+from pysollib.ui.tktile.fullpicturedialog import \
+    connect_game_full_picture_dialog
+from pysollib.ui.tktile.fullpicturedialog import destroy_full_picture_dialog
 from pysollib.ui.tktile.menubar import MfxMenu, PysolMenubarTkCommon
 from pysollib.ui.tktile.solverdialog import connect_game_solver_dialog
 from pysollib.util import CARDSET
@@ -57,6 +60,12 @@ class PysolMenubarTk(PysolMenubarTkCommon):
 
     def _destroy_find_card_dialog(self):
         return destroy_find_card_dialog()
+
+    def _connect_game_full_picture_dialog(self, game):
+        return connect_game_full_picture_dialog(game)
+
+    def _destroy_full_picture_dialog(self):
+        return destroy_full_picture_dialog()
 
     def _connect_game_solver_dialog(self, game):
         return connect_game_solver_dialog(game)

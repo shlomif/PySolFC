@@ -106,6 +106,7 @@ Cardsets Origins:
 * Italy = 1005
 * Japan = 1016
 * Netherlands = 1002
+* Portugal = 1022
 * Russia = 1007
 * Spain = 1008
 * Sweden = 1017

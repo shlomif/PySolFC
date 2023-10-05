@@ -653,6 +653,17 @@ class TripleCanfield(Canfield):
 
 
 # ************************************************************************
+# * Quadruple Canfield
+# ************************************************************************
+
+class QuadrupleCanfield(Canfield):
+    INITIAL_RESERVE_CARDS = 39
+
+    def createGame(self):
+        Canfield.createGame(self, rows=8)
+
+
+# ************************************************************************
 # * Acme
 # ************************************************************************
 
@@ -1041,3 +1052,5 @@ registerGame(GameInfo(835, CasinoCanfield, "Casino Canfield",
                       altnames="Reno"))
 registerGame(GameInfo(896, ThePlot, "The Plot",
                       GI.GT_CANFIELD, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(922, QuadrupleCanfield, "Quadruple Canfield",
+                      GI.GT_CANFIELD, 4, -1, GI.SL_BALANCED))

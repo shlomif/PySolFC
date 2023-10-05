@@ -39,6 +39,7 @@ from pysollib.kivy.LApp import LTopLevel
 from pysollib.kivy.LApp import LTreeNode
 from pysollib.kivy.LApp import LTreeRoot
 from pysollib.kivy.findcarddialog import destroy_find_card_dialog
+from pysollib.kivy.fullpicturedialog import destroy_full_picture_dialog
 from pysollib.kivy.selectcardset import SelectCardsetDialogWithPreview
 from pysollib.kivy.selectgame import SelectGameDialog
 from pysollib.kivy.solverdialog import connect_game_solver_dialog
@@ -50,6 +51,7 @@ from pysollib.mfxutil import Struct
 from pysollib.mygettext import _
 from pysollib.pysoltk import MfxMessageDialog
 from pysollib.pysoltk import connect_game_find_card_dialog
+from pysollib.pysoltk import connect_game_full_picture_dialog
 from pysollib.settings import SELECT_GAME_MENU
 from pysollib.settings import TITLE
 
@@ -430,12 +432,22 @@ class AssistMenuDialog(LMenuDialog):
         super(AssistMenuDialog, self).__init__(
             menubar, parent, title, app, **kw)
 
+    def make_auto_close(self, command):
+        def auto_close_command():
+            command()
+            self.closeWindow(0)
+        return auto_close_command
+
     def buildTree(self, tv, node):
         tv.add_node(LTreeNode(
             text=_('Hint'), command=self.menubar.mHint))
 
         tv.add_node(LTreeNode(
             text=_('Highlight piles'), command=self.menubar.mHighlightPiles))
+
+        tv.add_node(LTreeNode(
+            text=_('Show full picture...'),
+            command=self.make_auto_close(self.menubar.mFullPicture)))
 
         # tv.add_node(LTreeNode(
         #   text='Find Card', command=self.menubar.mFindCard))
@@ -1107,16 +1119,14 @@ class OptionsMenuDialog(LMenuDialog):
                               self.menubar.tkopt.toolbar, 0,
                               self.menubar.mOptToolbar)
 
-            # not supported: Top, Bottom
-            # self.addRadioNode(tv, rg,
-            #   'Top',
-            #   self.menubar.tkopt.toolbar, 1,
-            #   self.menubar.mOptToolbar)
-            # self.addRadioNode(tv, rg,
-            #   'Bottom',
-            #   self.menubar.tkopt.toolbar, 2,
-            #   self.menubar.mOptToolbar)
-
+            self.addRadioNode(tv, rg,
+                              _('Top'),
+                              self.menubar.tkopt.toolbar, 1,
+                              self.menubar.mOptToolbar)
+            self.addRadioNode(tv, rg,
+                              _('Bottom'),
+                              self.menubar.tkopt.toolbar, 2,
+                              self.menubar.mOptToolbar)
             self.addRadioNode(tv, rg,
                               _('Left'),
                               self.menubar.tkopt.toolbar, 3,
@@ -1125,6 +1135,17 @@ class OptionsMenuDialog(LMenuDialog):
                               _('Right'),
                               self.menubar.tkopt.toolbar, 4,
                               self.menubar.mOptToolbar)
+
+            rg1 = tv.add_node(
+                LTreeNode(text=_('Visible buttons')), rg)
+            if rg1:
+                for w in TOOLBAR_BUTTONS:
+                    w0 = w[0].upper()
+                    ww = w[1:]
+                    self.addCheckNode(tv, rg,
+                        _(w0+ww),  # noqa
+                        self.menubar.tkopt.toolbar_vars[w],
+                        self.make_vars_command(self.menubar.mOptToolbarConfig, w))  # noqa
 
         # -------------------------------------------
         # Statusbar - not implemented
@@ -1453,6 +1474,10 @@ class PysolMenubarTk:
             connect_game_find_card_dialog(game)
         else:
             destroy_find_card_dialog()
+        if game.canShowFullPicture():
+            connect_game_full_picture_dialog(game)
+        else:
+            destroy_full_picture_dialog()
         connect_game_solver_dialog(game)
 
     # create a GTK-like path
@@ -2441,7 +2466,6 @@ the next time you restart the %(app)s""") % {'app': TITLE})
         if self._cancelDrag(break_pause=False):
             return
         self.app.opt.toolbar_vars[w] = v
-        self.app.toolbar.config(w, v)
         self.top.update_idletasks()
 
     #

@@ -33,10 +33,12 @@ from pysollib.stack import \
         DealRowRedealTalonStack, \
         DealRowTalonStack, \
         InitialDealTalonStack, \
+        InvisibleStack, \
         KingAC_RowStack, \
         OpenStack, \
         RK_FoundationStack, \
         RK_RowStack, \
+        RedealTalonStack, \
         ReserveStack, \
         SS_FoundationStack, \
         SS_RowStack, \
@@ -368,6 +370,8 @@ class LadyOfTheManor(Game):
     Foundation_Class_1 = RK_FoundationStack
     Foundation_Class_2 = RK_FoundationStack
 
+    Talon_Class = InitialDealTalonStack
+
     ACE_STACK = False
 
     def createGame(self):
@@ -380,8 +384,6 @@ class LadyOfTheManor(Game):
                      l.YM + max(4 * l.YS, 3 * l.YS + 14 * l.YOFFSET))
 
         x, y = l.XM, self.height-l.YS
-        if self.ACE_STACK:
-            x += (l.XS / 2)
         for i in range(4):
             suit = i
             if self.Foundation_Class_1 is RK_FoundationStack:
@@ -415,8 +417,8 @@ class LadyOfTheManor(Game):
             x, y = l.XM+i*l.XS, l.YM+j*l.YS
             s.reserves.append(LadyOfTheManor_Reserve(x, y, self, max_accept=0))
 
-        s.talon = InitialDealTalonStack(
-            self.width-l.XS, self.height-2*l.YS, self)
+        s.talon = self.Talon_Class(
+            self.width-l.XS, self.height-l.YS, self)
 
         l.defaultAll()
 
@@ -442,11 +444,45 @@ class LadyOfTheManor(Game):
             self.moveMove(1, self.s.talon, r, frames=4)
 
 
+class Archway_Talon(RedealTalonStack):
+
+    def dealCards(self, sound=False):
+        old_state = self.game.enterState(self.game.S_DEAL)
+        ncards = 0
+        intern1, intern2 = self.game.s.internals
+        if sound and self.game.app.opt.animations:
+            self.game.startDealSample()
+        for r in self.game.s.reserves:
+            if len(r.cards) <= 1:
+                continue
+            ncards += len(r.cards)
+            # move cards to internal stacks
+            while len(r.cards) != 1:
+                self.game.moveMove(1, r, intern1, frames=0)
+            self.game.moveMove(1, r, intern2, frames=0)
+            # move back
+            while intern1.cards:
+                self.game.moveMove(1, intern1, r, frames=0)
+            self.game.moveMove(1, intern2, r, frames=0)
+        self.game.nextRoundMove(self)
+        if sound:
+            self.game.stopSamples()
+        self.game.leaveState(old_state)
+        return ncards
+
+
 class Archway(LadyOfTheManor):
     Foundation_Class_1 = SS_FoundationStack
     Foundation_Class_2 = StackWrapper(SS_FoundationStack, dir=-1)
+    Talon_Class = StackWrapper(Archway_Talon, max_rounds=-1)
 
     ACE_STACK = True
+
+    def createGame(self):
+        LadyOfTheManor.createGame(self)
+
+        self.s.internals.append(InvisibleStack(self))
+        self.s.internals.append(InvisibleStack(self))
 
     def _shuffleHook(self, cards):
         return self._shuffleHookMoveToTop(
@@ -1448,4 +1484,4 @@ registerGame(GameInfo(745, DesertIsland, "Desert Island",
 registerGame(GameInfo(761, CatherineTheGreat, "Catherine the Great",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(844, Archway, "Archway",
-                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_LUCK))
+                      GI.GT_2DECK_TYPE, 2, -1, GI.SL_MOSTLY_LUCK))

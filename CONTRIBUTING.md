@@ -64,3 +64,13 @@ In order to publish a new version, follow these steps:
 11. Use [rexz9](https://github.com/shlomif/shlomif-computer-settings/blob/567b6ab3f4272ad66bf331536dc80bf58bfff3af/shlomif-settings/bash-aliases/user_aliases.bash#L57) on `dist/PySol*.tar.xz`.
 12. Go to https://sourceforge.net/projects/pysolfc/files/PySolFC/ and add a folder called PySolFC-2.6.5 (note the capitalisation).
 13. Add the tar.xz, the .exe and the .dmg there and mark them as defaults for the right OSes.
+
+# Long-term, large-scale, tasks
+
+Support SVG cardsets.
+
+An optional [REPL](https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop) (Read-eval-print loop)
+
+Listen on a TCP / HTTP+REST port.
+
+A web-based version.

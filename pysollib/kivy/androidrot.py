@@ -22,25 +22,25 @@ class AndroidRot(object):
 
     def lock(self):
         if jnius is not None:
-            self.currentActivity.setRequestedOrientation(
-                self.ActivityInfo.SCREEN_ORIENTATION_LOCKED)
+            if not self.locked:
+                self.currentActivity.setRequestedOrientation(
+                    self.ActivityInfo.SCREEN_ORIENTATION_LOCKED)
+                AndroidToaster.toastShort(_("screen rotation disabled"))
         self.locked = True
 
     def unlock(self):
         if jnius is not None:
-            self.currentActivity.setRequestedOrientation(
-                self.ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR)
+            if self.locked:
+                self.currentActivity.setRequestedOrientation(
+                    self.ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR)
+                AndroidToaster.toastShort(_("screen rotation enabled"))
         self.locked = False
 
     def toggle(self):
         if self.locked:
             self.unlock()
-            if jnius is not None:
-                AndroidToaster.toastShort(_("screen rotation enabled"))
         else:
             self.lock()
-            if jnius is not None:
-                AndroidToaster.toastShort(_("screen rotation disabled"))
         return self.isLocked()
 
 AndroidScreenRotation = AndroidRot()

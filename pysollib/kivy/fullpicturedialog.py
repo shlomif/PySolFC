@@ -36,7 +36,6 @@ from pysollib.mygettext import _
 class ImageStacker(StackLayout):
     def __init__(self, **kw):
         super().__init__(**kw)
-        self.images = []
         self.dx = 1
         self.dy = 1
         self.asp = 1  # width/height.
@@ -48,10 +47,6 @@ class ImageStacker(StackLayout):
     def set_aspect(self, asp):
         self.asp = asp  # width/height.
 
-    def add_image(self, image):
-        self.images.append(image)
-        self.add_widget(image)
-
     def on_size(self, instance, value):
         hint_x = 1.0 / self.dx
         hint_y = 1.0 / self.dx
@@ -62,7 +57,7 @@ class ImageStacker(StackLayout):
         else:
             hint_x = hint_x * self.asp / vasp
         # apply to all images
-        for i in self.images:
+        for i in self.children:
             i.size_hint = (hint_x, hint_y)
 
 
@@ -75,19 +70,16 @@ class FullPictureDialog(object):
 
         self.images = game.app.subsampled_images
         dx, dy = self.images.CARDW, self.images.CARDH
-        print (self.images)  # noqa
-        print (dx,dy) # noqa
 
         cards = self.game.gameinfo.trumps
         cols = int(math.ceil(math.sqrt(len(cards))))
-        print (cols)  # noqa
 
         self.stp = ImageStacker()
         self.stp.set_aspect(dx/dy)
         self.stp.set_matrix(cols, cols)
         for card in cards:
             image = LImage(texture=self.images._card[card].texture)
-            self.stp.add_image(image)
+            self.stp.add_widget(image)
 
         self.frame.add_widget(self.stp)
 

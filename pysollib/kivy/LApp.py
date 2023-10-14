@@ -1637,6 +1637,9 @@ class LMainWindow(BoxLayout, LTkBase):
     def on_touch_down(self, touch):
         ret = False
 
+        if super().on_touch_down(touch):
+            return True
+
         # print(dir(touch))
 
         # multitouch detection
@@ -1687,12 +1690,15 @@ class LMainWindow(BoxLayout, LTkBase):
 
     def on_touch_up(self, touch):
         ret = False
+        if super().on_touch_up(touch):
+            return True
+
         # long press only on playground.
         pgs = self.workStack.peek('playground')
         if pgs:
             pg = pgs[1]
             if pg.collide_point(*touch.pos):
-                if (touch.time_end-touch.time_start) > 4.5:
+                if (touch.time_end-touch.time_start) > 2.5:
                     self.longPress = touch.time_end
 
         # standard notifikation:
@@ -1710,7 +1716,7 @@ class LMainWindow(BoxLayout, LTkBase):
 
     def on_longPress(self, instance, timestamp):
         print('longPressed at {time}'.format(time=timestamp))
-        AndroidScreenRotation.toggle()
+        AndroidScreenRotation.lock()
 
     # Menubar:
 

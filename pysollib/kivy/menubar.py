@@ -101,6 +101,12 @@ class LMenuDialog(object):
             parent.popWork(title)
         return pop_command
 
+    def auto_close(self, command):
+        def auto_close_command():
+            command()
+            self.closeWindow(0)
+        return auto_close_command
+
     def __init__(self, menubar, parent, title, app, **kw):
         super(LMenuDialog, self).__init__()
 
@@ -170,44 +176,38 @@ class MainMenuDialog(LMenuDialog):
         super(MainMenuDialog, self).__init__(
             menubar, parent, title, app, **kw)
 
-    def make_game_command(self, command):
-        def game_command():
-            command()
-            self.closeWindow(0)
-        return game_command
-
     def buildTree(self, tv, node):
         rg = tv.add_node(
             LTreeNode(
                 text=_("File"),
-                command=self.make_game_command(self.menubar.mFileMenuDialog)))
+                command=self.auto_close(self.menubar.mFileMenuDialog)))
         rg = tv.add_node(
             LTreeNode(
                 text=_("Games"),
-                command=self.make_game_command(
+                command=self.auto_close(
                     self.menubar.mSelectGameDialog)))
         rg = tv.add_node(
             LTreeNode(
                 text=_("Tools"),
-                command=self.make_game_command(self.menubar.mEditMenuDialog)))
+                command=self.auto_close(self.menubar.mEditMenuDialog)))
         rg = tv.add_node(
             LTreeNode(
                 text=_("Statistics"),
-                command=self.make_game_command(self.menubar.mGameMenuDialog)))
+                command=self.auto_close(self.menubar.mGameMenuDialog)))
         rg = tv.add_node(
             LTreeNode(
                 text=_("Assist"),
-                command=self.make_game_command(
+                command=self.auto_close(
                     self.menubar.mAssistMenuDialog)))
         rg = tv.add_node(
             LTreeNode(
                 text=_("Options"),
-                command=self.make_game_command(
+                command=self.auto_close(
                     self.menubar.mOptionsMenuDialog)))
         rg = tv.add_node(
             LTreeNode(
                 text=_("Help"),
-                command=self.make_game_command(self.menubar.mHelpMenuDialog)))
+                command=self.auto_close(self.menubar.mHelpMenuDialog)))
         del rg
 
 # ************************************************************************
@@ -372,7 +372,7 @@ class GameMenuDialog(LMenuDialog):
     def buildTree(self, tv, node):
         tv.add_node(LTreeNode(
             text=_('Current game...'),
-            command=self.make_command(101, self.menubar.mPlayerStats)), None)
+            command=self.auto_close(self.make_command(101, self.menubar.mPlayerStats))), None)  # noqa
 
         # tv.add_node(LTreeNode(
         #   text='All games ...',
@@ -432,12 +432,6 @@ class AssistMenuDialog(LMenuDialog):
         super(AssistMenuDialog, self).__init__(
             menubar, parent, title, app, **kw)
 
-    def make_auto_close(self, command):
-        def auto_close_command():
-            command()
-            self.closeWindow(0)
-        return auto_close_command
-
     def buildTree(self, tv, node):
         tv.add_node(LTreeNode(
             text=_('Hint'), command=self.menubar.mHint))
@@ -447,7 +441,7 @@ class AssistMenuDialog(LMenuDialog):
 
         tv.add_node(LTreeNode(
             text=_('Show full picture...'),
-            command=self.make_auto_close(self.menubar.mFullPicture)))
+            command=self.auto_close(self.menubar.mFullPicture)))
 
         # tv.add_node(LTreeNode(
         #   text='Find Card', command=self.menubar.mFindCard))

@@ -92,9 +92,10 @@ class SelectCardsetData(SelectDialogTreeData):
                     SelectCardsetNode(
                         None, name, lambda cs, key=key: key in cs.si.styles))
         if nodes:
-            nodes.append(
-                SelectCardsetNode(
-                    None, _("Uncategorized"), lambda cs: not cs.si.styles))
+            if manager.uncategorized_styles:
+                nodes.append(
+                    SelectCardsetNode(
+                        None, _("Uncategorized"), lambda cs: not cs.si.styles))
             select_by_style = SelectCardsetNode(
                 None, _("by Style"), tuple(nodes))
         #
@@ -109,10 +110,11 @@ class SelectCardsetData(SelectDialogTreeData):
                         None, name,
                         lambda cs, key=key: key in cs.si.nationalities))
         if nodes:
-            nodes.append(
-                SelectCardsetNode(
-                    None, _("Uncategorized"),
-                    lambda cs: not cs.si.nationalities))
+            if manager.uncategorized_nationalities:
+                nodes.append(
+                    SelectCardsetNode(
+                        None, _("Uncategorized"),
+                        lambda cs: not cs.si.nationalities))
             select_by_nationality = SelectCardsetNode(
                 None, _("by Nationality"), tuple(nodes))
         #
@@ -126,9 +128,10 @@ class SelectCardsetData(SelectDialogTreeData):
                     SelectCardsetNode(
                         None, name, lambda cs, key=key: key in cs.si.dates))
         if nodes:
-            nodes.append(
-                SelectCardsetNode(
-                    None, _("Uncategorized"), lambda cs: not cs.si.dates))
+            if manager.uncategorized_dates:
+                nodes.append(
+                    SelectCardsetNode(
+                        None, _("Uncategorized"), lambda cs: not cs.si.dates))
             select_by_date = SelectCardsetNode(
                 None, _("by Date"), tuple(nodes))
         #

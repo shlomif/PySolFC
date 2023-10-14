@@ -485,6 +485,10 @@ class CardsetManager(ResourceManager):
         self.registered_nationalities = {}
         self.registered_dates = {}
 
+        self.uncategorized_styles = False
+        self.uncategorized_nationalities = False
+        self.uncategorized_dates = False
+
     def _check(self, cs):
         s = cs.type
         if s not in CSI.TYPE:
@@ -571,12 +575,18 @@ class CardsetManager(ResourceManager):
         #
         keys = cs.styles[:]
         cs.si.styles = tuple([s for s in keys if s in CSI.STYLE])
+        if len(cs.si.styles) == 0:
+            self.uncategorized_styles = True
         for s in cs.si.styles:
             self.registered_styles[s] = self.registered_styles.get(s, 0) + 1
         cs.si.nationalities = tuple([s for s in keys if s in CSI.NATIONALITY])
+        if len(cs.si.nationalities) == 0:
+            self.uncategorized_nationalities = True
         for s in cs.si.nationalities:
             self.registered_nationalities[s] = \
                 self.registered_nationalities.get(s, 0) + 1
+        if cs.year == 0:
+            self.uncategorized_dates = True
         keys = (cs.year // 100,)
         cs.si.dates = tuple([s for s in keys if s in CSI.DATE])
         for s in cs.si.dates:

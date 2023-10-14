@@ -525,6 +525,7 @@ class HouseOnTheHill(HouseInTheWood):
 
 # ************************************************************************
 # * Clover Leaf
+# * Alexander the Great
 # ************************************************************************
 
 class CloverLeaf_RowStack(UD_SS_RowStack):
@@ -540,20 +541,21 @@ class CloverLeaf_RowStack(UD_SS_RowStack):
 
 
 class CloverLeaf(Game):
-
     Hint_Class = Fan_Hint
 
     #
     # game layout
     #
 
-    def createGame(self):
+    def createGame(self, cols=4):
         # create layout
         l, s = Layout(self), self.s
 
         # set window
         playcards = 7
-        w, h = l.XM+l.XS+4*(l.XS+(playcards-1)*l.XOFFSET), l.YM+4*l.YS
+        w, h = ((2 * l.XM) + l.XS + cols *
+                (l.XS + (playcards - 1) * l.XOFFSET)), \
+            l.YM + 4 * l.YS
         self.setSize(w, h)
 
         # create stacks
@@ -562,12 +564,12 @@ class CloverLeaf(Game):
             s.foundations.append(SS_FoundationStack(x, y, self, suit=i))
             y += l.YS
         for i in range(2):
-            s.foundations.append(SS_FoundationStack(x, y, self, suit=i+2,
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i + 2,
                                                     base_rank=KING, dir=-1))
             y += l.YS
 
-        x = l.XM+l.XS
-        for i in range(4):
+        x = (2 * l.XM) + l.XS
+        for i in range(cols):
             y = l.YM
             for j in range(4):
                 stack = CloverLeaf_RowStack(x, y, self,
@@ -575,9 +577,9 @@ class CloverLeaf(Game):
                 s.rows.append(stack)
                 stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
                 y += l.YS
-            x += l.XS+(playcards-1)*l.XOFFSET
+            x += l.XS + (playcards - 1) * l.XOFFSET
 
-        s.talon = InitialDealTalonStack(w-l.XS, h-l.YS, self)
+        s.talon = InitialDealTalonStack(w - l.XS, h - l.YS, self)
 
         # default
         l.defaultAll()
@@ -599,6 +601,17 @@ class CloverLeaf(Game):
                        c.suit))
 
     shallHighlightMatch = Game._shallHighlightMatch_SS
+
+
+class AlexanderTheGreat(CloverLeaf):
+
+    def createGame(self):
+        CloverLeaf.createGame(self, cols=3)
+
+    def startGame(self):
+        self._startDealNumRows(3)
+        self.s.talon.dealRow()
+        self.s.talon.dealRow(rows=self.s.foundations)
 
 
 # ************************************************************************
@@ -1181,3 +1194,5 @@ registerGame(GameInfo(894, Cromwell, "Cromwell",
                       GI.GT_FAN_TYPE | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(908, OpenProils, "Open Proils",
                       GI.GT_FAN_TYPE, 1, 0, GI.SL_BALANCED))
+registerGame(GameInfo(926, AlexanderTheGreat, "Alexander the Great",
+                      GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))

@@ -1,32 +1,73 @@
 #!/bin/bash
 set -eux
 
-cardsets_dir=PySolFC-Cardsets--Minimal-2.2.0
-cardsets_file=${cardsets_dir}.tar.xz
+#loadmode="forge"
+loadmode=""
 
 rm -rf cardsets
 
-echo '### prepare cardsets'
+if [ $loadmode == "forge" ]; then
+	cardsets_dir=PySolFC-Cardsets--Minimal-2.2.0
+	cardsets_file=${cardsets_dir}.tar.xz
 
-if [ ! -f ${cardsets_file} ]; then
-  echo '### downloading cardsets'
-  wget https://netix.dl.sourceforge.net/project/pysolfc/PySolFC-Cardsets/minimal/${cardsets_file}
+	echo '### prepare cardsets'
+
+	if [ ! -f ${cardsets_file} ]; then
+  	echo '### downloading cardsets'
+  	wget https://netix.dl.sourceforge.net/project/pysolfc/PySolFC-Cardsets/minimal/${cardsets_file}
+	fi
+
+	if [ ! -d ${cardsets_dir} ]; then
+  	echo '### extracting cardsets'
+  	tar -xf ${cardsets_file}
+	fi
+
+	echo '### processing cardsets'
+	(
+  	cd ${cardsets_dir}
+	  ../../scripts/cardconv gif png
+  	for i in cardset-*-png; do
+    	rm -rf `basename $i -png`
+  	done
+	)
+
+	ln -s ${cardsets_dir} cardsets
+
+else
+	cardsets_dir=PySolFC-Cardsets
+
+	if [ ! -d ${cardsets_dir} ]; then
+  	echo '### downloading cardset repo'
+
+		mkdir ${cardsets_dir}
+		pushd ${cardsets_dir}
+
+		mkdir repo
+		pushd repo
+		git init
+		git remote add -t master origin https://github.com/shlomif/PySolFC-Cardsets.git
+		git fetch --depth 1 origin ae08657f931328439c5697165503a6360a75a7a6
+		git checkout -q FETCH_HEAD
+		popd
+
+  	echo '### choose a minimal set'
+
+		for d in $(cat ../minimal.txt)
+		do
+			mv repo/${d} .
+		done
+		rm repo -rf
+
+  	echo '### processing cardsets'
+
+	  ../../scripts/cardconv gif png
+  	for i in cardset-*-png; do
+    	rm -rf `basename $i -png`
+  	done
+		popd
+	fi
+
+	ln -s ${cardsets_dir} cardsets
 fi
-
-if [ ! -d ${cardsets_dir} ]; then
-  echo '### extracting cardsets'
-  tar -xf ${cardsets_file}
-fi
-
-echo '### processing cardsets'
-(
-  cd ${cardsets_dir}
-  ../../scripts/cardconv gif png
-  for i in cardset-*-png; do
-    rm -rf `basename $i -png`
-  done
-)
-
-ln -s ${cardsets_dir} cardsets
 
 echo '### end cardsets'

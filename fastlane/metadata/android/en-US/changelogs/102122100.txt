@@ -1,10 +1,11 @@
 Android specific:
-- Temporary screen orientation lock added. Long tap (5 seconds) to the
-  playground locks/unlocks (toggle) automatic screen rotation.
+- Temporary screen orientation lock added. Long tap (2.5 seconds) to the
+  playground locks screen rotation.
 - Toolbar: configuration of displayed toolbar buttons added to options menu.
 - Toolbar: dynamic updates on Toolbar and Options settings.
-- Toolbar buttons for 'new deal' and 'restart' have now a delayed
-  functionality. This prevents from accidental execution.
+- Toolbar buttons for 'new deal' and 'restart' have now display a
+	toast instead of executing immediatley. Tap to the toast accept.
+- Implementation of full picture hint for the new puzzle type games.
 Main version:
 - consult NEWS.asscidoc or html-src/news.html on
   github for more change informations.

@@ -20,6 +20,7 @@ source.dir = ./tmp
 
 # (list) Source files to exclude (let empty to not exclude anything)
 #source.exclude_exts = spec
+source.exclude_exts = spec,gif
 
 # (list) List of directory to exclude (let empty to not exclude anything)
 #source.exclude_dirs = tests, bin, venv

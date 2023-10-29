@@ -1210,9 +1210,10 @@ class Application:
             tile = Tile()
             tile.filename = f
             n = image_ext_re.sub("", name)
-            if os.path.split(dirname)[-1] == 'stretch':
+            subdir = os.path.split(dirname)[-1]
+            if subdir == 'stretch' or subdir == 'stretch-4k':
                 tile.stretch = 1
-            if os.path.split(dirname)[-1] == 'save-aspect':
+            if subdir == 'save-aspect' or subdir == 'save-aspect-4k':
                 tile.stretch = 1
                 tile.save_aspect = 1
             # n = re.sub("[-_]", " ", n)
@@ -1230,7 +1231,9 @@ class Application:
             self,
             ("tiles-*",
                 os.path.join("tiles", "stretch"),
-                os.path.join("tiles", "save-aspect")),
+                os.path.join("tiles", "stretch-4k"),
+                os.path.join("tiles", "save-aspect"),
+                os.path.join("tiles", "save-aspect-4k")),
             "PYSOL_TILES")
         # print dirs
         found, t = [], set()

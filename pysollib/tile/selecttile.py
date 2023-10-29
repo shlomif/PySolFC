@@ -84,7 +84,8 @@ class SelectTileData(SelectDialogTreeData):
                 None, _("Images"),
                 lambda tile: (os.path.basename(
                     os.path.dirname(tile.filename)) in
-                              ('stretch', 'save-aspect')), expanded=0),
+                              ('stretch', 'save-aspect', 'stretch-4k',
+                               'save-aspect-4k')), expanded=0),
             SelectTileNode(None, _("Solid Colors"), (
                 SelectTileLeaf(None, None, _("Azure"), key="#0082df"),
                 SelectTileLeaf(None, None, _("Black"), key="#000000"),
@@ -320,7 +321,8 @@ class SelectTileDialogWithPreview(MfxDialog):
 
             if (self.criteria.type == "Images" and os.path.basename(
                     os.path.dirname(tile.filename)) not in
-                    ('stretch', 'save-aspect')):
+                    ('stretch', 'save-aspect', 'stretch-4k',
+                     'save-aspect-4k')):
                 continue
 
             if (self.criteria.type == "Tiles" and os.path.basename(

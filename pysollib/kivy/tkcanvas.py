@@ -593,35 +593,66 @@ class MfxCanvas(Widget):
                 self.canvas.before.add(
                     Rectangle(texture=texture, pos=self.pos, size=self.size))
             else:
-                # TBD: gesucht: aspect erhaltende skalierung
-                self.canvas.before.add(
-                    Rectangle(texture=texture, pos=self.pos, size=self.size))
+                # save aspect
+                aspect = texture.size[0]/texture.size[1]
+                waspect = self.size[0]/self.size[1]
+                print ('aspect:    ', aspect)   # noqa
+                print ('waspect:   ', waspect)   # noqa
+
+                # 'clamp_to_edge','repeat','mirrored_repeat'
+                texture.wrap = 'repeat'
+                print ('wrap:      ',texture.wrap)   # noqa
+
+                # add new rectangle to canvas.
+                r = Rectangle(texture=texture, pos=self.pos, size=self.size)
+                self.canvas.before.add(r)
+
+                # evaluate original texture coords.
+                uu = r.tex_coords[0]
+                vv = r.tex_coords[1]
+                ww = r.tex_coords[2] - uu
+                hh = r.tex_coords[5] - vv
+
+                # in order to center the image in the window
+                # modify texture coords
+                if waspect < aspect:
+                    w = ww/aspect*waspect  # noqa
+                    h = hh
+                    u = 0.5 - w/2.0        # noqa
+                    v = vv
+                else:
+                    w = ww
+                    h = hh*aspect/waspect  # noqa
+                    u = uu
+                    v = 0.5 - h/2.0        # noqa
+
+                # and update them.
+                tc = ( u, v, u + w, v, u + w, v + h, u, v + h )   # noqa
+                r.tex_coords = tc
+
+                print ('tex_coords (orig):',uu,vv,ww,hh)    # noqa
+                print ('tex_coords (mod): ',u,v,w,h)        # noqa
             return
 
-            # Tiles: Die Kacheln werden im Fenster ausgelegt und minim
-        # skaliert, damit sie genau passen.
         else:
-            print('tiles !')
+            # Tiles placement, reference point is bottom left.
+
+            texture.wrap = 'repeat'
+            r = Rectangle(texture=texture, pos=self.pos, size=self.size)
+            self.canvas.before.add(r)
+
             stsize = (texture.size[0] * self.scale,
                       texture.size[1] * self.scale)
-            stepsy = int(self.size[1] / stsize[1]) + 1
-            stepsx = int(self.size[0] / stsize[0]) + 1
+            stepsy = self.size[1] / stsize[1]
+            stepsx = self.size[0] / stsize[0]
 
-            scaley = 1.0 * self.size[1] / (stepsy * stsize[1])
-            sy = scaley * stsize[1]
-            scalex = 1.0 * self.size[0] / (stepsx * stsize[0])
-            sx = scalex * stsize[0]
-            tsize = (sx, sy)
-
-            # print ('self.size = %s, %s' % (self.size[0], self.size[1]))
-            # print ('sx, sy = %s, %s' % (stepsx, stepsy))
-            for y in range(0, stepsy):
-                py = y * sy
-                for x in range(0, stepsx):
-                    px = x * sx
-                    tpos = (self.pos[0] + px, self.pos[1] + py)
-                    self.canvas.before.add(
-                        Rectangle(texture=texture, pos=tpos, size=tsize))
+            u = r.tex_coords[0]
+            v = r.tex_coords[1]
+            ww = r.tex_coords[2] - u
+            hh = r.tex_coords[5] - v
+            w = ww * stepsx
+            h = hh * stepsy
+            r.tex_coords = ( u, v, u + w, v, u + w, v + h, u, v + h )  # noqa
 
     def setBackgroundImage(self, event=None):
 

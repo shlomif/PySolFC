@@ -210,6 +210,7 @@ highlight_piles = float(0.2, 9.9)
 11_8 = string_list(min=2, max=2)
 11_9 = string_list(min=2, max=2)
 11_10 = string_list(min=2, max=2)
+12 = string_list(min=2, max=2)
 scale_cards = boolean
 scale_x = float
 scale_y = float
@@ -577,6 +578,7 @@ class Options:
                                   8: ("Mid Winter's Eve (8x8)", ""),
                                   9: ("Hofamterspiel (9x9)", ""),
                                   10: ("Eternal Dragon (10x10)", "")},
+                CSI.TYPE_ISHIDO: {0: ("Simple Ishido XL", "")},
             }
         else:
             self.cardset = {
@@ -601,6 +603,7 @@ class Options:
                                   8: ("Mid Winter's Eve (8x8)", ""),
                                   9: ("Hofamterspiel (9x9)", ""),
                                   10: ("Eternal Dragon (10x10)", "")},
+                CSI.TYPE_ISHIDO: {0: ("Simple Ishido", "")},
             }
 
     # not changeable options

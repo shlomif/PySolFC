@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PySolFC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-09-27 20:01-0400\n"
+"PO-Revision-Date: 2023-11-05 12:49-0500\n"
 "Last-Translator: Jerzy Trzeciak <artusek@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
@@ -459,6 +459,9 @@ msgstr "Gry czterotaliowe"
 msgid "Cribbage"
 msgstr "Szopka"
 
+msgid "Ishido"
+msgstr ""
+
 msgid "Lights Out"
 msgstr ""
 
@@ -618,6 +621,9 @@ msgstr "Gry typu Samotnik"
 
 msgid "Tower of Hanoi type"
 msgstr "Gra typu Wieża Hanoi"
+
+msgid "Ishido type"
+msgstr ""
 
 #: pysollib/help.py:43
 msgid "A Python Solitaire Game Collection"
@@ -919,6 +925,9 @@ msgid "Matching type (variable cards)"
 msgstr ""
 
 msgid "Puzzle type (variable pieces)"
+msgstr ""
+
+msgid "Ishido type (36 tiles)"
 msgstr ""
 
 #: pysollib/resource.py:194

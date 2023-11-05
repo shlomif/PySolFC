@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-09-27 20:02-0400\n"
+"PO-Revision-Date: 2023-11-05 12:50-0500\n"
 "Last-Translator: Matheus Knack <mtknack555@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -458,6 +458,9 @@ msgstr "Jogos de quatro baralhos"
 msgid "Cribbage"
 msgstr "Cribbage"
 
+msgid "Ishido"
+msgstr ""
+
 msgid "Lights Out"
 msgstr "Sem luz"
 
@@ -617,6 +620,9 @@ msgstr "estilo Resta um"
 
 msgid "Tower of Hanoi type"
 msgstr "estilo Torre de Lucas"
+
+msgid "Ishido type"
+msgstr ""
 
 #: pysollib/help.py:43
 msgid "A Python Solitaire Game Collection"
@@ -913,6 +919,9 @@ msgid "Matching type (variable cards)"
 msgstr "Estilos Combinados (cartas variáveis)"
 
 msgid "Puzzle type (variable pieces)"
+msgstr ""
+
+msgid "Ishido type (36 tiles)"
 msgstr ""
 
 #: pysollib/resource.py:194

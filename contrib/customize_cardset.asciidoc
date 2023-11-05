@@ -43,6 +43,7 @@ Cardsets Types:
 * Trumps Only = 9
 * Matching = 10
 * Puzzle = 11
+* Ishido = 12
 
 *$C:* The number of cards in the cardset, generally 42, 48, 52, 68, 78, 96 or 120
 
@@ -66,6 +67,7 @@ Cardsets Styles:
 * Hanafuda = 12
 * Hex A Deck = 29
 * Holiday = 13
+* Ishido = 34
 * Mahjongg = 28
 * Matching = 32
 * Movies = 14

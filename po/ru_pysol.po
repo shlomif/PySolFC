@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-09-27 20:02-0400\n"
+"PO-Revision-Date: 2023-11-05 12:50-0500\n"
 "Last-Translator: Skomoroh <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
@@ -462,6 +462,9 @@ msgstr "Игры с четырьмя колодами"
 msgid "Cribbage"
 msgstr ""
 
+msgid "Ishido"
+msgstr ""
+
 msgid "Lights Out"
 msgstr ""
 
@@ -622,6 +625,9 @@ msgid "Pegged type"
 msgstr ""
 
 msgid "Tower of Hanoi type"
+msgstr ""
+
+msgid "Ishido type"
 msgstr ""
 
 #: pysollib/help.py:43
@@ -909,6 +915,9 @@ msgid "Matching type (variable cards)"
 msgstr ""
 
 msgid "Puzzle type (variable pieces)"
+msgstr ""
+
+msgid "Ishido type (36 tiles)"
 msgstr ""
 
 #: pysollib/resource.py:194

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-09-27 20:03-0400\n"
+"PO-Revision-Date: 2023-11-05 12:49-0500\n"
 "Last-Translator: H. Schaekel <Holger.Schaekel@web.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -453,6 +453,9 @@ msgstr "4 Deck Spiele"
 msgid "Cribbage"
 msgstr ""
 
+msgid "Ishido"
+msgstr ""
+
 msgid "Lights Out"
 msgstr ""
 
@@ -613,6 +616,9 @@ msgid "Pegged type"
 msgstr ""
 
 msgid "Tower of Hanoi type"
+msgstr ""
+
+msgid "Ishido type"
 msgstr ""
 
 #: pysollib/help.py:43
@@ -884,6 +890,9 @@ msgid "Matching type (variable cards)"
 msgstr ""
 
 msgid "Puzzle type (variable pieces)"
+msgstr ""
+
+msgid "Ishido type (36 tiles)"
 msgstr ""
 
 #: pysollib/resource.py:194

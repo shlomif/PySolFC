@@ -22,6 +22,7 @@
 # ---------------------------------------------------------------------------##
 from . import cribbage  # noqa: F401
 from . import hanoi  # noqa: F401
+from . import ishido  # noqa: F401
 from . import lightsout  # noqa: F401
 from . import memory  # noqa: F401
 from . import pegged  # noqa: F401

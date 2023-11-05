@@ -57,8 +57,9 @@ class GI:
     GC_TRUMP_ONLY = CSI.TYPE_TRUMP_ONLY
     GC_MATCHING = CSI.TYPE_MATCHING
     GC_PUZZLE = CSI.TYPE_PUZZLE
+    GC_ISHIDO = CSI.TYPE_ISHIDO
 
-    NUM_CATEGORIES = CSI.TYPE_PUZZLE
+    NUM_CATEGORIES = CSI.TYPE_ISHIDO
 
     # game subcategory
     GS_NONE = CSI.SUBTYPE_NONE
@@ -90,6 +91,7 @@ class GI:
     GT_HANAFUDA = 13
     GT_HANOI = 35
     GT_HEXADECK = 14
+    GT_ISHIDO = 39
     GT_KLONDIKE = 15
     GT_LIGHTS_OUT = 38
     GT_MAHJONGG = 16
@@ -166,6 +168,7 @@ class GI:
 
         GT_CRIBBAGE_TYPE:       n_("Cribbage"),
         GT_HEXADECK:            n_("Hex A Deck"),
+        GT_ISHIDO:              n_("Ishido"),
         GT_LIGHTS_OUT:          n_("Lights Out"),
         GT_MATRIX:              n_("Matrix"),
         GT_MEMORY:              n_("Memory"),
@@ -283,6 +286,7 @@ class GI:
             lambda gi, gt=GT_CRIBBAGE_TYPE: gi.si.game_type == gt),
         (n_("Hex A Deck type"),
             lambda gi, gt=GT_HEXADECK: gi.si.game_type == gt),
+        (n_("Ishido type"), lambda gi, gt=GT_ISHIDO: gi.si.game_type == gt),
         (n_("Lights Out type"),
             lambda gi, gt=GT_LIGHTS_OUT: gi.si.game_type == gt),
         (n_("Matrix type"), lambda gi, gt=GT_MATRIX: gi.si.game_type == gt),
@@ -577,7 +581,8 @@ class GI:
         ('fc-2.21', tuple(range(897, 900)) + tuple(range(11014, 11017)) +
          tuple(range(13160, 13163)) + (16682,)),
         ('dev', tuple(range(906, 927)) + tuple(range(11017, 11020)) +
-         tuple(range(22303, 22311)) + tuple(range(22353, 22361))),
+         tuple(range(18000, 18004)) + tuple(range(22303, 22311)) +
+         tuple(range(22353, 22361))),
     )
 
     # deprecated - the correct way is to or a GI.GT_XXX flag

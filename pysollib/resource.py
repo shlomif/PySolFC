@@ -182,6 +182,7 @@ class CSI:
     TYPE_TRUMP_ONLY = 9
     TYPE_MATCHING = 10
     TYPE_PUZZLE = 11
+    TYPE_ISHIDO = 12
 
     # cardset subtypes
     SUBTYPE_NONE = 0
@@ -206,7 +207,8 @@ class CSI:
         8:  _("Dashavatara Ganjifa type (120 cards)"),
         9:  _("Trumps only type (variable cards)"),
         10: _("Matching type (variable cards)"),
-        11: _("Puzzle type (variable pieces)")
+        11: _("Puzzle type (variable pieces)"),
+        12: _("Ishido type (36 tiles)")
     }
 
     TYPE_NAME = {
@@ -220,7 +222,8 @@ class CSI:
         8:  _("Dashavatara Ganjifa"),
         9:  _("Trumps only"),
         10: _("Matching"),
-        11: _("Puzzle")
+        11: _("Puzzle"),
+        12: _("Ishido")
     }
 
     SUBTYPE_NAME = {
@@ -246,7 +249,8 @@ class CSI:
         8:  "dashavatara-ganjifa",
         9:  "trumps-only",
         10: "matching",
-        11: "puzzle"
+        11: "puzzle",
+        12: "ishido"
     }
 
     TYPE_SUITS = {
@@ -260,7 +264,8 @@ class CSI:
         8:  "abcdefghij",
         9:  "",
         10: "",
-        11: ""
+        11: "",
+        12: "abcdef"
     }
 
     TYPE_RANKS = {
@@ -275,6 +280,7 @@ class CSI:
         9:  list(range(0)),
         10: list(range(0)),
         11: list(range(0)),
+        12: list(range(6))
     }
 
     TYPE_TRUMPS = {
@@ -289,6 +295,7 @@ class CSI:
         9:  (),
         10: (),
         11: (),
+        12: ()
     }
 
     # cardset styles
@@ -308,6 +315,7 @@ class CSI:
         12:  _("Hanafuda"),             #
         29:  _("Hex A Deck"),           #
         13:  _("Holiday"),              #
+        34:  _("Ishido"),               #
         28:  _("Mahjongg"),             #
         32:  _("Matching"),             #
         14:  _("Movies"),               #
@@ -548,7 +556,10 @@ class CardsetManager(ResourceManager):
             cs.nletters = 0
             cs.nshadows = 0
             cs.trumps = list(range(cs.ncards))
-
+        elif s == CSI.TYPE_ISHIDO:
+            cs.nbottoms = 0
+            cs.nletters = 0
+            cs.nshadows = 0
         else:
             return 0
         return 1

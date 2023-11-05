@@ -433,6 +433,9 @@ msgstr ""
 msgid "Cribbage"
 msgstr ""
 
+msgid "Ishido"
+msgstr ""
+
 msgid "Lights Out"
 msgstr ""
 
@@ -591,6 +594,9 @@ msgid "Pegged type"
 msgstr ""
 
 msgid "Tower of Hanoi type"
+msgstr ""
+
+msgid "Ishido type"
 msgstr ""
 
 #: pysollib/help.py:43
@@ -830,6 +836,9 @@ msgid "Matching type (variable cards)"
 msgstr ""
 
 msgid "Puzzle type (variable pieces)"
+msgstr ""
+
+msgid "Ishido type (36 tiles)"
 msgstr ""
 
 #: pysollib/resource.py:194

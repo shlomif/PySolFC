@@ -27,7 +27,8 @@ cardset_type = {
     '8': 'Dashavatara Ganjifa',
     '9': 'Trump only',
     '10': 'Matching',
-    '11': 'Puzzle'
+    '11': 'Puzzle',
+    '12': 'Ishido'
 }
 
 ALL_IMGS = False

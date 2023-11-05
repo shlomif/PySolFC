@@ -285,6 +285,18 @@ class PictureGallery(Game):
         return ()
 
 
+class BigPictureGallery(PictureGallery):
+
+    def createGame(self):
+        PictureGallery.createGame(self, numstacks=12)
+
+
+class HugePictureGallery(PictureGallery):
+
+    def createGame(self):
+        PictureGallery.createGame(self, numstacks=16)
+
+
 # ************************************************************************
 # * Great Wheel
 # * Greater Wheel
@@ -610,3 +622,7 @@ registerGame(GameInfo(803, BigParade, "Big Parade",
                       GI.GT_3DECK_TYPE, 3, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(804, ThreeUp, "Three Up",
                       GI.GT_3DECK_TYPE, 3, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(927, BigPictureGallery, "Big Picture Gallery",
+                      GI.GT_3DECK_TYPE, 3, 0, GI.SL_BALANCED))
+registerGame(GameInfo(928, HugePictureGallery, "Huge Picture Gallery",
+                      GI.GT_4DECK_TYPE, 4, 0, GI.SL_BALANCED))

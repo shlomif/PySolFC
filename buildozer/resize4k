@@ -1,0 +1,37 @@
+#!/usr/bin/bash
+
+location='.'
+if [ $1 ]
+then
+  location=$1
+fi
+
+pushd $location
+
+dir='save-aspect-4k'
+if [ -d $dir ]
+then
+	pushd 'save-aspect-4k'
+	for f in *.jpg
+	do
+		echo $f
+		convert $f -resize 1920x1920 -quality 65 temp_$f
+		mv -f temp_$f $f
+	done
+	popd
+fi
+
+dir='stretch-4k'
+if [ -d $dir ]
+then
+	pushd 'stretch-4k'
+	for f in *.jpg
+	do
+		echo $f
+		convert $f -resize 1920x1920 -quality 65 temp_$f
+		mv -f temp_$f $f
+	done
+	popd
+fi
+
+popd

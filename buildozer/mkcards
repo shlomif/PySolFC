@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eux
+#set -eux
 
 #loadmode="forge"
 loadmode=""
@@ -58,16 +58,22 @@ else
 		done
 		rm repo -rf
 
-  	echo '### processing cardsets'
+ 		echo '### processing cardsets'
 
-	  ../../scripts/cardconv gif png
-  	for i in cardset-*-png; do
-    	rm -rf `basename $i -png`
-  	done
+		../../scripts/cardconv gif png
+		for i in cardset-*-png; do
+			rm -rf `basename $i -png`
+		done
 		popd
 	fi
 
 	ln -s ${cardsets_dir} cardsets
 fi
+
+pushd cardsets
+	for i in cardset-*; do
+		../resizecards $i
+	done
+popd
 
 echo '### end cardsets'

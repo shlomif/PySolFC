@@ -652,6 +652,10 @@ class MfxCanvas(Widget):
             hh = r.tex_coords[5] - v
             w = ww * stepsx
             h = hh * stepsy
+
+            # move reference point to top left:
+            v = stepsy - math.floor(stepsy)
+
             r.tex_coords = ( u, v, u + w, v, u + w, v + h, u, v + h )  # noqa
 
     def setBackgroundImage(self, event=None):

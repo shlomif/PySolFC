@@ -1,0 +1,110 @@
+#!/usr/bin/env python3
+# -*- mode: python; coding: utf-8; -*-
+
+import sys
+import os
+import math
+
+carddir = ""
+filename = ""
+maxw = 120
+maxh = 180
+
+# arguments:
+# 1: cardset directory
+# 2: maximum card width
+# 3: maximum card height
+
+if len(sys.argv) < 2:
+    exit (1)
+if len(sys.argv) > 1:
+    carddir = sys.argv[1]
+    filename = sys.argv[1]+"/config.txt"
+if len(sys.argv) > 2:
+    maxw = int(sys.argv[2])
+if len(sys.argv) > 3:
+    maxh = int(sys.argv[3])
+
+#print (filename)
+#print (carddir)
+#print (maxw,"x",maxh)
+
+# 1: read the config file line by line and extract x,y, xoffset, yoffset.
+
+lines_list = None
+with open(filename, "rt") as f:
+    lines_list = f.readlines()
+    lines_list = [line.strip() for line in lines_list]
+    if not lines_list[0].startswith("PySol"):
+        exit (1)
+
+#print (lines_list)
+
+cardw, cardh, cardd = (int(x) for x in lines_list[2].split())
+xoffs, yoffs, sxoffs, syoffs = (int(x) for x in lines_list[3].split())
+
+#print (cardw,cardh)
+#print (xoffs,yoffs)
+
+# 2: calculate scale factor.
+
+scale = maxw / cardw
+scaleh = maxh / cardh
+if scaleh < scale:
+    scale = scaleh
+
+#print (scale)
+
+if scale >= 1.0:
+    exit (0)
+
+# 3: convert all images to (width)x(height) with imagemagick if needed.
+
+def img_size(f):
+    stream = os.popen('identify '+f)
+    info = stream.read().split()
+    dims = info[2].split('x')
+    w = int(dims[0])
+    h = int(dims[1])
+    return (w,h)
+
+cardw = int(math.floor(cardw*scale))
+cardh = int(math.floor(cardh*scale))
+xoffs = int(math.ceil(xoffs*scale))
+yoffs = int(math.ceil(yoffs*scale))
+#print (cardw,cardh)
+#print (xoffs,yoffs)
+
+for fn in os.listdir(path=carddir):
+    file = carddir+'/'+fn
+    fileo = carddir+'/conv-'+fn
+
+    if fn.endswith('.png') and not fn.startswith('shadow'):
+        cmd = "convert "+file+" -resize "+str(cardw)+"x"+str(cardh)+" "+fileo
+        cmd2 = "mv -f "+fileo+" "+file
+        #print (cmd)
+        os.system(cmd)
+        os.system(cmd2)
+
+    if fn.endswith('.png') and fn.startswith('shadow'):
+        w,h = img_size(file)
+        if w>h:
+           w = int(w*scale)
+        else:
+           h = int(h*scale)
+        cmd = "convert "+file+" -resize '"+str(w)+"x"+str(h)+"!' "+fileo
+        cmd2 = "mv -f "+fileo+" "+file
+        #print (cmd)
+        os.system(cmd)
+        os.system(cmd2)
+
+# 4: rewrite the config file.
+
+print ('rescaled by',scale,':',carddir)
+lines_list[2] = str(cardw)+" "+str(cardh)+" "+str(cardd)
+lines_list[3] = str(xoffs)+" "+str(yoffs)+" "+str(sxoffs)+" "+str(syoffs)
+#print (lines_list)
+
+with open(carddir+"/config.txt", "w") as f:
+    for l in lines_list:
+        f.write(l+"\n")

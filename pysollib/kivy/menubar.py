@@ -38,6 +38,7 @@ from pysollib.kivy.LApp import LScrollView
 from pysollib.kivy.LApp import LTopLevel
 from pysollib.kivy.LApp import LTreeNode
 from pysollib.kivy.LApp import LTreeRoot
+from pysollib.kivy.androidrot import AndroidScreenRotation
 from pysollib.kivy.findcarddialog import destroy_find_card_dialog
 from pysollib.kivy.fullpicturedialog import destroy_full_picture_dialog
 from pysollib.kivy.selectcardset import SelectCardsetDialogWithPreview
@@ -54,7 +55,6 @@ from pysollib.pysoltk import connect_game_find_card_dialog
 from pysollib.pysoltk import connect_game_full_picture_dialog
 from pysollib.settings import SELECT_GAME_MENU
 from pysollib.settings import TITLE
-
 
 # ************************************************************************
 # * tk emuls:
@@ -2031,6 +2031,7 @@ class PysolMenubarTk:
                 return
         self.game.doPause()
         self.tkopt.pause.set(self.game.pause)
+        AndroidScreenRotation.unlock()
 
     def mOptLanguage(self, *args):
         if self._cancelDrag(break_pause=False):

@@ -28,6 +28,7 @@ echo "" > ${tmpdir}/data/images/cards/bottoms/trumps-only/.keep
 echo '### prepare cardsets'
 
 ./mkcards
+./resize4k ${tmpdir}/data/tiles
 
 cp -a cardsets/* ${tmpdir}/data
 

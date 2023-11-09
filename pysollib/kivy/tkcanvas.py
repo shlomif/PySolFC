@@ -129,14 +129,80 @@ def subAnchorOffset(pos, anchor, size):
 
 class MfxCanvasGroup():
     def __init__(self, canvas, tag=None):
-        # logging.info('MfxCanvasGroup: __init__() %s - %s' %
-        #  (str(canvas), str(tag)))
+        # print(self, '__init__(', canvas, tag, ')')
+
         self.canvas = canvas
         self.bindings = {}
         self.stack = None
 
-    def tkraise(self):
-        pass
+    def __str__(self):
+        return f'<MfxCanvasGroup @ {hex(id(self))}>'
+
+    def _imglist(self, group):
+        ilst = []
+        for w in reversed(group.canvas.children):
+            if isinstance(w, LImageItem):
+                if w.group == group:
+                    ilst.append(w)
+        # damit is 0 das unterste image und -1 das oberste.
+        return ilst
+
+    def tkraise(self, position=None):
+        # print(self, ' tkraise(', position, ')')
+        # Das wird bei Mahjongg extensiv aufgerufen, wenn der Move
+        # abeschlossen ist.  Wird aber auch bei andern games benutzt.
+
+        imgs = self._imglist(self)
+        if position is not None:
+            # In self.canvas suchen: das oberste image, welches zu position
+            # gehört und liste der images oberhalb einfüllen u.a.a.O weglassen.
+
+            pimgs = self._imglist(position)
+            ws = []
+            for c in reversed(self.canvas.children):
+                if c not in imgs:
+                    ws.append(c)
+                if c == pimgs[-1]:
+                    ws.extend(imgs)
+            self.canvas.clear_widgets()
+            for w in ws:
+                self.canvas.add_widget(w)
+        else:
+            # alle images in dieser gruppe ganz nach oben
+            ws = []
+            for c in reversed(self.canvas.children):
+                if c not in imgs:
+                    ws.append(c)
+            ws.extend(imgs)
+            self.canvas.clear_widgets()
+            for w in ws:
+                self.canvas.add_widget(w)
+
+    def lower(self, position=None):
+        # print(self, ' lower(', position, ')')
+        # dasselbe wi tkraise aber vorher statt nachher einfügen.
+
+        imgs = self._imglist(self)
+        if position is not None:
+            pimgs = self._imglist(position)
+            ws = []
+            for c in reversed(self.canvas.children):
+                if c == pimgs[0]:
+                    ws.extend(imgs)
+                if c not in imgs:
+                    ws.append(c)
+            self.canvas.clear_widgets()
+            for w in ws:
+                self.canvas.add_widget(w)
+        else:
+            # alle images in dieser gruppe ganz nach unten ???
+            ws = imgs
+            for c in reversed(self.canvas.children):
+                if c not in imgs:
+                    ws.append(c)
+            self.canvas.clear_widgets()
+            for w in ws:
+                self.canvas.add_widget(w)
 
     def addtag(self, tag, option="withtag"):
         # logging.info('MfxCanvasGroup: addtag(%s, %s)' % (tag, option))
@@ -170,6 +236,7 @@ class MfxCanvasImage(object):
 
         # print ('MfxCanvasImage: %s | %s | %s' % (canvas, args, kwargs))
 
+        self.group = None
         group = None
         if 'group' in kwargs:
             group = kwargs['group']
@@ -183,6 +250,11 @@ class MfxCanvasImage(object):
         self.hint = None
         if 'hint' in kwargs:
             self.hint = kwargs['hint']
+
+        # print ('MfxCanvasImage: group = %s ' % (group))
+        # wir kommen üblicherweise aus Card.__init__(). und da ist keine
+        # group (group wird über addtag gesetzt, sobald das image
+        # in einem stack ist.)
 
         super(MfxCanvasImage, self).__init__()
         self.canvas = canvas
@@ -223,27 +295,31 @@ class MfxCanvasImage(object):
         print('MfxCanvasImage: __del__(%s)' % self.image)
         self.canvas.clear_widgets([self.image])
 
+    def __str__(self):
+        return f'<MfxCanvasImage @ {hex(id(self))}>'
+
     def config(self, **kw):
         pass
 
     def tkraise(self, aboveThis=None):
-        # print('MfxCanvasImage: tkraise')
+        print(self, ': tkraise, above =', aboveThis)
+
         abitm = None
         if aboveThis:
-            abitm = aboveThis.widget
-        if not self.animation:
-            self.canvas.tag_raise(self.image, abitm)
-        pass
+            if isinstance(aboveThis, MfxCanvasImage):
+                abitm = aboveThis.widget
+            if isinstance(aboveThis, LImageItem):
+                abitm = aboveThis
+        self.canvas.tag_raise(self.image, abitm)
 
     def addtag(self, tag):
-        # print('MfxCanvasImage: addtag %s' % tag)
+        print('MfxCanvasImage: addtag %s' % tag.stack)
         self.group = tag
         if (self.image):
             self.image.group = tag
-        pass
 
     def dtag(self, tag):
-        # print('MfxCanvasImage: remtag %s' % tag)
+        print('MfxCanvasImage: remtag %s' % tag.stack)
         self.group = None
         if (self.image):
             self.image.group = None
@@ -254,7 +330,7 @@ class MfxCanvasImage(object):
         self.canvas.clear_widgets([self.image])
 
     def move(self, dx, dy):
-        # print ('MfxCanvasImage: move %s, %s' % (dx, dy))
+        print('MfxCanvasImage: move %s, %s' % (dx, dy))
         image = self.image
         dsize = image.coreSize
         dpos = (image.corePos[0] + dx, image.corePos[1] + dy)
@@ -264,19 +340,17 @@ class MfxCanvasImage(object):
 
     def makeAnimStart(self):
         def animStart(anim, widget):
-            # print('MfxCanvasImage: animStart')
-            image = self.image
-            self.canvas.tag_raise(image, None)
+            print('MfxCanvasImage: animStart %s' % self)
+            # nothing to do hiere
             pass
         return animStart
 
     def makeAnimEnd(self, dpos, dsize):
         def animEnd(anim, widget):
-            # print('MfxCanvasImage: animEnd %s' % self)
+            print('MfxCanvasImage: animEnd %s' % self)
             self.animation = False
             image = self.image
             image.pos, image.size = self.canvas.CoreToKivy(dpos, dsize)
-            pass
         return animEnd
 
     def animatedMove(self, dx, dy, duration=0.2):
@@ -309,10 +383,6 @@ class MfxCanvasImage(object):
             duration=duration, transition=transition,
             bindS=self.makeAnimStart(),
             bindE=self.makeAnimEnd(dpos, dsize))
-
-    # def moveTo(self, x, y):
-    #    c = self.coords()
-    #    self.move(x - int(c[0]), y - int(c[1]))
 
     def show(self):
         self.config(state='normal')
@@ -443,6 +513,9 @@ class MfxCanvasText(object):
 
 
 class MfxCanvas(Widget):
+
+    def __str__(self):
+        return f'<MfxCanvas @ {hex(id(self))}>'
 
     def __init__(self, wmain, *args, **kw):
         # super(MfxCanvas, self).__init__(**kw)
@@ -707,23 +780,25 @@ class MfxCanvas(Widget):
     #
     # top-image support
     #
-
     def tag_raise(self, itm, abitm=None):
         # print('MfxCanvas: tag_raise, itm=%s, aboveThis=%s' % (itm, abitm))
+
         if (itm is not None):
             if (abitm is None):
                 # print('MfxCanvas: tag_raise: to top')
                 self.clear_widgets([itm])
                 self.add_widget(itm)
             else:
-                print('MfxCanvas: tag_raise: to specified position')
+                # print('MfxCanvas: tag_raise: to specified position')
                 ws = []
                 for c in reversed(self.children):   # reversed!
                     if c != itm and c != abitm:
                         ws.append(c)
                     if c == itm:
+                        continue
+                    if c == abitm:
                         ws.append(abitm)
-                        ws.append(itm)    # (~shadow image!)
+                        ws.append(itm)
                 self.clear_widgets()
                 for w in ws:
                     self.add_widget(w)

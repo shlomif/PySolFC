@@ -211,11 +211,11 @@ class Mahjongg_RowStack(OpenStack):
         elif TOOLKIT == 'kivy':
             rows = [s for s in self.game.s.rows[:self.id] if s.cards]
             if rows:
-                # self.group.tkraise(rows[-1].group)
+                self.group.tkraise(rows[-1].group)
                 return
             rows = [s for s in self.game.s.rows[self.id+1:] if s.cards]
             if rows:
-                # self.group.lower(rows[0].group)
+                self.group.lower(rows[0].group)
                 return
         elif TOOLKIT == 'gtk':
             # FIXME (this is very slow)

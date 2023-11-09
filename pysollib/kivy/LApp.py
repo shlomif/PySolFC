@@ -765,6 +765,9 @@ class LImageItem(BoxLayout, LBase):
         # ev. noch globales cache für stacks->game und cards->stack
         # einrichten. Aber: stacks hängt vom jeweiligen spiel ab.
 
+    def __str__(self):
+        return f'<LImageItem @ {hex(id(self))}>'
+
     def send_event_pressed_n(self, event, n):
         if self.group and n in self.group.bindings:
             self.group.bindings[n](event)

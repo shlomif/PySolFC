@@ -125,6 +125,9 @@ class _OneImageCard(_HideableCard):
     def animatedMove(self, dx, dy, duration=0.2):
         self.item.animatedMove(dx, dy, duration)
 
+    def animationIsRunning(self):
+        return self.item.animation
+
 # ************************************************************************
 # * New idea since 3.00
 # *

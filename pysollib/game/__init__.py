@@ -1450,6 +1450,23 @@ class Game(object):
         # 10 - used internally in game preview
         if self.app.opt.animations == 0 or frames == 0:
             return
+
+        if TOOLKIT == 'kivy':
+            from kivy.base import EventLoop
+            if tkraise:
+                for card in cards:
+                    card.tkraise()
+            c0 = cards[0]
+            dx, dy = (x - c0.x), (y - c0.y)
+            for card in cards:
+                base = float(self.app.opt.animations)
+                duration = base*0.1
+                card.animatedMove(dx, dy, duration)
+            for card in cards:
+                while card.animationIsRunning():
+                    EventLoop.idle()
+            return
+
         # init timer - need a high resolution for this to work
         clock, delay, skip = None, 1, 1
         if self.app.opt.animations >= 2:
@@ -1476,16 +1493,8 @@ class Game(object):
         if shadow < 0:
             shadow = self.app.opt.shadow
         shadows = ()
-        # start animation
-        if TOOLKIT == 'kivy':
-            c0 = cards[0]
-            dx, dy = (x - c0.x), (y - c0.y)
-            for card in cards:
-                base = float(self.app.opt.animations)
-                duration = base*0.1
-                card.animatedMove(dx, dy, duration)
-            return
 
+        # start animation
         if tkraise:
             for card in cards:
                 card.tkraise()

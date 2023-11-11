@@ -285,120 +285,6 @@ r(5414, "Bridge 2", layout="0daadacdaedagdai" +
     "AedAgdAidAkdAmdA" +
     "o")
 
-# r(5501, "Big X", layout="0aacaamhbchbmacb" +
-#    "occacdaclocmacnh" +
-#    "dbhddhdlhdnaeaae" +
-#    "coedaeeaekoelaem" +
-#    "aeohfchfehfkhfma" +
-#    "gbagdogeagfagjog" +
-#    "kaglagnhhdhhfhhj" +
-#    "hhlaicaieoifaiga" +
-#    "iioijaikaimhjehj" +
-#    "ghjihjkakdakfokg" +
-#    "akhokiakjaklhlfh" +
-#    "lhhljameamgomgam" +
-#    "iomiamkhnfhnhhnj" +
-#    "aofoofaohoohaojo" +
-#    "ojhpfhphhpjaqeaq" +
-#    "goqgaqioqiaqkhrf" +
-#    "hrhhrjasdasfosga" +
-#    "shosiasjaslhteht" +
-#    "ghtihtkaucaueouf" +
-#    "augauioujaukaumh" +
-#    "vdhvfhvjhvlawbaw" +
-#    "doweawfawjowkawl" +
-#    "awnhxchxehxkhxma" +
-#    "yaaycoydayeaykoy" +
-#    "laymayohzbhzdhzl" +
-#    "hznaAboAcaAdaAlo" +
-#    "AmaAnhBchBmaCcaC" +
-#    "m")
-# r(5502, "Axis", layout="0bafcahbajbbdvbh" +
-#    "bblcchCchbdcvdhb" +
-#    "dmcehCehbfbvfhbf" +
-#    "ncghahaahohiahio" +
-#    "ajabjhajohkabkfb" +
-#    "kjhkoalabldbllal" +
-#    "ohmacmhhmoanaanc" +
-#    "vnhanmanoiobcohi" +
-#    "onapbwphapniqbcq" +
-#    "hiqnaraarcvrharm" +
-#    "arohsacshhsoatab" +
-#    "tdbtlatohuabufbu" +
-#    "jhuoavabvhavohwa" +
-#    "hwoaxaaxocyhbzbv" +
-#    "zhbzncAhCAhbBcvB" +
-#    "hbBmcChCChbDdvDh" +
-#    "bDlbEfcEhbEj")
-# r(5503, "Cobweb", layout="0aacaafhagaahoah" +
-#    "haiaajaamacbhcca" +
-#    "cdaclhcmacnadfhd" +
-#    "gadhodhhdiadjaea" +
-#    "aeohfaafcafeafha" +
-#    "fkafmhfoagaogaag" +
-#    "oogohhaahcahhahm" +
-#    "hhoaiaoiaaiooioh" +
-#    "jaajdajhajlhjoak" +
-#    "aakoalealhalkama" +
-#    "amoancanfhnganhh" +
-#    "nianjanmaoahoboo" +
-#    "gooihonaooopbapc" +
-#    "bpgvpgbpivpiapmo" +
-#    "pnaqahqboqgoqihq" +
-#    "naqoarcarfhrgarh" +
-#    "hriarjarmasaasoa" +
-#    "teathatkauaauohv" +
-#    "aavdavhavlhvoawa" +
-#    "owaawoowohxaaxca" +
-#    "xhaxmhxoayaoyaay" +
-#    "ooyohzaazcazeazh" +
-#    "azkazmhzoaAaaAoa" +
-#    "BfhBgaBhoBhhBiaB" +
-#    "jaCbhCcaCdaClhCm" +
-#    "aCnaEcaEfhEgaEho" +
-#    "EhhEiaEjaEm")
-# r(5504, "Pyramids", layout="0aaaaacaakaamhbb" +
-#    "abeabgabihblacaa" +
-#    "ccackacmhdbadead" +
-#    "gadihdlaeaaecaek" +
-#    "aemaffhfgafhahba" +
-#    "heahiahlhibhiehi" +
-#    "ihilajbojbajdoje" +
-#    "ajfajhojiajjajlo" +
-#    "jlhkbvkbhkevkehk" +
-#    "ghkivkihklvklalb" +
-#    "olbClbaldoleClea" +
-#    "lfolgalholiClial" +
-#    "jallollCllhmbvmb" +
-#    "hmevmehmgvmghmiv" +
-#    "mihmlvmlanbonbCn" +
-#    "bandoneCneanfong" +
-#    "anhoniCnianjanlo" +
-#    "nlCnlhobvobhoevo" +
-#    "ehoghoivoiholvol" +
-#    "apbopbapdopeapfa" +
-#    "phopiapjaploplhq" +
-#    "bhqehqihqlarbare" +
-#    "ariarlatfhtgatha" +
-#    "uaaucaukaumhvbav" +
-#    "eavgavihvlawaawc" +
-#    "awkawmhxbaxeaxga" +
-#    "xihxlayaaycaykay" +
-#    "m")
-# r(5505, "Wicker", layout="0bafbakbbcbbhbbm" +
-#    "bcebcjbdbbdgbdlb" +
-#    "edbeibenbfabffbf" +
-#    "kbgcbghbgmbhebhj" +
-#    "bibbigbilbjdbjib" +
-#    "jnbkabkfbkkblcbl" +
-#    "hblmbmebmjbnbbng" +
-#    "bnlbodboibonbpab" +
-#    "pfbpkbqcbqhbqmbr" +
-#    "ebrjbsbbsgbslbtd" +
-#    "btibtnbuabufbukb" +
-#    "vcbvhbvmbwebwjbx" +
-#    "bbxgbxlbydbyibyn" +
-#    "bzfbzkbAh")
 
 r(5801, "Faro", name="Double Mahjongg Faro", ncards=288, layout="0aaaha" +
     "baachadaae" +
@@ -446,21 +332,6 @@ r(5801, "Faro", name="Double Mahjongg Faro", ncards=288, layout="0aaaha" +
     "chEdaEeoEehEfaEg" +
     "iEhaEihEjaEkoEkh" +
     "ElaEmhEnaEo")
-# r(5802, "Big Square", name="Double Mahjongg Big Square", ncards=288,
-# layout="0daadacdaedagdai" +
-#    "dakdcadccdcedcgd" +
-#    "cidckdeadecdeede" +
-#    "gdeidekdgadgcdge" +
-#    "dggdgidgkdiadicd" +
-#    "iedigdiidikdkadk" +
-#    "cdkedkgdkidkkdma" +
-#    "dmcdmedmgdmidmkd" +
-#    "oadocdoedogdoido" +
-#    "kdqadqcdqedqgdqi" +
-#    "dqkdsadscdsedsgd" +
-#    "sidskduaducduedu" +
-#    "gduidukdwadwcdwe" +
-#    "dwgdwidwk")
 r(5803, "Two Squares", name="Double Mahjongg Two Squares", ncards=288,
         layout="0daadacdaedagdai" +
     "dakdcadccdcedcgd" +
@@ -476,20 +347,6 @@ r(5803, "Two Squares", name="Double Mahjongg Two Squares", ncards=288,
     "uidukdwadwcdwedw" +
     "gdwidwkdyadycdye" +
     "dygdyidyk")
-# r(5804, "Rows", name="Double Mahjongg Rows", ncards=288,
-# layout="0daadacCaddaeCaf" +
-#    "dagCahdaidakdcad" +
-#    "ckeeadeceeeeegde" +
-#    "ieekegaegkeiadic" +
-#    "eieeigdiieikekae" +
-#    "kkemadmcemeemgdm" +
-#    "iemkeoaeokeqadqc" +
-#    "eqeeqgdqieqkesae" +
-#    "skeuaduceueeugdu" +
-#    "ieukewaewkeyadyc" +
-#    "eyeeygdyieykdAad" +
-#    "AkdCadCcCCddCeCC" +
-#    "fdCgCChdCidCk")
 r(5805, "Twin Picks", name="Double Mahjongg Twin Picks", ncards=288,
         layout="0aacaaeaagaaiaak" +
     "aamhbdhbfhbhhbjh" +
@@ -639,7 +496,7 @@ r(5808, "Eight Squares", name="Double Mahjongg Eight Squares", ncards=288,
     "vjdvldxadxcdxedx" +
     "hdxjdxldzadzcdze" +
     "dzhdzjdzl")
-r(5809, "Big Flying Dragon", name="Double Mahjongg Big Flying Dragon",
+r(5809, "Big Traditional", name="Double Mahjongg Big Traditional",
         ncards=288, layout="0aajacaaciackacs" +
     "aeaaegaeihejaeka" +
     "emaesagaageaggbg" +
@@ -736,32 +593,7 @@ r(5901, "Happy New Year", name="Half Mahjongg Happy New Year", ncards=72,
     "nhbodbohaolopdop" +
     "hhplbqdbqhaqlase" +
     "asiasmaufaujaun")
-# r(5902, "K 2", name="Half Mahjongg K 2", ncards=72,
-# layout="0aagabcabehbfobg" +
-#    "hbhabiabkacgvcga" +
-#    "dbidgadlaegvegbf" +
-#    "aifgbfmaggbhaihg" +
-#    "bhmaigbjahjgbjma" +
-#    "kgokgblahlgblmam" +
-#    "gbnaingbnmaogbpa" +
-#    "ipgbpmaqgvqgarbi" +
-#    "rgarlasgvsgatcat" +
-#    "ehtfotghthatiatk" +
-#    "aug")
-# r(5903, "Abstract", name="Half Mahjongg Abstract", ncards=72,
-# layout="0aaaaagabcabebdd" +
-#    "adgadioedhehafch" +
-#    "fdafeafhagahhaah" +
-#    "dahgaiahjaojbbjc" +
-#    "ajfakaalcamfamha" +
-#    "nbhncandhngaogbo" +
-#    "iapdhqdaqiarcord" +
-#    "arehrihsdasgasia" +
-#    "tdauaaufhvbavcav" +
-#    "iawaawehxeaxiayc" +
-#    "ayebyghzdaAdaAha" +
-#    "BbaBfhCfaCiaDcaD" +
-#    "eaDghDhaEaaEi")
+
 r(5904, "Smile", name="Half Mahjongg Smile", ncards=72,
         layout="0bagoahbaibbebbk" +
     "bccbcmbebbenaffb" +

@@ -323,6 +323,13 @@ class GI:
          297: 631,              # Alternation/Alternations
          526: 447,              # Australian/Outback Patience
          640: 566,              # Hypotenuse/Brazilian Patience
+
+         # Lost Mahjongg Layouts
+         5025: 5600, 5032: 5601, 5043: 5602, 5046: 5603, 5051: 5604,
+         5061: 5605, 5062: 5606, 5066: 5607, 5085: 5608, 5093: 5609,
+         5101: 5610, 5213: 5611, 5214: 5612, 5238: 5613, 5244: 5614,
+         5501: 5615, 5502: 5616, 5503: 5617, 5504: 5618, 5505: 5619,
+         5802: 5620, 5804: 5621, 5902: 5622, 5903: 5623
     }
 
     # For games by compatibility, note that missing games may actually
@@ -581,8 +588,8 @@ class GI:
         ('fc-2.21', tuple(range(897, 900)) + tuple(range(11014, 11017)) +
          tuple(range(13160, 13163)) + (16682,)),
         ('dev', tuple(range(906, 929)) + tuple(range(11017, 11020)) +
-         tuple(range(18000, 18004)) + tuple(range(22303, 22311)) +
-         tuple(range(22353, 22361))),
+         tuple(range(5600, 5624)) + tuple(range(18000, 18004)) +
+         tuple(range(22303, 22311)) + tuple(range(22353, 22361))),
     )
 
     # deprecated - the correct way is to or a GI.GT_XXX flag

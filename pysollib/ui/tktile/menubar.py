@@ -967,7 +967,7 @@ class PysolMenubarTkCommon:
                                       self.tkopt.gameid)
 
     def _addSelectGameSubMenu(self, games, menu, select_data,
-                              command, variable):
+                              command, variable, short_name=False):
         # print select_data
         need_sep = 0
         for label, select_func in select_data:
@@ -981,7 +981,8 @@ class PysolMenubarTkCommon:
                 menu.add_separator()
                 need_sep = 0
             submenu = MfxMenu(menu, label=label)
-            self._addSelectGameSubSubMenu(g, submenu, command, variable)
+            self._addSelectGameSubSubMenu(g, submenu, command, variable,
+                                          short_name=short_name)
 
     def _getNumGames(self, games, select_data):
         ngames = 0
@@ -1003,38 +1004,24 @@ class PysolMenubarTkCommon:
         mahjongg_games.sort(key=sort_func)
         #
         menu = MfxMenu(menu, label=n_("&Mahjongg games"))
-
-        def add_menu(games, c0, c1, menu=menu,
-                     variable=variable, command=command):
-            if not games:
-                return
-            label = c0 + ' - ' + c1
-            if c0 == c1:
-                label = c0
+        n, d = 0, self.cb_max
+        i = 0
+        while True:
+            if self.progress:
+                self.progress.update(step=1)
+            columnbreak = i > 0 and (i % d) == 0
+            i += 1
+            if not mahjongg_games[n:n + d]:
+                break
+            m = min(n + d - 1, len(mahjongg_games) - 1)
+            label = mahjongg_games[n].short_name[:3] + ' - ' + \
+                mahjongg_games[m].short_name[:3]
             submenu = MfxMenu(menu, label=label, name=None)
-            self._addSelectGameSubSubMenu(games, submenu, command,
-                                          variable, short_name=True)
-
-        games = {}
-        for gi in mahjongg_games:
-            c = gi.short_name.strip()[0]
-            if c in games:
-                games[c].append(gi)
-            else:
-                games[c] = [gi]
-        games = list(games.items())
-        games.sort()
-        g0 = []
-        c0 = c1 = games[0][0]
-        for c, g1 in games:
-            if len(g0)+len(g1) >= self.cb_max:
-                add_menu(g0, c0, c1)
-                g0 = g1
-                c0 = c1 = c
-            else:
-                g0 += g1
-                c1 = c
-        add_menu(g0, c0, c1)
+            self._addSelectGameSubSubMenu(mahjongg_games[n:n + d], submenu,
+                                          command, variable, short_name=True)
+            n += d
+            if columnbreak:
+                menu.entryconfigure(i, columnbreak=columnbreak)
 
     def _addSelectPopularGameSubMenu(self, games, menu, command, variable):
         def select_func(gi):

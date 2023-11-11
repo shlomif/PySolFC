@@ -604,11 +604,14 @@ class GI:
         14,    # Grounds for a Divorce
         19,    # Yukon
         31,    # Baker's Dozen
+        34,    # Beleaguered Castle
         36,    # Golf
         38,    # Pyramid
+        53,    # Montana
         105,   # Canfield
         158,   # Imperial Trumps
         279,   # Kings
+        901,   # La Belle Lucie
         903,   # Aces Up
         5034,  # Mahjongg Flying Dragon
         5401,  # Mahjongg Taipei

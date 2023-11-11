@@ -1139,9 +1139,11 @@ class PysolMenubarTkCommon:
 
     def mSelectGame(self, *args):
         self._mSelectGame(self.tkopt.gameid.get())
+        self.tkopt.gameid.set(self.game.id)
 
     def mSelectGamePopular(self, *args):
         self._mSelectGame(self.tkopt.gameid_popular.get())
+        self.tkopt.gameid_popular.set(self.game.id)
 
     def _mSelectGameDialog(self, d):
         if d.status == 0 and d.button == 0 and d.gameid != self.game.id:

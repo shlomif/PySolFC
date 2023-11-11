@@ -5157,8 +5157,23 @@ msgstr ""
 msgid "Save games &geometry"
 msgstr ""
 
+msgid "Othe&r graphics"
+msgstr ""
+
 #: pysollib/ui/tktile/menubar.py:637
 msgid "&Demo logo"
+msgstr ""
+
+msgid "D&ialog icons"
+msgstr ""
+
+msgid "&Show demo logo"
+msgstr ""
+
+msgid "&Pause text"
+msgstr ""
+
+msgid "&Redeal iconso"
 msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:640

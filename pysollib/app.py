@@ -508,6 +508,7 @@ class Application:
     def loadImages1(self):
         # load dialog images
         dirname = os.path.join("images", "logos")
+        self.gimages.logos = []
         for f in ("joker07_40_774",
                   "joker08_40_774",
                   "joker07_50_774",
@@ -515,11 +516,7 @@ class Application:
                   "joker11_100_774",
                   "joker10_100",):
             self.gimages.logos.append(self.dataloader.findImage(f, dirname))
-        # if WIN_SYSTEM == 'win32':
-        #     dirname = os.path.join('images', 'dialog', 'default')
-        # else:
-        #     dirname = os.path.join('images', 'dialog', 'bluecurve')
-        dirname = os.path.join('images', 'dialog', 'remix')
+        dirname = os.path.join('images', 'dialog', self.opt.dialog_icon_style)
         for f in ('error', 'info', 'question', 'warning'):
             fn = self.dataloader.findImage(f, dirname)
             im = loadImage(fn)
@@ -539,16 +536,27 @@ class Application:
 
     def loadImages2(self):
         # load canvas images
-        dirname = "images"
+        dirname = os.path.join("images", "redealicons",
+                               self.opt.redeal_icon_style)
         # for f in ("noredeal", "redeal",):
+        self.gimages.redeal = []
         for f in ("stopsign", "redeal",):
             self.gimages.redeal.append(self.dataloader.findImage(f, dirname))
-        dirname = os.path.join("images", "demo")
+        dirname = os.path.join("images", "demo", self.opt.demo_logo_style)
+        self.gimages.demo = []
         for f in ("demo01", "demo02", "demo03", "demo04", "demo05",):
-            self.gimages.demo.append(self.dataloader.findImage(f, dirname))
-        dirname = os.path.join("images", "pause")
+            try:
+                self.gimages.demo.append(self.dataloader.findImage(f, dirname))
+            except OSError:
+                pass
+        dirname = os.path.join("images", "pause", self.opt.pause_text_style)
+        self.gimages.pause = []
         for f in ("pause01", "pause02", "pause03",):
-            self.gimages.pause.append(self.dataloader.findImage(f, dirname))
+            try:
+                self.gimages.pause.append(self.dataloader.findImage(f,
+                                                                    dirname))
+            except OSError:
+                pass
         # dirname = os.path.join("images", "stats")
         # for f in ("barchart",):
         #     self.gimages.stats.append(self.dataloader.findImage(f, dirname))

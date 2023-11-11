@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: 1.02\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-11-05 12:49-0500\n"
+"PO-Revision-Date: 2023-11-11 18:27-0500\n"
 "Last-Translator: Eric Rausch <neelix570@gmail.com>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -5408,9 +5408,24 @@ msgstr "Barre d'&aide"
 msgid "Save games &geometry"
 msgstr "Enregistrer la &géométrie du jeu"
 
+msgid "Othe&r graphics"
+msgstr ""
+
 #: pysollib/ui/tktile/menubar.py:637
 msgid "&Demo logo"
 msgstr "Logo de &démo"
+
+msgid "D&ialog icons"
+msgstr ""
+
+msgid "&Show demo logo"
+msgstr ""
+
+msgid "&Pause text"
+msgstr ""
+
+msgid "&Redeal iconso"
+msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:640
 msgid "Startup splash sc&reen"

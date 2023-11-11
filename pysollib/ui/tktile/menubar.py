@@ -86,6 +86,63 @@ def createStatusbarMenu(menubar, menu):
             command=lambda m=menubar, w=comp: m.mOptStatusbarConfig(w))
 
 
+def createOtherGraphicsMenu(menubar, menu):
+    tearoff = menu.cget('tearoff')
+    data_dir = os.path.join(menubar.app.dataloader.dir, 'images', 'demo')
+    submenu = MfxMenu(menu, label=n_('&Demo logo'), tearoff=tearoff)
+    submenu.add_checkbutton(
+        label=n_("&Show demo logo"), variable=menubar.tkopt.demo_logo,
+        command=menubar.mOptDemoLogo)
+    submenu.add_separator()
+    styledirs = os.listdir(data_dir)
+    styledirs.sort()
+    for f in styledirs:
+        d = os.path.join(data_dir, f)
+        if os.path.isdir(d) and os.path.exists(os.path.join(d)):
+            name = f.replace('_', ' ').capitalize()
+            submenu.add_radiobutton(
+                label=name,
+                variable=menubar.tkopt.demo_logo_style,
+                value=f, command=menubar.mOptDemoLogoStyle)
+    data_dir = os.path.join(menubar.app.dataloader.dir, 'images', 'dialog')
+    submenu = MfxMenu(menu, label=n_('D&ialog icons'), tearoff=tearoff)
+    styledirs = os.listdir(data_dir)
+    styledirs.sort()
+    for f in styledirs:
+        d = os.path.join(data_dir, f)
+        if os.path.isdir(d) and os.path.exists(os.path.join(d)):
+            name = f.replace('_', ' ').capitalize()
+            submenu.add_radiobutton(
+                label=name,
+                variable=menubar.tkopt.dialog_icon_style,
+                value=f, command=menubar.mOptDialogIconStyle)
+    data_dir = os.path.join(menubar.app.dataloader.dir, 'images', 'pause')
+    submenu = MfxMenu(menu, label=n_('&Pause text'), tearoff=tearoff)
+    styledirs = os.listdir(data_dir)
+    styledirs.sort()
+    for f in styledirs:
+        d = os.path.join(data_dir, f)
+        if os.path.isdir(d) and os.path.exists(os.path.join(d)):
+            name = f.replace('_', ' ').capitalize()
+            submenu.add_radiobutton(
+                label=name,
+                variable=menubar.tkopt.pause_text_style,
+                value=f, command=menubar.mOptPauseTextStyle)
+    data_dir = os.path.join(menubar.app.dataloader.dir, 'images',
+                            'redealicons')
+    submenu = MfxMenu(menu, label=n_('&Redeal icons'), tearoff=tearoff)
+    styledirs = os.listdir(data_dir)
+    styledirs.sort()
+    for f in styledirs:
+        d = os.path.join(data_dir, f)
+        if os.path.isdir(d) and os.path.exists(os.path.join(d)):
+            name = f.replace('_', ' ').capitalize()
+            submenu.add_radiobutton(
+                label=name,
+                variable=menubar.tkopt.redeal_icon_style,
+                value=f, command=menubar.mOptRedealIconStyle)
+
+
 def createResamplingMenu(menubar, menu):
     tearoff = menu.cget('tearoff')
     submenu = MfxMenu(menu, label=n_('R&esampling'), tearoff=tearoff)
@@ -260,6 +317,10 @@ class PysolMenubarTkCommon:
             helpbar=tkinter.BooleanVar(),
             splashscreen=tkinter.BooleanVar(),
             demo_logo=tkinter.BooleanVar(),
+            demo_logo_style=tkinter.StringVar(),
+            pause_text_style=tkinter.StringVar(),
+            redeal_icon_style=tkinter.StringVar(),
+            dialog_icon_style=tkinter.StringVar(),
             mouse_type=tkinter.StringVar(),
             mouse_undo=tkinter.BooleanVar(),
             negative_bottom=tkinter.BooleanVar(),
@@ -324,6 +385,10 @@ class PysolMenubarTkCommon:
         # tkopt.num_cards.set(opt.num_cards)
         # tkopt.helpbar.set(opt.helpbar)
         tkopt.demo_logo.set(opt.demo_logo)
+        tkopt.demo_logo_style.set(opt.demo_logo_style)
+        tkopt.pause_text_style.set(opt.pause_text_style)
+        tkopt.redeal_icon_style.set(opt.redeal_icon_style)
+        tkopt.dialog_icon_style.set(opt.dialog_icon_style)
         tkopt.splashscreen.set(opt.splashscreen)
         tkopt.mouse_type.set(opt.mouse_type)
         tkopt.mouse_undo.set(opt.mouse_undo)
@@ -770,14 +835,15 @@ class PysolMenubarTkCommon:
         createToolbarMenu(self, submenu)
         submenu = MfxMenu(menu, label=n_("Stat&usbar"))
         createStatusbarMenu(self, submenu)
+        submenu = MfxMenu(menu, label=n_("Othe&r graphics"))
+        createOtherGraphicsMenu(self, submenu)
         if not USE_PIL:
+            menu.add_separator()
             menu.add_checkbutton(
                 label=n_("Save games &geometry"),
                 variable=self.tkopt.save_games_geometry,
                 command=self.mOptSaveGamesGeometry)
-        menu.add_checkbutton(
-            label=n_("&Demo logo"), variable=self.tkopt.demo_logo,
-            command=self.mOptDemoLogo)
+
         # menu.add_checkbutton(
         #     label=n_("Startup splash sc&reen"),
         #     variable=self.tkopt.splashscreen,
@@ -1842,6 +1908,18 @@ Unsupported game for import.
     def mOptStatusbarConfig(self, w):
         self.statusbarConfig(w, self.tkopt.statusbar_vars[w].get())
 
+    def mOptDemoLogoStyle(self, *event):
+        self.setDemoLogoStyle(self.tkopt.demo_logo_style.get())
+
+    def mOptDialogIconStyle(self, *event):
+        self.setDialogIconStyle(self.tkopt.dialog_icon_style.get())
+
+    def mOptPauseTextStyle(self, *event):
+        self.setPauseTextStyle(self.tkopt.pause_text_style.get())
+
+    def mOptRedealIconStyle(self, *event):
+        self.setRedealIconStyle(self.tkopt.redeal_icon_style.get())
+
     def mOptNumCards(self, *event):
         if self._cancelDrag(break_pause=False):
             return
@@ -1928,6 +2006,47 @@ Unsupported game for import.
         if self.app.toolbar.setCompound(compound):
             self.game.updateStatus(player=self.app.opt.player)
             self.top.update_idletasks()
+
+    def setDemoLogoStyle(self, style):
+        if self._cancelDrag(break_pause=False):
+            return
+        self.app.opt.demo_logo_style = style
+        self.tkopt.demo_logo_style.set(style)             # update radiobutton
+        self.app.loadImages2()
+        self.app.loadImages4()
+        self.app.updateCardset()
+        self.game.endGame(bookmark=1)
+        self.game.quitGame(bookmark=1)
+
+    def setDialogIconStyle(self, style):
+        if self._cancelDrag(break_pause=False):
+            return
+        self.app.opt.dialog_icon_style = style
+        self.tkopt.dialog_icon_style.set(style)           # update radiobutton
+        self.app.loadImages1()
+        self.app.loadImages4()
+
+    def setPauseTextStyle(self, style):
+        if self._cancelDrag(break_pause=False):
+            return
+        self.app.opt.pause_text_style = style
+        self.tkopt.pause_text_style.set(style)            # update radiobutton
+        self.app.loadImages2()
+        self.app.loadImages4()
+        self.app.updateCardset()
+        self.game.endGame(bookmark=1)
+        self.game.quitGame(bookmark=1)
+
+    def setRedealIconStyle(self, style):
+        if self._cancelDrag(break_pause=False):
+            return
+        self.app.opt.redeal_icon_style = style
+        self.tkopt.redeal_icon_style.set(style)           # update radiobutton
+        self.app.loadImages2()
+        self.app.loadImages4()
+        self.app.updateCardset()
+        self.game.endGame(bookmark=1)
+        self.game.quitGame(bookmark=1)
 
     def wizardDialog(self, edit=False):
         from pysollib.wizardutil import write_game, reset_wizard

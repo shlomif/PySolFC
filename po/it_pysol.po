@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: it_pysol\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-11-05 12:49-0500\n"
+"PO-Revision-Date: 2023-11-11 18:26-0500\n"
 "Last-Translator: Giuliano Colla <giuliano.colla@gmail.com>\n"
 "Language-Team: Italiano <it@li.org>\n"
 "Language: it\n"
@@ -5472,9 +5472,24 @@ msgstr "Mostra barra di a&iuto"
 msgid "Save games &geometry"
 msgstr "Salva gioco e &geometria"
 
+msgid "Othe&r graphics"
+msgstr ""
+
 #: pysollib/ui/tktile/menubar.py:637
 msgid "&Demo logo"
 msgstr "&Demo logo"
+
+msgid "D&ialog icons"
+msgstr ""
+
+msgid "&Show demo logo"
+msgstr ""
+
+msgid "&Pause text"
+msgstr ""
+
+msgid "&Redeal iconso"
+msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:640
 msgid "Startup splash sc&reen"

@@ -442,6 +442,10 @@ class Thirteen(Pyramid):
 
 class Thirteens(Pyramid):
     RowStack_Class = Giza_Reserve
+    Foundation_Class = Pyramid_Foundation
+    Talon_Class = AutoDealTalonStack
+
+    EXTRA_PILE = False
 
     def createGame(self, rows=2, cols=5):
         # create layout
@@ -460,10 +464,12 @@ class Thirteens(Pyramid):
                 x += layout.XS
             y += layout.YS
         x, y = layout.XM, self.height-layout.YS
-        s.talon = AutoDealTalonStack(x, y, self)
+        s.talon = self.Talon_Class(x, y, self)
+        if self.EXTRA_PILE:
+            s.reserves.append(self.RowStack_Class(x + layout.XS, y, self))
         layout.createText(s.talon, 'n')
         x, y = self.width-layout.XS, self.height-layout.YS
-        s.foundations.append(Pyramid_Foundation(x, y, self,
+        s.foundations.append(self.Foundation_Class(x, y, self,
                              suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
                              max_move=0, max_cards=52))
         layout.createText(s.foundations[0], 'n')
@@ -779,6 +785,87 @@ class Neptune(Thirteens):
 
     def isGameWon(self):
         return len(self.s.talon.cards) == 0
+
+
+# ************************************************************************
+# * Eight Cards
+# ************************************************************************
+
+class EightCards_RowStack(Elevens_RowStack):
+
+    def acceptsCards(self, from_stack, cards):
+        if from_stack is self or not self.cards or len(cards) != 1:
+            return False
+        c = self.cards[-1]
+        return (c.face_up and cards[0].face_up and
+                (cards[0].rank + c.rank == 9))
+
+    def clickHandler(self, event):
+        game = self.game
+        if self.cards and self.cards[0].rank > 9:
+            game.playSample("autodrop", priority=20)
+            self.playMoveMove(1, game.s.foundations[0], sound=False)
+            self.fillStack()
+            return True
+
+        return False
+
+
+class EightCards_Foundation(AbstractFoundationStack):
+    def acceptsCards(self, from_stack, cards):
+        if not AbstractFoundationStack.acceptsCards(self, from_stack, cards):
+            return False
+        # We accept any picture cards.
+        return cards[0].rank > 9
+
+
+class EightCards_Talon(AutoDealTalonStack):
+    def canDealCards(self):
+        return self.game.draws > 0 and len(self.game.s.reserves[0].cards) < 1
+
+    def dealCards(self, sound=False):
+        self.game.playSample("dealwaste")
+        self.flipMove()
+        self.moveMove(1, self.game.s.reserves[0])
+        old_state = self.game.enterState(self.game.S_FILL)
+        self.game.saveStateMove(2 | 16)  # for undo
+        self.game.draws -= 1
+        self.game.saveStateMove(1 | 16)  # for redo
+        self.game.leaveState(old_state)
+
+
+class EightCards(Thirteens):
+    RowStack_Class = EightCards_RowStack
+    Foundation_Class = EightCards_Foundation
+    Talon_Class = EightCards_Talon
+
+    EXTRA_PILE = True
+
+    draws = 2
+
+    def createGame(self):
+        Thirteens.createGame(self, rows=2, cols=4)
+
+    def startGame(self):
+        self._startAndDealRow()
+        self.draws = 2
+
+    def _restoreGameHook(self, game):
+        self.draws = game.loadinfo.draws
+
+    def _loadGameHook(self, p):
+        self.loadinfo.addattr(draws=p.load())
+
+    def _saveGameHook(self, p):
+        p.dump(self.draws)
+
+    def setState(self, state):
+        # restore saved vars (from undo/redo)
+        self.draws = state[0]
+
+    def getState(self):
+        # save vars (for undo/redo)
+        return [self.draws]
 
 
 # ************************************************************************
@@ -1552,3 +1639,6 @@ registerGame(GameInfo(854, Neptune, "Neptune",
 registerGame(GameInfo(916, Tens, "Tens",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_LUCK,
                       altnames=('Take Ten',)))
+registerGame(GameInfo(929, EightCards, "Eight Cards",
+                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_LUCK,
+                      altnames=('Acht Karten',)))

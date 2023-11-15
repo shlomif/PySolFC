@@ -1458,9 +1458,9 @@ class Game(object):
                     card.tkraise()
             c0 = cards[0]
             dx, dy = (x - c0.x), (y - c0.y)
+            base = float(self.app.opt.animations)
+            duration = base*base/5.0/10.0
             for card in cards:
-                base = float(self.app.opt.animations)
-                duration = base*0.1
                 card.animatedMove(dx, dy, duration)
             for card in cards:
                 while card.animationIsRunning():

@@ -46,7 +46,7 @@ else
 		pushd repo
 		git init
 		git remote add -t master origin https://github.com/shlomif/PySolFC-Cardsets.git
-		git fetch --depth 1 origin ae08657f931328439c5697165503a6360a75a7a6
+		git fetch --depth 1 origin 47f089ea71c9e9e7e386e932699496f7e7bcf6a8
 		git checkout -q FETCH_HEAD
 		popd
 

@@ -292,7 +292,7 @@ class MfxCanvasImage(object):
             self.addtag(group)
 
     def __del__(self):
-        print('MfxCanvasImage: __del__(%s)' % self.image)
+        # print('MfxCanvasImage: __del__(%s)' % self.image)
         self.canvas.clear_widgets([self.image])
 
     def __str__(self):
@@ -302,7 +302,7 @@ class MfxCanvasImage(object):
         pass
 
     def tkraise(self, aboveThis=None):
-        print(self, ': tkraise, above =', aboveThis)
+        # print(self, ': tkraise, above =', aboveThis)
 
         abitm = None
         if aboveThis:
@@ -313,13 +313,13 @@ class MfxCanvasImage(object):
         self.canvas.tag_raise(self.image, abitm)
 
     def addtag(self, tag):
-        print('MfxCanvasImage: addtag %s' % tag.stack)
+        # print('MfxCanvasImage: addtag %s' % tag.stack)
         self.group = tag
         if (self.image):
             self.image.group = tag
 
     def dtag(self, tag):
-        print('MfxCanvasImage: remtag %s' % tag.stack)
+        # print('MfxCanvasImage: remtag %s' % tag.stack)
         self.group = None
         if (self.image):
             self.image.group = None
@@ -330,7 +330,7 @@ class MfxCanvasImage(object):
         self.canvas.clear_widgets([self.image])
 
     def move(self, dx, dy):
-        print('MfxCanvasImage: move %s, %s' % (dx, dy))
+        # print('MfxCanvasImage: move %s, %s' % (dx, dy))
         image = self.image
         dsize = image.coreSize
         dpos = (image.corePos[0] + dx, image.corePos[1] + dy)
@@ -340,14 +340,14 @@ class MfxCanvasImage(object):
 
     def makeAnimStart(self):
         def animStart(anim, widget):
-            print('MfxCanvasImage: animStart %s' % self)
+            # print('MfxCanvasImage: animStart %s' % self)
             # nothing to do hiere
             pass
         return animStart
 
     def makeAnimEnd(self, dpos, dsize):
         def animEnd(anim, widget):
-            print('MfxCanvasImage: animEnd %s' % self)
+            # print('MfxCanvasImage: animEnd %s' % self)
             self.animation = False
             image = self.image
             image.pos, image.size = self.canvas.CoreToKivy(dpos, dsize)
@@ -393,7 +393,7 @@ class MfxCanvasImage(object):
 
 class MfxCanvasLine(object):
     def __init__(self, canvas, *args, **kwargs):
-        print('MfxCanvasLine: %s %s' % (args, kwargs))
+        # print('MfxCanvasLine: %s %s' % (args, kwargs))
 
         self.canvas = canvas
         line = LLine(canvas, args, **kwargs)
@@ -404,11 +404,11 @@ class MfxCanvasLine(object):
         self.widget = line
 
     def delete_deferred(self, seconds):
-        print('MfxCanvasLine: delete_deferred(%s)' % seconds)
+        # print('MfxCanvasLine: delete_deferred(%s)' % seconds)
         Clock.schedule_once(lambda dt: self.delete(), seconds)
 
     def delete(self):
-        print('MfxCanvasLine: delete()')
+        # print('MfxCanvasLine: delete()')
         self.canvas.clear_widgets([self.line])
 
 
@@ -524,7 +524,7 @@ class MfxCanvas(Widget):
         # self.tags = {}   # bei basisklasse widget (ev. nur vorläufig)
 
         self.wmain = wmain
-        print('MfxCanvas: wmain = %s' % self.wmain)
+        # print('MfxCanvas: wmain = %s' % self.wmain)
 
         # Tkinter.Canvas.__init__(self, *args, **kw)
         self.preview = 0

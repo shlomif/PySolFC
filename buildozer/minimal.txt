@@ -17,6 +17,7 @@ cardset-matching
 cardset-matching-xl
 cardset-matrix
 cardset-mid-winter-eve-8x8
+cardset-mini-ishido
 cardset-mughal-ganjifa
 cardset-mughal-ganjifa-xl
 cardset-neo

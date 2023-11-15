@@ -182,7 +182,7 @@ class LAnimationMgr(object):
         # offset = duration*1.2
         timedelay = offset * len(self.animations)
         # print('offset = %s'% offset)
-        print('LAnimationMgr: timedelay = %s' % timedelay)
+        # print('LAnimationMgr: timedelay = %s' % timedelay)
 
         if widget in self.widgets:
             # append additional animation to widget

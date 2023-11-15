@@ -1879,7 +1879,7 @@ class PysolMenubarTk:
 
     def updateBookmarkMenuState(self):
         # LB:
-        print('updateBookmarkMenuState - fake')
+        # print('updateBookmarkMenuState - fake')
         return
 
         state = self._getEnabledState

@@ -1106,6 +1106,7 @@ class Q_C_(Klondike):
 # ************************************************************************
 # * Northwest Territory
 # * Artic Garden
+# * Klondike Territory
 # ************************************************************************
 
 class NorthwestTerritory(KingAlbert):
@@ -1122,6 +1123,11 @@ class ArticGarden(NorthwestTerritory):
     def startGame(self):
         Klondike.startGame(self, flip=1, reverse=0)
         self.s.talon.dealRow(rows=self.s.reserves)
+
+
+class KlondikeTerritory(NorthwestTerritory):
+    RESERVES = (6, 6, 6, 6)
+    ROWS = 7
 
 
 # ************************************************************************
@@ -1781,3 +1787,5 @@ registerGame(GameInfo(893, TakingSilk, "Taking Silk",
                       GI.GT_KLONDIKE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(913, NineAcross, "Nine Across",
                       GI.GT_KLONDIKE, 1, -1, GI.SL_BALANCED))
+registerGame(GameInfo(930, KlondikeTerritory, "Klondike Territory",
+                      GI.GT_RAGLAN, 1, 0, GI.SL_BALANCED))

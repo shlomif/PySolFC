@@ -731,14 +731,6 @@ class MfxCanvas(Widget):
 
             r.tex_coords = ( u, v, u + w, v, u + w, v + h, u, v + h )  # noqa
 
-    def setBackgroundImage(self, event=None):
-
-        print('setBackgroundImage', self._bg_img)
-
-        if not self._bg_img:  # solid color
-            return
-        return 1
-
     # Funktionen, welche vom Core aufgerufen werden.
 
     def winfo_width(self):
@@ -868,15 +860,9 @@ class MfxCanvas(Widget):
         print('setTile: %s, %s' % (image, stretch))
         if image:
             try:
-                # print ('setTile: image.open %s, %s' % (image, Image))
-                bs = False
-                if stretch > 0:
-                    bs = True
-                self._bg_img = Image(source=image, allow_stretch=bs)
-
+                self._bg_img = Image(source=image)
                 self._stretch_bg_image = stretch
                 self._save_aspect_bg_image = save_aspect
-                self.setBackgroundImage()
                 self.update_widget(self.pos, self.size)
             except Exception:
                 return 0

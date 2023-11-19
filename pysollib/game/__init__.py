@@ -1452,7 +1452,6 @@ class Game(object):
             return
 
         if TOOLKIT == 'kivy':
-            from kivy.base import EventLoop
             if tkraise:
                 for card in cards:
                     card.tkraise()
@@ -1462,9 +1461,7 @@ class Game(object):
             duration = base*base/5.0/10.0
             for card in cards:
                 card.animatedMove(dx, dy, duration)
-            for card in cards:
-                while card.animationIsRunning():
-                    EventLoop.idle()
+            self.top.waitAnimation(swallow=True, pickup=True)
             return
 
         # init timer - need a high resolution for this to work

@@ -217,22 +217,134 @@ class LBoxLayout(BoxLayout, LBase):
 # =============================================================================
 
 
-class LImage(KivyImage, LBase):
+class LImage(Widget, LBase):
+    CONTAIN = 0
+    FILL = 1
+    COVER = 2
+    SCALE_DOWN = 3
+    fit_mode = StringProperty("contain")
+
+    def make_scale_down(self, s, p):
+        r = self.rect
+        t = self.texture.size
+        if (t[0] > s[0]) or (t[1] > s[1]):
+            self.make_contain(s, p)
+        else:
+            r.size = t
+            r.pos = (p[0]+(s[0]-t[0])/2.0, p[1]+(s[1]-t[1])/2.0)
+
+    def make_fill(self, s, p):
+        r = self.rect
+        r.size = s
+        r.pos = p
+
+    def make_contain(self, s, p):
+        taspect = self.texture.size[0]/self.texture.size[1]
+        waspect = s[0]/s[1]
+        r = self.rect
+        if waspect < taspect:
+            s1 = s[1]*waspect/taspect
+            r.size = (s[0], s1)
+            r.pos = (p[0], p[1]+(s[1]-s1)/2.0)
+        else:
+            s0 = s[0]/waspect*taspect
+            r.size = (s0, s[1])
+            r.pos = (p[0]+(s[0]-s0)/2.0, p[1])
+
+    def make_cover(self, s, p):
+        aspect = self.texture.size[0]/self.texture.size[1]
+        waspect = self.size[0]/self.size[1]
+        print ('aspect:    ', aspect)   # noqa
+        print ('waspect:   ', waspect)   # noqa
+
+        # 'clamp_to_edge','repeat','mirrored_repeat'
+        self.texture.wrap = 'repeat'
+        print ('wrap:      ',self.texture.wrap)   # noqa
+
+        # set rect size/pos to window
+        r = self.rect
+        r.size = s
+        r.pos = p
+
+        # evaluate original texture coords ?
+        u = uu = self.tex_u  # noqa
+        v = vv = self.tex_v  # noqa
+        w = ww = self.tex_w
+        h = hh = self.tex_h
+
+        # in order to center the image in the window
+        # modify texture coords
+        if waspect < aspect:
+            w = ww/aspect*waspect  # noqa
+            u = 0.5 - w/2.0        # noqa
+        else:
+            h = hh*aspect/waspect  # noqa
+            v = 0.5 - h/2.0        # noqa
+
+        # and update them.
+        tc = ( u, v, u + w, v, u + w, v + h, u, v + h )   # noqa
+        r.tex_coords = tc
+
+    def make_format(self, size, pos):
+        if self.fit_num == self.CONTAIN:
+            self.make_contain(size, pos)
+        elif self.fit_num == self.FILL:
+            self.make_fill(size, pos)
+        elif self.fit_num == self.COVER:
+            self.make_cover(size, pos)
+        elif self.fit_num == self.SCALE_DOWN:
+            self.make_scale_down(size, pos)
 
     def __init__(self, **kwargs):
         super(LImage, self).__init__(**kwargs)
-        self.size = self.texture.size
-        self.silent = False
-        self.allow_stretch = True
-        # self.keep_ratio = 0
-        # self.size_hint = (1.0/9.0, 1.0/4.0)
-        self.size_hint = (1.0, 1.0)
-        # self.mipmap = True     # funktioniert nicht.
 
+        self.silent = False
         self.corePos = None
         self.coreSize = None
+        self.source = None
+        if "source" in kwargs:
+            self.source = kwargs["source"]
+            image = KivyImage(source=self.source)
+            self.texture = image.texture
+        if "texture" in kwargs:
+            self.texture = kwargs["texture"]
+        self.fit_num = self.CONTAIN     # o.k. (default)
+        # self.fit_num = self.FILL        # o.k.
+        # self.fit_num = self.COVER       # o.k.
+        # self.fit_num = self.SCALE_DOWN  # o.k.
+        if "fit_mode" in kwargs:
+            self.fit_mode = kwargs["fit_mode"]
 
-        # logging.info('LImage: __init__() %s' % kwargs)
+        # setup canvas.
+        with self.canvas:
+            self.color = Color(1.0,1.0,1.0,1.0)  # noqa
+            self.rect = Rectangle(texture=self.texture)
+
+        # save original tex_coords
+        self.tex_u = self.rect.tex_coords[0]
+        self.tex_v = self.rect.tex_coords[1]
+        self.tex_w = self.rect.tex_coords[2] - self.tex_u
+        self.tex_h = self.rect.tex_coords[5] - self.tex_v
+
+        self.size = self.texture.size
+        self.size_hint = (1.0, 1.0)
+
+    def on_size(self, a, s):
+        self.make_format(s, self.pos)
+
+    def on_pos(self, a, p):
+        self.make_format(self.size, p)
+
+    def on_fit_mode(self, a, m):
+        print('on_fit_mode', m)
+        if self.fit_mode == "contain":
+            self.fit_num = self.CONTAIN
+        if self.fit_mode == "fill":
+            self.fit_num = self.FILL
+        if self.fit_mode == "cover":
+            self.fit_num = self.COVER
+        if self.fit_mode == "scale_down":
+            self.fit_num = self.SCALE_DOWN
 
     def getHeight(self):
         return self.size[1]
@@ -241,17 +353,7 @@ class LImage(KivyImage, LBase):
         return self.size[0]
 
     def subsample(self, r):
-        ''
         return LImage(texture=self.texture)
-        '''
-        if (self.source!=None):
-            # logging.info("LImage: subsample, %d, %s " % (r , self.source))
-            return LImage(source=self.source)
-        elif (self.texture!=None):
-            # logging.info("LImage: subsample, %d (texture) " % r)
-            return LImage(texture=self.texture)
-        '''
-        return self
 
     def on_touch_down(self, touch):
         if self.silent:
@@ -1536,16 +1638,24 @@ class LTkBase:
             EventLoop.idle()
             self.in_loop = False
 
-    def waitCondition(self, condition):
+    def waitCondition(self, condition, swallow=False, pickup=False):
         logging.info('LTkBase: wait condition start')
         while condition():
             self.in_loop = True
+            if swallow:  # eat picked input up
+                for provider in EventLoop.input_providers:
+                    provider.update(dispatch_fn=lambda *x: None)
             EventLoop.idle()
+            if pickup:  # pick input from os
+                if EventLoop.window:
+                    EventLoop.window.mainloop()
             self.in_loop = False
         logging.info('LTkBase: wait condition end')
 
-    def waitAnimation(self):
-        self.waitCondition(LAnimationManager.checkRunning)
+    def waitAnimation(self, swallow=False, pickup=False):
+        self.waitCondition(LAnimationManager.checkRunning,
+                           swallow=swallow,
+                           pickup=pickup)
 
     def tkraise(self):
         pass

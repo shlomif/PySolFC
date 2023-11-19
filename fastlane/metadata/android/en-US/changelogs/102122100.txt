@@ -8,6 +8,10 @@ Android specific:
 - Implementation of full picture hint for the new puzzle type games.
 - Background images from the save-aspect folder now are preserving
   correct aspect ratio (bug fix).
+- Mahjongg tile overlapping (3d simulation) implemented
+- Animation synchronised (so as the tk version does)- This prevents
+  some stacking order corruptions reported earlier.
+- libraries updated to kivy v2.2.1 and python v3.10
 Main version:
 - consult NEWS.asscidoc or html-src/news.html on
   github for more change informations.

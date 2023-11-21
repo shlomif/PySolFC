@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PySolFC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-11-11 18:26-0500\n"
+"PO-Revision-Date: 2023-11-20 20:09-0500\n"
 "Last-Translator: Jerzy Trzeciak <artusek@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
@@ -420,6 +420,9 @@ msgstr "Numerica"
 msgid "Pairing"
 msgstr "Pairing"
 
+msgid "Picture Gallery"
+msgstr ""
+
 #: pysollib/gamedb.py:122
 msgid "Raglan"
 msgstr "Raglan"
@@ -541,6 +544,9 @@ msgstr "Gry typu Numerica"
 #: pysollib/gamedb.py:162
 msgid "Pairing type"
 msgstr "Gry typu Pairing"
+
+msgid "Picture Gallery type"
+msgstr ""
 
 #: pysollib/gamedb.py:164
 msgid "Raglan type"

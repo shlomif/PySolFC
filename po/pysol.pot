@@ -394,6 +394,9 @@ msgstr ""
 msgid "Pairing"
 msgstr ""
 
+msgid "Picture Gallery"
+msgstr ""
+
 #: pysollib/gamedb.py:122
 msgid "Raglan"
 msgstr ""
@@ -514,6 +517,9 @@ msgstr ""
 
 #: pysollib/gamedb.py:162
 msgid "Pairing type"
+msgstr ""
+
+msgid "Picture Gallery type"
 msgstr ""
 
 #: pysollib/gamedb.py:164

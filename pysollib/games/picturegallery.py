@@ -599,30 +599,30 @@ class ThreeUp(VirginiaReel):
 
 # register the game
 registerGame(GameInfo(7, PictureGallery, "Picture Gallery",
-                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED,
+                      GI.GT_PICTURE_GALLERY, 2, 0, GI.SL_BALANCED,
                       altnames=("Die Bildgallerie", "Mod-3")))
 registerGame(GameInfo(397, GreatWheel, "Great Wheel",
-                      GI.GT_2DECK_TYPE | GI.GT_STRIPPED, 2, 0, GI.SL_BALANCED,
-                      ranks=list(range(12))  # without Kings
+                      GI.GT_PICTURE_GALLERY | GI.GT_STRIPPED, 2, 0,
+                      GI.SL_BALANCED, ranks=list(range(12))  # without Kings
                       ))
 registerGame(GameInfo(398, MountOlympus, "Mount Olympus",
-                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
+                      GI.GT_PICTURE_GALLERY, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(399, Zeus, "Zeus",
-                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
+                      GI.GT_PICTURE_GALLERY, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(546, RoyalParade, "Royal Parade",
-                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL,
+                      GI.GT_PICTURE_GALLERY, 2, 0, GI.SL_MOSTLY_SKILL,
                       altnames=("Hussars", "Financier")))
 registerGame(GameInfo(547, VirginiaReel, "Virginia Reel",
-                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_PICTURE_GALLERY, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(782, GreaterWheel, "Greater Wheel",
-                      GI.GT_4DECK_TYPE | GI.GT_STRIPPED, 4, 0, GI.SL_BALANCED,
-                      ranks=list(range(12))  # without Kings
+                      GI.GT_PICTURE_GALLERY | GI.GT_STRIPPED, 4, 0,
+                      GI.SL_BALANCED, ranks=list(range(12))  # without Kings
                       ))
 registerGame(GameInfo(803, BigParade, "Big Parade",
-                      GI.GT_3DECK_TYPE, 3, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_PICTURE_GALLERY, 3, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(804, ThreeUp, "Three Up",
-                      GI.GT_3DECK_TYPE, 3, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_PICTURE_GALLERY, 3, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(927, BigPictureGallery, "Big Picture Gallery",
-                      GI.GT_3DECK_TYPE, 3, 0, GI.SL_BALANCED))
+                      GI.GT_PICTURE_GALLERY, 3, 0, GI.SL_BALANCED))
 registerGame(GameInfo(928, HugePictureGallery, "Huge Picture Gallery",
-                      GI.GT_4DECK_TYPE, 4, 0, GI.SL_BALANCED))
+                      GI.GT_PICTURE_GALLERY, 4, 0, GI.SL_BALANCED))

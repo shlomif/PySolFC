@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: it_pysol\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-11-11 18:26-0500\n"
+"PO-Revision-Date: 2023-11-20 20:09-0500\n"
 "Last-Translator: Giuliano Colla <giuliano.colla@gmail.com>\n"
 "Language-Team: Italiano <it@li.org>\n"
 "Language: it\n"
@@ -426,6 +426,9 @@ msgstr "Numerici"
 msgid "Pairing"
 msgstr "Coppie"
 
+msgid "Picture Gallery"
+msgstr ""
+
 #: pysollib/gamedb.py:122
 msgid "Raglan"
 msgstr "Raglan"
@@ -547,6 +550,9 @@ msgstr "Tipo Numerica"
 #: pysollib/gamedb.py:162
 msgid "Pairing type"
 msgstr "Tipo coppie"
+
+msgid "Picture Gallery type"
+msgstr ""
 
 #: pysollib/gamedb.py:164
 msgid "Raglan type"

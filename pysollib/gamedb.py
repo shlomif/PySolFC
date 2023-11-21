@@ -104,6 +104,7 @@ class GI:
     GT_NUMERICA = 23
     GT_PAIRING_TYPE = 24
     GT_PEGGED = 36
+    GT_PICTURE_GALLERY = 41
     GT_POKER_TYPE = 25
     GT_PUZZLE_TYPE = 26
     GT_RAGLAN = 27
@@ -151,6 +152,7 @@ class GI:
         GT_NAPOLEON:            n_("Napoleon"),
         GT_NUMERICA:            n_("Numerica"),
         GT_PAIRING_TYPE:        n_("Pairing"),
+        GT_PICTURE_GALLERY:     n_("Picture Gallery"),
         GT_RAGLAN:              n_("Raglan"),
         GT_SIMPLE_TYPE:         n_("Simple games"),
         GT_SPIDER:              n_("Spider"),
@@ -220,6 +222,8 @@ class GI:
         _gen_select(title=n_("Napoleon type"), game_type=GT_NAPOLEON),
         _gen_select(title=n_("Numerica type"), game_type=GT_NUMERICA),
         _gen_select(title=n_("Pairing type"), game_type=GT_PAIRING_TYPE),
+        _gen_select(title=n_("Picture Gallery type"),
+                    game_type=GT_PICTURE_GALLERY),
         _gen_select(title=n_("Raglan type"), game_type=GT_RAGLAN),
         _gen_select(title=n_("Simple games"), game_type=GT_SIMPLE_TYPE),
         _gen_select(title=n_("Spider type"), game_type=GT_SPIDER),

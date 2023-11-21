@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-11-11 18:25-0500\n"
+"PO-Revision-Date: 2023-11-20 20:10-0500\n"
 "Last-Translator: Skomoroh <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
@@ -423,6 +423,9 @@ msgstr ""
 msgid "Pairing"
 msgstr ""
 
+msgid "Picture Gallery"
+msgstr ""
+
 #: pysollib/gamedb.py:122
 msgid "Raglan"
 msgstr ""
@@ -544,6 +547,9 @@ msgstr "Игры числового типа (Numerica)"
 #: pysollib/gamedb.py:162
 msgid "Pairing type"
 msgstr "Парные игры"
+
+msgid "Picture Gallery type"
+msgstr ""
 
 #: pysollib/gamedb.py:164
 msgid "Raglan type"

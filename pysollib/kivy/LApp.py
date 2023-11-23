@@ -54,6 +54,7 @@ from kivy.uix.widget import Widget
 from kivy.utils import platform
 
 from pysollib.kivy.LBase import LBase
+from pysollib.kivy.LTask import LTask, LTaskQ
 from pysollib.kivy.androidperms import requestStoragePerm
 from pysollib.kivy.androidrot import AndroidScreenRotation
 from pysollib.resource import CSI
@@ -113,38 +114,51 @@ class LPopCommander(LBase):
 # =============================================================================
 
 
+class LAnimationTask(LTask, LBase):
+    def __init__(self, anim, spos, widget, delay):
+        super(LAnimationTask, self).__init__(widget.card)
+        self.anim = anim
+        self.spos = spos
+        self.widget = widget
+        print(self.widget.card)
+        self.delay = delay
+
+    def start(self):
+        super(LAnimationTask, self).start()
+        self.widget.pos = self.spos
+        self.anim.bind(on_complete=self.stop)
+        self.anim.start(self.widget)
+
+# =============================================================================
+
+
 class LAnimationMgr(object):
     def __init__(self, **kw):
         super(LAnimationMgr, self).__init__()
         self.animations = []
         self.widgets = {}
+        self.callbacks = []
+        self.taskQ = LTaskQ()
+
+    def checkRunning(self):
+        return len(self.animations) > 0
+
+    def addEndCallback(self, cb):
+        self.callbacks.append(cb)
+        # print('len of callbacks', len(self.callbacks))
 
     def animEnd(self, anim, widget):
         # print('LAnimationMgr: animEnd = %s.%s' % (anim, widget))
 
-        self.widgets[widget] = self.widgets[widget][1:]
         self.animations.remove(anim)
-        if len(self.widgets[widget]) > 0:
-            # start next animation on widget
-            nanim = self.widgets[widget][0]
-            self.animations.append(nanim)
-            print('LAnimationMgr: animEnd, append = %s' % (nanim))
-            nanim.start(widget)
-        else:
-            # no further animations for widget so stop
-            del self.widgets[widget]
+        if not self.checkRunning():
+            # print('LAnimationMgr: animEnd -> do callbacks')
+            for cb in self.callbacks:
+                cb()
+            print('LAnimationMgr: animEnd -> callbacks done')
+            self.callbacks = []
 
-        # print('Clock.get_fps() ->', Clock.get_fps())
-
-    def makeAnimStart(self, anim, spos, widget):
-        def animStart(dt):
-            widget.pos = spos
-            # print('LAnimationMgr: animStart = %s ... %s' % (anim, dt))
-            anim.start(widget)
-        return animStart
-
-    def checkRunning(self):
-        return len(self.animations) > 0
+        print('Clock.get_fps() ->', Clock.get_fps())
 
     def create(self, spos, widget, **kw):
         x = 0.0
@@ -166,22 +180,11 @@ class LAnimationMgr(object):
             anim.bind(on_complete=kw['bindE'])
         if 'bindS' in kw:
             anim.bind(on_start=kw['bindS'])
+        self.animations.append(anim)
 
         offset = duration / 3.0
-        # offset = duration*1.2
-        timedelay = offset * len(self.animations)
-        # print('offset = %s'% offset)
-        # print('LAnimationMgr: timedelay = %s' % timedelay)
-
-        if widget in self.widgets:
-            # append additional animation to widget
-            self.widgets[widget].append(anim)
-        else:
-            # setup first animation for widget
-            self.animations.append(anim)
-            self.widgets[widget] = [anim]
-            Clock.schedule_once(self.makeAnimStart(
-                anim, spos, widget), timedelay)
+        animTask = LAnimationTask(anim, spos, widget, offset)
+        Clock.schedule_once(lambda dt: self.taskQ.taskInsert(animTask), 0.016)
 
 
 LAnimationManager = LAnimationMgr()
@@ -673,7 +676,8 @@ class LRectangle(Widget, LBase):
 # =============================================================================
 # Represents a Card as Kivy Window. Will contain an LImage item as child.
 # Images are managed in cards.py according to the cards state. Processes
-# Events/Action on the card.
+# Events/Action on the card or other images, as LImage is designed to not
+# process events. Should not take more than one child (LImage) at a time.
 
 
 class LImageItem(BoxLayout, LBase):
@@ -719,29 +723,28 @@ class LImageItem(BoxLayout, LBase):
 
     def on_touch_down(self, touch):
 
-        print('LCardImage: size = %s' % self.size)
+        # print('LCardImage: size = %s' % self.size)
         if self.collide_point(*touch.pos):
 
-            for c in self.children:
-                # print('child at %s' % c)
-                if (c.on_touch_down(touch) and self.game):
-                    for stack in self.game.allstacks:
-                        for i in range(len(stack.cards)):
-                            if stack.cards[i] == self.card:
-                                print('LCardImage: stack = %s' % stack)
-                                print('LCardImage: touch = %s' % str(touch))
-                                print('grab')
-                                # grab the touch!
-                                touch.grab(self)
-                                ppos, psize = self.game.canvas.KivyToCore(
-                                    touch.pos, self.size)
-                                event = LEvent()
-                                event.x = ppos[0]
-                                event.y = ppos[1]
-                                self.dragstart = touch.pos
-                                event.cardid = i
-                                self.send_event_pressed(touch, event)
-                                return True
+            if (self.game):
+                for stack in self.game.allstacks:
+                    for i in range(len(stack.cards)):
+                        if stack.cards[i] == self.card:
+                            print('LCardImage: stack = %s' % stack)
+                            print('LCardImage: touch = %s' % str(touch))
+                            print('grab')
+                            # grab the touch!
+                            touch.grab(self)
+                            ppos, psize = self.game.canvas.KivyToCore(
+                                touch.pos, self.size)
+                            event = LEvent()
+                            event.x = ppos[0]
+                            event.y = ppos[1]
+                            self.dragstart = touch.pos
+                            event.cardid = i
+                            self.send_event_pressed(touch, event)
+                            AndroidScreenRotation.lock(toaster=False)
+                            return True
 
             if self.group is not None:
                 print('LCardImage: self=%s group=%s' % (self, self.group))
@@ -775,22 +778,19 @@ class LImageItem(BoxLayout, LBase):
 
         if self.collide_point(*touch.pos):
 
-            for c in self.children:
-                # print('child at %s' % c)
-
-                if (c.on_touch_up(touch) and self.game):
-                    for stack in self.game.allstacks:
-                        for i in range(len(stack.cards)):
-                            if stack.cards[i] == self.card:
-                                print('LCardImage: stack = %s' % stack)
-                                ppos, psize = self.game.canvas.KivyToCore(
-                                    touch.pos, self.size)
-                                event = LEvent()
-                                event.x = ppos[0]
-                                event.y = ppos[1]
-                                event.cardid = i
-                                self.send_event_released_1(event)
-                                return True
+            if (self.game):
+                for stack in self.game.allstacks:
+                    for i in range(len(stack.cards)):
+                        if stack.cards[i] == self.card:
+                            print('LCardImage: stack = %s' % stack)
+                            ppos, psize = self.game.canvas.KivyToCore(
+                                touch.pos, self.size)
+                            event = LEvent()
+                            event.x = ppos[0]
+                            event.y = ppos[1]
+                            event.cardid = i
+                            self.send_event_released_1(event)
+                            return True
 
             if self.group is not None:
                 print('LCardImage: self=%s group=%s' % (self, self.group))
@@ -1266,7 +1266,7 @@ class LMenuItem(ActionButton, LBase):
         pass
 
     def setCommand(self, cmd):
-        # print('LMenuItem: setCommand')
+        print('LMenuItem: setCommand')
         self.bind(on_release=cmd)
 
     # def __str__(self):
@@ -1575,7 +1575,6 @@ class LMainWindow(BoxLayout, LTkBase):
 
     def on_touch_down(self, touch):
         ret = False
-
         if super().on_touch_down(touch):
             return True
 
@@ -1655,7 +1654,6 @@ class LMainWindow(BoxLayout, LTkBase):
 
     def on_longPress(self, instance, timestamp):
         print('longPressed at {time}'.format(time=timestamp))
-        AndroidScreenRotation.lock()
 
     # Menubar:
 
@@ -1889,7 +1887,7 @@ class LApp(App):
         if app is None:
             return
 
-        AndroidScreenRotation.unlock()
+        AndroidScreenRotation.unlock(toaster=False)
 
         so = get_screen_ori()
         go = so  # flake8: F841 nonsense!

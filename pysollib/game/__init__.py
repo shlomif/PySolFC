@@ -1452,16 +1452,14 @@ class Game(object):
             return
 
         if TOOLKIT == 'kivy':
-            if tkraise:
-                for card in cards:
-                    card.tkraise()
             c0 = cards[0]
             dx, dy = (x - c0.x), (y - c0.y)
             base = float(self.app.opt.animations)
-            duration = base*base/5.0/10.0
+            duration = base*base/40.0 + 0.05
             for card in cards:
                 card.animatedMove(dx, dy, duration)
-            self.top.waitAnimation(swallow=True, pickup=True)
+            # self.top.waitAnimation(swallow=True, pickup=True)
+            # synchronise: ev. per option ?
             return
 
         # init timer - need a high resolution for this to work

@@ -31,7 +31,7 @@ class LImage(Widget, LBase):
     COVER = 2
     SCALE_DOWN = 3
     TILING = 4
-    fit_mode = StringProperty("fill")
+    fit_mode = StringProperty("contain")
     texture = ObjectProperty(None, allownone=True)
 
     def make_scale_down(self, s, p):
@@ -63,12 +63,9 @@ class LImage(Widget, LBase):
     def make_cover(self, s, p):
         aspect = self.texture.size[0]/self.texture.size[1]
         waspect = self.size[0]/self.size[1]
-        print ('aspect:    ', aspect)   # noqa
-        print ('waspect:   ', waspect)   # noqa
 
         # 'clamp_to_edge','repeat','mirrored_repeat'
         self.texture.wrap = 'repeat'
-        print ('wrap:      ',self.texture.wrap)   # noqa
 
         # set rect size/pos to window
         self.rect.size = s
@@ -172,7 +169,8 @@ class LImage(Widget, LBase):
         self.tex_coord_update(self.texture)
 
         # initial size is the natural size of the image.
-        self.size = self.texture.size
+        if self.texture is not None:
+            self.size = self.texture.size
 
     def tex_coord_update(self, texture):
         if hasattr(self,  "rect"):
@@ -202,10 +200,12 @@ class LImage(Widget, LBase):
         self.make_format(self.size, p)
 
     def on_fit_mode(self, a, m):
+        print('on_fit_mode', m)
         self.fit_num_update(self.fit_mode)
         self.make_format(self.size, self.pos)
 
     def on_texture(self, a, texture):
+        print('on_texture', texture)
         self.tex_coord_update(self.texture)
         self.make_format(self.size, self.pos)
 
@@ -220,25 +220,5 @@ class LImage(Widget, LBase):
 
     def subsample(self, r):
         return LImage(texture=self.texture)
-
-    def on_touch_down(self, touch):
-        # print('LImage: touch_down on %s' % str(touch.pos))
-        if self.collide_point(*touch.pos):
-            if (self.source is not None):
-                print('LImage match %s' % self.source)
-            else:
-                print('LImage match with texture')
-            return True
-        return False
-
-    def on_touch_up(self, touch):
-        # print('LImage: touch_up on %s' % str(touch.pos))
-        if self.collide_point(*touch.pos):
-            if (self.source is not None):
-                print('LImage match %s' % self.source)
-            else:
-                print('LImage match with texture')
-            return True
-        return False
 
 # =============================================================================

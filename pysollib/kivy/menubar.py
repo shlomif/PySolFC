@@ -176,6 +176,9 @@ class MainMenuDialog(LMenuDialog):
         super(MainMenuDialog, self).__init__(
             menubar, parent, title, app, **kw)
 
+        print('MainMenuDialog starting')
+        AndroidScreenRotation.unlock()
+
     def buildTree(self, tv, node):
         rg = tv.add_node(
             LTreeNode(
@@ -222,6 +225,7 @@ class FileMenuDialog(LMenuDialog):
 
     def make_game_command(self, key, command):
         def game_command():
+            self.closeWindow(0)
             command(key)
         return game_command
 
@@ -2086,7 +2090,7 @@ class PysolMenubarTk:
                 return
         self.game.doPause()
         self.tkopt.pause.set(self.game.pause)
-        AndroidScreenRotation.unlock()
+        AndroidScreenRotation.unlock(toaster=False)
 
     def mOptLanguage(self, *args):
         if self._cancelDrag(break_pause=False):

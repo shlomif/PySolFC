@@ -1,7 +1,9 @@
 Android specific:
-- Temporary screen orientation lock added. Long tap (3 seconds) to the
-  playground locks screen rotation, pause unlocks.
-- Toolbar: configuration of displayed toolbar buttons added to the options menu.
+- Temporary screen orientation lock added. While playing a game screen
+  rotation is locked with the first card move, unlocked when selecting
+  menu or pause.
+- Toolbar: configuration of displayed toolbar buttons added to the options
+  menu.
 - Toolbar: dynamic updates on Toolbar and Options settings.
 - Toolbar buttons for 'new deal' and 'restart' now display a
 	toast. Tap to it to accept.

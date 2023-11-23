@@ -26,12 +26,11 @@ from __future__ import division
 
 import logging
 import math
+# import inspect
+
 
 from kivy.clock import Clock
-from kivy.graphics import Color
-from kivy.graphics import Rectangle
 from kivy.uix.anchorlayout import AnchorLayout
-from kivy.uix.widget import Widget
 
 from pysollib.kivy.LApp import LAnimationManager
 from pysollib.kivy.LApp import LColorToKivy
@@ -39,7 +38,6 @@ from pysollib.kivy.LApp import LImageItem
 from pysollib.kivy.LApp import LLine
 from pysollib.kivy.LApp import LRectangle
 from pysollib.kivy.LApp import LText
-from pysollib.kivy.LBase import LBase
 from pysollib.kivy.LImage import LImage
 
 # ************************************************************************
@@ -147,12 +145,26 @@ class MfxCanvasGroup():
         # damit is 0 das unterste image und -1 das oberste.
         return ilst
 
+    def makeDeferredRaise(self, pos):
+        def animCallback():
+            self.tkraise(position=pos)
+        return animCallback
+
     def tkraise(self, position=None):
         # print(self, ' tkraise(', position, ')')
         # Das wird bei Mahjongg extensiv aufgerufen, wenn der Move
         # abeschlossen ist.  Wird aber auch bei andern games benutzt.
+        # print('stack[1] = ',inspect.stack()[1].frame)
+        # print('stack[2] = ',inspect.stack()[2].frame)
+
+        if LAnimationManager.checkRunning():
+            LAnimationManager.addEndCallback(
+                self.makeDeferredRaise(position))
+            return
 
         imgs = self._imglist(self)
+        # print('number of imaages:', len(imgs))
+
         if position is not None:
             # In self.canvas suchen: das oberste image, welches zu position
             # gehört und liste der images oberhalb einfüllen u.a.a.O weglassen.
@@ -178,9 +190,21 @@ class MfxCanvasGroup():
             for w in ws:
                 self.canvas.add_widget(w)
 
+    def makeDeferredLower(self, pos):
+        def animCallback():
+            self.lower(position=pos)
+        return animCallback
+
     def lower(self, position=None):
         # print(self, ' lower(', position, ')')
         # dasselbe wi tkraise aber vorher statt nachher einfügen.
+        # print('stack[1] = ',inspect.stack()[1].frame)
+        # print('stack[2] = ',inspect.stack()[2].frame)
+
+        if LAnimationManager.checkRunning():
+            LAnimationManager.addEndCallback(
+                self.makeDeferredLower(position))
+            return
 
         imgs = self._imglist(self)
         if position is not None:
@@ -221,10 +245,8 @@ class MfxCanvasGroup():
 
 
 def cardmagnif(canvas, size):
-
     def pyth(s):
         return math.sqrt(s[0]*s[0]+s[1]*s[1])
-
     cs = canvas.wmain.app.images.getSize()
     csl = pyth(cs)
     sl = pyth(size)
@@ -258,7 +280,10 @@ class MfxCanvasImage(object):
 
         super(MfxCanvasImage, self).__init__()
         self.canvas = canvas
+
+        # animation support:
         self.animation = None
+        self.deferred_raises = []
 
         ed = kwargs['image']
         size = ed.size
@@ -301,15 +326,27 @@ class MfxCanvasImage(object):
     def config(self, **kw):
         pass
 
+    def makeDeferredRaise(self, pos):
+        def animCallback():
+            self.canvas.tag_raise(self.image, pos)
+        return animCallback
+
     def tkraise(self, aboveThis=None):
-        # print(self, ': tkraise, above =', aboveThis)
 
         abitm = None
         if aboveThis:
-            if isinstance(aboveThis, MfxCanvasImage):
-                abitm = aboveThis.widget
-            if isinstance(aboveThis, LImageItem):
-                abitm = aboveThis
+            abitm = aboveThis.widget
+
+        # print('stack[1] = ', inspect.stack()[1].frame)
+        # print('stack[2] = ', inspect.stack()[2].frame)
+        # print('stack[3] = ', inspect.stack()[3].frame)
+
+        if self.animation:
+            print('defer tkraise to animation', abitm)
+            self.deferred_raises.append(self.makeDeferredRaise(abitm))
+            return
+
+        # print('direct tkraise', abitm)
         self.canvas.tag_raise(self.image, abitm)
 
     def addtag(self, tag):
@@ -340,21 +377,30 @@ class MfxCanvasImage(object):
 
     def makeAnimStart(self):
         def animStart(anim, widget):
-            # print('MfxCanvasImage: animStart %s' % self)
-            # nothing to do hiere
-            pass
+            print('MfxCanvasImage: animStart %s' % self)
+            # karte nach vorne nehmen - vorgänger karte merken
+            # für restore.
+            # self.canvas.tag_raise(self.image)
+
+            for cb in self.deferred_raises:
+                print('do deferred tkraise:')
+                cb()
+            self.deferred_raises = []
+
         return animStart
 
     def makeAnimEnd(self, dpos, dsize):
         def animEnd(anim, widget):
-            # print('MfxCanvasImage: animEnd %s' % self)
+            print('MfxCanvasImage: animEnd %s' % self)
+            # karte wieder vor die vorgängerkarte setzen.
             self.animation = False
+            self.deferred_raises = []
             image = self.image
             image.pos, image.size = self.canvas.CoreToKivy(dpos, dsize)
         return animEnd
 
     def animatedMove(self, dx, dy, duration=0.2):
-        # print ('MfxCanvasImage: animatedMove %s, %s' % (dx, dy))
+        print('MfxCanvasImage: animatedMove %s, %s' % (dx, dy))
 
         image = self.image
         dsize = image.coreSize
@@ -512,13 +558,13 @@ class MfxCanvasText(object):
 # ************************************************************************
 
 
-class MfxCanvas(Widget, LBase):
+class MfxCanvas(LImage):
 
     def __str__(self):
         return f'<MfxCanvas @ {hex(id(self))}>'
 
     def __init__(self, wmain, *args, **kw):
-        super(MfxCanvas, self).__init__()
+        super(MfxCanvas, self).__init__(background=True)
 
         # print('MfxCanvas: __init__()')
         # self.tags = {}   # bei basisklasse widget (ev. nur vorläufig)
@@ -646,91 +692,23 @@ class MfxCanvas(Widget, LBase):
 
         # Hintergrund update.
 
-        self.canvas.before.clear()
+        kc = LColorToKivy(self._bg_color)
         texture = None
         if self._bg_img:
             texture = self._bg_img.texture
 
-            # Color only: Nur eine Hintergrundfarbe wird installiert.
+        self.texture = texture
         if texture is None:
-            kc = LColorToKivy(self._bg_color)
-            self.canvas.before.add(
-                Color(kc[0], kc[1], kc[2], kc[3]))
-            self.canvas.before.add(
-                Rectangle(pos=self.pos, size=self.size))
-            return
-
-        # Image: Das Bild wird im Fenster expandiert.
-        if self._stretch_bg_image:
-            if self._save_aspect_bg_image == 0:
-                self.canvas.before.add(
-                    Rectangle(texture=texture, pos=self.pos, size=self.size))
-            else:
-                # save aspect
-                aspect = texture.size[0]/texture.size[1]
-                waspect = self.size[0]/self.size[1]
-                print ('aspect:    ', aspect)   # noqa
-                print ('waspect:   ', waspect)   # noqa
-
-                # 'clamp_to_edge','repeat','mirrored_repeat'
-                texture.wrap = 'repeat'
-                print ('wrap:      ',texture.wrap)   # noqa
-
-                # add new rectangle to canvas.
-                r = Rectangle(texture=texture, pos=self.pos, size=self.size)
-                self.canvas.before.add(r)
-
-                # evaluate original texture coords.
-                uu = r.tex_coords[0]
-                vv = r.tex_coords[1]
-                ww = r.tex_coords[2] - uu
-                hh = r.tex_coords[5] - vv
-
-                # in order to center the image in the window
-                # modify texture coords
-                if waspect < aspect:
-                    w = ww/aspect*waspect  # noqa
-                    h = hh
-                    u = 0.5 - w/2.0        # noqa
-                    v = vv
-                else:
-                    w = ww
-                    h = hh*aspect/waspect  # noqa
-                    u = uu
-                    v = 0.5 - h/2.0        # noqa
-
-                # and update them.
-                tc = ( u, v, u + w, v, u + w, v + h, u, v + h )   # noqa
-                r.tex_coords = tc
-
-                print ('tex_coords (orig):',uu,vv,ww,hh)    # noqa
-                print ('tex_coords (mod): ',u,v,w,h)        # noqa
-            return
-
+            self.setColor(kc)
         else:
-            # Tiles placement, reference point is bottom left.
-
-            texture.wrap = 'repeat'
-            r = Rectangle(texture=texture, pos=self.pos, size=self.size)
-            self.canvas.before.add(r)
-
-            # stsize = (texture.size[0] * self.scale,
-            #           texture.size[1] * self.scale)
-            stsize = texture.size
-            stepsy = self.size[1] / stsize[1]
-            stepsx = self.size[0] / stsize[0]
-
-            u = r.tex_coords[0]
-            v = r.tex_coords[1]
-            ww = r.tex_coords[2] - u
-            hh = r.tex_coords[5] - v
-            w = ww * stepsx
-            h = hh * stepsy
-
-            # move reference point to top left:
-            v = stepsy - math.floor(stepsy)
-
-            r.tex_coords = ( u, v, u + w, v, u + w, v + h, u, v + h )  # noqa
+            self.setColor([1,1,1,1]) # noqa
+            if self._stretch_bg_image:
+                if self._save_aspect_bg_image == 0:
+                    self.fit_mode = "fill"
+                else:
+                    self.fit_mode = "cover"
+            else:
+                self.fit_mode = "tiling"
 
     # Funktionen, welche vom Core aufgerufen werden.
 

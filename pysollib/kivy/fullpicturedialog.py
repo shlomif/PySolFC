@@ -25,7 +25,8 @@ import math
 
 from kivy.uix.stacklayout import StackLayout
 
-from pysollib.kivy.LApp import LImage, LTopLevel0
+from pysollib.kivy.LApp import LTopLevel0
+from pysollib.kivy.LImage import LImage
 from pysollib.mygettext import _
 
 # ************************************************************************

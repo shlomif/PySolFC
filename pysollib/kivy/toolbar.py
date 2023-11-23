@@ -30,8 +30,8 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.image import Image as KivyImage
 
 # PySol kivy imports
-from pysollib.kivy.LApp import LBase
-from pysollib.kivy.LApp import LImage
+from pysollib.kivy.LBase import LBase
+from pysollib.kivy.LImage import LImage
 from pysollib.kivy.toast import Toast
 
 # PySol imports
@@ -317,7 +317,6 @@ class PysolToolbarTk(BoxLayout):
     def show(self, on, **kw):
         side = self.menubar.tkopt.toolbar.get()
         self.win.setTool(None, side)
-        print('******** toolbar show', on, side, kw)
 
         # size_hint dependent on screen orientation:
         asp = Window.width/Window.height
@@ -358,8 +357,6 @@ class PysolToolbarTk(BoxLayout):
         self.redraw()
 
     def config(self, w, v):
-        print('********************* PysolToolbarTk: config %s, %s' % (w, v))
-
         if w == 'shuffle':
             self.buttond['shuffle'].shown = v
             self.buttond['autodrop'].shown = not v
@@ -452,7 +449,7 @@ class PysolToolbarTk(BoxLayout):
         #   return 1
         if not self.game or not self.menubar:
             return 1
-        print('_busy:')
+        # print('_busy:')
         self.game.stopDemo()
         self.game.interruptSleep()
         return self.game.busy

@@ -22,8 +22,8 @@
 # ---------------------------------------------------------------------------#
 
 from pysollib.acard import AbstractCard
-from pysollib.kivy.LApp import LImage
 from pysollib.kivy.LApp import LImageItem
+from pysollib.kivy.LImage import LImage
 from pysollib.kivy.tkcanvas import MfxCanvasGroup, MfxCanvasImage
 
 

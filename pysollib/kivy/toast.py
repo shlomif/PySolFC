@@ -9,7 +9,7 @@ from kivy.graphics.vertex_instructions import RoundedRectangle
 from kivy.uix.label import Label
 from kivy.uix.widget import Widget
 
-from pysollib.kivy.LApp import LBase
+from pysollib.kivy.LBase import LBase
 
 # ================================================================
 

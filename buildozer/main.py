@@ -23,6 +23,7 @@
 # Starter for kivy/android using buildozer: Needs an explizitly
 # named main.py as startpoint.
 
+import os
 import sys
 if '--kivy' not in sys.argv:
     sys.argv.append('--kivy')
@@ -34,4 +35,6 @@ init()
 
 if runmain:
     from pysollib.main import main
+
+os.environ['KIVY_NO_CONSOLELOG'] = "No"
 sys.exit(main(sys.argv))

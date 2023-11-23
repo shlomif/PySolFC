@@ -37,9 +37,9 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 
 from pysollib.kivy.LApp import LBoxLayout
-from pysollib.kivy.LApp import LImage
 from pysollib.kivy.LApp import LScrollView
 from pysollib.kivy.LApp import LTopLevel
+from pysollib.kivy.LImage import LImage
 from pysollib.kivy.tkcanvas import MfxCanvas
 from pysollib.kivy.tkutil import bind, unbind_destroy
 from pysollib.kivy.tkutil import makeToplevel

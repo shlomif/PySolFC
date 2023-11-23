@@ -40,7 +40,7 @@ from kivy.uix.widget import Widget
 # from pysollib.stats import PysolStatsFormatter, ProgressionFormatter
 # from pysollib.util import *
 # from tkutil import bind, unbind_destroy, loadImage
-from pysollib.kivy.LApp import LImage
+from pysollib.kivy.LImage import LImage
 from pysollib.mfxutil import KwStruct
 from pysollib.mygettext import _
 from pysollib.pysoltk import MfxDialog, MfxMessageDialog

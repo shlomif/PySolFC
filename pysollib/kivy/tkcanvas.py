@@ -35,12 +35,12 @@ from kivy.uix.widget import Widget
 
 from pysollib.kivy.LApp import LAnimationManager
 from pysollib.kivy.LApp import LColorToKivy
-from pysollib.kivy.LApp import LImage
-from pysollib.kivy.LApp import LImage as Image
 from pysollib.kivy.LApp import LImageItem
 from pysollib.kivy.LApp import LLine
 from pysollib.kivy.LApp import LRectangle
 from pysollib.kivy.LApp import LText
+from pysollib.kivy.LBase import LBase
+from pysollib.kivy.LImage import LImage
 
 # ************************************************************************
 # * canvas items helpers
@@ -512,15 +512,15 @@ class MfxCanvasText(object):
 # ************************************************************************
 
 
-class MfxCanvas(Widget):
+class MfxCanvas(Widget, LBase):
 
     def __str__(self):
         return f'<MfxCanvas @ {hex(id(self))}>'
 
     def __init__(self, wmain, *args, **kw):
-        # super(MfxCanvas, self).__init__(**kw)
         super(MfxCanvas, self).__init__()
 
+        # print('MfxCanvas: __init__()')
         # self.tags = {}   # bei basisklasse widget (ev. nur vorläufig)
 
         self.wmain = wmain
@@ -714,8 +714,9 @@ class MfxCanvas(Widget):
             r = Rectangle(texture=texture, pos=self.pos, size=self.size)
             self.canvas.before.add(r)
 
-            stsize = (texture.size[0] * self.scale,
-                      texture.size[1] * self.scale)
+            # stsize = (texture.size[0] * self.scale,
+            #           texture.size[1] * self.scale)
+            stsize = texture.size
             stepsy = self.size[1] / stsize[1]
             stepsx = self.size[0] / stsize[0]
 
@@ -860,7 +861,7 @@ class MfxCanvas(Widget):
         print('setTile: %s, %s' % (image, stretch))
         if image:
             try:
-                self._bg_img = Image(source=image)
+                self._bg_img = LImage(source=image)
                 self._stretch_bg_image = stretch
                 self._save_aspect_bg_image = save_aspect
                 self.update_widget(self.pos, self.size)

@@ -36,8 +36,8 @@ from kivy.core.image import Image as CoreImage
 from kivy.core.text import Label as CoreLabel
 from kivy.graphics.texture import Texture
 
-from pysollib.kivy.LApp import LImage
 from pysollib.kivy.LApp import LTopLevel0
+from pysollib.kivy.LImage import LImage
 
 # ************************************************************************
 # * window manager util

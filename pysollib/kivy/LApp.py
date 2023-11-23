@@ -46,7 +46,6 @@ from kivy.uix.actionbar import ActionView
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.floatlayout import FloatLayout
-from kivy.uix.image import Image as KivyImage
 from kivy.uix.label import Label
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.treeview import TreeView
@@ -54,6 +53,7 @@ from kivy.uix.treeview import TreeViewLabel
 from kivy.uix.widget import Widget
 from kivy.utils import platform
 
+from pysollib.kivy.LBase import LBase
 from pysollib.kivy.androidperms import requestStoragePerm
 from pysollib.kivy.androidrot import AndroidScreenRotation
 from pysollib.resource import CSI
@@ -97,19 +97,6 @@ def get_screen_ori():
     return so
 
 # =============================================================================
-# kivy EventDispatcher passes keywords, that to not correspond to properties
-# to the base classes. Finally they will reach 'object'. With python3 (but not
-# python2) 'object' throws an exception 'takes no parameters' in that a
-# situation. We therefore underlay a base class (right outside), which
-# swallows up remaining keywords. Thus the keywords do not reach 'object' any
-# more.
-
-
-class LBase(object):
-    def __init__(self, **kw):
-        super(LBase, self).__init__()
-
-# =============================================================================
 
 
 class LPopCommander(LBase):
@@ -146,6 +133,8 @@ class LAnimationMgr(object):
         else:
             # no further animations for widget so stop
             del self.widgets[widget]
+
+        # print('Clock.get_fps() ->', Clock.get_fps())
 
     def makeAnimStart(self, anim, spos, widget):
         def animStart(dt):
@@ -217,173 +206,6 @@ class LBoxLayout(BoxLayout, LBase):
 # =============================================================================
 
 
-class LImage(Widget, LBase):
-    CONTAIN = 0
-    FILL = 1
-    COVER = 2
-    SCALE_DOWN = 3
-    fit_mode = StringProperty("contain")
-
-    def make_scale_down(self, s, p):
-        r = self.rect
-        t = self.texture.size
-        if (t[0] > s[0]) or (t[1] > s[1]):
-            self.make_contain(s, p)
-        else:
-            r.size = t
-            r.pos = (p[0]+(s[0]-t[0])/2.0, p[1]+(s[1]-t[1])/2.0)
-
-    def make_fill(self, s, p):
-        r = self.rect
-        r.size = s
-        r.pos = p
-
-    def make_contain(self, s, p):
-        taspect = self.texture.size[0]/self.texture.size[1]
-        waspect = s[0]/s[1]
-        r = self.rect
-        if waspect < taspect:
-            s1 = s[1]*waspect/taspect
-            r.size = (s[0], s1)
-            r.pos = (p[0], p[1]+(s[1]-s1)/2.0)
-        else:
-            s0 = s[0]/waspect*taspect
-            r.size = (s0, s[1])
-            r.pos = (p[0]+(s[0]-s0)/2.0, p[1])
-
-    def make_cover(self, s, p):
-        aspect = self.texture.size[0]/self.texture.size[1]
-        waspect = self.size[0]/self.size[1]
-        print ('aspect:    ', aspect)   # noqa
-        print ('waspect:   ', waspect)   # noqa
-
-        # 'clamp_to_edge','repeat','mirrored_repeat'
-        self.texture.wrap = 'repeat'
-        print ('wrap:      ',self.texture.wrap)   # noqa
-
-        # set rect size/pos to window
-        r = self.rect
-        r.size = s
-        r.pos = p
-
-        # evaluate original texture coords ?
-        u = uu = self.tex_u  # noqa
-        v = vv = self.tex_v  # noqa
-        w = ww = self.tex_w
-        h = hh = self.tex_h
-
-        # in order to center the image in the window
-        # modify texture coords
-        if waspect < aspect:
-            w = ww/aspect*waspect  # noqa
-            u = 0.5 - w/2.0        # noqa
-        else:
-            h = hh*aspect/waspect  # noqa
-            v = 0.5 - h/2.0        # noqa
-
-        # and update them.
-        tc = ( u, v, u + w, v, u + w, v + h, u, v + h )   # noqa
-        r.tex_coords = tc
-
-    def make_format(self, size, pos):
-        if self.fit_num == self.CONTAIN:
-            self.make_contain(size, pos)
-        elif self.fit_num == self.FILL:
-            self.make_fill(size, pos)
-        elif self.fit_num == self.COVER:
-            self.make_cover(size, pos)
-        elif self.fit_num == self.SCALE_DOWN:
-            self.make_scale_down(size, pos)
-
-    def __init__(self, **kwargs):
-        super(LImage, self).__init__(**kwargs)
-
-        self.silent = False
-        self.corePos = None
-        self.coreSize = None
-        self.source = None
-        if "source" in kwargs:
-            self.source = kwargs["source"]
-            image = KivyImage(source=self.source)
-            self.texture = image.texture
-        if "texture" in kwargs:
-            self.texture = kwargs["texture"]
-        self.fit_num = self.CONTAIN     # o.k. (default)
-        # self.fit_num = self.FILL        # o.k.
-        # self.fit_num = self.COVER       # o.k.
-        # self.fit_num = self.SCALE_DOWN  # o.k.
-        if "fit_mode" in kwargs:
-            self.fit_mode = kwargs["fit_mode"]
-
-        # setup canvas.
-        with self.canvas:
-            self.color = Color(1.0,1.0,1.0,1.0)  # noqa
-            self.rect = Rectangle(texture=self.texture)
-
-        # save original tex_coords
-        self.tex_u = self.rect.tex_coords[0]
-        self.tex_v = self.rect.tex_coords[1]
-        self.tex_w = self.rect.tex_coords[2] - self.tex_u
-        self.tex_h = self.rect.tex_coords[5] - self.tex_v
-
-        self.size = self.texture.size
-        self.size_hint = (1.0, 1.0)
-
-    def on_size(self, a, s):
-        self.make_format(s, self.pos)
-
-    def on_pos(self, a, p):
-        self.make_format(self.size, p)
-
-    def on_fit_mode(self, a, m):
-        print('on_fit_mode', m)
-        if self.fit_mode == "contain":
-            self.fit_num = self.CONTAIN
-        if self.fit_mode == "fill":
-            self.fit_num = self.FILL
-        if self.fit_mode == "cover":
-            self.fit_num = self.COVER
-        if self.fit_mode == "scale_down":
-            self.fit_num = self.SCALE_DOWN
-
-    def getHeight(self):
-        return self.size[1]
-
-    def getWidth(self):
-        return self.size[0]
-
-    def subsample(self, r):
-        return LImage(texture=self.texture)
-
-    def on_touch_down(self, touch):
-        if self.silent:
-            return False
-
-        # print('LImage: touch_down on %s' % str(touch.pos))
-        if self.collide_point(*touch.pos):
-            if (self.source is not None):
-                print('LImage match %s' % self.source)
-            else:
-                print('LImage match with texture')
-            return True
-        return False
-
-    def on_touch_up(self, touch):
-        if self.silent:
-            return False
-
-        # print('LImage: touch_up on %s' % str(touch.pos))
-        if self.collide_point(*touch.pos):
-            if (self.source is not None):
-                print('LImage match %s' % self.source)
-            else:
-                print('LImage match with texture')
-            return True
-        return False
-
-# =============================================================================
-
-
 def addAnchorOffset(pos, size, anchor):
     # print ('MfxCanvas: anchor=%s' % (anchor))
     x = pos[0]
@@ -449,8 +271,8 @@ def cardfactor(canvas):
     cardscale = 1.0
     try:
         cs = canvas.wmain.app.images.cs
-        print('Cardset:', cs)
-        print('Cardset:', cs.type)
+        # print('Cardset:', cs)
+        # print('Cardset:', cs.type)
 
         cardbase = pyth(73, 97)
         if cs.type == CSI.TYPE_FRENCH:
@@ -849,6 +671,9 @@ class LRectangle(Widget, LBase):
         return False
 
 # =============================================================================
+# Represents a Card as Kivy Window. Will contain an LImage item as child.
+# Images are managed in cards.py according to the cards state. Processes
+# Events/Action on the card.
 
 
 class LImageItem(BoxLayout, LBase):
@@ -894,6 +719,7 @@ class LImageItem(BoxLayout, LBase):
 
     def on_touch_down(self, touch):
 
+        print('LCardImage: size = %s' % self.size)
         if self.collide_point(*touch.pos):
 
             for c in self.children:
@@ -1587,7 +1413,7 @@ class LTkBase:
         pass
 
     def update_idletasks(self):
-        logging.info("LTkBase: update_idletasks")
+        # logging.info("LTkBase: update_idletasks")
         try:
             if len(EventLoop.event_listeners) > 0:
                 self.in_loop = True
@@ -1614,7 +1440,7 @@ class LTkBase:
         stopTouchApp()
 
     def interruptSleep(self):
-        logging.info('LTkBase: interruptSleep')
+        # logging.info('LTkBase: interruptSleep')
         self.update_idletasks()
         # self.sleep_var = 1
         return
@@ -1639,7 +1465,7 @@ class LTkBase:
             self.in_loop = False
 
     def waitCondition(self, condition, swallow=False, pickup=False):
-        logging.info('LTkBase: wait condition start')
+        # logging.info('LTkBase: wait condition start')
         while condition():
             self.in_loop = True
             if swallow:  # eat picked input up
@@ -1650,7 +1476,7 @@ class LTkBase:
                 if EventLoop.window:
                     EventLoop.window.mainloop()
             self.in_loop = False
-        logging.info('LTkBase: wait condition end')
+        # logging.info('LTkBase: wait condition end')
 
     def waitAnimation(self, swallow=False, pickup=False):
         self.waitCondition(LAnimationManager.checkRunning,
@@ -1977,7 +1803,7 @@ class LApp(App):
         mval = self.mainWindow.size
         if (val[0] != mval[0] and val[1] != mval[1]):
             logging.info("LApp: size changed %s - %s (%s)" % (obj, val, mval))
-            Clock.schedule_once(self.makeDelayedRebuild(), 0.01)
+            Clock.schedule_once(self.makeDelayedRebuild(), 0.2)
         pass
 
     def on_start(self):

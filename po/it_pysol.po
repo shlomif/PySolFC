@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: it_pysol\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-11-20 20:09-0500\n"
+"PO-Revision-Date: 2023-11-24 12:21-0500\n"
 "Last-Translator: Giuliano Colla <giuliano.colla@gmail.com>\n"
 "Language-Team: Italiano <it@li.org>\n"
 "Language: it\n"
@@ -3033,6 +3033,18 @@ msgstr "Sinistra"
 msgid "Right"
 msgstr "Destra"
 
+msgid "Other graphics"
+msgstr ""
+
+msgid "Demo logo"
+msgstr ""
+
+msgid "Pause text"
+msgstr ""
+
+msgid "Redeal icons"
+msgstr ""
+
 #: pysollib/kivy/menubar.py:1062
 #, fuzzy
 msgid "Startup splash screen"
@@ -5488,13 +5500,13 @@ msgstr "&Demo logo"
 msgid "D&ialog icons"
 msgstr ""
 
-msgid "&Show demo logo"
-msgstr ""
-
 msgid "&Pause text"
 msgstr ""
 
-msgid "&Redeal iconso"
+msgid "&Redeal icons"
+msgstr ""
+
+msgid "&Tree icons"
 msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:640

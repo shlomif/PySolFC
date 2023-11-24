@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-11-20 20:10-0500\n"
+"PO-Revision-Date: 2023-11-24 12:20-0500\n"
 "Last-Translator: Skomoroh <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
@@ -3044,6 +3044,18 @@ msgstr "Слева"
 msgid "Right"
 msgstr "Справа"
 
+msgid "Other graphics"
+msgstr ""
+
+msgid "Demo logo"
+msgstr ""
+
+msgid "Pause text"
+msgstr ""
+
+msgid "Redeal icons"
+msgstr ""
+
 #: pysollib/kivy/menubar.py:1062
 #, fuzzy
 msgid "Startup splash screen"
@@ -5514,13 +5526,13 @@ msgstr "Д&емо лого"
 msgid "D&ialog icons"
 msgstr ""
 
-msgid "&Show demo logo"
-msgstr ""
-
 msgid "&Pause text"
 msgstr ""
 
-msgid "&Redeal iconso"
+msgid "&Redeal icons"
+msgstr ""
+
+msgid "&Tree icons"
 msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:640

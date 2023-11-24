@@ -564,7 +564,7 @@ class Application:
     def loadImages3(self):
         # load treeview images
         SelectDialogTreeData.img = []
-        dirname = os.path.join('images', 'tree')
+        dirname = os.path.join('images', 'tree', self.opt.tree_icon_style)
         for f in ('folder', 'openfolder', 'node', 'emptynode'):
             fn = self.dataloader.findImage(f, dirname)
             im = loadImage(fn)

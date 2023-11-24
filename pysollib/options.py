@@ -99,6 +99,7 @@ demo_logo_style = string
 pause_text_style = string
 redeal_icon_style = string
 dialog_icon_style = string
+tree_icon_style = string
 tile_theme = string
 default_tile_theme = string
 toolbar = integer(0, 4)
@@ -266,6 +267,7 @@ class Options:
         ('pause_text_style', 'str'),
         ('redeal_icon_style', 'str'),
         ('dialog_icon_style', 'str'),
+        ('tree_icon_style', 'str'),
         ('tile_theme', 'str'),
         ('default_tile_theme', 'str'),
         ('toolbar', 'int'),
@@ -365,10 +367,11 @@ class Options:
         self.shrink_face_down = True
         self.shade_filled_stacks = True
         self.demo_logo = True
-        self.demo_logo_style = 'classic'
-        self.pause_text_style = 'classic'
+        self.demo_logo_style = 'komika'
+        self.pause_text_style = 'komika'
         self.redeal_icon_style = 'modern'
         self.dialog_icon_style = 'remix'
+        self.tree_icon_style = 'remix'
         self.tile_theme = 'default'
         self.default_tile_theme = 'default'
         self.toolbar = 1       # 0 == hide, 1,2,3,4 == top, bottom, lef, right

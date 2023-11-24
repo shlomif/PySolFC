@@ -2805,6 +2805,18 @@ msgstr ""
 msgid "Right"
 msgstr ""
 
+msgid "Other graphics"
+msgstr ""
+
+msgid "Demo logo"
+msgstr ""
+
+msgid "Pause text"
+msgstr ""
+
+msgid "Redeal icons"
+msgstr ""
+
 #: pysollib/kivy/menubar.py:1062
 msgid "Startup splash screen"
 msgstr ""
@@ -5173,13 +5185,13 @@ msgstr ""
 msgid "D&ialog icons"
 msgstr ""
 
-msgid "&Show demo logo"
-msgstr ""
-
 msgid "&Pause text"
 msgstr ""
 
-msgid "&Redeal iconso"
+msgid "&Redeal icons"
+msgstr ""
+
+msgid "&Tree icons"
 msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:640

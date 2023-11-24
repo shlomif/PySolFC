@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: 1.02\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-11-20 20:08-0500\n"
+"PO-Revision-Date: 2023-11-24 12:21-0500\n"
 "Last-Translator: Eric Rausch <neelix570@gmail.com>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -2974,6 +2974,18 @@ msgstr "Gauche"
 msgid "Right"
 msgstr "Droite"
 
+msgid "Other graphics"
+msgstr ""
+
+msgid "Demo logo"
+msgstr ""
+
+msgid "Pause text"
+msgstr ""
+
+msgid "Redeal icons"
+msgstr ""
+
 #: pysollib/kivy/menubar.py:1062
 msgid "Startup splash screen"
 msgstr "Écran de démarrage"
@@ -5424,13 +5436,13 @@ msgstr "Logo de &démo"
 msgid "D&ialog icons"
 msgstr ""
 
-msgid "&Show demo logo"
-msgstr ""
-
 msgid "&Pause text"
 msgstr ""
 
-msgid "&Redeal iconso"
+msgid "&Redeal icons"
+msgstr ""
+
+msgid "&Tree icons"
 msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:640

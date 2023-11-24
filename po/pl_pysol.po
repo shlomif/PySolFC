@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PySolFC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-11-20 20:09-0500\n"
+"PO-Revision-Date: 2023-11-24 12:21-0500\n"
 "Last-Translator: Jerzy Trzeciak <artusek@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
@@ -2987,6 +2987,18 @@ msgstr "Lewa strona"
 msgid "Right"
 msgstr "Prawa strona"
 
+msgid "Other graphics"
+msgstr ""
+
+msgid "Demo logo"
+msgstr ""
+
+msgid "Pause text"
+msgstr ""
+
+msgid "Redeal icons"
+msgstr ""
+
 #: pysollib/kivy/menubar.py:1062
 msgid "Startup splash screen"
 msgstr "Ek&ran powitalny"
@@ -5440,13 +5452,13 @@ msgstr "&Demo logo"
 msgid "D&ialog icons"
 msgstr ""
 
-msgid "&Show demo logo"
-msgstr ""
-
 msgid "&Pause text"
 msgstr ""
 
-msgid "&Redeal iconso"
+msgid "&Redeal icons"
+msgstr ""
+
+msgid "&Tree icons"
 msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:640

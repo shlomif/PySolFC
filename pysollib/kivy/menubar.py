@@ -1136,7 +1136,7 @@ class OptionsMenuDialog(LMenuDialog):
                 for w in TOOLBAR_BUTTONS:
                     w0 = w[0].upper()
                     ww = w[1:]
-                    self.addCheckNode(tv, rg,
+                    self.addCheckNode(tv, rg1,
                         _(w0+ww),  # noqa
                         self.menubar.tkopt.toolbar_vars[w],
                         self.make_vars_command(self.menubar.mOptToolbarConfig, w))  # noqa
@@ -1159,6 +1159,55 @@ class OptionsMenuDialog(LMenuDialog):
             variable=self.tkopt.helpbar,
             command=self.mOptHelpbar)
         '''
+        # -------------------------------------------
+        # Other graphics settings
+
+        rg = tv.add_node(
+            LTreeNode(text=_('Other graphics')))
+        data_dir = os.path.join(self.app.dataloader.dir, 'images', 'demo')
+        dl = tv.add_node(
+            LTreeNode(text=_('Demo logo')), rg)
+        styledirs = os.listdir(data_dir)
+        styledirs.append("none")
+        styledirs.sort()
+        for f in styledirs:
+            d = os.path.join(data_dir, f)
+            if (os.path.isdir(d) and os.path.exists(os.path.join(d))) \
+                    or f == "none":
+                name = f.replace('_', ' ').capitalize()
+                self.addRadioNode(tv, dl,
+                                  _(name),
+                                  self.menubar.tkopt.demo_logo_style, f,
+                                  self.menubar.mOptDemoLogoStyle)
+
+        data_dir = os.path.join(self.app.dataloader.dir, 'images', 'pause')
+        dl = tv.add_node(
+            LTreeNode(text=_('Pause text')), rg)
+        styledirs = os.listdir(data_dir)
+        styledirs.sort()
+        for f in styledirs:
+            d = os.path.join(data_dir, f)
+            if os.path.isdir(d) and os.path.exists(os.path.join(d)):
+                name = f.replace('_', ' ').capitalize()
+                self.addRadioNode(tv, dl,
+                                  _(name),
+                                  self.menubar.tkopt.pause_text_style, f,
+                                  self.menubar.mOptPauseTextStyle)
+
+        data_dir = os.path.join(self.app.dataloader.dir, 'images',
+                                'redealicons')
+        dl = tv.add_node(
+            LTreeNode(text=_('Redeal icons')), rg)
+        styledirs = os.listdir(data_dir)
+        styledirs.sort()
+        for f in styledirs:
+            d = os.path.join(data_dir, f)
+            if os.path.isdir(d) and os.path.exists(os.path.join(d)):
+                name = f.replace('_', ' ').capitalize()
+                self.addRadioNode(tv, dl,
+                                  _(name),
+                                  self.menubar.tkopt.redeal_icon_style, f,
+                                  self.menubar.mOptRedealIconStyle)
 
         # -------------------------------------------
         # general options
@@ -1375,6 +1424,9 @@ class PysolMenubarTk:
             save_games_geometry=BooleanVar(),
             splashscreen=BooleanVar(),
             demo_logo=BooleanVar(),
+            demo_logo_style=StringVar(),
+            pause_text_style=StringVar(),
+            redeal_icon_style=StringVar(),
             mouse_type=StringVar(),
             mouse_undo=BooleanVar(),
             negative_bottom=BooleanVar(),
@@ -1437,6 +1489,9 @@ class PysolMenubarTk:
         tkopt.statusbar.set(opt.statusbar)
         tkopt.save_games_geometry.set(opt.save_games_geometry)
         tkopt.demo_logo.set(opt.demo_logo)
+        tkopt.demo_logo_style.set(opt.demo_logo_style)
+        tkopt.pause_text_style.set(opt.pause_text_style)
+        tkopt.redeal_icon_style.set(opt.redeal_icon_style)
         tkopt.splashscreen.set(opt.splashscreen)
         tkopt.mouse_type.set(opt.mouse_type)
         tkopt.mouse_undo.set(opt.mouse_undo)
@@ -2344,6 +2399,15 @@ the next time you restart the %(app)s""") % {'app': TITLE})
     def mOptToolbarConfig(self, w):
         self.toolbarConfig(w, self.tkopt.toolbar_vars[w].get())
 
+    def mOptDemoLogoStyle(self, *event):
+        self.setDemoLogoStyle(self.tkopt.demo_logo_style.get())
+
+    def mOptPauseTextStyle(self, *event):
+        self.setPauseTextStyle(self.tkopt.pause_text_style.get())
+
+    def mOptRedealIconStyle(self, *event):
+        self.setRedealIconStyle(self.tkopt.redeal_icon_style.get())
+
     def mOptStatusbar(self, *event):
         if self._cancelDrag(break_pause=False):
             return
@@ -2462,6 +2526,55 @@ the next time you restart the %(app)s""") % {'app': TITLE})
             return
         self.app.opt.toolbar_vars[w] = v
         self.top.update_idletasks()
+
+    #
+    # other graphics
+    #
+
+    def setDemoLogoStyle(self, style):
+        if self._cancelDrag(break_pause=False):
+            return
+        if style == "none":
+            self.app.opt.demo_logo = False
+        else:
+            self.app.opt.demo_logo = True
+            self.app.opt.demo_logo_style = style
+            self.tkopt.demo_logo_style.set(style)         # update radiobutton
+            self.app.loadImages2()
+            self.app.loadImages4()
+            self.app.updateCardset()
+            self.game.endGame(bookmark=1)
+            self.game.quitGame(bookmark=1)
+
+    def setDialogIconStyle(self, style):
+        if self._cancelDrag(break_pause=False):
+            return
+        self.app.opt.dialog_icon_style = style
+        self.tkopt.dialog_icon_style.set(style)           # update radiobutton
+        self.app.loadImages1()
+        self.app.loadImages4()
+
+    def setPauseTextStyle(self, style):
+        if self._cancelDrag(break_pause=False):
+            return
+        self.app.opt.pause_text_style = style
+        self.tkopt.pause_text_style.set(style)            # update radiobutton
+        self.app.loadImages2()
+        self.app.loadImages4()
+        self.app.updateCardset()
+        self.game.endGame(bookmark=1)
+        self.game.quitGame(bookmark=1)
+
+    def setRedealIconStyle(self, style):
+        if self._cancelDrag(break_pause=False):
+            return
+        self.app.opt.redeal_icon_style = style
+        self.tkopt.redeal_icon_style.set(style)           # update radiobutton
+        self.app.loadImages2()
+        self.app.loadImages4()
+        self.app.updateCardset()
+        self.game.endGame(bookmark=1)
+        self.game.quitGame(bookmark=1)
 
     #
     # stacks descriptions

@@ -833,11 +833,18 @@ class Octagon(Game):
 # ************************************************************************
 
 class Squadron(FortyThieves):
+    RowStack_Class = SS_RowStack
+    Foundation_Class = SS_FoundationStack
+
+    ROWS = 10
+    RESERVES = 3
 
     def createGame(self):
         l, s = Layout(self), self.s
+        decks = self.gameinfo.decks
 
-        self.setSize(l.XM+12*l.XS, l.YM+max(4.5*l.YS, 2*l.YS+12*l.YOFFSET))
+        self.setSize(l.XM + (2 + self.ROWS) * l.XS, l.YM
+                     + max(4.5 * l.YS, 2 * l.YS + 12 * l.YOFFSET))
 
         x, y = l.XM, l.YM
         s.talon = WasteTalonStack(x, y, self, max_rounds=1)
@@ -845,17 +852,18 @@ class Squadron(FortyThieves):
         x += l.XS
         s.waste = WasteStack(x, y, self)
         l.createText(s.waste, 's')
-        x += 2*l.XS
-        for i in range(8):
-            s.foundations.append(SS_FoundationStack(x, y, self, suit=i//2))
+        x += 2 * l.XS
+        for i in range(4 * decks):
+            s.foundations.append(self.Foundation_Class(x, y, self,
+                                                       suit=i // decks))
             x += l.XS
-        x, y = l.XM, l.YM+l.YS*3//2
-        for i in range(3):
+        x, y = l.XM, l.YM + l.YS * 3//2
+        for i in range(self.RESERVES):
             s.reserves.append(ReserveStack(x, y, self))
             y += l.YS
         x, y = l.XM+2*l.XS, l.YM+l.YS
-        for i in range(10):
-            s.rows.append(SS_RowStack(x, y, self, max_move=1))
+        for i in range(self.ROWS):
+            s.rows.append(self.RowStack_Class(x, y, self, max_move=1))
             x += l.XS
 
         l.defaultStackGroups()
@@ -863,6 +871,23 @@ class Squadron(FortyThieves):
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.reserves, frames=0)
         self._startDealNumRows(3)
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()          # deal first card to WasteStack
+
+
+# ************************************************************************
+# * Cascade
+# ************************************************************************
+
+class Cascade(Squadron):
+    RowStack_Class = AC_RowStack
+    Foundation_Class = AC_FoundationStack
+
+    ROWS = 7
+    RESERVES = 2
+
+    def startGame(self):
+        self._startDealNumRows(4)
         self.s.talon.dealRow()
         self.s.talon.dealCards()          # deal first card to WasteStack
 
@@ -1561,3 +1586,5 @@ registerGame(GameInfo(895, Preference, "Preference",
                       GI.GT_FORTY_THIEVES, 1, 0, GI.SL_LUCK))
 registerGame(GameInfo(910, NapoleonsShoulder, "Napoleon's Shoulder",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(933, Cascade, "Cascade",
+                      GI.GT_FORTY_THIEVES, 1, 0, GI.SL_BALANCED))

@@ -745,6 +745,10 @@ class SelectGameDialogWithPreview(SelectGameDialog):
             c = self.app.cardsets_cache.get(gi.category)
             if c:
                 c2 = c.get(gi.subcategory)
+            if not c2:
+                c = self.app.cardsets_cache.get(cardset.type)
+                if c:
+                    c2 = c.get(cardset.subtype)
         if c2:
             self.preview_app.images = c2[2]
         else:

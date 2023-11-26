@@ -52,6 +52,7 @@ GAME_BY_TYPE = {
     GI.GT_NAPOLEON: "Napoleon",
     GI.GT_NUMERICA: "Numerica",
     GI.GT_PAIRING_TYPE: "Pairing",
+    GI.GT_PICTURE_GALLERY: "Picture Gallery",
     GI.GT_RAGLAN: "Raglan",
     GI.GT_SIMPLE_TYPE: "Simple game",
     GI.GT_SPIDER: "Spider",
@@ -77,6 +78,7 @@ GAME_BY_TYPE = {
     GI.GT_HANOI: "Tower of Hanoi",
     GI.GT_PEGGED: "Pegged",
     GI.GT_CRIBBAGE_TYPE: "Cribbage",
+    GI.GT_ISHIDO: "Ishido",
 }
 
 

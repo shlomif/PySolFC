@@ -163,13 +163,17 @@ class MfxCanvasGroup():
             return
 
         imgs = self._imglist(self)
-        # print('number of imaages:', len(imgs))
+        if len(imgs) == 0:
+            return
 
         if position is not None:
             # In self.canvas suchen: das oberste image, welches zu position
             # gehört und liste der images oberhalb einfüllen u.a.a.O weglassen.
 
             pimgs = self._imglist(position)
+            if len(pimgs) == 0:
+                return
+
             ws = []
             for c in reversed(self.canvas.children):
                 if c not in imgs:
@@ -207,8 +211,14 @@ class MfxCanvasGroup():
             return
 
         imgs = self._imglist(self)
+        if len(imgs) == 0:
+            return
+
         if position is not None:
             pimgs = self._imglist(position)
+            if len(pimgs) == 0:
+                return
+
             ws = []
             for c in reversed(self.canvas.children):
                 if c == pimgs[0]:
@@ -663,6 +673,7 @@ class MfxCanvas(LImage):
         self.update_widget(posorobj, size)
 
     def update_widget(self, posorobj, size):
+        logging.info('MfxCanvas: update_widget')
 
         # print('MfxCanvas: update_widget size=(%s, %s)' %
         #       (self.size[0], self.size[1]))

@@ -200,12 +200,12 @@ class LImage(Widget, LBase):
         self.make_format(self.size, p)
 
     def on_fit_mode(self, a, m):
-        print('on_fit_mode', m)
+        # print('on_fit_mode', m)
         self.fit_num_update(self.fit_mode)
         self.make_format(self.size, self.pos)
 
     def on_texture(self, a, texture):
-        print('on_texture', texture)
+        # print('on_texture', texture)
         self.tex_coord_update(self.texture)
         self.make_format(self.size, self.pos)
 

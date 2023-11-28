@@ -1455,7 +1455,7 @@ class Game(object):
             c0 = cards[0]
             dx, dy = (x - c0.x), (y - c0.y)
             base = float(self.app.opt.animations)
-            duration = base*base/40.0 + 0.05
+            duration = base*base/20.0 + 0.05
             for card in cards:
                 card.animatedMove(dx, dy, duration)
             # self.top.waitAnimation(swallow=True, pickup=True)
@@ -3267,6 +3267,7 @@ class Game(object):
     def saveGame(self, filename, protocol=-1):
         self.finishMove()       # just in case
         self.setCursor(cursor=CURSOR_WATCH)
+        rval = False
         try:
             self._saveGame(filename, protocol)
         except Exception as ex:
@@ -3274,8 +3275,10 @@ class Game(object):
             MfxExceptionDialog(self.top, ex, title=_("Save game error"),
                                text=_("Error while saving game"))
         else:
+            rval = True
             self.filename = filename
             self.setCursor(cursor=self.app.top_cursor)
+        return rval
 
     #
     # low level load/save

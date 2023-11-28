@@ -152,10 +152,10 @@ class LAnimationMgr(object):
 
         self.animations.remove(anim)
         if not self.checkRunning():
-            # print('LAnimationMgr: animEnd -> do callbacks')
+            # print('LAnimationMgr: animEnd ->', len(self.callbacks), 'callbacks') # noqa
             for cb in self.callbacks:
                 cb()
-            print('LAnimationMgr: animEnd -> callbacks done')
+            # print('LAnimationMgr: animEnd -> callbacks done')
             self.callbacks = []
 
         print('Clock.get_fps() ->', Clock.get_fps())
@@ -1557,15 +1557,18 @@ class LMainWindow(BoxLayout, LTkBase):
         # self.touches = []
 
         # beispiel zu canvas (hintergrund)
-        # with self.canvas.before:
-        #   Color(0, 1, 0.7, 0.5)
-        #   self.rect = Rectangle(pos=self.pos, size=self.size)
-        # self.bind(pos=self.update_rect)
-        # self.bind(size=self.update_rect)
-
-    # def update_rect(self, *args):
-    #   self.rect.pos = self.pos
-    #   self.rect.size = self.size
+        '''
+        with self.canvas.before:
+            Color(0, 1, 0.7, 0.5)
+            self.rect = Rectangle(pos=self.pos, size=self.size)
+        self.bind(pos=self.update_rect)
+        self.bind(size=self.update_rect)
+        '''
+    '''
+    def update_rect(self, *args):
+        self.rect.pos = self.pos
+        self.rect.size = self.size
+    '''
 
     def on_motion(self, m):
         print('on_motion', m)
@@ -1773,6 +1776,7 @@ class LApp(App):
         self.baseWindow.add_widget(self.mainWindow)
         logging.info('top = %s' % str(self.mainWindow))
         Cache.register('LAppCache', limit=10)
+        Cache.append('LAppCache', 'baseWindow', self.baseWindow, timeout=0)
         Cache.append('LAppCache', 'mainWindow', self.mainWindow, timeout=0)
         Cache.append('LAppCache', 'mainApp', self, timeout=0)
         self.startCode = 0

@@ -26,6 +26,8 @@ import math
 import os
 import re
 
+from kivy.cache import Cache
+from kivy.clock import Clock
 from kivy.event import EventDispatcher
 from kivy.properties import BooleanProperty
 from kivy.properties import NumericProperty
@@ -48,6 +50,7 @@ from pysollib.kivy.tkconst import CURSOR_WATCH, EVENT_HANDLED, EVENT_PROPAGATE
 from pysollib.kivy.tkconst import TOOLBAR_BUTTONS
 from pysollib.kivy.tkutil import after_idle
 from pysollib.kivy.tkutil import bind
+from pysollib.kivy.toast import Toast
 from pysollib.mfxutil import Struct
 from pysollib.mygettext import _
 from pysollib.pysoltk import MfxMessageDialog
@@ -229,6 +232,12 @@ class FileMenuDialog(LMenuDialog):
             command(key)
         return game_command
 
+    def make_command(self, command):
+        def _command():
+            self.closeWindow(0)
+            command()
+        return _command
+
     def buildTree(self, tv, node):
         rg = tv.add_node(
             LTreeNode(text=_('Recent games')))
@@ -263,9 +272,9 @@ class FileMenuDialog(LMenuDialog):
                         LTreeNode(text=gi.name, command=command), rg)
 
         tv.add_node(LTreeNode(
-            text=_('Load'), command=self.menubar.mOpen))
+            text=_('Load'), command=self.make_command(self.menubar.mOpen)))
         tv.add_node(LTreeNode(
-            text=_('Save'), command=self.menubar.mSaveAs))
+            text=_('Save'), command=self.make_command(self.menubar.mSaveAs)))
 
         tv.add_node(LTreeNode(
             text=_('Quit'), command=self.menubar.mHoldAndQuit))
@@ -1372,6 +1381,7 @@ class PysolMenubarTk:
         self.__keybindings = {}
         self._createMenubar()
         self.top = top
+        self.app = app
 
         if self.progress:
             self.progress.update(step=1)
@@ -2047,9 +2057,12 @@ class PysolMenubarTk:
         print('filename = %s' % filename)
         if filename:
             filename = os.path.normpath(filename)
-            # filename = os.path.normcase(filename)
             if os.path.isfile(filename):
-                self.game.loadGame(filename)
+                baseWindow = Cache.get('LAppCache', 'baseWindow')
+                text = _("loading game from:")+filename
+                toast = Toast(text=text)
+                toast.show(parent=baseWindow, duration=4.0)
+                Clock.schedule_once(lambda dt: self.game.loadGame(filename), 1.0) # noqa
 
     def mSaveAs(self, *event):
         if self._cancelDrag(break_pause=False):
@@ -2070,16 +2083,16 @@ class PysolMenubarTk:
         idir, ifile = os.path.split(os.path.normpath(filename))
         if not idir:
             idir = self.app.dn.savegames
-        # print self.game.filename, ifile
-        # d = tkFileDialog.SaveAs()
-        # filename = d.show(filetypes=self.FILETYPES,
-        #                  defaultextension=self.DEFAULTEXTENSION,
-        #                  initialdir=idir, initialfile=ifile)
+
         filename = idir + "/" + ifile
         if filename:
             filename = os.path.normpath(filename)
             # filename = os.path.normcase(filename)
-            self.game.saveGame(filename)
+            if self.game.saveGame(filename):
+                baseWindow = Cache.get('LAppCache', 'baseWindow')
+                text = _("game saved to:")+filename
+                toast = Toast(text=text)
+                toast.show(parent=baseWindow, duration=5.0)
             self.updateMenus()
 
     def mPause(self, *args):

@@ -138,11 +138,10 @@ class MfxCanvasGroup():
 
     def _imglist(self, group):
         ilst = []
-        for w in reversed(group.canvas.children):
+        for w in group.canvas.children:
             if isinstance(w, LImageItem):
                 if w.group == group:
                     ilst.append(w)
-        # damit is 0 das unterste image und -1 das oberste.
         return ilst
 
     def makeDeferredRaise(self, pos):
@@ -152,8 +151,7 @@ class MfxCanvasGroup():
 
     def tkraise(self, position=None):
         # print(self, ' tkraise(', position, ')')
-        # Das wird bei Mahjongg extensiv aufgerufen, wenn der Move
-        # abeschlossen ist.  Wird aber auch bei andern games benutzt.
+        # Mainly used by Mahjongg game after a move.
         # print('stack[1] = ',inspect.stack()[1].frame)
         # print('stack[2] = ',inspect.stack()[2].frame)
 
@@ -167,32 +165,23 @@ class MfxCanvasGroup():
             return
 
         if position is not None:
-            # In self.canvas suchen: das oberste image, welches zu position
-            # gehört und liste der images oberhalb einfüllen u.a.a.O weglassen.
-
+            # add all images above specified position
             pimgs = self._imglist(position)
             if len(pimgs) == 0:
                 return
 
-            ws = []
-            for c in reversed(self.canvas.children):
-                if c not in imgs:
-                    ws.append(c)
-                if c == pimgs[-1]:
-                    ws.extend(imgs)
-            self.canvas.clear_widgets()
-            for w in ws:
-                self.canvas.add_widget(w)
+            self.canvas.clear_widgets(imgs)
+            k = self.canvas.children.index(pimgs[-1])
+            for i in imgs:
+                self.canvas.add_widget(i, index=k)
+                k += 1
         else:
-            # alle images in dieser gruppe ganz nach oben
-            ws = []
-            for c in reversed(self.canvas.children):
-                if c not in imgs:
-                    ws.append(c)
-            ws.extend(imgs)
-            self.canvas.clear_widgets()
-            for w in ws:
-                self.canvas.add_widget(w)
+            # add all images to top
+            self.canvas.clear_widgets(imgs)
+            k = 0
+            for i in imgs:
+                self.canvas.add_widget(i, index=k)
+                k += 1
 
     def makeDeferredLower(self, pos):
         def animCallback():
@@ -201,7 +190,6 @@ class MfxCanvasGroup():
 
     def lower(self, position=None):
         # print(self, ' lower(', position, ')')
-        # dasselbe wi tkraise aber vorher statt nachher einfügen.
         # print('stack[1] = ',inspect.stack()[1].frame)
         # print('stack[2] = ',inspect.stack()[2].frame)
 
@@ -215,28 +203,25 @@ class MfxCanvasGroup():
             return
 
         if position is not None:
+            # add below specified position
             pimgs = self._imglist(position)
             if len(pimgs) == 0:
                 return
 
-            ws = []
-            for c in reversed(self.canvas.children):
-                if c == pimgs[0]:
-                    ws.extend(imgs)
-                if c not in imgs:
-                    ws.append(c)
-            self.canvas.clear_widgets()
-            for w in ws:
-                self.canvas.add_widget(w)
+            self.canvas.clear_widgets(imgs)
+            k = self.canvas.children.index(pimgs[0])  # the spec. item
+            k += 1  # insert before
+            for i in imgs:
+                self.canvas.add_widget(i, index=k)
+                k += 1
         else:
-            # alle images in dieser gruppe ganz nach unten ???
-            ws = imgs
-            for c in reversed(self.canvas.children):
-                if c not in imgs:
-                    ws.append(c)
-            self.canvas.clear_widgets()
-            for w in ws:
-                self.canvas.add_widget(w)
+            # add all to bottom
+            self.canvas.clear_widgets(imgs)
+            k = len(self.canvas.children)-1  # the last item
+            k += 1  # insert before
+            for i in imgs:
+                self.canvas.add_widget(i, index=k)
+                k += 1
 
     def addtag(self, tag, option="withtag"):
         # logging.info('MfxCanvasGroup: addtag(%s, %s)' % (tag, option))
@@ -352,7 +337,7 @@ class MfxCanvasImage(object):
         # print('stack[3] = ', inspect.stack()[3].frame)
 
         if self.animation:
-            print('defer tkraise to animation', abitm)
+            # print('defer tkraise to animation', abitm)
             self.deferred_raises.append(self.makeDeferredRaise(abitm))
             return
 
@@ -387,13 +372,8 @@ class MfxCanvasImage(object):
 
     def makeAnimStart(self):
         def animStart(anim, widget):
-            print('MfxCanvasImage: animStart %s' % self)
-            # karte nach vorne nehmen - vorgänger karte merken
-            # für restore.
-            # self.canvas.tag_raise(self.image)
-
+            # print('MfxCanvasImage: animStart %s' % self)
             for cb in self.deferred_raises:
-                print('do deferred tkraise:')
                 cb()
             self.deferred_raises = []
 
@@ -401,8 +381,7 @@ class MfxCanvasImage(object):
 
     def makeAnimEnd(self, dpos, dsize):
         def animEnd(anim, widget):
-            print('MfxCanvasImage: animEnd %s' % self)
-            # karte wieder vor die vorgängerkarte setzen.
+            # print('MfxCanvasImage: animEnd %s' % self)
             self.animation = False
             self.deferred_raises = []
             image = self.image
@@ -410,7 +389,7 @@ class MfxCanvasImage(object):
         return animEnd
 
     def animatedMove(self, dx, dy, duration=0.2):
-        print('MfxCanvasImage: animatedMove %s, %s' % (dx, dy))
+        # print('MfxCanvasImage: animatedMove %s, %s' % (dx, dy))
 
         image = self.image
         dsize = image.coreSize
@@ -514,10 +493,6 @@ class MfxCanvasRectangle(object):
 class MfxCanvasText(object):
     def __init__(self, canvas, x, y, preview=-1, **kwargs):
 
-        print(
-            'MfxCanvasText: %s | %s, %s, %s | %s'
-            % (canvas, x, y, preview, kwargs))
-
         if preview < 0:
             preview = canvas.preview
         if preview > 1:
@@ -538,7 +513,7 @@ class MfxCanvasText(object):
         self.widget = label
 
     def config(self, **kw):
-        print('MfxCanvasText: config %s' % kw)
+        # print('MfxCanvasText: config %s' % kw)
         if ('text' in kw):
             self.label.text = kw['text']
 
@@ -673,17 +648,19 @@ class MfxCanvas(LImage):
         self.update_widget(posorobj, size)
 
     def update_widget(self, posorobj, size):
-        logging.info('MfxCanvas: update_widget')
+        def psize(s):
+            return "({:1.2f}, {:1.2f})".format(s[0], s[1])
+
+        logging.info('MfxCanvas: update_widget to: '+psize(size))
 
         # print('MfxCanvas: update_widget size=(%s, %s)' %
         #       (self.size[0], self.size[1]))
 
         # Update Skalierungsparameter
 
-        oldscale = self.scale
+        # oldscale = self.scale
         newscale = self.scalefactor()
-        print('MfxCanvas: scale factor old= %s, new=%s' %
-              (oldscale, newscale))
+        logging.info('MfxCanvas: scale factor: {:1.2f})'.format(newscale))
         self.scale = newscale
 
         # Anpassung Skalierung.
@@ -726,13 +703,13 @@ class MfxCanvas(LImage):
     def winfo_width(self):
         # return self.r_width
         cpos, csize = self.KivyToCoreP(self.pos, self.size, self.scale)
-        print('MfxCanvas: winfo_width %s' % (csize[0]))
+        # print('MfxCanvas: winfo_width %s' % (csize[0]))
         return csize[0]
 
     def winfo_height(self):
         # return self.r_height
         cpos, csize = self.KivyToCoreP(self.pos, self.size, self.scale)
-        print('MfxCanvas: winfo_height %s' % (csize[1]))
+        # print('MfxCanvas: winfo_height %s' % (csize[1]))
         return csize[1]
 
     def cget(self, f):
@@ -771,7 +748,7 @@ class MfxCanvas(LImage):
                 self.clear_widgets([itm])
                 self.add_widget(itm)
             else:
-                # print('MfxCanvas: tag_raise: to specified position')
+                print('MfxCanvas: tag_raise: to specified position')
                 ws = []
                 for c in reversed(self.children):   # reversed!
                     if c != itm and c != abitm:
@@ -794,18 +771,9 @@ class MfxCanvas(LImage):
     #
     #
     def setInitialSize(self, width, height):
-        print('MfxCanvas: setInitialSize request %s/%s' % (width, height))
-        print(
-            'MfxCanvas: setInitialSize actual  %s/%s'
-            % (self.size[0], self.size[1]))
         self.r_width = width
         self.r_height = height
-
-        # ev. update anstossen
         self.update_widget(self.pos, self.size)
-
-        # self.size[0] = width
-        # self.size[1] = height
         return
 
     # delete all CanvasItems, but keep the background and top tiles
@@ -823,7 +791,7 @@ class MfxCanvas(LImage):
         return -1
 
     def setTextColor(self, color):
-        print('MfxCanvas: setTextColor1 %s' % color)
+        # print('MfxCanvas: setTextColor1 %s' % color)
         if color is None:
             c = self.cget("bg")
             if not isinstance(c, str) or c[0] != "#" or len(c) != 7:
@@ -836,7 +804,7 @@ class MfxCanvas(LImage):
             # print c, ":", v, "luminance", luminance
             color = ("#000000", "#ffffff")[luminance < 0.3]
 
-        print('MfxCanvas: setTextColor2 %s' % color)
+        # print('MfxCanvas: setTextColor2 %s' % color)
         if self._text_color != color:
             self._text_color = color
 
@@ -922,7 +890,7 @@ class MfxCanvas(LImage):
             pass
 
     def config(self, cnf={}, **kw):
-        print('MfxCanvas: config %s %s' % (cnf, kw))
+        # print('MfxCanvas: config %s %s' % (cnf, kw))
         if ('cursor' in kw):
             pass
         if ('width' in kw):

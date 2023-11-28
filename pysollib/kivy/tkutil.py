@@ -179,7 +179,7 @@ def unbind_destroy(widget):
 
 
 def after(widget, ms, func, *args):
-    print('tkutil: after(%s, %s, %s, %s)' % (widget, ms, func, args))
+    # print('tkutil: after(%s, %s, %s, %s)' % (widget, ms, func, args))
     if (ms == 'idle'):
         print('demo use')
         Clock.schedule_once(lambda dt: func(), 1.0)
@@ -191,12 +191,12 @@ def after(widget, ms, func, *args):
 
 
 def after_idle(widget, func, *args):
-    print('tkutil: after_idle()')
+    # print('tkutil: after_idle()')
     return after(widget, "idle", func, *args)
 
 
 def after_cancel(t):
-    print('tkutil: after_cancel()')
+    # print('tkutil: after_cancel()')
     pass
 
 

@@ -1193,6 +1193,6 @@ registerGame(GameInfo(879, RoamingProils, "Roaming Proils",
 registerGame(GameInfo(894, Cromwell, "Cromwell",
                       GI.GT_FAN_TYPE | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(908, OpenProils, "Open Proils",
-                      GI.GT_FAN_TYPE, 1, 0, GI.SL_BALANCED))
+                      GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(926, AlexanderTheGreat, "Alexander the Great",
                       GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))

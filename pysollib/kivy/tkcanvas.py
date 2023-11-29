@@ -279,6 +279,7 @@ class MfxCanvasImage(object):
         # animation support:
         self.animation = None
         self.deferred_raises = []
+        self.deferred_pos = []
 
         ed = kwargs['image']
         size = ed.size
@@ -369,23 +370,37 @@ class MfxCanvasImage(object):
         image.corePos = dpos
         if not self.animation:
             image.pos, image.size = self.canvas.CoreToKivy(dpos, dsize)
+        else:
+            pos, size = self.canvas.CoreToKivy(dpos, dsize)
+            self.deferred_pos.append(pos)
 
     def makeAnimStart(self):
         def animStart(anim, widget):
             # print('MfxCanvasImage: animStart %s' % self)
-            for cb in self.deferred_raises:
-                cb()
-            self.deferred_raises = []
 
+            # raise to top if reqested for this move
+            if self.deferred_raises:
+                self.deferred_raises[0]()
+                self.deferred_raises = self.deferred_raises[1:]
+
+            # fix destination position (hack into animation class - not nice)
+            if self.deferred_pos:
+                widgets = anim._widgets
+                for uid in list(widgets.keys()):
+                    anim = widgets[uid]
+                    p = anim['properties']
+                    # print (p)
+                    p['x'] = (p['x'][0], self.deferred_pos[0][0])
+                    p['y'] = (p['y'][0], self.deferred_pos[0][1])
+                    # print (p)
+                self.deferred_pos = self.deferred_pos[1:]
         return animStart
 
     def makeAnimEnd(self, dpos, dsize):
         def animEnd(anim, widget):
             # print('MfxCanvasImage: animEnd %s' % self)
             self.animation = False
-            self.deferred_raises = []
-            image = self.image
-            image.pos, image.size = self.canvas.CoreToKivy(dpos, dsize)
+            # print('MfxCanvasImage: animEnd moved to %s, %s' % (dpos[0], dpos[1])) # noqa
         return animEnd
 
     def animatedMove(self, dx, dy, duration=0.2):
@@ -745,28 +760,29 @@ class MfxCanvas(LImage):
         if (itm is not None):
             if (abitm is None):
                 # print('MfxCanvas: tag_raise: to top')
-                self.clear_widgets([itm])
+                self.remove_widget(itm)
                 self.add_widget(itm)
             else:
-                print('MfxCanvas: tag_raise: to specified position')
-                ws = []
-                for c in reversed(self.children):   # reversed!
-                    if c != itm and c != abitm:
-                        ws.append(c)
-                    if c == itm:
-                        continue
-                    if c == abitm:
-                        ws.append(abitm)
-                        ws.append(itm)
-                self.clear_widgets()
-                for w in ws:
-                    self.add_widget(w)
+                # print('MfxCanvas: tag_raise: to specified position')
+                self.remove_widget(itm)
+                k = self.children.index(abitm)
+                self.add_widget(itm, index=k)
 
-    def tag_lower(self, id, belowThis=None):
-        print('MfxCanvas: tag_lower(%s, %s)' % (id, belowThis))
-        # y = self.yy  # kommt das vor ?
-        pass
+    def tag_lower(self, itm, belowThis=None):
+        print('MfxCanvas: tag_lower(%s, %s)' % (itm, belowThis))
 
+        if (itm is not None):
+            if (belowThis is None):
+                # print('MfxCanvas: tag_lower: to bottom')
+                self.remove_widget(itm)
+                k = len(self.children.index)
+                self.add_widget(itm,index=k)
+            else:
+                # print('MfxCanvas: tag_lower: to specified position')
+                self.remove_widget(itm)
+                k = self.children.index(belowThis)
+                k += 1
+                self.add_widget(itm, index=k)
     #
     #
     #

@@ -120,7 +120,7 @@ class LAnimationTask(LTask, LBase):
         self.anim = anim
         self.spos = spos
         self.widget = widget
-        # print(self.widget.card)
+        print(self.widget.card)
         self.delay = delay
 
     def start(self):

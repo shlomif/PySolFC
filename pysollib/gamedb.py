@@ -370,7 +370,7 @@ class GI:
         # Gnome AisleRiot 2.2.0 (we have 65 out of 70 games)
         # Gnome AisleRiot 3.22.7
         #   still missing:
-        #       Hamilton, Labyrinth, Treize, Valentine, Wall
+        #       Hamilton, Labyrinth, Treize, Wall
         ("Gnome AisleRiot", (
             1, 2, 8, 9, 11, 12, 13, 19, 24, 27, 29, 31, 33, 34, 35, 36,
             38, 40, 41, 42, 43, 45, 48, 58, 65, 67, 89, 91, 92, 93, 94,
@@ -378,7 +378,7 @@ class GI:
             146, 147, 148, 200, 201, 206, 224, 225, 229, 230, 233, 257,
             258, 277, 280, 281, 282, 283, 284, 334, 384, 479, 495, 551,
             552, 553, 572, 593, 674, 700, 715, 716, 737, 772, 810, 819,
-            824, 829, 859, 874, 906, 22231,
+            824, 829, 859, 874, 906, 934, 22231,
         )),
 
         # Hoyle Card Games
@@ -592,7 +592,7 @@ class GI:
         ('fc-2.20', tuple(range(855, 897))),
         ('fc-2.21', tuple(range(897, 900)) + tuple(range(11014, 11017)) +
          tuple(range(13160, 13163)) + (16682,)),
-        ('dev', tuple(range(906, 934)) + tuple(range(11017, 11020)) +
+        ('dev', tuple(range(906, 935)) + tuple(range(11017, 11020)) +
          tuple(range(5600, 5624)) + tuple(range(18000, 18004)) +
          tuple(range(22303, 22311)) + tuple(range(22353, 22361))),
     )

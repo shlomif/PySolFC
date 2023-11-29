@@ -29,13 +29,18 @@ from pysollib.stack import \
         AutoDealTalonStack, \
         BasicRowStack, \
         DealRowTalonStack, \
+        InvisibleStack, \
         OpenStack, \
         RK_RowStack, \
         ReserveStack, \
+        SS_RowStack, \
         Spider_RK_Foundation, \
         Stack, \
         StackWrapper, \
-        isRankSequence
+        WasteStack, \
+        WasteTalonStack, \
+        isRankSequence, \
+        isSameSuitSequence
 from pysollib.util import ACE, ANY_RANK, ANY_SUIT, NO_RANK, \
         UNLIMITED_ACCEPTS, \
         UNLIMITED_MOVES
@@ -252,7 +257,99 @@ class PerpetualMotion(Game):
 
 
 # ************************************************************************
-# *
+# * Valentine
+# ************************************************************************
+
+class Valentine_Talon(WasteTalonStack):
+    def canDealCards(self):
+        # FIXME: this is to avoid loops in the demo
+        if self.game.demo and self.game.moves.index >= 500:
+            return False
+        return not self.game.isGameWon()
+
+    def dealCards(self, sound=False):
+        if not self.game.s.waste.cards and self.cards:
+            return WasteTalonStack.dealCards(self, sound=sound)
+        game, num_cards = self.game, len(self.cards)
+        rows = list(game.s.rows)[:]
+        rows.reverse()
+        for r in rows:
+            while r.cards:
+                num_cards = num_cards + 1
+                game.moveMove(1, r, game.s.internals[0], frames=0)
+                if game.s.internals[0].cards[-1].face_up:
+                    game.flipMove(game.s.internals[0])
+        if len(self.cards) > 0:
+            game.moveMove(len(self.cards), self, game.s.internals[0], frames=0)
+        game.moveMove(len(game.s.internals[0].cards), game.s.internals[0],
+                      self, frames=0)
+        rows.reverse()
+        game.startDealSample()
+        for r in rows:
+            game.fillStack(r)
+        WasteTalonStack.dealCards(self, sound=sound)
+        game.stopSamples()
+
+
+class Valentine(Game):
+
+    #
+    # game layout
+    #
+
+    def createGame(self, **layout):
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        self.setSize(l.XM + 6.5 * l.XS, l.YM + l.YS + (13 * l.YOFFSET))
+
+        self.s.internals.append(InvisibleStack(self))
+
+        # create stacks
+        x, y, = l.XM, l.YM
+        s.talon = Valentine_Talon(x, y, self, max_rounds=-1)
+        l.createText(s.talon, "s")
+        x += l.XS
+        s.waste = WasteStack(x, y, self, max_cards=1)
+        x += 1.5 * l.XS
+        for i in range(4):
+            s.rows.append(SS_RowStack(x, y, self, base_rank=NO_RANK))
+            x = x + l.XS
+
+        # define stack-groups
+        l.defaultStackGroups()
+
+    #
+    # game overrides
+    #
+
+    def startGame(self):
+        self._startAndDealRow()
+        self.s.talon.dealCards()
+
+    def fillStack(self, stack):
+        if not stack.cards:
+            if stack in self.s.rows:
+                if self.s.waste.cards:
+                    old_state = self.enterState(self.S_FILL)
+                    self.s.waste.moveMove(1, stack)
+                    self.leaveState(old_state)
+                elif self.s.talon.cards:
+                    old_state = self.enterState(self.S_FILL)
+                    self.s.talon.flipMove()
+                    self.s.talon.moveMove(1, stack)
+                    self.leaveState(old_state)
+
+    def isGameWon(self):
+        for s in self.s.rows:
+            if len(s.cards) != 13 or not isSameSuitSequence(s.cards):
+                return False
+        return True
+
+
+# ************************************************************************
+# * Aces Up 5
 # ************************************************************************
 
 class AcesUp5(AcesUp):
@@ -431,3 +528,5 @@ registerGame(GameInfo(757, Manx, "Manx",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(758, MaineCoon, "Maine Coon",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(934, Valentine, "Valentine",
+                      GI.GT_1DECK_TYPE, 1, -1, GI.SL_LUCK))

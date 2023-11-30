@@ -135,30 +135,28 @@ class LAnimationTask(LTask, LBase):
 class LAnimationMgr(object):
     def __init__(self, **kw):
         super(LAnimationMgr, self).__init__()
-        self.animations = []
-        self.widgets = {}
+        self.tasks = []
         self.callbacks = []
         self.taskQ = LTaskQ()
 
     def checkRunning(self):
-        return len(self.animations) > 0
+        return len(self.tasks) > 0
 
     def addEndCallback(self, cb):
         self.callbacks.append(cb)
-        # print('len of callbacks', len(self.callbacks))
 
-    def animEnd(self, anim, widget):
-        # print('LAnimationMgr: animEnd = %s.%s' % (anim, widget))
+    def taskEnd(self, task, value):
+        if value:
+            print('LAnimationMgr: taskEnd = %s %s' % (task, value))
+            self.tasks.remove(task)
+            if not self.checkRunning():
+                # print('LAnimationMgr: taskEnd ->', len(self.callbacks), 'callbacks') # noqa
+                for cb in self.callbacks:
+                    cb()
+                # print('LAnimationMgr: taskEnd -> callbacks done')
+                self.callbacks = []
 
-        self.animations.remove(anim)
-        if not self.checkRunning():
-            # print('LAnimationMgr: animEnd ->', len(self.callbacks), 'callbacks') # noqa
-            for cb in self.callbacks:
-                cb()
-            # print('LAnimationMgr: animEnd -> callbacks done')
-            self.callbacks = []
-
-        print('Clock.get_fps() ->', Clock.get_fps())
+            print('Clock.get_fps() ->', Clock.get_fps())
 
     def create(self, spos, widget, **kw):
         x = 0.0
@@ -175,16 +173,17 @@ class LAnimationMgr(object):
             transition = kw['transition']
 
         anim = Animation(x=x, y=y, duration=duration, transition=transition)
-        anim.bind(on_complete=self.animEnd)
         if 'bindE' in kw:
             anim.bind(on_complete=kw['bindE'])
         if 'bindS' in kw:
             anim.bind(on_start=kw['bindS'])
-        self.animations.append(anim)
 
         offset = duration / 3.0
-        animTask = LAnimationTask(anim, spos, widget, offset)
-        Clock.schedule_once(lambda dt: self.taskQ.taskInsert(animTask), 0.016)
+        task = LAnimationTask(anim, spos, widget, offset)
+        self.tasks.append(task)
+        task.bind(done=self.taskEnd)
+
+        Clock.schedule_once(lambda dt: self.taskQ.taskInsert(task), 0.016)
 
 
 LAnimationManager = LAnimationMgr()

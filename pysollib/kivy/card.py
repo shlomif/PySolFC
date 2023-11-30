@@ -23,6 +23,7 @@
 
 from pysollib.acard import AbstractCard
 from pysollib.kivy.LApp import LImageItem
+# from pysollib.kivy.LApp import LAnimationManager
 from pysollib.kivy.LImage import LImage
 from pysollib.kivy.tkcanvas import MfxCanvasImage
 
@@ -89,17 +90,23 @@ class _OneImageCard(_HideableCard):
 
     def showFace(self, unhide=1):
         # print ('card: showFace = %s' % self._face_image.source)
-        if not self.face_up:
+        def flip():
             self._setImage(image=self._face_image)
             self.tkraise(unhide)
             self.face_up = 1
 
+        if not self.face_up:
+            flip()
+
     def showBack(self, unhide=1):
         # print ('card: showBack = %s' % self._back_image.source)
-        if self.face_up:
+        def flip():
             self._setImage(image=self._back_image)
             self.tkraise(unhide)
             self.face_up = 0
+
+        if self.face_up:
+            flip()
 
     def updateCardBackground(self, image):
         print('card: updateCardBackground = %s' % image.source)

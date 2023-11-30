@@ -21,11 +21,10 @@ from kivy.properties import BooleanProperty, ListProperty
 
 
 class LTask(EventDispatcher):
-    done = BooleanProperty(False)
+    done = BooleanProperty(True)
 
     def __init__(self, name):
         super(LTask, self).__init__()
-        self.done = False
         self.name = name
         self.delay = 0.01
 
@@ -36,10 +35,6 @@ class LTask(EventDispatcher):
     def stop(self, *args):
         # print('stop of ',self.name)
         self.done = True
-
-    def on_done(self, instance, value):
-        # print ('on_done',instance,value)
-        pass
 
 
 class LTaskQ(EventDispatcher):

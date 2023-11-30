@@ -276,8 +276,8 @@ class MfxCanvasImage(object):
         super(MfxCanvasImage, self).__init__()
         self.canvas = canvas
 
-        # animation support:
-        self.animation = None
+        # animation mode support:
+        self.animation = 0
         self.deferred_raises = []
         self.deferred_pos = []
 
@@ -337,9 +337,10 @@ class MfxCanvasImage(object):
         # print('stack[2] = ', inspect.stack()[2].frame)
         # print('stack[3] = ', inspect.stack()[3].frame)
 
-        if self.animation:
+        if self.animation > 0:
             # print('defer tkraise to animation', abitm)
-            self.deferred_raises.append(self.makeDeferredRaise(abitm))
+            if len(self.deferred_raises) < self.animation:
+                self.deferred_raises.append(self.makeDeferredRaise(abitm))
             return
 
         # print('direct tkraise', abitm)
@@ -368,11 +369,12 @@ class MfxCanvasImage(object):
         dsize = image.coreSize
         dpos = (image.corePos[0] + dx, image.corePos[1] + dy)
         image.corePos = dpos
-        if not self.animation:
+        if self.animation == 0:
             image.pos, image.size = self.canvas.CoreToKivy(dpos, dsize)
         else:
-            pos, size = self.canvas.CoreToKivy(dpos, dsize)
-            self.deferred_pos.append(pos)
+            if len(self.deferred_pos) < self.animation:
+                pos, size = self.canvas.CoreToKivy(dpos, dsize)
+                self.deferred_pos.append(pos)
 
     def makeAnimStart(self):
         def animStart(anim, widget):
@@ -399,7 +401,13 @@ class MfxCanvasImage(object):
     def makeAnimEnd(self, dpos, dsize):
         def animEnd(anim, widget):
             # print('MfxCanvasImage: animEnd %s' % self)
-            self.animation = False
+            if self.animation > 0:
+                self.animation -= 1
+
+            if self.animation == 0:
+                # just for the case, keep in sync:
+                self.deferred_raises = []
+                self.deferred_pos = []
             # print('MfxCanvasImage: animEnd moved to %s, %s' % (dpos[0], dpos[1])) # noqa
         return animEnd
 
@@ -422,7 +430,7 @@ class MfxCanvasImage(object):
         if self.canvas.wmain.app.game.demo:
             transition = transition1
 
-        self.animation = True
+        self.animation += 1
         ssize = image.coreSize
         spos = (image.corePos[0], image.corePos[1])
         spos, ssize = self.canvas.CoreToKivy(spos, ssize)
@@ -776,16 +784,14 @@ class MfxCanvas(LImage):
                 # print('MfxCanvas: tag_lower: to bottom')
                 self.remove_widget(itm)
                 k = len(self.children.index)
-                self.add_widget(itm,index=k)
+                self.add_widget(itm, index=k)
             else:
                 # print('MfxCanvas: tag_lower: to specified position')
                 self.remove_widget(itm)
                 k = self.children.index(belowThis)
                 k += 1
                 self.add_widget(itm, index=k)
-    #
-    #
-    #
+
     def setInitialSize(self, width, height):
         self.r_width = width
         self.r_height = height

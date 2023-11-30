@@ -1455,7 +1455,7 @@ class Game(object):
             c0 = cards[0]
             dx, dy = (x - c0.x), (y - c0.y)
             base = float(self.app.opt.animations)
-            duration = base*base/25.0 + 0.05
+            duration = base*base/30.0 + 0.05
             for card in cards:
                 card.animatedMove(dx, dy, duration)
             # self.top.waitAnimation(swallow=True, pickup=True)

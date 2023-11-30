@@ -248,6 +248,19 @@ def addAnchorOffset(pos, size, anchor):
 # =============================================================================
 
 
+def LColorToLuminance(color):
+    kc = color
+    if isinstance(color, str):
+        kc = LColorToKivy(color)
+    r = kc[0]
+    g = kc[1]
+    b = kc[2]
+    Y = 0.2989*r + 0.5866*g + 0.1145*b
+    return Y
+
+# =============================================================================
+
+
 def LColorToKivy(outline):
     if (outline[0] == '#'):
         outline = outline[1:]

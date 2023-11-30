@@ -30,10 +30,12 @@ import math
 
 
 from kivy.clock import Clock
+from kivy.properties import StringProperty
 from kivy.uix.anchorlayout import AnchorLayout
 
 from pysollib.kivy.LApp import LAnimationManager
 from pysollib.kivy.LApp import LColorToKivy
+from pysollib.kivy.LApp import LColorToLuminance
 from pysollib.kivy.LApp import LImageItem
 from pysollib.kivy.LApp import LLine
 from pysollib.kivy.LApp import LRectangle
@@ -534,6 +536,10 @@ class MfxCanvasText(object):
         self.canvas = canvas
         self.label = label
         self.widget = label
+        self.canvas.bind(_text_color=self.setColor)
+
+    def setColor(self, w, c):
+        self.label.label.color = LColorToKivy(c)
 
     def config(self, **kw):
         # print('MfxCanvasText: config %s' % kw)
@@ -567,6 +573,7 @@ class MfxCanvasText(object):
 
 
 class MfxCanvas(LImage):
+    _text_color = StringProperty("#000000")
 
     def __str__(self):
         return f'<MfxCanvas @ {hex(id(self))}>'
@@ -813,31 +820,21 @@ class MfxCanvas(LImage):
         return -1
 
     def setTextColor(self, color):
-        # print('MfxCanvas: setTextColor1 %s' % color)
-        if color is None:
-            c = self.cget("bg")
-            if not isinstance(c, str) or c[0] != "#" or len(c) != 7:
-                return
-            v = []
-            for i in (1, 3, 5):
-                v.append(int(c[i:i + 2], 16))
-            luminance = (0.212671 * v[0] + 0.715160 *
-                         v[1] + 0.072169 * v[2]) / 255
-            # print c, ":", v, "luminance", luminance
-            color = ("#000000", "#ffffff")[luminance < 0.3]
+        # print('MfxCanvas: setTextColor')
+        # color is ignored: it sets a predefined (option settable)
+        # color. We do not support that. Instead of this wie examine
+        # the background and set the color accordingly.
+        if self._bg_img is not None:
+            lumi = self._bg_img.luminance()
+        else:
+            lumi = LColorToLuminance(self._bg_color)
 
-        # print('MfxCanvas: setTextColor2 %s' % color)
-        if self._text_color != color:
-            self._text_color = color
-
-            # falls wir das wollen in kivy:
-            # -> text_color als property deklarieren, und a.a.O binden.
-            # for item in self._text_items:
-            #    item.config(fill=self._text_color)
+        self._text_color = ("#000000", "#ffffff")[lumi < 0.5]
+        print('average luminance =', lumi)
 
     def setTile(self, image, stretch=0, save_aspect=0):
 
-        print('setTile: %s, %s' % (image, stretch))
+        # print('setTile: %s, %s, %s' % (image, stretch, save_aspect))
         if image:
             try:
                 self._bg_img = LImage(source=image)

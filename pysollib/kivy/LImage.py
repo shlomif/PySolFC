@@ -20,6 +20,7 @@ from kivy.properties import StringProperty
 from kivy.uix.image import Image as KivyImage
 from kivy.uix.widget import Widget
 
+from pysollib.kivy.LApp import LColorToLuminance
 from pysollib.kivy.LBase import LBase
 
 # =============================================================================
@@ -220,5 +221,21 @@ class LImage(Widget, LBase):
 
     def subsample(self, r):
         return LImage(texture=self.texture)
+
+    def luminance(self):
+        b = self.texture.pixels
+        s = 4
+        n = len(b)/1000
+        if n > 4:
+            s = n - n % 4
+        n = 0
+        ll = 0
+        for i in range(0, len(b), int(s)):
+            rr = int.from_bytes(b[i:i+1], byteorder='big', signed=False) / 256.0  # noqa
+            gg = int.from_bytes(b[i+1:i+2], byteorder='big', signed=False) / 256.0  # noqa
+            bb = int.from_bytes(b[i+2:i+3], byteorder='big', signed=False) / 256.0  # noqa
+            ll = ll + LColorToLuminance([rr, gg, bb, 1])
+            n += 1
+        return (ll/n)
 
 # =============================================================================

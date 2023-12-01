@@ -1568,19 +1568,15 @@ class LMainWindow(BoxLayout, LTkBase):
 
         # self.touches = []
 
-        # beispiel zu canvas (hintergrund)
-        '''
         with self.canvas.before:
-            Color(0, 1, 0.7, 0.5)
+            Color(0.15, 0.15, 0.15, 1)
             self.rect = Rectangle(pos=self.pos, size=self.size)
         self.bind(pos=self.update_rect)
         self.bind(size=self.update_rect)
-        '''
-    '''
+
     def update_rect(self, *args):
         self.rect.pos = self.pos
         self.rect.size = self.size
-    '''
 
     def on_motion(self, m):
         print('on_motion', m)
@@ -1778,31 +1774,6 @@ class LApp(App):
         else:
             return False    # delegate
 
-    def __init__(self):
-        super(LApp, self).__init__()
-
-        # Config.set('input', 'multitouchscreen1', 'tuio,0.0.0.0:3333')
-
-        self.baseWindow = FloatLayout()  # needed e.g. for toasts
-        self.mainWindow = LMainWindow()
-        self.baseWindow.add_widget(self.mainWindow)
-        logging.info('top = %s' % str(self.mainWindow))
-        Cache.register('LAppCache', limit=10)
-        Cache.append('LAppCache', 'baseWindow', self.baseWindow, timeout=0)
-        Cache.append('LAppCache', 'mainWindow', self.mainWindow, timeout=0)
-        Cache.append('LAppCache', 'mainApp', self, timeout=0)
-        self.startCode = 0
-
-    # Es gibt hier offensichtlich nur einen Bilschirm mit Höhe und Breite.
-    # Alles andere stellt das Betriebssystem zur Verfügung. Wir wissen auch
-    # nicht, wie das Gerät gerade orientiert ist, ist nicht unsere Sache.
-    # Alles was wir tun können ist Höhe und Breite zu verfolgen, sobald wir
-    # dazu informiert werden. (Android informiert leider nicht immer, wenn
-    # es nötig wäre).
-    # Update:
-    # Nachdem im Manifest nun steht 'configChange=...|screenSize' bekommen
-    # wir auch nach dem on_resume ein Signal.
-
     def delayedRebuild(self, dt):
         logging.info("LApp: delayedRebuild")
         self.mainWindow.rebuildContainer()
@@ -1820,22 +1791,86 @@ class LApp(App):
             Clock.schedule_once(self.makeDelayedRebuild(), 0.2)
         pass
 
-    def on_start(self):
-        logging.info('mw = %s,  w = %s' % (self.mainWindow, Window))
+    def __init__(self, args):
+        super(LApp, self).__init__()
+        self.args = args
+        self.title = "PySolFC"
+        self.baseWindow = FloatLayout()
 
+    def build(self):
+        class MyLabel(Label, LBase):
+            def __init__(self, **kw):
+                super(MyLabel, self).__init__(**kw)
+                with self.canvas.before:
+                    Color(0.05, 0.05, 0.05, 1)
+                    self.rect = Rectangle(pos=self.pos, size=self.size)
+                self.bind(pos=self.update_rect)
+                self.bind(size=self.update_rect)
+
+            def update_rect(self, *args):
+                self.rect.pos = self.pos
+                self.rect.size = self.size
+
+        self.startLabel = MyLabel(text="starting ...", color=[0.9,0.9,0.9,1]) # noqa
+        self.baseWindow.add_widget(self.startLabel)
+        return self.baseWindow
+
+    def app_start(self, dt):
+        logging.info("LApp: app_start")
+
+        logging.info('top = %s' % str(self.baseWindow))
+
+        self.mainWindow = LMainWindow()
+        Cache.register('LAppCache', limit=10)
+        Cache.append('LAppCache', 'baseWindow', self.baseWindow, timeout=0)
+        Cache.append('LAppCache', 'mainWindow', self.mainWindow, timeout=0)
+        Cache.append('LAppCache', 'mainApp', self, timeout=0)
+        self.startCode = 0
         Window.bind(on_keyboard=self.key_input)
         Window.bind(size=self.doSize)
 
+        from pysollib.app import Application
+        from pysollib.main import pysol_init
+
+        self.app = app = Application()
+        app.top = self.baseWindow
+        self.startCode = pysol_init(app, self.args)
         if self.startCode > 0:
             logging.info("LApp: on_start fails")
             return
 
-        logging.info("LApp: on_start")
         self.mainloop = self.app.mainproc()  # Einrichten
-        self.mainloop.send(None)                # Spielprozess starten
-        logging.info("LApp: on_start processed")
+        logging.info("LApp: mainproc initialised sending start signal")
+        self.mainloop.send(None)             # Spielprozess starten
+        logging.info("LApp: app_start processed, returned to kivy mainloop")
+
+        Clock.schedule_once(lambda dt:
+            self.baseWindow.add_widget(self.mainWindow,index=1),0.1)  # noqa
+        Clock.schedule_once(lambda dt:
+            self.baseWindow.remove_widget(self.startLabel),0.2)  # noqa
+
+    def on_start(self):
+        logging.info("LApp: on_start")
+
+        Window.update_viewport()
+        # There is still a black screen gap between android splash
+        # and displayed app window. But seems to depend on the device
+        # used. There are actual discussions running on that. Some
+        # suggest its a SDL2 issue.
+
+        self.app_start(0)
+
         # Android: Request missing android permissions.
         requestStoragePerm()
+        logging.info("LApp: on_start processed")
+        # NOTE: The Kivy Eventloop starts after this call
+        # to process input and events. (NOT EARLIER!). This is
+        # also the point, where the android splash screen will be
+        # removed.
+        # Maybe this helps for the black screen gap?:
+        Clock.schedule_once(lambda dt: Window.update_viewport(), 0.1)
+        Clock.schedule_once(lambda dt: Window.update_viewport(), 0.5)
+        Clock.schedule_once(lambda dt: Window.update_viewport(), 1.0)
 
     def on_stop(self):
         # Achtung wird u.U. 2 mal aufgerufen !!!

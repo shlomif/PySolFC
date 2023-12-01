@@ -424,24 +424,9 @@ if TOOLKIT == 'kivy':
     from pysollib.kivy.LApp import LApp
     import logging
 
-    class KivyApp(LApp):
-        def __init__(self, args):
-            super(KivyApp, self).__init__()
-            self.args = args
-
-        def build(self):
-            logging.info("KivyApp: build")
-
-            self.app = app = Application()
-            app.top = self.baseWindow
-            self.startCode = pysol_init(app, self.args)
-
-            logging.info('Main: App Initialised - starting main loop')
-            return self.baseWindow
-
     def main(args=None):
         logging.basicConfig(level=logging.INFO)
-        KivyApp(args).run()
+        LApp(args).run()
 
 else:
 

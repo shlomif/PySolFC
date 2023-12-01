@@ -506,6 +506,7 @@ class Neighbour(MonteCarlo):
 # ************************************************************************
 # * Fourteen
 # * Double Fourteen
+# * Juvenile
 # ************************************************************************
 
 class Fourteen_RowStack(MonteCarlo_RowStack):
@@ -574,6 +575,17 @@ class DoubleFourteen(Fourteen):
         self._startDealNumRows(4)
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.rows[:14])
+
+
+class Juvenile(DoubleFourteen):
+
+    def startGame(self):
+        self.startDealSample()
+        for i in range(2):
+            self.s.talon.dealRow(rows=[self.s.rows[0]], frames=0)
+        for i in range(5):
+            self.s.talon.dealRow(rows=self.s.rows[:17], frames=0)
+        self.s.talon.dealRow(rows=self.s.rows[:17])
 
 
 # ************************************************************************
@@ -1165,3 +1177,6 @@ registerGame(GameInfo(898, AcesSquare, "Aces Square",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(923, Crispy, "Crispy",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))
+registerGame(GameInfo(935, Juvenile, "Juvenile",
+                      GI.GT_PAIRING_TYPE | GI.GT_OPEN, 2, 0,
+                      GI.SL_MOSTLY_LUCK))

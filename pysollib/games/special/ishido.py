@@ -111,6 +111,21 @@ class Ishido(Game):
     def isGameWon(self):
         return len(self.s.talon.cards) == 0
 
+    def _shuffleHook(self, cards):
+        # prepare first cards
+        symbols = []
+        colors = []
+        topcards = []
+        for c in cards[:]:
+            if c.suit not in colors and c.rank not in symbols:
+                topcards.append(c)
+                cards.remove(c)
+                symbols.append(c.rank)
+                colors.append(c.suit)
+                if len(colors) >= 6 or len(symbols) >= 6:
+                    break
+        return cards + topcards
+
     def isValidPlay(self, playSpace, playRank, playSuit):
         # check that there's an adjacent card
         adjacent = self.getAdjacent(playSpace)

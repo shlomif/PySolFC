@@ -543,7 +543,8 @@ class Fourteen(Game):
                                                   dir=0, base_rank=NO_RANK))
         x, y = l.XM + colsperrow * l.XS, l.YM
         s.foundations.append(self.Foundation_Class(x, y, self, suit=ANY_SUIT,
-                             max_move=0, max_cards=52, base_rank=ANY_RANK))
+                             max_move=0, max_cards=(52 * self.gameinfo.decks),
+                                                   base_rank=ANY_RANK))
         l.createText(s.foundations[0], "s")
         x, y = self.width - l.XS, self.height - l.YS
         s.talon = InitialDealTalonStack(x, y, self)

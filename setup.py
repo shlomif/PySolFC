@@ -74,7 +74,6 @@ kw = {
     'install_requires': [
         'attrs>=18.2.0',
         'configobj',
-        'pycotap',
         'pysol_cards',
         'random2',
         'six',

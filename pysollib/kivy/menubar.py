@@ -90,6 +90,84 @@ class StringVar(TkVarObj):
     value = StringProperty('')
 
 # ************************************************************************
+# * Tree Generators
+# ************************************************************************
+# project study, currently unused
+
+
+class LTreeGenerator(object):
+    def __init__(self, menubar, parent, title, app):
+        self.menubar = menubar
+        self.parent = parent
+        self.app = app
+        self.title = title
+
+    def closeWindow(self, event):
+        self.parent.popWork(self.title)
+
+    def auto_close(self, command):
+        def auto_close_command():
+            command()
+            self.closeWindow(0)
+        return auto_close_command
+
+    def make_auto_command(self, variable, command):
+        def auto_command():
+            variable.set(not variable.get())
+            command()
+        return auto_command
+
+    def addCheckNode(self, tv, rg, title, auto_var, auto_com):
+        command = self.make_auto_command(auto_var, auto_com)
+        rg1 = tv.add_node(
+            LTreeNode(text=title, command=command, variable=auto_var), rg)
+        return rg1
+
+    def make_val_command(self, variable, value, command):
+        def val_command():
+            variable.set(value)
+            command()
+        return val_command
+
+    def make_vars_command(self, command, key):
+        def vars_command():
+            command(key)
+        return vars_command
+
+    def addRadioNode(self, tv, rg, title, auto_var, auto_val, auto_com):
+        command = self.make_val_command(auto_var, auto_val, auto_com)
+        rg1 = tv.add_node(
+            LTreeNode(text=title,
+                      command=command,
+                      variable=auto_var, value=auto_val), rg)
+        return rg1
+
+    def make_game_command(self, key, command):
+        def game_command():
+            self.closeWindow(0)
+            command(key)
+        return game_command
+
+    def make_command(self, command):
+        def _command():
+            self.closeWindow(0)
+            command()
+        return _command
+
+    def generate(self):
+        tv = LTreeRoot(root_options=dict(text='EditTree'))
+        tv.hide_root = True
+        tv.size_hint = 1, None
+        tv.bind(minimum_height=tv.setter('height'))
+        self.buildTree(tv, None)
+        return tv
+
+    def buildTree(self, tv, node):
+        print('buildTree base')
+        # to implement in dervied class
+        pass
+
+# ************************************************************************
 # * Menu Dialogs
 # ************************************************************************
 
@@ -110,6 +188,49 @@ class LMenuDialog(object):
             self.closeWindow(0)
         return auto_close_command
 
+    def make_auto_command(self, variable, command):
+        def auto_command():
+            variable.set(not variable.get())
+            command()
+        return auto_command
+
+    def addCheckNode(self, tv, rg, title, auto_var, auto_com):
+        command = self.make_auto_command(auto_var, auto_com)
+        rg1 = tv.add_node(
+            LTreeNode(text=title, command=command, variable=auto_var), rg)
+        return rg1
+
+    def make_val_command(self, variable, value, command):
+        def val_command():
+            variable.set(value)
+            command()
+        return val_command
+
+    def make_vars_command(self, command, key):
+        def vars_command():
+            command(key)
+        return vars_command
+
+    def addRadioNode(self, tv, rg, title, auto_var, auto_val, auto_com):
+        command = self.make_val_command(auto_var, auto_val, auto_com)
+        rg1 = tv.add_node(
+            LTreeNode(text=title,
+                      command=command,
+                      variable=auto_var, value=auto_val), rg)
+        return rg1
+
+    def make_game_command(self, key, command):
+        def game_command():
+            self.closeWindow(0)
+            command(key)
+        return game_command
+
+    def make_command(self, command):
+        def _command():
+            self.closeWindow(0)
+            command()
+        return _command
+
     def __init__(self, menubar, parent, title, app, **kw):
         super(LMenuDialog, self).__init__()
 
@@ -122,6 +243,9 @@ class LMenuDialog(object):
         self.persist = False
         if 'persist' in kw:
             self.persist = kw['persist']
+        self.tvroot = None
+        if 'tv' in kw:
+            self.tvroot = kw['tv']
 
         # prüfen ob noch aktiv - toggle.
 
@@ -148,14 +272,17 @@ class LMenuDialog(object):
 
         # Tree skelett.
 
-        tv = self.tvroot = LTreeRoot(root_options=dict(text='EditTree'))
-        tv.hide_root = True
-        tv.size_hint = 1, None
-        tv.bind(minimum_height=tv.setter('height'))
+        if self.tvroot is None:
+            tv = self.tvroot = LTreeRoot(root_options=dict(text='EditTree'))
+            tv.hide_root = True
+            tv.size_hint = 1, None
+            tv.bind(minimum_height=tv.setter('height'))
 
-        # menupunkte aufbauen.
+            # menupunkte aufbauen.
 
-        self.buildTree(tv, None)
+            self.buildTree(tv, None)
+        else:
+            tv = self.tvroot
 
         # tree in einem Scrollwindow präsentieren.
 
@@ -226,18 +353,6 @@ class FileMenuDialog(LMenuDialog):
         super(FileMenuDialog, self).__init__(
             menubar, parent, title, app, **kw)
 
-    def make_game_command(self, key, command):
-        def game_command():
-            self.closeWindow(0)
-            command(key)
-        return game_command
-
-    def make_command(self, command):
-        def _command():
-            self.closeWindow(0)
-            command()
-        return _command
-
     def buildTree(self, tv, node):
         rg = tv.add_node(
             LTreeNode(text=_('Recent games')))
@@ -289,18 +404,6 @@ class EditMenuDialog(LMenuDialog):  # Tools
         kw['persist'] = True
         super(EditMenuDialog, self).__init__(
             menubar, parent, title, app, **kw)
-
-    def make_auto_command(self, variable, command):
-        def auto_command():
-            variable.set(not variable.get())
-            command()
-        return auto_command
-
-    def addCheckNode(self, tv, rg, title, auto_var, auto_com):
-        command = self.make_auto_command(auto_var, auto_com)
-        rg1 = tv.add_node(
-            LTreeNode(text=title, command=command, variable=auto_var), rg)
-        return rg1
 
     def buildTree(self, tv, node):
         tv.add_node(LTreeNode(
@@ -488,37 +591,6 @@ class OptionsMenuDialog(LMenuDialog):
         kw['persist'] = True
         super(OptionsMenuDialog, self).__init__(
             menubar, parent, title, app, **kw)
-
-    def make_auto_command(self, variable, command):
-        def auto_command():
-            variable.set(not variable.get())
-            command()
-        return auto_command
-
-    def addCheckNode(self, tv, rg, title, auto_var, auto_com):
-        command = self.make_auto_command(auto_var, auto_com)
-        rg1 = tv.add_node(
-            LTreeNode(text=title, command=command, variable=auto_var), rg)
-        return rg1
-
-    def make_val_command(self, variable, value, command):
-        def val_command():
-            variable.set(value)
-            command()
-        return val_command
-
-    def make_vars_command(self, command, key):
-        def vars_command():
-            command(key)
-        return vars_command
-
-    def addRadioNode(self, tv, rg, title, auto_var, auto_val, auto_com):
-        command = self.make_val_command(auto_var, auto_val, auto_com)
-        rg1 = tv.add_node(
-            LTreeNode(text=title,
-                      command=command,
-                      variable=auto_var, value=auto_val), rg)
-        return rg1
 
     def buildTree(self, tv, node):
 
@@ -1364,6 +1436,7 @@ class MfxMenubar(EmulTkMenu):
 
 class PysolMenubarTk:
     def __init__(self, app, top, progress=None):
+        print('PysolMenubarTk: __init__()')
         self._createTkOpt()
         self._setOptions()
         # init columnbreak
@@ -1385,10 +1458,6 @@ class PysolMenubarTk:
 
         if self.progress:
             self.progress.update(step=1)
-
-        # set the menubar
-        # self.updateBackgroundImagesMenu()
-        # self.top.config(menu=self.__menubar)
 
     def _createTkOpt(self):
         # structure to convert menu-options to Toolkit variables
@@ -1856,7 +1925,9 @@ class PysolMenubarTk:
             return
         self.game.setCursor(cursor=CURSOR_WATCH)
         after_idle(self.top, self.__restoreCursor)
-        OptionsMenuDialog(self, self.top, title=_("Options"), app=self.app)
+
+        tv = None
+        OptionsMenuDialog(self, self.top, title=_("Options"), app=self.app, tv=tv) # noqa
         return EVENT_HANDLED
 
     def mHelpMenuDialog(self, *event):

@@ -147,7 +147,7 @@ class LAnimationMgr(object):
 
     def taskEnd(self, task, value):
         if value:
-            print('LAnimationMgr: taskEnd = %s %s' % (task, value))
+            # print('LAnimationMgr: taskEnd = %s %s' % (task, value))
             self.tasks.remove(task)
             if not self.checkRunning():
                 # print('LAnimationMgr: taskEnd ->', len(self.callbacks), 'callbacks') # noqa
@@ -156,7 +156,7 @@ class LAnimationMgr(object):
                 # print('LAnimationMgr: taskEnd -> callbacks done')
                 self.callbacks = []
 
-            print('Clock.get_fps() ->', Clock.get_fps())
+            # print('Clock.get_fps() ->', Clock.get_fps())
 
     def create(self, spos, widget, **kw):
         x = 0.0

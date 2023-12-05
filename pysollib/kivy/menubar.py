@@ -90,17 +90,22 @@ class StringVar(TkVarObj):
     value = StringProperty('')
 
 # ************************************************************************
-# * Tree Generators
+# * Common base
 # ************************************************************************
-# project study, currently unused
 
 
-class LTreeGenerator(object):
+class LMenuBase(object):
     def __init__(self, menubar, parent, title, app):
         self.menubar = menubar
         self.parent = parent
         self.app = app
         self.title = title
+
+    def make_pop_command(self, parent, title):
+        def pop_command(event):
+            print('event = %s' % event)
+            parent.popWork(title)
+        return pop_command
 
     def closeWindow(self, event):
         self.parent.popWork(self.title)
@@ -154,90 +159,53 @@ class LTreeGenerator(object):
             command()
         return _command
 
+# ************************************************************************
+# * Tree Generators
+# ************************************************************************
+
+
+class LTreeGenerator(LMenuBase):
+    def __init__(self, menubar, parent, title, app):
+        super(LTreeGenerator, self).__init__(menubar, parent, title, app)
+
     def generate(self):
         tv = LTreeRoot(root_options=dict(text='EditTree'))
         tv.hide_root = True
         tv.size_hint = 1, None
         tv.bind(minimum_height=tv.setter('height'))
-        self.buildTree(tv, None)
+
+        gen = self.buildTree(tv, None)
+
+        def process(dt):
+            try:
+                gen.send(None)
+                Clock.schedule_once(process, 0.2)
+            except StopIteration:
+                print('generator: all jobs done')
+                pass
+
+        Clock.schedule_once(process, 0.2)
         return tv
 
     def buildTree(self, tv, node):
-        print('buildTree base')
-        # to implement in dervied class
-        pass
+        print('buildTree generator function not implemented')
+        # needs at least on 'yield' statement
+        # not reentrant: do not recurse !
+        # implement it in a dervied class
+        yield
 
 # ************************************************************************
 # * Menu Dialogs
 # ************************************************************************
 
 
-class LMenuDialog(object):
+class LMenuDialog(LMenuBase):
 
     dialogCache = {}
 
-    def make_pop_command(self, parent, title):
-        def pop_command(event):
-            print('event = %s' % event)
-            parent.popWork(title)
-        return pop_command
-
-    def auto_close(self, command):
-        def auto_close_command():
-            command()
-            self.closeWindow(0)
-        return auto_close_command
-
-    def make_auto_command(self, variable, command):
-        def auto_command():
-            variable.set(not variable.get())
-            command()
-        return auto_command
-
-    def addCheckNode(self, tv, rg, title, auto_var, auto_com):
-        command = self.make_auto_command(auto_var, auto_com)
-        rg1 = tv.add_node(
-            LTreeNode(text=title, command=command, variable=auto_var), rg)
-        return rg1
-
-    def make_val_command(self, variable, value, command):
-        def val_command():
-            variable.set(value)
-            command()
-        return val_command
-
-    def make_vars_command(self, command, key):
-        def vars_command():
-            command(key)
-        return vars_command
-
-    def addRadioNode(self, tv, rg, title, auto_var, auto_val, auto_com):
-        command = self.make_val_command(auto_var, auto_val, auto_com)
-        rg1 = tv.add_node(
-            LTreeNode(text=title,
-                      command=command,
-                      variable=auto_var, value=auto_val), rg)
-        return rg1
-
-    def make_game_command(self, key, command):
-        def game_command():
-            self.closeWindow(0)
-            command(key)
-        return game_command
-
-    def make_command(self, command):
-        def _command():
-            self.closeWindow(0)
-            command()
-        return _command
-
     def __init__(self, menubar, parent, title, app, **kw):
-        super(LMenuDialog, self).__init__()
+        super(LMenuDialog, self).__init__(menubar, parent, title, app)
 
-        self.menubar = menubar
-        self.parent = parent
-        self.app = app
-        self.title = title
         self.window = None
         self.running = False
         self.persist = False
@@ -270,29 +238,29 @@ class LMenuDialog(object):
         if self.persist:
             self.dialogCache[title] = window
 
-        # Tree skelett.
+        # Tree construct or assign.
 
         if self.tvroot is None:
-            tv = self.tvroot = LTreeRoot(root_options=dict(text='EditTree'))
-            tv.hide_root = True
-            tv.size_hint = 1, None
-            tv.bind(minimum_height=tv.setter('height'))
-
-            # menupunkte aufbauen.
-
+            tv = self.initTree()
             self.buildTree(tv, None)
         else:
             tv = self.tvroot
 
-        # tree in einem Scrollwindow präsentieren.
+        # show the tree in a scroll window
 
         root = LScrollView(pos=(0, 0))
         root.add_widget(tv)
         self.window.content.add_widget(root)
 
+    def initTree(self):
+        tv = self.tvroot = LTreeRoot(root_options=dict(text='EditTree'))
+        tv.hide_root = True
+        tv.size_hint = 1, None
+        tv.bind(minimum_height=tv.setter('height'))
+        return tv
+
     def buildTree(self, tree, node):
-        print('buildTree base')
-        # to implement in dervied class
+        # to implement in dervied class if needed
         pass
 
 # ************************************************************************
@@ -584,16 +552,12 @@ class AssistMenuDialog(LMenuDialog):
 # ************************************************************************
 
 
-class OptionsMenuDialog(LMenuDialog):
-
-    def __init__(self, menubar, parent, title, app, **kw):
-        kw['size_hint'] = (0.5, 1)
-        kw['persist'] = True
-        super(OptionsMenuDialog, self).__init__(
-            menubar, parent, title, app, **kw)
+class LOptionsMenuGenerator(LTreeGenerator):
+    def __init__(self, menubar, parent, title, app):
+        super(LOptionsMenuGenerator, self).__init__(
+            menubar, parent, title, app)
 
     def buildTree(self, tv, node):
-
         # -------------------------------------------
         # Automatic play settings
 
@@ -622,6 +586,7 @@ class OptionsMenuDialog(LMenuDialog):
                               self.menubar.tkopt.quickplay,
                               self.menubar.mOptQuickPlay)
 
+        yield
         # -------------------------------------------
         # Player assistance
 
@@ -707,6 +672,7 @@ class OptionsMenuDialog(LMenuDialog):
 
             # submenu.add_separator()
 
+        yield
         # -------------------------------------------
         # Language options
 
@@ -738,6 +704,7 @@ class OptionsMenuDialog(LMenuDialog):
                               self.menubar.tkopt.language, 'ru',
                               self.menubar.mOptLanguage)
 
+        yield
         # -------------------------------------------
         # Sound options
 
@@ -899,6 +866,7 @@ class OptionsMenuDialog(LMenuDialog):
                     self.menubar.tkopt.sound_sample_vars[key],
                     self.make_vars_command(self.menubar.mOptSoundSample, key))
 
+        yield
         # -------------------------------------------
         # Cardsets and card backside options
 
@@ -914,10 +882,12 @@ class OptionsMenuDialog(LMenuDialog):
                 cs = csm.get(i)
                 if cs is None:
                     break
+
                 rg1 = self.addRadioNode(tv, rg,
                                         cs.name,
                                         self.menubar.tkopt.cardset, i,
                                         self.menubar.mOptCardset)
+
                 if rg1:
                     cbs = cs.backnames
                     self.menubar.tkopt.cardbacks[i] = IntVar()
@@ -939,6 +909,7 @@ class OptionsMenuDialog(LMenuDialog):
 
                 i += 1
 
+        yield
         # -------------------------------------------
         # Table background settings
 
@@ -1066,6 +1037,7 @@ class OptionsMenuDialog(LMenuDialog):
                                           self.menubar.mOptTileSet)
                     i += 1
 
+        yield
         # -------------------------------------------
         # Card view options
 
@@ -1097,6 +1069,7 @@ class OptionsMenuDialog(LMenuDialog):
                               self.menubar.tkopt.shade_filled_stacks,
                               self.menubar.mOptShadeFilledStacks)
 
+        yield
         # -------------------------------------------
         # Animation settins
 
@@ -1145,6 +1118,7 @@ class OptionsMenuDialog(LMenuDialog):
                               self.menubar.tkopt.win_animation,
                               self.menubar.mWinAnimation)
 
+        yield
         # -------------------------------------------
         # Touch mode settings
 
@@ -1187,6 +1161,7 @@ class OptionsMenuDialog(LMenuDialog):
         menu.add_separator()
         '''
 
+        yield
         # -------------------------------------------
         # Toolbar options
 
@@ -1317,6 +1292,22 @@ class OptionsMenuDialog(LMenuDialog):
                           self.menubar.tkopt.display_win_message,
                           self.menubar.mWinDialog)
 
+# ************************************************************************
+
+
+class OptionsMenuDialog(LMenuDialog):
+
+    def __init__(self, menubar, parent, title, app, **kw):
+        kw['size_hint'] = (0.5, 1)
+        kw['persist'] = True
+        super(OptionsMenuDialog, self).__init__(
+            menubar, parent, title, app, **kw)
+
+    def initTree(self):
+        og = LOptionsMenuGenerator(
+            self.menubar, self.parent, title=_("Options"), app=self.app)
+        tv = og.generate()
+        return tv
 
 # ************************************************************************
 
@@ -1926,8 +1917,7 @@ class PysolMenubarTk:
         self.game.setCursor(cursor=CURSOR_WATCH)
         after_idle(self.top, self.__restoreCursor)
 
-        tv = None
-        OptionsMenuDialog(self, self.top, title=_("Options"), app=self.app, tv=tv) # noqa
+        OptionsMenuDialog(self, self.top, title=_("Options"), app=self.app)
         return EVENT_HANDLED
 
     def mHelpMenuDialog(self, *event):

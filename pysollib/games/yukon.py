@@ -41,7 +41,8 @@ from pysollib.stack import \
     WasteTalonStack, \
     Yukon_AC_RowStack, \
     Yukon_BO_RowStack, \
-    Yukon_SS_RowStack
+    Yukon_SS_RowStack, \
+    isAlternateColorSequence
 from pysollib.util import ANY_SUIT, KING
 
 
@@ -707,6 +708,39 @@ class Wave(Game):
 
 
 # ************************************************************************
+# * Yukon Kings
+# ************************************************************************
+
+class YukonKings(Yukon):
+
+    def createGame(self, playcards=25):
+        l, s = Layout(self), self.s
+        self.setSize(l.XM + (7 * l.XS),
+                     l.YM + l.YS + playcards * l.YOFFSET)
+
+        x, y = l.XM, l.YM
+        for i in range(7):
+            s.rows.append(self.RowStack_Class(x, y, self))
+            x += l.XS
+
+        x, y = l.XM, self.height - l.YS
+        s.talon = InitialDealTalonStack(x, y, self)
+
+        l.defaultStackGroups()
+
+    def isGameWon(self):
+        cardsPlayed = False
+        for s in self.s.rows:
+            if s.cards:
+                if len(s.cards) != 13 or not isAlternateColorSequence(s.cards):
+                    return False
+                cardsPlayed = True
+        if not cardsPlayed:
+            return False
+        return True
+
+
+# ************************************************************************
 # * Yukon Cells
 # * Yukonic Plague
 # ************************************************************************
@@ -859,4 +893,6 @@ registerGame(GameInfo(914, Canberra, "Canberra",
 registerGame(GameInfo(919, Dnieper, "Dnieper",
                       GI.GT_SPIDER, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(925, YukonCells, "Yukon Cells",
+                      GI.GT_YUKON, 1, 0, GI.SL_BALANCED))
+registerGame(GameInfo(936, YukonKings, "Yukon Kings",
                       GI.GT_YUKON, 1, 0, GI.SL_BALANCED))

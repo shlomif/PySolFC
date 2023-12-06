@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: 1.02\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-11-24 12:21-0500\n"
+"PO-Revision-Date: 2023-12-05 21:24-0500\n"
 "Last-Translator: Eric Rausch <neelix570@gmail.com>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -1003,6 +1003,9 @@ msgstr ""
 msgid "With %(cards)d or more cards"
 msgstr ""
 
+msgid "Abstract"
+msgstr ""
+
 #: pysollib/resource.py:219
 msgid "Adult"
 msgstr "Adulte"
@@ -1039,6 +1042,9 @@ msgstr "Collection"
 msgid "Computers"
 msgstr "Ordinateurs"
 
+msgid "Divination"
+msgstr ""
+
 #: pysollib/resource.py:228
 msgid "Engines"
 msgstr "Moteurs"
@@ -1047,6 +1053,9 @@ msgstr "Moteurs"
 msgid "Fantasy"
 msgstr "Fantaisie"
 
+msgid "Four Color"
+msgstr ""
+
 #: pysollib/resource.py:230
 msgid "Ganjifa"
 msgstr "Ganjifa"
@@ -1054,6 +1063,9 @@ msgstr "Ganjifa"
 #: pysollib/resource.py:233
 msgid "Holiday"
 msgstr "Vacances"
+
+msgid "Monochrome"
+msgstr ""
 
 #: pysollib/resource.py:235
 msgid "Movies"

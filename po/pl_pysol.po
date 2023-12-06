@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PySolFC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-11-24 12:21-0500\n"
+"PO-Revision-Date: 2023-12-05 21:25-0500\n"
 "Last-Translator: Jerzy Trzeciak <artusek@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
@@ -1008,6 +1008,9 @@ msgstr ""
 msgid "With %(cards)d or more cards"
 msgstr ""
 
+msgid "Abstract"
+msgstr ""
+
 #: pysollib/resource.py:219
 msgid "Adult"
 msgstr "Dla dorosłych"
@@ -1044,6 +1047,9 @@ msgstr "Kolekcjonerskie"
 msgid "Computers"
 msgstr "Komputery"
 
+msgid "Divination"
+msgstr ""
+
 #: pysollib/resource.py:228
 msgid "Engines"
 msgstr "Maszyny"
@@ -1052,6 +1058,9 @@ msgstr "Maszyny"
 msgid "Fantasy"
 msgstr "Fantastyka"
 
+msgid "Four Color"
+msgstr ""
+
 #: pysollib/resource.py:230
 msgid "Ganjifa"
 msgstr "Ganjifa"
@@ -1059,6 +1068,9 @@ msgstr "Ganjifa"
 #: pysollib/resource.py:233
 msgid "Holiday"
 msgstr "Święta"
+
+msgid "Monochrome"
+msgstr ""
 
 #: pysollib/resource.py:235
 msgid "Movies"

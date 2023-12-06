@@ -300,6 +300,7 @@ class CSI:
 
     # cardset styles
     STYLE = {
+        35: _("Abstract"),              #
         1:  _("Adult"),                #
         2:  _("Animals"),              #
         3:  _("Anime"),                #
@@ -309,8 +310,10 @@ class CSI:
         7:  _("Classic Look"),         #
         8:  _("Collectors"),           # scanned collectors cardsets
         9:  _("Computers"),            #
+        36: _("Divination"),            # e.g. fortunetelling decks
         10:  _("Engines"),              #
         11:  _("Fantasy"),              #
+        37:  _("Four Color"),           #
         30:  _("Ganjifa"),              #
         12:  _("Hanafuda"),             #
         29:  _("Hex A Deck"),           #
@@ -318,6 +321,7 @@ class CSI:
         34:  _("Ishido"),               #
         28:  _("Mahjongg"),             #
         32:  _("Matching"),             #
+        38:  _("Monochrome"),           #
         14:  _("Movies"),               #
         31:  _("Matrix"),               #
         15:  _("Music"),                #

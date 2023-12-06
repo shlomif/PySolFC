@@ -919,6 +919,9 @@ msgstr ""
 msgid "With %(cards)d or more cards"
 msgstr ""
 
+msgid "Abstract"
+msgstr ""
+
 #: pysollib/resource.py:219
 msgid "Adult"
 msgstr ""
@@ -955,6 +958,9 @@ msgstr ""
 msgid "Computers"
 msgstr ""
 
+msgid "Divination"
+msgstr ""
+
 #: pysollib/resource.py:228
 msgid "Engines"
 msgstr ""
@@ -963,12 +969,18 @@ msgstr ""
 msgid "Fantasy"
 msgstr ""
 
+msgid "Four Color"
+msgstr ""
+
 #: pysollib/resource.py:230
 msgid "Ganjifa"
 msgstr ""
 
 #: pysollib/resource.py:233
 msgid "Holiday"
+msgstr ""
+
+msgid "Monochrome"
 msgstr ""
 
 #: pysollib/resource.py:235

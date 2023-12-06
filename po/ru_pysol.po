@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-11-24 12:20-0500\n"
+"PO-Revision-Date: 2023-12-05 21:26-0500\n"
 "Last-Translator: Skomoroh <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
@@ -998,6 +998,9 @@ msgstr ""
 msgid "With %(cards)d or more cards"
 msgstr ""
 
+msgid "Abstract"
+msgstr ""
+
 #: pysollib/resource.py:219
 msgid "Adult"
 msgstr "Для взрослых"
@@ -1034,6 +1037,9 @@ msgstr "Коллекционные"
 msgid "Computers"
 msgstr "Компьютеры"
 
+msgid "Divination"
+msgstr ""
+
 #: pysollib/resource.py:228
 msgid "Engines"
 msgstr "Машины"
@@ -1042,6 +1048,9 @@ msgstr "Машины"
 msgid "Fantasy"
 msgstr "Фэнтези"
 
+msgid "Four Color"
+msgstr ""
+
 #: pysollib/resource.py:230
 msgid "Ganjifa"
 msgstr "Ганджифа"
@@ -1049,6 +1058,9 @@ msgstr "Ганджифа"
 #: pysollib/resource.py:233
 msgid "Holiday"
 msgstr "Праздники"
+
+msgid "Monochrome"
+msgstr ""
 
 #: pysollib/resource.py:235
 msgid "Movies"

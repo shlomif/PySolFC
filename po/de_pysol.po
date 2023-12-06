@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-11-24 12:21-0500\n"
+"PO-Revision-Date: 2023-12-05 21:24-0500\n"
 "Last-Translator: H. Schaekel <Holger.Schaekel@web.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -973,6 +973,9 @@ msgstr ""
 msgid "With %(cards)d or more cards"
 msgstr ""
 
+msgid "Abstract"
+msgstr ""
+
 #: pysollib/resource.py:219
 msgid "Adult"
 msgstr "Erwachsene"
@@ -1009,6 +1012,9 @@ msgstr "Kollektoren"
 msgid "Computers"
 msgstr "Computer"
 
+msgid "Divination"
+msgstr ""
+
 #: pysollib/resource.py:228
 msgid "Engines"
 msgstr "Maschinen"
@@ -1017,6 +1023,9 @@ msgstr "Maschinen"
 msgid "Fantasy"
 msgstr "Fantasie"
 
+msgid "Four Color"
+msgstr ""
+
 #: pysollib/resource.py:230
 msgid "Ganjifa"
 msgstr "Ganjifa"
@@ -1024,6 +1033,9 @@ msgstr "Ganjifa"
 #: pysollib/resource.py:233
 msgid "Holiday"
 msgstr "Ferien"
+
+msgid "Monochrome"
+msgstr ""
 
 #: pysollib/resource.py:235
 msgid "Movies"

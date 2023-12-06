@@ -870,45 +870,51 @@ class LOptionsMenuGenerator(LTreeGenerator):
         # -------------------------------------------
         # Cardsets and card backside options
 
+        from pysollib.resource import CSI
+
         rg = tv.add_node(
             LTreeNode(text=_('Cardsets')))
         if rg:
             self.menubar.tkopt.cardset.set(self.app.cardset.index)
 
             csm = self.app.cardset_manager
-            # cnt = csm.len()
+            cdict = {}
             i = 0
             while 1:
-                cs = csm.get(i)
-                if cs is None:
-                    break
-
-                rg1 = self.addRadioNode(tv, rg,
-                                        cs.name,
-                                        self.menubar.tkopt.cardset, i,
-                                        self.menubar.mOptCardset)
-
-                if rg1:
-                    cbs = cs.backnames
-                    self.menubar.tkopt.cardbacks[i] = IntVar()
-                    self.menubar.tkopt.cardbacks[i].set(cs.backindex)
-
-                    bcnt = len(cbs)
-                    bi = 0
-                    while 1:
-                        if bi == bcnt:
-                            break
-                        cb = cbs[bi]
-                        self.addRadioNode(
-                            tv, rg1,
-                            cb,
-                            self.menubar.tkopt.cardbacks[i], bi,
-                            self.make_vars_command(
-                                self.menubar.mOptSetCardback, i))
-                        bi += 1
-
+                cardset = csm.get(i)
+                if cardset is None: break  # noqa
+                t = cardset.type
+                if t not in cdict.keys(): cdict[t] = []  # noqa
+                cdict[t].append((i, cardset))
                 i += 1
 
+            for k in sorted(cdict.keys()):
+                name = CSI.TYPE_NAME[k]
+                csl = cdict[k]
+                rg1 = tv.add_node(LTreeNode(text=name), rg)
+
+                for cst in csl:
+                    i = cst[0]
+                    cs = cst[1]
+                    rg2 = self.addRadioNode(
+                        tv,rg1,cs.name,self.menubar.tkopt.cardset, # noqa
+                        i,self.menubar.mOptCardset)                # noqa
+
+                    if rg2:
+                        cbs = cs.backnames
+                        self.menubar.tkopt.cardbacks[i] = IntVar()
+                        self.menubar.tkopt.cardbacks[i].set(cs.backindex)
+
+                        bcnt = len(cbs)
+                        bi = 0
+                        while 1:
+                            if bi == bcnt: break  # noqa
+                            cb = cbs[bi]
+                            self.addRadioNode(tv,rg2,cb,             # noqa
+                                self.menubar.tkopt.cardbacks[i],bi,  # noqa
+                                self.make_vars_command(              # noqa
+                                    self.menubar.mOptSetCardback, i))
+                            bi += 1
         yield
         # -------------------------------------------
         # Table background settings

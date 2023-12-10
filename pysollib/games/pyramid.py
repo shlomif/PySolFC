@@ -538,6 +538,8 @@ class Elevens(Pyramid):
 
     RowStack_Class = Elevens_RowStack
     Reserve_Class = Elevens_Reserve
+    Talon_Class = AutoDealTalonStack
+    Waste_Class = None
 
     def createGame(self, rows=3, cols=3, reserves=3, maxpiles=-1, texts=False):
 
@@ -552,12 +554,17 @@ class Elevens(Pyramid):
             layout.YM + (rows + rp) * layout.YS)
 
         x, y = self.width-layout.XS, layout.YM
-        s.talon = AutoDealTalonStack(x, y, self)
-        layout.createText(s.talon, 's')
+        s.talon = self.Talon_Class(x, y, self)
+        if self.Waste_Class is None:
+            layout.createText(s.talon, 's')
+        else:
+            layout.createText(s.talon, 'nw')
+            y += layout.YS
+            s.waste = self.Waste_Class(x, y, self)
         x, y = self.width-layout.XS, self.height-layout.YS
         s.foundations.append(AbstractFoundationStack(x, y, self,
                              suit=ANY_SUIT, max_accept=0,
-                             max_move=0, max_cards=52))
+                             max_move=0, max_cards=52 * self.gameinfo.decks))
         layout.createText(s.foundations[0], 'n')
         y = layout.YM
         piles = 0
@@ -688,6 +695,77 @@ class Tens(ElevensToo):
 
     def createGame(self):
         Elevens.createGame(self, rows=2, cols=7, maxpiles=13, reserves=4)
+
+
+# ************************************************************************
+# * The Lucky Number
+# ************************************************************************
+
+class TheLuckyNumber_Talon(WasteTalonStack):
+
+    def canDealCards(self):
+        for s in self.game.s.reserves:
+            if s.cards:
+                return False
+        return WasteTalonStack.canDealCards(self)
+
+
+class TheLuckyNumber_Waste(WasteStack):
+    def moveMove(self, ncards, to_stack, frames=-1, shadow=-1):
+        if to_stack in self.game.s.rows and len(to_stack.cards) > 0:
+            self._dropPairMove(ncards, to_stack, frames=-1, shadow=shadow)
+        else:
+            self.game.moveMove(ncards, self, to_stack,
+                               frames=frames, shadow=shadow)
+            self.fillStack()
+
+    def _dropPairMove(self, n, other_stack, frames=-1, shadow=-1):
+        if not self.game.demo:
+            self.game.playSample("droppair", priority=200)
+        if not (n == 1 and other_stack.cards):
+            return
+        old_state = self.game.enterState(self.game.S_FILL)
+        f = self.game.s.foundations[0]
+        self.game.moveMove(n, self, f, frames=frames, shadow=shadow)
+        self.game.moveMove(n, other_stack, f, frames=frames, shadow=shadow)
+        self.game.leaveState(old_state)
+        other_stack.fillStack()
+
+
+class TheLuckyNumber(Elevens):
+    Talon_Class = StackWrapper(TheLuckyNumber_Talon, max_rounds=1)
+    Waste_Class = TheLuckyNumber_Waste
+
+    def createGame(self):
+        Elevens.createGame(self, cols=4)
+
+    def startGame(self):
+        for i in range(3):
+            self.s.talon.dealRow(frames=0)
+        self._startAndDealRow()
+        self.s.talon.dealCards()
+
+    def fillStack(self, stack):
+        old_state = self.enterState(self.S_FILL)
+        reserves_ncards = 0
+        for s in self.s.reserves:
+            if s.cards:
+                reserves_ncards += 1
+        if reserves_ncards == 0:
+            for r in self.s.rows:
+                if not r.cards:
+                    if self.s.waste.cards:
+                        self.s.waste.moveMove(1, r)
+                    elif self.s.talon.cards:
+                        self.s.talon.flipMove()
+                        self.s.talon.moveMove(1, r)
+        elif reserves_ncards == len(self.s.reserves):
+            if not self.demo:
+                self.playSample("droppair", priority=200)
+            for s in self.s.reserves:
+                s.moveMove(1, self.s.foundations[0], frames=4)
+            self.fillStack(stack)
+        self.leaveState(old_state)
 
 
 # ************************************************************************
@@ -1642,3 +1720,5 @@ registerGame(GameInfo(916, Tens, "Tens",
 registerGame(GameInfo(929, EightCards, "Eight Cards",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_LUCK,
                       altnames=('Acht Karten',)))
+registerGame(GameInfo(937, TheLuckyNumber, "The Lucky Number",
+                      GI.GT_PAIRING_TYPE, 2, 0, GI.SL_LUCK))

@@ -892,7 +892,7 @@ class LTreeNode(ButtonBehavior, TreeViewLabel, LBase):
 
         if self.variable:
             self.variable.bind(value=self.onVarChange)
-            self.onVarChange(self.variable, self.variable.get())
+            self.onVarChange(self.variable, self.variable.value)
 
         # self.gameview = gameview
         self.coreFont = self.font_size

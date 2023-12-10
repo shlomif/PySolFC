@@ -65,8 +65,8 @@ from pysollib.settings import TITLE
 
 
 class TkVarObj(EventDispatcher):
-    def __init(self):
-        self.value = None
+    def __init__(self):
+        pass
 
     def set(self, v):
         if v is None:
@@ -76,6 +76,10 @@ class TkVarObj(EventDispatcher):
 
     def get(self):
         return self.value
+
+    def on_value(self, obj, val):
+        print('TkVarObj.on_value:', val)
+        pass
 
 
 class BooleanVar(TkVarObj):
@@ -103,7 +107,6 @@ class LMenuBase(object):
 
     def make_pop_command(self, parent, title):
         def pop_command(event):
-            print('event = %s' % event)
             parent.popWork(title)
         return pop_command
 
@@ -122,15 +125,9 @@ class LMenuBase(object):
             command()
         return auto_command
 
-    def addCheckNode(self, tv, rg, title, auto_var, auto_com):
-        command = self.make_auto_command(auto_var, auto_com)
-        rg1 = tv.add_node(
-            LTreeNode(text=title, command=command, variable=auto_var), rg)
-        return rg1
-
     def make_val_command(self, variable, value, command):
         def val_command():
-            variable.set(value)
+            variable.value = value
             command()
         return val_command
 
@@ -138,14 +135,6 @@ class LMenuBase(object):
         def vars_command():
             command(key)
         return vars_command
-
-    def addRadioNode(self, tv, rg, title, auto_var, auto_val, auto_com):
-        command = self.make_val_command(auto_var, auto_val, auto_com)
-        rg1 = tv.add_node(
-            LTreeNode(text=title,
-                      command=command,
-                      variable=auto_var, value=auto_val), rg)
-        return rg1
 
     def make_game_command(self, key, command):
         def game_command():
@@ -158,6 +147,20 @@ class LMenuBase(object):
             self.closeWindow(0)
             command()
         return _command
+
+    def addCheckNode(self, tv, rg, title, auto_var, auto_com):
+        command = self.make_auto_command(auto_var, auto_com)
+        rg1 = tv.add_node(
+            LTreeNode(text=title, command=command, variable=auto_var), rg)
+        return rg1
+
+    def addRadioNode(self, tv, rg, title, auto_var, auto_val, auto_com):
+        command = self.make_val_command(auto_var, auto_val, auto_com)
+        rg1 = tv.add_node(
+            LTreeNode(text=title,
+                      command=command,
+                      variable=auto_var, value=auto_val), rg)
+        return rg1
 
 # ************************************************************************
 # * Tree Generators
@@ -321,12 +324,35 @@ class FileMenuDialog(LMenuDialog):
         super(FileMenuDialog, self).__init__(
             menubar, parent, title, app, **kw)
 
+    def make_favid_list(self, tv, rg):
+        favids = self.app.opt.favorite_gameid
+        for fid in favids:
+            gi = self.app.getGameInfo(fid)
+            if gi:
+                command = self.make_game_command(
+                    fid, self.menubar._mSelectGame)
+                tv.add_node(
+                    LTreeNode(text=gi.name, command=command), rg)
+
+    def remove_favid_list(self, tv, rg):
+        delist = []
+        for n in rg.nodes:
+            if n.text not in [_('<Add>'), _('<Remove>')]:
+                delist.append(n)
+        for m in delist:
+            tv.remove_node(m)
+
+    def change_favid_list(self, command, *args):
+        def doit():
+            command()
+            self.remove_favid_list(args[0], args[1])
+            self.make_favid_list(args[0], args[1])
+        return doit
+
     def buildTree(self, tv, node):
         rg = tv.add_node(
             LTreeNode(text=_('Recent games')))
-        # Recent Liste
         recids = self.app.opt.recent_gameid
-        # recgames = []
         for rid in recids:
             gi = self.app.getGameInfo(rid)
             if gi:
@@ -339,20 +365,15 @@ class FileMenuDialog(LMenuDialog):
             LTreeNode(text=_('Favorite games')))
         if rg:
             tv.add_node(LTreeNode(
-                text=_('<Add>'), command=self.menubar.mAddFavor), rg)
+                text=_('<Add>'),
+                command=self.change_favid_list(
+                    self.menubar.mAddFavor, tv, rg)), rg)
             tv.add_node(LTreeNode(
-                text=_('<Remove>'), command=self.menubar.mDelFavor), rg)
+                text=_('<Remove>'),
+                command=self.change_favid_list(
+                    self.menubar.mDelFavor, tv, rg)), rg)
 
-            # Recent Liste
-            favids = self.app.opt.favorite_gameid
-            # favgames = []
-            for fid in favids:
-                gi = self.app.getGameInfo(fid)
-                if gi:
-                    command = self.make_game_command(
-                        fid, self.menubar._mSelectGame)
-                    tv.add_node(
-                        LTreeNode(text=gi.name, command=command), rg)
+            self.make_favid_list(tv, rg)
 
         tv.add_node(LTreeNode(
             text=_('Load'), command=self.make_command(self.menubar.mOpen)))
@@ -456,7 +477,8 @@ class GameMenuDialog(LMenuDialog):
     def buildTree(self, tv, node):
         tv.add_node(LTreeNode(
             text=_('Current game...'),
-            command=self.auto_close(self.make_command(101, self.menubar.mPlayerStats))), None)  # noqa
+            command=self.auto_close(
+                self.make_command(101, self.menubar.mPlayerStats))), None)
 
         # tv.add_node(LTreeNode(
         #   text='All games ...',
@@ -1324,44 +1346,37 @@ class HelpMenuDialog(LMenuDialog):
         kw['persist'] = True
         super(HelpMenuDialog, self).__init__(menubar, parent, title, app, **kw)
 
-    def make_help_command(self, command):
-        def help_command():
-            command()
-            self.closeWindow(0)
-        return help_command
-
     def buildTree(self, tv, node):
         tv.add_node(
             LTreeNode(
                 text=_('Contents'),
-                command=self.make_help_command(self.menubar.mHelp)))
+                command=self.auto_close(self.menubar.mHelp)))
         tv.add_node(
             LTreeNode(
                 text=_('How to use PySol'),
-                command=self.make_help_command(self.menubar.mHelpHowToPlay)))
+                command=self.auto_close(self.menubar.mHelpHowToPlay)))
         tv.add_node(
             LTreeNode(
                 text=_('Rules for this game'),
-                command=self.make_help_command(self.menubar.mHelpRules)))
+                command=self.auto_close(self.menubar.mHelpRules)))
         tv.add_node(
             LTreeNode(
                 text=_('License terms'),
-                command=self.make_help_command(self.menubar.mHelpLicense)))
+                command=self.auto_close(self.menubar.mHelpLicense)))
         tv.add_node(
             LTreeNode(
                 text=_('About %s...') % TITLE,
-                command=self.make_help_command(self.menubar.mHelpAbout)))
+                command=self.auto_close(self.menubar.mHelpAbout)))
 
         # tv.add_node(LTreeNode(
         #   text='AboutKivy ...',
         #   command=self.makeHtmlCommand(self.menubar, "kivy.html")))
-
+    '''
     def makeHtmlCommand(self, bar, htmlfile):
         def htmlCommand():
             bar.mHelpHtml(htmlfile)
-
         return htmlCommand
-
+    '''
 
 # ************************************************************************
 # *
@@ -2095,7 +2110,7 @@ class PysolMenubarTk:
     def mAddFavor(self, *event):
         gameid = self.app.game.id
         if gameid not in self.app.opt.favorite_gameid:
-            self.app.opt.favorite_gameid.append(gameid)
+            self.app.opt.favorite_gameid.insert(0, gameid)
             self.updateFavoriteGamesMenu()
 
     def mDelFavor(self, *event):
@@ -2319,17 +2334,17 @@ the next time you restart the %(app)s""") % {'app': TITLE})
     def mOptAnimations(self, *args):
         if self._cancelDrag(break_pause=False):
             return
-        self.app.opt.animations = self.tkopt.animations.get()
+        self.app.opt.animations = self.tkopt.animations.value
 
     def mRedealAnimation(self, *args):
         if self._cancelDrag(break_pause=False):
             return
-        self.app.opt.redeal_animation = self.tkopt.redeal_animation.get()
+        self.app.opt.redeal_animation = self.tkopt.redeal_animation.value
 
     def mWinAnimation(self, *args):
         if self._cancelDrag(break_pause=False):
             return
-        self.app.opt.win_animation = self.tkopt.win_animation.get()
+        self.app.opt.win_animation = self.tkopt.win_animation.value
 
     def mWinDialog(self, *args):
         if self._cancelDrag(break_pause=False):

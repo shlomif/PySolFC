@@ -1779,6 +1779,8 @@ class Game(object):
             return
         if TOOLKIT == 'gtk':
             return
+        if TOOLKIT == 'kivy':
+            return
         if not Image:
             return
         self.canvas.hideAllItems()
@@ -1801,6 +1803,8 @@ class Game(object):
         return
 
     def redealAnimation(self):
+        if TOOLKIT == 'kivy':
+            return
         if self.preview:
             return
         if not self.app.opt.animations or not self.app.opt.redeal_animation:
@@ -3428,6 +3432,11 @@ class Game(object):
         d = time.time() - self.stats.update_time + self.stats.elapsed_time
         self.updateStatus(time=format_time(d))
 
+    def displayPauseImage(self):
+        n = self.random.initial_seed % len(self.app.gimages.pause)
+        self.pause_logo = self.app.gimages.pause[int(n)]
+        self.canvas.setTopImage(self.pause_logo)
+
     def doPause(self):
         if self.finished:
             return
@@ -3439,9 +3448,7 @@ class Game(object):
         if self.pause:
             # self.updateTime()
             self.canvas.hideAllItems()
-            n = self.random.initial_seed % len(self.app.gimages.pause)
-            self.pause_logo = self.app.gimages.pause[int(n)]
-            self.canvas.setTopImage(self.pause_logo)
+            self.displayPauseImage()
         else:
             self.stats.update_time = time.time()
             self.updatePlayTime()

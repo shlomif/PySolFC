@@ -40,6 +40,9 @@ from pysollib.kivy.LApp import LScrollView
 from pysollib.kivy.LApp import LTopLevel
 from pysollib.kivy.LApp import LTreeNode
 from pysollib.kivy.LApp import LTreeRoot
+from pysollib.kivy.LObjWrap import LBoolWrap
+from pysollib.kivy.LObjWrap import LNumWrap
+from pysollib.kivy.LObjWrap import LStringWrap
 from pysollib.kivy.androidrot import AndroidScreenRotation
 from pysollib.kivy.findcarddialog import destroy_find_card_dialog
 from pysollib.kivy.fullpicturedialog import destroy_full_picture_dialog
@@ -119,16 +122,18 @@ class LMenuBase(object):
             self.closeWindow(0)
         return auto_close_command
 
-    def make_auto_command(self, variable, command):
+    def make_toggle_command(self, variable, command):
         def auto_command():
-            variable.set(not variable.get())
-            command()
+            variable.value = not variable.value
+            if command is not None:
+                command()
         return auto_command
 
     def make_val_command(self, variable, value, command):
         def val_command():
             variable.value = value
-            command()
+            if command is not None:
+                command()
         return val_command
 
     def make_vars_command(self, command, key):
@@ -149,7 +154,7 @@ class LMenuBase(object):
         return _command
 
     def addCheckNode(self, tv, rg, title, auto_var, auto_com):
-        command = self.make_auto_command(auto_var, auto_com)
+        command = self.make_toggle_command(auto_var, auto_com)
         rg1 = tv.add_node(
             LTreeNode(text=title, command=command, variable=auto_var), rg)
         return rg1
@@ -278,7 +283,7 @@ class MainMenuDialog(LMenuDialog):
             menubar, parent, title, app, **kw)
 
         print('MainMenuDialog starting')
-        AndroidScreenRotation.unlock()
+        AndroidScreenRotation.unlock(toaster=False)
 
     def buildTree(self, tv, node):
         rg = tv.add_node(
@@ -1134,17 +1139,23 @@ class LOptionsMenuGenerator(LTreeGenerator):
                               self.menubar.tkopt.animations, 5,
                               self.menubar.mOptAnimations)
 
-            # submenu.add_separator()
-
+            # NOTE: All the following animation features only work on the
+            # desktop and only if pillow is installed. So its useless to
+            # present them here.
+            '''
             self.addCheckNode(tv, rg,
                               _('Redeal animation'),
                               self.menubar.tkopt.redeal_animation,
                               self.menubar.mRedealAnimation)
-
             self.addCheckNode(tv, rg,
                               _('Winning animation'),
                               self.menubar.tkopt.win_animation,
                               self.menubar.mWinAnimation)
+            self.addCheckNode(tv, rg,
+                              _('Flip animation'),
+                              self.menubar.tkopt.flip_animation,
+                              None)
+            '''
 
         yield
         # -------------------------------------------
@@ -1472,6 +1483,7 @@ class PysolMenubarTk:
             self.progress.update(step=1)
 
     def _createTkOpt(self):
+        opt = self.app.opt
         # structure to convert menu-options to Toolkit variables
         self.tkopt = Struct(
             gameid=IntVar(),
@@ -1501,9 +1513,10 @@ class PysolMenubarTk:
             sound_music_volume=IntVar(),
             cardback=IntVar(),
             tabletile=IntVar(),
-            animations=IntVar(),
-            redeal_animation=BooleanVar(),
-            win_animation=BooleanVar(),
+            animations=LNumWrap(opt, "animations"),
+            redeal_animation=LBoolWrap(opt, "redeal_animation"),
+            win_animation=LBoolWrap(opt, "win_animation"),
+            flip_animation=LBoolWrap(opt, "flip_animation"),
             shadow=BooleanVar(),
             shade=BooleanVar(),
             shade_filled_stacks=BooleanVar(),
@@ -1518,10 +1531,10 @@ class PysolMenubarTk:
             helpbar=BooleanVar(),
             save_games_geometry=BooleanVar(),
             splashscreen=BooleanVar(),
-            demo_logo=BooleanVar(),
-            demo_logo_style=StringVar(),
-            pause_text_style=StringVar(),
-            redeal_icon_style=StringVar(),
+            demo_logo=LBoolWrap(opt, "demo_logo"),
+            demo_logo_style=LStringWrap(opt, "demo_logo_style"),
+            pause_text_style=LStringWrap(opt, "pause_text_style"),
+            redeal_icon_style=LStringWrap(opt, "redeal_icon_style"),
             mouse_type=StringVar(),
             mouse_undo=BooleanVar(),
             negative_bottom=BooleanVar(),
@@ -1570,9 +1583,6 @@ class PysolMenubarTk:
         tkopt.sound_music_volume.set(opt.sound_music_volume)
         tkopt.cardback.set(self.app.cardset.backindex)
         tkopt.tabletile.set(self.app.tabletile_index)
-        tkopt.animations.set(opt.animations)
-        tkopt.redeal_animation.set(opt.redeal_animation)
-        tkopt.win_animation.set(opt.win_animation)
         tkopt.shadow.set(opt.shadow)
         tkopt.shade.set(opt.shade)
         tkopt.toolbar.set(opt.toolbar)
@@ -1583,10 +1593,6 @@ class PysolMenubarTk:
         tkopt.toolbar_relief.set(opt.toolbar_relief)
         tkopt.statusbar.set(opt.statusbar)
         tkopt.save_games_geometry.set(opt.save_games_geometry)
-        tkopt.demo_logo.set(opt.demo_logo)
-        tkopt.demo_logo_style.set(opt.demo_logo_style)
-        tkopt.pause_text_style.set(opt.pause_text_style)
-        tkopt.redeal_icon_style.set(opt.redeal_icon_style)
         tkopt.splashscreen.set(opt.splashscreen)
         tkopt.mouse_type.set(opt.mouse_type)
         tkopt.mouse_undo.set(opt.mouse_undo)
@@ -2334,17 +2340,14 @@ the next time you restart the %(app)s""") % {'app': TITLE})
     def mOptAnimations(self, *args):
         if self._cancelDrag(break_pause=False):
             return
-        self.app.opt.animations = self.tkopt.animations.value
 
     def mRedealAnimation(self, *args):
         if self._cancelDrag(break_pause=False):
             return
-        self.app.opt.redeal_animation = self.tkopt.redeal_animation.value
 
     def mWinAnimation(self, *args):
         if self._cancelDrag(break_pause=False):
             return
-        self.app.opt.win_animation = self.tkopt.win_animation.value
 
     def mWinDialog(self, *args):
         if self._cancelDrag(break_pause=False):
@@ -2499,13 +2502,13 @@ the next time you restart the %(app)s""") % {'app': TITLE})
         self.toolbarConfig(w, self.tkopt.toolbar_vars[w].get())
 
     def mOptDemoLogoStyle(self, *event):
-        self.setDemoLogoStyle(self.tkopt.demo_logo_style.get())
+        self.setDemoLogoStyle()
 
     def mOptPauseTextStyle(self, *event):
-        self.setPauseTextStyle(self.tkopt.pause_text_style.get())
+        self.setPauseTextStyle()
 
     def mOptRedealIconStyle(self, *event):
-        self.setRedealIconStyle(self.tkopt.redeal_icon_style.get())
+        self.setRedealIconStyle()
 
     def mOptStatusbar(self, *event):
         if self._cancelDrag(break_pause=False):
@@ -2542,7 +2545,6 @@ the next time you restart the %(app)s""") % {'app': TITLE})
     def mOptDemoLogo(self, *event):
         if self._cancelDrag(break_pause=False):
             return
-        self.app.opt.demo_logo = self.tkopt.demo_logo.get()
 
     def mOptSplashscreen(self, *event):
         if self._cancelDrag(break_pause=False):
@@ -2630,20 +2632,15 @@ the next time you restart the %(app)s""") % {'app': TITLE})
     # other graphics
     #
 
-    def setDemoLogoStyle(self, style):
+    def setDemoLogoStyle(self, style=None):
         if self._cancelDrag(break_pause=False):
             return
-        if style == "none":
-            self.app.opt.demo_logo = False
+        if self.tkopt.demo_logo_style.value == "none":
+            self.tkopt.demo_logo.value = False
         else:
-            self.app.opt.demo_logo = True
-            self.app.opt.demo_logo_style = style
-            self.tkopt.demo_logo_style.set(style)         # update radiobutton
+            self.tkopt.demo_logo.value = True
             self.app.loadImages2()
             self.app.loadImages4()
-            self.app.updateCardset()
-            self.game.endGame(bookmark=1)
-            self.game.quitGame(bookmark=1)
 
     def setDialogIconStyle(self, style):
         if self._cancelDrag(break_pause=False):
@@ -2653,27 +2650,25 @@ the next time you restart the %(app)s""") % {'app': TITLE})
         self.app.loadImages1()
         self.app.loadImages4()
 
-    def setPauseTextStyle(self, style):
+    def setPauseTextStyle(self, style=None):
         if self._cancelDrag(break_pause=False):
             return
-        self.app.opt.pause_text_style = style
-        self.tkopt.pause_text_style.set(style)            # update radiobutton
         self.app.loadImages2()
         self.app.loadImages4()
-        self.app.updateCardset()
-        self.game.endGame(bookmark=1)
-        self.game.quitGame(bookmark=1)
+        if self.tkopt.pause.value:
+            self.app.game.displayPauseImage()
 
-    def setRedealIconStyle(self, style):
+    def setRedealIconStyle(self, style=None):
         if self._cancelDrag(break_pause=False):
             return
-        self.app.opt.redeal_icon_style = style
-        self.tkopt.redeal_icon_style.set(style)           # update radiobutton
         self.app.loadImages2()
         self.app.loadImages4()
-        self.app.updateCardset()
-        self.game.endGame(bookmark=1)
-        self.game.quitGame(bookmark=1)
+        try:
+            images = self.app.game.canvas.findImagesByType("redeal_image")
+            for i in images:
+                i.group.stack.updateRedealImage()
+        except:  # noqa
+            pass
 
     #
     # stacks descriptions

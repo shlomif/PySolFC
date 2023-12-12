@@ -277,6 +277,7 @@ class MfxCanvasImage(object):
 
         super(MfxCanvasImage, self).__init__()
         self.canvas = canvas
+        self.redeal = False
 
         # animation mode support:
         self.animation = 0
@@ -291,12 +292,15 @@ class MfxCanvasImage(object):
         else:
             image = LImage(texture=ed.texture)
             if self.hint == "redeal_image":
-                cm = cardmagnif(canvas, size)/3.0
+                cm = cardmagnif(canvas, size)/1.9
                 image.size = [cm*ed.getWidth(), cm*ed.getHeight()]
+                self.redeal = True
+                aimage = LImageItem(
+                    size=ed.size, group=group, image_type=self.hint)
             else:
                 image.size = [ed.getWidth(), ed.getHeight()]
+                aimage = LImageItem(size=ed.size, group=group)
 
-            aimage = LImageItem(size=ed.size, group=group)
             aimage.add_widget(image)
             aimage.size = image.size
             size = image.size
@@ -322,6 +326,13 @@ class MfxCanvasImage(object):
         return f'<MfxCanvasImage @ {hex(id(self))}>'
 
     def config(self, **kw):
+        # print('MfxCanvasImage conifg:',kw)
+        if "image" in kw:
+            # print('is redeal image:',self.redeal)
+            if self.redeal:
+                image = self.image.children[0]
+                image.texture = kw["image"].texture
+                # print('redeal texture:',image.texture)
         pass
 
     def makeDeferredRaise(self, pos):
@@ -818,6 +829,14 @@ class MfxCanvas(LImage):
 
         print('MfxCanvas: findCard no cardid')
         return -1
+
+    def findImagesByType(self, image_type):
+        images = []
+        for c in self.children:
+            if type(c) is LImageItem:
+                if c.get_image_type() == image_type:
+                    images.append(c)
+        return images
 
     def setTextColor(self, color):
         # print('MfxCanvas: setTextColor')

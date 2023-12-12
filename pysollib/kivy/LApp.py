@@ -698,18 +698,26 @@ class LImageItem(BoxLayout, LBase):
         self.game = None
         self.card = None
         self.group = None
+        self.image_type = "undefined"
         if 'game' in kw:
             self.game = kw['game']
         if 'card' in kw:
             self.card = kw['card']
+            self.image_type = "card"
         if 'group' in kw:
             self.group = kw['group']
+        if 'image_type' in kw:
+            self.image_type = kw['image_type']
+
         self.dragstart = None
         # ev. noch globales cache für stacks->game und cards->stack
         # einrichten. Aber: stacks hängt vom jeweiligen spiel ab.
 
     def __str__(self):
         return f'<LImageItem @ {hex(id(self))}>'
+
+    def get_image_type(self):
+        return self.image_type
 
     def send_event_pressed_n(self, event, n):
         if self.group and n in self.group.bindings:

@@ -65,6 +65,7 @@ class _HideableCard(AbstractCard):
 class _OneImageCard(_HideableCard):
     def __init__(self, id, deck, suit, rank, game, x=0, y=0):
         _HideableCard.__init__(self, id, deck, suit, rank, game, x=x, y=y)
+        self.twoImage = True
 
         fimage = game.getCardFaceImage(deck, suit, rank)
         bimage = game.getCardBackImage(deck, suit, rank)
@@ -74,9 +75,18 @@ class _OneImageCard(_HideableCard):
 
         aimage = LImageItem(
             pos=(x, -y), size=self._face_image.size, game=game, card=self)
-        aimage.add_widget(self._back_image)
-        self._active_image = aimage
+        if self.twoImage:
+            from kivy.uix.relativelayout import RelativeLayout
 
+            imgcontainer = RelativeLayout()
+            imgcontainer.add_widget(self._back_image)
+            imgcontainer.add_widget(self._face_image)
+            aimage.add_widget(imgcontainer)
+            self._face_image.opacity = 0
+        else:
+            aimage.add_widget(self._back_image)
+
+        self._active_image = aimage
         self.item = MfxCanvasImage(
             game.canvas, self.x, self.y, image=aimage, anchor="nw")
 
@@ -85,8 +95,17 @@ class _OneImageCard(_HideableCard):
         # y = self.yy
 
     def _setImage(self, image):
-        self._active_image.clear_widgets()
-        self._active_image.add_widget(image)
+        if self.twoImage:
+            from kivy.animation import Animation
+            z = 0
+            t = 'in_quad'
+            if image == self._face_image:
+                z = 1
+            anim = Animation(opacity=z, t=t, d=0.35)
+            anim.start(self._face_image)
+        else:
+            self._active_image.clear_widgets()
+            self._active_image.add_widget(image)
 
     def showFace(self, unhide=1):
         # print ('card: showFace = %s' % self._face_image.source)

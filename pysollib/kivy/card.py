@@ -129,7 +129,7 @@ class _OneImageCard(_HideableCard):
 
     def updateCardBackground(self, image):
         print('card: updateCardBackground = %s' % image.source)
-        self._back_image = LImage(texture=image.texture)
+        self._back_image.texture = image.texture
         if not self.face_up:
             self._setImage(image=self._back_image)
 

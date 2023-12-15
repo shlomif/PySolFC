@@ -29,41 +29,43 @@ from kivy.properties import StringProperty
 #   as 'command'. It will be called  whenever the value changes.
 
 class LObjWrap(EventDispatcher):
-    def __init__(self,obj,ref,command=None):
+    def __init__(self,obj,ref=None,command=None):
         self.obj = obj
         self.ref = ref
-        self.value = getattr(self.obj,self.ref)
-        # logging.info("LObjWrap: setup for %s" % (self.ref))
-        self.bind(value=self.on_value)
+        if self.ref is not None:
+            self.value = getattr(self.obj,self.ref)
+            # logging.info("LObjWrap: setup for %s" % (self.ref))
+            self.bind(value=self.on_value)
         if command is not None:
             self.bind(value=command)
 
     def on_value(self,inst,val):
         logging.info("LObjWrap: %s = %s" % (self.ref,val))
-        setattr(self.obj,self.ref,val)
+        if self.ref is not None:
+            setattr(self.obj,self.ref,val)
 
 class LBoolWrap(LObjWrap):
     value = BooleanProperty(False)
 
-    def __init__(self,obj,ref,command=None):
+    def __init__(self,obj,ref=None,command=None):
         super(LBoolWrap,self).__init__(obj,ref,command)
 
 class LNumWrap(LObjWrap):
     value = NumericProperty(0)
 
-    def __init__(self,obj,ref,command=None):
+    def __init__(self,obj,ref=None,command=None):
         super(LNumWrap,self).__init__(obj,ref,command)
 
 class LStringWrap(LObjWrap):
     value = StringProperty('')
 
-    def __init__(self,obj,ref,command=None):
+    def __init__(self,obj,ref=None,command=None):
         super(LStringWrap,self).__init__(obj,ref,command)
 
 class LListWrap(LObjWrap):
     value = ListProperty([])
 
-    def __init__(self,obj,ref,command=None):
+    def __init__(self,obj,ref=None,command=None):
         super(LListWrap,self).__init__(obj,ref,command)
 
 # =============================================================================

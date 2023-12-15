@@ -61,10 +61,6 @@ class MyButtonBase(ButtonBehavior, KivyImage, LBase):
         self.source = self.src
         self.allow_stretch = True
 
-    def set_shown(self, instance, value):
-        # print ('** set shown (',self.name ,') called', value)
-        self.shown = value
-
     def set_enabled(self, instance, value):
         # print ('** set enabled (',self.name ,') called', value)
         self.enabled = value
@@ -297,17 +293,6 @@ class PysolToolbarTk(BoxLayout):
                 # print('button name: ', button.name)
                 self.buttond[button.name] = button
 
-        # check buttons if configurated or opted out.
-        # (could ev. be integrated into _createButton)
-
-        toolbar_opt = getattr(self.menubar.tkopt, 'toolbar_vars')
-        for k in toolbar_opt.keys():
-            opt = toolbar_opt[k]
-            if k in self.buttond.keys():
-                b = self.buttond[k]
-                b.config = opt.get()
-                opt.bind(value=b.set_config)
-
         self.redraw()
         Window.bind(size=self.doResize)
 
@@ -315,7 +300,7 @@ class PysolToolbarTk(BoxLayout):
         self.show(True)
 
     def show(self, on, **kw):
-        side = self.menubar.tkopt.toolbar.get()
+        side = self.menubar.tkopt.toolbar.value
         self.win.setTool(None, side)
 
         # size_hint dependent on screen orientation:
@@ -412,10 +397,17 @@ class PysolToolbarTk(BoxLayout):
         else:
             button = MyButton(**kw)
 
+        # config settings (button.config bindings)
+
+        opt = self.menubar.tkopt.toolbar_vars[name]
+        button.config = opt.value
+        opt.bind(value=button.set_config)
+
+        # support settings (button.enabled bindings)
         try:
             oname = name
-            # redo is handled same way as undo, there is no separate option.
             if name == 'redo':
+                # no separate option for redo, goes with undo.
                 oname = 'undo'
             opt = getattr(self.menubar.tkopt, oname)
 
@@ -423,16 +415,17 @@ class PysolToolbarTk(BoxLayout):
             # - autodrop button has no own option. option 'autodrop' is used
             #   for the different effect of fully automatic dropping!
             # - pause button sets and clears the pause option, not vice versa!
-            #   it is an option that only exists internaly (not saved). (same
-            #   applies also to the tk and tile implementations)
+            #   it is an option that only exists internaly (not saved).
+
             if oname not in ['autodrop', 'pause']:
-                button.enabled = opt.get()
-                # print('** ', oname, '(enabled) = ', opt.get())
+                button.enabled = opt.value
+                # print('** ', oname, '(enabled) = ', opt.value)
                 opt.bind(value=button.set_enabled)
 
             button.bind(enabled=self.changed_state)
             button.bind(shown=self.changed_state)
         except:  # noqa
+            # print('exception: button enable settings',name)
             pass
 
         button.bind(config=self.changed_state)

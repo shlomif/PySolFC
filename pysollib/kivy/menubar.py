@@ -28,10 +28,6 @@ import re
 
 from kivy.cache import Cache
 from kivy.clock import Clock
-from kivy.event import EventDispatcher
-from kivy.properties import BooleanProperty
-from kivy.properties import NumericProperty
-from kivy.properties import StringProperty
 
 from pysollib.gamedb import GI
 from pysollib.kivy.LApp import LMenu
@@ -63,40 +59,6 @@ from pysollib.settings import SELECT_GAME_MENU
 from pysollib.settings import TITLE
 
 # ************************************************************************
-# * tk emuls:
-# ************************************************************************
-
-
-class TkVarObj(EventDispatcher):
-    def __init__(self):
-        pass
-
-    def set(self, v):
-        if v is None:
-            if type(self.value) is str:
-                v = ''
-        self.value = v
-
-    def get(self):
-        return self.value
-
-    def on_value(self, obj, val):
-        print('TkVarObj.on_value:', val)
-        pass
-
-
-class BooleanVar(TkVarObj):
-    value = BooleanProperty(False)
-
-
-class IntVar(TkVarObj):
-    value = NumericProperty(0)
-
-
-class StringVar(TkVarObj):
-    value = StringProperty('')
-
-# ************************************************************************
 # * Common base
 # ************************************************************************
 
@@ -118,7 +80,8 @@ class LMenuBase(object):
 
     def auto_close(self, command):
         def auto_close_command():
-            command()
+            if command is not None:
+                command()
             self.closeWindow(0)
         return auto_close_command
 
@@ -150,7 +113,8 @@ class LMenuBase(object):
     def make_command(self, command):
         def _command():
             self.closeWindow(0)
-            command()
+            if command is not None:
+                command()
         return _command
 
     def addCheckNode(self, tv, rg, title, auto_var, auto_com):
@@ -740,8 +704,7 @@ class LOptionsMenuGenerator(LTreeGenerator):
         if rg:
             self.addCheckNode(tv, rg,
                               _('Enable'),
-                              self.menubar.tkopt.sound,
-                              self.menubar.mOptSoundDialog)
+                              self.menubar.tkopt.sound, None)
 
             rg1 = tv.add_node(
                 LTreeNode(text=_('Volume')), rg)
@@ -749,19 +712,19 @@ class LOptionsMenuGenerator(LTreeGenerator):
                 self.addRadioNode(tv, rg1,
                                   _('100%'),
                                   self.menubar.tkopt.sound_sample_volume, 100,
-                                  self.menubar.mOptSoundSampleVol)
+                                  None)
                 self.addRadioNode(tv, rg1,
                                   _('75%'),
                                   self.menubar.tkopt.sound_sample_volume, 75,
-                                  self.menubar.mOptSoundSampleVol)
+                                  None)
                 self.addRadioNode(tv, rg1,
                                   _('50%'),
                                   self.menubar.tkopt.sound_sample_volume, 50,
-                                  self.menubar.mOptSoundSampleVol)
+                                  None)
                 self.addRadioNode(tv, rg1,
                                   _('25%'),
                                   self.menubar.tkopt.sound_sample_volume, 25,
-                                  self.menubar.mOptSoundSampleVol)
+                                  None)
 
             rg1 = tv.add_node(
                 LTreeNode(text=_('Samples')), rg)
@@ -770,128 +733,107 @@ class LOptionsMenuGenerator(LTreeGenerator):
                 self.addCheckNode(
                     tv, rg1,
                     _('are you sure'),
-                    self.menubar.tkopt.sound_sample_vars[key],
-                    self.make_vars_command(self.menubar.mOptSoundSample, key))
+                    self.menubar.tkopt.sound_areyousure, None)
                 key = 'autodrop'
                 self.addCheckNode(
                     tv, rg1,
                     _('auto drop'),
-                    self.menubar.tkopt.sound_sample_vars[key],
-                    self.make_vars_command(self.menubar.mOptSoundSample, key))
+                    self.menubar.tkopt.sound_autodrop, None)
                 key = 'autoflip'
                 self.addCheckNode(
                     tv, rg1,
                     _('auto flip'),
-                    self.menubar.tkopt.sound_sample_vars[key],
-                    self.make_vars_command(self.menubar.mOptSoundSample, key))
+                    self.menubar.tkopt.sound_autoflip, None)
                 key = 'autopilotlost'
                 self.addCheckNode(
                     tv, rg1,
                     _('auto pilot lost'),
-                    self.menubar.tkopt.sound_sample_vars[key],
-                    self.make_vars_command(self.menubar.mOptSoundSample, key))
+                    self.menubar.tkopt.sound_autopilotlost, None)
                 key = 'autopilotwon'
                 self.addCheckNode(
                     tv, rg1,
                     _('auto pilot won'),
-                    self.menubar.tkopt.sound_sample_vars[key],
-                    self.make_vars_command(self.menubar.mOptSoundSample, key))
+                    self.menubar.tkopt.sound_autopilotwon, None)
                 key = 'deal'
                 self.addCheckNode(
                     tv, rg1,
                     _('deal'),
-                    self.menubar.tkopt.sound_sample_vars[key],
-                    self.make_vars_command(self.menubar.mOptSoundSample, key))
+                    self.menubar.tkopt.sound_deal, None)
                 key = 'dealwaste'
                 self.addCheckNode(
                     tv, rg1,
                     _('deal waste'),
-                    self.menubar.tkopt.sound_sample_vars[key],
-                    self.make_vars_command(self.menubar.mOptSoundSample, key))
+                    self.menubar.tkopt.sound_dealwaste, None)
                 key = 'droppair'
                 self.addCheckNode(
                     tv, rg1,
                     _('drop pair'),
-                    self.menubar.tkopt.sound_sample_vars[key],
-                    self.make_vars_command(self.menubar.mOptSoundSample, key))
+                    self.menubar.tkopt.sound_droppair, None)
                 key = 'drop'
                 self.addCheckNode(
                     tv, rg1,
                     _('drop'),
-                    self.menubar.tkopt.sound_sample_vars[key],
-                    self.make_vars_command(self.menubar.mOptSoundSample, key))
+                    self.menubar.tkopt.sound_drop, None)
                 key = 'flip'
                 self.addCheckNode(
                     tv, rg1,
                     _('flip'),
-                    self.menubar.tkopt.sound_sample_vars[key],
-                    self.make_vars_command(self.menubar.mOptSoundSample, key))
+                    self.menubar.tkopt.sound_flip, None)
                 key = 'move'
                 self.addCheckNode(
                     tv, rg1,
                     _('move'),
-                    self.menubar.tkopt.sound_sample_vars[key],
-                    self.make_vars_command(self.menubar.mOptSoundSample, key))
+                    self.menubar.tkopt.sound_move, None)
                 key = 'nomove'
                 self.addCheckNode(
                     tv, rg1,
                     _('no move'),
-                    self.menubar.tkopt.sound_sample_vars[key],
-                    self.make_vars_command(self.menubar.mOptSoundSample, key))
+                    self.menubar.tkopt.sound_nomove, None)
                 key = 'redo'
                 self.addCheckNode(
                     tv, rg1,
                     _('redo'),
-                    self.menubar.tkopt.sound_sample_vars[key],
-                    self.make_vars_command(self.menubar.mOptSoundSample, key))
+                    self.menubar.tkopt.sound_redo, None)
                 key = 'startdrag'
                 self.addCheckNode(
                     tv, rg1,
                     _('start drag'),
-                    self.menubar.tkopt.sound_sample_vars[key],
-                    self.make_vars_command(self.menubar.mOptSoundSample, key))
+                    self.menubar.tkopt.sound_startdrag, None)
                 key = 'turnwaste'
                 self.addCheckNode(
                     tv, rg1,
                     _('turn waste'),
-                    self.menubar.tkopt.sound_sample_vars[key],
-                    self.make_vars_command(self.menubar.mOptSoundSample, key))
+                    self.menubar.tkopt.sound_turnwaste, None)
                 key = 'undo'
                 self.addCheckNode(
                     tv, rg1,
                     _('undo'),
-                    self.menubar.tkopt.sound_sample_vars[key],
-                    self.make_vars_command(self.menubar.mOptSoundSample, key))
+                    self.menubar.tkopt.sound_undo, None)
                 key = 'gamefinished'
                 self.addCheckNode(
                     tv, rg1,
                     _('game finished'),
-                    self.menubar.tkopt.sound_sample_vars[key],
-                    self.make_vars_command(self.menubar.mOptSoundSample, key))
+                    self.menubar.tkopt.sound_gamefinished, None)
                 key = 'gamelost'
                 self.addCheckNode(
                     tv, rg1,
                     _('game lost'),
-                    self.menubar.tkopt.sound_sample_vars[key],
-                    self.make_vars_command(self.menubar.mOptSoundSample, key))
+                    self.menubar.tkopt.sound_gamelost, None)
                 key = 'gameperfect'
                 self.addCheckNode(
                     tv, rg1,
                     _('game perfect'),
-                    self.menubar.tkopt.sound_sample_vars[key],
-                    self.make_vars_command(self.menubar.mOptSoundSample, key))
+                    self.menubar.tkopt.sound_gameperfect, None)
                 key = 'gamewon'
                 self.addCheckNode(
                     tv, rg1,
                     _('game won'),
-                    self.menubar.tkopt.sound_sample_vars[key],
-                    self.make_vars_command(self.menubar.mOptSoundSample, key))
+                    self.menubar.tkopt.sound_gamewon, None)
                 key = 'extra'
                 self.addCheckNode(
                     tv, rg1,
                     _('Other'),
-                    self.menubar.tkopt.sound_sample_vars[key],
-                    self.make_vars_command(self.menubar.mOptSoundSample, key))
+                    self.menubar.tkopt.sound_extra, None)
 
         yield
         # -------------------------------------------
@@ -902,7 +844,7 @@ class LOptionsMenuGenerator(LTreeGenerator):
         rg = tv.add_node(
             LTreeNode(text=_('Cardsets')))
         if rg:
-            self.menubar.tkopt.cardset.set(self.app.cardset.index)
+            self.menubar.tkopt.cardset.value = self.app.cardset.index
 
             csm = self.app.cardset_manager
             cdict = {}
@@ -929,8 +871,8 @@ class LOptionsMenuGenerator(LTreeGenerator):
 
                     if rg2:
                         cbs = cs.backnames
-                        self.menubar.tkopt.cardbacks[i] = IntVar()
-                        self.menubar.tkopt.cardbacks[i].set(cs.backindex)
+                        self.menubar.tkopt.cardbacks[i] = LNumWrap(None)
+                        self.menubar.tkopt.cardbacks[i].value = cs.backindex
 
                         bcnt = len(cbs)
                         bi = 0
@@ -1167,12 +1109,12 @@ class LOptionsMenuGenerator(LTreeGenerator):
             self.addRadioNode(tv, rg,
                               _('Drag-and-Drop'),
                               self.menubar.tkopt.mouse_type, 'drag-n-drop',
-                              self.menubar.mOptMouseType)
+                              None)
 
             self.addRadioNode(tv, rg,
                               _('Point-and-Click'),
                               self.menubar.tkopt.mouse_type, 'point-n-click',
-                              self.menubar.mOptMouseType)
+                              None)
 
             # sinnlos mit touch-device:
             # self.addRadioNode(tv, rg,
@@ -1324,12 +1266,12 @@ class LOptionsMenuGenerator(LTreeGenerator):
         self.addCheckNode(tv, None,
                           _('Startup splash screen'),
                           self.menubar.tkopt.splashscreen,
-                          self.menubar.mOptSplashscreen)
+                          None)
 
         self.addCheckNode(tv, None,
                           _('Winning splash'),
                           self.menubar.tkopt.display_win_message,
-                          self.menubar.mWinDialog)
+                          None)
 
 # ************************************************************************
 
@@ -1457,6 +1399,11 @@ class MfxMenubar(EmulTkMenu):
 # ************************************************************************
 
 
+class DictObjMap(object):
+    def __init__(self, val):
+        self.__dict__ = val
+
+
 class PysolMenubarTk:
     def __init__(self, app, top, progress=None):
         print('PysolMenubarTk: __init__()')
@@ -1484,130 +1431,124 @@ class PysolMenubarTk:
 
     def _createTkOpt(self):
         opt = self.app.opt
-        # structure to convert menu-options to Toolkit variables
+
+        # fake options
+        self.tabletile_index = self.app.tabletile_index
+        self.cardback = self.app.cardset.backindex
+        self.cardset = self.app.cardset_manager.getSelected()
+        self.pause = False
+        if self.game:
+            self.pause = self.game.pause
+        self.gameid = 0
+        self.gameid_popular = 0
+
+        # map dicts to Obj
+        self.sound_samples = DictObjMap(opt.sound_samples)
+        self.tbv = DictObjMap(opt.toolbar_vars)
+        self.cvo = DictObjMap(opt.colors)
+
+        # option mappings.
         self.tkopt = Struct(
-            gameid=IntVar(),
-            gameid_popular=IntVar(),
-            comment=BooleanVar(),
-            autofaceup=BooleanVar(),
-            autodrop=BooleanVar(),
-            autodeal=BooleanVar(),
-            quickplay=BooleanVar(),
-            undo=BooleanVar(),
-            bookmarks=BooleanVar(),
-            hint=BooleanVar(),
-            free_hint=BooleanVar(),
-            shuffle=BooleanVar(),
-            highlight_piles=BooleanVar(),
-            highlight_cards=BooleanVar(),
-            highlight_samerank=BooleanVar(),
-            highlight_not_matching=BooleanVar(),
-            peek_facedown=BooleanVar(),
-            stuck_notification=BooleanVar(),
-            mahjongg_show_removed=BooleanVar(),
-            shisen_show_hint=BooleanVar(),
-            accordion_deal_all=BooleanVar(),
-            pegged_auto_remove=BooleanVar(),
-            sound=BooleanVar(),
-            sound_sample_volume=IntVar(),
-            sound_music_volume=IntVar(),
-            cardback=IntVar(),
-            tabletile=IntVar(),
+            # automation
+            autofaceup=LBoolWrap(opt, "autofaceup"),
+            autodrop=LBoolWrap(opt, "autodrop"),
+            autodeal=LBoolWrap(opt, "autodeal"),
+            quickplay=LBoolWrap(opt, "quickplay"),
+            # support
+            undo=LBoolWrap(opt, "undo"),
+            hint=LBoolWrap(opt, "hint"),
+            free_hint=LBoolWrap(opt, "free_hint"),
+            shuffle=LBoolWrap(opt, "shuffle"),
+            bookmarks=LBoolWrap(opt, "bookmarks"),
+            highlight_piles=LBoolWrap(opt, "highlight_piles"),
+            highlight_cards=LBoolWrap(opt, "highlight_cards"),
+            highlight_samerank=LBoolWrap(opt, "highlight_samerank"),
+            peek_facedown=LBoolWrap(opt, "peek_facedown"),
+            highlight_not_matching=LBoolWrap(opt, "highlight_not_matching"),
+            stuck_notification=LBoolWrap(opt, "stuck_notification"),
+            mahjongg_show_removed=LBoolWrap(opt, "mahjongg_show_removed"),
+            shisen_show_hint=LBoolWrap(opt, "shisen_show_hint"),
+            accordion_deal_all=LBoolWrap(opt, "accordion_deal_all"),
+            pegged_auto_remove=LBoolWrap(opt, "pegged_auto_remove"),
+            # sound
+            sound=LBoolWrap(opt, "sound"),
+            sound_sample_volume=LNumWrap(opt, "sound_sample_volume"),
+            sound_music_volume=LNumWrap(opt, "sound_music_volume"),
+            # sound samples
+            sound_areyousure=LBoolWrap(self.sound_samples, 'areyousure'),
+            sound_autodrop=LBoolWrap(self.sound_samples, 'autodrop'),
+            sound_autoflip=LBoolWrap(self.sound_samples, 'autoflip'),
+            sound_autopilotlost=LBoolWrap(self.sound_samples, 'autopilotlost'),
+            sound_autopilotwon=LBoolWrap(self.sound_samples, 'autopilotwon'),
+            sound_deal=LBoolWrap(self.sound_samples, 'deal'),
+            sound_dealwaste=LBoolWrap(self.sound_samples, 'dealwaste'),
+            sound_droppair=LBoolWrap(self.sound_samples, 'droppair'),
+            sound_drop=LBoolWrap(self.sound_samples, 'drop'),
+            sound_extra=LBoolWrap(self.sound_samples, 'extra'),
+            sound_flip=LBoolWrap(self.sound_samples, 'flip'),
+            sound_move=LBoolWrap(self.sound_samples, 'move'),
+            sound_nomove=LBoolWrap(self.sound_samples, 'nomove'),
+            sound_redo=LBoolWrap(self.sound_samples, 'redo'),
+            sound_startdrag=LBoolWrap(self.sound_samples, 'startdrag'),
+            sound_turnwaste=LBoolWrap(self.sound_samples, 'turnwaste'),
+            sound_undo=LBoolWrap(self.sound_samples, 'undo'),
+            sound_gamefinished=LBoolWrap(self.sound_samples, 'gamefinished'),
+            sound_gamelost=LBoolWrap(self.sound_samples, 'gamelost'),
+            sound_gameperfect=LBoolWrap(self.sound_samples, 'gameperfect'),
+            sound_gamewon=LBoolWrap(self.sound_samples, 'gamewon'),
+            # animation
             animations=LNumWrap(opt, "animations"),
             redeal_animation=LBoolWrap(opt, "redeal_animation"),
             win_animation=LBoolWrap(opt, "win_animation"),
             flip_animation=LBoolWrap(opt, "flip_animation"),
-            shadow=BooleanVar(),
-            shade=BooleanVar(),
-            shade_filled_stacks=BooleanVar(),
-            shrink_face_down=BooleanVar(),
-            toolbar=IntVar(),
-            toolbar_style=StringVar(),
-            toolbar_relief=StringVar(),
-            toolbar_compound=StringVar(),
-            toolbar_size=IntVar(),
-            statusbar=BooleanVar(),
-            num_cards=BooleanVar(),
-            helpbar=BooleanVar(),
-            save_games_geometry=BooleanVar(),
-            splashscreen=BooleanVar(),
+            # toolbar
+            toolbar=LNumWrap(opt, "toolbar"),
+            toolbar_style=LStringWrap(opt, "toolbar_style"),
+            toolbar_relief=LStringWrap(opt, "toolbar_relief"),
+            toolbar_compound=LStringWrap(opt, "toolbar_compound"),
+            toolbar_size=LNumWrap(opt, "toolbar_size"),
+            toolbar_vars={},
+            # card dsiplay and text style settings
             demo_logo=LBoolWrap(opt, "demo_logo"),
             demo_logo_style=LStringWrap(opt, "demo_logo_style"),
             pause_text_style=LStringWrap(opt, "pause_text_style"),
             redeal_icon_style=LStringWrap(opt, "redeal_icon_style"),
-            mouse_type=StringVar(),
-            mouse_undo=BooleanVar(),
-            negative_bottom=BooleanVar(),
-            display_win_message=BooleanVar(),
-            pause=BooleanVar(),
-            cardset=IntVar(),
-            cardbacks={},
-            toolbar_vars={},
-            sound_sample_vars={},
+            mouse_type=LStringWrap(opt, "mouse_type"),
+            mouse_undo=LBoolWrap(opt, "mouse_undo"),
+            shade_filled_stacks=LBoolWrap(opt, "shade_filled_stacks"),
+            shrink_face_down=LBoolWrap(opt, "shrink_face_down"),
+            negative_bottom=LBoolWrap(opt, "negative_bottom"),
+            shadow=LBoolWrap(opt, "shadow"),
+            shade=LBoolWrap(opt, "shade"),
+            # colors
             color_vars={},
-            language=StringVar(),
+            tabletile=LNumWrap(self, "tabletile_index"),
+            # other
+            splashscreen=LBoolWrap(opt, "splashscreen"),
+            display_win_message=LBoolWrap(opt, "display_win_message"),
+            language=LStringWrap(opt, "language"),
+            save_games_geometry=LBoolWrap(opt, "save_games_geometry"),
+            pause=LBoolWrap(self, "pause"),
+            # cards
+            cardset=LNumWrap(self, "cardset"),
+            cardback=LNumWrap(self, "cardback"),
+            cardbacks={},
+            # statusbar (not implemented)
+            statusbar=LBoolWrap(opt, "statusbar"),
+            # num_cards=BooleanVar(),
+            # helpbar=BooleanVar(),
+            # game
+            gameid=LNumWrap(self, "gameid"),
+            gameid_popular=LNumWrap(self, "gameid_popular"),
         )
         for w in TOOLBAR_BUTTONS:
-            self.tkopt.toolbar_vars[w] = BooleanVar()
-        for k in self.app.opt.sound_samples:
-            self.tkopt.sound_sample_vars[k] = BooleanVar()
+            self.tkopt.toolbar_vars[w] = LBoolWrap(self.tbv, w)
         for k in self.app.opt.colors:
-            self.tkopt.color_vars[k] = StringVar()
+            self.tkopt.color_vars[k] = LStringWrap(self.cvo, k)
 
     def _setOptions(self):
-        tkopt, opt = self.tkopt, self.app.opt
-        # set state of the menu items
-        tkopt.autofaceup.set(opt.autofaceup)
-        tkopt.autodrop.set(opt.autodrop)
-        tkopt.autodeal.set(opt.autodeal)
-        tkopt.quickplay.set(opt.quickplay)
-        tkopt.undo.set(opt.undo)
-        tkopt.hint.set(opt.hint)
-        tkopt.free_hint.set(opt.free_hint)
-        tkopt.shuffle.set(opt.shuffle)
-        tkopt.bookmarks.set(opt.bookmarks)
-        tkopt.highlight_piles.set(opt.highlight_piles)
-        tkopt.highlight_cards.set(opt.highlight_cards)
-        tkopt.highlight_samerank.set(opt.highlight_samerank)
-        tkopt.peek_facedown.set(opt.peek_facedown)
-        tkopt.highlight_not_matching.set(opt.highlight_not_matching)
-        tkopt.stuck_notification.set(opt.stuck_notification)
-        tkopt.shrink_face_down.set(opt.shrink_face_down)
-        tkopt.shade_filled_stacks.set(opt.shade_filled_stacks)
-        tkopt.mahjongg_show_removed.set(opt.mahjongg_show_removed)
-        tkopt.shisen_show_hint.set(opt.shisen_show_hint)
-        tkopt.accordion_deal_all.set(opt.accordion_deal_all)
-        tkopt.pegged_auto_remove.set(opt.pegged_auto_remove)
-        tkopt.sound.set(opt.sound)
-        tkopt.sound_sample_volume.set(opt.sound_sample_volume)
-        tkopt.sound_music_volume.set(opt.sound_music_volume)
-        tkopt.cardback.set(self.app.cardset.backindex)
-        tkopt.tabletile.set(self.app.tabletile_index)
-        tkopt.shadow.set(opt.shadow)
-        tkopt.shade.set(opt.shade)
-        tkopt.toolbar.set(opt.toolbar)
-        tkopt.toolbar_style.set(opt.toolbar_style)
-        tkopt.toolbar_relief.set(opt.toolbar_relief)
-        tkopt.toolbar_compound.set(opt.toolbar_compound)
-        tkopt.toolbar_size.set(opt.toolbar_size)
-        tkopt.toolbar_relief.set(opt.toolbar_relief)
-        tkopt.statusbar.set(opt.statusbar)
-        tkopt.save_games_geometry.set(opt.save_games_geometry)
-        tkopt.splashscreen.set(opt.splashscreen)
-        tkopt.mouse_type.set(opt.mouse_type)
-        tkopt.mouse_undo.set(opt.mouse_undo)
-        tkopt.negative_bottom.set(opt.negative_bottom)
-        tkopt.display_win_message.set(opt.display_win_message)
-        tkopt.cardset.set(self.app.cardset_manager.getSelected())
-        tkopt.language.set(opt.language)
-
-        for w in TOOLBAR_BUTTONS:
-            tkopt.toolbar_vars[w].set(opt.toolbar_vars.get(w, False))
-        for k in self.app.opt.sound_samples:
-            self.tkopt.sound_sample_vars[k].set(
-                opt.sound_samples.get(k, False))
-        for k in self.app.opt.colors:
-            self.tkopt.color_vars[k].set(opt.colors.get(k, '#000000'))
+        # not supported
+        self.tkopt.save_games_geometry.value = False
 
     def connectGame(self, game):
         self.game = game
@@ -1616,10 +1557,9 @@ class PysolMenubarTk:
         assert self.app is game.app
         tkopt = self.tkopt
         # opt = self.app.opt
-        tkopt.gameid.set(game.id)
-        tkopt.gameid_popular.set(game.id)
-        tkopt.comment.set(bool(game.gsaveinfo.comment))
-        tkopt.pause.set(self.game.pause)
+        tkopt.gameid.value = game.id
+        tkopt.gameid_popular.value = game.id
+        tkopt.pause.value = self.game.pause
         if game.canFindCard():
             connect_game_find_card_dialog(game)
         else:
@@ -1848,7 +1788,7 @@ class PysolMenubarTk:
     # Eine 'closure' in Python? - voila!
     def make_gamesetter(self, n, variable, command):
         def gamesetter(x):
-            variable.set(n)
+            variable.value = n
             command()
         return gamesetter
 
@@ -1960,15 +1900,15 @@ class PysolMenubarTk:
 
     def mSelectGame(self, *args):
         print('mSelectGame %s' % self)
-        self._mSelectGame(self.tkopt.gameid.get())
+        self._mSelectGame(self.tkopt.gameid.value)
 
     def mSelectGamePopular(self, *args):
-        self._mSelectGame(self.tkopt.gameid_popular.get())
+        self._mSelectGame(self.tkopt.gameid_popular.value)
 
     def _mSelectGameDialog(self, d):
         if d.gameid != self.game.id:
-            self.tkopt.gameid.set(d.gameid)
-            self.tkopt.gameid_popular.set(d.gameid)
+            self.tkopt.gameid.value = d.gameid
+            self.tkopt.gameid_popular.value = d.gameid
             self._cancelDrag()
             self.game.endGame()
             self.game.quitGame(d.gameid, random=d.random)
@@ -2099,10 +2039,10 @@ class PysolMenubarTk:
         return
 
     def _setCommentMenu(self, v):
-        self.tkopt.comment.set(v)
+        return
 
     def _setPauseMenu(self, v):
-        self.tkopt.pause.set(v)
+        self.tkopt.pause.value = v
 
     #
     # menu actions
@@ -2190,151 +2130,121 @@ class PysolMenubarTk:
             if self._cancelDrag():
                 return
         self.game.doPause()
-        self.tkopt.pause.set(self.game.pause)
+        self.tkopt.pause.value = self.game.pause
         AndroidScreenRotation.unlock(toaster=False)
 
     def mOptLanguage(self, *args):
         if self._cancelDrag(break_pause=False):
             return
-        self.app.opt.language = self.tkopt.language.get()
         MfxMessageDialog(
            self.app.top, title=_("Note"),
            text=_("""\
 These settings will take effect
 the next time you restart the %(app)s""") % {'app': TITLE})
 
-    def mOptSoundDialog(self, *args):
-        if self._cancelDrag(break_pause=False):
-            return
-        self.app.opt.sound = self.tkopt.sound.get()
-
-    def mOptSoundSampleVol(self, *args):
-        if self._cancelDrag(break_pause=False):
-            return
-        self.app.opt.sound_sample_volume = self.tkopt.sound_sample_volume.get()
-
-    def mOptSoundMusicVol(self, *args):
-        if self._cancelDrag(break_pause=False):
-            return
-        self.app.opt.sound_music_volume = self.tkopt.sound_music_volume.get()
-
-    def mOptSoundSample(self, key, *args):
-        if self._cancelDrag(break_pause=False):
-            return
-        self.app.opt.sound_samples[key] = \
-            self.tkopt.sound_sample_vars[key].get()
+    def mAppSetTile(self, idx, force=False):
+        self.app.setTile(idx, force=force)
+        # setTile() may change option values (?):
+        # app.opt.tabletile_scale_method:  not manaaged here -> o.k.
+        # app.opt.tabletile_name:          not managed here -> o.k.
+        # app.tabletile_index:             managed here, is set to idx, no change occurs.  # noqa
+        # app.opt.colors['table']:         managed as color_vars, complex, (proved: no change)  # noqa
+        # print('**********', self.app.opt.colors['table'])
+        # print('**********', self.tkopt.color_vars['table'].value)
 
     def mOptTableColor(self, *args):
         if self._cancelDrag(break_pause=False):
             return
-        nv = self.tkopt.color_vars['table'].get()
-        ov = self.app.opt.colors['table']
-        self.app.opt.colors['table'] = nv
-        if ov != nv:
-            self.app.top_bg = nv
-            self.app.tabletile_index = 0
-            self.app.setTile(0, force=True)
-            self.tkopt.tabletile.set(0)
+        self.tkopt.tabletile.value = 0  # (0 denotes color instead of a tile)
+        nv = self.tkopt.color_vars['table'].value
+        self.app.top_bg = nv
+        self.mAppSetTile(0, force=True)
 
     def mOptTileSet(self, *args):
         if self._cancelDrag(break_pause=False):
             return
-        idx = self.tkopt.tabletile.get()
+        idx = self.tkopt.tabletile.value
         if idx > 0 and idx != self.app.tabletile_index:
-            self.app.setTile(idx)
-            self.tkopt.color_vars['table'].set('#008285')
+            self.mAppSetTile(idx)
+            # set color out of known colors
+            # (its to remove the check flag from the menu):
+            self.tkopt.color_vars['table'].value = '#008285'
 
     def mOptAutoFaceUp(self, *args):
         if self._cancelDrag():
             return
-        self.app.opt.autofaceup = self.tkopt.autofaceup.get()
         if self.app.opt.autofaceup:
             self.game.autoPlay()
 
     def mOptAutoDrop(self, *args):
         if self._cancelDrag():
             return
-        self.app.opt.autodrop = self.tkopt.autodrop.get()
         if self.app.opt.autodrop:
             self.game.autoPlay()
 
     def mOptAutoDeal(self, *args):
         if self._cancelDrag():
             return
-        self.app.opt.autodeal = self.tkopt.autodeal.get()
         if self.app.opt.autodeal:
             self.game.autoPlay()
 
     def mOptQuickPlay(self, *args):
         if self._cancelDrag(break_pause=False):
             return
-        self.app.opt.quickplay = self.tkopt.quickplay.get()
 
     def mOptEnableUndo(self, *args):
         if self._cancelDrag(break_pause=False):
             return
-        self.app.opt.undo = self.tkopt.undo.get()
         self.game.updateMenus()
 
     def mOptEnableBookmarks(self, *args):
         if self._cancelDrag(break_pause=False):
             return
-        self.app.opt.bookmarks = self.tkopt.bookmarks.get()
         self.game.updateMenus()
 
     def mOptEnableHint(self, *args):
         if self._cancelDrag(break_pause=False):
             return
-        self.app.opt.hint = self.tkopt.hint.get()
         self.game.updateMenus()
 
     def mOptFreeHints(self, *args):
         if self._cancelDrag(break_pause=False):
             return
-        self.app.opt.free_hint = self.tkopt.free_hint.get()
         self.game.updateMenus()
 
     def mOptEnableShuffle(self, *args):
         if self._cancelDrag(break_pause=False):
             return
-        self.app.opt.shuffle = self.tkopt.shuffle.get()
         self.game.updateMenus()
 
     def mOptEnableHighlightPiles(self, *args):
         if self._cancelDrag(break_pause=False):
             return
-        self.app.opt.highlight_piles = self.tkopt.highlight_piles.get()
         self.game.updateMenus()
 
     def mOptEnableHighlightCards(self, *args):
         if self._cancelDrag(break_pause=False):
             return
-        self.app.opt.highlight_cards = self.tkopt.highlight_cards.get()
         self.game.updateMenus()
 
     def mOptEnableHighlightSameRank(self, *args):
         if self._cancelDrag(break_pause=False):
             return
-        self.app.opt.highlight_samerank = self.tkopt.highlight_samerank.get()
         # self.game.updateMenus()
 
     def mOptEnablePeekFacedown(self, *args):
         if self._cancelDrag(break_pause=False):
             return
-        self.app.opt.peek_facedown = self.tkopt.peek_facedown.get()
         # self.game.updateMenus()
 
     def mOptEnableHighlightNotMatching(self, *args):
         if self._cancelDrag(break_pause=False):
             return
-        self.app.opt.highlight_not_matching = \
-            self.tkopt.highlight_not_matching.get()
         # self.game.updateMenus()
 
     def mOptEnableStuckNotification(self, *args):
         if self._cancelDrag(break_pause=False):
             return
-        self.app.opt.stuck_notification = self.tkopt.stuck_notification.get()
         # self.game.updateMenus()
 
     def mOptAnimations(self, *args):
@@ -2349,40 +2259,29 @@ the next time you restart the %(app)s""") % {'app': TITLE})
         if self._cancelDrag(break_pause=False):
             return
 
-    def mWinDialog(self, *args):
-        if self._cancelDrag(break_pause=False):
-            return
-        self.app.opt.display_win_message = self.tkopt.display_win_message.get()
-
     def mOptShadow(self, *args):
         if self._cancelDrag(break_pause=False):
             return
-        self.app.opt.shadow = self.tkopt.shadow.get()
 
     def mOptShade(self, *args):
         if self._cancelDrag(break_pause=False):
             return
-        self.app.opt.shade = self.tkopt.shade.get()
 
     def mOptShrinkFaceDown(self, *args):
         if self._cancelDrag(break_pause=False):
             return
-        self.app.opt.shrink_face_down = self.tkopt.shrink_face_down.get()
         self.game.endGame(bookmark=1)
         self.game.quitGame(bookmark=1)
 
     def mOptShadeFilledStacks(self, *args):
         if self._cancelDrag(break_pause=False):
             return
-        self.app.opt.shade_filled_stacks = self.tkopt.shade_filled_stacks.get()
         self.game.endGame(bookmark=1)
         self.game.quitGame(bookmark=1)
 
     def mOptMahjonggShowRemoved(self, *args):
         if self._cancelDrag():
             return
-        self.app.opt.mahjongg_show_removed = \
-            self.tkopt.mahjongg_show_removed.get()
         # self.game.updateMenus()
         self.game.endGame(bookmark=1)
         self.game.quitGame(bookmark=1)
@@ -2390,25 +2289,22 @@ the next time you restart the %(app)s""") % {'app': TITLE})
     def mOptShisenShowHint(self, *args):
         if self._cancelDrag(break_pause=False):
             return
-        self.app.opt.shisen_show_hint = self.tkopt.shisen_show_hint.get()
         # self.game.updateMenus()
 
     def mOptAccordionDealAll(self, *args):
         if self._cancelDrag(break_pause=False):
             return
-        self.app.opt.accordion_deal_all = self.tkopt.accordion_deal_all.get()
         # self.game.updateMenus()
 
     def mOptPeggedAutoRemove(self, *args):
         if self._cancelDrag(break_pause=False):
             return
-        self.app.opt.pegged_auto_remove = self.tkopt.pegged_auto_remove.get()
         # self.game.updateMenus()
 
     def mOptCardset(self, *event):
         if self._cancelDrag(break_pause=False):
             return
-        idx = self.tkopt.cardset.get()
+        idx = self.tkopt.cardset.value
         cs = self.app.cardset_manager.get(idx)
         if cs is None or idx == self.app.cardset.index:
             return
@@ -2443,7 +2339,7 @@ the next time you restart the %(app)s""") % {'app': TITLE})
                 self.game.quitGame(bookmark=1)
 
     def mOptSetCardback(self, key, *event):
-        val = self.tkopt.cardbacks[key].get()
+        val = self.tkopt.cardbacks[key].value
         cs = self.app.cardset_manager.get(key)
         cs.updateCardback(backindex=val)
         # ANM: wir können den Background nur für das aktuell
@@ -2455,7 +2351,6 @@ the next time you restart the %(app)s""") % {'app': TITLE})
             image = self.app.images.getBack(update=True)
             for card in self.game.cards:
                 card.updateCardBackground(image=image)
-            self.app.canvas.update_idletasks()
 
     def _mOptCardback(self, index):
         if self._cancelDrag(break_pause=False):
@@ -2469,37 +2364,31 @@ the next time you restart the %(app)s""") % {'app': TITLE})
         image = self.app.images.getBack(update=True)
         for card in self.game.cards:
             card.updateCardBackground(image=image)
-        self.app.canvas.update_idletasks()
-        self.tkopt.cardback.set(cs.backindex)
+        self.tkopt.cardback.value = cs.backindex
 
     def mOptCardback(self, *event):
-        self._mOptCardback(self.tkopt.cardback.get())
+        self._mOptCardback(self.tkopt.cardback.value)
 
     def mOptChangeCardback(self, *event):
         self._mOptCardback(self.app.cardset.backindex + 1)
 
     def mOptToolbar(self, *event):
-        # if self._cancelDrag(break_pause=False): return
-        self.setToolbarSide(self.tkopt.toolbar.get())
+        self.setToolbarSide(self.tkopt.toolbar.value)
 
     def mOptToolbarStyle(self, *event):
-        # if self._cancelDrag(break_pause=False): return
-        self.setToolbarStyle(self.tkopt.toolbar_style.get())
+        self.setToolbarStyle(self.tkopt.toolbar_style.value)
 
     def mOptToolbarCompound(self, *event):
-        # if self._cancelDrag(break_pause=False): return
-        self.setToolbarCompound(self.tkopt.toolbar_compound.get())
+        self.setToolbarCompound(self.tkopt.toolbar_compound.value)
 
     def mOptToolbarSize(self, *event):
-        # if self._cancelDrag(break_pause=False): return
-        self.setToolbarSize(self.tkopt.toolbar_size.get())
+        self.setToolbarSize(self.tkopt.toolbar_size.value)
 
     def mOptToolbarRelief(self, *event):
-        # if self._cancelDrag(break_pause=False): return
-        self.setToolbarRelief(self.tkopt.toolbar_relief.get())
+        self.setToolbarRelief(self.tkopt.toolbar_relief.value)
 
     def mOptToolbarConfig(self, w):
-        self.toolbarConfig(w, self.tkopt.toolbar_vars[w].get())
+        self.toolbarConfig(w, self.tkopt.toolbar_vars[w].value)
 
     def mOptDemoLogoStyle(self, *event):
         self.setDemoLogoStyle()
@@ -2515,56 +2404,20 @@ the next time you restart the %(app)s""") % {'app': TITLE})
             return
         if not self.app.statusbar:
             return
-        side = self.tkopt.statusbar.get()
-        self.app.opt.statusbar = side
-        resize = not self.app.opt.save_games_geometry
-        if self.app.statusbar.show(side, resize=resize):
-            self.top.update_idletasks()
-
-    def mOptNumCards(self, *event):
-        if self._cancelDrag(break_pause=False):
-            return
-        self.app.opt.num_cards = self.tkopt.num_cards.get()
-
-    def mOptHelpbar(self, *event):
-        if self._cancelDrag(break_pause=False):
-            return
-        if not self.app.helpbar:
-            return
-        show = self.tkopt.helpbar.get()
-        self.app.opt.helpbar = show
-        resize = not self.app.opt.save_games_geometry
-        if self.app.helpbar.show(show, resize=resize):
-            self.top.update_idletasks()
+        side = self.tkopt.statusbar.value  # noqa
+        resize = not self.app.opt.save_games_geometry  # noqa
 
     def mOptSaveGamesGeometry(self, *event):
         if self._cancelDrag(break_pause=False):
             return
-        self.app.opt.save_games_geometry = self.tkopt.save_games_geometry.get()
 
     def mOptDemoLogo(self, *event):
         if self._cancelDrag(break_pause=False):
             return
 
-    def mOptSplashscreen(self, *event):
-        if self._cancelDrag(break_pause=False):
-            return
-        self.app.opt.splashscreen = self.tkopt.splashscreen.get()
-
-    def mOptMouseType(self, *event):
-        if self._cancelDrag(break_pause=False):
-            return
-        self.app.opt.mouse_type = self.tkopt.mouse_type.get()
-
-    def mOptMouseUndo(self, *event):
-        if self._cancelDrag(break_pause=False):
-            return
-        self.app.opt.mouse_undo = self.tkopt.mouse_undo.get()
-
     def mOptNegativeBottom(self, *event):
         if self._cancelDrag():
             return
-        self.app.opt.negative_bottom = self.tkopt.negative_bottom.get()
         self.app.updateCardset()
         self.game.endGame(bookmark=1)
         self.game.quitGame(bookmark=1)
@@ -2576,57 +2429,37 @@ the next time you restart the %(app)s""") % {'app': TITLE})
     def setToolbarSide(self, side):
         if self._cancelDrag(break_pause=False):
             return
-        self.app.opt.toolbar = side
-        self.tkopt.toolbar.set(side)                    # update radiobutton
         resize = not self.app.opt.save_games_geometry
-        if self.app.toolbar.show(side, resize=resize):
-            self.top.update_idletasks()
+        self.app.toolbar.show(side, resize=resize)
 
     def setToolbarSize(self, size):
         if self._cancelDrag(break_pause=False):
             return
-        self.app.opt.toolbar_size = size
-        self.tkopt.toolbar_size.set(size)                # update radiobutton
         dir = self.app.getToolbarImagesDir()
         if self.app.toolbar.updateImages(dir, size):
             self.game.updateStatus(player=self.app.opt.player)
-            self.top.update_idletasks()
 
     def setToolbarStyle(self, style):
         if self._cancelDrag(break_pause=False):
             return
-        self.app.opt.toolbar_style = style
-        # update radiobutton
-        self.tkopt.toolbar_style.set(style)
         dir = self.app.getToolbarImagesDir()
         size = self.app.opt.toolbar_size
-        if self.app.toolbar.updateImages(dir, size):
-            # self.game.updateStatus(player=self.app.opt.player)
-            self.top.update_idletasks()
+        self.app.toolbar.updateImages(dir, size)
 
     def setToolbarCompound(self, compound):
         if self._cancelDrag(break_pause=False):
             return
-        self.app.opt.toolbar_compound = compound
-        self.tkopt.toolbar_compound.set(
-            compound)          # update radiobutton
         if self.app.toolbar.setCompound(compound):
             self.game.updateStatus(player=self.app.opt.player)
-            self.top.update_idletasks()
 
     def setToolbarRelief(self, relief):
         if self._cancelDrag(break_pause=False):
             return
-        self.app.opt.toolbar_relief = relief
-        self.tkopt.toolbar_relief.set(relief)           # update radiobutton
         self.app.toolbar.setRelief(relief)
-        self.top.update_idletasks()
 
     def toolbarConfig(self, w, v):
         if self._cancelDrag(break_pause=False):
             return
-        self.app.opt.toolbar_vars[w] = v
-        self.top.update_idletasks()
 
     #
     # other graphics
@@ -2645,8 +2478,6 @@ the next time you restart the %(app)s""") % {'app': TITLE})
     def setDialogIconStyle(self, style):
         if self._cancelDrag(break_pause=False):
             return
-        self.app.opt.dialog_icon_style = style
-        self.tkopt.dialog_icon_style.set(style)           # update radiobutton
         self.app.loadImages1()
         self.app.loadImages4()
 
@@ -2708,7 +2539,7 @@ the next time you restart the %(app)s""") % {'app': TITLE})
                 games = filter(select_func, games)
                 self.updateGamesMenu(menu, games)
 
-            self.tkopt.gameid.set(gameid)
+            self.tkopt.gameid.value = gameid
             self._mSelectGame(gameid, force=True)
 
     def mWizard(self, *event):

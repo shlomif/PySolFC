@@ -509,7 +509,7 @@ class GI:
                              415, 427, 458, 495, 496, 497, 508,
                              800, 814, 820, 825, 889, 911, 926)),
         ("Mary Whitmore Jones", (421, 624,)),
-        ("Jan Wolter", (917,)),
+        ("Jan Wolter", (917, 939,)),
         )
 
     GAMES_BY_PYSOL_VERSION = (
@@ -592,7 +592,7 @@ class GI:
         ('fc-2.20', tuple(range(855, 897))),
         ('fc-2.21', tuple(range(897, 900)) + tuple(range(11014, 11017)) +
          tuple(range(13160, 13163)) + (16682,)),
-        ('dev', tuple(range(906, 938)) + tuple(range(11017, 11020)) +
+        ('dev', tuple(range(906, 940)) + tuple(range(11017, 11020)) +
          tuple(range(5600, 5624)) + tuple(range(18000, 18005)) +
          tuple(range(22303, 22311)) + tuple(range(22353, 22361))),
     )

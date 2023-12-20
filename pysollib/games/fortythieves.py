@@ -156,6 +156,7 @@ class FortyThieves(Game):
 # * Courtyard
 # * Waning Moon
 # * Lucas
+# * Thirty-Nine Steps
 # * Napoleon's Square
 # * Napoleon's Shoulder
 # * Carre Napoleon
@@ -193,6 +194,10 @@ class WaningMoon(FortyThieves):
 
 class Lucas(WaningMoon):
     ROW_MAX_MOVE = UNLIMITED_MOVES
+
+
+class ThirtyNineSteps(WaningMoon):
+    DEAL = (0, 3)
 
 
 class NapoleonsSquare(FortyThieves):
@@ -1588,3 +1593,5 @@ registerGame(GameInfo(910, NapoleonsShoulder, "Napoleon's Shoulder",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(933, Cascade, "Cascade",
                       GI.GT_FORTY_THIEVES, 1, 0, GI.SL_BALANCED))
+registerGame(GameInfo(940, ThirtyNineSteps, "Thirty-Nine Steps",
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL))

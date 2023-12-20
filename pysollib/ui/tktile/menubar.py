@@ -1268,6 +1268,11 @@ class PysolMenubarTkCommon:
             gi = self.app.getGameInfo(id)
             if gi:
                 games.append(gi)
+
+        def sort_func(gi):
+            return gi.name
+
+        games.sort(key=sort_func)
         self.updateGamesMenu(submenu, games)
         state = self._getEnabledState
         in_favor = self.app.game.id in gameids

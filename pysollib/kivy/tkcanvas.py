@@ -692,7 +692,7 @@ class MfxCanvas(LImage):
         def psize(s):
             return "({:1.2f}, {:1.2f})".format(s[0], s[1])
 
-        logging.info('MfxCanvas: update_widget to: '+psize(size))
+        # logging.info('MfxCanvas: update_widget to: '+psize(size))
 
         # print('MfxCanvas: update_widget size=(%s, %s)' %
         #       (self.size[0], self.size[1]))
@@ -701,7 +701,7 @@ class MfxCanvas(LImage):
 
         # oldscale = self.scale
         newscale = self.scalefactor()
-        logging.info('MfxCanvas: scale factor: {:1.2f})'.format(newscale))
+        # logging.info('MfxCanvas: scale factor: {:1.2f})'.format(newscale))
         self.scale = newscale
 
         # Anpassung Skalierung.
@@ -848,8 +848,8 @@ class MfxCanvas(LImage):
         else:
             lumi = LColorToLuminance(self._bg_color)
 
-        self._text_color = ("#000000", "#ffffff")[lumi < 0.5]
-        print('average luminance =', lumi)
+        self._text_color = ("#000000", "#ffffff")[lumi < 0.4]
+        # print('average luminance =', lumi)
 
     def setTile(self, image, stretch=0, save_aspect=0):
 

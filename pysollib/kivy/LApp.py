@@ -71,6 +71,15 @@ def get_platform():
 # =============================================================================
 
 
+def get_menu_size_hint():
+    sh = (0.5, 1.0)
+    if Window.size[0] < Window.size[1]:
+        sh = (1.0, 1.0)
+    return sh
+
+# =============================================================================
+
+
 def get_screen_ori():
     if get_platform() == 'android':
         from jnius import autoclass
@@ -1040,7 +1049,7 @@ class LTopLevelContent(BoxLayout, LBase):
     def __init__(self, **kw):
         super(LTopLevelContent, self).__init__(**kw)
 
-        # beispiel zu canvas (hintergrund)
+        # Macht die Hintergrundfarbe der TopLevel (Dialog-) Fenster.
         with self.canvas.before:
             Color(0.45, 0.5, 0.5, 1.0)
             self.rect = Rectangle(pos=self.pos, size=self.size)
@@ -1086,30 +1095,12 @@ class LTopLevel0(BoxLayout, LBase):
         super(LTopLevel0, self).__init__(
             orientation="vertical", **kw)
 
-        # self.canvas.add(Color(0, 1, 0, 0.4))
-        # self.canvas.add(Rectangle(pos=(100, 100), size=(100, 100)))
-
-        self.size_hint = (0.5, 1.0)
-        '''
-        self.titleline = BoxLayout(
-            orientation="horizontal", size_hint=[1.0, 0.15], **kw)
-        self.button = Button(text="X", size_hint=[0.15, 1.0], **kw)
-        if not title:
-            title = '<>'
-        self.title = Label(text=title, **kw)
-        self.titleline.add_widget(self.title)
-        self.titleline.add_widget(self.button)
-        '''
-        self.titleline = LTopLine(text=title, size_hint=[1.0, 0.15])
         self.title = title
-
-        # self.content = BoxLayout(orientation="vertical", **kw)
+        self.titleline = LTopLine(text=title, size_hint=[1.0, 0.15])
         self.content = LTopLevelContent(orientation="vertical", **kw)
         self.add_widget(self.titleline)
         self.add_widget(self.content)
-        '''
-        self.button.bind(on_press=self.onClick)
-        '''
+
         self.titleline.bind(on_press=self.onClick)
         self.main.pushWork(self.title, self)
 
@@ -1126,12 +1117,7 @@ class LTopLevel(BoxLayout, LBase):
         super(LTopLevel, self).__init__(
             orientation="vertical", **kw)
 
-        if ('size_hint' not in kw):
-            self.size_hint = (0.5, 1.0)
-        else:
-            del kw['size_hint']
         self.titleline = LTopLine(text=title, size_hint=(1.0, 0.10))
-
         self.content = LTopLevelContent(orientation="vertical", **kw)
         self.add_widget(self.titleline)
         self.add_widget(self.content)
@@ -1155,7 +1141,6 @@ class LTopLevel(BoxLayout, LBase):
                         ret = t.pop()
                     pass
         return ret
-
 
 # =============================================================================
 
@@ -1782,23 +1767,6 @@ class LApp(App):
         else:
             return False    # delegate
 
-    def delayedRebuild(self, dt):
-        logging.info("LApp: delayedRebuild")
-        self.mainWindow.rebuildContainer()
-
-    def makeDelayedRebuild(self):
-        def delayedRebuild(dt):
-            # Clock.schedule_once(self.delayedRebuild, 0.01)
-            Clock.schedule_once(self.delayedRebuild, 0.5)
-        return delayedRebuild
-
-    def doSize(self, obj, val):
-        mval = self.mainWindow.size
-        if (val[0] != mval[0] and val[1] != mval[1]):
-            logging.info("LApp: size changed %s - %s (%s)" % (obj, val, mval))
-            Clock.schedule_once(self.makeDelayedRebuild(), 0.2)
-        pass
-
     def __init__(self, args):
         super(LApp, self).__init__()
         self.args = args
@@ -1835,7 +1803,6 @@ class LApp(App):
         Cache.append('LAppCache', 'mainApp', self, timeout=0)
         self.startCode = 0
         Window.bind(on_keyboard=self.key_input)
-        Window.bind(size=self.doSize)
 
         from pysollib.app import Application
         from pysollib.main import pysol_init
@@ -1962,6 +1929,17 @@ class LApp(App):
         # wieder falsch aufstellt. (woher kommt die und warum ist sie
         # oft falsch ?)
 
+        # Gelegentlich beobachtet: Schwarzer Bilschirm nach resume. Und
+        # das bleibt dann so auf ewig. Aber die app läuft stabil. Die
+        # einzige Interaktion mit der App ist über die Android buttons
+        # für hintrgrund und resume. Diese funktioneren gemäss logcat
+        # einwandfrei. Daher versuchen wir ... um den graphik context
+        # wieder zu aktivieren/auszurichten:
+        Clock.schedule_once(lambda dt: Window.update_viewport(), 2.0)
+        # (Es gibt auch Beispiele in den kivy issues die nahelegen, dass
+        # das nützlich sein könnte)
+
+        # Pause modus abschalten nach resume:
         if app.game.pause:
             Clock.schedule_once(self.makeEndPauseCmd(app), 3.0)
 

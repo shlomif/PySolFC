@@ -39,10 +39,11 @@ from kivy.uix.label import Label
 from pysollib.kivy.LApp import LBoxLayout
 from pysollib.kivy.LApp import LScrollView
 from pysollib.kivy.LApp import LTopLevel
+from pysollib.kivy.LApp import LTopLevel0
+from pysollib.kivy.LApp import get_menu_size_hint
 from pysollib.kivy.LImage import LImage
 from pysollib.kivy.tkcanvas import MfxCanvas
 from pysollib.kivy.tkutil import bind, unbind_destroy
-from pysollib.kivy.tkutil import makeToplevel
 from pysollib.mfxutil import KwStruct, kwdefault
 from pysollib.mygettext import _
 from pysollib.settings import WIN_SYSTEM
@@ -63,7 +64,13 @@ class MfxDialog:  # ex. _ToplevelDialog
         self.timer = None
         self.buttons = []
         self.accel_keys = {}
-        self.top = makeToplevel(parent, title=title)
+        self.window = LTopLevel0(parent, title=title)
+        self.top = self.window.content
+
+        def setSizeRule(obj, val):
+            self.window.size_hint = get_menu_size_hint()
+        self.parent.bind(size=setSizeRule)
+        setSizeRule(0, 0)
 
     def wmDeleteWindow(self, *event):
         self.status = 1

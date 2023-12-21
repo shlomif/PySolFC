@@ -207,6 +207,13 @@ class LMenuDialog(LMenuBase):
         self.window = window
         self.running = True
 
+        from pysollib.kivy.LApp import get_menu_size_hint
+
+        def updrule(obj, val):
+            self.window.size_hint = get_menu_size_hint()
+        updrule(0, 0)
+        self.parent.bind(size=updrule)
+
         if self.persist:
             self.dialogCache[title] = window
 
@@ -241,7 +248,6 @@ class LMenuDialog(LMenuBase):
 class MainMenuDialog(LMenuDialog):
 
     def __init__(self, menubar, parent, title, app, **kw):
-        kw['size_hint'] = (0.2, 1)
         kw['persist'] = True
         super(MainMenuDialog, self).__init__(
             menubar, parent, title, app, **kw)
@@ -289,7 +295,6 @@ class MainMenuDialog(LMenuDialog):
 class FileMenuDialog(LMenuDialog):
 
     def __init__(self, menubar, parent, title, app, **kw):
-        kw['size_hint'] = (0.3, 1)
         super(FileMenuDialog, self).__init__(
             menubar, parent, title, app, **kw)
 
@@ -358,7 +363,6 @@ class FileMenuDialog(LMenuDialog):
 class EditMenuDialog(LMenuDialog):  # Tools
 
     def __init__(self, menubar, parent, title, app, **kw):
-        kw['size_hint'] = (0.2, 1)
         kw['persist'] = True
         super(EditMenuDialog, self).__init__(
             menubar, parent, title, app, **kw)
@@ -431,7 +435,6 @@ class EditMenuDialog(LMenuDialog):  # Tools
 class GameMenuDialog(LMenuDialog):
 
     def __init__(self, menubar, parent, title, app, **kw):
-        kw['size_hint'] = (0.2, 1)
         kw['persist'] = True
         super(GameMenuDialog, self).__init__(
             menubar, parent, title, app, **kw)
@@ -502,7 +505,6 @@ class GameMenuDialog(LMenuDialog):
 class AssistMenuDialog(LMenuDialog):
 
     def __init__(self, menubar, parent, title, app, **kw):
-        kw['size_hint'] = (0.2, 1)
         kw['persist'] = True
         super(AssistMenuDialog, self).__init__(
             menubar, parent, title, app, **kw)
@@ -1279,7 +1281,6 @@ class LOptionsMenuGenerator(LTreeGenerator):
 class OptionsMenuDialog(LMenuDialog):
 
     def __init__(self, menubar, parent, title, app, **kw):
-        kw['size_hint'] = (0.5, 1)
         kw['persist'] = True
         super(OptionsMenuDialog, self).__init__(
             menubar, parent, title, app, **kw)
@@ -1295,7 +1296,6 @@ class OptionsMenuDialog(LMenuDialog):
 
 class HelpMenuDialog(LMenuDialog):
     def __init__(self, menubar, parent, title, app, **kw):
-        kw['size_hint'] = (0.3, 1)
         kw['persist'] = True
         super(HelpMenuDialog, self).__init__(menubar, parent, title, app, **kw)
 

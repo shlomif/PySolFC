@@ -68,6 +68,9 @@ def setTransient(window, parent, relx=None, rely=None, expose=1):
     return
 
 
+# ANM: werden ev. immer noch vom pysollib core benötigt/referenziert:
+# (intern in kivy bitte nicht direkt benutzen).
+
 def makeToplevel(parent, title=None):
     print('tkutil: makeTopLevel')
 

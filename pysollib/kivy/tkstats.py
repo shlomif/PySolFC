@@ -128,9 +128,9 @@ class LPieChart(Widget):
 # *
 # ************************************************************************
 
+
 class SingleGame_StatsDialog(MfxDialog):
     def __init__(self, parent, title, app, player, gameid, **kw):
-        kw['size_hint'] = (0.5, 1)
         self.app = app
         self.selected_game = None
         kw = self.initKw(kw)
@@ -142,8 +142,6 @@ class SingleGame_StatsDialog(MfxDialog):
         MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
         top_frame, bottom_frame = self.createFrames(kw)
         self.top_frame = top_frame
-
-#        self.createBitmaps(top_frame, kw)
         #
         self.player = player or _("Demo games")
         self.top.wm_minsize(200, 200)

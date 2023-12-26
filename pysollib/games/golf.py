@@ -360,6 +360,8 @@ class BlackHole(Game):
     Hint_Class = Golf_Hint
     Solver_Class = BlackHoleSolverWrapper(preset='black_hole')
 
+    FOUNDATIONS = 1
+
     #
     # game layout
     #
@@ -369,8 +371,9 @@ class BlackHole(Game):
         layout, s = Layout(self), self.s
 
         # set window
-        w = max(2*layout.XS, layout.XS+(playcards-1)*layout.XOFFSET)
-        self.setSize(layout.XM + 5*w, layout.YM + 4*layout.YS)
+        w = max((1 + self.FOUNDATIONS) * layout.XS,
+                layout.XS + (playcards - 1) * layout.XOFFSET)
+        self.setSize(layout.XM + 5 * w, layout.YM + 4 * layout.YS)
 
         # create stacks
         y = layout.YM
@@ -390,9 +393,12 @@ class BlackHole(Game):
             r.CARD_XOFFSET = layout.XOFFSET
             r.CARD_YOFFSET = 0
         x, y = layout.XM + 2*w, layout.YM + 3*layout.YS//2
-        s.foundations.append(BlackHole_Foundation(x, y, self, suit=ANY_SUIT,
-                             dir=0, mod=13, max_move=0, max_cards=52))
-        layout.createText(s.foundations[0], "s")
+        for f in range(self.FOUNDATIONS):
+            s.foundations.append(BlackHole_Foundation(x, y, self,
+                                 suit=ANY_SUIT, dir=0, mod=13, max_move=0,
+                                 max_cards=52 * self.gameinfo.decks))
+            layout.createText(s.foundations[f], "s")
+            x += layout.XS
         x, y = layout.XM + 4*w, self.height - layout.YS
         s.talon = InitialDealTalonStack(x, y, self)
 
@@ -420,6 +426,29 @@ class BlackHole(Game):
         else:
             # rightclickHandler
             return ((), self.sg.dropstacks, self.sg.dropstacks)
+
+
+# ************************************************************************
+# * Binary Star
+# ************************************************************************
+
+class BinaryStar(BlackHole):
+    RowStack_Class = StackWrapper(
+        ReserveStack, max_accept=0, max_cards=6)
+    # TODO: Solver support
+    Solver_Class = None  # BlackHoleSolverWrapper(preset='binary_star')
+    FOUNDATIONS = 2
+
+    def _shuffleHook(self, cards):
+        # move Ace and king to bottom of the Talon
+        # (i.e. last cards to be dealt)
+        return self._shuffleHookMoveToBottom(
+            cards, lambda c: (c.id in (13, 38), c.suit), 2)
+
+    def startGame(self):
+        self._startDealNumRows(5)
+        self.s.talon.dealRow()
+        self.s.talon.dealRow(rows=self.s.foundations)
 
 
 # ************************************************************************
@@ -784,7 +813,7 @@ class Dolphin(Game):
             s.reserves.append(ReserveStack(x, y, self))
             x += layout.XS
         x += dx
-        max_cards = 52*self.gameinfo.decks
+        max_cards = 52 * self.gameinfo.decks
         s.foundations.append(RK_FoundationStack(x, y, self,
                              base_rank=ANY_RANK, mod=13, max_cards=max_cards))
         layout.createText(s.foundations[0], 'ne')
@@ -1504,3 +1533,6 @@ registerGame(GameInfo(892, DoublePutt, "Double Putt",
 registerGame(GameInfo(906, Thieves, "Thieves",
                       GI.GT_GOLF, 1, 0, GI.SL_BALANCED,
                       subcategory=GI.GS_JOKER_DECK, trumps=list(range(2))))
+registerGame(GameInfo(941, BinaryStar, "Binary Star",
+                      GI.GT_GOLF | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL,
+                      altnames=("Black Holes",)))

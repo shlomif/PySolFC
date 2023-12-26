@@ -1262,7 +1262,7 @@ class PysolMenubarTkCommon:
 
     def updateFavoriteGamesMenu(self):
         gameids = self.app.opt.favorite_gameid
-        submenu = self.menupath[".menubar.file.favoritegames"][2]
+        menu, index, submenu = self.menupath[".menubar.file.favoritegames"]
         games = []
         for id in gameids:
             gi = self.app.getGameInfo(id)
@@ -1273,8 +1273,12 @@ class PysolMenubarTkCommon:
             return gi.name
 
         games.sort(key=sort_func)
-        self.updateGamesMenu(submenu, games)
         state = self._getEnabledState
+        if len(games) > 0:
+            self.updateGamesMenu(submenu, games)
+            menu.entryconfig(index, state=state(True))
+        else:
+            menu.entryconfig(index, state=state(False))
         in_favor = self.app.game.id in gameids
         menu, index, submenu = self.menupath[".menubar.file.addtofavorites"]
         menu.entryconfig(index, state=state(not in_favor))

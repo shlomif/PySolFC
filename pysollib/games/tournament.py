@@ -326,7 +326,8 @@ class LadiesBattle(Game):
 
 # register the game
 registerGame(GameInfo(303, Tournament, "Tournament",
-                      GI.GT_2DECK_TYPE, 2, 2, GI.SL_MOSTLY_LUCK))
+                      GI.GT_2DECK_TYPE, 2, 2, GI.SL_MOSTLY_LUCK,
+                      altnames=("Marechal Saxe", ),))
 registerGame(GameInfo(304, LaNivernaise, "La Nivernaise",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_MOSTLY_LUCK,
                       altnames=("Napoleon's Flank", ),))

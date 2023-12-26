@@ -1451,7 +1451,8 @@ registerGame(GameInfo(109, Deuces, "Deuces",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_MOSTLY_SKILL,
                       altnames=("Twos", "Les Deux")))
 registerGame(GameInfo(196, Corona, "Corona",
-                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
+                      GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED,
+                      altnames=("Round Dozen")))
 registerGame(GameInfo(195, Quadrangle, "Quadrangle",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(110, Courtyard, "Courtyard",

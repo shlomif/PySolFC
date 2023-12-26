@@ -1332,7 +1332,8 @@ registerGame(GameInfo(379, Chamberlain, "Chamberlain",
                       GI.GT_NUMERICA | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0,
                       GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(402, Toad, "Toad",
-                      GI.GT_NUMERICA, 2, 0, GI.SL_BALANCED))
+                      GI.GT_NUMERICA, 2, 0, GI.SL_BALANCED,
+                      altnames=("Toad in the Hole")))
 registerGame(GameInfo(430, PussInTheCorner, "Puss in the Corner",
                       GI.GT_NUMERICA, 1, 1, GI.SL_BALANCED))
 registerGame(GameInfo(435, Shifting, "Shifting",

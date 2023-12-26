@@ -1397,7 +1397,8 @@ registerGame(GameInfo(675, FourWinds, "Four Winds",
 registerGame(GameInfo(676, BoxingTheCompass, "Boxing the Compass",
                       GI.GT_2DECK_TYPE, 2, 1, GI.SL_BALANCED))
 registerGame(GameInfo(693, Colonel, "Colonel",
-                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL,
+                      altnames=("Uncle Walter's",)))
 registerGame(GameInfo(695, TheRedAndTheBlack, "The Red and the Black",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(748, TwilightZone, "Twilight Zone",

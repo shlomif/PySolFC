@@ -38,6 +38,7 @@ from kivy.graphics import Color
 from kivy.graphics import Line
 from kivy.graphics import Rectangle
 from kivy.graphics import Triangle
+from kivy.graphics import Callback
 from kivy.properties import NumericProperty
 from kivy.properties import StringProperty
 from kivy.uix.actionbar import ActionButton
@@ -1935,13 +1936,13 @@ class LApp(App):
         # für hintrgrund und resume. Diese funktioneren gemäss logcat
         # einwandfrei. Daher versuchen wir ... um den graphik context
         # wieder zu aktivieren/auszurichten:
-        Clock.schedule_once(lambda dt: Window.update_viewport(), 2.0)
-        # (Es gibt auch Beispiele in den kivy issues die nahelegen, dass
-        # das nützlich sein könnte)
+        Clock.schedule_once(lambda dt: Window.update_viewport(), 3.0)
+        # fazit: schwarzer screen trotzdem gelegentlich wieder beobachtet.
+        Clock.schedule_once(lambda dt: self.mainWindow.rebuildContainer(), 4.0)
 
         # Pause modus abschalten nach resume:
         if app.game.pause:
-            Clock.schedule_once(self.makeEndPauseCmd(app), 3.0)
+            Clock.schedule_once(self.makeEndPauseCmd(app), 5.0)
 
     def makeEndPauseCmd(self, app):
         def endPauseCmd(dt):

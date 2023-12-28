@@ -569,6 +569,14 @@ class HTMLViewer:
             # self.app.game._cancelDrag()
             # pass
 
+        # this is a workaround for android: Small devices cannot
+        # render the whole text into a label ... and Android does not
+        # allow local files be displayed in the local browser. The
+        # simplest way is to take it from the original web site.
+        if get_platform() == 'android':
+            if os.path.basename(url) == 'license.html':
+                url = 'https://www.gnu.org/licenses/gpl-3.0-standalone.html'
+
         # ftp: and http: would work if we use urllib, but this widget is
         # far too limited to display anything but our documentation...
         for p in REMOTE_PROTOCOLS:

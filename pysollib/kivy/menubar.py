@@ -252,8 +252,7 @@ class MainMenuDialog(LMenuDialog):
         super(MainMenuDialog, self).__init__(
             menubar, parent, title, app, **kw)
 
-        print('MainMenuDialog starting')
-        AndroidScreenRotation.unlock(toaster=False)
+        # print('MainMenuDialog starting')
 
     def buildTree(self, tv, node):
         rg = tv.add_node(
@@ -1429,6 +1428,10 @@ class PysolMenubarTk:
         if self.progress:
             self.progress.update(step=1)
 
+    def unlockScreenRotation(self, obj, val):
+        AndroidScreenRotation.unlock(toaster=False)
+        print('unlock screen rotation')
+
     def _createTkOpt(self):
         opt = self.app.opt
 
@@ -1538,7 +1541,7 @@ class PysolMenubarTk:
             # num_cards=BooleanVar(),
             # helpbar=BooleanVar(),
             # game
-            gameid=LNumWrap(self, "gameid"),
+            gameid=LNumWrap(self, "gameid", self.unlockScreenRotation),
             gameid_popular=LNumWrap(self, "gameid_popular"),
         )
         for w in TOOLBAR_BUTTONS:
@@ -2131,7 +2134,6 @@ class PysolMenubarTk:
                 return
         self.game.doPause()
         self.tkopt.pause.value = self.game.pause
-        AndroidScreenRotation.unlock(toaster=False)
 
     def mOptLanguage(self, *args):
         if self._cancelDrag(break_pause=False):

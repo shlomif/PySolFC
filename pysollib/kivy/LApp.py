@@ -1075,10 +1075,16 @@ class LTopLine(ButtonBehavior, Label, LBase):
             self.rect = Rectangle(pos=self.pos, size=self.size)
         self.bind(pos=self.update_rect)
         self.bind(size=self.update_rect)
+        self.maxlines = 0
+        self.halign = 'center'
+        self.valign = 'center'
 
     def update_rect(self, *args):
         self.rect.pos = self.pos
         self.rect.size = self.size
+
+    def on_size(self, o, s):
+        self.text_size = s
 
     def on_press(self):
         print('press')
@@ -1089,18 +1095,23 @@ class LTopLine(ButtonBehavior, Label, LBase):
 # =============================================================================
 
 
-class LTopLevel0(BoxLayout, LBase):
-    def __init__(self, top, title=None, **kw):
-        self.main = top
-        super(LTopLevel0, self).__init__(
-            orientation="vertical", **kw)
-
+class LTopLevelBase(BoxLayout, LBase):
+    def __init__(self, title='', **kw):
+        super(LTopLevelBase, self).__init__(orientation="vertical", **kw)
         self.title = title
         self.titleline = LTopLine(text=title, size_hint=[1.0, 0.15])
         self.content = LTopLevelContent(orientation="vertical", **kw)
         self.add_widget(self.titleline)
         self.add_widget(self.content)
 
+# =============================================================================
+
+
+class LTopLevel0(LTopLevelBase, LBase):
+    def __init__(self, top, title='', **kw):
+        super(LTopLevel0, self).__init__(title=title, **kw)
+
+        self.main = top
         self.titleline.bind(on_press=self.onClick)
         self.main.pushWork(self.title, self)
 
@@ -1111,16 +1122,10 @@ class LTopLevel0(BoxLayout, LBase):
 # =============================================================================
 
 
-class LTopLevel(BoxLayout, LBase):
-    def __init__(self, parent, title=None, **kw):
+class LTopLevel(LTopLevelBase, LBase):
+    def __init__(self, parent, title='', **kw):
+        super(LTopLevel, self).__init__(title=title, **kw)
         self.mainwindow = parent
-        super(LTopLevel, self).__init__(
-            orientation="vertical", **kw)
-
-        self.titleline = LTopLine(text=title, size_hint=(1.0, 0.10))
-        self.content = LTopLevelContent(orientation="vertical", **kw)
-        self.add_widget(self.titleline)
-        self.add_widget(self.content)
 
     def processAndroidBack(self):
         ret = False
@@ -1935,13 +1940,13 @@ class LApp(App):
         # für hintrgrund und resume. Diese funktioneren gemäss logcat
         # einwandfrei. Daher versuchen wir ... um den graphik context
         # wieder zu aktivieren/auszurichten:
-        Clock.schedule_once(lambda dt: Window.update_viewport(), 3.0)
+        Clock.schedule_once(lambda dt: Window.update_viewport(), 0.2)
         # fazit: schwarzer screen trotzdem gelegentlich wieder beobachtet.
-        Clock.schedule_once(lambda dt: self.mainWindow.rebuildContainer(), 4.0)
+        Clock.schedule_once(lambda dt: self.mainWindow.rebuildContainer(), 0.4)
 
         # Pause modus abschalten nach resume:
         if app.game.pause:
-            Clock.schedule_once(self.makeEndPauseCmd(app), 5.0)
+            Clock.schedule_once(self.makeEndPauseCmd(app), 2.0)
 
     def makeEndPauseCmd(self, app):
         def endPauseCmd(dt):

@@ -312,14 +312,59 @@ class HTMLText(LScrollView, LPopCommander):
     def __init__(self, **kw):
         super(HTMLText, self).__init__(**kw)
 
-        self.label = HTMLLabel(text='', markup=True)
+        self.viewer = kw['viewer']
+        # self.scroll_timeout = 250
+        # self.scroll_distance = 20
+        self.do_scroll_x = False
+
+        self.multiLabel = True
+        if self.multiLabel:
+            self.label = BoxLayout(orientation='vertical', size_hint=(1, None))
+        else:
+            self.label = HTMLLabel(text='', markup=True)
+            self.label.bind(on_ref_press=self.viewer.refpress)
         self.tags = {}
         self.textbuffer = ''
         self.add_widget(self.label)
 
     def applyBuffer(self):
-        # print('applybuffer:')
-        self.label.text = self.textbuffer
+        if self.multiLabel:
+            splittedText = self.textbuffer.split('\n')
+            self.textbuffer = ''
+            self.label.clear_widgets()
+
+            def add_label(si, ei):
+                lt = '\n'.join(splittedText[si:ei])
+                if lt == '':
+                    lt = ' '
+                label = HTMLLabel(text=lt, markup=True)
+                label.bind(on_ref_press=self.viewer.refpress)
+                label.bind(size=self.on_size)
+                self.label.add_widget(label)
+
+            index = 0
+            sindex = 0
+            limit = 1000
+            summe = 0
+            for k in splittedText:
+                l = len(k)  # noqa
+                s = summe + l
+                index += 1
+                if s > limit:
+                    add_label(sindex, index)
+                    sindex = index
+                    summe = l
+                else:
+                    summe = s
+            add_label(sindex, index)
+        else:
+            self.label.text = self.textbuffer
+
+    def on_size(self, o, s):
+        y = 0
+        for c in self.label.children:
+            y += c.size[1]
+        self.label.size[1] = y
 
     def config(self, **kw):
         # print('config: %s' % kw)
@@ -419,85 +464,53 @@ class HTMLViewer:
         pc = self.make_pop_command(parent, self.title)
         cc = self.make_close_command(parent, self.title)
 
-        # neuen Dialog aufbauen.
+        # create new dialog.
 
-        window = LTopLevel(app.top, self.title, size_hint=(1.8, 1.0))
+        window = LTopLevel(app.top, self.title, size_hint=(2.0, 1.0))
         window.titleline.bind(on_press=cc)
         self.parent.pushWork(self.title, window)
         self.window = window
         self.running = True
 
         content = BoxLayout(orientation='vertical')
-        # buttonline =
-        #   BoxLayout(orientation='horizontal', size_hint=(1.0, 0.1))
 
-        # create buttons
-        self.homeButton = HTMLButton(text=_("Index"), on_release=self.goHome)
+        # create button line
+
+        buttonline = BoxLayout(
+            orientation='horizontal', size_hint=(None, 0.07))
+
         self.backButton = HTMLButton(text=_("Back"), on_release=self.goBack)
+        self.homeButton = HTMLButton(text=_("Index"), on_release=self.goHome)
         self.forwardButton = HTMLButton(
             text=_("Forward"), on_release=self.goForward)
-        self.closeButton = HTMLButton(text=_("Close"), on_release=self.goHome)
+        # self.closeButton = HTMLButton(text=_("Close"), on_release=cc)
+        # -> use title bar as usual.
 
-        '''
-        buttonline.add_widget(self.homeButton)
         buttonline.add_widget(self.backButton)
+        buttonline.add_widget(self.homeButton)
         buttonline.add_widget(self.forwardButton)
-        buttonline.add_widget(self.closeButton)
-        content.add_widget(buttonline)
-        '''
-
-        '''
-        self.homeButton = Tkinter.Button(parent, text=_("Index"),
-                                         width=button_width,
-                                         command=self.goHome)
-        self.homeButton.grid(row=0, column=0, sticky='w')
-        self.backButton = Tkinter.Button(parent, text=_("Back"),
-                                         width=button_width,
-                                         command=self.goBack)
-        self.backButton.grid(row=0, column=1, sticky='w')
-        self.forwardButton = Tkinter.Button(parent, text=_("Forward"),
-                                            width=button_width,
-                                            command=self.goForward)
-        self.forwardButton.grid(row=0, column=2, sticky='w')
-        self.closeButton = Tkinter.Button(parent, text=_("Close"),
-                                          width=button_width,
-                                          command=self.destroy)
-        self.closeButton.grid(row=0, column=3, sticky='e')
-        '''
+        # buttonline.add_widget(self.closeButton)
+        self.buttonline = buttonline
 
         # create text widget
 
         self.text = HTMLText(
-            pop_command=pc, text="hallo", size_hint=(1.0, 1.0))
-        self.text.label.bind(on_ref_press=self.refpress)
+            pop_command=pc, text="hallo", size_hint=(None, 1.0), viewer=self)
+
+        # add content: first text, buttonline at bottom.
+
         content.add_widget(self.text)
-        '''
-        text_frame = Tkinter.Frame(parent)
-        text_frame.grid(row=1, column=0, columnspan=4, sticky='nsew')
-        text_frame.grid_propagate(False)
-        vbar = Tkinter.Scrollbar(text_frame)
-        vbar.pack(side='right', fill='y')
-        self.text = Tkinter.Text(text_frame,
-                                 fg='black', bg='white',
-                                 bd=1, relief='sunken',
-                                 cursor=self.defcursor,
-                                 wrap='word', padx=10)
-        self.text.pack(side='left', fill='both', expand=True)
-        self.text["yscrollcommand"] = vbar.set
-        vbar["command"] = self.text.yview
-        '''
-
+        content.add_widget(buttonline)
         self.window.content.add_widget(content)
+        self.window.bind(size=self.on_size)
 
-        # statusbar
-        # self.statusbar = HtmlStatusbar(parent, row=2, column=0, columnspan=4)
-
-        # parent.columnconfigure(2, weight=1)
-        # parent.rowconfigure(1, weight=1)
-
-        # load images
+        # load images ?
         for name, fn in self.symbols_fn.items():
             self.symbols_img[name] = self.getImage(fn)
+
+    def on_size(self, o, s):
+        self.text.size = s
+        self.buttonline.size = s
 
     def _yview(self, *args):
         self.text.yview(*args)
@@ -573,9 +586,11 @@ class HTMLViewer:
         # render the whole text into a label ... and Android does not
         # allow local files be displayed in the local browser. The
         # simplest way is to take it from the original web site.
+        '''
         if get_platform() == 'android':
             if os.path.basename(url) == 'license.html':
                 url = 'https://www.gnu.org/licenses/gpl-3.0-standalone.html'
+        '''
 
         # ftp: and http: would work if we use urllib, but this widget is
         # far too limited to display anything but our documentation...
@@ -653,7 +668,6 @@ class HTMLViewer:
         self.parent.wm_iconname(parser.title)
         self.defcursor, self.handcursor = old_c1, old_c2
         self.text.config(cursor=self.defcursor)
-        # self.frame.config(cursor=self.defcursor)
 
     def addHistory(self, url, xview=0, yview=0):
         if url not in self.visited_urls:

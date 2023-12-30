@@ -3307,6 +3307,9 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
+msgid "Card Size"
+msgstr ""
+
 msgid "Search:"
 msgstr ""
 

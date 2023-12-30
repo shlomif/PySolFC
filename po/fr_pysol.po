@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: 1.02\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-12-05 21:24-0500\n"
+"PO-Revision-Date: 2023-12-30 09:37-0500\n"
 "Last-Translator: Eric Rausch <neelix570@gmail.com>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.3.1\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #: pysollib/actions.py:232 pysollib/kivy/menubar.py:292
 #: pysollib/kivy/toolbar.py:191 pysollib/tile/toolbar.py:176
@@ -3484,6 +3484,9 @@ msgstr ""
 
 msgid "Search"
 msgstr ""
+
+msgid "Card Size"
+msgstr "Taille des cartes"
 
 msgid "Search:"
 msgstr ""

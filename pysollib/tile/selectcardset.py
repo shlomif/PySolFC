@@ -300,11 +300,13 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         self.list_scrollbar.config(command=self.list.yview)
 
         if USE_PIL:
+            size_frame = ttk.Frame(notebook)
+            notebook.add(size_frame, text=_('Card Size'))
             #
             var = tkinter.DoubleVar()
             var.set(app.opt.scale_x)
             self.scale_x = PysolScale(
-                left_frame, label=_('Scale X:'),
+                size_frame, label=_('Scale X:'),
                 from_=0.5, to=4.0, resolution=0.1,
                 orient='horizontal', variable=var,
                 value=app.opt.scale_x,
@@ -315,7 +317,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             var = tkinter.DoubleVar()
             var.set(app.opt.scale_y)
             self.scale_y = PysolScale(
-                left_frame, label=_('Scale Y:'),
+                size_frame, label=_('Scale Y:'),
                 from_=0.5, to=4.0, resolution=0.1,
                 orient='horizontal', variable=var,
                 value=app.opt.scale_y,
@@ -328,7 +330,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
 
             var = tkinter.IntVar()
             self.x_offset = PysolScale(
-                left_frame, label=_('X offset:'),
+                size_frame, label=_('X offset:'),
                 from_=5, to=100, resolution=1,
                 orient='horizontal', variable=var,
                 value=cs.CARD_XOFFSET
@@ -339,7 +341,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
 
             var = tkinter.IntVar()
             self.y_offset = PysolScale(
-                left_frame, label=_('Y offset:'),
+                size_frame, label=_('Y offset:'),
                 from_=5, to=100, resolution=1,
                 orient='horizontal', variable=var,
                 value=cs.CARD_YOFFSET
@@ -350,7 +352,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             self.auto_scale = tkinter.BooleanVar()
             self.auto_scale.set(app.opt.auto_scale)
             check = ttk.Checkbutton(
-                left_frame, text=_('Auto scaling'),
+                size_frame, text=_('Auto scaling'),
                 variable=self.auto_scale,
                 takefocus=False,
                 command=self._updateAutoScale
@@ -361,7 +363,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             self.preserve_aspect = tkinter.BooleanVar()
             self.preserve_aspect.set(app.opt.preserve_aspect_ratio)
             self.aspect_check = ttk.Checkbutton(
-                left_frame, text=_('Preserve aspect ratio'),
+                size_frame, text=_('Preserve aspect ratio'),
                 variable=self.preserve_aspect,
                 takefocus=False,
                 # command=self._updateScale
@@ -370,6 +372,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
                                    padx=padx, pady=pady)
 
             self._updateAutoScale()
+            size_frame.columnconfigure(0, weight=1)
 
         #
         left_frame.rowconfigure(0, weight=1)

@@ -379,6 +379,23 @@ class TripleRussianSolitaire(TripleYukon):
 
 
 # ************************************************************************
+# * Quadruple Yukon
+# ************************************************************************
+
+class QuadrupleYukon(Yukon):
+    def createGame(self):
+        Yukon.createGame(self, rows=16, playcards=34)
+
+    def startGame(self):
+        for i in range(1, len(self.s.rows)):
+            self.s.talon.dealRow(rows=self.s.rows[i:], flip=0, frames=0)
+        self.s.talon.dealRow(rows=self.s.rows[1:13], flip=1, frames=0)
+        for i in range(4):
+            self.s.talon.dealRow(rows=self.s.rows[1:], flip=1, frames=0)
+        self._startAndDealRow()
+
+
+# ************************************************************************
 # * Ten Across
 # ************************************************************************
 
@@ -896,3 +913,5 @@ registerGame(GameInfo(925, YukonCells, "Yukon Cells",
                       GI.GT_YUKON, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(936, YukonKings, "Yukon Kings",
                       GI.GT_YUKON, 1, 0, GI.SL_BALANCED))
+registerGame(GameInfo(942, QuadrupleYukon, "Quadruple Yukon",
+                      GI.GT_YUKON, 4, 0, GI.SL_BALANCED))

@@ -23,6 +23,7 @@
 
 
 # imports
+import math
 
 # PySol imports
 from pysollib.mfxutil import Struct
@@ -659,11 +660,12 @@ class Layout:
         XS, YS = self.XS, self.YS
 
         decks = self.game.gameinfo.decks
+        fpc = max(1, math.floor(decks / 2))
         suits = len(self.game.gameinfo.suits) + bool(self.game.gameinfo.trumps)
 
         # set size so that at least 2//3 of a card is visible with 20 cards
-        h = CH*2//3 + (playcards-1)*self.YOFFSET
-        h = YM + max(h, suits*YS)
+        h = CH * 2 // 3 + (playcards - 1) * self.YOFFSET
+        h = YM + max(h, suits * YS * fpc)
 
         # create rows
         x, y = XM, YM
@@ -673,9 +675,9 @@ class Layout:
         self.setRegion(self.s.rows, (-999, -999, x - CW // 2, 999999))
 
         # create foundations
-        for suit in range(suits):
-            for i in range(decks):
-                self.s.foundations.append(S(x+i*XS, y, suit=suit))
+        for suit in range(suits * fpc):
+            for i in range(decks // fpc):
+                self.s.foundations.append(S(x + i * XS, y, suit=suit // fpc))
             y += YS
 
         # create talon
@@ -686,7 +688,7 @@ class Layout:
             self._setText(s, 'se')
 
         # set window
-        self.size = (XM + (rows+decks)*XS,  h)
+        self.size = (XM + (rows + (decks // fpc)) * XS,  h)
 
     #
     # Easy layout

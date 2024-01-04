@@ -616,7 +616,7 @@ class ThreeUp(VirginiaReel):
 
 class BlueJacket_RowStack(BasicRowStack):
     def acceptsCards(self, from_stack, cards):
-        return len(self.cards) == 0
+        return len(self.cards) == 0 and len(cards) == 1
 
 
 class BlueJacket(VirginiaReel):

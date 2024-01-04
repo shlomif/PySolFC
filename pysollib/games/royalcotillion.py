@@ -1355,6 +1355,138 @@ class TwilightZone(Game):
     shallHighlightMatch = Game._shallHighlightMatch_AC
 
 
+# ************************************************************************
+# * Rosamund's Bower
+# ************************************************************************
+
+class RosamundsBower_Talon(WasteTalonStack):
+    def _redeal(self):
+        game, num_cards = self.game, len(self.cards)
+        if len(self.waste.cards) > 0:
+            game.moveMove(1, self.waste, game.s.reserves[3], frames=2)
+        rows = list(game.s.reserves)[3:6]
+        rows.reverse()
+        for r in rows:
+            while r.cards:
+                num_cards = num_cards + 1
+                game.moveMove(1, r, self, frames=2)
+                if self.cards[-1].face_up:
+                    game.flipMove(self)
+        assert len(self.cards) == num_cards
+        self.game.nextRoundMove(self)
+
+    def canDealCards(self):
+        return (len(self.cards) > 0 or self.round != self.max_rounds) and \
+            (len(self.cards) == 0 or len(self.waste.cards) == 0)
+
+    def dealCards(self, sound=False):
+        if self.cards:
+            return WasteTalonStack.dealCards(self, sound=sound)
+        if sound:
+            self.game.startDealSample()
+        self._redeal()
+        if sound:
+            self.game.stopSamples()
+        return
+
+
+class RosamundsBower_Guards(OpenStack):
+    def canFlipCard(self):
+        return False
+
+
+class RosamundsBower_WasteReserve(ReserveStack):
+    def acceptsCards(self, from_stack, cards):
+        return from_stack == self.game.s.waste
+
+
+class RosamundsBower_KingQueen(OpenStack):
+    def acceptsCards(self, from_stack, cards):
+        return False
+
+    def canMoveCards(self, cards):
+        return len(self.game.s.foundations[0].cards) > 49
+
+
+class RosamundsBower(Game):
+
+    def createGame(self):
+        l, s = Layout(self), self.s
+        self.setSize(l.XM + 7.5 * l.XS, l.YM + l.TEXT_HEIGHT + 5.5 * l.YS)
+
+        # vertical rows
+        x = l.XM + l.XS * 2
+        for i in (0, 1):
+            y = l.YM + l.YS
+            for j in range(2):
+                stack = BasicRowStack(x, y, self)
+                s.rows.append(stack)
+                y += l.YS
+            x += 3 * l.XS
+        # horizontal rows
+        y = l.YM
+        for i in (2, 3):
+            x = l.XM + l.XS * 3
+            for j in range(2):
+                stack = BasicRowStack(x, y, self)
+                s.rows.append(stack)
+                x += l.XS
+            y += 3 * l.YS
+        # Fair Rosamund and the king
+        x, y = l.XM + 6.5 * l.XS, l.YM
+        s.reserves.append(RosamundsBower_KingQueen(x, y, self))
+        x, y = l.XM + 3.5 * l.XS, l.YM + 1.5 * l.YS
+        s.reserves.append(RosamundsBower_KingQueen(x, y, self))
+
+        # Other stacks
+        x, y = l.XM + 6.5 * l.XS, l.YM + l.YS
+        s.reserves.append(RosamundsBower_Guards(x, y, self))
+        l.createText(s.reserves[2], 's')
+
+        x, y = l.XM, l.YM + 3 * l.YS
+        s.foundations.append(RK_FoundationStack(x, y, self,
+                                                dir=-1, max_cards=52,
+                                                mod=13))
+        y = l.YM + 4.5 * l.YS
+        s.talon = RosamundsBower_Talon(x, y, self, max_rounds=4)
+        l.createText(s.talon, 's')
+        l.createRoundText(self.s.talon, 'n')
+        x += l.XS
+        s.waste = WasteStack(x, y, self)
+        l.createText(s.waste, 's')
+        x += .5 * l.XS
+
+        for i in range(3):
+            x += l.XS
+            s.reserves.append(RosamundsBower_WasteReserve(x, y, self,
+                                                          max_cards=52))
+
+        l.defaultStackGroups()
+
+    def startGame(self):
+        self.s.talon.dealRow(rows=self.s.foundations, frames=0)
+        self.s.talon.dealRow(rows=self.s.reserves[:2], frames=0)
+        for i in range(7):
+            self.s.talon.dealRow(rows=[self.s.reserves[2]], frames=0, flip=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+        self.s.talon.dealCards()
+
+    def fillStack(self, stack):
+        if not stack.cards and stack in self.s.rows:
+            if self.s.reserves[2].cards:
+                old_state = self.enterState(self.S_FILL)
+                self.s.reserves[2].flipMove()
+                self.s.reserves[2].moveMove(1, stack)
+                self.leaveState(old_state)
+
+    def _shuffleHook(self, cards):
+        # move Fair Rosamund, the king, and the knave to the top of
+        # the deck.
+        return self._shuffleHookMoveToTop(
+            cards, lambda c: (c.id in (23, 37, 25), c.id), 3)
+
+
 # register the game
 registerGame(GameInfo(54, RoyalCotillion, "Royal Cotillion",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_LUCK,
@@ -1405,3 +1537,6 @@ registerGame(GameInfo(748, TwilightZone, "Twilight Zone",
                       GI.GT_2DECK_TYPE, 2, 1, GI.SL_BALANCED))
 registerGame(GameInfo(752, Reserves, "Reserves",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED))
+registerGame(GameInfo(943, RosamundsBower, "Rosamund's Bower",
+                      GI.GT_1DECK_TYPE, 1, 3, GI.SL_BALANCED,
+                      altnames=("Rosamund",)))

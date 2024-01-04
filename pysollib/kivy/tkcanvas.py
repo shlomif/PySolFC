@@ -476,6 +476,11 @@ class MfxCanvasLine(object):
 
     def delete_deferred(self, seconds):
         # print('MfxCanvasLine: delete_deferred(%s)' % seconds)
+        from kivy.animation import Animation
+        z = 0
+        t = 'in_expo'
+        anim = Animation(opacity=z, t=t, d=seconds/1.5)
+        anim.start(self.line)
         Clock.schedule_once(lambda dt: self.delete(), seconds)
 
     def delete(self):
@@ -783,11 +788,18 @@ class MfxCanvas(LImage):
     def tag_raise(self, itm, abitm=None):
         # print('MfxCanvas: tag_raise, itm=%s, aboveThis=%s' % (itm, abitm))
 
+        def findTop(itm):
+            t = type(itm)
+            for c in self.children:
+                if type(c) is t:
+                    return self.children.index(c)
+            return 0
+
         if (itm is not None):
             if (abitm is None):
                 # print('MfxCanvas: tag_raise: to top')
                 self.remove_widget(itm)
-                self.add_widget(itm)
+                self.add_widget(itm, index=findTop(itm))
             else:
                 # print('MfxCanvas: tag_raise: to specified position')
                 self.remove_widget(itm)

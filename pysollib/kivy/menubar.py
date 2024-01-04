@@ -523,7 +523,7 @@ class AssistMenuDialog(LMenuDialog):
         #   text='Find Card', command=self.menubar.mFindCard))
 
         tv.add_node(LTreeNode(
-            text=_('Demo'), command=self.menubar.mDemo))
+            text=_('Demo'), command=self.auto_close(self.menubar.mDemo)))
 
         # -------------------------------------------
         # TBD. How ?

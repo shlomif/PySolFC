@@ -180,12 +180,22 @@ def unbind_destroy(widget):
 # * timer wrapper - Tkinter doesn't properly delete all commands
 # ************************************************************************
 
-
 def after(widget, ms, func, *args):
     # print('tkutil: after(%s, %s, %s, %s)' % (widget, ms, func, args))
     if (ms == 'idle'):
         print('demo use')
-        Clock.schedule_once(lambda dt: func(), 1.0)
+
+        def mkcb(func):
+            def cb():
+                Clock.schedule_once(lambda dt: func(), 0.5)
+            return cb
+
+        from pysollib.kivy.LApp import LAnimationManager
+        if LAnimationManager.checkRunning():
+            # run after animation terminated
+            LAnimationManager.addEndCallback(mkcb(func))
+        else:
+            Clock.schedule_once(lambda dt: func(), 0.5)
     elif (isinstance(ms, int)):
         # print('ms: play timer (accounting)')
         # Clock.schedule_once(lambda dt: func(), float(ms)/1000.0)

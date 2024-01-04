@@ -500,7 +500,6 @@ class Zeus(MountOlympus):
 # * Big Parade
 # ************************************************************************
 
-
 class RoyalParade_TableauStack(PictureGallery_TableauStack):
 
     def _canSwapPair(self, from_stack):
@@ -566,6 +565,7 @@ class BigParade(RoyalParade):
 # ************************************************************************
 # * Virginia Reel
 # * Three Up
+# * Blue Jacket
 # ************************************************************************
 
 class VirginiaReel_Talon(DealRowTalonStack):
@@ -612,6 +612,15 @@ class ThreeUp(VirginiaReel):
 
     def createGame(self):
         VirginiaReel.createGame(self, numstacks=12)
+
+
+class BlueJacket_RowStack(BasicRowStack):
+    def acceptsCards(self, from_stack, cards):
+        return len(self.cards) == 0
+
+
+class BlueJacket(VirginiaReel):
+    RowStack_Class = StackWrapper(BlueJacket_RowStack, max_accept=1)
 
 
 # ************************************************************************
@@ -726,3 +735,5 @@ registerGame(GameInfo(932, DevilsGrip, "Devil's Grip",
                       GI.SL_MOSTLY_LUCK,
                       ranks=list(range(1, 13))  # without Aces
                       ))
+registerGame(GameInfo(944, BlueJacket, "Blue Jacket",
+                      GI.GT_PICTURE_GALLERY, 2, 0, GI.SL_MOSTLY_SKILL))

@@ -91,12 +91,7 @@ class Images:
         except Exception:
             return None
 
-        if TOOLKIT == 'kivy':
-            w = img.texture.size[0]
-            h = img.texture.size[1]
-        else:
-            w, h = img.width(), img.height()
-
+        w, h = img.width(), img.height()
         if self.CARDW < 0:
             self.CARDW, self.CARDH = w, h
         else:

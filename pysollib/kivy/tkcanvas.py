@@ -35,7 +35,6 @@ from kivy.uix.anchorlayout import AnchorLayout
 
 from pysollib.kivy.LApp import LAnimationManager
 from pysollib.kivy.LApp import LColorToKivy
-from pysollib.kivy.LApp import LColorToLuminance
 from pysollib.kivy.LApp import LImageItem
 from pysollib.kivy.LApp import LLine
 from pysollib.kivy.LApp import LRectangle
@@ -856,8 +855,10 @@ class MfxCanvas(LImage):
         # color. We do not support that. Instead of this wie examine
         # the background and set the color accordingly.
         if self._bg_img is not None:
-            lumi = self._bg_img.luminance()
+            from pysollib.kivy.LApp import LTextureToLuminance
+            lumi = LTextureToLuminance(self._bg_img.texture)
         else:
+            from pysollib.kivy.LApp import LColorToLuminance
             lumi = LColorToLuminance(self._bg_color)
 
         self._text_color = ("#000000", "#ffffff")[lumi < 0.4]
@@ -868,7 +869,8 @@ class MfxCanvas(LImage):
         # print('setTile: %s, %s, %s' % (image, stretch, save_aspect))
         if image:
             try:
-                self._bg_img = LImage(source=image)
+                from pysollib.kivy.tkutil import LImageInfo
+                self._bg_img = LImageInfo(image)
                 self._stretch_bg_image = stretch
                 self._save_aspect_bg_image = save_aspect
                 self.update_widget(self.pos, self.size)

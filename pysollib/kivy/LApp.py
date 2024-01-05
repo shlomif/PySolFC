@@ -270,6 +270,25 @@ def LColorToLuminance(color):
 # =============================================================================
 
 
+def LTextureToLuminance(texture):
+    b = texture.pixels
+    s = 4
+    n = len(b)/1000
+    if n > 4:
+        s = n - n % 4
+    n = 0
+    ll = 0
+    for i in range(0, len(b), int(s)):
+        rr = int.from_bytes(b[i:i+1], byteorder='big', signed=False) / 256.0  # noqa
+        gg = int.from_bytes(b[i+1:i+2], byteorder='big', signed=False) / 256.0  # noqa
+        bb = int.from_bytes(b[i+2:i+3], byteorder='big', signed=False) / 256.0  # noqa
+        ll = ll + LColorToLuminance([rr, gg, bb, 1])
+        n += 1
+    return (ll/n)
+
+# =============================================================================
+
+
 def LColorToKivy(outline):
     if (outline[0] == '#'):
         outline = outline[1:]

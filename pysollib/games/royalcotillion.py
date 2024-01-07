@@ -1486,6 +1486,11 @@ class RosamundsBower(Game):
         return self._shuffleHookMoveToTop(
             cards, lambda c: (c.id in (23, 37, 25), c.id), 3)
 
+    def _autoDeal(self, sound=True):
+        # only autodeal if there are cards in the talon.
+        if len(self.s.talon.cards) > 0:
+            return Game._autoDeal(self, sound=sound)
+
 
 # register the game
 registerGame(GameInfo(54, RoyalCotillion, "Royal Cotillion",

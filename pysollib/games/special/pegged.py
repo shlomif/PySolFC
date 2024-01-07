@@ -290,6 +290,11 @@ class PeggedStar(PeggedTriangle1):
     ROWS = (1, 4, 3, 4, 1)
 
 
+class PeggedHexagon(PeggedTriangle1):
+    EMPTY_STACK_ID = 30
+    ROWS = (5, 6, 7, 8, 9, 8, 7, 6, 5)
+
+
 # ************************************************************************
 # * register the games
 # ************************************************************************
@@ -317,4 +322,5 @@ r(210, PeggedTriangle1, "Pegged Triangle 1")
 r(211, PeggedTriangle2, "Pegged Triangle 2")
 r(839, PeggedDiamond, "Pegged Diamond")
 r(840, PeggedStar, "Pegged Star")
+r(945, PeggedHexagon, "Pegged Hexagon")
 del r

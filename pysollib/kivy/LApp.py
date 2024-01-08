@@ -80,12 +80,23 @@ def get_menu_size_hint():
 # =============================================================================
 
 
+def set_fullscreen(fullscreen=True):
+    if get_platform() == 'android':
+        from jnius import autoclass
+    else:
+        return
+
+    SDLActivity = autoclass('org.libsdl.app.SDLActivity')
+    SDLActivity.setWindowStyle(fullscreen)
+
+# =============================================================================
+
+
 def get_screen_ori():
     if get_platform() == 'android':
         from jnius import autoclass
         from jnius import cast
     else:
-        logging.info("LApp: ori = unknown")
         return None
 
     PythonActivity = autoclass('org.kivy.android.PythonActivity')
@@ -1592,6 +1603,7 @@ class LMainWindow(BoxLayout, LTkBase):
         self.bind(size=self.update_rect)
 
     def update_rect(self, *args):
+        self.pos = (0, 0)
         self.rect.pos = self.pos
         self.rect.size = self.size
 
@@ -1811,13 +1823,13 @@ class LApp(App):
                 self.rect.pos = self.pos
                 self.rect.size = self.size
 
-        self.startLabel = MyLabel(text="starting ...", color=[0.9,0.9,0.9,1]) # noqa
+        self.startLabel = MyLabel(text="PySolFC", color=[0.9,0.9,0.9,1]) # noqa
         self.baseWindow.add_widget(self.startLabel)
+
         return self.baseWindow
 
-    def app_start(self, dt):
+    def app_start(self, *args):
         logging.info("LApp: app_start")
-
         logging.info('top = %s' % str(self.baseWindow))
 
         self.mainWindow = LMainWindow()
@@ -1843,33 +1855,70 @@ class LApp(App):
         self.mainloop.send(None)             # Spielprozess starten
         logging.info("LApp: app_start processed, returned to kivy mainloop")
 
+        self.baseWindow.add_widget(self.mainWindow,index=1) # noqa
+        anim = Animation(opacity=0,duration=0.5) # noqa
+        anim.start(self.startLabel)
         Clock.schedule_once(lambda dt:
-            self.baseWindow.add_widget(self.mainWindow,index=1),0.1)  # noqa
-        Clock.schedule_once(lambda dt:
-            self.baseWindow.remove_widget(self.startLabel),0.2)  # noqa
+            self.baseWindow.remove_widget(self.startLabel),1.0)  # noqa
+        Clock.schedule_once(lambda dt: set_fullscreen(True),2.0) # noqa
 
     def on_start(self):
         logging.info("LApp: on_start")
 
-        Window.update_viewport()
+        # Window.update_viewport()
         # There is still a black screen gap between android splash
         # and displayed app window. But seems to depend on the device
         # used. There are actual discussions running on that. Some
         # suggest its a SDL2 issue.
 
-        self.app_start(0)
+        debug = False
+        if debug:
+            # Investigation of the black screen gap on start.
+            # For testing we introduce a button. The app will start
+            # when the button is pressed.
+
+            # It gets more and more clear that the black screen is
+            # screen refresh problem. only arising, when in buildozer.spec
+            # fullscreen = 1 is set.
+            # Without fullscreen, Initialisation works perfectly and
+            # the start button is displayed right after the splash has been
+            # removed.
+            # In fullscreen mode the button is still there but not
+            # visible. It can be pressed to start the app.
+            # When the (black) device is rotated the button is displayed
+            # because this initiates a screen refresh.
+            # In the SDLActivity there are interface functions available.
+            # One of these allows to switch between normal and fullscreen.
+            # If this function is used, then the complete behaviour of
+            # fullscreen is much better. Fullscreen is stable
+            # this way and does not switch back occasionally.
+
+            # The result of that investigation is:
+            # - App will now be built with fullscreen = 0 in buildozer.spec
+            # - Fullscreen is switched on at runtime after the app has fully
+            #   started using the SDLActivity command.
+
+            from kivy.uix.button import Button
+            self.mybutton = Button(text='startbutton')
+            def addbutton(dt):  # noqa
+                self.baseWindow.add_widget(self.mybutton)
+            def delaystart(*args): # noqa
+                self.baseWindow.remove_widget(self.mybutton)
+                Clock.schedule_once(self.app_start, 0.5)
+            self.mybutton.bind(on_press=delaystart)
+            Clock.schedule_once(addbutton, 1.5)
+        else:
+            Clock.schedule_once(self.app_start, 0.0)
+            # self.app_start(0)
 
         # Android: Request missing android permissions.
         requestStoragePerm()
         logging.info("LApp: on_start processed")
+
         # NOTE: The Kivy Eventloop starts after this call
         # to process input and events. (NOT EARLIER!). This is
         # also the point, where the android splash screen will be
         # removed.
-        # Maybe this helps for the black screen gap?:
-        Clock.schedule_once(lambda dt: Window.update_viewport(), 0.1)
-        Clock.schedule_once(lambda dt: Window.update_viewport(), 0.5)
-        Clock.schedule_once(lambda dt: Window.update_viewport(), 1.0)
 
     def on_stop(self):
         # Achtung wird u.U. 2 mal aufgerufen !!!
@@ -1959,13 +2008,13 @@ class LApp(App):
         # für hintrgrund und resume. Diese funktioneren gemäss logcat
         # einwandfrei. Daher versuchen wir ... um den graphik context
         # wieder zu aktivieren/auszurichten:
-        Clock.schedule_once(lambda dt: Window.update_viewport(), 0.2)
-        # fazit: schwarzer screen trotzdem gelegentlich wieder beobachtet.
-        Clock.schedule_once(lambda dt: self.mainWindow.rebuildContainer(), 0.4)
+
+        Clock.schedule_once(lambda dt: self.mainWindow.rebuildContainer(), 1.0)
+        Clock.schedule_once(lambda dt: set_fullscreen(True),2.0) # noqa
 
         # Pause modus abschalten nach resume:
         if app.game.pause:
-            Clock.schedule_once(self.makeEndPauseCmd(app), 2.0)
+            Clock.schedule_once(self.makeEndPauseCmd(app), 3.0)
 
     def makeEndPauseCmd(self, app):
         def endPauseCmd(dt):

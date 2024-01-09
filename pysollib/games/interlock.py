@@ -28,11 +28,14 @@ from pysollib.layout import Layout
 from pysollib.stack import \
         AC_RowStack, \
         InitialDealTalonStack, \
+        ReserveStack, \
         SS_FoundationStack, \
         StackWrapper, \
+        SuperMoveAC_RowStack, \
         WasteStack, \
         WasteTalonStack, \
-        Yukon_AC_RowStack
+        Yukon_AC_RowStack, \
+        getNumberOfFreeStacks
 from pysollib.util import ANY_RANK, KING
 
 
@@ -41,17 +44,17 @@ from pysollib.util import ANY_RANK, KING
 # ************************************************************************
 
 class Interlock_StackMethods:
-    STEP = (9, 9, 9, 9, 9, 9, 9, 9, 9,
-            10, 10, 10, 10, 10, 10, 10, 10, 10, 10)
+    STEP = ((9, 10), (9, 10), (9, 10), (9, 10), (9, 10),
+            (9, 10), (9, 10), (9, 10), (9, 10),
+            (10, 11), (10, 11), (10, 11), (10, 11), (10, 11),
+            (10, 11), (10, 11), (10, 11), (10, 11), (10, 11))
 
     def basicIsBlocked(self):
         r, step = self.game.s.rows, self.STEP
-        i, n, mylen = self.id, 1, len(step)
-        while i < mylen:
-            i = i + step[i]
-            n = n + 1
-            for j in range(i, i + n):
-                if r[j].cards:
+        i, mylen = self.id, len(step)
+        if i < mylen:
+            for j in step[i]:
+                if r[j + i].cards:
                     return True
         return False
 
@@ -61,13 +64,11 @@ class Interlock_StackMethods:
                 or not self.cards[0].face_up:
             return False
         r, step = self.game.s.rows, self.STEP
-        i, n, mylen = self.id, 1, len(step)
-        while i < mylen:
-            i = i + step[i]
-            n = n + 1
-            for j in range(i, i + n):
-                if r[j].cards:
-                    if r[j] != other_stack:
+        i, mylen = self.id, len(step)
+        if i < mylen:
+            for j in step[i]:
+                if r[j + i].cards:
+                    if r[j + i] != other_stack:
                         return False
         return True
 
@@ -86,7 +87,7 @@ class Interlock_StackMethods:
 
 class Interlock_RowStack(Interlock_StackMethods, AC_RowStack):
     def acceptsCards(self, from_stack, cards):
-        if len(self.cards) == 0 and self.id > self.STEP[0] - 1:
+        if len(self.cards) == 0 and self.id > self.STEP[0][0] - 1:
             return False
         if (self.isDropdownMove(from_stack) and
                 len(cards) == len(from_stack.cards)):
@@ -107,8 +108,9 @@ class Interlock(Game):
 
     def createGame(self):
         lay, s = Layout(self), self.s
-        self.setSize((max(self.MAX_ROWS, 7) * lay.XS) + lay.XM,
-                     (2.5 * lay.YS) + (self.PLAYCARDS * lay.YOFFSET) + lay.YM)
+        w = (max(self.MAX_ROWS, 7) * lay.XS) + lay.XM
+        h = (2.5 * lay.YS) + (self.PLAYCARDS * lay.YOFFSET) + lay.YM
+        self.setSize(w, h)
 
         self.min_rows = self.MAX_ROWS - 2
         gap = max(7, self.MAX_ROWS) - self.min_rows
@@ -202,7 +204,7 @@ class LoveADuck(Interlock):
 # ************************************************************************
 
 class Guardian_RowStack(Interlock_RowStack):
-    STEP = (3, 3, 3, 4, 4, 4, 4)
+    STEP = ((3, 4), (3, 4), (3, 4), (4, 5), (4, 5), (4, 5), (4, 5))
 
 
 class Guardian(Interlock):
@@ -218,10 +220,91 @@ class Guardian(Interlock):
         self.s.talon.dealCards()  # deal first card to WasteStack
 
 
+# ************************************************************************
+# * Sarlacc
+# ************************************************************************
+
+class Sarlacc_RowStack(Interlock_StackMethods, SuperMoveAC_RowStack):
+    STEP = ((10, 11), (10, 11), (10, 11), (10, 11), (10, 11),
+            (10, 11), (10, 11), (10, 11), (10, 11), (10, 11),
+            (11,), (10, 11), (10, 11), (10, 11), (10, 11), (10, 11),
+            (10, 11), (10, 11), (10, 11), (10, 11), (10,),
+            (10, 11), (10, 11), (10, 11), (10, 11), (10, 11),
+            (10, 11), (10, 11), (10, 11), (10, 11), (10, 11),
+            (11,), (10, 11), (10, 11), (10, 11), (10, 11), (10, 11),
+            (10, 11), (10, 11), (10, 11), (10, 11), (10,))
+
+    def acceptsCards(self, from_stack, cards):
+        if len(self.cards) == 0 and self.id > 9:
+            return False
+        if (self.isDropdownMove(from_stack) and
+                len(cards) == len(from_stack.cards)):
+            return self.dropdownAcceptsCards(cards)
+
+        return SuperMoveAC_RowStack.acceptsCards(self, from_stack, cards)
+
+    def _getMaxMove(self, to_stack_ncards):
+        max_move = getNumberOfFreeStacks(self.game.s.reserves) + 1
+        if self.cap.base_rank != ANY_RANK:
+            return max_move
+        n = getNumberOfFreeStacks(self.game.s.rows[:10])
+        if to_stack_ncards == 0:
+            n -= 1
+        return max_move << max(n, 0)
+
+
+class Sarlacc(Interlock):
+    RowStack_Class = Sarlacc_RowStack
+
+    MAX_ROWS = 11
+    PLAYCARDS = 13
+
+    def createGame(self):
+        lay, s = Layout(self), self.s
+        w = (11 * lay.XS) + lay.XM
+        h = (4.5 * lay.YS) + (self.PLAYCARDS * lay.YOFFSET) + lay.YM
+        self.setSize(w, h)
+
+        self.min_rows = self.MAX_ROWS - 2
+        # create stacks
+        for i in range(5):
+            if i % 2 == 0:
+                x = lay.XM + lay.XS // 2
+            else:
+                x = lay.XM
+
+            y = lay.YM + lay.YS + i * lay.YS // 4
+            for j in range(10 + (i % 2)):
+                s.rows.append(self.RowStack_Class(x, y, self))
+                x = x + lay.XS
+
+        x, y = lay.XM, h - lay.YS
+        s.talon = InitialDealTalonStack(x, y, self)
+
+        x, y = lay.XM, lay.YM
+        for i in range(6):
+            s.reserves.append(ReserveStack(x, y, self))
+            x += lay.XS
+
+        for i in range(4):
+            x += lay.XS
+            s.foundations.append(SS_FoundationStack(x, y, self, i,
+                                                    mod=13, max_move=0))
+
+        lay.defaultStackGroups()
+
+    def startGame(self):
+        self.startDealSample()
+        self.s.talon.dealRow(rows=self.s.rows[:42], flip=1, frames=0)
+        self.s.talon.dealRow(rows=self.s.rows[42:])
+
+
 # register the game
 registerGame(GameInfo(852, Guardian, "Guardian",
                       GI.GT_KLONDIKE, 1, -1, GI.SL_BALANCED))
 registerGame(GameInfo(938, Interlock, "Interlock",
                       GI.GT_KLONDIKE | GI.GT_ORIGINAL, 1, -1, GI.SL_BALANCED))
 registerGame(GameInfo(939, LoveADuck, "Love a Duck",
-                      GI.GT_YUKON | GI.GT_OPEN, 1, 0, GI.SL_BALANCED))
+                      GI.GT_YUKON | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(946, Sarlacc, "Sarlacc",
+                      GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))

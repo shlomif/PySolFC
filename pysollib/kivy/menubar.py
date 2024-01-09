@@ -28,6 +28,7 @@ import re
 
 from kivy.cache import Cache
 from kivy.clock import Clock
+from kivy.core.window import Window
 
 from pysollib.gamedb import GI
 from pysollib.kivy.LApp import LMenu
@@ -1153,24 +1154,24 @@ class LOptionsMenuGenerator(LTreeGenerator):
             self.addRadioNode(tv, rg,
                               _('Hide'),
                               self.menubar.tkopt.toolbar, 0,
-                              self.menubar.mOptToolbar)
+                              self.menubar.setToolbarPos)
 
             self.addRadioNode(tv, rg,
                               _('Top'),
                               self.menubar.tkopt.toolbar, 1,
-                              self.menubar.mOptToolbar)
+                              self.menubar.setToolbarPos)
             self.addRadioNode(tv, rg,
                               _('Bottom'),
                               self.menubar.tkopt.toolbar, 2,
-                              self.menubar.mOptToolbar)
+                              self.menubar.setToolbarPos)
             self.addRadioNode(tv, rg,
                               _('Left'),
                               self.menubar.tkopt.toolbar, 3,
-                              self.menubar.mOptToolbar)
+                              self.menubar.setToolbarPos)
             self.addRadioNode(tv, rg,
                               _('Right'),
                               self.menubar.tkopt.toolbar, 4,
-                              self.menubar.mOptToolbar)
+                              self.menubar.setToolbarPos)
 
             rg1 = tv.add_node(
                 LTreeNode(text=_('Visible buttons')), rg)
@@ -1406,24 +1407,20 @@ class DictObjMap(object):
 class PysolMenubarTk:
     def __init__(self, app, top, progress=None):
         print('PysolMenubarTk: __init__()')
+        self.top = top
+        self.app = app
+
         self._createTkOpt()
         self._setOptions()
-        # init columnbreak
-#        self.__cb_max = int(self.top.winfo_screenheight()/23)
+
         self.__cb_max = 8
-#         sh = self.top.winfo_screenheight()
-#         self.__cb_max = 22
-#         if sh >= 600: self.__cb_max = 27
-#         if sh >= 768: self.__cb_max = 32
-#         if sh >= 1024: self.__cb_max = 40
         self.progress = progress
+
         # create menus
         self.__menubar = None
         self.__menupath = {}
         self.__keybindings = {}
         self._createMenubar()
-        self.top = top
-        self.app = app
 
         if self.progress:
             self.progress.update(step=1)
@@ -1506,6 +1503,8 @@ class PysolMenubarTk:
             flip_animation=LBoolWrap(opt, "flip_animation"),
             # toolbar
             toolbar=LNumWrap(opt, "toolbar"),
+            toolbar_land=LNumWrap(opt, "toolbar_land", self.mOptToolbar),
+            toolbar_port=LNumWrap(opt, "toolbar_port", self.mOptToolbar),
             toolbar_style=LStringWrap(opt, "toolbar_style"),
             toolbar_relief=LStringWrap(opt, "toolbar_relief"),
             toolbar_compound=LStringWrap(opt, "toolbar_compound"),
@@ -1552,6 +1551,20 @@ class PysolMenubarTk:
     def _setOptions(self):
         # not supported
         self.tkopt.save_games_geometry.value = False
+        self.getToolbarPos(None, Window.size)
+        Window.bind(size=self.getToolbarPos)
+
+    def getToolbarPos(self, obj, size):
+        if (size[0] > size[1]):
+            self.tkopt.toolbar.value = self.tkopt.toolbar_land.value
+        else:
+            self.tkopt.toolbar.value = self.tkopt.toolbar_port.value
+
+    def setToolbarPos(self, *args):
+        if (Window.size[0] > Window.size[1]):
+            self.tkopt.toolbar_land.value = self.tkopt.toolbar.value
+        else:
+            self.tkopt.toolbar_port.value = self.tkopt.toolbar.value
 
     def connectGame(self, game):
         self.game = game
@@ -2375,7 +2388,7 @@ the next time you restart the %(app)s""") % {'app': TITLE})
         self._mOptCardback(self.app.cardset.backindex + 1)
 
     def mOptToolbar(self, *event):
-        self.setToolbarSide(self.tkopt.toolbar.value)
+        self.app.toolbar.show()
 
     def mOptToolbarStyle(self, *event):
         self.setToolbarStyle(self.tkopt.toolbar_style.value)
@@ -2427,12 +2440,6 @@ the next time you restart the %(app)s""") % {'app': TITLE})
     #
     # toolbar support
     #
-
-    def setToolbarSide(self, side):
-        if self._cancelDrag(break_pause=False):
-            return
-        resize = not self.app.opt.save_games_geometry
-        self.app.toolbar.show(side, resize=resize)
 
     def setToolbarSize(self, size):
         if self._cancelDrag(break_pause=False):

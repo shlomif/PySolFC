@@ -103,6 +103,8 @@ tree_icon_style = string
 tile_theme = string
 default_tile_theme = string
 toolbar = integer(0, 4)
+toolbar_land = integer(0, 4)
+toolbar_port = integer(0, 4)
 toolbar_style = string
 toolbar_relief = string
 toolbar_compound = string
@@ -271,6 +273,8 @@ class Options:
         ('tile_theme', 'str'),
         ('default_tile_theme', 'str'),
         ('toolbar', 'int'),
+        ('toolbar_land', 'int'),
+        ('toolbar_port', 'int'),
         ('toolbar_style', 'str'),
         ('toolbar_relief', 'str'),
         ('toolbar_compound', 'str'),
@@ -374,10 +378,13 @@ class Options:
         self.tree_icon_style = 'remix'
         self.tile_theme = 'default'
         self.default_tile_theme = 'default'
-        self.toolbar = 1       # 0 == hide, 1,2,3,4 == top, bottom, lef, right
+        self.toolbar = 1       # 0 == hide, 1,2,3,4 == top, bottom, left, right
+        # used with 'kivy' version in addition:
+        self.toolbar_land = 4  # (landscape)
+        self.toolbar_port = 2  # (portrait)
+        # 0 == hide,
+        # 1,2,3,4 == top, bottom, left, right
         # self.toolbar_style = 'default'
-        if TOOLKIT == 'kivy':
-            self.toolbar = 4  # 0 == hide, 1,2,3,4 == top, bottom, lef, right
         self.toolbar_style = 'remix'
         self.toolbar_relief = 'flat'
         self.toolbar_compound = 'none'  # icons only

@@ -13,11 +13,11 @@
 import math
 # import inspect
 
+from kivy.core.image import Image as CoreImage
 from kivy.graphics import Color
 from kivy.graphics import Rectangle
 from kivy.properties import ObjectProperty
 from kivy.properties import StringProperty
-from kivy.uix.image import Image as KivyImage
 from kivy.uix.widget import Widget
 
 from pysollib.kivy.LBase import LBase
@@ -144,7 +144,7 @@ class LImage(Widget, LBase):
         self.source = None
         if "source" in kwargs:
             self.source = kwargs["source"]
-            image = KivyImage(source=self.source)
+            image = CoreImage(self.source)
             self.texture = image.texture
 
         # update fit_num from fit_mode (needs self.fit_num defined)
@@ -188,6 +188,8 @@ class LImage(Widget, LBase):
                 self.fit_num = self.FILL
             if fit_mode == "cover":
                 self.fit_num = self.COVER
+            if fit_mode == "scale-down":
+                self.fit_num = self.SCALE_DOWN
             if fit_mode == "scale_down":
                 self.fit_num = self.SCALE_DOWN
             if fit_mode == "tiling":

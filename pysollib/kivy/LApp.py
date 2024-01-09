@@ -210,6 +210,22 @@ LAnimationManager = LAnimationMgr()
 
 # =============================================================================
 
+
+def LAfterAnimation(task, delay=0.0):
+    def dotask():   # noqa
+        Clock.schedule_once(lambda dt: task())
+    def mkcb(task): # noqa
+        def cb(dt):
+            if LAnimationManager.checkRunning():
+                LAnimationManager.addEndCallback(dotask)
+            else:
+                dotask()
+        return cb
+    Clock.schedule_once(mkcb(task), delay)
+
+# =============================================================================
+
+
 LSoundLoader = SoundLoader
 
 # =============================================================================
@@ -1629,16 +1645,13 @@ class LMainWindow(BoxLayout, LTkBase):
         print("touches cnt = ",len(self.touches))
         '''
         # multiclick detection
-        '''
+
         if touch.is_double_tap:
             # print('Touch is a double tap !')
             # print(' - interval is', touch.double_tap_time)
             # print(' - distance betw. previous is', touch.double_tap_distance)
-            # test the functions of Android back key
-            ret = self.processAndroidBack()
-            if (ret):
-                return ret
-        '''
+            AndroidScreenRotation.unlock()
+
         '''
         if touch.is_triple_tap:
             print('Touch is a triple tap !')
@@ -1736,8 +1749,8 @@ class LMainWindow(BoxLayout, LTkBase):
             self.workContainer.add_widget(w[1])
 
     def rebuildContainer(self):
-        self.removeContainer()
-        self.buildContainer()
+        LAfterAnimation(self.removeContainer)
+        LAfterAnimation(self.buildContainer)
 
     def pushWork(self, key, widget):
         if (widget):

@@ -23,11 +23,11 @@ import os
 
 from kivy.cache import Cache
 from kivy.clock import Clock
+from kivy.core.image import Image as CoreImage
 from kivy.core.window import Window
 from kivy.properties import BooleanProperty
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.image import Image as KivyImage
 
 # PySol kivy imports
 from pysollib.kivy.LBase import LBase
@@ -39,10 +39,10 @@ from pysollib.mygettext import _, n_  # noqa
 from pysollib.util import IMAGE_EXTENSIONS
 from pysollib.winsystems import TkSettings
 
-
 # ************************************************************************
 
-class MyButtonBase(ButtonBehavior, KivyImage, LBase):
+
+class MyButtonBase(ButtonBehavior, LImage, LBase):
     shown = BooleanProperty(True)
     enabled = BooleanProperty(True)
     config = BooleanProperty(True)
@@ -58,8 +58,10 @@ class MyButtonBase(ButtonBehavior, KivyImage, LBase):
         self.name = ""
         if ('name' in kwargs):
             self.name = kwargs['name']
-        self.source = self.src
-        self.allow_stretch = True
+
+        image = CoreImage(self.src)
+        self.texture = image.texture
+        self.fit_mode = "contain"
 
     def set_enabled(self, instance, value):
         # print ('** set enabled (',self.name ,') called', value)
@@ -75,10 +77,11 @@ class MyButton(MyButtonBase):
         super(MyButton, self).__init__(**kwargs)
 
     def on_press(self):
-        self.allow_stretch = False
+        self.fit_mode = "scale-down"
+        pass
 
     def on_release(self):
-        self.allow_stretch = True
+        self.fit_mode = "contain"
         if (self.command is not None):
             self.command()
 
@@ -100,9 +103,9 @@ class MyCheckButton(MyButtonBase):
 
     def updateState(self, obj, val):
         if (val):
-            self.allow_stretch = False
+            self.fit_mode = "scale-down"
         else:
-            self.allow_stretch = True
+            self.fit_mode = "contain"
 
     def isChecked(self):
         return self.checked
@@ -125,12 +128,12 @@ class MyCheckButton(MyButtonBase):
         # mb = self.win.app.menubar
 
         if game.pause:
-            self.allow_stretch = True
+            self.fit_mode = "contain"
             self.checked = False
             if (self.command is not None):
                 self.command()
         else:
-            self.allow_stretch = False
+            self.fit_mode = "scale-down"
             self.checked = True
             if (self.command is not None):
                 self.command()
@@ -151,7 +154,7 @@ class MyToastButton(MyButtonBase):
             self.command()
 
     def on_press(self):
-        self.allow_stretch = False
+        self.fit_mode = "scale-down"
         text = ""
         if self.name == "new":
             text = _("New game")
@@ -163,7 +166,7 @@ class MyToastButton(MyButtonBase):
                    hook=self.exec_command)
 
     def on_release(self):
-        self.allow_stretch = True
+        self.fit_mode = "contain"
 
 
 class MyWaitButton(MyButtonBase):
@@ -196,12 +199,12 @@ class MyWaitButton(MyButtonBase):
         Clock.schedule_once(self.okstart, 0.1)
 
     def on_press(self):
-        self.allow_stretch = False
+        self.fit_mode = "scale-down"
         self.eventId = Clock.schedule_once(self.holdend, self.timeout)
         self.make_toast(_("hold on ..."))
 
     def on_release(self):
-        self.allow_stretch = True
+        self.fit_mode = "contain"
         if self.eventId is not None:
             Clock.unschedule(self.eventId)
         self.clear_toast()
@@ -299,22 +302,26 @@ class PysolToolbarTk(BoxLayout):
     def doResize(self, *args):
         self.show(True)
 
-    def show(self, on, **kw):
-        side = self.menubar.tkopt.toolbar.value
+    def show(self, on=0, **kw):
+
+        landscape = Window.width/Window.height > 1.0
+        if landscape:
+            side = self.menubar.tkopt.toolbar_land.value
+        else:
+            side = self.menubar.tkopt.toolbar_port.value
+
         self.win.setTool(None, side)
 
         # size_hint dependent on screen orientation:
-        asp = Window.width/Window.height
-
         if side in [1, 2]:
             self.orientation = "horizontal"
-            if asp > 1.0:
+            if landscape:
                 self.size_hint = (1.0, 0.09)
             else:
                 self.size_hint = (1.0, 0.06)
         else:
             self.orientation = "vertical"
-            if asp > 1.0:
+            if landscape:
                 self.size_hint = (0.06, 1.0)
             else:
                 self.size_hint = (0.09, 1.0)

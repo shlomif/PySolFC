@@ -31,7 +31,6 @@ import logging
 import os
 from array import array
 
-from kivy.clock import Clock
 from kivy.core.image import Image as CoreImage
 from kivy.core.text import Label as CoreLabel
 from kivy.graphics.texture import Texture
@@ -179,22 +178,16 @@ def unbind_destroy(widget):
 # * timer wrapper - Tkinter doesn't properly delete all commands
 # ************************************************************************
 
+
 def after(widget, ms, func, *args):
     # print('tkutil: after(%s, %s, %s, %s)' % (widget, ms, func, args))
-    if (ms == 'idle'):
+    if (ms == 'demo'):
         print('demo use')
 
-        def mkcb(func):
-            def cb():
-                Clock.schedule_once(lambda dt: func(), 0.5)
-            return cb
+        from pysollib.kivy.LApp import LAfterAnimation
+        LAfterAnimation(func, 0.6)
+        return
 
-        from pysollib.kivy.LApp import LAnimationManager
-        if LAnimationManager.checkRunning():
-            # run after animation terminated
-            LAnimationManager.addEndCallback(mkcb(func))
-        else:
-            Clock.schedule_once(lambda dt: func(), 0.5)
     elif (isinstance(ms, int)):
         # print('ms: play timer (accounting)')
         # Clock.schedule_once(lambda dt: func(), float(ms)/1000.0)
@@ -203,8 +196,9 @@ def after(widget, ms, func, *args):
 
 
 def after_idle(widget, func, *args):
-    # print('tkutil: after_idle()')
-    return after(widget, "idle", func, *args)
+    # NOTE: This is called from the core in demo mode only.
+    # 'func' executes the next step in the game.
+    return after(widget, "demo", func, *args)
 
 
 def after_cancel(t):

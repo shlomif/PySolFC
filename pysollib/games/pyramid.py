@@ -888,6 +888,16 @@ class EightCards_RowStack(Elevens_RowStack):
 
         return False
 
+    # second selection to reserves stack: should also move the
+    # pair - not ?
+    def moveMove(self, ncards, to_stack, frames=-1, shadow=-1):
+        if to_stack in self.game.s.rows + self.game.s.reserves:
+            self._dropPairMove(ncards, to_stack, frames=-1, shadow=shadow)
+        else:
+            self.game.moveMove(ncards, self, to_stack,
+                               frames=frames, shadow=shadow)
+            self.fillStack()
+
 
 class EightCards_Foundation(AbstractFoundationStack):
     def acceptsCards(self, from_stack, cards):
@@ -899,6 +909,7 @@ class EightCards_Foundation(AbstractFoundationStack):
 
 class EightCards_Talon(AutoDealTalonStack):
     def canDealCards(self):
+        if len(self.cards) < 1: return False    # noqa E701
         return self.game.draws > 0 and len(self.game.s.reserves[0].cards) < 1
 
     def dealCards(self, sound=False):

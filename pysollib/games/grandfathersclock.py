@@ -534,7 +534,11 @@ class Clock_RowStack(RK_RowStack):
 
         for i in range(ncards):
             game.moveMove(n, other_stack, swap, frames=0)
-        game.moveMove(n, self, other_stack, frames=0)
+        from pysollib.settings import TOOLKIT
+        if TOOLKIT == 'kivy':
+            game.moveMove(n, self, other_stack, frames=-1)
+        else:
+            game.moveMove(n, self, other_stack, frames=0)
         if ncards > 0:
             for i in range(ncards):
                 game.moveMove(n, swap, other_stack, frames=0)

@@ -26,8 +26,6 @@ from __future__ import division
 
 import logging
 import math
-# import inspect
-
 
 from kivy.clock import Clock
 from kivy.properties import StringProperty
@@ -153,6 +151,7 @@ class MfxCanvasGroup():
     def tkraise(self, position=None):
         # print(self, ' tkraise(', position, ')')
         # Mainly used by Mahjongg game after a move.
+        # import inspect
         # print('stack[1] = ',inspect.stack()[1].frame)
         # print('stack[2] = ',inspect.stack()[2].frame)
 
@@ -191,6 +190,7 @@ class MfxCanvasGroup():
 
     def lower(self, position=None):
         # print(self, ' lower(', position, ')')
+        # import inspect
         # print('stack[1] = ',inspect.stack()[1].frame)
         # print('stack[2] = ',inspect.stack()[2].frame)
 
@@ -280,6 +280,7 @@ class MfxCanvasImage(object):
 
         # animation mode support:
         self.animation = 0
+        self.duration = 0.2
         self.deferred_raises = []
         self.deferred_pos = []
 
@@ -345,6 +346,7 @@ class MfxCanvasImage(object):
         if aboveThis:
             abitm = aboveThis.widget
 
+        # import inspect
         # print('stack[1] = ', inspect.stack()[1].frame)
         # print('stack[2] = ', inspect.stack()[2].frame)
         # print('stack[3] = ', inspect.stack()[3].frame)
@@ -384,6 +386,9 @@ class MfxCanvasImage(object):
         if self.animation == 0:
             image.pos, image.size = self.canvas.CoreToKivy(dpos, dsize)
         else:
+            # Defer to animation. The last position update wins
+            if len(self.deferred_pos) == self.animation:
+                self.deferred_pos = self.deferred_pos[:-1]
             if len(self.deferred_pos) < self.animation:
                 pos, size = self.canvas.CoreToKivy(dpos, dsize)
                 self.deferred_pos.append(pos)
@@ -408,11 +413,40 @@ class MfxCanvasImage(object):
                     p['y'] = (p['y'][0], self.deferred_pos[0][1])
                     # print (p)
                 self.deferred_pos = self.deferred_pos[1:]
+
+            # update z-order (for some specials)
+            while 1:
+                from pysollib.games.grandfathersclock import Clock_RowStack
+                specials = [Clock_RowStack,]
+
+                if self.group is None: break            # noqa
+                stack = self.group.stack
+                if stack is None: break                 # noqa
+                if type(stack) not in specials: break;  # noqa
+
+                cards = self.group.stack.cards
+                card = self.image.card
+                if card is None: break                  # noqa
+                if card == cards[-1]: break             # noqa
+                i = cards.index(card) + 1
+
+                # print('stack =', self.group.stack)
+                # print('cards:', [c.__str__() for c in cards])
+                # print('card =', card)
+                # print('***** adjust z-reordering:',card,'before',cards[i])
+
+                def lower_z(dt):
+                    self.canvas.tag_lower(card.item.image, cards[i].item.image)
+
+                Clock.schedule_once(lower_z, self.duration/2.0)
+                break
+
         return animStart
 
     def makeAnimEnd(self, dpos, dsize):
         def animEnd(anim, widget):
             # print('MfxCanvasImage: animEnd %s' % self)
+
             if self.animation > 0:
                 self.animation -= 1
 
@@ -420,11 +454,15 @@ class MfxCanvasImage(object):
                 # just for the case, keep in sync:
                 self.deferred_raises = []
                 self.deferred_pos = []
+
             # print('MfxCanvasImage: animEnd moved to %s, %s' % (dpos[0], dpos[1])) # noqa
         return animEnd
 
     def animatedMove(self, dx, dy, duration=0.2):
         # print('MfxCanvasImage: animatedMove %s, %s' % (dx, dy))
+        # import inspect
+        # for insi in range(1,9):
+        #     print('stack[insi] = ', inspect.stack()[insi].frame)
 
         image = self.image
         dsize = image.coreSize
@@ -443,6 +481,7 @@ class MfxCanvasImage(object):
             transition = transition1
 
         self.animation += 1
+        self.duration = duration
         ssize = image.coreSize
         spos = (image.corePos[0], image.corePos[1])
         spos, ssize = self.canvas.CoreToKivy(spos, ssize)
@@ -812,7 +851,7 @@ class MfxCanvas(LImage):
             if (belowThis is None):
                 # print('MfxCanvas: tag_lower: to bottom')
                 self.remove_widget(itm)
-                k = len(self.children.index)
+                k = len(self.children)
                 self.add_widget(itm, index=k)
             else:
                 # print('MfxCanvas: tag_lower: to specified position')

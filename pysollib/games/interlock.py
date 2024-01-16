@@ -262,7 +262,7 @@ class Sarlacc(Interlock):
     def createGame(self):
         lay, s = Layout(self), self.s
         w = (11 * lay.XS) + lay.XM
-        h = (4.5 * lay.YS) + (self.PLAYCARDS * lay.YOFFSET) + lay.YM
+        h = (3 * lay.YS) + (self.PLAYCARDS * lay.YOFFSET) + lay.YM
         self.setSize(w, h)
 
         self.min_rows = self.MAX_ROWS - 2

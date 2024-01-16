@@ -1294,6 +1294,9 @@ class PysolMenubarTkCommon:
             if gi:
                 games.append(gi)
         self.updateGamesMenu(submenu, games)
+        submenu.add_separator()
+        submenu.add_command(label=n_("&Clear recent games"),
+                            command=self.mClearRecent)
 
     def updateCustomGamesMenu(self):
         menu = self.menupath[".menubar.select.customgames"][2]
@@ -1397,6 +1400,17 @@ class PysolMenubarTkCommon:
         if gameid in self.app.opt.favorite_gameid:
             self.app.opt.favorite_gameid.remove(gameid)
             self.updateFavoriteGamesMenu()
+
+    def mClearRecent(self, *event):
+        if self._cancelDrag(break_pause=False):
+            return
+        if not self.game.areYouSure(_("Clear recent games"),
+                                    _("Clear the recent games list?")):
+            return
+        gameid = self.app.game.id
+        self.app.opt.recent_gameid = []
+        self.app.opt.recent_gameid.append(gameid)
+        self.updateRecentGamesMenu(self.app.opt.recent_gameid)
 
     def mOpen(self, *event):
         if self._cancelDrag(break_pause=False):

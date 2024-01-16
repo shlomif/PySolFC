@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2023-12-30 09:38-0500\n"
+"PO-Revision-Date: 2024-01-15 22:12-0500\n"
 "Last-Translator: H. Schaekel <Holger.Schaekel@web.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -4924,6 +4924,15 @@ msgstr "&Datei"
 #: pysollib/ui/tktile/menubar.py:301
 msgid "R&ecent games"
 msgstr "&Zuletzt gespielte"
+
+msgid "&Clear recent games"
+msgstr ""
+
+msgid "Clear recent games"
+msgstr ""
+
+msgid "Clear the recent games list?"
+msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:304
 msgid "Select &random game"

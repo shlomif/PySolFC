@@ -4728,6 +4728,15 @@ msgstr ""
 msgid "R&ecent games"
 msgstr ""
 
+msgid "&Clear recent games"
+msgstr ""
+
+msgid "Clear recent games"
+msgstr ""
+
+msgid "Clear the recent games list?"
+msgstr ""
+
 #: pysollib/ui/tktile/menubar.py:304
 msgid "Select &random game"
 msgstr ""

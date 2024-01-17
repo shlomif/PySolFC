@@ -282,7 +282,7 @@ class MfxCanvasImage(object):
         self.animation = 0
         self.duration = 0.2
         self.deferred_raises = []
-        self.deferred_pos = []
+        self.animations = []
 
         ed = kwargs['image']
         size = ed.size
@@ -386,12 +386,8 @@ class MfxCanvasImage(object):
         if self.animation == 0:
             image.pos, image.size = self.canvas.CoreToKivy(dpos, dsize)
         else:
-            # Defer to animation. The last position update wins
-            if len(self.deferred_pos) == self.animation:
-                self.deferred_pos = self.deferred_pos[:-1]
-            if len(self.deferred_pos) < self.animation:
-                pos, size = self.canvas.CoreToKivy(dpos, dsize)
-                self.deferred_pos.append(pos)
+            pos, size = self.canvas.CoreToKivy(dpos, dsize)
+            self.animations[self.animation-1].updateDestPos(pos)
 
     def makeAnimStart(self):
         def animStart(anim, widget):
@@ -401,18 +397,6 @@ class MfxCanvasImage(object):
             if self.deferred_raises:
                 self.deferred_raises[0]()
                 self.deferred_raises = self.deferred_raises[1:]
-
-            # fix destination position (hack into animation class - not nice)
-            if self.deferred_pos:
-                widgets = anim._widgets
-                for uid in list(widgets.keys()):
-                    anim = widgets[uid]
-                    p = anim['properties']
-                    # print (p)
-                    p['x'] = (p['x'][0], self.deferred_pos[0][0])
-                    p['y'] = (p['y'][0], self.deferred_pos[0][1])
-                    # print (p)
-                self.deferred_pos = self.deferred_pos[1:]
 
             # update z-order (for some specials)
             while 1:
@@ -449,11 +433,12 @@ class MfxCanvasImage(object):
 
             if self.animation > 0:
                 self.animation -= 1
+                self.animations = self.animations[1:]
 
             if self.animation == 0:
                 # just for the case, keep in sync:
                 self.deferred_raises = []
-                self.deferred_pos = []
+                self.animations = []
 
             # print('MfxCanvasImage: animEnd moved to %s, %s' % (dpos[0], dpos[1])) # noqa
         return animEnd
@@ -480,18 +465,22 @@ class MfxCanvasImage(object):
         if self.canvas.wmain.app.game.demo:
             transition = transition1
 
-        self.animation += 1
         self.duration = duration
         ssize = image.coreSize
         spos = (image.corePos[0], image.corePos[1])
         spos, ssize = self.canvas.CoreToKivy(spos, ssize)
-        LAnimationManager.create(
+
+        from pysollib.kivy.LApp import LAnimationTask
+        task = LAnimationTask(
             spos,
             image,
             x=pos[0], y=pos[1],
             duration=duration, transition=transition,
             bindS=self.makeAnimStart(),
             bindE=self.makeAnimEnd(dpos, dsize))
+        self.animations.append(task)
+        self.animation += 1
+        LAnimationManager.taskInsert(task)
 
     def show(self):
         self.config(state='normal')
@@ -824,7 +813,7 @@ class MfxCanvas(LImage):
     # top-image support
     #
     def tag_raise(self, itm, abitm=None):
-        # print('MfxCanvas: tag_raise, itm=%s, aboveThis=%s' % (itm, abitm))
+        # print('MfxCanvas: tag_raise(%s, %s)' % (itm, abitm))
 
         def findTop(itm):
             t = type(itm)
@@ -835,26 +824,22 @@ class MfxCanvas(LImage):
 
         if (itm is not None):
             if (abitm is None):
-                # print('MfxCanvas: tag_raise: to top')
                 self.remove_widget(itm)
                 self.add_widget(itm, index=findTop(itm))
             else:
-                # print('MfxCanvas: tag_raise: to specified position')
                 self.remove_widget(itm)
                 k = self.children.index(abitm)
                 self.add_widget(itm, index=k)
 
     def tag_lower(self, itm, belowThis=None):
-        print('MfxCanvas: tag_lower(%s, %s)' % (itm, belowThis))
+        # print('MfxCanvas: tag_lower(%s, %s)' % (itm, belowThis))
 
         if (itm is not None):
             if (belowThis is None):
-                # print('MfxCanvas: tag_lower: to bottom')
                 self.remove_widget(itm)
                 k = len(self.children)
                 self.add_widget(itm, index=k)
             else:
-                # print('MfxCanvas: tag_lower: to specified position')
                 self.remove_widget(itm)
                 k = self.children.index(belowThis)
                 k += 1

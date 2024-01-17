@@ -135,19 +135,59 @@ class LPopCommander(LBase):
 
 
 class LAnimationTask(LTask, LBase):
-    def __init__(self, anim, spos, widget, delay):
+    def __init__(self, spos, widget, **kw):
         super(LAnimationTask, self).__init__(widget.card)
-        self.anim = anim
         self.spos = spos
         self.widget = widget
+
+        x = 0.0
+        y = 0.0
+        duration = 0.2
+        transition = 'in_out_quad'
+        bindE = None
+        bindS = None
+        if 'x' in kw:
+            x = kw['x']
+        if 'y' in kw:
+            y = kw['y']
+        if 'duration' in kw:
+            duration = kw['duration']
+        if 'transition' in kw:
+            transition = kw['transition']
+        if 'bindE' in kw:
+            bindE = kw['bindE']
+        if 'bindS' in kw:
+            bindS = kw['bindS']
+
+        self.delay = duration / 3.0
+
+        self.xdest = x
+        self.ydest = y
+        self.duration = duration
+        self.transition = transition
+        self.bindE = bindE
+        self.bindS = bindS
         print(self.widget.card)
-        self.delay = delay
 
     def start(self):
         super(LAnimationTask, self).start()
+
+        anim = Animation(
+            x=self.xdest, y=self.ydest, duration=self.duration,
+            transition=self.transition)
+
+        if self.bindE is not None:
+            anim.bind(on_complete=self.bindE)
+        if self.bindS is not None:
+            anim.bind(on_start=self.bindS)
+
         self.widget.pos = self.spos
-        self.anim.bind(on_complete=self.stop)
-        self.anim.start(self.widget)
+        anim.bind(on_complete=self.stop)
+        anim.start(self.widget)
+
+    def updateDestPos(self, pos):
+        self.xdest = pos[0]
+        self.ydest = pos[1]
 
 # =============================================================================
 
@@ -178,31 +218,9 @@ class LAnimationMgr(object):
 
             # print('Clock.get_fps() ->', Clock.get_fps())
 
-    def create(self, spos, widget, **kw):
-        x = 0.0
-        y = 0.0
-        duration = 0.2
-        transition = 'in_out_quad'
-        if 'x' in kw:
-            x = kw['x']
-        if 'y' in kw:
-            y = kw['y']
-        if 'duration' in kw:
-            duration = kw['duration']
-        if 'transition' in kw:
-            transition = kw['transition']
-
-        anim = Animation(x=x, y=y, duration=duration, transition=transition)
-        if 'bindE' in kw:
-            anim.bind(on_complete=kw['bindE'])
-        if 'bindS' in kw:
-            anim.bind(on_start=kw['bindS'])
-
-        offset = duration / 3.0
-        task = LAnimationTask(anim, spos, widget, offset)
+    def taskInsert(self, task):
         self.tasks.append(task)
         task.bind(done=self.taskEnd)
-
         Clock.schedule_once(lambda dt: self.taskQ.taskInsert(task), 0.016)
 
 

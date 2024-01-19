@@ -417,7 +417,7 @@ class MfxCanvasImage(object):
             # update z-order (for some specials)
             while 1:
                 from pysollib.games.grandfathersclock import Clock_RowStack
-                specials = [Clock_RowStack,]
+                specials = [Clock_RowStack, ]
 
                 if self.group is None: break            # noqa
                 stack = self.group.stack

@@ -25,6 +25,7 @@ import math
 
 from pysollib.game import Game
 from pysollib.gamedb import GI, GameInfo, registerGame
+from pysollib.hint import AbstractHint
 from pysollib.layout import Layout
 from pysollib.stack import \
         InitialDealTalonStack, \
@@ -50,12 +51,27 @@ class TilePuzzle_RowStack(OpenStack):
         game.moveMove(n, swap, other_stack, frames=0)
         game.leaveState(old_state)
 
+# ************************************************************************
+# * Tile Puzzle Hint
+# ************************************************************************
+
+
+class TilePuzzle_Hint(AbstractHint):
+
+    def computeHints(self):
+        # The hint should point one piece to its correct location.
+        rows = self.game.s.rows
+        for row in rows:
+            if row.cards[0].rank != row.id:
+                self.addHint(5000, 1, row, rows[row.cards[0].rank])
 
 # ************************************************************************
 # * Tile Puzzle Game
 # ************************************************************************
 
+
 class TilePuzzle(Game):
+    Hint_Class = TilePuzzle_Hint
 
     #
     # Game layout

@@ -132,6 +132,7 @@ class Application:
             config=config,
             plugins=os.path.join(config, "plugins"),
             savegames=os.path.join(config, "savegames"),
+            boards=os.path.join(config, "boards"),
             maint=os.path.join(config, "maint"),          # debug
         )
         for k, v in self.dn.__dict__.items():

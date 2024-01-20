@@ -1457,7 +1457,7 @@ Unsupported game for export.
             filename += ".board"
         idir, ifile = os.path.split(os.path.normpath(filename))
         if not idir:
-            idir = self.app.dn.savegames
+            idir = self.app.dn.boards
         # print self.game.filename, ifile
         d = tkinter_tkfiledialog.SaveAs()
         filename = d.show(filetypes=self.FILETYPES,
@@ -1490,7 +1490,7 @@ Unsupported game for import.
         else:
             idir, ifile = "", ""
         if not idir:
-            idir = self.app.dn.savegames
+            idir = self.app.dn.boards
         d = tkinter_tkfiledialog.Open()
         key = 'PYSOL_DEBUG_IMPORT'
         if key not in os.environ:

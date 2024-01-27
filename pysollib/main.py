@@ -239,7 +239,6 @@ def pysol_init(app, args):
     GAME_DB.setCallback(progressCallback)
     import pysollib.games
     if not opts['french-only']:
-        import pysollib.games.ultra
         import pysollib.games.mahjongg
         import pysollib.games.special
         pysollib.games.special.no_use()

@@ -21,13 +21,22 @@
 #
 # ---------------------------------------------------------------------------##
 from . import cribbage  # noqa: F401
+from . import dashavatara  # noqa: F401
 from . import hanoi  # noqa: F401
+from . import hanafuda  # noqa: F401
+from . import hanafuda1  # noqa: F401
+from . import hexadeck  # noqa: F401
 from . import ishido  # noqa: F401
+from . import larasgame  # noqa: F401
 from . import lightsout  # noqa: F401
+from . import matrix  # noqa: F401
 from . import memory  # noqa: F401
+from . import mughal  # noqa: F401
 from . import pegged  # noqa: F401
 from . import poker  # noqa: F401
 from . import tarock  # noqa: F401
+from . import tarock1  # noqa: F401
+from . import tilepuzzle  # noqa: F401
 
 
 def no_use():

@@ -22,7 +22,7 @@
 # ---------------------------------------------------------------------------##
 
 from pysollib.gamedb import GI, GameInfo, registerGame
-from pysollib.games.ultra.hanafuda_common import \
+from pysollib.games.special.hanafuda_common import \
         AbstractFlowerGame, \
         FlowerClock_Foundation, \
         FlowerClock_RowStack, \

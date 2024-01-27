@@ -22,9 +22,9 @@
 # ---------------------------------------------------------------------------##
 from . import cribbage  # noqa: F401
 from . import dashavatara  # noqa: F401
-from . import hanoi  # noqa: F401
 from . import hanafuda  # noqa: F401
 from . import hanafuda1  # noqa: F401
+from . import hanoi  # noqa: F401
 from . import hexadeck  # noqa: F401
 from . import ishido  # noqa: F401
 from . import larasgame  # noqa: F401

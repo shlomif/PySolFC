@@ -9,6 +9,7 @@ from pysollib.stack import \
         DealRowTalonStack, \
         InitialDealTalonStack, \
         RK_FoundationStack, \
+        RK_RowStack, \
         Stack, \
         StackWrapper, \
         WasteStack, \
@@ -267,6 +268,7 @@ class BetsyRoss(Calculation):
 
 # ************************************************************************
 # * One234
+# * Appreciate
 # ************************************************************************
 
 class One234_Foundation(BetsyRoss_Foundation):
@@ -279,14 +281,9 @@ class One234_Foundation(BetsyRoss_Foundation):
         BetsyRoss_Foundation.updateText(self, update_empty=False)
 
 
-class One234_RowStack(BasicRowStack):
-    # clickHandler = BasicRowStack.doubleclickHandler
-    pass
-
-
 class One234(Calculation):
     Foundation_Class = One234_Foundation
-    RowStack_Class = StackWrapper(One234_RowStack, max_move=1, max_accept=0)
+    RowStack_Class = StackWrapper(BasicRowStack, max_move=1, max_accept=0)
 
     def createGame(self):
         # create layout
@@ -316,7 +313,8 @@ class One234(Calculation):
             anchor="w", font=self.app.getFont("canvas_fixed"))
         x, y = l.XM, l.YM+l.YS+l.TEXT_HEIGHT
         for i in range(8):
-            s.rows.append(self.RowStack_Class(x, y, self))
+            s.rows.append(self.RowStack_Class(x, y, self, mod=13,
+                                              dir=(-1 * (i // 2)) - 1))
             x = x + l.XS
 
         s.talon = InitialDealTalonStack(l.XM, self.height-l.YS, self)
@@ -332,6 +330,29 @@ class One234(Calculation):
         self.s.talon.dealRow()
         self.s.talon.dealRow()
         self.s.talon.dealRow(rows=self.s.foundations)
+
+
+class Appreciate(One234):
+    RowStack_Class = StackWrapper(RK_RowStack, max_move=1, max_accept=1)
+
+    def startGame(self):
+        One234.startGame(self)
+        self._setBaseRanks()
+
+    def _setBaseRanks(self):
+        for r in self.s.rows:
+            r.cap.base_rank = self._getFinalRank(
+                self.s.foundations[-1 * (r.cap.dir + 1)])
+
+    def _getFinalRank(self, pile):
+        rank = pile.cards[0].rank
+        rank = rank - pile.cap.dir
+        if rank < 0:
+            rank = 13 + rank
+        return rank
+
+    def _restoreGameHook(self, game):
+        self._setBaseRanks()
 
 
 # ************************************************************************
@@ -497,7 +518,8 @@ registerGame(GameInfo(134, BetsyRoss, "Betsy Ross",
                       altnames=("Fairest", "Four Kings", "Musical Patience",
                                 "Quadruple Alliance", "Plus Belle")))
 registerGame(GameInfo(550, One234, "One234",
-                      GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL,
+                      altnames=("1-2-3-4")))
 registerGame(GameInfo(653, SeniorWrangler, "Senior Wrangler",
                       GI.GT_2DECK_TYPE, 2, 8, GI.SL_BALANCED,
                       altnames=("Mathematics")))
@@ -506,3 +528,5 @@ registerGame(GameInfo(704, SPatience, "S Patience",
 registerGame(GameInfo(863, ImaginaryThirteen, "Imaginary Thirteen",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_MOSTLY_SKILL,
                       altnames=("Pythagor")))
+registerGame(GameInfo(948, Appreciate, "Appreciate",
+                      GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))

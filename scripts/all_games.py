@@ -10,7 +10,6 @@ import time
 import pysollib.games
 import pysollib.games.mahjongg  # noqa: F401
 import pysollib.games.special
-import pysollib.games.ultra  # noqa: F401
 from pysollib.gamedb import GAME_DB
 from pysollib.gamedb import GI
 from pysollib.mfxutil import latin1_normalize

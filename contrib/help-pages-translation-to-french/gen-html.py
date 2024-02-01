@@ -18,7 +18,6 @@ builtins.n_ = lambda x: x
 import pysollib.games  # noqa: E402,F402,I100,I202
 import pysollib.games.mahjongg  # noqa: E402,F402
 import pysollib.games.special  # noqa: E402,F401,F402
-import pysollib.games.ultra  # noqa: E402,F401,F402
 
 try:
     os.mkdir('html')

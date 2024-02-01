@@ -242,11 +242,11 @@ class TakeAway8(TakeAway):
 
 # register the game
 registerGame(GameInfo(334, TakeAway, "Take Away",
-                      GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL,
+                      GI.GT_GOLF | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL,
                       altnames=("Eliminator", "Wolfpack", "Strip")))
 registerGame(GameInfo(335, FourStacks, "Four Stacks",
                       GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(654, Striptease, "Striptease",
-                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_GOLF, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(784, TakeAway8, "Take Away 8",
-                      GI.GT_1DECK_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_GOLF | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))

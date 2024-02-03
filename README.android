@@ -1,12 +1,10 @@
 
-Prerequisites (needs root):
+Build Prerequisites (needs root):
+---------------------------------
 
-  IMPORTANT:
-  Scripts and instruction in directory 'android' are OUTDATED and
-  not maintained any more. Instead refer to directory 'buildozer'.
-
-  You need a linux workstation (either native or virtual). No graphic
-  desktop is needed, cmdline only is sufficient.
+  You need a linux workstation (either native or virtual). It needs
+  x86 hardware (either intel or amd). No graphic desktop is needed,
+  cmdline only is sufficient.
 
   On freshly installed systems you will need to add about the
   following packages:
@@ -37,7 +35,7 @@ Prerequisites (needs root):
   - dev-vcs/git
   - dev-java/ant
 
-  For further instructions consult buildozer/build-instruction.txt.
+  For detailed instructions consult buildozer/build-instruction.txt.
 
   NOTES:
   1) This information is supplied to give you a hint, when running into
@@ -46,44 +44,27 @@ Prerequisites (needs root):
      6 GB of free disk space.
 
 Cardsets:
+---------
 
   The Apk includes a minimal set of cards for playing.
 
-  On Android 9 and lower you can also add additional cardsets:
+Additional user supplied data:
+------------------------------
 
-  Additional cardsets can be installed in ${HOME}/.PySolFC/cardsets/.
-  On an android device this is equivalent to /sdcard/.PySolFC/cardsets/.
-  Cardsets must use the 'png' image format. Use scripts/cardconv
-  (on a linux system) to convert them, before copying them to the device.
+  NOTE:
+  To be able to add additional resources to your app, you need to
+  enable storage access in the android settings for the app. Go to
+  Settings/Apps/PySolFC/Permissions.
 
-  IMPORTANT: This can only be supported for Android Version 9 and lower.
-  Android as of Version 10 and later restricts access to so called
-  'external-storage' drasitcally. There is currently no way around it
-  with the given application.
+  Resources are stored in ~/.PySolFC/. On an android device this is
+  equivalent to /sdcard/.PySolFC/.
 
-LB230301.
-
-  Allow external storage access for Android 10 and later.
-
-  - on Android 10 it ist still possible to write to the extenal storage. A
-    user has to manually allow at least access to media files in the
-    settings for the app.
-  - For later Versions the MANAGE_EXTERNAL_STORAGE permission was added
-    to the Android Manifest. If the Android 12 user wants to store
-    and read Files from /sdcard/.PySolFC directory he/she can enable
-    'Allow management of all Files' in the settings.
-    NOTE:
-      This is actually against the policies of Google and such an app
-    would fairliy get published on Play Store - but its the simplest
-    way to get this working again. Only users that need this (e.g. because
-    they want to install additional Cardsets) need to do that. The app will
-    never query you for that. You may do it on your own.
-
-LB230327.
-
-  Scheduled for the next Android release:
-  - Screen rotation lock.
-  - Toolbar actualised
-  - Protection from accidental reset or redeal.
-
-LB230919.
+  Additional cardsets can be installed in ~/.PySolFC/cardsets/.
+  Important: Cardsets must use the 'png' image format. Use
+  scripts/cardconv (on a gnu/linux system) to convert, before copying
+  them to the device.
+  
+  Byond cardsets you may also wish to add your own backgrounds. You can
+  add them to ~/.PySolFC/data/tiles (patterns) and to
+  ~/.PySolFC/data/tiles/save-aspect/ (images). 'png' and 'jpg' image
+  formats are supported.

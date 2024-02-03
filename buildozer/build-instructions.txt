@@ -13,6 +13,8 @@ and through pip.
 Prepare
 -------
 
+Move to directory buildozer.
+
 First create and enter a virtualenv and load all
 required python modules using pip install.
 

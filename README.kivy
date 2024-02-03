@@ -2,7 +2,7 @@
 Introduction
 ------------
 
-This is a version of the PySol FC open source project
+This is a version of the PySolFC open source project
 (http://pysolfc.sourceforge.net)
 
 Early investigations of the code showed, that it would not be
@@ -25,24 +25,18 @@ Images
 The original images supplied by the collection are of type
 gif. In kivy, that image type loads very slowly. Moreover, many
 cards cannot be loaded, because of decoding errors.
-To prevent these problems, the kivy version was
-modified to not read any gif images.
+To prevent these problems, the kivy version was modified to not read
+any gif images.
 
-Some cardsets have been translated to PNG, a format
-that is processed by both the tk and the kivy versions.
+For all GIF images in the directories data/images and data/tiles,
+corresponding images in the PNG format have been added.
 
-Some others, for which transparency information is not
-processed correctly even from the PBF images, have been translated
-to the BMP image format (while keeping their GIF variant for
-the tk version). BMP format is only processed by the
-kivy version.
+To convert the cardsets to png format, a shell script, 'cardconv' , has been
+added to the scripts directory. It requires Bash and ImageMagick
+to be installed.
 
-Additional cardsets are available from the SourceForge
-project. To use them with kivy, they need to be converted to
-the BMP format. A shell script, 'cardconv' , has been added
-to the scripts directory (it requires Bash and ImageMagick).
+Additional cardsets are available from the SourceForge project. To use
+them with kivy, make sure they to also convert them to the png format if
+needed.
 
-For all GIF images in the directories data/images and data/tiles ,
-corresponding images in the PNG format have been added too.
-
-LB170321.
+LB230126.

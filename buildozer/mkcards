@@ -2,7 +2,7 @@
 #set -eux
 
 #loadmode="forge"
-loadmode=""
+loadmode=" "
 
 rm -rf cardsets
 
@@ -46,7 +46,7 @@ else
 		pushd repo
 		git init
 		git remote add -t master origin https://github.com/shlomif/PySolFC-Cardsets.git
-		git fetch --depth 1 origin b153255935a5376da6151b55bc8044f1131c7950
+		git fetch --depth 1 origin 9b63a583dc3e770fa9bf8f2378c37a064aa4969c
 		git checkout -q FETCH_HEAD
 		popd
 

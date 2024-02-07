@@ -7,6 +7,7 @@ cardset-dojouji-3x3
 cardset-dondorf
 cardset-eternal-dragon-10x10
 cardset-gnome-mahjongg-1
+cardset-gpl
 cardset-hanafuda-200-years
 cardset-hexadeck
 cardset-hofamterspiel-9x9
@@ -30,3 +31,4 @@ cardset-tuxedo
 cardset-uni-mahjongg
 cardset-victoria-falls-5x5
 cardset-vienna-2k
+cardset-z_minimal

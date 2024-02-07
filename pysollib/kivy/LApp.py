@@ -1854,8 +1854,8 @@ class LApp(App):
                 self.rect.pos = self.pos
                 self.rect.size = self.size
 
-        self.startLabel = MyLabel(text="PySolFC", color=[0.9,0.9,0.9,1]) # noqa
-        self.baseWindow.add_widget(self.startLabel)
+        #self.startLabel = MyLabel(text="PySolFC", color=[0.9,0.9,0.9,1]) # noqa
+        #self.baseWindow.add_widget(self.startLabel)
 
         return self.baseWindow
 
@@ -1887,11 +1887,10 @@ class LApp(App):
         logging.info("LApp: app_start processed, returned to kivy mainloop")
 
         self.baseWindow.add_widget(self.mainWindow,index=1) # noqa
-        anim = Animation(opacity=0,duration=0.5) # noqa
-        anim.start(self.startLabel)
-        Clock.schedule_once(lambda dt:
-            self.baseWindow.remove_widget(self.startLabel),1.0)  # noqa
-        Clock.schedule_once(lambda dt: set_fullscreen(True),2.0) # noqa
+        self.baseWindow.opacity = 0
+        anim = Animation(opacity=1,duration=0.7) # noqa
+        Clock.schedule_once(lambda dt: anim.start(self.baseWindow),0.3) # noqa
+        Clock.schedule_once(lambda dt: set_fullscreen(True),0.0) # noqa
 
     def on_start(self):
         logging.info("LApp: on_start")
@@ -2040,8 +2039,12 @@ class LApp(App):
         # einwandfrei. Daher versuchen wir ... um den graphik context
         # wieder zu aktivieren/auszurichten:
 
-        Clock.schedule_once(lambda dt: self.mainWindow.rebuildContainer(), 1.0)
-        Clock.schedule_once(lambda dt: set_fullscreen(True),2.0) # noqa
+        # gemäss einer neueren Antwort auf kivy issue 3671 gehört auch
+        # update-viewport zu den nützlichen massnahmen.
+
+        Clock.schedule_once(lambda dt: Window.update_viewport(),0.0) # noqa
+        Clock.schedule_once(lambda dt: self.mainWindow.rebuildContainer(), 0.5)
+        Clock.schedule_once(lambda dt: set_fullscreen(True),1.0) # noqa
 
         # Pause modus abschalten nach resume:
         if app.game.pause:

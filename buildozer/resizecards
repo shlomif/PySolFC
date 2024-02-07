@@ -7,8 +7,8 @@ import math
 
 carddir = ""
 filename = ""
-maxw = 120
-maxh = 180
+maxw = 100
+maxh = 150
 
 # arguments:
 # 1: cardset directory

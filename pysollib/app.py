@@ -545,19 +545,30 @@ class Application:
             self.gimages.redeal.append(self.dataloader.findImage(f, dirname))
         dirname = os.path.join("images", "demo", self.opt.demo_logo_style)
         self.gimages.demo = []
-        for f in ("demo01", "demo02", "demo03", "demo04", "demo05",):
+        foundall = False
+        count = 0
+        while not foundall:
+            count += 1
             try:
-                self.gimages.demo.append(self.dataloader.findImage(f, dirname))
+                self.gimages.demo.append(self.dataloader.findImage("demo" +
+                                                                   ("%02d" %
+                                                                    (count,)),
+                                                                   dirname))
             except OSError:
-                pass
+                foundall = True
         dirname = os.path.join("images", "pause", self.opt.pause_text_style)
         self.gimages.pause = []
-        for f in ("pause01", "pause02", "pause03",):
+        foundall = False
+        count = 0
+        while not foundall:
+            count += 1
             try:
-                self.gimages.pause.append(self.dataloader.findImage(f,
+                self.gimages.pause.append(self.dataloader.findImage("pause" +
+                                                                    ("%02d" %
+                                                                     (count,)),
                                                                     dirname))
             except OSError:
-                pass
+                foundall = True
         # dirname = os.path.join("images", "stats")
         # for f in ("barchart",):
         #     self.gimages.stats.append(self.dataloader.findImage(f, dirname))

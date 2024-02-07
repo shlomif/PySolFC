@@ -72,6 +72,10 @@ class Bristol_Talon(TalonStack):
 
 
 class Bristol(Game):
+    RowStack_Class = StackWrapper(
+        RK_RowStack, base_rank=NO_RANK, max_move=1)
+    Foundation_Class = RK_FoundationStack
+
     Hint_Class = Bristol_Hint
 
     #
@@ -88,13 +92,15 @@ class Bristol(Game):
         # create stacks
         x, y, = l.XM + 3*l.XS, l.YM
         for i in range(4):
-            s.foundations.append(RK_FoundationStack(x, y, self, max_move=0))
+            s.foundations.append(self.Foundation_Class(x, y,
+                                                       self, max_move=0,
+                                                       suit=i))
             x += l.XS
         for i in range(2):
             y = l.YM + (i*2+3)*l.YS//2
             for j in range(4):
                 x = l.XM + (j*5)*l.XS//2
-                stack = RK_RowStack(x, y, self,  base_rank=NO_RANK, max_move=1)
+                stack = self.RowStack_Class(x, y, self)
                 stack.CARD_XOFFSET, stack.CARD_YOFFSET = l.XOFFSET, 0
                 s.rows.append(stack)
         x, y, = l.XM + 3*l.XS, l.YM + 4*l.YS
@@ -143,6 +149,15 @@ class Bristol(Game):
         self.s.talon.dealCards()          # deal first cards to Reserves
 
     shallHighlightMatch = Game._shallHighlightMatch_RK
+
+
+# ************************************************************************
+# * Vincent
+# ************************************************************************
+
+class Vincent(Bristol):
+    RowStack_Class = StackWrapper(SS_RowStack, base_rank=KING)
+    Foundation_Class = SS_FoundationStack
 
 
 # ************************************************************************
@@ -514,3 +529,5 @@ registerGame(GameInfo(519, Gotham, "Gotham",
                       GI.GT_FAN_TYPE, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(604, Interment, "Interment",
                       GI.GT_FAN_TYPE, 2, 0, GI.SL_BALANCED))
+registerGame(GameInfo(949, Vincent, "Vincent",
+                      GI.GT_FAN_TYPE, 1, 0, GI.SL_MOSTLY_SKILL))

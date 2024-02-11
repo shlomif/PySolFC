@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2024-01-15 22:14-0500\n"
+"PO-Revision-Date: 2024-02-11 11:02-0500\n"
 "Last-Translator: Matheus Knack <mtknack555@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -3691,6 +3691,12 @@ msgstr ""
 
 msgid "Popular"
 msgstr "Popular"
+
+msgid "Recent"
+msgstr ""
+
+msgid "Favorite"
+msgstr ""
 
 msgid "Children's"
 msgstr "Filhos de"

@@ -3491,6 +3491,12 @@ msgstr ""
 msgid "Popular"
 msgstr ""
 
+msgid "Recent"
+msgstr ""
+
+msgid "Favorite"
+msgstr ""
+
 msgid "Children's"
 msgstr ""
 

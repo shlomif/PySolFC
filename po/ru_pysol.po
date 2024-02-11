@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2024-01-15 22:14-0500\n"
+"PO-Revision-Date: 2024-02-11 11:02-0500\n"
 "Last-Translator: Skomoroh <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
@@ -3739,6 +3739,12 @@ msgid "Games not played"
 msgstr ""
 
 msgid "Popular"
+msgstr ""
+
+msgid "Recent"
+msgstr ""
+
+msgid "Favorite"
 msgstr ""
 
 msgid "Children's"

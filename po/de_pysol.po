@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2024-01-15 22:12-0500\n"
+"PO-Revision-Date: 2024-02-11 11:04-0500\n"
 "Last-Translator: H. Schaekel <Holger.Schaekel@web.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -3623,6 +3623,12 @@ msgid "Games not played"
 msgstr ""
 
 msgid "Popular"
+msgstr ""
+
+msgid "Recent"
+msgstr ""
+
+msgid "Favorite"
 msgstr ""
 
 msgid "Children's"

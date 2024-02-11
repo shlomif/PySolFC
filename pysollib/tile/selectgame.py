@@ -619,6 +619,12 @@ class SelectGameDialogWithPreview(SelectGameDialog):
             if (self.criteria.popular and
                     not (game.si.game_flags & GI.GT_POPULAR)):
                 continue
+            if (self.criteria.recent and
+                    not (game.id in self.app.opt.recent_gameid)):
+                continue
+            if (self.criteria.favorite and
+                    not (game.id in self.app.opt.favorite_gameid)):
+                continue
             if (self.criteria.children and
                     not (game.si.game_flags & GI.GT_CHILDREN)):
                 continue
@@ -674,6 +680,8 @@ class SelectGameDialogWithPreview(SelectGameDialog):
             self.criteria.statistics = d.statistics.get()
 
             self.criteria.popular = d.popular.get()
+            self.criteria.recent = d.recent.get()
+            self.criteria.favorite = d.favorite.get()
             self.criteria.children = d.children.get()
             self.criteria.scoring = d.scoring.get()
             self.criteria.stripped = d.stripped.get()
@@ -865,6 +873,8 @@ class SearchCriteria:
         self.statistics = ""
 
         self.popular = False
+        self.recent = False
+        self.favorite = False
         self.children = False
         self.scoring = False
         self.stripped = False
@@ -946,6 +956,10 @@ class SelectGameAdvancedSearch(MfxDialog):
 
         self.popular = tkinter.BooleanVar()
         self.popular.set(criteria.popular)
+        self.recent = tkinter.BooleanVar()
+        self.recent.set(criteria.recent)
+        self.favorite = tkinter.BooleanVar()
+        self.favorite.set(criteria.favorite)
         self.children = tkinter.BooleanVar()
         self.children.set(criteria.children)
         self.scoring = tkinter.BooleanVar()
@@ -1101,19 +1115,33 @@ class SelectGameAdvancedSearch(MfxDialog):
                                            text=_("Popular"), anchor="w")
         popularCheck.grid(row=row, column=col, columnspan=1, sticky='ew',
                           padx=1, pady=1)
-        col += 1
+        col += 2
+
+        recentCheck = tkinter.Checkbutton(top_frame, variable=self.recent,
+                                          text=_("Recent"), anchor="w")
+        recentCheck.grid(row=row, column=col, columnspan=1, sticky='ew',
+                         padx=1, pady=1)
+        col += 2
+
+        favoriteCheck = tkinter.Checkbutton(top_frame, variable=self.favorite,
+                                            text=_("Favorite"), anchor="w")
+        favoriteCheck.grid(row=row, column=col, columnspan=1, sticky='ew',
+                           padx=1, pady=1)
+
+        row += 1
+        col = 0
 
         childCheck = tkinter.Checkbutton(top_frame, variable=self.children,
                                          text=_("Children's"), anchor="w")
         childCheck.grid(row=row, column=col, columnspan=1, sticky='ew',
                         padx=1, pady=1)
-        col += 1
+        col += 2
 
         scoreCheck = tkinter.Checkbutton(top_frame, variable=self.scoring,
                                          text=_("Scored"), anchor="w")
         scoreCheck.grid(row=row, column=col, columnspan=1, sticky='ew',
                         padx=1, pady=1)
-        col += 1
+        col += 2
 
         stripCheck = tkinter.Checkbutton(top_frame, variable=self.stripped,
                                          text=_("Stripped Deck"), anchor="w")
@@ -1126,25 +1154,25 @@ class SelectGameAdvancedSearch(MfxDialog):
                                        text=_("Separate Decks"), anchor="w")
         sepCheck.grid(row=row, column=col, columnspan=1, sticky='ew',
                       padx=1, pady=1)
-        col += 1
+        col += 2
 
         openCheck = tkinter.Checkbutton(top_frame, variable=self.open,
                                         text=_("Open"), anchor="w")
         openCheck.grid(row=row, column=col, columnspan=1, sticky='ew',
                        padx=1, pady=1)
-        col += 1
+        col += 2
 
         relaxedCheck = tkinter.Checkbutton(top_frame, variable=self.relaxed,
                                            text=_("Relaxed"), anchor="w")
         relaxedCheck.grid(row=row, column=col, columnspan=1, sticky='ew',
                           padx=1, pady=1)
-        col += 1
+        row += 1
+        col = 0
 
         originalCheck = tkinter.Checkbutton(top_frame, variable=self.original,
                                             text=_("Original"), anchor="w")
         originalCheck.grid(row=row, column=col, columnspan=1, sticky='ew',
                            padx=1, pady=1)
-        col += 1
 
         focus = self.createButtons(bottom_frame, kw)
         # focus = text_w

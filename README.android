@@ -9,7 +9,7 @@ Build Prerequisites (needs root):
   On freshly installed systems you will need to add about the
   following packages:
 
-  On a 'freshly installed' Ubuntu or Debain , the following
+  On a 'freshly installed' Ubuntu or Debian, the following
   additional packages had to be installed:
 
   - python-setuptools
@@ -63,7 +63,7 @@ Additional user supplied data:
   Important: Cardsets must use the 'png' image format. Use
   scripts/cardconv (on a gnu/linux system) to convert, before copying
   them to the device.
-  
+
   Byond cardsets you may also wish to add your own backgrounds. You can
   add them to ~/.PySolFC/data/tiles (patterns) and to
   ~/.PySolFC/data/tiles/save-aspect/ (images). 'png' and 'jpg' image

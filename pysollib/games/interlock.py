@@ -165,7 +165,7 @@ class Interlock(Game):
 
 class LoveADuck_RowStack(Interlock_StackMethods, Yukon_AC_RowStack):
     def acceptsCards(self, from_stack, cards):
-        if len(self.cards) == 0 and self.id > self.STEP[0] - 1:
+        if len(self.cards) == 0 and self.id > self.STEP[0][0] - 1:
             return False
         if (self.isDropdownMove(from_stack) and
                 len(cards) == len(from_stack.cards)):

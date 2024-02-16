@@ -1854,8 +1854,8 @@ class LApp(App):
                 self.rect.pos = self.pos
                 self.rect.size = self.size
 
-        #self.startLabel = MyLabel(text="PySolFC", color=[0.9,0.9,0.9,1]) # noqa
-        #self.baseWindow.add_widget(self.startLabel)
+        # self.startLabel = MyLabel(text="PySolFC", color=[0.9,0.9,0.9,1]) # noqa
+        # self.baseWindow.add_widget(self.startLabel)
 
         return self.baseWindow
 

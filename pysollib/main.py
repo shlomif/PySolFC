@@ -400,12 +400,13 @@ Cardsets package is up to date.
 
     # load cardset
     progress = app.intro.progress
-    if not app.loadCardset(cardset, progress=progress, update=1):
+    if not app.loadCardset(cardset, progress=progress, id=app.opt.last_gameid):
         if not cardset:
             for cardset in app.cardset_manager.getAll():
                 progress.reset()
 
-                if app.loadCardset(cardset, progress=progress, update=1):
+                if app.loadCardset(cardset, progress=progress,
+                                   id=app.opt.last_gameid):
                     break
             else:
                 fatal_no_cardsets(app)

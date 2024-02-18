@@ -130,7 +130,9 @@ class Interlock(Game):
             x += lay.XS
             s.waste = WasteStack(x, y, self)
             lay.createText(s.waste, "s")
-        x += lay.XS * max(1, (self.MAX_ROWS - 6) // 2)
+            x = lay.XM + lay.XS * (max(self.MAX_ROWS, 7) - 5)
+        else:
+            x += lay.XS * max(1.0, (self.MAX_ROWS - 6) / 2)
         for i in range(4):
             x += lay.XS
             s.foundations.append(SS_FoundationStack(x, y, self, i,

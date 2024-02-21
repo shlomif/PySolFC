@@ -848,20 +848,35 @@ class Eighteens_RowStack(Elevens_RowStack):
 
     def clickHandler(self, event):
         game = self.game
-        if self.cards and self.cards[0].rank == 0:
+        if not self.cards:
+            return False
+        if self.cards[0].rank == 0:
             game.playSample("autodrop", priority=20)
             self.playMoveMove(1, game.s.foundations[0], sound=False)
             self.fillStack()
             return True
+        elif self.game.s.reserves[0].acceptsCards(self, self.cards):
+            return self.playMoveMove(1, self.game.s.reserves[0])
 
         return False
 
 
 class Eighteens_Reserve(ReserveStack):
     def acceptsCards(self, from_stack, cards):
+        sum = 0
+        numcards = 0
+        if len(self.cards) > 3:
+            return False
         for c in self.cards:
-            if c.rank == cards[0].rank:
+            if ((c.rank > 9 and cards[0].rank > 9)
+                    or (c.rank == cards[0].rank)):
                 return False
+            if cards[0].rank <= 9 and c.rank <= 9:
+                sum += c.rank + 1
+                numcards += 1
+        newsum = sum + cards[0].rank + 1
+        if newsum > 18 or (numcards == 2 and newsum < 18):
+            return False
         return True
 
     def updateText(self):
@@ -908,7 +923,8 @@ class Eighteens(Fifteens):
                     reserve_sum += c.rank + 1
                 else:
                     facecards += 1
-            if reserve_sum == 18 and facecards == 1:
+            if (reserve_sum == 18 and facecards == 1
+                    and len(reserve.cards) == 4):
                 self._dropReserve()
         self.leaveState(old_state)
 

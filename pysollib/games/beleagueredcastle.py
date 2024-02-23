@@ -376,6 +376,7 @@ class CastlesEnd(Bastion):
 # ************************************************************************
 # * Chessboard
 # * Lasker
+# * Morphy
 # ************************************************************************
 
 class Chessboard_Foundation(SS_FoundationStack):
@@ -429,6 +430,20 @@ class Lasker(Chessboard):
     RowStack_Class = StackWrapper(Chessboard_RowStack, mod=13,
                                   max_move=UNLIMITED_MOVES,
                                   max_accept=UNLIMITED_ACCEPTS)
+
+
+class Morphy_RowStack(UD_AC_RowStack):
+    def canDropCards(self, stacks):
+        if self.game.demo:
+            return UD_AC_RowStack.canDropCards(self, stacks)
+        for s in self.game.s.foundations:
+            if s.cards:
+                return UD_AC_RowStack.canDropCards(self, stacks)
+        return (None, 0)
+
+
+class Morphy(Chessboard):
+    RowStack_Class = StackWrapper(Morphy_RowStack, mod=13)
 
 
 # ************************************************************************
@@ -941,5 +956,8 @@ registerGame(GameInfo(831, Siegecraft, "Siegecraft",
                       GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0,
                       GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(881, Lasker, "Lasker",
+                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0,
+                      GI.SL_SKILL))
+registerGame(GameInfo(951, Morphy, "Morphy",
                       GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0,
                       GI.SL_SKILL))

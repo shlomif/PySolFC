@@ -434,7 +434,7 @@ class Lasker(Chessboard):
 # ************************************************************************
 # * Siegecraft
 # * Stronghold
-# * Fastness
+# * Private Lane
 # ************************************************************************
 
 class Siegecraft(BeleagueredCastle):
@@ -453,7 +453,7 @@ class Stronghold(StreetsAndAlleys):
         StreetsAndAlleys.createGame(self, reserves=1)
 
 
-class Fastness(StreetsAndAlleys):
+class PrivateLane(StreetsAndAlleys):
     Hint_Class = FreeCellType_Hint
     Solver_Class = FreeCellSolverWrapper(sbb='rank')
 
@@ -895,9 +895,9 @@ registerGame(GameInfo(148, Chessboard, "Chessboard",
 registerGame(GameInfo(300, Stronghold, "Stronghold",
                       GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0,
                       GI.SL_MOSTLY_SKILL))
-registerGame(GameInfo(301, Fastness, "Fastness",
+registerGame(GameInfo(301, PrivateLane, "Private Lane",
                       GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0,
-                      GI.SL_MOSTLY_SKILL, altnames=('Private Lane',)))
+                      GI.SL_MOSTLY_SKILL, altnames=('Fastness',)))
 registerGame(GameInfo(306, Zerline, "Zerline",
                       GI.GT_BELEAGUERED_CASTLE, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(324, Bastion, "Bastion",

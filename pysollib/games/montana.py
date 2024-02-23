@@ -371,10 +371,10 @@ class Galary(RedMoon):
 
 
 # ************************************************************************
-# * Moonlight
+# * Free Parking
 # ************************************************************************
 
-class Moonlight(Montana):
+class FreeParking(Montana):
     RowStack_Class = Galary_RowStack
     Hint_Class = Galary_Hint
 
@@ -682,9 +682,10 @@ registerGame(GameInfo(117, RedMoon, "Red Moon",
 registerGame(GameInfo(275, Galary, "Galary",
                       GI.GT_MONTANA | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 2,
                       GI.SL_MOSTLY_SKILL))
-registerGame(GameInfo(276, Moonlight, "Moonlight",
+registerGame(GameInfo(276, FreeParking, "Free Parking",
                       GI.GT_MONTANA | GI.GT_OPEN, 1, 2, GI.SL_MOSTLY_SKILL,
-                      si={"ncards": 48}, altnames="Free Parking"))
+                      si={"ncards": 48}, altnames=("Moonlight",
+                                                   "Park and Ride")))
 registerGame(GameInfo(380, Jungle, "Jungle",
                       GI.GT_MONTANA | GI.GT_OPEN, 1, 1, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(381, SpacesAndAces, "Spaces and Aces",

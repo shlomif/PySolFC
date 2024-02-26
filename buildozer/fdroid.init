@@ -16,8 +16,11 @@ echo "" > ${tmpdir}/data/images/cards/bottoms/trumps-only/.keep
 echo '### prepare cardsets'
 
 ./mkcards
+cp -a cardsets/* ${tmpdir}/data
 
-cp -a ${cardsets_dir}/* ${tmpdir}/data
+echo '### resize 4k images'
+
+./resize4k ${tmpdir}/data/tiles
 
 echo '### eval version'
 

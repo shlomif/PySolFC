@@ -417,6 +417,82 @@ class GrantsReinforcement(Reserves):
 
 
 # ************************************************************************
+# * Big Alhambra
+# ************************************************************************
+
+class BigAlhambra(Alhambra):
+
+    def createGame(self, rows=1, reserves=10, playcards=3):
+        # create layout
+        l, s = Layout(self), self.s
+
+        # set window
+        w, h = l.XM + 12 * l.XS, l.YM + 3.5 * l.YS + playcards * l.YOFFSET
+        h += l.TEXT_HEIGHT
+        self.setSize(w, h)
+
+        # create stacks
+        x, y, = l.XM, l.YM
+        for i in range(4):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i,
+                                                    max_move=0))
+            x += l.XS
+        for i in range(2):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i,
+                                                    max_move=0))
+            x += l.XS
+        for i in range(2, 4):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i,
+                                 max_move=0, base_rank=KING, dir=-1))
+            x += l.XS
+        for i in range(4):
+            s.foundations.append(SS_FoundationStack(x, y, self, suit=i,
+                                 max_move=0, base_rank=KING, dir=-1))
+            x += l.XS
+        x, y, = l.XM + l.XS, y + l.YS
+        for i in range(10):
+            stack = OpenStack(x, y, self, max_accept=0)
+            stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, l.YOFFSET
+            s.reserves.append(stack)
+            x += l.XS
+        x, y = l.XM + 5 * l.XS, self.height - l.YS
+        s.talon = Alhambra_Talon(x, y, self, max_rounds=3)
+        if rows == 1:
+            l.createText(s.talon, 'sw')
+        else:
+            l.createText(s.talon, 'n')
+        anchor = 'nn'
+        if rows > 1:
+            anchor = 'sw'
+        l.createRoundText(s.talon, anchor)
+
+        x += l.XS
+        for i in range(rows):
+            stack = self.RowStack_Class(x, y, self, mod=13, max_accept=1)
+            stack.CARD_XOFFSET, stack.CARD_YOFFSET = 0, 0
+            s.rows.append(stack)
+            x += l.XS
+            if rows == 1:
+                l.createText(stack, 'se')
+            else:
+                l.createText(stack, 'n')
+
+        # define stack-groups (non default)
+        l.defaultStackGroups()
+
+    #
+    # game overrides
+    #
+
+    def _shuffleHook(self, cards):
+        # move the appropriate aces and kings to top of the Talon
+        # (i.e. first card to be dealt)
+        return self._shuffleHookMoveToTop(
+            cards, lambda c: (c.id in (0, 13, 26, 39, 52, 65, 90, 103, 116,
+                                       129, 142, 155), c.id), 12)
+
+
+# ************************************************************************
 # * Carpet
 # ************************************************************************
 
@@ -1545,3 +1621,5 @@ registerGame(GameInfo(752, Reserves, "Reserves",
 registerGame(GameInfo(943, RosamundsBower, "Rosamund's Bower",
                       GI.GT_1DECK_TYPE, 1, 3, GI.SL_BALANCED,
                       altnames=("Rosamund",)))
+registerGame(GameInfo(952, BigAlhambra, "Big Alhambra",
+                      GI.GT_3DECK_TYPE, 3, 2, GI.SL_BALANCED))

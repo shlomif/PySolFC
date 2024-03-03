@@ -34,6 +34,7 @@ from . import memory  # noqa: F401
 from . import mughal  # noqa: F401
 from . import pegged  # noqa: F401
 from . import poker  # noqa: F401
+from . import samegame  # noqa: F401
 from . import tarock  # noqa: F401
 from . import tarock1  # noqa: F401
 from . import tilepuzzle  # noqa: F401

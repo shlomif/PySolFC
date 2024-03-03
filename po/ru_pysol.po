@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2024-02-11 11:02-0500\n"
+"PO-Revision-Date: 2024-03-03 11:36-0500\n"
 "Last-Translator: Skomoroh <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
@@ -487,6 +487,9 @@ msgstr ""
 msgid "Puzzle"
 msgstr ""
 
+msgid "Samegame"
+msgstr ""
+
 msgid "Shisen-Sho"
 msgstr ""
 
@@ -634,6 +637,9 @@ msgid "Tower of Hanoi type"
 msgstr ""
 
 msgid "Ishido type"
+msgstr ""
+
+msgid "Samegame type"
 msgstr ""
 
 #: pysollib/help.py:43

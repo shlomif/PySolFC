@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PySolFC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2024-02-11 11:03-0500\n"
+"PO-Revision-Date: 2024-03-03 11:35-0500\n"
 "Last-Translator: Jerzy Trzeciak <artusek@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
@@ -484,6 +484,9 @@ msgstr "Poker"
 msgid "Puzzle"
 msgstr ""
 
+msgid "Samegame"
+msgstr ""
+
 msgid "Shisen-Sho"
 msgstr ""
 
@@ -629,6 +632,9 @@ msgid "Tower of Hanoi type"
 msgstr "Gra typu Wieża Hanoi"
 
 msgid "Ishido type"
+msgstr ""
+
+msgid "Samegame type"
 msgstr ""
 
 #: pysollib/help.py:43

@@ -109,6 +109,7 @@ class GI:
     GT_PUZZLE_TYPE = 26
     GT_RAGLAN = 27
     GT_ROW_TYPE = 28
+    GT_SAMEGAME = 42
     GT_SHISEN_SHO = 34
     GT_SIMPLE_TYPE = 29
     GT_SPIDER = 30
@@ -177,6 +178,7 @@ class GI:
         GT_PEGGED:              n_("Pegged"),
         GT_POKER_TYPE:          n_("Poker"),
         GT_PUZZLE_TYPE:         n_("Puzzle"),
+        GT_SAMEGAME:            n_("Samegame"),
         GT_SHISEN_SHO:          n_("Shisen-Sho"),
         GT_TAROCK:              n_("Tarock"),
         GT_HANOI:               n_("Tower of Hanoi"),
@@ -299,6 +301,8 @@ class GI:
         (n_("Poker type"), lambda gi, gt=GT_POKER_TYPE: gi.si.game_type == gt),
         (n_("Puzzle type"),
             lambda gi, gt=GT_PUZZLE_TYPE: gi.si.game_type == gt),
+        (n_("Samegame type"),
+            lambda gi, gt=GT_SAMEGAME: gi.si.game_type == gt),
         (n_("Shisen-Sho type"),
             lambda gi, gt=GT_SHISEN_SHO: gi.si.game_type == gt),
         (n_("Tarock type"), lambda gi, gt=GT_TAROCK: gi.si.game_type == gt),
@@ -596,7 +600,8 @@ class GI:
          tuple(range(13160, 13163)) + (16682,)),
         ('dev', tuple(range(906, 952)) + tuple(range(11017, 11020)) +
          tuple(range(5600, 5624)) + tuple(range(18000, 18005)) +
-         tuple(range(22303, 22311)) + tuple(range(22353, 22361))),
+         tuple(range(19000, 19012)) + tuple(range(22303, 22311)) +
+         tuple(range(22353, 22361))),
     )
 
     # deprecated - the correct way is to or a GI.GT_XXX flag

@@ -458,6 +458,9 @@ msgstr ""
 msgid "Puzzle"
 msgstr ""
 
+msgid "Samegame"
+msgstr ""
+
 msgid "Shisen-Sho"
 msgstr ""
 
@@ -603,6 +606,9 @@ msgid "Tower of Hanoi type"
 msgstr ""
 
 msgid "Ishido type"
+msgstr ""
+
+msgid "Samegame type"
 msgstr ""
 
 #: pysollib/help.py:43

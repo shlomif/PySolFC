@@ -34,6 +34,6 @@ cp -a cardsets/* ${tmpdir}/data
 
 echo '### eval version'
 
-./version.py > ${tmpdir}/version.txt
+./version ${tmpdir} > ${tmpdir}/version.txt
 
 echo '### end init'

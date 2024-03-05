@@ -75,6 +75,9 @@ yoffs = int(math.ceil(yoffs*scale))
 #print (cardw,cardh)
 #print (xoffs,yoffs)
 
+first = True
+effw = cardw
+effh = cardh
 for fn in os.listdir(path=carddir):
     file = carddir+'/'+fn
     fileo = carddir+'/conv-'+fn
@@ -85,6 +88,10 @@ for fn in os.listdir(path=carddir):
         #print (cmd)
         os.system(cmd)
         os.system(cmd2)
+        if first:
+            effw,effh = img_size(file)
+            #print ('eff-size:',effw,effh)
+            first = False
 
     if fn.endswith('.png') and fn.startswith('shadow'):
         w,h = img_size(file)
@@ -101,6 +108,8 @@ for fn in os.listdir(path=carddir):
 # 4: rewrite the config file.
 
 print ('rescaled by',scale,':',carddir)
+cardw = effw
+cardh = effh
 lines_list[2] = str(cardw)+" "+str(cardh)+" "+str(cardd)
 lines_list[3] = str(xoffs)+" "+str(yoffs)+" "+str(sxoffs)+" "+str(syoffs)
 #print (lines_list)

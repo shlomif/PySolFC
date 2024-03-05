@@ -1136,7 +1136,8 @@ registerGame(GameInfo(56, FanGame, "Fan",
 registerGame(GameInfo(87, ScotchPatience, "Scotch Patience",
                       GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(57, Shamrocks, "Shamrocks",
-                      GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL,
+                      altnames=("Three Card Fan",)))
 registerGame(GameInfo(901, LaBelleLucie, "La Belle Lucie",      # was: 32, 82
                       GI.GT_FAN_TYPE | GI.GT_OPEN, 1, 2, GI.SL_MOSTLY_SKILL,
                       altnames=("Fair Lucy", "Midnight Oil", "Lovely Lucy",

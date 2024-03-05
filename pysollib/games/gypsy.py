@@ -1080,7 +1080,8 @@ registerGame(GameInfo(721, Thirty, "Thirty",
 registerGame(GameInfo(725, TopsyTurvyQueens, "Topsy-Turvy Queens",
                       GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED))
 registerGame(GameInfo(792, KingsSecrets, "King's Secrets",
-                      GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED))
+                      GI.GT_2DECK_TYPE, 2, 2, GI.SL_BALANCED,
+                      altnames=('Royal Secrets',)))
 registerGame(GameInfo(842, SwissPatience, "Swiss Patience",
                       GI.GT_GYPSY, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(890, YeastDough, "Yeast Dough",

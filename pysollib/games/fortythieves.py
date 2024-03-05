@@ -1488,7 +1488,8 @@ registerGame(GameInfo(198, NapoleonsExile, "Napoleon's Exile",
 registerGame(GameInfo(131, DoubleRail, "Double Rail",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(199, SingleRail, "Single Rail",
-                      GI.GT_FORTY_THIEVES, 1, 0, GI.SL_MOSTLY_LUCK))
+                      GI.GT_FORTY_THIEVES, 1, 0, GI.SL_MOSTLY_LUCK,
+                      altnames=("Auxiliary Sequences")))
 registerGame(GameInfo(295, NapoleonsSquare, "Napoleon's Square",
                       GI.GT_FORTY_THIEVES, 2, 0, GI.SL_BALANCED))
 registerGame(GameInfo(310, Emperor, "Emperor",

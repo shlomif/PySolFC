@@ -123,6 +123,51 @@ class ForeCell(FreeCell):
 
 
 # ************************************************************************
+# * Petal
+# ************************************************************************
+
+class Petal(FreeCell):
+    Foundation_Class = StackWrapper(SS_FoundationStack, mod=13)
+
+    def _shuffleHook(self, cards):
+        # move base cards to top of the Talon (i.e. first cards to be dealt)
+        return self._shuffleHookMoveToTop(
+            cards,
+            lambda c, rank=cards[-1].rank: (c.rank == rank, 0))
+
+    def _updateStacks(self):
+        for s in self.s.foundations:
+            s.cap.base_rank = self.base_card.rank
+
+    def startGame(self):
+        self.base_card = self.s.talon.cards[-4]
+        self._updateStacks()
+        # deal base cards to Foundations
+        for i in range(4):
+            c = self.s.talon.getCard()
+            assert c.rank == self.base_card.rank
+            to_stack = self.s.foundations[c.suit * self.gameinfo.decks]
+            self.flipMove(self.s.talon)
+            self.moveMove(1, self.s.talon, to_stack, frames=0)
+        self._startDealNumRows(4)
+        self.s.talon.dealRow()
+        r = self.s.rows
+        self.s.talon.dealRow(rows=r[:4])
+        self.s.talon.dealRow(rows=self.s.reserves)
+
+    def _restoreGameHook(self, game):
+        self.base_card = self.cards[game.loadinfo.base_card_id]
+        self._updateStacks()
+
+    def _loadGameHook(self, p):
+        self.loadinfo.addattr(base_card_id=None)    # register extra load var.
+        self.loadinfo.base_card_id = p.load()
+
+    def _saveGameHook(self, p):
+        p.dump(self.base_card.id)
+
+
+# ************************************************************************
 # * Challenge FreeCell
 # * Super Challenge FreeCell
 # ************************************************************************
@@ -715,3 +760,5 @@ registerGame(GameInfo(746, Limpopo, "Limpopo",
                       GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(813, DoubleFreecellTd, "Double FreeCell (Traditional)",
                       GI.GT_FREECELL | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(953, Petal, "Petal",
+                      GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))

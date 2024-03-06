@@ -450,7 +450,7 @@ class GI:
         #       Little Gazette, Magic FreeCell, Mini Gaps, Montreal,
         #       Napoleon at Iena, Napoleon at Waterloo, Napoleon's Guards,
         #       Oasis, Opera, Ordered Suits, Osmotic FreeCell, Pair FreeCell,
-        #       Pairs 2, Petal, Reserved Thirteens, Sea Spider, Sept Piles 0,
+        #       Pairs 2, Reserved Thirteens, Sea Spider, Sept Piles 0,
         #       Short Solitaire, Simple Alternations, Smart Osmosis,
         #       Step By Step, Stripped FreeCell, Tarantula, Triple Dispute,
         #       Trusty Twenty, Two Ways 3, Up Or Down, Versailles,
@@ -466,7 +466,7 @@ class GI:
             480, 484, 511, 512, 513, 516, 561, 610, 613, 625, 629, 631,
             638, 641, 647, 650, 655, 678, 684, 702, 734, 751, 784, 825,
             829, 834, 837, 844, 862, 867, 880, 889, 901, 911, 933, 941,
-            947
+            947, 953
         )),
 
         # xpat2 1.06 (we have 14 out of 16 games)
@@ -598,7 +598,7 @@ class GI:
         ('fc-2.20', tuple(range(855, 897))),
         ('fc-2.21', tuple(range(897, 900)) + tuple(range(11014, 11017)) +
          tuple(range(13160, 13163)) + (16682,)),
-        ('dev', tuple(range(906, 953)) + tuple(range(11017, 11020)) +
+        ('dev', tuple(range(906, 954)) + tuple(range(11017, 11020)) +
          tuple(range(5600, 5624)) + tuple(range(18000, 18005)) +
          tuple(range(19000, 19012)) + tuple(range(22303, 22311)) +
          tuple(range(22353, 22361))),

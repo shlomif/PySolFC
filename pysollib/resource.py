@@ -513,6 +513,7 @@ class CardsetManager(ResourceManager):
         if s == CSI.TYPE_FRENCH:
             if cs.subtype == 1:
                 cs.trumps = list(range(2))
+                cs.nbottoms = 8
         elif s == CSI.TYPE_HANAFUDA:
             cs.nbottoms = 15
         elif s == CSI.TYPE_TAROCK:
@@ -561,7 +562,7 @@ class CardsetManager(ResourceManager):
             cs.nshadows = 0
             cs.trumps = list(range(cs.ncards))
         elif s == CSI.TYPE_ISHIDO:
-            cs.nbottoms = 0
+            cs.nbottoms = 1
             cs.nletters = 0
             cs.nshadows = 0
         else:

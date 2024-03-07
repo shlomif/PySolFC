@@ -469,6 +469,43 @@ class Usk(Somerset):
             n += 1
 
 # ************************************************************************
+# * Wildcards
+# ************************************************************************
+
+
+class Wildcards_RowStack(SuperMoveAC_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not self.basicAcceptsCards(from_stack, cards):
+            return 0
+        stackcards = self.cards
+        if stackcards:
+            if (stackcards[-1].suit == 4 or cards[0].suit == 4):
+                return 1
+        return AC_RowStack.acceptsCards(self, from_stack, cards)
+
+
+class Wildcards_Foundation(SS_FoundationStack):
+    def acceptsCards(self, from_stack, cards):
+        if self.cap.suit == 4 and cards[0].suit == 4:
+            for s in self.game.s.foundations[:3]:
+                if len(s.cards) != 13:
+                    return 0
+            return 1
+        return SS_FoundationStack.acceptsCards(self, from_stack, cards)
+
+
+class Wildcards(Somerset):
+    RowStack_Class = Wildcards_RowStack
+    Foundation_Class = Wildcards_Foundation
+
+    def startGame(self):
+        for i in range(7):
+            self.s.talon.dealRow(rows=self.s.rows[i:], frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow(rows=self.s.rows[7:])
+        self.s.talon.dealRow(rows=self.s.rows[8:])
+
+# ************************************************************************
 # * Canister
 # * American Canister
 # * British Canister
@@ -1727,3 +1764,7 @@ registerGame(GameInfo(913, NineAcross, "Nine Across",
                       GI.GT_KLONDIKE, 1, -1, GI.SL_BALANCED))
 registerGame(GameInfo(930, KlondikeTerritory, "Klondike Territory",
                       GI.GT_RAGLAN, 1, 0, GI.SL_BALANCED))
+registerGame(GameInfo(954, Wildcards, "Wildcards",
+                      GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0,
+                      GI.SL_MOSTLY_SKILL,
+                      subcategory=GI.GS_JOKER_DECK, trumps=list(range(2))))

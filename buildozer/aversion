@@ -1,0 +1,19 @@
+#!/bin/bash
+
+appdir=""
+if [ "$1" ]
+then
+  appdir=$1
+else
+	exit 1
+fi
+
+# current android version mumber.
+version="2.24.0"
+sversion=$(echo $version  | sed -E "s:(.*)\..*:\1:")
+tuple=$(echo $version | sed -E "s:(.*)\.(.*)\.(.*):(\1, \2, \3):")
+
+# patch different version info accordingly.
+sed -E "s:VERSION_TUPLE =.*:VERSION_TUPLE = $tuple:" -i $appdir/pysollib/settings.py
+sed -E "s:(.*\(')dev(',.*):\1fc-$sversion\2:" -i $appdir/pysollib/gamedb.py
+echo "VERSION = $version"

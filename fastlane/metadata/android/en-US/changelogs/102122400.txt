@@ -1,0 +1,24 @@
+Android specific:
+- Temporary screen orientation lock added. When the app starts (or
+  restarts) the screen will rotate according to the device orientation.
+  While playing a game screen rotation is locked with the first
+  card selection. Screen rotation lock can be disabled by a double click to
+  the free game area.
+- Toolbar: general toolbar show/hide for inividual buttons added to the
+  options menu.
+- Toolbar: dynamic updates on Toolbar and Options settings.
+- Toolbar: To prevent occasional restarts or redeals due to 'fat fingers'
+    a toast has been added to buttons for 'new deal' and 'restart'. To
+    accept the command tap onto it.
+- Implementation of full picture preview for the new puzzle type games.
+- Background images from the save-aspect folder now are preserving
+  correct aspect ratio (bug fix).
+- Mahjongg tile overlapping (3d simulation) is now implemented.
+- Animation of card moves reworked. This fixes some stacking order corruptions
+  reported earlier.
+- Display of html-text (game rules, licence etc): Black windows fixed.
+- Upstream libraries updated to kivy v2.2.1 and python v3.10
+Main version:
+- many new games.
+- consult NEWS.asscidoc or html-src/news.html on the github repo for more
+  change informations.

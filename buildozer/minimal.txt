@@ -26,6 +26,7 @@ cardset-neo-hex
 cardset-neo-tarock
 cardset-next-matrix
 cardset-oxymoron
+cardset-simple-ishido
 cardset-standard
 cardset-tuxedo
 cardset-uni-mahjongg

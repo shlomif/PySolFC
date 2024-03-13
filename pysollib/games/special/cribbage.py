@@ -31,7 +31,9 @@ from pysollib.stack import \
         InitialDealTalonStack, \
         InvisibleStack, \
         OpenTalonStack, \
+        RedealTalonStack, \
         ReserveStack, \
+        Stack, \
         StackWrapper
 
 # ************************************************************************
@@ -199,8 +201,8 @@ class CribbageSquare(Game):
         upcard = None
         upcard_talon = None
         if self.isBoardFull():
-            upcard = self.s.talon.cards[0]
-            upcard_talon = self.s.talon
+            upcard_talon = self.getUpcardStack()
+            upcard = upcard_talon.cards[0]
 
         # First get flushes and his nobs, as these can only be
         # scored once per hand.
@@ -267,8 +269,11 @@ class CribbageSquare(Game):
 
         return hand_score
 
+    def getUpcardStack(self):
+        return self.s.talon
+
     def checkHisHeels(self, score):
-        if self.isBoardFull() and self.s.talon.cards[0].rank == 10:
+        if self.isBoardFull() and self.getUpcardStack().cards[0].rank == 10:
             return score + 2
         return score
 
@@ -330,6 +335,197 @@ class CribbageSquare2Reserves(CribbageSquare):
     NUM_RESERVE = 2
 
 
+# ************************************************************************
+# * Cribbage Patience
+# ************************************************************************
+
+class CribbagePatience_Talon(RedealTalonStack):
+
+    def canDealCards(self):
+        return self.game.isFinalizedHand and len(self.cards) >= 9
+
+    def dealCards(self, sound=False):
+        old_state = self.game.enterState(self.game.S_FILL)
+        self.game.dealHand()
+        self.game.leaveState(old_state)
+
+
+class CribbagePatience_HandStack(ReserveStack):
+    getBottomImage = Stack._getNoneBottomImage
+
+    def clickHandler(self, event):
+        for s in self.game.s.rows[0:4]:
+            if len(s.cards) == 0:
+                return self.playMoveMove(1, s)
+        return 0
+
+    rightclickHandler = clickHandler
+
+    def acceptsCards(self, from_stack, cards):
+        return False
+
+    def moveMove(self, ncards, to_stack, frames=-1, shadow=-1):
+        ReserveStack.moveMove(self, ncards, to_stack, frames=frames,
+                              shadow=shadow)
+        if self.game.isBoardFull():
+            self.game.finalizeHand()
+
+
+class CribbagePatience_CribStack(ReserveStack):
+    def acceptsCards(self, from_stack, cards):
+        if from_stack not in self.game.s.rows[4:10]:
+            return False
+        return ReserveStack.acceptsCards(self, from_stack, cards)
+
+
+class CribbagePatience(CribbageShuffle):
+    WIN_SCORE = 61
+
+    def createGame(self):
+        self.score = 0
+        self.isFinalizedHand = False
+        l, s = Layout(self), self.s
+        self.setSize((2 * l.XM) + 8 * l.XS,
+                     l.YM + l.YS + 12 * l.YOFFSET)
+        x, y = self.getInvisibleCoords()
+        s.waste = ReserveStack(x, y, self)
+        x, y = l.XM, l.YM
+        s.talon = CribbagePatience_Talon(x, y, self)
+        l.createText(s.talon, "se")
+        x += 2 * l.XS
+        for i in range(4):
+            s.rows.append(CribbagePatience_CribStack(x, y, self, max_move=1))
+            x += l.XS
+        x, y = l.XM, l.YM + l.YS
+        s.reserves.append(ReserveStack(x, y, self))
+        x += 2 * l.XS
+        for i in range(6):
+            s.rows.append(CribbagePatience_HandStack(x, y, self, max_move=1))
+            x += l.XS
+
+        # define hands for scoring
+        r = s.rows
+        self.cribbage_hands = [
+            r[0:4], r[4:8]
+        ]
+        self.cribbage_hands = list(map(tuple, self.cribbage_hands))
+
+        if self.preview <= 1:
+            for i in (0, 4):
+                tx, ty, ta, tf = l.getTextAttr(s.rows[i], anchor="w")
+                t = MfxCanvasText(self.canvas, tx - 8, ty,
+                                  anchor=ta,
+                                  font=self.app.getFont("canvas_default"))
+                self.texts.list.append(t)
+            self.texts.score = MfxCanvasText(
+                self.canvas, l.XM + 6 * l.XS, 1 * l.YS, anchor="sw",
+                font=self.app.getFont("canvas_large"))
+
+        l.defaultStackGroups()
+
+    def fillStack(self, stack):
+        if not stack.cards:
+            old_state = self.enterState(self.S_FILL)
+            hand = self.s.rows[4:10]
+            if stack in hand:
+                i = list(hand).index(stack)
+                if i < len(hand)-1:
+                    from_stack = hand[i+1]
+                    pile = from_stack.getPile()
+                    if pile:
+                        from_stack.moveMove(len(pile), stack)
+            self.leaveState(old_state)
+
+    def startGame(self):
+        self.moveMove(7, self.s.talon, self.s.waste, frames=0)
+        self.score = 0
+        self.isFinalizedHand = False
+        self.dealHand()
+
+    def dealHand(self):
+        self.startDealSample()
+        if self.isFinalizedHand:
+            for r in reversed(self.s.rows[:8]):
+                r.moveMove(1, self.s.waste)
+            self.s.reserves[0].moveMove(1, self.s.waste)
+        self.saveStateMove(2 | 16)
+        self.isFinalizedHand = False
+        self.saveStateMove(1 | 16)
+
+        self.s.talon.dealRow(rows=self.s.rows[:2], flip=0)
+        self.s.talon.dealRow(rows=self.s.rows[4:10])
+        self.stopSamples()
+
+    def isBoardFull(self):
+        for i in range(8):
+            if len(self.s.rows[i].cards) == 0:
+                return False
+        return True
+
+    def finalizeHand(self):
+        if self.isFinalizedHand:
+            return
+        self.saveStateMove(2 | 16)
+        self.isFinalizedHand = True
+        old_state = self.enterState(self.S_FILL)
+        for c in self.s.rows[0:2]:
+            if not c.cards[0].face_up:
+                c.flipMove()
+        self.s.talon.flipMove()
+        self.s.talon.moveMove(1, self.s.reserves[0])
+        self.leaveState(old_state)
+        for i in range(2):
+            value = self.getHandScore(self.cribbage_hands[i])
+            self.texts.list[i].config(text=str(value))
+            self.score += value
+        self.score = self.checkHisHeels(self.score)
+        self.saveStateMove(1 | 16)
+
+    def updateText(self):
+        if self.preview > 1:
+            return
+        if self.isBoardFull():
+            for i in range(2):
+                value = self.getHandScore(self.cribbage_hands[i])
+
+                self.texts.list[i].config(text=str(value))
+        else:
+            for i in range(2):
+                self.texts.list[i].config(text="")
+        #
+        t = ""
+        if self.score >= self.WIN_SCORE and len(self.s.talon.cards) == 0:
+            t = _("WON\n\n")
+        t += _("Total: %d") % self.score
+        self.texts.score.config(text=t)
+
+    def getUpcardStack(self):
+        return self.s.reserves[0]
+
+    def getGameScore(self):
+        return self.score
+
+    def _restoreGameHook(self, game):
+        self.score = game.loadinfo.dval.get('Score')
+        self.isFinalizedHand = game.loadinfo.dval.get('Finalized')
+
+    def _loadGameHook(self, p):
+        self.loadinfo.addattr(dval=p.load())
+
+    def _saveGameHook(self, p):
+        dval = {'Score': self.score, 'Finalized': self.isFinalizedHand}
+        p.dump(dval)
+
+    def setState(self, state):
+        # restore saved vars (from undo/redo)
+        self.score = state[0]
+        self.isFinalizedHand = state[1]
+
+    def getState(self):
+        # save vars (for undo/redo)
+        return [self.score, self.isFinalizedHand]
+
+
 # register the game
 registerGame(GameInfo(805, CribbageSquare, "Cribbage Square",
                       GI.GT_CRIBBAGE_TYPE | GI.GT_SCORE, 1, 0,
@@ -352,3 +548,6 @@ registerGame(GameInfo(809, CribbageShuffle, "Cribbage Shuffle",
                       GI.GT_CRIBBAGE_TYPE | GI.GT_SCORE | GI.GT_OPEN, 1, 0,
                       GI.SL_MOSTLY_SKILL,
                       si={"ncards": 17}))
+registerGame(GameInfo(955, CribbagePatience, "Cribbage Patience",
+                      GI.GT_CRIBBAGE_TYPE | GI.GT_SCORE, 1, 0,
+                      GI.SL_MOSTLY_SKILL))

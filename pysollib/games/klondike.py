@@ -505,6 +505,31 @@ class Wildcards(Somerset):
         self.s.talon.dealRow(rows=self.s.rows[7:])
         self.s.talon.dealRow(rows=self.s.rows[8:])
 
+
+# ************************************************************************
+# * Joke Klon
+# ************************************************************************
+
+class JokeKlon_RowStack(KingAC_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        stackcards = self.cards
+        if (stackcards and stackcards[-1].suit == 4) or cards[0].suit == 4:
+            return 1
+        if not self.basicAcceptsCards(from_stack, cards):
+            return 0
+        return KingAC_RowStack.acceptsCards(self, from_stack, cards)
+
+
+class JokeKlon(Klondike):
+    RowStack_Class = JokeKlon_RowStack
+    Foundation_Class = Wildcards_Foundation
+
+
+class JokeKlonByThrees(KlondikeByThrees):
+    RowStack_Class = JokeKlon_RowStack
+    Foundation_Class = Wildcards_Foundation
+
+
 # ************************************************************************
 # * Canister
 # * American Canister
@@ -1767,4 +1792,10 @@ registerGame(GameInfo(930, KlondikeTerritory, "Klondike Territory",
 registerGame(GameInfo(954, Wildcards, "Wildcards",
                       GI.GT_BELEAGUERED_CASTLE | GI.GT_OPEN, 1, 0,
                       GI.SL_MOSTLY_SKILL,
+                      subcategory=GI.GS_JOKER_DECK, trumps=list(range(2))))
+registerGame(GameInfo(956, JokeKlon, "Joke Klon",
+                      GI.GT_KLONDIKE, 1, -1, GI.SL_BALANCED,
+                      subcategory=GI.GS_JOKER_DECK, trumps=list(range(2))))
+registerGame(GameInfo(957, JokeKlonByThrees, "Joke Klon (Draw 3)",
+                      GI.GT_KLONDIKE, 1, -1, GI.SL_MOSTLY_LUCK,
                       subcategory=GI.GS_JOKER_DECK, trumps=list(range(2))))

@@ -1618,7 +1618,7 @@ r(165, BitsNBytes, 'Bits n Bytes', GI.GT_HEXADECK, 1, 1, GI.SL_BALANCED)
 r(166, HexAKlon, 'Hex A Klon', GI.GT_HEXADECK, 1, -1, GI.SL_BALANCED)
 r(16666, KlondikePlus16, 'Klondike Plus 16', GI.GT_HEXADECK, 1, 1,
   GI.SL_BALANCED)
-r(16667, HexAKlonByThrees, 'Hex A Klon by Threes', GI.GT_HEXADECK, 1, -1,
+r(16667, HexAKlonByThrees, 'Hex A Klon (Draw 3)', GI.GT_HEXADECK, 1, -1,
   GI.SL_BALANCED)
 r(16668, KingOnlyHexAKlon, 'King Only Hex A Klon', GI.GT_HEXADECK, 1, -1,
   GI.SL_BALANCED)

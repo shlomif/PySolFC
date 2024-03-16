@@ -94,9 +94,12 @@ class SelectGameData(SelectDialogTreeData):
                      ):
             gg = []
             for name, select_func in data:
-                if name is None or not filter(select_func, self.all_games_gi):
+                filtered = filter(select_func, self.all_games_gi)
+                if name is None or not filtered or len(list(filtered)) == 0:
                     continue
-                gg.append(SelectGameNode(None, _(name), select_func))
+                node = SelectGameNode(None, _(name), select_func)
+                if node:
+                    gg.append(node)
             g.append(gg)
 
         def select_mahjongg_game(gi): return gi.si.game_type == GI.GT_MAHJONGG

@@ -1266,6 +1266,9 @@ msgstr[1] "%d Wiederholungen"
 msgid "Talon."
 msgstr "Talon."
 
+msgid "Reserve."
+msgstr "Reserve."
+
 #: pysollib/stack.py:2228 pysollib/stack.py:2992
 msgid "Reserve. No building."
 msgstr "Reserve. Nicht aufgebaut."

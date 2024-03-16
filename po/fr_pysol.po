@@ -1296,6 +1296,9 @@ msgstr[1] "%d donnes"
 msgid "Talon."
 msgstr "Talon."
 
+msgid "Reserve."
+msgstr "Réserve."
+
 #: pysollib/stack.py:2228 pysollib/stack.py:2992
 msgid "Reserve. No building."
 msgstr "Réserve. Aucun empilement."

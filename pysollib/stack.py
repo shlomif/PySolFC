@@ -2294,7 +2294,7 @@ class OpenStack(Stack):
     def getHelp(self):
         if self.cap.max_accept == 0:
             return _('Reserve. No building.')
-        return ''
+        return 'Reserve.'
 
 
 # ************************************************************************

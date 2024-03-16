@@ -32,6 +32,7 @@ from pysollib.mygettext import _
 from pysollib.pysoltk import MfxCanvasText
 from pysollib.stack import \
         AC_RowStack, \
+        AbstractFoundationStack, \
         BasicRowStack, \
         DealRowTalonStack, \
         InitialDealTalonStack, \
@@ -1313,6 +1314,93 @@ class TheBogey(Game):
         self.s.talon.dealRow(rows=self.s.rows)
 
 
+# ************************************************************************
+# * Ninety-One
+# ************************************************************************
+
+class NinetyOne_RowStack(OpenStack):
+
+    def moveMove(self, ncards, to_stack, frames=-1, shadow=-1):
+        OpenStack.moveMove(self, ncards, to_stack, frames=frames,
+                           shadow=shadow)
+        if to_stack in self.game.s.rows:
+            self.game.checkTotal()
+
+
+class NinetyOne(Game):
+    Hint_Class = None
+
+    def createGame(self):
+        # create layout
+        l, s = Layout(self), self.s
+
+        self.setSize(l.XM + 7 * l.XS, l.YM + 2 * l.YS)
+
+        x, y = l.XM, l.YM
+        # create stacks
+        for j in range(7):
+            s.rows.append(NinetyOne_RowStack(x, y, self, max_move=1,
+                                             max_accept=1))
+            x += l.XS
+        x, y = l.XM, l.YM + l.YS
+        for j in range(6):
+            s.rows.append(NinetyOne_RowStack(x, y, self, max_move=1,
+                                             max_accept=1))
+            x += l.XS
+
+        # create text
+        if self.preview <= 1:
+            y += l.YS // 2
+            self.texts.score = MfxCanvasText(
+                self.canvas, x, y, anchor="sw",
+                font=self.app.getFont("canvas_large"))
+
+        x, y = self.getInvisibleCoords()
+        s.talon = InitialDealTalonStack(x, y, self)
+        s.foundations.append(AbstractFoundationStack(x, y, self,
+                                                     max_move=0,
+                                                     max_accept=0,
+                                                     suit=ANY_SUIT))
+
+        # define stack-groups
+        l.defaultStackGroups()
+
+    def startGame(self):
+        for i in range(3):
+            self.s.talon.dealRow(frames=0)
+        self._startAndDealRow()
+
+    def updateText(self):
+        if self.preview > 1 or not self.texts.score:
+            return
+        self.texts.score.config(text=self.getTotal())
+
+    def getTotal(self):
+        total = 0
+        for r in self.s.rows:
+            if len(r.cards) == 0:
+                continue
+            total += r.cards[-1].rank + 1
+        return total
+
+    def checkTotal(self):
+        self.updateText()
+        if self.getTotal() == 91:
+            for r in self.s.rows:
+                if len(r.cards) == 0:
+                    return
+            self.startDealSample()
+            old_state = self.enterState(self.S_FILL)
+            for r in self.s.rows:
+                r.moveMove(1, self.s.foundations[0])
+            self.leaveState(old_state)
+            self.stopSamples()
+            self.checkTotal()
+
+    def getAutoStacks(self, event=None):
+        return ((), (), ())
+
+
 # register the game
 registerGame(GameInfo(257, Numerica, "Numerica",
                       GI.GT_NUMERICA | GI.GT_CONTRIB, 1, 0, GI.SL_BALANCED,
@@ -1370,3 +1458,5 @@ registerGame(GameInfo(899, Housefly, "Housefly",
                       GI.GT_NUMERICA, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(931, TheBogey, "The Bogey",
                       GI.GT_1DECK_TYPE, 1, -1, GI.SL_BALANCED))
+registerGame(GameInfo(958, NinetyOne, "Ninety-One",
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_SKILL))

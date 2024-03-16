@@ -2420,6 +2420,9 @@ msgstr ""
 "Tableau: Decrescente per colore. Sequenze di carte dello stesso seme possono "
 "essere spostate in gruppo"
 
+msgid "Reserve."
+msgstr "Riserva."
+
 #: pysollib/games/klondike.py:461
 msgid "Reserve. Only Kings are acceptable."
 msgstr "Riserva. Accetta solo i Re"

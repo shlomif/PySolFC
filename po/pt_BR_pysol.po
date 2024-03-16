@@ -1295,6 +1295,9 @@ msgstr[1] "%d redistribuições"
 msgid "Talon."
 msgstr "Monte"
 
+msgid "Reserve."
+msgstr "Reservar."
+
 #: pysollib/stack.py:2228 pysollib/stack.py:2992
 msgid "Reserve. No building."
 msgstr "Reservar. Sem construção."

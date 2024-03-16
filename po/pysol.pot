@@ -2258,6 +2258,9 @@ msgid ""
 "moved as a unit."
 msgstr ""
 
+msgid "Reserve."
+msgstr ""
+
 #: pysollib/games/klondike.py:461
 msgid "Reserve. Only Kings are acceptable."
 msgstr ""

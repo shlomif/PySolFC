@@ -1303,6 +1303,9 @@ msgstr[2] "%d rozdań"
 msgid "Talon."
 msgstr "Stos wyjściowy."
 
+msgid "Reserve."
+msgstr "Stos rezerwowy."
+
 #: pysollib/stack.py:2228 pysollib/stack.py:2992
 msgid "Reserve. No building."
 msgstr "Stos rezerwowy. Nie układaj."

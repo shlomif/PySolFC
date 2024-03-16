@@ -1293,6 +1293,9 @@ msgstr[2] "%d пересдач"
 msgid "Talon."
 msgstr "Колода."
 
+msgid "Reserve."
+msgstr "Резерв."
+
 #: pysollib/stack.py:2228 pysollib/stack.py:2992
 msgid "Reserve. No building."
 msgstr "Резерв. Без выкладывания."

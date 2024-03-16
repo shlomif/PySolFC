@@ -1725,6 +1725,9 @@ msgstr ""
 msgid "Type:"
 msgstr ""
 
+msgid "Subtype:"
+msgstr ""
+
 #: pysollib/wizardutil.py:151 pysollib/wizardutil.py:157
 msgid "No redeals"
 msgstr ""
@@ -3399,6 +3402,9 @@ msgstr ""
 #: pysollib/pysolgtk/selectgame.py:116 pysollib/tile/selectgame.py:394
 #: pysollib/tk/selectgame.py:394
 msgid "Category:"
+msgstr ""
+
+msgid "Subcategory:"
 msgstr ""
 
 #: pysollib/pysolgtk/selectgame.py:119 pysollib/tile/selectgame.py:397

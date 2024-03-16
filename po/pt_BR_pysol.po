@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2024-03-03 11:36-0500\n"
+"PO-Revision-Date: 2024-03-15 23:05-0400\n"
 "Last-Translator: Matheus Knack <mtknack555@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -1849,6 +1849,9 @@ msgstr "Motivos para um divórcio"
 msgid "Type:"
 msgstr "Tipo:"
 
+msgid "Subtype:"
+msgstr ""
+
 #: pysollib/wizardutil.py:151 pysollib/wizardutil.py:157
 msgid "No redeals"
 msgstr "Sem re-distribuições"
@@ -3601,6 +3604,9 @@ msgstr "Nomes alternativos:"
 #: pysollib/tk/selectgame.py:394
 msgid "Category:"
 msgstr "Categoria:"
+
+msgid "Subcategory:"
+msgstr ""
 
 #: pysollib/pysolgtk/selectgame.py:119 pysollib/tile/selectgame.py:397
 #: pysollib/tk/selectgame.py:397

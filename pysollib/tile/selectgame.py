@@ -541,6 +541,11 @@ class SelectGameDialogWithPreview(SelectGameDialog):
                     self.criteria.categoryOptions[self.criteria.category]
                     != game.category):
                 continue
+            if (self.criteria.subcategory != "" and
+                    self.criteria.
+                    subcategoryOptionsAll[self.criteria.subcategory]
+                    != game.subcategory):
+                continue
             if (self.criteria.type != ""
                     and self.criteria.typeOptions[self.criteria.type]
                     != game.si.game_type):
@@ -669,6 +674,7 @@ class SelectGameDialogWithPreview(SelectGameDialog):
 
             self.criteria.usealt = d.usealt.get()
             self.criteria.category = d.category.get()
+            self.criteria.subcategory = d.subcategory.get()
             self.criteria.type = d.type.get()
             self.criteria.skill = d.skill.get()
             self.criteria.decks = d.decks.get()
@@ -862,6 +868,7 @@ class SearchCriteria:
         self.name = ""
         self.usealt = True
         self.category = ""
+        self.subcategory = ""
         self.type = ""
         self.skill = ""
         self.decks = ""
@@ -888,10 +895,24 @@ class SearchCriteria:
         del categoryOptions[7]  # Navagraha Ganjifa is unused.
         self.categoryOptions = dict((v, k) for k, v in categoryOptions.items())
 
+        self.subcategoryOptions = {"": -1}
+
+        subcategoryOptionsAll = {"": -1}
+        for t in CSI.SUBTYPE_NAME.values():
+            subcategoryOptionsAll.update(t)
+        self.subcategoryOptionsAll = dict((v, k) for k, v in
+                                          subcategoryOptionsAll.items())
+
         typeOptions = {-1: ""}
         typeOptions.update(GI.TYPE_NAMES)
         del typeOptions[29]  # Simple games type is unused.
         self.typeOptions = dict((v, k) for k, v in typeOptions.items())
+
+        self.deckOptions = {"": 0,
+                            "1 deck games": 1,
+                            "2 deck games": 2,
+                            "3 deck games": 3,
+                            "4 deck games": 4}
 
         skillOptions = {-1: ""}
         skillOptions.update(GI.SKILL_LEVELS)
@@ -935,6 +956,8 @@ class SelectGameAdvancedSearch(MfxDialog):
         self.usealt.set(criteria.usealt)
         self.category = tkinter.StringVar()
         self.category.set(criteria.category)
+        self.subcategory = tkinter.StringVar()
+        self.subcategory.set(criteria.subcategory)
         self.type = tkinter.StringVar()
         self.type.set(criteria.type)
         self.skill = tkinter.StringVar()
@@ -974,6 +997,7 @@ class SelectGameAdvancedSearch(MfxDialog):
         self.relaxed.set(criteria.relaxed)
         self.original = tkinter.BooleanVar()
         self.original.set(criteria.original)
+
         #
         row = 0
 
@@ -995,13 +1019,32 @@ class SelectGameAdvancedSearch(MfxDialog):
         categoryValues = list(criteria.categoryOptions.keys())
         categoryValues.sort()
 
+        self.categoryValues = criteria.categoryOptions
+
         labelCategory = tkinter.Label(top_frame, text="Category:", anchor="w")
         labelCategory.grid(row=row, column=0, columnspan=1, sticky='ew',
                            padx=1, pady=1)
         textCategory = PysolCombo(top_frame, values=categoryValues,
-                                  textvariable=self.category, state='readonly')
+                                  textvariable=self.category, state='readonly',
+                                  selectcommand=self.updateSubcategories)
         textCategory.grid(row=row, column=1, columnspan=4, sticky='ew',
                           padx=1, pady=1)
+        row += 1
+
+        subcategoryValues = list(criteria.subcategoryOptions.keys())
+        subcategoryValues.sort()
+
+        labelSubcategory = tkinter.Label(top_frame, text="Subcategory:",
+                                         anchor="w")
+        labelSubcategory.grid(row=row, column=0, columnspan=1, sticky='ew',
+                              padx=1, pady=1)
+        textSubcategory = PysolCombo(top_frame, values=subcategoryValues,
+                                     textvariable=self.subcategory,
+                                     state='readonly')
+        textSubcategory.grid(row=row, column=1, columnspan=4, sticky='ew',
+                             padx=1, pady=1)
+        self.subcategorySelect = textSubcategory
+        self.updateSubcategories()
         row += 1
 
         typeValues = list(criteria.typeOptions.keys())
@@ -1177,6 +1220,23 @@ class SelectGameAdvancedSearch(MfxDialog):
         focus = self.createButtons(bottom_frame, kw)
         # focus = text_w
         self.mainloop(focus, kw.timeout)
+
+    def updateSubcategories(self, *args):
+        subcategoryOptions = {-1: ""}
+        key = self.categoryValues[self.category.get()]
+        if key in CSI.SUBTYPE_NAME:
+            subcategoryOptions.update(CSI.SUBTYPE_NAME[key])
+            self.subcategorySelect['state'] = 'readonly'
+            subcategoryOptions = dict((v, k) for k, v in
+                                      subcategoryOptions.items())
+            subcategoryOptionsK = list(subcategoryOptions.keys())
+            subcategoryOptionsK.sort()
+            self.subcategorySelect['values'] = subcategoryOptionsK
+            if self.subcategory.get() not in subcategoryOptionsK:
+                self.subcategory.set("")
+        else:
+            self.subcategorySelect['state'] = 'disabled'
+            self.subcategory.set("")
 
     def initKw(self, kw):
         kw = KwStruct(kw,

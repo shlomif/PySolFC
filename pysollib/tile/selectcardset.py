@@ -508,7 +508,10 @@ class SelectCardsetDialogWithPreview(MfxDialog):
                     and self.criteria.typeOptions[self.criteria.type]
                     != cardset.si.type):
                 continue
-
+            if (self.criteria.subtype != "" and
+                    self.criteria.subtypeOptionsAll[self.criteria.subtype]
+                    != cardset.si.subtype):
+                continue
             if (self.criteria.style != ""
                     and self.criteria.styleOptions[self.criteria.style]
                     not in cardset.si.styles):
@@ -542,6 +545,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
 
             self.criteria.size = d.size.get()
             self.criteria.type = d.type.get()
+            self.criteria.subtype = d.subtype.get()
             self.criteria.style = d.style.get()
             self.criteria.date = d.date.get()
             self.criteria.nationality = d.nationality.get()
@@ -722,6 +726,7 @@ class SearchCriteria:
         self.name = ""
         self.size = ""
         self.type = ""
+        self.subtype = ""
         self.style = ""
         self.date = ""
         self.nationality = ""
@@ -739,6 +744,14 @@ class SearchCriteria:
             if manager.registered_types.get(key):
                 typeOptions[key] = name
         self.typeOptions = dict((v, k) for k, v in typeOptions.items())
+
+        self.subtypeOptions = {"": -1}
+
+        subtypeOptionsAll = {"": -1}
+        for t in CSI.SUBTYPE_NAME.values():
+            subtypeOptionsAll.update(t)
+        self.subtypeOptionsAll = dict((v, k) for k, v in
+                                      subtypeOptionsAll.items())
 
         styleOptions = {-1: ""}
         for key, name in CSI.STYLE.items():
@@ -773,6 +786,8 @@ class SelectCardsetAdvancedSearch(MfxDialog):
         self.size.set(criteria.size)
         self.type = tkinter.StringVar()
         self.type.set(criteria.type)
+        self.subtype = tkinter.StringVar()
+        self.subtype.set(criteria.subtype)
         self.style = tkinter.StringVar()
         self.style.set(criteria.style)
         self.date = tkinter.StringVar()
@@ -804,13 +819,32 @@ class SelectCardsetAdvancedSearch(MfxDialog):
         typeValues = list(criteria.typeOptions.keys())
         typeValues.sort()
 
+        self.typeValues = criteria.typeOptions
+
         labelType = tkinter.Label(top_frame, text="Type:", anchor="w")
         labelType.grid(row=row, column=0, columnspan=1, sticky='ew',
                        padx=1, pady=1)
         textType = PysolCombo(top_frame, values=typeValues,
-                              textvariable=self.type, state='readonly')
+                              textvariable=self.type, state='readonly',
+                              selectcommand=self.updateSubtypes)
         textType.grid(row=row, column=1, columnspan=4, sticky='ew',
                       padx=1, pady=1)
+        row += 1
+
+        subtypeValues = list(criteria.subtypeOptions.keys())
+        subtypeValues.sort()
+
+        labelSubtype = tkinter.Label(top_frame, text="Subtype:",
+                                     anchor="w")
+        labelSubtype.grid(row=row, column=0, columnspan=1, sticky='ew',
+                          padx=1, pady=1)
+        textSubtype = PysolCombo(top_frame, values=subtypeValues,
+                                 textvariable=self.subtype,
+                                 state='readonly')
+        textSubtype.grid(row=row, column=1, columnspan=4, sticky='ew',
+                         padx=1, pady=1)
+        self.subtypeSelect = textSubtype
+        self.updateSubtypes()
         row += 1
 
         styleValues = list(criteria.styleOptions.keys())
@@ -854,6 +888,23 @@ class SelectCardsetAdvancedSearch(MfxDialog):
         focus = self.createButtons(bottom_frame, kw)
         # focus = text_w
         self.mainloop(focus, kw.timeout)
+
+    def updateSubtypes(self, *args):
+        subtypeOptions = {-1: ""}
+        key = self.typeValues[self.type.get()]
+        if key in CSI.SUBTYPE_NAME:
+            subtypeOptions.update(CSI.SUBTYPE_NAME[key])
+            self.subtypeSelect['state'] = 'readonly'
+            subtypeOptions = dict((v, k) for k, v in
+                                  subtypeOptions.items())
+            subtypeOptionsK = list(subtypeOptions.keys())
+            subtypeOptionsK.sort()
+            self.subtypeSelect['values'] = subtypeOptionsK
+            if self.subtype.get() not in subtypeOptionsK:
+                self.subtype.set("")
+        else:
+            self.subtypeSelect['state'] = 'disabled'
+            self.subtype.set("")
 
     def initKw(self, kw):
         kw = KwStruct(kw,

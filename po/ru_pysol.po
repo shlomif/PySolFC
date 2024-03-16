@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2024-03-03 11:36-0500\n"
+"PO-Revision-Date: 2024-03-15 23:05-0400\n"
 "Last-Translator: Skomoroh <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
@@ -1831,6 +1831,9 @@ msgstr ""
 msgid "Type:"
 msgstr "Тип:"
 
+msgid "Subtype:"
+msgstr ""
+
 #: pysollib/wizardutil.py:151 pysollib/wizardutil.py:157
 msgid "No redeals"
 msgstr "Без пересдачи"
@@ -3650,6 +3653,9 @@ msgstr "Другие имена:"
 #: pysollib/tk/selectgame.py:394
 msgid "Category:"
 msgstr "Категория:"
+
+msgid "Subcategory:"
+msgstr ""
 
 #: pysollib/pysolgtk/selectgame.py:119 pysollib/tile/selectgame.py:397
 #: pysollib/tk/selectgame.py:397

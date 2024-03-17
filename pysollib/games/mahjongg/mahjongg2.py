@@ -1245,7 +1245,7 @@ r(5267, "Sukis", layout="0aaaaacaaeaagaai" +
     "GgaGiaGkaGmaGoaG" +
     "q")
 #
-r(5268, "Temple 2", layout="0aaaaaeaaiabchbd" +
+r(5268, "Temple 3", layout="0aaaaaeaaiabchbd" +
     "abghbhacahcbocca" +
     "cehcfocgaciadchd" +
     "dodeadghdhaeaheb" +
@@ -1273,7 +1273,7 @@ r(5268, "Temple 2", layout="0aaaaaeaaiabchbd" +
     "ougauiavchvdavgh" +
     "vhawaaweawi")
 #
-r(5269, "Temple 3", layout="0aacaagaakabahbb" +
+r(5269, "Temple 4", layout="0aacaagaakabahbb" +
     "abehbfabihbjacco" +
     "cchcdacgocghchac" +
     "kadahdbadeodehdf" +

@@ -284,7 +284,80 @@ r(5414, "Bridge 2", layout="0daadacdaedagdai" +
     "cyicykcymdAadAcd" +
     "AedAgdAidAkdAmdA" +
     "o")
+r(5415, "Spider", layout="0aaebcfaclacqbea" +
+    "begbelbeqbgabghb" +
+    "glbgqbibbidbihbi" +
+    "lbipbkdbkhbklbko" +
+    "alfaljhmgamhhmih" +
+    "mkamlbmnampbnban" +
+    "fanjonjonlaodhog" +
+    "aohoohhoihokaolh" +
+    "omaonoonhooaopao" +
+    "rhpeapfapjopjvpk" +
+    "oplhpqaptaqdhqga" +
+    "qhoqhhqihqkaqlhq" +
+    "maqnoqnhqoaqpaqr" +
+    "brbarfarjorjorlh" +
+    "sgashhsihskaslbs" +
+    "naspatfatjbudbuh" +
+    "bulbuobwbbwdbwhb" +
+    "wlbwpbyabyhbylby" +
+    "qbAabAgbAlbAqbCf" +
+    "aClaCqaEe")
+r(5416, "Waves", layout="0eafeahabmacadcf" +
+    "dchadmaeacefcehh" +
+    "emhfaafmagacgfcg" +
+    "higmihaahmaiabif" +
+    "bihiimijaajmakab" +
+    "kfbkhikmilaalmam" +
+    "aamfamhhmmhnaanm" +
+    "aoaaofaohapmaqab" +
+    "qfbqharmasabsfbs" +
+    "hatmauacufcuhhum" +
+    "hvaavmawacwfcwhi" +
+    "wmixaaxmayadyfdy" +
+    "hiymizaazmaAaeAf" +
+    "eAhiAmiBaaBmaCah" +
+    "CmhDaaDmaEaaFmaG" +
+    "a")
+r(5417, "Hot Coffee", layout="0aarbcradfadhadj" +
+    "adlaeaaencerbffb" +
+    "fhbfjbflafpagbbg" +
+    "ndgrchfchhchjchl" +
+    "bhpcindircjfcjhc" +
+    "jjcjlcjpCjrckndk" +
+    "ralaclfclhcljcll" +
+    "clpClrcmndmranbc" +
+    "nfcnhcnjcnlbnpbo" +
+    "ndorbpfbphbpjbpl" +
+    "appaqncqrarfarha" +
+    "rjarlbsratgatlau" +
+    "ravgavlaxhaxjaxl")
+r(5418, "Zigzag", layout="0aabaajaaracahcb" +
+    "accacihcjackacqh" +
+    "cracsaebiecaedae" +
+    "hieiaejvejiekael" +
+    "aepieqaeragcigda" +
+    "gehgfaggighagihg" +
+    "jagkiglagmhgnago" +
+    "igpagqaidiieaifv" +
+    "ifiigaihailiimai" +
+    "nviniioaipakehkf" +
+    "akgakmhknakoamfa" +
+    "mnaqbaqjaqrasahs" +
+    "bascasihsjaskasq" +
+    "hsrassaubiucauda" +
+    "uhiuiaujvujiukau" +
+    "laupiuqaurawciwd" +
+    "awehwfawgiwhawih" +
+    "wjawkiwlawmhwnaw" +
+    "oiwpawqaydiyeayf" +
+    "vyfiygayhayliyma" +
+    "ynvyniyoaypaAehA" +
+    "faAgaAmhAnaAoaCa" +
+    "aCfaCnaCs")
 
+# ----------------------------------------------------------------------
 
 r(5801, "Faro", name="Double Mahjongg Faro", ncards=288, layout="0aaaha" +
     "baachadaae" +

@@ -160,7 +160,7 @@ r(5007, "Bat", layout="0ecaeAaaabalbanb" +
     "hobhodhofhaghCgh" +
     "aihCi")
 #
-r(5008, "Beatle", layout="0aeaagaauaawaaic" +
+r(5008, "Beetle", layout="0aeaagaauaawaaic" +
     "akcamcaocaqcasca" +
     "eeageaieakeameao" +
     "eaqeaseaueadgafg" +
@@ -1027,7 +1027,7 @@ r(5060, "N for Namida", layout="0caaccaceacgacqa" +
     "comcqmcsmcum")
 
 #
-r(5063, "New Layout 1", layout="0aeaagaaiaakabpa" +
+r(5063, "Temple 1", layout="0aeaagaaiaakabpa" +
     "auaawaayaaAaacca" +
     "Ccahdajdavdaxdaa" +
     "eacealeateaCeaEe" +
@@ -1406,7 +1406,7 @@ r(5083, "Sun and Moon", layout="0dgaciabkaamabya" +
     "enbBndgociobkoam" +
     "obuovaevagvaivak" +
     "Ckh")
-r(5084, "Temple 1", layout="0baaacaaeaalaana" +
+r(5084, "Temple 2", layout="0baaacaaeaalaana" +
     "apaaraataaAaaCab" +
     "Eaaacaccalcbncbp" +
     "cbrcatcaCcaEcajd" +

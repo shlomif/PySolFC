@@ -18,7 +18,7 @@ def decode_layout(layout):
         tx = alpha.find(layout[i+1])
         ty = alpha.find(layout[i+2])
         assert n >= 0 and tx >= 0 and ty >= 0
-        for tl in range(level, level + height):
+        for tl in range(int(level), int(level) + int(height)):
             tiles.append((tl, tx, ty))
     tiles.sort()
     return tiles

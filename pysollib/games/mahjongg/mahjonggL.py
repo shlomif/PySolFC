@@ -325,27 +325,29 @@ r(5613, "Lion 2", layout="0aapabiablhbphcf" +
     "hDeaDgaDohEgaEia" +
     "EmhEohFiaFkhFmhG" +
     "k")
-r(5614, "New Layout 2", layout="0CabCadCafacapca" +
-    "hccvccacepcehcgv" +
-    "cgheaveaaecpeche" +
-    "eveeaegpegCfaCfc" +
-    "CfeCfgagapgahgcv" +
-    "gcagepgehggvggCh" +
-    "aChcCheChghiavia" +
-    "aicpichievieaigp" +
-    "igakaqkahkcwkcak" +
-    "eqkehkgwkghmawma" +
-    "amcqmchmewmeamgq" +
-    "mgaoaqoahocwocao" +
-    "eqoehogwoghqavqa" +
-    "aqcpqchqevqeaqgp" +
-    "qgCraCrcCreCrgas" +
-    "apsahscvscasepse" +
-    "hsgvsgCtaCtcCteC" +
-    "tghuavuaaucpuchu" +
-    "evueaugpugawapwa" +
-    "hwcvwcawepwehwgv" +
-    "wgCybCydCyf")
+# Contains floating tiles, so a usable tile may not be visible.
+# Unplayable without serious work.
+# r(5614, "New Layout 2", layout="0CabCadCafacapca" +
+#     "hccvccacepcehcgv" +
+#     "cgheaveaaecpeche" +
+#     "eveeaegpegCfaCfc" +
+#     "CfeCfgagapgahgcv" +
+#     "gcagepgehggvggCh" +
+#     "aChcCheChghiavia" +
+#     "aicpichievieaigp" +
+#     "igakaqkahkcwkcak" +
+#     "eqkehkgwkghmawma" +
+#     "amcqmchmewmeamgq" +
+#     "mgaoaqoahocwocao" +
+#     "eqoehogwoghqavqa" +
+#     "aqcpqchqevqeaqgp" +
+#     "qgCraCrcCreCrgas" +
+#     "apsahscvscasepse" +
+#     "hsgvsgCtaCtcCteC" +
+#     "tghuavuaaucpuchu" +
+#     "evueaugpugawapwa" +
+#     "hwcvwcawepwehwgv" +
+#     "wgCybCydCyf")
 r(5615, "Big X", layout="0aacaamhbchbmacb" +
     "occacdaclocmacnh" +
     "dbhddhdlhdnaeaae" +

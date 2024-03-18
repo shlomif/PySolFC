@@ -569,10 +569,12 @@ class Options:
             self.tabletile_name = None
         # cardsets
         c = "Standard"
+        m = "Crystal Mahjongg"
         if sw < 800 or sh < 600:
             c = "2000"
         if TOOLKIT == 'kivy':
             c = "Standard"
+            m = "Gnome Mahjongg 1"
 
         # if sw > 1024 and sh > 768:
         #    c = 'Dondorf'
@@ -608,7 +610,7 @@ class Options:
                 0:                  {0: (c, "")},
                 CSI.TYPE_FRENCH:    {0: (c, ""), 1: (c, "")},
                 CSI.TYPE_HANAFUDA:  {0: ("Kintengu", "")},
-                CSI.TYPE_MAHJONGG:  {0: ("Crystal Mahjongg", "")},
+                CSI.TYPE_MAHJONGG:  {0: (m, "")},
                 CSI.TYPE_TAROCK:    {0: ("Vienna 2K", "")},
                 CSI.TYPE_HEXADECK:  {0: ("Hex A Deck", "")},
                 CSI.TYPE_MUGHAL_GANJIFA: {0: ("Mughal Ganjifa", "")},

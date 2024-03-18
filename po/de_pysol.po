@@ -1709,14 +1709,14 @@ msgstr "Name:"
 #: pysollib/tile/selectgame.py:179 pysollib/tile/selectgame.py:561
 #: pysollib/tk/selectgame.py:179 pysollib/tk/selectgame.py:561
 msgid "Luck only"
-msgstr "Nur Glück"
+msgstr "nur Glück"
 
 #: pysollib/wizardutil.py:110 pysollib/kivy/selectgame.py:204
 #: pysollib/pysolgtk/selectgame.py:237 pysollib/pysolgtk/selectgame.py:473
 #: pysollib/tile/selectgame.py:181 pysollib/tile/selectgame.py:562
 #: pysollib/tk/selectgame.py:181 pysollib/tk/selectgame.py:562
 msgid "Mostly luck"
-msgstr "Meist glücklich"
+msgstr "hauptsächlich Glück"
 
 #: pysollib/wizardutil.py:111 pysollib/wizardutil.py:115
 #: pysollib/kivy/selectgame.py:206 pysollib/pysolgtk/selectgame.py:238
@@ -1724,7 +1724,7 @@ msgstr "Meist glücklich"
 #: pysollib/tile/selectgame.py:563 pysollib/tk/selectgame.py:183
 #: pysollib/tk/selectgame.py:563
 msgid "Balanced"
-msgstr "Ausgewogen"
+msgstr "ausgewogen"
 
 #: pysollib/wizardutil.py:112 pysollib/kivy/selectgame.py:208
 #: pysollib/pysolgtk/selectgame.py:239 pysollib/pysolgtk/selectgame.py:475
@@ -1738,7 +1738,7 @@ msgstr "viel Geschicklichkeit"
 #: pysollib/tile/selectgame.py:188 pysollib/tile/selectgame.py:565
 #: pysollib/tk/selectgame.py:188 pysollib/tk/selectgame.py:565
 msgid "Skill only"
-msgstr "Nur Geschicklichkeit"
+msgstr "nur Geschicklichkeit"
 
 #: pysollib/wizardutil.py:116 pysollib/pysolgtk/selectgame.py:118
 #: pysollib/tile/selectgame.py:396 pysollib/tk/selectgame.py:396

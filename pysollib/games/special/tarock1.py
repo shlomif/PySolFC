@@ -34,7 +34,7 @@ from pysollib.stack import \
         ReserveStack, \
         SS_FoundationStack, \
         StackWrapper
-from pysollib.util import ACE, ANY_RANK, NO_RANK,\
+from pysollib.util import ACE, ANY_RANK, NO_RANK, \
         UNLIMITED_ACCEPTS, UNLIMITED_MOVES
 
 
@@ -130,7 +130,8 @@ class Tarock_AC_RowStack(Tarock_OpenStack):
                 self.isAlternateColorSequence(cards))
 
 # ************************************************************************
-# *
+# * Cockroach
+# * Double Cockroach
 # ************************************************************************
 
 
@@ -142,7 +143,7 @@ class DoubleCockroach(Grasshopper):
     MAX_ROUNDS = 1
 
 # ************************************************************************
-# *
+# * Corkscrew
 # ************************************************************************
 
 
@@ -236,7 +237,7 @@ class Corkscrew(AbstractTarockGame):
         return (sequence([card1, card2]) or sequence([card2, card1]))
 
 # ************************************************************************
-# *
+# * Serpent
 # ************************************************************************
 
 
@@ -249,7 +250,7 @@ class Serpent(Corkscrew):
         return (sequence([card1, card2]) or sequence([card2, card1]))
 
 # ************************************************************************
-# *
+# * Rambling
 # ************************************************************************
 
 

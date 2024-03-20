@@ -22,17 +22,20 @@
 # ---------------------------------------------------------------------------##
 
 from pysollib.gamedb import GI, GameInfo, registerGame
+from pysollib.games.acesup import AcesUp
 from pysollib.games.special.tarock import AbstractTarockGame, Grasshopper
 from pysollib.games.threepeaks import Golf_Waste, ThreePeaksNoScore
 from pysollib.layout import Layout
 from pysollib.mfxutil import kwdefault
 from pysollib.stack import \
+        AbstractFoundationStack, \
         InitialDealTalonStack, \
         OpenStack, \
         ReserveStack, \
         SS_FoundationStack, \
         StackWrapper
-from pysollib.util import ANY_RANK, NO_RANK, UNLIMITED_ACCEPTS, UNLIMITED_MOVES
+from pysollib.util import ACE, ANY_RANK, NO_RANK,\
+        UNLIMITED_ACCEPTS, UNLIMITED_MOVES
 
 
 class Tarock_OpenStack(OpenStack):
@@ -274,6 +277,46 @@ class LeGrandeTeton(ThreePeaksNoScore):
 
 
 # ************************************************************************
+# * Fool's Up
+# ************************************************************************
+
+class FoolsUp_Foundation(AbstractFoundationStack):
+    def acceptsCards(self, from_stack, cards):
+        if not AbstractFoundationStack.acceptsCards(self, from_stack, cards):
+            return False
+        c = cards[0]
+        for s in self.game.s.rows:
+            if s is not from_stack and s.cards and s.cards[-1].suit == c.suit:
+                if c.suit == 4:
+                    if s.cards[-1].rank > c.rank:
+                        return True
+                else:
+                    if s.cards[-1].rank > c.rank or s.cards[-1].rank == ACE:
+                        # found a higher rank or an Ace on the row stacks
+                        return c.rank != ACE
+        return False
+
+
+class FoolsUp(AcesUp):
+    Foundation_Class = StackWrapper(FoolsUp_Foundation, max_cards=73)
+
+    def createGame(self):
+        AcesUp.createGame(self, rows=5)
+
+    def isGameWon(self):
+        if len(self.s.foundations[0].cards) != 73:
+            return False
+        for s in self.s.rows:
+            if len(s.cards) != 1:
+                return False
+            if s.cards[0].suit == 4 and s.cards[0].rank != 21:
+                return False
+            if s.cards[0].suit < 4 and s.cards[0].rank != ACE:
+                return False
+        return True
+
+
+# ************************************************************************
 # * register the games
 # ************************************************************************
 
@@ -294,4 +337,5 @@ r(13166, Serpent, 'Serpent', GI.GT_TAROCK | GI.GT_OPEN, 2, 0,
   GI.SL_MOSTLY_SKILL)
 r(13167, Rambling, 'Rambling', GI.GT_TAROCK | GI.GT_OPEN, 2, 0,
   GI.SL_MOSTLY_SKILL)
+r(13168, FoolsUp, "Fool's Up", GI.GT_TAROCK, 1, 0, GI.SL_LUCK)
 r(22232, LeGrandeTeton, 'Le Grande Teton', GI.GT_TAROCK, 1, 0, GI.SL_BALANCED)

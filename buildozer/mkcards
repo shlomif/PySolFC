@@ -1,39 +1,9 @@
 #!/bin/bash
 #set -eux
 
-#loadmode="forge"
-loadmode=" "
-
 rm -rf cardsets
 
-if [ "$loadmode" == "forge" ]; then
-	cardsets_dir=PySolFC-Cardsets--Minimal-2.2.0
-	cardsets_file=${cardsets_dir}.tar.xz
-
-	echo '### prepare cardsets'
-
-	if [ ! -f ${cardsets_file} ]; then
-  	echo '### downloading cardsets'
-  	wget https://netix.dl.sourceforge.net/project/pysolfc/PySolFC-Cardsets/minimal/${cardsets_file}
-	fi
-
-	if [ ! -d ${cardsets_dir} ]; then
-  	echo '### extracting cardsets'
-  	tar -xf ${cardsets_file}
-	fi
-
-	echo '### processing cardsets'
-	(
-  	cd ${cardsets_dir}
-	  ../../scripts/cardconv gif png
-  	for i in cardset-*-png; do
-    	rm -rf `basename $i -png`
-  	done
-	)
-
-	ln -s ${cardsets_dir} cardsets
-
-else
+if [ 1 ]; then
 	cardsets_dir=PySolFC-Cardsets
 
 	if [ ! -d ${cardsets_dir} ]; then

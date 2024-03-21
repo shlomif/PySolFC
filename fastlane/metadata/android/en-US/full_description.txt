@@ -1,7 +1,11 @@
 PySolFC is a collection of solitaire games written in Python.
 
-The project provides more than 1000 solitaire games such as patiences, mahjongg,
-shishensho, memory and others. The original project runs on linux, windows and
-macos and was published at sourceforge. See <a href="https://pysolfc.sourceforge.io/">https://pysolfc.sourceforge.io/</a>.
-A new user interface has been developed using the kivy framework to meet
-requirements of touch screens devices.
+PySolFC is a desktop application that runs on Linux, Windows and Mac. It
+offers more than 1000 solitaire games such as Patience, Mahjongg, Shishensho,
+Memory and others and is published on
+<a href="https://pysolfc.sourceforge.io/">https://pysolfc.sourceforge.io</a>.
+If you are looking for a desktop version, take a look.
+
+The Android app is based on this work and provides a selection of the desktop
+functions. It is created and published from selected snapshots out of
+the sources.

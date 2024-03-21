@@ -481,7 +481,7 @@ class GI:
         ("C.L. Baker", (45,)),
         ("Mark S. Ball", (909,)),
         ("David Bernazzani", (314, 830,)),
-        ("Gordon Bower", (763, 783, 852,)),
+        ("Gordon Bower", (763, 783, 852, 959,)),
         ("Art Cabral", (9,)),
         ("Richard A. Canfield", (105, 835,)),
         ("Lillian Davies and Christa Baran", (605,)),
@@ -598,7 +598,7 @@ class GI:
         ('fc-2.20', tuple(range(855, 897))),
         ('fc-2.21', tuple(range(897, 900)) + tuple(range(11014, 11017)) +
          tuple(range(13160, 13163)) + (16682,)),
-        ('dev', tuple(range(906, 959)) + tuple(range(5415, 5419)) +
+        ('dev', tuple(range(906, 960)) + tuple(range(5415, 5419)) +
          tuple(range(5600, 5624)) + tuple(range(11017, 11020)) +
          tuple(range(13168, 13169)) + tuple(range(18000, 18005)) +
          tuple(range(19000, 19012)) + tuple(range(22303, 22311)) +

@@ -646,7 +646,7 @@ class Robert(Game):
 
     def createGame(self, max_rounds=3, num_deal=1, num_foundations=1):
         layout, s = Layout(self), self.s
-        self.setSize(layout.XM + 4 * layout.XS,
+        self.setSize(layout.XM + max(4, num_foundations) * layout.XS,
                      layout.YM + layout.TEXT_HEIGHT + 2 * layout.YS)
         x, y = layout.XM, layout.YM
         if num_foundations == 1:
@@ -662,7 +662,8 @@ class Robert(Game):
             layout.createText(stack, 's')
             x += layout.XS
 
-        x, y = layout.XM+layout.XS, layout.YM + layout.YS + layout.TEXT_HEIGHT
+        x, y = layout.XM + (layout.XS * max((num_foundations // 2) - 1, 1)), \
+            layout.YM + layout.YS + layout.TEXT_HEIGHT
         s.talon = WasteTalonStack(x, y, self,
                                   max_rounds=max_rounds, num_deal=num_deal)
         layout.createText(s.talon, 'nw')
@@ -700,8 +701,8 @@ class Wasatch(Robert):
 
 # ************************************************************************
 # * Uintah
+# * Double Uintah
 # ************************************************************************
-
 
 class Uintah_Foundation(AbstractFoundationStack):
     def acceptsCards(self, from_stack, cards):
@@ -737,6 +738,28 @@ class Uintah(Robert):
                 cards.remove(c)
             if len(suits) == 4:
                 break
+        top_cards.sort(key=lambda x: -x.suit)  # sort by suit
+        return cards + top_cards
+
+
+class DoubleUintah(Uintah):
+    Foundation_Stack = Uintah_Foundation
+
+    def createGame(self):
+        Robert.createGame(self, max_rounds=UNLIMITED_REDEALS, num_deal=3,
+                          num_foundations=8)
+
+    def _shuffleHook(self, cards):
+        top_cards = []
+        for s in range(2):
+            suits = []
+            for c in cards[:]:
+                if c.suit not in suits:
+                    suits.append(c.suit)
+                    top_cards.append(c)
+                    cards.remove(c)
+                if len(suits) == 4:
+                    break
         top_cards.sort(key=lambda x: -x.suit)  # sort by suit
         return cards + top_cards
 
@@ -1536,3 +1559,6 @@ registerGame(GameInfo(906, Thieves, "Thieves",
 registerGame(GameInfo(941, BinaryStar, "Binary Star",
                       GI.GT_GOLF | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL,
                       altnames=("Black Holes",)))
+registerGame(GameInfo(959, DoubleUintah, "Double Uintah",
+                      GI.GT_GOLF, 2, UNLIMITED_REDEALS,
+                      GI.SL_MOSTLY_LUCK))

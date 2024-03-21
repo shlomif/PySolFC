@@ -3132,6 +3132,9 @@ msgstr ""
 msgid "Games with Separate Decks"
 msgstr ""
 
+msgid "Games with Jokers"
+msgstr ""
+
 #: pysollib/kivy/selectgame.py:271 pysollib/pysolgtk/selectgame.py:306
 #: pysollib/tile/selectgame.py:249 pysollib/tk/selectgame.py:249
 msgid "Open Games (all cards visible)"

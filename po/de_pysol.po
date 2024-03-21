@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2024-03-15 23:06-0400\n"
+"PO-Revision-Date: 2024-03-21 18:22-0400\n"
 "Last-Translator: H. Schaekel <Holger.Schaekel@web.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -1266,9 +1266,6 @@ msgstr[1] "%d Wiederholungen"
 msgid "Talon."
 msgstr "Talon."
 
-msgid "Reserve."
-msgstr "Reserve."
-
 #: pysollib/stack.py:2228 pysollib/stack.py:2992
 msgid "Reserve. No building."
 msgstr "Reserve. Nicht aufgebaut."
@@ -2376,6 +2373,9 @@ msgstr ""
 "Tableau. Aufgebaut nach Farbe. Sequenzen von Karten in der gleichen Farbe "
 "können als eine Einheit bewegt werden."
 
+msgid "Reserve."
+msgstr "Reserve."
+
 #: pysollib/games/klondike.py:461
 msgid "Reserve. Only Kings are acceptable."
 msgstr "Reserve. Nur Könige sind erlaubt."
@@ -3263,6 +3263,9 @@ msgstr ""
 #: pysollib/tile/selectgame.py:247 pysollib/tk/selectgame.py:247
 msgid "Games with Separate Decks"
 msgstr "Spiele mit separaten Decks"
+
+msgid "Games with Jokers"
+msgstr ""
 
 #: pysollib/kivy/selectgame.py:271 pysollib/pysolgtk/selectgame.py:306
 #: pysollib/tile/selectgame.py:249 pysollib/tk/selectgame.py:249

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PySolFC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2024-03-15 23:05-0400\n"
+"PO-Revision-Date: 2024-03-21 18:24-0400\n"
 "Last-Translator: Jerzy Trzeciak <artusek@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
@@ -1303,9 +1303,6 @@ msgstr[2] "%d rozdań"
 msgid "Talon."
 msgstr "Stos wyjściowy."
 
-msgid "Reserve."
-msgstr "Stos rezerwowy."
-
 #: pysollib/stack.py:2228 pysollib/stack.py:2992
 msgid "Reserve. No building."
 msgstr "Stos rezerwowy. Nie układaj."
@@ -2429,6 +2426,9 @@ msgstr ""
 "Stół gry. Układaj w dół według barwy. Sekwens kart tego samego koloru można "
 "przenieść jako całość."
 
+msgid "Reserve."
+msgstr "Stos rezerwowy."
+
 #: pysollib/games/klondike.py:461
 msgid "Reserve. Only Kings are acceptable."
 msgstr "Stos rezerwowy. Tylko Króle są dozwolone."
@@ -3317,6 +3317,9 @@ msgstr ""
 #: pysollib/tile/selectgame.py:247 pysollib/tk/selectgame.py:247
 msgid "Games with Separate Decks"
 msgstr "Gry z odrębnymi taliami"
+
+msgid "Games with Jokers"
+msgstr ""
 
 #: pysollib/kivy/selectgame.py:271 pysollib/pysolgtk/selectgame.py:306
 #: pysollib/tile/selectgame.py:249 pysollib/tk/selectgame.py:249

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: 1.02\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2024-03-15 23:06-0400\n"
+"PO-Revision-Date: 2024-03-21 18:23-0400\n"
 "Last-Translator: Eric Rausch <neelix570@gmail.com>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -1296,9 +1296,6 @@ msgstr[1] "%d donnes"
 msgid "Talon."
 msgstr "Talon."
 
-msgid "Reserve."
-msgstr "Réserve."
-
 #: pysollib/stack.py:2228 pysollib/stack.py:2992
 msgid "Reserve. No building."
 msgstr "Réserve. Aucun empilement."
@@ -2415,6 +2412,9 @@ msgstr ""
 "Tableau. Décroissant par couleur. Les ensembles de cartes d'une même "
 "enseigne peuvent être déplacés entièrement."
 
+msgid "Reserve."
+msgstr "Réserve."
+
 #: pysollib/games/klondike.py:461
 msgid "Reserve. Only Kings are acceptable."
 msgstr "Réserve. Rois seuls."
@@ -3302,6 +3302,9 @@ msgstr ""
 #: pysollib/tile/selectgame.py:247 pysollib/tk/selectgame.py:247
 msgid "Games with Separate Decks"
 msgstr "Jeux avec jeux de cartes séparés"
+
+msgid "Games with Jokers"
+msgstr ""
 
 #: pysollib/kivy/selectgame.py:271 pysollib/pysolgtk/selectgame.py:306
 #: pysollib/tile/selectgame.py:249 pysollib/tk/selectgame.py:249

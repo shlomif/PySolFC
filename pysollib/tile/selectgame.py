@@ -251,6 +251,9 @@ class SelectGameData(SelectDialogTreeData):
                 SelectGameNode(None, _("Games with Separate Decks"),
                                lambda gi: gi.si.game_flags &
                                GI.GT_SEPARATE_DECKS),
+                SelectGameNode(None, _("Games with Jokers"),
+                               lambda gi: gi.category == GI.GC_FRENCH and
+                               gi.subcategory == GI.GS_JOKER_DECK),
                 SelectGameNode(None, _("Open Games (all cards visible)"),
                                lambda gi: gi.si.game_flags & GI.GT_OPEN),
                 SelectGameNode(None, _("Relaxed Variants"),

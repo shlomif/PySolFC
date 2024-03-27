@@ -1,4 +1,17 @@
 
+History:
+--------
+
+  The Android project was created in 2016 as a separate project (on Bitbucket)
+  forked from a long inactive Sourceforge repository by lufebe16. The first
+  version (as 0.8) was released with fdroid in March 2017.
+
+  In 2016, shlomif started working diligently on the official project.
+  Following his request to combine these two projects, the Android version
+  was merged into his repo (now on github) in February 2018. The
+  first joint version (as 2.2.0) was released in April 2018.
+
+
 Build Prerequisites (needs root):
 ---------------------------------
 

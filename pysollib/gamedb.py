@@ -600,7 +600,7 @@ class GI:
          tuple(range(13160, 13163)) + (16682,)),
         ('dev', tuple(range(906, 960)) + tuple(range(5415, 5419)) +
          tuple(range(5600, 5624)) + tuple(range(11017, 11020)) +
-         tuple(range(13168, 13169)) + tuple(range(18000, 18005)) +
+         tuple(range(13168, 13170)) + tuple(range(18000, 18005)) +
          tuple(range(19000, 19012)) + tuple(range(22303, 22311)) +
          tuple(range(22353, 22361))),
     )

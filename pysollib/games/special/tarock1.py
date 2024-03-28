@@ -23,13 +23,16 @@
 
 from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.games.acesup import AcesUp
+from pysollib.games.montana import Montana, Montana_Talon
 from pysollib.games.special.tarock import AbstractTarockGame, Grasshopper
 from pysollib.games.threepeaks import Golf_Waste, ThreePeaksNoScore
 from pysollib.layout import Layout
 from pysollib.mfxutil import kwdefault
 from pysollib.stack import \
         AbstractFoundationStack, \
+        BasicRowStack, \
         InitialDealTalonStack, \
+        InvisibleStack, \
         OpenStack, \
         ReserveStack, \
         SS_FoundationStack, \
@@ -318,6 +321,182 @@ class FoolsUp(AcesUp):
 
 
 # ************************************************************************
+# * Trumps Row
+# ************************************************************************
+
+class TrumpsRow_Talon(Montana_Talon):
+    def dealCards(self, sound=False):
+        # move cards to the Talon, shuffle and redeal
+        game = self.game
+        decks = game.gameinfo.decks
+        RSTEP, RBASE = game.RSTEP, game.RBASE
+        num_cards = 0
+        assert len(self.cards) == 0
+        rows = game.s.rows
+        # move out-of-sequence cards from the Tableau to the Talon
+        stacks = []
+        gaps = [None] * (5 * decks)
+        for g in range(5 * decks):
+            NRSTEP = RSTEP
+            if g == game.TRUMPSUIT:
+                NRSTEP = 22
+            i = min(77, g * RSTEP)
+            print(i)
+            r = rows[i]
+            if r.cards and r.id < RSTEP * self.game.TRUMPSUIT and \
+                    r.cards[-1].rank == RBASE and \
+                    r.cards[-1].suit != self.game.TRUMPSUIT:
+                in_sequence, suit = 1, r.cards[-1].suit
+            elif r.id == RSTEP * self.game.TRUMPSUIT and \
+                    r.cards[-1].rank == RBASE and \
+                    r.cards[-1].suit == self.game.TRUMPSUIT:
+                in_sequence, suit = 1, self.game.TRUMPSUIT
+            else:
+                in_sequence, suit = 0, 999999
+
+            for j in range(NRSTEP):
+                if i + j >= 78:
+                    continue
+                r = rows[i + j]
+                if in_sequence:
+                    if (not r.cards or
+                            not self._inSequence(r.cards[-1], suit, RBASE+j)):
+                        in_sequence = 0
+                if not in_sequence:
+                    if r not in stacks:
+                        stacks.append(r)
+                        if gaps[g] is None:
+                            gaps[g] = r
+                        if r.cards:
+                            game.moveMove(1, r, self, frames=0)
+                            num_cards = num_cards + 1
+        assert len(self.cards) == num_cards
+        assert len(stacks) == num_cards + len(gaps)
+        if num_cards == 0:          # game already finished
+            return 0
+        if sound:
+            game.startDealSample()
+        # shuffle
+        game.shuffleStackMove(self)
+        # redeal
+        game.nextRoundMove(self)
+        spaces = self.getRedealSpaces(stacks, gaps)
+        for r in stacks:
+            if r not in spaces:
+                self.game.moveMove(1, self, r, frames=4)
+        # done
+        assert len(self.cards) == 0
+        if sound:
+            game.stopSamples()
+        return num_cards
+
+
+class TrumpsRow_RowStack(BasicRowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not BasicRowStack.acceptsCards(self, from_stack, cards):
+            return False
+        if self.id % self.game.RSTEP == 0:
+            return cards[0].rank == self.game.RBASE and \
+                cards[0].suit != self.game.TRUMPSUIT
+        left = self.game.s.rows[self.id - 1]
+        return left.cards and left.cards[-1].suit == cards[0].suit \
+            and left.cards[-1].rank + 1 == cards[0].rank
+
+    def clickHandler(self, event):
+        if not self.cards:
+            return self.quickPlayHandler(event)
+        return BasicRowStack.clickHandler(self, event)
+
+    getBottomImage = BasicRowStack._getBlankBottomImage
+
+
+class TrumpsRow_TrumpRowStack(TrumpsRow_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not BasicRowStack.acceptsCards(self, from_stack, cards):
+            return False
+        if self.id == self.game.RSTEP * self.game.TRUMPSUIT:
+            return cards[0].rank == self.game.RBASE and \
+                cards[0].suit == self.game.TRUMPSUIT
+        left = self.game.s.rows[self.id - 1]
+        return left.cards and left.cards[-1].suit == cards[0].suit \
+            and left.cards[-1].rank + 1 == cards[0].rank
+
+
+class TrumpsRow(Montana):
+    Talon_Class = StackWrapper(TrumpsRow_Talon, max_rounds=5)
+    RLEN, RSTEP, RBASE = 78, 14, 1
+    TRUMPSUIT = 4
+
+    def createGame(self, round_text=True):
+        decks = self.gameinfo.decks
+
+        # create layout
+        l, s = Layout(self, card_x_space=4), self.s
+
+        # set window
+        w, h = l.XM + self.RSTEP*l.XS, l.YM + (6.25*decks)*l.YS
+        if round_text:
+            h += l.YS
+        self.setSize(w, h)
+
+        # create stacks
+        for k in range(decks):
+            for i in range(4):
+                x, y = l.XM, l.YM + (i+k*4)*l.YS
+                for j in range(self.RSTEP):
+                    s.rows.append(TrumpsRow_RowStack(x, y, self,
+                                  max_accept=1, max_cards=1))
+                    x += l.XS
+            x, y = l.XM, l.YM + (4.25 + k * 4) * l.YS
+            for j in range(self.RSTEP):
+                s.rows.append(TrumpsRow_TrumpRowStack(x, y, self,
+                                                      max_accept=1,
+                                                      max_cards=1))
+                x += l.XS
+            x, y = l.XM, l.YM + (5.25 + k * 4) * l.YS
+            for j in range(22 - self.RSTEP):
+                s.rows.append(TrumpsRow_TrumpRowStack(x, y, self,
+                                                      max_accept=1,
+                                                      max_cards=1))
+                x += l.XS
+        if round_text:
+            x, y = l.XM + (self.RSTEP-1)*l.XS//2, self.height-l.YS
+            s.talon = self.Talon_Class(x, y, self)
+            l.createRoundText(s.talon, 'se')
+        else:
+            # Talon is invisible
+            x, y = self.getInvisibleCoords()
+            s.talon = self.Talon_Class(x, y, self)
+        if self.RBASE:
+            # create an invisible stack to hold the four Aces
+            s.internals.append(InvisibleStack(self))
+
+        # define stack-groups
+        l.defaultStackGroups()
+
+    def isGameWon(self):
+        rows = self.s.rows
+        for i in range(0, self.RSTEP * self.TRUMPSUIT, self.RSTEP):
+            if not rows[i].cards:
+                return False
+            suit = rows[i].cards[-1].suit
+            for j in range(self.RSTEP - 1):
+                r = rows[i + j]
+                if not r.cards or r.cards[-1].rank != self.RBASE + j \
+                        or r.cards[-1].suit != suit:
+                    return False
+        if not rows[self.RSTEP * self.TRUMPSUIT].cards:
+            return False
+        suit = self.TRUMPSUIT
+        for j in range(21):
+            r = rows[self.RSTEP * self.TRUMPSUIT + j]
+            if not r.cards or r.cards[-1].rank != self.RBASE + j \
+                    or r.cards[-1].suit != suit:
+                return False
+        return True
+
+
+# ************************************************************************
 # * register the games
 # ************************************************************************
 
@@ -339,4 +518,5 @@ r(13166, Serpent, 'Serpent', GI.GT_TAROCK | GI.GT_OPEN, 2, 0,
 r(13167, Rambling, 'Rambling', GI.GT_TAROCK | GI.GT_OPEN, 2, 0,
   GI.SL_MOSTLY_SKILL)
 r(13168, FoolsUp, "Fool's Up", GI.GT_TAROCK, 1, 0, GI.SL_LUCK)
+r(13169, TrumpsRow, "Trumps Row", GI.GT_TAROCK, 1, 4, GI.SL_MOSTLY_SKILL)
 r(22232, LeGrandeTeton, 'Le Grande Teton', GI.GT_TAROCK, 1, 0, GI.SL_BALANCED)

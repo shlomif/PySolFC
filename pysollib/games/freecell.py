@@ -802,5 +802,6 @@ registerGame(GameInfo(813, DoubleFreecellTd, "Double FreeCell (Traditional)",
 registerGame(GameInfo(953, Petal, "Petal",
                       GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(960, Obstruction, "Obstruction",
-                      GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL,
+                      GI.GT_FREECELL | GI.GT_OPEN | GI.GT_ORIGINAL, 1, 0,
+                      GI.SL_MOSTLY_SKILL,
                       subcategory=GI.GS_JOKER_DECK, trumps=list(range(2))))

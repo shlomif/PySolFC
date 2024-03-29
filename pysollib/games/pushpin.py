@@ -543,7 +543,7 @@ registerGame(GameInfo(656, Accordion, "Bayan",
 registerGame(GameInfo(772, Accordion2, "Accordion",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_SKILL,
                       altnames=('Idle Year', 'Methuselah', 'Tower of Babel',
-                                'One Away Three Away')))
+                                'One Away Three Away', 'One-Handed')))
 registerGame(GameInfo(773, RelaxedAccordion, "Relaxed Accordion",
                       GI.GT_1DECK_TYPE | GI.GT_RELAXED, 1, 0, GI.SL_SKILL))
 registerGame(GameInfo(811, AccordionsRevenge, "Accordion's Revenge",

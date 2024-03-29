@@ -908,7 +908,8 @@ registerGame(GameInfo(897, Kiev, "Kiev",
 registerGame(GameInfo(914, Canberra, "Canberra",
                       GI.GT_YUKON, 1, 1, GI.SL_BALANCED))
 registerGame(GameInfo(919, Dnieper, "Dnieper",
-                      GI.GT_SPIDER, 1, 0, GI.SL_BALANCED))
+                      GI.GT_SPIDER, 1, 0, GI.SL_BALANCED,
+                      altnames=('Dnipro',)))
 registerGame(GameInfo(925, YukonCells, "Yukon Cells",
                       GI.GT_YUKON, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(936, YukonKings, "Yukon Kings",

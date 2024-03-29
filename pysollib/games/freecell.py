@@ -123,6 +123,45 @@ class ForeCell(FreeCell):
 
 
 # ************************************************************************
+# * Obstruction
+# ************************************************************************
+
+class Obstruction_RowStack(SuperMoveAC_RowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not self.basicAcceptsCards(from_stack, cards):
+            return 0
+        if cards[0].suit == 4:
+            return 0
+        stackcards = self.cards
+        if stackcards:
+            if stackcards[-1].suit == 4:
+                return 0
+        return AC_RowStack.acceptsCards(self, from_stack, cards)
+
+
+class Obstruction_Foundation(SS_FoundationStack):
+    def acceptsCards(self, from_stack, cards):
+        if self.cap.suit == 4 and cards[0].suit == 4:
+            for s in self.game.s.foundations[:3]:
+                if len(s.cards) != 13:
+                    return 0
+            return 1
+        return SS_FoundationStack.acceptsCards(self, from_stack, cards)
+
+
+class Obstruction(FreeCell):
+    Foundation_Class = Obstruction_Foundation
+    RowStack_Class = Obstruction_RowStack
+    Solver_Class = None
+
+    def startGame(self):
+        self._startDealNumRows(5)
+        self.s.talon.dealRow()
+        r = self.s.rows
+        self.s.talon.dealRow(rows=r[:6])
+
+
+# ************************************************************************
 # * Petal
 # ************************************************************************
 
@@ -762,3 +801,6 @@ registerGame(GameInfo(813, DoubleFreecellTd, "Double FreeCell (Traditional)",
                       GI.GT_FREECELL | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(953, Petal, "Petal",
                       GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(960, Obstruction, "Obstruction",
+                      GI.GT_FREECELL | GI.GT_OPEN, 1, 0, GI.SL_MOSTLY_SKILL,
+                      subcategory=GI.GS_JOKER_DECK, trumps=list(range(2))))

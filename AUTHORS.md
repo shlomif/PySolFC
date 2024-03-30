@@ -16,7 +16,7 @@ Main Authors
 * [Roderik Ploszek](https://github.com/Programator2)
     * Fixes and enhancements
 * [Joe R.](https://github.com/joeraz)
-    * Continued PySolFC maintenance and development.
+    * Many new games and continued PySolFC maintenance and development.
 
 Games contributors
 ==================

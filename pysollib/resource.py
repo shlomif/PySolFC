@@ -646,7 +646,8 @@ class CardsetManager(ResourceManager):
                 CSI.SUBTYPE_8X8,
                 CSI.SUBTYPE_9X9,
                 CSI.SUBTYPE_10X10
-            }
+            },
+            CSI.TYPE_ISHIDO: {}
         }
         required_cards_needed = {
             CSI.TYPE_TRUMP_ONLY: 100

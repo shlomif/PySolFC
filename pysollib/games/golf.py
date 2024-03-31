@@ -436,7 +436,7 @@ class BinaryStar(BlackHole):
     RowStack_Class = StackWrapper(
         ReserveStack, max_accept=0, max_cards=6)
     # TODO: Solver support
-    Solver_Class = None  # BlackHoleSolverWrapper(preset='binary_star')
+    Solver_Class = BlackHoleSolverWrapper(preset='binary_star')
     FOUNDATIONS = 2
 
     def _shuffleHook(self, cards):

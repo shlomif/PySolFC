@@ -57,7 +57,7 @@ if os.name == 'posix':
 # import sys; sys.exit()
 
 long_description = '''\
-PySolFC is a collection of more than 1000 solitaire card games.
+PySolFC is a collection of more than 1200 solitaire card games.
 Its features include modern look and feel (uses Tile widget set), multiple
 cardsets and tableau backgrounds, sound, unlimited undo, player statistics,
 a hint system, demo games, a solitaire wizard, support for user written

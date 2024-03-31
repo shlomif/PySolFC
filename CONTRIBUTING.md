@@ -49,6 +49,8 @@ or Google Drive).
 
 # The Release Process
 
+Before publishing a release, please open an issue in GitHub, indicating your intent to do so, to confirm with any other developers if they have any objections, or any WIP features/tickets that should be included in the upcoming release.  It's best to do this a week or two before you plan to actually publish the release.  No responses on this for a couple weeks can be considered approval to proceed.  Releases tagged without verifying with other developers may be removed.
+
 In order to publish a new version, follow these steps:
 
 1. Update `NEWS.asciidoc`.  The release notes should also be added to `html-src/news.html`, along with `templates/index.html` in the website repo.

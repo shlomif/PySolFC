@@ -604,8 +604,8 @@ class Options:
                                   6: ("Hokusai Ukiyo E (6x6)", ""),
                                   7: ("Blaren (7x7)", ""),
                                   8: ("Mid Winter's Eve (8x8)", ""),
-                                  9: ("Hofamterspiel (9x9)", ""),
-                                  10: ("Eternal Dragon (10x10)", "")},
+                                  9: ("The Card Players (9x9)", ""),
+                                  10: ("Players Trumps (10x10)", "")},
                 CSI.TYPE_ISHIDO: {0: ("Simple Ishido XL", "")},
             }
         else:
@@ -629,8 +629,8 @@ class Options:
                                   6: ("Hokusai Ukiyo E (6x6)", ""),
                                   7: ("Blaren (7x7)", ""),
                                   8: ("Mid Winter's Eve (8x8)", ""),
-                                  9: ("Hofamterspiel (9x9)", ""),
-                                  10: ("Eternal Dragon (10x10)", "")},
+                                  9: ("The Card Players (9x9)", ""),
+                                  10: ("Players Trumps (10x10)", "")},
                 CSI.TYPE_ISHIDO: {0: ("Simple Ishido", "")},
             }
 

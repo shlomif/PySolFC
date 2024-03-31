@@ -132,13 +132,13 @@ Line 2
 
 ( *TIP:* You could add a number prefix (e.g. 123-cardset-name) )
 
-`<cardset_name>`: Your cardset name as it should appear in the cardset manager
+`<cardset_name>`: Your cardset name as it should appear in the cardset manager.  Note that a cardset name of more than 30 characters will be truncated.
 
 Line 3
 ------
 
-* *X:* The cards width (the card image width)
-* *Y:* The cards height (the card image height)
+* *X:* The cards' width (the card image width)
+* *Y:* The cards' height (the card image height)
 * *D:* The color depth (mostly 8)
 
 Line 4

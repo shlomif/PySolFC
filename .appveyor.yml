@@ -36,9 +36,9 @@ test_script:
     - gmake mo
     - pyinstaller pysol.py --windowed --icon=data\pysol.ico
     - python3 setup.py install_data -d dist\pysol
-    - appveyor DownloadFile https://sourceforge.net/projects/pysolfc/files/PySolFC-Cardsets/minimal/PySolFC-Cardsets--Minimal-2.2.0.tar.xz/download -FileName cardsets.tar.xz
+    - appveyor DownloadFile https://sourceforge.net/projects/pysolfc/files/PySolFC-Cardsets/minimal/PySolFC-Cardsets--Minimal-3.0.0.tar.xz/download -FileName cardsets.tar.xz
     - 7z x cardsets.tar.xz -so | 7z x -si -ttar
-    - mv PySolFC-Cardsets--Minimal-2.2.0/cardset-* dist/pysol/data
+    - mv PySolFC-Cardsets--Minimal-3.0.0/cardset-* dist/pysol/data
     - appveyor DownloadFile https://sourceforge.net/projects/pysolfc/files/PySol-Music/PySol-Music-4.50/pysol-music-4.50.tar.xz/download -FileName music.tar.xz
     - 7z x music.tar.xz -so | 7z x -si -ttar
     - move pysol-music-4.50\data\music dist\pysol\data\music

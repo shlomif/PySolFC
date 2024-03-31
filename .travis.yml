@@ -30,8 +30,8 @@ deploy:
 before_install:
     - if test "$TRAVIS_OS_NAME" = "osx" ; then
         wget --content-disposition https://sourceforge.net/projects/pysolfc/files/PySolFC-Cardsets/minimal/PySolFC-Cardsets--Minimal-2.2.0.tar.xz/download &&
-        tar xJf PySolFC-Cardsets--Minimal-2.2.0.tar.xz &&
-        mv PySolFC-Cardsets--Minimal-2.2.0/cardset-* data ;
+        tar xJf PySolFC-Cardsets--Minimal-3.0.0.tar.xz &&
+        mv PySolFC-Cardsets--Minimal-3.0.0/cardset-* data ;
         fi
     - if test "$TRAVIS_OS_NAME" = "osx" ; then
         PYVER=3.9.1 &&

@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Sat Jul  8 21:49:22 2023\n"
-"PO-Revision-Date: 2023-07-08 22:03-0400\n"
+"POT-Creation-Date: Sun Mar 31 11:56:38 2024\n"
+"PO-Revision-Date: 2024-03-31 12:00-0400\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
@@ -16,7 +16,10 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "Generated-By: ./scripts/all_games.py 0.1\n"
-"X-Generator: Poedit 3.3.1\n"
+"X-Generator: Poedit 3.4.2\n"
+
+msgid "1-2-3-4"
+msgstr ""
 
 msgid "10 x 8"
 msgstr "10 x 8"
@@ -31,6 +34,9 @@ msgid "Abacus"
 msgstr "Абак"
 
 msgid "Abandon Hope"
+msgstr ""
+
+msgid "Abstract"
 msgstr ""
 
 msgid "Accordion"
@@ -58,6 +64,9 @@ msgid "Aces and Kings"
 msgstr ""
 
 msgid "Acey and Kingsley"
+msgstr ""
+
+msgid "Acht Karten"
 msgstr ""
 
 msgid "Achtmal Acht"
@@ -105,6 +114,9 @@ msgstr ""
 
 msgid "Alaska"
 msgstr "Аляска"
+
+msgid "Alexander the Great"
+msgstr ""
 
 msgid "Algerian Patience"
 msgstr "Алжирский пасьянс"
@@ -163,6 +175,9 @@ msgstr "Апачианский водопад"
 msgid "Applegate"
 msgstr ""
 
+msgid "Appreciate"
+msgstr ""
+
 msgid "Aqab's"
 msgstr ""
 
@@ -206,6 +221,9 @@ msgstr ""
 msgid "Assembly"
 msgstr "Ассамблея"
 
+msgid "Astrocyte"
+msgstr ""
+
 msgid "Athena"
 msgstr "Афины"
 
@@ -219,6 +237,12 @@ msgid "Australian Patience"
 msgstr "Австралийский пасьянс"
 
 msgid "Autumn Leaves"
+msgstr ""
+
+msgid "Auxiliary Sequences"
+msgstr ""
+
+msgid "Axis"
 msgstr ""
 
 msgid "Baby Spiderette"
@@ -293,9 +317,6 @@ msgstr "Клюв и ласты"
 msgid "Bear River"
 msgstr ""
 
-msgid "Beatle"
-msgstr "Жук"
-
 msgid "Beautiful Lutecia"
 msgstr ""
 
@@ -322,6 +343,12 @@ msgstr ""
 
 msgid "Betsy Ross"
 msgstr "Бетси Росс"
+
+msgid "Bezique"
+msgstr ""
+
+msgid "Big Alhambra"
+msgstr ""
 
 msgid "Big Ben"
 msgstr "Большой Бен"
@@ -350,9 +377,6 @@ msgstr "Большой разрыв"
 msgid "Big Easy"
 msgstr "Большая лёгкая"
 
-msgid "Big Flying Dragon"
-msgstr "Большой Летящий Дракон"
-
 msgid "Big Forty"
 msgstr "Большие сорок"
 
@@ -368,6 +392,9 @@ msgstr "Большая гора"
 msgid "Big Parade"
 msgstr ""
 
+msgid "Big Picture Gallery"
+msgstr ""
+
 msgid "Big Spider"
 msgstr "Большой Паук"
 
@@ -376,6 +403,9 @@ msgstr "Большой Паук (1 масть)"
 
 msgid "Big Spider (2 Suits)"
 msgstr "Большой Паук (2 масти)"
+
+msgid "Big Square"
+msgstr ""
 
 msgid "Big Streets"
 msgstr "Большие Улицы"
@@ -386,11 +416,20 @@ msgstr "Большое Сумо"
 msgid "Big Terrace"
 msgstr ""
 
+msgid "Big Traditional"
+msgstr ""
+
+msgid "Big X"
+msgstr ""
+
 msgid "Big York"
 msgstr "Большой Йорк"
 
 msgid "Bim Bom"
 msgstr "Бим-Бом"
+
+msgid "Binary Star"
+msgstr ""
 
 msgid "Bisley"
 msgstr "Бисли"
@@ -407,6 +446,9 @@ msgstr "Причудливый"
 
 msgid "Black Hole"
 msgstr "Чёрная дыра"
+
+msgid "Black Holes"
+msgstr ""
 
 msgid "Black Widow"
 msgstr "Чёрная вдова"
@@ -425,6 +467,9 @@ msgstr "Блокада"
 
 msgid "Blondes and Brunettes"
 msgstr "Блондинки и Брюнетки"
+
+msgid "Blue Jacket"
+msgstr ""
 
 msgid "Blue Moon"
 msgstr "Голубая луна"
@@ -543,6 +588,9 @@ msgstr "Камелот"
 msgid "Can Can"
 msgstr "Канкан"
 
+msgid "Canberra"
+msgstr ""
+
 msgid "Canfield"
 msgstr "Кенфилд"
 
@@ -578,6 +626,9 @@ msgstr "Каре Наполеона"
 
 msgid "Carthage"
 msgstr "Карфаген"
+
+msgid "Cascade"
+msgstr ""
 
 msgid "Casino Canfield"
 msgstr ""
@@ -697,6 +748,9 @@ msgstr "Цитадель"
 msgid "Classic Solitaire"
 msgstr ""
 
+msgid "Clear the Dungeon"
+msgstr ""
+
 msgid "Clink"
 msgstr "Застенок"
 
@@ -706,7 +760,13 @@ msgstr "Часы"
 msgid "Clover Leaf"
 msgstr "Лепесток клевера"
 
+msgid "Club"
+msgstr ""
+
 msgid "Cluitjar's Lair"
+msgstr ""
+
+msgid "Cobweb"
 msgstr ""
 
 msgid "Cockroach"
@@ -775,6 +835,9 @@ msgstr "Конверт"
 msgid "Crescent"
 msgstr "Полумесяц"
 
+msgid "Cribbage Patience"
+msgstr ""
+
 msgid "Cribbage Shuffle"
 msgstr ""
 
@@ -792,6 +855,9 @@ msgstr ""
 
 msgid "Cringle"
 msgstr "Люверс"
+
+msgid "Crispy"
+msgstr ""
 
 msgid "Cromwell"
 msgstr ""
@@ -843,6 +909,9 @@ msgstr "Дашаватара Круги"
 msgid "Dead King Golf"
 msgstr "Гольф Смертельный Король"
 
+msgid "Deauville"
+msgstr ""
+
 msgid "Decade"
 msgstr ""
 
@@ -890,6 +959,12 @@ msgstr "Необитаемый остров"
 
 msgid "Deuces"
 msgstr "Двойки"
+
+msgid "Deuces and Queens"
+msgstr ""
+
+msgid "Devil's Grip"
+msgstr ""
 
 msgid "Devil's Solitaire"
 msgstr "Дьявольский пасьянс"
@@ -943,6 +1018,12 @@ msgid "Diplomat"
 msgstr "Дипломат"
 
 msgid "Display"
+msgstr ""
+
+msgid "Dnieper"
+msgstr ""
+
+msgid "Dnipro"
 msgstr ""
 
 msgid "Dog"
@@ -1023,8 +1104,8 @@ msgstr "Двойной Бисли"
 msgid "Double Klondike"
 msgstr "Двойной Клондайк"
 
-msgid "Double Klondike by Threes"
-msgstr "Двойной Клондайк по три"
+msgid "Double Klondike (Draw 3)"
+msgstr ""
 
 msgid "Double Line"
 msgstr "Двойной ряд"
@@ -1032,8 +1113,11 @@ msgstr "Двойной ряд"
 msgid "Double Mahjongg Big Castle"
 msgstr "Двойной Маджонг Большой замок"
 
-msgid "Double Mahjongg Big Flying Dragon"
-msgstr "Двойной Маджонг Большой Летящий Дракон"
+msgid "Double Mahjongg Big Square"
+msgstr ""
+
+msgid "Double Mahjongg Big Traditional"
+msgstr ""
 
 msgid "Double Mahjongg Eight Squares"
 msgstr "Двойной Маджонг Восемь квадратов"
@@ -1043,6 +1127,9 @@ msgstr "Двойной Маджонг Фараон"
 
 msgid "Double Mahjongg Roost"
 msgstr "Двойной Маджонг Насест"
+
+msgid "Double Mahjongg Rows"
+msgstr ""
 
 msgid "Double Mahjongg Sphere"
 msgstr "Двойной Маджонг Сфера"
@@ -1092,6 +1179,9 @@ msgid "Double Seahaven Towers"
 msgstr ""
 
 msgid "Double Trigon"
+msgstr ""
+
+msgid "Double Uintah"
 msgstr ""
 
 msgid "Double Your Fun"
@@ -1149,6 +1239,9 @@ msgstr "Голландский пасьянс"
 msgid "Dutchess"
 msgstr "Герцогиня"
 
+msgid "Eagle"
+msgstr ""
+
 msgid "Eagle Wing"
 msgstr "Крыло орла"
 
@@ -1173,6 +1266,9 @@ msgstr "Египетский пасьянс"
 msgid "Eiffel Tower"
 msgstr "Эйфелева башня"
 
+msgid "Eight Cards"
+msgstr ""
+
 msgid "Eight Legions"
 msgstr "Восемь легионов"
 
@@ -1195,6 +1291,9 @@ msgstr "Восемь раз по восемь"
 msgid "Eight by Eight"
 msgstr "Восемь на восемь"
 
+msgid "Eighteens"
+msgstr ""
+
 msgid "Eighty Thieves"
 msgstr ""
 
@@ -1203,6 +1302,9 @@ msgstr "Ельба"
 
 msgid "Elevator"
 msgstr "Лифт"
+
+msgid "Eleven Away"
+msgstr ""
 
 msgid "Elevens"
 msgstr "По одиннадцать"
@@ -1353,8 +1455,11 @@ msgstr "Пять тузов"
 msgid "Five Piles"
 msgstr "Пять кучек"
 
-msgid "Five Pyramids"
-msgstr "Пять пирамид"
+msgid "Five Pyramids 1"
+msgstr ""
+
+msgid "Five Pyramids 2"
+msgstr ""
 
 msgid "Flake"
 msgstr "Хлопья"
@@ -1392,16 +1497,19 @@ msgstr "Цветочные часы"
 msgid "Flower Garden"
 msgstr "Цветочный сад"
 
-msgid "Flowers"
-msgstr "Цветы"
+msgid "Flowers 1"
+msgstr ""
+
+msgid "Flowers 2"
+msgstr ""
 
 msgid "Fly"
 msgstr "Полёт"
 
-msgid "Flying Dragon"
-msgstr "Летящий дракон"
-
 msgid "Following"
+msgstr ""
+
+msgid "Fool's Up"
 msgstr ""
 
 #, fuzzy
@@ -1439,14 +1547,14 @@ msgstr "Судьба"
 msgid "Forty Bandits"
 msgstr ""
 
-msgid "Forty-Nine"
-msgstr "Сорок девять"
-
 msgid "Forty Thieves"
 msgstr "Сорок разбойников"
 
 msgid "Forty and Eight"
 msgstr "Сорок и восемь"
+
+msgid "Forty-Nine"
+msgstr "Сорок девять"
 
 msgid "Four Colours"
 msgstr "Четыре цвета"
@@ -1465,6 +1573,15 @@ msgstr "Четырёхлистный клевер"
 
 msgid "Four Packs"
 msgstr "Четыре пакета"
+
+msgid "Four Rivers (No Gravity) 14x6"
+msgstr ""
+
+msgid "Four Rivers (No Gravity) 18x8"
+msgstr ""
+
+msgid "Four Rivers (No Gravity) 24x12"
+msgstr ""
 
 msgid "Four Rivers 14x6"
 msgstr ""
@@ -1511,6 +1628,12 @@ msgstr "Паук Фреда (3 колоды)"
 msgid "Free Fan"
 msgstr "Свободный веер"
 
+msgid "Free Ishido"
+msgstr ""
+
+msgid "Free Ishido Relaxed"
+msgstr ""
+
 msgid "Free Napoleon"
 msgstr "Свободный Наполеон"
 
@@ -1534,6 +1657,9 @@ msgstr "Полностью видимый 1"
 
 msgid "Full Vision 2"
 msgstr "Полностью видимый 2"
+
+msgid "Full Vision 3"
+msgstr ""
 
 msgid "Future"
 msgstr "Будущее"
@@ -1703,11 +1829,20 @@ msgstr "Цыганский"
 msgid "H for Haga"
 msgstr "Маджонг H for Haga"
 
+msgid "H for Haga Traditional"
+msgstr ""
+
 msgid "Half Klondike"
+msgstr ""
+
+msgid "Half Mahjongg Abstract"
 msgstr ""
 
 msgid "Half Mahjongg Happy New Year"
 msgstr "Половинный Маджонг С Новым Годом"
+
+msgid "Half Mahjongg K 2"
+msgstr ""
 
 msgid "Half Mahjongg Smile"
 msgstr "Половинный Маджонг Улыбка"
@@ -1781,8 +1916,8 @@ msgstr ""
 msgid "Hex A Klon"
 msgstr "Шестнадцатиричный Клондайк"
 
-msgid "Hex A Klon by Threes"
-msgstr "Шестнадцатиричный Клондайк по три"
+msgid "Hex A Klon (Draw 3)"
+msgstr ""
 
 msgid "Hex Labyrinth"
 msgstr "Шестнадцатеричный лабиринт"
@@ -1823,6 +1958,12 @@ msgstr "Конь"
 msgid "Hospital Patience"
 msgstr "Больничный пасьянс"
 
+msgid "Hot Coffee"
+msgstr ""
+
+msgid "Hourglass"
+msgstr ""
+
 msgid "House in the Wood"
 msgstr "Дом в лесу"
 
@@ -1840,6 +1981,9 @@ msgstr "Ховеркрафт"
 
 msgid "How They Run"
 msgstr "Как они бегут"
+
+msgid "Huge Picture Gallery"
+msgstr ""
 
 msgid "Hunter"
 msgstr ""
@@ -1914,6 +2058,9 @@ msgstr "Смекалка +"
 msgid "Interchange"
 msgstr "Перестановка"
 
+msgid "Interlock"
+msgstr ""
+
 msgid "Interment"
 msgstr "Погребение"
 
@@ -1930,6 +2077,15 @@ msgid "Irmgard"
 msgstr ""
 
 msgid "Isabel"
+msgstr ""
+
+msgid "Ishido"
+msgstr ""
+
+msgid "Ishido Relaxed"
+msgstr ""
+
+msgid "Ishido Scored"
 msgstr ""
 
 msgid "JPs"
@@ -1956,6 +2112,12 @@ msgstr "Японский сад II"
 msgid "Japanese Garden III"
 msgstr "Японский сад III"
 
+msgid "Joke Klon"
+msgstr ""
+
+msgid "Joke Klon (Draw 3)"
+msgstr ""
+
 msgid "Joker"
 msgstr "Джокер"
 
@@ -1977,9 +2139,21 @@ msgstr "Джунгли"
 msgid "Just For Fun"
 msgstr "Просто для удовольствия"
 
+msgid "Juvenile"
+msgstr ""
+
+msgid "K 2"
+msgstr ""
+
 #, fuzzy
 msgid "K for Kyodai"
 msgstr "Маджонг K for Kyodai"
+
+msgid "K for Kyodai Traditional"
+msgstr ""
+
+msgid "K.C."
+msgstr ""
 
 msgid "Kali's Game"
 msgstr "Пасьянс Кали"
@@ -2063,6 +2237,9 @@ msgstr "Короли"
 msgid "Klondike"
 msgstr "Клондайк"
 
+msgid "Klondike (Draw 3)"
+msgstr ""
+
 msgid "Klondike Mini"
 msgstr ""
 
@@ -2072,8 +2249,8 @@ msgstr ""
 msgid "Klondike Plus 16"
 msgstr "Клондайк Плюс 16"
 
-msgid "Klondike by Threes"
-msgstr "Клондайк по три"
+msgid "Klondike Territory"
+msgstr ""
 
 msgid "Km"
 msgstr ""
@@ -2146,6 +2323,9 @@ msgid "La Chatelaine"
 msgstr "La Chatelaine"
 
 msgid "La Demi-Lune"
+msgstr ""
+
+msgid "La Francaise"
 msgstr ""
 
 msgid "La Nivernaise"
@@ -2269,8 +2449,11 @@ msgstr "Ограниченный"
 msgid "Limpopo"
 msgstr "Лимпопо"
 
-msgid "Lion"
-msgstr "Лев"
+msgid "Lion 1"
+msgstr ""
+
+msgid "Lion 2"
+msgstr ""
 
 msgid "Little Billie"
 msgstr "Малыш Билли"
@@ -2311,8 +2494,11 @@ msgstr "Свободные концы"
 msgid "Lords and Ladies"
 msgstr ""
 
-msgid "Lost "
-msgstr "Потеря"
+msgid "Lost"
+msgstr ""
+
+msgid "Love a Duck"
+msgstr ""
 
 msgid "Lovely Lucy"
 msgstr ""
@@ -2356,20 +2542,26 @@ msgstr "Маджонг Стрела"
 msgid "Mahjongg Art Moderne"
 msgstr "Маджонг Современное искусство"
 
+msgid "Mahjongg Axis"
+msgstr ""
+
 msgid "Mahjongg Balance"
 msgstr "Маджонг Баланс"
 
 msgid "Mahjongg Bat"
 msgstr "Маджонг Летучая мышь"
 
-msgid "Mahjongg Beatle"
-msgstr "Маджонг Жук"
+msgid "Mahjongg Beetle"
+msgstr ""
 
 msgid "Mahjongg Big Hole"
 msgstr "Маджонг Большая дыра"
 
 msgid "Mahjongg Big Mountain"
 msgstr "Маджонг Большая гора"
+
+msgid "Mahjongg Big X"
+msgstr ""
 
 msgid "Mahjongg Bizarre"
 msgstr "Маджонг Причудливый"
@@ -2413,6 +2605,9 @@ msgstr "Маджонг ChessMania"
 msgid "Mahjongg Chip"
 msgstr "Маджонг Щепка"
 
+msgid "Mahjongg Cobweb"
+msgstr ""
+
 msgid "Mahjongg Columns"
 msgstr "Маджонг Столбцы"
 
@@ -2446,6 +2641,9 @@ msgstr "Маджонг Дракон 2"
 msgid "Mahjongg Dude"
 msgstr "Маджонг Пижон"
 
+msgid "Mahjongg Eagle"
+msgstr ""
+
 msgid "Mahjongg Empty Pyramids"
 msgstr "Маджонг Пустые пирамиды"
 
@@ -2467,17 +2665,20 @@ msgstr "Маджонг Рыба"
 msgid "Mahjongg Fish Face"
 msgstr "Маджонг Рыбья голова"
 
-msgid "Mahjongg Five Pyramids"
-msgstr "Маджонг Пять пирамид"
+msgid "Mahjongg Five Pyramids 1"
+msgstr ""
+
+msgid "Mahjongg Five Pyramids 2"
+msgstr ""
 
 msgid "Mahjongg Floating City"
 msgstr "Маджонг Плавающий город"
 
-msgid "Mahjongg Flowers"
-msgstr "Маджонг Цветы"
+msgid "Mahjongg Flowers 1"
+msgstr ""
 
-msgid "Mahjongg Flying Dragon"
-msgstr "Маджонг Летящий Дракон"
+msgid "Mahjongg Flowers 2"
+msgstr ""
 
 msgid "Mahjongg Fortress Towers"
 msgstr "Маджонг Крепостные башни"
@@ -2487,6 +2688,9 @@ msgstr "Маджонг Полностью видимый 1"
 
 msgid "Mahjongg Full Vision 2"
 msgstr "Маджонг Полностью видимый 2"
+
+msgid "Mahjongg Full Vision 3"
+msgstr ""
 
 msgid "Mahjongg Future"
 msgstr "Маджонг Будущее"
@@ -2503,6 +2707,9 @@ msgstr "Маджонг Поляна"
 msgid "Mahjongg H for Haga"
 msgstr "Маджонг H for Haga"
 
+msgid "Mahjongg H for Haga Traditional"
+msgstr ""
+
 msgid "Mahjongg Hare"
 msgstr "Маджонг Заяц"
 
@@ -2517,6 +2724,12 @@ msgstr "Маджонг Верхний и нижний"
 
 msgid "Mahjongg Horse"
 msgstr "Маджонг Лошадь"
+
+msgid "Mahjongg Hot Coffee"
+msgstr ""
+
+msgid "Mahjongg Hourglass"
+msgstr ""
 
 msgid "Mahjongg Hovercraft"
 msgstr "Маджонг Ховеркрафт"
@@ -2547,6 +2760,9 @@ msgstr "Маджонг Джокер"
 
 msgid "Mahjongg K for Kyodai"
 msgstr "Маджонг K for Kyodai"
+
+msgid "Mahjongg K for Kyodai Traditional"
+msgstr ""
 
 msgid "Mahjongg Km"
 msgstr "Маджонг Km"
@@ -2602,14 +2818,17 @@ msgstr "Маджонг Лабиринт"
 msgid "Mahjongg Lattice"
 msgstr "Маджонг Решётка"
 
-msgid "Mahjongg Lion"
-msgstr "Маджонг Лион"
+msgid "Mahjongg Lion 1"
+msgstr ""
+
+msgid "Mahjongg Lion 2"
+msgstr ""
 
 msgid "Mahjongg Loose Ends"
 msgstr "Маджонг Свободные концы"
 
-msgid "Mahjongg Lost "
-msgstr "Маджонг Потеря"
+msgid "Mahjongg Lost"
+msgstr ""
 
 msgid "Mahjongg Maya"
 msgstr "Маджонг Майя"
@@ -2638,8 +2857,11 @@ msgstr "Маджонг Multi X"
 msgid "Mahjongg N for Namida"
 msgstr "Маджонг N for Namida"
 
-msgid "Mahjongg New Layout"
-msgstr "Маджонг Новый расклад"
+msgid "Mahjongg N for Namida Traditional"
+msgstr ""
+
+msgid "Mahjongg Naoki Haga Traditional"
+msgstr ""
 
 msgid "Mahjongg Okie's Nitemare"
 msgstr "Маджонг Okie's Nitemare"
@@ -2665,6 +2887,9 @@ msgstr "Маджонг Папильотка"
 msgid "Mahjongg Pattern"
 msgstr "Маджонг Образец"
 
+msgid "Mahjongg Phoenix"
+msgstr ""
+
 msgid "Mahjongg Portal"
 msgstr "Маджонг Портал"
 
@@ -2673,6 +2898,9 @@ msgstr "Маджонг Пирамида 1"
 
 msgid "Mahjongg Pyramid 2"
 msgstr "Маджонг Пирамида 2"
+
+msgid "Mahjongg Pyramids"
+msgstr ""
 
 msgid "Mahjongg Quad"
 msgstr "Маджонг Quad"
@@ -2737,6 +2965,9 @@ msgstr "Маджонг Космический мост"
 msgid "Mahjongg Space Shuttle"
 msgstr "Маджонг Космический челнок"
 
+msgid "Mahjongg Spider"
+msgstr ""
+
 msgid "Mahjongg Square"
 msgstr "Маджонг Квадрат"
 
@@ -2792,6 +3023,12 @@ msgstr "Маджонг Храм 2"
 msgid "Mahjongg Temple 3"
 msgstr "Маджонг Храм 3"
 
+msgid "Mahjongg Temple 4"
+msgstr ""
+
+msgid "Mahjongg Teotihucan"
+msgstr ""
+
 msgid "Mahjongg The Door"
 msgstr "Маджонг Дверь"
 
@@ -2821,6 +3058,12 @@ msgstr "Маджонг Торнадо"
 
 msgid "Mahjongg Totally Random-Made"
 msgstr "Маджонг Totally Random-Made"
+
+msgid "Mahjongg Tower and Walls"
+msgstr ""
+
+msgid "Mahjongg Traditional"
+msgstr ""
 
 msgid "Mahjongg Traditional Reviewed"
 msgstr "Маджонг Traditional Reviewed"
@@ -2852,6 +3095,9 @@ msgstr "Маджонг Victory Arrow"
 msgid "Mahjongg Wavelets"
 msgstr "Маджонг Волны"
 
+msgid "Mahjongg Waves"
+msgstr ""
+
 msgid "Mahjongg Wedges"
 msgstr "Маджонг Клинья"
 
@@ -2861,8 +3107,14 @@ msgstr "Маджонг Well"
 msgid "Mahjongg Well 2"
 msgstr "Маджонг Well 2"
 
+msgid "Mahjongg What a Pyramid"
+msgstr ""
+
 msgid "Mahjongg Whatever"
 msgstr "Маджонг Нечто"
+
+msgid "Mahjongg Wicker"
+msgstr ""
 
 msgid "Mahjongg Win"
 msgstr "Маджонг Win"
@@ -2875,6 +3127,9 @@ msgstr "Маджонг X-Shape"
 
 msgid "Mahjongg Yummy"
 msgstr "Маджонг Приятный"
+
+msgid "Mahjongg Zigzag"
+msgstr ""
 
 #, fuzzy
 msgid "Maine Coon"
@@ -2895,6 +3150,9 @@ msgstr "Манчестерский"
 
 msgid "Manx"
 msgstr "Бесхвостая кошка"
+
+msgid "Marechal Saxe"
+msgstr ""
 
 msgid "Maria"
 msgstr "Мария"
@@ -3069,6 +3327,9 @@ msgstr "Джозефина"
 msgid "Morehead"
 msgstr ""
 
+msgid "Morphy"
+msgstr ""
+
 msgid "Moth"
 msgstr "Мотылёк"
 
@@ -3105,6 +3366,12 @@ msgstr "Мистика"
 msgid "N for Namida"
 msgstr "Маджонг N for Namida"
 
+msgid "N for Namida Traditional"
+msgstr ""
+
+msgid "Naoki Haga Traditional"
+msgstr ""
+
 msgid "Napoleon"
 msgstr "Наполеон"
 
@@ -3128,6 +3395,9 @@ msgstr "Фаворит Наполеона"
 
 msgid "Napoleon's Flank"
 msgstr "Фланг Наполеона"
+
+msgid "Napoleon's Shoulder"
+msgstr ""
 
 msgid "Napoleon's Square"
 msgstr "Квадрат Наполеона"
@@ -3166,11 +3436,14 @@ msgstr "Нестор"
 msgid "New British Constitution"
 msgstr "Новая Британская конституция"
 
-msgid "New Layout"
-msgstr "Новый расклад"
-
 msgid "New York"
 msgstr "Нью-Йорк"
+
+msgid "Nine Across"
+msgstr ""
+
+msgid "Ninety-One"
+msgstr ""
 
 msgid "Nomad"
 msgstr "Бродяга"
@@ -3201,6 +3474,9 @@ msgstr "Числовой"
 
 msgid "Numerica (2 Decks)"
 msgstr "Числовой (2 колоды)"
+
+msgid "Obstruction"
+msgstr ""
 
 msgid "Ocean Towers"
 msgstr "Океанские башни"
@@ -3236,6 +3512,9 @@ msgstr ""
 msgid "One Foundation"
 msgstr ""
 
+msgid "One-Handed"
+msgstr ""
+
 msgid "One234"
 msgstr "Раз234"
 
@@ -3265,6 +3544,9 @@ msgstr ""
 
 msgid "Open Peek"
 msgstr "Открытый взгляд"
+
+msgid "Open Proils"
+msgstr ""
 
 msgid "Open Sly Fox"
 msgstr "Открытая Хитрая лиса"
@@ -3339,8 +3621,14 @@ msgstr "Парижский"
 msgid "Parisienne"
 msgstr ""
 
+msgid "Park and Ride"
+msgstr ""
+
 msgid "Parliament"
 msgstr "Парламент"
+
+msgid "Partners"
+msgstr ""
 
 msgid "Pas Seul"
 msgstr "Сольный танец"
@@ -3384,6 +3672,9 @@ msgstr ""
 msgid "Pegged Diamond"
 msgstr ""
 
+msgid "Pegged Hexagon"
+msgstr ""
+
 msgid "Pegged Octagon"
 msgstr ""
 
@@ -3417,6 +3708,9 @@ msgstr "Настойчивость"
 msgid "Persian Patience"
 msgstr "Персидский пасьянс"
 
+msgid "Petal"
+msgstr ""
+
 msgid "Phalanx"
 msgstr "Фаланга"
 
@@ -3431,6 +3725,30 @@ msgstr "Феникс"
 
 msgid "Picture Gallery"
 msgstr "Картинная галерея"
+
+msgid "Picture Matrix 10x10"
+msgstr ""
+
+msgid "Picture Matrix 3x3"
+msgstr ""
+
+msgid "Picture Matrix 4x4"
+msgstr ""
+
+msgid "Picture Matrix 5x5"
+msgstr ""
+
+msgid "Picture Matrix 6x6"
+msgstr ""
+
+msgid "Picture Matrix 7x7"
+msgstr ""
+
+msgid "Picture Matrix 8x8"
+msgstr ""
+
+msgid "Picture Matrix 9x9"
+msgstr ""
 
 msgid "Picture Patience"
 msgstr "Картинный пасьянс"
@@ -3552,6 +3870,9 @@ msgstr "Пирамидальный Гольф"
 msgid "Pyramid's Stones"
 msgstr "Камни пирамид"
 
+msgid "Pyramids"
+msgstr ""
+
 msgid "Pythagor"
 msgstr ""
 
@@ -3570,6 +3891,18 @@ msgstr "Четырёхугольник"
 
 msgid "Quadruple Alliance"
 msgstr "Четырёхсторонний альянс"
+
+msgid "Quadruple Canfield"
+msgstr ""
+
+msgid "Quadruple Klondike"
+msgstr ""
+
+msgid "Quadruple Klondike (Draw 3)"
+msgstr ""
+
+msgid "Quadruple Yukon"
+msgstr ""
 
 msgid "Quads"
 msgstr "Четвёрки"
@@ -3675,6 +4008,9 @@ msgstr "Смягчённый"
 msgid "Relaxed Accordion"
 msgstr "Аккордеон"
 
+msgid "Relaxed Clock"
+msgstr ""
+
 msgid "Relaxed Exit"
 msgstr ""
 
@@ -3716,6 +4052,9 @@ msgid "Retinue"
 msgstr "Свита"
 
 msgid "Retinue of Kings"
+msgstr ""
+
+msgid "Ricochet"
 msgstr ""
 
 msgid "Right Triangle"
@@ -3766,6 +4105,12 @@ msgstr "Насест"
 msgid "Rooster"
 msgstr "Петух"
 
+msgid "Rosamund"
+msgstr ""
+
+msgid "Rosamund's Bower"
+msgstr ""
+
 #, fuzzy
 msgid "Roslin"
 msgstr "Робин"
@@ -3775,6 +4120,12 @@ msgstr ""
 
 msgid "Rouge et Noir"
 msgstr "Rouge et Noir"
+
+msgid "Round Dozen"
+msgstr ""
+
+msgid "Rows"
+msgstr ""
 
 msgid "Rows of Four"
 msgstr "Четыре в ряд"
@@ -3803,6 +4154,9 @@ msgstr "Королевский парад"
 msgid "Royal Rendezvous"
 msgstr "Королевское рандеву"
 
+msgid "Royal Secrets"
+msgstr ""
+
 msgid "Rugby"
 msgstr "Регби"
 
@@ -3830,6 +4184,42 @@ msgstr "S-пасьянс"
 msgid "Salic Law"
 msgstr "Салический закон"
 
+msgid "Samegame 3 Colors 15x10"
+msgstr ""
+
+msgid "Samegame 3 Colors 20x10"
+msgstr ""
+
+msgid "Samegame 3 Colors 25x15"
+msgstr ""
+
+msgid "Samegame 4 Colors 15x10"
+msgstr ""
+
+msgid "Samegame 4 Colors 20x10"
+msgstr ""
+
+msgid "Samegame 4 Colors 25x15"
+msgstr ""
+
+msgid "Samegame 5 Colors 15x10"
+msgstr ""
+
+msgid "Samegame 5 Colors 20x10"
+msgstr ""
+
+msgid "Samegame 5 Colors 25x15"
+msgstr ""
+
+msgid "Samegame 6 Colors 15x10"
+msgstr ""
+
+msgid "Samegame 6 Colors 20x10"
+msgstr ""
+
+msgid "Samegame 6 Colors 25x15"
+msgstr ""
+
 msgid "Samuri"
 msgstr "Самурай"
 
@@ -3841,6 +4231,9 @@ msgstr "Санибел"
 
 msgid "Saratoga"
 msgstr "Саратога"
+
+msgid "Sarlacc"
+msgstr ""
 
 msgid "Saxony"
 msgstr "Саксония"
@@ -3911,11 +4304,17 @@ msgstr "Семь чертей"
 msgid "Seven Pyramids"
 msgstr "Семь пирамид"
 
+msgid "Seven Up"
+msgstr ""
+
 msgid "Seven by Five"
 msgstr "Семь по пять"
 
 msgid "Seven by Four"
 msgstr "Семь по четыре"
+
+msgid "Seventh Wonder"
+msgstr ""
 
 msgid "Shady Lanes"
 msgstr "Тенистые аллеи"
@@ -4045,6 +4444,9 @@ msgstr "Малая арфа"
 msgid "Small PileOn"
 msgstr ""
 
+msgid "Small Triangle"
+msgstr ""
+
 msgid "Smile"
 msgstr "Улыбка"
 
@@ -4172,6 +4574,9 @@ msgstr "Звёздные врата"
 msgid "Station"
 msgstr ""
 
+msgid "Steel Wheels"
+msgstr ""
+
 #, fuzzy
 msgid "Step-Up"
 msgstr "Шаги"
@@ -4185,6 +4590,9 @@ msgstr "Семь пирамид"
 
 msgid "Steve"
 msgstr "Стив"
+
+msgid "Stewart"
+msgstr ""
 
 msgid "Sticko"
 msgstr ""
@@ -4298,6 +4706,9 @@ msgstr ""
 msgid "Take Fourteen"
 msgstr ""
 
+msgid "Take Ten"
+msgstr ""
+
 msgid "Taking Silk"
 msgstr ""
 
@@ -4319,6 +4730,9 @@ msgstr "Храм 2"
 msgid "Temple 3"
 msgstr "Храм 3"
 
+msgid "Temple 4"
+msgstr ""
+
 msgid "Ten Across"
 msgstr "Десять в ширину"
 
@@ -4331,8 +4745,17 @@ msgstr ""
 msgid "Ten by One"
 msgstr "Десять по одному"
 
+msgid "Tens"
+msgstr ""
+
+msgid "Teotihucan"
+msgstr ""
+
 msgid "Terrace"
 msgstr "Терраса"
+
+msgid "The Bogey"
+msgstr ""
 
 msgid "The Bouquet"
 msgstr "Букет"
@@ -4364,6 +4787,12 @@ msgstr "Последний Монарх II"
 msgid "The Little Corporal"
 msgstr "Маленький Капрал"
 
+msgid "The Lucky Number"
+msgstr ""
+
+msgid "The Magic Seven"
+msgstr ""
+
 msgid "The Plot"
 msgstr ""
 
@@ -4385,6 +4814,9 @@ msgstr "Желание (открытое)"
 msgid "Theater"
 msgstr "Театр"
 
+msgid "Thieves"
+msgstr ""
+
 msgid "Thieves of Egypt"
 msgstr "Египетский вор"
 
@@ -4404,6 +4836,9 @@ msgstr "По тринадцать"
 msgid "Thirty"
 msgstr "Тридцать"
 
+msgid "Thirty-Nine Steps"
+msgstr ""
+
 msgid "Thirty-Six"
 msgstr "Тридцать шесть"
 
@@ -4418,6 +4853,9 @@ msgstr ""
 
 msgid "Three Blind Mice"
 msgstr "Три слепые мышки"
+
+msgid "Three Card Fan"
+msgstr ""
 
 msgid "Three Fir-trees"
 msgstr "Три елки"
@@ -4453,6 +4891,30 @@ msgstr "Тигр"
 msgid "Tile Fighter"
 msgstr "Маджонг Tile Fighter"
 
+msgid "Tile Puzzle 10x10"
+msgstr ""
+
+msgid "Tile Puzzle 3x3"
+msgstr ""
+
+msgid "Tile Puzzle 4x4"
+msgstr ""
+
+msgid "Tile Puzzle 5x5"
+msgstr ""
+
+msgid "Tile Puzzle 6x6"
+msgstr ""
+
+msgid "Tile Puzzle 7x7"
+msgstr ""
+
+msgid "Tile Puzzle 8x8"
+msgstr ""
+
+msgid "Tile Puzzle 9x9"
+msgstr ""
+
 #, fuzzy
 msgid "Tilepiles"
 msgstr "Маджонг Tilepiles"
@@ -4467,6 +4929,9 @@ msgstr "Тайпей"
 
 msgid "Toad"
 msgstr "Жаба"
+
+msgid "Toad in the Hole"
+msgstr ""
 
 msgid "Tomb"
 msgstr "Гробница"
@@ -4490,6 +4955,9 @@ msgstr "Турнир"
 msgid "Tours du Alice"
 msgstr ""
 
+msgid "Tower and Walls"
+msgstr ""
+
 msgid "Tower of Babel"
 msgstr "Вавилонская башня"
 
@@ -4501,6 +4969,9 @@ msgstr "Ханойская башня"
 
 msgid "Towers"
 msgstr "Башни"
+
+msgid "Traditional"
+msgstr ""
 
 #, fuzzy
 msgid "Traditional Reviewed"
@@ -4564,8 +5035,8 @@ msgstr "Тройная Перестановка"
 msgid "Triple Klondike"
 msgstr "Тройной Клондайк"
 
-msgid "Triple Klondike by Threes"
-msgstr "Тройной Клондайк по три"
+msgid "Triple Klondike (Draw 3)"
+msgstr ""
 
 msgid "Triple Line"
 msgstr "Тройная линия"
@@ -4587,6 +5058,9 @@ msgstr ""
 
 msgid "Troika"
 msgstr "Тройка"
+
+msgid "Trumps Row"
+msgstr ""
 
 msgid "Trusty Twelve"
 msgstr "Верные двенадцать"
@@ -4652,6 +5126,12 @@ msgstr ""
 msgid "Ukrainian Solitaire"
 msgstr "Украинский пасьянс"
 
+msgid "Uncle Walter's"
+msgstr ""
+
+msgid "Under Siege"
+msgstr ""
+
 msgid "Union Square"
 msgstr "Объединённый квадрата"
 
@@ -4681,6 +5161,9 @@ msgid "Vagues"
 msgstr "Смутный"
 
 msgid "Vajra"
+msgstr ""
+
+msgid "Valentine"
 msgstr ""
 
 msgid "Vamana"
@@ -4714,6 +5197,9 @@ msgstr ""
 #, fuzzy
 msgid "Victory Arrow"
 msgstr "Маджонг Victory Arrow"
+
+msgid "Vincent"
+msgstr ""
 
 msgid "Vineyard"
 msgstr ""
@@ -4750,6 +5236,9 @@ msgstr "Фаворит Вашингтона"
 msgid "Wasp"
 msgstr "Оса"
 
+msgid "Watch"
+msgstr ""
+
 msgid "Waterfall"
 msgstr "Водопад"
 
@@ -4764,6 +5253,9 @@ msgstr "Волновое движение"
 
 msgid "Wavelets"
 msgstr "Волны"
+
+msgid "Waves"
+msgstr ""
 
 msgid "Weavers"
 msgstr ""
@@ -4790,6 +5282,9 @@ msgstr ""
 msgid "Westhaven"
 msgstr ""
 
+msgid "What a Pyramid"
+msgstr ""
+
 msgid "Whatever"
 msgstr "Нечто"
 
@@ -4807,6 +5302,12 @@ msgstr "Уайтхорс"
 
 msgid "Wicked"
 msgstr "Злой"
+
+msgid "Wicker"
+msgstr ""
+
+msgid "Wildcards"
+msgstr ""
 
 msgid "Wildflower"
 msgstr ""
@@ -4849,6 +5350,12 @@ msgstr "Йорк"
 msgid "Yukon"
 msgstr "Юкон"
 
+msgid "Yukon Cells"
+msgstr ""
+
+msgid "Yukon Kings"
+msgstr ""
+
 msgid "Yukon Nouveau"
 msgstr ""
 
@@ -4870,11 +5377,74 @@ msgstr "Церлин (3 колоды)"
 msgid "Zeus"
 msgstr "Зевс"
 
+msgid "Zigzag"
+msgstr ""
+
 msgid "Zigzag Course"
 msgstr "Зигзагообразный курс"
 
 msgid "Zodiac"
 msgstr "Зодиак"
+
+#~ msgid "Beatle"
+#~ msgstr "Жук"
+
+#~ msgid "Big Flying Dragon"
+#~ msgstr "Большой Летящий Дракон"
+
+#~ msgid "Double Klondike by Threes"
+#~ msgstr "Двойной Клондайк по три"
+
+#~ msgid "Double Mahjongg Big Flying Dragon"
+#~ msgstr "Двойной Маджонг Большой Летящий Дракон"
+
+#~ msgid "Five Pyramids"
+#~ msgstr "Пять пирамид"
+
+#~ msgid "Flowers"
+#~ msgstr "Цветы"
+
+#~ msgid "Flying Dragon"
+#~ msgstr "Летящий дракон"
+
+#~ msgid "Hex A Klon by Threes"
+#~ msgstr "Шестнадцатиричный Клондайк по три"
+
+#~ msgid "Klondike by Threes"
+#~ msgstr "Клондайк по три"
+
+#~ msgid "Lion"
+#~ msgstr "Лев"
+
+#~ msgid "Lost "
+#~ msgstr "Потеря"
+
+#~ msgid "Mahjongg Beatle"
+#~ msgstr "Маджонг Жук"
+
+#~ msgid "Mahjongg Five Pyramids"
+#~ msgstr "Маджонг Пять пирамид"
+
+#~ msgid "Mahjongg Flowers"
+#~ msgstr "Маджонг Цветы"
+
+#~ msgid "Mahjongg Flying Dragon"
+#~ msgstr "Маджонг Летящий Дракон"
+
+#~ msgid "Mahjongg Lion"
+#~ msgstr "Маджонг Лион"
+
+#~ msgid "Mahjongg Lost "
+#~ msgstr "Маджонг Потеря"
+
+#~ msgid "Mahjongg New Layout"
+#~ msgstr "Маджонг Новый расклад"
+
+#~ msgid "New Layout"
+#~ msgstr "Новый расклад"
+
+#~ msgid "Triple Klondike by Threes"
+#~ msgstr "Тройной Клондайк по три"
 
 #~ msgid "Mahjongg Temple"
 #~ msgstr "Маджонг Храм"

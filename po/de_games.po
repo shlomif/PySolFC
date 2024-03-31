@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
-"POT-Creation-Date: Sat Jul  8 21:49:22 2023\n"
-"PO-Revision-Date: 2023-07-08 21:59-0400\n"
+"POT-Creation-Date: Sun Mar 31 11:56:38 2024\n"
+"PO-Revision-Date: 2024-03-31 11:59-0400\n"
 "Last-Translator: H. Schaekel <Holger.Schaekel@web.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -10,7 +10,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.3.1\n"
+"X-Generator: Poedit 3.4.2\n"
+
+msgid "1-2-3-4"
+msgstr ""
 
 msgid "10 x 8"
 msgstr "10 x 8"
@@ -25,6 +28,9 @@ msgid "Abacus"
 msgstr "Abakus"
 
 msgid "Abandon Hope"
+msgstr ""
+
+msgid "Abstract"
 msgstr ""
 
 msgid "Accordion"
@@ -52,6 +58,9 @@ msgid "Aces and Kings"
 msgstr ""
 
 msgid "Acey and Kingsley"
+msgstr ""
+
+msgid "Acht Karten"
 msgstr ""
 
 msgid "Achtmal Acht"
@@ -98,6 +107,9 @@ msgstr ""
 
 msgid "Alaska"
 msgstr "Аlaska"
+
+msgid "Alexander the Great"
+msgstr ""
 
 msgid "Algerian Patience"
 msgstr "Algerische Patience"
@@ -156,6 +168,9 @@ msgstr "Apachen Wasserfall"
 msgid "Applegate"
 msgstr ""
 
+msgid "Appreciate"
+msgstr ""
+
 msgid "Aqab's"
 msgstr ""
 
@@ -200,6 +215,9 @@ msgstr "Dhanpati"
 msgid "Assembly"
 msgstr "Assembler"
 
+msgid "Astrocyte"
+msgstr ""
+
 msgid "Athena"
 msgstr "Athena"
 
@@ -213,6 +231,12 @@ msgid "Australian Patience"
 msgstr "Australische Patience"
 
 msgid "Autumn Leaves"
+msgstr ""
+
+msgid "Auxiliary Sequences"
+msgstr ""
+
+msgid "Axis"
 msgstr ""
 
 msgid "Baby Spiderette"
@@ -285,9 +309,6 @@ msgstr "Schnabbel und Flipper"
 msgid "Bear River"
 msgstr ""
 
-msgid "Beatle"
-msgstr "Beatle"
-
 msgid "Beautiful Lutecia"
 msgstr ""
 
@@ -314,6 +335,12 @@ msgstr ""
 
 msgid "Betsy Ross"
 msgstr "Betsy Ross"
+
+msgid "Bezique"
+msgstr ""
+
+msgid "Big Alhambra"
+msgstr ""
 
 msgid "Big Ben"
 msgstr "Big Ben"
@@ -342,9 +369,6 @@ msgstr "Große Scheidung"
 msgid "Big Easy"
 msgstr "Big Easy"
 
-msgid "Big Flying Dragon"
-msgstr "Großer fliegender Drache"
-
 msgid "Big Forty"
 msgstr "Dicke 40"
 
@@ -360,6 +384,9 @@ msgstr "Hoher Berg"
 msgid "Big Parade"
 msgstr ""
 
+msgid "Big Picture Gallery"
+msgstr ""
+
 msgid "Big Spider"
 msgstr "Große Spinne"
 
@@ -368,6 +395,9 @@ msgstr "Große Spinne (1 Farbe)"
 
 msgid "Big Spider (2 Suits)"
 msgstr "Große Spinne (2 Farben)"
+
+msgid "Big Square"
+msgstr ""
 
 msgid "Big Streets"
 msgstr "Große Straßen"
@@ -378,11 +408,20 @@ msgstr "Dicker Sumo"
 msgid "Big Terrace"
 msgstr ""
 
+msgid "Big Traditional"
+msgstr ""
+
+msgid "Big X"
+msgstr ""
+
 msgid "Big York"
 msgstr "Big York"
 
 msgid "Bim Bom"
 msgstr "Bim-Bom"
+
+msgid "Binary Star"
+msgstr ""
 
 msgid "Bisley"
 msgstr "Bisley"
@@ -399,6 +438,9 @@ msgstr "Bizarr"
 
 msgid "Black Hole"
 msgstr "Schwarzes Loch"
+
+msgid "Black Holes"
+msgstr ""
 
 msgid "Black Widow"
 msgstr "Schwarze Witwe"
@@ -417,6 +459,9 @@ msgstr "Blockade"
 
 msgid "Blondes and Brunettes"
 msgstr "Blonde und Brünette"
+
+msgid "Blue Jacket"
+msgstr ""
 
 msgid "Blue Moon"
 msgstr "Blauer Mond"
@@ -535,6 +580,9 @@ msgstr "Camelot"
 msgid "Can Can"
 msgstr "Can Can"
 
+msgid "Canberra"
+msgstr ""
+
 msgid "Canfield"
 msgstr "Canfield"
 
@@ -570,6 +618,9 @@ msgstr "Carre Napoleon"
 
 msgid "Carthage"
 msgstr "Karthago"
+
+msgid "Cascade"
+msgstr ""
 
 msgid "Casino Canfield"
 msgstr ""
@@ -689,6 +740,9 @@ msgstr "Zitadelle"
 msgid "Classic Solitaire"
 msgstr ""
 
+msgid "Clear the Dungeon"
+msgstr ""
+
 msgid "Clink"
 msgstr "Klirren"
 
@@ -698,7 +752,13 @@ msgstr "Uhr"
 msgid "Clover Leaf"
 msgstr "Clover Leaf"
 
+msgid "Club"
+msgstr ""
+
 msgid "Cluitjar's Lair"
+msgstr ""
+
+msgid "Cobweb"
 msgstr ""
 
 msgid "Cockroach"
@@ -767,6 +827,9 @@ msgstr "Cover"
 msgid "Crescent"
 msgstr "Halbmond"
 
+msgid "Cribbage Patience"
+msgstr ""
+
 msgid "Cribbage Shuffle"
 msgstr ""
 
@@ -784,6 +847,9 @@ msgstr ""
 
 msgid "Cringle"
 msgstr "Cringle"
+
+msgid "Crispy"
+msgstr ""
 
 msgid "Cromwell"
 msgstr ""
@@ -834,6 +900,9 @@ msgstr "Dashavatara Kreise"
 msgid "Dead King Golf"
 msgstr "Toten Königs Golf"
 
+msgid "Deauville"
+msgstr ""
+
 msgid "Decade"
 msgstr ""
 
@@ -881,6 +950,12 @@ msgstr "Einsame Insel"
 
 msgid "Deuces"
 msgstr "Zweien"
+
+msgid "Deuces and Queens"
+msgstr ""
+
+msgid "Devil's Grip"
+msgstr ""
 
 msgid "Devil's Solitaire"
 msgstr "Teufels Solitär"
@@ -935,6 +1010,12 @@ msgid "Diplomat"
 msgstr "Diplomat"
 
 msgid "Display"
+msgstr ""
+
+msgid "Dnieper"
+msgstr ""
+
+msgid "Dnipro"
 msgstr ""
 
 msgid "Dog"
@@ -1017,8 +1098,8 @@ msgstr "Doppelt Bisley"
 msgid "Double Klondike"
 msgstr "Doppelt Klondike"
 
-msgid "Double Klondike by Threes"
-msgstr "Doppelt Klondike by Threes"
+msgid "Double Klondike (Draw 3)"
+msgstr ""
 
 msgid "Double Line"
 msgstr "Doppelte Linie"
@@ -1026,8 +1107,11 @@ msgstr "Doppelte Linie"
 msgid "Double Mahjongg Big Castle"
 msgstr "Doppelt Mahjongg großes Schloß"
 
-msgid "Double Mahjongg Big Flying Dragon"
-msgstr "Doppelt Mahjongg fliegender Drache"
+msgid "Double Mahjongg Big Square"
+msgstr ""
+
+msgid "Double Mahjongg Big Traditional"
+msgstr ""
 
 msgid "Double Mahjongg Eight Squares"
 msgstr "Doppelt Mahjongg 8 Quadrate"
@@ -1037,6 +1121,9 @@ msgstr "Doppelt Mahjongg Faro"
 
 msgid "Double Mahjongg Roost"
 msgstr "Doppelt Mahjongg Stange"
+
+msgid "Double Mahjongg Rows"
+msgstr ""
 
 msgid "Double Mahjongg Sphere"
 msgstr "Doppelt Mahjongg Sphäre"
@@ -1086,6 +1173,9 @@ msgid "Double Seahaven Towers"
 msgstr ""
 
 msgid "Double Trigon"
+msgstr ""
+
+msgid "Double Uintah"
 msgstr ""
 
 msgid "Double Your Fun"
@@ -1143,6 +1233,9 @@ msgstr "Schottisch Solitär"
 msgid "Dutchess"
 msgstr "Herzogin"
 
+msgid "Eagle"
+msgstr ""
+
 msgid "Eagle Wing"
 msgstr "Adlerschwinge"
 
@@ -1169,6 +1262,9 @@ msgstr "Ägyptisch Solitär"
 msgid "Eiffel Tower"
 msgstr "Eiffelturm"
 
+msgid "Eight Cards"
+msgstr ""
+
 msgid "Eight Legions"
 msgstr "Acht Legionen"
 
@@ -1191,6 +1287,9 @@ msgstr "Acht nach Acht"
 msgid "Eight by Eight"
 msgstr "Acht zu Acht"
 
+msgid "Eighteens"
+msgstr ""
+
 msgid "Eighty Thieves"
 msgstr ""
 
@@ -1199,6 +1298,9 @@ msgstr "Еlba"
 
 msgid "Elevator"
 msgstr "Fahrstuhl"
+
+msgid "Eleven Away"
+msgstr ""
 
 msgid "Elevens"
 msgstr "Elevens"
@@ -1348,8 +1450,11 @@ msgstr "Fünf Asse"
 msgid "Five Piles"
 msgstr "Fünf Felder"
 
-msgid "Five Pyramids"
-msgstr "Fünf Pyramiden"
+msgid "Five Pyramids 1"
+msgstr ""
+
+msgid "Five Pyramids 2"
+msgstr ""
 
 msgid "Flake"
 msgstr "Flocke"
@@ -1387,16 +1492,19 @@ msgstr "Blumenuhr"
 msgid "Flower Garden"
 msgstr "Blumengarten"
 
-msgid "Flowers"
-msgstr "Blumen"
+msgid "Flowers 1"
+msgstr ""
+
+msgid "Flowers 2"
+msgstr ""
 
 msgid "Fly"
 msgstr "Fliegen"
 
-msgid "Flying Dragon"
-msgstr "Fliegender Drache"
-
 msgid "Following"
+msgstr ""
+
+msgid "Fool's Up"
 msgstr ""
 
 #, fuzzy
@@ -1434,14 +1542,14 @@ msgstr "Glück"
 msgid "Forty Bandits"
 msgstr ""
 
-msgid "Forty-Nine"
-msgstr "Neunundvierzig"
-
 msgid "Forty Thieves"
 msgstr "Vierzig Diebe"
 
 msgid "Forty and Eight"
 msgstr "Vierzig und Acht"
+
+msgid "Forty-Nine"
+msgstr "Neunundvierzig"
 
 msgid "Four Colours"
 msgstr "Vier Farben"
@@ -1460,6 +1568,15 @@ msgstr "Vier Kleeblätter"
 
 msgid "Four Packs"
 msgstr "Vier Pakete"
+
+msgid "Four Rivers (No Gravity) 14x6"
+msgstr ""
+
+msgid "Four Rivers (No Gravity) 18x8"
+msgstr ""
+
+msgid "Four Rivers (No Gravity) 24x12"
+msgstr ""
 
 msgid "Four Rivers 14x6"
 msgstr ""
@@ -1506,6 +1623,12 @@ msgstr "Fred's Spinne (3 Decks)"
 msgid "Free Fan"
 msgstr "Free Fan"
 
+msgid "Free Ishido"
+msgstr ""
+
+msgid "Free Ishido Relaxed"
+msgstr ""
+
 msgid "Free Napoleon"
 msgstr "Freier Napoleon"
 
@@ -1529,6 +1652,9 @@ msgstr "Vollvision 1"
 
 msgid "Full Vision 2"
 msgstr "Vollvision 2"
+
+msgid "Full Vision 3"
+msgstr ""
 
 msgid "Future"
 msgstr "Zukunft"
@@ -1698,11 +1824,20 @@ msgstr "Zigeuner"
 msgid "H for Haga"
 msgstr "Mahjongg H für Haga"
 
+msgid "H for Haga Traditional"
+msgstr ""
+
 msgid "Half Klondike"
+msgstr ""
+
+msgid "Half Mahjongg Abstract"
 msgstr ""
 
 msgid "Half Mahjongg Happy New Year"
 msgstr "Halb Mahjongg frohes neues Jahr"
+
+msgid "Half Mahjongg K 2"
+msgstr ""
 
 msgid "Half Mahjongg Smile"
 msgstr "Halb Mahjongg lacht"
@@ -1777,8 +1912,8 @@ msgstr ""
 msgid "Hex A Klon"
 msgstr "Hex A Klon"
 
-msgid "Hex A Klon by Threes"
-msgstr "Hex A Klon durch drei"
+msgid "Hex A Klon (Draw 3)"
+msgstr ""
 
 msgid "Hex Labyrinth"
 msgstr "Hex Labyrinth"
@@ -1819,6 +1954,12 @@ msgstr "Pferd"
 msgid "Hospital Patience"
 msgstr "Hospital Patience"
 
+msgid "Hot Coffee"
+msgstr ""
+
+msgid "Hourglass"
+msgstr ""
+
 msgid "House in the Wood"
 msgstr "Haus im Wald"
 
@@ -1836,6 +1977,9 @@ msgstr "Luftkissenfahrzeug"
 
 msgid "How They Run"
 msgstr "Wie sie rennen"
+
+msgid "Huge Picture Gallery"
+msgstr ""
 
 msgid "Hunter"
 msgstr ""
@@ -1910,6 +2054,9 @@ msgstr "Intelligenz +"
 msgid "Interchange"
 msgstr "Austausch"
 
+msgid "Interlock"
+msgstr ""
+
 msgid "Interment"
 msgstr "Bestattung"
 
@@ -1926,6 +2073,15 @@ msgid "Irmgard"
 msgstr ""
 
 msgid "Isabel"
+msgstr ""
+
+msgid "Ishido"
+msgstr ""
+
+msgid "Ishido Relaxed"
+msgstr ""
+
+msgid "Ishido Scored"
 msgstr ""
 
 msgid "JPs"
@@ -1952,6 +2108,12 @@ msgstr "Japanischer Garten II"
 msgid "Japanese Garden III"
 msgstr "Japanischer Garten III"
 
+msgid "Joke Klon"
+msgstr ""
+
+msgid "Joke Klon (Draw 3)"
+msgstr ""
+
 msgid "Joker"
 msgstr "Joker"
 
@@ -1973,9 +2135,21 @@ msgstr "Dschungel"
 msgid "Just For Fun"
 msgstr "Nur zum Spaß"
 
+msgid "Juvenile"
+msgstr ""
+
+msgid "K 2"
+msgstr ""
+
 #, fuzzy
 msgid "K for Kyodai"
 msgstr "Mahjongg K for Kyodai"
+
+msgid "K for Kyodai Traditional"
+msgstr ""
+
+msgid "K.C."
+msgstr ""
 
 msgid "Kali's Game"
 msgstr "Kali's Spiel"
@@ -2060,6 +2234,9 @@ msgstr "Könige"
 msgid "Klondike"
 msgstr "Klondike"
 
+msgid "Klondike (Draw 3)"
+msgstr ""
+
 msgid "Klondike Mini"
 msgstr ""
 
@@ -2069,8 +2246,8 @@ msgstr ""
 msgid "Klondike Plus 16"
 msgstr "Klondike Plus 16"
 
-msgid "Klondike by Threes"
-msgstr "Klondike durch drei"
+msgid "Klondike Territory"
+msgstr ""
 
 msgid "Km"
 msgstr ""
@@ -2142,6 +2319,9 @@ msgid "La Chatelaine"
 msgstr "La Chatelaine"
 
 msgid "La Demi-Lune"
+msgstr ""
+
+msgid "La Francaise"
 msgstr ""
 
 msgid "La Nivernaise"
@@ -2265,8 +2445,11 @@ msgstr "Begrenzt"
 msgid "Limpopo"
 msgstr "Limpopo"
 
-msgid "Lion"
-msgstr "Löwe"
+msgid "Lion 1"
+msgstr ""
+
+msgid "Lion 2"
+msgstr ""
 
 msgid "Little Billie"
 msgstr "Kleiner Billie"
@@ -2307,8 +2490,11 @@ msgstr "Verlorene Enden"
 msgid "Lords and Ladies"
 msgstr ""
 
-msgid "Lost "
-msgstr "Verloren"
+msgid "Lost"
+msgstr ""
+
+msgid "Love a Duck"
+msgstr ""
 
 msgid "Lovely Lucy"
 msgstr ""
@@ -2352,20 +2538,26 @@ msgstr "Mahjongg Pfeil"
 msgid "Mahjongg Art Moderne"
 msgstr "Mahjongg Moderne Kunst"
 
+msgid "Mahjongg Axis"
+msgstr ""
+
 msgid "Mahjongg Balance"
 msgstr "Mahjongg Balance"
 
 msgid "Mahjongg Bat"
 msgstr "Mahjongg Bat"
 
-msgid "Mahjongg Beatle"
-msgstr "Mahjongg Beatle"
+msgid "Mahjongg Beetle"
+msgstr ""
 
 msgid "Mahjongg Big Hole"
 msgstr "Mahjongg großes Loch"
 
 msgid "Mahjongg Big Mountain"
 msgstr "Mahjongg großer Berg"
+
+msgid "Mahjongg Big X"
+msgstr ""
 
 msgid "Mahjongg Bizarre"
 msgstr "Mahjongg bizarr"
@@ -2409,6 +2601,9 @@ msgstr "Mahjongg SchachMania"
 msgid "Mahjongg Chip"
 msgstr "Mahjongg Chip"
 
+msgid "Mahjongg Cobweb"
+msgstr ""
+
 msgid "Mahjongg Columns"
 msgstr "Mahjongg Spalten"
 
@@ -2442,6 +2637,9 @@ msgstr "Mahjongg Drache 2"
 msgid "Mahjongg Dude"
 msgstr "Mahjongg Dude"
 
+msgid "Mahjongg Eagle"
+msgstr ""
+
 msgid "Mahjongg Empty Pyramids"
 msgstr "Mahjongg leere Pyramiden"
 
@@ -2463,17 +2661,20 @@ msgstr "Mahjongg Fisch"
 msgid "Mahjongg Fish Face"
 msgstr "Mahjongg Fischgesicht"
 
-msgid "Mahjongg Five Pyramids"
-msgstr "Mahjongg 5 Pyramiden"
+msgid "Mahjongg Five Pyramids 1"
+msgstr ""
+
+msgid "Mahjongg Five Pyramids 2"
+msgstr ""
 
 msgid "Mahjongg Floating City"
 msgstr "Mahjongg geflutete Stadt"
 
-msgid "Mahjongg Flowers"
-msgstr "Mahjongg Blumen"
+msgid "Mahjongg Flowers 1"
+msgstr ""
 
-msgid "Mahjongg Flying Dragon"
-msgstr "Mahjongg fliegende Drachen"
+msgid "Mahjongg Flowers 2"
+msgstr ""
 
 msgid "Mahjongg Fortress Towers"
 msgstr "Mahjongg Festungsturm"
@@ -2483,6 +2684,9 @@ msgstr "Mahjongg volle Version 1"
 
 msgid "Mahjongg Full Vision 2"
 msgstr "Mahjongg volle Version 2"
+
+msgid "Mahjongg Full Vision 3"
+msgstr ""
 
 msgid "Mahjongg Future"
 msgstr "Mahjongg Zukunft"
@@ -2499,6 +2703,9 @@ msgstr "Mahjongg Lichtung"
 msgid "Mahjongg H for Haga"
 msgstr "Mahjongg H für Haga"
 
+msgid "Mahjongg H for Haga Traditional"
+msgstr ""
+
 msgid "Mahjongg Hare"
 msgstr "Mahjongg Hase"
 
@@ -2513,6 +2720,12 @@ msgstr "Mahjongg Hoch und Tief"
 
 msgid "Mahjongg Horse"
 msgstr "Mahjongg Pferd"
+
+msgid "Mahjongg Hot Coffee"
+msgstr ""
+
+msgid "Mahjongg Hourglass"
+msgstr ""
 
 msgid "Mahjongg Hovercraft"
 msgstr "Mahjongg Luftkissenfahrzeug"
@@ -2543,6 +2756,9 @@ msgstr "Mahjongg Joker"
 
 msgid "Mahjongg K for Kyodai"
 msgstr "Mahjongg K for Kyodai"
+
+msgid "Mahjongg K for Kyodai Traditional"
+msgstr ""
 
 msgid "Mahjongg Km"
 msgstr "Mahjongg Km"
@@ -2598,14 +2814,17 @@ msgstr "Mahjongg Labyrinth"
 msgid "Mahjongg Lattice"
 msgstr "Mahjongg Gitter"
 
-msgid "Mahjongg Lion"
-msgstr "Mahjongg Löwe"
+msgid "Mahjongg Lion 1"
+msgstr ""
+
+msgid "Mahjongg Lion 2"
+msgstr ""
 
 msgid "Mahjongg Loose Ends"
 msgstr "Mahjongg verlorene Enden"
 
-msgid "Mahjongg Lost "
-msgstr "Mahjongg verloren "
+msgid "Mahjongg Lost"
+msgstr ""
 
 msgid "Mahjongg Maya"
 msgstr "Mahjongg Maya"
@@ -2634,8 +2853,11 @@ msgstr "Mahjongg Multi X"
 msgid "Mahjongg N for Namida"
 msgstr "Mahjongg N for Namida"
 
-msgid "Mahjongg New Layout"
-msgstr "Mahjongg neues Layout"
+msgid "Mahjongg N for Namida Traditional"
+msgstr ""
+
+msgid "Mahjongg Naoki Haga Traditional"
+msgstr ""
 
 msgid "Mahjongg Okie's Nitemare"
 msgstr "Mahjongg Okie's Alptraum"
@@ -2661,6 +2883,9 @@ msgstr "Mahjongg Papillion"
 msgid "Mahjongg Pattern"
 msgstr "Mahjongg Muster"
 
+msgid "Mahjongg Phoenix"
+msgstr ""
+
 msgid "Mahjongg Portal"
 msgstr "Mahjongg Portal"
 
@@ -2669,6 +2894,9 @@ msgstr "Mahjongg Pyramide 1"
 
 msgid "Mahjongg Pyramid 2"
 msgstr "Mahjongg Pyramide 2"
+
+msgid "Mahjongg Pyramids"
+msgstr ""
 
 msgid "Mahjongg Quad"
 msgstr "Mahjongg Quad"
@@ -2733,6 +2961,9 @@ msgstr "Mahjongg Galaxiebrücke"
 msgid "Mahjongg Space Shuttle"
 msgstr "Mahjongg Space Shuttle"
 
+msgid "Mahjongg Spider"
+msgstr ""
+
 msgid "Mahjongg Square"
 msgstr "Mahjongg Quadrat"
 
@@ -2788,6 +3019,12 @@ msgstr "Mahjongg Tempel 2"
 msgid "Mahjongg Temple 3"
 msgstr "Mahjongg Tempel 3"
 
+msgid "Mahjongg Temple 4"
+msgstr ""
+
+msgid "Mahjongg Teotihucan"
+msgstr ""
+
 msgid "Mahjongg The Door"
 msgstr "Mahjongg die Tür"
 
@@ -2817,6 +3054,12 @@ msgstr "Mahjongg Tornado"
 
 msgid "Mahjongg Totally Random-Made"
 msgstr "Mahjongg total zufallserstellt"
+
+msgid "Mahjongg Tower and Walls"
+msgstr ""
+
+msgid "Mahjongg Traditional"
+msgstr ""
 
 msgid "Mahjongg Traditional Reviewed"
 msgstr "Mahjongg traditionell überprüft"
@@ -2848,6 +3091,9 @@ msgstr "Mahjongg Siegespfeil"
 msgid "Mahjongg Wavelets"
 msgstr "Mahjongg Wavelets"
 
+msgid "Mahjongg Waves"
+msgstr ""
+
 msgid "Mahjongg Wedges"
 msgstr "Mahjongg Keile"
 
@@ -2857,8 +3103,14 @@ msgstr "Mahjongg Parkett 1"
 msgid "Mahjongg Well 2"
 msgstr "Mahjongg Parkett 2"
 
+msgid "Mahjongg What a Pyramid"
+msgstr ""
+
 msgid "Mahjongg Whatever"
 msgstr "Mahjongg wasauchimmer"
+
+msgid "Mahjongg Wicker"
+msgstr ""
 
 msgid "Mahjongg Win"
 msgstr "Mahjongg Win"
@@ -2871,6 +3123,9 @@ msgstr "Mahjongg X-Shape"
 
 msgid "Mahjongg Yummy"
 msgstr "Mahjongg Lecker"
+
+msgid "Mahjongg Zigzag"
+msgstr ""
 
 msgid "Maine Coon"
 msgstr ""
@@ -2889,6 +3144,9 @@ msgstr "Mancunian"
 
 msgid "Manx"
 msgstr "Manx"
+
+msgid "Marechal Saxe"
+msgstr ""
 
 msgid "Maria"
 msgstr "Maria"
@@ -3062,6 +3320,9 @@ msgstr ""
 msgid "Morehead"
 msgstr ""
 
+msgid "Morphy"
+msgstr ""
+
 msgid "Moth"
 msgstr "Motte"
 
@@ -3097,6 +3358,12 @@ msgstr "Mystik"
 msgid "N for Namida"
 msgstr "Mahjongg N for Namida"
 
+msgid "N for Namida Traditional"
+msgstr ""
+
+msgid "Naoki Haga Traditional"
+msgstr ""
+
 msgid "Napoleon"
 msgstr "Napoleon"
 
@@ -3120,6 +3387,9 @@ msgstr "Napoleon's Favoriten"
 
 msgid "Napoleon's Flank"
 msgstr "Napoleon's Flanke"
+
+msgid "Napoleon's Shoulder"
+msgstr ""
 
 msgid "Napoleon's Square"
 msgstr "Napoleon's Quadrat"
@@ -3158,11 +3428,14 @@ msgstr "Nestor"
 msgid "New British Constitution"
 msgstr "Neue britische Verfassung"
 
-msgid "New Layout"
-msgstr "Neues Layout"
-
 msgid "New York"
 msgstr "New York"
+
+msgid "Nine Across"
+msgstr ""
+
+msgid "Ninety-One"
+msgstr ""
 
 msgid "Nomad"
 msgstr "Nomade"
@@ -3196,6 +3469,9 @@ msgstr "Numerica"
 
 msgid "Numerica (2 Decks)"
 msgstr "Numerica (2 Decks)"
+
+msgid "Obstruction"
+msgstr ""
 
 msgid "Ocean Towers"
 msgstr "Ozeanische Türme"
@@ -3231,6 +3507,9 @@ msgstr ""
 msgid "One Foundation"
 msgstr ""
 
+msgid "One-Handed"
+msgstr ""
+
 msgid "One234"
 msgstr "Eins234"
 
@@ -3260,6 +3539,9 @@ msgstr ""
 
 msgid "Open Peek"
 msgstr "Öffne heimlichen Blick"
+
+msgid "Open Proils"
+msgstr ""
 
 msgid "Open Sly Fox"
 msgstr "Öffne schlauer Fuchs"
@@ -3336,8 +3618,14 @@ msgstr "Pariser"
 msgid "Parisienne"
 msgstr "La Parisienne"
 
+msgid "Park and Ride"
+msgstr ""
+
 msgid "Parliament"
 msgstr "Parlament"
+
+msgid "Partners"
+msgstr ""
 
 msgid "Pas Seul"
 msgstr "Pas Seul"
@@ -3381,6 +3669,9 @@ msgstr ""
 msgid "Pegged Diamond"
 msgstr ""
 
+msgid "Pegged Hexagon"
+msgstr ""
+
 msgid "Pegged Octagon"
 msgstr ""
 
@@ -3416,6 +3707,9 @@ msgstr "Ausdauer"
 msgid "Persian Patience"
 msgstr "Persische Patience"
 
+msgid "Petal"
+msgstr ""
+
 msgid "Phalanx"
 msgstr "Phalanx"
 
@@ -3430,6 +3724,30 @@ msgstr "Phoenix"
 
 msgid "Picture Gallery"
 msgstr "Bildergallerie"
+
+msgid "Picture Matrix 10x10"
+msgstr ""
+
+msgid "Picture Matrix 3x3"
+msgstr ""
+
+msgid "Picture Matrix 4x4"
+msgstr ""
+
+msgid "Picture Matrix 5x5"
+msgstr ""
+
+msgid "Picture Matrix 6x6"
+msgstr ""
+
+msgid "Picture Matrix 7x7"
+msgstr ""
+
+msgid "Picture Matrix 8x8"
+msgstr ""
+
+msgid "Picture Matrix 9x9"
+msgstr ""
 
 msgid "Picture Patience"
 msgstr "Bilder Patience"
@@ -3551,6 +3869,9 @@ msgstr "Pyramiden Golf"
 msgid "Pyramid's Stones"
 msgstr "Pyramidensteine"
 
+msgid "Pyramids"
+msgstr ""
+
 msgid "Pythagor"
 msgstr ""
 
@@ -3569,6 +3890,18 @@ msgstr "Viereck"
 
 msgid "Quadruple Alliance"
 msgstr "Vervierfachte Allianz"
+
+msgid "Quadruple Canfield"
+msgstr ""
+
+msgid "Quadruple Klondike"
+msgstr ""
+
+msgid "Quadruple Klondike (Draw 3)"
+msgstr ""
+
+msgid "Quadruple Yukon"
+msgstr ""
 
 msgid "Quads"
 msgstr "Quads"
@@ -3676,6 +4009,9 @@ msgstr "Entspannen"
 msgid "Relaxed Accordion"
 msgstr "Akkordion"
 
+msgid "Relaxed Clock"
+msgstr ""
+
 msgid "Relaxed Exit"
 msgstr ""
 
@@ -3717,6 +4053,9 @@ msgid "Retinue"
 msgstr "Begleitung"
 
 msgid "Retinue of Kings"
+msgstr ""
+
+msgid "Ricochet"
 msgstr ""
 
 msgid "Right Triangle"
@@ -3767,6 +4106,12 @@ msgstr "Stange"
 msgid "Rooster"
 msgstr "Hahn"
 
+msgid "Rosamund"
+msgstr ""
+
+msgid "Rosamund's Bower"
+msgstr ""
+
 msgid "Roslin"
 msgstr ""
 
@@ -3775,6 +4120,12 @@ msgstr ""
 
 msgid "Rouge et Noir"
 msgstr "Rouge et Noir"
+
+msgid "Round Dozen"
+msgstr ""
+
+msgid "Rows"
+msgstr ""
 
 msgid "Rows of Four"
 msgstr "Rechts und Links"
@@ -3803,6 +4154,9 @@ msgstr "Königliche Parade"
 msgid "Royal Rendezvous"
 msgstr "Königliches Rendevous"
 
+msgid "Royal Secrets"
+msgstr ""
+
 msgid "Rugby"
 msgstr "Rugbyи"
 
@@ -3830,6 +4184,42 @@ msgstr "S Patience"
 msgid "Salic Law"
 msgstr "Salisches Gesetz"
 
+msgid "Samegame 3 Colors 15x10"
+msgstr ""
+
+msgid "Samegame 3 Colors 20x10"
+msgstr ""
+
+msgid "Samegame 3 Colors 25x15"
+msgstr ""
+
+msgid "Samegame 4 Colors 15x10"
+msgstr ""
+
+msgid "Samegame 4 Colors 20x10"
+msgstr ""
+
+msgid "Samegame 4 Colors 25x15"
+msgstr ""
+
+msgid "Samegame 5 Colors 15x10"
+msgstr ""
+
+msgid "Samegame 5 Colors 20x10"
+msgstr ""
+
+msgid "Samegame 5 Colors 25x15"
+msgstr ""
+
+msgid "Samegame 6 Colors 15x10"
+msgstr ""
+
+msgid "Samegame 6 Colors 20x10"
+msgstr ""
+
+msgid "Samegame 6 Colors 25x15"
+msgstr ""
+
 msgid "Samuri"
 msgstr "Samurai"
 
@@ -3841,6 +4231,9 @@ msgstr "Sanibel"
 
 msgid "Saratoga"
 msgstr "Saratoga"
+
+msgid "Sarlacc"
+msgstr ""
 
 msgid "Saxony"
 msgstr "Sachsen"
@@ -3911,11 +4304,17 @@ msgstr "Sieben Teufel"
 msgid "Seven Pyramids"
 msgstr "Sieben Pyramiden"
 
+msgid "Seven Up"
+msgstr ""
+
 msgid "Seven by Five"
 msgstr "Sieben zu Fünf"
 
 msgid "Seven by Four"
 msgstr "Sieben zu Vier"
+
+msgid "Seventh Wonder"
+msgstr ""
 
 msgid "Shady Lanes"
 msgstr "Schattenlinien"
@@ -4050,6 +4449,9 @@ msgstr "Schmale Harfe"
 msgid "Small PileOn"
 msgstr "Schmal: "
 
+msgid "Small Triangle"
+msgstr ""
+
 msgid "Smile"
 msgstr "Lächeln"
 
@@ -4177,6 +4579,9 @@ msgstr "Sternentor"
 msgid "Station"
 msgstr ""
 
+msgid "Steel Wheels"
+msgstr ""
+
 #, fuzzy
 msgid "Step-Up"
 msgstr "Schritte"
@@ -4190,6 +4595,9 @@ msgstr "Sieben Pyramiden"
 
 msgid "Steve"
 msgstr "Steve"
+
+msgid "Stewart"
+msgstr ""
 
 msgid "Sticko"
 msgstr ""
@@ -4304,6 +4712,9 @@ msgstr ""
 msgid "Take Fourteen"
 msgstr ""
 
+msgid "Take Ten"
+msgstr ""
+
 msgid "Taking Silk"
 msgstr ""
 
@@ -4325,6 +4736,9 @@ msgstr "Tempel 2"
 msgid "Temple 3"
 msgstr "Tempel 3"
 
+msgid "Temple 4"
+msgstr ""
+
 msgid "Ten Across"
 msgstr "Zehn hinüber"
 
@@ -4337,8 +4751,17 @@ msgstr ""
 msgid "Ten by One"
 msgstr "Zehn durch einsу"
 
+msgid "Tens"
+msgstr ""
+
+msgid "Teotihucan"
+msgstr ""
+
 msgid "Terrace"
 msgstr "Terasse"
+
+msgid "The Bogey"
+msgstr ""
 
 msgid "The Bouquet"
 msgstr "Der Blumemstrauß"
@@ -4370,6 +4793,12 @@ msgstr "Der letzte Monarch II"
 msgid "The Little Corporal"
 msgstr "Der kleine Obergefreite"
 
+msgid "The Lucky Number"
+msgstr ""
+
+msgid "The Magic Seven"
+msgstr ""
+
 msgid "The Plot"
 msgstr ""
 
@@ -4391,6 +4820,9 @@ msgstr "Der offene Wunsch"
 msgid "Theater"
 msgstr "Theater"
 
+msgid "Thieves"
+msgstr ""
+
 msgid "Thieves of Egypt"
 msgstr "Diebe von Ägypten"
 
@@ -4410,6 +4842,9 @@ msgstr "Dreizehn"
 msgid "Thirty"
 msgstr "Vierzig"
 
+msgid "Thirty-Nine Steps"
+msgstr ""
+
 msgid "Thirty-Six"
 msgstr "Sechsunddreißig"
 
@@ -4424,6 +4859,9 @@ msgstr ""
 
 msgid "Three Blind Mice"
 msgstr "Drei blinde Mäuse"
+
+msgid "Three Card Fan"
+msgstr ""
 
 msgid "Three Fir-trees"
 msgstr "Three Fir-trees"
@@ -4459,6 +4897,30 @@ msgstr "Tiger"
 msgid "Tile Fighter"
 msgstr "Mahjongg Spielkämpfer"
 
+msgid "Tile Puzzle 10x10"
+msgstr ""
+
+msgid "Tile Puzzle 3x3"
+msgstr ""
+
+msgid "Tile Puzzle 4x4"
+msgstr ""
+
+msgid "Tile Puzzle 5x5"
+msgstr ""
+
+msgid "Tile Puzzle 6x6"
+msgstr ""
+
+msgid "Tile Puzzle 7x7"
+msgstr ""
+
+msgid "Tile Puzzle 8x8"
+msgstr ""
+
+msgid "Tile Puzzle 9x9"
+msgstr ""
+
 #, fuzzy
 msgid "Tilepiles"
 msgstr "Mahjongg Spielfelder"
@@ -4472,6 +4934,9 @@ msgstr ""
 
 msgid "Toad"
 msgstr "Kröte"
+
+msgid "Toad in the Hole"
+msgstr ""
 
 msgid "Tomb"
 msgstr "Gewölbe"
@@ -4495,6 +4960,9 @@ msgstr "Тournament"
 msgid "Tours du Alice"
 msgstr ""
 
+msgid "Tower and Walls"
+msgstr ""
+
 msgid "Tower of Babel"
 msgstr "Turm zu Babel"
 
@@ -4506,6 +4974,9 @@ msgstr "Türme von Hanoi"
 
 msgid "Towers"
 msgstr "Türme"
+
+msgid "Traditional"
+msgstr ""
 
 #, fuzzy
 msgid "Traditional Reviewed"
@@ -4570,8 +5041,8 @@ msgstr "Dreifacher Austausch"
 msgid "Triple Klondike"
 msgstr "Dreifaches Klondike"
 
-msgid "Triple Klondike by Threes"
-msgstr "Dreifaches Klondike von Dreier"
+msgid "Triple Klondike (Draw 3)"
+msgstr ""
 
 msgid "Triple Line"
 msgstr "Dreierlinie"
@@ -4593,6 +5064,9 @@ msgstr ""
 
 msgid "Troika"
 msgstr "Troika"
+
+msgid "Trumps Row"
+msgstr ""
 
 msgid "Trusty Twelve"
 msgstr "Treue Zwölf"
@@ -4658,6 +5132,12 @@ msgstr ""
 msgid "Ukrainian Solitaire"
 msgstr "Ukrainisches Solitär"
 
+msgid "Uncle Walter's"
+msgstr ""
+
+msgid "Under Siege"
+msgstr ""
+
 msgid "Union Square"
 msgstr "Unionsquadrat"
 
@@ -4687,6 +5167,9 @@ msgid "Vagues"
 msgstr "Vagues"
 
 msgid "Vajra"
+msgstr ""
+
+msgid "Valentine"
 msgstr ""
 
 msgid "Vamana"
@@ -4719,6 +5202,9 @@ msgstr ""
 #, fuzzy
 msgid "Victory Arrow"
 msgstr "Mahjongg Siegespfeil"
+
+msgid "Vincent"
+msgstr ""
 
 msgid "Vineyard"
 msgstr ""
@@ -4755,6 +5241,9 @@ msgstr "Washington's Favoriten"
 msgid "Wasp"
 msgstr "Wespe"
 
+msgid "Watch"
+msgstr ""
+
 msgid "Waterfall"
 msgstr "Wasserfall"
 
@@ -4769,6 +5258,9 @@ msgstr "Wellenbewegung"
 
 msgid "Wavelets"
 msgstr "Wavelets"
+
+msgid "Waves"
+msgstr ""
 
 msgid "Weavers"
 msgstr ""
@@ -4797,6 +5289,9 @@ msgstr "Westen"
 msgid "Westhaven"
 msgstr "Westen"
 
+msgid "What a Pyramid"
+msgstr ""
+
 msgid "Whatever"
 msgstr "Wasimmer"
 
@@ -4814,6 +5309,12 @@ msgstr "Weißpferd"
 
 msgid "Wicked"
 msgstr "Boshaft"
+
+msgid "Wicker"
+msgstr ""
+
+msgid "Wildcards"
+msgstr ""
 
 msgid "Wildflower"
 msgstr ""
@@ -4857,6 +5358,12 @@ msgstr "York"
 msgid "Yukon"
 msgstr "Yukon"
 
+msgid "Yukon Cells"
+msgstr ""
+
+msgid "Yukon Kings"
+msgstr ""
+
 msgid "Yukon Nouveau"
 msgstr ""
 
@@ -4878,11 +5385,74 @@ msgstr "Zerline (3 Decks)"
 msgid "Zeus"
 msgstr "Zeus"
 
+msgid "Zigzag"
+msgstr ""
+
 msgid "Zigzag Course"
 msgstr "Zickzackkurs"
 
 msgid "Zodiac"
 msgstr "Zodiac"
+
+#~ msgid "Beatle"
+#~ msgstr "Beatle"
+
+#~ msgid "Big Flying Dragon"
+#~ msgstr "Großer fliegender Drache"
+
+#~ msgid "Double Klondike by Threes"
+#~ msgstr "Doppelt Klondike by Threes"
+
+#~ msgid "Double Mahjongg Big Flying Dragon"
+#~ msgstr "Doppelt Mahjongg fliegender Drache"
+
+#~ msgid "Five Pyramids"
+#~ msgstr "Fünf Pyramiden"
+
+#~ msgid "Flowers"
+#~ msgstr "Blumen"
+
+#~ msgid "Flying Dragon"
+#~ msgstr "Fliegender Drache"
+
+#~ msgid "Hex A Klon by Threes"
+#~ msgstr "Hex A Klon durch drei"
+
+#~ msgid "Klondike by Threes"
+#~ msgstr "Klondike durch drei"
+
+#~ msgid "Lion"
+#~ msgstr "Löwe"
+
+#~ msgid "Lost "
+#~ msgstr "Verloren"
+
+#~ msgid "Mahjongg Beatle"
+#~ msgstr "Mahjongg Beatle"
+
+#~ msgid "Mahjongg Five Pyramids"
+#~ msgstr "Mahjongg 5 Pyramiden"
+
+#~ msgid "Mahjongg Flowers"
+#~ msgstr "Mahjongg Blumen"
+
+#~ msgid "Mahjongg Flying Dragon"
+#~ msgstr "Mahjongg fliegende Drachen"
+
+#~ msgid "Mahjongg Lion"
+#~ msgstr "Mahjongg Löwe"
+
+#~ msgid "Mahjongg Lost "
+#~ msgstr "Mahjongg verloren "
+
+#~ msgid "Mahjongg New Layout"
+#~ msgstr "Mahjongg neues Layout"
+
+#~ msgid "New Layout"
+#~ msgstr "Neues Layout"
+
+#~ msgid "Triple Klondike by Threes"
+#~ msgstr "Dreifaches Klondike von Dreier"
 
 #~ msgid "Mahjongg Temple"
 #~ msgstr "Mahjongg Tempel"

@@ -9,7 +9,7 @@ else
 fi
 
 # current android version mumber.
-version="2.26.0"
+version="3.0.0"
 sversion=$(echo $version  | sed -E "s:(.*)\..*:\1:")
 tuple=$(echo $version | sed -E "s:(.*)\.(.*)\.(.*):(\1, \2, \3):")
 

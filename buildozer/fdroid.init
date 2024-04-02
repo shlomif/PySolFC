@@ -1,6 +1,17 @@
 #!/bin/bash
 set -eux
 
+if [[ -z ${AAPI+x} ]]
+then
+  exit 1
+fi
+
+virtualenv FINIT
+source FINIT/bin/activate
+
+pip3 install attrs
+pip3 install pysol_cards
+
 tmpdir=..
 
 echo '### prepare source'
@@ -27,7 +38,7 @@ echo '### eval version'
 echo '### prepare buildozer'
 
 sed -r "s:#? ?source\.dir =.*:source.dir = ..:" -i buildozer.spec
-sed -r "s:#? ?source\.exclude_dirs =.*:source.exclude_dirs = Screenshots,android,buildozer,tests,fastlane:" -i buildozer.spec
+sed -r "s:#? ?source\.exclude_dirs =.*:source.exclude_dirs = Screenshots,android,buildozer,contrib,tests,fastlane:" -i buildozer.spec
 sed -r "s:#? ?source\.exclude_patterns =.*:source.exclude_patterns = README.*,AUTHORS.md,CONTRIBUTING.md,COPYING,MANIFEST.in,Makefile,NEWS.asciidoc,appdata.xml,pysol.py,run-tests.pl,setup.cfg,setup.py,setup_osx.py,local.properties,p4a_env_vars.txt:" -i buildozer.spec
 sed -r "s:#? ?android\.skip_update =.*:android.skip_update = True:" -i buildozer.spec
 sed -r "s:#? ?android\.accept_sdk_license =.*:android.accept_sdk_license = False:" -i buildozer.spec
@@ -35,3 +46,6 @@ sed -r "s:#? ?log_level =.*:log_level = 2:" -i buildozer.spec
 
 
 echo '### end init'
+
+deactivate
+rm -rf FINIT

@@ -90,6 +90,7 @@ class _OneImageCard(_HideableCard):
         self.item = MfxCanvasImage(
             game.canvas, self.x, self.y, image=aimage, anchor="nw")
 
+        self.app = game.app
         # print ('card: face = %s xy=%s/%s' % (self._face_image.source, x, y))
         # print ('card: back = %s xy=%s/%s' % (self._back_image.source, x, y))
         # y = self.yy
@@ -97,11 +98,15 @@ class _OneImageCard(_HideableCard):
     def _setImage(self, image):
         if self.twoImage:
             from kivy.animation import Animation
+            base = float(self.app.opt.animations)
+            dura = base*base/30.0
+            if base > 0: dura += 0.2  # noqa
             z = 0
-            t = 'in_quad'
+            t = 'out_quad'
             if image == self._face_image:
                 z = 1
-            anim = Animation(opacity=z, t=t, d=0.35)
+                t = 'in_quad'
+            anim = Animation(opacity=z, t=t, d=dura)
             anim.start(self._face_image)
         else:
             self._active_image.clear_widgets()

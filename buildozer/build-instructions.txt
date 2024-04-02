@@ -15,10 +15,10 @@ Prepare
 
 Move to directory buildozer.
 
-First create and enter a virtualenv and load all
+First create and enter a virtualenv and load the
 required python modules using pip install.
 
-$> virtualenv ENV
+$> virtualenv --system-site-packages ENV
 $> . ENV/bin/activate
 $> pip install -r pipreq.txt
 

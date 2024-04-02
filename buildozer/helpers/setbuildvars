@@ -1,0 +1,8 @@
+#!/bin/sh
+
+VP4A='v2024.01.21'
+VBUILDOZER='3ebc09e885457db4747e67a1250c2aea1ca7a046'
+VCPYTHON='v3.11.5'
+VCYTHON='3.0.10'
+AAPI=$(cat buildozer.spec | grep -e "^android[.]api" | sed -E "s/^.*([0-9].).*/\1/")
+export AAPI

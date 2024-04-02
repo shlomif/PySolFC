@@ -32,4 +32,4 @@ cardset-tuxedo
 cardset-uni-mahjongg
 cardset-victoria-falls-5x5
 cardset-vienna-2k
-cardset-z_minimal
+cardset-z-minimal

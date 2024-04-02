@@ -16,7 +16,7 @@ if [ 1 ]; then
 		pushd repo
 		git init
 		git remote add -t master origin https://github.com/shlomif/PySolFC-Cardsets.git
-		git fetch --depth 1 origin 9b63a583dc3e770fa9bf8f2378c37a064aa4969c
+		git fetch --depth 1 origin 3.0
 		git checkout -q FETCH_HEAD
 		popd
 

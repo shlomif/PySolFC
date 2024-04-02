@@ -1,16 +1,12 @@
-appdirs==1.4.4
-attrs==22.2.0
+attrs==23.2.0
+build==1.2.1
 -e git+https://github.com/kivy/buildozer.git@3ebc09e885457db4747e67a1250c2aea1ca7a046#egg=buildozer
+certifi==2024.2.2
 colorama==0.4.6
 configobj==5.0.8
-Cython==0.29.33
-Jinja2==3.1.2
-Kivy==2.2.1
-pep517==0.13.0
-pep8==1.7.1
-permutation==0.4.0
-pip==23.0.1
-pysol-cards==0.14.3
-setuptools==67.0.0
+Kivy==2.3.0
+pip==24.0
+pysol_cards==0.16.0
+setuptools==69.1.1
 toml==0.10.2
-wheel==0.38.4
+wheel==0.42.0

@@ -103,7 +103,7 @@ android.permissions = WRITE_EXTERNAL_STORAGE, MANAGE_EXTERNAL_STORAGE
 #android.features = android.hardware.usb.host
 
 # (int) Target Android API, should be as high as possible.
-android.api = 32
+android.api = 33
 
 # (int) Minimum API your APK / AAB will support.
 #android.minapi = 21
@@ -315,7 +315,7 @@ android.debug_artifact = apk
 #p4a.branch = master
 
 # (str) python-for-android specific commit to use, defaults to HEAD, must be within p4a.branch
-p4a.commit = v2023.09.16
+p4a.commit = v2024.01.21
 
 # (str) python-for-android git clone directory (if empty, it will be automatically cloned from github)
 #p4a.source_dir =

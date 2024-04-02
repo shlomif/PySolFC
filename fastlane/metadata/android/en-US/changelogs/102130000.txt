@@ -7,8 +7,9 @@ Android specific:
 - Background images from the save-aspect folder now are preserving correct aspect ratio (bug fix).
 - Mahjongg tile overlapping (3d simulation) is now implemented.
 - Animation of card moves reworked. This fixes some stacking order corruptions reported earlier.
+- Animation of card flip bound to animation settings.
 - Display of html-text (game rules, licence etc): Black windows fixed.
 - Upstream libraries updated to kivy v2.2.1 and python v3.10
 Main version:
 - many new games.
-- consult NEWS.asscidoc or html-src/news.html on the github repo for more change informations.
+- consult NEWS.asscidoc or html-src/news.html on the github repo and https://pysolfc.sourceforge.io for more informations.

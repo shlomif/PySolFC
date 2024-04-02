@@ -6,6 +6,6 @@ Memory and others and is published on
 <a href="https://pysolfc.sourceforge.io/">https://pysolfc.sourceforge.io</a>.
 If you are looking for a desktop version, take a look.
 
-The Android app is based on this work and provides a selection of the desktop
+The Android app is based on this work and provides a subset of the desktop
 functions. It is created and published from selected snapshots out of
 the sources.

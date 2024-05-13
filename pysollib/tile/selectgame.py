@@ -358,6 +358,7 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         self.gameid = gameid
         self.bookmark = bookmark
         self.criteria = SearchCriteria()
+        self.cardset = self.app.cardset.copy()
         self.random = None
         if self.TreeDataHolder_Class.data is None:
             self.TreeDataHolder_Class.data = self.TreeData_Class(app)
@@ -499,6 +500,7 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         return SelectGameDialog.initKw(self, kw)
 
     def destroy(self):
+        self.app.cardset = self.cardset
         self.deletePreview(destroy=1)
         self.preview.unbind_all()
         SelectGameDialog.destroy(self)

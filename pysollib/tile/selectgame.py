@@ -328,6 +328,9 @@ class SelectGameDialog(MfxDialog):
         if button == 0:                 # Ok or double click
             self.gameid = self.tree.selection_key
             self.tree.n_expansions = 1  # save xyview in any case
+        if button == 1:                 # Cancel button
+            # If the user cancels, revert any cardset change from the preview.
+            self.app.cardset = self.cardset
         if button == 10:                # Rules
             doc = self.app.getGameRulesFilename(self.tree.selection_key)
             if not doc:
@@ -500,7 +503,6 @@ class SelectGameDialogWithPreview(SelectGameDialog):
         return SelectGameDialog.initKw(self, kw)
 
     def destroy(self):
-        self.app.cardset = self.cardset
         self.deletePreview(destroy=1)
         self.preview.unbind_all()
         SelectGameDialog.destroy(self)

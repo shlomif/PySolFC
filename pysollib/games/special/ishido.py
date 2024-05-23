@@ -23,6 +23,7 @@
 
 from pysollib.game import Game
 from pysollib.gamedb import GI, GameInfo, registerGame
+from pysollib.hint import AbstractHint
 from pysollib.layout import Layout
 from pysollib.mygettext import _
 from pysollib.pysoltk import MfxCanvasText
@@ -34,6 +35,24 @@ from pysollib.stack import \
 # ************************************************************************
 # * Ishido
 # ************************************************************************
+
+
+class Ishido_Hint(AbstractHint):
+    # FIXME: no intelligence whatsoever is implemented here
+
+    def computeHints(self):
+        game = self.game
+        for r in game.s.rows:
+            if (not r.cards and
+                    game.isValidPlay(r.id,
+                                     game.s.talon.getCard().rank,
+                                     game.s.talon.getCard().suit)):
+                adjacentPiles = game.getAdjacent(r.id)
+                adjacent = 0
+                for pile in adjacentPiles:
+                    if len(pile.cards) > 0:
+                        adjacent += 1
+                self.addHint(100 * adjacent, 1, game.s.talon, r)
 
 
 class Ishido_RowStack(ReserveStack):
@@ -74,7 +93,7 @@ class Ishido_Talon(OpenTalonStack):
 class Ishido(Game):
     Talon_Class = Ishido_Talon
     RowStack_Class = StackWrapper(Ishido_RowStack, max_move=0)
-    Hint_Class = None
+    Hint_Class = Ishido_Hint
 
     REQUIRE_ADJACENT = True
     STRICT_FOUR_WAYS = True

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: 1.02\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2024-03-21 18:23-0400\n"
+"PO-Revision-Date: 2024-05-31 20:26-0400\n"
 "Last-Translator: Eric Rausch <neelix570@gmail.com>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -4183,6 +4183,9 @@ msgstr "Origine:"
 #: pysollib/tile/selectcardset.py:457 pysollib/tk/selectcardset.py:448
 msgid "Year:"
 msgstr "Année:"
+
+msgid "Compatible with current game"
+msgstr ""
 
 #: pysollib/tile/selectcardset.py:488
 msgid "Settings"

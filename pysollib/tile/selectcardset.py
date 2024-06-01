@@ -525,6 +525,17 @@ class SelectCardsetDialogWithPreview(MfxDialog):
                     not in cardset.si.nationalities):
                 continue
 
+            if self.criteria.compatible:
+                if self.app.game is not None:
+                    gi = self.app.getGameInfo(self.app.game.id)
+                else:
+                    gi = self.app.getGameInfo(self.app.nextgame.id)
+                cs, cs_update_flag, t = \
+                    self.app.getCompatibleCardset(gi, cardset, trychange=False)
+
+                if cs is None:
+                    continue
+
             if self.app.checkSearchString(self.criteria.name,
                                           cardset.name):
                 results.append(cardset.name)
@@ -549,6 +560,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
             self.criteria.style = d.style.get()
             self.criteria.date = d.date.get()
             self.criteria.nationality = d.nationality.get()
+            self.criteria.compatible = d.compatible.get()
 
             self.performSearch()
 
@@ -730,6 +742,7 @@ class SearchCriteria:
         self.style = ""
         self.date = ""
         self.nationality = ""
+        self.compatible = False
 
         self.sizeOptions = {"": -1,
                             "Tiny cardsets": CSI.SIZE_TINY,
@@ -794,6 +807,8 @@ class SelectCardsetAdvancedSearch(MfxDialog):
         self.date.set(criteria.date)
         self.nationality = tkinter.StringVar()
         self.nationality.set(criteria.nationality)
+        self.compatible = tkinter.BooleanVar()
+        self.compatible.set(criteria.compatible)
         #
         row = 0
 
@@ -884,6 +899,13 @@ class SelectCardsetAdvancedSearch(MfxDialog):
         textNationality.grid(row=row, column=1, columnspan=4, sticky='ew',
                              padx=1, pady=1)
         row += 1
+
+        compatCheck = tkinter.Checkbutton(
+            top_frame, variable=self.compatible,
+            text=_("Compatible with current game"), anchor="w"
+        )
+        compatCheck.grid(row=row, column=0, columnspan=2, sticky='ew',
+                         padx=1, pady=1)
 
         focus = self.createButtons(bottom_frame, kw)
         # focus = text_w

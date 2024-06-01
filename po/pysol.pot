@@ -3989,6 +3989,9 @@ msgstr ""
 msgid "Year:"
 msgstr ""
 
+msgid "Compatible with current game"
+msgstr ""
+
 #: pysollib/tile/selectcardset.py:488
 msgid "Settings"
 msgstr ""

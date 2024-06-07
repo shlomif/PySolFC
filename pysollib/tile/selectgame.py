@@ -330,7 +330,10 @@ class SelectGameDialog(MfxDialog):
             self.tree.n_expansions = 1  # save xyview in any case
         if button == 1:                 # Cancel button
             # If the user cancels, revert any cardset change from the preview.
-            self.app.cardset = self.cardset
+            if self.app.cardset.name != self.cardset.name:
+                self.app.loadCardset(self.cardset,
+                                     id=self.game.gameinfo.category,
+                                     tocache=True, noprogress=True)
         if button == 10:                # Rules
             doc = self.app.getGameRulesFilename(self.tree.selection_key)
             if not doc:

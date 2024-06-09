@@ -36,14 +36,14 @@ def main():
     if not os.path.exists(dot_pysol):
         os.mkdir(dot_pysol)
     if not os.path.exists(dot_pysol_cardsets):
-        cardsets_dir = "PySolFC-Cardsets-2.1"
+        cardsets_dir = "PySolFC-Cardsets-3.0"
         if not os.path.exists(cardsets_dir):
             arc = cardsets_dir + ".tar.gz"
             if not os.path.exists(arc):
                 subprocess.check_call([
                     "wget",
                     "https://github.com/shlomif/" +
-                    "PySolFC-Cardsets/archive/2.1/" + arc
+                    "PySolFC-Cardsets/archive/3.0/" + arc
                 ])
                 subprocess.check_call(["tar", "-xvf", arc])
         os.symlink(os.getcwd() + "/" + cardsets_dir, dot_pysol_cardsets, )

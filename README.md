@@ -97,10 +97,10 @@ cd PySolFC
 gmake test
 gmake rules
 ln -s data/images images
-tar -xvf PySolFC-Cardsets-2.0.tar.bz2 # Needs to be downloaded from sourceforge
+tar -xvf PySolFC-Cardsets-3.0.tar.bz2 # Needs to be downloaded from sourceforge
 mkdir -p ~/.PySolFC
 rmdir ~/.PySolFC/cardsets
-ln -s "`pwd`/PySolFC-Cardsets-2.0" ~/.PySolFC/cardsets
+ln -s "`pwd`/PySolFC-Cardsets-3.0" ~/.PySolFC/cardsets
 python pysol.py
 ```
 

@@ -669,6 +669,7 @@ class SuitElevens(Elevens):
 
 # ************************************************************************
 # * Tens
+# * Nines
 # ************************************************************************
 
 class Tens_RowStack(Elevens_RowStack):
@@ -696,6 +697,50 @@ class Tens(ElevensToo):
 
     def createGame(self):
         Elevens.createGame(self, rows=2, cols=7, maxpiles=13, reserves=4)
+
+
+class Nines_RowStack(Elevens_RowStack):
+    ACCEPTED_SUM = 7
+
+    def clickHandler(self, event):
+        if not self.cards:
+            return 0
+        c = self.cards[-1]
+        if c.face_up and c.rank == 8 and not self.basicIsBlocked():
+            self.game.playSample("autodrop", priority=20)
+            self.playMoveMove(1, self.game.s.foundations[0], sound=False)
+            return 1
+        return OpenStack.clickHandler(self, event)
+
+
+class Nines_Reserve(Tens_Reserve):
+    def acceptsCards(self, from_stack, cards):
+        if not ReserveStack.acceptsCards(self, from_stack, cards):
+            return False
+        c = cards[0]
+        if c.rank not in self.ACCEPTED_CARDS:
+            return False
+        for s in self.game.s.reserves:
+            if s.cards and s.cards[0].rank == c.rank:
+                return False
+        return True
+
+
+class Nines_Foundation(AbstractFoundationStack):
+    def acceptsCards(self, from_stack, cards):
+        if cards[0].rank == 8:
+            return True
+        # We accept any nine. Pairs will get delivered by _dropPairMove.
+        return AbstractFoundationStack.acceptsCards(self, from_stack, cards)
+
+
+class Nines(Tens):
+    RowStack_Class = Nines_RowStack
+    Reserve_Class = Nines_Reserve
+    Foundation_Class = Nines_Foundation
+
+    def createGame(self):
+        Elevens.createGame(self, rows=3, cols=3, reserves=4)
 
 
 # ************************************************************************
@@ -1829,3 +1874,5 @@ registerGame(GameInfo(937, TheLuckyNumber, "The Lucky Number",
 registerGame(GameInfo(950, Eighteens, "Eighteens",
                       GI.GT_PAIRING_TYPE, 2, 0, GI.SL_MOSTLY_LUCK,
                       altnames=("Steel Wheels",)))
+registerGame(GameInfo(961, Nines, "Nines",
+                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_LUCK))

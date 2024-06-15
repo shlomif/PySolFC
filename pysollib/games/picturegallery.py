@@ -317,6 +317,7 @@ class HugePictureGallery(PictureGallery):
 # ************************************************************************
 # * Great Wheel
 # * Greater Wheel
+# * Carousel
 # ************************************************************************
 
 
@@ -404,6 +405,20 @@ class GreaterWheel(GreatWheel):
 
     def createGame(self):
         PictureGallery.createGame(self, waste=True, numstacks=12)
+
+
+class Carousel_RowStack(BasicRowStack):
+    def acceptsCards(self, from_stack, cards):
+        if not self.cards:
+            return True
+        c1, c2 = self.cards[-1], cards[0]
+        return c1.suit == c2.suit and c1.rank == c2.rank+1
+
+    getBottomImage = Stack._getTalonBottomImage
+
+
+class Carousel(GreatWheel):
+    RowStack_Class = StackWrapper(Carousel_RowStack, max_accept=1)
 
 # ************************************************************************
 # * Mount Olympus
@@ -737,3 +752,7 @@ registerGame(GameInfo(932, DevilsGrip, "Devil's Grip",
                       ))
 registerGame(GameInfo(944, BlueJacket, "Blue Jacket",
                       GI.GT_PICTURE_GALLERY, 2, 0, GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(962, Carousel, "Carousel",
+                      GI.GT_PICTURE_GALLERY | GI.GT_STRIPPED, 2, 0,
+                      GI.SL_BALANCED, ranks=list(range(12))  # without Kings
+                      ))

@@ -2145,8 +2145,17 @@ class Game(object):
             self.finished = True
             self.playSample("gamelost", priority=1000)
             text = _("Game finished, but not without my help...")
-            hintsused = _("You used %(h)s hint(s) during this game.") % {
-                'h': self.stats.hints}
+            if self.stats.hints > 0 and not self.app.opt.free_hint:
+                if self.stats.demo_moves > 0:
+                    hintsused = _("You used %(h)s hint(s) and the demo " +
+                                  "during this game.") % {
+                        'h': self.stats.hints}
+                else:
+                    hintsused = _("You used %(h)s hint(s) during this " +
+                                  "game.") % {
+                        'h': self.stats.hints}
+            else:
+                hintsused = _("You used the demo during this game.")
             d = MfxMessageDialog(
                 self.top, title=_("Game finished"), bitmap="info",
                 text=_(text + '\n\n' + hintsused),

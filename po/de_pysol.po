@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2024-05-31 20:27-0400\n"
+"PO-Revision-Date: 2024-06-22 12:14-0400\n"
 "Last-Translator: H. Schaekel <Holger.Schaekel@web.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -2137,6 +2137,12 @@ msgid "Game finished, but not without my help..."
 msgstr ""
 
 msgid "You used %(h)s hint(s) during this game."
+msgstr ""
+
+msgid "You used %(h)s hint(s) and the demo during this game."
+msgstr ""
+
+msgid "You used the demo during this game."
 msgstr ""
 
 msgid "You are Stuck"

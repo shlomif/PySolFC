@@ -2045,6 +2045,12 @@ msgstr ""
 msgid "You used %(h)s hint(s) during this game."
 msgstr ""
 
+msgid "You used %(h)s hint(s) and the demo during this game."
+msgstr ""
+
+msgid "You used the demo during this game."
+msgstr ""
+
 msgid "You are Stuck"
 msgstr ""
 

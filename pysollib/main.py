@@ -364,7 +364,12 @@ Cardsets package is up to date.
     app.initTiles()
     if app.opt.tabletile_name:  # and top.winfo_screendepth() > 8:
         for tile in manager.getAll():
-            if app.opt.tabletile_name == tile.basename:
+            # The basename is checked in addition to the tile name
+            # this is to support differences in the table tile format
+            # from older PySol versions.
+            if (app.opt.tabletile_name == tile.name or
+                    (os.path.splitext(app.opt.tabletile_name)[0] ==
+                     os.path.splitext(tile.basename)[0])):
                 app.tabletile_index = tile.index
                 break
 

@@ -568,7 +568,7 @@ class Options:
                           top.winfo_screendepth())
         # bg
         if sd > 8:
-            self.tabletile_name = "Felt_Green.gif"  # basename
+            self.tabletile_name = "Felt Green"  # name
         else:
             self.tabletile_name = None
         # cardsets

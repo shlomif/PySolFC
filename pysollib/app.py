@@ -636,7 +636,7 @@ class Application:
                 self.opt.colors['table'] = tile.color
                 self.opt.tabletile_name = None
             else:
-                self.opt.tabletile_name = tile.basename
+                self.opt.tabletile_name = tile.name
             self.tabletile_index = i
             self.tabletile_manager.setSelected(i)
             return True

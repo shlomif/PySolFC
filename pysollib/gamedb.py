@@ -516,7 +516,7 @@ class GI:
                              800, 814, 820, 825, 889, 911, 926,
                              941)),
         ("Mary Whitmore Jones", (421, 624,)),
-        ("Jan Wolter", (917, 939, 946,)),
+        ("Jan Wolter", (917, 939, 946, 963,)),
         )
 
     GAMES_BY_PYSOL_VERSION = (
@@ -604,7 +604,7 @@ class GI:
          tuple(range(13168, 13170)) + tuple(range(18000, 18005)) +
          tuple(range(19000, 19012)) + tuple(range(22303, 22311)) +
          tuple(range(22353, 22361))),
-        ('dev', tuple(range(961, 963))),
+        ('dev', tuple(range(961, 964))),
     )
 
     # deprecated - the correct way is to or a GI.GT_XXX flag

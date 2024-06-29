@@ -774,6 +774,7 @@ class YukonKings(Yukon):
 
 # ************************************************************************
 # * Yukon Cells
+# * Russian Cell
 # * Yukonic Plague
 # ************************************************************************
 
@@ -833,6 +834,12 @@ class YukonCells(Yukon):
         # set window
         self.setSize(l.XM + 8 * l.XS, h)
         l.defaultAll()
+
+
+class RussianCell(YukonCells):
+    RowStack_Class = StackWrapper(Yukon_SS_RowStack, base_rank=KING)
+
+    shallHighlightMatch = Game._shallHighlightMatch_SS
 
 
 class YukonicPlague(YukonCells):
@@ -933,3 +940,5 @@ registerGame(GameInfo(942, QuadrupleYukon, "Quadruple Yukon",
                       GI.GT_YUKON, 4, 0, GI.SL_BALANCED))
 registerGame(GameInfo(963, Sevastopol, "Sevastopol",
                       GI.GT_SPIDER, 1, 0, GI.SL_BALANCED))
+registerGame(GameInfo(964, RussianCell, "Russian Cell",
+                      GI.GT_YUKON, 1, 0, GI.SL_BALANCED))

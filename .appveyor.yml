@@ -1,15 +1,15 @@
 ---
-image: Visual Studio 2019
+image: Previous Visual Studio 2022
 environment:
     matrix:
-        - PYTHON: "C:\\Python311"
+        - PYTHON: "C:\\Python312"
 # Shamelessly taken from https://github.com/plicease/Dist-Zilla-PluginBundle-Author-Plicease/blob/master/.appveyor.yml
 # Thanks!
 install:
     # - choco install strawberryperl
     - copy %PYTHON%\python.exe %PYTHON%\python3.exe
     - SET PATH=%PYTHON%;%PYTHON%\Scripts;C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%
-    - python3 -mpip install Pillow==9.5 attrs configobj flake8 flake8-import-order
+    - python3 -mpip install Pillow attrs configobj flake8 flake8-import-order
         pycotap pygame pyinstaller pysol-cards random2 setuptools six
         ttkthemes
     - perl -v

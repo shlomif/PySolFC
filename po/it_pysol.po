@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: it_pysol\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2024-06-22 12:14-0400\n"
+"PO-Revision-Date: 2024-06-30 09:59-0400\n"
 "Last-Translator: Giuliano Colla <giuliano.colla@gmail.com>\n"
 "Language-Team: Italiano <it@li.org>\n"
 "Language: it\n"
@@ -5554,6 +5554,9 @@ msgid "Othe&r graphics"
 msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:637
+msgid "&Button icons"
+msgstr ""
+
 msgid "&Demo logo"
 msgstr "&Demo logo"
 

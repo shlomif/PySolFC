@@ -88,6 +88,20 @@ def createStatusbarMenu(menubar, menu):
 
 def createOtherGraphicsMenu(menubar, menu):
     tearoff = menu.cget('tearoff')
+    data_dir = os.path.join(menubar.app.dataloader.dir, 'images', 'buttons')
+    submenu = MfxMenu(menu, label=n_('&Button icons'), tearoff=tearoff)
+    styledirs = os.listdir(data_dir)
+    styledirs.append("none")
+    styledirs.sort()
+    for f in styledirs:
+        d = os.path.join(data_dir, f)
+        if (os.path.isdir(d) and os.path.exists(os.path.join(d))) \
+                or f == "none":
+            name = f.replace('_', ' ').capitalize()
+            submenu.add_radiobutton(
+                label=name,
+                variable=menubar.tkopt.button_icon_style,
+                value=f, command=menubar.mOptButtonIconStyle)
     data_dir = os.path.join(menubar.app.dataloader.dir, 'images', 'demo')
     submenu = MfxMenu(menu, label=n_('&Demo logo'), tearoff=tearoff)
     styledirs = os.listdir(data_dir)
@@ -326,6 +340,7 @@ class PysolMenubarTkCommon:
             num_cards=tkinter.BooleanVar(),
             helpbar=tkinter.BooleanVar(),
             splashscreen=tkinter.BooleanVar(),
+            button_icon_style=tkinter.StringVar(),
             demo_logo=tkinter.BooleanVar(),
             demo_logo_style=tkinter.StringVar(),
             pause_text_style=tkinter.StringVar(),
@@ -395,6 +410,7 @@ class PysolMenubarTkCommon:
         tkopt.statusbar.set(opt.statusbar)
         # tkopt.num_cards.set(opt.num_cards)
         # tkopt.helpbar.set(opt.helpbar)
+        tkopt.button_icon_style.set(opt.button_icon_style)
         tkopt.demo_logo.set(opt.demo_logo)
         if opt.demo_logo:
             tkopt.demo_logo_style.set(opt.demo_logo_style)
@@ -1946,6 +1962,9 @@ Unsupported game for import.
     def mOptStatusbarConfig(self, w):
         self.statusbarConfig(w, self.tkopt.statusbar_vars[w].get())
 
+    def mOptButtonIconStyle(self, *event):
+        self.setButtonIconStyle(self.tkopt.button_icon_style.get())
+
     def mOptDemoLogoStyle(self, *event):
         self.setDemoLogoStyle(self.tkopt.demo_logo_style.get())
 
@@ -2047,6 +2066,14 @@ Unsupported game for import.
         if self.app.toolbar.setCompound(compound):
             self.game.updateStatus(player=self.app.opt.player)
             self.top.update_idletasks()
+
+    def setButtonIconStyle(self, style):
+        if self._cancelDrag(break_pause=False):
+            return
+        self.app.opt.button_icon_style = style
+        self.tkopt.button_icon_style.set(style)      # update radiobutton
+        self.app.loadImages1()
+        self.app.loadImages4()
 
     def setDemoLogoStyle(self, style):
         if self._cancelDrag(break_pause=False):

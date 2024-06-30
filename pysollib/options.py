@@ -100,6 +100,7 @@ pause_text_style = string
 redeal_icon_style = string
 dialog_icon_style = string
 tree_icon_style = string
+button_icon_style = string
 tile_theme = string
 default_tile_theme = string
 toolbar = integer(0, 4)
@@ -270,6 +271,7 @@ class Options:
         ('redeal_icon_style', 'str'),
         ('dialog_icon_style', 'str'),
         ('tree_icon_style', 'str'),
+        ('button_icon_style', 'str'),
         ('tile_theme', 'str'),
         ('default_tile_theme', 'str'),
         ('toolbar', 'int'),
@@ -376,6 +378,7 @@ class Options:
         self.redeal_icon_style = 'modern'
         self.dialog_icon_style = 'remix'
         self.tree_icon_style = 'remix'
+        self.button_icon_style = 'none'
         self.tile_theme = 'default'
         self.default_tile_theme = 'default'
         self.toolbar = 1       # 0 == hide, 1,2,3,4 == top, bottom, left, right

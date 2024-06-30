@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PySolFC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2024-06-22 12:14-0400\n"
+"PO-Revision-Date: 2024-06-30 09:58-0400\n"
 "Last-Translator: Jerzy Trzeciak <artusek@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
@@ -5505,6 +5505,9 @@ msgid "Othe&r graphics"
 msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:637
+msgid "&Button icons"
+msgstr ""
+
 msgid "&Demo logo"
 msgstr "&Demo logo"
 

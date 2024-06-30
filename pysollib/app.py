@@ -524,12 +524,19 @@ class Application:
             MfxMessageDialog.img[f] = im
 
         # load button images
-        if 0 and TOOLKIT == 'tk':
-            dirname = os.path.join('images', 'buttons', 'bluecurve')
+        MfxDialog.button_img = {}
+        if TOOLKIT == 'tk' and self.opt.button_icon_style != 'none':
+            dirname = os.path.join('images', 'buttons',
+                                   self.opt.button_icon_style)
             for n, f in (
                 (_('&OK'), 'ok'),
+                (_('&Select'), 'ok'),
                 (_('&Cancel'), 'cancel'),
+                (_('&Close'), 'cancel'),
                 (_('&New game'), 'new'),
+                (_('&Back to game'), 'back'),
+                (_('&Reset...'), 'reset'),
+                (_('&Restart'), 'reset'),
             ):
                 fn = self.dataloader.findImage(f, dirname)
                 im = loadImage(fn)

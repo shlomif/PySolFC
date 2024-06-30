@@ -5237,6 +5237,9 @@ msgid "Othe&r graphics"
 msgstr ""
 
 #: pysollib/ui/tktile/menubar.py:637
+msgid "&Button icons"
+msgstr ""
+
 msgid "&Demo logo"
 msgstr ""
 

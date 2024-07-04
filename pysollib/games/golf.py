@@ -136,8 +136,12 @@ class Golf_RowStack(BasicRowStack):
 class Golf(Game):
     Solver_Class = BlackHoleSolverWrapper(preset='golf', base_rank=0,
                                           queens_on_kings=True)
+    Talon_Class = Golf_Talon
     Waste_Class = Golf_Waste
     Hint_Class = Golf_Hint
+    Reserve_Class = None
+
+    ROUNDS = 1
 
     #
     # game layout
@@ -161,13 +165,18 @@ class Golf(Game):
         x, y = layout.XM + layout.XS // 2, layout.YM
         for i in range(columns):
             s.rows.append(Golf_RowStack(x, y, self))
-            x = x + layout.XS
+            x += layout.XS
         x, y = layout.XM, self.height - layout.YS
-        s.talon = Golf_Talon(x, y, self, max_rounds=1)
+        s.talon = self.Talon_Class(x, y, self, max_rounds=self.ROUNDS)
         layout.createText(s.talon, "n")
-        x = x + layout.XS
+        x += layout.XS
         s.waste = self.Waste_Class(x, y, self)
-        s.waste.CARD_XOFFSET = layout.XOFFSET
+        if self.Reserve_Class is None:
+            s.waste.CARD_XOFFSET = layout.XOFFSET
+        else:
+            x += layout.XS
+            s.reserves.append(self.Reserve_Class(x, y, self))
+            layout.createText(s.reserves[0], "n")
         layout.createText(s.waste, "n")
         # the Waste is also our only Foundation in this game
         s.foundations.append(s.waste)
@@ -176,6 +185,9 @@ class Golf(Game):
         self.sg.openstacks = [s.waste]
         self.sg.talonstacks = [s.talon]
         self.sg.dropstacks = s.rows
+        if self.Reserve_Class is not None:
+            self.sg.openstacks += s.reserves
+            self.sg.reservestacks = s.reserves
 
     #
     # game overrides
@@ -228,7 +240,9 @@ class Thieves(Golf):
 
 
 # ************************************************************************
-# *
+# * Dead King Golf
+# * Relaxed Golf
+# * Double Putt
 # ************************************************************************
 
 class DeadKingGolf(Golf):
@@ -257,6 +271,110 @@ class DoublePutt(DoubleGolf):
     Waste_Class = StackWrapper(Golf_Waste, mod=13)
 
     shallHighlightMatch = Game._shallHighlightMatch_RKW
+
+
+# ************************************************************************
+# * King's Way
+# ************************************************************************
+
+class KingsWay_Talon(Golf_Talon):
+    def _redeal(self):
+        game = self.game
+        num_redeal = len(game.s.reserves[0].cards)
+        # TODO: I know there's a better way to do this.
+        while len(game.s.waste.cards) > 0:
+            game.moveMove(1, self.waste, game.s.reserves[0], frames=0)
+        for i in range(num_redeal):
+            game.moveMove(1, game.s.reserves[0], self, frames=0)
+            if self.cards[-1].face_up:
+                game.flipMove(self)
+        while len(game.s.reserves[0].cards) > num_redeal:
+            game.moveMove(1, game.s.reserves[0], self.waste, frames=0)
+        self.game.nextRoundMove(self)
+        self.dealCards()
+
+    def canDealCards(self):
+        return (len(self.cards) > 0
+                or (self.round == 1 and len(self.cards) == 0
+                    and len(self.game.s.reserves[0].cards) > 0))
+
+    def dealCards(self, sound=False):
+        if self.cards:
+            return WasteTalonStack.dealCards(self, sound=sound)
+        if sound:
+            self.game.startDealSample()
+        self._redeal()
+        if sound:
+            self.game.stopSamples()
+        return
+
+
+class KingsWay_Waste(Golf_Waste):
+
+    def __init__(self, x, y, game, **cap):
+        kwdefault(cap, max_move=1, max_accept=1)
+        WasteStack.__init__(self, x, y, game, **cap)
+
+    def acceptsCards(self, from_stack, cards):
+        if self.cards[-1].color == cards[0].color:
+            return False
+        if cards[0].rank == KING:
+            return False
+        return Golf_Waste.acceptsCards(self, from_stack, cards)
+
+    def moveMove(self, ncards, to_stack, frames=-1, shadow=-1):
+        WasteStack.moveMove(self, ncards, to_stack, frames=frames,
+                            shadow=shadow)
+        self.game.s.talon.dealCards()
+
+    def rightclickHandler(self, event):
+        if self.cards and self.cards[-1].rank == ACE:
+            self.playMoveMove(1, self.game.s.reserves[0])
+
+    def getHelp(self):
+        return _('Waste. Build up or down by alternate color.')
+
+
+class KingsWay_Reserve(ReserveStack):
+
+    def getBottomImage(self):
+        return self.game.app.images.getLetter(ACE)
+
+    def acceptsCards(self, from_stack, cards):
+        return from_stack == self.game.s.waste and cards[0].rank == ACE
+
+
+class KingsWay(Golf):
+    Solver_Class = None
+    
+    Talon_Class = KingsWay_Talon
+    Waste_Class = KingsWay_Waste
+    Reserve_Class = StackWrapper(KingsWay_Reserve, max_accept=1)
+
+    ROUNDS = 2
+
+    def createGame(self):
+        Golf.createGame(self, 8)
+
+    def _shuffleHook(self, cards):
+        return self._shuffleHookMoveToTop(cards,
+                                          lambda c: (c.rank == KING, None))
+
+    def startGame(self):
+        self.s.talon.dealRow(rows=self.s.rows, frames=0)
+        self.s.talon.dealRow(rows=self.s.rows, flip=0, frames=0)
+        for i in range(2):
+            self.s.talon.dealRow(rows=self.s.rows, frames=0)
+        self.startDealSample()
+        for i in range(2):
+            self.s.talon.dealRow(rows=self.s.rows)
+        self.s.talon.dealCards()  # deal first card to WasteStack
+
+    def isGameWon(self):
+        for r in self.s.rows:
+            if len(r.cards) != 1:
+                return False
+        return True
 
 
 # ************************************************************************
@@ -1562,3 +1680,5 @@ registerGame(GameInfo(941, BinaryStar, "Binary Star",
 registerGame(GameInfo(959, DoubleUintah, "Double Uintah",
                       GI.GT_GOLF, 2, UNLIMITED_REDEALS,
                       GI.SL_MOSTLY_LUCK))
+registerGame(GameInfo(965, KingsWay, "King's Way",
+                      GI.GT_GOLF, 2, 1, GI.SL_MOSTLY_LUCK))

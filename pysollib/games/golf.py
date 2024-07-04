@@ -346,7 +346,7 @@ class KingsWay_Reserve(ReserveStack):
 
 class KingsWay(Golf):
     Solver_Class = None
-    
+
     Talon_Class = KingsWay_Talon
     Waste_Class = KingsWay_Waste
     Reserve_Class = StackWrapper(KingsWay_Reserve, max_accept=1)

@@ -1175,7 +1175,8 @@ registerGame(GameInfo(875, PatientPairsOpen, "Patient Pairs (Open)",
                       GI.GT_PAIRING_TYPE | GI.GT_OPEN, 1, 0,
                       GI.SL_MOSTLY_SKILL, rules_filename="patientpairs.html"))
 registerGame(GameInfo(898, AcesSquare, "Aces Square",
-                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED,
+                      altnames=("Miner",)))
 registerGame(GameInfo(923, Crispy, "Crispy",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_BALANCED))
 registerGame(GameInfo(935, Juvenile, "Juvenile",

@@ -1580,7 +1580,8 @@ registerGame(GameInfo(345, ScorpionHead, "Scorpion Head",
 registerGame(GameInfo(346, ScorpionTail, "Scorpion Tail",
                       GI.GT_SPIDER, 1, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(359, SpiderWeb, "Spider Web",
-                      GI.GT_SPIDER, 1, 0, GI.SL_BALANCED))
+                      GI.GT_SPIDER, 1, 0, GI.SL_BALANCED,
+                      altnames=('Sea Spider',)))
 registerGame(GameInfo(366, SimonJester, "Simon Jester",
                       GI.GT_SPIDER | GI.GT_OPEN, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(382, Applegate, "Applegate",

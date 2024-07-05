@@ -773,7 +773,8 @@ registerGame(GameInfo(690, Hemispheres, "Hemispheres",
                       GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED,
                       altnames=("The Four Continents",)))
 registerGame(GameInfo(697, BigBen, "Big Ben",
-                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED))
+                      GI.GT_2DECK_TYPE, 2, 0, GI.SL_BALANCED,
+                      altnames=("Father Time")))
 registerGame(GameInfo(737, Clock, "Clock",
                       GI.GT_1DECK_TYPE, 1, 0, GI.SL_LUCK,
                       altnames=("Travellers", "Sundial")))

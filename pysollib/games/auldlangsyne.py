@@ -676,7 +676,8 @@ registerGame(GameInfo(553, Scuffle, "Scuffle",
 registerGame(GameInfo(560, DoubleAcquaintance, "Double Acquaintance",
                       GI.GT_NUMERICA, 2, 2, GI.SL_BALANCED))
 registerGame(GameInfo(569, Primrose, "Primrose",
-                      GI.GT_NUMERICA | GI.GT_OPEN, 2, 8, GI.SL_BALANCED))
+                      GI.GT_NUMERICA | GI.GT_OPEN, 2, 8, GI.SL_BALANCED,
+                      altnames=("Capuchin", "As You Like It")))
 registerGame(GameInfo(636, StrategyPlus, "Strategy +",
                       GI.GT_NUMERICA, 1, 0, GI.SL_SKILL))
 registerGame(GameInfo(688, Formic, "Ants",

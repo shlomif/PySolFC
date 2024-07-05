@@ -36,6 +36,7 @@ from pysollib.stack import \
         InitialDealTalonStack, \
         KingAC_RowStack, \
         OpenStack, \
+        RK_FoundationStack, \
         ReserveStack, \
         SS_FoundationStack, \
         SS_RowStack, \
@@ -45,8 +46,9 @@ from pysollib.stack import \
         TalonStack, \
         WasteStack, \
         WasteTalonStack, \
-        Yukon_AC_RowStack
-from pysollib.util import ACE, ANY_SUIT, KING, UNLIMITED_ACCEPTS, \
+        Yukon_AC_RowStack, \
+        Yukon_SS_RowStack
+from pysollib.util import ACE, ANY_SUIT, HEART, KING, UNLIMITED_ACCEPTS, \
         UNLIMITED_MOVES
 
 # ************************************************************************
@@ -1002,6 +1004,53 @@ class SwissPatience(Gypsy):
         self._startAndDealRow()
 
 
+# ************************************************************************
+# * Ace of Hearts
+# ************************************************************************
+
+class AceOfHearts_Foundation(RK_FoundationStack):
+    def acceptsCards(self, from_stack, cards):
+        if not self.cards:
+            return cards[0].suit == HEART and cards[0].rank == ACE
+        return RK_FoundationStack.acceptsCards(self, from_stack, cards)
+
+    def getBottomImage(self):
+        return self.game.app.images.getSuitBottom(HEART)
+
+
+class AceOfHearts(Game):
+    Hint_Class = YukonType_Hint
+
+    def createGame(self, **layout):
+        # create layout
+        l, s = Layout(self), self.s
+        kwdefault(layout, rows=7, waste=0, texts=1, playcards=30)
+        Layout.klondikeLayout(l, **layout)
+        self.setSize(l.size[0], l.size[1])
+        # create stacks
+        s.talon = DealRowTalonStack(l.s.talon.x, l.s.talon.y, self)
+        if l.s.waste:
+            s.waste = WasteStack(l.s.waste.x, l.s.waste.y, self)
+        r = l.s.foundations[3]
+        s.foundations.append(
+            AceOfHearts_Foundation(r.x, r.y, self, suit=HEART,
+                                   max_cards=52, mod=13))
+        for r in l.s.rows:
+            s.rows.append(Yukon_SS_RowStack(r.x, r.y, self,
+                                            base_rank=KING))
+        # default
+        l.defaultAll()
+
+    def startGame(self):
+        for i in range(1, len(self.s.rows)):
+            self.s.talon.dealRow(
+                rows=self.s.rows[i:], flip=1, frames=0)
+        self.startDealSample()
+        self.s.talon.dealRow()
+
+    shallHighlightMatch = Game._shallHighlightMatch_SS
+
+
 # register the game
 registerGame(GameInfo(1, Gypsy, "Gypsy",
                       GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
@@ -1088,3 +1137,5 @@ registerGame(GameInfo(890, YeastDough, "Yeast Dough",
                       GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(912, SmallTriangle, "Small Triangle",
                       GI.GT_GYPSY, 1, 0, GI.SL_BALANCED))
+registerGame(GameInfo(966, AceOfHearts, "Ace of Hearts",
+                      GI.GT_1DECK_TYPE, 1, 0, GI.SL_MOSTLY_SKILL))

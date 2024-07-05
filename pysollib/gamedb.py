@@ -437,13 +437,12 @@ class GI:
         # from XM Solitaire should be researched before being added to PySol.
         #
         # still missing:
-        #       Ace of Hearts, Agnes Three, Antares, Avenue, Baker's Fan,
-        #       Baker's Spider, Bedeviled, Binding, Black Spider,
-        #       California, Color Cell, Cornelius, Desert Fox,
-        #       Double Antares, Double Antarctica, Double Arctica,
-        #       Double Baker's Spider, Double Cascade, Double Majesty,
-        #       Double Spidercells, Doublet Cell 5, Doubt, Dream Fan,
-        #       Dumfries Cell, Falcon Wing, Fan Nine, Four By Ten,
+        #       Agnes Three, Antares, Avenue, Baker's Fan, Baker's Spider,
+        #       Bedeviled, Binding, Black Spider, California, Color Cell,
+        #       Cornelius, Desert Fox, Double Antares, Double Antarctica,
+        #       Double Arctica, Double Baker's Spider, Double Cascade,
+        #       Double Majesty, Double Spidercells, Doublet Cell 5, Doubt,
+        #       Dream Fan, Dumfries Cell, Falcon Wing, Fan Nine, Four By Ten,
         #       FreeCell AK, Gaps Alter, Gaps Diff, George V,
         #       Grandmother's Clock, In a Frame, Inverted FreeCell, Kings,
         #       Klondike FreeCell, La Cabane, La Double Entente,
@@ -466,7 +465,7 @@ class GI:
             476, 480, 484, 511, 512, 513, 516, 561, 610, 613, 625, 629,
             631, 638, 641, 647, 650, 655, 678, 684, 702, 734, 751, 784,
             825, 829, 834, 837, 844, 862, 867, 880, 889, 901, 911, 933,
-            941, 947, 953
+            941, 947, 953, 966
         )),
 
         # xpat2 1.06 (we have 14 out of 16 games)
@@ -514,7 +513,7 @@ class GI:
         ("Thomas Warfield", (189, 264, 300, 320, 336, 337, 359,
                              415, 427, 458, 495, 496, 497, 508,
                              800, 814, 820, 825, 889, 911, 926,
-                             941)),
+                             941, 966)),
         ("Mary Whitmore Jones", (421, 624,)),
         ("Jan Wolter", (917, 939, 946, 963,)),
         )
@@ -604,7 +603,7 @@ class GI:
          tuple(range(13168, 13170)) + tuple(range(18000, 18005)) +
          tuple(range(19000, 19012)) + tuple(range(22303, 22311)) +
          tuple(range(22353, 22361))),
-        ('dev', tuple(range(961, 966))),
+        ('dev', tuple(range(961, 967))),
     )
 
     # deprecated - the correct way is to or a GI.GT_XXX flag

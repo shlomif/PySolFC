@@ -91,7 +91,7 @@ class FindCardDialog(tkinter.Toplevel):
                 s = suitletters[suit]
             else:
                 s = "z"
-            fn = os.path.join(dir, r+s+'.gif')
+            fn = os.path.join(dir, r+s+'.png')
             im = makeImage(file=fn)
             FindCardDialog.CARD_IMAGES[(self.cardsettype, rank, suit)] = im
         cim = MfxCanvasImage(canvas, x0, y0, image=im, anchor='nw')

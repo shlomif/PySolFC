@@ -293,6 +293,8 @@ class SalicLaw(DerKatzenschwanz):
                                   max_accept=UNLIMITED_ACCEPTS)
 
     ROW_BASE_RANK = KING
+    DEAL_ALL = False
+    HEIGHT = 5
 
     #
     # game layout
@@ -302,8 +304,14 @@ class SalicLaw(DerKatzenschwanz):
         # create layout
         l, s = Layout(self), self.s
 
+        cols = 10
         # set size
-        self.setSize(l.XM+10*l.XS, l.YM+(5+len(self.Foundation_Classes))*l.YS)
+        if self.DEAL_ALL:
+            cols = 8
+
+        self.setSize(l.XM + cols * l.XS,
+                     l.YM + (self.HEIGHT +
+                             len(self.Foundation_Classes)) * l.YS)
 
         #
         playcards = 4*l.YS // l.YOFFSET
@@ -333,8 +341,12 @@ class SalicLaw(DerKatzenschwanz):
             stack.CARD_YOFFSET = yoffset
             s.rows.append(stack)
             x += l.XS
-        s.talon = self.Talon_Class(l.XM+9*l.XS, l.YM, self)
-        l.createText(s.talon, "s")
+        if self.DEAL_ALL:
+            x, y = self.getInvisibleCoords()
+            s.talon = self.Talon_Class(x, y, self)
+        else:
+            s.talon = self.Talon_Class(l.XM + 9 * l.XS, l.YM, self)
+            l.createText(s.talon, "s")
 
         # define stack-groups
         l.defaultStackGroups()
@@ -426,6 +438,71 @@ class FaerieQueen(SalicLaw):
         return int(len(to_stack.cards) > 1)
 
     shallHighlightMatch = Game._shallHighlightMatch_RK
+
+
+# ************************************************************************
+# * Xerxes
+# * Zingara
+# ************************************************************************
+
+class Xerxes_RowStack(OpenStack):
+    def acceptsCards(self, from_stack, cards):
+        if len(self.cards) == 0:
+            return True
+        return False
+
+
+class Xerxes(SalicLaw):
+    Talon_Class = InitialDealTalonStack
+    Foundation_Classes = [
+        StackWrapper(RK_FoundationStack, max_move=0, max_cards=6, mod=13)
+    ]
+    RowStack_Class = StackWrapper(Xerxes_RowStack, max_move=1)
+    ROW_BASE_RANK = 8
+    DEAL_ALL = True
+    HEIGHT = 4
+    AUTO_DEAL_RANK = 8
+
+    def startGame(self):
+        self.startDealSample()
+        i = -1
+        while self.s.talon.cards:
+            if self.s.talon.cards[-1].rank == self.ROW_BASE_RANK:
+                i += 1
+                self.s.talon.dealRow(rows=[self.s.foundations[i]], frames=4)
+            else:
+                played = False
+                if self.s.talon.cards[-1].rank <= self.AUTO_DEAL_RANK:
+                    for f in range(i + 1):
+                        if self.s.foundations[f].cards[-1].rank == \
+                                self.s.talon.cards[-1].rank - 1:
+                            self.s.talon.dealRow(rows=[self.s.foundations[f]],
+                                                 frames=4)
+                            played = True
+                            break
+                if not played:
+                    self.s.talon.dealRow(rows=[self.s.rows[i]], frames=4)
+
+    def _shuffleHook(self, cards):
+        for c in cards[:]:
+            if c.rank == self.ROW_BASE_RANK:
+                cards.remove(c)
+                break
+        cards.append(c)
+        return cards
+
+    def isGameWon(self):
+        return Game.isGameWon(self)
+
+    def getAutoStacks(self, event=None):
+        return ((), (), self.sg.dropstacks)
+
+
+class Zingara(Xerxes):
+    Foundation_Classes = [
+        StackWrapper(RK_FoundationStack, max_move=0, max_cards=8, mod=13)
+    ]
+    ROW_BASE_RANK = 6
 
 
 # ************************************************************************
@@ -752,3 +829,9 @@ registerGame(GameInfo(624, StepUp, "Step-Up",
 registerGame(GameInfo(766, Kentish, "Kentish",
                       GI.GT_2DECK_TYPE | GI.GT_OPEN | GI.GT_ORIGINAL, 2, 0,
                       GI.SL_MOSTLY_SKILL))
+registerGame(GameInfo(967, Xerxes, "Xerxes",
+                      GI.GT_2DECK_TYPE | GI.GT_OPEN | GI.GT_STRIPPED, 2, 0,
+                      GI.SL_BALANCED, ranks=(0, 8, 9, 10, 11, 12),))
+registerGame(GameInfo(968, Zingara, "Zingara",
+                      GI.GT_2DECK_TYPE | GI.GT_OPEN | GI.GT_STRIPPED, 2, 0,
+                      GI.SL_BALANCED, ranks=(0, 6, 7, 8, 9, 10, 11, 12),))

@@ -495,7 +495,7 @@ class GI:
         ("Mark Masten", (811,)),
         ("Albert Morehead and Geoffrey Mott-Smith", (25, 42, 48, 173, 282,
                                                      303, 362, 547, 738,
-                                                     845)),
+                                                     845, 967, 968)),
         ("Toby Ord", (788,)),
         ("David Parlett", (64, 98, 294, 338, 654, 796, 812, 844)),
         ("Joe R.", (938, 960,)),
@@ -603,7 +603,7 @@ class GI:
          tuple(range(13168, 13170)) + tuple(range(18000, 18005)) +
          tuple(range(19000, 19012)) + tuple(range(22303, 22311)) +
          tuple(range(22353, 22361))),
-        ('dev', tuple(range(961, 967))),
+        ('dev', tuple(range(961, 969))),
     )
 
     # deprecated - the correct way is to or a GI.GT_XXX flag

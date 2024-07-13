@@ -404,7 +404,7 @@ class SelectCardsetDialogWithPreview(MfxDialog):
         s = (_("&Info..."), 10)
         kw = KwStruct(kw,
                       strings=(s, 'sep',
-                               _("&OK"), _("&Cancel"),),
+                               _("&Select"), _("&Cancel"),),
                       default=0,
                       resizable=True,
                       )

@@ -265,7 +265,7 @@ class SelectTileDialogWithPreview(MfxDialog):
     def initKw(self, kw):
         kw = KwStruct(kw,
                       strings=((_("&Solid color..."), 10),
-                               'sep', _("&OK"), _("&Cancel"),),
+                               'sep', _("&Select"), _("&Cancel"),),
                       default=0,
                       resizable=True,
                       font=None,

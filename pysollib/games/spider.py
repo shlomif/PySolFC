@@ -1485,6 +1485,7 @@ class ScorpionTowers(Game):
 # ************************************************************************
 
 class Astrocyte(Game):
+    Hint_Class = Spider_Hint
 
     def createGame(self):
 

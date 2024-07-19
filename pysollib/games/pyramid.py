@@ -1330,35 +1330,47 @@ class Apophis_RowStack(Pyramid_RowStack):
 class Apophis(Pharaohs):
     Hint_Class = Apophis_Hint
     RowStack_Class = Apophis_RowStack
+    Waste_Class = Pyramid_Waste
+    Foundation_Class = Pyramid_Foundation
 
     PYRAMID_Y_FACTOR = 2
+    INVERT = False
+    MAX_ROUNDS = 3
 
     def createGame(self):
         # create layout
         layout, s = Layout(self), self.s
 
         # set window
-        w = layout.XM + 9*layout.XS
-        h = layout.YM + 4*layout.YS
+        cols = 9
+        if self.INVERT:
+            cols = 10
+        w = layout.XM + cols * layout.XS
+        h = layout.YM + 4 * layout.YS
         self.setSize(w, h)
 
         # create stacks
         x, y = layout.XM+1.5*layout.XS, layout.YM
-        s.rows = self._createPyramid(layout, x, y, 7)
+        if self.INVERT:
+            s.rows = self._createInvertedPyramid(layout, x, y, 7)
+        else:
+            s.rows = self._createPyramid(layout, x, y, 7)
 
         x, y = layout.XM, layout.YM
-        s.talon = DealReserveRedealTalonStack(x, y, self, max_rounds=3)
+        s.talon = DealReserveRedealTalonStack(x, y, self,
+                                              max_rounds=self.MAX_ROUNDS)
         layout.createText(s.talon, 'se')
-        layout.createRoundText(s.talon, 'ne')
+        if s.talon.max_rounds > 1:
+            layout.createRoundText(s.talon, 'ne')
 
         y += layout.YS
         for i in range(3):
-            stack = Pyramid_Waste(x, y, self, max_accept=1)
+            stack = self.Waste_Class(x, y, self, max_accept=1)
             s.reserves.append(stack)
             layout.createText(stack, 'se')
             y += layout.YS
         x, y = self.width - layout.XS, layout.YM
-        s.foundations.append(Pyramid_Foundation(x, y, self,
+        s.foundations.append(self.Foundation_Class(x, y, self,
                              suit=ANY_SUIT, dir=0, base_rank=ANY_RANK,
                              max_move=0, max_cards=52))
         layout.createText(s.foundations[0], 'nw')
@@ -1373,6 +1385,43 @@ class Apophis(Pharaohs):
 
     def shallHighlightMatch(self, stack1, card1, stack2, card2):
         return card1.rank + card2.rank == 11
+
+
+# ************************************************************************
+# * Eleven Triangle
+# ************************************************************************
+
+class ElevenTriangle_StackMethods():
+    def acceptsCards(self, from_stack, cards):
+        if self.basicIsBlocked():
+            return False
+        if from_stack is self or not self.cards or len(cards) != 1:
+            return False
+        c = self.cards[-1]
+        return c.face_up and cards[0].face_up and \
+            (cards[0].rank + c.rank == 9 or (cards[0].rank > 9 and
+                                             cards[0].rank == c.rank))
+
+    def _dropKingClickHandler(self, event):
+        return 0
+
+
+class ElevenTriangle_RowStack(ElevenTriangle_StackMethods, Pyramid_RowStack):
+    pass
+
+
+class ElevenTriangle_Waste(ElevenTriangle_StackMethods, Pyramid_Waste):
+    pass
+
+
+class ElevenTriangle(Apophis):
+    RowStack_Class = ElevenTriangle_RowStack
+    Waste_Class = ElevenTriangle_Waste
+    Foundation_Class = PyramidDozen_Foundation
+
+    INVERT = True
+    MAX_ROUNDS = 1
+
 
 # ************************************************************************
 # * Cheops
@@ -1876,3 +1925,5 @@ registerGame(GameInfo(950, Eighteens, "Eighteens",
                       altnames=("Steel Wheels",)))
 registerGame(GameInfo(961, Nines, "Nines",
                       GI.GT_PAIRING_TYPE, 1, 0, GI.SL_LUCK))
+registerGame(GameInfo(969, ElevenTriangle, "Eleven Triangle",
+                      GI.GT_PAIRING_TYPE, 1, 0, GI.SL_MOSTLY_LUCK))

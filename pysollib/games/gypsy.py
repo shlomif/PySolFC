@@ -1011,7 +1011,8 @@ class SwissPatience(Gypsy):
 class AceOfHearts_Foundation(RK_FoundationStack):
     def acceptsCards(self, from_stack, cards):
         if not self.cards:
-            return cards[0].suit == HEART and cards[0].rank == ACE
+            return len(cards) == 1 and cards[0].suit == HEART and \
+                cards[0].rank == ACE
         return RK_FoundationStack.acceptsCards(self, from_stack, cards)
 
     def getBottomImage(self):
@@ -1034,7 +1035,8 @@ class AceOfHearts(Game):
         r = l.s.foundations[3]
         s.foundations.append(
             AceOfHearts_Foundation(r.x, r.y, self, suit=HEART,
-                                   max_cards=52, mod=13))
+                                   max_cards=52, max_accept=1,
+                                   mod=13))
         for r in l.s.rows:
             s.rows.append(Yukon_SS_RowStack(r.x, r.y, self,
                                             base_rank=KING))

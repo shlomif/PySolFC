@@ -85,14 +85,15 @@ CARDSET = _("cardset")
 
 IMAGE_EXTENSIONS = (".gif", ".ppm", ".png")
 if 1 and os.name == "nt":
-    IMAGE_EXTENSIONS = (".png", ".gif", ".ppm", ".jpg",)
+    IMAGE_EXTENSIONS = (".png", ".gif", ".ppm", ".jpg", ".jpeg",)
     pass
 
 if Image:
-    IMAGE_EXTENSIONS = (".png", ".gif", ".jpg", ".ppm", ".bmp")
+    IMAGE_EXTENSIONS = (".png", ".gif", ".jpg", ".jpeg", ".ppm", ".bmp")
 
 if TOOLKIT == 'kivy':
-    IMAGE_EXTENSIONS = (".png", ".bmp", ".ppm", ".jpg", ".tiff")
+    IMAGE_EXTENSIONS = (".png", ".bmp", ".ppm", ".jpg", ".jpeg", ".tif",
+                        ".tiff")
 
 # ************************************************************************
 # * DataLoader

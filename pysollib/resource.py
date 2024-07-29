@@ -185,8 +185,10 @@ class CSI:
     TYPE_ISHIDO = 12
 
     # cardset subtypes
+    # (french)
     SUBTYPE_NONE = 0
     SUBTYPE_JOKER_DECK = 1
+    # (puzzle)
     SUBTYPE_3X3 = 3
     SUBTYPE_4X4 = 4
     SUBTYPE_5X5 = 5
@@ -574,7 +576,7 @@ class CardsetManager(ResourceManager):
             return
         cs.ncards = len(cs.ranks) * len(cs.suits) + len(cs.trumps)
         cs.name = cs.name[:30]
-        if not (1 <= cs.si.size <= 5):
+        if not (CSI.SIZE_TINY <= cs.si.size <= CSI.SIZE_HIRES):
             CW, CH = cs.CARDW, cs.CARDH
             if CW <= 55 and CH <= 72:
                 cs.si.size = CSI.SIZE_TINY

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PySolFC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2024-07-04 17:03-0400\n"
+"PO-Revision-Date: 2024-08-04 20:19-0400\n"
 "Last-Translator: Jerzy Trzeciak <artusek@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
@@ -4241,6 +4241,15 @@ msgid "Tiles"
 msgstr ""
 
 msgid "Images"
+msgstr ""
+
+msgid "SD"
+msgstr ""
+
+msgid "HD"
+msgstr ""
+
+msgid "4K"
 msgstr ""
 
 #: pysollib/tile/solverdialog.py:54 pysollib/tk/solverdialog.py:62

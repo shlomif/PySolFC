@@ -4031,6 +4031,15 @@ msgstr ""
 msgid "Images"
 msgstr ""
 
+msgid "SD"
+msgstr ""
+
+msgid "HD"
+msgstr ""
+
+msgid "4K"
+msgstr ""
+
 #: pysollib/tile/solverdialog.py:54 pysollib/tk/solverdialog.py:62
 msgid "Show progress"
 msgstr ""

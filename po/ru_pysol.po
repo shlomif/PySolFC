@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2024-07-04 17:04-0400\n"
+"PO-Revision-Date: 2024-08-04 20:17-0400\n"
 "Last-Translator: Skomoroh <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
@@ -4297,6 +4297,15 @@ msgid "Tiles"
 msgstr ""
 
 msgid "Images"
+msgstr ""
+
+msgid "SD"
+msgstr ""
+
+msgid "HD"
+msgstr ""
+
+msgid "4K"
 msgstr ""
 
 #: pysollib/tile/solverdialog.py:54 pysollib/tk/solverdialog.py:62

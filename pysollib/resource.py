@@ -25,7 +25,7 @@ import glob
 import os
 import traceback
 
-from pysollib.mfxutil import KwStruct, Struct
+from pysollib.mfxutil import Image, KwStruct, Struct, USE_PIL
 from pysollib.mygettext import _
 from pysollib.settings import DEBUG
 
@@ -677,16 +677,45 @@ class CardsetManager(ResourceManager):
 # * Tile
 # ************************************************************************
 
+# TableTileInfo constants
+class TTI:
+    # tile size
+    SIZE_UNKNOWN = 0
+    SIZE_TILE = 1
+    SIZE_SD = 2
+    SIZE_HD = 3
+    SIZE_4K = 4
+
+
 class Tile(Resource):
     def __init__(self, **kw):
         kw['color'] = None
         kw['stretch'] = 0
         kw['save_aspect'] = 0
+        kw['size'] = 0
         Resource.__init__(self, **kw)
 
 
 class TileManager(ResourceManager):
-    pass
+    def register(self, tile):
+        if USE_PIL:
+            try:
+                img = Image.open(tile.filename)
+                TW, TH = img.size
+                if TW < 640 or TH < 480:
+                    tile.size = TTI.SIZE_TILE
+                elif TW < 1280 or TH < 720:
+                    tile.size = TTI.SIZE_SD
+                elif TW < 3840 or TH < 2160:
+                    tile.size = TTI.SIZE_HD
+                else:
+                    tile.size = TTI.SIZE_4K
+            except AttributeError:
+                tile.size = TTI.SIZE_UNKNOWN
+        else:
+            tile.size = TTI.SIZE_UNKNOWN
+
+        ResourceManager.register(self, tile)
 
 
 # ************************************************************************

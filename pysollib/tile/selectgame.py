@@ -1137,7 +1137,7 @@ class SelectGameAdvancedSearch(MfxDialog):
         for name, games in GI.GAMES_BY_PYSOL_VERSION:
             versionValues.append(name)
 
-        labelVersion = tkinter.Label(top_frame, text="PySol Version:",
+        labelVersion = tkinter.Label(top_frame, text="PySol version:",
                                      anchor="w")
         labelVersion.grid(row=row, column=0, columnspan=1, sticky='ew',
                           padx=1, pady=1)
@@ -1154,7 +1154,7 @@ class SelectGameAdvancedSearch(MfxDialog):
 
         statisticsValues = list(criteria.statisticsOptions.keys())
 
-        labelStats = tkinter.Label(top_frame, text="Statistics:", anchor="w")
+        labelStats = tkinter.Label(top_frame, text="Play history:", anchor="w")
         labelStats.grid(row=row, column=0, columnspan=1, sticky='ew',
                         padx=1, pady=1)
         textStats = PysolCombo(top_frame, values=statisticsValues,

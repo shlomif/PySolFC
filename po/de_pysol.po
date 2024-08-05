@@ -3573,10 +3573,10 @@ msgstr ""
 msgid "Inventor:"
 msgstr ""
 
-msgid "PySol Version:"
+msgid "PySol version:"
 msgstr ""
 
-msgid "Statistics:"
+msgid "Play history:"
 msgstr ""
 
 #: pysollib/pysolgtk/selectgame.py:122 pysollib/tile/selectgame.py:400

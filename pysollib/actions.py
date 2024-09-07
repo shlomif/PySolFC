@@ -606,6 +606,7 @@ class PysolMenubar(PysolMenubarTk):
         mode = kw.get("mode", 101)
         demo = 0
         gameid = None
+        gamenum = None
         while mode > 0:
             if mode > 1000:
                 demo = not demo
@@ -640,10 +641,14 @@ class PysolMenubar(PysolMenubarTk):
                 header = (_("%(app)s Demo Full log") if demo
                           else _("Full log for %(player)s")) % transkw
                 d = FullLog_StatsDialog(self.top, header, self.app, player)
+                gameid = d.selected_game
+                gamenum = d.selected_game_num
             elif mode == 104:
                 header = (_("%(app)s Demo Session log") if demo
                           else _("Session log for %(player)s")) % transkw
                 d = SessionLog_StatsDialog(self.top, header, self.app, player)
+                gameid = d.selected_game
+                gamenum = d.selected_game_num
             elif mode == 105:
                 # TRANSLATORS: eg. top 10 or top 5 results for a certain game
                 header = (_("%(app)s Demo Top %(tops)d for %(game)s") if demo
@@ -698,8 +703,12 @@ class PysolMenubar(PysolMenubarTk):
                     self.game.quitGame(gameid)
             elif mode == 402:
                 # start a new game with a gameid / gamenumber
-                # TODO
-                pass
+                if (gameid and gamenum and
+                        (gameid != self.game.id or
+                         gamenum != self.game.getGameNumber(format=0))):
+                    self.game.endGame()
+                    self.game.quitGame(gameid,
+                                       random=construct_random(gamenum))
             else:
                 print_err("stats problem: %s %s %s" % (mode, demo, player))
                 pass

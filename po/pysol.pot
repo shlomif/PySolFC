@@ -2234,6 +2234,21 @@ msgid "\n"
 "8: 3 J 6 A 9 4 Q 7 2 T 5 K"
 msgstr ""
 
+msgid "Dungeon"
+msgstr ""
+
+msgid "Tower"
+msgstr ""
+
+msgid "Guest"
+msgstr ""
+
+msgid "Castle"
+msgstr ""
+
+msgid "Subjects"
+msgstr ""
+
 #: pysollib/games/curdsandwhey.py:76
 msgid "Tableau. Build down by suit or of the same rank."
 msgstr ""

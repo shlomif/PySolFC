@@ -418,7 +418,7 @@ class GI:
 
         # Solitude for Windows
         # still missing:
-        #       Bowling (Sackson version), Four Kingdoms, Icicles
+        #       Bowling (Sackson version), Icicles
         ("Solitude for Windows", (
             2, 8, 11, 13, 19, 24, 25, 29, 30, 31, 33, 34, 36, 38, 42,
             43, 45, 48, 50, 53, 56, 57, 58, 62, 64, 67, 69, 71, 86, 87,
@@ -426,7 +426,7 @@ class GI:
             128, 133, 134, 135, 139, 146, 147, 171, 172, 173, 221, 222,
             224, 228, 233, 234, 235, 256, 257, 258, 282, 314, 327, 330,
             355, 356, 398, 406, 414, 418, 434, 437, 484, 593, 715, 716,
-            737, 751, 805, 830, 845, 847, 888, 901, 903
+            737, 751, 805, 830, 845, 847, 888, 901, 903, 970
         )),
 
         # XM Solitaire
@@ -479,7 +479,7 @@ class GI:
         ("Paul Alfille", (8,)),
         ("C.L. Baker", (45,)),
         ("Mark S. Ball", (909,)),
-        ("David Bernazzani", (314, 830,)),
+        ("David Bernazzani", (314, 830, 970,)),
         ("Gordon Bower", (763, 783, 852, 959,)),
         ("Art Cabral", (9,)),
         ("Richard A. Canfield", (105, 835,)),
@@ -603,7 +603,7 @@ class GI:
          tuple(range(13168, 13170)) + tuple(range(18000, 18005)) +
          tuple(range(19000, 19012)) + tuple(range(22303, 22311)) +
          tuple(range(22353, 22361))),
-        ('dev', tuple(range(961, 970))),
+        ('dev', tuple(range(961, 971))),
     )
 
     # deprecated - the correct way is to or a GI.GT_XXX flag

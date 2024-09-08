@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: it_pysol\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 10:19-0500\n"
-"PO-Revision-Date: 2024-08-04 20:19-0400\n"
+"PO-Revision-Date: 2024-09-08 09:54-0400\n"
 "Last-Translator: Giuliano Colla <giuliano.colla@gmail.com>\n"
 "Language-Team: Italiano <it@li.org>\n"
 "Language: it\n"
@@ -2394,6 +2394,21 @@ msgstr ""
 "6: Q 5 J 4 T 3 9 2 8 A 7 K\n"
 "7: A 8 2 9 3 T 4 J 5 Q 6 K\n"
 "8: 3 J 6 A 9 4 Q 7 2 T 5 K"
+
+msgid "Dungeon"
+msgstr ""
+
+msgid "Tower"
+msgstr ""
+
+msgid "Guest"
+msgstr ""
+
+msgid "Castle"
+msgstr ""
+
+msgid "Subjects"
+msgstr ""
 
 #: pysollib/games/curdsandwhey.py:76
 msgid "Tableau. Build down by suit or of the same rank."

@@ -1,5 +1,5 @@
 ---
-image: Previous Visual Studio 2022
+image: Visual Studio 2022
 environment:
     matrix:
         - PYTHON: "C:\\Python312"
@@ -32,8 +32,8 @@ test_script:
     - gmake pretest
     - perl run-tests.pl
     - gmake rules
-    - gmake pot
-    - gmake mo
+    #- gmake pot
+    #- gmake mo
     - pyinstaller pysol.py --windowed --icon=data\pysol.ico
     - python3 setup.py install_data -d dist\pysol
     - appveyor DownloadFile https://sourceforge.net/projects/pysolfc/files/PySolFC-Cardsets/minimal/PySolFC-Cardsets--Minimal-3.0.0.tar.xz/download -FileName cardsets.tar.xz
@@ -51,7 +51,7 @@ test_script:
     # For reproducible builds:
     # See:  https://reproducible-builds.org/ .
     - SET FC_SOLVE_VER=5.20.0
-    - appveyor DownloadFile https://netix.dl.sourceforge.net/project/fc-solve/fc-solve/DO-NOT-USE--fc-solve-for-pysol/fc-solve-for-pysol--v%FC_SOLVE_VER%.zip -FileName fc-solve.zip
+    - appveyor DownloadFile https://sourceforge.net/projects/fc-solve/files/fc-solve/DO-NOT-USE--fc-solve-for-pysol/fc-solve-for-pysol--v%FC_SOLVE_VER%.zip -FileName fc-solve.zip
     - 7z x fc-solve.zip
     - move fcs-pysol dist\pysol\freecell-solver
     - 7z a -r pysol_win_dist.7z dist\pysol\

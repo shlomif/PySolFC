@@ -71,11 +71,13 @@ kw = {
     'author': 'Skomoroh',
     'author_email': 'skomoroh@gmail.com',
     'description': 'a Python solitaire game collection',
+    'classifiers': [
+        'Programming Language :: Python :: 3',
+    ],
     'install_requires': [
         'attrs>=18.2.0',
         'configobj',
         'pysol_cards',
-        'random2',
         'six',
     ],
     'long_description': long_description,

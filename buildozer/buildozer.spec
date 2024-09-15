@@ -38,7 +38,7 @@ version.filename = %(source.dir)s/version.txt
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy,pysol-cards,random2,configobj,attrs
+requirements = python3,kivy,pysol-cards,configobj,attrs
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes

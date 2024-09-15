@@ -23,6 +23,7 @@
 
 
 import math
+import random
 import time
 import traceback
 from pickle import Pickler, Unpickler, UnpicklingError
@@ -66,8 +67,6 @@ from pysollib.settings import DEBUG
 from pysollib.settings import PACKAGE, TITLE, TOOLKIT, TOP_SIZE
 from pysollib.settings import VERSION, VERSION_TUPLE
 from pysollib.struct_new import NewStruct
-
-import random2
 
 import six
 from six import BytesIO
@@ -3363,7 +3362,7 @@ class Game(object):
         game.random = construct_random(initial_seed)
         state = pload()
         if (game.random is not None and
-                not isinstance(game.random, random2.Random) and
+                not isinstance(game.random, random.Random) and
                 isinstance(state, int)):
             game.random.setstate(state)
         # if not hasattr(game.random, "origin"):

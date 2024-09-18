@@ -994,6 +994,8 @@ class PysolMenubarTkCommon:
         self._bindKey(ctrl, "Up", self.mSelectPrevGameById)
         self._bindKey(ctrl, "Down", self.mSelectNextGameById)
 
+        self._bindKey("", "F5", self.refresh)
+
         if os.name == 'posix' and platform.system() != 'Darwin':
             self._bindKey('Alt-', 'F4', self.mQuit)
 
@@ -2023,6 +2025,12 @@ Unsupported game for import.
         self.app.updateCardset()
         self.game.endGame(bookmark=1)
         self.game.quitGame(bookmark=1)
+
+    def refresh(self, *event):
+        self.app.updateCardset()
+        self.game.endGame(bookmark=1)
+        self.game.quitGame(bookmark=1)
+
 
     #
     # toolbar support

@@ -21,6 +21,8 @@
 #
 # ---------------------------------------------------------------------------#
 
+from collections import UserList
+
 from kivy.clock import Clock
 
 from pysollib.gamedb import GI
@@ -32,8 +34,6 @@ from pysollib.kivy.LApp import get_menu_size_hint
 from pysollib.kivy.selecttree import SelectDialogTreeData
 from pysollib.kivy.selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode
 from pysollib.mygettext import _
-
-from six.moves import UserList
 
 
 # ************************************************************************

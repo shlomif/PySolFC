@@ -26,7 +26,6 @@ from pysollib.mfxutil import KwStruct
 from pysollib.mygettext import _
 from pysollib.ui.tktile.selecttree import SelectDialogTreeData
 
-import six
 from six.moves import tkinter, tkinter_colorchooser
 
 from .selecttree import SelectDialogTreeCanvas
@@ -172,10 +171,7 @@ class SelectTileDialogWithPreview(MfxDialog):
 
     def mDone(self, button):
         if button == 0:        # "OK" or double click
-            if isinstance(self.tree.selection_key, six.string_types):
-                self.key = str(self.tree.selection_key)
-            else:
-                self.key = self.tree.selection_key
+            self.key = self.tree.selection_key
             self.tree.n_expansions = 1  # save xyview in any case
         if button == 1:        # "Solid color..."
             try:
@@ -201,7 +197,7 @@ class SelectTileDialogWithPreview(MfxDialog):
             return
         canvas = self.preview.canvas
         canvas.deleteAllItems()
-        if isinstance(key, six.string_types):
+        if isinstance(key, str):
             # solid color
             canvas.config(bg=key)
             canvas.setTile(None)

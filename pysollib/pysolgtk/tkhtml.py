@@ -38,8 +38,6 @@ from pysollib.mfxutil import Struct, openURL
 from pysollib.mygettext import _
 from pysollib.settings import TITLE
 
-import six
-
 from tkwidget import MfxMessageDialog
 
 if __name__ == '__main__':
@@ -71,7 +69,7 @@ class tkHTMLWriter(pysollib.formatter.NullWriter):
         self.indent = ''
 
     def write(self, data):
-        data = six.text_type(data)
+        data = str(data)
         self.text.insert(self.text.get_end_iter(), data, len(data))
 
     def anchor_bgn(self, href, name, type):

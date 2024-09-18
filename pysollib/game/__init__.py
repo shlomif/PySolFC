@@ -26,6 +26,7 @@ import math
 import random
 import time
 import traceback
+from io import BytesIO
 from pickle import Pickler, Unpickler, UnpicklingError
 
 import attr
@@ -68,10 +69,6 @@ from pysollib.settings import PACKAGE, TITLE, TOOLKIT, TOP_SIZE
 from pysollib.settings import VERSION, VERSION_TUPLE
 from pysollib.struct_new import NewStruct
 
-import six
-from six import BytesIO
-from six.moves import range
-
 if TOOLKIT == 'tk':
     from pysollib.ui.tktile.solverdialog import reset_solver_dialog
 else:
@@ -104,7 +101,7 @@ def _updateStatus_process_key_val(tb, sb, k, v):
             # self.top.wm_title("%s - %s"
             # % (TITLE, self.getTitleName()))
             return
-        if isinstance(v, six.string_types):
+        if isinstance(v, str):
             if sb:
                 sb.updateText(gamenumber=v)
             # self.top.wm_title("%s - %s %s" % (TITLE,
@@ -146,7 +143,7 @@ def _updateStatus_process_key_val(tb, sb, k, v):
             if tb:
                 tb.updateText(player=_("Player\n"))
             return
-        if isinstance(v, six.string_types):
+        if isinstance(v, str):
             if tb:
                 # if self.app.opt.toolbar_size:
                 if tb.getSize():
@@ -168,7 +165,7 @@ def _updateStatus_process_key_val(tb, sb, k, v):
         if v is None:
             if sb:
                 sb.updateText(time='')
-        if isinstance(v, six.string_types):
+        if isinstance(v, str):
             if sb:
                 sb.updateText(time=v)
         return
@@ -1341,7 +1338,7 @@ class Game(object):
         if self.preview:
             return
         tb, sb = self.app.toolbar, self.app.statusbar
-        for k, v in six.iteritems(kw):
+        for k, v in kw.items():
             _updateStatus_process_key_val(tb, sb, k, v)
 
     def _unmapHandler(self, event):

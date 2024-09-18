@@ -29,8 +29,6 @@ from pysollib.mfxutil import Image, KwStruct, Struct, USE_PIL
 from pysollib.mygettext import _
 from pysollib.settings import DEBUG
 
-import six
-
 # ************************************************************************
 # * Abstract
 # ************************************************************************
@@ -477,7 +475,7 @@ class Cardset(Resource):
 
     def updateCardback(self, backname=None, backindex=None):
         # update default back
-        if isinstance(backname, six.string_types):
+        if isinstance(backname, str):
             if backname in self.backnames:
                 backindex = self.backnames.index(backname)
         if isinstance(backindex, int):

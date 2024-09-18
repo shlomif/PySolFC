@@ -37,8 +37,6 @@ from pysollib.stack import \
         InitialDealTalonStack
 from pysollib.util import ANY_SUIT
 
-from six.moves import range
-
 
 class Shisen_Hint(AbstractHint):
     TOP_MATCHING = False

@@ -35,9 +35,6 @@ from pysollib.mygettext import myGettext
 from pysollib.pysoltk import STATUSBAR_ITEMS, TOOLBAR_BUTTONS, TOOLKIT
 from pysollib.resource import CSI
 
-
-import six
-
 import validate
 
 # ************************************************************************
@@ -663,7 +660,7 @@ class Options:
             val = getattr(self, key)
             if isinstance(val, str):
                 if sys.version_info < (3,):
-                    val = six.text_type(val, 'utf-8')
+                    val = str(val, 'utf-8')
             config['general'][key] = val
 
         config['general']['recent_gameid'] = self.recent_gameid

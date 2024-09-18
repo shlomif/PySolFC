@@ -66,8 +66,6 @@ from pysollib.stack import AC_FoundationStack, \
 from pysollib.util import ACE, ANY_RANK, KING, NO_RANK, UNLIMITED_MOVES
 from pysollib.wizardpresets import presets
 
-import six
-
 # ************************************************************************
 # *
 # ************************************************************************
@@ -436,7 +434,7 @@ class MyCustomGame(CustomGame):
 ''')
 
         for w in WizardWidgets:
-            if isinstance(w, six.string_types):
+            if isinstance(w, str):
                 continue
             v = w.variable.get()
             if w.widget in ('menu', 'preset'):
@@ -455,7 +453,7 @@ class MyCustomGame(CustomGame):
                     v = v.replace("\r", "\\r")
                     v = v.replace("\t", "\\t")
                     # See: https://github.com/shlomif/PySolFC/issues/177
-                    # if isinstance(v, six.text_type):
+                    # if isinstance(v, str):
                     #     v = v.encode('utf-8')
                     if not v:
                         v = 'Invalid Game Name'
@@ -481,7 +479,7 @@ def delete_game(game):
 
 def reset_wizard(game):
     for w in WizardWidgets:
-        if isinstance(w, six.string_types):
+        if isinstance(w, str):
             continue
         if game is None:
             # set to default

@@ -27,7 +27,6 @@ import sys
 from pysollib.mygettext import _
 from pysollib.settings import WIN_SYSTEM
 
-import six
 from six.moves import tkinter
 
 from .tkwidget import MfxTooltip
@@ -96,7 +95,7 @@ class MfxStatusbar:
     def updateText(self, **kw):
         for k, v in kw.items():
             label = getattr(self, k + '_label')
-            text = six.text_type(v)
+            text = str(v)
             width = label['width']
             if width and len(text) > width:
                 label['width'] = len(text)

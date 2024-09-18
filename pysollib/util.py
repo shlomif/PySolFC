@@ -37,8 +37,6 @@ from pysollib.mfxutil import Image
 from pysollib.mygettext import _
 from pysollib.settings import DATA_DIRS, TOOLKIT
 
-import six
-
 # ************************************************************************
 # * constants
 # ************************************************************************
@@ -152,8 +150,8 @@ class DataLoader:
     def __findFile(self, func, filename, subdirs=None, do_raise=1):
         if subdirs is None:
             subdirs = ("",)
-        elif isinstance(subdirs, six.string_types):
-            subdirs = (str(subdirs),)
+        elif isinstance(subdirs, str):
+            subdirs = (subdirs,)
         for dir in subdirs:
             f = os.path.join(self.dir, dir, filename)
             f = os.path.normpath(f)

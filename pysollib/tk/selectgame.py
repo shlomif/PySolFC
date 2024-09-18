@@ -22,6 +22,7 @@
 # ---------------------------------------------------------------------------
 
 import os
+from collections import UserList
 
 from pysollib.gamedb import GI
 from pysollib.mfxutil import KwStruct, Struct, destruct
@@ -31,7 +32,6 @@ from pysollib.resource import CSI
 from pysollib.ui.tktile.selecttree import SelectDialogTreeData
 from pysollib.ui.tktile.tkutil import unbind_destroy
 
-from six.moves import UserList
 from six.moves import tkinter
 
 from .selecttree import SelectDialogTreeCanvas

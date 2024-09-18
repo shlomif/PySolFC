@@ -33,8 +33,6 @@ from pysollib.pysolrandom import construct_random
 from pysollib.settings import DEBUG, FCS_COMMAND
 from pysollib.util import KING
 
-import six
-
 FCS_VERSION = None
 
 # ************************************************************************
@@ -819,7 +817,7 @@ class Base_Solver_Hint:
         if os.name != 'nt':
             kw['close_fds'] = True
         p = subprocess.Popen(command, **kw)
-        bytes_board = six.binary_type(board, 'utf-8')
+        bytes_board = bytes(board, 'utf-8')
         pout, perr = p.communicate(bytes_board)
         if p.returncode in (127, 1):
             # Linux and Windows return codes for "command not found" error
@@ -1018,7 +1016,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                 FCS_VERSION = (5, 0, 0)
             else:
                 pout, _ = self.run_solver(FCS_COMMAND + ' --version', '')
-                s = six.text_type(pout.read(), encoding='utf-8')
+                s = str(pout.read(), encoding='utf-8')
                 m = re.search(r'version ([0-9]+)\.([0-9]+)\.([0-9]+)', s)
                 if m:
                     FCS_VERSION = (int(m.group(1)), int(m.group(2)),
@@ -1082,7 +1080,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
             states = 0
 
             for sbytes in pout:
-                s = six.text_type(sbytes, encoding='utf-8')
+                s = str(sbytes, encoding='utf-8')
                 if DEBUG >= 5:
                     print(s)
 
@@ -1127,7 +1125,7 @@ class FreeCellSolver_Hint(Base_Solver_Hint):
                 self.solver_state = 'unsolved'
         else:
             for sbytes in pout:
-                s = six.text_type(sbytes, encoding='utf-8')
+                s = str(sbytes, encoding='utf-8')
                 if DEBUG:
                     print(s)
                 if self._determineIfSolverState(s):
@@ -1356,7 +1354,7 @@ class BlackHoleSolver_Hint(Base_Solver_Hint):
             pout, perr = self.run_solver(command, board)
 
             for sbytes in pout:
-                s = six.text_type(sbytes, encoding='utf-8')
+                s = str(sbytes, encoding='utf-8')
                 if DEBUG >= 5:
                     print(s)
 
@@ -1390,7 +1388,7 @@ class BlackHoleSolver_Hint(Base_Solver_Hint):
         else:
             self.solver_state = result.lower()
             for sbytes in pout:
-                s = six.text_type(sbytes, encoding='utf-8')
+                s = str(sbytes, encoding='utf-8')
                 if DEBUG:
                     print(s)
 

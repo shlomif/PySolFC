@@ -31,9 +31,6 @@ from pickle import Pickler, Unpickler
 
 from pysollib.settings import PACKAGE, TOOLKIT
 
-import six
-from six import print_
-
 Image = ImageTk = ImageOps = ImageDraw = None
 if TOOLKIT == 'tk':
     try:  # PIL
@@ -125,9 +122,9 @@ def print_err(s, level=1):
     elif level == 2:
         ss = PACKAGE+': DEBUG WARNING:'
     try:
-        print_(ss, s, file=sys.stderr)
+        print(ss, s, file=sys.stderr)
     except Exception:
-        print_(ss, s.encode(locale.getpreferredencoding()), file=sys.stderr)
+        print(ss, s.encode(locale.getpreferredencoding()), file=sys.stderr)
     sys.stderr.flush()
 
 
@@ -184,7 +181,7 @@ if os.name == "posix":
 def win32_getusername():
     user = os.environ.get('USERNAME', '').strip()
     try:
-        user = six.text_type(user, locale.getpreferredencoding())
+        user = str(user, locale.getpreferredencoding())
     except Exception:
         user = ''
     return user

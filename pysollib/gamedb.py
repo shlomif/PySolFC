@@ -21,22 +21,13 @@
 #
 # ---------------------------------------------------------------------------##
 
+from importlib import util
+
 import pysollib.settings
 from pysollib.mfxutil import Struct, print_err
 from pysollib.mygettext import _, n_
 from pysollib.resource import CSI
 
-import six
-
-# Handle import of import library - different libraries are needed
-# for different Python versions.
-imp = None
-util = None
-try:
-    from importlib import util
-except ImportError:
-    util = None
-    import imp
 
 # ************************************************************************
 # * constants
@@ -661,13 +652,13 @@ class GameInfo(Struct):
                  ):
         #
         def to_unicode(s):
-            if isinstance(s, six.text_type):
+            if isinstance(s, str):
                 return s
             try:
-                s = six.text_type(s, 'utf-8')
+                s = str(s, 'utf-8')
             except UnicodeDecodeError as err:
                 print_err(err)
-                s = six.text_type(s, 'utf-8', 'ignore')
+                s = str(s, 'utf-8', 'ignore')
             return s
         ncards = decks * (len(suits) * len(ranks) + len(trumps))
         game_flags = game_type & ~1023
@@ -682,7 +673,7 @@ class GameInfo(Struct):
             short_name = to_unicode(short_name)
             if pysollib.settings.TRANSLATE_GAME_NAMES:
                 short_name = _(short_name)
-        if isinstance(altnames, six.string_types):
+        if isinstance(altnames, str):
             altnames = (altnames,)
         altnames = [to_unicode(n) for n in altnames]
         if pysollib.settings.TRANSLATE_GAME_NAMES:
@@ -918,12 +909,9 @@ def loadGame(modname, filename, check_game=False):
     # print "load game", modname, filename
     GAME_DB.check_game = check_game
     GAME_DB.current_filename = filename
-    if util is not None:
-        spec = util.spec_from_file_location(modname, filename)
-        module = util.module_from_spec(spec)
-        spec.loader.exec_module(module)
-    else:
-        imp.load_source(modname, filename)
+    spec = util.spec_from_file_location(modname, filename)
+    module = util.module_from_spec(spec)
+    spec.loader.exec_module(module)
 
     # execfile(filename, globals(), globals())
     GAME_DB.current_filename = None

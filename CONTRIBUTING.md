@@ -7,7 +7,7 @@ for general guidelines for contributing to open source.
 
 - The [GitHub Actions CI build](https://github.com/shlomif/PySolFC/actions) and [AppVeyor build](https://ci.appveyor.com/project/shlomif/pysolfc) (which also run the test suite) should pass on each commit.
 - Your contributions should be under [GPLv3+](https://en.wikipedia.org/wiki/GNU_General_Public_License#Version_3) or a [compatible free software licence](https://www.gnu.org/licenses/license-list.html#GPLCompatibleLicenses), but please don't put them under the [AGPL](https://en.wikipedia.org/wiki/Affero_General_Public_License), which adds additional restrictions.
-- The code should be compatible with both Python 2.7.x and Python 3.4.x-and-above.
+- The code should be compatible with Python 3.4.x-and-above.
 
 # How you can contribute
 
@@ -32,7 +32,7 @@ custom variants. It lives in the Edit menu.
 
 Otherwise, the games' sources live under
 [the pysollib/games/](pysollib/games/) directory in the repository, and are
-written in Python 2.7/3.x and you can try inheriting from an existing
+written in Python 3.x and you can try inheriting from an existing
 variant [class](https://en.wikipedia.org/wiki/Class_%28computer_programming%29).
 
 In addition to adding the game's source code, be sure to add the game's metadata.  At minimum, you should:

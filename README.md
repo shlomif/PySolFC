@@ -31,7 +31,7 @@ can be implemented.
 
 ## Requirements.
 
-- Python (2.7 or 3.x)
+- Python 3.x
 - Tkinter (Tcl/Tk 8.4 or later)
 
 - For sound support (optional)

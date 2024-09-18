@@ -2031,7 +2031,6 @@ Unsupported game for import.
         self.game.endGame(bookmark=1)
         self.game.quitGame(bookmark=1)
 
-
     #
     # toolbar support
     #

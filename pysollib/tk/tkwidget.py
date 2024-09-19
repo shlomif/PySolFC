@@ -32,7 +32,6 @@ from pysollib.ui.tktile.tkutil import after, after_cancel
 from pysollib.ui.tktile.tkutil import bind, unbind_destroy
 from pysollib.ui.tktile.tkutil import makeToplevel, setTransient
 
-import six
 from six.moves import tkinter
 from six.moves import tkinter_font
 
@@ -130,7 +129,7 @@ class MfxDialog:  # ex. _ToplevelDialog
 
     def altKeyEvent(self, event):
         key = event.char
-        key = six.text_type(key, 'utf-8')
+        key = str(key, 'utf-8')
         key = key.lower()
         button = self.accel_keys.get(key)
         if button is not None:
@@ -285,7 +284,7 @@ class MfxExceptionDialog(MfxMessageDialog):
                 (ex.errno, ex.strerror, repr(ex.filename))
         else:
             t = str(ex)
-        kw.text = text + six.text_type(t, errors='replace')
+        kw.text = text + str(t, errors='replace')
         MfxMessageDialog.__init__(self, parent, title, **kw.getKw())
 
 

@@ -40,8 +40,6 @@ from pysollib.stack import \
         OpenStack
 from pysollib.util import ANY_SUIT, NO_RANK
 
-from six.moves import range
-
 
 def factorial(x):
     if x <= 1:

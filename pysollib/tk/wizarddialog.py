@@ -26,7 +26,6 @@ from pysollib.mygettext import _
 from pysollib.wizardpresets import presets
 from pysollib.wizardutil import WizardWidgets
 
-import six
 from six.moves import tkinter
 
 from .tabpage import TabPageSet
@@ -48,7 +47,7 @@ class WizardDialog(MfxDialog):
         notebook.pack(expand=True, fill='both')
 
         for w in WizardWidgets:
-            if isinstance(w, six.string_types):
+            if isinstance(w, str):
                 notebook.AddPage(w)
                 frame = tkinter.Frame(notebook.pages[w]['page'])
                 frame.pack(expand=True, fill='both', padx=2, pady=4)
@@ -117,7 +116,7 @@ class WizardDialog(MfxDialog):
         n = w.translation_map[v]
         p = presets[n]
         for w in WizardWidgets:
-            if isinstance(w, six.string_types):
+            if isinstance(w, str):
                 continue
             if w.var_name in p:
                 v = p[w.var_name]

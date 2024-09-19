@@ -25,8 +25,6 @@ import gtk
 
 from pysollib.mygettext import _
 
-import six
-
 
 class BasicStatusbar:
     def __init__(self, top, row, column, columnspan):
@@ -60,7 +58,7 @@ class BasicStatusbar:
         for k, v in kw.items():
             label = getattr(self, k + "_label")
             label.pop(0)
-            label.push(0, six.text_type(v))
+            label.push(0, str(v))
 
     def config(self, name, show):
         # FIXME
@@ -70,7 +68,7 @@ class BasicStatusbar:
         label = getattr(self, name + "_label")
         # FIXME kw['fg']
         label.pop(0)
-        label.push(0, six.text_type(kw['text']))
+        label.push(0, str(kw['text']))
 
     def show(self, show=True, resize=False):
         if show:

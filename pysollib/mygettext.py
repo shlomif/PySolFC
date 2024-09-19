@@ -1,10 +1,8 @@
 import gettext
 import sys
 
-import six
 
-
-class myLocalGettext(object):
+class myLocalGettext:
     def __init__(self, lang):
         self.language = lang
 
@@ -19,8 +17,8 @@ class myLocalGettext(object):
         return t
 
     def maketext(self, msg):
-        if not isinstance(msg, six.text_type):
-            return six.text_type(msg, 'utf-8')
+        if not isinstance(msg, str):
+            return str(msg, 'utf-8')
         return msg
 
     def ungettext(self, msgid1, msgid2, n):

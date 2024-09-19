@@ -29,7 +29,6 @@ from pysollib.resource import TTI
 from pysollib.ui.tktile.selecttree import SelectDialogTreeData
 from pysollib.ui.tktile.tkutil import bind
 
-import six
 from six.moves import tkinter
 from six.moves import tkinter_colorchooser
 from six.moves import tkinter_ttk as ttk
@@ -276,7 +275,7 @@ class SelectTileDialogWithPreview(MfxDialog):
 
     def mDone(self, button):
         if button == 0:  # "OK" or double click
-            if isinstance(self.tree.selection_key, six.string_types):
+            if isinstance(self.tree.selection_key, str):
                 self.key = str(self.tree.selection_key)
             else:
                 self.key = self.tree.selection_key
@@ -378,7 +377,7 @@ class SelectTileDialogWithPreview(MfxDialog):
         canvas.deleteAllItems()
 
         self.preview_scaling = scaling
-        if isinstance(key, six.string_types):
+        if isinstance(key, str):
             if USE_PIL:
                 self.textScale['state'] = 'disabled'
             # solid color

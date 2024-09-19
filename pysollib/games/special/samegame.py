@@ -34,8 +34,6 @@ from pysollib.stack import \
         OpenStack
 from pysollib.util import ANY_SUIT
 
-from six.moves import range
-
 
 # ************************************************************************
 # * Samegame

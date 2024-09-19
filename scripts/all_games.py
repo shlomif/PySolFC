@@ -2,6 +2,7 @@
 # -*- mode: python; coding: koi8-r; -*-
 #
 
+import builtins
 import os
 import sys
 import time
@@ -16,7 +17,6 @@ from pysollib.mfxutil import latin1_normalize
 from pysollib.mygettext import fix_gettext
 from pysollib.resource import CSI
 
-from six.moves import builtins
 os.environ['LANG'] = 'C'
 builtins.__dict__['_'] = lambda x: x
 builtins.__dict__['n_'] = lambda x: x

@@ -70,8 +70,6 @@ from pysollib.util import ACE, ANY_RANK, ANY_SUIT, \
     UNLIMITED_MOVES
 from pysollib.wizardutil import WizardWidgets
 
-import six
-
 # ************************************************************************
 # *
 # ************************************************************************
@@ -80,7 +78,7 @@ import six
 def get_settings(ss):
     s = {}
     for w in WizardWidgets:
-        if isinstance(w, six.string_types):
+        if isinstance(w, str):
             continue
         if w.var_name in ss:
             v = ss[w.var_name]

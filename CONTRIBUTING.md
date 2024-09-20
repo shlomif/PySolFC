@@ -7,7 +7,7 @@ for general guidelines for contributing to open source.
 
 - The [GitHub Actions CI build](https://github.com/shlomif/PySolFC/actions) and [AppVeyor build](https://ci.appveyor.com/project/shlomif/pysolfc) (which also run the test suite) should pass on each commit.
 - Your contributions should be under [GPLv3+](https://en.wikipedia.org/wiki/GNU_General_Public_License#Version_3) or a [compatible free software licence](https://www.gnu.org/licenses/license-list.html#GPLCompatibleLicenses), but please don't put them under the [AGPL](https://en.wikipedia.org/wiki/Affero_General_Public_License), which adds additional restrictions.
-- The code should be compatible with Python 3.4.x-and-above.
+- The code should be compatible with Python 3.7 and above.
 
 # How you can contribute
 

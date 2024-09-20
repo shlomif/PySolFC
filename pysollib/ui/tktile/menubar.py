@@ -2190,7 +2190,7 @@ Error while saving game.
                                     % self.game.gameinfo.name):
             return
         from pysollib.wizardutil import delete_game
-        delete_game(self.game)
+        delete_game(self.app, self.game)
         self.game.endGame()
         self.game.quitGame(2)
 

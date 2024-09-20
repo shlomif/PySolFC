@@ -72,6 +72,19 @@ class Statistics:
         else:
             games[player] = [g for g in games[player] if g[0] != gameid]
 
+    def deleteGameStats(self, gameid):
+        for player in self.games_stats:
+            try:
+                del self.games_stats[player][gameid]
+            except KeyError:
+                pass
+        for player in self.prev_games:
+            self.prev_games[player] = \
+                [g for g in self.prev_games[player] if g[0] != gameid]
+        for player in self.session_games:
+            self.session_games[player] = \
+                [g for g in self.session_games[player] if g[0] != gameid]
+
     def getStats(self, player, gameid):
         # returned (won, lost)
         return self.getFullStats(player, gameid)[:2]

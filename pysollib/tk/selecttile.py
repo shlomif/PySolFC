@@ -21,12 +21,13 @@
 #
 # ---------------------------------------------------------------------------##
 
+import tkinter
 
 from pysollib.mfxutil import KwStruct
 from pysollib.mygettext import _
 from pysollib.ui.tktile.selecttree import SelectDialogTreeData
 
-from six.moves import tkinter, tkinter_colorchooser
+from six.moves import tkinter_colorchooser
 
 from .selecttree import SelectDialogTreeCanvas
 from .selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode

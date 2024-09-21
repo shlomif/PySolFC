@@ -9,10 +9,10 @@
 
 import os
 from glob import glob
+import tkinter
 
 from PIL import Image, ImageTk
 
-import tkinter
 from six.moves import tkinter_tkfiledialog as filedialog  # messagebox
 
 

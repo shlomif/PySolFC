@@ -23,6 +23,7 @@
 
 import time
 import traceback
+import tkinter
 
 from pysollib.mfxutil import KwStruct, destruct, kwdefault, openURL
 from pysollib.mygettext import _
@@ -32,7 +33,6 @@ from pysollib.ui.tktile.tkutil import after, after_cancel
 from pysollib.ui.tktile.tkutil import bind, unbind_destroy
 from pysollib.ui.tktile.tkutil import makeToplevel, setTransient
 
-import tkinter
 from six.moves import tkinter_font
 
 # ************************************************************************

@@ -21,9 +21,10 @@
 #
 # ---------------------------------------------------------------------------
 
+import tkinter
+
 from pysollib.ui.tktile.tkconst import EVENT_PROPAGATE
 
-import tkinter
 TclError = tkinter.TclError
 
 

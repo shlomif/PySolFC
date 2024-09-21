@@ -1,7 +1,7 @@
+import tkinter
+
 from pysollib.mfxutil import KwStruct
 from pysollib.mygettext import _
-
-import tkinter
 
 
 class BaseEditTextDialog:

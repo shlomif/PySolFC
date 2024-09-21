@@ -26,7 +26,7 @@ from pysollib.mygettext import _
 from pysollib.wizardpresets import presets
 from pysollib.wizardutil import WizardWidgets
 
-from six.moves import tkinter
+import tkinter
 
 from .tabpage import TabPageSet
 from .tkwidget import MfxDialog

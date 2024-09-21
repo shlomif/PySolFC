@@ -32,7 +32,7 @@ from pysollib.ui.tktile.tkutil import loadImage
 from pysollib.util import IMAGE_EXTENSIONS
 from pysollib.winsystems import TkSettings
 
-from six.moves import tkinter
+import tkinter
 from six.moves import tkinter_ttk as ttk
 
 from .tkwidget import MfxTooltip

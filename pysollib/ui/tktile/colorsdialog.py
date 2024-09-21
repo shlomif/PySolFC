@@ -24,7 +24,7 @@
 from pysollib.mfxutil import KwStruct
 from pysollib.mygettext import _
 
-from six.moves import tkinter
+import tkinter
 from six.moves.tkinter_colorchooser import askcolor
 
 

@@ -27,7 +27,7 @@ from pysollib.ui.tktile.tkcanvas import MfxCanvas, MfxCanvasGroup
 from pysollib.ui.tktile.tkcanvas import MfxCanvasImage
 from pysollib.ui.tktile.tkutil import bind, unbind_destroy
 
-from six.moves import tkinter
+import tkinter
 
 
 class FullPictureDialog(tkinter.Toplevel):

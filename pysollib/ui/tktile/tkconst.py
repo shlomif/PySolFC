@@ -23,7 +23,7 @@
 
 from pysollib.mygettext import n_
 
-from six.moves import tkinter
+import tkinter
 
 # ************************************************************************
 # * constants

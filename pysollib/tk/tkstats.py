@@ -31,7 +31,7 @@ from pysollib.settings import TOP_TITLE
 from pysollib.stats import ProgressionFormatter, PysolStatsFormatter
 from pysollib.ui.tktile.tkutil import bind, loadImage
 
-from six.moves import tkinter
+import tkinter
 from six.moves import tkinter_font
 
 from .tkwidget import MfxDialog, MfxMessageDialog

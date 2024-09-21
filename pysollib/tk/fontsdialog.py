@@ -26,7 +26,7 @@ from pysollib.mygettext import _
 from pysollib.tk.tkwidget import MfxDialog
 from pysollib.ui.tktile.tkutil import bind
 
-from six.moves import tkinter
+import tkinter
 from six.moves import tkinter_font
 
 

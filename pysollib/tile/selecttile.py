@@ -29,7 +29,7 @@ from pysollib.resource import TTI
 from pysollib.ui.tktile.selecttree import SelectDialogTreeData
 from pysollib.ui.tktile.tkutil import bind
 
-from six.moves import tkinter
+import tkinter
 from six.moves import tkinter_colorchooser
 from six.moves import tkinter_ttk as ttk
 

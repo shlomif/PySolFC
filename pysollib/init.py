@@ -102,7 +102,7 @@ def init():
         sys.argv.remove('--kivy')
 
     if pysollib.settings.TOOLKIT == 'tk':
-        from six.moves import tkinter
+        import tkinter
         root = tkinter.Tk(className=pysollib.settings.TITLE)
         root.withdraw()
         if tkinter.TkVersion < 8.4:

@@ -23,7 +23,7 @@
 
 # imports
 #  import os
-#  from six.moves import tkinter
+#  import tkinter
 #  import traceback
 
 #  # PySol imports

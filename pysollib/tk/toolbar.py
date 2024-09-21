@@ -31,7 +31,7 @@ from pysollib.ui.tktile.tkconst import EVENT_HANDLED
 from pysollib.util import IMAGE_EXTENSIONS
 from pysollib.winsystems import TkSettings
 
-from six.moves import tkinter
+import tkinter
 
 from .tkwidget import MfxTooltip
 

@@ -32,7 +32,7 @@ from pysollib.resource import CSI
 from pysollib.ui.tktile.selecttree import SelectDialogTreeData
 from pysollib.ui.tktile.tkutil import bind, unbind_destroy
 
-from six.moves import tkinter
+import tkinter
 from six.moves import tkinter_ttk as ttk
 
 from .selecttree import SelectDialogTreeCanvas

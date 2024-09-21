@@ -27,7 +27,7 @@ import sys
 from pysollib.mygettext import _
 from pysollib.settings import WIN_SYSTEM
 
-from six.moves import tkinter
+import tkinter
 
 from .tkwidget import MfxTooltip
 

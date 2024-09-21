@@ -32,7 +32,7 @@ from pysollib.ui.tktile.tkutil import after, after_cancel
 from pysollib.ui.tktile.tkutil import bind, unbind_destroy
 from pysollib.ui.tktile.tkutil import makeToplevel, setTransient
 
-from six.moves import tkinter
+import tkinter
 from six.moves import tkinter_font
 
 # ************************************************************************

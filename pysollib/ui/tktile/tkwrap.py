@@ -23,7 +23,7 @@
 
 from pysollib.ui.tktile.tkconst import EVENT_PROPAGATE
 
-from six.moves import tkinter
+import tkinter
 TclError = tkinter.TclError
 
 

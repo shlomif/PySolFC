@@ -12,7 +12,7 @@ from glob import glob
 
 from PIL import Image, ImageTk
 
-from six.moves import tkinter
+import tkinter
 from six.moves import tkinter_tkfiledialog as filedialog  # messagebox
 
 

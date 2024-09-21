@@ -2,7 +2,7 @@ from pysollib.mygettext import _
 from pysollib.settings import TITLE
 from pysollib.ui.tktile.tkconst import EVENT_HANDLED
 
-from six.moves import tkinter
+import tkinter
 
 
 class BaseSolverDialog:

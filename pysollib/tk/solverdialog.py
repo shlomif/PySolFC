@@ -26,7 +26,7 @@ from pysollib.mygettext import _
 from pysollib.tk.basetkmfxdialog import BaseTkMfxDialog
 from pysollib.ui.tktile.solverdialog import BaseSolverDialog, solver_dialog
 
-from six.moves import range, tkinter
+import tkinter
 
 # ************************************************************************
 # *

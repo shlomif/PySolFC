@@ -24,7 +24,7 @@
 
 #  # imports
 #  import os, sys
-#  from six.moves import tkinter
+#  import tkinter
 
 #  # PySol imports
 #  from pysollib.mfxutil import KwStruct

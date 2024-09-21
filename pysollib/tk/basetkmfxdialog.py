@@ -1,6 +1,6 @@
 from pysollib.tk.tkwidget import MfxDialog
 
-from six.moves import tkinter
+import tkinter
 
 
 class BaseTkMfxDialog(MfxDialog):

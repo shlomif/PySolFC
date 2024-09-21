@@ -31,7 +31,7 @@ from pysollib.ui.tktile.tkcanvas import MfxCanvasImage
 from pysollib.ui.tktile.tkutil import loadImage
 from pysollib.util import CARDSET
 
-from six.moves import tkinter
+import tkinter
 
 from .selecttree import SelectDialogTreeCanvas
 from .selecttree import SelectDialogTreeLeaf, SelectDialogTreeNode

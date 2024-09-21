@@ -25,7 +25,7 @@ import os
 
 from pysollib.ui.tktile.tkutil import bind
 
-from six.moves import tkinter
+import tkinter
 
 from .tkwidget import MfxScrolledCanvas
 

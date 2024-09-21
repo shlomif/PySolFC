@@ -31,7 +31,7 @@ from pysollib.mygettext import _
 from pysollib.settings import TITLE
 from pysollib.ui.tktile.tkutil import bind, unbind_destroy
 
-from six.moves import tkinter
+import tkinter
 
 REMOTE_PROTOCOLS = ("ftp:", "gopher:", "http:", "https:", "mailto:", "news:",
                     "telnet:")

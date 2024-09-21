@@ -29,7 +29,7 @@ from pysollib.pysolaudio import pysolsoundserver
 from pysollib.settings import TITLE
 from pysollib.ui.tktile.tkconst import EVENT_HANDLED
 
-from six.moves import tkinter
+import tkinter
 
 from .tkwidget import MfxDialog, MfxMessageDialog
 

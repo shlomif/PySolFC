@@ -23,11 +23,10 @@
 
 import os
 import sys
+import tkinter
 
 from pysollib.mygettext import _
 from pysollib.settings import WIN_SYSTEM
-
-from six.moves import tkinter
 
 from .tkwidget import MfxTooltip
 

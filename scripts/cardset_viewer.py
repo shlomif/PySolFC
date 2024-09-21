@@ -8,11 +8,11 @@
 # Arrow up/down flip through the sets
 
 import os
+import tkinter
 from glob import glob
 
 from PIL import Image, ImageTk
 
-from six.moves import tkinter
 from six.moves import tkinter_tkfiledialog as filedialog  # messagebox
 
 

@@ -23,12 +23,12 @@
 
 import os
 import re
+import tkinter
 
 from pysollib.mfxutil import Image, ImageDraw, ImageOps, ImageTk, \
     get_default_resampling
 from pysollib.settings import TITLE, WIN_SYSTEM
 
-from six.moves import tkinter
 from six.moves import tkinter_font
 
 

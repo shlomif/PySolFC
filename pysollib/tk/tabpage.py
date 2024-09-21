@@ -24,7 +24,7 @@
 a couple of classes for implementing partial tabbed-page like behaviour
 """
 
-from six.moves import tkinter
+import tkinter
 
 MYRIDGE, MYRAISED = tkinter.RAISED, tkinter.RIDGE
 # MYRIDGE, MYRAISED = tkinter.RIDGE, tkinter.RAISED

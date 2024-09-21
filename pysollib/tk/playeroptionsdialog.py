@@ -21,11 +21,11 @@
 #
 # ---------------------------------------------------------------------------##
 
+import tkinter
+
 from pysollib.mfxutil import KwStruct, Struct
 from pysollib.mygettext import _
 from pysollib.ui.tktile.tkutil import bind
-
-from six.moves import tkinter
 
 from .tkwidget import MfxDialog
 

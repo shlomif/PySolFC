@@ -21,9 +21,9 @@
 #
 # ---------------------------------------------------------------------------##
 
-from pysollib.mygettext import n_
+import tkinter
 
-from six.moves import tkinter
+from pysollib.mygettext import n_
 
 # ************************************************************************
 # * constants

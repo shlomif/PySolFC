@@ -3,6 +3,7 @@ import os
 import platform
 import re
 import sys
+import tkinter
 
 from pysollib.gamedb import GI
 from pysollib.hint import PySolHintLayoutImportError
@@ -17,7 +18,6 @@ from pysollib.ui.tktile.tkconst import EVENT_PROPAGATE
 from pysollib.ui.tktile.tkconst import STATUSBAR_ITEMS, TOOLBAR_BUTTONS
 from pysollib.ui.tktile.tkutil import after_idle, bind
 
-from six.moves import tkinter
 from six.moves import tkinter_tkfiledialog
 
 

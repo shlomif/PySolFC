@@ -23,6 +23,7 @@
 
 import os
 import sys
+import tkinter
 
 import pysollib.formatter
 import pysollib.htmllib2 as htmllib
@@ -30,8 +31,6 @@ from pysollib.mfxutil import openURL
 from pysollib.mygettext import _
 from pysollib.settings import TITLE
 from pysollib.ui.tktile.tkutil import bind, unbind_destroy
-
-from six.moves import tkinter
 
 REMOTE_PROTOCOLS = ("ftp:", "gopher:", "http:", "https:", "mailto:", "news:",
                     "telnet:")

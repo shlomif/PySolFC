@@ -21,13 +21,13 @@
 #
 # ---------------------------------------------------------------------------
 
+import tkinter
+
 from pysollib.mygettext import _
 from pysollib.settings import TITLE
 from pysollib.ui.tktile.tkcanvas import MfxCanvas, MfxCanvasGroup
 from pysollib.ui.tktile.tkcanvas import MfxCanvasImage
 from pysollib.ui.tktile.tkutil import bind, unbind_destroy
-
-from six.moves import tkinter
 
 
 class FullPictureDialog(tkinter.Toplevel):

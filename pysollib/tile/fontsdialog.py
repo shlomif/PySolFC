@@ -21,11 +21,12 @@
 #
 # ---------------------------------------------------------------------------
 
+import tkinter
+
 from pysollib.mfxutil import KwStruct
 from pysollib.mygettext import _
 from pysollib.ui.tktile.tkutil import bind
 
-from six.moves import tkinter
 from six.moves import tkinter_font
 from six.moves import tkinter_ttk as ttk
 

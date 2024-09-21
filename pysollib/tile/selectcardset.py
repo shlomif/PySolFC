@@ -22,6 +22,7 @@
 # ---------------------------------------------------------------------------##
 
 import os
+import tkinter
 
 from pysollib.mfxutil import KwStruct, USE_PIL
 from pysollib.mygettext import _
@@ -31,7 +32,6 @@ from pysollib.ui.tktile.tkcanvas import MfxCanvasImage
 from pysollib.ui.tktile.tkutil import bind, loadImage
 from pysollib.util import CARDSET
 
-from six.moves import tkinter
 from six.moves import tkinter_ttk as ttk
 
 from .selecttree import SelectDialogTreeCanvas

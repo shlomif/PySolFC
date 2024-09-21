@@ -22,6 +22,7 @@
 # ---------------------------------------------------------------------------##
 
 import os
+import tkinter
 
 from pysollib.mfxutil import Image, ImageTk
 from pysollib.mygettext import _, n_
@@ -30,8 +31,6 @@ from pysollib.ui.tktile.menubar import MfxMenu, createToolbarMenu
 from pysollib.ui.tktile.tkconst import EVENT_HANDLED
 from pysollib.util import IMAGE_EXTENSIONS
 from pysollib.winsystems import TkSettings
-
-from six.moves import tkinter
 
 from .tkwidget import MfxTooltip
 

@@ -22,6 +22,7 @@
 # ---------------------------------------------------------------------------
 
 import os
+import tkinter
 
 from pysollib.mygettext import _
 from pysollib.resource import CSI
@@ -30,8 +31,6 @@ from pysollib.ui.tktile.tkcanvas import MfxCanvas, MfxCanvasGroup
 from pysollib.ui.tktile.tkcanvas import MfxCanvasImage, MfxCanvasRectangle
 from pysollib.ui.tktile.tkutil import after, after_cancel
 from pysollib.ui.tktile.tkutil import bind, makeImage, unbind_destroy
-
-from six.moves import tkinter
 
 
 LARGE_EMBLEMS_SIZE = (38, 34)

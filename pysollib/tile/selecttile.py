@@ -22,6 +22,7 @@
 # ---------------------------------------------------------------------------##
 
 import os
+import tkinter
 
 from pysollib.mfxutil import KwStruct, USE_PIL
 from pysollib.mygettext import _
@@ -29,7 +30,6 @@ from pysollib.resource import TTI
 from pysollib.ui.tktile.selecttree import SelectDialogTreeData
 from pysollib.ui.tktile.tkutil import bind
 
-from six.moves import tkinter
 from six.moves import tkinter_colorchooser
 from six.moves import tkinter_ttk as ttk
 

@@ -1,9 +1,9 @@
 # This module exports classes for the various canvas item types
 
 # NOTE: This module was an experiment and is now obsolete.
-# It's best to use the Tkinter.Canvas class directly.
+# It's best to use the tkinter.Canvas class directly.
 
-from six.moves.tkinter import Canvas, _cnfmerge, _flatten  # noqa: F401
+from tkinter import Canvas, _cnfmerge, _flatten  # noqa: F401
 
 
 class CanvasItem:

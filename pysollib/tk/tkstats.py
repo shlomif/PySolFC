@@ -23,6 +23,7 @@
 
 import os
 import time
+import tkinter
 
 from pysollib.mfxutil import KwStruct, kwdefault
 from pysollib.mfxutil import format_time
@@ -31,7 +32,6 @@ from pysollib.settings import TOP_TITLE
 from pysollib.stats import ProgressionFormatter, PysolStatsFormatter
 from pysollib.ui.tktile.tkutil import bind, loadImage
 
-from six.moves import tkinter
 from six.moves import tkinter_font
 
 from .tkwidget import MfxDialog, MfxMessageDialog

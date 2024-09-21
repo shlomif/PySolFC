@@ -22,8 +22,8 @@
 # ---------------------------------------------------------------------------
 
 import time
-import traceback
 import tkinter
+import traceback
 
 from pysollib.mfxutil import KwStruct, destruct, kwdefault, openURL
 from pysollib.mygettext import _

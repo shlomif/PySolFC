@@ -22,8 +22,8 @@
 # ---------------------------------------------------------------------------
 
 import os
-from collections import UserList
 import tkinter
+from collections import UserList
 
 from pysollib.gamedb import GI
 from pysollib.mfxutil import KwStruct, Struct, destruct

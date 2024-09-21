@@ -8,8 +8,8 @@
 # Arrow up/down flip through the sets
 
 import os
-from glob import glob
 import tkinter
+from glob import glob
 
 from PIL import Image, ImageTk
 

@@ -1055,7 +1055,8 @@ class AceOfHearts(Game):
 
 # register the game
 registerGame(GameInfo(1, Gypsy, "Gypsy",
-                      GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
+                      GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL,
+                      altnames=("Normandy",)))
 registerGame(GameInfo(65, Giant, "Giant",
                       GI.GT_GYPSY, 2, 0, GI.SL_MOSTLY_SKILL))
 registerGame(GameInfo(3, Irmgard, "Irmgard",

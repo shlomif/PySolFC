@@ -1624,7 +1624,8 @@ registerGame(GameInfo(2, Klondike, "Klondike",
 registerGame(GameInfo(61, CasinoKlondike, "Casino Klondike",
                       GI.GT_KLONDIKE | GI.GT_SCORE, 1, 2, GI.SL_BALANCED))
 registerGame(GameInfo(129, VegasKlondike, "Vegas Klondike",
-                      GI.GT_KLONDIKE | GI.GT_SCORE, 1, 0, GI.SL_BALANCED))
+                      GI.GT_KLONDIKE | GI.GT_SCORE, 1, 0, GI.SL_BALANCED,
+                      altnames=("Las Vegas",)))
 registerGame(GameInfo(18, KlondikeByThrees, "Klondike (Draw 3)",
                       GI.GT_KLONDIKE, 1, -1, GI.SL_MOSTLY_LUCK))
 registerGame(GameInfo(58, ThumbAndPouch, "Thumb and Pouch",

@@ -158,6 +158,7 @@ registerGame(GameInfo(557, GrandDuchess, "Grand Duchess",
                       altnames=('Duchess de Luynes')))
 registerGame(GameInfo(617, Parisienne, "Parisienne",
                       GI.GT_NUMERICA, 2, 3,
-                      altnames=('La Parisienne', 'Parisian')))
+                      altnames=('La Parisienne', 'Parisian',
+                                'Isle of Capri')))
 registerGame(GameInfo(618, GrandDuchessPlus, "Grand Duchess +",
                       GI.GT_NUMERICA, 2, 3))

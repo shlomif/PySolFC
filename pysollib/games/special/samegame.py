@@ -244,6 +244,9 @@ class AbstractSamegameGame(Game):
                                       self.s.rows[r - (numrows * emptycols)],
                                       frames=0)
 
+    def getAutoStacks(self, event=None):
+        return ((), (), ())
+
 
 class Samegame3_20x10(AbstractSamegameGame):
     L = (20, 10)

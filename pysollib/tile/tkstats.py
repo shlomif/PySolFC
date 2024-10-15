@@ -522,15 +522,15 @@ class LogDialog(MfxDialog):
 
         self.notebook_tabs = []
 
-        full_frame = FullLogFrame(self, notebook, app, player)
-        notebook.add(full_frame, text=_('Full log'))
-        self.full_log_frame = full_frame
-        self.notebook_tabs.append(full_frame._w)
-
         session_frame = SessionLogFrame(self, notebook, app, player)
         notebook.add(session_frame, text=_('Session log'))
         self.session_log_frame = session_frame
         self.notebook_tabs.append(session_frame._w)
+
+        full_frame = FullLogFrame(self, notebook, app, player)
+        notebook.add(full_frame, text=_('Full log'))
+        self.full_log_frame = full_frame
+        self.notebook_tabs.append(full_frame._w)
 
         notebook.select(LogDialog.SELECTED_TAB)
         bind(notebook, '<<NotebookTabChanged>>', self.tabChanged)

@@ -160,14 +160,14 @@ class Game_StatsDialog:
         store = self._createStatsList()
         formatter = StatsFormatter(app, store)
         formatter.writeStats(player)
-        # full log
-        store = self._createLogList('full_log_treeview')
-        formatter = LogFormatter(app, store)
-        formatter.writeFullLog(player)
         # session log
         store = self._createLogList('session_log_treeview')
         formatter = LogFormatter(app, store)
         formatter.writeSessionLog(player)
+        # full log
+        store = self._createLogList('full_log_treeview')
+        formatter = LogFormatter(app, store)
+        formatter.writeFullLog(player)
         #
         self._translateLabels()
         dialog = self.widgets_tree.get_widget('stats_dialog')

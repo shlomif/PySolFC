@@ -21,18 +21,18 @@
 #
 # ---------------------------------------------------------------------------##
 
-# Import necessary classes and methods from pysollib for the game functionality.
 from pysollib.game import Game
 from pysollib.gamedb import GI, GameInfo, registerGame
 from pysollib.hint import CautiousDefaultHint
 from pysollib.layout import Layout
-from pysollib.stack import \
-        DealRowTalonStack, \
-        ReserveStack, \
-        SS_FoundationStack, \
-        SS_RowStack, \
-        StackWrapper, \
-        UD_SS_RowStack
+from pysollib.stack import (
+    DealRowTalonStack,
+    ReserveStack,
+    SS_FoundationStack,
+    SS_RowStack,
+    StackWrapper,
+    UD_SS_RowStack,
+)
 from pysollib.util import ACE, KING
 
 # ************************************************************************
@@ -40,69 +40,58 @@ from pysollib.util import ACE, KING
 # ************************************************************************
 
 # Custom Talon class for the Carthage game. Handles the dealing of cards from the Talon.
+
+
 class Carthage_Talon(DealRowTalonStack):
     def dealCards(self, sound=False):
-        # If sound is enabled, start the deal sample (audio feedback).
         if sound:
             self.game.startDealSample()
         # Check if the number of cards equals the number of rows, then deal cards to rows.
         if len(self.cards) == len(self.game.s.rows):
             n = self.dealRowAvail(rows=self.game.s.rows, sound=False)
-        # Otherwise, deal to reserves twice (used when rows are full or initial deal phase).
         else:
+            # Otherwise, deal to reserves twice (used when rows are full or initial deal phase).
             n = self.dealRowAvail(rows=self.game.s.reserves, sound=False)
             n += self.dealRowAvail(rows=self.game.s.reserves, sound=False)
-        # Stop sound after dealing.
         if sound:
             self.game.stopSamples()
         return n
 
 
-# Main class for the Carthage game. Inherits from the Game class.
 class Carthage(Game):
 
-    # Hint system for gameplay suggestions.
     Hint_Class = CautiousDefaultHint
-    # Talon system (card dealing).
     Talon_Class = Carthage_Talon
-    # Foundation stacks where cards are placed during gameplay.
-    Foundation_Classes = (SS_FoundationStack,
-                          SS_FoundationStack)
-    # Row stack system, which defines how cards are stacked in the rows.
+    Foundation_Classes = (SS_FoundationStack, SS_FoundationStack)
     RowStack_Class = StackWrapper(SS_RowStack, max_move=1)
 
-    #
-    # game layout
-    #
-
-    # This method sets up the layout for the Carthage game.
+    # Game layout
     def createGame(self, rows=8, reserves=6, playcards=12):
-        # Initialize layout and stacks.
         l, s = Layout(self), self.s
 
         # Set window size based on the number of decks and other layout parameters.
         decks = self.gameinfo.decks
         foundations = decks * 4
         max_rows = max(foundations, rows)
-        w, h = l.XM + (max_rows + 1) * l.XS, l.YM + 3 * l.YS + playcards * l.YOFFSET
+        w, h = (l.XM + (max_rows + 1) * l.XS,
+                l.YM + 3 * l.YS + playcards * l.YOFFSET)
         self.setSize(w, h)
 
-        # Create foundation stacks (4 per deck).
+        # Create stacks
         x, y = l.XM + l.XS + (max_rows - foundations) * l.XS // 2, l.YM
         for fclass in self.Foundation_Classes:
             for i in range(4):
                 s.foundations.append(fclass(x, y, self, suit=i))
                 x += l.XS
 
-        # Create row stacks.
         x, y = l.XM + l.XS + (max_rows - rows) * l.XS // 2, l.YM + l.YS
         for i in range(rows):
             s.rows.append(self.RowStack_Class(x, y, self,
                                               max_move=1, max_accept=1))
             x += l.XS
-        self.setRegion(s.rows, (-999, y - l.CH // 2, 999999, h - l.YS - l.CH // 2))
+        self.setRegion(s.rows, (-999, y - l.CH // 2,
+                                999999, h - l.YS - l.CH // 2))
 
-        # Create reserve stacks (cards held aside).
         d = (w - reserves * l.XS) // reserves
         x, y = l.XM, h - l.YS
         for i in range(reserves):
@@ -111,18 +100,13 @@ class Carthage(Game):
             s.reserves.append(stack)
             x += l.XS + d
 
-        # Create the Talon (card pile for dealing).
         s.talon = self.Talon_Class(l.XM, l.YM, self)
         l.createText(s.talon, "s")
 
-        # Define stack-groups for organizing cards.
+        # Define stack-groups
         l.defaultStackGroups()
 
-    #
-    # game overrides
-    #
-
-    # Override to start the game with specific card arrangements.
+    # Game overrides
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.rows, frames=0)
         for i in range(5):
@@ -130,7 +114,6 @@ class Carthage(Game):
         self.startDealSample()
         self.s.talon.dealRow(rows=self.s.reserves)
 
-    # Highlight matches in the game using a custom rule.
     shallHighlightMatch = Game._shallHighlightMatch_SSW
 
 
@@ -139,13 +122,14 @@ class Carthage(Game):
 # ************************************************************************
 
 # Algerian Patience is a variation of Carthage with different rules for dealing and card movement.
+
+
 class AlgerianPatience(Carthage):
 
-    # Different foundation rules for stacking cards (one with normal stacking, one descending from King).
+    # Different foundation rules for stacking cards
     Foundation_Classes = (SS_FoundationStack,
                           StackWrapper(SS_FoundationStack, base_rank=KING,
                                        dir=-1))
-    # Row stack system with different rules (cards mod 13).
     RowStack_Class = StackWrapper(UD_SS_RowStack, mod=13)
 
     # Hook for modifying the shuffle process, moves 4 Kings to the top of the Talon.
@@ -153,26 +137,21 @@ class AlgerianPatience(Carthage):
         return self._shuffleHookMoveToTop(
             cards, lambda c: (c.rank == KING and c.deck == 0, c.suit))
 
-    # Override to start the game with a different initial deal.
     def startGame(self):
         self.s.talon.dealRow(rows=self.s.foundations[4:], frames=0)
         Carthage.startGame(self)
 
 
-# A variant of Algerian Patience with 3 decks.
 class AlgerianPatience3(Carthage):
-    # Use 3 different foundation types for 3 decks.
     Foundation_Classes = (SS_FoundationStack,
                           SS_FoundationStack,
                           SS_FoundationStack)
-    # Row stack rules (cards mod 13).
     RowStack_Class = StackWrapper(UD_SS_RowStack, mod=13)
 
     # Modify the game layout to accommodate 8 rows, 8 reserves, and 20 playcards.
     def createGame(self):
         Carthage.createGame(self, rows=8, reserves=8, playcards=20)
 
-    # Hook for shuffle process, moves Aces to the top of the Talon.
     def _shuffleHook(self, cards):
         return self._shuffleHookMoveToTop(
             cards, lambda c: (c.rank == ACE, (c.deck, c.suit)))
@@ -191,4 +170,3 @@ registerGame(GameInfo(322, AlgerianPatience, "Algerian Patience",
 registerGame(GameInfo(457, AlgerianPatience3, "Algerian Patience (3 Decks)",
                       GI.GT_3DECK_TYPE | GI.GT_ORIGINAL, 3, 0,
                       GI.SL_MOSTLY_SKILL))
-

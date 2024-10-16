@@ -685,7 +685,7 @@ class DevilsGrip(RoyalParade):
         StackWrapper(DevilsGrip_TableauStack,
                      base_rank=3, max_cards=4, dir=3),
         ]
-    Talon_Class = StackWrapper(WasteTalonStack, max_rounds=1, num_deal=3)
+    Talon_Class = StackWrapper(WasteTalonStack, max_rounds=-1, num_deal=3)
 
     NORMAL_OFFSET = True
 
@@ -706,13 +706,13 @@ class DevilsGrip(RoyalParade):
 
     def fillStack(self, stack):
         if not stack.cards and stack in self.s.tableaux:
-            if self.s.waste.cards:
-                old_state = self.enterState(self.S_FILL)
-                self.s.waste.moveMove(1, stack)
-                self.leaveState(old_state)
-            elif self.s.talon.cards:
+            if self.s.talon.cards:
                 old_state = self.enterState(self.S_FILL)
                 self.s.talon.moveMove(1, stack)
+                self.leaveState(old_state)
+            elif self.s.waste.cards:
+                old_state = self.enterState(self.S_FILL)
+                self.s.waste.moveMove(1, stack)
                 self.leaveState(old_state)
 
 
@@ -746,7 +746,7 @@ registerGame(GameInfo(927, BigPictureGallery, "Big Picture Gallery",
 registerGame(GameInfo(928, HugePictureGallery, "Huge Picture Gallery",
                       GI.GT_PICTURE_GALLERY, 4, 0, GI.SL_BALANCED))
 registerGame(GameInfo(932, DevilsGrip, "Devil's Grip",
-                      GI.GT_PICTURE_GALLERY | GI.GT_STRIPPED, 2, 0,
+                      GI.GT_PICTURE_GALLERY | GI.GT_STRIPPED, 2, -1,
                       GI.SL_MOSTLY_LUCK,
                       ranks=list(range(1, 13))  # without Aces
                       ))

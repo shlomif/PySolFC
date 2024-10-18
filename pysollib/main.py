@@ -87,6 +87,7 @@ def parse_option(argv):
     try:
         optlist, args = getopt.getopt(argv[1:], "g:i:hD:",
                                       ["deal=", "game=", "gameid=",
+                                       "random-game",
                                        "french-only",
                                        "noplugins",
                                        "nosound",
@@ -100,6 +101,7 @@ def parse_option(argv):
             "deal": None,
             "game": None,
             "gameid": None,
+            "random-game": False,
             "french-only": False,
             "noplugins": False,
             "nosound": False,
@@ -114,6 +116,8 @@ def parse_option(argv):
             opts["game"] = i[1]
         elif i[0] in ("-i", "--gameid"):
             opts["gameid"] = i[1]
+        elif i[0] == "--random-game":
+            opts["random-game"] = True
         elif i[0] == "--french-only":
             opts["french-only"] = True
         elif i[0] == "--noplugins":
@@ -129,6 +133,7 @@ def parse_option(argv):
   -g    --game=GAMENAME        start game GAMENAME
   -i    --gameid=GAMEID        start game with ID GAMEID
         --deal=DEAL            start game deal by number DEAL
+        --random-game          start a random game
         --french-only          disable non-french games
         --sound-mod=MOD        use a certain sound module
         --nosound              disable sound support
@@ -316,6 +321,9 @@ Please check your %(app)s installation.
                              bitmap="error", strings=(_("&Quit"),))
         return 1
 
+    if opts['random-game']:
+        app.commandline.gameid = app.getRandomGameId()
+
     # init cardsets
     app.initCardsets()
     cardset = None
@@ -421,7 +429,7 @@ Cardsets package is up to date.
 
     progress = app.intro.progress
     # load cardset
-    if startgameid != app.opt.last_gameid:
+    if startgameid != app.opt.last_gameid and app.opt.game_holded == 0:
         success = app.requestCompatibleCardsetType(startgameid,
                                                    progress=progress)
     else:

@@ -812,11 +812,13 @@ class Application:
 
     def checkCompatibleCardsetType(self, gi, cs):
         assert gi is not None
-        assert cs is not None
+        cs_type = "None"
+        cs_subtype = "None"
         gc = gi.category
         gs = gi.subcategory
-        cs_type = cs.si.type
-        cs_subtype = cs.si.subtype
+        if cs is not None:
+            cs_type = cs.si.type
+            cs_subtype = cs.si.subtype
         t0, t1 = None, None
         if gc == GI.GC_FRENCH:
             t0 = "French"
@@ -908,14 +910,14 @@ class Application:
         # ask
         return None, 0, t
 
-    def requestCompatibleCardsetType(self, id):
+    def requestCompatibleCardsetType(self, id, progress=None):
         gi = self.getGameInfo(id)
         #
         cs, cs_update_flag, t = self.getCompatibleCardset(gi, self.cardset)
         if cs is self.cardset:
             return 0
         if cs is not None:
-            self.loadCardset(cs, update=1)
+            self.loadCardset(cs, update=1, progress=progress)
             return 1
 
         self.requestCompatibleCardsetTypeDialog(self.cardset, gi, t)
@@ -923,7 +925,7 @@ class Application:
         cs = self.__selectCardsetDialog(t)
         if cs is None:
             return -1
-        self.loadCardset(cs, id=id)
+        self.loadCardset(cs, id=id, progress=progress)
         return 1
 
     def requestCompatibleCardsetTypeDialog(self, cardset, gi, t):

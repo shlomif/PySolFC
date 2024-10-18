@@ -49,6 +49,8 @@ class StatsDialog(MfxDialog):
 
         kw = self.initKw(kw)
         title = _('Statistics')
+        if player is None:
+            title = _('Demo Statistics')
         MfxDialog.__init__(self, parent, title, kw.resizable, kw.default)
 
         self.font = app.getFont('default')
@@ -546,9 +548,9 @@ class LogDialog(MfxDialog):
         run_button = self.buttons[0]
         indx = self.notebook_tabs.index(w)
         if indx == 0:
-            g = self.full_log_frame.getSelectedGame()
-        else:
             g = self.session_log_frame.getSelectedGame()
+        else:
+            g = self.full_log_frame.getSelectedGame()
         if g[0] is None:
             run_button.config(state='disabled')
         else:
@@ -572,10 +574,10 @@ class LogDialog(MfxDialog):
         LogDialog.SELECTED_TAB = indx
         if indx == 0:
             self.selected_game, self.selected_game_num \
-                = self.full_log_frame.getSelectedGame()
+                = self.session_log_frame.getSelectedGame()
         else:
             self.selected_game, self.selected_game_num \
-                = self.session_log_frame.getSelectedGame()
+                = self.full_log_frame.getSelectedGame()
 
         MfxDialog.mDone(self, button)
 

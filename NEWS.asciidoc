@@ -1,5 +1,12 @@
 [[news]]
 === News
+* _19 October, 2024:_ There is a new stable release
+https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-3.1.0/[PySolFC
+v3.1.0]. New in this release:
+** Ten new games.
+** Cleanup of duplicate images to reduce package size.
+** Some extra cardset/table tile filter options.
+** Many enhancements, bugfixes, etc.
 * _31 March, 2024:_ There is a new stable release
 https://sourceforge.net/projects/pysolfc/files/PySolFC/PySolFC-3.0.0/[PySolFC
 v3.0.0] - the biggest release in over 15 years. Additionally, there is a new Cardsets release

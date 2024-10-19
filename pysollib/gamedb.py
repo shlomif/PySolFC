@@ -594,7 +594,7 @@ class GI:
          tuple(range(13168, 13170)) + tuple(range(18000, 18005)) +
          tuple(range(19000, 19012)) + tuple(range(22303, 22311)) +
          tuple(range(22353, 22361))),
-        ('dev', tuple(range(961, 971))),
+        ('fc-3.1', tuple(range(961, 971))),
     )
 
     # deprecated - the correct way is to or a GI.GT_XXX flag

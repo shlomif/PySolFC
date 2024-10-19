@@ -2385,6 +2385,9 @@ msgstr ""
 msgid "Statistics"
 msgstr ""
 
+msgid "Demo Statistics"
+msgstr ""
+
 #: pysollib/kivy/menubar.py:197
 msgid "Assist"
 msgstr ""

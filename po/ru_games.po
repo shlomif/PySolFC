@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "POT-Creation-Date: Sun Mar 31 11:56:38 2024\n"
-"PO-Revision-Date: 2024-03-31 12:00-0400\n"
+"PO-Revision-Date: 2024-10-19 14:27-0400\n"
 "Last-Translator: Скоморох <skomoroh@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
@@ -46,6 +46,9 @@ msgid "Accordion's Revenge"
 msgstr ""
 
 msgid "Ace Through King"
+msgstr ""
+
+msgid "Ace of Hearts"
 msgstr ""
 
 msgid "Aces High"
@@ -208,6 +211,9 @@ msgstr "Современное искусство"
 #, fuzzy
 msgid "Artic Garden"
 msgstr "Сад"
+
+msgid "As You Like It"
+msgstr ""
 
 msgid "Ashrafi"
 msgstr "Ashrafi"
@@ -609,6 +615,9 @@ msgstr ""
 msgid "Captive Queens"
 msgstr "Пленённые королевы"
 
+msgid "Capuchin"
+msgstr ""
+
 msgid "Carcassonne"
 msgstr ""
 
@@ -617,6 +626,9 @@ msgstr "Карлтон"
 
 msgid "Carnation"
 msgstr "Гвоздика"
+
+msgid "Carousel"
+msgstr ""
 
 msgid "Carpet"
 msgstr "Ковёр"
@@ -664,6 +676,9 @@ msgid "Cat's Tail"
 msgstr "Кошачий хвост"
 
 msgid "Catherine the Great"
+msgstr ""
+
+msgid "Cavalcade"
 msgstr ""
 
 msgid "Cavalier"
@@ -1306,6 +1321,9 @@ msgstr "Лифт"
 msgid "Eleven Away"
 msgstr ""
 
+msgid "Eleven Triangle"
+msgstr ""
+
 msgid "Elevens"
 msgstr "По одиннадцать"
 
@@ -1399,6 +1417,9 @@ msgstr "Очаровательный веер"
 
 msgid "Fastness"
 msgstr "Оплот"
+
+msgid "Father Time"
+msgstr ""
 
 msgid "Fatimeh's Game"
 msgstr "Пасьянс Фатимы"
@@ -1563,6 +1584,9 @@ msgid "Four Corners"
 msgstr ""
 
 msgid "Four Free"
+msgstr ""
+
+msgid "Four Kingdoms"
 msgstr ""
 
 msgid "Four Kings"
@@ -1883,6 +1907,9 @@ msgstr "С Новым Годом"
 msgid "Hare"
 msgstr "Заяц"
 
+msgid "Harp"
+msgstr ""
+
 msgid "Harvestman"
 msgstr "Сенокосец"
 
@@ -2088,6 +2115,9 @@ msgstr ""
 msgid "Ishido Scored"
 msgstr ""
 
+msgid "Isle of Capri"
+msgstr ""
+
 msgid "JPs"
 msgstr ""
 
@@ -2213,6 +2243,9 @@ msgid "King's Plume"
 msgstr ""
 
 msgid "King's Secrets"
+msgstr ""
+
+msgid "King's Way"
 msgstr ""
 
 msgid "KingCell"
@@ -2373,6 +2406,9 @@ msgstr "Двойной Пасьянс Лары"
 
 msgid "Lara's Game Relaxed"
 msgstr "Облегчённый Пасьянс Лары"
+
+msgid "Las Vegas"
+msgstr ""
 
 msgid "Lasker"
 msgstr ""
@@ -3274,6 +3310,9 @@ msgstr "Арфа Миллиган"
 msgid "Milligan Yukon"
 msgstr ""
 
+msgid "Miner"
+msgstr ""
+
 msgid "Minerva"
 msgstr "Минерва"
 
@@ -3442,6 +3481,9 @@ msgstr "Нью-Йорк"
 msgid "Nine Across"
 msgstr ""
 
+msgid "Nines"
+msgstr ""
+
 msgid "Ninety-One"
 msgstr ""
 
@@ -3450,6 +3492,9 @@ msgstr "Бродяга"
 
 msgid "Nordic"
 msgstr "Скандинавский"
+
+msgid "Normandy"
+msgstr ""
 
 msgid "Northwest Territory"
 msgstr "Северо-Западные Территории"
@@ -4166,6 +4211,9 @@ msgstr ""
 msgid "Russian Aces"
 msgstr "Русские тузы"
 
+msgid "Russian Cell"
+msgstr ""
+
 msgid "Russian Patience"
 msgstr "Русский пасьянс"
 
@@ -4274,6 +4322,9 @@ msgstr "Завинчивание"
 msgid "Scuffle"
 msgstr "Потасовка"
 
+msgid "Sea Spider"
+msgstr ""
+
 msgid "Sea Towers"
 msgstr "Морские башни"
 
@@ -4294,6 +4345,9 @@ msgstr "Сеньор Врангель"
 
 msgid "Serpent"
 msgstr "Змея"
+
+msgid "Sevastopol"
+msgstr ""
 
 msgid "Seven"
 msgstr "Семёрка"
@@ -5338,6 +5392,9 @@ msgstr "Маджонг X-Files"
 msgid "X-Shape"
 msgstr "Маджонг X-Shape"
 
+msgid "Xerxes"
+msgstr ""
+
 msgid "Yeast Dough"
 msgstr ""
 
@@ -5382,6 +5439,9 @@ msgstr ""
 
 msgid "Zigzag Course"
 msgstr "Зигзагообразный курс"
+
+msgid "Zingara"
+msgstr ""
 
 msgid "Zodiac"
 msgstr "Зодиак"

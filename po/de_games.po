@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "POT-Creation-Date: Sun Mar 31 11:56:38 2024\n"
-"PO-Revision-Date: 2024-03-31 11:59-0400\n"
+"PO-Revision-Date: 2024-10-19 14:31-0400\n"
 "Last-Translator: H. Schaekel <Holger.Schaekel@web.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -40,6 +40,9 @@ msgid "Accordion's Revenge"
 msgstr ""
 
 msgid "Ace Through King"
+msgstr ""
+
+msgid "Ace of Hearts"
 msgstr ""
 
 msgid "Aces High"
@@ -201,6 +204,9 @@ msgstr "Moderne Kunst"
 #, fuzzy
 msgid "Artic Garden"
 msgstr "Garten"
+
+msgid "As You Like It"
+msgstr ""
 
 msgid "Ashrafi"
 msgstr "Ashrafi"
@@ -601,6 +607,9 @@ msgstr ""
 msgid "Captive Queens"
 msgstr "Gefangene Königin"
 
+msgid "Capuchin"
+msgstr ""
+
 msgid "Carcassonne"
 msgstr ""
 
@@ -609,6 +618,9 @@ msgstr "Carlton"
 
 msgid "Carnation"
 msgstr "Carnation"
+
+msgid "Carousel"
+msgstr ""
 
 msgid "Carpet"
 msgstr "Teppich"
@@ -656,6 +668,9 @@ msgid "Cat's Tail"
 msgstr "Schwanz der Katze"
 
 msgid "Catherine the Great"
+msgstr ""
+
+msgid "Cavalcade"
 msgstr ""
 
 msgid "Cavalier"
@@ -1302,6 +1317,9 @@ msgstr "Fahrstuhl"
 msgid "Eleven Away"
 msgstr ""
 
+msgid "Eleven Triangle"
+msgstr ""
+
 msgid "Elevens"
 msgstr "Elevens"
 
@@ -1394,6 +1412,9 @@ msgstr "Faszination Fan"
 
 msgid "Fastness"
 msgstr "Lichtechtheit"
+
+msgid "Father Time"
+msgstr ""
 
 msgid "Fatimeh's Game"
 msgstr "Fatimeh's Spiel"
@@ -1558,6 +1579,9 @@ msgid "Four Corners"
 msgstr ""
 
 msgid "Four Free"
+msgstr ""
+
+msgid "Four Kingdoms"
 msgstr ""
 
 msgid "Four Kings"
@@ -1879,6 +1903,9 @@ msgstr "Frohes neues Jahr"
 msgid "Hare"
 msgstr "Hare"
 
+msgid "Harp"
+msgstr ""
+
 msgid "Harvestman"
 msgstr "Harvestman"
 
@@ -2084,6 +2111,9 @@ msgstr ""
 msgid "Ishido Scored"
 msgstr ""
 
+msgid "Isle of Capri"
+msgstr ""
+
 msgid "JPs"
 msgstr ""
 
@@ -2210,6 +2240,9 @@ msgid "King's Plume"
 msgstr ""
 
 msgid "King's Secrets"
+msgstr ""
+
+msgid "King's Way"
 msgstr ""
 
 msgid "KingCell"
@@ -2369,6 +2402,9 @@ msgstr "Lara's Spiel Doppelt"
 
 msgid "Lara's Game Relaxed"
 msgstr "Lara's Spiel entspannt"
+
+msgid "Las Vegas"
+msgstr ""
 
 msgid "Lasker"
 msgstr ""
@@ -3268,6 +3304,9 @@ msgstr "Milligan Harfe"
 msgid "Milligan Yukon"
 msgstr ""
 
+msgid "Miner"
+msgstr ""
+
 msgid "Minerva"
 msgstr "Minerva"
 
@@ -3434,6 +3473,9 @@ msgstr "New York"
 msgid "Nine Across"
 msgstr ""
 
+msgid "Nines"
+msgstr ""
+
 msgid "Ninety-One"
 msgstr ""
 
@@ -3442,6 +3484,9 @@ msgstr "Nomade"
 
 msgid "Nordic"
 msgstr "Nordisch"
+
+msgid "Normandy"
+msgstr ""
 
 msgid "Northwest Territory"
 msgstr "Nordwest Territorium"
@@ -4166,6 +4211,9 @@ msgstr ""
 msgid "Russian Aces"
 msgstr "Russische Asse"
 
+msgid "Russian Cell"
+msgstr ""
+
 msgid "Russian Patience"
 msgstr "Russische Patience"
 
@@ -4274,6 +4322,9 @@ msgstr "Anziehen"
 msgid "Scuffle"
 msgstr "Rauferei"
 
+msgid "Sea Spider"
+msgstr ""
+
 msgid "Sea Towers"
 msgstr "Seetürme"
 
@@ -4294,6 +4345,9 @@ msgstr "Senior Wrangler"
 
 msgid "Serpent"
 msgstr "Natter"
+
+msgid "Sevastopol"
+msgstr ""
 
 msgid "Seven"
 msgstr "Sieben"
@@ -5346,6 +5400,9 @@ msgstr "Datei"
 msgid "X-Shape"
 msgstr "Mahjongg X-Shape"
 
+msgid "Xerxes"
+msgstr ""
+
 msgid "Yeast Dough"
 msgstr ""
 
@@ -5390,6 +5447,9 @@ msgstr ""
 
 msgid "Zigzag Course"
 msgstr "Zickzackkurs"
+
+msgid "Zingara"
+msgstr ""
 
 msgid "Zodiac"
 msgstr "Zodiac"

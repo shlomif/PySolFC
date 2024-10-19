@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PySol 0.0.1\n"
 "POT-Creation-Date: Sun Mar 31 11:56:38 2024\n"
-"PO-Revision-Date: 2024-03-31 12:00-0400\n"
+"PO-Revision-Date: 2024-10-19 14:28-0400\n"
 "Last-Translator: Jerzy Trzeciak <artusek@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
@@ -44,6 +44,9 @@ msgid "Accordion's Revenge"
 msgstr ""
 
 msgid "Ace Through King"
+msgstr ""
+
+msgid "Ace of Hearts"
 msgstr ""
 
 msgid "Aces High"
@@ -205,6 +208,9 @@ msgstr "Art Moderne"
 
 msgid "Artic Garden"
 msgstr "Arktyczny Ogród"
+
+msgid "As You Like It"
+msgstr ""
 
 msgid "Ashrafi"
 msgstr "Ashrafi"
@@ -605,6 +611,9 @@ msgstr ""
 msgid "Captive Queens"
 msgstr ""
 
+msgid "Capuchin"
+msgstr ""
+
 msgid "Carcassonne"
 msgstr ""
 
@@ -612,6 +621,9 @@ msgid "Carlton"
 msgstr "Carlton"
 
 msgid "Carnation"
+msgstr ""
+
+msgid "Carousel"
 msgstr ""
 
 msgid "Carpet"
@@ -660,6 +672,9 @@ msgid "Cat's Tail"
 msgstr ""
 
 msgid "Catherine the Great"
+msgstr ""
+
+msgid "Cavalcade"
 msgstr ""
 
 msgid "Cavalier"
@@ -1294,6 +1309,9 @@ msgstr ""
 msgid "Eleven Away"
 msgstr ""
 
+msgid "Eleven Triangle"
+msgstr ""
+
 msgid "Elevens"
 msgstr ""
 
@@ -1385,6 +1403,9 @@ msgid "Fascination Fan"
 msgstr ""
 
 msgid "Fastness"
+msgstr ""
+
+msgid "Father Time"
 msgstr ""
 
 msgid "Fatimeh's Game"
@@ -1547,6 +1568,9 @@ msgid "Four Corners"
 msgstr ""
 
 msgid "Four Free"
+msgstr ""
+
+msgid "Four Kingdoms"
 msgstr ""
 
 msgid "Four Kings"
@@ -1864,6 +1888,9 @@ msgstr "Happy New Year"
 msgid "Hare"
 msgstr ""
 
+msgid "Harp"
+msgstr ""
+
 msgid "Harvestman"
 msgstr ""
 
@@ -2068,6 +2095,9 @@ msgstr ""
 msgid "Ishido Scored"
 msgstr ""
 
+msgid "Isle of Capri"
+msgstr ""
+
 msgid "JPs"
 msgstr "JPs"
 
@@ -2192,6 +2222,9 @@ msgid "King's Plume"
 msgstr ""
 
 msgid "King's Secrets"
+msgstr ""
+
+msgid "King's Way"
 msgstr ""
 
 msgid "KingCell"
@@ -2348,6 +2381,9 @@ msgid "Lara's Game Doubled"
 msgstr ""
 
 msgid "Lara's Game Relaxed"
+msgstr ""
+
+msgid "Las Vegas"
 msgstr ""
 
 msgid "Lasker"
@@ -3248,6 +3284,9 @@ msgstr ""
 msgid "Milligan Yukon"
 msgstr ""
 
+msgid "Miner"
+msgstr ""
+
 msgid "Minerva"
 msgstr ""
 
@@ -3410,6 +3449,9 @@ msgstr "New York"
 msgid "Nine Across"
 msgstr ""
 
+msgid "Nines"
+msgstr ""
+
 msgid "Ninety-One"
 msgstr ""
 
@@ -3417,6 +3459,9 @@ msgid "Nomad"
 msgstr ""
 
 msgid "Nordic"
+msgstr ""
+
+msgid "Normandy"
 msgstr ""
 
 msgid "Northwest Territory"
@@ -4128,6 +4173,9 @@ msgstr ""
 msgid "Russian Aces"
 msgstr ""
 
+msgid "Russian Cell"
+msgstr ""
+
 msgid "Russian Patience"
 msgstr ""
 
@@ -4236,6 +4284,9 @@ msgstr ""
 msgid "Scuffle"
 msgstr ""
 
+msgid "Sea Spider"
+msgstr ""
+
 msgid "Sea Towers"
 msgstr ""
 
@@ -4255,6 +4306,9 @@ msgid "Senior Wrangler"
 msgstr ""
 
 msgid "Serpent"
+msgstr ""
+
+msgid "Sevastopol"
 msgstr ""
 
 msgid "Seven"
@@ -5275,6 +5329,9 @@ msgstr ""
 msgid "X-Shape"
 msgstr ""
 
+msgid "Xerxes"
+msgstr ""
+
 msgid "Yeast Dough"
 msgstr ""
 
@@ -5318,6 +5375,9 @@ msgid "Zigzag"
 msgstr ""
 
 msgid "Zigzag Course"
+msgstr ""
+
+msgid "Zingara"
 msgstr ""
 
 msgid "Zodiac"

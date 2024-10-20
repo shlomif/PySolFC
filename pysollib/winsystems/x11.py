@@ -33,7 +33,7 @@ from pysollib.winsystems.common import \
 
 if TOOLKIT == 'tk':
     if USE_TILE:
-        from six.moves import tkinter_ttk as ttk
+        import tkinter.ttk as ttk
 
 
 # ************************************************************************
@@ -71,10 +71,10 @@ def init_root_window(root, app):
             except Exception:
                 traceback.print_exc()
             else:
-                from six.moves import tkinter_tkfiledialog
-                tkinter_tkfiledialog.Open.command = 'ttk::getOpenFile'
-                tkinter_tkfiledialog.SaveAs.command = 'ttk::getSaveFile'
-                tkinter_tkfiledialog.Directory.command = 'ttk::chooseDirectory'
+                import tkinter.tkfiledialog
+                tkinter.tkfiledialog.Open.command = 'ttk::getOpenFile'
+                tkinter.tkfiledialog.SaveAs.command = 'ttk::getSaveFile'
+                tkinter.tkfiledialog.Directory.command = 'ttk::chooseDirectory'
 
         style = ttk.Style(root)
         color = style.lookup('.', 'background')

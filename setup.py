@@ -78,7 +78,6 @@ kw = {
         'attrs>=18.2.0',
         'configobj',
         'pysol_cards',
-        'six',
     ],
     'long_description': long_description,
     'license': 'GPL',

@@ -25,10 +25,9 @@
 import os
 import sys
 import tkinter
+import tkinter.ttk as ttk
 
 from pysollib.mygettext import _
-
-from six.moves import tkinter_ttk as ttk
 
 from .tkwidget import MfxTooltip
 

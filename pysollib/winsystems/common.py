@@ -34,7 +34,7 @@ from pysollib.settings import VERSION
 if TOOLKIT == 'tk':
     from pysollib.ui.tktile.tkutil import loadImage
     if USE_TILE:
-        from six.moves import tkinter_ttk as ttk
+        import tkinter.ttk as ttk
 
 
 def init_tile(app, top):
@@ -74,7 +74,7 @@ def get_font_name(font):
     if (TOOLKIT == 'kivy'):
         return "helvetica 12"
 
-    from six.moves.tkinter_font import Font
+    from tkinter.font import Font
     font_name = None
     try:
         f = Font(font=font)

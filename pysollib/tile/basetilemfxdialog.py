@@ -1,4 +1,4 @@
-from six.moves import tkinter_ttk as ttk
+import tkinter.ttk as ttk
 
 from .tkwidget import MfxDialog
 

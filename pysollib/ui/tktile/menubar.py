@@ -4,7 +4,7 @@ import platform
 import re
 import sys
 import tkinter
-import tkinter.tkfiledialog
+import tkinter.FileDialog
 
 from pysollib.gamedb import GI
 from pysollib.hint import PySolHintLayoutImportError
@@ -1439,7 +1439,7 @@ class PysolMenubarTkCommon:
             idir, ifile = "", ""
         if not idir:
             idir = self.app.dn.savegames
-        d = tkinter.tkfiledialog.Open()
+        d = tkinter.FileDialog.Open()
         filename = d.show(filetypes=self.FILETYPES,
                           defaultextension=self.DEFAULTEXTENSION,
                           initialdir=idir, initialfile=ifile)
@@ -1476,7 +1476,7 @@ Unsupported game for export.
         if not idir:
             idir = self.app.dn.boards
         # print self.game.filename, ifile
-        d = tkinter.tkfiledialog.SaveAs()
+        d = tkinter.FileDialog.SaveAs()
         filename = d.show(filetypes=self.FILETYPES,
                           defaultextension=self.DEFAULTEXTENSION,
                           initialdir=idir, initialfile=ifile)
@@ -1508,7 +1508,7 @@ Unsupported game for import.
             idir, ifile = "", ""
         if not idir:
             idir = self.app.dn.boards
-        d = tkinter.tkfiledialog.Open()
+        d = tkinter.FileDialog.Open()
         key = 'PYSOL_DEBUG_IMPORT'
         if key not in os.environ:
             filename = d.show(filetypes=self.FILETYPES,
@@ -1555,7 +1555,7 @@ Unsupported game for import.
         if not idir:
             idir = self.app.dn.savegames
         # print self.game.filename, ifile
-        d = tkinter.tkfiledialog.SaveAs()
+        d = tkinter.FileDialog.SaveAs()
         filename = d.show(filetypes=self.FILETYPES,
                           defaultextension=self.DEFAULTEXTENSION,
                           initialdir=idir, initialfile=ifile)

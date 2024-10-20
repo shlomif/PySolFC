@@ -71,10 +71,10 @@ def init_root_window(root, app):
             except Exception:
                 traceback.print_exc()
             else:
-                import tkinter.tkfiledialog
-                tkinter.tkfiledialog.Open.command = 'ttk::getOpenFile'
-                tkinter.tkfiledialog.SaveAs.command = 'ttk::getSaveFile'
-                tkinter.tkfiledialog.Directory.command = 'ttk::chooseDirectory'
+                import tkinter.FileDialog
+                tkinter.FileDialog.Open.command = 'ttk::getOpenFile'
+                tkinter.FileDialog.SaveAs.command = 'ttk::getSaveFile'
+                tkinter.FileDialog.Directory.command = 'ttk::chooseDirectory'
 
         style = ttk.Style(root)
         color = style.lookup('.', 'background')
